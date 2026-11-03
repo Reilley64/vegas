@@ -5,8 +5,11 @@
 
 // src/havok/physics/constraintsolver/solve/hkpsolver.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/constraintsolver/solve/hkpsolver.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern unsigned char DAT_011b9434[128];
-int __cdecl FUN_00d921d0(const signed char* index);
+#include <new>
+#include "fnv/decl/FUN_004a3c90.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/symbols_00d92000.h"
+#include "fnv/symbols_011b9000.h"
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
@@ -42,17 +45,15 @@ extern "C" __m128 _mm_mul_ss(__m128 a, __m128 b);
 
 struct Vec4Src
 {
-    __m128* GetVec();
 };
 
 struct Vec4Dst
 {
-    void SetVec(const __m128& v);
 };
 
 // @fnv 0x00891060
 Vec4Dst* __cdecl FUN_00891060(Vec4Dst* out, Vec4Src* b, Vec4Src* a)
 {
-    out->SetVec(_mm_mul_ss(*b->GetVec(), *a->GetVec()));
+    new ((void *)(out)) ::FUN_004a3c90((const ::FUN_004a3c90 &)((const ::__m128 &)(_mm_mul_ss(*((::__m128 *)(new ((void *)(b)) ::Vec3())), *((::__m128 *)(new ((void *)(a)) ::Vec3()))))));
     return out;
 }

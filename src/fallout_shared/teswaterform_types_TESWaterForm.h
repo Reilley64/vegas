@@ -2,6 +2,7 @@
 #ifndef FNV_TESWATERFORM_H
 #define FNV_TESWATERFORM_H
 
+#include "fnv/decl/FUN_0047ff50_class.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "TESForm.h"
@@ -20,7 +21,6 @@ class TESAttackDamageForm : public BaseFormComponent
 {
   public:
     // base BaseFormComponent at +0x0, size 4
-    void FUN_0047ff50(unsigned short);
     unsigned short m_usAttackDamage;  // +0x4, 2 bytes
     unsigned char layoutPadding6[2];
     // TESAttackDamageForm
@@ -125,7 +125,6 @@ class WaterShaderSettings
     float m_fWaterParameter5;                  // +0xBC, 4 bytes
     float m_fWaterParameter6;                  // +0xC0, 4 bytes
     void Initialize();
-    void Endian();
     // void __cdecl WaterShaderSettings::*()
     // void __cdecl WaterShaderSettings::*()
     // void __cdecl WaterShaderSettings::*()
@@ -223,8 +222,6 @@ class TESWaterForm : public TESForm, public TESFullName, public TESAttackDamageF
     void ResetFormData();
     virtual void InitItem();
     virtual bool Load(TESFile*);
-    void SetSpellItem(SpellItem*);
-    WaterShaderSettings* FUN_0057eef0();
     // TESWaterForm
     // void __cdecl TESWaterForm::*()
     // void __cdecl TESWaterForm::*()

@@ -2,13 +2,61 @@
 // shadowscenenode_od_variant_ctxr_variant.cpp: rename variant for 0x006056f0 (integration 2026-10-30): the unit's skeleton with strncmp renamed, whose names are bound elsewhere.
 // src/bsshader/shadowscenenode_od_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/bsshader/shadowscenenode.cpp functions whose prologue its flags cannot
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CamLook.h"
+#include "fnv/decl/FUN_004169d0_shell.h"
+#include "fnv/decl/FUN_00453470_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00503650_shell.h"
+#include "fnv/decl/FUN_00507700_cls.h"
+#include "fnv/decl/FUN_00602130_shell.h"
+#include "fnv/decl/FUN_00613970_shell.h"
+#include "fnv/decl/FUN_00613b20_shell.h"
+#include "fnv/decl/FUN_00733fd0_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00b9bc50_t.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/MultiBoundOwner.h"
+#include "fnv/decl/NiCamera.h"
+#include "fnv/decl/NiNode.h"
+#include "fnv/decl/NiUpdateData.h"
+#include "fnv/decl/S00b5d9f0_Owner.h"
+#include "fnv/decl/S_0060ba10.h"
+#include "fnv/decl/S_FUN_0045bc00.h"
+#include "fnv/decl/TESNPC.h"
+#include "fnv/decl/TESTopicInfoData.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/_Cam_00712e60.h"
+#include "fnv/decl/fnv_006044e0__FUN_006044e0_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_0045c000.h"
+#include "fnv/symbols_004aa000.h"
+#include "fnv/symbols_004b3000.h"
+#include "fnv/symbols_004dc000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_0057d000.h"
+#include "fnv/symbols_00605000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_00655000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_0104a000.h"
+#include "fnv/symbols_01070000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01203000.h"
 #include "shadowscenenode_local.h"
 struct FUN_00c5b5a0_cls
 {
     int __thiscall FUN_00c5b5a0(int idx);
 };
-extern "C" char DAT_01203144, DAT_01203150, DAT_011f9426, DAT_011f9434, DAT_01016264, DAT_01023128, DAT_01070c80,
-    DAT_01070c70;
+extern "C" char DAT_01070c70;
 struct Rect2180
 {
     float x[4];
@@ -28,7 +76,6 @@ struct Point2180
 struct Update2180
 {
     int data[3];
-    void FUN_0043d410(float, bool, bool);
 };
 struct String2180
 {
@@ -38,7 +85,6 @@ struct String2180
 };
 struct Setting2180
 {
-    float* FUN_00403e20();
 };
 struct Provider2180
 {
@@ -108,23 +154,12 @@ struct Provider2180
     virtual void s63();
     virtual float get();
 };
-Provider2180* FUN_0045c670();
-int FUN_004dc200();
-int FUN_004dc1f0();
-float FUN_0057dd70(float);
 struct FUN_00a712f0
 {
     int bytes[0x114 / 4];
     static void* operator new(unsigned int);
     static void operator delete(void*, unsigned int);
     FUN_00a712f0();
-    void FUN_00712e60(const Rect2180&);
-    void FUN_00507700(float);
-    void FUN_00a6faf0(const Frustum2180&);
-    void SetLookAt(const Point2180&, const Point2180&);
-    void FUN_00733fd0(float);
-    void FUN_00a59c60(const Update2180&);
-    void AssignFixedString(const String2180&);
 };
 struct Target2180
 {
@@ -139,8 +174,6 @@ struct UpdateList
     unsigned buffer;
     unsigned size;
     unsigned capacity;
-    void FUN_0096a610(const unsigned&);
-    void FUN_0060ba10(const struct LocalNodePtr&);
 };
 struct LocalNodePtr
 {
@@ -301,29 +334,18 @@ struct UpdateObject
     virtual void slot114();
     virtual void slot115();
     virtual UpdateObject* GetRoot();
-    UpdateObject* FUN_0045bc00(unsigned);
-    unsigned FUN_00453470();
-    UpdateObject* FUN_0043b4a0(unsigned);
-    unsigned FUN_00a59d30(unsigned);
-    UpdateObject* FUN_00413f40();
     const char* FUN_0043b1b0();
-    UpdateObject* FUN_00503650();
     bool FUN_008256d0();
-    unsigned* FUN_006815c0();
-    unsigned FUN_00613970(unsigned, unsigned);
-    unsigned GetBodyPartTexture(unsigned, unsigned);
 };
 struct NodePointer
 {
     UpdateObject* root;
     NodePointer& FUN_0066b0d0(UpdateObject*);
-    UpdateObject* FUN_00559450();
 };
 struct RefList
 {
     UpdateObject* item;
     RefList* next;
-    UpdateObject* FUN_00726070();
 };
 struct UpdateOwner
 {
@@ -441,36 +463,21 @@ struct UpdateOwner
     unsigned unknown1C0;
     NodePointer previous;
     NodePointer current;
-    unsigned FUN_00603b50();
-    float FUN_00602130();
-    unsigned FUN_00602150();
     unsigned FUN_005f0cc0();
-    unsigned FUN_004169d0();
     void FUN_00603ad0(UpdatePacket&);
-    void CreatePartTexture(unsigned, LocalNodePtr&);
     void FUN_006056f0(UpdateObject* object);
 };
-bool FUN_00605d20();
-const void* FUN_00605d40(unsigned);
-bool FUN_00605d50();
-UpdateObject* FUN_004aae30(UpdateObject*, const void*);
-UpdateObject* FUN_00653270(void*, unsigned);
-bool MatchGeometryVertices(UpdateObject*, UpdateObject*, float, bool, unsigned);
-void ApplyFaceGenTextures(UpdateObject*, UpdatePacket&);
 extern unsigned DAT_0101f5f8;
-extern unsigned DAT_011f4a5c;
-extern char DAT_0104a7bc;
-extern float DAT_01016248;
 extern "C" int __cdecl strncmp_r006056f0(const char*, const char*, unsigned);
 // @fnv 0x006056f0
 void UpdateOwner::FUN_006056f0(UpdateObject* object)
 {
-    if (!object || !FUN_00605d20())
+    if (!object || !::IsSettingEnabled())
         return;
     UpdateObject* rootNode = object->GetRoot();
     unsigned entry = 0;
-    UpdateObject* currentNode = current.FUN_0066b0d0(object->GetRenderNode(0)).FUN_00559450();
-    UpdateObject* found = FUN_004aae30(rootNode, FUN_00605d40(0));
+    UpdateObject* currentNode = ((::UpdateObject *)(::FUN_00559450((int *)&(current.FUN_0066b0d0(object->GetRenderNode(0))))));
+    UpdateObject* found = ((::UpdateObject *)(::FUN_004aae30((::NiAVObject *)(rootNode), (::NiFixedString *)(::FUN_00605d40(0)))));
     UpdateObject* node = found ? found->GetNode() : 0;
     if (!node || !currentNode)
         return;
@@ -481,30 +488,30 @@ void UpdateOwner::FUN_006056f0(UpdateObject* object)
     UpdateObject* key;
     if (!currentNode->IsReady())
     {
-        found = FUN_004aae30(rootNode, &DAT_0101f5f8);
+        found = ((::UpdateObject *)(::FUN_004aae30((::NiAVObject *)(rootNode), (::NiFixedString *)(&DAT_0101f5f8))));
         if (found)
         {
             nested = found->GetList();
             if (nested)
             {
-                found = nested->FUN_0045bc00(0);
+                found = ((::UpdateObject *)(reinterpret_cast<::S_FUN_0045bc00 *>((nested))->FUN_0045bc00(0)));
                 if (found)
                 {
                     list = found->GetList();
                     if (list)
                     {
-                        entry = list->FUN_00453470();
+                        entry = ((unsigned int)(reinterpret_cast<::FUN_00453470_shell *>((list))->FUN_00453470()));
                         for (unsigned i = 0; i < entry; i++)
                         {
-                            found = list->FUN_0043b4a0(i);
+                            found = ((::UpdateObject *)(reinterpret_cast<::NiNode *>((list))->GetAt(i)));
                             root = found ? found->GetNode() : 0;
                             if (root)
                             {
-                                count = root->FUN_00a59d30(2);
-                                key = FUN_00653270(&DAT_011f4a5c, count);
-                                if (key && !strncmp_r006056f0(key->FUN_00413f40()->FUN_0043b1b0(), &DAT_0104a7bc, 4))
+                                count = ((unsigned int)(reinterpret_cast<::FUN_00a59d30_C *>((root))->FUN_00a59d30(2)));
+                                key = ((::UpdateObject *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<unsigned int *>(&::g_011f4a5c))), (::NiObject *)(count))));
+                                if (key && !strncmp_r006056f0(((::UpdateObject *)(reinterpret_cast<::TESTopicInfoData *>((key))->GetLinkToList()))->FUN_0043b1b0(), &(*reinterpret_cast<char *>((void *)&::g_011d348c_arg1)), 4))
                                 {
-                                    if (MatchGeometryVertices(root, node, DAT_01016248, true, 0))
+                                    if (::MatchGeometryVertices((::Geometry *)(root), (::Geometry *)(node), ::fnv_00c88020::DAT_01016248, true, 0))
                                     {
                                         currentNode->SetReady(true);
                                         break;
@@ -516,18 +523,18 @@ void UpdateOwner::FUN_006056f0(UpdateObject* object)
                 }
                 else
                 {
-                    entry = nested->FUN_00453470();
+                    entry = ((unsigned int)(reinterpret_cast<::FUN_00453470_shell *>((nested))->FUN_00453470()));
                     for (unsigned j = 0; j < entry; j++)
                     {
-                        found = nested->FUN_0043b4a0(j);
+                        found = ((::UpdateObject *)(reinterpret_cast<::NiNode *>((nested))->GetAt(j)));
                         root = found ? found->GetNode() : 0;
                         if (root)
                         {
-                            count = root->FUN_00a59d30(2);
-                            key = FUN_00653270(&DAT_011f4a5c, count);
-                            if (key && !strncmp_r006056f0(key->FUN_00413f40()->FUN_0043b1b0(), &DAT_0104a7bc, 4))
+                            count = ((unsigned int)(reinterpret_cast<::FUN_00a59d30_C *>((root))->FUN_00a59d30(2)));
+                            key = ((::UpdateObject *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<unsigned int *>(&::g_011f4a5c))), (::NiObject *)(count))));
+                            if (key && !strncmp_r006056f0(((::UpdateObject *)(reinterpret_cast<::TESTopicInfoData *>((key))->GetLinkToList()))->FUN_0043b1b0(), &(*reinterpret_cast<char *>((void *)&::g_011d348c_arg1)), 4))
                             {
-                                if (MatchGeometryVertices(root, node, DAT_01016248, true, 0))
+                                if (::MatchGeometryVertices((::Geometry *)(root), (::Geometry *)(node), ::fnv_00c88020::DAT_01016248, true, 0))
                                 {
                                     currentNode->SetReady(true);
                                     break;
@@ -539,35 +546,35 @@ void UpdateOwner::FUN_006056f0(UpdateObject* object)
             }
         }
     }
-    if (references.FUN_00726070())
+    if (((::UpdateObject *)(reinterpret_cast<::Callees *>(&(references))->FUN_00726070())))
     {
         UpdatePacket packet;
-        packet.identity = FUN_00603b50();
-        packet.weight = FUN_00602130();
-        packet.flags = FUN_00602150();
+        packet.identity = ((unsigned int)(reinterpret_cast<::TESNPC *>(this)->GetHair()));
+        packet.weight = reinterpret_cast<::FUN_00602130_shell *>(this)->FUN_00602130();
+        packet.flags = ((unsigned int)(reinterpret_cast<::MiddleHighProcess *>(this)->GetAnimation()));
         packet.sex = FUN_005f0cc0();
-        packet.region = FUN_004169d0();
+        packet.region = reinterpret_cast<::FUN_004169d0_shell *>(this)->FUN_004169d0();
         FUN_00603ad0(packet);
-        if (!packet.flags && references.FUN_00726070()->FUN_00503650() &&
-            !references.FUN_00726070()->FUN_00503650()->FUN_008256d0())
-            packet.flags = *references.FUN_00726070()->FUN_00503650()->FUN_006815c0();
+        if (!packet.flags && ((::UpdateObject *)(reinterpret_cast<::FUN_00503650_shell *>((((::UpdateObject *)(reinterpret_cast<::Callees *>(&(references))->FUN_00726070()))))->FUN_00503650())) &&
+            !((::UpdateObject *)(reinterpret_cast<::FUN_00503650_shell *>((((::UpdateObject *)(reinterpret_cast<::Callees *>(&(references))->FUN_00726070()))))->FUN_00503650()))->FUN_008256d0())
+            packet.flags = *((unsigned int *)(new ((void *)(((::UpdateObject *)(reinterpret_cast<::FUN_00503650_shell *>((((::UpdateObject *)(reinterpret_cast<::Callees *>(&(references))->FUN_00726070()))))->FUN_00503650())))) ::Vec3()));
         for (unsigned k = 0; k < 8; k++)
         {
-            packet.primary.FUN_0096a610(references.FUN_00726070()->FUN_00613970(FUN_005f0cc0(), k));
-            packet.secondary.FUN_0096a610(references.FUN_00726070()->GetBodyPartTexture(FUN_005f0cc0(), k));
-            references.FUN_00726070();
-            packet.names.FUN_0096a610((unsigned)FUN_00605d40(k));
-            references.FUN_00726070();
-            if (FUN_00605d50())
+            reinterpret_cast<::S_0060ba10 *>(&(packet.primary))->FUN_0096a610((int)&(const unsigned int &)(((unsigned int)(reinterpret_cast<::FUN_00613970_shell *>((((::UpdateObject *)(reinterpret_cast<::Callees *>(&(references))->FUN_00726070()))))->FUN_00613970(FUN_005f0cc0(), k)))));
+            reinterpret_cast<::S_0060ba10 *>(&(packet.secondary))->FUN_0096a610((int)&(const unsigned int &)(((unsigned int)(reinterpret_cast<::FUN_00613b20_shell *>((((::UpdateObject *)(reinterpret_cast<::Callees *>(&(references))->FUN_00726070()))))->GetBodyPartTexture(FUN_005f0cc0(), k)))));
+            reinterpret_cast<::Callees *>(&(references))->FUN_00726070();
+            reinterpret_cast<::S_0060ba10 *>(&(packet.names))->FUN_0096a610((int)&(const unsigned int &)((unsigned)::FUN_00605d40(k)));
+            reinterpret_cast<::Callees *>(&(references))->FUN_00726070();
+            if (((bool)(::FUN_00605d50())))
             {
                 LocalNodePtr ptr(0);
-                CreatePartTexture(k, ptr);
-                packet.nodes.FUN_0060ba10(ptr);
+                reinterpret_cast<::fnv_006044e0::FUN_006044e0_shell *>(this)->CreatePartTexture(k, (void *)&(ptr));
+                reinterpret_cast<::S_0060ba10 *>(&(packet.nodes))->FUN_0060ba10((int)&(ptr));
             }
         }
-        references.FUN_00726070();
-        packet.enabled = FUN_00605d50();
-        ApplyFaceGenTextures(previous.FUN_00559450(), packet);
-        ApplyFaceGenTextures(current.FUN_00559450(), packet);
+        reinterpret_cast<::Callees *>(&(references))->FUN_00726070();
+        packet.enabled = ((bool)(::FUN_00605d50()));
+        ::fnv_00655fa0::ApplyFaceGenTextures((::fnv_00655fa0::NiAVObject *)(::UpdateObject *)(((::UpdateObject *)(::FUN_00559450((int *)&(previous))))), (::fnv_00655fa0::FaceGenData *)&(packet));
+        ::fnv_00655fa0::ApplyFaceGenTextures((::fnv_00655fa0::NiAVObject *)(::UpdateObject *)(((::UpdateObject *)(::FUN_00559450((int *)&(current))))), (::fnv_00655fa0::FaceGenData *)&(packet));
     }
 }

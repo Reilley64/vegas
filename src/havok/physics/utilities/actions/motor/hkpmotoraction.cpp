@@ -2,6 +2,8 @@
 // src/havok/physics/utilities/actions/motor/hkpmotoraction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/motor/hkpmotoraction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00d2b260.h"
 #include "havok/hkpMotorAction.h"
 
 #include <xmmintrin.h>
@@ -9,7 +11,6 @@ extern int DAT_010d0944;
 
 struct FUN_00d2b260_Obj
 {
-    void FUN_00d2b260(int a1, int a2);
 };
 
 struct hkVec4
@@ -55,7 +56,7 @@ struct FUN_00d4d720
 // @fnv 0x00d4d720
 FUN_00d4d720::FUN_00d4d720(int entity, const float* axis, float spinRate, float gain)
 {
-    reinterpret_cast<FUN_00d2b260_Obj*>(this)->FUN_00d2b260(entity, 0);
+    new ((void *)(reinterpret_cast<FUN_00d2b260_Obj*>(this))) ::FUN_00d2b260((::FUN_00c90510_Entity *)(entity), 0);
     m_vtbl = &DAT_010d0944;
     m_kAxisEndPoints.quad = _mm_load_ps(axis);
     m_fSpinRate = spinRate;

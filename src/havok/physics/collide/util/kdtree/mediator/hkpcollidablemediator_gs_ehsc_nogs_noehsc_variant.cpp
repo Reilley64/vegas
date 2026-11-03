@@ -5,6 +5,10 @@
 
 // src/havok/physics/collide/util/kdtree/mediator/hkpcollidablemediator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/util/kdtree/mediator/hkpcollidablemediator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00d07950_cls.h"
+#include "fnv/symbols_00cf8000.h"
+#include "fnv/symbols_00d1a000.h"
+#include "fnv/symbols_01267000.h"
 struct Child { unsigned int unk00; unsigned int unk04; };
 struct Owner { unsigned int unk00; unsigned int unk04; Child* child; unsigned int FUN_00d9e000(); };
 // InitWalker: thiscall (2 stack args). Stores vptr, flag word and list, walks the item list when ctx != 0, returns this.
@@ -28,7 +32,6 @@ struct SubRec {
     virtual void v10();
     virtual void v14();
     virtual void v18(OutSlot* out);
-    void FUN_00d07950(OutSlot* out);
 };
 struct ItemRec {
     unsigned int unk00;
@@ -82,7 +85,6 @@ struct CtxRec {
     unsigned int unk74;
     void* m_78;
 };
-void __cdecl FUN_00d1a330(void* mgr, OutSlot* out, int flag);
 class ListWalker {
 public:
     int m_vptr;
@@ -100,9 +102,8 @@ struct FUN_00d9e010_cls {
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 
 #include <emmintrin.h>
+#include "fnv/symbols_simd.h"
 
-extern const __m128 DAT_011b6d70;
-extern const __m128 DAT_01267e30;
 
 struct hkAabbQ
 {
@@ -122,7 +123,6 @@ struct __declspec(align(16)) hkAabbUint32Q
     __forceinline bool isValid() const { return m_kMinimumCorner[0] <= m_kMaximumCorner[0]; }
 };
 
-__declspec(noalias) void __cdecl FUN_00cf8690(hkAabbUint32Q* dst, const hkAabbUint32Q* src);
 
 class ShapeQ
 {
@@ -240,7 +240,7 @@ void __stdcall FUN_00d9e020(const CollidableQ* collidable, __m128i* out)
     const hkAabbUint32Q& bv = collidable->m_kBoundingVolumeData;
     if (bv.isValid())
     {
-        FUN_00cf8690(&aabb32, &collidable->m_kBoundingVolumeData);
+        ::FUN_00cf8690((::hkAabbUint32 *)(::hkAabbUint32Q *)(&aabb32), (const ::hkAabbUint32 *)(const ::hkAabbUint32Q *)(&collidable->m_kBoundingVolumeData));
     }
     else
     {
@@ -249,8 +249,8 @@ void __stdcall FUN_00d9e020(const CollidableQ* collidable, __m128i* out)
         collidable->m_pCollisionShape->getAabb(collidable->m_pMotionState, 0.0f, aabb);
         BroadPhaseQ* bp = world->m_pJobSemaphore;
         __m128 maxVal = DAT_011b6d70;
-        convertToUint32WithClip(aabb.m_kMinimumCorner, bp->m_kVectorAt40, bp->m_vScale, maxVal, DAT_01267e30, aabb32.m_kMinimumCorner);
-        convertToUint32WithClip(aabb.m_kMaximumCorner, bp->m_kVectorAt50, bp->m_vScale, maxVal, DAT_01267e30, aabb32.m_kMaximumCorner);
+        convertToUint32WithClip(aabb.m_kMinimumCorner, bp->m_kVectorAt40, bp->m_vScale, maxVal, (*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30)), aabb32.m_kMinimumCorner);
+        convertToUint32WithClip(aabb.m_kMaximumCorner, bp->m_kVectorAt50, bp->m_vScale, maxVal, (*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30)), aabb32.m_kMaximumCorner);
         aabb32.m_ucExpansionShift = 0;
         aabb32.m_ucExpansionMin[0] = 0;
         aabb32.m_ucExpansionMin[1] = 0;

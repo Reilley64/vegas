@@ -8,14 +8,15 @@
 // their real unit once its classes are.
 // src/fallout_shared/packagedatauseitem.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/packagedatauseitem.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void __cdecl FUN_004856d0(int);
+#include "fnv/symbols_00485000.h"
 struct LocationDescriptor
 {
     void Save(int);
     unsigned int u0, u4, u8;
     LocationDescriptor();
     ~LocationDescriptor();
-    void FUN_0067f4d0(LocationDescriptor* other, bool a);
+public:
+    void Copy(::LocationDescriptor *, bool);
 };
 struct TESPackageData
 {
@@ -62,7 +63,7 @@ void TESUseItemPackageData::FUN_0067c860(TESPackageData* source)
         if (copy->m_pPackageTarget)
         {
             m_pPackageTarget = new LocationDescriptor;
-            m_pPackageTarget->FUN_0067f4d0(copy->m_pPackageTarget, false);
+            m_pPackageTarget->Copy(copy->m_pPackageTarget, false);
         }
     }
 }

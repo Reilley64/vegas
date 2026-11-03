@@ -2,6 +2,8 @@
 #ifndef FNV_TILE_H
 #define FNV_TILE_H
 
+#include "fnv/decl/FUN_00a01230_shell.h"
+#include "fnv/decl/sa040a0__Owner.h"
 #include "layout_support.h"
 #include "layout_support.h"
 class NiTAbstractPoolAllocator_unsigned_int_;
@@ -115,8 +117,6 @@ FNV_STATIC_ASSERT(sizeof(NiTPointerList_Tile___) == 12);
 class Tile
 {
   public:
-    bool IsVisible();
-    bool ContainsTrait(int trait);
     void** m_ppVirtualMethodTable;                           // +0x0, 4 bytes
     NiTPointerList_Tile___ m_kChildTileList;   // +0x4, 12 bytes
     BSSimpleArray<Tile__Value*, 8> m_kValues;  // +0x10, 16 bytes

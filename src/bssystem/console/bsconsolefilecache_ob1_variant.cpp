@@ -1,6 +1,15 @@
 
 // to their real unit once identified.
 
+#include "fnv/decl/B02670Task.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00b00cf0_shell.h"
+#include "fnv/decl/FUN_00b01f00_class.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_005e0000.h"
+#include "fnv/symbols_00b00000.h"
+#include "fnv/symbols_00b02000.h"
+#include "fnv/symbols_011f6000.h"
 #include "bsconsolefilecache_decls.h"
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
@@ -30,17 +39,11 @@ struct Outer_00b023b0
 {
     char pad[8];
     Inner_00b023b0 inner;
-    void ResumeAllThreads();
 };
-void __stdcall WaitAndExitThread(Outer_00b023b0* p);
 extern "C" __declspec(dllimport) void __stdcall ExitThread(unsigned long);
 struct Unk00b023f0
 {
-    void CallVfn1OnAllEntries();
-    void FUN_00b02460();
-    void CallVirtualOnAllEntries();
 };
-void __stdcall FUN_00b023f0(Unk00b023f0* p);
 extern "C" __declspec(dllimport) unsigned long __stdcall ResumeThread(void*);
 struct FUN_00b02420_Data
 {
@@ -55,12 +58,9 @@ struct FUN_00b02600_shell
 };
 struct MemoryManager
 {
-    void _DeallocateAlias(void*);
 };
-extern MemoryManager g_memoryManager;
 struct S00b02640
 {
-    void DestroyAndFreeLibraries();
     void* FUN_00b02640(unsigned int);
 };
 struct FUN_00b02130_shell
@@ -124,9 +124,7 @@ struct FUN_00b02220_Class : FUN_00b02130_shell
 
 struct NiMemoryManager_b02010
 {
-    void* FUN_00aa3e40(unsigned int size);
 };
-extern NiMemoryManager_b02010 DAT_011f6238;
 
 struct Spawned_b02010
 {
@@ -148,7 +146,7 @@ struct Spawned_b02010
     Spawned_b02010();
     static void* operator new(unsigned int size)
     {
-        return DAT_011f6238.FUN_00aa3e40(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::NiMemoryManager_b02010 *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }
     static void operator delete(void*)
     {}
@@ -267,7 +265,6 @@ struct JobThread
     Job* m_pQueueHeads[64];
     Job** pQueueTails[64];
     JobSemaphore kSemaphore;
-    bool QueueItem(void* p);
     void FUN_00b02460();
 };
 // @fnv 0x00b02460
@@ -309,14 +306,14 @@ void JobThread::FUN_00b02460()
             {
                 if (pJobB->bHasCallback && !pOwner->IsBusy())
                 {
-                    QueueItem(pJobB);
+                    reinterpret_cast<::FUN_00b02130_shell *>(this)->QueueItem(pJobB);
                 }
                 else
                 {
                     pJobB->Cancel();
                     pJobB->pOwner = 0;
                     pJobB->unk10 = 0;
-                    pOwner->CompleteTask();
+                    reinterpret_cast<::B02670Task *>((pOwner))->CompleteTask();
                 }
             }
         }

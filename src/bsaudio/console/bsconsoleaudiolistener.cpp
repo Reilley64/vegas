@@ -1,6 +1,8 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/symbols_011f6000.h"
 struct NiPoint3
 {
     float x, y, z;
@@ -85,9 +87,7 @@ void BSAudioListener::SetRolloffFactor(float afRolloffFactor)
 
 struct MemoryManager
 {
-    void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 extern int DAT_010a3bb4;
 struct BSAudioListenerShell
 {
@@ -102,6 +102,6 @@ void* BSAudioListenerShell::Destroy(unsigned int auiFlags)
     *(int*)this = (int)&DAT_010a3bb4;
     _m44 = 0;
     if (auiFlags & 1)
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
     return this;
 }

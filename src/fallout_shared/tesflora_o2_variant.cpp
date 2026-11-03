@@ -4,25 +4,25 @@
 
 // src/fallout_shared/tesflora.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/tesflora.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00477f20_shell.h"
+#include "fnv/decl/FUN_00487010_shell.h"
+#include "fnv/decl/FUN_0048a520_shell.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
 struct S_00477f20
 {
-    void FUN_00477f20();
 };
 struct FUN_004855a0
 {
-    void M();
 };
 struct FUN_00485680
 {
-    void M();
 };
 struct S_00487010
 {
-    void FUN_00487010();
 };
 struct S_0048a520
 {
-    void ProcessAndFreeData(unsigned int, unsigned int, unsigned int);
 };
 struct S_0048cca0
 {

@@ -1,10 +1,15 @@
 // bsshader/mtrenderingsystem.cpp: TaskThreadManager, AILinearTaskThread (4 functions)
 
+#include "fnv/decl/ThreadOwner.h"
+#include "fnv/symbols_00b6b000.h"
+#include "fnv/symbols_00ba3000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01200000.h"
 #include "mtrenderingsystem_decls.h"
 // @fnv 0x004ea970
 TaskThreadManager* TaskThreadManager::GetSingleton()
 {
-    return &DAT_01200088;
+    return &(*reinterpret_cast<::TaskThreadManager *>(&::g_01200088));
 }
 // @fnv 0x008c7190
 void AILinearTaskThread::ExecuteTask()
@@ -18,7 +23,7 @@ void AILinearTaskThread::ExecuteTask()
 void TaskThreadManager::StartRenderingTaskThread()
 {
     if (DAT_011f94b4)
-        LaunchWorkerThread(1, DAT_01200080, FUN_00ba3190, "Rendering Task Thread 2", 0x20000);
+        reinterpret_cast<::ThreadOwner *>(this)->FUN_00ba2e00(1, DAT_01200080, ::fnv_00ba3190::FUN_00ba3190, "Rendering Task Thread 2", 0x20000);
 }
 #pragma optimize("", off)
 
@@ -28,7 +33,7 @@ void TaskThreadManager::StartRenderingTaskThread()
 void TaskThreadManager::EndRenderingTaskThread()
 {
     NiRenderer* renderer = NiRenderer::ms_pRenderer;
-    BSRenderedTexture::EndAll();
+    ::fnv_00b6b6c0::ClearAndUnlockRenderer();
     if (renderer->state == 1 && renderer->vfn_180())
         renderer->state = 3;
     if (renderer->state == 3 && renderer->vfn_184())

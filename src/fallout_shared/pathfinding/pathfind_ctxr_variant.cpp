@@ -1,5 +1,29 @@
 
 // pathfind_ctxr_variant.cpp: rename variant for 0x006d34d0 (integration 2026-10-30): the unit's skeleton with PathingLocation renamed, whose names are bound elsewhere.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_005582d0_shell.h"
+#include "fnv/decl/FUN_0068f0a0_shell.h"
+#include "fnv/decl/FUN_006b3160_shell.h"
+#include "fnv/decl/FUN_006e78b0_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_0096aaf0_shell.h"
+#include "fnv/decl/NLLocation.h"
+#include "fnv/decl/NavMeshSearch.h"
+#include "fnv/decl/PathBuilderCore.h"
+#include "fnv/decl/This152.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_006f49c0__FUN_006f49c0_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_0048d000.h"
+#include "fnv/symbols_006ca000.h"
+#include "fnv/symbols_006d0000.h"
+#include "fnv/symbols_006d1000.h"
+#include "fnv/symbols_006d2000.h"
+#include "fnv/symbols_006d4000.h"
+#include "fnv/symbols_006d7000.h"
 #include "pathfind_decls.h"
 class PathingLocation_r006d34d0
 {
@@ -20,7 +44,6 @@ class PathingLocation_r006d34d0
     ~PathingLocation_r006d34d0();
     bool HasValidTriangle();
     bool IsPathingLocationValid();
-    bool FindNavMeshTriangle(NavMeshPtr&, unsigned short&);
     void ResetLocation();
     PathingLocation_r006d34d0(const PathingLocation_r006d34d0&);  // 0x006dcc40 (called out of line by unmatched code)
     PathingLocation_r006d34d0(const NiPoint3&, const PathingLocation_r006d34d0&);  // 0x006dd0d0
@@ -31,7 +54,6 @@ class PathingLocation_r006d34d0
 
 struct ReqX
 {
-    PathingLocation_r006d34d0* GetOffsetC();
 };
 struct NavPtrX
 {
@@ -57,12 +79,9 @@ struct Elem20
 };
 struct TriX
 {
-    unsigned short FUN_005582d0(int i);
 };
 struct MeshX
 {
-    TriX* FUN_005582f0(unsigned short t);
-    const NiPoint3& FUN_0068f0a0(unsigned short v);
 };
 struct ArrD
 {
@@ -73,8 +92,6 @@ struct ArrD
     void* alloc;
     ArrD(int a, int b, void* c);
     ~ArrD();
-    unsigned int FUN_0044ddc0();
-    Elem20* FUN_006b3160(int idx);
 };
 struct ArrE
 {
@@ -612,7 +629,6 @@ struct BigSearch
     unsigned int unk2090, unk2094, unk2098, unk209c;
     BigSearch();
     ~BigSearch();
-    bool Search(void* req, Info* info, ArrD* d, ArrE* e);
 };
 struct Ctx12
 {
@@ -633,11 +649,11 @@ Pt3 __cdecl FUN_006bbad0(NiPoint3* a, NiPoint3* b, NiPoint3* c);
 // @fnv 0x006d34d0
 bool __cdecl FUN_006d34d0(void* req, NiPoint3* out)
 {
-    if (!((ReqX*)req)->GetOffsetC()->HasValidTriangle())
+    if (!reinterpret_cast<::NLLocation *>((((::PathingLocation_r006d34d0 *)(::GetOffsetC((int)(((ReqX*)req)))))))->UpdateMeshLocation())
         return false;
     NavMeshPtr navPtr;
     unsigned short tri3 = 0xffff;
-    if (!((ReqX*)req)->GetOffsetC()->FindNavMeshTriangle(navPtr, tri3))
+    if (!reinterpret_cast<::PathingLocation *>((((::PathingLocation_r006d34d0 *)(::GetOffsetC((int)(((ReqX*)req)))))))->FindNavMeshTriangle(navPtr, tri3))
         return false;
     Info info2;
     info2.mesh = (NavMesh*)((NavPtrX*)&navPtr)->FUN_00458b50();
@@ -645,14 +661,14 @@ bool __cdecl FUN_006d34d0(void* req, NiPoint3* out)
     BigSearch big3;
     ArrD arrD3(0x20, 0, 0);
     ArrE arrE3(0x20, 0, 0);
-    if (!big3.Search(req, &info2, &arrD3, &arrE3))
+    if (!reinterpret_cast<::NavMeshSearch *>(&(big3))->Search((::PathingRequest *)(req), (::NavMeshNodeInfo *)(::Info *)(&info2), (::PathingSolution *)(::ArrD *)(&arrD3), &arrE3))
         return false;
-    Elem20 elem = *arrD3.FUN_006b3160(arrD3.FUN_0044ddc0() - 1);
+    Elem20 elem = *((::Elem20 *)(reinterpret_cast<::FUN_006b3160_shell *>(&(arrD3))->FUN_006b3160(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(arrD3))->GetName())) - 1)));
     Pt3 pts[3];
-    TriX* triPtr7 = ((MeshX*)elem.mesh)->FUN_005582f0(elem.tri);
-    *(NiPoint3*)&pts[0] = ((MeshX*)elem.mesh)->FUN_0068f0a0(triPtr7->FUN_005582d0(0));
-    *(NiPoint3*)&pts[1] = ((MeshX*)elem.mesh)->FUN_0068f0a0(triPtr7->FUN_005582d0(1));
-    *(NiPoint3*)&pts[2] = ((MeshX*)elem.mesh)->FUN_0068f0a0(triPtr7->FUN_005582d0(2));
+    TriX* triPtr7 = ((::TriX *)(reinterpret_cast<::NavMesh *>((((MeshX*)elem.mesh)))->GetTriangle(elem.tri)));
+    *(NiPoint3*)&pts[0] = (*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>((((MeshX*)elem.mesh)))->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((triPtr7))->FUN_005582d0(0))));
+    *(NiPoint3*)&pts[1] = (*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>((((MeshX*)elem.mesh)))->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((triPtr7))->FUN_005582d0(1))));
+    *(NiPoint3*)&pts[2] = (*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>((((MeshX*)elem.mesh)))->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((triPtr7))->FUN_005582d0(2))));
     *out = (const NiPoint3&)FUN_006bbad0((NiPoint3*)&pts[0], (NiPoint3*)&pts[1], (NiPoint3*)&pts[2]);
     return true;
 }

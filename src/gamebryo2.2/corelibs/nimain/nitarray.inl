@@ -9,6 +9,12 @@
 
 #include <stddef.h>
 
+#include "fnv/decl/DummyStruct_00631820.h"
+#include "fnv/decl/NiTObjectArrayA47.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a5ed10__ChildArray.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_004ed000.h"
 template <class T> class NiPointer
 {
 public:
@@ -83,8 +89,8 @@ unsigned int NiTArray<NiPointer<NiAVObject>, NiTNewInterface<NiPointer<NiAVObjec
     unsigned int uiIndex, const NiPointer<NiAVObject>& element)
 {
     if (uiIndex >= m_usMaxSize)
-        SetSize(uiIndex + m_usGrowBy);
-    SetAt(uiIndex, element);
+        reinterpret_cast<::NiTObjectArrayA47 *>(this)->FUN_0060bef0(uiIndex + m_usGrowBy);
+    reinterpret_cast<::fnv_00a5ed10::ChildArray *>(this)->FUN_004b0310(uiIndex, (const ::fnv_00a5ed10::HeldChild &)(element));
     return uiIndex;
 }
 
@@ -159,7 +165,7 @@ void NiTArray<T, Allocator>::SetSize(unsigned int uiNewSize)
         m_pBase = 0;
     }
 
-    Allocator::Deallocate(pOldBase);
+    ::FUN_004ede70(pOldBase);
 }
 
 // @fnv 0x0096ae90
@@ -190,8 +196,8 @@ template <class T, class Allocator>
 unsigned int NiTArray<T, Allocator>::SetAtGrow(unsigned int uiIndex, T& element)
 {
     if (uiIndex >= m_usMaxSize)
-        SetSize(uiIndex + m_usGrowBy);
-    SetAt(uiIndex, element);
+        reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(element));
     return uiIndex;
 }
 
@@ -218,7 +224,7 @@ NiPointer<NiAVObject> NiTArray<NiPointer<NiAVObject>, NiTNewInterface<NiPointer<
 
     NiPointer<NiAVObject> element = m_pBase[uiIndex];
     m_pBase[uiIndex] = NiPointer<NiAVObject>(0);
-    if (element != NiPointer<NiAVObject>(0))
+    if (reinterpret_cast<::DummyStruct_00631820 *>((void *)&(const ::NiPointer< ::NiAVObject> &)(element))->IsNotEqual((const ::DummyStruct_00631820 &)((const ::NiPointer< ::NiAVObject> &)(NiPointer<NiAVObject>(0)))))
         m_usESize--;
     if (uiIndex == (unsigned short)(m_usSize - 1))
         m_usSize--;

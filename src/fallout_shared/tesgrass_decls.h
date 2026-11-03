@@ -2,6 +2,7 @@
 #ifndef FNV_TESGRASS_DECLS_H
 #define FNV_TESGRASS_DECLS_H
 
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "TESForm.h"
@@ -147,7 +148,6 @@ FNV_STATIC_ASSERT(offsetof(TESGrass, Data) == 72);
 class BGSImpactData
 {
   public:
-    void ReadTypedData(TESFile* file, void* data, unsigned short size);
     char _pdbpad_1[47];
     char Data_db_pad2f_pad2f_pad2f[24];
     void* m_pDecalTextureSet;

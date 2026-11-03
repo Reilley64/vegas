@@ -4,12 +4,12 @@
 
 // src/fallout/magic/bhktelekinesislistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/bhktelekinesislistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00807910_Listener.h"
+#include "fnv/symbols_00401000.h"
 struct bhkTelekinesisListener
 {
-    void FUN_00807910();
     void* Destroy(unsigned int flags);
 };
-extern "C" void __cdecl _Deallocate(void*);
 struct FUN_00807da0_shell
 {
     unsigned short m_0006;

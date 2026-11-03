@@ -1,29 +1,30 @@
 // fallout_shared/region system/tesregiondataimposter.cpp: Callees, ParamCls, TESRegionDataImposter (11 functions)
 
+#include <new>
+#include "fnv/decl/ActionIterator.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/RefList.h"
+#include "fnv/decl/RegionSource.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004f81e0__FUN_004f81e0_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
 #include "tesregiondataimposter_decls.h"
-
-// Adds ref to the list; if that fails, appends it to the fallback list and returns true, otherwise returns false.
-// @fnv 0x004f2390
-bool TESRegionDataImposter::AddImposter(TESObjectREFR* ref)
-{
-    if (!((BSSimpleList<TESForm*>*)((TESTopicInfoData*)this)->GetLinkToList())
-             ->AddHead(reinterpret_cast<TESForm*&>(ref)))
-    {
-        ((BSSimpleList<QuantityData*>*)&m_kImposterList)->AddTail(reinterpret_cast<QuantityData*&>(ref));
-        return true;
-    }
-    return false;
-}
 
 // @fnv 0x004f2190
 bool TESRegionDataImposter::ReadRegionData(TESFile* file)
 {
     if (!file)
         return false;
-    switch (file->GetChunkID())
+    switch (((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())))
     {
     case 0x44494452: {
-        unsigned int uiChunkSize = file->GetChunkSize();
+        unsigned int uiChunkSize = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
         struct ImposterArrayCounts
         {
             unsigned int formIDSize;
@@ -32,12 +33,12 @@ bool TESRegionDataImposter::ReadRegionData(TESFile* file)
         loadCounts.formIDSize = sizeof(unsigned int);
         loadCounts.count = uiChunkSize / loadCounts.formIDSize;
         unsigned int* formIDs = new unsigned int[loadCounts.count];
-        file->GetChunkData(formIDs, uiChunkSize);
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(formIDs), uiChunkSize);
         for (unsigned int i = 0; i < loadCounts.count; i++)
         {
             unsigned int formID = formIDs[i];
             if (file->IsEndianConversionRequired())
-                BSEndian(&formID, EndianSizeTag<4>());
+                ::FUN_00401080((int *)(unsigned int *)(&formID));
             AddImposter(reinterpret_cast<TESObjectREFR*>(formID));
         }
         delete[] formIDs;
@@ -49,43 +50,8 @@ bool TESRegionDataImposter::ReadRegionData(TESFile* file)
     return true;
 }
 
-// Walks the imposter's reference list, resolving each stored form ID to a TESObjectREFR and removing entries that fail to resolve.
-// @fnv 0x004f2290
-void TESRegionDataImposter::InitItem(TESForm* form)
-{
-    struct ImposterResolution
-    {
-        TESObjectREFR* reference;
-        unsigned int formID;
-    } entry;
-    entry.reference = 0;
-    BSSimpleList<TESObjectREFR*>* pList = (BSSimpleList<TESObjectREFR*>*)((TESTopicInfoData*)this)->GetLinkToList();
-    while (pList)
-    {
-        if (pList->GetItem())
-        {
-            entry.formID = reinterpret_cast<unsigned int>(pList->GetItem());
-            TESFile* file = form ? form->GetFile(-1) : 0;
-            TESForm::RemapFormIDForFile(entry.formID, file);
-            entry.reference = dynamic_cast<TESObjectREFR*>(TESForm::GetFormByID(entry.formID));
-            pList->SetItem(entry.reference);
-        }
-        if (!entry.reference)
-        {
-            pList->RemoveHead();
-            if (!pList->GetItem())
-                break;
-        }
-        else
-        {
-            pList = pList->GetNext();
-        }
-    }
-}
-
 struct List_009e03e0
 {
-    void RemoveAll();
 };
 
 struct FUN_004f2370_shell
@@ -96,26 +62,14 @@ struct FUN_004f2370_shell
 // @fnv 0x004f2370
 bool FUN_004f2370_shell::ClearList()
 {
-    ((List_009e03e0*)((TESTopicInfoData*)this)->GetLinkToList())->RemoveAll();
+    reinterpret_cast<::FileMatchList *>((((List_009e03e0*)((TESTopicInfoData*)this)->GetLinkToList())))->RemoveAll();
     return true;
 }
 
 struct T004f1f40
 {
-    void FUN_004f2040();
     void* DestroyIfFlagged(unsigned int);
 };
-void _Deallocate(void*);
-// Calls FUN_004f2040, then deallocates this if bit 0 of flags is set, and returns this.
-// @fnv 0x004f1f40
-void* T004f1f40::DestroyIfFlagged(unsigned int flags)
-{
-    FUN_004f2040();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct TESRegionData
 {
     virtual void f0() const;
@@ -169,26 +123,30 @@ class FUN_004f2040_base
 class FUN_004f2040_cls : public FUN_004f2040_base
 {
   public:
-    void Body();
     FUN_004f2040_sub m_08;
     virtual ~FUN_004f2040_cls();
 };
+// Calls FUN_004f2040, then deallocates this if bit 0 of flags is set, and returns this.
+// @fnv 0x004f1f40
+void* T004f1f40::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_004f2040_cls *>(this)->FUN_004f2040_cls::~FUN_004f2040_cls();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x004f2040
 FUN_004f2040_cls::~FUN_004f2040_cls()
 {
-    Body();
+    reinterpret_cast<::FUN_004f2370_shell *>(this)->ClearList();
 }
 
-void __cdecl FUN_00485710(unsigned int, unsigned int*, unsigned int);
 struct FUN_004f20b0_elem
 {
-    unsigned int Probe();
 };
 struct FUN_004f20b0_node
 {
-    FUN_004f20b0_elem** GetItem();
-    FUN_004f20b0_node* GetNext();
     int GetSize();
     FUN_004f20b0_elem* item;
     FUN_004f20b0_node* next;
@@ -198,44 +156,17 @@ struct FUN_004f20b0_cls
     int unk00;
     int unk04;
     FUN_004f20b0_node m08;
-    void ClearAll();
     void ResetAndCollectProbes();
 };
-// @fnv 0x004f20b0
-void FUN_004f20b0_cls::ResetAndCollectProbes()
-{
-    ClearAll();
-    FUN_004f20b0_elem* pElem = 0;
-    int count = m08.GetSize();
-    if (count)
-    {
-        FUN_004f20b0_node* pNode = &m08;
-        unsigned int* pProbes = new unsigned int[count];
-        for (unsigned int iIndex = 0; pNode && iIndex < (unsigned int)count; iIndex++)
-        {
-            pElem = *pNode->GetItem();
-            unsigned int v2 = pElem->Probe();
-            pProbes[iIndex] = v2;
-            pNode = pNode->GetNext();
-        }
-        FUN_00485710(0x44494452, pProbes, count);
-        delete pProbes;
-    }
-}
-
 struct ContNode;
-ContNode* __fastcall FUN_00726070(ContNode*);
 struct Item4f11
 {
-    bool FUN_004f81e0(int);
 };
 struct Node4f11
 {
-    Item4f11** FUN_006815c0();
 };
 struct Head4f11
 {
-    bool FUN_004f3610();
 };
 
 class Obj4f11
@@ -247,24 +178,6 @@ class Obj4f11
     bool FUN_004f11e0();
 };
 
-// Returns false if m_pNext or m_pHead is null, m_pHead->FUN_004f3610() fails, or any node's item fails FUN_004f81e0(1); otherwise true.
-// @fnv 0x004f11e0
-bool Obj4f11::FUN_004f11e0()
-{
-    ContNode* pNode = m_pNext;
-    if (!m_pNext || !m_pHead)
-        return false;
-    if (!m_pHead->FUN_004f3610())
-        return false;
-    while (pNode && *((Node4f11*)pNode)->FUN_006815c0())
-    {
-        if (!(*((Node4f11*)pNode)->FUN_006815c0())->FUN_004f81e0(1))
-            return false;
-        pNode = FUN_00726070(pNode);
-    }
-    return true;
-}
-
 struct Callees
 {
     void FUN_004f1460(void* param);
@@ -275,6 +188,88 @@ struct Callees
     void FUN_00905820(void* item);
     void* FUN_00726070();
 };
+// Adds ref to the list; if that fails, appends it to the fallback list and returns true, otherwise returns false.
+// @fnv 0x004f2390
+bool TESRegionDataImposter::AddImposter(TESObjectREFR* ref)
+{
+    if (!reinterpret_cast<::RefList *>((((BSSimpleList<TESForm*>*)((TESTopicInfoData*)this)->GetLinkToList())))->FUN_005f65d0((void **)&(reinterpret_cast<TESForm*&>(ref))))
+    {
+        reinterpret_cast<::Callees *>((((BSSimpleList<QuantityData*>*)&m_kImposterList)))->FUN_00905820((void *)&(reinterpret_cast<QuantityData*&>(ref)));
+        return true;
+    }
+    return false;
+}
+// Walks the imposter's reference list, resolving each stored form ID to a TESObjectREFR and removing entries that fail to resolve.
+// @fnv 0x004f2290
+void TESRegionDataImposter::InitItem(TESForm* form)
+{
+    struct ImposterResolution
+    {
+        TESObjectREFR* reference;
+        unsigned int formID;
+    } entry;
+    entry.reference = 0;
+    BSSimpleList<TESObjectREFR*>* pList = (BSSimpleList<TESObjectREFR*>*)((TESTopicInfoData*)this)->GetLinkToList();
+    while (pList)
+    {
+        if (((::TESObjectREFR *)(new ((void *)(pList)) ::Vec3())))
+        {
+            entry.formID = reinterpret_cast<unsigned int>(((::TESObjectREFR *)(new ((void *)(pList)) ::Vec3())));
+            TESFile* file = form ? form->GetFile(-1) : 0;
+            ::ResolveFormID((unsigned int *)&(entry.formID), file);
+            entry.reference = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(entry.formID));
+            pList->SetItem(entry.reference);
+        }
+        if (!entry.reference)
+        {
+            pList->RemoveHead();
+            if (!((::TESObjectREFR *)(new ((void *)(pList)) ::Vec3())))
+                break;
+        }
+        else
+        {
+            pList = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
+        }
+    }
+}
+// @fnv 0x004f20b0
+void FUN_004f20b0_cls::ResetAndCollectProbes()
+{
+    reinterpret_cast<::RegionSource *>(this)->WriteSaveData();
+    FUN_004f20b0_elem* pElem = 0;
+    int count = m08.GetSize();
+    if (count)
+    {
+        FUN_004f20b0_node* pNode = &m08;
+        unsigned int* pProbes = new unsigned int[count];
+        for (unsigned int iIndex = 0; pNode && iIndex < (unsigned int)count; iIndex++)
+        {
+            pElem = *((::FUN_004f20b0_elem **)(new ((void *)(pNode)) ::Vec3()));
+            unsigned int v2 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pElem))->FUN_0084e3a0()));
+            pProbes[iIndex] = v2;
+            pNode = ((::FUN_004f20b0_node *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
+        }
+        ::FUN_00485710((void *)(0x44494452), pProbes, (void *)(count));
+        delete pProbes;
+    }
+}
+// Returns false if m_pNext or m_pHead is null, m_pHead->FUN_004f3610() fails, or any node's item fails FUN_004f81e0(1); otherwise true.
+// @fnv 0x004f11e0
+bool Obj4f11::FUN_004f11e0()
+{
+    ContNode* pNode = m_pNext;
+    if (!m_pNext || !m_pHead)
+        return false;
+    if (!reinterpret_cast<::ActionIterator *>((m_pHead))->FUN_004f3610())
+        return false;
+    while (pNode && *((::Item4f11 **)(new ((void *)(((Node4f11*)pNode))) ::Vec3())))
+    {
+        if (!reinterpret_cast<::fnv_004f81e0::FUN_004f81e0_shell *>(((*((::Item4f11 **)(new ((void *)(((Node4f11*)pNode))) ::Vec3())))))->FUN_004f81e0(1))
+            return false;
+        pNode = ((::ContNode *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
+    }
+    return true;
+}
 
 void Callees::FUN_004f1460(void* /*param*/)
 {}
@@ -351,15 +346,15 @@ struct FUN_004f1f70_cls : BaseCls
 // @fnv 0x004f1f70
 FUN_004f1f70_cls::FUN_004f1f70_cls(void* param) : BaseCls(param)
 {
-    ((Callees*)((Callees*)this)->FUN_00413f40())->FUN_00470470();
+    reinterpret_cast<::FileMatchList *>((((Callees*)((void *)(reinterpret_cast<::TESTopicInfoData *>((((Callees*)this)))->GetLinkToList())))))->RemoveAll();
 
     void* refr = param;
     if (((ParamCls*)refr)->v4() == 8)
     {
-        void* node = ((Callees*)refr)->FUN_00413f40();
+        void* node = ((void *)(reinterpret_cast<::TESTopicInfoData *>((((Callees*)refr)))->GetLinkToList()));
         while (node != 0)
         {
-            ((Callees*)&m_kMemberDescriptor)->FUN_00905820(((Callees*)node)->FUN_006815c0());
+            ((Callees*)&m_kMemberDescriptor)->FUN_00905820(((void *)(new ((void *)(((Callees*)node))) ::Vec3())));
             node = ((Callees*)node)->FUN_00726070();
         }
     }

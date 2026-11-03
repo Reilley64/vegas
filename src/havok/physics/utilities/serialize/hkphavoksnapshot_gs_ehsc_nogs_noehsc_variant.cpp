@@ -5,6 +5,29 @@
 
 // src/havok/physics/utilities/serialize/hkphavoksnapshot.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/serialize/hkphavoksnapshot.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00d46d40_s.h"
+#include "fnv/decl/FUN_00d47770.h"
+#include "fnv/decl/FUN_00d49750.h"
+#include "fnv/decl/FUN_00d4bab0.h"
+#include "fnv/decl/FUN_00d4c220_s.h"
+#include "fnv/decl/FUN_00d61700_cls.h"
+#include "fnv/decl/FUN_00d61df0_cls.h"
+#include "fnv/decl/FnvClassNameNode.h"
+#include "fnv/decl/HostType.h"
+#include "fnv/decl/ReferencedObjectHolder.h"
+#include "fnv/decl/fnv_00cc0ae0__FUN_00cc0ae0_cls.h"
+#include "fnv/decl/fnv_00d4aa70__FUN_00d4aa70.h"
+#include "fnv/decl/fnv_00d4c250__FUN_00d4c250.h"
+#include "fnv/decl/hkStringD618.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00cc0000.h"
+#include "fnv/symbols_01044000.h"
+#include "fnv/symbols_01063000.h"
+#include "fnv/symbols_011b3000.h"
+#include "fnv/symbols_01268000.h"
 struct CallbackInterface
 {
     virtual void reserved0();
@@ -19,12 +42,10 @@ struct State
     int unk0c;
     CallbackInterface* interface10;
 };
-State* __cdecl FUN_00c85750();
 struct Object
 {
     void* unk00;
     unsigned short unk04;
-    void FUN_00cc0ae0();
     Object* FUN_00cc0dd0(unsigned int flags);
 };
 struct D481D0StringPtr
@@ -36,7 +57,6 @@ struct D481D0StringPtr
 };
 struct D481D0Class
 {
-    const char* getName() const;
 };
 struct D481D0ReferencedObject;
 struct D481D0RefVariant
@@ -45,8 +65,6 @@ struct D481D0RefVariant
 
     D481D0RefVariant() : m_ptr(0)
     {}
-    void set(D481D0ReferencedObject* obj, const D481D0Class* pClassInfo);
-    const D481D0Class* GetVariantValue() const;
 };
 struct FUN_00d481d0
 {
@@ -67,10 +85,6 @@ struct CC0D30Registry
 {
     int unk00;
 };
-extern CC0D30Registry g_CC0D30DefaultRegistry;
-CC0D30Result __cdecl FUN_00cc0bc0(const void* data, const CC0D30Registry& registry, const void* pClassInfo, void* out,
-                                  int flags);
-CC0D30Result __cdecl FUN_00cc0d30(const void* data, const void* pClassInfo, void* out, int flags);
 struct S_00cc0d60_R
 {
     char v;
@@ -85,12 +99,7 @@ struct S_00cc0d60_A
     int unkC;
     int unk10;
     int unk14;
-    void FUN_00d4c220();
-    void FUN_00d4c2d0(void* a, int b);
-    void FUN_00d4c250();
 };
-S_00cc0d60_R* FUN_00cc0d30(void** pa, S_00cc0d60_A* a, void* b, int c, int d);
-S_00cc0d60_R FUN_00cc0d60(void* a2, void* a3, int a4, int a5, int a6);
 struct Allocator
 {
     virtual void* unk0();
@@ -109,7 +118,6 @@ struct hkBool
     }
 };
 struct PtrList;
-void __cdecl ResizeAudioStream(void* a, PtrList* l, unsigned int n);
 struct PtrList
 {
     void** m_00;
@@ -133,34 +141,23 @@ struct Obj70
 {
     unsigned int unk00;
     unsigned short m_04;
-    Obj70* FUN_00d4bab0(void* v);
 };
 struct Obj110
 {
     unsigned int unk00;
     unsigned short m_04;
-    Obj110* FUN_00d4aa70(void* v);
 };
 struct Obj80
 {
     unsigned int unk00;
     unsigned short m_04;
-    Obj80* FUN_00d49750(void* v);
 };
 struct TypeMatcher
 {
-    hkBool FUN_00d46d80(void* v);
 };
 struct GlobalObjectO2_00d472a0 : TypeMatcher
 {
 };
-extern GlobalObjectO2_00d472a0 g_01268f2c;
-extern GlobalObjectO2_00d472a0 g_01268e24;
-extern GlobalObjectO2_00d472a0 g_01268c5c;
-extern GlobalObjectO2_00d472a0 g_01268bcc;
-extern GlobalObjectO2_00d472a0 g_01268eb4;
-extern GlobalObjectO2_00d472a0 g_01268d4c;
-extern GlobalObjectO2_00d472a0 g_01268c14;
 struct FUN_00cc08f0_cls
 {
     unsigned int unk00;
@@ -266,9 +263,6 @@ struct DirectoryString
     DirInlineArray<char, 128> chars;
     __forceinline ~DirectoryString()
     {}
-    int ReplaceChar(char, char, int);
-    int EndsWith(const char*) const;
-    DirectoryString& FUN_00d61df0(const char*);
     inline int length() const
     {
         return chars.count - 1;
@@ -319,9 +313,6 @@ struct DirectoryItem
     unsigned modified;
     DirectoryFlags flags;
 };
-void __cdecl ResizeAudioStream(DirAllocator&, void*, int);
-int __cdecl FUN_00cb0fa0(const char*, const char*);
-char* __cdecl FUN_00cb1160(const char*, DirAllocator&);
 struct DirectoryArray
 {
     DirectoryItem* data;
@@ -329,7 +320,7 @@ struct DirectoryArray
     __forceinline DirectoryItem& expand(DirAllocator& allocator)
     {
         if (count == (capacityFlags & 0x3fffffff))
-            ResizeAudioStream(allocator, this, sizeof(DirectoryItem));
+            ::ResizeAudioStream((::AudioAllocator *)&(allocator), (::AudioStream *)(void *)(this), sizeof(DirectoryItem));
         return data[count++];
     }
 };
@@ -340,7 +331,7 @@ struct DirectoryOutput
     __forceinline void add(const char* name, DirectoryFlags flags, unsigned modified = 0)
     {
         DirectoryItem& item = entries.expand(*allocator);
-        item.name = FUN_00cb1160(name, *allocator);
+        item.name = ::FUN_00cb1160(name, (void *)&(*allocator));
         item.flags = flags;
         item.modified = modified;
     }
@@ -354,8 +345,7 @@ struct DirectoryOutput
     }
 };
 typedef const char*(__cdecl* DirectoryConvert)(const char*, DirectoryString&);
-extern DirectoryConvert DAT_011b3dc0;
-extern const char DAT_01063cbc[], DAT_0101ffbc[], DAT_01044c28[], DAT_010a2560[];
+extern const char DAT_0101ffbc[], DAT_010a2560[];
 struct DirectoryBool
 {
     char value;
@@ -389,10 +379,10 @@ DirectoryResult __cdecl FUN_00da25a0(const char* input, DirectoryOutput& listing
         FUN_00d61a50 normalized(input);
         if (normalized.length() > 0)
         {
-            normalized.ReplaceChar('\\', '/', 1);
-            if (!normalized.EndsWith(DAT_01063cbc))
-                normalized.FUN_00d61df0(DAT_01063cbc);
-            DAT_011b3dc0(normalized.text(), path);
+            reinterpret_cast<::hkStringD618 *>(&(normalized))->ReplaceChar('\\', '/', 1);
+            if (!reinterpret_cast<::FUN_00d61700_cls *>((void *)&(normalized))->EndsWith((char *)(DAT_01063cbc)))
+                reinterpret_cast<::FUN_00d61df0_cls *>(&(normalized))->FUN_00d61df0((int)(DAT_01063cbc));
+            (*reinterpret_cast<const char *(**)(const char *, DirectoryString &)>(&::DAT_011b3dc0))(normalized.text(), path);
         }
     }
     DWORD attrs = GetFileAttributesA(path);
@@ -402,13 +392,13 @@ DirectoryResult __cdecl FUN_00da25a0(const char* input, DirectoryOutput& listing
     if (!valid)
         return DirectoryFailure;
     if (path.length())
-        path.FUN_00d61df0(DAT_0101ffbc);
+        reinterpret_cast<::FUN_00d61df0_cls *>(&(path))->FUN_00d61df0((int)(DAT_0101ffbc));
     WIN32_FIND_DATAA found;
     HANDLE handle = FindFirstFileA(path, &found);
     DirectoryBool more = handle != INVALID_HANDLE_VALUE;
     while (more)
     {
-        if (FUN_00cb0fa0(found.cFileName, DAT_01044c28) && FUN_00cb0fa0(found.cFileName, DAT_010a2560))
+        if (::fnv_00cb0fa0::FUN_00cb0fa0(found.cFileName, DAT_01044c28) && ::fnv_00cb0fa0::FUN_00cb0fa0(found.cFileName, DAT_010a2560))
         {
             bool directory = (found.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
             if (directory)

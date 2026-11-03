@@ -2,14 +2,29 @@
 // src/gamebryo2.2/corelibs/nimain/nitristripsdata_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/gamebryo2.2/corelibs/nimain/nitristripsdata.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00658930_class.h"
+#include "fnv/decl/FUN_00a66f90_cls.h"
+#include "fnv/decl/FUN_00a8a670_shell.h"
+#include "fnv/decl/FUN_00a8aa30_shell.h"
+#include "fnv/decl/FUN_00a8aa70_shell.h"
+#include "fnv/decl/NiObject_b.h"
+#include "fnv/decl/S_00a8a9c0.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a66000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a8a000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f4000.h"
 #include "nitristripsdata_types_NiTriStripsData.h"
-extern "C" const NiRTTI DAT_011f4a70;
-extern "C" void* NiMalloc(unsigned int, const char* = 0, int = 0, const char* = 0);
 #include "nitristripsdata_forwarders.h"
 
 extern const void* DAT_0109d8ac;
 
-NiTriBasedGeomData* __fastcall InitializeTriBasedGeomData(NiTriBasedGeomData* p);
 
 // @fnv 0x00a75e20
 NiTriBasedGeomData* __fastcall FUN_00a75e20(NiTriBasedGeomData* self)
@@ -23,7 +38,6 @@ NiTriBasedGeomData* __fastcall FUN_00a75e20(NiTriBasedGeomData* self)
     return self;
 }
 
-void _delete(void*, unsigned int);
 struct Standin00a761a0
 {
     void FUN_00a76040();
@@ -34,7 +48,7 @@ void* Standin00a761a0::FUN_00a761a0(unsigned int flags)
 {
     FUN_00a76040();
     if (flags & 1)
-        _delete(this, 0x50);
+        ::FUN_00aa1460(this, 0x50);
     return this;
 }
 
@@ -48,10 +62,8 @@ struct SharedData_S
 {
     char pad_00[0x0c];
     int refCount;
-    void FUN_00a8a670();
 };
 
-void _NiFree(void*);
 
 struct NiTriStripsDataStandin
 {
@@ -110,8 +122,8 @@ void NiTriStripsDataStandin::FUN_00a760c0(unsigned short count, unsigned short* 
             SharedData_S* releasedData = GetSharedData();
             if (--releasedData->refCount == 0)
             {
-                releasedData->FUN_00a8a670();
-                _delete(releasedData, 0x10);
+                reinterpret_cast<::FUN_00a8a670_shell *>((releasedData))->FUN_00a8a670();
+                ::FUN_00aa1460(releasedData, 0x10);
             }
         }
 
@@ -120,18 +132,18 @@ void NiTriStripsDataStandin::FUN_00a760c0(unsigned short count, unsigned short* 
             SharedData_S* releasedData = GetSharedData();
             if (--releasedData->refCount == 0)
             {
-                releasedData->FUN_00a8a670();
-                _delete(releasedData, 0x10);
+                reinterpret_cast<::FUN_00a8a670_shell *>((releasedData))->FUN_00a8a670();
+                ::FUN_00aa1460(releasedData, 0x10);
             }
         }
     }
     else
     {
         if (data1 != m_data1)
-            _NiFree(m_data1);
+            ::FUN_00aa10f0(m_data1);
 
         if (data2 != m_data2)
-            _NiFree(m_data2);
+            ::FUN_00aa10f0(m_data2);
     }
 
     unsigned short total = 0;
@@ -199,7 +211,6 @@ FUN_00a75dc0::FUN_00a75dc0(int a1, int a2, int a3, int a4, int a5, int a6, int a
 
 struct S_a76020_Strips : public NiTriStripsData
 {
-    unsigned int FUN_00a66f90();
     unsigned int FUN_00a76020();
 };
 // @fnv 0x00a76020
@@ -207,7 +218,7 @@ unsigned int S_a76020_Strips::FUN_00a76020()
 {
     unsigned short listLen = m_usTriangles + m_usStrips * 2;
     unsigned int size = (listLen + m_usStrips) * 2;
-    return size + FUN_00a66f90();
+    return size + reinterpret_cast<::FUN_00a66f90_cls *>(this)->FUN_00a66f90();
 }
 
 class A76340BinaryStream
@@ -424,7 +435,6 @@ class A76340GeomData
     unsigned short m_usTriangles;
     unsigned short unk42;
 
-    void FUN_00a8aa70(A76340Stream& kStream);
 };
 
 // NiTriStripsData::SaveBinary
@@ -446,7 +456,7 @@ class A76340StripsData : public A76340GeomData
 // @fnv 0x00a76340
 void A76340StripsData::FUN_00a76340(A76340Stream& kStream)
 {
-    FUN_00a8aa70(kStream);
+    reinterpret_cast<::FUN_00a8aa70_shell *>(this)->FUN_00a8aa70((::NiStream *)&(kStream));
     A76340SaveBinary(kStream, m_usStrips);
     if (m_usStrips > 0)
     {
@@ -467,17 +477,11 @@ class NiStream
     unsigned short m_usSize;
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
-    void FUN_0096ad30(unsigned int size);
-    void FUN_0096ae90(unsigned int index, const unsigned int* value);
 };
 
-extern "C" const NiRTTI DAT_011f4a70;
 extern "C" const char str_0109d984[];
 extern "C" const char str_0109d970[];
 extern "C" const char str_0109d960[];
-unsigned int FUN_00a7d330(const NiRTTI*);
-unsigned int FUN_00a7d490(const void*, unsigned short);
-unsigned int FUN_00a7d5a0(const void*, const void*);
 
 struct NiTriStripsSerializer : NiTriStripsData
 {
@@ -489,41 +493,40 @@ struct NiTriStripsSerializer : NiTriStripsData
 void NiTriStripsSerializer::FUN_00a76430(NiStream& stream)
 {
     AppendTrianglesInfo(stream);
-    unsigned int entry = FUN_00a7d330(*reinterpret_cast<const NiRTTI* const*>(&DAT_011f4a70));
+    unsigned int entry = ((unsigned int)(::FUN_00a7d330((const char *)(*reinterpret_cast<const NiRTTI* const*>(&(*reinterpret_cast<const ::NiRTTI *>(&::g_011f4a70)))))));
     unsigned int count = stream.m_usSize;
     if (count >= (unsigned int)stream.m_usMaxSize)
     {
-        stream.FUN_0096ad30(count + stream.m_usGrowBy);
+        reinterpret_cast<::ViewerStrings *>(&(stream))->SetSize(count + stream.m_usGrowBy);
     }
-    stream.FUN_0096ae90(count, &entry);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(stream))->SetAt(count, (*(char * *)(&entry)));
 
-    entry = FUN_00a7d490(str_0109d984, m_usStrips);
+    entry = ((unsigned int)(::FUN_00a7d490((const char *)(str_0109d984), m_usStrips)));
     count = stream.m_usSize;
     if (count >= (unsigned int)stream.m_usMaxSize)
     {
-        stream.FUN_0096ad30(count + stream.m_usGrowBy);
+        reinterpret_cast<::ViewerStrings *>(&(stream))->SetSize(count + stream.m_usGrowBy);
     }
-    stream.FUN_0096ae90(count, &entry);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(stream))->SetAt(count, (*(char * *)(&entry)));
 
-    entry = FUN_00a7d5a0(str_0109d970, m_pusStripLengths);
+    entry = ((unsigned int)(::FUN_00a7d5a0((const char *)(str_0109d970), (void *)(m_pusStripLengths))));
     count = stream.m_usSize;
     if (count >= (unsigned int)stream.m_usMaxSize)
     {
-        stream.FUN_0096ad30(count + stream.m_usGrowBy);
+        reinterpret_cast<::ViewerStrings *>(&(stream))->SetSize(count + stream.m_usGrowBy);
     }
-    stream.FUN_0096ae90(count, &entry);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(stream))->SetAt(count, (*(char * *)(&entry)));
 
-    entry = FUN_00a7d5a0(str_0109d960, m_pusStripLists);
+    entry = ((unsigned int)(::FUN_00a7d5a0((const char *)(str_0109d960), (void *)(m_pusStripLists))));
     count = stream.m_usSize;
     if (count >= (unsigned int)stream.m_usMaxSize)
     {
-        stream.FUN_0096ad30(count + stream.m_usGrowBy);
+        reinterpret_cast<::ViewerStrings *>(&(stream))->SetSize(count + stream.m_usGrowBy);
     }
-    stream.FUN_0096ae90(count, &entry);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(stream))->SetAt(count, (*(char * *)(&entry)));
 }
 
 namespace fnv_00a761c0 {
-void* __cdecl FUN_00aa1070(unsigned int);
 struct BinaryA
 {
     int unk0;
@@ -701,7 +704,6 @@ struct SharedView
 };
 struct BaseLoad
 {
-    void FUN_00a8aa30(NiStream&);
 };
 struct StripLoad : NiTriStripsDataStandin
 {
@@ -710,14 +712,14 @@ struct StripLoad : NiTriStripsDataStandin
 // @fnv 0x00a761c0
 void StripLoad::FUN_00a761c0(NiStream& stream)
 {
-    ((BaseLoad*)this)->FUN_00a8aa30(stream);
+    reinterpret_cast<::FUN_00a8aa30_shell *>((((BaseLoad*)this)))->FUN_00a8aa30((::NiStream *)&(stream));
     stream.binary->Read(&m_uiItemCount, 2, 2);
     if (m_uiItemCount > 0)
     {
         if (GetSharedData())
             m_data1 = ((SharedView*)GetSharedData())->Allocate(m_uiItemCount * sizeof(unsigned short));
         else
-            m_data1 = FUN_00aa1070(m_uiItemCount * sizeof(unsigned short));
+            m_data1 = ::FUN_00aa1070(m_uiItemCount * sizeof(unsigned short));
         stream.binary->Read(m_data1, m_uiItemCount * 2, 2);
         bool present;
         if (stream.version >= 0x0a000111)
@@ -730,7 +732,7 @@ void StripLoad::FUN_00a761c0(NiStream& stream)
             if (GetSharedData())
                 m_data2 = ((SharedView*)GetSharedData())->Allocate(count * sizeof(unsigned short));
             else
-                m_data2 = FUN_00aa1070(count * sizeof(unsigned short));
+                m_data2 = ::FUN_00aa1070(count * sizeof(unsigned short));
             stream.binary->Read(m_data2, count * 2, 2);
         }
     }
@@ -770,7 +772,6 @@ void TSD::FUN_00a75e40(unsigned short i, unsigned short& i0, unsigned short& i1,
 
 struct FUN_00a8a9c0_s
 {
-    bool MatchesTriangleCount(NiObject* pkObject);
 };
 
 class NiTriStripsDataA75F : public NiTriStripsData
@@ -782,7 +783,7 @@ class NiTriStripsDataA75F : public NiTriStripsData
 // @fnv 0x00a75f80
 bool NiTriStripsDataA75F::FUN_00a75f80(NiObject* pkObject)
 {
-    if (!((FUN_00a8a9c0_s*)this)->MatchesTriangleCount(pkObject))
+    if (!((bool)(reinterpret_cast<::S_00a8a9c0 *>((((FUN_00a8a9c0_s*)this)))->MatchesTriangleCount((const ::S_00a8a9c0_Base *)(pkObject)))))
         return false;
 
     NiTriStripsData* pkData = (NiTriStripsData*)pkObject;
@@ -806,8 +807,6 @@ bool NiTriStripsDataA75F::FUN_00a75f80(NiObject* pkObject)
     return true;
 }
 
-extern "C" void __cdecl operator_delete_sized(void* p, unsigned int uiSize) throw();
-extern "C" void __cdecl _NiFreeAlias(void* p) throw();
 
 struct NiSharedDataA76
 {
@@ -815,7 +814,6 @@ struct NiSharedDataA76
     int unk04;
     int unk08;
     int m_iRefCount;
-    void FUN_00a8a670() throw();
 };
 
 class FUN_00a8a990
@@ -844,28 +842,27 @@ inline void ReleaseShared(NiSharedDataA76* pkShared) throw()
 {
     if (--pkShared->m_iRefCount == 0)
     {
-        pkShared->FUN_00a8a670();
-        operator_delete_sized(pkShared, 0x10);
+        reinterpret_cast<::FUN_00a8a670_shell *>((pkShared))->FUN_00a8a670();
+        ::FUN_00aa1460(pkShared, 0x10);
     }
 }
 
 // @fnv 0x00a76040
 FUN_00a76040::~FUN_00a76040()
 {
-    if (FUN_00a669c0())
+    if (((::NiSharedDataA76 *)(::FUN_00a669c0())))
     {
-        ReleaseShared(FUN_00a669c0());
-        ReleaseShared(FUN_00a669c0());
+        ReleaseShared(((::NiSharedDataA76 *)(::FUN_00a669c0())));
+        ReleaseShared(((::NiSharedDataA76 *)(::FUN_00a669c0())));
     }
     else
     {
-        _NiFreeAlias(m_pusStripLengths);
-        _NiFreeAlias(m_pusStripLists);
+        ::FUN_00aa10f0(m_pusStripLengths);
+        ::FUN_00aa10f0(m_pusStripLists);
     }
 }
 }
 
-NiTriBasedGeomData* __fastcall InitializeTriBasedGeomData(NiTriBasedGeomData*);
 
 struct BSFadeNode
 {

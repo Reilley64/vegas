@@ -1,9 +1,11 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00e69970_shell.h"
+#include "fnv/symbols_00e92000.h"
+#include "fnv/symbols_011f5000.h"
 struct FUN_00e69970_Class
 {
-    void ClearShader(void* owner);
 };
 struct FUN_00e89ac0_Class
 {
@@ -28,21 +30,19 @@ void FUN_00e89ac0_Class::FUN_00e89ac0()
 {
     if (unk34 != 0)
     {
-        ((FUN_00e69970_Class*)unk24)->ClearShader(this);
+        reinterpret_cast<::FUN_00e69970_shell *>((((FUN_00e69970_Class*)unk24)))->ClearShader(this);
     }
 }
 
-extern void __cdecl FUN_00e92ee0(int value);
 
 // @fnv 0x00e89ad0
 void __fastcall FUN_00e89ad0(int value)
 {
-    FUN_00e92ee0(value);
+    ::fnv_00e92ee0::FUN_00e92ee0((::fnv_00e92ee0::NiD3DVertexShader *)(value));
 }
 
 extern "C" void* __cdecl memmove(void* pvDest, const void* pvSrc, unsigned int uiSize);
 
-extern int g_aiE89C70ConstantTypes[];
 
 class CE89C70Device
 {
@@ -1277,7 +1277,7 @@ bool CE89C70ShaderProgram::SetShaderConstantF(CE89C70ShaderConstant* pkConstant,
                                               unsigned int uiNumEntries, unsigned int uiRegisterCount,
                                               const unsigned short* pusIndices)
 {
-    int iType = g_aiE89C70ConstantTypes[pkConstant->m_uiValue1 & 0xff];
+    int iType = (*reinterpret_cast<int (*)[]>(&::DAT_011f5fc4))[pkConstant->m_uiValue1 & 0xff];
     if (iType != 8 && iType != 9)
         return false;
 
@@ -1412,7 +1412,6 @@ struct IDirect3DDevice9
     IDirect3DDevice9Vtbl* lpVtbl;
 };
 
-extern int DAT_011f5fc4[];
 void* __cdecl FUN_00ec44d0(void* dst, const void* src, unsigned int count);
 
 struct NiShaderConstantMapEntry
@@ -1483,7 +1482,7 @@ bool NiD3DShaderProgramLike::UploadConstants(NiShaderConstantMapEntry* pkEntry, 
             uiRegisterCount = 1;
     }
     unsigned int uiFlags = pkEntry->m_uiValue1;
-    int eType = DAT_011f5fc4[uiFlags & 0xff];
+    int eType = (*reinterpret_cast<int (*)[]>(&::DAT_011f5fc4))[uiFlags & 0xff];
     if ((uiFlags & 0xf0000000) == 0x20000000 && pkEntry->m_pConstantData)
     {
         FUN_00ec44d0(pkEntry->m_pConstantData, pvDataSource, pkEntry->m_uiValue5);

@@ -2,6 +2,18 @@
 // src/havok/physics/collide/shape/compound/collection/compressedmesh/hkpcompressedmeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/compressedmesh/hkpcompressedmeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00d21410.h"
+#include "fnv/decl/FUN_00dfd380_cls.h"
+#include "fnv/decl/fnv_00dfd440__FUN_00dfd440_cls.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d26000.h"
+#include "fnv/symbols_00e3c000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_011b1000.h"
+#include "fnv/symbols_01269000.h"
 #include "havok/hkpCompressedMeshShape.h"
 
 struct FUN_00e3cad0_Class
@@ -86,13 +98,12 @@ void FUN_00e3d0d0_Class::SetWeldingType(unsigned char weldingType)
     *((unsigned char*)this + 0x2c) = weldingType;
 }
 
-extern int DAT_01269198;
 int __cdecl FUN_00d213e0(int first, int* second);
 
 // @fnv 0x00e3c9c0
 int __cdecl FUN_00e3c9c0(int first, int unusedSecond)
 {
-    return FUN_00d213e0(first, &DAT_01269198);
+    return FUN_00d213e0(first, &(*reinterpret_cast<int *>(&::g_01269198)));
 }
 
 // @fnv 0x00e3ca00
@@ -101,8 +112,6 @@ int __stdcall FUN_00e3ca00(int arg0)
     return 0;
 }
 
-void __cdecl FUN_00e3cc20(void* pIndices, const hkVector4* pSrcVec, float fScale, hkVector4* pDstVec,
-                          const hkVector4* pOtherVec);
 
 struct FUN_00e3cd20_Class : hkVector4
 {
@@ -116,7 +125,7 @@ struct FUN_00e3cd20_Class : hkVector4
 // @fnv 0x00e3cd20
 void FUN_00e3cd20_Class::FUN_00e3cd20(float afScale, hkVector4* a2, hkVector4* a3)
 {
-    FUN_00e3cc20(&unk10, this, afScale, a2, a3);
+    ::fnv_00e3cc20::FUN_00e3cc20((*(const ::hkArray<unsigned short> *)(&unk10)), (*(const ::fnv_00e3cc20::hkVector4q *)(this)), afScale, (*(::fnv_00e3cc20::hkAabbq *)(a2)), (*(const ::fnv_00e3cc20::hkVector4q *)(a3)));
 }
 
 extern "C" void _ReadWriteBarrier(void);
@@ -473,7 +482,7 @@ hkMemoryRouterE3D& __cdecl GetMemoryRouterE3D() throw();
 template <typename T> __forceinline void DestructE3D(T* pArr, int n)
 {
     for (int i = 0; i < n; i++)
-        pArr[i].~T();
+        reinterpret_cast<::FUN_00dfd380_cls *>(&(pArr[i]))->FUN_00dfd380();
 }
 template <typename T> struct hkArrayE3D
 {
@@ -807,7 +816,6 @@ class hkpCompressedMeshShapeChunk
     unsigned materialInfo;
     unsigned short reference, unk46;
     unsigned unk48, unk4c;
-    unsigned FUN_00e3ca10(unsigned triangle, unsigned* welding);
 };
 struct ValidatedMesh : hkpCompressedMeshShape
 {
@@ -832,7 +840,7 @@ unsigned ValidatedMesh::FUN_00e3cfe0(unsigned key)
         --index;
         if (index >= m_kChunks.m_iElementCount)
             return 2;
-        unsigned uiNextTriangle = m_kChunks.m_data[index].FUN_00e3ca10(triangle - 1, &key);
+        unsigned uiNextTriangle = ((unsigned int)(reinterpret_cast<::FUN_00e3ca10_Class *>(&(m_kChunks.m_data[index]))->FUN_00e3ca10(triangle - 1, (int *)(unsigned int *)(&key))));
         if (uiNextTriangle != triangle)
             return 3;
         if (key != (unsigned)other)
@@ -889,7 +897,6 @@ struct ChunkQ
     unsigned short m_iSectionVertexCount;
     unsigned int unk48, unk4c;
 
-    void FUN_00e3cd20(float error, AabbQ* aabb, const VectorQ* scale);
 };
 
 struct MeshQ
@@ -930,9 +937,9 @@ union QuadVector
 void MeshQ::FUN_00e3d250(const ChunkQ* chunk, AabbQ* aabb)
 {
     if (chunk->m_kSmartReference == 0xffff)
-        ((ChunkQ*)chunk)->FUN_00e3cd20(m_eScriptError, aabb, &m_vScale);
+        reinterpret_cast<::FUN_00e3cd20_Class *>((((ChunkQ*)chunk)))->FUN_00e3cd20(m_eScriptError, (::hkVector4 *)(aabb), (::hkVector4 *)(&m_vScale));
     else
-        m_kChunks.m_data[chunk->m_kSmartReference].FUN_00e3cd20(m_eScriptError, aabb, &m_vScale);
+        reinterpret_cast<::FUN_00e3cd20_Class *>(&(m_kChunks.m_data[chunk->m_kSmartReference]))->FUN_00e3cd20(m_eScriptError, (::hkVector4 *)(aabb), (::hkVector4 *)(&m_vScale));
 
     if (chunk->m_iSectionVertexCount != 0xffff)
     {
@@ -970,8 +977,6 @@ extern "C"
 
 extern __m128 DAT_010c71d0;
 
-void __cdecl FUN_00d26230(const hkTransform& localToWorld, const hkVector4& halfExtents, const hkVector4& center,
-                          float tolerance, hkAabb& out);
 
 struct CompressedMeshQ : hkpCompressedMeshShape
 {
@@ -1004,7 +1009,7 @@ void CompressedMeshQ::FUN_00e3d380(const hkTransform& localToWorld, float tolera
     getCenter(m_kBounds, center);
     hkVector4 halfExtents;
     getHalfExtents(m_kBounds, halfExtents);
-    FUN_00d26230(localToWorld, halfExtents, center, tolerance, out);
+    ::FUN_00d26230((const ::hkTransformD262 &)(localToWorld), (const ::hkVector4D262 &)(halfExtents), (const ::hkVector4D262 &)(center), tolerance, (::hkAabbD262 &)(out));
 }
 }  // namespace fnv_00e3d380
 
@@ -1137,9 +1142,9 @@ unsigned int hkpCompressedMeshShapeE3CB::FUN_00e3cb10(unsigned int uiOldKey) thr
                 hkpCompressedMeshShapeChunkE3CB* pkChunk = &pkChunks[i];
                 int iWinding = 0;
                 if (pkChunk->m_kSmartReference != 0xffff)
-                    iIndex = chunks.m_data[pkChunk->m_kSmartReference].FUN_00e3ca10(iIndex, iWinding);
+                    iIndex = reinterpret_cast<::FUN_00e3ca10_Class *>(&(chunks.m_data[pkChunk->m_kSmartReference]))->FUN_00e3ca10(iIndex, (int *)&(iWinding));
                 else
-                    iIndex = pkChunk->FUN_00e3ca10(iIndex, iWinding);
+                    iIndex = reinterpret_cast<::FUN_00e3ca10_Class *>((pkChunk))->FUN_00e3ca10(iIndex, (int *)&(iWinding));
                 if (iIndex != -1 && iIndex <= m_iNumBitsForWIndex)
                     return ((iWinding & 1) << m_iBitsPerIndex) | ((i + 1) << iBitsPerWIndex) |
                            (iIndex & m_iNumBitsForIndex);
@@ -1223,8 +1228,7 @@ extern Vector DAT_01268370;
 extern Vector DAT_01268380;
 extern Vector DAT_01268390;
 extern Vector DAT_012683a0;
-extern float DAT_011b153c;
-extern float DAT_0104da48, DAT_0104e148, DAT_01011d78;
+extern float DAT_01011d78;
 extern Vector DAT_010c71d0;
 extern int DAT_010c749c;
 struct VertexBlock
@@ -1257,7 +1261,6 @@ struct Chunk
     hkUint16 reference, transform;
     unsigned int material;
     unsigned int unk4c;
-    void FUN_00e3cd50(int a, int b, int c, float error, Vector& va, Vector& vb, Vector& vc);
 };
 struct BigTriangle
 {
@@ -1370,7 +1373,7 @@ Triangle* Mesh::FUN_00e3d3f0(unsigned int key, BufferRef buffer)
         _mm_store_ps(&transform.y.x, _mm_load_ps(&DAT_01268380.x));
         _mm_store_ps(&transform.z.x, _mm_load_ps(&DAT_01268390.x));
         _mm_store_ps(&transform.translation.x, _mm_load_ps(&DAT_012683a0.x));
-        ConvexShape* shape = bufv ? bufv->FUN_00d59710(radius) : 0;
+        ConvexShape* shape = bufv ? ((::ConvexShape *)(new ((void *)(bufv->)) ::FUN_00d59710(radius))) : 0;
         ConvexPiece* pieces = convexPieces.m_data;
         if (pieces[index].transform != 0xffff)
         {
@@ -1389,8 +1392,8 @@ Triangle* Mesh::FUN_00e3d3f0(unsigned int key, BufferRef buffer)
         Bounds bounds;
         __m128& minimum = *(__m128*)&bounds.minimum;
         __m128& maximum = *(__m128*)&bounds.maximum;
-        minimum = _mm_set_ps1(DAT_0104da48);
-        maximum = _mm_set_ps1(DAT_0104e148);
+        minimum = _mm_set_ps1(::DAT_0104da48);
+        maximum = _mm_set_ps1(::DAT_0104e148);
         __m128 tolerance = _mm_load_ss(&error);
         int vertex = 0;
         VertexBlock* output = DAT_0126ec10 + 1;
@@ -1498,7 +1501,7 @@ Triangle* Mesh::FUN_00e3d3f0(unsigned int key, BufferRef buffer)
     {
         Vector a, b, c;
         const hkUint16* indices = chunk->indices.m_data;
-        chunk->FUN_00e3cd50(indices[index] * 3, indices[index + 1] * 3, indices[index + 2] * 3, error, a, b, c);
+        reinterpret_cast<::CompressedChunk *>((chunk))->FUN_00e3cd50(indices[index] * 3, indices[index + 1] * 3, indices[index + 2] * 3, error, (::hkVector4q &)(a), (::hkVector4q &)(b), (::hkVector4q &)(c));
         a.FUN_00c7f640(transform, a);
         b.FUN_00c7f640(transform, b);
         c.FUN_00c7f640(transform, c);
@@ -1515,7 +1518,6 @@ Triangle* Mesh::FUN_00e3d3f0(unsigned int key, BufferRef buffer)
     }
 }
 
-void __cdecl FUN_00c908c0(hkMemoryAllocatorE3D& alloc, void* array, int numElem, int sizeElem);
 
 template <class T> struct hkArr
 {
@@ -1545,7 +1547,7 @@ template <class T> struct hkArr
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(alloc, this, newSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
         }
         m_iElementCount = n;
     }
@@ -1580,12 +1582,10 @@ void ConvexVertexDecoder::FUN_00e3d9d0(hkReal quantization, const hkTransform& t
 
 struct FUN_00d21410_Obj
 {
-    void __thiscall FUN_00d21410(int a1, int a2);
 };
 
 extern int DAT_010eba5c;
 extern int DAT_010eba3c;
-extern float DAT_01012068;
 
 struct FUN_00e3dae0_Class
 {
@@ -1660,7 +1660,7 @@ struct FUN_00e3dae0_Class
 // @fnv 0x00e3dae0
 FUN_00e3dae0_Class* __thiscall FUN_00e3dae0_Class::FUN_00e3dae0(float value)
 {
-    reinterpret_cast<FUN_00d21410_Obj*>(this)->FUN_00d21410(0x10, 6);
+    new ((void *)(reinterpret_cast<FUN_00d21410_Obj*>(this))) class ::FUN_00d21410(0x10, 6);
 
     unk28 = value;
     unk00 = &DAT_010eba5c;
@@ -1766,7 +1766,6 @@ void* MaterialLookupE3D0::FUN_00e3d0e0(unsigned key)
 
 struct ChunkAabbCalls_00e3cf40
 {
-    void FUN_00e3cd20(float, hkVector4*, hkVector4*);
 };
 struct CompressedMeshAabbQuery_00e3cf40 : hkpCompressedMeshShape
 {
@@ -1777,13 +1776,12 @@ struct CompressedMeshAabbQuery_00e3cf40 : hkpCompressedMeshShape
 // @fnv 0x00e3cf40
 void CompressedMeshAabbQuery_00e3cf40::FUN_00e3cf40(hkAabbq* out)
 {
-    out->m_kMinimumCorner.SetAllComponents(DAT_0104da48);
-    out->m_kMaximumCorner.SetAllComponents(DAT_0104e148);
+    out->m_kMinimumCorner.SetAllComponents(::DAT_0104da48);
+    out->m_kMaximumCorner.SetAllComponents(::DAT_0104e148);
     for (int i = 0; i < m_kChunks.m_iElementCount; i++)
     {
         hkAabbq aabb;
-        ((ChunkAabbCalls_00e3cf40&)m_kChunks.m_data[i])
-            .FUN_00e3cd20(m_eScriptError, (hkVector4*)&aabb, (hkVector4*)&padD4[0xC]);
+        reinterpret_cast<::FUN_00e3cd20_Class *>(&(((ChunkAabbCalls_00e3cf40&)m_kChunks.m_data[i])))->FUN_00e3cd20(m_eScriptError, (hkVector4*)&aabb, (hkVector4*)&padD4[0xC]);
         out->m_kMinimumCorner.setMin4(out->m_kMinimumCorner, aabb.m_kMinimumCorner);
         out->m_kMaximumCorner.setMax4(out->m_kMaximumCorner, aabb.m_kMaximumCorner);
     }

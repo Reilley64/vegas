@@ -3,6 +3,14 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /GF /Ob1 (unit src/fallout_shared/facegen/bsfacegenmanager.cpp lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/decl/FG_00659100_cls.h"
+#include "fnv/decl/FUN_0064dda0_cls.h"
+#include "fnv/decl/FUN_0065dfd0_class.h"
+#include "fnv/decl/FUN_0065fd10_class.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00aaf000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0119b000.h"
 #include "bsfacegenmanager_decls.h"
 
 static __forceinline void DeadQ1()
@@ -49,7 +57,6 @@ static __forceinline void DeadQ11()
 {
     int dq[11];
 }
-void ReportAssertionViolation(const char*, int);
 void FUN_00ec7c56();
 
 struct ContainerBase
@@ -66,14 +73,11 @@ struct CoordConstIter
         m_aux = 0;
     }
     CoordConstIter(float* ptr, const ContainerBase* pVec);
-    void FUN_00659190();
-    bool FUN_0065dfd0(const CoordConstIter& other) const;
-    float* FUN_0064dda0() const;
     CoordConstIter operator++(int)
     {
         DeadQ1();
         CoordConstIter tmp = *this;
-        FUN_00659190();
+        reinterpret_cast<::FG_00659100_cls *>(this)->FUN_00659190();
         return tmp;
     }
 };
@@ -88,7 +92,7 @@ struct CoordIter : CoordIterBase
     CoordIter operator++(int)
     {
         CoordIter tmp = *this;
-        FUN_00659190();
+        reinterpret_cast<::FG_00659100_cls *>(this)->FUN_00659190();
         return tmp;
         DeadQ1();
     }
@@ -107,7 +111,6 @@ struct CoordVec : ContainerBase
         return CoordIter(m_pHeadNode, this);
         DeadQ1();
     }
-    CoordConstIter FUN_0065fd10() const;
     CoordConstIter end() const
     {
         return CoordConstIter(m_last, this);
@@ -129,16 +132,15 @@ CoordVec& CoordVec::FUN_00aaef90(const CoordVec& rhs)
         ? (void)0
         : ReportAssertionViolation("d:\\_fallout3\\platforms\\common\\code\\sdk\\facegen\\matrixVT.hpp", 0x29e);
     CoordIter it2 = begin();
-    CoordConstIter it1 = rhs.FUN_0065fd10();
-    for (; it2.FUN_0065dfd0(end()) && it1.FUN_0065dfd0(rhs.end()); it2++, it1++)
-        *it2.FUN_0064dda0() -= (*it1.FUN_0064dda0());
+    CoordConstIter it1 = (*(::CoordConstIter *)(reinterpret_cast<::FUN_0065fd10_class *>((void *)&(rhs))->FUN_0065fd10({})));
+    for (; reinterpret_cast<::FUN_0065dfd0_class *>((void *)&(it2))->FUN_0065dfd0((int)&(const ::CoordConstIter &)(end())) && reinterpret_cast<::FUN_0065dfd0_class *>((void *)&(it1))->FUN_0065dfd0((int)&(const ::CoordConstIter &)(rhs.end())); it2++, it1++)
+        *((float *)(reinterpret_cast<::FUN_0064dda0_cls *>((void *)&(it2))->FUN_0064dda0())) -= (*((float *)(reinterpret_cast<::FUN_0064dda0_cls *>((void *)&(it1))->FUN_0064dda0())));
     return *this;
     DeadQ2();
 }
 
 #include <vector>
 #include <string.h>
-void __cdecl ReportAssertionViolation(const char*, int);
 struct MatrixRow
 {
     float* data;

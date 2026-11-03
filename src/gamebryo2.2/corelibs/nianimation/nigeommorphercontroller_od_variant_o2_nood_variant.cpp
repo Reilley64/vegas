@@ -7,6 +7,18 @@
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // gamebryo2.2/corelibs/nianimation/nigeommorphercontroller.cpp
 // NiGeomMorpherController: morph-target interpolator management.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C00a41590.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a4cc0_shell.h"
+#include "fnv/decl/FUN_00a3ba10_shell.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f3000.h"
 #include "nigeommorphercontroller.h"
 
 #include <string.h>
@@ -15,29 +27,23 @@ NiFixedString::operator const char*() const
 {
     return m_kHandle;
 }
-char* FUN_00a7d330(char*);
-char* FUN_00a7d510(const char*, unsigned int);
-void* NiMalloc(unsigned int);
-extern char* DAT_011f3728;
 struct NiRTTI
 {
     const char* name;
     NiRTTI* parent;
 };
-extern NiRTTI DAT_011f3e58, DAT_011f3738;
 struct StrArr
 {
     int u00;
     char** data;
     unsigned short capacity, size, filled, grow;
-    void SetSize(unsigned int);
     __declspec(noinline) void SetAt(unsigned int, char*&);
     __forceinline void append(char*& value)
     {
         unsigned int index = size;
         if (index >= capacity)
-            SetSize(index + grow);
-        SetAt(index, value);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(index + grow);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(index, value);
     }
 };
 void StrArr::SetAt(unsigned int index, char*& value)
@@ -142,7 +148,7 @@ void MorphViewer::FUN_00a3b700(StrArr* array)
         unsigned int count;
     } header;
     {
-        header.text = FUN_00a7d330(DAT_011f3728);
+        header.text = ::FUN_00a7d330((*reinterpret_cast<char * *>(&::g_011f3728)));
         array->append(header.text);
         header.text = FUN_00a7d510("NumTargets",
                                    m_spMorphTargetData.m_pObject ? m_spMorphTargetData.m_pObject->m_uiNumTargets : 0);
@@ -170,18 +176,18 @@ void MorphViewer::FUN_00a3b700(StrArr* array)
             if (interpolator)
             {
                 BlendValueView* blend =
-                    interpolator->IsKindOfType(&DAT_011f3e58) ? static_cast<BlendValueView*>(interpolator) : 0;
+                    interpolator->IsKindOfType(&(*reinterpret_cast<::NiRTTI *>(&::g_011f3e58))) ? static_cast<BlendValueView*>(interpolator) : 0;
                 FloatValueView* scalar =
-                    interpolator->IsKindOfType(&DAT_011f3738) ? static_cast<FloatValueView*>(interpolator) : 0;
+                    interpolator->IsKindOfType(&(*reinterpret_cast<::NiRTTI *>(&::g_011f3738))) ? static_cast<FloatValueView*>(interpolator) : 0;
                 if (blend)
                 {
                     value = blend->value;
-                    sprintf(buffer, "%d %s = %0.2f", i, static_cast<const char*>(target->GetName()), (double)value);
+                    sprintf(buffer, "%d %s = %0.2f", i, static_cast<const char*>((*(const ::NiFixedString *)(reinterpret_cast<::C00a41590 *>((target))->FUN_00a41590()))), (double)value);
                 }
                 else if (scalar)
                 {
                     value = scalar->value;
-                    sprintf(buffer, "%d %s = %0.2f", i, static_cast<const char*>(target->GetName()), (double)value);
+                    sprintf(buffer, "%d %s = %0.2f", i, static_cast<const char*>((*(const ::NiFixedString *)(reinterpret_cast<::C00a41590 *>((target))->FUN_00a41590()))), (double)value);
                 }
                 else
                     goto no_val;
@@ -189,14 +195,14 @@ void MorphViewer::FUN_00a3b700(StrArr* array)
             else
             {
             no_val:
-                sprintf(buffer, "%d %s", i, static_cast<const char*>(target->GetName()));
+                sprintf(buffer, "%d %s", i, static_cast<const char*>((*(const ::NiFixedString *)(reinterpret_cast<::C00a41590 *>((target))->FUN_00a41590()))));
             }
             unsigned int bytes = strlen(buffer) + 3;
-            char* copy = static_cast<char*>(NiMalloc(bytes));
+            char* copy = static_cast<char*>(::FUN_00aa1070(bytes));
             strcpy_s(copy, bytes, buffer);
             unsigned int index = array->size;
             if (index >= array->capacity)
-                array->SetSize(index + array->grow);
+                reinterpret_cast<::ViewerStrings *>((array))->SetSize(index + array->grow);
             if (index >= array->size)
             {
                 array->size = index + 1;

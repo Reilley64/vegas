@@ -5,24 +5,36 @@
 
 // src/havok/physics/collide/agent/compoundagent/bvtreestream/hkpbvtreestreamagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/compoundagent/bvtreestream/hkpbvtreestreamagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void __cdecl FUN_00d312f0(void*, void*, void*, void*);
+#include "fnv/decl/CollectionProcessAgent.h"
+#include "fnv/decl/FUN_00cfbbe0_cls.h"
+#include "fnv/decl/FUN_00d2de20_cls.h"
+#include "fnv/decl/FUN_00d2def0_cls.h"
+#include "fnv/decl/FUN_00d43880_cls.h"
+#include "fnv/decl/S_00d43cd0.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_00d2d000.h"
+#include "fnv/symbols_00d2e000.h"
+#include "fnv/symbols_00d30000.h"
+#include "fnv/symbols_00d31000.h"
+#include "fnv/symbols_00d97000.h"
+#include "fnv/symbols_00da3000.h"
+#include "fnv/symbols_00da4000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010ce000.h"
 struct FUN_00d2dd30_class
 {
     void __thiscall FUN_00d2dd30(void* a, void* b, void* c, void* d);
 };
-extern "C" void __cdecl FUN_00da3510(void* a, void* b);
 struct FUN_00d2ddd0_class
 {
     void __thiscall FUN_00d2ddd0(int a);
 };
-extern "C" void __cdecl FUN_00d31110(void*, void*, void*, void*);
 // @fnv 0x00d2dd50
 extern "C" void __stdcall FUN_00d2dd50(void* a, void* b, void* c, void* d)
 {
     FUN_00d31110(a, b, c, d);
 }
 
-void __cdecl FUN_00d30f50(void*, void*, void*, void*, void*);
 struct OperationAdapter
 {
     void FUN_00d2dd70(void* a, void* b, void* c, void* d, void* e);
@@ -44,8 +56,6 @@ struct FUN_00d2dda0_class
     int unk30;
     void __thiscall FUN_00d2dda0(int value);
 };
-extern void __cdecl FUN_00da42b0(void*, int, int, int);
-void __cdecl FUN_00da35f0(void* self, float a, float b, void* c);
 struct FUN_00d2ddf0_Class
 {
     void __thiscall FUN_00d2ddf0(float a, float b, void* c);
@@ -79,7 +89,6 @@ struct RefObj
 struct Obj : RefObj
 {
     int pad[14];
-    Obj* FUN_00d2def0(int, int, int, int);
 };
 inline void* hkAlloc(int n)
 {
@@ -87,14 +96,6 @@ inline void* hkAlloc(int n)
     p->m_usMemSizeAndFlags = (short)n;
     return p;
 }
-void* __cdecl FUN_00d2df50(int a, int b, int c, int d);
-void FUN_00d2e680();
-void FUN_00d2e970();
-void FUN_00d2e9b0();
-void FUN_00d2e9f0();
-void FUN_00d2df50();
-void FUN_00d31110();
-void FUN_00d30f50();
 struct Conversion
 {
     void (*convert)();
@@ -106,20 +107,11 @@ struct Conversion
 };
 struct Registry
 {
-    void FUN_00cfbbe0(Conversion*, int, int);
 };
-void FUN_00d2e760(Registry* registry);
 typedef void*(__cdecl* S_00d2e8e0_CreateFunc)(void*, void*, void*, void*);
 typedef void(__cdecl* S_00d2e8e0_GetPenetrationsFunc)(void*, void*, void*, void*);
 typedef void(__cdecl* S_00d2e8e0_GetClosestPointsFunc)(void*, void*, void*, void*);
 typedef void(__cdecl* S_00d2e8e0_LinearCastFunc)(void*, void*, void*, void*, void*);
-void* FUN_00d2e7f0(void*, void*, void*, void*);
-void FUN_00d2e970(void*, void*, void*, void*);
-void FUN_00d2e9b0(void*, void*, void*, void*);
-void FUN_00d2e9f0(void*, void*, void*, void*, void*);
-void* FUN_00d2e5a0(void*, void*, void*, void*);
-void FUN_00d31110(void*, void*, void*, void*);
-void FUN_00d30f50(void*, void*, void*, void*, void*);
 struct S_00d2e8e0_AgentFuncs
 {
     S_00d2e8e0_CreateFunc m_pCreateFunc;
@@ -131,10 +123,8 @@ struct S_00d2e8e0_AgentFuncs
 };
 struct S_00d2e8e0_Dispatcher
 {
-    void FUN_00cfbbe0(S_00d2e8e0_AgentFuncs& f, int typeA, int typeB);
 };
 void FUN_00d2e8e0(S_00d2e8e0_Dispatcher* dispatcher);
-extern float g_D2E9B0MaxDistance;
 struct D2E9B0CollectorBase
 {
     virtual void unk00();
@@ -143,7 +133,7 @@ struct D2E9B0CollectorBase
 
     float m_fEarlyOutDistance;
 
-    D2E9B0CollectorBase() : m_fEarlyOutDistance(g_D2E9B0MaxDistance)
+    D2E9B0CollectorBase() : m_fEarlyOutDistance(::DAT_0104da48)
     {}
 };
 struct D2E9B0Collector : D2E9B0CollectorBase
@@ -156,9 +146,6 @@ struct D2E9B0Collector : D2E9B0CollectorBase
     virtual void unk00();
     virtual void unk04();
 };
-void __cdecl FUN_00d31110(int a, int b, int c, D2E9B0CollectorBase* collector);
-void __cdecl FUN_00d2e9b0(int a, int b, int c, int d);
-extern float DAT_0104da48;
 struct hkpSymmetricAgentFlipCollector
 {
     virtual void dispose();
@@ -169,11 +156,8 @@ struct hkpSymmetricAgentFlipCollector
 };
 struct Context
 {
-    void FUN_00d43880(void* first, void* second, void* third, hkpSymmetricAgentFlipCollector* collector);
     void FUN_00d2edd0(void* first, void* second, void* third, void* fourth);
 };
-extern "C" void* __cdecl FUN_00d06f80(void* ptr, unsigned int size);
-extern "C" void __cdecl FUN_00d97250(void* a, int b, void* c);
 extern "C" const char str_010ce828[];
 struct VisitTarget
 {
@@ -217,14 +201,12 @@ struct BufOwner
     PackedBuffer m_buf;
     void __thiscall VisitPackedBuffer(VisitTarget* target, int flags);
 };
-extern "C" const void* DAT_010ce81c;
 struct Collector
 {
     const void* vtable;
     char flip;
     void* collector;
 };
-void __cdecl FUN_00d2e970(void* bodyA, void* bodyB, void* arg3, void* orig_collector);
 struct FUN_00d2eb50_nib
 {
     unsigned char lo : 4;
@@ -248,16 +230,12 @@ struct CpuCallData
     float bound;
     unsigned int value;
 };
-extern float DAT_0104da48;
-extern unsigned char DAT_010ce7fc;
 struct CpuObject
 {
-    void FUN_00d2dd50(void*, void*, unsigned int, CpuCallData*);
     void DispatchWithBoundData(void*, void*, unsigned int, unsigned int);
 };
 struct CallTarget_00d2de20
 {
-    int FUN_00d2de20(int, int, int, int);
 };
 struct SearchObject
 {
@@ -281,18 +259,17 @@ struct hkpSymmetricAgentFlipBodyCollector : hkpCollectorBase
 // Game side wrapper that fills the collector and hands it to the query routine.
 struct FUN_00d43cd0_class
 {
-    void __thiscall ProcessCollisionEntries(void* a, void* b, void* c, void* d);
     void __thiscall FUN_00d2ed90(void* a1, void* a2, void* a3, void* a4);
 };
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 struct S2ee10_Ref
 {
     void* p;
 };
 
 struct S2ee10_Vec4;
-extern "C" const S2ee10_Vec4 DAT_010c4c00;
 
 struct S2ee10_Simd
 {
@@ -317,7 +294,7 @@ struct S2ee10_Vec4
 
 inline void S2ee10_Vec4::setNeg4(const S2ee10_Vec4& v)
 {
-    m_vComponents = _mm_xor_ps(v.m_vComponents, DAT_010c4c00.m_vComponents);
+    m_vComponents = _mm_xor_ps(v.m_vComponents, (*reinterpret_cast<const ::S2ee10_Vec4 *>(&::DAT_010c4c00)).m_vComponents);
 }
 
 struct S2ee10_ContactPoint
@@ -388,8 +365,6 @@ struct CollisionAgentContext;
 class hkpAgentBase
 {
   public:
-    void FUN_00d437a0(S2ee10_Ref bodyA, const hkpCdBody& bodyB, const CollisionAgentContext& input,
-                      S2ee10_Output& output);
 };
 
 class hkpSymmetricAgentT : public hkpAgentBase
@@ -405,7 +380,7 @@ void hkpSymmetricAgentT::FUN_00d2ee10(const hkpCdBody& bodyA, S2ee10_Ref bodyB, 
 {
     float oldTime = output.m_fTimeOfImpact.m_uiCommandId;
     S2ee10_ContactPoint* cp = output.m_pAlignedPairData;
-    hkpAgentBase::FUN_00d437a0(bodyB, bodyA, input, output);
+    reinterpret_cast<::CollectionProcessAgent *>(this)->FUN_00d437a0((*(::ShapeArg * *)&(const ::S2ee10_Ref &)(bodyB)), (unsigned int)&(bodyA), (unsigned int)&(input), (unsigned int)&(output));
     for (; cp < output.m_pAlignedPairData; cp++)
     {
         cp->m_vContactPosition.addMul4(cp->m_vSeparatingNormal.getSimdAt3(), cp->m_vSeparatingNormal);
@@ -414,7 +389,7 @@ void hkpSymmetricAgentT::FUN_00d2ee10(const hkpCdBody& bodyA, S2ee10_Ref bodyB, 
     if (oldTime != output.m_fTimeOfImpact.m_uiCommandId)
     {
         __m128 n = _mm_load_ps((const float*)&output.m_fTimeOfImpact.m_vSeparatingNormal);
-        output.m_fTimeOfImpact.m_vSeparatingNormal.m_vComponents = _mm_xor_ps(n, DAT_010c4c00.m_vComponents);
+        output.m_fTimeOfImpact.m_vSeparatingNormal.m_vComponents = _mm_xor_ps(n, (*reinterpret_cast<const ::S2ee10_Vec4 *>(&::DAT_010c4c00)).m_vComponents);
         output.m_fTimeOfImpact.m_kGskCache.flip();
     }
 }

@@ -3,9 +3,13 @@
 // polymorphic classes (-). The skeleton of src/fallout_shared/tesland.cpp with those classes made polymorphic; move the functions to
 // their real unit once its classes are.
 
+#include "fnv/decl/FUN_004867a0_cls.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_01187000.h"
 #include "tesland_decls.h"
 #pragma optimize("", off)
-int TruncateFloatToInt(float value);
 
 struct TESForm
 {
@@ -18,7 +22,6 @@ struct TESObjectLAND : ::TESForm
 };
 struct LandDuplicateCalls
 {
-    ::TESForm* FUN_004867a0(bool createEditorID, void* copyMap);
 };
 struct LandDuplicateEntry : LandDuplicateCalls
 {
@@ -28,7 +31,7 @@ struct LandDuplicateEntry : LandDuplicateCalls
 ::TESForm* LandDuplicateEntry::FUN_00534880(bool createEditorID, void* copyMap)
 {
     ::TESObjectLAND* duplicate;
-    duplicate = dynamic_cast< ::TESObjectLAND*>(FUN_004867a0(false, copyMap));
+    duplicate = dynamic_cast< ::TESObjectLAND*>(((::TESForm *)(reinterpret_cast<::FUN_004867a0_cls *>(this)->FUN_004867a0((void *)(false), copyMap))));
     return duplicate;
 }
 
@@ -41,9 +44,7 @@ __if_exists(::TESForm::Revert)
         };
     }
 }
-extern void* DAT_01187020;
 
-TESForm* FUN_004839c0(unsigned int auiFormId);
 
 struct LandSaveGroup5391
 {
@@ -74,7 +75,6 @@ struct LandSaveCell5391
 
 struct FUN_005391d0_class
 {
-    LandSaveCell5391* __thiscall FUN_007af430();
     bool __thiscall FUN_005391d0(LandSaveGroup5391* apGroupFORM);
 };
 
@@ -82,19 +82,19 @@ struct FUN_005391d0_class
 bool FUN_005391d0_class::FUN_005391d0(LandSaveGroup5391* apGroupFORM)
 {
     bool bretval = false;
-    if (apGroupFORM && apGroupFORM->typeTag == DAT_01187020)
+    if (apGroupFORM && apGroupFORM->typeTag == (*reinterpret_cast<void * *>(&::fnv_00543df0::kGroupFormType)))
     {
         switch (apGroupFORM->groupType)
         {
         case 8:
         case 9: {
-            void* found = dynamic_cast< ::TESObjectCELL*>(FUN_004839c0(apGroupFORM->formID));
-            if (found && FUN_007af430() == found)
+            void* found = dynamic_cast< ::TESObjectCELL*>(::FUN_004839c0(apGroupFORM->formID));
+            if (found && ((::LandSaveCell5391 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) == found)
                 bretval = false;
             break;
         }
         default: {
-            LandSaveCell5391* pCell = FUN_007af430();
+            LandSaveCell5391* pCell = ((::LandSaveCell5391 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()));
             bretval = pCell->ContainsGroup(apGroupFORM);
             break;
         }

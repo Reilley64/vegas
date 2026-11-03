@@ -2,6 +2,9 @@
 // with declarations corrected to what the original code does (niddsreader_decls.h: NiPixelFormat += bool operator!=(const NiPixelFormat& other) const;). Move the function to its real unit once
 // that unit declares it this way.
 
+#include <new>
+#include "fnv/decl/FUN_00a779b0.h"
+#include "fnv/symbols_011aa000.h"
 #include "niddsreader_decls_decl_niddsreader.h"
 
 struct ReadCtx
@@ -45,7 +48,6 @@ class FUN_00a779b0_info
   public:
     unsigned int mask0, mask1, mask2, mask3;
     unsigned char bits0, bits1, bits2, bits3, unk14, unk15, unk16, unk17;
-    void build(const NiPixelFormat* fmt);
 };
 
 // @fnv 0x00a8c6e0
@@ -59,7 +61,7 @@ void __cdecl FUN_00a8c6e0(ReadCtx* ctx, ImgObj* self, NiPixelFormat fmtA, NiPixe
         ctx->m04 += ctx->m08(ctx, base, n, (int*)&flag, 1);
     }
     FUN_00a779b0_info info;
-    info.build(&fmtA);
+    new ((void *)&(info)) ::FUN_00a779b0(&fmtA);
     unsigned int w = self->m54[idx];
     unsigned int h = self->m58[idx];
     if (fmtA != fmtB && info.mask0 == 0xff0000u)

@@ -4,16 +4,16 @@
 
 // src/havok/physics/vehicle/velocitydamper/default/hkpvehicledefaultvelocitydamper.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/velocitydamper/default/hkpvehicledefaultvelocitydamper.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00561800_Class.h"
+#include "fnv/symbols_01012000.h"
 #include "havok/hkpVehicleDefaultVelocityDamper.h"
 
 #include <emmintrin.h>
 
-extern double DAT_01012060;
 
 class FnvVehicleState
 {
   public:
-    void FUN_00561800(const hkVector4* value);
 };
 
 class FnvVehicleDefaultVelocityDamper : public hkpVehicleDefaultVelocityDamper
@@ -46,7 +46,7 @@ void __thiscall FnvVehicleDefaultVelocityDamper::FUN_00e43ae0(float timeStep, co
         factor = 1.0f - this->m_fCollisionSpinDamping * timeStep;
     else
         factor = 1.0f - this->m_fSpinDamping * timeStep;
-    factor = (float)((factor < DAT_01012060) ? 0.0 : (double)factor);
+    factor = (float)((factor < ::_DAT_01012060) ? 0.0 : (double)factor);
 
     const float& fr = factor;
     __m128 s = _mm_load_ss(&fr);
@@ -55,5 +55,5 @@ void __thiscall FnvVehicleDefaultVelocityDamper::FUN_00e43ae0(float timeStep, co
     _mm_store_ps(&values.x, scaled);
 
     FnvVehicleState* st = (FnvVehicleState*)state;
-    st->FUN_00561800(&values);
+    reinterpret_cast<::FUN_00561800_Class *>((st))->FUN_00561800((::FUN_00561730_Obj *)(&values));
 }

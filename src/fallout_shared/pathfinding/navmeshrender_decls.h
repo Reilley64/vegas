@@ -3,6 +3,7 @@
 #define FNV_NAVMESHRENDER_DECLS_H
 
 
+#include "fnv/decl/FUN_006c6400_Node.h"
 #include "layout_support.h"
 
 class ObstacleData;
@@ -61,7 +62,6 @@ template <> class BSSimpleList<NiPointer<ObstacleData> >
     NiPointer<ObstacleData> m_item;
     BSSimpleList* m_pkNext;
     void AddHead(const NiPointer<ObstacleData>& item);
-    bool Contains(const NiPointer<ObstacleData>& item);
 };
 
 template <class T> class LockFreeQueue

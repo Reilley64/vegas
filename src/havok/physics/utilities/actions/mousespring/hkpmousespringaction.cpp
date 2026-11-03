@@ -2,6 +2,21 @@
 // src/havok/physics/utilities/actions/mousespring/hkpmousespringaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/mousespring/hkpmousespringaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00cd8160.h"
+#include "fnv/decl/FUN_00d2b260.h"
+#include "fnv/decl/FUN_00d2b2b0_class.h"
+#include "fnv/decl/SStringPtr.h"
+#include "fnv/decl/hkpEntityC9C.h"
+#include "fnv/symbols_00cd4000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101b000.h"
+#include "fnv/symbols_0101f000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpMouseSpringAction.h"
 
 struct FUN_00d2b1f0
@@ -34,12 +49,11 @@ void FUN_00cbb1b0_Class::FUN_00cbb1b0(hkReal a)
     m_fMaxRelativeForce = a;
 }
 
-extern "C" int DAT_01268a14;
 
 // @fnv 0x00cbb8a0
 int __cdecl FUN_00cbb8a0()
 {
-    return (int)&DAT_01268a14;
+    return (int)&(*reinterpret_cast<int *>(&::g_01268a14));
 }
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -47,11 +61,9 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 
 extern int DAT_010c8e94;
-extern int DAT_010c476c;
-extern float DAT_0101b2d0;
-extern float DAT_0104da48;
 extern const char str_011b1f3c[];
 
 struct Ms_Heap
@@ -101,7 +113,6 @@ struct Ms_Sphere
     int u5;
     int u6;
     int u7;
-    void __thiscall FUN_00cd8160(float r);
 };
 struct Ms_Xf
 {
@@ -134,7 +145,6 @@ struct Ms_Body
     int u19;
     void __thiscall FUN_00cd2d80(Ms_Sphere* s, Ms_Xf* x, int parent);
 };
-Ms_Xf* __cdecl FUN_00cd4b50();
 
 struct Ms_Input
 {
@@ -244,11 +254,9 @@ struct Ms_Ent
 typedef void(__cdecl* Ms_Fn)(Ms_Body*, void*, Ms_Input*, Ms_Coll*);
 struct Ms_B
 {
-    void __thiscall FUN_00d2b260(void* e, int z);
 };
 struct Ms_N
 {
-    void __thiscall FUN_00cb0c10(const char* s);
 };
 extern "C"
 {
@@ -282,80 +290,6 @@ struct Ms_cls
     Ms_ArrInit cb;
     Ms_cls* FUN_00cbb560(__m128* a0, __m128* a1, float a2, float a3, float a4, Ms_Ent* a5, Ms_Arr* a6);
 };
-
-// Initializes the Ms_cls object with position, mouse, and damping parameters, copies an array, and computes a shape key via a collision test against the world.
-// @fnv 0x00cbb560
-Ms_cls* Ms_cls::FUN_00cbb560(__m128* apPos, __m128* apMouse, float afDamping, float afElasticity, float afObjDamping,
-                             Ms_Ent* apEnt, Ms_Arr* apArr)
-{
-    ((Ms_B*)this)->FUN_00d2b260(apEnt, 0);
-    *(int**)this = &DAT_010c8e94;
-    _mm_store_ps(&pos.x, *apPos);
-    _mm_store_ps(&mouse.x, *apMouse);
-    damping = afDamping;
-    elasticity = afElasticity;
-    objDamping = afObjDamping;
-    cb.init();
-    maxRel = 250.0f;
-    if (apArr)
-    {
-        Ms_Heap& h = *FUN_00c85750()->heap;
-        int cap = cb.m_cap & 0x3fffffff;
-        if (cap < apArr->m_iElementCount)
-        {
-            if ((cb.m_cap & 0x80000000) == 0)
-                h.ReturnMemory(cb.m_data, cap * 4);
-            int n = apArr->m_iElementCount * 4;
-            cb.m_data = (int*)h.AllocateBufferWithSize(&n);
-            cb.m_cap = n / 4;
-        }
-        int cnt = apArr->m_iElementCount;
-        cb.m_iElementCount = cnt;
-        int* dst = cb.m_data;
-        int* src = apArr->m_data;
-        for (int i = 0; i < cnt; i++)
-            dst[i] = src[i];
-    }
-    Ms_World* w = apEnt->world;
-    shapeKey = -1;
-    if (w)
-    {
-        Ms_Sphere sph;
-        sph.FUN_00cd8160(1.0f);
-        Ms_Xf* ident = FUN_00cd4b50();
-        Ms_Xf xf;
-        xf.c0 = ident->c0;
-        xf.c1 = ident->c1;
-        xf.c2 = ident->c2;
-        xf.t = *apMouse;
-        Ms_Body body;
-        body.FUN_00cd2d80(&sph, &xf, 0);
-        Ms_Disp* d = w->disp;
-        unsigned char t = *((unsigned char*)d + (((sph.type + 13) << 5) + apEnt->shape->type));
-        Ms_Fn fn = *(Ms_Fn*)((char*)d + t * 20 + 0x9a8);
-        Ms_Input in;
-        Ms_Input* src = w->input;
-        in.i0 = src->i0;
-        in.i1 = src->i1;
-        in.i2 = src->i2;
-        in.i3 = src->i3;
-        in.i4 = src->i4;
-        in.i5 = src->i5;
-        in.q0 = src->q0;
-        in.q1 = src->q1;
-        in.q2 = src->q2;
-        Ms_Coll coll;
-        coll.dist = DAT_0104da48;
-        coll.early = DAT_0104da48;
-        coll.vptr = &DAT_010c476c;
-        coll.hit = 0;
-        fn(&body, &apEnt->shape, &in, &coll);
-        if (coll.hit)
-            shapeKey = coll.key;
-    }
-    ((Ms_N*)&unk14)->FUN_00cb0c10(str_011b1f3c);
-    return this;
-}
 
 namespace fnv_00cbb790 {
 struct hkAllocatorCBB7
@@ -491,7 +425,6 @@ class FUN_00d01a60
     int unk00[11];
 };
 
-extern const float DAT_01012054;
 
 class hkpCdBodyCD2D
 {
@@ -552,6 +485,79 @@ class FUN_00cd2d80 : public hkpCdBodyCD2D
     FUN_00d01a60 m_kBoundingVolumeData;
     float m_fAllowedPenetrationDepth;
 };
+// Initializes the Ms_cls object with position, mouse, and damping parameters, copies an array, and computes a shape key via a collision test against the world.
+// @fnv 0x00cbb560
+Ms_cls* Ms_cls::FUN_00cbb560(__m128* apPos, __m128* apMouse, float afDamping, float afElasticity, float afObjDamping,
+                             Ms_Ent* apEnt, Ms_Arr* apArr)
+{
+    new ((void *)(((Ms_B*)this))) ::FUN_00d2b260((::FUN_00c90510_Entity *)(apEnt), 0);
+    *(int**)this = &DAT_010c8e94;
+    _mm_store_ps(&pos.x, *apPos);
+    _mm_store_ps(&mouse.x, *apMouse);
+    damping = afDamping;
+    elasticity = afElasticity;
+    objDamping = afObjDamping;
+    cb.init();
+    maxRel = 250.0f;
+    if (apArr)
+    {
+        Ms_Heap& h = *FUN_00c85750()->heap;
+        int cap = cb.m_cap & 0x3fffffff;
+        if (cap < apArr->m_iElementCount)
+        {
+            if ((cb.m_cap & 0x80000000) == 0)
+                h.ReturnMemory(cb.m_data, cap * 4);
+            int n = apArr->m_iElementCount * 4;
+            cb.m_data = (int*)h.AllocateBufferWithSize(&n);
+            cb.m_cap = n / 4;
+        }
+        int cnt = apArr->m_iElementCount;
+        cb.m_iElementCount = cnt;
+        int* dst = cb.m_data;
+        int* src = apArr->m_data;
+        for (int i = 0; i < cnt; i++)
+            dst[i] = src[i];
+    }
+    Ms_World* w = apEnt->world;
+    shapeKey = -1;
+    if (w)
+    {
+        Ms_Sphere sph;
+        new ((void *)&(sph)) ::FUN_00cd8160(1.0f);
+        Ms_Xf* ident = ((::Ms_Xf *)(::FUN_00cd4b50()));
+        Ms_Xf xf;
+        xf.c0 = ident->c0;
+        xf.c1 = ident->c1;
+        xf.c2 = ident->c2;
+        xf.t = *apMouse;
+        Ms_Body body;
+        new ((void *)&(body)) ::FUN_00cd2d80(&sph, &xf, 0);
+        Ms_Disp* d = w->disp;
+        unsigned char t = *((unsigned char*)d + (((sph.type + 13) << 5) + apEnt->shape->type));
+        Ms_Fn fn = *(Ms_Fn*)((char*)d + t * 20 + 0x9a8);
+        Ms_Input in;
+        Ms_Input* src = w->input;
+        in.i0 = src->i0;
+        in.i1 = src->i1;
+        in.i2 = src->i2;
+        in.i3 = src->i3;
+        in.i4 = src->i4;
+        in.i5 = src->i5;
+        in.q0 = src->q0;
+        in.q1 = src->q1;
+        in.q2 = src->q2;
+        Ms_Coll coll;
+        coll.dist = ::DAT_0104da48;
+        coll.early = ::DAT_0104da48;
+        coll.vptr = &DAT_010c476c;
+        coll.hit = 0;
+        fn(&body, &apEnt->shape, &in, &coll);
+        if (coll.hit)
+            shapeKey = coll.key;
+    }
+    reinterpret_cast<::SStringPtr *>((((Ms_N*)&unk14)))->FUN_00cb0c10(str_011b1f3c);
+    return this;
+}
 
 // Constructs the body from shape and motionState, builds the broad phase handle with type, sets its owner pointer, and sets a default allowed penetration depth.
 // @fnv 0x00cd2d80
@@ -585,7 +591,6 @@ struct Cls
     int m_58;
     int m_5c;
     Cls* FUN_00cbb8b0(int flags);
-    void FUN_00d2b2b0();
 };
 
 // Clears the array at m_54 and releases its buffer unless flagged, calls FUN_00d2b2b0, and frees this through the TLS heap when bit 0 of flags is set.
@@ -600,7 +605,7 @@ Cls* Cls::FUN_00cbb8b0(int flags)
         heap->v10(m_54, (n & 0x3fffffff) * 4);
     m_54 = 0;
     m_5c = 0x80000000;
-    FUN_00d2b2b0();
+    reinterpret_cast<::FUN_00d2b2b0_class *>(this)->FUN_00d2b2b0();
     if (flags & 1)
     {
         Ms_Tls* tls2 = FUN_00c85750();
@@ -623,8 +628,6 @@ extern "C"
 {
 }
 
-extern const __m128 DAT_01017d10;
-extern const float DAT_01017d00;
 
 struct __declspec(align(16)) hkVector4CBB1
 {
@@ -642,7 +645,6 @@ class UnkCall
     int unk04;
     int m_pOwningWorld;
 
-    void FUN_00c9c1d0();
 };
 
 class hkpPositionTrackerCBB1
@@ -670,12 +672,12 @@ void hkpPositionTrackerCBB1::FUN_00cbb150(const hkVector4CBB1& kPosition)
 {
     __m128 d = _mm_sub_ps(kPosition.m_vComponents, m_vContactPosition.m_vComponents);
     d = _mm_and_ps(d, DAT_01017d10);
-    __m128 eps = _mm_load_ps1(&DAT_01017d00);
+    __m128 eps = _mm_load_ps1(&::AngularDashpotApplyD4DCB0::DAT_01017d00);
     int iMask = _mm_movemask_ps(_mm_cmple_ps(d, eps));
     if ((iMask & 7) != 7)
     {
         if (m_pOwnerObject && m_pOwnerObject->m_pOwningWorld)
-            m_pOwnerObject->FUN_00c9c1d0();
+            reinterpret_cast<::hkpEntityC9C *>((m_pOwnerObject))->FUN_00c9c1d0();
     }
     m_vContactPosition = kPosition;
 }
@@ -702,23 +704,22 @@ struct FUN_00cbb4e0
     hkArray<char> m_kAppliedCallbacks;
     FUN_00cbb4e0(int arg);
 };
-extern float DAT_01016248, DAT_01017870, DAT_0101ffc0;
 // Initializes the hkpMouseSpringAction fields with default spring constants, zeroed vectors, and the action name.
 // @fnv 0x00cbb4e0
 FUN_00cbb4e0::FUN_00cbb4e0(int arg)
 {
-    ((Ms_B*)this)->FUN_00d2b260((void*)arg, 0);
-    m_fSpringDamping = DAT_01016248;
+    new ((void *)(((Ms_B*)this))) ::FUN_00d2b260((::FUN_00c90510_Entity *)(void *)((void*)arg), 0);
+    m_fSpringDamping = ::fnv_00c88020::DAT_01016248;
     unk00 = (void*)&DAT_010c8e94;
     m_fSpringElasticity = DAT_01017870;
     __m128 zero = _mm_setzero_ps();
     m_fMaxRelativeForce = DAT_0101b2d0;
-    m_fTau = DAT_0101ffc0;
+    m_fTau = ::g_011cc6cc_arg1;
     *(char* volatile*)&m_kAppliedCallbacks.m_data = 0;
     *(volatile int*)&m_kAppliedCallbacks.m_iElementCount = 0;
     *(volatile int*)&m_kAppliedCallbacks.m_iCapacityState = 0x80000000;
     _mm_store_ps((float*)&m_kMousePositionInWorld, zero);
     _mm_store_ps((float*)&m_kGrabPointInBodySpace, zero);
     m_uiCollisionShapeKey = 0xFFFFFFFF;
-    ((Ms_N*)&m_name)->FUN_00cb0c10("hkpMouseSpringAction");
+    reinterpret_cast<::SStringPtr *>((((Ms_N*)&m_name)))->FUN_00cb0c10("hkpMouseSpringAction");
 }

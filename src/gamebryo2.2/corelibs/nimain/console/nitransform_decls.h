@@ -1,12 +1,12 @@
 // gamebryo2.2/corelibs/nimain/console/nitransform_decls.h: declares NiPoint3, NiTransform, NiAVObject, NiPosData
 #ifndef NITRANSFORM_DECLS_H
 #define NITRANSFORM_DECLS_H
+#include "fnv/decl/P3.h"
 class NiPoint3
 {
   public:
     NiPoint3();
     float x, y, z;
-    NiPoint3 FUN_004a0bd0() const;
 };
 class ThreeByThreeMatrix
 {

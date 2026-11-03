@@ -3,13 +3,64 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // FUN_00574400 - TESObjectREFR method, /Od /Oy- frame 0x44
+#include <new>
+#include "fnv/decl/ActorDeletionQueue.h"
+#include "fnv/decl/B572270Object.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/C6760Ref.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/Dfcfa0Manager.h"
+#include "fnv/decl/EffectSetting.h"
+#include "fnv/decl/FUN_0041de40_class.h"
+#include "fnv/decl/FUN_0041df90_shell.h"
+#include "fnv/decl/FUN_0041e310_shell.h"
+#include "fnv/decl/FUN_00484af0_t.h"
+#include "fnv/decl/FUN_00549580_shell.h"
+#include "fnv/decl/FUN_0056c780_t.h"
+#include "fnv/decl/FUN_0056c880_S.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_008b01c0_shell.h"
+#include "fnv/decl/FUN_008c2b60_shell.h"
+#include "fnv/decl/FUN_0093a660_class.h"
+#include "fnv/decl/FUN_00952c30_shell.h"
+#include "fnv/decl/FUN_00967350_shell.h"
+#include "fnv/decl/FUN_0096e6f0_shell.h"
+#include "fnv/decl/Fn56ac90.h"
+#include "fnv/decl/InventoryChanges.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MagicTarget.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/RefObj.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/TESWorldSpace.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_0041dbd0__FUN_0041dbd0_Class.h"
+#include "fnv/decl/fnv_00545560__FUN_00545560Class.h"
+#include "fnv/decl/fnv_00564d80__ArrSI.h"
+#include "fnv/decl/fnv_005656d0__Thing.h"
+#include "fnv/decl/fnv_00568020__FUN_00568020_shell.h"
+#include "fnv/decl/fnv_00573f40__R.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00881680__FUN_00881680_shell.h"
+#include "fnv/decl/fnv_0088d640__FUN_0088d640_shell.h"
+#include "fnv/decl/fnv_0096f600__FUN_0096f600_shell.h"
+#include "fnv/symbols_00570000.h"
+#include "fnv/symbols_00574000.h"
+#include "fnv/symbols_007eb000.h"
+#include "fnv/symbols_00835000.h"
+#include "fnv/symbols_008cd000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011db000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f2000.h"
 struct Ref;
 struct ExtraList;
 struct Proc;
 struct ObjX;
 struct MagicSub
 {
-    void FUN_00824970();
 };
 
 struct Ref
@@ -206,48 +257,15 @@ struct Ref
     virtual void vtbl189();
     virtual void vtbl190();
     virtual void vt2fc();
-    bool FUN_00440da0();
-    ExtraList* FUN_005d43c0();
-    void FUN_00576760();
-    void FUN_00484af0(int a);
-    Proc* FUN_008d8520();
-    void ApplyActorSpells();
-    Ref* FUN_008d6f30();
-    bool FUN_005656d0();
-    bool FUN_00564d80();
-    void FUN_0093a660(Ref* a);
-    void FUN_00967350(Ref* a);
-    void FUN_00952c30(Ref* a);
     int FUN_00931850();
-    bool FUN_00574900();
-    void FUN_00881680(int a);
-    void FUN_0088d640();
-    void FUN_00407800(Proc* a);
-    void FUN_0056c880(unsigned int a, bool b);
-    void* FUN_0056ac90();
-    bool FUN_0056aa70();
-    void FUN_0056c780(int a);
-    void FUN_00573f40();
-    void FUN_00572270();
-    void FUN_00579ac0(bool a);
-    Ref* FUN_007af430();
     void FUN_00574400();
-    void FUN_008b01c0();
-    void FUN_00545560(Ref* a);
-    bool FUN_00549580();
 };
 struct ExtraList
 {
-    Ref* FUN_0041e310();
-    bool FUN_0041dbd0();
-    void* FUN_0041df90();
-    void FUN_0041de40(Ref* a);
 };
 struct Iter
 {
     bool FUN_008256d0();
-    Ref** FUN_006815c0();
-    Iter* FUN_00726070();
     void FUN_0063f7b0();
 };
 
@@ -565,28 +583,13 @@ struct Proc
 };
 struct ObjX
 {
-    void FUN_00568020(int a);
-    ObjX* FUN_00586170();
-    void FUN_006fcfa0();
 };
 struct Tes
 {
-    ObjX* FUN_004fd3e0(Ref* a, int b);
 };
 struct GlobalObj
 {
-    void RemoveActor(Ref* a);
-    void FUN_0096d470(Ref* a, int b);
-    void FUN_0096f600(Ref* a, int b);
 };
-extern Ref* DAT_011dea3c;
-extern Ref* DAT_011ca27c;
-extern Ref* DAT_011ca280;
-extern Tes* DAT_011dea10;
-extern GlobalObj DAT_011e0e80;
-void __cdecl FUN_008cddd0(Ref* a, int b);
-int __cdecl FUN_00570f60();
-void __cdecl FUN_00835980(Ref* a);
 
 // @fnv 0x00574400
 void Ref::FUN_00574400()
@@ -604,66 +607,66 @@ void Ref::FUN_00574400()
             Ref* i;
             Proc* d1;
             Ref* it2;
-            if (!FUN_00440da0())
+            if (!reinterpret_cast<::TESForm *>(this)->GetDisabled())
             {
-                if (this == DAT_011dea3c)
+                if (this == (*reinterpret_cast<::Ref * *>(&::_g_thePlayer)))
                     return;
                 {
                     vt1cc(0, 0);
-                    var1 = FUN_005d43c0()->FUN_0041e310();
+                    var1 = ((::Ref *)(reinterpret_cast<::FUN_0041e310_shell *>((((::ExtraList *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_0041e310()));
                     if (var1 != 0)
                     {
-                        if (FUN_007af430() != DAT_011ca27c)
+                        if (((::Ref *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) != DAT_011ca27c)
                         {
-                            if (FUN_007af430() != DAT_011ca280)
+                            if (((::Ref *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) != DAT_011ca280)
                             {
                                 var1->FUN_00574400();
                             }
                         }
                     }
-                    FUN_00576760();
+                    reinterpret_cast<::C6760Ref *>(this)->FUN_00576760();
                     vtc8(1);
-                    FUN_00484af0(1);
+                    reinterpret_cast<::FUN_00484af0_t *>(this)->FUN_00484af0(1);
                     p = 0;
                     if (vtfc())
                         p = this;
                     if (p != 0)
                     {
-                        if (p->FUN_008d8520() != 0)
+                        if (((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((p))->GetBaseTexture())) != 0)
                         {
                             if (p->vt100())
                             {
                                 q = p;
-                                q->ApplyActorSpells();
-                                ((MagicSub*)((char*)q + 0x94))->FUN_00824970();
+                                reinterpret_cast<::FUN_008c2b60_shell *>((q))->ApplyActorSpells();
+                                reinterpret_cast<::MagicTarget *>((((MagicSub*)((char*)q + 0x94))))->DispelAllEffects();
                                 if (FUN_00570f60() > 0)
                                 {
-                                    FUN_008cddd0(this, 1);
+                                    ::FUN_008cddd0((::MobileObject *)(::Ref *)(this), 1);
                                 }
-                                DAT_011dea3c->FUN_0093a660(q);
-                                DAT_011dea3c->FUN_00967350(q);
-                                DAT_011e0e80.RemoveActor(q);
-                                if (FUN_008d6f30() != 0)
+                                reinterpret_cast<::FUN_0093a660_class *>(((*reinterpret_cast<::Ref * *>(&::_g_thePlayer))))->FUN_0093a660((int)(q));
+                                reinterpret_cast<::FUN_00967350_shell *>(((*reinterpret_cast<::Ref * *>(&::_g_thePlayer))))->FUN_00967350((int)(q));
+                                reinterpret_cast<::FUN_0096e6f0_shell *>(&((*reinterpret_cast<::GlobalObj *>(&::g_011e0e80))))->RemoveActor((::Actor *)(q));
+                                if (((::Ref *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) != 0)
                                 {
-                                    if (FUN_005656d0())
+                                    if (reinterpret_cast<::fnv_005656d0::Thing *>(this)->FUN_005656d0())
                                     {
-                                        FUN_008d6f30()->FUN_00545560(this);
+                                        reinterpret_cast<::fnv_00545560::FUN_00545560Class *>((((::Ref *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_00545560((int)(this));
                                     }
                                 }
                                 if (q->vt2e8())
                                 {
-                                    q->FUN_008b01c0();
+                                    reinterpret_cast<::FUN_008b01c0_shell *>((q))->FUN_008b01c0();
                                 }
                             }
                             p->vt2fc();
-                            DAT_011e0e80.FUN_0096d470(p, p->FUN_00931850());
-                            if (vt100() || FUN_00564d80())
+                            reinterpret_cast<::ActorDeletionQueue *>(&((*reinterpret_cast<::GlobalObj *>(&::g_011e0e80))))->FUN_0096d470((::MobileObject *)(p), p->FUN_00931850());
+                            if (vt100() || reinterpret_cast<::fnv_00564d80::ArrSI *>(this)->FUN_00564d80())
                             {
-                                DAT_011e0e80.FUN_0096f600(this, 0);
+                                reinterpret_cast<::fnv_0096f600::FUN_0096f600_shell *>(&((*reinterpret_cast<::GlobalObj *>(&::g_011e0e80))))->FUN_0096f600((::Actor *)(::Ref *)(this), 0);
                             }
-                            if (p->FUN_008d8520() != 0)
+                            if (((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((p))->GetBaseTexture())) != 0)
                             {
-                                if (p->FUN_008d8520()->vt22c() != 0)
+                                if (((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((p))->GetBaseTexture()))->vt22c() != 0)
                                 {
                                     r = 0;
                                     if (p != 0)
@@ -674,11 +677,11 @@ void Ref::FUN_00574400()
                                     if (r != 0)
                                     {
                                         r->vt288();
-                                        r->FUN_00881680(0);
+                                        reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>((r))->FUN_00881680(0);
                                     }
                                     else
                                     {
-                                        if (p->FUN_00574900())
+                                        if (((bool)(::FUN_00574900((const unsigned char *)(p)))))
                                         {
                                             p->vt288();
                                         }
@@ -690,63 +693,63 @@ void Ref::FUN_00574400()
                                 vt4c(0x100000);
                                 vt4c(0x200000);
                             }
-                            if (p->FUN_008d8520() != 0)
+                            if (((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((p))->GetBaseTexture())) != 0)
                             {
-                                if (p->FUN_008d8520()->vt4c8() != 0)
+                                if (((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((p))->GetBaseTexture()))->vt4c8() != 0)
                                 {
                                     if (p->vt100())
                                     {
                                         i = p;
-                                        i->FUN_0088d640();
+                                        reinterpret_cast<::fnv_0088d640::FUN_0088d640_shell *>((i))->FUN_0088d640();
                                     }
                                     else
                                     {
-                                        p->FUN_008d8520()->vt4c8()->FUN_00568020(p->FUN_008d8520()->vt4d0(0));
+                                        reinterpret_cast<::fnv_00568020::FUN_00568020_shell *>((((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((p))->GetBaseTexture()))->vt4c8()))->FUN_00568020(((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((p))->GetBaseTexture()))->vt4d0(0), {});
                                     }
                                 }
-                                d1 = p->FUN_008d8520();
+                                d1 = ((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((p))->GetBaseTexture()));
                                 t3 = d1;
                                 (t3 != 0) ? t3->vt000(1) : 0;
-                                p->FUN_00407800((Proc*)0);
+                                reinterpret_cast<::MiddleHighProcess *>((p))->SetFaceAnimationData((::TargetDoorController *)(::Proc *)((Proc*)0));
                             }
                         }
                     }
-                    if (FUN_007af430()->FUN_00549580())
+                    if (reinterpret_cast<::FUN_00549580_shell *>((((::Ref *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))))->FUN_00549580())
                     {
-                        DAT_011dea10->FUN_004fd3e0(this, 1)->FUN_00586170()->FUN_006fcfa0();
+                        reinterpret_cast<::Dfcfa0Manager *>((((::ObjX *)(reinterpret_cast<::TESWorldSpace *>((((::ObjX *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::Tes * *>(&::g_TES))))->GetHitSound()))))->GetWorldTerrainManager()))))->FUN_006fcfa0({}, {});
                     }
-                    FUN_0056c880(1, 0);
-                    DAT_011dea3c->FUN_00952c30(this);
-                    it1 = (Iter*)FUN_0056ac90();
+                    reinterpret_cast<::FUN_0056c880_S *>(this)->FUN_0056c880(1, 0);
+                    reinterpret_cast<::FUN_00952c30_shell *>(((*reinterpret_cast<::Ref * *>(&::_g_thePlayer))))->FUN_00952c30((::TESObjectREFR *)(::Ref *)(this));
+                    it1 = (Iter*)reinterpret_cast<::Fn56ac90 *>(this)->FUN_0056ac90();
                     while (it1 != 0 && !it1->FUN_008256d0())
                     {
-                        procCopy = *it1->FUN_006815c0();
-                        if (procCopy->FUN_0056aa70())
+                        procCopy = *((::Ref **)(new ((void *)(it1)) ::Vec3()));
+                        if (((bool)(reinterpret_cast<::InventoryChanges *>((procCopy))->CreateForReference())))
                         {
-                            if (procCopy->FUN_005d43c0()->FUN_0041dbd0())
+                            if (reinterpret_cast<::fnv_0041dbd0::FUN_0041dbd0_Class *>((((::ExtraList *)(reinterpret_cast<::FUN_005d43c0_ *>((procCopy))->FUN_005d43c0()))))->FUN_0041dbd0())
                             {
-                                procCopy->FUN_0056c780(1);
+                                reinterpret_cast<::FUN_0056c780_t *>((procCopy))->FUN_0056c780(1);
                             }
-                            procCopy->FUN_00573f40();
+                            reinterpret_cast<::fnv_00573f40::R *>((procCopy))->FUN_00573f40();
                         }
                         else
                         {
                             procCopy->FUN_00574400();
                         }
-                        it1 = it1->FUN_00726070();
+                        it1 = ((::Iter *)(reinterpret_cast<::Callees *>((it1))->FUN_00726070()));
                     }
-                    val = (Iter*)FUN_005d43c0()->FUN_0041df90();
+                    val = (Iter*)reinterpret_cast<::FUN_0041df90_shell *>((((::ExtraList *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_0041df90();
                     while (val != 0 && !val->FUN_008256d0())
                     {
-                        it2 = *val->FUN_006815c0();
-                        it2->FUN_005d43c0()->FUN_0041de40(0);
-                        it2->FUN_00572270();
+                        it2 = *((::Ref **)(new ((void *)(val)) ::Vec3()));
+                        reinterpret_cast<::FUN_0041de40_class *>((((::ExtraList *)(reinterpret_cast<::FUN_005d43c0_ *>((it2))->FUN_005d43c0()))))->FUN_0041de40((::TESObjectREFR *)(::Ref *)(0));
+                        reinterpret_cast<::B572270Object *>((it2))->FUN_00572270();
                         val->FUN_0063f7b0();
                     }
-                    FUN_00579ac0(0);
+                    reinterpret_cast<::RefObj *>(this)->FUN_00579ac0(0);
                     if (vt100())
                     {
-                        FUN_00835980(this);
+                        ::FUN_00835980((::TESObjectREFR_Stub *)(::Ref *)(this));
                     }
                 }
             }
@@ -762,9 +765,6 @@ struct ObjectResolver
 struct ListNode
 {
     bool Probe();
-    ObjectResolver* GetData();
-    void Unlink(ObjectResolver* data);
-    ListNode* Next();
 };
 
 struct EventTarget
@@ -775,35 +775,31 @@ struct EventTarget
     virtual void v0c(int a, int b);
 };
 
-extern ListNode DAT_011db150;
-extern int DAT_011f21cc;
-extern int DAT_011db0d4;
 
-void Callee_007ebd50();
 
 // @fnv 0x007f6a20
 void __cdecl FUN_007f6a20(int a1)
 {
-    if (DAT_011db150.Probe())
+    if ((*reinterpret_cast<::ListNode *>(&::g_011db150)).Probe())
     {
         return;
     }
-    ListNode* pNode = &DAT_011db150;
+    ListNode* pNode = &(*reinterpret_cast<::ListNode *>(&::g_011db150));
     while (pNode != 0 && !pNode->Probe())
     {
-        if ((*(int**)pNode->GetData())[0] == a1)
+        if ((*(int**)((::ObjectResolver *)(new ((void *)(pNode)) ::Vec3())))[0] == a1)
         {
-            if (DAT_011f21cc == a1 && DAT_011db0d4 != 0)
+            if ((*reinterpret_cast<int *>(&::DAT_011f21cc)) == a1 && DAT_011db0d4 != 0)
             {
                 ((EventTarget*)DAT_011db0d4)->v0c(2, 0);
             }
-            DAT_011db150.Unlink(pNode->GetData());
-            if (DAT_011db150.Probe() && DAT_011db0d4 != 0)
+            reinterpret_cast<::ItemChangeListNode *>(&((*reinterpret_cast<::ListNode *>(&::g_011db150))))->FUN_00905330((*(::InventoryStackRecord *const *)(((::ObjectResolver *)(new ((void *)(pNode)) ::Vec3())))));
+            if ((*reinterpret_cast<::ListNode *>(&::g_011db150)).Probe() && DAT_011db0d4 != 0)
             {
-                Callee_007ebd50();
+                ::ShutdownVats();
             }
         }
-        pNode = pNode->Next();
+        pNode = ((::ListNode *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
-    int last = *(int*)DAT_011db150.GetData();
+    int last = *(int*)((::ObjectResolver *)(new ((void *)&((*reinterpret_cast<::ListNode *>(&::g_011db150)))) ::Vec3()));
 }

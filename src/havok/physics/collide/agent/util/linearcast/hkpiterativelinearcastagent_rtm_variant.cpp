@@ -4,6 +4,9 @@
 // src/havok/physics/collide/agent/util/linearcast/hkpiterativelinearcastagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/util/linearcast/hkpiterativelinearcastagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/S_00d431b0.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010ce000.h"
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
@@ -59,7 +62,6 @@ struct __declspec(align(16)) hkTransform
     float m_linearLimit;
     float m_fAngularLimit;
     float m_timeFactor;
-    void FUN_00d431b0(const void* src);
 };
 
 struct hkpShape
@@ -112,8 +114,6 @@ struct hkpCdPointCollector
     float m_fEarlyOutDistance;
 };
 
-extern float DAT_0104da48;
-extern char DAT_010cebe0;
 struct __declspec(align(16)) hkpSimpleClosestContactCollector
 {
     void* m_ppVirtualMethodTable;
@@ -122,7 +122,7 @@ struct __declspec(align(16)) hkpSimpleClosestContactCollector
     hkContactPoint m_kHitPoint;
     __forceinline hkpSimpleClosestContactCollector()
     {
-        m_fEarlyOutDistance = m_kHitPoint.m_vSeparatingNormal.w = DAT_0104da48;
+        m_fEarlyOutDistance = m_kHitPoint.m_vSeparatingNormal.w = ::DAT_0104da48;
         m_ppVirtualMethodTable = &DAT_010cebe0;
         m_bHit = false;
     }
@@ -242,7 +242,7 @@ void hkpIterativeLinearCastAgent::FUN_00daf540(const hkpCdBody* bodyA, const hkp
     hitPoint.m_kPoint.assignDistance(distance / (distance - endpoint));
     hkpSimpleClosestContactCollector projectedDistance;
     hkTransform motion;
-    motion.FUN_00d431b0(bodyA->m_kMotionState);
+    reinterpret_cast<::S_00d431b0 *>(&(motion))->CopyFrom((*(const ::S_00d431b0 *)(bodyA->m_kMotionState)));
     hkpCdBody movedBody;
     movedBody.m_parent = bodyA;
     movedBody.m_kMotionState = &motion;
@@ -251,8 +251,8 @@ void hkpIterativeLinearCastAgent::FUN_00daf540(const hkpCdBody* bodyA, const hkp
     int iterations = path->m_numIterations;
     while (--iterations >= 0)
     {
-        projectedDistance.m_kHitPoint.m_vSeparatingNormal.w = DAT_0104da48;
-        projectedDistance.m_fEarlyOutDistance = DAT_0104da48;
+        projectedDistance.m_kHitPoint.m_vSeparatingNormal.w = ::DAT_0104da48;
+        projectedDistance.m_fEarlyOutDistance = ::DAT_0104da48;
         projectedDistance.m_bHit = false;
         hkVector4 delta;
         float broadcast = hitPoint.m_kPoint.distanceValue();

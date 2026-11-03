@@ -3,6 +3,17 @@
 #define TESCREATURE_DECLS_H
 
 
+#include "fnv/decl/FUN_004516b0_shell.h"
+#include "fnv/decl/FUN_0047d800_shell.h"
+#include "fnv/decl/FUN_00489a60.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_005f7b50_Class.h"
+#include "fnv/decl/FlagSet.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/s428110__Owner.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_011c1000.h"
+#include "fnv/symbols_011c3000.h"
 namespace TESDataHandlerTypes {
 class TESFaction;
 }
@@ -21,7 +32,6 @@ class BGSLoadFormBuffer
 {
   public:
     FormChangeMask GetChangeFlags(unsigned int flag);
-    void ReadTypedData(void* data, unsigned int size);
 };
 
 class TESAttackDamageForm
@@ -31,6 +41,8 @@ class TESAttackDamageForm
     unsigned char attackLayout[4];
     TESAttackDamageForm();
     ~TESAttackDamageForm();
+public:
+    unsigned short GetAttackDamage();
 };
 
 class TESModelList
@@ -39,7 +51,6 @@ class TESModelList
     virtual void vfn_00() = 0;
     unsigned char modelListLayout[0x10];
     TESModelList();
-    void FUN_00489a60();
     ~TESModelList();
 };
 
@@ -57,7 +68,6 @@ class BGSImpactDataSet;
 class BGSListForm;
 class CombatController;
 
-extern "C" const float gCreatureFootWeight;
 extern "C" char gVtable_TESCreature;
 extern "C" char gVtable_30;
 extern "C" char gVtable_64;
@@ -75,20 +85,20 @@ extern "C" char gVtable_104;
 extern "C" char gVtable_10c;
 extern "C" char gVtable_114;
 extern "C" char gDestructorEhHandler;
-extern "C" void FnvActorBaseCtorAlias();
-extern "C" void FnvAttackCtorAlias();
-extern "C" void FnvClearDataAlias();
-extern "C" void FnvModelListDtorAlias();
-extern "C" void FnvAttackDtorAlias();
-extern "C" void FnvActorBaseDtorAlias();
-extern "C" unsigned int __security_cookie;
 
+class TESCreature;
+class TESFile;
+enum CREATURE_SOUND_TYPE;
 class CreatureSoundCollection
 {
   public:
     unsigned char soundLists[0x58];
     CreatureSoundCollection();
     ~CreatureSoundCollection();
+public:
+    bool LoadSoundsFromFile(::TESFile *, ::CREATURE_SOUND_TYPE, ::TESCreature *);
+public:
+    void *DeleteThis(unsigned int);
 };
 
 class TESActorBaseData
@@ -96,10 +106,9 @@ class TESActorBaseData
   public:
     virtual void vfn_00() = 0;
     unsigned char componentLayout[0x30];
-    void SetFactionRank(TESDataHandlerTypes::TESFaction*, char);
     bool GetFlag(unsigned int flag) const;
-    void UpdateFlagBit(int flag, bool value, bool addChange);
-    void UpdateFlagBit(bool value, bool addChange);
+public:
+    unsigned short GetFatigue() const;
 };
 
 class CombatProcedure
@@ -121,15 +130,18 @@ enum ENUM_FORM_ID
 class TESForm
 {
   public:
-    void SetFormType(ENUM_FORM_ID);
+public:
+    void ClearData();
+public:
+    void SetInitializationState(bool);
 };
 extern TESDataHandlerTypes::TESFaction* DAT_011cb550;
 class TESDataHandler
 {
   public:
-    bool FUN_004516b0();
 };
-extern TESDataHandler* g_dataHandler;
+class BaseFormComponent;
+struct PackedRecordData;
 class TESAIForm
 {
   public:
@@ -139,6 +151,12 @@ class TESAIForm
     void SetAggression(unsigned char, bool);
     void SetConfidence(unsigned char, bool);
     void SetEnergy(unsigned char, bool);
+public:
+    void SetAIMood(unsigned char);
+public:
+    void CopyAIDataFromAIDATA(::PackedRecordData *);
+public:
+    void BaseFormRecord(::BaseFormComponent *);
 };
 class TESBoundAnimObject
 {
@@ -146,11 +164,14 @@ class TESBoundAnimObject
     virtual void vfn_00() = 0;
     unsigned char componentLayout[44];
 };
+class BaseFormComponent;
 class TESContainer
 {
   public:
     virtual void vfn_00() = 0;
     unsigned char componentLayout[8];
+public:
+    void CopyFromBase(::BaseFormComponent *);
 };
 class BGSTouchSpellForm
 {
@@ -176,11 +197,15 @@ class TESAttributes
     virtual void vfn_00() = 0;
     unsigned char componentLayout[8];
 };
+class TESFile;
+class TESForm;
 class TESAnimation
 {
   public:
     virtual void vfn_00() = 0;
     unsigned char componentLayout[8];
+public:
+    void LoadComponent(::TESForm *, ::TESFile *);
 };
 class TESFullName
 {
@@ -188,28 +213,37 @@ class TESFullName
     virtual void vfn_00() = 0;
     unsigned char componentLayout[8];
 };
+class TESFile;
 class TESModel
 {
   public:
     virtual void vfn_00() = 0;
     unsigned char componentLayout[20];
+public:
+    static void LoadModelData(::TESModel *, ::TESFile *);
 };
+class TESForm;
 class TESScriptableForm
 {
   public:
     virtual void vfn_00() = 0;
     unsigned char componentLayout[8];
+public:
+    void InitItem(::TESForm *);
 };
 class ActorValueOwner
 {
   public:
     virtual void vfn_00() = 0;
 };
+class BaseFormComponent;
 class BGSDestructibleObjectForm
 {
   public:
     virtual void vfn_00() = 0;
     unsigned char componentLayout[4];
+public:
+    void FUN_004786e0(::BaseFormComponent *);
 };
 class TESActorBase : public TESBoundAnimObject,
                      public TESActorBaseData,
@@ -269,6 +303,8 @@ class TESCreature : public TESActorBase, public TESAttackDamageForm, public TESM
     void SetCreatureSoundsFrom(TESCreature* soundCreature);
     void SetBodyPartData(BGSBodyPartData* bodyPartData);
     void Revert(BGSLoadFormBuffer* buffer);
+public:
+    char FUN_005fbf20() const;
 };
 
 #endif

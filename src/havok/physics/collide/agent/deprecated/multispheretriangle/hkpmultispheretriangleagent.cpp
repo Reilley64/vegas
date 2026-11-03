@@ -2,6 +2,12 @@
 // src/havok/physics/collide/agent/deprecated/multispheretriangle/hkpmultispheretriangleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/deprecated/multispheretriangle/hkpmultispheretriangleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/SphereTriangleAgent.h"
+#include "fnv/decl/SphereTriangleProcessReceiver.h"
+#include "fnv/symbols_00cd7000.h"
+#include "fnv/symbols_00d38000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010ce000.h"
 struct S_00d37e60_Allocator
 {
     virtual void v0();
@@ -99,7 +105,6 @@ S_00d37e60_Agent* CreateTriAgent2(const S_00d37e60_CdBody& bodyA, const S_00d37e
     return new S_00d37e60_TriAgent2(bodyA, mgr);
 }
 
-void __cdecl FUN_00d38130(void*, void*, void*, void*);
 struct D38AC0Data
 {
     int unk00;
@@ -116,7 +121,7 @@ void __cdecl FUN_00d38ac0(void* first, void* second, void* third, int fourth)
     data.unk08 = fourth;
     data.unk04 = 0;
     data.unk00 = 0x10ce81c;
-    FUN_00d38130(second, first, third, &data);
+    ::FUN_00d38130((*(const ::hkpCdBody *)(second)), (*(const ::hkpCdBody *)(first)), third, (*(::hkpCdBodyPairCollector *)(&data)));
 }
 
 struct CpuCallData
@@ -125,11 +130,8 @@ struct CpuCallData
     float bound;
     unsigned int value;
 };
-extern float DAT_0104da48;
-extern unsigned char DAT_010ce7fc;
 struct CpuObject
 {
-    void FUN_00d38390(void*, void*, unsigned int, CpuCallData*);
     void FUN_00d38e90(void*, void*, unsigned int, unsigned int);
 };
 // Builds a CpuCallData from fourth, DAT_0104da48 and DAT_010ce7fc, then forwards second, first and third to FUN_00d38390.
@@ -138,9 +140,9 @@ void CpuObject::FUN_00d38e90(void* first, void* second, unsigned int third, unsi
 {
     CpuCallData data;
     data.value = fourth;
-    data.bound = DAT_0104da48;
+    data.bound = ::DAT_0104da48;
     data.descriptor = &DAT_010ce7fc;
-    FUN_00d38390(second, first, third, &data);
+    reinterpret_cast<::SphereTriangleAgent *>(this)->FUN_00d38390((const ::CollisionBody *)(second), (const ::CollisionBody *)(first), (const ::CollisionInput *)(third), (::ContactCollector *)(::CpuCallData *)(&data));
 }
 
 struct FUN_00d37e10_sub
@@ -198,24 +200,11 @@ struct CallbackState
     unsigned context;
 };
 
-extern const unsigned vtable_010ce81c[];
 
 struct Operation
 {
-    void FUN_00d37ed0(unsigned second, unsigned first, unsigned third, CallbackState* callback);
     void FUN_00d38a80(unsigned first, unsigned second, unsigned third, unsigned context);
 };
-
-// Initialises a CallbackState with the given context and vtable, then calls FUN_00d37ed0 with the reordered arguments and the callback.
-// @fnv 0x00d38a80
-void Operation::FUN_00d38a80(unsigned first, unsigned second, unsigned third, unsigned context)
-{
-    CallbackState callback;
-    callback.context = context;
-    callback.completed = false;
-    callback.type = vtable_010ce81c;
-    FUN_00d37ed0(second, first, third, &callback);
-}
 
 // Stand-in for the 12-byte record the callee receives by pointer.
 // Field order/offsets come from the target frame layout:
@@ -228,25 +217,22 @@ struct FUN_00d38ed0_Local
 };
 
 // Global float loaded with `fld dword ptr [0x104da48]`.
-extern float unk_104da48;
 
 // Global object whose address (0x10ce7fc) is stored into the record.
-extern char unk_10ce7fc[];
 
 // Callee at 0x00d386c0: __cdecl, four arguments,
 // the last one being a pointer to the record built on the stack.
-void __cdecl FUN_00d386c0(int unk04, int unk08, int unk0c, FUN_00d38ed0_Local* unk10);
 
 // @fnv 0x00d38ed0
 void __cdecl FUN_00d38ed0(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 {
     FUN_00d38ed0_Local local;
 
-    local.unk04 = unk_104da48;
+    local.unk04 = ::DAT_0104da48;
     local.unk08 = aiArg4;
-    local.unk00 = unk_10ce7fc;
+    local.unk00 = (*reinterpret_cast<char (*)[]>(&::DAT_010ce7fc));
 
-    FUN_00d386c0(aiArg2, aiArg1, aiArg3, &local);
+    ::FUN_00d386c0((*(const ::S00d386c0_CdBody *)(aiArg2)), (*(const ::S00d386c0_CdBody *)(aiArg1)), (*(const ::S00d386c0_CollisionInput *)(aiArg3)), (*(::S00d386c0_CdPointCollector *)(&local)));
 }
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -254,6 +240,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 extern "C"
 {
     __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
@@ -262,7 +249,6 @@ extern "C"
     __m128 _mm_xor_ps(__m128, __m128);
 }
 
-extern __m128 DAT_010c4c00;
 
 struct SimplexVertex
 {
@@ -304,7 +290,6 @@ struct Simplex
 
 struct AgentBase
 {
-    void FUN_00d38b00(int a, int b, int c, Simplex* s);
 };
 
 struct Agent : AgentBase
@@ -317,7 +302,7 @@ void Agent::FUN_00d38f10(int a, int b, int c, Simplex* s)
 {
     SimplexVertex* v = s->m_kRayEnd;
     float oldDistance = s->m_fClosestPointDistanceSquared;
-    AgentBase::FUN_00d38b00(b, a, c, s);
+    reinterpret_cast<::SphereTriangleProcessReceiver *>(this)->FUN_00d38b00((*(const ::ProcessBody *)(b)), (*(const ::ProcessBody *)(a)), (*(const struct struct ::ProcessInput *)(c)), (*(::ProcessOutput *)(s)));
     for (; v < s->m_kRayEnd; v++)
     {
         const __m128* pb = &v->m_kPointB;
@@ -428,8 +413,6 @@ struct CollisionDistanceInfo
     int unk18;
     int unk1C;
 };
-void __cdecl FUN_00cd7850(const hkVector4& position, const hkVector4* triangle, const S_00d37e60_Plane& cache,
-                          CollisionDistanceInfo& result, void* featureOut);
 
 static __forceinline __m128 SetTransformedPoint(const __m128& c0, const __m128& c1, const __m128& c2, const __m128& t,
                                                 const __m128& b)
@@ -466,6 +449,16 @@ struct hkpMultiSphereTriangleAgent : S_00d37e60_TriAgent
     void FUN_00d37ed0(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const void* input,
                       hkpCdBodyPairCollector& collector);
 };
+// Initialises a CallbackState with the given context and vtable, then calls FUN_00d37ed0 with the reordered arguments and the callback.
+// @fnv 0x00d38a80
+void Operation::FUN_00d38a80(unsigned first, unsigned second, unsigned third, unsigned context)
+{
+    CallbackState callback;
+    callback.context = context;
+    callback.completed = false;
+    callback.type = (*reinterpret_cast<const unsigned int (*)[]>(&::DAT_010ce81c));
+    reinterpret_cast<::hkpMultiSphereTriangleAgent *>(this)->FUN_00d37ed0((*(const ::hkpCdBody *)(second)), (*(const ::hkpCdBody *)(first)), (const void *)(third), (*(::hkpCdBodyPairCollector *)(&callback)));
+}
 
 // @fnv 0x00d37ed0
 void hkpMultiSphereTriangleAgent::FUN_00d37ed0(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const void* input,
@@ -487,7 +480,7 @@ void hkpMultiSphereTriangleAgent::FUN_00d37ed0(const hkpCdBody& bodyA, const hkp
     {
         float radiusSum = triB->getRadius() + localSpheres[i].m_vComponents.m128_f32[3];
         CollisionDistanceInfo cpr;
-        FUN_00cd7850(worldSpheres[i], &triVertices[0], m_kTriangleNormal, cpr, 0);
+        ::FUN_00cd7850((const ::S_00cd7850_Vec &)(worldSpheres[i]), (const ::S_00cd7850_Vec *)(const ::hkVector4 *)(&triVertices[0]), (const ::S_00cd7850_Cache &)(m_kTriangleNormal), (::S_00cd7850_Result &)(cpr), (::S_00cd7850_Features *)(void *)(0));
         if (cpr.distance < radiusSum)
         {
             collector.AddCdBodyPair(bodyA, bodyB);
@@ -496,8 +489,6 @@ void hkpMultiSphereTriangleAgent::FUN_00d37ed0(const hkpCdBody& bodyA, const hkp
     }
 }
 
-void __cdecl FUN_00cd7850(const hkVector4& position, const hkVector4* triangle, const S_00d37e60_Plane& cache,
-                          CollisionDistanceInfo& result, void* featureOut);
 // @fnv 0x00d38130
 void __cdecl FUN_00d38130(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const void* input,
                           hkpCdBodyPairCollector& collector)
@@ -521,7 +512,7 @@ void __cdecl FUN_00d38130(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const 
     {
         float radiusSum = triB->m_fSphereRadius + localSpheres[i].m_vComponents.m128_f32[3];
         CollisionDistanceInfo cpr;
-        FUN_00cd7850(worldSpheres[i], &triVertices[0], cache, cpr, 0);
+        ::FUN_00cd7850((const ::S_00cd7850_Vec &)(worldSpheres[i]), (const ::S_00cd7850_Vec *)(const ::hkVector4 *)(&triVertices[0]), (const ::S_00cd7850_Cache &)(cache), (::S_00cd7850_Result &)(cpr), (::S_00cd7850_Features *)(void *)(0));
         if (cpr.distance < radiusSum)
         {
             collector.AddCdBodyPair(bodyA, bodyB);

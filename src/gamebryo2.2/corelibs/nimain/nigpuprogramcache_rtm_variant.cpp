@@ -4,32 +4,61 @@
 
 // src/gamebryo2.2/corelibs/nimain/nigpuprogramcache.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nigpuprogramcache.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern void* DAT_11ac230;
-void __cdecl FUN_00aa1ab0();
+#include "fnv/decl/AA1AC0Class.h"
+#include "fnv/decl/C00be0ad0.h"
+#include "fnv/decl/CpuObject.h"
+#include "fnv/decl/DBBCBC0Target.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a62660_cls.h"
+#include "fnv/decl/FUN_00ee8ac0_cls.h"
+#include "fnv/decl/FUN_00eea4f0_cls.h"
+#include "fnv/decl/FUN_00eea500_Holder.h"
+#include "fnv/decl/FUN_00eea550_cls.h"
+#include "fnv/decl/FUN_00eea650_stand_in.h"
+#include "fnv/decl/FixedStringHolder.h"
+#include "fnv/decl/FnvCpu_FUN_00eea520_CpuObject.h"
+#include "fnv/decl/FnvCpu_FUN_00eea530_CpuObject.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiD3DShaderProgram.h"
+#include "fnv/decl/fnv_00a2f170__S00a2f170_TmpSet.h"
+#include "fnv/decl/fnv_00ee8e10__S_00ee8e10_Arr.h"
+#include "fnv/decl/fnv_00ee9b10__Ee9b10_Map.h"
+#include "fnv/decl/fnv_00eea570__CpuObject.h"
+#include "fnv/decl/fnv_00eea6d0__NiLookAtInterpolator.h"
+#include "fnv/decl/fnv_00eea710__FUN_00eea710_class.h"
+#include "fnv/symbols_00a57000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00a64000.h"
+#include "fnv/symbols_00a8d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00aa2000.h"
+#include "fnv/symbols_00e98000.h"
+#include "fnv/symbols_00ee9000.h"
+#include "fnv/symbols_00eea000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_010f0000.h"
+#include "fnv/symbols_01101000.h"
+#include "fnv/symbols_011ac000.h"
+#include "fnv/symbols_011f6000.h"
 struct S_00a8d8b0
 {
     int _0;
     int pos;
     unsigned int(__cdecl* fn)(S_00a8d8b0*, void*, unsigned int, unsigned int*, unsigned int);
 };
-void __cdecl AdvancePosition(S_00a8d8b0* apState, void* b, unsigned int c);
 struct NiTFixedStringMap_NiAVObject___
 {
     void RemoveAll();
 };
-void _NiFreeAlias(void*);
 struct MemoryManager
 {
-    void _DeallocateAlias(void*);
 };
-extern MemoryManager g_memoryManager;
-extern int DAT_01101378;
 extern int DAT_01101388;
 struct SomeClass
 {
     void* FUN_00ee90b0(unsigned int);
 };
-void __cdecl FUN_00ee9a60();
 void __cdecl operator delete(void*, unsigned int);
 struct FUN_00ee9ca0_shell
 {
@@ -37,7 +66,6 @@ struct FUN_00ee9ca0_shell
 };
 struct FUN_00a5e3a0_Helper
 {
-    void* FUN_00aa3e40(unsigned int);
 };
 struct NiStandardAllocator
 {
@@ -46,7 +74,7 @@ struct NiStandardAllocator
 };
 void* __cdecl NiStandardAllocator::operator new(unsigned int n)
 {
-    return ((FUN_00a5e3a0_Helper*)&g_memoryManager)->FUN_00aa3e40(n);
+    return reinterpret_cast<::MemoryManagerStandIn *>((((FUN_00a5e3a0_Helper*)&g_memoryManager)))->FUN_00aa3e40(n);
 }
 struct FUN_00aa2200
 {
@@ -56,7 +84,6 @@ struct FUN_00aa2200
 };
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern char* _EmptyFS;
 class NiFixedString
 {
   public:
@@ -66,9 +93,9 @@ class NiFixedString
         if (m_kHandle != s.m_kHandle)
         {
             char* h = s.m_kHandle;
-            if (h != _EmptyFS)
+            if (h != ::DAT_0109b220)
                 InterlockedIncrement((long*)(h - 8));
-            if (m_kHandle != _EmptyFS)
+            if (m_kHandle != ::DAT_0109b220)
                 InterlockedDecrement((long*)(m_kHandle - 8));
             m_kHandle = h;
         }
@@ -90,6 +117,8 @@ class NiRefObject
         if (InterlockedDecrement(&m_uiRefCount) == 0)
             DeleteThis();
     }
+public:
+    static unsigned int ms_lObjectCount;
 };
 class NiObjPtr
 {
@@ -123,28 +152,25 @@ class FixedStringMap
 
     void GetNextEntry(MapItem*& pos, NiFixedString& key, NiObjPtr& val);
 };
-bool __cdecl FUN_00aa2cc0(const char*) throw();
-bool __cdecl FUN_00aa2d10(char*, unsigned int) throw();
-int __cdecl BuildAbsolutePath(char*, unsigned int, const char*, const char*) throw();
 struct S_00ee8af0_String : NiFixedString
 {
     S_00ee8af0_String() throw()
     {}
     S_00ee8af0_String(const S_00ee8af0_String& s) throw()
     {
-        if (s.m_kHandle != _EmptyFS)
+        if (s.m_kHandle != ::DAT_0109b220)
             InterlockedIncrement((long*)(s.m_kHandle - 8));
         m_kHandle = s.m_kHandle;
     }
     S_00ee8af0_String(const NiFixedString& s) throw()
     {
-        if (s.m_kHandle != _EmptyFS)
+        if (s.m_kHandle != ::DAT_0109b220)
             InterlockedIncrement((long*)(s.m_kHandle - 8));
         m_kHandle = s.m_kHandle;
     }
     ~S_00ee8af0_String() throw()
     {
-        if (m_kHandle != _EmptyFS)
+        if (m_kHandle != ::DAT_0109b220)
             InterlockedDecrement((long*)(m_kHandle - 8));
     }
     using NiFixedString::operator=;
@@ -253,8 +279,6 @@ class FixedPathMap : public FixedStringMap
     void UpdatePathString();
 };
 // helpers of the game (declared only)
-void __cdecl BuildAbsolutePath(char* buffer, unsigned int size, char* a, char* b);
-char* __cdecl FUN_00a5b690(char* str);
 class FUN_00ee8fe0_cls
 {
   public:
@@ -264,10 +288,6 @@ class FUN_00ee8fe0_cls
 
     void RemoveAt(unsigned int idx);
 };
-extern void* DAT_11ac230;
-void __cdecl FUN_00aa1ab0();
-void __cdecl AdvancePosition(S_00a8d8b0* a, void* b, unsigned int c);
-bool __stdcall FUN_00ee92d0(S_00a8d8b0* self, unsigned int pBuffer, unsigned int a3);
 struct S_00ee97e0_Stream
 {
     int unk00;
@@ -277,15 +297,6 @@ struct S_00ee97e0_Stream
 };
 struct S_00ee97e0_Elem
 {
-    int* FUN_00a62660();
-    int* FUN_00eea4f0();
-    int* FUN_00eea500();
-    int* FUN_00eea510();
-    int* FUN_00eea520();
-    int FUN_00be0ad0();
-    int FUN_00aa1ac0();
-    int FUN_00dbbc00();
-    int FUN_00eea530();
 };
 struct S_00ee97e0_Obj
 {
@@ -354,7 +365,6 @@ struct S_00ee97e0_Cls
     int unk30;
     int unk34;
     bool WriteToStream(S_00ee97e0_Stream* s, S_00ee97e0_Obj* o, int* v);
-    void FUN_00ee9230(S_00ee97e0_Stream* s, int v);
 };
 // CreateRecordPair - allocate a 12 byte record from the global allocator
 // (DAT_011f6238) and clear its two counter fields.  When the allocation
@@ -366,7 +376,6 @@ struct RecordPair
     unsigned int m_i04;
     unsigned int m_i08;
 };
-extern "C" FUN_00a5e3a0_Helper DAT_011f6238;
 RecordPair* __cdecl CreateRecordPair();
 char* __cdecl FUN_00a5b690(const char*);
 struct FixedStringDtor
@@ -378,7 +387,7 @@ struct FixedStringDtor
         {
             char* pcOld = m_kHandle;
             m_kHandle = FUN_00a5b690(pcString);
-            if (pcOld != _EmptyFS)
+            if (pcOld != ::DAT_0109b220)
             {
                 InterlockedDecrement((long*)(pcOld - 8));
             }
@@ -387,7 +396,7 @@ struct FixedStringDtor
     }
     __forceinline ~FixedStringDtor() throw()
     {
-        if (m_kHandle != _EmptyFS)
+        if (m_kHandle != ::DAT_0109b220)
         {
             InterlockedDecrement((long*)(m_kHandle - 8));
         }
@@ -424,13 +433,10 @@ struct ItemWithDtor
 
     void operator delete(void* p)
     {
-        g_memoryManager._DeallocateAlias(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
     }
 };
 void __stdcall ClearAndDeleteItem(ItemWithDtor* pItem);
-extern long DAT_011f4400;
-extern char* DAT_0109b220;
-void __cdecl FreeTable(void* p);
 void __cdecl FreeBlock(void* p);
 struct ReleaseHelper
 {
@@ -438,14 +444,13 @@ struct ReleaseHelper
 };
 struct MapClearHelper
 {
-    void FUN_00ee8e10();
 };
 class SpawnedRoot
 {
   public:
     virtual ~SpawnedRoot() throw()
     {
-        InterlockedDecrement(&DAT_011f4400);
+        InterlockedDecrement(&(*reinterpret_cast<long *>(&::NiRefObject::ms_lObjectCount)));
     }
 };
 class SpawnedBase
@@ -507,10 +512,9 @@ struct KeyObj
 };
 struct KeyEntry
 {
-    char** FUN_00eea510();
     __forceinline bool CompareKey(const char* key)
     {
-        char* hk = *FUN_00eea510();
+        char* hk = *((char **)(::FUN_00eea510((void *)this)));
         if (hk == key)
             return true;
         if (!key || !hk)
@@ -523,7 +527,6 @@ struct FUN_00ee90f0_cls
     KeyEntry** m_ppEntries;
     unsigned int unk04;
     unsigned int m_uiItemCount;
-    void RemoveAt(int index);
 };
 bool __stdcall RemoveMissingKeys(KeyObj* apKeyObj, FUN_00ee90f0_cls* apEntryList);
 // 0x00ee8a70  unit_e3a382715159.cpp  /MT /O2 /GS /EHsc /Gy
@@ -664,7 +667,6 @@ struct Map
     int unk00;
     unsigned int bucketCount;
     Node** buckets;
-    bool Lookup(unsigned int*, RefObject**);
 };
 struct S_00ee9230_Stream
 {
@@ -679,7 +681,6 @@ inline void S_00ee9230_WriteBinary(S_00ee9230_Stream* pkStream, const void* pvBu
 {
     pkStream->m_uiPos += pkStream->m_pfnWrite(pkStream, pvBuffer, uiBytes, &uiComponentSize, 1);
 }
-bool __stdcall FUN_00ee9230(S_00ee9230_Stream* pkStream, const char* pcString);
 class NiFileE93
 {
   public:
@@ -693,13 +694,8 @@ class NiFileE93
     virtual unsigned int GetFileSize();
 };
 extern bool DAT_011c2fdd;
-bool __cdecl FUN_00aa1ab0(const char* pcName);
 bool __cdecl FUN_00aa1bb0(const char* pcName);
 NiFileE93* __cdecl FUN_00aa1a20(const char* pcName, int eMode, unsigned int uiBufferSize);
-void __cdecl AdvancePosition(NiFileE93* pkFile, char* pcBuffer, unsigned int uiLen);
-int __cdecl FUN_00aa1360(const char* pc1, const char* pc2);
-void __cdecl InvokeAndAccumulate(NiFileE93* pkFile, bool* pbValue);
-void __cdecl FUN_00a575b0(NiFileE93* pkFile, unsigned int* puiValue);
 class NiFixedStringE93
 {
   public:
@@ -748,7 +744,6 @@ class NiGPUProgramCacheE93 : public FixedStringMap
     virtual void vf88();
     virtual bool FiveIntegerLoadRecord(NiFileE93* pkFile, bool* pbUpdated);
 
-    bool FUN_00ee92d0(NiFileE93* pkFile, char* pcBuffer, unsigned int uiBufferSize);
     bool LoadCacheFile();
 
     void* m_pkEntryMap;
@@ -766,9 +761,7 @@ class NiGPUProgramCacheE93 : public FixedStringMap
     bool m_bLoadComplete;
 };
 extern "C" size_t strlen(const char*);
-extern char* _EmptyFS;
 bool __cdecl FUN_00aa1bb0(const char* h);
-void __cdecl FUN_00e984d0(void* s, const char* name, unsigned int len);
 struct StreamObj : public NiFile
 {
     unsigned int m_pos;
@@ -792,7 +785,6 @@ template <class T> inline void S00ee9620_SaveBinary(StreamObj* s, const T& v)
 }
 struct OwnerMap : public FixedStringMap
 {
-    MapItem* FUN_00ee8ac0();
     void GetNextEntry(MapItem*& pos, NiFixedString& key, NiObjPtr& val);
 };
 __declspec(noinline) void OwnerMap::GetNextEntry(MapItem*& pos, NiFixedString& key, NiObjPtr& val)
@@ -825,7 +817,7 @@ struct PathString
     }
     bool Exists() const
     {
-        return handle != _EmptyFS;
+        return handle != ::DAT_0109b220;
     }
 };
 class GpuCacheWriter
@@ -873,10 +865,9 @@ class GpuCacheWriter
     PathString m_1c;
     PathString m_20;
 
-    void FUN_00ee9230(StreamObj* s, unsigned int v);
     __forceinline bool CanSave()
     {
-        return m_1c.Exists() && (((bool(__cdecl*)(const char*))FUN_00aa1ab0)(m_1c) || FUN_00aa1bb0(m_1c));
+        return m_1c.Exists() && (((bool(__cdecl*)(const char*))((bool (&)(const char *))::FUN_00aa1ab0))(m_1c) || FUN_00aa1bb0(m_1c));
     }
     bool FUN_00ee9620();
 };
@@ -889,23 +880,20 @@ class NiGlobalStringTable
   public:
     static char* AddString(const char* s);
 };
-extern char* _EmptyFS;
 
 struct CacheRefVTable
 {
     void(__thiscall* Destroy)(void*);
     void(__thiscall* DeleteThis)(void*);
 };
-extern const CacheRefVTable DAT_0101dce4;
-extern const CacheRefVTable DAT_010f0134;
 
 class RefObjBase
 {
   public:
     static void* operator new(unsigned int);
-    RefObjBase() throw() : m_vtbl(&DAT_0101dce4), m_uiRefCount(0)
+    RefObjBase() throw() : m_vtbl(&(*reinterpret_cast<const ::CacheRefVTable *>(&::DAT_0101dce4))), m_uiRefCount(0)
     {
-        InterlockedIncrement(&DAT_011f4400);
+        InterlockedIncrement(&(*reinterpret_cast<long *>(&::NiRefObject::ms_lObjectCount)));
     }
     void DeleteThis()
     {
@@ -933,15 +921,6 @@ struct ShaderEntry : RefObjBase
     int unk24;
     int unk28;
     ShaderEntry() throw();
-    void SetName(const FixedStr& s);
-    void FUN_00eea650(const FixedStr& s);
-    void FUN_00eea690(const FixedStr& s);
-    void FUN_00eea6d0(const FixedStr& s);
-    void AssignRefCounted(const FixedStr& s);
-    void FUN_00eea540(unsigned int v);
-    void FUN_00eea550(unsigned int v);
-    void FUN_00eea560(unsigned int v);
-    void FUN_00eea570(unsigned int v);
 };
 
 struct EntrySet
@@ -949,7 +928,6 @@ struct EntrySet
     ShaderEntry** m_pBase;
     unsigned int m_uiElementCount;
     unsigned int m_uiAllocatedCapacity;
-    void Add(ShaderEntry* const& p);
 };
 
 struct ShaderGroup : RefObjBase
@@ -958,7 +936,7 @@ struct ShaderGroup : RefObjBase
     EntrySet m_kEntries;
     ShaderGroup() throw()
     {
-        m_vtbl = &DAT_010f0134;
+        m_vtbl = &(*reinterpret_cast<const ::CacheRefVTable *>(&::fnv_00e8ead0::DAT_010f0134));
         m_pGeometryShader.m_p = 0;
         m_kEntries.m_pBase = 0;
         m_kEntries.m_uiElementCount = 0;
@@ -983,7 +961,6 @@ struct GroupPtrArg
 
 struct GroupMap
 {
-    bool GetAt(const FixedStr& key, ShaderGroup*& val);
     void SetAt(const FixedStr& key, GroupPtrArg val);
 };
 
@@ -997,7 +974,7 @@ static inline unsigned int ReadRaw(S_00a8d8b0* s, void* dst, unsigned int total,
 
 static inline void ReleaseStr(FixedStr& s)
 {
-    if (s.m_kHandle != _EmptyFS)
+    if (s.m_kHandle != ::DAT_0109b220)
         InterlockedDecrement((long*)(s.m_kHandle - 8));
 }
 
@@ -1108,7 +1085,7 @@ bool ShaderLib::FUN_00ee9cc0(S_00a8d8b0* s, bool& changed)
     {
         ShaderGroup* found = 0;
         map = &m_kObjectGroups;
-        if (map->GetAt(name, found))
+        if (reinterpret_cast<::fnv_00ee9b10::Ee9b10_Map *>((map))->Lookup((::NiFixedString &)(name), (::fnv_00ee9b10::Ee9b10_Value *&)(found)))
             skip = true;
         if (found)
         {
@@ -1139,42 +1116,42 @@ bool ShaderLib::FUN_00ee9cc0(S_00a8d8b0* s, bool& changed)
             ReadStr(s, buf);
             FixedStr t1;
             t1.m_kHandle = NiGlobalStringTable::AddString(buf);
-            e->SetName(t1);
+            ::AssignFixedString((char *)(e), (int)&(t1), {});
             ReleaseStr(t1);
             ReadStr(s, buf);
             FixedStr t2;
             t2.m_kHandle = NiGlobalStringTable::AddString(buf);
-            e->FUN_00eea650(t2);
+            reinterpret_cast<::FUN_00eea650_stand_in *>((e))->FUN_00eea650((const ::FUN_00ee8a10 &)(t2));
             ReleaseStr(t2);
             ReadStr(s, buf);
             FixedStr t3;
             t3.m_kHandle = NiGlobalStringTable::AddString(buf);
-            e->FUN_00eea690(t3);
+            reinterpret_cast<::FixedStringHolder *>((e))->FUN_00eea690((const char **)&(t3));
             ReleaseStr(t3);
             ReadStr(s, buf);
             FixedStr t4;
             t4.m_kHandle = NiGlobalStringTable::AddString(buf);
-            e->FUN_00eea6d0(t4);
+            reinterpret_cast<::fnv_00eea6d0::NiLookAtInterpolator *>((e))->FUN_00eea6d0((const ::fnv_00eea6d0::NiFixedString &)(t4));
             ReleaseStr(t4);
             ReadStr(s, buf);
             FixedStr t5;
             t5.m_kHandle = NiGlobalStringTable::AddString(buf);
-            e->AssignRefCounted(t5);
+            reinterpret_cast<::fnv_00eea710::FUN_00eea710_class *>((e))->AssignRefCounted((void **)&(t5));
             ReleaseStr(t5);
             unsigned int v;
             ReadRaw(s, &v, 4, 4);
-            e->FUN_00eea540(v);
+            reinterpret_cast<::NiD3DShaderProgram *>((e))->FUN_00eea540((::NiD3DShaderProgramCreator *)(v));
             ReadRaw(s, &v, 4, 4);
-            e->FUN_00eea550(v);
+            reinterpret_cast<::FUN_00eea550_cls *>((e))->FUN_00eea550(v);
             ReadRaw(s, &v, 4, 4);
-            e->FUN_00eea560(v);
+            reinterpret_cast<::CpuObject *>((e))->FUN_00eea560(v);
             ReadRaw(s, &v, 4, 4);
-            e->FUN_00eea570(v);
+            reinterpret_cast<::fnv_00eea570::CpuObject *>((e))->FUN_00eea570(v);
             {
                 ShaderEntry* sp = e;
                 if (e)
                     InterlockedIncrement(&e->m_uiRefCount);
-                group->m_kEntries.Add(sp);
+                reinterpret_cast<::fnv_00a2f170::S00a2f170_TmpSet *>(&(group->m_kEntries))->FUN_00e8ea60((const ::fnv_00a2f170::S00a2f170_Ptr< ::fnv_00a2f170::S00a2f170_Seq> &)(sp));
             }
             if (e)
             {

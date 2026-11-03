@@ -5,6 +5,11 @@
 
 // src/staging/blk_00ca0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
 
 #include <xmmintrin.h>
@@ -12,9 +17,7 @@ extern "C" void _ReadWriteBarrier(void);
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 
-extern unsigned int DAT_0126835c;
 extern char DAT_010c9268[];
-extern char DAT_010c41f8[];
 
 struct CbfTimerCmd
 {
@@ -33,7 +36,7 @@ struct CbfMonitor
 
 __forceinline void cbfTimer(const char* name)
 {
-    CbfMonitor* stream = (CbfMonitor*)TlsGetValue(DAT_0126835c);
+    CbfMonitor* stream = (CbfMonitor*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     CbfTimerCmd* cmd = (CbfTimerCmd*)stream->m_kRayEnd;
     if (cmd < (CbfTimerCmd*)stream->m_pCurrentCommand)
     {

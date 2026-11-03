@@ -7,10 +7,24 @@
 
 // src/havok/animation/ragdoll/instance/hkaragdollinstance.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/ragdoll/instance/hkaragdollinstance.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/C74C20Quat.h"
+#include "fnv/decl/CpuObject.h"
+#include "fnv/decl/FUN_005611c0_t.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00ca8860_cls.h"
+#include "fnv/decl/FUN_00ce2150Owner.h"
+#include "fnv/decl/Mgr.h"
+#include "fnv/decl/Quat74.h"
+#include "fnv/decl/Ragdoll4.h"
+#include "fnv/decl/TW.h"
+#include "fnv/decl/fnv_00ce2600__FUN_00ce2600.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpEntityC9C.h"
+#include "fnv/symbols_00ce1000.h"
+#include "fnv/symbols_00ce2000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkaRagdollInstance.h"
-extern int DAT_01268700;
-void __stdcall FUN_00ce1760(int, int, int);
-void __stdcall FUN_00ce18d0(int a);
 struct FUN_00ce2430_Transform
 {
     unsigned char pad[0x30];
@@ -25,7 +39,6 @@ struct FUN_00ce2430_Class
     unsigned char pad[0x2c];
     FUN_00ce2430_Data* data;
 
-    void FUN_00ce2150(int, float, void*);
     void ApplyValueToTransforms(float, FUN_00ce2430_Transform*);
 };
 struct MemoryManager
@@ -44,7 +57,6 @@ struct MemoryRouter
 };
 struct FUN_00ce29b0_standin
 {
-    void FUN_00ce2600();
     void* Destroy(unsigned char deletingFlag);
 };
 MemoryRouter* _D1A0E0GetMemoryRouter();
@@ -57,8 +69,6 @@ struct FnvVtObj
 };
 struct ReferenceObject : hkReferencedObject
 {
-    void FUN_00c90510();
-    void FUN_00c905b0();
 };
 struct ArrayAllocator
 {
@@ -117,7 +127,6 @@ struct RagdollInstance : hkReferencedObject
 };
 struct FUN_00ce26f0_ObjectC
 {
-    float FUN_00c91020();
 };
 struct FUN_00ce26f0_ObjectB
 {
@@ -135,8 +144,6 @@ struct FUN_00ce26f0_Class
     int unk04;
     FUN_00ce26f0_ObjectA* unk08;
 
-    void FUN_00ce18d0(FUN_00ce2430_Transform* a);
-    void ApplyValueToTransforms(float a, FUN_00ce2430_Transform* b);
     void FUN_00ce26f0(FUN_00ce2430_Transform* a);
 };
 typedef unsigned int hk_size_tR;
@@ -244,7 +251,6 @@ class hkReferencedObjectR
 {
   public:
     virtual ~hkReferencedObjectR() throw();
-    void removeReference() const throw();
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 };
@@ -315,15 +321,15 @@ struct FUN_00ce1680_Body
 };
 struct FUN_00c94bd0_Obj
 {
-    void FUN_00c94bd0(void* objects, int count, int flag);
 };
 struct FUN_00c97d30_Obj
 {
-    void FUN_00c97d30(void* object);
 };
+struct CollisionEntity;
 struct CallRet
 {
-    void FUN_00c946e0(void* object, int a, int b);
+public:
+    void FUN_00c946e0(::CollisionEntity *, int, int);
 };
 class FUN_00ce1680_Ragdoll : public hkReferencedObject
 {
@@ -391,8 +397,6 @@ struct RagdollInstance_ce24
     hkArray_ce24<ReferenceObject*> m_ppConstraints;
     hkArray_ce24<int> m_kBoneMap;
     Skeleton_ce24* m_pSkeleton;
-    void FUN_00ce22c0(const hkArray_ce24<ReferenceObject*>& bodies, const hkArray_ce24<ReferenceObject*>& constraints,
-                      Skeleton_ce24* skeleton);
     RagdollInstance_ce24* FUN_00ce2470(const hkArray_ce24<ReferenceObject*>& bodies,
                                        const hkArray_ce24<ReferenceObject*>& constraints, Skeleton_ce24* skeleton);
 };
@@ -404,21 +408,16 @@ extern "C"
     extern __m128 DAT_010c4c00;
     extern __m128 DAT_010c4c10;
 }
-void __cdecl FUN_00ce2d10(unsigned int p0, void* p1, unsigned int p2, int p3, unsigned int p4);
 struct Vec4x3
 {
     __m128 r0;
     __m128 r1;
     __m128 r2;
 };
-void __cdecl FUN_00ce2f40(unsigned int arg0, unsigned int arg1, unsigned int arg2, int count, unsigned int arg4);
-extern float DAT_01267e30;
 extern float DAT_01017d00;
 extern float DAT_01017d10;
 struct UnkCall
 {
-    void FUN_00c9c1d0();
-    void FUN_00ca8860(const hkVector4& pos, const hkQuaternion& rot);
 };
 struct hkpMotion
 {
@@ -476,12 +475,12 @@ struct hkpRigidBody : public UnkCall
 
     void SetTranslationalVelocity(const hkVector4& vel)
     {
-        FUN_00c9c1d0();
+        reinterpret_cast<::hkpEntityC9C *>(this)->FUN_00c9c1d0();
         m_pMotionState.SetTranslationalVelocity(vel);
     }
     void SetRotationalVelocity(const hkVector4& vel)
     {
-        FUN_00c9c1d0();
+        reinterpret_cast<::hkpEntityC9C *>(this)->FUN_00c9c1d0();
         m_pMotionState.SetRotationalVelocity(vel);
     }
 };
@@ -527,7 +526,6 @@ struct FUN_00ce2510
     InitArray<int> m_kBoneMap;
     int m_2c;
 
-    void FUN_00ce22c0(int a, int b, int c);
     FUN_00ce2510(int a, int b, int c, ObjectArray<int>* d);
 };
 
@@ -832,14 +830,14 @@ void PoseVelocity_RagdollPoseUpdater::FUN_00ce1ca0(const PoseVelocity_MyQsTransf
             {
                 PoseVelocity_MyQsTransform worldPoseA;
                 worldPoseA.SetProduct(worldFromModelA, poseA[i]);
-                worldPoseA.m_rotation.FUN_005611c0();
+                reinterpret_cast<::FUN_005611c0_t *>(&(worldPoseA.m_rotation))->FUN_005611c0();
 
                 PoseVelocity_MyQsTransform worldPoseB;
                 worldPoseB.SetProduct(worldFromModelB, poseB[i]);
-                worldPoseB.m_rotation.FUN_005611c0();
+                reinterpret_cast<::FUN_005611c0_t *>(&(worldPoseB.m_rotation))->FUN_005611c0();
 
-                body->FUN_00ca8860(reinterpret_cast<const hkVector4&>(worldPoseB.m_vTranslation),
-                                   reinterpret_cast<const hkQuaternion&>(worldPoseB.m_rotation));
+                reinterpret_cast<::FUN_00ca8860_cls *>((body))->FUN_00ca8860((int)&(reinterpret_cast<const hkVector4&>(worldPoseB.m_vTranslation)),
+                                   (int)&(reinterpret_cast<const hkQuaternion&>(worldPoseB.m_rotation)));
 
                 PoseVelocity_MyVector4 linearVelocity;
                 linearVelocity.setSub4(worldPoseB.m_vTranslation, worldPoseA.m_vTranslation);
@@ -848,13 +846,13 @@ void PoseVelocity_RagdollPoseUpdater::FUN_00ce1ca0(const PoseVelocity_MyQsTransf
                         reinterpret_cast<const PoseVelocity_MyVector4&>(body->m_pMotionState.m_kTranslationalVelocity),
                         DAT_01017d00))
                 {
-                    body->FUN_00c9c1d0();
+                    reinterpret_cast<::hkpEntityC9C *>((body))->FUN_00c9c1d0();
                     body->m_pMotionState.SetTranslationalVelocity(reinterpret_cast<const hkVector4&>(linearVelocity));
                 }
 
                 PoseVelocity_MyQuaternion relativeRotation;
-                relativeRotation.FUN_00c74ac0(worldPoseB.m_rotation, worldPoseA.m_rotation);
-                relativeRotation.FUN_005611c0();
+                reinterpret_cast<::Quat74 *>(&(relativeRotation))->FUN_00c74ac0((const ::Quat74 &)(worldPoseB.m_rotation), (const ::Quat74 &)(worldPoseA.m_rotation));
+                reinterpret_cast<::FUN_005611c0_t *>(&(relativeRotation))->FUN_005611c0();
 
                 PoseVelocity_MyVector4 angularVelocity;
                 if (!relativeRotation.hasValidAxis())
@@ -863,7 +861,7 @@ void PoseVelocity_RagdollPoseUpdater::FUN_00ce1ca0(const PoseVelocity_MyQsTransf
                 }
                 else
                 {
-                    float angle = relativeRotation.GetAngle();
+                    float angle = reinterpret_cast<::C74C20Quat *>(&(relativeRotation))->GetAngle();
                     relativeRotation.FUN_00c74c90(angularVelocity);
                     angularVelocity.mul4(angle * inverseDeltaTime);
                 }
@@ -872,7 +870,7 @@ void PoseVelocity_RagdollPoseUpdater::FUN_00ce1ca0(const PoseVelocity_MyQsTransf
                         reinterpret_cast<const PoseVelocity_MyVector4&>(body->m_pMotionState.m_kAngularVelocity),
                         DAT_01017d00))
                 {
-                    body->FUN_00c9c1d0();
+                    reinterpret_cast<::hkpEntityC9C *>((body))->FUN_00c9c1d0();
                     body->m_pMotionState.SetRotationalVelocity(reinterpret_cast<const hkVector4&>(angularVelocity));
                 }
             }

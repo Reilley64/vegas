@@ -5,6 +5,88 @@
 
 // src/speedtree/speedtreert.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/speedtreert.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/Agent.h"
+#include "fnv/decl/B0E9Vec.h"
+#include "fnv/decl/B0Vector.h"
+#include "fnv/decl/CTreeEngine.h"
+#include "fnv/decl/CTreeEngineImpl.h"
+#include "fnv/decl/Class_00b1c6d0.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00aca270.h"
+#include "fnv/decl/FUN_00b04420_class.h"
+#include "fnv/decl/FUN_00b08530_class.h"
+#include "fnv/decl/FUN_00b085a0_local_shell.h"
+#include "fnv/decl/FUN_00b0cf90_class.h"
+#include "fnv/decl/FUN_00b0cff0_class.h"
+#include "fnv/decl/FUN_00b0dc10_Vector.h"
+#include "fnv/decl/FUN_00b0dce0.h"
+#include "fnv/decl/FUN_00b181b0.h"
+#include "fnv/decl/FUN_00b276f0_cls.h"
+#include "fnv/decl/FUN_00b27870_Class.h"
+#include "fnv/decl/FUN_00b28720_Class.h"
+#include "fnv/decl/FUN_00b2bd40_Obj.h"
+#include "fnv/decl/FUN_00b2c0c0_shell.h"
+#include "fnv/decl/FUN_00b2daf0_shell.h"
+#include "fnv/decl/FUN_00b2e9c0.h"
+#include "fnv/decl/FUN_00b30730_Tree.h"
+#include "fnv/decl/FUN_00b37470_shell.h"
+#include "fnv/decl/FUN_00b37510_shell.h"
+#include "fnv/decl/FUN_00b3ed20_cls.h"
+#include "fnv/decl/Frond.h"
+#include "fnv/decl/FrondEngine.h"
+#include "fnv/decl/FrondInfo.h"
+#include "fnv/decl/Geometry366.h"
+#include "fnv/decl/GeometryProcessor.h"
+#include "fnv/decl/GvManager.h"
+#include "fnv/decl/Iterator470.h"
+#include "fnv/decl/LeafGeometry.h"
+#include "fnv/decl/LeafGeometryB28480.h"
+#include "fnv/decl/LeafMatrices__LeafBuilder.h"
+#include "fnv/decl/LightQ.h"
+#include "fnv/decl/LodInfoReader.h"
+#include "fnv/decl/Matrix4f.h"
+#include "fnv/decl/MatrixRange.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiD3DHLSLPixelShader.h"
+#include "fnv/decl/S.h"
+#include "fnv/decl/S00b28280_Leaf.h"
+#include "fnv/decl/S_00b3cf40.h"
+#include "fnv/decl/S_00b3ed80.h"
+#include "fnv/decl/ScaledVec6.h"
+#include "fnv/decl/Scene.h"
+#include "fnv/decl/ShapeHost.h"
+#include "fnv/decl/SimpleBillboard.h"
+#include "fnv/decl/SpeedTreeLodData.h"
+#include "fnv/decl/StripJoin__Mesh.h"
+#include "fnv/decl/VcVec.h"
+#include "fnv/decl/VecStandIn.h"
+#include "fnv/decl/WindEngine.h"
+#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
+#include "fnv/decl/fnv_00b0e7f0__FUN_00b0e7f0_class.h"
+#include "fnv/decl/fnv_00b2af80__Target.h"
+#include "fnv/decl/fnv_00b2d090__TreeEngineB2D090.h"
+#include "fnv/decl/fnv_00b2d2e0__FlareEngine.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0044d000.h"
+#include "fnv/symbols_00b06000.h"
+#include "fnv/symbols_00b08000.h"
+#include "fnv/symbols_00b09000.h"
+#include "fnv/symbols_00b0c000.h"
+#include "fnv/symbols_00b0d000.h"
+#include "fnv/symbols_00b10000.h"
+#include "fnv/symbols_00b18000.h"
+#include "fnv/symbols_00b36000.h"
+#include "fnv/symbols_00b37000.h"
+#include "fnv/symbols_00b42000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101a000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_010a3000.h"
+#include "fnv/symbols_010a4000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f8000.h"
 struct FUN_00b02e00_class
 {
     void FUN_00b02e00();
@@ -248,9 +330,7 @@ struct FUN_00b08440_shell
     float FUN_00b08440();
 };
 extern unsigned char DAT_011f8b78;
-void FUN_00b084f0(unsigned char param_1);
 void __cdecl _memmove(void* dst, const void* src, unsigned int size);
-void __cdecl AssignString(const char* s);
 struct CSpeedTreeRT_GetBoundingBox
 {
     void __thiscall FUN_00b08c80(float* dst);
@@ -282,8 +362,6 @@ struct FUN_00b0a260_Class
     void* m_58;
     int __thiscall GetEntryCount();
 };
-extern unsigned char DAT_011f8b79;
-void FUN_00b0d7b0(unsigned char param_1);
 struct FUN_00b02b70_shell
 {
     int m_iWordAt00;
@@ -362,7 +440,6 @@ struct MemoryManager
 {
     void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 struct FUN_00b02e80
 {
     void* m00;
@@ -374,7 +451,6 @@ struct FUN_00b02e80
     int m18;
     ~FUN_00b02e80();
 };
-extern int DAT_011f8e9c;
 extern int DAT_011f8ea0;
 extern int DAT_011f8ea4;
 extern int DAT_011f8eac;
@@ -386,7 +462,6 @@ struct Vector3D
     float y;
     float z;
 };
-void __cdecl FUN_00b06b70(float* pPosition, float* pDirection);
 struct FUN_00b08480_shell
 {
     void* m_iWordAt00;
@@ -417,7 +492,6 @@ struct FUN_00b02dc0_class
 struct FUN_00b2b940_class
 {
     unsigned char m_bFlag;  // +0x21
-    void FUN_00b2b940();
 };
 struct FUN_00b053e0_shell
 {
@@ -456,7 +530,6 @@ struct FUN_0044d6f0_This
     void* m_8;
     void __thiscall FUN_00ec79a1();
 };
-extern int DAT_010a307c;
 struct FUN_00b09780_class : FUN_0044d6f0_This
 {
     std::basic_string<char, std::char_traits<char>, std::allocator<char> > m_iThirdValue;
@@ -468,7 +541,6 @@ struct FUN_00b097b0_class
 {
     void* m_p;
     char pad[0x60];
-    void FUN_00aca270(int a);
     int* FUN_00b097b0(int a);
 };
 struct FUN_00b09f70_Class
@@ -480,11 +552,8 @@ struct P03MM
 {
     void* Allocate(unsigned int size);
 };
-extern P03MM _g_memoryManager;
 unsigned int _strlen(const char* s);
 char* DuplicateString(const char* pOrig);
-extern unsigned char DAT_011f8b79;
-unsigned char __cdecl FUN_00b0d7a0();
 struct BoundingBlock
 {
     FUN_00b02c10_class contained;
@@ -522,7 +591,6 @@ struct FUN_00b02ac0
     LeafBlock leafC;
     ~FUN_00b02ac0();
 };
-extern double _DAT_0101a6b0;
 struct FUN_00b08610_shell
 {
     unsigned short __thiscall FUN_00b08610(float fLodLevel);
@@ -533,11 +601,7 @@ struct std_string
 };
 extern std_string DAT_011f8ba4;
 unsigned int _strlen(const char*);
-void __cdecl AssignString(const char* s);
 extern unsigned char DAT_011f8b78;
-void __cdecl AssignString(const char* s);
-void __cdecl FUN_00b0c8d0(float a, unsigned short n, float b, float c, float d, float e, float* pf1, float* pf2,
-                          short* ps1, short* ps2);
 struct FUN_00b0b920_geo
 {
     char m_00[0xc];
@@ -548,18 +612,6 @@ struct FUN_00b0b920_engine
 {
     char m_00[0x88];
     FUN_00b0b920_geo m_geo;
-    int FUN_00b4b0();
-    int FUN_00b530();
-    int FUN_00b5b0();
-    int FUN_00b630();
-    int FUN_00b6b0();
-    int FUN_00b730();
-    int FUN_00b7b0();
-    int FUN_00b830();
-    int FUN_00b8b0();
-    unsigned short FUN_00b0a9a0(unsigned short i);
-    int FUN_00b0aa20(unsigned short i);
-    int FUN_00b30730(unsigned short i);
 };
 struct FUN_00b0b920_arg
 {
@@ -578,16 +630,11 @@ struct FUN_00b0b920_self
     unsigned char m_44;
     char m_45[0x1b];
     FUN_00b0b920_engine* m_60;
-    unsigned short FUN_00b08710();
-    short FUN_00b085a0(float f);
-    float FUN_00b08440();
     void FillFrondGeometry(FUN_00b0b920_arg* arg, short type);
 };
 struct HelperC780
 {
-    void* FUN_00b0c780(float, float);
 };
-void __cdecl FUN_00b0c8d0(float, unsigned short, float, float, float, float, float*, float*, short*, short*);
 extern "C" char DAT_011ad124;
 struct BlockC4
 {
@@ -653,15 +700,12 @@ struct P8
 };
 struct R0cff0
 {
-    void ScaleSwizzled();
 };
 struct S0cf90
 {
-    R0cff0* AddVector(V3cdd0* fDist, V3cdd0* dst, V3cdd0* fB, float f);
 };
 struct T3ea10
 {
-    void FUN_00b3ea10(void* c0, V3cdd0 fB, float b0, void* p);
 };
 struct B0cdd0
 {
@@ -812,12 +856,10 @@ struct It : FUN_00b10430
 {
     inline It(Elem* q, Cont* cc) : FUN_00b10430(q, cc)
     {}
-    bool FUN_00b0eca0(const It& r);
-    It& FUN_00b0eb30();
     Elem& FUN_00b0ebb0();
     inline bool operator!=(const It& r)
     {
-        return !FUN_00b0eca0(r);
+        return !reinterpret_cast<::FUN_00b0eca0_t *>(this)->FUN_00b0eca0((::FUN_00b0eca0_t *)&(r));
     }
     inline Elem* operator->()
     {
@@ -837,7 +879,6 @@ struct Vec3
     {
         return v[i];
     }
-    Vec3 FUN_00b05000(const Mat& m);
 };
 inline void Dead3()
 {
@@ -865,10 +906,10 @@ struct Cont
 // @fnv 0x00b04db0
 void Cont::FUN_00b04db0(const Mat& m)
 {
-    for (It it = Begin(); it != End(); it.FUN_00b0eb30())
+    for (It it = Begin(); it != End(); reinterpret_cast<::Iterator470 *>(&(it))->FUN_00b0eb30())
     {
         Vec3 pos(it->x, it->y, it->z);
-        pos = pos.FUN_00b05000(m);
+        pos = (*(::Vec3 *)(reinterpret_cast<::S *>(&(pos))->FUN_00b05000((::V *)&(m), {})));
         it.FUN_00b0ebb0().x = pos[0];
         it.FUN_00b0ebb0().y = pos[1];
         it.FUN_00b0ebb0().z = pos[2];
@@ -913,7 +954,7 @@ struct FUN_0044a4c0
     ~FUN_0044a4c0()
     {
         Dead8();
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     void FUN_0044a730(bool b, unsigned n);
 };
@@ -1128,19 +1169,19 @@ struct MemoryManagerAllocHelper
 extern MemoryManagerAllocHelper DAT_011f6238;
 inline void* operator new(unsigned int n)
 {
-    return DAT_011f6238.Allocate(n);
+    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager))))->FUN_00aa3e40(n);
 }
 inline void* operator new[](unsigned int n)
 {
-    return DAT_011f6238.Allocate(n);
+    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager))))->FUN_00aa3e40(n);
 }
 inline void operator delete(void* p)
 {
-    DAT_011f6238.Deallocate(p);
+    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager))))->FUN_00aa4060(p);
 }
 inline void operator delete[](void* p)
 {
-    DAT_011f6238.Deallocate(p);
+    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager))))->FUN_00aa4060(p);
 }
 struct CritSecQ
 {
@@ -1151,7 +1192,6 @@ extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(CritSecQ*);
 extern CritSecQ DAT_011f8bc4;
 struct InstListQ
 {
-    void FUN_00b0ddc0(void* const& v);
 };
 extern InstListQ DAT_011f8bdc;
 extern int DAT_011f8b7c;
@@ -1171,10 +1211,9 @@ struct StrQ : std::basic_string<char, std::char_traits<char>, std::allocator<cha
     }
     ~StrQ()
     {
-        _Tidy(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
 };
-StrQ __cdecl FUN_00b18860(const char* fmt, ...);
 inline void SetCurQ(void* p)
 {
     int pad[24];
@@ -1222,10 +1261,9 @@ struct O34
 struct O18
 {
     int d[6];
-    void FUN_00b0dce0();
     O18()
     {
-        FUN_00b0dce0();
+        new ((void *)this) ::FUN_00b0dce0();
     }
 };
 struct O84
@@ -1265,53 +1303,6 @@ struct FUN_00b02ef0
     float m70[12];
     FUN_00b02ef0();
 };
-// @fnv 0x00b02ef0
-FUN_00b02ef0::FUN_00b02ef0()
-    : m00(0), m04(0), m08(0), m0c(0), m10(0), m14(0), m18(1), m1c(0.07f), m20(0.7f), m24(0.5f), m28(0.0f), m2c(0),
-      m30(0), m34(0), m3c(-1), m40(0), m44('T'), m45(0), m48(-1), m4c(0), m50(0), m54(0), m58(0), m5c(0), m64(0),
-      m68(0), m6c(0), m6d(0)
-{
-    try
-    {
-        m10 = new O44;
-        m04 = new O190(m10, 0);
-        m00 = new O128(m04);
-        m0c = new Ob0;
-        m08 = new O30(m10);
-        m14 = new O34;
-        m40 = new float[7];
-        m30 = new int;
-        *m30 = 1;
-        m38 = new O18;
-        m5c = new O84;
-        m60 = new O190(m10, 1);
-        EnterCriticalSection(&DAT_011f8bc4);
-        DAT_011f8bdc.FUN_00b0ddc0(this);
-        DAT_011f8b7c++;
-        LeaveCriticalSection(&DAT_011f8bc4);
-        SetCurQ(m0c);
-        m40[0] = 0.0f;
-        m40[1] = 0.0f;
-        m40[2] = 0.0f;
-        m40[3] = 1.0f;
-        m40[4] = 1.0f;
-        m40[5] = 1.0f;
-        m40[6] = 1.0f;
-        for (int i = 0; i < 12; i++)
-            m70[i] = 0.0f;
-    }
-    catch (ExcQ& e)
-    {
-        AssignString(FUN_00b18860("%s - failed [%s]", "CSpeedTreeRT::CSpeedTreeRT( )", e.what()).c_str());
-        Dead5Q();
-    }
-    catch (...)
-    {
-        AssignString(FUN_00b18860("%s - threw an unknown system exception", "CSpeedTreeRT::CSpeedTreeRT( )").c_str());
-        Dead5Q();
-    }
-}
-
 namespace fnv_00b044a0 {
 inline void Dead1()
 {
@@ -1338,7 +1329,7 @@ struct StrF
     ~StrF()
     {
         int aiD[4];
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     void FUN_0044a730(bool b, unsigned n);
     const char* c_str() const
@@ -1346,8 +1337,6 @@ struct StrF
         return 16 <= uiRes ? kBx.pPtr : kBx.acBuf;
     }
 };
-StrF __cdecl FUN_00b18860(const char* pFmt, ...);
-void __cdecl AssignString(const char* s);
 void* __cdecl FUN_00ec44d0(void*, const void*, unsigned);
 namespace std {
 class exception
@@ -1385,11 +1374,10 @@ struct V3Q
 struct V3B
 {
     float x, y, z;
-    float FUN_00b04d40(const V3Q& v) const;
     float Dist(const V3Q& v) const
     {
         Dead2();
-        return FUN_00b04d40(v);
+        return reinterpret_cast<::V3cdd0 *>((void *)this)->FUN_00b04d40((const ::V3cdd0 *)&(v));
     }
 };
 inline void CopyV(V3Q& d, const BVecQ& s)
@@ -1407,9 +1395,8 @@ struct MatQ
     float m[16];
     MatQ()
     {
-        FUN_00b3ccb0();
+        new ((void *)this) ::Matrix4f();
     }
-    void FUN_00b3ccb0();
 };
 struct LeafVQ
 {
@@ -1423,7 +1410,6 @@ struct LeafVQ
 };
 struct O94Q
 {
-    void Init(unsigned n);
 };
 struct TreeCQ
 {
@@ -1449,14 +1435,9 @@ struct TreeCQ
     {
         return iD8;
     }
-    void InitSeed(int);
-    void FUN_00b2af80(float);
 };
 struct GeoQ
 {
-    void FUN_00b2ed70(int);
-    void FUN_00b2fc50(const MatQ&);
-    void FUN_00b2fa30(BoxQ&);
     unsigned short pad[16];
     unsigned short w20;
     unsigned short GetW20()
@@ -1466,10 +1447,6 @@ struct GeoQ
 };
 struct BrQ
 {
-    void FUN_00b28480(unsigned short, int, O94Q*);
-    void SetLeafTableEntry(int, int*);
-    void FUN_00b28280(const MatQ&);
-    void FUN_00b27910(BoxQ&);
 };
 struct Cfg0cQ
 {
@@ -1482,7 +1459,6 @@ struct Cfg0cQ
 };
 struct M10Q
 {
-    void SetFromSource(int*);
 };
 struct El20
 {
@@ -1498,15 +1474,10 @@ struct M4cQ
 };
 struct M58Q
 {
-    void FUN_00b04db0(const MatQ&);
 };
 struct M5cQ
 {
-    void FUN_00b18fd0(GeoQ*, Cfg0cQ*);
-    void FUN_00b1c6d0(GeoQ*, int, int*, unsigned char);
 };
-extern unsigned char DAT_011f8b79;
-extern M5cQ* DAT_011f8c00;
 struct SpdCompQ
 {
     TreeCQ* m_p0;
@@ -1530,21 +1501,19 @@ struct SpdCompQ
     GeoQ* m_p60;
     unsigned short m_w64;
     void FUN_00b08cc0();
-    void FUN_00b0cdd0();
-    void InitBoundingBoxCorners();
     bool FUN_00b044a0(const float* pTransform, int nSeed, bool bStrips);
 };
 inline void SetCur(M5cQ* p)
 {
-    DAT_011f8c00 = p;
+    (*reinterpret_cast<::fnv_00b044a0::M5cQ * *>(&::DAT_011f8c00)) = p;
 }
 inline void InitLeaves(TreeCQ* t)
 {
-    t->o94.Init(t->leaves.size());
+    reinterpret_cast<::S_00b3cf40 *>(&(t->o94))->Init(t->leaves.size());
 }
 inline void InitBr(BrQ* b, O94Q* o, int ec, unsigned short d8)
 {
-    b->FUN_00b28480(d8, ec, o);
+    reinterpret_cast<::LeafGeometryB28480 *>((b))->FUN_00b28480(d8, ec, (const ::LeafSourceB28480 *)(o));
 }
 // @fnv 0x00b044a0
 bool SpdCompQ::FUN_00b044a0(const float* pTransform, int nSeed, bool bStrips)
@@ -1554,42 +1523,42 @@ bool SpdCompQ::FUN_00b044a0(const float* pTransform, int nSeed, bool bStrips)
         if (!m_b45)
         {
             SetCur(m_p5c);
-            m_p0->InitSeed(nSeed);
-            m_p0->FUN_00b2af80(m_f24);
-            m_p5c->FUN_00b18fd0(m_p60, m_pC);
+            reinterpret_cast<::FUN_00b2c0c0_shell *>((m_p0))->InitSeed(nSeed);
+            reinterpret_cast<::fnv_00b2af80::Target *>((m_p0))->FUN_00b2af80(m_f24);
+            reinterpret_cast<::FrondEngine *>((m_p5c))->FUN_00b18fd0((::FrondGeometry *)(m_p60), m_pC);
             m_w64 = m_p60->GetW20();
             InitLeaves(m_p0);
             if (m_pC->Get38() == 1)
                 FUN_00b08cc0();
             int* p10c_iipp = &m_p0->o10c;
-            m_p10->SetFromSource(p10c_iipp);
-            m_p8->FUN_00b28480(m_p0->GetD8(), m_p0->GetEC(), m_p0->GetO94());
+            reinterpret_cast<::FUN_00b37510_shell *>((m_p10))->SetFromSource((const float *)(p10c_iipp));
+            reinterpret_cast<::LeafGeometryB28480 *>((m_p8))->FUN_00b28480(m_p0->GetD8(), m_p0->GetEC(), (const ::LeafSourceB28480 *)(::fnv_00b044a0::O94Q *)(m_p0->GetO94()));
             if (m_p4c)
             {
                 for (int i = 0; i < m_p4c->n0; ++i)
-                    m_p8->SetLeafTableEntry(i, &m_p4c->p4[i * 8]);
+                    reinterpret_cast<::FUN_00b28720_Class *>((m_p8))->SetLeafTableEntry(i, (const float *)(int *)(&m_p4c->p4[i * 8]));
                 for (int j = 0; j < m_p4c->n10; ++j)
-                    m_p5c->FUN_00b1c6d0(m_p60, j, &m_p4c->p14[j * 8], DAT_011f8b79);
+                    reinterpret_cast<::Class_00b1c6d0 *>((m_p5c))->FUN_00b1c6d0((::Geo_00b1c6d0 *)(m_p60), j, (const float *)(int *)(&m_p4c->p14[j * 8]), ::DAT_011f8b79);
             }
             if (bStrips)
             {
-                m_p4->FUN_00b2ed70(0);
-                m_p60->FUN_00b2ed70(0);
+                reinterpret_cast<::StripJoin::Mesh *>((m_p4))->FUN_00b2ed70(0);
+                reinterpret_cast<::StripJoin::Mesh *>((m_p60))->FUN_00b2ed70(0);
             }
             if (pTransform)
             {
                 MatQ mat;
                 FUN_00ec44d0(&mat, pTransform, 0x40);
-                m_p4->FUN_00b2fc50(mat);
-                m_p8->FUN_00b28280(mat);
-                m_p60->FUN_00b2fc50(mat);
+                reinterpret_cast<::Geometry366 *>((m_p4))->FUN_00b2fc50((const ::Matrix366 &)(mat));
+                reinterpret_cast<::S00b28280_Leaf *>((m_p8))->FUN_00b28280((const ::Matrix4f &)(mat));
+                reinterpret_cast<::Geometry366 *>((m_p60))->FUN_00b2fc50((const ::Matrix366 &)(mat));
                 if (m_p58)
-                    m_p58->FUN_00b04db0(mat);
+                    reinterpret_cast<::Cont *>((m_p58))->FUN_00b04db0((const ::Mat &)(mat));
             }
             BoxQ box_pktk;
-            m_p4->FUN_00b2fa30(box_pktk);
-            m_p8->FUN_00b27910(box_pktk);
-            m_p60->FUN_00b2fa30(box_pktk);
+            reinterpret_cast<::ShapeHost *>((m_p4))->FUN_00b2fa30((::BoundsBox *)&(box_pktk));
+            reinterpret_cast<::LeafGeometry *>((m_p8))->FUN_00b27910((::Bounds &)(box_pktk));
+            reinterpret_cast<::ShapeHost *>((m_p60))->FUN_00b2fa30((::BoundsBox *)&(box_pktk));
             Dead21();
             CopyV(m_p40->min, box_pktk.min);
             CopyV(m_p40->max, box_pktk.max);
@@ -1610,22 +1579,22 @@ bool SpdCompQ::FUN_00b044a0(const float* pTransform, int nSeed, bool bStrips)
                               : (center_nrc.Dist(V3Q(m_p40->max.x, m_p40->max.y)));
             m_p40->f18 = fMax_jdjgrg * 2.0f;
             if (m_p50)
-                FUN_00b0cdd0();
-            InitBoundingBoxCorners();
+                reinterpret_cast<::FUN_00b0cdd0_cls *>(this)->FUN_00b0cdd0();
+            reinterpret_cast<::FUN_00b0d5f0_Class *>(this)->InitBoundingBoxCorners();
             m_b45 = true;
         }
         else
         {
-            AssignString("Compute() called more than once for single tree model (ignored)");
+            ::AssignString("Compute() called more than once for single tree model (ignored)");
         }
     }
     catch (std::exception& exc)
     {
-        AssignString(FUN_00b18860("%s - failed [%s]", "CSpeedTreeRT::Compute", exc.what()).c_str());
+        ::AssignString((*(::fnv_00b044a0::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - failed [%s]"), "CSpeedTreeRT::Compute", exc.what()))).c_str());
     }
     catch (...)
     {
-        AssignString(FUN_00b18860("%s - threw an unknown system exception", "CSpeedTreeRT::Compute").c_str());
+        ::AssignString((*(::fnv_00b044a0::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - threw an unknown system exception"), "CSpeedTreeRT::Compute"))).c_str());
         Dead1();
     }
     return m_b45;
@@ -1640,7 +1609,7 @@ struct CharAllocB05130
     {}
     void deallocate(char* p, unsigned int)
     {
-        ::operator delete(p);
+        ::FUN_00401030(p);
     }
 };
 struct SecureTagB05130
@@ -1768,7 +1737,7 @@ struct CharAllocB05210
     {}
     void deallocate(char* p, unsigned int)
     {
-        ::operator delete(p);
+        ::FUN_00401030(p);
     }
 };
 struct SecureTagB05210
@@ -1818,7 +1787,7 @@ struct StringB05210 : public StringValB05210
     }
     ~StringB05210()
     {
-        Tidy(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     const char* c_str() const
     {
@@ -1854,23 +1823,20 @@ struct StringB05210 : public StringValB05210
     unsigned int m_uiSize;
     unsigned int m_uiRes;
 };
-StringB05210 __cdecl FUN_00b18860(const char* pcFormat, ...);
-void __cdecl AssignString(const char* pcMessage);
 struct MemoryManagerB05210
 {
     void* Allocate(unsigned int uiSize);
     void Deallocate(void* pvMem);
 };
-extern MemoryManagerB05210 g_kMemoryB05210;
 struct SpeedTreeRTB05210
 {
     static void* operator new(unsigned int uiSize)
     {
-        return g_kMemoryB05210.Allocate(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00b05210::MemoryManagerB05210 *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }
     static void operator delete(void* pvMem)
     {
-        g_kMemoryB05210.Deallocate(pvMem);
+        (*reinterpret_cast<::fnv_00b05210::MemoryManagerB05210 *>(&::g_memoryManager)).Deallocate(pvMem);
     }
     SpeedTreeRTB05210(const SpeedTreeRTB05210* pOriginal);
     SpeedTreeRTB05210* FUN_00b05210();
@@ -1926,11 +1892,11 @@ SpeedTreeRTB05210* SpeedTreeRTB05210::FUN_00b05210()
     }
     catch (std::exception& e)
     {
-        AssignString(FUN_00b18860("%s - failed [%s]", "CSpeedTreeRT::MakeInstance", e.what()).c_str());
+        ::AssignString((*(::fnv_00b05210::StringB05210 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - failed [%s]"), "CSpeedTreeRT::MakeInstance", e.what()))).c_str());
     }
     catch (...)
     {
-        AssignString(FUN_00b18860("%s - threw an unknown system exception", "CSpeedTreeRT::MakeInstance").c_str());
+        ::AssignString((*(::fnv_00b05210::StringB05210 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - threw an unknown system exception"), "CSpeedTreeRT::MakeInstance"))).c_str());
     }
     return pInstance;
 }
@@ -1973,7 +1939,7 @@ struct StrF
     unsigned uiRes;
     ~StrF()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     void FUN_0044a730(bool b, unsigned n)
     {
@@ -1992,7 +1958,7 @@ struct StrF
     }
     void FUN_0064df10(void* p, unsigned)
     {
-        ::operator delete(p);
+        ::FUN_00401030(p);
     }
     void ResizeString(unsigned n)
     {
@@ -2013,8 +1979,6 @@ struct StrF
         return 16 <= uiRes ? kBx.pPtr : kBx.acBuf;
     }
 };
-StrF __cdecl FUN_00b18860(const char* pFmt, ...);
-void __cdecl AssignString(const char* s);
 extern "C" int* __cdecl FUN_00ec85e3();
 extern "C" char* __cdecl FUN_00ecdb42(int);
 void __stdcall FUN_00ec7894(void* p, void* t);
@@ -2108,8 +2072,8 @@ bool SpdLoadQ::FUN_00b05420(const char* path)
                     }
                     else
                     {
-                        throw std::exception(FUN_00b18860("only read %d of %d from %s [%s]", count, length, path,
-                                                          FUN_00ecdb42(*FUN_00ec85e3()))
+                        throw std::exception((*(::fnv_00b05420::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("only read %d of %d from %s [%s]"), (const char *)(count), length, path,
+                                                          FUN_00ecdb42(*FUN_00ec85e3()))))
                                                  .c_str());
                     }
                     delete file_cswij;
@@ -2118,13 +2082,13 @@ bool SpdLoadQ::FUN_00b05420(const char* path)
                 else
                 {
                     throw std::exception(
-                        FUN_00b18860("file seek failed on '%s' [%s]", path, FUN_00ecdb42(*FUN_00ec85e3())).c_str());
+                        (*(::fnv_00b05420::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("file seek failed on '%s' [%s]"), path, FUN_00ecdb42(*FUN_00ec85e3())))).c_str());
                 }
             }
             else
             {
                 throw std::exception(
-                    FUN_00b18860("failed to load file '%s' [%s]", path, FUN_00ecdb42(*FUN_00ec85e3())).c_str());
+                    (*(::fnv_00b05420::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("failed to load file '%s' [%s]"), path, FUN_00ecdb42(*FUN_00ec85e3())))).c_str());
             }
         }
     }
@@ -2136,7 +2100,7 @@ bool SpdLoadQ::FUN_00b05420(const char* path)
             file_cswij = 0;
         }
         contents_lmol = 0;
-        AssignString(FUN_00b18860("CSpeedTreeRT::Load Tree - %s", e_jzu.what()).c_str());
+        ::AssignString((*(::fnv_00b05420::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("CSpeedTreeRT::Load Tree - %s"), e_jzu.what()))).c_str());
     }
     catch (...)
     {
@@ -2146,7 +2110,7 @@ bool SpdLoadQ::FUN_00b05420(const char* path)
             file_cswij = 0;
         }
         contents_lmol = 0;
-        AssignString(FUN_00b18860("CSpeedTreeRT::LoadTree - threw an unknown system exception").c_str());
+        ::AssignString((*(::fnv_00b05420::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("CSpeedTreeRT::LoadTree - threw an unknown system exception"), {}))).c_str());
     }
     return bOk_dt;
 }
@@ -2183,7 +2147,7 @@ struct Alloc59
     int state;
     __forceinline void deallocate(Proxy59* allocation, unsigned int count)
     {
-        DAT_011f6238.FUN_00aa4060((int)allocation);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00b059e0::Global59 *>(&::g_memoryManager))))->FUN_00aa4060((void *)((int)allocation));
     }
 };
 struct ScalarTag59
@@ -2250,16 +2214,13 @@ struct Inner59 : VectorValue59
     }
     __forceinline ~Inner59()
     {
-        FUN_00657f60();
+        reinterpret_cast<::FUN_00657f60_class *>(this)->FUN_00657f60();
     }
 };
-extern unsigned char DAT_011f8c04;
 __forceinline void setFlag(unsigned char value)
 {
-    DAT_011f8c04 = value;
+    (*reinterpret_cast<unsigned char *>(&::DAT_011f8c04)) = value;
 }
-extern unsigned short DAT_011f8d84;
-extern float DAT_01016248;
 
 struct FUN_00b06090
 {
@@ -2275,8 +2236,6 @@ struct FUN_00b06090
             m_in.d[index] = ((const char*)p1)[index];
         }
     }
-    int GetNextElement();
-    float FUN_00b3ed20();
     bool FUN_00b06180()
     {
         return m_in.at(m_pos++) != 0;
@@ -2361,10 +2320,6 @@ struct Sub0
     {
         return f108;
     }
-    bool FUN_00b2b550(FUN_00b06090* r);
-    void FUN_00b2d090(FUN_00b06090* r);
-    void FUN_00b2d2e0(FUN_00b06090* r);
-    void FUN_00b2daf0(FUN_00b06090* r);
 };
 struct SubC
 {
@@ -2411,12 +2366,9 @@ struct SubC
     int unk70;
     int unk74;
     int f78;
-    void FUN_00b2a940(FUN_00b06090* r);
 };
 struct Sub5c
 {
-    void FUN_00b18340(FUN_00b06090* r);
-    int FUN_00b18300();
 };
 struct Sub10
 {
@@ -2445,7 +2397,6 @@ struct Sub10
     {
         f40 = value;
     }
-    void SetMatrixRange(int a, unsigned short b);
 };
 struct Tree59
 {
@@ -2522,7 +2473,7 @@ struct CharAllocator59
     int state;
     void deallocate(char* allocation, unsigned int count)
     {
-        ::operator delete(allocation);
+        ::FUN_00401030(allocation);
     }
 };
 struct Str59
@@ -2560,7 +2511,7 @@ struct Str59
     }
     __forceinline ~Str59()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     __forceinline const char* c_str() const
     {
@@ -2571,8 +2522,6 @@ struct Str59
         return c_str();
     }
 };
-Str59 __cdecl FUN_00b18860(const char* fmt, ...);
-void __cdecl AssignString(const char* s);
 struct StrCalls
 {
     int unk00;
@@ -2592,18 +2541,18 @@ bool Tree59::FUN_00b059e0(int p1, int p2)
     try
     {
         FUN_00b06090 reader8(p1, p2);
-        if (m_p00->FUN_00b2b550(&reader8))
+        if (reinterpret_cast<::CTreeEngineImpl *>((m_p00))->FUN_00b2b550((::CTreeFileAccessImpl *)(::fnv_00b059e0::FUN_00b06090 *)(&reader8)))
         {
             if (!reader8.atEnd())
             {
                 bool done4 = false;
-                int cur = reader8.GetNextElement();
+                int cur = ((int)(reinterpret_cast<::S_00b3ed80 *>(&(reader8))->GetNextElement()));
                 do
                 {
                     switch (cur)
                     {
                     case 8000:
-                        m_p0c->FUN_00b2a940(&reader8);
+                        reinterpret_cast<::LightQ *>((m_p0c))->FUN_00b2a940((::Parser *)(::fnv_00b059e0::FUN_00b06090 *)(&reader8));
                         break;
                     case 9000:
                         FUN_00b092a0(&reader8);
@@ -2618,19 +2567,19 @@ bool Tree59::FUN_00b059e0(int p1, int p2)
                         FUN_00b0a490(&reader8);
                         break;
                     case 13000:
-                        m_p5c->FUN_00b18340(&reader8);
+                        reinterpret_cast<::Frond *>((m_p5c))->FUN_00b18340((::Parser *)(::fnv_00b059e0::FUN_00b06090 *)(&reader8));
                         break;
                     case 15000:
-                        m_p00->FUN_00b2d090(&reader8);
+                        reinterpret_cast<::fnv_00b2d090::TreeEngineB2D090 *>((m_p00))->FUN_00b2d090((::fnv_00b2d090::TreeFileAccess *)(::fnv_00b059e0::FUN_00b06090 *)(&reader8));
                         break;
                     case 16000:
-                        m_p00->FUN_00b2d2e0(&reader8);
+                        reinterpret_cast<::fnv_00b2d2e0::FlareEngine *>((m_p00))->FUN_00b2d2e0((::fnv_00b2d2e0::Reader *)(::fnv_00b059e0::FUN_00b06090 *)(&reader8));
                         break;
                     case 16013:
-                        m_p00->FUN_00b2daf0(&reader8);
+                        reinterpret_cast<::FUN_00b2daf0_shell *>((m_p00))->FUN_00b2daf0((::ElementIterator *)(::fnv_00b059e0::FUN_00b06090 *)(&reader8));
                         break;
                     case 16014: {
-                        m_28 = reader8.FUN_00b3ed20();
+                        m_28 = reinterpret_cast<::FUN_00b3ed20_cls *>(&(reader8))->FUN_00b3ed20();
                         break;
                     }
                     case 18000:
@@ -2643,11 +2592,11 @@ bool Tree59::FUN_00b059e0(int p1, int p2)
                         FUN_00b0d810(&reader8);
                         break;
                     case 21000: {
-                        m_p10->setFirst(reader8.FUN_00b3ed20());
+                        m_p10->setFirst(reinterpret_cast<::FUN_00b3ed20_cls *>(&(reader8))->FUN_00b3ed20());
                         break;
                     }
                     case 21001: {
-                        m_p10->setSecond(reader8.FUN_00b3ed20());
+                        m_p10->setSecond(reinterpret_cast<::FUN_00b3ed20_cls *>(&(reader8))->FUN_00b3ed20());
                         break;
                     }
                     case 22000: {
@@ -2665,7 +2614,7 @@ bool Tree59::FUN_00b059e0(int p1, int p2)
                         }
                         else
                         {
-                            cur = reader8.GetNextElement();
+                            cur = ((int)(reinterpret_cast<::S_00b3ed80 *>(&(reader8))->GetNextElement()));
                         }
                     }
                 } while (!done4);
@@ -2674,23 +2623,23 @@ bool Tree59::FUN_00b059e0(int p1, int p2)
             FUN_00b06810(m_p0c->second());
             FUN_00b069c0(m_p0c->third());
             m_48 = m_p00->count();
-            m_3c = m_p5c->FUN_00b18300();
+            m_3c = ((int)(reinterpret_cast<::NiD3DHLSLPixelShader *>((m_p5c))->FUN_00b18300()));
             if (m_18 == 2)
             {
                 m_18 = 1;
-                m_28 = DAT_01016248;
+                m_28 = ::fnv_00c88020::DAT_01016248;
             }
-            m_p10->SetMatrixRange(0, DAT_011f8d84);
+            reinterpret_cast<::MatrixRange *>((m_p10))->SetMatrixRange(0, (*reinterpret_cast<unsigned short *>(&::fnv_00b07db0::g_kWindMatricesB07)));
             result5 = true;
         }
     }
     catch (Exc59& e)
     {
-        AssignString(FUN_00b18860("%s - failed [%s]", "CSpeedTreeRT::LoadTree", e.Msg()));
+        ::AssignString((*(::fnv_00b059e0::Str59 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - failed [%s]"), "CSpeedTreeRT::LoadTree", e.Msg()))));
     }
     catch (...)
     {
-        AssignString(FUN_00b18860("%s - threw an unknown system exception", "CSpeedTreeRT::LoadTree"));
+        ::AssignString((*(::fnv_00b059e0::Str59 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - threw an unknown system exception"), "CSpeedTreeRT::LoadTree"))));
     }
     return result5;
 }
@@ -2700,7 +2649,6 @@ struct MemoryManagerB061E0
 {
     void Deallocate(void* pvMem);
 };
-extern MemoryManagerB061E0 g_kMemoryB061E0;
 struct ProxyB061E0
 {
     void* m_pkContainer;
@@ -2713,7 +2661,7 @@ template <class T> struct AllocatorB061E0
     {}
     void deallocate(T* pkPtr, unsigned int)
     {
-        g_kMemoryB061E0.Deallocate(pkPtr);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManagerB061E0 *>(&::g_memoryManager))))->FUN_00aa4060(pkPtr);
     }
     void destroy(T* pkPtr)
     {
@@ -2773,7 +2721,7 @@ struct VectorB061E0 : public VectorValB061E0
 {
     ~VectorB061E0()
     {
-        Tidy();
+        reinterpret_cast<::FUN_00657f60_class *>(this)->FUN_00657f60();
     }
 };
 struct FUN_00b061e0
@@ -2804,7 +2752,7 @@ struct CharAllocB06280
     {}
     void deallocate(char* p, unsigned int)
     {
-        ::operator delete(p);
+        ::FUN_00401030(p);
     }
 };
 struct SecureTagB06280
@@ -2854,7 +2802,7 @@ struct StringB06280 : public StringValB06280
     }
     ~StringB06280()
     {
-        Tidy(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     const char* c_str() const
     {
@@ -2890,8 +2838,6 @@ struct StringB06280 : public StringValB06280
     unsigned int m_uiSize;
     unsigned int m_uiRes;
 };
-StringB06280 __cdecl FUN_00b18860(const char* pcFormat, ...);
-void __cdecl AssignString(const char* pcMessage);
 struct EngineB06280
 {
     int unk00;
@@ -2924,7 +2870,6 @@ struct EngineB06280
     {
         return m_iTreeSize;
     }
-    void FUN_00b2bd20(float fSize, float fVariance);
 };
 struct SpeedTreeRTB06280
 {
@@ -2940,22 +2885,22 @@ void SpeedTreeRTB06280::FUN_00b06280(float fSize, float fVariance)
         if (m_pFirstPointer->TransientDataOk())
         {
             if (fSize > 0.0)
-                m_pFirstPointer->FUN_00b2bd20(fSize, fVariance);
+                reinterpret_cast<::CTreeEngine *>((m_pFirstPointer))->FUN_00b2bd20(fSize, fVariance);
             else
-                AssignString("SetTreeSize() is only valid for size values greater than 0.0");
+                ::AssignString("SetTreeSize() is only valid for size values greater than 0.0");
         }
         else
         {
-            AssignString("SetTreeSize() has no effect after DeleteTransientData() has been called");
+            ::AssignString("SetTreeSize() has no effect after DeleteTransientData() has been called");
         }
     }
     catch (std::exception& e)
     {
-        AssignString(FUN_00b18860("%s - failed [%s]", "CSpeedTreeRT::SetTreeSize", e.what()).c_str());
+        ::AssignString((*(::fnv_00b06280::StringB06280 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - failed [%s]"), "CSpeedTreeRT::SetTreeSize", e.what()))).c_str());
     }
     catch (...)
     {
-        AssignString(FUN_00b18860("%s - threw an unknown system exception", "CSpeedTreeRT::SetTreeSize").c_str());
+        ::AssignString((*(::fnv_00b06280::StringB06280 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - threw an unknown system exception"), "CSpeedTreeRT::SetTreeSize"))).c_str());
     }
 }
 }  // namespace fnv_00b06280
@@ -2977,7 +2922,7 @@ struct CharAllocB06440
     {}
     void deallocate(char* p, unsigned int)
     {
-        ::operator delete(p);
+        ::FUN_00401030(p);
     }
 };
 struct SecureTagB06440
@@ -3027,7 +2972,7 @@ struct StringB06440 : public StringValB06440
     }
     ~StringB06440()
     {
-        Tidy(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     const char* c_str() const
     {
@@ -3063,8 +3008,6 @@ struct StringB06440 : public StringValB06440
     unsigned int m_uiSize;
     unsigned int m_uiRes;
 };
-StringB06440 __cdecl FUN_00b18860(const char* pcFormat, ...);
-void __cdecl AssignString(const char* pcMessage);
 struct EngineB06440
 {
     int unk00;
@@ -3113,15 +3056,15 @@ int SpeedTreeRTB06440::FUN_00b06440()
         if (m_pFirstPointer->TransientDataOk())
             iResult = m_pFirstPointer->GetTreeSize();
         else
-            AssignString("SetTreeSize() has no effect after DeleteTransientData() has been called");
+            ::AssignString("SetTreeSize() has no effect after DeleteTransientData() has been called");
     }
     catch (std::exception& e)
     {
-        AssignString(FUN_00b18860("%s - failed [%s]", "CSpeedTreeRT::SetTreeSize", e.what()).c_str());
+        ::AssignString((*(::fnv_00b06440::StringB06440 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - failed [%s]"), "CSpeedTreeRT::SetTreeSize", e.what()))).c_str());
     }
     catch (...)
     {
-        AssignString(FUN_00b18860("%s - threw an unknown system exception", "CSpeedTreeRT::SetTreeSize").c_str());
+        ::AssignString((*(::fnv_00b06440::StringB06440 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - threw an unknown system exception"), "CSpeedTreeRT::SetTreeSize"))).c_str());
     }
     return iResult;
 }
@@ -3144,7 +3087,7 @@ struct CharAllocB06660
     {}
     void deallocate(char* p, unsigned int)
     {
-        ::operator delete(p);
+        ::FUN_00401030(p);
     }
 };
 struct SecureTagB06660
@@ -3194,7 +3137,7 @@ struct StringB06660 : public StringValB06660
     }
     ~StringB06660()
     {
-        Tidy(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     const char* c_str() const
     {
@@ -3230,8 +3173,6 @@ struct StringB06660 : public StringValB06660
     unsigned int m_uiSize;
     unsigned int m_uiRes;
 };
-StringB06660 __cdecl FUN_00b18860(const char* pcFormat, ...);
-void __cdecl AssignString(const char* pcMessage);
 struct EngineB06660
 {
     int unk00;
@@ -3287,17 +3228,17 @@ void SpeedTreeRTB06660::FUN_00b06660(int eMethod)
         }
         else
         {
-            AssignString("SetBranchLightingMethod() has no effect after Compute() has been called");
+            ::AssignString("SetBranchLightingMethod() has no effect after Compute() has been called");
         }
     }
     catch (std::exception& e)
     {
-        AssignString(FUN_00b18860("%s - failed [%s]", "CSpeedTreeRT::SetBranchLightingMethod", e.what()).c_str());
+        ::AssignString((*(::fnv_00b06660::StringB06660 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - failed [%s]"), "CSpeedTreeRT::SetBranchLightingMethod", e.what()))).c_str());
     }
     catch (...)
     {
-        AssignString(
-            FUN_00b18860("%s - threw an unknown system exception", "CSpeedTreeRT::SetBranchLightingMethod").c_str());
+        ::AssignString(
+            (*(::fnv_00b06660::StringB06660 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - threw an unknown system exception"), "CSpeedTreeRT::SetBranchLightingMethod"))).c_str());
     }
 }
 }  // namespace fnv_00b06660
@@ -3319,7 +3260,7 @@ struct CharAllocB06810
     {}
     void deallocate(char* p, unsigned int)
     {
-        ::operator delete(p);
+        ::FUN_00401030(p);
     }
 };
 struct SecureTagB06810
@@ -3369,7 +3310,7 @@ struct StringB06810 : public StringValB06810
     }
     ~StringB06810()
     {
-        Tidy(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     const char* c_str() const
     {
@@ -3405,8 +3346,6 @@ struct StringB06810 : public StringValB06810
     unsigned int m_uiSize;
     unsigned int m_uiRes;
 };
-StringB06810 __cdecl FUN_00b18860(const char* pcFormat, ...);
-void __cdecl AssignString(const char* pcMessage);
 struct LeafLightingB06810
 {
     int unk00;
@@ -3474,17 +3413,17 @@ void SpeedTreeRTB06810::FUN_00b06810(int eMethod)
         }
         else
         {
-            AssignString("SetLeafLightingMethod() has no effect after Compute() has been called");
+            ::AssignString("SetLeafLightingMethod() has no effect after Compute() has been called");
         }
     }
     catch (std::exception& e)
     {
-        AssignString(FUN_00b18860("%s - failed [%s]", "CSpeedTreeRT::SetLeafLightingMethod", e.what()).c_str());
+        ::AssignString((*(::fnv_00b06810::StringB06810 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - failed [%s]"), "CSpeedTreeRT::SetLeafLightingMethod", e.what()))).c_str());
     }
     catch (...)
     {
-        AssignString(
-            FUN_00b18860("%s - threw an unknown system exception", "CSpeedTreeRT::SetLeafLightingMethod").c_str());
+        ::AssignString(
+            (*(::fnv_00b06810::StringB06810 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - threw an unknown system exception"), "CSpeedTreeRT::SetLeafLightingMethod"))).c_str());
     }
 }
 }  // namespace fnv_00b06810
@@ -3506,7 +3445,7 @@ struct CharAllocB069C0
     {}
     void deallocate(char* p, unsigned int)
     {
-        ::operator delete(p);
+        ::FUN_00401030(p);
     }
 };
 struct SecureTagB069C0
@@ -3556,7 +3495,7 @@ struct StringB069C0 : public StringValB069C0
     }
     ~StringB069C0()
     {
-        Tidy(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     const char* c_str() const
     {
@@ -3592,8 +3531,6 @@ struct StringB069C0 : public StringValB069C0
     unsigned int m_uiSize;
     unsigned int m_uiRes;
 };
-StringB069C0 __cdecl FUN_00b18860(const char* pcFormat, ...);
-void __cdecl AssignString(const char* pcMessage);
 struct FrondFlagsB069C0
 {
     int unk00;
@@ -3687,17 +3624,17 @@ void SpeedTreeRTB069C0::FUN_00b069c0(int eMethod)
         }
         else
         {
-            AssignString("SetFrondLightingMethod() has no effect after Compute() has been called");
+            ::AssignString("SetFrondLightingMethod() has no effect after Compute() has been called");
         }
     }
     catch (std::exception& e)
     {
-        AssignString(FUN_00b18860("%s - failed [%s]", "CSpeedTreeRT::SetFrondLightingMethod", e.what()).c_str());
+        ::AssignString((*(::fnv_00b069c0::StringB069C0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - failed [%s]"), "CSpeedTreeRT::SetFrondLightingMethod", e.what()))).c_str());
     }
     catch (...)
     {
-        AssignString(
-            FUN_00b18860("%s - threw an unknown system exception", "CSpeedTreeRT::SetFrondLightingMethod").c_str());
+        ::AssignString(
+            (*(::fnv_00b069c0::StringB069C0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - threw an unknown system exception"), "CSpeedTreeRT::SetFrondLightingMethod"))).c_str());
     }
 }
 }  // namespace fnv_00b069c0
@@ -3722,7 +3659,7 @@ struct StrF
     ~StrF()
     {
         int aiD[5];
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     void FUN_0044a730(bool b, unsigned n);
     const char* c_str() const
@@ -3730,8 +3667,6 @@ struct StrF
         return 16 <= uiRes ? kBx.pPtr : kBx.acBuf;
     }
 };
-StrF __cdecl FUN_00b18860(const char* pFmt, ...);
-void __cdecl AssignString(const char* pMsg);
 struct CIdvException
 {
     virtual ~CIdvException();
@@ -3783,9 +3718,6 @@ struct CamR
 extern float DAT_011ad11c;
 extern float DAT_011ad120;
 extern const float DAT_010a4d88;
-extern const float DAT_01023cd8;
-void __cdecl FUN_00b08ec0(int i);
-void __cdecl FUN_00b27080(const CamV* p);
 float __cdecl FUN_00ec9610(double d);
 inline float RadToDeg(float fRad)
 {
@@ -3816,9 +3748,9 @@ void __cdecl SpdTreeQ::FUN_00b06c10(const float* pPos, const float* pDir)
             {
                 *(CamV*)&DAT_011f8e9c = kPos;
                 *(CamV*)&DAT_011f8eac = kWorldPosition;
-                FUN_00b08ec0(1);
-                FUN_00b27080(&kWorldPosition);
-                FUN_00b08ec0(1);
+                ::fnv_00b08ec0::FUN_00b08ec0(1);
+                ::SimpleBillboard::CalculateBillboardTransform((const float *)(const ::fnv_00b06c10::CamV *)(&kWorldPosition));
+                ::fnv_00b08ec0::FUN_00b08ec0(1);
                 CamR x;
                 x = kWorldPosition;
                 float s;
@@ -3827,21 +3759,21 @@ void __cdecl SpdTreeQ::FUN_00b06c10(const float* pPos, const float* pDir)
                 kOldDir = 1.0f - (s - DAT_011ad11c) / (DAT_011ad120 - DAT_011ad11c);
                 kOldDir = kOldDir < 0.0 ? 0.0f : kOldDir;
                 kOldDir = kOldDir > 1.0 ? 1.0f : kOldDir;
-                *(float*)&DAT_011ad124 = DAT_010a4d88 + (DAT_01023cd8 - DAT_010a4d88) * kOldDir;
+                *(float*)&DAT_011ad124 = DAT_010a4d88 + (::DAT_01023cd8 - DAT_010a4d88) * kOldDir;
             }
         }
         else
         {
-            AssignString("SetCamera() requires non-NULL position and direction values");
+            ::AssignString("SetCamera() requires non-NULL position and direction values");
         }
     }
     catch (CIdvException& e)
     {
-        AssignString(FUN_00b18860("%s - failed [%s]", "CSpeedTreeRT::SetCamera", e.what()).c_str());
+        ::AssignString((*(::fnv_00b06c10::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - failed [%s]"), "CSpeedTreeRT::SetCamera", e.what()))).c_str());
     }
     catch (...)
     {
-        AssignString(FUN_00b18860("%s - threw an unknown system exception", "CSpeedTreeRT::SetCamera").c_str());
+        ::AssignString((*(::fnv_00b06c10::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - threw an unknown system exception"), "CSpeedTreeRT::SetCamera"))).c_str());
     }
 }
 }  // namespace fnv_00b06c10
@@ -3901,7 +3833,7 @@ template <class _Ty> class allocator
     {}
     void deallocate(_Ty* _Ptr, unsigned int)
     {
-        ::operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
 };
 template <class _Ty, class _Alloc> class _String_val
@@ -3969,26 +3901,22 @@ class ExceptionB07
     virtual const char* what() const;
 };
 
-extern float g_fSpeedTreeTimeB07;
-void __cdecl FUN_00b08ec0(int iValue);
-stdb07::string __cdecl FUN_00b18860(const char* pcFormat, ...);
-void __cdecl AssignString(const char* pcError);
 
 // @fnv 0x00b07060
 void __cdecl FUN_00b07060(float fTime)
 {
     try
     {
-        g_fSpeedTreeTimeB07 = fTime;
-        FUN_00b08ec0(0);
+        ::DAT_011f8d80 = fTime;
+        ::fnv_00b08ec0::FUN_00b08ec0(0);
     }
     catch (ExceptionB07& e)
     {
-        AssignString(FUN_00b18860("%s - failed [%s]", "CSpeedTreeRT::SetTime", e.what()).c_str());
+        ::AssignString((*(::fnv_00b07060::stdb07::basic_string<char, ::fnv_00b07060::stdb07::char_traits<char>, ::fnv_00b07060::stdb07::allocator<char>> *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - failed [%s]"), "CSpeedTreeRT::SetTime", e.what()))).c_str());
     }
     catch (...)
     {
-        AssignString(FUN_00b18860("%s - threw an unknown system exception", "CSpeedTreeRT::SetTime").c_str());
+        ::AssignString((*(::fnv_00b07060::stdb07::basic_string<char, ::fnv_00b07060::stdb07::char_traits<char>, ::fnv_00b07060::stdb07::allocator<char>> *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - threw an unknown system exception"), "CSpeedTreeRT::SetTime"))).c_str());
     }
 }
 }  // namespace fnv_00b07060
@@ -4010,7 +3938,7 @@ struct CharAllocB071F0
     {}
     void deallocate(char* p, unsigned int)
     {
-        ::operator delete(p);
+        ::FUN_00401030(p);
     }
 };
 struct SecureTagB071F0
@@ -4060,7 +3988,7 @@ struct StringB071F0 : public StringValB071F0
     }
     ~StringB071F0()
     {
-        Tidy(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     const char* c_str() const
     {
@@ -4096,8 +4024,6 @@ struct StringB071F0 : public StringValB071F0
     unsigned int m_uiSize;
     unsigned int m_uiRes;
 };
-StringB071F0 __cdecl FUN_00b18860(const char* pcFormat, ...);
-void __cdecl AssignString(const char* pcMessage);
 struct EngineB071F0
 {
     int unk00;
@@ -4196,17 +4122,17 @@ void SpeedTreeRTB071F0::FUN_00b071f0(int iGroups)
         }
         else
         {
-            AssignString("SetNumLeafRockingGroups() has no effect after Compute() has been called");
+            ::AssignString("SetNumLeafRockingGroups() has no effect after Compute() has been called");
         }
     }
     catch (std::exception& e)
     {
-        AssignString(FUN_00b18860("%s - failed [%s]", "CSpeedTreeRT::SetLeafRockingState", e.what()).c_str());
+        ::AssignString((*(::fnv_00b071f0::StringB071F0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - failed [%s]"), "CSpeedTreeRT::SetLeafRockingState", e.what()))).c_str());
     }
     catch (...)
     {
-        AssignString(
-            FUN_00b18860("%s - threw an unknown system exception", "CSpeedTreeRT::SetLeafRockingState").c_str());
+        ::AssignString(
+            (*(::fnv_00b071f0::StringB071F0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - threw an unknown system exception"), "CSpeedTreeRT::SetLeafRockingState"))).c_str());
     }
 }
 }  // namespace fnv_00b071f0
@@ -4228,7 +4154,7 @@ struct CharAllocB07510
     {}
     void deallocate(char* p, unsigned int)
     {
-        ::operator delete(p);
+        ::FUN_00401030(p);
     }
 };
 struct SecureTagB07510
@@ -4278,7 +4204,7 @@ struct StringB07510 : public StringValB07510
     }
     ~StringB07510()
     {
-        Tidy(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     const char* c_str() const
     {
@@ -4314,8 +4240,6 @@ struct StringB07510 : public StringValB07510
     unsigned int m_uiSize;
     unsigned int m_uiRes;
 };
-StringB07510 __cdecl FUN_00b18860(const char* pcFormat, ...);
-void __cdecl AssignString(const char* pcMessage);
 struct Part007510
 {
     int unk00;
@@ -4374,16 +4298,16 @@ void SpeedTreeRTB07510::FUN_00b07510(int eMode)
         }
         else
         {
-            AssignString("SetLeafWindMethod() has no effect after Compute() has been called");
+            ::AssignString("SetLeafWindMethod() has no effect after Compute() has been called");
         }
     }
     catch (std::exception& e)
     {
-        AssignString(FUN_00b18860("%s - failed [%s]", "CSpeedTreeRT::SetLeafWindMethod", e.what()).c_str());
+        ::AssignString((*(::fnv_00b07510::StringB07510 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - failed [%s]"), "CSpeedTreeRT::SetLeafWindMethod", e.what()))).c_str());
     }
     catch (...)
     {
-        AssignString(FUN_00b18860("%s - threw an unknown system exception", "CSpeedTreeRT::SetLeafWindMethod").c_str());
+        ::AssignString((*(::fnv_00b07510::StringB07510 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - threw an unknown system exception"), "CSpeedTreeRT::SetLeafWindMethod"))).c_str());
     }
 }
 }  // namespace fnv_00b07510
@@ -4405,7 +4329,7 @@ struct CharAllocB076E0
     {}
     void deallocate(char* p, unsigned int)
     {
-        ::operator delete(p);
+        ::FUN_00401030(p);
     }
 };
 struct SecureTagB076E0
@@ -4455,7 +4379,7 @@ struct StringB076E0 : public StringValB076E0
     }
     ~StringB076E0()
     {
-        Tidy(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     const char* c_str() const
     {
@@ -4491,8 +4415,6 @@ struct StringB076E0 : public StringValB076E0
     unsigned int m_uiSize;
     unsigned int m_uiRes;
 };
-StringB076E0 __cdecl FUN_00b18860(const char* pcFormat, ...);
-void __cdecl AssignString(const char* pcMessage);
 struct WindB076E0
 {
     int unk00;
@@ -4533,7 +4455,6 @@ struct LeafB076E0
     {
         m_eMode14 = e;
     }
-    void FUN_00b30800(int i);
 };
 
 struct SpeedTreeRTB076E0
@@ -4570,7 +4491,7 @@ void SpeedTreeRTB076E0::FUN_00b076e0(int eMode)
             if (eMode == 2 && m_pWind->GetMode() == 1)
             {
                 m_pLeafData->SetFlag12(false);
-                m_pLeafData->FUN_00b30800(0);
+                reinterpret_cast<::GeometryProcessor *>((m_pLeafData))->FUN_00b30800(0);
             }
             m_pWind->SetMode(eMode);
             m_pLeafData->SetFlag08(eMode != 2);
@@ -4578,17 +4499,17 @@ void SpeedTreeRTB076E0::FUN_00b076e0(int eMode)
         }
         else
         {
-            AssignString("SetBranchWindMethod() has no effect after Compute() has been called");
+            ::AssignString("SetBranchWindMethod() has no effect after Compute() has been called");
         }
     }
     catch (std::exception& e)
     {
-        AssignString(FUN_00b18860("%s - failed [%s]", "CSpeedTreeRT::SetBranchWindMethod", e.what()).c_str());
+        ::AssignString((*(::fnv_00b076e0::StringB076E0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - failed [%s]"), "CSpeedTreeRT::SetBranchWindMethod", e.what()))).c_str());
     }
     catch (...)
     {
-        AssignString(
-            FUN_00b18860("%s - threw an unknown system exception", "CSpeedTreeRT::SetBranchWindMethod").c_str());
+        ::AssignString(
+            (*(::fnv_00b076e0::StringB076E0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - threw an unknown system exception"), "CSpeedTreeRT::SetBranchWindMethod"))).c_str());
     }
 }
 }  // namespace fnv_00b076e0
@@ -4610,7 +4531,7 @@ struct CharAllocB07900
     {}
     void deallocate(char* p, unsigned int)
     {
-        ::operator delete(p);
+        ::FUN_00401030(p);
     }
 };
 struct SecureTagB07900
@@ -4660,7 +4581,7 @@ struct StringB07900 : public StringValB07900
     }
     ~StringB07900()
     {
-        Tidy(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     const char* c_str() const
     {
@@ -4696,8 +4617,6 @@ struct StringB07900 : public StringValB07900
     unsigned int m_uiSize;
     unsigned int m_uiRes;
 };
-StringB07900 __cdecl FUN_00b18860(const char* pcFormat, ...);
-void __cdecl AssignString(const char* pcMessage);
 struct WindB07900
 {
     int unk00;
@@ -4739,7 +4658,6 @@ struct LeafB07900
     {
         m_eMode14 = e;
     }
-    void FUN_00b30800(int i);
 };
 
 struct SpeedTreeRTB07900
@@ -4783,7 +4701,7 @@ void SpeedTreeRTB07900::FUN_00b07900(int eMode)
             if (eMode == 2 && m_pWind->GetMode() == 1)
             {
                 m_pLeafData->SetFlag12(false);
-                m_pLeafData->FUN_00b30800(0);
+                reinterpret_cast<::GeometryProcessor *>((m_pLeafData))->FUN_00b30800(0);
             }
             m_pWind->SetMode(eMode);
             m_pLeafData->SetFlag08(eMode != 2);
@@ -4791,17 +4709,17 @@ void SpeedTreeRTB07900::FUN_00b07900(int eMode)
         }
         else
         {
-            AssignString("SetFrondWindMethod() has no effect after Compute() has been called");
+            ::AssignString("SetFrondWindMethod() has no effect after Compute() has been called");
         }
     }
     catch (std::exception& e)
     {
-        AssignString(FUN_00b18860("%s - failed [%s]", "CSpeedTreeRT::SetFrondWindMethod", e.what()).c_str());
+        ::AssignString((*(::fnv_00b07900::StringB07900 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - failed [%s]"), "CSpeedTreeRT::SetFrondWindMethod", e.what()))).c_str());
     }
     catch (...)
     {
-        AssignString(
-            FUN_00b18860("%s - threw an unknown system exception", "CSpeedTreeRT::SetFrondWindMethod").c_str());
+        ::AssignString(
+            (*(::fnv_00b07900::StringB07900 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - threw an unknown system exception"), "CSpeedTreeRT::SetFrondWindMethod"))).c_str());
     }
 }
 }  // namespace fnv_00b07900
@@ -4826,7 +4744,7 @@ struct StrF
     ~StrF()
     {
         int aiD[5];
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     void FUN_0044a730(bool b, unsigned n);
     const char* c_str() const
@@ -4834,8 +4752,6 @@ struct StrF
         return 16 <= uiRes ? kBx.pPtr : kBx.acBuf;
     }
 };
-StrF __cdecl FUN_00b18860(const char* pFmt, ...);
-void __cdecl AssignString(const char* pMsg);
 struct CIdvException
 {
     virtual ~CIdvException();
@@ -4851,7 +4767,6 @@ struct WindQ
     {
         return f0;
     }
-    float SetStrength(float a, float b, float c);
 };
 struct GeomQ
 {
@@ -4864,7 +4779,6 @@ struct GeomQ
 };
 struct WindTgt
 {
-    void FUN_00b27820();
 };
 struct SpdTreeQ
 {
@@ -4875,9 +4789,6 @@ struct SpdTreeQ
     WindQ* pWind;
     int ai[19];
     GeomQ* pFrond;
-    int FUN_00b076c0();
-    int GetFieldAt0C();
-    int GetNestedPointer();
     bool WindB14() const
     {
         return pWind->b14;
@@ -4896,26 +4807,26 @@ float SpdTreeQ::FUN_00b07b00(float fWaterLevelItem, float fLeaf, float fBranch)
                 fLeaf = pWind->f4;
             if (fBranch == -1.0)
                 fBranch = pWind->GetF0();
-            fResult = pWind->SetStrength(fWaterLevelItem, fLeaf, fBranch);
-            if (FUN_00b076c0() == 1 && pBranch)
+            fResult = reinterpret_cast<::FUN_00b37470_shell *>((pWind))->SetStrength(fWaterLevelItem, fLeaf, fBranch);
+            if (((int)(reinterpret_cast<::FUN_00b076c0_Class *>(this)->fun_00b076c0())) == 1 && pBranch)
                 pBranch->SetB12(false);
-            if (GetFieldAt0C() == 1 && pFrond)
+            if (((int)(reinterpret_cast<::FUN_00b078e0_Class *>(this)->GetFieldAt0C())) == 1 && pFrond)
                 pFrond->SetB12(false);
-            if (GetNestedPointer() == 1 || WindB14())
-                pWind8->FUN_00b27820();
+            if (((int)(reinterpret_cast<::FUN_00b074f0_obj *>(this)->GetNestedPointer())) == 1 || WindB14())
+                reinterpret_cast<::SpeedTreeLodData *>((pWind8))->FUN_00b27820();
         }
         else
         {
-            AssignString("SetWindStrength() expects new wind strength >= 0.0");
+            ::AssignString("SetWindStrength() expects new wind strength >= 0.0");
         }
     }
     catch (CIdvException& e)
     {
-        AssignString(FUN_00b18860("%s - failed [%s]", "CSpeedTreeRT::SetWindStrength", e.what()).c_str());
+        ::AssignString((*(::fnv_00b07b00::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - failed [%s]"), "CSpeedTreeRT::SetWindStrength", e.what()))).c_str());
     }
     catch (...)
     {
-        AssignString(FUN_00b18860("%s - threw an unknown system exception", "CSpeedTreeRT::SetWindStrength").c_str());
+        ::AssignString((*(::fnv_00b07b00::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - threw an unknown system exception"), "CSpeedTreeRT::SetWindStrength"))).c_str());
     }
     return fResult;
 }
@@ -4976,7 +4887,7 @@ template <class _Ty> class allocator
     {}
     void deallocate(_Ty* _Ptr, unsigned int)
     {
-        ::operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
 };
 template <class _Ty, class _Alloc> class _String_val
@@ -5087,25 +4998,22 @@ class WindMatricesB07
     unsigned short m_usNum;
     WindMatrixB07* m_pkMatrices;
 };
-extern WindMatricesB07 g_kWindMatricesB07;
-stdb07::string __cdecl FUN_00b18860(const char* pcFormat, ...);
-void __cdecl AssignString(const char* pcError);
 
 // @fnv 0x00b07db0
 void __cdecl FUN_00b07db0(unsigned short usMode)
 {
     try
     {
-        g_kWindMatricesB07.SetNumWindMatrices(usMode);
+        reinterpret_cast<::WindEngine *>(&(g_kWindMatricesB07))->Resize(usMode);
     }
     catch (ExceptionB07& e)
     {
-        AssignString(FUN_00b18860("%s - failed [%s]", "CSpeedTreeRT::SetNumWindMatrices", e.what()).c_str());
+        ::AssignString((*(::fnv_00b07db0::stdb07::basic_string<char, ::fnv_00b07db0::stdb07::char_traits<char>, ::fnv_00b07db0::stdb07::allocator<char>> *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - failed [%s]"), "CSpeedTreeRT::SetNumWindMatrices", e.what()))).c_str());
     }
     catch (...)
     {
-        AssignString(
-            FUN_00b18860("%s - threw an unknown system exception", "CSpeedTreeRT::SetNumWindMatrices").c_str());
+        ::AssignString(
+            (*(::fnv_00b07db0::stdb07::basic_string<char, ::fnv_00b07db0::stdb07::char_traits<char>, ::fnv_00b07db0::stdb07::allocator<char>> *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - threw an unknown system exception"), "CSpeedTreeRT::SetNumWindMatrices"))).c_str());
     }
 }
 }  // namespace fnv_00b07db0
@@ -5127,7 +5035,7 @@ struct CharAllocB08050
     {}
     void deallocate(char* p, unsigned int)
     {
-        ::operator delete(p);
+        ::FUN_00401030(p);
     }
 };
 struct SecureTagB08050
@@ -5177,7 +5085,7 @@ struct StringB08050 : public StringValB08050
     }
     ~StringB08050()
     {
-        Tidy(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     const char* c_str() const
     {
@@ -5213,16 +5121,12 @@ struct StringB08050 : public StringValB08050
     unsigned int m_uiSize;
     unsigned int m_uiRes;
 };
-StringB08050 __cdecl FUN_00b18860(const char* pcFormat, ...);
-void __cdecl AssignString(const char* pcMessage);
 struct WindGroupsB08050
 {
     unsigned short m_usNumGroups;
 };
-extern WindGroupsB08050 g_kWindGroupsB08050;
 struct LeafWindB08050
 {
-    void SetMatrixRange(unsigned int uiStart, unsigned int ItemUpdateArray);
 };
 
 struct SpeedTreeRTB08050
@@ -5256,23 +5160,23 @@ void SpeedTreeRTB08050::FUN_00b08050(unsigned int uiStart, unsigned int ItemUpda
     {
         if (!m_bComputed)
         {
-            if (uiStart + ItemUpdateArray - 1 < g_kWindGroupsB08050.m_usNumGroups)
-                m_pLeafWind->SetMatrixRange(uiStart, ItemUpdateArray);
+            if (uiStart + ItemUpdateArray - 1 < (*reinterpret_cast<::fnv_00b08050::WindGroupsB08050 *>(&::fnv_00b07db0::g_kWindMatricesB07)).m_usNumGroups)
+                reinterpret_cast<::MatrixRange *>((m_pLeafWind))->SetMatrixRange(uiStart, ItemUpdateArray);
             else
-                AssignString("SetLocalMatrices() parameters exceed available wind matrices");
+                ::AssignString("SetLocalMatrices() parameters exceed available wind matrices");
         }
         else
         {
-            AssignString("SetLocalMatrices() has no effect after Compute() has been called");
+            ::AssignString("SetLocalMatrices() has no effect after Compute() has been called");
         }
     }
     catch (std::exception& e)
     {
-        AssignString(FUN_00b18860("%s - failed [%s]", "CSpeedTreeRT::SetLocalMatrices", e.what()).c_str());
+        ::AssignString((*(::fnv_00b08050::StringB08050 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - failed [%s]"), "CSpeedTreeRT::SetLocalMatrices", e.what()))).c_str());
     }
     catch (...)
     {
-        AssignString(FUN_00b18860("%s - threw an unknown system exception", "CSpeedTreeRT::SetLocalMatrices").c_str());
+        ::AssignString((*(::fnv_00b08050::StringB08050 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - threw an unknown system exception"), "CSpeedTreeRT::SetLocalMatrices"))).c_str());
     }
 }
 }  // namespace fnv_00b08050
@@ -5297,7 +5201,7 @@ struct StrF
     ~StrF()
     {
         int aiD[5];
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     void FUN_0044a730(bool b, unsigned n);
     const char* c_str() const
@@ -5305,8 +5209,6 @@ struct StrF
         return 16 <= uiRes ? kBx.pPtr : kBx.acBuf;
     }
 };
-StrF __cdecl FUN_00b18860(const char* pFmt, ...);
-void __cdecl AssignString(const char* pMsg);
 struct CIdvException
 {
     virtual ~CIdvException();
@@ -5326,7 +5228,6 @@ struct TreeEngine
     {
         f14 = f;
     }
-    float GetNormalizedValue();
 };
 struct LodInfo
 {
@@ -5351,22 +5252,22 @@ void SpdTreeQ::FUN_00b08200()
             V3 kSavePos = pEngine->kPos;
             float fSave = pEngine->f14;
             pEngine->SetPos(pLod->kPos);
-            pLod->f10 = pEngine->GetNormalizedValue();
+            pLod->f10 = reinterpret_cast<::FUN_00b2bd40_Obj *>((pEngine))->GetNormalizedValue();
             pEngine->SetF14(fSave);
             pEngine->SetPos(kSavePos);
         }
         else
         {
-            pEngine->GetNormalizedValue();
+            reinterpret_cast<::FUN_00b2bd40_Obj *>((pEngine))->GetNormalizedValue();
         }
     }
     catch (CIdvException& e)
     {
-        AssignString(FUN_00b18860("%s - failed [%s]", "CSpeedTreeRT::ComputeLodLevel", e.what()).c_str());
+        ::AssignString((*(::fnv_00b08200::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - failed [%s]"), "CSpeedTreeRT::ComputeLodLevel", e.what()))).c_str());
     }
     catch (...)
     {
-        AssignString(FUN_00b18860("%s - threw an unknown system exception", "CSpeedTreeRT::ComputeLodLevel").c_str());
+        ::AssignString((*(::fnv_00b08200::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - threw an unknown system exception"), "CSpeedTreeRT::ComputeLodLevel"))).c_str());
     }
 }
 }  // namespace fnv_00b08200
@@ -5818,8 +5719,8 @@ struct OwnerB087
     vectorS<int> m_kSecond;
     void ClearLists()
     {
-        m_kFirst.clear();
-        m_kSecond.clear();
+        reinterpret_cast<::VecStandIn *>(&(m_kFirst))->FUN_0044a0a0();
+        reinterpret_cast<::FUN_00b0dc10_Vector *>(&(m_kSecond))->FUN_00b0dc10();
     }
 };
 class ListOwnerRefB087
@@ -5891,7 +5792,7 @@ template <class _Ty> class allocator
     {}
     void deallocate(_Ty* _Ptr, unsigned int)
     {
-        ::operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
 };
 template <class _Ty, class _Alloc> class _String_val
@@ -5965,7 +5866,6 @@ class MemoryManagerB08
     void* Allocate(unsigned int uiSize);
     void Deallocate(void* pvMem);
 };
-extern MemoryManagerB08 g_kMemoryManagerB08;
 
 class BranchGeometryB08
 {
@@ -5973,7 +5873,7 @@ class BranchGeometryB08
     ~BranchGeometryB08();
     static void operator delete(void* pvMem)
     {
-        g_kMemoryManagerB08.Deallocate(pvMem);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00b088d0::MemoryManagerB08 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
     }
     char m_acData[0x10];
 };
@@ -5995,8 +5895,6 @@ class LodB08
     int m_iArrayLength;
 };
 
-stdb07::string __cdecl FUN_00b18860(const char* pcFormat, ...);
-void __cdecl AssignString(const char* pcError);
 
 class CSpeedTreeRTB08
 {
@@ -6026,12 +5924,12 @@ void CSpeedTreeRTB08::FUN_00b088d0()
     }
     catch (ExceptionB07& e)
     {
-        AssignString(FUN_00b18860("%s - failed [%s]", "CSpeedTreeRT::DeleteBranchGeometry", e.what()).c_str());
+        ::AssignString((*(::fnv_00b088d0::stdb07::basic_string<char, ::fnv_00b088d0::stdb07::char_traits<char>, ::fnv_00b088d0::stdb07::allocator<char>> *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - failed [%s]"), "CSpeedTreeRT::DeleteBranchGeometry", e.what()))).c_str());
     }
     catch (...)
     {
-        AssignString(
-            FUN_00b18860("%s - threw an unknown system exception", "CSpeedTreeRT::DeleteBranchGeometry").c_str());
+        ::AssignString(
+            (*(::fnv_00b088d0::stdb07::basic_string<char, ::fnv_00b088d0::stdb07::char_traits<char>, ::fnv_00b088d0::stdb07::allocator<char>> *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - threw an unknown system exception"), "CSpeedTreeRT::DeleteBranchGeometry"))).c_str());
     }
 }
 }  // namespace fnv_00b088d0
@@ -6053,7 +5951,7 @@ struct CharAllocB08AF0
     {}
     void deallocate(char* p, unsigned int)
     {
-        ::operator delete(p);
+        ::FUN_00401030(p);
     }
 };
 struct SecureTagB08AF0
@@ -6103,7 +6001,7 @@ struct StringB08AF0 : public StringValB08AF0
     }
     ~StringB08AF0()
     {
-        Tidy(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     const char* c_str() const
     {
@@ -6139,11 +6037,8 @@ struct StringB08AF0 : public StringValB08AF0
     unsigned int m_uiSize;
     unsigned int m_uiRes;
 };
-StringB08AF0 __cdecl FUN_00b18860(const char* pcFormat, ...);
-void __cdecl AssignString(const char* pcMessage);
 struct LeafGeometryB08AF0
 {
-    const float* CopyLodData(int iIndex);
 };
 struct SpeedTreeRTB08AF0
 {
@@ -6159,16 +6054,16 @@ const float* SpeedTreeRTB08AF0::FUN_00b08af0(int iIndex)
     const float* pSearchEntries = 0;
     try
     {
-        pSearchEntries = m_pLodData->CopyLodData(iIndex);
+        pSearchEntries = reinterpret_cast<::FUN_00b27870_Class *>((m_pLodData))->CopyLodData((*(unsigned int *)(iIndex)));
     }
     catch (std::exception& e)
     {
-        AssignString(FUN_00b18860("%s - failed [%s]", "CSpeedTreeRT::GetLeafBillboardTable", e.what()).c_str());
+        ::AssignString((*(::fnv_00b08af0::StringB08AF0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - failed [%s]"), "CSpeedTreeRT::GetLeafBillboardTable", e.what()))).c_str());
     }
     catch (...)
     {
-        AssignString(
-            FUN_00b18860("%s - threw an unknown system exception", "CSpeedTreeRT::GetLeafBillboardTable").c_str());
+        ::AssignString(
+            (*(::fnv_00b08af0::StringB08AF0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - threw an unknown system exception"), "CSpeedTreeRT::GetLeafBillboardTable"))).c_str());
     }
     return pSearchEntries;
 }
@@ -6187,9 +6082,8 @@ struct S00b092a0_Str
     S00b092a0_Str(const char* s);
     ~S00b092a0_Str()
     {
-        Tidy(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
-    void Tidy(bool built, unsigned int newsize);
 };
 
 struct S00b092a0_Exc
@@ -6333,18 +6227,16 @@ struct S00b092a0_Reader
 {
     unsigned int pos;
     S00b092a0_Buf buf;
-    int ReadInt();
     int Next()
     {
         S00b092a0_PadC scratch;
-        return ReadInt();
+        return ((int)(reinterpret_cast<::S_00b3ed80 *>(this)->GetNextElement()));
     }
     void Begin()
     {
         S00b092a0_PadA st;
         st.m20 = 0;
     }
-    float ReadFloat();
     bool AtEnd() const
     {
         return pos >= buf.size();
@@ -6353,7 +6245,6 @@ struct S00b092a0_Reader
 
 struct S00b092a0_Child
 {
-    void Parse(S00b092a0_Reader* r);
 };
 
 struct S00b092a0_cls
@@ -6375,25 +6266,25 @@ struct S00b092a0_cls
 void S00b092a0_cls::FUN_00b092a0(S00b092a0_Reader* r)
 {
     r->Begin();
-    int tok = r->ReadInt();
+    int tok = ((int)(reinterpret_cast<::S_00b3ed80 *>((r))->GetNextElement()));
     do
     {
         switch (tok)
         {
         case 0x232a:
-            m18 = r->ReadInt();
+            m18 = ((int)(reinterpret_cast<::S_00b3ed80 *>((r))->GetNextElement()));
             break;
         case 0x232b:
-            m1c = r->ReadFloat();
+            m1c = reinterpret_cast<::FUN_00b3ed20_cls *>((r))->FUN_00b3ed20();
             break;
         case 0x232c:
-            m20 = r->ReadFloat();
+            m20 = reinterpret_cast<::FUN_00b3ed20_cls *>((r))->FUN_00b3ed20();
             break;
         case 0x2331:
-            m24 = r->ReadFloat();
+            m24 = reinterpret_cast<::FUN_00b3ed20_cls *>((r))->FUN_00b3ed20();
             break;
         case 0x232d:
-            m00->Parse(r);
+            reinterpret_cast<::LodInfoReader *>((m00))->FUN_00b2ceb0((::ElementIterator *)(r));
             break;
         default:
             throw S00b092a0_Exc("malformed lod info", 0);
@@ -6465,11 +6356,11 @@ struct SpdAllocator
     {}
     char* allocate(unsigned int n)
     {
-        return (char*)operator new(n);
+        return (char*)::FUN_00401000(n);
     }
     void deallocate(char* p, unsigned int)
     {
-        operator delete(p);
+        ::FUN_00401030(p);
     }
     unsigned int max_size() const
     {
@@ -6505,12 +6396,12 @@ struct SpdString : SpdStringBase
     }
     SpdString(const SpdString& s) : SpdStringBase(s)
     {
-        _Tidy(false, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
         assign(s, 0, npos);
     }
     ~SpdString()
     {
-        _Tidy(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     char* _Myptr()
     {
@@ -6569,13 +6460,13 @@ struct SpdString : SpdStringBase
             }
             catch (...)
             {
-                _Tidy(true, 0);
+                reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
                 throw;
             }
         }
         if (0 < oldlen)
             SpdCopy(p, res + 1, _Myptr(), oldlen);
-        _Tidy(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
         m_kStorage.m_pShaderConstantMap = p;
         m_pRayCursor = res;
         _Eos(oldlen);
@@ -6587,7 +6478,7 @@ struct SpdString : SpdStringBase
         if (m_pRayCursor < n)
             _Copy(n, m_fRestLength);
         else if (trim && n < 16)
-            _Tidy(true, n < m_fRestLength ? n : m_fRestLength);
+            reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, n < m_fRestLength ? n : m_fRestLength);
         else if (n == 0)
             _Eos(0);
         return 0 < n;
@@ -6710,7 +6601,6 @@ struct SpdParser
 {
     unsigned int m_nPos;
     SpdByteVector m_vData;
-    int ParseToken();
     bool AtEnd() const
     {
         return m_nPos >= m_vData.size();
@@ -6801,13 +6691,13 @@ struct SpdWindReader
 // @fnv 0x00b097e0
 void SpdWindReader::FUN_00b097e0(SpdParser* pParser)
 {
-    int nToken = pParser->ParseToken();
+    int nToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((pParser))->GetNextElement()));
     do
     {
         switch (nToken)
         {
         case 0x2afa:
-            m_pWind->SetWindMatrixCount(pParser->ParseToken());
+            m_pWind->SetWindMatrixCount(((int)(reinterpret_cast<::S_00b3ed80 *>((pParser))->GetNextElement())));
             break;
         default:
             throw SpdParseError("malformed new wind info", false);
@@ -6815,7 +6705,7 @@ void SpdWindReader::FUN_00b097e0(SpdParser* pParser)
         if (pParser->AtEnd())
             throw SpdParseError("premature end of file reached parsing new wind info", false);
         else
-            nToken = pParser->ParseToken();
+            nToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((pParser))->GetNextElement()));
     } while (nToken != 0x2af9);
 }
 
@@ -6892,7 +6782,7 @@ inline char* AllocateChars(unsigned int ItemUpdateArray, char*)
         ItemUpdateArray = 0;
     else if (((unsigned int)(-1) / ItemUpdateArray) < sizeof(char))
         throw std::bad_alloc(0);
-    return (char*)::operator new(ItemUpdateArray * sizeof(char));
+    return (char*)::FUN_00401000(ItemUpdateArray * sizeof(char));
 }
 struct CharAllocator
 {
@@ -6900,7 +6790,7 @@ struct CharAllocator
     {}
     void deallocate(char* pcPtr, unsigned int)
     {
-        ::operator delete(pcPtr);
+        ::FUN_00401030(pcPtr);
     }
     char* allocate(unsigned int ItemUpdateArray)
     {
@@ -6934,7 +6824,7 @@ struct String : public StringVal
     String(const String& kRight) : StringVal(kRight.m_kAlval)
     {
         _Tidy();
-        assign(kRight, 0, npos);
+        assign(kRight, 0, ::g_010173f0);
     }
     ~String()
     {
@@ -6971,7 +6861,7 @@ struct String : public StringVal
     {
         return assign(pcPtr, CharTraits::length(pcPtr));
     }
-    String& erase(unsigned int uiOff = 0, unsigned int ItemUpdateArray = npos)
+    String& erase(unsigned int uiOff = 0, unsigned int ItemUpdateArray = ::g_010173f0)
     {
         if (m_uiSize < uiOff)
             _Xran();
@@ -7057,7 +6947,7 @@ struct String : public StringVal
         if (m_uiRes < uiNewsize)
             _Copy(uiNewsize, m_uiSize);
         else if (bTrim && uiNewsize < 16)
-            _Tidy(true, uiNewsize < m_uiSize ? uiNewsize : m_uiSize);
+            reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, uiNewsize < m_uiSize ? uiNewsize : m_uiSize);
         else if (uiNewsize == 0)
             _Eos(0);
         return 0 < uiNewsize;
@@ -7183,7 +7073,7 @@ inline char* AllocateChars(unsigned int ItemUpdateArray, char*)
         ItemUpdateArray = 0;
     else if (((unsigned int)(-1) / ItemUpdateArray) < sizeof(char))
         throw std::bad_alloc(0);
-    return (char*)::operator new(ItemUpdateArray * sizeof(char));
+    return (char*)::FUN_00401000(ItemUpdateArray * sizeof(char));
 }
 struct CharAllocator
 {
@@ -7191,7 +7081,7 @@ struct CharAllocator
     {}
     void deallocate(char* pcPtr, unsigned int)
     {
-        ::operator delete(pcPtr);
+        ::FUN_00401030(pcPtr);
     }
     char* allocate(unsigned int ItemUpdateArray)
     {
@@ -7225,7 +7115,7 @@ struct String : public StringVal
     String(const String& kRight) : StringVal()
     {
         _Tidy();
-        assign(kRight, 0, npos);
+        assign(kRight, 0, ::g_010173f0);
     }
     ~String()
     {
@@ -7262,7 +7152,7 @@ struct String : public StringVal
     {
         return assign(pcPtr, CharTraits::length(pcPtr));
     }
-    String& erase(unsigned int uiOff = 0, unsigned int ItemUpdateArray = npos)
+    String& erase(unsigned int uiOff = 0, unsigned int ItemUpdateArray = ::g_010173f0)
     {
         if (m_uiSize < uiOff)
             _Xran();
@@ -7348,7 +7238,7 @@ struct String : public StringVal
         if (m_uiRes < uiNewsize)
             _Copy(uiNewsize, m_uiSize);
         else if (bTrim && uiNewsize < 16)
-            _Tidy(true, uiNewsize < m_uiSize ? uiNewsize : m_uiSize);
+            reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, uiNewsize < m_uiSize ? uiNewsize : m_uiSize);
         else if (uiNewsize == 0)
             _Eos(0);
         return 0 < uiNewsize;
@@ -7429,7 +7319,7 @@ struct CharAllocB0A2A0
     {}
     void deallocate(char* p, unsigned int)
     {
-        ::operator delete(p);
+        ::FUN_00401030(p);
     }
 };
 struct SecureTagB0A2A0
@@ -7479,7 +7369,7 @@ struct StringB0A2A0 : public StringValB0A2A0
     }
     ~StringB0A2A0()
     {
-        Tidy(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     const char* c_str() const
     {
@@ -7515,8 +7405,6 @@ struct StringB0A2A0 : public StringValB0A2A0
     unsigned int m_uiSize;
     unsigned int m_uiRes;
 };
-StringB0A2A0 __cdecl FUN_00b18860(const char* pcFormat, ...);
-void __cdecl AssignString(const char* pcMessage);
 void __cdecl FUN_00ec7c56();
 void* __cdecl memcpy(void* pvDst, const void* pvSrc, unsigned int ItemUpdateArray);
 inline void CopyFloat3B0A2A0(float* pDst, const float* pSrc)
@@ -7585,8 +7473,8 @@ void SpeedTreeRTB0A2A0::FUN_00b0a2a0(unsigned int uiIndex, int& eType, float* pP
     if (m_pCollisionVectors)
     {
         if (uiIndex >= m_pCollisionVectors->size())
-            AssignString(FUN_00b18860("collision object index (%d) exceeds maximum index (%d)", uiIndex,
-                                      m_pCollisionVectors->size())
+            ::AssignString((*(::fnv_00b0a2a0::StringB0A2A0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("collision object index (%d) exceeds maximum index (%d)"), (const char *)(uiIndex),
+                                      m_pCollisionVectors->size())))
                              .c_str());
         else
         {
@@ -7596,7 +7484,7 @@ void SpeedTreeRTB0A2A0::FUN_00b0a2a0(unsigned int uiIndex, int& eType, float* pP
         }
     }
     else
-        AssignString("no collision objects are stored with this tree");
+        ::AssignString("no collision objects are stored with this tree");
 }
 }  // namespace fnv_00b0a2a0
 
@@ -7617,7 +7505,7 @@ struct CharAllocB0A7A0
     {}
     void deallocate(char* p, unsigned int)
     {
-        ::operator delete(p);
+        ::FUN_00401030(p);
     }
 };
 struct SecureTagB0A7A0
@@ -7667,7 +7555,7 @@ struct StringB0A7A0 : public StringValB0A7A0
     }
     ~StringB0A7A0()
     {
-        Tidy(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     const char* c_str() const
     {
@@ -7703,19 +7591,16 @@ struct StringB0A7A0 : public StringValB0A7A0
     unsigned int m_uiSize;
     unsigned int m_uiRes;
 };
-StringB0A7A0 __cdecl FUN_00b18860(const char* pcFormat, ...);
-void __cdecl AssignString(const char* pcMessage);
 struct MemoryManagerB0A7A0
 {
     void Deallocate(void* pvMem);
 };
-extern MemoryManagerB0A7A0 g_kMemoryB0A7A0;
 struct FrondGeometryB0A7A0
 {
     ~FrondGeometryB0A7A0();
     static void operator delete(void* pvMem)
     {
-        g_kMemoryB0A7A0.Deallocate(pvMem);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00b0a7a0::MemoryManagerB0A7A0 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
     }
 };
 struct BranchGeometryB0A7A0
@@ -7769,12 +7654,12 @@ void SpeedTreeRTB0A7A0::FUN_00b0a7a0()
     }
     catch (std::exception& e)
     {
-        AssignString(FUN_00b18860("%s - failed [%s]", "CSpeedTreeRT::DeleteFrondGeometry", e.what()).c_str());
+        ::AssignString((*(::fnv_00b0a7a0::StringB0A7A0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - failed [%s]"), "CSpeedTreeRT::DeleteFrondGeometry", e.what()))).c_str());
     }
     catch (...)
     {
-        AssignString(
-            FUN_00b18860("%s - threw an unknown system exception", "CSpeedTreeRT::DeleteFrondGeometry").c_str());
+        ::AssignString(
+            (*(::fnv_00b0a7a0::StringB0A7A0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - threw an unknown system exception"), "CSpeedTreeRT::DeleteFrondGeometry"))).c_str());
     }
 }
 }  // namespace fnv_00b0a7a0
@@ -8313,7 +8198,7 @@ void __thiscall SelfAd00::FUN_00b0ad00(OutAd00* out, float param)
     pf9 = -1.0f;
     _s1 = -1;
     sZ = -1;
-    FUN_00b0c8d0(param, nW, m1c, m28, m20, (float)m44, &fPf1, &pf9, &_s1, &sZ);
+    ::fnv_00b0c8d0::FUN_00b0c8d0(param, nW, m1c, m28, m20, (float)m44, &fPf1, &pf9, &_s1, &sZ);
     if (DAT_011f8b78)
     {
         out->mfc = -1.0f;
@@ -8457,18 +8342,6 @@ struct E0b
 {
     char pad[0x88];
     G0b geo;
-    int FUN_00b0b4b0();
-    int FUN_00b0b530();
-    int FUN_00b0b5b0();
-    int FUN_00b0b630();
-    int FUN_00b0b6b0();
-    int FUN_00b0b730();
-    int FUN_00b0b7b0();
-    int FUN_00b0b830();
-    int FUN_00b0b8b0();
-    unsigned short FUN_00b0a9a0(unsigned short i);
-    int FUN_00b0aa20(unsigned short i);
-    int FUN_00b30730(unsigned short i);
 };
 struct I0b
 {
@@ -8491,58 +8364,8 @@ struct S0b
     float f28;
     char p2c[0x18];
     unsigned char ucMin;
-    short GetIndexFromLevel(float f);
-    unsigned short FUN_00b08710();
-    float FUN_00b08440();
     void FUN_00b0b1d0(I0b* pArg, short sLod);
 };
-// @fnv 0x00b0b1d0
-void S0b::FUN_00b0b1d0(I0b* pArg, short sLod)
-{
-    if (pEngine)
-    {
-        I0b* pInfo = pArg;
-        pInfo->m_usPassCountLocal = pEngine->geo.Count();
-        DeadB();
-        pInfo->i14 = pEngine->FUN_00b0b4b0();
-        pInfo->i24 = pEngine->FUN_00b0b530();
-        pInfo->i18 = pEngine->FUN_00b0b5b0();
-        pInfo->i1c = pEngine->FUN_00b0b630();
-        pInfo->i20 = pEngine->FUN_00b0b6b0();
-        pInfo->i28 = pEngine->FUN_00b0b730();
-        pInfo->i2c = pEngine->FUN_00b0b7b0();
-        pInfo->i30 = pEngine->FUN_00b0b830();
-        pInfo->i34 = pEngine->FUN_00b0b8b0();
-        short sLevel7 = sLod == -1 ? GetIndexFromLevel(-1.0f) : sLod;
-        pInfo->iLod = sLevel7;
-        pInfo->usA = pEngine->FUN_00b0a9a0(sLevel7);
-        pInfo->i8 = pEngine->FUN_00b0aa20(sLevel7);
-        pInfo->ic = pEngine->FUN_00b30730(sLevel7);
-        if (DAT_011f8b78)
-        {
-            unsigned short usN5 = FUN_00b08710() + 1;
-            float fW1 = -1.0f;
-            float fW3 = -1.0f;
-            short s5 = -1;
-            short s2 = -1;
-            FUN_00b0c8d0(FUN_00b08440(), usN5, f1c, f28, f20, ucMin, &fW1, &fW3, &s5, &s2);
-            if (s5 == usN5 - 2)
-                pArg->fAlpha = fW1;
-            else if (s5 == usN5 - 1)
-            {
-                pArg->fAlpha = 255.0f;
-                pInfo->iLod = -1;
-            }
-            else
-                pArg->fAlpha = ucMin;
-        }
-        else
-            pArg->fAlpha = ucMin;
-    }
-    else
-        AssignString("no branch geometry exists, possible prior call to DeleteBranchGeometry");
-}
-
 void __cdecl InvalidParameterNoInfoB530();
 struct AuxB530;
 class ContainerBaseAuxAllocB530
@@ -9316,6 +9139,52 @@ class FUN_00b0b8b0_Tree
     int unk174;
     VectorB8B0<unsigned char> m_kValues;
 };
+// @fnv 0x00b0b1d0
+void S0b::FUN_00b0b1d0(I0b* pArg, short sLod)
+{
+    if (pEngine)
+    {
+        I0b* pInfo = pArg;
+        pInfo->m_usPassCountLocal = pEngine->geo.Count();
+        DeadB();
+        pInfo->i14 = ((int)(reinterpret_cast<::MyClass *>((pEngine))->FUN_00b0b4b0()));
+        pInfo->i24 = ((int)(reinterpret_cast<::FUN_00b0b530_Tree *>((pEngine))->FUN_00b0b530()));
+        pInfo->i18 = ((int)(reinterpret_cast<::FUN_00b0b5b0_Tree *>((pEngine))->FUN_00b0b5b0()));
+        pInfo->i1c = ((int)(reinterpret_cast<::FUN_00b0b630_Tree *>((pEngine))->FUN_00b0b630()));
+        pInfo->i20 = ((int)(reinterpret_cast<::FUN_00b0b6b0_Tree *>((pEngine))->FUN_00b0b6b0()));
+        pInfo->i28 = ((int)(reinterpret_cast<::FUN_00b0b730_Tree *>((pEngine))->FUN_00b0b730()));
+        pInfo->i2c = ((int)(reinterpret_cast<::FUN_00b0b7b0_Tree *>((pEngine))->FUN_00b0b7b0()));
+        pInfo->i30 = ((int)(reinterpret_cast<::FUN_00b0b830_Class *>((pEngine))->FUN_00b0b830()));
+        pInfo->i34 = ((int)(reinterpret_cast<::FUN_00b0b8b0_Tree *>((pEngine))->FUN_00b0b8b0()));
+        short sLevel7 = sLod == -1 ? reinterpret_cast<::FUN_00b08530_class *>(this)->GetIndexFromLevel(-1.0f) : sLod;
+        pInfo->iLod = sLevel7;
+        pInfo->usA = ((unsigned short)(reinterpret_cast<::fnv_00b0a9a0::FUN_00b0a9a0_Tree *>((pEngine))->FUN_00b0a9a0(sLevel7)));
+        pInfo->i8 = ((int)(reinterpret_cast<::SpeedTreeRTB0AA20 *>((pEngine))->FUN_00b0aa20(sLevel7)));
+        pInfo->ic = ((int)(reinterpret_cast<::FUN_00b30730_Tree *>((pEngine))->FUN_00b30730(sLevel7)));
+        if (DAT_011f8b78)
+        {
+            unsigned short usN5 = reinterpret_cast<::CSpeedTreeRT *>(this)->FUN_00b08710() + 1;
+            float fW1 = -1.0f;
+            float fW3 = -1.0f;
+            short s5 = -1;
+            short s2 = -1;
+            ::fnv_00b0c8d0::FUN_00b0c8d0(reinterpret_cast<::FUN_00b08440_shell *>(this)->FUN_00b08440(), usN5, f1c, f28, f20, ucMin, &fW1, &fW3, &s5, &s2);
+            if (s5 == usN5 - 2)
+                pArg->fAlpha = fW1;
+            else if (s5 == usN5 - 1)
+            {
+                pArg->fAlpha = 255.0f;
+                pInfo->iLod = -1;
+            }
+            else
+                pArg->fAlpha = ucMin;
+        }
+        else
+            pArg->fAlpha = ucMin;
+    }
+    else
+        AssignString("no branch geometry exists, possible prior call to DeleteBranchGeometry");
+}
 
 // @fnv 0x00b0b8b0
 unsigned char* FUN_00b0b8b0_Tree::FUN_00b0b8b0()
@@ -9356,10 +9225,8 @@ struct TreeOutput
 };
 struct TreeEngine
 {
-    void FUN_00b288f0(TreeGeometry*, unsigned short, float, float, float);
     void SetLeafLodGeometry(TreeGeometry*, unsigned short, float, float, float);
 };
-void __cdecl FUN_00b0c8d0(float, unsigned short, float, float, float, float, float*, float*, short*, short*);
 struct TreeRuntime : CSpeedTreeRT
 {
     int unk04;
@@ -9369,7 +9236,6 @@ struct TreeRuntime : CSpeedTreeRT
     float lodNear, lodFar, scale, lodTransition;
     int unk2c, unk30, unk34, unk38, unk3c, unk40;
     unsigned char alpha;
-    unsigned short FUN_00b08610(float);
     void FUN_00b0bc00(TreeOutput*, short);
 };
 
@@ -9421,7 +9287,7 @@ void TreeRuntime::FUN_00b0bc00(TreeOutput* output, short forcedLod)
     index_ = 0;
     while (index_ < FUN_00b08710())
     {
-        geometry->FUN_00b288f0(&output->first, index_, angleVal, angle5, scale);
+        reinterpret_cast<::LeafMatrices::LeafBuilder *>((geometry))->FUN_00b288f0((::LeafMatrices::LeafData *)(::TreeGeometry *)(&output->first), index_, angleVal, angle5, scale);
         ++index_;
     }
     if (forcedLod > -1)
@@ -9437,7 +9303,7 @@ void TreeRuntime::FUN_00b0bc00(TreeOutput* output, short forcedLod)
         angle3 = -1.0f;
         index6 = -1;
         indexX = -1;
-        FUN_00b0c8d0(reinterpret_cast<FUN_00b08440_shell*>(this)->FUN_00b08440(), count2, lodNear, lodTransition,
+        ::fnv_00b0c8d0::FUN_00b0c8d0(reinterpret_cast<FUN_00b08440_shell*>(this)->FUN_00b08440(), count2, lodNear, lodTransition,
                      lodFar, (float)alpha, &aAngle, &angle3, &index6, &indexX);
         output->first.active = index6 != -1 && index6 < count4;
         if (output->first.active)
@@ -9461,7 +9327,7 @@ void TreeRuntime::FUN_00b0bc00(TreeOutput* output, short forcedLod)
     }
     else
     {
-        indexVal = FUN_00b08610(-1.0f);
+        indexVal = reinterpret_cast<::FUN_00b08610_shell *>(this)->FUN_00b08610(-1.0f);
         if (indexVal < FUN_00b08710())
         {
             geometry->SetLeafLodGeometry(&output->first, indexVal, angleVal, angle5, scale);
@@ -9472,7 +9338,6 @@ void TreeRuntime::FUN_00b0bc00(TreeOutput* output, short forcedLod)
     }
 }
 
-extern float DAT_01023cd8;
 struct R0c
 {
     float x, y, z;
@@ -9497,7 +9362,6 @@ struct V0c
         return V0c(-x, -y, -z);
     }
 };
-float __cdecl FUN_00b0c470(V0c* v);
 inline void Dead6()
 {
     int d0;
@@ -9549,13 +9413,12 @@ struct T0c
     L0c* pList;
     char p50[4];
     unsigned short m_usPassCountLocal;
-    void FillSpeedTreeOutput(O0c* out);
     void FUN_00b0c050(O0c* pOut, unsigned int uiFlags);
 };
 // @fnv 0x00b0c050
 void T0c::FUN_00b0c050(O0c* pOut, unsigned int uiFlags)
 {
-    FillSpeedTreeOutput(pOut);
+    reinterpret_cast<::TreeC4 *>(this)->FillSpeedTreeOutput((::OutC4 *)(pOut));
     if (pOut->bActive && m_usPassCountLocal)
     {
         float fScale2 = (pOut->fWeight - ucMin) / (255.0 - ucMin);
@@ -9565,7 +9428,7 @@ void T0c::FUN_00b0c050(O0c* pOut, unsigned int uiFlags)
         vB9 = *(V0c*)&DAT_011f8eac;
         vB9 = -vB9;
         Dead6();
-        float fAngleTmp = FUN_00b0c470(&vB9);
+        float fAngleTmp = ::FUN_00b0c470((const float *)(::V0c *)(&vB9));
         if (fAngleTmp < 0.0)
             fAngleTmp += 360.0;
         float fW3 = -1.0f;
@@ -9575,7 +9438,7 @@ void T0c::FUN_00b0c050(O0c* pOut, unsigned int uiFlags)
         unsigned short usN = m_usPassCountLocal;
         float fHalf3 = 0.5 / usN;
         float fTVal = Lerp0c(fAngleTmp / 360.0, fHalf3, 1.0f - fHalf3);
-        FUN_00b0c8d0(fTVal, usN, (float)(0.5 / usN), f28, f20, ucMin, &fW3, &fWTmp, &sA, &s3);
+        ::fnv_00b0c8d0::FUN_00b0c8d0(fTVal, usN, (float)(0.5 / usN), f28, f20, ucMin, &fW3, &fWTmp, &sA, &s3);
         sA = m_usPassCountLocal - 1 - sA;
         s3 = m_usPassCountLocal - 1 - s3;
         while (sA >= usN)
@@ -9618,7 +9481,6 @@ void T0c::FUN_00b0c050(O0c* pOut, unsigned int uiFlags)
     }
 }
 
-extern const double DAT_010a4d90;
 
 struct S00b0c470_Vec
 {
@@ -9668,7 +9530,6 @@ struct Vec3C780
         return (&x)[i];
     }
 };
-extern const Vec3C780 g_akBasisC780[4];
 struct FrameC780
 {
     Vec3C780 m_akRows[4];
@@ -9686,18 +9547,18 @@ FrameC780* FrameC780::FUN_00b0c780(float fScale, float m_fProjectionDepth)
     if (!IsBuilt())
     {
         Vec3C780 kScale(fScale, fScale, m_fProjectionDepth);
-        m_akRows[0].x = kScale.x * g_akBasisC780[0][0];
-        m_akRows[0].y = kScale.y * g_akBasisC780[0][1];
-        m_akRows[0].z = kScale.z * g_akBasisC780[0][2];
-        m_akRows[1].x = kScale.x * g_akBasisC780[1][0];
-        m_akRows[1].y = kScale.y * g_akBasisC780[1][1];
-        m_akRows[1].z = kScale.z * g_akBasisC780[1][2];
-        m_akRows[2].x = kScale.x * g_akBasisC780[2][0];
-        m_akRows[2].y = kScale.y * g_akBasisC780[2][1];
-        m_akRows[2].z = kScale.z * g_akBasisC780[2][2];
-        m_akRows[3].x = kScale.x * g_akBasisC780[3][0];
-        m_akRows[3].y = kScale.y * g_akBasisC780[3][1];
-        m_akRows[3].z = kScale.z * g_akBasisC780[3][2];
+        m_akRows[0].x = kScale.x * (*reinterpret_cast<const Vec3C780 (*)[4]>(&::DAT_011f8d08))[0][0];
+        m_akRows[0].y = kScale.y * (*reinterpret_cast<const Vec3C780 (*)[4]>(&::DAT_011f8d08))[0][1];
+        m_akRows[0].z = kScale.z * (*reinterpret_cast<const Vec3C780 (*)[4]>(&::DAT_011f8d08))[0][2];
+        m_akRows[1].x = kScale.x * (*reinterpret_cast<const Vec3C780 (*)[4]>(&::DAT_011f8d08))[1][0];
+        m_akRows[1].y = kScale.y * (*reinterpret_cast<const Vec3C780 (*)[4]>(&::DAT_011f8d08))[1][1];
+        m_akRows[1].z = kScale.z * (*reinterpret_cast<const Vec3C780 (*)[4]>(&::DAT_011f8d08))[1][2];
+        m_akRows[2].x = kScale.x * (*reinterpret_cast<const Vec3C780 (*)[4]>(&::DAT_011f8d08))[2][0];
+        m_akRows[2].y = kScale.y * (*reinterpret_cast<const Vec3C780 (*)[4]>(&::DAT_011f8d08))[2][1];
+        m_akRows[2].z = kScale.z * (*reinterpret_cast<const Vec3C780 (*)[4]>(&::DAT_011f8d08))[2][2];
+        m_akRows[3].x = kScale.x * (*reinterpret_cast<const Vec3C780 (*)[4]>(&::DAT_011f8d08))[3][0];
+        m_akRows[3].y = kScale.y * (*reinterpret_cast<const Vec3C780 (*)[4]>(&::DAT_011f8d08))[3][1];
+        m_akRows[3].z = kScale.z * (*reinterpret_cast<const Vec3C780 (*)[4]>(&::DAT_011f8d08))[3][2];
         m_bBuilt = true;
     }
     return this;
@@ -9782,7 +9643,7 @@ struct StrF
     ~StrF()
     {
         int aiD[5];
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     void FUN_0044a730(bool b, unsigned n);
     const char* c_str() const
@@ -9790,8 +9651,6 @@ struct StrF
         return 16 <= uiRes ? kBx.pPtr : kBx.acBuf;
     }
 };
-StrF __cdecl FUN_00b18860(const char* pFmt, ...);
-void __cdecl AssignString(const char* pMsg);
 struct CIdvException
 {
     virtual ~CIdvException();
@@ -9812,7 +9671,6 @@ struct SpdTreeQ
     float f24;
     int i28;
     float* pafLodSizes;
-    unsigned short FUN_00b08710();
     const float* FUN_00b0cb10();
 };
 // @fnv 0x00b0cb10
@@ -9822,7 +9680,7 @@ const float* SpdTreeQ::FUN_00b0cb10()
     {
         if (!pafLodSizes)
         {
-            int nLods = FUN_00b08710();
+            int nLods = reinterpret_cast<::CSpeedTreeRT *>(this)->FUN_00b08710();
             pafLodSizes = new float[nLods];
             for (int i = 0; i < nLods; i++)
                 pafLodSizes[i] = nLods > 0 ? 1.0 + f24 * i : 1.0;
@@ -9830,12 +9688,12 @@ const float* SpdTreeQ::FUN_00b0cb10()
     }
     catch (CIdvException& e)
     {
-        AssignString(FUN_00b18860("%s - failed [%s]", "CSpeedTreeRT::GetLeafLodSizeAdjustments", e.what()).c_str());
+        ::AssignString((*(::fnv_00b0cb10::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - failed [%s]"), "CSpeedTreeRT::GetLeafLodSizeAdjustments", e.what()))).c_str());
     }
     catch (...)
     {
-        AssignString(
-            FUN_00b18860("%s - threw an unknown system exception", "CSpeedTreeRT::GetLeafLodSizeAdjustments").c_str());
+        ::AssignString(
+            (*(::fnv_00b0cb10::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - threw an unknown system exception"), "CSpeedTreeRT::GetLeafLodSizeAdjustments"))).c_str());
     }
     return pafLodSizes;
 }
@@ -9846,20 +9704,18 @@ struct Pool_b0cd
     void* FUN_00aa3e40(unsigned int uiSize);
     void FUN_00aa4060(void* pvBlock);
 };
-extern Pool_b0cd g_kPoolB0CD;
 
 class Track_b0cd
 {
   public:
     Track_b0cd();
-    void FUN_00b3e750(int iValue);
     static void* operator new(unsigned int uiSize)
     {
-        return g_kPoolB0CD.FUN_00aa3e40(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::Pool_b0cd *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }
     static void operator delete(void* pvBlock)
     {
-        g_kPoolB0CD.FUN_00aa4060(pvBlock);
+        (*reinterpret_cast<::Pool_b0cd *>(&::g_memoryManager)).FUN_00aa4060(pvBlock);
     }
 
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
@@ -9881,7 +9737,7 @@ class TrackOwner_b0cd
 void TrackOwner_b0cd::FUN_00b0cd40(int iValue)
 {
     m_pkTrack = new Track_b0cd;
-    m_pkTrack->FUN_00b3e750(iValue);
+    reinterpret_cast<::FrondInfo *>((m_pkTrack))->FUN_00b3e750((::ChunkReader *)(iValue));
 }
 
 inline void Dead8_acad60()
@@ -9906,11 +9762,10 @@ inline CatQ_acad60 PtrCat_acad60(int*&, int*&)
     CatQ_acad60 c;
     return c;
 }
-void __cdecl FUN_00b36b10(int* _First, unsigned int _Count, const int& _Val);
 inline void UFill2_acad60(int* _First, unsigned int _Count, const int& _Val, AlQ_acad60& _Al, CatQ_acad60, TagQ_acad60)
 {
     Dead8_acad60();
-    FUN_00b36b10(_First, _Count, _Val);
+    ::fnv_00b36b10::FUN_00b36b10((unsigned int *)(_First), _Count, (const unsigned int &)(_Val));
 }
 inline void UFillN_acad60(int* _First, unsigned int _Count, const int& _Val, AlQ_acad60& _Al)
 {
@@ -9961,6 +9816,52 @@ struct VecQ_acad60
     ItQ_acad60 FUN_00b0e600(CItQ_acad60 _Where, const int& _Val);
     void FUN_00b0ddc0(const int& _Val);
 };
+// @fnv 0x00b02ef0
+FUN_00b02ef0::FUN_00b02ef0()
+    : m00(0), m04(0), m08(0), m0c(0), m10(0), m14(0), m18(1), m1c(0.07f), m20(0.7f), m24(0.5f), m28(0.0f), m2c(0),
+      m30(0), m34(0), m3c(-1), m40(0), m44('T'), m45(0), m48(-1), m4c(0), m50(0), m54(0), m58(0), m5c(0), m64(0),
+      m68(0), m6c(0), m6d(0)
+{
+    try
+    {
+        m10 = new O44;
+        m04 = new O190(m10, 0);
+        m00 = new O128(m04);
+        m0c = new Ob0;
+        m08 = new O30(m10);
+        m14 = new O34;
+        m40 = new float[7];
+        m30 = new int;
+        *m30 = 1;
+        m38 = new O18;
+        m5c = new O84;
+        m60 = new O190(m10, 1);
+        EnterCriticalSection(&DAT_011f8bc4);
+        reinterpret_cast<::VecQ_acad60 *>(&(DAT_011f8bdc))->FUN_00b0ddc0((const int &)((const void *const &)(this)));
+        DAT_011f8b7c++;
+        LeaveCriticalSection(&DAT_011f8bc4);
+        SetCurQ(m0c);
+        m40[0] = 0.0f;
+        m40[1] = 0.0f;
+        m40[2] = 0.0f;
+        m40[3] = 1.0f;
+        m40[4] = 1.0f;
+        m40[5] = 1.0f;
+        m40[6] = 1.0f;
+        for (int i = 0; i < 12; i++)
+            m70[i] = 0.0f;
+    }
+    catch (ExcQ& e)
+    {
+        AssignString((*(::StrQ *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - failed [%s]"), "CSpeedTreeRT::CSpeedTreeRT( )", e.what()))).c_str());
+        Dead5Q();
+    }
+    catch (...)
+    {
+        AssignString((*(::StrQ *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - threw an unknown system exception"), "CSpeedTreeRT::CSpeedTreeRT( )"))).c_str());
+        Dead5Q();
+    }
+}
 inline CItQ_acad60::CItQ_acad60(int* _Ptr, const VecQ_acad60* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
@@ -10345,7 +10246,7 @@ class FUN_00b0df00_Vector : public vectorS<int>
 // @fnv 0x00b0df00
 FUN_00b0df00_Vector::iterator FUN_00b0df00_Vector::FUN_00b0df00(const_iterator _Where)
 {
-    unchecked_copyS(_Where._Myptr + 1, _Mylast, _Where._Myptr);
+    ::FUN_00b42e50(_Where._Myptr + 1, _Mylast, _Where._Myptr);
     _Destroy(_Mylast - 1, _Mylast);
     --_Mylast;
     return (_Make_iter(_Where));
@@ -10371,11 +10272,9 @@ inline CatQ_acda90 PtrCat_acda90(ElQ_acda90*&, ElQ_acda90*&)
     CatQ_acda90 c;
     return c;
 }
-void __cdecl FUN_00b10990(ElQ_acda90* _First, unsigned int _Count, const ElQ_acda90& _Val, AlQ_acda90& _Al, CatQ_acda90,
-                          TagQ_acda90);
 inline void UFillN_acda90(ElQ_acda90* _First, unsigned int _Count, const ElQ_acda90& _Val, AlQ_acda90& _Al)
 {
-    FUN_00b10990(_First, _Count, _Val, _Al, PtrCat_acda90(_First, _First), TagQ_acda90());
+    ::FUN_00b10990((::ElQ *)(_First), _Count, (const ::ElQ &)(_Val));
 }
 struct VecQ_acda90;
 struct CItQ_acda90
@@ -10792,7 +10691,7 @@ struct ElQ
 };
 __forceinline void Del(ElQ* p, unsigned int f)
 {
-    p->~ElQ();
+    reinterpret_cast<::ScaledVec6 *>((p))->ScaledVec6::~ScaledVec6();
 }
 inline void Construct(ElQ* p, const ElQ& v)
 {
@@ -11422,7 +11321,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 struct BxLogicError : public BxException
 {
@@ -11998,7 +11897,7 @@ FUN_00b06090::FUN_00b06090(const char* data, int size) : unk00(0)
 {
     int p;
     int s0, s1, s2, s3, s4, s5;
-    kData.resize(size, 0);
+    reinterpret_cast<::VcVec *>(&(kData))->FUN_00b0e200(size, 0);
     for (p = 0; p < size; ++p)
     {
         kData[p] = data[p];
@@ -12007,8 +11906,6 @@ FUN_00b06090::FUN_00b06090(const char* data, int size) : unk00(0)
 }  // namespace fnv_00b06090
 
 namespace fnv_00b09960 {
-extern int DAT_010173f0;
-extern unsigned char DAT_011f8b79;
 typedef unsigned int size_t;
 struct HeapQ
 {
@@ -12017,7 +11914,7 @@ struct HeapQ
 extern HeapQ DAT_011f6238;
 inline void* operator new[](size_t n)
 {
-    return DAT_011f6238.FUN_00aa3e40(n);
+    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00b09960::HeapQ *>(&::g_memoryManager))))->FUN_00aa3e40(n);
 }
 struct FUN_0044a4c0
 {
@@ -12029,13 +11926,13 @@ struct FUN_0044a4c0
     FUN_0044a4c0(const FUN_0044a4c0& r);
     ~FUN_0044a4c0()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     void FUN_0044a730(bool b, unsigned n);
     FUN_0044a4c0& AssignSubstring(const FUN_0044a4c0& r, unsigned o, unsigned n);
     FUN_0044a4c0& operator=(const FUN_0044a4c0& r)
     {
-        return AssignSubstring(r, 0, *(unsigned*)&DAT_010173f0);
+        return AssignSubstring(r, 0, *(unsigned*)&(*reinterpret_cast<int *>(&::g_010173f0)));
     }
 };
 struct FUN_00b096a0
@@ -12074,10 +11971,7 @@ struct Parser
 {
     unsigned uiPos;
     ByteVec kData;
-    int GetNextElement();
-    float FUN_00b3ed20();
     FUN_0044a4c0 FUN_00b3ee40();
-    bool FUN_00b06180();
     bool AtEnd()
     {
         int aK[9];
@@ -12097,7 +11991,7 @@ struct TexCoordQ
     TexCoordQ();
     static void* operator new(size_t n)
     {
-        return DAT_011f6238.FUN_00aa3e40(n);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00b09960::HeapQ *>(&::g_memoryManager))))->FUN_00aa3e40(n);
     }
 };
 inline void DeadTop()
@@ -12139,44 +12033,44 @@ struct Tree
 void Tree::FUN_00b09960(Parser* p)
 {
     pTileTexture = new TexCoordQ;
-    int iToken = p->GetNextElement();
+    int iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
     do
     {
         switch (iToken)
         {
         case 0x2712:
             Gap4();
-            pTileTexture->iA = p->GetNextElement();
+            pTileTexture->iA = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
             if (pTileTexture->iA > 0)
             {
                 pTileTexture->pA = new float[pTileTexture->iA * 8];
                 for (int i = 0; i < pTileTexture->iA; i++)
                     for (int j = 0; j < 8; j++)
-                        pTileTexture->pA[i * 8 + j] = p->FUN_00b3ed20();
+                        pTileTexture->pA[i * 8 + j] = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
             }
             break;
         case 0x2713:
-            pTileTexture->iB = p->GetNextElement();
+            pTileTexture->iB = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
             if (pTileTexture->iB > 0)
             {
                 pTileTexture->pB = new float[pTileTexture->iB * 8];
                 for (int i = 0; i < pTileTexture->iB; i++)
                     for (int j = 0; j < 8; j++)
                     {
-                        pTileTexture->pB[i * 8 + j] = p->FUN_00b3ed20();
-                        if (j % 2 && DAT_011f8b79)
+                        pTileTexture->pB[i * 8 + j] = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
+                        if (j % 2 && ::DAT_011f8b79)
                             pTileTexture->pB[i * 8 + j] = -pTileTexture->pB[i * 8 + j];
                     }
             }
             break;
         case 0x2714:
-            pTileTexture->iC = p->GetNextElement();
+            pTileTexture->iC = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
             if (pTileTexture->iC > 0)
             {
                 pTileTexture->pC = new float[pTileTexture->iC * 8];
                 for (int i = 0; i < pTileTexture->iC; i++)
                     for (int j = 0; j < 8; j++)
-                        pTileTexture->pC[i * 8 + j] = p->FUN_00b3ed20();
+                        pTileTexture->pC[i * 8 + j] = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
             }
             break;
         case 0x2715: {
@@ -12187,10 +12081,10 @@ void Tree::FUN_00b09960(Parser* p)
             break;
         }
         case 0x2716:
-            b6d = p->FUN_00b06180();
+            b6d = reinterpret_cast<::fnv_00b059e0::FUN_00b06090 *>((p))->FUN_00b06180();
             break;
         case 0x2717:
-            b6c = p->FUN_00b06180();
+            b6c = reinterpret_cast<::fnv_00b059e0::FUN_00b06090 *>((p))->FUN_00b06180();
             break;
         default:
             throw FUN_00b09480("malformed texture coord info", false);
@@ -12198,7 +12092,7 @@ void Tree::FUN_00b09960(Parser* p)
         if (p->AtEnd())
             throw FUN_00b09480("premature end of file reached parsing texture coordinate info", false);
         else
-            iToken = p->GetNextElement();
+            iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
     } while (iToken != 0x2711);
     DeadEnd();
 }
@@ -12215,7 +12109,7 @@ struct FUN_0044a4c0
     FUN_0044a4c0(const FUN_0044a4c0& r);
     ~FUN_0044a4c0()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     void FUN_0044a730(bool b, unsigned n);
 };
@@ -12260,13 +12154,12 @@ struct FUN_00b0dfb0
     {
         int aiA[41];
         aiA[0] = 0;
-        return DAT_011f6238.FUN_00aa3e40(n);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00b0a490::Pool *>(&::g_memoryManager))))->FUN_00aa3e40(n);
     }
     static void operator delete(void* p)
     {
-        DAT_011f6238.Free(p);
+        (*reinterpret_cast<::fnv_00b0a490::Pool *>(&::g_memoryManager)).Free(p);
     }
-    void FUN_00b0e090(const Shape& s);
 };
 inline void Dead40()
 {
@@ -12289,8 +12182,6 @@ struct Parser
 {
     unsigned uiPos;
     ByteVec kData;
-    int GetNextElement();
-    float FUN_00b3ed20();
 };
 inline void* DeadNew(void* q)
 {
@@ -12306,7 +12197,7 @@ struct Tree
 void Tree::FUN_00b0a490(Parser* p)
 {
     pColl = new FUN_00b0dfb0;
-    int iToken3 = p->GetNextElement();
+    int iToken3 = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
     V3 kPos2;
     do
     {
@@ -12332,41 +12223,40 @@ void Tree::FUN_00b0a490(Parser* p)
         default:
             throw FUN_00b09480("malformed collision object info", false);
         }
-        kPos2.x = p->FUN_00b3ed20();
-        kPos2.y = p->FUN_00b3ed20();
-        kPos2.z = p->FUN_00b3ed20();
+        kPos2.x = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
+        kPos2.y = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
+        kPos2.z = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
         s.a.x = kPos2.x;
         s.a.y = kPos2.y;
         s.a.z = kPos2.z;
         switch (s.iType)
         {
         case 0:
-            s.b.x = p->FUN_00b3ed20();
+            s.b.x = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
             break;
         case 1:
-            s.b.x = p->FUN_00b3ed20();
-            s.b.y = p->FUN_00b3ed20();
+            s.b.x = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
+            s.b.y = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
             break;
         case 2:
-            s.b.x = p->FUN_00b3ed20();
-            s.b.y = p->FUN_00b3ed20();
-            s.b.z = p->FUN_00b3ed20();
+            s.b.x = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
+            s.b.y = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
+            s.b.z = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
             break;
         default:
             throw FUN_00b09480("unknown collision object type", false);
         }
-        pColl->FUN_00b0e090(s);
+        reinterpret_cast<::VecQ_acda90 *>((pColl))->FUN_00b0e090((const ::ElQ_acda90 &)(s));
         if ((bool)(int)(p->uiPos >= p->kData.size()))
             throw FUN_00b09480("premature end of file reached parsing collision object info", false);
         else
-            iToken3 = p->GetNextElement();
+            iToken3 = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
     } while (iToken3 != 0x2ee1);
     Dead40();
 }
 }  // namespace fnv_00b0a490
 
 namespace fnv_00b0d810 {
-extern int DAT_010173f0;
 struct FUN_0044a4c0
 {
     int iAl;
@@ -12377,13 +12267,13 @@ struct FUN_0044a4c0
     FUN_0044a4c0(const FUN_0044a4c0& r);
     ~FUN_0044a4c0()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     void FUN_0044a730(bool b, unsigned n);
     FUN_0044a4c0& AssignSubstring(const FUN_0044a4c0& r, unsigned o, unsigned n);
     FUN_0044a4c0& operator=(const FUN_0044a4c0& r)
     {
-        return AssignSubstring(r, 0, *(unsigned*)&DAT_010173f0);
+        return AssignSubstring(r, 0, *(unsigned*)&(*reinterpret_cast<int *>(&::g_010173f0)));
     }
 };
 struct FUN_00b096a0
@@ -12428,10 +12318,7 @@ struct Parser
 {
     unsigned uiPos;
     ByteVec kData;
-    int GetNextElement();
-    float FUN_00b3ed20();
     FUN_0044a4c0 FUN_00b3ee40();
-    bool FUN_00b06180();
 };
 struct TexQ
 {
@@ -12462,7 +12349,7 @@ void Tree::FUN_00b0d810(Parser* p)
 {
     if (pTileTexture)
     {
-        int iToken = p->GetNextElement();
+        int iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
         do
         {
             switch (iToken)
@@ -12473,14 +12360,14 @@ void Tree::FUN_00b0d810(Parser* p)
                 break;
             }
             case 0x4e23:
-                b6d = p->FUN_00b06180();
+                b6d = reinterpret_cast<::fnv_00b059e0::FUN_00b06090 *>((p))->FUN_00b06180();
                 break;
             case 0x4e24:
-                b6c = p->FUN_00b06180();
+                b6c = reinterpret_cast<::fnv_00b059e0::FUN_00b06090 *>((p))->FUN_00b06180();
                 break;
             case 0x4e25:
                 for (int i = 0; i < 8; i++)
-                    pTileTexture->af[i] = p->FUN_00b3ed20();
+                    pTileTexture->af[i] = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
                 break;
             default:
                 throw FUN_00b09480("malformed texture coord info", false);
@@ -12488,7 +12375,7 @@ void Tree::FUN_00b0d810(Parser* p)
             if ((bool)(int)(p->uiPos >= p->kData.size()))
                 throw FUN_00b09480("premature end of file reached parsing texture coordinate info", false);
             else
-                iToken = p->GetNextElement();
+                iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
         } while (iToken != 0x4e21);
     }
     DeadEnd();
@@ -12811,7 +12698,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 struct BxLogicError : public BxException
 {
@@ -12844,7 +12731,7 @@ template <class T> struct GvAlloc
     {}
     pointer allocate(unsigned int _Count)
     {
-        return BxAllocate(_Count, (pointer)0);
+        return ((::fnv_00b0dfb0::vct0dfb0::GvAuxCont *)(::FUN_0044d670(_Count)));
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
@@ -13476,7 +13363,7 @@ struct FUN_00b0dfb0 : GvVectorStore<BxString>
 // @fnv 0x00b0dfb0
 FUN_00b0dfb0::FUN_00b0dfb0() : GvVectorStore<BxString>()
 {
-    _Buy(0);
+    reinterpret_cast<::B0E9Vec *>(this)->FUN_00b0e9c0(0);
 }
 }  // namespace fnv_00b0dfb0
 
@@ -13484,23 +13371,21 @@ struct TreeResource
 {
     static __forceinline void operator delete(void* p)
     {
-        g_memoryManager.Deallocate(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
     }
 };
 struct BranchResource : TreeResource
 {
-    void FUN_00b2e9c0();
     __forceinline ~BranchResource()
     {
-        FUN_00b2e9c0();
+        reinterpret_cast<::FUN_00b2e9c0 *>(this)->FUN_00b2e9c0::~FUN_00b2e9c0();
     }
 };
 struct LeafResource : TreeResource
 {
-    void Reset();
     __forceinline ~LeafResource()
     {
-        Reset();
+        reinterpret_cast<::FUN_00b276f0_cls *>(this)->Reset();
     }
 };
 struct VirtualResource
@@ -13509,18 +13394,16 @@ struct VirtualResource
 };
 struct LodResource : TreeResource
 {
-    void FUN_00b04420();
     __forceinline ~LodResource()
     {
-        FUN_00b04420();
+        reinterpret_cast<::FUN_00b04420_class *>(this)->FUN_00b04420();
     }
 };
 struct BillboardResource : TreeResource
 {
-    void FUN_00b181b0();
     __forceinline ~BillboardResource()
     {
-        FUN_00b181b0();
+        reinterpret_cast<::FUN_00b181b0 *>(this)->FUN_00b181b0::~FUN_00b181b0();
     }
 };
 struct StringResource : TreeResource
@@ -13537,7 +13420,7 @@ struct StringResource : TreeResource
     std::basic_string<char, std::char_traits<char>, std::allocator<char> > name;
     __forceinline ~StringResource()
     {
-        name._Tidy(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(&(name))->FUN_0044a730(true, 0);
     }
 };
 struct Registry;
@@ -13545,10 +13428,9 @@ struct RegCIt
 {
     void* owner;
     void** current;
-    bool FUN_00b0eca0(const RegCIt&) const;
     __forceinline bool operator!=(const RegCIt& r) const
     {
-        return !(FUN_00b0eca0(r));
+        return !(reinterpret_cast<::FUN_00b0eca0_t *>((void *)this)->FUN_00b0eca0((::FUN_00b0eca0_t *)&(r)));
     }
     __forceinline void setCur(void** p)
     {
@@ -13565,7 +13447,7 @@ struct RegistryIterator : RegCIt
 };
 template <class T> __forceinline void releaseMemory(T* p)
 {
-    g_memoryManager.Deallocate(p);
+    reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
 }
 struct ProxyRoot : TreeResource
 {
@@ -13592,8 +13474,6 @@ struct Registry : RegMid
     void** first;
     void** last;
     void** limit;
-    void Clear();
-    RegistryIterator FUN_00b0df00(RegCIt);
     __forceinline RegistryIterator begin()
     {
         void** p = first;
@@ -13606,7 +13486,7 @@ struct Registry : RegMid
     }
     __forceinline ~Registry()
     {
-        Clear();
+        reinterpret_cast<::fnv_00b0e7f0::FUN_00b0e7f0_class *>(this)->Clear();
     }
 };
 struct OtherRegistryProxy : ProxyRoot
@@ -13624,13 +13504,11 @@ struct OtherMid : OtherRegistryProxy
 };
 struct OtherRegistry : OtherMid
 {
-    void FUN_00b0ea80();
     __forceinline ~OtherRegistry()
     {
-        FUN_00b0ea80();
+        reinterpret_cast<::B0Vector *>(this)->FUN_00b0ea80();
     }
 };
-void FUN_00b37a00();
 static __forceinline void Pad5()
 {
     int dq[5];
@@ -13700,7 +13578,6 @@ struct SpeedTreeRelease
     BranchResource* extraBranches;
     void* m64;
     void* m68;
-    void FUN_00b053e0();
     void FUN_00b03b30();
 };
 // @fnv 0x00b03b30
@@ -13712,7 +13589,7 @@ void SpeedTreeRelease::FUN_00b03b30()
         RegistryIterator found = findResource(reinterpret_cast<Registry&>(DAT_011f8bdc).begin(),
                                               reinterpret_cast<Registry&>(DAT_011f8bdc).end(), this);
         if (found != reinterpret_cast<Registry&>(DAT_011f8bdc).end())
-            reinterpret_cast<Registry&>(DAT_011f8bdc).FUN_00b0df00(found);
+            reinterpret_cast<::fnv_00b0df00::FUN_00b0df00_Vector *>(&(reinterpret_cast<Registry&>(DAT_011f8bdc)))->FUN_00b0df00((*(::fnv_00b0df00::_Vector_const_iteratorS<int> *)&(const ::RegCIt &)(found)));
         Pad5();
         LeaveCriticalSection(&DAT_011f8bc4);
     }
@@ -13720,14 +13597,14 @@ void SpeedTreeRelease::FUN_00b03b30()
     if (instance != 0)
     {
         RegistryIterator found = findResource(instances->begin(), instances->end(), this);
-        instances->FUN_00b0df00(found);
+        reinterpret_cast<::fnv_00b0df00::FUN_00b0df00_Vector *>((instances))->FUN_00b0df00((*(::fnv_00b0df00::_Vector_const_iteratorS<int> *)&(const ::RegCIt &)(found)));
         Pad5();
         delete (TreeResource*)instance;
         instance = 0;
     }
     if (*references == 0)
     {
-        FUN_00b053e0();
+        reinterpret_cast<::FUN_00b053e0_shell *>(this)->FUN_00b053e0();
         delete branches;
         delete (TreeResource*)m0c;
         delete (TreeResource*)m10;
@@ -13762,7 +13639,7 @@ void SpeedTreeRelease::FUN_00b03b30()
     strings = 0;
     m68 = 0;
     if (--DAT_011f8b7c == 0)
-        FUN_00b37a00();
+        ::fnv_00b37a00::FUN_00b37a00();
     Pad8();
 }
 
@@ -13942,7 +13819,7 @@ struct TreeCharAllocator
 {
     void deallocate(char* p, unsigned int count)
     {
-        ::operator delete(p);
+        ::FUN_00401030(p);
     }
 };
 struct TreeSecureTraitsTag
@@ -14011,7 +13888,7 @@ struct TreeString
     }
     ~TreeString()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
 };
 
@@ -14025,7 +13902,7 @@ struct TreeGeomQ
     TreeFloatVector vec;
     void Release()
     {
-        vec.FUN_0044a0a0();
+        reinterpret_cast<::VecStandIn *>(&(vec))->FUN_0044a0a0();
     }
 };
 
@@ -14040,7 +13917,7 @@ struct EmbeddedTex
     TreeString value;
     void operator delete(void* p)
     {
-        ((MM*)&DAT_011f6238)->FUN_00aa4060(p);
+        reinterpret_cast<::FNV_MemoryManager *>((((MM*)&(*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager)))))->FUN_00aa4060(p);
     }
 };
 
@@ -14177,7 +14054,6 @@ struct TreeEngine
 };
 struct LightingEngine
 {
-    void FUN_00b2a210(const Vector3D& center, int a, unsigned short n);
 };
 struct CSpeedTreeRT
 {
@@ -14185,8 +14061,6 @@ struct CSpeedTreeRT
     void* m_04;
     void* m_08;
     LightingEngine* m_pLighting;
-    void FUN_00b08c80(float* box);
-    unsigned short FUN_00b08710();
     void FUN_00b08cc0();
 };
 
@@ -14197,19 +14071,19 @@ void CSpeedTreeRT::FUN_00b08cc0()
     try
     {
         float box2[6];
-        FUN_00b08c80(box2);
+        reinterpret_cast<::CSpeedTreeRT_GetBoundingBox *>(this)->FUN_00b08c80(box2);
         Vector3D center5((box2[0] + box2[3]) * 0.5, (box2[1] + box2[4]) * 0.5, (box2[2] + box2[5]) * 0.5);
         a = m_pFirstPointer->m_ec;
-        m_pLighting->FUN_00b2a210(center5, a, FUN_00b08710());
+        reinterpret_cast<::Scene *>((m_pLighting))->FUN_00b2a210((int)&(center5), (::Record *)(a), reinterpret_cast<::CSpeedTreeRT *>(this)->FUN_00b08710());
     }
     catch (std::exception& e)
     {
-        AssignString(FUN_00b18860("%s - failed [%s]", "CSpeedTreeRT::ComputeLeafStaticLighting", e.what()).c_str());
+        ::AssignString((*(::StrQ *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - failed [%s]"), "CSpeedTreeRT::ComputeLeafStaticLighting", e.what()))).c_str());
     }
     catch (...)
     {
-        AssignString(
-            FUN_00b18860("%s - threw an unknown system exception", "CSpeedTreeRT::ComputeLeafStaticLighting").c_str());
+        ::AssignString(
+            (*(::StrQ *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - threw an unknown system exception"), "CSpeedTreeRT::ComputeLeafStaticLighting"))).c_str());
     }
 }
 }
@@ -14261,11 +14135,6 @@ struct SpeedTreeImpl
     int unk60, unk64, unk68;
     unsigned char unk6c;
 
-    void FUN_00b0b1d0(void* m_pShaderGeometry, unsigned short nBranchLodLevel);
-    void FillFrondGeometry(void* m_pShaderGeometry, unsigned short nFrondLodLevel);
-    void FUN_00b0bc00(void* m_pShaderGeometry, unsigned short nLeafLodLevel);
-    void FUN_00b0c050(void* m_pShaderGeometry, unsigned long ulGeometryFlags);
-    void FillSpeedTreeOutput(void* m_pShaderGeometry);
 
     void FUN_00b0ab20(void* m_pShaderGeometry, unsigned long ulGeometryFlags, unsigned short nBranchLodLevel,
                       unsigned short nFrondLodLevel, unsigned short nLeafLodLevel);
@@ -14279,42 +14148,41 @@ void SpeedTreeImpl::FUN_00b0ab20(void* m_pShaderGeometry, unsigned long ulGeomet
     {
         if (ulGeometryFlags & 1)
         {
-            this->FUN_00b0b1d0(m_pShaderGeometry, nBranchLodLevel);
+            reinterpret_cast<::S0b *>((this))->FUN_00b0b1d0((::I0b *)(m_pShaderGeometry), nBranchLodLevel);
         }
         if (ulGeometryFlags & 2)
         {
-            this->FillFrondGeometry(m_pShaderGeometry, nFrondLodLevel);
+            reinterpret_cast<::FUN_00b0b920_self *>((this))->FillFrondGeometry((::FUN_00b0b920_arg *)(m_pShaderGeometry), nFrondLodLevel);
         }
         if (ulGeometryFlags & 4)
         {
-            this->FUN_00b0bc00(m_pShaderGeometry, nLeafLodLevel);
+            reinterpret_cast<::TreeRuntime *>((this))->FUN_00b0bc00((::TreeOutput *)(m_pShaderGeometry), nLeafLodLevel);
         }
         if (ulGeometryFlags & 8)
         {
             if (this->unk6c && !(ulGeometryFlags & 0x10))
             {
-                this->FUN_00b0c050(m_pShaderGeometry, ulGeometryFlags);
+                reinterpret_cast<::T0c *>((this))->FUN_00b0c050((::O0c *)(m_pShaderGeometry), ulGeometryFlags);
             }
             else
             {
-                this->FillSpeedTreeOutput(m_pShaderGeometry);
+                reinterpret_cast<::TreeC4 *>((this))->FillSpeedTreeOutput((::OutC4 *)(m_pShaderGeometry));
             }
         }
     }
     catch (const std::exception& e)
     {
-        AssignString(FUN_00b18860("%s - failed [%s]", "CSpeedTreeRT::GetGeometry", e.what()).c_str());
+        ::AssignString((*(::StrQ *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - failed [%s]"), "CSpeedTreeRT::GetGeometry", e.what()))).c_str());
     }
     catch (...)
     {
-        AssignString(FUN_00b18860("%s - threw an unknown system exception", "CSpeedTreeRT::GetGeometry").c_str());
+        ::AssignString((*(::StrQ *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - threw an unknown system exception"), "CSpeedTreeRT::GetGeometry"))).c_str());
     }
 }
 }  // namespace fnv_00b0ab20
 
 struct TreeFileReader
 {
-    int GetNextElement();
     StrQ FUN_00b3ee40();
 };
 
@@ -14326,7 +14194,7 @@ struct UserDataOwner : FUN_00b0d5d0_Class
 // @fnv 0x00b0d500
 void UserDataOwner::FUN_00b0d500(TreeFileReader* pFile)
 {
-    int token = pFile->GetNextElement();
+    int token = ((int)(reinterpret_cast<::S_00b3ed80 *>((pFile))->GetNextElement()));
     do
     {
         switch (token)
@@ -14336,7 +14204,7 @@ void UserDataOwner::FUN_00b0d500(TreeFileReader* pFile)
             Dead5Q();
             break;
         }
-        token = pFile->GetNextElement();
+        token = ((int)(reinterpret_cast<::S_00b3ed80 *>((pFile))->GetNextElement()));
     } while (token != 0x4a39);
 }
 
@@ -14390,11 +14258,9 @@ extern int DAT_011f8bec;
 
 struct BranchModeView
 {
-    void* GetFieldAt0C();
 };
 struct LeafModeView
 {
-    void* GetNestedPointer();
 };
 
 struct FUN_00b10430_class
@@ -14409,12 +14275,10 @@ struct FUN_00b0ec20_class
 
 struct FUN_00b0eca0_class
 {
-    bool __thiscall FUN_00b0eca0(void* other);
 };
 
 struct FUN_00b0ebb0_class
 {
-    FUN_00b076c0_Class** __thiscall FUN_00b0ebb0();
 };
 
 struct TreeUpdateRecord
@@ -14524,7 +14388,7 @@ struct Iterator
 
     __forceinline Iterator(unsigned int node, void* tree)
     {
-        ((FUN_00b10430_class*)this)->FUN_00b10430(node, tree);
+        reinterpret_cast<::FUN_00b10430_Class *>((((FUN_00b10430_class*)this)))->FUN_00b10430(node, (::FUN_00b10430_Arg *)(tree));
     }
 
     __forceinline void operator++()
@@ -14534,12 +14398,12 @@ struct Iterator
 
     __forceinline bool operator!=(const Iterator& other) const
     {
-        return !((FUN_00b0eca0_class*)this)->FUN_00b0eca0((void*)&other);
+        return !reinterpret_cast<::FUN_00b0eca0_t *>((((FUN_00b0eca0_class*)this)))->FUN_00b0eca0((::FUN_00b0eca0_t *)(void *)((void*)&other));
     }
 
     __forceinline FUN_00b076c0_Class** operator*() const
     {
-        return ((FUN_00b0ebb0_class*)this)->FUN_00b0ebb0();
+        return ((::FUN_00b076c0_Class **)&(reinterpret_cast<::fnv_00b0ebb0::FUN_00b0ebb0_Iterator *>((((FUN_00b0ebb0_class*)this)))->FUN_00b0ebb0()));
     }
 };
 
@@ -14574,18 +14438,18 @@ void FUN_00b08ec0(int param_1)
                 {
                     field_m04(**it)->byte12 = 0;
                 }
-                if (((BranchModeView*)(**it))->GetFieldAt0C() == (void*)1)
+                if (reinterpret_cast<::FUN_00b078e0_Class *>((((BranchModeView*)(**it))))->GetFieldAt0C() == (void*)1)
                 {
                     field_m60(**it)->byte12 = 0;
                 }
-                if (((LeafModeView*)(**it))->GetNestedPointer() == (void*)1 || field_byte14(**it))
+                if (reinterpret_cast<::FUN_00b074f0_obj *>((((LeafModeView*)(**it))))->GetNestedPointer() == (void*)1 || field_byte14(**it))
                 {
-                    ((FUN_00b27820_class*)(**it)->m08)->FUN_00b27820();
+                    reinterpret_cast<::SpeedTreeLodData *>((((FUN_00b27820_class*)(**it)->m08)))->FUN_00b27820();
                 }
             }
             else if (param_1 == 1)
             {
-                ((FUN_00b27820_class*)(**it)->m08)->FUN_00b27820();
+                reinterpret_cast<::SpeedTreeLodData *>((((FUN_00b27820_class*)(**it)->m08)))->FUN_00b27820();
                 field_m14(**it)->byte30 = 0;
             }
         }
@@ -14593,12 +14457,12 @@ void FUN_00b08ec0(int param_1)
     }
     catch (const std::exception& e)
     {
-        AssignString(FUN_00b18860("%s - failed [%s]", "CSpeedTreeRT::NotifyAllTreesOfEvent", e.what()).c_str());
+        ::AssignString((*(::StrQ *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - failed [%s]"), "CSpeedTreeRT::NotifyAllTreesOfEvent", e.what()))).c_str());
     }
     catch (...)
     {
-        AssignString(
-            FUN_00b18860("%s - threw an unknown system exception", "CSpeedTreeRT::NotifyAllTreesOfEvent").c_str());
+        ::AssignString(
+            (*(::StrQ *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - threw an unknown system exception"), "CSpeedTreeRT::NotifyAllTreesOfEvent"))).c_str());
     }
 }
 }  // namespace fnv_00b08ec0
@@ -14627,7 +14491,7 @@ struct String
     }
     ~String()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     void FUN_0044a730(bool built, unsigned n)
     {
@@ -14644,11 +14508,9 @@ struct String
         end(n);
     }
 };
-String __cdecl FUN_00b18860(const char* format, ...);
 }
 
 void* __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
-void __cdecl AssignString(const char* s);
 struct IdvException
 {
     virtual ~IdvException();
@@ -14675,7 +14537,7 @@ struct WrapQ
 {
     static void* operator new(unsigned int n, MemoryManagerAllocHelper& h)
     {
-        return h.Allocate(n);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(h))->FUN_00aa3e40(n);
     }
     static void operator delete(void*, MemoryManagerAllocHelper&)
     {}
@@ -14695,7 +14557,7 @@ struct ListQ : VecQ_acad60
         if (count < capacity())
         {
             int* destination = _Mylast;
-            FUN_00b36b10(destination, 1, reinterpret_cast<const int&>(value));
+            ::fnv_00b36b10::FUN_00b36b10((unsigned int *)(destination), 1, (const unsigned int &)(reinterpret_cast<const int&>(value)));
             _Mylast = destination + 1;
         }
         else
@@ -14733,7 +14595,6 @@ struct FUN_00b036d0
     int m68;
     bool b6c, b6d;
     int a70[12];
-    float FUN_00b08440();
     FUN_00b036d0(FUN_00b036d0* pNewInstance);
 };
 // @fnv 0x00b036d0
@@ -14746,25 +14607,25 @@ FUN_00b036d0::FUN_00b036d0(FUN_00b036d0* pNewInstance)
 {
     try
     {
-        m38->FUN_00b0ddc0(this);
+        reinterpret_cast<::VecQ_acad60 *>((m38))->FUN_00b0ddc0((const int &)((const void *const &)(this)));
         FUN_00ec44d0(a70, pNewInstance->a70, 0x30);
         *m30 = *m30 + 1;
-        m34 = new (DAT_011f6238) WrapQ;
+        m34 = new ((*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager))) WrapQ;
         m34->pTree = pNewInstance;
         m34->kPos = pNewInstance->m00->v;
-        m34->fScale = pNewInstance->FUN_00b08440();
+        m34->fScale = reinterpret_cast<::FUN_00b08440_shell *>((pNewInstance))->FUN_00b08440();
         DAT_011f8b7c++;
     }
     catch (IdvException& e)
     {
         AssignString(
-            CloneFormatting::FUN_00b18860("%s - failed [%s]", "CSpeedTreeRT::CSpeedTreeRT(CSpeedTreeRT*)", e.what())
+            (*(::CloneFormatting::String *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - failed [%s]"), "CSpeedTreeRT::CSpeedTreeRT(CSpeedTreeRT*)", e.what())))
                 .c_str());
     }
     catch (...)
     {
-        AssignString(CloneFormatting::FUN_00b18860("%s - threw an unknown system exception",
-                                                   "CSpeedTreeRT::CSpeedTreeRT(CSpeedTreeRT*)")
+        AssignString((*(::CloneFormatting::String *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - threw an unknown system exception"),
+                                                   "CSpeedTreeRT::CSpeedTreeRT(CSpeedTreeRT*)")))
                          .c_str());
     }
 }
@@ -14824,7 +14685,7 @@ template <class _Ty> class allocator
     {}
     void deallocate(_Ty* _Ptr, unsigned int)
     {
-        ::operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
 };
 template <class _Ty, class _Alloc> class _String_val
@@ -14936,8 +14797,6 @@ inline void* operator new[](unsigned int uiSize)
     return g_kMemoryManagerD04.Allocate(uiSize);
 }
 
-stdb07::string __cdecl FUN_00b18860(const char* pcFormat, ...);
-void __cdecl AssignString(const char* pcError);
 
 struct SLeafTextureD04
 {
@@ -15032,7 +14891,7 @@ void CSpeedTreeRTD04::FUN_00b0d040(STexturesD04& sTextures)
         {
             sTextures.m_ppFrondTextureFilenames = new const char*[sTextures.m_uiFrondTextureFilenameCount];
             for (unsigned int i = 0; i < sTextures.m_uiFrondTextureFilenameCount; ++i)
-                sTextures.m_ppFrondTextureFilenames[i] = m_pFronds->GetTextureResourceName(i);
+                sTextures.m_ppFrondTextureFilenames[i] = reinterpret_cast<::FUN_00b0d490_Class *>((m_pFronds))->FUN_00b0d490(i);
         }
         else
         {
@@ -15045,11 +14904,11 @@ void CSpeedTreeRTD04::FUN_00b0d040(STexturesD04& sTextures)
     }
     catch (ExceptionB07& e)
     {
-        AssignString(FUN_00b18860("%s - failed [%s]", "CSpeedTreeRT::GetTextures", e.what()).c_str());
+        ::AssignString((*(::fnv_00b0d040::stdb07::basic_string<char, ::fnv_00b0d040::stdb07::char_traits<char>, ::fnv_00b0d040::stdb07::allocator<char>> *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - failed [%s]"), "CSpeedTreeRT::GetTextures", e.what()))).c_str());
     }
     catch (...)
     {
-        AssignString(FUN_00b18860("%s - threw an unknown system exception", "CSpeedTreeRT::GetTextures").c_str());
+        ::AssignString((*(::fnv_00b0d040::stdb07::basic_string<char, ::fnv_00b0d040::stdb07::char_traits<char>, ::fnv_00b0d040::stdb07::allocator<char>> *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("%s - threw an unknown system exception"), "CSpeedTreeRT::GetTextures"))).c_str());
     }
 }
 }  // namespace fnv_00b0d040

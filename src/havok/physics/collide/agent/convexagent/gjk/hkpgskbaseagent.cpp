@@ -2,6 +2,14 @@
 // src/havok/physics/collide/agent/convexagent/gjk/hkpgskbaseagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/gjk/hkpgskbaseagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/Cls_dafcd0.h"
+#include "fnv/decl/FUN_00da9880_cls.h"
+#include "fnv/decl/FUN_00dafe70_cls.h"
+#include "fnv/decl/GapSolver.h"
+#include "fnv/decl/ThisClass.h"
+#include "fnv/decl/hkTransformCB22.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01268000.h"
 struct hkpGskBaseAgent
 {
     virtual void FUN_00dabe90(bool);
@@ -20,7 +28,6 @@ typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 extern "C" __m128 _mm_setzero_ps(void);
 extern "C" __m128 _mm_xor_ps(__m128, __m128);
 
-extern float DAT_01012054;
 
 class FUN_00dabeb0_cls
 {
@@ -40,11 +47,10 @@ class FUN_00dabeb0_cls
 // @fnv 0x00dabeb0
 void FUN_00dabeb0_cls::Reset(bool flag)
 {
-    m_f18 = DAT_01012054;
+    m_f18 = ::DAT_01012054;
     *(__m128*)((char*)this + 0x20) = _mm_setzero_ps();
 }
 
-extern float DAT_01012054;
 
 class FUN_00dabed0_cls
 {
@@ -72,12 +78,11 @@ void FUN_00dabed0_cls::SetValueIfExpected(float expected, float value, int unuse
     }
     else
     {
-        m_18 = DAT_01012054;
+        m_18 = ::DAT_01012054;
         m_20 = _mm_setzero_ps();
     }
 }
 
-extern unsigned int DAT_0126835c;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
@@ -102,7 +107,6 @@ struct hkTransform
     __m128 m_kColumn1;
     __m128 m_kColumn2;
     __m128 m_kColumn3;
-    void FUN_00cb22f0(const void* a, const void* b);
 };
 
 struct GskInput
@@ -165,7 +169,7 @@ struct StringCursor
 void FUN_00dac9e0_cls::ProcessGskContact(const hkpCdBody* bodyA, const hkpCdBody* bodyB, const GskAgentInput* input,
                                          hkpCdPointCollector* collector)
 {
-    StringCursor* pProfilerBuffer = (StringCursor*)TlsGetValue(DAT_0126835c);
+    StringCursor* pProfilerBuffer = (StringCursor*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     char* pWriteCursor = pProfilerBuffer->m_cur;
     if (pWriteCursor < pProfilerBuffer->m_kRayEnd)
     {
@@ -178,7 +182,7 @@ void FUN_00dac9e0_cls::ProcessGskContact(const hkpCdBody* bodyA, const hkpCdBody
     }
 
     hkTransform aTb;
-    aTb.FUN_00cb22f0(bodyA->m_pMotionState, bodyB->m_pMotionState);
+    reinterpret_cast<::hkTransformCB22 *>(&(aTb))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(bodyA->m_pMotionState)), (*(const ::hkTransformCB22 *)(bodyB->m_pMotionState)));
 
     GskInput queryInput;
     queryInput.m_pShapeA = bodyA->m_pCollisionShape;
@@ -198,7 +202,7 @@ void FUN_00dac9e0_cls::ProcessGskContact(const hkpCdBody* bodyA, const hkpCdBody
         collector->AddCdPoint(point);
     }
 
-    pProfilerBuffer = (StringCursor*)TlsGetValue(DAT_0126835c);
+    pProfilerBuffer = (StringCursor*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     pWriteCursor = pProfilerBuffer->m_cur;
     if (pWriteCursor < pProfilerBuffer->m_kRayEnd)
     {
@@ -246,7 +250,6 @@ struct hkTransformDAC0
     hkMatrix3DAC0 m_rotation;
     hkVector4DAC0 m_vTranslation;
 
-    void FUN_00cb22f0(const hkTransformDAC0& kA, const hkTransformDAC0& kB);
 
     const hkMatrix3DAC0& getRotation() const
     {
@@ -288,8 +291,6 @@ struct hkpCollisionInputDAC0;
 
 struct FUN_00daad40_solver
 {
-    void FUN_00daad40(const hkpConvexShapeDAC0* pkShapeA, const hkpConvexShapeDAC0* pkShapeB,
-                      const hkTransformDAC0& kAtB, hkVector4DAC0& kPointOut);
 };
 
 // Builds kAtB, calls the solver, rotates its result by body A's rotation into kSeparatingNormal, and sets w to the solver's w minus both sphere radii.
@@ -301,10 +302,10 @@ void __cdecl FUN_00dac020(const hkpCdBodyDAC0& kBodyA, const hkpCdBodyDAC0& kBod
     const hkpConvexShapeDAC0* pkShapeB = kBodyB.m_pCollisionShape;
 
     hkTransformDAC0 kAtB;
-    kAtB.FUN_00cb22f0(*kBodyA.m_pMotionState, *kBodyB.m_pMotionState);
+    reinterpret_cast<::hkTransformCB22 *>(&(kAtB))->FUN_00cb22f0((const ::hkTransformCB22 &)(*kBodyA.m_pMotionState), (const ::hkTransformCB22 &)(*kBodyB.m_pMotionState));
 
     hkVector4DAC0 kNormal;
-    pkSolver->FUN_00daad40(pkShapeA, pkShapeB, kAtB, kNormal);
+    reinterpret_cast<::GapSolver *>((pkSolver))->FUN_00daad40((const ::GapShape *)(pkShapeA), (const ::GapShape *)(pkShapeB), (const ::GapTransform &)(kAtB), (::GapVector &)(kNormal));
 
     kSeparatingNormal._setRotatedDir(kBodyA.m_pMotionState->getRotation(), kNormal);
     kSeparatingNormal(3) = kNormal(3) - pkShapeA->m_fSphereRadius - pkShapeB->m_fSphereRadius;
@@ -332,7 +333,6 @@ __declspec(align(16)) struct GskTmp
     int unk34;
     int unk38;
     int unk3c;
-    void Setup(int a, int b);
 };
 
 struct GskSub
@@ -340,8 +340,6 @@ struct GskSub
     int m_00;
     int m_04;
     int m_08;
-    void Init(GskNode* a, GskNode* b, GskTmp* t);
-    void Init2(GskNode* a, GskNode* b, GskTmp* t);
 };
 
 struct GskNode
@@ -398,15 +396,15 @@ FUN_00dabf10_cls* FUN_00dabf10_cls::FUN_00dabf10(GskNode* apNodeA, GskNode* apNo
     int a1k = apNodeA->m_08;
     GskNode* a1base = apNodeA->m_00;
     GskTmp tmp;
-    tmp.Setup(a1k, a2k);
+    reinterpret_cast<::hkTransformCB22 *>(&(tmp))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(a1k)), (*(const ::hkTransformCB22 *)(a2k)));
 
     if ((int)ebx->m_0c == 3)
     {
-        m_0c.Init(a1base, ebx, &tmp);
+        reinterpret_cast<::FUN_00dafe70_cls *>(&(m_0c))->FUN_00dafe70((::Iface *)(a1base), (::Src *)(ebx), (const unsigned int *)(::GskTmp *)(&tmp));
     }
     else
     {
-        m_0c.Init2(a1base, ebx, &tmp);
+        reinterpret_cast<::Cls_dafcd0 *>(&(m_0c))->FUN_00dafcd0((::Node *)(a1base), (::Node *)(ebx), (const ::Vec4Blk *)(::GskTmp *)(&tmp));
     }
 
     *(__m128*)&m_20 = _mm_setzero_ps();
@@ -504,9 +502,6 @@ struct GskStatus
     __m128 m_vertsA[12];
     __m128 m_vertsB[10];
 
-    void FUN_00daad40(const void* shapeA, const void* shapeB, const hkTransform* bTa, void* out10);
-    void FUN_00da9790(void* cache);
-    void FUN_00da9880(void* out10, hkContactPoint* pointOut);
 };
 
 extern "C"
@@ -551,7 +546,7 @@ hkBool GskAgentStandin::FUN_00dac7f0(const hkpCdBody& bodyA, const hkpCdBody& bo
     Shape* shapeA = (Shape*)bodyA.m_pCollisionShape;
 
     hkTransform tRelativeTransform;
-    tRelativeTransform.FUN_00cb22f0(bodyA.m_pMotionState, bodyB.m_pMotionState);
+    reinterpret_cast<::hkTransformCB22 *>(&(tRelativeTransform))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(bodyA.m_pMotionState)), (*(const ::hkTransformCB22 *)(bodyB.m_pMotionState)));
 
     Shape* __restrict convertShapeA = shapeA;
     int dimB, r1;
@@ -569,14 +564,14 @@ hkBool GskAgentStandin::FUN_00dac7f0(const hkpCdBody& bodyA, const hkpCdBody& bo
     pShapeB->GetVerticesForIds(&i[gskStatus.m_ucDimensionA], gskStatus.m_ucDimensionB, gskStatus.m_vertsB);
 
     __m128 c1;
-    gskStatus.FUN_00daad40(shapeA, pShapeB, &tRelativeTransform, &c1);
+    reinterpret_cast<::GapSolver *>(&(gskStatus))->FUN_00daad40((const ::GapShape *)(shapeA), (const ::GapShape *)(pShapeB), (*(const ::GapTransform *)(&tRelativeTransform)), (*(::GapVector *)(&c1)));
 
     if (gskStatus.unk14 != 0)
     {
-        gskStatus.FUN_00da9790(i);
+        reinterpret_cast<::ThisClass *>(&(gskStatus))->FUN_00da9790((::Dest *)(i));
     }
 
-    gskStatus.FUN_00da9880(&c1, &pointOut);
+    reinterpret_cast<::FUN_00da9880_cls *>(&(gskStatus))->FUN_00da9880((const ::SpawnedSrc *)(void *)(&c1), (::SpawnedDst *)(::hkContactPoint *)(&pointOut));
 
     const hkTransform* b = (const hkTransform*)bodyA.m_pMotionState;
     ContactData* pContactData = (ContactData*)&pointOut;
@@ -650,7 +645,7 @@ struct S_00dac2b0_MonitorStream
     char* m_pCurrentCommand;
     static S_00dac2b0_MonitorStream& GetMonitorStream()
     {
-        return *(S_00dac2b0_MonitorStream*)TlsGetValue(DAT_0126835c);
+        return *(S_00dac2b0_MonitorStream*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     }
     bool memoryAvailable() const
     {
@@ -672,7 +667,6 @@ struct S_00dac2b0_MonitorStream
 struct __declspec(align(16)) S_00dac2b0_Transform
 {
     float m[16];
-    void FUN_00cb22f0(const S_00dac2b0_Transform* a, const S_00dac2b0_Transform* b);
 };
 
 struct __declspec(align(16)) S_00dac2b0_Vec
@@ -686,8 +680,6 @@ struct S_00dac2b0_Cache
 {
     unsigned short id0, id1, id2, id3;
     unsigned char dimA, dimB, dims;
-    void FUN_00dafe70(const S_00dac2b0_Shape* a, const S_00dac2b0_Shape* b, const S_00dac2b0_Transform* t);
-    void FUN_00dafcd0(const S_00dac2b0_Shape* a, const S_00dac2b0_Shape* b, const S_00dac2b0_Transform* t);
 };
 
 struct S_00dac2b0_Shape
@@ -754,16 +746,16 @@ void __cdecl TestGsk(const S_00dac2b0_Body& bodyA, const S_00dac2b0_Body& bodyB,
     const S_00dac2b0_Shape* shapeB = bodyB.m_pCollisionShape;
 
     S_00dac2b0_Transform aTb;
-    aTb.FUN_00cb22f0(bodyA.m_pMotionState, bodyB.m_pMotionState);
+    reinterpret_cast<::hkTransformCB22 *>(&(aTb))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(bodyA.m_pMotionState)), (*(const ::hkTransformCB22 *)(bodyB.m_pMotionState)));
 
     S_00dac2b0_Cache cache;
     if (shapeB->m_type == 3)
     {
-        cache.FUN_00dafe70(shapeA, shapeB, &aTb);
+        reinterpret_cast<::FUN_00dafe70_cls *>(&(cache))->FUN_00dafe70((::Iface *)(shapeA), (::Src *)(shapeB), (const unsigned int *)(const ::S_00dac2b0_Transform *)(&aTb));
     }
     else
     {
-        cache.FUN_00dafcd0(shapeA, shapeB, &aTb);
+        reinterpret_cast<::Cls_dafcd0 *>(&(cache))->FUN_00dafcd0((::Node *)(shapeA), (::Node *)(shapeB), (const ::Vec4Blk *)(const ::S_00dac2b0_Transform *)(&aTb));
     }
 
     S_00dac2b0_Gsk gsk;
@@ -805,7 +797,6 @@ union EarlyScratch
 extern "C" __m128 _mm_add_ps(__m128, __m128);
 extern "C" __m128 _mm_mul_ps(__m128, __m128);
 extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern unsigned long hkMonitorStreamTls;
 
 struct S_00dac0b0_TimerCommand
 {
@@ -832,7 +823,7 @@ struct S_00dac0b0_MonitorStream
 
 static inline void S_00dac0b0_TimerBeginList(const char* name, const char* firstSplit, EarlyScratch& scratch)
 {
-    S_00dac0b0_MonitorStream* s = (S_00dac0b0_MonitorStream*)TlsGetValue(hkMonitorStreamTls);
+    S_00dac0b0_MonitorStream* s = (S_00dac0b0_MonitorStream*)TlsGetValue(::DAT_0126835c);
     if (s->m_kRayEnd < s->m_pCurrentCommand)
     {
         S_00dac0b0_TimerBeginListCommand* h = (S_00dac0b0_TimerBeginListCommand*)s->m_kRayEnd;
@@ -847,7 +838,7 @@ static inline void S_00dac0b0_TimerBeginList(const char* name, const char* first
 
 static inline void S_00dac0b0_Timer(const char* name, EarlyScratch& scratch)
 {
-    S_00dac0b0_MonitorStream* s = (S_00dac0b0_MonitorStream*)TlsGetValue(hkMonitorStreamTls);
+    S_00dac0b0_MonitorStream* s = (S_00dac0b0_MonitorStream*)TlsGetValue(::DAT_0126835c);
     if (s->m_kRayEnd < s->m_pCurrentCommand)
     {
         S_00dac0b0_TimerCommand* h = (S_00dac0b0_TimerCommand*)s->m_kRayEnd;
@@ -862,7 +853,7 @@ static inline void S_00dac0b0_Timer(const char* name, EarlyScratch& scratch)
 static inline void S_00dac0b0_TimerEnd()
 {
     {
-        S_00dac0b0_MonitorStream* s = (S_00dac0b0_MonitorStream*)TlsGetValue(hkMonitorStreamTls);
+        S_00dac0b0_MonitorStream* s = (S_00dac0b0_MonitorStream*)TlsGetValue(::DAT_0126835c);
         if (s->m_kRayEnd < s->m_pCurrentCommand)
         {
             S_00dac0b0_TimerCommand* h = (S_00dac0b0_TimerCommand*)s->m_kRayEnd;
@@ -891,7 +882,6 @@ struct S_00dac0b0_Transform
     S_00dac0b0_Vertex col1;
     S_00dac0b0_Vertex col2;
     S_00dac0b0_Vertex trans;
-    void FUN_00cb22f0(const S_00dac0b0_Transform* a, const S_00dac0b0_Transform* b);
 };
 
 struct S_00dac0b0_Shape
@@ -967,7 +957,6 @@ struct S_00dac0b0_Gsk
     S_00dac0b0_Vertex b09;
     S_00dac0b0_Transform aTb;
     int FUN_00daad40(S_00dac0b0_Shape* a, S_00dac0b0_Shape* b, const S_00dac0b0_Transform& aTb, S_00dac0b0_Vertex* out);
-    void FUN_00da9790(S_00dac0b0_PackedCache* dst);
 };
 
 template <class T> struct S_00dac0b0_Pad
@@ -1008,7 +997,7 @@ void S_00dac0b0_Agent::FUN_00dac0b0(S_00dac0b0_Pad<const S_00dac0b0_Body> pA, S_
     S_00dac0b0_Shape* shapeA = pA.val()->m_pCollisionShape;
     S_00dac0b0_Shape* shapeB = pB.val()->m_pCollisionShape;
     S_00dac0b0_Gsk gsk;
-    gsk.aTb.FUN_00cb22f0(pA.val()->m_kMotionTransform, pB.val()->m_kMotionTransform);
+    reinterpret_cast<::hkTransformCB22 *>(&(gsk.aTb))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(pA.val()->m_kMotionTransform)), (*(const ::hkTransformCB22 *)(pB.val()->m_kMotionTransform)));
 
     S_00dac0b0_PackedCache* c = &m_pAccessManager;
     gsk.m_ucDimensionA = c->m_ucDimensionA;
@@ -1023,7 +1012,7 @@ void S_00dac0b0_Agent::FUN_00dac0b0(S_00dac0b0_Pad<const S_00dac0b0_Body> pA, S_
     S_00dac0b0_Vertex normal;
     scratch.result = gsk.FUN_00daad40(shapeA, shapeB, gsk.aTb, &normal);
     if (gsk.m_changed)
-        gsk.FUN_00da9790(c);
+        reinterpret_cast<::ThisClass *>(&(gsk))->FUN_00da9790((::Dest *)(c));
 
     if (scratch.result == 0)
     {

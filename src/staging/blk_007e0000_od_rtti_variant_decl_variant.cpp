@@ -8,15 +8,87 @@
 // their real unit once its classes are.
 // src/staging/blk_007e0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/AGOwner.h"
+#include "fnv/decl/BSShaderManager.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_004048e0_cls.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FUN_00445300_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00470440.h"
+#include "fnv/decl/FUN_005db4c0_struct.h"
+#include "fnv/decl/FUN_007242c0_shell.h"
+#include "fnv/decl/FUN_00724930_cls.h"
+#include "fnv/decl/FUN_00726090_cls.h"
+#include "fnv/decl/FUN_007af180_shell.h"
+#include "fnv/decl/FUN_007e6700_Class.h"
+#include "fnv/decl/FUN_00a00e90_shell.h"
+#include "fnv/decl/FUN_00a00f30_shell.h"
+#include "fnv/decl/FUN_00a011f0_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/FUN_00a1d910_shell.h"
+#include "fnv/decl/FUN_00a1dc70_shell.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FaderManager.h"
+#include "fnv/decl/FalloffController.h"
+#include "fnv/decl/FocusManager.h"
+#include "fnv/decl/InterfaceManager.h"
+#include "fnv/decl/NiAdditionalGeometryData.h"
+#include "fnv/decl/P03Value.h"
+#include "fnv/decl/S6a70.h"
+#include "fnv/decl/S7010.h"
+#include "fnv/decl/SSN_b5.h"
+#include "fnv/decl/SoundPlayback.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/TileListBoxCalls.h"
+#include "fnv/decl/Twin_007e6580.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/VATSMenuView.h"
+#include "fnv/decl/VLList.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/W004702f0.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
+#include "fnv/decl/fnv_00a01b00__TileLoader.h"
+#include "fnv/decl/fnv_00a09410__EvalValue.h"
+#include "fnv/decl/fnv_00a1ddb0__FUN_00a1ddb0_shell.h"
+#include "fnv/decl/fnv_00ad8510__BSAudioManager.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_00718000.h"
+#include "fnv/symbols_00726000.h"
+#include "fnv/symbols_007ab000.h"
+#include "fnv/symbols_007eb000.h"
+#include "fnv/symbols_007f6000.h"
+#include "fnv/symbols_007ff000.h"
+#include "fnv/symbols_00a00000.h"
+#include "fnv/symbols_00a01000.h"
+#include "fnv/symbols_00a09000.h"
+#include "fnv/symbols_011a0000.h"
+#include "fnv/symbols_011ae000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011d3000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011da000.h"
+#include "fnv/symbols_011db000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
 #include "../../include/layout_support.h"
-const char* __cdecl FUN_007ab810();
 struct FUN_007e6760_cls
 {
     bool __thiscall FUN_007e6760();
 };
 struct BSAudio_
 {
-    void FUN_00ad8510(int, int);
     void FUN_007eb8a0();
 };
 extern "C" void __cdecl FUN_007004e0();
@@ -27,7 +99,6 @@ struct FUN_007f7770_Class
 };
 extern float DAT_012007d0;
 extern float DAT_012007d4;
-extern char DAT_011ae5d4;
 void __cdecl FUN_007f7a50(float a, float b);
 struct FOPipboyManager
 {
@@ -54,18 +125,14 @@ struct FUN_007fd620_Class
 };
 struct RaceSexMenu
 {
-    void OnRaceSelected(void*);
     void FUN_007fe910(void* apList);
 };
 struct NavMeshPtr
 {
-    void* FUN_00458b50();
 };
 struct BSStr
 {
-    bool Set(const char*, unsigned int);
 };
-extern BSStr g_011daed8;
 void __cdecl FUN_007e65b0();
 struct FUN_007e66a0_cls
 {
@@ -80,9 +147,7 @@ struct FUN_007f69d0_Class
 };
 struct GameTimerRecord
 {
-    unsigned int GetTime() const;
 };
-extern GameTimerRecord g_timeGlobal;
 struct FUN_007f7880_Class
 {
     unsigned char _0[0x28];
@@ -100,17 +165,12 @@ struct FUN_007f7880_Class
 };
 struct ModelLoader
 {
-    void QueueModelLoad(char*, bool, unsigned int);
 };
 struct Loader_S
 {
     void* m_p;
     ModelLoader* operator->();
 };
-extern Loader_S* g_modelLoader;
-extern int DAT_011a0bb0;
-extern Flt g_011db63c;
-void FUN_007ffe00();
 struct FUN_007e0e30_Class
 {
     void* m_p;
@@ -121,7 +181,6 @@ struct FUN_007f7830_Class
 {
     char _0[0x28];
     unsigned char bActive;
-    void __thiscall UpdateFalloff(float);
     void __thiscall UpdateIfActive();
 };
 struct FUN_007fecc0_Class
@@ -143,12 +202,8 @@ struct Tile
 {
     virtual ~Tile();  // the original class is polymorphic (rtti_variants.py)
     void __thiscall Set(int, int);
-    Tile* FUN_00a01b00();
-    Menu* FUN_00a03c90();
-    float FUN_00a011b0(int id);
-    void FUN_00a012d0(int id, float value, bool a);
-    void FUN_00a01350(int id, const char* text, bool a);
-    const char* FUN_00a011f0(int id);
+public:
+    static float GetInterfaceScale();
 };
 struct Menu
 {
@@ -167,16 +222,12 @@ struct Menu
     virtual void M12();
     virtual int GetID();
     char menuData[0x24];
-    void FUN_00a1dc70(class TileMenu* tile, bool a);
-    void FUN_00a1dc20(bool a);
-    int FUN_00726070();
-    void __thiscall LoadMenuData();
+public:
+    void SetMenuVisibility(bool);
 };
 struct SimpleList
 {
-    SimpleList* __thiscall GetNext();
 };
-extern SimpleList* DAT_011daec4;
 void FUN_007e65b0();
 struct ListX
 {
@@ -193,7 +244,6 @@ struct NiPoint2
     float x;
     float y;
 };
-extern NiPoint2 DAT_011f4980;
 struct FUN_007f78f0_Class
 {
     unsigned char _0[0x28];
@@ -210,11 +260,8 @@ struct FUN_007f78f0_Class
 struct FUN_007e0d80_shell : Flt
 {
     char* m_buffer;
-    unsigned int FUN_004048e0();
     unsigned int FUN_004039a0();
-    void FUN_004037f0(char* oldBuffer, unsigned int requiredLength);
     void FUN_004039c0(unsigned int newLength);
-    unsigned int GetLengthPlusOne();
     void FUN_00438470(FUN_007e0d80_shell* other);
     FUN_007e0d80_shell* AppendString(FUN_007e0d80_shell* other);
 };
@@ -223,7 +270,6 @@ int FUN_007e1970();
 int __cdecl FUN_007e65a0();
 struct SysMgr
 {
-    void Init(int a, int b);
 };
 struct TaskA
 {
@@ -231,11 +277,7 @@ struct TaskA
 };
 struct MgrB
 {
-    TaskA* GetTask();
 };
-void Fn7f6920();
-extern SysMgr* g_sysMgr;
-extern MgrB* g_mgrB;
 class Base
 {
   public:
@@ -327,9 +369,6 @@ class FUN_007e9130_cls : public Base
     int unk0118;
     MemB m_11c;
 };
-extern unsigned int* DAT_011f4aa8;
-float __cdecl FastSqrt(const float* v);
-int __cdecl FUN_007eb8c0();
 class B7F7790Ref
 {
   public:
@@ -391,11 +430,8 @@ struct SystemColorManager
 {
     bool GetColor(int id, NiColor& out);
 };
-Dummy_00718c90* __cdecl FUN_00718b60();
 struct PipboyStub : FOPipboyManager
 {
-    void SetQuad(ImageSpaceEffectParam* p);
-    void FUN_007f7fb0(ImageSpaceEffectParam* p);
     void FUN_007f7f40();
 };
 struct FUN_007f7fb0_Value
@@ -438,19 +474,13 @@ struct BSSoundHandleEx
 {
     SoundPlaybackHandle base;
     ~BSSoundHandleEx();
-    bool Play(bool);
 };
 struct BSAudio
 {
-    static BSAudio* GetSingleton();
-    BSSoundHandleEx GetSoundHandleByEditorID(const char*, unsigned int);
 };
 struct GlobalObject_0044f440
 {
-    float* Float();
 };
-extern GlobalObject_0044f440 g_011db288;
-extern bool g_burstSoundEnabled;
 struct FUN_007fa0f0_Class
 {
 
@@ -621,12 +651,10 @@ struct FUN_007fb730_Class
 class NiBound7FD
 {
   public:
-    float GetRadius() const;
 };
 class NiAVObject7FD
 {
   public:
-    const NiBound7FD& GetBoundingVolume() const;
 };
 template <class T> class NiPointer7FD
 {
@@ -638,9 +666,7 @@ template <class T> class NiPointer7FD
 class ShadowSceneNode7FD
 {
   public:
-    void GetShadowSceneLight(NiAVObject7FD* pkLight, float fRadius);
 };
-ShadowSceneNode7FD* __cdecl FUN_00450b80(unsigned int uiIndex);
 class Light7FD
 {
   public:
@@ -740,22 +766,12 @@ struct Entry;
 struct ValueX
 {
     void Clear();
-    void Copy(int, void*, int);
-    void SetFloat(int, float);
-    void Finish(int);
 };
 struct MenuX
 {
-    struct TileX* Create(struct TileX*, const char*, int);
 };
 struct TileX
 {
-    MenuX* GetMenu();
-    void* GetValue(int);
-    void Set(int, int);
-    void Set(int, const char*, bool);
-    float GetFloat(int);
-    ValueX* GetAction(int);
 };
 struct Entry
 {
@@ -768,10 +784,8 @@ struct Entries
 {
     Entry* first;
     Entries* next;
-    void Insert(Entry*, void*);
     void AddTail(Entry* const&);
 };
-int GetTrait(const char*, int);
 struct ListOwner
 {
     int unk00;
@@ -781,11 +795,6 @@ struct ListOwner
     int unk14;
     const char* templateName;
     unsigned short count;
-    bool Test(unsigned int);
-    void Refresh();
-    void Select(TileX*);
-    void Update();
-    int Mode();
     TileX* FUN_007e0e70(int data, const char* text, void* compare, const char* name);
 };
 struct WXObject;
@@ -816,20 +825,14 @@ struct WXParam
 };
 struct WXTimeGlobal
 {
-    unsigned int GetTime();
 };
 struct WXIntSetting
 {
-    int* Int();
 };
 struct WXFloatSetting
 {
-    float* Float();
 };
 int __cdecl WXRand();
-extern WXTimeGlobal g_kWXTimeGlobal;
-extern WXIntSetting g_kWXRandomRange;
-extern WXFloatSetting g_kWXDuration;
 struct FUN_007faa20
 {
     WXPointer<WXObject> spObject04;
@@ -891,7 +894,6 @@ struct Accum
     static void* operator new(unsigned int);
     static void operator delete(void*);
     Accum(int, unsigned int, unsigned int);
-    void SetEnabled(bool);
     int unk000;
     int unk004;
     int unk008;
@@ -1070,21 +1072,14 @@ struct Pair
 };
 struct FloatSetting
 {
-    float* Float();
 };
 struct IntSetting
 {
-    int* Int();
 };
 struct StringSetting
 {
-    const char* String();
 };
-extern FloatSetting g_011db6bc;
-extern IntSetting g_011db75c;
-extern StringSetting g_011db744;
 extern "C" int __cdecl rand();
-void __cdecl LoadTexture(const char*, bool, Ref&, bool, bool);
 struct FUN_007ffec0
 {
     int unk000;
@@ -1180,8 +1175,6 @@ struct FUN_007ffec0
 struct RemoveTile
 {
     virtual void* Destroy(unsigned int);
-    float FUN_00a011b0(int);
-    void FUN_00a012d0(int, float, bool);
 };
 struct RemoveOwned
 {
@@ -1197,19 +1190,10 @@ struct RemoveNode
 {
     RemoveData* data;
     RemoveNode* next;
-    RemoveData** FUN_006815c0();
-    RemoveNode* FUN_00726070();
-    void FUN_006ecd40(RemoveNode*);
-    void* FUN_004702f0(unsigned int);
 };
 struct RemoveInterface
 {
-    void FUN_00715860(RemoveTile*, int, bool);
-    Tile* FUN_00586150(const char* path);
 };
-RemoveInterface* FUN_004b7210();
-int FUN_00a01860(const char*);
-void FUN_00401030(void*);
 struct RemoveBase
 {
     int unk00;
@@ -1218,8 +1202,6 @@ struct RemoveView : RemoveBase, RemoveNode
 {
     RemoveTile* container;
     RemoveTile* selected;
-    bool FUN_007242c0(bool);
-    void FUN_00726090();
     bool RemoveNodeFromList(RemoveNode*, RemoveNode*);
 };
 
@@ -1232,14 +1214,10 @@ struct TextEditState
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20;
     void FUN_00716aa0(int maxLength);
-    void SetBothStrings(const char* text);
-    void FUN_00717010(bool enabled);
-    void FUN_007e6580(bool foreground);
 };
 
 struct TextEditSetting
 {
-    const char* FUN_00403df0();
 };
 
 class TileMenu : public Tile
@@ -1256,46 +1234,40 @@ class TextEditMenu : public Menu
     Tile* title;
     TextEditState editor;
     void(__cdecl* callback)(const char*);
-    void FUN_007e6700();
 };
 
-Menu* __cdecl FUN_00a09030(int menuID);
-RemoveInterface* __cdecl FUN_004b7210();
-float __cdecl FUN_00a01530();
-extern TextEditSetting DAT_011d38b8;
-extern TextEditMenu* g_011daec4;
 
 // @fnv 0x007e6320
 bool __cdecl FUN_007e6320(const char* titleText, const char* initialText, void(__cdecl* callback)(const char*))
 {
-    Menu* previous = FUN_00a09030(0x41b);
+    Menu* previous = ((::Menu *)(::FUN_00a09030(0x41b)));
     if (previous)
         delete previous;
 
-    RemoveInterface* interfaceManager = FUN_004b7210();
-    float depthA = FUN_00a01530();
-    Tile* root2 = interfaceManager->FUN_00586150("Data\\Menus\\Dialog\\TextEditMenu.xml")->FUN_00a01b00();
-    Menu* menu = root2->FUN_00a03c90();
+    RemoveInterface* interfaceManager = ((::RemoveInterface *)(::fnv_004b7210::FUN_004b7210()));
+    float depthA = ::Tile::GetInterfaceScale();
+    Tile* root2 = reinterpret_cast<::fnv_00a01b00::TileLoader *>((reinterpret_cast<::InterfaceManager *>((interfaceManager))->FUN_00586150()))->FUN_00a01b00({});
+    Menu* menu = reinterpret_cast<::FUN_00a03c90_shell *>((root2))->FUN_00a03c90();
     if (menu && menu->GetID() == FUN_007e65a0())
     {
-        menu->FUN_00a1dc70(dynamic_cast<TileMenu*>(root2), false);
-        g_011daec4 = dynamic_cast<TextEditMenu*>(menu);
-        if (root2->FUN_00a011b0(0xfa7) == 6006.0 || root2->FUN_00a011b0(0xfa7) == 102.0)
-            root2->FUN_00a012d0(0xfad, depthA, true);
+        reinterpret_cast<::FUN_00a1dc70_shell *>((menu))->FUN_00a1dc70(dynamic_cast<TileMenu*>(root2), false);
+        (*reinterpret_cast<::TextEditMenu * *>(&::DAT_011daec4)) = dynamic_cast<TextEditMenu*>(menu);
+        if (reinterpret_cast<::TileListBoxCalls *>((root2))->GetFloat(0xfa7) == 6006.0 || reinterpret_cast<::TileListBoxCalls *>((root2))->GetFloat(0xfa7) == 102.0)
+            reinterpret_cast<::FUN_00a012d0_t *>((root2))->FUN_00a012d0(0xfad, depthA, true);
 
-        g_011daec4->title->FUN_00a01350(0xfc4, titleText, true);
-        g_011daec4->input->FUN_00a01350(0xfc4, initialText, true);
-        g_011daec4->editor.FUN_00716aa0((int)g_011daec4->input->FUN_00a011b0(0xfba));
-        g_011daec4->editor.SetBothStrings(g_011daec4->input->FUN_00a011f0(0xfc4));
-        g_011daec4->editor.FUN_00717010(true);
-        g_011daec4->editor.FUN_007e6580(true);
-        g_011daec4->accept->FUN_00a01350(0xfc4, DAT_011d38b8.FUN_00403df0(), true);
-        g_011daec4->callback = callback;
-        g_011daec4->FUN_007e6700();
-        menu->FUN_00a1dc20(false);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::TextEditMenu * *>(&::DAT_011daec4))->title))->FUN_00a01350(0xfc4, (char *)(titleText), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::TextEditMenu * *>(&::DAT_011daec4))->input))->FUN_00a01350(0xfc4, (char *)(initialText), true);
+        (*reinterpret_cast<::TextEditMenu * *>(&::DAT_011daec4))->editor.FUN_00716aa0((int)reinterpret_cast<::TileListBoxCalls *>(((*reinterpret_cast<::TextEditMenu * *>(&::DAT_011daec4))->input))->GetFloat(0xfba));
+        reinterpret_cast<::S6a70 *>(&((*reinterpret_cast<::TextEditMenu * *>(&::DAT_011daec4))->editor))->SetBothStrings(reinterpret_cast<::FUN_00a011f0_shell *>(((*reinterpret_cast<::TextEditMenu * *>(&::DAT_011daec4))->input))->FUN_00a011f0(0xfc4));
+        reinterpret_cast<::S7010 *>(&((*reinterpret_cast<::TextEditMenu * *>(&::DAT_011daec4))->editor))->FUN_00717010(true);
+        reinterpret_cast<::Twin_007e6580 *>(&((*reinterpret_cast<::TextEditMenu * *>(&::DAT_011daec4))->editor))->SetIsForegroundEffect(true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::TextEditMenu * *>(&::DAT_011daec4))->accept))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::TextEditSetting *>(&::g_011d38b8))))->GetMenuTitle()))), true);
+        (*reinterpret_cast<::TextEditMenu * *>(&::DAT_011daec4))->callback = callback;
+        reinterpret_cast<::FUN_007e6700_Class *>(((*reinterpret_cast<::TextEditMenu * *>(&::DAT_011daec4))))->FUN_007e6700();
+        menu->SetMenuVisibility(false);
         return true;
     }
-    else if (menu && menu->FUN_00726070())
+    else if (menu && ((int)(reinterpret_cast<::Callees *>((menu))->FUN_00726070())))
     {
         delete menu;
     }

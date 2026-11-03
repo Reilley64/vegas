@@ -7,6 +7,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 extern "C"
 {
     __m128 _mm_add_ps(__m128, __m128);
@@ -22,7 +23,6 @@ extern "C"
     void _mm_store_ps(float*, __m128);
 }
 
-extern __m128 DAT_010c44d0;
 
 struct Vec4Q
 {
@@ -122,7 +122,7 @@ void Cls_dafcd0::FUN_00dafcd0(Node* apNodeA, Node* apNodeB, const Vec4Blk* apMat
         _mm_add_ps(_mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(D, D, 0x55), c1), _mm_mul_ps(_mm_shuffle_ps(D, D, 0), c0)),
                    _mm_mul_ps(_mm_shuffle_ps(D, D, 0xaa), c2));
     C.m_vComponents = D;
-    S = _mm_xor_ps(S, DAT_010c44d0);
+    S = _mm_xor_ps(S, ::DAT_010c44d0);
     apNodeB->v38(Vec4Q(S), &out60);
 
     m_02 = *(short*)((char*)&out60 + 0xc);
@@ -239,7 +239,6 @@ class FUN_00dafe70_cls
     unsigned char m_bA;
     unsigned char m_bB;
 
-    void FUN_00dafcd0(Iface* a1, Src* a2, const unsigned int* a3);
     void FUN_00dafe70(Iface* a1, Src* a2, const unsigned int* a3);
 };
 
@@ -274,7 +273,7 @@ void FUN_00dafe70_cls::FUN_00dafe70(Iface* apIface, Src* apSrc, const unsigned i
 {
     if (apSrc->m_flag17 != 0)
     {
-        FUN_00dafcd0(apIface, apSrc, apMatrix);
+        reinterpret_cast<::Cls_dafcd0 *>(this)->FUN_00dafcd0((::Node *)(apIface), (::Node *)(apSrc), (const ::Vec4Blk *)(apMatrix));
         return;
     }
     m_w2 = 0;
@@ -329,7 +328,7 @@ void FUN_00dafe70_cls::FUN_00dafe70(Iface* apIface, Src* apSrc, const unsigned i
     __m128 vSum = _mm_add_ss(_mm_shuffle_ps(dt, dt, 0x55), dt);
     vSum = _mm_add_ss(_mm_shuffle_ps(dt, dt, 0xaa), vSum);
     __m128 bc = _mm_shuffle_ps(vSum, vSum, 0);
-    nq.q = _mm_xor_ps(_mm_and_ps(bc, DAT_010c44d0), nq.q);
+    nq.q = _mm_xor_ps(_mm_and_ps(bc, ::DAT_010c44d0), nq.q);
 
     apIface->v0E(&nq, &vResult);
 

@@ -5,6 +5,22 @@
 
 // src/havok/physics/vehicle/wheelcollide/linearcast/hkpvehiclelinearcastwheelcollide.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/wheelcollide/linearcast/hkpvehiclelinearcastwheelcollide.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/E367_Class.h"
+#include "fnv/decl/FUN_006212c0_shell.h"
+#include "fnv/decl/FUN_00c7f690_cls.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00c936a0_World.h"
+#include "fnv/decl/FUN_00cd2d80.h"
+#include "fnv/decl/PhRemoveListener.h"
+#include "fnv/decl/PhantomBounds.h"
+#include "fnv/decl/PhantomS.h"
+#include "fnv/decl/WheelStateUpdate__WheelCollide.h"
+#include "fnv/decl/WorldC92C.h"
+#include "fnv/decl/hkOwnerXd07de0.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00e36000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010c4000.h"
 #include "havok/hkpVehicleLinearCastWheelCollide.h"
 struct LCHitObj
 {
@@ -74,7 +90,6 @@ struct FUN_00e363a0_StandIn : LCWheelCollideStandIn
 };
 struct FUN_00c936a0_host
 {
-    void* FUN_00c936a0(void*);
 };
 struct COMBaseInterface : public FUN_00c936a0_host
 {
@@ -89,7 +104,6 @@ struct FUN_00e368a0_Class
 };
 struct FUN_00c92c70_Class
 {
-    void FUN_00c92c70(void*);
 };
 struct FUN_00e368d0_Target
 {
@@ -144,14 +158,12 @@ struct FUN_00e368d0_Class
 
     void SetTargetArg(void* arg);
 };
-void __cdecl FUN_00e36900();
 void __cdecl FUN_00e36aa0();
 inline hkBaseObject::~hkBaseObject()
 {}
 struct FUN_00d1df70
 {
     virtual void v00() throw();
-    void removeReference() throw();
 };
 struct DummyBase1
 {
@@ -171,7 +183,6 @@ class hkpPhantom : public FUN_00d1df70
   public:
     hkUint16 m_usMemSizeAndFlags;
     hkInt16 m_sReferenceCount;
-    void FUN_00d07c80(hkpPhantomOverlapListener*) throw();
 };
 struct WheelState
 {
@@ -354,10 +365,10 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern const __m128 DAT_010c44d0;
 struct hkVector4E366
 {
     __m128 m_vComponents;
@@ -445,7 +456,6 @@ struct __declspec(align(16)) FUN_00e36900_V
             float x, y, z, w;
         };
     };
-    void FUN_00c7f690(void* ws, void* result);
     void FUN_00c7f640(void* ws, void* src);
 };
 class FUN_00e36900_Wrap : public hkpVehicleLinearCastWheelCollide
@@ -464,7 +474,6 @@ __declspec(align(16)) struct hkAabb_36950
 };
 struct FUN_00cf24a0_host_36950
 {
-    void FUN_00cf24a0(hkAabb_36950*);
 };
 struct FUN_00e36950_WheelState_36950
 {
@@ -503,12 +512,7 @@ struct FUN_00e36950_host_36950
     int unk14;
 
     void UpdateWheelAabb(unsigned char wheelIndex);
-    void FUN_00e367d0(unsigned char wheelIndex, unsigned char stateIndex);
-    void FUN_00e36700(unsigned char wheelIndex, unsigned char stateIndex, hkAabb_36950* aabb);
 };
-extern hkReal DAT_0104da48;
-extern hkReal DAT_0104da4c;
-extern hkUint8 DAT_010c476c;
 struct __declspec(align(16)) LCAVec4
 {
     hkReal v[4];
@@ -567,7 +571,6 @@ struct __declspec(align(16)) LCCastInput
 };
 struct FUN_00e369d0_Result
 {
-    void FUN_00cd2d80(hkUint32 a, const void* b, hkInt32 c);
     hkUint32 m_00;
     hkUint32 m_04;
     hkUint32 m_08;
@@ -591,11 +594,9 @@ struct FUN_00e369d0_Result
 };
 struct FUN_00cf2880_Shape
 {
-    hkUint32 FUN_00cf2880(FUN_00e369d0_Result* result, LCCastInput* input, const hkUint8** filter, hkInt32 maskAll);
 };
 struct FUN_006212c0_Context
 {
-    void FUN_006212c0(void* data);
 };
 struct FUN_00e369d0_Class : public hkpVehicleLinearCastWheelCollide
 {
@@ -622,7 +623,6 @@ void __cdecl FUN_00c908c0(hkMemoryAllocatorE36& alloc, void* array, int numElem,
 class hkReferencedObjectE36
 {
   public:
-    void FUN_00c90510() throw();
 };
 template <class T> class hkArrayE36
 {
@@ -777,7 +777,6 @@ struct hkAabbE36C
 class hkpPhantomE36C : public hkReferencedObjectE36C
 {
   public:
-    void FUN_00d07de0(hkpPhantomOverlapListenerE36C* pkListener) throw();
 };
 class FUN_00cf2cb0 : public hkpPhantomE36C
 {
@@ -854,9 +853,6 @@ class hkpVehicleLinearCastWheelCollideE36C : public hkReferencedObjectE36C
     hkReal m_fMaxExtraPenetration;
     hkReal m_fMaxExtraPenetrationAgainstFixed;
 
-    hkpShapeE36C* FUN_00e36120(hkReal m_fGlyphWidthInPixels, hkReal fRadius) throw();
-    void FUN_00e36700(const hkpVehicleInstanceE36C* pkVehicle, hkUint8 ucWheelNum, hkAabbE36C& kAabbOut) throw();
-    void FUN_00e367d0(const hkpVehicleInstanceE36C* pkVehicle, hkUint8 ucWheelNum) throw();
     void InitializeWheelCollisions(const hkpVehicleInstanceE36C* pkVehicle) throw();
 };
 

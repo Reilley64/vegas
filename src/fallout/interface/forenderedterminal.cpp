@@ -2,10 +2,80 @@
 // src/fallout/interface/forenderedterminal.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/forenderedterminal.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/AudioClass_ae5680.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSImpactData.h"
+#include "fnv/decl/BSFaceGenNiNode.h"
+#include "fnv/decl/CameraWindowRay.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/ExtraOwnerB.h"
+#include "fnv/decl/FOPipboyManager.h"
+#include "fnv/decl/FORenderedMenu.h"
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FUN_0043fa80_s.h"
+#include "fnv/decl/FUN_00456630_Class.h"
+#include "fnv/decl/FUN_00458b30_class.h"
+#include "fnv/decl/FUN_004a0c90_shell.h"
+#include "fnv/decl/FUN_004dc540_shell.h"
+#include "fnv/decl/FUN_00507700_cls.h"
+#include "fnv/decl/FUN_00733fd0_shell.h"
+#include "fnv/decl/FUN_00792760_shell.h"
+#include "fnv/decl/FUN_007f7fb0_Class.h"
+#include "fnv/decl/FUN_007faf10_shell.h"
+#include "fnv/decl/FUN_007fd620_Class.h"
+#include "fnv/decl/FUN_007ffd50_shell.h"
+#include "fnv/decl/FUN_00810530_c.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FUN_00b4dec0_shell.h"
+#include "fnv/decl/M3_.h"
+#include "fnv/decl/MenuStub.h"
+#include "fnv/decl/NiCamera.h"
+#include "fnv/decl/NiPick.h"
+#include "fnv/decl/Rendered82.h"
+#include "fnv/decl/RenderedMenu7fb7.h"
+#include "fnv/decl/S0042fa20.h"
+#include "fnv/decl/SSN_b5.h"
+#include "fnv/decl/SystemColorManager.h"
+#include "fnv/decl/ThreeByThreeMatrix.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/_Cam_00712e60.h"
+#include "fnv/decl/fnv_00447080__FUN_00447080_shell.h"
+#include "fnv/decl/fnv_007181d0__FUN_007181d0_shell.h"
+#include "fnv/decl/fnv_007ff960__FOPipboyManagerPC.h"
+#include "fnv/decl/fnv_008b6200__FUN_008b6200.h"
+#include "fnv/decl/fnv_00968670__FUN_00968670_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0040d000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_0045c000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_004dc000.h"
+#include "fnv/symbols_0057d000.h"
+#include "fnv/symbols_006d2000.h"
+#include "fnv/symbols_00707000.h"
+#include "fnv/symbols_00718000.h"
+#include "fnv/symbols_007ff000.h"
+#include "fnv/symbols_00ad9000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_01021000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_01055000.h"
+#include "fnv/symbols_011a0000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011db000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01203000.h"
 struct ShadowSceneNode;
+struct NiPoint3;
 struct NiAVObject
 {
     virtual ~NiAVObject();
+public:
+    ::NiPoint3 &FUN_0043c490();
 };
 struct FORenderedTerminal
 {
@@ -26,7 +96,6 @@ NiAVObject* FORenderedTerminal::FUN_007ffad0()
 
 struct GlobalObjectO2_0045cfe0
 {
-    void FUN_0045ce80(int);
 };
 
 GlobalObjectO2_0045cfe0 g_011f9148;
@@ -34,7 +103,7 @@ GlobalObjectO2_0045cfe0 g_011f9148;
 // @fnv 0x007ffb60
 void ForwardToGlobalObject(int aiValue)
 {
-    g_011f9148.FUN_0045ce80(aiValue);
+    reinterpret_cast<::S0042fa20 *>(&(g_011f9148))->FUN_0045ce80(aiValue);
 }
 
 namespace fnv_007ffb80 {
@@ -51,13 +120,12 @@ extern GlobalObjectO2_0045cfe0 g_011f9148;
 // @fnv 0x007ffb80
 int FUN_007ffb80()
 {
-    return *g_011f9148.Int();
+    return *((int *)&(::FUN_0043d4d0((int *)&(g_011f9148))));
 }
 }  // namespace fnv_007ffb80
 
 struct FUN_00456630_helper
 {
-    bool __thiscall FUN_00456630(unsigned int);
 };
 
 struct FUN_007ff8e0_shell
@@ -68,7 +136,7 @@ struct FUN_007ff8e0_shell
 // @fnv 0x007ff8e0
 bool FUN_007ff8e0_shell::FUN_007ff8e0()
 {
-    return reinterpret_cast<FUN_00456630_helper*>(this)->FUN_00456630(0x4000);
+    return ((bool)(reinterpret_cast<::FUN_00456630_Class *>((reinterpret_cast<FUN_00456630_helper*>(this)))->FUN_00456630(0x4000)));
 }
 
 struct FUN_007ff8c0_shell : public FUN_007ff8e0_shell
@@ -96,9 +164,11 @@ struct FUN_004bc1f0_S
 {
     void FUN_004bc1f0(float, float, float);
 };
+class NiAVObject;
 struct NiNode
 {
-    void Update(NiUpdateData const&);
+public:
+    ::NiAVObject *GetAt(unsigned int);
 };
 extern float DAT_01078bb0;
 struct FUN_007ff900_This
@@ -114,7 +184,7 @@ void FUN_007ff900_This::UpdateSynchTimeNode()
     {
         ((FUN_004bc1f0_S*)proot)->FUN_004bc1f0(DAT_01078bb0, 0.0f, 0.0f);
         NiUpdateData UpdateData(0.0f, 0, 0);
-        ((NiNode*)proot)->Update(UpdateData);
+        reinterpret_cast<::FUN_00a59c60_cls *>((((NiNode*)proot)))->FUN_00a59c60((int)&(UpdateData));
     }
 }
 
@@ -138,7 +208,6 @@ struct NiRenderer
 struct FUN_007ff7c0_shell : public BSAudio, public FUN_00440460_S
 {
     void FUN_007ff7c0(BSRenderedTexture* apTarget, NiRenderer::ClearFlags aeClearMode, BSRenderedTexture* apSwapTarget);
-    void FUN_007fba00(BSRenderedTexture*, int, int);
 };
 // @fnv 0x007ff7c0
 void FUN_007ff7c0_shell::FUN_007ff7c0(BSRenderedTexture* apTarget, NiRenderer::ClearFlags aeClearMode,
@@ -149,22 +218,20 @@ void FUN_007ff7c0_shell::FUN_007ff7c0(BSRenderedTexture* apTarget, NiRenderer::C
     {
         ((FUN_00440460_S*)proot)->FUN_00440460((V3 const*)((char*)this + 0xd8));
         NiUpdateData UpdateData(0.0f, false, false);
-        ((NiNode*)proot)->Update(UpdateData);
+        reinterpret_cast<::FUN_00a59c60_cls *>((((NiNode*)proot)))->FUN_00a59c60((int)&(UpdateData));
     }
-    FUN_007fba00(apTarget, 1, 0);
+    reinterpret_cast<::Rendered82 *>(this)->FUN_007fba00(apTarget, (void *)(1), (::Target82 *)(0));
 }
 
 struct Flt
 {
     operator unsigned int();
 };
-extern Flt g_011db63c;
 void ForwardToGlobalObject(int param);
 struct BSFadeNode
 {
     void SetRange(float, float);
 };
-int __cdecl FUN_007ffb80();
 struct FUN_007ffaf0_shell
 {
     void FUN_007ffaf0();
@@ -174,11 +241,11 @@ struct FUN_007ffaf0_shell
 // @fnv 0x007ffaf0
 void FUN_007ffaf0_shell::FUN_007ffaf0()
 {
-    if ((unsigned int)g_011db63c)
+    if ((unsigned int)(*reinterpret_cast<::Flt *>(&::g_011db63c)))
     {
-        int iSavedValue = FUN_007ffb80();
+        int iSavedValue = ::fnv_007ffb80::FUN_007ffb80();
         ForwardToGlobalObject(0);
-        ((BSFadeNode*)(unsigned int)g_011db63c)->SetRange(0.0f, 0.0f);
+        ((BSFadeNode*)(unsigned int)(*reinterpret_cast<::Flt *>(&::g_011db63c)))->SetRange(0.0f, 0.0f);
         ForwardToGlobalObject(iSavedValue);
     }
     ((char*)this)[0xec] = 1;
@@ -197,28 +264,24 @@ struct AudioFallback
 {
 };
 
-float __fastcall GetFieldB4Float(AudioClock* clock);
-bool __fastcall UpdateScreenEffect(FUN_007ff820_shell* surface);
-void __fastcall SetRenderedMenu(AudioFallback* fallback);
-AudioFallback* __stdcall FUN_004b7210(int mode);
 
 // @fnv 0x007ff820
 bool FUN_007ff820_shell::UpdateAudioFallback()
 {
     if (*((unsigned char*)this + 0xec))
     {
-        if (!g_011db63c || !((AudioClock*)(unsigned int)g_011db63c)->FUN_007ff8c0() ||
-            *((float*)((char*)this + 0xe8)) == GetFieldB4Float((AudioClock*)(unsigned int)g_011db63c))
+        if (!(*reinterpret_cast<::Flt *>(&::g_011db63c)) || !((AudioClock*)(unsigned int)(*reinterpret_cast<::Flt *>(&::g_011db63c)))->FUN_007ff8c0() ||
+            *((float*)((char*)this + 0xe8)) == ::GetFieldB4Float((char *)(::AudioClock *)((AudioClock*)(unsigned int)(*reinterpret_cast<::Flt *>(&::g_011db63c)))))
         {
-            SetRenderedMenu(FUN_004b7210(0));
+            reinterpret_cast<::fnv_007181d0::FUN_007181d0_shell *>((((::AudioFallback *)(::fnv_004b7210::FUN_004b7210()))))->SetRenderedMenu({});
             return true;
         }
         else
         {
-            *((float*)((char*)this + 0xe8)) = GetFieldB4Float((AudioClock*)(unsigned int)g_011db63c);
+            *((float*)((char*)this + 0xe8)) = ::GetFieldB4Float((char *)(::AudioClock *)((AudioClock*)(unsigned int)(*reinterpret_cast<::Flt *>(&::g_011db63c))));
         }
     }
-    return UpdateScreenEffect(this);
+    return reinterpret_cast<::FUN_007faf10_shell *>((this))->UpdateScreenEffect();
 }
 
 struct PickTargetNode;
@@ -238,21 +301,15 @@ struct PickPoint3
 
 struct PickCamera
 {
-    void WindowPixelToRay(int aiX, int aiY, PickPoint3& arOrigin, PickPoint3& arDir, int aiPort);
 };
 
 struct PickFaceGenNode
 {
-    PickCamera* GetCamera();
 };
-PickFaceGenNode* GetPickFaceGenNode();
 
 struct PickInterfaceMgr
 {
-    float GetCursorY();
-    float GetPickCursorX();
 };
-PickInterfaceMgr* GetPickInterfaceMgr();
 
 struct PickRecord
 {
@@ -261,7 +318,6 @@ struct PickRecord
 
 struct PickResultArray
 {
-    PickRecord* GetAt(unsigned int auiIndex);
 };
 
 struct PickQuery
@@ -281,11 +337,6 @@ struct PickQuery
     int unk30;
     PickQuery(int aeSortType, int aeIntersectType);
     ~PickQuery();
-    void SetPickType(int aeType);
-    void SetTarget(PickTargetNode* apTarget);
-    void SetReturnNormal(bool abNormal);
-    bool PerformPick(PickPoint3& arOrigin, PickPoint3& arDir, bool abAppend);
-    PickResultArray& GetResults();
 };
 
 struct RenderedTerminalStandIn
@@ -349,9 +400,6 @@ struct RenderedTerminalStandIn
     int unkE0;
     PickNodePtr spScreenNode;
 
-    PickCamera* GetRenderCamera();
-    void OnScreenClicked();
-    bool HandleClickBase(bool abDown, int aiX, int aiY);
     bool HandleClick(bool abDown, int aiX, int aiY);
 };
 
@@ -360,47 +408,42 @@ struct RenderedTerminalStandIn
 bool RenderedTerminalStandIn::HandleClick(bool abDown, int aiX, int aiY)
 {
     bool bHandledX = false;
-    PickInterfaceMgr* pInterfaceMgr = GetPickInterfaceMgr();
+    PickInterfaceMgr* pInterfaceMgr = ((::PickInterfaceMgr *)(::fnv_004b7210::FUN_004b7210()));
     if (spScreenNode && abDown)
     {
         PickPoint3 kOriginTmp;
         PickPoint3 kDir3;
-        PickCamera* pCamera = GetRenderCamera();
+        PickCamera* pCamera = ((::PickCamera *)(reinterpret_cast<::fnv_008b6200::FUN_008b6200 *>(this)->GetFlt()));
         if (!pCamera)
         {
-            pCamera = GetPickFaceGenNode()->GetCamera();
+            pCamera = ((::PickCamera *)(reinterpret_cast<::BSFaceGenNiNode *>((((::PickFaceGenNode *)(::FUN_0045c670()))))->GetAnimationData()));
         }
         PickQuery kPick(0, 8);
-        kPick.SetPickType(0);
-        kPick.SetTarget(spScreenNode);
-        kPick.SetReturnNormal(true);
-        pCamera->WindowPixelToRay((int)pInterfaceMgr->GetPickCursorX(), (int)pInterfaceMgr->GetCursorY(), kOriginTmp,
-                                  kDir3, 0);
-        if (kPick.PerformPick(kOriginTmp, kDir3, false))
+        reinterpret_cast<::FUN_00458b30_class *>(&(kPick))->SetByteAtOffset17(0);
+        reinterpret_cast<::NiPick *>(&(kPick))->FUN_00705fc0(spScreenNode);
+        reinterpret_cast<::CombatProcedure *>(&(kPick))->Initialize((::CombatController *)(true));
+        reinterpret_cast<::CameraWindowRay *>((pCamera))->MapScreenToRay((int)reinterpret_cast<::BGSImpactData *>((pInterfaceMgr))->FUN_009a9350(), (int)reinterpret_cast<::FUN_00792760_shell *>((pInterfaceMgr))->FUN_00792760(), (::NiPoint3 &)(kOriginTmp),
+                                  (::NiPoint3 &)(kDir3), (const ::NiRenderTargetGroup *)(0));
+        if (reinterpret_cast<::NiPick *>(&(kPick))->PerformPick((const ::NiPoint3 &)(kOriginTmp), (const ::NiPoint3 &)(kDir3), false))
         {
             unsigned int uiIndex3 = 0;
-            PickRecord* pRecord5 = kPick.GetResults().GetAt(uiIndex3);
+            PickRecord* pRecord5 = ((::PickRecord *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>(&((*(::PickResultArray *)(reinterpret_cast<::BGSCameraPath *>(&(kPick))->GetConditions()))))->FUN_00968670(uiIndex3)));
             if (pRecord5 && pRecord5->GetObject() == spScreenNode)
             {
-                OnScreenClicked();
+                reinterpret_cast<::FUN_007ffd50_shell *>(this)->FUN_007ffd50();
                 return false;
             }
         }
     }
-    bool bResult = HandleClickBase(abDown, aiX, aiY);
+    bool bResult = reinterpret_cast<::RenderedMenu7fb7 *>(this)->FUN_007fb790((void *)(abDown), (float *)(aiX), (float *)(aiY));
     return bResult;
 }
 
 struct FloatSetting
 {
-    float* FUN_00403e20();
 };
-extern FloatSetting g_011db674, g_011db65c, g_011db62c, g_011db614, g_01203144, g_01203150, g_011db5ec;
-extern unsigned DAT_011a0bb0;
 extern unsigned char DAT_011f9426;
 extern int DAT_011f9434;
-extern float DAT_010559cc, DAT_01016264;
-extern double DAT_0101de30, DAT_01023128, DAT_01021928;
 struct Name
 {
     unsigned interned;
@@ -421,10 +464,7 @@ struct Matrix
 {
     float m00, m01, m02, m10, m11, m12, m20, m21, m22;
     Matrix();
-    void RotateX(float);
-    void RotateY(float);
     Matrix operator*(const Matrix&) const;
-    void SetColumn(int, float, float, float);
 };
 struct Frustum
 {
@@ -474,16 +514,6 @@ struct Resource
     virtual void v94();
     virtual void v98();
     virtual Resource* Find(const Name&);
-    Resource* AsNode();
-    void SetRotation(const Matrix&);
-    void SetTranslation(float, float, float);
-    void SetPosition(const Vector3&);
-    Resource* GetBound();
-    float GetRadius();
-    void AddProperty(void*);
-    void SetController(void*);
-    Vector3 const& GetPosition();
-    void SetFlag(int);
 };
 struct NodeHolder
 {
@@ -491,10 +521,7 @@ struct NodeHolder
 };
 struct Manager
 {
-    Resource* Load(unsigned, int, int, int, int, int);
 };
-extern Manager* DAT_011c3b3c;
-void __cdecl MarkLoaded(Resource*);
 void* __cdecl operator new(unsigned);
 void __cdecl operator delete(void*);
 struct Camera : Resource
@@ -506,10 +533,6 @@ struct Camera : Resource
     int f100, f104, f108, f10c, f110;
     static void* operator new(unsigned);
     Camera();
-    void SetViewport(const FourFloatVector&);
-    void SetScale(float);
-    void SetNearFar(float);
-    void SetFrustum(const Frustum&);
 };
 struct Controller
 {
@@ -585,116 +608,96 @@ struct Interface
     virtual void vfc();
     virtual float GetFar();
 };
-Interface* __cdecl GetInterface();
-bool __cdecl FUN_00707b50();
-int __cdecl FUN_004dc200();
-int __cdecl FUN_004dc1f0();
-float __cdecl FUN_0057dd70(float);
-void* __cdecl FUN_0040df90();
 struct Backend
 {
-    void* Create(Resource*, float);
 };
 Backend* __cdecl GetBackend(int);
 struct Colors
 {
-    bool GetColor(FourFloatVector&);
 };
-Colors* __stdcall GetColors(int);
-extern Matrix DAT_011a9448;
 struct RenderNode
 {
-    void SetMode(int, float);
-    void SetScreen(Resource*);
-    void SetScreen2(Resource*);
-    void SetRoot(Resource*);
-    void SetCamera(Camera*);
-    void Update();
     Resource* GetRenderObject();
-    void NoBackend();
-    void Enable(int);
-    void Toggle(int);
-    void SetColor(const FourFloatVector&);
     void SetupPowerButtonScreen();
 };
 // Loads the screen and PowerButton nodes, builds a camera with frustum, sets screen/root/camera, updates, and creates the backend render object.
 // @fnv 0x007feeb0
 void RenderNode::SetupPowerButtonScreen()
 {
-    SetMode(1, *g_011db674.FUN_00403e20());
+    reinterpret_cast<::FOPipboyManager *>(this)->SetScanlines(1, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::g_011db674)))))));
     bool createdCur = false;
     Resource* rootP = 0;
-    if (!(unsigned)g_011db63c)
+    if (!(unsigned)(*reinterpret_cast<::Flt *>(&::g_011db63c)))
     {
-        rootP = DAT_011c3b3c->Load(DAT_011a0bb0, 0, 1, 0, 0, 0);
-        ((NodeHolder*)&g_011db63c)->Assign(rootP);
-        MarkLoaded(rootP);
+        rootP = ((::Resource *)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>(((*reinterpret_cast<::Manager * *>(&::g_modelLoader))))->FUN_00447080((char *)((*reinterpret_cast<unsigned int *>(&::DAT_011a0bb0))), 0, 1, 0, 0, 0)));
+        ((NodeHolder*)&(*reinterpret_cast<::Flt *>(&::g_011db63c)))->Assign(rootP);
+        ::UpdateObjectVisibility((::NiAVObject *)(rootP));
         createdCur = true;
     }
     else
-        rootP = (Resource*)(unsigned)g_011db63c;
+        rootP = (Resource*)(unsigned)(*reinterpret_cast<::Flt *>(&::g_011db63c));
     Resource* screenX = rootP->Find(Name("screen"));
     Resource* screenNode = screenX->GetNode();
     if (!screenNode)
-        screenNode = screenX->Child(0)->AsNode()->GetNode();
+        screenNode = ((::Resource *)(reinterpret_cast<::NiNode *>((screenX->Child(0)))->GetAt({})))->GetNode();
     Resource* kPower = rootP->Find(Name("PowerButton"));
     if (kPower->GetNode())
         ((NodeHolder*)((char*)this + 0xe4))->Assign(kPower);
     else
-        ((NodeHolder*)((char*)this + 0xe4))->Assign(kPower->Child(0)->AsNode());
+        ((NodeHolder*)((char*)this + 0xe4))->Assign(((::Resource *)(reinterpret_cast<::NiNode *>((kPower->Child(0)))->GetAt({}))));
     Matrix rotAM, rotB;
-    rotAM.RotateX(DAT_010559cc);
-    rotB.RotateY(DAT_010559cc);
-    rootP->SetRotation(rotB * rotAM);
-    float rate9 = *g_011db65c.FUN_00403e20();
+    reinterpret_cast<::ThreeByThreeMatrix *>(&(rotAM))->SetYRotation(DAT_010559cc);
+    reinterpret_cast<::FUN_004a0c90_shell *>(&(rotB))->FUN_004a0c90(DAT_010559cc);
+    reinterpret_cast<::FUN_0043fa80_s *>((rootP))->FUN_0043fa80((const ::ThreeByThreeMatrix &)((const ::Matrix &)(rotB * rotAM)));
+    float rate9 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::g_011db65c))))));
     if (!FUN_00707b50() && !DAT_011f9426)
-        rate9 = (float)(rate9 * DAT_0101de30);
-    rootP->SetTranslation(rate9, *g_011db614.FUN_00403e20(), *g_011db62c.FUN_00403e20());
+        rate9 = (float)(rate9 * ::DAT_0101de30);
+    reinterpret_cast<::FUN_004bc1f0_S *>((rootP))->FUN_004bc1f0(rate9, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::g_011db614)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::g_011db62c)))))));
     Vector3 akStart(0.f, 0, 0);
-    rootP->SetPosition(akStart);
+    reinterpret_cast<::FUN_00a59c60_cls *>((rootP))->FUN_00a59c60((int)&(akStart));
     Camera* cameraK = new Camera;
     FourFloatVector viewport(0.f, 1.f, 1.f, 0.f);
-    cameraK->SetViewport(viewport);
+    reinterpret_cast<::_Cam_00712e60 *>((cameraK))->FUN_00712e60((const ::_Rect16_00712e60 &)(viewport));
     Matrix frame5;
-    frame5.SetColumn(0, 0.f, 0.f, 1.f);
-    frame5.SetColumn(1, 1.f, 0.f, 0.f);
-    frame5.SetColumn(2, 0.f, 1.f, 0.f);
-    cameraK->SetRotation(DAT_011a9448);
-    cameraK->SetScale(1.f);
+    reinterpret_cast<::M3_ *>(&(frame5))->SetElement(0, 0.f, 0.f, 1.f);
+    reinterpret_cast<::M3_ *>(&(frame5))->SetElement(1, 1.f, 0.f, 0.f);
+    reinterpret_cast<::M3_ *>(&(frame5))->SetElement(2, 0.f, 1.f, 0.f);
+    reinterpret_cast<::FUN_0043fa80_s *>((cameraK))->FUN_0043fa80((const ::ThreeByThreeMatrix &)((*reinterpret_cast<::Matrix *>(&::DAT_011a9448))));
+    reinterpret_cast<::FUN_00733fd0_shell *>((cameraK))->FUN_00733fd0(1.f);
     Frustum frustum(0);
-    frustum.farPlane = GetInterface()->GetFar();
-    frustum.nearPlane = *g_01203144.FUN_00403e20();
-    cameraK->SetNearFar(frustum.farPlane / frustum.nearPlane);
-    float aspect6 = (double)(DAT_011f9426 ? DAT_011f9434 : FUN_004dc200()) / FUN_004dc1f0();
+    frustum.farPlane = ((::Interface *)(::FUN_0045c670()))->GetFar();
+    frustum.nearPlane = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::g_01203144))))));
+    reinterpret_cast<::FUN_00507700_cls *>((cameraK))->FUN_00507700(frustum.farPlane / frustum.nearPlane);
+    float aspect6 = (double)(DAT_011f9426 ? DAT_011f9434 : FUN_004dc200()) / ((int)(::FUN_004dc1f0()));
     float scale4 = DAT_01016264;
-    float angle7 = (float)(*g_01203150.FUN_00403e20() * DAT_01023128 * *g_011db5ec.FUN_00403e20());
+    float angle7 = (float)(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::g_01203150)))))) * ::DAT_01023128 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::g_011db5ec)))))));
     frustum.left = -FUN_0057dd70(angle7) * scale4;
     frustum.right = FUN_0057dd70(angle7) * scale4;
     frustum.bottom = -FUN_0057dd70(angle7) * aspect6 * scale4;
     frustum.top = FUN_0057dd70(angle7) * aspect6 * scale4;
     frustum.ortho = false;
-    cameraK->SetFrustum(frustum);
+    reinterpret_cast<::NiCamera *>((cameraK))->UpdateViewFrustum((const ::NiFrustum &)(frustum));
     Vector3 pos2(0.f, 0, 0);
-    cameraK->SetPosition(pos2);
-    SetScreen(screenNode);
-    SetScreen2(screenNode);
-    SetRoot(rootP);
-    screenNode->AddProperty(FUN_0040df90());
-    screenNode->SetController(new Controller);
-    SetCamera(cameraK);
-    Update();
-    *(Vector3*)((char*)this + 0xd8) = GetRenderObject()->GetPosition();
-    GetRenderObject()->SetTranslation(DAT_01078bb0, 0.f, 0.f);
-    float radius = (float)(rootP->GetBound()->GetRadius() * DAT_01021928);
-    void* aBackend = GetBackend(1)->Create(rootP, radius);
+    reinterpret_cast<::FUN_00a59c60_cls *>((cameraK))->FUN_00a59c60((int)&(pos2));
+    reinterpret_cast<::FOPipboyManager *>(this)->FUN_007fc2d0((::NiAVObject *)(screenNode));
+    reinterpret_cast<::FOPipboyManager *>(this)->SetScreen((::NiAVObject *)(screenNode));
+    reinterpret_cast<::FUN_004dc540_shell *>(this)->FUN_004dc540((::NiAVObject *)(rootP));
+    reinterpret_cast<::ExtraOwnerB *>((screenNode))->FUN_00a5b230((int)(((void *)(::FUN_0040df90()))));
+    reinterpret_cast<::FUN_00439410_cls *>((screenNode))->FUN_00439410((::ArgObject *)(void *)(new Controller));
+    reinterpret_cast<::FUN_007fd620_Class *>(this)->SetGo(cameraK);
+    reinterpret_cast<::FORenderedMenu *>(this)->OnMenuOpen();
+    *(Vector3*)((char*)this + 0xd8) = (*(const ::Vector3 *)&(reinterpret_cast<::NiAVObject *>((GetRenderObject()))->FUN_0043c490()));
+    reinterpret_cast<::FUN_004bc1f0_S *>((GetRenderObject()))->FUN_004bc1f0(DAT_01078bb0, 0.f, 0.f);
+    float radius = (float)(reinterpret_cast<::Twin_0084d030 *>((((::Resource *)(reinterpret_cast<::FUN_0043d450_Owner *>((rootP))->FUN_0043d450()))))->GetStoredFloatValue() * DAT_01021928);
+    void* aBackend = ((void *)(reinterpret_cast<::SSN_b5 *>((GetBackend(1)))->FUN_00b5ca70((::Node_b5 *)(rootP), radius)));
     if (!aBackend)
-        NoBackend();
-    Enable(0);
-    Toggle(0);
-    ((Resource*)(unsigned)g_011db63c)->SetFlag(8);
+        reinterpret_cast<::fnv_007ff960::FOPipboyManagerPC *>(this)->CreateTerminalLight();
+    reinterpret_cast<::MenuStub *>(this)->FUN_007fae70(0);
+    reinterpret_cast<::FUN_00810530_c *>(this)->FUN_00810530(0);
+    reinterpret_cast<::FUN_00b4dec0_shell *>((((Resource*)(unsigned)(*reinterpret_cast<::Flt *>(&::g_011db63c)))))->FUN_00b4dec0(8);
     FourFloatVector colorF(0.f, 0.f, 0.f, 0.f);
-    if (GetColors(3)->GetColor(colorF))
-        SetColor(colorF);
+    if (reinterpret_cast<::SystemColorManager *>((((::Colors *)(::FUN_00718b60()))))->GetColor((int)&(colorF), *(::NiColor *)nullptr))
+        reinterpret_cast<::FUN_007f7fb0_Class *>(this)->FUN_007f7fb0((const ::FUN_007f7fb0_Value *)&(colorF));
     *(float*)((char*)this + 0xe8) = 1.f;
 }
 
@@ -705,15 +708,12 @@ struct Sound376
     unsigned int state;
     ~Sound376()
     {}
-    bool FUN_00ad8830(bool deferred);
 };
 struct Audio376
 {
-    Sound376 ResolveAudioHandle(const char* editorID, unsigned int flags);
 };
-Audio376* FUN_00ad9060();
 // @fnv 0x007ffe40
 void FUN_007ffe40()
 {
-    FUN_00ad9060()->ResolveAudioHandle("OBJComputerTerminalPowerDown", 0x121).FUN_00ad8830(false);
+    reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::Sound376 &)((*(::Sound376 *)(reinterpret_cast<::AudioClass_ae5680 *>((((::Audio376 *)(::FUN_00ad9060()))))->ResolveAudioHandle((::Handle_ae5680 *)("OBJComputerTerminalPowerDown"), 0x121, {})))))->FUN_00ad8830(false);
 }

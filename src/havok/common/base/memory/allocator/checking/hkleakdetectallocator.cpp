@@ -2,29 +2,28 @@
 // src/havok/common/base/memory/allocator/checking/hkleakdetectallocator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/allocator/checking/hkleakdetectallocator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/DC3980Map.h"
+#include "fnv/decl/FUN_00c903a0_class.h"
+#include "fnv/decl/FUN_00c903b0_class.h"
+#include "fnv/decl/FUN_00da2b90_Obj.h"
+#include "fnv/decl/S_00da2bd0_CallTree.h"
+#include "fnv/decl/StackTracer.h"
+#include "fnv/decl/hkBufferDD6E.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00d2c000.h"
+#include "fnv/symbols_00da2000.h"
+#include "fnv/symbols_01269000.h"
 struct FUN_00d5f270_class
 {
-    void __thiscall FUN_00d5f150(int c, void* a, unsigned int b);
     void __thiscall FUN_00d5f270(void* a, unsigned int b);
 };
 
-// @fnv 0x00d5f270
-void __thiscall FUN_00d5f270_class::FUN_00d5f270(void* a, unsigned int b)
-{
-    FUN_00d5f150(0, a, b);
-}
-
 struct FUN_00d5f2b0_class
 {
-    void FUN_00d5f150(int, int, int);
     void FUN_00d5f2b0(int a, int b);
 };
-
-// @fnv 0x00d5f2b0
-void FUN_00d5f2b0_class::FUN_00d5f2b0(int a, int b)
-{
-    FUN_00d5f150(1, a, b);
-}
 
 struct Inner
 {
@@ -123,13 +122,10 @@ struct Allocator
 };
 struct Existing
 {
-    void __thiscall FUN_00c903a0();
 };
 struct Old
 {
-    void __thiscall ReleaseReference();
 };
-extern void* DAT_01269a84;
 extern void* __cdecl FUN_00da2bc0();
 // @fnv 0x00d5ee80
 void __thiscall FUN_00d5ee80_class::InitWithAllocator(void* apArg0, void* apAllocator, void* apArg2, void* apArg3)
@@ -139,15 +135,15 @@ void __thiscall FUN_00d5ee80_class::InitWithAllocator(void* apArg0, void* apAllo
     unk38 = apArg2;
     unk3c = apArg3;
     unk44 = 0;
-    if (!DAT_01269a84)
+    if (!(*reinterpret_cast<void * *>(&::DAT_01269a84)))
     {
         void* x = FUN_00da2bc0();
-        if (DAT_01269a84)
-            ((Old*)DAT_01269a84)->ReleaseReference();
-        DAT_01269a84 = x;
+        if ((*reinterpret_cast<void * *>(&::DAT_01269a84)))
+            reinterpret_cast<::FUN_00c903b0_class *>((((Old*)(*reinterpret_cast<void * *>(&::DAT_01269a84)))))->ReleaseReference();
+        (*reinterpret_cast<void * *>(&::DAT_01269a84)) = x;
     }
-    unk04 = DAT_01269a84;
-    ((Existing*)unk04)->FUN_00c903a0();
+    unk04 = (*reinterpret_cast<void * *>(&::DAT_01269a84));
+    reinterpret_cast<::FUN_00c903a0_class *>((((Existing*)unk04)))->FUN_00c903a0();
     void* pBlock = ((Allocator*)apAllocator)->allocate(12);
     if (pBlock)
     {
@@ -182,10 +178,8 @@ struct Sub30
     virtual int vfunc_2C(int a, void* b);
 };
 
-void* __stdcall FUN_00da2b20(void* buf, int size);
 struct Helper8
 {
-    int FindOrAddCallTrace(void* buf, void* val);
 };
 struct ParamStruct
 {
@@ -227,7 +221,7 @@ int FUN_00d5f0a0_class::ProcessAndDispatch(int aiFlag, void* apArg)
     int buffer[32];
     if (unk04)
     {
-        p.p0 = unk08.FindOrAddCallTrace(buffer, FUN_00da2b20(buffer, 0x20));
+        p.p0 = reinterpret_cast<::S_00da2bd0_CallTree *>(&(unk08))->FindOrAddCallTrace((const unsigned int *)(buffer), (int)(((void *)(::FUN_00da2b20((int)(buffer), 0x20)))));
     }
     else
     {
@@ -238,12 +232,11 @@ int FUN_00d5f0a0_class::ProcessAndDispatch(int aiFlag, void* apArg)
     return res;
 }
 
-void __stdcall ProcessAndDispatch(int aiFlag, void* apObject);
 
 // @fnv 0x00d5f260
 void __stdcall FUN_00d5f260(void* apObject)
 {
-    ProcessAndDispatch(0, apObject);
+    reinterpret_cast<::FUN_00d5f0a0_class *>((0))->ProcessAndDispatch((int)(apObject), {});
 }
 
 namespace fnv_00d5f480 {
@@ -310,14 +303,13 @@ struct FUN_00d5f640_cls
     unsigned int m_uiObjectFlags;
     int m_iArrayLength;
 
-    void Reset();
     void FreeStorage(Deallocator* apAllocator);
 };
 
 // @fnv 0x00d5f640
 void FUN_00d5f640_cls::FreeStorage(Deallocator* apAllocator)
 {
-    Reset();
+    reinterpret_cast<::DC3980Map *>(this)->Reset();
     if ((m_uiObjectFlags & 0x80000000) == 0)
         apAllocator->Free(m_pData, (m_iArrayLength + 1) << 4);
 }
@@ -329,7 +321,6 @@ struct FUN_00da2b90_class
     short unk04;
     short unk06;
     void* unk08;
-    FUN_00da2b90_class* Initialize();
 };
 
 extern FUN_00da2b90_class DAT_01269a90;
@@ -337,20 +328,17 @@ extern FUN_00da2b90_class DAT_01269a90;
 // @fnv 0x00da2bc0
 void FUN_00da2bc0()
 {
-    DAT_01269a90.Initialize();
+    reinterpret_cast<::FUN_00da2b90_Obj *>(&(DAT_01269a90))->Initialize();
 }
 }  // namespace fnv_00da2bc0
 
 struct FUN_00da2b50_cls
 {
-    int FUN_00da2b50(int a, int b, int c);
 };
 struct FUN_00da2990_cls
 {
-    int FUN_00da2990(int a, int b, int c, int d);
 };
 
-extern "C" int __cdecl Vsnprintf(char* buf, unsigned int n, const char* fmt, ...);
 
 struct FUN_00d5edc0_cls
 {
@@ -374,53 +362,22 @@ struct FUN_00d5edc0_cls
     void LogAddressAndSize(int p1, int p2, int* p3);
 };
 
-// @fnv 0x00d5edc0
-void FUN_00d5edc0_cls::LogAddressAndSize(int p1, int aAddress, int* pInfo)
-{
-    unsigned int buf[0x40];
-    unsigned int buf2[0x20];
-    Vsnprintf((char*)buf, 0x100, "\nAddress=0x%p size=%i\n", aAddress, pInfo[1]);
-    reinterpret_cast<int(__cdecl*)(...)>(m_38)(p1, m_3c);
-    reinterpret_cast<int(__cdecl*)(...)>(m_38)(buf, m_3c);
-    int r = reinterpret_cast<FUN_00da2b50_cls*>(&m_08)->FUN_00da2b50(pInfo[0], (int)buf2, 0x20);
-    reinterpret_cast<FUN_00da2990_cls*>(m_04)->FUN_00da2990((int)buf2, r, m_38, m_3c);
-    reinterpret_cast<int(__cdecl*)(...)>(m_38)(
-        "-------------------------------------------------------------------\n\n", m_3c);
-}
-
 struct FUN_00d5f290_class
 {
-    void __thiscall ProcessAndDispatch(int, int);
     void __thiscall CallWithFirstArg(int* a);
 };
 
 // @fnv 0x00d5f290
 void FUN_00d5f290_class::CallWithFirstArg(int* piValue)
 {
-    ProcessAndDispatch(1, *piValue);
+    reinterpret_cast<::FUN_00d5f0a0_class *>(this)->ProcessAndDispatch(1, (void *)(*piValue));
 }
 
 struct FUN_00d5f2d0_cls
 {
-    int ProcessAndDispatch(int a, int b);
     int FUN_00d5f2d0(int a1, int a2, int* a3);
 };
 
-void __cdecl FUN_00d2caa0(int a, int b, int c);
-
-// @fnv 0x00d5f2d0
-int FUN_00d5f2d0_cls::FUN_00d5f2d0(int a1, int a2, int* piValue)
-{
-    int r = this->ProcessAndDispatch(1, *piValue);
-    int m = *piValue;
-    if (!(m < a2))
-    {
-        m = a2;
-    }
-    FUN_00d2caa0(r, a1, m);
-    reinterpret_cast<FUN_00d5f2b0_class*>(this)->FUN_00d5f150(1, a1, a2);
-    return r;
-}
 
 // hkLeakDetectAllocator::quit()
 
@@ -435,7 +392,7 @@ struct S_00d5f320_Allocator
 
 struct S_00d5f320_RefObj
 {
-    void FUN_00c905b0();  // removeReference
+      // removeReference
 };
 
 struct S_00d5f320_AllocInfo
@@ -498,7 +455,6 @@ struct S_00d5f320_Map
         return m_kPrimitiveElement[(int)reinterpret_cast<unsigned long>(it)].val;
     }
 
-    void FreeStorage(S_00d5f320_Allocator& alloc);
 };
 
 struct S_00d5f320_Node
@@ -535,7 +491,6 @@ struct S_00d5f320_CallTree
 
 typedef void(__cdecl* S_00d5f320_OutputFunc)(const char*, void*);
 
-int __cdecl Vsnprintf(char* buf, int n, const char* fmt, ...);
 
 struct S_00d5f320_LeakDetect
 {
@@ -554,10 +509,9 @@ struct S_00d5f320_LeakDetect
     void* m_pOutputUserData;
     S_00d5f320_Map* m_pAllocationMap;
 
-    void LogAddressAndSize(const char* what, unsigned long addr, const S_00d5f320_AllocInfo& info);
     void printBlock(const char* what, unsigned long addr, S_00d5f320_AllocInfo info)
     {
-        LogAddressAndSize(what, addr, info);
+        reinterpret_cast<::FUN_00d5edc0_cls *>(this)->LogAddressAndSize((int)(what), addr, (int *)&(info));
     }
     void ReportLeaks();
 };
@@ -589,9 +543,9 @@ void S_00d5f320_LeakDetect::ReportLeaks()
         __debugbreak();
     }
     m_kCallTree.quit();
-    m_pAllocationMap->FreeStorage(*m_pAllocator);
+    reinterpret_cast<::FUN_00d5f640_cls *>((m_pAllocationMap))->FreeStorage((::Deallocator *)&(*m_pAllocator));
     m_pAllocator->ReleaseBlock(m_pAllocationMap, sizeof(S_00d5f320_Map));
-    m_pReferenceObject->FUN_00c905b0();
+    reinterpret_cast<::hkReferencedObjectC905 *>((m_pReferenceObject))->FUN_00c905b0();
 }
 
 struct FUN_00d5f520_class
@@ -647,7 +601,6 @@ struct D5F670Map
     int m_iCapacityFlags;
     int m_iPairCount;
 
-    int insert(D5F670Allocator& alloc, unsigned int key, D5F670Value val);
     void Resize(D5F670Allocator& alloc, int newcap);
 };
 
@@ -667,7 +620,7 @@ void D5F670Map::Resize(D5F670Allocator& alloc, int aiNewCapacity)
     for (int i = 0; i < iOldCapacity; i++)
     {
         if (pOldEntries[i].key != 0xffffffff)
-            insert(alloc, pOldEntries[i].key, pOldEntries[i].val);
+            reinterpret_cast<::fnv_00d5f480::FUN_00d5f480_class *>(this)->FUN_00d5f480((void *)&(alloc), pOldEntries[i].key, (*(::fnv_00d5f480::ParamStruct *)&(const ::D5F670Value &)(pOldEntries[i].val)));
     }
 
     if (iNoDeallocate == 0)
@@ -686,6 +639,19 @@ struct List2b50
     Node2b50* m_kNodeCollection;
     int FUN_00da2b50(int node, unsigned int* out, int count);
 };
+// @fnv 0x00d5edc0
+void FUN_00d5edc0_cls::LogAddressAndSize(int p1, int aAddress, int* pInfo)
+{
+    unsigned int buf[0x40];
+    unsigned int buf2[0x20];
+    ::Vsnprintf((char*)buf, 0x100, "\nAddress=0x%p size=%i\n", aAddress, pInfo[1]);
+    reinterpret_cast<int(__cdecl*)(...)>(m_38)(p1, m_3c);
+    reinterpret_cast<int(__cdecl*)(...)>(m_38)(buf, m_3c);
+    int r = reinterpret_cast<::List2b50 *>((reinterpret_cast<FUN_00da2b50_cls*>(&m_08)))->FUN_00da2b50(pInfo[0], (unsigned int *)((int)buf2), 0x20);
+    reinterpret_cast<::StackTracer *>((reinterpret_cast<FUN_00da2990_cls*>(m_04)))->FUN_00da2990((unsigned int *)((int)buf2), r, (void (*)(const char *, void *))(m_38), (void *)(m_3c));
+    reinterpret_cast<int(__cdecl*)(...)>(m_38)(
+        "-------------------------------------------------------------------\n\n", m_3c);
+}
 // @fnv 0x00da2b50
 int List2b50::FUN_00da2b50(int iStartIndex, unsigned int* out, int count)
 {
@@ -751,8 +717,6 @@ struct RouterD5
     }
 };
 RouterD5* FUN_00c85750();
-extern "C" void* __cdecl FUN_00d2cab0(void* dst, int value, int numBytes);
-extern "C" void* __cdecl FUN_00cb1260(void* dst, const void* src, int numBytes);
 
 struct PointerInfoD5
 {
@@ -824,12 +788,10 @@ struct SnapshotD5
     SnapshotEntryD5* m_entries;
     int m_num;
 
-    void FreeBuffers();
 };
 
 struct SourceD5
 {
-    int FUN_00da2b50(int key, unsigned int* out, int capacity);
 };
 
 struct FUN_00d5ef20_Class
@@ -856,7 +818,7 @@ int FUN_00d5ef20_Class::Snapshot(SnapshotD5* out)
 {
     void* section = &m_kCriticalSection;
     EnterCriticalSection(section);
-    out->FreeBuffers();
+    reinterpret_cast<::hkBufferDD6E *>((out))->FreeBuffers();
     MapD5* map = m_map;
     int n = map->GetLogicalSize();
     if (n == 0)
@@ -866,7 +828,7 @@ int FUN_00d5ef20_Class::Snapshot(SnapshotD5* out)
     }
     out->m_num = n;
     out->m_entries = (SnapshotEntryD5*)FUN_00c85750()->heap().AllocateMemoryBlock(n * sizeof(SnapshotEntryD5));
-    FUN_00d2cab0(out->m_entries, 0, n * sizeof(SnapshotEntryD5));
+    ::FUN_00d2cab0();
     out->m_keys = (int*)FUN_00c85750()->heap().AllocateMemoryBlock(n * sizeof(int));
     SnapshotEntryD5* entry = out->m_entries;
     int* keys = out->m_keys;
@@ -876,9 +838,9 @@ int FUN_00d5ef20_Class::Snapshot(SnapshotD5* out)
         PointerInfoD5 info = map->getValue(it);
         *keys = map->GetIteratorKey(it);
         unsigned int data[16];
-        int n = m_pObservedSource.FUN_00da2b50(info.a, data, 16);
+        int n = reinterpret_cast<::List2b50 *>(&(m_pObservedSource))->FUN_00da2b50(info.a, data, 16);
         entry->m_uiItemCount = n;
-        FUN_00cb1260(entry->m_data, data, n * sizeof(unsigned int));
+        ::FUN_00cb1260(entry->m_data, data, n * sizeof(unsigned int));
         entry->m_uiFilterValue = info.b;
         router->m_kListener->onEntry(*keys, info.b);
         entry++;
@@ -987,8 +949,6 @@ struct LeakMapBase
     LeakPair* m_kPrimitiveElement;
     int m_iCapacityFlags;
     int m_iPairCount;
-    int FindSlot(unsigned long key);
-    void FUN_00d5f570(int it);
     bool isValid(int it) const
     {
         return it <= m_iPairCount;
@@ -1003,7 +963,7 @@ struct LeakMap
     LeakMapBase m_map;
     int findKey(unsigned long k)
     {
-        return m_map.FindSlot(k);
+        return reinterpret_cast<::FUN_00d5f520_class *>(&(m_map))->FindSlot(k);
     }
     bool isValid(int it) const
     {
@@ -1015,7 +975,7 @@ struct LeakMap
     }
     void remove(int it)
     {
-        m_map.FUN_00d5f570(it);
+        reinterpret_cast<::MapD5F5 *>(&(m_map))->FUN_00d5f570((void *)(it));
     }
 };
 
@@ -1051,17 +1011,39 @@ struct LeakDetectAllocator
     LeakMap* volatile m_pAllocationMap;
     int m_inUseBytes;
 
-    void LogAddressAndSize(const char* what, unsigned long addr, LeakAllocInfo* info);
     void checkSize(const char* what, unsigned long addr, LeakAllocInfo info, int size)
     {
         if (info.size != size)
         {
-            LogAddressAndSize(what, addr, &info);
+            reinterpret_cast<::FUN_00d5edc0_cls *>(this)->LogAddressAndSize((int)(what), addr, (int *)(::LeakAllocInfo *)(&info));
             __debugbreak();
         }
     }
     void FUN_00d5f150(unsigned int unused, void* p, int numBytes);
 };
+// @fnv 0x00d5f270
+void __thiscall FUN_00d5f270_class::FUN_00d5f270(void* a, unsigned int b)
+{
+    reinterpret_cast<::LeakDetectAllocator *>(this)->FUN_00d5f150(0, a, b);
+}
+// @fnv 0x00d5f2b0
+void FUN_00d5f2b0_class::FUN_00d5f2b0(int a, int b)
+{
+    reinterpret_cast<::LeakDetectAllocator *>(this)->FUN_00d5f150(1, (void *)(a), b);
+}
+// @fnv 0x00d5f2d0
+int FUN_00d5f2d0_cls::FUN_00d5f2d0(int a1, int a2, int* piValue)
+{
+    int r = reinterpret_cast<::FUN_00d5f0a0_class *>((this))->ProcessAndDispatch(1, (void *)(*piValue));
+    int m = *piValue;
+    if (!(m < a2))
+    {
+        m = a2;
+    }
+    ::fnv_00d2caa0::FUN_00d2caa0((void *)(r), (void *)(a1), m);
+    reinterpret_cast<::LeakDetectAllocator *>((reinterpret_cast<FUN_00d5f2b0_class*>(this)))->FUN_00d5f150(1, (void *)(a1), a2);
+    return r;
+}
 
 struct LeakCsLock
 {
@@ -1098,7 +1080,7 @@ void LeakDetectAllocator::FUN_00d5f150(unsigned int unused, void* apBlock, int n
         LeaveCriticalSection(cs);
         return;
     }
-    int it = m_pAllocationMap->m_map.FindSlot((unsigned long)apBlock);
+    int it = reinterpret_cast<::FUN_00d5f520_class *>(&(m_pAllocationMap->m_map))->FindSlot((unsigned long)apBlock);
     if (!m_pAllocationMap->isValid(it))
     {
         m_pOutputFunction("Freeing block not from this allocator", m_pOutputUserData);

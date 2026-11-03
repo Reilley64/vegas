@@ -2,6 +2,10 @@
 #ifndef FNV_TESOBJECTACTI_H
 #define FNV_TESOBJECTACTI_H
 
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/FUN_008ac890_shell.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/symbols_00478000.h"
 #include "tesobjectacti_layout.h"
 #include "BaseFormComponent.h"
 #include "TESForm.h"
@@ -114,11 +118,13 @@ FNV_STATIC_ASSERT(offsetof(TESModel, m_kModelFilePath) == 4);
 FNV_STATIC_ASSERT(offsetof(TESModel, m_pTextureSwapData) == 12);
 FNV_STATIC_ASSERT(offsetof(TESModel, cFlags) == 20);
 #pragma pack(push, 4)
+class TESForm;
 class TESModelTextureSwap : public TESModel
 {
   public:
-    bool ParseTextureSwapData(void*, unsigned int, unsigned int);
     BSSimpleList<DistantTreeTextureInfo*> TextureSwapNodeAccessor;  // +0x18, 8 bytes
+public:
+    void InitItem(::TESForm *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESModelTextureSwap) == 32);
@@ -131,11 +137,13 @@ class TESMagicTargetForm
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESMagicTargetForm) == 1);
 #pragma pack(push, 4)
+class TESForm;
 class BGSDestructibleObjectForm : public BaseFormComponent
 {
   public:
-    static void LoadDestructibleData(BGSDestructibleObjectForm*, TESFile*);
     CollisionComponent* pData;  // +0x4, 4 bytes
+public:
+    void InitItem(::TESForm *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(BGSDestructibleObjectForm) == 8);
@@ -150,6 +158,7 @@ class BGSOpenCloseForm
 FNV_STATIC_ASSERT(sizeof(BGSOpenCloseForm) == 4);
 FNV_STATIC_ASSERT(offsetof(BGSOpenCloseForm, m_ppVirtualMethodTable) == 0);
 #pragma pack(push, 4)
+class TESSound;
 class TESObjectACTI : public TESBoundAnimObject,
                       public TESFullName,
                       public TESModelTextureSwap,
@@ -168,7 +177,8 @@ class TESObjectACTI : public TESBoundAnimObject,
     void ResetFormData();
     virtual bool Load(TESFile*);
     void SetLoopingSound(TESSound*);
-    void SetActivationPrompt(BSStringT<char>);
+public:
+    void SetActivateSound(::TESSound *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESObjectACTI) == 144);
@@ -184,9 +194,7 @@ class TESEffectShader;
 class EffectSetting
 {
   public:
-    void SetEffectShader(TESEffectShader*);
     void SetEnchantEffectShader(TESEffectShader*);
-    void SetCastSound(TESSound*);
     void SetBoltSound(TESSound*);
 };
 class CombatController;
@@ -198,7 +206,6 @@ class CombatProcedure
 class TESFileFormVersion
 {
   public:
-    unsigned short GetFormVersion();
 };
 void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);

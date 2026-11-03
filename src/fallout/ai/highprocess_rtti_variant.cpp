@@ -3,6 +3,213 @@
 // polymorphic classes (FleePackage, TESPackage). The skeleton of src/fallout/ai/highprocess.cpp with those classes made polymorphic; move the functions to
 // their real unit once its classes are.
 
+#include "fnv/decl/Actor87.h"
+#include "fnv/decl/Actor897.h"
+#include "fnv/decl/B968730Actor.h"
+#include "fnv/decl/BGSMessageInitAccess.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C.h"
+#include "fnv/decl/C901C50Object.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/Date.h"
+#include "fnv/decl/DialogueItem_shell.h"
+#include "fnv/decl/ExtraDataListRemoveTrespassPackage.h"
+#include "fnv/decl/FUN_00416870_t.h"
+#include "fnv/decl/FUN_00418830_shell.h"
+#include "fnv/decl/FUN_0041ca90.h"
+#include "fnv/decl/FUN_0041cb10_shell.h"
+#include "fnv/decl/FUN_0041cd70_shell.h"
+#include "fnv/decl/FUN_00422820_shell.h"
+#include "fnv/decl/FUN_00435e00_t.h"
+#include "fnv/decl/FUN_00437b90_shell.h"
+#include "fnv/decl/FUN_00437bd0_stub.h"
+#include "fnv/decl/FUN_00437bf0_shell.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_0047d7c0_Class.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/FUN_00497f20_shell.h"
+#include "fnv/decl/FUN_00498d30_t.h"
+#include "fnv/decl/FUN_0049bb50_shell.h"
+#include "fnv/decl/FUN_004eaf60_shell.h"
+#include "fnv/decl/FUN_00507e10_shell.h"
+#include "fnv/decl/FUN_0050ead0_cls.h"
+#include "fnv/decl/FUN_0050eb90_Class.h"
+#include "fnv/decl/FUN_00544490_Class.h"
+#include "fnv/decl/FUN_0059f610Class.h"
+#include "fnv/decl/FUN_005ac1e0_shell.h"
+#include "fnv/decl/FUN_005be5c0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005ff160_shell.h"
+#include "fnv/decl/FUN_00608d80_shell.h"
+#include "fnv/decl/FUN_0061cc40_shell.h"
+#include "fnv/decl/FUN_0067a480_shell.h"
+#include "fnv/decl/FUN_0067a770_shell.h"
+#include "fnv/decl/FUN_0067efd0_shell.h"
+#include "fnv/decl/FUN_0067f1c0_shell.h"
+#include "fnv/decl/FUN_006e2b50_shell.h"
+#include "fnv/decl/FUN_0083d0d0_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008846e0_shell.h"
+#include "fnv/decl/FUN_00884f80_shell.h"
+#include "fnv/decl/FUN_0088c570_shell.h"
+#include "fnv/decl/FUN_00894cc0_shell.h"
+#include "fnv/decl/FUN_00894d60_shell.h"
+#include "fnv/decl/FUN_008a7570_shell.h"
+#include "fnv/decl/FUN_008ac890_shell.h"
+#include "fnv/decl/FUN_008ace90_shell.h"
+#include "fnv/decl/FUN_008adcb0_shell.h"
+#include "fnv/decl/FUN_008b0bd0_shell.h"
+#include "fnv/decl/FUN_008b2010_shell.h"
+#include "fnv/decl/FUN_008b39f0_shell.h"
+#include "fnv/decl/FUN_008b3ab0_shell.h"
+#include "fnv/decl/FUN_008b3b90_shell.h"
+#include "fnv/decl/FUN_008bc700_shell.h"
+#include "fnv/decl/FUN_008c0050_cls.h"
+#include "fnv/decl/FUN_008c51c0_shell.h"
+#include "fnv/decl/FUN_008ce390_shell.h"
+#include "fnv/decl/FUN_008d0300_shell.h"
+#include "fnv/decl/FUN_008d72e0_Class.h"
+#include "fnv/decl/FUN_008d7340StandIn.h"
+#include "fnv/decl/FUN_008d7420.h"
+#include "fnv/decl/FUN_008d74a0.h"
+#include "fnv/decl/FUN_008dade0_shell.h"
+#include "fnv/decl/FUN_008dbd80_class.h"
+#include "fnv/decl/FUN_008dbda0Class.h"
+#include "fnv/decl/FUN_008ff080_shell.h"
+#include "fnv/decl/FUN_008ffdc0_Class.h"
+#include "fnv/decl/FUN_009003e0_shell.h"
+#include "fnv/decl/FUN_00900400_shell.h"
+#include "fnv/decl/FUN_00903cd0_shell.h"
+#include "fnv/decl/FUN_00905450_StandIn.h"
+#include "fnv/decl/FUN_00915400_shell.h"
+#include "fnv/decl/FUN_0091fe80_shell.h"
+#include "fnv/decl/FUN_009280f0_Class.h"
+#include "fnv/decl/FUN_0092bf20_cls.h"
+#include "fnv/decl/FUN_0092ce00_shell.h"
+#include "fnv/decl/FUN_009344a0_shell.h"
+#include "fnv/decl/FUN_00953c20_shell.h"
+#include "fnv/decl/FUN_00953c50_Class.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_009865b0_shell.h"
+#include "fnv/decl/FUN_00992530_shell.h"
+#include "fnv/decl/FUN_009de2b0_shell.h"
+#include "fnv/decl/FUN_009f7d70_cls.h"
+#include "fnv/decl/FUN_009f7f20_class.h"
+#include "fnv/decl/FUN_009f8570_class.h"
+#include "fnv/decl/FUN_009f8660_class.h"
+#include "fnv/decl/FleeActorEntry.h"
+#include "fnv/decl/FormNode.h"
+#include "fnv/decl/Holder_009f7fe0.h"
+#include "fnv/decl/HostActor.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/Owner0092cec0.h"
+#include "fnv/decl/Owner8ffe50.h"
+#include "fnv/decl/Package8020.h"
+#include "fnv/decl/PathingRequest.h"
+#include "fnv/decl/Ref.h"
+#include "fnv/decl/RefS.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/ST_008c8bb0.h"
+#include "fnv/decl/S_FUN_0045bc00.h"
+#include "fnv/decl/Self.h"
+#include "fnv/decl/TESCombatStyle.h"
+#include "fnv/decl/TESNPC_Sub.h"
+#include "fnv/decl/Target.h"
+#include "fnv/decl/TeleportableReference.h"
+#include "fnv/decl/Thing.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/UpdateOwner.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_0041cc90__ExtraDataListStandIn.h"
+#include "fnv/decl/fnv_00496940__FUN_00496940_shell.h"
+#include "fnv/decl/fnv_004985f0__FUN_004985f0_s.h"
+#include "fnv/decl/fnv_00498f80__FUN_00498f80_cls.h"
+#include "fnv/decl/fnv_00564db0__FUN_00564db0_cls.h"
+#include "fnv/decl/fnv_00567490__ScaleReference.h"
+#include "fnv/decl/fnv_005710c0__ModelRef.h"
+#include "fnv/decl/fnv_00572380__Fn572380.h"
+#include "fnv/decl/fnv_006e29f0__FUN_006e29f0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_0084a810__FUN_0084a810_shell.h"
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/decl/fnv_00881680__FUN_00881680_shell.h"
+#include "fnv/decl/fnv_0089f580__ActorStub.h"
+#include "fnv/decl/fnv_008a5e80__FakeActor.h"
+#include "fnv/decl/fnv_008a7870__FUN_008a7870_shell.h"
+#include "fnv/decl/fnv_008a78f0__FUN_008a78f0_shell.h"
+#include "fnv/decl/fnv_008ac6f0__ActorS_008ac6f0.h"
+#include "fnv/decl/fnv_008acbe0__FUN_008acbe0_shell.h"
+#include "fnv/decl/fnv_008b8e90__FUN_008b8e90_shell.h"
+#include "fnv/decl/fnv_008bcc80__FUN_008bcc80_shell.h"
+#include "fnv/decl/fnv_008bffc0__FUN_008bffc0_shell.h"
+#include "fnv/decl/fnv_008ffd10__FUN_008ffdc0_Class.h"
+#include "fnv/decl/fnv_00903de0__FUN_00903de0_shell.h"
+#include "fnv/decl/fnv_00903e00__FUN_00903e00_shell.h"
+#include "fnv/decl/fnv_00903e20__FUN_00903e20_shell.h"
+#include "fnv/decl/fnv_00904160__FUN_00904160_shell.h"
+#include "fnv/decl/fnv_009278d0__Target.h"
+#include "fnv/decl/fnv_009334b0__FUN_009334b0_shell.h"
+#include "fnv/decl/fnv_00968670__FUN_00968670_shell.h"
+#include "fnv/decl/fnv_00972570__FUN_00972570_shell.h"
+#include "fnv/decl/fnv_00992480__CombatOwner_SV.h"
+#include "fnv/decl/fnv_009f8300__FUN_009f8300_class.h"
+#include "fnv/decl/fnv_00ad88f0__FUN_00ad88f0_h.h"
+#include "fnv/decl/xActor_2.h"
+#include "fnv/decl/xProcess.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_00435000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_0047e000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_004b6000.h"
+#include "fnv/symbols_00537000.h"
+#include "fnv/symbols_00546000.h"
+#include "fnv/symbols_00579000.h"
+#include "fnv/symbols_005a4000.h"
+#include "fnv/symbols_005b9000.h"
+#include "fnv/symbols_005cc000.h"
+#include "fnv/symbols_005d9000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_00642000.h"
+#include "fnv/symbols_00669000.h"
+#include "fnv/symbols_008d7000.h"
+#include "fnv/symbols_00903000.h"
+#include "fnv/symbols_00a6e000.h"
+#include "fnv/symbols_00b5b000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0101a000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_01022000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_011a3000.h"
+#include "fnv/symbols_011c5000.h"
+#include "fnv/symbols_011cb000.h"
+#include "fnv/symbols_011cd000.h"
+#include "fnv/symbols_011cf000.h"
+#include "fnv/symbols_011d0000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f1000.h"
+#include "fnv/symbols_011f2000.h"
+#include "fnv/symbols_011f6000.h"
 #include "highprocess_decls_rtti_variant.h"
 
 namespace PackagePathing {
@@ -16,26 +223,13 @@ struct Vec
 };
 struct Cell
 {
-    bool FUN_00425fd0();
 };
 struct Setting
 {
-    float* FUN_00403e20();
 };
 struct Package
 {
     virtual void PackageTypeAnchor();
-    int FUN_0041ca90();
-    void FUN_009f8660(List*);
-    bool FUN_009f7fe0();
-    Vec FUN_009f8300();
-    void FUN_009f8020(Actor*);
-    void FUN_009f7f20(Actor*, int);
-    void FUN_009f7d70(Actor*, int);
-    unsigned int FUN_004fb070();
-    void SetWaterForm(unsigned int);
-    float FUN_00507e10();
-    int FUN_009f8570();
     void FUN_009f1310(void*);
 };
 struct List
@@ -43,8 +237,6 @@ struct List
     unsigned int unk0, unk4, unk8, unkc;
     List();
     ~List();
-    int FUN_0044ddc0();
-    void** FUN_006a7ad0(int);
 };
 struct Values
 {
@@ -54,7 +246,6 @@ struct Values
 };
 struct Process
 {
-    bool GetPathCoordinate(Vec*);
 };
 struct Race
 {
@@ -161,12 +352,6 @@ struct Request
     unsigned int unkdc;
     Request();
     ~Request();
-    void InitFromActor(Actor*);
-    void SetCantOpenDoors(bool);
-    void SetPathingLocation(const Location&);
-    void FUN_008dbd80(float);
-    void FUN_006d3b00(float);
-    void FUN_006d61e0(int);
 };
 struct Actor
 {
@@ -531,116 +716,99 @@ struct Actor
     unsigned int unk188;
     unsigned int unk18c;
     Process* process;
-    void FUN_00881680(int);
-    ::TESPackage* FUN_009344a0();
-    float FUN_00572380(const Vec&);
-    Cell* FUN_008d6f30();
-    bool FUN_008b3bb0();
-    Base* FUN_004181e0();
     bool FUN_008bb630(Request*);
-    bool FUN_00894d60();
-    void FUN_00894cc0(int);
-    void FUN_008b39f0(int);
-    bool FUN_008b3b90();
     void FUN_008db810(Actor*);
 };
 struct System
 {
-    bool FUN_008d0300(Actor*, int);
 };
-extern System* DAT_011f1958;
-extern Setting DAT_011cd814, DAT_011cddb8, DAT_011cd990, DAT_011cdfe4;
 struct Timer
 {
-    unsigned int FUN_00825c00();
 };
-extern Timer DAT_011f6394;
-extern float DAT_01012054, DAT_0101e6ec;
-extern double DAT_0102e430, DAT_010240c0;
 
 // @fnv 0x008db810
 void Actor::FUN_008db810(Actor* actor)
 {
     Package* current = Current();
     Package* package = 0;
-    if (current && current->FUN_0041ca90() == 24)
+    if (current && reinterpret_cast<struct ::FUN_0041ca90 *>((current))->get() == 24)
         package = current;
     if (!package)
         return;
-    if (DAT_011f1958->FUN_008d0300(actor, 0) || actor->values.Value(1) <= 0)
+    if (reinterpret_cast<::FUN_008d0300_shell *>(((*reinterpret_cast<::PackagePathing::System * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_008d0300((::Actor *)(actor), (::Actor *)(0)) || actor->values.Value(1) <= 0)
     {
         List targetsSlot0;
-        package->FUN_009f8660(&targetsSlot0);
-        int count = targetsSlot0.FUN_0044ddc0();
+        reinterpret_cast<::FUN_009f8660_class *>((package))->FUN_009f8660((*(::BSSimpleArrayActor *)(&targetsSlot0)));
+        int count = ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(targetsSlot0))->GetName()));
         if (count > 0)
         {
-            actor->FUN_00881680(0);
-            actor->Start(*targetsSlot0.FUN_006a7ad0(0), 1, 1, 1, 0, 0, DAT_01012054, DAT_01012054);
-            ::FleePackage* following = dynamic_cast< ::FleePackage*>(actor->FUN_009344a0());
+            reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>((actor))->FUN_00881680(0);
+            actor->Start(*((void **)(reinterpret_cast<::S3e60 *>(&(targetsSlot0))->FUN_006a7ad0(0))), 1, 1, 1, 0, 0, ::DAT_01012054, ::DAT_01012054);
+            ::FleePackage* following = dynamic_cast< ::FleePackage*>(reinterpret_cast<::FUN_009344a0_shell *>((actor))->FUN_009344a0());
             if (following)
             {
                 for (int index = 0; index < count; index++)
-                    following->AddAvoidedReference(static_cast< ::Actor*>(*targetsSlot0.FUN_006a7ad0(index)));
+                    following->FUN_009f1310((::TESObjectREFR *)(::Actor *)(static_cast< ::Actor*>(*((void **)(reinterpret_cast<::S3e60 *>(&(targetsSlot0))->FUN_006a7ad0(index))))));
             }
             return;
         }
     }
-    if (package->FUN_009f7fe0())
+    if (reinterpret_cast<::Holder_009f7fe0 *>((package))->FUN_009f7fe0())
     {
-        actor->FUN_00881680(0);
+        reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>((actor))->FUN_00881680(0);
         return;
     }
     float nearDistanceSlot10 = 0.0f;
     float farDistanceSlot35 = 0.0f;
     Vec unusedSlot11;
     int flagsSlot15 = 513;
-    Vec pointSlot13 = package->FUN_009f8300();
-    float distanceSlot14 = actor->FUN_00572380(pointSlot13);
-    Cell* cell = actor->FUN_008d6f30();
+    Vec pointSlot13 = (*(::PackagePathing::Vec *)&(reinterpret_cast<::fnv_009f8300::FUN_009f8300_class *>((package))->FUN_009f8300(*(::fnv_009f8300::NiPoint3 *)nullptr)));
+    float distanceSlot14 = reinterpret_cast<::fnv_00572380::Fn572380 *>((actor))->FUN_00572380((::fnv_00572380::NiP3Sub *)&(pointSlot13));
+    Cell* cell = ((::PackagePathing::Cell *)(reinterpret_cast<::LowProcess *>((actor))->GetTarget()));
     bool nearSlot19 = false;
-    if (cell && cell->FUN_00425fd0())
+    if (cell && reinterpret_cast<::TESObjectCELL *>((cell))->IsCellInterior())
     {
-        nearDistanceSlot10 = *DAT_011cd814.FUN_00403e20();
-        farDistanceSlot35 = *DAT_011cddb8.FUN_00403e20();
+        nearDistanceSlot10 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PackagePathing::Setting *>(&::originalRuntimeFloatSetting189))))));
+        farDistanceSlot35 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PackagePathing::Setting *>(&::originalRuntimeFloatSetting188))))));
         if (distanceSlot14 < nearDistanceSlot10)
             nearSlot19 = true;
     }
     else
     {
-        nearDistanceSlot10 = *DAT_011cd990.FUN_00403e20();
-        farDistanceSlot35 = *DAT_011cdfe4.FUN_00403e20();
+        nearDistanceSlot10 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PackagePathing::Setting *>(&::originalRuntimeFloatSetting187))))));
+        farDistanceSlot35 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PackagePathing::Setting *>(&::originalRuntimeFloatSetting186))))));
         if (distanceSlot14 < farDistanceSlot35)
             nearSlot19 = true;
     }
-    package->FUN_009f8020(actor);
-    if (actor->FUN_008b3bb0())
+    reinterpret_cast<::Package8020 *>((package))->FUN_009f8020((::Actor8020 *)(actor));
+    if (((bool)(reinterpret_cast<::TeleportableReference *>((actor))->GetTeleportDestinationForm())))
     {
-        package->FUN_009f7f20(actor, 1);
-        package->FUN_009f7d70(actor, 1);
-        unsigned int time = DAT_011f6394.FUN_00825c00();
-        if (time > package->FUN_004fb070() + 1500)
+        reinterpret_cast<::FUN_009f7f20_class *>((package))->FUN_009f7f20((::MobileObject *)(actor), 1);
+        reinterpret_cast<::FUN_009f7d70_cls *>((package))->FUN_009f7d70((::Actor9f7d *)(actor), 1);
+        unsigned int time = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::PackagePathing::Timer *>(&::g_timeGlobal))))->FUN_00825c00();
+        if (time > ((unsigned int)(reinterpret_cast<::EffectSetting *>((package))->GetCastSound())) + 1500)
         {
-            package->SetWaterForm(time);
+            reinterpret_cast<::FUN_008ac890_shell *>((package))->SetWaterForm((::TESWaterForm *)(time));
             Vec oldSlot17Slot17 = actor->Position();
             Request requestSlot13;
-            requestSlot13.InitFromActor(actor);
+            reinterpret_cast<::fnv_006e29f0::FUN_006e29f0_shell *>(&(requestSlot13))->InitFromActor((::Actor *)(actor));
             if (actor->HasRace())
-                requestSlot13.SetCantOpenDoors(actor->FUN_004181e0()->race.Flag());
-            requestSlot13.SetPathingLocation(Location(package->FUN_009f8300(), actor));
-            requestSlot13.FUN_008dbd80(package->FUN_00507e10() + DAT_0102e430);
-            requestSlot13.FUN_006d3b00(DAT_0101e6ec);
-            int mode = package->FUN_009f8570();
-            requestSlot13.FUN_006d61e0(mode);
+                reinterpret_cast<::FUN_006e2b50_shell *>(&(requestSlot13))->SetCantOpenDoors(((::PackagePathing::Base *)(reinterpret_cast<::Actor *>((actor))->GetActorBase()))->race.Flag());
+            reinterpret_cast<::FUN_008dbda0Class *>(&(requestSlot13))->SetPathingLocation((const ::PathingLocation &)((const ::PackagePathing::Location &)(Location((*(::PackagePathing::Vec *)&(reinterpret_cast<::fnv_009f8300::FUN_009f8300_class *>((package))->FUN_009f8300(*(::fnv_009f8300::NiPoint3 *)nullptr))), actor))));
+            reinterpret_cast<::FUN_008dbd80_class *>(&(requestSlot13))->FUN_008dbd80(reinterpret_cast<::FUN_00507e10_shell *>((package))->FUN_00507e10() + ::DAT_0102e430);
+            reinterpret_cast<::PathingRequest *>(&(requestSlot13))->SetCenterRadius(::DAT_0101e6ec);
+            int mode = ((int)(reinterpret_cast<::FUN_009f8570_class *>((package))->FUN_009f8570()));
+            reinterpret_cast<::PathingRequest *>(&(requestSlot13))->SetAvoidNodeArray((::BSSimpleArray<void *, 1024> *)(mode));
             if (!actor->FUN_008bb630(&requestSlot13))
                 return;
-            if (actor->FUN_00894d60())
-                actor->FUN_00894cc0(0);
-            actor->FUN_008b39f0(512);
+            if (reinterpret_cast<::FUN_00894d60_shell *>((actor))->FUN_00894d60())
+                reinterpret_cast<::FUN_00894cc0_shell *>((actor))->FUN_00894cc0(0);
+            reinterpret_cast<::FUN_008b39f0_shell *>((actor))->FUN_008b39f0(512);
             Vec targetSlot6Slot10;
-            if (actor->process->GetPathCoordinate(&targetSlot6Slot10))
+            if (reinterpret_cast<::FUN_009de2b0_shell *>((actor->process))->GetPathCoordinate((::NiPoint3 *)(::PackagePathing::Vec *)(&targetSlot6Slot10)))
             {
-                float targetDistanceSlot1 = actor->FUN_00572380(targetSlot6Slot10);
-                if (targetDistanceSlot1 <= DAT_010240c0)
+                float targetDistanceSlot1 = reinterpret_cast<::fnv_00572380::Fn572380 *>((actor))->FUN_00572380((::fnv_00572380::NiP3Sub *)&(targetSlot6Slot10));
+                if (targetDistanceSlot1 <= ::DAT_010240c0)
                     flagsSlot15 = 257;
                 SetPath(actor, flagsSlot15, 1);
             }
@@ -648,10 +816,10 @@ void Actor::FUN_008db810(Actor* actor)
     }
     else if (actor->Alternate())
     {
-        package->FUN_009f7f20(actor, 1);
-        package->FUN_009f7d70(actor, 1);
+        reinterpret_cast<::FUN_009f7f20_class *>((package))->FUN_009f7f20((::MobileObject *)(actor), 1);
+        reinterpret_cast<::FUN_009f7d70_cls *>((package))->FUN_009f7d70((::Actor9f7d *)(actor), 1);
     }
-    if (actor->FUN_008b3b90())
+    if (reinterpret_cast<::FUN_008b3b90_shell *>((actor))->FUN_008b3b90())
         return;
     if (distanceSlot14 > farDistanceSlot35 * 2.0f)
     {

@@ -5,6 +5,9 @@
 
 // src/speedtree/fileaccess.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/fileaccess.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/S_00aadeb0_Class.h"
+#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
+#include "fnv/symbols_01017000.h"
 struct FUN_00b3ede0_shell
 {
     void* p;
@@ -23,7 +26,6 @@ struct FUN_00b3ef80_shell
 {
     int m_iValueAt00;
     void* m_pObjectAt04;
-    float FUN_00b3ed20();
     Vector3D GetVector3();
 };
 struct FUN_00b3ed20_range
@@ -85,7 +87,6 @@ struct Alloc_00b3ee40
     Alloc_00b3ee40()
     {}
 };
-extern unsigned int DAT_010173f0;
 struct Str_00b3ee40
 {
     int f00;
@@ -102,26 +103,24 @@ struct Str_00b3ee40
         Alloc_00b3ee40 c;
         Alloc_00b3ee40* pal = &c;
         int j, o, e, t, f7;
-        FUN_0044a730(false, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
     }
     Str_00b3ee40(const Str_00b3ee40& rhs)
     {
         int k0, k1, k2, k3, k4, k5, k6, k7, k8, k9, k10, k11, k12, k13, k14, k15, k16;
-        FUN_0044a730(false, 0);
-        AssignSubstring(rhs, 0, DAT_010173f0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
+        AssignSubstring(rhs, 0, ::g_010173f0);
     }
     ~Str_00b3ee40()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
-    void FUN_0044a730(bool, unsigned int);
     Str_00b3ee40& AssignSubstring(const Str_00b3ee40&, unsigned int, unsigned int);
-    Str_00b3ee40& AppendChars(unsigned int, char);
     Str_00b3ee40& operator+=(char ch)
     {
         int k;
         char c;
-        return AppendChars(1, ch);
+        return (*(::Str_00b3ee40 *)(reinterpret_cast<::S_00aadeb0_Class *>(this)->AppendChars(1, ch)));
     }
 };
 struct Buf_00b3ee40
@@ -146,14 +145,13 @@ struct Reader_00b3ee40
 {
     unsigned int pos;
     Buf_00b3ee40 buf;
-    int GetNextElement();
     Str_00b3ee40 FUN_00b3ee40();
 };
 // @fnv 0x00b3ee40
 Str_00b3ee40 Reader_00b3ee40::FUN_00b3ee40()
 {
     Str_00b3ee40 s;
-    int count4 = GetNextElement();
+    int count4 = ((int)(reinterpret_cast<::S_00b3ed80 *>(this)->GetNextElement()));
     for (int i3 = 0; i3 < count4; i3++)
     {
         s += buf.at(pos++);

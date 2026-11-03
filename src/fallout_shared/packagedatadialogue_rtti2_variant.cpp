@@ -3,8 +3,40 @@
 // their real unit once its classes are.
 
 
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00619df0_shell.h"
+#include "fnv/decl/FUN_0067ad20_Class.h"
+#include "fnv/decl/FUN_0067fb60_shell.h"
+#include "fnv/decl/FUN_0067fbe0_cls.h"
+#include "fnv/decl/FUN_0067fc50_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TESRegion.h"
+#include "fnv/decl/TopicMethods.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_0067f600__FUN_0067f600_shell.h"
+#include "fnv/decl/fnv_0067f6c0__FUN_0067f6c0_shell.h"
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00865df0__FUN_00865df0_holder.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_0061b000.h"
+#include "fnv/symbols_01068000.h"
 #include "packagedatadialogue_decls_rtti2_packagedatadialogue.h"
-void __cdecl Deallocate(void*);
 namespace p07 {
 struct DtorStandIn
 {
@@ -20,7 +52,7 @@ void* DelStandIn::FUN_0067b1e0(unsigned int flags)
 {
     ((DtorStandIn*)this)->FUN_0083dec0();
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 }
@@ -42,7 +74,6 @@ struct FUN_0067b280_cls : FUN_0067ad70_cls
 class BGSLoadFormBuffer;
 struct FUN_0067fc50_impl
 {
-    void ResolveObject(BGSLoadFormBuffer*);
 };
 struct FUN_0067b920_host
 {
@@ -54,7 +85,6 @@ struct FUN_0067b920_host
 };
 struct LocationDescriptor
 {
-    void Save(int);
 };
 struct FUN_0067b100_Class
 {
@@ -69,9 +99,6 @@ struct FUN_0067b100_Class
     void FUN_0067b100();
 };
 typedef FUN_0067b100_Class FunctionObject;
-void* memset(void*, int, unsigned int);
-bool _FUN_00401500();
-void _FUN_00485990(int, void*, unsigned int);
 struct FUN_0067b630_cls
 {
     unsigned int pad0;
@@ -88,15 +115,12 @@ struct FUN_0067b630_cls
 };
 struct FUNObj
 {
-    void FUN_0067fb60(void*);
 };
 struct SaveFormIDHelper
 {
-    void SerializeFormData(void*, int);
 };
 struct BGSSaveFormBuffer : SaveFormIDHelper
 {
-    void SaveData(void*, int, int);
 };
 struct TESPackageData
 {
@@ -122,7 +146,6 @@ struct PairOfBytes
     unsigned char first;
     unsigned char second;
 };
-extern void* UNK_010688ac;
 struct ConstructorHost
 {
     void* vtable;
@@ -135,7 +158,6 @@ struct ConstructorHost
     unsigned char value18;
     unsigned int value1C;
 
-    void FUN_0067ad20();
     ConstructorHost* Construct(float initial, unsigned int object, PairOfBytes flags, float scale,
                                unsigned char enabled, unsigned int reference);
 };
@@ -144,16 +166,12 @@ class TESForm;
 class BGSLoadFormBuffer
 {
   public:
-    unsigned int ReadFormIdentifier();
-    void ReadTypedData(void* data, unsigned int size);
 };
-TESForm* __cdecl _GetFormByNumericID(unsigned int formID);
 struct TESEatPackageData_
 {
     int field0;
     int field4;
 
-    void FUN_0067fbe0(BGSLoadFormBuffer* buffer);
 };
 struct B0067f030 : TESEatPackageData_
 {
@@ -179,7 +197,6 @@ struct FUN_0067b7d0_shell
 
 struct DialogueTargetComparison : LocationDescriptor
 {
-    bool IsDifferentFrom(DialogueTargetComparison*);
 };
 
 struct DialoguePackageComparison : TESDialoguePackageData
@@ -217,7 +234,7 @@ bool DialoguePackageComparison::FUN_0067b470(void* object)
 
     if (m_pTargetLocation != 0)
     {
-        if (m_pTargetLocation->IsDifferentFrom(other->m_pTargetLocation))
+        if (reinterpret_cast<::fnv_0067f600::FUN_0067f600_shell *>((m_pTargetLocation))->IsDifferentFrom((::LocationDescriptor *)(other->m_pTargetLocation)))
             return true;
     }
     else if (other->m_pTargetLocation != 0)

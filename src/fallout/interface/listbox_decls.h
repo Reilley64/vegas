@@ -2,11 +2,11 @@
 #ifndef FNV_LISTBOX_DECLS_H
 #define FNV_LISTBOX_DECLS_H
 
+#include "fnv/decl/ListOwner.h"
 class Tile;
 class ListBox_int_
 {
   public:
-    bool ContainsKey(Tile* tile);
 };
 class SoundPlaybackHandle
 {

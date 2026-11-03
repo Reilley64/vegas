@@ -3,6 +3,10 @@
 #define FNV_LIPSYNCHANIM_DECLS_H
 
 
+#include "fnv/decl/FUN_00462d80_shell.h"
+#include "fnv/decl/FUN_004d5080_Class.h"
+#include "fnv/decl/FUN_004d5a90_Class.h"
+#include "fnv/symbols_0040e000.h"
 #include "layout_support.h"
 
 enum BS_FACEGEN_MORPH_TYPE
@@ -89,8 +93,6 @@ class LipSyncAnimation
 
     bool ApplyToAnimationData(BSFaceGenAnimationData* animation, float endDelay);
     void* DeleteThis(unsigned int flags);
-    void FUN_004d5080();
-    float GetNegativeMagnitude(bool, bool, bool, bool, bool);
 };
 
 FNV_STATIC_ASSERT(sizeof(LipSyncAnimation) == 16);
@@ -99,12 +101,10 @@ FNV_STATIC_ASSERT(offsetof(LipSyncAnimation, m_ppModifierFrames) == 12);
 
 extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 void __cdecl operator delete(void*);
-float __cdecl FUN_0040ebd0(float, float);
 
 class NiBinaryStream
 {
   public:
-    unsigned int Read(void*, unsigned int);
 };
 extern "C" void* __cdecl memset(void*, int, unsigned int);
 bool __cdecl FUN_004d5880(NiBinaryStream*, char*, unsigned int);

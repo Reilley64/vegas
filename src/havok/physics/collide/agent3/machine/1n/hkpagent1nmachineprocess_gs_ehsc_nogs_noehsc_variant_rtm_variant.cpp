@@ -7,6 +7,18 @@
 // to their real unit once identified.
 // src/havok/physics/collide/agent3/machine/1n/hkpagent1nmachineprocess.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/machine/1n/hkpagent1nmachineprocess.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_00cb21e0_shell.h"
+#include "fnv/decl/FUN_00d2eb50_cls.h"
+#include "fnv/decl/hkTransformCB22.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cf1000.h"
+#include "fnv/symbols_00cfe000.h"
+#include "fnv/symbols_00d2c000.h"
+#include "fnv/symbols_00da3000.h"
+#include "fnv/symbols_00da4000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 struct Pair
 {
     int a;
@@ -31,7 +43,6 @@ void S00da4a50_Wrap(Updater* self, int flag, Pair* dest, Pair* src, Updater* oth
 #include <xmmintrin.h>
 struct S00da4920_Sub
 {
-    void FUN_00cb21e0(void* arg);
 };
 struct S00da4920_Blob
 {
@@ -65,7 +76,6 @@ struct S00da4920_Blob
     unsigned int unk6C;
     __m128 m_v70;
 };
-extern char DAT_010c4c00;
 static void FUN_00da4920(S00da4920_Blob* src, S00da4920_Blob* dst);
 void S00da4920_entry(S00da4920_Blob* src, S00da4920_Blob* dst);
 
@@ -217,7 +227,6 @@ class hkMemoryAllocator
     };
 };
 namespace MemoryUtilities {
-void __cdecl CopyByteRange(void* dst, const void* src, int Y6);
 }
 struct StringPointerTriple
 {
@@ -391,7 +400,7 @@ template <typename T> __forceinline void HavokElementArray<T>::GrowArrayCapacity
     {
         int cap2 = 2 * capacity;
         int newSize = (n < cap2) ? cap2 : n;
-        HavokArrayUtilities::GrowArrayCapacity(alloc, this, newSize, sizeof(T));
+        ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
     }
 }
 template <typename T> __forceinline void HavokElementArray<T>::_setSize(hkMemoryAllocator& alloc, int n)
@@ -407,7 +416,7 @@ template <typename T> __forceinline T* HavokElementArray<T>::_expandAt(hkMemoryA
     {
         GrowArrayCapacity(alloc, newsize);
     }
-    MemoryUtilities::CopyByteRange(m_data + index + numtoinsert, m_data + index, numtomove * sizeof(T));
+    ::FUN_00d2cc70(m_data + index + numtoinsert, (void *)(m_data + index), numtomove * sizeof(T));
     m_iElementCount = newsize;
     return m_data + index;
 }
@@ -558,7 +567,6 @@ class hkTransform
     __forceinline hkTransform()
     {}
     void SetConjugate(const hkTransform& t);
-    void SetMulInverse(const hkTransform& bTa, const hkTransform& bTc);
 
   private:
     hkRotation m_rotation;
@@ -701,8 +709,7 @@ class StringCursor
     }
     static StringCursor& GetMonitorStream()
     {
-        extern hkThreadLocalData<StringCursor*> g_pMonitorStream;
-        return *g_pMonitorStream.getData();
+        return *(*reinterpret_cast<::hkThreadLocalData< ::StringCursor *> *>(&::DAT_0126835c)).getData();
     }
 
   public:
@@ -1713,7 +1720,7 @@ void CollisionContactResults::CollisionCacheState::flip()
 {
     hkVector4& norm = m_vContactPoint.getSeparatingNormal();
     norm.setNeg3(norm);
-    m_kGskCache.flip();
+    reinterpret_cast<::FUN_00d2eb50_cls *>(&(m_kGskCache))->SwapFields();
 }
 struct WorldOperationEntry : public CollisionContactResults
 {
@@ -1807,10 +1814,9 @@ struct WorldOperationEntry : public CollisionContactResults
   public:
     ValueWrapper<ContactPointBuffer*> m_akContactRecords;
 };
-extern hkMemoryAllocator::MemoryState g_eOutOfMemoryState;
 __forceinline hkMemoryAllocator::MemoryState hkGetOutOfMemoryState()
 {
-    return g_eOutOfMemoryState;
+    return (*reinterpret_cast<::hkMemoryAllocator::MemoryState *>(&::DAT_01269200));
 }
 __forceinline bool hkMemoryStateIsOutOfMemory(int id)
 {
@@ -1863,10 +1869,6 @@ extern "C"
         HKP_AGENT_MACHINE_MODE_1N = 1,
         HKP_AGENT_MACHINE_MODE_NM = 2
     };
-    void __cdecl BuildShapeCollectionBWorldOperations(AgentSectorPointerArray& agentTrack,
-                                                      const AgentSubtypeMarker& input,
-                                                      const hkpShapeContainer* shapeContainterB,
-                                                      const hkpShapeKey* hitList, WorldOperationEntry& output);
     void __cdecl UpdateAgentTrackShapeFilter(AgentSectorPointerArray& agentTrack, EmptyMarker& vin);
     void __cdecl hkAgentNmMachine_UpdateShapeCollectionFilter(AgentSectorPointerArray& agentTrack, EmptyMarker& vin);
     void __cdecl VisitTrackedAgents(AgentSectorPointerArray& agentTrack, EmptyMarker& vin, hkpContactMgr* mgr,
@@ -1944,9 +1946,6 @@ __forceinline Y3* __cdecl getAgentDataEnd(Y3* agentData)
 }
 extern "C"
 {
-    const hkpCdBody* __cdecl GetTransformedCdBody(const hkpCdBody* cdBody, hkpCdBody* newCdBodies,
-                                                  class hkMotionState* newMotionStates, int numSlots,
-                                                  ValueWrapper<hkUchar>& cdBodyHasTransformFlag);
 }
 class hkpCollidableCollidableFilter
 {
@@ -2021,16 +2020,16 @@ __declspec(noinline) static void CreateAgentInputWithTemporaryBodies(AgentProces
                                                                      AgentProcessingBodyTemp& bodyTemp,
                                                                      AgentProcessingInput& out)
 {
-    MotionUtilities::ComputeTransformAtTime(in.m_pBodyA->GetMotionState()->getSweptTransform(),
-                           in.m_pRayCastInput->m_pStepInfo.m_uiStartTime, bodyTemp.m_kTransformA);
-    MotionUtilities::ComputeTransformAtTime(in.m_pBodyB->GetMotionState()->getSweptTransform(),
-                           in.m_pRayCastInput->m_pStepInfo.m_uiStartTime, bodyTemp.m_kTransformB);
+    ::FUN_00cf1510((const ::hkSweptTransformL &)(in.m_pBodyA->GetMotionState()->getSweptTransform()),
+                           in.m_pRayCastInput->m_pStepInfo.m_uiStartTime, (::hkTransformL &)(bodyTemp.m_kTransformA));
+    ::FUN_00cf1510((const ::hkSweptTransformL &)(in.m_pBodyB->GetMotionState()->getSweptTransform()),
+                           in.m_pRayCastInput->m_pStepInfo.m_uiStartTime, (::hkTransformL &)(bodyTemp.m_kTransformB));
     out.m_pBodyA = &bodyTemp.m_pBodyA;
 }
 __declspec(noinline) static void InvertAgentSubtypeMarker(AgentSubtypeMarker& in, AgentSubtypeMarker& out)
 {
     out.m_vSubtypePosition.setNeg3(in.m_vSubtypePosition);
-    out.m_kTransform.SetConjugate(in.m_kTransform);
+    reinterpret_cast<::FUN_00cb21e0_shell *>(&(out.m_kTransform))->FUN_00cb21e0((const ::Matrix44 *)&(in.m_kTransform));
 }
 class WrappedShapeKeys
 {
@@ -2165,9 +2164,9 @@ void __cdecl FUN_00da5b80(AgentSectorPointerArray& agentTrack, const AgentSubtyp
             }
             else
             {
-                if (input.m_pRayCastInput->m_iFilter->IsCollisionEnabled(
+                if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(input.m_pRayCastInput->m_iFilter->IsCollisionEnabled(
                         *input.m_pRayCastInput, *inputIn.m_pBodyA, *inputIn.m_pBodyB, *shapeContainerA,
-                        *shapeContainerB, shapeKeyPair.m_uiShapeKeyA, shapeKeyPair.m_uiShapeKeyB))
+                        *shapeContainerB, shapeKeyPair.m_uiShapeKeyA, shapeKeyPair.m_uiShapeKeyB)))->FUN_005609f0())
                 {
                     if (hkMemoryStateIsOutOfMemory(18))
                     {
@@ -2179,16 +2178,16 @@ void __cdecl FUN_00da5b80(AgentSectorPointerArray& agentTrack, const AgentSubtyp
                     const hkpShape* shapeB = (*modifiedBodyBPtr)->m_pCollisionShape;
                     const hkpShape* shapeA = (*modifiedBodyAPtr)->m_pCollisionShape;
                     ValueWrapper<hkUchar> cdBodyHasTransformFlag = 0;
-                    *modifiedBodyBPtr = GetTransformedCdBody(*modifiedBodyBPtr, cdBodyForTransformedShapeB,
-                                                             transformForTransformedShapeB,
-                                                             numSlotsForTransformedCdBodies, cdBodyHasTransformFlag);
+                    *modifiedBodyBPtr = ((const ::hkpCdBody *)(::FUN_00cfe1d0((::Entry *)(*modifiedBodyBPtr), (::Entry *)(cdBodyForTransformedShapeB),
+                                                             (::Vector *)(transformForTransformedShapeB),
+                                                             numSlotsForTransformedCdBodies, (unsigned char *)&(cdBodyHasTransformFlag))));
                     shapeB = (*modifiedBodyBPtr)->m_pCollisionShape;
-                    *modifiedBodyAPtr = GetTransformedCdBody(*modifiedBodyAPtr, cdBodyForTransformedShapeA,
-                                                             transformForTransformedShapeA,
-                                                             numSlotsForTransformedCdBodies, cdBodyHasTransformFlag);
+                    *modifiedBodyAPtr = ((const ::hkpCdBody *)(::FUN_00cfe1d0((::Entry *)(*modifiedBodyAPtr), (::Entry *)(cdBodyForTransformedShapeA),
+                                                             (::Vector *)(transformForTransformedShapeA),
+                                                             numSlotsForTransformedCdBodies, (unsigned char *)&(cdBodyHasTransformFlag))));
                     shapeA = (*modifiedBodyAPtr)->m_pCollisionShape;
-                    input.m_kTransform.SetMulInverse((*modifiedBodyAPtr)->getTransform(),
-                                                     (*modifiedBodyBPtr)->getTransform());
+                    reinterpret_cast<::hkTransformCB22 *>(&(input.m_kTransform))->FUN_00cb22f0((const ::hkTransformCB22 &)((*modifiedBodyAPtr)->getTransform()),
+                                                     (const ::hkTransformCB22 &)((*modifiedBodyBPtr)->getTransform()));
                     ShapeKeyAgentEntry* h = reinterpret_cast<ShapeKeyAgentEntry*>(currentData);
                     shapeKeyPair.writeTo(h->m_kShapeKeyPair);
                     h->m_ucNnTrackType = hkUchar(dispatcher->getAgent3Type(
@@ -2254,13 +2253,13 @@ void __cdecl FUN_00da5b80(AgentSectorPointerArray& agentTrack, const AgentSubtyp
                                    shapeBufferB, childBodyA, childBodyB);
                 ValueWrapper<hkUchar> dummyCdBodyHasTransformFlag = 0;
                 *modifiedBodyBPtr =
-                    GetTransformedCdBody(*modifiedBodyBPtr, cdBodyForTransformedShapeB, transformForTransformedShapeB,
-                                         numSlotsForTransformedCdBodies, dummyCdBodyHasTransformFlag);
+                    ((const ::hkpCdBody *)(::FUN_00cfe1d0((::Entry *)(*modifiedBodyBPtr), (::Entry *)(cdBodyForTransformedShapeB), (::Vector *)(transformForTransformedShapeB),
+                                         numSlotsForTransformedCdBodies, (unsigned char *)&(dummyCdBodyHasTransformFlag))));
                 *modifiedBodyAPtr =
-                    GetTransformedCdBody(*modifiedBodyAPtr, cdBodyForTransformedShapeA, transformForTransformedShapeA,
-                                         numSlotsForTransformedCdBodies, dummyCdBodyHasTransformFlag);
-                input.m_kTransform.SetMulInverse((*modifiedBodyAPtr)->getTransform(),
-                                                 (*modifiedBodyBPtr)->getTransform());
+                    ((const ::hkpCdBody *)(::FUN_00cfe1d0((::Entry *)(*modifiedBodyAPtr), (::Entry *)(cdBodyForTransformedShapeA), (::Vector *)(transformForTransformedShapeA),
+                                         numSlotsForTransformedCdBodies, (unsigned char *)&(dummyCdBodyHasTransformFlag))));
+                reinterpret_cast<::hkTransformCB22 *>(&(input.m_kTransform))->FUN_00cb22f0((const ::hkTransformCB22 &)((*modifiedBodyAPtr)->getTransform()),
+                                                 (const ::hkTransformCB22 &)((*modifiedBodyBPtr)->getTransform()));
                 command = hkAgent3::StreamCommand(hkUchar(command) & hkUchar(~hkAgent3::TRANSFORM_FLAG));
                 thisChildHasTransformApplied = true;
                 prevFlippedInputInitialized = false;
@@ -2565,7 +2564,7 @@ void __cdecl FUN_00da5b80(AgentSectorPointerArray& agentTrack, const AgentSubtyp
     ;
     {
         StringCursor& mStream = StringCursor::GetMonitorStream();
-        if (mStream.memoryAvailable())
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0())
         {
             StringCursor::CommandFilterEntry* h =
                 reinterpret_cast<StringCursor::CommandFilterEntry*>(mStream.GetStreamEnd());
@@ -2579,6 +2578,7 @@ void __cdecl FUN_00da5b80(AgentSectorPointerArray& agentTrack, const AgentSubtyp
 }
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 namespace fnv_00da4aa0 {
 typedef float hkReal;
 typedef unsigned char Q42;
@@ -2728,7 +2728,6 @@ class Q15
     };
 };
 namespace MemoryUtilities {
-void __cdecl CopyByteRange(void* dst, const void* src, int nbytes);
 }
 struct Q135
 {
@@ -2901,7 +2900,7 @@ template <typename T> __forceinline void Q25<T>::GrowArrayCapacity(Q15& alloc, i
     {
         int cap2 = 2 * capacity;
         int newSize = (n < cap2) ? cap2 : n;
-        Q184::GrowArrayCapacity(alloc, this, newSize, sizeof(T));
+        ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
     }
 }
 template <typename T> __forceinline void Q25<T>::_setSize(Q15& alloc, int n)
@@ -2917,7 +2916,7 @@ template <typename T> __forceinline T* Q25<T>::_expandAt(Q15& alloc, int index, 
     {
         GrowArrayCapacity(alloc, newsize);
     }
-    MemoryUtilities::CopyByteRange(m_data + index + numtoinsert, m_data + index, numtomove * sizeof(T));
+    ::FUN_00d2cc70(m_data + index + numtoinsert, (void *)(m_data + index), numtomove * sizeof(T));
     m_iElementCount = newsize;
     return m_data + index;
 }
@@ -3068,7 +3067,6 @@ class Q28
     __forceinline Q28()
     {}
     void SetConjugate(const Q28& t);
-    void SetMulInverse(const Q28& bTa, const Q28& bTc);
 
   private:
     hkRotation m_rotation;
@@ -4232,7 +4230,7 @@ void Q62::CollisionCacheState::flip()
 {
     Q1& norm = q126.getSeparatingNormal();
     norm.setNeg3(norm);
-    m_kGskCache.flip();
+    reinterpret_cast<::FUN_00d2eb50_cls *>(&(m_kGskCache))->SwapFields();
 }
 struct Q6 : public Q62
 {
@@ -4326,10 +4324,9 @@ struct Q6 : public Q62
   public:
     Q20<ContactPointBuffer*> q9;
 };
-extern Q15::MemoryState Q140;
 __forceinline Q15::MemoryState Q118()
 {
-    return Q140;
+    return (*reinterpret_cast<::fnv_00da4aa0::Q15::MemoryState *>(&::DAT_01269200));
 }
 __forceinline bool Q93(int id)
 {
@@ -4388,7 +4385,6 @@ extern "C"
     void __cdecl Q164(Q30& agentTrack, Q8* dispatch, Q46* mgr, Q51& constraintOwner);
     void __cdecl Q147(Q30& track, const Q12& input);
     void __cdecl Q160(Q30& track, hkTime oldTime, hkTime newTime, const Q12& input);
-    void __cdecl Q119(Q41& input, const Q24* shapeCollection, Q6& output);
     Q18* Q158(Q30& agentTrack, Q53 keyPair, Q10** agentDataOut);
 }
 struct Q33
@@ -4454,8 +4450,6 @@ __forceinline Q10* __cdecl getAgentDataEnd(Q10* agentData)
 }
 extern "C"
 {
-    const Q5* __cdecl Q43(const Q5* cdBody, Q5* newCdBodies, class Q31* newMotionStates, int numSlots,
-                          Q20<Q42>& cdBodyHasTransformFlag);
 }
 class Q63
 {
@@ -4534,7 +4528,7 @@ static __declspec(noinline) void Q54(Q41& in, Q58& bodyTemp, Q41& out)
     bodyTemp.q72.SetCollisionShapeAndKey(in.q72->getShape(), in.q72->getShapeKey());
     new (&bodyTemp.q72) Q5(in.q72, &bodyTemp.q172);
     new (&bodyTemp.q65) Q5(in.q65, &bodyTemp.q173);
-    out.m_kTransform.SetMulInverse(bodyTemp.q172, bodyTemp.q173);
+    reinterpret_cast<::hkTransformCB22 *>(&(out.m_kTransform))->FUN_00cb22f0((const ::hkTransformCB22 &)(bodyTemp.q172), (const ::hkTransformCB22 &)(bodyTemp.q173));
 }
 static __declspec(noinline) void Q50(Q14& in, Q14& out)
 {
@@ -4685,11 +4679,11 @@ void __cdecl FUN_00da4aa0(Q30& agentTrack, const Q14& inputIn, const Q24* shapeC
                     const Q70* shapeA = (*modifiedBodyAPtr)->q130;
                     Q20<Q42> cdBodyHasTransformFlag = 0;
                     *modifiedBodyBPtr =
-                        Q43(*modifiedBodyBPtr, cdBodyForTransformedShapeB, transformForTransformedShapeB,
-                            numSlotsForTransformedCdBodies, cdBodyHasTransformFlag);
+                        ((const ::fnv_00da4aa0::Q5 *)(::FUN_00cfe1d0((::Entry *)(*modifiedBodyBPtr), (::Entry *)(cdBodyForTransformedShapeB), (::Vector *)(transformForTransformedShapeB),
+                            numSlotsForTransformedCdBodies, (unsigned char *)&(cdBodyHasTransformFlag))));
                     shapeB = (*modifiedBodyBPtr)->q130;
-                    input.m_kTransform.SetMulInverse((*modifiedBodyAPtr)->getTransform(),
-                                                     (*modifiedBodyBPtr)->getTransform());
+                    reinterpret_cast<::hkTransformCB22 *>(&(input.m_kTransform))->FUN_00cb22f0((const ::hkTransformCB22 &)((*modifiedBodyAPtr)->getTransform()),
+                                                     (const ::hkTransformCB22 &)((*modifiedBodyBPtr)->getTransform()));
                     Q18* h = reinterpret_cast<Q18*>(currentData);
                     shapeKeyPair.writeTo(h->q69);
                     h->q38 = Q42(dispatcher->getAgent3Type(shapeA->getType(), shapeB->getType(), input.q34->q102));
@@ -4749,10 +4743,10 @@ void __cdecl FUN_00da4aa0(Q30& agentTrack, const Q14& inputIn, const Q24* shapeC
             case Q7::STREAM_CALL_AGENT_WITH_TRANSFORM: {
                 extractChildShapes(shapeKeyPair.q23, shapeContainerB, shapeBufferB, childBodyB);
                 Q20<Q42> dummyCdBodyHasTransformFlag = 0;
-                *modifiedBodyBPtr = Q43(*modifiedBodyBPtr, cdBodyForTransformedShapeB, transformForTransformedShapeB,
-                                        numSlotsForTransformedCdBodies, dummyCdBodyHasTransformFlag);
-                input.m_kTransform.SetMulInverse((*modifiedBodyAPtr)->getTransform(),
-                                                 (*modifiedBodyBPtr)->getTransform());
+                *modifiedBodyBPtr = ((const ::fnv_00da4aa0::Q5 *)(::FUN_00cfe1d0((::Entry *)(*modifiedBodyBPtr), (::Entry *)(cdBodyForTransformedShapeB), (::Vector *)(transformForTransformedShapeB),
+                                        numSlotsForTransformedCdBodies, (unsigned char *)&(dummyCdBodyHasTransformFlag))));
+                reinterpret_cast<::hkTransformCB22 *>(&(input.m_kTransform))->FUN_00cb22f0((const ::hkTransformCB22 &)((*modifiedBodyAPtr)->getTransform()),
+                                                 (const ::hkTransformCB22 &)((*modifiedBodyBPtr)->getTransform()));
                 command = Q7::StreamCommand(Q42(command) & Q42(~Q7::TRANSFORM_FLAG));
                 thisChildHasTransformApplied = true;
                 prevFlippedInputInitialized = false;
@@ -5074,7 +5068,7 @@ void __cdecl FUN_00da4aa0(Q30& agentTrack, const Q14& inputIn, const Q24* shapeC
     {
         if (output.q9->q29 > &output.q9->q9[0])
         {
-            Q119(input, shapeContainerB, output);
+            ::FUN_00da3930((::AgentProcessingInput &)(input), (const ::hkpShapeContainer *)(shapeContainerB), (::WorldOperationEntry &)(output));
         }
     }
     output.q9 = oldPotentialInfo;

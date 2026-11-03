@@ -5,6 +5,14 @@
 
 // src/staging/blk_00e40000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/ObbQueryDetail__ObbMachine.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00cbf000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
 #include "../../include/layout_support.h"
 
 #include <xmmintrin.h>
@@ -18,10 +26,6 @@ struct RotationVector
     }
 };
 extern const __m128 DAT_01017d10;
-extern const float DAT_01011d78;
-extern const float DAT_01017718;
-extern const float DAT_01016248;
-float __cdecl Atan2(float y, float x);
 
 static __forceinline float AbsValue(float r)
 {
@@ -58,7 +62,7 @@ void __cdecl FUN_00e52320(const RotationVector* rotation, unsigned int* packed)
         __m128 estimate = _mm_rsqrt_ss(sum);
         __m128 mask = _mm_cmpeq_ss(sum, _mm_set_ss(DAT_01011d78));
         squared = _mm_sub_ss(_mm_set_ss(DAT_01017718), _mm_mul_ss(_mm_mul_ss(sum, estimate), estimate));
-        sum = _mm_andnot_ps(mask, _mm_mul_ss(_mm_mul_ss(_mm_set_ss(DAT_01016248), estimate), squared));
+        sum = _mm_andnot_ps(mask, _mm_mul_ss(_mm_mul_ss(_mm_set_ss(::fnv_00c88020::DAT_01016248), estimate), squared));
         value.m_vComponents = _mm_mul_ps(_mm_shuffle_ps(sum, sum, 0), lanes);
         float angle = SafeAcos(value(2));
         int latitude = (int)(angle * 2.0 / 3.1415927410125732421875 * 511.0 + 0.5);
@@ -124,6 +128,7 @@ void __cdecl FUN_00e526f0(const hkQuaternion* q, short* out)
     out[2] = (short)((sign << 15) | v[2]);
 }
 }  // namespace fnv_00e526f0
+#include "fnv/symbols_simd.h"
 
 union __declspec(align(16)) PackedQuaternionOutput
 {
@@ -198,12 +203,11 @@ void FUN_00e52c30(const unsigned char* p, PackedQuaternionOutput* output)
 struct FNV_ALIGN(16) FUN_00dd1bf0
 {
     int m[16];
-    void Query(int a1, int a2, int a3, float a4, int a5);
 };
 
 // @fnv 0x00e5cfe0
 void FUN_00e5cfe0(int a1, int a2, int a3, float a4, int a5)
 {
     FUN_00dd1bf0 obj;
-    obj.Query(a1, a2, a3, a4, a5);
+    reinterpret_cast<::ObbQueryDetail::ObbMachine *>(&(obj))->FUN_00dd1bf0((const ::ObbQueryDetail::ObbCodeView *)(a1), (const ::ObbQueryDetail::ObbTransform *)(a2), (const ::ObbQueryDetail::ObbVector *)(a3), a4, a5);
 }

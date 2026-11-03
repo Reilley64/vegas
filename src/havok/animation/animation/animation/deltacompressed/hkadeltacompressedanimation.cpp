@@ -2,6 +2,12 @@
 // src/havok/animation/animation/animation/deltacompressed/hkadeltacompressedanimation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/deltacompressed/hkadeltacompressedanimation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00e2f7c0_Class.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00e4e000.h"
+#include "fnv/symbols_00e4f000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkaDeltaCompressedAnimation.h"
 
 struct FUN_00e34b40_s {
@@ -141,7 +147,6 @@ struct BlkInfo {
 };
 
 struct FUN_00e34c90_s : hkaDeltaCompressedAnimation {
-    unsigned int GetCompressedBlockRange(unsigned int index, unsigned int count, BlkInfo* info);
     unsigned int GetMaxBlockSize();
 };
 
@@ -158,10 +163,10 @@ unsigned int FUN_00e34c90_s::GetMaxBlockSize()
             info.a = 0;
             info.b = 0;
             info.c = 0;
-            GetCompressedBlockRange(i, numBlocks, &info);
+            reinterpret_cast<::DeltaAnimationStandIn *>(this)->GetCompressedBlockRange(i, numBlocks, (::CompressedBlockRange *)(::BlkInfo *)(&info));
             int iCurSize = info.b + chunkSize + 0x80;
             if (i < numBlocks - 1) {
-                GetCompressedBlockRange(i + 1, numBlocks, &info);
+                reinterpret_cast<::DeltaAnimationStandIn *>(this)->GetCompressedBlockRange(i + 1, numBlocks, (::CompressedBlockRange *)(::BlkInfo *)(&info));
                 iCurSize += info.b;
             }
             if (iCurSize > maxSize)
@@ -233,8 +238,6 @@ struct S00e34c10_Cache {
 };
 
 struct S00e34c10_Anim : hkaDeltaCompressedAnimation {
-    void __thiscall GetCompressedBlockRange(unsigned int blockIndex, int numBlocks,
-                                 S00e34c10_Block* apBlocks);
     void __thiscall FUN_00e34c10(unsigned int frameIndex, int unused,
                                  S00e34c10_Cache* cache, int mode);
 };
@@ -255,11 +258,11 @@ void __thiscall S00e34c10_Anim::FUN_00e34c10(
     unsigned int blockIndex = frameIndex / (unsigned int)m_iDofCount;
     int numBlocks = (m_iFrameCount + m_iDofCount - 1) / m_iDofCount;
 
-    GetCompressedBlockRange(blockIndex, numBlocks, &cache->blocks[0]);
+    reinterpret_cast<::DeltaAnimationStandIn *>(this)->GetCompressedBlockRange(blockIndex, numBlocks, (::CompressedBlockRange *)(::S00e34c10_Block *)(&cache->blocks[0]));
 
     if (mode == 4) {
         unsigned int uiNextBlockIndex = (blockIndex + 1) % (unsigned int)numBlocks;
-        GetCompressedBlockRange(uiNextBlockIndex, numBlocks, &cache->blocks[1]);
+        reinterpret_cast<::DeltaAnimationStandIn *>(this)->GetCompressedBlockRange(uiNextBlockIndex, numBlocks, (::CompressedBlockRange *)(::S00e34c10_Block *)(&cache->blocks[1]));
     }
 }
 
@@ -270,9 +273,7 @@ extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long tlsIn
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 
-extern unsigned int DAT_0126835c;
 extern char DAT_010eb77c[];
-extern char DAT_010c41f8[];
 
 struct DqEvt {
     const char* tag;
@@ -320,7 +321,7 @@ static __declspec(noinline) void FUN_00e349c0(float* dst, DqArgs args)
 static __declspec(noinline) void FUN_00e34d80(hkaDeltaCompressedAnimation* anim, unsigned int time, float* dst, unsigned int count)
 {
     {
-        DqProf* prof = (DqProf*)TlsGetValue(DAT_0126835c);
+        DqProf* prof = (DqProf*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
         if (prof->head < prof->end) {
             DqEvt* ev = prof->head;
             ev->tag = DAT_010eb77c;
@@ -356,7 +357,7 @@ static __declspec(noinline) void FUN_00e34d80(hkaDeltaCompressedAnimation* anim,
         FUN_00e349c0(dst, args);
     }
     {
-        DqProf* prof = (DqProf*)TlsGetValue(DAT_0126835c);
+        DqProf* prof = (DqProf*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
         if (prof->head < prof->end) {
             DqEvt* ev = prof->head;
             ev->tag = DAT_010c41f8;
@@ -403,7 +404,6 @@ struct AnimationStatistics {
         compressionRatio = 0.0f;
     }
 };
-void __cdecl FUN_00e4ebb0(const unsigned short*, const unsigned short*, unsigned int, unsigned int, AnimationStatistics*);
 inline unsigned short swapMask(unsigned short value) {
     union Input { unsigned short value; unsigned int bits; } input;
     union Output { unsigned short value; struct { unsigned char high, low; } bytes; } output;
@@ -437,7 +437,7 @@ void AnimationEndian::FUN_00e35050() {
     for (int i = 0; i < m_iNumberOfFloatTracks + m_iNumTransformTracks; ++i, ++currentMask)
         *currentMask = swapMask(*currentMask);
     AnimationStatistics statistics;
-    FUN_00e4ebb0(masks, masks + m_iNumTransformTracks, m_iNumTransformTracks, m_iNumberOfFloatTracks, &statistics);
+    ::FUN_00e4ebb0(masks, (void *)(masks + m_iNumTransformTracks), m_iNumTransformTracks, m_iNumberOfFloatTracks, (::StatsB0 *)(::AnimationStatistics *)(&statistics));
     int staticCount = statistics.dynamicTranslation + (statistics.dynamicRotation + (statistics.dynamicScale + statistics.dynamicFloat));
     float* staticValues = (float*)(m_kCompressedData.m_data + m_uiNumBlocks);
     for (int j = 0; j < staticCount; ++j, ++staticValues)
@@ -454,7 +454,6 @@ void AnimationEndian::FUN_00e35050() {
 #include <string.h>
 #include <windows.h>
 namespace fnv_00e34e80 {
-extern DWORD DAT_0126835c;
 extern unsigned int* g_escape;
 extern int g_never;
 
@@ -473,7 +472,7 @@ struct hkTimerCommand {
 
 __forceinline void hkTimer(const char* name)
 {
-    StringCursor* s = (StringCursor*)TlsGetValue(DAT_0126835c);
+    StringCursor* s = (StringCursor*)TlsGetValue(::DAT_0126835c);
     if (s->m_kRayEnd < s->m_pCurrentCommand) {
         hkTimerCommand* c = (hkTimerCommand*)s->m_kRayEnd;
         c->m_pCommandName = name;
@@ -665,8 +664,6 @@ struct SampleScratch {
 };
 struct ScratchAllocator { char* current; };
 extern "C" ScratchAllocator* FUN_00c85750();
-void __cdecl AnalyzeTrackWithZeroCount(const hkUint16*, const hkUint16*, unsigned int, unsigned int, TrackStatistics*);
-void __cdecl FUN_00e4f640(const RecomposeParameters*, hkQsTransform*, float*);
 void __cdecl DecodeQuantizedBlock(const hkUint8*, const Quantization*, float*, int);
 void __cdecl PrefixSum(float*, int);
 int __cdecl FUN_00e51da0(int, const Quantization*);
@@ -702,7 +699,7 @@ void __cdecl FUN_00e354b0(unsigned int frame, float delta, unsigned int numTrans
     SampleScratch scratch;
     const hkaDeltaCompressedAnimation* r = reinterpret_cast<const hkaDeltaCompressedAnimation*>(chunks[0].data + chunks[0].offset);
     const hkaDeltaCompressedAnimation* it = r;
-    ProfileStream* pStream = static_cast<ProfileStream*>(TlsGetValue(DAT_0126835c));
+    ProfileStream* pStream = static_cast<ProfileStream*>(TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))));
     if (pStream->current < pStream->end) {
         volatile ProfileRecord* record = reinterpret_cast<volatile ProfileRecord*>(pStream->current);
         record->name = "LtSampleDeltaChunk";
@@ -722,14 +719,14 @@ void __cdecl FUN_00e354b0(unsigned int frame, float delta, unsigned int numTrans
         TrackStatistics& statistics = scratch.statistics;
         statistics.Reset();
         if (numFloats == 0) {
-            AnalyzeTrackWithZeroCount(masks, masks + uiNumTransformTracks, numTransforms, 0, &statistics);
+            ::AnalyzeTrackWithZeroCount(masks, masks + uiNumTransformTracks, numTransforms, 0, (::TrackAnalysis *)(::TrackStatistics *)(&statistics));
             numDOFs = statistics.selectedScales + statistics.selectedRotations + statistics.selectedTranslations;
         } else {
-            AnalyzeTrackWithZeroCount(masks, masks + uiNumTransformTracks, uiNumTransformTracks, numFloats, &statistics);
+            ::AnalyzeTrackWithZeroCount(masks, masks + uiNumTransformTracks, uiNumTransformTracks, numFloats, (::TrackAnalysis *)(::TrackStatistics *)(&statistics));
             numDOFs = statistics.selectedScales + statistics.selectedFloats + statistics.selectedRotations + statistics.selectedTranslations;
         }
     }
-    pStream = static_cast<ProfileStream*>(TlsGetValue(DAT_0126835c));
+    pStream = static_cast<ProfileStream*>(TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))));
     if (pStream->current < pStream->end) {
         volatile ProfileRecord* record = reinterpret_cast<volatile ProfileRecord*>(pStream->current);
         record->name = "StDecompressDChunk";
@@ -814,7 +811,7 @@ void __cdecl FUN_00e354b0(unsigned int frame, float delta, unsigned int numTrans
         }
     }
     }
-    pStream = static_cast<ProfileStream*>(TlsGetValue(DAT_0126835c));
+    pStream = static_cast<ProfileStream*>(TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))));
     if (pStream->current < pStream->end) {
         volatile ProfileRecord* record = reinterpret_cast<volatile ProfileRecord*>(pStream->current);
         record->name = "StRecomposeDChunk";
@@ -835,10 +832,10 @@ void __cdecl FUN_00e354b0(unsigned int frame, float delta, unsigned int numTrans
     m_kRecomposeParameters.dynamicFloats = interpolated + resultAnimation->m_uiScaleDataOffset;
     const hkInt32 iNumTransformTracks = resultAnimation->m_iNumTransformTracks;
     m_kRecomposeParameters.floatMasks = (masks + iNumTransformTracks);
-    FUN_00e4f640(&m_kRecomposeParameters, transforms, floats);
+    ::fnv_00e4f640::FUN_00e4f640((const ::fnv_00e4f640::TrackData *)(const ::RecomposeParameters *)(&m_kRecomposeParameters), (float *)(transforms), floats);
     FUN_00c85750()->current = reinterpret_cast<char*>(interpolated);
     FUN_00c85750()->current = reinterpret_cast<char*>(decompressed);
-    pStream = static_cast<ProfileStream*>(TlsGetValue(DAT_0126835c));
+    pStream = static_cast<ProfileStream*>(TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))));
     if (pStream->current < pStream->end) {
         volatile ProfileRecord* record = reinterpret_cast<volatile ProfileRecord*>(pStream->current);
         record->name = "lt";
@@ -878,7 +875,7 @@ struct TimedNameRecord {
 
 static __forceinline void TimerBeginList(const char* name, const char* first)
 {
-    MonitorStream* s = (MonitorStream*)TlsGetValue(DAT_0126835c);
+    MonitorStream* s = (MonitorStream*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     char* p = s->m_kRayEnd;
     if (p < s->m_pCurrentCommand) {
         TimedNameRecord* h = (TimedNameRecord*)p;
@@ -897,7 +894,7 @@ static __forceinline void TimerBeginList(const char* name, const char* first)
 
 static __forceinline void TimerSplit(const char* name)
 {
-    MonitorStream* s = (MonitorStream*)TlsGetValue(DAT_0126835c);
+    MonitorStream* s = (MonitorStream*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     char* p = s->m_kRayEnd;
     if (p < s->m_pCurrentCommand) {
         CommandTimingEntry* h = (CommandTimingEntry*)p;
@@ -928,7 +925,6 @@ struct ThreadMemory {
     HeapAllocator* m_pStreamAllocator;
 };
 ThreadMemory* __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(HeapAllocator* alloc, void* arr, int cap, int elemSize);
 
 struct LocalFloatArray {
     float* m_data;
@@ -950,7 +946,7 @@ struct LocalFloatArray {
         int cap = m_iCapacityState & 0x3fffffff;
         if (cap < n) {
             int c2 = cap + cap;
-            FUN_00c908c0(h, this, n < c2 ? c2 : n, 4);
+            ::FUN_00c908c0((::SpawnedObject *)(h), (::SpawnedArray *)(void *)(this), n < c2 ? c2 : n, 4);
         }
     }
     __forceinline void SetSizeAndGrow(int n)
@@ -1000,7 +996,6 @@ struct MaskStats {
           m_dynamicScaleDOFs(0), m_dynamicFloatDOFs(0), m_staticFloatDOFs(0),
           m_identityFloats(0), m_fScalar(0.0f) {}
 };
-void __cdecl AnalyzeTrackWithZeroCount(const hkUint16* mask, const hkUint16* maskEnd, hkUint32 numT, hkUint32 numF, MaskStats* stats);
 
 struct RecomposeJob {
     hkUint32 m_numQsTransforms;
@@ -1012,7 +1007,6 @@ struct RecomposeJob {
     const float* m_dynamicFloats;
     const float* m_dynamicEnd;
 };
-void __cdecl FUN_00e4f640(RecomposeJob* job, hkQsTransform* transforms, float* floats);
 
 struct ChunkCache {
     virtual void v00();
@@ -1132,17 +1126,17 @@ void DeltaSampler::FUN_00e359f0(float time, hkUint32 maxNumTransformTracks, hkQs
     if (maxNumTransformTracks != (hkUint32)m_iNumTransformTracks || maxNumFloatTracks != (hkUint32)m_iNumberOfFloatTracks) {
         MaskStats stats;
         if (maxNumFloatTracks == 0) {
-            AnalyzeTrackWithZeroCount(staticMask, m_iNumTransformTracks + staticMask, maxNumTransformTracks, 0, &stats);
+            ::AnalyzeTrackWithZeroCount(staticMask, m_iNumTransformTracks + staticMask, maxNumTransformTracks, 0, (::TrackAnalysis *)(::fnv_00e359f0::MaskStats *)(&stats));
             numDynamic = stats.m_dynamicTranslationDOFs + stats.m_dynamicRotationDOFs + stats.m_dynamicScaleDOFs;
         } else {
-            AnalyzeTrackWithZeroCount(staticMask, staticMask + m_iNumTransformTracks, m_iNumTransformTracks, maxNumFloatTracks, &stats);
+            ::AnalyzeTrackWithZeroCount(staticMask, staticMask + m_iNumTransformTracks, m_iNumTransformTracks, maxNumFloatTracks, (::TrackAnalysis *)(::fnv_00e359f0::MaskStats *)(&stats));
             numDynamic = stats.m_dynamicTranslationDOFs + stats.m_dynamicRotationDOFs + stats.m_dynamicScaleDOFs + stats.m_dynamicFloatDOFs;
         }
     }
 
     TimerSplit("StDecompressD");
 
-    float t; hkUint32 frame; FUN_00e2f7c0(time,&frame,&t);
+    float t; hkUint32 frame; reinterpret_cast<::FUN_00e2f7c0_Class *>((void *)this)->FUN_00e2f7c0(time,&frame,&t);
     const float oneMinusDelta = 1.0f - t;
 
     LocalFloatArray dynamicDOFs(numDynamic);
@@ -1212,7 +1206,7 @@ void DeltaSampler::FUN_00e359f0(float time, hkUint32 maxNumTransformTracks, hkQs
     job.m_staticEnd = staticDOFs + m_uiOffsetDataOffset;
     job.m_dynamicEnd = dynamicDOFs.m_data + m_uiScaleDataOffset;
     job.m_maskEnd = staticMask + m_iNumTransformTracks;
-    FUN_00e4f640(&job, transformTracksOut, floatTracksOut);
+    ::fnv_00e4f640::FUN_00e4f640((const ::fnv_00e4f640::TrackData *)(::fnv_00e359f0::RecomposeJob *)(&job), (float *)(transformTracksOut), floatTracksOut);
     }
 
     TimerSplit("lt");

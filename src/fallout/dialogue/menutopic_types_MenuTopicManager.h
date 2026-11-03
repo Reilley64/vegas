@@ -50,9 +50,7 @@ class TopicMenuController
     MenuTopic* GetSelectedTopic();
     MenuTopic* GetFirstTopic();
     static void IncrementMiscStat(int id);
-    void FUN_0083e230();
     bool Initialize(MobileObject*, TESTopic*);
-    void BuildTopicList(BSSimpleList<TESTopic*>*, bool, bool, TESTopic*);
     TopicMenuController();
     static TopicMenuController* GetInstance();
     void RunTopicResultScript();

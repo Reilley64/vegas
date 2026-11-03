@@ -7,6 +7,50 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/fallout/ai/combat/hitdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/hitdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/Actor.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FNVEffectOwner.h"
+#include "fnv/decl/FUN_0043b560_shell.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_005e50f0_Obj.h"
+#include "fnv/decl/FUN_005e5130_Class.h"
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/FUN_00822650_shell.h"
+#include "fnv/decl/FUN_008a50f0_class.h"
+#include "fnv/decl/FUN_008b3ef0_cls.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_009b7010_shell.h"
+#include "fnv/decl/FUN_009c3ee0_shell.h"
+#include "fnv/decl/Hld621210.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/Obj5e5300.h"
+#include "fnv/decl/ShapeCaster.h"
+#include "fnv/decl/TESGrass.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/WeightedResultList.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/decl/fnv_008a50d0__bhkCharacterController.h"
+#include "fnv/decl/fnv_008aff80__ActorStub.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_005dc000.h"
+#include "fnv/symbols_00626000.h"
+#include "fnv/symbols_00645000.h"
+#include "fnv/symbols_00647000.h"
+#include "fnv/symbols_0066d000.h"
+#include "fnv/symbols_00c80000.h"
+#include "fnv/symbols_011ce000.h"
+#include "fnv/symbols_011cf000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f4000.h"
 struct FUN_009b7040_shell
 {
     float GetField168();
@@ -19,16 +63,14 @@ struct FUN_009b7840_shell
 {
     void RaiseMaxValue(float a);
 };
-bool FUN_0066de30(int a);
-extern float DAT_011f4270;
-extern float DAT_011f4274;
 struct NiPoint3
 {
     float x;
     float y;
     float z;
+public:
+    static const ::NiPoint3 ZERO;
 };
-extern NiPoint3 _NiPoint3_ZERO;
 struct BooleanFloatQuery
 {
     void* m_pAggressor;
@@ -56,7 +98,6 @@ struct BooleanFloatQuery
 };
 struct GlobalObject_00869f00
 {
-    void Clear(bool a);
 };
 extern int DAT_0108f9e8;
 struct FUN_009b7970_shell
@@ -81,7 +122,6 @@ class Point9B6
     Point9B6 operator*(float fScalar) const;
     Point9B6 operator-() const;
     Point9B6& operator+=(const Point9B6& kPt);
-    void Unitize();
     Point9B6 UnitizeScaled(float fScaleMultiplier) const;
     float x, y, z;
 };
@@ -90,14 +130,12 @@ class hkBool9B6
 {
   public:
     hkBool9B6();
-    bool ContainsTrait() const;
     char m_cBooleanValue;
 };
 
 class Transform9B6
 {
   public:
-    const Point9B6* GetTranslate();
 };
 
 class NiAVObject9B6
@@ -107,8 +145,6 @@ class NiAVObject9B6
     virtual void v04();
     virtual void v08();
     virtual NiAVObject9B6* GetBone();
-    NiAVObject9B6* GetParent();
-    Transform9B6* GetWorldTransform();
 };
 
 class Collidable9B6;
@@ -116,7 +152,6 @@ class Collidable9B6;
 class Collision9B6
 {
   public:
-    Collidable9B6* GetCollidable();
 };
 
 class Entity9B6;
@@ -125,7 +160,6 @@ class Hit9B6
 {
   public:
     Hit9B6(const Hit9B6& kOther);
-    const hkVector4_9B6& GetPosition();
     hkVector4_9B6 m_kPathOffset;
     hkVector4_9B6 m_kPlaneNormal;
     float m_fHitFraction;
@@ -153,15 +187,12 @@ class Hit9B6
 class HitArray9B6
 {
   public:
-    int GetSize();
     Hit9B6& GetAt(int i);
 };
 
 class Results9B6
 {
   public:
-    hkBool9B6 HasHits();
-    HitArray9B6* GetHits();
 };
 
 class World9B6;
@@ -169,39 +200,28 @@ class World9B6;
 class Query9B6
 {
   public:
-    void SetWorld(World9B6* pkWorld);
-    void Cast(Point9B6& kFrom, Point9B6& kWorldPosition, float fScaleMultiplier);
-    Results9B6* GetResults();
 };
 
 class Middle9B6
 {
   public:
-    World9B6* GetWorld();
 };
 
 class SpherePick9B6
 {
   public:
     SpherePick9B6();
-    void SetPosition(const hkVector4_9B6& kPos);
-    void SetRadius(float fRadius);
     hkVector4_9B6 m_kPathOffset;
 };
 
 class BodyPart9B6
 {
   public:
-    int GetIndex();
-    bool IsSevered();
-    float GetChance();
 };
 
 class BodyPartData9B6
 {
   public:
-    BodyPart9B6* GetPartByType(int iType);
-    BodyPart9B6* GetPart(int iIndex);
 };
 
 class Base9B6
@@ -318,8 +338,6 @@ class PartSet9B6
     PartSet9B6();
     ~PartSet9B6();
     bool Contains(BodyPart9B6* pkPart);
-    void Add(BodyPart9B6* pkPart, bool bSevered);
-    BodyPart9B6* Pick();
     int unk00;
     int unk04;
     int unk08;
@@ -551,8 +569,6 @@ class Ref9B6
     virtual void v358();
     virtual void v35c();
     virtual bool IsCrippled();
-    Base9B6* GetBaseObject();
-    int GetPartIndex(NiAVObject9B6* pkObject);
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
@@ -720,16 +736,11 @@ class Attacker9B6
     virtual void v1cc();
     virtual NiAVObject9B6* Get3D();
     Point9B6 GetEyePosition(int iMode);
-    void GetLook(Point9B6& kPos, Point9B6& kWorldPosition, int iMode);
-    Middle9B6* GetMiddle();
 };
-extern Attacker9B6* g_pkPlayer9B6;
 
 class Weapon9B6
 {
   public:
-    bool IsAutomatic();
-    float GetSpread();
 };
 
 class LinkInfo9B6
@@ -756,33 +767,18 @@ class Contact9B6
 class Event9B6
 {
   public:
-    Contact9B6* FindContact(Ref9B6* pkRef);
-    Point9B6 GetDirection();
 };
 
 class FloatSetting9B6
 {
   public:
-    float* GetFloat();
 };
-extern FloatSetting9B6 g_kLinkScale9B6;
-extern FloatSetting9B6 g_kCrippledScale9B6;
 
-bool __cdecl FUN_0066de30(void* pvForm);
-Query9B6* __cdecl FUN_00626dd0(int iNotPlayer, int iMode);
-NiAVObject9B6* __cdecl FUN_004b5820(Collidable9B6* pkCollidable);
-Ref9B6* __cdecl FUN_0056f930(NiAVObject9B6* pkObject);
-Entity9B6* __cdecl FUN_004b59f0(Collidable9B6* pkCollidable);
-void __cdecl FUN_00458620(Point9B6& kOut, const hkVector4_9B6& kIn);
-void __cdecl FUN_004a3e00(hkVector4_9B6& kOut, const Point9B6& kIn);
-Collision9B6* __cdecl FUN_00c806b0(NiAVObject9B6* pkRoot, SpherePick9B6* pkPick, int iFlags);
-float __cdecl FUN_00647a30(ActorValueOwner9B6* pkOwner, BodyPart9B6* pkPart, float afChance);
 
 class Target9B6
 {
   public:
     bool HasFlag(int iFlag);
-    void SetChance(float afChance);
     void FUN_009b6620(Event9B6* pkEvent);
     Attacker9B6* m_pkAttacker;
     Ref9B6* m_pkTarget;
@@ -809,7 +805,7 @@ void Target9B6::FUN_009b6620(Event9B6* pkEvent)
 {
     if (!m_pkTarget || !m_pkTarget->IsActor())
         return;
-    Base9B6* pkBase = m_pkTarget->GetBaseObject();
+    Base9B6* pkBase = ((::Base9B6 *)(reinterpret_cast<::Actor *>((m_pkTarget))->GetActorBase()));
     BodyPartData9B6* pkParts = pkBase->GetBodyPartData();
     BodyPart9B6* pkPart = 0;
     bool bSearch = false;
@@ -819,11 +815,11 @@ void Target9B6::FUN_009b6620(Event9B6* pkEvent)
         {
             if (pkParts)
             {
-                pkPart = pkParts->GetPartByType(m_pkLink->m_iPart);
-                m_iPart = pkPart ? pkPart->GetIndex() : 0xe;
+                pkPart = ((::BodyPart9B6 *)(reinterpret_cast<::FUN_005e5130_Class *>((pkParts))->FUN_005e5130(m_pkLink->m_iPart)));
+                m_iPart = pkPart ? ((int)(reinterpret_cast<::Obj5e5300 *>((pkPart))->GetByte61())) : 0xe;
             }
         }
-        else if (FUN_0066de30(m_pkLink->m_pvForm))
+        else if (::FUN_0066de30((int)(m_pkLink->m_pvForm)))
         {
             if (HasFlag(0x800))
                 m_iPart = 0;
@@ -838,16 +834,16 @@ void Target9B6::FUN_009b6620(Event9B6* pkEvent)
     else if (pkEvent)
     {
         bSearch = false;
-        Contact9B6* pkContact = pkEvent->FindContact(m_pkTarget);
+        Contact9B6* pkContact = ((::Contact9B6 *)(reinterpret_cast<::FUN_009c3ee0_shell *>((pkEvent))->FindItemByKey(m_pkTarget)));
         if (pkContact)
         {
             m_iPart = pkContact->m_iPart;
-            pkPart = pkParts->GetPart(m_iPart);
+            pkPart = ((::BodyPart9B6 *)(reinterpret_cast<::FUN_005e50f0_Obj *>((pkParts))->GetValueByIndex(m_iPart)));
             m_kPathOffset = pkContact->m_kPathOffset;
-            m_kLightVector = pkEvent->GetDirection();
-            m_kLightVector.Unitize();
-            m_kLightVector += -pkContact->m_kPlaneNormal;
-            m_kLightVector.Unitize();
+            m_kLightVector = (*(::Point9B6 *)&(reinterpret_cast<::FUN_009b7010_shell *>((pkEvent))->FUN_009b7010(*(::NiPoint3 *)nullptr)));
+            reinterpret_cast<::FUN_004a0c10_s *>(&(m_kLightVector))->FUN_004a0c10();
+            reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::Point9B6 &)(m_kLightVector))->FUN_0063c8a0((void *)&(const ::Point9B6 &)(-pkContact->m_kPlaneNormal));
+            reinterpret_cast<::FUN_004a0c10_s *>(&(m_kLightVector))->FUN_004a0c10();
         }
     }
     else
@@ -859,45 +855,45 @@ void Target9B6::FUN_009b6620(Event9B6* pkEvent)
         Point9B6 kHitPos = m_pkAttacker->GetEyePosition(1);
         Point9B6 kLookPos;
         Point9B6 kLookDir;
-        m_pkAttacker->GetLook(kLookPos, kLookDir, 0);
+        reinterpret_cast<::fnv_008aff80::ActorStub *>((m_pkAttacker))->GetCameraPosAndDir((::fnv_008aff80::Vec3 *)&(kLookPos), (::fnv_008aff80::Vec3 *)&(kLookDir), 0);
         Point9B6 kFrom = kLookPos;
         Point9B6 kRay = kLookDir * 200.0f;
         float fScaleMultiplier = 200.0f;
         bool bFound = false;
         PartSet9B6 kParts;
-        Middle9B6* pkMiddle = m_pkAttacker->GetMiddle();
+        Middle9B6* pkMiddle = ((::Middle9B6 *)(reinterpret_cast<::LowProcess *>((m_pkAttacker))->GetTarget()));
         if (pkMiddle)
         {
-            Query9B6* pkQuery = FUN_00626dd0(m_pkAttacker != g_pkPlayer9B6, 1);
-            pkQuery->SetWorld(pkMiddle->GetWorld());
-            pkQuery->Cast(kFrom, kLookDir, fScaleMultiplier);
-            Results9B6* pkResults = pkQuery->GetResults();
-            if (pkResults->HasHits().ContainsTrait())
+            Query9B6* pkQuery = ((::Query9B6 *)(::FUN_00626dd0(m_pkAttacker != (*reinterpret_cast<::Attacker9B6 * *>(&::_g_thePlayer)), 1)));
+            reinterpret_cast<::FNVEffectOwner *>((pkQuery))->ApplyEffectToTarget(((::World9B6 *)(reinterpret_cast<::FUN_004543c0_cls *>((pkMiddle))->FUN_004543c0())));
+            reinterpret_cast<::ShapeCaster *>((pkQuery))->FUN_00626b30((const ::NiPoint3 &)(kFrom), (const ::NiPoint3 &)(kLookDir), fScaleMultiplier);
+            Results9B6* pkResults = ((::Results9B6 *)(new ((void *)(pkQuery)) ::Vec3()));
+            if (reinterpret_cast<::FUN_005609f0_shell *>((void *)(void *)&(const ::hkBool9B6 &)((*(::hkBool9B6 *)(reinterpret_cast<::Hld621210 *>((pkResults))->FUN_00621210({})))))->FUN_005609f0())
             {
-                for (int i = 0; i < pkResults->GetHits()->GetSize(); i++)
+                for (int i = 0; i < ((int)(reinterpret_cast<::Callees *>((((::HitArray9B6 *)(::FUN_00460140((int)(pkResults))))))->FUN_00726070())); i++)
                 {
-                    Hit9B6 kHit(pkResults->GetHits()->GetAt(i));
-                    NiAVObject9B6* pkObject = FUN_004b5820(kHit.m_pkCollidable);
-                    Ref9B6* pkRef = FUN_0056f930(pkObject);
+                    Hit9B6 kHit(((::HitArray9B6 *)(::FUN_00460140((int)(pkResults))))->GetAt(i));
+                    NiAVObject9B6* pkObject = ((::NiAVObject9B6 *)(::FUN_004b5820((::FormLike *)(kHit.m_pkCollidable))));
+                    Ref9B6* pkRef = ((::Ref9B6 *)(::FUN_0056f930((::NiAVObject *)(pkObject))));
                     if (pkRef && pkRef == m_pkTarget)
                     {
-                        FUN_00458620(kHitPos, kHit.GetPosition());
-                        Entity9B6* pkEntity = FUN_004b59f0(kHit.m_pkCollidable);
+                        ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kHitPos), (const ::hkVector4 &)((*(const ::hkVector4_9B6 *)(new ((void *)&(kHit)) ::Vec3()))));
+                        Entity9B6* pkEntity = ((::Entity9B6 *)(::FUN_004b59f0(kHit.m_pkCollidable)));
                         if (pkEntity)
                         {
                             if (!bFound)
                             {
                                 bFound = true;
-                                FUN_00458620(m_kPathOffset, kHit.GetPosition());
+                                ::SetNiPoint3FromHkVector4((::NiPoint3 &)(m_kPathOffset), (const ::hkVector4 &)((*(const ::hkVector4_9B6 *)(new ((void *)&(kHit)) ::Vec3()))));
                                 m_kLightVector = kLookDir;
                             }
-                            int iIndex = pkObject->GetBone() ? m_pkTarget->GetPartIndex(pkObject->GetBone())
-                                                             : m_pkTarget->GetPartIndex(pkObject->GetParent());
+                            int iIndex = pkObject->GetBone() ? reinterpret_cast<::FUN_008b3ef0_cls *>((m_pkTarget))->FUN_008b3ef0((::TESObjectREFR *)(::NiAVObject9B6 *)(pkObject->GetBone()))
+                                                             : reinterpret_cast<::FUN_008b3ef0_cls *>((m_pkTarget))->FUN_008b3ef0((::TESObjectREFR *)(::NiAVObject9B6 *)(((::NiAVObject9B6 *)(reinterpret_cast<::FUN_009611e0_shell *>((pkObject))->FUN_009611e0()))));
                             if (iIndex != -1 && iIndex != 0xe)
                             {
-                                BodyPart9B6* pkHitPart = pkParts->GetPart(iIndex);
+                                BodyPart9B6* pkHitPart = ((::BodyPart9B6 *)(reinterpret_cast<::FUN_005e50f0_Obj *>((pkParts))->GetValueByIndex(iIndex)));
                                 if (pkHitPart && !kParts.Contains(pkHitPart))
-                                    kParts.Add(pkHitPart, pkHitPart->IsSevered());
+                                    reinterpret_cast<::WeightedResultList *>(&(kParts))->FUN_009b7990((::BGSBodyPart *)(pkHitPart), ((bool)(::FUN_005dc980((const char *)(pkHitPart)))));
                             }
                         }
                     }
@@ -906,58 +902,58 @@ void Target9B6::FUN_009b6620(Event9B6* pkEvent)
         }
         if (!bFound && m_pkTarget->Get3D() && m_pkAttacker->Get3D())
         {
-            Point9B6 kTargetPos = *m_pkTarget->Get3D()->GetWorldTransform()->GetTranslate();
-            Point9B6 kAttackerPos = *m_pkAttacker->Get3D()->GetWorldTransform()->GetTranslate();
+            Point9B6 kTargetPos = *((const ::Point9B6 *)(new ((void *)(((::Transform9B6 *)(reinterpret_cast<::FUN_0043d450_Owner *>((m_pkTarget->Get3D()))->FUN_0043d450())))) ::Vec3()));
+            Point9B6 kAttackerPos = *((const ::Point9B6 *)(new ((void *)(((::Transform9B6 *)(reinterpret_cast<::FUN_0043d450_Owner *>((m_pkAttacker->Get3D()))->FUN_0043d450())))) ::Vec3()));
             m_kPathOffset = kTargetPos + (m_pkAttacker->GetEyePosition(1) - kTargetPos).UnitizeScaled(6.0f);
             m_kLightVector = kTargetPos - kAttackerPos;
             SpherePick9B6 kPick;
             hkVector4_9B6 kTargetCenter;
-            FUN_004a3e00(kTargetCenter, kHitPos);
-            kPick.SetPosition(kTargetCenter);
-            kPick.SetRadius(200.0f);
-            Collision9B6* pkCollision = FUN_00c806b0(m_pkTarget->Get3D(), &kPick, 0);
+            ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(kTargetCenter), (const ::fnv_004a3e00::NiPoint3 &)(kHitPos));
+            reinterpret_cast<::FUN_008a50f0_class *>(&(kPick))->FUN_008a50f0((int)&(kTargetCenter));
+            reinterpret_cast<::fnv_008a50d0::bhkCharacterController *>(&(kPick))->FUN_008a50d0(200.0f);
+            Collision9B6* pkCollision = ((::Collision9B6 *)(::FUN_00c806b0(m_pkTarget->Get3D(), &kPick, 0)));
             if (pkCollision)
             {
                 bFound = true;
-                NiAVObject9B6* pkObject = FUN_004b5820(pkCollision->GetCollidable());
+                NiAVObject9B6* pkObject = ((::NiAVObject9B6 *)(::FUN_004b5820((::FormLike *)(::Collidable9B6 *)(((::Collidable9B6 *)(reinterpret_cast<::FUN_0043b560_shell *>((pkCollision))->GetSourceFilesFromObject()))))));
                 if (pkObject)
                 {
-                    int iIndex = pkObject->GetBone() ? m_pkTarget->GetPartIndex(pkObject->GetBone())
-                                                     : m_pkTarget->GetPartIndex(pkObject->GetParent());
+                    int iIndex = pkObject->GetBone() ? reinterpret_cast<::FUN_008b3ef0_cls *>((m_pkTarget))->FUN_008b3ef0((::TESObjectREFR *)(::NiAVObject9B6 *)(pkObject->GetBone()))
+                                                     : reinterpret_cast<::FUN_008b3ef0_cls *>((m_pkTarget))->FUN_008b3ef0((::TESObjectREFR *)(::NiAVObject9B6 *)(((::NiAVObject9B6 *)(reinterpret_cast<::FUN_009611e0_shell *>((pkObject))->FUN_009611e0()))));
                     if (iIndex != -1)
                     {
-                        BodyPart9B6* pkHitPart = pkParts->GetPart(iIndex);
+                        BodyPart9B6* pkHitPart = ((::BodyPart9B6 *)(reinterpret_cast<::FUN_005e50f0_Obj *>((pkParts))->GetValueByIndex(iIndex)));
                         if (pkHitPart && !kParts.Contains(pkHitPart))
-                            kParts.Add(pkHitPart, pkHitPart->IsSevered());
+                            reinterpret_cast<::WeightedResultList *>(&(kParts))->FUN_009b7990((::BGSBodyPart *)(pkHitPart), ((bool)(::FUN_005dc980((const char *)(pkHitPart)))));
                     }
                 }
             }
         }
         if (bFound)
         {
-            pkPart = kParts.Pick();
-            m_iPart = pkPart ? pkPart->GetIndex() : -1;
+            pkPart = ((::BodyPart9B6 *)(reinterpret_cast<::FUN_00822650_shell *>(&(kParts))->FindFirstItemExceedingRemaining()));
+            m_iPart = pkPart ? ((int)(reinterpret_cast<::Obj5e5300 *>((pkPart))->GetByte61())) : -1;
         }
     }
     if (m_iPart == 0xe)
     {
         m_fChance = m_fBaseChance;
         if (m_pkLink)
-            m_fChance *= *g_kLinkScale9B6.GetFloat();
+            m_fChance *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting9B6 *>(&::originalRuntimeFloatSetting759))))));
         m_fBaseChance = 0.0f;
         return;
     }
     if (pkPart)
     {
-        m_iPart = pkPart ? pkPart->GetIndex() : -1;
-        m_fChance = FUN_00647a30((Actor9B6*)m_pkTarget, pkPart, m_fBaseChance);
+        m_iPart = pkPart ? ((int)(reinterpret_cast<::Obj5e5300 *>((pkPart))->GetByte61())) : -1;
+        m_fChance = ::FUN_00647a30((::FUN_00647a30_Obj *)(::ActorValueOwner9B6 *)((Actor9B6*)m_pkTarget), (::FUN_00647a30_Flag *)(pkPart), m_fBaseChance);
         if (m_pkTarget->IsCrippled())
-            m_fChance *= *g_kCrippledScale9B6.GetFloat();
-        float fBodyPartChance = pkPart->GetChance();
-        if (!m_pkWeapon || m_pkWeapon->IsAutomatic())
+            m_fChance *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting9B6 *>(&::originalRuntimeFloatSetting750))))));
+        float fBodyPartChance = reinterpret_cast<::TESGrass *>((pkPart))->GetLowestAllowedSlope();
+        if (!m_pkWeapon || ::FUN_006450c0((::TESObjectWEAP *)(m_pkWeapon)))
             fBodyPartChance = 1.0f;
         if (m_pkWeapon)
-            m_fChance *= m_pkWeapon->GetSpread();
-        SetChance(fBodyPartChance);
+            m_fChance *= reinterpret_cast<::FUN_009b7040_shell *>((m_pkWeapon))->GetField168();
+        reinterpret_cast<::FUN_009b7840_shell *>(this)->RaiseMaxValue(fBodyPartChance);
     }
 }

@@ -2,12 +2,20 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysairfieldinheritvelocityctlr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysairfieldinheritvelocityctlr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_012027b0;
 
 // @fnv 0x00c30630
+#include <new>
+#include "fnv/decl/FUN_00c32d80.h"
+#include "fnv/decl/NiPSysAirFieldAirFrictionCtlr.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00c32000.h"
+#include "fnv/symbols_010c0000.h"
+#include "fnv/symbols_01202000.h"
 void* __cdecl FUN_00c30630()
 {
-    return &g_012027b0;
+    return &(*reinterpret_cast<void * *>(&::g_012027b0));
 }
 
 struct NiPSysModifierFloatCtlr
@@ -89,18 +97,15 @@ void S_00c30650::SetModValue(float fValue)
     m_pkTargetModifier->Set(fValue);
 }
 
-extern "C" char DAT_010c05e4;
 extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
 
 struct SpawnedCtlr
 {
-    void FUN_00c32d80();
     virtual void v00();
 };
 
 struct SpawnedHost
 {
-    void FUN_00c32de0(SpawnedCtlr* obj, void* a1);
     SpawnedCtlr* CreateSpawnedCtlr(void* a1);
 };
 
@@ -111,14 +116,14 @@ SpawnedCtlr* SpawnedHost::CreateSpawnedCtlr(void* a1)
     SpawnedCtlr* obj = (SpawnedCtlr*)FUN_00aa13e0(0x40);
     if (obj != 0)
     {
-        obj->FUN_00c32d80();
+        new ((void *)(obj)) ::FUN_00c32d80();
         *(void* volatile*)obj = &DAT_010c05e4;
     }
     else
     {
         obj = 0;
     }
-    this->FUN_00c32de0(obj, a1);
+    reinterpret_cast<::NiPSysAirFieldAirFrictionCtlr *>((this))->CopyMemberData((::NiPSysAirFieldAirFrictionCtlr *)(obj), (*(::CloningProcess *)(a1)));
     return obj;
 }
 
@@ -130,20 +135,16 @@ struct StrArr
     unsigned short index;
     unsigned short count;
     unsigned short growBy;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
-char* __cdecl FUN_00a7d330(char*);
-void __stdcall FUN_00c32f60(StrArr*);
 // Grows the array if its index has reached capacity, then stores the string returned by FUN_00a7d330 at that index.
 // @fnv 0x00c30740
 void __stdcall FUN_00c30740(StrArr* array)
 {
     FUN_00c32f60(array);
-    char* value = FUN_00a7d330(static_cast<char*>(g_012027b0));
+    char* value = ::FUN_00a7d330(static_cast<char*>((*reinterpret_cast<void * *>(&::g_012027b0))));
     unsigned int index = array->index;
     unsigned int capacity = array->capacity;
     if (index >= capacity)
-        array->SetSize(index + array->growBy);
-    array->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((array))->SetSize(index + array->growBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((array))->SetAt(index, value);
 }

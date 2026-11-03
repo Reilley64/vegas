@@ -1,8 +1,10 @@
 // Source layout: NiPoint3. PC corrections are in generate_headers.py.
 #ifndef FNV_NIPOINT3_H
 #define FNV_NIPOINT3_H
+#include "fnv/decl/FUN_004a0c10_s.h"
 #include "layout_support.h"
 #pragma pack(push, 4)
+struct FUN_00438fc0_file;
 class NiPoint3
 {
   public:
@@ -35,6 +37,16 @@ class NiPoint3
     static const NiPoint3 ZERO;
     float GetLengthSquared();
     NiPoint3 CrossProduct(const NiPoint3& point) const;
+public:
+    unsigned char ReadFromFile(::FUN_00438fc0_file *);
+public:
+    bool FUN_004390c0(const ::NiPoint3 &);
+public:
+    ::NiPoint3 &Subtract(const ::NiPoint3 &);
+public:
+    float ComputeMagnitude() const;
+public:
+    char *FUN_00a59af0(const char *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiPoint3) == 0xC);

@@ -5,10 +5,20 @@
 
 // src/havok/animation/ragdoll/utils/hkaragdollutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/ragdoll/utils/hkaragdollutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/CC0280Writer.h"
+#include "fnv/decl/FUN_00ce2510.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00ce9000.h"
+#include "fnv/symbols_00d74000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01095000.h"
+#include "fnv/symbols_010cb000.h"
+#include "fnv/symbols_01268000.h"
 extern "C"
 {
     int __cdecl FUN_00cea030(void*, void*);
-    int __cdecl FUN_00ce9db0(void*, void*);
     int __cdecl FUN_00ce9e90(void*);
 }
 int __cdecl FUN_00cea7c0(void* p1, void* p2, void* p3);
@@ -31,7 +41,6 @@ struct Counter
     int unk00[12];
     int unk30;
 };
-extern "C" void __cdecl AssignNodeFlags(int, int, int);
 void __cdecl FUN_00ce9fa0(Container* c, int value, Counter* counter);
 struct Inner
 {
@@ -66,7 +75,6 @@ struct hkError
     virtual void unk1();
     virtual int message(int type, int id, const char* desc, const char* file, int line) throw();
 };
-extern hkError* DAT_01268360;
 static bool IsSupportedRagdollConstraint(Obj* obj, bool reportError) throw();
 void caller(Obj* obj);
 struct SpawnedAllocator
@@ -82,12 +90,10 @@ struct SpawnedGlobal
     int unk0c;
     SpawnedAllocator* m_pAllocator;
 };
-SpawnedGlobal* __cdecl FUN_00c85750() throw();
 struct SpawnedObject
 {
     int unk00;
     unsigned short m_size04;
-    int Init(void* a, void* b, int c, void* d);
 };
 struct SourceRecord
 {
@@ -157,15 +163,11 @@ struct LogText
     {
         FUN_00cc00e0();
     }
-    LogText* FUN_00cc01c0(const char* value) throw();
-    LogText* WriteInt(int value) throw();
     void FUN_00cc00e0() throw();
 };
-extern "C" void __cdecl FUN_00c908c0(HeapAllocator* allocator, ScratchArray* array, int capacity, int itemSize);
 extern "C" const char DAT_010cbde0[];
 extern "C" const char DAT_010cbdec[];
 extern "C" const char DAT_010cbe00[];
-extern "C" const char DAT_010cbd34[];
 struct BSAudio;
 BSAudio* __cdecl _FUN_00c85750() throw();
 static ScratchAllocator* scratchState() throw()
@@ -186,7 +188,7 @@ static __forceinline void reserveArray(HeapAllocator* allocator, ScratchArray* a
     {
         int doubled = capacity * 2;
         int newCapacity = size < doubled ? doubled : size;
-        FUN_00c908c0(allocator, array, newCapacity, 4);
+        ::FUN_00c908c0((::SpawnedObject *)(allocator), (::SpawnedArray *)(array), newCapacity, 4);
     }
 }
 static __forceinline void fillWords(int* destination, int value, int count) throw()
@@ -312,13 +314,8 @@ extern "C" int __cdecl FUN_00cea030(void* first, void* second)
     {
         int messageStorage[128];
         hkErrStream message(messageStorage, 512);
-        reinterpret_cast<LogText*>(&message)
-            ->FUN_00cc01c0(DAT_010cbde0)
-            ->WriteInt(nodeCount - 1)
-            ->FUN_00cc01c0(DAT_010cbdec)
-            ->WriteInt(linkCount)
-            ->FUN_00cc01c0(DAT_010cbe00);
-        DAT_01268360->message(1, 0xabba54bb, reinterpret_cast<const char*>(messageStorage), DAT_010cbd34, 0x144);
+        reinterpret_cast<::SinkOwner *>((((::LogText *)&(reinterpret_cast<::CC0280Writer *>((((::LogText *)(reinterpret_cast<::SinkOwner *>((((::LogText *)&(reinterpret_cast<::CC0280Writer *>((((::LogText *)(reinterpret_cast<::SinkOwner *>((reinterpret_cast<LogText*>(&message)))->FUN_00cc01c0(DAT_010cbde0)))))->WriteInt(nodeCount - 1)))))->FUN_00cc01c0(DAT_010cbdec)))))->WriteInt(linkCount)))))->FUN_00cc01c0(DAT_010cbe00);
+        (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabba54bb, reinterpret_cast<const char*>(messageStorage), DAT_010cbd34, 0x144);
         return 1;
     }
     int nodeBytes;
@@ -384,12 +381,10 @@ extern "C" int __cdecl FUN_00cea030(void* first, void* second)
 }
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 extern "C" void _ReadWriteBarrier(void);
 extern "C" void _WriteBarrier(void);
 
-extern const float DAT_010959f4;
-extern const float DAT_01012068;
-extern const __m128 DAT_010c71b0;
 
 struct Vec4
 {
@@ -509,7 +504,7 @@ int __cdecl FUN_00ce9db0(A1W constraints, void* warnOnAlignment)
         Shape* shape = constraint->shape;
         PivotXform childFromConstraint;
         childFromConstraint.m_rotation = *(const PivotVec*)&DAT_010c71b0;
-        childFromConstraint.m_vScale.SetAllComponents(DAT_01012068);
+        childFromConstraint.m_vScale.SetAllComponents(::DAT_01012068);
         childFromConstraint.m_vTranslation = pivotInA;
         if (childFromConstraint.m_vTranslation.lengthSquared3() > DAT_010959f4)
         {

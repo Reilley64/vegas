@@ -2,8 +2,14 @@
 // src/fallout_shared/packagedatafollow.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/packagedatafollow.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void __cdecl Deallocate(void*);
 
+#include <new>
+#include "fnv/decl/FUN_0067ad20_Class.h"
+#include "fnv/decl/fnv_00503210__Unk.h"
+#include "fnv/decl/fnv_0067f600__FUN_0067f600_shell.h"
+#include "fnv/decl/fnv_0067f6c0__FUN_0067f6c0_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00485000.h"
 struct FUN_0067c080_shell
 {
     void __thiscall FUN_0067c080();
@@ -17,29 +23,19 @@ struct FUN_0067c010_shell
     void* __thiscall DestroyIfFlagged(unsigned int flags);
 };
 
-// @fnv 0x0067c010
-void* __thiscall FUN_0067c010_shell::DestroyIfFlagged(unsigned int flags)
-{
-    FUN_0067c080();
-    if (flags & 1)
-        Deallocate(this);
-    return this;
-}
-
 extern int DAT_01068988;
 struct FUN_0067c040_shell
 {
     void* vtbl;
     int m1;
     float m2;
-    void FUN_0067ad20();
     FUN_0067c040_shell* Construct(float a);
 };
 // Calls FUN_0067ad20, sets vtbl to &DAT_01068988, stores a in m2, zeroes m1, and returns this.
 // @fnv 0x0067c040
 FUN_0067c040_shell* FUN_0067c040_shell::Construct(float afValue)
 {
-    FUN_0067ad20();
+    new ((void *)this) ::FUN_0067ad20_Class();
     vtbl = &DAT_01068988;
     m2 = afValue;
     m1 = 0;
@@ -47,15 +43,13 @@ FUN_0067c040_shell* FUN_0067c040_shell::Construct(float afValue)
 }
 
 extern "C" void* __cdecl memset(void*, int, unsigned int);
-extern "C" bool __cdecl FUN_00401500();
-extern "C" void __cdecl AppendChunk(int, void*, int);
 struct BipedModelForm
 {
-    void Endian();
 };
 struct LocationDescriptor
 {
-    void Save(int);
+public:
+    void Copy(::LocationDescriptor *, bool);
 };
 struct FUN_0067c2b0_shell
 {
@@ -70,13 +64,13 @@ void FUN_0067c2b0_shell::SaveFloatRecord()
     float fValue;
     memset(&fValue, 0, 4);
     fValue = m_fSavedValue;
-    if (FUN_00401500())
-        ((BipedModelForm*)&fValue)->Endian();
-    AppendChunk(0x44464b50, &fValue, 4);
-    if (FUN_00401500())
-        ((BipedModelForm*)&fValue)->Endian();
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::fnv_00503210::Unk *>((((BipedModelForm*)&fValue)))->FUN_00503210();
+    ::AppendChunk(0x44464b50, &fValue, 4);
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::fnv_00503210::Unk *>((((BipedModelForm*)&fValue)))->FUN_00503210();
     if (m_pSaveTarget)
-        ((LocationDescriptor*)m_pSaveTarget)->Save(0x32444c50);
+        reinterpret_cast<::fnv_0067f6c0::FUN_0067f6c0_shell *>((((LocationDescriptor*)m_pSaveTarget)))->FUN_0067f6c0(0x32444c50);
 }
 
 struct FUN_00670b30_Object
@@ -93,6 +87,14 @@ struct FUN_0067c080 : FUN_0067ad70_Base
     FUN_00670b30_Object* ownedObject;
     ~FUN_0067c080();
 };
+// @fnv 0x0067c010
+void* __thiscall FUN_0067c010_shell::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0067c080 *>(this)->FUN_0067c080::~FUN_0067c080();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // Destructor that deletes the ownedObject pointer.
 // @fnv 0x0067c080
 FUN_0067c080::~FUN_0067c080()
@@ -110,7 +112,6 @@ class FollowPackageField
 {
   public:
     int unk00;
-    bool Cmp(FollowPackageField* p);
 };
 class TESFollowPackageData : public TESPackageData
 {
@@ -133,7 +134,7 @@ bool TESFollowPackageData::FUN_0067c220(TESPackageData* apData)
     }
     if (m_04 != 0)
     {
-        if (m_04->Cmp(other->m_04))
+        if (reinterpret_cast<::fnv_0067f600::FUN_0067f600_shell *>((m_04))->IsDifferentFrom((::LocationDescriptor *)(other->m_04)))
         {
             return true;
         }
@@ -161,7 +162,6 @@ struct FUN_0067f030
     int unk04;
     int unk08;
     FUN_0067f030();
-    void FUN_0067f4d0(FollowPackageField* other, bool flag);
 };
 
 // For a compatible source, copies m_08, deletes the old m_04, and allocates and initializes m_04 when the source has one.
@@ -180,7 +180,7 @@ void __thiscall FUN_0067c110_shell::FUN_0067c110(TESPackageData* other)
         if (source->m_04)
         {
             m_04 = reinterpret_cast<FollowPackageField*>(new FUN_0067f030);
-            reinterpret_cast<FUN_0067f030*>(m_04)->FUN_0067f4d0(source->m_04, false);
+            reinterpret_cast<::LocationDescriptor *>((reinterpret_cast<FUN_0067f030*>(m_04)))->Copy((::LocationDescriptor *)(source->m_04), false);
         }
     }
 }

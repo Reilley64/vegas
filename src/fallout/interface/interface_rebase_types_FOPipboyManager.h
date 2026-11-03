@@ -79,7 +79,6 @@ FNV_STATIC_ASSERT(offsetof(RgbaColor, a) == 12);
 class FORenderedMenu
 {
   public:
-    bool GetInitialized();
     void** m_ppVirtualMethodTable;                                        // +0x0, 4 bytes
     NiPointer<NiGeometry> m_pMenuBackgroundScreenGeometry;  // +0x4, 4 bytes
     NiPointer<NiAVObject> m_pMenuRoot;                      // +0x8, 4 bytes
@@ -307,6 +306,8 @@ class FOPipboyManager : public FORenderedMenu
     // void __cdecl FOPipboyManager::*(float)
     // FOPipboyManager& __cdecl FOPipboyManager::*(const FOPipboyManager&)
     // void __cdecl FOPipboyManager::*()
+public:
+    bool IsUnk28Set();
 };
 FNV_STATIC_ASSERT(sizeof(FOPipboyManager) == 368);
 FNV_STATIC_ASSERT(offsetof(FOPipboyManager, m_pPipBoyObject0) == 216);

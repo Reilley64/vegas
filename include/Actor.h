@@ -1,6 +1,19 @@
 // Source layout: Actor. PC corrections are in generate_headers.py.
 #ifndef FNV_ACTOR_H
 #define FNV_ACTOR_H
+#include "fnv/decl/ActorStandIn008a.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/FUN_00437bd0_stub.h"
+#include "fnv/decl/FUN_00437bf0_shell.h"
+#include "fnv/decl/FUN_00608d80_shell.h"
+#include "fnv/decl/FUN_00881650_shell.h"
+#include "fnv/decl/FUN_00893530_shell.h"
+#include "fnv/decl/FUN_008a1710_shell.h"
+#include "fnv/decl/FUN_008ace90_shell.h"
+#include "fnv/decl/FUN_008b3b90_shell.h"
+#include "fnv/decl/FUN_008bc790_shell.h"
+#include "fnv/decl/FleeActorEntry.h"
+#include "fnv/decl/HostActor.h"
 #include "layout_support.h"
 #include "ActorValueOwner.h"
 #include "CachedValuesOwner.h"
@@ -227,24 +240,13 @@ class Actor : public MobileObject,
     virtual void Unk_136(void);
     TESActorBase* GetActorBase();
     bool IsPlayerTeammate();
-    bool IsActorEssential();
     void SetActorEssentialState(int value);
     bool IsVisible(int flags);
-    TESObjectREFR* GetCombatOpponent();
-    void SetCombatOpponent(Actor* actor);
     void SetCurrentSitSleepState(SIT_SLEEP_STATE state);
-    float GetFatiguePercentage();
     BaseProcess* GetProcess();
     TESObjectWEAP* GetActiveWeapon();
-    bool IsEssentialActor();
-    bool IsInDeadState();
-    bool GetGhost();
-    bool HasEssentialStatus();
-    bool IsWithinRadius(int radius);
-    bool IsHostileToActor(Actor* target, int arg1, int* arg2, bool arg3);
-    bool FUN_00437bd0();
-    bool FUN_00437bf0();
-    bool FUN_00608d80();
+public:
+    bool IsSneaking();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(Actor) == 0x1B4);

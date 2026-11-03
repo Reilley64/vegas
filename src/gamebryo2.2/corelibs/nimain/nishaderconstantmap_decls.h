@@ -2,9 +2,12 @@
 #ifndef NISHADERCONSTANTMAP_DECLS_H
 #define NISHADERCONSTANTMAP_DECLS_H
 
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f6000.h"
 class IMemoryHeap;
 #include "MemoryManager.h"
-extern MemoryManager g_memoryManager;
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 class NiGlobalStringTable
@@ -19,19 +22,18 @@ class NiGlobalStringTable
     }
 };
 class NiFixedString;
-extern NiFixedString EmptyFS;
 class NiFixedString
 {
   public:
     char* m_kHandle;
     NiFixedString()
     {
-        m_kHandle = EmptyFS.m_kHandle;
+        m_kHandle = (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle;
     }
     NiFixedString(const char* text)
     {
         if (text == 0)
-            m_kHandle = EmptyFS.m_kHandle;
+            m_kHandle = (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle;
         else
             m_kHandle = NiGlobalStringTable::AddString(text);
     }
@@ -75,7 +77,7 @@ inline unsigned int NiAtomicSubtract(unsigned int& value)
 }
 inline void NiGlobalStringTable::IncRefCount(char*& handle)
 {
-    if (handle != EmptyFS.m_kHandle)
+    if (handle != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
     {
         char* buffer = GetRealBufferStart(handle);
         unsigned int* count = (unsigned int*)buffer;
@@ -84,7 +86,7 @@ inline void NiGlobalStringTable::IncRefCount(char*& handle)
 }
 inline void NiGlobalStringTable::DecRefCount(char*& handle)
 {
-    if (handle != EmptyFS.m_kHandle)
+    if (handle != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
     {
         char* buffer = GetRealBufferStart(handle);
         unsigned int* count = (unsigned int*)buffer;
@@ -119,15 +121,13 @@ class NiShaderConstantMap
         }
         static void* operator new[](unsigned int size) throw()
         {
-            return g_memoryManager.Allocate(size);
+            return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
         }
     };
     static void InitializePoint3();
     static bool ParseConstantName(const char*, char*, unsigned int, unsigned int&);
     static bool FindConstantMapping(const char*, unsigned int&, unsigned int&);
-    static ShaderConstantMapEntry* ms_pkShaderConstantMap;
     static unsigned int ms_uiShaderConstantMapEntryCount;
-    static ShaderConstantMapEntry* ms_pkConstantMap;
     static unsigned int ms_uiConstantMapEntryCount;
 };
 extern "C" int strcpy_s(char*, unsigned int, const char*);
@@ -137,6 +137,5 @@ extern "C" char* strchr(char*, int);
 extern "C" int isdigit(int);
 extern "C" char* strtok_s(char*, const char*, char**);
 long FUN_00eca6d3(const char*);
-int NiStricmp(const char*, const char*);
 
 #endif

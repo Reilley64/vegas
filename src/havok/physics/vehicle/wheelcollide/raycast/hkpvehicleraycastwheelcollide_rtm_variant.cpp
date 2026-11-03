@@ -4,6 +4,16 @@
 
 // src/havok/physics/vehicle/wheelcollide/raycast/hkpvehicleraycastwheelcollide.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/wheelcollide/raycast/hkpvehicleraycastwheelcollide.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00c936a0_World.h"
+#include "fnv/decl/FUN_00cf2cb0.h"
+#include "fnv/decl/FUN_00e360f0.h"
+#include "fnv/decl/PhRemoveListener.h"
+#include "fnv/decl/PhantomBounds.h"
+#include "fnv/decl/Phantom_00cf26b0.h"
+#include "fnv/decl/WorldC92C.h"
+#include "fnv/decl/hkOwnerXd07de0.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_0102e000.h"
 #include "havok/hkpVehicleRayCastWheelCollide.h"
 struct FUN_00e41f10
 {
@@ -11,7 +21,6 @@ struct FUN_00e41f10
 };
 struct FUN_00c936a0_host
 {
-    void* FUN_00c936a0(void* phantom);
 };
 struct FUN_00e41ef0_self
 {
@@ -23,7 +32,6 @@ struct __declspec(align(16)) hkAabb
 };
 struct FUN_00cf24a0_host
 {
-    void FUN_00cf24a0(hkAabb* aabb);
 };
 struct FUN_00e41e70_host
 {
@@ -49,18 +57,14 @@ struct FUN_00e41e70_host
 };
 struct FUN_00c92c70_host
 {
-    void FUN_00c92c70(void* phantom);
 };
 struct FUN_00e41f00_self
 {
     void FUN_00e41f00();
 };
 extern int DAT_010e5ae4;
-extern int DAT_0102e388;
 struct FUN_00e41fc0_phantom
 {
-    void __thiscall FUN_00d07c80(void* arg);
-    void __thiscall FUN_00c905b0();
 };
 struct FUN_00e41fc0_listener
 {
@@ -68,7 +72,6 @@ struct FUN_00e41fc0_listener
     int unk04;
     void* unk08;
     void* unk0C;
-    void __thiscall FUN_00e360f0();
 };
 class FUN_00e41fc0_host
 {
@@ -106,14 +109,14 @@ void FUN_00e41fc0_host::FUN_00e41fc0()
                 arg = 0;
             }
 
-            phantom->FUN_00d07c80(arg);
+            reinterpret_cast<::PhRemoveListener *>((phantom))->FUN_00d07c80(arg);
         }
 
-        this->unk10->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((this->unk10))->FUN_00c905b0();
     }
 
-    this->unk14.FUN_00e360f0();
-    *(int**)this = &DAT_0102e388;
+    reinterpret_cast<::FUN_00e360f0 *>(&(this->unk14))->FUN_00e360f0::~FUN_00e360f0();
+    *(int**)this = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 class hkMemoryAllocatorXe42610;
 struct hkMemoryRouterXe42610
@@ -249,8 +252,6 @@ struct FUN_00c85750_obj
     int unkF8;
     int unkFC;
 
-    void* __thiscall FUN_00cf2cb0(void* aabb, unsigned int filter);
-    void __thiscall FUN_00d07de0(void* value);
 };
 struct FUN_00c85750_host
 {
@@ -300,10 +301,10 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern const __m128 DAT_010c44d0;
 struct hkVector4E423
 {
     __m128 m_vComponents;
@@ -429,7 +430,6 @@ class FUN_00e42550 : public hkpVehicleWheelCollideE42
 class hkpAabbPhantom
 {
   public:
-    void __thiscall FUN_00cf26b0(void* input, void* output);
 };
 struct __declspec(align(16)) Vec4
 {

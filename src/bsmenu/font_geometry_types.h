@@ -2,6 +2,7 @@
 #ifndef FNV_FONT_PRIVATE_GEOMETRY_TYPES_H
 #define FNV_FONT_PRIVATE_GEOMETRY_TYPES_H
 
+#include "fnv/decl/FnvCpu_FUN_00a7b850_CpuObject.h"
 #include "font_types.h"
 #define FONT_GEOMETRY_JOIN_(a, b) a##b
 #define FONT_GEOMETRY_JOIN(a, b) FONT_GEOMETRY_JOIN_(a, b)
@@ -75,6 +76,8 @@ class NiPoint3
     float x;  // +0x0
     float y;  // +0x4
     float z;  // +0x8
+public:
+    static const ::NiPoint3 ZERO;
 };
 FONT_GEOMETRY_ASSERT(sizeof(NiPoint3) == 0xC);
 FONT_GEOMETRY_ASSERT(offsetof(NiPoint3, x) == 0x0);
@@ -328,7 +331,6 @@ FONT_GEOMETRY_ASSERT(offsetof(NiTriBasedGeomData, activeTriangles) == 0x42);
 class NiTriShapeData : public NiTriBasedGeomData
 {
   public:
-    unsigned short* GetTriangleList();
     unsigned int m_uiTriListLength;                            // +0x44, 4 bytes
     unsigned short* m_pusTriList;                              // +0x48, 4 bytes
     NiTriShapeData__SharedNormalArray* m_pkSharedNormalArray;  // +0x4C, 4 bytes

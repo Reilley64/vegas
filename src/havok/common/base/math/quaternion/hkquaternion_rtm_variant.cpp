@@ -8,6 +8,8 @@
    Only submit the TARGET definition and any genuinely missing declarations that are required
    for compilation. Do not write or repeat packet-declarations, nor any headers that might
    be present in the checker's context. */
+#include "fnv/decl/FUN_00827200_class.h"
+#include "fnv/decl/HkFloatCheck.h"
 class FUN_005611c0_t
 {
   public:
@@ -30,7 +32,6 @@ static __declspec(noinline) void FUN_00cb2550(FUN_005611c0_t* obj, float* pts)
 struct FUN_00cb24c0_cls
 {
     __m128 m_00;
-    void FUN_00c7f500(unsigned char* flag);
     unsigned char* IsNormalized(unsigned char* flag);
 };
 struct Block64
@@ -47,7 +48,6 @@ struct SubObj
     unsigned int unk08;
     unsigned int unk0C;
 
-    void CallSub(Block64* p);
 };
 __declspec(align(16)) struct FUN_00cf5950_cls
 {

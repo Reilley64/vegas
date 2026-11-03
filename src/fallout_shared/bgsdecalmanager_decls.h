@@ -2,6 +2,11 @@
 #ifndef BGSDECALMANAGER_DECLS_H
 #define BGSDECALMANAGER_DECLS_H
 
+#include "fnv/decl/fnv_0043b1b0__FUN_0043b1b0_shell.h"
+#include "fnv/symbols_0043c000.h"
+#include "fnv/symbols_004a0000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_011c5000.h"
 #include "layout_support.h"
 #ifndef FNV_FORCEINLINE
 #define FNV_FORCEINLINE inline
@@ -83,9 +88,7 @@ class ProcessLists
   public:
     unsigned char* GetLifeStateControlFlag();
 };
-extern ProcessLists DAT_011c5904;
 extern int DAT_011c57ec;
-extern unsigned int DAT_011c57f4;
 extern "C" const char DAT_0101e1c8[];
 extern "C" const char DAT_0101e19c[];
 extern "C" const char DAT_0101e174[];
@@ -93,7 +96,6 @@ extern "C" const char DAT_0101e174[];
 class NiRenderer
 {
   public:
-    void StartScene();
     void FinishScene();
     char _pdbpad_1[7];
     char m_spAccum_pad7_pad7[4];
@@ -109,9 +111,9 @@ class NiRenderer
     bool m_bRendererFlagA;
     bool m_bRendererFlagB;
     char _pdbpad_20a[118];
+public:
+    static ::NiRenderer *ms_pRenderer;
 };
-NiRenderer* FUN_0043c4b0();
-int __cdecl Warning(const char*, ...);
 
 class DecalVtableCall
 {

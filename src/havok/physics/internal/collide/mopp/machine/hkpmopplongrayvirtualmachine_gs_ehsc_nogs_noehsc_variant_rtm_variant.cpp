@@ -8,6 +8,15 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <xmmintrin.h>
+#include <new>
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00dd1f00.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/symbols_00df2000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_010d5000.h"
+#include "fnv/symbols_01268000.h"
 extern "C" void _ReadWriteBarrier(void);
 
 struct LongRayScalar
@@ -181,8 +190,6 @@ static __forceinline int readTriple(const unsigned char* q)
     return y;
 }
 extern "C" __m128 DAT_010ec7f0;
-extern "C" float DAT_01011d78;
-extern "C" const char DAT_010d5100[];
 extern "C" const char DAT_010d7b2c[];
 class Scalar4
 {
@@ -290,7 +297,6 @@ struct RayState
     float scale;
     unsigned primitiveOffset;
     unsigned properties[1];
-    void FUN_00dd1f00(const RayState*);
 };
 struct MoppData
 {
@@ -363,9 +369,6 @@ struct ErrorText
     int unk00;
     int unk04;
     void* writer;
-    void FUN_00cb1600(void*, int);
-    void FUN_00cc01c0(const char*);
-    void FUN_00cc00e0();
 };
 struct ErrorLogger
 {
@@ -374,9 +377,7 @@ struct ErrorLogger
     virtual void unused08();
     virtual int report(int, int, const char*, const char*, int);
 };
-extern "C" ErrorLogger* DAT_01268360;
 extern "C" unsigned char DAT_01269cbd;
-void __cdecl FUN_00df22f0(unsigned char*);
 struct MoppMachine
 {
     int unk00;
@@ -412,7 +413,7 @@ void MoppMachine::FUN_00dd1f30(const RayState* state, const unsigned char* code,
     RayState localState;
     if (!DAT_01269cbd)
     {
-        FUN_00df22f0(&DAT_01269cbd);
+        ::ValidateHavokKeyCode((bool *)(unsigned char *)(&DAT_01269cbd));
         if (!DAT_01269cbd)
             return;
     }
@@ -548,7 +549,7 @@ void MoppMachine::FUN_00dd1f30(const RayState* state, const unsigned char* code,
                     float ratio = fromLower / (fromLower - toLower);
                     branch.ends[1].setInterpolate4(ray->ends[0], ray->ends[1], ratio);
                 }
-                FUN_00dd1f30(state, code + skipLeft - skipRight, &branch, codeOffset);
+                reinterpret_cast<::LongRayVm *>(this)->FUN_00dd1f30((const ::LongRayQueryInt *)(state), code + skipLeft - skipRight, (::LongRayQueryFloat *)(::LongRayTreeDetail::RayPair *)(&branch), codeOffset);
                 if (toUpper * fromUpper < 0.0)
                 {
                     float ratio = fromUpper / (fromUpper - toUpper);
@@ -573,7 +574,7 @@ void MoppMachine::FUN_00dd1f30(const RayState* state, const unsigned char* code,
                     float ratio = fromUpper / (fromUpper - toUpper);
                     branch.ends[1].setInterpolate4(ray->ends[0], ray->ends[1], ratio);
                 }
-                FUN_00dd1f30(state, code, &branch, codeOffset);
+                reinterpret_cast<::LongRayVm *>(this)->FUN_00dd1f30((const ::LongRayQueryInt *)(state), code, (::LongRayQueryFloat *)(::LongRayTreeDetail::RayPair *)(&branch), codeOffset);
                 if (toLower * fromLower < 0.0)
                 {
                     float ratio = fromLower / (fromLower - toLower);
@@ -677,7 +678,7 @@ void MoppMachine::FUN_00dd1f30(const RayState* state, const unsigned char* code,
         case 3:
         case 4: {
             hkVector4 dv;
-            dv.set((float)(int)code[1], (float)(int)code[2], (float)(int)code[3], DAT_01011d78);
+            dv.set((float)(int)code[1], (float)(int)code[2], (float)(int)code[3], ::DAT_01011d78);
             __m128 d = dv.getQuad();
             float factor = (float)(1 << command);
             ray->ends[0].sub4(dv);
@@ -698,7 +699,7 @@ void MoppMachine::FUN_00dd1f30(const RayState* state, const unsigned char* code,
             int value = code[1];
             if (state != &localState)
             {
-                localState.FUN_00dd1f00(state);
+                new ((void *)&(localState)) ::FUN_00dd1f00((*(const ::FUN_00dd1f00 *)(state)));
                 state = &localState;
             }
             localState.primitiveOffset += value;
@@ -709,7 +710,7 @@ void MoppMachine::FUN_00dd1f30(const RayState* state, const unsigned char* code,
             int value = (code[1] << 8) + code[2];
             if (state != &localState)
             {
-                localState.FUN_00dd1f00(state);
+                new ((void *)&(localState)) ::FUN_00dd1f00((*(const ::FUN_00dd1f00 *)(state)));
                 state = &localState;
             }
             localState.primitiveOffset += value;
@@ -720,7 +721,7 @@ void MoppMachine::FUN_00dd1f30(const RayState* state, const unsigned char* code,
             int value = (((((code[1] << 8) + code[2]) << 8) + code[3]) << 8) + code[4];
             if (state != &localState)
             {
-                localState.FUN_00dd1f00(state);
+                new ((void *)&(localState)) ::FUN_00dd1f00((*(const ::FUN_00dd1f00 *)(state)));
                 state = &localState;
             }
             localState.primitiveOffset = value;
@@ -754,7 +755,7 @@ void MoppMachine::FUN_00dd1f30(const RayState* state, const unsigned char* code,
             int saved = localState.properties[0];
             if (state != &localState)
             {
-                localState.FUN_00dd1f00(state);
+                new ((void *)&(localState)) ::FUN_00dd1f00((*(const ::FUN_00dd1f00 *)(state)));
                 state = &localState;
             }
             localState.properties[0] = saved;
@@ -763,16 +764,16 @@ void MoppMachine::FUN_00dd1f30(const RayState* state, const unsigned char* code,
         default: {
             __declspec(align(16)) char buffer[512];
             ErrorText message;
-            message.FUN_00cb1600(buffer, 512);
-            message.FUN_00cc01c0(DAT_010d5100);
-            if (DAT_01268360->report(3, 0x1298fedd, buffer, DAT_010d7b2c, 554))
+            new ((void *)&(message)) ::FUN_00cb1600(buffer, 512);
+            reinterpret_cast<::SinkOwner *>(&(message))->FUN_00cc01c0(::str_010d5100);
+            if ((*reinterpret_cast<::LongRayTreeDetail::ErrorLogger * *>(&::DAT_01268360))->report(3, 0x1298fedd, buffer, DAT_010d7b2c, 554))
             {
                 __debugbreak();
-                message.FUN_00cc00e0();
+                reinterpret_cast<struct ::FUN_00cc00e0 *>(&(message))->FUN_00cc00e0::~FUN_00cc00e0();
             }
             else
             {
-                message.FUN_00cc00e0();
+                reinterpret_cast<struct ::FUN_00cc00e0 *>(&(message))->FUN_00cc00e0::~FUN_00cc00e0();
             }
             continue;
         }

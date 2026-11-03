@@ -2,6 +2,7 @@
 #ifndef FNV_PRIVATE_BSSHADER_SHADER_H
 #define FNV_PRIVATE_BSSHADER_SHADER_H
 
+#include "fnv/symbols_00be0000.h"
 #include "layout_support.h"
 #include "NiFixedString.h"
 #include "NiRefObject.h"
@@ -965,7 +966,6 @@ class BSShader : public NiD3DDefaultShader
 {
   public:
     BSShader();
-    NiD3DVertexShader* CompileVertexShader(const char*, const _D3DXMACRO*, const char*, const char*);
     virtual ~BSShader();
     // base NiD3DDefaultShader at +0x0, size 92
     NiPointer<NiD3DPass> spRenderPass[1];    // +0x5C, 4 bytes

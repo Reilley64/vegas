@@ -1,6 +1,18 @@
 // fallout/ai/mobileobject_topicinfo.h: declares TESTopicInfo
 #ifndef FNV_MOBILEOBJECT_TESCONDITION_H
 #define FNV_MOBILEOBJECT_TESCONDITION_H
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/FUN_00409480_shell.h"
+#include "fnv/decl/FUN_00508d70_shell.h"
+#include "fnv/decl/FUN_00619a70_shell.h"
+#include "fnv/decl/FUN_0061cdc0_shell.h"
+#include "fnv/decl/FUN_0061cfd0_shell.h"
+#include "fnv/decl/FUN_0061e600_t.h"
+#include "fnv/decl/TopicFlagStandIn.h"
+#include "fnv/decl/fnv_0087ce80__FUN_0087ce80_shell.h"
+#include "fnv/symbols_00619000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_009e3000.h"
 #include "layout_support.h"
 #pragma pack(push, 4)
 class PerkEntryConditionSet
@@ -60,30 +72,20 @@ class TESTopicInfo : public TESForm
     SPEECH_CHALLENGE_LEVEL m_eDifficultyLevel;  // +0x44
     TESQuest* m_pOwnerQuest;                    // +0x48
     unsigned long m_ulTopicFlags;               // +0x4C
-    bool IsSayOnceADay();
-    bool IsRandomEnd();
-    bool IsRandom();
-    bool IsInfoValidForDialogue(bool& deferred, TESQuest* quest, TESObjectREFR* speaker, TESObjectREFR* listener);
-    TESTopicInfoData* GetConversationData();
     Script* GetResultScript(unsigned int onEnd);
-    bool HasResultScript();
     TESTopicInfo(DIALOGUE_TYPE type);
-    void SetRandom(bool random);
     void SetTopicInfoData(TESTopicInfoData* data);
     virtual void InitializeComponent();
     virtual void ClearData();
-    unsigned short GetInfoIndex();
-    PerkEntryConditionSet* GetInfoConditions();
     void SetOwnerTopic(TESTopic* owner);
     void ResetResponseList();
     void ClearResponses();
     BSSimpleList<TESTopic*>* GetAddTopicList();
-    void SetPrompt(const char* prompt);
-    void SetSpeaker(TESActorBase* speaker);
-    void SetActorValue(ActorValueInfo* value);
-    void SetPerk(BGSPerk* perk);
-    void SetDifficultyLevel(SPEECH_CHALLENGE_LEVEL difficulty);
     virtual bool LoadForm(TESFile* file);
+public:
+    void AddTopicList();
+public:
+    void MarkAsRefusal();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESTopicInfo) == 0x50);

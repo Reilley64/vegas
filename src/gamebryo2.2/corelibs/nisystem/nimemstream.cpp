@@ -2,6 +2,11 @@
 // src/gamebryo2.2/corelibs/nisystem/nimemstream.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nisystem/nimemstream.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00aa1d30_cls.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00aa2000.h"
+#include "fnv/symbols_011f6000.h"
 struct NiBinaryStream
 {
 };
@@ -22,8 +27,6 @@ void __thiscall NiMemStream::FUN_00aa2d70(int iNumBytes)
     }
 }
 
-void* __cdecl _NiMalloc(unsigned int size);
-void __cdecl _NiFreeAlias(void* p);
 void* __cdecl _memmove(void* dst, const void* src, unsigned int count);
 
 // @fnv 0x00aa2dd0
@@ -43,9 +46,9 @@ unsigned int __fastcall FUN_00aa2dd0(NiMemStream* pThis, void* unused, const voi
         else
             newSize = (oldEnd - freeSpace) + numBytes;
 
-        void* newBuffer = _NiMalloc(newSize);
+        void* newBuffer = ::FUN_00aa1070(newSize);
         _memmove(newBuffer, *(void**)(pThis + 0x10), *(unsigned int*)(pThis + 0x18));
-        _NiFreeAlias(*(void**)(pThis + 0x10));
+        ::FUN_00aa10f0(*(void**)(pThis + 0x10));
         *(void**)(pThis + 0x10) = newBuffer;
         *(unsigned int*)(pThis + 0x1c) = newSize;
     }
@@ -82,7 +85,6 @@ unsigned int FUN_00aa2e60(NiMemStream* stream, void* dest, unsigned int count)
 }
 }  // namespace fnv_00aa2e60
 
-int __cdecl SwapBufferBySizes(void*, unsigned int, void*, void*);
 // Copies up to uLen bytes from the stream's buffer at its current position into pData, advances the position, and calls SwapBufferBySizes on the data.
 // @fnv 0x00aa2ec0
 unsigned int __cdecl FUN_00aa2ec0(NiMemStream* pStream, void* apBuffer, unsigned int auiLength, void* apArgA,
@@ -98,14 +100,12 @@ unsigned int __cdecl FUN_00aa2ec0(NiMemStream* pStream, void* apBuffer, unsigned
     char* pBufferBase = *(char**)((char*)pStream + 0x10);
     _memmove(apBuffer, pBufferBase + uiPosition, uiCopied);
     *(unsigned int*)((char*)pStream + 0x14) += uiCopied;
-    SwapBufferBySizes(apBuffer, auiLength, apArgA, apArgB);
+    ::SwapBufferBySizes((char *)(apBuffer), auiLength, (const unsigned int *)(apArgA), (unsigned int)(apArgB));
     return uiCopied;
 }
 
-int __cdecl SwapBufferBySizes(void*, unsigned int, void*, void*);
 struct S_00aa2dd0
 {
-    unsigned int __thiscall FUN_00aa2dd0(const void*, unsigned int);
 };
 // Copies uSize bytes from pSrc into a temporary buffer, passes it to SwapBufferBySizes, writes it to pStream, frees the buffer and returns the write result.
 // @fnv 0x00aa2f20
@@ -113,19 +113,15 @@ unsigned int __cdecl FUN_00aa2f20(NiMemStream* pStream, const void* pSrc, unsign
 {
     if (uSize <= 0)
         return 0;
-    void* pBuffer = _NiMalloc(uSize);
+    void* pBuffer = ::FUN_00aa1070(uSize);
     _memmove(pBuffer, pSrc, uSize);
-    SwapBufferBySizes(pBuffer, uSize, pA, pB);
-    unsigned int uRet = ((S_00aa2dd0*)pStream)->FUN_00aa2dd0(pBuffer, uSize);
-    _NiFreeAlias(pBuffer);
+    ::SwapBufferBySizes((char *)(pBuffer), uSize, (const unsigned int *)(pA), (unsigned int)(pB));
+    unsigned int uRet = ::FUN_00aa2dd0((::NiMemStream *)(((S_00aa2dd0*)pStream)), (void *)(pBuffer), (const void *)(uSize), {});
+    ::FUN_00aa10f0(pBuffer);
     return uRet;
 }
 
 namespace fnv_00aa2f80 {
-extern "C" void __cdecl FUN_00aa2e60(void*);
-extern "C" void __cdecl FUN_00aa2ea0(void*);
-extern "C" void __cdecl FUN_00aa2ec0(void*);
-extern "C" void __cdecl FUN_00aa2f20(void*);
 
 struct NiMemStream
 {
@@ -141,39 +137,32 @@ void NiMemStream::SetSwapMode(bool bDoSwap)
 {
     if (bDoSwap)
     {
-        m_read = FUN_00aa2ec0;
-        m_write = FUN_00aa2f20;
+        m_read = ((void (&)(void *))::FUN_00aa2ec0);
+        m_write = ((void (&)(void *))::FUN_00aa2f20);
     }
     else
     {
-        m_read = FUN_00aa2e60;
-        m_write = FUN_00aa2ea0;
+        m_read = ((void (&)(void *))::fnv_00aa2e60::FUN_00aa2e60);
+        m_write = ((void (&)(void *))::FUN_00aa2ea0);
     }
 }
 }  // namespace fnv_00aa2f80
 
-void* __cdecl _NiMalloc(unsigned int size);
-void __cdecl _NiFreeAlias(void* p);
 void* __cdecl _memmove(void* dst, const void* src, unsigned int count);
 unsigned int __fastcall FUN_00aa2dd0(NiMemStream* pThis, void* unused, const void* data, unsigned int numBytes);
-int __cdecl SwapBufferBySizes(void*, unsigned int, void*, void*);
 unsigned int __cdecl FUN_00aa2ec0(NiMemStream* pStream, void* pData, unsigned int uLen, void* pA, void* pB);
-int __cdecl SwapBufferBySizes(void*, unsigned int, void*, void*);
 
 unsigned int __cdecl FUN_00aa2f20(NiMemStream* pStream, const void* pSrc, unsigned int uSize, void* pA, void* pB);
 
 // @fnv 0x00aa2ea0
 void __cdecl FUN_00aa2ea0(S_00aa2dd0* pThis, const void* pData, unsigned int uLen)
 {
-    pThis->FUN_00aa2dd0(pData, uLen);
+    ::FUN_00aa2dd0((::NiMemStream *)(pThis), (void *)(pData), (const void *)(uLen), {});
 }
 
 struct NiAlloc
 {
-    void __thiscall FUN_00aa4060(void* ptr);
 };
-extern NiAlloc DAT_011f6238;
-void __cdecl FUN_00aa10f0(void* ptr);
 
 struct FUN_00aa2d90 : NiBinaryStream
 {
@@ -187,11 +176,10 @@ struct FUN_00aa2d90 : NiBinaryStream
     unsigned char flag20;
     unsigned char flag21;
 
-    void __thiscall FUN_00aa1d30();
     virtual ~FUN_00aa2d90();
     static void operator delete(void* ptr)
     {
-        DAT_011f6238.FUN_00aa4060(ptr);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::NiAlloc *>(&::g_memoryManager))))->FUN_00aa4060(ptr);
     }
 };
 
@@ -203,5 +191,5 @@ FUN_00aa2d90::~FUN_00aa2d90()
     {
         FUN_00aa10f0(buffer);
     }
-    FUN_00aa1d30();
+    reinterpret_cast<::FUN_00aa1d30_cls *>(this)->FUN_00aa1d30();
 }

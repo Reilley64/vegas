@@ -1,6 +1,174 @@
 // src/fallout/ai/lowprocess_rtm_variant.cpp - variant unit created 2026-11-01 by rtm_route.py: community reworks of src/fallout/ai/lowprocess.cpp that match byte for byte only
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with) and /MT /Od /Oy- /GS /EHsc /Gy /GF (unit lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton.
 
+#include <new>
+#include "fnv/decl/AIFormFlags.h"
+#include "fnv/decl/ActorGoldQuery.h"
+#include "fnv/decl/ActorInventoryQueryViews__ActorQuery.h"
+#include "fnv/decl/ActorStandIn008a.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/B_008b3630.h"
+#include "fnv/decl/C42CE30.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatTargetTimestamp.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00414220_shell.h"
+#include "fnv/decl/FUN_00418830_shell.h"
+#include "fnv/decl/FUN_0041c8d0_shell.h"
+#include "fnv/decl/FUN_0041ca90.h"
+#include "fnv/decl/FUN_0041d8a0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_0046f070_shell.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_004fd380_shell.h"
+#include "fnv/decl/FUN_00508d70_shell.h"
+#include "fnv/decl/FUN_00526ac0_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00568680_shell.h"
+#include "fnv/decl/FUN_00569160_shell.h"
+#include "fnv/decl/FUN_00569250_shell.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_00575770_shell.h"
+#include "fnv/decl/FUN_005aa420_shell.h"
+#include "fnv/decl/FUN_005aae70_shell.h"
+#include "fnv/decl/FUN_005abed0_shell.h"
+#include "fnv/decl/FUN_005ac1e0_shell.h"
+#include "fnv/decl/FUN_005c1a00.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005d43e0_shell.h"
+#include "fnv/decl/FUN_00619df0_shell.h"
+#include "fnv/decl/FUN_0061b320_shell.h"
+#include "fnv/decl/FUN_00621b00_shell.h"
+#include "fnv/decl/FUN_00672930_cls.h"
+#include "fnv/decl/FUN_00672dd0_shell.h"
+#include "fnv/decl/FUN_00672f20_cls.h"
+#include "fnv/decl/FUN_00674e70_Shell.h"
+#include "fnv/decl/FUN_006757e0_shell.h"
+#include "fnv/decl/FUN_00675830_shell.h"
+#include "fnv/decl/FUN_00678ec0_shell.h"
+#include "fnv/decl/FUN_0067a480_shell.h"
+#include "fnv/decl/FUN_0067efd0_shell.h"
+#include "fnv/decl/FUN_0067f430_shell.h"
+#include "fnv/decl/FUN_0067f480_shell.h"
+#include "fnv/decl/FUN_0067f970_shell.h"
+#include "fnv/decl/FUN_0083c850.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00881450_shell.h"
+#include "fnv/decl/FUN_00884f80_shell.h"
+#include "fnv/decl/FUN_008ad910_cls.h"
+#include "fnv/decl/FUN_008b36f0_cls.h"
+#include "fnv/decl/FUN_008b3b90_shell.h"
+#include "fnv/decl/FUN_008b3bf0_shell.h"
+#include "fnv/decl/FUN_008c6130_shell.h"
+#include "fnv/decl/FUN_008d7e00_shell.h"
+#include "fnv/decl/FUN_008d7e60_shell.h"
+#include "fnv/decl/FUN_008e30e0_Class.h"
+#include "fnv/decl/FUN_008e3100_class.h"
+#include "fnv/decl/FUN_008e3120_This.h"
+#include "fnv/decl/FUN_008e7c50_cls.h"
+#include "fnv/decl/FUN_00903cd0_shell.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FUN_00937b30_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00962720_shell.h"
+#include "fnv/decl/FUN_009f2ba0_shell.h"
+#include "fnv/decl/FUN_009f3390_shell.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/OwnerLookupView.h"
+#include "fnv/decl/OwnershipReferenceView.h"
+#include "fnv/decl/PatrolData.h"
+#include "fnv/decl/Proxy758a0.h"
+#include "fnv/decl/RefS.h"
+#include "fnv/decl/Reference.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/State.h"
+#include "fnv/decl/TESCallHelper.h"
+#include "fnv/decl/TESCombatStyle.h"
+#include "fnv/decl/TESRegion.h"
+#include "fnv/decl/TESRegionGrassObject.h"
+#include "fnv/decl/TeleportableReference.h"
+#include "fnv/decl/TopicMethods.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_00421310__FUN_00421310_shell.h"
+#include "fnv/decl/fnv_00564db0__FUN_00564db0_cls.h"
+#include "fnv/decl/fnv_00565870__FUN_00565870_shell.h"
+#include "fnv/decl/fnv_005692a0__FUN_005692a0_shell.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_0057ace0__FUN_0057ace0_shell.h"
+#include "fnv/decl/fnv_0057ad20__FUN_0057ad20_shell.h"
+#include "fnv/decl/fnv_0057bd60__fnv_anon_tesobjectrefr__Dummy.h"
+#include "fnv/decl/fnv_005ac4f0__FUN_005ac4f0_shell.h"
+#include "fnv/decl/fnv_00674f30__FUN_00674f30_shell.h"
+#include "fnv/decl/fnv_00675a50__FUN_00675a50_shell.h"
+#include "fnv/decl/fnv_00675c20__PHost.h"
+#include "fnv/decl/fnv_00676140__FUN_00676140_shell.h"
+#include "fnv/decl/fnv_006780e0__TESPackageExt.h"
+#include "fnv/decl/fnv_00678670__FUN_00678670_shell.h"
+#include "fnv/decl/fnv_006787e0__Package.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/decl/fnv_00881470__FUN_00881470_shell.h"
+#include "fnv/decl/fnv_00881680__FUN_00881680_shell.h"
+#include "fnv/decl/fnv_008a0b10__FUN_008a0b10_shell.h"
+#include "fnv/decl/fnv_008a6a40__TargetActor.h"
+#include "fnv/decl/fnv_008a8f60__FUN_008a8f60_shell.h"
+#include "fnv/decl/fnv_008b3690__TES.h"
+#include "fnv/decl/fnv_008b3880__FUN_008b3880_target.h"
+#include "fnv/decl/fnv_008b3d30__FUN_008b3d30_shell.h"
+#include "fnv/decl/fnv_00903e00__FUN_00903e00_shell.h"
+#include "fnv/decl/fnv_00903e20__FUN_00903e20_shell.h"
+#include "fnv/decl/fnv_00937c60__ModifierList_h.h"
+#include "fnv/decl/fnv_00962620__FUN_00962620_cls.h"
+#include "fnv/decl/s428110__Owner.h"
+#include "fnv/decl/s56ae10__Owner.h"
+#include "fnv/decl/xPkg.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00464000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_0048e000.h"
+#include "fnv/symbols_00573000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_0061b000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_00884000.h"
+#include "fnv/symbols_008a6000.h"
+#include "fnv/symbols_008b1000.h"
+#include "fnv/symbols_008e7000.h"
+#include "fnv/symbols_00903000.h"
+#include "fnv/symbols_0090d000.h"
+#include "fnv/symbols_0090e000.h"
+#include "fnv/symbols_00936000.h"
+#include "fnv/symbols_0096a000.h"
+#include "fnv/symbols_009f2000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01013000.h"
+#include "fnv/symbols_01018000.h"
+#include "fnv/symbols_01030000.h"
+#include "fnv/symbols_0119b000.h"
+#include "fnv/symbols_011a3000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011cd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
 #include "lowprocess_decls.h"
 
 __if_not_exists(TESNPC::InitWornForm)
@@ -39,18 +207,11 @@ class List907
   public:
     Acq907* m_item;
     List907* m_pkNext;
-    Acq907*& FUN_006815c0();
-    List907* FUN_00726070();
-    void FUN_00905820(Acq907*& item);
-    void FUN_00470470();
 };
 
 class Shell8e
 {
   public:
-    bool FUN_008e30e0();
-    bool IsFlag400Set();
-    bool FUN_008e3100();
 };
 
 class Act907
@@ -193,18 +354,11 @@ class Act907
     virtual void v218();
     virtual bool v21c();
 
-    bool FUN_00566950();
-    int FUN_00891d70();
-    bool FUN_00493bb0();
-    float FUN_005723b0(TESObjectREFR* ref, int a, int b);
-    bool FUN_00891db0(TESBoundObject* item, int a, int b, int c, int* out);
-    TESForm* FUN_007af430();
 };
 
 class ProjSub907
 {
   public:
-    bool FUN_0047f600(TESBoundObject* item);
 };
 
 class AcquireBase907
@@ -252,13 +406,11 @@ class AcquireBase907
 class Ref907
 {
   public:
-    int FUN_00569160();
 };
 
 class Projectile907
 {
   public:
-    AcquireBase907* FUN_004181e0() const;
 };
 
 class Proc907 : public ::LowProcess
@@ -267,22 +419,20 @@ class Proc907 : public ::LowProcess
     void FUN_00907d90(Act907* arg);
 };
 
-extern "C" TESBoundObject* DAT_011ca268;
-int __cdecl FUN_0048e8a0(TESBoundObject* item);
 
 // @fnv 0x00907d90
 void Proc907::FUN_00907d90(Act907* arg)
 {
     List907* itF = reinterpret_cast<List907*>(&this->m_kDetectionDataList);
     Shell8e* pkg_h = (Shell8e*)this->vfn_27c();
-    bool bA7 = pkg_h ? pkg_h->FUN_008e30e0() : false;
-    bool bBI = pkg_h ? pkg_h->IsFlag400Set() : false;
-    bool bCB = pkg_h ? pkg_h->FUN_008e3100() : false;
+    bool bA7 = pkg_h ? reinterpret_cast<::FUN_008e30e0_Class *>((pkg_h))->FUN_008e30e0() : false;
+    bool bBI = pkg_h ? reinterpret_cast<::FUN_008e3120_This *>((pkg_h))->IsFlag400Set() : false;
+    bool bCB = pkg_h ? reinterpret_cast<::FUN_008e3100_class *>((pkg_h))->FUN_008e3100() : false;
     bool bDoneZ;
 
-    while (itF != 0 && itF->FUN_006815c0())
+    while (itF != 0 && ((::acquire907_rework::Acq907 *)(new ((void *)(itF)) ::Vec3())))
     {
-        Acq907* pNodeM = itF->FUN_006815c0();
+        Acq907* pNodeM = ((::acquire907_rework::Acq907 *)(new ((void *)(itF)) ::Vec3()));
         TESObjectREFR* pRefA = pNodeM->pObject;
         TESObjectREFR* pOther3 = 0;
         TESBoundObject* pItemR = pNodeM->pItem;
@@ -294,18 +444,18 @@ void Proc907::FUN_00907d90(Act907* arg)
         bValid7 = true;
         if (actor_p)
         {
-            if (actor_p->FUN_00566950())
+            if (reinterpret_cast<::MiddleHighProcess *>((actor_p))->IsActorInCombat())
                 bValid7 = false;
         }
 
-        if ((pRefA->GetOwner() && pRefA->GetOwner() != arg->FUN_007af430()) || pRefA->IsActor())
+        if ((reinterpret_cast<::OwnerLookupView *>((pRefA))->FUN_00567790() && reinterpret_cast<::OwnerLookupView *>((pRefA))->FUN_00567790() != ((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((arg))->FUN_007af430()))) || pRefA->IsActor())
         {
             bool b313 = false;
             bool b32Ptr = false;
-            int nG = FUN_0048e8a0(pItemR);
+            int nG = ::FUN_0048e8a0((::TESForm *)(pItemR));
             TESNPC* pNPCA = 0;
 
-            if (!pRefA->vfn_22c(false) && arg->FUN_00891d70() >= nG)
+            if (!pRefA->vfn_22c(false) && reinterpret_cast<::ActorGoldQuery *>((arg))->FUN_00891d70() >= nG)
             {
                 Projectile907* pProjQ = 0;
                 if (pRefA->vfn_218())
@@ -314,16 +464,16 @@ void Proc907::FUN_00907d90(Act907* arg)
                 }
                 else
                 {
-                    pNPCA = dynamic_cast<TESNPC*>(pRefA->GetOwner());
+                    pNPCA = dynamic_cast<TESNPC*>(reinterpret_cast<::OwnerLookupView *>((pRefA))->FUN_00567790());
                     if (pNPCA)
-                        pProjQ = (Projectile907*)DAT_011e0e80.GetValueFromForm(pNPCA, false);
+                        pProjQ = (Projectile907*)(*(<dependent type> *)(reinterpret_cast<::Holder *>(&((*reinterpret_cast<::TESValueForm *>(&::g_011e0e80))))->FUN_00970a20(pNPCA, false)));
                 }
-                if (pProjQ && bA7 && pProjQ->FUN_004181e0()->sub90.FUN_0047f600(pItemR))
+                if (pProjQ && bA7 && reinterpret_cast<::AIFormFlags *>(&(((::acquire907_rework::AcquireBase907 *)(reinterpret_cast<::Actor *>((void *)(pProjQ))->GetActorBase()))->sub90))->FUN_0047f600((::TESForm *)(pItemR)))
                 {
-                    if (!arg->FUN_00493bb0())
+                    if (!((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((arg))->FUN_00493bb0())))
                     {
                         pNodeM->eType = 2;
-                        pNodeM->iB = (int)arg->FUN_005723b0(pRefA, 0, 0);
+                        pNodeM->iB = (int)reinterpret_cast<::RefS *>((arg))->FUN_005723b0((::RefS *)(pRefA), 0, 0);
                         bDoneZ = true;
                     }
                     else
@@ -333,7 +483,7 @@ void Proc907::FUN_00907d90(Act907* arg)
                 }
             }
 
-            if (!bDoneZ && !(actor_p && actor_p->FUN_00566950()))
+            if (!bDoneZ && !(actor_p && reinterpret_cast<::MiddleHighProcess *>((actor_p))->IsActorInCombat()))
             {
                 if (!pRefA->IsActor())
                 {
@@ -353,7 +503,7 @@ void Proc907::FUN_00907d90(Act907* arg)
                         b32Ptr = true;
                 }
 
-                if ((b313 || b32Ptr) && !(actor_p && actor_p->FUN_00566950()))
+                if ((b313 || b32Ptr) && !(actor_p && reinterpret_cast<::MiddleHighProcess *>((actor_p))->IsActorInCombat()))
                 {
                     if (!pRefA->IsActor())
                     {
@@ -361,8 +511,8 @@ void Proc907::FUN_00907d90(Act907* arg)
                         {
                             int x = 0;
                             pNodeM->eType = 4;
-                            bool okD = arg->FUN_00891db0(DAT_011ca268, 0, 1, 0, &x);
-                            if (!okD && ((Ref907*)pRefA)->FUN_00569160())
+                            bool okD = reinterpret_cast<::ActorInventoryQueryViews::ActorQuery *>((arg))->FUN_00891db0(::g_pLockpickItem, 0, 1, 0, (*(int *)(&x)));
+                            if (!okD && ((int)(reinterpret_cast<::FUN_00569160_shell *>((((Ref907*)pRefA)))->FUN_00569160())))
                                 bValid7 = false;
                         }
                         else
@@ -372,7 +522,7 @@ void Proc907::FUN_00907d90(Act907* arg)
                     }
                     else if (b313)
                     {
-                        if (!arg->FUN_00493bb0())
+                        if (!((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((arg))->FUN_00493bb0())))
                         {
                             pNodeM->eType = 4;
                         }
@@ -383,9 +533,9 @@ void Proc907::FUN_00907d90(Act907* arg)
                     }
                     else if (b32Ptr)
                     {
-                        if (!arg->FUN_00493bb0() && !arg->FUN_00566950())
+                        if (!((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((arg))->FUN_00493bb0())) && !reinterpret_cast<::MiddleHighProcess *>((arg))->IsActorInCombat())
                         {
-                            if (!actor_p || (actor_p && !actor_p->FUN_00566950()))
+                            if (!actor_p || (actor_p && !reinterpret_cast<::MiddleHighProcess *>((actor_p))->IsActorInCombat()))
                                 pNodeM->eType = 5;
                         }
                         else
@@ -402,10 +552,10 @@ void Proc907::FUN_00907d90(Act907* arg)
                     {
                         bValid7 = false;
                     }
-                    else if (pRefA->IsActor() && !pRefA->vfn_218() && pRefA->GetOwner() != arg->FUN_007af430() &&
-                             !arg->FUN_00566950())
+                    else if (pRefA->IsActor() && !pRefA->vfn_218() && reinterpret_cast<::OwnerLookupView *>((pRefA))->FUN_00567790() != ((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((arg))->FUN_007af430())) &&
+                             !reinterpret_cast<::MiddleHighProcess *>((arg))->IsActorInCombat())
                     {
-                        if (actor_p && !actor_p->FUN_00566950())
+                        if (actor_p && !reinterpret_cast<::MiddleHighProcess *>((actor_p))->IsActorInCombat())
                         {
                             pNodeM->eType = 5;
                             bValid7 = true;
@@ -420,21 +570,21 @@ void Proc907::FUN_00907d90(Act907* arg)
         }
         else
         {
-            pNodeM->iB = (int)arg->FUN_005723b0(pRefA, 0, 0);
+            pNodeM->iB = (int)reinterpret_cast<::RefS *>((arg))->FUN_005723b0((::RefS *)(pRefA), 0, 0);
         }
 
         if (bValid7)
         {
-            pNodeM->pObject->FUN_00564db0(true);
-            reinterpret_cast<List907&>(this->ReferenceListNode).FUN_00905820(pNodeM);
+            reinterpret_cast<::fnv_00564db0::FUN_00564db0_cls *>((pNodeM->pObject))->FUN_00564db0(true);
+            reinterpret_cast<::Callees *>(&(reinterpret_cast<List907&>(this->ReferenceListNode)))->FUN_00905820((void *)&(pNodeM));
         }
         else
         {
             delete reinterpret_cast< ::TargetDoorController*>(pNodeM);
         }
-        itF = itF->FUN_00726070();
+        itF = ((::acquire907_rework::List907 *)(reinterpret_cast<::Callees *>((itF))->FUN_00726070()));
     }
-    reinterpret_cast<List907&>(this->m_kDetectionDataList).FUN_00470470();
+    reinterpret_cast<::FileMatchList *>(&(reinterpret_cast<List907&>(this->m_kDetectionDataList)))->RemoveAll();
 }
 
 }

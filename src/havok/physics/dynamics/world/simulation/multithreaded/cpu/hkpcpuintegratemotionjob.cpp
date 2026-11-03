@@ -2,12 +2,15 @@
 // src/havok/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuintegratemotionjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuintegratemotionjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/LunaOwner.h"
+#include "fnv/symbols_00d1a000.h"
+#include "fnv/symbols_00d29000.h"
+#include "fnv/symbols_01268000.h"
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 #include <windows.h>
 // Havok job: timer-wrapped step
 
-extern DWORD DAT_0126835c;
 
 struct S_00d943d0_TimerCommand
 {
@@ -291,12 +294,9 @@ struct S_00d943d0_Ctx
 
 struct S_00d943d0_Obj
 {
-    void ProcessCallback(S_00d943d0_Item* a, S_00d943d0_Item* b, int c);
 };
 
 int __cdecl FUN_00d28a30(int* p1e0, int* p1d0, int* p200, int* ints, int n, int sz);
-int __cdecl FUN_00d29bf0(int* p1e0, int* p1d0, S_00d943d0_Elem* e, int* ints, int n, int sz);
-void __cdecl FUN_00d1a330(int a, int* ints, int n);
 
 // Picks FUN_00d28a30 or FUN_00d29bf0 by item->m_flag to set item->m_result, calls FUN_00d1a330, then obj->ProcessCallback.
 // @fnv 0x00d943d0
@@ -316,11 +316,11 @@ void __cdecl FUN_00d943d0(S_00d943d0_Ctx* ctx, S_00d943d0_Obj* obj, S_00d943d0_I
     }
     else
     {
-        item->m_result = FUN_00d29bf0(&ctx->m_inner->unk1E0, &ctx->m_inner->unk1D0, e, ints, n, 0xe0);
+        item->m_result = ::ApplyAccumulatorsPrivate::FUN_00d29bf0((*(const ::ApplyAccumulatorsPrivate::ConstraintSolverInfo *)(&ctx->m_inner->unk1E0)), (*(const ::ApplyAccumulatorsPrivate::hkStepInfo *)(&ctx->m_inner->unk1D0)), (const ::ApplyAccumulatorsPrivate::QuantizedBoundsData *)(e), (::ApplyAccumulatorsPrivate::hkpMotion *const *)(ints), n, 0xe0);
     }
-    FUN_00d1a330(ctx->m_inner->unk078, ints, n);
+    ::FUN_00d1a330((const ::CollisionContext *)(ctx->m_inner->unk078), (::EntityNode *const *)(ints), n);
 
     S_00d943d0_Timer("lt");
 
-    obj->ProcessCallback(item, item, 0);
+    reinterpret_cast<::LunaOwner *>((obj))->ProcessCallback((int)(item), (int)(item), 0);
 }

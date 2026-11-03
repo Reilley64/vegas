@@ -2,6 +2,12 @@
 // src/havok/physics/utilities/weapons/hkpfirstpersongun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpfirstpersongun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/WorldQuery.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01267000.h"
 #include "havok/hkpFirstPersonGun.h"
 
 struct FUN_00e463b0_cls
@@ -210,17 +216,15 @@ class FUN_00cb0c00_class
   public:
     const char* m_pcText;
 
-    void FUN_00cb0c00() throw();
     ~FUN_00cb0c00_class()
     {
-        FUN_00cb0c00();
+        ::FUN_00cb0c00((int)this);
     }
 };
 
 struct FUN_00d1df70
 {
     void FUN_00c90510() throw();
-    void removeReference() throw();
 };
 
 class hkReferencedObjectE466
@@ -248,7 +252,7 @@ class FUN_00e466e0_class : public hkReferencedObjectE466
 FUN_00e466e0_class::~FUN_00e466e0_class() throw()
 {
     for (int i = 0; i < m_children.m_iElementCount; i++)
-        m_children.m_data[i]->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_children.m_data[i]))->FUN_00c905b0();
 }
 }  // namespace fnv_00e466e0
 
@@ -287,7 +291,7 @@ class FUN_00e46750_Obj : public hkpFirstPersonGun
 // @fnv 0x00e46750
 int FUN_00e46750_Obj::FUN_00e46750(unsigned char flag)
 {
-    FUN_00e466e0();
+    reinterpret_cast<::fnv_00e466e0::FUN_00e466e0_class *>(this)->fnv_00e466e0::FUN_00e466e0_class::~FUN_00e466e0_class();
 
     if (flag & 1)
     {
@@ -351,9 +355,6 @@ struct hkVector4q
     }
 };
 
-extern hkVector4q DAT_01267e30;
-extern float DAT_0104da48;
-extern float DAT_0104da4c;
 
 struct hkTransformq
 {
@@ -394,7 +395,6 @@ struct hkpSphereShapeq
     static void operator delete(void* p, unsigned int nbytes);
 
     hkpSphereShapeq(float radius) throw();
-    void FUN_00c905b0();
 };
 
 struct hkpCollidableq
@@ -482,13 +482,13 @@ struct hkpClosestCdPointCollectorq
 
     hkpClosestCdPointCollectorq()
     {
-        m_ppVirtualMethodTable = &DAT_010c476c;
+        m_ppVirtualMethodTable = &::DAT_010c476c;
         reset();
     }
     void reset()
     {
-        m_kPoint.setDistance(DAT_0104da48);
-        m_fEarlyOutDistance = DAT_0104da48;
+        m_kPoint.setDistance(::DAT_0104da48);
+        m_fEarlyOutDistance = ::DAT_0104da48;
         m_pRootCollidableA = 0;
     }
     bool DidHit() const
@@ -496,13 +496,10 @@ struct hkpClosestCdPointCollectorq
         return m_pRootCollidableA != 0;
     }
 
-    static int DAT_010c476c;
 };
 
 struct hkpWorldq
 {
-    void FUN_00c92430(const hkpCollidableq* collA, const hkpLinearCastInputq& input,
-                      hkpClosestCdPointCollectorq& castCollector, void* startCollector);
 };
 
 struct LinearCastResult
@@ -536,12 +533,12 @@ hkResult FUN_00e464e0(hkpWorldq* world, const hkVector4q& from, float radius, co
 
     hkpLinearCastInputq input;
     input.m_vTo = to;
-    input.m_fMaxExtraPenetration = DAT_0104da4c;
-    input.m_fMaxExtraPenetrationAgainstFixed = DAT_0104da4c;
+    input.m_fMaxExtraPenetration = ::DAT_0104da4c;
+    input.m_fMaxExtraPenetrationAgainstFixed = ::DAT_0104da4c;
 
-    world->FUN_00c92430(&collidable, input, collector, 0);
+    reinterpret_cast<::WorldQuery *>((world))->FUN_00c92430((void *)(&collidable), (void *)&(input), (void *)&(collector), 0);
 
-    sphere->FUN_00c905b0();
+    reinterpret_cast<::hkReferencedObjectC905 *>((sphere))->FUN_00c905b0();
 
     if (collector.DidHit())
     {
@@ -555,7 +552,7 @@ hkResult FUN_00e464e0(hkpWorldq* world, const hkVector4q& from, float radius, co
 
     result->m_pRigidBody = 0;
     result->m_vContactPosition = to;
-    result->m_vHitNormal.setXYZ(DAT_01267e30);
+    result->m_vHitNormal.setXYZ((*reinterpret_cast<::fnv_00e464e0::hkVector4q *>(&::DAT_01267e30)));
     result->m_uiCollisionShapeKey = 0xffffffff;
     return HK_FAILURE;
 }

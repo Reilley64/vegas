@@ -2,8 +2,8 @@
 #ifndef BSRENDEREDTEXTURE_DECLS_H
 #define BSRENDEREDTEXTURE_DECLS_H
 
+#include "fnv/symbols_01270000.h"
 struct NiRTTI;
-extern NiRTTI DAT_012708e4;
 class NiRenderTargetGroup;
 class NiRenderedTexture
 {

@@ -3,10 +3,10 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <windows.h>
-extern DWORD DAT_0126835c;
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01268000.h"
 extern LPVOID(WINAPI* DAT_00fdf044)(DWORD);
 extern const char str_010d3824[];
-extern const char str_010c41f8[];
 
 unsigned __int64 __cdecl __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
@@ -94,7 +94,7 @@ void __cdecl FUN_00d85ef0(ListenerOwner* pOwner)
                 cur = pBuf->m_pCur;
                 if (cur < pBuf->m_pRecordEnd)
                 {
-                    cur->m_pName = str_010c41f8;
+                    cur->m_pName = ::DAT_010c41f8;
                     _ReadWriteBarrier();
                     ticks[1] = (DWORD)__rdtsc();
                     cur->m_iTick = ticks[1];

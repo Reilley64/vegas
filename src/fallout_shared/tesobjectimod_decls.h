@@ -2,6 +2,12 @@
 #ifndef FNV_TESOBJECTIMOD_DECLS_H
 #define FNV_TESOBJECTIMOD_DECLS_H
 
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00487000.h"
 extern "C" void* __cdecl _alloca(unsigned int);
 #pragma intrinsic(_alloca)
 
@@ -14,15 +20,11 @@ class TESSound;
 class TESFileFormVersion
 {
   public:
-    unsigned short GetFormVersion();
 };
 
 class TESFile : public TESFileFormVersion
 {
   public:
-    unsigned int GetChunkID();
-    unsigned int GetChunkSize();
-    bool GetChunkData(void*, unsigned int);
     bool GetChunkData(unsigned int*);
     bool NextChunk();
 };
@@ -30,7 +32,6 @@ class TESFile : public TESFileFormVersion
 class TESFullNameLoader
 {
   public:
-    static void LoadFullNameChunk(TESFullName*, TESFile*);
 };
 
 // View of the two TESForm virtual slots used by the loader.

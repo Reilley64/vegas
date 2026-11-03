@@ -6,6 +6,7 @@
 // to their real unit once identified.
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprimitivedrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprimitivedrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00cb2e30_cls.h"
 struct CpuObject
 {
     int value;
@@ -40,7 +41,6 @@ struct hkRotation
     __m128 c1;
     __m128 c2;
 
-    void FUN_00cb2e30(const hkVector4* axis, float angle);
 };
 
 struct DisplayTarget
@@ -70,7 +70,7 @@ void CpuObjectDerived::FUN_00e10a20(const hkVector4* center, hkVector4* axis, hk
     perp->normalize3();
     axis->normalize3();
     hkRotation rot;
-    rot.FUN_00cb2e30(axis, startAngle);
+    reinterpret_cast<::FUN_00cb2e30_cls *>(&(rot))->SpawnSnap((int)(axis), startAngle);
     __m128 rad4 = _mm_load_ss(&radius);
     rad4 = _mm_shuffle_ps(rad4, rad4, 0);
     hkVector4 cur;
@@ -78,7 +78,7 @@ void CpuObjectDerived::FUN_00e10a20(const hkVector4* center, hkVector4* axis, hk
     cur.FUN_00c7f700(&rot, &cur);
     cur.m_vComponents = _mm_add_ps(center->m_vComponents, cur.m_vComponents);
     float stepAngle = (endAngle - startAngle) / numSegments;
-    rot.FUN_00cb2e30(axis, stepAngle);
+    reinterpret_cast<::FUN_00cb2e30_cls *>(&(rot))->SpawnSnap((int)(axis), stepAngle);
     for (int i = 0; i < numSegments; ++i)
     {
         hkVector4 next;

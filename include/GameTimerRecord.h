@@ -17,6 +17,8 @@ class GameTimerRecord
     bool m_bFirstTimerFlag;             // +0x1C
     bool m_bSecondTimerFlag;            // +0x1D
     unsigned short layoutPadding1E;
+public:
+    void Update();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(GameTimerRecord) == 0x20);

@@ -18,6 +18,8 @@ class Menu
     unsigned char layoutPadding1E[2];
     int m_iMenuId;                       // +0x20
     Interface__FADE_STATE m_eFadeState;  // +0x24
+public:
+    void SetMenuVisibility(bool);
 };
 FNV_STATIC_ASSERT(sizeof(Menu) == 0x28);
 FNV_STATIC_ASSERT(offsetof(Menu, m_ppVirtualMethodTable) == 0x0);

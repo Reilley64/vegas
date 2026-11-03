@@ -2,22 +2,110 @@
 // src/fallout/interface/menus/lovetestermenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/lovetestermenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-void __cdecl Deallocate(void*);
 
+#include "fnv/decl/AnimationSequence.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSImpactData.h"
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/BSFaceGenMorphData.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/CamLook.h"
+#include "fnv/decl/CameraWindowRay.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_00438690.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FUN_0043fa80_s.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00440490_shell.h"
+#include "fnv/decl/FUN_00458b30_class.h"
+#include "fnv/decl/FUN_0045a5e0_shell.h"
+#include "fnv/decl/FUN_004a0c90_shell.h"
+#include "fnv/decl/FUN_004a0fd0_shell.h"
+#include "fnv/decl/FUN_004bc1f0_S.h"
+#include "fnv/decl/FUN_004def90_Class.h"
+#include "fnv/decl/FUN_00507700_cls.h"
+#include "fnv/decl/FUN_00508100_shell.h"
+#include "fnv/decl/FUN_00524ac0_shell.h"
+#include "fnv/decl/FUN_00733fd0_shell.h"
+#include "fnv/decl/FUN_00792760_shell.h"
+#include "fnv/decl/FUN_00792780_Class.h"
+#include "fnv/decl/FUN_007c9dc0_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00877720_shell.h"
+#include "fnv/decl/FUN_0093a7c0_Owner.h"
+#include "fnv/decl/FUN_00a1d910_shell.h"
+#include "fnv/decl/FUN_00a24180_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FUN_00c4f270_Class.h"
+#include "fnv/decl/FUN_00c4f2d0_class.h"
+#include "fnv/decl/MiddleLowProcess.h"
+#include "fnv/decl/MultiBoundManagerB5D.h"
+#include "fnv/decl/MyHost.h"
+#include "fnv/decl/NiAdditionalGeometryData.h"
+#include "fnv/decl/NiCamera.h"
+#include "fnv/decl/NiControllerManager.h"
+#include "fnv/decl/NiPointLight.h"
+#include "fnv/decl/S148c0.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/SSN_b5.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TESTexLoader.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/Tile.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/_Cam_00712e60.h"
+#include "fnv/decl/fnv_00447080__FUN_00447080_shell.h"
+#include "fnv/decl/fnv_0047a520__Fn47a520.h"
+#include "fnv/decl/fnv_004bc2e0__NiDynamicEffect.h"
+#include "fnv/decl/fnv_007fd640__FUN_007fd640Class.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/decl/fnv_00968670__FUN_00968670_shell.h"
+#include "fnv/decl/fnv_00b5c940__SSNode.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0043c000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_0045c000.h"
+#include "fnv/symbols_00495000.h"
+#include "fnv/symbols_004a8000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_004dc000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_0057d000.h"
+#include "fnv/symbols_00647000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_00706000.h"
+#include "fnv/symbols_00709000.h"
+#include "fnv/symbols_00791000.h"
+#include "fnv/symbols_00794000.h"
+#include "fnv/symbols_00795000.h"
+#include "fnv/symbols_00a09000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00a6d000.h"
+#include "fnv/symbols_00b6b000.h"
+#include "fnv/symbols_01019000.h"
+#include "fnv/symbols_0101f000.h"
+#include "fnv/symbols_01074000.h"
+#include "fnv/symbols_011a0000.h"
+#include "fnv/symbols_011ad000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011da000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01203000.h"
 struct FUN_00791a80_shell
 {
     void __thiscall FUN_00795dc0();
     void* __thiscall FUN_00791a80(unsigned int flags);
 };
-
-// @fnv 0x00791a80
-void* __thiscall FUN_00791a80_shell::FUN_00791a80(unsigned int flags)
-{
-    FUN_00795dc0();
-    if (flags & 1)
-        Deallocate(this);
-    return this;
-}
 
 struct Flt
 {
@@ -28,7 +116,6 @@ struct Glob
     char _0[0x208];
     Flt ff;
 };
-extern Glob* DAT_011da2c8;
 struct Inner
 {
     virtual void f0();
@@ -115,6 +202,14 @@ struct FUN_00795dc0
     GO m;
     ~FUN_00795dc0();
 };
+// @fnv 0x00791a80
+void* __thiscall FUN_00791a80_shell::FUN_00791a80(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00795dc0 *>(this)->FUN_00795dc0::~FUN_00795dc0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // @fnv 0x00795dc0
 FUN_00795dc0::~FUN_00795dc0()
 {
@@ -143,13 +238,11 @@ struct PC7d
     char _pad[0xA4];
     InnerV inner;
 };
-extern PC7d* g_thePlayer;
 struct Holder00795390
 {
     char _pad[0x1C4];
     Flt arr[1];
 };
-extern Holder00795390* DAT_011da2c8;
 struct Target00795390
 {
     virtual void f0();
@@ -225,8 +318,8 @@ struct Param00795390
 // @fnv 0x00795390
 void FUN_00795390(Param00795390* pParam)
 {
-    int t = g_thePlayer->inner.m7(pParam->unk14);
-    pParam->unk4->f60(0, 0, (unsigned int)DAT_011da2c8->arr[t]);
+    int t = (*reinterpret_cast<::fnv_00795390::PC7d * *>(&::_g_thePlayer))->inner.m7(pParam->unk14);
+    pParam->unk4->f60(0, 0, (unsigned int)(*reinterpret_cast<::fnv_00795390::Holder00795390 * *>(&::DAT_011da2c8))->arr[t]);
 }
 }  // namespace fnv_00795390
 
@@ -239,16 +332,15 @@ struct LoveTesterMenu
     void FUN_00795e20();
 };
 
-extern LoveTesterMenu* DAT_011da2c8;
 
 // If the LoveTesterMenu singleton exists and its flag is set, calls StepPosition with 1 and then FUN_00795e20 on it.
 // @fnv 0x00795c60
 void FUN_00795c60()
 {
-    if (DAT_011da2c8 && DAT_011da2c8->m_bState54)
+    if ((*reinterpret_cast<::fnv_00795c60::LoveTesterMenu * *>(&::DAT_011da2c8)) && (*reinterpret_cast<::fnv_00795c60::LoveTesterMenu * *>(&::DAT_011da2c8))->m_bState54)
     {
-        DAT_011da2c8->StepPosition(1);
-        DAT_011da2c8->FUN_00795e20();
+        (*reinterpret_cast<::fnv_00795c60::LoveTesterMenu * *>(&::DAT_011da2c8))->StepPosition(1);
+        (*reinterpret_cast<::fnv_00795c60::LoveTesterMenu * *>(&::DAT_011da2c8))->FUN_00795e20();
     }
 }
 }  // namespace fnv_00795c60
@@ -262,15 +354,14 @@ struct LoveTesterMenu
     void __thiscall FUN_00795e20();
 };
 
-extern LoveTesterMenu* DAT_011da2c8;
 
 // @fnv 0x00795ca0
 void __cdecl FUN_00795ca0()
 {
-    if (DAT_011da2c8 && DAT_011da2c8->m_bState54)
+    if ((*reinterpret_cast<::fnv_00795ca0::LoveTesterMenu * *>(&::DAT_011da2c8)) && (*reinterpret_cast<::fnv_00795ca0::LoveTesterMenu * *>(&::DAT_011da2c8))->m_bState54)
     {
-        DAT_011da2c8->StepPosition(0);
-        DAT_011da2c8->FUN_00795e20();
+        (*reinterpret_cast<::fnv_00795ca0::LoveTesterMenu * *>(&::DAT_011da2c8))->StepPosition(0);
+        (*reinterpret_cast<::fnv_00795ca0::LoveTesterMenu * *>(&::DAT_011da2c8))->FUN_00795e20();
     }
 }
 }  // namespace fnv_00795ca0
@@ -297,7 +388,6 @@ struct Player_007927a0
     char _pad[0xa4];
     AVOwner_007927a0 avOwner;
 };
-extern Player_007927a0* g_thePlayer;
 
 struct FUN_007927a0_shell
 {
@@ -319,7 +409,7 @@ bool FUN_007927a0_shell::HandleKeyInput(int aiKey)
     case '=':
     case 0x80000003: {
         int iIndex = ((FUN_00794d30_shell*)this)->FUN_00794d30();
-        if (iIndex != -1 && FUN_00794d80(this) < m_iEntryCount && g_thePlayer->avOwner.GetValue(iIndex) < 10)
+        if (iIndex != -1 && FUN_00794d80(this) < m_iEntryCount && (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(iIndex) < 10)
         {
             f3(2, 0);
             return true;
@@ -330,7 +420,7 @@ bool FUN_007927a0_shell::HandleKeyInput(int aiKey)
     case '_':
     case 0x80000004: {
         int iIndex2 = ((FUN_00794d30_shell*)this)->FUN_00794d30();
-        if (iIndex2 != -1 && g_thePlayer->avOwner.GetValue(iIndex2) > 1)
+        if (iIndex2 != -1 && (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(iIndex2) > 1)
         {
             f3(3, 0);
             return true;
@@ -349,9 +439,9 @@ bool FUN_007927a0_shell::HandleKeyInput(int aiKey)
 // @fnv 0x00794d80
 int __fastcall FUN_00794d80(void* apUnused)
 {
-    return g_thePlayer->avOwner.GetValue(5) + g_thePlayer->avOwner.GetValue(6) + g_thePlayer->avOwner.GetValue(7) +
-           g_thePlayer->avOwner.GetValue(8) + g_thePlayer->avOwner.GetValue(9) + g_thePlayer->avOwner.GetValue(10) +
-           g_thePlayer->avOwner.GetValue(11);
+    return (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(5) + (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(6) + (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(7) +
+           (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(8) + (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(9) + (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(10) +
+           (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(11);
 }
 
 // @fnv 0x00795700
@@ -379,6 +469,8 @@ struct SoundPlaybackHandle
     int _8;
     ~SoundPlaybackHandle();
     bool __thiscall Play();
+public:
+    ::SoundPlaybackHandle &operator=(const ::SoundPlaybackHandle &);
 };
 
 struct BSAudio
@@ -401,36 +493,27 @@ void __cdecl FUN_00795ce0(void* apButton)
 {
     if (DAT_011da2c8 && FUN_00794d80(DAT_011da2c8) == reinterpret_cast<LoveTesterMenu*>(DAT_011da2c8)->m_iEntryCount)
     {
-        BSAudio::GetSingleton()->GetSoundHandleByEditorID("OBJBookSpecialNumberFinished", 0x121, false).Play();
+        reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::SoundPlaybackHandle &)(::FUN_00453a70()->GetSoundHandleByEditorID("OBJBookSpecialNumberFinished", 0x121, false)))->FUN_00ad8830({});
         FUN_007917a0();
     }
     else
     {
-        BSAudio::GetSingleton()->GetSoundHandleByEditorID("UIActivateNothing", 0x121, false).Play();
+        reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::SoundPlaybackHandle &)(::FUN_00453a70()->GetSoundHandleByEditorID("UIActivateNothing", 0x121, false)))->FUN_00ad8830({});
     }
 }
 
 struct RendererHelper
 {
-    void FUN_007148c0(int, int);
 };
-RendererHelper* FUN_0043c4b0();
 struct CameraHelper
 {
-    void FUN_00c4f270(bool);
-    void FUN_004a0fd0(int);
-    void FUN_00c4f2d0();
 };
 struct ManagerHelper
 {
-    CameraHelper* FUN_008d80e0();
 };
-ManagerHelper* FUN_0045c670();
 struct InterfaceHelper
 {
-    int FUN_007fd640();
 };
-InterfaceHelper* FUN_004b7210();
 struct NP
 {
     int value;
@@ -438,28 +521,23 @@ struct NP
     ~NP();
     operator int() const;
 };
-extern Flt DAT_011da2f4;
-void UpdateCameraFrustum(unsigned int, float);
-void* FUN_00450b80(int);
-void FUN_00b6bee0(unsigned int, void*, CameraHelper*);
-void FUN_00b6c0d0(unsigned int, int, int);
 // @fnv 0x007948d0
 void FUN_007948d0()
 {
-    if (!DAT_011da2c8 || !(unsigned int)DAT_011da2f4)
+    if (!DAT_011da2c8 || !(unsigned int)(*reinterpret_cast<::Flt *>(&::g_011da2f4)))
         return;
-    FUN_0043c4b0()->FUN_007148c0(0, 4);
-    ManagerHelper* manager = FUN_0045c670();
-    CameraHelper* camera = manager->FUN_008d80e0();
-    camera->FUN_00c4f270(true);
-    unsigned int localNode = (unsigned int)DAT_011da2f4;
-    UpdateCameraFrustum(localNode, 0.65f);
-    NP node(FUN_004b7210()->FUN_007fd640());
-    camera->FUN_004a0fd0((int)node);
-    FUN_00b6bee0(localNode, FUN_00450b80(1), camera);
-    FUN_00b6c0d0(localNode, (int)node, 0);
-    camera->FUN_004a0fd0(0);
-    camera->FUN_00c4f2d0();
+    reinterpret_cast<::S148c0 *>((((::RendererHelper *)(::FUN_0043c4b0()))))->FUN_007148c0(0, 4);
+    ManagerHelper* manager = ((::ManagerHelper *)(::FUN_0045c670()));
+    CameraHelper* camera = ((::CameraHelper *)(reinterpret_cast<::MiddleLowProcess *>((manager))->GetProcessInteger()));
+    reinterpret_cast<::FUN_00c4f270_Class *>((camera))->FUN_00c4f270(true);
+    unsigned int localNode = (unsigned int)(*reinterpret_cast<::Flt *>(&::g_011da2f4));
+    ::UpdateCameraFrustum((::NiCamera *)(localNode), 0.65f);
+    NP node(((int)(reinterpret_cast<::fnv_007fd640::FUN_007fd640Class *>((((::InterfaceHelper *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007fd640())));
+    reinterpret_cast<::FUN_004a0fd0_shell *>((camera))->FUN_004a0fd0((::NiNode *)((int)node));
+    ::FUN_00b6bee0((void *)(localNode), ((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))), (::BSShaderAccumulator *)(camera));
+    ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(localNode), (::BSShaderAccumulator *)((int)node), 0);
+    reinterpret_cast<::FUN_004a0fd0_shell *>((camera))->FUN_004a0fd0((::NiNode *)(0));
+    reinterpret_cast<::FUN_00c4f2d0_class *>((camera))->FUN_00c4f2d0();
 }
 
 struct NiFixedString
@@ -471,12 +549,10 @@ struct NiFixedString
 
 struct NiProperty
 {
-    int Type();
 };
 
 struct NiAVObject
 {
-    NiProperty* GetProperty(unsigned int idx);
 };
 
 struct NiNode
@@ -576,8 +652,8 @@ FUN_00794e70::FUN_00794e70(int iFirst, int iSecond, const char* pcObjectName) : 
     unk04 = iSecond;
     spRetainedObject = ((SceneGlob*)DAT_011da2c8)->root->GetObjectByName(NiFixedString(pcObjectName));
     NiAVObject* obj = ((SceneGlob*)DAT_011da2c8)->root->GetObjectByName(NiFixedString(pcObjectName));
-    pProperty = (!obj->GetProperty(3) ? false : (obj->GetProperty(3)->Type() >= 8 && obj->GetProperty(3)->Type() <= 12))
-                    ? obj->GetProperty(3)
+    pProperty = (!((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((obj))->FUN_00a59d30(3))) ? false : (((int)(reinterpret_cast<::BGSTerrainManager *>((((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((obj))->FUN_00a59d30(3)))))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((obj))->FUN_00a59d30(3)))))->GetMinLevel())) <= 12))
+                    ? ((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((obj))->FUN_00a59d30(3)))
                     : 0;
 }
 
@@ -591,12 +667,10 @@ struct NiFixedString
 
 struct NiProperty
 {
-    int FUN_00441110();
 };
 
 struct NiAVObject
 {
-    NiProperty* GetProperty(unsigned int uiType);
 };
 
 struct NodeSource
@@ -675,10 +749,10 @@ FUN_007950b0::FUN_007950b0(int a1, const char* pcObjectName, const char* pcSecon
         unk0C = ((NodeSourceHolder*)DAT_011da2c8)->unk5C->GetObjectByName(NiFixedString(pcObjectName));
     else
         unk0C = ((NodeSourceHolder*)DAT_011da2c8)->unk60->GetObjectByName(NiFixedString(pcObjectName));
-    unk04 = (unk0C->GetProperty(3) == 0
+    unk04 = (((::fnv_007950b0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((unk0C))->FUN_00a59d30(3))) == 0
                  ? 0
-                 : (unk0C->GetProperty(3)->FUN_00441110() >= 8 && unk0C->GetProperty(3)->FUN_00441110() <= 12))
-                ? unk0C->GetProperty(3)
+                 : (((int)(reinterpret_cast<::BGSTerrainManager *>((((::fnv_007950b0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((unk0C))->FUN_00a59d30(3)))))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((((::fnv_007950b0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((unk0C))->FUN_00a59d30(3)))))->GetMinLevel())) <= 12))
+                ? ((::fnv_007950b0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((unk0C))->FUN_00a59d30(3)))
                 : 0;
     if (pcSecondObjectName)
     {
@@ -686,10 +760,10 @@ FUN_007950b0::FUN_007950b0(int a1, const char* pcObjectName, const char* pcSecon
             unk10 = ((NodeSourceHolder*)DAT_011da2c8)->unk5C->GetObjectByName(NiFixedString(pcSecondObjectName));
         else
             unk10 = ((NodeSourceHolder*)DAT_011da2c8)->unk60->GetObjectByName(NiFixedString(pcSecondObjectName));
-        unk08 = (unk10->GetProperty(3) == 0
+        unk08 = (((::fnv_007950b0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((unk10))->FUN_00a59d30(3))) == 0
                      ? 0
-                     : (unk10->GetProperty(3)->FUN_00441110() >= 8 && unk10->GetProperty(3)->FUN_00441110() <= 12))
-                    ? unk10->GetProperty(3)
+                     : (((int)(reinterpret_cast<::BGSTerrainManager *>((((::fnv_007950b0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((unk10))->FUN_00a59d30(3)))))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((((::fnv_007950b0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((unk10))->FUN_00a59d30(3)))))->GetMinLevel())) <= 12))
+                    ? ((::fnv_007950b0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((unk10))->FUN_00a59d30(3)))
                     : 0;
     }
     else
@@ -702,7 +776,6 @@ FUN_007950b0::FUN_007950b0(int a1, const char* pcObjectName, const char* pcSecon
 
 struct NiAVObjectS
 {
-    void FUN_00450f90(bool);
 };
 struct DigitString
 {
@@ -847,16 +920,16 @@ void __cdecl UpdateDigitDisplay(DigitView* view)
     int tens = ones % 10 < 0 ? 0 : ones % 10;
     if (value > 0)
     {
-        view->tensVisibility->FUN_00450f90(false);
-        view->tens->Target(0, 0, ((DigitGlobals*)DAT_011da2c8)->digits[value].get());
+        reinterpret_cast<::TaskQueueInterface *>((view->tensVisibility))->QueueActorDisarm(false);
+        view->tens->Target(0, 0, ((unsigned int)(::FUN_00559450((int *)&(((DigitGlobals*)DAT_011da2c8)->digits[value])))));
     }
     else
     {
-        view->tensVisibility->FUN_00450f90(false);
-        view->tens->Target(0, 0, ((DigitGlobals*)DAT_011da2c8)->digits[0].get());
+        reinterpret_cast<::TaskQueueInterface *>((view->tensVisibility))->QueueActorDisarm(false);
+        view->tens->Target(0, 0, ((unsigned int)(::FUN_00559450((int *)&(((DigitGlobals*)DAT_011da2c8)->digits[0])))));
     }
-    view->onesVisibility->FUN_00450f90(false);
-    view->ones->Target(0, 0, ((DigitGlobals*)DAT_011da2c8)->digits[tens].get());
+    reinterpret_cast<::TaskQueueInterface *>((view->onesVisibility))->QueueActorDisarm(false);
+    view->ones->Target(0, 0, ((unsigned int)(::FUN_00559450((int *)&(((DigitGlobals*)DAT_011da2c8)->digits[tens])))));
 }
 
 // Uses pack declarations already in scope: AVOwner_007927a0, Player_007927a0,
@@ -872,11 +945,9 @@ struct GlobView_00795580
 
 struct Entry_00795580
 {
-    void FUN_00450f90();
 };
 struct List_00795580
 {
-    Entry_00795580* FUN_00559450(int flag);
 };
 struct Menu_00795580
 {
@@ -886,7 +957,6 @@ struct Menu_00795580
     int m24;
 };
 
-unsigned char FUN_004b71d0();
 
 // @fnv 0x00795580
 void __cdecl UpdateMenuEntryState(Menu_00795580* pMenu)
@@ -894,13 +964,13 @@ void __cdecl UpdateMenuEntryState(Menu_00795580* pMenu)
     int iVar1 = pMenu->m24;
     if (iVar1 != -1)
     {
-        if (g_thePlayer->avOwner.GetValue(iVar1) > 1)
-            pMenu->m8.FUN_00559450(0)->FUN_00450f90();
+        if ((*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(iVar1) > 1)
+            reinterpret_cast<::TaskQueueInterface *>((((::Entry_00795580 *)(::FUN_00559450((int *)&(pMenu->m8))))))->QueueActorDisarm({});
         else
-            pMenu->m8.FUN_00559450(1)->FUN_00450f90();
-        if (FUN_004b71d0() && ((GlobView_00795580*)DAT_011da2c8)->m48 == 8 &&
+            reinterpret_cast<::TaskQueueInterface *>((((::Entry_00795580 *)(::FUN_00559450((int *)&(pMenu->m8))))))->QueueActorDisarm({});
+        if (((unsigned char)(::FUN_004b71d0())) && ((GlobView_00795580*)DAT_011da2c8)->m48 == 8 &&
             iVar1 != ((GlobView_00795580*)DAT_011da2c8)->m4c + 4)
-            pMenu->m8.FUN_00559450(1)->FUN_00450f90();
+            reinterpret_cast<::TaskQueueInterface *>((((::Entry_00795580 *)(::FUN_00559450((int *)&(pMenu->m8))))))->QueueActorDisarm({});
     }
 }
 
@@ -919,10 +989,8 @@ struct AudioView
     BSSoundHandleEx GetSoundHandleByEditorID(const char*, unsigned int);
 };
 extern const char DAT_010747c4[];
-int __cdecl FUN_00647b70(int, int);
 struct PlayerSetter
 {
-    void FUN_0093a7c0(int, int);
 };
 void __fastcall FUN_00795e20(Glob*);
 struct CallbackInput
@@ -938,14 +1006,14 @@ void __cdecl FUN_007957c0(CallbackInput* input)
     int value = input->actorValue;
     if (value != -1)
     {
-        int count = g_thePlayer->avOwner.GetValue(value);
+        int count = (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(value);
         if (count > 1)
         {
             BSSoundHandleEx sound;
-            sound = ((AudioView*)BSAudio::GetSingleton())->GetSoundHandleByEditorID(DAT_010747c4, 0x121);
-            sound.Play(false);
+            reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::BSSoundHandleEx &)(sound))->operator=((const ::SoundPlaybackHandle &)((const ::BSSoundHandleEx &)(((AudioView*)::FUN_00453a70())->GetSoundHandleByEditorID(DAT_010747c4, 0x121))));
+            reinterpret_cast<::FUN_00ad8830_shell *>(&(sound))->FUN_00ad8830(false);
         }
-        ((PlayerSetter*)g_thePlayer)->FUN_0093a7c0(value, FUN_00647b70(count - 1, 1));
+        reinterpret_cast<::FUN_0093a7c0_Owner *>((((PlayerSetter*)(*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer)))))->FUN_0093a7c0((void *)(value), FUN_00647b70(count - 1, 1));
     }
     FUN_00795e20(DAT_011da2c8);
 }
@@ -995,9 +1063,7 @@ struct Menu
 };
 struct PlayerOps
 {
-    void FUN_0093a7c0(int, int);
 };
-int FUN_00647b70(int, int);
 // @fnv 0x007958e0
 void FUN_007958e0()
 {
@@ -1006,15 +1072,14 @@ void FUN_007958e0()
     int index = ((FUN_00794d30_shell*)DAT_011da2c8)->FUN_00794d30();
     if (index != -1)
     {
-        int value = g_thePlayer->avOwner.GetValue(index);
+        int value = (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(index);
         if (value > 1)
         {
             GlobalObject_0041a250 sound;
-            ((SH_00418890*)&sound)
-                ->FUN_copy(&((Audio*)BSAudio::GetSingleton())->FUN_00ad7550("OBJBookSpecialNumberDown", 0x121));
-            ((FUN_00ad8830_shell*)&sound)->FUN_00ad8830(false);
+            reinterpret_cast<::SoundPlaybackHandle *>((((SH_00418890*)&sound)))->operator=((*(const ::SoundPlaybackHandle *)(&((Audio*)::FUN_00453a70())->FUN_00ad7550("OBJBookSpecialNumberDown", 0x121))));
+            reinterpret_cast<::FUN_00ad8830_shell *>((((FUN_00ad8830_shell*)&sound)))->FUN_00ad8830(false);
         }
-        ((PlayerOps*)g_thePlayer)->FUN_0093a7c0(index, FUN_00647b70(value - 1, 1));
+        reinterpret_cast<::FUN_0093a7c0_Owner *>((((PlayerOps*)(*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer)))))->FUN_0093a7c0((void *)(index), ::FUN_00647b70(value - 1, 1));
     }
     ((Menu*)DAT_011da2c8)->FUN_00795e20();
 }
@@ -1031,35 +1096,12 @@ template <class T> class NiPointer
 };
 struct TES
 {
-    void __thiscall CreateTextureImage(const char* aPath, NiPointer<NiSourceTexture>& aTex, bool a4, bool a5);
 };
-extern TES* g_TES;
-int __cdecl _sprintf_s(char* aBuf, int aSize, const char* aFmt, ...);
-int __cdecl strcpy_s(char* aDst, unsigned int aSize, const char* aSrc);
-void __cdecl FUN_004b7240(char* aDst, char* aSrc, unsigned int aSize);
-bool __cdecl FUN_00709d40();
-extern const char str_0101996c[];
 extern const char str_01074cc0[];
 extern const char str_01074c9c[];
 extern const char str_01074c78[];
-extern const char str_01074c6c[];
 extern const char str_01074c58[];
-extern const char str_01074c4c[];
-extern const char str_01074c40[];
-extern const char str_0101fd1c[];
-extern const char str_0101fd24[];
-extern const char str_01074c38[];
 extern const char str_01074c2c[];
-extern const char str_01074c24[];
-extern const char str_01074c1c[];
-extern const char str_01074c14[];
-extern const char str_01074c08[];
-extern const char str_01074c00[];
-extern const char str_01074bf8[];
-extern const char str_01074be8[];
-extern const char str_01074bd8[];
-extern const char str_01074bc8[];
-extern const char str_01074bb8[];
 struct This796
 {
     char _0[0x1c4];
@@ -1075,71 +1117,68 @@ void This796::FUN_00796100()
     char plat[8];
     int i3;
     int j;
-    _sprintf_s(bufA5, 0x104, str_0101996c, str_01074c9c, str_01074cc0);
-    FUN_004b7240(bufA5, bufB, 0x104);
-    g_TES->CreateTextureImage(bufB, tex[25], false, false);
-    _sprintf_s(bufA5, 0x104, str_0101996c, str_01074c9c, str_01074c78);
-    FUN_004b7240(bufA5, bufB, 0x104);
-    g_TES->CreateTextureImage(bufB, tex[26], false, false);
+    ::FUN_00406d00(bufA5, 0x104, ::DAT_0101996c, str_01074c9c, str_01074cc0);
+    ::ConvertLocalizedString(bufA5, bufB, 0x104);
+    reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_00796100::TES * *>(&::g_TES))))->FUN_004568c0(bufB, (::TexPtr< ::NiSourceTexture> &)(tex[25]), false, false);
+    ::FUN_00406d00(bufA5, 0x104, ::DAT_0101996c, str_01074c9c, str_01074c78);
+    ::ConvertLocalizedString(bufA5, bufB, 0x104);
+    reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_00796100::TES * *>(&::g_TES))))->FUN_004568c0(bufB, (::TexPtr< ::NiSourceTexture> &)(tex[26]), false, false);
     for (i3 = 0; i3 < 11; i3++)
     {
-        _sprintf_s(bufA5, 0x104, str_01074c4c, str_01074c58, str_01074c6c, i3);
-        FUN_004b7240(bufA5, bufB, 0x104);
-        g_TES->CreateTextureImage(bufB, tex[i3], false, false);
+        ::FUN_00406d00(bufA5, 0x104, str_01074c4c, str_01074c58, str_01074c6c, i3);
+        ::ConvertLocalizedString(bufA5, bufB, 0x104);
+        reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_00796100::TES * *>(&::g_TES))))->FUN_004568c0(bufB, (::TexPtr< ::NiSourceTexture> &)(tex[i3]), false, false);
     }
     for (j = 1; j < 5; j++)
     {
-        _sprintf_s(bufA5, 0x104, str_01074c4c, str_01074c9c, str_01074c40, j);
-        FUN_004b7240(bufA5, bufB, 0x104);
-        g_TES->CreateTextureImage(bufB, tex[j + 10], false, false);
+        ::FUN_00406d00(bufA5, 0x104, str_01074c4c, str_01074c9c, str_01074c40, j);
+        ::ConvertLocalizedString(bufA5, bufB, 0x104);
+        reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_00796100::TES * *>(&::g_TES))))->FUN_004568c0(bufB, (::TexPtr< ::NiSourceTexture> &)(tex[j + 10]), false, false);
     }
-    if (FUN_00709d40())
+    if (::FUN_00709d40())
     {
-        strcpy_s(plat, 5, str_0101fd1c);
+        ::TaskQueueInterface::CopyStringToBuffer(plat, 5, str_0101fd1c);
     }
     else
     {
-        strcpy_s(plat, 5, str_0101fd24);
+        ::TaskQueueInterface::CopyStringToBuffer(plat, 5, str_0101fd24);
     }
-    _sprintf_s(bufA5, 0x104, str_01074c2c, str_01074c58, plat, str_01074c38);
-    FUN_004b7240(bufA5, bufB, 0x104);
-    g_TES->CreateTextureImage(bufB, tex[16], false, false);
-    _sprintf_s(bufA5, 0x104, str_01074c2c, str_01074c58, plat, str_01074c24);
-    FUN_004b7240(bufA5, bufB, 0x104);
-    g_TES->CreateTextureImage(bufB, tex[15], false, false);
-    _sprintf_s(bufA5, 0x104, str_01074c2c, str_01074c58, plat, str_01074c1c);
-    FUN_004b7240(bufA5, bufB, 0x104);
-    g_TES->CreateTextureImage(bufB, tex[17], false, false);
-    _sprintf_s(bufA5, 0x104, str_01074c08, str_01074c9c, str_01074c14);
-    FUN_004b7240(bufA5, bufB, 0x104);
-    g_TES->CreateTextureImage(bufB, tex[18], false, false);
-    _sprintf_s(bufA5, 0x104, str_01074c2c, str_01074c58, plat, str_01074c00);
-    FUN_004b7240(bufA5, bufB, 0x104);
-    g_TES->CreateTextureImage(bufB, tex[19], false, false);
-    _sprintf_s(bufA5, 0x104, str_01074c2c, str_01074c58, plat, str_01074bf8);
-    FUN_004b7240(bufA5, bufB, 0x104);
-    g_TES->CreateTextureImage(bufB, tex[20], false, false);
-    _sprintf_s(bufA5, 0x104, str_01074c08, str_01074c58, str_01074be8);
-    FUN_004b7240(bufA5, bufB, 0x104);
-    g_TES->CreateTextureImage(bufB, tex[21], false, false);
-    _sprintf_s(bufA5, 0x104, str_01074c08, str_01074c58, str_01074bd8);
-    FUN_004b7240(bufA5, bufB, 0x104);
-    g_TES->CreateTextureImage(bufB, tex[22], false, false);
-    _sprintf_s(bufA5, 0x104, str_01074c08, str_01074c58, str_01074bc8);
-    FUN_004b7240(bufA5, bufB, 0x104);
-    g_TES->CreateTextureImage(bufB, tex[23], false, false);
-    _sprintf_s(bufA5, 0x104, str_01074c08, str_01074c58, str_01074bb8);
-    FUN_004b7240(bufA5, bufB, 0x104);
-    g_TES->CreateTextureImage(bufB, tex[24], false, false);
+    ::FUN_00406d00(bufA5, 0x104, str_01074c2c, str_01074c58, plat, str_01074c38);
+    ::ConvertLocalizedString(bufA5, bufB, 0x104);
+    reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_00796100::TES * *>(&::g_TES))))->FUN_004568c0(bufB, (::TexPtr< ::NiSourceTexture> &)(tex[16]), false, false);
+    ::FUN_00406d00(bufA5, 0x104, str_01074c2c, str_01074c58, plat, str_01074c24);
+    ::ConvertLocalizedString(bufA5, bufB, 0x104);
+    reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_00796100::TES * *>(&::g_TES))))->FUN_004568c0(bufB, (::TexPtr< ::NiSourceTexture> &)(tex[15]), false, false);
+    ::FUN_00406d00(bufA5, 0x104, str_01074c2c, str_01074c58, plat, str_01074c1c);
+    ::ConvertLocalizedString(bufA5, bufB, 0x104);
+    reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_00796100::TES * *>(&::g_TES))))->FUN_004568c0(bufB, (::TexPtr< ::NiSourceTexture> &)(tex[17]), false, false);
+    ::FUN_00406d00(bufA5, 0x104, str_01074c08, str_01074c9c, str_01074c14);
+    ::ConvertLocalizedString(bufA5, bufB, 0x104);
+    reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_00796100::TES * *>(&::g_TES))))->FUN_004568c0(bufB, (::TexPtr< ::NiSourceTexture> &)(tex[18]), false, false);
+    ::FUN_00406d00(bufA5, 0x104, str_01074c2c, str_01074c58, plat, str_01074c00);
+    ::ConvertLocalizedString(bufA5, bufB, 0x104);
+    reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_00796100::TES * *>(&::g_TES))))->FUN_004568c0(bufB, (::TexPtr< ::NiSourceTexture> &)(tex[19]), false, false);
+    ::FUN_00406d00(bufA5, 0x104, str_01074c2c, str_01074c58, plat, str_01074bf8);
+    ::ConvertLocalizedString(bufA5, bufB, 0x104);
+    reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_00796100::TES * *>(&::g_TES))))->FUN_004568c0(bufB, (::TexPtr< ::NiSourceTexture> &)(tex[20]), false, false);
+    ::FUN_00406d00(bufA5, 0x104, str_01074c08, str_01074c58, str_01074be8);
+    ::ConvertLocalizedString(bufA5, bufB, 0x104);
+    reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_00796100::TES * *>(&::g_TES))))->FUN_004568c0(bufB, (::TexPtr< ::NiSourceTexture> &)(tex[21]), false, false);
+    ::FUN_00406d00(bufA5, 0x104, str_01074c08, str_01074c58, str_01074bd8);
+    ::ConvertLocalizedString(bufA5, bufB, 0x104);
+    reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_00796100::TES * *>(&::g_TES))))->FUN_004568c0(bufB, (::TexPtr< ::NiSourceTexture> &)(tex[22]), false, false);
+    ::FUN_00406d00(bufA5, 0x104, str_01074c08, str_01074c58, str_01074bc8);
+    ::ConvertLocalizedString(bufA5, bufB, 0x104);
+    reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_00796100::TES * *>(&::g_TES))))->FUN_004568c0(bufB, (::TexPtr< ::NiSourceTexture> &)(tex[23]), false, false);
+    ::FUN_00406d00(bufA5, 0x104, str_01074c08, str_01074c58, str_01074bb8);
+    ::ConvertLocalizedString(bufA5, bufB, 0x104);
+    reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_00796100::TES * *>(&::g_TES))))->FUN_004568c0(bufB, (::TexPtr< ::NiSourceTexture> &)(tex[24]), false, false);
 }
 }  // namespace fnv_00796100
 
 struct ResetArray
 {
     unsigned int count, capacity, data, grow;
-    unsigned int FUN_0044ddc0();
-    FUN_00791a80_shell** FUN_006a7ad0(unsigned int index);
-    void FUN_008454f0(bool release);
 };
 struct ResetGroup
 {
@@ -1174,17 +1213,12 @@ struct ResetView
     ResetArray list64, list74;
     ResetGroup groups[9];
     ResetArray list1a4, list1b4;
-    void FUN_00a1d910();
 };
 struct ResetResourceManager
 {
-    void FUN_0045a5e0(const char*);
 };
-extern ResetResourceManager* DAT_011c3b3c;
 struct ResetPlayer
 {
-    void FUN_004def90();
-    void FUN_00b5d180();
 };
 struct ResetString
 {
@@ -1192,79 +1226,70 @@ struct ResetString
 };
 struct IntegerBooleanHandler
 {
-    void FUN_00700320(int, bool);
 };
-void* FUN_00791740();
-IntegerBooleanHandler* FUN_00a09030(void*);
 // @fnv 0x007917a0
 void __cdecl FUN_007917a0()
 {
     int menu;
     unsigned int m, j, k, l;
-    IntegerBooleanHandler* i = FUN_00a09030(FUN_00791740());
+    IntegerBooleanHandler* i = ((::IntegerBooleanHandler *)(::FUN_00a09030((int)(((void *)(::FUN_00791740()))))));
     if (!i)
         return;
-    DAT_011c3b3c->FUN_0045a5e0("Meshes\\architecture\\Goodsprings\\NV_VitoMaticVigorTester_Activate.NIF");
-    DAT_011c3b3c->FUN_0045a5e0("Meshes\\architecture\\Goodsprings\\NV_VitoMaticVigorTester_Cabinet.NIF");
-    ((ResetPlayer*)FUN_00450b80(1))->FUN_004def90();
-    ((ResetPlayer*)FUN_00450b80(1))->FUN_00b5d180();
+    reinterpret_cast<::FUN_0045a5e0_shell *>(((*reinterpret_cast<::ResetResourceManager * *>(&::g_modelLoader))))->FUN_0045a5e0((char *)("Meshes\\architecture\\Goodsprings\\NV_VitoMaticVigorTester_Activate.NIF"));
+    reinterpret_cast<::FUN_0045a5e0_shell *>(((*reinterpret_cast<::ResetResourceManager * *>(&::g_modelLoader))))->FUN_0045a5e0((char *)("Meshes\\architecture\\Goodsprings\\NV_VitoMaticVigorTester_Cabinet.NIF"));
+    reinterpret_cast<::FUN_004def90_Class *>((((ResetPlayer*)((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))))))->FUN_004def90();
+    reinterpret_cast<::MultiBoundManagerB5D *>((((ResetPlayer*)((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))))))->FUN_00b5d180();
     ((ResetView*)DAT_011da2c8)->counter5c = 0;
     ((ResetView*)DAT_011da2c8)->counter60 = 0;
-    ((ResetString*)&DAT_011da2f4)->FUN_0066b0d0(0);
+    ((ResetString*)&(*reinterpret_cast<::Flt *>(&::g_011da2f4)))->FUN_0066b0d0(0);
     for (menu = 0; menu < 9; menu++)
     {
-        for (k = 0; k < ((ResetView*)DAT_011da2c8)->groups[menu].objects.FUN_0044ddc0(); k++)
+        for (k = 0; k < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((ResetView*)DAT_011da2c8)->groups[menu].objects))->GetName())); k++)
         {
-            FUN_00791a80_shell* object = *((ResetView*)DAT_011da2c8)->groups[menu].objects.FUN_006a7ad0(k);
+            FUN_00791a80_shell* object = *((::FUN_00791a80_shell **)(reinterpret_cast<::S3e60 *>(&(((ResetView*)DAT_011da2c8)->groups[menu].objects))->FUN_006a7ad0(k)));
             FUN_00791a80_shell* doomed = object;
             doomed ? doomed->FUN_00791a80(1) : 0;
         }
-        for (l = 0; l < ((ResetView*)DAT_011da2c8)->groups[menu].allocations.FUN_0044ddc0(); l++)
+        for (l = 0; l < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((ResetView*)DAT_011da2c8)->groups[menu].allocations))->GetName())); l++)
         {
-            FUN_00791a80_shell* allocation = *((ResetView*)DAT_011da2c8)->groups[menu].allocations.FUN_006a7ad0(l);
-            Deallocate(allocation);
+            FUN_00791a80_shell* allocation = *((::FUN_00791a80_shell **)(reinterpret_cast<::S3e60 *>(&(((ResetView*)DAT_011da2c8)->groups[menu].allocations))->FUN_006a7ad0(l)));
+            ::FUN_00401030(allocation);
         }
-        ((ResetView*)DAT_011da2c8)->groups[menu].objects.FUN_008454f0(1);
-        ((ResetView*)DAT_011da2c8)->groups[menu].allocations.FUN_008454f0(1);
+        reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(((ResetView*)DAT_011da2c8)->groups[menu].objects))->Clear(1);
+        reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(((ResetView*)DAT_011da2c8)->groups[menu].allocations))->Clear(1);
     }
-    for (j = 0; j < ((ResetView*)DAT_011da2c8)->list1a4.FUN_0044ddc0(); j++)
+    for (j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((ResetView*)DAT_011da2c8)->list1a4))->GetName())); j++)
     {
-        FUN_00791a80_shell* object = *((ResetView*)DAT_011da2c8)->list1a4.FUN_006a7ad0(j);
+        FUN_00791a80_shell* object = *((::FUN_00791a80_shell **)(reinterpret_cast<::S3e60 *>(&(((ResetView*)DAT_011da2c8)->list1a4))->FUN_006a7ad0(j)));
         FUN_00791a80_shell* doomed = object;
         doomed ? doomed->FUN_00791a80(1) : 0;
     }
-    for (m = 0; m < ((ResetView*)DAT_011da2c8)->list1b4.FUN_0044ddc0(); m++)
+    for (m = 0; m < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((ResetView*)DAT_011da2c8)->list1b4))->GetName())); m++)
     {
-        FUN_00791a80_shell* allocation = *((ResetView*)DAT_011da2c8)->list1b4.FUN_006a7ad0(m);
-        Deallocate(allocation);
+        FUN_00791a80_shell* allocation = *((::FUN_00791a80_shell **)(reinterpret_cast<::S3e60 *>(&(((ResetView*)DAT_011da2c8)->list1b4))->FUN_006a7ad0(m)));
+        ::FUN_00401030(allocation);
     }
-    ((ResetView*)DAT_011da2c8)->list1a4.FUN_008454f0(1);
-    ((ResetView*)DAT_011da2c8)->list1b4.FUN_008454f0(1);
-    ((ResetView*)DAT_011da2c8)->list64.FUN_008454f0(1);
-    ((ResetView*)DAT_011da2c8)->list74.FUN_008454f0(1);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(((ResetView*)DAT_011da2c8)->list1a4))->Clear(1);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(((ResetView*)DAT_011da2c8)->list1b4))->Clear(1);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(((ResetView*)DAT_011da2c8)->list64))->Clear(1);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(((ResetView*)DAT_011da2c8)->list74))->Clear(1);
     if (DAT_011da2c8)
     {
-        i->FUN_00700320(6002, 1);
-        ((ResetView*)DAT_011da2c8)->FUN_00a1d910();
+        reinterpret_cast<::Tile *>((i))->Set(6002, 1);
+        reinterpret_cast<::FUN_00a1d910_shell *>((((ResetView*)DAT_011da2c8)))->FUN_00a1d910();
     }
 }
 
 struct Controls
 {
-    int FUN_00a24180(int, int);
 };
 struct OSGlobals
 {
-    Controls* FUN_00877720();
 };
-extern OSGlobals* g_osGlobals;
 struct InventoryMenuSetting
 {
-    const char* FUN_00403df0();
 };
-extern InventoryMenuSetting DAT_011c3cb4;
 bool FUN_00702450(int);
-int FUN_00408b20(const char*, const char*);
 extern const char DAT_0101fd00[];
 struct NiUpdateData
 {
@@ -1275,8 +1300,6 @@ struct NiUpdateData
 struct NiControllerSequence
 {
     void Update(float, bool);
-    float FUN_00508100();
-    float FUN_00508120();
 };
 struct NiTimeController
 {
@@ -1318,29 +1341,19 @@ struct NiTimeController
     virtual void slot35();
     virtual void slot36();
     virtual void Update(const NiUpdateData&);
-    NiTimeController* GetNext() const;
-    NiControllerSequence* FUN_0047a520(const NiFixedString&);
 };
 struct ModelOps
 {
-    NiTimeController* GetObject3D();
-    void FUN_00a59c60(const NiUpdateData&);
 };
 struct NiRTTI;
-extern const NiRTTI DAT_011f36bc;
-NiTimeController* FUN_00653270(const NiRTTI*, NiTimeController*);
 union AnimationNames
 {
     bool enabled;
     const char* names[9];
 };
-extern AnimationNames DAT_011a039c;
-extern const char* DAT_011a03c0[9];
 struct TimeGlobal
 {
-    float FUN_0084d030();
 };
-extern TimeGlobal g_timeGlobal;
 struct MenuAnimation
 {
     virtual void slot0();
@@ -1377,37 +1390,37 @@ void MenuAnimation::UpdateAnimation()
 {
     if (!FUN_00702450(0x432))
         return;
-    Controls* current = g_osGlobals->FUN_00877720();
+    Controls* current = reinterpret_cast<::FUN_00877720_shell *>((::g_osGlobals))->FUN_00877720();
     int input = 30;
-    if (!FUN_00408b20(DAT_011c3cb4.FUN_00403df0(), DAT_0101fd00))
+    if (!FUN_00408b20(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011c3cb4))))->GetMenuTitle())), DAT_0101fd00))
         input = 16;
-    if (current->FUN_00a24180(input, 1))
+    if (reinterpret_cast<::FUN_00a24180_shell *>((current))->FUN_00a24180(input, 1))
     {
         HandleClick(4, 0);
         return;
     }
-    NiTimeController* iter = model->GetObject3D();
+    NiTimeController* iter = ((::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(model))));
     if (iter)
     {
         NiTimeController* manager = iter;
         NiControllerSequence* sequence = 0;
-        if (!DAT_011a039c.enabled || animationIndex > 0)
-            sequence = manager->FUN_0047a520(NiFixedString(DAT_011a039c.enabled ? DAT_011a039c.names[animationIndex]
-                                                                                : DAT_011a03c0[animationIndex]));
-        elapsed += g_timeGlobal.FUN_0084d030();
+        if (!(*reinterpret_cast<::AnimationNames *>(&::increasing170)).enabled || animationIndex > 0)
+            sequence = ((::NiControllerSequence *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((manager))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(NiFixedString((*reinterpret_cast<::AnimationNames *>(&::increasing170)).enabled ? (*reinterpret_cast<::AnimationNames *>(&::increasing170)).names[animationIndex]
+                                                                                : DAT_011a03c0[animationIndex])))));
+        elapsed += reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue();
         if (sequence)
         {
-            sequence->Update(elapsed, true);
-            if (sequence->FUN_00508120() < sequence->FUN_00508100() && animationIndex > 0)
+            reinterpret_cast<::AnimationSequence *>((sequence))->FUN_00a34ba0(elapsed, true);
+            if (reinterpret_cast<::BSFaceGenMorphData *>((sequence))->FUN_00508120() < reinterpret_cast<::FUN_00508100_shell *>((sequence))->FUN_00508100() && animationIndex > 0)
                 finished = false;
             else
                 finished = true;
         }
         else
             finished = true;
-        for (; iter; iter = iter->GetNext())
+        for (; iter; iter = ((::NiTimeController *)(::fnv_004a8a90::FUN_004a8a90((char *)(iter)))))
         {
-            NiTimeController* transform = FUN_00653270(&DAT_011f36bc, iter);
+            NiTimeController* transform = ((::NiTimeController *)(::FUN_00653270(&(*reinterpret_cast<const ::NiRTTI *>(&::g_011f36bc)), (::NiObject *)(iter))));
             if (transform)
             {
                 NiUpdateData updateData(elapsed, false, false);
@@ -1417,7 +1430,7 @@ void MenuAnimation::UpdateAnimation()
         }
     }
     NiUpdateData updateData(0.0f, false, false);
-    model->FUN_00a59c60(updateData);
+    reinterpret_cast<::FUN_00a59c60_cls *>((model))->FUN_00a59c60((int)&(updateData));
 }
 
 bool __cdecl SKIsMenuMode(int aiMenuID);
@@ -1480,7 +1493,6 @@ struct SKPlayer
     SKValueOwner kValueOwner;
 };
 
-extern SKPlayer* g_pSKPlayer;
 
 struct SKMenu
 {
@@ -1511,8 +1523,6 @@ struct SKMenu
     int unk54;
     int m_iMaximumCount;
 
-    int GetSelectedIndex();
-    int GetCount();
     bool HandleMenuKey(int aiKey, int aiUnused);
 };
 
@@ -1522,7 +1532,7 @@ bool SKMenu::HandleMenuKey(int aiKey, int aiUnused)
 {
     if (SKIsMenuMode(0x432))
     {
-        int iIndex = GetSelectedIndex();
+        int iIndex = reinterpret_cast<::FUN_00794d30_shell *>(this)->FUN_00794d30();
         switch (aiKey)
         {
         case 4:
@@ -1532,7 +1542,7 @@ bool SKMenu::HandleMenuKey(int aiKey, int aiUnused)
             if (iMode == 8)
                 return false;
         case 10:
-            if (iIndex != -1 && g_pSKPlayer->kValueOwner.GetActorValue(iIndex) > 1)
+            if (iIndex != -1 && (*reinterpret_cast<::SKPlayer * *>(&::_g_thePlayer))->kValueOwner.GetActorValue(iIndex) > 1)
                 HandleClick(3, 0);
             return true;
         case 3:
@@ -1542,7 +1552,7 @@ bool SKMenu::HandleMenuKey(int aiKey, int aiUnused)
             if (iMode == 8)
                 return false;
         case 9:
-            if (iIndex != -1 && GetCount() < m_iMaximumCount && g_pSKPlayer->kValueOwner.GetActorValue(iIndex) < 10)
+            if (iIndex != -1 && ::FUN_00794d80((void *)this) < m_iMaximumCount && (*reinterpret_cast<::SKPlayer * *>(&::_g_thePlayer))->kValueOwner.GetActorValue(iIndex) < 10)
                 HandleClick(2, 0);
             return true;
         }
@@ -1556,14 +1566,9 @@ struct ImageSpaceEffectParam
     float left, right, top, bottom;
     ImageSpaceEffectParam(float, float, float, float);
 };
-extern bool DAT_011f9426;
-extern ImageSpaceEffectParam DAT_011ad840;
-extern int DAT_011f9434;
 struct SettingFloatHelper
 {
-    float* Float();
 };
-extern SettingFloatHelper DAT_01203144, DAT_01203150;
 struct NiFrustum
 {
     float left, right, top, bottom, nearPlane, farPlane;
@@ -1725,18 +1730,7 @@ struct FUN_00a712f0
     static void* operator new(unsigned int);
     static void operator delete(void*, unsigned int);
     FUN_00a712f0();
-    void FUN_00712e60(const ImageSpaceEffectParam&);
-    void FUN_00507700(float);
-    void FUN_00a6faf0(const NiFrustum&);
-    void FUN_004bc1f0(float, float, float);
-    void FUN_00a59c60(NiUpdateData&);
-    void SetLookAt(const NiPoint3&, const NiPoint3&);
-    void FUN_00733fd0(float);
-    void AssignFixedString(const NiFixedString&);
 };
-int FUN_004dc200();
-int FUN_004dc1f0();
-float FUN_0057dd70(float);
 struct SurgeryCameraMenu
 {
     FUN_00a712f0* CreateSurgeryCamera();
@@ -1747,28 +1741,28 @@ FUN_00a712f0* SurgeryCameraMenu::CreateSurgeryCamera()
 {
     FUN_00a712f0* k = new FUN_00a712f0;
     ImageSpaceEffectParam ba(0.0f, 1.0f, 1.0f, 0.0f);
-    if (DAT_011f9426)
-        ba = DAT_011ad840;
-    k->FUN_00712e60(ba);
+    if (::DAT_011f9426)
+        ba = (*reinterpret_cast<::fnv_007945f0::ImageSpaceEffectParam *>(&::DAT_011ad840));
+    reinterpret_cast<::_Cam_00712e60 *>((k))->FUN_00712e60((const ::_Rect16_00712e60 &)(ba));
     NiFrustum c(false);
-    c.farPlane = ((CameraRenderer*)FUN_0045c670())->GetAspectRatio();
-    c.nearPlane = *DAT_01203144.Float();
-    k->FUN_00507700(c.farPlane / c.nearPlane);
-    float l = double(DAT_011f9426 ? DAT_011f9434 : FUN_004dc200()) / FUN_004dc1f0();
+    c.farPlane = ((CameraRenderer*)((::ManagerHelper *)(::FUN_0045c670())))->GetAspectRatio();
+    c.nearPlane = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007945f0::SettingFloatHelper *>(&::g_01203144))))));
+    reinterpret_cast<::FUN_00507700_cls *>((k))->FUN_00507700(c.farPlane / c.nearPlane);
+    float l = double(::DAT_011f9426 ? ::DAT_011f9434 : ::FUN_004dc200()) / ((int)(::FUN_004dc1f0()));
     float e = 0.75f;
-    float j = *DAT_01203150.Float() * 0.01745329238474369 * 0.6499999761581421;
-    c.left = -FUN_0057dd70(j) * e;
-    c.right = FUN_0057dd70(j) * e;
-    c.bottom = -FUN_0057dd70(j) * l * e;
-    c.top = FUN_0057dd70(j) * l * e;
+    float j = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007945f0::SettingFloatHelper *>(&::g_01203150)))))) * 0.01745329238474369 * 0.6499999761581421;
+    c.left = -::FUN_0057dd70(j) * e;
+    c.right = ::FUN_0057dd70(j) * e;
+    c.bottom = -::FUN_0057dd70(j) * l * e;
+    c.top = ::FUN_0057dd70(j) * l * e;
     c.orthographic = false;
-    k->FUN_00a6faf0(c);
-    k->FUN_004bc1f0(0.0f, 0.0f, 1.0f);
+    reinterpret_cast<::NiCamera *>((k))->UpdateViewFrustum((const ::NiFrustum &)(c));
+    reinterpret_cast<::FUN_004bc1f0_S *>((k))->FUN_004bc1f0(0.0f, 0.0f, 1.0f);
     NiUpdateData b(0.0f, false, false);
-    k->FUN_00a59c60(b);
-    k->SetLookAt(NiPoint3(0.0f, 0.0f, 0.0f), NiPoint3(0.0f, 1.0f, 0.0f));
-    k->FUN_00733fd0(1.0f);
-    k->AssignFixedString(NiFixedString("Surgery3DCamera"));
+    reinterpret_cast<::FUN_00a59c60_cls *>((k))->FUN_00a59c60((int)&(b));
+    reinterpret_cast<::CamLook *>((k))->SetLookAt((const ::CamPoint &)((const ::fnv_007945f0::NiPoint3 &)(NiPoint3(0.0f, 0.0f, 0.0f))), (const ::CamPoint &)((const ::fnv_007945f0::NiPoint3 &)(NiPoint3(0.0f, 1.0f, 0.0f))));
+    reinterpret_cast<::FUN_00733fd0_shell *>((k))->FUN_00733fd0(1.0f);
+    ::AssignFixedString((char *)(k), (int)&(const ::NiFixedString &)(NiFixedString("Surgery3DCamera")), {});
     return k;
 }
 }  // namespace fnv_007945f0
@@ -1778,7 +1772,6 @@ struct GlobalObject_0041a250
     int id, state, flags;
     GlobalObject_0041a250();
     ~GlobalObject_0041a250();
-    void FUN_00418900(const void*);
     bool FUN_00ad8830(bool);
 };
 struct BSAudioS_
@@ -1787,18 +1780,12 @@ struct BSAudioS_
 };
 struct Sequence170
 {
-    void SetNegatedGlobal();
 };
 struct Controller170
 {
-    Sequence170* FUN_0047a520(const NiFixedString&);
-    void FUN_0048fef0(float);
-    void FUN_0047aab0(Sequence170*, int, int, float, float, int);
-    void FUN_0047aa40(bool);
 };
 struct Node170
 {
-    Controller170* FUN_00a5c570(const void*);
 };
 struct Scene170
 {
@@ -1806,18 +1793,12 @@ struct Scene170
         u58;
     Node170* root;
 };
-extern Scene170* scene170;
-extern bool increasing170;
-extern const char* upNames170[];
-extern const char* downNames170[];
-extern const char rtti170;
 struct Menu170
 {
     int u00, u04, u08, u0c, u10, u14, u18, u1c, u20, u24, u28, u2c, u30, u34, u38, u3c, u40, u44;
     int position;
     int u4c, u50, u54;
     int available;
-    int FUN_00794d80();
     bool StepPosition(bool increase);
 };
 // Moves position up or down within bounds, plays page-turn or limit sounds, and triggers the matching animation sequence on the scene controller.
@@ -1833,19 +1814,19 @@ bool Menu170::StepPosition(bool increase)
             position++;
             changed = true;
             GlobalObject_0041a250 sound;
-            sound.FUN_00418900(&BSAudioS_::GetSingleton()->GetSoundHandleByEditorID("OBJBookSpecialPageTurn", 0x121));
-            sound.FUN_00ad8830(false);
+            reinterpret_cast<::SoundPlaybackHandle *>(&(sound))->operator=((*(const ::SoundPlaybackHandle *)(&((::AudioView *)(::FUN_00453a70()))->GetSoundHandleByEditorID("OBJBookSpecialPageTurn", 0x121))));
+            reinterpret_cast<::FUN_00ad8830_shell *>(&(sound))->FUN_00ad8830(false);
         }
         else
         {
-            if (FUN_00794d80() == available)
+            if (::FUN_00794d80((void *)this) == available)
             {
-                BSAudioS_::GetSingleton()->GetSoundHandleByEditorID("OBJBookSpecialNumberFinished", 0x121).Play(false);
+                reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::AudioView *)(::FUN_00453a70()))->GetSoundHandleByEditorID("OBJBookSpecialNumberFinished", 0x121)))->FUN_00ad8830(false);
                 FUN_007917a0();
             }
             else
             {
-                BSAudioS_::GetSingleton()->GetSoundHandleByEditorID("UIActivateNothing", 0x121).Play(false);
+                reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::AudioView *)(::FUN_00453a70()))->GetSoundHandleByEditorID("UIActivateNothing", 0x121)))->FUN_00ad8830(false);
             }
             return false;
         }
@@ -1858,8 +1839,8 @@ bool Menu170::StepPosition(bool increase)
             position--;
             changed = true;
             GlobalObject_0041a250 sound;
-            sound.FUN_00418900(&BSAudioS_::GetSingleton()->GetSoundHandleByEditorID("OBJBookSpecialPageTurn", 0x121));
-            sound.FUN_00ad8830(false);
+            reinterpret_cast<::SoundPlaybackHandle *>(&(sound))->operator=((*(const ::SoundPlaybackHandle *)(&((::AudioView *)(::FUN_00453a70()))->GetSoundHandleByEditorID("OBJBookSpecialPageTurn", 0x121))));
+            reinterpret_cast<::FUN_00ad8830_shell *>(&(sound))->FUN_00ad8830(false);
         }
         else
         {
@@ -1868,7 +1849,7 @@ bool Menu170::StepPosition(bool increase)
     }
     if (changed)
     {
-        Controller170* object = scene170->root->FUN_00a5c570(&rtti170);
+        Controller170* object = ((::Controller170 *)(reinterpret_cast<::MyHost *>(((*reinterpret_cast<::Scene170 * *>(&::DAT_011da2c8))->root))->FUN_00a5c570((const ::MyRTTI *)(const void *)(&(*reinterpret_cast<const char *>(&::g_011f36ac))))));
         if (object)
         {
             Controller170* manager = object;
@@ -1876,21 +1857,20 @@ bool Menu170::StepPosition(bool increase)
             if (!increasing170 || position > 0)
             {
                 sequence =
-                    manager->FUN_0047a520(NiFixedString(increasing170 ? upNames170[position] : downNames170[position]));
+                    ((::Sequence170 *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((manager))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(NiFixedString(increasing170 ? (*reinterpret_cast<const char * (*)[]>(&::increasing170))[position] : (*reinterpret_cast<const char * (*)[]>((void *)&::DAT_011a03c0))[position])))));
             }
             if (sequence)
             {
-                manager->FUN_0048fef0(0.0f);
-                manager->FUN_0047aab0(sequence, 0, 1, 1.0f, 0.0f, 0);
-                manager->FUN_0047aa40(true);
-                sequence->SetNegatedGlobal();
+                reinterpret_cast<::NiControllerManager *>((manager))->DeactivateAllSequences(0.0f);
+                reinterpret_cast<::NiControllerManager *>((manager))->ActivateControllerSequence((::NiControllerSequence *)(sequence), 0, 1, 1.0f, 0.0f, (::NiControllerSequence *)(0));
+                reinterpret_cast<::TaskQueueInterface *>((manager))->QueueReferenceStateTask(true);
+                ::SetNegatedGlobal((void *)(sequence));
             }
         }
     }
     return true;
 }
 
-extern Player_007927a0* DAT_011dea3c;
 
 struct MenuParam_00795630
 {
@@ -1912,20 +1892,20 @@ void __cdecl FUN_00795630(MenuParam_00795630* pMenuParam)
     int value = pMenuParam->unk24;
     if (value != -1)
     {
-        if (DAT_011dea3c->avOwner.GetValue(value) < 10 &&
+        if ((*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(value) < 10 &&
             (DAT_011da2c8 == 0 || FUN_00794d80(DAT_011da2c8) < *(int*)((char*)DAT_011da2c8 + 0x58)))
         {
-            pMenuParam->unk08.FUN_00559450(0)->FUN_00450f90();
+            reinterpret_cast<::TaskQueueInterface *>((((::Entry_00795580 *)(::FUN_00559450((int *)&(pMenuParam->unk08))))))->QueueActorDisarm({});
         }
         else
         {
-            pMenuParam->unk08.FUN_00559450(1)->FUN_00450f90();
+            reinterpret_cast<::TaskQueueInterface *>((((::Entry_00795580 *)(::FUN_00559450((int *)&(pMenuParam->unk08))))))->QueueActorDisarm({});
         }
 
-        if (FUN_004b71d0() && *(int*)((char*)DAT_011da2c8 + 0x48) == 8 &&
+        if (((unsigned char)(::FUN_004b71d0())) && *(int*)((char*)DAT_011da2c8 + 0x48) == 8 &&
             value != *(int*)((char*)DAT_011da2c8 + 0x4C) + 4)
         {
-            pMenuParam->unk08.FUN_00559450(1)->FUN_00450f90();
+            reinterpret_cast<::TaskQueueInterface *>((((::Entry_00795580 *)(::FUN_00559450((int *)&(pMenuParam->unk08))))))->QueueActorDisarm({});
         }
     }
 }
@@ -1985,11 +1965,8 @@ struct WorkerAudio
 {
     WorkerSound GetSoundHandleByEditorID(const char*, unsigned int);
 };
-WorkerAudio* __cdecl FUN_00453a70();
-int __cdecl MinInt(int, int);
 struct WorkerActor
 {
-    void FUN_0093a7c0(int, int);
 };
 // @fnv 0x00795a00
 void FUN_00795a00(WorkerButton* button)
@@ -1999,51 +1976,42 @@ void FUN_00795a00(WorkerButton* button)
     int index = button->value;
     if (index != -1)
     {
-        int value = g_thePlayer->avOwner.GetValue(index);
+        int value = (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(index);
         if (value < 10)
         {
             WorkerSound sound;
-            sound = FUN_00453a70()->GetSoundHandleByEditorID(DAT_010747ac, 0x121);
-            sound.FUN_00ad8830(false);
+            reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::WorkerSound &)(sound))->operator=((const ::SoundPlaybackHandle &)((const ::WorkerSound &)(((::WorkerAudio *)(::FUN_00453a70()))->GetSoundHandleByEditorID(DAT_010747ac, 0x121))));
+            reinterpret_cast<::FUN_00ad8830_shell *>(&(sound))->FUN_00ad8830(false);
         }
         if (FUN_00794d80(DAT_011da2c8) < ((WorkerMenu*)DAT_011da2c8)->available)
-            ((WorkerActor*)g_thePlayer)->FUN_0093a7c0(index, MinInt(value + 1, 10));
+            reinterpret_cast<::FUN_0093a7c0_Owner *>((((WorkerActor*)(*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer)))))->FUN_0093a7c0((void *)(index), MinInt(value + 1, 10));
     }
     ((WorkerMenu*)DAT_011da2c8)->FUN_00795e20();
 }
 
-RendererHelper* FUN_0043c4b0();
 
-ManagerHelper* FUN_0045c670();
 
-InterfaceHelper* FUN_004b7210();
 
-extern int* DAT_011daa38;
-extern Flt DAT_011daa9c;
-void UpdateCameraFrustum(unsigned int, float);
-void* FUN_00450b80(int);
-void FUN_00b6bee0(unsigned int, void*, CameraHelper*);
-void FUN_00b6c0d0(unsigned int, int, int);
 
 // If DAT_011daa38 and DAT_011daa9c are set, configures the camera for scene DAT_011daa9c with a node from FUN_007fd640 and calls FUN_00b6bee0/FUN_00b6c0d0.
 // @fnv 0x007c9ca0
 void __cdecl FUN_007c9ca0()
 {
-    if (!DAT_011daa38 || !DAT_011daa9c)
+    if (!DAT_011daa38 || !(*reinterpret_cast<::Flt *>(&::g_011daa9c)))
         return;
     {
-        FUN_0043c4b0()->FUN_007148c0(0, 4);
-        ManagerHelper* mgr = FUN_0045c670();
-        CameraHelper* cam = mgr->FUN_008d80e0();
-        cam->FUN_00c4f270(true);
-        unsigned int scene = DAT_011daa9c;
-        UpdateCameraFrustum(scene, 0.15f);
-        NP node(FUN_004b7210()->FUN_007fd640());
-        cam->FUN_004a0fd0(node);
-        FUN_00b6bee0(scene, FUN_00450b80(1), cam);
-        FUN_00b6c0d0(scene, node, 0);
-        cam->FUN_004a0fd0(0);
-        cam->FUN_00c4f2d0();
+        reinterpret_cast<::S148c0 *>((((::RendererHelper *)(::FUN_0043c4b0()))))->FUN_007148c0(0, 4);
+        ManagerHelper* mgr = ((::ManagerHelper *)(::FUN_0045c670()));
+        CameraHelper* cam = ((::CameraHelper *)(reinterpret_cast<::MiddleLowProcess *>((mgr))->GetProcessInteger()));
+        reinterpret_cast<::FUN_00c4f270_Class *>((cam))->FUN_00c4f270(true);
+        unsigned int scene = (*reinterpret_cast<::Flt *>(&::g_011daa9c));
+        ::UpdateCameraFrustum((::NiCamera *)(scene), 0.15f);
+        NP node(((int)(reinterpret_cast<::fnv_007fd640::FUN_007fd640Class *>((((::InterfaceHelper *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007fd640())));
+        reinterpret_cast<::FUN_004a0fd0_shell *>((cam))->FUN_004a0fd0((::NiNode *)(node));
+        ::FUN_00b6bee0((void *)(scene), ((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))), (::BSShaderAccumulator *)(cam));
+        ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(scene), (::BSShaderAccumulator *)(node), 0);
+        reinterpret_cast<::FUN_004a0fd0_shell *>((cam))->FUN_004a0fd0((::NiNode *)(0));
+        reinterpret_cast<::FUN_00c4f2d0_class *>((cam))->FUN_00c4f2d0();
     }
 }
 
@@ -2055,24 +2023,18 @@ struct GlobalObject_0041a250
     int unk08;
     GlobalObject_0041a250();
     ~GlobalObject_0041a250();
-    void FUN_00418900(const GlobalObject_0041a250&);
     bool FUN_00ad8830(bool);
 };
 struct Audio_7caa80
 {
     GlobalObject_0041a250 FUN_00ad7550(const char*, unsigned int);
 };
-Audio_7caa80* __cdecl FUN_00453a70();
 struct Menu_7caa80 : LoveTesterMenu
 {
-    void InvokeCallbacksForSlot();
 };
-extern Menu_7caa80* DAT_011daa38;
 struct Player_7caa80
 {
-    void FUN_0093a7c0(int, int);
 };
-int __cdecl MinInt(int, int);
 struct Button_7caa80
 {
     int unk00;
@@ -2089,28 +2051,27 @@ struct Button_7caa80
 // @fnv 0x007caa80
 void __cdecl PlaySpecialBookSoundAndSetStat(Button_7caa80* button)
 {
-    if (!DAT_011daa38)
+    if (!(*reinterpret_cast<::fnv_007caa80::Menu_7caa80 * *>(&::DAT_011daa38)))
         return;
     int key = button->stat;
     if (key != -1)
     {
-        int value = g_thePlayer->avOwner.GetValue(key);
+        int value = (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(key);
         if (value < 10)
         {
             GlobalObject_0041a250 sound;
-            sound.FUN_00418900(FUN_00453a70()->FUN_00ad7550("OBJBookSpecialNumber", 0x121));
-            sound.FUN_00ad8830(false);
+            reinterpret_cast<::SoundPlaybackHandle *>(&(sound))->operator=((const ::SoundPlaybackHandle &)((const ::fnv_007caa80::GlobalObject_0041a250 &)(((::fnv_007caa80::Audio_7caa80 *)(::FUN_00453a70()))->FUN_00ad7550("OBJBookSpecialNumber", 0x121))));
+            reinterpret_cast<::FUN_00ad8830_shell *>(&(sound))->FUN_00ad8830(false);
         }
-        if (FUN_00794d80(DAT_011daa38) < DAT_011daa38->m_iEntryCount)
+        if (FUN_00794d80((*reinterpret_cast<::fnv_007caa80::Menu_7caa80 * *>(&::DAT_011daa38))) < (*reinterpret_cast<::fnv_007caa80::Menu_7caa80 * *>(&::DAT_011daa38))->m_iEntryCount)
         {
-            ((Player_7caa80*)g_thePlayer)->FUN_0093a7c0(key, MinInt(value + 1, 10));
+            reinterpret_cast<::FUN_0093a7c0_Owner *>((((Player_7caa80*)(*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer)))))->FUN_0093a7c0((void *)(key), ::MinInt(value + 1, 10));
         }
     }
-    DAT_011daa38->InvokeCallbacksForSlot();
+    reinterpret_cast<::FUN_007c9dc0_Class *>(((*reinterpret_cast<::fnv_007caa80::Menu_7caa80 * *>(&::DAT_011daa38))))->InvokeCallbacksForSlot();
 }
 }  // namespace fnv_007caa80
 
-int __cdecl MinInt(int, int);
 void __fastcall FUN_00795e20(Glob*);
 
 // @fnv 0x00795b30
@@ -2121,15 +2082,15 @@ void __cdecl UpdateLoveTester()
     int key = ((FUN_00794d30_shell*)DAT_011da2c8)->FUN_00794d30();
     if (key != -1)
     {
-        int value = g_thePlayer->avOwner.GetValue(key);
+        int value = (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(key);
         if (value < 10)
         {
             BSSoundHandleEx sound;
-            sound = ((AudioView*)BSAudio::GetSingleton())->GetSoundHandleByEditorID("OBJBookSpecialNumber", 0x121);
-            sound.Play(false);
+            reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::BSSoundHandleEx &)(sound))->operator=((const ::SoundPlaybackHandle &)((const ::BSSoundHandleEx &)(((AudioView*)::FUN_00453a70())->GetSoundHandleByEditorID("OBJBookSpecialNumber", 0x121))));
+            reinterpret_cast<::FUN_00ad8830_shell *>(&(sound))->FUN_00ad8830(false);
         }
         if (FUN_00794d80(DAT_011da2c8) < ((LoveTesterMenu*)DAT_011da2c8)->m_iEntryCount)
-            ((PlayerSetter*)g_thePlayer)->FUN_0093a7c0(key, MinInt(value + 1, 10));
+            reinterpret_cast<::FUN_0093a7c0_Owner *>((((PlayerSetter*)(*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer)))))->FUN_0093a7c0((void *)(key), MinInt(value + 1, 10));
     }
     FUN_00795e20(DAT_011da2c8);
 }
@@ -2139,8 +2100,6 @@ struct Matrix109
 {
     float m00, m01, m02, m10, m11, m12, m20, m21, m22;
     Matrix109();
-    void FUN_00524ac0(float);
-    void FUN_004a0c90(float);
     Matrix109 FUN_0043f8d0(const Matrix109&);
 };
 struct Update109
@@ -2158,20 +2117,12 @@ struct Color109
 };
 struct Bound109
 {
-    float FUN_0084d030();
 };
-extern Bound109 DAT_011f6394;
 struct Animation109
 {
-    void SetNegatedGlobal();
 };
 struct Controller109
 {
-    Animation109* FUN_0047a520(const NiFixedString&);
-    void FUN_0048fef0(float);
-    void FUN_0047aab0(Animation109*, int, int, float, float, int);
-    void FUN_0047aa40(bool);
-    Controller109* FUN_004a8a90();
 };
 struct Scene109
 {
@@ -2231,18 +2182,7 @@ struct Scene109
     virtual void v0d4();
     virtual void v0d8();
     virtual void v0dc(Scene109*, bool);
-    void FUN_00440490(float);
-    void FUN_004bc1f0(float, float, float);
-    void FUN_0043fa80(const Matrix109&);
-    void FUN_00a59c60(const Update109&);
-    Controller109* FUN_00a5c570(const void*);
-    Bound109* FUN_0043d450();
-    Scene109* FUN_00b5ca70(Scene109*, float);
-    void FUN_00b5c940(Scene109*, int);
-    void FUN_00440460(const Color109&);
-    void SetEffectColor(const Color109&);
     void FUN_0050dd50(const Color109&);
-    void FUN_0050dd20(float);
 };
 struct Light109 : Scene109
 {
@@ -2314,14 +2254,7 @@ struct Light109 : Scene109
 };
 struct Loader109
 {
-    Scene109* FUN_00447080(const char*, int, int, int, int, int);
 };
-extern Loader109* DAT_011c3b3c;
-void __cdecl FUN_004b7660(Scene109*);
-void __cdecl FUN_00a6d2d0(Scene109*);
-double __cdecl FUN_00706e50();
-void* __cdecl FUN_00653270(const void*, Controller109*);
-extern int DAT_011f36ac, DAT_011f36bc;
 struct Button109
 {
     int unk00, unk04, unk08, unk0c, unk10;
@@ -2346,26 +2279,15 @@ struct Digit109
 struct ButtonList109
 {
     int unk00, unk04, unk08, unk0c;
-    void FUN_007cb2e0(Button109* const&);
 };
 struct LabelList109
 {
     int unk00, unk04, unk08, unk0c;
-    void FUN_007cb2e0(Label109* const&);
 };
 struct DigitList109
 {
     int unk00, unk04, unk08, unk0c;
-    void FUN_007cb2e0(Digit109* const&);
 };
-void __cdecl FUN_007958e0(void*);
-void __cdecl UpdateLoveTester(void*);
-void __cdecl FUN_00795630(void*);
-void __cdecl FUN_00795c60(void*);
-void __cdecl FUN_00795ca0(void*);
-void __cdecl FUN_00795390(void*);
-void __cdecl FUN_00795a00(void*);
-int __cdecl FUN_00406d00(char*, unsigned int, const char*, ...);
 struct Menu109
 {
     int unk000;
@@ -2462,7 +2384,6 @@ struct Menu109
     LabelList109 values;
     ButtonList109 controls;
     LabelList109 totals;
-    void FUN_00796100();
     void FUN_00795e20();
     void Init();
 };
@@ -2470,58 +2391,58 @@ struct Menu109
 // @fnv 0x007928e0
 void Menu109::Init()
 {
-    ((Menu109*)DAT_011da2c8)->front = DAT_011c3b3c->FUN_00447080(
-        "Meshes\\architecture\\Goodsprings\\NV_VitoMaticVigorTester_Activate.NIF", 0, 1, 0, 0, 0);
-    FUN_004b7660(((Menu109*)DAT_011da2c8)->front);
-    ((Menu109*)DAT_011da2c8)->cabinet = DAT_011c3b3c->FUN_00447080(
-        "Meshes\\architecture\\Goodsprings\\NV_VitoMaticVigorTester_Cabinet.NIF", 0, 1, 0, 0, 0);
-    FUN_004b7660(((Menu109*)DAT_011da2c8)->cabinet);
+    ((Menu109*)DAT_011da2c8)->front = ((::fnv_007928e0::Scene109 *)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>(((*reinterpret_cast<::fnv_007928e0::Loader109 * *>(&::g_modelLoader))))->FUN_00447080(
+        (char *)("Meshes\\architecture\\Goodsprings\\NV_VitoMaticVigorTester_Activate.NIF"), 0, 1, 0, 0, 0)));
+    ::UpdateObjectVisibility((::NiAVObject *)(((Menu109*)DAT_011da2c8)->front));
+    ((Menu109*)DAT_011da2c8)->cabinet = ((::fnv_007928e0::Scene109 *)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>(((*reinterpret_cast<::fnv_007928e0::Loader109 * *>(&::g_modelLoader))))->FUN_00447080(
+        (char *)("Meshes\\architecture\\Goodsprings\\NV_VitoMaticVigorTester_Cabinet.NIF"), 0, 1, 0, 0, 0)));
+    ::UpdateObjectVisibility((::NiAVObject *)(((Menu109*)DAT_011da2c8)->cabinet));
     Matrix109 rotation5, turn1;
-    rotation5.FUN_00524ac0(1.57079637f);
-    turn1.FUN_004a0c90(3.14159274f);
+    reinterpret_cast<::FUN_00524ac0_shell *>(&(rotation5))->FUN_00524ac0(1.57079637f);
+    reinterpret_cast<::FUN_004a0c90_shell *>(&(turn1))->FUN_004a0c90(3.14159274f);
     rotation5 = rotation5.FUN_0043f8d0(turn1);
-    turn1.FUN_00524ac0(0.125663713f);
+    reinterpret_cast<::FUN_00524ac0_shell *>(&(turn1))->FUN_00524ac0(0.125663713f);
     rotation5 = rotation5.FUN_0043f8d0(turn1);
-    bool narrow3 = FUN_00706e50() <= 640.0;
+    bool narrow3 = ((double)(::FUN_00706e50())) <= 640.0;
     if (narrow3)
     {
-        ((Menu109*)DAT_011da2c8)->front->FUN_00440490(1.0f);
-        ((Menu109*)DAT_011da2c8)->front->FUN_004bc1f0(0.0f, -85.0f, -75.0f);
-        ((Menu109*)DAT_011da2c8)->front->FUN_0043fa80(rotation5);
-        ((Menu109*)DAT_011da2c8)->cabinet->FUN_00440490(1.0f);
-        ((Menu109*)DAT_011da2c8)->cabinet->FUN_004bc1f0(0.0f, -85.0f, -75.0f);
-        ((Menu109*)DAT_011da2c8)->cabinet->FUN_0043fa80(rotation5);
+        reinterpret_cast<::FUN_00440490_shell *>((((Menu109*)DAT_011da2c8)->front))->FUN_00440490(1.0f);
+        reinterpret_cast<::FUN_004bc1f0_S *>((((Menu109*)DAT_011da2c8)->front))->FUN_004bc1f0(0.0f, -85.0f, -75.0f);
+        reinterpret_cast<::FUN_0043fa80_s *>((((Menu109*)DAT_011da2c8)->front))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(rotation5));
+        reinterpret_cast<::FUN_00440490_shell *>((((Menu109*)DAT_011da2c8)->cabinet))->FUN_00440490(1.0f);
+        reinterpret_cast<::FUN_004bc1f0_S *>((((Menu109*)DAT_011da2c8)->cabinet))->FUN_004bc1f0(0.0f, -85.0f, -75.0f);
+        reinterpret_cast<::FUN_0043fa80_s *>((((Menu109*)DAT_011da2c8)->cabinet))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(rotation5));
     }
     else
     {
-        ((Menu109*)DAT_011da2c8)->front->FUN_00440490(1.0f);
-        ((Menu109*)DAT_011da2c8)->front->FUN_004bc1f0(0.0f, -85.0f, -85.0f);
-        ((Menu109*)DAT_011da2c8)->front->FUN_0043fa80(rotation5);
-        ((Menu109*)DAT_011da2c8)->cabinet->FUN_00440490(1.0f);
-        ((Menu109*)DAT_011da2c8)->cabinet->FUN_004bc1f0(0.0f, -85.0f, -85.0f);
-        ((Menu109*)DAT_011da2c8)->cabinet->FUN_0043fa80(rotation5);
+        reinterpret_cast<::FUN_00440490_shell *>((((Menu109*)DAT_011da2c8)->front))->FUN_00440490(1.0f);
+        reinterpret_cast<::FUN_004bc1f0_S *>((((Menu109*)DAT_011da2c8)->front))->FUN_004bc1f0(0.0f, -85.0f, -85.0f);
+        reinterpret_cast<::FUN_0043fa80_s *>((((Menu109*)DAT_011da2c8)->front))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(rotation5));
+        reinterpret_cast<::FUN_00440490_shell *>((((Menu109*)DAT_011da2c8)->cabinet))->FUN_00440490(1.0f);
+        reinterpret_cast<::FUN_004bc1f0_S *>((((Menu109*)DAT_011da2c8)->cabinet))->FUN_004bc1f0(0.0f, -85.0f, -85.0f);
+        reinterpret_cast<::FUN_0043fa80_s *>((((Menu109*)DAT_011da2c8)->cabinet))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(rotation5));
     }
     Update109 update13(0.0f, false, false), update259(0.0f, false, false);
-    ((Menu109*)DAT_011da2c8)->front->FUN_00a59c60(update13);
-    ((Menu109*)DAT_011da2c8)->cabinet->FUN_00a59c60(update259);
-    ((Menu109*)DAT_011da2c8)->time += DAT_011f6394.FUN_0084d030();
-    Controller109* controller7 = ((Menu109*)DAT_011da2c8)->front->FUN_00a5c570(&DAT_011f36ac);
+    reinterpret_cast<::FUN_00a59c60_cls *>((((Menu109*)DAT_011da2c8)->front))->FUN_00a59c60((int)&(update13));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((Menu109*)DAT_011da2c8)->cabinet))->FUN_00a59c60((int)&(update259));
+    ((Menu109*)DAT_011da2c8)->time += reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_007928e0::Bound109 *>(&::g_timeGlobal))))->GetStoredFloatValue();
+    Controller109* controller7 = ((::fnv_007928e0::Controller109 *)(reinterpret_cast<::MyHost *>((((Menu109*)DAT_011da2c8)->front))->FUN_00a5c570((const ::MyRTTI *)(const void *)(&(*reinterpret_cast<int *>(&::g_011f36ac))))));
     if (controller7)
     {
         Controller109* animationController20 = controller7;
-        Animation109* animation7 = animationController20->FUN_0047a520(NiFixedString("Forward"));
+        Animation109* animation7 = ((::fnv_007928e0::Animation109 *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((animationController20))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(NiFixedString("Forward")))));
         if (animation7)
         {
-            animationController20->FUN_0048fef0(0.0f);
-            animationController20->FUN_0047aab0(animation7, 0, 1, 1.0f, 0.0f, 0);
-            animationController20->FUN_0047aa40(true);
-            animation7->SetNegatedGlobal();
+            reinterpret_cast<::NiControllerManager *>((animationController20))->DeactivateAllSequences(0.0f);
+            reinterpret_cast<::NiControllerManager *>((animationController20))->ActivateControllerSequence((::NiControllerSequence *)(animation7), 0, 1, 1.0f, 0.0f, (::NiControllerSequence *)(0));
+            reinterpret_cast<::TaskQueueInterface *>((animationController20))->QueueReferenceStateTask(true);
+            ::SetNegatedGlobal((void *)(animation7));
         }
     }
-    FUN_00a6d2d0(front);
-    for (; controller7; controller7 = controller7->FUN_004a8a90())
+    ::fnv_00a6d2d0::FUN_00a6d2d0((::fnv_00a6d2d0::TCTimeNode *)(front));
+    for (; controller7; controller7 = ((::fnv_007928e0::Controller109 *)(::fnv_004a8a90::FUN_004a8a90((char *)(controller7)))))
     {
-        void* special = FUN_00653270(&DAT_011f36bc, controller7);
+        void* special = ((void *)(::FUN_00653270((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<int *>(&::g_011f36bc))), (::NiObject *)(controller7))));
         if (special)
         {
             Update109 controllerUpdate(0.0f, false, false);
@@ -2530,138 +2451,138 @@ void Menu109::Init()
         }
     }
     Update109 update31(0.0f, false, false);
-    front->FUN_00a59c60(update31);
-    float radius41 = ((Menu109*)DAT_011da2c8)->front->FUN_0043d450()->FUN_0084d030() * 20.0;
-    Scene109* ambient16 = ((Scene109*)FUN_00450b80(1))->FUN_00b5ca70(((Menu109*)DAT_011da2c8)->front->v00c(), radius41);
+    reinterpret_cast<::FUN_00a59c60_cls *>((front))->FUN_00a59c60((int)&(update31));
+    float radius41 = reinterpret_cast<::Twin_0084d030 *>((((::fnv_007928e0::Bound109 *)(reinterpret_cast<::FUN_0043d450_Owner *>((((Menu109*)DAT_011da2c8)->front))->FUN_0043d450()))))->GetStoredFloatValue() * 20.0;
+    Scene109* ambient16 = ((::fnv_007928e0::Scene109 *)(reinterpret_cast<::SSN_b5 *>((((Scene109*)((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))))))->FUN_00b5ca70((::Node_b5 *)(::fnv_007928e0::Scene109 *)(((Menu109*)DAT_011da2c8)->front->v00c()), radius41)));
     if (!ambient16)
     {
         Light109* light52 = new Light109;
-        light52->FUN_00440460(Color109(0.0f, 0.0f, 0.0f));
-        light52->SetEffectColor(Color109(0.85f, 0.85f, 0.85f));
+        reinterpret_cast<::FUN_00440460_S *>((light52))->FUN_00440460((const ::V3 *)&(const ::fnv_007928e0::Color109 &)(Color109(0.0f, 0.0f, 0.0f)));
+        reinterpret_cast<::fnv_004bc2e0::NiDynamicEffect *>((light52))->SetEffectColor((const ::fnv_004bc2e0::NiColor &)((const ::fnv_007928e0::Color109 &)(Color109(0.85f, 0.85f, 0.85f))));
         light52->FUN_0050dd50(Color109(radius41, 0.0f, 0.0f));
-        light52->FUN_0050dd20(1.0f);
+        reinterpret_cast<::NiPointLight *>((light52))->FUN_0050dd20(1.0f);
         Update109 lightUpdate10(0.0f, false, false);
-        light52->FUN_00a59c60(lightUpdate10);
-        ((Scene109*)FUN_00450b80(1))->v0dc(light52, true);
-        ((Scene109*)FUN_00450b80(1))->FUN_00b5c940(light52, 0);
+        reinterpret_cast<::FUN_00a59c60_cls *>((light52))->FUN_00a59c60((int)&(lightUpdate10));
+        ((Scene109*)((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))))->v0dc(light52, true);
+        reinterpret_cast<::fnv_00b5c940::SSNode *>((((Scene109*)((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))))))->FUN_00b5c940((::fnv_00b5c940::NiLightObj *)(light52), 0);
     }
-    ((Scene109*)FUN_00450b80(1))->v0dc(((Menu109*)DAT_011da2c8)->front, true);
-    ((Scene109*)FUN_00450b80(1))->v0dc(((Menu109*)DAT_011da2c8)->cabinet, true);
+    ((Scene109*)((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))))->v0dc(((Menu109*)DAT_011da2c8)->front, true);
+    ((Scene109*)((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))))->v0dc(((Menu109*)DAT_011da2c8)->cabinet, true);
     Label109* total28 = 0;
     Adjust109* decrease27;
     Adjust109* increase7;
     Button109* button12;
     Label109* value4;
-    decrease27 = new Adjust109((void*)FUN_007958e0, (void*)UpdateMenuEntryState, "P1_Decrease_Btn:0", -1, 0);
-    ((Menu109*)DAT_011da2c8)->controls.FUN_007cb2e0(decrease27);
-    decrease27 = new Adjust109((void*)UpdateLoveTester, (void*)FUN_00795630, "P1_Increase_Btn:0", -1, 0);
-    ((Menu109*)DAT_011da2c8)->controls.FUN_007cb2e0(decrease27);
-    button12 = new Button109((void*)FUN_00795c60, (void*)SetTargetFromGlobalState, "P1_RT_Btn:0");
-    ((Menu109*)DAT_011da2c8)->controls.FUN_007cb2e0(button12);
-    button12 = new Button109((void*)FUN_00795ca0, (void*)FUN_00795780, "P1_LT_Btn:0");
-    ((Menu109*)DAT_011da2c8)->controls.FUN_007cb2e0(button12);
+    decrease27 = new Adjust109((void*)((void (&)(void *))::fnv_007958e0::FUN_007958e0), (void*)UpdateMenuEntryState, "P1_Decrease_Btn:0", -1, 0);
+    reinterpret_cast<::FUN_00438690 *>(&(((Menu109*)DAT_011da2c8)->controls))->FUN_007cb2e0((unsigned int *)&(decrease27));
+    decrease27 = new Adjust109((void*)((void (&)(void *))::UpdateLoveTester), (void*)((void (&)(void *))::FUN_00795630), "P1_Increase_Btn:0", -1, 0);
+    reinterpret_cast<::FUN_00438690 *>(&(((Menu109*)DAT_011da2c8)->controls))->FUN_007cb2e0((unsigned int *)&(decrease27));
+    button12 = new Button109((void*)((void (&)(void *))::fnv_00795c60::FUN_00795c60), (void*)SetTargetFromGlobalState, "P1_RT_Btn:0");
+    reinterpret_cast<::FUN_00438690 *>(&(((Menu109*)DAT_011da2c8)->controls))->FUN_007cb2e0((unsigned int *)&(button12));
+    button12 = new Button109((void*)((void (&)(void *))::fnv_00795ca0::FUN_00795ca0), (void*)FUN_00795780, "P1_LT_Btn:0");
+    reinterpret_cast<::FUN_00438690 *>(&(((Menu109*)DAT_011da2c8)->controls))->FUN_007cb2e0((unsigned int *)&(button12));
     for (int row = 1; row < 10; ++row)
     {
         char name[30];
         for (int digit = 0; digit < 10; ++digit)
         {
-            FUN_00406d00(name, 30, "P1_PointVal_0%i_GLOW:%i", row, digit);
+            ::FUN_00406d00(name, 30, "P1_PointVal_0%i_GLOW:%i", row, digit);
             if (((Menu109*)DAT_011da2c8)->cabinet->v09c(NiFixedString(name)))
             {
                 Digit109* entry = new Digit109(((Menu109*)DAT_011da2c8)->cabinet->v09c(NiFixedString(name)), row);
-                ((Menu109*)DAT_011da2c8)->digits.FUN_007cb2e0(entry);
+                reinterpret_cast<::FUN_00438690 *>(&(((Menu109*)DAT_011da2c8)->digits))->FUN_007cb2e0((unsigned int *)&(entry));
             }
         }
-        FUN_00406d00(name, 30, "P1_PointVal_0%i_GLOW", row);
+        ::FUN_00406d00(name, 30, "P1_PointVal_0%i_GLOW", row);
         if (((Menu109*)DAT_011da2c8)->cabinet->v09c(NiFixedString(name)))
         {
             Digit109* entry2 = new Digit109(((Menu109*)DAT_011da2c8)->cabinet->v09c(NiFixedString(name)), row);
-            ((Menu109*)DAT_011da2c8)->digits.FUN_007cb2e0(entry2);
+            reinterpret_cast<::FUN_00438690 *>(&(((Menu109*)DAT_011da2c8)->digits))->FUN_007cb2e0((unsigned int *)&(entry2));
         }
     }
     {
         char name10[30];
         for (int digit10 = 0; digit10 < 10; ++digit10)
         {
-            FUN_00406d00(name10, 30, "P1_PointVal_10_GLOW:%i", digit10);
+            ::FUN_00406d00(name10, 30, "P1_PointVal_10_GLOW:%i", digit10);
             if (((Menu109*)DAT_011da2c8)->cabinet->v09c(NiFixedString(name10)))
             {
                 Digit109* entry10 = new Digit109(((Menu109*)DAT_011da2c8)->cabinet->v09c(NiFixedString(name10)), 10);
-                ((Menu109*)DAT_011da2c8)->digits.FUN_007cb2e0(entry10);
+                reinterpret_cast<::FUN_00438690 *>(&(((Menu109*)DAT_011da2c8)->digits))->FUN_007cb2e0((unsigned int *)&(entry10));
             }
         }
-        FUN_00406d00(name10, 30, "P1_PointVal_10_GLOW");
+        ::FUN_00406d00(name10, 30, "P1_PointVal_10_GLOW");
         if (((Menu109*)DAT_011da2c8)->cabinet->v09c(NiFixedString(name10)))
         {
             Digit109* entryLast = new Digit109(((Menu109*)DAT_011da2c8)->cabinet->v09c(NiFixedString(name10)), 10);
-            ((Menu109*)DAT_011da2c8)->digits.FUN_007cb2e0(entryLast);
+            reinterpret_cast<::FUN_00438690 *>(&(((Menu109*)DAT_011da2c8)->digits))->FUN_007cb2e0((unsigned int *)&(entryLast));
         }
     }
     total28 = new Label109((void*)UpdateDigitDisplay, "P1_PointsRemainDigit1:0", "P1_PointsRemainDigit2:0", -1, 1, 0);
-    totals.FUN_007cb2e0(total28);
-    button12 = new Button109((void*)FUN_00795c60, (void*)SetTargetFromGlobalState, "LookInside_Btn:0");
-    misc.FUN_007cb2e0(button12);
-    value4 = new Label109((void*)FUN_00795390, "Index_StrengthPointVal:0", 0, 5, 1, 0);
-    values.FUN_007cb2e0(value4);
+    reinterpret_cast<::FUN_00438690 *>(&(totals))->FUN_007cb2e0((unsigned int *)&(total28));
+    button12 = new Button109((void*)((void (&)(void *))::fnv_00795c60::FUN_00795c60), (void*)SetTargetFromGlobalState, "LookInside_Btn:0");
+    reinterpret_cast<::FUN_00438690 *>(&(misc))->FUN_007cb2e0((unsigned int *)&(button12));
+    value4 = new Label109((void*)((void (&)(void *))::fnv_00795390::FUN_00795390), "Index_StrengthPointVal:0", 0, 5, 1, 0);
+    reinterpret_cast<::FUN_00438690 *>(&(values))->FUN_007cb2e0((unsigned int *)&(value4));
     decrease27 = new Adjust109((void*)FUN_007957c0, (void*)UpdateMenuEntryState, "Index_StrengthDecrease_Btn:0", 5, 2,
                                value4, total28);
-    adjustments.FUN_007cb2e0(decrease27);
+    reinterpret_cast<::FUN_00438690 *>(&(adjustments))->FUN_007cb2e0((unsigned int *)&(decrease27));
     increase7 =
-        new Adjust109((void*)FUN_00795a00, (void*)FUN_00795630, "Index_StrengthIncrease_Btn:0", 5, 2, value4, total28);
-    adjustments.FUN_007cb2e0(increase7);
-    value4 = new Label109((void*)FUN_00795390, "Index_PerceptionPointVal:0", 0, 6, 1, 0);
-    values.FUN_007cb2e0(value4);
+        new Adjust109((void*)((void (&)(void *))::FUN_00795a00), (void*)((void (&)(void *))::FUN_00795630), "Index_StrengthIncrease_Btn:0", 5, 2, value4, total28);
+    reinterpret_cast<::FUN_00438690 *>(&(adjustments))->FUN_007cb2e0((unsigned int *)&(increase7));
+    value4 = new Label109((void*)((void (&)(void *))::fnv_00795390::FUN_00795390), "Index_PerceptionPointVal:0", 0, 6, 1, 0);
+    reinterpret_cast<::FUN_00438690 *>(&(values))->FUN_007cb2e0((unsigned int *)&(value4));
     decrease27 = new Adjust109((void*)FUN_007957c0, (void*)UpdateMenuEntryState, "Index_PerceptionDecrease_Btn:0", 6, 2,
                                value4, total28);
-    adjustments.FUN_007cb2e0(decrease27);
-    increase7 = new Adjust109((void*)FUN_00795a00, (void*)FUN_00795630, "Index_PerceptionIncrease_Btn:0", 6, 2, value4,
+    reinterpret_cast<::FUN_00438690 *>(&(adjustments))->FUN_007cb2e0((unsigned int *)&(decrease27));
+    increase7 = new Adjust109((void*)((void (&)(void *))::FUN_00795a00), (void*)((void (&)(void *))::FUN_00795630), "Index_PerceptionIncrease_Btn:0", 6, 2, value4,
                               total28);
-    adjustments.FUN_007cb2e0(increase7);
-    value4 = new Label109((void*)FUN_00795390, "Index_EndurancePointVal:0", 0, 7, 1, 0);
-    values.FUN_007cb2e0(value4);
+    reinterpret_cast<::FUN_00438690 *>(&(adjustments))->FUN_007cb2e0((unsigned int *)&(increase7));
+    value4 = new Label109((void*)((void (&)(void *))::fnv_00795390::FUN_00795390), "Index_EndurancePointVal:0", 0, 7, 1, 0);
+    reinterpret_cast<::FUN_00438690 *>(&(values))->FUN_007cb2e0((unsigned int *)&(value4));
     decrease27 = new Adjust109((void*)FUN_007957c0, (void*)UpdateMenuEntryState, "Index_EnduranceDecrease_Btn:0", 7, 2,
                                value4, total28);
-    adjustments.FUN_007cb2e0(decrease27);
+    reinterpret_cast<::FUN_00438690 *>(&(adjustments))->FUN_007cb2e0((unsigned int *)&(decrease27));
     increase7 =
-        new Adjust109((void*)FUN_00795a00, (void*)FUN_00795630, "Index_EnduranceIncrease_Btn:0", 7, 2, value4, total28);
-    adjustments.FUN_007cb2e0(increase7);
-    value4 = new Label109((void*)FUN_00795390, "Index_CharismaPointVal:0", 0, 8, 1, 0);
-    values.FUN_007cb2e0(value4);
+        new Adjust109((void*)((void (&)(void *))::FUN_00795a00), (void*)((void (&)(void *))::FUN_00795630), "Index_EnduranceIncrease_Btn:0", 7, 2, value4, total28);
+    reinterpret_cast<::FUN_00438690 *>(&(adjustments))->FUN_007cb2e0((unsigned int *)&(increase7));
+    value4 = new Label109((void*)((void (&)(void *))::fnv_00795390::FUN_00795390), "Index_CharismaPointVal:0", 0, 8, 1, 0);
+    reinterpret_cast<::FUN_00438690 *>(&(values))->FUN_007cb2e0((unsigned int *)&(value4));
     decrease27 = new Adjust109((void*)FUN_007957c0, (void*)UpdateMenuEntryState, "Index_CharismaDecrease_Btn:0", 8, 2,
                                value4, total28);
-    adjustments.FUN_007cb2e0(decrease27);
+    reinterpret_cast<::FUN_00438690 *>(&(adjustments))->FUN_007cb2e0((unsigned int *)&(decrease27));
     increase7 =
-        new Adjust109((void*)FUN_00795a00, (void*)FUN_00795630, "Index_CharismaIncrease_Btn:0", 8, 2, value4, total28);
-    adjustments.FUN_007cb2e0(increase7);
-    value4 = new Label109((void*)FUN_00795390, "Index_IntelligencePointVal:0", 0, 9, 1, 0);
-    values.FUN_007cb2e0(value4);
+        new Adjust109((void*)((void (&)(void *))::FUN_00795a00), (void*)((void (&)(void *))::FUN_00795630), "Index_CharismaIncrease_Btn:0", 8, 2, value4, total28);
+    reinterpret_cast<::FUN_00438690 *>(&(adjustments))->FUN_007cb2e0((unsigned int *)&(increase7));
+    value4 = new Label109((void*)((void (&)(void *))::fnv_00795390::FUN_00795390), "Index_IntelligencePointVal:0", 0, 9, 1, 0);
+    reinterpret_cast<::FUN_00438690 *>(&(values))->FUN_007cb2e0((unsigned int *)&(value4));
     decrease27 = new Adjust109((void*)FUN_007957c0, (void*)UpdateMenuEntryState, "Index_IntelligenceDecrease_Btn:0", 9,
                                2, value4, total28);
-    adjustments.FUN_007cb2e0(decrease27);
-    increase7 = new Adjust109((void*)FUN_00795a00, (void*)FUN_00795630, "Index_IntelligenceIncrease_Btn:0", 9, 2,
+    reinterpret_cast<::FUN_00438690 *>(&(adjustments))->FUN_007cb2e0((unsigned int *)&(decrease27));
+    increase7 = new Adjust109((void*)((void (&)(void *))::FUN_00795a00), (void*)((void (&)(void *))::FUN_00795630), "Index_IntelligenceIncrease_Btn:0", 9, 2,
                               value4, total28);
-    adjustments.FUN_007cb2e0(increase7);
-    value4 = new Label109((void*)FUN_00795390, "Index_AgilityPointVal:0", 0, 10, 1, 0);
-    values.FUN_007cb2e0(value4);
+    reinterpret_cast<::FUN_00438690 *>(&(adjustments))->FUN_007cb2e0((unsigned int *)&(increase7));
+    value4 = new Label109((void*)((void (&)(void *))::fnv_00795390::FUN_00795390), "Index_AgilityPointVal:0", 0, 10, 1, 0);
+    reinterpret_cast<::FUN_00438690 *>(&(values))->FUN_007cb2e0((unsigned int *)&(value4));
     decrease27 = new Adjust109((void*)FUN_007957c0, (void*)UpdateMenuEntryState, "Index_AgilityDecrease_Btn:0", 10, 2,
                                value4, total28);
-    adjustments.FUN_007cb2e0(decrease27);
+    reinterpret_cast<::FUN_00438690 *>(&(adjustments))->FUN_007cb2e0((unsigned int *)&(decrease27));
     increase7 =
-        new Adjust109((void*)FUN_00795a00, (void*)FUN_00795630, "Index_AgilityIncrease_Btn:0", 10, 2, value4, total28);
-    adjustments.FUN_007cb2e0(increase7);
-    value4 = new Label109((void*)FUN_00795390, "Index_LuckPointVal:0", 0, 11, 1, 0);
-    values.FUN_007cb2e0(value4);
+        new Adjust109((void*)((void (&)(void *))::FUN_00795a00), (void*)((void (&)(void *))::FUN_00795630), "Index_AgilityIncrease_Btn:0", 10, 2, value4, total28);
+    reinterpret_cast<::FUN_00438690 *>(&(adjustments))->FUN_007cb2e0((unsigned int *)&(increase7));
+    value4 = new Label109((void*)((void (&)(void *))::fnv_00795390::FUN_00795390), "Index_LuckPointVal:0", 0, 11, 1, 0);
+    reinterpret_cast<::FUN_00438690 *>(&(values))->FUN_007cb2e0((unsigned int *)&(value4));
     decrease27 = new Adjust109((void*)FUN_007957c0, (void*)UpdateMenuEntryState, "Index_LuckDecrease_Btn:0", 11, 2,
                                value4, total28);
-    adjustments.FUN_007cb2e0(decrease27);
+    reinterpret_cast<::FUN_00438690 *>(&(adjustments))->FUN_007cb2e0((unsigned int *)&(decrease27));
     increase7 =
-        new Adjust109((void*)FUN_00795a00, (void*)FUN_00795630, "Index_LuckIncrease_Btn:0", 11, 2, value4, total28);
-    adjustments.FUN_007cb2e0(increase7);
+        new Adjust109((void*)((void (&)(void *))::FUN_00795a00), (void*)((void (&)(void *))::FUN_00795630), "Index_LuckIncrease_Btn:0", 11, 2, value4, total28);
+    reinterpret_cast<::FUN_00438690 *>(&(adjustments))->FUN_007cb2e0((unsigned int *)&(increase7));
     button12 = new Button109((void*)FUN_00795ce0, (void*)SetTargetFromGlobalState, "AllDone_Btn:0");
-    adjustments.FUN_007cb2e0(button12);
-    FUN_00796100();
+    reinterpret_cast<::FUN_00438690 *>(&(adjustments))->FUN_007cb2e0((unsigned int *)&(button12));
+    reinterpret_cast<::fnv_00796100::This796 *>(this)->FUN_00796100();
     ((Menu109*)DAT_011da2c8)->FUN_00795e20();
-    FUN_00795c60(0);
+    ::fnv_00795c60::FUN_00795c60();
 }
 }  // namespace fnv_007928e0
 
@@ -2673,8 +2594,6 @@ struct Cb_WM
 struct CbArr_WM
 {
     int a, b, c, d;
-    unsigned int FUN_0044ddc0();
-    Cb_WM*& FUN_006a7ad0(unsigned int i);
 };
 struct Lvl_WM
 {
@@ -2685,15 +2604,12 @@ struct Lvl_WM
 struct LvlArr_WM
 {
     int a, b, c, d;
-    unsigned int FUN_0044ddc0();
-    Lvl_WM*& FUN_006a7ad0(unsigned int i);
 };
 struct G_WM
 {
     char _0[0x64];
     LvlArr_WM arr64;
     LvlArr_WM arr74;
-    int FUN_00794d30();
 };
 struct Pair_WM
 {
@@ -2719,33 +2635,33 @@ void FUN_00795e20_cls::FUN_00795e20()
     {
         if (DAT_011da2c8)
         {
-            int a = ((G_WM*)DAT_011da2c8)->FUN_00794d30();
+            int a = reinterpret_cast<::FUN_00794d30_shell *>((((G_WM*)DAT_011da2c8)))->FUN_00794d30();
             iLevel = 0;
             if (a != -1)
-                iLevel = DAT_011dea3c->avOwner.GetValue(((G_WM*)DAT_011da2c8)->FUN_00794d30());
-            for (unsigned int i = 0; i < ((G_WM*)DAT_011da2c8)->arr64.FUN_0044ddc0(); i++)
+                iLevel = (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(reinterpret_cast<::FUN_00794d30_shell *>((((G_WM*)DAT_011da2c8)))->FUN_00794d30());
+            for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((G_WM*)DAT_011da2c8)->arr64))->GetName())); i++)
             {
-                int x = ((G_WM*)DAT_011da2c8)->arr64.FUN_006a7ad0(i)->u18;
-                ((G_WM*)DAT_011da2c8)->arr64.FUN_006a7ad0(i);
+                int x = ((::Lvl_WM *)(reinterpret_cast<::S3e60 *>(&(((G_WM*)DAT_011da2c8)->arr64))->FUN_006a7ad0(i)))->u18;
+                reinterpret_cast<::S3e60 *>(&(((G_WM*)DAT_011da2c8)->arr64))->FUN_006a7ad0(i);
             }
             if (0)
             {
             }
-            for (unsigned int j = 0; j < ((G_WM*)DAT_011da2c8)->arr74.FUN_0044ddc0(); j++)
+            for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((G_WM*)DAT_011da2c8)->arr74))->GetName())); j++)
             {
-                int iRequiredLevel = ((G_WM*)DAT_011da2c8)->arr74.FUN_006a7ad0(j)->level;
-                if (((G_WM*)DAT_011da2c8)->arr74.FUN_006a7ad0(j)->obj)
-                    ((G_WM*)DAT_011da2c8)->arr74.FUN_006a7ad0(j)->obj->FUN_00450f90(iLevel < iRequiredLevel);
+                int iRequiredLevel = ((::Lvl_WM *)(reinterpret_cast<::S3e60 *>(&(((G_WM*)DAT_011da2c8)->arr74))->FUN_006a7ad0(j)))->level;
+                if (((::Lvl_WM *)(reinterpret_cast<::S3e60 *>(&(((G_WM*)DAT_011da2c8)->arr74))->FUN_006a7ad0(j)))->obj)
+                    reinterpret_cast<::TaskQueueInterface *>((((::Lvl_WM *)(reinterpret_cast<::S3e60 *>(&(((G_WM*)DAT_011da2c8)->arr74))->FUN_006a7ad0(j)))->obj))->QueueActorDisarm(iLevel < iRequiredLevel);
             }
         }
-        for (unsigned int iIndex = 0; iIndex < pairs[idx].b.FUN_0044ddc0(); iIndex++)
-            pairs[idx].b.FUN_006a7ad0(iIndex)->pfn0(pairs[idx].b.FUN_006a7ad0(iIndex));
-        for (unsigned int k1 = 0; k1 < pairs[idx].a.FUN_0044ddc0(); k1++)
-            pairs[idx].a.FUN_006a7ad0(k1)->pfn4(pairs[idx].a.FUN_006a7ad0(k1));
-        for (unsigned int k2 = 0; k2 < arr1b4.FUN_0044ddc0(); k2++)
-            arr1b4.FUN_006a7ad0(k2)->pfn0(arr1b4.FUN_006a7ad0(k2));
-        for (unsigned int k3 = 0; k3 < arr1a4.FUN_0044ddc0(); k3++)
-            arr1a4.FUN_006a7ad0(k3)->pfn4(arr1a4.FUN_006a7ad0(k3));
+        for (unsigned int iIndex = 0; iIndex < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(pairs[idx].b))->GetName())); iIndex++)
+            ((::Cb_WM *)(reinterpret_cast<::S3e60 *>(&(pairs[idx].b))->FUN_006a7ad0(iIndex)))->pfn0(((::Cb_WM *)(reinterpret_cast<::S3e60 *>(&(pairs[idx].b))->FUN_006a7ad0(iIndex))));
+        for (unsigned int k1 = 0; k1 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(pairs[idx].a))->GetName())); k1++)
+            ((::Cb_WM *)(reinterpret_cast<::S3e60 *>(&(pairs[idx].a))->FUN_006a7ad0(k1)))->pfn4(((::Cb_WM *)(reinterpret_cast<::S3e60 *>(&(pairs[idx].a))->FUN_006a7ad0(k1))));
+        for (unsigned int k2 = 0; k2 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr1b4))->GetName())); k2++)
+            ((::Cb_WM *)(reinterpret_cast<::S3e60 *>(&(arr1b4))->FUN_006a7ad0(k2)))->pfn0(((::Cb_WM *)(reinterpret_cast<::S3e60 *>(&(arr1b4))->FUN_006a7ad0(k2))));
+        for (unsigned int k3 = 0; k3 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr1a4))->GetName())); k3++)
+            ((::Cb_WM *)(reinterpret_cast<::S3e60 *>(&(arr1a4))->FUN_006a7ad0(k3)))->pfn4(((::Cb_WM *)(reinterpret_cast<::S3e60 *>(&(arr1a4))->FUN_006a7ad0(k3))));
     }
 }
 
@@ -2812,19 +2728,16 @@ struct Vec3
 };
 struct Hit
 {
-    void* FUN_00968670();
 };
+class NiPoint3;
 struct NiPick
 {
     int u00, u04, u08, u0c, u10, u14, u18, u1c, u20, u24, u28, u2c, u30;
     NiPick(int, int);
     ~NiPick();
-    void SetByteAtOffset17(bool);
     void FUN_00705fc0(void*);
-    void FUN_006ecd40(unsigned int);
-    void SetByteAtOffset30(bool);
-    bool FUN_00e98e20(Vec3&, Vec3&, bool);
-    Hit* FUN_00500940(unsigned int);
+public:
+    bool PerformPick(const ::NiPoint3 &, const ::NiPoint3 &, bool);
 };
 struct ClickNode
 {
@@ -2835,8 +2748,6 @@ struct ClickNode
 struct ClickArray
 {
     int count, capacity, data, grow;
-    unsigned int FUN_0044ddc0();
-    ClickNode** FUN_006a7ad0(unsigned int);
 };
 struct ClickGroup
 {
@@ -2844,12 +2755,9 @@ struct ClickGroup
 };
 struct Cursor
 {
-    float FUN_009a9350();
-    float FUN_00792760();
 };
 struct Buffer
 {
-    unsigned int FUN_0084e3a0();
 };
 struct Render
 {
@@ -2910,11 +2818,7 @@ struct Render
 };
 struct CameraRay
 {
-    void MapScreenToRay(int, int, Vec3&, Vec3&, bool);
 };
-extern bool DAT_011f9426;
-extern float DAT_011ad84c;
-extern float DAT_011ad848;
 struct InputMenu
 {
     int unk00;
@@ -2944,8 +2848,6 @@ struct InputMenu
     ClickArray arr64, arr74;
     ClickGroup groups[9];
     ClickArray arr1a4, arr1b4;
-    bool StepPosition(bool);
-    void FUN_00795e20();
     void HandleButton(int button, int unused);
 };
 // Handles menu button cases for navigation, value changes, and ray-tested clicks on menu tiles.
@@ -2958,12 +2860,12 @@ void InputMenu::HandleButton(int button, int unused)
     case 4:
         if (FUN_00794d80(this) == available)
         {
-            BSAudio::GetSingleton()->GetSoundHandleByEditorID("OBJBookSpecialNumberFinished", 0x121, false).Play();
+            reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::SoundPlaybackHandle &)(::FUN_00453a70()->GetSoundHandleByEditorID("OBJBookSpecialNumberFinished", 0x121, false)))->FUN_00ad8830({});
             FUN_007917a0();
         }
         else
         {
-            BSAudio::GetSingleton()->GetSoundHandleByEditorID("UIActivateNothing", 0x121, false).Play();
+            reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::SoundPlaybackHandle &)(::FUN_00453a70()->GetSoundHandleByEditorID("UIActivateNothing", 0x121, false)))->FUN_00ad8830({});
         }
         break;
     case 0:
@@ -2971,10 +2873,10 @@ void InputMenu::HandleButton(int button, int unused)
         if (finished)
         {
             if (button == 0)
-                local720986 = StepPosition(true);
+                local720986 = reinterpret_cast<::Menu170 *>(this)->StepPosition(true);
             else
-                local720986 = StepPosition(false);
-            FUN_00795e20();
+                local720986 = reinterpret_cast<::Menu170 *>(this)->StepPosition(false);
+            reinterpret_cast<::FUN_00795e20_cls *>(this)->FUN_00795e20();
         }
         break;
     case 2:
@@ -2983,94 +2885,90 @@ void InputMenu::HandleButton(int button, int unused)
         int local421248 = 0;
         if (((FUN_00794d30_shell*)this)->FUN_00794d30() != -1)
         {
-            local972322 = ((InputPlayer*)g_thePlayer)->owner.GetBase(((FUN_00794d30_shell*)this)->FUN_00794d30());
+            local972322 = ((InputPlayer*)(*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer)))->owner.GetBase(((FUN_00794d30_shell*)this)->FUN_00794d30());
             if (button == 2)
             {
                 if (FUN_00794d80(this) < available)
-                    ((PlayerSetter*)g_thePlayer)
-                        ->FUN_0093a7c0(((FUN_00794d30_shell*)this)->FUN_00794d30(), MinInt(local972322 + 1, 10));
+                    reinterpret_cast<::FUN_0093a7c0_Owner *>((((PlayerSetter*)(*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer)))))->FUN_0093a7c0((void *)(((FUN_00794d30_shell*)this)->FUN_00794d30()), MinInt(local972322 + 1, 10));
             }
             else
             {
-                ((PlayerSetter*)g_thePlayer)
-                    ->FUN_0093a7c0(((FUN_00794d30_shell*)this)->FUN_00794d30(), FUN_00647b70(local972322 - 1, 1));
+                reinterpret_cast<::FUN_0093a7c0_Owner *>((((PlayerSetter*)(*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer)))))->FUN_0093a7c0((void *)(((FUN_00794d30_shell*)this)->FUN_00794d30()), FUN_00647b70(local972322 - 1, 1));
             }
-            local421248 = ((InputPlayer*)g_thePlayer)->owner.GetCurrent(((FUN_00794d30_shell*)this)->FUN_00794d30());
+            local421248 = ((InputPlayer*)(*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer)))->owner.GetCurrent(((FUN_00794d30_shell*)this)->FUN_00794d30());
         }
-        else if (FUN_004b71d0() && mode == 8)
+        else if (((unsigned char)(::FUN_004b71d0())) && mode == 8)
         {
             int local294918 = special + 4;
-            local972322 = ((InputPlayer*)g_thePlayer)->owner.GetBase(local294918);
+            local972322 = ((InputPlayer*)(*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer)))->owner.GetBase(local294918);
             if (button == 2)
             {
                 if (FUN_00794d80(this) < available)
-                    ((PlayerSetter*)g_thePlayer)->FUN_0093a7c0(local294918, MinInt(local972322 + 1, 10));
+                    reinterpret_cast<::FUN_0093a7c0_Owner *>((((PlayerSetter*)(*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer)))))->FUN_0093a7c0((void *)(local294918), MinInt(local972322 + 1, 10));
             }
             else
             {
-                ((PlayerSetter*)g_thePlayer)->FUN_0093a7c0(local294918, FUN_00647b70(local972322 - 1, 1));
+                reinterpret_cast<::FUN_0093a7c0_Owner *>((((PlayerSetter*)(*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer)))))->FUN_0093a7c0((void *)(local294918), FUN_00647b70(local972322 - 1, 1));
             }
-            local421248 = ((InputPlayer*)g_thePlayer)->owner.GetCurrent(local294918);
+            local421248 = ((InputPlayer*)(*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer)))->owner.GetCurrent(local294918);
         }
         if (local972322 > local421248)
-            BSAudio::GetSingleton()->GetSoundHandleByEditorID("OBJBookSpecialNumberDown", 0x121, false).Play();
+            reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::SoundPlaybackHandle &)(::FUN_00453a70()->GetSoundHandleByEditorID("OBJBookSpecialNumberDown", 0x121, false)))->FUN_00ad8830({});
         if (local972322 < local421248)
-            BSAudio::GetSingleton()->GetSoundHandleByEditorID("OBJBookSpecialNumber", 0x121, false).Play();
-        FUN_00795e20();
+            reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::SoundPlaybackHandle &)(::FUN_00453a70()->GetSoundHandleByEditorID("OBJBookSpecialNumber", 0x121, false)))->FUN_00ad8830({});
+        reinterpret_cast<::FUN_00795e20_cls *>(this)->FUN_00795e20();
     }
     break;
     case 5:
         if (mode <= 8)
         {
             int local879956;
-            Cursor* local97635 = (Cursor*)FUN_004b7210();
-            local879956 = (int)local97635->FUN_009a9350();
-            int local866269 = (int)local97635->FUN_00792760();
+            Cursor* local97635 = (Cursor*)((::InterfaceHelper *)(::fnv_004b7210::FUN_004b7210()));
+            local879956 = (int)reinterpret_cast<::BGSImpactData *>((local97635))->FUN_009a9350();
+            int local866269 = (int)reinterpret_cast<::FUN_00792760_shell *>((local97635))->FUN_00792760();
             if (DAT_011f9426)
                 local866269 = (int)(local866269 * (DAT_011ad848 - DAT_011ad84c) +
-                                    ((Render*)FUN_0043c4b0())->GetBuffer()->FUN_0084e3a0() * (double)DAT_011ad84c);
-            for (unsigned int local610845 = 0; local610845 < groups[mode].objects.FUN_0044ddc0(); local610845++)
+                                    ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((Render*)((::RendererHelper *)(::FUN_0043c4b0())))->GetBuffer()))->FUN_0084e3a0())) * (double)DAT_011ad84c);
+            for (unsigned int local610845 = 0; local610845 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(groups[mode].objects))->GetName())); local610845++)
             {
                 Vec3 local960365;
                 Vec3 local282417;
                 NiPick local38019(0, 8);
-                local38019.SetByteAtOffset17(true);
+                reinterpret_cast<::FUN_00458b30_class *>(&(local38019))->SetByteAtOffset17(true);
                 local38019.FUN_00705fc0(
-                    (void*)(*groups[mode].objects.FUN_006a7ad0(local610845))->object.operator unsigned int());
-                local38019.FUN_006ecd40(0);
-                local38019.SetByteAtOffset30(true);
-                ((CameraRay*)DAT_011da2f4.operator unsigned int())
-                    ->MapScreenToRay(local879956, local866269, local960365, local282417, false);
-                if (local38019.FUN_00e98e20(local960365, local282417, false))
+                    (void*)(*((::ClickNode **)(reinterpret_cast<::S3e60 *>(&(groups[mode].objects))->FUN_006a7ad0(local610845))))->object.operator unsigned int());
+                reinterpret_cast<::CombatProcedure *>(&(local38019))->Initialize((::CombatController *)(0));
+                reinterpret_cast<::FUN_00792780_Class *>(&(local38019))->SetByteAtOffset30(true);
+                reinterpret_cast<::CameraWindowRay *>((((CameraRay*)(*reinterpret_cast<::Flt *>(&::g_011da2f4)).operator unsigned int())))->MapScreenToRay(local879956, local866269, (::NiPoint3 &)(local960365), (::NiPoint3 &)(local282417), (const ::NiRenderTargetGroup *)(false));
+                if (reinterpret_cast<::NiPick *>(&(local38019))->PerformPick((const ::NiPoint3 &)(local960365), (const ::NiPoint3 &)(local282417), false))
                 {
                     unsigned int local919856 = 0;
-                    void* local799449 = local38019.FUN_00500940(local919856)->FUN_00968670();
+                    void* local799449 = ((void *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::Hit *)(reinterpret_cast<::BGSCameraPath *>(&(local38019))->GetConditions()))))->FUN_00968670({})));
                     if (local799449)
                     {
-                        (*groups[mode].objects.FUN_006a7ad0(local610845))
-                            ->click(*groups[mode].objects.FUN_006a7ad0(local610845));
+                        (*((::ClickNode **)(reinterpret_cast<::S3e60 *>(&(groups[mode].objects))->FUN_006a7ad0(local610845))))
+                            ->click(*((::ClickNode **)(reinterpret_cast<::S3e60 *>(&(groups[mode].objects))->FUN_006a7ad0(local610845))));
                         break;
                     }
                 }
             }
-            for (unsigned int local966572 = 0; local966572 < arr1a4.FUN_0044ddc0(); local966572++)
+            for (unsigned int local966572 = 0; local966572 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr1a4))->GetName())); local966572++)
             {
                 Vec3 local960365;
                 Vec3 local282417;
                 NiPick local38019(0, 8);
-                local38019.SetByteAtOffset17(true);
-                local38019.FUN_00705fc0((void*)(*arr1a4.FUN_006a7ad0(local966572))->object.operator unsigned int());
-                local38019.FUN_006ecd40(0);
-                local38019.SetByteAtOffset30(true);
-                ((CameraRay*)DAT_011da2f4.operator unsigned int())
-                    ->MapScreenToRay(local879956, local866269, local960365, local282417, false);
-                if (local38019.FUN_00e98e20(local960365, local282417, false))
+                reinterpret_cast<::FUN_00458b30_class *>(&(local38019))->SetByteAtOffset17(true);
+                local38019.FUN_00705fc0((void*)(*((::ClickNode **)(reinterpret_cast<::S3e60 *>(&(arr1a4))->FUN_006a7ad0(local966572))))->object.operator unsigned int());
+                reinterpret_cast<::CombatProcedure *>(&(local38019))->Initialize((::CombatController *)(0));
+                reinterpret_cast<::FUN_00792780_Class *>(&(local38019))->SetByteAtOffset30(true);
+                reinterpret_cast<::CameraWindowRay *>((((CameraRay*)(*reinterpret_cast<::Flt *>(&::g_011da2f4)).operator unsigned int())))->MapScreenToRay(local879956, local866269, (::NiPoint3 &)(local960365), (::NiPoint3 &)(local282417), (const ::NiRenderTargetGroup *)(false));
+                if (reinterpret_cast<::NiPick *>(&(local38019))->PerformPick((const ::NiPoint3 &)(local960365), (const ::NiPoint3 &)(local282417), false))
                 {
                     unsigned int local919856 = 0;
-                    void* local799449 = local38019.FUN_00500940(local919856)->FUN_00968670();
+                    void* local799449 = ((void *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::Hit *)(reinterpret_cast<::BGSCameraPath *>(&(local38019))->GetConditions()))))->FUN_00968670({})));
                     if (local799449)
                     {
-                        (*arr1a4.FUN_006a7ad0(local966572))->click(*arr1a4.FUN_006a7ad0(local966572));
+                        (*((::ClickNode **)(reinterpret_cast<::S3e60 *>(&(arr1a4))->FUN_006a7ad0(local966572))))->click(*((::ClickNode **)(reinterpret_cast<::S3e60 *>(&(arr1a4))->FUN_006a7ad0(local966572))));
                         break;
                     }
                 }
@@ -3081,17 +2979,17 @@ void InputMenu::HandleButton(int button, int unused)
         if (mode == 8 && special > 1)
         {
             special--;
-            BSAudio::GetSingleton()->GetSoundHandleByEditorID("OBJBookSpecialFocus", 0x121, false).Play();
+            reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::SoundPlaybackHandle &)(::FUN_00453a70()->GetSoundHandleByEditorID("OBJBookSpecialFocus", 0x121, false)))->FUN_00ad8830({});
         }
-        FUN_00795e20();
+        reinterpret_cast<::FUN_00795e20_cls *>(this)->FUN_00795e20();
         break;
     case 7:
         if (mode == 8 && special < 7)
         {
             special++;
-            BSAudio::GetSingleton()->GetSoundHandleByEditorID("OBJBookSpecialFocus", 0x121, false).Play();
+            reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::SoundPlaybackHandle &)(::FUN_00453a70()->GetSoundHandleByEditorID("OBJBookSpecialFocus", 0x121, false)))->FUN_00ad8830({});
         }
-        FUN_00795e20();
+        reinterpret_cast<::FUN_00795e20_cls *>(this)->FUN_00795e20();
         break;
     }
 }

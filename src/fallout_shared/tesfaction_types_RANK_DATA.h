@@ -17,7 +17,6 @@ class FactionRankPresentation
     ~FactionRankPresentation();
     static void* operator new(unsigned int);
     static void operator delete(void*);
-    int DestroyAndFree(unsigned int);
     // FactionRankPresentation
     // void __cdecl FactionRankPresentation::*()
     // FactionRankPresentation& __cdecl FactionRankPresentation::*(const FactionRankPresentation&)

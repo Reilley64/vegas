@@ -2,6 +2,23 @@
 // src/speedtree/frondengine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/frondengine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_0044a4c0.h"
+#include "fnv/decl/Target18.h"
+#include "fnv/decl/VecAlloc.h"
+#include "fnv/decl/VecStandIn.h"
+#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
+#include "fnv/decl/fnv_00b1ebc0__FUN_00b1ebc0.h"
+#include "fnv/decl/fnv_00b20c30__FUN_00b20c30.h"
+#include "fnv/decl/fnv_00b22650__FUN_00b22650.h"
+#include "fnv/decl/xlenb0f__BxVecBase.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00b12000.h"
+#include "fnv/symbols_00b23000.h"
+#include "fnv/symbols_00b25000.h"
+#include "fnv/symbols_00b26000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01140000.h"
 struct FUN_00b1ada0_class
 {
     float a;
@@ -47,7 +64,7 @@ struct FUN_00b39460_class
 void __thiscall FUN_00b39460_class::FUN_00b39460()
 {
     void* v = *(void**)this;
-    operator delete(v);
+    ::FUN_00401030(v);
 }
 
 struct FUN_0064df10_helper
@@ -155,7 +172,6 @@ struct FUN_00b1ec70_class
     int* p;
     int* q;
     int* r;
-    void __thiscall FUN_00b1ebc0(int* a, int* b);
     void __thiscall FUN_00b1ec70();
 };
 // Frees the buffer at p after calling FUN_00b1ebc0 on p and q, then resets p, q and r to null.
@@ -165,10 +181,10 @@ void __thiscall FUN_00b1ec70_class::FUN_00b1ec70()
     int a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12;
     if (p)
     {
-        FUN_00b1ebc0(p, q);
+        reinterpret_cast<::fnv_00b1ebc0::FUN_00b1ebc0 *>(this)->FUN_00b1ebc0_Destroy((::fnv_00b1ebc0::vecdb1eb::VdElemV *)(p), (::fnv_00b1ebc0::vecdb1eb::VdElemV *)(q));
         int n = (int)((char*)r - (char*)p) / 0x38;
         int* pBuffer = p;
-        operator delete(pBuffer);
+        ::FUN_00401030(pBuffer);
     }
     p = 0;
     q = 0;
@@ -207,7 +223,6 @@ FUN_00b1ff50::FUN_00b1ff50(const FUN_00b1ff50& src)
 
 struct FUN_00b12af0_shell
 {
-    void FUN_00b12af0();
 };
 struct FUN_00b18b20
 {
@@ -225,7 +240,7 @@ FUN_00b18b20::FUN_00b18b20()
     f8 = 0.0f;
     f4 = 0.0f;
     f0 = 0.0f;
-    sub.FUN_00b12af0();
+    ::FUN_00b12af0((::FUN_00b12af0_shell *)&(sub));
     *(float*)((char*)this + 0x30) = 0.0f;
     *(int*)((char*)this + 0x34) = 0;
 }
@@ -238,7 +253,6 @@ struct FUN_00b1fe80_helper
     int* mC;
     int* m10;
     int* m14;
-    void __thiscall FUN_00b22650(int* a, int* b);
     void __thiscall FUN_00b1fe80();
 };
 // Frees the array at mC after calling FUN_00b22650 on it, then nulls mC, m10 and m14.
@@ -259,10 +273,10 @@ void FUN_00b1fe80_helper::FUN_00b1fe80()
     int a11;
     if (mC)
     {
-        FUN_00b22650(mC, m10);
+        reinterpret_cast<::fnv_00b22650::FUN_00b22650 *>(this)->FUN_00b22650_Destroy((::fnv_00b22650::vecdb226::VdElemV *)(mC), (::fnv_00b22650::vecdb226::VdElemV *)(m10));
         int count = ((char*)m14 - (char*)mC) / 0x18;
         int* p = mC;
-        operator delete(p);
+        ::FUN_00401030(p);
     }
     mC = 0;
     m10 = 0;
@@ -273,7 +287,6 @@ void __cdecl operator delete(void*);
 
 struct FUN_00b20c30_class
 {
-    void __thiscall FUN_00b20c30(void* a, void* b);
 };
 
 struct FUN_00b1f650_class
@@ -297,10 +310,10 @@ void FUN_00b1f650_class::FUN_00b1f650()
         void* oldp;
         if (pc)
         {
-            ((FUN_00b20c30_class*)this)->FUN_00b20c30(pc, pe);
+            reinterpret_cast<::fnv_00b20c30::FUN_00b20c30 *>((((FUN_00b20c30_class*)this)))->FUN_00b20c30_Destroy((::fnv_00b20c30::vecdb20c::VdElemW *)(pc), (::fnv_00b20c30::vecdb20c::VdElemW *)(pe));
             count = (int)((char*)pp - (char*)pc) / 0x18;
             oldp = pc;
-            operator delete(oldp);
+            ::FUN_00401030(oldp);
         }
     }
     pc = 0;
@@ -390,7 +403,6 @@ CopyableStateBlock* __thiscall CopyableStateBlock::CopyFrom(const CopyableStateB
     return this;
 }
 
-void __cdecl FUN_00b269d0(char* a, char* b, char* c, bool d);
 
 // @fnv 0x00b26160
 void __cdecl FUN_00b26160(char* pBegin, char* pMiddle, char* pEnd, bool bFlag)
@@ -403,26 +415,23 @@ void __cdecl FUN_00b26160(char* pBegin, char* pMiddle, char* pEnd, bool bFlag)
     {
         i = ((pEnd - pBegin) / 56 + 1) / 8;
 
-        FUN_00b269d0(pBegin, pBegin + i * 56, pBegin + 2 * i * 56, bFlag);
-        FUN_00b269d0(pMiddle - i * 56, pMiddle, pMiddle + i * 56, bFlag);
-        FUN_00b269d0(pEnd - 2 * i * 56, pEnd - i * 56, pEnd, bFlag);
-        FUN_00b269d0(pBegin + i * 56, pMiddle, pEnd - i * 56, bFlag);
+        ::FUN_00b269d0(pBegin, pBegin + i * 56, pBegin + 2 * i * 56);
+        ::FUN_00b269d0(pMiddle - i * 56, pMiddle, pMiddle + i * 56);
+        ::FUN_00b269d0(pEnd - 2 * i * 56, pEnd - i * 56, pEnd);
+        ::FUN_00b269d0(pBegin + i * 56, pMiddle, pEnd - i * 56);
     }
     else
     {
-        FUN_00b269d0(pBegin, pMiddle, pEnd, bFlag);
+        ::FUN_00b269d0(pBegin, pMiddle, pEnd);
     }
 }
 
 extern int* __cdecl FUN_0044d600(int*, int*, int*);
 extern int* __cdecl UninitCopyChecked(int*, int*, int*, void*);
-extern void __cdecl FUN_00401030(void*);
 struct C00b1d5d0
 {
     int a, b, alloc;
     int *first, *last, *limit;
-    void FUN_0044a0a0();
-    bool FUN_0044a240(unsigned);
     C00b1d5d0& FUN_00b1d5d0(const C00b1d5d0& rhs);
 };
 struct Frame00b1d5d0
@@ -466,7 +475,7 @@ C00b1d5d0& C00b1d5d0::FUN_00b1d5d0(const C00b1d5d0& rhs)
     {
         if (rhs.last - rhs.first == 0)
         {
-            FUN_0044a0a0();
+            reinterpret_cast<::VecStandIn *>(this)->FUN_0044a0a0();
         }
         else
         {
@@ -505,7 +514,7 @@ C00b1d5d0& C00b1d5d0::FUN_00b1d5d0(const C00b1d5d0& rhs)
                         FUN_00401030(f.pd4);
                     }
                     f.ndc = rhs.last - rhs.first;
-                    if (FUN_0044a240(f.ndc))
+                    if (reinterpret_cast<::VecAlloc *>(this)->FUN_0044a240(f.ndc))
                     {
                         f.p170 = first;
                         f.p16c = rhs.last;
@@ -522,7 +531,6 @@ C00b1d5d0& C00b1d5d0::FUN_00b1d5d0(const C00b1d5d0& rhs)
 unsigned int g_010173f0;
 struct StringLike
 {
-    void __thiscall Clear(bool, unsigned int);
 };
 struct SpawnEntry : StringLike
 {
@@ -545,7 +553,7 @@ struct SpawnEntry : StringLike
 SpawnEntry* SpawnEntry::FUN_00b22f80(SpawnEntry* apSource)
 {
     char buf[0x60];
-    Clear(false, 0);
+    reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
     Init(apSource, 0, g_010173f0);
     f1c = apSource->f1c;
     f20 = apSource->f20;
@@ -562,8 +570,6 @@ struct FUN_00ec78f1_t
 };
 void __stdcall FUN_00ec7894(FUN_00ec78f1_t* info, const char* fmt);
 void* __cdecl operator new(unsigned int);
-extern int DAT_010176f8;
-extern int DAT_01140ef8;
 
 // Clamps n to 0 when not positive, reports an error if n exceeds the max element count, then allocates n*0x38 bytes.
 // @fnv 0x00b23980
@@ -581,11 +587,11 @@ void* __cdecl FUN_00b23980(unsigned int n)
                 int zero = 0;
                 o.FUN_00ec78f1(&zero);
             }
-            o.m0 = (unsigned int)&DAT_010176f8;
-            FUN_00ec7894(&o, (const char*)&DAT_01140ef8);
+            o.m0 = (unsigned int)&(*reinterpret_cast<int *>(&::DAT_010176f8));
+            FUN_00ec7894(&o, (const char*)&::DAT_01140ef8);
         }
     }
-    return ::operator new(n * 0x38);
+    return ::FUN_00401000(n * 0x38);
 }
 
 // Copies n objects from src into dst one by one, rethrowing after advancing first to dst if an exception occurs.
@@ -620,7 +626,6 @@ void __cdecl CopyObjects(CopyableStateBlock* apDest, unsigned int auiCount, cons
     }
 }
 
-void* FUN_00401000(unsigned int);
 __declspec(noreturn) void __stdcall FUN_00ec7894(void*, void*);
 struct BadAlloc
 {
@@ -639,7 +644,7 @@ int* FUN_0044d670(unsigned int n)
     {
         BadAlloc e;
         e.FUN_0044d6c0(0);
-        FUN_00ec7894(&e, &DAT_01140ef8);
+        FUN_00ec7894(&e, &::DAT_01140ef8);
     }
     return (int*)FUN_00401000(n * 4);
 }
@@ -692,7 +697,6 @@ struct FmtCtx
 
 struct FUN_0044a4c0_Str
 {
-    void FUN_0044a4c0(char const* s);
 };
 
 // Formats variadic arguments into a local buffer using fmt, then assigns the result to out and returns out.
@@ -705,7 +709,7 @@ FUN_0044a4c0_Str* __cdecl FUN_00b18860(FUN_0044a4c0_Str* out, char const* fmt, .
     ctx.flags = 0;
     ap4 = reinterpret_cast<char*>(&fmt) + sizeof(fmt);
     FUN_00ec6cc4(buf2, fmt, ap4);
-    out->FUN_0044a4c0(buf2);
+    new ((void *)(out)) ::FUN_0044a4c0(buf2);
     ctx.flags |= 1;
     return out;
 }
@@ -731,7 +735,6 @@ struct Geo_00b1c6d0
     char pad24[0x64];
     Vec_00b1c6d0 m_ppIndices;
 
-    void FUN_00b31070(char cTex, const float* afCoords);
 };
 
 struct Class_00b1c6d0
@@ -760,7 +763,7 @@ void Class_00b1c6d0::FUN_00b1c6d0(Geo_00b1c6d0* geo, char cTex, const float* pTe
         for (j_ = 0; j_ < (unsigned short)(((unsigned int)((p2 = &geo->m_ppIndices)->_Mylast - p2->_Myfirst)) / 3);
              ++j_)
         {
-            geo->FUN_00b31070(chIndex, afCoords);
+            reinterpret_cast<::Target18 *>((geo))->FUN_00b31070(chIndex, (::Params18 *)(afCoords));
             geo->m_usTriCount++;
         }
     }
@@ -799,11 +802,10 @@ StringHolder* __thiscall StringHolder::FUN_00b1d100()
     Ctx obj;
     char* p = &obj.r;
     int aa;
-    _Tidy(false, 0);
+    reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
     return this;
 }
 
-void __cdecl FUN_00b23760(unsigned int a, unsigned int b, unsigned int c);
 
 struct S00b1dd80_Obj
 {
@@ -813,7 +815,6 @@ struct S00b1dd80_Obj
     unsigned int ic;
     unsigned int p10;
 
-    void __thiscall FUN_00b1ebc0(int* a, int* b);
     int* __thiscall FUN_00b1dd80(int* out, int* p, unsigned int q);
 };
 
@@ -847,8 +848,8 @@ int* __thiscall S00b1dd80_Obj::FUN_00b1dd80(int* out, int* p, unsigned int q)
     int u23;
     int u24;
 
-    FUN_00b23760(q + 0x38, p10, q);
-    FUN_00b1ebc0((int*)(p10 - 0x38), (int*)p10);
+    ::fnv_00b23760::FUN_00b23760((::fnv_00b23760::cpyb237::GvElem *)(q + 0x38), (::fnv_00b23760::cpyb237::GvElem *)(p10), (::fnv_00b23760::cpyb237::GvElem *)(q));
+    reinterpret_cast<::fnv_00b1ebc0::FUN_00b1ebc0 *>(this)->FUN_00b1ebc0_Destroy((::fnv_00b1ebc0::vecdb1eb::VdElemV *)(int *)((int*)(p10 - 0x38)), (::fnv_00b1ebc0::vecdb1eb::VdElemV *)(int *)((int*)p10));
     p10 -= 0x38;
 
     *out = 0;
@@ -887,8 +888,6 @@ struct Pool_00b1f920
     bool FUN_00b1f920(unsigned int n);
 };
 
-void __cdecl FUN_00b0fb80();
-void* __cdecl FUN_00b23b50(unsigned int n, int b);
 
 // Clears the three pointers; returns false if n is 0, else allocates n E44_00b1f920 nodes into them (or calls FUN_00b0fb80 if n is too large) and returns true.
 // @fnv 0x00b1f920
@@ -904,10 +903,10 @@ bool Pool_00b1f920::FUN_00b1f920(unsigned int aiNodeCount)
         unsigned int cap = 0x5D1745D;
         Big_00b1f920 big;
         if ((cap > 0 ? cap : 1) < aiNodeCount)
-            FUN_00b0fb80();
+            ::xlenb0f::BxVecBase::FUN_00b0fb80();
         else
         {
-            m_pHeadNode = (E44_00b1f920*)FUN_00b23b50(aiNodeCount, 0);
+            m_pHeadNode = (E44_00b1f920*)::FUN_00b23b50(aiNodeCount);
             m_last = m_pHeadNode;
             m_pFreeList = m_pHeadNode + aiNodeCount;
         }
@@ -939,11 +938,11 @@ void* __cdecl FUN_00b23aa0(unsigned int n)
             FUN_0044d6c0_class e2;
             z0 = 0;
             e2.FUN_00ec78f1(&z0);
-            e2.m_iWordAt00 = &DAT_010176f8;
-            __CxxThrowException(&e2, (unsigned int)&DAT_01140ef8);
+            e2.m_iWordAt00 = &(*reinterpret_cast<int *>(&::DAT_010176f8));
+            __CxxThrowException(&e2, (unsigned int)&::DAT_01140ef8);
         }
     }
-    return operator new(n * 0x18);
+    return ::FUN_00401000(n * 0x18);
 }
 
 struct B1c
@@ -977,7 +976,6 @@ CopyableStateBlock* FUN_00b24710(CopyableStateBlock* first, CopyableStateBlock* 
     return begin2;
 }
 
-extern unsigned long DAT_010173f0;
 
 struct S00b24a80_Obj;
 
@@ -1030,7 +1028,7 @@ S00b24a80_Obj* S00b24a80_Obj::FUN_00b24a80(S00b24a80_Obj* src)
     int u19;
     int u20;
     int u21;
-    ((S00b24a80_Spawn*)this)->AssignSubstring(src, 0, DAT_010173f0);
+    ((S00b24a80_Spawn*)this)->AssignSubstring(src, 0, (*reinterpret_cast<unsigned long *>(&::g_010173f0)));
     f1c = src->f1c;
     f20 = src->f20;
     f24 = src->f24;
@@ -1038,7 +1036,6 @@ S00b24a80_Obj* S00b24a80_Obj::FUN_00b24a80(S00b24a80_Obj* src)
     return this;
 }
 
-void __cdecl FUN_00b26ab0(CopyableStateBlock* a, CopyableStateBlock* b);
 struct PairQ
 {
     CopyableStateBlock* first;
@@ -1092,7 +1089,7 @@ PairQ* __cdecl FUN_00b25680(PairQ* pRet, CopyableStateBlock* _First, CopyableSta
             else
             {
                 t_kvalxz.s1 = pPl_mxtma++;
-                FUN_00b26ab0(t_kvalxz.s1, pGf_rbjuzd);
+                ::fnv_00b26ab0::FUN_00b26ab0((*(::fnv_00b26ab0::swapb26a::GvElem *)(t_kvalxz.s1)), (*(::fnv_00b26ab0::swapb26a::GvElem *)(pGf_rbjuzd)));
             }
         for (; _First < pGl_sm; --pGl_sm)
             if (((unsigned char)((pGl_sm[-1]).f2c > (*pPf_zm).f2c ? 1 : 0)))
@@ -1102,7 +1099,7 @@ PairQ* __cdecl FUN_00b25680(PairQ* pRet, CopyableStateBlock* _First, CopyableSta
             else
             {
                 t_kvalxz.s2 = --pPf_zm;
-                FUN_00b26ab0(t_kvalxz.s2, pGl_sm - 1);
+                ::fnv_00b26ab0::FUN_00b26ab0((*(::fnv_00b26ab0::swapb26a::GvElem *)(t_kvalxz.s2)), (*(::fnv_00b26ab0::swapb26a::GvElem *)(pGl_sm - 1)));
             }
         if (pGl_sm == _First && pGf_rbjuzd == _Last)
         {
@@ -1116,31 +1113,31 @@ PairQ* __cdecl FUN_00b25680(PairQ* pRet, CopyableStateBlock* _First, CopyableSta
             {
                 t_kvalxz.s3r = pPl_mxtma;
                 t_kvalxz.s3l = pPf_zm;
-                FUN_00b26ab0(t_kvalxz.s3l, t_kvalxz.s3r);
+                ::fnv_00b26ab0::FUN_00b26ab0((*(::fnv_00b26ab0::swapb26a::GvElem *)(t_kvalxz.s3l)), (*(::fnv_00b26ab0::swapb26a::GvElem *)(t_kvalxz.s3r)));
             }
             ++pPl_mxtma;
             t_kvalxz.s4r = pGf_rbjuzd;
             t_kvalxz.s4l = pPf_zm++;
             pGf_rbjuzd++;
-            FUN_00b26ab0(t_kvalxz.s4l, t_kvalxz.s4r);
+            ::fnv_00b26ab0::FUN_00b26ab0((*(::fnv_00b26ab0::swapb26a::GvElem *)(t_kvalxz.s4l)), (*(::fnv_00b26ab0::swapb26a::GvElem *)(t_kvalxz.s4r)));
         }
         else if (pGf_rbjuzd == _Last)
         {
             if (--pGl_sm != --pPf_zm)
             {
                 t_kvalxz.s5 = pPf_zm;
-                FUN_00b26ab0(pGl_sm, t_kvalxz.s5);
+                ::fnv_00b26ab0::FUN_00b26ab0((*(::fnv_00b26ab0::swapb26a::GvElem *)(pGl_sm)), (*(::fnv_00b26ab0::swapb26a::GvElem *)(t_kvalxz.s5)));
             }
             --pPl_mxtma;
             t_kvalxz.s6r = pPl_mxtma;
             t_kvalxz.s6l = pPf_zm;
-            FUN_00b26ab0(t_kvalxz.s6l, t_kvalxz.s6r);
+            ::fnv_00b26ab0::FUN_00b26ab0((*(::fnv_00b26ab0::swapb26a::GvElem *)(t_kvalxz.s6l)), (*(::fnv_00b26ab0::swapb26a::GvElem *)(t_kvalxz.s6r)));
         }
         else
         {
             --pGl_sm;
             s_v = pGf_rbjuzd;
-            FUN_00b26ab0(s_v, pGl_sm);
+            ::fnv_00b26ab0::FUN_00b26ab0((*(::fnv_00b26ab0::swapb26a::GvElem *)(s_v)), (*(::fnv_00b26ab0::swapb26a::GvElem *)(pGl_sm)));
             ++pGf_rbjuzd;
         }
     }
@@ -1155,7 +1152,6 @@ struct RangePtr
     int entry;
     int scratch;
 };
-extern "C" void __cdecl FUN_00b25fa0(int first, int last, int dest, int count, TagByte mode, TagByte zero);
 
 // Calls FUN_00b25fa0(a, b, c, d) with two one-byte tag arguments.
 // @fnv 0x00b26450
@@ -1167,7 +1163,7 @@ void __cdecl FUN_00b26450(int a, int b, int aiDest, int d)
     int t = b;
     RangePtr pos;
     pos.entry = a;
-    FUN_00b25fa0(pos.entry, t, aiDest, d, flags, tag);
+    ::fnv_00b25fa0::FUN_00b25fa0((::fnv_00b25fa0::ElemQ *)(pos.entry), (::fnv_00b25fa0::ElemQ *)(t), (::fnv_00b25fa0::ElemQ *)(aiDest));
 }
 
 namespace fnv_00b264f0 {
@@ -1193,7 +1189,6 @@ CopyableStateBlock* FUN_00b264f0(CopyableStateBlock* first, CopyableStateBlock* 
 }
 }  // namespace fnv_00b264f0
 
-extern "C" void __cdecl FUN_00b26ab0(char* a, char* b);
 
 // Calls FUN_00b26ab0 on (b, a), (c, b), then (b, a) whenever the float at offset 0x2C of the first exceeds that of the second.
 // @fnv 0x00b269d0
@@ -1252,15 +1247,15 @@ void __cdecl FUN_00b269d0(char* a, char* b, char* c)
     int pad51;
     if ((bool)((*(float*)(b + 0x2C) > *(float*)(a + 0x2C)) ? 1 : 0))
     {
-        FUN_00b26ab0(b, a);
+        ::fnv_00b26ab0::FUN_00b26ab0((*(::fnv_00b26ab0::swapb26a::GvElem *)(b)), (*(::fnv_00b26ab0::swapb26a::GvElem *)(a)));
     }
     if ((bool)((*(float*)(c + 0x2C) > *(float*)(b + 0x2C)) ? 1 : 0))
     {
-        FUN_00b26ab0(c, b);
+        ::fnv_00b26ab0::FUN_00b26ab0((*(::fnv_00b26ab0::swapb26a::GvElem *)(c)), (*(::fnv_00b26ab0::swapb26a::GvElem *)(b)));
     }
     if ((bool)((*(float*)(b + 0x2C) > *(float*)(a + 0x2C)) ? 1 : 0))
     {
-        FUN_00b26ab0(b, a);
+        ::fnv_00b26ab0::FUN_00b26ab0((*(::fnv_00b26ab0::swapb26a::GvElem *)(b)), (*(::fnv_00b26ab0::swapb26a::GvElem *)(a)));
     }
 }
 
@@ -1383,10 +1378,7 @@ struct AllocationException
     unsigned int reserved2;
     void __thiscall FUN_00ec78f1(unsigned int* value);
 };
-extern unsigned int DAT_010176f8;
-extern unsigned int DAT_01140ef8;
 void __stdcall FUN_00ec7894(void* exception, void* info);
-void* __cdecl FUN_00401000(unsigned int bytes);
 
 // Allocates a 12-byte-per-element array of count items, throwing AllocationException on overflow.
 // @fnv 0x00b23bb0
@@ -1399,9 +1391,9 @@ void* __cdecl FUN_00b23bb0(unsigned int count)
         unsigned int empty = 0;
         AllocationException exception;
         exception.FUN_00ec78f1(&empty);
-        exception.vtable = (unsigned int)&DAT_010176f8;
-        FUN_00ec7894(&exception, &DAT_01140ef8);
+        exception.vtable = (unsigned int)&(*reinterpret_cast<unsigned int *>(&::DAT_010176f8));
+        FUN_00ec7894(&exception, &(*reinterpret_cast<unsigned int *>(&::DAT_01140ef8)));
     }
-    return FUN_00401000(count * 12);
+    return ::FUN_00401000(count * 12);
 }
 }  // namespace fnv_00b23bb0

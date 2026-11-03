@@ -5,9 +5,13 @@
 // UpdateSlotStates - recursive tree walk over 3-child state nodes with a float test
 // and a dispatch-table callback.
 
-extern unsigned char DAT_011f3758[];
+#include "fnv/decl/ChannelState.h"
+#include "fnv/decl/FUN_00a6db50_V.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00a3d000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f6000.h"
 typedef void(__cdecl* SlotCallback)(float, void**, int*);
-extern SlotCallback DAT_011f3810[];
 
 struct SlotState
 {
@@ -53,7 +57,7 @@ void __cdecl UpdateSlotStates(int aiSlotGroup, int a2, void** apSlotData, int* a
     }
 
     aiSlotGroup = aiSlotGroup * 3;
-    SlotCallback pCallback = DAT_011f3810[a2 + aiSlotGroup * 2];
+    SlotCallback pCallback = (*reinterpret_cast<void (**[])(float, void **, int *)>(&::g_fnv_cb_011f3810))[a2 + aiSlotGroup * 2];
     if (*apiState == 1)
     {
         float* pfValue = (float*)*apSlotData;
@@ -68,18 +72,14 @@ void __cdecl UpdateSlotStates(int aiSlotGroup, int a2, void** apSlotData, int* a
 
 struct MemoryManager
 {
-    void* Allocate(unsigned int);
 };
-extern MemoryManager _g_memoryManager;
 
 struct Inner_00a6db50
 {
-    void Set(float, float, float, float);
 };
 
 struct DerivedSlotState : SlotState
 {
-    void SetChannelValues(void*, int, int, void*, int, int, void*, int, int);
 };
 
 struct RefSlotState
@@ -91,8 +91,6 @@ struct RefSlotState
 typedef void* (*AllocCallback)(int count);
 typedef void (*CopyCallback)(void* dst, void* src);
 
-extern AllocCallback DAT_011f3930[];
-extern CopyCallback DAT_011f39c0[];
 
 // @fnv 0x00a3d630
 void FUN_00a3d630(int a1, int a2, void* apData, int aiCount, float afMin, float afMax, void** apOut, int* apiOutCount)
@@ -114,12 +112,12 @@ void FUN_00a3d630(int a1, int a2, void* apData, int aiCount, float afMin, float 
         }
 
         SlotState* pNewState;
-        RefSlotState* ref = (RefSlotState*)_g_memoryManager.Allocate(sizeof(RefSlotState));
+        RefSlotState* ref = (RefSlotState*)reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(sizeof(RefSlotState));
         if (ref)
         {
             ref->refCount = 1;
             pNewState = &ref->state;
-            ((Inner_00a6db50*)&pNewState->unk04)->Set(0.0f, 0.0f, 0.0f, 0.0f);
+            reinterpret_cast<::FUN_00a6db50_V *>((((Inner_00a6db50*)&pNewState->unk04)))->Set(0.0f, 0.0f, 0.0f, 0.0f);
             pNewState->m14[0] = 0;
             pNewState->m14[1] = 0;
             pNewState->m14[2] = 0;
@@ -143,8 +141,7 @@ void FUN_00a3d630(int a1, int a2, void* apData, int aiCount, float afMin, float 
 
         *apOut = pNewState;
         *apiOutCount = 1;
-        ((DerivedSlotState*)*apOut)
-            ->SetChannelValues(local_bufs[0], local_counts[0], local_m20[0], local_bufs[1], local_counts[1],
+        reinterpret_cast<::ChannelState *>((((DerivedSlotState*)*apOut)))->SetChannelValues(local_bufs[0], local_counts[0], local_m20[0], local_bufs[1], local_counts[1],
                                local_m20[1], local_bufs[2], local_counts[2], local_m20[2]);
         return;
     }
@@ -166,9 +163,9 @@ void FUN_00a3d630(int a1, int a2, void* apData, int aiCount, float afMin, float 
 
     if (*apiOutCount != 0)
     {
-        AllocCallback alloc_func = DAT_011f3930[idx];
+        AllocCallback alloc_func = (*reinterpret_cast<void *(**[])(int)>(&::DAT_011f3930))[idx];
         *apOut = alloc_func(*apiOutCount);
-        CopyCallback copy_func = DAT_011f39c0[idx];
+        CopyCallback copy_func = (*reinterpret_cast<void (**[])(void *, void *)>(&::DAT_011f39c0))[idx];
         for (i = 0, *apiOutCount = 0; i < (unsigned int)aiCount; ++i)
         {
             char* src = (char*)apData + i * stride;

@@ -77,6 +77,8 @@ class Projectile : public MobileObject
     InventoryStackRecord* pRockItLauncherEntry;
     bool m_bHasTarget;
     float fSoundDistance;
+public:
+    void FUN_009bc8f0();
 };
 
 FNV_STATIC_ASSERT(sizeof(Projectile::Type) == 4);

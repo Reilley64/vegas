@@ -1,5 +1,20 @@
 // gamebryo2.2/corelibs/nimain/nipixeldata.cpp: NiPixelData, NiPixelDataSerialization, NiPixelDataLoad, NiPixelDataEq (13 functions)
 
+#include "fnv/decl/A5D6E0This.h"
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00a7d1a0_Class.h"
+#include "fnv/decl/FUN_00a8f010_cls.h"
+#include "fnv/decl/FUN_00a8f060_class.h"
+#include "fnv/decl/PixelFormatReader.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7b000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_011f4000.h"
 #include "nipixeldata_decls.h"
 
 __forceinline bool pixelCompressed(int f)
@@ -20,7 +35,7 @@ NiPixelData::NiPixelData(unsigned int width, unsigned int height, const NiPixelF
     m_kPixelFormat = format;
 
     if (mipmapLevels == 0)
-        m_uiMipmapLevels = CalculateMipmapLevels(width, height);
+        m_uiMipmapLevels = ::GetMipLevelCount(width, height);
     else
         m_uiMipmapLevels = mipmapLevels;
     m_uiFaces = faces;
@@ -78,7 +93,7 @@ NiPixelData::NiPixelData(unsigned int width, unsigned int height, const NiPixelF
         }
     }
 
-    AllocateData(m_uiMipmapLevels, faces, offsets[m_uiMipmapLevels]);
+    reinterpret_cast<::FUN_00a8f010_cls *>(this)->AllocateBuffers(m_uiMipmapLevels, faces, offsets[m_uiMipmapLevels]);
     unsigned int uiTableBytes = m_uiMipmapLevels * sizeof(unsigned int);
     fnv_zlib_memcpy(m_puiWidth, widths, uiTableBytes);
     fnv_zlib_memcpy(m_puiHeight, heights, uiTableBytes);
@@ -107,11 +122,10 @@ struct GlobalObjectO2_00a7b610
 {
     int pad;
 };
-extern GlobalObjectO2_00a7b610 g_011f4a90;
 // @fnv 0x00a7c020
 GlobalObjectO2_00a7b610* __cdecl FUN_00a7c020()
 {
-    return &g_011f4a90;
+    return &::g_011f4a90;
 }
 
 struct FUN_00a7bee0_target
@@ -260,12 +274,10 @@ struct NiStreamSerialization
 
 struct NiObjectSerialization : NiObject
 {
-    void FUN_00a89af0(NiStreamSerialization*);
 };
 
 struct NiPixelFormatSerialization : NiPixelFormat
 {
-    void FUN_00a7d1a0(NiStreamSerialization*);
 };
 
 struct NiPixelDataSerialization : NiPixelData
@@ -284,8 +296,8 @@ static __forceinline void TransferData(NiStreamSerialization* stream, const void
 // @fnv 0x00a7c670
 void NiPixelDataSerialization::SaveToStream(NiStreamSerialization* stream)
 {
-    reinterpret_cast<NiObjectSerialization*>(this)->FUN_00a89af0(stream);
-    reinterpret_cast<NiPixelFormatSerialization*>(&m_kPixelFormat)->FUN_00a7d1a0(stream);
+    ::FUN_00a89af0((int)(reinterpret_cast<NiObjectSerialization*>(this)));
+    reinterpret_cast<::FUN_00a7d1a0_Class *>((reinterpret_cast<NiPixelFormatSerialization*>(&m_kPixelFormat)))->FUN_00a7d1a0((*(::NiStream *)(stream)));
     stream->SavePalette(m_spPalette.value);
 
     TransferData(stream, &m_uiMipmapLevels, sizeof(m_uiMipmapLevels));
@@ -469,7 +481,6 @@ struct NiStreamLoad
     int unk248;
     NiBinaryStreamLoad* m_pUnderlyingStream;
 
-    void ReadLinkIDStub();
     __forceinline void Read(void* bytes, unsigned int count, unsigned int initialCount)
     {
         m_pUnderlyingStream->Read(bytes, count, initialCount);
@@ -483,12 +494,10 @@ template <class T> static __forceinline void ReadBinaryValue(NiStreamLoad& strea
 
 struct NiObjectLoad : NiObject
 {
-    void LoadBinaryBase(NiStreamLoad& stream);
 };
 
 struct NiPixelFormatLoad : NiPixelFormat
 {
-    void LoadBinaryFormat(NiStreamLoad& stream);
 };
 
 struct NiPixelDataLoad : NiPixelData
@@ -500,9 +509,9 @@ struct NiPixelDataLoad : NiPixelData
 // @fnv 0x00a7c470
 void NiPixelDataLoad::FUN_00a7c470(NiStreamLoad& stream)
 {
-    ((NiObjectLoad*)this)->LoadBinaryBase(stream);
-    ((NiPixelFormatLoad*)&m_kPixelFormat)->LoadBinaryFormat(stream);
-    stream.ReadLinkIDStub();
+    reinterpret_cast<::FUN_00a5d610_Object *>((((NiObjectLoad*)this)))->ReadGroup((::NiStream *)&(stream));
+    reinterpret_cast<::PixelFormatReader *>((((NiPixelFormatLoad*)&m_kPixelFormat)))->ReadFromStream((::PixelStream &)(stream));
+    reinterpret_cast<::FUN_00a645b0_cls *>(&(stream))->FUN_00a645b0();
 
     unsigned int auiOffsetInBytes[16];
     unsigned int auiWidth[16];
@@ -524,7 +533,7 @@ void NiPixelDataLoad::FUN_00a7c470(NiStreamLoad& stream)
     else
         ReadBinaryValue(stream, m_uiFaces);
 
-    AllocateData(m_uiMipmapLevels, m_uiFaces, auiOffsetInBytes[m_uiMipmapLevels]);
+    reinterpret_cast<::FUN_00a8f010_cls *>(this)->AllocateBuffers(m_uiMipmapLevels, m_uiFaces, auiOffsetInBytes[m_uiMipmapLevels]);
 
     unsigned int uiMipmapArrayBytes = m_uiMipmapLevels * sizeof(unsigned int);
     fnv_zlib_memcpy(m_puiWidth, auiWidth, uiMipmapArrayBytes);
@@ -536,9 +545,6 @@ void NiPixelDataLoad::FUN_00a7c470(NiStreamLoad& stream)
 }
 
 struct GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_011f4a90;
-char* __cdecl FUN_00a7d330(char* pcText);
-char* __cdecl FUN_00a7d510(const char* pcName, unsigned int uiValue);
 struct StrArr
 {
     void* vtable;
@@ -547,19 +553,16 @@ struct StrArr
     unsigned short m_usSize;
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
-    void SetSize(unsigned int uiMaxSize);
-    void SetAt(unsigned int uiIndex, char*& element);
     void Add(char*& element)
     {
         unsigned int uiIndex = m_usSize;
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, element);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, element);
     }
 };
 struct Base00a5d6e0
 {
-    void AppendCameraPathEntries(StrArr* pkStrings);
 };
 inline unsigned int PixelFaceSize(const NiPixelData* p)
 {
@@ -588,9 +591,9 @@ struct FUN_00a7c820_shell : NiPixelData
 // @fnv 0x00a7c820
 void FUN_00a7c820_shell::AppendPixelDataDebugStrings(StrArr* pkStrings)
 {
-    ((Base00a5d6e0*)this)->AppendCameraPathEntries(pkStrings);
+    reinterpret_cast<::A5D6E0This *>((((Base00a5d6e0*)this)))->AppendCameraPathEntries((::NiTArray< ::BGSCameraPath *, ::NiTMallocInterface< ::BGSCameraPath *>> *)(pkStrings));
     const PixelView* pkThis = (const PixelView*)this;
-    char* pcString = FUN_00a7d330(*(char**)&g_011f4a90);
+    char* pcString = ::FUN_00a7d330(*(char**)&::g_011f4a90);
     pkStrings->Add(pcString);
     pcString = FUN_00a7d510("Width", pkThis->GetWidth());
     pkStrings->Add(pcString);
@@ -608,13 +611,14 @@ void FUN_00a7c820_shell::AppendPixelDataDebugStrings(StrArr* pkStrings)
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
+class NiObject;
 struct NiStream
 {
-    NiObject* FUN_00a63430();
+public:
+    ::NiObject *GetLoadedObject();
 };
 struct RendererDataBase_s
 {
-    void LinkObject(NiStream& kStream);
 };
 inline void DecRefCount(NiObject* pkObject)
 {
@@ -667,8 +671,8 @@ struct PixelDataBE80 : public RendererDataBase_s
 // @fnv 0x00a7be80
 void PixelDataBE80::FUN_00a7be80(NiStream& kStream)
 {
-    RendererDataBase_s::LinkObject(kStream);
-    m_spPalette = kStream.FUN_00a63430();
+    ::FUN_00a89af0((int)this);
+    m_spPalette = reinterpret_cast<::NiStream *>(&(kStream))->GetLoadedObject();
 }
 
 struct SpawnedRef
@@ -687,8 +691,6 @@ struct FUN_00a7c390_cls
     int unk30, unk34, unk38, unk3C, unk40, unk44, unk48;
     SpawnedRef* m_4c;
 
-    void BaseCleanup();
-    void BaseTeardown();
     void ReleaseSpawnedRefs();
 };
 
@@ -706,7 +708,7 @@ void FUN_00a7c390_cls::ReleaseSpawnedRefs()
         }
         m_4c = 0;
     }
-    BaseCleanup();
+    reinterpret_cast<::FUN_00a8f060_class *>(this)->FUN_00a8f060();
     SpawnedRef* second = m_4c;
     if (second != 0)
     {
@@ -715,7 +717,7 @@ void FUN_00a7c390_cls::ReleaseSpawnedRefs()
             second->DeleteThis();
         }
     }
-    BaseTeardown();
+    reinterpret_cast<class ::FUN_00a5d3d0 *>(this)->FUN_00a5d3d0::~FUN_00a5d3d0();
 }
 
 static inline unsigned int Levels(unsigned int v)
@@ -778,7 +780,6 @@ struct NiPixelFormatCmp
 class NiPixelDataEq : public NiPixelData
 {
   public:
-    bool ObjectIsEqual(NiObject* pkObject);
     bool FUN_00a7bf10(NiObject* pkObject);
 };
 
@@ -786,12 +787,12 @@ class NiPixelDataEq : public NiPixelData
 // @fnv 0x00a7bf10
 bool NiPixelDataEq::FUN_00a7bf10(NiObject* pkObject)
 {
-    if (!ObjectIsEqual(pkObject))
+    if (!reinterpret_cast<::A5d470Class *>(this)->IsSameAs((::A5d470Object *)(pkObject)))
         return false;
 
     NiPixelData* pkPD = (NiPixelData*)pkObject;
 
-    if ((const NiPixelFormatCmp&)m_kPixelFormat != (const NiPixelFormatCmp&)pkPD->m_kPixelFormat)
+    if (reinterpret_cast<::NiPixelFormat *>((void *)&(const ::NiPixelFormatCmp &)((const NiPixelFormatCmp&)m_kPixelFormat))->operator!=((const ::NiPixelFormat &)((const NiPixelFormatCmp&)pkPD->m_kPixelFormat)))
         return false;
 
     NiPaletteStub* pkPalette = (NiPaletteStub*)m_spPalette.value;
@@ -897,7 +898,6 @@ class FUN_00a7c030 : public NiObject
 
     FUN_00a7c030(const FUN_00a7c030& kSrc) throw();
     virtual ~FUN_00a7c030();
-    void AllocateData(unsigned int uiLevels, unsigned int uiFaces, unsigned int uiBytes);
 };
 
 // @fnv 0x00a7c030
@@ -925,7 +925,7 @@ FUN_00a7c030::FUN_00a7c030(const FUN_00a7c030& kSrc) throw()
     unsigned int uiTotalBytes = kSrc.m_puiOffsetInBytes[m_uiMipmapLevels];
     auiOffsetInBytes[m_uiMipmapLevels] = uiTotalBytes;
 
-    AllocateData(m_uiMipmapLevels, m_uiFaces, uiTotalBytes);
+    reinterpret_cast<::FUN_00a8f010_cls *>(this)->AllocateBuffers(m_uiMipmapLevels, m_uiFaces, uiTotalBytes);
 
     unsigned int uiDimBytes = sizeof(unsigned int) * m_uiMipmapLevels;
     memcpy(m_puiWidth, auiWidth, uiDimBytes);

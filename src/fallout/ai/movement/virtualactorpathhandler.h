@@ -4,7 +4,6 @@
 
 #include "virtualactorpathhandler_decls.h"
 #include "NiPoint3.h"
-extern "C" const NiPoint3 NiPoint3_ZERO;
 class VirtualActorPathHandler
 {
   public:
@@ -13,7 +12,7 @@ class VirtualActorPathHandler
 // @fnv 0x009ea710
 bool VirtualActorPathHandler::GetPathingDelta(NiPoint3& delta)
 {
-    delta = NiPoint3_ZERO;
+    delta = ::NiPoint3::ZERO;
     return false;
 }
 #endif

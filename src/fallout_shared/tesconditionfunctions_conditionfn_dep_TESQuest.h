@@ -2,6 +2,7 @@
 #ifndef TESCONDITIONFUNCTIONS_CONDITIONFN_DEP_TESQUEST_H
 #define TESCONDITIONFUNCTIONS_CONDITIONFN_DEP_TESQUEST_H
 
+#include "fnv/decl/FUN_0061af10_shell.h"
 #include "tesconditionfunctions_conditionfn_dep_layout_support.h"
 #include "tesconditionfunctions_conditionfn_dep_QUEST_DATA.h"
 #include "tesconditionfunctions_conditionfn_dep_TESCondition.h"
@@ -9,6 +10,7 @@
 #include "tesconditionfunctions_conditionfn_dep_TESFullName.h"
 #include "tesconditionfunctions_conditionfn_dep_TESIcon.h"
 #include "tesconditionfunctions_conditionfn_dep_TESScriptableForm.h"
+class BGSQuestObjective;
 class TESQuest : public TESForm
 {
   public:
@@ -22,10 +24,14 @@ class TESQuest : public TESForm
     ScriptLocals* m_pScriptLocals;                   // +0x5C
     unsigned char m_ucEnabled;                       // +0x60
     unsigned char layoutPadding61[3];
-    bool GetEnabled();
     PerkEntryConditionSet* GetConditions();
-    bool GetAllowRepeatedTopics();
     ScriptLocals* GetScriptLocalData();
+public:
+    ::BGSQuestObjective *GetObjective(unsigned int);
+public:
+    bool HasStage(unsigned char);
+public:
+    unsigned int GetStageMask();
 };
 FNV_STATIC_ASSERT(sizeof(TESQuest) == 0x64);
 FNV_STATIC_ASSERT(offsetof(TESQuest, tESScriptableFormComponent) == 0x18);

@@ -1,6 +1,5 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3dgpuprogramcache_decls.h: declares NiD3DGPUProgramCache
-extern "C" unsigned int fnv_particle_shader_renderer_level;
-extern unsigned int DAT_011f91bc;
+#include "fnv/symbols_011f9000.h"
 class NiD3DGPUProgramCache
 {
   public:

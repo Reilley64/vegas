@@ -2,9 +2,48 @@
 // src/havok/physics/dynamics/world/util/hkpworldoperationqueue.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/hkpworldoperationqueue.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-void EnterTlsGuard();
-void FUN_00c904e0();
 
+#include "fnv/decl/BatchAdd__WorldHelper.h"
+#include "fnv/decl/CallRet.h"
+#include "fnv/decl/Cb5750_Owner.h"
+#include "fnv/decl/FUN_005616d0_Owner.h"
+#include "fnv/decl/FUN_00561800_Class.h"
+#include "fnv/decl/FUN_00c903b0_class.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00c913b0_Class.h"
+#include "fnv/decl/FUN_00c91620_Class.h"
+#include "fnv/decl/FUN_00c936a0_World.h"
+#include "fnv/decl/FUN_00c97f50_Class.h"
+#include "fnv/decl/FUN_00c9c240_holder.h"
+#include "fnv/decl/FUN_00ca8420_Class.h"
+#include "fnv/decl/FUN_00ca8860_cls.h"
+#include "fnv/decl/FUN_00d9ec10_cls.h"
+#include "fnv/decl/HostWorld_00c951b0.h"
+#include "fnv/decl/Mgr.h"
+#include "fnv/decl/Owner.h"
+#include "fnv/decl/S00c92a80_cls.h"
+#include "fnv/decl/S96_WorldShell.h"
+#include "fnv/decl/TW.h"
+#include "fnv/decl/WorldC92C.h"
+#include "fnv/decl/WorldC944.h"
+#include "fnv/decl/World_RemovePhantomBatch.h"
+#include "fnv/decl/fnv_00c93c30__FnvWorld.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpAabbPhantomD07.h"
+#include "fnv/decl/hkpEntityC9C.h"
+#include "fnv/decl/hkpWorldC914.h"
+#include "fnv/decl/hkpWorldC97.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00ca8000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00cb3000.h"
+#include "fnv/symbols_00cb5000.h"
+#include "fnv/symbols_00cb6000.h"
+#include "fnv/symbols_00cf8000.h"
+#include "fnv/symbols_00d00000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01272000.h"
 struct S_00cf7540_Alloc
 {
 };
@@ -19,13 +58,11 @@ struct S_00cf7540_Router
 };
 
 S_00cf7540_Router* FUN_00c85750();
-void ResizeAudioStream(S_00cf7540_Alloc* alloc, void* arr, int elemSize);
 
 struct S_00cf7540_Ref
 {
     int unk0;
     short m_sReferenceCount;
-    void FUN_00c90510();
 };
 
 struct S_00cf7540_Entry
@@ -46,7 +83,7 @@ template <class T> struct S_00cf7540_Array
     {
         S_00cf7540_Router* router = FUN_00c85750();
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
-            ResizeAudioStream(router->m_pStreamAllocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router->m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         return m_data[m_iElementCount++];
     }
 };
@@ -117,8 +154,8 @@ void S_00cf7540::AddEntry(S_00cf7540_Ref* pRefA, S_00cf7540_Ref* pRefB, int c, i
     e.m_kPointB = pRefB;
     e.m_iThirdValue = c;
     e.m_iFourthElementInteger = d;
-    pRefA->FUN_00c90510();
-    pRefB->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((pRefA))->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((pRefB))->FUN_00c90510();
     FUN_00c904e0();
 }
 
@@ -146,8 +183,6 @@ struct Node
     int m_4c;
 };
 
-extern void __fastcall FUN_00c90510(void* self);
-extern void __fastcall FUN_00c905b0(void* self);
 
 struct FUN_00c93580_Class
 {
@@ -223,16 +258,13 @@ struct FUN_00c93580_Class
     int m_114;
 
     void FUN_00c93580();
-    void __thiscall FUN_00c92c70(int v);
-    void __thiscall ProcessTarget(char* buf, int v);
-    void __thiscall FUN_00c914d0(void* p, int flag);
 };
 
 // @fnv 0x00c93580
 void FUN_00c93580_Class::FUN_00c93580()
 {
     while (this->m_114 > 0)
-        this->FUN_00c92c70(*(int*)this->m_110);
+        reinterpret_cast<::WorldC92C *>((this))->FUN_00c92c70((::ActionC92C *)(*(int*)this->m_110));
 
     while (this->m_2c > 0)
     {
@@ -240,46 +272,44 @@ void FUN_00c93580_Class::FUN_00c93580()
         if (node->m_4c == 0)
             break;
         char buf;
-        this->ProcessTarget(&buf, *(int*)node->m_48);
+        reinterpret_cast<::FUN_00c91620_Class *>((this))->ProcessTarget((unsigned char *)(char *)(&buf), (::FUN_00c91620_Target *)(*(int*)node->m_48));
     }
 
     while (this->m_38 > 0)
     {
         char buf;
-        this->ProcessTarget(&buf, *(int*)this->m_34[0]->m_48);
+        reinterpret_cast<::FUN_00c91620_Class *>((this))->ProcessTarget((unsigned char *)(char *)(&buf), (::FUN_00c91620_Target *)(*(int*)this->m_34[0]->m_48));
     }
 
-    FUN_00c90510(this->m_24);
+    reinterpret_cast<::FUN_00c90510_class *>((this->m_24))->FUN_00c90510();
 
     {
         char buf;
-        this->ProcessTarget(&buf, (int)this->m_24);
+        reinterpret_cast<::FUN_00c91620_Class *>((this))->ProcessTarget((unsigned char *)(char *)(&buf), (::FUN_00c91620_Target *)((int)this->m_24));
     }
 
     Node* node = this->m_20;
     while (node->m_4c > 0)
     {
         char buf;
-        this->ProcessTarget(&buf, *(int*)node->m_48);
+        reinterpret_cast<::FUN_00c91620_Class *>((this))->ProcessTarget((unsigned char *)(char *)(&buf), (::FUN_00c91620_Target *)(*(int*)node->m_48));
         node = this->m_20;
     }
 
-    this->FUN_00c914d0(this->m_24, 1);
-    FUN_00c905b0(this->m_24);
+    reinterpret_cast<::hkpWorldC914 *>((this))->FUN_00c914d0((::hkpEntityC914 *)(this->m_24), 1);
+    reinterpret_cast<::hkReferencedObjectC905 *>((this->m_24))->FUN_00c905b0();
 
     if (this->m_c8 == 0)
     {
         void* e = this->m_28[this->m_2c - 1];
-        extern void __cdecl ClearSlotReference(FUN_00c93580_Class * self, void* e);
-        ClearSlotReference(this, e);
+        ::ClearSlotReference((int *)(::FUN_00c93580_Class *)(this), (int *)(e));
         void* e2 = this->m_28[this->m_2c - 1];
         if (e2)
             ((Node*)e2)->v0(1);
         this->m_2c--;
     }
 
-    extern void __cdecl NotifyWorldDeleted(FUN_00c93580_Class * self);
-    NotifyWorldDeleted(this);
+    ::fnv_00d00f30::NotifyWorldDeleted((::fnv_00d00f30::World833 *)(::FUN_00c93580_Class *)(this));
 }
 
 struct S_00cf75c0_Array
@@ -438,14 +468,6 @@ struct Body
     int unkd8;
     int unkdc;
     Motion motion;
-    void FUN_00ca8420(int, int, int);
-    void FUN_00d07ec0(void*);
-    void FUN_00ca8860(const Vec&, const Vec&);
-    void OnTrigger(const Vec&);
-    void FUN_00561800(const Vec&);
-    void FUN_00c9c1d0();
-    void FUN_00c9c240();
-    void FUN_00d87c20(Body*, int);
 };
 struct WorldDispatcher
 {
@@ -507,23 +529,7 @@ struct World
     int unk9c;
     int unka0;
     int criticalOperations;
-    void FUN_00c914d0(Body*, int);
-    void ProcessTarget(char*, Body*);
-    void FUN_00c94bd0(Body**, int, int);
-    void RemoveEntities(Body**, int);
-    void FUN_00c97d30(Body*);
     void FUN_00c97e80(char*, Body*);
-    void FUN_00c97370(Body*);
-    void DispatchOrQueue(Body*);
-    void FUN_00c936a0(Body*);
-    void FUN_00c92c70(Body*);
-    void FUN_00c954e0(Body**, int);
-    void FUN_00c95800(Body**, int);
-    void FUN_00c946e0(void*, int, int);
-    void ProcessPair(Body*, Body*);
-    void UpdatePhantom(void*, int);
-    void FUN_00c96ff0(int, int);
-    void FUN_00c93c30(void*);
 };
 struct Pair
 {
@@ -578,7 +584,6 @@ struct OpArray
     Op* data;
     int size;
     int capacity;
-    void SwapThreeInts(void*);
 };
 struct Pending
 {
@@ -587,19 +592,13 @@ struct Pending
     Pair* pairs;
     int pairCount;
     int pairCapacity;
-    void EnterTlsGuard();
     void FUN_00cf7c10();
 };
 extern "C" void __cdecl LessThanPairPriority(Pair*, Pair*);
-extern "C" void __cdecl FUN_00cf8510(Pair*, int, int, void(__cdecl*)(Pair*, Pair*));
-extern "C" void __cdecl FUN_00cb5570(World*, Body*, Body*);
-extern "C" void __cdecl AddCollisionShape(World*, Body*);
-extern "C" void __cdecl FUN_00c90740(Body**, int, int);
-extern "C" void __cdecl FUN_00ca8700(Body*);
 
 static __forceinline void release(Body* p)
 {
-    FUN_00c905b0(p);
+    reinterpret_cast<::hkReferencedObjectC905 *>((p))->FUN_00c905b0();
 }
 static __forceinline Heap* heap()
 {
@@ -627,17 +626,17 @@ static __forceinline void freeEntities(EntityArray& a)
 // @fnv 0x00cf7c10
 void Pending::FUN_00cf7c10()
 {
-    EnterTlsGuard();
+    ::EnterTlsGuard();
     OpArray todo;
     todo.data = 0;
     todo.size = 0;
     todo.capacity = 0x80000000;
-    todo.SwapThreeInts(this);
+    reinterpret_cast<::FUN_00d9ec10_cls *>(&(todo))->SwapThreeInts((int *)(void *)(this));
     ++world->criticalOperations;
     if (pairCount)
     {
         if (pairCount > 1)
-            FUN_00cf8510(pairs, 0, pairCount - 1, LessThanPairPriority);
+            ::FUN_00cf8510((::SortRec *)(pairs), 0, pairCount - 1, (char *(*)(void *, const SortRec *, const SortRec *))(LessThanPairPriority));
         while (pairCount)
         {
             Pair p = pairs[pairCount - 1];
@@ -646,7 +645,7 @@ void Pending::FUN_00cf7c10()
                 p.a->island != p.b->island)
             {
                 _ReadWriteBarrier();
-                FUN_00cb5570(p.a->world, p.a, p.b);
+                ::FUN_00cb5570((::ObjA *)(p.a->world), (::ObjB *)(p.a), (::ObjB *)(p.b));
             }
             release(p.a);
             release(p.b);
@@ -661,20 +660,20 @@ void Pending::FUN_00cf7c10()
         {
         case 1:
             if (!p->object->world)
-                world->FUN_00c914d0(p->object, p->arg);
+                reinterpret_cast<::hkpWorldC914 *>((world))->FUN_00c914d0((::hkpEntityC914 *)(p->object), p->arg);
             release(p->object);
             break;
         case 2: {
             if (p->object->world == world)
             {
                 char result;
-                world->ProcessTarget(&result, p->object);
+                reinterpret_cast<::FUN_00c91620_Class *>((world))->ProcessTarget((unsigned char *)(char *)(&result), (::FUN_00c91620_Target *)(p->object));
             }
             release(p->object);
             break;
         }
         case 4:
-            p->object->FUN_00ca8420(p->flags.a, p->flags.b, p->flags.c);
+            reinterpret_cast<::FUN_00ca8420_Class *>((p->object))->FUN_00ca8420(p->flags.a, p->flags.b, p->flags.c);
             release(p->object);
             break;
         case 5:
@@ -683,18 +682,18 @@ void Pending::FUN_00cf7c10()
             release(p->other);
             break;
         case 6:
-            world->FUN_00c94bd0(p->objects, p->batch.count, p->batch.mode);
-            FUN_00c90740(p->objects, p->batch.count, 4);
+            reinterpret_cast<::TW *>((world))->FUN_00c94bd0((::TE *const *)(p->objects), p->batch.count, (::TEA)(p->batch.mode));
+            ::FUN_00c90740(p->objects, p->batch.count, 4);
             freeBatch(p->objects, p->batch.count);
             break;
         case 7:
-            world->RemoveEntities(p->objects, p->batch.count);
-            FUN_00c90740(p->objects, p->batch.count, 4);
+            reinterpret_cast<::HostWorld_00c951b0 *>((world))->RemoveEntities((void *const *)(p->objects), p->batch.count);
+            ::FUN_00c90740(p->objects, p->batch.count, 4);
             freeBatch(p->objects, p->batch.count);
             break;
         case 8:
             if (!p->object->world && p->object->bodyA->world == world && p->object->bodyB->world == world)
-                world->FUN_00c97d30(p->object);
+                reinterpret_cast<::Mgr *>((world))->FUN_00c97d30((::Item *)(p->object));
             release(p->object);
             break;
         case 9: {
@@ -718,7 +717,7 @@ void Pending::FUN_00cf7c10()
                 for (; i < a.size; ++i)
                     if (a.data[i]->world != world)
                         goto skipAction;
-                world->FUN_00c97370(p->object);
+                reinterpret_cast<::hkpWorldC97 *>((world))->FUN_00c97370((::hkpActionC97 *)(p->object));
             skipAction:;
                 freeEntities(a);
             }
@@ -726,80 +725,80 @@ void Pending::FUN_00cf7c10()
             break;
         case 11:
             if (p->object->owner)
-                world->DispatchOrQueue(p->object);
+                reinterpret_cast<::FUN_00c97f50_Class *>((world))->DispatchOrQueue(p->object);
             release(p->object);
             break;
         case 13:
             if (!p->object->world)
-                world->FUN_00c936a0(p->object);
+                reinterpret_cast<::FUN_00c936a0_World *>((world))->FUN_00c936a0((::hkpPhantom *)(p->object));
             release(p->object);
             break;
         case 14:
             if (p->object->world == world)
-                world->FUN_00c92c70(p->object);
+                reinterpret_cast<::WorldC92C *>((world))->FUN_00c92c70((::ActionC92C *)(p->object));
             release(p->object);
             break;
         case 15:
-            world->FUN_00c954e0(p->objects, p->batch.count);
-            FUN_00c90740(p->objects, p->batch.count, 4);
+            reinterpret_cast<::BatchAdd::WorldHelper *>((world))->FUN_00c954e0((::hkpPhantom *const *)(p->objects), p->batch.count);
+            ::FUN_00c90740(p->objects, p->batch.count, 4);
             freeBatch(p->objects, p->batch.count);
             break;
         case 16:
-            world->FUN_00c95800(p->objects, p->batch.count);
-            FUN_00c90740(p->objects, p->batch.count, 4);
+            reinterpret_cast<::World_RemovePhantomBatch *>((world))->FUN_00c95800((::hkpPhantom **)(p->objects), p->batch.count);
+            ::FUN_00c90740(p->objects, p->batch.count, 4);
             freeBatch(p->objects, p->batch.count);
             break;
         case 3:
             if (p->object->world == world)
-                AddCollisionShape(world, p->object);
+                reinterpret_cast<::Cb5750_Owner *>((world))->AddCollisionShape((::Cb5750_Param *)(p->object));
             release(p->object);
             break;
         case 17:
             if (p->object->world == world)
-                p->object->FUN_00d07ec0(p->point);
+                reinterpret_cast<::hkpAabbPhantomD07 *>((p->object))->FUN_00d07ec0((*(const ::hkAabbD07 *)(p->point)));
             release(p->object);
             if (p->point)
                 freeBlock(p->point, 32);
             break;
         case 18:
             if (p->object->world == world)
-                world->FUN_00c946e0(p->object, p->flags.a, p->flags.b);
+                reinterpret_cast<::CallRet *>((world))->FUN_00c946e0((::CollisionEntity *)(p->object), p->flags.a, p->flags.b);
             release(p->object);
             break;
         case 19:
             if (p->object->world == world && p->other->world == world)
-                world->ProcessPair(p->object, p->other);
+                reinterpret_cast<::FUN_00c913b0_Class *>((world))->ProcessPair(p->object, p->other);
             release(p->object);
             release(p->other);
             break;
         case 20:
             if (p->object->world == world)
-                world->UpdatePhantom(p->object, p->flags.a);
+                reinterpret_cast<::WorldC944 *>((world))->UpdatePhantom((::PhantomC944 *)(p->object), p->flags.a);
             release(p->object);
             break;
         case 21:
-            world->FUN_00c96ff0(p->flag1, p->flag2);
+            reinterpret_cast<::S96_WorldShell *>((world))->FUN_00c96ff0(p->flag1, p->flag2);
             break;
         case 22:
-            FUN_00ca8700(p->object);
+            ::FUN_00ca8700((::Entity *)(p->object));
             release(p->object);
             break;
         case 24:
-            p->object->FUN_00ca8860(p->point[0], p->point[1]);
+            reinterpret_cast<::FUN_00ca8860_cls *>((p->object))->FUN_00ca8860((int)&(p->point[0]), (int)&(p->point[1]));
             freeBlock(p->point, 32);
             release(p->object);
             break;
         case 25: {
             Vec v;
             v.quad = _mm_setr_ps(p->x, p->y, p->z, 0.0f);
-            p->object->OnTrigger(v);
+            reinterpret_cast<::FUN_005616d0_Owner *>((p->object))->OnTrigger((::TriggerContext *)&(v));
             release(p->object);
             break;
         }
         case 26: {
             Vec v;
             v.quad = _mm_setr_ps(p->x, p->y, p->z, 0.0f);
-            p->object->FUN_00561800(v);
+            reinterpret_cast<::FUN_00561800_Class *>((p->object))->FUN_00561800((::FUN_00561730_Obj *)&(v));
             release(p->object);
             break;
         }
@@ -807,7 +806,7 @@ void Pending::FUN_00cf7c10()
             Vec v;
             v.quad = _mm_setr_ps(p->x, p->y, p->z, 0.0f);
             Body* b = p->object;
-            b->FUN_00c9c1d0();
+            reinterpret_cast<::hkpEntityC9C *>((b))->FUN_00c9c1d0();
             b->motion.impulse(v);
             release(p->object);
             break;
@@ -816,7 +815,7 @@ void Pending::FUN_00cf7c10()
             const Vec& a = p->point[1];
             const Vec& b = p->point[0];
             Body* body = p->object;
-            body->FUN_00c9c1d0();
+            reinterpret_cast<::hkpEntityC9C *>((body))->FUN_00c9c1d0();
             body->motion.pointImpulse(a, b);
             freeBlock(p->point, 32);
             release(p->object);
@@ -826,26 +825,26 @@ void Pending::FUN_00cf7c10()
             Vec v;
             v.quad = _mm_setr_ps(p->x, p->y, p->z, 0.0f);
             Body* b = p->object;
-            b->FUN_00c9c1d0();
+            reinterpret_cast<::hkpEntityC9C *>((b))->FUN_00c9c1d0();
             b->motion.angularImpulse(v);
             release(p->object);
             break;
         }
         case 32:
-            world->FUN_00c93c30(p->vector);
+            reinterpret_cast<::fnv_00c93c30::FnvWorld *>((world))->FUN_00c93c30((int)(p->vector));
             freeBlock(p->vector, 32);
             break;
         case 33:
-            p->object->FUN_00c9c1d0();
+            reinterpret_cast<::hkpEntityC9C *>((p->object))->FUN_00c9c1d0();
             release(p->object);
             break;
         case 34:
             if (p->object->world == world)
-                p->object->FUN_00c9c240();
+                reinterpret_cast<::FUN_00c9c240_holder *>((p->object))->FUN_00c9c240();
             release(p->object);
             break;
         case 35:
-            p->object->FUN_00d87c20(p->other, p->enabled);
+            reinterpret_cast<::Owner *>((p->object))->FUN_00d87c20((int)(p->other), p->enabled);
             release(p->object);
             release(p->other);
             break;
@@ -882,7 +881,7 @@ void Pending::FUN_00cf7c10()
         if (operations.size)
             FUN_00cf7c10();
     }
-    todo.SwapThreeInts(this);
+    reinterpret_cast<::FUN_00d9ec10_cls *>(&(todo))->SwapThreeInts((int *)(void *)(this));
     operations.size = 0;
     --world->criticalOperations;
     ::FUN_00c904e0();
@@ -990,17 +989,11 @@ struct Alloc
 };
 struct Obj
 {
-    void FUN_00c90510();
 };
 struct FUN_00d1df70
 {
-    void removeReference();
 };
-void EnterTlsGuard();
-void FUN_00c904e0();
 BSAudio* FUN_00c85750();
-void ResizeAudioStream(void* alloc, void* vec, int elemsz);
-void FUN_00cb1260(void* dst, void* src, int n);
 
 struct Elem
 {
@@ -1046,11 +1039,11 @@ struct Vec
 // @fnv 0x00cf7690
 void Vec::FUN_00cf7690(Elem* arg)
 {
-    EnterTlsGuard();
+    ::EnterTlsGuard();
     BSAudio* bsa = FUN_00c85750();
     if (cnt == (cap & 0x3fffffff))
     {
-        ResizeAudioStream(bsa->alloc, this, 0x14);
+        ::ResizeAudioStream((::AudioAllocator *)(bsa->alloc), (::AudioStream *)(void *)(this), 0x14);
     }
     Elem* pNew = data + cnt;
     if (pNew)
@@ -1068,21 +1061,21 @@ void Vec::FUN_00cf7690(Elem* arg)
     switch (dst->tag)
     {
     case 1:
-        ((Obj*)dst->f04)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
         break;
     case 2:
-        ((Obj*)dst->f04)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
         break;
     case 3:
-        ((Obj*)dst->f04)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
         break;
     case 4:
-        ((Obj*)dst->f04)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
         break;
     case 5:
-        ((Obj*)dst->f04)->FUN_00c90510();
-        ((Obj*)dst->f08)->FUN_00c90510();
-        FUN_00c904e0();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f08)))->FUN_00c90510();
+        ::FUN_00c904e0();
         return;
     case 6: {
         int f08v = dst->f08;
@@ -1090,15 +1083,15 @@ void Vec::FUN_00cf7690(Elem* arg)
         BSAudio* b = FUN_00c85750();
         void* mem = b->alloc->V04(count * 4);
         dst->f04 = (int*)mem;
-        FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
+        ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
         int* p = dst->f04;
         int* end = p + (unsigned short)dst->f08;
         while (p < end)
         {
-            ((Obj*)*p++)->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((((Obj*)*p++)))->FUN_00c90510();
         }
     }
-        FUN_00c904e0();
+        ::FUN_00c904e0();
         return;
     case 7: {
         int f08v = dst->f08;
@@ -1106,37 +1099,37 @@ void Vec::FUN_00cf7690(Elem* arg)
         BSAudio* b = FUN_00c85750();
         void* mem = b->alloc->V04(count * 4);
         dst->f04 = (int*)mem;
-        FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
+        ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
         int* p = dst->f04;
         int* end = p + (unsigned short)dst->f08;
         while (p < end)
         {
-            ((Obj*)*p++)->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((((Obj*)*p++)))->FUN_00c90510();
         }
     }
-        FUN_00c904e0();
+        ::FUN_00c904e0();
         return;
     case 8:
-        ((Obj*)dst->f04)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
         break;
     case 9:
-        ((Obj*)dst->f04)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
         break;
     case 10:
-        ((Obj*)dst->f04)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
         break;
     case 11:
-        ((Obj*)dst->f04)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
         break;
     case 12:
-        ((Obj*)dst->f04)->FUN_00c90510();
-        ((Obj*)dst->f08)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f08)))->FUN_00c90510();
         {
             VecBase* s = &sub;
             BSAudio* b = FUN_00c85750();
             if (s->cnt == (s->cap & 0x3fffffff))
             {
-                ResizeAudioStream(b->alloc, s, 0x14);
+                ::ResizeAudioStream((::AudioAllocator *)(b->alloc), (::AudioStream *)(s), 0x14);
             }
             Elem* d2 = s->data + s->cnt;
             if (d2)
@@ -1146,13 +1139,13 @@ void Vec::FUN_00cf7690(Elem* arg)
             s->cnt++;
             cnt--;
         }
-        FUN_00c904e0();
+        ::FUN_00c904e0();
         return;
     case 13:
-        ((Obj*)dst->f04)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
         break;
     case 14:
-        ((Obj*)dst->f04)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
         break;
     case 15: {
         int f08v = dst->f08;
@@ -1160,15 +1153,15 @@ void Vec::FUN_00cf7690(Elem* arg)
         BSAudio* b = FUN_00c85750();
         void* mem = b->alloc->V04(count * 4);
         dst->f04 = (int*)mem;
-        FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
+        ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
         int* p = dst->f04;
         int* end = p + (unsigned short)dst->f08;
         while (p < end)
         {
-            ((Obj*)*p++)->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((((Obj*)*p++)))->FUN_00c90510();
         }
     }
-        FUN_00c904e0();
+        ::FUN_00c904e0();
         return;
     case 16: {
         int f08v = dst->f08;
@@ -1176,18 +1169,18 @@ void Vec::FUN_00cf7690(Elem* arg)
         BSAudio* b = FUN_00c85750();
         void* mem = b->alloc->V04(count * 4);
         dst->f04 = (int*)mem;
-        FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
+        ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
         int* p = dst->f04;
         int* end = p + (unsigned short)dst->f08;
         while (p < end)
         {
-            ((Obj*)*p++)->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((((Obj*)*p++)))->FUN_00c90510();
         }
     }
-        FUN_00c904e0();
+        ::FUN_00c904e0();
         return;
     case 17: {
-        ((Obj*)dst->f04)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
         BSAudio* b = FUN_00c85750();
         void* mem = b->alloc->V04(0x20);
         int nf08;
@@ -1210,22 +1203,22 @@ void Vec::FUN_00cf7690(Elem* arg)
             nf08 = 0;
         }
         dst->f08 = nf08;
-        FUN_00c904e0();
+        ::FUN_00c904e0();
         return;
     }
     case 18:
-        ((Obj*)dst->f04)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
         break;
     case 19:
-        ((Obj*)dst->f04)->FUN_00c90510();
-        ((Obj*)dst->f08)->FUN_00c90510();
-        FUN_00c904e0();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f08)))->FUN_00c90510();
+        ::FUN_00c904e0();
         return;
     case 20:
-        ((Obj*)dst->f04)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
         break;
     case 22:
-        ((Obj*)dst->f04)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
         break;
     case 23: {
         int f08v = dst->f08;
@@ -1233,62 +1226,62 @@ void Vec::FUN_00cf7690(Elem* arg)
         BSAudio* b = FUN_00c85750();
         void* mem = b->alloc->V04(count * 4);
         dst->f04 = (int*)mem;
-        FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
+        ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
         int* p = dst->f04;
         int* end = p + (unsigned short)dst->f08;
         while (p < end)
         {
-            ((Obj*)*p++)->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((((Obj*)*p++)))->FUN_00c90510();
         }
     }
-        FUN_00c904e0();
+        ::FUN_00c904e0();
         return;
     case 24:
-        ((Obj*)dst->f04)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
         break;
     case 25:
-        ((Obj*)dst->f04)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
         break;
     case 26:
-        ((Obj*)dst->f04)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
         break;
     case 27:
-        ((Obj*)dst->f04)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
         break;
     case 28:
-        ((Obj*)dst->f04)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
         break;
     case 29:
-        ((Obj*)dst->f04)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
         break;
     case 30:
-        ((Obj*)dst->f04)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
         cnt--;
         *(int*)(owner + 0x8c) -= 1;
-        FUN_00c904e0();
+        ::FUN_00c904e0();
         return;
     case 31:
-        ((FUN_00d1df70*)dst->f04)->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((((FUN_00d1df70*)dst->f04)))->FUN_00c905b0();
         cnt--;
         *(int*)(owner + 0x8c) -= 1;
-        FUN_00c904e0();
+        ::FUN_00c904e0();
         return;
     case 33:
-        ((Obj*)dst->f04)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
         break;
     case 34:
-        ((Obj*)dst->f04)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
         break;
     case 35:
-        ((Obj*)dst->f04)->FUN_00c90510();
-        ((Obj*)dst->f08)->FUN_00c90510();
-        FUN_00c904e0();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f08)))->FUN_00c90510();
+        ::FUN_00c904e0();
         return;
     case 36:
-        ((Obj*)dst->f04)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
         break;
     }
-    FUN_00c904e0();
+    ::FUN_00c904e0();
 }
 }  // namespace fnv_00cf7690
 
@@ -1316,9 +1309,6 @@ struct S_00cf7ae0_Router
         return *m_pStreamAllocator;
     }
 };
-void __cdecl FUN_00c908c0(S_00cf7ae0_Heap*, void* arr, int n, int elemSize);
-void __cdecl EnterTlsGuard();
-void __cdecl FUN_00c904e0();
 
 struct S_00cf7ae0_Obj
 {
@@ -1326,7 +1316,6 @@ struct S_00cf7ae0_Obj
     virtual void v4();
     virtual void v8();
     virtual void vfnc(void* data, bool* flag);
-    void ReleaseReference();
 };
 struct S_00cf7ae0_Entry
 {
@@ -1336,22 +1325,19 @@ struct S_00cf7ae0_Entry
     int unkc;
 };
 bool __cdecl FUN_00cf74b0(const S_00cf7ae0_Entry&, const S_00cf7ae0_Entry&);
-void __cdecl FUN_00cf83c0(S_00cf7ae0_Entry* data, int lo, int hi,
-                          bool(__cdecl* cmp)(const S_00cf7ae0_Entry&, const S_00cf7ae0_Entry&));
 
 struct S_00cf7ae0_Array
 {
     S_00cf7ae0_Entry* m_data;
     int m_iElementCount;
     int m_cap;
-    void SwapThreeInts(S_00cf7ae0_Array* other);
     __forceinline void reserve(S_00cf7ae0_Heap& a, int n)
     {
         int cap = m_cap & 0x3fffffff;
         if (cap < n)
         {
             int c2 = cap * 2;
-            FUN_00c908c0(&a, this, (n < c2) ? c2 : n, 16);
+            ::FUN_00c908c0((::SpawnedObject *)(::fnv_00cf7ae0::S_00cf7ae0_Heap *)(&a), (::SpawnedArray *)(void *)(this), (n < c2) ? c2 : n, 16);
         }
     }
     __forceinline void ClearAndRelease(S_00cf7ae0_Heap& a)
@@ -1422,14 +1408,14 @@ void S_00cf7ae0::FUN_00cf7ae0()
         localArray.m_data = 0;
         localArray.m_iElementCount = 0;
         localArray.m_cap = 0x80000000;
-        localArray.SwapThreeInts(&pending);
+        reinterpret_cast<::FUN_00d9ec10_cls *>(&(localArray))->SwapThreeInts((int *)(::fnv_00cf7ae0::S_00cf7ae0_Array *)(&pending));
         owner->unk90 = 0;
         pending.reserve(S_00cf7ae0_Router::GetMonitorStream().heap(), 16);
         int n = localArray.m_iElementCount;
         if (n > 1)
         {
             int last = n - 1;
-            FUN_00cf83c0(localArray.m_data, 0, last, FUN_00cf74b0);
+            ::FUN_00cf83c0((::SortElem16 *)(localArray.m_data), 0, last, (bool (*)(const SortElem16 &, const SortElem16 &))(FUN_00cf74b0));
         }
         if (n > 0)
         {
@@ -1445,7 +1431,7 @@ void S_00cf7ae0::FUN_00cf7ae0()
                 p++;
             } while (--i != 0);
         }
-        EnterTlsGuard();
+        ::EnterTlsGuard();
         if (n > 0)
         {
             S_00cf7ae0_Entry* p = localArray.m_data;
@@ -1453,29 +1439,26 @@ void S_00cf7ae0::FUN_00cf7ae0()
             {
                 S_00cf7ae0_Obj* a = p->data;
                 S_00cf7ae0_Obj* b = p->listener;
-                a->ReleaseReference();
-                b->ReleaseReference();
+                reinterpret_cast<::FUN_00c903b0_class *>((a))->ReleaseReference();
+                reinterpret_cast<::FUN_00c903b0_class *>((b))->ReleaseReference();
                 p++;
             } while (--n != 0);
         }
-        FUN_00c904e0();
+        ::FUN_00c904e0();
         localArray.ClearAndRelease(S_00cf7ae0_Router::GetMonitorStream().heap());
     }
 }
 }  // namespace fnv_00cf7ae0
 
 #include <string.h>
+#include "fnv/symbols_simd.h"
 extern "C" __m128 _mm_and_ps(__m128, __m128);
 extern "C" __m128 _mm_cmple_ps(__m128, __m128);
 extern "C" int _mm_movemask_ps(__m128);
 extern "C" __m128 _mm_set_ps1(float);
 extern "C" __m128 _mm_sub_ps(__m128, __m128);
 
-extern __declspec(thread) int g_threadMode;
 extern unsigned char DAT_01267b44;
-extern float DAT_01017d00;
-extern __m128 DAT_01267e30;
-extern __m128 DAT_01017d10;
 
 struct S_Motion
 {
@@ -1589,7 +1572,6 @@ struct S_Motion
     int unk1ac;
     __m128 m_1b0;
     __m128 m_1c0;
-    void FUN_00c9c1d0();
 };
 struct S_Body
 {
@@ -1696,22 +1678,19 @@ struct S_Item
 };
 struct S_Mgr : FUN_00c93580_Class
 {
-    void FUN_00c94bd0(S_Item** items, unsigned int count, int flag);
-    void FUN_00c92a80(int a, int b);
 };
-void __cdecl PropagateStateToChildren(S_Mgr* mgr, S_Shape* shape);
 
 struct S_ModeGuard
 {
     int m_saved;
     S_ModeGuard()
     {
-        m_saved = g_threadMode;
-        g_threadMode = 0x10;
+        m_saved = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 0x10;
     }
     ~S_ModeGuard()
     {
-        g_threadMode = m_saved;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_saved;
     }
 };
 
@@ -1730,19 +1709,19 @@ static inline const __m128& GetLinVel(S_Body* b)
 {
     if (b && b->m_8)
         return b->m_8->m_1b0;
-    return DAT_01267e30;
+    return (*reinterpret_cast<::__m128 *>(&::DAT_01267e30));
 }
 
 static inline const __m128& GetAngVel(S_Body* b)
 {
     if (b && b->m_8)
         return b->m_8->m_1c0;
-    return DAT_01267e30;
+    return (*reinterpret_cast<::__m128 *>(&::DAT_01267e30));
 }
 
 static inline bool AllNear3(const __m128& a, const __m128& b, const __m128& eps)
 {
-    __m128 d = _mm_and_ps(_mm_sub_ps(a, b), DAT_01017d10);
+    __m128 d = _mm_and_ps(_mm_sub_ps(a, b), ::DAT_01017d10);
     return (_mm_movemask_ps(_mm_cmple_ps(d, eps)) & 7) == 7;
 }
 
@@ -1796,7 +1775,7 @@ void S_Owner::FUN_00c674d0(S_Item** items, unsigned int count)
     S_Mgr* mgr = GetMgr();
     if (mgr)
     {
-        mgr->FUN_00c94bd0(items, count, 0);
+        reinterpret_cast<::TW *>((mgr))->FUN_00c94bd0((::TE *const *)(items), count, (::TEA)(0));
         bool bShapeUpdated = false;
         for (unsigned int i = 0; i < count; i++)
         {
@@ -1813,7 +1792,7 @@ void S_Owner::FUN_00c674d0(S_Item** items, unsigned int count)
             else
             {
                 char tmp;
-                mgr->ProcessTarget(&tmp, (int)it);
+                reinterpret_cast<::FUN_00c91620_Class *>((mgr))->ProcessTarget((unsigned char *)(char *)(&tmp), (::FUN_00c91620_Target *)((int)it));
             }
             if (!bShapeUpdated)
             {
@@ -1821,17 +1800,17 @@ void S_Owner::FUN_00c674d0(S_Item** items, unsigned int count)
                 if (s && s->m_20 != 0xffff)
                 {
                     if (DAT_01267b44)
-                        mgr->FUN_00c92a80(s->m_48, s->m_4c);
-                    PropagateStateToChildren(mgr, s);
+                        reinterpret_cast<::S00c92a80_cls *>((mgr))->FUN_00c92a80(s->m_48, s->m_4c);
+                    ::PropagateStateToChildren((::Object *)(mgr), (int *)(s));
                     bShapeUpdated = true;
                 }
             }
-            if (!AllNear3(GetLinVel(body), DAT_01267e30, eps.v) || !AllNear3(GetAngVel(body), DAT_01267e30, eps.v))
+            if (!AllNear3(GetLinVel(body), (*reinterpret_cast<::__m128 *>(&::DAT_01267e30)), eps.v) || !AllNear3(GetAngVel(body), (*reinterpret_cast<::__m128 *>(&::DAT_01267e30)), eps.v))
             {
                 if (body && body->m_8)
-                    body->m_8->FUN_00c9c1d0();
+                    reinterpret_cast<::hkpEntityC9C *>((body->m_8))->FUN_00c9c1d0();
             }
-            FUN_00c905b0(items[i]);
+            reinterpret_cast<::hkReferencedObjectC905 *>((items[i]))->FUN_00c905b0();
         }
         memset(items, 0, count * sizeof(S_Item*));
     }

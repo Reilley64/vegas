@@ -7,6 +7,7 @@
 // matched functions use members the canonical headers do not declare:
 //   NiPointer: default constructor and out-of-line operator= on incomplete T (Main::spMenuSceneGraph, 0x0066b0d0).
 //   NiMemObject: static operator new (??2NiMemObject@@SAPAXI@Z, 0x00aa13e0); canonical NiMemObject is empty.
+#include "fnv/symbols_011de000.h"
 #define NiPointer FNV_NiPointer_Dummy
 #define NiMemObject FNV_NiMemObject_Canonical
 #include "layout_support.h"
@@ -37,7 +38,6 @@ FNV_STATIC_ASSERT(sizeof(NiMemObject) == sizeof(FNV_NiMemObject_Canonical));
 #include "NiRefObject.h"
 #include "PlayerCharacter.h"
 
-extern PlayerCharacter* g_thePlayer;
 
 class SceneGraph : public NiMemObject
 {
@@ -49,7 +49,6 @@ class SceneGraph : public NiMemObject
 class Main
 {
   public:
-    static NiPointer<SceneGraph> spMenuSceneGraph;
 
     static void CreateMenuSceneGraph();
 };
@@ -57,7 +56,7 @@ class Main
 // @fnv 0x004dc650
 void Main::CreateMenuSceneGraph()
 {
-    spMenuSceneGraph = new SceneGraph("3DMenu", false, 0);
+    (*reinterpret_cast<::NiPointer< ::SceneGraph> *>(&::g_011deca4)) = new SceneGraph("3DMenu", false, 0);
 }
 
 #endif

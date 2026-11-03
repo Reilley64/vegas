@@ -2,6 +2,12 @@
 // src/havok/physics/collide/shape/convex/cylinder/hkpcylindershape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/cylinder/hkpcylindershape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FunctionContext.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01030000.h"
+#include "fnv/symbols_010d0000.h"
+#include "fnv/symbols_011b5000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpCylinderShape.h"
 
 // @fnv 0x00d571b0
@@ -25,12 +31,10 @@ hkReal hkpCylinderShapeGetCylRadius::FUN_00d571a0() {
     return m_fCylinderRadius;
 }
 
-extern char DAT_01268940[];
-void __cdecl FUN_00c90360(void* item, const char* type);
 // @fnv 0x00d571c0
 void __cdecl FUN_00d571c0(void* item, const char*)
 {
-    FUN_00c90360(item, DAT_01268940);
+    reinterpret_cast<::FunctionContext *>((item))->FUN_00c90360((void *)((*reinterpret_cast<char (*)[]>(&::g_01268940))), {});
 }
 
 struct C00d573e0 {
@@ -53,9 +57,6 @@ void C00d573e0::SetValue(float afValue) {
 
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 
-extern char DAT_010305a8;
-extern char DAT_010d0f1c;
-extern float DAT_011b5be8;
 
 static __declspec(noinline) float FUN_00d571d0()
 {
@@ -74,7 +75,7 @@ struct S00d57b20_Obj {
 // @fnv 0x00d57b20
 S00d57b20_Obj* __thiscall S00d57b20_Obj::FUN_00d57b20(int condition)
 {
-    unk00 = &DAT_010305a8;
+    unk00 = &(*reinterpret_cast<char *>(&::DAT_010305a8));
 
     if (condition)
         unk0C = 0;
@@ -187,7 +188,6 @@ void Cyl_d57220::InitPerpendiculars()
 }
 }  // namespace fnv_00d57220
 
-extern float DAT_01016248;
 
 struct S00d57830 {
     void* m_ppVirtualMethodTable;
@@ -215,7 +215,7 @@ void S00d57830::FUN_00d57830(__m128* out)
 
     *out = sum;
 
-    __m128 c = _mm_load_ss(&DAT_01016248);
+    __m128 c = _mm_load_ss(&::fnv_00c88020::DAT_01016248);
     __m128 s = _mm_shuffle_ps(c, c, 0);
 
     *out = _mm_mul_ps(s, sum);

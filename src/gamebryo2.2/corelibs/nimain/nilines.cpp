@@ -1,5 +1,14 @@
 // gamebryo2.2/corelibs/nimain/nilines.cpp: NiLines, LinesCloneSource (8 functions)
 
+#include "fnv/decl/FUN_00a80610_shell.h"
+#include "fnv/decl/GeometryStub.h"
+#include "fnv/decl/S_00a80470_Owner.h"
+#include "fnv/decl/ViewerGeometry.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_0109d000.h"
+#include "fnv/symbols_011f4000.h"
 #include "nilines_decls.h"
 // Sets the geometry data on dest from model, then calls NiAVObject::FUN_00a5ac90 with dest and process.
 // @fnv 0x00a80400
@@ -12,7 +21,6 @@ void NiLines::CopyMemberData(NiLines* dest, CloningProcess& process)
 struct NiRenderer;
 struct NiLinesSelf
 {
-    void FUN_00a80610(NiRenderer* pkRenderer);
 };
 struct NiRenderer
 {
@@ -27,7 +35,7 @@ typedef void(__thiscall* RendererFn)(NiRenderer*, NiLinesSelf*);
 // @fnv 0x00a747a0
 void __fastcall FUN_00a747a0(NiLinesSelf* self, int, NiRenderer* apkRenderer)
 {
-    self->FUN_00a80610(apkRenderer);
+    reinterpret_cast<::FUN_00a80610_shell *>((self))->FUN_00a80610(apkRenderer);
     if ((apkRenderer->m_iRendererState == 1 || apkRenderer->m_iRendererState == 2) &&
         apkRenderer->m_bRendererFlagA == true)
     {
@@ -46,21 +54,16 @@ struct NiCombatArray
     unsigned short m_usESize;
     unsigned short m_usFreeIdx;
     unsigned short m_usGrowBy;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, ActorCombatGroup*&);
 };
-extern GlobalObjectO2_00a7b610* g_011f4a48;
-void __stdcall FUN_00a80e70(NiCombatArray*);
-ActorCombatGroup* __cdecl FUN_00a7d330(GlobalObjectO2_00a7b610*);
 // @fnv 0x00a74830
 void __stdcall FUN_00a74830(NiCombatArray* pkStrings)
 {
-    FUN_00a80e70(pkStrings);
-    ActorCombatGroup* pkGroup = FUN_00a7d330(g_011f4a48);
+    reinterpret_cast<::ViewerGeometry *>((pkStrings))->FUN_00a80e70({});
+    ActorCombatGroup* pkGroup = ((::ActorCombatGroup *)(::FUN_00a7d330((const char *)((*reinterpret_cast<::GlobalObjectO2_00a7b610 * *>(&::g_011f4a48))))));
     unsigned int uiIndex = pkStrings->m_usESize;
     if (uiIndex >= pkStrings->m_usMaxSize)
-        pkStrings->SetSize(uiIndex + pkStrings->m_usGrowBy);
-    pkStrings->SetAt(uiIndex, pkGroup);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(uiIndex + pkStrings->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiIndex, (char *&)(pkGroup));
 }
 
 struct CloningProcess;
@@ -155,11 +158,10 @@ NiLines* FUN_00e68810_shell::FUN_00e68810()
     return this;
 }
 
-void __cdecl FUN_00a80470();
 // @fnv 0x00a89770
 void __cdecl FUN_00a89770()
 {
-    FUN_00a80470();
+    static_cast<::S_00a80470_Owner *>(nullptr)->FUN_00a80470({});
 }
 
 struct FUN_00a80430_Holder
@@ -176,15 +178,13 @@ bool FUN_00a9b190::FUN_00a9b190_Impl(NiStream& s)
     return FUN_00a80430_Holder::FUN_00a80430(s);
 }
 
-void FUN_00a80db0();
 // @fnv 0x00a9b1a0
 void __cdecl FUN_00a9b1a0()
 {
-    FUN_00a80db0();
+    static_cast<::GeometryStub *>(nullptr)->FUN_00a80db0(*(::StreamStub *)nullptr);
 }
 
 void* __cdecl NiAllocBlock(unsigned int size);
-extern const void* DAT_0109d55c[];
 
 struct LinesTableView
 {
@@ -206,13 +206,12 @@ struct __declspec(novtable) LinesCloneObject : NiLinesBaseCtor
     }
     LinesCloneObject() throw() : NiLinesBaseCtor()
     {
-        reinterpret_cast<LinesTableView*>(this)->table = DAT_0109d55c;
+        reinterpret_cast<LinesTableView*>(this)->table = (*reinterpret_cast<const void * (*)[]>(&::DAT_0109d55c));
     }
 };
 
 struct LinesCloneSource : NiLines
 {
-    void FUN_00a80400(NiLines* result, CloningProcess& process);
     NiLines* FUN_00a747e0(CloningProcess& process);
 };
 
@@ -221,6 +220,6 @@ struct LinesCloneSource : NiLines
 NiLines* LinesCloneSource::FUN_00a747e0(CloningProcess& process)
 {
     NiLines* result = new LinesCloneObject;
-    FUN_00a80400(result, process);
+    reinterpret_cast<::NiLines *>(this)->CopyMemberData(result, process);
     return result;
 }

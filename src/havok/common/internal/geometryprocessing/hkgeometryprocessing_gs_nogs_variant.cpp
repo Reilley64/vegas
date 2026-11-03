@@ -5,14 +5,18 @@
 
 // src/havok/common/internal/geometryprocessing/hkgeometryprocessing.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/geometryprocessing/hkgeometryprocessing.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void __cdecl Deallocate(void*);
+#include "fnv/decl/FUN_00d5d660_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00ded000.h"
+#include "fnv/symbols_010cd000.h"
+#include "fnv/symbols_01267000.h"
 extern int DAT_010d9fc4;
 struct FUN_00dee620
 {
     void* m_pVTable;
     __thiscall FUN_00dee620(int testFlag);
 };
-extern "C" void __cdecl FUN_00dedf10(void*, void*, void*, void*, int, int);
 void __cdecl FUN_00dee5f0(void* first, void* second, void* third, void* fourth);
 struct FUN_00dee6b0_Class
 {
@@ -20,7 +24,6 @@ struct FUN_00dee6b0_Class
     float unk04;
     float FUN_00dee6b0(int testFlag);
 };
-extern int DAT_010cd664;
 struct AudioAllocator
 {
     virtual void v00();
@@ -174,12 +177,9 @@ struct Owner
 
 struct Obj
 {
-    void NextFloat4(Vec4* p);
 };
 
-void __cdecl ResizeAudioStream(void* allocator, Vec4Array* arr, int elemSize);
 
-extern Vec4 DAT_01267e30;
 
 // @fnv 0x00dedbb0
 bool __cdecl FUN_00dedbb0(Owner* self, int count, Vec4Array* out, Obj* obj)
@@ -201,9 +201,9 @@ bool __cdecl FUN_00dedbb0(Owner* self, int count, Vec4Array* out, Obj* obj)
     limit = count * 8;
     while (count != 0)
     {
-        cur = DAT_01267e30;
+        cur = (*reinterpret_cast<::Vec4 *>(&::DAT_01267e30));
         flag = 1;
-        obj->NextFloat4(&cur);
+        reinterpret_cast<::FUN_00d5d660_cls *>((obj))->NextFloat4((float *)(::Vec4 *)(&cur));
         _mm_store_ps((float*)(void*)&cur, _mm_add_ps(_mm_mul_ps(*(__m128*)&cur, *(__m128*)&delta), *(__m128*)&base));
         self->FUN_00e13660(&cur, &scratch, &flag);
         if (flag != 0)
@@ -212,7 +212,7 @@ bool __cdecl FUN_00dedbb0(Owner* self, int count, Vec4Array* out, Obj* obj)
             AudioHolder* holder = FUN_00c85750();
             if (out->m_04 == (int)(out->m_08 & 0x3fffffff))
             {
-                ResizeAudioStream(holder->m_pAllocator, out, 0x10);
+                ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(out), 0x10);
             }
             Vec4* __restrict dst = out->m_00 + out->m_04;
             _mm_store_ps((float*)dst, _mm_load_ps((const float*)&cur));

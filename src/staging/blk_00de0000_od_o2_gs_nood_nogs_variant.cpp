@@ -5,6 +5,11 @@
 
 // src/staging/blk_00de0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_0108f000.h"
 #include "../../include/layout_support.h"
 
 #include <xmmintrin.h>
@@ -12,9 +17,6 @@ typedef float hkReal;
 typedef unsigned char hkUint8;
 typedef unsigned short hkUint16;
 
-extern hkReal DAT_0104da48;
-extern hkReal DAT_0104da4c;
-extern const void* DAT_0108f288[];
 
 inline void* operator new(size_t, void* p) throw()
 {
@@ -83,8 +85,8 @@ class hkpFixedBufferCdPointCollector : public hkpCdPointCollector
   public:
     inline hkpFixedBufferCdPointCollector(RootContactPoint* buffer, int capacity)
     {
-        m_vtbl = DAT_0108f288;
-        m_fEarlyOutDistance = DAT_0104da48;
+        m_vtbl = (*reinterpret_cast<const void * (*)[]>(&::DAT_0108f288));
+        m_fEarlyOutDistance = ::DAT_0104da48;
         m_pPointBuffer = buffer;
         m_pointsArray = buffer;
         m_pRayCursor = capacity;
@@ -555,7 +557,7 @@ void FUN_00df7760(const CastSettings* settings, const CollisionAgentContext* in,
     disp.m_fValue = settings->m_fHitDistance;
 
     ShapeSweepParameters bufB;
-    bufB.m_fMaxExtraPenetration = DAT_0104da4c;
+    bufB.m_fMaxExtraPenetration = ::DAT_0104da4c;
     bufB.m_fScalar = settings->m_fScalar;
     bufB.m_collisionQuality = 0;
     bufB.m_pCollisionDispatcher = in->m_pCollisionDispatcher;

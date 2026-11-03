@@ -3,6 +3,22 @@
 #define LOADSCREEN_MATCH_H
 
 #include <stddef.h>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00587000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_011c3000.h"
 #define FNV_JOIN2(a, b) a##b
 #define FNV_JOIN(a, b) FNV_JOIN2(a, b)
 #define FNV_STATIC_ASSERT(e) typedef char FNV_JOIN(fnv_check_, __LINE__)[(e) ? 1 : -1]
@@ -150,19 +166,13 @@ class TESForm : public BaseFormComponent
     virtual char* GetName2(void);
     virtual char* GetName(void) const;
     virtual bool SetEditorID_AtRuntime(const char* edid);
-    bool IsFormInitialized() const;
     ENUM_FORM_ID GetFormType() const;
     TESForm();
     TESFile* GetFile(int fileIndex);
-    BSSimpleList<TESFile*>* GetSourceFiles();
-    bool IsDeleted() const;
-    unsigned int GetFormID();
-    bool IsTemporary() const;
     void NotifySaveLoadGameOfFormChange();
     void SetInitializationState(bool initialized);
-    void SetFormType(ENUM_FORM_ID type);
-    void LoadRecordHeader(TESFile* file);
-    static void RemapFormIDForFile(unsigned int& formID, TESFile* file);
+public:
+    bool GetInitialized() const;
 };
 FNV_STATIC_ASSERT(sizeof(TESForm) == 0x18);
 FNV_STATIC_ASSERT(offsetof(TESForm, m_ucFormType) == 0x4);
@@ -247,7 +257,6 @@ class TESDataHandler
   public:
     TESLoadScreenType* GetLoadScreenType(unsigned int);
 };
-extern TESDataHandler* g_dataHandler;
 class TESObjectREFR;
 class TESObjectCELL;
 class ExtraDataList;
@@ -262,8 +271,6 @@ class NiPoint3
 class TESWorldSpace : public TESForm
 {
   public:
-    static int BuildCellKey(short x, short y);
-    static int GetKeyForWorldCoord(const NiPoint3& point);
 };
 class TESObjectCELL : public TESForm
 {
@@ -326,20 +333,13 @@ class TESObjectREFR : public TESForm
     virtual ValidBip01Names* CallGetValidBip01Names(void);
     virtual void SetValidBip01Names(ValidBip01Names validBip01Names);
     virtual NiPoint3* GetPos(void) const;
-    TESObjectCELL* GetParentCell() const;
-    TESWorldSpace* GetParentWorldSpace();
 };
 class TESFile
 {
   public:
-    unsigned int GetChunkID();
-    unsigned int GetChunkSize();
-    bool GetChunkData(void*, unsigned int);
     bool GetChunkData(unsigned int*);
     bool NextChunk();
     bool IsEndianConversionRequired();
-    const char* GetFilename();
 };
 extern "C" void* __cdecl _alloca(unsigned int);
-int __cdecl Warning(const char*, ...);
 #endif

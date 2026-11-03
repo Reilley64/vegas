@@ -1,5 +1,16 @@
 // fallout_shared/expression.cpp: ExpressionConverter (10 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNVTokenParser.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00594d40_class.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00594000.h"
+#include "fnv/symbols_0118c000.h"
 #include "expression_decls.h"
 #include "ExpressionEvaluator.h"
 
@@ -7,8 +18,8 @@
 // @fnv 0x00593490
 ExpressionEvaluator::ExpressionEvaluator()
 {
-    reinterpret_cast<ExpressionCharStackInit*>(&m_kOperatorStack)->FUN_00594b60();
-    reinterpret_cast<ExpressionOperandStackInit*>(&m_kOperandStack)->InitStack();
+    ::FUN_00594b60((void *)(reinterpret_cast<ExpressionCharStackInit*>(&m_kOperatorStack)));
+    ::InitStack((::Dummy_00594c60 *)(reinterpret_cast<ExpressionOperandStackInit*>(&m_kOperandStack)));
     m_eExpressionError = static_cast<EXPRESSION_ERROR>(0);
 }
 
@@ -65,9 +76,7 @@ void FUN_00594c40_shell::ResetIndex()
 
 struct Interface
 {
-    static void __cdecl PrintDebugMessage(char const*, ...);
 };
-extern char const* g_expressionErrorStrings[];
 struct Holder5934d0
 {
     int err;
@@ -77,7 +86,7 @@ struct Holder5934d0
 void Holder5934d0::SetError(int aiErrorCode)
 {
     err = aiErrorCode;
-    Interface::PrintDebugMessage("%s", g_expressionErrorStrings[aiErrorCode]);
+    ::FUN_0040fbe0();
 }
 
 struct FUN_00594c00_shell
@@ -119,8 +128,6 @@ int S_00594bc0::FUN_00594bc0()
     return unk00[unk100--];
 }
 
-extern void* __cdecl memcpy(void*, const void*, unsigned int);
-extern unsigned int __cdecl BSStringLength(const char*);
 struct OperatorInfo
 {
     signed char priority;
@@ -131,9 +138,6 @@ struct OpStack
 {
     int items[64];
     int top;
-    void clear();
-    int empty();
-    int full();
     int pop();
     void push(int);
 };
@@ -147,7 +151,6 @@ struct OperandStack
 {
     OperandValue items[32];
     int top;
-    void clear();
 };
 struct ExpressionConverter
 {
@@ -156,8 +159,6 @@ struct ExpressionConverter
     char postfix[512];
     OpStack operators;
     OperandStack operands;
-    void setError(int);
-    int next(char**, char*, int*, int, int);
     char* ConvertToPostfix(const char*, unsigned int*);
 };
 // Converts the infix expression in data to postfix in postfix using an operator stack, returning postfix and setting length, or 0 on error.
@@ -169,13 +170,13 @@ char* ExpressionConverter::ConvertToPostfix(const char* pInfix, unsigned int* pu
         int count2 = 0;
         bool operand5;
         error = 0;
-        operators.clear();
-        operands.clear();
+        reinterpret_cast<::FUN_00594c40_shell *>(&(operators))->ResetIndex();
+        reinterpret_cast<::FUN_00594d40_class *>(&(operands))->ResetField();
         char* input = infix;
         char bracket = '(';
         *input = bracket;
         input++;
-        memcpy(input, pInfix, *puiLength);
+        ::__memcpy(input, pInfix, *puiLength);
         input += *puiLength;
         bracket = ')';
         *input = bracket;
@@ -190,7 +191,7 @@ char* ExpressionConverter::ConvertToPostfix(const char* pInfix, unsigned int* pu
         do
         {
             kind_ = 16;
-            count2 = next(&input, token, &kind_, 0, 0);
+            count2 = reinterpret_cast<::FNVTokenParser *>(this)->ParseToken(&input, token, (unsigned int *)(int *)(&kind_), 0, (int *)(0));
             if (count2)
             {
                 if (kind_ < 16)
@@ -198,30 +199,30 @@ char* ExpressionConverter::ConvertToPostfix(const char* pInfix, unsigned int* pu
                     switch (kind_)
                     {
                     case 0:
-                        if (!operators.full())
-                            operators.push(0);
+                        if (!((int)(reinterpret_cast<::FUN_00594c20_shell *>(&(operators))->FUN_00594c20())))
+                            reinterpret_cast<::FUN_00594b80_shell *>(&(operators))->PushInt(0);
                         else
                         {
-                            setError(2);
+                            reinterpret_cast<::Holder5934d0 *>(this)->SetError(2);
                             return 0;
                         }
                         break;
                     case 1:
-                        if (!operators.empty())
+                        if (!reinterpret_cast<::FUN_00594c00_shell *>(&(operators))->FUN_00594c00())
                         {
                             int popped;
-                            while (popped = operators.pop())
+                            while (popped = reinterpret_cast<::S_00594bc0 *>(&(operators))->FUN_00594bc0())
                             {
                                 *output2 = ' ';
                                 output2++;
-                                int textLength = BSStringLength(DAT_0118cad4[popped].text);
-                                memcpy(output2, DAT_0118cad4[popped].text, textLength);
+                                int textLength = ::FUN_0044a670(DAT_0118cad4[popped].text);
+                                ::__memcpy(output2, DAT_0118cad4[popped].text, textLength);
                                 output2 += textLength;
                             }
                         }
                         else
                         {
-                            setError(5);
+                            reinterpret_cast<::Holder5934d0 *>(this)->SetError(5);
                             return 0;
                         }
                         break;
@@ -229,28 +230,28 @@ char* ExpressionConverter::ConvertToPostfix(const char* pInfix, unsigned int* pu
                         if (!operand5)
                             kind_ = 15;
                     default:
-                        while (!operators.empty())
+                        while (!reinterpret_cast<::FUN_00594c00_shell *>(&(operators))->FUN_00594c00())
                         {
-                            int popped = operators.pop();
+                            int popped = reinterpret_cast<::S_00594bc0 *>(&(operators))->FUN_00594bc0();
                             if (DAT_0118cad4[popped].priority >= DAT_0118cad4[kind_].priority)
                             {
                                 *output2 = ' ';
                                 output2++;
-                                int textLength = BSStringLength(DAT_0118cad4[popped].text);
-                                memcpy(output2, DAT_0118cad4[popped].text, textLength);
+                                int textLength = ::FUN_0044a670(DAT_0118cad4[popped].text);
+                                ::__memcpy(output2, DAT_0118cad4[popped].text, textLength);
                                 output2 += textLength;
                             }
                             else
                             {
-                                operators.push(popped);
+                                reinterpret_cast<::FUN_00594b80_shell *>(&(operators))->PushInt(popped);
                                 break;
                             }
                         }
-                        if (!operators.full())
-                            operators.push(kind_);
+                        if (!((int)(reinterpret_cast<::FUN_00594c20_shell *>(&(operators))->FUN_00594c20())))
+                            reinterpret_cast<::FUN_00594b80_shell *>(&(operators))->PushInt(kind_);
                         else
                         {
-                            setError(2);
+                            reinterpret_cast<::Holder5934d0 *>(this)->SetError(2);
                             return 0;
                         }
                         break;
@@ -260,7 +261,7 @@ char* ExpressionConverter::ConvertToPostfix(const char* pInfix, unsigned int* pu
                 {
                     *output2 = ' ';
                     output2++;
-                    memcpy(output2, token, count2);
+                    ::__memcpy(output2, token, count2);
                     output2 += count2;
                 }
             }
@@ -270,9 +271,9 @@ char* ExpressionConverter::ConvertToPostfix(const char* pInfix, unsigned int* pu
                 operand5 = false;
         } while (count2);
         *output2 = 0;
-        if (!operators.empty())
+        if (!reinterpret_cast<::FUN_00594c00_shell *>(&(operators))->FUN_00594c00())
         {
-            setError(5);
+            reinterpret_cast<::Holder5934d0 *>(this)->SetError(5);
             return 0;
         }
         else

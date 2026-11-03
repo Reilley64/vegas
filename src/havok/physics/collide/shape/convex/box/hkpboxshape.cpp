@@ -2,6 +2,10 @@
 // src/havok/physics/collide/shape/convex/box/hkpboxshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/box/hkpboxshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FunctionContext.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010c7000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpBoxShape.h"
 
 // @fnv 0x00c9db70
@@ -17,7 +21,6 @@ float __cdecl FUN_00c9e0f0(float a, float b)
     return a < b ? a : b;
 }
 
-extern "C" void* DAT_0102e388;
 
 struct FUN_00c9db80_class
 {
@@ -27,7 +30,7 @@ struct FUN_00c9db80_class
 // @fnv 0x00c9db80
 void __thiscall FUN_00c9db80_class::FUN_00c9db80()
 {
-    *reinterpret_cast<void**>(this) = &DAT_0102e388;
+    *reinterpret_cast<void**>(this) = &::DAT_0102e388;
 }
 
 struct MemoryManager
@@ -48,7 +51,6 @@ struct FUN_00c9e1b0_class
     void* vftable;
     unsigned short size;
 
-    int FUN_00c9db80();
     void* FUN_00c9e1b0(unsigned char flags);
 };
 
@@ -58,7 +60,7 @@ MemoryRouter* __cdecl _D1A0E0GetMemoryRouter();
 // @fnv 0x00c9e1b0
 void* FUN_00c9e1b0_class::FUN_00c9e1b0(unsigned char flags)
 {
-    FUN_00c9db80();
+    reinterpret_cast<::FUN_00c9db80_class *>(this)->FUN_00c9db80();
 
     if (flags & 1)
     {
@@ -76,13 +78,11 @@ int __stdcall FUN_00c9e1a0(int a1, int a2)
     return 0x30;
 }
 
-extern "C" int DAT_01268940;
 
-void __cdecl FUN_00c90360(int a, int* b);
 
 // @fnv 0x00c9db60
 void __cdecl FUN_00c9db60(int a, int* b) {
-    return FUN_00c90360(a, &DAT_01268940);
+    return reinterpret_cast<::FunctionContext *>((a))->FUN_00c90360(&(*reinterpret_cast<int *>(&::g_01268940)), {});
 }
 
 struct hkAabb;
@@ -101,7 +101,6 @@ void __thiscall FUN_00c9dc10_class::GetAabb(const hkTransform& transform, hkReal
     ComputeAabbFromTransform(transform, m_vHalfExtents, m_fSphereRadius + tolerance, out);
 }
 
-extern void* DAT_010c70b4;
 
 struct VectorExtents { float x, y, z, w; };
 
@@ -127,7 +126,7 @@ CenteredPointBounds* CenteredPointBounds::SetExtentsAndRadius(const float* exten
     m_sReferenceCount = 1;
     m_ulUserData = 0;
     m_iType = 4;
-    m_ppVirtualMethodTable = &DAT_010c70b4;
+    m_ppVirtualMethodTable = &(*reinterpret_cast<void * *>(&::DAT_010c70b4));
     m_vHalfExtents = *reinterpret_cast<const VectorExtents*>(extents);
 
     float smaller = m_vHalfExtents.x < m_vHalfExtents.y ? m_vHalfExtents.x : m_vHalfExtents.y;
@@ -346,9 +345,8 @@ struct BRMonitorStream
     char* m_pRayCursor;
     char* m_pCurrentCommand;
 
-    static unsigned long ms_uiThreadLocalStorageIndex;
 
-    static BRMonitorStream& GetMonitorStream() { return *(BRMonitorStream*)TlsGetValue(ms_uiThreadLocalStorageIndex); }
+    static BRMonitorStream& GetMonitorStream() { return *(BRMonitorStream*)TlsGetValue(::DAT_0126835c); }
     bool memoryAvailable() const { return m_kRayEnd < m_pCurrentCommand; }
 
 

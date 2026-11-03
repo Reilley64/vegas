@@ -2,6 +2,30 @@
 // polymorphic classes (BGSBodyPartData, TESForm). The skeleton of src/fallout_shared/tescreature.cpp with those classes made polymorphic; move the functions to
 // their real unit once its classes are.
 
+#include "fnv/decl/ActorBaseInitItemView.h"
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/FUN_004516b0_shell.h"
+#include "fnv/decl/FUN_0047d800_shell.h"
+#include "fnv/decl/FUN_0047f4c0_shell.h"
+#include "fnv/decl/FUN_00484d40_Host.h"
+#include "fnv/decl/FUN_00489a60.h"
+#include "fnv/decl/FUN_00565210_shell.h"
+#include "fnv/decl/FUN_005f75e0.h"
+#include "fnv/decl/FUN_005f77b0.h"
+#include "fnv/decl/FUN_005f7b50_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FlagSet.h"
+#include "fnv/decl/fnv_00484d00__FUN_00484d00_shell.h"
+#include "fnv/decl/fnv_005f1b30__ActorBaseLoad.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/s428110__Owner.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00505000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_011c1000.h"
+#include "fnv/symbols_011c3000.h"
 #include "tescreature_decls_rtti2_tescreature.h"
 
 class TESForm;
@@ -20,27 +44,21 @@ struct FormObj_CreatureInit
 
 struct Sub30_CreatureInit
 {
-    void FUN_0047d8b0(void*);
     int u00, u04, u08, u0c, u10, u14, u18, u1c, u20, u24, u28, u2c, u30;
-    bool FUN_00461580(unsigned int) const;
-    unsigned int FUN_0059bb30();
 };
 
 struct Sub64_CreatureInit
 {
-    void FUN_00481bb0(void*);
     int u00, u04, u08;
 };
 
 struct Sub70_CreatureInit
 {
-    void FUN_0047beb0(void*);
     int u00, u04, u08;
 };
 
 struct Sub7c_CreatureInit
 {
-    void FUN_0048d400(void*);
     int u00, u04, u08, u0c, u10;
 };
 
@@ -56,7 +74,6 @@ struct AIList_CreatureInit
 
 struct Sub90_CreatureInit
 {
-    void FUN_0047f4c0(void*);
     int u00, u04, u08, u0c, u10, u14, u18, u1c;
     AIList_CreatureInit packages;
     int u28, u2c, u30;
@@ -74,14 +91,12 @@ struct Subdc_CreatureInit
     struct ScriptInit
     {
         int u00, u04, u08;
-        void FUN_0048cd90(void*);
     } script;
     int u24;
 };
 
 struct Sub104_CreatureInit
 {
-    void FUN_00478be0(void*);
     int u00, u04;
     int u08, u0c;
 };
@@ -226,20 +241,12 @@ struct Host_CreatureInit
     int m_154;
     BGSListForm* m_158;
 
-    bool FUN_004013e0() const;
-    void* FUN_00484e60(int);
     unsigned int FUN_0084e3a0();
-    void FUN_00565210(bool);
-    void FUN_00484ab0(int);
     void FUN_005f9340();
 };
 
 class TESCreature;
 class BGSBodyPartData;
-extern "C" void __cdecl FUN_00485d50(unsigned int*, void*);
-extern "C" class TESForm* __cdecl FUN_004839c0(unsigned int);
-void __cdecl FUN_005b5e40(const char*, ...);
-TESCombatStyle* __cdecl FUN_00505000();
 extern "C" const char DAT_010495e0[], DAT_01049598[], DAT_01049548[], DAT_010494f8[], DAT_0102c740[], DAT_010494bc[];
 class TESCombatStyle
 {
@@ -255,15 +262,15 @@ class BGSListForm
 void Host_CreatureInit::FUN_005f9340()
 {
     unsigned int formId;
-    if (FUN_004013e0())
+    if (reinterpret_cast<::TESForm *>((void *)this)->GetInitialized())
         return;
-    m_dc.script.FUN_0048cd90(this);
-    m_64.FUN_00481bb0(this);
-    m_7c.FUN_0048d400(this);
-    m_70.FUN_0047beb0(this);
-    m_90.FUN_0047f4c0(this);
-    m_30.FUN_0047d8b0(this);
-    m_104.FUN_00478be0(this);
+    reinterpret_cast<::TESScriptableForm *>(&(m_dc.script))->InitItem((::TESForm *)(void *)(this));
+    reinterpret_cast<::TESContainer *>(&(m_64))->InitItem((::TESForm *)(void *)(this));
+    reinterpret_cast<::TESSpellList *>(&(m_7c))->InitItem((::TESForm *)(void *)(this));
+    reinterpret_cast<::BGSTouchSpellForm *>(&(m_70))->InitItem((::TESForm *)(void *)(this));
+    reinterpret_cast<::FUN_0047f4c0_shell *>(&(m_90))->FUN_0047f4c0((::TESForm *)(void *)(this));
+    reinterpret_cast<::ActorBaseInitItemView *>(&(m_30))->FUN_0047d8b0((::TESForm *)(void *)(this));
+    reinterpret_cast<::BGSDestructibleObjectForm *>(&(m_104))->InitItem((::TESForm *)(void *)(this));
     if (m_30.u04 & 1)
     {
         m_30.u04 &= ~0x40;
@@ -272,20 +279,20 @@ void Host_CreatureInit::FUN_005f9340()
         m_30.u04 &= ~0x40000;
         m_30.u04 &= ~0x800000;
     }
-    if (!m_30.FUN_00461580(0x100))
+    if (!reinterpret_cast<::TESActorBaseData *>((void *)&(m_30))->GetFlag(0x100))
     {
         unsigned int soundId = (unsigned int)m_128;
         if (soundId)
         {
-            FUN_00485d50(&soundId, FUN_00484e60(-1));
-            m_128 = (struct Host_CreatureInit*)dynamic_cast<TESCreature*>(FUN_004839c0(soundId));
+            ::ResolveFormID(&soundId, (::TESFile *)(void *)(((void *)(reinterpret_cast<::TESForm *>(this)->GetFile(-1)))));
+            m_128 = (struct Host_CreatureInit*)dynamic_cast<TESCreature*>(::FUN_004839c0(soundId));
             if (!m_128)
             {
-                FUN_005b5e40(DAT_010495e0, soundId, FUN_0084e3a0(), v76());
+                ::FUN_005b5e40();
             }
-            else if (m_128 == this || m_128->m_30.FUN_0059bb30())
+            else if (m_128 == this || reinterpret_cast<::ActorMover *>(&(m_128->m_30))->GetCurrentMoveModeType())
             {
-                FUN_005b5e40(DAT_01049598, m_128->v76(), m_128->FUN_0084e3a0(), v76(), FUN_0084e3a0());
+                ::FUN_005b5e40();
                 m_128 = 0;
             }
         }
@@ -295,48 +302,48 @@ void Host_CreatureInit::FUN_005f9340()
         unsigned int combatId = (unsigned int)v98();
         if (combatId)
         {
-            FUN_00485d50(&combatId, FUN_00484e60(-1));
-            m_140 = dynamic_cast<TESCombatStyle*>(FUN_004839c0(combatId));
+            ::ResolveFormID(&combatId, (::TESFile *)(void *)(((void *)(reinterpret_cast<::TESForm *>(this)->GetFile(-1)))));
+            m_140 = dynamic_cast<TESCombatStyle*>(::FUN_004839c0(combatId));
             if (!m_140)
             {
-                FUN_005b5e40(DAT_01049548, combatId, FUN_0084e3a0(), v76());
+                ::FUN_005b5e40();
             }
         }
     }
     if (!v98())
-        v99(FUN_00505000());
+        v99(((::TESCombatStyle *)(::FUN_00505000())));
     if (m_144)
     {
         unsigned int bodyId = (unsigned int)m_144;
         if (bodyId)
         {
-            FUN_00485d50(&bodyId, FUN_00484e60(-1));
-            m_144 = dynamic_cast<BGSBodyPartData*>(FUN_004839c0(bodyId));
+            ::ResolveFormID(&bodyId, (::TESFile *)(void *)(((void *)(reinterpret_cast<::TESForm *>(this)->GetFile(-1)))));
+            m_144 = dynamic_cast<BGSBodyPartData*>(::FUN_004839c0(bodyId));
             if (!m_144)
             {
-                FUN_005b5e40(DAT_010494f8, bodyId, FUN_0084e3a0(), v76());
+                ::FUN_005b5e40();
             }
         }
     }
     formId = (unsigned int)m_14c;
     if (formId)
     {
-        FUN_00485d50(&formId, FUN_00484e60(-1));
-        m_14c = dynamic_cast<BGSImpactDataSet*>(FUN_004839c0(formId));
+        ::ResolveFormID(&formId, (::TESFile *)(void *)(((void *)(reinterpret_cast<::TESForm *>(this)->GetFile(-1)))));
+        m_14c = dynamic_cast<BGSImpactDataSet*>(::FUN_004839c0(formId));
         if (!m_14c)
-            FUN_005b5e40(DAT_0102c740, formId, v76(), FUN_0084e3a0());
+            ::FUN_005b5e40();
     }
     formId = (unsigned int)m_158;
     if (formId)
     {
-        FUN_00485d50(&formId, FUN_00484e60(-1));
-        m_158 = dynamic_cast<BGSListForm*>(FUN_004839c0(formId));
+        ::ResolveFormID(&formId, (::TESFile *)(void *)(((void *)(reinterpret_cast<::TESForm *>(this)->GetFile(-1)))));
+        m_158 = dynamic_cast<BGSListForm*>(::FUN_004839c0(formId));
         if (!m_158)
-            FUN_005b5e40(DAT_010494bc, formId, v76(), FUN_0084e3a0());
+            ::FUN_005b5e40();
     }
     if (m_90.packages.Size() <= 0)
-        FUN_00565210(true);
-    FUN_00484ab0(1);
+        reinterpret_cast<::FUN_00565210_shell *>(this)->FUN_00565210(true);
+    reinterpret_cast<::TESForm *>(this)->SetInitializationState(1);
 }
 
 namespace fnv_005fb270 {
@@ -347,17 +354,13 @@ __if_not_exists(::TESCombatStyle::SetFormType)
     };
 }
 
-::TESForm* __cdecl FUN_004839c0(unsigned int formId);
 
 struct TESCreatureCall_1b30
 {
-    void FUN_005f1b30(int a1, int a2);
 };
 
 struct TESCreatureCall_0d00
 {
-    void FUN_00484d00(void* p, int v);
-    void FUN_00484d40(unsigned int* p, int n);
 };
 
 __if_exists(::TESCreature::m_ucField00)
@@ -371,18 +374,18 @@ __if_exists(::TESCreature::m_ucField00)
 // @fnv 0x005fb270
 void TESCreatureLoad::FUN_005fb270(int a1, int a2)
 {
-    ((TESCreatureCall_1b30*)this)->FUN_005f1b30(a1, a2);
+    reinterpret_cast<::fnv_005f1b30::ActorBaseLoad *>((((TESCreatureCall_1b30*)this)))->FUN_005f1b30(a1, a2);
     if (a1 & 0x200)
     {
-        ((TESCreatureCall_0d00*)this)->FUN_00484d00(&m_ucField00, 1);
-        ((TESCreatureCall_0d00*)this)->FUN_00484d00(&m_ucField01, 1);
-        ((TESCreatureCall_0d00*)this)->FUN_00484d00(&m_ucField02, 1);
+        reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((((TESCreatureCall_0d00*)this)))->FUN_00484d00(&m_ucField00, 1);
+        reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((((TESCreatureCall_0d00*)this)))->FUN_00484d00(&m_ucField01, 1);
+        reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((((TESCreatureCall_0d00*)this)))->FUN_00484d00(&m_ucField02, 1);
     }
     if (a1 & 0)
     {
         unsigned int formId;
-        ((TESCreatureCall_0d00*)this)->FUN_00484d40(&formId, 4);
-        ::TESCombatStyle* style = dynamic_cast< ::TESCombatStyle*>(FUN_004839c0(formId));
+        reinterpret_cast<::FUN_00484d40_Host *>((((TESCreatureCall_0d00*)this)))->FUN_00484d40(&formId, 4);
+        ::TESCombatStyle* style = dynamic_cast< ::TESCombatStyle*>(::FUN_004839c0(formId));
         if (style)
         {
             m_pCombatStyle = style;

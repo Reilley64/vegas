@@ -5,15 +5,16 @@
 
 // src/havok/physics/utilities/weapons/hkpgravitygun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpgravitygun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00ca88e0_cls.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_01016000.h"
 #include "havok/hkpGravityGun.h"
 struct FUN_00e45fb0_class
 {
-    void FUN_00e45e60(int);
     void FUN_00e45fb0(int, int, int);
 };
 struct DDCC60World
 {
-    void removeReference();
 };
 struct FUN_00e45fc0_class
 {
@@ -61,14 +62,11 @@ class FUN_00e46300 : public FUN_00e466a0
 };
 
 #include <xmmintrin.h>
-extern double DAT_01016408;
 
 struct Body_e45e
 {
     int unk[0x1a0 / 4];
     __m128 m_kInertiaAndMassInv;
-    void FUN_00ca88e0(float mass);
-    void FUN_00c905b0();
     float getMassInv() const
     {
         float w;
@@ -97,7 +95,7 @@ Body_e45e* World_e45e::FUN_00e45e60(int index)
     const char* src = (const char*)&data[index + 1];
     for (int i = 0; i < n; i += 4)
         *(unsigned int*)(dst + i) = *(const unsigned int*)(src + i);
-    body->FUN_00ca88e0((float)(body->getMassInv() * DAT_01016408));
-    body->FUN_00c905b0();
+    reinterpret_cast<::FUN_00ca88e0_cls *>((body))->FUN_00ca88e0((float)(body->getMassInv() * DAT_01016408));
+    reinterpret_cast<::hkReferencedObjectC905 *>((body))->FUN_00c905b0();
     return body;
 }

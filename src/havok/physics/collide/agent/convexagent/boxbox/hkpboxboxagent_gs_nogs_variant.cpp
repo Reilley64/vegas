@@ -5,10 +5,17 @@
 
 // src/havok/physics/collide/agent/convexagent/boxbox/hkpboxboxagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/boxbox/hkpboxboxagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void* __cdecl FUN_00d401d0(void);
-extern "C" void* __cdecl FUN_00d406c0(void);
-extern "C" void* __cdecl FUN_00dac450(void);
-extern "C" void* __cdecl FUN_00daf8e0(void);
+#include "fnv/decl/BoxAgent.h"
+#include "fnv/decl/FUN_00cfbbe0_cls.h"
+#include "fnv/decl/FUN_00db0920_cls.h"
+#include "fnv/decl/hkTransformCB22.h"
+#include "fnv/decl/hkpGskBaseAgent_S.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00d40000.h"
+#include "fnv/symbols_00d41000.h"
+#include "fnv/symbols_00dac000.h"
+#include "fnv/symbols_00daf000.h"
+#include "fnv/symbols_01268000.h"
 struct FUN_00d408e0_1 {
     void* p1;
     void* p2;
@@ -50,17 +57,9 @@ struct D41FD0AgentFuncs {
     bool m_bIsPredictive;
 };
 struct D41FD0CollisionDispatcher {
-    void registerCollisionAgent(D41FD0AgentFuncs& f, int typeA, int typeB);
 };
-void __cdecl D41FD0CreateAgent();
-void __cdecl D41FD0StaticGetPenetrations();
-void __cdecl D41FD0StaticGetClosestPoints();
-void __cdecl D41FD0StaticLinearCast();
-void __cdecl RegisterStaticCollisionAgent(D41FD0CollisionDispatcher* dispatcher);
 extern "C" const double DAT_010cf200;
 extern "C" char DAT_010cf1c4;
-extern "C" void* __cdecl FUN_00dacc00(void* a1, void* a2, void* a3, void* a4);
-extern "C" void* __cdecl FUN_00c85750(void);
 class Allocator
 {
 public:
@@ -86,7 +85,6 @@ public:
 class SubStub
 {
 public:
-    void FUN_00db0920();
 };
 class SpawnedObject
 {
@@ -96,14 +94,12 @@ public:
     unsigned short m_06;
     void* m_08;
 };
-void* FUN_00d401d0(void* a1, void* a2, void* a3, void* a4);
 extern "C" void __cdecl FUN_00d40470(void* a, void* b, void* c, void* d);
 // @fnv 0x00d406a0
 extern "C" void __stdcall FUN_00d406a0(void* a, void* b, void* c, void* d) {
     FUN_00d40470(a, b, c, d);
 }
 typedef void (__cdecl *FUN_00d406c0_fn4)(void*, void*, void*, void*);
-extern "C" void* __cdecl FUN_00d406c0(void);
 void __stdcall FUN_00d408c0(void* a1, void* a2, void* a3, void* a4);
 
 #include <xmmintrin.h>
@@ -112,7 +108,6 @@ inline void* operator new(unsigned int, void* p) { return p; }
 
 
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern "C" unsigned long DAT_0126835c;
 
 struct TimerEntry70 {
     const char* name;
@@ -145,7 +140,6 @@ struct Transform70 {
         z = a.z;
         t = a.t;
     }
-    void FUN_00cb22f0(const Transform70*, const Transform70*);
 };
 
 struct Shape70 {
@@ -209,7 +203,6 @@ struct Query70 {
         expandedB.quad=_mm_add_ps(toleranceVec.quad, hb.quad);
     }
 
-    hkBool70 FUN_00db2750(Contact70*);
 };
 
 struct CollisionWork70 {
@@ -222,7 +215,7 @@ struct CollisionWork70 {
 extern "C" void __cdecl FUN_00d40470(void* first, void* second, void* rawInput, void* rawCollector)
 {
     {
-        TimerStream70* stream = (TimerStream70*)TlsGetValue(DAT_0126835c);
+        TimerStream70* stream = (TimerStream70*)TlsGetValue(::DAT_0126835c);
         if (stream->top < stream->end) {
             TimerEntry70* r = stream->top;
             r->name = "TtBoxBox";
@@ -251,21 +244,21 @@ extern "C" void __cdecl FUN_00d40470(void* first, void* second, void* rawInput, 
     hb; hb.quad=_mm_set1_ps(r_hb);
     hb.quad=_mm_add_ps(sb->half.quad, hb.quad);
 
-    relative.FUN_00cb22f0(a->transform, b->transform);
+    reinterpret_cast<::hkTransformCB22 *>(&(relative))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(a->transform)), (*(const ::hkTransformCB22 *)(b->transform)));
 
     new (&query) Query70(a, b, relative, ha, hb, ((Input70*)rawInput)->GetTolerance());
 
     contact.a = a;
     contact.b = b;
 
-    hkBool70 hit = query.FUN_00db2750(&contact);
+    hkBool70 hit = (*(::hkBool70 *)&(reinterpret_cast<::BoxAgent *>(&(query))->FUN_00db2750((*(::hkBool *)(&contact)), *(::hkContactPoint *)nullptr)));
 
     if (hit) {
         ((Collector70*)rawCollector)->Add(&contact);
     }
 
     {
-        TimerStream70* stream = (TimerStream70*)TlsGetValue(DAT_0126835c);
+        TimerStream70* stream = (TimerStream70*)TlsGetValue(::DAT_0126835c);
         if (stream->top < stream->end) {
             TimerEntry70* r = stream->top;
             r->name = "Et";

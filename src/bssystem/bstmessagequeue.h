@@ -1,4 +1,7 @@
 
+#include <new>
+#include "fnv/decl/FUN_00905aa0_cls.h"
+#include "fnv/decl/Vec3.h"
 #include "bstmessagequeue_decls.h"
 template <>
 // @fnv 0x00905770
@@ -8,7 +11,7 @@ bool BSTCommonLLMessageQueue<QueuedMessage>::RemoveMessage(QueuedMessage& output
     bool bResult;
     if (pElem)
     {
-        output = reinterpret_cast<QueuedMessage&>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pElem)->GetItem());
+        output = reinterpret_cast<QueuedMessage&>(((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pElem))) ::Vec3())));
         pHead = pElem->pNext;
         pSizeClassFreeList->Elem(pElem);
         bResult = true;
@@ -23,7 +26,7 @@ bool BSTCommonLLMessageQueue<QueuedMessage>::EnqueueMessage(const QueuedMessage&
 {
     BSTFreeListElement<QueuedMessage>* pElem;
     bool bResult;
-    if (pSizeClassFreeList && pSizeClassFreeList->FUN_00905aa0(pElem, input))
+    if (pSizeClassFreeList && reinterpret_cast<::FUN_00905aa0_cls *>((pSizeClassFreeList))->FUN_00905aa0((::FUN_00905b00_stub **)&(pElem), (const void *)&(input)))
     {
         if (!pHead)
             m_ppTailLink = &pHead;

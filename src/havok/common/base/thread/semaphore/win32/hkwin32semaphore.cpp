@@ -2,6 +2,7 @@
 // src/havok/common/base/thread/semaphore/win32/hkwin32semaphore.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/thread/semaphore/win32/hkwin32semaphore.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/Tree_d978.h"
 extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void* h, unsigned long ms);
 
 // @fnv 0x00d04380
@@ -35,7 +36,6 @@ struct FUN_00d97970_cls
     unsigned int m_20;
     unsigned int m_24;
 
-    void InitBase(unsigned int aValue);
     FUN_00d97970_cls* Init(unsigned int aValue);
 };
 
@@ -49,7 +49,7 @@ FUN_00d97970_cls* FUN_00d97970_cls::Init(unsigned int aValue)
     pWords[7] = 0;
     pWords[8] = 0;
     pWords[9] = 0x80000000u;
-    InitBase(aValue);
+    reinterpret_cast<::Tree_d978 *>(this)->FUN_00d978d0((*(const ::Cinfo_d978 *)(aValue)));
     return this;
 }
 

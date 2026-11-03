@@ -5,6 +5,7 @@
 #include <string.h>
 // Converts forward slashes to backslashes, removes repeated backslashes after the first two characters, and returns whether either change occurred.
 // @fnv 0x00aa2a00
+#include "fnv/symbols_00aa2000.h"
 bool FUN_00aa2a00(char* path)
 {
     bool changed = false;
@@ -55,18 +56,14 @@ void __cdecl RemoveDotSlash(char* pcPath)
 }
 
 namespace fnv_00aa2ac0 {
-void __cdecl FUN_00aa2a00(char*);
-void __cdecl RemoveDotSlash(char*);
-char __cdecl FUN_00aa2cc0(char*);
-char* __cdecl SkipPathPrefix(char*);
 
 // Runs path helpers, then removes each `\..` occurrence and its preceding path component.
 // @fnv 0x00aa2ac0
 void __cdecl RemoveParentDirSegments(char* path)
 {
-    FUN_00aa2a00(path);
-    RemoveDotSlash(path);
-    if (FUN_00aa2cc0(path))
+    ::FUN_00aa2a00(path);
+    ::RemoveDotSlash(path);
+    if (((char)(::FUN_00aa2cc0(path))))
     {
         if (!path)
             return;
@@ -79,7 +76,7 @@ void __cdecl RemoveParentDirSegments(char* path)
     }
     else
     {
-        path = SkipPathPrefix(path);
+        path = ::SkipPathPrefix(path);
     }
     if (!path)
         return;
@@ -118,7 +115,6 @@ void __cdecl RemoveParentDirSegments(char* path)
 }
 }  // namespace fnv_00aa2ac0
 
-void __cdecl RemoveParentDirSegments(char* pcPath);
 
 // Concatenates pcRelativeToHere, a backslash if needed, and pcRelativePath into pcAbsolutePath, normalises it via RemoveParentDirSegments, and returns its length.
 // @fnv 0x00aa2ba0
@@ -138,6 +134,6 @@ size_t __cdecl BuildAbsolutePath(char* pcOutPath, size_t stOutSize, const char* 
     if (bAppendSlash)
         strcat_s(pcOutPath, stOutSize, "\\");
     strcat_s(pcOutPath, stOutSize, pcRelativePath);
-    RemoveParentDirSegments(pcOutPath);
+    ::fnv_00aa2ac0::RemoveParentDirSegments(pcOutPath);
     return strlen(pcOutPath);
 }

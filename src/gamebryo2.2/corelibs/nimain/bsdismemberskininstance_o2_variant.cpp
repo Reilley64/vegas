@@ -2,6 +2,18 @@
 // src/gamebryo2.2/corelibs/nimain/bsdismemberskininstance_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/gamebryo2.2/corelibs/nimain/bsdismemberskininstance.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/CloneObject.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/Skin.h"
+#include "fnv/decl/SkinInstanceW.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
 #include "original_bsdismemberskininstance.h"
 const NiRTTI BSDismemberSkinInstance::ms_kRTTI;
 
@@ -45,10 +57,8 @@ BSDismemberSkinInstance* FUN_00a6c8a0()
 
 struct P03MM
 {
-    void* Allocate(unsigned int);
 };
 
-extern P03MM _g_memoryManager;
 
 struct BytePairWord
 {
@@ -58,7 +68,7 @@ struct BytePairWord
 
     static void* operator new[](unsigned int size)
     {
-        return _g_memoryManager.Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }
 };
 
@@ -69,14 +79,13 @@ struct S00a6c720
     BytePairWord* m_pEntries;
     bool m_bStateFlag;
 
-    void CopyRefCountedPointers(S00a6c720* pkDest, void* kCloning);
     void FUN_00a6c720(S00a6c720* pkDest, void* kCloning);
 };
 
 // @fnv 0x00a6c720
 void S00a6c720::FUN_00a6c720(S00a6c720* pkDest, void* kCloning)
 {
-    CopyRefCountedPointers(pkDest, kCloning);
+    reinterpret_cast<::CloneObject *>(this)->CopyRefCountedPointers((::CloneObject *)(pkDest), kCloning);
 
     pkDest->m_uiNumEntries = m_uiNumEntries;
     if (m_uiNumEntries > 0)
@@ -98,7 +107,6 @@ void S00a6c720::FUN_00a6c720(S00a6c720* pkDest, void* kCloning)
 
 struct NiTStringPointerMap_00e93020
 {
-    bool GetAt(void*, void*&);
 };
 
 struct CloningProcess
@@ -106,7 +114,6 @@ struct CloningProcess
     NiTStringPointerMap_00e93020* m_pCloneMap;
 };
 
-void* _NiMalloc(unsigned int);
 
 struct SkinData
 {
@@ -140,7 +147,6 @@ struct S00a6c7c0 : _Call_a5d3a0
         return BSFadeNode::operator new(size);
     }
 
-    void FUN_00a6c720(S00a6c7c0* pkDest, CloningProcess& kCloning);
     S00a6c7c0* FUN_00a6c7c0(CloningProcess& kCloning);
 };
 
@@ -157,17 +163,17 @@ S00a6c7c0::S00a6c7c0() throw()
 S00a6c7c0* S00a6c7c0::FUN_00a6c7c0(CloningProcess& kCloning)
 {
     S00a6c7c0* pkSkinInstance = new S00a6c7c0();
-    FUN_00a6c720(pkSkinInstance, kCloning);
+    reinterpret_cast<::S00a6c720 *>(this)->FUN_00a6c720((::S00a6c720 *)(pkSkinInstance), (void *)&(kCloning));
 
     void* pkClone = 0;
-    pkSkinInstance->m_spRootParent = kCloning.m_pCloneMap->GetAt(m_spRootParent, pkClone) ? pkClone : m_spRootParent;
+    pkSkinInstance->m_spRootParent = reinterpret_cast<::A54440Hash *>((kCloning.m_pCloneMap))->FUN_00a53c30((::A54440Manager *)(m_spRootParent), (::A54440Manager **)&(pkClone)) ? pkClone : m_spRootParent;
 
     unsigned int uiBoneCount = m_pSkinData->m_uiBoneCount;
-    pkSkinInstance->m_ppBones = (void**)_NiMalloc(uiBoneCount * sizeof(void*));
+    pkSkinInstance->m_ppBones = (void**)::FUN_00aa1070(uiBoneCount * sizeof(void*));
 
     for (unsigned int i = 0; i < uiBoneCount; ++i)
     {
-        pkSkinInstance->m_ppBones[i] = kCloning.m_pCloneMap->GetAt(m_ppBones[i], pkClone) ? pkClone : m_ppBones[i];
+        pkSkinInstance->m_ppBones[i] = reinterpret_cast<::A54440Hash *>((kCloning.m_pCloneMap))->FUN_00a53c30((::A54440Manager *)(m_ppBones[i]), (::A54440Manager **)&(pkClone)) ? pkClone : m_ppBones[i];
     }
 
     return pkSkinInstance;
@@ -176,10 +182,8 @@ S00a6c7c0* S00a6c7c0::FUN_00a6c7c0(CloningProcess& kCloning)
 class A6C900Heap
 {
   public:
-    void* Allocate(unsigned int uiSize);
 };
 
-extern A6C900Heap g_memoryManager;
 
 struct A6C900BinaryStream
 {
@@ -368,7 +372,7 @@ struct A6C900Partition
 
     static void* operator new[](unsigned int uiSize)
     {
-        return g_memoryManager.Allocate(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::A6C900Heap *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }
 };
 
@@ -382,7 +386,6 @@ inline void A6C900BinaryStreamLoad(A6C900BinaryStream& kIstr, T* pValue, unsigne
 class A6C900SkinBase
 {
   public:
-    void LoadBinary(A6C900Stream& kStream);
 };
 
 class A6C900Skin : public A6C900SkinBase
@@ -411,7 +414,7 @@ class A6C900Skin : public A6C900SkinBase
 // @fnv 0x00a6c900
 void A6C900Skin::FUN_00a6c900(A6C900Stream& kStream)
 {
-    A6C900SkinBase::LoadBinary(kStream);
+    reinterpret_cast<::NiSkinInstance *>(this)->LoadBinary((::NiStream &)(kStream));
     A6C900LoadBinary(kStream, m_uiPartitionCount);
     m_pPartitions = new A6C900Partition[m_uiPartitionCount];
     unsigned int auiComponentSizes[3] = {1, 1, 2};
@@ -421,10 +424,6 @@ void A6C900Skin::FUN_00a6c900(A6C900Stream& kStream)
         m_ucFlags |= m_pPartitions[i].m_ucFlags;
 }
 
-int sprintf_s(char* buffer, unsigned int size, const char* format, ...);
-char* CreateDebugString(const char* pcName);
-char* CreateDebugString(const char* pcName, unsigned int uiValue);
-char* CreateDebugString(const char* pcName, bool bValue);
 
 template <class T> class NiTPrimitiveArray
 {
@@ -442,8 +441,8 @@ template <class T> class NiTPrimitiveArray
     {
         unsigned int uiIndex = m_usSize;
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, element);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(element));
         return uiIndex;
     }
 };
@@ -472,7 +471,6 @@ template <class T> inline void NiTPrimitiveArray<T>::SetAt(unsigned int uiIndex,
     m_pBase[uiIndex] = element;
 }
 
-extern NiRTTI g_kDismemberSkinRTTI;
 
 struct BodyPartData
 {
@@ -483,7 +481,6 @@ struct BodyPartData
 
 struct NiSkinInstanceStub
 {
-    void GetViewerStrings(NiTPrimitiveArray<char*>* pkStrings);
 };
 
 struct BSDismemberSkinInstanceStub : NiSkinInstanceStub
@@ -511,19 +508,19 @@ struct BSDismemberSkinInstanceStub : NiSkinInstanceStub
 // @fnv 0x00a6cac0
 void BSDismemberSkinInstanceStub::FUN_00a6cac0(NiTPrimitiveArray<char*>* pkStrings)
 {
-    NiSkinInstanceStub::GetViewerStrings(pkStrings);
+    reinterpret_cast<::Skin *>(this)->FUN_00a86920((::Strings *)(pkStrings));
 
-    pkStrings->Add(CreateDebugString(g_kDismemberSkinRTTI.m_pcName));
-    pkStrings->Add(CreateDebugString("Num Partitions", m_uiNumEntries));
-    pkStrings->Add(CreateDebugString("Visible", m_bStateFlag));
+    pkStrings->Add(::FUN_00a7d330((*reinterpret_cast<::NiRTTI *>(&::g_011f49d8)).m_pcName));
+    pkStrings->Add(::FUN_00a7d510("Num Partitions", m_uiNumEntries));
+    pkStrings->Add(::FUN_00a7d370("Visible", m_bStateFlag));
 
     for (unsigned int i = 0; i < m_uiNumEntries; i++)
     {
         BodyPartData& kData = m_pEntries[i];
         char acTemp[64];
-        sprintf_s(acTemp, 64, "%d = BodyPart %d [%s%s]", i, kData.usPartID, kData.ucEnabled ? "Enabled" : "Disabled",
+        ::FUN_00406d00(acTemp, 64, "%d = BodyPart %d [%s%s]", i, kData.usPartID, kData.ucEnabled ? "Enabled" : "Disabled",
                   kData.ucStartNetBoneSet ? ", State Change" : "");
-        pkStrings->Add(CreateDebugString(acTemp));
+        pkStrings->Add(::FUN_00a7d330(acTemp));
     }
 }
 
@@ -713,13 +710,12 @@ static inline void Swap32(BodyPartData& value)
 }
 struct DismemberOutput : BSDismemberSkinInstanceStub
 {
-    void SaveSkinInstance(OutputStream&);
     void FUN_00a6c9c0(OutputStream&);
 };
 // @fnv 0x00a6c9c0
 void DismemberOutput::FUN_00a6c9c0(OutputStream& stream)
 {
-    SaveSkinInstance(stream);
+    reinterpret_cast<::SkinInstanceW *>(this)->SaveSkinInstance((::NiStreamW &)(stream));
     {
         stream.m_pRayCastOutput->Write(&m_uiNumEntries, 4);
     }

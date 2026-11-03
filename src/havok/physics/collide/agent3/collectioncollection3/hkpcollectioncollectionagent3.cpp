@@ -2,14 +2,18 @@
 // src/havok/physics/collide/agent3/collectioncollection3/hkpcollectioncollectionagent3.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/collectioncollection3/hkpcollectioncollectionagent3.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void __cdecl InitAndReturnTail(void*, void*, void*);
-extern "C" void __cdecl FUN_00d34db0(void*, void*, void*);
-extern "C" void __cdecl FUN_00d34d30(void*, void*, void*);
-extern "C" void __cdecl ForwardCall(void*, void*, void*);
-extern "C" void __cdecl FUN_00d34d80(void*, void*, void*);
-extern "C" void __cdecl FUN_00d35770(void*, void*, void*);
-extern "C" void __cdecl FUN_00da6dc0(void*, void*, void*);
 
+#include "fnv/decl/FUN_00cfbd60_cls.h"
+#include "fnv/symbols_00cbe000.h"
+#include "fnv/symbols_00cf8000.h"
+#include "fnv/symbols_00d34000.h"
+#include "fnv/symbols_00d35000.h"
+#include "fnv/symbols_00d36000.h"
+#include "fnv/symbols_00d97000.h"
+#include "fnv/symbols_00da3000.h"
+#include "fnv/symbols_00da4000.h"
+#include "fnv/symbols_00da6000.h"
+#include "fnv/symbols_01267000.h"
 struct FUN_00d36270_s {
     void* m_vt;
     void* m_kPointA;
@@ -30,28 +34,27 @@ struct FUN_00d36270_s {
 // @fnv 0x00d36270
 void FUN_00d36270(FUN_00d36270_s* self)
 {
-    self->m_vt = &InitAndReturnTail;
-    self->m_k = &FUN_00d35770;
+    self->m_vt = &((void (&)(void *, void *, void *))::InitAndReturnTail);
+    self->m_k = &((void (&)(void *, void *, void *))::hkpCollectionCollectionAgent3::FUN_00d35770);
     self->m_iUnknownValue = 0;
     self->m_kPointB = 0;
     self->m_iThirdValue = 0;
     self->m_iFourthElementInteger = 0;
     self->m_usTrailingValue = 0;
-    self->m_f = &FUN_00d34db0;
-    self->m_g = &FUN_00d34d30;
-    self->m_h = &ForwardCall;
-    self->m_i = &FUN_00d34d80;
-    self->m_kPointA = &FUN_00da6dc0;
+    self->m_f = &((void (&)(void *, void *, void *))::FUN_00d34db0);
+    self->m_g = &((void (&)(void *, void *, void *))::FUN_00d34d30);
+    self->m_h = &((void (&)(void *, void *, void *))::ForwardCall);
+    self->m_i = &((void (&)(void *, void *, void *))::FUN_00d34d80);
+    self->m_kPointA = &((void (&)(void *, void *, void *))::FUN_00da6dc0);
     self->m_flag = 1;
 }
 
-void __cdecl FUN_00da35f0(void*, float, float, void*);
 
 // Calls FUN_00da35f0 with b, c, d and e, ignoring a.
 // @fnv 0x00d34d80
 void __cdecl FUN_00d34d80(void* apUnused, void* b, float afValue1, float afValue2, void* e)
 {
-    FUN_00da35f0(b, afValue1, afValue2, e);
+    ::FUN_00da35f0((::Da35Stream ***)(b), afValue1, afValue2, (void **)(e));
 }
 
 struct FUN_00cf5830_cls {
@@ -88,9 +91,7 @@ struct __declspec(align(16)) D36270Data {
     unsigned char flag1;
     unsigned char flag2;
 };
-void FUN_00d36270(D36270Data*);
 struct D362Script {
-    void AddEntry(D36270Data*, int row, int column);
 };
 extern unsigned char DAT_01268ad5;
 // @fnv 0x00d362c0
@@ -98,19 +99,18 @@ void FUN_00d362c0(D362Script* script) {
     D36270Data data;
     data.flag0 = 0; data.flag1 = 0; data.flag2 = 0;
     data.f = 0; data.g = 0; data.h = 0; data.i = 0; data.j = 0;
-    FUN_00d36270(&data);
-    script->AddEntry(&data, 8, 8);
+    ::FUN_00d36270((::FUN_00d36270_s *)(::D36270Data *)(&data));
+    reinterpret_cast<::FUN_00cfbd60_cls *>((script))->AddEntry((::SrcRec *)(::D36270Data *)(&data), 8, 8);
     data.flag1 = 1; data.flag2 = 1;
-    script->AddEntry(&data, 7, 8);
-    script->AddEntry(&data, 8, 7);
-    script->AddEntry(&data, 7, 7);
+    reinterpret_cast<::FUN_00cfbd60_cls *>((script))->AddEntry((::SrcRec *)(::D36270Data *)(&data), 7, 8);
+    reinterpret_cast<::FUN_00cfbd60_cls *>((script))->AddEntry((::SrcRec *)(::D36270Data *)(&data), 8, 7);
+    reinterpret_cast<::FUN_00cfbd60_cls *>((script))->AddEntry((::SrcRec *)(::D36270Data *)(&data), 7, 7);
     *(unsigned char*)((char*)script + 0x1e22) = 1;
     DAT_01268ad5 = 1;
 }
 
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 
-extern "C" void __cdecl FUN_00d97250(void*, void*, void*);
 extern "C" const char str_010ceca8[];
 
 struct S00d34d30_Obj
@@ -130,7 +130,7 @@ void __cdecl FUN_00d34d30(void* a, void* b, void* c, void* d)
 {
     S00d34d30_Obj* obj = (S00d34d30_Obj*)d;
     obj->m6(str_010ceca8);
-    FUN_00d97250(b, c, d);
+    ::FUN_00d97250((::Hdr *)(b), (char **)(c), (::Logger *)(d));
     obj->m7();
 }
 
@@ -153,7 +153,6 @@ struct Local {
     void* f7;
 };
 
-extern "C" void __cdecl FUN_00da4900(void*, void*);
 
 // Fills a Local struct with a3 through a7 and the m10() results of the objects at a3 and a4, then calls FUN_00da4900 with a2 and the struct.
 // @fnv 0x00d34db0
@@ -171,10 +170,11 @@ void __cdecl FUN_00d34db0(void* apUnused, void* a2, void* apFirstObj, void* apSe
     s.f2 = ((Obj*)pFirstObj)->m10();
     s.f3 = ((Obj*)pSecondObj)->m10();
 
-    FUN_00da4900(a2, &s);
+    ::FUN_00da4900((int)(a2), (int)(&s));
 }
 
 union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
+#include "fnv/symbols_simd.h"
 
 extern "C" {
 __m128 _mm_load_ps(const float* p);
@@ -190,9 +190,7 @@ __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm8);
 __m128 _mm_set_ps1(float a);
 }
 
-extern __m128 DAT_010ec7f0;
-extern const __m128 DAT_011b6d70;  // AABB quantization clip max
-extern __m128 DAT_01267e30;
+  // AABB quantization clip max
 
 typedef unsigned int hkpShapeKey;
 
@@ -222,7 +220,7 @@ struct hkVector4q
 
     __forceinline void setInterpolate4(const hkVector4q& a, const hkVector4q& b, const hkVector4q& t)
     {
-        m_vComponents = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(_mm_load_ps(DAT_010ec7f0.m128_f32), t.m_vComponents), a.m_vComponents), _mm_mul_ps(t.m_vComponents, b.m_vComponents));
+        m_vComponents = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(_mm_load_ps(::DAT_010ec7f0.m128_f32), t.m_vComponents), a.m_vComponents), _mm_mul_ps(t.m_vComponents, b.m_vComponents));
     }
 
     __forceinline void setAddMul4(const hkVector4q& a, const hkVector4q& b, const hkSimdRealq& r)
@@ -298,7 +296,6 @@ struct SweptTransformSamples
     hkTransformq m_shapeToMotion;
 };
 
-void __cdecl FUN_00cbec90(const hkMotionStateq* motionState, SweptTransformSamples* out);
 
 struct hkAabbq
 {
@@ -439,14 +436,12 @@ struct hkpCollidableq : hkpCdBodyq
     BoundingVolumeData m_kBoundingVolumeData;
 };
 
-void __cdecl FUN_00cf8690(hkAabbUint32Key* out, const hkAabbUint32* in);
 
 struct hkAabbUint32Less
 {
     unsigned char m_unused;
 };
 
-void __cdecl FUN_00d36360(hkAabbUint32Key* arr, int iStart, int iEnd, hkAabbUint32Less cmp);
 
 static __forceinline void expandAabbUint32(hkAabbUint32Key* out, const hkAabbUint32* in)
 {
@@ -620,14 +615,14 @@ int __cdecl FUN_00d351c0(const hkpCdBodyq* body, int useCache, const hkpShapeCon
             const hkVector4q& offsetMin = input->m_kAabbMin;
             const hkVector4q& offsetMax = input->m_kAabbMaximum;
             hkVec4F convertedMin;
-            convertedMin.m_vComponents = _mm_max_ps(_mm_min_ps(_mm_mul_ps(_mm_add_ps(offsetMin.m_vComponents, boundMinimum.m_vComponents), scale.m_vComponents), maxVal), DAT_01267e30);
+            convertedMin.m_vComponents = _mm_max_ps(_mm_min_ps(_mm_mul_ps(_mm_add_ps(offsetMin.m_vComponents, boundMinimum.m_vComponents), scale.m_vComponents), maxVal), (*reinterpret_cast<::__m128 *>(&::DAT_01267e30)));
             cur->m_kMinimumCorner[0] = fnv_FloatToInt(convertedMin(0));
             cur->m_kMinimumCorner[1] = fnv_FloatToInt(convertedMin(1));
             cur->m_kMinimumCorner[2] = fnv_FloatToInt(convertedMin(2));
             cur->m_kMinimumCorner[3] = fnv_FloatToInt(convertedMin(3));
 
             hkVec4F convertedMax;
-            convertedMax.m_vComponents = _mm_max_ps(_mm_min_ps(_mm_mul_ps(_mm_add_ps(boundMaximum.m_vComponents, offsetMax.m_vComponents), scale.m_vComponents), maxVal), DAT_01267e30);
+            convertedMax.m_vComponents = _mm_max_ps(_mm_min_ps(_mm_mul_ps(_mm_add_ps(boundMaximum.m_vComponents, offsetMax.m_vComponents), scale.m_vComponents), maxVal), (*reinterpret_cast<::__m128 *>(&::DAT_01267e30)));
             cur->m_kMaximumCorner[0] = fnv_FloatToInt(convertedMax(0));
             cur->m_kMaximumCorner[1] = fnv_FloatToInt(convertedMax(1));
             cur->m_kMaximumCorner[2] = fnv_FloatToInt(convertedMax(2));
@@ -644,7 +639,7 @@ sortAabbs:
     hkAabbUint32Less comparator = {0};
     if (numAabbs > 1)
     {
-        FUN_00d36360(aabbsOut, 0, numAabbs - 1, comparator);
+        ::FUN_00d36360((::SortEntry *)(aabbsOut), 0, numAabbs - 1, (*(::SortEntryLess *)&(const ::hkAabbUint32Less &)(comparator)));
     }
 done:
     return numAabbs;
@@ -733,7 +728,7 @@ struct hkpAgent3ProcessInputq
 };
 static __forceinline void interpolateCenter(hkVector4q& out, const hkVector4q& a, const hkVector4q& b, const hkSimdRealq& t)
 {
-    out.m_vComponents = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(DAT_010ec7f0, _mm_shuffle_ps(t.m_vValue,t.m_vValue,0)), a.m_vComponents), _mm_mul_ps(b.m_vComponents, _mm_shuffle_ps(t.m_vValue,t.m_vValue,0)));
+    out.m_vComponents = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(::DAT_010ec7f0, _mm_shuffle_ps(t.m_vValue,t.m_vValue,0)), a.m_vComponents), _mm_mul_ps(b.m_vComponents, _mm_shuffle_ps(t.m_vValue,t.m_vValue,0)));
 }
 static __forceinline void convertLowerCurrent(const hkVector4q& in, const hkVector4q& offset, const hkVector4q& scale,
                                                   const __m128& maxVal, const __m128& minVal, hkAabbUint32Key* out)
@@ -764,8 +759,8 @@ static __forceinline void convertUpperCurrent(const hkVector4q& in, const hkVect
 
 static __forceinline void quantizeAabb(const hkAabbq& aabb, const hkpProcessCollisionInputq* in, hkAabbUint32Key* out) {
  __m128 maxVal=DAT_011b6d70;
- convertLowerCurrent(aabb.m_kMinimumCorner,in->m_kAabbMin,in->m_kAabbScale,maxVal,DAT_01267e30,out);
- convertUpperCurrent(aabb.m_kMaximumCorner,in->m_kAabbMaximum,in->m_kAabbScale,maxVal,DAT_01267e30,out->m_kMaximumCorner);
+ convertLowerCurrent(aabb.m_kMinimumCorner,in->m_kAabbMin,in->m_kAabbScale,maxVal,(*reinterpret_cast<::__m128 *>(&::DAT_01267e30)),out);
+ convertUpperCurrent(aabb.m_kMaximumCorner,in->m_kAabbMaximum,in->m_kAabbScale,maxVal,(*reinterpret_cast<::__m128 *>(&::DAT_01267e30)),out->m_kMaximumCorner);
 }
 
 // @fnv 0x00d34e10

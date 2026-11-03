@@ -5,9 +5,40 @@
 
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpshapedisplayviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpshapedisplayviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/CB1A90Owner.h"
+#include "fnv/decl/CpuObject.h"
+#include "fnv/decl/FUN_00c86490_Class.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cb1930_t.h"
+#include "fnv/decl/FUN_00cb1fe0_t.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00ddcc60.h"
+#include "fnv/decl/FUN_00ddccb0_cls.h"
+#include "fnv/decl/FUN_00ddfb70_cls.h"
+#include "fnv/decl/FUN_00de1d20.h"
+#include "fnv/decl/S_00d65970_Obj.h"
+#include "fnv/decl/S_00dd9380.h"
+#include "fnv/decl/SearchArray.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/fnv_00c93820__hkpWorldC938.h"
+#include "fnv/decl/fnv_00c93920__hkpWorldXc93920.h"
+#include "fnv/decl/fnv_00cb1870__hkMapBaseCB18.h"
+#include "fnv/decl/fnv_00d65750__Shell.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkWorldC917.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00ddf000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_0102f000.h"
+#include "fnv/symbols_010cc000.h"
+#include "fnv/symbols_010d1000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 struct FUN_00d65970_stub
 {
-    void FUN_00d65970(int);
 };
 struct FUN_00d65f70_class
 {
@@ -135,12 +166,10 @@ struct BSAudio
 void* __cdecl FUN_00c85750();
 struct FUN_00d657d0_class
 {
-    FUN_00d657d0_class* FUN_00d657d0(int);
 };
 void* __cdecl FUN_00d65910(void* context);
 struct FUN_00dd9380_class
 {
-    void* FUN_00dd9380(const char*, void*);
 };
 struct hkProcessFactory : FUN_00dd9380_class
 {
@@ -148,19 +177,15 @@ struct hkProcessFactory : FUN_00dd9380_class
 struct GlobalObjectO2_00d472a0
 {
 };
-extern hkProcessFactory* FUN_00dd9380;
-extern GlobalObjectO2_00d472a0 g_01268f2c;
 extern void* __cdecl FUN_00d65910(void*);
 void RegisterShapesProcess();
 struct Target
 {
-    void FUN_00d65970();
 };
 struct Adjustor
 {
     void FUN_00d65fb0();
 };
-extern int g_D661D0Value;
 int __cdecl FUN_00d661d0();
 struct FUN_00d652a0_cls
 {
@@ -177,13 +202,6 @@ struct FUN_00d652a0_cls
     int m_18;
     void FUN_00d652a0(int arg);
 };
-extern int vftbl_010d1b04;
-extern int vftbl_010d1ae4;
-extern int vftbl_010d1ad4;
-extern int vftbl_010d1ab8;
-extern int vftbl_010d1aa8;
-extern int vftbl_010ccf7c;
-extern int vftbl_0102f13c;
 struct AudioAllocator
 {
     virtual void v00();
@@ -207,8 +225,6 @@ struct SpawnedBuf
     int unk04;
     int unk08;
 
-    void ProcessArgument(AudioAllocator* apAlloc);
-    void FUN_00a29680();
 };
 struct FUN_00d66080_cls
 {
@@ -231,14 +247,10 @@ struct FUN_00d66080_cls
     SpawnedBuf m_buf48;
     SpawnedBuf m_buf54;
 
-    void FUN_00d65fc0(int aiIndex);
-    void FUN_00ddcc60();
     void Destroy();
 };
 struct OwnerObject
 {
-    int FindItemIndex(int);
-    void FUN_00d65fc0(int);
 };
 struct FUN_00d66160_cls
 {
@@ -347,15 +359,12 @@ struct SpawnOwner
     char** m_34;
     int m_38;
 
-    void FUN_00c93820(void* p);
-    void FUN_00c93920(void* p);
 };
 struct SpawnSublist
 {
     void** m_data;
     int m_uiItemCount;
 };
-void __cdecl ResizeAudioStream(void* allocator, void* list, unsigned int elemSize);
 struct PendingNode
 {
     SpawnOwner* m_pSharedOwner;
@@ -399,7 +408,6 @@ struct FUN_00d64650_cls
 
     void FUN_00d64650(SpawnOwner* a1);
 };
-extern int DAT_01268fe0;
 struct D65610Obj
 {
     virtual void v00();
@@ -452,20 +460,10 @@ struct ShapeSub
     int m_00;
     int m_04;
     int m_08;
-    void EnsureCapacity(int value, int zero);
 };
-extern char DAT_0102f13c[];
-extern char DAT_010ccf7c[];
-extern char DAT_010d1b04[];
-extern char DAT_010d1ae4[];
-extern char DAT_010d1ad4[];
-extern char DAT_010d1ab8[];
-extern char DAT_010d1aa8[];
-extern float DAT_01012054;
 extern int DAT_01268fe8;
 extern int DAT_01268fe4;
 void* __cdecl FUN_00c85750();
-int __cdecl FUN_00cb0fa0(const char* name, void* obj);
 struct FUN_00d657d0_cls
 {
     void* m_vptr00;
@@ -497,7 +495,6 @@ struct FUN_00d657d0_cls
     int m_6c;
     int m_70;
 
-    void FUN_00ddccb0(ShapeList* a1);
     FUN_00d657d0_cls* FUN_00d657d0(ShapeList* a1);
 };
 struct Mem_d65f
@@ -562,8 +559,6 @@ struct Watch2_d65f
 };
 struct Agent_d65f
 {
-    void FUN_00c917a0(Listener_d65f* listener);
-    void ClearValue(Watch2_d65f* watch);
 };
 struct Node_d65f
 {
@@ -590,7 +585,6 @@ struct Watch_d65f
 struct Phantom_d65f : Base_d65f, Listener_d65f, Watch2_d65f
 {
     hkArray_d65f<Node_d65f*> m_kNodeCollection;
-    void FUN_00d65750(int index);
     void FUN_00d65fc0(int index);
 };
 extern "C" void _ReadWriteBarrier(void);
@@ -616,7 +610,6 @@ struct TtTlsData
     int unk08;
     TtTlsRecord* m_kRayEnd;
 };
-extern unsigned int g_0126835c;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 struct TtShapeDisplayInner
 {
@@ -647,7 +640,7 @@ __forceinline TtShapeDisplayOuter* TtShapeDisplayInner::GetOuter()
 }
 static void __forceinline TtPushEvent(const char* name)
 {
-    TtTlsData* data = (TtTlsData*)TlsGetValue(g_0126835c);
+    TtTlsData* data = (TtTlsData*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     TtTlsRecord* rec = data->m_cur;
     if (rec < data->m_kRayEnd)
     {
@@ -796,7 +789,6 @@ struct Entry16
 };
 struct SubObj
 {
-    void SweepTransform(float f, OutVec* out);
 };
 struct Item
 {
@@ -907,6 +899,7 @@ struct Group
     int unk44;
     ItemList m_kNode;
 };
+struct XfResult;
 struct Node
 {
     int unk00;
@@ -921,7 +914,8 @@ struct Node
     int unk24;
     Group** m_28;
     int m_2c;
-    float FUN_00c91020();
+public:
+    void FUN_00de0f90(void *, ::XfResult *);
 };
 class S00d653f0_Obj
 {
@@ -1055,31 +1049,24 @@ struct S65_Map
     int s00;
     int s04;
     int s08;
-    unsigned int LookupHashEntry(void* key, int def);
-    void FUN_00cb1870(S65_Alloc* a, void* key, int val);
     __forceinline void insert(void* key, int val)
     {
-        FUN_00cb1870(&s65Router().heap(), key, val);
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&s65Router().heap())), (unsigned int)(key), val);
     }
 };
 struct S65_Ref
 {
-    void FUN_00c905b0();
 };
 struct S65_Val
 {
     int phi;
     int theta;
-    void FUN_00ddfb70();
 };
 struct S65_Str
 {
     int s00;
     int s04;
     int s08;
-    void FUN_00cb1600(char* buf, int size);
-    void FUN_00cc01c0(const char* s);
-    void FUN_00cc00e0();
 };
 struct S65_Elem
 {
@@ -1119,8 +1106,6 @@ struct S65_Work
     int w08;
     int w0c;
     int w10;
-    void FUN_00ddfb80(S65_Val* p);
-    void FUN_00de0f90(void* v, S65_Vec* vec);
 };
 union S65_V4
 {
@@ -1138,7 +1123,6 @@ struct S65_NewObj
     S65_V4 c1;
     S65_V4 c2;
     S65_V4 t;
-    S65_NewObj* FUN_00de1d20(void* v);
     float& cell(int row, int col)
     {
         return ((float*)&c0)[col * 4 + row];
@@ -1170,8 +1154,6 @@ struct S65_Item
     S65_IntArr arr;
 };
 
-extern S65_Err* DAT_01268360;
-extern const char str_010d196c[];
 extern const char str_010d1b18[];
 
 static __declspec(noinline) void* FUN_00d652c0(S65_Param* p, bool flag, unsigned char* out)
@@ -1213,7 +1195,6 @@ struct S65_Prim
     int o1c;
     int o20;
     int o24;
-    int FindItemIndex(int key);
 };
 struct S65_Sec
 {
@@ -1255,7 +1236,7 @@ void S65_Self::FUN_00d65ad0(S65_Param* param)
     void* ret = FUN_00d652c0(param, flag, &done);
     if (done)
         return;
-    int idx = FindItemIndex(param->unk08);
+    int idx = reinterpret_cast<::FUN_00d655e0_class *>(this)->FindItemIndex(param->unk08);
     if (idx < 0)
         return;
     S65_Item* item = m_items[idx];
@@ -1267,14 +1248,14 @@ void S65_Self::FUN_00d65ad0(S65_Param* param)
     bool isNew = false;
     if (b3a)
     {
-        unsigned int r = sub2c.LookupHashEntry(key, 0);
+        unsigned int r = ((unsigned int)(reinterpret_cast<::FUN_00cb1930_t *>(&(sub2c))->LookupHashEntry((int)(key), 0)));
         isNew = r > 0;
         if (!r)
-            sub2c.FUN_00cb1870(s65Router().allocator, key, 1);
+            reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(sub2c))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(s65Router().allocator)), (unsigned int)(key), 1);
     }
     int existing = 0;
     if (b39)
-        existing = sub14.LookupHashEntry(key, 0);
+        existing = ((unsigned int)(reinterpret_cast<::FUN_00cb1930_t *>(&(sub14))->LookupHashEntry((int)(key), 0)));
     S65_Vec vec;
     vec.data = vec.inlineBuf;
     vec.count = 0;
@@ -1287,10 +1268,10 @@ void S65_Self::FUN_00d65ad0(S65_Param* param)
         if (!a && !alt)
         {
             S65_Val val;
-            val.FUN_00ddfb70();
+            reinterpret_cast<::FUN_00ddfb70_cls *>(&(val))->FUN_00ddfb70();
             S65_Work work;
-            work.FUN_00ddfb80(&val);
-            work.FUN_00de0f90(key, &vec);
+            ::FUN_00ddfb80((::FUN_00ddfb80_s *)&(work), (int)(&val), {});
+            reinterpret_cast<::Node *>(&(work))->FUN_00de0f90(key, (::XfResult *)(::S65_Vec *)(&vec));
             for (int i = vec.count - 1; i >= 0; i--)
             {
                 S65_Elem* e = vec.data[i];
@@ -1298,10 +1279,10 @@ void S65_Self::FUN_00d65ad0(S65_Param* param)
                 {
                     __declspec(align(16)) char buf[0x200];
                     S65_Str str;
-                    str.FUN_00cb1600(buf, 0x200);
-                    str.FUN_00cc01c0(str_010d196c);
-                    DAT_01268360->d0c(0, -1, buf, str_010d1b18, 0x13c);
-                    str.FUN_00cc00e0();
+                    new ((void *)&(str)) ::FUN_00cb1600(buf, 0x200);
+                    reinterpret_cast<::SinkOwner *>(&(str))->FUN_00cc01c0(::fnv_00d66530::str_010d196c);
+                    (*reinterpret_cast<::S65_Err * *>(&::DAT_01268360))->d0c(0, -1, buf, str_010d1b18, 0x13c);
+                    reinterpret_cast<struct ::FUN_00cc00e0 *>(&(str))->FUN_00cc00e0::~FUN_00cc00e0();
                     vec.count--;
                     if (vec.count != i)
                         vec.data[i] = vec.data[vec.count];
@@ -1310,7 +1291,7 @@ void S65_Self::FUN_00d65ad0(S65_Param* param)
             void* v = param->pointerProperty(0x1135);
             if (v && (void*)v == ret)
             {
-                ((S65_Ref*)v)->FUN_00c905b0();
+                reinterpret_cast<::hkReferencedObjectC905 *>((((S65_Ref*)v)))->FUN_00c905b0();
                 param->FUN_00cd2a50(0x1135);
             }
         }
@@ -1321,7 +1302,7 @@ void S65_Self::FUN_00d65ad0(S65_Param* param)
                 param->FUN_00cd2a50(0x1131);
             S65_NewObj* mem = (S65_NewObj*)s65Router().heap().allocate(0x60);
             mem->s04 = (short)0x60;
-            S65_NewObj* obj = mem->FUN_00de1d20(a ? a : alt);
+            S65_NewObj* obj = ((::S65_NewObj *)(new ((void *)(mem)) ::FUN_00de1d20((int)(a ? a : alt))));
             obj->c0.q = _mm_setzero_ps();
             obj->c1.q = _mm_setzero_ps();
             obj->c2.q = _mm_setzero_ps();
@@ -1337,7 +1318,7 @@ void S65_Self::FUN_00d65ad0(S65_Param* param)
     S65_IntArr* arr = &item->arr;
     S65_Heap* heap = (S65_Heap*)FUN_00c85750();
     if (arr->count == (arr->cap & 0x3fffffff))
-        ResizeAudioStream(heap->allocator, arr, 4);
+        ::ResizeAudioStream((::AudioAllocator *)(heap->allocator), (::AudioStream *)(arr), 4);
     int* slot = arr->data + arr->count;
     __assume(slot != 0);
     new (slot) int((int)nv);
@@ -1364,7 +1345,7 @@ void S65_Self::FUN_00d65ad0(S65_Param* param)
     }
     else
     {
-        int n = sub20.LookupHashEntry(key, 1) + 1;
+        int n = ((unsigned int)(reinterpret_cast<::FUN_00cb1930_t *>(&(sub20))->LookupHashEntry((int)(key), 1))) + 1;
         sub20.insert(key, n);
         host->v08(existing, &param->transform, nv, DAT_01268fe0, key);
     }

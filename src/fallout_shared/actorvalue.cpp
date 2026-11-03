@@ -1,5 +1,53 @@
 // fallout_shared/actorvalue.cpp: ActorValue, ActorValueInfo, ActorValueOwner, TESObjectWEAP and more (38 functions)
 
+#include "fnv/decl/Dummy00501c30.h"
+#include "fnv/decl/Entry5890.h"
+#include "fnv/decl/FUN_00401290_Class.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004048e0_cls.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00482cb0_shell.h"
+#include "fnv/decl/FUN_00485c10_shell.h"
+#include "fnv/decl/FUN_00487010_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00501c10_cls.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/Owner5610.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_0048e370__FUN_0048e370_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_0047f000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_004a8000.h"
+#include "fnv/symbols_005d1000.h"
+#include "fnv/symbols_00643000.h"
+#include "fnv/symbols_0066e000.h"
+#include "fnv/symbols_0066f000.h"
+#include "fnv/symbols_008a0000.h"
+#include "fnv/symbols_008b9000.h"
+#include "fnv/symbols_008ba000.h"
+#include "fnv/symbols_008c5000.h"
+#include "fnv/symbols_008d5000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01183000.h"
+#include "fnv/symbols_011d6000.h"
 #include "actorvalue_decls.h"
 
 // Registers all built-in actor values with their flags and callbacks, sets enumerated names for AI attributes, then marks DAT_011d6154 as initialized.
@@ -9,30 +57,30 @@ void ActorValue::LoadActorValueDefinitions()
     if (DAT_011d6154)
         return;
     ActorValueInfo* info;
-    RegisterActorValue(ActorValue__Index_AGGRESSION, "Aggression", AI_ATTRIBUTE, 0x101, 0x0, 0x0, FUN_008ba140, 0x0);
-    info = GetActorValueInfo(ActorValue__Index_AGGRESSION);
+    RegisterActorValue(ActorValue__Index_AGGRESSION, "Aggression", AI_ATTRIBUTE, 0x101, 0x0, 0x0, ((void (&)(ActorValueOwner *, ActorValue::Index, float, float, ActorValueOwner *))::FUN_008ba140), 0x0);
+    info = ((::ActorValueInfo *)(::FUN_0066e920((*(int *)&(const ::ActorValue::Index &)(ActorValue__Index_AGGRESSION)))));
     if (info)
         info->SetEnumerated(4, "Unaggressive", "Aggressive", "Very Aggressive", "Frenzied");
     RegisterActorValue(ActorValue__Index_ASSISTANCE, "Assistance", AI_ATTRIBUTE, 0x101, 0x0, 0x0,
-                       SetProcessFlagIfActive, 0x0);
-    info = GetActorValueInfo(ActorValue__Index_ASSISTANCE);
+                       ((void (&)(ActorValueOwner *, ActorValue::Index, float, float, ActorValueOwner *))::SetProcessFlagIfActive), 0x0);
+    info = ((::ActorValueInfo *)(::FUN_0066e920((*(int *)&(const ::ActorValue::Index &)(ActorValue__Index_ASSISTANCE)))));
     if (info)
         info->SetEnumerated(3, "Helps Nobody", "Helps Allies", "Helps Friends and Allies");
     RegisterActorValue(ActorValue__Index_CONFIDENCE, "Confidence", AI_ATTRIBUTE, 0x101, 0x0, 0x0, 0x0, 0x0);
-    info = GetActorValueInfo(ActorValue__Index_CONFIDENCE);
+    info = ((::ActorValueInfo *)(::FUN_0066e920((*(int *)&(const ::ActorValue::Index &)(ActorValue__Index_CONFIDENCE)))));
     if (info)
         info->SetEnumerated(5, "Cowardly", "Cautious", "Average", "Brave", "Foolhardy");
     RegisterActorValue(ActorValue__Index_ENERGY, "Energy", AI_ATTRIBUTE, 0x1, 0x0, 0x0, 0x0, 0x0);
     RegisterActorValue(ActorValue__Index_RESPONSIBILITY, "Responsibility", AI_ATTRIBUTE, 0x1, 0x0, 0x0, 0x0, 0x0);
     RegisterActorValue(ActorValue__Index_MOOD, "Mood", AI_ATTRIBUTE, 0x101, 0x0, 0x0, 0x0, 0x0);
-    info = GetActorValueInfo(ActorValue__Index_MOOD);
+    info = ((::ActorValueInfo *)(::FUN_0066e920((*(int *)&(const ::ActorValue::Index &)(ActorValue__Index_MOOD)))));
     if (info)
         info->SetEnumerated(9, "Neutral", "Afraid", "Annoyed", "Cocky", "Drugged", "Pleasant", "Angry", "Sad",
                             "UNDEFINED");
     RegisterActorValue(ActorValue__Index_STRENGTH, "Strength", ATTRIBUTE, 0x8009, 0x0, 0x0, 0x0, 0x3, 0xd, 0x26, 0x11);
     RegisterActorValue(ActorValue__Index_PERCEPTION, "Perception", ATTRIBUTE, 0x8009, 0x0, 0x0, 0x0, 0x3, 0x22, 0x24,
                        0x23);
-    RegisterActorValue(ActorValue__Index_ENDURANCE, "Endurance", ATTRIBUTE, 0x8009, 0x0, 0x0, FUN_008b9ea0, 0x7, 0x10,
+    RegisterActorValue(ActorValue__Index_ENDURANCE, "Endurance", ATTRIBUTE, 0x8009, 0x0, 0x0, ((void (&)(ActorValueOwner *, ActorValue::Index, float, float, ActorValueOwner *))::FUN_008b9ea0), 0x7, 0x10,
                        0xf, 0x13, 0x14, 0x21, 0x2d, 0x2c);
     RegisterActorValue(ActorValue__Index_CHARISMA, "Charisma", ATTRIBUTE, 0x8009, 0x0, 0x0, 0x0, 0x2, 0x20, 0x2b);
     RegisterActorValue(ActorValue__Index_INTELLIGENCE, "Intelligence", ATTRIBUTE, 0x8009, 0x0, 0x0, 0x0, 0x3, 0x28,
@@ -40,75 +88,75 @@ void ActorValue::LoadActorValueDefinitions()
     RegisterActorValue(ActorValue__Index_AGILITY, "Agility", ATTRIBUTE, 0x8009, 0x0, 0x0, 0x0, 0x3, 0xc, 0x29, 0x2a);
     RegisterActorValue(ActorValue__Index_LUCK, "Luck", ATTRIBUTE, 0x8009, 0x0, 0x0, 0x0, 0xf, 0xe, 0x20, 0x21, 0x22,
                        0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2a, 0x2b, 0x2d, 0x2c);
-    RegisterActorValue(ActorValue__Index_ACTION_POINTS, "ActionPoints", DERIVED_ATTRIBUTE, 0x0, FUN_006439d0, 0x0, 0x0,
+    RegisterActorValue(ActorValue__Index_ACTION_POINTS, "ActionPoints", DERIVED_ATTRIBUTE, 0x0, ((float (&)(ActorValueOwner *, ActorValue::Index))::fnv_006439d0::FUN_006439d0), 0x0, 0x0,
                        0x0);
-    RegisterActorValue(ActorValue__Index_CARRY_WEIGHT, "CarryWeight", DERIVED_ATTRIBUTE, 0x801, FUN_00643a10, 0x0, 0x0,
+    RegisterActorValue(ActorValue__Index_CARRY_WEIGHT, "CarryWeight", DERIVED_ATTRIBUTE, 0x801, ((float (&)(ActorValueOwner *, ActorValue::Index))::fnv_00643a10::FUN_00643a10), 0x0, 0x0,
                        0x0);
-    RegisterActorValue(ActorValue__Index_CRITICAL_CHANCE, "CritChance", DERIVED_ATTRIBUTE, 0x800, FUN_00643b10, 0x0,
+    RegisterActorValue(ActorValue__Index_CRITICAL_CHANCE, "CritChance", DERIVED_ATTRIBUTE, 0x800, ((float (&)(ActorValueOwner *, ActorValue::Index))::FUN_00643b10), 0x0,
                        0x0, 0x0);
-    RegisterActorValue(ActorValue__Index_HEALING_RATE, "HealRate", DERIVED_ATTRIBUTE, 0x801, FUN_00643a70, 0x0,
-                       FUN_008b9db0, 0x0);
-    RegisterActorValue(ActorValue__Index_HEALTH, "Health", DERIVED_ATTRIBUTE, 0x10c1, FUN_00643670, 0x0,
-                       UpdateActorValueFlag, 0x0);
-    RegisterActorValue(ActorValue__Index_MELEE_DAMAGE, "MeleeDamage", DERIVED_ATTRIBUTE, 0x800, FUN_00643b50, 0x0, 0x0,
+    RegisterActorValue(ActorValue__Index_HEALING_RATE, "HealRate", DERIVED_ATTRIBUTE, 0x801, ((float (&)(ActorValueOwner *, ActorValue::Index))::fnv_00643a70::FUN_00643a70), 0x0,
+                       ((void (&)(ActorValueOwner *, ActorValue::Index, float, float, ActorValueOwner *))::FUN_008b9db0), 0x0);
+    RegisterActorValue(ActorValue__Index_HEALTH, "Health", DERIVED_ATTRIBUTE, 0x10c1, ((float (&)(ActorValueOwner *, ActorValue::Index))::fnv_00643670::FUN_00643670), 0x0,
+                       ((void (&)(ActorValueOwner *, ActorValue::Index, float, float, ActorValueOwner *))::UpdateActorValueFlag), 0x0);
+    RegisterActorValue(ActorValue__Index_MELEE_DAMAGE, "MeleeDamage", DERIVED_ATTRIBUTE, 0x800, ((float (&)(ActorValueOwner *, ActorValue::Index))::fnv_00643b50::FUN_00643b50), 0x0, 0x0,
                        0x0);
-    RegisterActorValue(ActorValue__Index_DAMAGE_RESISTANCE, "DamageResist", RESISTANCE, 0x800, FUN_008a0a90, 0x0,
-                       FUN_008ba270, 0x0);
-    RegisterActorValue(ActorValue__Index_POISON_RESISTANCE, "PoisonResist", RESISTANCE, 0x800, FUN_00643e40, 0x0, 0x0,
+    RegisterActorValue(ActorValue__Index_DAMAGE_RESISTANCE, "DamageResist", RESISTANCE, 0x800, ((float (&)(ActorValueOwner *, ActorValue::Index))::FUN_008a0a90), 0x0,
+                       ((void (&)(ActorValueOwner *, ActorValue::Index, float, float, ActorValueOwner *))::FUN_008ba270), 0x0);
+    RegisterActorValue(ActorValue__Index_POISON_RESISTANCE, "PoisonResist", RESISTANCE, 0x800, ((float (&)(ActorValueOwner *, ActorValue::Index))::FUN_00643e40), 0x0, 0x0,
                        0x0);
-    RegisterActorValue(ActorValue__Index_RADIATION_RESISTANCE, "RadResist", RESISTANCE, 0x800, FUN_00643e40, 0x0,
-                       FUN_008ba2b0, 0x0);
+    RegisterActorValue(ActorValue__Index_RADIATION_RESISTANCE, "RadResist", RESISTANCE, 0x800, ((float (&)(ActorValueOwner *, ActorValue::Index))::FUN_00643e40), 0x0,
+                       ((void (&)(ActorValueOwner *, ActorValue::Index, float, float, ActorValueOwner *))::fnv_008ba2b0::FUN_008ba2b0), 0x0);
     RegisterActorValue(ActorValue__Index_FIRE_RESISTANCE, "FireResist", RESISTANCE, 0x0, 0x0, 0x0, 0x0, 0x0);
     RegisterActorValue(ActorValue__Index_ELECTRICAL_RESISTANCE, "ElectricResist", RESISTANCE, 0x0, 0x0, 0x0, 0x0, 0x0);
     RegisterActorValue(ActorValue__Index_FROST_RESISTANCE, "FrostResist", RESISTANCE, 0x0, 0x0, 0x0, 0x0, 0x0);
     RegisterActorValue(ActorValue__Index_ENERGY_RESISTANCE, "EnergyResist", RESISTANCE, 0x0, 0x0, 0x0, 0x0, 0x0);
     RegisterActorValue(ActorValue__Index_EMP_RESISTANCE, "EmpResist", RESISTANCE, 0x0, 0x0, 0x0, 0x0, 0x0);
     RegisterActorValue(ActorValue__Index_SPEED_MULT, "SpeedMult", DERIVED_ATTRIBUTE, 0x801, 0x0, 0x0, 0x0, 0x0);
-    RegisterActorValue(ActorValue__Index_FATIGUE, "Fatigue", DERIVED_ATTRIBUTE, 0x1841, FUN_00643820, 0x0,
-                       UpdateActorValueFlag, 0x0);
-    RegisterActorValue(ActorValue__Index_PERCEPTION_CONDITION, "PerceptionCondition", SPECIAL, 0x821, FUN_00643a50, 0x0,
-                       Actor::UpdateActorConditionValue, 0x0);
-    RegisterActorValue(ActorValue__Index_ENDURANCE_CONDITION, "EnduranceCondition", SPECIAL, 0x821, FUN_00643a50, 0x0,
-                       Actor::UpdateActorConditionValue, 0x0);
-    RegisterActorValue(ActorValue__Index_LEFT_ATTACK_CONDITION, "LeftAttackCondition", SPECIAL, 0x821, FUN_00643a50,
-                       0x0, Actor::UpdateActorConditionValue, 0x0);
-    RegisterActorValue(ActorValue__Index_RIGHT_ATTACK_CONDITION, "RightAttackCondition", SPECIAL, 0x821, FUN_00643a50,
-                       0x0, Actor::UpdateActorConditionValue, 0x0);
-    RegisterActorValue(ActorValue__Index_LEFT_MOBILITY_CONDITION, "LeftMobilityCondition", SPECIAL, 0x821, FUN_00643a50,
-                       0x0, Actor::UpdateMobilityConditionValue, 0x0);
+    RegisterActorValue(ActorValue__Index_FATIGUE, "Fatigue", DERIVED_ATTRIBUTE, 0x1841, ((float (&)(ActorValueOwner *, ActorValue::Index))::FUN_00643820), 0x0,
+                       ((void (&)(ActorValueOwner *, ActorValue::Index, float, float, ActorValueOwner *))::UpdateActorValueFlag), 0x0);
+    RegisterActorValue(ActorValue__Index_PERCEPTION_CONDITION, "PerceptionCondition", SPECIAL, 0x821, ((float (&)(ActorValueOwner *, ActorValue::Index))::FUN_00643a50), 0x0,
+                       ((void (&)(ActorValueOwner *, ActorValue::Index, float, float, ActorValueOwner *))::FUN_008b9240), 0x0);
+    RegisterActorValue(ActorValue__Index_ENDURANCE_CONDITION, "EnduranceCondition", SPECIAL, 0x821, ((float (&)(ActorValueOwner *, ActorValue::Index))::FUN_00643a50), 0x0,
+                       ((void (&)(ActorValueOwner *, ActorValue::Index, float, float, ActorValueOwner *))::FUN_008b9240), 0x0);
+    RegisterActorValue(ActorValue__Index_LEFT_ATTACK_CONDITION, "LeftAttackCondition", SPECIAL, 0x821, ((float (&)(ActorValueOwner *, ActorValue::Index))::FUN_00643a50),
+                       0x0, ((void (&)(ActorValueOwner *, ActorValue::Index, float, float, ActorValueOwner *))::FUN_008b9240), 0x0);
+    RegisterActorValue(ActorValue__Index_RIGHT_ATTACK_CONDITION, "RightAttackCondition", SPECIAL, 0x821, ((float (&)(ActorValueOwner *, ActorValue::Index))::FUN_00643a50),
+                       0x0, ((void (&)(ActorValueOwner *, ActorValue::Index, float, float, ActorValueOwner *))::FUN_008b9240), 0x0);
+    RegisterActorValue(ActorValue__Index_LEFT_MOBILITY_CONDITION, "LeftMobilityCondition", SPECIAL, 0x821, ((float (&)(ActorValueOwner *, ActorValue::Index))::FUN_00643a50),
+                       0x0, ((void (&)(ActorValueOwner *, ActorValue::Index, float, float, ActorValueOwner *))::ApplyAVModifierAndUpdatePair), 0x0);
     RegisterActorValue(ActorValue__Index_RIGHT_MOBILITY_CONDITION, "RightMobilityCondition", SPECIAL, 0x821,
-                       FUN_00643a50, 0x0, Actor::UpdateMobilityConditionValue, 0x0);
-    RegisterActorValue(ActorValue__Index_BRAIN_CONDITION, "BrainCondition", SPECIAL, 0x820, FUN_00643a50, 0x0,
-                       Actor::UpdateActorConditionValue, 0x0);
+                       ((float (&)(ActorValueOwner *, ActorValue::Index))::FUN_00643a50), 0x0, ((void (&)(ActorValueOwner *, ActorValue::Index, float, float, ActorValueOwner *))::ApplyAVModifierAndUpdatePair), 0x0);
+    RegisterActorValue(ActorValue__Index_BRAIN_CONDITION, "BrainCondition", SPECIAL, 0x820, ((float (&)(ActorValueOwner *, ActorValue::Index))::FUN_00643a50), 0x0,
+                       ((void (&)(ActorValueOwner *, ActorValue::Index, float, float, ActorValueOwner *))::FUN_008b9240), 0x0);
     RegisterActorValue(ActorValue__Index_KARMA, "Karma", DERIVED_ATTRIBUTE, 0x4000, 0x0, 0x0, 0x0, 0x0);
-    RegisterActorValue(ActorValue__Index_EXPERIENCE_POINTS, "XP", DERIVED_ATTRIBUTE, 0x4000, 0x0, 0x0, FUN_008d53f0,
+    RegisterActorValue(ActorValue__Index_EXPERIENCE_POINTS, "XP", DERIVED_ATTRIBUTE, 0x4000, 0x0, 0x0, ((void (&)(ActorValueOwner *, ActorValue::Index, float, float, ActorValueOwner *))::fnv_008d53f0::FUN_008d53f0),
                        0x0);
-    RegisterActorValue(ActorValue__Index_UNARMED_DAMAGE, "UnarmedDamage", DERIVED_ATTRIBUTE, 0x800, FUN_00643ed0, 0x0,
+    RegisterActorValue(ActorValue__Index_UNARMED_DAMAGE, "UnarmedDamage", DERIVED_ATTRIBUTE, 0x800, ((float (&)(ActorValueOwner *, ActorValue::Index))::FUN_00643ed0), 0x0,
                        0x0, 0x0);
-    RegisterActorValue(ActorValue__Index_BARTER, "Barter", SKILL, 0x10, FUN_00643bd0, 0x0, 0x0, 0x0);
+    RegisterActorValue(ActorValue__Index_BARTER, "Barter", SKILL, 0x10, ((float (&)(ActorValueOwner *, ActorValue::Index))::FUN_00643bd0), 0x0, 0x0, 0x0);
     RegisterActorValue(ActorValue__Index_BIG_GUNS, "BigGuns", SKILL, 0x2000, 0x0, 0x0, 0x0, 0x0);
-    RegisterActorValue(ActorValue__Index_ENERGY_WEAPONS, "EnergyWeapons", SKILL, 0x410, FUN_00643bd0, 0x0, 0x0, 0x0);
-    RegisterActorValue(ActorValue__Index_EXPLOSIVES, "Explosives", SKILL, 0x410, FUN_00643bd0, 0x0, 0x0, 0x0);
-    RegisterActorValue(ActorValue__Index_LOCKPICK, "Lockpick", SKILL, 0x10, FUN_00643bd0, 0x0, 0x0, 0x0);
-    RegisterActorValue(ActorValue__Index_MEDICINE, "Medicine", SKILL, 0x10, FUN_00643bd0, 0x0, FUN_008b9ab0, 0x0);
-    RegisterActorValue(ActorValue__Index_MELEE_WEAPONS, "MeleeWeapons", SKILL, 0x410, FUN_00643bd0, 0x0, 0x0, 0x0);
-    RegisterActorValue(ActorValue__Index_REPAIR, "Repair", SKILL, 0x10, FUN_00643bd0, 0x0, 0x0, 0x0);
-    RegisterActorValue(ActorValue__Index_SCIENCE, "Science", SKILL, 0x10, FUN_00643bd0, 0x0, 0x0, 0x0);
-    RegisterActorValue(ActorValue__Index_SMALL_GUNS, "Guns", SKILL, 0x410, FUN_00643bd0, 0x0, 0x0, 0x0);
-    RegisterActorValue(ActorValue__Index_SNEAK, "Sneak", SKILL, 0x11, FUN_00643bd0, 0x0, 0x0, 0x0);
-    RegisterActorValue(ActorValue__Index_SPEECH, "Speech", SKILL, 0x10, FUN_00643bd0, 0x0, 0x0, 0x0);
-    RegisterActorValue(ActorValue__Index_SURVIVAL, "Survival", SKILL, 0x10, FUN_00643bd0, 0x0, FUN_008b9b10, 0x0);
-    RegisterActorValue(ActorValue__Index_UNARMED, "Unarmed", SKILL, 0x410, FUN_00643bd0, 0x0, 0x0, 0x1, 0x38);
-    RegisterActorValue(ActorValue__Index_INVENTORY_WEIGHT, "InventoryWeight", DERIVED_ATTRIBUTE, 0x1, FUN_008a0cd0, 0x0,
-                       Actor::HandleActorValueUpdate, 0x0);
-    RegisterActorValue(ActorValue__Index_PARALYSIS, "Paralysis", INT_VALUE, 0x1, 0x0, 0x0, FUN_008b9cc0, 0x0);
+    RegisterActorValue(ActorValue__Index_ENERGY_WEAPONS, "EnergyWeapons", SKILL, 0x410, ((float (&)(ActorValueOwner *, ActorValue::Index))::FUN_00643bd0), 0x0, 0x0, 0x0);
+    RegisterActorValue(ActorValue__Index_EXPLOSIVES, "Explosives", SKILL, 0x410, ((float (&)(ActorValueOwner *, ActorValue::Index))::FUN_00643bd0), 0x0, 0x0, 0x0);
+    RegisterActorValue(ActorValue__Index_LOCKPICK, "Lockpick", SKILL, 0x10, ((float (&)(ActorValueOwner *, ActorValue::Index))::FUN_00643bd0), 0x0, 0x0, 0x0);
+    RegisterActorValue(ActorValue__Index_MEDICINE, "Medicine", SKILL, 0x10, ((float (&)(ActorValueOwner *, ActorValue::Index))::FUN_00643bd0), 0x0, ((void (&)(ActorValueOwner *, ActorValue::Index, float, float, ActorValueOwner *))::FUN_008b9ab0), 0x0);
+    RegisterActorValue(ActorValue__Index_MELEE_WEAPONS, "MeleeWeapons", SKILL, 0x410, ((float (&)(ActorValueOwner *, ActorValue::Index))::FUN_00643bd0), 0x0, 0x0, 0x0);
+    RegisterActorValue(ActorValue__Index_REPAIR, "Repair", SKILL, 0x10, ((float (&)(ActorValueOwner *, ActorValue::Index))::FUN_00643bd0), 0x0, 0x0, 0x0);
+    RegisterActorValue(ActorValue__Index_SCIENCE, "Science", SKILL, 0x10, ((float (&)(ActorValueOwner *, ActorValue::Index))::FUN_00643bd0), 0x0, 0x0, 0x0);
+    RegisterActorValue(ActorValue__Index_SMALL_GUNS, "Guns", SKILL, 0x410, ((float (&)(ActorValueOwner *, ActorValue::Index))::FUN_00643bd0), 0x0, 0x0, 0x0);
+    RegisterActorValue(ActorValue__Index_SNEAK, "Sneak", SKILL, 0x11, ((float (&)(ActorValueOwner *, ActorValue::Index))::FUN_00643bd0), 0x0, 0x0, 0x0);
+    RegisterActorValue(ActorValue__Index_SPEECH, "Speech", SKILL, 0x10, ((float (&)(ActorValueOwner *, ActorValue::Index))::FUN_00643bd0), 0x0, 0x0, 0x0);
+    RegisterActorValue(ActorValue__Index_SURVIVAL, "Survival", SKILL, 0x10, ((float (&)(ActorValueOwner *, ActorValue::Index))::FUN_00643bd0), 0x0, ((void (&)(ActorValueOwner *, ActorValue::Index, float, float, ActorValueOwner *))::FUN_008b9b10), 0x0);
+    RegisterActorValue(ActorValue__Index_UNARMED, "Unarmed", SKILL, 0x410, ((float (&)(ActorValueOwner *, ActorValue::Index))::FUN_00643bd0), 0x0, 0x0, 0x1, 0x38);
+    RegisterActorValue(ActorValue__Index_INVENTORY_WEIGHT, "InventoryWeight", DERIVED_ATTRIBUTE, 0x1, ((float (&)(ActorValueOwner *, ActorValue::Index))::FUN_008a0cd0), 0x0,
+                       ((void (&)(ActorValueOwner *, ActorValue::Index, float, float, ActorValueOwner *))::fnv_008ba2f0::FUN_008ba2f0), 0x0);
+    RegisterActorValue(ActorValue__Index_PARALYSIS, "Paralysis", INT_VALUE, 0x1, 0x0, 0x0, ((void (&)(ActorValueOwner *, ActorValue::Index, float, float, ActorValueOwner *))::FUN_008b9cc0), 0x0);
     RegisterActorValue(ActorValue__Index_INVISIBILITY, "Invisibility", INT_VALUE, 0x0, 0x0, 0x0, 0x0, 0x0);
     RegisterActorValue(ActorValue__Index_CHAMELEON, "Chameleon", INT_VALUE, 0x0, 0x0, 0x0, 0x0, 0x0);
     RegisterActorValue(ActorValue__Index_NIGHT_EYE_BONUS, "NightEye", INT_VALUE, 0x0, 0x0, 0x0, 0x0, 0x0);
     RegisterActorValue(ActorValue__Index_TURBO, "Turbo", INT_VALUE, 0x0, 0x0, 0x0, 0x0, 0x0);
     RegisterActorValue(ActorValue__Index_WATER_BREATHING, "WaterBreathing", INT_VALUE, 0x1, 0x0, 0x0, 0x0, 0x0);
     RegisterActorValue(ActorValue__Index_RADIATION_RADS, "RadiationRads", INT_VALUE, 0x220, 0x0, 0x0,
-                       Actor::HandleRadiationValueChange, 0x0);
+                       ((void (&)(ActorValueOwner *, ActorValue::Index, float, float, ActorValueOwner *))::fnv_008c5350::OnActorValueStageChange), 0x0);
     RegisterActorValue(ActorValue__Index_BLOODY_MESS, "BloodyMess", INT_VALUE, 0x0, 0x0, 0x0, 0x0, 0x0);
     RegisterActorValue(ActorValue__Index_VARIABLE_01, "Variable01", VARIABLE, 0x0, 0x0, 0x0, 0x0, 0x0);
     RegisterActorValue(ActorValue__Index_VARIABLE_02, "Variable02", VARIABLE, 0x0, 0x0, 0x0, 0x0, 0x0);
@@ -121,14 +169,14 @@ void ActorValue::LoadActorValueDefinitions()
     RegisterActorValue(ActorValue__Index_VARIABLE_09, "Variable09", VARIABLE, 0x0, 0x0, 0x0, 0x0, 0x0);
     RegisterActorValue(ActorValue__Index_VARIABLE_10, "Variable10", VARIABLE, 0x0, 0x0, 0x0, 0x0, 0x0);
     RegisterActorValue(ActorValue__Index_IGNORE_CRIPPLED_LIMBS, "IgnoreCrippledLimbs", VARIABLE, 0x1, 0x0, 0x0,
-                       Actor::UpdateActorConditionValue, 0x0);
-    RegisterActorValue(ActorValue__Index_DEHYDRATION, "Dehydration", INT_VALUE, 0x221, 0x0, 0x0, UpdateStageChange,
+                       ((void (&)(ActorValueOwner *, ActorValue::Index, float, float, ActorValueOwner *))::FUN_008b9240), 0x0);
+    RegisterActorValue(ActorValue__Index_DEHYDRATION, "Dehydration", INT_VALUE, 0x221, 0x0, 0x0, ((void (&)(ActorValueOwner *, ActorValue::Index, float, float, ActorValueOwner *))::Owner5610::UpdateStageChange),
                        0x0);
-    RegisterActorValue(ActorValue__Index_HUNGER, "Hunger", INT_VALUE, 0x221, 0x0, 0x0, UpdateStageTransition, 0x0);
+    RegisterActorValue(ActorValue__Index_HUNGER, "Hunger", INT_VALUE, 0x221, 0x0, 0x0, ((void (&)(ActorValueOwner *, ActorValue::Index, float, float, ActorValueOwner *))::Entry5890::UpdateStageTransition), 0x0);
     RegisterActorValue(ActorValue__Index_SLEEPDEPREVATION, "SleepDeprevation", INT_VALUE, 0x221, 0x0, 0x0,
-                       OnSleepDeprivationStageChanged, 0x0);
-    RegisterActorValue(ActorValue__Index_DAMAGE_THRESHOLD, "DamageThreshold", RESISTANCE, 0x800, FUN_008a0ad0, 0x0,
-                       FUN_008ba270, 0x0);
+                       ((void (&)(ActorValueOwner *, ActorValue::Index, float, float, ActorValueOwner *))::ns8c5b10::OnSleepDeprivationStageChanged), 0x0);
+    RegisterActorValue(ActorValue__Index_DAMAGE_THRESHOLD, "DamageThreshold", RESISTANCE, 0x800, ((float (&)(ActorValueOwner *, ActorValue::Index))::FUN_008a0ad0), 0x0,
+                       ((void (&)(ActorValueOwner *, ActorValue::Index, float, float, ActorValueOwner *))::FUN_008ba270), 0x0);
     for (int index = 0; index < ActorValue__Index_ACTOR_VALUE_COUNT; ++index)
     {
     }
@@ -138,19 +186,19 @@ void ActorValue::LoadActorValueDefinitions()
 // @fnv 0x006701a0
 bool ActorValueInfo::Load(TESFile* file)
 {
-    unsigned char formType = file->GetTESForm();
+    unsigned char formType = ((unsigned char)(reinterpret_cast<::FUN_00472660_shell *>((file))->FUN_00472660()));
     if (formType != 89)
         return false;
-    LoadRecordHeader(file);
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
     SetInitializationState(false);
     int uiChunkID;
-    while ((uiChunkID = file->GetChunkID()) != 0)
+    while ((uiChunkID = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()))) != 0)
     {
         switch (uiChunkID)
         {
         case 0x44494445: {
-            char* editorID = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(editorID, 512);
+            char* editorID = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(editorID), 512);
             SetEditorID_AtRuntime(editorID);
             break;
         }
@@ -158,7 +206,7 @@ bool ActorValueInfo::Load(TESFile* file)
             readOBNDSubRecord(file);
             break;
         case 0x4c4c5546:
-            TESFullNameLoader::LoadFullNameChunk(this, file);
+            ::ReadFullName(this, file);
             break;
         case 0x43534544:
             TESDescription::ReadDescriptionFromFile(this, file);
@@ -167,10 +215,10 @@ bool ActorValueInfo::Load(TESFile* file)
             TESTexture::ReadTextureData(this, file);
             break;
         case 0x4d414e41:
-            if (file->GetChunkSize())
+            if (reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C())
             {
-                char* abbreviation = (char*)_alloca(file->GetChunkSize());
-                file->GetChunkData(abbreviation, 0);
+                char* abbreviation = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(abbreviation), 0);
                 m_cAbbreviation = abbreviation;
             }
             else
@@ -190,13 +238,13 @@ bool ActorValueInfo::Load(TESFile* file)
 float ActorValue::ClampValue(Index index, float value)
 {
     float result = value;
-    if (GetFlag(index, 0x10))
+    if (::FUN_00406d70((*(int *)&(index)), 0x10))
     {
         result = FUN_00404010(0.0f, FUN_0040ebd0(result, 100.0f));
     }
-    else if (GetFlag(index, 8))
+    else if (::FUN_00406d70((*(int *)&(index)), 8))
     {
-        float minimum = GetFlag(index, 0x8000) ? 1.0f : 0.0f;
+        float minimum = ::FUN_00406d70((*(int *)&(index)), 0x8000) ? 1.0f : 0.0f;
         result = FUN_00404010(minimum, FUN_0040ebd0(result, 10.0f));
     }
     return result;
@@ -251,12 +299,12 @@ unsigned int ActorValue::GetCountForSection(Section section)
 // @fnv 0x0066e950
 const char* ActorValue::GetActorValueName(Index index)
 {
-    ActorValueInfo* info = GetActorValueInfo(index);
+    ActorValueInfo* info = ((::ActorValueInfo *)(::FUN_0066e920((*(int *)&(index)))));
     if (info)
     {
-        if (info->GetFullName() && BSStringLength(info->GetFullName()))
+        if (((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((info))->FUN_00408da0())) && ::FUN_0044a670(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((info))->FUN_00408da0()))))
         {
-            return info->GetFullName();
+            return ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((info))->FUN_00408da0()));
         }
         else
         {
@@ -273,7 +321,7 @@ bool ActorValue::TryGetActorValue(ActorValueOwner* owner, Index index, float& va
     ActorValueInfo* info;
     bool result = false;
     value = 0.0f;
-    info = GetActorValueInfo(index);
+    info = ((::ActorValueInfo *)(::FUN_0066e920((*(int *)&(index)))));
     if (info && info->m_pDerivedValueFunction)
     {
         value = info->m_pDerivedValueFunction(owner, index);
@@ -287,7 +335,7 @@ bool ActorValue::TryGetActorValue(ActorValueOwner* owner, Index index, float& va
 void ActorValue::NotifyActorValueChanged(ActorValueOwner* owner, Index index, float oldValue, float newValue,
                                          ActorValueOwner* source)
 {
-    ActorValueInfo* info = GetActorValueInfo(index);
+    ActorValueInfo* info = ((::ActorValueInfo *)(::FUN_0066e920((*(int *)&(index)))));
     if (info && info->m_pActorValueChangedCallback)
     {
         info->m_pActorValueChangedCallback(owner, index, oldValue, newValue, source);
@@ -319,7 +367,7 @@ ActorValue::Index* ActorValue::GetDependentActorValueIndices(Index index, int& c
     ActorValueInfo* info;
     Index* result = 0;
     count = 0;
-    info = GetActorValueInfo(index);
+    info = ((::ActorValueInfo *)(::FUN_0066e920((*(int *)&(index)))));
     if (info)
     {
         result = info->m_aiEnumeratedValues;
@@ -339,7 +387,7 @@ float ActorValueOwner::GetActorValueFloatByIndex(ActorValue::Index index)
 // @fnv 0x0066ee10
 bool ActorValue::HasActorValueChangedCallback(Index index)
 {
-    ActorValueInfo* info = GetActorValueInfo(index);
+    ActorValueInfo* info = ((::ActorValueInfo *)(::FUN_0066e920((*(int *)&(index)))));
     return info && info->m_pActorValueChangedCallback;
 }
 
@@ -352,15 +400,15 @@ int ActorValueOwner::GetActorValueAsInteger(ActorValue::Index index)
 // @fnv 0x0066fe40
 ActorValueInfo::ActorValueInfo(int index, const char* name)
 {
-    SetFormType((ENUM_FORM_ID)0x59);
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)((ENUM_FORM_ID)0x59)));
     if (index != -1)
-        SetFormID(GetActorValueFormID((ActorValue::Index)index), false);
+        reinterpret_cast<::FUN_00485c10_shell *>(this)->FUN_00485c10(GetActorValueFormID((ActorValue::Index)index), false);
     m_pName = (char*)name;
     if (name)
     {
         char buffer[100];
-        sprintf_s(buffer, 100, "AV%s", name);
-        SetScriptName(buffer);
+        ::FUN_00406d00(buffer, 100, "AV%s", name);
+        reinterpret_cast<::FUN_00401290_Class *>(this)->FUN_00401290((int)(buffer));
     }
     m_cAbbreviation = "";
     uFlags = 0;
@@ -442,11 +490,11 @@ bool FUN_0066eba0(ActorValue__Index aeActorValue)
 // @fnv 0x0066fd20
 ActorValue::Section ActorValue::GetSection(Index index)
 {
-    if (FUN_005d1260(index))
+    if (::FUN_005d1260((*(int *)&(index))))
         return ATTRIBUTE;
     if (IsDerivedAttribute(index))
         return DERIVED_ATTRIBUTE;
-    if (IsSkill(index))
+    if (::FUN_0047f060((*(int *)&(index))))
         return SKILL;
     if (IsAIAttribute(index))
         return AI_ATTRIBUTE;
@@ -523,9 +571,9 @@ void* __cdecl FUN_0066e920(int aiIndex)
 // @fnv 0x0066e9f0
 const char* __cdecl FUN_0066e9f0(ActorValue::Index aeActorValue)
 {
-    ActorValueInfo* pinfo = ActorValue::GetActorValueInfo(aeActorValue);
+    ActorValueInfo* pinfo = ((::ActorValueInfo *)(::FUN_0066e920((*(int *)&(aeActorValue)))));
     if (pinfo)
-        return reinterpret_cast<TESFullName*>(reinterpret_cast<char*>(pinfo) + 0x2c)->GetFullName();
+        return ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<TESFullName*>(reinterpret_cast<char*>(pinfo) + 0x2c)))->FUN_00408da0()));
     return 0;
 }
 
@@ -538,7 +586,7 @@ extern "C"
 const char* __cdecl FUN_0066eac0(ActorValue::Index index)
 {
     char* presult = 0;
-    ActorValueInfo* pinfo = ActorValue::GetActorValueInfo(index);
+    ActorValueInfo* pinfo = ((::ActorValueInfo *)(::FUN_0066e920((*(int *)&(index)))));
     if (pinfo)
         presult = pinfo->m_pName;
     return presult;
@@ -553,7 +601,7 @@ struct Flt
 const char* __cdecl FUN_0066eb00(ActorValue::Index aiIndex)
 {
     const char* presult = 0;
-    ActorValueInfo* pinfo = ActorValue::GetActorValueInfo(aiIndex);
+    ActorValueInfo* pinfo = ((::ActorValueInfo *)(::FUN_0066e920((*(int *)&(aiIndex)))));
     if (pinfo)
         presult = (const char*)(reinterpret_cast<Flt*>((char*)pinfo + 0x3c))->operator unsigned int();
     return presult;
@@ -567,7 +615,6 @@ void __fastcall FUN_0066efd0(int)
     ClearActorValueSlots();
 }
 
-int _stricmp(const char* a, const char* b);
 struct FUN_0066eb40_entry
 {
     char pad[0x38];
@@ -580,28 +627,17 @@ int FindEntryIndexByName(const char* apName)
     int result = 0x4D;
     for (int i = 0; i < 0x4D && result == 0x4D; ++i)
     {
-        if (!_stricmp(((FUN_0066eb40_entry**)&g_011d61c8)[i]->name, apName))
+        if (!::FUN_00404dc0(((FUN_0066eb40_entry**)&g_011d61c8)[i]->name, apName))
             result = i;
     }
     return result;
 }
 
-void __cdecl _Deallocate(void*);
 struct Holder00670050
 {
     void FUN_00670080();
     void* FUN_00670050(unsigned int);
 };
-// Calls FUN_00670080, deallocates this when flags has bit 0 set, and returns this.
-// @fnv 0x00670050
-void* Holder00670050::FUN_00670050(unsigned int flags)
-{
-    FUN_00670080();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 // Returns the icon texture path for the given weapon skill index, or null if the index has no mapped icon.
 // @fnv 0x0066ea20
 const char* __cdecl GetWeaponSkillIconPath(int aiSkillIndex)
@@ -634,33 +670,26 @@ const char* __cdecl GetWeaponSkillIconPath(int aiSkillIndex)
 namespace fnv_006703b0 {
 struct S_00487010
 {
-    void FUN_00487010();
 };
 struct FUN_00482cb0_shell
 {
-    void FUN_00482cb0();
 };
 struct FUN_004855a0
 {
-    void M();
 };
 struct FUN_00485680
 {
-    void M();
 };
 struct FUN_0048e370_obj
 {
-    void FUN_0048e370(unsigned int);
 };
 struct S7010
 {
-    unsigned int Length();
 };
 struct Flt
 {
     operator unsigned int();
 };
-void __cdecl FUN_004856f0(unsigned int, void*, unsigned int);
 struct FUN_006703b0_shell
 {
     void FUN_006703b0();
@@ -668,14 +697,14 @@ struct FUN_006703b0_shell
 // @fnv 0x006703b0
 void FUN_006703b0_shell::FUN_006703b0()
 {
-    ((FUN_004855a0*)this)->M();
-    ((S_00487010*)((char*)this + 0x18))->FUN_00487010();
-    ((FUN_00482cb0_shell*)((char*)this + 0x24))->FUN_00482cb0();
-    ((FUN_0048e370_obj*)((char*)this + 0x2c))->FUN_0048e370(0x4e4f4349);
-    if (((S7010*)((char*)this + 0x3c))->Length())
-        FUN_004856f0(0x4d414e41, (void*)((Flt*)((char*)this + 0x3c))->operator unsigned int(),
-                     ((S7010*)((char*)this + 0x3c))->Length() + 1);
-    ((FUN_00485680*)this)->M();
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
+    reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)((char*)this + 0x18))))->FUN_00487010();
+    reinterpret_cast<::FUN_00482cb0_shell *>((((FUN_00482cb0_shell*)((char*)this + 0x24))))->FUN_00482cb0();
+    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_obj*)((char*)this + 0x2c))))->FUN_0048e370(0x4e4f4349);
+    if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((S7010*)((char*)this + 0x3c))))->FUN_004048e0())))
+        ::FUN_004856f0((void *)(0x4d414e41), (void*)((Flt*)((char*)this + 0x3c))->operator unsigned int(),
+                     (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((S7010*)((char*)this + 0x3c))))->FUN_004048e0())) + 1));
+    reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
 }
 }  // namespace fnv_006703b0
 
@@ -696,14 +725,12 @@ struct Overlay24
 // @fnv 0x0066e9b0
 const char* GetActorValueDescription(ActorValue::Index aiIndex)
 {
-    ActorValueInfo* pinfo = ActorValue::GetActorValueInfo(aiIndex);
+    ActorValueInfo* pinfo = ((::ActorValueInfo *)(::FUN_0066e920((*(int *)&(aiIndex)))));
     if (pinfo)
         return ((Overlay24*)pinfo)->inner.GetDesc(0, 0x43534544);
     return 0;
 }
 
-extern double DAT_01012060;
-bool __cdecl FUN_00406d70(int, unsigned int);
 
 struct FUN_0066eea0_Object
 {
@@ -720,9 +747,9 @@ float __cdecl FUN_0066eea0(FUN_0066eea0_Object* object, int index, float value)
 {
     float result = value;
 
-    if (value < DAT_01012060)
+    if (value < ::_DAT_01012060)
     {
-        if (FUN_00406d70(index, 0x20))
+        if (::FUN_00406d70(index, 0x20))
         {
             float total = static_cast<float>(object->vf04(index) + object->vf14(index));
             if (total < -value)
@@ -745,7 +772,6 @@ class ActorValueSlotObject
     virtual int Unk_04(int flag);
 };
 
-extern ActorValueSlotObject* DAT_011d61c8[0x4d];
 extern bool DAT_011d6154;
 
 // Calls Unk_04(1) on each non-null entry of DAT_011d61c8, nulls the entries, and clears DAT_011d6154.
@@ -754,12 +780,12 @@ void ClearActorValueSlots()
 {
     for (int i = 0; i < 0x4d; i++)
     {
-        if (DAT_011d61c8[i] != 0)
+        if ((*reinterpret_cast<ActorValueSlotObject * (*)[77]>(&::g_011d61c8))[i] != 0)
         {
-            ActorValueSlotObject* tmp = DAT_011d61c8[i];
+            ActorValueSlotObject* tmp = (*reinterpret_cast<ActorValueSlotObject * (*)[77]>(&::g_011d61c8))[i];
             ActorValueSlotObject* objVal = tmp;
             objVal != 0 ? objVal->Unk_04(1) : 0;
-            DAT_011d61c8[i] = 0;
+            (*reinterpret_cast<ActorValueSlotObject * (*)[77]>(&::g_011d61c8))[i] = 0;
         }
     }
     DAT_011d6154 = 0;
@@ -807,6 +833,15 @@ struct FUN_00670080 : FUN_00670080_Primary, FUN_00670080_Base18, FUN_00670080_Ba
     FUN_00670080_Member m_3c;
     virtual ~FUN_00670080();
 };
+// Calls FUN_00670080, deallocates this when flags has bit 0 set, and returns this.
+// @fnv 0x00670050
+void* Holder00670050::FUN_00670050(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00670080 *>(this)->FUN_00670080::~FUN_00670080();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Empty destructor for FUN_00670080; the compiler-generated member and base destructors run implicitly.
 // @fnv 0x00670080
@@ -820,7 +855,6 @@ struct BSStringTCharAssign
 
 struct FormCopyHelper
 {
-    void CopyBaseForm(TESForm* form);
 };
 
 struct ActorValueInfoCopy : ActorValueInfo
@@ -837,7 +871,7 @@ void ActorValueInfoCopy::FUN_00670430(TESForm* form)
     if (!pSource)
         return;
     m_pName = pSource->m_pName;
-    *(BSStringTCharAssign*)&m_cAbbreviation = *(BSStringTCharAssign*)&pSource->m_cAbbreviation;
+    reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::BSStringTCharAssign &)(*(BSStringTCharAssign*)&m_cAbbreviation))->CallAndReturnSelf((int)&(*(BSStringTCharAssign*)&pSource->m_cAbbreviation));
     uFlags = pSource->uFlags;
     m_pDerivedValueFunction = pSource->m_pDerivedValueFunction;
     m_pActorValueMapping = pSource->m_pActorValueMapping;
@@ -848,21 +882,18 @@ void ActorValueInfoCopy::FUN_00670430(TESForm* form)
         m_aiEnumeratedValues[i] = pSource->m_aiEnumeratedValues[i];
     for (; i < 15; i++)
         m_aiEnumeratedValues[i] = (ActorValue::Index)0x4d;
-    ((FormCopyHelper*)this)->CopyBaseForm(form);
+    reinterpret_cast<::FormCloneOperation *>((((FormCopyHelper*)this)))->FUN_004851b0(form);
 }
 
-extern const int _DAT_01183028;
 extern const int typeinfo_BGSPerk;
 extern "C" void* __cdecl FNV_DynamicCast(void*, long, const void*, const void*, int);
 
 struct ActorValueStringCompare
 {
-    bool FUN_00501c30(const BSStringT<char>*);
 };
 
 struct ActorValueCompare : ActorValueInfo
 {
-    bool FUN_00485270(TESForm*);
     bool FUN_00670540(TESForm* form);
 };
 
@@ -871,12 +902,12 @@ struct ActorValueCompare : ActorValueInfo
 bool ActorValueCompare::FUN_00670540(TESForm* form)
 {
     ActorValueInfo* other =
-        static_cast<ActorValueInfo*>(FNV_DynamicCast(form, 0, &_DAT_01183028, &typeinfo_BGSPerk, 0));
+        static_cast<ActorValueInfo*>(FNV_DynamicCast(form, 0, &::DAT_01183028, &typeinfo_BGSPerk, 0));
     if (!other)
         return true;
-    if (FUN_00485270(other))
+    if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270(other))
         return true;
-    if (reinterpret_cast<ActorValueStringCompare*>(&m_cAbbreviation)->FUN_00501c30(&other->m_cAbbreviation))
+    if (reinterpret_cast<::Dummy00501c30 *>((reinterpret_cast<ActorValueStringCompare*>(&m_cAbbreviation)))->FUN_00501c30((const char *)(const ::BSStringT<char> *)(&other->m_cAbbreviation)))
         return true;
     return false;
 }

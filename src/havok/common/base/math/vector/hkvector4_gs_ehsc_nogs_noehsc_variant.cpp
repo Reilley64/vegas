@@ -20,6 +20,7 @@
 // The helper returns its first argument, which is what pins that argument
 // to EAX; the parameter order (out, self, count) is what makes the call site
 // materialise EDX before ESI.
+#include "fnv/symbols_01012000.h"
 struct Cls_c7f4e0
 {
     float unk00[8];
@@ -44,7 +45,6 @@ static __declspec(noinline) void* FUN_00c7f4a0(void* out, void* self, int count)
 #include <xmmintrin.h>
 #include <math.h>
 extern "C" double fabs(double x);
-extern const double DAT_01012070;
 
 struct hkBool_c7f5
 {
@@ -79,14 +79,13 @@ hkBool_c7f5 hkVector4_c7f5::FUN_00c7f520(float eps) const
         len = _mm_add_ss(_mm_shuffle_ps(sq, sq, 0xaa), len);
         float lenSq;
         _mm_store_ss(&lenSq, len);
-        float lenZero = (float)(lenSq - DAT_01012070);
+        float lenZero = (float)(lenSq - ::g_01012070);
         return (float)fabs(lenZero) < eps;
     }
     return false;
 }
 
 extern "C" double fabs(double x);
-extern const double DAT_01012070;
 
 struct hkBool_c7f5b
 {
@@ -121,7 +120,7 @@ hkBool_c7f5b hkVector4_c7f5b::FUN_00c7f5b0(float eps) const
         __m128 len = _mm_add_ps(_mm_shuffle_ps(sum, sum, 0xb1), sum);
         float lenSq;
         _mm_store_ss(&lenSq, len);
-        float lenZero = (float)(lenSq - DAT_01012070);
+        float lenZero = (float)(lenSq - ::g_01012070);
         return (float)fabs(lenZero) < eps;
     }
     return false;

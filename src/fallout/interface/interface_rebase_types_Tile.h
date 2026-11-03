@@ -1,6 +1,13 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef FNV_INTERFACE_REBASE_FNV_INTERFACE_TABLINE_TILE_H
 #define FNV_INTERFACE_REBASE_FNV_INTERFACE_TABLINE_TILE_H
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/TileListBoxCalls.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
+#include "fnv/decl/fnv_00a03da0__FUN_00a03da0_shell.h"
+#include "fnv/symbols_00a01000.h"
+#include "fnv/symbols_00a04000.h"
+#include "fnv/symbols_00a09000.h"
 #include "interface_rebase_layout_support.h"
 #include "interface_rebase_layout_support.h"
 class NiTAbstractPoolAllocator_unsigned_int_;
@@ -101,15 +108,7 @@ FNV_STATIC_ASSERT(sizeof(NiTPointerList_Tile___) == 12);
 class Tile
 {
   public:
-    static Menu* FindMenuById(unsigned int);
-    Menu* GetMenu() const;
-    void SetString(int trait, const char* text, bool clearActions);
     void SetName(const char* name);
-    void SetInt(int trait, int value);
-    float GetFloat(int trait) const;
-    Tile* GetNamedChild(const char* name) const;
-    static int GetTraitID(const char* name);
-    static void UpdateAll(bool force);
 
     void** m_ppVirtualMethodTable;                           // +0x0, 4 bytes
     NiTPointerList_Tile___ m_kChildTileList;   // +0x4, 12 bytes
@@ -235,6 +234,8 @@ class Tile
     // bool __cdecl Tile::*()
     // Tile& __cdecl Tile::*(const Tile&)
     // void __cdecl Tile::*()
+public:
+    void Set(int, int);
 };
 FNV_STATIC_ASSERT(sizeof(Tile) == 56);
 FNV_STATIC_ASSERT(offsetof(Tile, m_ppVirtualMethodTable) == 0);

@@ -1,5 +1,7 @@
 // fallout_shared/region system/tesregionpointlist_cell.h: declares TESRegionList, TESRegionPointList_CellExtraList, TESObjectCELL
 
+#include "fnv/decl/FUN_0041bbd0_shell.h"
+#include "fnv/decl/FUN_0041bce0_class.h"
 class TESRegionList
 {
   public:
@@ -9,8 +11,6 @@ class TESRegionList
 class TESRegionPointList_CellExtraList
 {
   public:
-    TESRegionList* FUN_0041bce0();
-    void SetRegionList(TESRegionList*);
 };
 class TESObjectCELL
 {

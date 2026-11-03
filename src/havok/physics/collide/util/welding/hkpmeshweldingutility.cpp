@@ -2,6 +2,15 @@
 // src/havok/physics/collide/util/welding/hkpmeshweldingutility.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/util/welding/hkpmeshweldingutility.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cbf000.h"
+#include "fnv/symbols_00d2c000.h"
+#include "fnv/symbols_00ddd000.h"
+#include "fnv/symbols_00dde000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101f000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_01268000.h"
 struct Record
 {
     float x, y, key;
@@ -57,15 +66,8 @@ void FUN_00ddeb70(Record* records, int left, int right, int comparator)
 
 struct DynamicArray
 {
-    void SpliceElements(int a, int b, int c, int d, int e);
     void FUN_00ddecb0(int a, int b, int c, int d);
 };
-// @fnv 0x00ddecb0
-void DynamicArray::FUN_00ddecb0(int a, int b, int c, int d)
-{
-    SpliceElements(a, b, 0, c, d);
-}
-
 struct S_00ddecf0_Key
 {
     float t;
@@ -91,7 +93,6 @@ struct S_00ddecf0_Array
 {
     S_00ddecf0_Key* m_data;
     int m_iElementCount;
-    void FUN_00ddecd0(S_00ddecf0_Heap& heap, int index, const S_00ddecf0_Key& key);
 };
 
 struct S_00ddecf0
@@ -101,36 +102,15 @@ struct S_00ddecf0
     void InsertKey(float t, float a, float b);
 };
 
-// @fnv 0x00ddecf0
-void S_00ddecf0::InsertKey(float t, float a, float b)
-{
-    int n = m_keys.m_iElementCount;
-    for (int i = 0; i < n; i++)
-    {
-        if (m_keys.m_data[i].t < t)
-        {
-            n = i + 1;
-            break;
-        }
-    }
-    S_00ddecf0_Key key;
-    key.t = t;
-    key.a = a;
-    key.b = b;
-    m_keys.FUN_00ddecd0(FUN_00c85750()->heap(), n, key);
-}
-
 extern double DAT_010cd5a8;
-extern double DAT_0101ff40;
 
-float FUN_00ddd7e0(int a1, int* pOut, float* pF);
 
 // @fnv 0x00dddc40
 int GetIndexForValue(int aiArg)
 {
     int n;
     float tmp;
-    tmp = FUN_00ddd7e0(aiArg, &n, &tmp);
+    tmp = ::FUN_00ddd7e0((const ::hkVector4q *)(aiArg), (float *)(int *)(&n), &tmp);
     float r = tmp;
 
     for (n = 0; n < 31; n++)
@@ -178,7 +158,6 @@ struct Mgr
     virtual void Read(bool* out, unsigned int hash);
 };
 
-extern Mgr* DAT_01268360;
 
 __declspec(align(16)) struct QueryBuffer
 {
@@ -312,7 +291,6 @@ __declspec(align(16)) struct QueryBuffer
     unsigned int unk1FC;
 };
 
-int FUN_00dde4c0(Iface* self, void* a, void* b, int idx, int zero, int* out);
 
 // Reads a flag, clears it, runs up to three sub-queries via FUN_00dde4c0, sets result false if any returns 1, then restores the flag.
 // @fnv 0x00dde930
@@ -321,17 +299,17 @@ bool* CheckSubQueries(bool* result, void* key, Iface* self)
     QueryBuffer queryBuf;
     void* sub = self->GetSub()->Query(key, &queryBuf);
     bool flag;
-    DAT_01268360->Read(&flag, 0xfe98751e);
+    (*reinterpret_cast<::Mgr * *>(&::DAT_01268360))->Read(&flag, 0xfe98751e);
     if (flag)
     {
-        Mgr* mgr = DAT_01268360;
+        Mgr* mgr = (*reinterpret_cast<::Mgr * *>(&::DAT_01268360));
         mgr->Write(0xfe98751e, FlagTag(false));
     }
     *result = true;
     int n = 0;
     for (int i = 0; i < 3; i++)
     {
-        if (FUN_00dde4c0(self, sub, key, i, 0, &n) == 1)
+        if (::FUN_00dde4c0((::S00dde4c0_Mesh *)(self), (::S00dde4c0_Tri *)(sub), (int)(key), i, 0, (unsigned short *)(int *)(&n)) == 1)
         {
             *result = false;
             break;
@@ -339,14 +317,12 @@ bool* CheckSubQueries(bool* result, void* key, Iface* self)
     }
     if (flag)
     {
-        Mgr* mgr = DAT_01268360;
+        Mgr* mgr = (*reinterpret_cast<::Mgr * *>(&::DAT_01268360));
         mgr->Write(0xfe98751e, FlagTag(true));
     }
     return result;
 }
 
-void* FUN_00c908c0(void* alloc, void* arr, int numElems, int elemSize);
-void FUN_00d2cc70(void* dst, const void* src, int numBytes);
 
 inline void* operator new(unsigned int, void* p)
 {
@@ -373,12 +349,17 @@ struct S_00ddeab0
         {
             int cap2 = cap + cap;
             int newcap = (numElems < cap2) ? cap2 : numElems;
-            FUN_00c908c0(alloc, this, newcap, 12);
+            ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(void *)(this), newcap, 12);
         }
     }
 
     void SpliceElements(void* alloc, int index, int numdel, const S_00ddeab0_Elem* p, int numtoinsert);
 };
+// @fnv 0x00ddecb0
+void DynamicArray::FUN_00ddecb0(int a, int b, int c, int d)
+{
+    reinterpret_cast<::S_00ddeab0 *>(this)->SpliceElements((void *)(a), b, 0, (const ::S_00ddeab0_Elem *)(c), d);
+}
 
 // Replaces numdel elements at index with numtoinsert copies from p, shifting the tail and growing the buffer if needed.
 // @fnv 0x00ddeab0
@@ -387,7 +368,7 @@ void S_00ddeab0::SpliceElements(void* alloc, int index, int numdel, const S_00dd
     int newsize = m_iElementCount - numdel + aiNumInsert;
     unsigned int numtomove = m_iElementCount - index - numdel;
     GrowArrayCapacity(alloc, newsize);
-    FUN_00d2cc70(&m_data[index + aiNumInsert], &m_data[index + numdel], numtomove * 12);
+    ::FUN_00d2cc70(&m_data[index + aiNumInsert], (void *)(&m_data[index + numdel]), numtomove * 12);
     S_00ddeab0_Elem* dst = m_data + index;
     for (int i = 0; i < aiNumInsert; ++i)
     {
@@ -398,13 +379,30 @@ void S_00ddeab0::SpliceElements(void* alloc, int index, int numdel, const S_00dd
 
 struct S_00ddecd0
 {
-    void FUN_00ddecb0(int a, int b, int c, int flag);
     void FUN_00ddecd0(int a, int b, int c);
 };
+// @fnv 0x00ddecf0
+void S_00ddecf0::InsertKey(float t, float a, float b)
+{
+    int n = m_keys.m_iElementCount;
+    for (int i = 0; i < n; i++)
+    {
+        if (m_keys.m_data[i].t < t)
+        {
+            n = i + 1;
+            break;
+        }
+    }
+    S_00ddecf0_Key key;
+    key.t = t;
+    key.a = a;
+    key.b = b;
+    reinterpret_cast<::S_00ddecd0 *>(&(m_keys))->FUN_00ddecd0((int)&(FUN_00c85750()->heap()), n, (int)&(key));
+}
 // @fnv 0x00ddecd0
 void S_00ddecd0::FUN_00ddecd0(int aiArg1, int aiArg2, int aiArg3)
 {
-    FUN_00ddecb0(aiArg1, aiArg2, aiArg3, 1);
+    reinterpret_cast<::DynamicArray *>(this)->FUN_00ddecb0(aiArg1, aiArg2, aiArg3, 1);
 }
 
 struct FourFloatVector
@@ -446,7 +444,6 @@ struct LocalBuffer
 
 char* IsDegenerateTriangle(char* out, const FourFloatVector* v0, const FourFloatVector* v1, const FourFloatVector* v2,
                            float eps);
-int FUN_00dde4c0(ObjOuter* p2, Transform* trans, void* p1, int i, void* p3, int* outLocal);
 
 // @fnv 0x00dde880
 int __cdecl CheckTransformAndProcess(void* p1, ObjOuter* pOuter, void* p3, short* outWord)
@@ -467,7 +464,7 @@ int __cdecl CheckTransformAndProcess(void* p1, ObjOuter* pOuter, void* p3, short
     int local2 = 0;
     for (int i = 0; i < 3; ++i)
     {
-        int iRet = FUN_00dde4c0(pOuter, trans, p1, i, p3, &iResult);
+        int iRet = ::FUN_00dde4c0((::S00dde4c0_Mesh *)(pOuter), (::S00dde4c0_Tri *)(trans), (int)(p1), i, (int)(p3), (unsigned short *)(int *)(&iResult));
         if (iRet == 1)
         {
             local2 = iRet;
@@ -482,6 +479,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 
 extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_and_ps(__m128 a, __m128 b);
@@ -489,8 +487,6 @@ extern "C" __m128 _mm_cmple_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_load_ps1(const float* p);
 extern "C" int _mm_movemask_ps(__m128 a);
 
-extern const float DAT_01017d00;
-extern const __m128 DAT_01017d10;
 
 class hkBoolDDCE
 {
@@ -511,7 +507,7 @@ struct hkVector4DDCE
     {
         __m128 t = _mm_sub_ps(m_vComponents, v.m_vComponents);
         t = _mm_and_ps(t, DAT_01017d10);
-        const __m128 eps = _mm_load_ps1(&DAT_01017d00);
+        const __m128 eps = _mm_load_ps1(&::AngularDashpotApplyD4DCB0::DAT_01017d00);
         return (_mm_movemask_ps(_mm_cmple_ps(t, eps)) & 7) == 7;
     }
 };
@@ -561,7 +557,6 @@ extern "C"
 
 typedef float hkReal;
 
-extern __m128 DAT_010c4c00;
 
 struct hkVector4
 {
@@ -582,7 +577,7 @@ struct hkVector4
     }
     __forceinline void setNeg3(const hkVector4& v)
     {
-        m_vComponents = _mm_xor_ps(v.m_vComponents, DAT_010c4c00);
+        m_vComponents = _mm_xor_ps(v.m_vComponents, (*reinterpret_cast<::fnv_00ddd940::__m128 *>(&::DAT_010c4c00)));
     }
     __forceinline void setCross(const hkVector4& v0, const hkVector4& v1)
     {
@@ -620,14 +615,13 @@ struct TriangleShape
     hkVector4 m_kVertices[3];
 };
 
-void FUN_00ddd620(const hkVector4& a, const hkVector4& b, const hkVector4& c, hkVector4& normalOut);
 
 // Builds five planes for a triangle: its normal, the negated normal, and three edge planes (edge crossed with normal, normalized), each offset by -radius.
 // @fnv 0x00ddd940
 void GenerateTrianglePlanes(hkVector4* planes, const TriangleShape* triangle, hkReal radius)
 {
     hkVector4 normal;
-    FUN_00ddd620(triangle->m_kVertices[0], triangle->m_kVertices[1], triangle->m_kVertices[2], normal);
+    ::FUN_00ddd620((const ::NormalVector *)&(triangle->m_kVertices[0]), (const ::NormalVector *)&(triangle->m_kVertices[1]), (const ::NormalVector *)&(triangle->m_kVertices[2]), (::NormalVector *)&(normal));
 
     hkReal d = -radius;
 
@@ -883,25 +877,22 @@ struct S_00ddecf0_Heap
     }
 };
 
-extern const double DAT_010290b8;
 __declspec(nothrow) S_00ddecf0_Router* FUN_00c85750();
-void __cdecl ResizeAudioStream(void* heap, void* arr, int elemSize) throw();
 
 struct KeyLess
 {
 };
-void __cdecl FUN_00ddeb70(S_00ddecf0_Key* keys, int left, int right, KeyLess cmp) throw();
 template <typename T, typename L> inline void quickSort(T* pArr, int size, L cmpLess)
 {
     if (size > 1)
-        FUN_00ddeb70(pArr, 0, size - 1, cmpLess);
+        ::FUN_00ddeb70((::Record *)(pArr), 0, size - 1, (*(int *)&(const ::KeyLess &)(cmpLess)));
 }
 extern "C" double __cdecl fabs(double);
 __declspec(noinline) ComparisonResult __cdecl AreZDiffering(const S_00ddecf0_Key& a, const S_00ddecf0_Key& b) throw()
 {
     float delta = a.b - b.b;
     float distance = (float)fabs(delta);
-    bool same = distance < DAT_01017d00;
+    bool same = distance < ::AngularDashpotApplyD4DCB0::DAT_01017d00;
     return ComparisonResult(!same);
 }
 
@@ -942,7 +933,7 @@ template <typename T> struct SpanStorage
     __forceinline void append(S_00ddecf0_Heap& alloc, const T& value)
     {
         if (m_iElementCount == capacity())
-            ResizeAudioStream(&alloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(T));
         T* dest = m_data + m_iElementCount;
         new (dest) T(value);
         ++m_iElementCount;
@@ -1051,7 +1042,7 @@ volatile unsigned char* __cdecl FUN_00ddcf60(volatile unsigned char* out, const 
 {
     __m128 pt = apShape->p0.v;
     __m128 q = apPointA->v;
-    __m128 eps = _mm_load_ps1(&DAT_01017d00);
+    __m128 eps = _mm_load_ps1(&::AngularDashpotApplyD4DCB0::DAT_01017d00);
     __m128 mask = DAT_01017d10;
 
     bool v =
@@ -1079,7 +1070,6 @@ extern "C"
     __m128 _mm_cmpeq_ss(__m128, __m128);
     __m128 _mm_set_ss(float);
     void _mm_store_ss(float*, __m128);
-    float __cdecl Atan2(float y, float x);
 }
 
 struct hkVector4q
@@ -1136,10 +1126,8 @@ struct hkVector4q
 
 static __forceinline float hkAtan2(float y, float x)
 {
-    return Atan2(y, x);
+    return ::Atan2(y, x);
 }
-void __cdecl FUN_00ddd620_triNormal(const hkVector4q& a, const hkVector4q& b, const hkVector4q& c,
-                                    hkVector4q& normalOut);
 
 // Computes the dihedral angle between two adjacent triangles via their normals and edge cross product, storing sin and cos outputs.
 // @fnv 0x00ddd7e0
@@ -1147,8 +1135,8 @@ float FUN_00ddd7e0(const hkVector4q* apVertices, float* sinOut, float* cosOut)
 {
     hkVector4q nA;
     hkVector4q nB;
-    FUN_00ddd620_triNormal(apVertices[0], apVertices[1], apVertices[2], nA);
-    FUN_00ddd620_triNormal(apVertices[1], apVertices[0], apVertices[3], nB);
+    ::FUN_00ddd620((const ::NormalVector *)&(apVertices[0]), (const ::NormalVector *)&(apVertices[1]), (const ::NormalVector *)&(apVertices[2]), (::NormalVector *)&(nA));
+    ::FUN_00ddd620((const ::NormalVector *)&(apVertices[1]), (const ::NormalVector *)&(apVertices[0]), (const ::NormalVector *)&(apVertices[3]), (::NormalVector *)&(nB));
 
     hkVector4q edge;
     edge.setSub4(apVertices[1], apVertices[0]);
@@ -1196,18 +1184,16 @@ struct S00dde760_ScratchVector
     char* originalCursor;
 };
 
-extern "C" Matrix44 DAT_01268370;
-extern "C" void __cdecl FUN_00dddcd0(const Matrix44*, int, int, S00dde760_ScratchVector*, int);
 
 // Copies DAT_01268370 into a local Item, allocates a scratch vector from the pool, and passes it to FUN_00dddcd0.
 // @fnv 0x00dde760
 void __cdecl FUN_00dde760(int a, int aiPayload, int c, int d)
 {
     Item item;
-    _mm_store_ps(&item.transform.row0.x, _mm_load_ps(&DAT_01268370.row0.x));
-    _mm_store_ps(&item.transform.row1.x, _mm_load_ps(&DAT_01268370.row1.x));
-    _mm_store_ps(&item.transform.row2.x, _mm_load_ps(&DAT_01268370.row2.x));
-    _mm_store_ps(&item.transform.row3.x, _mm_load_ps(&DAT_01268370.row3.x));
+    _mm_store_ps(&item.transform.row0.x, _mm_load_ps(&(*reinterpret_cast<::Matrix44 *>(&::DAT_01268370)).row0.x));
+    _mm_store_ps(&item.transform.row1.x, _mm_load_ps(&(*reinterpret_cast<::Matrix44 *>(&::DAT_01268370)).row1.x));
+    _mm_store_ps(&item.transform.row2.x, _mm_load_ps(&(*reinterpret_cast<::Matrix44 *>(&::DAT_01268370)).row2.x));
+    _mm_store_ps(&item.transform.row3.x, _mm_load_ps(&(*reinterpret_cast<::Matrix44 *>(&::DAT_01268370)).row3.x));
     item.payload = aiPayload;
     S00dde760_ScratchVector vector;
     vector.elements = 0;
@@ -1222,14 +1208,14 @@ void __cdecl FUN_00dde760(int a, int aiPayload, int c, int d)
     poolState = ((S00dde760_PoolState*)FUN_00c85750());
     if (vector.size == (vector.encodedCapacity & 0x3fffffff))
     {
-        ResizeAudioStream(poolState->allocator, &vector, 0x50);
+        ::ResizeAudioStream((::AudioAllocator *)(poolState->allocator), (::AudioStream *)(void *)(&vector), 0x50);
     }
     Item* destination = vector.elements + vector.size;
     if (destination != 0)
         reinterpret_cast<FUN_00ddea00_cls*>(destination)
             ->CopyFromSource(reinterpret_cast<const FUN_00ddea00_src*>(&item));
     ++vector.size;
-    FUN_00dddcd0(&DAT_01268370, a, c, &vector, d);
+    ::FUN_00dddcd0((*(const ::hkTransformW *)(&(*reinterpret_cast<::Matrix44 *>(&::DAT_01268370)))), (::hkpShapeCollectionW *)(a), c, (*(::hkShapeInfoArrayW *)(&vector)), d);
     char* finalCursor = vector.originalCursor;
     if (finalCursor == reinterpret_cast<char*>(vector.elements))
         vector.size = 0;

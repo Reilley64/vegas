@@ -2,6 +2,11 @@
 #ifndef TESCONDITIONFUNCTIONS_CONDITIONFN_DEP_TESOBJECTREFR_H
 #define TESCONDITIONFUNCTIONS_CONDITIONFN_DEP_TESOBJECTREFR_H
 
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
 #include "tesconditionfunctions_conditionfn_dep_layout_support_decl_tesconditionfunctions.h"
 #include "tesconditionfunctions_conditionfn_dep_ExtraDataList.h"
 #include "tesconditionfunctions_conditionfn_dep_OBJ_REFR.h"
@@ -10,7 +15,7 @@
 class TESObjectREFR : public TESForm
 {
   public:
-    class TESWorldSpace* FUN_00575d70();  // declared for the original code (decl_variants.py)
+      // declared for the original code (decl_variants.py)
 
   public:
     TESChildCell tESChildCellComponent;  // +0x18
@@ -92,10 +97,6 @@ class TESObjectREFR : public TESForm
     {
         CHANGE_SCRIPT_VARIABLES = 0x80000000u
     };
-    ScriptLocals* GetReferenceLocals();
-    TESObjectCELL* GetParentCell();
-    TESBoundObject* GetObjectReference();
-    ExtraDataList* GetExtraData();
 };
 FNV_STATIC_ASSERT(sizeof(TESObjectREFR) == 0x68);
 FNV_STATIC_ASSERT(offsetof(TESObjectREFR, tESChildCellComponent) == 0x18);

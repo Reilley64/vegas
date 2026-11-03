@@ -1,6 +1,70 @@
 #ifndef FNV_DIALOGMENU_RUNTIME_H
 #define FNV_DIALOGMENU_RUNTIME_H
 
+#include "fnv/decl/B61F2B0Object.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_0041cb10_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/FUN_004eaf60_shell.h"
+#include "fnv/decl/FUN_00516bf0_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_0061f170_cls.h"
+#include "fnv/decl/FUN_0063f790_shell.h"
+#include "fnv/decl/FUN_00672850_shell.h"
+#include "fnv/decl/FUN_00762130_dummy.h"
+#include "fnv/decl/FUN_00833c20_shell.h"
+#include "fnv/decl/FUN_0083e110_shell.h"
+#include "fnv/decl/FUN_0083e430_shell.h"
+#include "fnv/decl/FUN_0083ec30_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008b3ab0_shell.h"
+#include "fnv/decl/FUN_00934250_shell.h"
+#include "fnv/decl/FUN_009344a0_shell.h"
+#include "fnv/decl/FUN_00953ce0_Class.h"
+#include "fnv/decl/FUN_009655a0_Class.h"
+#include "fnv/decl/FUN_00ad8650_cls.h"
+#include "fnv/decl/MagicCaster_shell.h"
+#include "fnv/decl/Mgr.h"
+#include "fnv/decl/Owner83F1A0.h"
+#include "fnv/decl/S8840.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TopicS.h"
+#include "fnv/decl/TutorialMessageGate718.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_00881680__FUN_00881680_shell.h"
+#include "fnv/decl/fnv_008bb650__PlayerView.h"
+#include "fnv/decl/fnv_00951a10__ThisCls.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_00574000.h"
+#include "fnv/symbols_00579000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005d2000.h"
+#include "fnv/symbols_005d4000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_008bc000.h"
+#include "fnv/symbols_008c1000.h"
+#include "fnv/symbols_011a0000.h"
+#include "fnv/symbols_011cd000.h"
+#include "fnv/symbols_011d0000.h"
+#include "fnv/symbols_011d2000.h"
+#include "fnv/symbols_011d3000.h"
+#include "fnv/symbols_011d4000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011d9000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f2000.h"
+#include "fnv/symbols_011f6000.h"
 #include "dialogmenu_decls.h"
 class MediaSet;
 template <> class BSSimpleList<MediaSet*>
@@ -8,31 +72,23 @@ template <> class BSSimpleList<MediaSet*>
   public:
     MediaSet* m_item;
     BSSimpleList* m_pkNext;
-    void AddTail(MediaSet* const&);
 };
 void* operator new(unsigned int) throw();
 void operator delete(void*) throw();
-extern "C" int sprintf_s(char*, unsigned int, const char*, ...);
 class TaskQueueInterface
 {
   public:
     static void CopyStringToBuffer(char*, unsigned int, const char*);
 };
 int strcat_s(char*, unsigned int, const char*);
-int Warning(const char*, ...);
 class DialogueItem
 {
   public:
-    TESTopicInfo* GetInfo();
-    TESQuest* GetQuest();
-    TESTopic* GetAudioBackendData();
     TESObjectREFR* SelectDefaultResponseList();
 };
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Float();
-    const char* String();
 };
 union SETTING_VALUE
 {
@@ -44,12 +100,7 @@ union SETTING_VALUE
 class TimeGlobal
 {
   public:
-    unsigned int GetTimeStamp();
-    float FUN_0084d030();
 };
-extern TimeGlobal g_timeGlobal;
-extern SettingT_GameSettingCollection_ DAT_011d27fc, DAT_011d3fe8;
-extern SettingT_GameSettingCollection_ DAT_011d0a24;
 extern int DAT_011d9504;
 class TileListBoxCalls
 {
@@ -66,18 +117,14 @@ class BGSImpactDataSet;
 class BGSExplosion
 {
   public:
-    BGSImpactDataSet* FUN_00516bf0();
 };
 class TESObjectREFR
 {
   public:
-    TESBoundObject* GetObjectReference();
-    ExtraDataList* GetExtraData();
 };
 class ExtraDataList
 {
   public:
-    TESPackage* GetPackageOverride();
 };
 class TESPackage
 {
@@ -88,7 +135,6 @@ class TESPackage
         OtherDialogue = 28
     };
     PTYPE GetPackType();
-    float GetPackageFloatValue();
 };
 int ComputeWeightedValue(float, float, int);
 class TESBoundObject
@@ -103,15 +149,10 @@ class TESTopicInfo : public TESForm
     signed char challengeFlags;
     unsigned char infoPadding26[26];
     TESForm* m_pPerkSkillStat;
-    bool FUN_00579200();
     bool IsChallengeFlagSet();
     ActorValueInfo* GetActorValue();
     BGSPerk* GetPerk();
-    int GetNextSpeakerType();
-    void RunResultScript(bool, MobileObject*);
     void AddTopicList();
-    PerkEntryConditionSet* GetInfoConditions();
-    bool IsFlagSet();
 };
 class PerkEntryConditionSet
 {
@@ -155,8 +196,6 @@ class MenuTopic
     MenuTopic(TESQuest*, TESTopic*, TESTopicInfo*, MobileObject*, bool);
     ~MenuTopic();
     DialogueResponse* GetActiveResponse();
-    bool NextResponse();
-    void FillResponseList();
 };
 class TopicMenuController
 {
@@ -165,41 +204,30 @@ class TopicMenuController
     MenuTopic* GetFirstTopic();
     bool SelectTopic(bool);
     bool AdvanceTopic();
-    bool FUN_0083e430(int);
-    bool ShouldSkipTopic(MenuTopic*);
     bool Initialize(MobileObject*, TESTopic*);
-    bool FUN_00833c20();
-    void AddHeadIfNotNull(BSSimpleList<MenuTopic*>*);
     void RunTopicResultScript();
-    void UpdateTopicList();
     static void IncrementMiscStat(int);
 };
 class Date;
 class PlayerQuestData
 {
   public:
-    Date* GetLogDate();
 };
 class NiPoint3
 {
   public:
     float x, y, z;
     NiPoint3 operator-(const NiPoint3&) const;
-    float Length() const;
+public:
+    float ComputeMagnitude() const;
 };
 class BSFaceGenNiNode
 {
   public:
-    void StopMoving(bool);
 };
 class MobileObject
 {
   public:
-    bool FUN_00574900();
-    TESPackage* GetCurrentPackage();
-    const char* GetFullName();
-    void FUN_00934250();
-    bool IsInThirdPerson();
     virtual void vfn_0();
     virtual void vfn_4();
     virtual void vfn_8();
@@ -493,6 +521,8 @@ class MobileObject
     virtual void RewardXP(unsigned int);
     unsigned char layoutPadding4[0x78];
     bool bDialogueSelected;
+public:
+    bool IsInDialogueWithPlayer() const;
 };
 class BaseProcess
 {
@@ -906,33 +936,20 @@ class BaseProcess
 class Actor : public MobileObject
 {
   public:
-    void SetSpeakingState(bool);
-    void StopMoving();
-    bool ShouldShowSubtitles();
-    static void SetActorDialogueState(unsigned int, bool);
 };
 class PlayerCharacter : public MobileObject
 {
   public:
     unsigned char layoutPadding80[0x24];
     ActorValueOwner actorValueOwner;
-    bool FUN_004eaf60();
-    void Show1stPerson(bool);
     void FocusOnActor(MobileObject*, float, bool);
-    void SetAimingWeapon(bool, bool, bool);
-    void UpdatePlayerInventory();
     void UpdateCamera(bool, const bool);
-    void UpdatePlayerState();
-    bool HasCombatState();
 };
-extern PlayerCharacter* g_thePlayer;
 extern TESTopicInfo* DAT_011d9518;
 class TESSoundFile
 {
   public:
-    const char* GetSoundFile() const;
 };
-TESTopicInfo* FindFollowupTopicInfo(TESTopicInfo*, bool*, void*, PlayerCharacter*, bool, bool);
 FNV_STATIC_ASSERT(sizeof(MenuTopic) == 0x2C);
 FNV_STATIC_ASSERT(offsetof(PlayerCharacter, actorValueOwner) == 0xA4);
 class InterfaceManager
@@ -941,20 +958,15 @@ class InterfaceManager
     class TutorialState
     {
       public:
-        bool FUN_00718840(int);
-        bool ShowMessage(int, int, unsigned int);
     };
     unsigned char layoutPadding0[0x4D4];
     TutorialState tutorial;
     Tile* FUN_00586150();
 };
-InterfaceManager* FUN_004b7210();
 int FUN_007620e0();
-bool FUN_005d4a40();
 class TESImageSpaceModifier
 {
   public:
-    static TESImageSpaceModifier* GetGetHit();
 };
 class ImageSpaceModifierInstanceForm
 {
@@ -970,7 +982,6 @@ class ImageSpaceModifierInstanceDOF
     };
     static ImageSpaceModifierInstanceDOF* CreateAndRegister(float, float, DepthOfFieldMode, float, float, float);
     void FUN_005bbd60(bool);
-    void FUN_0063f790(float);
 };
 class INISettingCollection;
 template <> class SettingT<INISettingCollection>
@@ -978,40 +989,26 @@ template <> class SettingT<INISettingCollection>
   public:
     SETTING_VALUE* Bool();
 };
-extern SettingT<INISettingCollection> DAT_011d8934;
-extern SettingT_GameSettingCollection_ DAT_011d46fc;
-extern float DAT_011a008c;
-extern DialogMenu* DAT_011d9510;
 extern int DAT_011d9508;
 class BSAudio
 {
   public:
-    static BSAudio* GetSingleton();
     static void EnableAudio();
     static void DeactivateAudio();
 };
 class DialogMenuInterfaceCalls
 {
   public:
-    static void SetHUDVisible(bool);
 };
 FNV_STATIC_ASSERT(offsetof(InterfaceManager, tutorial) == 0x4D4);
 class HighProcess
 {
   public:
-    int GetProcessLevel();
 };
-extern SettingT_GameSettingCollection_ DAT_011d3ee0, DAT_011d243c, DAT_011d318c;
-extern float DAT_011d951c;
 extern unsigned int DAT_011d9594;
-extern bool DAT_011f21d0, DAT_011f21d1;
-float FUN_0040ebd0(float, float);
 class DialogMenuAudioCalls
 {
   public:
     void EnableAudio();
-    void DeactivateAudio();
 };
-extern bool DAT_011d9514;
-extern SettingT_GameSettingCollection_ DAT_011cd450;
 #endif

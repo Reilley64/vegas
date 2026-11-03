@@ -3,6 +3,19 @@
 #define FNV_MODELLOADER_VERIFIED_PACKET_H
 
 
+#include "fnv/decl/BGSMessageInitAccess.h"
+#include "fnv/decl/FUN_00496cd0_cls.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00c3d440_cls.h"
+#include "fnv/decl/ObjectC3.h"
+#include "fnv/symbols_0043c000.h"
+#include "fnv/symbols_00448000.h"
+#include "fnv/symbols_00449000.h"
+#include "fnv/symbols_0048d000.h"
+#include "fnv/symbols_00657000.h"
+#include "fnv/symbols_00af6000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_01202000.h"
 class QueuedReference
 {
   public:
@@ -66,14 +79,11 @@ enum IO_TASK_PRIORITY
 class LocationDescriptor
 {
   public:
-    BSFileEntry* SetLocRef();
 };
 
 class ArchiveManager
 {
   public:
-    unsigned int FindArchiveForFileEntry();
-    static Archive* FindArchiveForFileEntry(BSFileEntry*, ARCHIVE_TYPE);
 };
 
 class Archive : public ArchiveManager
@@ -104,6 +114,8 @@ class TaskQueueInterface
 {
   public:
     static void CopyStringToBuffer(char*, unsigned int, const char*);
+public:
+    static ::TaskQueueInterface *GetSingleton();
 };
 
 class ModelLoader
@@ -113,14 +125,9 @@ class ModelLoader
     void QueueFileList(BSSimpleList<const char*>*, IO_TASK_PRIORITY, QueuedFile*, const char*);
     void ProcessQueuedFile();
     static void UpdateLoadingStatusCallback();
-    void UpdateLoadingStatus();
-    void DispatchAnimIdle(QueuedFile*);
     void UpdateReferenceNode(TESObjectREFR*, NiNode*);
-    void UpdateModelNode(NiNode*);
     void FUN_004431d0();
     void FUN_00443220();
-    void FUN_00449940();
-    void FUN_004499a0();
 };
 
 template <class T> class NiPointer
@@ -140,7 +147,6 @@ class Model
     NiPointer<NiNode> node;
     Model(const char*, BSStream*, bool, bool);
     ~Model();
-    void LoadModelFromStream(const char*, BSStream*, bool, bool);
 };
 
 class CountingSemaphore
@@ -160,6 +166,7 @@ extern int __cdecl strcat_s(char*, unsigned int, const char*);
 extern void __cdecl operator delete(void*);
 
 class InventoryStackRecord;
+struct RefObj;
 class IOTask
 {
   public:
@@ -177,17 +184,14 @@ class IOTask
     virtual void vfn_28();
     virtual void vfn_2c();
     virtual void vfn_30(BSSimpleList<InventoryStackRecord*>*);
-    void FUN_00c3d440();
-    void NotifyParents();
-    bool FUN_00449110();
-    bool FUN_00449130();
-    bool FUN_0043caa0();
-    bool FUN_0043caf0();
     IO_TASK_PRIORITY FUN_0043cc60();
-    void AddToPostProcessQueue();
+public:
+    void FUN_00c3c7e0(::RefObj *);
 };
 class QueuedFile : public IOTask
 {
+public:
+    void SetParent(::QueuedFile *);
 };
 class QueuedModel : public QueuedFile
 {
@@ -235,19 +239,20 @@ class IOManager
     virtual void vfn_40();
     virtual void vfn_44();
     virtual void vfn_48(IOTask*);
+public:
+    void SubmitTask();
 };
-extern IOManager* DAT_01202d98;
-extern ModelLoader* g_modelLoader;
 class TESNPC;
+class BSFaceGenModelMap;
 class BSFaceGenManager
 {
   public:
-    static void QueueHeadModelLoad(TESNPC*, IO_TASK_PRIORITY, QueuedFile*);
+public:
+    static ::BSFaceGenModelMap *GetModelMap();
 };
 class TESSpellList
 {
   public:
-    BSSimpleList<InventoryStackRecord*>* GetOffsetC();
 };
 class SoundPlaybackHandle;
 template <class K, class V> class NiTPointerMap
@@ -259,13 +264,11 @@ class KFModel;
 class AnimIdle
 {
   public:
-    void Loaded(KFModel*);
 };
 class NiFixedString;
 class NiExtraData
 {
   public:
-    bool FUN_00448a40();
 };
 class NiAVObject
 {
@@ -276,16 +279,23 @@ class NiAVObject
     int FUN_0043c470();
     NiNode* GetParentNode();
 };
+class NiAVObject;
 class NiNode : public NiAVObject
 {
+public:
+    ::NiAVObject *GetAt(unsigned int);
 };
+class ExtraRadioData;
+class TESModel;
 class TESObjectREFR
 {
   public:
-    bool FUN_00448a20();
+public:
+    ::ExtraRadioData *GetExtraRadioData();
+public:
+    ::TESModel *GetTESModel();
 };
 const NiFixedString& FUN_00448a80();
-extern NiFixedString* DAT_01202ddc;
 
 #include "modelloader_added_types.h"
 

@@ -1,12 +1,13 @@
 // bscore/bsreadwritelock.cpp: free functions (7 functions)
 
+#include "fnv/symbols_005e9000.h"
 #include "bsreadwritelock_decls.h"
 
 // Calls FUN_005e9530, then sets the vtable to kVtbl_BGSEntryPointPerkEntry and zeroes value0C, value10, flag0A and flag09.
 // @fnv 0x005e9f60
 PerkEntryConditionSet::PerkEntryConditionSet()
 {
-    reinterpret_cast<BGSIdleMarker*>(this)->FUN_005e9530();
+    ::FUN_005e9530((::FUN_005e9530_Obj *)(reinterpret_cast<BGSIdleMarker*>(this)));
     vtable = &kVtbl_BGSEntryPointPerkEntry;
     value0C = 0;
     value10 = 0;

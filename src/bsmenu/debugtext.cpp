@@ -2,6 +2,20 @@
 // src/bsmenu/debugtext.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsmenu/debugtext.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/A0F8Self.h"
+#include "fnv/decl/ArrayStub.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a1c080_Class.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/fnv_00a0dcc0__FUN_00a0dcc0.h"
+#include "fnv/decl/fnv_00a11fa0__FUN_00a11fa0_cls.h"
+#include "fnv/decl/fnv_00adddd0__FUN_00a1b940.h"
+#include "fnv/symbols_00702000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01202000.h"
 struct DebugText {
     int GetEntry(int);
 };
@@ -27,7 +41,6 @@ void __thiscall DebugText::SetLine(DEBUGTEXT_LOCATION aeLoc, int aiLine)
 
 struct GlobalObject_00a7b610;
 
-extern GlobalObject_00a7b610 g_011f33d4;
 
 struct FUN_00a11b70_shell {
     GlobalObject_00a7b610* __thiscall GetGlobalObject();
@@ -36,7 +49,7 @@ struct FUN_00a11b70_shell {
 // @fnv 0x00a11b70
 GlobalObject_00a7b610* __thiscall FUN_00a11b70_shell::GetGlobalObject()
 {
-    return &g_011f33d4;
+    return &::g_011f33d4;
 }
 
 struct DebugText_00a0e430 {
@@ -171,14 +184,13 @@ int FUN_00a0e710(Thiss* pThis, const RgbaColor* apTextColor, DEBUGTEXT_LOCATION 
 }
 }  // namespace fnv_00a0e710
 
-extern "C" unsigned char __cdecl FUN_00702fc0();
 extern int DAT_011f33dc;
 extern void (__stdcall *DAT_00fdf05c)(int*);
 
 // @fnv 0x00a11820
 void __cdecl FUN_00a11820()
 {
-    if (FUN_00702fc0())
+    if (((unsigned char)(::FUN_00702fc0())))
         DAT_00fdf05c(&DAT_011f33dc);
 }
 
@@ -188,12 +200,9 @@ struct NiTMapItem {
     void* extra;
 };
 struct NiTPointerMap {
-    void NewItem(NiTMapItem* item);
 };
 struct P03MM {
-    void* __thiscall Allocate(unsigned int size);
 };
-extern P03MM g_memoryManager;
 struct ChangeData;
 struct FUN_00a11c00_shell {
     void FUN_00a11c00(NiTMapItem* item);
@@ -202,42 +211,23 @@ struct FUN_00a11c00_shell {
 // @fnv 0x00a11c00
 void FUN_00a11c00_shell::FUN_00a11c00(NiTMapItem* item)
 {
-    NiTMapItem* created = (NiTMapItem*)g_memoryManager.Allocate(0xc);
+    NiTMapItem* created = (NiTMapItem*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(0xc);
     NiTMapItem* temp = created;
     temp->extra = (void*)item->key;
-    ((NiTPointerMap*)this)->NewItem(temp);
+    reinterpret_cast<::fnv_00adddd0::FUN_00a1b940 *>((((NiTPointerMap*)this)))->FUN_00a11db0((::fnv_00adddd0::MsgNode *)(temp));
 }
 
 struct BSSimpleArray {
     int _pad;
     void** m_data;
-    unsigned int __thiscall FUN_00a11ee0();
     unsigned int __thiscall FUN_00a11d20(void* &aValue);
 };
-// @fnv 0x00a11d20
-unsigned int __thiscall BSSimpleArray::FUN_00a11d20(void* &aValue)
-{
-    unsigned int uiIndex = FUN_00a11ee0();
-    {
-        unsigned int n;
-        for (n = 0; n < 1; ++n) {
-            void** p = m_data + uiIndex + n;
-        }
-    }
-    m_data[uiIndex] = aValue;
-    return uiIndex;
-}
-
 struct PendingObj {
-    void FUN_00a0dcc0();
 };
 
 struct PendingOwner {
-    void FUN_00aa4060(PendingObj* p);
 };
 
-extern PendingOwner g_011f6238;
-extern PendingObj* g_011f33a8;
 
 // If g_011f33a8 is set, calls FUN_00a0dcc0 on it, passes it to g_011f6238.FUN_00aa4060, then clears g_011f33a8.
 // @fnv 0x00a0dae0
@@ -247,8 +237,8 @@ void __cdecl ClearPendingObject() {
         PendingObj* a = b;
         void* r;
         if (a != 0) {
-            if ((a->FUN_00a0dcc0(), 1) & 1) {
-                g_011f6238.FUN_00aa4060(a);
+            if ((reinterpret_cast<::fnv_00a0dcc0::FUN_00a0dcc0 *>((a))->fnv_00a0dcc0::FUN_00a0dcc0::~FUN_00a0dcc0(), 1) & 1) {
+                reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::PendingOwner *>(&::g_memoryManager))))->FUN_00aa4060(a);
             }
             r = a;
         } else {
@@ -259,11 +249,7 @@ void __cdecl ClearPendingObject() {
 }
 
 struct Setting { int unk00; int value; };
-extern Setting DAT_011f33c8,DAT_011debac,DAT_011deec0;
-extern int DAT_01202800;
 struct Record { int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28,unk2c,unk30,unk34; float* unk38; };
-extern Record** DAT_011f33f8;
-bool FUN_00703150();
 struct LayoutObject {
  int unk0000,unk0004,unk0008,unk000c,unk0010,unk0014,unk0018,unk001c,unk0020,unk0024;
  int unk0028,unk002c,unk0030,unk0034,unk0038,unk003c,unk0040,unk0044,unk0048,unk004c;
@@ -494,21 +480,21 @@ struct LayoutObject {
 // Computes height from a record's unk38, fills positions[3] from a margin setting, and sets left/right/center from the right margin setting.
 // @fnv 0x00a0e2a0
 void LayoutObject::UpdateLayoutPositions() {
- int* c = &DAT_011f33c8 ? &DAT_011f33c8.value : (DAT_01202800=0,&DAT_01202800);
+ int* c = &(*reinterpret_cast<::Setting *>(&::g_011f33c8)) ? &(*reinterpret_cast<::Setting *>(&::g_011f33c8)).value : (DAT_01202800=0,&DAT_01202800);
  Record** e = DAT_011f33f8;
  Record* j = e[*c-1];
  height = (int)((j->unk38 ? *j->unk38 : 0.0f)+3.0);
  int l;
  for (l=0;l<3;l++) {
-  int* margin = &DAT_011debac ? &DAT_011debac.value : (DAT_01202800=0,&DAT_01202800);
-  positions[l] = *margin + (FUN_00703150() ? 4 : 1)*height;
+  int* margin = &(*reinterpret_cast<::Setting *>(&::g_011debac)) ? &(*reinterpret_cast<::Setting *>(&::g_011debac)).value : (DAT_01202800=0,&DAT_01202800);
+  positions[l] = *margin + (((bool)(::fnv_00703150::FUN_00703150())) ? 4 : 1)*height;
  }
     {
- int* rightMargin = &DAT_011deec0 ? &DAT_011deec0.value : (DAT_01202800=0,&DAT_01202800);
+ int* rightMargin = &(*reinterpret_cast<::Setting *>(&::g_011deec0)) ? &(*reinterpret_cast<::Setting *>(&::g_011deec0)).value : (DAT_01202800=0,&DAT_01202800);
  right = 0x500 - *rightMargin;
     }
     {
- int* fonts = &DAT_011deec0 ? &DAT_011deec0.value : (DAT_01202800=0,&DAT_01202800);
+ int* fonts = &(*reinterpret_cast<::Setting *>(&::g_011deec0)) ? &(*reinterpret_cast<::Setting *>(&::g_011deec0)).value : (DAT_01202800=0,&DAT_01202800);
  left = *fonts;
     }
  center = ((right-left)>>1)+left;}
@@ -654,7 +640,6 @@ struct E4F0DebugText {
     int unk2280;
     int m_aiLineY[32];
 
-    int Print(const char* pcText, float fX, float fY, int iFlags, int m_iPayloadInteger, float fScale, int iUnused, const RgbaColor* pkColor);
     int PrintFormattedLine(int iX, int iLine, int iFlags, const char* pcFormat, char* pArgs, const RgbaColor* pkColor);
 };
 
@@ -664,7 +649,7 @@ int E4F0DebugText::PrintFormattedLine(int iX, int iLine, int iFlags, const char*
 {
     char acBuffer2[200];
     FUN_00ecddf1(acBuffer2, 200, pcFormat, pArgs);
-    int iResult = Print(acBuffer2, (float)iX, (float)m_aiLineY[iLine], iFlags, -1, -1.0f, 0, pkColor);
+    int iResult = reinterpret_cast<::A0F8Self *>(this)->FUN_00a0f8b0(acBuffer2, (float)iX, (float)m_aiLineY[iLine], iFlags, -1, -1.0f, 0, (::A0F8Color *)(pkColor));
     return iResult;
 }
 
@@ -810,7 +795,6 @@ public:
     int m_aiY[3];
     int m_aiX[3];
 
-    int Print(const char* pcText, float fX, float fY, int m_iPayloadInteger, int iAlign, float fScale, int iFlags, const RgbaColor* pkColor);
     int PrintFormattedAtSlot(int iSlot, int m_iPayloadInteger, const char* pcFormat, char* pArgs, const RgbaColor* pkColor);
 };
 
@@ -820,7 +804,7 @@ int A0E5C0DebugText::PrintFormattedAtSlot(int iSlot, int m_iPayloadInteger, cons
     int iResult;
     char acText[200];
     FUN_00ecddf1(acText, sizeof(acText), pcFormat, pArgs);
-    iResult = Print(acText, (float)m_aiX[iSlot], (float)m_aiY[iSlot], m_iPayloadInteger, -1, -1.0f, 0, pkColor);
+    iResult = reinterpret_cast<::A0F8Self *>(this)->FUN_00a0f8b0(acText, (float)m_aiX[iSlot], (float)m_aiY[iSlot], m_iPayloadInteger, -1, -1.0f, 0, (::A0F8Color *)(pkColor));
     m_aiY[iSlot] += m_iLineHeight;
     return iResult;
 }
@@ -832,15 +816,11 @@ struct ListNode_b5742 {
 };
 
 struct FUN_00aa4060_shell {
-    void __thiscall FUN_00aa4060(void* p);
 };
-extern FUN_00aa4060_shell DAT_011f6238;
 
 struct FUN_00a1c080_shell {
-    unsigned int __thiscall PopFront();
 };
 struct FUN_00a11fa0_shell {
-    unsigned int __thiscall RemoveNextNode();
 };
 
 struct FUN_00a11e10_cls {
@@ -857,11 +837,11 @@ unsigned int FUN_00a11e10_cls::RemoveNode(ListNode_b5742** pNode) {
     ListNode_b5742* node3 = *pNode;
     if (node3 == m_00) {
         *pNode = node3->m_00;
-        return reinterpret_cast<FUN_00a1c080_shell*>(this)->PopFront();
+        return ((unsigned int)(reinterpret_cast<::FUN_00a1c080_Class *>((reinterpret_cast<FUN_00a1c080_shell*>(this)))->PopFront()));
     }
     if (node3 == m_04) {
         *pNode = 0;
-        return reinterpret_cast<FUN_00a11fa0_shell*>(this)->RemoveNextNode();
+        return ((unsigned int)(reinterpret_cast<::fnv_00a11fa0::FUN_00a11fa0_cls *>((reinterpret_cast<FUN_00a11fa0_shell*>(this)))->RemoveNextNode()));
     }
     ListNode_b5742* prev = node3->m_04;
     ListNode_b5742* pNext = node3->m_00;
@@ -876,7 +856,7 @@ unsigned int FUN_00a11e10_cls::RemoveNode(ListNode_b5742** pNode) {
     node3->m_08 = 0;
     {
     ListNode_b5742* pDead = node3;
-    DAT_011f6238.FUN_00aa4060(pDead);
+    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_shell *>(&::g_memoryManager))))->FUN_00aa4060(pDead);
     }
     m_08 = m_08 - 1;
     return uiData;}
@@ -887,9 +867,21 @@ struct FUN_00a11ee0_cls {
     void** m_pBuffer;
     unsigned int m_uiLogicalSize;
     unsigned int m_iReservedSize;
-    void Grow(unsigned int newCap, unsigned int oldSize);
     unsigned int FUN_00a11ee0();
 };
+// @fnv 0x00a11d20
+unsigned int __thiscall BSSimpleArray::FUN_00a11d20(void* &aValue)
+{
+    unsigned int uiIndex = reinterpret_cast<::FUN_00a11ee0_cls *>(this)->FUN_00a11ee0();
+    {
+        unsigned int n;
+        for (n = 0; n < 1; ++n) {
+            void** p = m_data + uiIndex + n;
+        }
+    }
+    m_data[uiIndex] = aValue;
+    return uiIndex;
+}
 
 // Ensures capacity by allocating or growing the buffer when full, then increments the count and returns the previous index.
 // @fnv 0x00a11ee0
@@ -909,7 +901,7 @@ unsigned int FUN_00a11ee0_cls::FUN_00a11ee0() {
             m_iReservedSize = cap;
         } else {
             newCap = (m_iReservedSize > 0x400) ? m_iReservedSize + 0x400 : m_iReservedSize * 2;
-            Grow(newCap, m_uiLogicalSize);
+            reinterpret_cast<::ArrayStub *>(this)->FUN_00a0d0c0((void *)(newCap), (void *)(m_uiLogicalSize));
             m_iReservedSize = newCap;
         }
     }
@@ -1052,7 +1044,7 @@ bool SearchText::FUN_00a103e0(char* destination, float x, float y, int flags)
 // @fnv 0x00a11840
 void __cdecl ReleaseLock()
 {
-    if (FUN_00702fc0() != 0) {
+    if (((unsigned char)(::FUN_00702fc0())) != 0) {
         LeaveCriticalSection((LPCRITICAL_SECTION)&DAT_011f33dc);
     }
 }

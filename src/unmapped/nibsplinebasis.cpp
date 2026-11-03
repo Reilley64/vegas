@@ -1,8 +1,8 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_011f4000.h"
 class GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_011f4034;
 // @fnv 0x00a52500
 GlobalObjectO2_00a7b610* FUN_00a52500()
 {

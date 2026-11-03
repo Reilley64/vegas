@@ -3,11 +3,102 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /GF /Ob1 (unit src/fallout_shared/tesobject.cpp lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <new>
+#include "fnv/decl/A5D2C0Object.h"
+#include "fnv/decl/BSXFlags_shell.h"
+#include "fnv/decl/ControllerOwner.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FNV_ad0470_class.h"
+#include "fnv/decl/FUN_00407820_shell.h"
+#include "fnv/decl/FUN_0040e500_shell.h"
+#include "fnv/decl/FUN_0044a970_Cls.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00477ba0_shell.h"
+#include "fnv/decl/FUN_0047cdb0_shell.h"
+#include "fnv/decl/FUN_004aad00_shell.h"
+#include "fnv/decl/FUN_0050d4a0_shell.h"
+#include "fnv/decl/FUN_0050e8b0_shell.h"
+#include "fnv/decl/FUN_0050ed30_class.h"
+#include "fnv/decl/FUN_005102b0_shell.h"
+#include "fnv/decl/FUN_00510360_Class.h"
+#include "fnv/decl/FUN_00510380_Class.h"
+#include "fnv/decl/FUN_005bb4d0_shell.h"
+#include "fnv/decl/FUN_00658f30.h"
+#include "fnv/decl/FUN_0065dc60Class.h"
+#include "fnv/decl/FUN_0065dd90_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00929240_Class.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00ac0640.h"
+#include "fnv/decl/FUN_00ac0b80_It.h"
+#include "fnv/decl/FUN_00ac0c40_It.h"
+#include "fnv/decl/FUN_00ac5430_cls.h"
+#include "fnv/decl/FUN_00ac5c00_cls.h"
+#include "fnv/decl/FUN_00ac6100_cls.h"
+#include "fnv/decl/FUN_00ac9df0_Q.h"
+#include "fnv/decl/GvIos.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/LightCreation__LightForm.h"
+#include "fnv/decl/MyHost.h"
+#include "fnv/decl/Ostream.h"
+#include "fnv/decl/S00acede0_Obj.h"
+#include "fnv/decl/S_00acfb90_Class.h"
+#include "fnv/decl/StrA.h"
+#include "fnv/decl/StrB.h"
+#include "fnv/decl/StringQ.h"
+#include "fnv/decl/TESActorBase.h"
+#include "fnv/decl/TESPackage.h"
+#include "fnv/decl/Thing.h"
+#include "fnv/decl/Vec.h"
+#include "fnv/decl/VecQ_acab30.h"
+#include "fnv/decl/VecQ_acb3c0.h"
+#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_0047ce10__OwnerShell.h"
+#include "fnv/decl/fnv_0050f9c0__FUN_0050f9c0_shell.h"
+#include "fnv/decl/fnv_00567400__FUN_00567400_shell.h"
+#include "fnv/decl/fnv_0065ed70__FUN_0065ed70.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00aca560__FUN_00aca560_Q.h"
+#include "fnv/decl/fnv_00aca7a0__FUN_00aca7a0_Q.h"
+#include "fnv/decl/fnv_00ad8100__FUN_00ad8100_shell.h"
+#include "fnv/decl/rework_acda90__VecQ_acda90.h"
+#include "fnv/decl/vecacd__VcVector.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00448000.h"
+#include "fnv/symbols_0044c000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00489000.h"
+#include "fnv/symbols_004aa000.h"
+#include "fnv/symbols_0050e000.h"
+#include "fnv/symbols_00511000.h"
+#include "fnv/symbols_00517000.h"
+#include "fnv/symbols_00518000.h"
+#include "fnv/symbols_0065e000.h"
+#include "fnv/symbols_0065f000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00aaf000.h"
+#include "fnv/symbols_00ab7000.h"
+#include "fnv/symbols_00ac0000.h"
+#include "fnv/symbols_00ac2000.h"
+#include "fnv/symbols_00ac6000.h"
+#include "fnv/symbols_00ac7000.h"
+#include "fnv/symbols_00ad5000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01021000.h"
+#include "fnv/symbols_01063000.h"
+#include "fnv/symbols_010a3000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011c9000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011df000.h"
+#include "fnv/symbols_011f6000.h"
 #include "tesobject_decls.h"
 
 extern "C" unsigned __cdecl FUN_00ec6130(const char*);
-extern "C" void __cdecl ReportAssertionViolation(const char*, int);
-extern unsigned DAT_010173f0;
 inline void DeadX()
 {
     const char* d_dmji;
@@ -38,25 +129,23 @@ struct StrX
     } bx;
     unsigned size;
     unsigned res;
-    unsigned FUN_00a0c300(const char* p, unsigned off, unsigned n) const;
     StrX Substr(unsigned off, unsigned n) const;
     StrX& AssignSubstring(const StrX& rR_igxcnj, unsigned off, unsigned n);
-    void FUN_0044a730(bool b, unsigned n);
     ~StrX()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     StrX& assign(const StrX& rR_igxcnj)
     {
-        return AssignSubstring(rR_igxcnj, 0, DAT_010173f0);
+        return AssignSubstring(rR_igxcnj, 0, ::g_010173f0);
     }
     StrX& operator=(const StrX& rR_igxcnj)
     {
         return assign(rR_igxcnj);
     }
-    unsigned rfind(const char* p, unsigned off = DAT_010173f0) const
+    unsigned rfind(const char* p, unsigned off = ::g_010173f0) const
     {
-        return FUN_00a0c300(p, off, LenX(p));
+        return reinterpret_cast<::StringQ *>((void *)this)->FUN_00a0c300(p, off, LenX(p));
     }
     static unsigned LenX(const char* p)
     {
@@ -75,15 +164,15 @@ bool __cdecl FUN_00ac6a30(StrX s, StrX* pA, StrX* pB, StrX* pC)
     unsigned i1 = s.rfind("\\");
     unsigned i_wuftt = s.rfind("/");
     unsigned i3 = s.rfind(":");
-    if (i1 == DAT_010173f0)
+    if (i1 == ::g_010173f0)
         i1 = 0;
     else
         i1++;
-    if (i_wuftt == DAT_010173f0)
+    if (i_wuftt == ::g_010173f0)
         i_wuftt = 0;
     else
         i_wuftt++;
-    if (i3 == DAT_010173f0)
+    if (i3 == ::g_010173f0)
         i3 = 0;
     else
         i3++;
@@ -95,7 +184,7 @@ bool __cdecl FUN_00ac6a30(StrX s, StrX* pA, StrX* pB, StrX* pC)
         return false;
     unsigned uiDot_hda = s.rfind(".");
     unsigned uiExt_tt;
-    if (uiDot_hda == DAT_010173f0)
+    if (uiDot_hda == ::g_010173f0)
     {
         uiDot_hda = uiLen_da;
         uiExt_tt = uiLen_da;
@@ -110,7 +199,7 @@ bool __cdecl FUN_00ac6a30(StrX s, StrX* pA, StrX* pB, StrX* pC)
     {
     }
     else
-        ReportAssertionViolation("D:\\_Fallout3\\Platforms\\Common\\Code\\SDK\\FaceGen\\algs.cpp", 0xaa);
+        ::ReportAssertionViolation("D:\\_Fallout3\\Platforms\\Common\\Code\\SDK\\FaceGen\\algs.cpp", 0xaa);
     Dead4();
     *pA = s.Substr(0, uiStart_pgdky);
     DeadX();
@@ -131,14 +220,12 @@ inline G16 GetG()
 {
     return FUN_00ec38a9();
 }
-void* FUN_00401000(unsigned n);
 struct StrX
 {
     char buf[0x1c];
-    void FUN_0044a730(bool b, unsigned n);
     ~StrX()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
 };
 struct SrcX
@@ -204,7 +291,7 @@ struct ObjX : B1
     G16 m8;
     static void* operator new(unsigned n)
     {
-        return FUN_00401000(n);
+        return ::FUN_00401000(n);
     }
     static void operator delete(void* p)
     {}
@@ -228,11 +315,9 @@ int FUN_00ad3aa0(B0** out, SrcX* src)
 }
 }  // namespace fnv_00ad3aa0
 
-extern unsigned int DAT_010173f0;
 
 struct S00aaec10_Sub
 {
-    void FUN_0044a730(bool, unsigned int);
     void AssignSubstring(const void*, int, unsigned int);
 };
 
@@ -246,7 +331,6 @@ struct S00aaec10_Guard
 
 struct S00aaec10_Obj
 {
-    void FUN_00658f30(const void*);
     int unk00;
     int unk04;
     int unk08;
@@ -290,17 +374,16 @@ S00aaec10_Obj* S00aaec10_Obj::FUN_00aaec10(const void* src)
     unsigned int u25;
     unsigned int u26;
     unsigned int u27;
-    FUN_00658f30(src);
+    new ((void *)this) ::FUN_00658f30((*(const ::FUN_00658f30 *)(src)));
     {
         S00aaec10_Guard g;
         S00aaec10_Sub* p5 = &sub;
-        p5->FUN_0044a730(false, 0);
-        p5->AssignSubstring((const char*)src + 0x20, 0, DAT_010173f0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>((p5))->FUN_0044a730(false, 0);
+        p5->AssignSubstring((const char*)src + 0x20, 0, ::g_010173f0);
     }
     return this;
 }
 
-extern unsigned int DAT_010173f0;
 static __forceinline void D23()
 {
     int a[23];
@@ -322,13 +405,12 @@ struct FileString
     FileString(const FileString& other)
     {
         int aiD[23];
-        FUN_0044a730(false, 0);
-        AssignSubstring(other, 0, DAT_010173f0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
+        AssignSubstring(other, 0, ::g_010173f0);
     }
     void Tail()
     {}
     ~FileString();
-    void FUN_0044a730(bool, unsigned int);
     FileString& AssignSubstring(const FileString&, unsigned int, unsigned int);
 };
 struct FileReader
@@ -340,7 +422,6 @@ struct FileReader
     ~FileReader();
     bool FUN_00ac4910(FileString);
 };
-bool FUN_00ab7f40(FileReader*, void*);
 // @fnv 0x00ab7e30
 bool FUN_00ab7e30(const FileString& fileName, void* output)
 {
@@ -348,7 +429,7 @@ bool FUN_00ab7e30(const FileString& fileName, void* output)
     if (!reader.FUN_00ac4910(fileName))
         return false;
     D18();
-    return FUN_00ab7f40(&reader, output);
+    return ::FUN_00ab7f40((::TriWriterRework::Writer *)(::FileReader *)(&reader), (::TriWriterRework::Tri *)(output));
 }
 
 void __cdecl FUN_00ec7c56();
@@ -372,7 +453,7 @@ template <class E> class allocator
   public:
     void deallocate(E* ptr, unsigned int)
     {
-        operator delete(ptr);
+        ::FUN_00401030 delete(ptr);
     }
 };
 struct SecureTraitsTag
@@ -410,7 +491,7 @@ template <class E, class T, class A> class basic_string
     }
     void _Eos(unsigned int size)
     {
-        T::assign(_Myptr()[length = size], E());
+        T::assign(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970()[length = size], E());
     }
     void _Tidy(bool built, unsigned int size)
     {
@@ -433,7 +514,7 @@ template <class E, class T, class A> class basic_string
     }
     ~basic_string()
     {
-        _Tidy(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
 };
 }
@@ -499,7 +580,7 @@ struct GameIterator : GameConstIterator
     {}
     GameIterator& operator+=(int count)
     {
-        func_0x00ac0c40(count);
+        reinterpret_cast<::FUN_00ac0c40_It *>(this)->FUN_00ac0c40(count);
         return *this;
     }
     GameIterator operator+(int count) const
@@ -531,7 +612,6 @@ struct GameVector
     {
         return GameIterator(last, this);
     }
-    void func_0x00abeb00(GameConstIterator, unsigned int, const GameRecord&);
     GameIterator func_0x00abb5f0(GameConstIterator, GameConstIterator);
     void FUN_00abb3c0(unsigned int count, GameRecord value);
 };
@@ -631,19 +711,9 @@ inline GameIterator GameVector::func_0x00abb5f0(GameConstIterator firstArg, Game
     }
     return firstIt;
 }
-// @fnv 0x00abb3c0
-void GameVector::FUN_00abb3c0(unsigned int count, GameRecord value)
-{
-    if (size() < count)
-        func_0x00abeb00(end(), count - size(), value);
-    else if (count < size())
-        func_0x00abb5f0(begin() + count, end());
-}
-
 namespace fnv_00ac0530 {
 struct FUN_00ac0640_cls
 {
-    void FUN_00ac0640(int a);
 };
 
 struct AcFrameGuard
@@ -687,21 +757,19 @@ struct FUN_00ac0530_cls
     int unk14;
     int unk18;
     FUN_00ac0640_cls m_1c;
-    void FUN_0044a730(int a, int b);
     void AssignSubstring(int a, int b, int c);
     FUN_00ac0530_cls* FUN_00ac0530(int a);
 };
 
-extern int DAT_010173f0;
 
 // @fnv 0x00ac0530
 FUN_00ac0530_cls* FUN_00ac0530_cls::FUN_00ac0530(int a)
 {
-    this->FUN_0044a730(0, 0);
-    this->AssignSubstring(a, 0, DAT_010173f0);
+    reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>((this))->FUN_0044a730(0, 0);
+    this->AssignSubstring(a, 0, (*reinterpret_cast<int *>(&::g_010173f0)));
     {
         AcFrameGuard guard;
-        m_1c.FUN_00ac0640(a + 0x1c);
+        new ((void *)&(m_1c)) ::FUN_00ac0640((*(const ::FUN_00ac0640 *)(a + 0x1c)));
     }
     return this;
 }
@@ -780,7 +848,7 @@ inline char* AllocateChars(unsigned int ItemUpdateArray, char*)
         ItemUpdateArray = 0;
     else if (((unsigned int)(-1) / ItemUpdateArray) < sizeof(char))
         throw std::bad_alloc(0);
-    return (char*)::operator new(ItemUpdateArray * sizeof(char));
+    return (char*)::FUN_00401000(ItemUpdateArray * sizeof(char));
 }
 struct CharAllocator
 {
@@ -788,7 +856,7 @@ struct CharAllocator
     {}
     void deallocate(char* pcPtr, unsigned int)
     {
-        ::operator delete(pcPtr);
+        ::FUN_00401030(pcPtr);
     }
     char* allocate(unsigned int ItemUpdateArray)
     {
@@ -822,7 +890,7 @@ struct String : public StringVal
     String(const String& kRight) : StringVal(kRight.m_kAlval)
     {
         _Tidy();
-        assign(kRight, 0, npos);
+        assign(kRight, 0, ::g_010173f0);
     }
     ~String()
     {
@@ -859,7 +927,7 @@ struct String : public StringVal
     {
         return assign(pcPtr, CharTraits::length(pcPtr));
     }
-    String& erase(unsigned int uiOff = 0, unsigned int ItemUpdateArray = npos)
+    String& erase(unsigned int uiOff = 0, unsigned int ItemUpdateArray = ::g_010173f0)
     {
         if (m_uiSize < uiOff)
             _Xran();
@@ -945,7 +1013,7 @@ struct String : public StringVal
         if (m_uiRes < uiNewsize)
             _Copy(uiNewsize, m_uiSize);
         else if (bTrim && uiNewsize < 16)
-            _Tidy(true, uiNewsize < m_uiSize ? uiNewsize : m_uiSize);
+            reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, uiNewsize < m_uiSize ? uiNewsize : m_uiSize);
         else if (uiNewsize == 0)
             _Eos(0);
         return 0 < uiNewsize;
@@ -987,7 +1055,6 @@ struct String : public StringVal
     unsigned int m_uiSize;
     unsigned int m_uiRes;
 };
-extern unsigned int DAT_010173f0;
 const unsigned int String::npos = (unsigned int)(-1);
 
 struct S_00ac05b0_Sub
@@ -1009,7 +1076,6 @@ FUN_00ac05b0::FUN_00ac05b0(const FUN_00ac05b0& kOther)
 {}
 
 namespace fnv_00ac3df0 {
-extern unsigned int DAT_010173f0;
 namespace binac3 {
 void FUN_00ec7c56();
 extern "C" unsigned int __cdecl strlen(const char* _Str);
@@ -1082,7 +1148,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 template <class T> struct BxAllocT
 {
@@ -1101,7 +1167,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -1142,7 +1208,7 @@ struct BxString : public BxStringVal
     }
     BxString& assign(const BxString& _Right)
     {
-        return assign(_Right, 0, DAT_010173f0);
+        return assign(_Right, 0, ::g_010173f0);
     }
     BxString(const BxString& _Right) : BxStringVal(_Right)
     {
@@ -1284,7 +1350,7 @@ struct BxString : public BxStringVal
         }
         else if (_Trim && _Newsize < 16)
         {
-            _Tidy(true, _Newsize < _Mysize ? _Newsize : _Mysize);
+            reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, _Newsize < _Mysize ? _Newsize : _Mysize);
         }
         else if (_Newsize == 0)
         {
@@ -1361,7 +1427,6 @@ struct BxLengthError : public BxLogicError
     {}
 };
 
-void ReportAssertionViolation(const char* file, int line);
 }
 using namespace binac3;
 
@@ -1383,14 +1448,13 @@ FUN_00ac3df0::FUN_00ac3df0(BxString name)
     }
     else
     {
-        ReportAssertionViolation("D:\\_Fallout3\\Platforms\\Common\\Code\\SDK\\FaceGen\\binaryFile.cpp", 0x22);
+        ::ReportAssertionViolation("D:\\_Fallout3\\Platforms\\Common\\Code\\SDK\\FaceGen\\binaryFile.cpp", 0x22);
     }
     unk3c = 0;
     kName[5] = '0';
 }
 }  // namespace fnv_00ac3df0
 
-extern "C" int DAT_011f6238;
 void __cdecl operator delete(void* _Ptr) throw();
 inline void* operator new(unsigned int, void* _Where) throw()
 {
@@ -1475,7 +1539,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 template <class T> struct BxAllocT
 {
@@ -1494,7 +1558,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -1535,12 +1599,12 @@ struct BxString : public BxStringVal
     }
     BxString& assign(const BxString& _Right)
     {
-        return assign(_Right, 0, DAT_010173f0);
+        return assign(_Right, 0, ::g_010173f0);
     }
     BxString(const BxString& _Right) : BxStringVal(_Right)
     {
         _Tidy();
-        assign(_Right, 0, DAT_010173f0);
+        assign(_Right, 0, ::g_010173f0);
     }
     ~BxString()
     {
@@ -1677,7 +1741,7 @@ struct BxString : public BxStringVal
         }
         else if (_Trim && _Newsize < 16)
         {
-            _Tidy(true, _Newsize < _Mysize ? _Newsize : _Mysize);
+            reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, _Newsize < _Mysize ? _Newsize : _Mysize);
         }
         else if (_Newsize == 0)
         {
@@ -1739,7 +1803,7 @@ struct BxString : public BxStringVal
         {
             _Count = _Num;
         }
-        if (DAT_010173f0 - _Mysize <= _Count || _Mysize + _Count < _Mysize)
+        if (::g_010173f0 - _Mysize <= _Count || _Mysize + _Count < _Mysize)
         {
             _Xlen();
         }
@@ -1756,7 +1820,7 @@ struct BxString : public BxStringVal
         {
             return append(*this, _Ptr - _Myptr(), _Count);
         }
-        if (DAT_010173f0 - _Mysize <= _Count)
+        if (::g_010173f0 - _Mysize <= _Count)
         {
             _Xlen();
         }
@@ -1770,7 +1834,7 @@ struct BxString : public BxStringVal
     }
     BxString& append(const char* _Ptr)
     {
-        return append(_Ptr, BxStrTraits::length(_Ptr));
+        return (*(::wrac52::BxString *)&(reinterpret_cast<::StrA *>(this)->FUN_00a0c430(_Ptr, BxStrTraits::length(_Ptr))));
     }
     BxString& operator+=(const char* _Ptr)
     {
@@ -1850,11 +1914,11 @@ template <class T> inline T* GvHeapAllocate(unsigned int _Count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)((GvHeap*)&DAT_011f6238)->FUN_00aa3e40(_Count * sizeof(T));
+    return (T*)((GvHeap*)&(*reinterpret_cast<int *>(&::g_memoryManager)))->FUN_00aa3e40(_Count * sizeof(T));
 }
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
-    _Ptr->~T();
+    reinterpret_cast<::fnv_0065ed70::FUN_0065ed70 *>((_Ptr))->fnv_0065ed70::FUN_0065ed70::~FUN_0065ed70();
 }
 template <class T> struct GvAlloc
 {
@@ -1871,7 +1935,7 @@ template <class T> struct GvAlloc
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        ((GvHeap*)&DAT_011f6238)->FUN_00aa4060(_Ptr);
+        reinterpret_cast<::FNV_MemoryManager *>((((GvHeap*)&(*reinterpret_cast<int *>(&::g_memoryManager)))))->FUN_00aa4060(_Ptr);
     }
     void destroy(pointer _Ptr)
     {
@@ -1923,7 +1987,7 @@ template <class T, class A>
 void GvUninitFillN(T* _First, unsigned int _Count, const T& _Val, A& _Al, GvNonscalarTag, GvRangeCheckedTag);
 template <class T, class A> inline void GvUncheckedFillN(T* _First, unsigned int _Count, const T& _Val, A& _Al)
 {
-    GvUninitFillN(_First, _Count, _Val, _Al, GvPtrCat(_First, _First), GvRangeCheckedTag());
+    ::fnv_00ac2440::FUN_00ac2440((::fnv_00ac2440::Elem *)(_First), _Count, (const ::fnv_00ac2440::Elem &)(_Val));
 }
 template <class A>
 inline void GvDestroyRange(typename A::pointer _First, typename A::pointer _Last, A& _Al, GvNonscalarTag)
@@ -2306,7 +2370,7 @@ template <class T> struct GvVector : GvVectorVal<T>
     }
     ~GvVector()
     {
-        _Tidy();
+        reinterpret_cast<::S00acede0_Obj *>(this)->FUN_00acede0();
     }
     unsigned int size() const
     {
@@ -2431,7 +2495,7 @@ template <class T> struct GvVector : GvVectorVal<T>
         {
             if (_Right.size() == 0)
             {
-                clear();
+                reinterpret_cast<::Vec *>(this)->FUN_00acac40();
             }
             else if (_Right.size() <= size())
             {
@@ -2491,7 +2555,6 @@ struct GvBinaryFile
     BxString kMagic;
     GvFileHandle* pFile;
     virtual void v00();
-    void FUN_00ac5430();
     bool FUN_00ac5220(const void* data, unsigned int size, unsigned int count);
 };
 
@@ -2505,7 +2568,7 @@ bool GvBinaryFile::FUN_00ac5220(const void* data, unsigned int size, unsigned in
     if (fwrite(data, size, count, pFile) != count)
     {
         FUN_00ac6430(6, kPath);
-        FUN_00ac5430();
+        reinterpret_cast<::FUN_00ac5430_cls *>(this)->FUN_00ac5430();
         return false;
     }
     return true;
@@ -2584,7 +2647,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 template <class T> struct BxAllocT
 {
@@ -2603,7 +2666,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -2771,7 +2834,7 @@ struct BxString : public BxStringVal
         }
         else if (_Trim && _Newsize < 16)
         {
-            _Tidy(true, _Newsize < _Mysize ? _Newsize : _Mysize);
+            reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, _Newsize < _Mysize ? _Newsize : _Mysize);
         }
         else if (_Newsize == 0)
         {
@@ -2848,30 +2911,27 @@ struct BxLengthError : public BxLogicError
     {}
 };
 
-void ReportAssertionViolation(const char* file, int line);
 void* FUN_00ec44d0(void* dst, const void* src, unsigned int count);
 }
 using namespace errac6;
-extern int DAT_011f6c88;
-extern char DAT_011f6c8c[256];
 
 // @fnv 0x00ac6430
 void FUN_00ac6430(int code, BxString message)
 {
-    if (DAT_011f6c88 == 0)
+    if (::DAT_011f6c88 == 0)
     {
         unsigned int uiLength = message.size();
-        DAT_011f6c88 = code;
+        ::DAT_011f6c88 = code;
         if (uiLength < 0x100)
         {
         }
         else
         {
-            ReportAssertionViolation("D:\\_Fallout3\\Platforms\\Common\\Code\\SDK\\FaceGen\\lastError.cpp", 0x41);
+            ::ReportAssertionViolation("D:\\_Fallout3\\Platforms\\Common\\Code\\SDK\\FaceGen\\lastError.cpp", 0x41);
         }
         uiLength = uiLength < 0x100 ? uiLength : 0xff;
-        FUN_00ec44d0(DAT_011f6c8c, &message[0], uiLength);
-        DAT_011f6c8c[uiLength] = 0;
+        FUN_00ec44d0((*reinterpret_cast<char (*)[256]>(&::DAT_011f6c8c)), &message[0], uiLength);
+        (*reinterpret_cast<char (*)[256]>(&::DAT_011f6c8c))[uiLength] = 0;
     }
 }
 }  // namespace fnv_00ac6430
@@ -2896,8 +2956,8 @@ template <class C, class Traits, class Alloc> class basic_string
     basic_string(const C*);
     basic_string(const basic_string& other)
     {
-        _Tidy(false, 0);
-        assign(other, 0, npos);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
+        assign(other, 0, ::g_010173f0);
     }
     ~basic_string();
     basic_string& assign(const basic_string&, unsigned int, unsigned int);
@@ -3031,7 +3091,7 @@ template <class C, class Traits = char_traits<C> > class basic_ofstream : public
     basic_filebuf<C, Traits> fileBuffer;
     void close()
     {
-        if (fileBuffer.close() == 0)
+        if (((::fnv_00ac9790::std::basic_filebuf<char, ::fnv_00ac9790::std::char_traits<char>> *)(reinterpret_cast<::S_00acfb90_Class *>(&(fileBuffer))->FUN_00acfb90())) == 0)
             this->setstate(2);
     }
 };
@@ -3041,8 +3101,6 @@ void __cdecl FUN_00ac6430(int, std::string);
 std::ostream& __cdecl FUN_00ad47f0(std::ostream&, const char*);
 std::ostream& __cdecl FUN_00ad4ba0(std::ostream&, const std::string&);
 extern "C" char DAT_010a3028;
-extern "C" char DAT_01021184;
-extern "C" char DAT_01063cd8;
 // @fnv 0x00ac9790
 bool __cdecl FUN_00ac9790(const std::string& path, const std::vector<std::vector<std::string> >& sections)
 {
@@ -3065,9 +3123,9 @@ bool __cdecl FUN_00ac9790(const std::string& path, const std::vector<std::vector
             FUN_00ad47f0(FUN_00ad4ba0(FUN_00ad47f0(output, &DAT_01021184), sections[i][j]), &DAT_01021184);
             if (j == childCount - 1)
             {
-                output.put(10);
-                output.flush();
-                output.flush();
+                reinterpret_cast<::FUN_00ac9df0_Q *>(&(output))->FUN_00ac9df0(10);
+                reinterpret_cast<::Ostream *>(&(output))->FUN_00aca3c0();
+                reinterpret_cast<::Ostream *>(&(output))->FUN_00aca3c0();
             }
             else
             {
@@ -3086,7 +3144,6 @@ bool __cdecl FUN_00ac9790(const std::string& path, const std::vector<std::vector
 }
 }  // namespace fnv_00ac9790
 
-extern unsigned int DAT_010173f0;
 
 class StrFld
 {
@@ -3102,12 +3159,12 @@ class StrFld
     __declspec(noinline) void AssignSubstring(const StrFld&, unsigned int, unsigned int);
     StrFld(const StrFld& r)
     {
-        FUN_0044a730(false, 0);
-        AssignSubstring(r, 0, DAT_010173f0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
+        AssignSubstring(r, 0, ::g_010173f0);
     }
     ~StrFld()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
 };
 
@@ -3318,7 +3375,7 @@ class basic_filebufDEB0 : public basic_streambufDEB0
     virtual ~basic_filebufDEB0()
     {
         if (_Closef)
-            close();
+            reinterpret_cast<::S_00acfb90_Class *>(this)->FUN_00acfb90();
     }
     enum _Initfl
     {
@@ -3479,7 +3536,7 @@ inline char* AllocateChars(unsigned int ItemUpdateArray, char*)
         ItemUpdateArray = 0;
     else if (((unsigned int)(-1) / ItemUpdateArray) < sizeof(char))
         throw std::bad_alloc(0);
-    return (char*)::operator new(ItemUpdateArray * sizeof(char));
+    return (char*)::FUN_00401000(ItemUpdateArray * sizeof(char));
 }
 struct CharAllocator
 {
@@ -3487,7 +3544,7 @@ struct CharAllocator
     {}
     void deallocate(char* pcPtr, unsigned int)
     {
-        ::operator delete(pcPtr);
+        ::FUN_00401030(pcPtr);
     }
     char* allocate(unsigned int ItemUpdateArray)
     {
@@ -3512,7 +3569,6 @@ struct StringVal : public StringBase
 };
 struct String : public StringVal
 {
-    static const unsigned int npos;
     String(const char* pcPtr) : StringVal()
     {
         _Tidy();
@@ -3521,7 +3577,7 @@ struct String : public StringVal
     String(const String& kRight) : StringVal(kRight.m_kAlval)
     {
         _Tidy();
-        assign(kRight, 0, npos);
+        assign(kRight, 0, ::g_010173f0);
     }
     ~String()
     {
@@ -3558,7 +3614,7 @@ struct String : public StringVal
     {
         return assign(pcPtr, CharTraits::length(pcPtr));
     }
-    String& erase(unsigned int uiOff = 0, unsigned int ItemUpdateArray = npos)
+    String& erase(unsigned int uiOff = 0, unsigned int ItemUpdateArray = ::g_010173f0)
     {
         if (m_uiSize < uiOff)
             _Xran();
@@ -3644,7 +3700,7 @@ struct String : public StringVal
         if (m_uiRes < uiNewsize)
             _Copy(uiNewsize, m_uiSize);
         else if (bTrim && uiNewsize < 16)
-            _Tidy(true, uiNewsize < m_uiSize ? uiNewsize : m_uiSize);
+            reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, uiNewsize < m_uiSize ? uiNewsize : m_uiSize);
         else if (uiNewsize == 0)
             _Eos(0);
         return 0 < uiNewsize;
@@ -3773,7 +3829,7 @@ inline char* AllocateChars(unsigned int ItemUpdateArray, char*)
         ItemUpdateArray = 0;
     else if (((unsigned int)(-1) / ItemUpdateArray) < sizeof(char))
         throw std::bad_alloc(0);
-    return (char*)::operator new(ItemUpdateArray * sizeof(char));
+    return (char*)::FUN_00401000(ItemUpdateArray * sizeof(char));
 }
 struct CharAllocator
 {
@@ -3781,7 +3837,7 @@ struct CharAllocator
     {}
     void deallocate(char* pcPtr, unsigned int)
     {
-        ::operator delete(pcPtr);
+        ::FUN_00401030(pcPtr);
     }
     char* allocate(unsigned int ItemUpdateArray)
     {
@@ -3806,7 +3862,6 @@ struct StringVal : public StringBase
 };
 struct String : public StringVal
 {
-    static const unsigned int npos;
     String(const char* pcPtr) : StringVal()
     {
         _Tidy();
@@ -3815,7 +3870,7 @@ struct String : public StringVal
     String(const String& kRight) : StringVal(kRight.m_kAlval)
     {
         _Tidy();
-        assign(kRight, 0, npos);
+        assign(kRight, 0, ::g_010173f0);
     }
     ~String()
     {
@@ -3852,7 +3907,7 @@ struct String : public StringVal
     {
         return assign(pcPtr, CharTraits::length(pcPtr));
     }
-    String& erase(unsigned int uiOff = 0, unsigned int ItemUpdateArray = npos)
+    String& erase(unsigned int uiOff = 0, unsigned int ItemUpdateArray = ::g_010173f0)
     {
         if (m_uiSize < uiOff)
             _Xran();
@@ -3938,7 +3993,7 @@ struct String : public StringVal
         if (m_uiRes < uiNewsize)
             _Copy(uiNewsize, m_uiSize);
         else if (bTrim && uiNewsize < 16)
-            _Tidy(true, uiNewsize < m_uiSize ? uiNewsize : m_uiSize);
+            reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, uiNewsize < m_uiSize ? uiNewsize : m_uiSize);
         else if (uiNewsize == 0)
             _Eos(0);
         return 0 < uiNewsize;
@@ -4005,7 +4060,6 @@ String NameHolder_ad3e::FUN_00ad3e60() const
 }
 }  // namespace fnv_00ad3e60
 
-extern unsigned int DAT_010173f0;
 union BxQ_ad6bb0
 {
     char _Buf[16];
@@ -4062,16 +4116,16 @@ struct StrQ_ad6bb0
         int _D25;
         int _D26;
         int _D27;
-        _Tidy(false, 0);
-        assign(_Right, 0, DAT_010173f0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
+        assign(_Right, 0, ::g_010173f0);
     }
     StrQ_ad6bb0& operator=(const StrQ_ad6bb0& _Right)
     {
-        return assign(_Right, 0, DAT_010173f0);
+        return assign(_Right, 0, ::g_010173f0);
     }
     ~StrQ_ad6bb0()
     {
-        _Tidy(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     void FUN_00ad6bb0(StrQ_ad6bb0& _Right);
 };
@@ -4145,8 +4199,6 @@ FUN_00b2e740::FUN_00b2e740(const FUN_00b2e740& kOther)
       m_kName(kOther.m_kName), m_kPoint1(kOther.m_kPoint1), m_kPoint2(kOther.m_kPoint2), m_kPoint3(kOther.m_kPoint3)
 {}
 
-void* __cdecl FUN_00ad5370(int count, int flags);
-void __cdecl FUN_00401030(void* p);
 
 struct SubObj0C
 {
@@ -4186,7 +4238,7 @@ struct Owner
 // @fnv 0x00ad1960
 Entry48* Owner::FUN_00ad1960(int a, int b, int c, int d, bool e)
 {
-    void* mem = FUN_00ad5370(1, 0);
+    void* mem = ((void *)(::FUN_00ad5370(1, (::AllocElem48 *)(0))));
 
     try
     {
@@ -4211,7 +4263,7 @@ struct PadStr : StrFld
 void __cdecl FUN_00ac6430(int iLevel, PadStr kMsg);
 inline FileString::~FileString()
 {
-    FUN_0044a730(true, 0);
+    reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
 }
 static inline const char* FsC(const FileString& s)
 {
@@ -4229,7 +4281,7 @@ static __forceinline void Pad()
 // @fnv 0x00ac4910
 bool FileReader::FUN_00ac4910(FileString kPath)
 {
-    ((GvBinaryFile*)this)->FUN_00ac5430();
+    reinterpret_cast<::FUN_00ac5430_cls *>((((GvBinaryFile*)this)))->FUN_00ac5430();
     ((GvBinaryFile*)this)->pFile =
         (GvFileHandle*)FUN_00ec9a47(kPath.capacity >= 16 ? kPath.storage.pointer : kPath.storage.buffer, "wb");
     if (!((GvBinaryFile*)this)->pFile)
@@ -4240,11 +4292,11 @@ bool FileReader::FUN_00ac4910(FileString kPath)
     if (!((GvBinaryFile*)this)->FUN_00ac5220(FsC(signature), FsLen(signature), true))
     {
         FUN_00ac6430(5, *(PadStr*)&kPath);
-        ((GvBinaryFile*)this)->FUN_00ac5430();
+        reinterpret_cast<::FUN_00ac5430_cls *>((((GvBinaryFile*)this)))->FUN_00ac5430();
         return false;
         Pad();
     }
-    fileName.AssignSubstring(kPath, 0, DAT_010173f0);
+    fileName.AssignSubstring(kPath, 0, ::g_010173f0);
     return true;
 }
 
@@ -4258,13 +4310,12 @@ struct CopyStr
     } bx;
     unsigned size;
     unsigned res;
-    void FUN_0044a730(bool b, unsigned n);
     CopyStr& AssignSubstring(const CopyStr& r, unsigned off, unsigned n);
     CopyStr(const CopyStr& r)
     {
         int aiD[26];
-        FUN_0044a730(false, 0);
-        AssignSubstring(r, 0, DAT_010173f0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
+        AssignSubstring(r, 0, ::g_010173f0);
     }
 };
 
@@ -4282,19 +4333,18 @@ struct StringAssignmentOps
     void ResizeString(unsigned int);
     GameString& EraseRange(unsigned int, unsigned int);
 };
-extern void __cdecl FUN_0044ccd0(char*, unsigned int, const char*, unsigned int);
 struct InsertText : BxStringVal
 {
     BxQ_ad6bb0 storage;
     unsigned int length, capacity;
     InsertText(const InsertText& rhs) : BxStringVal(rhs)
     {
-        FUN_0044a730(false, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
         assign(rhs, 0, ~0u);
     }
     ~InsertText()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     InsertText& operator=(const InsertText& rhs)
     {
@@ -4346,7 +4396,7 @@ struct InsertText : BxStringVal
             const char* source =
                 reinterpret_cast<StringAssignmentOps*>(const_cast<InsertText*>(&right))->FUN_0044a970() + off;
             unsigned int destinationCapacity = capacity;
-            FUN_0044ccd0(destination, destinationCapacity, source, num);
+            ::FUN_0044ccd0(destination, destinationCapacity, source, num);
             reinterpret_cast<StringAssignmentOps*>(this)->ResizeString(num);
         }
         return *this;
@@ -4354,10 +4404,7 @@ struct InsertText : BxStringVal
 };
 struct MM
 {
-    void Deallocate(void*);
 };
-extern MM _g_memoryManager;
-extern "C" void* __cdecl FUN_0065e4c0(unsigned int, int);
 extern const char DAT_010173c4[];
 struct ErrorText
 {
@@ -4411,7 +4458,7 @@ struct InsertItem
     }
     static void operator delete(void* p)
     {
-        _g_memoryManager.Deallocate(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(p);
     }
 };
 namespace wrac52 {
@@ -4445,11 +4492,11 @@ template <> struct GvAlloc<InsertItem>
     }
     pointer allocate(size_type n, const void* = 0)
     {
-        return (pointer)FUN_0065e4c0(n, 0);
+        return (pointer)::FUN_0065e4c0(n);
     }
     void deallocate(pointer p, size_type)
     {
-        _g_memoryManager.Deallocate(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(p);
     }
     void construct(pointer p, const InsertItem& v)
     {
@@ -4545,6 +4592,14 @@ struct ItemVector : GvVector<InsertItem>
     }
     void FUN_00abeb00(const_iterator _Where, size_type _Count, InsertionSource _Val);
 };
+// @fnv 0x00abb3c0
+void GameVector::FUN_00abb3c0(unsigned int count, GameRecord value)
+{
+    if (size() < count)
+        reinterpret_cast<::ItemVector *>(this)->FUN_00abeb00((*(::wrac52::GvConstIterator< ::InsertItem> *)&(const ::GameConstIterator &)(end())), count - size(), (*(::InsertionSource *)&(value)));
+    else if (count < size())
+        func_0x00abb5f0(begin() + count, end());
+}
 // @fnv 0x00abeb00
 void ItemVector::FUN_00abeb00(const_iterator _Where, size_type _Count, InsertionSource _Val)
 {
@@ -4552,7 +4607,7 @@ void ItemVector::FUN_00abeb00(const_iterator _Where, size_type _Count, Insertion
     if (_Count == 0)
         ;
     else if (max_size() - size() < _Count)
-        ThrowVectorTooLong();
+        ::fnv_0065f640::ThrowVectorTooLong();
     else if (_Capacity < size() + _Count)
     {
         _Capacity = max_size() - _Capacity / 2 < _Capacity ? 0 : _Capacity + _Capacity / 2;
@@ -4568,14 +4623,14 @@ void ItemVector::FUN_00abeb00(const_iterator _Where, size_type _Count, Insertion
         }
         catch (...)
         {
-            FUN_0065dd90(_Newvec, _Ptr);
+            reinterpret_cast<::FUN_0065dd90_Class *>(this)->FUN_0065dd90((int)(_Newvec), (int)(_Ptr));
             this->_Alval.deallocate(_Newvec, _Capacity);
             throw;
         }
         _Count += size();
         if (_Myfirst != 0)
         {
-            FUN_0065dd90(_Myfirst, _Mylast);
+            reinterpret_cast<::FUN_0065dd90_Class *>(this)->FUN_0065dd90((int)(_Myfirst), (int)(_Mylast));
             this->_Alval.deallocate(_Myfirst, _Myend - _Myfirst);
         }
         _Myend = _Newvec + _Capacity;
@@ -4592,7 +4647,7 @@ void ItemVector::FUN_00abeb00(const_iterator _Where, size_type _Count, Insertion
         }
         catch (...)
         {
-            FUN_0065dd90(_Where._Myptr + _Count, _Mylast + _Count);
+            reinterpret_cast<::FUN_0065dd90_Class *>(this)->FUN_0065dd90((int)(_Where._Myptr + _Count), (int)(_Mylast + _Count));
             throw;
         }
         _Mylast += _Count;
@@ -4616,7 +4671,7 @@ String FUN_00ad42e0(const String&, const String&);
 
 inline String& updateCandidate(String& destination, const String& source)
 {
-    return destination.assign(source, 0, DAT_010173f0);
+    return destination.assign(source, 0, ::g_010173f0);
 }
 
 // @fnv 0x00ac6fa0
@@ -4640,21 +4695,21 @@ class FUN_0044a4c0 : public BxStringVal
     unsigned int length, capacity;
     FUN_0044a4c0() : BxStringVal()
     {
-        FUN_0044a730(false, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
     }
     explicit FUN_0044a4c0(const char* s) : BxStringVal()
     {
-        FUN_0044a730(false, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
         reinterpret_cast<BxString*>(this)->assign(s);
     }
     FUN_0044a4c0(const FUN_0044a4c0& right) : BxStringVal(right)
     {
-        FUN_0044a730(false, 0);
-        reinterpret_cast<BxString*>(this)->assign(reinterpret_cast<const BxString&>(right), 0, DAT_010173f0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
+        reinterpret_cast<BxString*>(this)->assign(reinterpret_cast<const BxString&>(right), 0, ::g_010173f0);
     }
     ~FUN_0044a4c0()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     char* data()
     {
@@ -4688,7 +4743,7 @@ class FUN_0044a4c0 : public BxStringVal
     }
     int FUN_00ac9da0(const FUN_0044a4c0& right) const
     {
-        return FUN_00ac6100(0, length, right.data(), right.size());
+        return reinterpret_cast<::FUN_00ac6100_cls *>((void *)this)->FUN_00ac6100(0, length, (int)(right.data()), right.size());
     }
     int FUN_00ac6100(unsigned int off, unsigned int count, const char* text, unsigned int size) const
     {
@@ -4701,7 +4756,7 @@ class FUN_0044a4c0 : public BxStringVal
     }
     int compare(const char* s) const
     {
-        return FUN_00ac6100(0, length, s, BxStrTraits::length(s));
+        return reinterpret_cast<::FUN_00ac6100_cls *>((void *)this)->FUN_00ac6100(0, length, (int)(s), BxStrTraits::length(s));
     }
 };
 inline bool operator==(const FUN_0044a4c0& a, const FUN_0044a4c0& b)
@@ -4759,14 +4814,11 @@ class ParserStream : virtual public ParserIos
   public:
     virtual ~ParserStream();
     int count;
-    int FUN_00aca7a0();
-    int FUN_00aca560();
 };
 extern ParserStream& __cdecl FUN_00ad43a0(ParserStream&, FUN_0044a4c0&);
-extern ParserStream& __cdecl FUN_00ad5770(ParserStream&, FUN_0044a4c0&, char);
 inline ParserStream& ReadParserLine(ParserStream& stream, FUN_0044a4c0& value)
 {
-    return FUN_00ad5770(stream, value, stream.FUN_00ad30c0('\n'));
+    return (*(::ParserStream *)&(::fnv_00ad5770::FUN_00ad5770((::fnv_00ad5770::FUN_00ad5770_Q &)(stream), (::fnv_00ad5770::StrQ &)(value), reinterpret_cast<::GvIos *>((void *)&(stream))->FUN_00ad30c0('\n'))));
 }
 namespace pairparser {
 struct FUN_00acb310
@@ -4799,11 +4851,11 @@ bool __cdecl FUN_00ac7f50(ParserStream* stream, ParserPairs* result, const FUN_0
         char next;
         while (!stream->eof() && !stream->fail())
         {
-            next = stream->FUN_00aca7a0();
+            next = reinterpret_cast<::fnv_00aca7a0::FUN_00aca7a0_Q *>((stream))->FUN_00aca7a0();
             if (next == '\n' || stream->eof() || stream->fail())
                 break;
             else if (next == ' ' || next == '\t')
-                next = stream->FUN_00aca560();
+                next = reinterpret_cast<::fnv_00aca560::FUN_00aca560_Q *>((stream))->FUN_00aca560();
             else
                 break;
         }
@@ -4812,7 +4864,7 @@ bool __cdecl FUN_00ac7f50(ParserStream* stream, ParserPairs* result, const FUN_0
             ReadParserLine(*stream, value);
         if (key == *excluded && *excluded != "")
             continue;
-        result->FUN_00acb3c0(pairparser::FUN_00acb310(key, value));
+        reinterpret_cast<::VecQ_acb3c0 *>((result))->FUN_00acb3c0((const ::S00ad5bd0_Elem &)((const ::pairparser::FUN_00acb310 &)(pairparser::FUN_00acb310(key, value))));
         ++entries;
     }
     if (stream->fail() && !stream->eof())
@@ -4873,7 +4925,7 @@ template <class E, class T, class A> class basic_string : public _String_val<E, 
 
     basic_string(const E* p) : Base()
     {
-        FUN_0044a730(false, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
         assign(p);
     }
     basic_string& assign(const E* p)
@@ -4905,16 +4957,16 @@ template <class E, class T, class A> class basic_string : public _String_val<E, 
     }
     inline basic_string() : Base()
     {
-        FUN_0044a730(false, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
     }
     inline basic_string(const basic_string& r) : Base(r)
     {
-        FUN_0044a730(false, 0);
-        AssignSubstring(r, 0, DAT_010173f0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
+        AssignSubstring(r, 0, ::g_010173f0);
     }
     inline ~basic_string()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     const E* c_str() const
     {
@@ -5014,7 +5066,6 @@ struct Big : Input
 };
 
 void FUN_00ac6430(int, Str);  // -> 0x00ac6430  SetError(int, string)
-bool FUN_00ac7f50(Big*, Vec*, const Str&, int);
 
 }
 
@@ -5029,7 +5080,7 @@ bool FUN_00ac8c50(const Str& name, const Str& arg2, Vec* pVec)
         return false;
     }
     pVec->resize(0);
-    if (!FUN_00ac7f50(&kObj, pVec, "//", 1))
+    if (!::FUN_00ac7f50((::ParserStream *)(::ac8parse::Big *)(&kObj), (::ParserPairs *)(pVec), (const ::FUN_0044a4c0 *)&(const ::ac8parse::basic_string<char, ::ac8parse::char_traits<char>, ::ac8parse::allocator<char>> &)("//"), 1))
     {
         ac8parse::FUN_00ac6430(4, name);
         return false;
@@ -5040,7 +5091,7 @@ bool FUN_00ac8c50(const Str& name, const Str& arg2, Vec* pVec)
         return false;
     }
     pVec->resize(0);
-    if (!FUN_00ac7f50(&kObj, pVec, "//", 0))
+    if (!::FUN_00ac7f50((::ParserStream *)(::ac8parse::Big *)(&kObj), (::ParserPairs *)(pVec), (const ::FUN_0044a4c0 *)&(const ::ac8parse::basic_string<char, ::ac8parse::char_traits<char>, ::ac8parse::allocator<char>> &)("//"), 0))
     {
         ac8parse::FUN_00ac6430(4, name);
         return false;
@@ -5139,17 +5190,16 @@ template <class E, class Tr> class basic_ifstream : public basic_istream<E, Tr>
     basic_filebufDEB0 filebuf;
 };
 typedef basic_ifstream<char, char_traits<char> > ifstream;
-basic_istream<char, char_traits<char> >& FUN_00ad5770(basic_istream<char, char_traits<char> >&, BxString&, char);
 inline basic_istream<char, char_traits<char> >& getline(basic_istream<char, char_traits<char> >& input, BxString& line)
 {
-    return FUN_00ad5770(input, line, input.FUN_00ad30c0('\n'));
+    return (*(::std::basic_istream<char, ::std::char_traits<char>> *)&(::fnv_00ad5770::FUN_00ad5770((::fnv_00ad5770::FUN_00ad5770_Q &)(input), (::fnv_00ad5770::StrQ &)(line), reinterpret_cast<::GvIos *>((void *)&(input))->FUN_00ad30c0('\n'))));
 }
 }
 // @fnv 0x00ac9120
 bool __cdecl FUN_00ac9120(const BxString& path, CsvArray<CsvRow>& table)
 {
 
-    table.clear();
+    reinterpret_cast<::vecacd::VcVector *>(&(table))->FUN_00acdba0();
 
     CsvRow row;
 
@@ -5183,7 +5233,7 @@ bool __cdecl FUN_00ac9120(const BxString& path, CsvArray<CsvRow>& table)
 
             bool empty = true;
 
-            row.clear();
+            reinterpret_cast<::Vec *>(&(row))->FUN_00acac40();
 
             while (*p != '\n' && *p != '\0')
             {
@@ -5218,11 +5268,11 @@ bool __cdecl FUN_00ac9120(const BxString& path, CsvArray<CsvRow>& table)
                 if (*p != '\0')
                     ++p;
 
-                row.push_back(entry);
+                reinterpret_cast<::VecQ_acab30 *>(&(row))->FUN_00acab30((const ::vecdac9::VsString &)(entry));
             }
 
             if (!empty)
-                table.push_back(row);
+                reinterpret_cast<::rework_acda90::VecQ_acda90 *>(&(table))->FUN_00acda90((const ::rework_acda90::ElQ_acda90 &)(row));
         }
     }
 
@@ -5242,17 +5292,17 @@ class Str_ac9ff0 : public BxStringVal
   public:
     Str_ac9ff0(const char* s) : BxStringVal()
     {
-        _Tidy(false, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
         reinterpret_cast<BxString*>(this)->assign(s);
     }
     Str_ac9ff0(const Str_ac9ff0& right) : BxStringVal(right)
     {
-        _Tidy(false, 0);
-        reinterpret_cast<BxString*>(this)->assign(reinterpret_cast<const BxString&>(right), 0, DAT_010173f0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
+        reinterpret_cast<BxString*>(this)->assign(reinterpret_cast<const BxString&>(right), 0, ::g_010173f0);
     }
     ~Str_ac9ff0()
     {
-        _Tidy(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     void _Tidy(bool built, unsigned int count)
     {
@@ -5348,16 +5398,16 @@ class InsertionText : public BxStringVal
     unsigned int length, capacity;
     InsertionText(const InsertionText& right) : BxStringVal(right)
     {
-        FUN_0044a730(false, 0);
-        AssignSubstring(right, 0, DAT_010173f0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
+        AssignSubstring(right, 0, ::g_010173f0);
     }
     ~InsertionText()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     InsertionText& operator=(const InsertionText& right)
     {
-        return AssignSubstring(right, 0, DAT_010173f0);
+        return AssignSubstring(right, 0, ::g_010173f0);
     }
     unsigned int size() const
     {
@@ -5437,7 +5487,7 @@ class InsertionText : public BxStringVal
         }
         else if (_Trim && _Newsize < 16)
         {
-            FUN_0044a730(true, _Newsize < length ? _Newsize : length);
+            reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, _Newsize < length ? _Newsize : length);
         }
         else if (_Newsize == 0)
         {
@@ -5512,11 +5562,10 @@ class InsertionText : public BxStringVal
     }
 };
 
-InsertionText* __cdecl FUN_00ad5310(unsigned int, InsertionText*);
 namespace wrac52 {
 template <> inline InsertionText* BxAllocT<InsertionText>::allocate(unsigned int count)
 {
-    return FUN_00ad5310(count, (InsertionText*)0);
+    return ((::InsertionText *)(::fnv_00ad5310::FUN_00ad5310(count)));
 }
 }
 struct InsertAlloc : BxAllocT<InsertionText>
@@ -5526,14 +5575,12 @@ struct InsertAlloc : BxAllocT<InsertionText>
         GvDestroyOne(p);
     }
 };
-void __cdecl FUN_00ad5b00(InsertionText*, unsigned int, const InsertionText&, InsertAlloc&, GvNonscalarTag,
-                          GvRangeCheckedTag);
 namespace wrac52 {
 template <>
 inline void GvUncheckedFillN<InsertionText, InsertAlloc>(InsertionText* first, unsigned int count,
                                                          const InsertionText& value, InsertAlloc& al)
 {
-    FUN_00ad5b00(first, count, value, al, GvPtrCat(first, first), GvRangeCheckedTag());
+    ::fnv_00ad5b00::FUN_00ad5b00((::fnv_00ad5b00::Str<char, ::fnv_00ad5b00::Al<char>> *)(first), count, (const ::fnv_00ad5b00::Str<char, ::fnv_00ad5b00::Al<char>> &)(value), (::fnv_00ad5b00::Box< ::fnv_00ad5b00::Str<char, ::fnv_00ad5b00::Al<char>>> &)(al));
 }
 }
 InsertionText* __cdecl FUN_00ad66e0(InsertionText*, InsertionText*, InsertionText*, InsertAlloc&, InsertMoveTag,
@@ -5629,7 +5676,7 @@ void InsertStrings::FUN_00ad07c0(const_iterator _Where, size_type _Count, const 
     if (_Count == 0)
         ;
     else if (max_size() - size() < _Count)
-        FUN_00ac0b00();
+        ::FUN_00ac0b00();
     else if (_Capacity < size() + _Count)
     {
         _Capacity = max_size() - _Capacity / 2 < _Capacity ? 0 : _Capacity + _Capacity / 2;
@@ -5680,7 +5727,7 @@ void InsertStrings::FUN_00ad07c0(const_iterator _Where, size_type _Count, const 
         value_type _Tmp = _Val;
         pointer _Oldend = _Mylast;
         _Mylast = _Umove(_Oldend - _Count, _Oldend, _Mylast);
-        FUN_00ad5250(_Where._Myptr, _Oldend - _Count, _Oldend);
+        ::fnv_00ad5250::FUN_00ad5250((::fnv_00ad5250::std::String *)(_Where._Myptr), (::fnv_00ad5250::std::String *)(::InsertionText *)(_Oldend - _Count), (::fnv_00ad5250::std::String *)(_Oldend));
         InsertFill(_Where._Myptr, _Where._Myptr + _Count, _Tmp);
     }
 }
@@ -5721,7 +5768,7 @@ template <class K, class V> struct PairRecord
     V second;
     static void operator delete(void* p)
     {
-        ((GvHeap*)&DAT_011f6238)->FUN_00aa4060(p);
+        reinterpret_cast<::FNV_MemoryManager *>((((GvHeap*)&(*reinterpret_cast<int *>(&::g_memoryManager)))))->FUN_00aa4060(p);
     }
     PairRecord() : first(), second()
     {}
@@ -5733,7 +5780,6 @@ template <class K, class V> struct PairRecord
 typedef PairRecord<unsigned int, BxString> PointPair;
 
 void ThrowVectorTooLong();
-extern "C" PointPair* __cdecl FUN_0065e430(unsigned int, PointPair*);
 PointPair* CallWithIterators(PointPair*, PointPair*, PointPair*, GvAlloc<PointPair>&);
 PointPair* FUN_00ac1da0(PointPair*, PointPair*, PointPair*, GvAlloc<PointPair>&);
 PointPair* FUN_00ac1580(PointPair*, PointPair*, PointPair*);
@@ -5742,7 +5788,7 @@ template <class T> struct PairAllocator : GvAlloc<T>
 {
     T* allocate(unsigned int count)
     {
-        return FUN_0065e430(count, (T*)0);
+        return ((::PairRecord<unsigned int, ::wrac52::BxString> *)(::fnv_0065e430::FUN_0065e430(count)));
     }
 };
 template <class T> struct PairVectorVal : GvAuxBase<PairAllocator<T> >
@@ -5809,7 +5855,7 @@ template <class I, class V> inline void LastFillRange(I first, I last, const V& 
     for (; first != last; ++first)
     {
         first->first = value.first;
-        ((PairAssignView&)first->second).AssignSubstring((const PairAssignView&)value.second, 0, DAT_010173f0);
+        ((PairAssignView&)first->second).AssignSubstring((const PairAssignView&)value.second, 0, ::g_010173f0);
     }
 }
 template <class I, class V> inline void LastFill(I first, I last, const V& value)
@@ -5870,7 +5916,7 @@ void PairInsertionVector<T>::FUN_00abe310(GvConstIterator<T> _Where, unsigned in
     }
     else if (max_size() - size() < _Count)
     {
-        _Xlen();
+        ::fnv_0065f640::ThrowVectorTooLong();
     }
     else if (_Capacity < size() + _Count)
     {
@@ -5887,14 +5933,14 @@ void PairInsertionVector<T>::FUN_00abe310(GvConstIterator<T> _Where, unsigned in
         }
         catch (...)
         {
-            FUN_0065dc60(_Newvec, _Ptr);
+            reinterpret_cast<::FUN_0065dc60Class *>(this)->FUN_0065dc60((int)(_Newvec), (int)(_Ptr));
             this->_Alval.deallocate(_Newvec, _Capacity);
             throw;
         }
         _Count += size();
         if (_Myfirst != 0)
         {
-            FUN_0065dc60(_Myfirst, _Mylast);
+            reinterpret_cast<::FUN_0065dc60Class *>(this)->FUN_0065dc60((int)(_Myfirst), (int)(_Mylast));
             this->_Alval.deallocate(_Myfirst, _Myend - _Myfirst);
         }
         _Myend = _Newvec + _Capacity;
@@ -5911,7 +5957,7 @@ void PairInsertionVector<T>::FUN_00abe310(GvConstIterator<T> _Where, unsigned in
         }
         catch (...)
         {
-            FUN_0065dc60(_Where._Myptr + _Count, _Mylast + _Count);
+            reinterpret_cast<::FUN_0065dc60Class *>(this)->FUN_0065dc60((int)(_Where._Myptr + _Count), (int)(_Mylast + _Count));
             throw;
         }
         _Mylast += _Count;
@@ -5956,7 +6002,7 @@ struct StrQSwap_ad6bb0 : StrQ_ad6bb0
 };
 inline void swap(BxString& _Left, BxString& _Right)
 {
-    ((StrQSwap_ad6bb0*)&_Left)->Swap(*(StrQ_ad6bb0*)&_Right);
+    reinterpret_cast<::StrQ_ad6bb0 *>((((StrQSwap_ad6bb0*)&_Left)))->FUN_00ad6bb0(*(StrQ_ad6bb0*)&_Right);
 }
 // @fnv 0x00ad66e0
 BxString* __cdecl FUN_00ad66e0(BxString* _First, BxString* _Last, BxString* _Dest, GvAlloc<BxString>& _Al)
@@ -5982,7 +6028,6 @@ BxString* __cdecl FUN_00ad66e0(BxString* _First, BxString* _Last, BxString* _Des
 
 namespace Insert52Detail {
 
-extern "C" void* __cdecl FUN_0065e550(unsigned int, int);
 extern const char DAT_010173c4[];
 struct ErrorText
 {
@@ -6022,7 +6067,7 @@ struct Element52
     {}
     static void operator delete(void* p)
     {
-        ((GvHeap*)&DAT_011f6238)->FUN_00aa4060(p);
+        reinterpret_cast<::FNV_MemoryManager *>((((GvHeap*)&(*reinterpret_cast<int *>(&::g_memoryManager)))))->FUN_00aa4060(p);
     }
 };
 template <class T> struct InsertAllocator
@@ -6036,11 +6081,11 @@ template <class T> struct InsertAllocator
     {}
     pointer allocate(unsigned int n)
     {
-        return (pointer)FUN_0065e550(n, 0);
+        return (pointer)::FUN_0065e550(n);
     }
     void deallocate(pointer p, unsigned int)
     {
-        ((GvHeap*)&DAT_011f6238)->FUN_00aa4060(p);
+        reinterpret_cast<::FNV_MemoryManager *>((((GvHeap*)&(*reinterpret_cast<int *>(&::g_memoryManager)))))->FUN_00aa4060(p);
     }
     void destroy(pointer p)
     {
@@ -6080,7 +6125,7 @@ inline void InsertUninitFillN(T* first, unsigned int count, const T& value, A& a
 }
 template <class T, class A> inline void InsertUncheckedFillN(T* first, unsigned int count, const T& value, A& alloc)
 {
-    InsertUninitFillN(first, count, value, alloc, GvPtrCat(first, first), GvRangeCheckedTag());
+    ::fnv_00ac2540::FUN_00ac2540((::fnv_00ac2540::FUN_00ac0530 *)(first), count, (const ::fnv_00ac2540::FUN_00ac0530 &)(value));
 }
 struct InsertMoveTag
 {
@@ -6166,7 +6211,7 @@ struct ElementVector : InsertVectorVal<Element52>
     }
     static void _Xlen()
     {
-        ThrowVectorTooLong();
+        ::fnv_0065f640::ThrowVectorTooLong();
     }
     void FUN_00abf210(const_iterator, size_type, const Element52&);
 };
@@ -6257,7 +6302,7 @@ struct ResizeText : BxStringVal
     }
     ~ResizeText()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     char* data()
     {
@@ -6300,7 +6345,6 @@ struct ResizeConstIterator : GvIterBase
         _Set_container(container);
         _Myptr = ptr;
     }
-    ResizeConstIterator& FUN_00ac0b80(int offset);
     bool operator==(const ResizeConstIterator& other) const
     {
         if (!(_Has_container() && _Same_container(other)))
@@ -6318,7 +6362,7 @@ struct ResizeIterator : ResizeConstIterator
     {}
     ResizeIterator& operator+=(int offset)
     {
-        static_cast<ResizeConstIterator&>(*this).FUN_00ac0b80(offset);
+        reinterpret_cast<::FUN_00ac0b80_It *>(&(static_cast<ResizeConstIterator&>(*this)))->FUN_00ac0b80(offset);
         return *this;
     }
     ResizeIterator operator+(int offset) const
@@ -6367,9 +6411,6 @@ void ResizeEntries::FUN_00abb060(unsigned int count, ResizeEntry value)
 }
 
 namespace fnv_00ad5500 {
-extern int DAT_010a31fc;
-extern int DAT_010a3228;
-extern int DAT_010a3204;
 
 namespace std {
 template <class _Elem> struct char_traits
@@ -6393,13 +6434,13 @@ template <class _Elem, class _Tr, class _Al> class basic_string
     {
         bool _Free;
         bool* _P = &_Free;
-        _Tidy(false, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
     }
     ~basic_string()
     {
         int _Z1;
         (void)_Z1;
-        _Tidy(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
 
   protected:
@@ -6449,7 +6490,7 @@ class ObjBase
     int m_refs;
     ObjBase()
     {
-        m_vtbl = &DAT_010a31fc;
+        m_vtbl = &::DAT_010a31fc;
         m_refs = 0;
     }
 };
@@ -6458,7 +6499,7 @@ class ObjMid : public ObjBase
   public:
     ObjMid()
     {
-        m_vtbl = &DAT_010a3228;
+        m_vtbl = &::DAT_010a3228;
     }
 };
 class ObjNew : public ObjMid
@@ -6466,7 +6507,7 @@ class ObjNew : public ObjMid
   public:
     ObjNew(const TmpCls&)
     {
-        m_vtbl = &DAT_010a3204;
+        m_vtbl = &::DAT_010a3204;
     }
 };
 
@@ -6546,7 +6587,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)::operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 template <class T> struct BxAllocT
 {
@@ -6565,7 +6606,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        ::operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -6595,7 +6636,7 @@ struct BxString : public BxStringVal
     __forceinline BxString(const BxString& _Right) : BxStringVal(_Right)
     {
         _Tidy();
-        assign(_Right, 0, DAT_010173f0);
+        assign(_Right, 0, ::g_010173f0);
     }
     ~BxString()
     {
@@ -6712,7 +6753,7 @@ struct BxString : public BxStringVal
         }
         else if (_Trim && _Newsize < 16)
         {
-            _Tidy(true, _Newsize < _Mysize ? _Newsize : _Mysize);
+            reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, _Newsize < _Mysize ? _Newsize : _Mysize);
         }
         else if (_Newsize == 0)
         {
@@ -6758,7 +6799,6 @@ struct FaceBinaryReadReceiver
     virtual void v08();
     virtual void v0c();
     virtual bool v10(void* data, unsigned int size, unsigned int count);
-    void ClearHolders();
     __declspec(noinline) bool FUN_00ac5e00(void* data, unsigned int size, unsigned int count);
 };
 
@@ -6772,13 +6812,12 @@ bool FaceBinaryReadReceiver::FUN_00ac5e00(void* data, unsigned int size, unsigne
     if (!v10(data, 1, size * count))
     {
         rdac5e::FUN_00ac6430(1, kPath);
-        ClearHolders();
+        reinterpret_cast<::FUN_00ac5c00_cls *>(this)->ClearHolders();
         return false;
     }
     return true;
 }
 
-extern "C" int DAT_011f6238;
 void __cdecl operator delete(void* _Ptr) throw();
 namespace plusad42 {
 void FUN_00ec7c56();
@@ -6857,7 +6896,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 template <class T> struct BxAllocT
 {
@@ -6876,7 +6915,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -6917,12 +6956,12 @@ struct BxString : public BxStringVal
     }
     BxString& assign(const BxString& _Right)
     {
-        return assign(_Right, 0, DAT_010173f0);
+        return assign(_Right, 0, ::g_010173f0);
     }
     BxString(const BxString& _Right) : BxStringVal(_Right)
     {
         _Tidy();
-        assign(_Right, 0, DAT_010173f0);
+        assign(_Right, 0, ::g_010173f0);
     }
     ~BxString()
     {
@@ -7059,7 +7098,7 @@ struct BxString : public BxStringVal
         }
         else if (_Trim && _Newsize < 16)
         {
-            _Tidy(true, _Newsize < _Mysize ? _Newsize : _Mysize);
+            reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, _Newsize < _Mysize ? _Newsize : _Mysize);
         }
         else if (_Newsize == 0)
         {
@@ -7121,7 +7160,7 @@ struct BxString : public BxStringVal
         {
             _Count = _Num;
         }
-        if (DAT_010173f0 - _Mysize <= _Count || _Mysize + _Count < _Mysize)
+        if (::g_010173f0 - _Mysize <= _Count || _Mysize + _Count < _Mysize)
         {
             _Xlen();
         }
@@ -7138,7 +7177,7 @@ struct BxString : public BxStringVal
         {
             return append(*this, _Ptr - _Myptr(), _Count);
         }
-        if (DAT_010173f0 - _Mysize <= _Count)
+        if (::g_010173f0 - _Mysize <= _Count)
         {
             _Xlen();
         }
@@ -7152,7 +7191,7 @@ struct BxString : public BxStringVal
     }
     BxString& append(const char* _Ptr)
     {
-        return append(_Ptr, BxStrTraits::length(_Ptr));
+        return (*(::plusad42::BxString *)&(reinterpret_cast<::StrA *>(this)->FUN_00a0c430(_Ptr, BxStrTraits::length(_Ptr))));
     }
     BxString& operator+=(const char* _Ptr)
     {
@@ -7232,7 +7271,7 @@ template <class T> inline T* GvHeapAllocate(unsigned int _Count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)((GvHeap*)&DAT_011f6238)->FUN_00aa3e40(_Count * sizeof(T));
+    return (T*)((GvHeap*)&(*reinterpret_cast<int *>(&::g_memoryManager)))->FUN_00aa3e40(_Count * sizeof(T));
 }
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
@@ -7253,7 +7292,7 @@ template <class T> struct GvAlloc
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        ((GvHeap*)&DAT_011f6238)->FUN_00aa4060(_Ptr);
+        ((GvHeap*)&(*reinterpret_cast<int *>(&::g_memoryManager)))->FUN_00aa4060(_Ptr);
     }
     void destroy(pointer _Ptr)
     {
@@ -7869,7 +7908,6 @@ plusad42::BxString FUN_00ad4210(const plusad42::BxString& _Left, const char* _Ri
     return plusad42::BxString(_Left) += _Right;
 }
 
-extern "C" int DAT_011f6238;
 void __cdecl operator delete(void* _Ptr) throw();
 namespace rdac52 {
 void FUN_00ec7c56();
@@ -7948,7 +7986,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 template <class T> struct BxAllocT
 {
@@ -7967,7 +8005,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -8008,12 +8046,12 @@ struct BxString : public BxStringVal
     }
     BxString& assign(const BxString& _Right)
     {
-        return assign(_Right, 0, DAT_010173f0);
+        return assign(_Right, 0, ::g_010173f0);
     }
     BxString(const BxString& _Right) : BxStringVal(_Right)
     {
         _Tidy();
-        assign(_Right, 0, DAT_010173f0);
+        assign(_Right, 0, ::g_010173f0);
     }
     ~BxString()
     {
@@ -8150,7 +8188,7 @@ struct BxString : public BxStringVal
         }
         else if (_Trim && _Newsize < 16)
         {
-            _Tidy(true, _Newsize < _Mysize ? _Newsize : _Mysize);
+            reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, _Newsize < _Mysize ? _Newsize : _Mysize);
         }
         else if (_Newsize == 0)
         {
@@ -8212,7 +8250,7 @@ struct BxString : public BxStringVal
         {
             _Count = _Num;
         }
-        if (DAT_010173f0 - _Mysize <= _Count || _Mysize + _Count < _Mysize)
+        if (::g_010173f0 - _Mysize <= _Count || _Mysize + _Count < _Mysize)
         {
             _Xlen();
         }
@@ -8229,7 +8267,7 @@ struct BxString : public BxStringVal
         {
             return append(*this, _Ptr - _Myptr(), _Count);
         }
-        if (DAT_010173f0 - _Mysize <= _Count)
+        if (::g_010173f0 - _Mysize <= _Count)
         {
             _Xlen();
         }
@@ -8323,7 +8361,7 @@ template <class T> inline T* GvHeapAllocate(unsigned int _Count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)((GvHeap*)&DAT_011f6238)->FUN_00aa3e40(_Count * sizeof(T));
+    return (T*)((GvHeap*)&(*reinterpret_cast<int *>(&::g_memoryManager)))->FUN_00aa3e40(_Count * sizeof(T));
 }
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
@@ -8344,7 +8382,7 @@ template <class T> struct GvAlloc
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        ((GvHeap*)&DAT_011f6238)->FUN_00aa4060(_Ptr);
+        ((GvHeap*)&(*reinterpret_cast<int *>(&::g_memoryManager)))->FUN_00aa4060(_Ptr);
     }
     void destroy(pointer _Ptr)
     {
@@ -8964,7 +9002,6 @@ struct GvBinaryFile_SV
     rdac52::BxString kMagic;
     rdac52::GvFileHandle* pFile;
     virtual void v00();
-    void FUN_00ac5430();
     bool FUN_00ac52b0(void* data, unsigned int size, unsigned int count);
 };
 
@@ -8978,13 +9015,12 @@ bool GvBinaryFile_SV::FUN_00ac52b0(void* data, unsigned int size, unsigned int c
     if (rdac52::fread(data, size, count, pFile) != count)
     {
         rdac52::FUN_00ac6430(1, kPath);
-        FUN_00ac5430();
+        reinterpret_cast<::FUN_00ac5430_cls *>(this)->FUN_00ac5430();
         return false;
     }
     return true;
 }
 
-extern "C" int DAT_011f6238;
 void __cdecl operator delete(void* _Ptr) throw();
 namespace plus2ad4 {
 void FUN_00ec7c56();
@@ -9063,7 +9099,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 template <class T> struct BxAllocT
 {
@@ -9082,7 +9118,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -9123,12 +9159,12 @@ struct BxString : public BxStringVal
     }
     BxString& assign(const BxString& _Right)
     {
-        return assign(_Right, 0, DAT_010173f0);
+        return assign(_Right, 0, ::g_010173f0);
     }
     BxString(const BxString& _Right) : BxStringVal(_Right)
     {
         _Tidy();
-        assign(_Right, 0, DAT_010173f0);
+        assign(_Right, 0, ::g_010173f0);
     }
     ~BxString()
     {
@@ -9265,7 +9301,7 @@ struct BxString : public BxStringVal
         }
         else if (_Trim && _Newsize < 16)
         {
-            _Tidy(true, _Newsize < _Mysize ? _Newsize : _Mysize);
+            reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, _Newsize < _Mysize ? _Newsize : _Mysize);
         }
         else if (_Newsize == 0)
         {
@@ -9327,7 +9363,7 @@ struct BxString : public BxStringVal
         {
             _Count = _Num;
         }
-        if (DAT_010173f0 - _Mysize <= _Count || _Mysize + _Count < _Mysize)
+        if (::g_010173f0 - _Mysize <= _Count || _Mysize + _Count < _Mysize)
         {
             _Xlen();
         }
@@ -9342,9 +9378,9 @@ struct BxString : public BxStringVal
     {
         if (_Inside(_Ptr))
         {
-            return append(*this, _Ptr - _Myptr(), _Count);
+            return (*(::plus2ad4::BxString *)&(reinterpret_cast<::StrB *>(this)->FUN_00a0c570((const ::StrB &)(*this), _Ptr - _Myptr(), _Count)));
         }
-        if (DAT_010173f0 - _Mysize <= _Count)
+        if (::g_010173f0 - _Mysize <= _Count)
         {
             _Xlen();
         }
@@ -9366,7 +9402,7 @@ struct BxString : public BxStringVal
     }
     BxString& append(const BxString& _Right)
     {
-        return append(_Right, 0, (unsigned int)-1);
+        return (*(::plus2ad4::BxString *)&(reinterpret_cast<::StrB *>(this)->FUN_00a0c570((const ::StrB &)(_Right), 0, (unsigned int)-1)));
     }
     BxString& operator+=(const BxString& _Right)
     {
@@ -9446,7 +9482,7 @@ template <class T> inline T* GvHeapAllocate(unsigned int _Count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)((GvHeap*)&DAT_011f6238)->FUN_00aa3e40(_Count * sizeof(T));
+    return (T*)((GvHeap*)&(*reinterpret_cast<int *>(&::g_memoryManager)))->FUN_00aa3e40(_Count * sizeof(T));
 }
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
@@ -9467,7 +9503,7 @@ template <class T> struct GvAlloc
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        ((GvHeap*)&DAT_011f6238)->FUN_00aa4060(_Ptr);
+        ((GvHeap*)&(*reinterpret_cast<int *>(&::g_memoryManager)))->FUN_00aa4060(_Ptr);
     }
     void destroy(pointer _Ptr)
     {
@@ -10125,7 +10161,7 @@ struct StateOperations
         width = 0;
         array = 0;
         callbacks = 0;
-        FUN_00ac9ff0(0, false);
+        reinterpret_cast<::fnv_00ac9ff0::std::ios_base *>(this)->FUN_00ac9ff0(0, false);
         locale = new localeDEB0;
     }
     static void addStandard(StateOperations*);
@@ -10177,7 +10213,7 @@ struct InputIos : StateOperations
     }
     void clear(int value = 0, bool reraise = false)
     {
-        StateOperations::FUN_00ac9ff0(streambuf == 0 ? value | 4 : value, reraise);
+        reinterpret_cast<::fnv_00ac9ff0::std::ios_base *>(this)->FUN_00ac9ff0(streambuf == 0 ? value | 4 : value, reraise);
     }
     void setstate(int value, bool reraise = false)
     {
@@ -10189,7 +10225,7 @@ struct VersionedDataBlock : virtual InputIos
 {
     VersionedDataBlock(InputStreambuf<char>* buffer, bool standard = false) : count(0)
     {
-        FUN_00ad0470(buffer, standard);
+        reinterpret_cast<::FNV_ad0470_class *>(this)->FUN_00ad0470((int)(buffer), standard);
     }
     virtual ~VersionedDataBlock()
     {}
@@ -10264,7 +10300,7 @@ template <class C> struct InputFilebuf : InputStreambuf<C>
 {
     InputFilebuf(_iobuf* _File = 0) : InputStreambuf<C>()
     {
-        FUN_00acfc10(_File, NewFile);
+        reinterpret_cast<::S_00acfb90_Class *>(this)->FUN_00acfc10((int)(_File), (*(int *)&(const ::input_ctor::InputFilebuf<char>::InitKind &)(NewFile)));
     }
     virtual ~InputFilebuf();
     void* codec;
@@ -10312,7 +10348,7 @@ template <class C> struct InputFilebuf : InputStreambuf<C>
         _iobuf* opened;
         if (file != 0 || (opened = OpenStream(name, mode, prot)) == 0)
             return 0;
-        FUN_00acfc10(opened, OpenFile);
+        reinterpret_cast<::S_00acfb90_Class *>(this)->FUN_00acfc10((int)(opened), (*(int *)&(const ::input_ctor::InputFilebuf<char>::InitKind &)(OpenFile)));
         initializeCodec((Codec*)&UseCodec(getloc()));
         return this;
     }

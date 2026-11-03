@@ -5,6 +5,43 @@
 
 // src/staging/blk_00560000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/AlignedVector.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/BSXFlags_shell.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_0041fbe0_shell.h"
+#include "fnv/decl/FUN_004211a0_StandIn.h"
+#include "fnv/decl/FUN_00440490_shell.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004ae6a0_shell.h"
+#include "fnv/decl/FUN_004b4cf0_shell.h"
+#include "fnv/decl/FUN_005407b0_Class.h"
+#include "fnv/decl/FUN_0056d2c0_cls.h"
+#include "fnv/decl/FUN_0056e050_Class.h"
+#include "fnv/decl/FUN_00577070_class.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00620b80_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5bca0_shell.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/NiNode.h"
+#include "fnv/decl/S00ca4120_Geom.h"
+#include "fnv/decl/S_00538f40.h"
+#include "fnv/decl/S_00c85c10.h"
+#include "fnv/decl/ShapeCa36a0.h"
+#include "fnv/decl/ThreeByThreeMatrix.h"
+#include "fnv/decl/bhkCollisionObject.h"
+#include "fnv/decl/fnv_00567490__ScaleReference.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_0056d000.h"
+#include "fnv/symbols_00577000.h"
+#include "fnv/symbols_006fa000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
 
 class LocalBlock20;
@@ -13,7 +50,6 @@ class FUN_00577110_slot;
 class FUN_00577110_cls
 {
   public:
-    FUN_00577110_slot* GetSlot(unsigned int index, LocalBlock20* scratch);
     void FUN_00577110();
 };
 
@@ -21,24 +57,22 @@ class __declspec(align(16)) LocalBlock20
 {
   public:
     LocalBlock20();
-    void Init();
     char buffer[0x10];
 };
 
 class FUN_00577110_slot
 {
   public:
-    void Run();
 };
 
 // @fnv 0x00577110
 void FUN_00577110_cls::FUN_00577110()
 {
     LocalBlock20 local;
-    local.Init();
-    GetSlot(0, &local)->Run();
-    GetSlot(1, &local)->Run();
-    GetSlot(2, &local)->Run();
+    reinterpret_cast<::S_00538f40 *>(&(local))->FUN_00538f40();
+    reinterpret_cast<::AlignedVector *>((((::FUN_00577110_slot *)(reinterpret_cast<::FUN_004b4cf0_shell *>(this)->FUN_004b4cf0(0)))))->FUN_004a3f10(*(const ::AlignedVector *)nullptr);
+    reinterpret_cast<::AlignedVector *>((((::FUN_00577110_slot *)(reinterpret_cast<::FUN_004b4cf0_shell *>(this)->FUN_004b4cf0(1)))))->FUN_004a3f10(*(const ::AlignedVector *)nullptr);
+    reinterpret_cast<::AlignedVector *>((((::FUN_00577110_slot *)(reinterpret_cast<::FUN_004b4cf0_shell *>(this)->FUN_004b4cf0(2)))))->FUN_004a3f10(*(const ::AlignedVector *)nullptr);
 }
 
 struct __declspec(align(16)) FUN_0056ded0
@@ -52,10 +86,8 @@ struct NiTransform
     float translation[3];
     float scale;
 };
-FUN_0056ded0& __cdecl FUN_0056df80(FUN_0056ded0& destination, const NiTransform& source);
 struct FUN_0056df20_Class
 {
-    void FUN_0056e050(FUN_0056ded0*);
     void FUN_0056df20(const NiTransform& src);
 };
 // Built from prior 2026-10-25 contributions, with byte-addressable transform storage.
@@ -63,7 +95,7 @@ struct FUN_0056df20_Class
 void FUN_0056df20_Class::FUN_0056df20(const NiTransform& src)
 {
     FUN_0056ded0 local;
-    FUN_0056e050(&FUN_0056df80(local, src));
+    reinterpret_cast<::FUN_0056e050_Class *>(this)->FUN_0056e050((int)(&(*(::FUN_0056ded0 *)&(::FromHK((::hkTransform &)(local), src)))));
 }
 
 #include <xmmintrin.h>
@@ -92,7 +124,6 @@ class Matrix56D
     float m10, m11, m12;
     float m20, m21, m22;
 };
-extern const Matrix56D g_kIdentity56D;
 
 class Transform56D
 {
@@ -113,7 +144,6 @@ class Color56D
 class MotionType56D
 {
   public:
-    void Set(int iType);
     unsigned int m_uiType;
 };
 
@@ -122,7 +152,6 @@ class Shape56D
   public:
     static void* operator new(unsigned int uiSize);
     static void operator delete(void* pvMem, unsigned int);
-    void* GetShape();
     void* m_pvVtable;
     int unk04;
     int unk08;
@@ -205,7 +234,6 @@ class Body56D
     static void* operator new(unsigned int uiSize);
     static void operator delete(void* pvMem, unsigned int);
     Body56D(BodyCinfo56D& kInfo);
-    void SetTransform(const Transform56D& kXform);
     unsigned int unk00;
     unsigned int unk04;
     unsigned int unk08;
@@ -235,7 +263,6 @@ class Property56D
     static void* operator new(unsigned int uiSize);
     static void operator delete(void* pvMem, unsigned int);
     Property56D();
-    void SetMode(int iMode, int iFlags);
     unsigned int unk00;
     unsigned int unk04;
     unsigned int unk08;
@@ -245,22 +272,17 @@ class Property56D
 class Node56D
 {
   public:
-    void SetScale(float fScale);
-    void SetColor(const Color56D& kColor);
-    void AttachProperty(Property56D* pkProperty);
 };
 
 class Physics56D
 {
   public:
-    void Attach(Node56D* pkNode, int iFlags);
 };
 
 class Holder56D
 {
   public:
     void Add(void* pvObject);
-    Physics56D* Get();
 };
 
 class Loaded56D
@@ -278,37 +300,29 @@ class Loaded56D
 class Bound56D
 {
   public:
-    int GetType();
     Point56D GetExtents();
 };
 
 class Layer56D
 {
   public:
-    unsigned int GetLayer();
 };
 
 class ExtraList56D
 {
   public:
-    Bound56D* GetBound();
-    Layer56D* GetLayerData();
 };
 
 class World56D
 {
   public:
-    void AddHolder(Physics56D* pkPhysics);
 };
 
 class Middle56D
 {
   public:
-    World56D* GetWorld();
 };
 
-void __cdecl FUN_004a3e00(hkVector4_56D& kOut, const Point56D& kIn);
-float __cdecl FUN_004a3e90(float fValue);
 
 class Ref56D
 {
@@ -439,9 +453,6 @@ class Ref56D
     virtual void v1ec();
     virtual void v1f0();
     virtual const Point56D* GetPos();
-    ExtraList56D* GetExtraData();
-    Middle56D* GetMiddle();
-    void SetScale(float fScale);
     Matrix56D GetRotation();
     void FUN_0056d7e0();
     unsigned int unk04;
@@ -474,35 +485,35 @@ class Ref56D
 // @fnv 0x0056d7e0
 void Ref56D::FUN_0056d7e0()
 {
-    Bound56D* pkBound = GetExtraData()->GetBound();
-    World56D* pkWorld = GetMiddle() ? GetMiddle()->GetWorld() : 0;
+    Bound56D* pkBound = ((::Bound56D *)(reinterpret_cast<::FUN_0041fbe0_shell *>((((::ExtraList56D *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_0041fbe0()));
+    World56D* pkWorld = ((::Middle56D *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) ? ((::World56D *)(reinterpret_cast<::FUN_004543c0_cls *>((((::Middle56D *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0())) : 0;
     if (pkWorld)
     {
         Shape56D* pkShape = 0;
         MotionInfo56D kUnused;
         hkVector4_56D m_kPoint2;
-        SetScale(1.0f);
-        Get3D()->SetScale(1.0f);
+        reinterpret_cast<::fnv_00567490::ScaleReference *>(this)->FUN_00567490(1.0f);
+        reinterpret_cast<::FUN_00440490_shell *>((Get3D()))->FUN_00440490(1.0f);
         Color56D kColor(0.0f, 0, 0);
-        Get3D()->SetColor(kColor);
+        reinterpret_cast<::FUN_00a59c60_cls *>((Get3D()))->FUN_00a59c60((int)&(kColor));
         Transform56D kXform;
         kXform.m_kRotate = GetRotation();
         kXform.m_kTranslate = *GetPos();
         kXform.m_fScale = 1.0f;
-        Layer56D* pkLayer = GetExtraData()->GetLayerData();
-        unsigned int uiLayer = pkLayer ? pkLayer->GetLayer() : 0x16;
-        if (uiLayer != 0x17 && pkBound->GetType() == 1 && kXform.m_kRotate == g_kIdentity56D)
+        Layer56D* pkLayer = ((::Layer56D *)(reinterpret_cast<::FUN_004211a0_StandIn *>((((::ExtraList56D *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_004211a0()));
+        unsigned int uiLayer = pkLayer ? ((unsigned int)(::FUN_00559450((int *)(pkLayer)))) : 0x16;
+        if (uiLayer != 0x17 && ((int)(reinterpret_cast<::Callees *>((pkBound))->FUN_00726070())) == 1 && reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::Matrix56D &)(kXform.m_kRotate))->operator==((const ::ThreeByThreeMatrix &)((*reinterpret_cast<const ::Matrix56D *>(&::DAT_011a9448)))))
         {
             BoxBodyCinfo56D kInfo;
             hkVector4_56D kVec;
             Point56D kPt;
             kPt = pkBound->GetExtents() + kXform.m_kTranslate;
-            FUN_004a3e00(kVec, kPt);
-            kInfo.m_kMax = kVec;
+            ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(kVec), (const ::fnv_004a3e00::NiPoint3 &)(kPt));
+            reinterpret_cast<::AlignedVector *>((void *)&(const ::hkVector4_56D &)(kInfo.m_kMax))->FUN_004a3f10((const ::AlignedVector &)(kVec));
             kPt = pkBound->GetExtents() * -1.0f + kXform.m_kTranslate;
-            FUN_004a3e00(kVec, kPt);
-            kInfo.m_kMin = kVec;
-            kInfo.m_kMotion.Set(2);
+            ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(kVec), (const ::fnv_004a3e00::NiPoint3 &)(kPt));
+            reinterpret_cast<::AlignedVector *>((void *)&(const ::hkVector4_56D &)(kInfo.m_kMin))->FUN_004a3f10((const ::AlignedVector &)(kVec));
+            reinterpret_cast<::FUN_005407b0_Class *>(&(kInfo.m_kMotion))->FUN_005407b0(2);
             unsigned int uiFilterInfo = 0x50000;
             uiFilterInfo |= uiLayer;
             kInfo.m_uiFilterInfo = uiFilterInfo;
@@ -510,29 +521,29 @@ void Ref56D::FUN_0056d7e0()
         }
         else
         {
-            if (pkBound->GetType() == 1)
+            if (((int)(reinterpret_cast<::Callees *>((pkBound))->FUN_00726070())) == 1)
             {
-                FUN_004a3e00(m_kPoint2, pkBound->GetExtents());
+                ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(m_kPoint2), (const ::fnv_004a3e00::NiPoint3 &)((const ::Point56D &)(pkBound->GetExtents())));
                 pkShape = new BoxShape56D(m_kPoint2);
             }
-            if (pkBound->GetType() == 2)
+            if (((int)(reinterpret_cast<::Callees *>((pkBound))->FUN_00726070())) == 2)
                 pkShape = new SphereShape56D(FUN_004a3e90(pkBound->GetExtents().x), 0);
             BodyCinfo56D kInfo;
-            kInfo.m_pvShape = pkShape->GetShape();
-            kInfo.m_kMotion.Set(2);
+            kInfo.m_pvShape = ((void *)(reinterpret_cast<::FUN_00620b80_shell *>((pkShape))->GetReferenceFlags()));
+            reinterpret_cast<::FUN_005407b0_Class *>(&(kInfo.m_kMotion))->FUN_005407b0(2);
             unsigned int uiFilterInfo = 0x50000;
             uiFilterInfo |= uiLayer;
             kInfo.m_uiFilterInfo = uiFilterInfo;
             Body56D* pkBody = new Body56D(kInfo);
-            pkBody->SetTransform(kXform);
+            reinterpret_cast<::FUN_0056df20_Class *>((pkBody))->FUN_0056df20((const ::NiTransform &)(kXform));
             m_pkLoaded->m_kHolder.Add(pkBody);
         }
         Collision56D* pkCollision = new Collision56D(Get3D());
         Property56D* pkProperty = new Property56D();
-        pkProperty->SetMode(2, 1);
-        Get3D()->AttachProperty(pkProperty);
-        m_pkLoaded->m_kHolder.Get()->Attach(Get3D(), 0);
-        pkWorld->AddHolder(m_pkLoaded->m_kHolder.Get());
+        reinterpret_cast<::BSXFlags_shell *>((pkProperty))->FUN_00519230(2, 1);
+        reinterpret_cast<::FUN_00a5bca0_shell *>((Get3D()))->SetExtraDataName((::NiExtraData *)(pkProperty));
+        reinterpret_cast<::S_00c85c10 *>((((::Physics56D *)(::FUN_00559450((int *)&(m_pkLoaded->m_kHolder))))))->FUN_00c85c10((int *)(::Node56D *)(Get3D()), (int *)(0));
+        reinterpret_cast<::FUN_0056d2c0_cls *>((pkWorld))->FUN_0056d2c0((::Arg56d2c0 *)(::Physics56D *)(((::Physics56D *)(::FUN_00559450((int *)&(m_pkLoaded->m_kHolder))))));
     }
 }
 
@@ -553,45 +564,35 @@ struct HavokTransform264
     __m128 rotation[3];
     __m128 translation;
     HavokTransform264();
-    void FUN_00577070();
 };
-void __cdecl FUN_0056df80(HavokTransform264*, const Transform264*);
 struct NativeA264
 {
-    void FUN_00ca4120(const HavokTransform264&);
 };
 struct NativeB264
 {
-    void FUN_00ca36a0(const HavokTransform264&);
 };
 struct Shape264
 {
 };
 struct ShapeA264 : Shape264
 {
-    NativeA264* GetReferenceFlags();
 };
 struct ShapeB264 : Shape264
 {
-    NativeB264* GetReferenceFlags();
 };
 struct WrappedShape264 : Shape264
 {
-    Shape264* FUN_00577190();
 };
 struct World264
 {
-    Shape264* FUN_004ae6a0();
 };
 struct Collision264
 {
-    World264* FUN_006fa820();
 };
 struct Scene264;
 struct SceneChildren264
 {
     unsigned int FUN_0043b480();
-    Scene264* FUN_0043b4a0(unsigned int);
 };
 struct Scene264
 {
@@ -644,9 +645,6 @@ struct Scene264
     virtual void Update(UpdateData264&);
     const Transform264& FUN_00461130();
 };
-Collision264* __cdecl FUN_0043b610(Scene264*);
-bool __cdecl FUN_0043b300(const void*, const void*);
-extern char DAT_012682e8, DAT_012682dc, DAT_012682d0;
 struct Owner264
 {
     void FUN_00576d50(Scene264*);
@@ -660,50 +658,50 @@ void Owner264::FUN_00576d50(Scene264* scene)
     scene->Update(update);
     Transform264 transform = scene->FUN_00461130();
     HavokTransform264 converted;
-    converted.FUN_00577070();
-    FUN_0056df80(&converted, &transform);
-    Collision264* collision = FUN_0043b610(scene);
-    World264* world = collision ? collision->FUN_006fa820() : 0;
-    Shape264* shape = world ? world->FUN_004ae6a0() : 0;
+    reinterpret_cast<::FUN_00577070_class *>(&(converted))->FUN_00577070();
+    ::FromHK((*(::hkTransform *)(&converted)), (*(const ::NiTransform *)(&transform)));
+    Collision264* collision = ((::Collision264 *)(::bhkCollisionObject::GetFromNiAVObject((::NiAVObject *)(scene))));
+    World264* world = collision ? ((::World264 *)(::fnv_006fa820::FUN_006fa820((const char *)(collision)))) : 0;
+    Shape264* shape = world ? ((::Shape264 *)(reinterpret_cast<::FUN_004ae6a0_shell *>((world))->FUN_004ae6a0())) : 0;
     if (shape)
     {
         NativeA264* nativeA = 0;
         NativeB264* nativeB = 0;
-        if (FUN_0043b300(&DAT_012682e8, shape))
+        if (::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<char *>(&::g_012682e8))), (::NiAVObject *)(shape)))
         {
             ShapeA264* typed = (ShapeA264*)shape;
-            nativeA = typed->GetReferenceFlags();
+            nativeA = ((::NativeA264 *)(reinterpret_cast<::FUN_00620b80_shell *>((typed))->GetReferenceFlags()));
         }
-        else if (FUN_0043b300(&DAT_012682dc, shape))
+        else if (::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<char *>(&::g_012682dc))), (::NiAVObject *)(shape)))
         {
             ShapeB264* typed = (ShapeB264*)shape;
-            nativeB = typed->GetReferenceFlags();
+            nativeB = ((::NativeB264 *)(reinterpret_cast<::FUN_00620b80_shell *>((typed))->GetReferenceFlags()));
         }
-        else if (FUN_0043b300(&DAT_012682d0, shape))
+        else if (::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<char *>(&::g_012682d0))), (::NiAVObject *)(shape)))
         {
             WrappedShape264* typed = (WrappedShape264*)shape;
-            Shape264* child = typed->FUN_00577190();
-            if (child && FUN_0043b300(&DAT_012682e8, child))
+            Shape264* child = ((::Shape264 *)(::FUN_00577190((void *)(typed))));
+            if (child && ::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<char *>(&::g_012682e8))), (::NiAVObject *)(child)))
             {
                 ShapeA264* typedA = (ShapeA264*)child;
-                nativeA = typedA->GetReferenceFlags();
+                nativeA = ((::NativeA264 *)(reinterpret_cast<::FUN_00620b80_shell *>((typedA))->GetReferenceFlags()));
             }
-            else if (child && FUN_0043b300(&DAT_012682dc, child))
+            else if (child && ::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<char *>(&::g_012682dc))), (::NiAVObject *)(child)))
             {
                 ShapeB264* typedB = (ShapeB264*)child;
-                nativeB = typedB->GetReferenceFlags();
+                nativeB = ((::NativeB264 *)(reinterpret_cast<::FUN_00620b80_shell *>((typedB))->GetReferenceFlags()));
             }
         }
         if (nativeA)
-            nativeA->FUN_00ca4120(converted);
+            reinterpret_cast<::S00ca4120_Geom *>((nativeA))->FUN_00ca4120((const ::S00ca4120_Xf *)&(converted));
         if (nativeB)
-            nativeB->FUN_00ca36a0(converted);
+            reinterpret_cast<::ShapeCa36a0 *>((nativeB))->FUN_00ca36a0((const ::hkTransform &)(converted));
     }
     SceneChildren264* children = scene->AsNode();
     if (children)
     {
         unsigned int count = children->FUN_0043b480();
         for (unsigned int i = 0; i < count; ++i)
-            FUN_00576d50(children->FUN_0043b4a0(i));
+            FUN_00576d50(((::Scene264 *)(reinterpret_cast<::NiNode *>((children))->GetAt(i))));
     }
 }

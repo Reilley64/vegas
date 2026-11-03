@@ -2,6 +2,35 @@
 #ifndef FNV_ACTIVEFFECT_LOCAL_H
 #define FNV_ACTIVEFFECT_LOCAL_H
 
+#include "fnv/decl/BGSDebris.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00404390_shell.h"
+#include "fnv/decl/FUN_004044d0_shell.h"
+#include "fnv/decl/FUN_00408680_shell.h"
+#include "fnv/decl/FUN_00470440.h"
+#include "fnv/decl/FUN_0049bb50_shell.h"
+#include "fnv/decl/FUN_00693d50_shell.h"
+#include "fnv/decl/FUN_007df210_shell.h"
+#include "fnv/decl/FUN_00804250_shell.h"
+#include "fnv/decl/FUN_00833c20_shell.h"
+#include "fnv/decl/FUN_00973fd0_cls.h"
+#include "fnv/decl/HX.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/Self.h"
+#include "fnv/decl/TimeoutTimer.h"
+#include "fnv/decl/W004702f0.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/decl/fnv_00ad88f0__FUN_00ad88f0_h.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00495000.h"
+#include "fnv/symbols_00804000.h"
+#include "fnv/symbols_00806000.h"
+#include "fnv/symbols_00845000.h"
+#include "fnv/symbols_011e0000.h"
 #include "layout_support.h"
 #include "magichiteffect_classes.h"
 class SoundPlaybackHandle
@@ -13,9 +42,10 @@ class SoundPlaybackHandle
     BSSoundHandle__ASSUMED_STATE eState;
     SoundPlaybackHandle();
     ~SoundPlaybackHandle();
-    bool IsSoundPlaying();
-    bool Stop();
-    bool PausePlayback();
+public:
+    bool IsValid() const;
+public:
+    bool Release();
 };
 class EffectSetting;
 class EffectItem;
@@ -45,6 +75,7 @@ enum MagicSystem__SpellType
     MagicSystem__SpellType_SPELL_TYPE_COUNT = 11
 };
 #pragma pack(push, 4)
+class EffectSetting;
 class ActiveEffect
 {
   public:
@@ -94,28 +125,21 @@ class ActiveEffect
     TESBoundObject* pSource;
     BSSimpleList<MagicHitEffect*>* pHitEffectList;
     MagicItem* pMagicItem;
-    bool FUN_007df210();
     void AdvanceEffect(float, bool);
-    bool IsTerminated();
-    bool FUN_00833c20();
-    float GetAge();
     void SetEffectiveness(float);
-    float FUN_007df1f0();
-    float GetFloatAtOffset1C();
-    void FUN_00693d50(float);
-    void FUN_00804cb0(float);
-    EffectSetting* GetEffectSetting();
-    void ResetEffectState();
     static void LoadActiveEffectList(BGSLoadFormBuffer*, BSSimpleList<ActiveEffect*>*);
     static ActiveEffect* ReadActiveEffect(BGSLoadFormBuffer*);
     static void WriteActiveEffectList(BGSLoadFormBuffer* pBuffer, BSSimpleList<ActiveEffect*>* pList);
+public:
+    ::EffectSetting *GetEffectSetting() const;
+public:
+    float GetDuration() const;
 };
 #pragma pack(pop)
 template <> class BSSimpleList<BGSPerkEntry*>
 {
   public:
     BGSPerkEntry*& GetItem();
-    BSSimpleList<BGSPerkEntry*>* GetNext();
 };
 template <> class BSSimpleList<MagicHitEffect*>
 {
@@ -123,10 +147,8 @@ template <> class BSSimpleList<MagicHitEffect*>
     MagicHitEffect* m_item;
     BSSimpleList<MagicHitEffect*>* m_pkNext;
     MagicHitEffect*& GetItem();
-    BSSimpleList<MagicHitEffect*>* GetNext();
     bool IsEmpty();
     void RemoveAll();
-    void* scalar_deleting_dtor(unsigned int);
 };
 FNV_STATIC_ASSERT(sizeof(ActiveEffect) == 72);
 
@@ -154,45 +176,31 @@ class EffectSetting
     char data[0x98];
     int archetype;
     int GetArchetype();
-    bool IsFlagSet(unsigned int);
-    bool HasAllFlags(unsigned int);
 };
 class BGSLoadGameBuffer
 {
   public:
-    int ReadElementCount();
-    bool ReadFormIdentifier(void*);
 };
 class BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
   public:
-    void ReadTypedData(void*, unsigned int);
 };
 template <> class BSSimpleList<ActiveEffect*>
 {
   public:
-    void Insert(ActiveEffect*, int (*)(ActiveEffect*, ActiveEffect*));
 };
-void FUN_00806ba0(BGSLoadFormBuffer*, BSSimpleList<ActiveEffect*>*);
-void InitLoadGameForEffects(Actor*, BSSimpleList<ActiveEffect*>*);
 class BSTempEffect;
 class ProcessLists
 {
   public:
-    void RegisterTempEffect(BSTempEffect*);
 };
 class GlobalObject_0096d020 : public ProcessLists
 {
 };
-extern GlobalObject_0096d020 g_011e0e80;
 class PerkEntryConditionSet;
 class EffectItem
 {
   public:
-    EffectSetting* GetEffectSetting();
-    int GetMagnitude();
-    int GetDuration();
-    PerkEntryConditionSet* GetConditions();
 };
 class TESObjectREFR;
 class PerkEntryConditionSet
@@ -201,11 +209,9 @@ class PerkEntryConditionSet
     BGSPerkEntry*& GetItem();
     bool ContainsTrait(TESObjectREFR*, TESObjectREFR*);
 };
-float FUN_00404040(float);
 class EffectItemList
 {
   public:
-    EffectItem* GetEffectItemAtIndex(unsigned char);
 };
 class MagicEffectSystem
 {
@@ -215,9 +221,7 @@ class MagicEffectSystem
 class ActorPackageContext
 {
   public:
-    void AddToProcedureIndex(int);
 };
-void LogWarning(const char*, ...);
 extern const char DAT_010794a8[];
 template <> class BSSimpleList<const char*>
 {
@@ -241,7 +245,6 @@ union SETTING_VALUE
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Float();
 };
 class GlobalObject_0040e0b0 : public SettingT_GameSettingCollection_
 {

@@ -5,6 +5,137 @@
 
 // src/fallout/ai/mobileobject_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/ai/mobileobject.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include "fnv/decl/ActorStandIn008a.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSProjectile.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C70CharacterController.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00407860_class.h"
+#include "fnv/decl/FUN_00414220_shell.h"
+#include "fnv/decl/FUN_0041ca90.h"
+#include "fnv/decl/FUN_004303e0_Class.h"
+#include "fnv/decl/FUN_00437bd0_stub.h"
+#include "fnv/decl/FUN_00437bf0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00444d00_Class.h"
+#include "fnv/decl/FUN_00453470_shell.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_005471e0_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_00561800_Class.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_0056e120_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_005aa420_shell.h"
+#include "fnv/decl/FUN_005aae70_shell.h"
+#include "fnv/decl/FUN_005abed0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005d43e0_shell.h"
+#include "fnv/decl/FUN_00608d80_shell.h"
+#include "fnv/decl/FUN_00619df0_shell.h"
+#include "fnv/decl/FUN_00620b80_shell.h"
+#include "fnv/decl/FUN_00644930_shell.h"
+#include "fnv/decl/FUN_006d2c20_Class.h"
+#include "fnv/decl/FUN_00810510_Class.h"
+#include "fnv/decl/FUN_00810530_c.h"
+#include "fnv/decl/FUN_00810550_class.h"
+#include "fnv/decl/FUN_00810570_shell.h"
+#include "fnv/decl/FUN_00810590_Class.h"
+#include "fnv/decl/FUN_008105c0_Class.h"
+#include "fnv/decl/FUN_008105e0_Class.h"
+#include "fnv/decl/FUN_00810640_class.h"
+#include "fnv/decl/FUN_00810660_Class.h"
+#include "fnv/decl/FUN_00812870_t.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00857230_shell.h"
+#include "fnv/decl/FUN_0087f3d0_shell.h"
+#include "fnv/decl/FUN_00881650_shell.h"
+#include "fnv/decl/FUN_00893530_shell.h"
+#include "fnv/decl/FUN_008ac890_shell.h"
+#include "fnv/decl/FUN_008ace90_shell.h"
+#include "fnv/decl/FUN_008b3b90_shell.h"
+#include "fnv/decl/FUN_008bc790_shell.h"
+#include "fnv/decl/FUN_00931fb0_shell.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FUN_00966980_shell.h"
+#include "fnv/decl/FUN_009ae4a0_class.h"
+#include "fnv/decl/FUN_009beae0_class.h"
+#include "fnv/decl/FUN_00ad73b0_t.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FUN_00ad89e0_shell.h"
+#include "fnv/decl/FUN_00ad8b60_h.h"
+#include "fnv/decl/FUN_00ad8f20_shell.h"
+#include "fnv/decl/FUN_00c6ffc0_Class.h"
+#include "fnv/decl/FleeActorEntry.h"
+#include "fnv/decl/Getter_9b8.h"
+#include "fnv/decl/HostActor.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/S.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S005620e0_Object.h"
+#include "fnv/decl/S_00c6d7a0_Obj.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/TESRegion.h"
+#include "fnv/decl/TeleportableReference.h"
+#include "fnv/decl/TopicMethods.h"
+#include "fnv/decl/V.h"
+#include "fnv/decl/_FUN_00822510_Class.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_004a3a20__FUN_004a3a20_shell.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_005ac4f0__FUN_005ac4f0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_0080fb00__FUN_0080fb00_Class.h"
+#include "fnv/decl/fnv_00810610__FUN_00810610_Class.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/decl/fnv_009334b0__FUN_009334b0_shell.h"
+#include "fnv/decl/fnv_00ad88f0__FUN_00ad88f0_h.h"
+#include "fnv/decl/s56ae10__Owner.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00461000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_004a8000.h"
+#include "fnv/symbols_004ae000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_004ba000.h"
+#include "fnv/symbols_00525000.h"
+#include "fnv/symbols_00553000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00560000.h"
+#include "fnv/symbols_00574000.h"
+#include "fnv/symbols_0057b000.h"
+#include "fnv/symbols_005ac000.h"
+#include "fnv/symbols_005db000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_0061b000.h"
+#include "fnv/symbols_0062b000.h"
+#include "fnv/symbols_006fa000.h"
+#include "fnv/symbols_00716000.h"
+#include "fnv/symbols_00874000.h"
+#include "fnv/symbols_00a58000.h"
+#include "fnv/symbols_00b6b000.h"
+#include "fnv/symbols_00c69000.h"
+#include "fnv/symbols_00c6a000.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00c8c000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011ce000.h"
 class ExtraDismemberedLimbs;
 class bhkCharacterController;
 #include "../../../include/layout_support.h"
@@ -14,9 +145,7 @@ class bhkCharacterController;
 #include "mobileobject_private/mobileobject_interface.h"
 #include "../../../include/BSAudio.h"
 #include "../../../include/SoundPlaybackHandle.h"
-extern TESDataHandler* g_dataHandler;
 #include "mobileobject_private/mobileobject_packet.h"
-bhkCharacterController* CopyCharacterControllerVector(bhkCharacterController* output, const NiPoint3& point);
 struct UnkCallee
 {
     virtual void F0();
@@ -36,39 +165,36 @@ struct UnkHolder
     volatile int mC;
     volatile int m10;
     volatile int m14;
-    UnkRet* FUN_00c85750();
     void FUN_00c72210();
 };
 
 struct bhkWorldObject;
+class NiAVObject;
 struct bhkCollisionObject
 {
-    bhkWorldObject* FUN_006fa820();
+public:
+    static ::bhkCollisionObject *GetFromNiAVObject(::NiAVObject *);
 };
 struct bhkRigidBody_shell
 {
     int FUN_00517630();
-    void* FUN_00560d80();
-    void FUN_00561690(void*);
 };
-bhkCollisionObject* __cdecl FUN_0043b610(NiAVObject*);
-bool __cdecl FUN_00c8cce0(int*);
 struct FNV_ALIGN(16) bhkUnaryAction
 {
     char buf[16];
     bhkUnaryAction();
     void Set(float, float, float, float);
-    void FUN_00553f70(void*);
 };
 struct Vec3Arg
 {
-    float* FUN_00560d30(int);
 };
+class NiAVObject;
 class NiNode
 {
   public:
     unsigned int FUN_0043b480();
-    NiAVObject* FUN_0043b4a0(unsigned int);
+public:
+    ::NiAVObject *GetAt(unsigned int);
 };
 class NiAVObject
 {
@@ -84,22 +210,22 @@ void __cdecl FUN_0062b930(NiAVObject* apObject, Vec3Arg* apVec, bool abFlag)
 {
     if (apObject)
     {
-        bhkCollisionObject* j = FUN_0043b610(apObject);
+        bhkCollisionObject* j = ::bhkCollisionObject::GetFromNiAVObject(apObject);
         if (j)
         {
-            bhkRigidBody_shell* e = (bhkRigidBody_shell*)j->FUN_006fa820();
+            bhkRigidBody_shell* e = (bhkRigidBody_shell*)((::bhkWorldObject *)(::fnv_006fa820::FUN_006fa820((const char *)(j))));
             if (e)
             {
                 int c = e->FUN_00517630();
-                if (FUN_00c8cce0(&c))
+                if (((bool)(::FUN_00c8cce0(&c))))
                 {
                     bhkUnaryAction l;
-                    l.Set(*apVec->FUN_00560d30(0), *apVec->FUN_00560d30(1), *apVec->FUN_00560d30(2), 0.0f);
+                    l.Set(*((float *)&(reinterpret_cast<::bhkCharacterController *>((apVec))->GetVectorElement(0))), *((float *)&(reinterpret_cast<::bhkCharacterController *>((apVec))->GetVectorElement(1))), *((float *)&(reinterpret_cast<::bhkCharacterController *>((apVec))->GetVectorElement(2))), 0.0f);
                     if (!abFlag)
                     {
-                        l.FUN_00553f70(e->FUN_00560d80());
+                        reinterpret_cast<::V *>(&(l))->FUN_00553f70((*(const ::V *)(((void *)&(::fnv_00560d80::FUN_00560d80((void *)(e)))))));
                     }
-                    e->FUN_00561690(&l);
+                    reinterpret_cast<::S *>((e))->FUN_00561690((int)(&l));
                 }
             }
         }
@@ -108,7 +234,7 @@ void __cdecl FUN_0062b930(NiAVObject* apObject, Vec3Arg* apVec, bool abFlag)
         {
             for (unsigned int ba = 0; ba < k->FUN_0043b480(); ba++)
             {
-                NiAVObject* b = k->FUN_0043b4a0(ba);
+                NiAVObject* b = k->GetAt(ba);
                 FUN_0062b930(b, apVec, abFlag);
             }
         }
@@ -118,15 +244,11 @@ void __cdecl FUN_0062b930(NiAVObject* apObject, Vec3Arg* apVec, bool abFlag)
 struct xFilter
 {
     xFilter(int, unsigned int, int);
-    unsigned int FUN_00559450();
     unsigned int m_uiFilterValue;
 };
-unsigned int xFUN_005dbe10();
 struct xDH;
 struct xCinfoSub
 {
-    void FUN_0056e120();
-    void FUN_009ae4a0(xDH*);
     int m_q[12];
 };
 struct __declspec(align(16)) xCinfo
@@ -154,11 +276,9 @@ struct xBody : xNiAlloc
     xBody(xCinfo*);
     int m_auiShapeKeys[6];
 };
-int __fastcall xFUN_004ae750(void*);
 struct xNode;
 struct xWorld;
 struct xCell;
-xWorld* __fastcall xFUN_004543c0(xCell*);
 struct xBodyV
 {
     virtual void v0();
@@ -212,7 +332,6 @@ struct xPtr
 };
 struct xDHOwner
 {
-    xDH* FUN_00461130();
 };
 struct xRef
 {
@@ -335,26 +454,24 @@ struct xRef
     virtual xDHOwner* FUN_1d0();
     char m_pad04[0x9c];
     xPtr m_a0;
-    xCell* FUN_008d6f30();
-    float FUN_00644930();
     void FUN_009ae280();
 };
 
 // @fnv 0x009ae280
 void xRef::FUN_009ae280()
 {
-    if (m_a0 == 0 && FUN_008d6f30() && xFUN_004543c0(FUN_008d6f30()))
+    if (reinterpret_cast<::_FUN_00822510_Class *>((void *)&(const ::xPtr &)(m_a0))->operator==((int)(0)) && ((::xCell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) && ((::xWorld *)(reinterpret_cast<::FUN_004543c0_cls *>((((::xCell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0())))
     {
         xCinfo CINFO;
-        xShape* SHAPE = new xShape(FUN_00644930(), true);
-        CINFO.m_pCollisionShape = xFUN_004ae750(SHAPE);
-        CINFO.m_uiFilterInfo = xFilter(0x29, xFUN_005dbe10(), 0).FUN_00559450();
+        xShape* SHAPE = new xShape(reinterpret_cast<::FUN_00644930_shell *>(this)->FUN_00644930(), true);
+        CINFO.m_pCollisionShape = ::FUN_004ae750(SHAPE);
+        CINFO.m_uiFilterInfo = ((unsigned int)(::FUN_00559450((int *)&(xFilter(0x29, ::FUN_005dbe10(), 0)))));
         if (FUN_1d0())
-            CINFO.m_20.FUN_009ae4a0(FUN_1d0()->FUN_00461130());
+            reinterpret_cast<::FUN_009ae4a0_class *>(&(CINFO.m_20))->FUN_009ae4a0(((::xDH *)(::FUN_00461130((int)(FUN_1d0())))));
         else
-            CINFO.m_20.FUN_0056e120();
+            reinterpret_cast<::FUN_0056e120_shell *>(&(CINFO.m_20))->FUN_0056e120();
         m_a0.FUN_0066b0d0(new xBody(&CINFO));
-        m_a0->FUN_9c(xFUN_004543c0(FUN_008d6f30()));
+        m_a0->FUN_9c(((::xWorld *)(reinterpret_cast<::FUN_004543c0_cls *>((((::xCell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0())));
     }
 }
 
@@ -380,7 +497,6 @@ class hkVector4_9BE
   public:
     hkVector4_9BE();
     hkVector4_9BE(float fX, float fY, float fZ, float fW);
-    void Set(float fX, float fY, float fZ, float fW);
     __m128 m_vComponents;
 };
 
@@ -388,7 +504,6 @@ class Filter9BE
 {
   public:
     Filter9BE();
-    unsigned int GetGroup();
     unsigned int m_uiBits;
 };
 
@@ -397,20 +512,17 @@ class Node9BE;
 class Entity9BE
 {
   public:
-    void SetLinearVelocity(const hkVector4_9BE& kMotionVelocity);
 };
 
 class WorldObject9BE
 {
   public:
     Filter9BE GetFilter();
-    Entity9BE* GetEntity();
 };
 
 class CollisionObject9BE
 {
   public:
-    WorldObject9BE* GetWorldObject();
 };
 
 class NiNode9BE;
@@ -429,7 +541,6 @@ class Node9BE
 class NiNode9BE : public Node9BE
 {
   public:
-    unsigned int GetArrayCount();
     Node9BE* GetAt(unsigned int uiIndex);
 };
 
@@ -502,7 +613,6 @@ class World9BE
     virtual void v0c8();
     virtual void v0cc();
     virtual void HandleNode(Node9BE* pkNode, int iA, int iB, unsigned int uiFilterInfo, int iC);
-    bool IsActive();
 };
 
 class ControllerInfo9BE
@@ -510,16 +620,6 @@ class ControllerInfo9BE
   public:
     ControllerInfo9BE(int iType);
     ~ControllerInfo9BE();
-    void SetScale(float fScale);
-    void SetNode(Node9BE* pkNode);
-    void SetPosition(const Point9BE* pkPos);
-    void SetWorld(World9BE* pkWorld);
-    void SetHeight(float m_fGlyphExtent);
-    void SetShape(Shape9BE* pkShape);
-    void SetFlags(int iFlags);
-    void SetFilter(int iIndex, unsigned int uiFilterInfo);
-    void SetLayer(int iLayer);
-    void SetMode(int iMode);
     __m128 m_q00;
     __m128 m_q10;
     __m128 m_q20;
@@ -595,16 +695,7 @@ class Controller9BE
     static void* operator new(unsigned int uiSize);
     static void operator delete(void* pvMem);
     Controller9BE(ControllerInfo9BE& kInfo, Actor9BE* pkActor);
-    void SetEnabled(bool bEnabled);
-    void SetMode(int iMode);
-    void SetUp(const hkVector4_9BE& kUp);
-    void SetActor(Actor9BE* pkActor);
-    void SetFallDistance(float fDistance);
     World9BE* GetWorld();
-    void SetWorld(World9BE* pkWorld);
-    Node9BE* GetNode();
-    void SetNode(Node9BE* pkNode);
-    void SetPosition(Point9BE& kPos);
     Filter9BE GetFilter();
     unsigned int unk04;
     unsigned int unk08;
@@ -1192,14 +1283,11 @@ class Process9BE
     virtual void v288();
     virtual void v28c();
     virtual void SetController(ControllerPtr9BE spController);
-    int IsDead();
 };
 
 class Middle9BE
 {
   public:
-    World9BE* GetWorld();
-    float GetFallDistance();
 };
 
 class Perks9BE
@@ -1377,12 +1465,6 @@ class Target9BE
 class Base9BE
 {
   public:
-    float GetScale();
-    bool IsSmall();
-    float GetX();
-    float GetY();
-    float GetZ();
-    float GetHeight();
 };
 
 class Actor9BE
@@ -1514,11 +1596,6 @@ class Actor9BE
     virtual void v1ec();
     virtual void v1f0();
     virtual const Point9BE* GetPos();
-    Controller9BE* GetController();
-    Middle9BE* GetMiddle();
-    bool IsFlagSet(int iFlag);
-    Base9BE* GetBaseObject();
-    Target9BE* GetOwner();
     void FUN_009be0a0();
     unsigned int unk04;
     unsigned int unk08;
@@ -1588,185 +1665,166 @@ class Actor9BE
 class Setting9BE
 {
   public:
-    float* GetFloat();
 };
-extern Setting9BE g_kSettingA9BE;
-extern Setting9BE g_kSettingB9BE;
-extern const float g_fMaxFallDistance9BE;
 extern const float g_fMaxValue9BE;
 
-CollisionObject9BE* __cdecl FUN_004a8b00(Node9BE* pkNode);
-CollisionObject9BE* __cdecl FUN_004b5260(Node9BE* pkNode);
-WorldObject9BE* __cdecl FUN_004b5a80(Entity9BE* pkEntity);
-bool __cdecl FUN_00525420();
-float __cdecl FUN_00716440();
-void __cdecl FUN_00a582f0(const Matrix9BE& kRot, const Point9BE& kIn, int iFlag, Point9BE& kA, Point9BE& kB);
-void __cdecl CopyBlock48(Node9BE* pkNode, int iFlag);
-void __cdecl FUN_00c6a0b0(Node9BE* pkNode, int iA, int iB, int iC);
-void __cdecl SetSelectionValue(Node9BE* pkNode, float fValue, int iA, int iB);
-void __cdecl ApplyCollisionObjectCount(Node9BE* pkNode, float fValue, int iA, int iB);
-void __cdecl FUN_00c6a350(Node9BE* pkNode, int iA, int iB, int iC, int iD);
-void __cdecl FUN_00c6a3d0(Node9BE* pkNode, unsigned int uiFilterInfo, int iA, int iB);
-void __cdecl TraverseObject(Node9BE* pkNode, int iA, int iB, int iC, int iD);
-void __cdecl FUN_00c69ee0(Node9BE* pkNode, int iA, int iB);
-void __cdecl FUN_00c69f50(Node9BE* pkNode, int iA, int iB);
 
 // @fnv 0x009be0a0
 void Actor9BE::FUN_009be0a0()
 {
     Node9BE* pkNode = Get3D();
-    if (!pkNode || !m_pkProcess || m_pkProcess->IsDead())
+    if (!pkNode || !m_pkProcess || ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pkProcess))->FUN_0045cd60())))
         return;
-    Middle9BE* pkMiddle = GetMiddle();
-    World9BE* pkWorld = pkMiddle ? pkMiddle->GetWorld() : 0;
+    Middle9BE* pkMiddle = ((::Middle9BE *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()));
+    World9BE* pkWorld = pkMiddle ? ((::World9BE *)(reinterpret_cast<::FUN_004543c0_cls *>((pkMiddle))->FUN_004543c0())) : 0;
     if (pkWorld)
     {
-        if (IsFlagSet(8))
+        if (reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(8))
         {
-            FUN_00c6a0b0(pkNode, 0, 1, 0);
-            FUN_00c6a350(pkNode, 4, 1, 0, 1);
+            ::FUN_00c6a0b0((::NiAVObject *)(pkNode), 0, 1, 0);
+            ::FUN_00c6a350((::NiAVObject *)(pkNode), 4, 1, 0, 1);
             return;
         }
-        CollisionObject9BE* pkCollision = FUN_004a8b00(pkNode);
+        CollisionObject9BE* pkCollision = ((::CollisionObject9BE *)(::FUN_004a8b00((::BGSBodyPart *)(pkNode))));
         WorldObject9BE* pkWorldObject = 0;
         Entity9BE* pkEntity = 0;
-        if (IsFlagSet(4))
+        if (reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(4))
         {
-            FUN_00c6a350(Get3D(), 1, 1, 0, 1);
-            if (*g_kSettingA9BE.GetFloat() != 0.0)
+            ::FUN_00c6a350((::NiAVObject *)(::Node9BE *)(Get3D()), 1, 1, 0, 1);
+            if (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9BE *>(&::g_011ce308)))))) != 0.0)
             {
-                if (GetBaseObject()->GetScale() > 0.0)
-                    SetSelectionValue(pkNode, *g_kSettingA9BE.GetFloat() * GetBaseObject()->GetScale(), 1, 0);
+                if (reinterpret_cast<::FUN_006d2c20_Class *>((((::Base9BE *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->GetFloatAtOffsetB0() > 0.0)
+                    ::SetSelectionValue((int)(pkNode), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9BE *>(&::g_011ce308)))))) * reinterpret_cast<::FUN_006d2c20_Class *>((((::Base9BE *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->GetFloatAtOffsetB0(), 1, 0);
                 else
-                    SetSelectionValue(pkNode, *g_kSettingA9BE.GetFloat(), 1, 0);
+                    ::SetSelectionValue((int)(pkNode), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9BE *>(&::g_011ce308)))))), 1, 0);
             }
-            if (*g_kSettingB9BE.GetFloat() != 0.0)
-                ApplyCollisionObjectCount(pkNode, *g_kSettingB9BE.GetFloat(), 1, 0);
-            TraverseObject(pkNode, 6, 0, 1, 0);
-            if (GetOwner())
+            if (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9BE *>(&::g_011ce5e8)))))) != 0.0)
+                ::ApplyCollisionObjectCount((::NiAVObject *)(pkNode), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9BE *>(&::g_011ce5e8)))))), 1, 0);
+            ::TraverseObject((::C6A2E0AVObject *)(pkNode), (void *)(6), 0, 1, 0);
+            if (((::Target9BE *)(::FUN_00874480((char *)this))))
             {
-                if (GetOwner()->IsActor())
+                if (((::Target9BE *)(::FUN_00874480((char *)this)))->IsActor())
                 {
-                    Target9BE* pkOwner = GetOwner();
-                    FUN_00c6a3d0(pkNode, pkOwner->GetFilter().GetGroup(), 1, 0);
+                    Target9BE* pkOwner = ((::Target9BE *)(::FUN_00874480((char *)this)));
+                    ::FUN_00c6a3d0(pkNode, reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::Filter9BE &)(pkOwner->GetFilter()))->FUN_004a3a20(), 1, 0);
                 }
                 else
                 {
-                    CollisionObject9BE* pkOwnerCollision = FUN_004b5260(GetOwner()->Get3D());
-                    WorldObject9BE* pkOwnerObject = pkOwnerCollision ? pkOwnerCollision->GetWorldObject() : 0;
+                    CollisionObject9BE* pkOwnerCollision = ((::CollisionObject9BE *)(::fnv_004b5260::FUN_004b5260((::NiAVObject *)(::Node9BE *)(((::Target9BE *)(::FUN_00874480((char *)this)))->Get3D()))));
+                    WorldObject9BE* pkOwnerObject = pkOwnerCollision ? ((::WorldObject9BE *)(::fnv_006fa820::FUN_006fa820((const char *)(pkOwnerCollision)))) : 0;
                     if (pkOwnerObject)
-                        FUN_00c6a3d0(pkNode, pkOwnerObject->GetFilter().GetGroup(), 1, 0);
+                        ::FUN_00c6a3d0(pkNode, reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::Filter9BE &)(pkOwnerObject->GetFilter()))->FUN_004a3a20(), 1, 0);
                 }
             }
             pkWorld->HandleNode(pkNode, 1, 1, 0, 0);
             if (pkCollision)
             {
-                pkWorldObject = FUN_004b5a80(pkCollision->GetWorldObject()->GetEntity());
+                pkWorldObject = ((::WorldObject9BE *)(::FUN_004b5a80(((::Entity9BE *)(reinterpret_cast<::FUN_00620b80_shell *>((((::WorldObject9BE *)(::fnv_006fa820::FUN_006fa820((const char *)(pkCollision))))))->GetReferenceFlags())))));
             }
             else if (pkNode->IsSceneNode())
             {
                 NiNode9BE* pkParent = (NiNode9BE*)pkNode;
-                if (pkParent->GetArrayCount())
+                if (((unsigned int)(reinterpret_cast<::FUN_00453470_shell *>((pkParent))->FUN_00453470())))
                 {
-                    for (unsigned int i = 0; i < pkParent->GetArrayCount(); i++)
+                    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::FUN_00453470_shell *>((pkParent))->FUN_00453470())); i++)
                     {
-                        Node9BE* pkChild = pkParent->GetAt(i);
-                        pkCollision = FUN_004a8b00(pkChild);
+                        Node9BE* pkChild = ((::Node9BE *)(reinterpret_cast<::NiNode *>((pkParent))->GetAt(i)));
+                        pkCollision = ((::CollisionObject9BE *)(::FUN_004a8b00((::BGSBodyPart *)(pkChild))));
                         if (pkCollision)
                         {
-                            pkWorldObject = FUN_004b5a80(pkCollision->GetWorldObject()->GetEntity());
+                            pkWorldObject = ((::WorldObject9BE *)(::FUN_004b5a80(((::Entity9BE *)(reinterpret_cast<::FUN_00620b80_shell *>((((::WorldObject9BE *)(::fnv_006fa820::FUN_006fa820((const char *)(pkCollision))))))->GetReferenceFlags())))));
                             break;
                         }
                     }
                 }
             }
-            if (pkWorldObject && GetBaseObject()->IsSmall())
+            if (pkWorldObject && reinterpret_cast<::BGSProjectile *>((((::Base9BE *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->FUN_009b88e0())
             {
-                pkEntity = pkWorldObject->GetEntity();
-                Point9BE kIntersectionOffset(GetBaseObject()->GetX(), GetBaseObject()->GetY(), GetBaseObject()->GetZ());
+                pkEntity = ((::Entity9BE *)(reinterpret_cast<::FUN_00620b80_shell *>((pkWorldObject))->GetReferenceFlags()));
+                Point9BE kIntersectionOffset(reinterpret_cast<::FUN_00812870_t *>((((::Base9BE *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->GetUnka4(), reinterpret_cast<::LowProcess *>((((::Base9BE *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->GetCurrentDetectionAmount(), reinterpret_cast<::Getter_9b8 *>((((::Base9BE *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->FUN_009b88c0());
                 Point9BE kMotionVelocity;
                 hkVector4_9BE kHkVelocity;
                 Matrix9BE kRot = Get3D()->GetRotate();
-                FUN_00a582f0(kRot, Point9BE(0.0f, 0.0f, 0.0f), 1, kIntersectionOffset, kMotionVelocity);
-                kHkVelocity.Set(kMotionVelocity.x, kMotionVelocity.y, kMotionVelocity.z, 0.0f);
-                pkEntity->SetLinearVelocity(kHkVelocity);
+                ::FUN_00a582f0((const float *)&(kRot), (const float *)&(const ::Point9BE &)(Point9BE(0.0f, 0.0f, 0.0f)), 1, (const ::Point314 *)&(kIntersectionOffset), (::Point314 *)&(kMotionVelocity));
+                reinterpret_cast<::bhkUnaryAction *>(&(kHkVelocity))->Set(kMotionVelocity.x, kMotionVelocity.y, kMotionVelocity.z, 0.0f);
+                reinterpret_cast<::FUN_00561800_Class *>((pkEntity))->FUN_00561800((::FUN_00561730_Obj *)&(kHkVelocity));
             }
             return;
         }
-        Controller9BE* pkController = GetController();
+        Controller9BE* pkController = ((::Controller9BE *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()));
         if (!pkController)
         {
             ControllerInfo9BE kInfo(1);
-            kInfo.SetWorld(pkWorld);
-            kInfo.SetScale(1.0f);
-            kInfo.SetNode(pkNode);
-            kInfo.SetPosition(GetPos());
-            if (GetBaseObject()->IsSmall())
-                kInfo.SetShape(new Shape9BE(1.0f, 1));
+            reinterpret_cast<::FUN_00857230_shell *>(&(kInfo))->SetSound((::TESSound *)(pkWorld));
+            reinterpret_cast<::FUN_00810550_class *>(&(kInfo))->FUN_00810550(1.0f);
+            reinterpret_cast<::FUN_008ac890_shell *>(&(kInfo))->SetWaterForm((::TESWaterForm *)(pkNode));
+            reinterpret_cast<::FUN_00810510_Class *>(&(kInfo))->FUN_00810510((*(const ::NiPoint3 *)(GetPos())));
+            if (reinterpret_cast<::BGSProjectile *>((((::Base9BE *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->FUN_009b88e0())
+                reinterpret_cast<::FUN_008105c0_Class *>(&(kInfo))->SetPointer(new Shape9BE(1.0f, 1));
             else
-                kInfo.SetShape(new Shape9BE(0.1f, 1));
-            kInfo.SetMode(0);
-            kInfo.SetFlags(0);
-            float m_fGlyphExtent = GetBaseObject()->GetHeight();
+                reinterpret_cast<::FUN_008105c0_Class *>(&(kInfo))->SetPointer(new Shape9BE(0.1f, 1));
+            reinterpret_cast<::FUN_009beae0_class *>(&(kInfo))->SetByte95(0);
+            reinterpret_cast<::FUN_00810530_c *>(&(kInfo))->FUN_00810530(0);
+            float m_fGlyphExtent = reinterpret_cast<::FUN_00966980_shell *>((((::Base9BE *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->FUN_00966980();
             if (m_pkTarget && m_pkTarget->IsActor())
             {
                 Target9BE* pkTarget = m_pkTarget;
-                kInfo.SetFilter(6, pkTarget->GetFilter().GetGroup());
+                reinterpret_cast<::FUN_00810590_Class *>(&(kInfo))->FUN_00810590(6, reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::Filter9BE &)(pkTarget->GetFilter()))->FUN_004a3a20());
                 if (pkTarget->m_kPerks.GetLevel(0x33) > 0)
                     m_fGlyphExtent *= 1.0f / FUN_00716440();
             }
-            kInfo.SetHeight(m_fGlyphExtent);
-            kInfo.SetLayer(6);
+            reinterpret_cast<::FUN_00407860_class *>(&(kInfo))->FUN_00407860(m_fGlyphExtent);
+            reinterpret_cast<::FUN_00810570_shell *>(&(kInfo))->SetAssociatedActorValue(6);
             pkController = new Controller9BE(kInfo, this);
-            pkController->SetEnabled(FUN_00525420());
-            pkController->SetMode(1);
+            reinterpret_cast<::fnv_00810610::FUN_00810610_Class *>((pkController))->FUN_00810610(((bool)(::FUN_00525420())));
+            reinterpret_cast<::FUN_008105e0_Class *>((pkController))->FUN_008105e0(1);
             hkVector4_9BE kUp(-g_fMaxValue9BE, 0.0f, 0.0f, 0.0f);
-            pkController->SetUp(kUp);
+            reinterpret_cast<::fnv_0080fb00::FUN_0080fb00_Class *>((pkController))->FUN_0080fb00((int)&(kUp));
             m_pkProcess->SetController(pkController);
-            pkController->SetActor(this);
-            FUN_00c6a0b0(pkNode, 0, 1, 0);
+            reinterpret_cast<::FUN_00810640_class *>((pkController))->FUN_00810640((int)(this));
+            ::FUN_00c6a0b0((::NiAVObject *)(pkNode), 0, 1, 0);
         }
         if (pkController)
         {
             if (pkMiddle)
-                pkController->SetFallDistance(pkMiddle->GetFallDistance());
+                ::FUN_0057b1d0((char *)(pkController), reinterpret_cast<::FUN_005471e0_shell *>((pkMiddle))->FUN_005471e0());
             else
-                pkController->SetFallDistance(g_fMaxFallDistance9BE);
+                ::FUN_0057b1d0((char *)(pkController), ::DAT_01015f5c);
             World9BE* pkOldWorld = pkController->GetWorld();
-            pkController->SetWorld(pkWorld);
-            Node9BE* pkOldNode = pkController->GetNode();
+            reinterpret_cast<::C70CharacterController *>((pkController))->FUN_00c70c90((::WorldProxy *)(pkWorld));
+            Node9BE* pkOldNode = ((::Node9BE *)(reinterpret_cast<::FUN_00810660_Class *>((pkController))->FUN_00810660()));
             bool bReset = true;
             if (pkOldNode != pkNode)
             {
-                pkController->SetNode(pkNode);
-                if (pkWorld && pkWorld->IsActive())
+                reinterpret_cast<::S_00c6d7a0_Obj *>((pkController))->FUN_00c6d7a0((int)(pkNode));
+                if (pkWorld && ::FUN_004bae00((const char *)(pkWorld)))
                 {
                     pkController->SetState(0);
-                    CopyBlock48(pkController->GetNode(), 1);
+                    ::CopyBlock48(((::Node9BE *)(reinterpret_cast<::FUN_00810660_Class *>((pkController))->FUN_00810660())), (const void *)(1));
                 }
-                FUN_00c6a350(pkNode, 4, 1, 0, 1);
+                ::FUN_00c6a350((::NiAVObject *)(pkNode), 4, 1, 0, 1);
                 bReset = true;
             }
             Point9BE kPos = *GetPos();
             if (pkOldWorld != pkWorld)
             {
                 if (pkOldWorld)
-                    FUN_00c69ee0(pkNode, 1, 0);
+                    ::FUN_00c69ee0((::NiAVObject *)(pkNode), 1, 0);
                 kPos.z += 8.0;
                 bReset = true;
             }
             if (pkWorld)
             {
-                pkController->SetPosition(kPos);
+                reinterpret_cast<::S005620e0_Object *>((pkController))->FUN_005620e0((const ::S005620e0_Source *)&(kPos));
                 if (bReset)
                 {
                     Filter9BE kFilter = pkController->GetFilter();
-                    unsigned int uiFilterInfo = kFilter.GetGroup();
+                    unsigned int uiFilterInfo = reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>(&(kFilter))->FUN_004a3a20();
                     pkWorld->HandleNode(pkNode, 1, 0, uiFilterInfo, 0);
                 }
                 else
                 {
-                    FUN_00c69f50(pkNode, 1, 0);
+                    ::FUN_00c69f50((::S_00c69f50_Obj *)(pkNode), 1, 0);
                 }
             }
         }

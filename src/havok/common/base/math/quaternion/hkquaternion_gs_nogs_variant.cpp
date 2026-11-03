@@ -8,6 +8,12 @@
 
 #include <xmmintrin.h>
 #include <math.h>
+#include "fnv/symbols_00c74000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0102b000.h"
+#include "fnv/symbols_simd.h"
 struct hkVector4
 {
     union
@@ -34,16 +40,8 @@ struct hkQuaternion
     void FUN_00cb2a50(const hkVector4& v);
 };
 
-extern const hkVector4 DAT_010c71e0;
-extern const hkVector4 DAT_010c71b0;
 extern const double DAT_010c8760;
-extern const double DAT_01016978;
-extern const float DAT_0102b3c8;
-extern const float DAT_01011d78;
-extern const float DAT_01017718;
-extern const float DAT_01016248;
 
-float __cdecl ClampedAcos(float val);
 
 namespace MathUtilities {
 inline float fabs(float f)
@@ -72,7 +70,7 @@ void hkQuaternion::FUN_00cb2a50(const hkVector4& v)
 
     __m128 term1 = _mm_mul_ps(cross, q_w);
     __m128 w2 = _mm_mul_ps(q_w, q_w);
-    __m128 w2_sub_half = _mm_add_ps(w2, DAT_010c71e0.m_vComponents);
+    __m128 w2_sub_half = _mm_add_ps(w2, (*reinterpret_cast<const ::hkVector4 *>((void *)&::DAT_010c71e0)).m_vComponents);
 
     __m128 dot0_shuf = _mm_shuffle_ps(dot0, dot0, 0);
     __m128 term2 = _mm_mul_ps(dot0_shuf, m_vec.m_vComponents);
@@ -92,7 +90,7 @@ void hkQuaternion::FUN_00cb2a50(const hkVector4& v)
 
     if (dot - 1.0f > DAT_010c8760)
     {
-        m_vec.m_vComponents = DAT_010c71b0.m_vComponents;
+        m_vec.m_vComponents = (*reinterpret_cast<const ::hkVector4 *>((void *)&::DAT_010c71b0)).m_vComponents;
         return;
     }
 
@@ -123,7 +121,7 @@ void hkQuaternion::FUN_00cb2a50(const hkVector4& v)
         axis(i1) = v(i2);
         axis(i2) = -v(i1);
 
-        FUN_00cb2450(axis, DAT_0102b3c8);
+        FUN_00cb2450(axis, ::DAT_0102b3c8);
         return;
     }
 

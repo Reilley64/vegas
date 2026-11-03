@@ -5,6 +5,24 @@
 
 // src/havok/common/base/thread/jobqueue/hkjobqueue.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/thread/jobqueue/hkjobqueue.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/ArrayRecord.h"
+#include "fnv/decl/CriticalSectionOwner.h"
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_00d04390.h"
+#include "fnv/decl/Host.h"
+#include "fnv/decl/QueueLockView.h"
+#include "fnv/decl/fnv_00d04b50__Owner.h"
+#include "fnv/decl/fnv_00d057f0__ItemPool.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00cbb000.h"
+#include "fnv/symbols_00d01000.h"
+#include "fnv/symbols_00d04000.h"
+#include "fnv/symbols_00d2c000.h"
+#include "fnv/symbols_00d96000.h"
+#include "fnv/symbols_00da3000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01268000.h"
 struct FUNObj
 {
     struct Entry
@@ -17,7 +35,6 @@ struct FUNObj
     Entry entries[15];
     void SetEntry(int index, int first, int second, int third, int fourth);
 };
-void FUN_00d043c0(void*, int);
 struct UnsignedShortCountBlock
 {
     unsigned short unk00;
@@ -73,7 +90,6 @@ struct ItemManager
     int unk74;
     void* values[5];
     int count;
-    void ProcessPendingEntries(UnsignedShortCountBlock* refs);
     void RemoveItemReference(int index, UnsignedShortCountBlock* refs);
 };
 struct Bucket
@@ -83,7 +99,6 @@ struct Bucket
     int unk08;
     int unk0C;
     int unk10;
-    void FUN_00d056d0(int);
 };
 struct Registry
 {
@@ -214,8 +229,6 @@ struct Owner
     int unk40;
     int unk44;
     int count;
-    Registry* FUN_00d04400(RequestContext*);
-    void FUN_00d04420(Registry*);
     void FUN_00d04a80(int, int);
 };
 struct Item
@@ -230,8 +243,6 @@ struct ItemPool
     int m_unk0c;
     int m_uiItemCount;
 
-    void Insert(const Item& item);
-    void Insert2(const Item& item);
 };
 struct PoolSet
 {
@@ -240,13 +251,10 @@ struct PoolSet
 };
 struct Mgr
 {
-    int GetIndex(const Item& item);
-    void Notify(int idx, PoolSet* set);
     void InsertItemAndNotify(PoolSet* set, const Item& item, int flag);
 };
 struct Obj
 {
-    int Forward3(int a, int b, int c);
     int ForwardWithZero(int a, int b);
 };
 struct S_00d056a0_Allocator
@@ -324,21 +332,15 @@ struct D057A0Queue
     int m_pTail;
     int m_iNodeCount;
 
-    void SetNodeCount(int n);
     void FUN_00d057a0(const D057A0Element& element);
 };
 struct CallTarget
 {
-    int FUN_00d04390(int aiValue);
 };
-int __cdecl FUN_00d043c0(CallTarget* apTarget, int aiValue);
-void __cdecl FUN_00d043c0(int value, int flag);
 struct FUN_00d04450_cls
 {
     int unk00;
 
-    void* FUN_00d04400(void* out);
-    void FUN_00d04420(void* p);
     void SetValue(int a1);
 };
 // ---------------------------------------------------------------------------
@@ -353,7 +355,6 @@ struct FUN_00d04450_cls
 // The semaphore object; only released through FUN_00d043c0.
 struct FnvSemaphore;
 // Releases a semaphore count times.
-void FUN_00d043c0(FnvSemaphore* pSemaphore, int count);
 // The block of pending counters handed to ReleasePendingCounts.
 struct FnvReleaseCounts
 {
@@ -442,7 +443,6 @@ class FUN_00d04890_cls
 
     int LookupSpawnedEntry(const unsigned char* p);
 };
-void __cdecl FUN_00d043c0(int value, int flag);
 struct FUN_00d048e0_cls
 {
     int unk00;
@@ -600,13 +600,9 @@ struct D049D0World
     int unk14;
     D049D0Simulation* m_pSimulation;
 
-    void* lock(D049D0LockInfo* info);
-    void disable(void* lockHandle);
-    void unlock(void* lockHandle);
 
     void SetSimulationEnabled(int enabled);
 };
-extern "C" void __cdecl FUN_00cb1260(void* dst, const void* src, int nbytes);
 struct __declspec(align(16)) D04B90Object
 {
     int unk00;
@@ -645,10 +641,8 @@ struct __declspec(align(16)) D04B90Object
 };
 struct D04B90World
 {
-    void addCopy(D04B90Object* copy, void* userData);
     void AddObjectCopy(const D04B90Object* object, void* userData);
 };
-void __cdecl GetProcessorCount(unsigned int* out);
 class FUN_00d05450_cls
 {
   public:
@@ -712,20 +706,10 @@ struct TargetObj
     int unk58;
     int unk5c;
     int unk60;
-    void __thiscall QueueOperation(int a, int b, int c);
-    void __thiscall SetEntry(int index, HookInfo info);
 };
 // The global handler array (17 entries) and the callbacks that go into it.
 extern HookFn g_hookTable[17];
-extern void __cdecl hookDefault_00d01e50(void*, void*);
-extern void __cdecl hookA_00d96600(void*, void*);
-extern void __cdecl hookB_00d969e0(void*, void*);
-extern void __cdecl hookC_00d967a0(void*, void*);
-extern void __cdecl hookD_00d968e0(void*, void*);
 // Two more registration helpers, both cdecl with one pointer argument.
-void __cdecl FUN_00da3400(TargetObj* p);
-void __cdecl FUN_00da3480(TargetObj* p);
-void __cdecl InitHookTable(TargetObj* apTarget);
 struct D04A20Allocator;
 struct D04A20MemoryRouter
 {
@@ -743,7 +727,6 @@ struct D04A20MemoryRouter
 namespace fnvc_adapt {
 extern "C" D04A20MemoryRouter& __cdecl FUN_00c85750();
 }
-void __cdecl ResizeAudioStream(void* alloc, void* array, int sizeElem);
 struct D04A20Operation
 {
     void* m_object;
@@ -765,7 +748,7 @@ struct D04A20OperationArray
     {
         D04A20Allocator& alloc = fnvc_adapt::FUN_00c85750().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&alloc, this, sizeof(D04A20Operation));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(D04A20Operation));
         return m_data[m_iElementCount++];
     }
 };
@@ -877,11 +860,9 @@ struct D04A20World
     int unk19C;
     D04A20OperationArray m_pPendingOperations;
 
-    void processPendingOperations();
     void QueueOperation(void* object, bool flag, int data);
 };
 extern "C" __declspec(dllimport) unsigned long __stdcall TlsSetValue(unsigned long index, void* value);
-extern unsigned long g_dwTlsIndex;
 struct D05490Base
 {
     int m_i00;
@@ -911,7 +892,6 @@ struct SubObj
     int m_i10;
     int m_i14;
     SubObj() throw();
-    void FUN_00d05b50(SrcCfg* p) throw();
 };
 struct PoolEntry
 {
@@ -921,7 +901,6 @@ struct PoolEntry
     int m_i0c;
     int m_i10;
     PoolEntry() throw();
-    void Init80(int size) throw();
 };
 struct PoolTable
 {
@@ -961,13 +940,8 @@ struct D05490Array
     D05490Array() throw() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
     {}
 };
-void FUN_00d043d0();
-void FUN_00d043e0();
-void FUN_00d04550();
-void FUN_00d04570();
 struct FUN_00d05490 : D05490Base
 {
-    void FinishInit() throw();
 
     PoolTable* volatile m_pTable;
     void* m_pFn1;
@@ -1027,7 +1001,6 @@ struct FUN_00d05490 : D05490Base
     FUN_00d05490(SrcCfg* a1) throw();
 };
 typedef int(__cdecl* DispatchHandler)(void*, void*, void*);
-int __cdecl FUN_00d04550(void* context, void* argument, void* item);
 template <typename T> inline T* hkAllocateChunk(int n)
 {
     return static_cast<T*>(FUN_00c85750()->heap()->AllocateMemoryBlock(n * sizeof(T)));
@@ -1049,17 +1022,13 @@ struct hkQueue128
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern "C" unsigned long _DAT_0126835c;
 extern "C" const char str_010ccd90[];
-extern "C" const char str_010c41f8[];
 static __forceinline short& Ref212(Registry* r, unsigned char sub)
 {
     return reinterpret_cast<short*>(r)[sub];
 }
 struct LunaOwner : Owner
 {
-    int LookupSpawnedEntry(Item* item);
-    int FUN_00d05840(int index, Registry* registry, int param_4, int param_3);
     int ProcessCallback(int param_2, int param_3, int param_4);
 };
 struct LunaTrace
@@ -1077,8 +1046,6 @@ struct LunaCallbackItem
     int unk0C;
     Item payload;
 };
-extern unsigned long DAT_0126835c;
-extern "C" void __cdecl FUN_00cb1260(void* dst, const void* src, int nbytes);
 struct TimerEntry
 {
     const char* m_name;
@@ -1100,12 +1067,9 @@ struct ArrayOfJobs
 };
 struct FUN_00d04bd0_cls : Owner
 {
-    int LookupSpawnedEntry(void* p);
-    void RemoveItemReference(int index, Registry* set);
     void AddJobBatch(ArrayOfJobs* jobs, int priority);
 };
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long index);
-extern unsigned long hkMonitorStreamTls;
 struct S_00d05020_Job
 {
     int unk00;
@@ -1149,14 +1113,13 @@ struct S_00d05020_Queue
     int m_pTail;
     int m_iNodeCount;
 
-    void FUN_00d056d0(int capacity);
 
     void increaseCapacity()
     {
         if (m_pRayCursor == 0)
-            FUN_00d056d0(8);
+            reinterpret_cast<::hkQueue128 *>(this)->FUN_00d056d0(8);
         else
-            FUN_00d056d0(m_pRayCursor * 2);
+            reinterpret_cast<::hkQueue128 *>(this)->FUN_00d056d0(m_pRayCursor * 2);
     }
 
     void enqueueInFront(const S_00d05020_Job& element)
@@ -1194,9 +1157,6 @@ struct S_00d05020_DynamicData
 };
 struct S_00d05020_JobQueue
 {
-    S_00d05020_DynamicData* FUN_00d04400(char* dynamicDataStorage);
-    int LookupSpawnedEntry(const S_00d05020_Job& job);
-    int FUN_00d05840(int queueIndexOfNewJob, S_00d05020_DynamicData* data, int waitStatus, S_00d05020_Job& jobOut);
     int FUN_00d05020(int originalJobType, int priority, S_00d05020_Job& jobInOut, int waitStatus);
 };
 
@@ -1416,7 +1376,7 @@ void JobDispatcher::FUN_00d04590()
                               : kThreadState.m_kNestedIntegerLists.GetLogicalSize();
     iPostArrayInteger = kJobEntries.GetLogicalSize();
 
-    if (!kThreadState.m_bCellConfigurationFlag)
+    if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(kThreadState.m_bCellConfigurationFlag))->FUN_005609f0())
     {
         iSecondInteger = iFirstInteger;
     }
@@ -1533,7 +1493,7 @@ void JobDispatcher::FUN_00d04590()
         numSemaphores++;
     }
 
-    if (bIsActive)
+    if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(bIsActive))->FUN_005609f0())
     {
         for (int i = 0; i < iSemaphoreCount; i++)
         {

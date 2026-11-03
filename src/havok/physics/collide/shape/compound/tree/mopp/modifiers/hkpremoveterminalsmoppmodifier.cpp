@@ -2,6 +2,10 @@
 // src/havok/physics/collide/shape/compound/tree/mopp/modifiers/hkpremoveterminalsmoppmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/tree/mopp/modifiers/hkpremoveterminalsmoppmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/S00e67230_Machine.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00e5d000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpRemoveTerminalsMoppModifier.h"
 
 struct hkBoolE485
@@ -114,7 +118,6 @@ struct FUN_00e48580_Heap
     void* unk10;
 };
 void* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void* allocator, void* array, int elementSize);
 struct Packed
 {
     unsigned int lo : 8;
@@ -140,7 +143,7 @@ void FUN_00e48580_Obj::AppendPackedValue(int value)
     FUN_00e48580_Heap* heap = reinterpret_cast<FUN_00e48580_Heap*>(FUN_00c85750());
     if (arr->unk04 == (int)(arr->unk08 & 0x3fffffff))
     {
-        ResizeAudioStream(heap->unk10, arr, 4);
+        ::ResizeAudioStream((::AudioAllocator *)(heap->unk10), (::AudioStream *)(arr), 4);
     }
     Packed* pEntry = &arr->unk00[arr->unk04++];
     pEntry->lo = 0;
@@ -174,7 +177,6 @@ template <typename T> struct hkArrayE486
     {}
 };
 
-void __cdecl ConstructTemporaryObject(void* a, void* b, hkVisitorE486* visitor) throw();
 
 class FUN_00e486e0 : public hkRefObjE486, public hkVisitorE486
 {
@@ -191,7 +193,7 @@ class FUN_00e486e0 : public hkRefObjE486, public hkVisitorE486
 FUN_00e486e0::FUN_00e486e0(void* apFirst, void* apSecond, void* context) throw()
 {
     m_iValueAtOffset0C = context;
-    ConstructTemporaryObject(apFirst, apSecond, this);
+    ::ConstructTemporaryObject((int)(apFirst), (int)(apSecond), (int)(this));
     m_iValueAtOffset0C = 0;
 }
 
@@ -313,7 +315,6 @@ struct __declspec(align(16)) FUN_00e67230_Obj
     int unk44;
     int unk48;
     int unk4c;
-    void FUN_00e67230(int a1, int a2, int a3);
 };
 
 // Constructs a temporary object and forwards the three arguments to its constructor.
@@ -321,7 +322,7 @@ struct __declspec(align(16)) FUN_00e67230_Obj
 void __cdecl ConstructTemporaryObject(int a1, int a2, int a3)
 {
     FUN_00e67230_Obj tmp;
-    tmp.FUN_00e67230(a1, a2, a3);
+    reinterpret_cast<::S00e67230_Machine *>(&(tmp))->FUN_00e67230((const ::S00e67230_Code *)(a1), (*(const ::S00e67230_Aabb *)(a2)), (::Visitor *)(a3));
 }
 
 #include <xmmintrin.h>
@@ -371,7 +372,6 @@ struct hkTransformE485
     hkVector4E485 m_kColumn2;
     hkVector4E485 m_vTranslation;
 };
-extern const hkTransformE485 DAT_01268370;
 
 struct __declspec(align(16)) hkpShapeBufferE485
 {
@@ -457,7 +457,6 @@ class FUN_00e485d0 : public hkReferencedObjectE485, public hkpMoppModifierE485
     virtual void InvokeSecondModifierMethod();
 };
 
-void __cdecl ConstructTemporaryObject(const hkpMoppCodeE485* pkMoppCode, const hkAabbE485& kAabb, hkpMoppModifierE485* pkModifier);
 
 // Constructor that combines the AABBs of the shapes for kShapesToRemove and calls FUN_00e5d040 with the MOPP code, that AABB and this.
 // @fnv 0x00e485d0
@@ -470,19 +469,19 @@ FUN_00e485d0::FUN_00e485d0(const hkpMoppCodeE485* pkMoppCode, const hkpShapeCont
         hkpShapeBufferE485 kBuffer;
         {
             const hkpShapeE485* pkShape = pkShapeContainer->GetShapeForKey(kShapesToRemove[0], kBuffer);
-            pkShape->getAabb(DAT_01268370, 0.0f, kAabb);
+            pkShape->getAabb((*reinterpret_cast<const ::fnv_00e485d0::hkTransformE485 *>(&::DAT_01268370)), 0.0f, kAabb);
         }
         for (int i = 1; i < kShapesToRemove.GetLogicalSize(); i++)
         {
             const hkpShapeE485* pkShape = pkShapeContainer->GetShapeForKey(kShapesToRemove[i], kBuffer);
             hkAabbE485 kAabb2;
-            pkShape->getAabb(DAT_01268370, 0.0f, kAabb2);
+            pkShape->getAabb((*reinterpret_cast<const ::fnv_00e485d0::hkTransformE485 *>(&::DAT_01268370)), 0.0f, kAabb2);
             hkAabbE485& kOut = kAabb;
             kOut.m_kMinimumCorner.setMin4(kOut.m_kMinimumCorner, kAabb2.m_kMinimumCorner);
             kOut.m_kMaximumCorner.setMax4(kOut.m_kMaximumCorner, kAabb2.m_kMaximumCorner);
         }
         m_pTerminalIdsToRemove = &kShapesToRemove;
-        ConstructTemporaryObject(pkMoppCode, kAabb, this);
+        ::ConstructTemporaryObject((int)(pkMoppCode), (int)&(kAabb), (int)(this));
         m_pTerminalIdsToRemove = 0;
     }
 }

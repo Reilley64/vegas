@@ -1,6 +1,145 @@
 // src/fallout/ai/actor_rtm_variant.cpp - RTM variant unit created 2026-11-01 by rtm_route.py: community reworks of src/fallout/ai/actor.cpp that match byte for byte only
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
 
+#include <new>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C8DAC0Owner.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/Dummy8879d0.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00409480_shell.h"
+#include "fnv/decl/FUN_00416870_t.h"
+#include "fnv/decl/FUN_00437bd0_stub.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_0043b4d0_shell.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_00491040_shell.h"
+#include "fnv/decl/FUN_00491180_shell.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/FUN_00494710_shell.h"
+#include "fnv/decl/FUN_004a0c90_shell.h"
+#include "fnv/decl/FUN_004eaf60_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_004f8960_shell.h"
+#include "fnv/decl/FUN_00508100_shell.h"
+#include "fnv/decl/FUN_00508d70_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_0057b0a0_shell.h"
+#include "fnv/decl/FUN_005a2030_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00619a70_shell.h"
+#include "fnv/decl/FUN_0061cdc0_shell.h"
+#include "fnv/decl/FUN_0061cfd0_shell.h"
+#include "fnv/decl/FUN_0061e600_t.h"
+#include "fnv/decl/FUN_00644a50_shell.h"
+#include "fnv/decl/FUN_006d2c20_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_0087eeb0_shell.h"
+#include "fnv/decl/FUN_008846e0_shell.h"
+#include "fnv/decl/FUN_00884f80_shell.h"
+#include "fnv/decl/FUN_00887a10_cls.h"
+#include "fnv/decl/FUN_00887a80_Class.h"
+#include "fnv/decl/FUN_00887ac0_class.h"
+#include "fnv/decl/FUN_0088e0f0_shell.h"
+#include "fnv/decl/FUN_008b70d0_shell.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FUN_0096d490_shell.h"
+#include "fnv/decl/FUN_0098adb0_shell.h"
+#include "fnv/decl/FUN_009a1260_Class.h"
+#include "fnv/decl/FUN_009c8d60_t.h"
+#include "fnv/decl/InventoryChanges.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/Manager.h"
+#include "fnv/decl/NonActorMagicTarget.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/RagdollCtl.h"
+#include "fnv/decl/RefVolAccum.h"
+#include "fnv/decl/Reference.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S0087ab50.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/Target.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/ThisStub.h"
+#include "fnv/decl/TopicFlagStandIn.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/bhkRigidBody_shell.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_004280f0__FUN_004280f0_shell.h"
+#include "fnv/decl/fnv_0043fcd0__FUN_0043fcd0_shell.h"
+#include "fnv/decl/fnv_004518e0__TESObjectCELL.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_00494390__MovementAnimation.h"
+#include "fnv/decl/fnv_004955c0__FUN_004955c0_t.h"
+#include "fnv/decl/fnv_004a3a20__FUN_004a3a20_shell.h"
+#include "fnv/decl/fnv_00561580__FUN_00561580_Class.h"
+#include "fnv/decl/fnv_006838b0__FUN_006838b0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00810610__FUN_00810610_Class.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/decl/fnv_0087ce80__FUN_0087ce80_shell.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_00886b30__A_00886b30.h"
+#include "fnv/decl/fnv_00887af0__FUN_00887af0_class.h"
+#include "fnv/decl/fnv_00887b40__FUN_00887b40_Class.h"
+#include "fnv/decl/fnv_00895110__PickActor.h"
+#include "fnv/decl/fnv_0089f580__ActorStub.h"
+#include "fnv/decl/fnv_008b00c0__MobileObjectStandIn.h"
+#include "fnv/decl/fnv_008be940__FloatValueProvider.h"
+#include "fnv/decl/fnv_00932a00__FUN_00932a00_t.h"
+#include "fnv/decl/fnv_00937c60__ModifierList_h.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_0045b000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_004b6000.h"
+#include "fnv/symbols_00525000.h"
+#include "fnv/symbols_00533000.h"
+#include "fnv/symbols_00552000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005b9000.h"
+#include "fnv/symbols_005c5000.h"
+#include "fnv/symbols_00619000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_00621000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_006fa000.h"
+#include "fnv/symbols_007d1000.h"
+#include "fnv/symbols_0087e000.h"
+#include "fnv/symbols_00884000.h"
+#include "fnv/symbols_00887000.h"
+#include "fnv/symbols_008c7000.h"
+#include "fnv/symbols_009e3000.h"
+#include "fnv/symbols_00b4f000.h"
+#include "fnv/symbols_00c6a000.h"
+#include "fnv/symbols_00c6c000.h"
+#include "fnv/symbols_00c80000.h"
+#include "fnv/symbols_00c8c000.h"
+#include "fnv/symbols_00c9b000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_01020000.h"
+#include "fnv/symbols_01021000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011df000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f2000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
 #include "Actor.h"
 
 #include <xmmintrin.h>
@@ -11,24 +150,18 @@ struct NiPoint3
     float x, y, z;
     NiPoint3();
     NiPoint3(float afX, float afY, float afZ);
-    NiPoint3 FUN_00439e90(const NiPoint3& arOther) const;
-    NiPoint3 FUN_00439ef0(const NiPoint3& arOther) const;
-    float FUN_00457990() const;
 };
 
 struct ThreeByThreeMatrix
 {
     float m[9];
     ThreeByThreeMatrix();
-    void FUN_004a0c90(float afAngle);
     NiPoint3 FUN_004b4500(const NiPoint3& arPoint) const;
 };
 
 struct NiBound
 {
     float fData[4];
-    NiPoint3* FUN_006815c0();
-    float FUN_0084d030();
 };
 
 struct AlignedRotation
@@ -41,19 +174,16 @@ struct FormType
 {
     int iData;
     FormType();
-    int FUN_0043b4d0();
 };
 
 struct HandleRef
 {
     int iData;
     HandleRef();
-    int FUN_004a3a20();
 };
 
 struct NiObject
 {
-    float GetFloatAtOffsetB0();
 };
 
 struct NiNode
@@ -63,34 +193,26 @@ struct NiNode
     virtual void vn002();
     virtual void vn003();
     virtual NiObject* FUN_vt10();
-    NiBound* FUN_0043d450();
 };
 
 struct NiAVObject
 {
-    int FUN_006838b0();
 };
 
 struct ProfileMarker
 {
-    void FUN_00483710();
 };
 
 struct Clock
 {
-    float FUN_0084d030();
 };
 
 struct ActorList
 {
-    unsigned int FUN_0044ddc0();
-    float FUN_009c8d60();
 };
 
 struct CombatController
 {
-    void FUN_008879d0(bool abFar);
-    void FUN_00810610(bool abValue);
 };
 
 struct Process
@@ -277,23 +399,18 @@ struct Holder
 
 struct PathMover
 {
-    void GetMovement(NiPoint3* apPos, void* apActor, int aiA, int aiB);
 };
 
 struct LookTarget
 {
-    bool FUN_00450ff0();
 };
 
 struct CameraNode
 {
-    NiPoint3* FUN_0045bb80();
 };
 
 struct LodManager
 {
-    int GetStringAtOffset13C();
-    void UpdateOrAddItem(int aiRefID, NiBound* apBound, bool abVisible);
 };
 
 struct BaseForm
@@ -303,54 +420,36 @@ struct BaseForm
 
 struct Havok
 {
-    bool FUN_00552490();
-    void FUN_00c7c150(int aiValue);
 };
 
 struct Ragdoll
 {
-    void FUN_00ca2ad0(NiNode* apRoot, int aiValue);
 };
 
 struct AnimSequence
 {
-    float FUN_00508100();
-    void FUN_0098adb0(float afTime);
 };
 
 struct AnimController
 {
-    bool FUN_00494710(int aiGroup);
-    void FUN_004955c0(int aiA, int aiGroup, int aiB, float afC, int aiD);
-    AnimSequence* FUN_00491040(int aiValue);
-    void FUN_00491180(void* apActor, float afA, float afB);
-    void FUN_00493900(void* apActor);
 };
 
 struct ListNode;
 
 struct ChildPtr
 {
-    NiAVObject* FUN_00559450();
 };
 
 struct ListNode
 {
-    ChildPtr* FUN_006815c0();
-    ListNode* FUN_00726070();
 };
 
 struct ShaderProp
 {
-    struct ShaderData* FUN_00887a10();
-    void FUN_00887a80(int aiValue);
-    void FUN_00887ac0(float afValue);
 };
 
 struct ShaderData
 {
-    float GetFloatAt0xC8();
-    float FUN_00644a50();
 };
 
 struct PropertyHolder
@@ -377,8 +476,6 @@ struct PropertyHolder
 
 struct FaceProp
 {
-    void ForwardToScriptLocals(int aiValue);
-    void FUN_00887af0(AlignedRotation* apRot);
 };
 
 struct GeomData
@@ -421,57 +518,22 @@ struct GeomData
     virtual void vz023();
     virtual void vz024();
     virtual int FUN_vt94();
-    ListNode* FUN_007d6bb0();
-    int FUN_00517630();
-    void UpdateMatchingNodes(int aiValue);
     FormType FUN_0043b4f0();
-    void FUN_00561580(int aiValue);
 };
 
 struct Geometry
 {
-    GeomData* FUN_006fa820();
 };
 
 struct FaceAnim
 {
-    void SetPairIfEnabled();
 };
 
 struct Actor;
 
-extern ProfileMarker DAT_011df69e;
 extern Clock DAT_011f6394;
-extern ActorList DAT_011f2250;
-extern Actor* DAT_011f21cc;
-extern Actor* DAT_011dea3c;
-extern NiPoint3 DAT_011f426c;
-extern NiPoint3 DAT_011a9484;
-extern CameraNode* DAT_011e07d4;
-extern CameraNode* DAT_011e07d0;
-extern int DAT_01267e64;
-extern int DAT_012683ec;
-extern const double DAT_01012060;
-extern const double DAT_01021798;
 
-float __cdecl FUN_007d1d00(int aiSetting);
-LodManager* __cdecl FUN_00b4f5c0();
-bool __cdecl FUN_00525420();
-void __cdecl FUN_00c9b670(NiNode* apRoot, NiPoint3* apDir, int aiA, float afB, int aiC);
-const char* __cdecl FUN_0087e9a0();
-const char* __cdecl FUN_00887a00();
 NiAVObject* __cdecl FUN_004ade00(NiNode* apRoot, const char* apName);
-void* __cdecl FUN_00653270(int* apType, int aiObject);
-bool __cdecl FUN_00c8cce0(int* apValue);
-void __cdecl FUN_00c6a350(NiAVObject* apObject, int a, int b, int c, int d);
-int __cdecl FUN_00621480(int aiValue);
-void __cdecl FUN_00c804d0(NiNode* apRoot, int aiValue);
-float __cdecl FUN_005b9e80(float afValue);
-float __cdecl FUN_005c53d0(float afValue);
-void __cdecl FUN_005330e0(float* apValue, float afMin, float afMax);
-bool __cdecl FUN_008c7aa0();
-FaceAnim* __stdcall FUN_004537b0(Actor* apActor, NiAVObject* apObject);
-void __cdecl SetTlsValueAndReset(NiAVObject* apObject, int aiValue);
 NiPoint3 __cdecl FUN_004a3760(float afScale, const NiPoint3& arPoint);
 
 struct Actor
@@ -792,244 +854,224 @@ struct Actor
     char pad194[4];
 
     int FUN_00931850();
-    void UpdateFlag800State();
-    bool PlaceAtPosition(NiPoint3* apPos);
-    PathMover* FUN_008b70d0();
-    LookTarget* FUN_008d6f30();
-    bool FUN_0094df60();
-    NiPoint3* FUN_00430830();
-    void FUN_00575830(const NiPoint3& arPos);
-    bool FUN_00493bb0();
-    void UpdateControllerFlag();
-    bool FUN_004eaf60();
-    float FUN_008be940();
-    NiPoint3* FUN_00436aa0();
-    int FUN_0084e3a0();
-    int FUN_008d8520();
-    NiNode* FUN_0043fcd0();
-    BaseForm* FUN_007af430();
     HandleRef FUN_00931ed0();
-    void FUN_008a1800(int aiValue);
-    void TryMakeTargetThing();
-    bool FUN_0087eeb0();
-    bool FUN_00437bd0();
     void FUN_00886cb0(float afDelta, int aiUnused);
 };
 
 // @fnv 0x00886cb0
 void Actor::FUN_00886cb0(float afDelta, int aiUnused)
 {
-    DAT_011df69e.FUN_00483710();
+    reinterpret_cast<::TESForm *>(&((*reinterpret_cast<::ActorUpdate3D::ProfileMarker *>(&::g_011df69e))))->ClearData();
     float fTimeSinceScaleStart = afDelta;
-    if (fTimeSinceScaleStart == DAT_01012060 && !FUN_00931850())
+    if (fTimeSinceScaleStart == ::_DAT_01012060 && !FUN_00931850())
     {
-        if (DAT_011f2250.FUN_0044ddc0() == 4 && this == DAT_011f21cc)
-            fTimeSinceScaleStart = DAT_011f6394.FUN_0084d030() * DAT_011f2250.FUN_009c8d60();
+        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ActorUpdate3D::ActorList *>(&::g_011f2250))))->GetName())) == 4 && this == (*reinterpret_cast<::ActorUpdate3D::Actor * *>(&::DAT_011f21cc)))
+            fTimeSinceScaleStart = reinterpret_cast<::Twin_0084d030 *>(&(DAT_011f6394))->GetStoredFloatValue() * reinterpret_cast<::FUN_009c8d60_t *>(&((*reinterpret_cast<::ActorUpdate3D::ActorList *>(&::g_011f2250))))->FUN_009c8d60();
         else
-            fTimeSinceScaleStart = DAT_011f6394.FUN_0084d030();
+            fTimeSinceScaleStart = reinterpret_cast<::Twin_0084d030 *>(&(DAT_011f6394))->GetStoredFloatValue();
     }
-    UpdateFlag800State();
-    if (this != DAT_011dea3c)
+    ::UpdateFlag800State((::Actor *)this);
+    if (this != (*reinterpret_cast<::ActorUpdate3D::Actor * *>(&::_g_thePlayer)))
     {
-        NiPoint3 kTarget = DAT_011f426c;
+        NiPoint3 kTarget = (*reinterpret_cast<::ActorUpdate3D::NiPoint3 *>((void *)&::NiPoint3::ZERO));
         int iTargetFlags = 0;
-        if (!FUN_vt4b4() && !PlaceAtPosition(&kTarget))
+        if (!FUN_vt4b4() && !reinterpret_cast<::fnv_00886b30::A_00886b30 *>(this)->PlaceAtPosition((::fnv_00886b30::Pt3_00886b30 *)(::ActorUpdate3D::NiPoint3 *)(&kTarget)))
         {
             iTargetFlags = pHolder->FUN_vt20();
             if (!pHolder->FUN_vt24(&kTarget))
             {
-                PathMover* pMover = FUN_008b70d0();
+                PathMover* pMover = ((::ActorUpdate3D::PathMover *)(reinterpret_cast<::FUN_008b70d0_shell *>(this)->FUN_008b70d0()));
                 if (pMover)
-                    pMover->GetMovement(&kTarget, this, 0, 1);
+                    reinterpret_cast<::fnv_00494390::MovementAnimation *>((pMover))->GetMovement((::fnv_00494390::MotionPoint *)(::ActorUpdate3D::NiPoint3 *)(&kTarget), (::fnv_00494390::MotionActor *)(void *)(this), 0, 1);
             }
         }
-        LookTarget* pLook = FUN_008d6f30();
-        if (pLook && pLook->FUN_00450ff0() && !DAT_011dea3c->FUN_0094df60())
+        LookTarget* pLook = ((::ActorUpdate3D::LookTarget *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()));
+        if (pLook && ::FUN_00450ff0((void *)(pLook)) && !reinterpret_cast<::PlayerCharacter *>(((*reinterpret_cast<::ActorUpdate3D::Actor * *>(&::_g_thePlayer))))->IsSleepingOrResting())
         {
             FUN_vt250(fTimeSinceScaleStart, &kTarget, iTargetFlags);
         }
         else
         {
             ThreeByThreeMatrix kRotate;
-            kRotate.FUN_004a0c90(FUN_00430830()->z);
-            FUN_00575830(FUN_vt1f4()->FUN_00439e90(kRotate.FUN_004b4500(kTarget)));
+            reinterpret_cast<::FUN_004a0c90_shell *>(&(kRotate))->FUN_004a0c90(((::ActorUpdate3D::NiPoint3 *)(reinterpret_cast<::TESRecipe *>(this)->GetData()))->z);
+            reinterpret_cast<::Reference *>(this)->FUN_00575830((::Position *)&(const ::ActorUpdate3D::NiPoint3 &)((*(::ActorUpdate3D::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)(FUN_vt1f4()))->ProjectileLaunched((::NiPoint3 *)&(const ::ActorUpdate3D::NiPoint3 &)(kRotate.FUN_004b4500(kTarget)), {})))));
         }
     }
-    if (FUN_00493bb0())
-        UpdateControllerFlag();
+    if (((bool)(reinterpret_cast<::FUN_00493bb0_Class *>(this)->FUN_00493bb0())))
+        reinterpret_cast<::fnv_008b00c0::MobileObjectStandIn *>(this)->UpdateControllerFlag();
     CombatController* pCombat = pProcess ? pProcess->FUN_vt28c() : 0;
-    if (this != DAT_011dea3c)
+    if (this != (*reinterpret_cast<::ActorUpdate3D::Actor * *>(&::_g_thePlayer)))
     {
         NiNode* p3D = FUN_vt1d0();
-        if (this != DAT_011dea3c && p3D)
+        if (this != (*reinterpret_cast<::ActorUpdate3D::Actor * *>(&::_g_thePlayer)) && p3D)
         {
             NiPoint3 kCameraPos;
-            if (DAT_011dea3c->FUN_004eaf60() && DAT_011e07d4)
-                kCameraPos = *DAT_011e07d4->FUN_0045bb80();
-            else if (DAT_011e07d0)
-                kCameraPos = *DAT_011e07d0->FUN_0045bb80();
+            if (reinterpret_cast<::FUN_004eaf60_shell *>(((*reinterpret_cast<::ActorUpdate3D::Actor * *>(&::_g_thePlayer))))->FUN_004eaf60() && (*reinterpret_cast<::ActorUpdate3D::CameraNode * *>(&::DAT_011e07d4)))
+                kCameraPos = *((::ActorUpdate3D::NiPoint3 *)(::FUN_0045bb80((int)((*reinterpret_cast<::ActorUpdate3D::CameraNode * *>(&::DAT_011e07d4))))));
+            else if ((*reinterpret_cast<::ActorUpdate3D::CameraNode * *>(&::DAT_011e07d0)))
+                kCameraPos = *((::ActorUpdate3D::NiPoint3 *)(::FUN_0045bb80((int)((*reinterpret_cast<::ActorUpdate3D::CameraNode * *>(&::DAT_011e07d0))))));
             else
-                kCameraPos = DAT_011dea3c->FUN_00436aa0()->FUN_00439e90(
-                    FUN_004a3760(DAT_011dea3c->FUN_008be940(), DAT_011a9484));
-            NiBound kBound = *p3D->FUN_0043d450();
+                kCameraPos = (*(::ActorUpdate3D::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)(((::ActorUpdate3D::NiPoint3 *)(reinterpret_cast<::TESTopicInfo *>(((*reinterpret_cast<::ActorUpdate3D::Actor * *>(&::_g_thePlayer))))->GetAddTopicList()))))->ProjectileLaunched(
+                    (::NiPoint3 *)&(const ::ActorUpdate3D::NiPoint3 &)(FUN_004a3760(reinterpret_cast<::fnv_008be940::FloatValueProvider *>(((*reinterpret_cast<::ActorUpdate3D::Actor * *>(&::_g_thePlayer))))->FUN_008be940(), (*reinterpret_cast<::ActorUpdate3D::NiPoint3 *>((void *)&::DAT_011a9484)))), {})));
+            NiBound kBound = *((::ActorUpdate3D::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((p3D))->FUN_0043d450()));
             float fDistance =
-                kCameraPos.FUN_00439ef0(*kBound.FUN_006815c0()).FUN_00457990() - kBound.FUN_0084d030() * DAT_01021798;
+                reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::ActorUpdate3D::NiPoint3 &)((*(::ActorUpdate3D::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kCameraPos))->FUN_00439ef0((::NiPoint3 *)&(*((::ActorUpdate3D::NiPoint3 *)(new ((void *)&(kBound)) ::Vec3()))), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude() - reinterpret_cast<::Twin_0084d030 *>(&(kBound))->GetStoredFloatValue() * ::DAT_01021798;
             bool bFar = false;
             NiObject* pFade = p3D->FUN_vt10();
             if (pFade)
             {
-                float fRatio = fDistance / FUN_007d1d00(3);
-                bFar = fRatio > pFade->GetFloatAtOffsetB0();
+                float fRatio = fDistance / ::FUN_007d1d00(3);
+                bFar = fRatio > reinterpret_cast<::FUN_006d2c20_Class *>((pFade))->GetFloatAtOffsetB0();
             }
-            LodManager* pLod = FUN_00b4f5c0();
-            if (pLod && pLod->GetStringAtOffset13C())
+            LodManager* pLod = ((::ActorUpdate3D::LodManager *)(::FUN_00b4f5c0()));
+            if (pLod && ((int)(::GetStringAtOffset13C((const char *)(pLod)))))
             {
-                bool bVisible = bFar ? false : fDistance > DAT_01012060;
-                pLod->UpdateOrAddItem(FUN_0084e3a0(), &kBound, bVisible);
+                bool bVisible = bFar ? false : fDistance > ::_DAT_01012060;
+                reinterpret_cast<::RefVolAccum *>((pLod))->UpdateOrAddItem(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0(), (const ::RefVolSrc *)(::ActorUpdate3D::NiBound *)(&kBound), bVisible);
             }
             if (pCombat)
-                pCombat->FUN_008879d0(bFar);
+                reinterpret_cast<::Dummy8879d0 *>((pCombat))->FUN_008879d0(bFar);
         }
     }
     if (pCombat)
-        pCombat->FUN_00810610(FUN_00525420());
-    if (bResetPose && FUN_008d8520())
+        reinterpret_cast<::fnv_00810610::FUN_00810610_Class *>((pCombat))->FUN_00810610(((bool)(::FUN_00525420())));
+    if (bResetPose && ((int)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))
     {
-        NiNode* pRoot = FUN_0043fcd0();
+        NiNode* pRoot = ((::ActorUpdate3D::NiNode *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0()));
         if (pRoot)
         {
             bool bUpright = true;
             Actor* pCreature = 0;
-            if (FUN_007af430()->FUN_00401170() == 0x2b)
+            if (((::ActorUpdate3D::BaseForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))->FUN_00401170() == 0x2b)
                 pCreature = this;
             if (pCreature && !pCreature->FUN_vt38c())
                 bUpright = false;
-            if (pHavok && pHavok->FUN_00552490())
-                pHavok->FUN_00c7c150(1);
+            if (pHavok && ::FUN_00552490((bool *)(pHavok)))
+                reinterpret_cast<::RagdollCtl *>((pHavok))->FUN_00c7c150(1);
             if (pRagdoll)
-                pRagdoll->FUN_00ca2ad0(pRoot, FUN_00931ed0().FUN_004a3a20());
-            FUN_008a1800(1);
+                reinterpret_cast<::Manager *>((pRagdoll))->FUN_00ca2ad0(pRoot, ((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::ActorUpdate3D::HandleRef &)(FUN_00931ed0()))->FUN_004a3a20())));
+            reinterpret_cast<::Actor *>(this)->SetActorLifeState((::ACTOR_LIFE_STATE)(1));
             FUN_vt2a0();
             if (bUpright)
             {
                 ThreeByThreeMatrix kHeading;
-                kHeading.FUN_004a0c90(FUN_vt2bc(0));
+                reinterpret_cast<::FUN_004a0c90_shell *>(&(kHeading))->FUN_004a0c90(FUN_vt2bc(0));
                 NiPoint3 kForward(0.0f, 1.0f, 0.0f);
                 kForward = kHeading.FUN_004b4500(kForward);
-                FUN_00c9b670(pRoot, &kForward, 1, 0.0f, 0);
+                ::FUN_00c9b670((::NiAVObject *)(pRoot), (*(const ::NiPoint3 *)(&kForward)), 1, 0.0f, 0);
                 FUN_vt48(4);
                 pProcess->FUN_vt28();
             }
             else
             {
                 AnimController* pAnim = FUN_vt1e4();
-                if (pAnim && pAnim->FUN_00494710(0xe0))
+                if (pAnim && reinterpret_cast<::FUN_00494710_shell *>((pAnim))->FUN_00494710(0xe0))
                 {
-                    pAnim->FUN_004955c0(0x14, 0xe0, -1, 0.0f, -1);
-                    AnimSequence* pSequence = pAnim->FUN_00491040(1);
+                    reinterpret_cast<::fnv_004955c0::FUN_004955c0_t *>((pAnim))->FUN_004955c0(0x14, 0xe0, -1, 0.0f, -1);
+                    AnimSequence* pSequence = ((::ActorUpdate3D::AnimSequence *)(reinterpret_cast<::FUN_00491040_shell *>((pAnim))->FUN_00491040(1)));
                     if (pSequence)
                     {
-                        pSequence->FUN_0098adb0(pSequence->FUN_00508100());
-                        pAnim->FUN_00491180(this, 0.0f, pSequence->FUN_00508100());
-                        pAnim->FUN_00493900(this);
+                        reinterpret_cast<::FUN_0098adb0_shell *>((pSequence))->FUN_0098adb0(reinterpret_cast<::FUN_00508100_shell *>((pSequence))->FUN_00508100());
+                        reinterpret_cast<::FUN_00491180_shell *>((pAnim))->FUN_00491180((::TESObjectREFR *)(void *)(this), 0.0f, reinterpret_cast<::FUN_00508100_shell *>((pSequence))->FUN_00508100());
+                        reinterpret_cast<::ThisStub *>((pAnim))->FUN_00493900(this);
                     }
-                    TryMakeTargetThing();
+                    reinterpret_cast<::fnv_0089f580::ActorStub *>(this)->TryMakeTargetThing();
                 }
             }
             bResetPose = false;
         }
     }
-    if (FUN_0087eeb0() && !FUN_vt22c(0) && !FUN_00437bd0())
+    if (reinterpret_cast<::FUN_0087eeb0_shell *>(this)->FUN_0087eeb0() && !FUN_vt22c(0) && !((bool)(reinterpret_cast<::FUN_00437bd0_stub *>(this)->FUN_00437bd0())))
     {
         NiNode* pFaceRoot = FUN_vt1d0();
-        NiAVObject* pObject = FUN_004ade00(pFaceRoot, FUN_0087e9a0());
+        NiAVObject* pObject = FUN_004ade00(pFaceRoot, ((const char *)(::FUN_0087e9a0())));
         bool bChanged = false;
         if (pObject)
         {
-            int iObject = pObject->FUN_006838b0();
-            Geometry* m_pShaderGeometry = (Geometry*)FUN_00653270(&DAT_01267e64, pObject->FUN_006838b0());
+            int iObject = ((int)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>((pObject))->FUN_006838b0()));
+            Geometry* m_pShaderGeometry = (Geometry*)((void *)(::FUN_00653270((const ::NiRTTI *)(int *)(&(*reinterpret_cast<int *>(&::g_01267e64))), (::NiObject *)(((int)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>((pObject))->FUN_006838b0()))))));
             if (m_pShaderGeometry)
             {
-                GeomData* pData = m_pShaderGeometry->FUN_006fa820();
-                ListNode* pIter = pData->FUN_007d6bb0();
-                int iSkin = pData->FUN_00517630();
-                if (!FUN_00c8cce0(&iSkin))
+                GeomData* pData = ((::ActorUpdate3D::GeomData *)(::fnv_006fa820::FUN_006fa820((const char *)(m_pShaderGeometry))));
+                ListNode* pIter = ((::ActorUpdate3D::ListNode *)(reinterpret_cast<::NonActorMagicTarget *>((pData))->GetActiveEffectList()));
+                int iSkin = reinterpret_cast<::bhkRigidBody_shell *>((pData))->FUN_00517630();
+                if (!((bool)(::FUN_00c8cce0(&iSkin))))
                 {
-                    FUN_00c6a350(pObject, 1, 1, 1, 1);
-                    int iNewSkin = FUN_00621480(pData->FUN_vt94());
-                    pData->UpdateMatchingNodes(iNewSkin);
+                    ::FUN_00c6a350((::NiAVObject *)(pObject), 1, 1, 1, 1);
+                    int iNewSkin = ((int)(::FUN_00621480((::HighProcess *)(pData->FUN_vt94()))));
+                    reinterpret_cast<::C8DAC0Owner *>((pData))->UpdateMatchingNodes((void *)(iNewSkin));
                     bChanged = true;
                 }
                 FormType kType = pData->FUN_0043b4f0();
-                if (kType.FUN_0043b4d0() == 0x1d)
-                    FUN_00c804d0(pFaceRoot, 8);
-                pData->FUN_00561580(1);
-                while (pIter && pIter->FUN_006815c0()->FUN_00559450())
+                if (reinterpret_cast<::FUN_0043b4d0_shell *>(&(kType))->FUN_0043b4d0() == 0x1d)
+                    ::FUN_00c804d0((::WalkNode_c804 *)(pFaceRoot), 8);
+                reinterpret_cast<::fnv_00561580::FUN_00561580_Class *>((pData))->FUN_00561580(1);
+                while (pIter && ((::ActorUpdate3D::NiAVObject *)(::FUN_00559450((int *)(((::ActorUpdate3D::ChildPtr *)(new ((void *)(pIter)) ::Vec3())))))))
                 {
                     FaceProp* pFace =
-                        (FaceProp*)FUN_00653270(&DAT_012683ec, (int)pIter->FUN_006815c0()->FUN_00559450());
+                        (FaceProp*)((void *)(::FUN_00653270((const ::NiRTTI *)(int *)(&(*reinterpret_cast<int *>(&::g_012683ec))), (::NiObject *)((int)((::ActorUpdate3D::NiAVObject *)(::FUN_00559450((int *)(((::ActorUpdate3D::ChildPtr *)(new ((void *)(pIter)) ::Vec3()))))))))));
                     if (pFace)
                     {
                         float fDesiredHeadingAngle = FUN_vt2bc(0);
-                        AlignedRotation kRotationBasis(FUN_005c53d0(fDesiredHeadingAngle), FUN_005b9e80(fDesiredHeadingAngle), 0.0f, 0.0f);
-                        pFace->ForwardToScriptLocals(1);
-                        pFace->FUN_00887af0(&kRotationBasis);
+                        AlignedRotation kRotationBasis(::FUN_005c53d0(fDesiredHeadingAngle), ::FUN_005b9e80(fDesiredHeadingAngle), 0.0f, 0.0f);
+                        reinterpret_cast<::fnv_00887b40::FUN_00887b40_Class *>((pFace))->ForwardToScriptLocals(1);
+                        reinterpret_cast<::fnv_00887af0::FUN_00887af0_class *>((pFace))->FUN_00887af0(&kRotationBasis);
                         break;
                     }
-                    pIter = pIter->FUN_00726070();
+                    pIter = ((::ActorUpdate3D::ListNode *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
                 }
-                if (FUN_008c7aa0())
-                    FUN_004537b0(this, pObject)->SetPairIfEnabled();
+                if (::FUN_008c7aa0())
+                    reinterpret_cast<::S0087ab50 *>((((::ActorUpdate3D::FaceAnim *)(::TaskQueueInterface::GetSingleton()))))->SetPairIfEnabled({}, {});
                 else
-                    SetTlsValueAndReset(pObject, 2);
+                    ::SetTlsValueAndReset((int)(pObject), 2);
             }
         }
-        pObject = FUN_004ade00(pFaceRoot, FUN_00887a00());
+        pObject = FUN_004ade00(pFaceRoot, ((const char *)(::FUN_00887a00())));
         if (pObject)
         {
-            int iObject = pObject->FUN_006838b0();
-            Geometry* m_pShaderGeometry = (Geometry*)FUN_00653270(&DAT_01267e64, pObject->FUN_006838b0());
+            int iObject = ((int)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>((pObject))->FUN_006838b0()));
+            Geometry* m_pShaderGeometry = (Geometry*)((void *)(::FUN_00653270((const ::NiRTTI *)(int *)(&(*reinterpret_cast<int *>(&::g_01267e64))), (::NiObject *)(((int)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>((pObject))->FUN_006838b0()))))));
             if (m_pShaderGeometry)
             {
-                GeomData* pData = m_pShaderGeometry->FUN_006fa820();
-                ListNode* pIter = pData->FUN_007d6bb0();
-                int iSkin = pData->FUN_00517630();
-                if (!FUN_00c8cce0(&iSkin))
+                GeomData* pData = ((::ActorUpdate3D::GeomData *)(::fnv_006fa820::FUN_006fa820((const char *)(m_pShaderGeometry))));
+                ListNode* pIter = ((::ActorUpdate3D::ListNode *)(reinterpret_cast<::NonActorMagicTarget *>((pData))->GetActiveEffectList()));
+                int iSkin = reinterpret_cast<::bhkRigidBody_shell *>((pData))->FUN_00517630();
+                if (!((bool)(::FUN_00c8cce0(&iSkin))))
                 {
-                    FUN_00c6a350(pObject, 1, 1, 1, 1);
-                    int iNewSkin = FUN_00621480(pData->FUN_vt94());
-                    pData->UpdateMatchingNodes(iNewSkin);
+                    ::FUN_00c6a350((::NiAVObject *)(pObject), 1, 1, 1, 1);
+                    int iNewSkin = ((int)(::FUN_00621480((::HighProcess *)(pData->FUN_vt94()))));
+                    reinterpret_cast<::C8DAC0Owner *>((pData))->UpdateMatchingNodes((void *)(iNewSkin));
                     bChanged = true;
                 }
                 FormType kType = pData->FUN_0043b4f0();
-                if (kType.FUN_0043b4d0() == 0x1d)
-                    FUN_00c804d0(pFaceRoot, 8);
-                pData->FUN_00561580(1);
-                while (pIter && pIter->FUN_006815c0()->FUN_00559450())
+                if (reinterpret_cast<::FUN_0043b4d0_shell *>(&(kType))->FUN_0043b4d0() == 0x1d)
+                    ::FUN_00c804d0((::WalkNode_c804 *)(pFaceRoot), 8);
+                reinterpret_cast<::fnv_00561580::FUN_00561580_Class *>((pData))->FUN_00561580(1);
+                while (pIter && ((::ActorUpdate3D::NiAVObject *)(::FUN_00559450((int *)(((::ActorUpdate3D::ChildPtr *)(new ((void *)(pIter)) ::Vec3())))))))
                 {
-                    PropertyHolder* pProps = (PropertyHolder*)pIter->FUN_006815c0()->FUN_00559450();
+                    PropertyHolder* pProps = (PropertyHolder*)((::ActorUpdate3D::NiAVObject *)(::FUN_00559450((int *)(((::ActorUpdate3D::ChildPtr *)(new ((void *)(pIter)) ::Vec3()))))));
                     ShaderProp* pShader = pProps->FUN_vt44();
                     if (pShader)
                     {
-                        ShaderData* m_pSPData = pShader->FUN_00887a10();
+                        ShaderData* m_pSPData = ((::ActorUpdate3D::ShaderData *)(reinterpret_cast<::FUN_00887a10_cls *>((pShader))->FUN_00887a10()));
                         float fScale = fScale24;
-                        FUN_005330e0(&fScale, m_pSPData->FUN_00644a50(), m_pSPData->GetFloatAt0xC8());
-                        pShader->FUN_00887a80(1);
-                        pShader->FUN_00887ac0(fScale);
+                        ::FUN_005330e0(&fScale, reinterpret_cast<::FUN_00644a50_shell *>((m_pSPData))->FUN_00644a50(), reinterpret_cast<::FUN_009a1260_Class *>((m_pSPData))->GetFloatAt0xC8());
+                        reinterpret_cast<::FUN_00887a80_Class *>((pShader))->FUN_00887a80(1);
+                        reinterpret_cast<::FUN_00887ac0_class *>((pShader))->FUN_00887ac0(fScale);
                         break;
                     }
-                    pIter = pIter->FUN_00726070();
+                    pIter = ((::ActorUpdate3D::ListNode *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
                 }
-                if (FUN_008c7aa0())
-                    FUN_004537b0(this, pObject)->SetPairIfEnabled();
+                if (::FUN_008c7aa0())
+                    reinterpret_cast<::S0087ab50 *>((((::ActorUpdate3D::FaceAnim *)(::TaskQueueInterface::GetSingleton()))))->SetPairIfEnabled({}, {});
                 else
-                    SetTlsValueAndReset(pObject, 2);
+                    ::SetTlsValueAndReset((int)(pObject), 2);
             }
         }
         if (bChanged)
             FUN_vt48(4);
     }
-    DAT_011df69e.FUN_00483710();
+    reinterpret_cast<::TESForm *>(&((*reinterpret_cast<::ActorUpdate3D::ProfileMarker *>(&::g_011df69e))))->ClearData();
 }
 
 }
@@ -1050,31 +1092,23 @@ __if_not_exists(TESActorBase::TESActorBase)
 struct P164Flags
 {
     unsigned int value;
-    bool FUN_004280f0(unsigned int);
 };
 struct P164Buffer
 {
     virtual unsigned char GetVersion();
-    void FUN_00864980(void*, unsigned int);
-    void FUN_008648e0(void*);
     unsigned int FUN_008648a0();
-    unsigned int FUN_00864a60();
     P164Flags FUN_00428110();
 };
 struct P164Item
 {
-    TESForm* FUN_0044ddc0();
     ~P164Item();
 };
 struct P164Inventory
 {
-    P164Item* FUN_004c8c10(unsigned int, int);
 };
-P164Inventory* __cdecl FUN_004bf220(TESObjectREFR*);
 TESForm* __cdecl FUN_004839c0(unsigned int);
 struct P164Modifier
 {
-    void LoadModifiers(P164Buffer*);
 };
 struct ActorListEntry
 {
@@ -1087,26 +1121,18 @@ struct P164List
 };
 struct P164Clock
 {
-    float FUN_0096d490();
 };
-extern P164Clock DAT_011e0e80;
 struct P164Biped
 {
-    TESForm* FUN_0088e0f0(int);
 };
 struct P164State
 {
-    int FUN_004f8960();
 };
 struct P164Actor : Actor
 {
     void FUN_008ab3a0(P164Buffer*);
-    void FUN_00932a00(P164Buffer*);
-    void FUN_00884f80();
     void FUN_008c1ac0(bool);
     void SetFlag40000000(bool);
-    bool FUN_00566950();
-    const char* FUN_0055d520();
 };
 struct P164ActorVirtual
 {
@@ -1555,87 +1581,87 @@ struct P164Process
 // @fnv 0x008ab3a0
 void P164Actor::FUN_008ab3a0(P164Buffer* buffer)
 {
-    int oldState = ((P164State*)this)->FUN_004f8960();
-    FUN_00932a00(buffer);
+    int oldState = reinterpret_cast<::FUN_004f8960_shell *>((((P164State*)this)))->FUN_004f8960();
+    reinterpret_cast<::fnv_00932a00::FUN_00932a00_t *>(this)->FUN_00932a00((::fnv_00932a00::BGSLoadFormBuffer *)(buffer));
     m_eLifeState = (ACTOR_LIFE_STATE)oldState;
-    FUN_00884f80();
-    buffer->FUN_00864980(&ActorConditionAndAnimationState, 4);
-    ActorConditionAndAnimationState = DAT_011e0e80.FUN_0096d490() - ActorConditionAndAnimationState;
-    buffer->FUN_00864980(&ActorStateFlags, 1);
-    buffer->FUN_00864980(&ActorReferenceData, 1);
-    buffer->FUN_00864980(&m_bFirstActorFlag, 1);
-    buffer->FUN_00864980(&m_bActorFlag, 1);
-    buffer->FUN_00864980(&m_fFirstValueAfterFlag, 4);
-    buffer->FUN_00864980(&m_bSecondBooleanValue, 1);
-    buffer->FUN_00864980(&m_eAnimationGroup, 4);
-    buffer->FUN_00864980(&m_bHasUpdated, 1);
-    buffer->FUN_00864980(&ActorReferenceListData, 1);
-    buffer->FUN_00864980(&ActorBaseConfiguration, 1);
-    buffer->FUN_00864980(&m_bFlagBeforeActorBase, 1);
-    buffer->FUN_00864980(&ActorBaseReference, 1);
-    buffer->FUN_00864980(&m_bSecondActorFlag, 1);
-    buffer->FUN_00864980(&m_iIntegerBeforeTwoFloatValues, 4);
-    buffer->FUN_00864980(&BooleanIntegerTwoFloatData, 4);
-    buffer->FUN_00864980(&IntegerFloatFlagSettings, 4);
-    buffer->FUN_00864980(&m_bFirstFlagAfterForm, 1);
-    buffer->FUN_00864980(&m_bFormFlag, 1);
-    buffer->FUN_00864980(&m_bMiddleFlagBeforeActorMover, 1);
-    buffer->FUN_00864980(&m_iPackageState, 4);
-    buffer->FUN_00864980(&ActorProjectileState, 4);
-    buffer->FUN_00864980(&m_bFlagBeforeTwoBooleans, 1);
-    buffer->FUN_00864980(&m_bMiddleFlag, 1);
+    reinterpret_cast<::FUN_00884f80_shell *>(this)->FUN_00884f80();
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ActorConditionAndAnimationState), 4);
+    ActorConditionAndAnimationState = reinterpret_cast<::FUN_0096d490_shell *>(&((*reinterpret_cast<::P164Clock *>(&::g_011e0e80))))->FUN_0096d490() - ActorConditionAndAnimationState;
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ActorStateFlags), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ActorReferenceData), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bFirstActorFlag), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bActorFlag), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_fFirstValueAfterFlag), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bSecondBooleanValue), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_eAnimationGroup), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bHasUpdated), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ActorReferenceListData), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ActorBaseConfiguration), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bFlagBeforeActorBase), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ActorBaseReference), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bSecondActorFlag), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_iIntegerBeforeTwoFloatValues), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&BooleanIntegerTwoFloatData), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&IntegerFloatFlagSettings), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bFirstFlagAfterForm), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bFormFlag), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bMiddleFlagBeforeActorMover), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_iPackageState), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ActorProjectileState), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bFlagBeforeTwoBooleans), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bMiddleFlag), 1);
     if (buffer->GetVersion() >= 8)
-        buffer->FUN_00864980(&m_eCriticalStage, 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_eCriticalStage), 4);
     if (buffer->GetVersion() >= 9)
     {
-        buffer->FUN_00864980(&m_bActorListValid, 1);
-        buffer->FUN_00864980(&m_iIntegerAfterActorListValid, 4);
-        buffer->FUN_00864980(&ActorStatusData, 1);
-        buffer->FUN_00864980(&m_uiFirstValueAfterInteger, 4);
-        buffer->FUN_00864980(&m_uiActorFlags, 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bActorListValid), 1);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_iIntegerAfterActorListValid), 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ActorStatusData), 1);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_uiFirstValueAfterInteger), 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_uiActorFlags), 4);
         FUN_008c1ac0(false);
         SetFlag40000000(false);
     }
     if (buffer->GetVersion() >= 13)
-        buffer->FUN_00864980(&m_uiValueBeforeBooleanFields, 4);
-    buffer->FUN_008648e0(&m_pActorReference);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_uiValueBeforeBooleanFields), 4);
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((buffer))->FUN_008648e0((unsigned int *)(void *)(&m_pActorReference));
     m_pActorBase = dynamic_cast<TESActorBase*>(FUN_004839c0(buffer->FUN_008648a0()));
-    buffer->FUN_008648e0(&m_pMobileObject);
-    if (buffer->FUN_00428110().FUN_004280f0(0x400))
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((buffer))->FUN_008648e0((unsigned int *)(void *)(&m_pMobileObject));
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::P164Flags &)(buffer->FUN_00428110()))->FUN_004280f0(0x400))
     {
         unsigned char lifeState = 0;
-        buffer->FUN_00864980(&lifeState, 1);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&lifeState), 1);
         m_eLifeState = (ACTOR_LIFE_STATE)lifeState;
     }
-    if (buffer->FUN_00428110().FUN_004280f0(0x80000))
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::P164Flags &)(buffer->FUN_00428110()))->FUN_004280f0(0x80000))
     {
-        unsigned int count = buffer->FUN_00864a60();
+        unsigned int count = ((unsigned int)(reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((buffer))->FUN_00864a60()));
         for (unsigned int i = 0; i < count; ++i)
         {
             ActorListEntry* modifier = new ActorListEntry;
-            buffer->FUN_008648e0(&modifier->form);
-            buffer->FUN_00864980(modifier, 4);
+            reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((buffer))->FUN_008648e0((unsigned int *)(void *)(&modifier->form));
+            reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(modifier), 4);
             ((P164List*)&m_kSecondPointerList)->FUN_005ae3d0(modifier);
         }
     }
-    if (buffer->FUN_00428110().FUN_004280f0(0x800000))
-        ((P164Modifier*)&m_kFirstActorData)->LoadModifiers(buffer);
-    if (buffer->FUN_00428110().FUN_004280f0(0x400000))
-        ((P164Modifier*)&m_kSecondActorData)->LoadModifiers(buffer);
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::P164Flags &)(buffer->FUN_00428110()))->FUN_004280f0(0x800000))
+        reinterpret_cast<::fnv_00937c60::ModifierList_h *>((((P164Modifier*)&m_kFirstActorData)))->LoadModifiers((::fnv_00937c60::BGSLoadFormBuffer *)(buffer));
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::P164Flags &)(buffer->FUN_00428110()))->FUN_004280f0(0x400000))
+        reinterpret_cast<::fnv_00937c60::ModifierList_h *>((((P164Modifier*)&m_kSecondActorData)))->LoadModifiers((::fnv_00937c60::BGSLoadFormBuffer *)(buffer));
     ((P164Mover*)m_pActorMover)->Load(buffer);
-    if (Get3DSimple() && m_pBaseProcess)
+    if (((::NiAVObject *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0())) && m_pBaseProcess)
     {
         P164Biped* inventory = ((P164ActorVirtual*)this)->GetBipedAnimation();
-        P164Inventory* biped = FUN_004bf220(this);
+        P164Inventory* biped = ((::P164Inventory *)(::InventoryChanges::CreateForReference(this)));
         if (inventory && biped)
         {
             unsigned int slots[] = {0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19};
             unsigned int slotCount = 19;
             for (unsigned int slot = 0; slot < slotCount; ++slot)
             {
-                TESForm* current = inventory->FUN_0088e0f0(slot);
-                P164Item* item = biped->FUN_004c8c10(slot, 0);
-                TESForm* equipped = item ? item->FUN_0044ddc0() : 0;
+                TESForm* current = reinterpret_cast<::FUN_0088e0f0_shell *>((inventory))->FUN_0088e0f0(slot);
+                P164Item* item = ((::P164Item *)(reinterpret_cast<::Target *>((biped))->FUN_004c8c10(slot, 0)));
+                TESForm* equipped = item ? ((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())) : 0;
                 if (current)
                 {
                     if (((P164FormType*)current)->FUN_00401170() == 12)
@@ -1651,13 +1677,13 @@ void P164Actor::FUN_008ab3a0(P164Buffer* buffer)
                 delete item;
             }
         }
-        else if (biped && ((P164ActorVirtual*)this)->IsCharacter() && FUN_00566950() &&
-                 strstr(FUN_0055d520(), DAT_0102fdc8))
+        else if (biped && ((P164ActorVirtual*)this)->IsCharacter() && reinterpret_cast<::MiddleHighProcess *>(this)->IsActorInCombat() &&
+                 strstr(reinterpret_cast<::FUN_0055d520_shell *>(this)->FUN_0055d520(), DAT_0102fdc8))
         {
-            P164Item* weapon = biped->FUN_004c8c10(5, 0);
-            TESForm* weaponForm = weapon ? weapon->FUN_0044ddc0() : 0;
+            P164Item* weapon = ((::P164Item *)(reinterpret_cast<::Target *>((biped))->FUN_004c8c10(5, 0)));
+            TESForm* weaponForm = weapon ? ((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((weapon))->GetName())) : 0;
             if (((P164Process*)m_pBaseProcess)->GetLoadedForm() &&
-                ((P164Process*)m_pBaseProcess)->GetLoadedForm()->FUN_0044ddc0() != weaponForm)
+                ((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((((P164Process*)m_pBaseProcess)->GetLoadedForm()))->GetName())) != weaponForm)
                 ((P164Process*)m_pBaseProcess)->Update(true);
         }
     }

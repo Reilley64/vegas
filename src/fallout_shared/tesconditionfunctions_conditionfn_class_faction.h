@@ -45,6 +45,8 @@ class TESClass : public TESForm
     unsigned char trainingLevel;
     unsigned char pad5E[2];
     bool IsTagSkill(ActorValue::Index aeSkill) const;
+public:
+    bool IsGuard();
 };
 FNV_STATIC_ASSERT(sizeof(TESClass) == 96);
 FNV_STATIC_ASSERT(offsetof(TESClass, tagSkills) == 68);

@@ -5,6 +5,11 @@
 
 // src/havok/common/base/math/matrix/hkmatrix4.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/matrix/hkmatrix4.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00cb20b0_shell.h"
+#include "fnv/decl/MProduct.h"
+#include "fnv/decl/Matrix4V.h"
+#include "fnv/decl/S00de9140_Matrix4.h"
+#include "fnv/symbols_0104d000.h"
 struct FUN_00de8f30_Class
 {
     float m_data[16];
@@ -40,6 +45,7 @@ typedef union __declspec(intrin_type) __declspec(align(16)) __m128
     unsigned short m128_u16[8];
     unsigned int m128_u32[4];
 } __m128;
+#include "fnv/symbols_simd.h"
 struct __declspec(align(16)) hkVector4
 {
     float x, y, z, w;
@@ -54,7 +60,6 @@ struct hkMatrix4
     hkVector4 m_kColumn1;
     hkVector4 m_kColumn2;
     hkVector4 m_kColumn3;
-    void FUN_00de8da0(const hkMatrix4& a, const hkMatrix4& b);
     void FUN_00de8e50(const hkMatrix4& b);
     void operator=(const hkMatrix4& o)
     {
@@ -71,7 +76,6 @@ struct FUN_00de90f0_Class
 };
 struct CB20B0_Class
 {
-    void FUN_00cb20b0(void* src);
 };
 struct Matrix44_shell
 {
@@ -84,7 +88,6 @@ struct Owner
     __m128 row10;
     __m128 row20;
     __m128 row30;
-    void FUN_00de8910(float value);
     void FUN_00de8c50(const __m128* source, float value);
 };
 struct SourceBlockCDF
@@ -112,7 +115,6 @@ struct SourceBlockCDF
 };
 struct TargetBlockCDF
 {
-    void FUN_00cd55b0(SourceBlockCDF* pkSource, int iArg);
 };
 struct FUN_00cdf230_cls
 {
@@ -162,7 +164,6 @@ struct MatR
     Row m_row3;
     const MatR* Add(const MatR* other);
 };
-extern float DAT_0104da4c;
 __declspec(align(16)) struct S00de9270_Vec
 {
     float m_uiX;
@@ -191,7 +192,6 @@ struct FUN_00de8da0_Class
     float unk04;
     float unk08;
     float unk0c;
-    void FUN_00de8da0(void* dst, const float* src);
 };
 __declspec(noinline) void FUN_00de8910_Class::FUN_00de8910(float s)
 {
@@ -218,7 +218,6 @@ extern "C"
     void _mm_store_ss(float*, __m128);
 }
 
-extern const __m128 DAT_010c7160;
 
 class S00de92d0_SimdReal
 {
@@ -242,7 +241,7 @@ class S00de92d0_SimdReal
 
 __forceinline S00de92d0_SimdReal operator-(const S00de92d0_SimdReal& r)
 {
-    return _mm_sub_ss(DAT_010c7160, r.getQuad());
+    return _mm_sub_ss(::DAT_010c7160, r.getQuad());
 }
 
 class S00de92d0_Vector4

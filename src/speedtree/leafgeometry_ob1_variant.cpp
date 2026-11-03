@@ -5,6 +5,15 @@
 
 // src/speedtree/leafgeometry.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/leafgeometry.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_0065f240.h"
+#include "fnv/decl/FloatVec.h"
+#include "fnv/decl/GroupBuilder.h"
+#include "fnv/decl/S.h"
+#include "fnv/decl/V3cdd0.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00b0d000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_011f8000.h"
 struct LeafLod
 {
     char b[0x44];
@@ -38,8 +47,6 @@ struct FUN_00b27870_Class
     const float* CopyLodData(unsigned int& aiFloatCount);
 };
 void* __cdecl _memmove(void* dest, const void* src, unsigned int count);
-extern "C" bool FUN_00b0d7a0();
-extern const float DAT_01012054;
 struct FUN_00b28720_Class
 {
     int unk00;
@@ -141,7 +148,7 @@ struct Allocator
     void* p;
     inline void deallocate(void* value)
     {
-        ::operator delete(value);
+        ::FUN_00401030(value);
     }
     inline ~Allocator()
     {
@@ -249,7 +256,7 @@ struct FUN_00449fd0 : VectorStorage
     }
     inline ~FUN_00449fd0()
     {
-        FUN_0065f240();
+        reinterpret_cast<::FUN_0065f240 *>(this)->Clear();
     }
     inline float& operator[](unsigned int n);
 };
@@ -289,15 +296,15 @@ void LeafGeometry::FUN_00b27910(Bounds& output)
         {
             Vec3 center(origins[i][0] * sizes[i][0], origins[i][1] * sizes[i][1], 0);
             float radius = 0;
-            if (radius < center.FUN_00b04d40(Vec3(0, 0, 0)))
-                radius = center.FUN_00b04d40(Vec3(0, 0, 0));
-            if (radius < center.FUN_00b04d40(Vec3(sizes[i][0], 0, 0)))
-                radius = center.FUN_00b04d40(Vec3(sizes[i][0], 0, 0));
-            if (radius < center.FUN_00b04d40(Vec3(sizes[i][0], sizes[i][1], 0)))
-                radius = center.FUN_00b04d40(Vec3(sizes[i][0], sizes[i][1], 0));
-            if (radius < center.FUN_00b04d40(Vec3(0, sizes[i][1], 0)))
-                radius = center.FUN_00b04d40(Vec3(0, sizes[i][1], 0));
-            radii.PushBack(radius);
+            if (radius < reinterpret_cast<::V3cdd0 *>((void *)&(center))->FUN_00b04d40((const ::V3cdd0 *)&(const ::Vec3 &)(Vec3(0, 0, 0))))
+                radius = reinterpret_cast<::V3cdd0 *>((void *)&(center))->FUN_00b04d40((const ::V3cdd0 *)&(const ::Vec3 &)(Vec3(0, 0, 0)));
+            if (radius < reinterpret_cast<::V3cdd0 *>((void *)&(center))->FUN_00b04d40((const ::V3cdd0 *)&(const ::Vec3 &)(Vec3(sizes[i][0], 0, 0))))
+                radius = reinterpret_cast<::V3cdd0 *>((void *)&(center))->FUN_00b04d40((const ::V3cdd0 *)&(const ::Vec3 &)(Vec3(sizes[i][0], 0, 0)));
+            if (radius < reinterpret_cast<::V3cdd0 *>((void *)&(center))->FUN_00b04d40((const ::V3cdd0 *)&(const ::Vec3 &)(Vec3(sizes[i][0], sizes[i][1], 0))))
+                radius = reinterpret_cast<::V3cdd0 *>((void *)&(center))->FUN_00b04d40((const ::V3cdd0 *)&(const ::Vec3 &)(Vec3(sizes[i][0], sizes[i][1], 0)));
+            if (radius < reinterpret_cast<::V3cdd0 *>((void *)&(center))->FUN_00b04d40((const ::V3cdd0 *)&(const ::Vec3 &)(Vec3(0, sizes[i][1], 0))))
+                radius = reinterpret_cast<::V3cdd0 *>((void *)&(center))->FUN_00b04d40((const ::V3cdd0 *)&(const ::Vec3 &)(Vec3(0, sizes[i][1], 0)));
+            reinterpret_cast<::FloatVec *>(&(radii))->PushBack(radius);
         }
         for (int j = 0; j < lodCount; ++j)
         {
@@ -422,14 +429,14 @@ void S00b28280_Leaf::FUN_00b28280(const Matrix4f& cTransform)
             {
                 pLeafVertex4 = pLodA->m_ppFloatData + j_ * 3;
                 Vector3D cCoord6(pLeafVertex4[0], pLeafVertex4[1], pLeafVertex4[2]);
-                cCoord6 = cCoord6.FUN_00b05000(cTransform);
+                cCoord6 = (*(::Vector3D *)(reinterpret_cast<::S *>(&(cCoord6))->FUN_00b05000((::V *)&(cTransform), {})));
                 _memmove(pLeafVertex4, &cCoord6, 12);
 
                 if (m_bValueAt00)
                 {
                     float* kPLeafNormal = pLodA->m_pLeafNormals + j_ * 3;
                     Vector3D cNormal5(kPLeafNormal[0], kPLeafNormal[1], kPLeafNormal[2]);
-                    cNormal5 = cNormal5.FUN_00b05000(cTransform);
+                    cNormal5 = (*(::Vector3D *)(reinterpret_cast<::S *>(&(cNormal5))->FUN_00b05000((::V *)&(cTransform), {})));
                     _memmove(kPLeafNormal, &cNormal5, 12);
                 }
             }
@@ -528,7 +535,6 @@ struct LeafGeometryB28480
     unsigned short unk1E;
     Vec3B28480* m_pPositions;
     Vec3B28480* m_pLeafVectors;
-    void FUN_00b29380(unsigned short usLod, int nSeed);
     void FUN_00b28480(unsigned short usLod, int nSeed, const LeafSourceB28480* pSource);
 };
 
@@ -549,7 +555,7 @@ void LeafGeometryB28480::FUN_00b28480(unsigned short usLod, int nSeed, const Lea
     }
     int nNumTexCoords = m_usNumLeaves * m_usValueAt28 * 2 * 4 * 4;
     m_pfTexCoords = new float[nNumTexCoords];
-    FUN_00b29380(usLod, nSeed);
+    reinterpret_cast<::GroupBuilder *>(this)->FUN_00b29380(usLod, (::PointVector *)(nSeed));
 }
 
 namespace LeafMatrices {
@@ -764,7 +770,6 @@ inline float Interpolate(float fStart, float m_fEndValue, float fNormalizedPosit
     return fStart + (m_fEndValue - fStart) * fNormalizedPosition;
 }
 
-extern Matrix4f* DAT_011f8d88;
 
 struct WindEngine
 {
@@ -837,7 +842,7 @@ void CLeafGeometryWind::FUN_00b29190(unsigned short usLod)
             const float* pOrigCoord = pLod->m_pOrigCoordCenterCoords + i * 3;
             cPos.Set(pOrigCoord[0], pOrigCoord[1], pOrigCoord[2]);
             unsigned char ucWindMatrix = pLod->m_pByteArrayAt38[i];
-            cPos = cPos.FUN_00b05000(WindEngine::GetWindMatrix(ucWindMatrix));
+            cPos = (*(::leafwind::Vector3D *)(reinterpret_cast<::S *>((void *)&(cPos))->FUN_00b05000((::V *)&(WindEngine::GetWindMatrix(ucWindMatrix)), {})));
             cNewPos.Set(Interpolate(pOrigCoord[0], cPos[0], fWeight), Interpolate(pOrigCoord[1], cPos[1], fWeight),
                         Interpolate(pOrigCoord[2], cPos[2], fWeight));
             memcpy(pLod->m_pFloatArrayAt18 + i * 3, &cNewPos, 12);

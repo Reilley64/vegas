@@ -3,25 +3,26 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00cbc440
+#include "fnv/decl/Target.h"
+#include "fnv/symbols_00cc0000.h"
+#include "fnv/symbols_01268000.h"
 int __stdcall FUN_00cbc440(int a, int b)
 {
     return 1;
 }
 
-extern int DAT_01268418;
 
 // @fnv 0x00cbbfc0
 int FUN_00cbbfc0()
 {
-    return DAT_01268418;
+    return (*reinterpret_cast<int *>(&::DAT_01268418));
 }
 
-extern int g_CBBFD0Value;
 
 // @fnv 0x00cbbfd0
 int __cdecl FUN_00cbbfd0()
 {
-    return g_CBBFD0Value;
+    return (*reinterpret_cast<int *>(&::DAT_01268418));
 }
 
 extern int DAT_010c8efc;
@@ -77,7 +78,7 @@ void MyCls::FUN_00cbbfe0()
 // @fnv 0x00cbc450
 MyCls* MyCls::FUN_00cbc450(int arg)
 {
-    FUN_00cbbfe0();
+    reinterpret_cast<::FUN_00cbbfe0_This *>(this)->FUN_00cbbfe0();
     return this;
 }
 
@@ -85,7 +86,6 @@ MyCls* MyCls::FUN_00cbc450(int arg)
 void __cdecl FUN_00cbbff0()
 {}
 
-void __cdecl FUN_00cc0410(int handle, const char* fmt, ...);
 extern const char str_010c9078[];
 extern const char str_010c9058[];
 extern const char str_010c902c[];
@@ -125,18 +125,18 @@ static __declspec(noinline) void FUN_00cbc000(S00cbc000_Stats* apStats, unsigned
     unsigned int reserved = total - limit;
     unsigned int soft = limit < comp ? limit : comp;
     float invPct = (float)(100.0 / (float)soft);
-    FUN_00cc0410(handle, str_010c9078, name);
-    FUN_00cc0410(handle, str_010c9058, total);
+    ::FUN_00cc0410((::hkOstream *)(handle), str_010c9078, name);
+    ::FUN_00cc0410((::hkOstream *)(handle), str_010c9058, total);
     if (limit < total)
     {
-        FUN_00cc0410(handle, str_010c902c, reserved, (double)(((float)reserved * 100.0) / (float)comp));
-        FUN_00cc0410(handle, str_010c900c, limit);
+        ::FUN_00cc0410((::hkOstream *)(handle), str_010c902c, reserved, (double)(((float)reserved * 100.0) / (float)comp));
+        ::FUN_00cc0410((::hkOstream *)(handle), str_010c900c, limit);
     }
-    FUN_00cc0410(handle, str_010c8fe0, diff, (double)((fDiff * 100.0) / fLimit));
-    FUN_00cc0410(handle, str_010c8fc0, comp);
-    FUN_00cc0410(handle, str_010c8f94, apStats->unk04, (double)((float)apStats->unk04 * invPct));
-    FUN_00cc0410(handle, str_010c8f68, apStats->unk0c, (double)((float)apStats->unk0c * invPct));
-    FUN_00cc0410(handle, str_010c8f3c, apStats->unk08, (double)((float)apStats->unk08 * invPct));
+    ::FUN_00cc0410((::hkOstream *)(handle), str_010c8fe0, diff, (double)((fDiff * 100.0) / fLimit));
+    ::FUN_00cc0410((::hkOstream *)(handle), str_010c8fc0, comp);
+    ::FUN_00cc0410((::hkOstream *)(handle), str_010c8f94, apStats->unk04, (double)((float)apStats->unk04 * invPct));
+    ::FUN_00cc0410((::hkOstream *)(handle), str_010c8f68, apStats->unk0c, (double)((float)apStats->unk0c * invPct));
+    ::FUN_00cc0410((::hkOstream *)(handle), str_010c8f3c, apStats->unk08, (double)((float)apStats->unk08 * invPct));
 }
 
 void S00cbc000_Caller(S00cbc000_Stats* s, int handle, unsigned int limit, const char* name)
@@ -145,7 +145,6 @@ void S00cbc000_Caller(S00cbc000_Stats* s, int handle, unsigned int limit, const 
 }
 
 struct hkOstream;
-int __cdecl FUN_00cc0410(hkOstream* ostr, const char* fmt, ...);
 
 struct SixUnsignedValueRecord
 {
@@ -178,7 +177,6 @@ struct hkMemoryAllocator
 
 struct hkThreadMemory
 {
-    unsigned int ComputeWeightedSum();
 };
 
 struct StringPointerTriple
@@ -261,19 +259,19 @@ static __declspec(noinline) void FUN_00cbc000(hkOstream* ostr, const char* name,
     unsigned int reserved = total - softLimit;
     unsigned int avail = MathUtilities::min2(softLimit, available);
     float scale = (float)(100.0 / avail);
-    FUN_00cc0410(ostr, "\t%s:\n", name);
-    FUN_00cc0410(ostr, "            totalSize:   %10i\n", total);
+    ::FUN_00cc0410(ostr, "\t%s:\n", name);
+    ::FUN_00cc0410(ostr, "            totalSize:   %10i\n", total);
     if (softLimit < total)
     {
-        FUN_00cc0410(ostr, "\n            - reserved:  %10i (%4.1f%%)\n", reserved, reserved * 100.0 / available);
-        FUN_00cc0410(ostr, "            = softlimit: %10i\n", softLimit);
+        ::FUN_00cc0410(ostr, "\n            - reserved:  %10i (%4.1f%%)\n", reserved, reserved * 100.0 / available);
+        ::FUN_00cc0410(ostr, "            = softlimit: %10i\n", softLimit);
     }
-    FUN_00cc0410(ostr, "            - overhead:  %10i (%4.1f%%)\n", overhead, fOverhead * 100.0 / fLimit);
-    FUN_00cc0410(ostr, "            = available: %10i\n", available);
-    FUN_00cc0410(ostr, "              used:      %10i (%4.1f%%)\n", s.m_pAllocationMap, s.m_pAllocationMap * scale);
-    FUN_00cc0410(ostr, "              free:      %10i (%4.1f%%)\n", s.m_uiFourthUnsignedValue,
+    ::FUN_00cc0410(ostr, "            - overhead:  %10i (%4.1f%%)\n", overhead, fOverhead * 100.0 / fLimit);
+    ::FUN_00cc0410(ostr, "            = available: %10i\n", available);
+    ::FUN_00cc0410(ostr, "              used:      %10i (%4.1f%%)\n", s.m_pAllocationMap, s.m_pAllocationMap * scale);
+    ::FUN_00cc0410(ostr, "              free:      %10i (%4.1f%%)\n", s.m_uiFourthUnsignedValue,
                  s.m_uiFourthUnsignedValue * scale);
-    FUN_00cc0410(ostr, "              peak:      %10i (%4.1f%%)\n\n", s.m_uiThirdValue, s.m_uiThirdValue * scale);
+    ::FUN_00cc0410(ostr, "              peak:      %10i (%4.1f%%)\n\n", s.m_uiThirdValue, s.m_uiThirdValue * scale);
 }
 
 // Writes heap, thread, stack, solver, and debug memory statistics to ostr using info and FUN_00cbc000.
@@ -285,20 +283,20 @@ void __stdcall FUN_00cbc220(hkOstream* ostr, MemSystemInfo* info)
     unsigned int heapInUse = stats.m_pAllocationMap;
     FUN_00cbc000(ostr, "Heap", stats, info->m_heapSoftLimit);
 
-    FUN_00cc0410(ostr, "\tThreadMemory (=CachedHeapMemory)\n");
+    ::FUN_00cc0410(ostr, "\tThreadMemory (=CachedHeapMemory)\n");
     int total = 0;
     for (int i = 0; i < info->m_threadMemory.GetLogicalSize(); i++)
     {
-        unsigned int iStackSize = info->m_threadMemory[i]->ComputeWeightedSum();
+        unsigned int iStackSize = ((unsigned int)(reinterpret_cast<::Target *>((info->m_threadMemory[i]))->ComputeWeightedSum()));
         if (iStackSize > 0)
         {
-            FUN_00cc0410(ostr, "            Thread %i  size %10i\n", i, iStackSize);
+            ::FUN_00cc0410(ostr, "            Thread %i  size %10i\n", i, iStackSize);
             total += iStackSize;
         }
     }
-    FUN_00cc0410(ostr, "            = total %i\n\n", total);
+    ::FUN_00cc0410(ostr, "            = total %i\n\n", total);
 
-    FUN_00cc0410(ostr, "\tStackMemory\n");
+    ::FUN_00cc0410(ostr, "\tStackMemory\n");
     int stackTotal = 0;
     for (int iStackIndex = 0; iStackIndex < info->m_kAllocatorList.GetLogicalSize(); iStackIndex++)
     {
@@ -307,25 +305,25 @@ void __stdcall FUN_00cbc220(hkOstream* ostr, MemSystemInfo* info)
         int iStackSize = pStackTriple->m_kRayEnd - pStackTriple->m_kRayStart;
         stackTotal += iStackSize;
         used = iStackSize - (int)(pStackTriple->m_kRayEnd - pStackTriple->m_pTileTemplate);
-        FUN_00cc0410(ostr, "            Thread %i  size %10i      used:    %6i (%4.1f%%)\n", iStackIndex, iStackSize,
+        ::FUN_00cc0410(ostr, "            Thread %i  size %10i      used:    %6i (%4.1f%%)\n", iStackIndex, iStackSize,
                      used, used * 100.0 / iStackSize);
     }
     if (info->m_kAllocatorList.GetLogicalSize() == 0)
     {
         stackTotal = info->m_stackTotal;
     }
-    FUN_00cc0410(ostr, "            = total %i\n\n", stackTotal);
+    ::FUN_00cc0410(ostr, "            = total %i\n\n", stackTotal);
 
     FUN_00c85750()->solverAllocator().FillMemoryStatistics(stats);
-    FUN_00cc0410(ostr, "\t%s:\n", "Solver");
-    FUN_00cc0410(ostr, "            totalSize:   %10i\n", stats.m_uiFirstValue);
-    FUN_00cc0410(ostr, "              peak:      %10i (%4.1f%%)\n\n", stats.m_uiThirdValue,
+    ::FUN_00cc0410(ostr, "\t%s:\n", "Solver");
+    ::FUN_00cc0410(ostr, "            totalSize:   %10i\n", stats.m_uiFirstValue);
+    ::FUN_00cc0410(ostr, "              peak:      %10i (%4.1f%%)\n\n", stats.m_uiThirdValue,
                  (float)stats.m_uiThirdValue * 100.0 / (float)stats.m_uiFirstValue);
 
     FUN_00c85750()->debugAllocator().FillMemoryStatistics(stats);
     if (heapInUse == stats.m_pAllocationMap)
     {
-        FUN_00cc0410(ostr, "\tDebugMem: Not used.\n\n");
+        ::FUN_00cc0410(ostr, "\tDebugMem: Not used.\n\n");
     }
     else
     {

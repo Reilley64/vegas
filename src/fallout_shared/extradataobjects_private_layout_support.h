@@ -2,6 +2,12 @@
 #ifndef FNV_EXTRADATAOBJECTS_PRIVATE_LAYOUT_SUPPORT_H
 #define FNV_EXTRADATAOBJECTS_PRIVATE_LAYOUT_SUPPORT_H
 #include <stddef.h>
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00487000.h"
 #define FNV_JOIN_IMPL(a, b) a##b
 #define FNV_JOIN(a, b) FNV_JOIN_IMPL(a, b)
 #define FNV_STATIC_ASSERT(condition) typedef char FNV_JOIN(fnv_static_assert_, __LINE__)[(condition) ? 1 : -1]
@@ -185,19 +191,13 @@ enum ENUM_FORM_ID
 class TESFile
 {
   public:
-    unsigned char GetTESForm();
-    unsigned int GetChunkID();
-    unsigned int GetChunkSize();
     bool IsEndianConversionRequired();
-    bool GetChunkData(void* apData, unsigned int auiSize);
-    bool GetChunkData(unsigned int* apData);
     bool NextChunk();
 };
 class TESFullName;
 class TESFullNameLoader
 {
   public:
-    static void LoadFullNameChunk(TESFullName* apName, TESFile* apFile);
 };
 extern "C" void* __cdecl _alloca(size_t auiBytes);
 enum CHUNK_ID

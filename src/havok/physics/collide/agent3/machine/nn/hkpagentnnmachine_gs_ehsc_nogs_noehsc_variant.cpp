@@ -5,6 +5,12 @@
 
 // src/havok/physics/collide/agent3/machine/nn/hkpagentnnmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/machine/nn/hkpagentnnmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/SearchObject.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cfd000.h"
+#include "fnv/symbols_00cfe000.h"
+#include "fnv/symbols_00cff000.h"
+#include "fnv/symbols_01012000.h"
 struct LinkEntry
 {
     void* m_pIntegerData;
@@ -35,7 +41,6 @@ struct LinkNode
     LinkEntry* m_pEntries;
     int m_iArrayLength;
 };
-void* __cdecl FindEntryValue(LinkNode* apFirst, LinkNode* apSecond);
 // Stand-in for the game's record descriptor:
 //   +0x00  base address used for the last record
 //   +0x04  array of 4-byte record pointers
@@ -73,7 +78,6 @@ struct FnvCtx
     int unk10;
     int unk14;
 };
-void GetNodePairValue(FnvNode** ppA, FnvNode** ppB, FnvCtx* pCtx, int* pOutVal, int* pOutFlag);
 struct CFE820Allocator
 {
     virtual void unk00();
@@ -93,7 +97,6 @@ struct CFE820MemoryRouter
     }
 };
 extern "C" CFE820MemoryRouter& __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void* alloc, void* array, int sizeElem);
 struct CFE820BlockArray
 {
     char** m_data;
@@ -115,7 +118,7 @@ struct CFE820BlockArray
     {
         CFE820Allocator& alloc = FUN_00c85750().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&alloc, this, sizeof(char*));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(char*));
         construct(m_data + m_iElementCount, 1, e);
         m_iElementCount++;
     }
@@ -205,17 +208,13 @@ struct __declspec(align(16)) FUN_00cfeba0_Node
     int unka8;
     int unkac;
 };
-void* __cdecl FUN_00cfe1d0(void* h, void* a, void* b, unsigned int n, void* c);
-void __cdecl FUN_00cfeba0(FUN_00cfeba0_Obj* self, void** a2, void* a3);
 struct ItemStack
 {
     int m_base;
     int* m_pItems;
     int m_uiItemCount;
 };
-void __cdecl FUN_00cfea30(ItemStack* s, int value, int a, int b);
 void __cdecl FUN_00cfed90(ItemStack* s, int a, int b);
-extern const float DAT_01012054;
 struct FUN_00cfdc90_Obj
 {
     unsigned char type;
@@ -235,7 +234,6 @@ struct FUN_00cfdc90_Obj
     int unk30;
 };
 typedef void(__cdecl* FUN_00cfdc90_Fn)(FUN_00cfdc90_Obj* self, void* p, float a, float b, void* ctx);
-void __cdecl DispatchSlotCallback(FUN_00cfdc90_Obj* obj, float x, float y, void* ctx);
 struct hkpLinkedCollidableCFEA;
 struct hkpAgentNnEntryCFEA;
 typedef void(__cdecl* hkAgent3DestroyFuncCFEA)(hkpAgentNnEntryCFEA* entry, void* agentData, void* contactMgr,
@@ -496,7 +494,7 @@ struct hkCollisionEntryArrayCFEA
         int totalSize = hkNextPowerOf2CFEA(m_iElementCount + numFreeElemsLeft);
         if (totalSize < getCapacity())
         {
-            FUN_00c909d0(&alloc, this, sizeof(hkpCollisionEntryCFEA), 0, totalSize);
+            ::fnv_00c909d0::FUN_00c909d0((*(::fnv_00c909d0::hkMemoryAllocator *)(&alloc)), this, sizeof(hkpCollisionEntryCFEA), 0, totalSize);
         }
     }
 };
@@ -506,9 +504,6 @@ struct hkpLinkedCollidableCFEA
     int unk28, unk2c, unk30, unk34, unk38, unk3c, unk40, unk44, unk48, unk4c;
     hkCollisionEntryArrayCFEA m_kCollisionEntries;
 };
-void __cdecl FUN_00cfe020(void* track, hkpAgentNnEntryCFEA* entry);
-void __cdecl FUN_00cfea30(void* track, hkpAgentNnEntryCFEA* entry, hkpCollisionDispatcherCFEA* dispatch,
-                          void* constraintOwner);
 struct hkpAgentNnSectorCFF2;
 struct hkpAgentNnEntryCFF2;
 static __forceinline int hkNextPowerOf2CFF2(unsigned int in)
@@ -565,7 +560,6 @@ struct hkSectorArrayCFF2
         m_iElementCount--;
     }
 
-    void Search(hkMemoryAllocatorCFF2& alloc, int index, hkpAgentNnSectorCFF2* const* p, int numToInsert);
 
     __forceinline void OptimizeCapacity(int numFreeElemsLeft)
     {
@@ -588,8 +582,6 @@ struct hkpAgentNnTrackCFF2
     int m_iBytesUsedInLastSector;
     hkSectorArrayCFF2 m_kSectors;
 };
-void __cdecl CloneRecord(hkpAgentNnTrackCFF2* track, hkpAgentNnEntryCFF2* entry);
-void __cdecl FUN_00cff290(hkpAgentNnTrackCFF2* track, hkpAgentNnTrackCFF2* appendee);
 extern "C" void _ReadWriteBarrier(void);
 struct S_cfe020_Entry;
 struct S_cfe020_Slot
@@ -734,11 +726,11 @@ struct S_cfe020_Blocks
             int newCap = n + 1;
             if (newCap < 1)
             {
-                FUN_00c909d0((S_cfe020_Heap*)&FUN_00c85750().heap(), &data, 4, &local, 1);
+                ::fnv_00c909d0::FUN_00c909d0((*(::fnv_00c909d0::hkMemoryAllocator *)((S_cfe020_Heap*)&FUN_00c85750().heap())), &data, 4, &local, 1);
             }
             else if (newCap < (cap & 0x3fffffff))
             {
-                FUN_00c909d0((S_cfe020_Heap*)&FUN_00c85750().heap(), &data, 4, 0, newCap);
+                ::fnv_00c909d0::FUN_00c909d0((*(::fnv_00c909d0::hkMemoryAllocator *)((S_cfe020_Heap*)&FUN_00c85750().heap())), &data, 4, 0, newCap);
             }
         }
     }
@@ -748,9 +740,9 @@ struct S_cfe020_Pool
     int used;
     S_cfe020_Blocks blocks;
 };
-void FUN_00cfe020(S_cfe020_Pool* pool, S_cfe020_Entry* dest);
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 struct Vector
 {
     union
@@ -813,7 +805,6 @@ struct Matrix
 
 struct FUN_00c66320_cls
 {
-    void FUN_00c66320(const __m128* pa, const __m128* pb);
 };
 
 struct Node;
@@ -868,8 +859,8 @@ Entry* __cdecl FUN_00cfe1d0(Entry* h, Entry* out, Vector* b, unsigned int n, uns
             _mm_store_ps(&dst[-3].x, _mm_add_ps(_mm_load_ps(&m[3].x), _mm_load_ps(&dst[-3].x)));
             dst[-2].q = m[4].q;
             dst[-1].q = m[5].q;
-            ((FUN_00c66320_cls*)(dst))->FUN_00c66320(&m[6].q, &node->v20);
-            ((FUN_00c66320_cls*)(dst + 1))->FUN_00c66320(&m[7].q, &node->v20);
+            ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)(((FUN_00c66320_cls*)(dst))), (void *)(&m[6].q), (const ::fnv_00c66320::__m128 *)(const ::__m128 *)(&node->v20), {});
+            ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)(((FUN_00c66320_cls*)(dst + 1))), (void *)(&m[7].q), (const ::fnv_00c66320::__m128 *)(const ::__m128 *)(&node->v20), {});
 
             Entry* a = out;
             node->rows.inversePosition(dst[2], m[8]);

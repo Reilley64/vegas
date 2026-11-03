@@ -6,7 +6,6 @@ class Script;
 class TESFormInitFlag
 {
   public:
-    bool IsFormInitialized() const;
 };
 #include "layout_support.h"
 #include "BaseFormComponent.h"

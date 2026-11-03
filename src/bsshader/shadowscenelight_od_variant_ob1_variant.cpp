@@ -5,17 +5,25 @@
 
 // src/bsshader/shadowscenelight_od_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/bsshader/shadowscenelight.cpp functions whose prologue its flags cannot
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00b9dae0_cls.h"
+#include "fnv/decl/FUN_00c4a070.h"
+#include "fnv/decl/FUN_00c4a1e0.h"
+#include "fnv/decl/ShadowSceneLight_b9f480.h"
+#include "fnv/decl/sb717a0__WatchSet.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_011f4000.h"
 #include "shadowscenelight_decls.h"
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
-extern "C" const NiPoint3 NiPoint3_ZERO;
-extern const float runtimeFloatSettingDefault100;
 
 class FUN_00c49fe0
 {
   public:
     FUN_00c49fe0();
     ~FUN_00c49fe0();
-    void FUN_00c4a070(int a, int b);
     void* m_p0;
     int m_iWordAt04;
     int m_8;
@@ -26,7 +34,6 @@ class FUN_00c4a1b0
   public:
     FUN_00c4a1b0();
     ~FUN_00c4a1b0();
-    void FUN_00c4a1e0(int a, int b);
     void* m_p0;
     int m_iWordAt04;
     int m_8;
@@ -55,8 +62,8 @@ FUN_00c47660::FUN_00c47660()
     m_24 = 0;
     m_28 = 0;
     m_kPoint = NiPoint3::ZERO;
-    m_kList4.FUN_00c4a070(4, 1);
-    m_kList14.FUN_00c4a1e0(10, 1);
+    reinterpret_cast<::FUN_00c4a070 *>(&(m_kList4))->SetSize(4, 1);
+    reinterpret_cast<::FUN_00c4a1e0 *>(&(m_kList14))->SetSize(10, 1);
     m_b0 = false;
     m_2c = 0;
     m_bA0 = false;

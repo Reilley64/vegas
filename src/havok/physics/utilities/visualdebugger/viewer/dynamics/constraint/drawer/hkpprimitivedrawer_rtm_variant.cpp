@@ -3,6 +3,9 @@
 
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprimitivedrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprimitivedrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01064000.h"
+#include "fnv/symbols_010c4000.h"
 struct CpuObject
 {
     int value;
@@ -29,9 +32,6 @@ extern "C"
 }
 }
 
-extern const float DAT_01064f60;
-extern float DAT_01016b78;
-extern double DAT_010c4ab0;
 extern const ArrowDrawMath::__m128 DAT_010c71e0;
 
 struct ArrowDrawVector
@@ -107,8 +107,8 @@ void ArrowDrawObject::FUN_00e10d50(const ArrowDrawVector* a0, int a1, const Arro
     p1.m = ArrowDrawMath::_mm_add_ps(ArrowDrawMath::_mm_mul_ps(Hk_e10d50_splat(a4), ((const ArrowDrawVector*)a1)->m),
                                      a0->m);
     ((ArrowDrawTarget*)value)->edge(a0, &p1, a3, a5, a6);
-    q1.FUN_00cb2450((int)a2, DAT_01064f60);
-    q2.FUN_00cb2450((int)a2, DAT_01016b78);
+    q1.FUN_00cb2450((int)a2, ::DAT_01064f60);
+    q2.FUN_00cb2450((int)a2, ::DAT_01016b78);
     double na = -a4;
     ArrowDrawMath::__m128 r1 = Hk_e10d50_rot(*(ArrowDrawMath::__m128*)&q1, ((const ArrowDrawVector*)a1)->m);
     volatile float s = (float)(na * DAT_010c4ab0);

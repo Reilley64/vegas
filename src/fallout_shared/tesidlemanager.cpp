@@ -1,5 +1,31 @@
 // fallout_shared/tesidlemanager.cpp: IdleAnimationManager, IdleAnimationDirectoryEntry, IdleCleanup (22 functions)
 
+#include <new>
+#include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
+#include "fnv/decl/C6b7f20_Map.h"
+#include "fnv/decl/FUN_00438af0_Class.h"
+#include "fnv/decl/FUN_00447850_shell.h"
+#include "fnv/decl/FUN_004d6170_shell.h"
+#include "fnv/decl/FUN_005ff1d0_shell.h"
+#include "fnv/decl/FUN_00658930_class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00863db0_class.h"
+#include "fnv/decl/TMapStandIn.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00447330__FUN_00447330_shell.h"
+#include "fnv/decl/fnv_00853130__NiTMapBase.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0040a000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00481000.h"
+#include "fnv/symbols_00489000.h"
+#include "fnv/symbols_005e0000.h"
+#include "fnv/symbols_005f3000.h"
+#include "fnv/symbols_00600000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011cb000.h"
 #include "tesidlemanager_decls.h"
 
 // @fnv 0x006008f0
@@ -22,7 +48,7 @@ NiFormArray* IdleAnimationManager::GetIdleArray(TESForm* form)
 
     if (form)
     {
-        BuildIdlePath(TESModel::GetModelFilePath((TESObject*)form), buffer);
+        BuildIdlePath(::FUN_004895b0((::TESForm *)(::TESObject *)((TESObject*)form)), buffer);
         result = GetIdleFormArray(buffer);
     }
     return result;
@@ -41,7 +67,7 @@ void IdleAnimationManager::BuildIdlePath(const char* source, char* destination)
         match = FUN_004812f0(buffer, fnv_tesidlemanager_idle_anims);
         if (match)
         {
-            match += BSStringLength<char>(fnv_tesidlemanager_idle_anims);
+            match += ::FUN_0044a670(fnv_tesidlemanager_idle_anims);
             *match = 0;
             TaskQueueInterface::CopyStringToBuffer(destination, sizeof(buffer), buffer);
         }
@@ -75,7 +101,7 @@ BSSimpleList<const char*>* IdleAnimationManager::FindIdleArrayEntry(const char* 
                 char* match = FUN_0040ab30(buffer, '\\');
                 TaskQueueInterface::CopyStringToBuffer(match + 1, 128 - (match - buffer) - 1,
                                                        fnv_tesidlemanager_idle_anims);
-                if (GetAt(buffer, pIdleEntry) && pIdleEntry)
+                if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)this)->FUN_00853130((unsigned int)(buffer), (::fnv_00853130::CombatThreatRecord *&)(pIdleEntry)) && pIdleEntry)
                     result = pIdleEntry->m_ppFileListsByWeapon[weapon];
             }
         }
@@ -86,23 +112,23 @@ BSSimpleList<const char*>* IdleAnimationManager::FindIdleArrayEntry(const char* 
 // @fnv 0x005ffc20
 void IdleAnimationManager::InitializeIdleAnimations()
 {
-    unsigned int count = idleForms.GetSize();
+    unsigned int count = reinterpret_cast<::FUN_00658930_class *>(&(idleForms))->GetShortAtOffsetA();
     for (unsigned int i = 0; i < count; ++i)
     {
         TESIdleForm* idle = (TESIdleForm*)idleForms.FUN_00877a30(i);
         if (idle && !idle->GetInitialized())
             idle->InitItem();
         else
-            idleForms.SetAt(i, const_cast<BGSCameraPath*&>(static_cast<BGSCameraPath* const&>((BGSCameraPath*)0)));
+            reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(idleForms))->SetAt(i, (char *&)(const_cast<BGSCameraPath*&>(static_cast<BGSCameraPath* const&>((BGSCameraPath*)0))));
     }
     for (unsigned int uiIndex2 = 0; uiIndex2 < count; ++uiIndex2)
     {
         TESIdleForm* idle = (TESIdleForm*)idleForms.FUN_00877a30(uiIndex2);
         if (idle && idle->HasMissingPathArray())
-            idleForms.SetAt(uiIndex2,
-                            const_cast<BGSCameraPath*&>(static_cast<BGSCameraPath* const&>((BGSCameraPath*)0)));
+            reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(idleForms))->SetAt(uiIndex2,
+                            (char *&)(const_cast<BGSCameraPath*&>(static_cast<BGSCameraPath* const&>((BGSCameraPath*)0))));
     }
-    idleForms.Compact();
+    ::CompactArray((::NiTArray_CombatGroup *)&(idleForms));
     loadedIdles = true;
 }
 
@@ -120,10 +146,10 @@ TESIdleForm* IdleAnimationManager::FindIdleFormForObject(TESObjectREFR* action, 
             idles = GetFormArrayForIdleDir(buffer);
             if (idles)
             {
-                unsigned int count = idles->GetSize();
+                unsigned int count = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((idles))->FUN_0084e3a0()));
                 for (unsigned int i = 0; i < count; ++i)
                 {
-                    TESIdleForm* idle = (TESIdleForm*)idles->GetFormAt(i);
+                    TESIdleForm* idle = (TESIdleForm*)reinterpret_cast<::FUN_004d6170_shell *>((idles))->FUN_004d6170(i);
                     if (idle)
                         result = idle->FindIdleFormForObject(action, target, anim ? &anim->replayDelays : 0);
                     if (result)
@@ -132,7 +158,7 @@ TESIdleForm* IdleAnimationManager::FindIdleFormForObject(TESObjectREFR* action, 
             }
         }
     }
-    if (result && result->FUN_005ff1d0() && !result->IsIdleFile())
+    if (result && reinterpret_cast<::FUN_005ff1d0_shell *>((result))->FUN_005ff1d0() && !result->IsIdleFile())
         result = 0;
     return result;
 }
@@ -144,13 +170,13 @@ void IdleAnimationDirectoryEntry::SetWeaponFiles(BSSimpleList<const char*>* file
         return;
     while (!files->IsEmpty())
     {
-        const char* filename = files->GetItem();
+        const char* filename = ((const char *)(new ((void *)(files)) ::Vec3()));
         {
             ANIM_GROUP_MOVE_ENUM move;
             bool flag;
             {
                 ANIM_GROUP_WEAPON_ENUM weapon;
-                TESAnimGroup::ParseAnimationGroupFilename(filename, move, weapon, flag);
+                ::FUN_005f38d0(filename, (unsigned int *)&(move), (unsigned int *)&(weapon), (bool *)&(flag));
                 if (weapon == ANIM_GROUP_WEAPON_ENUM_AGW_ONE_HAND_PISTOL)
                 {
                     const char* basename = CRT::strrchr(filename, '\\');
@@ -197,8 +223,8 @@ IdleAnimationDirectoryEntry* IdleAnimationManager::ClearIdleData(const char* dir
                             TaskQueueInterface::CopyStringToBuffer(slash + 1, 128 - (slash - buffer) - 1,
                                                                    fnv_tesidlemanager_idle_anims);
                             supplied = new IdleAnimationDirectoryEntry(directory);
-                            supplied->SetWeaponFiles(g_modelLoader->FindNIFFileListEntry(files, 0));
-                            InsertOrUpdate(buffer, supplied);
+                            supplied->SetWeaponFiles(((::BSSimpleList<const char *> *)(reinterpret_cast<::FUN_00447850_shell *>((g_modelLoader))->FUN_00447850(files, 0))));
+                            reinterpret_cast<::TMapStandIn *>(this)->InsertOrUpdate((unsigned int)(buffer), supplied);
                             result = supplied;
                             return result;
                         }
@@ -206,9 +232,9 @@ IdleAnimationDirectoryEntry* IdleAnimationManager::ClearIdleData(const char* dir
                     fallback = new IdleAnimationDirectoryEntry(directory);
                     DAT_011cb71c = true;
                     fallback->SetWeaponFiles(
-                        g_modelLoader->GetModelFileList(directory, true, false, ANIM_GROUP_WEAPON_ENUM_AGW_NONE));
+                        ((::BSSimpleList<const char *> *)(reinterpret_cast<::fnv_00447330::FUN_00447330_shell *>((g_modelLoader))->FUN_00447330((char *)(directory), true, false, ANIM_GROUP_WEAPON_ENUM_AGW_NONE))));
                     DAT_011cb71c = false;
-                    InsertOrUpdate(directory, fallback);
+                    reinterpret_cast<::TMapStandIn *>(this)->InsertOrUpdate((unsigned int)(directory), fallback);
                     result = fallback;
                 }
             }
@@ -220,7 +246,6 @@ IdleAnimationDirectoryEntry* IdleAnimationManager::ClearIdleData(const char* dir
 class NavMeshVertexMap
 {
   public:
-    void* GetFirstPos();
 };
 
 template <class K, class V> class NiTPointerMap
@@ -230,18 +255,17 @@ template <class K, class V> class NiTPointerMap
 };
 
 bool __fastcall _ref_008256d0(BSSimpleList<const char*>*);
-const char** __fastcall _ref_006815c0(BSSimpleList<const char*>*);
 void __fastcall _ref_0063f7b0(BSSimpleList<const char*>*);
 
 // @fnv 0x006003c0
 void __fastcall FUN_006003c0(void* thisPtr)
 {
-    void* pIter = ((NavMeshVertexMap*)thisPtr)->GetFirstPos();
+    void* pIter = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((((NavMeshVertexMap*)thisPtr)))->GetFirstPos();
     while (pIter)
     {
         IdleAnimationDirectoryEntry* root = 0;
         const char* path = 0;
-        ((NiTPointerMap<unsigned int, void*>*)thisPtr)->GetNext(pIter, *(unsigned int*)&path, *(void**)&root);
+        reinterpret_cast<::C6b7f20_Map *>((((NiTPointerMap<unsigned int, void*>*)thisPtr)))->FUN_006b7f20((::C6b7f20_Node **)&(pIter), (unsigned int *)&(*(unsigned int*)&path), (void **)&(*(void**)&root));
         if (root)
         {
             for (unsigned int i = 0; i < 12; i++)
@@ -250,7 +274,7 @@ void __fastcall FUN_006003c0(void* thisPtr)
                 {
                     while (!_ref_008256d0(root->m_ppFileListsByWeapon[i]))
                     {
-                        const char* pString = *_ref_006815c0(root->m_ppFileListsByWeapon[i]);
+                        const char* pString = *((const char **)(new ((void *)(root->m_ppFileListsByWeapon[i])) ::Vec3()));
                         delete pString;
                         _ref_0063f7b0(root->m_ppFileListsByWeapon[i]);
                     }
@@ -258,7 +282,7 @@ void __fastcall FUN_006003c0(void* thisPtr)
                     root->m_ppFileListsByWeapon[i] = 0;
                 }
             }
-            root->SetWeaponFiles(g_modelLoader->GetModelFileList(path, true, false, 0));
+            root->SetWeaponFiles(((::BSSimpleList<const char *> *)(reinterpret_cast<::fnv_00447330::FUN_00447330_shell *>((g_modelLoader))->FUN_00447330((char *)(path), true, false, 0))));
         }
     }
 }
@@ -275,7 +299,7 @@ NiFormArray* FUN_006004f0_shell::GetFormArray(TESForm* apForm)
     if (apForm)
     {
         char idledir[260];
-        BuildIdlePath(TESModel::GetModelFilePath((TESObject*)apForm), idledir);
+        BuildIdlePath(::FUN_004895b0((::TESForm *)(::TESObject *)((TESObject*)apForm)), idledir);
         pretarray = ClearIdleData(idledir, 0, false);
     }
     return (NiFormArray*)pretarray;
@@ -301,7 +325,7 @@ NiFormArray* FUN_00600560_shell::GetFormArrayForIdleDir(TESForm* apIdleDir)
     if (apIdleDir && *(const char*)apIdleDir)
     {
         unsigned int proot = 0;
-        if (((NiTPointerMap<unsigned int, unsigned int>*)this)->GetAt((unsigned int)apIdleDir, proot) && proot)
+        if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((NiTPointerMap<unsigned int, unsigned int>*)this)))->FUN_00853130((unsigned int)apIdleDir, (::fnv_00853130::CombatThreatRecord *&)(proot)) && proot)
         {
             pretarray = (NiFormArray*)proot;
         }
@@ -330,7 +354,7 @@ NiFormArray* FUN_00600630_shell::GetIdleFormArray(TESForm* apIdleDir)
     if (apIdleDir && *(const char*)apIdleDir != '\0')
     {
         unsigned int proot = 0;
-        if (((NiTPointerMap<unsigned int, unsigned int>*)this)->GetAt((unsigned int)apIdleDir, proot) && proot)
+        if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((NiTPointerMap<unsigned int, unsigned int>*)this)))->FUN_00853130((unsigned int)apIdleDir, (::fnv_00853130::CombatThreatRecord *&)(proot)) && proot)
         {
             pretarray = (NiFormArray*)(proot + 0x18);
         }
@@ -339,12 +363,11 @@ NiFormArray* FUN_00600630_shell::GetIdleFormArray(TESForm* apIdleDir)
 }
 }  // namespace fnv_00600630
 
-extern int _fnv_tesidlemanager_used_item;
 
 // @fnv 0x00600900
 void FUN_00600900(int param)
 {
-    _fnv_tesidlemanager_used_item = param;
+    (*reinterpret_cast<int *>(&::fnv_tesidlemanager_used_item)) = param;
 }
 
 extern int DAT_01199c8c;
@@ -363,29 +386,18 @@ void FUN_00600920(int value)
     DAT_01199c8c = value;
 }
 
-extern unsigned char _fnv_tesidlemanager_used_item_activate;
 
 // @fnv 0x00600940
 void FUN_00600940(unsigned char value)
 {
-    _fnv_tesidlemanager_used_item_activate = value;
+    (*reinterpret_cast<unsigned char *>(&::fnv_tesidlemanager_used_item_activate)) = value;
 }
 
-void _Deallocate(void*);
 struct S005fff90
 {
     void FUN_005fffc0();
     void* FUN_005fff90(unsigned int);
 };
-// @fnv 0x005fff90
-void* S005fff90::FUN_005fff90(unsigned int flags)
-{
-    FUN_005fffc0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct FUN_006005c0_shell : public IdleAnimationManager
 {
     NiFormArray* FUN_006005c0(const char* path);
@@ -398,8 +410,8 @@ NiFormArray* FUN_006005c0_shell::FUN_006005c0(const char* path)
     if (path)
     {
         char directory[260];
-        IdleAnimationManager::BuildIdlePath(TESModel::GetModelFilePath((TESObject*)path), directory);
-        result = GetFormArrayForIdleDir(directory);
+        IdleAnimationManager::BuildIdlePath(::FUN_004895b0((::TESForm *)(::TESObject *)((TESObject*)path)), directory);
+        result = reinterpret_cast<::fnv_00600560::FUN_00600560_shell *>(this)->GetFormArrayForIdleDir((::TESForm *)(directory));
     }
     return result;
 }
@@ -428,6 +440,14 @@ struct FUN_005fffc0 : S_005fffc0_B
     S_005fffc0_C unk30;
     ~FUN_005fffc0();
 };
+// @fnv 0x005fff90
+void* S005fff90::FUN_005fff90(unsigned int flags)
+{
+    reinterpret_cast<::FUN_005fffc0 *>(this)->FUN_005fffc0::~FUN_005fffc0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Destructor for FUN_005fffc0; destroys its embedded S_005fffc0_B and S_005fffc0_C members.
 // @fnv 0x005fffc0
@@ -450,13 +470,10 @@ struct FormArray
     int unk0c;
     int unk10;
     int unk14;
-    unsigned int Count();
-    OwnedForm* At(unsigned int);
 };
 struct FilenameList
 {
     bool Empty();
-    const char*& Front();
     void Pop();
     ~FilenameList();
 };
@@ -471,9 +488,7 @@ struct RootData
 };
 struct IdleBaseArray
 {
-    unsigned int Count();
     OwnedForm*& At(unsigned int);
-    void Clear();
 };
 struct IdleCleanup
 {
@@ -484,33 +499,30 @@ struct IdleCleanup
     int unk10;
     int unk14;
     IdleBaseArray forms;
-    void* First();
-    void Next(void*&, unsigned int&, RootData*&);
-    void Clear();
     void DeleteAllOwnedForms();
 };
 // Iterates the container, deleting each root's forms, file lists and filenames, then deletes all forms in forms and clears both containers.
 // @fnv 0x005ffd20
 void IdleCleanup::DeleteAllOwnedForms()
 {
-    void* position = First();
+    void* position = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(this)->GetFirstPos();
     while (position)
     {
         RootData* root = 0;
         unsigned int key = 0;
-        Next(position, key, root);
+        reinterpret_cast<::C6b7f20_Map *>(this)->FUN_006b7f20((::C6b7f20_Node **)&(position), (unsigned int *)&(key), (void **)&(root));
         if (root)
         {
-            unsigned int count = root->first.Count();
+            unsigned int count = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(root->first))->FUN_0084e3a0()));
             for (unsigned int firstIndex = 0; firstIndex < count; firstIndex++)
             {
-                OwnedForm* form = root->first.At(firstIndex);
+                OwnedForm* form = ((::OwnedForm *)(reinterpret_cast<::FUN_004d6170_shell *>(&(root->first))->FUN_004d6170(firstIndex)));
                 delete form;
             }
-            count = root->second.Count();
+            count = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(root->second))->FUN_0084e3a0()));
             for (unsigned int secondIndex = 0; secondIndex < count; secondIndex++)
             {
-                OwnedForm* pSecondForm = root->second.At(secondIndex);
+                OwnedForm* pSecondForm = ((::OwnedForm *)(reinterpret_cast<::FUN_004d6170_shell *>(&(root->second))->FUN_004d6170(secondIndex)));
                 delete pSecondForm;
             }
             for (unsigned int listIndex = 0; listIndex < 12; listIndex++)
@@ -519,7 +531,7 @@ void IdleCleanup::DeleteAllOwnedForms()
                 {
                     while (!root->files[listIndex]->Empty())
                     {
-                        const char* filename = root->files[listIndex]->Front();
+                        const char* filename = ((const char *)(new ((void *)(root->files[listIndex])) ::Vec3()));
                         delete filename;
                         root->files[listIndex]->Pop();
                     }
@@ -529,14 +541,14 @@ void IdleCleanup::DeleteAllOwnedForms()
             delete root;
         }
     }
-    unsigned int formCount = forms.Count();
+    unsigned int formCount = reinterpret_cast<::FUN_00658930_class *>(&(forms))->GetShortAtOffsetA();
     for (unsigned int formIndex = 0; formIndex < formCount; formIndex++)
     {
         OwnedForm* pThirdForm = forms.At(formIndex);
         delete pThirdForm;
     }
-    forms.Clear();
-    Clear();
+    ::FUN_005e03d0((::NiTArray_Layout *)&(forms));
+    reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
 }
 
 struct FUN_00600030_item
@@ -551,30 +563,25 @@ struct FUN_00600030_item
 struct FUN_00600030_list
 {
     unsigned char unk00[0x18];
-    unsigned int FUN_0084e3a0();
-    FUN_00600030_item* FUN_004d6170(unsigned int index);
-    void ClearItems();
 };
 
 struct FUN_00600030_cls
 {
-    void* FUN_004b9ba0();
-    void FUN_006b7f20(void** a, void** b, FUN_00600030_list** c);
     void FUN_00600030();
 };
 
 // @fnv 0x00600030
 void FUN_00600030_cls::FUN_00600030()
 {
-    void* a = FUN_004b9ba0();
+    void* a = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(this)->GetFirstPos();
     while (a != 0)
     {
         FUN_00600030_list* c = 0;
         void* b = 0;
-        FUN_006b7f20(&a, &b, &c);
+        reinterpret_cast<::C6b7f20_Map *>(this)->FUN_006b7f20((::C6b7f20_Node **)(void **)(&a), (unsigned int *)(void **)(&b), (void **)(::FUN_00600030_list **)(&c));
         if (c != 0)
         {
-            unsigned int nG = c->FUN_0084e3a0();
+            unsigned int nG = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((c))->FUN_0084e3a0()));
             unsigned int i;
             FUN_00600030_item* TD;
             FUN_00600030_item* q;
@@ -585,21 +592,21 @@ void FUN_00600030_cls::FUN_00600030()
             unsigned int jF;
             for (i = 0; i < nG; i++)
             {
-                TD = c->FUN_004d6170(i);
+                TD = ((::FUN_00600030_item *)(reinterpret_cast<::FUN_004d6170_shell *>((c))->FUN_004d6170(i)));
                 q = TD;
                 BQ = q;
                 BQ != 0 ? BQ->v10(1) : 0;
             }
-            c->ClearItems();
-            nG = reinterpret_cast<FUN_00600030_list*>(reinterpret_cast<unsigned char*>(c) + 0x18)->FUN_0084e3a0();
+            reinterpret_cast<::FUN_00863db0_class *>((c))->ClearItems();
+            nG = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<FUN_00600030_list*>(reinterpret_cast<unsigned char*>(c) + 0x18)))->FUN_0084e3a0()));
             for (jF = 0; jF < nG; jF++)
             {
-                DQ = reinterpret_cast<FUN_00600030_list*>(reinterpret_cast<unsigned char*>(c) + 0x18)->FUN_004d6170(jF);
+                DQ = ((::FUN_00600030_item *)(reinterpret_cast<::FUN_004d6170_shell *>((reinterpret_cast<FUN_00600030_list*>(reinterpret_cast<unsigned char*>(c) + 0x18)))->FUN_004d6170(jF)));
                 EQ = DQ;
                 F = EQ;
                 F != 0 ? F->v10(1) : 0;
             }
-            reinterpret_cast<FUN_00600030_list*>(reinterpret_cast<unsigned char*>(c) + 0x18)->ClearItems();
+            reinterpret_cast<::FUN_00863db0_class *>((reinterpret_cast<FUN_00600030_list*>(reinterpret_cast<unsigned char*>(c) + 0x18)))->ClearItems();
         }
     }
 }

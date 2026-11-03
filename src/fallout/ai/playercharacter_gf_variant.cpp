@@ -3,51 +3,96 @@
 // say /MT /Od /Oy- /GS /EHsc /Gy /GF (unit src/fallout/ai/playercharacter.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions to their real
 // unit once identified.
 
+#include <new>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_AnimationOwner.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00409480_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_00491040_shell.h"
+#include "fnv/decl/FUN_00494710_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00508d70_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_0057b0a0_shell.h"
+#include "fnv/decl/FUN_005a2030_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00619a70_shell.h"
+#include "fnv/decl/FUN_0061cdc0_shell.h"
+#include "fnv/decl/FUN_0061cfd0_shell.h"
+#include "fnv/decl/FUN_0061e600_t.h"
+#include "fnv/decl/FUN_00621370Owner.h"
+#include "fnv/decl/FUN_00621440_cls.h"
+#include "fnv/decl/FUN_00621c40_Class.h"
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008a1710_shell.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/TopicFlagStandIn.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_004518e0__TESObjectCELL.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_00494740__FUN_00494740_t.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_0087ce80__FUN_0087ce80_shell.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_00897910__AnimOwner.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/decl/s56ae10__Owner.h"
+#include "fnv/decl/xCaster.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_0045b000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005f2000.h"
+#include "fnv/symbols_00619000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_009e3000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_01020000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_01197000.h"
+#include "fnv/symbols_011a3000.h"
+#include "fnv/symbols_011cc000.h"
+#include "fnv/symbols_011cd000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f2000.h"
+#include "fnv/symbols_011f6000.h"
 #include "PlayerCharacter.h"
 
 #include <xmmintrin.h>
-extern float DAT_011e0768;
-extern float DAT_011e07dc;
-extern float DAT_011e0b5c;
-extern unsigned char DAT_011e07c2;
-extern unsigned char DAT_011e07c3;
-extern unsigned char DAT_011e07b9;
-extern unsigned char DAT_011e07b8;
-extern float DAT_011a3b38;
 extern unsigned char DAT_011a3b32;
-extern NiPoint3 DAT_011e0808;
 extern float DAT_0108b0a0f;
-extern NiPoint3* DAT_011e07d0;
 struct SettingShell
 {
-    float* __thiscall FUN_00403e20();
 };
-extern SettingShell DAT_011ccfd8;
-extern SettingShell DAT_011cda94;
-extern SettingShell DAT_011cde14;
-extern SettingShell DAT_011cdd60;
-extern SettingShell DAT_011cd3d8;
-extern SettingShell DAT_011cd288;
-extern SettingShell DAT_011cd568;
-extern SettingShell DAT_011e0934;
-extern SettingShell DAT_011e0a84;
-extern SettingShell DAT_011e09c8;
 struct TimeShell
 {
-    float __thiscall FUN_0084d030();
 };
-extern TimeShell DAT_011f6394;
 struct VecInit
 {
-    void __thiscall FUN_006815c0();
 };
 struct PtLen
 {
-    float __thiscall FUN_00457910();
 };
 struct StoreShell
 {
-    NiPoint3* __thiscall FUN_0063c8a0(void* p);
 };
 struct __declspec(align(16)) BigObj
 {
@@ -57,18 +102,12 @@ struct __declspec(align(16)) BigObj
     unsigned int shapeKeysA[8];
     int unk48, unk4c;
     unsigned int shapeKeysB[8];
-    void __thiscall FUN_00621c40();
 };
 struct PointSubtract
 {
-    void __thiscall Subtract(const NiPoint3&);
 };
 struct Field21c
 {
-    int __thiscall FUN_00621440();
-    void __thiscall FUN_00621370(int x);
-    unsigned char __thiscall FUN_00620bc0(NiPoint3* a, NiPoint3* b, BigObj* c);
-    unsigned char __thiscall FUN_006214d0(void* o, NiPoint3* p, float a, float b);
 };
 struct Obj621ad0
 {
@@ -76,17 +115,13 @@ struct Obj621ad0
 };
 struct ModeShell
 {
-    int __thiscall FUN_0044ddc0();
 };
 struct TObjShell
 {
-    float __thiscall GetActorHeight();
 };
 struct ListShell
 {
-    void* __thiscall FUN_0045bb80();
 };
-extern ModeShell DAT_011f2250;
 bool __cdecl FUN_00702680(int a, unsigned int b);
 struct ThisShell
 {
@@ -498,26 +533,24 @@ struct ThisShell
     bool bThirdPerson;
     unsigned char byte64d;
     void __thiscall FUN_0094a0c0(NiPoint3* p1, NiPoint3* p2, unsigned char flag);
-    void __thiscall FUN_008c4640();
-    void* __thiscall FUN_009306d0();
 };
 // @fnv 0x0094a0c0
 void ThisShell::FUN_0094a0c0(NiPoint3* p1, NiPoint3* p2, unsigned char flag)
 {
     NiPoint3 vec;
-    ((VecInit*)&vec)->FUN_006815c0();
+    new ((void *)(((VecInit*)&vec))) ::Vec3();
     signed char state = (signed char)((unsigned char)bThirdPerson - byte64a);
     float f = 1.0f;
     if (state != 0)
     {
-        if (flag || DAT_011e07c3)
+        if (flag || (*reinterpret_cast<unsigned char *>(&::DAT_011e07c3)))
             state = 0;
         else
-            f = *DAT_011ccfd8.FUN_00403e20() + ((DAT_011e0b5c - *DAT_011cda94.FUN_00403e20()) /
-                                                (*DAT_011cde14.FUN_00403e20() - *DAT_011cda94.FUN_00403e20())) *
-                                                   *DAT_011cdd60.FUN_00403e20();
+            f = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting210)))))) + ((DAT_011e0b5c - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting197))))))) /
+                                                (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting198)))))) - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting197)))))))) *
+                                                   *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting211))))));
     }
-    if (flag || DAT_011e07c3)
+    if (flag || (*reinterpret_cast<unsigned char *>(&::DAT_011e07c3)))
     {
         vec = *p1;
         DAT_011e0808 = vec;
@@ -525,41 +558,40 @@ void ThisShell::FUN_0094a0c0(NiPoint3* p1, NiPoint3* p2, unsigned char flag)
     else
     {
         vec = *p1;
-        if (DAT_011e07b9)
+        if ((*reinterpret_cast<unsigned char *>(&::DAT_011e07b9)))
         {
-            ((StoreShell*)&DAT_011e0808)
-                ->FUN_0063c8a0(&((vec - DAT_011e0808) * *DAT_011cd3d8.FUN_00403e20() * DAT_011f6394.FUN_0084d030()));
+            reinterpret_cast<::FUN_0063c8a0_shell *>((((StoreShell*)&DAT_011e0808)))->FUN_0063c8a0(&((vec - DAT_011e0808) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting215)))))) * reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeShell *>(&::g_timeGlobal))))->GetStoredFloatValue()));
             vec = DAT_011e0808;
         }
         else
             DAT_011e0808 = vec;
     }
     NiPoint3 v60 = vec - *p2;
-    float len = ((PtLen*)&v60)->FUN_00457910();
-    DAT_011e07c2 = 0;
+    float len = reinterpret_cast<::NiPoint3 *>((((PtLen*)&v60)))->GetLengthSquared();
+    (*reinterpret_cast<unsigned char *>(&::fnv_0094ae40::DAT_011e07c2)) = 0;
     if (field21c)
     {
         NiPoint3 a70 = *p2;
         NiPoint3 a7c = vec;
         BigObj big;
-        big.FUN_00621c40();
-        if (field21c->FUN_00621440() == 0)
+        reinterpret_cast<::FUN_00621c40_Class *>(&(big))->FUN_00621c40();
+        if (reinterpret_cast<::FUN_00621440_cls *>((field21c))->FUN_00621440() == 0)
         {
-            int handle = FUN_009306d0() ? ((Obj621ad0*)FUN_009306d0())->FUN_00621ad0() : 0;
-            field21c->FUN_00621370(handle);
+            int handle = ((void *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0())) ? ((Obj621ad0*)((void *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0())))->FUN_00621ad0() : 0;
+            reinterpret_cast<::FUN_00621370Owner *>((field21c))->FUN_00621370((::C68E30Owner *)(handle));
         }
-        if (field21c->FUN_00620bc0(&a70, &a7c, &big))
+        if (((unsigned char)(reinterpret_cast<::xCaster *>((field21c))->FUN_00620bc0((*(const ::xP3 *)(&a70)), (*(::xP3 *)(&a7c)), (::xOutHit *)(::BigObj *)(&big)))))
         {
-            ((PointSubtract*)&a7c)->Subtract(a70);
-            if (len - a7c.Length() > 2.0)
-                DAT_011e07c2 = 1;
-            len = a7c.Length() - *DAT_011e0934.FUN_00403e20() * 0.5;
+            reinterpret_cast<::NiPoint3 *>((((PointSubtract*)&a7c)))->Subtract(a70);
+            if (len - reinterpret_cast<::NiPoint3 *>((void *)&(a7c))->ComputeMagnitude() > 2.0)
+                (*reinterpret_cast<unsigned char *>(&::fnv_0094ae40::DAT_011e07c2)) = 1;
+            len = reinterpret_cast<::NiPoint3 *>((void *)&(a7c))->ComputeMagnitude() - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::g_011e0934)))))) * 0.5;
         }
     }
-    float scaled = *DAT_011cd288.FUN_00403e20() * DAT_011f6394.FUN_0084d030() * f;
-    float lim = *DAT_011cd568.FUN_00403e20();
-    if (DAT_011e07b8)
-        lim = *DAT_011cde14.FUN_00403e20();
+    float scaled = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting216)))))) * reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeShell *>(&::g_timeGlobal))))->GetStoredFloatValue() * f;
+    float lim = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting199))))));
+    if ((*reinterpret_cast<unsigned char *>(&::DAT_011e07b8)))
+        lim = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting198))))));
     if (state != 0)
     {
         if (state == 1 && len < DAT_011e0768 + state * scaled)
@@ -583,10 +615,10 @@ void ThisShell::FUN_0094a0c0(NiPoint3* p1, NiPoint3* p2, unsigned char flag)
             state = 0;
         }
     }
-    else if (flag || DAT_011e07c3)
+    else if (flag || (*reinterpret_cast<unsigned char *>(&::DAT_011e07c3)))
     {
         DAT_011e0768 = len;
-        DAT_011e07c3 = 0;
+        (*reinterpret_cast<unsigned char *>(&::DAT_011e07c3)) = 0;
     }
     else
     {
@@ -596,52 +628,52 @@ void ThisShell::FUN_0094a0c0(NiPoint3* p1, NiPoint3* p2, unsigned char flag)
             DAT_011e0768 = len;
         else
             DAT_011e0768 += scaled;
-        if (!DAT_011e07c2 && DAT_011e0768 < *DAT_011cda94.FUN_00403e20())
-            DAT_011e0768 = *DAT_011cda94.FUN_00403e20();
+        if (!(*reinterpret_cast<unsigned char *>(&::fnv_0094ae40::DAT_011e07c2)) && DAT_011e0768 < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting197)))))))
+            DAT_011e0768 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting197))))));
         if (DAT_011e0768 > lim)
             DAT_011e0768 = lim;
     }
     NiPoint3 v128 = *p2 + v60 * DAT_011e0768;
     bool ok = false;
-    if (state != 0 || DAT_011f2250.FUN_0044ddc0() == 4)
+    if (state != 0 || ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ModeShell *>(&::g_011f2250))))->GetName())) == 4)
     {
         if (state < 0)
         {
-            if (DAT_011e0768 < *DAT_011e0a84.FUN_00403e20())
+            if (DAT_011e0768 < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::g_011e0a84)))))))
             {
                 DAT_011e0768 = 0.0f;
                 DAT_011e07dc = 0.0f;
                 state = 0;
             }
         }
-        else if (DAT_011e0768 < *DAT_011e0a84.FUN_00403e20())
-            DAT_011e0768 = *DAT_011e0a84.FUN_00403e20();
+        else if (DAT_011e0768 < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::g_011e0a84)))))))
+            DAT_011e0768 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::g_011e0a84))))));
     }
-    else if (!FUN_00702680(0x40c, 0) && DAT_011f2250.FUN_0044ddc0() != 4)
+    else if (!FUN_00702680(0x40c, 0) && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ModeShell *>(&::g_011f2250))))->GetName())) != 4)
     {
-        void* o = FUN_009306d0();
-        float ft = ((TObjShell*)this)->GetActorHeight() - 124.0;
-        if (field21c->FUN_006214d0(o, &v128, *DAT_011e09c8.FUN_00403e20(), ft))
+        void* o = ((void *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()));
+        float ft = reinterpret_cast<::fnv_008853a0::FUN_008853a0_shell *>((((TObjShell*)this)))->GetActorHeight() - 124.0;
+        if (((unsigned char)(reinterpret_cast<::xCaster *>((field21c))->FUN_006214d0((::xRef *)(o), (*(const ::xP3 *)(&v128)), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::g_011e09c8)))))), ft))))
             ok = true;
     }
     if (ok && !byte64d)
     {
         if (DAT_011a3b38 > 0.0 && !DAT_011a3b32)
         {
-            DAT_011a3b38 -= DAT_011f6394.FUN_0084d030() * 4.0;
+            DAT_011a3b38 -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeShell *>(&::g_timeGlobal))))->GetStoredFloatValue() * 4.0;
             if (DAT_011a3b38 < 0.0)
                 DAT_011a3b38 = 0.0f;
-            FUN_008c4640();
+            reinterpret_cast<::Actor *>(this)->UpdateActorPresentation();
         }
     }
     else
     {
         if (DAT_011a3b38 < 1.0)
         {
-            DAT_011a3b38 += DAT_011f6394.FUN_0084d030() * 4.0;
-            if (DAT_011a3b38 > 1.0 || (state != 0 || DAT_011f2250.FUN_0044ddc0() == 4))
+            DAT_011a3b38 += reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeShell *>(&::g_timeGlobal))))->GetStoredFloatValue() * 4.0;
+            if (DAT_011a3b38 > 1.0 || (state != 0 || ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ModeShell *>(&::g_011f2250))))->GetName())) == 4))
                 DAT_011a3b38 = 1.0f;
-            FUN_008c4640();
+            reinterpret_cast<::Actor *>(this)->UpdateActorPresentation();
         }
         DAT_011a3b32 = 0;
     }
@@ -649,11 +681,11 @@ void ThisShell::FUN_0094a0c0(NiPoint3* p1, NiPoint3* p2, unsigned char flag)
     if (state != 0)
     {
         NiPoint3 v158 = *p1 - v14c;
-        DAT_011e07dc = v158.Length() / DAT_011f6394.FUN_0084d030();
+        DAT_011e07dc = reinterpret_cast<::NiPoint3 *>((void *)&(v158))->ComputeMagnitude() / reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeShell *>(&::g_timeGlobal))))->GetStoredFloatValue();
         if (state == -1)
         {
-            NiPoint3 v16c = *p1 - *(NiPoint3*)((ListShell*)DAT_011e07d0)->FUN_0045bb80();
-            if (v158.Length() >= v16c.Length())
+            NiPoint3 v16c = *p1 - *(NiPoint3*)((void *)(::FUN_0045bb80((int)(((ListShell*)(*reinterpret_cast<::NiPoint3 * *>(&::DAT_011e07d0)))))));
+            if (reinterpret_cast<::NiPoint3 *>((void *)&(v158))->ComputeMagnitude() >= reinterpret_cast<::NiPoint3 *>((void *)&(v16c))->ComputeMagnitude())
             {
                 DAT_011e07dc = 0.0f;
                 DAT_011e0768 = 0.0f;

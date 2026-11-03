@@ -7,10 +7,22 @@
 
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpweldingviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpweldingviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-struct FUN_00dd9380_class { void* FUN_00dd9380(const char* name, void* factory); };
-extern int DAT_01269cd0;
-extern int DAT_01268fbc;
-void* __cdecl FUN_00d62e20();
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_00c91120.h"
+#include "fnv/decl/FUN_00c91180_Class.h"
+#include "fnv/decl/FUN_00c91190_Class.h"
+#include "fnv/decl/FUN_00c929e0_ThisClass.h"
+#include "fnv/decl/S_00dd9380.h"
+#include "fnv/decl/SearchArray.h"
+#include "fnv/decl/fnv_00c93920__hkpWorldXc93920.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00d62000.h"
+#include "fnv/symbols_00ddc000.h"
+#include "fnv/symbols_00ddd000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
+struct FUN_00dd9380_class {  };
 void __cdecl RegisterWeldingViewer();
 struct S_00d62650_B1 {
     virtual void vfn1();
@@ -20,7 +32,6 @@ struct S_00d62650_B3 {
     virtual void vfn3();
 };
 struct S_00d62650_Arg {
-    void __thiscall FUN_00c93920(S_00d62650_B3* p);
 };
 struct S_00d62650_B2 {
     virtual void DispatchToArg(S_00d62650_Arg* arg);
@@ -35,7 +46,6 @@ struct S_00d62650_D : S_00d62650_B1, S_00d62650_B2, S_00d62650_B3 {
 //   -0x20 -> the complete object
 //   +0x08 -> the pointer that is handed to the list (complete object + 0x28)
 struct HKWorldList {
-    void IsEntityAdded(void* entity);
 };
 struct HKConstraint {
     int unk00;
@@ -44,7 +54,6 @@ struct HKConstraint {
     void FUN_00d62680(HKWorldList* list);
 };
 struct S_00d626b0_Item {
-    void FUN_00c93920(void* apSub);
 };
 struct S_00d626b0_Owner {
     int unk00;
@@ -113,7 +122,6 @@ public:
 };
 class D62720Island {
 public:
-    void removeListener(D62720Listener* listener);
 };
 struct D62720World {
     int unk00;
@@ -194,11 +202,7 @@ struct Manager {
 struct Viewer {
     int unk00;
     unsigned short unk04;
-    void* ctor0d626b0(void* arg);
 };
-extern "C" void* __cdecl FUN_00c85750();
-void* __cdecl FUN_00d62e20_impl(void* arg);
-extern int g_D62E80Value;
 int __cdecl FUN_00d62e80();
 // FUN_00d62e90 : MSVC this-adjusting thunk  (sub ecx, 0x20 ; jmp <impl>)
 struct A1_00d62e90 {
@@ -385,7 +389,6 @@ public:
 __forceinline void*__cdecl operator new(hk_size_t nbytes){;hkReferencedObject*b=static_cast<hkReferencedObject*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16>(nbytes);;return b;}
 __forceinline hkReferencedObject();
 virtual ~hkReferencedObject(){}
-void removeReference()const;
 public:
 enum
 {
@@ -480,6 +483,7 @@ ResizableArray(FinishingFlag f){}
 };
 typedef union __declspec(intrin_type)__declspec(align(16))__m128{
 unsigned __int16 m128_u16[8];}__m128;
+#include "fnv/symbols_simd.h"
 extern "C"{
 extern __m128 _mm_add_ss(__m128 _A,__m128 _B);
 extern __m128 _mm_add_ps(__m128 _A,__m128 _B);
@@ -601,8 +605,7 @@ m_vComponents=_mm_sub_ps(v0.m_vComponents,v1.m_vComponents);
 }
 inline void hkVector4::setNeg3(const hkVector4&v)
 {
-extern const hkQuadReal DAT_010c4c00;
-m_vComponents=_mm_xor_ps(v.m_vComponents,DAT_010c4c00);
+m_vComponents=_mm_xor_ps(v.m_vComponents,::DAT_010c4c00);
 }
 inline void hkVector4::mul4(hkSimdRealParameter s)
 {
@@ -625,13 +628,12 @@ _mm_shuffle_ps(v1.m_vComponents,v1.m_vComponents,(((3)<<6)|((0)<<4)|((2)<<2)|((1
 m_vComponents=_mm_sub_ps(cross0,cross1);}
 inline void hkVector4::setInterpolate4(const hkVector4&v0,const hkVector4&v1,hkSimdRealParameter _t)
 {
-extern const hkQuadReal DAT_010ec7f0;
 hkQuadReal t=_t.broadcast();
-hkQuadReal s=_mm_sub_ps(DAT_010ec7f0,t);
+hkQuadReal s=_mm_sub_ps(::DAT_010ec7f0,t);
 m_vComponents=_mm_add_ps(
 _mm_mul_ps(s,v0.m_vComponents),
 _mm_mul_ps(t,v1.m_vComponents));}
-inline void hkVector4::interpolateBroadcast(const hkVector4& a,const hkVector4& b,hkQuadReal t) { extern const hkQuadReal DAT_010ec7f0;  hkQuadReal s=_mm_sub_ps(DAT_010ec7f0,t); t=_mm_mul_ps(t,b.m_vComponents); m_vComponents=_mm_add_ps(_mm_mul_ps(s,a.m_vComponents),t); }
+inline void hkVector4::interpolateBroadcast(const hkVector4& a,const hkVector4& b,hkQuadReal t) {   hkQuadReal s=_mm_sub_ps(::DAT_010ec7f0,t); t=_mm_mul_ps(t,b.m_vComponents); m_vComponents=_mm_add_ps(_mm_mul_ps(s,a.m_vComponents),t); }
 inline void hkVector4::_setTransformedPos(const hkTransform&t,const hkVector4&b)
 {
 const hkRotation&r=t.getRotation();
@@ -1091,8 +1093,7 @@ class StringCursor
 public:
 __forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}static StringCursor&GetMonitorStream()
 {
-extern hkThreadLocalData<StringCursor*>g_pMonitorStream;
-return*g_pMonitorStream.getData();
+return*(*reinterpret_cast<::hkThreadLocalData< ::StringCursor *> *>(&::DAT_0126835c)).getData();
 }
 public:
 __forceinline char*__cdecl GetStreamStart(){return m_kRayStart.val();}
@@ -1135,7 +1136,7 @@ m_uiStartTicks=ticks;
 class ScopedTimer
 {
 public:
-__forceinline ~ScopedTimer(){{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};}
+__forceinline ~ScopedTimer(){{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};}
 };
 class hkpActionListener
 {
@@ -1213,14 +1214,13 @@ __forceinline void*__cdecl operator new(hk_size_t nbytes){;hkReferencedObject*b=
 static hkProcess*__cdecl create(const hkArray<hkProcessContext*>&contexts);
 static void __cdecl RegisterViewer(void);
 static inline const char*__cdecl getName(void){return "WeldingViewer";}
-virtual int GetOperationType(void){return m_ucOperationType;}
+virtual int GetOperationType(void){return ::DAT_01268fbc;}
 void FUN_00d62780(hkpWorld*world);
 protected:
 hkpWeldingViewer(const hkArray<hkProcessContext*>&contexts);
 virtual ~hkpWeldingViewer();
 virtual void WorldAddedCallback(hkpWorld*world);
 virtual void WorldRemovedCallback(hkpWorld*world);
-static int m_ucOperationType;
 };
 class hkpPhysicsSystem;
 class hkpSimulation;
@@ -1230,13 +1230,9 @@ class hkpWorld:public hkReferencedObject
 {
 public:
 __forceinline void*__cdecl operator new(hk_size_t nbytes){;hkReferencedObject*b=static_cast<hkReferencedObject*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16>(nbytes);;return b;}
-void lock();
-void unlock();
-hkpPhysicsSystem*getWorldAsOneSystem()const;
 public:
 __forceinline void lockCriticalOperations();
 private:
-void ExecutePendingOperations();
 public:
 __forceinline void allowCriticalOperations(hkBool allow);
 public:
@@ -1346,10 +1342,10 @@ hkReal m_fValue3;
 hkReal m_fValue4;
 hkReal m_fValue5;
 };
-static __declspec(align(16))FloatArray6 ms_akEdgeAngleTable[NUM_ANGLES+1];};void hkpWeldingUtility::calcSnapVector(const hkVector4&triangleNormal,const hkVector4&edge,int edgeBitcode,SectorType sector,hkVector4&snapVectorOut)
+};void hkpWeldingUtility::calcSnapVector(const hkVector4&triangleNormal,const hkVector4&edge,int edgeBitcode,SectorType sector,hkVector4&snapVectorOut)
 {
 hkVector4 orthNormalEdge;orthNormalEdge.setCross(edge,triangleNormal);
-hkReal*sinCosTableEntry=&ms_akEdgeAngleTable[edgeBitcode].m_fValue0;
+hkReal*sinCosTableEntry=&(*reinterpret_cast<hkpWeldingUtility::FloatArray6 (*)[32]>(&::DAT_01269210))[edgeBitcode].m_fValue0;
 hkVector4 hVec0;hVec0.setMul4(sinCosTableEntry[sector+0],triangleNormal);
 hkVector4 hVec1;hVec1.setMul4(sinCosTableEntry[sector+1],orthNormalEdge);
 snapVectorOut.setAdd4(hVec0,hVec1);
@@ -1454,8 +1450,6 @@ WINDING_IGNORE_CONSISTENCY,
 WINDING_TEST_CONSISTENCY,
 };
 public:
-static int __cdecl calcSingleEdgeBitcode(hkUint16 triangleEdgesBitcode,int edgeIndex);
-static void __cdecl calcAntiClockwiseTriangleNormal(const hkVector4&vertex0,const hkVector4&vertex1,const hkVector4&vertex2,hkVector4&normal);
 public:
 static hkResult __cdecl calcWeldingInfoForTriangle(hkpShapeKey shapeKey,const hkpBvTreeShape*bvTreeShape,WindingConsistency testConsistency,hkUint16&info);};
 class hkDebugDisplayHandler
@@ -1652,9 +1646,9 @@ extern const double DAT_010d1640;
 // @fnv 0x00d62780
 void hkpWeldingViewer::FUN_00d62780(hkpWorld*world)
 {
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "hkpActiveContactPointViewer::postSimulationCallback";h->setTime();mStream.setEnd((char*)(h+1));}};ScopedTimer timeblock18;
-world->lock();
-hkpPhysicsSystem*system=world->getWorldAsOneSystem();
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "hkpActiveContactPointViewer::postSimulationCallback";h->setTime();mStream.setEnd((char*)(h+1));}};ScopedTimer timeblock18;
+reinterpret_cast<::FUN_00c91180_Class *>((world))->IncrementCounter();
+hkpPhysicsSystem*system=((::hkpPhysicsSystem *)(reinterpret_cast<::FUN_00c929e0_ThisClass *>((void *)(world))->FUN_00c929e0()));
 const hkArray<hkpRigidBody*>&rigidBodies=system->getRigidBodies();
 for(int i=0;i<rigidBodies.GetLogicalSize();i++)
 {
@@ -1680,15 +1674,15 @@ hkVector4 vertices[3];
 vertices[0]._setTransformedPos(bodyTransform,triangle->getVertex(0));
 vertices[1]._setTransformedPos(bodyTransform,triangle->getVertex(1));
 vertices[2]._setTransformedPos(bodyTransform,triangle->getVertex(2));
-m_pDisplayHandler->DisplayLine(vertices[0],vertices[1],hkColor::RED,collidableId,m_ucOperationType);
-m_pDisplayHandler->DisplayLine(vertices[1],vertices[2],hkColor::RED,collidableId,m_ucOperationType);
-m_pDisplayHandler->DisplayLine(vertices[2],vertices[0],hkColor::RED,collidableId,m_ucOperationType);
+m_pDisplayHandler->DisplayLine(vertices[0],vertices[1],hkColor::RED,collidableId,::DAT_01268fbc);
+m_pDisplayHandler->DisplayLine(vertices[1],vertices[2],hkColor::RED,collidableId,::DAT_01268fbc);
+m_pDisplayHandler->DisplayLine(vertices[2],vertices[0],hkColor::RED,collidableId,::DAT_01268fbc);
 hkVector4 triangleCenter;
 triangleCenter.setAdd4(vertices[0],vertices[1]);
 triangleCenter.add4(vertices[2]);
 triangleCenter.mul4(1.0f / 3.0f);
 hkVector4 triangleNormal;
-hkpMeshWeldingUtility::calcAntiClockwiseTriangleNormal(vertices[0],vertices[1],vertices[2],triangleNormal);
+::FUN_00ddd620((const ::NormalVector *)&(vertices[0]),(const ::NormalVector *)&(vertices[1]),(const ::NormalVector *)&(vertices[2]),(::NormalVector *)&(triangleNormal));
 for(int k=0;k<3;k++)
 {
 int edgeIndex0=k;
@@ -1696,7 +1690,7 @@ int edgeIndex1=(k+1)% 3;
 hkVector4 edge;
 edge.setSub4(vertices[edgeIndex1],vertices[edgeIndex0]);
 edge.normalize3();
-int edgeCode=hkpMeshWeldingUtility::calcSingleEdgeBitcode(weldingInfo,k);
+int edgeCode=::ExtractBitField(weldingInfo,k);
 hkVector4 edgeCenter;
 edgeCenter.interpolateBroadcast(vertices[edgeIndex0],vertices[edgeIndex1],_mm_set_ps1(DAT_010d1648));
 hkVector4 snapVector0;
@@ -1712,9 +1706,9 @@ continue;
 hkVector4 p0,p1;
 p0.setAdd4(edgeCenter,snapVector0);
 p1.setAdd4(edgeCenter,triangleNormal);
-m_pDisplayHandler->DisplayLine(edgeCenter,p0,hkColor::ORANGE,collidableId,m_ucOperationType);
-m_pDisplayHandler->DisplayLine(edgeCenter,p1,hkColor::ORANGE,collidableId,m_ucOperationType);
-m_pDisplayHandler->DisplayLine(edgeCenter,triangleCenter,hkColor::GREEN,collidableId,m_ucOperationType);
+m_pDisplayHandler->DisplayLine(edgeCenter,p0,hkColor::ORANGE,collidableId,::DAT_01268fbc);
+m_pDisplayHandler->DisplayLine(edgeCenter,p1,hkColor::ORANGE,collidableId,::DAT_01268fbc);
+m_pDisplayHandler->DisplayLine(edgeCenter,triangleCenter,hkColor::GREEN,collidableId,::DAT_01268fbc);
 hkVector4 start;start=snapVector0;
 const int kSteps=10;
 for(int s=0;s<kSteps;s++)
@@ -1725,7 +1719,7 @@ interp.normalize3();
 hkVector4 ep0,ep1;
 ep0.setAdd4(edgeCenter,start);
 ep1.setAdd4(edgeCenter,interp);
-m_pDisplayHandler->DisplayLine(ep0,ep1,hkColor::ORANGE,collidableId,m_ucOperationType);
+m_pDisplayHandler->DisplayLine(ep0,ep1,hkColor::ORANGE,collidableId,::DAT_01268fbc);
 start=interp;
 }
 }
@@ -1734,6 +1728,6 @@ start=interp;
 }
 }
 }
-system->removeReference();
-world->unlock();
+reinterpret_cast<::hkReferencedObjectC905 *>((void *)(system))->FUN_00c905b0();
+reinterpret_cast<::FUN_00c91190_Class *>((world))->FUN_00c91190();
 }

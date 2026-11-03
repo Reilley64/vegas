@@ -1,5 +1,20 @@
 // fallout/ai/combat/combataction.cpp: CombatAction (12 functions)
 
+#include <new>
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00537e90.h"
+#include "fnv/decl/FUN_009aadc0_cls.h"
+#include "fnv/decl/InterfaceManager.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/WorldStateNode.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_0108c000.h"
+#include "fnv/symbols_011a4000.h"
 #include "combataction_decls.h"
 
 // Creates and returns a new CombatAction subclass instance matching the given COMBAT_ACTION type, warning and returning 0 for unknown types.
@@ -63,7 +78,7 @@ CombatAction* CombatAction::CreateAction(COMBAT_ACTION type)
     case COMBAT_ACTION_APPROACH_TARGET:
         return new CombatActionApproachTarget(type);
     default:
-        Warning("COMBAT: Could not create combat action of type %i", type);
+        ::FUN_005b5e40();
         return 0;
     }
 }
@@ -74,11 +89,9 @@ struct CombatActionEntry
     float m_fPathingCostCur;
     int iFlags;
 };
-extern CombatActionEntry DAT_011a4280[];
 
 struct BSThread
 {
-    unsigned int GetThreadID();
 };
 
 struct FUN_00979e20_shell
@@ -89,7 +102,7 @@ struct FUN_00979e20_shell
 // @fnv 0x00979e20
 char* FUN_00979e20_shell::GetCombatActionName()
 {
-    return DAT_011a4280[reinterpret_cast<BSThread*>(this)->GetThreadID()].pName;
+    return DAT_011a4280[reinterpret_cast<::ActorMover *>((reinterpret_cast<BSThread*>(this)))->GetCurrentMoveModeType()].pName;
 }
 
 namespace fnv_00979e40 {
@@ -99,11 +112,9 @@ struct CombatActionEntry
     float m_fPathingCostCur;
     int iFlags;
 };
-extern CombatActionEntry DAT_011a4280[];
 
 struct BSThread
 {
-    unsigned int GetThreadID();
 };
 
 struct CombatController;
@@ -116,7 +127,7 @@ struct FUN_00979e40_shell
 // @fnv 0x00979e40
 float FUN_00979e40_shell::FUN_00979e40(CombatController* apCombatController, int aiActionValue)
 {
-    return DAT_011a4280[reinterpret_cast<BSThread*>(this)->GetThreadID()].m_fPathingCostCur;
+    return (*reinterpret_cast<fnv_00979e40::CombatActionEntry (*)[]>(&::DAT_011a4280))[reinterpret_cast<::ActorMover *>((reinterpret_cast<BSThread*>(this)))->GetCurrentMoveModeType()].m_fPathingCostCur;
 }
 }  // namespace fnv_00979e40
 
@@ -127,37 +138,31 @@ struct TaskQueueInterface
 
 struct FUN_00979e60_shell
 {
-    char* GetCombatActionName();
     void FUN_00979e60(char* apDebugText, unsigned int aiMaxLength, int aiActionValue);
 };
 
 // @fnv 0x00979e60
 void FUN_00979e60_shell::FUN_00979e60(char* apDebugText, unsigned int aiMaxLength, int aiActionValue)
 {
-    TaskQueueInterface::CopyStringToBuffer(apDebugText, aiMaxLength, GetCombatActionName());
+    TaskQueueInterface::CopyStringToBuffer(apDebugText, aiMaxLength, reinterpret_cast<::FUN_00979e20_shell *>(this)->GetCombatActionName());
 }
 
 struct CombatController;
 struct CombatStateArray
 {
-    bool FUN_009aadc0(unsigned int, int);
 };
 struct UnsignedIdHandle
 {
-    int _ref_00726070();
     operator unsigned int() const;
 };
 struct B006815c0
 {
-    UnsignedIdHandle** _ref_006815c0();
 };
 struct CombatWorldStateListNext
 {
-    CombatWorldStateListNode* GetNext();
 };
 struct TgtOps
 {
-    void* GetPosition();
 };
 struct FUN_005e3fc0_shell
 {
@@ -183,17 +188,17 @@ bool FUN_00979e90_shell::FUN_00979e90(CombatController* apCombatController, Comb
     int _iCombatLocation;
     CombatWorldStateListNode* pList;
 
-    pList = reinterpret_cast<CombatWorldStateListNode*>(reinterpret_cast<TgtOps*>(this)->GetPosition());
+    pList = reinterpret_cast<CombatWorldStateListNode*>(((void *)(reinterpret_cast<::BaseProcess *>((reinterpret_cast<TgtOps*>(this)))->GetCurrentProcessData())));
     while (pList)
     {
-        pWorldState4 = *reinterpret_cast<B006815c0*>(pList)->_ref_006815c0();
+        pWorldState4 = *((::UnsignedIdHandle **)(new ((void *)(reinterpret_cast<B006815c0*>(pList))) ::Vec3()));
         if (pWorldState4)
         {
-            iValue3 = pWorldState4->_ref_00726070() == -1 ? aiActionValue : pWorldState4->_ref_00726070();
-            if (!apWorldStateArray->FUN_009aadc0(*pWorldState4, iValue3))
+            iValue3 = ((int)(reinterpret_cast<::Callees *>((pWorldState4))->FUN_00726070())) == -1 ? aiActionValue : ((int)(reinterpret_cast<::Callees *>((pWorldState4))->FUN_00726070()));
+            if (!((bool)(reinterpret_cast<::FUN_009aadc0_cls *>((apWorldStateArray))->FUN_009aadc0(*pWorldState4, iValue3))))
                 return false;
         }
-        pList = reinterpret_cast<CombatWorldStateListNext*>(pList)->GetNext();
+        pList = reinterpret_cast<::CombatWorldStateListNode *>((reinterpret_cast<CombatWorldStateListNext*>(pList)))->GetNext();
     }
     _iCombatLocation = -1;
     if (FUN_00979f50(1, &_iCombatLocation))
@@ -204,7 +209,6 @@ bool FUN_00979e90_shell::FUN_00979e90(CombatController* apCombatController, Comb
 
 struct FUN_009aa410_shell
 {
-    void FindStateByType(int, int);
 };
 
 struct FUN_00979f50_shell
@@ -216,13 +220,12 @@ struct FUN_00979f50_shell
 // @fnv 0x00979f50
 void FUN_00979f50_shell::FUN_00979f50(int aiArg1, int aiArg2)
 {
-    reinterpret_cast<FUN_009aa410_shell*>(reinterpret_cast<char*>(this) + 0xc)->FindStateByType(aiArg1, aiArg2);
+    reinterpret_cast<::WorldStateNode *>((reinterpret_cast<FUN_009aa410_shell*>(reinterpret_cast<char*>(this) + 0xc)))->FindStateByType(aiArg1, (unsigned int *)(aiArg2));
 }
 
 namespace fnv_00979f70 {
 struct QuantityData
 {
-    void SetQuantity(unsigned int);
 };
 
 struct FUN_00979f70_shell
@@ -233,12 +236,11 @@ struct FUN_00979f70_shell
 // @fnv 0x00979f70
 void FUN_00979f70_shell::FUN_00979f70(unsigned int aiQuantity)
 {
-    (*reinterpret_cast<QuantityData**>(reinterpret_cast<char*>(this) + 4))->SetQuantity(aiQuantity);
+    reinterpret_cast<::FUN_00537e90 *>(((*reinterpret_cast<QuantityData**>(reinterpret_cast<char*>(this) + 4))))->SetQuantity(aiQuantity);
 }
 }  // namespace fnv_00979f70
 
 namespace fnv_0097abd0 {
-int __cdecl FUN_00404dc0(const char*, const char*);
 
 struct CombatActionEntry
 {
@@ -246,16 +248,15 @@ struct CombatActionEntry
     float m_fPathingCostCur;
     int iFlags;
 };
-extern CombatActionEntry DAT_011a4280[];
 
 // @fnv 0x0097abd0
 bool FUN_0097abd0(char* apCombatActionName, float afCost)
 {
     for (unsigned int i = 0; i < 0x1b; i++)
     {
-        if (!FUN_00404dc0(DAT_011a4280[i].pName, apCombatActionName))
+        if (!::FUN_00404dc0((*reinterpret_cast<fnv_0097abd0::CombatActionEntry (*)[]>(&::DAT_011a4280))[i].pName, apCombatActionName))
         {
-            DAT_011a4280[i].m_fPathingCostCur = afCost;
+            (*reinterpret_cast<fnv_0097abd0::CombatActionEntry (*)[]>(&::DAT_011a4280))[i].m_fPathingCostCur = afCost;
             return true;
         }
     }
@@ -274,9 +275,7 @@ struct CombatState : FUN_009cdac0_shell
 };
 struct IMH
 {
-    CombatState* FUN_00586150();
 };
-extern double _gModifierZero;
 extern float DAT_0108ca80;
 
 // Gets the combat state's attack DPS for a weapon type and returns the default value if zero, otherwise the max attack DPS minus it.
@@ -287,9 +286,9 @@ float GetWeaponDPSDeficit(CombatController* apCombatController, int aeWeaponType
     CombatState* pcombatState;
     float fmaxAttackDPS;
 
-    pcombatState = reinterpret_cast<IMH*>(apCombatController)->FUN_00586150();
+    pcombatState = ((::CombatState *)(reinterpret_cast<::InterfaceManager *>((reinterpret_cast<IMH*>(apCombatController)))->FUN_00586150()));
     fattackDPS = pcombatState->FUN_0097ac90(aeWeaponType);
-    if (fattackDPS == _gModifierZero)
+    if (fattackDPS == ::_DAT_01012060)
         return DAT_0108ca80;
     fmaxAttackDPS = pcombatState->GetField60Float();
     return fmaxAttackDPS - fattackDPS;
@@ -311,10 +310,6 @@ struct CoordinateTriple
 {
     double FUN_00527a40(CoordinateTriple*);
 };
-float __cdecl FUN_0040ebd0(float, float);
-float __cdecl FUN_00404010(float, float);
-extern float DAT_0108cb00;
-extern double DAT_0108cb08;
 
 // @fnv 0x0097acb0
 float FUN_0097acb0(CombatController* apCombatController, CoordinateTriple* arStartWorldLoc,

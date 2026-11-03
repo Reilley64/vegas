@@ -5,6 +5,19 @@
 
 // src/staging/blk_00d40000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C74C20Quat.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004b4ab0_Class.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00cfbd60_cls.h"
+#include "fnv/decl/FUN_00d56f10.h"
+#include "fnv/decl/FnvVtObj.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_010c7000.h"
+#include "fnv/symbols_01267000.h"
 #include "../../include/layout_support.h"
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -12,6 +25,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 
 struct D51Allocator;
 struct D51MemHolder
@@ -23,7 +37,6 @@ struct D51MemHolder
     D51Allocator* m_pThreadAllocator;
 };
 void* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void* alloc, void* array, int elemSize);
 
 struct D51Vector4
 {
@@ -61,7 +74,7 @@ template <class T> struct D51Array
         D51MemHolder* mem = (D51MemHolder*)FUN_00c85750();
         if (m_iElementCount == getCapacity())
         {
-            ResizeAudioStream(mem->m_pThreadAllocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(mem->m_pThreadAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         }
         D51ConstructWithCopy(m_data + m_iElementCount, 1, t);
         m_iElementCount++;
@@ -137,7 +150,6 @@ struct hkThreadMemory
 };
 
 extern "C" hkThreadMemory* FUN_00c85750();
-void ResizeAudioStream(void* allocator, void* array, int elemSize);
 
 struct hkVector4
 {
@@ -154,7 +166,6 @@ struct hkVector4
 
 struct hkReferencedObject
 {
-    void FUN_00c90510() const;
 };
 
 template <typename T> __forceinline void hkConstructWithCopy(T* p, int n, const T& t)
@@ -176,7 +187,7 @@ template <typename T> struct hkArray
         hkMemoryAllocator& allocator = FUN_00c85750()->heap();
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
         {
-            ResizeAudioStream(&allocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&allocator), (::AudioStream *)(void *)(this), sizeof(T));
         }
         hkConstructWithCopy(m_data + m_iElementCount, 1, t);
         m_iElementCount++;
@@ -213,7 +224,7 @@ int FUN_00d52640_c::FUN_00d52640(bool flag, const hkReferencedObject* object)
     int index = m_pStreamWriter->m_kShapeVectorData.m_iElementCount;
     hkVector4 v;
     v.set((float)m_pStreamWriter->m_kTrackedObjects.m_iElementCount, 0.0f, 0.0f, 0.0f);
-    object->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((void *)(object))->FUN_00c90510();
     m_pStreamWriter->m_kShapeVectorData.AddBack(v);
     m_pStreamWriter->m_kTrackedObjects.AddBack(object);
 
@@ -238,7 +249,6 @@ extern "C" __m128 _mm_cmple_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_load_ps1(const float* p);
 extern "C" int _mm_movemask_ps(__m128 a);
 
-extern const __m128 DAT_01017d10;
 static const float DAT_01017d00 = 0.001f;
 
 struct hkVector4D564
@@ -247,19 +257,17 @@ struct hkVector4D564
 
     bool equals3(const hkVector4D564& v, float fEpsilon) const
     {
-        const __m128 kDiff = _mm_and_ps(_mm_sub_ps(m_vComponents, v.m_vComponents), DAT_01017d10);
+        const __m128 kDiff = _mm_and_ps(_mm_sub_ps(m_vComponents, v.m_vComponents), (*reinterpret_cast<const ::fnv_00d56470::__m128 *>((void *)&::DAT_01017d10)));
         const __m128 kEps = _mm_load_ps1(&fEpsilon);
         return (_mm_movemask_ps(_mm_cmple_ps(kDiff, kEps)) & 7) == 7;
     }
 };
 
-extern hkVector4D564 DAT_01267e30;
 
 struct hkQuaternionD564
 {
     hkVector4D564 m_vec;
 
-    float GetAngle() const;
 };
 
 struct FUN_00d56470_cls
@@ -276,8 +284,8 @@ FUN_00d56470_cls* FUN_00d56470_cls::FUN_00d56470(int bCompute)
 {
     if (bCompute)
     {
-        const int iTranslated = !m_vTranslation.equals3(DAT_01267e30, DAT_01017d00);
-        const int iRotated = (m_rotation.GetAngle() < DAT_01017d00) ? 0 : 2;
+        const int iTranslated = !m_vTranslation.equals3((*reinterpret_cast<::fnv_00d56470::hkVector4D564 *>(&::DAT_01267e30)), DAT_01017d00);
+        const int iRotated = (reinterpret_cast<::C74C20Quat *>((void *)&(m_rotation))->GetAngle() < DAT_01017d00) ? 0 : 2;
         reinterpret_cast<int*>(&m_vTranslation)[3] = iRotated | iTranslated | 0x3f000000;
     }
     return this;
@@ -306,7 +314,6 @@ struct __declspec(align(16)) hkpAgent3FuncsD40
 class hkpCollisionDispatcherD40
 {
   public:
-    void AddEntry(const hkpAgent3FuncsD40& kFuncs, int a, int b);
 };
 
 void __cdecl FUN_00d400f0(void* buf);
@@ -324,7 +331,7 @@ void __cdecl FUN_00d40130(hkpCollisionDispatcherD40* self)
     kFuncs.m_pAgentFunction10 = 0;
     kFuncs.m_pAgentFunction11 = 0;
     FUN_00d400f0(&kFuncs);
-    self->AddEntry(kFuncs, 4, 4);
+    reinterpret_cast<::FUN_00cfbd60_cls *>((self))->AddEntry((::SrcRec *)&(kFuncs), 4, 4);
 }
 
 struct Handle_d49550
@@ -471,7 +478,6 @@ struct __declspec(align(16)) FUN_00c9ce00
     int unk218;
     int unk21C;
 };
-extern int DAT_010c7888;
 // @fnv 0x00d49550
 int* __cdecl FUN_00d49550()
 {
@@ -549,14 +555,13 @@ struct __declspec(align(16)) S_00d49c40
     int unk28;
     int unk2C;
 
-    void FUN_00d49c40(W_00d49c40 w);
 };
 
 // @fnv 0x00d4b200
 int FUN_00d4b200()
 {
     S_00d49c40 obj;
-    obj.FUN_00d49c40(W_00d49c40());
+    reinterpret_cast<::FnvVtObj *>(&(obj))->FUN_00d49c40((*(unsigned int *)&(const ::W_00d49c40 &)(W_00d49c40())));
     return obj.unk00;
 }
 
@@ -655,7 +660,6 @@ struct __declspec(align(16)) HolderD4B
     int unkE8;
     int unkEC;
 
-    void FUN_00d56f10(ZeroD4B arg);
 };
 
 // @fnv 0x00d4b330
@@ -663,7 +667,7 @@ int FUN_00d4b330()
 {
     HolderD4B holder;
     ZeroD4B z = {0};
-    holder.FUN_00d56f10(z);
+    new ((void *)&(holder)) ::FUN_00d56f10((*(::FinishingFlag *)&(const ::ZeroD4B &)(z)));
     return *(int*)&holder.unk00;
 }
 
@@ -869,7 +873,6 @@ struct HkRouterD51
     void* m_pStreamAllocator;
 };
 void* FUN_00c85750();
-void ResizeAudioStream(void* alloc, void* array, int elemSize);
 
 struct HkVecD51
 {
@@ -900,7 +903,7 @@ template <class T> struct HkArrD51
     {
         HkRouterD51* r = (HkRouterD51*)FUN_00c85750();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(r->m_pStreamAllocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(r->m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         D51ConstructWithCopy<T>(m_data + m_iElementCount, 1, t);
         m_iElementCount++;
     }
@@ -954,7 +957,6 @@ struct HeapContext
     void* allocator;
 };
 HeapContext* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void* allocator, void* array, unsigned int stride);
 template <typename T> inline void hkConstructWithCopy(T* p, int n, const T& t)
 {
     for (int i = 0; i < n; i++)
@@ -1000,7 +1002,7 @@ unsigned int GeometryBuilder::FUN_00d51d40(const __m128* vectors)
     IndexArray* indexBuffer = &arrays->indices;
     HeapContext* heap = FUN_00c85750();
     if (indexBuffer->count == (indexBuffer->capacityFlags & 0x3fffffff))
-        ResizeAudioStream(heap->allocator, indexBuffer, 4);
+        ::ResizeAudioStream((::AudioAllocator *)(heap->allocator), (::AudioStream *)(indexBuffer), 4);
     hkConstructWithCopy(indexBuffer->elements + indexBuffer->count, 1, 9u);
     ++indexBuffer->count;
 
@@ -1008,21 +1010,21 @@ unsigned int GeometryBuilder::FUN_00d51d40(const __m128* vectors)
     VectorArray* positions = &arrays->vertices;
     heap = FUN_00c85750();
     if (positions->count == (positions->capacityFlags & 0x3fffffff))
-        ResizeAudioStream(heap->allocator, positions, 16);
+        ::ResizeAudioStream((::AudioAllocator *)(heap->allocator), (::AudioStream *)(positions), 16);
     positions->elements[positions->count] = vectors[0];
     ++positions->count;
 
     positions = &arrays->vertices;
     heap = FUN_00c85750();
     if (positions->count == (positions->capacityFlags & 0x3fffffff))
-        ResizeAudioStream(heap->allocator, positions, 16);
+        ::ResizeAudioStream((::AudioAllocator *)(heap->allocator), (::AudioStream *)(positions), 16);
     positions->elements[positions->count] = vectors[1];
     ++positions->count;
 
     positions = &arrays->vertices;
     heap = FUN_00c85750();
     if (positions->count == (positions->capacityFlags & 0x3fffffff))
-        ResizeAudioStream(heap->allocator, positions, 16);
+        ::ResizeAudioStream((::AudioAllocator *)(heap->allocator), (::AudioStream *)(positions), 16);
     positions->elements[positions->count] = vectors[2];
     ++positions->count;
 
@@ -1038,7 +1040,6 @@ struct RouterD52
     void* m_pStreamAllocator;
 };
 RouterD52& FUN_00c85750();
-void __cdecl ResizeAudioStream(void* allocator, void* array, int elementSize);
 template <typename T> inline void D52ConstructWithCopy(T* p, int n, const T& t)
 {
     for (int i = 0; i < n; i++)
@@ -1070,7 +1071,7 @@ template <typename T> struct ArrayD52
     {
         RouterD52& router = FUN_00c85750();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(router.m_pStreamAllocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router.m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         D52ConstructWithCopy<T>(m_data + m_iElementCount, 1, val);
         m_iElementCount++;
     }
@@ -1111,7 +1112,6 @@ struct D529E0_Router
     int unk0C;
     D529E0_Heap* m_pStreamAllocator;
 };
-void __cdecl ResizeAudioStream(D529E0_Heap* heap, void* array, int elementSize);
 template <typename T> inline void D529E0_ConstructWithCopy(T* p, int n, const T& t)
 {
     for (int i = 0; i < n; i++)
@@ -1126,7 +1126,7 @@ template <typename T> struct D529E0_Array
     {
         D529E0_Router* router = (D529E0_Router*)FUN_00c85750();
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
-            ResizeAudioStream(router->m_pStreamAllocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router->m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         D529E0_ConstructWithCopy<T>(m_data + m_iElementCount, 1, value);
         m_iElementCount++;
     }
@@ -1270,7 +1270,6 @@ struct Vector172
 struct Row172
 {
     float x, y, z, w;
-    void FUN_004b4ab0(int index, const Vector172* value);
 };
 struct Frame172
 {
@@ -1323,12 +1322,12 @@ void Frame172::FUN_00d53060(int first, int second, const Vector172* direction)
     __m128 left = _mm_mul_ps(_mm_shuffle_ps(d, d, 0xc9), _mm_shuffle_ps(p, p, 0xd2));
     __m128 right = _mm_mul_ps(_mm_shuffle_ps(d, d, 0xd2), _mm_shuffle_ps(p, p, 0xc9));
     cross.quad = _mm_sub_ps(left, right);
-    row20.FUN_004b4ab0(first, direction);
-    row30.FUN_004b4ab0(first, &perpendicular);
-    row40.FUN_004b4ab0(first, &cross);
-    row50.FUN_004b4ab0(second, direction);
-    row60.FUN_004b4ab0(second, &perpendicular);
-    row70.FUN_004b4ab0(second, &cross);
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(row20))->FUN_004b4ab0(first, (int)(direction));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(row30))->FUN_004b4ab0(first, (int)(&perpendicular));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(row40))->FUN_004b4ab0(first, (int)(&cross));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(row50))->FUN_004b4ab0(second, (int)(direction));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(row60))->FUN_004b4ab0(second, (int)(&perpendicular));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(row70))->FUN_004b4ab0(second, (int)(&cross));
 }
 
 __forceinline __m128 normalize3(const __m128& v)

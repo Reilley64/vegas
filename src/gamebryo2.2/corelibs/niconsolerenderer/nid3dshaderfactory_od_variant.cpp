@@ -1,10 +1,21 @@
 
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/AA4610Allocator.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00aa0390.h"
+#include "fnv/decl/FUN_00aa45a0_Class.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_010f0000.h"
+#include "fnv/symbols_011f6000.h"
 #include "nid3dshaderfactory_decls.h"
 const char kFailedShaderFactoryMessage[] = "Failed to create shader factory!";
 
-int __cdecl NiStricmp(const char*, const char*);
 
 struct FUN_00a1e740_Class
 {

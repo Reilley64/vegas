@@ -4,6 +4,41 @@
 
 // Returns the constant value 1.
 // @fnv 0x00b6f470
+#include <new>
+#include "fnv/decl/ColorContainer.h"
+#include "fnv/decl/FNVRegion.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004b6190_shell.h"
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/FUN_00eae5d0_cls.h"
+#include "fnv/decl/FUN_00eb3890_cls.h"
+#include "fnv/decl/FnvCpu_FUN_00be0aa0_CpuObject.h"
+#include "fnv/decl/FnvCpu_FUN_00eae6f0_CpuObject.h"
+#include "fnv/decl/FnvCpu_FUN_00eae700_CpuObject.h"
+#include "fnv/decl/FnvCpu_FUN_00eae710_CpuObject.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/Proxy00eab8a0.h"
+#include "fnv/decl/S_00e9cb10_Obj.h"
+#include "fnv/decl/S_00eae7a0_Solver.h"
+#include "fnv/decl/TESCombatStyle.h"
+#include "fnv/decl/TransformEAE.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/fnv_00eae6d0__Isect.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00eae000.h"
+#include "fnv/symbols_01013000.h"
+#include "fnv/symbols_01014000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_0106d000.h"
+#include "fnv/symbols_010f1000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f6000.h"
 int __cdecl FUN_00b6f470()
 {
     return 1;
@@ -31,8 +66,8 @@ struct NiBoxBV
 // @fnv 0x00ea0800
 void __thiscall NiBoxBV::FUN_00ea0800(NiStream& kStream)
 {
-    m_kBase.SaveBinary(kStream);
-    ((OrientedBoxBound*)((char*)this + 4))->SaveBinary(kStream);
+    reinterpret_cast<::S_00e9cb10_Obj *>(&(m_kBase))->SaveValueToStream((::S_00e9cb10_Stream *)&(kStream));
+    reinterpret_cast<::ColorContainer *>((((OrientedBoxBound*)((char*)this + 4))))->FUN_00eae630((::NiStream *)&(kStream));
 }
 
 struct VType
@@ -44,7 +79,6 @@ struct VType
 };
 struct FakeBox
 {
-    bool __thiscall FUN_00eae520(const FakeBox&) const;
 };
 struct StandIn
 {
@@ -55,8 +89,7 @@ int __thiscall StandIn::FUN_00ea07a0(const NiBoundingVolume& kABV)
 {
     if (reinterpret_cast<const VType&>(kABV).f3() == 1)
     {
-        if (reinterpret_cast<const FakeBox*>(reinterpret_cast<const char*>(&kABV) + 4)
-                ->FUN_00eae520(*reinterpret_cast<const FakeBox*>(reinterpret_cast<const char*>(this) + 4)))
+        if (reinterpret_cast<::TransformEAE *>((void *)(reinterpret_cast<const FakeBox*>(reinterpret_cast<const char*>(&kABV) + 4)))->FUN_00eae520((const ::TransformEAE &)(*reinterpret_cast<const FakeBox*>(reinterpret_cast<const char*>(this) + 4))))
             return 1;
     }
     return 0;
@@ -64,17 +97,12 @@ int __thiscall StandIn::FUN_00ea07a0(const NiBoundingVolume& kABV)
 
 struct NiPoint3
 {
+public:
+    static const ::NiPoint3 ZERO;
 };
 struct P03MM
 {
-    void* Allocate(unsigned int);
 };
-extern P03MM g_memoryManager;
-extern NiPoint3 DAT_011a946c;
-extern NiPoint3 DAT_011a9478;
-extern const NiPoint3 DAT_011a9484;
-extern NiPoint3 DAT_011a9490;
-extern NiPoint3 _NiPoint3_ZERO;
 struct Helper
 {
     NiBoundingVolume* FUN_00ea0820(const NiPoint3&, const NiPoint3&, const NiPoint3&, const NiPoint3&, const NiPoint3&);
@@ -83,19 +111,16 @@ struct Helper
 // @fnv 0x00ea74f0
 NiBoundingVolume* CreateBoundingVolume()
 {
-    void* p = g_memoryManager.Allocate(0x40);
+    void* p = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(0x40);
     if (p != 0)
-        return ((Helper*)p)->FUN_00ea0820(DAT_011a9490, _NiPoint3_ZERO, DAT_011a946c, DAT_011a9478, DAT_011a9484);
+        return ((Helper*)p)->FUN_00ea0820(DAT_011a9490, ::NiPoint3::ZERO, (*reinterpret_cast<::NiPoint3 *>(&::DAT_011a946c)), ::DAT_011a9478, ::DAT_011a9484);
     return 0;
 }
 
 namespace fnv_00ea7d10 {
 struct P03MM
 {
-    void* __thiscall Allocate(unsigned int);
 };
-extern P03MM g_memoryManager;
-extern int DAT_010f1814;
 struct FUN_00ea7d10_shell
 {
     void* vfptr;
@@ -109,10 +134,10 @@ struct FUN_00ea7d10_shell
 // @fnv 0x00ea7d10
 NiBoundingVolume* FUN_00ea7d10_shell::Clone()
 {
-    FUN_00ea7d10_shell* pkClone = (FUN_00ea7d10_shell*)g_memoryManager.Allocate(0x40);
+    FUN_00ea7d10_shell* pkClone = (FUN_00ea7d10_shell*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00ea7d10::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(0x40);
     if (pkClone)
     {
-        pkClone->vfptr = (void*)&DAT_010f1814;
+        pkClone->vfptr = (void*)&::DAT_010f1814;
         pkClone->data = data;
         return (NiBoundingVolume*)pkClone;
     }
@@ -120,7 +145,6 @@ NiBoundingVolume* FUN_00ea7d10_shell::Clone()
 }
 }  // namespace fnv_00ea7d10
 
-extern const float g_011c5aa8_arg1;
 struct Pt3
 {
     float x, y, z;
@@ -136,38 +160,30 @@ struct Pt3
 struct Isect
 {
     int pad[0x14];
-    void __thiscall InitRegion(const void* a, const void* b, float c, float d, float e, int f);
-    void __thiscall Solve(const void* a, const void* b);
-    float __thiscall FUN_00eae6f0();
-    int __thiscall FUN_00be0aa0();
-    const Pt3& __thiscall FUN_00eae700();
-    const Pt3& __thiscall FUN_00eae710();
-    void __thiscall FUN_00eae6d0();
 };
 // @fnv 0x00ea3950
 bool FUN_00ea3950(float afLength, const void* pA, const void* pB, const void* pC, const void* pD, float* pfTime,
                   Pt3* pPoint, bool bNormal, Pt3* pNormal, Pt3* pNegNormal)
 {
     Isect k;
-    k.InitRegion(pA, pC, afLength, 0.001f, g_011c5aa8_arg1, 0x20);
-    k.Solve(pB, pD);
-    *pfTime = k.FUN_00eae6f0();
-    if (k.FUN_00be0aa0() != 3 && k.FUN_00be0aa0() != 2)
+    reinterpret_cast<::FNVRegion *>(&(k))->InitRegion((void *)(pA), (::FNVVectorParameter *)(pC), afLength, 0.001f, ::DAT_010141cc, (void *)(0x20));
+    reinterpret_cast<::S_00eae7a0_Solver *>(&(k))->Solve((*(const ::S_00eae7a0_Point *)(pB)), (*(const ::S_00eae7a0_Point *)(pD)));
+    *pfTime = reinterpret_cast<::FnvCpu_FUN_00eae6f0_CpuObject *>(&(k))->FUN_00eae6f0();
+    if (reinterpret_cast<::FnvCpu_FUN_00be0aa0_CpuObject *>(&(k))->FUN_00be0aa0() != 3 && reinterpret_cast<::FnvCpu_FUN_00be0aa0_CpuObject *>(&(k))->FUN_00be0aa0() != 2)
     {
-        k.FUN_00eae6d0();
+        reinterpret_cast<::fnv_00eae6d0::Isect *>(&(k))->FUN_00eae6d0();
         return false;
     }
-    *pPoint = k.FUN_00eae700();
+    *pPoint = (*(const ::Pt3 *)(reinterpret_cast<::FnvCpu_FUN_00eae700_CpuObject *>(&(k))->FUN_00eae700()));
     if (bNormal)
     {
-        *pNormal = k.FUN_00eae710();
+        *pNormal = (*(const ::Pt3 *)(reinterpret_cast<::FnvCpu_FUN_00eae710_CpuObject *>(&(k))->FUN_00eae710()));
         *pNegNormal = -*pNormal;
     }
-    k.FUN_00eae6d0();
+    reinterpret_cast<::fnv_00eae6d0::Isect *>(&(k))->FUN_00eae6d0();
     return true;
 }
 
-extern int DAT_010f1814;
 struct FUN_00ea0820
 {
     int v0, v1, v2, v3;
@@ -200,26 +216,22 @@ FUN_00ea0820::FUN_00ea0820(const NiPoint3& aPoint1, const NiPoint3& aPoint2, con
 
 struct Ea07Sub
 {
-    void __thiscall WriteToStream(int a);
 };
 
 struct Ea07Owner
 {
     int m_00;
     Ea07Sub m_04;
-    void __thiscall FUN_00a89af0(int a);
     void __thiscall FUN_00ea07e0(int a);
 };
 
 // @fnv 0x00ea07e0
 void Ea07Owner::FUN_00ea07e0(int a)
 {
-    this->FUN_00a89af0(a);
-    m_04.WriteToStream(a);
+    ::FUN_00a89af0((int)(this));
+    reinterpret_cast<::FUN_00eae5d0_cls *>(&(m_04))->WriteToStream((::NiStream *)(a));
 }
 
-extern const float DAT_010141cc;
-extern const float DAT_01017d00;
 struct Point
 {
     float x, y, z;
@@ -236,34 +248,27 @@ struct PointPairState
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24;
     int unk28, unk2c, unk30, unk34, unk38, unk3c, unk40, unk44, unk48, unk4c;
-    void FUN_00eb3890(const void*, const void*, float, float, float, int);
-    void Solve(const void*, const void*);
-    float FUN_00eae6f0();
-    int FUN_00be0aa0();
-    const Point& FUN_00eae700();
-    const Point& FUN_00eae710();
-    void FUN_00eae6d0();
 };
 // @fnv 0x00ea3c50
 bool FUN_00ea3c50(float length, const void* a, const void* b, const void* c, const void* d, float* pfTime, Point* point,
                   bool normals, Point* normal, Point* negative)
 {
     PointPairState isect;
-    isect.FUN_00eb3890(a, c, length, DAT_01017d00, DAT_010141cc, 32);
-    isect.Solve(b, d);
-    *pfTime = isect.FUN_00eae6f0();
-    if (isect.FUN_00be0aa0() != 3 && isect.FUN_00be0aa0() != 2)
+    new ((void *)&(isect)) ::FUN_00eb3890_cls((::BEB3890Body *)(a), (::BEB3890Body *)(c), length, ::AngularDashpotApplyD4DCB0::DAT_01017d00, DAT_010141cc, 32);
+    reinterpret_cast<::S_00eae7a0_Solver *>(&(isect))->Solve((*(const ::S_00eae7a0_Point *)(b)), (*(const ::S_00eae7a0_Point *)(d)));
+    *pfTime = reinterpret_cast<::FnvCpu_FUN_00eae6f0_CpuObject *>(&(isect))->FUN_00eae6f0();
+    if (reinterpret_cast<::FnvCpu_FUN_00be0aa0_CpuObject *>(&(isect))->FUN_00be0aa0() != 3 && reinterpret_cast<::FnvCpu_FUN_00be0aa0_CpuObject *>(&(isect))->FUN_00be0aa0() != 2)
     {
-        isect.FUN_00eae6d0();
+        reinterpret_cast<::fnv_00eae6d0::Isect *>(&(isect))->FUN_00eae6d0();
         return false;
     }
-    *point = isect.FUN_00eae700();
+    *point = (*(const ::Point *)(reinterpret_cast<::FnvCpu_FUN_00eae700_CpuObject *>(&(isect))->FUN_00eae700()));
     if (normals)
     {
-        *normal = isect.FUN_00eae710();
+        *normal = (*(const ::Point *)(reinterpret_cast<::FnvCpu_FUN_00eae710_CpuObject *>(&(isect))->FUN_00eae710()));
         *negative = -*normal;
     }
-    isect.FUN_00eae6d0();
+    reinterpret_cast<::fnv_00eae6d0::Isect *>(&(isect))->FUN_00eae6d0();
     return true;
 }
 
@@ -331,29 +336,29 @@ bool IntersectsTriangle(float fTime, const BoxVolume& kBV0, const V3& kV0, const
     D = kVert0 - kBBV.m_kBoundsBox.m_kCenter;
 
     // axis C + t*N
-    float A0dN = A[0].Dot(N);
-    float A1dN = A[1].Dot(N);
-    float A2dN = A[2].Dot(N);
+    float A0dN = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[0]))->DotProduct((void *)&(N));
+    float A1dN = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[1]))->DotProduct((void *)&(N));
+    float A2dN = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[2]))->DotProduct((void *)&(N));
     float R = AbsF(kBBV.m_kBoundsBox.m_afExtents[0] * A0dN) + AbsF(extA[1] * A1dN) + AbsF(extA[2] * A2dN);
-    float NdD = N.Dot(D);
+    float NdD = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(N))->DotProduct((void *)&(D));
     {
         if ((NdD) > (R))
         {
-            if ((NdD) + ((fTime) * (N).Dot(W)) > (R))
+            if ((NdD) + ((fTime) * reinterpret_cast<::FUN_004b6190_shell *>((void *)&((N)))->DotProduct((void *)&(W))) > (R))
                 return false;
         }
         else if ((NdD) < -(R))
         {
-            if ((NdD) + ((fTime) * (N).Dot(W)) < -(R))
+            if ((NdD) + ((fTime) * reinterpret_cast<::FUN_004b6190_shell *>((void *)&((N)))->DotProduct((void *)&(W))) < -(R))
                 return false;
         }
     };
 
     // axis C + t*A0
-    float A0dD = A[0].Dot(D);
-    float A0dE0 = A[0].Dot(E[0]);
-    float A0dE1 = A[0].Dot(E[1]);
-    float A0dW = A[0].Dot(W);
+    float A0dD = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[0]))->DotProduct((void *)&(D));
+    float A0dE0 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[0]))->DotProduct((void *)&(E[0]));
+    float A0dE1 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[0]))->DotProduct((void *)&(E[1]));
+    float A0dW = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[0]))->DotProduct((void *)&(W));
     {
         if ((A0dD) > (kBBV.m_kBoundsBox.m_afExtents[0]))
         {
@@ -418,10 +423,10 @@ bool IntersectsTriangle(float fTime, const BoxVolume& kBV0, const V3& kV0, const
     };
 
     // axis C + t*A1
-    float A1dD = A[1].Dot(D);
-    float A1dE0 = A[1].Dot(E[0]);
-    float A1dE1 = A[1].Dot(E[1]);
-    float A1dW = A[1].Dot(W);
+    float A1dD = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[1]))->DotProduct((void *)&(D));
+    float A1dE0 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[1]))->DotProduct((void *)&(E[0]));
+    float A1dE1 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[1]))->DotProduct((void *)&(E[1]));
+    float A1dW = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[1]))->DotProduct((void *)&(W));
     {
         if ((A1dD) > (extA[1]))
         {
@@ -488,10 +493,10 @@ bool IntersectsTriangle(float fTime, const BoxVolume& kBV0, const V3& kV0, const
     };
 
     // axis C + t*A2
-    float A2dD = A[2].Dot(D);
-    float A2dE0 = A[2].Dot(E[0]);
-    float A2dE1 = A[2].Dot(E[1]);
-    float A2dW = A[2].Dot(W);
+    float A2dD = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[2]))->DotProduct((void *)&(D));
+    float A2dE0 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[2]))->DotProduct((void *)&(E[0]));
+    float A2dE1 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[2]))->DotProduct((void *)&(E[1]));
+    float A2dW = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[2]))->DotProduct((void *)&(W));
     {
         if ((A2dD) > (extA[2]))
         {
@@ -558,8 +563,8 @@ bool IntersectsTriangle(float fTime, const BoxVolume& kBV0, const V3& kV0, const
     // axis C + t*A0xE0
     V3 A0xE0;
     A0xE0 = A[0].Cross(E[0]);
-    float A0xE0dD = A0xE0.Dot(D);
-    float A0xE0dW = A0xE0.Dot(W);
+    float A0xE0dD = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A0xE0))->DotProduct((void *)&(D));
+    float A0xE0dW = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A0xE0))->DotProduct((void *)&(W));
     R = AbsF(extA[1] * A2dE0) + AbsF(extA[2] * A1dE0);
     {
         if ((A0xE0dD) > (R))
@@ -595,8 +600,8 @@ bool IntersectsTriangle(float fTime, const BoxVolume& kBV0, const V3& kV0, const
     // axis C + t*A0xE1
     V3 A0xE1;
     A0xE1 = A[0].Cross(E[1]);
-    float A0xE1dD = A0xE1.Dot(D);
-    float A0xE1dW = A0xE1.Dot(W);
+    float A0xE1dD = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A0xE1))->DotProduct((void *)&(D));
+    float A0xE1dW = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A0xE1))->DotProduct((void *)&(W));
     R = AbsF(extA[2] * A1dE1) + AbsF(kBBV.m_kBoundsBox.m_afExtents[1] * A2dE1);
     {
         if ((A0xE1dD) > (R))
@@ -669,8 +674,8 @@ bool IntersectsTriangle(float fTime, const BoxVolume& kBV0, const V3& kV0, const
     // axis C + t*A1xE0
     V3 A1xE0;
     A1xE0 = A[1].Cross(E[0]);
-    float A1xE0dD = A1xE0.Dot(D);
-    float A1xE0dW = A1xE0.Dot(W);
+    float A1xE0dD = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A1xE0))->DotProduct((void *)&(D));
+    float A1xE0dW = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A1xE0))->DotProduct((void *)&(W));
     R = AbsF(kBBV.m_kBoundsBox.m_afExtents[0] * A2dE0) + AbsF(extA[2] * A0dE0);
     {
         if ((A1xE0dD) > (R))
@@ -706,8 +711,8 @@ bool IntersectsTriangle(float fTime, const BoxVolume& kBV0, const V3& kV0, const
     // axis C + t*A1xE1
     V3 A1xE1;
     A1xE1 = A[1].Cross(E[1]);
-    float A1xE1dD = A1xE1.Dot(D);
-    float A1xE1dW = A1xE1.Dot(W);
+    float A1xE1dD = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A1xE1))->DotProduct((void *)&(D));
+    float A1xE1dW = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A1xE1))->DotProduct((void *)&(W));
     R = AbsF(kBBV.m_kBoundsBox.m_afExtents[0] * A2dE1) + AbsF(extA[2] * A0dE1);
     {
         if ((A1xE1dD) > (R))
@@ -779,8 +784,8 @@ bool IntersectsTriangle(float fTime, const BoxVolume& kBV0, const V3& kV0, const
     // axis C + t*A2xE0
     V3 A2xE0;
     A2xE0 = A[2].Cross(E[0]);
-    float A2xE0dD = A2xE0.Dot(D);
-    float A2xE0dW = A2xE0.Dot(W);
+    float A2xE0dD = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A2xE0))->DotProduct((void *)&(D));
+    float A2xE0dW = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A2xE0))->DotProduct((void *)&(W));
     R = AbsF(extA[0] * A1dE0) + AbsF(extA[1] * A0dE0);
     {
         if ((A2xE0dD) > (R))
@@ -816,8 +821,8 @@ bool IntersectsTriangle(float fTime, const BoxVolume& kBV0, const V3& kV0, const
     // axis C + t*A2xE1
     V3 A2xE1;
     A2xE1 = A[2].Cross(E[1]);
-    float A2xE1dD = A2xE1.Dot(D);
-    float A2xE1dW = A2xE1.Dot(W);
+    float A2xE1dD = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A2xE1))->DotProduct((void *)&(D));
+    float A2xE1dW = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A2xE1))->DotProduct((void *)&(W));
     R = AbsF(extA[0] * A1dE1) + AbsF(extA[1] * A0dE1);
     {
         if ((A2xE1dD) > (R))
@@ -902,11 +907,7 @@ struct ProjectionQuery
     float radius;
     Pt3 base;
     float allowance;
-    void InitFromParams(float radius, const Pt3* anchor);
 };
-extern const Pt3 DAT_011f426c;
-extern const float DAT_01013ea4;
-extern const double DAT_0106d508;
 bool __cdecl IntersectsSphereAndBox(float threshold, const CollisionBox* box, const Pt3* direction,
                                     const ProjectionQuery* query, const Pt3* anchor);
 
@@ -1016,19 +1017,19 @@ static __forceinline void ClampSecondBox(const CollisionBox& box, const Pt3& dir
     local.y = Round(DotSecondF(box.axisY, displacement.x, displacement.y, displacement.z));
     local.z = Round(DotSecondF(box.axisZ, displacement.x, displacement.y, displacement.z));
 
-    if (local.x > box.halfExtents.x * DAT_0106d508)
+    if (local.x > box.halfExtents.x * ::CombatRegion::DAT_0106d508)
         local.x = box.halfExtents.x;
-    else if (local.x < Negate(box.halfExtents.x) * DAT_0106d508)
+    else if (local.x < Negate(box.halfExtents.x) * ::CombatRegion::DAT_0106d508)
         local.x = Negate(box.halfExtents.x);
 
-    if (local.y > box.halfExtents.y * DAT_0106d508)
+    if (local.y > box.halfExtents.y * ::CombatRegion::DAT_0106d508)
         local.y = box.halfExtents.y;
-    else if (local.y < Negate(box.halfExtents.y) * DAT_0106d508)
+    else if (local.y < Negate(box.halfExtents.y) * ::CombatRegion::DAT_0106d508)
         local.y = Negate(box.halfExtents.y);
 
-    if (local.z > box.halfExtents.z * DAT_0106d508)
+    if (local.z > box.halfExtents.z * ::CombatRegion::DAT_0106d508)
         local.z = box.halfExtents.z;
-    else if (local.z < Negate(box.halfExtents.z) * DAT_0106d508)
+    else if (local.z < Negate(box.halfExtents.z) * ::CombatRegion::DAT_0106d508)
         local.z = Negate(box.halfExtents.z);
 
     Pt3 boundedZ;
@@ -1065,15 +1066,15 @@ void __cdecl ClampPositionToBoxes(float threshold, const CollisionBox* firstBox,
                                   Pt3* position)
 {
     ProjectionQuery query;
-    query.InitFromParams(1.0f, &DAT_011f426c);
-    query.allowance = DAT_01013ea4;
+    reinterpret_cast<::Proxy00eab8a0 *>(&(query))->InitFromParams(1.0f, (const int *)(const ::Pt3 *)(&(*reinterpret_cast<const ::Pt3 *>((void *)&::NiPoint3::ZERO))));
+    query.allowance = ::DAT_01013ea4;
     query.base = *position;
 
-    bool firstIntersects = IntersectsSphereAndBox(threshold, firstBox, firstDirection, &query, &DAT_011f426c);
-    double tolerance = DAT_0106d508;
+    bool firstIntersects = IntersectsSphereAndBox(threshold, firstBox, firstDirection, &query, &(*reinterpret_cast<const ::Pt3 *>((void *)&::NiPoint3::ZERO)));
+    double tolerance = ::CombatRegion::DAT_0106d508;
     if (!firstIntersects)
         ClampToOrientedBox(*firstBox, *firstDirection, *distance, *position, tolerance);
-    if (!IntersectsSphereAndBox(threshold, secondBox, secondDirection, &query, &DAT_011f426c))
+    if (!IntersectsSphereAndBox(threshold, secondBox, secondDirection, &query, &(*reinterpret_cast<const ::Pt3 *>((void *)&::NiPoint3::ZERO))))
         ClampSecondBox(*secondBox, *secondDirection, *distance, *position);
 }
 
@@ -1194,11 +1195,11 @@ bool __cdecl FUN_00ea0ad0(float fTime, const OBoxBV& kBV0, const Point3& kV0, co
     float fR01;
 
     // axis C0+t*A0
-    aafC[0][0] = akA[0].DotProduct(akB[0]);
-    aafC[0][1] = akA[0].DotProduct(akB[1]);
-    aafC[0][2] = akA[0].DotProduct(akB[2]);
-    afAD0[0] = akA[0].DotProduct(kD0);
-    afAD1[0] = akA[0].DotProduct(kD1);
+    aafC[0][0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(akA[0]))->DotProduct((void *)&(akB[0]));
+    aafC[0][1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(akA[0]))->DotProduct((void *)&(akB[1]));
+    aafC[0][2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(akA[0]))->DotProduct((void *)&(akB[2]));
+    afAD0[0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(akA[0]))->DotProduct((void *)&(kD0));
+    afAD1[0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(akA[0]))->DotProduct((void *)&(kD1));
     aafAbsC[0][0] = SatAbsF(aafC[0][0]);
     aafAbsC[0][1] = SatAbsF(aafC[0][1]);
     aafAbsC[0][2] = SatAbsF(aafC[0][2]);
@@ -1217,11 +1218,11 @@ bool __cdecl FUN_00ea0ad0(float fTime, const OBoxBV& kBV0, const Point3& kV0, co
     }
 
     // axis C0+t*A1
-    aafC[1][0] = akA[1].DotProduct(akB[0]);
-    aafC[1][1] = akA[1].DotProduct(akB[1]);
-    aafC[1][2] = akA[1].DotProduct(akB[2]);
-    afAD0[1] = akA[1].DotProduct(kD0);
-    afAD1[1] = kD1.DotProduct(akA[1]);
+    aafC[1][0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(akA[1]))->DotProduct((void *)&(akB[0]));
+    aafC[1][1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(akA[1]))->DotProduct((void *)&(akB[1]));
+    aafC[1][2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(akA[1]))->DotProduct((void *)&(akB[2]));
+    afAD0[1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(akA[1]))->DotProduct((void *)&(kD0));
+    afAD1[1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kD1))->DotProduct((void *)&(akA[1]));
     aafAbsC[1][0] = SatAbsF(aafC[1][0]);
     aafAbsC[1][1] = SatAbsF(aafC[1][1]);
     aafAbsC[1][2] = SatAbsF(aafC[1][2]);
@@ -1240,10 +1241,10 @@ bool __cdecl FUN_00ea0ad0(float fTime, const OBoxBV& kBV0, const Point3& kV0, co
     }
 
     // axis C0+t*A2
-    aafC[2][0] = akA[2].DotProduct(akB[0]);
-    aafC[2][1] = akA[2].DotProduct(akB[1]);
-    aafC[2][2] = akA[2].DotProduct(akB[2]);
-    afAD0[2] = akA[2].DotProduct(kD0);
+    aafC[2][0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(akA[2]))->DotProduct((void *)&(akB[0]));
+    aafC[2][1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(akA[2]))->DotProduct((void *)&(akB[1]));
+    aafC[2][2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(akA[2]))->DotProduct((void *)&(akB[2]));
+    afAD0[2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(akA[2]))->DotProduct((void *)&(kD0));
     afAD1[2] = kD1.DotPart(kD1.x, akA[2]);
     aafAbsC[2][0] = SatAbsF(aafC[2][0]);
     aafAbsC[2][1] = SatAbsF(aafC[2][1]);
@@ -1263,51 +1264,51 @@ bool __cdecl FUN_00ea0ad0(float fTime, const OBoxBV& kBV0, const Point3& kV0, co
     }
 
     // axis C0+t*B0
-    fR = akB[0].DotProduct(kD0);
+    fR = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(akB[0]))->DotProduct((void *)&(kD0));
     fR0 = afEA[0] * aafAbsC[0][0] + kBox0.m_afExtents[1] * aafAbsC[1][0] + kBox0.GetExtent(2) * aafAbsC[2][0];
     fR01 = fR0 + afEB[0];
     if (fR > fR01)
     {
-        if (akB[0].DotProduct(kD1) > fR01)
+        if (reinterpret_cast<::FUN_004b6190_shell *>((void *)&(akB[0]))->DotProduct((void *)&(kD1)) > fR01)
             return false;
     }
     else
     {
         fR01 = -fR01;
-        if (fR < fR01 && akB[0].DotProduct(kD1) < fR01)
+        if (fR < fR01 && reinterpret_cast<::FUN_004b6190_shell *>((void *)&(akB[0]))->DotProduct((void *)&(kD1)) < fR01)
             return false;
     }
 
     // axis C0+t*B1
-    fR = akB[1].DotProduct(kD0);
+    fR = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(akB[1]))->DotProduct((void *)&(kD0));
     fR0 =
         afEA[0] * aafAbsC[0][1] + kBV0.m_kBoundsBox.m_afExtents[1] * aafAbsC[1][1] + kBox0.GetExtent(2) * aafAbsC[2][1];
     fR01 = fR0 + afEB[1];
     if (fR > fR01)
     {
-        if (akB[1].DotProduct(kD1) > fR01)
+        if (reinterpret_cast<::FUN_004b6190_shell *>((void *)&(akB[1]))->DotProduct((void *)&(kD1)) > fR01)
             return false;
     }
     else
     {
         fR01 = -fR01;
-        if (fR < fR01 && akB[1].DotProduct(kD1) < fR01)
+        if (fR < fR01 && reinterpret_cast<::FUN_004b6190_shell *>((void *)&(akB[1]))->DotProduct((void *)&(kD1)) < fR01)
             return false;
     }
 
     // axis C0+t*B2
-    fR = akB[2].DotProduct(kD0);
+    fR = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(akB[2]))->DotProduct((void *)&(kD0));
     fR0 = afEA[0] * aafAbsC[0][2] + kBox0.GetExtent(1) * aafAbsC[1][2] + kBox0.GetExtent(2) * aafAbsC[2][2];
     fR01 = fR0 + kBox1.m_afExtents[2];
     if (fR > fR01)
     {
-        if (akB[2].DotProduct(kD1) > fR01)
+        if (reinterpret_cast<::FUN_004b6190_shell *>((void *)&(akB[2]))->DotProduct((void *)&(kD1)) > fR01)
             return false;
     }
     else
     {
         fR01 = -fR01;
-        if (fR < fR01 && akB[2].DotProduct(kD1) < fR01)
+        if (fR < fR01 && reinterpret_cast<::FUN_004b6190_shell *>((void *)&(akB[2]))->DotProduct((void *)&(kD1)) < fR01)
             return false;
     }
 
@@ -1468,9 +1469,9 @@ bool __cdecl FUN_00ea0ad0(float fTime, const OBoxBV& kBV0, const Point3& kV0, co
     float afWA[3], afWB[3];
 
     // axis C0+t*WxA0
-    afWA[1] = kW.DotProduct(akA[1]);
-    afWA[2] = kW.DotProduct(akA[2]);
-    fR = SatAbsF(akA[0].DotProduct(kWxD0));
+    afWA[1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kW))->DotProduct((void *)&(akA[1]));
+    afWA[2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kW))->DotProduct((void *)&(akA[2]));
+    fR = SatAbsF(reinterpret_cast<::FUN_004b6190_shell *>((void *)&(akA[0]))->DotProduct((void *)&(kWxD0)));
     fR0 = kBox0.GetExtent(1) * SatAbsF(afWA[2]) + kBox0.GetExtent(2) * SatAbsF(afWA[1]);
     fR1 = afEB[0] * SatAbsF(aafC[1][0] * afWA[2] - aafC[2][0] * afWA[1]) +
           afEB[1] * SatAbsF(aafC[1][1] * afWA[2] - aafC[2][1] * afWA[1]) +
@@ -1480,8 +1481,8 @@ bool __cdecl FUN_00ea0ad0(float fTime, const OBoxBV& kBV0, const Point3& kV0, co
         return false;
 
     // axis C0+t*WxA1
-    afWA[0] = kW.DotProduct(akA[0]);
-    fR = SatAbsF(akA[1].DotProduct(kWxD0));
+    afWA[0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kW))->DotProduct((void *)&(akA[0]));
+    fR = SatAbsF(reinterpret_cast<::FUN_004b6190_shell *>((void *)&(akA[1]))->DotProduct((void *)&(kWxD0)));
     fR0 = kBox0.GetExtent(2) * SatAbsF(afWA[0]) + afEA[0] * SatAbsF(afWA[2]);
     fR1 = afEB[0] * SatAbsF(aafC[2][0] * afWA[0] - aafC[0][0] * afWA[2]) +
           afEB[1] * SatAbsF(aafC[2][1] * afWA[0] - aafC[0][1] * afWA[2]) +
@@ -1491,7 +1492,7 @@ bool __cdecl FUN_00ea0ad0(float fTime, const OBoxBV& kBV0, const Point3& kV0, co
         return false;
 
     // axis C0+t*WxA2
-    fR = SatAbsF(akA[2].DotProduct(kWxD0));
+    fR = SatAbsF(reinterpret_cast<::FUN_004b6190_shell *>((void *)&(akA[2]))->DotProduct((void *)&(kWxD0)));
     fR0 = afEA[0] * SatAbsF(afWA[1]) + kBox0.GetExtent(1) * SatAbsF(afWA[0]);
     fR1 = afEB[0] * SatAbsF(aafC[0][0] * afWA[1] - aafC[1][0] * afWA[0]) +
           afEB[1] * SatAbsF(aafC[0][1] * afWA[1] - aafC[1][1] * afWA[0]) +
@@ -1501,9 +1502,9 @@ bool __cdecl FUN_00ea0ad0(float fTime, const OBoxBV& kBV0, const Point3& kV0, co
         return false;
 
     // axis C0+t*WxB0
-    afWB[1] = kW.DotProduct(akB[1]);
-    afWB[2] = kW.DotProduct(akB[2]);
-    fR = SatAbsF(akB[0].DotProduct(kWxD0));
+    afWB[1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kW))->DotProduct((void *)&(akB[1]));
+    afWB[2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kW))->DotProduct((void *)&(akB[2]));
+    fR = SatAbsF(reinterpret_cast<::FUN_004b6190_shell *>((void *)&(akB[0]))->DotProduct((void *)&(kWxD0)));
     fR0 = afEA[0] * SatAbsF(aafC[0][1] * afWB[2] - aafC[0][2] * afWB[1]) +
           kBox0.GetExtent(1) * SatRoundedAbs(aafC[1][1] * afWB[2] - aafC[1][2] * afWB[1]) +
           kBox0.GetExtent(2) * SatAbsF(aafC[2][1] * afWB[2] - aafC[2][2] * afWB[1]);
@@ -1513,8 +1514,8 @@ bool __cdecl FUN_00ea0ad0(float fTime, const OBoxBV& kBV0, const Point3& kV0, co
         return false;
 
     // axis C0+t*WxB1
-    afWB[0] = kW.DotProduct(akB[0]);
-    fR = SatAbsF(akB[1].DotProduct(kWxD0));
+    afWB[0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kW))->DotProduct((void *)&(akB[0]));
+    fR = SatAbsF(reinterpret_cast<::FUN_004b6190_shell *>((void *)&(akB[1]))->DotProduct((void *)&(kWxD0)));
     fR0 = afEA[0] * SatAbsF(aafC[0][2] * afWB[0] - aafC[0][0] * afWB[2]) +
           kBox0.GetExtent(1) * SatRoundedAbs(aafC[1][2] * afWB[0] - aafC[1][0] * afWB[2]) +
           kBox0.GetExtent(2) * SatAbsF(aafC[2][2] * afWB[0] - aafC[2][0] * afWB[2]);
@@ -1524,7 +1525,7 @@ bool __cdecl FUN_00ea0ad0(float fTime, const OBoxBV& kBV0, const Point3& kV0, co
         return false;
 
     // axis C0+t*WxB2
-    fR = SatAbsF(akB[2].DotProduct(kWxD0));
+    fR = SatAbsF(reinterpret_cast<::FUN_004b6190_shell *>((void *)&(akB[2]))->DotProduct((void *)&(kWxD0)));
     fR0 = afEA[0] * SatAbsF(aafC[0][0] * afWB[1] - aafC[0][1] * afWB[0]) +
           kBox0.GetExtent(1) * SatRoundedAbs(aafC[1][0] * afWB[1] - aafC[1][1] * afWB[0]) +
           kBox0.GetExtent(2) * SatAbsF(aafC[2][0] * afWB[1] - aafC[2][1] * afWB[0]);
@@ -1566,7 +1567,6 @@ struct Vec3
     }
 };
 
-extern const Vec3 NiPoint3_ZERO;
 
 struct CenteredPointBounds
 {
@@ -1617,7 +1617,7 @@ bool IntersectsSphereAndBox(float fTime, const BoxBVStub& kBV0, const Vec3& kV0,
     Vec3 kV = kV1 - kV0;
     float fT, fB0, fB1, fB2;
     float fSqrDist;
-    if (kV != NiPoint3_ZERO)
+    if (kV != (*reinterpret_cast<const ::fnv_00ea7530::Vec3 *>((void *)&::NiPoint3::ZERO)))
     {
         SegmentShape kSeg;
         kSeg.m_kStartPoint = kBV1.m_kBoundingSphere.m_kCenter;
@@ -1678,10 +1678,7 @@ struct NormalVec
         z -= a.z;
         return *this;
     }
-    void FUN_004a0c10();
 };
-extern "C" NormalVec FNV_NiPoint3Zero;
-extern const float DAT_0104da4c;
 struct BoxNormal
 {
     int unk00, unk04, unk08, unk0c;
@@ -1694,8 +1691,8 @@ NormalVec BoxNormal::FUN_00ea3a60(int iXSide, int iYSide, int iZSide, NormalVec 
 {
     int iNumAxes = 0;
     NormalVec kNormal;
-    memcpy(&kNormal, &FNV_NiPoint3Zero, sizeof(kNormal));
-    bool bZeroVelocity = (unsigned char)(kMotionVelocity == FNV_NiPoint3Zero) != 0;
+    memcpy(&kNormal, &(*reinterpret_cast<::NormalVec *>((void *)&::NiPoint3::ZERO)), sizeof(kNormal));
+    bool bZeroVelocity = (unsigned char)(kMotionVelocity == (*reinterpret_cast<::NormalVec *>((void *)&::NiPoint3::ZERO))) != 0;
     if (bZeroVelocity || fabs(axis0.Dot(kMotionVelocity)) > 1.1920928955078125e-7f)
     {
         if (iXSide == 1)
@@ -1736,13 +1733,11 @@ NormalVec BoxNormal::FUN_00ea3a60(int iXSide, int iYSide, int iZSide, NormalVec 
         }
     }
     if (iNumAxes != 1)
-        kNormal.FUN_004a0c10();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(kNormal))->FUN_004a0c10();
     return kNormal;
 }
 
 extern char DAT_010f1844;
-void* __cdecl FUN_00aa1070(unsigned int length);
-int __cdecl FUN_00a305b0(char* output, unsigned int outputSize, const char* format, const char* value);
 struct FnvStringArray
 {
     unsigned int unk00;
@@ -1751,8 +1746,6 @@ struct FnvStringArray
     unsigned short count;
     unsigned short unk0c;
     unsigned short growth;
-    void FUN_0096ad30(unsigned int newCapacity);
-    void FUN_0096ae90(unsigned int index, const char** value);
 };
 struct FnvTextProcessor
 {
@@ -1765,11 +1758,11 @@ void FnvTextProcessor::AddString(const char* text, FnvStringArray* array)
     unsigned int length = (unsigned int)strlen(text) + 10;
     const char* q = text;
     text = (const char*)FUN_00aa1070(length);
-    FUN_00a305b0((char*)text, length, &DAT_010f1844, q);
+    ::NiSprintf((char*)text, length, &DAT_010f1844, q);
     unsigned int index = array->count;
     if (index >= array->capacity)
-        array->FUN_0096ad30(index + array->growth);
-    array->FUN_0096ae90(index, &text);
+        reinterpret_cast<::ViewerStrings *>((array))->SetSize(index + array->growth);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((array))->SetAt(index, (*(char * *)(&text)));
 }
 
 struct SolPoint
@@ -1918,14 +1911,8 @@ struct BoxSphereIsect
     int unk44;
     int unk48;
     int unk4c;
-    void Init(const CenteredPointBounds* a, const SphereShape* b, float c, float d, float e, int f);
-    void SetVelocities(const void* a, const void* b);
-    int GetType();
-    void Release();
 };
 
-extern const float DAT_01017d00;
-extern const float g_011c5aa8_arg1;
 
 static inline float AbsF(float f)
 {
@@ -1944,14 +1931,14 @@ bool FUN_00ea2030(float fTime, const CenteredPointBounds* pBox, const void* pVel
         return true;
 
     BoxSphereIsect kIsect;
-    kIsect.Init(pBox, pSphere, fTime, DAT_01017d00, g_011c5aa8_arg1, 0x20);
-    kIsect.SetVelocities(pVel0, pVel1);
+    new ((void *)&(kIsect)) ::FUN_00eb3890_cls((::BEB3890Body *)(pBox), (::BEB3890Body *)(pSphere), fTime, ::AngularDashpotApplyD4DCB0::DAT_01017d00, ::DAT_010141cc, 0x20);
+    ::FUN_00eae6e0((::VTableObject *)&(kIsect), (int)(pVel0));
     bool bIntersecting;
-    if (kIsect.GetType() == 3 || kIsect.GetType() == 2)
+    if (reinterpret_cast<::FnvCpu_FUN_00be0aa0_CpuObject *>(&(kIsect))->FUN_00be0aa0() == 3 || reinterpret_cast<::FnvCpu_FUN_00be0aa0_CpuObject *>(&(kIsect))->FUN_00be0aa0() == 2)
         bIntersecting = true;
     else
         bIntersecting = false;
-    kIsect.Release();
+    reinterpret_cast<::fnv_00eae6d0::Isect *>(&(kIsect))->FUN_00eae6d0();
     return bIntersecting;
 }
 }  // namespace fnv_00ea2030
@@ -2097,17 +2084,17 @@ bool __cdecl FUN_00ea3d60(float maxTime, const ReworkBox& box, const ReworkPoint
     int i;
 
     float axN[3];
-    axN[0] = axes[0].Dot(vTriNormal);
-    axN[1] = axes[1].Dot(vTriNormal);
-    axN[2] = axes[2].Dot(vTriNormal);
+    axN[0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(axes[0]))->DotProduct((void *)&(vTriNormal));
+    axN[1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(axes[1]))->DotProduct((void *)&(vTriNormal));
+    axN[2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(axes[2]))->DotProduct((void *)&(vTriNormal));
     float radius =
         (pExtents[0] * ReworkAbs(axN[0])) + (pExtents[1] * ReworkAbs(axN[1])) + (pExtents[2] * ReworkAbs(axN[2]));
-    float fNDot = vTriNormal.Dot(vDelta);
+    float fNDot = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vTriNormal))->DotProduct((void *)&(vDelta));
     {
         float t, nW;
         if ((fNDot) > (radius))
         {
-            nW = (vTriNormal).Dot(vRelVel);
+            nW = reinterpret_cast<::FUN_004b6190_shell *>((void *)&((vTriNormal)))->DotProduct((void *)&(vRelVel));
             if ((fNDot) + ((maxTime)*nW) > (radius))
                 return false;
             t = ((radius) - (fNDot)) / nW;
@@ -2120,7 +2107,7 @@ bool __cdecl FUN_00ea3d60(float maxTime, const ReworkBox& box, const ReworkPoint
         }
         else if ((fNDot) < -(radius))
         {
-            nW = (vTriNormal).Dot(vRelVel);
+            nW = reinterpret_cast<::FUN_004b6190_shell *>((void *)&((vTriNormal)))->DotProduct((void *)&(vRelVel));
             if ((fNDot) + ((maxTime)*nW) < -(radius))
                 return false;
             t = -((radius) + (fNDot)) / nW;
@@ -2138,10 +2125,10 @@ bool __cdecl FUN_00ea3d60(float maxTime, const ReworkBox& box, const ReworkPoint
     for (i = 0; i < 3; i++)
     {
 
-        axD[i] = axes[i].Dot(vDelta);
-        axE[i][0] = axes[i].Dot(vEdge[0]);
-        axE[i][1] = axes[i].Dot(vEdge[1]);
-        float axW = axes[i].Dot(vRelVel);
+        axD[i] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(axes[i]))->DotProduct((void *)&(vDelta));
+        axE[i][0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(axes[i]))->DotProduct((void *)&(vEdge[0]));
+        axE[i][1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(axes[i]))->DotProduct((void *)&(vEdge[1]));
+        float axW = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(axes[i]))->DotProduct((void *)&(vRelVel));
         {
             float t;
             if ((axD[i]) > (pExtents[i]))
@@ -2291,8 +2278,8 @@ bool __cdecl FUN_00ea3d60(float maxTime, const ReworkBox& box, const ReworkPoint
 
     ReworkPoint vC00;
     vC00 = axes[0].Cross(vEdge[0]);
-    float fC00Dot = vC00.Dot(vDelta);
-    float fC00Vel = vC00.Dot(vRelVel);
+    float fC00Dot = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC00))->DotProduct((void *)&(vDelta));
+    float fC00Vel = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC00))->DotProduct((void *)&(vRelVel));
     radius = (pExtents[1] * (float)fabs(axE[2][0])) + (pExtents[2] * ReworkAbs(axE[1][0]));
     {
         float t;
@@ -2365,8 +2352,8 @@ bool __cdecl FUN_00ea3d60(float maxTime, const ReworkBox& box, const ReworkPoint
     }
     ReworkPoint vC01;
     vC01 = axes[0].Cross(vEdge[1]);
-    float fC01Dot = vC01.Dot(vDelta);
-    float fC01Vel = vC01.Dot(vRelVel);
+    float fC01Dot = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC01))->DotProduct((void *)&(vDelta));
+    float fC01Vel = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC01))->DotProduct((void *)&(vRelVel));
     radius = (pExtents[1] * (float)fabs(axE[2][1])) + (pExtents[2] * ReworkAbs(axE[1][1]));
     {
         float t;
@@ -2513,8 +2500,8 @@ bool __cdecl FUN_00ea3d60(float maxTime, const ReworkBox& box, const ReworkPoint
     }
     ReworkPoint vC10;
     vC10 = axes[1].Cross(vEdge[0]);
-    float fC10Dot = vC10.Dot(vDelta);
-    float fC10Vel = vC10.Dot(vRelVel);
+    float fC10Dot = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC10))->DotProduct((void *)&(vDelta));
+    float fC10Vel = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC10))->DotProduct((void *)&(vRelVel));
     radius = (pExtents[0] * (float)fabs(axE[2][0])) + (pExtents[2] * ReworkAbs(axE[0][0]));
     {
         float t;
@@ -2587,8 +2574,8 @@ bool __cdecl FUN_00ea3d60(float maxTime, const ReworkBox& box, const ReworkPoint
     }
     ReworkPoint vC11;
     vC11 = axes[1].Cross(vEdge[1]);
-    float fC11Dot = vC11.Dot(vDelta);
-    float fC11Vel = vC11.Dot(vRelVel);
+    float fC11Dot = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC11))->DotProduct((void *)&(vDelta));
+    float fC11Vel = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC11))->DotProduct((void *)&(vRelVel));
     radius = (pExtents[0] * (float)fabs(axE[2][1])) + (pExtents[2] * ReworkAbs(axE[0][1]));
     {
         float t;
@@ -2734,8 +2721,8 @@ bool __cdecl FUN_00ea3d60(float maxTime, const ReworkBox& box, const ReworkPoint
     }
     ReworkPoint vC20;
     vC20 = axes[2].Cross(vEdge[0]);
-    float fC20Dot = vC20.Dot(vDelta);
-    float fC20Vel = vC20.Dot(vRelVel);
+    float fC20Dot = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC20))->DotProduct((void *)&(vDelta));
+    float fC20Vel = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC20))->DotProduct((void *)&(vRelVel));
     radius = (pExtents[0] * (float)fabs(axE[1][0])) + (pExtents[1] * ReworkAbs(axE[0][0]));
     {
         float t;
@@ -2808,8 +2795,8 @@ bool __cdecl FUN_00ea3d60(float maxTime, const ReworkBox& box, const ReworkPoint
     }
     ReworkPoint vC21;
     vC21 = axes[2].EdgeCross(vEdge[1]);
-    float fC21Dot = vC21.Dot(vDelta);
-    float fC21Vel = vC21.Dot(vRelVel);
+    float fC21Dot = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC21))->DotProduct((void *)&(vDelta));
+    float fC21Vel = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC21))->DotProduct((void *)&(vRelVel));
     radius = (pExtents[0] * (float)fabs(axE[1][1])) + (pExtents[1] * ReworkAbs(axE[0][1]));
     {
         float t;
@@ -3033,17 +3020,17 @@ bool __cdecl FUN_00ea3d60(float maxTime, const ReworkBox& box, const ReworkPoint
             else
                 (x[2]) = 0.0f;
         }
-        vDelta += FUN_004a3760(hitTime, vRelVel);
+        reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::ReworkPoint &)(vDelta))->FUN_0063c8a0((void *)&(const ::ReworkPoint &)(FUN_004a3760(hitTime, vRelVel)));
         vDCrossE[0] = vDelta.Cross(vEdge[0]);
-        nDotDE[0] = vC00.Dot(vDCrossE[0]);
-        nDotAE[0][0] = vC00.Dot(vC00);
-        nDotAE[1][0] = vC00.Dot(vC10);
-        nDotAE[2][0] = vC00.Dot(vC20);
+        nDotDE[0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC00))->DotProduct((void *)&(vDCrossE[0]));
+        nDotAE[0][0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC00))->DotProduct((void *)&(vC00));
+        nDotAE[1][0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC00))->DotProduct((void *)&(vC10));
+        nDotAE[2][0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC00))->DotProduct((void *)&(vC20));
         fNumerator = nDotDE[0] - (nDotAE[1][0] * x[1]) - (nDotAE[2][0] * x[2]);
         if (hitEdge == 0)
             x[0] = fNumerator / nDotAE[0][0];
         else
-            x[0] = (fNumerator - vC00.Dot(vTriNormal)) / nDotAE[0][0];
+            x[0] = (fNumerator - reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC00))->DotProduct((void *)&(vTriNormal))) / nDotAE[0][0];
 
         {
             const ReworkPoint& center = (bv).GetNavMeshData();
@@ -3073,17 +3060,17 @@ bool __cdecl FUN_00ea3d60(float maxTime, const ReworkBox& box, const ReworkPoint
             else
                 (x[2]) = 0.0f;
         }
-        vDelta += FUN_004a3760(hitTime, vRelVel);
+        reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::ReworkPoint &)(vDelta))->FUN_0063c8a0((void *)&(const ::ReworkPoint &)(FUN_004a3760(hitTime, vRelVel)));
         vDCrossE[1] = vDelta.Cross(vEdge[1]);
-        nDotDE[1] = vC01.Dot(vDCrossE[1]);
-        nDotAE[0][1] = vC01.Dot(vC01);
-        nDotAE[1][1] = vC01.Dot(vC11);
-        nDotAE[2][1] = vC01.Dot(vC21);
+        nDotDE[1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC01))->DotProduct((void *)&(vDCrossE[1]));
+        nDotAE[0][1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC01))->DotProduct((void *)&(vC01));
+        nDotAE[1][1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC01))->DotProduct((void *)&(vC11));
+        nDotAE[2][1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC01))->DotProduct((void *)&(vC21));
         fNumerator = nDotDE[1] - (nDotAE[1][1] * x[1]) - (nDotAE[2][1] * x[2]);
         if (hitEdge == 0)
             x[0] = fNumerator / nDotAE[0][1];
         else
-            x[0] = (fNumerator + vC01.Dot(vTriNormal)) / nDotAE[0][1];
+            x[0] = (fNumerator + reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC01))->DotProduct((void *)&(vTriNormal))) / nDotAE[0][1];
 
         {
             const ReworkPoint& center = (bv).GetNavMeshData();
@@ -3118,17 +3105,17 @@ bool __cdecl FUN_00ea3d60(float maxTime, const ReworkBox& box, const ReworkPoint
             else
                 (x[2]) = 0.0f;
         }
-        vDelta += FUN_004a3760(hitTime, vRelVel);
+        reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::ReworkPoint &)(vDelta))->FUN_0063c8a0((void *)&(const ::ReworkPoint &)(FUN_004a3760(hitTime, vRelVel)));
         vDCrossE[2] = vDelta.Cross(vEdge[2]);
-        nDotDE[2] = vC02.Dot(vDCrossE[2]);
-        nDotAE[0][2] = vC02.Dot(vC02);
-        nDotAE[1][2] = vC02.Dot(vC12);
-        nDotAE[2][2] = vC02.Dot(vC22);
+        nDotDE[2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC02))->DotProduct((void *)&(vDCrossE[2]));
+        nDotAE[0][2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC02))->DotProduct((void *)&(vC02));
+        nDotAE[1][2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC02))->DotProduct((void *)&(vC12));
+        nDotAE[2][2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC02))->DotProduct((void *)&(vC22));
         fNumerator = nDotDE[2] - (nDotAE[1][2] * x[1]) - (nDotAE[2][2] * x[2]);
         if (hitEdge == 0)
             x[0] = fNumerator / nDotAE[0][2];
         else
-            x[0] = (fNumerator + vC02.Dot(vTriNormal)) / nDotAE[0][2];
+            x[0] = (fNumerator + reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC02))->DotProduct((void *)&(vTriNormal))) / nDotAE[0][2];
 
         {
             const ReworkPoint& center = (bv).GetNavMeshData();
@@ -3158,17 +3145,17 @@ bool __cdecl FUN_00ea3d60(float maxTime, const ReworkBox& box, const ReworkPoint
             else
                 (x[2]) = 0.0f;
         }
-        vDelta += FUN_004a3760(hitTime, vRelVel);
+        reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::ReworkPoint &)(vDelta))->FUN_0063c8a0((void *)&(const ::ReworkPoint &)(FUN_004a3760(hitTime, vRelVel)));
         vDCrossE[0] = vDelta.Cross(vEdge[0]);
-        nDotDE[0] = vC10.Dot(vDCrossE[0]);
-        nDotAE[0][0] = vC10.Dot(vC00);
-        nDotAE[1][0] = vC10.Dot(vC10);
-        nDotAE[2][0] = vC10.Dot(vC20);
+        nDotDE[0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC10))->DotProduct((void *)&(vDCrossE[0]));
+        nDotAE[0][0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC10))->DotProduct((void *)&(vC00));
+        nDotAE[1][0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC10))->DotProduct((void *)&(vC10));
+        nDotAE[2][0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC10))->DotProduct((void *)&(vC20));
         fNumerator = nDotDE[0] - (nDotAE[0][0] * x[0]) - (nDotAE[2][0] * x[2]);
         if (hitEdge == 0)
             x[1] = fNumerator / nDotAE[1][0];
         else
-            x[1] = (fNumerator - vC10.Dot(vTriNormal)) / nDotAE[1][0];
+            x[1] = (fNumerator - reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC10))->DotProduct((void *)&(vTriNormal))) / nDotAE[1][0];
 
         {
             const ReworkPoint& center = (bv).GetNavMeshData();
@@ -3198,17 +3185,17 @@ bool __cdecl FUN_00ea3d60(float maxTime, const ReworkBox& box, const ReworkPoint
             else
                 (x[2]) = 0.0f;
         }
-        vDelta += FUN_004a3760(hitTime, vRelVel);
+        reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::ReworkPoint &)(vDelta))->FUN_0063c8a0((void *)&(const ::ReworkPoint &)(FUN_004a3760(hitTime, vRelVel)));
         vDCrossE[1] = vDelta.Cross(vEdge[1]);
-        nDotDE[1] = vC11.Dot(vDCrossE[1]);
-        nDotAE[0][1] = vC11.Dot(vC01);
-        nDotAE[1][1] = vC11.Dot(vC11);
-        nDotAE[2][1] = vC11.Dot(vC21);
+        nDotDE[1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC11))->DotProduct((void *)&(vDCrossE[1]));
+        nDotAE[0][1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC11))->DotProduct((void *)&(vC01));
+        nDotAE[1][1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC11))->DotProduct((void *)&(vC11));
+        nDotAE[2][1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC11))->DotProduct((void *)&(vC21));
         fNumerator = nDotDE[1] - (nDotAE[0][1] * x[0]) - (nDotAE[2][1] * x[2]);
         if (hitEdge == 0)
             x[1] = fNumerator / nDotAE[1][1];
         else
-            x[1] = (fNumerator + vC11.Dot(vTriNormal)) / nDotAE[1][1];
+            x[1] = (fNumerator + reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC11))->DotProduct((void *)&(vTriNormal))) / nDotAE[1][1];
 
         {
             const ReworkPoint& center = (bv).GetNavMeshData();
@@ -3243,17 +3230,17 @@ bool __cdecl FUN_00ea3d60(float maxTime, const ReworkBox& box, const ReworkPoint
             else
                 (x[2]) = 0.0f;
         }
-        vDelta += FUN_004a3760(hitTime, vRelVel);
+        reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::ReworkPoint &)(vDelta))->FUN_0063c8a0((void *)&(const ::ReworkPoint &)(FUN_004a3760(hitTime, vRelVel)));
         vDCrossE[2] = vDelta.Cross(vEdge[2]);
-        nDotDE[2] = vC12.Dot(vDCrossE[2]);
-        nDotAE[0][2] = vC12.Dot(vC02);
-        nDotAE[1][2] = vC12.Dot(vC12);
-        nDotAE[2][2] = vC12.Dot(vC22);
+        nDotDE[2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC12))->DotProduct((void *)&(vDCrossE[2]));
+        nDotAE[0][2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC12))->DotProduct((void *)&(vC02));
+        nDotAE[1][2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC12))->DotProduct((void *)&(vC12));
+        nDotAE[2][2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC12))->DotProduct((void *)&(vC22));
         fNumerator = nDotDE[2] - (nDotAE[0][2] * x[0]) - (nDotAE[2][2] * x[2]);
         if (hitEdge == 0)
             x[1] = fNumerator / nDotAE[1][2];
         else
-            x[1] = (fNumerator + vC12.Dot(vTriNormal)) / nDotAE[1][2];
+            x[1] = (fNumerator + reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC12))->DotProduct((void *)&(vTriNormal))) / nDotAE[1][2];
 
         {
             const ReworkPoint& center = (bv).GetNavMeshData();
@@ -3283,17 +3270,17 @@ bool __cdecl FUN_00ea3d60(float maxTime, const ReworkBox& box, const ReworkPoint
             else
                 (x[1]) = 0.0f;
         }
-        vDelta += FUN_004a3760(hitTime, vRelVel);
+        reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::ReworkPoint &)(vDelta))->FUN_0063c8a0((void *)&(const ::ReworkPoint &)(FUN_004a3760(hitTime, vRelVel)));
         vDCrossE[0] = vDelta.Cross(vEdge[0]);
-        nDotDE[0] = vC20.Dot(vDCrossE[0]);
-        nDotAE[0][0] = vC20.Dot(vC00);
-        nDotAE[1][0] = vC20.Dot(vC10);
-        nDotAE[2][0] = vC20.Dot(vC20);
+        nDotDE[0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC20))->DotProduct((void *)&(vDCrossE[0]));
+        nDotAE[0][0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC20))->DotProduct((void *)&(vC00));
+        nDotAE[1][0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC20))->DotProduct((void *)&(vC10));
+        nDotAE[2][0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC20))->DotProduct((void *)&(vC20));
         fNumerator = nDotDE[0] - (nDotAE[0][0] * x[0]) - (nDotAE[1][0] * x[1]);
         if (hitEdge == 0)
             x[2] = fNumerator / nDotAE[2][0];
         else
-            x[2] = (fNumerator - vC20.Dot(vTriNormal)) / nDotAE[2][0];
+            x[2] = (fNumerator - reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC20))->DotProduct((void *)&(vTriNormal))) / nDotAE[2][0];
 
         {
             const ReworkPoint& center = (bv).GetNavMeshData();
@@ -3323,17 +3310,17 @@ bool __cdecl FUN_00ea3d60(float maxTime, const ReworkBox& box, const ReworkPoint
             else
                 (x[1]) = 0.0f;
         }
-        vDelta += FUN_004a3760(hitTime, vRelVel);
+        reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::ReworkPoint &)(vDelta))->FUN_0063c8a0((void *)&(const ::ReworkPoint &)(FUN_004a3760(hitTime, vRelVel)));
         vDCrossE[1] = vDelta.Cross(vEdge[1]);
-        nDotDE[1] = vC21.Dot(vDCrossE[1]);
-        nDotAE[0][1] = vC21.Dot(vC01);
-        nDotAE[1][1] = vC21.Dot(vC11);
-        nDotAE[2][1] = vC21.Dot(vC21);
+        nDotDE[1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC21))->DotProduct((void *)&(vDCrossE[1]));
+        nDotAE[0][1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC21))->DotProduct((void *)&(vC01));
+        nDotAE[1][1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC21))->DotProduct((void *)&(vC11));
+        nDotAE[2][1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC21))->DotProduct((void *)&(vC21));
         fNumerator = nDotDE[1] - (nDotAE[0][1] * x[0]) - (nDotAE[1][1] * x[1]);
         if (hitEdge == 0)
             x[2] = fNumerator / nDotAE[2][1];
         else
-            x[2] = (fNumerator + vC21.Dot(vTriNormal)) / nDotAE[2][1];
+            x[2] = (fNumerator + reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC21))->DotProduct((void *)&(vTriNormal))) / nDotAE[2][1];
 
         {
             const ReworkPoint& center = (bv).GetNavMeshData();
@@ -3368,17 +3355,17 @@ bool __cdecl FUN_00ea3d60(float maxTime, const ReworkBox& box, const ReworkPoint
             else
                 (x[1]) = 0.0f;
         }
-        vDelta += FUN_004a3760(hitTime, vRelVel);
+        reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::ReworkPoint &)(vDelta))->FUN_0063c8a0((void *)&(const ::ReworkPoint &)(FUN_004a3760(hitTime, vRelVel)));
         vDCrossE[2] = vDelta.Cross(vEdge[2]);
-        nDotDE[2] = vC22.Dot(vDCrossE[2]);
-        nDotAE[0][2] = vC22.Dot(vC02);
-        nDotAE[1][2] = vC22.Dot(vC12);
-        nDotAE[2][2] = vC22.Dot(vC22);
+        nDotDE[2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC22))->DotProduct((void *)&(vDCrossE[2]));
+        nDotAE[0][2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC22))->DotProduct((void *)&(vC02));
+        nDotAE[1][2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC22))->DotProduct((void *)&(vC12));
+        nDotAE[2][2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC22))->DotProduct((void *)&(vC22));
         fNumerator = nDotDE[2] - (nDotAE[0][2] * x[0]) - (nDotAE[1][2] * x[1]);
         if (hitEdge == 0)
             x[2] = fNumerator / nDotAE[2][2];
         else
-            x[2] = (fNumerator + vC22.Dot(vTriNormal)) / nDotAE[2][2];
+            x[2] = (fNumerator + reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vC22))->DotProduct((void *)&(vTriNormal))) / nDotAE[2][2];
 
         {
             const ReworkPoint& center = (bv).GetNavMeshData();
@@ -3397,7 +3384,7 @@ bool __cdecl FUN_00ea3d60(float maxTime, const ReworkBox& box, const ReworkPoint
     {
 
         normal1 = vTriNormal;
-        normal1.FUN_004a0c10();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(normal1))->FUN_004a0c10();
         normal0 = -normal1;
     }
 
@@ -3438,7 +3425,6 @@ class SweepPoint
     {
         return x * x + y * y + z * z;
     }
-    void FUN_004a0c10();
     float& operator[](int i)
     {
         float* base = &x;
@@ -3458,7 +3444,6 @@ inline SweepPoint __cdecl FUN_004a3760(float f, const SweepPoint& v)
 {
     return SweepPoint(f * v.x, f * v.y, f * v.z);
 }
-extern const float DAT_0104da4c;
 struct BoxGeometry
 {
     SweepPoint center;
@@ -3522,17 +3507,17 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
     float R1;
     float R;
     float Rsum;
-    W = vel1.FUN_00439ef0(vel0);
-    vRelPos0 = b1.GetNavMeshData().FUN_00439ef0(b0.GetNavMeshData());
-    vRelPos1 = vRelPos0.FUN_00439e90(FUN_004a3760(maxTime, W));
+    W = (*(::SweepPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(vel1))->FUN_00439ef0((::NiPoint3 *)&(vel0), *(const ::NiPoint3 *)nullptr)));
+    vRelPos0 = (*(::SweepPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(b1.GetNavMeshData()))->FUN_00439ef0((::NiPoint3 *)&(b0.GetNavMeshData()), *(const ::NiPoint3 *)nullptr)));
+    vRelPos1 = (*(::SweepPoint *)(reinterpret_cast<::Point3Offset *>((void *)&(vRelPos0))->ProjectileLaunched((::NiPoint3 *)&(const ::SweepPoint &)(FUN_004a3760(maxTime, W)), {})));
     unsigned int hitAxis = 0;
     int side = 0;
     hitTime = 0.0f;
-    afAxisDot[0][0] = A[0].DotProduct(pkAxes1[0]);
-    afAxisDot[0][1] = A[0].DotProduct(pkAxes1[1]);
-    afAxisDot[0][2] = A[0].DotProduct(pkAxes1[2]);
-    afAxisDotRel0[0] = A[0].DotProduct(vRelPos0);
-    afAxisDotRel1[0] = A[0].DotProduct(vRelPos1);
+    afAxisDot[0][0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[0]))->DotProduct((void *)&(pkAxes1[0]));
+    afAxisDot[0][1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[0]))->DotProduct((void *)&(pkAxes1[1]));
+    afAxisDot[0][2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[0]))->DotProduct((void *)&(pkAxes1[2]));
+    afAxisDotRel0[0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[0]))->DotProduct((void *)&(vRelPos0));
+    afAxisDotRel1[0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[0]))->DotProduct((void *)&(vRelPos1));
     afAbsAxisDot[0][0] = NiAbs(afAxisDot[0][0]);
     afAbsAxisDot[0][1] = NiAbs(afAxisDot[0][1]);
     afAbsAxisDot[0][2] = NiAbs(afAxisDot[0][2]);
@@ -3566,11 +3551,11 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
             }
         }
     }
-    afAxisDot[1][0] = A[1].DotProduct(pkAxes1[0]);
-    afAxisDot[1][1] = A[1].DotProduct(pkAxes1[1]);
-    afAxisDot[1][2] = A[1].DotProduct(pkAxes1[2]);
-    afAxisDotRel0[1] = A[1].DotProduct(vRelPos0);
-    afAxisDotRel1[1] = A[1].DotProduct(vRelPos1);
+    afAxisDot[1][0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[1]))->DotProduct((void *)&(pkAxes1[0]));
+    afAxisDot[1][1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[1]))->DotProduct((void *)&(pkAxes1[1]));
+    afAxisDot[1][2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[1]))->DotProduct((void *)&(pkAxes1[2]));
+    afAxisDotRel0[1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[1]))->DotProduct((void *)&(vRelPos0));
+    afAxisDotRel1[1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[1]))->DotProduct((void *)&(vRelPos1));
     afAbsAxisDot[1][0] = NiAbs(afAxisDot[1][0]);
     afAbsAxisDot[1][1] = NiAbs(afAxisDot[1][1]);
     afAbsAxisDot[1][2] = NiAbs(afAxisDot[1][2]);
@@ -3604,11 +3589,11 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
             }
         }
     }
-    afAxisDot[2][0] = A[2].DotProduct(pkAxes1[0]);
-    afAxisDot[2][1] = A[2].DotProduct(pkAxes1[1]);
-    afAxisDot[2][2] = A[2].DotProduct(pkAxes1[2]);
-    afAxisDotRel0[2] = A[2].DotProduct(vRelPos0);
-    afAxisDotRel1[2] = A[2].DotProduct(vRelPos1);
+    afAxisDot[2][0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[2]))->DotProduct((void *)&(pkAxes1[0]));
+    afAxisDot[2][1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[2]))->DotProduct((void *)&(pkAxes1[1]));
+    afAxisDot[2][2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[2]))->DotProduct((void *)&(pkAxes1[2]));
+    afAxisDotRel0[2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[2]))->DotProduct((void *)&(vRelPos0));
+    afAxisDotRel1[2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[2]))->DotProduct((void *)&(vRelPos1));
     afAbsAxisDot[2][0] = NiAbs(afAxisDot[2][0]);
     afAbsAxisDot[2][1] = NiAbs(afAxisDot[2][1]);
     afAbsAxisDot[2][2] = NiAbs(afAxisDot[2][2]);
@@ -3642,8 +3627,8 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
             }
         }
     }
-    afAxisBDotRel0[0] = pkAxes1[0].DotProduct(vRelPos0);
-    afAxisBDotRel1[0] = pkAxes1[0].DotProduct(vRelPos1);
+    afAxisBDotRel0[0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(pkAxes1[0]))->DotProduct((void *)&(vRelPos0));
+    afAxisBDotRel1[0] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(pkAxes1[0]))->DotProduct((void *)&(vRelPos1));
     BR0[0] = (extA[0] * afAbsAxisDot[0][0]) + (extA[1] * afAbsAxisDot[1][0]) + (extA[2] * afAbsAxisDot[2][0]);
     Rsum = BR0[0] + pfExtents1[0];
     {
@@ -3673,8 +3658,8 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
             }
         }
     }
-    afAxisBDotRel0[1] = pkAxes1[1].DotProduct(vRelPos0);
-    afAxisBDotRel1[1] = pkAxes1[1].DotProduct(vRelPos1);
+    afAxisBDotRel0[1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(pkAxes1[1]))->DotProduct((void *)&(vRelPos0));
+    afAxisBDotRel1[1] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(pkAxes1[1]))->DotProduct((void *)&(vRelPos1));
     BR0[1] = (extA[0] * afAbsAxisDot[0][1]) + (extA[1] * afAbsAxisDot[1][1]) + (extA[2] * afAbsAxisDot[2][1]);
     Rsum = BR0[1] + pfExtents1[1];
     {
@@ -3704,8 +3689,8 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
             }
         }
     }
-    afAxisBDotRel0[2] = pkAxes1[2].DotProduct(vRelPos0);
-    afAxisBDotRel1[2] = pkAxes1[2].DotProduct(vRelPos1);
+    afAxisBDotRel0[2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(pkAxes1[2]))->DotProduct((void *)&(vRelPos0));
+    afAxisBDotRel1[2] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(pkAxes1[2]))->DotProduct((void *)&(vRelPos1));
     BR0[2] = (extA[0] * afAbsAxisDot[0][2]) + (extA[1] * afAbsAxisDot[1][2]) + (extA[2] * afAbsAxisDot[2][2]);
     Rsum = BR0[2] + pfExtents1[2];
     {
@@ -4038,9 +4023,9 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
     switch (hitAxis)
     {
     case 0: {
-        hitPoint = FUN_004a3760(0.5f, b0.GetNavMeshData().FUN_00439e90(b1.GetNavMeshData()));
+        hitPoint = FUN_004a3760(0.5f, (*(::SweepPoint *)(reinterpret_cast<::Point3Offset *>((void *)&(b0.GetNavMeshData()))->ProjectileLaunched((::NiPoint3 *)&(b1.GetNavMeshData()), {}))));
         if (wantNormals)
-            normal0 = hitPoint.FUN_00439ef0(b0.GetNavMeshData());
+            normal0 = (*(::SweepPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(hitPoint))->FUN_00439ef0((::NiPoint3 *)&(b0.GetNavMeshData()), *(const ::NiPoint3 *)nullptr)));
         break;
     }
     case 1:
@@ -4147,9 +4132,9 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
         fDivisor = 1.0f - (afAxisDot[0][0] * afAxisDot[0][0]);
         if (NiAbs(fDivisor) > fEpsilon)
         {
-            D = vRelPos0.FUN_00439e90(FUN_004a3760(hitTime, W));
-            fDotA = A[0].DotProduct(D);
-            fDotB = pkAxes1[0].DotProduct(D);
+            D = (*(::SweepPoint *)(reinterpret_cast<::Point3Offset *>((void *)&(vRelPos0))->ProjectileLaunched((::NiPoint3 *)&(const ::SweepPoint &)(FUN_004a3760(hitTime, W)), {})));
+            fDotA = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[0]))->DotProduct((void *)&(D));
+            fDotB = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(pkAxes1[0]))->DotProduct((void *)&(D));
             tmp = (afAxisDot[1][0] * x[1]) + (afAxisDot[2][0] * x[2]) - fDotB;
             x[0] = (fDotA + (afAxisDot[0][0] * tmp) + (afAxisDot[0][1] * y[1]) + (afAxisDot[0][2] * y[2])) / fDivisor;
         }
@@ -4200,9 +4185,9 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
         fDivisor = 1.0f - (afAxisDot[0][1] * afAxisDot[0][1]);
         if (NiAbs(fDivisor) > fEpsilon)
         {
-            D = vRelPos0.FUN_00439e90(FUN_004a3760(hitTime, W));
-            fDotA = A[0].DotProduct(D);
-            fDotB = pkAxes1[1].DotProduct(D);
+            D = (*(::SweepPoint *)(reinterpret_cast<::Point3Offset *>((void *)&(vRelPos0))->ProjectileLaunched((::NiPoint3 *)&(const ::SweepPoint &)(FUN_004a3760(hitTime, W)), {})));
+            fDotA = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[0]))->DotProduct((void *)&(D));
+            fDotB = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(pkAxes1[1]))->DotProduct((void *)&(D));
             tmp = (afAxisDot[1][1] * x[1]) + (afAxisDot[2][1] * x[2]) - fDotB;
             x[0] = (fDotA + (afAxisDot[0][1] * tmp) + (afAxisDot[0][0] * y[0]) + (afAxisDot[0][2] * y[2])) / fDivisor;
         }
@@ -4253,9 +4238,9 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
         fDivisor = 1.0f - (afAxisDot[0][2] * afAxisDot[0][2]);
         if (NiAbs(fDivisor) > fEpsilon)
         {
-            D = vRelPos0.FUN_00439e90(FUN_004a3760(hitTime, W));
-            fDotA = A[0].DotProduct(D);
-            fDotB = pkAxes1[2].DotProduct(D);
+            D = (*(::SweepPoint *)(reinterpret_cast<::Point3Offset *>((void *)&(vRelPos0))->ProjectileLaunched((::NiPoint3 *)&(const ::SweepPoint &)(FUN_004a3760(hitTime, W)), {})));
+            fDotA = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[0]))->DotProduct((void *)&(D));
+            fDotB = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(pkAxes1[2]))->DotProduct((void *)&(D));
             tmp = (afAxisDot[1][2] * x[1]) + (afAxisDot[2][2] * x[2]) - fDotB;
             x[0] = (fDotA + (afAxisDot[0][2] * tmp) + (afAxisDot[0][0] * y[0]) + (afAxisDot[0][1] * y[1])) / fDivisor;
         }
@@ -4306,9 +4291,9 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
         fDivisor = 1.0f - (afAxisDot[1][0] * afAxisDot[1][0]);
         if (NiAbs(fDivisor) > fEpsilon)
         {
-            D = vRelPos0.FUN_00439e90(FUN_004a3760(hitTime, W));
-            fDotA = A[1].DotProduct(D);
-            fDotB = pkAxes1[0].DotProduct(D);
+            D = (*(::SweepPoint *)(reinterpret_cast<::Point3Offset *>((void *)&(vRelPos0))->ProjectileLaunched((::NiPoint3 *)&(const ::SweepPoint &)(FUN_004a3760(hitTime, W)), {})));
+            fDotA = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[1]))->DotProduct((void *)&(D));
+            fDotB = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(pkAxes1[0]))->DotProduct((void *)&(D));
             tmp = (afAxisDot[0][0] * x[0]) + (afAxisDot[2][0] * x[2]) - fDotB;
             x[1] = (fDotA + (afAxisDot[1][0] * tmp) + (afAxisDot[1][1] * y[1]) + (afAxisDot[1][2] * y[2])) / fDivisor;
         }
@@ -4359,9 +4344,9 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
         fDivisor = 1.0f - (afAxisDot[1][1] * afAxisDot[1][1]);
         if (NiAbs(fDivisor) > fEpsilon)
         {
-            D = vRelPos0.FUN_00439e90(FUN_004a3760(hitTime, W));
-            fDotA = A[1].DotProduct(D);
-            fDotB = pkAxes1[1].DotProduct(D);
+            D = (*(::SweepPoint *)(reinterpret_cast<::Point3Offset *>((void *)&(vRelPos0))->ProjectileLaunched((::NiPoint3 *)&(const ::SweepPoint &)(FUN_004a3760(hitTime, W)), {})));
+            fDotA = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[1]))->DotProduct((void *)&(D));
+            fDotB = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(pkAxes1[1]))->DotProduct((void *)&(D));
             tmp = (afAxisDot[0][1] * x[0]) + (afAxisDot[2][1] * x[2]) - fDotB;
             x[1] = (fDotA + (afAxisDot[1][1] * tmp) + (afAxisDot[1][0] * y[0]) + (afAxisDot[1][2] * y[2])) / fDivisor;
         }
@@ -4412,9 +4397,9 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
         fDivisor = 1.0f - (afAxisDot[1][2] * afAxisDot[1][2]);
         if (NiAbs(fDivisor) > fEpsilon)
         {
-            D = vRelPos0.FUN_00439e90(FUN_004a3760(hitTime, W));
-            fDotA = A[1].DotProduct(D);
-            fDotB = pkAxes1[2].DotProduct(D);
+            D = (*(::SweepPoint *)(reinterpret_cast<::Point3Offset *>((void *)&(vRelPos0))->ProjectileLaunched((::NiPoint3 *)&(const ::SweepPoint &)(FUN_004a3760(hitTime, W)), {})));
+            fDotA = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[1]))->DotProduct((void *)&(D));
+            fDotB = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(pkAxes1[2]))->DotProduct((void *)&(D));
             tmp = (afAxisDot[0][2] * x[0]) + (afAxisDot[2][2] * x[2]) - fDotB;
             x[1] = (fDotA + (afAxisDot[1][2] * tmp) + (afAxisDot[1][0] * y[0]) + (afAxisDot[1][1] * y[1])) / fDivisor;
         }
@@ -4465,9 +4450,9 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
         fDivisor = 1.0f - (afAxisDot[2][0] * afAxisDot[2][0]);
         if (NiAbs(fDivisor) > fEpsilon)
         {
-            D = vRelPos0.FUN_00439e90(FUN_004a3760(hitTime, W));
-            fDotA = A[2].DotProduct(D);
-            fDotB = pkAxes1[0].DotProduct(D);
+            D = (*(::SweepPoint *)(reinterpret_cast<::Point3Offset *>((void *)&(vRelPos0))->ProjectileLaunched((::NiPoint3 *)&(const ::SweepPoint &)(FUN_004a3760(hitTime, W)), {})));
+            fDotA = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[2]))->DotProduct((void *)&(D));
+            fDotB = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(pkAxes1[0]))->DotProduct((void *)&(D));
             tmp = (afAxisDot[0][0] * x[0]) + (afAxisDot[1][0] * x[1]) - fDotB;
             x[2] = (fDotA + (afAxisDot[2][0] * tmp) + (afAxisDot[2][1] * y[1]) + (afAxisDot[2][2] * y[2])) / fDivisor;
         }
@@ -4518,9 +4503,9 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
         fDivisor = 1.0f - (afAxisDot[2][1] * afAxisDot[2][1]);
         if (NiAbs(fDivisor) > fEpsilon)
         {
-            D = vRelPos0.FUN_00439e90(FUN_004a3760(hitTime, W));
-            fDotA = A[2].DotProduct(D);
-            fDotB = pkAxes1[1].DotProduct(D);
+            D = (*(::SweepPoint *)(reinterpret_cast<::Point3Offset *>((void *)&(vRelPos0))->ProjectileLaunched((::NiPoint3 *)&(const ::SweepPoint &)(FUN_004a3760(hitTime, W)), {})));
+            fDotA = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[2]))->DotProduct((void *)&(D));
+            fDotB = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(pkAxes1[1]))->DotProduct((void *)&(D));
             tmp = (afAxisDot[0][1] * x[0]) + (afAxisDot[1][1] * x[1]) - fDotB;
             x[2] = (fDotA + (afAxisDot[2][1] * tmp) + (afAxisDot[2][0] * y[0]) + (afAxisDot[2][2] * y[2])) / fDivisor;
         }
@@ -4571,9 +4556,9 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
         fDivisor = 1.0f - (afAxisDot[2][2] * afAxisDot[2][2]);
         if (NiAbs(fDivisor) > fEpsilon)
         {
-            D = vRelPos0.FUN_00439e90(FUN_004a3760(hitTime, W));
-            fDotA = A[2].DotProduct(D);
-            fDotB = pkAxes1[2].DotProduct(D);
+            D = (*(::SweepPoint *)(reinterpret_cast<::Point3Offset *>((void *)&(vRelPos0))->ProjectileLaunched((::NiPoint3 *)&(const ::SweepPoint &)(FUN_004a3760(hitTime, W)), {})));
+            fDotA = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(A[2]))->DotProduct((void *)&(D));
+            fDotB = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(pkAxes1[2]))->DotProduct((void *)&(D));
             tmp = (afAxisDot[0][2] * x[0]) + (afAxisDot[1][2] * x[1]) - fDotB;
             x[2] = (fDotA + (afAxisDot[2][2] * tmp) + (afAxisDot[2][0] * y[0]) + (afAxisDot[2][1] * y[1])) / fDivisor;
         }
@@ -4599,13 +4584,13 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
     }
     if (wantNormals)
     {
-        const float fNormalSqrLength = normal0.FUN_004a7290();
+        const float fNormalSqrLength = reinterpret_cast<::TESCombatStyle *>((void *)&(normal0))->UpdateCombatStyle();
         if (NiAbs(fNormalSqrLength - 1.0) > DAT_0104da4c)
         {
             if (fNormalSqrLength > DAT_0104da4c)
-                normal0.FUN_004a0c10();
+                reinterpret_cast<::FUN_004a0c10_s *>(&(normal0))->FUN_004a0c10();
             else
-                normal0 = reinterpret_cast<const SweepPoint&>(DAT_011a946c);
+                normal0 = reinterpret_cast<const SweepPoint&>((*reinterpret_cast<::NiPoint3 *>(&::DAT_011a946c)));
         }
         normal1 = -normal0;
     }

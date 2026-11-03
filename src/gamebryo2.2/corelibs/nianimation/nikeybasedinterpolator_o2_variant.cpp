@@ -4,6 +4,13 @@
 
 // NiQuaternion component-wise inequality comparison.
 // Returns true when any of the four quaternion components differs.
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a57000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01097000.h"
+#include "fnv/symbols_011f3000.h"
 class NiQuaternion
 {
   public:
@@ -21,7 +28,6 @@ bool NiQuaternion::operator!=(const NiQuaternion& kOther) const
            m_fScalarPart != kOther.m_fScalarPart;
 }
 
-extern void* _DAT_01097054;
 
 struct NiInterpolator
 {
@@ -36,11 +42,10 @@ struct FUN_00a3ca10 : NiInterpolator
 // @fnv 0x00a3ca10
 FUN_00a3ca10::FUN_00a3ca10()
 {
-    *reinterpret_cast<void**>(this) = &_DAT_01097054;
+    *reinterpret_cast<void**>(this) = &::DAT_01097054;
 }
 
 extern "C" void __cdecl operator delete(void*, unsigned int);
-extern "C" void* DAT_01097054;
 struct NiKeyBasedInterpolator
 {
     void* m_pVTable;
@@ -82,28 +87,23 @@ struct StrArr
     unsigned short m_usSize;
     unsigned short m_usPad;
     unsigned short m_usGrow;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 struct NiInterpolator
 {
-    void FUN_00a570b0(StrArr*);
 };
 struct NiKeyBasedInterpolator : public NiInterpolator
 {
     void FUN_00a3cbf0(StrArr*);
 };
-char* _FUN_00a7d330(const char*);
-extern const char* _DAT_011f3740;
 // @fnv 0x00a3cbf0
 void NiKeyBasedInterpolator::FUN_00a3cbf0(StrArr* pkStrings)
 {
-    NiInterpolator::FUN_00a570b0(pkStrings);
-    char* pcStr = _FUN_00a7d330(_DAT_011f3740);
+    ::FUN_00a570b0((::NiTPrimitiveArray<char *, ::NiTMallocInterface<char *>> *)this);
+    char* pcStr = ::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_011f3740)));
     unsigned int uiSize = pkStrings->m_usSize;
     if (uiSize >= pkStrings->m_usMax)
-        pkStrings->SetSize(uiSize + pkStrings->m_usGrow);
-    pkStrings->SetAt(uiSize, pcStr);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(uiSize + pkStrings->m_usGrow);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiSize, pcStr);
 }
 }  // namespace fnv_00a3cbf0
 
@@ -186,7 +186,6 @@ class KeyInterp
 };
 
 extern float DAT_0109704c;
-extern float DAT_01015f5c;
 
 // @fnv 0x00a3cac0
 void KeyInterp::FUN_00a3cac0(float& fBeginKeyTime, float& fEndKeyTime) const

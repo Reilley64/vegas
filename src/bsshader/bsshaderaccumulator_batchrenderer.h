@@ -189,6 +189,10 @@ class BSBatchRenderer : public NiObject
     // void __cdecl BSBatchRenderer::*(int)
     // int __cdecl BSBatchRenderer::*(BSBatchRenderer::GEOMETRY_GROUP_ENUM)
     // BSBatchRenderer& __cdecl BSBatchRenderer::*(const BSBatchRenderer&)
+public:
+    bool FindPassBucket(unsigned int &, int &, bool &);
+public:
+    void ReleaseGeometryGroups();
 };
 FNV_STATIC_ASSERT(sizeof(BSBatchRenderer) == 152);
 FNV_STATIC_ASSERT(offsetof(BSBatchRenderer, m_pPassBucketEntries) == 8);

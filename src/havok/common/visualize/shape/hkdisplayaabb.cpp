@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <xmmintrin.h>
+#include "fnv/symbols_01011000.h"
 struct VertexBuffer
 {
     __m128* values;
@@ -91,7 +92,7 @@ namespace fnv_00de15c0 {
 // allocator vtable slot +4, stores it at this->m_08, then pushes the 8 box
 // corners (this->m_60 / this->m_70) into verts and 12 index triples into faces.
 
-extern "C" const float DAT_01011d78;  // 0.0f (w component source)
+  // 0.0f (w component source)
 
 struct __declspec(align(16)) Vec4f
 {
@@ -235,7 +236,7 @@ void ThisCls::InitBoxMesh()
             FUN_00c908c0(ctx, a, newSize, 16);
         }
         a->size += 1;
-        StorePs(&a->data[sz], _mm_setr_ps(m_60.ax, m_60.ay, m_60.az, DAT_01011d78));
+        StorePs(&a->data[sz], _mm_setr_ps(m_60.ax, m_60.ay, m_60.az, ::DAT_01011d78));
     }
     {
         VertArr* a = &m_08->verts;
@@ -251,7 +252,7 @@ void ThisCls::InitBoxMesh()
             FUN_00c908c0(ctx, a, newSize, 16);
         }
         a->size += 1;
-        StorePs(&a->data[sz], _mm_setr_ps(m_60.ax, m_60.ay, m_60.bz, DAT_01011d78));
+        StorePs(&a->data[sz], _mm_setr_ps(m_60.ax, m_60.ay, m_60.bz, ::DAT_01011d78));
     }
     {
         VertArr* a = &m_08->verts;
@@ -267,7 +268,7 @@ void ThisCls::InitBoxMesh()
             FUN_00c908c0(ctx, a, newSize, 16);
         }
         a->size += 1;
-        StorePs(&a->data[sz], _mm_setr_ps(m_60.bx, m_60.ay, m_60.bz, DAT_01011d78));
+        StorePs(&a->data[sz], _mm_setr_ps(m_60.bx, m_60.ay, m_60.bz, ::DAT_01011d78));
     }
     {
         VertArr* a = &m_08->verts;
@@ -283,7 +284,7 @@ void ThisCls::InitBoxMesh()
             FUN_00c908c0(ctx, a, newSize, 16);
         }
         a->size += 1;
-        StorePs(&a->data[sz], _mm_setr_ps(m_60.bx, m_60.ay, m_60.az, DAT_01011d78));
+        StorePs(&a->data[sz], _mm_setr_ps(m_60.bx, m_60.ay, m_60.az, ::DAT_01011d78));
     }
     {
         VertArr* a = &m_08->verts;
@@ -299,7 +300,7 @@ void ThisCls::InitBoxMesh()
             FUN_00c908c0(ctx, a, newSize, 16);
         }
         a->size += 1;
-        StorePs(&a->data[sz], _mm_setr_ps(m_60.ax, m_60.by, m_60.az, DAT_01011d78));
+        StorePs(&a->data[sz], _mm_setr_ps(m_60.ax, m_60.by, m_60.az, ::DAT_01011d78));
     }
     {
         VertArr* a = &m_08->verts;
@@ -315,7 +316,7 @@ void ThisCls::InitBoxMesh()
             FUN_00c908c0(ctx, a, newSize, 16);
         }
         a->size += 1;
-        StorePs(&a->data[sz], _mm_setr_ps(m_60.ax, m_60.by, m_60.bz, DAT_01011d78));
+        StorePs(&a->data[sz], _mm_setr_ps(m_60.ax, m_60.by, m_60.bz, ::DAT_01011d78));
     }
     {
         VertArr* a = &m_08->verts;
@@ -331,7 +332,7 @@ void ThisCls::InitBoxMesh()
             FUN_00c908c0(ctx, a, newSize, 16);
         }
         a->size += 1;
-        StorePs(&a->data[sz], _mm_setr_ps(m_60.bx, m_60.by, m_60.bz, DAT_01011d78));
+        StorePs(&a->data[sz], _mm_setr_ps(m_60.bx, m_60.by, m_60.bz, ::DAT_01011d78));
     }
     {
         VertArr* a = &m_08->verts;
@@ -347,7 +348,7 @@ void ThisCls::InitBoxMesh()
             FUN_00c908c0(ctx, a, newSize, 16);
         }
         a->size += 1;
-        StorePs(&a->data[sz], _mm_setr_ps(m_60.bx, m_60.by, m_60.az, DAT_01011d78));
+        StorePs(&a->data[sz], _mm_setr_ps(m_60.bx, m_60.by, m_60.az, ::DAT_01011d78));
     }
 
     // 12 index triples into faces

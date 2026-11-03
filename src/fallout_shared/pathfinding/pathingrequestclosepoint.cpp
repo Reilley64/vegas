@@ -2,13 +2,27 @@
 // src/fallout_shared/pathfinding/pathingrequestclosepoint.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/pathfinding/pathingrequestclosepoint.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00507610_Class.h"
+#include "fnv/decl/FUN_006d2c20_Class.h"
+#include "fnv/decl/FUN_006dad70_shell.h"
+#include "fnv/decl/FUN_006e3230_shell.h"
+#include "fnv/decl/FUN_006e5ee0_Class.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/symbols_006d2000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01018000.h"
+class BGSLoadFormBuffer;
 struct PathingRequest
 {
     char* m_Name;
     PathingRequest();
+public:
+    void CopyTo(::PathingRequest *);
+public:
+    void LoadGame(::BGSLoadFormBuffer *);
 };
 
-extern float g_011c7b14_arg1;
 
 struct FUN_006e3f30 : PathingRequest
 {
@@ -26,7 +40,7 @@ FUN_006e3f30::FUN_006e3f30() : PathingRequest()
 {
     m_Name = "p?n";
     *(float*)((char*)this + 0xb0) = 128.0f;
-    *(float*)((char*)this + 0xb4) = g_011c7b14_arg1;
+    *(float*)((char*)this + 0xb4) = ::g_011c7b14_arg1;
 }
 
 struct PathingRequestClosePoint
@@ -40,21 +54,19 @@ struct PathingRequestClosePoint
 // @fnv 0x006e3f70
 void* __thiscall PathingRequestClosePoint::FUN_006e3f70(unsigned int flags)
 {
-    this->PathingRequestClosePoint::~PathingRequestClosePoint();
+    reinterpret_cast<::FUN_006dad70_shell *>((this))->DestroyPathingRequest();
     if (flags & 1)
-        PathingRequestClosePoint::operator delete(this, 0xb8);
+        ::FUN_00aa1460(this, 0xb8);
     return this;
 }
 
 namespace fnv_006e5f00 {
 struct BGSSaveFormBuffer
 {
-    void __thiscall SaveData(void* pData, int a2, int a3);
 };
 
 struct PathingRequest
 {
-    void __thiscall FUN_006e3230(BGSSaveFormBuffer* apSaveGameBuffer);
 };
 
 struct PathingRequestClosePoint : PathingRequest
@@ -66,9 +78,9 @@ struct PathingRequestClosePoint : PathingRequest
 // @fnv 0x006e5f00
 void __thiscall PathingRequestClosePoint::FUN_006e5f00(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    FUN_006e3230(apSaveGameBuffer);
-    apSaveGameBuffer->SaveData((char*)this + 0xb0, 4, 0);
-    apSaveGameBuffer->SaveData((char*)this + 0xb4, 4, 0);
+    reinterpret_cast<::FUN_006e3230_shell *>(this)->FUN_006e3230((::BGSSaveFormBuffer *)(apSaveGameBuffer));
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)this + 0xb0, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)this + 0xb4, 4, 0);
 }
 }  // namespace fnv_006e5f00
 
@@ -77,12 +89,10 @@ struct BGSLoadFormBuffer;
 
 struct PathingRequest
 {
-    void LoadGame(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 
 struct BGSLoadFormBuffer
 {
-    void ReadTypedData(void* data, unsigned int size);
 };
 
 struct PathingRequestClosePoint : PathingRequest
@@ -95,23 +105,20 @@ struct PathingRequestClosePoint : PathingRequest
 // @fnv 0x006e5f50
 void PathingRequestClosePoint::FUN_006e5f50(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    PathingRequest::LoadGame(apLoadGameBuffer);
-    apLoadGameBuffer->ReadTypedData(this + 0xb0, 4);
-    apLoadGameBuffer->ReadTypedData(this + 0xb4, 4);
+    reinterpret_cast<::PathingRequest *>(this)->LoadGame((::BGSLoadFormBuffer *)(apLoadGameBuffer));
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this + 0xb0), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this + 0xb4), 4);
 }
 }  // namespace fnv_006e5f50
 
 struct PathingRequestCopyHelper
 {
-    void __thiscall CopyTo(PathingRequest*);
 };
 struct SetterA
 {
-    void __thiscall FUN_00507610(float);
 };
 struct SetterB
 {
-    void __thiscall FUN_006e5ee0(float);
 };
 struct FUN_006e4030_This
 {
@@ -124,9 +131,9 @@ struct FUN_006e4030_This
 void __thiscall FUN_006e4030_This::CopyToWithClosePoint(PathingRequest* apDest)
 {
     PathingRequestClosePoint* pdest = (PathingRequestClosePoint*)apDest;
-    ((PathingRequestCopyHelper*)this)->CopyTo((PathingRequest*)pdest);
-    ((SetterA*)pdest)->FUN_00507610(this->fPointHeight);
-    ((SetterB*)pdest)->FUN_006e5ee0(this->m_fUnknownValue2);
+    reinterpret_cast<::PathingRequest *>((((PathingRequestCopyHelper*)this)))->CopyTo((PathingRequest*)pdest);
+    reinterpret_cast<::FUN_00507610_Class *>((((SetterA*)pdest)))->FUN_00507610(this->fPointHeight);
+    reinterpret_cast<::FUN_006e5ee0_Class *>((((SetterB*)pdest)))->FUN_006e5ee0(this->m_fUnknownValue2);
 }
 
 struct PathBase_b5729
@@ -138,8 +145,6 @@ struct PathBase_b5729
 
 struct SrcArg_b5729
 {
-    float GetMinDist();
-    float GetMaxDist();
 };
 
 struct FUN_006e3fb0_cls : PathBase_b5729
@@ -197,6 +202,6 @@ struct FUN_006e3fb0_cls : PathBase_b5729
 FUN_006e3fb0_cls::FUN_006e3fb0_cls(SrcArg_b5729* src) : PathBase_b5729(src)
 {
     m_00 = (char*)"p?n";
-    m_b0 = src->GetMinDist();
-    m_b4 = src->GetMaxDist();
+    m_b0 = reinterpret_cast<::FUN_006d2c20_Class *>((src))->GetFloatAtOffsetB0();
+    m_b4 = ::GetFieldB4Float((char *)(src));
 }

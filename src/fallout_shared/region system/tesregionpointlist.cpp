@@ -1,5 +1,27 @@
 // fallout_shared/region system/tesregionpointlist.cpp: RegionPointList, TESObjectCELL, PointList (14 functions)
 
+#include <new>
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatTargetTimestamp.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_0041bbd0_shell.h"
+#include "fnv/decl/FUN_0041bce0_class.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f7130_cls.h"
+#include "fnv/decl/TimeoutTimer.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004f7230__FUN_004f7230_Class.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_004f7000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_01024000.h"
 class TESFile;
 
 template <class T> class BSSimpleList
@@ -24,8 +46,6 @@ class RegionPoint
   public:
     NiPoint2 Point;
     RegionPoint(const NiPoint2& apPoint);
-    float GetX();
-    float GetY();
 };
 
 struct TESRegionPointList__ScaleResult
@@ -35,19 +55,13 @@ struct TESRegionPointList__ScaleResult
 class TESFile
 {
   public:
-    unsigned int GetChunkID();
-    unsigned int GetChunkSize();
-    bool GetChunkData(void* apBuffer, unsigned int auSize);
     bool IsEndianConversionRequired();
-    const char* GetFilename();
 };
 
-int Warning(const char* apFormat, ...);
 
 template <int Value> struct EndianSizeTag
 {
 };
-void BSEndian(float* apData, EndianSizeTag<4> aeType);
 
 enum
 {
@@ -76,53 +90,44 @@ class RegionPointList : public BSSimpleList<RegionPoint*>
     unsigned int m_uiDistanceInsideAtMax;  // +0x20
     unsigned int iCount;                   // +0x24
     ~RegionPointList();
-    void Clear();
     bool ReadPointsFromFile(TESFile* apFile);
 };
-
-// @fnv 0x004f7740
-RegionPointList::~RegionPointList()
-{
-    Clear();
-    if (m_pScaleResult)
-        delete m_pScaleResult;
-}
 
 // Reads an RPLD chunk of NiPoint2 pairs, endian-swaps them, wraps each in a point object, updates bounds and adds it to the list.
 // @fnv 0x004f79f0
 bool RegionPointList::ReadPointsFromFile(TESFile* apFile)
 {
-    if (!apFile || apFile->GetChunkID() != CHUNK_ID_RPLD_ID)
+    if (!apFile || ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((apFile))->FUN_004726b0())) != CHUNK_ID_RPLD_ID)
         return false;
     TESRegionPointListLoadCounts counts;
-    counts.uiChunkSize = apFile->GetChunkSize();
+    counts.uiChunkSize = reinterpret_cast<::FUN_00401660_Class *>((apFile))->GetField25C();
     counts.uiPointCount = counts.uiChunkSize >> 3;
     if (counts.uiChunkSize % 8 != 0)
     {
-        Warning(kInvalidRegionPointListLabel, apFile->GetFilename());
+        ::FUN_005b5e40();
         return false;
     }
     if (counts.uiChunkSize != 0 && counts.uiPointCount != 0)
     {
         NiPoint2* pElementBuffer = new NiPoint2[counts.uiPointCount];
-        apFile->GetChunkData(pElementBuffer, counts.uiChunkSize);
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(pElementBuffer), counts.uiChunkSize);
         iCount = 0;
         for (unsigned int i = 0; i < counts.uiPointCount; i++)
         {
             if (apFile->IsEndianConversionRequired())
             {
-                BSEndian(&pElementBuffer[i].x, EndianSizeTag<4>());
-                BSEndian(&pElementBuffer[i].y, EndianSizeTag<4>());
+                ::FUN_00401080((int *)(float *)(&pElementBuffer[i].x));
+                ::FUN_00401080((int *)(float *)(&pElementBuffer[i].y));
             }
             RegionPoint* pPoint = new RegionPoint(pElementBuffer[i]);
-            if (m_kMinimums.x > pPoint->GetX())
-                m_kMinimums.x = pPoint->GetX();
-            if (m_kMinimums.y > pPoint->GetY())
-                m_kMinimums.y = pPoint->GetY();
-            if (Maximums.x < pPoint->GetX())
-                Maximums.x = pPoint->GetX();
-            if (Maximums.y < pPoint->GetY())
-                Maximums.y = pPoint->GetY();
+            if (m_kMinimums.x > reinterpret_cast<::CombatTargetTimestamp *>((pPoint))->FUN_006a7f50())
+                m_kMinimums.x = reinterpret_cast<::CombatTargetTimestamp *>((pPoint))->FUN_006a7f50();
+            if (m_kMinimums.y > reinterpret_cast<::TimeoutTimer *>((pPoint))->FUN_006b9130())
+                m_kMinimums.y = reinterpret_cast<::TimeoutTimer *>((pPoint))->FUN_006b9130();
+            if (Maximums.x < reinterpret_cast<::CombatTargetTimestamp *>((pPoint))->FUN_006a7f50())
+                Maximums.x = reinterpret_cast<::CombatTargetTimestamp *>((pPoint))->FUN_006a7f50();
+            if (Maximums.y < reinterpret_cast<::TimeoutTimer *>((pPoint))->FUN_006b9130())
+                Maximums.y = reinterpret_cast<::TimeoutTimer *>((pPoint))->FUN_006b9130();
             AddHead(pPoint);
             iCount++;
         }
@@ -146,11 +151,11 @@ TESRegionList* TESObjectCELL::GetRegionList(bool create)
     TESRegionList* result = 0;
     if (IsCellInterior())
         return 0;
-    result = extraData.FUN_0041bce0();
+    result = ((::TESRegionList *)(reinterpret_cast<::FUN_0041bce0_class *>(&(extraData))->FUN_0041bce0()));
     if (!result && create)
     {
         result = new TESRegionList(0);
-        extraData.SetRegionList(result);
+        reinterpret_cast<::FUN_0041bbd0_shell *>(&(extraData))->SetRegionList((::RegionList *)(result));
     }
     return result;
 }
@@ -159,22 +164,27 @@ struct FUN_004f7dd0_shell : public RegionPointList
 {
     void FUN_004f7dd0();
 };
+// @fnv 0x004f7740
+RegionPointList::~RegionPointList()
+{
+    reinterpret_cast<::FUN_004f7dd0_shell *>(this)->FUN_004f7dd0();
+    if (m_pScaleResult)
+        delete m_pScaleResult;
+}
 
 class BSThread
 {
   public:
-    unsigned int GetThreadID();
 };
 
 RegionPoint*& __fastcall _ref_006815c0(void* pThis);
 void __fastcall _ref_0063f7b0(void* pThis);
-extern float const DAT_01015f5c;
 
 // @fnv 0x004f7dd0
 void FUN_004f7dd0_shell::FUN_004f7dd0()
 {
     RegionPoint* pdelete = 0;
-    while (reinterpret_cast<BSThread*>(this)->GetThreadID() > 0)
+    while (reinterpret_cast<::ActorMover *>((reinterpret_cast<BSThread*>(this)))->GetCurrentMoveModeType() > 0)
     {
         pdelete = _ref_006815c0(this);
         _ref_0063f7b0(this);
@@ -187,8 +197,8 @@ void FUN_004f7dd0_shell::FUN_004f7dd0()
     iCount = 0;
     m_kMinimums.y = 3.4028234663852886e+38f;
     m_kMinimums.x = 3.4028234663852886e+38f;
-    Maximums.y = DAT_01015f5c;
-    Maximums.x = DAT_01015f5c;
+    Maximums.y = ::DAT_01015f5c;
+    Maximums.x = ::DAT_01015f5c;
 }
 
 namespace fnv_004f81e0 {
@@ -199,7 +209,6 @@ struct FUN_004f81e0_shell : public RegionPointList
 
 struct BSThread
 {
-    unsigned int GetThreadID();
 };
 struct FUN_004f8220_stub
 {
@@ -209,7 +218,7 @@ struct FUN_004f8220_stub
 // @fnv 0x004f81e0
 bool FUN_004f81e0_shell::FUN_004f81e0(bool abMinPointsTest)
 {
-    if ((abMinPointsTest && ((BSThread*)this)->GetThreadID() < 3) || ((FUN_004f8220_stub*)this)->FUN_004f8220(true))
+    if ((abMinPointsTest && reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType() < 3) || ((FUN_004f8220_stub*)this)->FUN_004f8220(true))
         return false;
     return true;
 }
@@ -221,59 +230,13 @@ void __fastcall _ref_0063f7b0(void* pThis);
 class TESRegionPointDist : public RegionPoint
 {
   public:
-    float GetDistanceToOtherPoint(RegionPoint* apOther);
 };
 
 struct FUN_004f7ca0_shell : public RegionPointList
 {
-    bool CheckSomething(bool abFlag);
     bool AddPoint(RegionPoint* apPoint, float afMinDistance);
 };
 
-// Adds apPoint to the list if it is at least afMinDistance from the region point, updates bounds and count, and returns whether it was added.
-// @fnv 0x004f7ca0
-bool FUN_004f7ca0_shell::AddPoint(RegionPoint* apPoint, float afMinDistance)
-{
-    if (!apPoint)
-    {
-        return false;
-    }
-    if (_ref_006815c0(this))
-    {
-        if (((TESRegionPointDist*)_ref_006815c0(this))->GetDistanceToOtherPoint(apPoint) <
-            afMinDistance * afMinDistance)
-        {
-            return false;
-        }
-    }
-    AddHead(apPoint);
-    if (CheckSomething(false))
-    {
-        _ref_0063f7b0(this);
-        return false;
-    }
-    iCount++;
-    if (apPoint->GetX() < m_kMinimums.x)
-    {
-        m_kMinimums.x = apPoint->GetX();
-    }
-    if (apPoint->GetY() < m_kMinimums.y)
-    {
-        m_kMinimums.y = apPoint->GetY();
-    }
-    if (apPoint->GetX() > Maximums.x)
-    {
-        Maximums.x = apPoint->GetX();
-    }
-    if (apPoint->GetY() > Maximums.y)
-    {
-        Maximums.y = apPoint->GetY();
-    }
-    return true;
-}
-
-extern double const DAT_010231b0;
-extern float const DAT_01016970;
 
 struct FUN_004f7e80_shell : public RegionPointList
 {
@@ -282,35 +245,31 @@ struct FUN_004f7e80_shell : public RegionPointList
 
 RegionPoint*& __fastcall _ref_006815c0(void* pThis);
 float __fastcall FUN_006a7f50(RegionPoint* pPoint);
-void* __fastcall FUN_00726070(void* pNode);
 
 // @fnv 0x004f7e80
 float FUN_004f7e80_shell::FUN_004f7e80()
 {
-    float fMinValue = DAT_01016970;
+    float fMinValue = ::DAT_01016970;
     void* node2 = this;
-    if (DAT_010231b0 > m_kMinimums.x)
+    if (::_DAT_010231b0 > m_kMinimums.x)
     {
         return m_kMinimums.x;
     }
     while (node2 != 0 && _ref_006815c0(node2) != 0)
     {
-        if (fMinValue > FUN_006a7f50(_ref_006815c0(node2)))
+        if (fMinValue > reinterpret_cast<::CombatTargetTimestamp *>((_ref_006815c0(node2)))->FUN_006a7f50())
         {
-            fMinValue = FUN_006a7f50(_ref_006815c0(node2));
+            fMinValue = reinterpret_cast<::CombatTargetTimestamp *>((_ref_006815c0(node2)))->FUN_006a7f50();
         }
-        node2 = FUN_00726070(node2);
+        node2 = reinterpret_cast<::Callees *>((node2))->FUN_00726070();
     }
     return fMinValue;
 }
 
 namespace fnv_004f7fa0 {
-extern float DAT_01016970;
-extern const double DAT_010231b0;
 
 struct RegionPointNode : BSSimpleList<RegionPoint*>
 {
-    RegionPointNode* FUN_00726070();
 };
 
 struct FUN_004f7fa0_shell : RegionPointList
@@ -321,28 +280,26 @@ struct FUN_004f7fa0_shell : RegionPointList
 // @fnv 0x004f7fa0
 float FUN_004f7fa0_shell::GetMinimumY()
 {
-    float minimumY = DAT_01016970;
+    float minimumY = ::DAT_01016970;
     RegionPointNode* current = (RegionPointNode*)this;
 
-    if (m_kMinimums.y < DAT_010231b0)
+    if (m_kMinimums.y < ::_DAT_010231b0)
     {
         return m_kMinimums.y;
     }
 
     while (current && _ref_006815c0(current))
     {
-        if (_ref_006815c0(current)->GetY() < minimumY)
+        if (reinterpret_cast<::TimeoutTimer *>((_ref_006815c0(current)))->FUN_006b9130() < minimumY)
         {
-            minimumY = _ref_006815c0(current)->GetY();
+            minimumY = reinterpret_cast<::TimeoutTimer *>((_ref_006815c0(current)))->FUN_006b9130();
         }
-        current = current->FUN_00726070();
+        current = ((::fnv_004f7fa0::RegionPointNode *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
     }
     return minimumY;
 }
 }  // namespace fnv_004f7fa0
 
-extern const double DAT_010241b0;
-BSSimpleList<RegionPoint*>* __fastcall FUN_00726070(BSSimpleList<RegionPoint*>*);
 struct FUN_004f8030_shell : RegionPointList
 {
     float GetMaxY();
@@ -351,15 +308,15 @@ struct FUN_004f8030_shell : RegionPointList
 // @fnv 0x004f8030
 float FUN_004f8030_shell::GetMaxY()
 {
-    float fMaximum = DAT_01015f5c;
+    float fMaximum = ::DAT_01015f5c;
     BSSimpleList<RegionPoint*>* pkPoint = this;
-    if (Maximums.y > DAT_010241b0)
+    if (Maximums.y > ::DAT_010241b0)
         return Maximums.y;
     while (pkPoint && _ref_006815c0(pkPoint))
     {
-        if (fMaximum < _ref_006815c0(pkPoint)->GetY())
-            fMaximum = _ref_006815c0(pkPoint)->GetY();
-        pkPoint = FUN_00726070(pkPoint);
+        if (fMaximum < reinterpret_cast<::TimeoutTimer *>((_ref_006815c0(pkPoint)))->FUN_006b9130())
+            fMaximum = reinterpret_cast<::TimeoutTimer *>((_ref_006815c0(pkPoint)))->FUN_006b9130();
+        pkPoint = ((::BSSimpleList< ::RegionPoint *> *)(reinterpret_cast<::Callees *>((pkPoint))->FUN_00726070()));
     }
     return fMaximum;
 }
@@ -367,12 +324,9 @@ float FUN_004f8030_shell::GetMaxY()
 struct TESRegionPointList_ref : RegionPointList
 {
     TESRegionPointList_ref(bool owns);
-    bool AddPoint(RegionPoint* point, float scale);
-    TESRegionPointList_ref* FUN_00726070();
 };
 struct TESRegionPoint_ref : RegionPoint
 {
-    RegionPoint* FUN_004f7130(int option);
 };
 struct FUN_004f80c0_shell : RegionPointList
 {
@@ -389,49 +343,86 @@ RegionPointList* FUN_004f80c0_shell::CloneRegionPointList(RegionPointList* apOut
     {
         if (result->m_bOwnsPointMemory)
         {
-            clonedPoint = reinterpret_cast<TESRegionPoint_ref*>(_ref_006815c0(current))->FUN_004f7130(0);
-            if (!reinterpret_cast<TESRegionPointList_ref*>(result)->AddPoint(clonedPoint, 0.0f))
+            clonedPoint = ((::RegionPoint *)(reinterpret_cast<::FUN_004f7130_cls *>((reinterpret_cast<TESRegionPoint_ref*>(_ref_006815c0(current))))->FUN_004f7130((::SpawnedObject *)(0))));
+            if (!reinterpret_cast<::FUN_004f7ca0_shell *>((reinterpret_cast<TESRegionPointList_ref*>(result)))->AddPoint(clonedPoint, 0.0f))
             {
                 delete clonedPoint;
             }
         }
         else
         {
-            reinterpret_cast<TESRegionPointList_ref*>(result)->AddPoint(_ref_006815c0(current), 0.0f);
+            reinterpret_cast<::FUN_004f7ca0_shell *>((reinterpret_cast<TESRegionPointList_ref*>(result)))->AddPoint(_ref_006815c0(current), 0.0f);
         }
         current =
-            reinterpret_cast<FUN_004f80c0_shell*>(reinterpret_cast<TESRegionPointList_ref*>(current)->FUN_00726070());
+            reinterpret_cast<FUN_004f80c0_shell*>(((::TESRegionPointList_ref *)(reinterpret_cast<::Callees *>((reinterpret_cast<TESRegionPointList_ref*>(current)))->FUN_00726070())));
     }
     return result;
 }
 
 struct PointNode
 {
-    PointNode* FUN_00726070();
-    RegionPoint** FUN_006815c0();
 };
-bool FUN_004f7310(RegionPoint*, RegionPoint*, RegionPoint*, RegionPoint*);
 struct PointList : PointNode
 {
-    unsigned int FUN_0059bb30();
     bool FUN_004f8220(bool);
 };
+// Adds apPoint to the list if it is at least afMinDistance from the region point, updates bounds and count, and returns whether it was added.
+// @fnv 0x004f7ca0
+bool FUN_004f7ca0_shell::AddPoint(RegionPoint* apPoint, float afMinDistance)
+{
+    if (!apPoint)
+    {
+        return false;
+    }
+    if (_ref_006815c0(this))
+    {
+        if (reinterpret_cast<::fnv_004f7230::FUN_004f7230_Class *>((((TESRegionPointDist*)_ref_006815c0(this))))->SquaredDistanceTo((::fnv_004f7230::RegionPoint *)(apPoint)) <
+            afMinDistance * afMinDistance)
+        {
+            return false;
+        }
+    }
+    AddHead(apPoint);
+    if (reinterpret_cast<::PointList *>(this)->FUN_004f8220(false))
+    {
+        _ref_0063f7b0(this);
+        return false;
+    }
+    iCount++;
+    if (reinterpret_cast<::CombatTargetTimestamp *>((apPoint))->FUN_006a7f50() < m_kMinimums.x)
+    {
+        m_kMinimums.x = reinterpret_cast<::CombatTargetTimestamp *>((apPoint))->FUN_006a7f50();
+    }
+    if (reinterpret_cast<::TimeoutTimer *>((apPoint))->FUN_006b9130() < m_kMinimums.y)
+    {
+        m_kMinimums.y = reinterpret_cast<::TimeoutTimer *>((apPoint))->FUN_006b9130();
+    }
+    if (reinterpret_cast<::CombatTargetTimestamp *>((apPoint))->FUN_006a7f50() > Maximums.x)
+    {
+        Maximums.x = reinterpret_cast<::CombatTargetTimestamp *>((apPoint))->FUN_006a7f50();
+    }
+    if (reinterpret_cast<::TimeoutTimer *>((apPoint))->FUN_006b9130() > Maximums.y)
+    {
+        Maximums.y = reinterpret_cast<::TimeoutTimer *>((apPoint))->FUN_006b9130();
+    }
+    return true;
+}
 // Walks the point list and returns true if any four consecutive points pass the FUN_004f7310 test, wrapping to the head when closed.
 // @fnv 0x004f8220
 bool PointList::FUN_004f8220(bool closed)
 {
     bool p = false;
-    if (FUN_0059bb30() < 4)
+    if (reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType() < 4)
         return false;
     PointNode* c = this;
-    PointNode* j = c->FUN_00726070();
-    PointNode* e = j->FUN_00726070();
-    PointNode* l = e->FUN_00726070();
-    while (j->FUN_00726070())
+    PointNode* j = ((::PointNode *)(reinterpret_cast<::Callees *>((c))->FUN_00726070()));
+    PointNode* e = ((::PointNode *)(reinterpret_cast<::Callees *>((j))->FUN_00726070()));
+    PointNode* l = ((::PointNode *)(reinterpret_cast<::Callees *>((e))->FUN_00726070()));
+    while (((::PointNode *)(reinterpret_cast<::Callees *>((j))->FUN_00726070())))
     {
-        e = j->FUN_00726070();
+        e = ((::PointNode *)(reinterpret_cast<::Callees *>((j))->FUN_00726070()));
         if (e)
-            l = e->FUN_00726070();
+            l = ((::PointNode *)(reinterpret_cast<::Callees *>((e))->FUN_00726070()));
         else
             l = 0;
         p = false;
@@ -448,29 +439,25 @@ bool PointList::FUN_004f8220(bool closed)
                     p = true;
             }
             if (c && j && e && l &&
-                FUN_004f7310(*c->FUN_006815c0(), *j->FUN_006815c0(), *e->FUN_006815c0(), *l->FUN_006815c0()))
+                ::FUN_004f7310((::Point *)(*((::RegionPoint **)(new ((void *)(c)) ::Vec3()))), (::Point *)(*((::RegionPoint **)(new ((void *)(j)) ::Vec3()))), (::Point *)(*((::RegionPoint **)(new ((void *)(e)) ::Vec3()))), (::Point *)(*((::RegionPoint **)(new ((void *)(l)) ::Vec3())))))
                 return true;
             e = l;
             if (l)
-                l = l->FUN_00726070();
+                l = ((::PointNode *)(reinterpret_cast<::Callees *>((l))->FUN_00726070()));
         } while (!p);
         c = j;
-        j = j->FUN_00726070();
+        j = ((::PointNode *)(reinterpret_cast<::Callees *>((j))->FUN_00726070()));
     }
     return false;
 }
 
 #include <string.h>
-void FUN_00485910(unsigned int chunk, unsigned int value);
-void FUN_00485710(unsigned int chunk, void* data, unsigned int points);
 struct RegionPointAccess : RegionPoint
 {
-    NiPoint2& FUN_006815c0();
 };
 struct RegionNode : PointNode
 {
     bool FUN_008256d0();
-    RegionNode* FUN_00726070();
 };
 struct FUN_004f77c0_shell : RegionPointList
 {
@@ -480,7 +467,7 @@ struct FUN_004f77c0_shell : RegionPointList
 // @fnv 0x004f77c0
 void FUN_004f77c0_shell::FUN_004f77c0()
 {
-    FUN_00485910(0x494c5052, m_uiDistanceInsideAtMax);
+    ::FUN_00485910(0x494c5052, m_uiDistanceInsideAtMax);
     RegionNode* node = reinterpret_cast<RegionNode*>(this);
     if (!node->FUN_008256d0())
     {
@@ -490,7 +477,7 @@ void FUN_004f77c0_shell::FUN_004f77c0()
         NiPoint2* blocks = new NiPoint2[capacity * sizeof(NiPoint2)];
         while (node && !node->FUN_008256d0())
         {
-            blocks[points] = static_cast<RegionPointAccess*>(*node->FUN_006815c0())->FUN_006815c0();
+            blocks[points] = (*(::NiPoint2 *)(new ((void *)(static_cast<RegionPointAccess*>(*((::RegionPoint **)(new ((void *)(node)) ::Vec3()))))) ::Vec3()));
             ++points;
             if (points >= capacity)
             {
@@ -501,10 +488,10 @@ void FUN_004f77c0_shell::FUN_004f77c0()
                 memcpy(blocks, oldPoints, points * sizeof(NiPoint2));
                 delete[] oldPoints;
             }
-            node = node->FUN_00726070();
+            node = ((::RegionNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         }
         if (points)
-            FUN_00485710(0x444c5052, blocks, points * 2);
+            ::FUN_00485710((void *)(0x444c5052), blocks, (void *)(points * 2));
         delete[] blocks;
     }
 }
@@ -513,7 +500,6 @@ typedef BSSimpleList<RegionPoint*> RegionPointNode;
 
 RegionPoint*& __fastcall _ref_006815c0(void* pThis);
 float __fastcall FUN_006a7f50(void* pThis);
-extern double const DAT_010241b0;
 
 struct FUN_004f7f10_cls : public RegionPointList
 {
@@ -523,19 +509,19 @@ struct FUN_004f7f10_cls : public RegionPointList
 // @fnv 0x004f7f10
 float FUN_004f7f10_cls::FUN_004f7f10()
 {
-    float best3 = DAT_01015f5c;
+    float best3 = ::DAT_01015f5c;
     RegionPointNode* pNode = (RegionPointNode*)this;
-    if ((double)this->Maximums.x > DAT_010241b0)
+    if ((double)this->Maximums.x > ::DAT_010241b0)
     {
         return this->Maximums.x;
     }
     while (pNode != 0 && _ref_006815c0(pNode) != 0)
     {
-        if (best3 < FUN_006a7f50(_ref_006815c0(pNode)))
+        if (best3 < reinterpret_cast<::CombatTargetTimestamp *>((_ref_006815c0(pNode)))->FUN_006a7f50())
         {
-            best3 = FUN_006a7f50(_ref_006815c0(pNode));
+            best3 = reinterpret_cast<::CombatTargetTimestamp *>((_ref_006815c0(pNode)))->FUN_006a7f50();
         }
-        pNode = FUN_00726070(pNode);
+        pNode = ((::BSSimpleList< ::RegionPoint *> *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
     return best3;
 }

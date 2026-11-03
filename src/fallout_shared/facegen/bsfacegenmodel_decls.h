@@ -2,6 +2,39 @@
 #ifndef BSFACEGENMODEL_DECLS_H
 #define BSFACEGENMODEL_DECLS_H
 
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/ExtraOwnerB.h"
+#include "fnv/decl/FUN_00456650_shell.h"
+#include "fnv/decl/FUN_00457b80_class.h"
+#include "fnv/decl/FUN_00457ba0_class.h"
+#include "fnv/decl/FUN_0049ec60.h"
+#include "fnv/decl/FUN_00534570_shell.h"
+#include "fnv/decl/FUN_0065b3e0_Holder.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00a5bfa0_shell.h"
+#include "fnv/decl/FUN_00a673d0_shell.h"
+#include "fnv/decl/GeometryVertexBuffer.h"
+#include "fnv/decl/NiObjectNET.h"
+#include "fnv/decl/S00a67410.h"
+#include "fnv/decl/TESTopicInfoData.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/fnv_00447080__FUN_00447080_shell.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_0043f000.h"
+#include "fnv/symbols_00549000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00607000.h"
+#include "fnv/symbols_00651000.h"
+#include "fnv/symbols_00652000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_0065c000.h"
+#include "fnv/symbols_00ab5000.h"
+#include "fnv/symbols_0119b000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011de000.h"
 void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
 class NiPoint3
@@ -92,19 +125,13 @@ class GeometryBufferView
     unsigned int stride;
     unsigned int count;
     GeometryBufferView();
-    unsigned int* FUN_00717e50();
-    void* FUN_00559450();
-    void FUN_00534570(unsigned int, NiPoint3&);
-    void FUN_0065b390(unsigned int, const NiPoint3&);
 };
 class NiGeometryData
 {
   public:
-    bool HasAdditionalGeometryData(unsigned int);
-    void FUN_00a67410(GeometryBufferView&);
-    unsigned int FUN_00457b80();
     void SetDirtyFlags(unsigned int);
-    void FUN_00a673d0();
+public:
+    bool IsGeometryDataStreamable(bool);
 };
 class NiTriBasedGeom;
 class NiFixedString
@@ -112,6 +139,8 @@ class NiFixedString
   public:
     const char* data;
     operator const char*() const;
+public:
+    void *FUN_004b9900(unsigned int);
 };
 class NiUpdateData
 {
@@ -122,10 +151,12 @@ class NiUpdateData
     NiUpdateData(float, bool, bool);
 };
 class TESQuest;
+class TESQuest;
 class BGSQuestObjective
 {
   public:
-    void SetOwnerQuest(TESQuest*);
+public:
+    void SetOwner(::TESQuest *);
 };
 class NiSkinInstance;
 class NiAVObject
@@ -169,34 +200,22 @@ class NiAVObject
     virtual void vfn_8c();
     virtual void vfn_90();
     virtual NiAVObject* vfn_94();
-    NiFixedString& GetName();
-    void UpdateSceneObject();
-    void Update(NiUpdateData&);
-    void RemoveProperty(unsigned int);
-    void FUN_00a5c050();
-    void UpdateModelBound();
 };
+class NiAVObject;
 class NiNode : public NiAVObject
 {
   public:
     unsigned int FUN_0043b480();
-    NiAVObject* FUN_0043b4a0(int);
+public:
+    ::NiAVObject *GetAt(unsigned int);
 };
 class NiTriBasedGeom : public NiAVObject
 {
   public:
-    NiGeometryData* FUN_005495f0();
-    unsigned short FUN_00456650();
-    void* FUN_0049ec60();
-    NiSkinInstance* FUN_0043fad0();
-    void FUN_004902f0(bool);
-    void FUN_0065a620(bool);
 };
 class BSFaceGenBaseMorphExtraData
 {
   public:
-    NiPoint3* FUN_0084e3a0();
-    unsigned int GetPointerByFlag(unsigned int);
 };
 template <class T> class NiPointer
 {
@@ -221,7 +240,6 @@ class FaceGenTriData
     FaceGenTriData();
     ~FaceGenTriData();
     unsigned int FUN_0065a5a0();
-    unsigned int FUN_0065c700();
     NiPoint3& FUN_0065c720(unsigned int);
 };
 class BSFaceGenMorphDataHair : public BSFaceGenMorphData
@@ -260,6 +278,8 @@ class BSFaceGenTexture
     FaceGenTextureFile* m_pTextureData;
     BSFaceGenTexture();
 };
+class NiTriBasedGeom;
+template <class> class NiPointer;
 class BSFaceGenModel
 {
   public:
@@ -271,17 +291,14 @@ class BSFaceGenModel
     bool LoadFaceGenTexture();
     bool LoadFaceGenTexture(const char*);
     static NiAVObject* GetFaceGenModelNode(NiAVObject*);
-    bool ApplyFaceGenMorphs(FaceGenCoordinate*, NiTriBasedGeom*, bool);
+public:
+    bool CloneTriBasedGeom(::NiPointer< ::NiTriBasedGeom> &);
 };
 class BSFaceGenManager
 {
   public:
     static FaceGenCoordinate* GetFaceGenCoordinates();
 };
-void FUN_00652140();
-void FUN_00652190();
-bool FUN_00651f70(BSFaceGenModel*);
-BSFaceGenBaseMorphExtraData* GetExtraDataIfPresent(NiTriBasedGeom*);
 class CloningProcess
 {
   public:
@@ -292,12 +309,10 @@ class CloningProcess
 class ModelLoader
 {
   public:
-    NiNode* LoadFile(const char*, int, bool, bool, bool, bool);
 };
 class TES
 {
   public:
-    NiNode* CreateDeepCopySameTextures(NiNode*, CloningProcess&);
 };
 class NarrowString
 {
@@ -306,13 +321,6 @@ class NarrowString
     NarrowString(const char*);
     ~NarrowString();
 };
-extern ModelLoader* g_modelLoader;
-extern TES* g_TES;
-extern const char* DAT_0119b734[];
-int __cdecl FUN_00404dc0(const char*, const char*);
-int Warning(const char*, ...);
 int FUN_004af340();
-bool FUN_00ab5ec0(const NarrowString&, FaceGenTriData*);
 FaceGenTextureFile* FUN_00659780(const char*);
-NiAVObject* GetGeomExtraData(NiAVObject*);
 #endif

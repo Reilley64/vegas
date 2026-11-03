@@ -2,6 +2,73 @@
 // polymorphic classes (TESBoundObject). The skeleton of src/fallout/ai/actor.cpp with those classes made polymorphic; move the functions to
 // their real unit once its classes are.
 
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00409480_shell.h"
+#include "fnv/decl/FUN_00416870_t.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00453700_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_00491040_shell.h"
+#include "fnv/decl/FUN_00491180_shell.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/FUN_00494710_shell.h"
+#include "fnv/decl/FUN_0049bdc0_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00508100_shell.h"
+#include "fnv/decl/FUN_00508d70_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_0057b0a0_shell.h"
+#include "fnv/decl/FUN_005a2030_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00619a70_shell.h"
+#include "fnv/decl/FUN_0061cdc0_shell.h"
+#include "fnv/decl/FUN_0061cfd0_shell.h"
+#include "fnv/decl/FUN_0061e600_t.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008846e0_shell.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FUN_0098adb0_shell.h"
+#include "fnv/decl/FUN_009acce0_shell.h"
+#include "fnv/decl/FUN_009c8d60_t.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/ThisStub.h"
+#include "fnv/decl/TopicFlagStandIn.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/UAMActor.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_0043fcd0__FUN_0043fcd0_shell.h"
+#include "fnv/decl/fnv_004518e0__TESObjectCELL.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_004955c0__FUN_004955c0_t.h"
+#include "fnv/decl/fnv_00567050__FUN_00567050_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_0087ce80__FUN_0087ce80_shell.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_00895110__PickActor.h"
+#include "fnv/decl/fnv_0089f580__ActorStub.h"
+#include "fnv/decl/fnv_008b28c0__This8b.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00619000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_009e3000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_01020000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f2000.h"
+#include "fnv/symbols_011f6000.h"
 #include "actor_rtti2_actor.h"
 
 // Reuse complete component classes when this code is inserted into actor.cpp.
@@ -111,12 +178,9 @@ struct PickupSoundVirtualView
 };
 struct PickupPutdownSoundView
 {
-    void* FUN_00726070();
-    void* FUN_0044ddc0();
 };
 struct PickupAlchemySoundView
 {
-    void* GetFieldC8();
 };
 int __fastcall _FNV_GetFormType(void* pThis);
 // @fnv 0x008adcf0
@@ -134,15 +198,15 @@ char* __thiscall PickupSoundActorView::FUN_008adcf0(::TESBoundObject* apobjREFR,
                 ppickupPutdownSound = dynamic_cast<BGSPickupPutdownSounds*>(apobjREFR);
                 soundname = 0;
                 if (!abUse && abPickUp && ppickupPutdownSound &&
-                    ((PickupPutdownSoundView*)ppickupPutdownSound)->FUN_00726070())
+                    reinterpret_cast<::Callees *>((((PickupPutdownSoundView*)ppickupPutdownSound)))->FUN_00726070())
                 {
-                    return ((PickupSoundVirtualView*)((PickupPutdownSoundView*)ppickupPutdownSound)->FUN_00726070())
+                    return ((PickupSoundVirtualView*)reinterpret_cast<::Callees *>((((PickupPutdownSoundView*)ppickupPutdownSound)))->FUN_00726070())
                         ->s76();
                 }
                 else if (!abUse && !abPickUp && ppickupPutdownSound &&
-                         ((PickupPutdownSoundView*)ppickupPutdownSound)->FUN_0044ddc0())
+                         ((void *)(reinterpret_cast<::Twin_0044ddc0 *>((((PickupPutdownSoundView*)ppickupPutdownSound)))->GetName())))
                 {
-                    return ((PickupSoundVirtualView*)((PickupPutdownSoundView*)ppickupPutdownSound)->FUN_0044ddc0())
+                    return ((PickupSoundVirtualView*)((void *)(reinterpret_cast<::Twin_0044ddc0 *>((((PickupPutdownSoundView*)ppickupPutdownSound)))->GetName())))
                         ->s76();
                 }
                 eformType = apobjREFR ? _FNV_GetFormType(apobjREFR) : 0;
@@ -155,8 +219,8 @@ char* __thiscall PickupSoundActorView::FUN_008adcf0(::TESBoundObject* apobjREFR,
                     else
                     {
                         ping = (AlchemyItem*)apobjREFR;
-                        return ((PickupAlchemySoundView*)ping)->GetFieldC8()
-                                   ? ((PickupSoundVirtualView*)((PickupAlchemySoundView*)ping)->GetFieldC8())->s76()
+                        return ((void *)(reinterpret_cast<::FUN_009acce0_shell *>((((PickupAlchemySoundView*)ping)))->GetFieldC8()))
+                                   ? ((PickupSoundVirtualView*)((void *)(reinterpret_cast<::FUN_009acce0_shell *>((((PickupAlchemySoundView*)ping)))->GetFieldC8())))->s76()
                                    : 0;
                     }
                     break;

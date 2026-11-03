@@ -2,9 +2,11 @@
 // src/havok/physics/dynamics/constraint/chain/ragdolllimits/hkpragdolllimitsdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/chain/ragdolllimits/hkpragdolllimitsdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00d21000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101f000.h"
 #include "havok/hkpRagdollLimitsData.h"
 
-extern "C" void __cdecl FUN_00d21a60(void* p, unsigned int x, unsigned int y);
 
 struct FUN_00d4f130_StandIn
 {
@@ -14,7 +16,7 @@ struct FUN_00d4f130_StandIn
 // @fnv 0x00d4f130
 void FUN_00d4f130_StandIn::FUN_00d4f130(unsigned int auiValue)
 {
-    FUN_00d21a60((char*)this + 0x10, 0xac, auiValue);
+    ::FUN_00d21a60((const ::hkpConstraintAtom *)(void *)((char*)this + 0x10), 0xac, (::GenericConstraintAtomScheme *)(auiValue));
 }
 
 // @fnv 0x00d4f150
@@ -41,9 +43,7 @@ int FUN_00d4f290()
     return 0x13;
 }
 
-extern float DAT_01017d00;
 extern double DAT_01024108;
-extern double DAT_0101ff40;
 
 struct FUN_00d4f170_Rotation
 {
@@ -83,10 +83,10 @@ char* __thiscall S00d4f170_StandIn::FUN_00d4f170(char* result)
     char* p;
 
     *out = 1;
-    p = m_kLocalRotations.m_kRotationA.IsOrthonormal(reinterpret_cast<char*>(&result), DAT_01017d00);
+    p = m_kLocalRotations.m_kRotationA.IsOrthonormal(reinterpret_cast<char*>(&result), ::AngularDashpotApplyD4DCB0::DAT_01017d00);
     *out = (*p != 0);
     *out = (*out != 0) &&
-           (*(p = m_kLocalRotations.m_kRotationB.IsOrthonormal(reinterpret_cast<char*>(&result), DAT_01017d00)) != 0);
+           (*(p = m_kLocalRotations.m_kRotationB.IsOrthonormal(reinterpret_cast<char*>(&result), ::AngularDashpotApplyD4DCB0::DAT_01017d00)) != 0);
     *out = (*out != 0) && (m_kConeLimit.m_fMinAngle == DAT_01024108);
     *out = (*out != 0) && (m_kConeLimit.m_fMaxAngle >= 0.0f);
     *out = (*out != 0) && (m_kConeLimit.m_fMaxAngle < DAT_0101ff40);

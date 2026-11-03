@@ -1,10 +1,10 @@
 // havok/physics/constraintsolver/solve/hkpsolver.cpp: free functions (5 functions)
 
+#include "fnv/symbols_011b9000.h"
 #include "fnv_asm_helpers.h"
 // src/havok/physics/constraintsolver/solve/hkpsolver.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/constraintsolver/solve/hkpsolver.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern unsigned char DAT_011b9434[128];
 
 // @fnv 0x00d921d0
 int __cdecl FUN_00d921d0(const signed char* index)

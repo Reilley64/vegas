@@ -3,6 +3,9 @@
 #define FNV_NIBLENDPOINT3INTERPOLATOR_PRIVATE_DECLS_H
 
 
+#include "fnv/decl/FUN_00a37260_shell.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_011a9000.h"
 #include "NiObject.h"
 #include "NiPoint3.h"
 
@@ -73,7 +76,6 @@ class NiBlendInterpolator : public NiInterpolator
     float m_fNextHighSumOfWeights;
     float m_fTrailingValue;
 
-    void NormalizeWeights();
 };
 
 class NiBlendPoint3Interpolator : public NiBlendInterpolator
@@ -83,12 +85,9 @@ class NiBlendPoint3Interpolator : public NiBlendInterpolator
     bool m_bValueValid;
 
     bool UpdateAccumulatedTransform(float, NiObjectNET*, NiPoint3&);
-    bool UpdateSingleInterpolator(float, NiObjectNET*, NiPoint3&);
     virtual bool Update(float, NiObjectNET*, NiPoint3&);
 };
 
-extern const float DAT_0109696c;
-extern const NiPoint3 DAT_011a9424;
 
 FNV_STATIC_ASSERT(sizeof(NiInterpolator) == 12);
 FNV_STATIC_ASSERT(sizeof(NiBlendInterpolator) == 48);

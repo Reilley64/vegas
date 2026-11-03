@@ -3,16 +3,39 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00dda830
+#include "fnv/decl/Archive.h"
+#include "fnv/decl/CpuObject.h"
+#include "fnv/decl/D60590Object.h"
+#include "fnv/decl/FNVFloatGetter_cls.h"
+#include "fnv/decl/FUN_00827200_class.h"
+#include "fnv/decl/FUN_00d605b0_class.h"
+#include "fnv/decl/FUN_00d60b00_class.h"
+#include "fnv/decl/FUN_00dda6b0_Class.h"
+#include "fnv/decl/FUN_00de48f0_cls.h"
+#include "fnv/decl/FUN_00de4910_cls.h"
+#include "fnv/decl/FUN_00de4e10_cls.h"
+#include "fnv/decl/FUN_00de5350_cls.h"
+#include "fnv/decl/FUN_00de5360_cls.h"
+#include "fnv/decl/FnvCpu_FUN_00de1150_CpuObject.h"
+#include "fnv/decl/FnvCpu_FUN_00de1160_CpuObject.h"
+#include "fnv/decl/FnvCpu_FUN_00de4de0_CpuObject.h"
+#include "fnv/decl/fnv_00de4e00__CpuObject.h"
+#include "fnv/decl/fnv_00de5340__CpuObject.h"
+#include "fnv/decl/hkOArchive_2.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00d60000.h"
+#include "fnv/symbols_00dda000.h"
+#include "fnv/symbols_00de4000.h"
+#include "fnv/symbols_010d7000.h"
 unsigned int FUN_00dda830(const unsigned int* puiValues)
 {
     return 4 * (3 * (puiValues[4] + puiValues[1])) + 8;
 }
 
-void __stdcall WriteFloatArray(unsigned int, unsigned int);
 // @fnv 0x00dda730
 void __stdcall FUN_00dda730(unsigned int p)
 {
-    WriteFloatArray(p, 3);
+    reinterpret_cast<::FUN_00d60b00_class *>((p))->WriteFloatArray((const float *)(3), {});
 }
 
 struct hkMemoryAllocator
@@ -56,7 +79,6 @@ struct RefObj
     void* m_vtbl;
     short m_usMemSizeAndFlags;
     short m_sReferenceCount;
-    __declspec(nothrow) void FUN_00c905b0();
 };
 
 struct FUN_00d27460 : RefObj
@@ -83,7 +105,6 @@ struct FUN_00d60830 : RefObj
     __declspec(nothrow) FUN_00d60830(RefObj* o, hkBool b);
 };
 
-extern "C" char DAT_010d7db8[];
 
 struct FUN_00dda6e0 : FUN_00d60830
 {
@@ -94,8 +115,8 @@ struct FUN_00dda6e0 : FUN_00d60830
 // @fnv 0x00dda6e0
 FUN_00dda6e0::FUN_00dda6e0(int a) : FUN_00d60830(new(hkAlloc(sizeof(FUN_00d27460))) FUN_00d27460(a, 0x2000), false)
 {
-    m_vtbl = DAT_010d7db8;
-    m_8->FUN_00c905b0();
+    m_vtbl = (*reinterpret_cast<char (*)[]>(&::DAT_010d7db8));
+    reinterpret_cast<::hkReferencedObjectC905 *>((m_8))->FUN_00c905b0();
 }
 
 struct DDA7C0Vector4
@@ -129,9 +150,6 @@ struct DDA7C0Geometry
 
 struct DDA7C0OStream
 {
-    void writeInt32(unsigned int value);
-    void writeVector(const DDA7C0Vector4& v);
-    void writeTriangle(const DDA7C0Triangle& t);
 
     void WriteGeometry(const DDA7C0Geometry& geometry);
 };
@@ -141,13 +159,13 @@ struct DDA7C0OStream
 void DDA7C0OStream::WriteGeometry(const DDA7C0Geometry& geometry)
 {
     int numVertices = geometry.m_kVertices.m_iElementCount;
-    writeInt32(numVertices);
+    reinterpret_cast<::hkOArchive_2 *>(this)->WriteInt(numVertices);
     for (int i = 0; i < numVertices; i++)
-        writeVector(geometry.m_kVertices.m_data[i]);
+        ::FUN_00dda730((unsigned int)this);
     int numTriangles = geometry.m_uiTriangleCount.m_iElementCount;
-    writeInt32(numTriangles);
+    reinterpret_cast<::hkOArchive_2 *>(this)->WriteInt(numTriangles);
     for (int i = 0; i < numTriangles; i++)
-        writeTriangle(geometry.m_uiTriangleCount.m_data[i]);
+        reinterpret_cast<::FUN_00dda6b0_Class *>(this)->WriteUInt32Triple((const unsigned int *)&(geometry.m_uiTriangleCount.m_data[i]));
 }
 
 namespace fnv_00ddabb0 {
@@ -170,14 +188,13 @@ struct FUN_00ddabb0_shell
 {
     void* unk00;
     unsigned short size;
-    void FUN_00d60590();
     FUN_00ddabb0_shell* FUN_00ddabb0(unsigned int flags);
 };
 // Calls FUN_00d60590, then if bit 0 of flags is set frees this through the allocator from FUN_00c85750, and returns this.
 // @fnv 0x00ddabb0
 FUN_00ddabb0_shell* FUN_00ddabb0_shell::FUN_00ddabb0(unsigned int flags)
 {
-    FUN_00d60590();
+    reinterpret_cast<::D60590Object *>(this)->FUN_00d60590();
     if (flags & 1)
     {
         AllocatorHolder* holder = FUN_00c85750();
@@ -210,14 +227,14 @@ FUN_00ddabb0_shell* FUN_00ddabb0_shell::FUN_00ddabb0(unsigned int flags)
 
 struct hkOArchiveStandIn
 {
-    void WriteSwapped(void* p, int n, int m);  // declared, never defined
+      // declared, never defined
     void WriteUInt16(unsigned int value);
 };
 
 // @fnv 0x00d60920
 void hkOArchiveStandIn::WriteUInt16(unsigned int value)
 {
-    WriteSwapped(&value, 2, 1);
+    reinterpret_cast<::Archive *>(this)->WriteSwapped(&value, 2, 1);
 }
 
 #include <xmmintrin.h>
@@ -256,12 +273,10 @@ struct S_00dda740_Transform
 struct S_00dda740_Quaternion
 {
     S_00dda740_Vector4 m_vec;
-    void FUN_00cb26e0(const S_00dda740_Matrix3& r);
 };
 
 struct S_00dda740
 {
-    void WriteFloatArray(const float* data, int n);
     void WriteTransform(const S_00dda740_Transform& t);
 };
 
@@ -272,12 +287,11 @@ void S_00dda740::WriteTransform(const S_00dda740_Transform& t)
     S_00dda740_Vector4 trans = t.m_vTranslation;
     __declspec(align(16)) S_00dda740_Matrix3 rot = t.m_rotation;
     __declspec(align(16)) S_00dda740_Quaternion q;
-    q.FUN_00cb26e0(rot);
-    WriteFloatArray(&trans.x, 3);
-    WriteFloatArray(&q.m_vec.x, 4);
+    reinterpret_cast<::FUN_00827200_class *>(&(q))->FUN_00cb26e0((int)&(rot));
+    reinterpret_cast<::FUN_00d60b00_class *>(this)->WriteFloatArray(&trans.x, 3);
+    reinterpret_cast<::FUN_00d60b00_class *>(this)->WriteFloatArray(&q.m_vec.x, 4);
 }
 
-int FUN_00dda830(int value);
 
 // Returns a constant chosen by the int at param+0x50 (0x1d plus FUN_00dda830(param+8) for 6), or 1 for other values.
 // @fnv 0x00dda850
@@ -287,7 +301,7 @@ int FUN_00dda850(int param)
     switch (*(int*)(param + 0x50))
     {
     case 6:
-        result = FUN_00dda830(*(int*)(param + 8));
+        result = ((int)(::FUN_00dda830((const unsigned int *)(*(int*)(param + 8)))));
         return result + 0x1d;
     case 1:
     case 5:
@@ -333,33 +347,14 @@ struct Shape
     int i70, i74, i78, i7c;
     float f80;
     int i84, i88;
-    const void* FUN_00de1150();
-    const void* FUN_00de1160();
     void* GetValue(void* out);
     void* GetVec4At70(void* out);
-    float FUN_00de5350();
-    float FUN_00de5340();
-    int FUN_00de5360();
     void* CopyVec4ToBuffer(void* out);
     void* GetQuad16(void* out);
     void* CopyStatsTo(void* out);
-    float FUN_00de4900();
-    float FUN_00de48e0();
-    float FUN_00de48f0();
-    int FUN_00de4910();
-    const void* FUN_00de4df0();
-    const void* FUN_00de4de0();
-    const void* FUN_00de4e00();
-    const float* FUN_00de4e10();
 };
 struct DDA8C0Writer
 {
-    void FUN_00d605b0(int v);
-    void WriteTransform(const void* p);
-    void FUN_00dda730(const void* p);
-    void HashUInt(float f);
-    void WriteInt(int v);
-    void WriteGeometry(const DDA7C0Geometry& geometry);
     void WriteShape(Shape* p);
 };
 // Writes a Shape to the stream by dispatching on its tag and serializing the tag-specific fields via the writer's hash and write helpers.
@@ -368,74 +363,74 @@ void DDA8C0Writer::WriteShape(Shape* p)
 {
     Vec4A t[6];
     int tag = p->tag;
-    FUN_00d605b0(tag);
+    reinterpret_cast<::FUN_00d605b0_class *>(this)->FUN_00d605b0(tag);
     switch (tag)
     {
     case 6: {
-        WriteTransform(&p->unk10);
-        WriteGeometry(*p->geom);
+        reinterpret_cast<::S_00dda740 *>(this)->WriteTransform((*(const ::S_00dda740_Transform *)(&p->unk10)));
+        reinterpret_cast<::DDA7C0OStream *>(this)->WriteGeometry(*p->geom);
         break;
     }
     case 1: {
-        WriteTransform(&p->unk10);
+        reinterpret_cast<::S_00dda740 *>(this)->WriteTransform((*(const ::S_00dda740_Transform *)(&p->unk10)));
         t[0] = p->vec60;
-        HashUInt(t[0].f[3]);
-        FUN_00dda730(&t[0]);
-        WriteInt(p->i70);
-        WriteInt(p->i74);
+        ::HashUInt((unsigned int)this);
+        ::FUN_00dda730((unsigned int)this);
+        reinterpret_cast<::hkOArchive_2 *>(this)->WriteInt(p->i70);
+        reinterpret_cast<::hkOArchive_2 *>(this)->WriteInt(p->i74);
         break;
     }
     case 8: {
-        WriteTransform(&p->unk10);
-        HashUInt(p->f80);
-        FUN_00dda730(&p->vec60);
-        FUN_00dda730(&p->i70);
-        WriteInt(p->i84);
-        WriteInt(p->i88);
+        reinterpret_cast<::S_00dda740 *>(this)->WriteTransform((*(const ::S_00dda740_Transform *)(&p->unk10)));
+        ::HashUInt((unsigned int)this);
+        ::FUN_00dda730((unsigned int)this);
+        ::FUN_00dda730((unsigned int)this);
+        reinterpret_cast<::hkOArchive_2 *>(this)->WriteInt(p->i84);
+        reinterpret_cast<::hkOArchive_2 *>(this)->WriteInt(p->i88);
         break;
     }
     case 9: {
-        WriteTransform(&p->unk10);
-        HashUInt(p->f80);
-        FUN_00dda730(&p->vec60);
-        FUN_00dda730(&p->i70);
-        WriteInt(p->i84);
-        WriteInt(p->i88);
+        reinterpret_cast<::S_00dda740 *>(this)->WriteTransform((*(const ::S_00dda740_Transform *)(&p->unk10)));
+        ::HashUInt((unsigned int)this);
+        ::FUN_00dda730((unsigned int)this);
+        ::FUN_00dda730((unsigned int)this);
+        reinterpret_cast<::hkOArchive_2 *>(this)->WriteInt(p->i84);
+        reinterpret_cast<::hkOArchive_2 *>(this)->WriteInt(p->i88);
         break;
     }
     case 2: {
-        WriteTransform(&p->unk10);
-        FUN_00dda730(&p->vec60);
+        reinterpret_cast<::S_00dda740 *>(this)->WriteTransform((*(const ::S_00dda740_Transform *)(&p->unk10)));
+        ::FUN_00dda730((unsigned int)this);
         break;
     }
     case 3: {
-        FUN_00dda730(p->FUN_00de1150());
-        FUN_00dda730(p->FUN_00de1160());
+        ::FUN_00dda730((unsigned int)this);
+        ::FUN_00dda730((unsigned int)this);
         break;
     }
     case 4: {
-        FUN_00dda730(p->GetValue(&t[1]));
-        FUN_00dda730(p->GetVec4At70(&t[2]));
-        HashUInt(p->FUN_00de5350());
-        HashUInt(p->FUN_00de5340());
-        WriteInt(p->FUN_00de5360());
+        ::FUN_00dda730((unsigned int)this);
+        ::FUN_00dda730((unsigned int)this);
+        ::HashUInt((unsigned int)this);
+        ::HashUInt((unsigned int)this);
+        reinterpret_cast<::hkOArchive_2 *>(this)->WriteInt(((int)(reinterpret_cast<::FUN_00de5360_cls *>((p))->FUN_00de5360())));
         break;
     }
     case 5: {
-        FUN_00dda730(p->CopyVec4ToBuffer(&t[3]));
-        FUN_00dda730(p->GetQuad16(&t[4]));
-        FUN_00dda730(p->CopyStatsTo(&t[5]));
-        HashUInt(p->FUN_00de4900());
-        HashUInt(p->FUN_00de48e0());
-        HashUInt(p->FUN_00de48f0());
-        WriteInt(p->FUN_00de4910());
+        ::FUN_00dda730((unsigned int)this);
+        ::FUN_00dda730((unsigned int)this);
+        ::FUN_00dda730((unsigned int)this);
+        ::HashUInt((unsigned int)this);
+        ::HashUInt((unsigned int)this);
+        ::HashUInt((unsigned int)this);
+        reinterpret_cast<::hkOArchive_2 *>(this)->WriteInt(reinterpret_cast<::FUN_00de4910_cls *>((p))->FUN_00de4910());
         break;
     }
     case 7: {
-        FUN_00dda730(p->FUN_00de4df0());
-        FUN_00dda730(p->FUN_00de4de0());
-        FUN_00dda730(p->FUN_00de4e00());
-        HashUInt(*p->FUN_00de4e10());
+        ::FUN_00dda730((unsigned int)this);
+        ::FUN_00dda730((unsigned int)this);
+        ::FUN_00dda730((unsigned int)this);
+        ::HashUInt((unsigned int)this);
         break;
     }
     }

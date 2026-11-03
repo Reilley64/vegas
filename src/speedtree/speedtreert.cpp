@@ -2,6 +2,36 @@
 // src/speedtree/speedtreert.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/speedtreert.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/CB28.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00aca270.h"
+#include "fnv/decl/FUN_00b0b530_Tree.h"
+#include "fnv/decl/FUN_00b0b5b0_Tree.h"
+#include "fnv/decl/FUN_00b0b630_Tree.h"
+#include "fnv/decl/FUN_00b0b6b0_Tree.h"
+#include "fnv/decl/FUN_00b0b730_Tree.h"
+#include "fnv/decl/FUN_00b0b7b0_Tree.h"
+#include "fnv/decl/FUN_00b0b830_Class.h"
+#include "fnv/decl/FUN_00b0b8b0_Tree.h"
+#include "fnv/decl/FUN_00b0cf90_class.h"
+#include "fnv/decl/FUN_00b0cff0_class.h"
+#include "fnv/decl/FUN_00b30730_Tree.h"
+#include "fnv/decl/FrameC780.h"
+#include "fnv/decl/GvManager.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/MyClass.h"
+#include "fnv/decl/SpeedTreeRTB0AA20.h"
+#include "fnv/decl/asgnac2__AsVector.h"
+#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
+#include "fnv/decl/fnv_00b0a9a0__FUN_00b0a9a0_Tree.h"
+#include "fnv/symbols_00b09000.h"
+#include "fnv/symbols_00b0c000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101a000.h"
+#include "fnv/symbols_010a3000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f8000.h"
 struct FUN_00b02e00_class
 {
     void FUN_00b02e00();
@@ -264,7 +294,6 @@ unsigned short CSpeedTreeRT::GetId()
 namespace fnv_00b088b0 {
 struct SpeedTreeLodData
 {
-    void __thiscall FreeLodBuffers();
 };
 struct CSpeedTreeRT
 {
@@ -277,7 +306,7 @@ struct CSpeedTreeRT
 void __thiscall CSpeedTreeRT::FUN_00b088b0()
 {
     if (m_pLodData)
-        m_pLodData->FreeLodBuffers();
+        reinterpret_cast<::CB28 *>((m_pLodData))->FreeLodBuffers();
 }
 }  // namespace fnv_00b088b0
 
@@ -525,7 +554,6 @@ int __thiscall FUN_00b0a260_Class::GetEntryCount()
     return result;
 }
 
-extern unsigned char DAT_011f8b79;
 
 // @fnv 0x00b0d7b0
 void FUN_00b0d7b0(unsigned char param_1)
@@ -684,9 +712,7 @@ void __thiscall FUN_00b02d40_class::ClearFields()
 
 struct MemoryManager
 {
-    void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 struct FUN_00b02e80
 {
     void* m00;
@@ -703,17 +729,16 @@ struct FUN_00b02e80
 FUN_00b02e80::~FUN_00b02e80()
 {
     void* p4 = m08;
-    g_memoryManager.Deallocate(p4);
+    reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p4);
     m08 = 0;
     void* p2 = m10;
-    g_memoryManager.Deallocate(p2);
+    reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p2);
     m10 = 0;
     m00 = 0;
     m14 = 0;
     m18 = 0;
 }
 
-extern int DAT_011f8e9c;
 extern int DAT_011f8ea0;
 extern int DAT_011f8ea4;
 extern int DAT_011f8eac;
@@ -816,7 +841,6 @@ FUN_00b02dc0_class::FUN_00b02dc0_class()
 struct FUN_00b2b940_class
 {
     unsigned char m_bFlag;  // +0x21
-    void FUN_00b2b940();
 };
 struct FUN_00b053e0_shell
 {
@@ -828,7 +852,7 @@ void FUN_00b053e0_shell::FUN_00b053e0()
 {
     unsigned char bFlag = ((unsigned char*)*(void**)((char*)this))[0x21];
     if (bFlag)
-        ((FUN_00b2b940_class*)*(void**)((char*)this))->FUN_00b2b940();
+        reinterpret_cast<::GvManager *>((((FUN_00b2b940_class*)*(void**)((char*)this))))->FUN_00b2b940();
     else
         AssignString("DeleteTransientData() called with no intact transient data");
 }
@@ -903,7 +927,6 @@ struct FUN_0044d6f0_This
     void __thiscall FUN_00ec79a1();
 };
 
-extern int DAT_010a307c;
 
 struct FUN_00b09780_class : FUN_0044d6f0_This
 {
@@ -918,7 +941,7 @@ void FUN_00b09780_class::FUN_00b09780()
     char local[16];
 
     m_iWordAt00 = &DAT_010a307c;
-    m_iThirdValue._Tidy(true, 0);
+    reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(&(m_iThirdValue))->FUN_0044a730(true, 0);
     FUN_0044d6f0_This::FUN_00ec79a1();
 }
 
@@ -928,7 +951,6 @@ struct FUN_00b097b0_class
 {
     void* m_p;
     char pad[0x60];
-    void FUN_00aca270(int a);
     int* FUN_00b097b0(int a);
 };
 
@@ -937,7 +959,7 @@ struct FUN_00b097b0_class
 int* FUN_00b097b0_class::FUN_00b097b0(int a)
 {
     char pad[0x58];
-    FUN_00aca270(a);
+    new ((void *)this) ::FUN_00aca270((::ThisBase_aca270 *)(a));
     m_p = &DAT_010a51e0;
     return (int*)this;
 }
@@ -945,7 +967,6 @@ int* FUN_00b097b0_class::FUN_00b097b0(int a)
 struct FUN_00b09f70_Class
 {
     void FUN_00b09f70();
-    void _Tidy(bool, unsigned int);
 };
 // @fnv 0x00b09f70
 void FUN_00b09f70_Class::FUN_00b09f70()
@@ -955,14 +976,12 @@ void FUN_00b09f70_Class::FUN_00b09f70()
     int c;
     int d;
     int e;
-    _Tidy(true, 0);
+    reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
 }
 
 struct P03MM
 {
-    void* Allocate(unsigned int size);
 };
-extern P03MM _g_memoryManager;
 unsigned int _strlen(const char* s);
 
 // Allocates nLength4 + 1 bytes from _g_memoryManager, copies pOrig into the new buffer with _memmove, and returns the copy.
@@ -970,13 +989,12 @@ unsigned int _strlen(const char* s);
 char* DuplicateString(const char* pOrig)
 {
     unsigned int nLength4 = _strlen(pOrig);
-    char* pResult = static_cast<char*>(_g_memoryManager.Allocate(nLength4 + 1));
+    char* pResult = static_cast<char*>(reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(nLength4 + 1));
     char* pCopy = pResult;
     _memmove(pCopy, pOrig, nLength4 + 1);
     return pCopy;
 }
 
-extern unsigned char DAT_011f8b79;
 
 // @fnv 0x00b0d7a0
 unsigned char __cdecl FUN_00b0d7a0()
@@ -1025,7 +1043,6 @@ struct FUN_00b02ac0
 FUN_00b02ac0::~FUN_00b02ac0()
 {}
 
-extern double _DAT_0101a6b0;
 struct FUN_00b08610_shell
 {
     unsigned short __thiscall FUN_00b08610(float fLodLevel);
@@ -1035,7 +1052,7 @@ struct FUN_00b08610_shell
 unsigned short FUN_00b08610_shell::FUN_00b08610(float fLodLevel)
 {
     unsigned short nLevel = 0;
-    if (fLodLevel == _DAT_0101a6b0)
+    if (fLodLevel == ::DAT_0101a6b0)
     {
         fLodLevel = ((FUN_00b08440_shell*)this)->FUN_00b08440();
     }
@@ -1078,8 +1095,6 @@ void __cdecl AssignString(const char* pcString)
 
 extern unsigned char DAT_011f8b78;
 void __cdecl AssignString(const char* s);
-void __cdecl FUN_00b0c8d0(float a, unsigned short n, float b, float c, float d, float e, float* pf1, float* pf2,
-                          short* ps1, short* ps2);
 
 struct FUN_00b0b920_geo
 {
@@ -1092,18 +1107,6 @@ struct FUN_00b0b920_engine
 {
     char m_00[0x88];
     FUN_00b0b920_geo m_geo;
-    int FUN_00b4b0();
-    int FUN_00b530();
-    int FUN_00b5b0();
-    int FUN_00b630();
-    int FUN_00b6b0();
-    int FUN_00b730();
-    int FUN_00b7b0();
-    int FUN_00b830();
-    int FUN_00b8b0();
-    unsigned short FUN_00b0a9a0(unsigned short i);
-    int FUN_00b0aa20(unsigned short i);
-    int FUN_00b30730(unsigned short i);
 };
 
 struct FUN_00b0b920_arg
@@ -1124,71 +1127,12 @@ struct FUN_00b0b920_self
     unsigned char m_44;
     char m_45[0x1b];
     FUN_00b0b920_engine* m_60;
-    unsigned short FUN_00b08710();
-    short FUN_00b085a0(float f);
-    float FUN_00b08440();
     void FillFrondGeometry(FUN_00b0b920_arg* arg, short type);
 };
 
-// Copies frond geometry counts and indices from m_60 into arg->m_sub, resolves the type, and computes arg->m_74 from FUN_00b0c8d0 when DAT_011f8b78 is set.
-// @fnv 0x00b0b920
-void FUN_00b0b920_self::FillFrondGeometry(FUN_00b0b920_arg* arg, short type)
-{
-    if (m_60)
-    {
-        FUN_00b02b70_shell* beg = &arg->m_sub;
-        FUN_00b0b920_geo* q = &m_60->m_geo;
-        unsigned short n;
-        float aj;
-        float idx;
-        short num;
-        short cnt;
-        int ae, av, bg, ak, au, ba, bl, ac, bd, bv, cu, bq, ce, co, cy, bi, bj, bm, ap, at, by, ai, al, bs, bu, cb, cl;
-        beg->m_10 = (unsigned short)((unsigned int)(q->m_10 - q->m_0c) / 3);
-        beg->m_14 = m_60->FUN_00b4b0();
-        beg->m_24 = m_60->FUN_00b530();
-        beg->m_18 = m_60->FUN_00b5b0();
-        beg->m_1c = m_60->FUN_00b630();
-        beg->m_20 = m_60->FUN_00b6b0();
-        beg->m_28 = m_60->FUN_00b730();
-        beg->m_2c = m_60->FUN_00b7b0();
-        beg->m_30 = m_60->FUN_00b830();
-        beg->m_34 = m_60->FUN_00b8b0();
-        short w = (type == -1) ? FUN_00b085a0(-1.0f) : type;
-        beg->m_iWordAt00 = w;
-        beg->m_iWordAt04 = m_60->FUN_00b0a9a0((unsigned short)w);
-        beg->m_8 = m_60->FUN_00b0aa20((unsigned short)w);
-        beg->m_iThirdValue = m_60->FUN_00b30730((unsigned short)w);
-        if (DAT_011f8b78)
-        {
-            n = FUN_00b08710() + 1;
-            aj = -1.0f;
-            idx = -1.0f;
-            num = -1;
-            cnt = -1;
-            FUN_00b0c8d0(FUN_00b08440(), n, m_1c, m_28, m_20, (float)m_44, &aj, &idx, &num, &cnt);
-            if (num == n - 2)
-                arg->m_74 = aj;
-            else if (num == n - 1)
-            {
-                arg->m_74 = 255.0f;
-                beg->m_iWordAt00 = -1;
-            }
-            else
-                arg->m_74 = (float)m_44;
-        }
-        else
-            arg->m_74 = (float)m_44;
-    }
-    else
-        AssignString("no frond geometry exists, possible prior call to DeleteFrondGeometry");
-}
-
 struct HelperC780
 {
-    void* FUN_00b0c780(float, float);
 };
-void __cdecl FUN_00b0c8d0(float, unsigned short, float, float, float, float, float*, float*, short*, short*);
 extern "C" char DAT_011ad124;
 struct BlockC4
 {
@@ -1255,7 +1199,7 @@ void TreeC4::FillSpeedTreeOutput(OutC4* out)
         short h = -1;
         short a = -1;
         float f, eb, cf, q;
-        FUN_00b0c8d0(((FUN_00b08440_shell*)this)->FUN_00b08440(), p, x, z, y, (float)mode, &s, &i, &h, &a);
+        ::fnv_00b0c8d0::FUN_00b0c8d0(((FUN_00b08440_shell*)this)->FUN_00b08440(), p, x, z, y, (float)mode, &s, &i, &h, &a);
         out->weight = -1.0f;
         if (h == p - 1)
             out->weight = s;
@@ -1265,7 +1209,7 @@ void TreeC4::FillSpeedTreeOutput(OutC4* out)
         out->n = 0;
         if (out->active)
         {
-            out->value = helper->FUN_00b0c780(block->b, block->a);
+            out->value = ((void *)(reinterpret_cast<::FrameC780 *>((helper))->FUN_00b0c780(block->b, block->a)));
             if (list)
                 out->data = list->data;
             else
@@ -1307,11 +1251,9 @@ struct P8
 };
 struct R0cff0
 {
-    void ScaleSwizzled();
 };
 struct S0cf90
 {
-    R0cff0* AddVector(V3cdd0* fDist, V3cdd0* dst, V3cdd0* fB, float f);
 };
 struct T3ea10
 {
@@ -1355,7 +1297,7 @@ void FUN_00b0cdd0_cls::FUN_00b0cdd0()
         dst.y = t1.y;
         dst.z = t1.z;
         b0 = c0.FUN_00b04d40(&dst) * 0.5;
-        ((S0cf90*)&c0)->AddVector(&fDist, &dst, &fB, 0.5f)->ScaleSwizzled();
+        reinterpret_cast<::FUN_00b0cff0_class *>((((::R0cff0 *)(reinterpret_cast<::FUN_00b0cf90_class *>((((S0cf90*)&c0)))->AddVector((float *)(::V3cdd0 *)(&fDist), (const float *)(::V3cdd0 *)(&dst))))))->ScaleSwizzled({}, {});
         if (m4c)
         {
             m50->FUN_00b3ea10(m4, fB, b0, &m4c->v);
@@ -1640,13 +1582,10 @@ FUN_00b029f0::FUN_00b029f0() : m_38(-1.0f), m_74(-1.0f)
 
 struct FUN_00aa4060_shell
 {
-    void __thiscall FUN_00aa4060(void* p);
 };
-extern FUN_00aa4060_shell DAT_011f6238;
 
 struct FUN_0044a730_shell
 {
-    void __thiscall FUN_0044a730(bool first, unsigned int second);
 };
 
 struct FUN_00b04420_pad
@@ -1679,17 +1618,17 @@ void FUN_00b04420_class::FUN_00b04420()
     void* n;
     FUN_00b04420_pad v_;
     n = m04;
-    DAT_011f6238.FUN_00aa4060(n);
+    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_shell *>(&::g_memoryManager))))->FUN_00aa4060(n);
     m04 = 0;
     void* c;
     c = m0c;
-    DAT_011f6238.FUN_00aa4060(c);
+    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_shell *>(&::g_memoryManager))))->FUN_00aa4060(c);
     m0c = 0;
     void* v0c;
     v0c = m14;
-    DAT_011f6238.FUN_00aa4060(v0c);
+    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_shell *>(&::g_memoryManager))))->FUN_00aa4060(v0c);
     m14 = 0;
-    m18.FUN_0044a730(true, 0);
+    reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(&(m18))->FUN_0044a730(true, 0);
 }
 
 struct S00b065e0_Vec
@@ -1742,7 +1681,6 @@ void S00b065e0_Cls::FUN_00b065e0(float a, float b, float c)
     }
 }
 
-extern double _DAT_0101a6b0;
 struct FUN_00b08530_class
 {
     short GetIndexFromLevel(float level);
@@ -1753,7 +1691,7 @@ struct FUN_00b08530_class
 short FUN_00b08530_class::GetIndexFromLevel(float level)
 {
     short index = 0;
-    if (level == _DAT_0101a6b0)
+    if (level == ::DAT_0101a6b0)
         level = ((FUN_00b08440_shell*)this)->FUN_00b08440();
 
     int count = ((FUN_00b086f0_class*)this)->GetLowWordAtOffset0x78();
@@ -1765,12 +1703,62 @@ short FUN_00b08530_class::GetIndexFromLevel(float level)
 
 struct FUN_00b085a0_local_shell
 {
-    float FUN_00b08440();
-    unsigned short GetId();
     short FUN_00b085a0(float fLodLevel);
 };
+// Copies frond geometry counts and indices from m_60 into arg->m_sub, resolves the type, and computes arg->m_74 from FUN_00b0c8d0 when DAT_011f8b78 is set.
+// @fnv 0x00b0b920
+void FUN_00b0b920_self::FillFrondGeometry(FUN_00b0b920_arg* arg, short type)
+{
+    if (m_60)
+    {
+        FUN_00b02b70_shell* beg = &arg->m_sub;
+        FUN_00b0b920_geo* q = &m_60->m_geo;
+        unsigned short n;
+        float aj;
+        float idx;
+        short num;
+        short cnt;
+        int ae, av, bg, ak, au, ba, bl, ac, bd, bv, cu, bq, ce, co, cy, bi, bj, bm, ap, at, by, ai, al, bs, bu, cb, cl;
+        beg->m_10 = (unsigned short)((unsigned int)(q->m_10 - q->m_0c) / 3);
+        beg->m_14 = ((int)(reinterpret_cast<::MyClass *>((m_60))->FUN_00b0b4b0()));
+        beg->m_24 = ((int)(reinterpret_cast<::FUN_00b0b530_Tree *>((m_60))->FUN_00b0b530()));
+        beg->m_18 = ((int)(reinterpret_cast<::FUN_00b0b5b0_Tree *>((m_60))->FUN_00b0b5b0()));
+        beg->m_1c = ((int)(reinterpret_cast<::FUN_00b0b630_Tree *>((m_60))->FUN_00b0b630()));
+        beg->m_20 = ((int)(reinterpret_cast<::FUN_00b0b6b0_Tree *>((m_60))->FUN_00b0b6b0()));
+        beg->m_28 = ((int)(reinterpret_cast<::FUN_00b0b730_Tree *>((m_60))->FUN_00b0b730()));
+        beg->m_2c = ((int)(reinterpret_cast<::FUN_00b0b7b0_Tree *>((m_60))->FUN_00b0b7b0()));
+        beg->m_30 = ((int)(reinterpret_cast<::FUN_00b0b830_Class *>((m_60))->FUN_00b0b830()));
+        beg->m_34 = ((int)(reinterpret_cast<::FUN_00b0b8b0_Tree *>((m_60))->FUN_00b0b8b0()));
+        short w = (type == -1) ? reinterpret_cast<::FUN_00b085a0_local_shell *>(this)->FUN_00b085a0(-1.0f) : type;
+        beg->m_iWordAt00 = w;
+        beg->m_iWordAt04 = ((unsigned short)(reinterpret_cast<::fnv_00b0a9a0::FUN_00b0a9a0_Tree *>((m_60))->FUN_00b0a9a0((unsigned short)w)));
+        beg->m_8 = ((int)(reinterpret_cast<::SpeedTreeRTB0AA20 *>((m_60))->FUN_00b0aa20((unsigned short)w)));
+        beg->m_iThirdValue = ((int)(reinterpret_cast<::FUN_00b30730_Tree *>((m_60))->FUN_00b30730((unsigned short)w)));
+        if (DAT_011f8b78)
+        {
+            n = reinterpret_cast<::CSpeedTreeRT *>(this)->FUN_00b08710() + 1;
+            aj = -1.0f;
+            idx = -1.0f;
+            num = -1;
+            cnt = -1;
+            ::fnv_00b0c8d0::FUN_00b0c8d0(reinterpret_cast<::FUN_00b08440_shell *>(this)->FUN_00b08440(), n, m_1c, m_28, m_20, (float)m_44, &aj, &idx, &num, &cnt);
+            if (num == n - 2)
+                arg->m_74 = aj;
+            else if (num == n - 1)
+            {
+                arg->m_74 = 255.0f;
+                beg->m_iWordAt00 = -1;
+            }
+            else
+                arg->m_74 = (float)m_44;
+        }
+        else
+            arg->m_74 = (float)m_44;
+    }
+    else
+        AssignString("no frond geometry exists, possible prior call to DeleteFrondGeometry");
+}
 
-extern double _DAT_0101a6b0;
 unsigned short __cdecl FUN_00ec62c0();
 
 // Converts a float LOD level to a clamped integer LOD index using the object's LOD count and a fallback value.
@@ -1779,12 +1767,12 @@ short FUN_00b085a0_local_shell::FUN_00b085a0(float fLodLevel)
 {
     short sLevel = 0;
 
-    if (fLodLevel == _DAT_0101a6b0)
+    if (fLodLevel == ::DAT_0101a6b0)
     {
-        fLodLevel = FUN_00b08440();
+        fLodLevel = reinterpret_cast<::FUN_00b08440_shell *>(this)->FUN_00b08440();
     }
 
-    int nNumLodLevels = GetId();
+    int nNumLodLevels = reinterpret_cast<::fnv_00b08730::CSpeedTreeRT *>(this)->GetId();
     sLevel = (short)((1.0f - fLodLevel) * nNumLodLevels);
 
     if (sLevel == nNumLodLevels)
@@ -1797,7 +1785,6 @@ short FUN_00b085a0_local_shell::FUN_00b085a0(float fLodLevel)
 
 struct FUN_00ac2f70_shell
 {
-    void FUN_00ac2f70();
 };
 struct FUN_00b08750_class
 {
@@ -1842,13 +1829,11 @@ void FUN_00b08750_class::FUN_00b08750()
         if (m_iWordAt04)
         {
             p = (FUN_00ac2f70_shell*)m_iWordAt04;
-            ((FUN_00ac2f70_shell*)((char*)p + 0x70))->FUN_00ac2f70();
+            reinterpret_cast<::asgnac2::AsVector *>((((FUN_00ac2f70_shell*)((char*)p + 0x70))))->clear();
         }
     }
 }
 
-extern unsigned int DAT_010173f0;
-extern int DAT_010a307c;
 
 struct FUN_00ec78e0
 {
@@ -1861,7 +1846,6 @@ struct FUN_00ec78e0
 
 struct FUN_00b096a0_Str
 {
-    void FUN_0044a730(bool, unsigned int);
     void AssignSubstring(const FUN_00b096a0_Str&, unsigned int, unsigned int);
 
     ~FUN_00b096a0_Str();
@@ -1908,8 +1892,8 @@ FUN_00b096a0::FUN_00b096a0(const FUN_00b096a0_Str& pName)
 
     {
         FUN_00b096a0_Str& s = m_str;
-        s.FUN_0044a730(false, 0);
-        s.AssignSubstring(pName, 0, DAT_010173f0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(&(s))->FUN_0044a730(false, 0);
+        s.AssignSubstring(pName, 0, ::g_010173f0);
     }
 }
 
@@ -1925,10 +1909,8 @@ struct FUN_00b09730_Local
 
 struct FUN_00b09730_MemoryManager
 {
-    void __thiscall FUN_00aa4060(void* p);
 };
 
-extern FUN_00b09730_MemoryManager DAT_011f6238;
 
 struct FUN_00b09730_Class : FUN_0044d6f0_This
 {
@@ -1943,12 +1925,12 @@ void* __thiscall FUN_00b09730_Class::FUN_00b09730(unsigned int flags)
     FUN_00b09730_Local local;
 
     *(void**)this = &DAT_010a307c;
-    m_iThirdValue._Tidy(true, 0);
+    reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(&(m_iThirdValue))->FUN_0044a730(true, 0);
     FUN_0044d6f0_This::FUN_00ec79a1();
 
     if ((flags & 1) != 0)
     {
-        DAT_011f6238.FUN_00aa4060(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00b09730::FUN_00b09730_MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(this);
     }
 
     return this;

@@ -2,6 +2,21 @@
 #ifndef TESCONDITIONITEM_PACKET_H
 #define TESCONDITIONITEM_PACKET_H
 
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/FUN_00440e30_This.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_00619d00_shell.h"
+#include "fnv/decl/FUN_0061e2b0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_00681000.h"
+#include "fnv/symbols_00682000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01190000.h"
 class TESFile;
 class TESForm
 {
@@ -86,16 +101,11 @@ class TESForm
     virtual void vfn_134();
     virtual const char* vfn_138();
     ENUM_FORM_ID GetFormType() const;
-    unsigned int GetFormID();
-    const char* FUN_00440e30();
     TESFile* GetFile(int);
-    static void RemapFormIDForFile(unsigned int&, TESFile*);
-    static TESForm* GetFormByID(unsigned int);
 };
 class TESObjectREFR : public TESForm
 {
   public:
-    TESObjectREFR* GetLinkedRef();
 };
 class Actor : public TESObjectREFR
 {
@@ -307,7 +317,6 @@ class TESTopicInfoData
 class TimeGlobal
 {
   public:
-    unsigned int GetTimeStamp();
 };
 struct CommandInfo
 {
@@ -318,14 +327,18 @@ struct CommandInfo
     bool(__cdecl* eval)(TESObjectREFR*, TESObjectREFR*, void*, double&);
     unsigned int tail;
 };
-extern CommandInfo g_scriptCommands[];
+class TESForm;
+struct FunctionData;
 class ScriptFunctionData
 {
   public:
-    static void InitItem(TESForm*, FUNCTION_DATA*);
-    static bool GetParamIsReference(FUNCTION_DATA*, unsigned int);
+public:
+    static void InitItem(::TESForm *, ::FunctionData *);
+public:
+    static unsigned int GetParamCount(const ::FunctionData *);
+public:
+    static bool IsParamTESForm(const ::FunctionData *, unsigned int);
 };
-bool Compare(int, float, float);
 
 class TESQuest : public TESForm
 {
@@ -333,13 +346,10 @@ class TESQuest : public TESForm
 class TESTopicInfo : public TESForm
 {
   public:
-    void FormatDebugInfo(BSStringT<char>&, bool);
 };
 class TESTopic : public TESForm
 {
   public:
-    static TESTopic* GetTopicFromInfo(TESTopicInfo*);
-    TESQuest* GetParentQuest(TESTopicInfo*);
 };
 class NiNode;
 template <class T> class NiPointer
@@ -351,11 +361,8 @@ class TESImageSpace;
 class TESDataHandler
 {
   public:
-    BSSimpleList<TESImageSpace*>* GetTESImageSpaceList();
 };
-int Warning(const char*, ...);
 extern "C" int sprintf(char*, const char*, ...);
 int FUN_00eca38d(char*, unsigned int, const char*, ...);
-extern const char g_011c72c0_arg1[];
 extern const char DAT_0104cae0[], DAT_01069378[], DAT_010693d8[], DAT_01069440[], DAT_01069458[], DAT_010694b0[];
 #endif

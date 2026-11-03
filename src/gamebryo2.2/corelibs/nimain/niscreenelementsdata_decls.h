@@ -2,6 +2,7 @@
 #ifndef FNV_NISCREENELEMENTSDATA_DECLS_H
 #define FNV_NISCREENELEMENTSDATA_DECLS_H
 
+#include "fnv/decl/FUN_00a66960_cls.h"
 #include "layout_support.h"
 #include "NiObject.h"
 #include "NiPoint3.h"
@@ -44,7 +45,6 @@ class NiGeometryData : public NiObject
   public:
     void SetDirtyFlags(unsigned int);
     // Unnamed PC texture-set accessor; see manifest binding.
-    NiPoint2* FUN_00a66960(unsigned short);
     NiPoint3* GetVertices()
     {
         return m_pkVertex;

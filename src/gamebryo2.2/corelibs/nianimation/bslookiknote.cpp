@@ -2,27 +2,42 @@
 // src/gamebryo2.2/corelibs/nianimation/bslookiknote.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/bslookiknote.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern char const* const g_011f3ee8_arg1;
 
 // @fnv 0x00a43f70
+#include <new>
+#include "fnv/decl/BSAnimNote.h"
+#include "fnv/decl/C4BF0AnimNote.h"
+#include "fnv/decl/FUN_00a44830_cls.h"
+#include "fnv/decl/FUN_00a44850_holder.h"
+#include "fnv/decl/FUN_00a5d3a0.h"
+#include "fnv/decl/FUN_00a88c00_shell.h"
+#include "fnv/decl/LoadObj.h"
+#include "fnv/decl/LoaderA44.h"
+#include "fnv/decl/TmpNote.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_01044000.h"
+#include "fnv/symbols_01047000.h"
+#include "fnv/symbols_01063000.h"
+#include "fnv/symbols_011f3000.h"
 char const* const* __cdecl FUN_00a43f70()
 {
-    return &g_011f3ee8_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_011f3ef8));
 }
 
-extern int g_011f3ee8;
 
 // @fnv 0x00a43f80
 int* __cdecl FUN_00a43f80()
 {
-    return &g_011f3ee8;
+    return &(*reinterpret_cast<int *>(&::g_011f3ee8));
 }
 
-extern "C" void __cdecl _delete(void* p, unsigned int size);
 
 struct BSLookIKNote
 {
-    void FUN_00a44830();
     void* __thiscall Destroy(unsigned int flags);
 };
 
@@ -30,9 +45,9 @@ struct BSLookIKNote
 // @fnv 0x00a43f90
 void* __thiscall BSLookIKNote::Destroy(unsigned int flags)
 {
-    FUN_00a44830();
+    reinterpret_cast<::FUN_00a44830_cls *>(this)->FUN_00a44830_cls::~FUN_00a44830_cls();
     if (flags & 1)
-        _delete(this, 0x18);
+        ::FUN_00aa1460(this, 0x18);
     return this;
 }
 
@@ -49,7 +64,6 @@ struct BSLookIKNote
     void* m_p14;
     void* operator new(unsigned int size);
     BSLookIKNote();
-    void FUN_00a43fa0();
 };
 
 // @fnv 0x00a43fb0
@@ -58,7 +72,7 @@ BSLookIKNote* __cdecl CreateLookIKNote()
     BSLookIKNote* pNote = static_cast<BSLookIKNote*>(BSLookIKNote::operator new(0x18));
     if (pNote)
     {
-        pNote->FUN_00a43fa0();
+        new ((void *)(pNote)) struct ::FUN_00a5d3a0();
         pNote->m_f0c = 0.0f;
         pNote->m_i08 = 2;
         pNote->m_f10 = 0.0f;
@@ -78,7 +92,6 @@ struct BSLookIKNote
     char _pad_0[0x10];
     float m_fDistanceScale;
     int eState;
-    bool IsEqual(NiObject* apObject);
 };
 
 struct FUN_00a43f30_shell : BSLookIKNote
@@ -90,7 +103,7 @@ struct FUN_00a43f30_shell : BSLookIKNote
 // @fnv 0x00a43f30
 bool FUN_00a43f30_shell::IsLookIKNoteEqual(NiObject* apObject)
 {
-    if (IsEqual(apObject))
+    if (reinterpret_cast<::TmpNote *>(this)->Matches((::NiObject *)(apObject)))
     {
         BSLookIKNote* pkDest = (BSLookIKNote*)apObject;
         if (m_fDistanceScale == pkDest->m_fDistanceScale && eState == pkDest->eState)
@@ -282,7 +295,6 @@ struct S_00a44130_Stream
 
 struct S_00a44130_Base
 {
-    void ReadBinaryFields(S_00a44130_Stream& kStream);
 };
 
 struct S_00a44130_Note : S_00a44130_Base
@@ -300,7 +312,7 @@ struct S_00a44130_Note : S_00a44130_Base
 // @fnv 0x00a44130
 void S_00a44130_Note::FUN_00a44130(S_00a44130_Stream& kStream)
 {
-    S_00a44130_Base::ReadBinaryFields(kStream);
+    reinterpret_cast<::LoadObj *>(this)->ReadBinaryFields((::LoadStream *)&(kStream));
     S_00a44130_StreamSaveBinary(*kStream.m_pBackingStream, m_10);
     S_00a44130_StreamSaveBinary(*kStream.m_pBackingStream, m_14);
 }
@@ -484,7 +496,6 @@ struct S_00a44190_Base
     int unk04;
     int unk08;
     int unk0C;
-    void FUN_00a44a90(S_00a44190_Stream& kStream);
 };
 struct S_00a44190 : S_00a44190_Base
 {
@@ -496,7 +507,7 @@ struct S_00a44190 : S_00a44190_Base
 // @fnv 0x00a44190
 void S_00a44190::FUN_00a44190(S_00a44190_Stream& kStream)
 {
-    S_00a44190_Base::FUN_00a44a90(kStream);
+    reinterpret_cast<::LoaderA44 *>(this)->FUN_00a44a90((::NiStreamA44 &)(kStream));
     S_00a44190_SaveBinary(kStream, unk10);
     S_00a44190_SaveBinary(kStream, unk14);
 }
@@ -532,7 +543,6 @@ class A43FF0Interp : public A43FF0Mid
     {}
     virtual ~A43FF0Interp();
 
-    void CopyMemberData(A43FF0Interp* pkDest, void* pvCloning);
     A43FF0Interp* FUN_00a43ff0(void* pvCloning);
 
     void* m_pUserData;
@@ -542,7 +552,7 @@ class A43FF0Interp : public A43FF0Mid
 A43FF0Interp* A43FF0Interp::FUN_00a43ff0(void* pvCloning)
 {
     A43FF0Interp* pkClone = new A43FF0Interp;
-    CopyMemberData(pkClone, pvCloning);
+    reinterpret_cast<::FUN_00a44850_holder *>(this)->CopyMembersStreamAndFields((::FUN_00a44850_holder *)(pkClone), (::CloningProcess *)(pvCloning));
     pkClone->m_fEnd = m_fEnd;
     pkClone->m_pUserData = m_pUserData;
     return pkClone;
@@ -573,7 +583,6 @@ class TextKeyString
   public:
     TextKeyString(const char* pcString) throw();
     ~TextKeyString() throw();
-    bool ParseFloatValue(float* pfValue) throw();
 
     char* m_pcString;
 };
@@ -581,7 +590,6 @@ class TextKeyString
 class TextKeyHandlerBase
 {
   public:
-    bool ParseKey(TimedTextEntry* pkKey) throw();
 
     int unk00;
     int unk04;
@@ -602,7 +610,7 @@ class LookIKKeyHandler : public TextKeyHandlerBase
 // @fnv 0x00a44050
 bool LookIKKeyHandler::ParseLookIKKey(TimedTextEntry* pkKey)
 {
-    bool bResult = ParseKey(pkKey);
+    bool bResult = reinterpret_cast<::BSAnimNote *>(this)->FUN_00a44930(pkKey);
     const char* pcText = pkKey->m_kText;
 
     if (strncmp(pcText, "LookIK", 6) == 0)
@@ -616,7 +624,7 @@ bool LookIKKeyHandler::ParseLookIKKey(TimedTextEntry* pkKey)
         strncpy(acValue, pcText, 4);
         {
             TextKeyString kValue(acValue);
-            if (!kValue.ParseFloatValue(&m_fValue))
+            if (!reinterpret_cast<::FUN_00a88c00_shell *>(&(kValue))->FUN_00a88c00(&m_fValue))
                 bResult = false;
             pcText += 4;
         }
@@ -643,17 +651,9 @@ struct S_00a441f0_arg
     unsigned short m_0a;
     unsigned short unk0c;
     unsigned short m_0e;
-    void FUN_0096ad30(unsigned int n);
-    void FUN_0096ae90(unsigned int idx, char* const& v);
 };
 
 extern const char str_01097d24[];
-extern const char str_01044a7c[];
-extern const char str_010477f4[];
-extern const char str_010639ec[];
-extern const char str_0102909c[];
-char* __cdecl FUN_00a7d550(const char* fmt, float v);
-char* __cdecl FUN_00a7d5e0(const char* fmt, const char* s);
 
 struct S_00a441f0_cls
 {
@@ -663,7 +663,6 @@ struct S_00a441f0_cls
     unsigned int unk0c;
     float m_10;
     int m_14;
-    void FUN_00a44bf0(S_00a441f0_arg* p);
     void AppendFormattedFields(S_00a441f0_arg* p);
 };
 
@@ -672,23 +671,23 @@ inline void S_Push(S_00a441f0_arg* p, char* s)
     unsigned int n = p->m_0a;
     if (n >= p->m_08)
     {
-        p->FUN_0096ad30(n + p->m_0e);
+        reinterpret_cast<::ViewerStrings *>((p))->SetSize(n + p->m_0e);
     }
-    p->FUN_0096ae90(n, s);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((p))->SetAt(n, (char *&)(s));
 }
 
 // @fnv 0x00a441f0
 void S_00a441f0_cls::AppendFormattedFields(S_00a441f0_arg* p)
 {
-    FUN_00a44bf0(p);
+    reinterpret_cast<::C4BF0AnimNote *>(this)->FUN_00a44bf0((::C4BF0StringArray *)(p));
     S_Push(p, FUN_00a7d550(str_01097d24, m_10));
     switch (m_14)
     {
     case 1:
-        S_Push(p, FUN_00a7d5e0(str_01044a7c, str_010477f4));
+        S_Push(p, ::fnv_00a7d5e0::FUN_00a7d5e0((*reinterpret_cast<const char (*)[]>(&::DAT_01044a7c)), (*reinterpret_cast<const char (*)[]>(&::DAT_010477f4))));
     case 2:
-        S_Push(p, FUN_00a7d5e0(str_01044a7c, str_010639ec));
+        S_Push(p, ::fnv_00a7d5e0::FUN_00a7d5e0((*reinterpret_cast<const char (*)[]>(&::DAT_01044a7c)), str_010639ec));
     default:
-        S_Push(p, FUN_00a7d5e0(str_01044a7c, str_0102909c));
+        S_Push(p, ::fnv_00a7d5e0::FUN_00a7d5e0((*reinterpret_cast<const char (*)[]>(&::DAT_01044a7c)), (*reinterpret_cast<const char (*)[]>((void *)&::g_011d1f8c_arg1))));
     }
 }

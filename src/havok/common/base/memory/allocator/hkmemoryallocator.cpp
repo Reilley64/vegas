@@ -2,6 +2,7 @@
 // src/havok/common/base/memory/allocator/hkmemoryallocator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/allocator/hkmemoryallocator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00d2c000.h"
 struct TargetClass
 {
     virtual void f0();
@@ -41,7 +42,6 @@ void __fastcall TargetClass::FUN_00cbf1d0(void* a2)
  * the call site hands it a destination, a source and a byte count, which is
  * consistent with a bounded copy (inference, not verified).
  */
-void FUN_00d2caa0(void* dest, void* src, unsigned int count);
 
 /*
  * Block passed as the unit's third parameter.
@@ -113,7 +113,7 @@ void* CFun00cbf280Owner::FUN_00cbf280(void* src, int size, SFun00cbf280Args* arg
     if (size < count)
         count = size;
 
-    FUN_00d2caa0(dest, src, (unsigned int)count);
+    ::fnv_00d2caa0::FUN_00d2caa0(dest, src, (unsigned int)count);
 
     this->Commit(src, size);
 

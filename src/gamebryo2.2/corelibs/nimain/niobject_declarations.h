@@ -2,6 +2,7 @@
 #ifndef FNV_NIOBJECT_UNIT_DECLARATIONS_H
 #define FNV_NIOBJECT_UNIT_DECLARATIONS_H
 
+#include "fnv/decl/NiObject_b.h"
 #include "niobject_nirefobject.h"
 
 class NiRTTI;
@@ -12,7 +13,6 @@ class NiObject : public NiRefObject
 {
   public:
     NiObject* DynamicCast(const NiRTTI* rtti);
-    bool IsKindOfType(const NiRTTI* rtti) const;
 };
 
 typedef char niobject_object_size_check[(sizeof(NiObject) == 8) ? 1 : -1];

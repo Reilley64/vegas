@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/havok/animation/animation/motion/default/hkadefaultanimatedreferenceframe.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/motion/default/hkadefaultanimatedreferenceframe.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_00e41000.h"
 struct FUN_00e41080_Obj
 {
     int unk00;
@@ -26,6 +27,7 @@ struct FUN_00e41080_Obj
     float __thiscall GetUnk30();
 };
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 extern "C" void _ReadWriteBarrier(void);
 template <class T, class U> __forceinline void fnv_vstore(T& d, U v)
 {
@@ -61,7 +63,6 @@ struct __declspec(align(16)) Vec4
 struct Projection363_Helper
 {
     __m128 rotation;
-    int FUN_00cb2ca0(void* p, Vec4* f2, float* f1);
 };
 __forceinline __m128 Dot363(const __m128& a, const __m128& b)
 {
@@ -97,7 +98,6 @@ struct Motion363
     __m128 vector;
     Projection363_Helper angular;
 };
-void FUN_00e41220(Projection363_Owner* a, Motion363* __restrict b, Projection363_Input* c, OutVec* out);
 struct VectorComponentValue
 {
     __m128 value;
@@ -214,8 +214,6 @@ struct hkVector4
     __forceinline void SetRotatedDirection(const hkQuaternion& q, const hkVector4& direction);
     __forceinline void setRotatedInverseDir(const hkQuaternion& q, const hkVector4& direction);
 };
-extern const hkVector4 DAT_010c71e0, DAT_010c7170;
-extern const hkVector4 DAT_010c4c10, DAT_010c4c00, DAT_010c44d0;
 inline __m128 reciprocal(__m128 x)
 {
     __m128 r = _mm_rcp_ps(x);
@@ -224,23 +222,24 @@ inline __m128 reciprocal(__m128 x)
 inline void hkVector4::setReciprocal3(const hkVector4& a)
 {
     hkVector4 one;
-    one.getQuad() = DAT_010c7170.getQuad();
+    one.getQuad() = (*reinterpret_cast<const ::hkVector4 *>(&::DAT_010c7170)).getQuad();
     hkVector4 joined;
     joined.setXYZW(a, one);
     v = reciprocal(joined.v);
 }
 inline void hkVector4::setXYZ0(const hkVector4& a)
 {
-    v = _mm_and_ps(a, DAT_010c4c10.v);
+    v = _mm_and_ps(a, (*reinterpret_cast<const ::hkVector4 *>(&::DAT_010c4c10)).v);
 }
 inline void hkVector4::setNeg4(const hkVector4& a)
 {
-    v = _mm_xor_ps(a.v, DAT_010c44d0.v);
+    v = _mm_xor_ps(a.v, (*reinterpret_cast<const ::hkVector4 *>((void *)&::DAT_010c44d0)).v);
 }
 inline void hkVector4::setNeg3(const hkVector4& a)
 {
-    v = _mm_xor_ps(a.v, DAT_010c4c00.v);
+    v = _mm_xor_ps(a.v, (*reinterpret_cast<const ::hkVector4 *>(&::DAT_010c4c00)).v);
 }
+struct hkVector4;
 struct hkQuaternion
 {
     hkVector4 m_vec;
@@ -253,6 +252,8 @@ struct hkQuaternion
         m_vec.setNeg3(q.getImag());
     }
     void FUN_00c66320(const hkQuaternion& a, const hkQuaternion& b);
+public:
+    void FUN_00cb2ca0(const ::hkVector4 &, ::hkQuaternion &, float &) const;
 };
 inline void hkQuaternion::FUN_00c66320(const hkQuaternion& a, const hkQuaternion& b)
 {
@@ -274,7 +275,7 @@ inline void hkQuaternion::FUN_00c66320(const hkQuaternion& a, const hkQuaternion
 __forceinline void hkVector4::SetRotatedDirection(const hkQuaternion& q, const hkVector4& direction)
 {
     hkVector4 half;
-    half.getQuad() = DAT_010c71e0.getQuad();
+    half.getQuad() = (*reinterpret_cast<const ::hkVector4 *>((void *)&::DAT_010c71e0)).getQuad();
     hkVector4 real;
     real.setBroadcast(q.m_vec, 3);
     hkVector4 factor;
@@ -293,7 +294,7 @@ __forceinline void hkVector4::SetRotatedDirection(const hkQuaternion& q, const h
 __forceinline void hkVector4::setRotatedInverseDir(const hkQuaternion& q, const hkVector4& direction)
 {
     hkVector4 half;
-    half.getQuad() = DAT_010c71e0.getQuad();
+    half.getQuad() = (*reinterpret_cast<const ::hkVector4 *>((void *)&::DAT_010c71e0)).getQuad();
     hkVector4 real;
     real.setBroadcast(q.m_vec, 3);
     hkVector4 factor;
@@ -330,7 +331,7 @@ struct hkTransform
         hkVector4 shift;
         shift.SetRotatedDirection(a.m_rotation, b.m_vTranslation);
         m_vTranslation.setAdd4(a.m_vTranslation, shift);
-        m_rotation.FUN_00c66320(a.m_rotation, b.m_rotation);
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(a.m_rotation), (const ::fnv_00c66320::__m128 *)&(b.m_rotation), {});
         m_vScale.setMul4(a.m_vScale, b.m_vScale);
     }
     __forceinline void SetMulInverse(const hkTransform& a, const hkTransform& b)
@@ -352,7 +353,6 @@ struct AnimatedFrame
     void FUN_00e413d0(float time, float nextTime, int loops, hkTransform& output) const;
 };
 
-extern __m128 DAT_010ec7f0;
 
 struct __declspec(align(16)) S00e41100_Vec4
 {
@@ -419,7 +419,7 @@ void S00e41100_LinearKeyTrack::FUN_00e41100(float time, S00e41100_hkQsTransform&
         S00e41100_Vec4 b = m_keys[i + 1];
         __m128 t = _mm_load_ss(&f);
         t = _mm_shuffle_ps(t, t, 0);
-        v = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(DAT_010ec7f0, t), a.getQuad()), _mm_mul_ps(b.getQuad(), t));
+        v = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(::DAT_010ec7f0, t), a.getQuad()), _mm_mul_ps(b.getQuad(), t));
     }
     out.m_vTranslation.setQuad(v);
     out.m_rotation.FUN_00cb2450(m_kAxisEndPoints, v.m128_f32[3]);

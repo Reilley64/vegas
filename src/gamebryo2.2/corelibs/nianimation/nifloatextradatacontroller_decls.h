@@ -2,6 +2,8 @@
 #define FNV_NIFLOATEXTRADATACONTROLLER_DECLS_H
 
 
+#include "fnv/decl/NiTimeControllerA362.h"
+#include "fnv/symbols_01096000.h"
 #include "NiRefObject.h"
 #include "NiFixedString.h"
 
@@ -29,6 +31,7 @@ class NiQuatTransform;
 
 // The generated NiObject header omits these virtual declarations. This private
 // declaration supplies the PC slots used by the controller and interpolator.
+class NiRTTI;
 class NiObject : public NiRefObject
 {
   public:
@@ -65,6 +68,8 @@ class NiObject : public NiRefObject
     virtual void Unk_20();
     virtual void Unk_21(unsigned int arg);
     virtual NiControllerManager* GetControllerManager();
+public:
+    ::NiObject *DynamicCast(const ::NiRTTI *);
 };
 FNV_STATIC_ASSERT(sizeof(NiObject) == 8);
 
@@ -137,7 +142,6 @@ class NiTimeController : public NiObject
     float m_fControllerTime;
     NiObjectNET* m_pkTarget;
     NiPointer<NiTimeController> m_spNextController;
-    bool AdvanceController(float time);
     bool GetManagerControlled() const
     {
         return ((m_uiObjectFlags >> 5) & 1) != 0;
@@ -180,6 +184,5 @@ class NiFloatExtraData : public NiExtraData
     float m_fValue;
 };
 FNV_STATIC_ASSERT(offsetof(NiFloatExtraData, m_fValue) == 0xC);
-extern const float DAT_01096324;
 
 #endif

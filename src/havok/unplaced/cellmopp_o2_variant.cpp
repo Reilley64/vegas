@@ -5,6 +5,32 @@
 // src/havok/unplaced/cellmopp.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/cellmopp.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/CCA1B0Level2.h"
+#include "fnv/decl/FUN_00622490.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00c84d00_cls.h"
+#include "fnv/decl/FUN_00c84d50_cls.h"
+#include "fnv/decl/FUN_00c84df0_cls.h"
+#include "fnv/decl/FUN_00c87c30_t.h"
+#include "fnv/decl/HeightField.h"
+#include "fnv/decl/NiStream.h"
+#include "fnv/decl/S_00cb0030_Cls.h"
+#include "fnv/decl/ShapeViewerFields.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/bhkBoxShape.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa0000.h"
+#include "fnv/symbols_00c84000.h"
+#include "fnv/symbols_00c87000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01030000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01272000.h"
 struct Child;
 struct Item
 {
@@ -66,7 +92,6 @@ struct This
     virtual void v44();
     virtual Result* GetResult(char* output);
     void FUN_00ca4e50(int first, int second);
-    void FUN_00c84df0(int first, int second);
 };
 struct Resolved
 {
@@ -145,12 +170,11 @@ void This::FUN_00ca4e50(int first, int second)
             result->item = (Item*)(found ? found->child : 0);
         }
     }
-    FUN_00c84df0(first, second);
+    reinterpret_cast<::FUN_00c84df0_cls *>(this)->FUN_00c84df0((::FUN_00c84df0_cls *)(first), (::FUN_00c84df0_cls *)(second));
 }
 
 struct S_00ca4ec0_Stream
 {
-    void FUN_00a645b0();
 };
 
 struct S_00ca4ec0_Out
@@ -207,7 +231,6 @@ struct S_00ca4ec0_Base
     virtual void vac();
     virtual void vb0();
     virtual S_00ca4ec0_Out* vb4(int* out);
-    void FUN_00c84d00(S_00ca4ec0_Stream& kStream);
 };
 
 struct S_00ca4ec0 : S_00ca4ec0_Base
@@ -218,8 +241,8 @@ struct S_00ca4ec0 : S_00ca4ec0_Base
 // @fnv 0x00ca4ec0
 void S_00ca4ec0::FUN_00ca4ec0(S_00ca4ec0_Stream& kStream)
 {
-    kStream.FUN_00a645b0();
-    S_00ca4ec0_Base::FUN_00c84d00(kStream);
+    reinterpret_cast<::FUN_00a645b0_cls *>(&(kStream))->FUN_00a645b0();
+    reinterpret_cast<::FUN_00c84d00_cls *>(this)->FUN_00c84d00((::FUN_00c84d00_obj *)&(kStream));
     int tmp;
     vb4(&tmp)->m_04 = 0;
 }
@@ -273,7 +296,6 @@ struct HC1Base
     int unk10;
     int unk14;
     int unk18;
-    bool __thiscall FUN_00aa0ad0(NiStream* stream);
     void __thiscall FUN_00ca4f40(NiStream* stream);
 };
 // @fnv 0x00ca4f40
@@ -297,7 +319,7 @@ void HC1Base::FUN_00ca4f40(NiStream* stream)
             }
         }
     }
-    FUN_00aa0ad0(stream);
+    ::FUN_00aa0ad0();
 }
 
 struct Link
@@ -340,7 +362,6 @@ struct Owner
     int state;
     int flags;
     Node* node;
-    void FUN_00c84d50(Sink*);
     void FUN_00ca4f80(Sink*);
     void* getValue()
     {
@@ -365,7 +386,7 @@ struct Owner
 void Owner::FUN_00ca4f80(Sink* sink)
 {
     sink->set(getValue());
-    FUN_00c84d50(sink);
+    reinterpret_cast<::FUN_00c84d50_cls *>(this)->FUN_00c84d50(sink);
 }
 
 namespace fnv_00ca5010 {
@@ -456,7 +477,6 @@ struct Owner
     virtual void V43();
     virtual void V44();
     virtual void V45(char*);
-    void FUN_00ca4e50(int, int);
     void FUN_00cafff0(int first, int second);
 };
 // @fnv 0x00cafff0
@@ -464,23 +484,22 @@ void Owner::FUN_00cafff0(int first, int second)
 {
     char local;
     V45(&local);
-    FUN_00ca4e50(first, second);
+    reinterpret_cast<::This *>(this)->FUN_00ca4e50(first, second);
 }
 }  // namespace fnv_00cafff0
 
-extern __declspec(thread) int iCurrentMemContext;
 
 struct MemoryContextGuard
 {
     int previous;
     MemoryContextGuard()
     {
-        previous = iCurrentMemContext;
-        iCurrentMemContext = 0x10;
+        previous = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 0x10;
     }
     ~MemoryContextGuard()
     {
-        iCurrentMemContext = previous;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = previous;
     }
 };
 
@@ -702,7 +721,6 @@ struct ThreadState
     int unk2B0;
     int unk2B4;
 };
-extern __declspec(thread) ThreadState s_tlsData;
 struct NiStringArray
 {
     void* unk00;
@@ -711,51 +729,32 @@ struct NiStringArray
     unsigned short count;
     unsigned short unk0C;
     unsigned short growth;
-    void FUN_0096ad30(unsigned int newCapacity);
-    void FUN_0096ae90(unsigned int index, char** value);
 };
 struct GlobalString
 {
     const char* value;
 };
-extern GlobalString g_01268350;
-char* __cdecl FUN_00a7d330(const char* text);
 struct StringBuilder
 {
-    void FUN_00ca5190(NiStringArray* array);
     void FUN_00cb09b0(NiStringArray* array);
 };
 struct ThreadStateGuard
 {
     int previous;
-    ThreadStateGuard() : previous(s_tlsData.unk2B4)
+    ThreadStateGuard() : previous((*reinterpret_cast<::ThreadState *>(&::g_tlsBlock)).unk2B4)
     {
-        s_tlsData.unk2B4 = 0x10;
+        (*reinterpret_cast<::ThreadState *>(&::g_tlsBlock)).unk2B4 = 0x10;
     }
     ~ThreadStateGuard()
     {
-        s_tlsData.unk2B4 = previous;
+        (*reinterpret_cast<::ThreadState *>(&::g_tlsBlock)).unk2B4 = previous;
     }
 };
-// @fnv 0x00cb09b0
-void StringBuilder::FUN_00cb09b0(NiStringArray* array)
-{
-    ThreadStateGuard guard;
-    FUN_00ca5190(array);
-    char* value = FUN_00a7d330(g_01268350.value);
-    unsigned int count = array->count;
-    unsigned int capacity = array->capacity;
-    if (count >= capacity)
-        array->FUN_0096ad30(count + array->growth);
-    array->FUN_0096ae90(count, &value);
-}
-
 struct EP
 {
     int u0[0x50];
     int m254;
     int m260;
-    int __thiscall FUN_00a63430();
 };
 
 struct K46
@@ -856,7 +855,6 @@ struct QTF
     virtual void f43();
     virtual void f44();
     virtual int M45(void* p);
-    void __thiscall FUN_00c84cc0(EP* p);
     void FUN_00ca4f00(EP* a1);
 };
 
@@ -866,10 +864,10 @@ void QTF::FUN_00ca4f00(EP* a1)
     char tmp;
     void* r;
     r = (void*)this->M45(&tmp);
-    int v = a1->FUN_00a63430();
+    int v = ((int)(reinterpret_cast<::NiStream *>((a1))->GetLoadedObject()));
     if (v != 0)
         ((int*)r)[1] = ((int*)v)[2];
-    this->FUN_00c84cc0(a1);
+    ::FUN_00c84cc0((int *)(this), (unsigned int)(a1));
 }
 
 struct FUN_00ca4fd0_Value
@@ -977,7 +975,6 @@ void FUN_00ca4fd0_cls::FUN_00ca4fd0(int first, int second)
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* lpAddend);
 
-void FUN_00ca5080();
 
 struct RefCounted
 {
@@ -987,36 +984,10 @@ struct RefCounted
 
 struct Owner_Ext : public Owner
 {
-    void FUN_00c84e50(bool flag);
     void FUN_00ca5130(bool flag);
 };
 
-// @fnv 0x00ca5130
-void Owner_Ext::FUN_00ca5130(bool flag)
-{
-    if (flag)
-    {
-        RefCounted* val = (RefCounted*)getValue();
-        if (val)
-        {
-            InterlockedIncrement(&val->refCount);
-        }
-    }
-    else
-    {
-        FUN_00ca5080();
-    }
-    FUN_00c84e50(flag);
-}
-
 extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
-extern "C" void __cdecl FUN_00c876f0();
-extern "C" void __cdecl FUN_00c87700();
-extern "C" char DAT_01030bf4[];
-extern "C" char DAT_0104dbac[];
-extern "C" int DAT_012680f8;
-extern "C" int DAT_012682cc;
-extern "C" int DAT_0126834c;
 
 struct SpawnedObject
 {
@@ -1025,16 +996,15 @@ struct SpawnedObject
     int unk08;
     int unk0C;
     int unk10;
-    void ctorBase();
     SpawnedObject()
     {
-        ctorBase();
-        m_vtbl = (void*)DAT_01030bf4;
+        reinterpret_cast<::FUN_00c87c30_t *>(this)->FUN_00c87c30();
+        m_vtbl = (void*)(*reinterpret_cast<char (*)[]>(&::DAT_01030bf4));
         unk0C = 0;
         unk10 = 0;
-        DAT_012680f8++;
+        ::DAT_012680f8++;
         m_vtbl = (void*)DAT_0104dbac;
-        DAT_012682cc++;
+        (*reinterpret_cast<int *>(&::CCA1B0Level2::ms_uiInstances))++;
         m_vtbl = (void*)"@$b";
         DAT_0126834c++;
     }
@@ -1103,10 +1073,10 @@ struct FUN_00cb05d0_cls
 SpawnedObject* FUN_00cb05d0_cls::FUN_00cb05d0(int a1)
 {
     ThreadStateGuard guard;
-    FUN_00c876f0();
+    ::FUN_00c876f0();
     SpawnedObject* p = new SpawnedObject();
     this->v49(p, a1);
-    FUN_00c87700();
+    ::FUN_00c87700();
     return p;
 }
 
@@ -1125,7 +1095,6 @@ struct FUN_00cb06c0_Holder
 };
 struct FUN_00cb06c0_Obj
 {
-    void* FUN_00622490();
 };
 struct FUN_00cb06c0_cls
 {
@@ -1133,7 +1102,6 @@ struct FUN_00cb06c0_cls
     int unk04;
     void* unk08;
     void* unk0c;
-    void FUN_00cb0030(void* value);
     void* FUN_00cb06c0(bool* out);
 };
 
@@ -1149,7 +1117,7 @@ void* FUN_00cb06c0_cls::FUN_00cb06c0(bool* out)
         void* result = holder->allocator->Alloc(0x50);
         if (result != 0)
         {
-            result = reinterpret_cast<FUN_00cb06c0_Obj*>(result)->FUN_00622490();
+            result = ((void *)(new ((void *)(reinterpret_cast<FUN_00cb06c0_Obj*>(result))) ::FUN_00622490()));
         }
         else
         {
@@ -1158,7 +1126,7 @@ void* FUN_00cb06c0_cls::FUN_00cb06c0(bool* out)
         unk0c = result;
         if (unk08 != 0)
         {
-            FUN_00cb0030(result);
+            reinterpret_cast<::S_00cb0030_Cls *>(this)->FUN_00cb0030((::S_00cb0030_Out *)(result));
         }
     }
     return unk0c;
@@ -1195,7 +1163,6 @@ struct S00cb0820_Ref
         return b;
     }
     void operator delete(void* p, unsigned int size);
-    void FUN_00c905b0();
 };
 
 struct S00cb0820_Src
@@ -1226,8 +1193,6 @@ struct S00cb0820_Outer
 };
 
 extern char DAT_010c853c;
-extern double DAT_01012070;
-extern float DAT_01016248;
 
 struct S00cb0820_Shape : S00cb0820_Ref
 {
@@ -1235,7 +1200,6 @@ struct S00cb0820_Shape : S00cb0820_Ref
     int unk0c;
     int unk10;
     int unk14;
-    void FUN_00d248a0(S00cb0820_Src* src, int n);
 };
 
 struct S00cb0820_Shape70 : S00cb0820_Shape
@@ -1264,9 +1228,9 @@ struct S00cb0820_Shape70 : S00cb0820_Shape
     int unk6c;
     S00cb0820_Shape70(S00cb0820_Src* src)
     {
-        FUN_00d248a0(src, 2);
+        reinterpret_cast<::HeightField *>(this)->FUN_00d248a0((*(const ::hkSampledHeightFieldShapeCinfo *)(src)), (::HeightFieldType)(2));
         m_vtbl = &DAT_010c853c;
-        double d = unk14 - DAT_01012070;
+        double d = unk14 - ::g_01012070;
         unk60 = src->unk30;
         unk64 = (int)d;
         unk68 = src->unk34;
@@ -1374,12 +1338,12 @@ void S00cb0820_World::FUN_00cb0820(S00cb0820_Outer* a1)
 {
     ThreadStateGuard guard;
     S00cb0820_Shape70* shape = new S00cb0820_Shape70(a1 ? &a1->src : 0);
-    S00cb0820_Obj40* body = new S00cb0820_Obj40(shape, DAT_01016248);
+    S00cb0820_Obj40* body = new S00cb0820_Obj40(shape, ::fnv_00c88020::DAT_01016248);
     S00cb0820_Obj30* phantom = new S00cb0820_Obj30(body, S00cb0820_Tag());
     v35(phantom);
-    phantom->FUN_00c905b0();
-    body->FUN_00c905b0();
-    shape->FUN_00c905b0();
+    reinterpret_cast<::hkReferencedObjectC905 *>((phantom))->FUN_00c905b0();
+    reinterpret_cast<::hkReferencedObjectC905 *>((body))->FUN_00c905b0();
+    reinterpret_cast<::hkReferencedObjectC905 *>((shape))->FUN_00c905b0();
     v47(a1);
 }
 
@@ -1415,6 +1379,23 @@ struct FUN_00ca5080_cls
 
     void FUN_00ca5080();
 };
+// @fnv 0x00ca5130
+void Owner_Ext::FUN_00ca5130(bool flag)
+{
+    if (flag)
+    {
+        RefCounted* val = (RefCounted*)getValue();
+        if (val)
+        {
+            InterlockedIncrement(&val->refCount);
+        }
+    }
+    else
+    {
+        static_cast<::FUN_00ca5080_cls *>(nullptr)->FUN_00ca5080();
+    }
+    reinterpret_cast<::bhkBoxShape *>(this)->FUN_00c84e50(flag);
+}
 
 // @fnv 0x00ca5080
 void FUN_00ca5080_cls::FUN_00ca5080()
@@ -1468,7 +1449,6 @@ struct BinaryDataRecord
 
 struct FUN_00cb00a0_Class
 {
-    void FUN_00ca4ec0(char*);
     virtual void* slot00(void*);
     virtual void* slot01(void*);
     virtual void* slot02(void*);
@@ -1521,7 +1501,7 @@ struct FUN_00cb00a0_Class
 // @fnv 0x00cb00a0
 void FUN_00cb00a0_Class::FUN_00cb00a0(char* object)
 {
-    this->FUN_00ca4ec0(object);
+    reinterpret_cast<::S_00ca4ec0 *>((this))->FUN_00ca4ec0((*(::S_00ca4ec0_Stream *)(object)));
     if (object[0x1e5] != 1)
     {
         void* out;
@@ -1587,7 +1567,6 @@ struct T
     virtual void slot44() = 0;
     virtual void* Query(char*) = 0;
     void FUN_00cb0120(void*);
-    void FUN_00ca4f80(void*);
 };
 
 // @fnv 0x00cb0120
@@ -1608,7 +1587,7 @@ void T::FUN_00cb0120(void* arg)
         data[0xb] = _byteswap_ulong(data[0xb]);
         data[0x10] = 0;
     }
-    FUN_00ca4f80(arg);
+    reinterpret_cast<::Owner *>(this)->FUN_00ca4f80((::Sink *)(arg));
     if (context[0x1e4] != 1)
     {
         data[0x4] = _byteswap_ulong(data[0x4]);
@@ -1708,7 +1687,6 @@ struct ValueOwner
         }
         return 0;
     }
-    bool __thiscall FUN_00c84ec0(int a);
     bool __thiscall FUN_00ca5040(int a);
 };
 // @fnv 0x00ca5040
@@ -1719,23 +1697,19 @@ bool ValueOwner::FUN_00ca5040(int a)
     if (pkColl)
         bResult = pkColl->vD0(a);
     else
-        bResult = FUN_00c84ec0(a);
+        bResult = ((bool)(::FUN_00c84ec0((void *)this)));
     return bResult;
 }
 
 extern "C"
 {
-    extern const char* DAT_012682d0;
 }
 
 struct StringArrayCalls_00ca5190
 {
-    void FUN_0096ad30(unsigned int);
-    void FUN_0096ae90(unsigned int, char**);
 };
 struct StringBuilderCalls_00ca5190
 {
-    void FUN_00c851c0(NiStringArray* array);
 };
 
 struct ValueObject_00ca5190
@@ -1771,20 +1745,32 @@ struct StringBuilder_ca5190 : public StringBuilder
 {
     void FUN_00ca5190(NiStringArray* array);
 };
+// @fnv 0x00cb09b0
+void StringBuilder::FUN_00cb09b0(NiStringArray* array)
+{
+    ThreadStateGuard guard;
+    reinterpret_cast<::StringBuilder_ca5190 *>(this)->FUN_00ca5190(array);
+    char* value = FUN_00a7d330((*reinterpret_cast<::GlobalString *>(&::g_01268350)).value);
+    unsigned int count = array->count;
+    unsigned int capacity = array->capacity;
+    if (count >= capacity)
+        reinterpret_cast<::ViewerStrings *>((array))->SetSize(count + array->growth);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((array))->SetAt(count, (*(char * *)(&value)));
+}
 
 // @fnv 0x00ca5190
 void StringBuilder_ca5190::FUN_00ca5190(NiStringArray* array)
 {
     ThreadStateGuard guard;
-    reinterpret_cast<StringBuilderCalls_00ca5190*>(this)->FUN_00c851c0(array);
+    reinterpret_cast<::ShapeViewerFields *>((reinterpret_cast<StringBuilderCalls_00ca5190*>(this)))->FUN_00c851c0((::BCA05B0StringArray *)(array));
 
-    char* text = FUN_00a7d330(DAT_012682d0);
+    char* text = FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_012682d0)));
     unsigned int count = array->count;
     if (count >= array->capacity)
     {
-        reinterpret_cast<StringArrayCalls_00ca5190*>(array)->FUN_0096ad30(count + array->growth);
+        reinterpret_cast<::ViewerStrings *>((reinterpret_cast<StringArrayCalls_00ca5190*>(array)))->SetSize(count + array->growth);
     }
-    reinterpret_cast<StringArrayCalls_00ca5190*>(array)->FUN_0096ae90(count, &text);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((reinterpret_cast<StringArrayCalls_00ca5190*>(array)))->SetAt(count, (*(char * *)(&text)));
 
     if (this != 0)
     {

@@ -1,5 +1,15 @@
 // bsshader/bsfogproperty.cpp: BSFogProperty, StandIn (8 functions)
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a5bfa0_shell.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/symbols_00a47000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f5000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01200000.h"
 #include "bsfogproperty_decls.h"
 // @fnv 0x00bb8180
 BSFogProperty::BSFogProperty()
@@ -39,7 +49,6 @@ struct FUN_00a5c240_shell : public NiFogProperty
 __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 extern unsigned char* DAT_0109b244;
-extern int EmptyFS;
 
 struct NiRefObject
 {
@@ -55,46 +64,41 @@ struct NiRefObject
 
 struct NiAVObject
 {
-    void UpdateModelBound();
 };
 
 // @fnv 0x00a5c240
 void FUN_00a5c240_shell::DestroyFogProperty()
 {
     *(void**)this = (void*)&DAT_0109b244;
-    ((NiAVObject*)this)->UpdateModelBound();
+    reinterpret_cast<::FUN_00a5bfa0_shell *>((((NiAVObject*)this)))->ClearExtraData();
 
     NiRefObject* pExtra = *(NiRefObject**)((char*)this + 0xc);
     if (pExtra)
         pExtra->DecRefCount();
 
     char* pString = *(char**)((char*)this + 8);
-    if (pString != (char*)EmptyFS)
+    if (pString != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
     {
         InterlockedDecrement((volatile long*)(pString - 8));
     }
 
-    ((NiRefObject*)this)->NiRefObject::~NiRefObject();
+    reinterpret_cast<class ::FUN_00a5d3d0 *>((((NiRefObject*)this)))->FUN_00a5d3d0::~FUN_00a5d3d0();
 }
 
-extern int g_012007e0;
 
 // @fnv 0x00bb8170
 int* __cdecl FUN_00bb8170()
 {
-    return &g_012007e0;
+    return &(*reinterpret_cast<int *>(&::g_012007e0));
 }
 
-extern char const* const g_012007e0_arg1;
 
 // @fnv 0x00a99f20
 char const* const* __cdecl FUN_00a99f20()
 {
-    return &g_012007e0_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_011f5f34));
 }
 
-void __fastcall DestroyFogProperty(void*);
-void __cdecl _delete(void*, unsigned int);
 struct S00a99f40
 {
     void* DestroyIfFlagged(unsigned int);
@@ -103,19 +107,16 @@ struct S00a99f40
 // @fnv 0x00a99f40
 void* S00a99f40::DestroyIfFlagged(unsigned int auiFlags)
 {
-    DestroyFogProperty(this);
+    reinterpret_cast<::FUN_00a5c240_shell *>((this))->DestroyFogProperty();
     if (auiFlags & 1)
-        _delete(this, 0x2c);
+        ::FUN_00aa1460(this, 0x2c);
     return this;
 }
 
-void __cdecl ReleaseObjectArray(void*);
 extern int DAT_010a1458;
 struct MMStandIn
 {
-    void __thiscall _DeallocateAlias(void*);
 };
-extern MMStandIn g_memoryManager;
 struct StandIn
 {
     void* __thiscall Destroy(unsigned int);
@@ -125,15 +126,14 @@ void* __thiscall StandIn::Destroy(unsigned int auiFlags)
 {
     void* p = *(void**)((char*)this + 4);
     *(void**)this = (void*)&DAT_010a1458;
-    ReleaseObjectArray(p);
+    ::ReleaseObjectArray((::Obj00a47600 **)(p));
     if (auiFlags & 1)
-        g_memoryManager._DeallocateAlias(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MMStandIn *>(&::g_memoryManager))))->FUN_00aa4060(this);
     return this;
 }
 
-void DestroyFogProperty();
 // @fnv 0x00a99f30
 void FUN_00a99f30()
 {
-    DestroyFogProperty();
+    static_cast<::FUN_00a5c240_shell *>(nullptr)->DestroyFogProperty();
 }

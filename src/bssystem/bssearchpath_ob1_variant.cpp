@@ -5,6 +5,9 @@
 
 // src/bssystem/bssearchpath.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bssystem/bssearchpath.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_011f6000.h"
 struct BSSearchPath
 {
     bool FUN_00b013e0(char* apFile);
@@ -63,9 +66,7 @@ struct FUN_00b01d00_shell
 };
 struct S_00b01d20_MemoryManager
 {
-    void Deallocate(void* p);
 };
-extern S_00b01d20_MemoryManager g_00b01d20_MemoryManager;
 struct S_00b01d20_FileCache
 {
     virtual ~S_00b01d20_FileCache();
@@ -83,9 +84,7 @@ int __cdecl FUN_00ec65a6(char* dst, unsigned int size, const char* src);
 
 struct MemMgrSP
 {
-    void* __thiscall Allocate(unsigned int uiSize);
 };
-extern MemMgrSP g_memMgrSP;
 
 struct NiSearchPathSP
 {
@@ -115,7 +114,7 @@ struct BSSearchPathSP : NiSearchPathSP
     int m_1f0, m_1f4, m_1f8, m_1fc, m_200, m_204, m_208, m_20c;
     static void* operator new(unsigned int uiSize)
     {
-        return g_memMgrSP.Allocate(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemMgrSP *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }
 };
 

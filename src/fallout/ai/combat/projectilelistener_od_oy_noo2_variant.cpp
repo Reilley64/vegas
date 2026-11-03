@@ -7,6 +7,33 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <xmmintrin.h>
+#include <new>
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/Class_007f68a0.h"
+#include "fnv/decl/FUN_00439f50_class.h"
+#include "fnv/decl/FUN_0043b4d0_shell.h"
+#include "fnv/decl/FUN_00476c90_Class.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004a0c90_shell.h"
+#include "fnv/decl/FUN_004a3fb0_shell.h"
+#include "fnv/decl/FUN_004a46b0_class.h"
+#include "fnv/decl/FUN_00524ac0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_009c19e0_shell.h"
+#include "fnv/decl/MobileObject.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_004a3da0__FUN_004a3da0_shell.h"
+#include "fnv/decl/fnv_008cdd90__FUN_008cdd90_shell.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_005ac000.h"
+#include "fnv/symbols_006fa000.h"
+#include "fnv/symbols_009c5000.h"
+#include "fnv/symbols_009c6000.h"
+#include "fnv/symbols_01268000.h"
 class hkVector4_9C64
 {
   public:
@@ -19,7 +46,6 @@ class Point9C64
     Point9C64();
     Point9C64 operator+(const Point9C64& kPt) const;
     Point9C64 operator*(float fScalar) const;
-    void Unitize();
     float x, y, z;
 };
 
@@ -27,10 +53,7 @@ class Matrix9C64
 {
   public:
     Matrix9C64();
-    void SetZRotation(float fAngleDifference);
-    void SetXRotation(float fAngleDifference);
     Matrix9C64 operator*(const Matrix9C64& kMat) const;
-    void GetCol(unsigned int uiCol, Point9C64& kCol) const;
     float m00, m01, m02;
     float m10, m11, m12;
     float m20, m21, m22;
@@ -60,8 +83,6 @@ class RayHit9C64
 class RayHitArray9C64
 {
   public:
-    int GetSize();
-    RayHit9C64& GetAt(int i);
     RayHit9C64* m_pUserData;
     int m_uiLogicalSize;
     int m_iCapacityAndFlags;
@@ -80,7 +101,6 @@ class AllRayHits9C64 : public RayHitCollector9C64
   public:
     AllRayHits9C64();
     virtual ~AllRayHits9C64();
-    RayHitArray9C64* GetHits();
     RayHitArray9C64 m_kHits;
 };
 
@@ -88,10 +108,6 @@ class PickData9C64
 {
   public:
     PickData9C64();
-    void SetFrom(const Point9C64& kFrom);
-    void SetTo(const Point9C64& kTo);
-    void SetCollector(AllRayHits9C64* pkCollector);
-    AllRayHits9C64* GetCollector();
     hkVector4_9C64 m_kFrom;
     hkVector4_9C64 m_kTo;
     int m_iEnableShapeCollectionFilter;
@@ -113,8 +129,6 @@ class Filter9C64
 {
   public:
     Filter9C64();
-    int GetLayer();
-    bool IsFlagSet();
     unsigned int m_uiBits;
 };
 
@@ -165,7 +179,6 @@ class WorldObject9C64
 class CollisionObject9C64
 {
   public:
-    WorldObject9C64* GetWorldObject();
 };
 
 class Node9C64;
@@ -292,7 +305,6 @@ class Ref9C64
     virtual void v1c8();
     virtual void v1cc();
     virtual Node9C64* Get3D();
-    ExtraList9C64* GetExtraData();
 };
 
 class Form9C64;
@@ -505,14 +517,11 @@ class Owner9C64
     virtual void v328();
     virtual void Notify(Ref9C64* pkRef, Point9C64* pkPoint, Point9C64* pkNormal, void* pvObject, unsigned int uiData,
                         int iType);
-    float GetLooking() const;
-    Form9C64* GetForm();
 };
 
 class Event9C64
 {
   public:
-    const hkVector4_9C64& GetPosition();
     const hkVector4_9C64& GetPlaneNormal();
     hkVector4_9C64 m_kPathOffset;
     hkVector4_9C64 m_kPlaneNormal;
@@ -535,17 +544,7 @@ class NiRTTI9C64
   public:
     const char* m_pcName;
 };
-extern NiRTTI9C64 g_kRTTI9C64;
 
-Ref9C64* __cdecl GetReferenceFromObject(void* pvObject);
-Point9C64& __cdecl FUN_00458620(Point9C64& kOut, const hkVector4_9C64& kIn);
-Point9C64& __cdecl FUN_004a3970(Point9C64& kOut, const hkVector4_9C64& kIn);
-void* __cdecl FUN_004b5950(const void* pvObject);
-WorldObject9C64* __cdecl FUN_004b5a80(void* pvEntry);
-bool __cdecl FUN_005ac750(void* pvForm, ExtraList9C64* pkExtra, unsigned int uiFlag);
-bool __cdecl FUN_0043b300(NiRTTI9C64* pkRTTI, WorldObject9C64* pkObject);
-CollisionObject9C64* __cdecl FUN_004b5260(Node9C64* pkNode);
-bool __cdecl FUN_009c5ba0(PickData9C64* pkPick, Node9C64* pkNode, bool bCheckMotion, bool bUpdate);
 
 class Listener9C64
 {
@@ -704,31 +703,31 @@ void Listener9C64::FUN_009c6490(void* pvUnused, Event9C64* pkEvent)
     Owner9C64* pkOwner = m_pkOwnerManager;
     if (!pkOwner)
         return;
-    Ref9C64* pkRef = GetReferenceFromObject(pkEvent->m_pvObject);
+    Ref9C64* pkRef = ((::Ref9C64 *)(::GetReferenceFromObject((::NiAVObject *)(pkEvent->m_pvObject))));
     Point9C64 kPoint;
-    FUN_00458620(kPoint, pkEvent->GetPosition());
+    ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kPoint), (const ::hkVector4 &)((*(const ::hkVector4_9C64 *)(new ((void *)(pkEvent)) ::Vec3()))));
     Point9C64 kNormal;
-    FUN_004a3970(kNormal, pkEvent->GetPlaneNormal());
+    ::FUN_004a3970((::NiPoint3_local &)(kNormal), (const ::hkVector4 &)(pkEvent->GetPlaneNormal()));
     void* pvObject = pkEvent->m_pvObject;
     unsigned int uiData = pkEvent->m_uiData;
     void* pvEntry = FUN_004b5950(pvObject);
-    WorldObject9C64* pkWorldObject = pvEntry ? FUN_004b5a80(pvEntry) : 0;
+    WorldObject9C64* pkWorldObject = pvEntry ? ((::WorldObject9C64 *)(::FUN_004b5a80(pvEntry))) : 0;
     if (pkRef && pkWorldObject &&
-        (pkWorldObject->GetFilter().GetLayer() == 0x17 || pkWorldObject->GetFilter().GetLayer() == 0x18))
+        (reinterpret_cast<::FUN_0043b4d0_shell *>((void *)&(const ::Filter9C64 &)(pkWorldObject->GetFilter()))->FUN_0043b4d0() == 0x17 || reinterpret_cast<::FUN_0043b4d0_shell *>((void *)&(const ::Filter9C64 &)(pkWorldObject->GetFilter()))->FUN_0043b4d0() == 0x18))
     {
-        FUN_005ac750(pkOwner, pkRef->GetExtraData(), 0x80);
-        if (pkOwner->GetForm())
-            FUN_005ac750(pkOwner->GetForm(), pkRef->GetExtraData(), 0x100);
+        ::FUN_005ac750((::TESForm *)(pkOwner), (::ExtraDataList *)(::ExtraList9C64 *)(((::ExtraList9C64 *)(reinterpret_cast<::FUN_005d43c0_ *>((pkRef))->FUN_005d43c0()))), 0x80);
+        if (((::Form9C64 *)(reinterpret_cast<::FUN_00476c90_Class *>((pkOwner))->FUN_00476c90())))
+            ::FUN_005ac750((::TESForm *)(void *)(((::Form9C64 *)(reinterpret_cast<::FUN_00476c90_Class *>((pkOwner))->FUN_00476c90()))), (::ExtraDataList *)(::ExtraList9C64 *)(((::ExtraList9C64 *)(reinterpret_cast<::FUN_005d43c0_ *>((pkRef))->FUN_005d43c0()))), 0x100);
         return;
     }
     bool bBlocked = false;
-    if (pkWorldObject && (FUN_0043b300(&g_kRTTI9C64, pkWorldObject) || pkWorldObject->GetFilter().GetLayer() == 0x1e))
+    if (pkWorldObject && (::FUN_0043b300((const ::NiRTTI *)(::NiRTTI9C64 *)(&(*reinterpret_cast<::NiRTTI9C64 *>(&::g_01268444))), (::NiAVObject *)(pkWorldObject)) || reinterpret_cast<::FUN_0043b4d0_shell *>((void *)&(const ::Filter9C64 &)(pkWorldObject->GetFilter()))->FUN_0043b4d0() == 0x1e))
     {
         bBlocked = true;
         Node9C64* pkNode = pkRef ? pkRef->Get3D() : 0;
-        CollisionObject9C64* pkCollision = FUN_004b5260(pkNode);
-        WorldObject9C64* pkRefObject = pkCollision ? pkCollision->GetWorldObject() : 0;
-        if (pkRefObject && (pkRefObject->GetFilter().IsFlagSet() || !pkRefObject->IsFixed()))
+        CollisionObject9C64* pkCollision = ((::CollisionObject9C64 *)(::fnv_004b5260::FUN_004b5260((::NiAVObject *)(pkNode))));
+        WorldObject9C64* pkRefObject = pkCollision ? ((::WorldObject9C64 *)(::fnv_006fa820::FUN_006fa820((const char *)(pkCollision)))) : 0;
+        if (pkRefObject && (reinterpret_cast<::FUN_009c19e0_shell *>((void *)&(const ::Filter9C64 &)(pkRefObject->GetFilter()))->IsFlagSet() || !pkRefObject->IsFixed()))
         {
             PickData9C64 kPick;
             Point9C64 kFrom;
@@ -736,25 +735,25 @@ void Listener9C64::FUN_009c6490(void* pvUnused, Event9C64* pkEvent)
             Point9C64 kForward;
             kFrom = *pkOwner->GetPos();
             Matrix9C64 kRot;
-            kRot.SetZRotation(pkOwner->GetCurrentTargetDistance(0));
+            reinterpret_cast<::FUN_004a0c90_shell *>(&(kRot))->FUN_004a0c90(pkOwner->GetCurrentTargetDistance(0));
             Matrix9C64 kPitch;
-            kPitch.SetXRotation(pkOwner->GetLooking());
+            reinterpret_cast<::FUN_00524ac0_shell *>(&(kPitch))->FUN_00524ac0(reinterpret_cast<::MobileObject *>((void *)(pkOwner))->GetLooking());
             kRot = kRot * kPitch;
-            kRot.GetCol(1, kForward);
-            kForward.Unitize();
+            reinterpret_cast<::FUN_00439f50_class *>((void *)&(kRot))->FUN_00439f50(1, (::NiPoint3 *)&(kForward));
+            reinterpret_cast<::FUN_004a0c10_s *>(&(kForward))->FUN_004a0c10();
             kRay = kForward * 1000.0f;
-            kPick.SetFrom(kFrom);
-            kPick.SetTo(kRay);
+            reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(kPick))->FUN_004a3da0((void *)&(kFrom));
+            reinterpret_cast<::Class_007f68a0 *>(&(kPick))->FUN_007f68a0((const ::NiPoint3 &)(kRay));
             AllRayHits9C64 kHits;
-            kPick.SetCollector(&kHits);
-            bool bHitDetected = FUN_009c5ba0(&kPick, pkNode, false, true);
-            if (bHitDetected && kPick.GetCollector()->GetHits()->GetSize() > 0)
+            reinterpret_cast<::FUN_004a3fb0_shell *>(&(kPick))->FUN_004a3fb0((::hkpAllRayHitCollector *)(::AllRayHits9C64 *)(&kHits));
+            bool bHitDetected = ::FUN_009c5ba0((::World9C *)(::PickData9C64 *)(&kPick), (::NiAVObject9C *)(pkNode), false, true);
+            if (bHitDetected && ((int)(reinterpret_cast<::Callees *>((((::RayHitArray9C64 *)(::FUN_00460140((int)(((::AllRayHits9C64 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(kPick))->FUN_008cdd90()))))))))->FUN_00726070())) > 0)
             {
                 bBlocked = false;
-                RayHit9C64 kHit(kPick.GetCollector()->GetHits()->GetAt(0));
+                RayHit9C64 kHit((*(::RayHit9C64 *)(reinterpret_cast<::FUN_004a46b0_class *>((((::RayHitArray9C64 *)(::FUN_00460140((int)(((::AllRayHits9C64 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(kPick))->FUN_008cdd90()))))))))->GetEntryAt(0))));
                 Point9C64 kIntersectionOffset = kRay * kHit.m_fHitFraction;
                 kPoint = kFrom + kIntersectionOffset;
-                FUN_004a3970(kNormal, kHit.m_kPlaneNormal);
+                ::FUN_004a3970((::NiPoint3_local &)(kNormal), (const ::hkVector4 &)(kHit.m_kPlaneNormal));
                 pvObject = kHit.m_pvRootCollidable;
                 int iShapeKey = -1;
                 for (int i = 0; i < 8 && kHit.m_aiShapeKeys[i] != -1; i++)

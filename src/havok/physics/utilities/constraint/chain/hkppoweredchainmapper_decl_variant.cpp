@@ -5,6 +5,8 @@
 
 // src/havok/physics/utilities/constraint/chain/hkppoweredchainmapper.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/constraint/chain/hkppoweredchainmapper.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
 #include "havok/hkpPoweredChainMapper_decl_hkppoweredchainmapper.h"
 
 class hkpConstraintMotor : public hkReferencedObject
@@ -48,9 +50,9 @@ void hkpPoweredChainMapper::FUN_00e3a440(int linkIndex, int motorIndex, hkpConst
         hkpPoweredChainData* data = target.chainData;
         hkpConstraintMotor* oldMotor = data->infos[target.infoIndex].motors[motorIndex];
         if (oldMotor)
-            oldMotor->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((void *)(oldMotor))->FUN_00c905b0();
         data->infos[target.infoIndex].motors[motorIndex] = motor;
         if (motor)
-            motor->RetainReference();
+            reinterpret_cast<::FUN_00c90510_class *>((void *)(motor))->FUN_00c90510();
     }
 }

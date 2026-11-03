@@ -1,20 +1,46 @@
 // fallout_shared/bgslistform.cpp: BGSListForm, ThisHolder (12 functions)
 
+#include <new>
+#include "fnv/decl/BGSHungerStage.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_004534f0_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FakeForm.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/HungerStageData.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/RefList.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_004280f0__FUN_004280f0_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00865df0__FUN_00865df0_holder.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_005b5000.h"
 #include "bgslistform_decls.h"
 
 // @fnv 0x0058FB00
 void BGSListForm::ClearData()
 {
-    reinterpret_cast<BSSimpleList<ActorCause*>*>(reinterpret_cast<BGSCameraPath*>(this)->GetConditions())->RemoveAll();
+    reinterpret_cast<::FileMatchList *>((reinterpret_cast<BSSimpleList<ActorCause*>*>(reinterpret_cast<BGSCameraPath*>(this)->GetConditions())))->RemoveAll();
     m_uiFormCount = 0;
-}
-
-// @fnv 0x005901C0
-void BGSListForm::Revert(BGSLoadFormBuffer* buffer)
-{
-    TESForm::Revert(buffer);
-    if (buffer->GetOldChangeFlags(0x80000000))
-        ClearFormList();
 }
 
 // @fnv 0x00590010
@@ -22,9 +48,8 @@ void BGSListForm::IncludeForm(TESForm* form)
 {
     if (form != 0)
     {
-        if (!reinterpret_cast<BSSimpleList<BGSQuestObjective*>*>(
-                 reinterpret_cast<BGSCameraPath*>(this)->GetConditions())
-                 ->IsInList(reinterpret_cast<BGSQuestObjective*&>(form)))
+        if (!reinterpret_cast<::RefList *>((reinterpret_cast<BSSimpleList<BGSQuestObjective*>*>(
+                 reinterpret_cast<BGSCameraPath*>(this)->GetConditions())))->FUN_005f65d0((void **)&(reinterpret_cast<BGSQuestObjective*&>(form))))
         {
             reinterpret_cast<BSSimpleList<EffectSetting*>*>(reinterpret_cast<BGSCameraPath*>(this)->GetConditions())
                 ->AddHead(reinterpret_cast<EffectSetting*&>(form));
@@ -37,44 +62,25 @@ void BGSListForm::IncludeForm(TESForm* form)
 // @fnv 0x00591B70
 BGSListForm::BGSListForm()
 {
-    reinterpret_cast<BSSimpleList<TESForm*>*>(reinterpret_cast<unsigned char*>(this) + 0x18)->FUN_004019f0();
-    SetFormType((ENUM_FORM_ID)0x5A);
-    reinterpret_cast<BGSRadiationStage*>(this)->ResetFormData();
-}
-
-// @fnv 0x00590120
-void BGSListForm::LoadGame(BGSLoadFormBuffer* buffer)
-{
-    TESForm::LoadGame(buffer);
-    if (buffer->GetChangeFlags(0x80000000))
-    {
-        if (m_uiFormCount != 0)
-            ClearFormList();
-
-        unsigned int formCount = 0;
-        buffer->ReadTypedData(&formCount, 4);
-        for (unsigned int index = 0; index < formCount; ++index)
-        {
-            TESForm* form = TESForm::GetFormByID(buffer->ReadFormIdentifier());
-            IncludeForm(form);
-        }
-    }
+    new ((void *)(reinterpret_cast<BSSimpleList<TESForm*>*>(reinterpret_cast<unsigned char*>(this) + 0x18))) ::HungerStageData();
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)((ENUM_FORM_ID)0x5A)));
+    reinterpret_cast<::BGSHungerStage *>((reinterpret_cast<BGSRadiationStage*>(this)))->ResetFormData();
 }
 
 // @fnv 0x0058FD40
 bool BGSListForm::Load(TESFile* file)
 {
-    LoadRecordHeader(file);
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
     SetInitializationState(false);
 
     unsigned int chunkID;
-    while ((chunkID = file->GetChunkID()) != 0)
+    while ((chunkID = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()))) != 0)
     {
         switch (chunkID)
         {
         case 0x44494445: {
-            char* editorID = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(editorID, 0x200);
+            char* editorID = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(editorID), 0x200);
             SetEditorID_AtRuntime(editorID);
             break;
         }
@@ -85,8 +91,7 @@ bool BGSListForm::Load(TESFile* file)
             unsigned int formID = 0;
             file->GetChunkData(&formID);
             {
-                reinterpret_cast<BSSimpleList<MediaSet*>*>(reinterpret_cast<BGSCameraPath*>(this)->GetConditions())
-                    ->AddTail((MediaSet*)formID);
+                reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<MediaSet*>*>(reinterpret_cast<BGSCameraPath*>(this)->GetConditions())))->FUN_00905820((void *)&(const ::MediaSet *const &)((MediaSet*)formID));
             }
             break;
         }
@@ -110,24 +115,24 @@ void BGSListForm::InitItem()
     TESForm* form;
     while (current != 0 && !current->IsEmpty())
     {
-        unsigned int formID = (unsigned int)reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(current)->GetItem();
-        RemapFormIDForFile(formID, GetFile(-1));
-        form = GetFormByID(formID);
+        unsigned int formID = (unsigned int)((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(current))) ::Vec3()));
+        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
+        form = ::FUN_004839c0(formID);
         if (form != 0)
         {
             current->SetItem(reinterpret_cast<BGSCameraShot* const&>(form));
             previous = current;
             current = reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(
-                reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(current)->GetNext());
+                ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(current)))->FUN_00726070())));
         }
         else
         {
-            Warning("MASTERFILE: Unable to find form (%08X) on list form %s (%08X).", formID, GetName(), GetFormID());
+            ::FUN_005b5e40();
             if (previous != 0)
             {
-                previous->Remove((BGSCameraShot*)formID);
+                reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)((const ::BGSCameraShot *const &)((BGSCameraShot*)formID)));
                 current = reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(
-                    reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(previous)->GetNext());
+                    ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(previous)))->FUN_00726070())));
             }
             else
             {
@@ -138,22 +143,10 @@ void BGSListForm::InitItem()
     SetInitializationState(true);
 }
 
-void _Deallocate(void*);
 struct FUN_0058fa60_shell
 {
-    void FUN_0058fa90();
     void* DestroyIfFlagged(unsigned int);
 };
-// Calls FUN_0058fa90, frees this when flags has bit 0 set, and returns this.
-// @fnv 0x0058fa60
-void* FUN_0058fa60_shell::DestroyIfFlagged(unsigned int flags)
-{
-    FUN_0058fa90();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct CallTarget_0063f7b0
 {
     void _ref_0063f7b0();
@@ -162,6 +155,31 @@ struct ThisHolder
 {
     void FUN_0058ffd0();
 };
+// @fnv 0x005901C0
+void BGSListForm::Revert(BGSLoadFormBuffer* buffer)
+{
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)(buffer));
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0())
+        reinterpret_cast<::ThisHolder *>(this)->FUN_0058ffd0();
+}
+// @fnv 0x00590120
+void BGSListForm::LoadGame(BGSLoadFormBuffer* buffer)
+{
+    reinterpret_cast<::TESForm *>(this)->LoadGame(buffer);
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
+    {
+        if (m_uiFormCount != 0)
+            reinterpret_cast<::ThisHolder *>(this)->FUN_0058ffd0();
+
+        unsigned int formCount = 0;
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&formCount), 4);
+        for (unsigned int index = 0; index < formCount; ++index)
+        {
+            TESForm* form = ::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((buffer))->FUN_008648a0());
+            IncludeForm(form);
+        }
+    }
+}
 // @fnv 0x0058ffd0
 void ThisHolder::FUN_0058ffd0()
 {
@@ -174,16 +192,12 @@ void ThisHolder::FUN_0058ffd0()
 
 struct FUN_004855a0
 {
-    void M();
 };
 struct FUN_00485680
 {
-    void M();
 };
-void _FUN_00485910(unsigned int, unsigned int);
 struct _ref_006815c0_shell
 {
-    TESForm** _ref_006815c0();
 };
 struct _ref_008256d0_shell
 {
@@ -191,7 +205,6 @@ struct _ref_008256d0_shell
 };
 struct _ref_00726070_shell
 {
-    PerkEntryConditionSet* _ref_00726070();
 };
 struct FUN_0058fcc0_shell
 {
@@ -200,16 +213,16 @@ struct FUN_0058fcc0_shell
 // @fnv 0x0058fcc0
 void FUN_0058fcc0_shell::FUN_0058fcc0()
 {
-    ((FUN_004855a0*)this)->M();
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
     PerkEntryConditionSet* pCondition = ((BGSCameraPath*)this)->GetConditions();
     while (pCondition && !(((_ref_008256d0_shell*)pCondition)->_ref_008256d0()))
     {
-        TESForm* pForm = *((_ref_006815c0_shell*)pCondition)->_ref_006815c0();
-        unsigned int formID6 = pForm->GetFormID();
-        _FUN_00485910(0x4d414e4c, formID6);
-        pCondition = ((_ref_00726070_shell*)pCondition)->_ref_00726070();
+        TESForm* pForm = *((::TESForm **)(new ((void *)(((_ref_006815c0_shell*)pCondition))) ::Vec3()));
+        unsigned int formID6 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pForm))->FUN_0084e3a0()));
+        ::FUN_00485910(0x4d414e4c, formID6);
+        pCondition = ((::PerkEntryConditionSet *)(reinterpret_cast<::Callees *>((((_ref_00726070_shell*)pCondition)))->FUN_00726070()));
     }
-    ((FUN_00485680*)this)->M();
+    reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
 }
 
 struct BSSimpleListTESRaceSize
@@ -222,15 +235,12 @@ struct _ref_008256d0_shell2
 };
 struct _ref_006815c0_shell2
 {
-    TESForm** FUN_006815c0();
 };
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
 };
 struct BSSimpleListGetNext
 {
-    BSSimpleList<TESForm*>* GetNext();
 };
 struct FUN_0058fbc0_shell : BGSCameraPath
 {
@@ -251,23 +261,21 @@ bool FUN_0058fbc0_shell::IsNotEqual(TESForm* apCompare)
     while (pCurrentElementNext && !((_ref_008256d0_shell2*)pCurrentElementNext)->FUN_008256d0() && pcomplist &&
            !((_ref_008256d0_shell2*)pcomplist)->FUN_008256d0())
     {
-        if (*((_ref_006815c0_shell2*)pCurrentElementNext)->FUN_006815c0() != *((_ref_006815c0_shell2*)pcomplist)->FUN_006815c0())
+        if (*((::TESForm **)(new ((void *)(((_ref_006815c0_shell2*)pCurrentElementNext))) ::Vec3())) != *((::TESForm **)(new ((void *)(((_ref_006815c0_shell2*)pcomplist))) ::Vec3())))
             return true;
-        pCurrentElementNext = ((BSSimpleListGetNext*)pCurrentElementNext)->GetNext();
-        pcomplist = ((BSSimpleListGetNext*)pcomplist)->GetNext();
+        pCurrentElementNext = ((::BSSimpleList< ::TESForm *> *)(reinterpret_cast<::Callees *>((((BSSimpleListGetNext*)pCurrentElementNext)))->FUN_00726070()));
+        pcomplist = ((::BSSimpleList< ::TESForm *> *)(reinterpret_cast<::Callees *>((((BSSimpleListGetNext*)pcomplist)))->FUN_00726070()));
     }
-    if (((FUN_005e79a0_t*)this)->FUN_00485270(pcompare))
+    if (reinterpret_cast<::FUN_00509540_obj *>((((FUN_005e79a0_t*)this)))->FUN_00485270(pcompare))
         return true;
     return false;
 }
 
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
 };
 struct SoundListView
 {
-    void AddTail(char* const&);
 };
 struct FUN_0058fb30_shell : BGSCameraPath
 {
@@ -284,11 +292,11 @@ void FUN_0058fb30_shell::CopyConditionsFromListForm(TESForm* apCopy)
         reinterpret_cast<BSSimpleList<TESForm*>*>(reinterpret_cast<BGSCameraPath*>(pListForm)->GetConditions());
     while (pCurrentElementNext && !reinterpret_cast<_ref_008256d0_shell2*>(pCurrentElementNext)->FUN_008256d0())
     {
-        TESForm* pform = reinterpret_cast<_ref_006815c0_shell2*>(pCurrentElementNext)->FUN_006815c0()[0];
-        reinterpret_cast<SoundListView*>(GetConditions())->AddTail(reinterpret_cast<char* const&>(pform));
-        pCurrentElementNext = reinterpret_cast<BSSimpleList<TESForm*>*>(reinterpret_cast<BSSimpleListGetNext*>(pCurrentElementNext)->GetNext());
+        TESForm* pform = ((::TESForm **)(new ((void *)(reinterpret_cast<_ref_006815c0_shell2*>(pCurrentElementNext))) ::Vec3()))[0];
+        reinterpret_cast<::Callees *>((reinterpret_cast<SoundListView*>(GetConditions())))->FUN_00905820((void *)&(reinterpret_cast<char* const&>(pform)));
+        pCurrentElementNext = reinterpret_cast<BSSimpleList<TESForm*>*>(((::BSSimpleList< ::TESForm *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleListGetNext*>(pCurrentElementNext)))->FUN_00726070())));
     }
-    reinterpret_cast<FUN_005e78f0_t*>(this)->FUN_004851b0(reinterpret_cast<TESForm*>(pListForm));
+    reinterpret_cast<::FormCloneOperation *>((reinterpret_cast<FUN_005e78f0_t*>(this)))->FUN_004851b0(reinterpret_cast<TESForm*>(pListForm));
 }
 
 struct FUN_0058ff60_shell : BGSCameraPath
@@ -303,10 +311,10 @@ int FUN_0058ff60_shell::GetConditionIndex(TESForm* apForm)
     BSSimpleList<TESForm*>* pCurrentElementNext = reinterpret_cast<BSSimpleList<TESForm*>*>(GetConditions());
     while (pCurrentElementNext && !reinterpret_cast<_ref_008256d0_shell*>(pCurrentElementNext)->_ref_008256d0())
     {
-        if (reinterpret_cast<_ref_006815c0_shell*>(pCurrentElementNext)->_ref_006815c0()[0] == apForm)
+        if (((::TESForm **)(new ((void *)(reinterpret_cast<_ref_006815c0_shell*>(pCurrentElementNext))) ::Vec3()))[0] == apForm)
             break;
         iElementIndex++;
-        pCurrentElementNext = reinterpret_cast<BSSimpleList<TESForm*>*>(reinterpret_cast<BSSimpleListGetNext*>(pCurrentElementNext)->GetNext());
+        pCurrentElementNext = reinterpret_cast<BSSimpleList<TESForm*>*>(((::BSSimpleList< ::TESForm *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleListGetNext*>(pCurrentElementNext)))->FUN_00726070())));
     }
     if (!pCurrentElementNext)
         iElementIndex = -1;
@@ -315,15 +323,12 @@ int FUN_0058ff60_shell::GetConditionIndex(TESForm* apForm)
 
 struct BGSSaveFormBuffer
 {
-    void SaveData(void* buffer, int size, int flags);
 };
 struct SaveFormIDHelper
 {
-    void SerializeFormData(void* buffer, int formID);
 };
 struct FUN_00484d60_holder
 {
-    void SaveIfChanged(unsigned int formID);
 };
 struct FUN_00590080_shell : public BGSListForm
 {
@@ -333,17 +338,17 @@ struct FUN_00590080_shell : public BGSListForm
 // @fnv 0x00590080
 void FUN_00590080_shell::SaveFormList(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    reinterpret_cast<FUN_00484d60_holder*>(this)->SaveIfChanged(reinterpret_cast<unsigned int>(apSaveGameBuffer));
-    if (reinterpret_cast<BGSLoadFormBuffer*>(apSaveGameBuffer)->GetChangeFlags(0x80000000))
+    reinterpret_cast<::FakeForm *>((reinterpret_cast<FUN_00484d60_holder*>(this)))->SaveIfChanged((::BGSSaveFormBuffer *)(reinterpret_cast<unsigned int>(apSaveGameBuffer)));
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(reinterpret_cast<BGSLoadFormBuffer*>(apSaveGameBuffer)->GetChangeFlags(0x80000000)))->FUN_004280f0())
     {
         BSSimpleList<TESForm*>* pCurrentElementNext =
             reinterpret_cast<BSSimpleList<TESForm*>*>(reinterpret_cast<unsigned char*>(this) + 0x18);
-        apSaveGameBuffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(this) + 0x20), 4, 0);
+        reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(this) + 0x20), 4, 0);
         for (unsigned int i = 0; i < m_uiFormCount; ++i)
         {
-            TESForm* pform = reinterpret_cast<_ref_006815c0_shell*>(pCurrentElementNext)->_ref_006815c0()[0];
-            pCurrentElementNext = reinterpret_cast<BSSimpleListGetNext*>(pCurrentElementNext)->GetNext();
-            reinterpret_cast<SaveFormIDHelper*>(apSaveGameBuffer)->SerializeFormData(pform, 0);
+            TESForm* pform = ((::TESForm **)(new ((void *)(reinterpret_cast<_ref_006815c0_shell*>(pCurrentElementNext))) ::Vec3()))[0];
+            pCurrentElementNext = ((::BSSimpleList< ::TESForm *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleListGetNext*>(pCurrentElementNext)))->FUN_00726070()));
+            reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((reinterpret_cast<SaveFormIDHelper*>(apSaveGameBuffer)))->FUN_00865df0((::fnv_00865df0::TESForm *)(pform), 0);
         }
     }
 }
@@ -375,16 +380,14 @@ class FUN_0058f9d0 : public FUN_0058f9d0_base
     int m_20;
     FUN_0058f9d0();
     virtual ~FUN_0058f9d0();
-    void Unk_a();
-    void Unk_b(int v);
 };
 
 // Initializes the object by calling Unk_a, calling Unk_b with 0x55, and setting m_20 to 0.
 // @fnv 0x0058f9d0
 FUN_0058f9d0::FUN_0058f9d0()
 {
-    Unk_a();
-    Unk_b(0x55);
+    reinterpret_cast<::TESForm *>(this)->ClearData();
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0(0x55);
     m_20 = 0;
 }
 
@@ -416,13 +419,21 @@ class FUN_0058fa90_cls : public Base_58fa90
     Member_58fa90 m_18;
 
     virtual ~FUN_0058fa90_cls();
-    void Body();
 };
+// Calls FUN_0058fa90, frees this when flags has bit 0 set, and returns this.
+// @fnv 0x0058fa60
+void* FUN_0058fa60_shell::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0058fa90_cls *>(this)->FUN_0058fa90_cls::~FUN_0058fa90_cls();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x0058fa90
 FUN_0058fa90_cls::~FUN_0058fa90_cls()
 {
-    Body();
+    reinterpret_cast<::BGSListForm *>(this)->ClearData();
 }
 
 class Base_5effc0
@@ -456,13 +467,12 @@ class FUN_005effc0 : public Base_5effc0
     Member_5effc0 m_1c;
 
     FUN_005effc0();
-    void Method_5effc0(int aValue);
 };
 
 // Initializes the object by calling Method_5effc0 with 0x5d and setting m_18 to 0.
 // @fnv 0x005effc0
 FUN_005effc0::FUN_005effc0()
 {
-    Method_5effc0(0x5d);
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0(0x5d);
     m_18 = 0;
 }

@@ -2,6 +2,12 @@
 #ifndef FNV_MOBILEOBJECT_H
 #define FNV_MOBILEOBJECT_H
 
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_009344a0_shell.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/symbols_00574000.h"
 #include "layout_support.h"
 #include "TESObjectREFR.h"
 class BGSLoadFormBuffer;
@@ -9,6 +15,7 @@ class SoundPlaybackHandle;
 class TESPackage;
 class bhkCharacterController;
 #pragma pack(push, 4)
+class GlobalObject_008c71b0;
 class MobileObject : public TESObjectREFR
 {
   public:
@@ -78,7 +85,6 @@ class MobileObject : public TESObjectREFR
     virtual void Unk_BE(void);
     virtual void Unk_BF(void);
     virtual void Unk_C0(void);
-    bool HasSaidTopicInfo(TESTopicInfo* info);
     void Revert(BGSLoadFormBuffer* buffer);
     bhkCharacterController* GetPhysicsCharacterController();
     bool IsActorDead();
@@ -90,13 +96,11 @@ class MobileObject : public TESObjectREFR
     void ProcessAnimation();
     TESPackage* GetCurrentPackage() const;
     bool IsCombatStateActive() const;
-    void SetChaseMode(bool chase);
-    bool IsTalkingActivator() const;
-    BaseProcess* GetCurrentAIProcess() const;
     PROCESS_TYPE GetProcessTier() const;
     PROCESS_TYPE GetCurrentProcessLevel();
-    float GetActorHeight() const;
     const char* GetFullName();
+public:
+    ::GlobalObject_008c71b0 GetVectorElement();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(MobileObject) == 0x88);

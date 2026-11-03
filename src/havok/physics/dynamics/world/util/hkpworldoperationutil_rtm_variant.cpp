@@ -4,14 +4,68 @@
 
 // src/havok/physics/dynamics/world/util/hkpworldoperationutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/hkpworldoperationutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/C67F20List.h"
+#include "fnv/decl/CallRet.h"
+#include "fnv/decl/ContainerD082.h"
+#include "fnv/decl/CpuObject.h"
+#include "fnv/decl/Dispatcher.h"
+#include "fnv/decl/DispatcherCF7080.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00c86660_cls.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00c91120.h"
+#include "fnv/decl/FUN_00c91140_Class.h"
+#include "fnv/decl/FUN_00c911f0_Class.h"
+#include "fnv/decl/FUN_00c91230_World.h"
+#include "fnv/decl/FUN_00c9c860_Shell.h"
+#include "fnv/decl/FUN_00d07180_s.h"
+#include "fnv/decl/FUN_00d07830.h"
+#include "fnv/decl/FUN_00d081e0_cls.h"
+#include "fnv/decl/FUN_00d08210_Collidable.h"
+#include "fnv/decl/FUN_00d1dff0.h"
+#include "fnv/decl/FUN_00d27f70.h"
+#include "fnv/decl/FUN_00d9ec10_cls.h"
+#include "fnv/decl/FlagState.h"
+#include "fnv/decl/IndexRemapper.h"
+#include "fnv/decl/MotionMassView.h"
+#include "fnv/decl/ProjectileListener.h"
+#include "fnv/decl/S00d281b0_Target.h"
+#include "fnv/decl/S_00d071b0.h"
+#include "fnv/decl/S_00d074c0_Island.h"
+#include "fnv/decl/WorldWithPending.h"
+#include "fnv/decl/fnv_00d282c0__IndexRemap.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpEntityC9C0.h"
+#include "fnv/symbols_00c91000.h"
+#include "fnv/symbols_00ca8000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00cb3000.h"
+#include "fnv/symbols_00cb4000.h"
+#include "fnv/symbols_00cb5000.h"
+#include "fnv/symbols_00cb6000.h"
+#include "fnv/symbols_00cc0000.h"
+#include "fnv/symbols_00cf1000.h"
+#include "fnv/symbols_00cf7000.h"
+#include "fnv/symbols_00cf9000.h"
+#include "fnv/symbols_00cfe000.h"
+#include "fnv/symbols_00cff000.h"
+#include "fnv/symbols_00d00000.h"
+#include "fnv/symbols_00d01000.h"
+#include "fnv/symbols_00d07000.h"
+#include "fnv/symbols_00d1a000.h"
+#include "fnv/symbols_00d27000.h"
+#include "fnv/symbols_00d28000.h"
+#include "fnv/symbols_00dd7000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_010c7000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01272000.h"
 struct FUN_00cb7460_class
 {
     int __thiscall FUN_00cb7460(int value);
 };
-void ClearSlotReference(int* thisPtr, int* p);
-void FUN_00d27ac0(int first, int second);
-void FUN_00d00960(int first, int second);
-void FUN_00cb3c80(int first, int second);
 struct FUN_00cb3ca0_object
 {
     int unk00;
@@ -59,12 +113,7 @@ struct FUN_00cb3ca0_object
     unsigned char unk9f;
     int unkA0;
     int unkA4;
-    void __thiscall FUN_00c91120();
-    void __thiscall FUN_00c91140();
 };
-void __cdecl FUN_00d27ac0(FUN_00cb3ca0_object* object, int* value);
-void __cdecl FUN_00d00960(FUN_00cb3ca0_object* object, int* value);
-int* __cdecl FUN_00cb3ca0(FUN_00cb3ca0_object* object, int* value, int shouldNotify);
 struct S_00cb3da0_Ctx
 {
     int unk0;
@@ -150,9 +199,6 @@ struct S_00cb3da0_Ctx
     int unk140;
     int unk144;
 };
-void NotifyTargets(S_00cb3da0_Ctx* ctx, void* p);
-void DetachRecord(void* p);
-void FUN_00cb3da0(S_00cb3da0_Ctx* ctx, void* p);
 struct CB3DD0Collidable
 {
     int unk00;
@@ -261,8 +307,6 @@ struct CB3DD0World
     int unk140;
     void* m_kListener;
 
-    void ExecutePendingOperations();
-    void ExecutePendingOperationQueues();
 
     void lockCriticalOperations()
     {
@@ -275,17 +319,13 @@ struct CB3DD0World
         if (m_bBlockExecutingPendingOperations)
             return;
         if (m_iPendingOperationCount)
-            ExecutePendingOperations();
+            reinterpret_cast<::FUN_00c91120 *>(this)->ExecutePendingOperations();
         if (m_iPendingOperationQueueCount == 1 && m_iQueuedOperationCount)
-            ExecutePendingOperationQueues();
+            reinterpret_cast<::FUN_00c91140_Class *>(this)->FUN_00c91140();
     }
 };
-void __cdecl NotifyTargets(CB3DD0World* world, CB3DD0Entity* entity);
-void __cdecl DetachRecord(CB3DD0Entity* entity);
-void __cdecl FUN_00cb3dd0(CB3DD0World* world, CB3DD0Entity* entity, int fireCallbacks);
 struct FUN_00d070b0_class
 {
-    void FUN_00d070b0();
 };
 struct CleanupList
 {
@@ -314,7 +354,6 @@ struct Agent
     unsigned short m_20;
     char pad1[0x4c - 0x22];
     int m_4c;
-    __declspec(nothrow) void RemoveItem(Obj* o);
 };
 struct Obj
 {
@@ -325,8 +364,6 @@ struct Obj
     char pad2[3];
     Agent* m_cc;
 };
-__declspec(nothrow) void __cdecl RemoveListItem(Obj* o, Agent* a);
-void __cdecl FUN_00cb4740(Obj* ctx, Obj* o);
 struct S_00cb5d00_Heap
 {
     virtual void unk00();
@@ -425,7 +462,6 @@ struct S_00cb5d00_Source
 };
 struct S_00cb5d00_Sink
 {
-    void DispatchPairs(S_00cb5d00_Elem* data, int n) throw();
 };
 struct S_00cb5d00_Owner
 {
@@ -650,7 +686,6 @@ struct S_00cb5d00_Query
     int unk20;
     int unk24;
 };
-void FUN_00cb5d00(S_00cb5d00_Owner* owner, S_00cb5d00_Query* query);
 struct Object
 {
     int unk00;
@@ -705,8 +740,6 @@ struct Object
     int unkC4;
     unsigned char enabled;
 };
-extern void __cdecl PropagateStateToChildren(Object*, int*);
-void __cdecl FUN_00cb6f30(Object* object);
 struct Box
 {
     char pad[0x14];
@@ -741,7 +774,6 @@ class S_00dd7d00_Bool
 };
 struct S_00dd7d00_Item;
 typedef S_00dd7d00_Bool(__cdecl* S_00dd7d00_Less)(S_00dd7d00_Item* a, S_00dd7d00_Item* b);
-void FUN_00dd7d00(S_00dd7d00_Item** apItems, int aiLow, int aiHigh, S_00dd7d00_Less apfnLess);
 struct S_00c6aca0_Tls
 {
     int unk000;
@@ -925,12 +957,12 @@ struct S_00c6aca0_Ctx
     int saved;
     __forceinline S_00c6aca0_Ctx(int c)
     {
-        saved = DAT_tls.ctx;
-        DAT_tls.ctx = c;
+        saved = (*reinterpret_cast<::S_00c6aca0_Tls *>(&::g_tlsBlock)).ctx;
+        (*reinterpret_cast<::S_00c6aca0_Tls *>(&::g_tlsBlock)).ctx = c;
     }
     __forceinline ~S_00c6aca0_Ctx()
     {
-        DAT_tls.ctx = saved;
+        (*reinterpret_cast<::S_00c6aca0_Tls *>(&::g_tlsBlock)).ctx = saved;
     }
 };
 struct S_00c6aca0_Heap
@@ -1010,17 +1042,12 @@ struct S_00c6aca0_Cont
     int unk08;
     int unk0c;
     ~S_00c6aca0_Cont();
-    void FUN_00c67f20();
 };
 struct S_00c6aca0_Mm
 {
-    void FUN_00aa4060(int p);
 };
-extern S_00c6aca0_Mm DAT_011f6238;
-extern int DAT_012677a4;
 struct S_00c6aca0_Ref
 {
-    void FUN_00c905b0();
 };
 struct S_00c6aca0_Base
 {
@@ -1028,7 +1055,6 @@ struct S_00c6aca0_Base
     int unk08;
     int unk0c;
     virtual ~S_00c6aca0_Base();
-    void FUN_00c876a0();
     virtual void vfn_04();
     virtual void vfn_08();
     virtual void vfn_0c();
@@ -1235,7 +1261,6 @@ struct ObjA
     int unk8C;
     int unk90;
     int m_94;
-    void FUN_00c91160(void* p);
 };
 struct ObjB
 {
@@ -1298,8 +1323,6 @@ struct FUN_00cb5570_arg
     ObjB* owner;
     ObjB* other;
 };
-void __cdecl FUN_00cb4c60(ObjA* a1, int a2, int a3);
-void __cdecl FUN_00cb5570(ObjA* apObjA, ObjB* apOwner, ObjB* apOther);
 // Stand-in model for the objects the original touches.
 // The polymorphic target: vtable slots 0x10 / 0x1c / 0x20 are used.
 struct VObj
@@ -1317,7 +1340,6 @@ struct VObj
 // The object at [owner + 0x64] - its member at 0xcf70f0 pops its own arguments.
 struct Coll
 {
-    void __thiscall add(void* p, int n);
 };
 // The four-word record that is handed to v1c by address.
 struct Slot
@@ -1563,7 +1585,6 @@ struct Owner
 };
 // The thread local accessor at 0xc85750.
 void* __cdecl tlsSlot_cb5c10();
-void __cdecl FUN_00cb5c10(Owner* pOwner, Evt* pEvent);
 struct FUN_00cb7480_node
 {
     int unk00;
@@ -1863,12 +1884,7 @@ struct S00cb5310_Owner
     int unk1CC;
     float m_1d0;
 };
-extern int DAT_01267e30;
 void ResizeAudioStream(void* alloc, S00cb5310_List* list, int n);
-bool FUN_00d28560(float* p, S00cb5310_Piece** arr, int n, int size);
-void UpdateRotationInterpolation(float f, void* p);
-void FUN_00d011b0(S00cb5310_Owner* a1, S00cb5310_Node* a2);
-void __cdecl FUN_00cb5310(S00cb5310_Owner* a1, S00cb5310_Node* a2);
 struct Cb5750_Deferred
 {
     unsigned char tag;
@@ -1990,12 +2006,8 @@ struct Cb5750_Source
 };
 struct Cb5750_Sink
 {
-    void addSecond(S_00cb5d00_Elem* data, int n) throw();
-    void addFirst(S_00cb5d00_Elem* data, int n, void* extra) throw();
 };
 S_00c6aca0_Router* Cb5750_router() throw();
-void __cdecl Cb5750_merge(Cb5750_Array<S_00cb5d00_Elem>* a, Cb5750_Array<S_00cb5d00_Elem>* b) throw();
-void __cdecl Cb5750_invalid(void* world, Cb5750_Param** pp, int count) throw();
 struct Cb5750_Owner
 {
     int unk00;
@@ -2209,9 +2221,6 @@ struct Cb5750_Owner
     int unk334;
     int unk338;
 
-    void defer(Cb5750_Deferred* d) throw();
-    void flush8c() throw();
-    void flush90() throw();
     void __cdecl AddCollisionShape(Cb5750_Param* param) throw();
 };
 struct Item_cb3d10
@@ -2560,8 +2569,6 @@ struct hkpSimulationIsland
     hkArrayNative<hkpEntity*> entities;
     int unk54;
     int unk58;
-    void FUN_00d07120();
-    void MergeFrom(hkpSimulationIsland*);
 };
 struct hkpWorld
 {
@@ -2601,15 +2608,9 @@ struct hkpWorld
     unsigned char flag9c, unk9d, unk9e, unk9f;
     int unka0;
     int unka4;
-    void FUN_00c910a0(hkpSimulationIsland*);
-    void FUN_00c91120();
-    void FUN_00c91140();
 };
-void __cdecl FUN_00cb5100(hkpWorld*, hkpSimulationIsland*, hkBool);
-void __cdecl FUN_00cff290(void*, void*);
 void __cdecl FUN_00c908c0(void*, void*, int, int);
 void __cdecl ResizeAudioStream(void*, void*, int);
-void __cdecl ClearSlotReference(hkpWorld*, hkpSimulationIsland*);
 static inline int GrowCap(int cap, int need)
 {
     int nc = cap * 2;
@@ -2617,7 +2618,6 @@ static inline int GrowCap(int cap, int need)
         nc = need;
     return nc;
 }
-void __cdecl FUN_00cb4c60(hkpWorld* a1, hkpSimulationIsland* P, hkpSimulationIsland* Q);
 struct IslandList
 {
     struct IslandNode** items;
@@ -2651,9 +2651,6 @@ struct IslandNode
     IslandList first;
     IslandList second;
 };
-void __cdecl FUN_00cb6060(IslandNode* data, Object* object, IslandList* list, int value);
-void __cdecl AddItemToContainer(Object* object, IslandNode* item);
-void __cdecl PropagateStateToChildren(Object* object, int* data);
 #include <windows.h>
 struct Cb4890_Elem
 {
@@ -2968,7 +2965,6 @@ struct Cb4890_RemapTable
 {
     Cb4890_IntArray* m_entries;
     int m_iElementCount;
-    void RemapAndAccumulate(Cb4890_LocalBuffer<int>& map, int count, Cb4890_IntArray* src) throw();
 };
 template <class T> __forceinline T Cb4890_max2(T a, T b)
 {
@@ -3079,8 +3075,6 @@ struct S00cb5100_Ent
     };
     unsigned short unkee;
     int unkf0;
-    void FUN_00c90510();
-    void FUN_00c905b0();
     void setFilter(int a0, int a1, int a2)
     {
         if ((unsigned int)(a2 & 3) < (unsigned int)(be9 & 3))
@@ -3139,8 +3133,6 @@ struct S00cb5100_Arr
         ++m_iElementCount;
     }
 };
-void FUN_00cf1480(float a, float b, void* p);
-void ProcessBlocks(S00cb5100_Body* b, float f, float g, int h);
 struct S00cb5100_World
 {
     int unk00;
@@ -3343,7 +3335,6 @@ struct S00cb5100_World
         S00cb5100_Bits bits307;
     };
 };
-void ProcessSceneCallbacks(S00cb5100_World* w, S00cb5100_Body* b);
 static __declspec(noinline) S00cb5100_Body* FindItemForThreshold(S00cb5100_World* w, S00cb5100_Arr* arr, int n,
                                                                  S00cb5100_Body* b)
 {
@@ -3355,9 +3346,7 @@ static inline bool S00cb5100_lt(unsigned char a, unsigned char b)
 {
     return a < b;
 }
-void FUN_00cb5100(S00cb5100_World* w, S00cb5100_Body* b, bool merge);
 #include <xmmintrin.h>
-extern float DAT_01017d00;
 __forceinline int c6a870Equals3(const __m128& a, const __m128& b, float eps = 0.001f)
 {
     static __declspec(align(16)) const unsigned int mask[4] = {0x7fffffff, 0x7fffffff, 0x7fffffff, 0x7fffffff};
@@ -3492,8 +3481,6 @@ struct C6A870_World
     int f020, f024;
     C6A870_Array<C6A870_Item*> m_items;
 };
-void __cdecl FUN_00cb55d0(C6A870_World* world);
-void __cdecl AddItemToContainer(C6A870_World* world, C6A870_Item* item);
 struct C6A870_Self;
 typedef C6A870_World*(__thiscall* C6A870_Query)(C6A870_Self*);
 struct C6A870_QueryTable
@@ -3739,8 +3726,6 @@ struct Inner;
 struct CallA
 {
     signed char delta;
-    void UpdateCollisionIndices();
-    void CopyAndSortGeometryList(void* p);
 };
 struct Mgr2
 {
@@ -4031,25 +4016,13 @@ typedef void(__thiscall* FnFree)(void* self, void* p, int bytes);
 typedef void(__thiscall* Fn20)(void* self, void* p, int a, void* b, int c);
 struct RemRef
 {
-    void FUN_00c905b0();
 };
 struct CallB
 {
-    void UpdateNodeSlotIndices();
-    void FUN_00c90510();
 };
 struct CallInner
 {
-    void FUN_00c946e0(void* p, void* q, int a);
-    void FUN_00c91120();
-    void FUN_00c91140();
 };
-void FUN_00cf9c60(void* p, int a, void* b);
-void FUN_00cb5000(MotionObj* a0, void* b);
-void CollectActorEntries(Inner* s, MotionObj* a0, void* a);
-void CollectProducers(Inner* s, MotionObj* a0, void* a);
-void FUN_00cb4740(Inner* s, MotionObj* a0);
-void FUN_00cb3ca0(Inner* s, void* e, int z);
 struct ModeBool
 {
     bool value;
@@ -4072,14 +4045,7 @@ struct ModeBool
         return test();
     }
 };
-void FUN_00cb4230(MotionObj* a0, int mode, ModeBool fMode, ModeBool fCur, Inner* s);
-void FUN_00cb4640(Inner* s, int a5, int a7);
-void ApplyConstraintsToEntity(Inner* s, int a8, void* p);
 void FUN_00cb3ee0(void* m, MotionObj* a3, void* w, int mode);
-void FUN_00cff290(void* m, void* w);
-void FUN_00cb5570(Inner* in, MotionObj* a0, MotionObj* e);
-void UpdateRotationInterpolation(float f, void* p);
-void NotifyEntityRemoved(void* p, MotionObj* a3);
 struct VecB
 {
     void* data;
@@ -4135,7 +4101,6 @@ static __forceinline void FreeVec(void** dataP, int* sizeP, int* capP, int elem)
     *dataP = 0;
     *capP = (int)0x80000000;
 }
-void FUN_00cb6f70(MotionObj* a0, int mode, int a2, MotionObj* a3, int a4, int a5, int a6, int a7, int a8);
 struct S00cb4230_Vec4
 {
     float& operator()(int a)
@@ -4196,7 +4161,6 @@ struct S00cb4230_Swept
     S00cb4230_Quat m_qRotation1;
     S00cb4230_Vec4 m_vCenterOfMassLocal;
 };
-extern float DAT_010c7948[];
 struct S00cb4230_UFloat8
 {
     S00cb4230_UFloat8()
@@ -4227,7 +4191,6 @@ struct S00cb4230_MotionStateData
     {
         return m_kSweptTransform;
     }
-    void FUN_00c86660(void* p);
     S00cb4230_Transform m_kMotionTransform;
     S00cb4230_Swept m_kSweptTransform;
     S00cb4230_Vec4 m_kDeltaAngle;
@@ -4407,11 +4370,7 @@ struct MotionBase : RefHeader31
     MotionState* m_118;
     short m_11c;
     S00cb4230_Half m_fGravityFactor;
-    void FUN_00c905b0();
-    void FUN_00d1dff0();
-    void SetFlagBits(int a, int b, int c);
     void FUN_00c86610(MotionBase* p);
-    float FUN_00c86430();
     __forceinline static void* operator new(unsigned int nbytes)
     {
         S_00c6aca0_Heap& h = FUN_00c85750()->heap();
@@ -4590,7 +4549,6 @@ struct ThisObj
     {
         getCollidableRw()->getBroadPhaseHandle()->m_ucObjectQualityType = char(type);
     }
-    void UpdateBoundingVolume(void* a, const void* b);
 };
 struct Node4
 {
@@ -4791,18 +4749,11 @@ struct Node4
     char m_305;
     char m_306;
     char m_307;
-    float FUN_00c91020();
 };
-void __cdecl FUN_00cb1280(void* p, int a, int b);
 template <typename T> __forceinline T* __cdecl S00cb4230_AddByteOffset(T* base, long offset)
 {
     return reinterpret_cast<T*>(reinterpret_cast<char*>(base) + offset);
 }
-void __cdecl FUN_00ca8240(int mode, const S00cb4230_Vec4* p40, const S00cb4230_Quat* p80, float fret,
-                          const InertiaTensor* out, const S00cb4230_Vec4* p90, float f0, float f1, MotionBase* motion);
-void __cdecl UpdateRotationInterpolation(float f, S00cb4230_MotionStateData* p);
-void __cdecl FUN_00cb4230(ThisObj* self, S00cb4230_MotionType mode, MotionFlag31 flagA, MotionFlag31 flagB,
-                          Node4* node);
 struct MergeWorld
 {
     int unk000;
@@ -5057,11 +5008,7 @@ struct S00cb3ee0_Holder
 };
 struct S00cb3ee0_Sub
 {
-    S00cb3ee0_Holder* FUN_00d081e0();
 };
-int PickIslandByValue(int a, int b, int c);
-void CloneRecord(int a, int b);
-void FUN_00cfe020(int a, int b);
 void FUN_00cb3ee0(void* m, MotionObj* motion, void* w, int mode);
 struct S55Item;
 template <typename T>
@@ -5269,12 +5216,7 @@ struct S55Owner
 
     unsigned char m_c8;
 
-    void __thiscall FUN_00c910b0();
 };
-void __cdecl FUN_00cb5100(S55Owner* owner, S55Item* item, S55Bool b);
-void __cdecl FUN_00cb5310(S55Owner* owner, S55Item* item);
-extern "C" void __cdecl FUN_00cb5570(S55Owner* owner, ObjB* first, ObjB* second);
-void __cdecl FUN_00cb55d0(S55Owner* owner);
 
 struct SplitIsland_Target;
 struct SplitIsland_Target;
@@ -5301,7 +5243,6 @@ __forceinline int* SplitIsland_cursor()
 {
     return &FUN_00c85750()->unk00;
 }
-void FUN_00cb1280(void* p, int a, int b);
 void FUN_00c908c0(void* alloc, void* vec, int cap, int elemsz);
 void ResizeAudioStream(void* alloc, void* vec, int elemsz);
 void FUN_00c909d0(void* alloc, void* vec, int elemsz, void* p, int n);
@@ -5324,7 +5265,6 @@ struct SplitIsland_Vec48
     int* data;
     int cnt;
     int cap;
-    void SwapThreeInts(int arg);
     __forceinline void SplitIsland_reserve(int n)
     {
         SplitIsland_CursorObj* router = (SplitIsland_CursorObj*)SplitIsland_cursor();
@@ -5378,10 +5318,6 @@ struct SplitIsland_Obj38
 {
     int** f00;
     int unk04;
-    void FUN_00d27f70(int* p, int n);
-    void RemapIndices(struct SplitIsland_L60* p);
-    int MoveLargestToFirst(struct SplitIsland_L60* p);
-    void RemapAndAccumulate(int* q, int n, struct SplitIsland_L60* p);
 };
 struct SplitIsland_L60
 {
@@ -5439,8 +5375,6 @@ struct SplitIsland_Arg0
     int f58;
     SplitIsland_Vec48 v5c;
     int inline68;
-    char CheckConnectivity(void* p);
-    SplitIsland_Arg0* FUN_00d07830(void* arg);
     inline void AccumulateStats(SplitIsland_Target*, SplitIsland_H44&);
 };
 struct SplitIsland_H44
@@ -5571,8 +5505,6 @@ struct SplitIsland_Elem2
     int unk08;
     int f0c;
 };
-void CloneRecord(int* p, void* q);
-void FUN_00cfe020(void* p, void* q);
 void FUN_00c909d0(void* alloc, void* vec, int elemsz, void* p, int n);
 struct SplitIsland_Head58
 {
@@ -5780,8 +5712,6 @@ struct SplitIsland_Arg1
     unsigned char field304;
     unsigned char f305;
     unsigned char f306;
-    void FUN_00c911f0(SplitIsland_Arg0* a);
-    void FUN_00c91230(SplitIsland_Arg0* a);
 };
 struct SplitIsland_StreamLink
 {
@@ -6015,7 +5945,7 @@ __forceinline void SplitIsland_combineGroups(SplitIsland_Arg1* world, SplitIslan
             }
         }
     }
-    find.RemapAndAccumulate((int*)&active.data, outputs, &sizes);
+    reinterpret_cast<::fnv_00d282c0::IndexRemap *>(&(find))->RemapAndAccumulate((*(const ::fnv_00d282c0::hkArr *)((int*)&active.data)), outputs, (*(::fnv_00d282c0::hkArr *)(&sizes)));
     active.SplitIsland_release();
     totals.SplitIsland_release();
 }
@@ -6056,7 +5986,7 @@ __forceinline void SplitIsland_classifyParts(SplitIsland_Arg1* world, SplitIslan
     }
     else
     {
-        find.RemapAndAccumulate((int*)&mark.data, outputs, &sizes);
+        reinterpret_cast<::fnv_00d282c0::IndexRemap *>(&(find))->RemapAndAccumulate((*(const ::fnv_00d282c0::hkArr *)((int*)&mark.data)), outputs, (*(::fnv_00d282c0::hkArr *)(&sizes)));
         mark.SplitIsland_release();
     }
 }
@@ -6101,8 +6031,8 @@ void FUN_00cb6060(SplitIsland_Arg0* a0, SplitIsland_Arg1* a1, SplitIsland_Arg2Ve
     SplitIsland_L60 groups;
     SplitIsland_Obj38 sel;
     SplitIsland_CountedBuffer<int> cand(a0->f48v.cnt);
-    sel.FUN_00d27f70((int*)&cand.data, a0->f48v.cnt);
-    if (a0->CheckConnectivity(&sel))
+    new ((void *)&(sel)) ::FUN_00d27f70((int **)(int *)((int*)&cand.data), a0->f48v.cnt);
+    if (((char)(reinterpret_cast<::S_00d074c0_Island *>((a0))->CheckConnectivity((*(::S_00d074c0_UnionFind *)(&sel))))))
     {
         a0->f25 &= 0xf3;
         cand.SplitIsland_release();
@@ -6111,7 +6041,7 @@ void FUN_00cb6060(SplitIsland_Arg0* a0, SplitIsland_Arg1* a1, SplitIsland_Arg2Ve
     groups.f00 = groups.data;
     groups.f04 = 0;
     groups.f08 = 0x80000020;
-    sel.RemapIndices(&groups);
+    reinterpret_cast<::IndexRemapper *>(&(sel))->RemapIndices((::IndexBuffer *)(::SplitIsland_L60 *)(&groups));
     SplitIsland_StackBuffer<char> states(groups.f04, true);
     if (a0->f25 & 0xc)
     {
@@ -6156,11 +6086,11 @@ void FUN_00cb6060(SplitIsland_Arg0* a0, SplitIsland_Arg1* a1, SplitIsland_Arg2Ve
         }
         else
         {
-            FUN_00cb1280(states.data, 0, groups.f04 + 1);
+            ::FUN_00cb1280(states.data, 0, groups.f04 + 1);
         }
     }
     int arrays;
-    arrays = sel.MoveLargestToFirst(&groups);
+    arrays = reinterpret_cast<::S00d281b0_Target *>(&(sel))->MoveLargestToFirst((::S00d281b0_IntArray *)(::SplitIsland_L60 *)(&groups));
     {
         char* av = (char*)(int)states.data;
         char r = av[0];
@@ -6202,7 +6132,7 @@ void FUN_00cb6060(SplitIsland_Arg0* a0, SplitIsland_Arg1* a1, SplitIsland_Arg2Ve
                 SplitIsland_AllocB* alL = (SplitIsland_AllocB*)((SplitIsland_CursorObj*)firstElem)->alloc;
                 SplitIsland_Arg0* no = (SplitIsland_Arg0*)alL->AllocSz(0x6c);
                 no->f04 = 0x6c;
-                no = no->FUN_00d07830(a1);
+                no = ((::SplitIsland_Arg0 *)(new ((void *)(no)) ::FUN_00d07830((::hkpWorldQ *)(a1))));
                 no->type26 = 1;
                 no->pending26 = 0;
                 no->active26 = 1;
@@ -6218,7 +6148,7 @@ void FUN_00cb6060(SplitIsland_Arg0* a0, SplitIsland_Arg1* a1, SplitIsland_Arg2Ve
                 int j = a0->f48v.cnt;
                 if ((bool)a3)
                 {
-                    a0->f48v.SwapThreeInts((int)a3);
+                    reinterpret_cast<::FUN_00d9ec10_cls *>(&(a0->f48v))->SwapThreeInts((int *)((int)a3));
                     a0->f48v.cnt = 0;
                     int a = *groups.f00;
                     a0->f48v.SplitIsland_reserve(a);
@@ -6247,7 +6177,7 @@ void FUN_00cb6060(SplitIsland_Arg0* a0, SplitIsland_Arg1* a1, SplitIsland_Arg2Ve
                             a0->SplitIsland_removeTransfer(y->f00, h);
                             ++el->unk1c;
                             y->f00->SplitIsland_owner = el;
-                            el->AccumulateStats(y->f00, h);
+                            reinterpret_cast<::Stats *>((el))->AccumulateStats((::Holder *)(y->f00), (const int *)&(h));
                         }
                     }
                 }
@@ -6296,7 +6226,7 @@ void FUN_00cb6060(SplitIsland_Arg0* a0, SplitIsland_Arg1* a1, SplitIsland_Arg2Ve
                         SplitIsland_Arg0* head = (SplitIsland_Arg0*)base;
                         head->f38v.SplitIsland_append((int)e2);
                     }
-                    a1->FUN_00c911f0(a0);
+                    reinterpret_cast<::FUN_00c911f0_Class *>((a1))->FUN_00c911f0(a0);
                 }
                 // cb6b6a / cb6c2d: walk a0 ox vec at +0x5c
                 if (((originalCount - kIter) * 8) < originalCount)
@@ -6322,8 +6252,8 @@ void FUN_00cb6060(SplitIsland_Arg0* a0, SplitIsland_Arg1* a1, SplitIsland_Arg2Ve
                             else
                             {
                                 int b = s - elem;
-                                CloneRecord(&((SplitIsland_Arg0*)buf18)->f58, s);
-                                FUN_00cfe020(ox, s);
+                                ::fnv_00cfeca0::CloneRecord((::fnv_00cfeca0::State *)(int *)(&((SplitIsland_Arg0*)buf18)->f58), (const ::fnv_00cfeca0::Record *)(s));
+                                ::FUN_00cfe020((::S_cfe020_Pool *)(ox), (::S_cfe020_Entry *)(s));
                                 if (saved38B >= ox->vec.cnt)
                                     break;
                                 elem = (char*)ox->vec.data[saved38B];
@@ -6348,7 +6278,7 @@ void FUN_00cb6060(SplitIsland_Arg0* a0, SplitIsland_Arg1* a1, SplitIsland_Arg2Ve
                     else if (a0->v5c.cnt > 1)
                     {
                         idx.vec.SplitIsland_reserve(2);
-                        idx.vec.SwapThreeInts((int)&a0->v5c);
+                        reinterpret_cast<::FUN_00d9ec10_cls *>(&(idx.vec))->SwapThreeInts((int *)((int)&a0->v5c));
                     }
                     {
                         long cpV = idx.hdr;
@@ -6369,7 +6299,7 @@ void FUN_00cb6060(SplitIsland_Arg0* a0, SplitIsland_Arg1* a1, SplitIsland_Arg2Ve
                             {
                                 buf18 = (int)((SplitIsland_StreamRecord*)s)->link14->SplitIsland_owner();
                             }
-                            CloneRecord(&((SplitIsland_Arg0*)buf18)->f58, s);
+                            ::fnv_00cfeca0::CloneRecord((::fnv_00cfeca0::State *)(int *)(&((SplitIsland_Arg0*)buf18)->f58), (const ::fnv_00cfeca0::Record *)(s));
                             s += ((SplitIsland_StreamRecord*)s)->size;
                         }
                         int* t2 = SplitIsland_cursor();
@@ -6389,7 +6319,7 @@ void FUN_00cb6060(SplitIsland_Arg0* a0, SplitIsland_Arg1* a1, SplitIsland_Arg2Ve
                     }
                 }
                 // cb6d6d: c91230 + pow2-spread grow on a0 vec5c
-                a1->FUN_00c91230(a0);
+                reinterpret_cast<::FUN_00c91230_World *>((a1))->FUN_00c91230(a0);
                 a0->v5c.SplitIsland_compact();
                 // cb6dee: final byte-accumulate loop over SplitIsland_cursor array
                 for (int i = 1; i < alV; i++)

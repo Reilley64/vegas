@@ -6,6 +6,7 @@
 #ifndef FNV_TESIMAGESPACE_UNIT_H
 #define FNV_TESIMAGESPACE_UNIT_H
 
+#include "fnv/decl/B8AD00Header.h"
 #include "layout_support.h"
 #include "TESForm.h"
 #include "TESFile.h"
@@ -23,7 +24,7 @@ class ImageSpaceModifierParameterData
     float m_afColorAndAlphaParameters[12];  // +0x64, 48 bytes
     unsigned int ShaderConstantData;        // +0x94, 4 bytes
     // void __cdecl ImageSpaceModifierParameterData::*()
-    void Endian();  // 0x00b8ad00; defined in another unit, declared here only
+      // 0x00b8ad00; defined in another unit, declared here only
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(ImageSpaceModifierParameterData) == 152);

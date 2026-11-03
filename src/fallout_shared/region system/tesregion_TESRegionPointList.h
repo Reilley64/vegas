@@ -2,6 +2,8 @@
 #ifndef FNV_TESREGIONPOINTLIST_H
 #define FNV_TESREGIONPOINTLIST_H
 
+#include "fnv/decl/fnv_004f81e0__FUN_004f81e0_shell.h"
+#include "fnv/decl/fnv_0050f9c0__FUN_0050f9c0_shell.h"
 #include "layout_support.h"
 #include "layout_support.h"
 class NiPoint2;
@@ -50,9 +52,7 @@ class RegionPointList : public BSSimpleList<RegionPoint*>
     unsigned int iCount;                   // +0x24, 4 bytes
     RegionPointList(bool owns);
     ~RegionPointList();
-    void SetDistanceInsideAtMax(unsigned int value);
     bool ReadPointsFromFile(TESFile*);
-    bool FUN_004f81e0(bool);
     // RegionPointList
     // void __cdecl RegionPointList::*()
     // void __cdecl RegionPointList::*()

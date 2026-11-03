@@ -2,10 +2,61 @@
 // src/havok/unplaced/loadedareabound.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/loadedareabound.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/DurationData.h"
+#include "fnv/decl/FUN_0041ca90.h"
+#include "fnv/decl/FUN_0043b4d0_shell.h"
+#include "fnv/decl/FUN_00450b60_Class.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_004938e0_shell.h"
+#include "fnv/decl/FUN_0055ac00_t.h"
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_00568680_shell.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_005be5c0_shell.h"
+#include "fnv/decl/FUN_006270f0.h"
+#include "fnv/decl/FUN_00628d10_cls.h"
+#include "fnv/decl/FUN_00629ab0_shell.h"
+#include "fnv/decl/FUN_00881650_shell.h"
+#include "fnv/decl/FUN_009344a0_shell.h"
+#include "fnv/decl/FUN_009f3390_shell.h"
+#include "fnv/decl/IOManager.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/LocationDescriptor.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/Me.h"
+#include "fnv/decl/NonActorMagicTarget.h"
+#include "fnv/decl/OwnerLookupView.h"
+#include "fnv/decl/OwnershipReferenceView.h"
+#include "fnv/decl/Pathing.h"
+#include "fnv/decl/Ref_891d30.h"
+#include "fnv/decl/Reference.h"
+#include "fnv/decl/S00628c50_Box.h"
+#include "fnv/decl/SitTarget.h"
+#include "fnv/decl/TESFurniture.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_005682c0__FUN_005682c0_shell.h"
+#include "fnv/decl/fnv_00568500__FUN_00568500_shell.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_008a7870__FUN_008a7870_shell.h"
+#include "fnv/decl/fnv_00968670__FUN_00968670_shell.h"
+#include "fnv/decl/s575ca0__Owner.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00562000.h"
+#include "fnv/symbols_00579000.h"
+#include "fnv/symbols_0062b000.h"
+#include "fnv/symbols_00886000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_01202000.h"
 struct LoadedAreaBound
 {
     virtual ~LoadedAreaBound();
-    void FUN_006270f0();
     void* FUN_006270c0(unsigned int flags);
     static void operator delete(void* p, size_t size);
 };
@@ -14,9 +65,9 @@ struct LoadedAreaBound
 // @fnv 0x006270c0
 void* LoadedAreaBound::FUN_006270c0(unsigned int flags)
 {
-    this->FUN_006270f0();
+    reinterpret_cast<::FUN_006270f0 *>((this))->FUN_006270f0::~FUN_006270f0();
     if (flags & 1)
-        operator delete(this, 0x44);
+        ::FUN_00aa1460(this, 0x44);
     return this;
 }
 
@@ -30,27 +81,15 @@ struct Actor;
 struct Refr;
 struct ObjA
 {
-    bool FUN_00509420();
-    bool FUN_005093f0();
 };
 struct Refr
 {
-    int FUN_00575ca0();
-    bool FUN_00568680();
-    Refr* FUN_0067f390();
-    int FUN_00678ca0();
-    void* FUN_00567790();
-    bool FUN_005785e0(Actor* a, bool b);
-    ObjA* FUN_007af430();
-    int FUN_005682c0(bool b);
-    bool FUN_00568500(int a, int b);
 };
 struct Obj44
 {
     virtual void vtbl000();
     virtual void vtbl001();
     virtual int v008();
-    Refr* FUN_009f3390();
 };
 struct Proc
 {
@@ -380,11 +419,9 @@ struct Proc
     virtual void vtbl323();
     virtual void vtbl324();
     virtual Refr* v514();
-    Refr* FUN_0045cd60();
 };
 struct Actor : Refr
 {
-    int FUN_00575ca0();
     virtual void vtbl000();
     virtual void vtbl001();
     virtual void vtbl002();
@@ -525,21 +562,10 @@ struct Actor : Refr
     virtual void vtbl137();
     virtual void vtbl138();
     virtual bool v22c(int flags);
-    bool FUN_004938e0();
-    bool FUN_008a3b30();
-    Proc* FUN_008d8520();
-    void FUN_008c3c40(int a, int b);
-    Refr* FUN_00886080();
-    Refr* FUN_00881650();
-    struct Pkg* FUN_009344a0();
-    Refr* FUN_00569b80();
-    bool FUN_00579670();
-    void* FUN_00891d30();
-    bool FUN_008a7870();
-    bool FUN_0088d2f0(Refr* r, int a, int b, bool c);
-    void* FUN_008d6f30();
-    void FUN_00575830(Point3* p);
-    void FUN_00562020();
+public:
+    bool IsMoving();
+public:
+    void ConfigureActorState(bool, bool);
 };
 struct Pkg
 {
@@ -623,33 +649,20 @@ struct Pkg
     virtual void vtbl077();
     virtual void vtbl078();
     virtual bool v13c(Actor* a, int b, float c, int e);
-    int FUN_0041ca90();
 };
 struct TopicArr
 {
-    unsigned int FUN_005be5c0(unsigned int a);
-    Actor* FUN_00968670(unsigned int i);
 };
 struct MgrNode
 {
     bool FUN_008256d0();
-    Refr** FUN_006815c0();
-    void FUN_00905330(Refr** pp);
-    MgrNode* FUN_00726070();
 };
 struct TES
 {
-    MgrNode* FUN_0055ac00();
-    void ClearList();
 };
 struct IOMgr
 {
-    void FUN_00c3dfa0(int a);
 };
-extern TES* DAT_011dea10;
-extern IOMgr* DAT_01202d98;
-void* __fastcall FUN_00575d70(Actor* a);
-void __cdecl FUN_006d6f80(void* a, void* b, Point3* c, Point3* d);
 struct ThisCls
 {
     int m_00;
@@ -661,7 +674,7 @@ void ThisCls::FUN_00972d30()
 {
     bool resultFlag;
     {
-        MgrNode* iter = DAT_011dea10->FUN_0055ac00();
+        MgrNode* iter = ((::MgrNode *)(reinterpret_cast<::FUN_0055ac00_t *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_0055ac00()));
         Refr* currentReference;
         currentReference = 0;
         ObjA* chosen;
@@ -671,10 +684,10 @@ void ThisCls::FUN_00972d30()
             Actor* b;
             b = 0;
             int slot;
-            for (slot = 0; slot < m_04.FUN_005be5c0(0); slot++)
+            for (slot = 0; slot < reinterpret_cast<::FUN_005be5c0_shell *>(&(m_04))->FUN_005be5c0(0); slot++)
             {
                 Actor* j;
-                b = m_04.FUN_00968670(slot);
+                b = ((::Actor *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>(&(m_04))->FUN_00968670(slot)));
                 j = 0;
                 if (!!b)
                 {
@@ -687,108 +700,108 @@ void ThisCls::FUN_00972d30()
                     {
                         if (j->v218())
                         {
-                            if (!j->FUN_004938e0())
+                            if (!reinterpret_cast<::FUN_004938e0_shell *>((j))->FUN_004938e0())
                             {
-                                if (!j->FUN_008a3b30())
+                                if (!j->IsMoving())
                                 {
                                     if (j->v214() == 0)
                                     {
-                                        if (j->FUN_008d8520()->FUN_0045cd60() != 0)
+                                        if (((::Refr *)(reinterpret_cast<::FUN_0045cd60_shell *>((((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((j))->GetBaseTexture()))))->FUN_0045cd60())) != 0)
                                             continue;
                                         {
-                                            j->FUN_008c3c40(0, 0);
-                                            int pObj4 = j->FUN_00575ca0();
+                                            j->ConfigureActorState(0, 0);
+                                            int pObj4 = ((int)(reinterpret_cast<::s575ca0::Owner *>((j))->FUN_00575ca0()));
                                             Refr* accepted = 0;
                                             bool visible = false;
                                             bool _x = false;
                                             Refr* refr38;
-                                            Refr* found = j->FUN_00886080();
-                                            refr38 = j->FUN_00881650();
-                                            Pkg* tmp26 = j->FUN_009344a0();
+                                            Refr* found = ((::Refr *)(::FUN_00886080((char *)(j))));
+                                            refr38 = ((::Refr *)(reinterpret_cast<::FUN_00881650_shell *>((j))->FUN_00881650()));
+                                            Pkg* tmp26 = ((::Pkg *)(reinterpret_cast<::FUN_009344a0_shell *>((j))->FUN_009344a0()));
                                             if (!!tmp26)
                                             {
-                                                if (tmp26->FUN_0041ca90() == 13)
+                                                if (reinterpret_cast<struct ::FUN_0041ca90 *>((tmp26))->get() == 13)
                                                 {
                                                     Obj44* p5c;
-                                                    p5c = j->FUN_008d8520()->v274();
+                                                    p5c = ((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((j))->GetBaseTexture()))->v274();
                                                     if (0 != p5c)
                                                     {
                                                         if (p5c->v008() == 13)
                                                         {
                                                             Obj44* tmp78;
                                                             tmp78 = p5c;
-                                                            refr38 = (Refr*)tmp78->FUN_009f3390();
+                                                            refr38 = (Refr*)((::Refr *)(reinterpret_cast<::FUN_009f3390_shell *>((tmp78))->FUN_009f3390()));
                                                         }
                                                     }
                                                 }
                                             }
                                             Refr* q = 0;
                                             if (found != 0)
-                                                q = found->FUN_0067f390();
+                                                q = ((::Refr *)(reinterpret_cast<::LocationDescriptor *>((found))->GetLocationReference()));
                                             if (found != 0)
                                             {
-                                                if (found->FUN_00678ca0() == 6)
-                                                    q = j->FUN_00569b80();
+                                                if (reinterpret_cast<::DurationData *>((found))->FUN_00678ca0() == 6)
+                                                    q = ((::Refr *)(reinterpret_cast<::FUN_00569b80_shell *>((j))->FUN_00569b80()));
                                             }
                                             if (!q)
                                             {
-                                                q = j->FUN_008d8520() ? j->FUN_008d8520()->v514() : 0;
+                                                q = ((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((j))->GetBaseTexture())) ? ((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((j))->GetBaseTexture()))->v514() : 0;
                                             }
                                             long _object;
-                                            _object = j->FUN_008d8520()->v4d4();
+                                            _object = ((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((j))->GetBaseTexture()))->v4d4();
                                             unsigned int idx13 = -1;
-                                            if (refr38 != 0 && refr38->FUN_00568680() &&
-                                                refr38->FUN_00575ca0() == pObj4)
+                                            if (refr38 != 0 && reinterpret_cast<::FUN_00568680_shell *>((refr38))->FUN_00568680() &&
+                                                ((int)(reinterpret_cast<::s575ca0::Owner *>((refr38))->FUN_00575ca0())) == pObj4)
                                             {
                                                 accepted = refr38;
-                                                chosen = accepted->FUN_007af430();
-                                                if (chosen->FUN_00509420())
+                                                chosen = ((::ObjA *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((accepted))->FUN_007af430()));
+                                                if (reinterpret_cast<::TESFurniture *>((chosen))->GetCanSleepOn())
                                                     visible = true;
-                                                idx13 = accepted->FUN_005682c0(true);
-                                                if (idx13 == -1 || !accepted->FUN_00568500(idx13, _object))
+                                                idx13 = reinterpret_cast<::fnv_005682c0::FUN_005682c0_shell *>((accepted))->FUN_005682c0(true);
+                                                if (idx13 == -1 || !reinterpret_cast<::fnv_00568500::FUN_00568500_shell *>((accepted))->FUN_00568500(idx13, (::fnv_00568500::FurnitureMark *)(_object)))
                                                 {
                                                     accepted = 0;
                                                     _x = true;
                                                 }
                                             }
-                                            else if (q != 0 && q->FUN_00568680() && q->FUN_00575ca0() == pObj4)
+                                            else if (q != 0 && reinterpret_cast<::FUN_00568680_shell *>((q))->FUN_00568680() && ((int)(reinterpret_cast<::s575ca0::Owner *>((q))->FUN_00575ca0())) == pObj4)
                                             {
                                                 accepted = q;
-                                                chosen = accepted->FUN_007af430();
-                                                if (chosen->FUN_00509420())
+                                                chosen = ((::ObjA *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((accepted))->FUN_007af430()));
+                                                if (reinterpret_cast<::TESFurniture *>((chosen))->GetCanSleepOn())
                                                     visible = true;
-                                                idx13 = accepted->FUN_005682c0(true);
-                                                if (idx13 == -1 || !accepted->FUN_00568500(idx13, _object))
+                                                idx13 = reinterpret_cast<::fnv_005682c0::FUN_005682c0_shell *>((accepted))->FUN_005682c0(true);
+                                                if (idx13 == -1 || !reinterpret_cast<::fnv_00568500::FUN_00568500_shell *>((accepted))->FUN_00568500(idx13, (::fnv_00568500::FurnitureMark *)(_object)))
                                                 {
                                                     accepted = 0;
                                                     _x = true;
                                                 }
                                             }
-                                            else if (tmp26 != 0 && tmp26->FUN_0041ca90() == 4 &&
+                                            else if (tmp26 != 0 && reinterpret_cast<struct ::FUN_0041ca90 *>((tmp26))->get() == 4 &&
                                                      tmp26->v13c(j, 0, -1.0f, 0))
                                             {
-                                                if (!j->FUN_00579670())
+                                                if (!::FUN_00579670((char *)(j)))
                                                 {
-                                                    j->FUN_008d8520()->v284(1);
+                                                    ((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((j))->GetBaseTexture()))->v284(1);
                                                 }
                                                 while (0 != iter && !iter->FUN_008256d0() && accepted == 0)
                                                 {
-                                                    currentReference = *iter->FUN_006815c0();
+                                                    currentReference = *((::Refr **)(new ((void *)(iter)) ::Vec3()));
                                                     bool flag49 = false;
-                                                    if (currentReference->FUN_00575ca0() == pObj4)
+                                                    if (((int)(reinterpret_cast<::s575ca0::Owner *>((currentReference))->FUN_00575ca0())) == pObj4)
                                                     {
-                                                        if (currentReference->FUN_00567790() == 0 ||
-                                                            currentReference->FUN_005785e0(j, true))
+                                                        if (((void *)(reinterpret_cast<::OwnerLookupView *>((currentReference))->FUN_00567790())) == 0 ||
+                                                            reinterpret_cast<::OwnershipReferenceView *>((currentReference))->FUN_005785e0(j, true))
                                                         {
-                                                            chosen = currentReference->FUN_007af430();
-                                                            if (chosen->FUN_00509420())
+                                                            chosen = ((::ObjA *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((currentReference))->FUN_007af430()));
+                                                            if (reinterpret_cast<::TESFurniture *>((chosen))->GetCanSleepOn())
                                                             {
-                                                                idx13 = currentReference->FUN_005682c0(true);
+                                                                idx13 = reinterpret_cast<::fnv_005682c0::FUN_005682c0_shell *>((currentReference))->FUN_005682c0(true);
                                                                 if (idx13 == -1 ||
-                                                                    !currentReference->FUN_00568500(idx13, _object))
+                                                                    !reinterpret_cast<::fnv_00568500::FUN_00568500_shell *>((currentReference))->FUN_00568500(idx13, (::fnv_00568500::FurnitureMark *)(_object)))
                                                                 {
-                                                                    iter->FUN_00905330(&currentReference);
-                                                                    iter = DAT_011dea10->FUN_0055ac00();
+                                                                    reinterpret_cast<::ItemChangeListNode *>((iter))->FUN_00905330((*(::InventoryStackRecord *const *)(&currentReference)));
+                                                                    iter = ((::MgrNode *)(reinterpret_cast<::FUN_0055ac00_t *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_0055ac00()));
                                                                     flag49 = true;
                                                                 }
                                                                 else
@@ -800,38 +813,38 @@ void ThisCls::FUN_00972d30()
                                                         }
                                                     }
                                                     if (!flag49)
-                                                        iter = iter->FUN_00726070();
+                                                        iter = ((::MgrNode *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
                                                 }
                                             }
-                                            else if (tmp26 != 0 && tmp26->FUN_0041ca90() == 3 &&
+                                            else if (tmp26 != 0 && reinterpret_cast<struct ::FUN_0041ca90 *>((tmp26))->get() == 3 &&
                                                      tmp26->v13c(j, 0, -1.0f, 0))
                                             {
-                                                if (j->FUN_00891d30() != 0)
+                                                if (((void *)(reinterpret_cast<::Ref_891d30 *>((j))->FUN_00891d30())) != 0)
                                                 {
-                                                    if (!j->FUN_008a7870())
+                                                    if (!reinterpret_cast<::fnv_008a7870::FUN_008a7870_shell *>((j))->FUN_008a7870())
                                                     {
-                                                        j->FUN_008d8520()->v288(j, 1);
+                                                        ((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((j))->GetBaseTexture()))->v288(j, 1);
                                                         j->v200(1);
                                                     }
                                                     while (iter != 0 && !iter->FUN_008256d0() && accepted == 0)
                                                     {
-                                                        currentReference = *iter->FUN_006815c0();
+                                                        currentReference = *((::Refr **)(new ((void *)(iter)) ::Vec3()));
                                                         bool flag4a = false;
-                                                        if (currentReference->FUN_00575ca0() == pObj4 &&
+                                                        if (((int)(reinterpret_cast<::s575ca0::Owner *>((currentReference))->FUN_00575ca0())) == pObj4 &&
                                                             currentReference != 0)
                                                         {
-                                                            if (currentReference->FUN_00567790() == 0 ||
-                                                                currentReference->FUN_005785e0(j, true))
+                                                            if (((void *)(reinterpret_cast<::OwnerLookupView *>((currentReference))->FUN_00567790())) == 0 ||
+                                                                reinterpret_cast<::OwnershipReferenceView *>((currentReference))->FUN_005785e0(j, true))
                                                             {
-                                                                chosen = currentReference->FUN_007af430();
-                                                                if (chosen->FUN_005093f0())
+                                                                chosen = ((::ObjA *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((currentReference))->FUN_007af430()));
+                                                                if (reinterpret_cast<::TESFurniture *>((chosen))->GetCanSitOn())
                                                                 {
-                                                                    idx13 = currentReference->FUN_005682c0(true);
+                                                                    idx13 = reinterpret_cast<::fnv_005682c0::FUN_005682c0_shell *>((currentReference))->FUN_005682c0(true);
                                                                     if (idx13 == -1 ||
-                                                                        !currentReference->FUN_00568500(idx13, _object))
+                                                                        !reinterpret_cast<::fnv_00568500::FUN_00568500_shell *>((currentReference))->FUN_00568500(idx13, (::fnv_00568500::FurnitureMark *)(_object)))
                                                                     {
-                                                                        iter->FUN_00905330(&currentReference);
-                                                                        iter = DAT_011dea10->FUN_0055ac00();
+                                                                        reinterpret_cast<::ItemChangeListNode *>((iter))->FUN_00905330((*(::InventoryStackRecord *const *)(&currentReference)));
+                                                                        iter = ((::MgrNode *)(reinterpret_cast<::FUN_0055ac00_t *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_0055ac00()));
                                                                         flag4a = true;
                                                                     }
                                                                     else
@@ -843,22 +856,22 @@ void ThisCls::FUN_00972d30()
                                                             }
                                                         }
                                                         if (!flag4a)
-                                                            iter = iter->FUN_00726070();
+                                                            iter = ((::MgrNode *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
                                                     }
                                                 }
                                             }
                                             if (accepted != 0 && j->v1d0() != 0)
                                             {
-                                                resultFlag = j->FUN_0088d2f0(accepted, _object, idx13, visible);
+                                                resultFlag = reinterpret_cast<::SitTarget *>((j))->FUN_0088d2f0((::SitReference *)(accepted), (::SitReference *)(_object), idx13, visible);
                                             }
                                             else if (_x)
                                             {
                                                 Point3* _origin;
                                                 _origin = j->v1f4();
                                                 Point3 pt = *_origin;
-                                                FUN_006d6f80(FUN_00575d70(j), j->FUN_008d6f30(), _origin, &pt);
-                                                j->FUN_00575830(&pt);
-                                                j->FUN_00562020();
+                                                ::Pathing::FindClosestPathingPoint((::TESWorldSpace *)(void *)(((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((j))->FUN_00575d70()))), (::TESObjectCELL *)(void *)(((void *)(reinterpret_cast<::LowProcess *>((j))->GetTarget()))), (*(const ::NiPoint3 *)(_origin)), (::NiPoint3 *)(::Point3 *)(&pt));
+                                                reinterpret_cast<::Reference *>((j))->FUN_00575830((::Position *)(::Point3 *)(&pt));
+                                                ::fnv_00562020::FUN_00562020((::TESObjectREFR *)(j));
                                             }
                                         }
                                     }
@@ -869,9 +882,9 @@ void ThisCls::FUN_00972d30()
                 }
             }
             if (resultFlag)
-                DAT_01202d98->FUN_00c3dfa0(0);
+                reinterpret_cast<::IOManager *>(((*reinterpret_cast<::IOMgr * *>(&::DAT_01202d98))))->FUN_00c3dfa0(0);
         }
-        DAT_011dea10->ClearList();
+        reinterpret_cast<::FUN_00450b60_Class *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->ClearList();
     }
 }
 
@@ -886,7 +899,6 @@ struct FUN_00437c10
 struct CF845
 {
     CF845(void* p);
-    int FUN_0043b4d0();
     int unk;
 };
 
@@ -959,25 +971,17 @@ struct TESObjectREFR
     virtual bool vfunc_0x100();
 };
 
-TESObjectREFR* __cdecl FUN_0062b4e0(void* p);
 
 struct PickedObj
 {
-    bool FUN_005609f0();
 };
 
 struct Arg1
 {
-    PickedObj* FUN_00628d10(char* flag, FUN_00437c10* t);
-    int FUN_00628c50(FUN_00437c10* t);
 };
 
 struct ItemObj
 {
-    void* FUN_00460140();
-    const char* operator_str();
-    void* FUN_007d6bb0();
-    void* FUN_0043b540();
 };
 
 struct Arg2Item
@@ -987,8 +991,6 @@ struct Arg2Item
 
 struct Arg2
 {
-    int FUN_00726070();
-    Arg2Item* FUN_00629ab0(int i);
 };
 
 struct TargetObj
@@ -1013,13 +1015,11 @@ struct TargetObj
 
 struct Arg3
 {
-    TargetObj* FUN_006286d0();
 };
 
 struct FUN_00628df0_class
 {
     void FUN_00628df0(Arg1* a1, Arg2* a2, Arg3* a3);
-    void FUN_006295e0(TESObjectREFR* r);
 };
 
 // For each a2 item with a string, calls a3's target vfunc_0x3c; if the a1 checks fail and the item type is 0x1e, passes its REFR to FUN_006295e0.
@@ -1027,24 +1027,24 @@ struct FUN_00628df0_class
 void FUN_00628df0_class::FUN_00628df0(Arg1* a1, Arg2* apItems, Arg3* apTarget)
 {
     FUN_00437c10 tmp;
-    for (int i = 0; i < apItems->FUN_00726070(); ++i)
+    for (int i = 0; i < ((int)(reinterpret_cast<::Callees *>((apItems))->FUN_00726070())); ++i)
     {
-        ItemObj* p38 = (ItemObj*)apItems->FUN_00629ab0(i)->pItem->FUN_00460140();
-        if (p38->operator_str())
+        ItemObj* p38 = (ItemObj*)((void *)(::FUN_00460140((int)(((::Arg2Item *)&(reinterpret_cast<::FUN_00629ab0_shell *>((apItems))->FUN_00629ab0(i)))->pItem))));
+        if (((const char *)(::FUN_00559450((int *)(p38)))))
         {
-            TargetObj* pTarget = apTarget->FUN_006286d0();
-            pTarget->vfunc_0x3c(p38->FUN_007d6bb0(), &tmp);
+            TargetObj* pTarget = ((::TargetObj *)(reinterpret_cast<::LowProcess *>((apTarget))->GetPackageObjectType()));
+            pTarget->vfunc_0x3c(((void *)(reinterpret_cast<::NonActorMagicTarget *>((p38))->GetActiveEffectList())), &tmp);
             char flag;
-            if (!a1->FUN_00628d10(&flag, &tmp)->FUN_005609f0() || !a1->FUN_00628c50(&tmp))
+            if (!reinterpret_cast<::FUN_005609f0_shell *>((((::PickedObj *)(reinterpret_cast<::FUN_00628d10_cls *>((a1))->FUN_00628d10((::FUN_00628d10_cls *)(char *)(&flag), (::FUN_00628d10_cls *)(::FUN_00437c10 *)(&tmp))))))->FUN_005609f0() || !((int)(reinterpret_cast<::S00628c50_Box *>((a1))->FUN_00628c50((const ::S00628c50_Box *)(::FUN_00437c10 *)(&tmp)))))
             {
-                CF845 filter(p38->FUN_0043b540());
-                if (filter.FUN_0043b4d0() == 0x1e)
+                CF845 filter(((void *)(::FUN_0043b540((char *)(p38)))));
+                if (reinterpret_cast<::FUN_0043b4d0_shell *>(&(filter))->FUN_0043b4d0() == 0x1e)
                 {
                     TESObjectREFR* refr = FUN_0062b4e0(p38);
                     if (refr && refr->vfunc_0x100())
                     {
                         TESObjectREFR* pRefr = refr;
-                        this->FUN_006295e0(pRefr);
+                        reinterpret_cast<::Me *>((this))->FUN_006295e0((::Ref *)(pRefr));
                     }
                 }
             }

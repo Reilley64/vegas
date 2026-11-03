@@ -1,5 +1,8 @@
 // bssystemutilities/console/bsnetworksystemutility_console_decls.h: declares NetworkSystemUtility, MemoryManager
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_011f6000.h"
 class NetworkSystemUtility
 {
   public:
@@ -18,16 +21,13 @@ class NetworkSystemUtility
 class MemoryManager
 {
   public:
-    void* Allocate(unsigned int size);
-    void Deallocate(void* pointer);
 };
-extern MemoryManager g_memoryManager;
 extern NetworkSystemUtility* DAT_011f7270;
 __forceinline void* NetworkSystemUtility::operator new(unsigned int size)
 {
-    return g_memoryManager.Allocate(size);
+    return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
 }
 __forceinline void NetworkSystemUtility::operator delete(void* pointer)
 {
-    g_memoryManager.Deallocate(pointer);
+    reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(pointer);
 }

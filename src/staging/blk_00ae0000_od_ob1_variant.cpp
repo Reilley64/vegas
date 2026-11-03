@@ -5,6 +5,45 @@
 
 // src/staging/blk_00ae0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/AudioMgr_adac30.h"
+#include "fnv/decl/BSGameSound.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004b6190_shell.h"
+#include "fnv/decl/FUN_00aa63c0.h"
+#include "fnv/decl/FUN_00ae8090_Class.h"
+#include "fnv/decl/FUN_00ae9c50_s.h"
+#include "fnv/decl/ListenerDestruction__FUN_00aea770.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/O.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/S_00afea20_Arr.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00457000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00a62000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00ad9000.h"
+#include "fnv/symbols_00ae9000.h"
+#include "fnv/symbols_00af0000.h"
+#include "fnv/symbols_00af3000.h"
+#include "fnv/symbols_00af4000.h"
+#include "fnv/symbols_00afd000.h"
+#include "fnv/symbols_00ee8000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_01030000.h"
+#include "fnv/symbols_01093000.h"
+#include "fnv/symbols_010a2000.h"
+#include "fnv/symbols_010a3000.h"
+#include "fnv/symbols_01100000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f7000.h"
+#include "fnv/symbols_011f8000.h"
+#include "fnv/symbols_01202000.h"
 #include "../../include/layout_support.h"
 extern int DAT_010a42b4;
 void* __cdecl _fnv_zlib_memset(void* p, int c, unsigned int n);
@@ -116,7 +155,6 @@ struct FUN_00af3b50_Class
 {
     void __thiscall SetVTable();
 };
-void __cdecl SwapByteQuadWords(void* p, int a2);
 struct FUN_00afd960_Class
 {
     void* vtbl;
@@ -128,7 +166,6 @@ struct FileFinder
 {
     static NiFile* __cdecl GetFile(const char*, int, unsigned int, unsigned int);
 };
-void __cdecl FUN_00afdf00(const char* a, int b, unsigned int c);
 extern int DAT_010a39d8;
 struct FUN_00ad6f40_Class
 {
@@ -153,10 +190,8 @@ struct MemoryManager
 {
     void __thiscall Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 struct FUN_00aeaa80_Class
 {
-    void __thiscall FUN_00aea770();
     void* __thiscall FUN_00aeaa80(unsigned int flags);
 };
 struct FUN_00aefcf0_Class
@@ -176,7 +211,6 @@ struct BSFile
 int __cdecl CloseAndDeleteFile(BSFile* f);
 struct DownloadableContentManager
 {
-    static void __cdecl GetRandomGenerator();
 };
 char __cdecl FUN_00af2750();
 struct FUN_00af2c50_Class
@@ -190,7 +224,6 @@ struct FUN_00af3570_Class
     int a[8];
     void* __thiscall FUN_00af3570();
 };
-void __cdecl _sprintf_s(char* dst, unsigned int size, const char* fmt, ...);
 struct FUN_00afd860_Class
 {
     unsigned char m_acCharacterBuffer[4];
@@ -205,8 +238,6 @@ struct FUN_00afdbc0_Class
     unsigned int m_kPointB;
     bool IsIndexInRange(int idx);
 };
-extern int DAT_010a3370;
-void* __cdecl _NiMalloc(unsigned int);
 struct FUN_00ae7b40_Class
 {
     void* vtbl;
@@ -215,8 +246,6 @@ struct FUN_00ae7b40_Class
     int iCapacity;
     FUN_00ae7b40_Class(int n);
 };
-extern int DAT_010a3390;
-void* __cdecl _NiMalloc(unsigned int);
 struct FUN_00ae7bc0_Class
 {
     void* vtbl;
@@ -225,8 +254,6 @@ struct FUN_00ae7bc0_Class
     int m_auiShapeKeys;
     FUN_00ae7bc0_Class(int count);
 };
-extern int DAT_010a33b0;
-void* __cdecl NiMalloc(unsigned int size);
 struct FUN_00ae7c40_Class
 {
     void* __thiscall InitBuffer(int size);
@@ -234,7 +261,6 @@ struct FUN_00ae7c40_Class
 size_t __cdecl _strlen(const char* s);
 int __cdecl _strnicmp(const char* s1, const char* s2, size_t n);
 int __cdecl _strcpy_s(char* dst, size_t size, const char* src);
-void CopyRelativeDataPath(const char* source, char* destination, size_t size);
 struct FUN_00afd8b0_Class
 {
     unsigned int uiMagic;
@@ -253,7 +279,6 @@ struct BSAudio
     char pad[0x38];
     void* pAudio;
 };
-extern BSAudio* DAT_011f6d98;
 struct FUN_00af1ba0_Class
 {
     char pad[0x198];
@@ -266,10 +291,8 @@ struct S00a0d390
     int pad;
     void* p;
 
-    void __thiscall ClearAll();
     void __thiscall FUN_00ae8c30();
 };
-void __cdecl _NiFree(void* p);
 long FUN_00aeabf0(void* stream, long offset, int whence, int pad);
 struct FUN_00aefd90_Class
 {
@@ -345,7 +368,6 @@ struct FUN_00ae78a0_cls
     int unk38;
     int unk3C;
     void* m_h40;
-    void FUN_00aa63c0();
     void FUN_00ae78a0();
 };
 struct FUN_00ae8010_node
@@ -811,17 +833,18 @@ struct S_00aeaa10_Cls
 void* __cdecl _fnv_zlib_memset(void* p, int c, int n);
 struct MMStub
 {
-    void* __thiscall Allocate(unsigned int size);
 };
-extern MMStub g_mmStub;
 class NiPoint3
 {
   public:
     float x;
     float y;
     float z;
+public:
+    float ComputeMagnitude() const;
+public:
+    static const ::NiPoint3 ZERO;
 };
-extern const NiPoint3 NiPoint3_ZERO;
 struct Stub1A4
 {
     int unk00;
@@ -1081,7 +1104,6 @@ struct SndStream
 };
 struct SndHeap
 {
-    void* Allocate(unsigned int size);
     void Deallocate(void* p);
 };
 struct SndFloatHolder
@@ -1089,21 +1111,12 @@ struct SndFloatHolder
     int unk00;
     float fValue;
 };
-extern SndHeap g_SndHeap;
-extern SndFloatHolder g_SndFloatHolder;
-extern float g_fSndZeroFallback;
-extern float g_fSndMinDistance;
 extern float g_fSndConeValue;
-extern float g_fSnd150;
-extern float g_fSndReverb1;
 extern float g_fSndReverb2;
-extern const SndGuid g_IID_SndBuffer8;
-extern const SndGuid g_IID_Snd3DBuffer;
 extern const SndGuid g_GUID_SndFX;
 extern const SndGuid g_IID_SndFXParams;
 void* __cdecl SndMemCopy(void* dst, const void* src, unsigned int n);
 void* __cdecl SndMemSet(void* dst, int c, unsigned int n);
-void __cdecl SndLog(const char* fmt, ...);
 class FUN_00aec530_cls
 {
   public:
@@ -1130,10 +1143,6 @@ class FUN_00aec530_cls
     virtual void SetPosition(float x, float y, float z);
 
     void Release(int a);
-    bool IsStreaming();
-    bool IsLooping();
-    void UpdateFlags();
-    void UpdateDistance();
     void FUN_00aec530();
 
     int unk04;
@@ -1626,7 +1635,6 @@ struct S_00af01e0_Cls
     int FUN_00af01e0(float f);
 };
 extern "C" void* fnv_zlib_memset(void* dst, int c, int n);
-void FUN_005b5e40(const char* pcFormat, ...);
 struct AF0320WaveFormat
 {
     unsigned short wFormatTag;
@@ -2057,7 +2065,6 @@ struct FUN_00af1d80_tgt
 {
     virtual int Tick(int flag);
 };
-void __cdecl FUN_00ee81e6(void* self);
 struct FUN_00af1d80_cls
 {
     int unk000;
@@ -2250,8 +2257,6 @@ struct FUN_00af2100_cls
 {
     unsigned int FUN_00af2100(unsigned char* p, unsigned int n);
 };
-unsigned int __cdecl FUN_00ee8204(FUN_00af2100_cls* self, unsigned char* p, unsigned int n, unsigned int a,
-                                  unsigned int b, unsigned int c, unsigned int* out);
 typedef int(__cdecl* FUN_00af2180_ProcFn)(void* self, void* arg0, int product, int* out, int one);
 struct FUN_00af2180_cls
 {
@@ -2346,8 +2351,6 @@ struct FUN_00af2db0_cls
     void UpdateSteamRunningFlag();
 };
 extern "C" int __cdecl toupper(int c);
-extern unsigned int g_uiMatchFlags;
-int __cdecl WildcardMatch(const char* str, const char* pat);
 bool HasWildcardChars(const char* s);
 int __cdecl FUN_00ec3bad(int value);
 struct AllocatorToken
@@ -2383,7 +2386,6 @@ struct FUN_00afdc00_Item
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0C;
-    bool Test(int idx);
 };
 class FUN_00afdc00_cls
 {
@@ -2742,7 +2744,6 @@ struct SoundObj
     NiPoint3 position;
     bool is3D;
 
-    bool IsPlaying();
     void FUN_00aefda0(float maxDist, float minDist);
 };
 extern const double DAT_010a3e68;
@@ -3128,11 +3129,6 @@ struct AudioState
     AudioFile* file;
 };
 AudioFile* __cdecl OpenAudioFile(const char*, int, unsigned int, unsigned int);
-void __cdecl AudioWarning(const char*, ...);
-extern int DAT_010a2484;
-extern int DAT_010a2480;
-extern int DAT_010a2488;
-int __stdcall AudioFileOp(AudioState* state, unsigned int op, void* data, int size);
 extern "C" __declspec(dllimport) void* __stdcall CreateFileA(const char* lpFileName, unsigned long dwDesiredAccess,
                                                              unsigned long dwShareMode, void* lpSecurityAttributes,
                                                              unsigned long dwCreationDisposition,
@@ -3149,7 +3145,6 @@ struct S_008785e0
     unsigned char m_unk0f;
     void* m_unk10;
 
-    int FUN_00afeef0(int a1, int a2, int a3, int a4);
     int OpenFile(const char* lpFileName);
 };
 extern "C" __declspec(dllimport) int __stdcall ReadFile(void* hFile, void* lpBuffer, unsigned long nNumberOfBytesToRead,
@@ -3248,9 +3243,6 @@ void AE8DE0_Class::FUN_00ae8de0(AE8DE0_Record* a1, int a2, NiObjPtr a3)
     a1->m_08 = a3;
 }
 
-extern int DAT_010a3308;
-extern int DAT_010a33b0;
-void __cdecl NiFree(void* p);
 
 struct ScopeGuard_b10070
 {
@@ -3269,7 +3261,6 @@ struct FUN_00ae8e70_cls
     int unk04;
     void* m_08;
 
-    void ClearAll();
     void FUN_00ae8e70();
 };
 
@@ -3279,11 +3270,11 @@ void FUN_00ae8e70_cls::FUN_00ae8e70()
     *(void**)this = (void*)&DAT_010a3308;
     {
         ScopeGuard_b10070 g;
-        ClearAll();
+        reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
     }
     *(void**)this = (void*)&DAT_010a33b0;
-    ClearAll();
-    NiFree(m_08);
+    reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
+    ::FUN_00aa10f0(m_08);
 }
 
 struct SoundList936
@@ -3319,13 +3310,12 @@ struct FUN_00ae9360
     SoundList936 m_kList;
 
     FUN_00ae9360();
-    void FUN_00ae95e0();
 };
 
 // @fnv 0x00ae9360
 FUN_00ae9360::FUN_00ae9360()
 {
-    FUN_00ae95e0();
+    ::FUN_00ae95e0((char *)this);
 }
 
 extern "C" double __cdecl sqrt(double);
@@ -3368,7 +3358,7 @@ void SpeedA810::FUN_00aea810(const Pt3A810& pos)
 {
     unsigned long uiNow = timeGetTime();
     Pt3A810 kDelta = pos - m_pos;
-    m_speed = kDelta.Length() / ((uiNow - m_lastTime) * 1000) * DAT_010a3be8;
+    m_speed = reinterpret_cast<::NiPoint3 *>((void *)&(kDelta))->ComputeMagnitude() / ((uiNow - m_lastTime) * 1000) * DAT_010a3be8;
     m_pos = pos;
     m_lastTime = uiNow;
 }
@@ -3393,10 +3383,7 @@ struct SndInfo
 
 struct Mgr
 {
-    void* __thiscall FUN_00aa3e40(unsigned int n);
-    void __thiscall FUN_00aa4060(void* p);
 };
-extern "C" char DAT_011f6238;
 
 struct AF1d80
 {
@@ -3588,20 +3575,17 @@ struct AF1d80
     unsigned char unk2de;
     unsigned char unk2df;
     AF1d80();
-    bool FUN_00af1e00(void* p);
-    unsigned int FUN_00af2100(void* p, unsigned int n);
-    void UpdateAndReleaseTarget();
     ~AF1d80()
     {
-        UpdateAndReleaseTarget();
+        reinterpret_cast<::FUN_00af1d80_cls *>(this)->UpdateAndReleaseTarget();
     }
     static void* operator new(unsigned int n)
     {
-        return ((Mgr*)&DAT_011f6238)->FUN_00aa3e40(n);
+        return reinterpret_cast<::MemoryManagerStandIn *>((((Mgr*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa3e40(n);
     }
     static void operator delete(void* p)
     {
-        ((Mgr*)&DAT_011f6238)->FUN_00aa4060(p);
+        reinterpret_cast<::FNV_MemoryManager *>((((Mgr*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa4060(p);
     }
 
     __forceinline int SamplesPerSec()
@@ -3780,7 +3764,7 @@ struct AudioBuffer
     }
     __forceinline void* AllocSnd(unsigned int n)
     {
-        void* p = ((Mgr*)&DAT_011f6238)->FUN_00aa3e40(n);
+        void* p = reinterpret_cast<::MemoryManagerStandIn *>((((Mgr*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa3e40(n);
         return p;
     }
 
@@ -3807,13 +3791,13 @@ struct AudioBuffer
             nSize = this->m1ac + (this->m1b4->dwAvgBytesPerSec >> 1);
         else
             nSize = this->m1ac;
-        p = ((Mgr*)&DAT_011f6238)->FUN_00aa3e40(nSize);
+        p = reinterpret_cast<::MemoryManagerStandIn *>((((Mgr*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa3e40(nSize);
         this->m1c8 = p;
         _fnv_zlib_memset(this->GetBuffer(), 0, nSize);
         this->m34 = this->m1b4->dwSamplesPerSec;
         this->m15a = this->m34;
         this->m14 = this->m1dc / (2 * this->m22c->Channels()) / (this->m34 / 1000);
-        this->m22c->FUN_00af2100(this->m1c8, this->m1ac);
+        reinterpret_cast<::FUN_00af2100_cls *>((this->m22c))->FUN_00af2100((unsigned char *)(this->m1c8), this->m1ac);
         if ((this->Flags() & 1) || (this->m22c->Channels() > 1))
         {
             this->m1a8 = 0x40;
@@ -3831,26 +3815,10 @@ struct AudioBuffer
             this->m1dc = this->m1ac;
             this->m14 = this->m14 + 0x1f4;
         }
-        return this->SetFlagState(true);
+        return reinterpret_cast<::FUN_00ae9c50_s *>((this))->SetFlagState(true);
     }
     bool FUN_00aebff0();
-    bool SetFlagState(bool);
 };
-
-// @fnv 0x00aebff0
-bool AudioBuffer::FUN_00aebff0()
-{
-    this->m22c = new AF1d80();
-    if (!this->m22c->FUN_00af1e00(&this->m36))
-    {
-        delete this->m22c;
-        this->m22c = 0;
-        return false;
-    }
-    bool bHalf;
-    unsigned int nSize;
-    return Setup(bHalf, nSize);
-}
 
 struct AE8150_Node
 {
@@ -3890,7 +3858,6 @@ struct AE8150_List
         int unused[15];
         (void)unused;
     }
-    void* FUN_00ae8090(AE8150_Pos& kPos);
     void* FUN_00ae8150(void* const& element);
 };
 // @fnv 0x00ae8150
@@ -3898,15 +3865,15 @@ void* AE8150_List::FUN_00ae8150(void* const& element)
 {
     AE8150_Pos kPos = FindPos(element);
     Reserve();
-    return kPos ? FUN_00ae8090(kPos) : element;
+    return kPos ? ((void *)(reinterpret_cast<::FUN_00ae8090_Class *>(this)->FUN_00ae8090((::FUN_00ae8090_Node **)&(kPos)))) : element;
 }
 
 struct MapStorageBase : BucketTableStorage
 {
     inline ~MapStorageBase()
     {
-        ClearAll();
-        _NiFree(data);
+        reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
+        ::FUN_00aa10f0(data);
     }
 };
 struct FUN_00ae8c60 : MapStorageBase
@@ -3916,10 +3883,9 @@ struct FUN_00ae8c60 : MapStorageBase
 // @fnv 0x00ae8c60
 FUN_00ae8c60::~FUN_00ae8c60()
 {
-    ClearAll();
+    reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
 }
 
-void __cdecl NiFree8D10(void* pvMem);
 
 struct MemoryManager8D10
 {
@@ -3943,8 +3909,8 @@ class MapBase8D10
     }
     virtual ~MapBase8D10()
     {
-        RemoveAll();
-        NiFree8D10(m_ppkHashTable);
+        reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
+        ::FUN_00aa10f0(m_ppkHashTable);
     }
     virtual unsigned int KeyToHashIndex(const char* key) const;
     virtual bool IsKeysEqual(const char* key1, const char* key2) const;
@@ -3979,7 +3945,7 @@ class FUN_00ae8d10 : public MapBase8D10
 // @fnv 0x00ae8d10
 FUN_00ae8d10::~FUN_00ae8d10()
 {
-    RemoveAll();
+    reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
 }
 
 struct FUN_00ae93f0 : FUN_00ae9360_Base
@@ -3991,7 +3957,7 @@ struct AudioCleanupHelper
     __forceinline ~AudioCleanupHelper();
     __forceinline static void operator delete(void* p)
     {
-        g_memoryManager.Deallocate(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
     }
 };
 struct AudioStreamStorage
@@ -4078,13 +4044,13 @@ FUN_00aeafb0::~FUN_00aeafb0()
     if (unk1A4.pBuf)
     {
         void* buffer = unk1A4.pBuf;
-        g_memoryManager.Deallocate(buffer);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(buffer);
         unk1A4.pBuf = 0;
     }
     if (unk1C8)
     {
         void* buffer = unk1C8;
-        g_memoryManager.Deallocate(buffer);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(buffer);
         unk1C8 = 0;
     }
     if (unk228)
@@ -4092,21 +4058,21 @@ FUN_00aeafb0::~FUN_00aeafb0()
         if (unk228->head)
         {
             void* buffer = unk228->head;
-            g_memoryManager.Deallocate(buffer);
+            reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(buffer);
         }
         if (unk228->tail)
         {
             void* buffer = unk228->tail;
-            g_memoryManager.Deallocate(buffer);
+            reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(buffer);
         }
         if (unk228->body)
         {
             void* buffer = unk228->body;
-            g_memoryManager.Deallocate(buffer);
+            reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(buffer);
         }
         {
             void* buffer = unk228;
-            g_memoryManager.Deallocate(buffer);
+            reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(buffer);
         }
     }
     if (unk22C)
@@ -4118,9 +4084,7 @@ FUN_00aeafb0::~FUN_00aeafb0()
 
 struct VolumeCurve
 {
-    float FUN_00adac30();
 };
-VolumeCurve* __stdcall FUN_00ad9060(float, unsigned int);
 double __cdecl FUN_00ecbc80(double);
 struct VolumeBuffer
 {
@@ -4246,8 +4210,6 @@ struct BSWin32GameSound
     int unk198;
     VolumeBuffer* buffer19c;
     VolumeBuffer* buffer1a0;
-    bool FUN_00ae9cf0();
-    bool FUN_00ae9d10();
     __forceinline unsigned short GetPercent() const
     {
         return percent1a;
@@ -4276,13 +4238,13 @@ bool BSWin32GameSound::FUN_00aed660(float volume)
     {
         volume = volume > 1.0 ? 1.0f : volume;
         volume = volume < 0.0 ? 0.0f : volume;
-        volume = FUN_00ad9060(volume, flags08)->FUN_00adac30();
+        volume = reinterpret_cast<::AudioMgr_adac30 *>((((::VolumeCurve *)(::FUN_00ad9060()))))->FUN_00adac30({}, {});
         if (!IsFlag10Set(0x200) && IsFlag10Set(0x10000) && !IsFlag08Set(0x1000))
             volume = 0.00001f;
         volume = volume < 9.999999747378752e-06 ? 0.00001f : volume;
         attenuationTmp = (int)((float)FUN_00ecbc80(volume) * 2000.0);
         attenuationTmp -= attenuation18 + attenuation1c + attenuation20;
-        if (FUN_00ae9cf0() || FUN_00ae9d10())
+        if (reinterpret_cast<::BSGameSound *>(this)->HasSoundFlagTwo() || reinterpret_cast<::BSGameSound *>(this)->CanStartPlayback())
             attenuationTmp -= attenuation1e;
         if (flags10 & 0x8)
         {
@@ -4318,7 +4280,6 @@ bool BSWin32GameSound::FUN_00aed660(float volume)
 
 #include <math.h>
 
-float __cdecl FUN_004579e0(float);
 inline float P010Root(float f)
 {
     return FUN_004579e0(f);
@@ -4550,8 +4511,6 @@ struct P010Object
     unsigned short attenuation214, attenuation216;
     P010Vec position;
     bool dirty;
-    bool FUN_00ae9cf0();
-    bool FUN_00ae9d10();
     inline bool IsProjected() const
     {
         return (unk8 & 0x10000000) != 0;
@@ -4576,10 +4535,10 @@ void P010Object::FUN_00aef090(float x, float y, float z)
 {
     P010Vec tempVector;
     P010Vec output;
-    output = *(const P010Vec*)&NiPoint3_ZERO;
-    tempVector = *(const P010Vec*)&NiPoint3_ZERO;
+    output = *(const P010Vec*)&::NiPoint3::ZERO;
+    tempVector = *(const P010Vec*)&::NiPoint3::ZERO;
     bool changed = false;
-    if ((FUN_00ae9cf0() || FUN_00ae9d10()) && unk198)
+    if ((reinterpret_cast<::BSGameSound *>(this)->HasSoundFlagTwo() || reinterpret_cast<::BSGameSound *>(this)->CanStartPlayback()) && unk198)
     {
         float distance;
         P010Listener* listener;
@@ -4625,12 +4584,12 @@ void P010Object::FUN_00aef090(float x, float y, float z)
                         current = *P010Audio::Get()->Listener()->Position();
                         delta8 = origin - position;
                         toListener4 = current - position;
-                        local41 = toListener4.DotProduct(delta8);
+                        local41 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(toListener4))->DotProduct((void *)&(delta8));
                         if (local41 <= 0.0)
                             output = position;
                         else
                         {
-                            local1 = delta8.DotProduct(delta8);
+                            local1 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(delta8))->DotProduct((void *)&(delta8));
                             if (local1 <= local41)
                                 output = origin;
                             else
@@ -4646,11 +4605,11 @@ void P010Object::FUN_00aef090(float x, float y, float z)
                                                   float(output.y * DAT_010a3be8), 1);
                     }
                 }
-                SetDistance((tempVector - position).FUN_00457990());
+                SetDistance(reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::P010Vec &)((tempVector - position)))->ComputeMagnitude());
                 distance = unk150;
                 if (IsProjected() && IsLine() && P010Audio::Get()->Listener())
                 {
-                    distance = (output - *P010Audio::Get()->Listener()->Position()).FUN_00457990();
+                    distance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::P010Vec &)((output - *P010Audio::Get()->Listener()->Position())))->ComputeMagnitude();
                 }
                 if (fabs(unk13c - unk140) > 10.0)
                 {
@@ -4721,7 +4680,6 @@ struct OggFile
     int unk24;
     int unk28;
     bool bGood;
-    void Close();
     __forceinline bool IsGood() const
     {
         return bGood;
@@ -4744,9 +4702,6 @@ struct OggStream;
 extern "C" int __cdecl ov_open_callbacks(void* datasource, OggStream* vf, char* initial, long ibytes,
                                          OvCallbacks callbacks);
 struct VorbisInfo;
-extern "C" VorbisInfo* __cdecl ov_info(OggStream* vf, int link);
-extern "C" long __cdecl ov_seekable(OggStream* vf);
-extern "C" __int64 __cdecl ov_pcm_total(OggStream* vf, int i);
 
 struct OggStream
 {
@@ -4937,6 +4892,20 @@ struct OggStream
 
     bool FUN_00af1e00(const char* name);
 };
+// @fnv 0x00aebff0
+bool AudioBuffer::FUN_00aebff0()
+{
+    this->m22c = new AF1d80();
+    if (!reinterpret_cast<::OggStream *>((this->m22c))->FUN_00af1e00((const char *)(void *)(&this->m36)))
+    {
+        delete this->m22c;
+        this->m22c = 0;
+        return false;
+    }
+    bool bHalf;
+    unsigned int nSize;
+    return Setup(bHalf, nSize);
+}
 
 // @fnv 0x00af1e00
 bool OggStream::FUN_00af1e00(const char* name)
@@ -4977,15 +4946,15 @@ bool OggStream::FUN_00af1e00(const char* name)
     int ret = ov_open_callbacks(pFile, this, 0, 0, cb_);
     if (ret)
     {
-        pFile->Close();
+        reinterpret_cast<::BSFile *>((pFile))->Close();
         delete pFile;
         pFile = 0;
         return false;
     }
     bOpen = true;
-    iInfo = ov_info(this, -1);
-    if (ov_seekable(this))
-        iTotal = static_cast<int>(ov_pcm_total(this, 0));
+    iInfo = ((::VorbisInfo *)(::FUN_00ee81f8(this, -1)));
+    if (((long)(::FUN_00ee81f2(this))))
+        iTotal = static_cast<int>(::FUN_00ee81ec(this, 0));
     return true;
 }
 
@@ -5033,17 +5002,15 @@ void ArchiveHeader::FUN_00afd9d0()
 
 struct MemoryManagerAllocator
 {
-    void* Allocate(unsigned int size);
 };
-extern MemoryManagerAllocator g_memoryAllocator;
 
 inline void* operator new[](unsigned int size)
 {
-    return g_memoryAllocator.Allocate(size);
+    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerAllocator *>(&::g_memoryManager))))->FUN_00aa3e40(size);
 }
 inline void operator delete[](void* p)
 {
-    g_memoryManager.Deallocate(p);
+    reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
 }
 
 unsigned int FUN_00ecdb00(const unsigned short*);
@@ -5227,12 +5194,11 @@ struct AE92D0_Object
     int unk188;
     AE92D0_Range m_range;
     AE92D0_Object(int unused);
-    void FUN_00ae95e0();
 };
 // @fnv 0x00ae92d0
 AE92D0_Object::AE92D0_Object(int unused)
 {
-    FUN_00ae95e0();
+    ::FUN_00ae95e0((char *)this);
 }
 
 void* __cdecl FUN_00ec7230(void* dst, const void* src, unsigned int size);
@@ -5281,7 +5247,6 @@ class FileFinderImpl
     ~FileFinderImpl();
 };
 
-extern FileFinderImpl* DAT_011f81dc;
 
 // @fnv 0x00afdcf0
 FileFinderImpl::~FileFinderImpl()
@@ -5291,19 +5256,17 @@ FileFinderImpl::~FileFinderImpl()
     while (uiIndex--)
     {
         const char* item = m_ppData.m_data[uiIndex];
-        g_memoryManager.Deallocate((void*)item);
-        m_ppData.RemoveRange(uiIndex, 1);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060((void*)item);
+        reinterpret_cast<::S_00afea20_Arr *>(&(m_ppData))->RemoveRange(uiIndex, 1);
     }
-    if (DAT_011f81dc == this)
+    if ((*reinterpret_cast<::FileFinderImpl * *>(&::g_fileFinder)) == this)
     {
-        DAT_011f81dc = 0;
+        (*reinterpret_cast<::FileFinderImpl * *>(&::g_fileFinder)) = 0;
     }
 }
 
 struct MgrAF
 {
-    void* FUN_00aa3e40(unsigned int);
-    void FUN_00aa4060(void*);
 };
 struct GuidAF
 {
@@ -5311,16 +5274,12 @@ struct GuidAF
     unsigned short b, c;
     unsigned char d[8];
 };
-extern int DAT_01093f04;
-extern GuidAF DAT_01100f94, DAT_01100fb4;
 extern GuidAF DAT_01101004, DAT_01100fd4;
 struct Setting_01017720_011f96a0
 {
     int vtable;
     unsigned int value;
 };
-extern Setting_01017720_011f96a0 g_011f7130, g_011f713c;
-extern unsigned int DAT_01202800;
 extern void* __cdecl _memmove(void*, const void*, unsigned int);
 struct OutputAF;
 struct AudioAF
@@ -5409,20 +5368,20 @@ struct DescAF
 };
 inline bool& EnableAF()
 {
-    return &g_011f7130 ? *(bool*)&g_011f7130.value : (*(bool*)&DAT_01202800 = false, *(bool*)&DAT_01202800);
+    return &::g_011f7130 ? *(bool*)&::g_011f7130.value : (*(bool*)&(*reinterpret_cast<unsigned int *>(&::DAT_01202800)) = false, *(bool*)&(*reinterpret_cast<unsigned int *>(&::DAT_01202800)));
 }
 inline unsigned int& LimitAF()
 {
-    return &g_011f713c ? g_011f713c.value : (DAT_01202800 = 0, DAT_01202800);
+    return &::g_011f713c ? ::g_011f713c.value : ((*reinterpret_cast<unsigned int *>(&::DAT_01202800)) = 0, (*reinterpret_cast<unsigned int *>(&::DAT_01202800)));
 }
 inline void* AllocateAF(unsigned int size)
 {
-    void* p = ((MgrAF*)&DAT_011f6238)->FUN_00aa3e40(size);
+    void* p = reinterpret_cast<::MemoryManagerStandIn *>((((MgrAF*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa3e40(size);
     return p;
 }
 inline void FreeAF(void* p)
 {
-    ((MgrAF*)&DAT_011f6238)->FUN_00aa4060(p);
+    reinterpret_cast<::FNV_MemoryManager *>((((MgrAF*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa4060(p);
 }
 inline void ZeroAF(void* dest, unsigned int size)
 {
@@ -5609,21 +5568,21 @@ bool AF1430::FUN_00af1430()
                     desc.flags |= 0x2a0;
                     desc.bytes = unk1dc + (unsigned int)(unk1dc * 0.25);
                     desc.guid = *(GuidAF*)&DAT_01093f04;
-                    allocatedB = ((MgrAF*)&DAT_011f6238)->FUN_00aa3e40(0x12);
+                    allocatedB = reinterpret_cast<::MemoryManagerStandIn *>((((MgrAF*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa3e40(0x12);
                     desc.format = allocatedB;
                     source->Format(desc.format, 0x12, &n);
                     DAT_011f7128++;
                     if (device->Create(&desc, (void**)&created, 0) < 0)
                     {
-                        (free1_2 = desc.format, ((MgrAF*)&DAT_011f6238)->FUN_00aa4060(free1_2));
+                        (free1_2 = desc.format, reinterpret_cast<::FNV_MemoryManager *>((((MgrAF*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa4060(free1_2));
                         return false;
                     }
-                    created->Query((void*)&DAT_01100f94, (void**)&buffer);
+                    created->Query((void*)&(*reinterpret_cast<::GuidAF *>((void *)&::g_IID_SndBuffer8)), (void**)&buffer);
                     if (buffer)
-                        buffer->Query((void*)&DAT_01100fb4, &unkEffect);
+                        buffer->Query((void*)&(*reinterpret_cast<::GuidAF *>((void *)&::g_IID_Snd3DBuffer)), &unkEffect);
                     else
                     {
-                        (CSA2 = desc.format, ((MgrAF*)&DAT_011f6238)->FUN_00aa4060(CSA2));
+                        (CSA2 = desc.format, reinterpret_cast<::FNV_MemoryManager *>((((MgrAF*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa4060(CSA2));
                         return false;
                     }
                     effect.size = 0x20;
@@ -5649,7 +5608,7 @@ bool AF1430::FUN_00af1430()
                     n = 0;
                     if (buffer->Lock(0, 0, &dst2BytesTmp, &n, &dst2Bytes3, &n222, 2) < 0)
                     {
-                        (CSA6 = desc.format, ((MgrAF*)&DAT_011f6238)->FUN_00aa4060(CSA6));
+                        (CSA6 = desc.format, reinterpret_cast<::FNV_MemoryManager *>((((MgrAF*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa4060(CSA6));
                         return false;
                     }
                     if (source->Lock(0, 0, &src1Bytes2, &CNA, &src2Bytes, &srcn8, 2) >= 0)
@@ -5659,7 +5618,7 @@ bool AF1430::FUN_00af1430()
                         source->Unlock(src1Bytes2, CNA, src2Bytes, srcn8);
                     }
                     buffer->Unlock(dst2BytesTmp, n, dst2Bytes3, n222);
-                    (CSAB = desc.format, ((MgrAF*)&DAT_011f6238)->FUN_00aa4060(CSAB));
+                    (CSAB = desc.format, reinterpret_cast<::FNV_MemoryManager *>((((MgrAF*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa4060(CSAB));
                     return true;
                 }
             }
@@ -5679,19 +5638,16 @@ struct AudioVec
         const AudioVec* self = this;
         return AudioVec(self->x - rhs.x, self->y - rhs.y, self->z - rhs.z);
     }
-    AudioVec FUN_00439e90(const AudioVec&) const;
     inline float DotProduct(const AudioVec& rhs) const
     {
         const AudioVec* self = this;
         float result = self->x * rhs.x + self->y * rhs.y + self->z * rhs.z;
         return result;
     }
-    float FUN_00457990() const;
 };
 AudioVec __cdecl FUN_004a3760(float, const AudioVec&);
 
 extern "C" double __cdecl fabs(double);
-extern "C" const double DAT_010290f8;
 __forceinline float Absolute(float value)
 {
     return float(fabs(value));
@@ -5894,8 +5850,6 @@ struct AudioSound
     unsigned short unk216;
     AudioVec point;
 
-    unsigned char FUN_00ae9cf0();
-    unsigned char FUN_00ae9d10();
     __forceinline bool IsSegment()
     {
         return (flags & 0x10000000) != 0;
@@ -5916,8 +5870,8 @@ struct AudioSound
 void AudioSound::FUN_00aed990()
 {
     float x = 0.0f, coordY = 0.0f, z = 0.0f;
-    AudioVec projected3 = reinterpret_cast<const AudioVec&>(NiPoint3_ZERO);
-    if (FUN_00ae9cf0() || FUN_00ae9d10())
+    AudioVec projected3 = reinterpret_cast<const AudioVec&>(::NiPoint3::ZERO);
+    if (((unsigned char)(reinterpret_cast<::BSGameSound *>(this)->HasSoundFlagTwo())) || ((unsigned char)(reinterpret_cast<::BSGameSound *>(this)->CanStartPlayback())))
     {
         if (GetSystem()->GetListener())
         {
@@ -5942,17 +5896,17 @@ void AudioSound::FUN_00aed990()
                 float projection = 0.0f, squaredLength = 0.0f, fractionX = 0.0f;
                 AudioVec center = GetSystem()->GetListener()->Position();
                 AudioVec direction2;
-                direction2 = source.FUN_00439ef0(point);
+                direction2 = (*(::AudioVec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(source))->FUN_00439ef0((::NiPoint3 *)&(point), *(const ::NiPoint3 *)nullptr)));
                 AudioVec delta;
-                delta = center.FUN_00439ef0(point);
-                projection = delta.DotProduct(direction2);
+                delta = (*(::AudioVec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(center))->FUN_00439ef0((::NiPoint3 *)&(point), *(const ::NiPoint3 *)nullptr)));
+                projection = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(delta))->DotProduct((void *)&(direction2));
                 if (projection <= 0.0)
                 {
                     projected3 = point;
                 }
                 else
                 {
-                    squaredLength = direction2.DotProduct(direction2);
+                    squaredLength = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(direction2))->DotProduct((void *)&(direction2));
                     if (squaredLength <= projection)
                     {
                         projected3 = source;
@@ -5960,7 +5914,7 @@ void AudioSound::FUN_00aed990()
                     else
                     {
                         fractionX = projection / squaredLength;
-                        projected3 = point.FUN_00439e90(FUN_004a3760(fractionX, direction2));
+                        projected3 = (*(::AudioVec *)(reinterpret_cast<::Point3Offset *>((void *)&(point))->ProjectileLaunched((::NiPoint3 *)&(const ::AudioVec &)(FUN_004a3760(fractionX, direction2)), {})));
                     }
                 }
                 if (primary)
@@ -5975,15 +5929,15 @@ void AudioSound::FUN_00aed990()
             float distance = this->distance;
             if (IsSegment() && HasSegment() && GetSystem()->GetListener())
             {
-                distance = projected3.FUN_00439ef0(GetSystem()->GetListener()->Position()).FUN_00457990();
+                distance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::AudioVec &)((*(::AudioVec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(projected3))->FUN_00439ef0((::NiPoint3 *)&(GetSystem()->GetListener()->Position()), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude();
                 this->distance = distance;
             }
             else if (GetSystem()->GetListener())
             {
-                distance = point.FUN_00439ef0(GetSystem()->GetListener()->Position()).FUN_00457990();
+                distance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::AudioVec &)((*(::AudioVec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(point))->FUN_00439ef0((::NiPoint3 *)&(GetSystem()->GetListener()->Position()), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude();
                 this->distance = distance;
             }
-            if (Absolute(outer - inner) > 10.0 && outer * DAT_010290f8 > distance)
+            if (Absolute(outer - inner) > 10.0 && outer * ::DAT_010290f8 > distance)
             {
                 float quarter = float((outer - inner) * 0.25 + inner);
                 float midpointVal = float((outer - inner) * 0.5 + inner);

@@ -7,13 +7,23 @@
 
 // src/havok/physics/collide/agent3/collectioncollection3/hkpcollectioncollectionagent3.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/collectioncollection3/hkpcollectioncollectionagent3.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void __cdecl InitAndReturnTail(void*, void*, void*);
-extern "C" void __cdecl FUN_00d34db0(void*, void*, void*);
-extern "C" void __cdecl FUN_00d34d30(void*, void*, void*);
-extern "C" void __cdecl ForwardCall(void*, void*, void*);
-extern "C" void __cdecl FUN_00d34d80(void*, void*, void*);
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_00cb21e0_shell.h"
+#include "fnv/decl/FUN_00cfbd60_cls.h"
+#include "fnv/symbols_00cbe000.h"
+#include "fnv/symbols_00cf8000.h"
+#include "fnv/symbols_00d2d000.h"
+#include "fnv/symbols_00d34000.h"
+#include "fnv/symbols_00d36000.h"
+#include "fnv/symbols_00d97000.h"
+#include "fnv/symbols_00da3000.h"
+#include "fnv/symbols_00da4000.h"
+#include "fnv/symbols_00da5000.h"
+#include "fnv/symbols_00da6000.h"
+#include "fnv/symbols_00db0000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
 extern "C" void __cdecl FUN_00d35770(void*, void*, void*);
-extern "C" void __cdecl FUN_00da6dc0(void*, void*, void*);
 struct FUN_00d36270_s {
     void* m_vt;
     void* m_kPointA;
@@ -29,9 +39,6 @@ struct FUN_00d36270_s {
     void* m_k;
     unsigned char m_flag;
 };
-void FUN_00d36270(FUN_00d36270_s* self);
-void __cdecl FUN_00da35f0(void*, float, float, void*);
-void __cdecl FUN_00d34d80(void* apUnused, void* b, float afValue1, float afValue2, void* e);
 struct FUN_00cf5830_cls {
     int unk00;
     int unk04;
@@ -60,14 +67,10 @@ struct __declspec(align(16)) D36270Data {
     unsigned char flag1;
     unsigned char flag2;
 };
-void FUN_00d36270(D36270Data*);
 struct D362Script {
-    void AddEntry(D36270Data*, int row, int column);
 };
 extern unsigned char DAT_01268ad5;
-void FUN_00d362c0(D362Script* script);
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
-extern "C" void __cdecl FUN_00d97250(void*, void*, void*);
 extern "C" const char str_010ceca8[];
 struct S00d34d30_Obj
 {
@@ -80,7 +83,6 @@ struct S00d34d30_Obj
     virtual void m6(const char* s);
     virtual void m7();
 };
-void __cdecl FUN_00d34d30(void* a, void* b, void* c, void* d);
 struct Obj {
     virtual void* m00();
     virtual void* m04();
@@ -98,9 +100,8 @@ struct Local {
     void* f6;
     void* f7;
 };
-extern "C" void __cdecl FUN_00da4900(void*, void*);
-void __cdecl FUN_00d34db0(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7);
 union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
+#include "fnv/symbols_simd.h"
 extern "C" {
 __m128 _mm_load_ps(const float* p);
 void _mm_store_ps(float* p, __m128 v);
@@ -114,10 +115,7 @@ __m128 _mm_sqrt_ss(__m128 a);
 __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm8);
 __m128 _mm_set_ps1(float a);
 }
-extern __m128 DAT_010ec7f0;
-extern const __m128 DAT_011b6d70;
 // AABB quantization clip max
-extern __m128 DAT_01267e30;
 typedef unsigned int hkpShapeKey;
 struct hkFloat4
 {
@@ -142,7 +140,7 @@ struct hkVector4q
 
     __forceinline void setInterpolate4(const hkVector4q& a, const hkVector4q& b, const hkVector4q& t)
     {
-        m_vComponents = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(_mm_load_ps(DAT_010ec7f0.m128_f32), t.m_vComponents), a.m_vComponents), _mm_mul_ps(t.m_vComponents, b.m_vComponents));
+        m_vComponents = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(_mm_load_ps(::DAT_010ec7f0.m128_f32), t.m_vComponents), a.m_vComponents), _mm_mul_ps(t.m_vComponents, b.m_vComponents));
     }
 
     __forceinline void setAddMul4(const hkVector4q& a, const hkVector4q& b, const hkSimdRealq& r)
@@ -212,7 +210,6 @@ struct SweptTransformSamples
     hkTransformq m_kMotionTransform;
     hkTransformq m_shapeToMotion;
 };
-void __cdecl FUN_00cbec90(const hkMotionStateq* motionState, SweptTransformSamples* out);
 struct hkAabbq
 {
     hkVector4q m_kMinimumCorner;
@@ -338,12 +335,10 @@ struct hkpCollidableq : hkpCdBodyq
     int unk1C;
     BoundingVolumeData m_kBoundingVolumeData;
 };
-void __cdecl FUN_00cf8690(hkAabbUint32Key* out, const hkAabbUint32* in);
 struct hkAabbUint32Less
 {
     unsigned char m_unused;
 };
-void __cdecl FUN_00d36360(hkAabbUint32Key* arr, int iStart, int iEnd, hkAabbUint32Less cmp);
 static __forceinline void expandAabbUint32(hkAabbUint32Key* out, const hkAabbUint32* in)
 {
     int shift = in->m_ucExpansionShift;
@@ -422,7 +417,6 @@ __forceinline void hkSwap(T& x, T& y)
     y = x;
     x = t;
 }
-void __cdecl FUN_00d36360(SortEntry* pArr, int d, int h, SortEntryLess cmpLess);
 extern "C" __m128 _mm_set_ss(float);
 struct hkpAgent3ProcessInputq
 {
@@ -433,7 +427,7 @@ struct hkpAgent3ProcessInputq
 };
 static __forceinline void interpolateCenter(hkVector4q& out, const hkVector4q& a, const hkVector4q& b, const hkSimdRealq& t)
 {
-    out.m_vComponents = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(DAT_010ec7f0, _mm_shuffle_ps(t.m_vValue,t.m_vValue,0)), a.m_vComponents), _mm_mul_ps(b.m_vComponents, _mm_shuffle_ps(t.m_vValue,t.m_vValue,0)));
+    out.m_vComponents = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(::DAT_010ec7f0, _mm_shuffle_ps(t.m_vValue,t.m_vValue,0)), a.m_vComponents), _mm_mul_ps(b.m_vComponents, _mm_shuffle_ps(t.m_vValue,t.m_vValue,0)));
 }
 static __forceinline void convertLowerCurrent(const hkVector4q& in, const hkVector4q& offset, const hkVector4q& scale,
                                                   const __m128& maxVal, const __m128& minVal, hkAabbUint32Key* out)
@@ -463,8 +457,8 @@ static __forceinline void convertUpperCurrent(const hkVector4q& in, const hkVect
 }
 static __forceinline void quantizeAabb(const hkAabbq& aabb, const hkpProcessCollisionInputq* in, hkAabbUint32Key* out) {
  __m128 maxVal=DAT_011b6d70;
- convertLowerCurrent(aabb.m_kMinimumCorner,in->m_kAabbMin,in->m_kAabbScale,maxVal,DAT_01267e30,out);
- convertUpperCurrent(aabb.m_kMaximumCorner,in->m_kAabbMaximum,in->m_kAabbScale,maxVal,DAT_01267e30,out->m_kMaximumCorner);
+ convertLowerCurrent(aabb.m_kMinimumCorner,in->m_kAabbMin,in->m_kAabbScale,maxVal,(*reinterpret_cast<::__m128 *>(&::DAT_01267e30)),out);
+ convertUpperCurrent(aabb.m_kMaximumCorner,in->m_kAabbMaximum,in->m_kAabbScale,maxVal,(*reinterpret_cast<::__m128 *>(&::DAT_01267e30)),out->m_kMaximumCorner);
 }
 void __cdecl FUN_00d34e10(const hkpAgent3ProcessInputq& input, const hkpShapeContainerq* container, const hkpCdBodyq* body, const hkpShapeKey* keys, int numKeys, hkAabbUint32Key* __restrict aabbsOut);
 
@@ -811,7 +805,6 @@ __forceinline hkTransform(){}
 __forceinline hkTransform(const hkTransform&r);
 __forceinline const hkVector4&getTranslation()const;
 __forceinline const hkRotation&getRotation()const;
-void SetConjugate(const hkTransform&t);
 private:
 hkRotation m_rotation;
 hkVector4 m_vTranslation;};
@@ -924,8 +917,7 @@ return D35770Sse::_mm_shuffle_ps(m_vComponents,m_vComponents,(((3)<<6)|((3)<<4)|
 }
 inline const hkVector4&__cdecl hkVector4::getZero()
 {
-extern hkVector4 g_vZero;
-return g_vZero;
+return (*reinterpret_cast<::hkVector4 *>(&::DAT_01267e30));
 }
 inline const hkVector4&hkMatrix3::getColumn(int x)const
 {
@@ -962,8 +954,7 @@ class StringCursor
 public:
 __forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}static StringCursor&GetMonitorStream()
 {
-extern hkThreadLocalData<StringCursor*>g_pMonitorStream;
-return*g_pMonitorStream.getData();
+return*(*reinterpret_cast<::hkThreadLocalData< ::StringCursor *> *>(&::DAT_0126835c)).getData();
 }
 public:
 __forceinline char*__cdecl GetStreamStart(){return m_kRayStart.val();}
@@ -1436,17 +1427,12 @@ void __cdecl CleanupAgent(FourByteState*entry,hkpAgentData*agentData,const hkpCd
 void __cdecl AddStat(FourByteState*entry,hkpAgentData*agentData,const CollisionAgentContext&input,hkStatisticsCollector*collector);
 void __cdecl RemovePoint(FourByteState*entry,hkpAgentData*agentData,const CollisionAgentContext&input);
 void __cdecl WarpTime(FourByteState*entry,hkpAgentData*agentData,hkTime oldTime,hkTime newTime,const CollisionAgentContext&input);
-int __cdecl BuildCollisionHitList(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const hkTransform&bTa,
-const hkVector4&linearTimInfo,const GskAgentInput&input,
-hkAabb*cachedAabb,hkpShapeKey_S*hitListOut,int hitListCapacity);
 const hkpShapeContainer*__cdecl GetContainerFromBody(const hkpCdBody*body,hkpShapeBuffer&buffer);
-const hkpShapeCollection*__cdecl GetCollectionFromBody(const hkpCdBody*body,hkpShapeBuffer&buffer);
 }
 struct AgentSectorPointerArray;
 extern "C"
 {
-void __cdecl BuildShapeCollectionBWorldOperations(AgentSectorPointerArray&agentTrack,const AgentSubtypeMarker&input,const hkpShapeContainer*shapeContainterB,const hkpShapeKey_S*hitList,WorldOperationEntry&output);
-void __cdecl BuildShapePairWorldOperations(AgentSectorPointerArray&agentTrack,const AgentSubtypeMarker&input,const hkpShapeContainer*shapeContainerA,const hkpShapeContainer*shapeCollectionB,const ShapeKeyCombination*hitList,WorldOperationEntry&output);}
+}
 struct AgentSectorPointerArray
 {};
 enum{HK_MAX_NUM_HITS_PER_AABB_QUERY=4096};struct ShapeKeyPair
@@ -1487,7 +1473,7 @@ hkUint32_S combined=(yab | yba)|(zab | zba);
 return combined&0x80000000;
 }
 };
-static int __cdecl collide(const KeyedAabb*pa,int numA,const KeyedAabb*pb,int numB,ShapeKeyPair*__restrict pairsOut,int maxNumPairs,ValueWrapper<int>&numPairsSkipped);};
+};
 class AabbUtil
 {
 public:
@@ -1502,7 +1488,6 @@ ValueWrapper<int>m_numQsTransforms;
 hkTransform m_kFirstAdditionalTransform;
 hkTransform m_kSecondAdditionalTransform;
 };
-static void __cdecl GetMotionStateTransforms(const hkMotionState*motionstate,OffsetAabbSweepInput&input);
 static void __cdecl sweepOffsetAabb(const OffsetAabbSweepInput&input,const hkAabb&aabbIn,hkAabb&aabbOut);};__forceinline void __cdecl AabbUtil::sweepOffsetAabb(const AabbUtil::OffsetAabbSweepInput&input,const hkAabb&aabbIn,hkAabb&aabbOut)
 {
 VectorComponentValue half(0.5f);
@@ -1577,7 +1562,7 @@ if(iSize>1)
 {
 int low=0;
 int high=iSize-1;
-QuickSortSubrange(pArr,low,high,cmpLess);
+::FUN_00d36360((::SortEntry *)(pArr),low,high,(*(::SortEntryLess *)&(const ::AlgorithmUtilities::less< ::AabbCollisionPairGenerator::KeyedAabb> &)(cmpLess)));
 }
 }
 }
@@ -1586,7 +1571,7 @@ namespace hkVector4Util_S
 __forceinline void __cdecl convertToUint32WithClip(const hkVector4&in,const hkVector4&offset,const hkVector4&scale,const hkVector4&min,const hkVector4&max,hkUint32_S*out);
 __forceinline void __cdecl convertAabbToUint32(const hkAabb&aabb,const hkVector4&offsetLow,const hkVector4&offsetHigh,const hkVector4&scale,hkAabbUint32_S&aabbOut);
 __forceinline void __cdecl uncompressExpandedAabbUint32(const hkAabbUint32_S&unexpandedAabbInt,hkAabbUint32_S&expandedAabbOut);
-extern hkQuadReal g_vAabbExpansion;}
+}
 inline void __cdecl hkVector4Util_S::convertToUint32WithClip(const hkVector4&in,const hkVector4&offset,const hkVector4&scale,const hkVector4&min,const hkVector4&max,hkUint32_S*out)
 {
 hkVector4 x;
@@ -1600,7 +1585,7 @@ out[2]=static_cast<hkUint32_S>(MathUtilities::hkToIntFast(x(2)));
 out[3]=static_cast<hkUint32_S>(MathUtilities::hkToIntFast(x(3)));}
 inline void __cdecl hkVector4Util_S::convertAabbToUint32(const hkAabb&aabb,const hkVector4&offsetLow,const hkVector4&offsetHigh,const hkVector4&scale,hkAabbUint32_S&aabbOut)
 {
-hkVector4 maxVal;maxVal.getQuad()=hkVector4Util_S::g_vAabbExpansion;
+hkVector4 maxVal;maxVal.getQuad()=::DAT_011b6d70;
 hkVector4Util_S::convertToUint32WithClip(aabb.m_kMinimumCorner,offsetLow,scale,hkVector4::getZero(),maxVal,aabbOut.m_kMinimumCorner);
 hkVector4Util_S::convertToUint32WithClip(aabb.m_kMaximumCorner,offsetHigh,scale,hkVector4::getZero(),maxVal,aabbOut.m_kMaximumCorner);}
 inline void __cdecl hkVector4Util_S::uncompressExpandedAabbUint32(const hkAabbUint32_S&unexpandedAabbInt,hkAabbUint32_S&expandedAabbOut)
@@ -1616,7 +1601,7 @@ __forceinline void hkCollectionBvTreeAgent3_calcAabbs(const AgentSubtypeMarker&i
 {
 AabbUtil::OffsetAabbSweepInput sweepInput;
 const int useContinuousPhysics=input.m_pRayCastInput->m_pCollisionQualityInfo->m_iQualityInfoValue10.val();
-if(useContinuousPhysics)AabbUtil::GetMotionStateTransforms(cdBody->getRootCollidable()->GetMotionState(),sweepInput);
+if(useContinuousPhysics)::FUN_00cbec90((const ::hkMotionStateq *)(const ::hkMotionState *)(cdBody->getRootCollidable()->GetMotionState()),(::SweptTransformSamples *)&(sweepInput));
 for(int idx=0;idx<numHits;idx++)
 {
 hkpShapeKey_S key=hitList[idx];
@@ -1680,7 +1665,7 @@ else
 AabbUtil::OffsetAabbSweepInput sweepInput;
 if(useContinuousPhysics)
 {
-AabbUtil::GetMotionStateTransforms(cdBody->getRootCollidable()->GetMotionState(),sweepInput);
+::FUN_00cbec90((const ::hkMotionStateq *)(const ::hkMotionState *)(cdBody->getRootCollidable()->GetMotionState()),(::SweptTransformSamples *)&(sweepInput));
 }
 hkpShapeBuffer buffer;
 for(hkpShapeKey_S key=collection->GetFirstKey();key !=0xffffffff;key=collection->GetNextShapeKey(key))
@@ -1702,7 +1687,7 @@ DONT_SORT:
 // @fnv 0x00d35770
 hkpAgentData*__cdecl hkpCollectionCollectionAgent3::FUN_00d35770(const AgentSubtypeMarker&input,FourByteState*entry,hkpAgentData*agentData,hkVector4*separatingNormal,WorldOperationEntry&output)
 {
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::TimedNameRecord*h=reinterpret_cast<StringCursor::TimedNameRecord*>(mStream.GetStreamEnd());h->m_pCommandName="L" "t" "CollColl3";h->m_pFirst="S" "t" "Init";h->setTime();mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::TimedNameRecord*h=reinterpret_cast<StringCursor::TimedNameRecord*>(mStream.GetStreamEnd());h->m_pCommandName="L" "t" "CollColl3";h->m_pFirst="S" "t" "Init";h->setTime();mStream.setEnd((char*)(h+1));}};
 AgentSectorPointerArray*agent1nTrack=reinterpret_cast<AgentSectorPointerArray*>(agentData);
 const bool shapeAisCollection=!input.m_pRayCastInput->m_pCollisionDispatcher->hasAlternateType(input.m_pBodyA->getShape()->getType(),HK_SHAPE_BV_TREE);
 const bool shapeBisCollection=!input.m_pRayCastInput->m_pCollisionDispatcher->hasAlternateType(input.m_pBodyB->getShape()->getType(),HK_SHAPE_BV_TREE);
@@ -1721,8 +1706,8 @@ const bool bodyAHasCachedChildShapeAabbs=!input.m_pBodyA->m_parent&&static_cast<
 const bool bodyBHasCachedChildShapeAabbs=!input.m_pBodyB->m_parent&&static_cast<const hkpCollidable*>(input.m_pBodyB.val())->m_kBoundingVolumeData.m_pChildShapeAabbs;
 if(bodyAHasCachedChildShapeAabbs==bodyBHasCachedChildShapeAabbs)
 {
-hkpShapeBuffer tmpBufferA;const hkpShapeCollection*childCollectionA=hkBvTreeAgent3::GetCollectionFromBody(input.m_pBodyA,tmpBufferA);
-hkpShapeBuffer tmpBufferB;const hkpShapeCollection*childCollectionB=hkBvTreeAgent3::GetCollectionFromBody(input.m_pBodyB,tmpBufferB);
+hkpShapeBuffer tmpBufferA;const hkpShapeCollection*childCollectionA=((const ::hkpShapeCollection *)(::GetSpawnedObjectPointer((void **)(input.m_pBodyA))));
+hkpShapeBuffer tmpBufferB;const hkpShapeCollection*childCollectionB=((const ::hkpShapeCollection *)(::GetSpawnedObjectPointer((void **)(input.m_pBodyB))));
 const bool shapeAhasList=childCollectionA ? childCollectionA->getType()==HK_SHAPE_LIST:false;
 const bool shapeBhasList=childCollectionB ? childCollectionB->getType()==HK_SHAPE_LIST:false;
 if(shapeAhasList&&shapeBhasList)
@@ -1759,14 +1744,14 @@ const hkpCdBody*secondBody;
 const hkpShapeContainer*secondContainer;
 if(!(shapeAisCollection&shapeBisCollection))
 {
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="S" "t" "queryTree";h->setTime();mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="S" "t" "queryTree";h->setTime();mStream.setEnd((char*)(h+1));}};
 const hkpShapeContainer*firstContainer;
 hkpShapeKey_S hitList[HK_MAX_NUM_HITS_PER_AABB_QUERY];
 if(treatAasCollection)
 {
 ;
-hkTransform bTa;bTa.SetConjugate(input.m_kTransform);
-numHitsFirst=hkBvTreeAgent3::BuildCollisionHitList(*input.m_pBodyA,*input.m_pBodyB,bTa,input.m_vSubtypePosition,*input.m_pRayCastInput,0,hitList,HK_MAX_NUM_HITS_PER_AABB_QUERY);
+hkTransform bTa;reinterpret_cast<::FUN_00cb21e0_shell *>(&(bTa))->FUN_00cb21e0((const ::Matrix44 *)&(input.m_kTransform));
+numHitsFirst=::FUN_00d2d4f0(*input.m_pBodyA,*input.m_pBodyB,bTa,input.m_vSubtypePosition,*input.m_pRayCastInput,0,hitList,HK_MAX_NUM_HITS_PER_AABB_QUERY);
 firstCdBody=input.m_pBodyB;
 firstContainer=shapeContainerB;
 secondBody=input.m_pBodyA;
@@ -1776,16 +1761,16 @@ else
 {
 ;
 hkVector4 negLinearTimInfo;negLinearTimInfo.setNeg3(input.m_vSubtypePosition);
-numHitsFirst=hkBvTreeAgent3::BuildCollisionHitList(*input.m_pBodyB,*input.m_pBodyA,input.m_kTransform,negLinearTimInfo,*input.m_pRayCastInput,0,hitList,HK_MAX_NUM_HITS_PER_AABB_QUERY);
+numHitsFirst=::FUN_00d2d4f0(*input.m_pBodyB,*input.m_pBodyA,input.m_kTransform,negLinearTimInfo,*input.m_pRayCastInput,0,hitList,HK_MAX_NUM_HITS_PER_AABB_QUERY);
 firstCdBody=input.m_pBodyA;
 firstContainer=shapeContainerA;
 secondBody=input.m_pBodyB;
 secondContainer=shapeContainerB;
 }
 aabbsFirst=hkAllocateStack<AabbCollisionPairGenerator::KeyedAabb>(numHitsFirst+4,"aabbsFirst");
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="S" "t" "ConvertHitlist";h->setTime();mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="S" "t" "ConvertHitlist";h->setTime();mStream.setEnd((char*)(h+1));}};
 hkCollectionBvTreeAgent3_calcAabbs(input,firstContainer,firstCdBody,hitList,numHitsFirst,aabbsFirst);
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="S" "t" "SortHitList";h->setTime();mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="S" "t" "SortHitList";h->setTime();mStream.setEnd((char*)(h+1));}};
 AlgorithmUtilities::quickSort(aabbsFirst,numHitsFirst);
 }
 else
@@ -1831,20 +1816,20 @@ for(int i=numHitsFirst;i<numHitsFirst+4;i++){aabbsFirst[i].m_kMinimumCorner[0]=h
 for(int i=numHitsSecond;i<numHitsSecond+4;i++){aabbsSecond[i].m_kMinimumCorner[0]=hkUint32_S(-1);}
 }
 {
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="S" "t" "1-Axis";h->setTime();mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="S" "t" "1-Axis";h->setTime();mStream.setEnd((char*)(h+1));}};
 ValueWrapper<int>numPairsSkipped(0);
 if(firstCdBody==input.m_pBodyA)
 {
-numShapeKeyPairs=AabbCollisionPairGenerator::collide(aabbsFirst,numHitsFirst,aabbsSecond,numHitsSecond,reinterpret_cast<ShapeKeyPair*>(shapeKeyPairs),HK_MAX_NUM_HITS_PER_AABB_QUERY-1,numPairsSkipped);
+numShapeKeyPairs=::CollideSweepBounds((const ::SweepBounds *)(aabbsFirst),numHitsFirst,(const ::SweepBounds *)(aabbsSecond),numHitsSecond,(*(::SweepPair *__restrict *)&(const ::ShapeKeyPair * &)(reinterpret_cast<ShapeKeyPair*>(shapeKeyPairs))),HK_MAX_NUM_HITS_PER_AABB_QUERY-1,(int &)(numPairsSkipped));
 }
 else
 {
-numShapeKeyPairs=AabbCollisionPairGenerator::collide(aabbsSecond,numHitsSecond,aabbsFirst,numHitsFirst,reinterpret_cast<ShapeKeyPair*>(shapeKeyPairs),HK_MAX_NUM_HITS_PER_AABB_QUERY-1,numPairsSkipped);
+numShapeKeyPairs=::CollideSweepBounds((const ::SweepBounds *)(aabbsSecond),numHitsSecond,(const ::SweepBounds *)(aabbsFirst),numHitsFirst,(*(::SweepPair *__restrict *)&(const ::ShapeKeyPair * &)(reinterpret_cast<ShapeKeyPair*>(shapeKeyPairs))),HK_MAX_NUM_HITS_PER_AABB_QUERY-1,(int &)(numPairsSkipped));
 }
 hkDeallocateStack(aabbsSecond);
 hkDeallocateStack(aabbsFirst);
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="S" "t" "SortHits";h->setTime();mStream.setEnd((char*)(h+1));}};
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandFilterEntry*h=reinterpret_cast<StringCursor::CommandFilterEntry*>(mStream.GetStreamEnd());h->m_pCommandName="M" "i" "NumHits";h->m_uiFilterValue=float(numShapeKeyPairs);mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="S" "t" "SortHits";h->setTime();mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandFilterEntry*h=reinterpret_cast<StringCursor::CommandFilterEntry*>(mStream.GetStreamEnd());h->m_pCommandName="M" "i" "NumHits";h->m_uiFilterValue=float(numShapeKeyPairs);mStream.setEnd((char*)(h+1));}};
 AlgorithmUtilities::quickSort(shapeKeyPairs,numShapeKeyPairs);
 ;
 ShapeKeyCombination*pair=shapeKeyPairs+numShapeKeyPairs;
@@ -1857,10 +1842,10 @@ if(total<HK_MAX_NUM_HITS_PER_AABB_QUERY)
 hkShrinkAllocatedStack(shapeKeyPairs,total);
 }
 }
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="S" "t" "Narrow";h->setTime();mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="S" "t" "Narrow";h->setTime();mStream.setEnd((char*)(h+1));}};
 if(!input.m_pAdditionalCollidableBody)
 {
-BuildShapePairWorldOperations(*agent1nTrack,input,shapeContainerA,shapeContainerB,shapeKeyPairs,output);
+::FUN_00da5b80(*agent1nTrack,input,shapeContainerA,shapeContainerB,shapeKeyPairs,output);
 }
 else
 {
@@ -1873,10 +1858,10 @@ shapeKeys[i]=fullShapeKeyPairs[i].m_uiShapeKeyB;
 AgentSubtypeMarker modInput=input;
 modInput.m_pBodyA=input.m_pAdditionalCollidableBody;
 modInput.m_pAdditionalCollidableBody=0;
-BuildShapeCollectionBWorldOperations(*agent1nTrack,modInput,shapeContainerB,shapeKeys,output);
+::fnv_00da4aa0::FUN_00da4aa0((::fnv_00da4aa0::Q30 &)(*agent1nTrack),(const ::fnv_00da4aa0::Q14 &)(modInput),(const ::fnv_00da4aa0::Q24 *)(shapeContainerB),shapeKeys,(::fnv_00da4aa0::Q6 &)(output));
 hkDeallocateStack(shapeKeys);
 }
 hkDeallocateStack(shapeKeyPairs);
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="l" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="l" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
 return hkAddByteOffset(agentData,(((sizeof(AgentSectorPointerArray))+((16)-1))&(~((16)-1))));
 }

@@ -2,6 +2,12 @@
 // src/havok/physics/collide/agent3/predgskcylinderagent3/hkppredgskcylinderagent3.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/predgskcylinderagent3/hkppredgskcylinderagent3.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/Cls_dafcd0.h"
+#include "fnv/decl/FUN_00d22590_Class.h"
+#include "fnv/decl/HK_ASSERT_OBJECT_SIZE_OK_FUNC_t.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpCylinderShapeGetCylRadius.h"
+#include "fnv/symbols_00d41000.h"
 struct FNVTypeRecord
 {
     int unknown0;
@@ -26,11 +32,10 @@ struct FNVFlags
     unsigned char unknownA;
     unsigned char flags;
 };
-extern "C" int __cdecl DispatchInputRecord(FNVPair*, int, FNVFlags*);
 // @fnv 0x00d40b90
 int __cdecl ConvertPairFlags(FNVPair* pair, int mode, FNVFlags* result)
 {
-    int converted = DispatchInputRecord(pair, mode, result);
+    int converted = ((int)(::DispatchInputRecord((::InputData *)(pair), (unsigned char *)(mode), (::ResultData *)(result))));
     result->flags &= 0xF0;
     if (pair->first->record->type == 2)
     {
@@ -63,7 +68,6 @@ struct Manager
 };
 
 extern "C" Manager* __cdecl FUN_00c85750();
-extern "C" void __cdecl FUN_00d41930(void*, void*, void*, void*);
 extern double DAT_010cf218;
 
 struct Node
@@ -73,7 +77,6 @@ struct Node
     short unk06;
     int unk08;
     int unk0c;
-    Node* Init(void* p1, void* p2, float val);
 };
 
 struct ExtendedRecord : FNVTypeRecord
@@ -83,8 +86,6 @@ struct ExtendedRecord : FNVTypeRecord
     int unk18;
     int unk1c;
     int unk20;
-    float GetVal();
-    void RemoveRef();
 };
 
 struct FNVExtendedObject : FNVObject
@@ -104,7 +105,6 @@ struct __declspec(align(16)) FNVResult
 
 struct ExtendedFlags : FNVFlags
 {
-    void Init(void* p1, void* p2, void* p3);
 };
 
 struct __declspec(align(16)) LocalSource
@@ -142,7 +142,6 @@ struct __declspec(align(16)) LocalSource
     int unk78;
     int unk7c;
 
-    void CopyBase(LocalSource* src);
 };
 
 // Copies the source, wraps flagged slots in new nodes, runs the flags init and FUN_00d41930, restores old objects, and returns result.val.
@@ -150,7 +149,7 @@ struct __declspec(align(16)) LocalSource
 float __cdecl ComputeExtendedResult(LocalSource* source, void* apArg, FNVFlags* apFlags)
 {
     LocalSource local_source;
-    local_source.CopyBase(source);
+    reinterpret_cast<::HK_ASSERT_OBJECT_SIZE_OK_FUNC_t *>(&(local_source))->FUN_00d33260((*(const ::HK_ASSERT_OBJECT_SIZE_OK_FUNC_t *)(source)));
     local_source.unk60 = source->unk60;
     local_source.unk70 = source->unk70;
     local_source.unk74 = source->unk74;
@@ -187,8 +186,8 @@ float __cdecl ComputeExtendedResult(LocalSource* source, void* apArg, FNVFlags* 
             Node* node = pManager->allocator->allocate(0x40);
             node->unk04 = 0x40;
             float v = record->unk10;
-            float val = (v + record->GetVal()) + DAT_010cf218;
-            node = node->Init((char*)record + 0x20, (char*)record + 0x30, val);
+            float val = (v + reinterpret_cast<::hkpCylinderShapeGetCylRadius *>((record))->FUN_00d571a0()) + DAT_010cf218;
+            node = ((::Node *)(reinterpret_cast<::FUN_00d22590_Class *>((node))->FUN_00d22590((*(const ::AlignedHKVector4 *)((char*)record + 0x20)), (*(const ::AlignedHKVector4 *)((char*)record + 0x30)), val)));
             if (pTempObject)
             {
                 FNVObject* pOldObject = *slot;
@@ -211,16 +210,16 @@ float __cdecl ComputeExtendedResult(LocalSource* source, void* apArg, FNVFlags* 
     FNVTypeRecord* pSecondRecord = local_source.second->record;
     FNVTypeRecord* pFirstRecord = local_source.first->record;
     ExtendedFlags local_flags;
-    local_flags.Init(pFirstRecord, pSecondRecord, (char*)source + 0x20);
+    reinterpret_cast<::Cls_dafcd0 *>(&(local_flags))->FUN_00dafcd0((::Node *)(pFirstRecord), (::Node *)(pSecondRecord), (const ::Vec4Blk *)(void *)((char*)source + 0x20));
 
     FNVResult result;
-    FUN_00d41930(&local_source, apArg, &local_flags, &result);
+    ::FUN_00d41930((::Input_s *)(void *)(&local_source), (int)(apArg), (::hkpGskCache_s *)(void *)(&local_flags), (::Output_s *)(void *)(&result));
 
     for (int i = 0; i < 2; ++i)
     {
         if (apOldObjects[i])
         {
-            ((ExtendedRecord*)(*slots[i])->record)->RemoveRef();
+            reinterpret_cast<::hkReferencedObjectC905 *>((((ExtendedRecord*)(*slots[i])->record)))->FUN_00c905b0();
             *slots[i] = apOldObjects[i];
         }
     }
@@ -277,7 +276,6 @@ void D40AF0Caller(D40AF0State* s, D40AF0Mask* m)
     FUN_00d40af0(s, m);
 }
 
-void __fastcall FUN_00c905b0(void* selfVal);
 
 // For k in 0..1, if vals[k] is non-null, calls FUN_00c905b0 on **slots[k] and then stores vals[k] into *slots[k].
 // @fnv 0x00d409d0
@@ -288,7 +286,7 @@ static __declspec(noinline) void FUN_00d409d0(void** apValues, void** slots)
         if (apValues[k] != 0)
         {
             void* obj = slots[k];
-            FUN_00c905b0(*(void**)*(void**)obj);
+            reinterpret_cast<::hkReferencedObjectC905 *>((*(void**)*(void**)obj))->FUN_00c905b0();
             *(void**)slots[k] = apValues[k];
         }
     }
@@ -338,7 +336,6 @@ struct D40A10Shape
     float unk34;
     float unk38;
     float unk3c;
-    float FUN_00d571a0();
 };
 
 struct D40A10Node
@@ -348,7 +345,6 @@ struct D40A10Node
     short unk06;
     int unk08;
     int unk0c;
-    D40A10Node* FUN_00d22590(float* p1, float* p2, float val);
 };
 
 struct D40A10Entry
@@ -380,8 +376,8 @@ static __declspec(noinline) void FUN_00d40a10(int* a, FNVTypeRecord** apRecords,
             D40A10Node* node = (D40A10Node*)((D40A10Holder*)FUN_00c85750())->heap().allocate(0x40);
             node->unk04 = 0x40;
             float t = shape->unk10;
-            float val = t + shape->FUN_00d571a0() + DAT_010cf218;
-            D40A10Node* pResult = node->FUN_00d22590(&shape->unk20, &shape->unk30, val);
+            float val = t + reinterpret_cast<::hkpCylinderShapeGetCylRadius *>((shape))->FUN_00d571a0() + DAT_010cf218;
+            D40A10Node* pResult = ((::D40A10Node *)(reinterpret_cast<::FUN_00d22590_Class *>((node))->FUN_00d22590((*(const ::AlignedHKVector4 *)(&shape->unk20)), (*(const ::AlignedHKVector4 *)(&shape->unk30)), val)));
             new (dst) D40A10Entry(list[i]->record, list[i]->record->unknown8);
             dst->m_node = pResult;
             dst->m_uiEdgeIndex = -1;

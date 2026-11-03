@@ -1,5 +1,26 @@
 // bsshader/geometrydecalshader.cpp: GeometryDecalShader, DecalCls, Fx_Self (10 functions)
 
+#include "fnv/decl/D3DRenderStateGroup.h"
+#include "fnv/decl/FUN_00bcb210.h"
+#include "fnv/decl/FUN_00be1750_shell.h"
+#include "fnv/decl/FUN_00e7ecd0_cls.h"
+#include "fnv/decl/StageSet.h"
+#include "fnv/decl/StateGroup.h"
+#include "fnv/decl/XRenderer.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00be0000.h"
+#include "fnv/symbols_00e76000.h"
+#include "fnv/symbols_00e7e000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01063000.h"
+#include "fnv/symbols_010a1000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01200000.h"
+#include "fnv/symbols_01202000.h"
+#include "fnv/symbols_0126f000.h"
 #include "geometrydecalshader_decls.h"
 
 // @fnv 0x00bcbf00
@@ -22,7 +43,7 @@ void GeometryDecalShader::UpdateShaderConstants()
     {
         m_spFirstShaderConstantMap = new NiD3DShaderConstantMap(m_pShaderObject, 2);
         ((NiD3DShaderConstantMap*)m_spFirstShaderConstantMap.m_pObject)
-            ->AddConstant10(DAT_010bb750, 0x10000007, 0, 15, 1, g_011c72c0_arg1, 16, 4, DAT_012021d0, false);
+            ->AddConstant10(DAT_010bb750, 0x10000007, 0, 15, 1, ::DAT_01011584, 16, 4, DAT_012021d0, false);
     }
     if (!m_spSecondShaderConstantMap.m_pObject)
     {
@@ -31,19 +52,17 @@ void GeometryDecalShader::UpdateShaderConstants()
             ->AddConstant10(DAT_010A1E50, 0x20000009, 0, 0, 4, 0, 0, 0, 0, false);
         m_pkPass0 = ((NiD3DShaderConstantMap*)m_spSecondShaderConstantMap.m_pObject)->GetEntry(DAT_010A1E50);
         ((NiD3DShaderConstantMap*)m_spSecondShaderConstantMap.m_pObject)
-            ->AddConstant8(kSkinWorldViewProjTranspose, 0x20000009, 1, g_011c72c0_arg1, 0, 0, 0, false);
+            ->AddConstant8(::ConstantMaps::DAT_010a1d20, 0x20000009, 1, ::DAT_01011584, 0, 0, 0, false);
         m_pkPass1 =
-            ((NiD3DShaderConstantMap*)m_spSecondShaderConstantMap.m_pObject)->GetEntry(kSkinWorldViewProjTranspose);
+            ((NiD3DShaderConstantMap*)m_spSecondShaderConstantMap.m_pObject)->GetEntry(::ConstantMaps::DAT_010a1d20);
         ((NiD3DShaderConstantMap*)m_spSecondShaderConstantMap.m_pObject)
-            ->AddConstant10(kBoneMatrix3, 0x20000009, 0x120000, 44, 54, 0, 0, 0, 0, false);
-        m_pkPass2 = ((NiD3DShaderConstantMap*)m_spSecondShaderConstantMap.m_pObject)->GetEntry(kBoneMatrix3);
+            ->AddConstant10(::DAT_010A1CAC, 0x20000009, 0x120000, 44, 54, 0, 0, 0, 0, false);
+        m_pkPass2 = ((NiD3DShaderConstantMap*)m_spSecondShaderConstantMap.m_pObject)->GetEntry(::DAT_010A1CAC);
         ((NiD3DShaderConstantMap*)m_spSecondShaderConstantMap.m_pObject)
-            ->AddConstant10(DAT_010bb744, 0x10000007, 0, 31, 1, g_011c72c0_arg1, 16, 4, DAT_012021c0, false);
+            ->AddConstant10(DAT_010bb744, 0x10000007, 0, 31, 1, ::DAT_01011584, 16, 4, DAT_012021c0, false);
     }
 }
 
-extern NiGPUProgram* DAT_012021e0;
-extern NiGPUProgram* DAT_012021e4;
 
 struct FUN_00bcbc90_shell
 {
@@ -56,27 +75,14 @@ NiGPUProgram* __thiscall FUN_00bcbc90_shell::FUN_00bcbc90(void* obj, void* extra
     return *(NiGPUProgram**)((char*)obj + 0xbc) ? DAT_012021e4 : DAT_012021e0;
 }
 
-extern NiGPUProgram* DAT_012021e0;
-extern NiGPUProgram* DAT_012021e4;
 
 struct FUN_00bcbc70_shell : public GeometryDecalShader
 {
-    void __thiscall CreateDecalShaders();
     void __thiscall FUN_00bcbc70();
 };
 
-// @fnv 0x00bcbc70
-void __thiscall FUN_00bcbc70_shell::FUN_00bcbc70()
-{
-    CreateDecalShaders();
-    void(__thiscall * fn)(FUN_00bcbc70_shell*) = *(void(__thiscall**)(FUN_00bcbc70_shell*))(*(char**)this + 0x13c);
-    fn(this);
-}
-
-void __cdecl _delete(void*, unsigned int);
 struct FUN_00bcb210_shell
 {
-    void FUN_00bcb210();
 };
 struct FUN_00bcc070_shell
 {
@@ -86,9 +92,9 @@ struct FUN_00bcc070_shell
 // @fnv 0x00bcc070
 void* FUN_00bcc070_shell::DestroyIfFlagged(unsigned int a)
 {
-    ((FUN_00bcb210_shell*)this)->FUN_00bcb210();
+    reinterpret_cast<::FUN_00bcb210 *>((((FUN_00bcb210_shell*)this)))->FUN_00bcb210::~FUN_00bcb210();
     if (a & 1)
-        _delete(this, 0x90);
+        ::FUN_00aa1460(this, 0x90);
     return this;
 }
 
@@ -96,6 +102,13 @@ struct FUN_00bcb4d0_shell : public GeometryDecalShader
 {
     void CreateDecalShaders();
 };
+// @fnv 0x00bcbc70
+void __thiscall FUN_00bcbc70_shell::FUN_00bcbc70()
+{
+    reinterpret_cast<::FUN_00bcb4d0_shell *>(this)->CreateDecalShaders();
+    void(__thiscall * fn)(FUN_00bcbc70_shell*) = *(void(__thiscall**)(FUN_00bcbc70_shell*))(*(char**)this + 0x13c);
+    fn(this);
+}
 
 struct ShaderSourceInfo
 {
@@ -107,8 +120,6 @@ struct NiD3DGPUProgramCache
     static const char* __cdecl GetPixelShaderProfile(bool);
 };
 void* _fnv_zlib_memset(void*, int, int);
-int _sprintf_s(char*, unsigned int, const char*, ...);
-extern const char DAT_01063f48[];
 
 inline void AssignRef(PassReference& dst, const PassReference& src)
 {
@@ -133,41 +144,41 @@ void FUN_00bcb4d0_shell::CreateDecalShaders()
     ShaderSourceInfo VSbaseParam;
     VSbaseParam.path = "lighting\\2x\\v\\decal.v.hlsl";
     VSbaseParam.macros[0] = "DECAL";
-    VSbaseParam.macros[1] = g_011c72c0_arg1;
+    VSbaseParam.macros[1] = ::DAT_01011584;
     VSbaseParam.macros[2] = "GEOMDECAL";
-    VSbaseParam.macros[3] = g_011c72c0_arg1;
+    VSbaseParam.macros[3] = ::DAT_01011584;
     VSbaseParam.macros[4] = "MAXDECALS";
     VSbaseParam.macros[5] = DAT_01063f48;
     VSbaseParam.macros[6] = 0;
     _fnv_zlib_memset(&VSbaseParam.macros[7], 0, 0x2c);
-    BSShader::GetShaderPath(VSbaseParam.path, pCacheFileName);
-    _sprintf_s(pTempFileName, 0x104, "GDECAL.vso");
+    ::FUN_00be0c00(VSbaseParam.path, pCacheFileName);
+    ::FUN_00406d00(pTempFileName, 0x104, "GDECAL.vso");
     pShaderPasses[0] =
-        CompileVertexShader(pCacheFileName, (const _D3DXMACRO*)VSbaseParam.macros, "vs_1_1", pTempFileName);
+        ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(pCacheFileName), (const char *)(const ::_D3DXMACRO *)((const _D3DXMACRO*)VSbaseParam.macros), "vs_1_1")));
 
     ShaderSourceInfo vsSkinnedParams = {
         "lighting\\2x\\v\\decal.v.hlsl",
-        {"DECAL", g_011c72c0_arg1, "GEOMDECAL", g_011c72c0_arg1, "MAXDECALS", DAT_01063f48, "SKIN", g_011c72c0_arg1}};
-    BSShader::GetShaderPath(vsSkinnedParams.path, pCacheFileName);
-    _sprintf_s(pTempFileName, 0x104, "GDECALS.vso");
+        {"DECAL", ::DAT_01011584, "GEOMDECAL", ::DAT_01011584, "MAXDECALS", DAT_01063f48, "SKIN", ::DAT_01011584}};
+    ::FUN_00be0c00(vsSkinnedParams.path, pCacheFileName);
+    ::FUN_00406d00(pTempFileName, 0x104, "GDECALS.vso");
     pShaderPasses[1] =
-        CompileVertexShader(pCacheFileName, (const _D3DXMACRO*)vsSkinnedParams.macros, "vs_1_1", pTempFileName);
+        ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(pCacheFileName), (const char *)(const ::_D3DXMACRO *)((const _D3DXMACRO*)vsSkinnedParams.macros), "vs_1_1")));
 
     pPixelShaderProfile = NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     ShaderSourceInfo PSbaseParam;
     PSbaseParam.path = "lighting\\2x\\p\\decal.p.hlsl";
     PSbaseParam.macros[0] = "DECAL";
-    PSbaseParam.macros[1] = g_011c72c0_arg1;
+    PSbaseParam.macros[1] = ::DAT_01011584;
     PSbaseParam.macros[2] = "GEOMDECAL";
-    PSbaseParam.macros[3] = g_011c72c0_arg1;
+    PSbaseParam.macros[3] = ::DAT_01011584;
     PSbaseParam.macros[4] = "MAXDECALS";
     PSbaseParam.macros[5] = DAT_01063f48;
     PSbaseParam.macros[6] = 0;
     _fnv_zlib_memset(&PSbaseParam.macros[7], 0, 0x2c);
-    BSShader::GetShaderPath(PSbaseParam.path, pCacheFileName);
-    _sprintf_s(pTempFileName, 0x104, "GDECAL.pso");
+    ::FUN_00be0c00(PSbaseParam.path, pCacheFileName);
+    ::FUN_00406d00(pTempFileName, 0x104, "GDECAL.pso");
     pShaderPasses[2] =
-        CompilePixelShader(pCacheFileName, (const _D3DXMACRO*)PSbaseParam.macros, pPixelShaderProfile, pTempFileName);
+        reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750((char *)(pCacheFileName), (void *)((const _D3DXMACRO*)PSbaseParam.macros), (char *)(pPixelShaderProfile), (char *)(pTempFileName));
     AssignRef(pShaderPasses[3], pShaderPasses[2]);
 }
 
@@ -198,16 +209,14 @@ struct StageReturn
     int f58;
     int f5c;
     int m_iRefCount;
-    void ReturnToPool();
     void DecRefCount()
     {
         --m_iRefCount;
         if (m_iRefCount == 0)
-            ReturnToPool();
+            reinterpret_cast<::FUN_00e7ecd0_cls *>(this)->FUN_00e7ecd0();
     }
 };
 
-void __cdecl AssignStageFromPool(StageReturn*& pStage);
 
 struct StagePtr
 {
@@ -223,10 +232,8 @@ struct StagePtr
 
 struct MapCls
 {
-    void SetNodeValue(int a, int b, int c);
 };
 
-MapCls* __cdecl FUN_00e7f5d0();
 
 struct PassCls
 {
@@ -266,19 +273,16 @@ struct PassCls
     {
         --m_uiRefCount;
         if (!m_uiRefCount)
-            FUN_00e80190();
+            reinterpret_cast<::NiD3DPass *>(this)->DestroyPass();
     }
-    void FUN_00e80190();
-    void FUN_00e802b0(int a, StageReturn* pStage);
     MapCls* GetMap()
     {
         if (!m_pTaskMap)
-            m_pTaskMap = FUN_00e7f5d0();
+            m_pTaskMap = ((::MapCls *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
         return m_pTaskMap;
     }
 };
 
-void __cdecl ConfigureBeamStage(StageReturn* pStage, int a, int b, int c, int d);
 
 struct PtrPass
 {
@@ -313,7 +317,6 @@ struct PtrPass
     }
 };
 
-extern const float DAT_01200458;
 
 struct DecalCls : public BSShader
 {
@@ -339,89 +342,89 @@ void DecalCls::FUN_00bcb7f0()
     if (gateVal < 2)
     {
         AssignStageFromPool(pStage);
-        ConfigureBeamStage(pStage, 0, 1, 2, 1);
-        spRenderPass->FUN_00e802b0(spRenderPass->f14, pStage);
+        ::ConfigureBeamStage((::BeamStage *)(pStage), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(spRenderPass->f14, (::Stage321 *)(pStage));
         AssignStageFromPool(pStage);
-        ConfigureBeamStage(pStage, 1, 3, 2, 1);
-        spRenderPass->FUN_00e802b0(spRenderPass->f14, pStage);
+        ::ConfigureBeamStage((::BeamStage *)(pStage), 1, 3, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(spRenderPass->f14, (::Stage321 *)(pStage));
     }
     spRenderPass->m_spVertex = m_spVertexShaders[0].m_pObject;
     spRenderPass->m_spPixel = m_spPixelShaders[0].m_pObject;
     if (!spRenderPass->m_pTaskMap)
-        spRenderPass->m_pTaskMap = FUN_00e7f5d0();
-    spRenderPass->m_pTaskMap->SetNodeValue(0xa8, 15, 1);
+        spRenderPass->m_pTaskMap = ((::MapCls *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((spRenderPass->m_pTaskMap))->SetNodeValue(0xa8, 15, 1);
     if (!spRenderPass->m_pTaskMap)
-        spRenderPass->m_pTaskMap = FUN_00e7f5d0();
-    spRenderPass->m_pTaskMap->SetNodeValue(0x1b, 1, 1);
+        spRenderPass->m_pTaskMap = ((::MapCls *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((spRenderPass->m_pTaskMap))->SetNodeValue(0x1b, 1, 1);
     if (!spRenderPass->m_pTaskMap)
-        spRenderPass->m_pTaskMap = FUN_00e7f5d0();
-    spRenderPass->m_pTaskMap->SetNodeValue(0x13, 9, 1);
+        spRenderPass->m_pTaskMap = ((::MapCls *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((spRenderPass->m_pTaskMap))->SetNodeValue(0x13, 9, 1);
     if (!spRenderPass->m_pTaskMap)
-        spRenderPass->m_pTaskMap = FUN_00e7f5d0();
-    spRenderPass->m_pTaskMap->SetNodeValue(0x14, 6, 1);
+        spRenderPass->m_pTaskMap = ((::MapCls *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((spRenderPass->m_pTaskMap))->SetNodeValue(0x14, 6, 1);
     if (!spRenderPass->m_pTaskMap)
-        spRenderPass->m_pTaskMap = FUN_00e7f5d0();
-    spRenderPass->m_pTaskMap->SetNodeValue(0xf, 1, 1);
+        spRenderPass->m_pTaskMap = ((::MapCls *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((spRenderPass->m_pTaskMap))->SetNodeValue(0xf, 1, 1);
     if (!spRenderPass->m_pTaskMap)
-        spRenderPass->m_pTaskMap = FUN_00e7f5d0();
-    spRenderPass->m_pTaskMap->SetNodeValue(0x19, 5, 1);
+        spRenderPass->m_pTaskMap = ((::MapCls *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((spRenderPass->m_pTaskMap))->SetNodeValue(0x19, 5, 1);
     if (!spRenderPass->m_pTaskMap)
-        spRenderPass->m_pTaskMap = FUN_00e7f5d0();
-    spRenderPass->m_pTaskMap->SetNodeValue(0x18, 0, 1);
+        spRenderPass->m_pTaskMap = ((::MapCls *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((spRenderPass->m_pTaskMap))->SetNodeValue(0x18, 0, 1);
     if (!spRenderPass->m_pTaskMap)
-        spRenderPass->m_pTaskMap = FUN_00e7f5d0();
-    spRenderPass->m_pTaskMap->SetNodeValue(0xe, 0, 1);
+        spRenderPass->m_pTaskMap = ((::MapCls *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((spRenderPass->m_pTaskMap))->SetNodeValue(0xe, 0, 1);
     {
-        float fConst = DAT_01200458;
+        float fConst = ::DAT_01200458;
         int iConstBits = *(int*)&fConst;
         if (!spRenderPass->m_pTaskMap)
-            spRenderPass->m_pTaskMap = FUN_00e7f5d0();
-        spRenderPass->m_pTaskMap->SetNodeValue(0xc3, iConstBits, 1);
+            spRenderPass->m_pTaskMap = ((::MapCls *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+        reinterpret_cast<::StateGroup *>((spRenderPass->m_pTaskMap))->SetNodeValue(0xc3, iConstBits, 1);
     }
 
     spRenderPass = m_spPasses[1];
     if (spRenderPass->f18 < 2)
     {
         AssignStageFromPool(pStage);
-        ConfigureBeamStage(pStage, 0, 1, 2, 1);
-        spRenderPass->FUN_00e802b0(spRenderPass->f14, pStage);
+        ::ConfigureBeamStage((::BeamStage *)(pStage), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(spRenderPass->f14, (::Stage321 *)(pStage));
         AssignStageFromPool(pStage);
-        ConfigureBeamStage(pStage, 1, 3, 2, 1);
-        spRenderPass->FUN_00e802b0(spRenderPass->f14, pStage);
+        ::ConfigureBeamStage((::BeamStage *)(pStage), 1, 3, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(spRenderPass->f14, (::Stage321 *)(pStage));
     }
     spRenderPass->m_spVertex = m_spVertexShaders[1].m_pObject;
     spRenderPass->m_spPixel = m_spPixelShaders[1].m_pObject;
     if (!spRenderPass->m_pTaskMap)
-        spRenderPass->m_pTaskMap = FUN_00e7f5d0();
-    spRenderPass->m_pTaskMap->SetNodeValue(0xa8, 15, 1);
+        spRenderPass->m_pTaskMap = ((::MapCls *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((spRenderPass->m_pTaskMap))->SetNodeValue(0xa8, 15, 1);
     if (!spRenderPass->m_pTaskMap)
-        spRenderPass->m_pTaskMap = FUN_00e7f5d0();
-    spRenderPass->m_pTaskMap->SetNodeValue(0x1b, 1, 1);
+        spRenderPass->m_pTaskMap = ((::MapCls *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((spRenderPass->m_pTaskMap))->SetNodeValue(0x1b, 1, 1);
     if (!spRenderPass->m_pTaskMap)
-        spRenderPass->m_pTaskMap = FUN_00e7f5d0();
-    spRenderPass->m_pTaskMap->SetNodeValue(0x13, 9, 1);
+        spRenderPass->m_pTaskMap = ((::MapCls *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((spRenderPass->m_pTaskMap))->SetNodeValue(0x13, 9, 1);
     if (!spRenderPass->m_pTaskMap)
-        spRenderPass->m_pTaskMap = FUN_00e7f5d0();
-    spRenderPass->m_pTaskMap->SetNodeValue(0x14, 6, 1);
+        spRenderPass->m_pTaskMap = ((::MapCls *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((spRenderPass->m_pTaskMap))->SetNodeValue(0x14, 6, 1);
     if (!spRenderPass->m_pTaskMap)
-        spRenderPass->m_pTaskMap = FUN_00e7f5d0();
-    spRenderPass->m_pTaskMap->SetNodeValue(0xf, 1, 1);
+        spRenderPass->m_pTaskMap = ((::MapCls *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((spRenderPass->m_pTaskMap))->SetNodeValue(0xf, 1, 1);
     if (!spRenderPass->m_pTaskMap)
-        spRenderPass->m_pTaskMap = FUN_00e7f5d0();
-    spRenderPass->m_pTaskMap->SetNodeValue(0x19, 5, 1);
+        spRenderPass->m_pTaskMap = ((::MapCls *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((spRenderPass->m_pTaskMap))->SetNodeValue(0x19, 5, 1);
     if (!spRenderPass->m_pTaskMap)
-        spRenderPass->m_pTaskMap = FUN_00e7f5d0();
-    spRenderPass->m_pTaskMap->SetNodeValue(0x18, 0, 1);
+        spRenderPass->m_pTaskMap = ((::MapCls *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((spRenderPass->m_pTaskMap))->SetNodeValue(0x18, 0, 1);
     {
-        float fConst = DAT_01200458;
+        float fConst = ::DAT_01200458;
         int iConstBits = *(int*)&fConst;
         if (!spRenderPass->m_pTaskMap)
-            spRenderPass->m_pTaskMap = FUN_00e7f5d0();
-        spRenderPass->m_pTaskMap->SetNodeValue(0xc3, iConstBits, 1);
+            spRenderPass->m_pTaskMap = ((::MapCls *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+        reinterpret_cast<::StateGroup *>((spRenderPass->m_pTaskMap))->SetNodeValue(0xc3, iConstBits, 1);
     }
     if (!spRenderPass->m_pTaskMap)
-        spRenderPass->m_pTaskMap = FUN_00e7f5d0();
-    spRenderPass->m_pTaskMap->SetNodeValue(0xe, 0, 1);
+        spRenderPass->m_pTaskMap = ((::MapCls *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((spRenderPass->m_pTaskMap))->SetNodeValue(0xe, 0, 1);
 }
 
 // Sets a field on the pass object owned by the global renderer from the shader's data,
@@ -432,7 +435,6 @@ struct NiD3DPass_Ex
     int unk00;
     int unk04;
     int unk08;
-    bool ShutdownPools_Ex(bool);
 };
 struct PassOwner
 {
@@ -457,21 +459,17 @@ struct ShaderInput
     int unk08;
     ShaderParams* unk0c;
 };
-extern GlobalRendererState* DAT_0126f74c;
 
 // Copies the shader parameter at apInput->unk0c->unk7c into the pass's unk08 field, then calls ShutdownPools_Ex(false) on that pass.
 // @fnv 0x00bcbcb0
 void __stdcall ApplyShaderInputToPass(ShaderInput* apInput)
 {
-    NiD3DPass_Ex* pPass = DAT_0126f74c->unk24->unk04;
+    NiD3DPass_Ex* pPass = (*reinterpret_cast<::GlobalRendererState * *>(&::DAT_0126f74c))->unk24->unk04;
     pPass->unk08 = apInput->unk0c->unk7c;
-    pPass->ShutdownPools_Ex(false);
+    reinterpret_cast<::NiD3DPass *>((pPass))->ApplyRenderStateChanges(false);
 }
 
 struct NiRenderer;
-extern NiRenderer* DAT_011f9508;
-NiGPUProgram* __cdecl FUN_00e76700(NiRenderer*, unsigned int, unsigned int);
-void __cdecl FUN_00e804d0(NiPointer<NiD3DPass>*);
 struct ProgramView : NiGPUProgram
 {
     virtual void Slot2();
@@ -615,8 +613,8 @@ inline void SetProgram(NiGPUProgram*& destination, NiGPUProgram* object)
 // @fnv 0x00bcc0a0
 GeometryDecalShader* __cdecl CreateGeometryDecalShader()
 {
-    SetProgram(DAT_012021e0, FUN_00e76700(DAT_011f9508, 2, 1));
-    SetProgram(DAT_012021e4, FUN_00e76700(DAT_011f9508, 4, 1));
+    SetProgram(DAT_012021e0, ((::NiGPUProgram *)(::FUN_00e76700(::DAT_011f9508, 2, 1))));
+    SetProgram(DAT_012021e4, ((::NiGPUProgram *)(::FUN_00e76700(::DAT_011f9508, 4, 1))));
     static_cast<ProgramView*>(DAT_012021e0)->SetEntry(0, 0, 0, 2, 0);
     static_cast<ProgramView*>(DAT_012021e0)->SetEntry(1, 3, 3, 2, 0);
     static_cast<ProgramView*>(DAT_012021e0)->Finish();
@@ -629,7 +627,7 @@ GeometryDecalShader* __cdecl CreateGeometryDecalShader()
     static_cast<ShaderView*>(shader)->Slot19();
     static_cast<FUN_00bcb4d0_shell*>(shader)->CreateDecalShaders();
     for (unsigned int i = 0; i < 2; ++i)
-        FUN_00e804d0(&shader->m_spPasses[i]);
+        ::NiD3DPass::CreateD3DPass((*(::NiPointer< ::NiD3DPass> *)(&shader->m_spPasses[i])));
     static_cast<ShaderView*>(shader)->Slot79();
     static_cast<ShaderView*>(shader)->Slot71();
     static_cast<ShaderView*>(shader)->Bind(DAT_012021e0);
@@ -827,7 +825,6 @@ struct Fx_State
 };
 struct Fx_Obj18
 {
-    void Fx_Run(int* p, int z);
 };
 struct Fx_Self
 {
@@ -851,9 +848,6 @@ struct Fx_Color
 {
     float r, g, b, a;
 };
-extern Fx_Mgr** DAT_011f91e0;
-extern int DAT_011f4288[];
-extern float DAT_01016248;
 __forceinline float fx_pow10(float x)
 {
     float r = 1.0f;
@@ -870,57 +864,57 @@ __forceinline float fx_pow10(float x)
 }
 inline void fx_dispatch44(Fx_Hook* h, Fx_Mgr* m, int l, int e, Fx_Param* a0, int* v, int* p)
 {
-    if (h && reinterpret_cast<Fx_State*>(DAT_0126f74c)->unk44)
-        h->Call(reinterpret_cast<Fx_State*>(DAT_0126f74c)->unk44, m, l, 0, e, a0, 0, v, p, 0, 1);
+    if (h && reinterpret_cast<Fx_State*>((*reinterpret_cast<::GlobalRendererState * *>(&::DAT_0126f74c)))->unk44)
+        h->Call(reinterpret_cast<Fx_State*>((*reinterpret_cast<::GlobalRendererState * *>(&::DAT_0126f74c)))->unk44, m, l, 0, e, a0, 0, v, p, 0, 1);
 }
 inline void fx_dispatch5c(Fx_Hook* h, Fx_Mgr* m, int l, int e, Fx_Param* a0, int* v, int* p)
 {
-    if (h && reinterpret_cast<Fx_State*>(DAT_0126f74c)->unk5c)
-        h->Call(reinterpret_cast<Fx_State*>(DAT_0126f74c)->unk5c, m, l, 0, e, a0, 0, v, p, 0, 1);
+    if (h && reinterpret_cast<Fx_State*>((*reinterpret_cast<::GlobalRendererState * *>(&::DAT_0126f74c)))->unk5c)
+        h->Call(reinterpret_cast<Fx_State*>((*reinterpret_cast<::GlobalRendererState * *>(&::DAT_0126f74c)))->unk5c, m, l, 0, e, a0, 0, v, p, 0, 1);
 }
 // Runs the sub-object, sets a global color from s->unkc0, stores 1-pow10(unkbc) and unk28, then dispatches hooks unk30 and unk34.
 // @fnv 0x00bcbce0
 void Fx_Self::UpdateColorAndPower(Fx_Param* apParam)
 {
-    Fx_Mgr* m = *DAT_011f91e0;
+    Fx_Mgr* m = *(*reinterpret_cast<::Fx_Mgr ** *>(&::DAT_011f91e0));
     int* v = &m->unk68;
     int* p = m->unk20;
     if (!p)
-        p = DAT_011f4288;
+        p = (*reinterpret_cast<int (*)[]>(&::g_defaultBound));
     int e = m->unkb8->unk34;
     int l = m->unkbc;
     Fx_Sub* pSub = apParam->unk0c;
-    unk18->Fx_Run(v, 0);
+    reinterpret_cast<::XRenderer *>((unk18))->FUN_00e6fbb0((*(const ::XTransform *)(v)), 0);
     Fx_Color* pGlobalColor = reinterpret_cast<Fx_Color*>(const_cast<float*>(DAT_012021d0));
     Fx_Color c;
     switch (pSub->unkc0)
     {
     case 0:
         c.r = 0.0f;
-        c.g = DAT_01016248;
+        c.g = ::fnv_00c88020::DAT_01016248;
         c.b = 0.0f;
-        c.a = DAT_01016248;
+        c.a = ::fnv_00c88020::DAT_01016248;
         *pGlobalColor = c;
         break;
     case 1:
-        c.r = DAT_01016248;
-        c.g = DAT_01016248;
+        c.r = ::fnv_00c88020::DAT_01016248;
+        c.g = ::fnv_00c88020::DAT_01016248;
         c.b = 0.0f;
-        c.a = DAT_01016248;
+        c.a = ::fnv_00c88020::DAT_01016248;
         *pGlobalColor = c;
         break;
     case 2:
         c.r = 0.0f;
-        c.g = DAT_01016248;
-        c.b = DAT_01016248;
-        c.a = DAT_01016248;
+        c.g = ::fnv_00c88020::DAT_01016248;
+        c.b = ::fnv_00c88020::DAT_01016248;
+        c.a = ::fnv_00c88020::DAT_01016248;
         *pGlobalColor = c;
         break;
     case 3:
-        c.r = DAT_01016248;
-        c.g = DAT_01016248;
-        c.b = DAT_01016248;
-        c.a = DAT_01016248;
+        c.r = ::fnv_00c88020::DAT_01016248;
+        c.g = ::fnv_00c88020::DAT_01016248;
+        c.b = ::fnv_00c88020::DAT_01016248;
+        c.a = ::fnv_00c88020::DAT_01016248;
         *pGlobalColor = c;
         break;
     }

@@ -2,6 +2,8 @@
 // src/havok/physics/collide/query/collector/kdtreecollector/hkpkdtreecollidableraycaster.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/collector/kdtreecollector/hkpkdtreecollidableraycaster.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01268000.h"
 struct FUN_00d97a10_Class
 {
     void FUN_00d97a10(float* p) const;
@@ -232,9 +234,7 @@ struct S00d97bf0_Obj
 int __thiscall S00d97bf0_Obj::FUN_00d97bf0(int a0, int a1, int a2, int a3)
 {
     extern void* DAT_00fdf044;
-    extern unsigned long DAT_0126835c;
     extern const char str_010d406c[];
-    extern const char str_010c41f8[];
 
     typedef S00d97bf0_Pool*(__stdcall * AllocFn)(unsigned long);
     AllocFn alloc = (AllocFn)DAT_00fdf044;

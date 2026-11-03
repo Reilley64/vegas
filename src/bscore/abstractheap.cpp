@@ -1,5 +1,12 @@
 // bscore/abstractheap.cpp: AbstractHeap, HeapFreeBlock, AbstractHeapDump, AbstractHeapBuckets and more (19 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00aaa6e0_Class.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_011f6000.h"
 #include "abstractheap_decls.h"
 
 // @fnv 0x00aa9bd0
@@ -94,7 +101,7 @@ void* AbstractHeap::BaseAllocate(unsigned int size)
                         }
                         pBlock->SetDecommitted(false);
                         char szMessage[256];
-                        sprintf_s(szMessage, 256, "Committing Entire Free Block: %08X, %08X\r\n", pBlock, iCommitSize);
+                        ::FUN_00406d00(szMessage, 256, "Committing Entire Free Block: %08X, %08X\r\n", pBlock, iCommitSize);
                         if (AbstractHeapHasLog())
                         {
                             AbstractHeapLogger::Get()->vfn_14(2, szMessage, 0, 0, 0);
@@ -104,7 +111,7 @@ void* AbstractHeap::BaseAllocate(unsigned int size)
                     unsigned int iRemainingSize = uiBlockSize - (size + sizeof(MemoryBlockHeader));
                     pNewBlock->m_pNextFree = 0;
                     pNewBlock->m_pPrevFree = 0;
-                    pNewBlock->SetFlags(iRemainingSize, 0);
+                    reinterpret_cast<::FUN_00aaa6e0_Class *>((pNewBlock))->SetFlags(iRemainingSize, (int)(0));
                     pNewBlock->SetPrevious(pBlock);
                     if (pBlock == m_pLastBlock)
                         m_pLastBlock = pNewBlock;
@@ -130,7 +137,7 @@ void* AbstractHeap::BaseAllocate(unsigned int size)
                         }
                         pBlock->SetDecommitted(false);
                         char szMessage[256];
-                        sprintf_s(szMessage, 256, "Committing perfectly matched Free Block: %08X, %08X\r\n", pBlock,
+                        ::FUN_00406d00(szMessage, 256, "Committing perfectly matched Free Block: %08X, %08X\r\n", pBlock,
                                   size + sizeof(MemoryBlockHeader));
                         if (AbstractHeapHasLog())
                         {
@@ -164,14 +171,14 @@ void* AbstractHeap::BaseAllocate(unsigned int size)
                     return 0;
                 }
                 char szMessage[256];
-                sprintf_s(szMessage, 256, "Committing memory on end of heap: %08X, %08X\r\n", pBlock,
+                ::FUN_00406d00(szMessage, 256, "Committing memory on end of heap: %08X, %08X\r\n", pBlock,
                           size + sizeof(MemoryBlockHeader));
                 if (AbstractHeapHasLog())
                 {
                     AbstractHeapLogger::Get()->vfn_14(2, szMessage, 0, 0, 0);
                 }
             }
-            pBlock->SetFlags(size, 0);
+            reinterpret_cast<::FUN_00aaa6e0_Class *>((pBlock))->SetFlags(size, (int)(0));
             PushBlock(pBlock);
             m_iUsedSize += uiBlockAllocationSizeItem;
             if (m_iUsedSize > m_iAllocationCount)
@@ -345,7 +352,6 @@ struct MemoryManager
 {
     void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 struct Heap00aaa5b0
 {
     void FUN_00aa8da0();
@@ -358,7 +364,7 @@ Heap00aaa5b0* Heap00aaa5b0::DestroyIfFlagged(unsigned int flags)
     FUN_00aa8da0();
     if (flags & 1)
     {
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
     }
     return this;
 }
@@ -476,7 +482,7 @@ void AbstractHeapDump::LogFreeBlockStats(unsigned int blockSize, HeapFreeList* l
         unsigned int total = 0;
         _MEMORYSTATUS status3;
         char buffer[256];
-        sprintf_s(buffer, 256, "AbstractHeap: Checking list for block size %u\n", blockSize);
+        ::FUN_00406d00(buffer, 256, "AbstractHeap: Checking list for block size %u\n", blockSize);
         AbstractHeapLogger::Get()->vfn_14(2, buffer, 0, 0, 0);
         if (list)
         {
@@ -492,7 +498,7 @@ void AbstractHeapDump::LogFreeBlockStats(unsigned int blockSize, HeapFreeList* l
             }
         }
         GlobalMemoryStatus(&status3);
-        sprintf_s(
+        ::FUN_00406d00(
             buffer, 256,
             "\tNumber of blocks free: %u\n\tLargest free block: %u\n\tTotal space in free blocks: %u\n\tAvailable global memory: %u\n",
             numBlocks4, largest, total, status3.dwAvailPhys);

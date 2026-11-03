@@ -2,6 +2,14 @@
 #ifndef FNV_BGSTALKINGACTIVATOR_RADIO_H
 #define FNV_BGSTALKINGACTIVATOR_RADIO_H
 
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/fnv_0056b190__FUN_0056b190_shell.h"
+#include "fnv/decl/fnv_0056b210__FUN_0056b210_shell.h"
+#include "fnv/decl/fnv_00572380__Fn572380.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/symbols_0056b000.h"
+#include "fnv/symbols_006d4000.h"
 #include "bgstalkingactivator.h"
 #include <float.h>
 class TESWorldSpace;
@@ -72,13 +80,7 @@ class TESObjectREFR : public TESForm
     virtual void Unk_7B();
     virtual void Unk_7C();
     virtual NiPoint3* GetPos() const;
-    TESBoundObject* GetObjectReference();
-    TESObjectCELL* GetParentCell();
-    TESWorldSpace* GetParentWorldSpace();
-    TESObjectREFR* GetExteriorRadioReference();
-    float GetRadioStationRange();
     RADIO_RANGE_TYPE GetRadioRangeType();
-    float GetLightLevelAtPoint(const NiPoint3&);
 };
 template <class T, unsigned int N> class BSSimpleArray
 {
@@ -144,9 +146,6 @@ class Pathing
         LOCKS_UNUSED,
         RADIO_LOCKS
     };
-    static bool FindRouteBetweenLocations(const PathingLocation&, const PathingLocation&, PathingPath*,
-                                          TELEPORT_DOOR_PATH_RESTRICTION, float, PathingActorData*,
-                                          DOOR_LOCK_DISPOSITION);
     static float FindPathDistance(const PathingLocation&, const PathingLocation&, float, PathingActorData*,
                                   DOOR_LOCK_DISPOSITION);
 };

@@ -2,6 +2,36 @@
 // src/fallout/ai/combat/hitdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/hitdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/Actor.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/FUN_0046e8c0_class.h"
+#include "fnv/decl/FUN_004bcdb0_shell.h"
+#include "fnv/decl/FUN_0051f4d0_class.h"
+#include "fnv/decl/FUN_005e50f0_Obj.h"
+#include "fnv/decl/FUN_005e5190_Class.h"
+#include "fnv/decl/FUN_00645c20_Class.h"
+#include "fnv/decl/FUN_008b4360_Class.h"
+#include "fnv/decl/FUN_008b4cd0_class.h"
+#include "fnv/decl/FUN_008b4cf0_class.h"
+#include "fnv/decl/FUN_008bc700_shell.h"
+#include "fnv/decl/SightActor.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_005e5000.h"
+#include "fnv/symbols_00645000.h"
+#include "fnv/symbols_00646000.h"
+#include "fnv/symbols_0066d000.h"
+#include "fnv/symbols_006b3000.h"
+#include "fnv/symbols_009b5000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011ce000.h"
+#include "fnv/symbols_011cf000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f4000.h"
 struct FUN_009b7040_shell
 {
     float GetField168();
@@ -58,17 +88,16 @@ bool FUN_0066de30(int a)
     }
 }
 
-extern float DAT_011f4270;
-extern float DAT_011f4274;
 
 struct NiPoint3
 {
     float x;
     float y;
     float z;
+public:
+    static const ::NiPoint3 ZERO;
 };
 
-extern NiPoint3 _NiPoint3_ZERO;
 
 struct BooleanFloatQuery
 {
@@ -111,8 +140,8 @@ void BooleanFloatQuery::FUN_009b4dc0()
     m_fFatigueDamage = 0.0f;
     m_fSneakAttackMultiplier = 0.0f;
     m_fCriticalHitMultiplier = 0.0f;
-    vOffset1 = _NiPoint3_ZERO;
-    vOffset2 = _NiPoint3_ZERO;
+    vOffset1 = ::NiPoint3::ZERO;
+    vOffset2 = ::NiPoint3::ZERO;
     pWeapon = 0;
     m_fWeaponDamage = 0.0f;
     m_pHitDataObjectAtOffset50 = 0;
@@ -124,7 +153,6 @@ void BooleanFloatQuery::FUN_009b4dc0()
 
 struct GlobalObject_00869f00
 {
-    void Clear(bool a);
 };
 
 extern int DAT_0108f9e8;
@@ -138,7 +166,7 @@ struct FUN_009b7970_shell
 void FUN_009b7970_shell::InitializeAndClear()
 {
     *reinterpret_cast<int*>(this) = (int)&DAT_0108f9e8;
-    reinterpret_cast<GlobalObject_00869f00*>(this)->Clear(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((reinterpret_cast<GlobalObject_00869f00*>(this)))->Clear(true);
 }
 
 struct FUN_009b7010_shell
@@ -155,7 +183,6 @@ NiPoint3& FUN_009b7010_shell::FUN_009b7010(NiPoint3& akDest)
 
 struct AX
 {
-    void FUN_006b3eb0(unsigned int a, unsigned int b);
 };
 struct FUN_009b7940_shell
 {
@@ -190,15 +217,6 @@ struct WeightedResultList
     int m_iTotalWeight;
     void FUN_009b7990(BGSBodyPart* aResult, unsigned int aiWeight);
 };
-// @fnv 0x009b7990
-void WeightedResultList::FUN_009b7990(BGSBodyPart* aResult, unsigned int aiWeight)
-{
-    m_iTotalWeight += aiWeight;
-    kWeights.Add((void*&)aiWeight);
-    kResults.Add((void*&)aResult);
-}
-
-extern "C" void __cdecl Deallocate(void*);
 struct FUN_009ca4c0_shell
 {
     void FreeStoredPointer();
@@ -210,7 +228,7 @@ void FUN_009ca4c0_shell::FreeStoredPointer()
     if (*(void**)((char*)this + 0x14))
     {
         void* p = *(void**)((char*)this + 0x14);
-        Deallocate(p);
+        ::FUN_00401030(p);
         *(void**)((char*)this + 0x14) = 0;
     }
 }
@@ -302,7 +320,6 @@ struct SpawnLocal
     void FUN_00407e00(unsigned int a, bool b);
 };
 
-void __cdecl SetContextInfo(SpawnLocal* ctx, SpawnObj* p);
 
 // @fnv 0x009b4fe0
 float __cdecl FUN_009b4fe0(SpawnObj* pSpawnObj)
@@ -316,7 +333,7 @@ float __cdecl FUN_009b4fe0(SpawnObj* pSpawnObj)
     L.FUN_00407e00(0x1000, true);
     unsigned char saved = pSpawnObj->flag4;
     pSpawnObj->flag4 = 1;
-    SetContextInfo(&L, pSpawnObj);
+    ::SetContextInfo((::n9b::Ctx *)(::SpawnLocal *)(&L), (::n9b::Info *)(pSpawnObj));
     pSpawnObj->flag4 = saved;
     return L.unk14;
 }
@@ -350,21 +367,9 @@ FUN_009b7870::FUN_009b7870()
 }
 
 class Actor;
-void __cdecl ApplyPerkModifiers(int aeEntry, Actor* apActor, ...);
-float __cdecl GetWeaponDPS(void* apOwner, void* apWeapon);
-float& __fastcall FUN_00403e20(float* apSetting);
-unsigned int __cdecl FUN_00487f50();
-extern unsigned int DAT_011ca278;
-extern int DAT_011ce46c;
-extern int DAT_011ce858;
-extern int DAT_011ce57c;
-extern const double DAT_01012060;
 
 struct FUN_009b7060_weapon
 {
-    unsigned short GetShortAtOffset1C0();
-    bool GetByteAtOffset();
-    unsigned int GetField1CC();
 };
 
 struct FUN_009b7060_actor
@@ -586,9 +591,6 @@ struct FUN_009b7060_actor
     virtual void v214();
     virtual void v215();
     virtual bool v216();
-    bool FUN_004997b0();
-    bool FUN_008bc700(Actor* apActor);
-    bool FUN_0088b880(int a1, Actor* apActor, int a3, int a4, int a5);
     int FUN_008a0d10(int a1, Actor* apActor, char* apDetected, int a4, int a5, int a6, int a7);
 };
 
@@ -618,27 +620,27 @@ void FUN_009b7060_shell::ApplyCriticalHit()
 
     float fLimbDamage4 = 0.0f;
     float fCritChance =
-        GetWeaponDPS(pSource ? (char*)pSource + 0xa4 : 0, pWeapon ? pWeapon : (FUN_009b7060_weapon*)DAT_011ca278);
+        ::GetWeaponDPS((::ActorValueOwner646 *)(void *)(pSource ? (char*)pSource + 0xa4 : 0), (::TESObjectWEAP646 *)(void *)(pWeapon ? pWeapon : (FUN_009b7060_weapon*)DAT_011ca278));
     ApplyPerkModifiers(1, pSource, pWeapon ? pWeapon : (FUN_009b7060_weapon*)DAT_011ca278, pTarget, &fCritChance);
     ApplyPerkModifiers(0x24, pTarget, pWeapon ? pWeapon : (FUN_009b7060_weapon*)DAT_011ca278, pSource, &fCritChance);
     if (iValue)
-        fCritChance += FUN_00403e20((float*)&DAT_011ce46c);
+        fCritChance += FUN_00403e20((float*)&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting553)));
     fCritChance *= 10.0;
 
     if (pSource && ((FUN_009b7060_actor*)pSource)->v216() && pTarget && ((FUN_009b7060_actor*)pTarget)->v064() &&
-        !((FUN_009b7060_actor*)pTarget)->v139(0) && ((FUN_009b7060_actor*)pSource)->FUN_004997b0() &&
-        !((FUN_009b7060_actor*)pTarget)->FUN_008bc700(pSource))
+        !((FUN_009b7060_actor*)pTarget)->v139(0) && reinterpret_cast<::Actor *>((((FUN_009b7060_actor*)pSource)))->IsSneaking() &&
+        !reinterpret_cast<::FUN_008bc700_shell *>((((FUN_009b7060_actor*)pTarget)))->FUN_008bc700(pSource))
     {
-        char cDetected = ((FUN_009b7060_actor*)pTarget)->FUN_0088b880(0, pSource, 1, 0, 0);
+        char cDetected = reinterpret_cast<::SightActor *>((((FUN_009b7060_actor*)pTarget)))->FUN_0088b880(0, (::SightActor *)(pSource), 1, (int *)(0), 0);
         int iDetection = ((FUN_009b7060_actor*)pTarget)->FUN_008a0d10(0, pSource, &cDetected, 0, 0, 0, 0);
         if (iDetection <= 0)
         {
-            fCritChance *= FUN_00403e20((float*)&DAT_011ce858);
+            fCritChance *= FUN_00403e20((float*)&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting747)));
             FUN_00407e00(0x400, true);
         }
     }
 
-    int iNewRoll = FUN_00487f50() % 1000;
+    int iNewRoll = ::DialogueRandom() % 1000;
     if (iNewRoll < (int)fCritChance)
     {
         FUN_00407e00(4, true);
@@ -646,12 +648,12 @@ void FUN_009b7060_shell::ApplyCriticalHit()
         if (pCritWeapon)
         {
             fLimbDamage4 =
-                pWeapon ? (double)pWeapon->GetShortAtOffset1C0() : afDamageAmount * FUN_00403e20((float*)&DAT_011ce57c);
+                pWeapon ? (double)reinterpret_cast<::FUN_00645c20_Class *>((pWeapon))->GetShortAtOffset1C0() : afDamageAmount * FUN_00403e20((float*)&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting752)));
             ApplyPerkModifiers(2, pSource, pCritWeapon, pTarget, &fLimbDamage4);
-            if (fLimbDamage4 > DAT_01012060)
+            if (fLimbDamage4 > ::_DAT_01012060)
                 afDamageAmount += fLimbDamage4;
-            FUN_00407e00(8, pCritWeapon->GetByteAtOffset());
-            uiValue = pCritWeapon->GetField1CC();
+            FUN_00407e00(8, ((bool)(reinterpret_cast<::FUN_009b73b0_shell *>((pCritWeapon))->GetByteAtOffset())));
+            uiValue = reinterpret_cast<::FUN_0051f4d0_class *>((pCritWeapon))->GetField1CC();
         }
     }
 }
@@ -858,8 +860,6 @@ struct ActorCore
 };
 struct Actor : ActorCore, ValueInterface
 {
-    Process* ProcessNow();
-    ActorBase* Base();
 };
 struct Process
 {
@@ -1049,20 +1049,12 @@ struct ActorBase
 };
 struct Item
 {
-    Parts* Flags();
-    float Health(int);
 };
 struct Parts
 {
-    bool Special();
-    Part* Find(int);
 };
 struct Part
 {
-    bool Valid();
-    unsigned char Chance();
-    bool Critical();
-    signed char ValueIndex();
 };
 struct Command
 {
@@ -1072,16 +1064,10 @@ struct Command
 };
 struct Weapon
 {
-    bool Check();
 };
 struct Setting
 {
-    float* Float();
 };
-extern Setting originalRuntimeFloatSetting748;
-extern Setting g_011cf794;
-extern Weapon* DAT_011ca278;
-void Compute(ValueInterface*, Weapon*, int, int, int, bool, bool*, bool*);
 struct Hit
 {
     Actor* source;
@@ -1120,10 +1106,10 @@ void Hit::ApplyDamageEffects()
     {
         if (bonus >= 1.0 && GetFlag(0x400))
         {
-            if (!weapon || weapon->Check())
-                bonus *= *originalRuntimeFloatSetting748.Float();
+            if (!weapon || ::FUN_006450c0((::TESObjectWEAP *)(weapon)))
+                bonus *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009b73d0::Setting *>(&::originalRuntimeFloatSetting748))))));
             else
-                bonus *= *g_011cf794.Float();
+                bonus *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009b73d0::Setting *>(&::g_011cf794))))));
         }
         health *= bonus;
         if (source && !source->IsPlayer() && skill == 45)
@@ -1138,14 +1124,14 @@ void Hit::ApplyDamageEffects()
     bool criticalFlagX = false;
     if (limb == 14)
     {
-        Item* item_ = target->ProcessNow()->GetItem();
-        Parts* flags_ = item_ ? item_->Flags() : 0;
+        Item* item_ = ((::fnv_009b73d0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->GetItem();
+        Parts* flags_ = item_ ? ((::fnv_009b73d0::Parts *)(reinterpret_cast<::Twin_0044ddc0 *>((item_))->GetName())) : 0;
         if (flags_)
         {
-            float itemHealth4 = item_->Health(0);
+            float itemHealth4 = reinterpret_cast<::FUN_004bcdb0_shell *>((item_))->FUN_004bcdb0(0);
             if (itemHealth4 - limbDamage <= 0.0)
             {
-                if (target->IsPlayer() || flags_->Special())
+                if (target->IsPlayer() || reinterpret_cast<::FUN_0046e8c0_class *>((flags_))->FUN_0046e8c0())
                     SetFlag(0x200, true);
                 else
                     SetFlag(0x100, true);
@@ -1154,16 +1140,16 @@ void Hit::ApplyDamageEffects()
     }
     else if (limb != -1)
     {
-        Parts* partsX = target->Base()->GetParts();
+        Parts* partsX = ((::fnv_009b73d0::ActorBase *)(reinterpret_cast<::Actor *>((target))->GetActorBase()))->GetParts();
         if (partsX)
         {
-            Part* part = partsX->Find(limb);
-            if (part && part->Valid())
+            Part* part = ((::fnv_009b73d0::Part *)(reinterpret_cast<::FUN_005e50f0_Obj *>((partsX))->GetValueByIndex(limb)));
+            if (part && reinterpret_cast<::FUN_008b4360_Class *>((part))->FUN_008b4360())
             {
-                current = part->Chance();
-                criticalFlagX = part->Critical();
+                current = reinterpret_cast<::FUN_008b4cf0_class *>((part))->GetByte65();
+                criticalFlagX = reinterpret_cast<::FUN_008b4cd0_class *>((part))->IsFlag40Set();
                 guaranteed = criticalFlagX && current >= 100;
-                int index7 = part->ValueIndex();
+                int index7 = ((signed char)(reinterpret_cast<::FUN_005e5190_Class *>((part))->GetByte63()));
                 float valueVal = target->Value(index7);
                 if (valueVal > 0.0 && valueVal - limbDamage <= 0.0)
                     SetFlag(0x80, true);
@@ -1179,8 +1165,8 @@ void Hit::ApplyDamageEffects()
             bool explodeTmp = false;
             bool dismember8 = guaranteed;
             if (!dismember8)
-                Compute(static_cast<ValueInterface*>(target), weapon ? weapon : (skill == 45 ? DAT_011ca278 : 0),
-                        current, 0, 0, criticalFlagX, &explodeTmp, &dismember8);
+                ::RollChanceOutcome(static_cast<ValueInterface*>(target), (::ChanceModifier *)(::fnv_009b73d0::Weapon *)(weapon ? weapon : (skill == 45 ? (*reinterpret_cast<::fnv_009b73d0::Weapon * *>(&::DAT_011ca278)) : 0)),
+                        current, 0, 0, criticalFlagX, (unsigned char *)(bool *)(&explodeTmp), (unsigned char *)(bool *)(&dismember8));
             if (explodeTmp)
                 SetFlag(0x20, true);
             if (dismember8)
@@ -1197,7 +1183,16 @@ struct FUN_00438690
     int unk08;
     int unk0c;
     ~FUN_00438690();
+public:
+    unsigned int FUN_007cb2e0(unsigned int *);
 };
+// @fnv 0x009b7990
+void WeightedResultList::FUN_009b7990(BGSBodyPart* aResult, unsigned int aiWeight)
+{
+    m_iTotalWeight += aiWeight;
+    reinterpret_cast<::FUN_00438690 *>(&(kWeights))->FUN_007cb2e0((unsigned int *)&((void*&)aiWeight));
+    reinterpret_cast<::FUN_00438690 *>(&(kResults))->FUN_007cb2e0((unsigned int *)&((void*&)aResult));
+}
 
 struct Base_009b78e0
 {
@@ -1308,7 +1303,6 @@ struct Tgt
 };
 struct Mgr
 {
-    Tgt* FUN_008d8520();
 };
 struct Info
 {
@@ -1323,9 +1317,7 @@ struct Ctx
     Info* m_54;
 };
 }
-extern n9b::Mgr* DAT_011dea3c;
 bool __cdecl FUN_0066de30(int v);
-void __cdecl InitHitData(n9b::Ctx* ctx, n9b::Mgr* mgr, n9b::Tgt* t, int v, bool flag);
 // @fnv 0x009b5050
 void __cdecl SetContextInfo(n9b::Ctx* ctx, n9b::Info* info)
 {
@@ -1333,5 +1325,5 @@ void __cdecl SetContextInfo(n9b::Ctx* ctx, n9b::Info* info)
         return;
     ctx->m_54 = info;
     bool flag = FUN_0066de30(info->m_iWordAt00) && info->m_iWordAt04;
-    InitHitData(ctx, DAT_011dea3c, info->m_iThirdValue->v40() ? info->m_iThirdValue : 0, DAT_011dea3c->FUN_008d8520()->v52(), flag);
+    ::InitHitData((::BooleanFloatQuery *)(ctx), (::ActorHit *)((*reinterpret_cast<::n9b::Mgr * *>(&::_g_thePlayer))), (::ActorHit *)(::n9b::Tgt *)(info->m_iThirdValue->v40() ? info->m_iThirdValue : 0), (::RefHit *)(((::n9b::Tgt *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::n9b::Mgr * *>(&::_g_thePlayer))))->GetBaseTexture()))->v52()), flag);
 }

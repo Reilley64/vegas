@@ -16,6 +16,7 @@
 
 // Memory context enumeration of the engine allocation tracker, matching the
 // deployed MEM_CONTEXT declaration used by the sibling engine units.
+#include "fnv/symbols_0043b000.h"
 enum MEM_CONTEXT
 {
     MEM_CONTEXT_MEM_CONTEXT_STATICVARS = 0,
@@ -104,7 +105,6 @@ class QueuedChildren : public BSSimpleArray<NiPointer<QueuedFile>, 1024>
 {
   public:
     virtual ~QueuedChildren();
-    void AddFinishedChild();
     unsigned int GetChildCountFinished();
 
   private:
@@ -159,7 +159,6 @@ class QueuedFile : public IOTask
     bool GetAllChildrenFinished();
 
   protected:
-    void AddChild(QueuedFile* apChild);
 
     MEM_CONTEXT aeMemoryContext;        // +0x18
     NiPointer<QueuedFile> m_pParent;    // +0x1c

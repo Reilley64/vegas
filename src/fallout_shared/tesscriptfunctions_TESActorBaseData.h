@@ -1,6 +1,7 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef FNV_TESSCRIPTFUNCTIONS_TESACTORBASEDATA_H
 #define FNV_TESSCRIPTFUNCTIONS_TESACTORBASEDATA_H
+#include "fnv/decl/FlagSet.h"
 #include "tesscriptfunctions_layout_support.h"
 #include "tesscriptfunctions_BaseFormComponent.h"
 #include "tesscriptfunctions_layout_support.h"
@@ -40,7 +41,6 @@ class TESActorBaseData : public BaseFormComponent
     // base BaseFormComponent at +0x0, size 4
     void SetEssential(bool value);
     void SetMatchesPCLevel(bool value);
-    void UpdateFlagBit(int flag, bool value, bool addChange);
     ActorBaseAttributes actorData;             // +0x4, 24 bytes
     TESLevItem* m_pBaseTemplateForm;           // +0x1C, 4 bytes
     BGSVoiceType* m_kFactionList;              // +0x20, 4 bytes
@@ -140,6 +140,8 @@ class TESActorBaseData : public BaseFormComponent
     // void __cdecl TESActorBaseData::*(TESActorBaseData*)
     // TESActorBaseData& __cdecl TESActorBaseData::*(const TESActorBaseData&)
     // void* __cdecl TESActorBaseData::*(unsigned int)
+public:
+    bool GetFlag(unsigned int) const;
 };
 FNV_STATIC_ASSERT(sizeof(TESActorBaseData) == 52);
 FNV_STATIC_ASSERT(offsetof(TESActorBaseData, actorData) == 4);

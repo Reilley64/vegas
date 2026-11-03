@@ -2,6 +2,9 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpballsocketdrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpballsocketdrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/CpuObject.h"
+#include "fnv/decl/DE44C0Object.h"
+#include "fnv/decl/FUN_00de4530Owner.h"
 struct __declspec(align(16)) hkVector4
 {
     float x, y, z, w;
@@ -39,7 +42,6 @@ struct Vec
 };
 struct Sub
 {
-    void FUN_00e10a10(void* a);
 };
 struct Listener
 {
@@ -62,8 +64,6 @@ struct Obj
     char pad2[0x60];
     Sub mC0;
     void FUN_00de47e0(Body* b, hkTransform* t, hkTransform* r);
-    void FUN_00de44c0(int a, int b);
-    void FUN_00de4530(int a, int b);
     void FireMotionEvent(Body* b, Listener* l, int a, int c);
 };
 
@@ -72,7 +72,7 @@ struct Obj
 void Obj::FireMotionEvent(Body* apBody, Listener* apListener, int aiArg, int aiArg2)
 {
     Motion* pMotion = &apBody->shape->motion;
-    mC0.FUN_00e10a10(apListener);
+    reinterpret_cast<::CpuObject *>(&(mC0))->FUN_00e10a10((int)(apListener));
     hkTransform r;
     hkTransform t;
     FUN_00de47e0(apBody, &t, &r);
@@ -82,7 +82,7 @@ void Obj::FireMotionEvent(Body* apBody, Listener* apListener, int aiArg, int aiA
     pVec50->FUN_00c7f640(&t, pMotion->v20);
     pVec40 = &m40;
     pVec40->FUN_00c7f640(&r, pMotion->v10);
-    FUN_00de44c0(aiArg, aiArg2);
-    FUN_00de4530(aiArg, aiArg2);
+    reinterpret_cast<::DE44C0Object *>(this)->FUN_00de44c0(aiArg, aiArg2);
+    reinterpret_cast<::FUN_00de4530Owner *>(this)->FUN_00de4530(aiArg, aiArg2);
     apListener->Fire(pVec40, pVec50, 0xffff0000, aiArg, aiArg2);
 }

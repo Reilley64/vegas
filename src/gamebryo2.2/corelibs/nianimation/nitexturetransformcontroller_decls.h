@@ -2,6 +2,11 @@
 #define FNV_NITEXTURETRANSFORMCONTROLLER_DECLS_H
 
 
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_011f6000.h"
 #include "MemoryManager.h"
 
 class NiUpdateData;
@@ -70,9 +75,6 @@ class NiInterpolator
     virtual void Unk_36();
 };
 
-int NiSprintf(char* buffer, unsigned int bufferSize, const char* format, ...);
-void* _NiMalloc(unsigned int size);
-void NiFree(void* pointer);
 
 class BSFrustumFOVController
 {
@@ -80,8 +82,6 @@ class BSFrustumFOVController
     void CopyMemberData();
 };
 
-extern MemoryManager g_memoryManager;
-extern const float DAT_01096324;
 
 struct TextureShaderMaps
 {
@@ -100,7 +100,6 @@ struct TexturePropertyLayout
     unsigned short capacity, size;
     unsigned int pad28;
     TextureShaderMaps* shaders;
-    unsigned int FUN_00a46410();
     NiTexturingProperty__Map* GetGeometryShaderObject(unsigned int i)
     {
         return shaders ? shaders->Get(i) : 0;
@@ -132,11 +131,7 @@ class TextureMapTransform
         return p;
     }
     TextureMapTransform(const NiPoint2&, float, const NiPoint2&, const NiPoint2&, int) throw();
-    void UpdateFromPair(const NiPoint2&);
-    void SetValue(float);
-    void FUN_00a462b0(const NiPoint2&);
 };
-extern const float DAT_01016248;
 class NiTexturingProperty__Map
 {
   public:

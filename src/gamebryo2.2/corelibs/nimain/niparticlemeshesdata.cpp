@@ -2,18 +2,32 @@
 // src/gamebryo2.2/corelibs/nimain/niparticlemeshesdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/niparticlemeshesdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/Candidate.h"
+#include "fnv/decl/FUN_004f0180_Class.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00a8a9b0.h"
+#include "fnv/decl/NiParticlesDataViewer.h"
+#include "fnv/decl/ParticlesEquality.h"
+#include "fnv/decl/ParticlesLoadView.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a8a000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f5000.h"
 struct GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_011f5f0c;
 
 // @fnv 0x00a98b00
 GlobalObjectO2_00a7b610* __cdecl FUN_00a98b00()
 {
-    return &g_011f5f0c;
+    return &::g_011f5f0c;
 }
 
+class NiObject;
 struct NiStream
 {
-    void ResetStreamState();
+public:
+    ::NiObject *GetLoadedObject();
 };
 struct NiParticlesData
 {
@@ -26,8 +40,8 @@ struct NiParticleMeshesData : NiParticlesData
 // @fnv 0x00a98a10
 void NiParticleMeshesData::FUN_00a98a10(NiStream& stream)
 {
-    NiParticlesData::LoadBinary(stream);
-    stream.ResetStreamState();
+    reinterpret_cast<::ParticlesLoadView *>(this)->FUN_00a96cf0((::StreamIn *)&(stream));
+    reinterpret_cast<::FUN_00a645b0_cls *>(&(stream))->FUN_00a645b0();
 }
 
 struct Helper00a98a30
@@ -154,7 +168,7 @@ struct FUN_00a98a80_Holder : NiLinesData
 // @fnv 0x00a98a80
 bool FUN_00a98a80_Holder::FUN_00a98a80(NiStream& kStream)
 {
-    if (!NiLinesData::RegisterStreamables(kStream))
+    if (!reinterpret_cast<struct ::FUN_00a8a9b0 *>(this)->RegisterStreamables(kStream))
         return 0;
     (*(FakeNode**)((char*)this + 0x70))->RegisterStreamables(kStream);
     return 1;
@@ -223,7 +237,6 @@ struct MeshNode
 };
 struct HookBase
 {
-    bool FUN_00a96a30(void*);
 };
 struct Holder
 {
@@ -236,7 +249,7 @@ struct Holder
 bool Holder::IsMeshNodeEqual(void* pkObject)
 {
     Holder* pkPart = (Holder*)pkObject;
-    if (!((HookBase*)this)->FUN_00a96a30(pkObject))
+    if (!reinterpret_cast<::ParticlesEquality *>((((HookBase*)this)))->FUN_00a96a30((::NiObject *)(pkObject)))
         return false;
     MeshNode* mine = m_pMeshNode;
     MeshNode* other = pkPart->m_pMeshNode;
@@ -252,11 +265,9 @@ struct FakeObj543
 };
 struct StreamHelper543
 {
-    FakeObj543* GetLoadedObject();
 };
 struct NiLinesData
 {
-    void LinkObject(NiStream&);
 };
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
@@ -270,8 +281,8 @@ struct Holder00a98d60
 // @fnv 0x00a98d60
 void Holder00a98d60::FUN_00a98d60(NiStream& kStream)
 {
-    ((NiLinesData*)this)->LinkObject(kStream);
-    FakeObj543* pkNew = ((StreamHelper543*)&kStream)->GetLoadedObject();
+    ::FUN_00a8a9a0();
+    FakeObj543* pkNew = ((::fnv_00a98d60::FakeObj543 *)(reinterpret_cast<::NiStream *>((((StreamHelper543*)&kStream)))->GetLoadedObject()));
     FakeObj543* pkOld = m_sp;
     if (pkOld != pkNew)
     {
@@ -288,21 +299,10 @@ struct Unk98b90
 {
     void FUN_00a98b90();
 };
-void __cdecl _delete(void*, unsigned int);
 struct Unk98dc0
 {
     void* DestroyIfFlagged(unsigned int);
 };
-// Calls FUN_00a98b90 on this, frees this with _delete when flags has bit 1 set, and returns this.
-// @fnv 0x00a98dc0
-void* Unk98dc0::DestroyIfFlagged(unsigned int flags)
-{
-    ((Unk98b90*)this)->FUN_00a98b90();
-    if (flags & 1)
-        _delete(this, 0x78);
-    return this;
-}
-
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
@@ -557,7 +557,6 @@ struct A98BF0ParticlesData
     int unk4C;
     unsigned short m_usActiveVertices;
 
-    void FUN_00a964c0(unsigned short usParticle);
 };
 
 struct A98BF0ParticleMeshesData : A98BF0ParticlesData
@@ -591,7 +590,7 @@ void A98BF0ParticleMeshesData::RemoveParticleMesh(unsigned short usParticle)
         if (pkFinal)
             pkFinal->DecRefCount();
     }
-    FUN_00a964c0(usParticle);
+    reinterpret_cast<::Candidate *>(this)->FUN_00a964c0(usParticle);
 }
 
 extern "C" double __cdecl fabs(double);
@@ -607,7 +606,6 @@ struct NiMatrix3_a98
 struct NiQuaternion_a98
 {
     float w, x, y, z;
-    void FUN_004f0180(NiMatrix3_a98& kRot) const;
 };
 
 struct Mesh_a98
@@ -729,7 +727,7 @@ void FUN_00a98c90_shell::UpdateParticleMeshes()
         {
             pkMesh->m_kTranslate = m_pkVertex[i];
             if (m_pkRotations)
-                m_pkRotations[i].FUN_004f0180(pkMesh->m_kRotate);
+                reinterpret_cast<::FUN_004f0180_Class *>((void *)&(m_pkRotations[i]))->FUN_004f0180((::M3_ *)&(pkMesh->m_kRotate));
             pkMesh->m_fScale = fabs(m_pfSizes[i] * m_pfRadii[i]);
         }
     }
@@ -760,22 +758,18 @@ struct FUN_0096ad30_This
     unsigned short m_uiItemCount;
     unsigned short m_unk0C;
     unsigned short m_growth;
-    void FUN_0096ad30(unsigned int);
-    void FUN_0096ae90(unsigned int, void*);
 };
-void __stdcall FUN_00a97420(void*);
-void* __cdecl FUN_00a7d330(void*);
 // Calls FUN_00a97420 on p, fetches an item via FUN_00a7d330, grows the container if count reaches capacity, then stores the item at index count.
 // @fnv 0x00a98de0
 void __stdcall FUN_00a98de0(FUN_0096ad30_This* pContainer)
 {
-    FUN_00a97420(pContainer);
-    void* item = FUN_00a7d330(*(void**)&g_011f5f0c);
+    reinterpret_cast<::NiParticlesDataViewer *>((pContainer))->FUN_00a97420({});
+    void* item = ((void *)(::FUN_00a7d330((const char *)(*(void**)&::g_011f5f0c))));
     unsigned int count = pContainer->m_uiItemCount;
     unsigned int capacity = pContainer->m_pRayCursor;
     if (count >= capacity)
-        pContainer->FUN_0096ad30((unsigned int)pContainer->m_growth + count);
-    pContainer->FUN_0096ae90(count, &item);
+        reinterpret_cast<::ViewerStrings *>((pContainer))->SetSize((unsigned int)pContainer->m_growth + count);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pContainer))->SetAt(count, (*(char * *)(&item)));
 }
 
 #include <windows.h>
@@ -848,6 +842,15 @@ struct FUN_00a98b90 : S_00a98b90_Base
     S_00a98b90_Ptr unk70;
     virtual ~FUN_00a98b90() throw();
 };
+// Calls FUN_00a98b90 on this, frees this with _delete when flags has bit 1 set, and returns this.
+// @fnv 0x00a98dc0
+void* Unk98dc0::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00a98b90 *>((((Unk98b90*)this)))->FUN_00a98b90::~FUN_00a98b90();
+    if (flags & 1)
+        ::FUN_00aa1460(this, 0x78);
+    return this;
+}
 // @fnv 0x00a98b90
 FUN_00a98b90::~FUN_00a98b90() throw()
 {

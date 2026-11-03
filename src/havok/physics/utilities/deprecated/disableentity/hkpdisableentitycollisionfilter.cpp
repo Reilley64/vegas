@@ -2,6 +2,8 @@
 // src/havok/physics/utilities/deprecated/disableentity/hkpdisableentitycollisionfilter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/deprecated/disableentity/hkpdisableentitycollisionfilter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00e46900.h"
+#include "fnv/decl/HostC9C6.h"
 #include "havok/hkpDisableEntityCollisionFilter.h"
 
 // @fnv 0x00e467b0
@@ -32,7 +34,6 @@ void* __cdecl FUN_00c85750(void);
 
 struct FUN_00e46900_Obj
 {
-    void FUN_00e46900();
 };
 
 struct FUN_00dff930_Alloc
@@ -59,7 +60,7 @@ struct FUN_00dff930_class : hkpDisableEntityCollisionFilter
 // @fnv 0x00dff930
 void* FUN_00dff930_class::FUN_00dff930(unsigned char uiFlags)
 {
-    reinterpret_cast<FUN_00e46900_Obj*>(this)->FUN_00e46900();
+    reinterpret_cast<::FUN_00e46900 *>((reinterpret_cast<FUN_00e46900_Obj*>(this)))->FUN_00e46900::~FUN_00e46900();
     if (uiFlags & 1)
     {
         FUN_00dff930_Mgr* mgr = reinterpret_cast<FUN_00dff930_Mgr*>(FUN_00c85750());
@@ -195,7 +196,6 @@ class hkpEntityListenerE46;
 class hkpEntityE46
 {
   public:
-    void FUN_00c9c670(hkpEntityListenerE46* listener);
 };
 
 class hkpCollisionFilterE46
@@ -225,7 +225,6 @@ class hkpEntityListenerE46
 class hkpDisableEntityCollisionFilterE46 : public hkpCollisionFilterE46, public hkpEntityListenerE46
 {
   public:
-    hkBoolE46 FUN_00e46820(hkpEntityE46* entity);
     virtual void FUN_00e46880(hkpEntityE46* entity);
 };
 
@@ -235,8 +234,8 @@ void hkpDisableEntityCollisionFilterE46::FUN_00e46880(hkpEntityE46* entity)
 {
     if (entity)
     {
-        FUN_00e46820(entity);
-        entity->FUN_00c9c670(this);
+        reinterpret_cast<::FnvDisabledCollisionFilter *>(this)->FUN_00e46820((char *)(entity), {});
+        reinterpret_cast<::HostC9C6 *>((entity))->FUN_00c9c670(this);
     }
 }
 

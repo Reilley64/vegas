@@ -2,6 +2,7 @@
 #ifndef FNV_NIPSYSPLANARCOLLIDER_H
 #define FNV_NIPSYSPLANARCOLLIDER_H
 
+#include "fnv/decl/FUN_00a5d450_class.h"
 #include "layout_support.h"
 #include "NiObject.h"
 #include "NiPoint3.h"
@@ -19,6 +20,7 @@ class NiPoint4;
 class NiTransform;
 class FourComponentNumericValue;
 #pragma pack(push, 4)
+class NiStream;
 class NiPSysCollider : public NiObject
 {
   public:
@@ -57,7 +59,6 @@ class NiPSysCollider : public NiObject
     // void __cdecl NiPSysCollider::*()
     // NiPSysCollider& __cdecl NiPSysCollider::*(const NiPSysCollider&)
     // void __cdecl NiPSysCollider::*()
-    void CreateVertexBufferSet(NiPSysCollider*, CloningProcess&);
     virtual void vfn_08();
     virtual void vfn_0c();
     virtual void vfn_10();
@@ -75,6 +76,8 @@ class NiPSysCollider : public NiObject
     virtual void vfn_40();
     virtual void vfn_44();
     virtual NiPSysCollider* Clone(CloningProcess&);
+public:
+    void LinkObject(::NiStream &);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiPSysCollider) == 44);
@@ -87,6 +90,7 @@ FNV_STATIC_ASSERT(offsetof(NiPSysCollider, m_fSpawnRate) == 32);
 FNV_STATIC_ASSERT(offsetof(NiPSysCollider, m_pColliderManager) == 36);
 FNV_STATIC_ASSERT(offsetof(NiPSysCollider, m_spNextController) == 40);
 #pragma pack(push, 4)
+class NiPoint3;
 class NiPlane
 {
   public:
@@ -105,6 +109,10 @@ class NiPlane
     // void __cdecl NiPlane::*(NiStream&)
     // void __cdecl NiPlane::*(NiStream&)
     // char* __cdecl NiPlane::*(const char*)
+public:
+    bool operator==(const ::NiPlane &);
+public:
+    NiPlane(const ::NiPoint3 &, float);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiPlane) == 16);
@@ -202,6 +210,8 @@ class NiTransform
     // void __cdecl NiTransform::*(NiStream&)
     // void __cdecl NiTransform::*(NiStream&)
     // void __cdecl NiTransform::*()
+public:
+    void ResetToIdentity();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiTransform) == 64);

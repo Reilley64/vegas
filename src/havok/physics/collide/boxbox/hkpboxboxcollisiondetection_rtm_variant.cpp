@@ -7,6 +7,19 @@
 // RemoveValueAt - drops slot <index> of the eight-slot table held by
 // FUN_00db0920: the last slot in use is moved into the hole and the used-slot
 // counter goes down by one.
+#include "fnv/decl/BoxPointInsertion.h"
+#include "fnv/decl/CD4BA0Matrix3.h"
+#include "fnv/decl/FUN_004b4ab0_Class.h"
+#include "fnv/decl/FUN_00db0920_cls.h"
+#include "fnv/decl/RotatedDir_d409.h"
+#include "fnv/symbols_00db0000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_0103c000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_0107d000.h"
+#include "fnv/symbols_010c9000.h"
+#include "fnv/symbols_010ce000.h"
+#include "fnv/symbols_010d5000.h"
 struct FUN_00db0920
 {
     int values[8];        // +0x00: eight four-byte slots, low half holds the key
@@ -14,12 +27,15 @@ struct FUN_00db0920
     unsigned char count;  // +0x21: number of slots in use
     unsigned char flag;   // +0x22
     void RemoveValueAt(int index);
+public:
+    unsigned char *ContainsKey(unsigned char *, const unsigned char *);
 };
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 extern "C"
 {
     __m128 _mm_add_ps(__m128, __m128);
@@ -94,8 +110,6 @@ struct BoxBoxEdgeContact
     int m_featureA;                        // 0x38
     int m_featureB;                        // 0x3c
 };
-extern const hkVector4 g_boxVertexSigns[8];
-extern const __m128 g_negateMask;
 struct BoxBoxCollisionDetection
 {
     int unk00;
@@ -124,7 +138,7 @@ static __forceinline __m128 splat(const float& f)
 }
 static __forceinline const hkVector4& boxVertexSign(int byteOffset)
 {
-    return *reinterpret_cast<const hkVector4*>(reinterpret_cast<const char*>(g_boxVertexSigns) + byteOffset);
+    return *reinterpret_cast<const hkVector4*>(reinterpret_cast<const char*>((*reinterpret_cast<const hkVector4 (*)[8]>(&::DAT_010d52d0))) + byteOffset);
 }
 static inline float hkFabs(float r)
 {
@@ -195,9 +209,7 @@ static __forceinline float sqrtf(float x)
 }
 extern float DAT_010d5360;
 extern float DAT_010d5364;
-extern const __m128 DAT_01017d10;  // abs mask
-extern double DAT_010c9300;
-extern float DAT_01011d78;
+  // abs mask
 struct __declspec(align(16)) Vec4f
 {
     float x;
@@ -210,7 +222,6 @@ struct Mat3f
     hkVector4 r0;
     hkVector4 r1;
     hkVector4 r2;
-    void Transpose(__m128* rows);
 };
 struct ThisCls
 {
@@ -356,7 +367,7 @@ __declspec(noinline) int ThisCls::FUN_00db0ec0(Vec4f* arg)
         return 1;
     m_f0 = diff2;
     Mat3f trans;
-    trans.Transpose(&m_20);
+    reinterpret_cast<::CD4BA0Matrix3 *>(&(trans))->Transpose((*(const ::CD4BA0Matrix3 *)(&m_20)));
     __m128* outSep = &m_100;
     hkVector4 sRS;
     __m128 m80, hiAv, hiBv;
@@ -387,7 +398,7 @@ __declspec(noinline) int ThisCls::FUN_00db0ec0(Vec4f* arg)
         sRS(2) = recipEps(sRS(2));
         sRS(3) = 0.0f;
         hiBv = sRS.m_vComponents;
-        __m128 V = _mm_setr_ps(v0, v1, v2, DAT_01011d78);
+        __m128 V = _mm_setr_ps(v0, v1, v2, ::DAT_01011d78);
         __m128 D =
             _mm_and_ps(_mm_sub_ps(P.m_vComponents, _mm_mul_ps(_mm_shuffle_ps(C.m_vComponents, C.m_vComponents, 0),
                                                               trans.r2.m_vComponents)),
@@ -420,7 +431,7 @@ __declspec(noinline) int ThisCls::FUN_00db0ec0(Vec4f* arg)
         sRS(2) = recipEps(sRS(2));
         sRS(3) = 0.0f;
         __m128 R = sRS.m_vComponents;
-        __m128 V = _mm_setr_ps(v0, v1, v2, DAT_01011d78);
+        __m128 V = _mm_setr_ps(v0, v1, v2, ::DAT_01011d78);
         __m128 D =
             _mm_and_ps(_mm_sub_ps(P.m_vComponents, _mm_mul_ps(_mm_shuffle_ps(C.m_vComponents, C.m_vComponents, 0),
                                                               trans.r0.m_vComponents)),
@@ -449,7 +460,7 @@ __declspec(noinline) int ThisCls::FUN_00db0ec0(Vec4f* arg)
         sRS(2) = recipEps(sRS(2));
         sRS(3) = 0.0f;
         __m128 R = sRS.m_vComponents;
-        __m128 V = _mm_setr_ps(v0, v1, v2, DAT_01011d78);
+        __m128 V = _mm_setr_ps(v0, v1, v2, ::DAT_01011d78);
         __m128 D =
             _mm_and_ps(_mm_sub_ps(P.m_vComponents, _mm_mul_ps(_mm_shuffle_ps(C.m_vComponents, C.m_vComponents, 0),
                                                               trans.r1.m_vComponents)),
@@ -561,9 +572,6 @@ struct ContactList
     unsigned char unk20;
     unsigned char count;
     unsigned char flag;
-    void Drop(int);
-    unsigned char* Lookup(unsigned char* flag, Input* p1);
-    int Insert(int a, int b, Input* p1);
 };
 
 struct Owner
@@ -612,8 +620,8 @@ __declspec(noinline) unsigned char* Owner::Compute(unsigned char* result, Blob* 
 {
     const int axisA = contact->unk38 & 15;
     const int axisB = contact->unk3c & 15;
-    const __m128 signA = g_boxVertexSigns[(contact->unk38 & 0x70) >> 4].m_vComponents;
-    const __m128 signB = g_boxVertexSigns[(contact->unk3c & 0x70) >> 4].m_vComponents;
+    const __m128 signA = (*reinterpret_cast<const hkVector4 (*)[8]>(&::DAT_010d52d0))[(contact->unk38 & 0x70) >> 4].m_vComponents;
+    const __m128 signB = (*reinterpret_cast<const hkVector4 (*)[8]>(&::DAT_010d52d0))[(contact->unk3c & 0x70) >> 4].m_vComponents;
     __m128 pointA = _mm_mul_ps(radiiA, signA);
     const __m128 pointB = _mm_mul_ps(radiiB, signB);
     const float extentA = radiiA.m128_f32[axisA];
@@ -677,7 +685,7 @@ __declspec(noinline) unsigned char* Owner::Compute(unsigned char* result, Blob* 
     }
     __m128 normal = _mm_mul_ps(inverseAll, cross);
     if (Dot3(_mm_mul_ps(signA, normal)) < 0.0f)
-        normal = _mm_xor_ps(normal, g_negateMask);
+        normal = _mm_xor_ps(normal, ::DAT_010c44d0);
     const float distance = Dot3(_mm_mul_ps(normal, separation));
     if (distance > radius)
     {
@@ -686,7 +694,7 @@ __declspec(noinline) unsigned char* Owner::Compute(unsigned char* result, Blob* 
     }
     contact->position = pointA;
     contact->unk34 = distance;
-    contact->normal = _mm_xor_ps(normal, g_negateMask);
+    contact->normal = _mm_xor_ps(normal, ::DAT_010c44d0);
     *result = 1;
     return result;
 }
@@ -695,7 +703,7 @@ __declspec(noinline) unsigned char* Owner::Compute(unsigned char* result, Blob* 
 __declspec(noinline) void Owner::FUN_00db1990(ContactList* p0, Input* p1, float p2)
 {
     unsigned char c;
-    if (*p0->Lookup(&c, p1) != 0)
+    if (*reinterpret_cast<::FUN_00db0920 *>((p0))->ContainsKey(&c, (const unsigned char *)(p1)) != 0)
     {
         return;
     }
@@ -749,7 +757,7 @@ __declspec(noinline) void Owner::FUN_00db1990(ContactList* p0, Input* p1, float 
     {
         return;
     }
-    int row = p0->Insert(m_00, m_04, p1);
+    int row = reinterpret_cast<::BoxPointInsertion *>((p0))->FUN_00db0960(m_00, m_04, (const unsigned char *)(p1));
     if (row < 0)
     {
         return;
@@ -806,7 +814,7 @@ __declspec(noinline) void Owner::FUN_00db1990(ContactList* p0, Input* p1, float 
         float ptr = Dot3(_mm_mul_ps(_mm_load_ps((float*)&rec->direction), s));
         if (ptr <= 0.0f)
         {
-            p0->Drop(row);
+            reinterpret_cast<::FUN_00db0920 *>((p0))->RemoveValueAt(row);
             return;
         }
     }
@@ -816,7 +824,7 @@ __declspec(noinline) void Owner::FUN_00db1990(ContactList* p0, Input* p1, float 
     *pForm = t58;
     if ((unsigned short)t58 == 0xffff)
     {
-        p0->Drop(row);
+        reinterpret_cast<::FUN_00db0920 *>((p0))->RemoveValueAt(row);
         return;
     }
     m_10->cursor++;
@@ -1052,8 +1060,6 @@ struct BoxAgent
     int unk7C;
     int m_unk80;
 
-    void FUN_00d40940();
-    int FUN_00db0ec0(void* pUnk80);
     __declspec(noalias) int FUN_00db1ed0(MyDb0920* a1, Local0c* a2, Local10* a3);
 
     __declspec(noinline) hkBool& FUN_00db2750(hkBool& valid, hkContactPoint& outPoint);
@@ -1064,11 +1070,11 @@ __declspec(noinline) hkBool& BoxAgent::FUN_00db2750(hkBool& valid, hkContactPoin
 {
     valid = false;
     MyDb0920 local_80;
-    local_80.FUN_00db0920();
+    reinterpret_cast<::FUN_00db0920_cls *>(&(local_80))->FUN_00db0920();
     Local0c local_0c;
     local_0c.m_flags = 0;
-    this->FUN_00d40940();
-    if (this->FUN_00db0ec0(&this->m_unk80) == 0)
+    reinterpret_cast<::RotatedDir_d409 *>((this))->FUN_00d40940();
+    if (reinterpret_cast<::ThisCls *>((this))->FUN_00db0ec0((::Vec4f *)(void *)(&this->m_unk80)) == 0)
     {
         ResultWork work;
         Local10& local_10 = work.result;
@@ -1211,9 +1217,9 @@ class __declspec(align(16)) Vec4
         return values[i];
     }
 };
-extern const float DAT_0104e148;             // -FLT_MAX
-extern const ClosestPointQuad DAT_010c44d0;  // sign mask
-extern const ClosestPointQuad DAT_01017d10;  // abs mask
+             // -FLT_MAX
+  // sign mask
+  // abs mask
 struct Out
 {
     Vec4 o0;  // 0x00
@@ -1335,7 +1341,7 @@ __declspec(noinline) ClosestPointBool ClosestPointDetector::TestEdgeEdgeContact(
     float orientation;
     (ClosestPointSimd::_mm_store_ss)(&orientation, dot3scalar((ClosestPointSimd::_mm_mul_ps)(signA, normal)));
     if (orientation < 0.0f)
-        normal = (ClosestPointSimd::_mm_xor_ps)(normal, DAT_010c44d0);
+        normal = (ClosestPointSimd::_mm_xor_ps)(normal, (*reinterpret_cast<const ::ClosestPointNative::__m128 *>((void *)&::DAT_010c44d0)));
     float separation;
     (ClosestPointSimd::_mm_store_ss)(&separation, dot3scalar((ClosestPointSimd::_mm_mul_ps)(normal, load4(delta))));
     if (u0(0) < separation)
@@ -1344,7 +1350,7 @@ __declspec(noinline) ClosestPointBool ClosestPointDetector::TestEdgeEdgeContact(
     }
     (ClosestPointSimd::_mm_store_ps)(&out->o0(0), load4(pointA));
     out->f34 = separation;
-    (ClosestPointSimd::_mm_store_ps)(&out->o2(0), (ClosestPointSimd::_mm_xor_ps)(normal, DAT_010c44d0));
+    (ClosestPointSimd::_mm_store_ps)(&out->o2(0), (ClosestPointSimd::_mm_xor_ps)(normal, (*reinterpret_cast<const ::ClosestPointNative::__m128 *>((void *)&::DAT_010c44d0))));
     return ClosestPointBool(true);
 }
 static __forceinline void inverseAxes(ClosestPointVector& dst, const Vec4* rows, const ClosestPointVector& input)
@@ -1543,7 +1549,7 @@ __declspec(noinline) int ClosestPointDetector::FUN_00db1ed0(Arg0& ref0, KeyEntry
             else
             {
                 out->f30 = 1.0f;
-                v70 = (ClosestPointSimd::_mm_xor_ps)(load4(s2), DAT_010c44d0);
+                v70 = (ClosestPointSimd::_mm_xor_ps)(load4(s2), (*reinterpret_cast<const ::ClosestPointNative::__m128 *>((void *)&::DAT_010c44d0)));
             }
             (ClosestPointSimd::_mm_store_ps)(&out->o1(0), v70);
             VectorLanes tweak;
@@ -1552,7 +1558,7 @@ __declspec(noinline) int ClosestPointDetector::FUN_00db1ed0(Arg0& ref0, KeyEntry
             tweak.multiply(ScalarLane(out->f30));
             ClosestPointQuad sel = tweak;
             sel = (ClosestPointSimd::_mm_add_ps)(sel, col3);
-            sel = (ClosestPointSimd::_mm_and_ps)(sel, DAT_010c44d0);
+            sel = (ClosestPointSimd::_mm_and_ps)(sel, (*reinterpret_cast<const ::ClosestPointNative::__m128 *>((void *)&::DAT_010c44d0)));
             ClosestPointQuad o1v = load4(out->o1);
             o1v = (ClosestPointSimd::_mm_xor_ps)(sel, o1v);
             (ClosestPointSimd::_mm_store_ps)(&out->o1(0), o1v);
@@ -1588,7 +1594,7 @@ __declspec(noinline) int ClosestPointDetector::FUN_00db1ed0(Arg0& ref0, KeyEntry
             }
             Vec4 absA = out->o0;
             ClosestPointQuad lv = load4(absA);
-            lv = (ClosestPointSimd::_mm_and_ps)(lv, DAT_01017d10);
+            lv = (ClosestPointSimd::_mm_and_ps)(lv, (*reinterpret_cast<const ::ClosestPointNative::__m128 *>((void *)&::DAT_01017d10)));
             int am = (ClosestPointSimd::_mm_movemask_ps)((ClosestPointSimd::_mm_cmplt_ps)(lv, load4(t1))) & 7;
             if (am != 7)
             {
@@ -1615,7 +1621,7 @@ __declspec(noinline) int ClosestPointDetector::FUN_00db1ed0(Arg0& ref0, KeyEntry
             if (thr < 0.0f)
             {
                 out->f30 = -1.0f;
-                v60 = (ClosestPointSimd::_mm_xor_ps)(load4(s1), DAT_010c44d0);
+                v60 = (ClosestPointSimd::_mm_xor_ps)(load4(s1), (*reinterpret_cast<const ::ClosestPointNative::__m128 *>((void *)&::DAT_010c44d0)));
             }
             else
             {
@@ -1633,7 +1639,7 @@ __declspec(noinline) int ClosestPointDetector::FUN_00db1ed0(Arg0& ref0, KeyEntry
             ClosestPointQuad sel = tweak;
             ClosestPointQuad locv = load4(loc);
             sel = (ClosestPointSimd::_mm_add_ps)(sel, locv);
-            sel = (ClosestPointSimd::_mm_and_ps)(sel, DAT_010c44d0);
+            sel = (ClosestPointSimd::_mm_and_ps)(sel, (*reinterpret_cast<const ::ClosestPointNative::__m128 *>((void *)&::DAT_010c44d0)));
             ClosestPointQuad o0v = load4(out->o0);
             o0v = (ClosestPointSimd::_mm_xor_ps)(sel, o0v);
             (ClosestPointSimd::_mm_store_ps)(&(*vectorOut)(0), o0v);
@@ -1655,7 +1661,7 @@ __declspec(noinline) int ClosestPointDetector::FUN_00db1ed0(Arg0& ref0, KeyEntry
             }
             Vec4 absB = out->o1;
             ClosestPointQuad lv = load4(absB);
-            lv = (ClosestPointSimd::_mm_and_ps)(lv, DAT_01017d10);
+            lv = (ClosestPointSimd::_mm_and_ps)(lv, (*reinterpret_cast<const ::ClosestPointNative::__m128 *>((void *)&::DAT_01017d10)));
             int am = (ClosestPointSimd::_mm_movemask_ps)((ClosestPointSimd::_mm_cmplt_ps)(lv, load4(t2))) & 7;
             if (am != 7)
             {
@@ -1701,7 +1707,7 @@ __declspec(noinline) int ClosestPointDetector::FUN_00db1ed0(Arg0& ref0, KeyEntry
             float dot;
             (ClosestPointSimd::_mm_store_ss)(&dot, d3);
             if (dot < 0.0f)
-                x0 = (ClosestPointSimd::_mm_xor_ps)(x0, DAT_010c44d0);
+                x0 = (ClosestPointSimd::_mm_xor_ps)(x0, (*reinterpret_cast<const ::ClosestPointNative::__m128 *>((void *)&::DAT_010c44d0)));
             ClosestPointQuad edgeMatrix0 = load4(rotation[0]);
             ClosestPointQuad edgeMatrix1 = load4(rotation[1]);
             ClosestPointQuad edgeMatrix2 = load4(rotation[2]);
@@ -1753,7 +1759,7 @@ __declspec(noinline) int ClosestPointDetector::FUN_00db1ed0(Arg0& ref0, KeyEntry
             goto reject;
         }
     reject:
-        (&pl[idx >> 2](0))[idx & 3] = DAT_0104e148;
+        (&pl[idx >> 2](0))[idx & 3] = ::DAT_0104e148;
         if (--counter <= 0)
             return 0;
     }
@@ -1775,8 +1781,6 @@ extern "C" __m128 _mm_movelh_ps(__m128, __m128);
 extern "C" __m128 _mm_movehl_ps(__m128, __m128);
 
 namespace Manifold {
-extern const ManifoldQuad DAT_01017d10;
-extern const ManifoldQuad DAT_010c44d0;
 class NBool
 {
     char value;
@@ -1888,11 +1892,11 @@ class NV
     }
     __forceinline void setAbs4(const NV& v)
     {
-        quad = _mm_and_ps(v.quad, DAT_01017d10);
+        quad = _mm_and_ps(v.quad, ::DAT_01017d10);
     }
     __forceinline void setNeg4(const NV& v)
     {
-        quad = _mm_xor_ps(v.quad, DAT_010c44d0);
+        quad = _mm_xor_ps(v.quad, ::DAT_010c44d0);
     }
     __forceinline void setSub4(const NV& a, const NV& b)
     {
@@ -2004,10 +2008,6 @@ static __forceinline float NMin(float a, float b)
 
 extern const float DAT_010d52d0[32];
 extern const unsigned short DAT_010d5350;
-extern const double DAT_010c9300;
-extern const double DAT_0107d1b8;
-extern const double DAT_010ce488;
-extern const double DAT_0103c7c8;
 extern const double DAT_010d5378;
 
 struct NFeature
@@ -2093,8 +2093,6 @@ struct NManifold
     unsigned int packed;
     int unk28, unk2c;
     NV normal;
-    void RemoveValueAt(int);
-    int FUN_00db0960(const NBody&, const NBody&, NFeature&);
     NBool ContainsKey(const NFeature&);
     __forceinline int size()
     {
@@ -2125,9 +2123,7 @@ inline NBool NManifold::ContainsKey(const NFeature& f)
 }
 struct NInverse
 {
-    void FUN_004b4ab0(const NR&, const NV&);
 };
-unsigned int PackFloatsToUInt(const NV&);
 struct NDetector
 {
     const NBody& bodyA;
@@ -2143,11 +2139,7 @@ struct NDetector
     const float tolerance, boundaryTolerance;
     int unkB8, unkBC;
     NV dinA, dinB;
-    void FUN_00d40940() const;
-    int FUN_00db0ec0(const NV&) const;
-    __declspec(noalias) int FUN_00db1ed0(NManifold&, NFeature&, NCache&) const;
     __declspec(noalias) NBool TestEdgeEdgeContact(NCache&) const;
-    void CheckFeatureCacheCoverage(NManifold&, int, int) const;
     __forceinline void remove(NManifold&, int) const;
     __forceinline void fillA(NCache&, const NFeature&) const;
     __forceinline void fillScan(NCache&, const NFeature&) const;
@@ -2178,21 +2170,21 @@ static __forceinline float NSign(unsigned short bits)
 }
 static __forceinline const NV& NVertex(unsigned short bits)
 {
-    return *(const NV*)((const char*)DAT_010d52d0 + (bits & 0x70));
+    return *(const NV*)((const char*)(*reinterpret_cast<const float (*)[32]>(&::DAT_010d52d0)) + (bits & 0x70));
 }
 static __forceinline void NUnpack(unsigned int bits, NV& out)
 {
-    out(0) = (float)((int(bits & 255) - 128) * DAT_010ce488);
-    out(1) = (float)((int(((bits >> 8) & 255)) - 128) * DAT_010ce488);
-    out(2) = (float)((int(((bits >> 16) & 255)) - 128) * DAT_010ce488);
-    out(3) = (float)(int(bits >> 24) - 128) * DAT_010ce488;
+    out(0) = (float)((int(bits & 255) - 128) * ::ApplyAccumulatorsPrivate::DAT_010ce488);
+    out(1) = (float)((int(((bits >> 8) & 255)) - 128) * ::ApplyAccumulatorsPrivate::DAT_010ce488);
+    out(2) = (float)((int(((bits >> 16) & 255)) - 128) * ::ApplyAccumulatorsPrivate::DAT_010ce488);
+    out(3) = (float)(int(bits >> 24) - 128) * ::ApplyAccumulatorsPrivate::DAT_010ce488;
 }
 __forceinline void NDetector::remove(NManifold& m, int i) const
 {
     if (m.at(i).type <= 6)
         --m.faces;
     manager->remove(m.at(i).id, output->owner);
-    m.RemoveValueAt(i);
+    reinterpret_cast<::FUN_00db0920 *>(&(m))->RemoveValueAt(i);
 }
 __forceinline void NDetector::fillA(NCache& c, const NFeature& f) const
 {
@@ -2337,9 +2329,9 @@ __forceinline NBool NDetector::query(NManifold& m) const
     if (!m.normalSet)
     {
         NV n;
-        ((NInverse*)&n)->FUN_004b4ab0(aTb.getRotation(), m.normal);
+        reinterpret_cast<::FUN_004b4ab0_Class *>((((NInverse*)&n)))->FUN_004b4ab0((int)&(aTb.getRotation()), (int)&(m.normal));
         m.normalSet = true;
-        m.packed = PackFloatsToUInt(n);
+        m.packed = ::PackFloatsToUInt((const ::__m128 *)&(n));
         return true;
     }
     NV decoded;
@@ -2347,7 +2339,7 @@ __forceinline NBool NDetector::query(NManifold& m) const
     NV inA;
     inA._setRotatedDir(aTb.getRotation(), decoded);
     const float cosine = m.normal.dot3(inA);
-    return cosine < DAT_0107d1b8;
+    return cosine < ::DAT_0107d1b8;
 }
 __forceinline void NDetector::normalFromCache(NV& n, const NFeature& f, NCache& c, NBool edgeValid) const
 {
@@ -2374,7 +2366,7 @@ __forceinline void NDetector::compact(NManifold& m) const
     {
         const NRecord& out = output->at(outIndex);
         const float cosine = out.normal.dot3(normalWorld);
-        if (cosine < DAT_0107d1b8)
+        if (cosine < ::DAT_0107d1b8)
         {
             output->at(outIndex) = output->end()[-1];
             remove(m, i);
@@ -2392,7 +2384,7 @@ __forceinline void NDetector::compact(NManifold& m) const
     {
         NV n;
         n._setRotatedInverseDir(aTb.getRotation(), m.normal);
-        m.packed = PackFloatsToUInt(n);
+        m.packed = ::PackFloatsToUInt((const ::__m128 *)&(n));
         m.normalSet = true;
     }
 }
@@ -2403,7 +2395,7 @@ static __forceinline unsigned short NCreate(NManager* mgr, const NBody& a, const
 }
 __forceinline int NDetector::AddContactPoint(NManifold& m, const NCache& c, NFeature& f) const
 {
-    const double epsilon = DAT_010c9300;
+    const double epsilon = ::DAT_010c9300;
     if (f.type <= 6)
     {
         NV candidate;
@@ -2426,7 +2418,7 @@ __forceinline int NDetector::AddContactPoint(NManifold& m, const NCache& c, NFea
     }
     if (m.full())
         return 1;
-    int index = m.FUN_00db0960(bodyA, bodyB, f);
+    int index = reinterpret_cast<::BoxPointInsertion *>(&(m))->FUN_00db0960((unsigned int)&(bodyA), (unsigned int)&(bodyB), (const unsigned char *)&(f));
     if (index >= 0)
     {
         NRecord* out = output->reserve();
@@ -2436,13 +2428,13 @@ __forceinline int NDetector::AddContactPoint(NManifold& m, const NCache& c, NFea
             const NRecord* existing = output->end() - 1;
             if (float(existing->normal.dot3(out->normal)) <= 0.0f)
             {
-                m.RemoveValueAt(index);
+                reinterpret_cast<::FUN_00db0920 *>(&(m))->RemoveValueAt(index);
                 return 1;
             }
         }
         m.at(index).id = NCreate(manager, bodyA, bodyB, input, output, out);
         if (m.at(index).id == 0xffff)
-            m.RemoveValueAt(index);
+            reinterpret_cast<::FUN_00db0920 *>(&(m))->RemoveValueAt(index);
         else
         {
             output->commit(1);
@@ -2456,7 +2448,7 @@ __forceinline int NDetector::AddContactPoint(NManifold& m, const NCache& c, NFea
 }
 __forceinline int NDetector::addScan(NManifold& m, const NCache& c, NFeature& f) const
 {
-    const double epsilon = DAT_010c9300;
+    const double epsilon = ::DAT_010c9300;
     if (f.type <= 6)
     {
         NV candidate;
@@ -2479,7 +2471,7 @@ __forceinline int NDetector::addScan(NManifold& m, const NCache& c, NFeature& f)
     }
     if (m.full())
         return 1;
-    int index = m.FUN_00db0960(bodyA, bodyB, f);
+    int index = reinterpret_cast<::BoxPointInsertion *>(&(m))->FUN_00db0960((unsigned int)&(bodyA), (unsigned int)&(bodyB), (const unsigned char *)&(f));
     if (index >= 0)
     {
         NRecord* out = output->reserve();
@@ -2489,13 +2481,13 @@ __forceinline int NDetector::addScan(NManifold& m, const NCache& c, NFeature& f)
             const NRecord* existing = output->end() - 1;
             if (float(existing->normal.dot3(out->normal)) <= 0.0f)
             {
-                m.RemoveValueAt(index);
+                reinterpret_cast<::FUN_00db0920 *>(&(m))->RemoveValueAt(index);
                 return 1;
             }
         }
         m.at(index).id = NCreate(manager, bodyA, bodyB, input, output, out);
         if (m.at(index).id == 0xffff)
-            m.RemoveValueAt(index);
+            reinterpret_cast<::FUN_00db0920 *>(&(m))->RemoveValueAt(index);
         else
         {
             output->commit(1);
@@ -2528,11 +2520,11 @@ __forceinline void NDetector::scanA(NManifold& m, NFeature key, unsigned short m
             unsigned short sub = cycle ^ key.sub;
             NFeature f = key;
             f.sub = (f.sub & 0xff0f) | sub;
-            if (!m.ContainsKey(f))
+            if (!(*(::Manifold::NBool *)(reinterpret_cast<::FUN_00db0920 *>(&(m))->ContainsKey((unsigned char *)&(f), {}))))
             {
                 NCache c;
                 fillScan(c, f);
-                if (NValidateScan(*this, c, f.type) && c.depth >= minimum - DAT_010c9300)
+                if (NValidateScan(*this, c, f.type) && c.depth >= minimum - ::DAT_010c9300)
                     addScan(m, c, f);
             }
         }
@@ -2548,11 +2540,11 @@ __forceinline void NDetector::scanB(NManifold& m, NFeature key, unsigned short m
             unsigned short sub = cycle ^ key.sub;
             NFeature f = key;
             f.sub = (f.sub & 0xff0f) | sub;
-            if (!m.ContainsKey(f))
+            if (!(*(::Manifold::NBool *)(reinterpret_cast<::FUN_00db0920 *>(&(m))->ContainsKey((unsigned char *)&(f), {}))))
             {
                 NCache c;
                 fillB(c, f);
-                if (validB(c) && c.depth >= minimum - DAT_010c9300)
+                if (validB(c) && c.depth >= minimum - ::DAT_010c9300)
                     AddContactPoint(m, c, f);
             }
         }
@@ -2625,7 +2617,7 @@ __forceinline void NDetector::extra(NManifold& m, NFeature keyA) const
     if (m.faces >= 4)
         m.complete = true;
     else
-        CheckFeatureCacheCoverage(m, maskA, maskB);
+        ::CheckFeatureCacheCoverage((::FeatureCache *)this, (int)&(m), maskA);
 }
 // @fnv 0x00db2960
 __declspec(noinline) void NDetector::FUN_00db2960(NManifold& m) const
@@ -2635,7 +2627,7 @@ __declspec(noinline) void NDetector::FUN_00db2960(NManifold& m) const
         float minimum;
         unsigned int keyBits;
     };
-    FUN_00d40940();
+    reinterpret_cast<::RotatedDir_d409 *>((void *)this)->FUN_00d40940();
     NRecord* saved = output->cursor;
     refresh(m);
     NBool request = query(m);
@@ -2647,19 +2639,19 @@ __declspec(noinline) void NDetector::FUN_00db2960(NManifold& m) const
         minimum = saved->distance();
         for (int i = m.size() - 1; i > 0; --i)
             minimum = NMin(minimum, saved[i].distance());
-        minimum -= tolerance4(0) * DAT_0103c7c8;
+        minimum -= tolerance4(0) * ::DAT_0103c7c8;
         NV bound;
         bound.setAll3(minimum);
-        intersect = FUN_00db0ec0(bound);
+        intersect = reinterpret_cast<::ThisCls *>((void *)this)->FUN_00db0ec0((::Vec4f *)&(bound));
     }
     else
-        intersect = FUN_00db0ec0(tolerance4);
+        intersect = reinterpret_cast<::ThisCls *>((void *)this)->FUN_00db0ec0((::Vec4f *)&(tolerance4));
     if (intersect != 0)
         return;
     NFeature& feature = *new (&keyBits) NFeature;
     NCache cache;
     cache.normal.setZero4();
-    int valid = FUN_00db1ed0(m, feature, cache);
+    int valid = reinterpret_cast<::ClosestPointUtilities::ClosestPointDetector *>((void *)this)->FUN_00db1ed0((::ClosestPointUtilities::Arg0 &)(m), (::ClosestPointUtilities::KeyEntry &)(feature), (::ClosestPointUtilities::Out &)(cache));
     if (request && valid)
     {
         normalFromCache(m.normal, feature, cache, valid == 2);

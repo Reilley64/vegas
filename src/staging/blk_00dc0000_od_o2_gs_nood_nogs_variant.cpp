@@ -5,10 +5,19 @@
 
 // src/staging/blk_00dc0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cbf000.h"
+#include "fnv/symbols_00dd6000.h"
+#include "fnv/symbols_01032000.h"
+#include "fnv/symbols_0104d000.h"
 #include "../../include/layout_support.h"
 
 #include <xmmintrin.h>
 #include <math.h>
+#include "fnv/symbols_simd.h"
 inline void* __cdecl operator new(unsigned int, void* location) throw()
 {
     return location;
@@ -62,7 +71,6 @@ struct MemoryRouter
 };
 
 extern MemoryRouter* __cdecl FUN_00c85750() throw();
-extern void __cdecl ResizeAudioStream(void* heap, void* array, int elemSize) throw();
 
 template <class T> struct hkArray
 {
@@ -74,24 +82,20 @@ template <class T> struct hkArray
     {
         MemoryRouter* router = FUN_00c85750();
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
-            ResizeAudioStream(router->m_pStreamAllocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router->m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         new (m_data + m_iElementCount) T(t);
         m_iElementCount++;
     }
 };
 
-extern int __cdecl FUN_00dd6380(hkArray<hkVector4>* planes, int skip1, int skip2, int plane, Contact* contact);
 
-extern float DAT_0104da48;
 extern float DAT_0109afc4;
-extern double DAT_01032980;
-extern __m128 DAT_010c7160;
 
 // @fnv 0x00dd66d0
 hkBool __cdecl FUN_00dd66d0(const hkVector4* direction, hkArray<hkVector4>* planes, int skip1, int skip2,
                             hkVector4* position, hkArray<Contact>* contacts)
 {
-    float best = DAT_0104da48;
+    float best = ::DAT_0104da48;
     bool found = false;
     for (int i = 0; i < planes->m_iElementCount; i++)
     {
@@ -113,7 +117,7 @@ hkBool __cdecl FUN_00dd66d0(const hkVector4* direction, hkArray<hkVector4>* plan
             if (dist < best + DAT_01032980)
             {
                 Contact contact;
-                if (FUN_00dd6380(planes, skip1, skip2, i, &contact) == 0)
+                if (::FUN_00dd6380((::S00dd6380_PlaneSet *)(planes), skip1, skip2, i, (::S00dd6380_PointResult *)(::Contact *)(&contact)) == 0)
                 {
                     found = true;
                     float diff = dist - best;
@@ -134,7 +138,6 @@ hkBool __cdecl FUN_00dd66d0(const hkVector4* direction, hkArray<hkVector4>* plan
     return found;
 }
 
-extern "C" void __cdecl Atan2(float, float);
 
 static inline float Dot3(__m128 a, __m128 b)
 {
@@ -151,10 +154,9 @@ void __cdecl FUN_00ddd5a0(const float* a, const float* b, const float* c)
     __m128 scale = _mm_load_ps(c);
     float fB = Dot3(_mm_load_ps(b), scale);
     float fA = Dot3(_mm_load_ps(a), scale);
-    Atan2(fB, fA);
+    ::Atan2(fB, fA);
 }
 
-extern __m128 DAT_010c44d0;
 
 struct S00dd2fd0_cls
 {
@@ -170,7 +172,7 @@ static __declspec(noinline) void FUN_00dd2fd0(S00dd2fd0_cls* self, __m128* out, 
     r = _mm_sub_ps(_mm_add_ps(r, r), t);
     *a2 = _mm_mul_ps(*a1, r);
     *out = _mm_mul_ps(self->m_00, r);
-    *out = _mm_xor_ps(*out, DAT_010c44d0);
+    *out = _mm_xor_ps(*out, ::DAT_010c44d0);
 }
 
 void S00dd2fd0_wrap(S00dd2fd0_cls* self, __m128* out, __m128* a1, __m128* a2)

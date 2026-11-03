@@ -2,6 +2,9 @@
 // src/havok/physics/vehicle/manager/linearcastbatchingmanager/hkpvehiclelinearcastbatchingmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/manager/linearcastbatchingmanager/hkpvehiclelinearcastbatchingmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/VUC_StepInstance.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpVehicleLinearCastBatchingManager.h"
 
 struct FUN_00e42fe0
@@ -14,51 +17,10 @@ struct FUN_00e43060
     void __thiscall DoWork(int a, int b, int* out);
 };
 
-// Computes four aligned offsets from GetCount() and the 16-bit count at this+0x14, writes them to out, and advances a by each padding.
-// @fnv 0x00e43060
-void __thiscall FUN_00e43060::DoWork(int iBaseOffset, int iUnused, int* paiOffsets)
-{
-    int iCount = ((FUN_00e42fe0*)this)->GetCount();
-    unsigned int n = *(unsigned short*)((char*)this + 0x14);
-    unsigned int pad = ((unsigned int)(n * 5) << 4) + 0xf;
-    pad &= 0xfffffff0u;
-    paiOffsets[0] = iBaseOffset;
-    iBaseOffset += pad;
-    unsigned int pad2 = ((unsigned int)iCount * 0x70) + 0xf;
-    pad2 &= 0xfffffff0u;
-    unsigned int pad3 = ((unsigned int)iCount << 6) + 0xf;
-    pad3 &= 0xfffffff0u;
-    paiOffsets[1] = iBaseOffset;
-    iBaseOffset += pad3;
-    paiOffsets[2] = iBaseOffset;
-    iBaseOffset += pad2;
-    paiOffsets[3] = iBaseOffset;
-}
-
 struct FUN_00e43010
 {
     int __thiscall ConvertReferences(int numVehicles);
 };
-// Computes a 16-byte-aligned total from the object's count, a 16-bit field at offset 0x14, the count again, and numVehicles.
-// @fnv 0x00e43010
-int __thiscall FUN_00e43010::ConvertReferences(int numVehicles)
-{
-    int count = ((FUN_00e42fe0*)this)->GetCount();
-    unsigned int a = (unsigned int)(unsigned short)*(unsigned short*)((char*)this + 0x14);
-    int iTotal = ((a * 5) << 4) + 0xf;
-    iTotal &= 0xfffffff0;
-    int iCountSize = count * 0x70 + 0xf;
-    iCountSize &= 0xfffffff0;
-    iTotal += iCountSize;
-    int iCountSize2 = (count << 6) + 0xf;
-    iCountSize2 &= 0xfffffff0;
-    iTotal += iCountSize2;
-    int iVehicleSize = (numVehicles << 4) + 0xf;
-    iVehicleSize &= 0xfffffff0;
-    iTotal += iVehicleSize;
-    return iTotal;
-}
-
 struct FUN_00e42fe0_counted
 {
     virtual void f00() = 0;
@@ -91,6 +53,45 @@ struct FUN_00e42fe0_impl
 
     int __thiscall FUN_00e42fe0();
 };
+// Computes four aligned offsets from GetCount() and the 16-bit count at this+0x14, writes them to out, and advances a by each padding.
+// @fnv 0x00e43060
+void __thiscall FUN_00e43060::DoWork(int iBaseOffset, int iUnused, int* paiOffsets)
+{
+    int iCount = reinterpret_cast<::FUN_00e42fe0_impl *>((((FUN_00e42fe0*)this)))->FUN_00e42fe0();
+    unsigned int n = *(unsigned short*)((char*)this + 0x14);
+    unsigned int pad = ((unsigned int)(n * 5) << 4) + 0xf;
+    pad &= 0xfffffff0u;
+    paiOffsets[0] = iBaseOffset;
+    iBaseOffset += pad;
+    unsigned int pad2 = ((unsigned int)iCount * 0x70) + 0xf;
+    pad2 &= 0xfffffff0u;
+    unsigned int pad3 = ((unsigned int)iCount << 6) + 0xf;
+    pad3 &= 0xfffffff0u;
+    paiOffsets[1] = iBaseOffset;
+    iBaseOffset += pad3;
+    paiOffsets[2] = iBaseOffset;
+    iBaseOffset += pad2;
+    paiOffsets[3] = iBaseOffset;
+}
+// Computes a 16-byte-aligned total from the object's count, a 16-bit field at offset 0x14, the count again, and numVehicles.
+// @fnv 0x00e43010
+int __thiscall FUN_00e43010::ConvertReferences(int numVehicles)
+{
+    int count = reinterpret_cast<::FUN_00e42fe0_impl *>((((FUN_00e42fe0*)this)))->FUN_00e42fe0();
+    unsigned int a = (unsigned int)(unsigned short)*(unsigned short*)((char*)this + 0x14);
+    int iTotal = ((a * 5) << 4) + 0xf;
+    iTotal &= 0xfffffff0;
+    int iCountSize = count * 0x70 + 0xf;
+    iCountSize &= 0xfffffff0;
+    iTotal += iCountSize;
+    int iCountSize2 = (count << 6) + 0xf;
+    iCountSize2 &= 0xfffffff0;
+    iTotal += iCountSize2;
+    int iVehicleSize = (numVehicles << 4) + 0xf;
+    iVehicleSize &= 0xfffffff0;
+    iTotal += iVehicleSize;
+    return iTotal;
+}
 
 // Sums GetCount() over all vehicles in the array and returns the total.
 // @fnv 0x00e42fe0
@@ -107,7 +108,6 @@ extern "C" unsigned __int64 __rdtsc(void);
 typedef unsigned long DWORD;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 
-extern DWORD DAT_0126835c;
 
 struct ProfRec
 {
@@ -164,7 +164,6 @@ struct HkArr
     }
 };
 
-extern "C" int __cdecl FUN_00c908c0(AllocV& owner, void* arr, int newCap, int stride);
 
 inline void HkArr::reserve(AllocV& a, int n)
 {
@@ -172,7 +171,7 @@ inline void HkArr::reserve(AllocV& a, int n)
     {
         int cap2 = 2 * getCapacity();
         int newSize = (n < cap2) ? cap2 : n;
-        FUN_00c908c0(a, this, newSize, 0x60);
+        ::FUN_00c908c0((::SpawnedObject *)&(a), (::SpawnedArray *)(void *)(this), newSize, 0x60);
     }
 }
 
@@ -223,7 +222,6 @@ struct Vehicle433
     int unk34;
     int unk38;
     Counted433* m_counted;
-    void FUN_00e39030(void*, void*);
 };
 
 static __forceinline void S00e43320_timerB(const char* name, volatile DWORD& tick)
@@ -298,7 +296,7 @@ void S00e43320_Mgr::FUN_00e43320(void* param1, void* param2, void* param3)
     Out433 out;
     S00e43320_Mgr* self = this;
     int count = self->m_uiItemCount;
-    FUN_00e43060(param3, param2, &out);
+    reinterpret_cast<::FUN_00e43060 *>(this)->DoWork((int)(param3), (int)(param2), (int *)(::Out433 *)(&out));
     char* savedVal = out.m_04;
     Slot433 slot;
     HkArr& arr = slot.m_aiIndexedValues;
@@ -332,7 +330,7 @@ void S00e43320_Mgr::FUN_00e43320(void* param1, void* param2, void* param3)
                     savedVal += counted->M13(j) * 64;
                 }
             }
-            self->m_ppVehicles[i]->FUN_00e39030(param1, arr.m_data);
+            reinterpret_cast<::VUC_StepInstance *>((self->m_ppVehicles[i]))->FUN_00e39030((*(const ::VUC_StepInfo *)(param1)), arr.m_data);
         }
     }
     S00e43320_timer("Et");

@@ -3,6 +3,16 @@
 // src/havok/physics/internal/collide/gjk/hkpgsk.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/gjk/hkpgsk.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_009c1aa0_Class.h"
+#include "fnv/symbols_00d22000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_0109c000.h"
+#include "fnv/symbols_010c6000.h"
+#include "fnv/symbols_010d5000.h"
+#include "fnv/symbols_01268000.h"
 struct Entry
 {
     char pad[12];
@@ -148,6 +158,7 @@ struct Vector
 };
 extern const __m128 signMask;
 
+struct Transform;
 struct Simplex
 {
     int countA, countB, unk08, unk0c, unk10, status, unk18, unk1c;
@@ -156,6 +167,8 @@ struct Simplex
     Vector verticesB[8];
     Vector result, axis, unk140, unk150, weights;
     int FUN_00da8500(const Vector* point, Vector* vertices, int orient);
+public:
+    void FUN_00daa7e0(void *, void *, const struct ::Transform *);
 };
 
 static __forceinline __m128 cross(__m128 a, __m128 b)
@@ -684,8 +697,6 @@ struct S00da8820_Result
     float m_fValue;
 };
 
-int __cdecl FUN_00d22e40(const S00da8820_Vec4& A, const S00da8820_Vec4& dA, const S00da8820_Vec4& B,
-                         const S00da8820_Vec4& dB, S00da8820_Result& result);
 
 // Finds the closest points of two edges, builds a plane from their cross product (using oldNormal if near-parallel), and stores the point and plane.
 // @fnv 0x00da8820
@@ -699,7 +710,7 @@ static __declspec(noinline) void __cdecl FUN_00da8820(S00da8820_Vec4* edgeA, S00
     dB.setSub4(edgeB[1], edgeB[0]);
 
     S00da8820_Result result;
-    FUN_00d22e40(edgeA[0], dA, edgeB[0], dB, result);
+    ::FUN_00d22e40((const ::hkVector4 &)(edgeA[0]), (const ::hkVector4 &)(dA), (const ::hkVector4 &)(edgeB[0]), (const ::hkVector4 &)(dB), (::VectorPairResult &)(result));
 
     planeOut.setCross(dA, dB);
 
@@ -737,6 +748,7 @@ void __cdecl S00da8820_RecalcContact(S00da8820_Vec4* vA, S00da8820_Vec4* vB, con
 }
 
 #include <math.h>
+#include "fnv/symbols_simd.h"
 extern "C"
 {
     __m128 _mm_shuffle_ps(__m128, __m128, int);
@@ -818,19 +830,14 @@ struct Collision_hit
     Collision_vector normal;
     float fraction;
 };
-extern const float DAT_01017718, DAT_01016248, DAT_01011d78;
-extern const double DAT_01016978;
-extern const float DAT_010d51b0;
+extern const float DAT_01016248, DAT_01011d78;
 extern const double DAT_010d51a8;
-extern const float DAT_01012054;
-extern const double DAT_0109cc78;
 extern const __m128 DAT_010c44d0;
 extern const signed char DAT_010cb438[], DAT_010cb440[], DAT_010cb442[];
 struct Transform_result : Collision_vector
 {
     void FUN_00c7f700(Collision_mat*, Collision_vector*);
 };
-extern int FUN_00d22e40(Collision_vector*, Collision_vector*, Collision_vector*, Collision_vector*, Collision_vector*);
 struct SmallBool
 {
     char value;
@@ -856,7 +863,6 @@ struct Collision_workspace
     Collision_vector axis;
     Collision_vector witnesses[4];
     int oldCountB, unk174, unk178, unk17c;
-    int FUN_00da8500(Collision_vector*, Collision_vector*, int);
     int FUN_00da9340(Collision_vector*, Collision_vector*, int*, int*, SmallBool, int);
     __forceinline int updateSimplex(Collision_vector& edgeB);
     SmallBool FUN_00da9b30(Collision_vcls*, Collision_vcls*, Collision_mat*, Collision_vector*, Collision_hit*);
@@ -896,7 +902,6 @@ static __forceinline int sign(__m128 v)
     return _mm_movemask_ps(v) & 1;
 }
 extern const __m128 DAT_01017d10;
-extern const float DAT_0104da48, DAT_010c6090;
 extern const double DAT_010290f8;
 extern int __cdecl FUN_00da8390(const Collision_vector*, const Collision_vector*);
 static int FUN_00da8fb0(const Collision_vector* vertices, const Collision_vector* point, float orientation)
@@ -949,7 +954,7 @@ static int FUN_00da8fb0(const Collision_vector* vertices, const Collision_vector
     }
     else
         index = 2;
-    if (dist[2] < DAT_010c6090)
+    if (dist[2] < ::fnv_00c8e160::DAT_010c6090)
         return -1;
     if (dist[1] * DAT_010290f8 < dist[2])
         return index;
@@ -1006,7 +1011,7 @@ redispatch:
         Collision_vector& eb = edgeB;
         eb.simd() = b[1].simd();
         eb.simd() = _mm_sub_ps(eb.simd(), b[0].simd());
-        int result = FUN_00d22e40(a, &edgeA, b, &edgeB, witnesses);
+        int result = ::FUN_00d22e40((*(const ::hkVector4 *)(a)), (*(const ::hkVector4 *)(&edgeA)), (*(const ::hkVector4 *)(b)), (*(const ::hkVector4 *)(&edgeB)), (*(::VectorPairResult *)(witnesses)));
         if (!result)
         {
             axis.simd() = cross(edgeA.simd(), edgeB.simd());
@@ -1040,7 +1045,7 @@ redispatch:
         sourceB[index].simd() = sourceB[3].simd();
     }
     case 11: {
-        int result = FUN_00da8500(a, b, 1);
+        int result = reinterpret_cast<::Simplex *>(this)->FUN_00da8500((const ::Vector *)(a), (::Vector *)(b), 1);
         if (result == 7)
             goto nextAxis;
         int index = DAT_010cb438[result];
@@ -1121,7 +1126,7 @@ redispatch:
         a[index].simd() = a[3].simd();
     }
     case 25: {
-        int result = FUN_00da8500(b, a, -1);
+        int result = reinterpret_cast<::Simplex *>(this)->FUN_00da8500((const ::Vector *)(b), (::Vector *)(a), -1);
         if (result == 7)
             goto nextAxis;
         int index = DAT_010cb438[result];
@@ -1317,7 +1322,7 @@ SmallBool Collision_workspace::FUN_00da9b30(Collision_vcls* shapeA, Collision_vc
         __m128 change = _mm_sub_ps(axis.simd(), previousAxis.simd());
         float changeSquared;
         changeSquared = real(dot(change, change));
-        if (changeSquared < DAT_0109cc78)
+        if (changeSquared < ::DAT_0109cc78)
         {
             ++iterations;
             if (iterations >= 3)
@@ -1492,8 +1497,6 @@ struct ContactClosest
     ContactVector delta;
     StoredDistance distanceSquared;
 };
-int FUN_00d22e40(const ContactVector&, const ContactVector&, const ContactVector&, const ContactVector&,
-                 ContactClosest&);
 
 static __forceinline void orient(ContactVector& out, const ContactVector& axis)
 {
@@ -1530,7 +1533,7 @@ static __forceinline void edgeToEdge(ContactVector* first, ContactVector* second
     edgeA.setSub4(first[1], first[0]);
     edgeB.setSub4(second[1], second[0]);
     ContactClosest closest;
-    FUN_00d22e40(first[0], edgeA, second[0], edgeB, closest);
+    ::FUN_00d22e40((const ::hkVector4 &)(first[0]), (const ::hkVector4 &)(edgeA), (const ::hkVector4 &)(second[0]), (const ::hkVector4 &)(edgeB), (::VectorPairResult &)(closest));
     out.setCross(edgeA, edgeB);
     float combinedLength;
     {
@@ -1622,7 +1625,6 @@ void FUN_00da8a00(ContactVector* first, ContactVector* second, int countA, int c
 }
 
 extern const __m128 DAT_01017d10;
-extern const float DAT_010c6090;
 extern "C" __m128 _mm_and_ps(__m128, __m128);
 extern "C" __m128 _mm_load_ss(const float*);
 extern "C" void _mm_store_ss(float*, __m128);
@@ -1739,7 +1741,7 @@ static __declspec(noinline) int FUN_00da8fb0(const hkVector4* vertices, const hk
         bestIdx = 2;
     }
 
-    if (dist[2] < DAT_010c6090)
+    if (dist[2] < ::fnv_00c8e160::DAT_010c6090)
     {
         return -1;
     }
@@ -1995,7 +1997,6 @@ struct GapLineResult
     GapVector point, difference;
     GapValue<float> distance;
 };
-int __cdecl FUN_00d22e40(const GapVector&, const GapVector&, const GapVector&, const GapVector&, GapLineResult&);
 namespace GapMath {
 inline int negative(const GapScalar& v)
 {
@@ -2087,8 +2088,6 @@ class GapSolver
     {
         changed = f;
     }
-    void FUN_00daa7e0(const GapShape*, const GapShape*, const GapTransform&);
-    int FUN_00da8500(const GapVector&, GapVector*, SupportTypes);
     NextCase FUN_00da9340(GapVector*, GapVector*, GapValue<int>&, GapValue<int>&, GapBool, SupportTypes);
     GapStatus FUN_00daad40(const GapShape*, const GapShape*, const GapTransform&, GapVector&);
 };
@@ -2168,7 +2167,7 @@ static __declspec(noinline) int FUN_00da8fb0(const GapVector& point, const GapVe
             selected = 2;
         }
     }
-    if (DAT_010c6090 > scores[0])
+    if (::fnv_00c8e160::DAT_010c6090 > scores[0])
         return -1;
     if (scores[1] * DAT_010290f8 >= scores[0])
         return selected;
@@ -2284,7 +2283,7 @@ __forceinline GapSolver::ReduceDimensionResult GapSolver::reduce()
         }
         case GSK_POINT_TRIANGLE:
         case_point_triangle: {
-            int mask = FUN_00da8500(verticesA[0], verticesB, BUILD_POS_SUPPORT);
+            int mask = reinterpret_cast<::Simplex *>(this)->FUN_00da8500((const ::Vector *)&(verticesA[0]), (::Vector *)(verticesB), (*(int *)&(const ::GapSolver::SupportTypes &)(BUILD_POS_SUPPORT)));
             if (mask == 7)
             {
                 break;
@@ -2338,7 +2337,7 @@ __forceinline GapSolver::ReduceDimensionResult GapSolver::reduce()
         }
         case GSK_TRIANGLE_POINT:
         case_triangle_point: {
-            int mask = FUN_00da8500(verticesB[0], verticesA, BUILD_NEG_SUPPORT);
+            int mask = reinterpret_cast<::Simplex *>(this)->FUN_00da8500((const ::Vector *)&(verticesB[0]), (::Vector *)(verticesA), (*(int *)&(const ::GapSolver::SupportTypes &)(BUILD_NEG_SUPPORT)));
             if (mask == 7)
             {
                 break;
@@ -2419,7 +2418,7 @@ __forceinline GapSolver::ReduceDimensionResult GapSolver::reduce()
             edgeA.subtract(verticesA[1], verticesA[0]);
             GapVector edgeB;
             edgeB.edgeSubtract(verticesB[1], verticesB[0]);
-            int result = FUN_00d22e40(verticesA[0], edgeA, verticesB[0], edgeB, closest);
+            int result = ::FUN_00d22e40((const ::hkVector4 &)(verticesA[0]), (const ::hkVector4 &)(edgeA), (const ::hkVector4 &)(verticesB[0]), (const ::hkVector4 &)(edgeB), (::VectorPairResult &)(closest));
             if (result == 0)
             {
                 axis.cross(edgeA, edgeB);
@@ -2521,7 +2520,7 @@ GapStatus GapSolver::FUN_00daad40(const GapShape* shapeA, const GapShape* shapeB
             {
                 if (!skipPenetration.val())
                 {
-                    FUN_00daa7e0(shapeA, shapeB, aTb);
+                    reinterpret_cast<::Simplex *>(this)->FUN_00daa7e0((void *)(shapeA), (void *)(shapeB), (const struct ::Transform *)&(aTb));
                     break;
                 }
                 else
@@ -2786,8 +2785,6 @@ struct SolverOutput
     AlignedPoint normal, point;
     float distance;
 };
-extern void __cdecl FUN_00d22e40(const AlignedPoint* polygon, const AlignedPoint* direction, const AlignedPoint* vertex,
-                                 const AlignedPoint* edge, SolverOutput* result);
 static __forceinline __m128 dotThree(__m128 vector, __m128 normal)
 {
     __m128 products = _mm_mul_ps(vector, normal);
@@ -2882,7 +2879,7 @@ int __thiscall CollisionPlanes::FUN_00da9340(AlignedPoint* segment, AlignedPoint
         {
             __m128 proportion = _mm_div_ss(firstDistance, _mm_sub_ss(firstDistance, secondDistance));
             scratch.quad = (blendPoints(segment[0].quad, segment[1].quad, proportion));
-            if (FUN_00da8500(&scratch, polygon, 0) == 7)
+            if (reinterpret_cast<::Simplex *>(this)->FUN_00da8500((const ::Vector *)(const ::AlignedPoint *)(&scratch), (::Vector *)(polygon), 0) == 7)
                 return 1;
         }
         else
@@ -2895,7 +2892,7 @@ int __thiscall CollisionPlanes::FUN_00da9340(AlignedPoint* segment, AlignedPoint
                 swapPoints(segment[0], segment[1]);
                 swapPoints(segment[4], segment[5]);
             }
-            if (FUN_00da8500(segment, polygon, 1) == 7)
+            if (reinterpret_cast<::Simplex *>(this)->FUN_00da8500((const ::Vector *)(segment), (::Vector *)(polygon), 1) == 7)
             {
                 --*segmentCount;
                 return 0;
@@ -2903,8 +2900,8 @@ int __thiscall CollisionPlanes::FUN_00da9340(AlignedPoint* segment, AlignedPoint
         }
         scratch.quad = (_mm_sub_ps(segment[1].quad, segment[0].quad));
         SolverOutput sampleB, sampleA;
-        FUN_00d22e40(segment, &scratch, polygon + 2, &edgeB, &sampleA);
-        FUN_00d22e40(segment, &scratch, polygon + 2, &edgeA, &sampleB);
+        ::FUN_00d22e40((*(const ::hkVector4 *)(segment)), (*(const ::hkVector4 *)(&scratch)), (*(const ::hkVector4 *)(polygon + 2)), (*(const ::hkVector4 *)(&edgeB)), (*(::VectorPairResult *)(&sampleA)));
+        ::FUN_00d22e40((*(const ::hkVector4 *)(segment)), (*(const ::hkVector4 *)(&scratch)), (*(const ::hkVector4 *)(polygon + 2)), (*(const ::hkVector4 *)(&edgeA)), (*(::VectorPairResult *)(&sampleB)));
         int selection = sampleA.distance > sampleB.distance ? 1 : 0;
         polygon[selection] = polygon[2];
         polygon[selection + 4] = polygon[6];
@@ -2920,10 +2917,10 @@ int __thiscall CollisionPlanes::FUN_00da9340(AlignedPoint* segment, AlignedPoint
     {
         __m128 proportion = _mm_div_ss(secondDistance, _mm_sub_ss(secondDistance, firstDistance));
         edgeA.quad = (blendPoints(segment[0].quad, segment[1].quad, proportion));
-        if (FUN_00da8500(&edgeA, polygon, 0) == 7)
+        if (reinterpret_cast<::Simplex *>(this)->FUN_00da8500((const ::Vector *)(const ::AlignedPoint *)(&edgeA), (::Vector *)(polygon), 0) == 7)
             return 1;
     }
-    int result = FUN_00da8500(segment + 1, polygon, 0);
+    int result = reinterpret_cast<::Simplex *>(this)->FUN_00da8500((const ::Vector *)(const ::AlignedPoint *)(segment + 1), (::Vector *)(polygon), 0);
     if (result == 7)
     {
         assignCounted(segment[0], segment[1].quad, segmentCount);
@@ -2985,7 +2982,6 @@ template <class T> struct S00daac40_RayArgument
 };
 extern "C" void _ReadWriteBarrier(void);
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
-extern unsigned long DAT_0126835c;
 
 extern "C" unsigned __int64 __rdtsc(void);
 
@@ -3043,7 +3039,6 @@ struct S00daac40_RayParams
 class S00daac40_RayCastTarget
 {
   public:
-    void FUN_009c1aa0(S00daac40_RayParams* p);
 };
 
 class S00daac40_FUN_00daac40_cls
@@ -3051,7 +3046,6 @@ class S00daac40_FUN_00daac40_cls
   public:
     bool* FUN_00daac40(S00daac40_RayArgument<bool*> out, int p2, int p3,
                        S00daac40_RayArgument<S00daac40_RayParams*> p4);
-    void FUN_00da9b30(bool* hit, int p2, int zero, S00daac40_Mat3* m, int p3, S00daac40_RayParams* p);
 };
 
 // Records a GJK ray-cast profile tick, runs FUN_00da9b30 with an identity matrix, and sets out true when hit and local.m_v08.z is non-zero.
@@ -3084,7 +3078,7 @@ bool* S00daac40_FUN_00daac40_cls::FUN_00daac40(S00daac40_RayArgument<bool*> out,
     _mm_store_ps((float*)&m.r2, _mm_setzero_ps());
     m.r2.z = one;
 
-    this->FUN_00da9b30(&hit, p2, 0, &m, p3, &rayParams);
+    reinterpret_cast<::Collision_workspace *>((this))->FUN_00da9b30((::Collision_vcls *)(bool *)(&hit), (::Collision_vcls *)(p2), (::Collision_mat *)(0), (::Collision_vector *)(::S00daac40_Mat3 *)(&m), (::Collision_hit *)(p3));
 
     pProfBuf = (S00daac40_ProfBuf*)TlsGetValue(DAT_0126835c);
     if (pProfBuf->m_pCur < pProfBuf->m_pRecordEnd)
@@ -3099,7 +3093,7 @@ bool* S00daac40_FUN_00daac40_cls::FUN_00daac40(S00daac40_RayArgument<bool*> out,
 
     if (hit && rayParams.m_v08.z != 0.0f)
     {
-        reinterpret_cast<S00daac40_RayCastTarget*>((S00daac40_RayParams*)apRayParams)->FUN_009c1aa0(&rayParams);
+        reinterpret_cast<::FUN_009c1aa0_Class *>((reinterpret_cast<S00daac40_RayCastTarget*>((S00daac40_RayParams*)apRayParams)))->FUN_009c1aa0((*(const ::FUN_009c1aa0_Class *)(&rayParams)));
         bool* destination = out;
         *destination = true;
         return destination;

@@ -4,6 +4,31 @@
 
 // src/fallout/ai/combat/explosion.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/explosion.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00c867d0_cls.h"
+#include "fnv/decl/FUN_00c86800_Class.h"
+#include "fnv/decl/FUN_00c868b0_cls.h"
+#include "fnv/decl/HashTableBase.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiObject.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/Wrapper86b80.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/fnv_00c86790__Holder.h"
+#include "fnv/decl/fnv_00cbc7b0__FUN_00cbc7b0_cls.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00c87000.h"
+#include "fnv/symbols_011b2000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01204000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01272000.h"
 struct ActorCause
 {
 };
@@ -22,17 +47,14 @@ struct Explosion
     virtual ~Explosion();
     void* Destroy(unsigned int flags);
 };
-void __cdecl _Deallocate(void*);
 struct NiRTTI;
 struct bhkLiquidAction
 {
     const NiRTTI* __thiscall GetRTTI() const;
 };
-extern NiRTTI g_01268420;
 struct NavMesh;
 struct NavMeshPtr
 {
-    NavMesh* FUN_00458b50();
 };
 struct FUN_009afc30_shell
 {
@@ -41,14 +63,12 @@ struct FUN_009afc30_shell
 };
 struct BSOcclusionPlane
 {
-    int __thiscall GetCullResult() const;
     int __thiscall IsNotCulled();
 };
 struct FUN_009afbb0_shell
 {
     virtual ~FUN_009afbb0_shell();
     void* FUN_009afbb0(unsigned int flags);
-    void FUN_009afc10();
 };
 extern "C" void __cdecl FUN_009afbe0(void*);
 struct FUN_00621100_shell
@@ -68,9 +88,7 @@ struct FUN_009afc50_shell
 
 struct P03MM
 {
-    void __thiscall DeallocateAlias(void*);
 };
-extern P03MM g_memoryManager;
 void __cdecl FUN_00cbc740();
 
 struct FUN_00cbd4e0_shell
@@ -84,7 +102,7 @@ void* FUN_00cbd4e0_shell::FUN_00cbd4e0(unsigned char flag)
 {
     FUN_00cbc740();
     if (flag & 1)
-        g_memoryManager.DeallocateAlias(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa4060(this);
     return this;
 }
 
@@ -265,7 +283,6 @@ struct FUN_00cbc650_cls
     virtual void v2B();
     virtual void v2C();
     virtual FUN_00cbc650_obj* vGet(FUN_00cbc650_obj* volatile* pp);
-    void FUN_00c86790(FUN_00cbc650_obj* a);
     void FUN_00cbc650(FUN_00cbc650_obj* volatile a1);
 };
 
@@ -273,7 +290,7 @@ struct FUN_00cbc650_cls
 void FUN_00cbc650_cls::FUN_00cbc650(FUN_00cbc650_obj* volatile a1)
 {
     FUN_00cbc650_obj* obj = a1;
-    FUN_00c86790(obj);
+    reinterpret_cast<::fnv_00c86790::Holder *>(this)->FUN_00c86790((::fnv_00c86790::NiStream *)(obj));
     if (obj->m_1e5 != 1)
     {
         volatile unsigned int* p = (volatile unsigned int*)vGet(&a1);
@@ -342,7 +359,6 @@ struct FUN_00cbc6a0_Class
     virtual void vf43();
     virtual void vf44();
     virtual FUN_00cbc6a0_Data* vf45(int* value);
-    void __thiscall FUN_00c868b0(unsigned char* arg);
 };
 
 // @fnv 0x00cbc6a0
@@ -359,7 +375,7 @@ void FUN_00cbc6a0_Class::FUN_00cbc6a0(unsigned char* arg)
         data->unk14 = _byteswap_ulong(data->unk14);
     }
 
-    FUN_00c868b0(arg);
+    reinterpret_cast<::FUN_00c868b0_cls *>(this)->FUN_00c868b0((::C868_Iface *)(arg));
 
     if (arg[0x1E4] != 1)
     {
@@ -370,21 +386,18 @@ void FUN_00cbc6a0_Class::FUN_00cbc6a0(unsigned char* arg)
     }
 }
 
-extern __declspec(thread) int g_memoryContext;
-void __cdecl FUN_00c876f0();
-void __cdecl FUN_00c87700();
 void* __cdecl FUN_00aa13e0(unsigned int size);
 struct AutoMemContext
 {
     int oldContext;
     AutoMemContext()
     {
-        oldContext = g_memoryContext;
-        g_memoryContext = 16;
+        oldContext = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 16;
     }
     ~AutoMemContext()
     {
-        g_memoryContext = oldContext;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = oldContext;
     }
 };
 struct FUN_00cbc550_class
@@ -413,7 +426,6 @@ struct FUN_00cbc550_class
 };
 struct FUN_00cbca20_class
 {
-    void __thiscall FUN_00c86800(FUN_00cbc550_class* obj, int flags);
     FUN_00cbc550_class* __thiscall FUN_00cbca20(int flags);
 };
 // @fnv 0x00cbca20
@@ -422,7 +434,7 @@ FUN_00cbc550_class* __thiscall FUN_00cbca20_class::FUN_00cbca20(int flags)
     AutoMemContext context;
     FUN_00c876f0();
     FUN_00cbc550_class* result = new FUN_00cbc550_class();
-    FUN_00c86800(result, flags);
+    reinterpret_cast<::FUN_00c86800_Class *>(this)->FUN_00c86800((int)(result), (::FUN_00c86800_Table *)(flags));
     FUN_00c87700();
     return result;
 }
@@ -471,7 +483,6 @@ struct HavokObj
     static void operator delete(void* p);
 
     HavokObj(void* a1, int a2);
-    void removeReference();
 };
 
 struct DynCastHelper2
@@ -494,7 +505,6 @@ struct DynCastHelper1
 
 struct DynCastObj
 {
-    DynCastHelper1* __thiscall DynamicCast(const void* rtti);
 };
 
 struct GarbageCollectorObjectPtr
@@ -503,8 +513,6 @@ struct GarbageCollectorObjectPtr
     int m_unk04;
 };
 
-extern const void* DAT_01267b70;
-extern const void* g_012043f8;
 
 GarbageCollectorObjectPtr* __cdecl FUN_00c85ef0(GarbageCollectorObjectPtr* out, void* obj, const void* rtti);
 
@@ -594,14 +602,14 @@ void TargetClass::FUN_00cbd520(ArgStruct* arg)
 
     HavokObj* obj = new HavokObj(arg->unk04, 0);
     this->vf8c(obj);
-    obj->removeReference();
+    reinterpret_cast<::hkReferencedObjectC905 *>((obj))->FUN_00c905b0();
 
     GarbageCollectorObjectPtr gcPtr;
     void* pObj = arg->unk04;
-    GarbageCollectorObjectPtr* res = FUN_00c85ef0(&gcPtr, pObj, &DAT_01267b70);
+    GarbageCollectorObjectPtr* res = FUN_00c85ef0(&gcPtr, pObj, &(*reinterpret_cast<const void * *>(&::g_01267b70)));
     if (res->m_ptr)
     {
-        DynCastHelper1* dyn = res->m_ptr->DynamicCast(&g_012043f8);
+        DynCastHelper1* dyn = ((::DynCastHelper1 *)(reinterpret_cast<::NiObject *>((res->m_ptr))->DynamicCast((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<const void * *>(&::g_012043f8))))));
         if (dyn && dyn->unk08 && dyn->unk08->unk18)
         {
             this->FUN_00cbcbd0(dyn->unk08->unk18);
@@ -615,13 +623,11 @@ class NiViewerStringArray
 {
   public:
     virtual ~NiViewerStringArray();
-    void SetSize(unsigned int uiMaxSize);
-    void SetAt(unsigned int uiIndex, char* const& pcElement);
     unsigned int SetAtGrow(unsigned int uiIndex, char* const& pcElement)
     {
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, pcElement);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pcElement));
         return uiIndex;
     }
     unsigned int Add(char* const& pcElement)
@@ -638,21 +644,18 @@ class NiViewerStringArray
 class FUN_00cbd650_base
 {
   public:
-    void FUN_00c86b80(NiViewerStringArray* pkStrings);
 };
 class FUN_00cbd650_cls : public FUN_00cbd650_base
 {
   public:
     void FUN_00cbd650(NiViewerStringArray* pkStrings);
 };
-char* __cdecl FUN_00a7d330(const char* pcString);
-extern const char* DAT_01268420;
 // @fnv 0x00cbd650
 void FUN_00cbd650_cls::FUN_00cbd650(NiViewerStringArray* pkStrings)
 {
     AutoMemContext kContext;
-    FUN_00c86b80(pkStrings);
-    pkStrings->Add(FUN_00a7d330(DAT_01268420));
+    reinterpret_cast<::Wrapper86b80 *>(this)->FUN_00c86b80((::NiTPrimitiveArray<char *, ::NiTMallocInterface<char *>> *)(pkStrings));
+    pkStrings->Add(FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_01268420))));
 }
 
 inline void* operator new(size_t, void* p)
@@ -672,9 +675,7 @@ struct SmallAlignedState
 };
 struct StateAllocator
 {
-    void* __thiscall FUN_00aa3e40(unsigned int bytes);
 };
-extern StateAllocator DAT_011f6238;
 struct StateOwner
 {
     unsigned int unk00;
@@ -686,7 +687,6 @@ struct StateOwner
     float unk18;
     float unk1c;
     float unk20;
-    void __thiscall FUN_00c867d0(SmallAlignedState* state);
     SmallAlignedState* FUN_00cbcad0(bool* created);
 };
 // @fnv 0x00cbcad0
@@ -696,7 +696,7 @@ SmallAlignedState* StateOwner::FUN_00cbcad0(bool* created)
     *created = !unk0c;
     if (*created)
     {
-        unsigned char* raw = (unsigned char*)DAT_011f6238.FUN_00aa3e40(sizeof(SmallAlignedState) + 16);
+        unsigned char* raw = (unsigned char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::StateAllocator *>(&::g_memoryManager))))->FUN_00aa3e40(sizeof(SmallAlignedState) + 16);
         unsigned char offset = 16 - ((unsigned int)raw & 15);
         raw += offset;
         raw[-1] = offset;
@@ -704,7 +704,7 @@ SmallAlignedState* StateOwner::FUN_00cbcad0(bool* created)
         unk0c = state;
         if (unk08)
         {
-            FUN_00c867d0(state);
+            reinterpret_cast<::FUN_00c867d0_cls *>(this)->FUN_00c867d0((::FUN_00c867d0_out *)(state));
             state->unk08 = unk1c;
             state->unk0c = unk20;
             state->unk10 = unk14;
@@ -891,55 +891,50 @@ struct ThreadBlock
     unsigned int unk02b0;
     unsigned int context;
 };
-extern __declspec(thread) ThreadBlock threadBlock;
 struct ContextScope
 {
     unsigned int saved;
     ContextScope(unsigned int old)
     {
         saved = old;
-        threadBlock.context = 16;
+        (*reinterpret_cast<::ThreadBlock *>(&::g_tlsBlock)).context = 16;
     }
     ~ContextScope()
     {
-        threadBlock.context = saved;
+        (*reinterpret_cast<::ThreadBlock *>(&::g_tlsBlock)).context = saved;
     }
 };
 struct CauseMap
 {
-    bool __thiscall FUN_00a53c30(void* key, void** out);
-    void __thiscall InsertOrUpdate(void* key, void* value);
 };
-extern CauseMap DAT_011b2190;
 struct CauseList
 {
     void* unk00;
     void* unk04;
-    void __thiscall PushItem(void** owner);
 };
 // @fnv 0x00cbcbd0
 void TargetClass::FUN_00cbcbd0(void* p)
 {
-    unsigned int restore = threadBlock.context;
+    unsigned int restore = (*reinterpret_cast<::ThreadBlock *>(&::g_tlsBlock)).context;
     ContextScope scope(restore);
     if (p)
     {
         void* key = p;
         p = 0;
         unk10 = (int)key;
-        DAT_011b2190.FUN_00a53c30(key, &p);
+        reinterpret_cast<::A54440Hash *>(&((*reinterpret_cast<::CauseMap *>(&::DAT_011b2190))))->FUN_00a53c30((::A54440Manager *)(key), (::A54440Manager **)(void **)(&p));
         CauseList* list = (CauseList*)p;
         switch ((unsigned int)list)
         {
         case 0: {
-            CauseList* allocated = (CauseList*)DAT_011f6238.FUN_00aa3e40(8);
+            CauseList* allocated = (CauseList*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::StateAllocator *>(&::g_memoryManager))))->FUN_00aa3e40(8);
             if (allocated != list)
             {
                 allocated->unk00 = list;
                 allocated->unk04 = list;
                 list = allocated;
             }
-            DAT_011b2190.InsertOrUpdate((void*)unk10, list);
+            reinterpret_cast<::HashTableBase *>(&((*reinterpret_cast<::CauseMap *>(&::DAT_011b2190))))->InsertOrUpdate((unsigned int)((void*)unk10), (unsigned int)(list));
             if (list)
             {
                 restore = *(volatile unsigned int*)&scope.saved;
@@ -957,7 +952,7 @@ void TargetClass::FUN_00cbcbd0(void* p)
         if (list)
         {
             p = this;
-            list->PushItem(&p);
+            reinterpret_cast<::fnv_00cbc7b0::FUN_00cbc7b0_cls *>((list))->PushItem(&p);
         }
     }
 restore_exit:

@@ -1,12 +1,37 @@
 
 // bgsentrypointfunction_ctx2_variant.cpp: context variant of src/fallout_shared/bgsentrypointfunction.cpp: its stripped skeleton, as these functions were checked
 // against, for verified matches whose own declarations clash with the unit's current types.
+#include <new>
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00418800_shell.h"
+#include "fnv/decl/FUN_00419ad0_shell.h"
+#include "fnv/decl/FUN_00419ed0_shell.h"
+#include "fnv/decl/FUN_00419f80_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00488350_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_005abf60_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00482000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_005e5000.h"
 #include "BGSEntryPointFunction.h"
 
 struct ScriptLocals;
 struct Script
 {
-    ScriptLocals* GetOrCreateScriptLocals();
 };
 struct BoundObj5e5f50
 {
@@ -181,8 +206,6 @@ struct Actor5e5f50
 struct ListNode5e5f50
 {
     bool FUN_008256d0();
-    InventoryItemEntry** FUN_006815c0();
-    ListNode5e5f50* FUN_00726070();
 };
 struct TESContainer
 {
@@ -190,11 +213,9 @@ struct TESContainer
     virtual ~TESContainer();
     InventoryItemEntry* pFirstItem;
     ListNode5e5f50* pListNode;
-    ListNode5e5f50* FUN_00717e50();
 };
 struct TESLeveledList
 {
-    void PopulateContainerFromReference(void*, TESContainer*);
 };
 struct LevForm5e5f50
 {
@@ -214,11 +235,12 @@ struct LevForm5e5f50
 };
 struct DataLeveledList5e5f50
 {
-    LevForm5e5f50* FUN_00726070();
 };
+class TESObjectREFR;
 struct InventoryChanges
 {
-    static InventoryChanges* __cdecl CreateForReference(void*);
+public:
+    static ::InventoryChanges *CreateForReference(::TESObjectREFR *);
 };
 struct ExtraDataList
 {
@@ -226,48 +248,42 @@ struct ExtraDataList
     virtual ~ExtraDataList();
     void* m_data;
     unsigned char m_presenceBitfield[0x15];
-    void FUN_00419ad0(unsigned short);
-    void FUN_00419ed0(Script*);
-    void FUN_00419f80(ScriptLocals*);
 };
-Script* __fastcall FUN_00418800(ExtraDataList*);
-Script* __cdecl FUN_004826d0(BoundObj5e5f50*);
-bool __cdecl FUN_005e5b80(int, int, void*, int, unsigned char, void**, void*);
 
 // @fnv 0x005e5f50
 void __cdecl FUN_005e5f50(void* apPerkOwner, int aeFunctionType, unsigned char acArgumentCount,
                           void** apFunctionArgument, void* apData)
 {
-    if (!FUN_005e5b80(1, 3, apPerkOwner, aeFunctionType, acArgumentCount, apFunctionArgument, apData))
+    if (!::FUN_005e5b80(1, 3, (::TESObjectREFR *)(apPerkOwner), aeFunctionType, acArgumentCount, apFunctionArgument, apData))
         return;
     DataLeveledList5e5f50* pfunctionData = (DataLeveledList5e5f50*)apData;
     Actor5e5f50* ptarget = (Actor5e5f50*)*apFunctionArgument;
     TESContainer tempcont;
-    pfunctionData->FUN_00726070()->list.PopulateContainerFromReference(apPerkOwner, &tempcont);
-    InventoryChanges* pinventory = InventoryChanges::CreateForReference(ptarget);
-    ListNode5e5f50* pCurrentElementNext = tempcont.FUN_00717e50();
+    reinterpret_cast<::FUN_00488350_shell *>(&(((::LevForm5e5f50 *)(reinterpret_cast<::Callees *>((pfunctionData))->FUN_00726070()))->list))->AddLeveledItemsToContainer((::TESObjectREFR *)(apPerkOwner), &tempcont);
+    InventoryChanges* pinventory = ::InventoryChanges::CreateForReference((::TESObjectREFR *)(ptarget));
+    ListNode5e5f50* pCurrentElementNext = ((::ListNode5e5f50 *)(reinterpret_cast<::BaseProcess *>(&(tempcont))->GetCurrentProcessData()));
     if (pinventory)
     {
-        while (pCurrentElementNext && !pCurrentElementNext->FUN_008256d0() && *pCurrentElementNext->FUN_006815c0())
+        while (pCurrentElementNext && !pCurrentElementNext->FUN_008256d0() && *((::InventoryItemEntry **)(new ((void *)(pCurrentElementNext)) ::Vec3())))
         {
-            InventoryItemEntry* pdata = *pCurrentElementNext->FUN_006815c0();
+            InventoryItemEntry* pdata = *((::InventoryItemEntry **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
             BoundObj5e5f50* pboundObject = 0;
             if (pdata->pObj && pdata->pObj->IsLeveledOrPlayable())
                 pboundObject = pdata->pObj;
             if (pboundObject)
             {
-                Script* pScript = FUN_004826d0(pdata->pObj);
+                Script* pScript = ((::Script *)(::fnv_004826d0::FUN_004826d0((::fnv_004826d0::TESForm *)(pdata->pObj))));
                 if (pScript)
                 {
                     ExtraDataList* pExtra = 0;
                     for (int n = 0; n < pdata->m_iCountDelta; n++)
                     {
                         pExtra = new ExtraDataList;
-                        pExtra->FUN_00419ad0(1);
-                        if (pExtra && !FUN_00418800(pExtra))
+                        reinterpret_cast<::FUN_00419ad0_shell *>((pExtra))->FUN_00419ad0(1);
+                        if (pExtra && !reinterpret_cast<::FUN_00418800_shell *>((pExtra))->FUN_00418800())
                         {
-                            pExtra->FUN_00419ed0(pScript);
-                            pExtra->FUN_00419f80(FUN_00418800(pExtra)->GetOrCreateScriptLocals());
+                            reinterpret_cast<::FUN_00419ed0_shell *>((pExtra))->FUN_00419ed0(pScript);
+                            reinterpret_cast<::FUN_00419f80_shell *>((pExtra))->FUN_00419f80(reinterpret_cast<::FUN_005abf60_shell *>((reinterpret_cast<::FUN_00418800_shell *>((pExtra))->FUN_00418800()))->FUN_005abf60());
                         }
                     }
                     ptarget->AddObjectToContainer(pboundObject, pExtra, 1);
@@ -275,7 +291,7 @@ void __cdecl FUN_005e5f50(void* apPerkOwner, int aeFunctionType, unsigned char a
                 else
                     ptarget->AddObjectToContainer(pboundObject, 0, pdata->m_iCountDelta);
             }
-            pCurrentElementNext = pCurrentElementNext->FUN_00726070();
+            pCurrentElementNext = ((::ListNode5e5f50 *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
         }
     }
 }

@@ -2,6 +2,19 @@
 // src/havok/physics/utilities/collide/shapeutils/collapsetransform/hkptransformcollapseutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/collide/shapeutils/collapsetransform/hkptransformcollapseutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00c9e340.h"
+#include "fnv/decl/FUN_00cf5640.h"
+#include "fnv/decl/FUN_00d73400_cls.h"
+#include "fnv/decl/Standin_2.h"
+#include "fnv/decl/cf5990_TransformShape.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d73000.h"
+#include "fnv/symbols_00d74000.h"
+#include "fnv/symbols_01268000.h"
 struct ShapeRefArray
 {
     int* refs;
@@ -64,12 +77,9 @@ struct FUN_00d74420_Context
     int m_kPointA;  // +0x00
     int m_kPointB;  // +0x04
     int m_iThirdValue;  // +0x08, initialized to 0x80000000
-    void FUN_00d738f0(int value);
-    void FUN_00d74a20();
     void FUN_00d74aa0();
 };
 
-int FUN_00d739f0(int a1, int a2, FUN_00d74420_Context* ctx, int a3);
 
 // @fnv 0x00d74420
 int RunContextOperation(int aiArg1, int aiArg2, int aiArg3, int* piOut)
@@ -78,9 +88,9 @@ int RunContextOperation(int aiArg1, int aiArg2, int aiArg3, int* piOut)
     ctx.m_kPointA = 0;
     ctx.m_kPointB = 0;
     ctx.m_iThirdValue = 0x80000000;
-    ctx.FUN_00d738f0(aiArg1);
-    ctx.FUN_00d74a20();
-    *piOut = FUN_00d739f0(aiArg1, aiArg2, &ctx, aiArg3);
+    reinterpret_cast<::ShapeData *>(&(ctx))->FUN_00d738f0(aiArg1);
+    reinterpret_cast<::ShapeData *>(&(ctx))->FUN_00d74a20();
+    *piOut = ((int)(::FUN_00d739f0((const ::hkpShape *)(aiArg1), (*(const ::Options *)(aiArg2)), (*(::D749Table *)(&ctx)), (*(::Results *)(aiArg3)))));
     ctx.FUN_00d74aa0();
     return 0;
 }
@@ -109,7 +119,6 @@ struct hkMemoryRouterD748
 };
 extern "C" hkMemoryRouterD748& __cdecl FUN_00c85750();
 
-void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
 
 template <class T> __forceinline void constructWithCopyD748(T* p, int n, const T& t)
 {
@@ -144,7 +153,7 @@ template <class T> class hkArrayD748
     {
         hkMemoryAllocatorD748& kAlloc = FUN_00c85750().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&kAlloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyD748(m_data + m_iElementCount, 1, t);
         m_iElementCount++;
     }
@@ -152,7 +161,6 @@ template <class T> class hkArrayD748
 
 class hkpEntityD748;
 
-int __cdecl RemapCollisionShapes(hkArrayD748<hkpEntityD748*>& kEntities, int iA, int iB) throw();
 
 // Appends pkEntity to a local hkArrayD748 and forwards it with iA and iB to RemapCollisionShapes, returning its result.
 // @fnv 0x00d748d0
@@ -160,7 +168,7 @@ int __cdecl FUN_00d748d0(hkpEntityD748* pkEntity, int iA, int iB) throw()
 {
     hkArrayD748<hkpEntityD748*> kEntities;
     kEntities.AddBack(pkEntity);
-    return RemapCollisionShapes(kEntities, iA, iB);
+    return ::RemapCollisionShapes((::hkShapeEntryArrayD748 *)&(kEntities), (void *)(iA), (::hkShapeOutputD748 *)(iB));
 }
 
 struct D749Entry
@@ -172,12 +180,10 @@ struct D749Entry
 
 struct FUN_00c90510_Obj
 {
-    void FUN_00c90510();
 };
 
 struct hkReferencedObject
 {
-    void removeReference();
 };
 
 class D749Table
@@ -205,10 +211,10 @@ int D749Table::SetEntryValue(int key, int value)
     }
     return 1;
 found:
-    ((FUN_00c90510_Obj*)value)->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((((FUN_00c90510_Obj*)value)))->FUN_00c90510();
     int pOldValue = m_data[i].m_uiFilterValue;
     if (pOldValue)
-        ((hkReferencedObject*)pOldValue)->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((((hkReferencedObject*)pOldValue)))->FUN_00c905b0();
     m_data[i].m_uiFilterValue = value;
     return 0;
 }
@@ -218,6 +224,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 extern "C" __m128 _mm_and_ps(__m128, __m128);
 
 struct Shp_d74480;
@@ -244,7 +251,6 @@ struct Router_d74480
 namespace fnvc_adapt {
 Router_d74480* __cdecl FUN_00c85750();
 }
-void __cdecl ResizeAudioStream(Alloc_d74480*, void*, int);
 struct Shp_d74480
 {
     void* vtbl;
@@ -252,12 +258,6 @@ struct Shp_d74480
     unsigned short refCount;
     int unk08;
     int type;
-    void FUN_00c90510();
-    void FUN_00c905b0();
-    Shp_d74480* FUN_00cf5640(Shp_d74480** shapes, int count, int flag);
-    Shp_d74480* FUN_00cf5990(Shp_d74480* child, void* transform);
-    Shp_d74480* FUN_00d5d7a0(Shp_d74480* child, void* translation, int flag);
-    void FUN_00c9e340(int type, float radius, Shp_d74480* child, int flag);
 };
 struct CacheEnt_d74480
 {
@@ -270,7 +270,6 @@ struct Cache_d74480
     CacheEnt_d74480* data;
     int count;
     int capacity;
-    void SetEntryValue(Shp_d74480* source, Shp_d74480* replacement);
 };
 struct ChildInfo_d74480
 {
@@ -308,14 +307,12 @@ struct Xform_d74480 : Shp_d74480
     __m128 transform;
 };
 extern int DAT_010d0e5c;
-extern __m128 DAT_010c4c10;
 struct Arr_d74480
 {
     Shp_d74480** data;
     int size;
     int capacity;
 };
-Shp_d74480* __cdecl FUN_00d739f0(Shp_d74480*, void*, Cache_d74480*, void*);
 
 // Recursively processes a shape tree, replacing nodes with cached or newly allocated equivalents and storing results in the cache.
 // @fnv 0x00d74480
@@ -328,7 +325,7 @@ Shp_d74480* __cdecl ProcessShape(Shp_d74480* shape, void* context, Cache_d74480*
             Shp_d74480* found = cache->data[i].replacement;
             if (found)
             {
-                found->FUN_00c90510();
+                reinterpret_cast<::FUN_00c90510_class *>((found))->FUN_00c90510();
                 return found;
             }
             break;
@@ -351,7 +348,7 @@ Shp_d74480* __cdecl ProcessShape(Shp_d74480* shape, void* context, Cache_d74480*
             Shp_d74480* n = ProcessShape(pChild, context, cache, settings);
             Router_d74480* pRouter = fnvc_adapt::FUN_00c85750();
             if (childShapes.size == (childShapes.capacity & 0x3fffffff))
-                ResizeAudioStream(&pRouter->heap(), &childShapes, 4);
+                ::ResizeAudioStream((::AudioAllocator *)(::Alloc_d74480 *)(&pRouter->heap()), (::AudioStream *)(void *)(&childShapes), 4);
             childShapes.data[childShapes.size++] = n;
             if (n != pChild)
                 bUnchanged = false;
@@ -359,8 +356,8 @@ Shp_d74480* __cdecl ProcessShape(Shp_d74480* shape, void* context, Cache_d74480*
         if (bUnchanged)
         {
             for (int i = 0; i < count; ++i)
-                childShapes.data[i]->FUN_00c905b0();
-            shape->FUN_00c90510();
+                reinterpret_cast<::hkReferencedObjectC905 *>((childShapes.data[i]))->FUN_00c905b0();
+            reinterpret_cast<::FUN_00c90510_class *>((shape))->FUN_00c90510();
             Alloc_d74480& a = fnvc_adapt::FUN_00c85750()->heap();
             childShapes.size = 0;
             if ((childShapes.capacity & 0x80000000) == 0)
@@ -370,10 +367,10 @@ Shp_d74480* __cdecl ProcessShape(Shp_d74480* shape, void* context, Cache_d74480*
         }
         Shp_d74480* v = (Shp_d74480*)fnvc_adapt::FUN_00c85750()->heap().allocate(0x70);
         v->GetAllocationSize = 0x70;
-        v = v->FUN_00cf5640(childShapes.data, count, 1);
+        v = ((::Shp_d74480 *)(new ((void *)(v)) ::FUN_00cf5640((int)(childShapes.data), count, 1)));
         for (int i = 0; i < count; ++i)
-            childShapes.data[i]->FUN_00c905b0();
-        cache->SetEntryValue(shape, v);
+            reinterpret_cast<::hkReferencedObjectC905 *>((childShapes.data[i]))->FUN_00c905b0();
+        reinterpret_cast<::D749Table *>((cache))->SetEntryValue((int)(shape), (int)(v));
         result = v;
         Alloc_d74480& a = fnvc_adapt::FUN_00c85750()->heap();
         childShapes.size = 0;
@@ -388,20 +385,20 @@ Shp_d74480* __cdecl ProcessShape(Shp_d74480* shape, void* context, Cache_d74480*
         Shp_d74480* n = v;
         if (pChild == v)
         {
-            v->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((v))->FUN_00c905b0();
             v = shape;
-            shape->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((shape))->FUN_00c90510();
         }
         else
         {
             Shp_d74480* mem = (Shp_d74480*)fnvc_adapt::FUN_00c85750()->heap().allocate(0x70);
             mem->GetAllocationSize = 0x70;
-            v = mem->FUN_00cf5990(n, &xf->transform);
-            n->FUN_00c905b0();
-            cache->SetEntryValue(shape, v);
+            v = ((::Shp_d74480 *)(reinterpret_cast<::cf5990_TransformShape *>((mem))->FUN_00cf5990((::hkpShape *)(n), (*(const ::hkTransform *)(&xf->transform)))));
+            reinterpret_cast<::hkReferencedObjectC905 *>((n))->FUN_00c905b0();
+            reinterpret_cast<::D749Table *>((cache))->SetEntryValue((int)(shape), (int)(v));
         }
-        result = FUN_00d739f0(v, context, cache, settings);
-        v->FUN_00c905b0();
+        result = ((::Shp_d74480 *)(::FUN_00d739f0((const ::hkpShape *)(v), (*(const ::Options *)(context)), (*(::D749Table *)(cache)), (*(::Results *)(settings)))));
+        reinterpret_cast<::hkReferencedObjectC905 *>((v))->FUN_00c905b0();
         break;
     }
     case 12: {
@@ -411,20 +408,20 @@ Shp_d74480* __cdecl ProcessShape(Shp_d74480* shape, void* context, Cache_d74480*
         Shp_d74480* n = v;
         if (pChild == v)
         {
-            v->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((v))->FUN_00c905b0();
             v = shape;
-            shape->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((shape))->FUN_00c90510();
         }
         else
         {
             Shp_d74480* mem = (Shp_d74480*)fnvc_adapt::FUN_00c85750()->heap().allocate(0x60);
             mem->GetAllocationSize = 0x60;
-            v = mem->FUN_00d5d7a0(n, &cv->translation, 1);
-            n->FUN_00c905b0();
-            cache->SetEntryValue(shape, v);
+            v = ((::Shp_d74480 *)(reinterpret_cast<::Standin *>((mem))->FUN_00d5d7a0((const ::hkpConvexShape *)(n), (*(const ::AlignedTransform *)(&cv->translation)), 1)));
+            reinterpret_cast<::hkReferencedObjectC905 *>((n))->FUN_00c905b0();
+            reinterpret_cast<::D749Table *>((cache))->SetEntryValue((int)(shape), (int)(v));
         }
-        result = FUN_00d739f0(v, context, cache, settings);
-        v->FUN_00c905b0();
+        result = ((::Shp_d74480 *)(::FUN_00d739f0((const ::hkpShape *)(v), (*(const ::Options *)(context)), (*(::D749Table *)(cache)), (*(::Results *)(settings)))));
+        reinterpret_cast<::hkReferencedObjectC905 *>((v))->FUN_00c905b0();
         break;
     }
     case 11: {
@@ -434,28 +431,28 @@ Shp_d74480* __cdecl ProcessShape(Shp_d74480* shape, void* context, Cache_d74480*
         Shp_d74480* n = ProcessShape(pChild, context, cache, settings);
         if (pChild == n)
         {
-            n->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((n))->FUN_00c905b0();
             v = shape;
-            shape->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((shape))->FUN_00c90510();
         }
         else
         {
             Convex_d74480* pNewConvex = (Convex_d74480*)fnvc_adapt::FUN_00c85750()->heap().allocate(0x30);
             pNewConvex->GetAllocationSize = 0x30;
-            pNewConvex->FUN_00c9e340(11, ((Convex_d74480*)n)->radius, n, 1);
+            new ((void *)(pNewConvex)) ::FUN_00c9e340(11, ((Convex_d74480*)n)->radius, (::FUN_00d1df70 *)(n), 1);
             pNewConvex->vtbl = &DAT_010d0e5c;
             pNewConvex->translation = _mm_and_ps(cv->translation, DAT_010c4c10);
             pNewConvex->unk1c = 0;
             v = pNewConvex;
-            n->FUN_00c905b0();
-            cache->SetEntryValue(shape, v);
+            reinterpret_cast<::hkReferencedObjectC905 *>((n))->FUN_00c905b0();
+            reinterpret_cast<::D749Table *>((cache))->SetEntryValue((int)(shape), (int)(v));
         }
-        result = FUN_00d739f0(v, context, cache, settings);
-        v->FUN_00c905b0();
+        result = ((::Shp_d74480 *)(::FUN_00d739f0((const ::hkpShape *)(v), (*(const ::Options *)(context)), (*(::D749Table *)(cache)), (*(::Results *)(settings)))));
+        reinterpret_cast<::hkReferencedObjectC905 *>((v))->FUN_00c905b0();
         break;
     }
     default:
-        shape->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((shape))->FUN_00c90510();
         result = shape;
         break;
     }
@@ -483,7 +480,6 @@ struct hkShapeOutputD748
     int unk04;
     int unk08;
     int unk0C;
-    void FUN_00d73400() throw();
 };
 
 struct hkShapeMapD748
@@ -491,26 +487,23 @@ struct hkShapeMapD748
     void* m_data;
     int m_iElementCount;
     int m_iCapacityState;
-    hkShapeMapD748* FUN_00d74b20(hkShapeEntryArrayD748* refs) throw();
     void FUN_00d74aa0() throw();
 };
 
-hkReferencedObject* __cdecl ProcessShape(hkReferencedObject* shape, void* context, hkShapeMapD748* map,
-                                         hkShapeOutputD748* out) throw();
 
 // Remaps each collision shape in refs via ProcessShape, storing results back into the entries and releasing the old references.
 // @fnv 0x00d74850
 int __cdecl RemapCollisionShapes(hkShapeEntryArrayD748* refs, void* context, hkShapeOutputD748* out)
 {
-    out->FUN_00d73400();
+    reinterpret_cast<::FUN_00d73400_cls *>((out))->FUN_00d73400();
     hkShapeMapD748 map;
-    map.FUN_00d74b20(refs);
+    reinterpret_cast<::ShapeData *>(&(map))->FUN_00d74b20((::ShapeRefArray *)(refs));
     for (int i = 0; i < refs->m_iElementCount; i++)
     {
         hkShapeEntryD748* entry = refs->m_data[i];
         hkReferencedObject* shape = entry->m_pCollisionShape;
-        hkReferencedObject* pRemappedShape = ProcessShape(shape, context, &map, out);
-        shape->removeReference();
+        hkReferencedObject* pRemappedShape = ((::hkReferencedObject *)(::ProcessShape((::Shp_d74480 *)(shape), context, (::Cache_d74480 *)(::hkShapeMapD748 *)(&map), out)));
+        reinterpret_cast<::hkReferencedObjectC905 *>((shape))->FUN_00c905b0();
         entry->m_pCollisionShape = pRemappedShape;
     }
     map.FUN_00d74aa0();
@@ -555,7 +548,7 @@ template <class T> static __forceinline void PushBackD737(hkArrayD748<T>* a, con
 {
     hkMemoryAllocatorD748& kAlloc = FUN_00c85750().heap();
     if (a->m_iElementCount == a->getCapacity())
-        ResizeAudioStream(&kAlloc, a, sizeof(T));
+        ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(a), sizeof(T));
     constructWithCopyD748(a->m_data + a->m_iElementCount, 1, t);
     a->m_iElementCount++;
 }
@@ -600,7 +593,6 @@ void zz_probe_d737d0(const hkpShapeD737* shape, hkArrayD748<const hkpShapeD737*>
 
 struct D74A20Ref
 {
-    void FUN_00c905b0();
 };
 
 struct D74A20Entry
@@ -630,10 +622,10 @@ void ShapeData::FUN_00d74a20()
         if (array->m_data[index].m_uiItemCount < 2)
         {
             if (array->m_data[index].m_kPointA != 0)
-                array->m_data[index].m_kPointA->FUN_00c905b0();
+                reinterpret_cast<::hkReferencedObjectC905 *>((array->m_data[index].m_kPointA))->FUN_00c905b0();
 
             if (array->m_data[index].m_kPointB != 0)
-                array->m_data[index].m_kPointB->FUN_00c905b0();
+                reinterpret_cast<::hkReferencedObjectC905 *>((array->m_data[index].m_kPointB))->FUN_00c905b0();
 
             for (int once = 0; once < 1; once++)
             {
@@ -666,7 +658,6 @@ extern "C"
     __m128 _mm_and_ps(__m128, __m128);
 }
 
-extern const __m128 g_hkQuadXYZMask;
 
 struct hkVector4
 {
@@ -685,7 +676,7 @@ struct hkVector4
     }
     __forceinline void setXYZ0(const hkVector4& v)
     {
-        m_vComponents = _mm_and_ps(v.m_vComponents, g_hkQuadXYZMask);
+        m_vComponents = _mm_and_ps(v.m_vComponents, ::DAT_010c4c10);
     }
 };
 
@@ -723,10 +714,9 @@ struct hkTransform
 {
     hkRotation m_rotation;
     hkVector4 m_vTranslation;
-    static const hkTransform s_identity;
     __forceinline static const hkTransform& GetIdentityTransform()
     {
-        return s_identity;
+        return (*reinterpret_cast<const ::hkTransform *>(&::DAT_01268370));
     }
     __forceinline hkRotation& getRotation()
     {
@@ -780,7 +770,6 @@ struct CollapseRefObject : hkBaseObject
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }
-    void FUN_00c90510() const;
 };
 
 enum CollisionShapeType
@@ -882,9 +871,9 @@ struct hkpTransformShape : hkpShape
 // @fnv 0x00d73590
 const hkpShape* __cdecl FUN_00d73590(const hkpShape* shape, const hkTransform& transform) throw()
 {
-    if (transform.IsEqualWithinTolerance(hkTransform::GetIdentityTransform(), 0.001f))
+    if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(transform.IsEqualWithinTolerance(hkTransform::GetIdentityTransform(), 0.001f)))->FUN_005609f0())
     {
-        shape->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((void *)(shape))->FUN_00c90510();
         return shape;
     }
 
@@ -894,10 +883,10 @@ const hkpShape* __cdecl FUN_00d73590(const hkpShape* shape, const hkTransform& t
         const hkpTransformShape* pTransformShape = static_cast<const hkpTransformShape*>(shape);
         hkTransform combined;
         combined.SetProduct(transform, pTransformShape->getTransform());
-        if (combined.IsEqualWithinTolerance(hkTransform::GetIdentityTransform(), 0.001f))
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(combined.IsEqualWithinTolerance(hkTransform::GetIdentityTransform(), 0.001f)))->FUN_005609f0())
         {
             const hkpShape* child = pTransformShape->GetShapeForKey();
-            child->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((void *)(child))->FUN_00c90510();
             return child;
         }
         return new hkpTransformShape(pTransformShape->GetShapeForKey(), combined);
@@ -906,16 +895,16 @@ const hkpShape* __cdecl FUN_00d73590(const hkpShape* shape, const hkTransform& t
         const hkpConvexTransformShape* cts = static_cast<const hkpConvexTransformShape*>(shape);
         hkTransform combined;
         combined.SetProduct(transform, cts->getTransform());
-        if (combined.IsEqualWithinTolerance(hkTransform::GetIdentityTransform(), 0.001f))
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(combined.IsEqualWithinTolerance(hkTransform::GetIdentityTransform(), 0.001f)))->FUN_005609f0())
         {
             const hkpShape* child = cts->GetShapeForKey();
-            child->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((void *)(child))->FUN_00c90510();
             return child;
         }
         return new hkpConvexTransformShape(cts->GetShapeForKey(), combined);
     }
     case HK_SHAPE_CONVEX_TRANSLATE: {
-        if (transform.getRotation().IsEqualWithinTolerance(hkTransform::GetIdentityTransform().getRotation(), 0.001f))
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(transform.getRotation().IsEqualWithinTolerance(hkTransform::GetIdentityTransform().getRotation(), 0.001f)))->FUN_005609f0())
         {
             const hkpConvexTranslateShape* cts = static_cast<const hkpConvexTranslateShape*>(shape);
             hkTransform local;
@@ -923,10 +912,10 @@ const hkpShape* __cdecl FUN_00d73590(const hkpShape* shape, const hkTransform& t
             local.setTranslation(cts->getTranslation());
             hkTransform combined;
             combined.SetProduct(transform, local);
-            if (combined.IsEqualWithinTolerance(hkTransform::GetIdentityTransform(), 0.001f))
+            if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(combined.IsEqualWithinTolerance(hkTransform::GetIdentityTransform(), 0.001f)))->FUN_005609f0())
             {
                 const hkpShape* child = cts->GetShapeForKey();
-                child->FUN_00c90510();
+                reinterpret_cast<::FUN_00c90510_class *>((void *)(child))->FUN_00c90510();
                 return child;
             }
             return new hkpConvexTranslateShape(cts->GetShapeForKey(), cts->getTranslation());
@@ -982,9 +971,9 @@ void RefPairListD74::FUN_00d74aa0()
     for (int i = 0; i < m_pairs.m_iElementCount; i++)
     {
         if (m_pairs.m_data[i].m_kPointA)
-            m_pairs.m_data[i].m_kPointA->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pairs.m_data[i].m_kPointA))->FUN_00c905b0();
         if (m_pairs.m_data[i].m_kPointB)
-            m_pairs.m_data[i].m_kPointB->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pairs.m_data[i].m_kPointB))->FUN_00c905b0();
     }
     m_pairs.ClearAndRelease();
 }

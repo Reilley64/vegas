@@ -2,6 +2,19 @@
 // src/havok/physics/utilities/visualdebugger/viewer/utilities/hkpmousepickingviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/utilities/hkpmousepickingviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/DD8FE0_Stream.h"
+#include "fnv/decl/FUN_00c7f690_cls.h"
+#include "fnv/decl/FUN_00c97f50_Class.h"
+#include "fnv/decl/FUN_00cbb1b0_Class.h"
+#include "fnv/decl/FUN_00d66bf0_cls.h"
+#include "fnv/decl/S_00dd9380.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpEntityC9C.h"
+#include "fnv/decl/hkpWorldC97.h"
+#include "fnv/symbols_00d66000.h"
+#include "fnv/symbols_00dda000.h"
+#include "fnv/symbols_01269000.h"
 extern "C" void* DAT_011b5ff0;
 
 // @fnv 0x00d66bd0
@@ -13,7 +26,6 @@ void __stdcall FUN_00d66bd0(void** pOut, void** pCount)
 
 struct FUN_00d66c10_class
 {
-    void RemoveAmbientLight();
 };
 
 struct FUN_00d66cb0_class
@@ -23,13 +35,6 @@ struct FUN_00d66cb0_class
     int m8;
     void FUN_00d66cb0(int a);
 };
-
-// @fnv 0x00d66cb0
-void FUN_00d66cb0_class::FUN_00d66cb0(int aiValue)
-{
-    if (aiValue == *(int*)((char*)this + 8))
-        ((FUN_00d66c10_class*)((char*)this - 0x20))->RemoveAmbientLight();
-}
 
 extern int DAT_010d1cb4;
 extern int DAT_010d1cc4;
@@ -61,15 +66,12 @@ FUN_00d66b90::FUN_00d66b90(int a) : D698B0Base((void*)a)
 
 struct Registry_00dd9380
 {
-    void* Register(const char*, void(__cdecl*)());
 };
-extern int DAT_01269cd0;
 extern int DAT_01268ff8;
-void __cdecl FUN_00d66c50();
 // @fnv 0x00d66c90
 void* __cdecl RegisterMousePicking()
 {
-    DAT_01268ff8 = (int)((Registry_00dd9380*)DAT_01269cd0)->Register("Mouse Picking", FUN_00d66c50);
+    DAT_01268ff8 = (int)((void *)(reinterpret_cast<::S_00dd9380 *>((((Registry_00dd9380*)(*reinterpret_cast<int *>(&::DAT_01269cd0)))))->FUN_00dd9380("Mouse Picking", (int)(((void (&)())::FUN_00d66c50)))));
     return (void*)DAT_01268ff8;
 }
 
@@ -108,7 +110,7 @@ void* __cdecl FUN_00d66c50(unsigned int value)
     FnvCpu_FUN_00d66c50_CpuHolder* holder = static_cast<FnvCpu_FUN_00d66c50_CpuHolder*>(FUN_00c85750());
     FnvCpu_FUN_00d66c50_CpuBlock* block = static_cast<FnvCpu_FUN_00d66c50_CpuBlock*>(holder->allocator->Invoke(52));
     block->size = 52;
-    block = block->FUN_00d66b90(value);
+    block = ((::FnvCpu_FUN_00d66c50_CpuBlock *)(new ((void *)(block)) ::FUN_00d66b90(value)));
     if (block)
         return reinterpret_cast<char*>(block) + 8;
     return 0;
@@ -129,7 +131,6 @@ struct hkBoolD66D
 __declspec(align(16)) struct hkVector4D66D
 {
     float x, y, z, w;
-    void FUN_00c7f690(const void* pkTransform, const hkVector4D66D& kPos);
 };
 
 struct hkAllocatorD66D
@@ -163,12 +164,10 @@ struct FUN_00cbb560
     FUN_00cbb560(const hkVector4D66D& kPositionInRbLocal, const hkVector4D66D& kMousePositionInWorld,
                  float fSpringDamping, float fSpringElasticity, float fObjectDamping, hkpEntityD66D* pkRigidBody,
                  void* pkRigidBodies) throw();
-    void FUN_00cbb1b0(float fMaxRelativeForce);
 };
 
 struct hkpWorldD66D
 {
-    void FUN_00c97370(FUN_00cbb560* pkAction);
 };
 
 struct hkpEntityD66D
@@ -217,11 +216,11 @@ hkBoolD66D MousePickD66D::PickEntity(hkUint64D66D uiCollidableUserData, const hk
             if (pkEntity->m_cMotionType != 5 && pkEntity->m_pkWorld == m_pkWorld)
             {
                 hkVector4D66D kPositionInRbLocal;
-                kPositionInRbLocal.FUN_00c7f690(pkEntity->m_kTransform, kPositionInWorld);
+                reinterpret_cast<::FUN_00c7f690_cls *>(&(kPositionInRbLocal))->FUN_00c7f690((const ::S_00c7f690_M *)(pkEntity->m_kTransform), (const ::S_00c7f690_V *)&(kPositionInWorld));
                 m_pkMouseSpring =
                     new FUN_00cbb560(kPositionInRbLocal, kPositionInWorld, 0.5f, 0.3f, 0.95f, pkEntity, 0);
-                m_pkMouseSpring->FUN_00cbb1b0(m_fMaxRelativeForce);
-                m_pkWorld->FUN_00c97370(m_pkMouseSpring);
+                reinterpret_cast<::FUN_00cbb1b0_Class *>((m_pkMouseSpring))->FUN_00cbb1b0(m_fMaxRelativeForce);
+                reinterpret_cast<::hkpWorldC97 *>((m_pkWorld))->FUN_00c97370((::hkpActionC97 *)(m_pkMouseSpring));
             }
         }
     }
@@ -240,8 +239,6 @@ struct Derived;
 
 struct Stream
 {
-    void FUN_00ddac60(void* vec);
-    int FUN_00dd8fe0(void* buf, int size, int count);
     char* GetStreamResult(char* buf);
 };
 
@@ -259,57 +256,12 @@ struct Base2
 
 struct Derived
 {
-    void FUN_00d66c10();
-    void DispatchToChild(void* vec);
-    void PickEntity(char* str, int a, int b, void* vec);
 };
 
 struct Buf4
 {
     char b0, b1, b2, b3;
 };
-
-// @fnv 0x00d66e10
-void Base2::FUN_00d66e10(unsigned char type)
-{
-    Buf4 buf;
-    union
-    {
-        FourFloatVector b1_vec;
-        struct
-        {
-            int pair0;
-            int pair1;
-            FourFloatVector vec;
-        } b0;
-    } u;
-
-    switch (type)
-    {
-    case 0xb2:
-        getDerived()->FUN_00d66c10();
-        return;
-    case 0xb1: {
-        stream->FUN_00ddac60(&u.b1_vec);
-        if (stream->GetStreamResult(&buf.b1)[0])
-        {
-            getDerived()->DispatchToChild(&u.b1_vec);
-        }
-        return;
-    }
-    case 0xb0: {
-        stream->FUN_00ddac60(&u.b0.vec);
-        stream->FUN_00dd8fe0(&u.b0.pair0, 8, 1);
-        if (stream->GetStreamResult(&buf.b2)[0])
-        {
-            getDerived()->PickEntity(&buf.b3, u.b0.pair0, u.b0.pair1, &u.b0.vec);
-        }
-        break;
-    }
-    default:
-        break;
-    }
-}
 
 namespace fnv_00d66f00 {
 struct FnvCpu_FUN_00d66f00_CpuAllocator
@@ -351,13 +303,11 @@ FnvCpu_FUN_00d66f00_CpuObject* FnvCpu_FUN_00d66f00_CpuObject::FUN_00d66f00(unsig
 class UnkCall
 {
   public:
-    void FUN_00c9c1d0();
 };
 
 class hkReferencedObject
 {
   public:
-    void removeReference();
 };
 
 class hkpEntityD66C : public hkReferencedObject
@@ -373,7 +323,6 @@ class hkpEntityD66C : public hkReferencedObject
 class hkpWorldD66C
 {
   public:
-    void DispatchOrQueue(hkpEntityD66C* pkEntity);
 };
 
 class FUN_00d66c10_cls
@@ -385,6 +334,53 @@ class FUN_00d66c10_cls
 
     void FUN_00d66c10();
 };
+// @fnv 0x00d66cb0
+void FUN_00d66cb0_class::FUN_00d66cb0(int aiValue)
+{
+    if (aiValue == *(int*)((char*)this + 8))
+        reinterpret_cast<::FUN_00d66c10_cls *>((((FUN_00d66c10_class*)((char*)this - 0x20))))->FUN_00d66c10();
+}
+// @fnv 0x00d66e10
+void Base2::FUN_00d66e10(unsigned char type)
+{
+    Buf4 buf;
+    union
+    {
+        FourFloatVector b1_vec;
+        struct
+        {
+            int pair0;
+            int pair1;
+            FourFloatVector vec;
+        } b0;
+    } u;
+
+    switch (type)
+    {
+    case 0xb2:
+        reinterpret_cast<::FUN_00d66c10_cls *>((getDerived()))->FUN_00d66c10();
+        return;
+    case 0xb1: {
+        ::FUN_00ddac60((::FUN_00ddac60_Obj *)(stream));
+        if (stream->GetStreamResult(&buf.b1)[0])
+        {
+            reinterpret_cast<::FUN_00d66bf0_cls *>((getDerived()))->DispatchToChild((int)(&u.b1_vec));
+        }
+        return;
+    }
+    case 0xb0: {
+        ::FUN_00ddac60((::FUN_00ddac60_Obj *)(stream));
+        reinterpret_cast<::DD8FE0_Stream *>((stream))->FUN_00dd8fe0(&u.b0.pair0, 8, 1);
+        if (stream->GetStreamResult(&buf.b2)[0])
+        {
+            reinterpret_cast<::fnv_00d66d00::MousePickD66D *>((getDerived()))->PickEntity((unsigned long long)(&buf.b3), (*(const ::fnv_00d66d00::hkVector4D66D *)(u.b0.pair0)));
+        }
+        break;
+    }
+    default:
+        break;
+    }
+}
 
 // @fnv 0x00d66c10
 void FUN_00d66c10_cls::FUN_00d66c10()
@@ -393,13 +389,13 @@ void FUN_00d66c10_cls::FUN_00d66c10()
     {
         if (m_pEntity->m_pOwningWorld)
         {
-            m_pOwningWorld->DispatchOrQueue(m_pEntity);
-            m_pEntity->m_18->FUN_00c9c1d0();
-            m_pEntity->removeReference();
+            reinterpret_cast<::FUN_00c97f50_Class *>((m_pOwningWorld))->DispatchOrQueue(m_pEntity);
+            reinterpret_cast<::hkpEntityC9C *>((m_pEntity->m_18))->FUN_00c9c1d0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pEntity))->FUN_00c905b0();
         }
         else
         {
-            m_pEntity->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pEntity))->FUN_00c905b0();
         }
         m_pEntity = 0;
     }
@@ -439,13 +435,12 @@ class hkpMousePickingViewer : public FUN_00ddcc60::hkpWorldViewerBase,
     virtual void WorldDeletedCallback(void* pkWorld);
     virtual void ActionAddedCallback(void* pkAction);
 
-    void FUN_00d66c10() throw();
 };
 
 // @fnv 0x00d66cd0
 hkpMousePickingViewer::~hkpMousePickingViewer()
 {
-    FUN_00d66c10();
+    reinterpret_cast<::FUN_00d66c10_cls *>(this)->FUN_00d66c10();
 }
 }
 

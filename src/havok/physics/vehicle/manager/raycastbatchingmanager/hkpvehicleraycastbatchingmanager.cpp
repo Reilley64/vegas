@@ -2,6 +2,11 @@
 // src/havok/physics/vehicle/manager/raycastbatchingmanager/hkpvehicleraycastbatchingmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/manager/raycastbatchingmanager/hkpvehicleraycastbatchingmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/D04B90World.h"
+#include "fnv/decl/VUC_StepInstance.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00e5c000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpVehicleRayCastBatchingManager.h"
 
 struct hkObjE42A {
@@ -38,7 +43,6 @@ void Obj::ComputeBufferLayout(char* base,int unused,Buffers* out) const {
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 #include <windows.h>
-extern unsigned long DAT_0126835c;
 struct TimerRecord { const char* name; unsigned time; unsigned extra; };
 struct TimerStream { void* start; TimerRecord* current; void* unused; TimerRecord* end; };
 struct WheelResult { hkVector4 position, normal, suspension, contact, friction, extra; };
@@ -59,7 +63,6 @@ struct Vehicle {
  VehicleData* data;
  unsigned field20, field24, field28, field2c, field30, field34, field38;
  WheelCaster* caster;
- void FUN_00e39030(void*, WheelResult*);
 };
 struct Allocator {
  virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c();
@@ -67,7 +70,6 @@ struct Allocator {
 };
 struct ThreadMemory { char* stack; unsigned field04, field08, field0c; Allocator* allocator; Allocator& heap() { return *allocator; } };
 ThreadMemory* FUN_00c85750();
-void FUN_00c908c0(Allocator*, hkArray<WheelResult>*, int, int);
 struct LocalWheelResults : hkArray<WheelResult> {
  WheelResult* original;
  void initialize() {
@@ -84,7 +86,7 @@ struct LocalWheelResults : hkArray<WheelResult> {
   if (capacity < size) {
    int grown = capacity * 2;
    if (size >= grown) grown = size;
-   FUN_00c908c0(&allocator, this, grown, sizeof(WheelResult));
+   ::FUN_00c908c0((::SpawnedObject *)(::Allocator *)(&allocator), (::SpawnedArray *)(::hkArray< ::WheelResult> *)(this), grown, sizeof(WheelResult));
   }
   m_iElementCount = size;
  }
@@ -101,7 +103,6 @@ struct LocalWheelResults : hkArray<WheelResult> {
 struct BatchOutputs { WheelCommand* commands; void* temporary; unsigned char* flags; void* end; };
 struct RayBatchManager {
  unsigned field00, field04; Vehicle** vehicles; int vehicleCount; unsigned field10; hkUint16 wheels, field16;
- void ComputeBufferLayout(WheelCommand*, void*, BatchOutputs*);
  void FUN_00e42da0(void* input, void* world, WheelCommand* commands);
 };
 // Records timer entries TtDoVehicles and Et around a loop that casts or skips each wheel per vehicle via its caster and passes the results to FUN_00e39030.
@@ -120,7 +121,7 @@ void RayBatchManager::FUN_00e42da0(void* input, void* world, WheelCommand* comma
  int count = vehicleCount;
  LocalWheelResults results;
  BatchOutputs active;
- ComputeBufferLayout(commands, world, &active);
+ reinterpret_cast<::Obj *>(this)->ComputeBufferLayout((char *)(commands), (int)(world), (::Buffers *)(::BatchOutputs *)(&active));
  WheelCommand* cursor = active.commands;
  results.initialize();
  for (int i = 0; i < count; ++i) {
@@ -138,7 +139,7 @@ void RayBatchManager::FUN_00e42da0(void* input, void* world, WheelCommand* comma
    caster->finish(vehicle, wheel, &results.m_data[wheel]);
    if (enabled) ++cursor;
   }
-  vehicles[i]->FUN_00e39030(input, results.m_data);
+  reinterpret_cast<::VUC_StepInstance *>((vehicles[i]))->FUN_00e39030((*(const ::VUC_StepInfo *)(input)), results.m_data);
  }
  timer = (TimerStream*)TlsGetValue(DAT_0126835c);
  record = timer->current;
@@ -179,9 +180,8 @@ struct VRMonitorStream
     char* m_pRayCursor;
     char* m_pCurrentCommand;
 
-    static unsigned long ms_uiThreadLocalStorageIndex;
 
-    static VRMonitorStream& GetMonitorStream() { return *(VRMonitorStream*)TlsGetValue(ms_uiThreadLocalStorageIndex); }
+    static VRMonitorStream& GetMonitorStream() { return *(VRMonitorStream*)TlsGetValue(::DAT_0126835c); }
     bool memoryAvailable() const { return m_kRayEnd < m_pCurrentCommand; }
 
     void timerCommand(const char* name)
@@ -384,12 +384,10 @@ struct VRRayCastJob : VRCollisionQueryJob
         m_pCollisionQueryJobHeader->m_iJobId = ((numCommands - 1) / 90) + 1;
     }
 
-    void ExecuteRayCastJob();
 };
 
 struct VRJobQueue
 {
-    void EnqueueJob(VRJob& job, int priority);
 };
 
 struct VehicleRayCastBatchingManager
@@ -404,7 +402,6 @@ struct VehicleRayCastBatchingManager
 
     VRVehicle** registeredVehicles() const { return m_ppVehicles; }
 
-    void getBufferBreakdown(void* buffer, int numJobs, VRBatch& batchOut);
     int FUN_00e42b50(const VRWorld* world, int filterSize, int numJobs, VRJobQueue* jobQueue, void* semaphore, void* buffer);
 };
 
@@ -418,7 +415,7 @@ int VehicleRayCastBatchingManager::FUN_00e42b50(const VRWorld* world, int filter
     const int numVehicles = m_numVehicles;
 
     VRBatch batch;
-    getBufferBreakdown(buffer, numJobs, batch);
+    reinterpret_cast<::Obj *>(this)->ComputeBufferLayout((char *)(buffer), numJobs, (::Buffers *)&(batch));
 
     int numCommands = 0;
     VRMonitorStream::GetMonitorStream().timerCommand("TtBuildCommands");
@@ -460,8 +457,8 @@ int VehicleRayCastBatchingManager::FUN_00e42b50(const VRWorld* world, int filter
         {
             const int count = commandsPerJob + (j < remainder);
             VRRayCastJob job(world->m_pCollisionInput, jobHeader, commands, count, semaphore);
-            job.ExecuteRayCastJob();
-            jobQueue->EnqueueJob(job, 1);
+            ::FUN_00e5cee0();
+            reinterpret_cast<::D04B90World *>((jobQueue))->AddObjectCopy((const ::D04B90Object *)&(job), (void *)(1));
             commands += count;
             jobHeader++;
         }

@@ -2,6 +2,22 @@
 // src/havok/common/serialize/resourcedatabase/hkresourcehandle.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/resourcedatabase/hkresourcehandle.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/BufferOwner.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00cb0a60.h"
+#include "fnv/decl/FUN_00d47770.h"
+#include "fnv/decl/FUN_00d61df0_cls.h"
+#include "fnv/decl/FUN_00d877d0_class.h"
+#include "fnv/decl/ReferencedObjectHolder.h"
+#include "fnv/decl/SStringPtr.h"
+#include "fnv/decl/hkObjectD878.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkStringMapD874.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_01063000.h"
+#include "fnv/symbols_010eb000.h"
 #include "havok/hkResourceHandle.h"
 
 struct FUN_00e2df60_class
@@ -16,7 +32,6 @@ int __thiscall FUN_00e2df60_class::FUN_00e2df60(int)
 }
 
 extern int DAT_010eb19c;
-void __cdecl Deallocate(void*);
 struct FUN_00e2def0_class
 {
     void* m_p;
@@ -27,7 +42,7 @@ int __thiscall FUN_00e2def0_class::InitAndMaybeFree(int flags)
 {
     m_p = &DAT_010eb19c;
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return (int)this;
 }
 
@@ -45,12 +60,11 @@ const char* __thiscall FUN_00e2df40_class::FUN_00e2df40(int)
 
 struct D481D0RefVariant
 {
-    const void* GetVariantValue() const;
 };
 // @fnv 0x00e2df20
 const void* __fastcall FUN_00e2df20(char* self, int)
 {
-    return reinterpret_cast<D481D0RefVariant*>(self + 8)->GetVariantValue();
+    return reinterpret_cast<::ReferencedObjectHolder *>((void *)(reinterpret_cast<D481D0RefVariant*>(self + 8)))->FUN_00d477a0();
 }
 
 namespace fnv_00e2df30 {
@@ -58,7 +72,6 @@ struct D481D0ReferencedObject;
 struct D481D0Class;
 struct D481D0RefVariant
 {
-    void set(D481D0ReferencedObject*, D481D0Class const*);
 };
 
 struct FUN_00e2df30_class
@@ -69,13 +82,12 @@ struct FUN_00e2df30_class
 // @fnv 0x00e2df30
 void FUN_00e2df30_class::FUN_00e2df30(D481D0ReferencedObject* obj, D481D0Class const* cls)
 {
-    ((D481D0RefVariant*)((char*)this + 8))->set(obj, cls);
+    reinterpret_cast<::FUN_00d47770 *>((((D481D0RefVariant*)((char*)this + 8))))->SetObject((::hkReferencedObject *)(obj), (int)(cls));
 }
 }  // namespace fnv_00e2df30
 
 struct FUN_00d479e0_class
 {
-    void* GetValue(void const*, int);
 };
 
 struct FUN_00e2df80_obj
@@ -101,7 +113,7 @@ int __thiscall FUN_00e2df80_class::FUN_00e2df80(void* apKey, int* piOut)
 {
     if (piOut)
         *piOut = 0;
-    FUN_00e2df80_obj* obj = (FUN_00e2df80_obj*)((FUN_00d479e0_class*)((char*)this + 4))->GetValue(apKey, 0);
+    FUN_00e2df80_obj* obj = (FUN_00e2df80_obj*)((void *)(reinterpret_cast<::hkObjectD878 *>((((FUN_00d479e0_class*)((char*)this + 4))))->GetValue((int)(apKey), 0)));
     if (!obj)
         return 0;
     if (piOut)
@@ -145,10 +157,10 @@ struct FUN_00e2f1e0_class
 // @fnv 0x00e2f1e0
 void* __thiscall FUN_00e2f1e0_class::Destroy(int flags)
 {
-    m_base.~S_00e028e0_Base();
+    reinterpret_cast<::FUN_00d877d0_class *>(&(m_base))->FreeBuffer();
     m_p = &DAT_010eb19c;
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -375,11 +387,8 @@ void __stdcall FUN_00e2e960(int aiValue)
 }
 
 namespace fnv_00e2ec00 {
-extern "C" int DAT_010eb2c4;
-extern "C" int DAT_0102e388;
 struct FUN_00c905b0_Class
 {
-    void FUN_00c905b0();
 };
 struct MemoryAllocator
 {
@@ -417,7 +426,7 @@ struct AnimationResource
 // @fnv 0x00e2ec00
 void AnimationResource::ClearItems()
 {
-    m_ppVirtualMethodTable = &DAT_010eb2c4;
+    m_ppVirtualMethodTable = &::DAT_010eb2c4;
     MemoryRouter* router = reinterpret_cast<MemoryRouter*>(FUN_00c85750());
     int count = m_secondCount;
     MemoryAllocator* allocator = router->m_pThreadAllocator;
@@ -427,7 +436,7 @@ void AnimationResource::ClearItems()
     {
         FUN_00c905b0_Class* pItem = items[i];
         if (pItem)
-            pItem->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((pItem))->FUN_00c905b0();
         items[i] = 0;
         ++i;
     }
@@ -446,7 +455,7 @@ void AnimationResource::ClearItems()
     {
         FUN_00c905b0_Class* pItem = pFirstItems[i];
         if (pItem)
-            pItem->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((pItem))->FUN_00c905b0();
         pFirstItems[i] = 0;
         ++i;
     }
@@ -457,7 +466,7 @@ void AnimationResource::ClearItems()
     m_firstItems = 0;
     m_firstCapacity = 0x80000000;
     m_handle.FUN_00cb0c00();
-    m_ppVirtualMethodTable = &DAT_0102e388;
+    m_ppVirtualMethodTable = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 }  // namespace fnv_00e2ec00
 
@@ -611,7 +620,6 @@ class FUN_00d87790
     int m_0c;
 
     FUN_00d87790(hkBoolE2F0 bIsValid) throw();
-    void FUN_00d874d0(const char* pcKey, const void* pvValue) throw();
 };
 
 template <typename V> class hkStringMapE2F0
@@ -623,7 +631,7 @@ template <typename V> class hkStringMapE2F0
     {}
     void insert(const char* pcKey, V val)
     {
-        m_map.FUN_00d874d0(pcKey, val);
+        reinterpret_cast<::hkStringMapD874 *>(&(m_map))->FUN_00d874d0(pcKey, (int)((int)(const void *)(val));
     }
 };
 
@@ -830,7 +838,7 @@ struct S00e2e3f0_Obj
 
 extern "C" __declspec(noinline) void __fastcall FUN_00cb0c00(void* self)
 {
-    Deallocate(self);
+    ::FUN_00401030(self);
 }
 
 // @fnv 0x00e2e3f0
@@ -900,11 +908,9 @@ void Container839::FUN_00e2e430(const char* name)
 
 struct FUN_00c90510_Class
 {
-    void FUN_00c90510();
 };
 struct FUN_00c905b0_Class
 {
-    void FUN_00c905b0();
 };
 struct C
 {
@@ -918,7 +924,7 @@ struct C
 void C::RemoveItem(void* item)
 {
     if (item)
-        reinterpret_cast<FUN_00c90510_Class*>(item)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((reinterpret_cast<FUN_00c90510_Class*>(item)))->FUN_00c90510();
     int index;
     int i = 0;
     if (count > 0)
@@ -938,12 +944,12 @@ void C::RemoveItem(void* item)
     index = -1;
 found:
     if (item)
-        reinterpret_cast<FUN_00c905b0_Class*>(item)->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((reinterpret_cast<FUN_00c905b0_Class*>(item)))->FUN_00c905b0();
     if (index > -1)
     {
         void** target = items + index;
         if (*target)
-            reinterpret_cast<FUN_00c905b0_Class*>(*target)->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((reinterpret_cast<FUN_00c905b0_Class*>(*target)))->FUN_00c905b0();
         *target = 0;
         --count;
         int bytes = (count - index) * 4;
@@ -956,20 +962,18 @@ found:
 
 struct ReferencedE2E710
 {
-    void FUN_00c90510() throw();
-    void removeReference() throw();
 };
 template <class T> struct RefPtrE2E710
 {
     RefPtrE2E710(T* e) throw() : m_pRetainedObject(e)
     {
         if (e)
-            e->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((e))->FUN_00c90510();
     }
     ~RefPtrE2E710() throw()
     {
         if (m_pRetainedObject)
-            m_pRetainedObject->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pRetainedObject))->FUN_00c905b0();
         m_pRetainedObject = 0;
     }
     T* m_pRetainedObject;
@@ -1020,7 +1024,6 @@ void WorldE2E710::RemoveObject(ReferencedE2E710* pkObject)
 
 struct FUN_00cb0a60_target
 {
-    void __thiscall FUN_00cb0a60();
 };
 
 struct FUN_00e2e9e0_class
@@ -1046,7 +1049,7 @@ void* __thiscall FUN_00e2e9e0_class::Ctor()
     m_handle = 1;
     m_class = &DAT_010eb288;
     m_iObjectReferenceCount = 0;
-    m_target.FUN_00cb0a60();
+    new ((void *)&(m_target)) struct ::FUN_00cb0a60();
     m_uiStandInValue = 0;
     m_iValueAfterStandIn = 0;
     m_flags = 0x80000000;
@@ -1091,7 +1094,6 @@ struct FUN_00e2eb70 : public ReferencedE2EB70
 FUN_00e2eb70::FUN_00e2eb70(const char* pcName) throw() : m_kName(pcName), m_iValue(0)
 {}
 
-extern int DAT_010eb2c4;
 
 struct Item_e2ebc0
 {
@@ -1175,8 +1177,6 @@ struct Resource_e2ef
     unsigned short m_sReferenceCount;
     int unk08;
     Container_e2ef* m_parent;
-    void FUN_00c90510() throw();
-    void FUN_00c905b0() throw();
     static void* operator new(unsigned int nbytes) throw()
     {
         Resource_e2ef* p = (Resource_e2ef*)Router_e2ef::FUN_00c85750().heap().AllocateMemoryBlock(nbytes);
@@ -1193,18 +1193,18 @@ template <class T> struct hkRefPtr_e2ef
     hkRefPtr_e2ef(T* p) throw() : m_pRetainedObject(p)
     {
         if (m_pRetainedObject)
-            m_pRetainedObject->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((m_pRetainedObject))->FUN_00c90510();
     }
     hkRefPtr_e2ef(const hkRefPtr_e2ef& o) throw()
     {
         if (o.m_pRetainedObject)
-            o.m_pRetainedObject->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((o.m_pRetainedObject))->FUN_00c90510();
         m_pRetainedObject = o.m_pRetainedObject;
     }
     ~hkRefPtr_e2ef() throw()
     {
         if (m_pRetainedObject)
-            m_pRetainedObject->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pRetainedObject))->FUN_00c905b0();
     }
 };
 
@@ -1251,10 +1251,10 @@ Resource_e2ef* Container_e2ef::FUN_00e2efe0(const char* name)
     Resource_e2ef* found = findResource(name, 0);
     if (found)
         return found;
-    Resource_e2ef* resource = ((Resource_e2ef*)Resource_e2ef::operator new(sizeof(Resource_e2ef)))->FUN_00e2eb70(name);
+    Resource_e2ef* resource = ((::Resource_e2ef *)(new ((void *)(((Resource_e2ef*)Resource_e2ef::operator new(sizeof(Resource_e2ef))))) ::FUN_00e2eb70(name)));
     m_kResources.AddBack(hkRefPtr_e2ef<Resource_e2ef>(resource));
     resource->m_parent = this;
-    resource->FUN_00c905b0();
+    reinterpret_cast<::hkReferencedObjectC905 *>((resource))->FUN_00c905b0();
     return resource;
 }
 
@@ -1306,7 +1306,6 @@ class hkReferencedObject : public hkBaseObject
   public:
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
-    void FUN_00c905b0() throw();
 };
 
 template <class T> class ReferenceCountedPointer
@@ -1315,7 +1314,7 @@ template <class T> class ReferenceCountedPointer
     __forceinline ~ReferenceCountedPointer() throw()
     {
         if (m_pRetainedObject)
-            m_pRetainedObject->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pRetainedObject))->FUN_00c905b0();
         m_pRetainedObject = 0;
     }
     T* m_pRetainedObject;
@@ -1376,7 +1375,6 @@ hkMemoryResourceHandle::~hkMemoryResourceHandle()
 namespace fnv_00e2eae0 {
 struct FUN_00e2eae0_Result
 {
-    void __thiscall FUN_00e2eae0(int* param);
 };
 
 struct FUN_00e2eae0_class
@@ -1431,12 +1429,10 @@ struct FUN_00cbbd80_Local
     int unk80;
     int unk84;
     int unk88;
-    void __thiscall InitBuffer();
 };
 
 struct FUN_00d61df0_Obj
 {
-    void __thiscall FUN_00d61df0(void* value);
 };
 
 struct FUN_00c85750_Object
@@ -1456,7 +1452,6 @@ struct FUN_00c85750_Owner
     FUN_00c85750_Object* unk0c;
 };
 
-extern int DAT_01063cbc;
 
 FUN_00c85750_Owner* __cdecl FUN_00c85750();
 
@@ -1467,17 +1462,17 @@ void __thiscall FUN_00e2eae0_class::FUN_00e2eae0(int* apTarget)
     FUN_00e2eae0_Result* result = vf24();
     if (result != 0)
     {
-        result->FUN_00e2eae0(apTarget);
+        reinterpret_cast<::fnv_00e2eae0::FUN_00e2eae0_class *>((result))->FUN_00e2eae0(apTarget);
     }
 
     FUN_00cbbd80_Local local;
-    local.InitBuffer();
+    reinterpret_cast<::BufferOwner *>(&(local))->InitBuffer();
 
     void* value = vf10(&local);
 
     FUN_00d61df0_Obj* target = (FUN_00d61df0_Obj*)apTarget;
-    target->FUN_00d61df0(&DAT_01063cbc);
-    target->FUN_00d61df0(value);
+    reinterpret_cast<::FUN_00d61df0_cls *>((target))->FUN_00d61df0((int)(&(*reinterpret_cast<int *>((void *)&::DAT_01063cbc))));
+    reinterpret_cast<::FUN_00d61df0_cls *>((target))->FUN_00d61df0((int)(value));
 
     FUN_00c85750_Object* allocator = FUN_00c85750()->unk0c;
     int handle = local.unk08;
@@ -1494,10 +1489,8 @@ struct ExternalLinkString
     unsigned int tagged;
     ExternalLinkString() throw()
     {
-        FUN_00cb0a60();
+        new ((void *)this) struct ::FUN_00cb0a60();
     }
-    void FUN_00cb0a60() throw();
-    void FUN_00cb0c10(const char* text) throw();
 };
 
 struct ExternalLinkPair
@@ -1529,8 +1522,8 @@ void ExternalLinkHandle::FUN_00e2e040(const char* memberName, const char* extern
         new (link) ExternalLinkPair();
     link = &links->m_data[links->m_iElementCount];
     links->m_iElementCount++;
-    link->memberName.FUN_00cb0c10(memberName);
-    link->externalId.FUN_00cb0c10(externalId);
+    reinterpret_cast<::SStringPtr *>(&(link->memberName))->FUN_00cb0c10(memberName);
+    reinterpret_cast<::SStringPtr *>(&(link->externalId))->FUN_00cb0c10(externalId);
 }
 
 void __cdecl ResizeAudioStream(void* alloc, void* arr, int elemSize) throw();
@@ -1546,7 +1539,6 @@ struct ObjQ_e2e9e0
     virtual void v1c();
     virtual void FUN_00e2e9e0_v20(void* a, void* b);
     unsigned short m_usMemSizeAndFlags;
-    void* Ctor();
 };
 struct ArrQ_e2ed00
 {
@@ -1569,10 +1561,10 @@ ObjQ_e2e9e0* FUN_00e2ed00_class::FUN_00e2ed00(void* p0, void* apArg1, void* apAr
 {
     ObjQ_e2e9e0* obj = (ObjQ_e2e9e0*)Router_e2ef::FUN_00c85750().heap().AllocateMemoryBlock(0x1c);
     obj->m_usMemSizeAndFlags = 0x1c;
-    obj = (ObjQ_e2e9e0*)obj->Ctor();
+    obj = (ObjQ_e2e9e0*)reinterpret_cast<::FUN_00e2e9e0_class *>((obj))->Ctor();
     obj->FUN_00e2e9e0_v14(p0);
     obj->FUN_00e2e9e0_v20(apArg1, apArg2);
-    ((Resource_e2ef*)obj)->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((((Resource_e2ef*)obj)))->FUN_00c90510();
     ArrQ_e2ed00* arr = &this->unk10;
     Router_e2ef& audio2 = Router_e2ef::FUN_00c85750();
     if (arr->m_iElementCount == (arr->m_iCapacityState & 0x3fffffff))
@@ -1580,11 +1572,11 @@ ObjQ_e2e9e0* FUN_00e2ed00_class::FUN_00e2ed00(void* p0, void* apArg1, void* apAr
     ObjQ_e2e9e0** slot = arr->m_data + arr->m_iElementCount;
     if (slot != 0)
     {
-        ((Resource_e2ef*)obj)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((Resource_e2ef*)obj)))->FUN_00c90510();
         *slot = obj;
     }
     arr->m_iElementCount++;
-    ((Resource_e2ef*)obj)->FUN_00c905b0();
-    ((Resource_e2ef*)obj)->FUN_00c905b0();
+    reinterpret_cast<::hkReferencedObjectC905 *>((((Resource_e2ef*)obj)))->FUN_00c905b0();
+    reinterpret_cast<::hkReferencedObjectC905 *>((((Resource_e2ef*)obj)))->FUN_00c905b0();
     return obj;
 }

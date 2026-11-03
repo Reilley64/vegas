@@ -2,11 +2,21 @@
 // src/havok/physics/collide/agent3/predgskagent3/hkppredgskagent3.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/predgskagent3/hkppredgskagent3.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void __cdecl FUN_00d41860(int a, int b, int c, int d);
 // @fnv 0x00d418b0
+#include "fnv/decl/Cls_dafcd0.h"
+#include "fnv/decl/FUN_00cfbd60_cls.h"
+#include "fnv/decl/FUN_00dafe70_cls.h"
+#include "fnv/symbols_00d41000.h"
+#include "fnv/symbols_00dad000.h"
+#include "fnv/symbols_00dae000.h"
+#include "fnv/symbols_00db4000.h"
+#include "fnv/symbols_00db6000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010cf000.h"
+#include "fnv/symbols_01268000.h"
 void __cdecl ForwardToTarget(int aiArg1, int aiArg2, int aiArg3, int aiArg4, int unused)
 {
-    FUN_00d41860(aiArg1, aiArg2, aiArg3, aiArg4);
+    ::FUN_00d41860_impl(aiArg1, aiArg2, aiArg3, aiArg4);
 }
 
 struct InputObject
@@ -47,8 +57,6 @@ struct ResultData
     char unk0A;
     unsigned char unk0B;
     int unk0C;
-    void __thiscall FUN_00dafe70(void* a, void* b, void* c);
-    void __thiscall FUN_00dafcd0(void* a, void* b, void* c);
 };
 // Calls one of two handlers on result based on record->type, clears status[2] and some result flags, then returns result advanced by an aligned size.
 // @fnv 0x00d418d0
@@ -58,9 +66,9 @@ void* __cdecl DispatchInputRecord(InputData* input, unsigned char* status, Resul
     void* table = pObject->vtable;
     InputRecord* record = *input->unk04;
     if (record->type == 3)
-        result->FUN_00dafe70(table, record, &input->unk20);
+        reinterpret_cast<::FUN_00dafe70_cls *>((result))->FUN_00dafe70((::Iface *)(table), (::Src *)(record), (const unsigned int *)(void *)(&input->unk20));
     else
-        result->FUN_00dafcd0(table, record, &input->unk20);
+        reinterpret_cast<::Cls_dafcd0 *>((result))->FUN_00dafcd0((::Node *)(table), (::Node *)(record), (const ::Vec4Blk *)(void *)(&input->unk20));
     status[2] = 0;
     result->unk0B &= 0xEF;
     result->unk0C = 0;
@@ -71,11 +79,7 @@ void* __cdecl DispatchInputRecord(InputData* input, unsigned char* status, Resul
 
 // Stand-ins for the script handler functions whose addresses are stored in the
 // handler table (0xd417b0 .. 0xd40d80).  Only declared, never defined.
-extern "C" void __cdecl RemoveEntryById(int a, int b, int c, int d);
-extern "C" void __cdecl InsertSlotId(int a, int b, int c, int d);
-extern "C" void __cdecl FindEntryByKey(int a, int b, int c, int d);
 extern "C" void __cdecl ConvertPairFlags(int a, int b, int c, int d);
-extern "C" void __cdecl FUN_00d41930(int a, int b, int c, int d);
 extern "C" void __cdecl FUN_00d40d80(int a, int b, int c, int d);
 
 // The handler table that is handed to CScript::RegisterHandler.  It is kept
@@ -108,7 +112,6 @@ struct __declspec(align(16)) HandlerTable
 class CScript
 {
   public:
-    void __thiscall RegisterHandler(HandlerTable* handler, int a, int b);
 };
 
 // @fnv 0x00d41710
@@ -118,11 +121,11 @@ void __cdecl RegisterScriptHandlers(void* pScript)
 
     tab.p0 = ConvertPairFlags;
     tab.p7 = FUN_00d40d80;
-    tab.p6 = FUN_00d41930;
-    tab.p2 = FUN_00d41860;
-    tab.p3 = RemoveEntryById;
-    tab.p4 = InsertSlotId;
-    tab.p5 = FindEntryByKey;
+    tab.p6 = ((void (&)(int, int, int, int))::FUN_00d41930);
+    tab.p2 = ((void (&)(int, int, int, int))::FUN_00d41860_impl);
+    tab.p3 = ((void (&)(int, int, int, int))::RemoveEntryById);
+    tab.p4 = ((void (&)(int, int, int, int))::InsertSlotId);
+    tab.p5 = ((void (&)(int, int, int, int))::FindEntryByKey);
     tab.p1 = ForwardToTarget;
 
     tab.unk32 = 0;
@@ -134,9 +137,9 @@ void __cdecl RegisterScriptHandlers(void* pScript)
     tab.unk30 = 1;
     tab.unk31 = 1;
 
-    ((CScript*)pScript)->RegisterHandler(&tab, 2, 0x12);
+    reinterpret_cast<::FUN_00cfbd60_cls *>((((CScript*)pScript)))->AddEntry((::SrcRec *)(::HandlerTable *)(&tab), 2, 0x12);
     tab.unk32 = 1;
-    ((CScript*)pScript)->RegisterHandler(&tab, 0x12, 2);
+    reinterpret_cast<::FUN_00cfbd60_cls *>((((CScript*)pScript)))->AddEntry((::SrcRec *)(::HandlerTable *)(&tab), 0x12, 2);
 }
 
 struct S_00d417b0_Entry
@@ -162,7 +165,6 @@ struct S_00d417b0_Obj
     S_00d417b0_Sub m_sub;
 };
 
-void __cdecl FUN_00dae340(S_00d417b0_Sub* sub, int index);
 
 // @fnv 0x00d417b0
 void __cdecl RemoveEntryById(int aiUnused, S_00d417b0_Obj* obj, short sId)
@@ -172,7 +174,7 @@ void __cdecl RemoveEntryById(int aiUnused, S_00d417b0_Obj* obj, short sId)
     {
         if (sub->m_entries[i].m_iOwnerObjectOffset == sId)
         {
-            FUN_00dae340(sub, i);
+            ::FUN_00dae340((::S_00dad640_Set *)(sub), i);
             return;
         }
     }
@@ -272,7 +274,6 @@ found:
 // it, so the value is handed back to the caller from a symbol whose name
 // still contains the required tag "FUN_00d41860".
 
-extern "C" void __cdecl ReleaseAllEntries(void* p, int obj, int data);
 
 // Calls ReleaseAllEntries on the record at b+0x0C, computes an aligned size from three bytes, clears byte 2 of a, and returns b plus that size.
 // @fnv 0x00d41860
@@ -280,7 +281,7 @@ extern "C" int __cdecl FUN_00d41860_impl(int apOut, int apRecord, int aObj, int 
 {
     unsigned char* rec = (unsigned char*)apRecord + 0x0C;
 
-    ReleaseAllEntries(rec, aObj, aData);
+    ::ReleaseAllEntries((::S_00dad640_Set *)(rec), (::S_00dad640_Target *)(aObj), (void *)(aData));
 
     unsigned int count = rec[0] + rec[1] + rec[2] * 4;
 
@@ -309,9 +310,6 @@ extern "C" void _mm_store_ps(float*, __m128);
 extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
 extern "C" __m128 _mm_mul_ps(__m128, __m128);
 extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern volatile DWORD DAT_0126835c;
-extern char DAT_010cf220[];
-extern char DAT_010c41f8[];
 struct ProfileEvent
 {
     const char* name;
@@ -441,16 +439,13 @@ struct Output
     Contact contacts[256];
     OutputStack* stack;
 };
-void __cdecl FUN_00db60c0(Request*, float, float, float, ResultData*, AlignedVec*, Output*);
-void __cdecl ProcessCollision(Request*, unsigned char*, ResultData*, ResultData*, Cache*, AlignedVec*, Output*);
-void __cdecl FUN_00dae3a0(Cache*, AlignedVec*, int, Output*, void*);
 // @fnv 0x00d41a30
 void* __cdecl FUN_00d41a30(Request* input, unsigned char* status, ResultData* result, AlignedVec* separation,
                            Output* output)
 {
     volatile unsigned uiTimestamp;
     {
-        ProfileBuffer* p = (ProfileBuffer*)TlsGetValue(DAT_0126835c);
+        ProfileBuffer* p = (ProfileBuffer*)TlsGetValue(::DAT_0126835c);
         ProfileEvent* event = p->current;
         if (event < p->end)
         {
@@ -486,7 +481,7 @@ void* __cdecl FUN_00d41a30(Request* input, unsigned char* status, ResultData* re
             float boundA = settings->factorC * radius;
             float boundB = settings->factorD * radius + w;
             float bound = boundA < boundB ? boundA : boundB;
-            FUN_00db60c0(input, radius, limit, bound, result, separation, output);
+            ::FUN_00db60c0((*(const ::AgentSubtypeMarker *)(input)), radius, limit, bound, (*(::ConvexFeaturePairCache *)(result)), (*(::hkVector4 *)(separation)), (*(::WorldOperationEntry *)(output)));
             goto fallback;
         }
     }
@@ -541,7 +536,7 @@ void* __cdecl FUN_00d41a30(Request* input, unsigned char* status, ResultData* re
                                                              _mm_add_ps(_mm_mul_ps(vz, z), w)));
                 } while (--j >= 0);
             }
-            FUN_00dae3a0(cache, vertices, 0, output, input->context);
+            ::FUN_00dae3a0((*(::Manifold *)(cache)), (*(const ::WorkData *)(vertices)), 0, (*(::ProcessOutput *)(output)), (::Manager *)(input->context));
             if (cache->contacts)
             {
                 OutputStack* stack = output->stack;
@@ -562,7 +557,7 @@ complete:
     unsigned size = (cache->countB + contacts * 4 + cache->countA) * 2 + 31;
     void* next = (char*)result + (size & ~15);
     {
-        ProfileBuffer* p = (ProfileBuffer*)TlsGetValue(DAT_0126835c);
+        ProfileBuffer* p = (ProfileBuffer*)TlsGetValue(::DAT_0126835c);
         ProfileEvent* event = p->current;
         if (event < p->end)
         {
@@ -576,6 +571,6 @@ complete:
     }
     return next;
 fallback:
-    ProcessCollision(input, status, result, result, cache, separation, output);
+    ::ProcessCollision((::In *)(input), status, (::Arg2 *)(result), (::Arg3 *)(result), (::Arg4 *)(cache), (::VecS *)(separation), (::Arg6 *)(output));
     goto complete;
 }

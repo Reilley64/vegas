@@ -3,6 +3,15 @@
 
 // src/havok/animation/animation/animation/waveletcompressed/hkawaveletcompressedanimation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/waveletcompressed/hkawaveletcompressedanimation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_00e2f000.h"
+#include "fnv/symbols_00e4e000.h"
+#include "fnv/symbols_00e4f000.h"
+#include "fnv/symbols_00e51000.h"
+#include "fnv/symbols_00e59000.h"
+#include "fnv/symbols_00e63000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkaWaveletCompressedAnimation.h"
 int __cdecl FUN_00e51da0(int aiValue, const char* apBytes);
 unsigned int __fastcall FUN_00e2f9f0(hkaWaveletCompressedAnimation* self, int, unsigned int a);
@@ -154,7 +163,6 @@ class hkBufferE2FA
     void Write(hkStreamWriterE2FA* writer);
 };
 extern unsigned char DAT_0126ef84;
-void __cdecl FUN_00e63c60(void*);
 extern const float DAT_010ec880[];
 struct QParam_00e51660
 {
@@ -228,8 +236,6 @@ unsigned short volatile g_in;
 unsigned short g_out;
 void caller();
 #include <xmmintrin.h>
-extern float DAT_01012068;
-extern __m128 DAT_010c71b0;
 // Companion quad-writer variant (scalar-load broadcast form) that shares the
 // module with FUN_00e2fbc0; TU order matters for VC9's codegen state.
 struct DestWrapPre
@@ -250,7 +256,7 @@ void __stdcall sse_preload_quad(int, int, unsigned int count, DestWrapPre dest)
         do
         {
             p[-2] = zero;
-            p[-1] = DAT_010c71b0;
+            p[-1] = ::DAT_010c71b0;
             p[0] = one;
             p += 3;
         } while (--count);
@@ -271,7 +277,6 @@ struct SwapCountsE2
     SwapCountsE2() : a(0), b(0), c(0), d(0), e(0), f(0), g(0), h(0), i(0), j(0), k(0), l(0), m(0), n(0.0f)
     {}
 };
-void __cdecl FUN_00e4ebb0(unsigned short*, unsigned short*, int, int, SwapCountsE2*);
 inline unsigned short SwapShortE2(unsigned short v)
 {
     union
@@ -313,7 +318,6 @@ inline unsigned int SwapIntE2(unsigned int u)
     b.fourth = (unsigned char)u;
     return *(unsigned int*)&b;
 }
-void __fastcall FUN_00e2fc10(hkaWaveletCompressedAnimation* self);
 #include <string.h>
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
@@ -321,7 +325,6 @@ extern void* DAT_00fdf044;
 typedef void*(__stdcall* S00e306d0_TlsFn)(unsigned long);
 extern unsigned long DAT_0126835c;
 extern const char str_010eb358[];
-extern const char str_010c41f8[];
 struct S00e306d0_Args
 {
     unsigned int f00;
@@ -372,7 +375,7 @@ struct S00e306d0_Stream
         char* p = m_curr;
         if (p < m_kRayEnd)
         {
-            *(const char**)p = str_010c41f8;
+            *(const char**)p = ::DAT_010c41f8;
             _ReadWriteBarrier();
             unsigned int te = (unsigned int)__rdtsc();
             _ReadWriteBarrier();
@@ -419,6 +422,7 @@ struct S00e306d0_Obj
 static void FUN_00e306d0(S00e306d0_Obj* self, unsigned int a, unsigned int b, unsigned int c);
 void S00e306d0_Wrap(S00e306d0_Obj* self, unsigned int a, unsigned int b, unsigned int c);
 #include <windows.h>
+#include "fnv/symbols_simd.h"
 struct hkDmaRefE2FA
 {
     const void* m_ptr;
@@ -475,7 +479,6 @@ class hkQueueE2FA
     int unk60;
     void* m_data;
 
-    void FUN_00e2fa60(unsigned int slot, hkDmaRefE2FA* out) const;
     void FUN_00e2fac0(unsigned int offset, int unused, hkDmaRefE2FA* desc, int mode) const;
 };
 struct InfoE2FB
@@ -525,7 +528,6 @@ struct ChunkRetry
 };
 struct AnimRetry : hkaWaveletCompressedAnimation
 {
-    void FUN_00e2fa60(int block, ChunkRetry& chunk) const;
 };
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc();
@@ -697,8 +699,6 @@ struct RecomposeParameters
 
     const float* dynamicFloats;
 };
-void __cdecl FUN_00e4e610(const hkUint16*, const hkUint16*, unsigned int, unsigned int, TrackStatistics*);
-void __cdecl FUN_00e4f640(const RecomposeParameters*, hkQsTransform*, float*);
 static void FUN_00e300b0(WaveletParameters parameters, float* output)
 {
 
@@ -763,7 +763,6 @@ struct DecompressParams
 
 }
 
-void __cdecl FUN_00e592a0(float* dst, int numFloats);
 
 // @fnv 0x00e349c0
 static __declspec(noinline) void FUN_00e349c0(float* dst, wav::DecompressParams params)
@@ -778,7 +777,7 @@ static __declspec(noinline) void FUN_00e349c0(float* dst, wav::DecompressParams 
         info.m_vScale = params.m_mins[i];
         info.m_uiFirstQuantizationParameter = params.m_bits ? params.m_bits[i] : params.m_defaultBits;
         DecodeQuantizedBlock(reinterpret_cast<const unsigned char*>(data + offset), &info, dst, params.m_numFloats);
-        FUN_00e592a0(dst, params.m_numFloats);
+        ::PrefixSum(dst, params.m_numFloats);
         dst += params.m_iElementIndex;
         offset += FUN_00e51da0(params.m_numFloats, (const char*)&info);
     }

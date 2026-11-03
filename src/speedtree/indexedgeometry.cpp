@@ -2,6 +2,14 @@
 // src/speedtree/indexedgeometry.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/indexedgeometry.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/IndexSet.h"
+#include "fnv/decl/Outer_b33110.h"
+#include "fnv/decl/PbContainer.h"
+#include "fnv/decl/Vec.h"
+#include "fnv/decl/Vec18.h"
+#include "fnv/decl/VecQ_acad60.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00b0d000.h"
 struct FUN_00b30060_shell
 {
     int FUN_00b30060(float* p);
@@ -234,7 +242,6 @@ struct FUN_00b304f0_cls
     void FUN_00b304f0(const float& v);
 };
 
-bool __cdecl FUN_00b0d7a0(void);
 
 // @fnv 0x00b304f0
 void FUN_00b304f0_cls::FUN_00b304f0(const float& afValue)
@@ -243,7 +250,7 @@ void FUN_00b304f0_cls::FUN_00b304f0(const float& afValue)
     unsigned int buf[75];
     unsigned char c;
     m_148.PushBack(afValue);
-    if (FUN_00b0d7a0())
+    if (((bool)(::FUN_00b0d7a0())))
     {
         f = -(&afValue)[1];
         m_148.PushBack(f);
@@ -283,7 +290,6 @@ void FUN_00b305f0_cls::FUN_00b305f0(const float* apComponents)
 }
 }  // namespace fnv_00b305f0
 
-void __cdecl FreeBlock(void* p);
 
 class FUN_00b32c60_cls
 {
@@ -294,7 +300,6 @@ class FUN_00b32c60_cls
     int m_pHeadNode;
     int m_last;
     int m_kRayEnd;
-    void DestroyRange(int first, int last);
     void FUN_00b32c60();
 };
 
@@ -304,10 +309,10 @@ void FUN_00b32c60_cls::FUN_00b32c60()
     unsigned int unkPad[12];
     if (m_pHeadNode != 0)
     {
-        DestroyRange(m_pHeadNode, m_last);
+        reinterpret_cast<::Vec18 *>(this)->FUN_00b32bb0((::Elem18 *)(m_pHeadNode), (::Elem18 *)(m_last));
         int count = (m_kRayEnd - m_pHeadNode) / 0x18;
         int* p = (int*)m_pHeadNode;
-        FreeBlock(p);
+        ::FUN_00401030(p);
     }
     m_pHeadNode = 0;
     m_last = 0;
@@ -320,11 +325,9 @@ struct K
     int fC;
     int f10;
     int f14;
-    int __thiscall FUN_00b33110(int, int);
     void __thiscall FUN_00b331c0();
 };
 
-void __cdecl FUN_00401030(void*);
 
 // @fnv 0x00b331c0
 void __thiscall K::FUN_00b331c0()
@@ -335,7 +338,7 @@ void __thiscall K::FUN_00b331c0()
 
     if (fC != 0)
     {
-        FUN_00b33110(fC, f10);
+        reinterpret_cast<::Outer_b33110 *>(this)->FUN_00b33110((::Value *)(fC), (::Value *)(f10));
         t1 = (f14 - fC) / 24;
         t2 = fC;
         FUN_00401030((void*)t2);
@@ -346,7 +349,6 @@ void __thiscall K::FUN_00b331c0()
 }
 
 unsigned int __cdecl FUN_00ec7c56(void);
-void __cdecl FUN_00401030(void*);
 
 struct InnerVec
 {
@@ -370,11 +372,9 @@ struct OuterVec
 
 struct FUN_00b32350_shell
 {
-    void FUN_00b32350();
 };
 struct FUN_00b32120_shell
 {
-    void FUN_00b32120();
 };
 
 struct ScratchFrame
@@ -490,14 +490,13 @@ void TargetClass::ClearOuter()
         r = &m_outer;
         if (i >= (unsigned int)(r->_last - r->_first))
             FUN_00ec7c56();
-        ((FUN_00b32350_shell*)(r->_first + i))->FUN_00b32350();
+        reinterpret_cast<::IndexSet *>((((FUN_00b32350_shell*)(r->_first + i))))->FUN_00b32350();
     }
-    ((FUN_00b32120_shell*)&m_outer)->FUN_00b32120();
+    reinterpret_cast<::Vec *>((((FUN_00b32120_shell*)&m_outer)))->FUN_00b32120();
 }
 
 struct FUN_00b32210_Class
 {
-    void __thiscall FUN_00b32210(void* p);
 };
 struct FUN_00b30020_Class
 {
@@ -530,7 +529,6 @@ struct FUN_00b30020_Class
     int unk68;
     int unk6C;
     FUN_00b32210_Class sub;
-    int __thiscall FUN_00b30060(float* p);
     void __thiscall FUN_00b30020(float* a);
 };
 // Calls FUN_00b30060 with a, then passes the address of the result to sub.FUN_00b32210.
@@ -570,8 +568,8 @@ void __thiscall FUN_00b30020_Class::FUN_00b30020(float* a)
     int _draw;
     int _eb;
     int _equip;
-    iResult = FUN_00b30060(a);
-    sub.FUN_00b32210((void*)&iResult);
+    iResult = reinterpret_cast<::FUN_00b30060_shell *>(this)->FUN_00b30060(a);
+    reinterpret_cast<::PbContainer *>(&(sub))->FUN_00b32210((*(const int *)((void*)&iResult)));
 }
 
 struct FUN_00b30560_data
@@ -592,7 +590,6 @@ struct FUN_00b30560_data
 
 struct FUN_00b0dae0_cls
 {
-    void FUN_00b0dae0(unsigned char& value);
 };
 
 class FUN_00b30560_cls
@@ -773,5 +770,5 @@ void FUN_00b30560_cls::FUN_00b30560(float value, unsigned char index)
     index = (unsigned char)((unsigned int)index % aa + cc);
 
     m_160.PushBack(value);
-    m_178.FUN_00b0dae0(index);
+    reinterpret_cast<::VecQ_acad60 *>(&(m_178))->FUN_00b0dae0((const char &)(index));
 }

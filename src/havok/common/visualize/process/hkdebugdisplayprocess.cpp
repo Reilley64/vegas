@@ -2,7 +2,15 @@
 // src/havok/common/visualize/process/hkdebugdisplayprocess.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/process/hkdebugdisplayprocess.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern volatile int DAT_01269cdc;
+#include "fnv/decl/S_00dd9380.h"
+#include "fnv/decl/fnv_00c99ce0__hkOwnerXc99ce0.h"
+#include "fnv/decl/hkListenerListC995.h"
+#include "fnv/symbols_00ddc000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010d1000.h"
+#include "fnv/symbols_010d7000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 struct Target
 {
     void* volatile vptr;
@@ -18,7 +26,7 @@ void Thunk::InvokeVirtualSlot15(int a, int b, int c, int d, int e)
     Target* target = *(Target**)((char*)this - 8);
     void* volatile* table = (void* volatile*)target->vptr;
     volatile int& fifth = e;
-    fifth = DAT_01269cdc;
+    fifth = ::g_1269cdc;
     VirtualTarget call = (VirtualTarget)table[15];
     call(target, a, b, c, d, e);
 }
@@ -47,7 +55,6 @@ void Interface::ForwardToOwner(unsigned int a, unsigned int b, unsigned int c, f
 }
 
 namespace fnv_00ddca90 {
-extern int g_callbackContext;
 struct Target
 {
     virtual void f00();
@@ -77,22 +84,14 @@ struct AdapterHeader
 int Adapter::InvokeTarget(int aiArg1, int aiArg2, int aiArg3, int aiArg4, int context)
 {
     AdapterHeader* header = reinterpret_cast<AdapterHeader*>(reinterpret_cast<char*>(this) - sizeof(AdapterHeader));
-    return header->target->invoke(aiArg1, aiArg2, aiArg3, aiArg4, g_callbackContext);
+    return header->target->invoke(aiArg1, aiArg2, aiArg3, aiArg4, ::g_1269cdc);
 }
 }  // namespace fnv_00ddca90
 
-extern char DAT_010d7ed0;
-extern char DAT_010d7eb0;
-extern char DAT_010d7e5c;
-extern char DAT_010d7cfc;
-extern char DAT_010d1508;
-extern char DAT_0102e388;
 class ProcessManager
 {
   public:
-    void RemoveListener(void* process);
 };
-extern ProcessManager* DAT_012681e0;
 class Process
 {
   public:
@@ -110,13 +109,13 @@ class Process
 // @fnv 0x00ddcb50
 void Process::FUN_00ddcb50()
 {
-    vftable = &DAT_010d7ed0;
-    baseVftable = &DAT_010d7eb0;
-    listenerVftable = &DAT_010d7e5c;
-    DAT_012681e0->RemoveListener(&listenerVftable);
-    listenerVftable = &DAT_010d7cfc;
-    baseVftable = &DAT_010d1508;
-    vftable = &DAT_0102e388;
+    vftable = &(*reinterpret_cast<char *>(&::fnv_00ddcaf0::DAT_010d7ed0));
+    baseVftable = &(*reinterpret_cast<char *>(&::fnv_00ddcaf0::DAT_010d7eb0));
+    listenerVftable = &(*reinterpret_cast<char *>(&::fnv_00ddcaf0::DAT_010d7e5c));
+    reinterpret_cast<::hkListenerListC995 *>(((*reinterpret_cast<::ProcessManager * *>(&::DAT_012681e0))))->RemoveListener(&listenerVftable);
+    listenerVftable = &(*reinterpret_cast<char *>(&::fnv_00ddcaf0::DAT_010d7cfc));
+    baseVftable = &(*reinterpret_cast<char *>(&::DAT_010d1508));
+    vftable = &(*reinterpret_cast<char *>(&::DAT_0102e388));
 }
 
 struct S_00ddcb90_Allocator
@@ -180,11 +179,10 @@ S_00ddcb90_Base2* FUN_00ddcb90()
 }
 
 namespace fnv_00ddcbe0 {
-extern int DAT_01269cdc;
 // @fnv 0x00ddcbe0
 int FUN_00ddcbe0()
 {
-    return DAT_01269cdc;
+    return ::g_1269cdc;
 }
 }  // namespace fnv_00ddcbe0
 
@@ -208,14 +206,13 @@ struct Process
     unsigned short unk04;
     unsigned short unk06;
     int unk08;
-    void FUN_00ddcb50();
     Process* FUN_00ddcc10(unsigned char flags);
 };
 // Calls FUN_00ddcb50, and if flags has bit 0 set, releases this process with size unk04 through the allocator from FUN_00c85750; returns this.
 // @fnv 0x00ddcc10
 Process* Process::FUN_00ddcc10(unsigned char flags)
 {
-    FUN_00ddcb50();
+    reinterpret_cast<::Process *>(this)->FUN_00ddcb50();
     if (flags & 1)
     {
         ProcessServices* services = FUN_00c85750();
@@ -227,7 +224,6 @@ Process* Process::FUN_00ddcc10(unsigned char flags)
 }
 }  // namespace fnv_00ddcc10
 
-extern unsigned int g_01269cdc;
 
 struct TargetIface
 {
@@ -255,7 +251,7 @@ class S_00ddc960_cls
 int S_00ddc960_cls::ForwardToTarget(int aiArg1, int aiArg2, unsigned int c)
 {
     OwnerHolder* h = (OwnerHolder*)((char*)this - 8);
-    return h->m_target->vslot3(aiArg1, aiArg2, g_01269cdc);
+    return h->m_target->vslot3(aiArg1, aiArg2, (*reinterpret_cast<unsigned int *>(&::g_1269cdc)));
 }
 
 // ForwardToDelegate - a forwarding member of a secondary base.
@@ -387,7 +383,7 @@ struct S_00ddc8e0_Cls
 int S_00ddc8e0_Cls::ForwardToOwnerVirtual(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 {
     S_00ddc8e0_Owner* pOwner = *(S_00ddc8e0_Owner**)((char*)this - 8);
-    return pOwner->v1(aiArg1, aiArg2, aiArg3, DAT_01269cdc);
+    return pOwner->v1(aiArg1, aiArg2, aiArg3, ::g_1269cdc);
 }
 
 struct SinkDDCA
@@ -425,7 +421,7 @@ SinkDDCA* ForwarderInterfaceDDCA::FUN_00ddca10(int aArg1, int aArg2, int aArg3, 
 {
     SinkDDCA* pkDelegate =
         reinterpret_cast<ForwarderBaseDDCA*>(reinterpret_cast<char*>(this) - sizeof(ForwarderBaseDDCA))->m_delegate;
-    return pkDelegate->f8(aArg1, aArg2, aArg3, DAT_01269cdc);
+    return pkDelegate->f8(aArg1, aArg2, aArg3, ::g_1269cdc);
 }
 
 // FUN_00ddcbf0: MSVC adjustor thunk for a secondary base at offset 0x20.
@@ -485,7 +481,6 @@ Derived::Derived()
 }  // namespace fnv_00ddcc00
 
 namespace fnv_00ddc900 {
-extern unsigned int DAT_01269cdc;
 
 class FNVTarget
 {
@@ -512,7 +507,7 @@ void FUN_00ddc900_cls::FUN_00ddc900(int a, int b, int c, unsigned int d)
     FNVHolder* h = (FNVHolder*)((char*)this - 8);
     FNVTarget* t = h->m_target;
     void* vp = *(void**)t;
-    unsigned int dat = DAT_01269cdc;
+    unsigned int dat = (*reinterpret_cast<unsigned int *>(&::g_1269cdc));
     *(unsigned int volatile*)&d = dat;
     typedef void(__thiscall * SlotFn)(FNVTarget*, int, int, int, unsigned int);
     SlotFn fn = (SlotFn) * (void* volatile*)((char*)vp + 0x8);
@@ -521,7 +516,6 @@ void FUN_00ddc900_cls::FUN_00ddc900(int a, int b, int c, unsigned int d)
 }  // namespace fnv_00ddc900
 
 namespace fnv_00ddc940 {
-extern unsigned int DAT_01269cdc;
 
 class FNVTarget
 {
@@ -560,7 +554,7 @@ void FUN_00ddc940_cls::FUN_00ddc940(int aiArg1, int aiArg2, int aiArg3, unsigned
     FNVHolder* h = (FNVHolder*)((char*)this - 8);
     FNVTarget* t = h->m_target;
     void* vp = *(void**)t;
-    unsigned int dat = DAT_01269cdc;
+    unsigned int dat = (*reinterpret_cast<unsigned int *>(&::g_1269cdc));
     *(unsigned int volatile*)&d = dat;
     typedef void(__thiscall * SlotFn)(FNVTarget*, int, int, int, unsigned int);
     SlotFn fn = (SlotFn) * (void* volatile*)((char*)vp + 0x38);
@@ -569,7 +563,6 @@ void FUN_00ddc940_cls::FUN_00ddc940(int aiArg1, int aiArg2, int aiArg3, unsigned
 }  // namespace fnv_00ddc940
 
 namespace fnv_00ddc980 {
-extern unsigned int DAT_01269cdc;
 
 class FNVTarget
 {
@@ -598,7 +591,7 @@ void FUN_00ddc980_cls::FUN_00ddc980(int aArg1, int aArg2, int aArg3)
     FNVHolder* h = (FNVHolder*)((char*)this - 8);
     FNVTarget* t = h->m_target;
     void* vp = *(void**)t;
-    unsigned int dat = DAT_01269cdc;
+    unsigned int dat = (*reinterpret_cast<unsigned int *>(&::g_1269cdc));
     *(unsigned int volatile*)&aArg3 = dat;
     typedef void(__thiscall * SlotFn)(FNVTarget*, int, int, int);
     SlotFn fn = (SlotFn) * (void* volatile*)((char*)vp + 0x10);
@@ -607,7 +600,6 @@ void FUN_00ddc980_cls::FUN_00ddc980(int aArg1, int aArg2, int aArg3)
 }  // namespace fnv_00ddc980
 
 namespace fnv_00ddc9a0 {
-extern unsigned int DAT_01269cdc;
 class FNVTarget
 {
   public:
@@ -628,7 +620,7 @@ void FUN_00ddc9a0_cls::FUN_00ddc9a0(int aiArg, unsigned int auiParam)
 {
     FNVTarget* t = *(FNVTarget**)((char*)this - 8);
     void** pVTable = *(void***)t;
-    *(volatile unsigned int*)&auiParam = DAT_01269cdc;
+    *(volatile unsigned int*)&auiParam = (*reinterpret_cast<unsigned int *>(&::g_1269cdc));
     void* volatile* slot = (void* volatile*)&pVTable[5];
     ((void(__thiscall*)(FNVTarget*, int, unsigned int)) * slot)(t, aiArg, auiParam);
 }
@@ -638,7 +630,6 @@ namespace fnv_00ddca30 {
 // Thiscall container-of forwarder: the holder pointer lives at this-8, the global
 // DAT_01269cdc is written over the 5th stack argument, and the call is tail-jumped
 // through vtable slot +0x24 of the target object.
-extern unsigned int DAT_01269cdc;
 
 class FNVTarget
 {
@@ -672,7 +663,7 @@ void FUN_00ddca30_cls::FUN_00ddca30(int aiArg1, int aiArg2, int aiArg3, int aiAr
     FNVHolder* h = (FNVHolder*)((char*)this - 8);
     FNVTarget* t = h->m_target;
     void* vp = *(void**)t;
-    unsigned int dat = DAT_01269cdc;
+    unsigned int dat = (*reinterpret_cast<unsigned int *>(&::g_1269cdc));
     *(unsigned int volatile*)&auArg5 = dat;
     typedef void(__thiscall * SlotFn)(FNVTarget*, int, int, int, int, unsigned int);
     SlotFn fn = (SlotFn) * (void* volatile*)((char*)vp + 0x24);
@@ -705,22 +696,14 @@ struct WrapperObject
 int WrapperObject::FUN_00ddcab0(int first, int second, int third)
 {
     VirtualReceiver* receiver = *(VirtualReceiver**)((char*)this - 8);
-    return receiver->method13(first, second, DAT_01269cdc);
+    return receiver->method13(first, second, ::g_1269cdc);
 }
 
 namespace fnv_00ddcaf0 {
-extern char DAT_010d1508[];
-extern char DAT_010d7cfc[];
-extern char DAT_010d7ed0[];
-extern char DAT_010d7eb0[];
-extern char DAT_010d7e5c[];
-extern char DAT_01269cdc[];
-extern char DAT_012681e0[];
 
 class GlobalDispatcher
 {
   public:
-    void Dispatch(void* arg);
 };
 
 class FUN_00ddcaf0_cls
@@ -734,7 +717,6 @@ class FUN_00ddcaf0_cls
     unsigned char unk0d[0x13];
     void* m_20;
 
-    void Helper();
     FUN_00ddcaf0_cls* FUN_00ddcaf0();
 };
 
@@ -745,36 +727,32 @@ FUN_00ddcaf0_cls* FUN_00ddcaf0_cls::FUN_00ddcaf0()
     unsigned char flag = 1;
     m_06 = 1;
     unsigned char* pFlag = (unsigned char*)&m_0c;
-    *(void* volatile*)&m_08 = DAT_010d1508;
+    *(void* volatile*)&m_08 = (*reinterpret_cast<char (*)[]>(&::DAT_010d1508));
     *(volatile unsigned char*)pFlag = flag;
     *(void* volatile*)&m_20 = DAT_010d7cfc;
     m_vtbl = DAT_010d7ed0;
     m_08 = DAT_010d7eb0;
     *(void* volatile*)&m_20 = DAT_010d7e5c;
-    if (*(int*)DAT_01269cdc == 0)
+    if (*(int*)(*reinterpret_cast<char (*)[]>(&::g_1269cdc)) == 0)
     {
-        Helper();
+        ::fnv_00ddcbc0::FUN_00ddcbc0();
     }
-    ((GlobalDispatcher*)*(void**)DAT_012681e0)->Dispatch(&m_20);
+    reinterpret_cast<::fnv_00c99ce0::hkOwnerXc99ce0 *>((((GlobalDispatcher*)*(void**)(*reinterpret_cast<char (*)[]>(&::DAT_012681e0)))))->Add(&m_20);
     return this;
 }
 }  // namespace fnv_00ddcaf0
 
 namespace fnv_00ddcbc0 {
-void* __cdecl FUN_00ddcb90();
 
 struct S_00ddcbc0_Factory
 {
-    void* FUN_00dd9380(const char* name, void*(__cdecl* createFn)());
 };
 
-extern "C" S_00ddcbc0_Factory* DAT_01269cd0;
-extern "C" void* DAT_01269cdc;
 
 // @fnv 0x00ddcbc0
 void FUN_00ddcbc0()
 {
-    DAT_01269cdc = DAT_01269cd0->FUN_00dd9380("Debug Display", FUN_00ddcb90);
+    (*reinterpret_cast<void * *>(&::g_1269cdc)) = ((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::fnv_00ddcbc0::S_00ddcbc0_Factory * *>(&::DAT_01269cd0))))->FUN_00dd9380("Debug Display", (int)(((void *(&)())::FUN_00ddcb90)))));
 }
 }  // namespace fnv_00ddcbc0
 
@@ -840,7 +818,7 @@ int TextEntry::FUN_00ddca70(const char* text, int color, int id, int tag)
     __assume(this != 0);
     TextForwarder& owner = static_cast<TextForwarder&>(*this);
     TextReceiver* receiver = static_cast<TextReceiver*>(owner.m_target);
-    return receiver->displayText(text, color, id, g_01269cdc);
+    return receiver->displayText(text, color, id, (*reinterpret_cast<unsigned int *>(&::g_1269cdc)));
 }
 
 struct ImmediateReceiver : TargetIface

@@ -2,6 +2,7 @@
 // src/havok/common/visualize/shape/hkdisplayplane.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplayplane.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c90000.h"
 struct __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float x, y, z, w;
@@ -137,11 +138,9 @@ __declspec(align(16)) struct VecTemp4
     unsigned int m_30, m_34, m_38, m_3c;
 };
 
-extern "C" void __cdecl FUN_00c908c0(unsigned int a1, VecBuf* v, int cap, int elem);
 
 struct FUN_00de5050_cls
 {
-    void Fill(VecTemp4* out);
     void FUN_00de5050(VecBuf* s, unsigned int a2);
 };
 
@@ -156,11 +155,11 @@ void FUN_00de5050_cls::FUN_00de5050(VecBuf* s, unsigned int a2)
         {
             cap = 12;
         }
-        FUN_00c908c0(a2, s, cap, 0x10);
+        ::FUN_00c908c0((::SpawnedObject *)(a2), (::SpawnedArray *)(s), cap, 0x10);
     }
     VecTemp4 tmp;
     s->m_uiItemCount = 12;
-    this->Fill(&tmp);
+    reinterpret_cast<::Cls_00de4e20 *>((this))->FUN_00de4e20((::Vec4_de4e20 *)(::VecTemp4 *)(&tmp));
 
     __m128 v0 = _mm_load_ps((float*)&tmp.m_00);
     __m128 v1 = _mm_load_ps((float*)&tmp.m_10);
@@ -200,7 +199,6 @@ struct S_00de5110_Router
 };
 
 S_00de5110_Router& FUN_00c85750() throw();
-void FUN_00c908c0(S_00de5110_Heap& alloc, void* array, int numElements, int sizeElem) throw();
 
 template <typename T> struct S_00de5110_Array
 {
@@ -231,7 +229,7 @@ template <typename T> struct S_00de5110_Array
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(a, this, newSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(a), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
         }
     }
     __forceinline void _setSize(S_00de5110_Heap& a, int n) throw()
@@ -327,7 +325,6 @@ struct S_00de5110_Pyramid
     int unk6C;
     S_00de5110_Vector4 m_apex;
 
-    void FUN_00de4e20(S_00de5110_Vector4* verts);
     void BuildPyramidGeometry();
 };
 
@@ -338,7 +335,7 @@ void S_00de5110_Pyramid::BuildPyramidGeometry()
     m_pSourceGeometry = new S_00de5110_Geometry();
     m_pSourceGeometry->m_kVertices.SetSizeAndGrow(5);
     m_pSourceGeometry->m_kVertices[4] = m_apex;
-    FUN_00de4e20(m_pSourceGeometry->m_kVertices.begin());
+    reinterpret_cast<::Cls_00de4e20 *>(this)->FUN_00de4e20((::Vec4_de4e20 *)(::S_00de5110_Vector4 *)(m_pSourceGeometry->m_kVertices.begin()));
     m_pSourceGeometry->m_uiTriangleCount.expandBy(1)->set(2, 4, 3);
     m_pSourceGeometry->m_uiTriangleCount.expandBy(1)->set(0, 4, 2);
     m_pSourceGeometry->m_uiTriangleCount.expandBy(1)->set(1, 4, 0);

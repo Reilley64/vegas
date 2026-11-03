@@ -1,5 +1,23 @@
 // fallout_shared/bgstouchspellform.cpp: BGSTouchSpellForm (6 functions)
 
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00402000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_005b5000.h"
 #include "bgstouchspellform.h"
 #include "bgstouchspellform_decls.h"
 
@@ -19,39 +37,35 @@ void BGSTouchSpellForm::InitItem(TESForm* owner)
 
         unsigned int checkedForm = (unsigned int)m_pMagicItem;
         if (owner)
-            TESForm::RemapFormIDForFile(checkedForm, owner->GetFile(-1));
+            ::ResolveFormID((unsigned int *)&(checkedForm), owner->GetFile(-1));
 
-        m_pMagicItem = dynamic_cast<MagicItemForm*>(GetFormByID(checkedForm));
+        m_pMagicItem = dynamic_cast<MagicItemForm*>(::FUN_004839c0(checkedForm));
         if (!m_pMagicItem)
         {
             if (owner)
             {
                 if (((BGSCameraPath*)owner)->HasNameForWarning())
                 {
-                    Warning("MASTERFILE: Unable to find Actor Effect (%08X) on owner object \"%s\".", checkedForm,
-                            ((TESObjectWithEditorID*)owner)->GetEditorID());
+                    ::FUN_005b5e40();
                 }
                 else
                 {
-                    Warning("MASTERFILE: Unable to find Actor Effect (%08X) on owner object (%08X).", checkedForm,
-                            owner->GetFormID());
+                    ::FUN_005b5e40();
                 }
             }
             else
             {
-                Warning("MASTERFILE: Unable to find Actor Effect (%08X) on unknown owner.", checkedForm);
+                ::FUN_005b5e40();
             }
         }
 
         EnchantmentItem* formID =
             m_pMagicItem ? (m_pMagicItem->GetMagicType() == 6 ? (EnchantmentItem*)m_pMagicItem : 0) : 0;
 
-        if (formID && owner && !formID->FUN_004094f0(owner))
+        if (formID && owner && !formID->IsValidObject(owner))
         {
-            Warning(
-                "MASTERFILE: Enchanting (%08X) '%s' has invalid effect trigger type or effect for object (%08X) '%s'",
-                m_pMagicItem->GetFormID(), ((TESObjectWithEditorID*)m_pMagicItem)->GetEditorID(), owner->GetFormID(),
-                ((TESObjectWithEditorID*)owner)->GetEditorID());
+            ::FUN_005b5e40(
+                );
             m_pMagicItem = 0;
         }
     }
@@ -62,7 +76,7 @@ extern int DAT_0101aef0;
 // @fnv 0x0047bd10
 BGSTouchSpellForm* __fastcall FUN_0047bd10(BGSTouchSpellForm* pThis)
 {
-    pThis->BaseFormComponent::BaseFormComponent();
+    ::FUN_00402d30((int *)(pThis));
     *(int**)pThis = &DAT_0101aef0;
     pThis->InitializeComponent();
     return pThis;
@@ -75,7 +89,6 @@ struct FUN_0047bdd0_shell : public BGSTouchSpellForm
 
 struct TESRaceForm
 {
-    void Initialize(unsigned int);
 };
 struct TESEnchantableForm
 {
@@ -85,14 +98,13 @@ struct TESActorBaseData
 {
     unsigned short GetFatigue() const;
 };
-unsigned int __fastcall _ref_00726070(void*);
 // @fnv 0x0047bdd0
 void FUN_0047bdd0_shell::FUN_0047bdd0(BaseFormComponent* apCopyFC)
 {
     BGSTouchSpellForm* pCopy = dynamic_cast<BGSTouchSpellForm*>(apCopyFC);
     if (!pCopy)
         return;
-    ((TESRaceForm*)this)->Initialize(_ref_00726070(pCopy));
+    reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)this)))->Initialize((::CombatController *)(((unsigned int)(reinterpret_cast<::Callees *>((pCopy))->FUN_00726070()))));
     ((TESEnchantableForm*)this)->SetFormEnchantmentAmount(((TESActorBaseData*)pCopy)->GetFatigue());
 }
 
@@ -104,7 +116,6 @@ struct TESActorBaseData
 
 struct _ref_00726070_shell
 {
-    void* _ref_00726070();
 };
 
 struct FUN_0047be30_shell : BGSTouchSpellForm
@@ -118,8 +129,8 @@ bool FUN_0047be30_shell::IsDifferentFrom(BaseFormComponent* apCompareFC)
     BGSTouchSpellForm* pCompare = dynamic_cast<BGSTouchSpellForm*>(apCompareFC);
     if (!pCompare)
         return true;
-    if (reinterpret_cast<_ref_00726070_shell*>(this)->_ref_00726070() !=
-        reinterpret_cast<_ref_00726070_shell*>(pCompare)->_ref_00726070())
+    if (reinterpret_cast<::Callees *>((reinterpret_cast<_ref_00726070_shell*>(this)))->FUN_00726070() !=
+        reinterpret_cast<::Callees *>((reinterpret_cast<_ref_00726070_shell*>(pCompare)))->FUN_00726070())
         return true;
     if (reinterpret_cast<TESActorBaseData const*>(this)->GetFatigue() !=
         reinterpret_cast<TESActorBaseData const*>(pCompare)->GetFatigue())

@@ -2,6 +2,11 @@
 // src/havok/animation/animation/mapper/hkaskeletonmapperutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/mapper/hkaskeletonmapperutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/QuatResult.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00ce5000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_0104e000.h"
 struct CE5F90QsTransform
 {
     float m_vTranslation[4];
@@ -9,19 +14,15 @@ struct CE5F90QsTransform
     float m_vScale[4];
 };
 
-void __cdecl FUN_00ce5a70(CE5F90QsTransform* out, const CE5F90QsTransform* a, const CE5F90QsTransform* b, int mode,
-                          float weightA, float weightB);
 
 // @fnv 0x00ce5f90
 void __cdecl FUN_00ce5f90(CE5F90QsTransform* out, const CE5F90QsTransform* poseA, short boneA,
                           const CE5F90QsTransform* poseB, short boneB, int mode, float weightA, float weightB)
 {
-    FUN_00ce5a70(out, &poseA[boneA], &poseB[boneB], mode, weightA, weightB);
+    ::fnv_00ce5a70::FUN_00ce5a70(out, &poseA[boneA], &poseB[boneB], mode, weightA, weightB);
 }
 
 #include <xmmintrin.h>
-extern const float DAT_0104da48;
-extern const float DAT_0104e148;
 
 struct __declspec(align(16)) VertexRecord
 {
@@ -70,7 +71,6 @@ extern "C" void _mm_store_ss(float*, __m128);
 
 typedef float hkReal;
 
-extern __m128 DAT_010c71b0;
 
 struct hkVector4q
 {
@@ -111,7 +111,7 @@ struct hkQsTransformq
     __forceinline void setIdentity()
     {
         m_vTranslation.setZero4();
-        m_rotation.m_vComponents = DAT_010c71b0;
+        m_rotation.m_vComponents = (*reinterpret_cast<::fnv_00ce55d0::__m128 *>((void *)&::DAT_010c71b0));
         m_vScale.SetAllComponents(1.0f);
     }
 };
@@ -125,7 +125,6 @@ struct ScaleParams
     hkReal m_scaleB;
 };
 
-void __cdecl FUN_00ce5560(const hkQsTransformq* pose, int numBones, hkVector4q& minOut, hkVector4q& maxOut);
 
 // Computes scale factors for two poses based on ScaleParams mode, storing results in outA and outB.
 // @fnv 0x00ce55d0
@@ -138,8 +137,8 @@ void __cdecl FUN_00ce55d0(const ScaleParams* params, int unused, const hkQsTrans
     if (params->m_iValueAfterFlags == 0)
     {
         hkVector4q minA, maxA, minB, maxB;
-        FUN_00ce5560(poseA, numBonesA, minA, maxA);
-        FUN_00ce5560(poseB, numBonesB, minB, maxB);
+        ::FUN_00ce5560((const ::VertexRecord *)(poseA), numBonesA, (::__m128 *)&(minA), (::__m128 *)&(maxA));
+        ::FUN_00ce5560((const ::VertexRecord *)(poseB), numBonesB, (::__m128 *)&(minB), (::__m128 *)&(maxB));
         hkVector4q extA;
         extA.setSub4(maxA, minA);
         hkVector4q extB;
@@ -169,6 +168,7 @@ void __cdecl FUN_00ce55d0(const ScaleParams* params, int unused, const hkQsTrans
 }  // namespace fnv_00ce55d0
 
 #include <math.h>
+#include "fnv/symbols_simd.h"
 struct ThresholdState
 {
     int unk00;
@@ -375,7 +375,6 @@ struct hkQuaternion
         m_vec.m_vComponents = q.m_vec.m_vComponents;
     }
     void FUN_00cd9d10(const hkVector4& from, const hkVector4& to);
-    void FUN_00c74b70(const hkQuaternion& a, const hkQuaternion& b);
 };
 
 struct hkQsTransform
@@ -403,10 +402,6 @@ struct BonePairInfo
     hkVector4 m_vScale;
 };
 
-void FUN_00ce5f90(const void* data, const hkQsTransform* poseA, hkInt16 boneA, const hkQsTransform* poseB,
-                  hkInt16 boneB, hkVector4* out, hkReal eps, hkReal weight);
-void FUN_00ce5e60(const hkaSkeleton* skel, const hkQsTransform* poses, hkInt16 ancestor, hkInt16 bone,
-                  hkReal* lengthOut, hkVector4* posOut);
 
 // Fills out with bone indices, offset, rotation, scale, and relative rotation derived from two skeleton bone pairs.
 // @fnv 0x00ce5fe0
@@ -418,14 +413,14 @@ void FUN_00ce5fe0(const void* data, const hkaSkeleton* skelA, const hkQsTransfor
     out->m_boneA1 = boneA1;
     out->m_boneB0 = boneB0;
     out->m_boneB1 = boneB1;
-    FUN_00ce5f90(data, poseA, boneA0, poseB, boneB0, &out->m_offset, 1e-5f, 1.0f);
+    ::FUN_00ce5f90((::CE5F90QsTransform *)(data), (const ::CE5F90QsTransform *)(poseA), boneA0, (const ::CE5F90QsTransform *)(poseB), boneB0, (int)(&out->m_offset), 1e-5f, 1.0f);
 
     hkReal lenA;
     hkReal lenB;
     hkVector4 dirA;
     hkVector4 dirB;
-    FUN_00ce5e60(skelA, poseA, boneA0, boneA1, &lenA, &dirA);
-    FUN_00ce5e60(skelB, poseB, boneB0, boneB1, &lenB, &dirB);
+    ::fnv_00ce5e60::FUN_00ce5e60((const ::fnv_00ce5e60::hkaSkeletonq *)(skelA), (const ::fnv_00ce5e60::hkQsTransformq *)(poseA), boneA0, boneA1, &lenA, (::fnv_00ce5e60::hkVector4q *)(::fnv_00ce5fe0::hkVector4 *)(&dirA));
+    ::fnv_00ce5e60::FUN_00ce5e60((const ::fnv_00ce5e60::hkaSkeletonq *)(skelB), (const ::fnv_00ce5e60::hkQsTransformq *)(poseB), boneB0, boneB1, &lenB, (::fnv_00ce5e60::hkVector4q *)(::fnv_00ce5fe0::hkVector4 *)(&dirB));
 
     dirA.normalize3();
     dirB.normalize3();
@@ -435,7 +430,7 @@ void FUN_00ce5fe0(const void* data, const hkaSkeleton* skelA, const hkQsTransfor
     out->m_rotation = rot;
     lenA = 1.0f / lenA;
     out->m_vScale.m_vComponents = _mm_set_ps1(lenA);
-    out->m_relRotation.FUN_00c74b70(poseA[boneA1].m_rotation, poseB[boneB1].m_rotation);
+    reinterpret_cast<::QuatResult *>(&(out->m_relRotation))->FUN_00c74b70((const float *)&(poseA[boneA1].m_rotation), (const float *)&(poseB[boneB1].m_rotation));
 }
 }  // namespace fnv_00ce5fe0
 
@@ -462,7 +457,6 @@ struct hkMemoryRouterStub
 };
 
 hkMemoryRouterStub* __cdecl FUN_00c85750();
-extern "C" void __cdecl FUN_00c908c0(hkMemoryAllocator* mem, void* array, int numElems, int elemSize);
 
 struct HkElem8
 {
@@ -507,7 +501,7 @@ template <typename T> struct HkArray
         {
             int cap2 = 2 * capacity;
             int newCap = n < cap2 ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newCap, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(::hkMemoryAllocator *)(&alloc), (::SpawnedArray *)(void *)(this), newCap, sizeof(T));
         }
     }
 

@@ -3,21 +3,22 @@
 
 // Game-setting globals whose constructors are inlined (/Od /Ob1). Classes are named by original vtable, collection
 // and init-function addresses; vtables, destructors, the collection and init function stay original (bound by address).
-void FUN_004de4a0();
+#include "fnv/symbols_004de000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f9000.h"
 class SetColl_011f35a0_004de4a0
 {
   public:
     virtual void vfn0();
     virtual void Add(void* setting);
 };
-extern SetColl_011f35a0_004de4a0* g_coll_011f35a0;
 inline SetColl_011f35a0_004de4a0* GetSetColl_011f35a0_004de4a0()
 {
     int a;
     int b;
     int c;
     FUN_004de4a0();
-    return g_coll_011f35a0;
+    return (*reinterpret_cast<::SetColl_011f35a0_004de4a0 * *>(&::DAT_011f35a0));
 }
 void FUN_0044f570();
 class SetColl_011f96a0_0044f570
@@ -26,7 +27,6 @@ class SetColl_011f96a0_0044f570
     virtual void vfn0();
     virtual void Add(void* setting);
 };
-extern SetColl_011f96a0_0044f570* g_coll_011f96a0;
 inline SetColl_011f96a0_0044f570* GetSetColl_011f96a0_0044f570()
 {
     int a;

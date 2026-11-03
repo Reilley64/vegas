@@ -2,6 +2,7 @@
 #ifndef FNV_TILE_REFVALUEACTION_H
 #define FNV_TILE_REFVALUEACTION_H
 
+#include "fnv/decl/Target_00a0c020.h"
 #include "layout_support.h"
 #include "Tile__Action.h"
 class Tile__RefValueAction;
@@ -12,7 +13,6 @@ class Tile__RefValueAction : public Tile__Action
   public:
     // base Tile::Action at +0x0, size 12
     Tile__Value* m_pReferencedValue;  // +0xC, 4 bytes
-    float GetStoredFloatValue();
     // float __cdecl Tile::RefValueAction::*()
     // Tile::Value* __cdecl Tile::RefValueAction::*()
     // RefValueAction

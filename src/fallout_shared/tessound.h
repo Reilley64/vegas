@@ -7,6 +7,10 @@
 #ifndef FNV_TESSOUND_UNIT_H
 #define FNV_TESSOUND_UNIT_H
 
+#include "fnv/decl/Data5E35.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/symbols_00407000.h"
 #include "layout_support.h"
 #include "TESForm.h"
 #include "TESFile.h"
@@ -30,7 +34,8 @@ class TESSound__SOUND_DATA
     unsigned int iPriority;                   // +0x18, 4 bytes
     unsigned int m_uiTrailingValue1;          // +0x1C, 4 bytes
     unsigned int m_uiTrailingValue2;          // +0x20, 4 bytes
-    void Endian();
+public:
+    void SwapEndian();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESSound__SOUND_DATA) == 36);
@@ -60,7 +65,6 @@ class TESSound__SOUND_DATA2
     unsigned int iFlags;                   // +0x4
     unsigned short m_uiFrequency;          // +0x8
     unsigned short m_aucAttenuationBytes;  // +0xA
-    void Endian();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESSound__SOUND_DATA2) == 12);
@@ -71,7 +75,6 @@ FNV_STATIC_ASSERT(sizeof(TESSound__SOUND_DATA2) == 12);
 // the original static type; it binds the real GetTESForm target.
 struct TESFileFormInt : public TESFile
 {
-    int GetTESForm();
 };
 // Zero-size tag used to select the 16-bit overload below. The tag is passed
 // as a value-initialized temporary, which is why each call site materializes
@@ -79,7 +82,6 @@ struct TESFileFormInt : public TESFile
 template <int Value> struct EndianSizeTag
 {
 };
-void BSEndian(unsigned short* data, EndianSizeTag<2> type);
 #pragma pack(push, 4)
 // Unit-local scaffolding for the TESSound bases. TESBoundAnimObject derives
 // from TESForm through TESObject/TESBoundObject on PC; the intermediate
@@ -94,7 +96,6 @@ class TESBoundAnimObject : public TESForm
     virtual ~TESBoundAnimObject();
     unsigned char layoutPadding18[0x18];
     TESBoundAnimObject();
-    void ReadTypedData(TESFile* file, void* buffer, unsigned short size);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESBoundAnimObject) == 0x30);

@@ -2,6 +2,13 @@
 // src/havok/physics/collide/agent/miscagent/bv/hkpbvagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/miscagent/bv/hkpbvagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00cfbbe0_cls.h"
+#include "fnv/symbols_00d45000.h"
+#include "fnv/symbols_00d46000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_01076000.h"
+#include "fnv/symbols_010ce000.h"
+#include "fnv/symbols_01268000.h"
 struct FUN_00d452a0_vtbl
 {
     virtual void v0();
@@ -34,14 +41,6 @@ void FUN_00d452a0::Method(float afValue, float agValue, void* arg)
         p2->v10(afValue, agValue, arg);
 }
 
-void __cdecl FUN_00d45f30();
-void __cdecl FUN_00d46010();
-void __cdecl FUN_00d46050();
-void __cdecl FUN_00d46090();
-void __cdecl FUN_00d45480();
-void __cdecl FUN_00d45dd0();
-void __cdecl FUN_00d45af0();
-void __cdecl FUN_00d45800();
 struct FUN_00cfbbe0_vtbl
 {
     void* v0;
@@ -53,26 +52,25 @@ struct FUN_00cfbbe0_vtbl
 };
 struct FUN_00cfbbe0
 {
-    void Method(FUN_00cfbbe0_vtbl* p, int a, int b);
 };
 // @fnv 0x00d45f80
 void __cdecl ConfigureVtblHandlers(FUN_00cfbbe0* p)
 {
     FUN_00cfbbe0_vtbl t1;
-    t1.v0 = (void*)FUN_00d45f30;
-    t1.v1 = (void*)FUN_00d46010;
-    t1.v2 = (void*)FUN_00d46050;
-    t1.v3 = (void*)FUN_00d46090;
+    t1.v0 = (void*)((void (&)())::fnv_00d45f30::FUN_00d45f30);
+    t1.v1 = (void*)((void (&)())::FUN_00d46010);
+    t1.v2 = (void*)((void (&)())::FUN_00d46050);
+    t1.v3 = (void*)((void (&)())::FUN_00d46090);
     t1.b1 = 1;
     t1.b2 = 1;
-    p->Method(&t1, -1, 0x1b);
-    t1.v0 = (void*)FUN_00d45480;
-    t1.v1 = (void*)FUN_00d45dd0;
-    t1.v2 = (void*)FUN_00d45af0;
-    t1.v3 = (void*)FUN_00d45800;
+    reinterpret_cast<::FUN_00cfbbe0_cls *>((p))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)(::FUN_00cfbbe0_vtbl *)(&t1), -1, 0x1b);
+    t1.v0 = (void*)((void (&)())::FUN_00d45480);
+    t1.v1 = (void*)((void (&)())::FUN_00d45dd0);
+    t1.v2 = (void*)((void (&)())::FUN_00d45af0);
+    t1.v3 = (void*)((void (&)())::FUN_00d45800);
     t1.b1 = 0;
     t1.b2 = 1;
-    p->Method(&t1, 0x1b, -1);
+    reinterpret_cast<::FUN_00cfbbe0_cls *>((p))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)(::FUN_00cfbbe0_vtbl *)(&t1), 0x1b, -1);
 }
 
 struct TargetVtbl
@@ -242,7 +240,6 @@ void D45350Agent::ProcessShapeChildren(const D45350CdBody& body, void* apArg1, v
     }
 }
 
-extern char DAT_010ce81c[];
 
 struct Functor_d46010
 {
@@ -251,7 +248,6 @@ struct Functor_d46010
     int m_uiFilterValue;
 };
 
-void __cdecl FUN_00d45dd0(int a, int b, int c, Functor_d46010* f);
 
 // Builds a Functor_d46010 with the given value and a false flag, then passes it with b, a and c to FUN_00d45dd0.
 // @fnv 0x00d46010
@@ -260,8 +256,8 @@ void __cdecl FUN_00d46010(int aiArg1, int aiArg2, int aiArg3, int aiValue)
     Functor_d46010 f;
     f.m_uiFilterValue = aiValue;
     f.m_flag = false;
-    f.m_vtbl = DAT_010ce81c;
-    FUN_00d45dd0(aiArg2, aiArg1, aiArg3, &f);
+    f.m_vtbl = (*reinterpret_cast<char (*)[]>(&::DAT_010ce81c));
+    ::FUN_00d45dd0((*(const ::S_00d45dd0_CdBody *)(aiArg2)), (*(const ::S_00d45dd0_CdBody *)(aiArg1)), (*(const ::S_00d45dd0_Input *)(aiArg3)), (*(::S_00d45dd0_CollectorBase *)(&f)));
 }
 
 struct FUN_00d452f0_vt
@@ -448,8 +444,6 @@ D45480Object* __cdecl FUN_00d45480(void* apArg1, void* apArg2, void* apArg3, voi
     return new D45480Object(apArg1, apArg2, apArg3, apArg4);
 }
 
-extern float DAT_0104da48;
-extern char DAT_010ce7fc;
 
 struct FUN_00d46050_cls
 {
@@ -463,10 +457,10 @@ struct FUN_00d46050_cls
 void __cdecl FUN_00d46050(int aiArg1, int aiArg2, int aiArg3, int aiValue)
 {
     FUN_00d46050_cls local;
-    local.f = DAT_0104da48;
+    local.f = ::DAT_0104da48;
     local.d = aiValue;
-    local.vt = &DAT_010ce7fc;
-    ((void(__cdecl*)(int, int, int, FUN_00d46050_cls*))FUN_00d45af0)(aiArg2, aiArg1, aiArg3, &local);
+    local.vt = &(*reinterpret_cast<char *>(&::DAT_010ce7fc));
+    ((void(__cdecl*)(int, int, int, FUN_00d46050_cls*))((void (&)())::FUN_00d45af0))(aiArg2, aiArg1, aiArg3, &local);
 }
 
 struct CallTarget_00d45350
@@ -492,7 +486,6 @@ struct FUN_00d461a0_Args
     int unk08;
 };
 
-extern char DAT_010ce81c[];
 
 struct FUN_00d461a0_Owner
 {
@@ -501,24 +494,10 @@ struct FUN_00d461a0_Owner
     int unk08;
     void* unk0c;
     void* unk10;
-    void FUN_00d45c50(int, int, int, void*);
     virtual void DispatchWithArgs(int, int, int, int);
 };
 
-// Builds an argument struct from DAT_010ce81c and a4, then forwards a2, a1, a3 and the struct to FUN_00d45c50.
-// @fnv 0x00d461a0
-void FUN_00d461a0_Owner::DispatchWithArgs(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
-{
-    FUN_00d461a0_Args l;
-    l.unk08 = aiArg4;
-    l.unk04 = 0;
-    l.unk00 = DAT_010ce81c;
-    this->FUN_00d45c50(aiArg2, aiArg1, aiArg3, &l);
-}
-
 namespace fnv_00d461e0 {
-extern void* DAT_010ce7fc;
-extern float DAT_0104da48;
 
 struct Rec
 {
@@ -539,8 +518,8 @@ void FUN_00d461e0_Cls::FUN_00d461e0(int aiArg1, int aiArg2, int aiArg3, int aiVa
 {
     Rec rec;
     rec.m_i = aiValue;
-    rec.m_f = DAT_0104da48;
-    rec.m_p = &DAT_010ce7fc;
+    rec.m_f = ::DAT_0104da48;
+    rec.m_p = &(*reinterpret_cast<void * *>(&::DAT_010ce7fc));
     GetPenetrations(aiArg2, aiArg1, aiArg3, &rec);
 }
 }  // namespace fnv_00d461e0
@@ -548,7 +527,6 @@ void FUN_00d461e0_Cls::FUN_00d461e0(int aiArg1, int aiArg2, int aiArg3, int aiVa
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern unsigned long DAT_0126835c;
 extern char DAT_010cebd0;
 
 struct MonStream
@@ -602,8 +580,6 @@ inline void TimerMark(const char* name)
 
 extern char DAT_010cf414[];
 extern char DAT_010cf404[];
-extern char DAT_010cec4c[];
-extern char DAT_01076f38[];
 
 struct BvShape
 {
@@ -682,7 +658,7 @@ void __cdecl FUN_00d45af0(CdBody* bodyA, CdBody* bodyB, CollisionInput* input, v
         entries = (DispatchEntry*)(table + 0x9a4);
         entries[table[(child.m_pCollisionShape->m_type + 13) * 32 + typeB]].m_fn1(&child, bodyB, input, collector);
     }
-    TimerMark(DAT_01076f38);
+    TimerMark(::str_01076f38);
 }
 
 struct S00d454c0_Input
@@ -765,7 +741,7 @@ void S00d454c0_Owner::FUN_00d454c0(CdBody* bodyA, CdBody* bodyB, S00d454c0_Input
         m_pCollisionAgent->cleanup(result->m_pConstraintOwner);
         m_pCollisionAgent = 0;
     }
-    TimerMark(DAT_01076f38);
+    TimerMark(::str_01076f38);
 }
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -781,7 +757,6 @@ extern "C"
     __m128 _mm_xor_ps(__m128, __m128);
 }
 
-extern __m128 DAT_010c4c00;
 
 struct SimplexVertex
 {
@@ -823,7 +798,6 @@ struct Simplex
 
 struct AgentBase
 {
-    void FUN_00d454c0(int a, int b, int c, Simplex* s);
 };
 
 struct Agent : AgentBase
@@ -837,7 +811,7 @@ void Agent::FUN_00d46220(int a, int b, int c, Simplex* apSimplex)
 {
     SimplexVertex* pVertex = apSimplex->m_kRayEnd;
     float oldDistance = apSimplex->m_fClosestPointDistanceSquared;
-    AgentBase::FUN_00d454c0(b, a, c, apSimplex);
+    reinterpret_cast<::S00d454c0_Owner *>(this)->FUN_00d454c0((::CdBody *)(b), (::CdBody *)(a), (::S00d454c0_Input *)(c), (::S00d454c0_Result *)(apSimplex));
     for (; pVertex < apSimplex->m_kRayEnd; pVertex++)
     {
         const __m128* pb = &pVertex->m_kPointB;
@@ -872,7 +846,6 @@ void Agent::FUN_00d46220(int a, int b, int c, Simplex* apSimplex)
     }
 }
 
-extern char DAT_010cebe0;
 
 struct __declspec(align(16)) D45800Collector
 {
@@ -886,8 +859,8 @@ struct __declspec(align(16)) D45800Collector
     D45800Collector()
     {
         m_vtbl = &DAT_010cebe0;
-        m_fClosestPointDistanceSquared = DAT_0104da48;
-        m_fEarlyOutDistance = DAT_0104da48;
+        m_fClosestPointDistanceSquared = ::DAT_0104da48;
+        m_fEarlyOutDistance = ::DAT_0104da48;
         m_bHasHit = false;
     }
 };
@@ -953,12 +926,9 @@ void __cdecl FUN_00d45800(CdBody* bodyA, CdBody* bodyB, CollisionInput* input, v
         fn = (CollideFn5)D45800Get(input, tmp.m_pCollisionShape, typeB);
         fn(&tmp, bodyB, input, c, d);
     }
-    D458Mark(DAT_01076f38, ticks);
+    D458Mark(::str_01076f38, ticks);
 }
 
-extern float DAT_0104da48;
-extern const __m128 DAT_010c44d0;
-extern unsigned int DAT_010ce80c;
 
 struct __declspec(align(16)) Key_d2e9
 {
@@ -988,7 +958,6 @@ struct Record_d2e9
     int m_uiFilterValue;
 };
 
-void __cdecl FUN_00d45800(int a1, int a2, Input_d2e9* input, Record_d2e9* rec, Record_d2e9* optRec);
 
 // Copies input, XORs its m_vComponents with DAT_010c44d0, builds a Record_d2e9 with a4, and calls FUN_00d45800 with a second record when a5 is non-zero.
 // @fnv 0x00d46090
@@ -998,27 +967,28 @@ void __cdecl FUN_00d46090(int a2, int a1, const Input_d2e9* input, int a4, int a
     local.m_vComponents = _mm_xor_ps(input->m_vComponents, DAT_010c44d0);
 
     Record_d2e9 rec;
-    rec.m_vtbl = &DAT_010ce80c;
-    rec.m_fScalar = DAT_0104da48;
+    rec.m_vtbl = &(*reinterpret_cast<unsigned int *>(&::UNK_010ce80c));
+    rec.m_fScalar = ::DAT_0104da48;
     rec.m_key = input->m_key;
     rec.m_uiFilterValue = a4;
 
     if (a5 != 0)
     {
         Record_d2e9 rec2;
-        rec2.m_vtbl = &DAT_010ce80c;
-        rec2.m_fScalar = DAT_0104da48;
+        rec2.m_vtbl = &(*reinterpret_cast<unsigned int *>(&::UNK_010ce80c));
+        rec2.m_fScalar = ::DAT_0104da48;
         rec2.m_key = input->m_key;
         rec2.m_uiFilterValue = a5;
-        FUN_00d45800(a1, a2, &local, &rec, &rec2);
+        ::FUN_00d45800((::CdBody *)(a1), (::CdBody *)(a2), (::CollisionInput *)(::Input_d2e9 *)(&local), &rec, &rec2);
     }
     else
     {
-        FUN_00d45800(a1, a2, &local, &rec, 0);
+        ::FUN_00d45800((::CdBody *)(a1), (::CdBody *)(a2), (::CollisionInput *)(::Input_d2e9 *)(&local), &rec, 0);
     }
 }
 
 #include <windows.h>
+#include "fnv/symbols_simd.h"
 
 struct S_00d45970_TimerCommand
 {
@@ -1259,7 +1229,6 @@ void S_00d45970_BvAgent::GetPenetrations(const S_00d45970_CdBody& bodyA, const S
     }
 }
 
-extern DWORD DAT_0126835c;
 
 struct S_00d45c50_TimerCommand
 {
@@ -1435,6 +1404,16 @@ struct S_00d45c50_BvAgent
     void FUN_00d45c50(const S_00d45c50_CdBody& bodyA, const S_00d45c50_CdBody& bodyB, const S_00d45c50_Input& input,
                       S_00d45c50_Output& result);
 };
+// Builds an argument struct from DAT_010ce81c and a4, then forwards a2, a1, a3 and the struct to FUN_00d45c50.
+// @fnv 0x00d461a0
+void FUN_00d461a0_Owner::DispatchWithArgs(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+{
+    FUN_00d461a0_Args l;
+    l.unk08 = aiArg4;
+    l.unk04 = 0;
+    l.unk00 = (*reinterpret_cast<char (*)[]>(&::DAT_010ce81c));
+    reinterpret_cast<::S_00d45c50_BvAgent *>((this))->FUN_00d45c50((*(const ::S_00d45c50_CdBody *)(aiArg2)), (*(const ::S_00d45c50_CdBody *)(aiArg1)), (*(const ::S_00d45c50_Input *)(aiArg3)), (*(::S_00d45c50_Output *)(&l)));
+}
 
 // Checks bounding volume penetration between two collision bodies and, on hit, dispatches the contained-shape collision agent to fill the output result.
 // @fnv 0x00d45c50
@@ -1499,7 +1478,6 @@ void S_00d45c50_BvAgent::FUN_00d45c50(const S_00d45c50_CdBody& bodyA, const S_00
     }
 }
 
-extern DWORD DAT_0126835c;
 
 struct S_00d45dd0_TimerCommand
 {
@@ -1790,8 +1768,6 @@ struct __declspec(align(16)) Vector228
 };
 extern "C" void _ReadWriteBarrier(void);
 
-extern DWORD DAT_0126835c;
-extern float DAT_0104da48;
 
 unsigned __int64 __cdecl __rdtsc(void);
 
@@ -1855,8 +1831,8 @@ class hkpSimpleClosestContactCollector : public hkpCdPointCollector
     Contact228 contact;
     hkpSimpleClosestContactCollector()
     {
-        contact.distance = DAT_0104da48;
-        m_fLimit = DAT_0104da48;
+        contact.distance = ::DAT_0104da48;
+        m_fLimit = ::DAT_0104da48;
         m_bOk = 0;
     }
     virtual ~hkpSimpleClosestContactCollector()
@@ -2074,7 +2050,6 @@ void* __cdecl FUN_00d45f30(int a1, int a2, int a3, int a4)
 
 extern "C" void _mm_store_ps(float*, __m128);
 
-extern float DAT_0104da48;
 
 struct __declspec(align(16)) Vec4
 {
@@ -2123,7 +2098,6 @@ struct __declspec(align(16)) Event
 
 struct Host
 {
-    void Dispatch(int a, int b, Block* blk, Event* ev, Event* ctx);
 };
 
 struct Owner
@@ -2136,24 +2110,24 @@ struct Owner
 void Owner::FUN_00d46340(int a1, int a2, const Block* p, int a4, int a5)
 {
     Event ev;
-    ev.m_fHitFraction = DAT_0104da48;
+    ev.m_fHitFraction = ::DAT_0104da48;
     Block blk = *p;
     ev.m_vec = p->m_vec;
     ev.m_kCollisionBody = a4;
     _mm_store_ps((float*)&blk.m_vec, _mm_xor_ps(*(const __m128*)&p->m_vec, DAT_010c44d0));
-    ev.vtbl = &DAT_010ce80c;
+    ev.vtbl = &(*reinterpret_cast<unsigned int *>(&::UNK_010ce80c));
 
     Event ctx;
     if (a5 != 0)
     {
-        ctx.vtbl = &DAT_010ce80c;
-        ctx.m_fHitFraction = DAT_0104da48;
+        ctx.vtbl = &(*reinterpret_cast<unsigned int *>(&::UNK_010ce80c));
+        ctx.m_fHitFraction = ::DAT_0104da48;
         ctx.m_vec = p->m_vec;
         ctx.m_kCollisionBody = a5;
-        reinterpret_cast<Host*>(this)->Dispatch(a2, a1, &blk, &ev, &ctx);
+        reinterpret_cast<::Agent228 *>((reinterpret_cast<Host*>(this)))->CheckBvShape((::BvA *)(a2), (::BvB *)(a1), (::BvC *)(::Block *)(&blk), (unsigned long)(&ev), (unsigned long)(&ctx));
     }
     else
     {
-        reinterpret_cast<Host*>(this)->Dispatch(a2, a1, &blk, &ev, 0);
+        reinterpret_cast<::Agent228 *>((reinterpret_cast<Host*>(this)))->CheckBvShape((::BvA *)(a2), (::BvB *)(a1), (::BvC *)(::Block *)(&blk), (unsigned long)(&ev), (unsigned long)(0));
     }
 }

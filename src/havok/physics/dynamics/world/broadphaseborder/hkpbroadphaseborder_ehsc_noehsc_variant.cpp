@@ -3,10 +3,25 @@
 // byte only under /MT /O2 /GS /EHs-c- /Gy (unit src/havok/physics/dynamics/world/broadphaseborder/hkpbroadphaseborder.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <new>
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00c91620_Class.h"
+#include "fnv/decl/FUN_00c936a0_World.h"
+#include "fnv/decl/FUN_00ca8420_Class.h"
+#include "fnv/decl/FUN_00cf2cb0.h"
+#include "fnv/decl/PhRemoveListener.h"
+#include "fnv/decl/SearchArray.h"
+#include "fnv/decl/World_RemovePhantomBatch.h"
+#include "fnv/decl/fnv_00c93920__hkpWorldXc93920.h"
+#include "fnv/decl/hkOwnerXd07de0.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkWorldXc91a70.h"
+#include "fnv/decl/hkpWorld_Listener.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00e10000.h"
 int __cdecl CompareByOffsetD4(const void* a, const void* b);
 struct hkReferencedObject
 {
-    void removeReference();
 };
 struct Item : hkReferencedObject
 {
@@ -20,11 +35,9 @@ struct Item : hkReferencedObject
     int unk20;
     int unk24;
     int unk28;
-    void FUN_00d07c80(void* owner);
 };
 struct Manager
 {
-    void FUN_00c95800(Item** entries, int count);
 };
 struct Collection
 {
@@ -45,14 +58,12 @@ struct AllocatorOwner
 struct DispatchItem;
 struct DispatchOwner
 {
-    void ProcessTarget(bool*, DispatchItem*);
 };
 struct DispatchItem
 {
     unsigned int unknown00;
     unsigned int unknown04;
     DispatchOwner* owner;
-    void FUN_00ca8420(unsigned char, unsigned char, unsigned char);
 };
 struct Dispatcher
 {
@@ -79,15 +90,11 @@ template <typename T> inline void S_00e10760_swap(T& x, T& y)
 }
 struct S_00e10760_Item;
 typedef bool (*S_00e10760_Less)(S_00e10760_Item* a, S_00e10760_Item* b);
-void FUN_00e10760(S_00e10760_Item** pArr, int d, int h, S_00e10760_Less cmpLess);
 struct OwnerDest
 {
-    void FUN_00c91a70(void* p);
-    void ClearValue(void* p);
 };
 struct NodeHdr
 {
-    void FUN_00c905b0();
 };
 struct FUN_00d0b530_cls
 {
@@ -100,8 +107,6 @@ struct FUN_00d0b530_cls
 };
 struct D0B630Entity;
 int __cdecl CompareByOffsetD4(const void* a, const void* b);
-void __cdecl FUN_00e10760(D0B630Entity** data, int lo, int hi, int(__cdecl* cmp)(const void*, const void*));
-void __cdecl FUN_00c90740(D0B630Entity** objects, int numObjects, int strideInBytes);
 class D0B630Primary
 {
   public:
@@ -151,10 +156,8 @@ struct D0B6A0MemoryRouter
     }
 };
 extern "C" D0B6A0MemoryRouter& __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void* alloc, void* array, int sizeElem);
 struct D0B6A0Entity
 {
-    void RetainReference() const;
 };
 struct D0B6A0Collidable
 {
@@ -200,7 +203,7 @@ struct D0B6A0EntityArray
     {
         D0B6A0Allocator& alloc = FUN_00c85750().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&alloc, this, sizeof(D0B6A0Entity*));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(D0B6A0Entity*));
         construct(m_data + m_iElementCount, 1, e);
         m_iElementCount++;
     }
@@ -476,9 +479,6 @@ struct hkpWorld
     int unk30c;
     hkVector4 m_broadPhaseExtentsMin;
     hkVector4 m_broadPhaseExtentsMax;
-    void FUN_00c93a60(void* listener);
-    void FUN_00c93920(void* listener);
-    void FUN_00c936a0(hkpPhantom* phantom);
 };
 
 struct hkReferencedObject
@@ -532,12 +532,10 @@ struct hkpPhantom : hkReferencedObject
     int m_parent;
     int m_iOwnerOffset;
     hkpTypedBroadPhaseHandle m_kBroadPhaseHandle;
-    void FUN_00d07de0(hkpPhantomOverlapListener* listener);
 };
 
 struct hkpAabbPhantom : hkpPhantom
 {
-    hkpAabbPhantom* FUN_00cf2cb0(const hkAabb& aabb, unsigned int collisionFilterInfo);
 };
 
 template <typename T> struct hkArray
@@ -555,15 +553,14 @@ struct hkpBroadPhaseBorder : hkReferencedObject,
                              hkpWorldPostSimulationListener
 {
     hkpBroadPhaseBorder(hkpWorld* world, int type, bool postponeAndSortCallbacks);
-    void FUN_00c90510();
     __forceinline void createPhantom(hkpWorld* world, const hkAabb& aabb, int i)
     {
         hkpAabbPhantom* phantom =
-            static_cast<hkpAabbPhantom*>(hkReferencedObject::operator new(0xe0))->FUN_00cf2cb0(aabb, 0);
+            ((::bpb::hkpAabbPhantom *)(new ((void *)(static_cast<hkpAabbPhantom*>(hkReferencedObject::operator new(0xe0)))) ::FUN_00cf2cb0((const ::Aabb_cf2c &)(aabb), 0)));
         phantom->m_kBroadPhaseHandle.setType(3);
-        phantom->FUN_00d07de0(this);
+        reinterpret_cast<::hkOwnerXd07de0 *>((phantom))->FUN_00d07de0(this);
         m_kPhantoms[i] = phantom;
-        world->FUN_00c936a0(phantom);
+        reinterpret_cast<::FUN_00c936a0_World *>((world))->FUN_00c936a0((::hkpPhantom *)(phantom));
     }
     hkpWorld* m_pOwningWorld;
     hkpPhantom* m_kPhantoms[6];
@@ -580,9 +577,9 @@ bpb::hkpBroadPhaseBorder::hkpBroadPhaseBorder(hkpWorld* world, int type, bool po
     m_type = type;
     m_pOwningWorld = world;
     m_bPostponeAndSortCallbacks = postponeAndSortCallbacks;
-    FUN_00c90510();
-    m_pOwningWorld->FUN_00c93a60(static_cast<hkpWorldDeletionListener*>(this));
-    m_pOwningWorld->FUN_00c93920(static_cast<hkpWorldPostSimulationListener*>(this));
+    reinterpret_cast<::FUN_00c90510_class *>(this)->FUN_00c90510();
+    reinterpret_cast<::hkpWorld_Listener *>((m_pOwningWorld))->FUN_00c93a60(static_cast<hkpWorldDeletionListener*>(this));
+    reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((m_pOwningWorld))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(void *)(static_cast<hkpWorldPostSimulationListener*>(this)));
 
     hkVector4 wMin = m_pOwningWorld->m_broadPhaseExtentsMin;
     hkVector4 wMax = m_pOwningWorld->m_broadPhaseExtentsMax;

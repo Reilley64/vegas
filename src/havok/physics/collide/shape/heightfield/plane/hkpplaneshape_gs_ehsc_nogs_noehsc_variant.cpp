@@ -5,14 +5,16 @@
 
 // src/havok/physics/collide/shape/heightfield/plane/hkpplaneshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/heightfield/plane/hkpplaneshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00c7f750_shell.h"
+#include "fnv/decl/FunctionContext.h"
+#include "fnv/symbols_00d26000.h"
+#include "fnv/symbols_01269000.h"
 #include "havok/hkpPlaneShape.h"
-void __cdecl FUN_00d26230(void*, void*, void*, float, int);
 struct FUN_00d552c0_StandIn
 {
     void FUN_00d552c0(void*, float, int);
 };
 class GlobalObjectO2_00d472a0;
-extern GlobalObjectO2_00d472a0 g_01269b84;
 class hkStatisticsCollectorD54F;
 class hkReferencedObjectD54F
 {
@@ -21,7 +23,6 @@ class hkReferencedObjectD54F
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 
-    void FUN_00c90360(hkStatisticsCollectorD54F* pkCollector, const GlobalObjectO2_00d472a0* pkClass) const;
 };
 class hkObjectD54F : public hkReferencedObjectD54F
 {
@@ -65,7 +66,6 @@ struct CollectorD54F90
     virtual void CollectRayHit(const CdBodyD54F90& kBody, const RayCastOutputD54F90& kOutput);
     float m_fEarlyOutHitFraction;
 };
-void __stdcall FUN_00c7f750(const void* pkTransform, Vector4D54F90& kNormal);
 struct ShapeD54F90
 {
     virtual void v00();
@@ -81,8 +81,7 @@ struct ShapeD54F90
 };
 
 #include <xmmintrin.h>
-extern __m128 DAT_010ec7f0;
-extern __m128 DAT_01017d10;
+#include "fnv/symbols_simd.h"
 
 struct SimdReal
 {
@@ -121,7 +120,7 @@ struct Vec4
     {
         __m128 tt = _mm_set1_ps(t);
         m_vComponents =
-            _mm_add_ps(_mm_mul_ps(_mm_sub_ps(DAT_010ec7f0, tt), a.m_vComponents), _mm_mul_ps(b.m_vComponents, tt));
+            _mm_add_ps(_mm_mul_ps(_mm_sub_ps(::DAT_010ec7f0, tt), a.m_vComponents), _mm_mul_ps(b.m_vComponents, tt));
     }
     void sub4(const Vec4& a)
     {
@@ -129,7 +128,7 @@ struct Vec4
     }
     void setAbs4(const Vec4& a)
     {
-        m_vComponents = _mm_and_ps(a.m_vComponents, DAT_01017d10);
+        m_vComponents = _mm_and_ps(a.m_vComponents, ::DAT_01017d10);
     }
     VecCompare compareLessThanEqual4(const Vec4& a) const
     {

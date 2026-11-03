@@ -2,6 +2,8 @@
 #ifndef FNV_NISTREAM_TYPES_H
 #define FNV_NISTREAM_TYPES_H
 
+#include "fnv/decl/FUN_00a64160_cls.h"
+#include "fnv/decl/FUN_00a64ce0_shell.h"
 #include "layout_support.h"
 #include "NiFixedString.h"
 #include "NiObject.h"
@@ -203,8 +205,6 @@ FNV_STATIC_ASSERT(offsetof(ProcessorAffinityInfo, m_uiProcessorAffinityMask) == 
 class NiStream
 {
   public:
-    void ReadStreamString(char*& string);
-    void WriteStreamString(const char* string);
     void** m_ppVirtualMethodTable;                                     // +0x0, 4 bytes
     BSStreamHeader m_kHeader;                            // +0x4, 196 bytes
     NiTPrimitiveArray_NiObjectGroup___ m_kObjectGroups;  // +0xC8, 16 bytes

@@ -5,6 +5,104 @@
 
 // src/fallout/ai/combat/explosion.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/explosion.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/BSFadeNode.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CellView.h"
+#include "fnv/decl/Cl537.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00422220_shell.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00458e20_shell.h"
+#include "fnv/decl/FUN_00477950_shell.h"
+#include "fnv/decl/FUN_004a0c90_shell.h"
+#include "fnv/decl/FUN_004fb810_shell.h"
+#include "fnv/decl/FUN_004fb970_class.h"
+#include "fnv/decl/FUN_004fd380_shell.h"
+#include "fnv/decl/FUN_00537e90.h"
+#include "fnv/decl/FUN_005471e0_shell.h"
+#include "fnv/decl/FUN_005616d0_Owner.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00622570_Class.h"
+#include "fnv/decl/FUN_00644930_shell.h"
+#include "fnv/decl/FUN_008d01e0_Class.h"
+#include "fnv/decl/FUN_009acd00_Class.h"
+#include "fnv/decl/FUN_009b1260_Class.h"
+#include "fnv/decl/FUN_009d9f40_Class.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FUN_00ad8b60_h.h"
+#include "fnv/decl/FUN_00c9c390_Class.h"
+#include "fnv/decl/FUN_00cbc920.h"
+#include "fnv/decl/HandlerView.h"
+#include "fnv/decl/Host096d450.h"
+#include "fnv/decl/ImageSpaceModifierInstanceForm.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MagicCaster_shell.h"
+#include "fnv/decl/MagicItem.h"
+#include "fnv/decl/MagicTarget.h"
+#include "fnv/decl/NiObject.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/Point3_0053d280.h"
+#include "fnv/decl/S_009b13a0_Cls.h"
+#include "fnv/decl/ScriptList.h"
+#include "fnv/decl/SoundPlayback.h"
+#include "fnv/decl/SoundPlaybackHandle.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TESObjectCELL.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/This_2.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_0042ce10__FUN_0042ce10_shell.h"
+#include "fnv/decl/fnv_0054ca90__Cell.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00932a00__FUN_00932a00_t.h"
+#include "fnv/decl/fnv_00932b70__FUN_00932b70_shell.h"
+#include "fnv/decl/fnv_009b2940__WaterActor.h"
+#include "fnv/decl/hkpEntityC9C.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00476000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_004a4000.h"
+#include "fnv/symbols_004b2000.h"
+#include "fnv/symbols_004b6000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00647000.h"
+#include "fnv/symbols_0066e000.h"
+#include "fnv/symbols_00689000.h"
+#include "fnv/symbols_008d1000.h"
+#include "fnv/symbols_009ad000.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00c9c000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01030000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011b2000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011d0000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01204000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
 struct ActorCause
 {
 };
@@ -23,13 +121,11 @@ struct Explosion
     virtual ~Explosion();
     void* Destroy(unsigned int flags);
 };
-void __cdecl _Deallocate(void*);
 struct NiRTTI;
 struct bhkLiquidAction
 {
     const NiRTTI* __thiscall GetRTTI() const;
 };
-extern NiRTTI g_01268420;
 struct NavMesh;
 struct NavMeshPtr
 {
@@ -46,14 +142,12 @@ struct FUN_009afc30_shell
 };
 struct BSOcclusionPlane
 {
-    int __thiscall GetCullResult() const;
     int __thiscall IsNotCulled();
 };
 struct FUN_009afbb0_shell
 {
     virtual ~FUN_009afbb0_shell();
     void* FUN_009afbb0(unsigned int flags);
-    void FUN_009afc10();
 };
 extern "C" void __cdecl FUN_009afbe0(void*);
 struct FUN_00621100_shell
@@ -76,10 +170,8 @@ struct FUN_009ac910_shell
     void __thiscall FUN_009ac940();
     void* __thiscall FUN_009ac910(unsigned int flags);
 };
-void __cdecl _delete(void*, unsigned int);
 struct FUN_00cbc920_shell
 {
-    void __thiscall FUN_00cbc920();
 };
 struct StandIn
 {
@@ -92,7 +184,6 @@ struct Twin_0084d030
 struct GameTimerRecord : Twin_0084d030
 {
 };
-extern GameTimerRecord g_timeGlobal;
 struct VCall190
 {
     virtual void f0(float);
@@ -295,7 +386,6 @@ struct FUN_009ae580_shell : VCall190
 };
 struct BSAudio
 {
-    void* GetAudioBackendData();
 };
 BSAudio* __cdecl _FUN_00c85750();
 struct UnkObj
@@ -307,7 +397,6 @@ struct UnkObj
 void __cdecl FUN_009afbe0(void* a1);
 struct H00622570
 {
-    void __thiscall FUN_00622570(bool);
 };
 struct S009afc70
 {
@@ -366,7 +455,6 @@ template <typename T> class BSSimpleList
 };
 struct TESDataHandler
 {
-    BSSimpleList<BGSRagdoll*>* __thiscall GetBGSRagdollList();
 };
 struct FUN_009b0d30_shell
 {
@@ -414,27 +502,25 @@ struct RetObj
     virtual void vf36();
     virtual bool vf37();
 };
+class TESActorBase;
 struct Actor
 {
-    RetObj* _FNV_GetObjectReference();
     bool FUN_00565690();
+public:
+    ::TESActorBase *GetActorBase();
 };
 struct Standin77900
 {
-    bool __thiscall HasAnyFlags(int);
 };
 struct Setting_S
 {
-    float* __thiscall Float();
 };
-extern Setting_S originalRuntimeFloatSetting818;
 struct BGSExplosion : Standin77900
 {
     char _pad[0xA0];
     float m_fSphereRadius;
     float __thiscall GetScaledValue();
 };
-extern const float runtimeFloatSettingDefault247;
 struct FUN_009ae0f0
 {
     char _pad[8];
@@ -442,19 +528,15 @@ struct FUN_009ae0f0
     float mC;
     float m10;
     float m14;
-    void __thiscall FUN_00537bb0();
     FUN_009ae0f0();
 };
 void* __cdecl operator new(unsigned int);
 struct BGSLoadFormBuffer
 {
     virtual unsigned char GetVersion();
-    void ReadTypedData(void* apData, unsigned int auiSize);
-    bool ReadFormIdentifier(void* apFormID);
 };
 struct BGSLoadGameBuffer
 {
-    unsigned int ReadFormIdentifier();
 };
 class TESForm
 {
@@ -464,8 +546,6 @@ class TESForm
 class TESObjectWEAP : public TESForm
 {
 };
-TESForm* GetFormByID(unsigned int);
-ActorCause* FindStateByValue(int);
 struct FUN_00825ad0
 {
     unsigned int unk00;
@@ -515,7 +595,6 @@ struct MobileObject_9b22c0
     unsigned int unk7C;
     unsigned int unk80;
     unsigned int unk84;
-    void FUN_00932a00(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 struct FUN_009b22c0_shell : MobileObject_9b22c0
 {
@@ -559,9 +638,6 @@ struct Vec3f
     float y;
     float z;
 };
-extern const float g_fConst010162c0;
-void* __fastcall Callee00439e90(void* p);
-void* __fastcall Callee0053d280(void* p);
 struct FUN_005762b0_cls
 {
     virtual void vf0()
@@ -824,14 +900,12 @@ struct FUN_005762b0_cls
     }
     int FUN_005762b0(int a1);
 };
-extern Setting_S originalRuntimeFloatSetting818;
 struct FUN_009ac550_cls : Standin77900
 {
     char _pad[0x8b];
     float m_8C;
     float GetEffectiveValue();
 };
-extern int g_ae140Count;
 struct Ae140Vec
 {
     int unk00;
@@ -839,7 +913,6 @@ struct Ae140Vec
     int unk08;
     Ae140Vec();
 };
-extern Ae140Vec g_ae140Default;
 struct Ae140Base
 {
     virtual ~Ae140Base();
@@ -867,7 +940,6 @@ struct VectorHolder
 {
     unsigned int handle;
     void __thiscall FUN_006815c0();
-    void __thiscall FUN_00537e90(unsigned int);
     VectorHolder()
     {
         FUN_006815c0();
@@ -896,7 +968,6 @@ struct FUN_009afca0_holder
 {
     void __thiscall InvokeCallback(void* param);
 };
-extern void(__cdecl* g_01268430)(void* param, void* thisptr);
 struct EntryRecord
 {
     int category;
@@ -906,7 +977,6 @@ struct EntryRecord
 struct SearchNode
 {
     EntryRecord** FUN_006815c0();
-    SearchNode* FUN_00726070();
     bool FUN_008256d0();
 };
 struct MobileObjectBase
@@ -928,9 +998,6 @@ class TESForm;
 class TESObjectREFR : public TESForm
 {
 };
-TESForm* GetFormByID(unsigned int);
-void* LookupThing18(void*);
-void* LookupThing1C(void*);
 struct CasterData
 {
     unsigned int unk00;
@@ -1139,8 +1206,6 @@ struct ExplosionBase
     virtual void v191();
     virtual void v192();
     virtual void OnLinksResolved();
-    void BaseFinishLoad(void* apBuffer);
-    bool IsReadyCheck();
 };
 struct Explosion_9b25b0 : ExplosionBase
 {
@@ -1228,7 +1293,6 @@ struct GlobalObject_0042f730
     GlobalObject_0042f730(void* p);
     ~GlobalObject_0042f730();
     int m_ptr;
-    void FUN_0042f780(void* p);
 };
 struct GlobalObject_006815c0
 {
@@ -1237,7 +1301,6 @@ struct GlobalObject_006815c0
     float y;
     float z;
 };
-extern "C" Vec3f NiPoint3_ZERO;
 struct Base1_9abf30
 {
     virtual ~Base1_9abf30();
@@ -1318,7 +1381,6 @@ struct FUN_009abf30 : FUN_0092eb50
     virtual ~FUN_009abf30();
 };
 // When the reference's 3D is loaded, run a world update on its root node with the current time.
-extern float g_fB17A0CurrentTime;
 class B17A0UpdateData
 {
   public:
@@ -1334,7 +1396,6 @@ class B17A0UpdateData
 class B17A0Node
 {
   public:
-    void Update(const B17A0UpdateData& kData);
 };
 class B17A0Ref
 {
@@ -1457,7 +1518,6 @@ class B17A0Ref
     virtual void Unk1CC();
     virtual B17A0Node* Get3D();
 
-    bool Is3DLoaded();
     void Update3D(int iUnused);
 };
 // FUN_009b2790 v01 - worker7 data round
@@ -1474,13 +1534,11 @@ struct Holder0042f780
 };
 struct HeadW7
 {
-    void* FUN_009ac910(unsigned int flags);
 };
 struct ListW7
 {
     int m_00;
     bool _ref_008256d0();
-    HeadW7** _ref_006815c0();
     void _ref_0063f7b0();
 };
 struct Vec3W7
@@ -1489,7 +1547,6 @@ struct Vec3W7
     float y;
     float z;
 };
-extern Vec3W7 __NiPoint3_ZERO;
 struct OwnerW7 : MobileObject
 {
     int f04;
@@ -1564,13 +1621,19 @@ struct NiPoint3
 {
     float x, y, z;
     NiPoint3 operator-(const NiPoint3&) const;
-    float Length() const;
+public:
+    bool FUN_004390c0(const ::NiPoint3 &);
+public:
+    float GetLengthSquared();
+public:
+    float ComputeMagnitude() const;
+public:
+    static const ::NiPoint3 ZERO;
 };
 struct MatrixWater
 {
     float xx, xy, xz, yx, yy, yz, zx, zy, zz;
     MatrixWater();
-    void FUN_004a0c90(float);
 };
 struct AutoMemContext
 {
@@ -1580,9 +1643,7 @@ struct AutoMemContext
 };
 struct SaveX
 {
-    bool FUN_0042ce10();
 };
-extern SaveX* g_BGSSaveLoadGame;
 struct HighProcess
 {
     int unk000;
@@ -1936,10 +1997,6 @@ struct SceneX
     virtual void v61();
     virtual void v62();
     virtual void v63();
-    void FUN_00450f90(bool);
-    void FUN_00476ab0();
-    void FUN_00440460(const NiPoint3&);
-    void FUN_00a5a040();
 };
 struct IdFlagState
 {
@@ -1947,37 +2004,21 @@ struct IdFlagState
     IdFlagState();
     ~IdFlagState();
     void operator=(const IdFlagState&);
-    bool FUN_00ad8ce0();
-    bool FUN_00ad8b60(float, float, float);
-    bool FUN_00ad8830(bool);
 };
 struct AudioX
 {
-    IdFlagState FUN_00ad7550(const char*, unsigned);
 };
-AudioX* FUN_00453a70();
 struct SettingX
 {
-    float* FUN_00403e20();
-    int* FUN_0043d4d0();
     unsigned char* FUN_00408d60();
-    const char* FUN_00403df0();
 };
-extern SettingX DAT_011d0520, DAT_011d0280, DAT_011d0da4, DAT_011d0ce4, DAT_011d0a78, DAT_011c7ae8;
+extern SettingX DAT_011c7ae8;
 struct RefX;
 struct BaseX
 {
-    void* FUN_004fd380();
-    float GetScaledValue();
-    float FUN_008d01e0();
-    int* FUN_004fb810();
 };
 struct CellX
 {
-    void RemoveReference(RefX*);
-    void AddReference(RefX*, bool);
-    SceneX* FUN_005497a0();
-    float FUN_005471e0();
 };
 struct ActorProcX
 {
@@ -2048,11 +2089,11 @@ struct ActorProcX
 };
 struct ActorX
 {
-    ActorProcX* FUN_008d8520();
+public:
+    void FUN_009b1090();
 };
 struct ActorPtrX
 {
-    ActorX* FUN_00559450();
 };
 struct RefX
 {
@@ -2233,67 +2274,33 @@ struct RefX
     int unkD4;
     bool disabled;
 
-    BaseX* FUN_004181e0();
-    float FUN_00644930();
-    void FUN_009b2940();
-    void FUN_009ad670();
-    bool IsNotCulled();
-    void FUN_009acd00();
-    void* FUN_00575d70();
-    CellX* FUN_008d6f30();
-    const NiPoint3& FUN_00430830();
-    void FUN_009b13a0();
-    struct ExtraX* FUN_005d43c0();
-    void UpdateCastSound();
-    unsigned FUN_009ad610();
-    void FUN_009b1090();
-    unsigned char GetByteAtOffsetD9();
     void UpdateExplosion();
 };
-extern RefX* DAT_011dea3c;
 struct ExtraX
 {
-    void FUN_00422220(float);
 };
 struct HandlerX
 {
-    void PlaceObjectReference(void*, const NiPoint3&, const NiPoint3&, CellX*, void*, int, int, int);
 };
-extern HandlerX* DAT_011c3f2c;
 struct ProcessListsX
 {
-    void FUN_0096d450(RefX*, int, bool, int, bool);
 };
-extern ProcessListsX DAT_011e0e80;
 struct ListX
 {
-    void FUN_0076b660(RefX* const&);
 };
 extern ListX DAT_011c7b8c;
 struct TesX
 {
-    void FUN_00458e20(SceneX*, float);
 };
-extern TesX* DAT_011dea10;
 struct ImageSpaceEffectParam
 {
     float r, g, b, a;
     ImageSpaceEffectParam(float, float, float, float);
 };
-SceneX* CreateOctahedron(float, const ImageSpaceEffectParam*, int);
-void* FUN_009ad630();
-void FUN_005299a0(void*, float, SceneX*);
-float ComputeSquaredRatioComplement(float, float);
-float GetAnimValueByPrefix(SceneX*, const char*, const char*);
-void UpdateDistanceFade(float, const NiPoint3&);
-float FUN_004a4240();
-void FUN_00689210(CellX*, float, const char*, MatrixWater, NiPoint3, float, int, int);
 
 struct MemoryManager
 {
-    void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 
 struct Node00cbd500
 {
@@ -2306,7 +2313,7 @@ struct Node00cbd500
 void __stdcall FUN_00cbd500(Node00cbd500* p)
 {
     p->unk08 = 0;
-    g_memoryManager.Deallocate(p);
+    reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
 }
 
 #include <math.h>
@@ -2320,7 +2327,6 @@ struct LiquidVec
 
     bool __thiscall FUN_004390c0(const LiquidVec&);
 
-    float __thiscall FUN_00457910();
 
     bool operator==(LiquidVec v) const
     {
@@ -2368,7 +2374,6 @@ struct LiquidVec
     }
 };
 
-extern const float DAT_01016248;
 
 struct LiquidVecOf : LiquidVec
 {
@@ -2506,7 +2511,6 @@ struct LiquidOwner
 
 struct LiquidCast
 {
-    LiquidOwner* __thiscall FUN_00653290(const void*);
 };
 
 struct __declspec(align(8)) LiquidResult
@@ -2515,23 +2519,17 @@ struct __declspec(align(8)) LiquidResult
     unsigned high;
 };
 
-extern const unsigned DAT_01267b70, DAT_012043f8;
 
 LiquidResult* __cdecl FUN_00c85ef0(LiquidResult*, void*, const void*);
 
-__declspec(noalias) LiquidVec& __cdecl FUN_00458620(LiquidVec*, const LiquidFour*);
 
-LiquidVec& __cdecl FUN_004a3970(LiquidVec*, const LiquidFour*);
 
-extern const LiquidVec DAT_011f426c, DAT_011a9484;
 
-extern const LiquidFour DAT_01267e30;
 
 extern float DAT_011b2178, DAT_011b217c, DAT_011b2180, DAT_011b2184, DAT_011b2188, DAT_011b218c;
 
 extern float DAT_01268428;
 
-extern const double DAT_01012070, DAT_01011598;
 
 extern unsigned char DAT_0126842c;
 
@@ -2809,9 +2807,7 @@ struct LiquidRigid
 
     void __thiscall FUN_00c9c1d0();
 
-    int __thiscall FUN_00c9c380();
 
-    LiquidConstraint* __thiscall GetEntry(int);
 };
 
 struct LiquidWorld
@@ -2934,12 +2930,11 @@ struct LiquidBody
     unsigned unk04;
     LiquidRigid* object;
 
-    void __thiscall FUN_00a29680();
 
     __forceinline void CopyPosition(LiquidVec& out)
     {
         LiquidFour v;
-        FUN_00458620(&out, &GetPosition(v));
+        ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&out)), (*(const ::hkVector4 *)(&GetPosition(v))));
     }
 };
 
@@ -2953,10 +2948,8 @@ struct LiquidNode
 
 struct LiquidMap
 {
-    __declspec(noalias) bool __thiscall FUN_00a53c30(LiquidTarget*, LiquidNode*&);
 };
 
-extern LiquidMap DAT_011b2190;
 
 struct LiquidActionCandidate
 {
@@ -3001,12 +2994,12 @@ __forceinline float LiquidPick(bool c, float a, float b)
 
 __forceinline float LiquidMin(float v, float m)
 {
-    return v > DAT_01012070 ? m : v;
+    return v > ::g_01012070 ? m : v;
 }
 
 __forceinline float LiquidMax(float v, float m)
 {
-    return v < DAT_01011598 ? m : v;
+    return v < ::DAT_01011598 ? m : v;
 }
 
 __declspec(noinline) bool LiquidVec::FUN_004390c0(const LiquidVec& p)
@@ -3023,7 +3016,7 @@ void LiquidActionCandidate::FUN_00cbccb0(float delta)
 {
 
     LiquidVec force;
-    force = DAT_011f426c;
+    force = (*reinterpret_cast<const ::LiquidVec *>((void *)&::NiPoint3::ZERO));
 
     LiquidLink* link = GetLink0();
 
@@ -3042,12 +3035,12 @@ void LiquidActionCandidate::FUN_00cbccb0(float delta)
 
                 LiquidRigid* obj = body->object;
 
-                LiquidCast* found = FUN_00c85ef0(&lookup, obj, &DAT_01267b70)->object;
+                LiquidCast* found = FUN_00c85ef0(&lookup, obj, &(*reinterpret_cast<const unsigned int *>(&::g_01267b70)))->object;
 
                 if (found)
                 {
 
-                    LiquidOwner* other = found->FUN_00653290(&DAT_012043f8);
+                    LiquidOwner* other = ((::LiquidOwner *)(reinterpret_cast<::NiObject *>((found))->DynamicCast((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<const unsigned int *>(&::g_012043f8))))));
 
                     if (other && other->unk08)
                     {
@@ -3070,17 +3063,17 @@ void LiquidActionCandidate::FUN_00cbccb0(float delta)
 
             bool hasNormal = false;
 
-            LiquidFour velocity = object ? object->velocity : DAT_01267e30;
+            LiquidFour velocity = object ? object->velocity : (*reinterpret_cast<const ::LiquidFour *>(&::DAT_01267e30));
 
             LiquidContact contact;
 
-            if (object && object->FUN_00c9c380() && position.FUN_004390c0(DAT_011f426c))
+            if (object && ::FUN_00c9c380((void *)(object), {}) && reinterpret_cast<::NiPoint3 *>(&(position))->FUN_004390c0((const ::NiPoint3 &)((*reinterpret_cast<const ::LiquidVec *>((void *)&::NiPoint3::ZERO)))))
             {
 
-                for (int i = 0; position.FUN_004390c0(DAT_011f426c) && i < object->FUN_00c9c380(); ++i)
+                for (int i = 0; reinterpret_cast<::NiPoint3 *>(&(position))->FUN_004390c0((const ::NiPoint3 &)((*reinterpret_cast<const ::LiquidVec *>((void *)&::NiPoint3::ZERO)))) && i < ::FUN_00c9c380((void *)(object), {}); ++i)
                 {
 
-                    LiquidConstraint* c = object->GetEntry(i);
+                    LiquidConstraint* c = ((::LiquidConstraint *)(reinterpret_cast<::FUN_00c9c390_Class *>((object))->GetEntry(i)));
 
                     LiquidConstraintData* d = c->data;
 
@@ -3111,9 +3104,9 @@ void LiquidActionCandidate::FUN_00cbccb0(float delta)
                                 if (contact.NormalZ() < 0.5f)
                                 {
 
-                                    FUN_00458620(&position, &contact.position);
+                                    ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&position)), (*(const ::hkVector4 *)(&contact.position)));
 
-                                    FUN_004a3970(&normal, &contact.normal);
+                                    ::FUN_004a3970((*(::NiPoint3_local *)(&normal)), (*(const ::hkVector4 *)(&contact.normal)));
 
                                     velocity.value = _mm_setr_ps(0.0f, 0.0f, 0.0f, 0.0f);
                                 }
@@ -3125,7 +3118,7 @@ void LiquidActionCandidate::FUN_00cbccb0(float delta)
 
             float damping;
 
-            if (!(position == DAT_011f426c))
+            if (!(position == (*reinterpret_cast<const ::LiquidVec *>((void *)&::NiPoint3::ZERO))))
             {
 
                 LiquidVec difference = position;
@@ -3175,18 +3168,18 @@ void LiquidActionCandidate::FUN_00cbccb0(float delta)
             if (world)
             {
 
-                body->FUN_00a29680();
+                ::FUN_00a29680();
 
-                world->OnTrigger(velocity);
+                reinterpret_cast<::FUN_005616d0_Owner *>((world))->OnTrigger((::TriggerContext *)&(velocity));
 
-                body->FUN_00a29680();
+                ::FUN_00a29680();
             }
 
             {
 
                 LiquidNode* node = 0;
 
-                DAT_011b2190.FUN_00a53c30(target, node);
+                reinterpret_cast<::A54440Hash *>(&((*reinterpret_cast<::LiquidMap *>(&::DAT_011b2190))))->FUN_00a53c30((::A54440Manager *)(target), (::A54440Manager **)&(node));
 
                 for (; node; node = node->next)
                 {
@@ -3214,16 +3207,16 @@ void LiquidActionCandidate::FUN_00cbccb0(float delta)
 
                     difference -= otherPos;
 
-                    float distance = difference.FUN_00457910();
+                    float distance = reinterpret_cast<::NiPoint3 *>(&(difference))->GetLengthSquared();
 
                     if (distance > 0 && radius + radius > distance)
                     {
 
                         float ratio = (radius - distance) / (radius * DAT_011b2178);
 
-                        float hi = ratio > DAT_01012070 ? 1.0f : ratio;
+                        float hi = ratio > ::g_01012070 ? 1.0f : ratio;
 
-                        float lo = hi < DAT_01011598 ? -0.5f : hi;
+                        float lo = hi < ::DAT_01011598 ? -0.5f : hi;
 
                         float scale = strength * lo;
 
@@ -3251,7 +3244,7 @@ void LiquidActionCandidate::FUN_00cbccb0(float delta)
             {
 
                 float neg = -impulse;
-                LiquidVec push = DAT_011a9484 * neg;
+                LiquidVec push = (*reinterpret_cast<const ::LiquidVec *>((void *)&::DAT_011a9484)) * neg;
 
                 LiquidVec rotated = {
 
@@ -3278,7 +3271,7 @@ void LiquidActionCandidate::FUN_00cbccb0(float delta)
 
             owner->force = result;
 
-            if (!(force == DAT_011f426c))
+            if (!(force == (*reinterpret_cast<const ::LiquidVec *>((void *)&::NiPoint3::ZERO))))
             {
 
                 LiquidRigid* world = body->object;
@@ -3286,11 +3279,11 @@ void LiquidActionCandidate::FUN_00cbccb0(float delta)
                 if (world)
                 {
 
-                    body->FUN_00a29680();
+                    ::FUN_00a29680();
 
-                    world->FUN_00c9c1d0();
+                    reinterpret_cast<::hkpEntityC9C *>((world))->FUN_00c9c1d0();
 
-                    body->FUN_00a29680();
+                    ::FUN_00a29680();
                 }
             }
         }

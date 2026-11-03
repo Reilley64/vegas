@@ -3,6 +3,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <xmmintrin.h>
+#include "fnv/decl/FUN_00dd50f0_cls.h"
+#include "fnv/decl/FUN_00dd5150_cls.h"
 struct InitArg;
 
 struct SubFirst
@@ -14,7 +16,6 @@ struct SubFirst
     int m_i10;
     int m_i14;
 
-    void FUN_00dd50f0(InitArg* apArg);
 };
 
 struct SubSecond
@@ -28,7 +29,6 @@ struct SubSecond
     int m_i18;
     int m_i1c;
 
-    void FUN_00dd5150(InitArg* apArg);
 };
 
 struct FUN_00dd4bf0
@@ -52,8 +52,8 @@ struct FUN_00dd4bf0
 // @fnv 0x00dd4bf0
 FUN_00dd4bf0::FUN_00dd4bf0(InitArg* apArg)
 {
-    m_kFirst.FUN_00dd50f0(apArg);
-    m_kSecond.FUN_00dd5150(apArg);
+    reinterpret_cast<::FUN_00dd50f0_cls *>(&(m_kFirst))->FUN_00dd50f0((int)(apArg));
+    reinterpret_cast<::FUN_00dd5150_cls *>(&(m_kSecond))->FUN_00dd5150((int)(apArg));
 
     m_fCoefficientA = 0.5f;
     m_fB = 0.2f;

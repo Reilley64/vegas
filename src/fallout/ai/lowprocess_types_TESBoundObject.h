@@ -1,6 +1,7 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef FNV_TESBOUNDOBJECT_H
 #define FNV_TESBOUNDOBJECT_H
+#include "fnv/decl/FUN_0046f070_shell.h"
 #include "lowprocess_support.h"
 #include "lowprocess_TESForm.h"
 class ShortPoint3;
@@ -125,5 +126,4 @@ FNV_STATIC_ASSERT(offsetof(TESBoundObject, TESBoundObjectBounds) == 36);
 class TESObjectLIGH : public TESBoundObject
 {
   public:
-    bool FUN_0046f070();
 };

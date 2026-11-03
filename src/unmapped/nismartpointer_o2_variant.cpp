@@ -4,18 +4,19 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00a311e0_s.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00e80000.h"
+#include "fnv/symbols_011f6000.h"
 struct Elem
 {
     char data[0x68];
 };
 
-Elem* AllocElems(unsigned int count);
 
 struct Heap
 {
-    void* Allocate(unsigned int size);
 };
-extern Heap g_heap_11f6238;
 
 struct Block
 {
@@ -28,7 +29,7 @@ struct Block
         m_uiItemCount = count;
         m_next = 0;
         if (count > 0)
-            m_items = AllocElems(count);
+            m_items = ((::Elem *)(::FUN_00e80390(count)));
         else
             m_items = 0;
     }
@@ -50,11 +51,10 @@ struct ElemPtrArray
     unsigned int m_iElementCount;
     Block* m_kBlocks;
 
-    void SetCapacity(unsigned int cap);
     void Add(Elem* e)
     {
         if (m_iElementCount == m_pRayCursor)
-            SetCapacity(m_pRayCursor > 0 ? m_pRayCursor * 2 : 1);
+            reinterpret_cast<::FUN_00a311e0_s *>(this)->FUN_00a311e0(m_pRayCursor > 0 ? m_pRayCursor * 2 : 1);
         m_data[m_iElementCount] = e;
         ++m_iElementCount;
     }
@@ -64,7 +64,7 @@ struct ElemPtrArray
 // @fnv 0x00e80420
 void ElemPtrArray::FUN_00e80420(unsigned int count)
 {
-    void* mem = g_heap_11f6238.Allocate(sizeof(Block));
+    void* mem = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::Heap *>(&::g_memoryManager))))->FUN_00aa3e40(sizeof(Block));
     Block* blk = mem ? new (mem) Block(count) : 0;
     for (unsigned int i = 0; i < count; ++i)
         Add(blk->GetAt(i));

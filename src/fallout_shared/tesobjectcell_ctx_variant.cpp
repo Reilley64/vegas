@@ -1,10 +1,43 @@
 
 // tesobjectcell_ctx_variant.cpp: context variant of src/fallout_shared/tesobjectcell.cpp: its stripped skeleton, as these functions were checked
 // against, for verified matches whose own declarations clash with the unit's current types.
+#include <new>
+#include "fnv/decl/BGSImpactData.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CellLike.h"
+#include "fnv/decl/CollectionView.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_004120b0_shell.h"
+#include "fnv/decl/FUN_00418660_shell.h"
+#include "fnv/decl/FUN_00421c30_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00458400_cls.h"
+#include "fnv/decl/FUN_004610d0_shell.h"
+#include "fnv/decl/FUN_005445d0_shell.h"
+#include "fnv/decl/FUN_00544600_shell.h"
+#include "fnv/decl/FUN_00545cb0_shell.h"
+#include "fnv/decl/FUN_00558b40_shell.h"
+#include "fnv/decl/FUN_00558b80_shell.h"
+#include "fnv/decl/FUN_009604f0_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_0042ce10__FUN_0042ce10_shell.h"
+#include "fnv/decl/fnv_00545960__S.h"
+#include "fnv/decl/fnv_00558b60__FUN_00558b60_shell.h"
+#include "fnv/decl/fnv_005656d0__Thing.h"
+#include "fnv/decl/fnv_00569ac0__FUN_00569ac0_shell.h"
+#include "fnv/decl/fnv_0056a250__FUN_0056a250_shell.h"
+#include "fnv/decl/fnv_00587870__OverlapHolder.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00541000.h"
+#include "fnv/symbols_0054f000.h"
+#include "fnv/symbols_011c9000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011dd000.h"
 #include "tesobjectcell_packet.h"
 void __cdecl operator delete(void* pointer);
 const char kTESObjectCELLCellRefLockEnter[] = "TESObjectCELL::CellRefLockEnter()";
-unsigned int FUN_0054f4c0();
 NiAVObject* FUN_0054f4f0();
 
 template <> class BSSimpleList<TESObjectREFR*>
@@ -14,8 +47,6 @@ template <> class BSSimpleList<TESObjectREFR*>
     BSSimpleList* next;
     BSSimpleList();
     ~BSSimpleList();
-    TESObjectREFR*& GetItem();
-    BSSimpleList* GetNext();
     bool FUN_008256d0();
     void AddHead(TESObjectREFR* const& item);
 };
@@ -50,14 +81,11 @@ struct CellC4Holder
 class BGSSaveLoadGame
 {
   public:
-    bool FUN_0042ce10();
 };
-extern BGSSaveLoadGame* g_BGSSaveLoadGame;
 
 class TESForm
 {
   public:
-    bool GetDeleted() const;
 };
 
 class FUN_00439f90_shell
@@ -69,37 +97,31 @@ class FUN_00439f90_shell
 class FUN_00569ac0_shell
 {
   public:
-    TESObjectREFR* FUN_00569ac0();
 };
 
 class FUN_005656d0_shell
 {
   public:
-    bool FUN_005656d0();
 };
 
 class FUN_0056a250_shell
 {
   public:
-    bool FUN_0056a250();
 };
 
 class FUN_00545740_shell
 {
   public:
-    void GetOrCreateFaceGenNode(TESObjectREFR*);
 };
 
 class FUN_00545960_shell
 {
   public:
-    void* FUN_00545960(TESObjectREFR*);
 };
 
 class FUN_00587870_shell
 {
   public:
-    BSSimpleList<TESObjectREFR*>* FUN_00587870(TESObjectCELL*);
 };
 
 class BSSimpleList_standin
@@ -254,17 +276,17 @@ void Cell_Sub::FUN_00544ce0()
     }
     CellRefLockEnter();
     BSSimpleList<TESObjectREFR*> localList9;
-    BSSimpleList<TESObjectREFR*>* iter = (BSSimpleList<TESObjectREFR*>*)FUN_009604f0();
+    BSSimpleList<TESObjectREFR*>* iter = (BSSimpleList<TESObjectREFR*>*)((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
     while (iter != 0 && !iter->FUN_008256d0())
     {
-        TESObjectREFR* item5 = iter->GetItem();
-        iter = iter->GetNext();
-        if (!((TESForm*)item5)->GetDeleted() || g_BGSSaveLoadGame->FUN_0042ce10())
+        TESObjectREFR* item5 = ((::TESObjectREFR *)(new ((void *)(iter)) ::Vec3()));
+        iter = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
+        if (!reinterpret_cast<::FUN_00440d80_shell *>((void *)(((TESForm*)item5)))->FUN_00440d80() || reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>((::g_BGSSaveLoadGame))->FUN_0042ce10())
         {
             if (((FUN_00439f90_shell*)item5)->FUN_00439f90())
             {
-                ((FUN_00545740_shell*)this)->GetOrCreateFaceGenNode(item5);
-                if (((FUN_00569ac0_shell*)item5)->FUN_00569ac0())
+                reinterpret_cast<::CellLike *>((((FUN_00545740_shell*)this)))->GetOrCreateFaceGenNode((::RefForm *)(item5));
+                if (reinterpret_cast<::fnv_00569ac0::FUN_00569ac0_shell *>((((FUN_00569ac0_shell*)item5)))->FUN_00569ac0())
                 {
                     localList9.AddHead(item5);
                 }
@@ -273,26 +295,26 @@ void Cell_Sub::FUN_00544ce0()
             {
                 if (!((PolymorphicRef*)item5)->Unk_40())
                 {
-                    if (((FUN_005656d0_shell*)item5)->FUN_005656d0())
+                    if (reinterpret_cast<::fnv_005656d0::Thing *>((((FUN_005656d0_shell*)item5)))->FUN_005656d0())
                     {
                         ((CellC4Holder*)this)->unkC4->list4C.AddHead(item5);
                     }
                 }
-                if (((FUN_0056a250_shell*)item5)->FUN_0056a250())
+                if (reinterpret_cast<::fnv_0056a250::FUN_0056a250_shell *>((((FUN_0056a250_shell*)item5)))->FUN_0056a250())
                 {
                     ((CellC4Holder*)this)->unkC4->list54.AddHead(item5);
                 }
             }
         }
     }
-    CellRefLockLeave();
+    ::FUN_00541ae0((char *)this);
     while (!localList9.FUN_008256d0())
     {
-        TESObjectREFR* item3 = localList9.GetItem();
+        TESObjectREFR* item3 = ((::TESObjectREFR *)(new ((void *)&(localList9)) ::Vec3()));
         ((BSSimpleList_standin*)&localList9)->FUN_0063f7b0();
-        TESObjectREFR* other = ((FUN_00569ac0_shell*)item3)->FUN_00569ac0();
-        CellSubTarget* a8 = (CellSubTarget*)((FUN_00545960_shell*)this)->FUN_00545960(item3);
-        CellSubTarget* b2 = (CellSubTarget*)((FUN_00545960_shell*)this)->FUN_00545960(other);
+        TESObjectREFR* other = reinterpret_cast<::fnv_00569ac0::FUN_00569ac0_shell *>((((FUN_00569ac0_shell*)item3)))->FUN_00569ac0();
+        CellSubTarget* a8 = (CellSubTarget*)reinterpret_cast<::fnv_00545960::S *>((((FUN_00545960_shell*)this)))->FUN_00545960((::fnv_00545960::A *)(item3));
+        CellSubTarget* b2 = (CellSubTarget*)reinterpret_cast<::fnv_00545960::S *>((((FUN_00545960_shell*)this)))->FUN_00545960((::fnv_00545960::A *)(other));
         if (a8 != b2)
         {
             b2->Unk_37(a8, 1);
@@ -301,11 +323,11 @@ void Cell_Sub::FUN_00544ce0()
     TESWorldSpace* extra9 = GetParentWorldSpace();
     if (extra9 != 0)
     {
-        iter = ((FUN_00587870_shell*)extra9)->FUN_00587870(this);
+        iter = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::fnv_00587870::OverlapHolder *>((((FUN_00587870_shell*)extra9)))->FUN_00587870((::fnv_00587870::CellH *)(::TESObjectCELL *)(this))));
         while (iter != 0 && !iter->FUN_008256d0())
         {
-            ((FUN_00545740_shell*)this)->GetOrCreateFaceGenNode(iter->GetItem());
-            iter = iter->GetNext();
+            reinterpret_cast<::CellLike *>((((FUN_00545740_shell*)this)))->GetOrCreateFaceGenNode((::RefForm *)(((::TESObjectREFR *)(new ((void *)(iter)) ::Vec3()))));
+            iter = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
         }
     }
 }

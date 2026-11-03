@@ -2,6 +2,19 @@
 // src/havok/physics/vehicle/wheelcollide/raycast/hkpvehicleraycastwheelcollide.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/wheelcollide/raycast/hkpvehicleraycastwheelcollide.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00c936a0_World.h"
+#include "fnv/decl/FUN_00cf2cb0.h"
+#include "fnv/decl/FUN_00e360f0.h"
+#include "fnv/decl/PhRemoveListener.h"
+#include "fnv/decl/PhantomBounds.h"
+#include "fnv/decl/Phantom_00cf26b0.h"
+#include "fnv/decl/WorldC92C.h"
+#include "fnv/decl/hkOwnerXd07de0.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_0102e000.h"
 #include "havok/hkpVehicleRayCastWheelCollide.h"
 
 struct FUN_00e41f10
@@ -19,7 +32,6 @@ void FUN_00e41f10::SetUserInfo(int aiValue)
 
 struct FUN_00c936a0_host
 {
-    void* FUN_00c936a0(void* phantom);
 };
 
 struct FUN_00e41ef0_self
@@ -30,7 +42,7 @@ struct FUN_00e41ef0_self
 // @fnv 0x00e41ef0
 void* FUN_00e41ef0_self::FUN_00e41ef0(void* world)
 {
-    return ((FUN_00c936a0_host*)world)->FUN_00c936a0(*(void**)((char*)this + 0x10));
+    return ((void *)(reinterpret_cast<::FUN_00c936a0_World *>((((FUN_00c936a0_host*)world)))->FUN_00c936a0((::hkpPhantom *)(*(void**)((char*)this + 0x10)))));
 }
 
 struct __declspec(align(16)) hkAabb
@@ -40,7 +52,6 @@ struct __declspec(align(16)) hkAabb
 
 struct FUN_00cf24a0_host
 {
-    void FUN_00cf24a0(hkAabb* aabb);
 };
 
 struct FUN_00e41e70_host
@@ -71,12 +82,11 @@ void FUN_00e41e70_host::FUN_00e41e70(unsigned int shape)
 {
     hkAabb aabb;
     this->FUN_00e41034(shape, &aabb);
-    this->m_pPhantom->FUN_00cf24a0(&aabb);
+    reinterpret_cast<::PhantomBounds *>((this->m_pPhantom))->FUN_00cf24a0((*(const ::hkAabb *)(&aabb)));
 }
 
 struct FUN_00c92c70_host
 {
-    void FUN_00c92c70(void* phantom);
 };
 struct FUN_00e41f00_self
 {
@@ -86,16 +96,13 @@ struct FUN_00e41f00_self
 void FUN_00e41f00_self::FUN_00e41f00()
 {
     void* p = *(void**)((char*)this + 0x10);
-    ((FUN_00c92c70_host*)*(void**)((char*)p + 8))->FUN_00c92c70(p);
+    reinterpret_cast<::WorldC92C *>((((FUN_00c92c70_host*)*(void**)((char*)p + 8))))->FUN_00c92c70((::ActionC92C *)(p));
 }
 
 extern int DAT_010e5ae4;
-extern int DAT_0102e388;
 
 struct FUN_00e41fc0_phantom
 {
-    void __thiscall FUN_00d07c80(void* arg);
-    void __thiscall FUN_00c905b0();
 };
 
 struct FUN_00e41fc0_listener
@@ -104,7 +111,6 @@ struct FUN_00e41fc0_listener
     int unk04;
     void* unk08;
     void* unk0C;
-    void __thiscall FUN_00e360f0();
 };
 
 class FUN_00e41fc0_host
@@ -144,14 +150,14 @@ void FUN_00e41fc0_host::FUN_00e41fc0()
                 arg = 0;
             }
 
-            phantom->FUN_00d07c80(arg);
+            reinterpret_cast<::PhRemoveListener *>((phantom))->FUN_00d07c80(arg);
         }
 
-        this->unk10->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((this->unk10))->FUN_00c905b0();
     }
 
-    this->unk14.FUN_00e360f0();
-    *(int**)this = &DAT_0102e388;
+    reinterpret_cast<::FUN_00e360f0 *>(&(this->unk14))->FUN_00e360f0::~FUN_00e360f0();
+    *(int**)this = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 class hkMemoryAllocatorXe42610;
@@ -170,7 +176,6 @@ struct hkMemoryRouterXe42610
 };
 extern "C" hkMemoryRouterXe42610& __cdecl FUN_00c85750();
 
-void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
 
 template <class T> __forceinline void constructWithCopyXe42610(T* p, int n, const T& t)
 {
@@ -193,7 +198,7 @@ template <class T> class hkArrayXe42610
     {
         hkMemoryAllocatorXe42610& kAlloc = FUN_00c85750().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&kAlloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyXe42610(m_data + m_iElementCount, 1, t);
         m_iElementCount++;
     }
@@ -303,8 +308,6 @@ struct FUN_00c85750_obj
     int unkF8;
     int unkFC;
 
-    void* __thiscall FUN_00cf2cb0(void* aabb, unsigned int filter);
-    void __thiscall FUN_00d07de0(void* value);
 };
 
 struct FUN_00c85750_host
@@ -368,7 +371,7 @@ void S00e41f30_impl::CreateWheelPhantom(S00e41f30_arg* arg)
     allocated->unk04 = 0xe0;
 
     FUN_00c85750_obj* pPhantom =
-        reinterpret_cast<FUN_00c85750_obj*>(allocated->FUN_00cf2cb0(&aabb, this->m_uiWheelCount));
+        reinterpret_cast<FUN_00c85750_obj*>(((void *)(new ((void *)(allocated)) ::FUN_00cf2cb0((*(const ::Aabb_cf2c *)(&aabb)), this->m_uiWheelCount))));
 
     this->m_pPhantom = reinterpret_cast<hkpAabbPhantom*>(pPhantom);
 
@@ -376,7 +379,7 @@ void S00e41f30_impl::CreateWheelPhantom(S00e41f30_arg* arg)
 
     S00e41f30_listener* l = &this->m_kChassisRejectionListener;
     void* v = l ? &this->m_kChassisRejectionListener.unk08 : 0;
-    pPhantom->FUN_00d07de0(v);
+    reinterpret_cast<::hkOwnerXd07de0 *>((pPhantom))->FUN_00d07de0(v);
 }
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -384,12 +387,12 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 
 extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 
-extern const __m128 DAT_010c44d0;
 
 struct hkVector4E423
 {
@@ -585,9 +588,6 @@ class hkpEntityListenerE42
 class hkpEntityE42
 {
   public:
-    void FUN_00c90510() throw();
-    void FUN_00d07c80(hkpEntityListenerE42* listener) throw();
-    void FUN_00d07de0(hkpEntityListenerE42* listener) throw();
 };
 
 class hkpActionListenerE42
@@ -647,9 +647,9 @@ FUN_00e42550* FUN_00e42550::Clone(hkpSimulationIslandE42* island, const hkEntity
 {
     FUN_00e42550* clone = new FUN_00e42550();
     clone->m_pEntity = entities.m_data[0];
-    clone->m_pEntity->FUN_00c90510();
-    clone->m_pEntity->FUN_00d07c80(&m_kListeners);
-    clone->m_pEntity->FUN_00d07de0(&clone->m_kListeners);
+    reinterpret_cast<::FUN_00c90510_class *>((clone->m_pEntity))->FUN_00c90510();
+    reinterpret_cast<::PhRemoveListener *>((clone->m_pEntity))->FUN_00d07c80(&m_kListeners);
+    reinterpret_cast<::hkOwnerXd07de0 *>((clone->m_pEntity))->FUN_00d07de0(&clone->m_kListeners);
     clone->m_pCurrentSimulationIsland = &island->m_data;
     clone->m_ulUserData = m_ulUserData;
     return clone;
@@ -659,7 +659,6 @@ FUN_00e42550* FUN_00e42550::Clone(hkpSimulationIslandE42* island, const hkEntity
 class hkpAabbPhantom
 {
   public:
-    void __thiscall FUN_00cf26b0(void* input, void* output);
 };
 
 struct __declspec(align(16)) Vec4
@@ -689,7 +688,7 @@ void __thiscall FUN_00e41eb0_Host::FUN_00e41eb0(const void* source, void* output
     *(__m128*)&input.m_vTo = *(__m128*)((const char*)source + 0x60);
     input.m_uiFilterInfo = m_uiWheelCount;
     input.m_bEnableShapeCollectionFilter = 1;
-    m_pPhantom->FUN_00cf26b0(&input, output);
+    reinterpret_cast<::Phantom_00cf26b0 *>((m_pPhantom))->FUN_00cf26b0((*(const ::WorldRayCastInput *)(&input)), (*(::WorldRayCastOutput *)(output)));
 }
 
 struct hkpVehicleDataE420

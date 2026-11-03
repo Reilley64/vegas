@@ -2,6 +2,9 @@
 #ifndef FNV_BSSIMPLELIST_PACKET_H
 #define FNV_BSSIMPLELIST_PACKET_H
 
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00537e90.h"
+#include "fnv/decl/FUN_00944480_shell.h"
 #include "bssimplelist_decls.h"
 class TESTopic;
 class PerkEntryConditionSet;
@@ -26,7 +29,6 @@ class QuantityData
 {
   public:
     QuantityData();
-    void SetQuantity(unsigned int);
 };
 class TESObjectDOOR
 {
@@ -37,7 +39,6 @@ class MersenneTwister
 {
   public:
     static MersenneTwister* GetRandomGenerator();
-    unsigned int IntInRange(int, int);
 };
 class BGSHeadPart
 {
@@ -75,6 +76,5 @@ template <> void BSSimpleList<SpellItem*>::AddHead(SpellItem*&);
 template <> class BSSimpleList<ScriptVariableInfo*>
 {
   public:
-    void AddTail(ScriptVariableInfo* const&);
 };
 #endif

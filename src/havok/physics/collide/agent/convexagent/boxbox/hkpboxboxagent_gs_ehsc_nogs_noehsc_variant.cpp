@@ -5,10 +5,18 @@
 
 // src/havok/physics/collide/agent/convexagent/boxbox/hkpboxboxagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/boxbox/hkpboxboxagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void* __cdecl FUN_00d401d0(void);
-extern "C" void* __cdecl FUN_00d406c0(void);
-extern "C" void* __cdecl FUN_00dac450(void);
-extern "C" void* __cdecl FUN_00daf8e0(void);
+#include "fnv/decl/FUN_00cfbbe0_cls.h"
+#include "fnv/decl/FUN_00db0920_cls.h"
+#include "fnv/decl/Manifold__NDetector.h"
+#include "fnv/decl/ThisCls.h"
+#include "fnv/decl/hkTransformCB22.h"
+#include "fnv/decl/hkpGskBaseAgent_S.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00d40000.h"
+#include "fnv/symbols_00d41000.h"
+#include "fnv/symbols_00dac000.h"
+#include "fnv/symbols_00daf000.h"
+#include "fnv/symbols_01268000.h"
 struct FUN_00d408e0_1
 {
     void* p1;
@@ -56,17 +64,9 @@ struct D41FD0AgentFuncs
 };
 struct D41FD0CollisionDispatcher
 {
-    void registerCollisionAgent(D41FD0AgentFuncs& f, int typeA, int typeB);
 };
-void __cdecl D41FD0CreateAgent();
-void __cdecl D41FD0StaticGetPenetrations();
-void __cdecl D41FD0StaticGetClosestPoints();
-void __cdecl D41FD0StaticLinearCast();
-void __cdecl RegisterStaticCollisionAgent(D41FD0CollisionDispatcher* dispatcher);
 extern "C" const double DAT_010cf200;
 extern "C" char DAT_010cf1c4;
-extern "C" void* __cdecl FUN_00dacc00(void* a1, void* a2, void* a3, void* a4);
-extern "C" void* __cdecl FUN_00c85750(void);
 class Allocator
 {
   public:
@@ -92,7 +92,6 @@ class SrcObj
 class SubStub
 {
   public:
-    void FUN_00db0920();
 };
 class SpawnedObject
 {
@@ -102,7 +101,6 @@ class SpawnedObject
     unsigned short m_06;
     void* m_08;
 };
-void* FUN_00d401d0(void* a1, void* a2, void* a3, void* a4);
 extern "C" void __cdecl FUN_00d40470(void* a, void* b, void* c, void* d);
 // @fnv 0x00d406a0
 extern "C" void __stdcall FUN_00d406a0(void* a, void* b, void* c, void* d)
@@ -111,7 +109,6 @@ extern "C" void __stdcall FUN_00d406a0(void* a, void* b, void* c, void* d)
 }
 
 typedef void(__cdecl* FUN_00d406c0_fn4)(void*, void*, void*, void*);
-extern "C" void* __cdecl FUN_00d406c0(void);
 void __stdcall FUN_00d408c0(void* a1, void* a2, void* a3, void* a4);
 
 #include <xmmintrin.h>
@@ -172,7 +169,6 @@ void RotatedDir_d409::FUN_00d40940()
 }
 
 extern "C" unsigned __int64 __rdtsc(void);
-extern unsigned int DAT_0126835c;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" void _ReadWriteBarrier();
 struct MonitorRecord
@@ -239,7 +235,6 @@ struct Callback
 struct Transform
 {
     Vector a, b, c, d;
-    void FUN_00cb22f0(void*, void*);
 };
 struct Job
 {
@@ -259,7 +254,6 @@ struct Job
     int unkBC;
     Vector translationC0, translationD0, translationE0, translationF0;
     Vector axis100, axis110, axis120;
-    void FUN_00db2960(Callback* callback);
 };
 class Manager
 {
@@ -273,7 +267,7 @@ class Manager
 };
 inline void timer(const char* tag)
 {
-    ThreadState* s = (ThreadState*)TlsGetValue(DAT_0126835c);
+    ThreadState* s = (ThreadState*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     MonitorRecord* r = s->current04;
     if (r < s->end0C)
     {
@@ -307,7 +301,7 @@ void Manager::FUN_00d40280(Input* a, Input* b, Parameters* parameters, void* p4)
     _mm_store_ps(&minB->x, _mm_add_ps(splat(tolerance->radius()), tolerance->values20.m));
     Transform* __restrict t = &w.t;
     Job* __restrict job = &w.job;
-    t->FUN_00cb22f0(a->data08, b->data08);
+    reinterpret_cast<::hkTransformCB22 *>((t))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(a->data08)), (*(const ::hkTransformCB22 *)(b->data08)));
     const float shapeB = parameters->offset08;
     job->toleranceB0 = shapeB;
     job->epsilonB4 = 0.01f;
@@ -327,11 +321,10 @@ void Manager::FUN_00d40280(Input* a, Input* b, Parameters* parameters, void* p4)
     job->tolerance80.m = splat(shapeB);
     job->expandedA90.m = _mm_add_ps(splat(shapeB), minA->m);
     job->expandedBA0.m = _mm_add_ps(splat(shapeB), minB->m);
-    job->FUN_00db2960(&callback10);
+    reinterpret_cast<::Manifold::NDetector *>((job))->FUN_00db2960((*(::Manifold::NManifold *)(&callback10)));
     timer("Et");
 }
 
-extern unsigned int DAT_0126835c;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" void _ReadWriteBarrier();
 struct Query
@@ -350,8 +343,6 @@ struct Query
     int unkB8;
     int unkBC;
     Vector translationC0, translationD0, separationE0, separationF0, axis100, axis110, axis120;
-    void FUN_00d40940();
-    int FUN_00db0ec0(Vector*);
     __forceinline void init(Input* a, Input* b, const Transform& t, const V4& minA, const V4& minB, float tolerance,
                             float epsilon)
     {
@@ -393,10 +384,10 @@ void __cdecl FUN_00d406c0(Input* a, Input* b, Parameters* parameters, Callback* 
     _mm_store_ps(&minB->x, _mm_add_ps(splat(shapeB->radius()), shapeB->values20.m));
     Transform* __restrict transform = &work.relative;
     Query* __restrict query = &work.query;
-    transform->FUN_00cb22f0(a->data08, b->data08);
+    reinterpret_cast<::hkTransformCB22 *>((transform))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(a->data08)), (*(const ::hkTransformCB22 *)(b->data08)));
     query->init(a, b, *transform, *minA, *minB, parameters->offset08, 0.01f);
-    query->FUN_00d40940();
-    if (!query->FUN_00db0ec0(&query->tolerance80))
+    reinterpret_cast<::RotatedDir_d409 *>((query))->FUN_00d40940();
+    if (!reinterpret_cast<::ThisCls *>((query))->FUN_00db0ec0((::Vec4f *)(::Vector *)(&query->tolerance80)))
         callback->handle(a, b);
     timer("Et");
 }

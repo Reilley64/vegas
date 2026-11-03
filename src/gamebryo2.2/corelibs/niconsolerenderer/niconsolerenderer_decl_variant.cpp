@@ -2,6 +2,76 @@
 // with declarations corrected to what the original code does (unit: void __cdecl FUN_00e7a760(); -> bool __cdecl FUN_00e7a760();). Move the function to its real unit once
 // that unit declares it this way.
 
+#include <new>
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/C_00e8f010.h"
+#include "fnv/decl/DepthStencilSearch.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_0043a010_shell.h"
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/FUN_00e74a40_shell.h"
+#include "fnv/decl/FUN_00e7bc90.h"
+#include "fnv/decl/FUN_00e7ce10_cls.h"
+#include "fnv/decl/FUN_00e8bf80_Object.h"
+#include "fnv/decl/FUN_00e8db90.h"
+#include "fnv/decl/FUN_00ee88b0.h"
+#include "fnv/decl/FUN_00ee88d0_cls.h"
+#include "fnv/decl/FnvCpu_FUN_00a7b850_CpuObject.h"
+#include "fnv/decl/GeomData_S.h"
+#include "fnv/decl/HashTableBase.h"
+#include "fnv/decl/Holder_00e8f040.h"
+#include "fnv/decl/IndexBufferManager.h"
+#include "fnv/decl/InitRenderer.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiD3DTextureData.h"
+#include "fnv/decl/NiGeometryBufferData.h"
+#include "fnv/decl/NiGlobalStringTable.h"
+#include "fnv/decl/NiPixelFormat.h"
+#include "fnv/decl/NiRenderer.h"
+#include "fnv/decl/NiSlotSetE8E.h"
+#include "fnv/decl/NiTriStripsDataStandin.h"
+#include "fnv/decl/RendererReset__Renderer.h"
+#include "fnv/decl/StripTarget.h"
+#include "fnv/decl/VertexRenderer.h"
+#include "fnv/decl/fnv_00e75a70__FUN_00e75a70.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a5f000.h"
+#include "fnv/symbols_00a62000.h"
+#include "fnv/symbols_00a63000.h"
+#include "fnv/symbols_00a75000.h"
+#include "fnv/symbols_00a7b000.h"
+#include "fnv/symbols_00e68000.h"
+#include "fnv/symbols_00e69000.h"
+#include "fnv/symbols_00e6d000.h"
+#include "fnv/symbols_00e6e000.h"
+#include "fnv/symbols_00e6f000.h"
+#include "fnv/symbols_00e76000.h"
+#include "fnv/symbols_00e77000.h"
+#include "fnv/symbols_00e78000.h"
+#include "fnv/symbols_00e79000.h"
+#include "fnv/symbols_00e7a000.h"
+#include "fnv/symbols_00e7c000.h"
+#include "fnv/symbols_00e88000.h"
+#include "fnv/symbols_00e89000.h"
+#include "fnv/symbols_00e8a000.h"
+#include "fnv/symbols_00e8b000.h"
+#include "fnv/symbols_00e8f000.h"
+#include "fnv/symbols_00e91000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_0109f000.h"
+#include "fnv/symbols_010ed000.h"
+#include "fnv/symbols_010ee000.h"
+#include "fnv/symbols_011bf000.h"
+#include "fnv/symbols_011c5000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_0126e000.h"
+#include "fnv/symbols_0126f000.h"
+#include "fnv/symbols_01270000.h"
 class NiRenderTargetGroup;
 #include "niconsolerenderer_packet.h"
 enum _D3DFORMAT { D3DFMT_PACKET_FORCE_DWORD=0x7fffffff };
@@ -16,16 +86,14 @@ public:
  static const char* GetD3DFormatName(_D3DFORMAT);
  char remaining[0xb80-44];
  static GraphicsRenderer* Create(unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int);
- bool Create(unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int);
 };
-class RecursiveSpinLock { public: unsigned int value; void Lock(const char*); };
+class RecursiveSpinLock { public: unsigned int value;  };
 template<class T> class PoolAllocatorBase {
 public:
  struct LinkedListEntry { LinkedListEntry* next; LinkedListEntry* prev; char* data; };
  static LinkedListEntry* ms_pFreeList;
  static RecursiveSpinLock ms_kPoolState;
 };
-extern unsigned int DAT_011c5f84;
 template<class T> class NiTPointerAllocator {};
 template<class Alloc, class T> class NiTPointerListBase {
 public:
@@ -35,14 +103,11 @@ public:
 };
 class ShaderPassRenderer { public: static unsigned int Create(unsigned int); };
 class NiObject;
-class NiStream { public: static void UnregisterObjectLoader(const char*); static int RegisterObjectLoader(const char*,NiObject* (*)()); };
+class NiStream { public:  static int RegisterObjectLoader(const char*,NiObject* (*)()); };
 extern "C" int fnv_CopyFilePath(char*,unsigned int,const char*,unsigned int);
 extern char DAT_011f4648[256];
-NiObject* NiPersistentSrcTextureRendererDataLoader();
 extern const char DAT_010ee6c8[];
 extern const char DAT_010ee688[];
-extern const char DAT_0109f0a0[];
-extern const char DAT_01015890[];
 extern const char DAT_010ee8a4[];
 extern const char DAT_010ee8b0[];
 extern const char DAT_010ee8c4[];
@@ -111,17 +176,15 @@ char* NiTPointerListBase<NiTPointerAllocator<unsigned int>,char*>::RemoveTail() 
  else head = 0;
  char* result = node->data;
  node->data = 0;
- PoolAllocatorBase<unsigned int>::ms_kPoolState.Lock(0);
+ reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
  node->prev = 0;
- node->next = PoolAllocatorBase<unsigned int>::ms_pFreeList;
- PoolAllocatorBase<unsigned int>::ms_pFreeList = node;
- if (--DAT_011c5f84 == 0) PoolAllocatorBase<unsigned int>::ms_kPoolState.value = 0;
+ node->next = (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58));
+ (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58)) = node;
+ if (--DAT_011c5f84 == 0) (*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80)).value = 0;
  --count;
  return result;
 }
-extern "C" void* g_011f4430;
 void* __cdecl FUN_00a5f200();
-extern "C" int g_011f443c;
 int __cdecl FUN_00a5f4f0();
 int __cdecl FUN_00a5f500();
 int __cdecl FUN_00dc9e60();
@@ -152,9 +215,6 @@ struct FUN_00e69b40_shell {
 };
 unsigned int GetValueForIndex(unsigned int param);
 struct NiPoint3 { float x, y, z; };
-extern NiPoint3 DAT_011f474c;
-extern float DAT_011f4750;
-extern float DAT_011f4754;
 struct ThreeByThreeMatrix {
     float m[3][3];
 };
@@ -175,14 +235,10 @@ struct NiWorldToSkin {
     float scale;
 };
 void __cdecl BuildWorldToSkinTransform(NiWorldToSkin* out, const NiTransform* kWorldToRootParent, const NiPoint3* kIntersectionOffset, float fScale);
-extern int DAT_0126efc0;
 bool __stdcall FUN_00e6c760(int value);
 void __cdecl FUN_00aa1110(void*);
 void __stdcall FUN_00e6d740(void* a1);
-extern RecursiveSpinLock g_011c5f80;
-extern unsigned int DAT_011c5f84;
 struct LinkedListEntry { LinkedListEntry* next; LinkedListEntry* prev; char* data; };
-void __stdcall FUN_00e6e8a0(LinkedListEntry* a);
 struct NiTMapBase_StandIn {
     void RemoveAll();
 };
@@ -190,21 +246,16 @@ extern "C" void __cdecl _NiFreeAlias(void*);
 extern "C" void* __cdecl _DeallocateAlias(void*);
 extern int DAT_010eda84;
 extern int DAT_010edb5c;
-extern struct MemoryManager {
-    void* Deallocate(void*);
-} g_memoryManager;
 struct FUN_00e6eab0_shell : NiTMapBase_StandIn {
     char pad[8];
     void* data;
     int __thiscall DestroyMap(int flag);
 };
 struct NodePoolView {
-    void* AddHead();
 };
 struct FUN_00e72e50_shell {
     void* __thiscall FUN_00e72e50();
 };
-extern "C" void* g_0126f0f0;
 void* __cdecl FUN_00e757b0();
 struct FUN_00e757c0_shell {
     unsigned char* data;
@@ -218,14 +269,10 @@ struct FUN_00e75840_shell {
     unsigned int color;
     void FUN_00e75840(float* param);
 };
-extern "C" void* g_01270900;
 void* __cdecl FUN_00e766f0();
 struct FUN_00e758f0_shell {
     void PackColorToUInt(float* floats);
 };
-extern int DAT_0126f580[];
-void __cdecl FUN_00e7cc50(int* param1, int param2);
-extern "C" void __cdecl ReleaseShaderNodes(void*);
 struct FUN_00e69650_shell {
     bool __thiscall FUN_00e69650(int);
 };
@@ -275,7 +322,7 @@ struct IDev
     virtual int __stdcall f41() = 0;
     virtual int __stdcall EndScene() = 0;
 };
-struct FUN_00e8bf80_shell { void __thiscall FUN_00e8bf80(); };
+struct FUN_00e8bf80_shell {  };
 struct FUN_00e69660_shell
 {
     char _p0[0x288];
@@ -380,19 +427,14 @@ struct FUN_00e698d0_shell { char _pad[0x288]; void* m_pDirectInputDevice; void D
 struct FUN_00e69970_shell { void ClearShader(void* pkShader); };
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
-int __cdecl FUN_00e68ef0(void*, void*);
 struct StandIn_e6dc40 { bool FUN_00e6dc40(void*); };
-struct NiVBSet { void Create(unsigned int, void*); };
-int __cdecl CreateRenderedTextureData(void*, void*, unsigned int);
+struct NiVBSet {  };
 struct Param_00e6dc80 { unsigned int pad[9]; unsigned int flag; };
 struct Stand_00e6dc80 { char pad[0x8cc]; NiVBSet vb; bool CreateVertexBufferIfNeeded(Param_00e6dc80*, unsigned int); };
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
-int __cdecl FUN_00e8abf0(void*, void*);
 struct FUN_00e6dcc0_shell { bool __thiscall FUN_00e6dcc0(void*); };
 struct NiTMapBaseStub { void __thiscall RemoveAll(); };
-extern int DAT_010eda24;
-extern MemoryManager g_memoryManager;
 struct S_00e6e8f0 {
     void* f00;
     int f04;
@@ -400,7 +442,6 @@ struct S_00e6e8f0 {
     S_00e6e8f0* __thiscall FUN_00e6e8f0(unsigned int);
 };
 extern int DAT_010edaf4;
-extern MemoryManager g_memoryManager;
 struct S00e72e20 { void *vf; void *ptr; void *__thiscall FUN_00e72e20(unsigned int); };
 struct BSBatchRenderer__GeometryGroup;
 struct BSBatchRenderer__AlphaList {
@@ -413,7 +454,7 @@ struct NiConsoleRenderer_shellEx : GraphicsRenderer {
     void __thiscall FUN_00e75310(NiD3DShaderInterface* shader);
 };
 void _delete(void*, unsigned int);
-struct S { void __thiscall FUN_00e75a70(); void* __thiscall FUN_00e762f0(unsigned int); };
+struct S {  void* __thiscall FUN_00e762f0(unsigned int); };
 struct FUN_00e76320
 {
     unsigned int f0;
@@ -435,12 +476,10 @@ struct NiDX9ShaderDeclaration
  virtual int V40(); virtual int V41(); virtual int V42(); virtual int V43(); virtual int V44(); virtual int V45();
  bool FUN_00e76630(unsigned int*, unsigned int*);
 };
-struct P03MM { void* Allocate(unsigned int size); };
+struct P03MM {  };
 extern void* DAT_0126f550;
 extern const void* DAT_010ee898;
 bool __cdecl FUN_00e7a760();
-void __cdecl FUN_00e7a860();
-extern int DAT_0126f0ec;
 struct FUN_00e69920_shell {
     void ClearList();
 };
@@ -470,7 +509,6 @@ struct Ni2DBuffer;
 struct NiPixelFormat;
 struct NiDX9AdditionalDepthStencilBufferData
 {
-	static NiDX9AdditionalDepthStencilBufferData* __cdecl Create(DepthDevice*, Ni2DBuffer**, NiPixelFormat const*, unsigned int);
 };
 struct S_00e69a20
 {
@@ -589,13 +627,10 @@ struct FUN_00e76610_shell {
     unsigned int pad[0x34/4];
     void __thiscall SetFlag(bool value);
 };
-extern int DAT_010ee70c;
-extern MemoryManager g_memoryManager;
 void __cdecl _delete(void*, unsigned int);
 struct ICom78510 { virtual int __stdcall Q(); virtual int __stdcall A(); virtual int __stdcall R(); };
-struct H78510 { void __thiscall FUN_00e78be0(); };
+struct H78510 {  };
 struct S78510 { char pad[0x2c]; void* p1; ICom78510* p2; char tail[4]; void* __thiscall FUN_00e78510(unsigned int); };
-extern "C" void __cdecl FUN_00ee88b0();
 extern const char DAT_010ee7cc[];
 struct FUN_00e78840_shell {
     void* vtable;
@@ -614,7 +649,6 @@ struct CpDevice {
     virtual void v32(); virtual void v33();
     virtual long __stdcall StretchRect(CpSurf*, const CpRECT*, CpSurf*, const CpRECT*, int);
 };
-char* __cdecl GetHRESULTText(unsigned int);
 struct CopyRendererData { char pad[0x14]; CpSurf* surface; };
 struct RenderCopyData { char pad[8]; unsigned int width; unsigned int height; CopyRendererData* data; };
 struct CpRectNi { int left, right, top, bottom; };
@@ -639,7 +673,6 @@ struct FUN_00e76c30_Info {
     unsigned int pad28;
     unsigned char* pucDest;        // +0x2c
 };
-unsigned int FUN_00e76c30(FUN_00e76c30_Info* pkInfo);
 void* _fnv_zlib_memset(void*, int, unsigned int);
 struct FUN_00e79f40_Stream {
     unsigned int pad0;
@@ -657,7 +690,6 @@ struct FUN_00e79f40_Stream {
     unsigned int pad28;
     char* dst;
 };
-int FUN_00e79f40(FUN_00e79f40_Stream* s);
 struct FUN_00e78bd0_shell {
     bool flag;          // +0x00
     void* field_04;     // +0x04
@@ -680,11 +712,7 @@ struct FUN_00e6c690_shell
 {
     char* GetDepthDeviceDescription();
 };
-extern DepthDevice* DAT_0126f0d8;
-int __cdecl _NiSprintf(char*, unsigned int, const char*, int, const char*, ...);
 void* _fnv_zlib_memset(void*, int, unsigned int);
-extern void* DAT_011c5f58;
-void __stdcall ReleaseRefCountedNode(void* param_1);
 struct FUN_00e76500_shell
 {
     unsigned int pad[7];
@@ -1869,7 +1897,6 @@ class FUN_00e69960_cls
     void FUN_00e69960(int a);
 };
 struct RenderBufferAllocation {
-    RenderBufferAllocation* FUN_00e8db90(void* parameters);
 };
 RenderBufferAllocation* __stdcall CreateRenderBufferAllocation(void* parameters);
 struct FUN_00e69a60_obj20 {
@@ -1878,14 +1905,8 @@ struct FUN_00e69a60_obj20 {
     virtual void __stdcall v2();
 };
 struct FUN_00e69a60_obj14 {
-    void* __thiscall FUN_00e7bc90(FUN_00e69a60_obj20* a, void* b);
 };
-extern "C" void* g_0126f0e8;
-extern "C" void* (__stdcall* g_0126f0dc)(unsigned int);
-extern "C" unsigned int DAT_0126f0f8;
-bool __cdecl InitD3D9CreateFunctions();
 void* __cdecl FUN_00aa13e0(unsigned int size);
-void* __cdecl FUN_00e69a60();
 struct RendererListNode
 {
     void* m_pListObject;
@@ -1940,7 +1961,6 @@ public:
 };
 struct FmtObj { int unk00; int unk04; int unk08; int unk0c; int unk10; };
 void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
-void ApplySettings(FmtObj*);
 struct Holder {
     int unk000;
     int unk004;
@@ -2609,7 +2629,6 @@ struct E6D310Renderer {
 
     void FUN_00e6d310(E6D310StripSet* set, E6D310Geometry* geometry, int unused);
 };
-extern void* DAT_0126f108[];
 class PacketEntry {
 public:
     virtual int slot00();
@@ -2659,7 +2678,6 @@ public:
     virtual int slot44();
     virtual int slot45();
 };
-int __stdcall GetPacketSlot45(int index);
 struct GeomData_e6da60
 {
     virtual void vf00();
@@ -2735,9 +2753,6 @@ struct Packet_e6da60
     unsigned int unk1C;
     unsigned int m_uiCount;
     unsigned int* m_puiStreams;
-    void ResizeStreams(unsigned int ItemUpdateArray);
-    void SetSingleStream(unsigned int uiValue);
-    void SetStreams(unsigned int uiValue);
 };
 struct Model_e6da60
 {
@@ -2764,9 +2779,7 @@ struct VBManager_e6da60
     void Pack(Model_e6da60* pkModel, Data_e6da60* pkData, unsigned int* puiA,
         unsigned int* puiB, unsigned int* puiC, unsigned int* puiD,
         unsigned int* puiE, unsigned int* puiF, unsigned int* puiG);
-    bool CreateStream(Packet_e6da60* pkPacket, unsigned int uiIndex);
 };
-extern int DAT_011bf558;
 struct Renderer_e6da60
 {
     unsigned int unk0000; unsigned int unk0004; unsigned int unk0008; unsigned int unk000C; unsigned int unk0010; unsigned int unk0014; unsigned int unk0018; unsigned int unk001C;
@@ -2971,10 +2984,13 @@ struct SourceManager {
     virtual RenderSource* GetRenderSource();
 };
 extern const char DAT_010ed96c[];
-char* __cdecl GetHRESULTText(unsigned int status);
-void __cdecl FUN_00a29680(const char* format, const char* message);
+struct Class87d40;
+struct NiGeometryData;
+struct VertexRecord;
 struct Renderer {
     void* __thiscall LockRenderSource(SourceManager* manager, int* pitch);
+public:
+    ::VertexRecord *FUN_00e8c1e0(::NiGeometryData *, ::Class87d40 *, unsigned int, ::VertexRecord *, char *);
 };
 class FUN_00e6de70_B;
 class FUN_00e6de70_C;
@@ -3011,8 +3027,6 @@ public:
     unsigned char m_6f5;
     bool __thiscall FUN_00e6de70(FUN_00e6de70_A* a1);
 };
-const char* __cdecl GetHResultName(int code);
-void __cdecl FUN_00a29680(const char* fmt, const char* text);
 struct RendererResourceMap : NiDX9Renderer {
     unsigned int unk8A4;
     unsigned int unk8A8;
@@ -3764,9 +3778,7 @@ struct RendererPoolView : GraphicsRenderer { void ResetPools(); };
 extern int DAT_010eda84;
 void __cdecl NiFree(void*);
 struct MM_e6ea70 {
-    void Deallocate(void*);
 };
-extern MM_e6ea70 _g_memoryManager;
 struct Map_e6ea70 {
     void* vtbl;
     int unk04;
@@ -3793,13 +3805,7 @@ class E6EC20List {
 public:
     void RemoveAll();
 };
-extern E6EC20Device* g_pkE6EC20Device;
-extern E6EC20Cache* g_pkE6EC20Cache;
-extern void* g_hE6EC20Module;
-extern void* (__stdcall* g_pfnE6EC20Create)(unsigned int uiVersion);
 extern int (__stdcall* g_pfnE6EC20FreeLibrary)(void* hModule);
-extern E6EC20List g_kE6EC20List;
-void ShutdownE6EC20();
 // Renderer resource setup: original C++ reconstructed from InitializeRendererResources.
 struct RendererStateSlot;
 struct ResourceDescriptor { unsigned char unknown00; unsigned char format; };
@@ -3810,7 +3816,6 @@ struct RenderResource : RefObject {
     unsigned int dataOffset;
     unsigned int unk54, unk58;
     unsigned char** dataBase;
-    RenderResource* FUN_00a7c190(int a, int b, ResourceDescriptor* d, int c, int e);
 };
 struct ResourceParameters {
     unsigned int count;
@@ -3818,10 +3823,7 @@ struct ResourceParameters {
     unsigned int unk08;
 };
 extern const char DAT_010edbb8[];
-extern const char* DAT_0109b220;
 void* __cdecl FUN_00aa13e0(unsigned int size);
-const char* __cdecl FUN_00a5b690(const char* name);
-RefObject* __cdecl FUN_00a5ff10(RenderResource* resource, const char* name, ResourceParameters* parameters);
 struct RendererBridge {
     RendererStateSlot* State(unsigned int idx) {
         return reinterpret_cast<RendererStateSlot*>(reinterpret_cast<char*>(this) + 0x700 + 0x58 * idx);
@@ -3833,11 +3835,9 @@ struct RendererBridge {
         return *reinterpret_cast<RefObject**>(reinterpret_cast<char*>(this) + 0x8fc);
     }
     void CreateFormats(RendererStateSlot* state, unsigned int type, unsigned int flags);
-    void InitFormats();
     bool InitializeRendererResources();
 };
 extern "C" __declspec(dllimport) long __stdcall fnv_InterlockedDecrement(long volatile*);
-extern char g_sentinel_012708e4;
 class PktRefCounted {
 public:
     virtual void unk00();
@@ -4130,7 +4130,7 @@ struct FUN_00e744b0_Src {
     FUN_00e744b0_VObj* m_b8;
     unsigned int m_bc;
 };
-struct FUN_00e744b0_obj { void ProcessCollector(unsigned int a, unsigned int b, unsigned int c, unsigned int d, int e, int f); };
+struct FUN_00e744b0_obj {  };
 struct FUN_00e744b0_cls {
     unsigned int unk000;
     unsigned int unk004;
@@ -4689,12 +4689,8 @@ struct FUN_00e744b0_cls {
     unsigned int unk8a8;
     unsigned int m_8ac;
     unsigned int m_8b0;
-    bool __thiscall FUN_00e72c20(FUN_00e744b0_Src* p, int z);
-    void __thiscall DrawStrip(FUN_00e744b0_Src* p, unsigned int b, unsigned int c, FUN_00e744b0_Blk52* B, FUN_00e744b0_Blk16* A);
-    void __thiscall DrawMesh(FUN_00e744b0_Src* p, unsigned int b, unsigned int c, FUN_00e744b0_Blk52* B, FUN_00e744b0_Blk16* A, unsigned int f);
     void ProcessVObj(FUN_00e744b0_Src* ebx);
 };
-extern char DAT_011f4288[16];
 struct RefObj_e75 {
     virtual void v0();
     virtual void vDelete();
@@ -5313,12 +5309,12 @@ public:
 struct ShaderList : NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*> {
     static void FreeNode(Node* pkNode) {
         pkNode->data = 0;
-        g_011c5f80.Lock(0);
+        reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
         pkNode->prev = 0;
         pkNode->next = (Node*)DAT_011c5f58;
         DAT_011c5f58 = pkNode;
         if (--DAT_011c5f84 == 0)
-            g_011c5f80.value = 0;
+            (*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80)).value = 0;
     }
     char*& GetNext(Node*& pkPos) {
         char*& element = pkPos->data;
@@ -5380,7 +5376,6 @@ struct D3DShaderStub {
     virtual void v45(); virtual void v46(); virtual void v47(); virtual void v48(); virtual void v49();
     virtual void v50();
     virtual void UnloadShader();
-    void SetShaderObject(void* pkRenderer);
 };
 struct ConsoleRendererShaders {
     int unk000;
@@ -8008,12 +8003,9 @@ struct ShaderD3DDevice {
     virtual long __stdcall CreateVertexDeclaration(const ShaderVertexElement*, ShaderVertexDecl**);
 };
 struct ShaderMemMgr {
-    void* Allocate(unsigned int size);
-    void Deallocate(void* p);
 };
-extern ShaderMemMgr g_shaderMemMgr;
-inline void* operator new[](unsigned int size) { return g_shaderMemMgr.Allocate(size); }
-inline void operator delete[](void* p) { g_shaderMemMgr.Deallocate(p); }
+inline void* operator new[](unsigned int size) { return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::ShaderMemMgr *>(&::g_memoryManager))))->FUN_00aa3e40(size); }
+inline void operator delete[](void* p) { reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::ShaderMemMgr *>(&::g_memoryManager))))->FUN_00aa4060(p); }
 struct ShaderVertexElement {
     unsigned short Stream;
     unsigned short Offset;
@@ -8054,7 +8046,6 @@ public:
     ShaderVertexElement* m_pkVertexElements;
     ShaderVertexDecl* m_pkD3DVertexDeclaration;
 
-    unsigned int SetEntryAlias(ShaderStreamMapping* pkEntry, unsigned int uiStream);
     ShaderVertexDecl* BuildVertexDeclaration();
 };
 struct StreamCopyInfo {
@@ -8074,7 +8065,6 @@ struct StreamCopyInfo {
     unsigned char* destination;
 };
 void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
-unsigned int __cdecl CopyVertexStream(StreamCopyInfo* stream);
 void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
 struct PackShortInfo {
     int eType;
@@ -8092,7 +8082,6 @@ struct PackShortInfo {
     unsigned int pad28;
     unsigned char* pucDest;
 };
-unsigned int PackShortVertexData(PackShortInfo* pkInfo);
 void* _fnv_zlib_memset(void*, int, unsigned int);
 struct FUN_00e77590_Info {
     int eType;
@@ -8110,7 +8099,6 @@ struct FUN_00e77590_Info {
     unsigned int pad28;
     unsigned char* pucDest;
 };
-unsigned int FUN_00e77590(FUN_00e77590_Info* pkInfo);
 void* _fnv_zlib_memset(void*, int, unsigned int);
 struct FUN_00e77950_Info {
     int eType;
@@ -8128,7 +8116,6 @@ struct FUN_00e77950_Info {
     unsigned int pad28;
     unsigned char* pucDest;
 };
-unsigned int FUN_00e77950(FUN_00e77950_Info* pkInfo);
 void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
 struct FUN_00e77eb0_Info {
     int eType;
@@ -8146,8 +8133,6 @@ struct FUN_00e77eb0_Info {
     unsigned int pad28;
     unsigned char* pucDest;
 };
-unsigned int FUN_00e77eb0(FUN_00e77eb0_Info* pkInfo);
-int __cdecl CopyStreamElements(FUN_00e79f40_Stream* pkInfo);
 struct Stream_e78910 {
     unsigned int unk00;
     unsigned short type;
@@ -8173,7 +8158,6 @@ static inline unsigned int PackColor_e78910(const short* v, unsigned short comps
         a = (unsigned short)v[3];
     return (((short)a & 0xff00) << 16) | ((v[0] & 0xff00) << 8) | (v[1] & 0xff00) | ((v[2] >> 8) & 0xff);
 }
-int PackVertexColors(Stream_e78910* s);
 extern const char DAT_010ee7cc[];
 void __cdecl FUN_00aa1490(void* apMemory, unsigned int auiSize);
 struct FUN_00e78be0_cls {
@@ -8188,7 +8172,6 @@ struct FUN_00e78be0_cls {
     unsigned int m_uCount20;
     char* m_pArr24;
 
-    void BaseTeardown();
     void FUN_00e78be0() throw();
 };
 void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
@@ -8209,7 +8192,6 @@ struct FUN_00e79370_Info {
     unsigned int pad28;
     unsigned char* pucDest;
 };
-unsigned int FUN_00e79370(FUN_00e79370_Info* pkInfo);
 struct NormalizedStream {
     unsigned short lastComponent, unk02;
     unsigned short type, unk06;
@@ -8219,7 +8201,6 @@ struct NormalizedStream {
     unsigned unk14, sourceStride, elementSize, destStride, unk24, unk28;
     unsigned char* dest;
 };
-unsigned __cdecl NormalizeVertexStream(NormalizedStream* s);
 extern "C" const char DAT_010ee8a0[];
 struct FUN_00e7a640 {
     unsigned int m_00;
@@ -8269,7 +8250,6 @@ inline E7A6A0Array<E7A6A0Bucket*>* E7A6A0GetBuckets()
 {
     return static_cast<E7A6A0Array<E7A6A0Bucket*>*>(DAT_0126f550);
 }
-void __cdecl DestroyBucketTable();
 class NiBaseObject {
 public:
     virtual void unkBaseSlot0();
@@ -8294,7 +8274,6 @@ struct FUN_00a62af0_cls : NiBaseObject {
     FUN_00a62af0_cls() throw();
 };
 extern "C" __declspec(dllimport) void __stdcall InitializeCriticalSection(void*);
-extern FUN_00a62af0_cls* DAT_011f4748;
 struct VertexElement_e69790 { unsigned short Stream, Offset; unsigned char Type, Method, Usage, UsageIndex; };
 struct Declaration_e69790;
 struct Device_e69790 {
@@ -8570,8 +8549,6 @@ struct VertexWE69 {
     float m_fV;
     float m_fVectorX;
 };
-float* __stdcall WriteVertex(float* pfDest, const PointE69& kPos, const PointE69& kNormal, unsigned int uiColor, float fTextureCoordinateU, float fV, float fW);
-unsigned int __cdecl MapCodeToIndex(unsigned int code);
 struct PackingPacket;
 struct PackingOwner {
     virtual void slot00();
@@ -8596,9 +8573,6 @@ struct PackingPacket {
     unsigned int cache, unk3c, primitiveCount, activePrimitiveCount, stripCount;
     void* vertexData;
     void* stripLengths;
-    bool FUN_00e8eeb0();
-    void FUN_00e8ef10(unsigned int);
-    void FUN_00e8eee0();
 };
 struct PackingData {
     unsigned int unk00, unk04, unk08, unk0c, unk10;
@@ -8656,18 +8630,14 @@ struct PackingGeometry {
     unsigned int streamCount;
 };
 struct PackingVertexManager {
-    unsigned int FUN_00e8c820(Model_e6da60*, void*, PackingData*, unsigned short, void*, unsigned int);
 };
 struct PackingIndexManager {
-    void* FUN_00e8f200(void*, unsigned int, unsigned int, void*, void**, unsigned int, unsigned int);
 };
-extern bool DAT_0126f0d0;
 struct PackingRenderer : Renderer_e6da60 {
     PackingIndexManager* indexManager;
     bool UpdatePackingPacket(PackingPacket*, Model_e6da60*, void*, PackingData*, PackingGeometry*, bool);
 };
 class GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_0126f5d8;
 struct Src_e6e
 {
     int unk;
@@ -8684,7 +8654,6 @@ struct Src_e6e
 };
 struct Obj_e6e
 {
-    Src_e6e* ContainsNode(GlobalObjectO2_00a7b610* pkList);
 };
 struct Device_e6e
 {
@@ -8742,15 +8711,10 @@ struct Device_e6e
 };
 struct Mgr_e6e
 {
-    unsigned int FUN_00e7b0f0(int iA, int iFormat, int iB, int iC);
 };
 struct Map_e6e
 {
-    bool FUN_00a53c30(unsigned int uiKey, void*& rp);
-    void InsertOrUpdate(unsigned int uiKey, void* pVal);
 };
-int __cdecl FUN_00e7bd20(int iFormat);
-void* __cdecl CreatePixelFormat(unsigned int uiKey);
 struct FUN_00e6ee00_cls
 {
     int unkCur;
@@ -9466,8 +9430,6 @@ struct FUN_00e6ee00_cls
     void* GetOrCreateFormatEntry(int iFormat, int iB, int iC);
 };
 struct NiRTTI { const char* m_pcName; const NiRTTI* m_pBaseRTTI; };
-extern const NiRTTI g_0126f5ac;
-extern const unsigned char DAT_0126efd8[];
 struct SurfDesc { unsigned int Format; unsigned int Type; unsigned int Usage; unsigned int Pool;
     unsigned int MultiSampleType; unsigned int MultiSampleQuality; unsigned int Width; unsigned int Height; };
 struct DX9Surface {
@@ -9676,7 +9638,6 @@ public:
     virtual long __stdcall CheckDepthStencilMatch(unsigned int Adapter, int DeviceType, int AdapterFormat,
         int RenderTargetFormat, int DepthStencilFormat);
 };
-extern E6F260Direct3D* g_pkE6F260Direct3D;
 struct E6F260SurfaceData {
     int unk00;
     int unk04;
@@ -10070,7 +10031,6 @@ public:
     int m_eAdapterFormat;
 };
 class GlobalObjectO2_00a7b610 { public: const char* name; GlobalObjectO2_00a7b610* base; };
-extern GlobalObjectO2_00a7b610 g_0126f59c;
 class BSMultiBound { public:
  virtual void v00(); virtual void Delete(); virtual void v08(); virtual GlobalObjectO2_00a7b610* GetRTTI();
  virtual void v10();
@@ -10782,7 +10742,6 @@ struct ResolveRenderer {
  BoundCache cache;
  bool FUN_00e74dc0();
 };
-unsigned int ConvertVertexComponents(FUN_00e76c30_Info* info);
 extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 struct ByteVertexConversion {
 
@@ -10815,7 +10774,6 @@ struct ByteVertexConversion {
     unsigned char* destination;
 
 };
-unsigned int __cdecl ConvertVertexFormat(ByteVertexConversion* info);
 void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
 struct FUN_00e77b50_Info {
     int eType;
@@ -10833,7 +10791,6 @@ struct FUN_00e77b50_Info {
     unsigned int pad28;
     unsigned char* pucDest;
 };
-unsigned int FUN_00e77b50(FUN_00e77b50_Info* pkInfo);
 struct PackByteInfo {
     unsigned int field00;
     unsigned short type, field06;
@@ -10843,7 +10800,6 @@ struct PackByteInfo {
     unsigned int field14, sourceStride, elementSize, destStride, field24, field28;
     unsigned char* dest;
 };
-unsigned int __cdecl PackByteElements(PackByteInfo* s);
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 inline unsigned short minimum(unsigned short a, unsigned short b) { return a > b ? b : a; }
 struct ByteFloatStream {
@@ -10853,7 +10809,6 @@ struct ByteFloatStream {
  unsigned unk14, sourceStride, elementSize, destStride, unk24, unk28;
  unsigned char* dest;
 };
-unsigned __cdecl ConvertByteFloatStream(ByteFloatStream* s);
 struct ColorStream {
     unsigned int unk00;
     unsigned short type, unk06, count, unk0a;
@@ -10863,7 +10818,6 @@ struct ColorStream {
     unsigned char* dst;
 };
 void* _fnv_zlib_memset(void*, int, unsigned int);
-unsigned int ConvertColorStream(ColorStream* s);
 struct D3DMATRIX_Custom {
     float _11, _12, _13, _14;
     float _21, _22, _23, _24;
@@ -11019,14 +10973,12 @@ struct Node;
 struct ArrayObj;
 struct TargetObj {
 
-    bool Invoke(FUN_00e744b0_Src* p);
 
 };
 struct Map {
 
     bool Get(void* key, Node*& outVal);
 
-    void Set(void* key, Node* val);
 
     bool Remove(void* key);
 
@@ -11965,7 +11917,6 @@ struct FUN_00e754a0 : RendererBase {
  RendererArray<2> arrayaf4;
  RendererArray<1> arrayb04;
  RendererMap<5> mapb14;
- void FUN_00e6b990();
  FUN_00e754a0() throw();
 };
 extern double DAT_010231e8;
@@ -12352,7 +12303,6 @@ struct FUN_00e759c0_cls {
     unsigned char unk5e3;
     void FUN_00e759c0(float* out);
 };
-unsigned int __cdecl ConvertNormalizedShortsToFloats(NormalizedStream* s);
 struct E6F310Rect {
     int x1;
     int y1;
@@ -12367,10 +12317,8 @@ struct NiRectF {
 };
 struct FUN_00e7cdf0_shell {
     unsigned char FUN_00e7cdf0();
-    unsigned char FUN_00e7ce10();
 };
 struct E6F310Info {
-    FUN_00e7cdf0_shell* ContainsNode(const NiRTTI* pkList);
 };
 struct E6F310Target {
     virtual void v00();
@@ -13031,9 +12979,6 @@ struct E6F310Renderer {
 };
 class NiRTTI;
 class NiAVObject;
-bool __cdecl FUN_0043b300(const NiRTTI* type, NiAVObject* obj);
-extern const NiRTTI g_011f4a88;
-extern const NiRTTI g_011f4a70;
 struct PacketTarget { int unk00; int unk04; void* unk08; void Release(); };
 struct PacketObj {
     int unk00; int unk04;
@@ -13046,11 +12991,7 @@ struct PacketObj {
     unsigned short unk40; unsigned short unk42;
     unsigned short unk44; unsigned short unk46;
     int unk48;
-    void SetPacket(unsigned int, int, int, int, int, int, unsigned int);
-    void SetA(unsigned short, unsigned short*);
-    void SetB(unsigned short, int, int);
 };
-void __stdcall ApplyPacketUpdate(PacketObj* obj, PacketTarget* target, int flag);
 struct GeomGroupEntry;
 struct GeomGroupLink {
     GeomGroupEntry* pkEntry;
@@ -13062,7 +13003,6 @@ struct GeomGroupEntry {
 };
 struct GeomGroupMap {
     int unk00;
-    bool Lookup(unsigned int key, GeomGroupEntry*& val) const;
     void Assign(unsigned int key, GeomGroupLink val);
     bool Remove(unsigned int key);
 };
@@ -13168,8 +13108,6 @@ struct GeomGroupOwner {
 
     void RemoveGeomFromGroups(GeomData* pkGeom);
 };
-extern "C" const NiRTTI DAT_011f4a70;
-extern const char g_011f5af4_arg1[];
 struct Geo108;
 struct Packet108;
 class NiAVObject {
@@ -13223,11 +13161,10 @@ unsigned short vertices; unsigned short unk0a; unsigned short flags; unsigned sh
 unsigned int unk10,unk14,unk18,unk1c,unk20; void* colors; void* normals;
 unsigned int unk2c,unk30,unk34,unk38,unk3c;
 unsigned short triangles,unk42,strips,unk46; void* activeTriangles;
-void* FUN_00a75f10(); void* FUN_00a7b850();
+ 
  __forceinline bool IsKindOfType(const NiRTTI* type) {const NiRTTI* r = GetRTTI(); while(r) {if(r==type) return true;r=r->m_pBaseRTTI;} return false;}
 
 };
-bool FUN_0043b300(const NiRTTI*,NiAVObject*);
 struct Owner108 {
 virtual void v0();virtual void v1();virtual void v2();virtual void v3();virtual void v4();virtual void v5();virtual void v6();virtual void ReleaseStream(Packet108*,unsigned int);
 };
@@ -13236,13 +13173,12 @@ unsigned int unk00, flags; Owner108* owner; unsigned int unk0c,unk10; bool dynam
 unsigned int activeVertices,vertices,streamCount,unk24; void** streams; unsigned int indexCount,indexOffset; void* indexBuffer; unsigned int unk38,unk3c,stripLengths,triangles,stripCount;void* activeTriangles;void* indices;
 __forceinline void SetVertexCounts(unsigned short av,unsigned short v) { activeVertices=av; vertices=v; }
 __forceinline void SetTriangleCounts(unsigned short at,unsigned short t,void* lens,unsigned short strips,void* idx) { stripLengths=at; triangles=t; activeTriangles=lens; indices=idx; stripCount=strips; }
-bool FUN_00e8eeb0(); void FUN_00e8ef10(unsigned int); void FUN_00e8eee0();
+  
 };
 struct Geo108 {unsigned int unk00,unk04,unk08,unk0c,unk10,unk14,revision;};
 class NiD3DHLSLVertexShader {public:const char* GetEntryPoint();};
-struct VB108 { unsigned int FUN_00e8bf90(); void* FUN_00e8c1e0(NiAVObject*,Geo108*,unsigned short,void*,int);};
-struct IB108 { void* FUN_00e8f200(void*,unsigned int,unsigned int,void*,unsigned int*,unsigned int,unsigned int);};
-extern bool DAT_0126f0d0;
+struct VB108 {  };
+struct IB108 { };
 struct Renderer108 {
 unsigned int unk000;
 unsigned int unk004;
@@ -13806,7 +13742,6 @@ unsigned int unk8b8;
 VB108* vb; IB108* ib;
 bool PrepareGeometryPacket(Packet108*,NiAVObject*,Geo108*,NiAVObject*,bool);
 };
-__declspec(noreturn) void __cdecl AddGeometryToBatch();
 void __cdecl FUN_00e752a0();
 extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 struct StridedDataTransfer {
@@ -13825,11 +13760,10 @@ struct StridedDataTransfer {
     int unk28;
     unsigned char* pucDst;
 };
-unsigned int CopyIndexedRows(StridedDataTransfer* pkData);
 bool __stdcall IsAlwaysTrue(void* a1, void* a2, void* a3);
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 struct tagRECTX { long left; long top; long right; long bottom; };
-struct PixFmtX { bool FUN_00a765c0(const PixFmtX* o) const; };
+struct PixFmtX {  };
 struct SurfX;
 struct DevX;
 struct DevVT {
@@ -13840,8 +13774,6 @@ struct DevX { DevVT* vt; };
 struct BufDataX { char pad[0xc]; PixFmtX* m_pkRenderPixelFormat; int m_10; SurfX* m_pkSurface; };
 struct BufX { char pad[0x10]; BufDataX* m_pRendererData; };
 struct RectUX { unsigned int m_fMinimumU, m_fMaximumU, m_fMinimumV, m_fMaximumV; };
-void FUN_00a29680(const char* fmt, ...);
-const char* GetHResultName(long hr);
 class RendX {
 public:
     char pad[0x288];
@@ -14689,7 +14621,6 @@ public:
     int unk8b0;
     int unk8b4;
     S00e711e0_Mgr* m_8b8;
-    void ClearList();
     __forceinline void ReleaseP()
     {
         S00e711e0_P* p = m_630;
@@ -15563,7 +15494,6 @@ struct S00e76450_Obj {
     bool FUN_00e76450(unsigned int x, unsigned int y, int a, int b, int c, int d, int e, int f);
 };
 void* __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
-unsigned int __cdecl FUN_00e78f80(Stream_e78910* s);
 struct PixRow_00e79760 {
   unsigned short m_w0;        // +0x00
   unsigned short m_w2;        // +0x02
@@ -15581,12 +15511,9 @@ struct PixRow_00e79760 {
   unsigned int m_unk28;       // +0x28
   char* m_dst;                // +0x2c
 };
-unsigned int FUN_00e79760(PixRow_00e79760* r);
-unsigned int FUN_00e79d00(NormalizedStream* s);
 class DepthStencilE7B {
 public:
     unsigned int m_uiKey;
-    void* FindBestFullscreenFormat(unsigned int uiFormat, unsigned int uiDepthBits, unsigned int uiStencilBits);
 };
 template <class T>
 struct ListNodeE7B {
@@ -15625,8 +15552,6 @@ struct FnvSlotTable {
     unsigned short u0a;
     unsigned short unk0c;
     unsigned short base;
-    void FUN_00a90180(unsigned int value);
-    void FUN_00ba3aa0(unsigned int index, FnvSlotObj** out);
 };
 
 struct FnvSlotObj {
@@ -15668,16 +15593,16 @@ bool FUN_00e7a760() {
     for (unsigned int i = 0; i < 0x12; ++i) {
         FnvSlotObj* local;
         void* p = FUN_00aa13e0(0x14);
-        FnvSlotObj* __restrict obj = p ? reinterpret_cast<FnvSlotRaw*>(p)->FUN_00e7a640() : 0;
+        FnvSlotObj* __restrict obj = p ? ((::FnvSlotObj *)(new ((void *)(reinterpret_cast<FnvSlotRaw*>(p))) ::FUN_00e7a640())) : 0;
         local = obj;
         obj->idx = i;
-        obj->sub.FUN_00a90180(0x26);
+        reinterpret_cast<::FUN_00a41520_cls *>(&(obj->sub))->FUN_00a90180(0x26);
         FnvSlotTable* t = reinterpret_cast<FnvSlotTable*>(DAT_0126f550);
         unsigned short cnt = reinterpret_cast<FnvSlotTable*>(DAT_0126f550)->count;
         if (i >= cnt) {
-            reinterpret_cast<FnvSlotTable*>(DAT_0126f550)->FUN_00a90180(reinterpret_cast<FnvSlotTable*>(DAT_0126f550)->base + i);
+            reinterpret_cast<::FUN_00a41520_cls *>((reinterpret_cast<FnvSlotTable*>(DAT_0126f550)))->FUN_00a90180(reinterpret_cast<FnvSlotTable*>(DAT_0126f550)->base + i);
         }
-        t->FUN_00ba3aa0(i, &local);
+        reinterpret_cast<::FUN_00a41520_cls *>((t))->FUN_00ba3aa0(i, (::KeyPair **)(::FnvSlotObj **)(&local));
     }
 
     for (unsigned int a = 0; a < 0x12; ++a) {

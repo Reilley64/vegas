@@ -2,20 +2,34 @@
 // src/gamebryo2.2/corelibs/nimain/nirangeloddata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nirangeloddata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00aa09c0_cls.h"
+#include "fnv/decl/NiColor.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a72000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a88000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f5000.h"
 struct GlobalObjectO2_00a7b610
 {
 };
-extern GlobalObjectO2_00a7b610 g_011f5ef8;
 
 // @fnv 0x00a976f0
 GlobalObjectO2_00a7b610* __cdecl FUN_00a976f0()
 {
-    return &g_011f5ef8;
+    return &::g_011f5ef8;
 }
 
 struct NiPoint3
 {
     float x, y, z;
+public:
+    char *FUN_00a59af0(const char *);
+public:
+    static const ::NiPoint3 ZERO;
 };
 
 struct NiLODData
@@ -54,8 +68,6 @@ void NiRangeLODData::CopyTo(NiRangeLODData* pkDest, CloningProcess* kCloning)
     _memmove(pkDest->m_pRanges, this->m_pRanges, this->m_uiRangeCount << 4);
 }
 
-void* __cdecl NiMalloc(unsigned int size);
-void __cdecl NiFreeAlias(void* ptr);
 
 // Reallocates the range array to uiNumRanges entries, copying the overlapping existing ranges and freeing the old buffer.
 // @fnv 0x00a978a0
@@ -65,16 +77,16 @@ void NiRangeLODData::SetRangeCount(unsigned int uiNumRanges)
     {
         if (!uiNumRanges)
         {
-            NiFreeAlias(m_pRanges);
+            ::FUN_00aa10f0(m_pRanges);
             m_pRanges = 0;
             m_uiRangeCount = 0;
             return;
         }
-        NiRangeLODData_Range* pkNewRanges = (NiRangeLODData_Range*)NiMalloc(uiNumRanges << 4);
+        NiRangeLODData_Range* pkNewRanges = (NiRangeLODData_Range*)::FUN_00aa1070(uiNumRanges << 4);
         if (m_pRanges)
             _memmove(pkNewRanges, m_pRanges,
                      ((int)m_uiRangeCount < (int)uiNumRanges ? m_uiRangeCount : uiNumRanges) << 4);
-        NiFreeAlias(m_pRanges);
+        ::FUN_00aa10f0(m_pRanges);
         m_pRanges = pkNewRanges;
         m_uiRangeCount = uiNumRanges;
     }
@@ -113,7 +125,6 @@ bool FakeLOD::Equals(NiObject* pkObject)
 }
 
 extern int DAT_010a073c;
-extern NiPoint3 _NiPoint3_ZERO;
 struct BaseCall
 {
     void FUN_00aa09a0();
@@ -122,24 +133,9 @@ struct StandIn
 {
     StandIn* InitializeRangeLODData();
 };
-// Calls the base initializer, installs the vtable, resets m_kCenter to zero and clears two fields, then returns this.
-// @fnv 0x00a97700
-StandIn* StandIn::InitializeRangeLODData()
-{
-    ((BaseCall*)this)->FUN_00aa09a0();
-    *(int*)this = (int)&DAT_010a073c;
-    ((NiRangeLODData*)this)->m_kCenter = _NiPoint3_ZERO;
-    ((NiRangeLODData*)this)->m_uiRangeCount = 0;
-    ((NiRangeLODData*)this)->m_pRanges = 0;
-    return this;
-}
-
 extern int DAT_010a073c;
-void __cdecl _NiFreeAlias(void*);
-void __cdecl _delete(void*, unsigned int);
 struct FUN_00aa09c0_shell
 {
-    void __thiscall FUN_00aa09c0();
 };
 struct FUN_00a97740_shell : NiRangeLODData
 {
@@ -151,10 +147,10 @@ void* __thiscall FUN_00a97740_shell::DestroyRangeLODData(unsigned int auiFlags)
 {
     void* pk = m_pRanges;
     *(void**)this = (void*)&DAT_010a073c;
-    _NiFreeAlias(pk);
-    ((FUN_00aa09c0_shell*)this)->FUN_00aa09c0();
+    ::FUN_00aa10f0(pk);
+    reinterpret_cast<::FUN_00aa09c0_cls *>((((FUN_00aa09c0_shell*)this)))->FUN_00aa09c0_cls::~FUN_00aa09c0_cls();
     if (auiFlags & 1)
-        _delete(this, 0x28);
+        ::FUN_00aa1460(this, 0x28);
     return this;
 }
 
@@ -167,7 +163,6 @@ struct Base00aa09a0
     void FUN_00aa09a0();
 };
 extern int DAT_010a073c;
-extern NiPoint3 _NiPoint3_ZERO;
 // @fnv 0x00a97c00
 NiRangeLODData* CreateRangeLODData()
 {
@@ -176,7 +171,7 @@ NiRangeLODData* CreateRangeLODData()
     {
         ((Base00aa09a0*)p)->FUN_00aa09a0();
         *(int*)p = (int)&DAT_010a073c;
-        p->m_kCenter = _NiPoint3_ZERO;
+        p->m_kCenter = ::NiPoint3::ZERO;
         p->m_uiRangeCount = 0;
         p->m_pRanges = 0;
         return p;
@@ -192,7 +187,7 @@ NiRangeLODData* __fastcall CopyRangeLODData(NiRangeLODData* self, int)
     {
         ((BaseCall*)pkData)->FUN_00aa09a0();
         *(int*)((char*)pkData + 0) = (int)&DAT_010a073c;
-        pkData->m_kCenter = _NiPoint3_ZERO;
+        pkData->m_kCenter = ::NiPoint3::ZERO;
         pkData->m_uiRangeCount = 0;
         pkData->m_pRanges = 0;
     }
@@ -244,7 +239,6 @@ struct BA97CE0Point3
     float z;
 };
 
-extern const BA97CE0Point3 g_kA97CE0Zero;
 
 class BA97CE0Object
 {
@@ -260,7 +254,7 @@ class BA97CE0Object
 class BA97CE0Controller : public BA97CE0Object
 {
   public:
-    BA97CE0Controller() throw() : m_kOffset(g_kA97CE0Zero), m_pkFirst(0), m_pkSecond(0)
+    BA97CE0Controller() throw() : m_kOffset((*reinterpret_cast<const ::BA97CE0Point3 *>((void *)&::NiPoint3::ZERO))), m_pkFirst(0), m_pkSecond(0)
     {}
     virtual ~BA97CE0Controller();
 
@@ -271,7 +265,6 @@ class BA97CE0Controller : public BA97CE0Object
     void* m_pkFirst;
     void* m_pkSecond;
 
-    void CopyMemberData(BA97CE0Controller* pkDest, BA97CE0Cloning& kCloning);
     BA97CE0Object* FUN_00a97ce0(BA97CE0Cloning& kCloning);
 };
 
@@ -279,7 +272,7 @@ class BA97CE0Controller : public BA97CE0Object
 BA97CE0Object* BA97CE0Controller::FUN_00a97ce0(BA97CE0Cloning& kCloning)
 {
     BA97CE0Controller* pkClone = new BA97CE0Controller;
-    CopyMemberData(pkClone, kCloning);
+    reinterpret_cast<::NiRangeLODData *>(this)->CopyTo((::NiRangeLODData *)(pkClone), (::CloningProcess *)&(kCloning));
     return pkClone;
 }
 
@@ -476,7 +469,6 @@ struct A97E20Point3
     float y;
     float z;
 
-    void LoadBinary(A97E20Stream& kStream);
 };
 
 struct A97E20Range
@@ -493,7 +485,6 @@ class A97E20LODData
     int unk00;
     int unk04;
 
-    void LoadBinary(A97E20Stream& kStream);
 };
 
 class A97E20RangeLODData : public A97E20LODData
@@ -506,18 +497,17 @@ class A97E20RangeLODData : public A97E20LODData
     int unk20;
     A97E20Range* m_pRanges;
 
-    void AllocateRanges(unsigned int uiNumRanges);
     void FUN_00a97e20(A97E20Stream& kStream);
 };
 
 // @fnv 0x00a97e20
 void A97E20RangeLODData::FUN_00a97e20(A97E20Stream& kStream)
 {
-    A97E20LODData::LoadBinary(kStream);
-    m_kWorldCenter.LoadBinary(kStream);
+    ::FUN_00a88a40();
+    reinterpret_cast<::NiColor *>(&(m_kWorldCenter))->LoadBinary((::NiStream &)(kStream));
     unsigned int uiNumRanges;
     A97E20LoadBinary(kStream, uiNumRanges);
-    AllocateRanges(uiNumRanges);
+    reinterpret_cast<::NiRangeLODData *>(this)->SetRangeCount(uiNumRanges);
     for (unsigned int i = 0; i < uiNumRanges; i++)
     {
         A97E20LoadBinary(kStream, m_pRanges[i].m_fNearPlane);
@@ -540,6 +530,17 @@ class FUN_00aa09a0 : public A09A0Object
     FUN_00aa09a0();
     virtual void vfunc00();
 };
+// Calls the base initializer, installs the vtable, resets m_kCenter to zero and clears two fields, then returns this.
+// @fnv 0x00a97700
+StandIn* StandIn::InitializeRangeLODData()
+{
+    new ((void *)(((BaseCall*)this))) ::FUN_00aa09a0();
+    *(int*)this = (int)&DAT_010a073c;
+    ((NiRangeLODData*)this)->m_kCenter = ::NiPoint3::ZERO;
+    ((NiRangeLODData*)this)->m_uiRangeCount = 0;
+    ((NiRangeLODData*)this)->m_pRanges = 0;
+    return this;
+}
 
 // @fnv 0x00aa09a0
 FUN_00aa09a0::FUN_00aa09a0()
@@ -728,7 +729,6 @@ class D60Stream
 class D60Color
 {
   public:
-    void SaveBinary(D60Stream& kStream);
 
     float r;
     float g;
@@ -747,7 +747,6 @@ struct D60Key
 class D60Base
 {
   public:
-    void SaveBinary(D60Stream& kStream);
 };
 
 class D60Data : public D60Base
@@ -768,8 +767,8 @@ class D60Data : public D60Base
 // @fnv 0x00a97d60
 void D60Data::FUN_00a97d60(D60Stream& kStream)
 {
-    D60Base::SaveBinary(kStream);
-    m_kFogTint.SaveBinary(kStream);
+    ::FUN_00a724d0();
+    reinterpret_cast<::NiColor *>(&(m_kFogTint))->SaveBinary((::NiStream &)(kStream));
     D60SaveBinary(*kStream.m_pBackingStream, m_uiNumKeys);
     for (unsigned int i = 0; i < m_uiNumKeys; i++)
     {
@@ -778,11 +777,9 @@ void D60Data::FUN_00a97d60(D60Stream& kStream)
     }
 }
 
-extern const char* DAT_011f5ef8;
 struct A97EF0Point3
 {
     float x, y, z;
-    char* FormatToBuffer(const char* pcPrefix) const;
 };
 struct A97EF0Range
 {
@@ -799,14 +796,12 @@ struct A97EF0Strings
     unsigned short m_usSize;
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
-    void SetSize(unsigned int uiMaxSize);
-    void SetAt(unsigned int uiIndex, char* const& element);
     unsigned int Add(char* const& element)
     {
         unsigned int uiIndex = m_usSize;
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, element);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(element));
         return uiIndex;
     }
     void SetAtInline(unsigned int uiIndex, char* element)
@@ -836,13 +831,11 @@ struct A97EF0Strings
     {
         unsigned int uiIndex = m_usSize;
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
         SetAtInline(uiIndex, element);
         return uiIndex;
     }
 };
-char* A97EF0GetViewerString(const char* pcName);
-int A97EF0Sprintf(char* buf, unsigned int size, const char* fmt, ...);
 struct A97EF0RangeLODData
 {
     int m_base;
@@ -858,13 +851,13 @@ struct A97EF0RangeLODData
 // @fnv 0x00a97ef0
 void A97EF0RangeLODData::FUN_00a97ef0(A97EF0Strings* pkStrings)
 {
-    pkStrings->Add(A97EF0GetViewerString(DAT_011f5ef8));
-    pkStrings->Add(m_kCenter.FormatToBuffer("m_kCenter"));
-    pkStrings->Add(m_kWorldCenter.FormatToBuffer("m_kWorldCenter"));
+    pkStrings->Add(::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_011f5ef8))));
+    pkStrings->Add(reinterpret_cast<::NiPoint3 *>((void *)&(m_kCenter))->FUN_00a59af0("m_kCenter"));
+    pkStrings->Add(reinterpret_cast<::NiPoint3 *>((void *)&(m_kWorldCenter))->FUN_00a59af0("m_kWorldCenter"));
     for (unsigned int i = 0; i < m_uiRangeCount; i++)
     {
-        char* pcRange = (char*)NiMalloc(0x80);
-        A97EF0Sprintf(pcRange, 0x80, "range[%d] = %g   %g", i, m_pRanges[i].m_fNearPlane, m_pRanges[i].m_fFarPlane);
+        char* pcRange = (char*)::FUN_00aa1070(0x80);
+        ::NiSprintf(pcRange, 0x80, "range[%d] = %g   %g", i, m_pRanges[i].m_fNearPlane, m_pRanges[i].m_fFarPlane);
         pkStrings->AddInline(pcRange);
     }
 }

@@ -2,6 +2,7 @@
 #ifndef FNV_EFFECTITEM_H
 #define FNV_EFFECTITEM_H
 
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
 #include "statsmenu_layout_support.h"
 #include "statsmenu_TESCondition.h"
 class EffectItem;
@@ -37,7 +38,6 @@ class EffectItem
     EffectSetting* m_pEffectSetting;  // +0x14, 4 bytes
     float m_fCost;                    // +0x18, 4 bytes
     PerkEntryConditionSet Conditions;          // +0x1C, 8 bytes
-    EffectSetting* GetEffectSetting() const;
     // EffectItem
     // void __cdecl EffectItem::*()
     // void __cdecl EffectItem::*()
@@ -75,6 +75,10 @@ class EffectItem
     // void __cdecl EffectItem::*(EffectSetting*)
     // EffectItem& __cdecl EffectItem::*(const EffectItem&)
     // void* __cdecl EffectItem::*(unsigned int)
+public:
+    int GetAffectedActorValue();
+public:
+    bool IsScriptBasedEffect();
 };
 FNV_STATIC_ASSERT(sizeof(EffectItem) == 36);
 FNV_STATIC_ASSERT(offsetof(EffectItem, data) == 0);

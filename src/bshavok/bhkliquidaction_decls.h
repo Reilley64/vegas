@@ -1,6 +1,7 @@
 #ifndef BHKLIQUIDACTION_DECLS_H
 #define BHKLIQUIDACTION_DECLS_H
 
+#include "fnv/symbols_01268000.h"
 class LiquidActionInfo;
 class FUN_0056d410
 {
@@ -16,5 +17,4 @@ class GlobalObject_004ee810
     ~GlobalObject_004ee810();
     unsigned char storage[4];
 };
-extern unsigned int DAT_012681bc;
 #endif

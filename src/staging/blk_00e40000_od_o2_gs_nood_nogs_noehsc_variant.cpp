@@ -5,6 +5,13 @@
 
 // src/staging/blk_00e40000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/AttributeFormatter.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_010ec000.h"
+#include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -43,12 +50,8 @@ class hkError
     virtual void slot08();
     virtual int message(int type, int id, const char* description, const char* file, int line);
 };
-extern hkError* DAT_01268360;
 
 extern const char str_010ecd48[];
-extern const char str_010eccfc[];
-extern const char str_010ecd0c[];
-extern const char str_010eccc8[];
 
 struct VectorAttribute
 {
@@ -76,8 +79,8 @@ int AttributeHolder::FUN_00e5ca80(const char* name, unsigned char warn, hkVector
     {
         char assertBuf[512];
         hkOstream ostr(assertBuf, sizeof(assertBuf));
-        ostr << str_010ecd48 << name << str_010eccfc << (const void*)this << str_010ecd0c;
-        DAT_01268360->message(1, 0xabbaab81, assertBuf, str_010eccc8, 0xa2);
+        reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(reinterpret_cast<::AttributeFormatter *>((void *)&(const ::hkOstream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(ostr))->FUN_00cc01c0(str_010ecd48)))->FUN_00cc01c0(name)))->FUN_00cc01c0(str_010eccfc)))->WriteName((::NameReference *)((const void*)this))))->FUN_00cc01c0(str_010ecd0c);
+        (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabbaab81, assertBuf, str_010eccc8, 0xa2);
     }
     return 1;
 }

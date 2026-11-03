@@ -2,6 +2,10 @@
 // src/havok/physics/dynamics/constraint/chain/powered/hkppoweredchaindata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/chain/powered/hkppoweredchaindata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpPoweredChainData.h"
 
 struct FUN_00e3b720_s
@@ -158,7 +162,6 @@ struct FUN_00d21ce0_cls
     int unk00;
     int unk04;
     void* m_08;
-    void FUN_00d21ce0(void* p) throw();
 };
 
 struct hkMemberE3B9 : public FUN_00d21ce0_cls
@@ -166,7 +169,7 @@ struct hkMemberE3B9 : public FUN_00d21ce0_cls
     hkMemberE3B9(hkFinishFlagE3B9 flag)
     {
         if (flag.m_bFinishing)
-            FUN_00d21ce0(m_08);
+            reinterpret_cast<::FUN_00d21ce0_cls *>(this)->FUN_00d21ce0(m_08);
     }
 };
 
@@ -194,7 +197,7 @@ class FUN_00e3b960 : public hkRefObjE3B9
 FUN_00e3b960::FUN_00e3b960(hkFinishFlagE3B9 flag) : hkRefObjE3B9(flag), m_kMemberDescriptor(flag)
 {
     if (flag.m_bFinishing)
-        m_kMemberDescriptor.FUN_00d21ce0(this);
+        reinterpret_cast<::FUN_00d21ce0_cls *>(&(m_kMemberDescriptor))->FUN_00d21ce0(this);
 }
 }  // namespace fnv_00e3b960
 
@@ -289,7 +292,6 @@ void __thiscall S00e3b770_Obj::FUN_00e3b770(int unused, S00e3b770_Result* result
 #include <xmmintrin.h>
 struct Motor
 {
-    void FUN_00c90510();
 };
 struct ConstraintInfo
 {
@@ -313,8 +315,6 @@ struct MemoryRouter
     int unk00, unk04, unk08, unk0c;
     void* allocator;
 };
-extern void __cdecl ResizeAudioStream(void* allocator, InfoArray* array, int elementSize);
-extern const __m128 DAT_012683b0;
 struct PoweredChainData
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14;
@@ -330,19 +330,19 @@ void PoweredChainData::FUN_00e3b850(const __m128* apFrameA, const __m128* apFram
     InfoArray* array = &infos;
     MemoryRouter* router = FUN_00c85750();
     if (array->size == (int)(array->capacityAndFlags & 0x3fffffff))
-        ResizeAudioStream(router->allocator, array, sizeof(ConstraintInfo));
+        ::ResizeAudioStream((::AudioAllocator *)(router->allocator), (::AudioStream *)(array), sizeof(ConstraintInfo));
     ConstraintInfo& info = array->data[array->size++];
     info.frameA = *apFrameA;
     info.frameB = *apFrameB;
     info.frameC = *apFrameC;
     info.motorA = motorA;
-    motorA->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((motorA))->FUN_00c90510();
     info.motorB = motorB;
-    motorB->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((motorB))->FUN_00c90510();
     info.motorC = motorC;
-    motorC->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((motorC))->FUN_00c90510();
     info.enabled = false;
-    info.frameD = DAT_012683b0;
+    info.frameD = (*reinterpret_cast<const ::__m128 *>(&::DAT_012683b0));
 }
 
 struct S00e3b810_Out
@@ -453,7 +453,6 @@ class hkReferencedObject : public hkBaseObject
   public:
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
-    void FUN_00c905b0() throw();
 };
 }
 
@@ -490,7 +489,7 @@ hkpPoweredChainData::~hkpPoweredChainData()
         for (int j = 0; j < 3; j++)
         {
             if (m_kEntries.m_data[i].m_apkObjects[j])
-                m_kEntries.m_data[i].m_apkObjects[j]->FUN_00c905b0();
+                reinterpret_cast<::hkReferencedObjectC905 *>((m_kEntries.m_data[i].m_apkObjects[j]))->FUN_00c905b0();
         }
     }
 }

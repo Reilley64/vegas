@@ -1,5 +1,7 @@
 // gamebryo2.2/corelibs/nianimation/nicontrollermanager_decls.h: declares NiControllerManagerSequences, NiControllerManager, NiControllerSequence
 
+#include "fnv/decl/FUN_00629ab0_shell.h"
+#include "fnv/decl/SeqA34f20.h"
 class NiFixedString;
 extern NiFixedString* DAT_011c61e0;
 class NiControllerSequence;
@@ -11,7 +13,6 @@ template <class T, unsigned int N> class BSSimpleArray
 class NiControllerManagerSequences : public BSSimpleArray<unsigned int, 1024>
 {
   public:
-    NiControllerSequence*& FUN_00629ab0(unsigned int);
 };
 class NiControllerManager
 {
@@ -65,5 +66,4 @@ class NiControllerSequence
     virtual void vfn_84();
     virtual void vfn_88();
     virtual bool Deactivate(float, bool);
-    bool Activate(char, bool, float, float, NiControllerSequence*, bool);
 };

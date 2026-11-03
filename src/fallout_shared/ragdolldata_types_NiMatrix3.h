@@ -2,6 +2,7 @@
 #ifndef FNV_NIMATRIX3_TYPES_H
 #define FNV_NIMATRIX3_TYPES_H
 
+#include "fnv/decl/Matrix161.h"
 #include "layout_support.h"
 class ThreeByThreeMatrix;
 class NiPoint4;
@@ -81,7 +82,6 @@ class ThreeByThreeMatrix
     ThreeByThreeMatrix();
     bool operator==(const ThreeByThreeMatrix& matrix) const;
     bool operator!=(const ThreeByThreeMatrix& matrix) const;
-    void FUN_00a59540(float x, float y, float z);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(ThreeByThreeMatrix) == 36);

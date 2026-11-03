@@ -2,6 +2,21 @@
 // src/havok/common/serialize/util/hknativepackfileutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/util/hknativepackfileutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/CB1A90Owner.h"
+#include "fnv/decl/ExportSection.h"
+#include "fnv/decl/FUN_00cb1930_t.h"
+#include "fnv/decl/FUN_00d9ec10_cls.h"
+#include "fnv/decl/ParserE030.h"
+#include "fnv/decl/fnv_00cb1870__hkMapBaseCB18.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00dc0000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010d6000.h"
+#include "fnv/symbols_011b7000.h"
+#include "fnv/symbols_01268000.h"
 extern "C" void __cdecl ProcessElements(int, int, int);
 
 struct FUN_00dc0ed0_class
@@ -15,7 +30,6 @@ void FUN_00dc0ed0_class::FUN_00dc0ed0(int aiFirst, int aiSecond)
     ProcessElements(*(int*)((char*)this + 8), aiSecond, aiFirst);
 }
 
-void __cdecl FUN_00dc0de0(void*, void*);
 
 struct FUN_00dc0ef0_class
 {
@@ -35,7 +49,7 @@ void FUN_00dc0ef0_class::FUN_00dc0ef0()
 {
     if (m_14)
     {
-        FUN_00dc0de0(m_08, m_0c);
+        ::FUN_00dc0de0((::S_00dc0de0 *)(m_08));
         m_14 = 0;
         m_18 = 0;
     }
@@ -55,8 +69,6 @@ struct FUN_00dc08f0_Element
     int unk24;
     int unk28;
     int unk2c;
-    void IsRendererActive(void* data, int arg);
-    void SecondPass(void* data, int arg);
 };
 
 struct FUN_00dc08f0_Header
@@ -78,8 +90,8 @@ extern "C" void __cdecl ProcessElements(int header, int first, int second)
     {
         FUN_00dc08f0_Element* pElement = &pHeader->elements[i];
         void* data = (char*)pHeader + pElement->dataOffset;
-        pElement->IsRendererActive(data, first);
-        pElement->SecondPass(data, second);
+        reinterpret_cast<::ExportSection *>((pElement))->ReadRecords(data, (*(::ExportList< ::ExportRecord, ::ExportAlloc> *)(first)));
+        reinterpret_cast<::ParserE030 *>((pElement))->FUN_00e03010((int)(data), (*(::hkArrayE030< ::RangeE030> *)(second)));
     }
 }
 
@@ -154,8 +166,6 @@ struct S_00dc0de0_Map
     {
         return m_kPrimitiveElement[it].val;
     }
-    void ClearAndRelease(S_00dc0de0_Allocator& alloc);
-    void FUN_00a29680();
 };
 
 struct S_00dc0de0_Elem
@@ -210,8 +220,8 @@ void FUN_00dc0de0(S_00dc0de0* s)
             pValue->m_callback(map.GetIteratorKey(it));
     }
     s->m_ppData._clearAndDeallocate(FUN_00c85750()->heap());
-    map.ClearAndRelease(FUN_00c85750()->heap());
-    map.FUN_00a29680();
+    reinterpret_cast<::CB1A90Owner *>(&(map))->ProcessArgument((::CB1A90Argument *)&(FUN_00c85750()->heap()));
+    ::FUN_00a29680();
 }
 
 extern char DAT_010d6ab4[];
@@ -239,9 +249,7 @@ int FUN_00dc0ec0_cls::FUN_00dc0ec0(int first, int second)
 }
 
 extern "C" int __cdecl FUN_00dc07d0(void*, void*) throw();
-extern "C" void __cdecl FUN_00c908c0(void*, void*, int, int) throw();
 extern "C" void* __cdecl UnpackPackfile(void*, void*, void*, int, void*) throw();
-extern "C" void* DAT_010d6a94;
 
 struct S_00dc0cd0_Alloc
 {
@@ -272,7 +280,6 @@ struct S_00dc0cd0_Router
 
 struct S_00dc0cd0_Map
 {
-    void* LookupHashEntry(void* key, int defVal) throw();
 };
 
 struct S_00dc0cd0_Base0
@@ -298,7 +305,6 @@ struct S_00dc0cd0_MemberArray
         m_iCapacityState = 0x80000000;
     }
 
-    void SwapThreeInts(void* other) throw();
 };
 
 struct S_00dc0cd0_Array
@@ -322,7 +328,7 @@ struct S_00dc0cd0_Array
             int newCap = 2 * cap;
             if (n >= newCap)
                 newCap = n;
-            FUN_00c908c0(&alloc, this, newCap, 1);
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(&alloc), (::SpawnedArray *)(void *)(this), newCap, 1);
         }
     }
 
@@ -371,7 +377,7 @@ void* __cdecl CreateResourceFromArray(void* arg0, void* arg1, void* arg2) throw(
     void* pKey = UnpackPackfile(arg0, arg1, tempArray.m_data, needed, arg2);
     S_00dc0cd0_Map* map = (S_00dc0cd0_Map*)((char*)tempArray.m_data + 8);
     void* pFound = 0;
-    void** ppValue = (void**)map->LookupHashEntry(pKey, 0);
+    void** ppValue = (void**)((void *)(reinterpret_cast<::FUN_00cb1930_t *>((map))->LookupHashEntry((int)(pKey), 0)));
     if (ppValue)
     {
         pFound = *ppValue;
@@ -384,15 +390,12 @@ void* __cdecl CreateResourceFromArray(void* arg0, void* arg1, void* arg2) throw(
     pResource->m_ppData.init();
     pResource->m_14 = pKey;
     pResource->m_18 = pFound;
-    pResource->m_ppData.SwapThreeInts(&tempArray);
+    reinterpret_cast<::FUN_00d9ec10_cls *>(&(pResource->m_ppData))->SwapThreeInts((int *)(void *)(&tempArray));
     return pResource;
 }
 
 namespace fnv_00dc0f20 {
-extern int DAT_010d6a94;
-extern int DAT_0102e388;
 
-void __cdecl FUN_00dc0de0(void*, void*);
 
 struct AudioAllocator
 {
@@ -430,10 +433,10 @@ struct FUN_00dc0f20_cls
 // @fnv 0x00dc0f20
 void FUN_00dc0f20_cls::FUN_00dc0f20()
 {
-    m_vptr = (int)&DAT_010d6a94;
+    m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_010d6a94));
     if (m_14 != 0)
     {
-        FUN_00dc0de0(m_08, m_0c);
+        ::FUN_00dc0de0((::S_00dc0de0 *)(m_08));
         m_14 = 0;
         m_18 = 0;
     }
@@ -447,7 +450,7 @@ void FUN_00dc0f20_cls::FUN_00dc0f20()
     }
     m_08 = 0;
     m_10 = 0x80000000u;
-    *(volatile int*)&m_vptr = (int)&DAT_0102e388;
+    *(volatile int*)&m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 }  // namespace fnv_00dc0f20
 
@@ -459,11 +462,7 @@ struct StructureLayoutRules
     unsigned char m_bEmptyBaseClassOptimization;
 };
 
-extern StructureLayoutRules DAT_011b7b88;
 
-void __cdecl FUN_00cb1280(void* p, int a, int b);
-void* __cdecl FUN_00dc0fb0();
-int __cdecl FUN_00cb0fa0(const void* a, const void* b);
 
 struct hkPackfileHeader
 {
@@ -492,7 +491,7 @@ struct hkPackfileHeader
 
     hkPackfileHeader()
     {
-        FUN_00cb1280(this, -1, sizeof(*this));
+        ::FUN_00cb1280(this, -1, sizeof(*this));
         m_magic0 = 0x57e0e057;
         m_magic1 = 0x10c0c010;
         m_contentsVersion_0 = 0;
@@ -520,7 +519,7 @@ int __cdecl ValidatePackfileHeader(const hkPackfileHeader* header, const char** 
         return 1;
     }
 
-    const StructureLayoutRules& hostRules = DAT_011b7b88;
+    const StructureLayoutRules& hostRules = (*reinterpret_cast<::StructureLayoutRules *>(&::DAT_011b7b88));
     if (header->m_layoutRules_0 != hostRules.m_ucBytesInPointer)
     {
         if (outError)
@@ -533,13 +532,13 @@ int __cdecl ValidatePackfileHeader(const hkPackfileHeader* header, const char** 
             *outError = "Trying to process a binary file with a different endian than this platform.";
         return 1;
     }
-    if (header->m_layoutRules_2 != DAT_011b7b88.m_bReusePaddingOptimization)
+    if (header->m_layoutRules_2 != (*reinterpret_cast<::StructureLayoutRules *>(&::DAT_011b7b88)).m_bReusePaddingOptimization)
     {
         if (outError)
             *outError = "Trying to process a binary file with a different padding optimization than this platform.";
         return 1;
     }
-    if (header->m_layoutRules_3 != DAT_011b7b88.m_bEmptyBaseClassOptimization)
+    if (header->m_layoutRules_3 != (*reinterpret_cast<::StructureLayoutRules *>(&::DAT_011b7b88)).m_bEmptyBaseClassOptimization)
     {
         if (outError)
             *outError =
@@ -558,7 +557,7 @@ int __cdecl ValidatePackfileHeader(const hkPackfileHeader* header, const char** 
             *outError = "Packfile file format is too old";
         return 1;
     }
-    if (FUN_00cb0fa0(&header->m_contentsVersion_0, FUN_00dc0fb0()) != 0)
+    if (::fnv_00cb0fa0::FUN_00cb0fa0((const char *)(const void *)(&header->m_contentsVersion_0), (const char *)(const void *)(FUN_00dc0fb0())) != 0)
     {
         if (outError)
             *outError = "Packfile contents are not up to date";
@@ -581,7 +580,6 @@ struct hkPackfileSectionHeaderN
     int m_iEndOffset;
 };
 
-void __cdecl hkMemCpyN(void* dst, const void* src, int n);
 
 inline void* operator new(unsigned int, void* p) throw()
 {
@@ -620,7 +618,6 @@ struct hkBuiltinTypeRegistryN
     virtual hkTypeInfoRegistryN* GetTypeInfoRegistry();
 };
 
-extern hkBuiltinTypeRegistryN* g_pkBuiltinTypeRegistryN;
 
 struct hkLoadedObjectTrackerN
 {
@@ -629,7 +626,6 @@ struct hkLoadedObjectTrackerN
     int m_08;
 
     hkLoadedObjectTrackerN(void* buffer, int bufferSize) throw();
-    void add(void* allocator, void* obj, const void* typeInfo) throw();
 };
 
 struct hkNativeHeaderN
@@ -668,7 +664,7 @@ extern "C" void* __cdecl UnpackPackfile(void* packfileData, void* dataSize, void
         hkPackfileSectionHeaderN& dst = out->m_sections[i];
         const hkPackfileSectionHeaderN& src = sectionHeaders[i];
 
-        hkMemCpyN(dst.m_acSectionTag, src.m_acSectionTag, sizeof(src.m_acSectionTag));
+        ::FUN_00cb1260(dst.m_acSectionTag, src.m_acSectionTag, sizeof(src.m_acSectionTag));
         dst.m_cNullByte = src.m_cNullByte;
         dst.m_iAbsoluteDataStart = dataOffset;
         dst.m_iLocalFixupsOffset = src.m_iLocalFixupsOffset;
@@ -680,10 +676,10 @@ extern "C" void* __cdecl UnpackPackfile(void* packfileData, void* dataSize, void
 
         const char* srcData = (const char*)packfileData + src.m_iAbsoluteDataStart;
         char* dstData = (char*)outBuffer + dataOffset;
-        hkMemCpyN(dstData, srcData, src.m_iLocalFixupsOffset);
-        hkMemCpyN(dstData + dst.m_iExportsOffset, srcData + src.m_iExportsOffset,
+        ::FUN_00cb1260(dstData, srcData, src.m_iLocalFixupsOffset);
+        ::FUN_00cb1260(dstData + dst.m_iExportsOffset, srcData + src.m_iExportsOffset,
                   src.m_iImportsOffset - src.m_iExportsOffset);
-        hkMemCpyN(dstData + dst.m_iImportsOffset, srcData + src.m_iImportsOffset,
+        ::FUN_00cb1260(dstData + dst.m_iImportsOffset, srcData + src.m_iImportsOffset,
                   src.m_iEndOffset - src.m_iImportsOffset);
 
         if (i == header->m_iContentsSectionIndex)
@@ -721,7 +717,7 @@ extern "C" void* __cdecl UnpackPackfile(void* packfileData, void* dataSize, void
     new (&out->m_pTracker) hkLoadedObjectTrackerN((char*)outBuffer + dataOffset, outBufferSize - dataOffset);
 
     hkTypeInfoRegistryN* registry =
-        userRegistry ? (hkTypeInfoRegistryN*)userRegistry : g_pkBuiltinTypeRegistryN->GetTypeInfoRegistry();
+        userRegistry ? (hkTypeInfoRegistryN*)userRegistry : (*reinterpret_cast<::hkBuiltinTypeRegistryN * *>(&::DAT_01268b08))->GetTypeInfoRegistry();
 
     for (int i = 0; i < header->m_iNumSections; i++)
     {
@@ -741,7 +737,7 @@ extern "C" void* __cdecl UnpackPackfile(void* packfileData, void* dataSize, void
                 if (typeInfo)
                 {
                     S_00dc0de0_Allocator& heap = FUN_00c85750()->heap();
-                    out->m_pTracker.add(&heap, obj, typeInfo);
+                    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(out->m_pTracker))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&heap)), (unsigned int)(obj), (unsigned int)(typeInfo));
                 }
             }
         }
@@ -791,7 +787,6 @@ void CallTarget_dc07b0()
     g_out_dc07b0 = FUN_00dc07b0(g_t_dc07b0, g_idx_dc07b0, g_a_dc07b0, g_b_dc07b0);
 }
 
-extern "C" int __cdecl FUN_00cb17f0(int);
 
 struct hkPackfileSectionHeader
 {
@@ -836,7 +831,7 @@ extern "C" int __cdecl FUN_00dc07d0(void* packfileData, void* packfileSize) thro
         numVirtualFixups += sections[i].getVirtualFixupsSize() / (3 * (int)sizeof(int));
         dataSize += sections[i].getDataSize() + sections[i].getExportsSize() + sections[i].getImportsSize();
     }
-    int mapSize = FUN_00cb17f0(numVirtualFixups);
+    int mapSize = ::FUN_00cb17f0(numVirtualFixups);
     return 0x20 + header->m_iNumSections * (int)sizeof(hkPackfileSectionHeader) + dataSize + mapSize;
 }
 

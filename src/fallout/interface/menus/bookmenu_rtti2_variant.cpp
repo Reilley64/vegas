@@ -5,6 +5,36 @@
 
 // src/fallout/interface/menus/bookmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/bookmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00409700_Class.h"
+#include "fnv/decl/FUN_00418770_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_0070ec70_class.h"
+#include "fnv/decl/FUN_00a01230_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a01440_shell.h"
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/FUN_00a1dc70_shell.h"
+#include "fnv/decl/S_00aff7c0_File.h"
+#include "fnv/decl/TileListBoxCalls.h"
+#include "fnv/decl/fnv_0070bc20__FUN_0070bc20_shell.h"
+#include "fnv/decl/fnv_00714fd0__FUN_00714fd0_shell.h"
+#include "fnv/decl/fnv_007157b0__FUN_007157b0_shell.h"
+#include "fnv/decl/fnv_0073b480__FUN_0073b480_shell.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
+#include "fnv/decl/fnv_00a01b00__TileLoader.h"
+#include "fnv/decl/fnv_00a1c520__FUN_00a1c520.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_00709000.h"
+#include "fnv/symbols_00715000.h"
+#include "fnv/symbols_00717000.h"
+#include "fnv/symbols_00890000.h"
+#include "fnv/symbols_00a09000.h"
+#include "fnv/symbols_01077000.h"
+#include "fnv/symbols_011de000.h"
 struct Menu
 {
     virtual ~Menu();  // the original class is polymorphic (rtti_variants.py)
@@ -18,6 +48,8 @@ struct Menu
     unsigned int m_g;
     unsigned int m_h;
     unsigned int m_i;
+public:
+    void SetMenuVisibility(bool);
 };
 extern unsigned int DAT_01070ecc;
 struct FUN_0073acb0 : Menu
@@ -47,7 +79,6 @@ struct FUN_0073af60_shell
     int m_0x2c;
     bool __thiscall FUN_0073af60();
 };
-void __cdecl _Deallocate(void*);
 struct FUN_0073ad00_shell
 {
     void __thiscall FUN_0073ad30();
@@ -79,11 +110,10 @@ struct blob12
 {
     char b[12];
 };
+class Tile;
 struct InterfaceManager
 {
-    static InterfaceManager* Instance();
     static void Free();
-    static void Initialize(unsigned int, bool);
     void Init(bool);
     void RefreshInterfaceState();
     SceneGraph* GetOrCreateSceneGraph(SceneGraph*, char*, bool);
@@ -103,7 +133,6 @@ struct InterfaceManager
     void SetStatsPageNumber(char);
     void SetInventoryPageNumber(char);
     void SetMapPageNumber(char);
-    static bool IsPipboyMenuActive();
     static bool IsInterfaceMenuActive();
     static bool IsCurrentRenderedMenuTopmost();
     int GetCurrentMainMenu();
@@ -124,9 +153,7 @@ struct InterfaceManager
     void InternalSetMenuMode(int);
     void CalculateConsolePickRefs();
     void ClearMenuInput();
-    int GetPickCursorX();
     int GetCursorY();
-    int GetMouseWheel();
     int GetRealCursorX();
     int GetRealCursorY();
     float GetRawCursorX();
@@ -168,7 +195,6 @@ struct InterfaceManager
     BSShaderAccumulator* GetAccumulator();
     BSShaderAccumulator* Get3dAccumulator();
     TESImageSpaceModifier* GetImageSpaceModifier();
-    void SetMenuFocusEnabled(bool);
     Tile* GetCurrentFocusTarget();
     void ClearInterfaceState(Tile*, int, bool);
     void ClearCurrentFocusTarget();
@@ -217,12 +243,10 @@ struct InterfaceManager
     TESObjectREFR* GetCurrentPickedREFR();
     struct blob12 GetActivatePickLocation();
     bool IsActivatePickFuzzy();
-    void ClearActivatePickResults();
     void SetActivatePickReference(TESObjectREFR*);
     int GetActivatePickResult(int);
     int GetTopEnterStackEntry();
     int GetMenuStackEntry(int);
-    int AddMenuStackEntry(int, bool);
     bool IsMenuInStack(unsigned int);
     void Test();
     NiAlphaProperty* GetAlphaProp();
@@ -256,7 +280,6 @@ struct InterfaceManager
     void UpdatePipboyState();
     void SetCurrentRenderedMenu(FORenderedMenu*);
     bool IsPipboyMenuOpen();
-    FORenderedMenu* GetActiveRenderedMenu();
     void DumpMenuPackingInfo();
     float GetPipboyMouseX();
     float GetPipboyMouseY();
@@ -402,13 +425,16 @@ struct InterfaceManager
     bool m_bDebugOverlayVisible;
     char _pad_3c9[3];
     char m_kInterfaceStateData[172];
+public:
+    ::Tile *FUN_00586150();
+public:
+    int FUN_00747d00();
 };
 typedef char _sizecheck_InterfaceManager[sizeof(InterfaceManager) == 1144 ? 1 : -1];
 struct FUN_0073b020_shell : public InterfaceManager
 {
     int FUN_0073b020();
 };
-float __cdecl FUN_00715da0();
 struct FUN_0073b460_shell
 {
     bool __thiscall FUN_0073b460();
@@ -432,7 +458,6 @@ struct Holder73b430
     Inner73b430 inner;
     void __thiscall CallInnerFoo();
 };
-extern unsigned int DAT_01077abc;
 struct FUN_007e7a80 : Menu
 {
     char _pad[0x50];
@@ -443,14 +468,13 @@ struct FUN_007e7a80 : Menu
 struct TGF
 {
     virtual ~TGF();  // the original class is polymorphic (rtti_variants.py)
-    float GetFloat(int);
 };
 struct Tile : TGF
 {
-    float GetScreenY();
     void Set(int, int);
+public:
+    static float GetInterfaceScale();
 };
-FUN_0073b020_shell* __cdecl _FUN_004b7210();
 int __cdecl __ftol2_sse(double);
 struct FUN_0073b050_shell : Menu
 {
@@ -464,15 +488,12 @@ struct FUN_0073b050_shell : Menu
 };
 struct FUN_00a1c520_shell
 {
-    void __thiscall FUN_00a1c520();
 };
 struct Res_0073b0f0
 {
-    short FUN_00418770();
 };
 struct Obj30_0073b0f0
 {
-    Res_0073b0f0* FUN_005d43c0(int);
 };
 struct VT_0073b0f0
 {
@@ -722,24 +743,17 @@ struct VT_0073b0f0
     virtual void v243();
     virtual void vSlot(Obj30_0073b0f0*, int);
 };
-extern VT_0073b0f0* DAT_011dea3c;
 struct FUN_0073b0f0_cls
 {
     char _pad[0x30];
     Obj30_0073b0f0* m_0x30;
-    void __thiscall UpdateMenuTile();
     void __thiscall HandleMessage(int, int);
 };
 struct BookInput
 {
-    bool FUN_00409700();
-    const char* CallInnerFoo();
-    bool FUN_0073b460();
 };
 struct BookTile
 {
-    void FUN_00700320(int, int);
-    void FUN_00a01350(int, const char*, bool);
 };
 struct BSStringTChar
 {
@@ -754,15 +768,10 @@ struct BookTarget : Menu
     void* unk28;
     void* unk2c;
     int unk30;
-    BookTile* FUN_00726070();
     void UpdateBookMenu(BookInput*, int);
 };
-void __cdecl FUN_00717280(int);
 struct MyTile
 {
-    bool IsTraitNonZero(int);
-    float FUN_00a011b0(int);
-    void Set(int, int);
 };
 struct BookMenu_Shell
 {
@@ -785,7 +794,6 @@ struct BookMenu_Shell
     MyTile* m_pHighlightedTile;
     MyTile* m_pObject;
 
-    MyTile* FUN_00726070();
     void HandleScrollInput(int a1, int a2);
 };
 extern const char DAT_01070fa8[];
@@ -830,34 +838,25 @@ struct BSFile
     unsigned int unk148, unk14c, unk150, unk154;
     BSFile(const char*, NiFile::OpenMode, unsigned int, bool);
     ~BSFile();
-    bool FUN_00aff300(bool, bool);
-    bool FUN_008905f0();
-    void FUN_00aff7c0(BSStringT<char>*, int);
+public:
+    bool Open(bool, bool);
 };
-extern void __cdecl FUN_00703c00(const char*, ...);
 struct LoadBook
 {
-    BookTile* FUN_00726070();
     void LoadBookFile();
 };
 
 struct TESObjectBOOK
 {
-    bool FUN_00409700();
 };
 struct Tile_00a01b00 : Tile
 {
-    static float __cdecl FUN_00a01530();
-    Tile* FUN_00a01b00(const char*);
-    Menu* FUN_00a03c90();
-    void FUN_00a012d0(int, float, bool);
 };
 struct TileMenu : Tile
 {
 };
 struct IMH
 {
-    Tile_00a01b00* FUN_00586150();
 };
 struct BookMenuData : Menu
 {
@@ -865,7 +864,6 @@ struct BookMenuData : Menu
     void* m_pObject;
     void* unk30;
     TESObjectBOOK* m_pObjectToUpdateMenuTile;
-    void UpdateBookMenu(TESObjectBOOK*, TESObjectREFR*);
 };
 struct MenuH
 {
@@ -883,14 +881,7 @@ struct MenuH
     virtual void V11();
     virtual void V12();
     virtual int GetID();
-    void SetTileMenu(TileMenu*, bool);
-    void SetMenuVisibility(bool);
 };
-Menu* __cdecl FindMenuById(int);
-InterfaceManager* __cdecl FUN_004b7210();
-void __cdecl FNV_Warning(const char*, ...);
-void __cdecl FUN_00717280(int);
-void* __fastcall FUN_00726070(Menu*);
 
 // @fnv 0x0073ad50
 Tile* __cdecl FUN_0073ad50(TESObjectBOOK* apBook, TESObjectREFR* apRef)
@@ -902,39 +893,39 @@ Tile* __cdecl FUN_0073ad50(TESObjectBOOK* apBook, TESObjectREFR* apRef)
     float ftop_depth;
     Tile_00a01b00* ptile;
     Tile* pold_menu_tile;
-    pold_menu_tile = (Tile*)FindMenuById(0x402);
+    pold_menu_tile = (Tile*)((::Menu *)(::FUN_00a09030(0x402)));
     if (pold_menu_tile)
         delete pold_menu_tile;
     pbook = apBook;
     if (!pbook)
         return 0;
-    pin = FUN_004b7210();
-    ftop_depth = Tile_00a01b00::FUN_00a01530();
+    pin = ((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()));
+    ftop_depth = ::Tile::GetInterfaceScale();
     ptile = 0;
-    ptile = (Tile_00a01b00*)((IMH*)pin)->FUN_00586150()->FUN_00a01b00("Data\\Menus\\book_menu.xml");
-    pmenu = ptile->FUN_00a03c90();
+    ptile = (Tile_00a01b00*)reinterpret_cast<::fnv_00a01b00::TileLoader *>((((::Tile_00a01b00 *)(reinterpret_cast<::InterfaceManager *>((((IMH*)pin)))->FUN_00586150()))))->FUN_00a01b00((void *)("Data\\Menus\\book_menu.xml"));
+    pmenu = reinterpret_cast<::FUN_00a03c90_shell *>((ptile))->FUN_00a03c90();
     g_pHudMainMenuInstance = (BookMenu*)pmenu;
     ((BookMenuData*)g_pHudMainMenuInstance)->m_pObjectToUpdateMenuTile = apBook;
     if (pmenu && ((MenuH*)pmenu)->GetID() == 0x402)
     {
-        ((MenuH*)pmenu)->SetTileMenu(dynamic_cast<TileMenu*>((Tile*)ptile), false);
+        reinterpret_cast<::FUN_00a1dc70_shell *>((((MenuH*)pmenu)))->FUN_00a1dc70(dynamic_cast<TileMenu*>((Tile*)ptile), false);
         BookMenu* g_pHudMainMenuInstance = dynamic_cast<BookMenu*>(pmenu);
         if (!((FUN_0073af60_shell*)g_pHudMainMenuInstance)->FUN_0073af60())
         {
-            FNV_Warning("MENUS: Book Menu Creation Failed... Are your menu and art resources up to date?");
+            ::FUN_005b5e40();
             return 0;
         }
-        if (((TGF*)ptile)->GetFloat(0xfa7) == 6006.0 || ((TGF*)ptile)->GetFloat(0xfa7) == 102.0)
-            ptile->FUN_00a012d0(0xfad, ftop_depth, true);
-        ((BookMenuData*)g_pHudMainMenuInstance)->UpdateBookMenu(apBook, apRef);
-        if (((BookMenuData*)g_pHudMainMenuInstance)->m_pObjectToUpdateMenuTile->FUN_00409700())
-            FUN_00717280(0x18);
+        if (reinterpret_cast<::TileListBoxCalls *>((((TGF*)ptile)))->GetFloat(0xfa7) == 6006.0 || reinterpret_cast<::TileListBoxCalls *>((((TGF*)ptile)))->GetFloat(0xfa7) == 102.0)
+            reinterpret_cast<::FUN_00a012d0_t *>((ptile))->FUN_00a012d0(0xfad, ftop_depth, true);
+        reinterpret_cast<::BookTarget *>((((BookMenuData*)g_pHudMainMenuInstance)))->UpdateBookMenu((::BookInput *)(apBook), (int)(apRef));
+        if (reinterpret_cast<::FUN_00409700_Class *>((((BookMenuData*)g_pHudMainMenuInstance)->m_pObjectToUpdateMenuTile))->FUN_00409700())
+            ::s717280::FUN_00717280(0x18);
         else
-            FUN_00717280(0x1a);
-        ((MenuH*)pmenu)->SetMenuVisibility(false);
+            ::s717280::FUN_00717280(0x1a);
+        reinterpret_cast<::Menu *>((((MenuH*)pmenu)))->SetMenuVisibility(false);
         return ptile;
     }
-    else if (pmenu && FUN_00726070(pmenu))
+    else if (pmenu && reinterpret_cast<::Callees *>((pmenu))->FUN_00726070())
     {
         delete (MenuH*)pmenu;
     }

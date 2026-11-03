@@ -2,6 +2,7 @@
 #ifndef FNV_BGSRAGDOLL_H
 #define FNV_BGSRAGDOLL_H
 
+#include "fnv/symbols_005ee000.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "bgsragdoll_form.h"
@@ -126,7 +127,6 @@ class SaveMetadata
             unsigned char layoutPaddingD[1];
         };
     };
-    void SwapEndianFourShorts();
     // void __cdecl SaveMetadata::*()
 };
 #pragma pack(pop)
@@ -159,7 +159,6 @@ class RagdollFeedbackData__RagdollFeedbackSystemData
     float m_fFeedbackParameter13;            // +0x30, 4 bytes
     unsigned int ThreeFloatsAndTwoIntegers;  // +0x34, 4 bytes
     unsigned int m_uiFeedbackParameter14;    // +0x38, 4 bytes
-    void FUN_005ee380();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(RagdollFeedbackData__RagdollFeedbackSystemData) == 60);
@@ -368,7 +367,6 @@ class PoseMatching_DATA__PoseMatching_System_DATA
     float FourFloatRecord;          // +0xC, 4 bytes
     float FourFloatParameterBlock;  // +0x10, 4 bytes
     float m_fFourthParameter;       // +0x14, 4 bytes
-    void FUN_005ee580();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(PoseMatching_DATA__PoseMatching_System_DATA) == 24);

@@ -63,7 +63,6 @@ class BGSDefaultObjectManager : public TESForm
     void ResetFormData();
     virtual void InitItem();
     static BGSDefaultObjectManager* Instance();
-    bool IsFormInitialized() const;
     static TESForm* GetDefaultObjectByIndex(DEFAULT_OBJECT index);
     bool Load(TESFile* file);
     BGSDefaultObjectManager();

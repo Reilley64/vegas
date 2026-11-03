@@ -1,5 +1,13 @@
 // fallout_shared/bgsrepairitemlist.cpp: BGSRepairItemList, MyHolder, RepairListComparison (6 functions)
 
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008c6060_shell.h"
+#include "fnv/symbols_00402000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005b5000.h"
 #include "bgsrepairitemlist_decls.h"
 
 // Resolves pRepairItemList's form ID to a BGSListForm and warns if the lookup fails, naming the owner when available.
@@ -10,21 +18,19 @@ void BGSRepairItemList::InitItem(TESForm* owner)
     if (formID)
     {
         TESFile* file = owner ? owner->GetFile(-1) : 0;
-        TESForm::RemapFormIDForFile(formID, file);
-        pRepairItemList = dynamic_cast<BGSListForm*>(TESForm::GetFormByID(formID));
+        ::ResolveFormID((unsigned int *)&(formID), file);
+        pRepairItemList = dynamic_cast<BGSListForm*>(::FUN_004839c0(formID));
         if (!pRepairItemList)
         {
             if (owner)
             {
                 if (((BGSCameraPath*)owner)->HasNameForWarning())
-                    Warning("MASTERFILE: Unable to find repair item list (%08X) for owner object \"%s\".", formID,
-                            owner->GetEditorID());
+                    ::FUN_005b5e40();
                 else
-                    Warning("MASTERFILE: Unable to find repair item list (%08X) for owner object (%08X).", formID,
-                            owner->GetFormID());
+                    ::FUN_005b5e40();
             }
             else
-                Warning("MASTERFILE: Unable to find repair item list (%08X) for unknown owner.", formID);
+                ::FUN_005b5e40();
         }
     }
 }
@@ -36,11 +42,9 @@ struct BaseFormComponent
 };
 struct TESRaceForm
 {
-    void Initialize(unsigned int);
 };
 struct Unnamed07
 {
-    unsigned int _ref_00726070();
 };
 struct MyHolder
 {
@@ -48,14 +52,13 @@ struct MyHolder
 };
 
 extern int DAT_0101a4c4;
-void __fastcall FUN_008c6060(void* pThis);
 
 // @fnv 0x0047b850
 void* __fastcall FUN_0047b850(void* pThis)
 {
-    ((BaseFormComponent*)pThis)->BaseFormComponent::BaseFormComponent();
+    ::FUN_00402d30((int *)(((BaseFormComponent*)pThis)));
     *(int**)pThis = &DAT_0101a4c4;
-    FUN_008c6060(pThis);
+    reinterpret_cast<::FUN_008c6060_shell *>((pThis))->FUN_008c6060();
     return pThis;
 }
 
@@ -72,11 +75,10 @@ struct FUN_0047b880
 // @fnv 0x0047b880
 FUN_0047b880::~FUN_0047b880()
 {
-    reinterpret_cast<TESFile*>(this)->InitializeComponent();
+    reinterpret_cast<::TESForm *>((reinterpret_cast<TESFile*>(this)))->ClearData();
 }
 }  // namespace fnv_0047b880
 
-void __cdecl FUN_00485910(unsigned int, unsigned int);
 struct S0047b8a0
 {
     int _00;
@@ -89,8 +91,8 @@ void S0047b8a0::FUN_0047b8a0()
     unsigned int formID;
     if (_04 != 0)
     {
-        formID = _04->GetFormID();
-        FUN_00485910(0x4C504552, formID);
+        formID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((_04))->FUN_0084e3a0()));
+        ::FUN_00485910(0x4C504552, formID);
     }
 }
 
@@ -101,7 +103,7 @@ void MyHolder::CopyFrom(BaseFormComponent* apCopyFC)
     BGSRepairItemList* pcopy = dynamic_cast<BGSRepairItemList*>(apCopyFC);
     if (!pcopy)
         return;
-    ((TESRaceForm*)this)->Initialize(((Unnamed07*)pcopy)->_ref_00726070());
+    reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)this)))->Initialize((::CombatController *)(((unsigned int)(reinterpret_cast<::Callees *>((((Unnamed07*)pcopy)))->FUN_00726070()))));
 }
 
 struct RepairListComparison : BGSRepairItemList
@@ -116,7 +118,7 @@ bool RepairListComparison::FUN_0047ba20(BaseFormComponent* component)
     BGSRepairItemList* other = dynamic_cast<BGSRepairItemList*>(component);
     if (!other)
         return true;
-    if (reinterpret_cast<Unnamed07*>(other)->_ref_00726070() != reinterpret_cast<Unnamed07*>(this)->_ref_00726070())
+    if (((unsigned int)(reinterpret_cast<::Callees *>((reinterpret_cast<Unnamed07*>(other)))->FUN_00726070())) != ((unsigned int)(reinterpret_cast<::Callees *>((reinterpret_cast<Unnamed07*>(this)))->FUN_00726070())))
         return true;
     return false;
 }

@@ -4,6 +4,8 @@
 
 // Destructor: release every (key, object) entry, free the entry array, then the base part goes.
 
+#include "fnv/decl/FUN_00e3ed80.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
 struct DFD840Allocator
 {
     virtual void unk00();
@@ -32,7 +34,6 @@ extern "C" DFD840MemoryRouter& __cdecl DFD840GetMemoryRouter() throw();
 class DFD840ReferencedObject
 {
   public:
-    void removeReference() throw();
 };
 
 class DFD840Base
@@ -48,7 +49,7 @@ template <class T> struct DFD840RefPtr
     ~DFD840RefPtr() throw()
     {
         if (m_pRetainedObject)
-            m_pRetainedObject->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pRetainedObject))->FUN_00c905b0();
         m_pRetainedObject = 0;
     }
 };
@@ -114,13 +115,12 @@ struct CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void FUN_00e3ed80();
     CpuObject* FUN_00dfd900(unsigned int flags);
 };
 // @fnv 0x00dfd900
 CpuObject* CpuObject::FUN_00dfd900(unsigned int flags)
 {
-    FUN_00e3ed80();
+    reinterpret_cast<::FUN_00e3ed80 *>(this)->FUN_00e3ed80::~FUN_00e3ed80();
     if (flags & 1)
     {
         CpuAllocatorHolder* holder = FUN_00c85750();

@@ -2,18 +2,20 @@
 #ifndef FNV_TESQUESTTARGET_DECLS_H
 #define FNV_TESQUESTTARGET_DECLS_H
 
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/FUN_0041c8d0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/symbols_005b5000.h"
 #include "TESForm.h"
 
 class ExtraDataList
 {
   public:
-    TESObjectREFR* GetReplacementReference();
 };
 
 class TESObjectREFR : public TESForm
 {
   public:
-    ExtraDataList* GetExtraData();
 };
 
 class TESConditionItem;
@@ -34,7 +36,6 @@ class RegionObjectEntry
     PerkEntryConditionSet m_kInfoConditions;
     TESObjectREFR* m_pReference;
     void InitItem(TESForm* form);
-    PerkEntryConditionSet* GetConditions();
     TESObjectREFR* GetReference(bool resolveDeleted);
 };
 FNV_STATIC_ASSERT(offsetof(RegionObjectEntry, m_pReference) == 12);
@@ -66,5 +67,4 @@ struct TESQuestStageLegacyData
 };
 FNV_STATIC_ASSERT(sizeof(TESQuestStageLegacyData) == 8);
 
-int __cdecl Warning(const char* format, ...);
 #endif

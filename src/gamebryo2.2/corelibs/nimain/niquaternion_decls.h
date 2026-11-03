@@ -36,9 +36,7 @@ class NiQuaternion
   public:
     float m_fVectorX, m_fVectorY, m_fVectorZ, m_fScalarPart;
     void MakeUnitLength();
-    void SetRotationFromEulerXYZ(float x, float y, float z);
     void FromRotationMatrix(const ThreeByThreeMatrix& matrix);
-    void EnsureCanonicalSign();
     void Slerp(float t, const NiQuaternion& a, const NiQuaternion& b);
     static __declspec(noinline) float CalculateSlerpWeight(float t, float cosine);
 };

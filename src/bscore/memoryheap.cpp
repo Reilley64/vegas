@@ -1,5 +1,10 @@
 // bscore/memoryheap.cpp: MemoryHeap, FakeHeap (17 functions)
 
+#include "fnv/decl/AbstractHeapBlockInfo.h"
+#include "fnv/decl/AbstractHeapBuckets.h"
+#include "fnv/decl/AbstractHeapX.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/symbols_011f6000.h"
 #include "memoryheap_decls.h"
 
 // @fnv 0x00aa7be0
@@ -107,7 +112,6 @@ struct FUN_00aa7c60_cls
 {
     char pad[0x20f0];
     bool m_bFlag;
-    void GetHeapStats(void* pStats, bool bFull);
     void UpdateStats(void* apStats, bool abFullBlockInfo);
 };
 // Clears the full-block-info request when m_bFlag is set, then forwards the stats pointer and the resulting flag to GetHeapStats.
@@ -115,7 +119,7 @@ struct FUN_00aa7c60_cls
 void FUN_00aa7c60_cls::UpdateStats(void* apStats, bool abFullBlockInfo)
 {
     abFullBlockInfo &= !m_bFlag;
-    GetHeapStats(apStats, abFullBlockInfo);
+    reinterpret_cast<::AbstractHeapX *>(this)->GetHeapStats((::HeapStatsX *)(apStats), abFullBlockInfo);
 }
 
 struct FUN_00aa7d60_blk
@@ -150,9 +154,7 @@ void FUN_00aa7d60_cls::FUN_00aa7d60(FUN_00aa7d60_blk* pBlock)
 
 struct MemoryManager
 {
-    void _DeallocateAlias(void*);
 };
-extern MemoryManager g_memoryManager;
 struct FakeHeap
 {
     void FUN_00aa7930();
@@ -163,7 +165,7 @@ void* FakeHeap::FUN_00aa7e20(unsigned int flags)
 {
     FUN_00aa7930();
     if (flags & 1)
-        g_memoryManager._DeallocateAlias(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
     return this;
 }
 
@@ -219,7 +221,6 @@ struct FUN_00aa7ca0_cls
 {
     char pad0[0x20f0];
     bool m_bFlag;
-    unsigned int WriteBucketInfo(FUN_00aa7ca0_obj* p);
     unsigned int FUN_00aa7ca0(FUN_00aa7ca0_obj* p);
 };
 
@@ -229,7 +230,7 @@ unsigned int FUN_00aa7ca0_cls::FUN_00aa7ca0(FUN_00aa7ca0_obj* pObj)
     unsigned int r = 0;
     if (!m_bFlag)
     {
-        r = WriteBucketInfo(pObj);
+        r = ((unsigned int)(reinterpret_cast<::AbstractHeapBuckets *>(this)->WriteBucketInfo((::HeapDumpFile *)(pObj))));
     }
     else
     {
@@ -2358,7 +2359,6 @@ struct AA7D00Saver
     int unk20EC;
     bool m_bSkip;
 
-    int ValueReferencePair(AA7D00Stream* pkStream, bool bFlag);
     int FUN_00aa7d00(AA7D00Stream* pkStream, bool bFlag);
 };
 
@@ -2368,7 +2368,7 @@ int AA7D00Saver::FUN_00aa7d00(AA7D00Stream* pkStream, bool bFlag)
     int iResult = 0;
     if (!m_bSkip)
     {
-        iResult = ValueReferencePair(pkStream, bFlag);
+        iResult = reinterpret_cast<::AbstractHeapBlockInfo *>(this)->WriteHeapBlockInfo((::IMemoryManagerFile *)(pkStream), bFlag);
     }
     else
     {

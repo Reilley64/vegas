@@ -2,6 +2,20 @@
 // src/havok/common/internal/collide/tree/aabbtree/queryutils/hkaabbtreequeryutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/collide/tree/aabbtree/queryutils/hkaabbtreequeryutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00d9a4d0_Class.h"
+#include "fnv/decl/FUN_00d9a4e0_Obj.h"
+#include "fnv/decl/IdxStand_.h"
+#include "fnv/decl/LunaOwner.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d1c000.h"
+#include "fnv/symbols_00d1d000.h"
+#include "fnv/symbols_00e2b000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_010c9000.h"
+#include "fnv/symbols_011b3000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_0126e000.h"
 struct FUN_00d1bb40_Class
 {
     int* FUN_00d1bb40(unsigned short index);
@@ -37,7 +51,6 @@ struct S_00d1bcb0_Router
 };
 
 S_00d1bcb0_Router* FUN_00c85750();
-void ResizeAudioStream(S_00d1bcb0_Allocator& alloc, void* array, int sizeElem);
 
 struct S_00d1bcb0_Entry
 {
@@ -58,7 +71,7 @@ struct S_00d1bcb0_Array
     void _pushBack(S_00d1bcb0_Allocator& alloc, const S_00d1bcb0_Entry& e)
     {
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(alloc, this, sizeof(S_00d1bcb0_Entry));
+            ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(S_00d1bcb0_Entry));
         new (m_data + m_iElementCount) S_00d1bcb0_Entry(e);
         m_iElementCount++;
     }
@@ -85,7 +98,6 @@ bool S_00d1bcb0::FUN_00d1bcb0(int iFirst, int iSecond)
     return false;
 }
 
-extern int __cdecl FUN_00d1c560(void*, int, int, int, int, int);
 
 // Returns 0 if arg0 is null, otherwise forwards arg0, arg1 and arg2 to FUN_00d1c560 with the remaining arguments zeroed.
 // @fnv 0x00d1d4a0
@@ -93,10 +105,9 @@ int __cdecl CallWithDefaults(void* arg0, int arg1, int arg2)
 {
     if (!arg0)
         return 0;
-    return FUN_00d1c560(arg0, arg1, 0, arg2, 0, 0);
+    return ::FUN_00d1c560((const ::QueryTree16 *)(arg0), (*(const ::QueryAabb *)(arg1)), (::AabbCollector *)(0), (::VoidArray *)(arg2), (void ***)(0), 0);
 }
 
-int __cdecl FUN_00d1c560(void* a, void* b, int c, int d, void* e, void* f);
 
 // Returns 0 if a is null, otherwise forwards a, b, e and f to FUN_00d1c560 with c and d set to 0.
 // @fnv 0x00d1d4d0
@@ -104,10 +115,9 @@ int __cdecl FUN_00d1d4d0(void* a, void* apArg2, void* apArg5, void* apArg6)
 {
     if (!a)
         return 0;
-    return FUN_00d1c560(a, apArg2, 0, 0, apArg5, apArg6);
+    return ::FUN_00d1c560((const ::QueryTree16 *)(a), (*(const ::QueryAabb *)(apArg2)), (::AabbCollector *)(0), (::VoidArray *)(0), (void ***)(apArg5), (int)(apArg6));
 }
 
-extern int __cdecl FUN_00d1c560(void*, int, int, int, int, int);
 
 // If arg0 is non-null, forwards it with arg1 and arg2 plus three zero arguments to FUN_00d1c560 and returns its result; otherwise returns 0.
 // @fnv 0x00d1d500
@@ -115,10 +125,9 @@ int __cdecl FUN_00d1d500(void* arg0, int arg1, int arg2)
 {
     if (!arg0)
         return 0;
-    return FUN_00d1c560(arg0, arg1, arg2, 0, 0, 0);
+    return ::FUN_00d1c560((const ::QueryTree16 *)(arg0), (*(const ::QueryAabb *)(arg1)), (::AabbCollector *)(arg2), (::VoidArray *)(0), (void ***)(0), 0);
 }
 
-extern "C" void* __cdecl FUN_00d1ce50(void* p, int a, int b, int c, int d, int e);
 
 // If p is non-null, forwards it to FUN_00d1ce50 with zeroed middle arguments and returns the result; otherwise returns 0.
 // @fnv 0x00d1d540
@@ -126,7 +135,7 @@ extern "C" void* __cdecl FUN_00d1d540(void* p, int aiArg1, int aiArg4, int aiArg
 {
     if (!p)
         return 0;
-    return FUN_00d1ce50(p, aiArg1, 0, 0, aiArg4, aiArg5);
+    return ((void *)(::FUN_00d1ce50((::TreeD1C *)(p), (*(const ::hkAabbD1C *)(aiArg1)), (::CollectorD1C *)(0), (::hkArrayIntD1C *)(0), (int **)(aiArg4), aiArg5)));
 }
 
 extern "C" void* __cdecl FUN_00d1d240(void* p, int a, int b, int c, int d, int e);
@@ -140,11 +149,10 @@ extern "C" void* __cdecl FUN_00d1d570(void* p, int aiArg1, int aiArg2)
     return FUN_00d1d240(p, aiArg1, aiArg2, 0, 0, 0);
 }
 
-extern "C" void __cdecl FUN_00d1ca00();
 // @fnv 0x00d1d530
 extern "C" void __cdecl FUN_00d1d530()
 {
-    FUN_00d1ca00();
+    ::FUN_00d1ca00({}, {}, {}, {}, {}, {});
 }
 
 extern int __cdecl FUN_00d1bfa0();
@@ -177,7 +185,6 @@ struct DNode
 };
 struct DIndex
 {
-    DNode* FUN_00d9a4c0(int id);
 };
 struct DOwner
 {
@@ -217,7 +224,7 @@ struct DIntArray
     __forceinline void _pushBack(S_00d1bcb0_Allocator& alloc, int e)
     {
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(alloc, this, sizeof(int));
+            ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(int));
         hkConstructWithCopy(m_data + m_iElementCount, 1, e);
         m_iElementCount++;
     }
@@ -226,7 +233,6 @@ struct DIntArray
         _pushBack(FUN_00c85750()->heap(), e);
     }
 };
-extern float DAT_01011d78;
 
 // Traverses the tree, reporting overlapping leaves to a visitor or storing their child-atom values in an output array.
 // @fnv 0x00d1d240
@@ -246,14 +252,14 @@ extern "C" void* __cdecl FUN_00d1d240(void* apOwner, int apQueryBox, int apVisit
         {
             lo = node->m_ucLowNibble;
             hi = node->m_ucHighNibble;
-            DNode* next = node->m_nextId != 0x7fffffff ? owner->m_uiEdgeIndex.FUN_00d9a4c0(node->m_nextId) : 0;
+            DNode* next = node->m_nextId != 0x7fffffff ? ((::DNode *)(reinterpret_cast<::IdxStand_ *>(&(owner->m_uiEdgeIndex))->FUN_00d9a4c0(node->m_nextId))) : 0;
             int mask = _mm_movemask_ps(_mm_and_ps(_mm_cmple_ps(((DBox*)apQueryBox)->m_ucLowNibble, hi),
                                                   _mm_cmple_ps(lo, ((DBox*)apQueryBox)->m_ucHighNibble)));
             if ((mask & 7) == 7)
             {
                 if (!(node->m_flags & 0x80000000))
                 {
-                    node = owner->m_uiEdgeIndex.FUN_00d9a4c0(node->m_pChildAtom);
+                    node = ((::DNode *)(reinterpret_cast<::IdxStand_ *>(&(owner->m_uiEdgeIndex))->FUN_00d9a4c0(node->m_pChildAtom)));
                     continue;
                 }
                 {
@@ -275,14 +281,14 @@ extern "C" void* __cdecl FUN_00d1d240(void* apOwner, int apQueryBox, int apVisit
         {
             lo = node->m_ucLowNibble;
             hi = node->m_ucHighNibble;
-            DNode* next = node->m_nextId != 0x7fffffff ? owner->m_uiEdgeIndex.FUN_00d9a4c0(node->m_nextId) : 0;
+            DNode* next = node->m_nextId != 0x7fffffff ? ((::DNode *)(reinterpret_cast<::IdxStand_ *>(&(owner->m_uiEdgeIndex))->FUN_00d9a4c0(node->m_nextId))) : 0;
             int mask = _mm_movemask_ps(_mm_and_ps(_mm_cmple_ps(((DBox*)apQueryBox)->m_ucLowNibble, hi),
                                                   _mm_cmple_ps(lo, ((DBox*)apQueryBox)->m_ucHighNibble)));
             if ((mask & 7) == 7)
             {
                 if (!(node->m_flags & 0x80000000))
                 {
-                    node = owner->m_uiEdgeIndex.FUN_00d9a4c0(node->m_pChildAtom);
+                    node = ((::DNode *)(reinterpret_cast<::IdxStand_ *>(&(owner->m_uiEdgeIndex))->FUN_00d9a4c0(node->m_pChildAtom)));
                     continue;
                 }
                 **ppOut = node->m_pChildAtom;
@@ -303,14 +309,14 @@ extern "C" void* __cdecl FUN_00d1d240(void* apOwner, int apQueryBox, int apVisit
         {
             lo = node->m_ucLowNibble;
             hi = node->m_ucHighNibble;
-            DNode* next = node->m_nextId != 0x7fffffff ? owner->m_uiEdgeIndex.FUN_00d9a4c0(node->m_nextId) : 0;
+            DNode* next = node->m_nextId != 0x7fffffff ? ((::DNode *)(reinterpret_cast<::IdxStand_ *>(&(owner->m_uiEdgeIndex))->FUN_00d9a4c0(node->m_nextId))) : 0;
             int mask = _mm_movemask_ps(_mm_and_ps(_mm_cmple_ps(((DBox*)apQueryBox)->m_ucLowNibble, hi),
                                                   _mm_cmple_ps(lo, ((DBox*)apQueryBox)->m_ucHighNibble)));
             if ((mask & 7) == 7)
             {
                 if (!(node->m_flags & 0x80000000))
                 {
-                    node = owner->m_uiEdgeIndex.FUN_00d9a4c0(node->m_pChildAtom);
+                    node = ((::DNode *)(reinterpret_cast<::IdxStand_ *>(&(owner->m_uiEdgeIndex))->FUN_00d9a4c0(node->m_pChildAtom)));
                     continue;
                 }
                 array->AddBack(node->m_pChildAtom);
@@ -335,7 +341,6 @@ extern "C" __m128 _mm_cmpge_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_and_ps(__m128 a, __m128 b);
 extern "C" int _mm_movemask_ps(__m128 a);
 
-void __cdecl FUN_00c908c0(S_00d1bcb0_Allocator* alloc, void* array, int reqCapacity, int elemSize);
 
 struct hkMemoryAllocatorV
 {
@@ -379,7 +384,6 @@ struct TreeNode
 
 struct TreeNodeArray
 {
-    TreeNode* FUN_00d9a4c0(int index);
 };
 
 struct AabbTree
@@ -420,7 +424,7 @@ struct TreePairStack
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, sizeof(TreePair));
+            ::FUN_00c908c0((::SpawnedObject *)(::S_00d1bcb0_Allocator *)(&alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(TreePair));
         }
     }
     __forceinline void SetSizeAndGrow(int n)
@@ -449,7 +453,7 @@ struct TreePairArray
     __forceinline void _pushBack(S_00d1bcb0_Allocator& alloc, const TreePair& e)
     {
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(alloc, this, sizeof(TreePair));
+            ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(TreePair));
         new (m_data + m_iElementCount) TreePair(e);
         m_iElementCount++;
     }
@@ -485,8 +489,8 @@ int FUN_00d1d5a0(AabbTree* treeA, AabbTree* treeB, TreePairArray* pairsOut)
             pairStack.SetSizeAndGrow(stackCap);
         }
 
-        const TreeNode* nodeA = treeA->m_kNodeCollection.FUN_00d9a4c0(pair.m_kPointA);
-        const TreeNode* nodeB = treeB->m_kNodeCollection.FUN_00d9a4c0(pair.m_kPointB);
+        const TreeNode* nodeA = ((::fnv_00d1d5a0::TreeNode *)(reinterpret_cast<::IdxStand_ *>(&(treeA->m_kNodeCollection))->FUN_00d9a4c0(pair.m_kPointA)));
+        const TreeNode* nodeB = ((::fnv_00d1d5a0::TreeNode *)(reinterpret_cast<::IdxStand_ *>(&(treeB->m_kNodeCollection))->FUN_00d9a4c0(pair.m_kPointB)));
         unsigned int leafA = nodeA->isLeaf();
         unsigned int leafB = nodeB->isLeaf();
 
@@ -569,9 +573,9 @@ int FUN_00d1d5a0(AabbTree* treeA, AabbTree* treeB, TreePairArray* pairsOut)
 }  // namespace fnv_00d1d5a0
 
 #include <windows.h>
+#include "fnv/symbols_simd.h"
 extern "C" void _ReadWriteBarrier(void);
 
-extern DWORD DAT_0126835c;
 unsigned __int64 __cdecl __rdtsc(void);
 struct ProfRec
 {
@@ -605,10 +609,7 @@ struct Frame
 class Target
 {
   public:
-    void ProcessCallback(void* a, void* b, int c);
 };
-int FUN_00d1d540(int a, Inner* b, int* c, int d);
-int FUN_00d1d4d0(int a, Inner* b, int* c, int d);
 int FUN_00d1b930(int a, Inner* b, int* c, int d);
 // Records CPU profile ticks, iterates Inner nodes calling FUN_00d1d540, FUN_00d1d4d0, FUN_00d1b930, then calls ProcessCallback.
 // @fnv 0x00df6850
@@ -639,13 +640,13 @@ void __cdecl ProcessAabbTree(Target* apTarget, Frame* apFrame)
             *rem = initial;
             if (pFrame->m_20)
             {
-                int r = FUN_00d1d540(pFrame->m_20, in, rem, iCount);
+                int r = ((int)(::FUN_00d1d540((void *)(pFrame->m_20), (int)(in), (int)(rem), iCount)));
                 in->m_28 += r;
                 iCount -= r;
             }
             if (pFrame->m_24)
             {
-                int r = FUN_00d1d4d0(pFrame->m_24, in, rem, iCount);
+                int r = ::FUN_00d1d4d0((void *)(pFrame->m_24), in, rem, (void *)(iCount));
                 in->m_28 += r;
                 iCount -= r;
             }
@@ -667,7 +668,7 @@ void __cdecl ProcessAabbTree(Target* apTarget, Frame* apFrame)
         pProfRec->m_iTick = dwTick2;
         pProfBuf->m_pCur = pProfRec + 1;
     }
-    apTarget->ProcessCallback(pFrame, pFrame, 0);
+    reinterpret_cast<::LunaOwner *>((apTarget))->ProcessCallback((int)(pFrame), (int)(pFrame), 0);
 }
 
 extern "C" __m128 _mm_set_ps1(float a);
@@ -684,9 +685,9 @@ extern "C" __m128 _mm_rcp_ps(__m128 a);
 extern "C" __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 
-extern __m128 DAT_010c7170;  // (1,1,1,1)
-extern float DAT_01267e30;   // zero vector (bss)
-extern __m128 DAT_010cd670;  // HK_REAL_MAX x4
+  // (1,1,1,1)
+   // zero vector (bss)
+  // HK_REAL_MAX x4
 
 struct VectorMask
 {
@@ -819,7 +820,6 @@ struct TreeNode
 
 struct TreeNodeArray
 {
-    TreeNode* FUN_00d9a4c0(int index);
 };
 
 struct RayVisitor
@@ -862,7 +862,7 @@ void FUN_00d1d0b0(NodeTree* tree, const TreeVector4* from, const TreeVector4* to
         bounds = *reinterpret_cast<const TreeAabb*>(&node->m_kMinimumCorner);
         TreeNode* next;
         if (node->m_next != 0x7fffffff)
-            next = tree->m_kNodeCollection.FUN_00d9a4c0(node->m_next);
+            next = ((::TreeNode *)(reinterpret_cast<::IdxStand_ *>(&(tree->m_kNodeCollection))->FUN_00d9a4c0(node->m_next)));
         else
             next = 0;
 
@@ -870,7 +870,7 @@ void FUN_00d1d0b0(NodeTree* tree, const TreeVector4* from, const TreeVector4* to
         {
             if (!(node->m_parent & 0x80000000))
             {
-                node = tree->m_kNodeCollection.FUN_00d9a4c0(node->m_child0);
+                node = ((::TreeNode *)(reinterpret_cast<::IdxStand_ *>(&(tree->m_kNodeCollection))->FUN_00d9a4c0(node->m_child0)));
                 continue;
             }
             float f = visitor->processLeaf(node);
@@ -884,8 +884,6 @@ void FUN_00d1d0b0(NodeTree* tree, const TreeVector4* from, const TreeVector4* to
 
 extern "C" __m128 _mm_setr_ps(float, float, float, float);
 
-extern __m128 DAT_01268460[];
-extern const int DAT_010c92e0[4];
 
 struct hkVector4
 {
@@ -944,7 +942,7 @@ struct Vector4Comparison
     __m128 m_uiMask;
     __forceinline void set(int m)
     {
-        m_uiMask = DAT_01268460[m];
+        m_uiMask = ::DAT_01268460[m];
     }
     __forceinline void setAnd(const Vector4Comparison& a, const Vector4Comparison& b)
     {
@@ -989,7 +987,6 @@ struct Node16
 struct IndexedNode16Collection
 {
     int unk00;
-    const Node16* GetEntryOffset(unsigned short idx) const;
 };
 
 struct hkAabbTree16
@@ -1022,11 +1019,11 @@ struct hkAabbTree16
     hkVector4 m_kAabbInverseScale;
     __forceinline const Node16* getChild(const Node16* node, int i) const
     {
-        return m_kNodeManager.GetEntryOffset(node->m_ausChildIndices[i]);
+        return ((const ::Node16 *)(reinterpret_cast<::FUN_00d9a4d0_Class *>((void *)&(m_kNodeManager))->GetEntryOffset(node->m_ausChildIndices[i])));
     }
     __forceinline const Node16* getSkipNode(const Node16* node) const
     {
-        return (node->m_iSkipNodeIndex != 0x7fff) ? m_kNodeManager.GetEntryOffset(node->m_iSkipNodeIndex) : 0;
+        return (node->m_iSkipNodeIndex != 0x7fff) ? ((const ::Node16 *)(reinterpret_cast<::FUN_00d9a4d0_Class *>((void *)&(m_kNodeManager))->GetEntryOffset(node->m_iSkipNodeIndex))) : 0;
     }
 };
 
@@ -1139,7 +1136,7 @@ void FUN_00d1bfa0(const hkAabbTree16* tree, const Node16* apStartNode, const Nod
             }
             for (int ir = 0; ir < 4; ir++)
             {
-                if (hits.anyIsSet(DAT_010c92e0[ir]))
+                if (hits.anyIsSet((*reinterpret_cast<const int (*)[4]>(&::DAT_010c92e0))[ir]))
                 {
                     earlyOut(ir) = appCollectors[ir]->GetHitDistance(apStartNode);
                 }
@@ -1266,7 +1263,6 @@ struct hkpCompressedNode
 struct NodeArray
 {
     hkpCompressedNode* m_data;
-    const hkpCompressedNode* GetEntryOffset(unsigned short index);
 };
 
 struct CompressedTree
@@ -1443,7 +1439,7 @@ int FUN_00d1c2b0(CompressedTree* tree, int aabb, const SweptBoxQuery* apQuery, L
 
         const hkpCompressedNode* next;
         if (node->m_skip != 0x7fff)
-            next = tree->m_kNodeCollection.GetEntryOffset(node->m_skip);
+            next = ((const ::hkpCompressedNode *)(reinterpret_cast<::FUN_00d9a4d0_Class *>(&(tree->m_kNodeCollection))->GetEntryOffset(node->m_skip)));
         else
             next = 0;
 
@@ -1451,7 +1447,7 @@ int FUN_00d1c2b0(CompressedTree* tree, int aabb, const SweptBoxQuery* apQuery, L
         {
             if ((node->m_flags & 0x8000) == 0)
             {
-                node = tree->m_kNodeCollection.GetEntryOffset(node->m_pChildAtom);
+                node = ((const ::hkpCompressedNode *)(reinterpret_cast<::FUN_00d9a4d0_Class *>(&(tree->m_kNodeCollection))->GetEntryOffset(node->m_pChildAtom)));
                 continue;
             }
             if (collector)
@@ -1557,7 +1553,6 @@ class QueryNode
 class QueryNodeManager
 {
   public:
-    QueryNode* GetEntryOffset(unsigned short idx);
     int m_kNodeCollection;
 };
 
@@ -1571,12 +1566,12 @@ class QueryTree16
     }
     __forceinline QueryNode* getChild(const QueryNode* node, int i) const
     {
-        return const_cast<QueryNodeManager&>(m_kNodeManager).GetEntryOffset(node->m_kChildIndices.m_ausChildIndices[i]);
+        return ((::QueryNode *)(reinterpret_cast<::FUN_00d9a4d0_Class *>(&(const_cast<QueryNodeManager&>(m_kNodeManager)))->GetEntryOffset(node->m_kChildIndices.m_ausChildIndices[i])));
     }
     __forceinline QueryNode* getSkipNode(const QueryNode* node) const
     {
         return (node->m_iSkipNodeIndex != s_invalidIdx)
-                   ? const_cast<QueryNodeManager&>(m_kNodeManager).GetEntryOffset(node->m_iSkipNodeIndex)
+                   ? ((::QueryNode *)(reinterpret_cast<::FUN_00d9a4d0_Class *>(&(const_cast<QueryNodeManager&>(m_kNodeManager)))->GetEntryOffset(node->m_iSkipNodeIndex)))
                    : 0;
     }
 
@@ -1627,7 +1622,7 @@ struct VoidArray
     __forceinline void _pushBack(S_00d1bcb0_Allocator& alloc, void* const& e)
     {
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(alloc, this, sizeof(void*));
+            ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(void*));
         hkConstructWithCopy(m_data + m_iElementCount, 1, e);
         m_iElementCount++;
     }
@@ -1777,7 +1772,7 @@ void FUN_00d1bd00(CompressedTree* tree, const __m128* from, const __m128* to, Le
 
         const hkpCompressedNode* next;
         if (node->m_skip != 0x7fff)
-            next = tree->m_kNodeCollection.GetEntryOffset(node->m_skip);
+            next = ((const ::hkpCompressedNode *)(reinterpret_cast<::FUN_00d9a4d0_Class *>(&(tree->m_kNodeCollection))->GetEntryOffset(node->m_skip)));
         else
             next = 0;
 
@@ -1785,7 +1780,7 @@ void FUN_00d1bd00(CompressedTree* tree, const __m128* from, const __m128* to, Le
         {
             if ((node->m_flags & 0x8000) == 0)
             {
-                node = tree->m_kNodeCollection.GetEntryOffset(node->m_pChildAtom);
+                node = ((const ::hkpCompressedNode *)(reinterpret_cast<::FUN_00d9a4d0_Class *>(&(tree->m_kNodeCollection))->GetEntryOffset(node->m_pChildAtom)));
                 continue;
             }
             maxT.SetAllComponents(collector->GetHitDistance(node));
@@ -1798,7 +1793,6 @@ void FUN_00d1bd00(CompressedTree* tree, const __m128* from, const __m128* to, Le
 
 struct NodesSV_1cc50
 {
-    int* FUN_00d1bb40(unsigned short index);
 };
 
 struct TV4Q
@@ -1891,7 +1885,7 @@ int FUN_00d1cc50(NTreeQ* tree, void* unused, const RayInput* ray, RayCollector* 
         aabb.m_kMinimumCorner.m_vComponents = _mm_sub_ps(aabb.m_kMinimumCorner.m_vComponents, vExtent);
         TNodeQ* next;
         if (node->m_next != 0x7fff)
-            next = (TNodeQ*)tree->m_kNodeCollection.FUN_00d1bb40(node->m_next);
+            next = (TNodeQ*)reinterpret_cast<::FUN_00d1bb40_Class *>(&(tree->m_kNodeCollection))->FUN_00d1bb40(node->m_next);
         else
             next = 0;
 
@@ -1912,7 +1906,7 @@ int FUN_00d1cc50(NTreeQ* tree, void* unused, const RayInput* ray, RayCollector* 
         {
             if (!(node->m_flags & 0x8000))
             {
-                node = (TNodeQ*)tree->m_kNodeCollection.FUN_00d1bb40((unsigned short)node->m_data);
+                node = (TNodeQ*)reinterpret_cast<::FUN_00d1bb40_Class *>(&(tree->m_kNodeCollection))->FUN_00d1bb40((unsigned short)node->m_data);
                 continue;
             }
             if (collector)
@@ -1937,7 +1931,6 @@ int FUN_00d1cc50(NTreeQ* tree, void* unused, const RayInput* ray, RayCollector* 
 
 struct NodeMgrSV
 {
-    int* FUN_00d1bb40(unsigned short index);
 };
 __forceinline void FilterRays_filterSetAll(hkVector4& out, float x)
 {
@@ -2010,7 +2003,6 @@ struct FilterRays_Node
     {
         return m_usNodeValue & 0x8000;
     }
-    void CopyFrom(int* other);
 };
 
 struct FilterRays_Tree
@@ -2023,7 +2015,7 @@ struct FilterRays_Tree
     hkVector4 m_kAabbInverseScale;
     __forceinline int* getChild(const FilterRays_Node* node, int i) const
     {
-        return ((NodeMgrSV*)&m_kNodeManager)->FUN_00d1bb40(node->m_ausChildIndices[i]);
+        return reinterpret_cast<::FUN_00d1bb40_Class *>((((NodeMgrSV*)&m_kNodeManager)))->FUN_00d1bb40(node->m_ausChildIndices[i]);
     }
 };
 
@@ -2100,16 +2092,6 @@ class hkCpuWorldRayCastCollector : public FilterRays_CastBase0,
     hkVector4 m_fEarlyOutHitFraction;
 };
 
-extern int DAT_011b3830[5];
-extern void* DAT_0126ec04;
-void FUN_00e2b9b0();
-void __cdecl FUN_00e2baa0(hkCpuWorldRayCastCollector* collector, const RayCastRequest* command,
-                          const void* filter);
-RayQuerySet __cdecl FUN_00e2baf0(const hkVector4& s0, const hkVector4& e0, const hkVector4& s1, const hkVector4& e1,
-                                 const hkVector4& s2, const hkVector4& e2, const hkVector4& s3, const hkVector4& e3,
-                                 int mask);
-void __cdecl FUN_00d1ca00(const FilterRays_Tree* tree, const FilterRays_Node* node, const void* skipNode,
-                          const RayQuerySet* bundle, FilterRays_FilterCollector** collectors, float* fractions);
 
 template <class T> __forceinline T FilterRays_min2(T x, T y)
 {
@@ -2118,7 +2100,7 @@ template <class T> __forceinline T FilterRays_min2(T x, T y)
 
 __forceinline void FilterRays_registerAddRayHit(void (*f)())
 {
-    DAT_0126ec04 = (void*)f;
+    (*reinterpret_cast<void * *>(&::DAT_0126ec04)) = (void*)f;
 }
 
 // Tests each ray against a leaf AABB, or partitions ray indices by the two child AABBs.
@@ -2145,7 +2127,7 @@ void __cdecl FUN_00e2bbd0(const FilterRays_Tree* tree, const FilterRays_Node* no
             FilterRays_filterSetAll(earlyOut, 1.0f);
             if (aabb.overlaps(rays[idx], earlyOut))
             {
-                FUN_00e2baa0(collector, commandArray + idx, filter);
+                ::FUN_00e2baa0((::E2baaDst *)(collector), (::E2baaSrc *)(commandArray + idx), (int)(filter));
                 collector->GetHitDistance(node);
             }
         }
@@ -2153,8 +2135,8 @@ void __cdecl FUN_00e2bbd0(const FilterRays_Tree* tree, const FilterRays_Node* no
     else if (raysIdxOutCap0 >= numRays && raysIdxOutCap1 >= numRays && taskCap >= 2 && numRays > 4)
     {
         int* child1 = tree->getChild(node, 1);
-        child0Out.CopyFrom(tree->getChild(node, 0));
-        child1Out.CopyFrom(child1);
+        reinterpret_cast<::FUN_00d9a4e0_Obj *>(&(child0Out))->CopyFrom((const ::FUN_00d9a4e0_Obj *)(int *)(tree->getChild(node, 0)));
+        reinterpret_cast<::FUN_00d9a4e0_Obj *>(&(child1Out))->CopyFrom((const ::FUN_00d9a4e0_Obj *)(child1));
         FilterRays_FilterAabb aabb0;
         FilterRays_FilterAabb aabb1;
         FilterRays_FilterAabb::restoreAabb(child0Out.m_iBufferSize, tree->m_kAabbInverseScale, tree->m_kAabbMin, aabb0);
@@ -2194,27 +2176,27 @@ void __cdecl FUN_00e2bbd0(const FilterRays_Tree* tree, const FilterRays_Node* no
             {
                 rayIdx[j] = raysIdx[j + b * 4];
                 const RayCastRequest* command = commandArray + rayIdx[j];
-                FUN_00e2baa0(&collectors[j], command, filter);
+                ::FUN_00e2baa0((::E2baaDst *)(::hkCpuWorldRayCastCollector *)(&collectors[j]), (::E2baaSrc *)(command), (int)(filter));
                 FilterRays_filterSetAll(collectors[j].m_fEarlyOutHitFraction, earlyHitFractionArray[rayIdx[j]]);
                 fractions[j] = earlyHitFractionArray[rayIdx[j]];
                 if (command->m_useFilterCollector)
                 {
                     collectors[j].m_fixedBufferRayHitFilterCollector = new (&fixedBufferFilterCollectors[j])
                         hkpFixedBufferRayHitCollector(command->m_pResultBuffer, command->m_iResultCount);
-                    FilterRays_registerAddRayHit(FUN_00e2b9b0);
+                    FilterRays_registerAddRayHit(((void (&)())::FUN_00e2b9b0));
                 }
                 else
                 {
                     collectors[j].m_fixedBufferRayHitFilterCollector = 0;
                 }
             }
-            RayQuerySet bundle = FUN_00e2baf0(
-                rays[rayIdx[0]].m_kRayStart, rays[rayIdx[0]].m_vInverseDirection, rays[rayIdx[1]].m_kRayStart,
-                rays[rayIdx[1]].m_vInverseDirection, rays[rayIdx[2]].m_kRayStart, rays[rayIdx[2]].m_vInverseDirection,
-                rays[rayIdx[3]].m_kRayStart, rays[rayIdx[3]].m_vInverseDirection, DAT_011b3830[n]);
+            RayQuerySet bundle = ::FUN_00e2baf0(
+                (const ::Vec4 &)(rays[rayIdx[0]].m_kRayStart), (const ::Vec4 &)(rays[rayIdx[0]].m_vInverseDirection), (const ::Vec4 &)(rays[rayIdx[1]].m_kRayStart),
+                (const ::Vec4 &)(rays[rayIdx[1]].m_vInverseDirection), (const ::Vec4 &)(rays[rayIdx[2]].m_kRayStart), (const ::Vec4 &)(rays[rayIdx[2]].m_vInverseDirection),
+                (const ::Vec4 &)(rays[rayIdx[3]].m_kRayStart), (const ::Vec4 &)(rays[rayIdx[3]].m_vInverseDirection), DAT_011b3830[n]);
             FilterRays_FilterCollector* collectorPtrs[4] = {&collectors[0], &collectors[1], &collectors[2],
                                                             &collectors[3]};
-            FUN_00d1ca00(tree, node, skipNode, &bundle, collectorPtrs, fractions);
+            ::FUN_00d1ca00((::RayTree *)(tree), (::Node *)(node), (::Node *)(skipNode), &bundle, (::RayCollector **)(collectorPtrs), fractions);
             for (int j = 0; j < n; j++)
                 earlyHitFractionArray[rayIdx[j]] = collectors[j].m_fEarlyOutHitFraction(0);
         }

@@ -2,6 +2,11 @@
 #ifndef FNV_BGSPLACEABLEWATER_H
 #define FNV_BGSPLACEABLEWATER_H
 
+#include "fnv/decl/FUN_00535aa0_Class.h"
+#include "fnv/decl/FUN_00624700_shell.h"
+#include "fnv/decl/FUN_00843170_shell.h"
+#include "fnv/decl/HungerStageData.h"
+#include "fnv/decl/S_00462230.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "TESForm.h"
@@ -196,11 +201,6 @@ class PlaceableWaterData
   public:
     unsigned long ulFlags;         // +0x0, 4 bytes
     TESWaterForm* m_pOwningWater;  // +0x4, 4 bytes
-    void FUN_004019f0();
-    void Reinitialize();
-    void Reset();
-    void FUN_00535aa0();
-    void FUN_00462230();
     // void __cdecl PlaceableWaterData::*()
     // void __cdecl PlaceableWaterData::*()
     // void __cdecl PlaceableWaterData::*()
@@ -220,17 +220,7 @@ class BGSPlaceableWater : public TESBoundObject, public TESModel
     void ResetFormData();
     virtual void InitItem(void);
     virtual bool Load(TESFile* file);
-    PlaceableWaterData* FUN_00624700();
-    void FUN_004fc360(bool);
-    void FUN_004fc380(bool);
-    void FUN_004fc3a0(bool);
-    void FUN_004fc3c0(bool);
-    void FUN_004fc3e0(bool);
-    void SetFlag800(bool);
-    void FUN_004fc420(bool);
     void FUN_004fc450(bool);
-    void FUN_004fc470(bool);
-    void FUN_004fc490(bool);
     // BGSPlaceableWater
     // void __cdecl BGSPlaceableWater::*()
     // PlaceableWaterData* __cdecl BGSPlaceableWater::*()

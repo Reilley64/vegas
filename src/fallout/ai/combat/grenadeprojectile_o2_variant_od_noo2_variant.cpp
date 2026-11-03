@@ -5,10 +5,54 @@
 
 // src/fallout/ai/combat/grenadeprojectile_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/ai/combat/grenadeprojectile.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include "fnv/decl/Actor.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/BeamEffect.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005de080_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00931fb0_shell.h"
+#include "fnv/decl/FUN_009344a0_shell.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FUN_00ad89e0_shell.h"
+#include "fnv/decl/FUN_00ad8b60_h.h"
+#include "fnv/decl/FUN_00ad8f20_shell.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/Projectile9c58.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S00561240_Vector.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/decl/fnv_009334b0__FUN_009334b0_shell.h"
+#include "fnv/decl/fnv_00ad88f0__FUN_00ad88f0_h.h"
+#include "fnv/decl/s56ae10__Owner.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00574000.h"
+#include "fnv/symbols_00c6a000.h"
+#include "fnv/symbols_01012000.h"
 #include "grenadeprojectile_types.h"
 struct S_004f15a0
 {
-    void FUN_004f15a0(int);
 };
 struct GP_Base0
 {
@@ -34,7 +78,6 @@ class FUN_009b3fa0 : public FUN_009bbc70
 };
 struct S4700
 {
-    bool FUN_009c43e0(int, bool);
     bool FUN_009b4700(int, bool);
     virtual void f0(), f1(), f2(), f3(), f4(), f5(), f6(), f7(), f8(), f9(), f10(), f11(), f12(), f13(), f14(), f15(),
         f16(), f17(), f18(), f19(), f20(), f21(), f22(), f23(), f24(), f25(), f26(), f27(), f28(), f29(), f30(), f31(),
@@ -56,9 +99,7 @@ struct S4700
 struct NiAVObject;
 struct Creature
 {
-    static void __cdecl SetNodeFlagsRecursive(NiAVObject*, int, bool, bool, bool);
 };
-extern double _gModifierZero;
 struct FUN_009b4c70_shell : public Projectile
 {
     void FUN_009b4c70();
@@ -66,7 +107,6 @@ struct FUN_009b4c70_shell : public Projectile
 struct BGSLoadFormBuffer;
 struct C009c58e0
 {
-    void __thiscall FUN_009c58e0(BGSLoadFormBuffer*);
 };
 struct S009b4d10 : public FUN_009b3fa0
 {
@@ -76,7 +116,6 @@ struct S009b4d10 : public FUN_009b3fa0
 #include <xmmintrin.h>
 struct S_00561240
 {
-    __m128* __thiscall FUN_00561240(__m128* out);
 };
 
 struct S_00627920
@@ -89,5 +128,5 @@ struct S_00627920
 void __thiscall S_00627920::FUN_00627920(S_00561240* param)
 {
     __m128 tmp;
-    unk00 = _mm_mul_ps(*param->FUN_00561240(&tmp), unk00);
+    unk00 = _mm_mul_ps(*((::__m128 *)(reinterpret_cast<::S00561240_Vector *>((param))->FUN_00561240((::S00561240_Vector *)(::__m128 *)(&tmp)))), unk00);
 }

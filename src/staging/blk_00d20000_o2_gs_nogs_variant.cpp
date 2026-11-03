@@ -5,6 +5,62 @@
 
 // src/staging/blk_00d20000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/D338e0Owner.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00cb7480_cls.h"
+#include "fnv/decl/FUN_00cfbbe0_cls.h"
+#include "fnv/decl/FUN_00cfbcc0_cls.h"
+#include "fnv/decl/FUN_00d04350_cls.h"
+#include "fnv/decl/FUN_00d2f980.h"
+#include "fnv/decl/FUN_00d33b70_cls.h"
+#include "fnv/decl/FUN_00d368c0_cls.h"
+#include "fnv/decl/FUN_00d37690_Class.h"
+#include "fnv/decl/FUN_00d617d0_cls.h"
+#include "fnv/decl/FUN_00d87910_cls.h"
+#include "fnv/decl/FUN_00db0920_cls.h"
+#include "fnv/decl/FnvString.h"
+#include "fnv/decl/InlineStorageString.h"
+#include "fnv/decl/ShapeCollectionAgent.h"
+#include "fnv/decl/Triangle.h"
+#include "fnv/decl/hkSmallArrayE.h"
+#include "fnv/decl/hkStringD618.h"
+#include "fnv/decl/hkpModifierConstraintAtomD220.h"
+#include "fnv/decl/hkpSphereCapsuleAgent.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cd6000.h"
+#include "fnv/symbols_00d27000.h"
+#include "fnv/symbols_00d2c000.h"
+#include "fnv/symbols_00d2d000.h"
+#include "fnv/symbols_00d2e000.h"
+#include "fnv/symbols_00d2f000.h"
+#include "fnv/symbols_00d31000.h"
+#include "fnv/symbols_00d32000.h"
+#include "fnv/symbols_00d33000.h"
+#include "fnv/symbols_00d34000.h"
+#include "fnv/symbols_00d36000.h"
+#include "fnv/symbols_00d37000.h"
+#include "fnv/symbols_00d39000.h"
+#include "fnv/symbols_00d3a000.h"
+#include "fnv/symbols_00d3c000.h"
+#include "fnv/symbols_00d3e000.h"
+#include "fnv/symbols_00d3f000.h"
+#include "fnv/symbols_00d43000.h"
+#include "fnv/symbols_00da3000.h"
+#include "fnv/symbols_00da4000.h"
+#include "fnv/symbols_00da6000.h"
+#include "fnv/symbols_00daf000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010cb000.h"
+#include "fnv/symbols_010ce000.h"
+#include "fnv/symbols_010cf000.h"
+#include "fnv/symbols_011b4000.h"
+#include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
 extern "C" void* __cdecl fopen(const char*, const char*);
 struct FUN_00d2be30
@@ -14,38 +70,23 @@ struct FUN_00d2be30
     void* m_8;
     void SetFile(const char* a, const char* b);
 };
-extern "C" void __stdcall FUN_00d2f980(int);
 extern int DAT_010ce930;
 struct FUN_00d2f220_class
 {
     int* p;
     int __thiscall InitializeWithGlobal(int a);
 };
-void __cdecl FUN_00d365d0();
-void __cdecl FUN_00da6fd0(int);
-void __cdecl FUN_00d367b0(int param_1);
-extern "C" void __cdecl FUN_00d36b70();
-extern "C" void __cdecl FUN_00d34790();
-extern "C" void __cdecl QueryClosestPoints();
-extern "C" void __cdecl FUN_00d34810();
-void __cdecl FUN_00d36bb0(void** p);
-extern "C" void __cdecl FUN_00d36be0();
-extern "C" void __cdecl FUN_00d43dc0();
-extern "C" void __cdecl GetClosestPointsShapeCollection();
-extern "C" void __cdecl FUN_00d43b90();
 void __cdecl FUN_00d36c30(void* p);
 void CreateRetObj();
 void FUN_00d3d3e0();
 void FUN_00d3d8c0();
-void FUN_00daf8e0();
 void __cdecl FUN_00d3dbe0(void* p);
 void __cdecl CreateTargetAgent(void);
 void __cdecl QueryD3DCollector(void);
-void __cdecl FUN_00d3e110(void);
-void __cdecl FUN_00d3ac80(void);
 void FUN_00d3dc10(void* p);
 struct FUN_00db0920 {
-    void Init();
+public:
+    void RemoveValueAt(int);
 };
 void* __cdecl InitAndGetOffset(void* a, void* b, void* c);
 struct CollisionAgentFunctionTable {
@@ -57,21 +98,8 @@ struct CollisionAgentFunctionTable {
     char f;
 };
 struct Agent {
-    void FUN_00cfbbe0(CollisionAgentFunctionTable*, int, int);
 };
-void __cdecl FUN_00d2e680();
-void __cdecl FUN_00d2e970();
-void __cdecl FUN_00d2e9b0();
-void __cdecl FUN_00d2daf0();
-void __cdecl FUN_00d2df50();
-void __cdecl FUN_00d312f0();
-void __cdecl FUN_00d31110();
-void __cdecl FUN_00d2f0d0();
-void __cdecl CreateAgentForBodyPair();
-void __cdecl FUN_00d2dc70(Agent* a);
-void ReplaceEntry(int param_1, int param_2, int param_3, unsigned short param_4);
 struct FUN_00d27f50_Obj {
-    void __thiscall Insert(int a, int b, int c);
     void __thiscall FUN_00d27f50(int param_1, int param_2);
 };
 struct FUN_00d27f70 {
@@ -110,9 +138,7 @@ inline void* __cdecl operator new(unsigned int, void* p) { return p; }
 struct IndexBuffer { int* data; int size; unsigned capacityFlags; };
 struct IndexStorage { int* data; };
 struct AllocationManager { int unk00; int unk04; int unk08; int unk0C; void* allocator; };
-AllocationManager* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void*, IndexBuffer*, int);
-struct IndexRemapper { IndexStorage* entries; int length; void FUN_00d280e0(); void RemapIndices(IndexBuffer*); };
+struct IndexRemapper { IndexStorage* entries; int length;  void RemapIndices(IndexBuffer*); };
 struct hkMemAllocStub
 {
     virtual void v00();
@@ -140,8 +166,6 @@ struct hkMemCtxStub
     hkMemAllocStub& temp() { return *alloc; }
     void* heap() { return mem; }
 };
-hkMemCtxStub* GetMemCtx();
-void ArrayReserveImpl(void* mem, void* arr, int numElem, int elemSize);
 struct IntArrayStub
 {
     int* m_data;
@@ -154,7 +178,7 @@ struct IntArrayStub
         if (cap < n)
         {
             int cap2 = cap * 2;
-            ArrayReserveImpl(mem, this, n < cap2 ? cap2 : n, 4);
+            ::FUN_00c908c0((::SpawnedObject *)(mem), (::SpawnedArray *)(void *)(this), n < cap2 ? cap2 : n, 4);
         }
     }
     void setSizeWith(void* mem, int n)
@@ -181,30 +205,15 @@ struct D2F2C0AgentFuncs {
 };
 class D2F2C0Dispatcher {
 public:
-    void registerCollisionAgent(D2F2C0AgentFuncs& f, int typeA, int typeB);
 };
-void __cdecl FUN_00d2fa00();
-void __cdecl FUN_00d2e970();
-void __cdecl FUN_00d2e9b0();
-void __cdecl FUN_00d2daf0();
-void __cdecl FUN_00d2f9d0();
-void __cdecl FUN_00d312f0();
-void __cdecl FUN_00d31110();
-void __cdecl FUN_00d2f0d0();
-void __cdecl CreateAgentForBodyPair();
-void __cdecl FUN_00d2f2c0(D2F2C0Dispatcher* dispatcher);
-struct CallTarget_00d2f760 { int FUN_00d2f760(int, int, int, int); };
+struct CallTarget_00d2f760 {  };
 struct SearchObject {
     int FUN_00d2f3d0(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
 };
 struct FnvCpu_FUN_00d31730_CpuCallData { void* descriptor; float bound; unsigned int value; };
-extern float DAT_0104da48;
-extern unsigned char DAT_010ce7fc;
 struct FnvCpu_FUN_00d31730_CpuObject {
-    void FUN_00d315d0(void*, void*, unsigned int, FnvCpu_FUN_00d31730_CpuCallData*);
     void FUN_00d31730(void*, void*, unsigned int, unsigned int);
 };
-extern "C" void __cdecl InitBlockPool(void* p);
 extern int DAT_010ced34;
 struct FUN_00d36b20_Class {
     void* unk00;
@@ -219,20 +228,15 @@ struct FUN_00d36b20_Class {
     FUN_00d36b20_Class* __thiscall FUN_00d36b20(int param1, int param2, int* param3, int param4);
 };
 struct FUN_00d36cc0_Obj {
-    void __thiscall FUN_00d368c0(int a1, int a2, int a3, int a4);
     void __thiscall FUN_00d36cc0(int param_1, int param_2, int param_3, int param_4);
 };
 struct FnvCpu_FUN_00d36ce0_CpuCallData { void* descriptor; float bound; unsigned int value; };
-extern float DAT_0104da48;
-extern unsigned char DAT_010ce7fc;
 struct FnvCpu_FUN_00d36ce0_CpuObject {
-    void FUN_00d36940(void*, void*, unsigned int, FnvCpu_FUN_00d36ce0_CpuCallData*);
     void FUN_00d36ce0(void*, void*, unsigned int, unsigned int);
 };
-extern float DAT_0104da48;
 class D37B90Collector {
 public:
-    D37B90Collector(int iFilter) : m_fEarlyOutDistance(DAT_0104da48), m_iFilter(iFilter) {}
+    D37B90Collector(int iFilter) : m_fEarlyOutDistance(::DAT_0104da48), m_iFilter(iFilter) {}
     virtual void AddCdPoint(const void* pkEvent);
 
     float m_fEarlyOutDistance;
@@ -240,29 +244,18 @@ public:
 };
 class D37B90Agent {
 public:
-    void FUN_00d37010(void* pkA, void* pkB, void* pkInput, D37B90Collector* pkCollector);
     void FUN_00d37b90(void* pkA, void* pkB, void* pkInput, int iFilter);
 };
-void __cdecl ReleaseHandles(int a1, int a2, int a3, int a4);
-void __cdecl FUN_00d39130(int a1, int a2, int a3, int a4, int a5);
 struct FnvCpu_FUN_00d3f480_CpuCallData { void* descriptor; float bound; unsigned int value; };
-extern float DAT_0104da48;
-extern unsigned char DAT_010ce7fc;
 struct FnvCpu_FUN_00d3f480_CpuObject {
-    void FUN_00d3e850(void*, void*, unsigned int, FnvCpu_FUN_00d3f480_CpuCallData*);
     void FUN_00d3f480(void*, void*, unsigned int, unsigned int);
 };
-extern float DAT_0104da48;
 struct S_00d3f4c0_Obj {
     virtual void vfn0();
     float unk04;
     int unk08;
-    S_00d3f4c0_Obj(int a) : unk04(DAT_0104da48), unk08(a) {}
+    S_00d3f4c0_Obj(int a) : unk04(::DAT_0104da48), unk08(a) {}
 };
-void* __cdecl FUN_00d3ebe0(void* a, void* b, void* c, S_00d3f4c0_Obj* o);
-void* __cdecl FUN_00d3f4c0(void* a, void* b, void* c, int d);
-void __cdecl FUN_00d3fce0(CollisionAgentFunctionTable*);
-void __cdecl FUN_00d3fd00(Agent* agent);
 struct FUN_00d3fd60_cls_Entry { unsigned short m_key; unsigned short m_uiFilterValue; };
 struct FUN_00d3fd60_cls
 {
@@ -272,7 +265,6 @@ struct FUN_00d3fd60_cls
     unsigned short m_key7;
     unsigned char m_unk32;
     unsigned char m_uiItemCount;
-    void __thiscall RemoveEntry(int index);
 };
 struct FUN_00d3fd60_cls_Ref
 {
@@ -280,7 +272,6 @@ struct FUN_00d3fd60_cls_Ref
     unsigned char m_unk01;
     unsigned char m_iObjectReferenceCount;
 };
-void* __cdecl RemoveEntryByKey(FUN_00d3fd60_cls_Ref* ref, FUN_00d3fd60_cls* table, unsigned short key);
 struct FUN_00d3fda0_entry {
     unsigned short key00;
     unsigned short val02;
@@ -293,7 +284,6 @@ struct FUN_00d3fda0_table {
     unsigned char unk20;
     unsigned char count;
 };
-int __cdecl FindOrClaimEntry(int unused, FUN_00d3fda0_table* table, unsigned short value);
 struct D3FE10Agent {
     unsigned short m_flags;
     unsigned short m_iOwnerObjectOffset;
@@ -324,7 +314,6 @@ public:
     virtual void unk10();
     virtual void ResetAgent(unsigned short id, void* pkInfo);
 };
-D3FE10Entry* __cdecl ResetEntryAgents(D3FE10Header* pkHeader, D3FE10Entry* pkEntry, D3FE10Manager* pkManager, void* pkInfo);
 template <class T> class hkArrayD27 {
 public:
     T& operator[](int i) { return m_data[i]; }
@@ -340,21 +329,16 @@ public:
 
     hkArrayD27<int>& m_pParentArray;
 };
-extern int DAT_010ce81c;
 struct SpawnedBuf { void* m_iWordAt00; unsigned char m_iWordAt04; int m_8; };
 struct Wrapper {
-    void ForwardToFunction(int,int,int,SpawnedBuf*);
     void FUN_00d37bd0(int a,int b,int c,int d);
 };
 typedef void (*CallbackD3D)();
 void CreateRetObj();
 void FUN_00d3d3e0();
 void FUN_00d3d8c0();
-void FUN_00daf8e0();
 void CreateTargetAgent();
 void QueryD3DCollector();
-void FUN_00d3e110();
-void FUN_00d3ac80();
 struct AgentFuncsD3D {
     AgentFuncsD3D() : m_bA(false), m_bB(false) {}
 
@@ -370,7 +354,7 @@ static __declspec(noinline) void InitFuncsB(AgentFuncsD3D* pkFuncs)
     pkFuncs->m_pfnA = CreateRetObj;
     pkFuncs->m_pfnB = FUN_00d3d3e0;
     pkFuncs->m_pfnC = FUN_00d3d8c0;
-    pkFuncs->m_pfnD = FUN_00daf8e0;
+    pkFuncs->m_pfnD = ((void (&)())::FUN_00daf8e0);
     pkFuncs->m_bA = false;
     pkFuncs->m_bB = false;
 }
@@ -378,15 +362,14 @@ static __declspec(noinline) void InitFuncsA(AgentFuncsD3D* pkFuncs)
 {
     pkFuncs->m_pfnA = CreateTargetAgent;
     pkFuncs->m_pfnB = QueryD3DCollector;
-    pkFuncs->m_pfnC = FUN_00d3e110;
-    pkFuncs->m_pfnD = FUN_00d3ac80;
+    pkFuncs->m_pfnC = ((void (&)())::FUN_00d3e110);
+    pkFuncs->m_pfnD = ((void (&)())::FUN_00d3ac80);
     pkFuncs->m_bA = true;
     pkFuncs->m_bB = false;
 }
 void (*g_apfnInitD3D[2])(AgentFuncsD3D*) = { InitFuncsA, InitFuncsB };
 class DispatcherD3D {
 public:
-    void RegisterAgent(AgentFuncsD3D* pkFuncs, int iA, int iB);
 };
 void __cdecl RegisterD3DAgents(DispatcherD3D* pkDispatcher);
 struct D27690_Atom {
@@ -408,7 +391,6 @@ struct D27690_Modifier {
     unsigned short m_childResult;
     D27690_Atom* m_pChildAtom;
 
-    void FUN_00d22090(D27690_ConstraintInfo* info, unsigned char* flags);
 };
 struct D27690_Entity {
     int unk000; int unk004; int unk008; int unk00C;
@@ -464,15 +446,12 @@ struct D27690_Owner {
     int unk08;
     int m_iElementCount;
 
-    void FUN_00cb7480(void* unk, D27690_ConstraintInfo* info);
 };
 struct D27690_Allocator {
     virtual void v00();
     virtual void v04();
     virtual void ReleaseBlock(void* p, int size);
 };
-extern unsigned short DAT_010cb7a8;
-void __cdecl FUN_00d27690(D27690_Instance* instance, D27690_Owner* owner, unsigned int modifierType);
 struct Base {
     int unk4;
     char m_8;
@@ -502,7 +481,6 @@ struct FUN_00d219e0_cls
 };
 extern int DAT_0101e594;
 struct VtblStub_0101e594 { void* m_ppVirtualMethodTable; };
-extern "C" void __cdecl FUN_00401030(VtblStub_0101e594*);
 struct FUN_00d26210
 {
     void* m_ppVirtualMethodTable;
@@ -546,27 +524,20 @@ struct FUN_00d277f0_arg
     int unk0c;
     FUN_00d277f0_node* unk10;
 };
-FUN_00d277f0_node* __cdecl FUN_00d277f0(FUN_00d277f0_arg* a);
 struct FUN_00d61840_class {
     int m_iWordAt00;
     int __thiscall FUN_00d61c10(int a);
-    int __thiscall ReplaceChar(int a, int b, int c);
 };
 int __cdecl CallAndGetId(int a, FUN_00d61840_class* obj);
 struct PathHelper {
     char* m_data;
 
     void __thiscall FUN_00d61c10(const char* s);
-    void __thiscall ReplaceChar(char from, char to, int all);
-    void __thiscall FUN_00d62190(const char* from, const char* to, int all);
-    int __thiscall FUN_00d61560(const char* s);
-    void __thiscall RemoveFront(int count);
 };
 const char* __cdecl FUN_00d2b360(const char* path, PathHelper* str);
 struct FnvCpu_FUN_00d2c7d0_CpuInterface {
     virtual void Invoke(int value);
 };
-void __cdecl FUN_00d2c7d0(FnvCpu_FUN_00d2c7d0_CpuInterface* object);
 class FUN_00d2c7e0 {
 public:
     virtual ~FUN_00d2c7e0();
@@ -579,10 +550,8 @@ public:
     static void* operator new(unsigned int, void* p) throw() { return p; }
     static void operator delete(void*, void*) throw() {}
 };
-void __cdecl ConstructObjD2C840(void* storage, int count);
 struct FUN_00d04350_Obj
 {
-    void __thiscall Create(int a, int b);
 };
 struct FUN_00d2cd80_Obj
 {
@@ -591,8 +560,8 @@ struct FUN_00d2cd80_Obj
 
     FUN_00d2cd80_Obj* __thiscall FUN_00d2cd80();
 };
-struct SubA { void FUN_00d87910(); };
-struct SubB { void Create(int a, int b); };
+struct SubA {  };
+struct SubB {  };
 struct C_d2cda0 {
     int m_iWordAt00;
     int unk04;
@@ -608,17 +577,9 @@ struct C_d2cda0 {
     C_d2cda0* FUN_00d2cda0();
 };
 struct FnvCpu_FUN_00d329b0_CpuCallData { void* descriptor; float bound; unsigned int value; };
-extern float DAT_0104da48;
-extern unsigned char DAT_010ce7fc;
 struct FnvCpu_FUN_00d329b0_CpuObject {
-    void FUN_00d32170(void*, void*, unsigned int, FnvCpu_FUN_00d329b0_CpuCallData*);
     void DispatchWithBound(void*, void*, unsigned int, unsigned int);
 };
-int __cdecl FUN_00d32ac0(int param_1, int param_2);
-void* __cdecl FUN_00d32ad0(int unused, char* p);
-extern int DAT_010ce81c;
-void __cdecl FUN_00d33b90(int b, int a, int c, SpawnedBuf* buffer);
-void __cdecl InitSpawnedBuffer(int a, int b, int c, int d);
 struct FUN_00d34aa0_Obj {
     virtual void vf00();
     virtual void vf04();
@@ -629,28 +590,19 @@ struct FUN_00d34aa0_Obj {
     virtual void vf18();
     virtual void vf1C();
 
-    void __thiscall FUN_00d338e0(int a, int b, int c, int d);
     virtual void __thiscall FUN_00d34aa0(int a, int b, int c, int d);
 };
 struct FnvCpu_FUN_00d34b00_CpuCallData { void* descriptor; float bound; unsigned int value; };
-extern float DAT_0104da48;
-extern unsigned char DAT_010ce7fc;
 struct FnvCpu_FUN_00d34b00_CpuObject {
-    void FUN_00d33b70(void*, void*, unsigned int, FnvCpu_FUN_00d34b00_CpuCallData*);
     void DispatchCpuCall(void*, void*, unsigned int, unsigned int);
 };
-void RemoveKeyFromTable(int, unsigned short* table, unsigned short key);
-void __cdecl InsertIntoSlotArray(void* unused, unsigned short* slots, unsigned short value);
 void FUN_00d39090();
 typedef void (*CallbackD3D)();
 void CreateRetObj();
 void FUN_00d3d3e0();
 void FUN_00d3d8c0();
-void FUN_00daf8e0();
 void CreateTargetAgent();
 void QueryD3DCollector();
-void FUN_00d3e110();
-void FUN_00d3ac80();
 struct FUN_00d390a0_Leaf {
     char unk00[0x20];
 };
@@ -678,8 +630,6 @@ struct FUN_00d390a0_Out {
     int unk18;
     int unk1C;
 };
-void __cdecl ComputeInverseLengths(void* a, void* b);
-char* __cdecl InitOutputDefaults(FUN_00d390a0_Owner* owner, FUN_00d390a0_Flags* flags, FUN_00d390a0_Out* out);
 struct D390Callback {
     virtual void method00();
     virtual void method04();
@@ -705,7 +655,6 @@ struct D390HandleTable {
     unsigned short state1e;
     unsigned short state20;
 };
-unsigned short* __cdecl ReleaseHandles(void* unused, D390HandleTable* handles, D390Callback* callback, void* context);
 struct D3FD30Funcs {
     D3FD30Funcs() : m_bA(false), m_bB(false) {}
     CallbackD3D m_pfnA;
@@ -715,14 +664,11 @@ struct D3FD30Funcs {
     bool m_bA;
     bool m_bB;
 };
-void __cdecl FUN_00d3fce0(D3FD30Funcs* pkFuncs);
 class D3FD30Dispatcher {
 public:
-    void AddSpawnEntry(D3FD30Funcs* pkFuncs, int iA, int iB);
 };
 void __cdecl DispatchFuncs(D3FD30Dispatcher* pkDispatcher);
 void FUN_00d3fde0();
-extern int DAT_0102e388;
 struct Foo00d24660 {
     void FUN_00d24660();
 };
@@ -749,7 +695,6 @@ public:
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 
-    void FUN_00d24660() throw();
 
     static void operator delete(void* p) throw()
     {
@@ -758,31 +703,19 @@ public:
 
     FUN_00d496d0* FUN_00d262e0(unsigned int uiFlags) throw();
 };
-void FUN_00da3510(void*, void*);
 void FUN_00d2d460(int, void* b, void* c);
-extern unsigned char DAT_011b4284;
 void __cdecl FUN_00d2f530(unsigned char* p);
-extern unsigned char DAT_011b4284;
 void __cdecl FUN_00d2f540(unsigned char value);
-extern float DAT_0104da48;
-extern unsigned char DAT_010ce7fc;
-extern "C" void __cdecl GetClosestPointsShapeCollection();
 struct D347D0Query {
     const unsigned char* descriptor;
     float bound;
     unsigned int filter;
 };
-void __cdecl QueryClosestPoints(void* a, void* b, void* c, unsigned int filter);
-extern float DAT_0104da48;
-extern unsigned char DAT_010ce7fc;
 struct D34970Context {
     void* pointer;
     float maxDistance;
     int option;
 };
-extern "C" void __cdecl FUN_00d339d0(int first, int second, int third, D34970Context* context);
-void __cdecl FUN_00d34970(int arg0, int arg1, int arg2, int arg3);
-extern int DAT_010ce81c;
 struct D34ac0Struct {
     void* e;
     unsigned char f;
@@ -804,7 +737,6 @@ struct D3C380_Obj {
     unsigned short wC;
 };
 extern unsigned int DAT_010cefdc;
-D3C380_Obj* __cdecl CreateD3C380Obj(int a1, int a2, int a3, int a4);
 // CreateRetObj: builds a 0x20-byte record from the audio allocation pool.
 struct IAlloc
 {
@@ -830,8 +762,6 @@ struct AllocMgr
     int unk00, unk04, unk08, unk0c;
     IAlloc* allocator;
 };
-extern int DAT_010cf060;
-extern void __cdecl FUN_00cd7160(void* src, void* dst);
 void* __cdecl CreateRetObj(int a1, char** a2, int a3, int a4);
 extern int DAT_010cf0e4;
 struct D3E270_obj;
@@ -853,13 +783,12 @@ struct D3E270_mgr {
     int r0c;
     D3E270_alloc* r10;
 };
-D3E270_obj* __cdecl FUN_00d3e270(int a1, int a2, int a3, int a4);
 struct D3FE70Info {
     void* pkInfo;
 };
-D3FE10Entry* __cdecl FUN_00d3fe70(D3FE10Header* pkHeader, D3FE10Entry* pkEntry, D3FE10Manager* pkManager, D3FE70Info kInfo);
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 struct Obj_d284f0 {
     float unk00[52];
     __m128 m_kFirstVector;   // +0xd0
@@ -953,13 +882,9 @@ struct Context {
 };
 struct ProfileSample { const char* name;unsigned int ticks,unk08;};
 struct ProfileState {ProfileSample* begin;ProfileSample* next;ProfileSample* unk08;ProfileSample* end;};
-extern unsigned int DAT_0126835c;
 extern char DAT_010ceeec[];
-extern char DAT_010c41f8[];
-extern float DAT_0104da48;
 struct ContactTag {unsigned char count,unk01,metadata,unk03;unsigned int unk04;};
 struct ContactPair {FourFloatVector position,normal;};
-void FUN_00cd6520(FourFloatVector*,float,FourFloatVector*,float,void*,float,int,ContactPair*,ContactTag*);
 __forceinline void TransformPoints(const Transform& matrix, const FourFloatVector* in, int n, FourFloatVector* out) {
  FourFloatVector c0=matrix.x, c1=matrix.y, c2=matrix.z, c3=matrix.translation;
  for(int i=n-1;i>=0;--i) {
@@ -975,7 +900,7 @@ struct ContactWorkspace {FourFloatVector pointsA[2];FourFloatVector pointsB[3];C
 // @fnv 0x00d39390
 unsigned short* FUN_00d39390(Pair* pair,Header* header,unsigned short* ids,FourFloatVector* normal,Context* context) {
  unsigned int count;
- ProfileState* profile=(ProfileState*)TlsGetValue(DAT_0126835c);
+ ProfileState* profile=(ProfileState*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
  ProfileSample* event=profile->next;
  if(event<profile->end) {
   event->name=DAT_010ceeec;
@@ -998,7 +923,7 @@ unsigned short* FUN_00d39390(Pair* pair,Header* header,unsigned short* ids,FourF
  TransformPoints(pair->b->GetTransform(),shapeB->vertices,3,triVertices);
  
  ContactTag tags[3];
- FUN_00cd6520(endPoints,shapeA->radius,triVertices,shapeB->radius,ids+4,3.40282e+38f,1,points,tags);
+ ::FUN_00cd6520((const ::ContactVector *)(endPoints),shapeA->radius,(const ::ContactVector *)(triVertices),shapeB->radius,(const float *)(void *)(ids+4),3.40282e+38f,1,(::ContactRecord *)(points),(::Feature *)(tags));
  int closest=points[0].normal.value.m128_f32[3] < points[1].normal.value.m128_f32[3] ? 0 : 1;
  int k=0; FourFloatVector* cp=&points[0].normal;
  for(;k<3;++k, cp+=2) {
@@ -1048,7 +973,7 @@ unsigned short* FUN_00d39390(Pair* pair,Header* header,unsigned short* ids,FourF
  }
  normal->value=points[closest].normal.value;
  header->count=(unsigned char)count;
- profile=(ProfileState*)TlsGetValue(DAT_0126835c);
+ profile=(ProfileState*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
  event=profile->next;
  if(event<profile->end) {
    event->name=DAT_010c41f8;

@@ -1,5 +1,9 @@
 // fallout_shared/tescombatstyle_decls.h: declares StatsChunkData, TESCombatStyle, NiAVObject, BGSHungerStage, CombatStyleAccess and more
 
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSMultiBoundRoom.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/symbols_00505000.h"
 #include "TESForm.h"
 extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 extern "C" void* __cdecl memset(void*, int, unsigned int);
@@ -16,7 +20,6 @@ struct StatsChunkData
 struct UInt32ChunkData
 {
     unsigned int data[21];
-    void FUN_005057a0();
 };
 class TESCombatStyle : public TESForm
 {
@@ -28,7 +31,6 @@ class TESCombatStyle : public TESForm
     void ResetFormData();
     bool Load(TESFile*);
 };
-TESCombatStyle* FUN_00505000();
 struct NiPoint3;
 class NiAVObject
 {
@@ -39,20 +41,16 @@ class HungerStageData;
 class BGSHungerStage
 {
   public:
-    HungerStageData* FUN_00500940();
 };
 class CombatStyleAccess
 {
   public:
-    UInt32ChunkData* FUN_006ab360();
 };
 class TESFileFormVersion
 {
   public:
-    unsigned short GetFormVersion();
 };
 class TESFileExtra
 {
   public:
-    bool FUN_00401680();
 };

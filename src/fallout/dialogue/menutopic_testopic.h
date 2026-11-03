@@ -2,6 +2,15 @@
 #ifndef FNV_TESTOPIC_H
 #define FNV_TESTOPIC_H
 
+#include "fnv/decl/FUN_00619d00_shell.h"
+#include "fnv/decl/FUN_0061a760_shell.h"
+#include "fnv/decl/FUN_0083dea0_class.h"
+#include "fnv/decl/TESRegion.h"
+#include "fnv/decl/TopicMethods.h"
+#include "fnv/decl/fnv_0061a720__FUN_0061a720_shell.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_0061b000.h"
+#include "fnv/symbols_006a9000.h"
 #include "layout_support.h"
 #include "DialogueTopicData.h"
 #include "TESForm.h"
@@ -22,19 +31,7 @@ class TESTopic : public TESForm
     static TESTopicInfo* FindMatchingTopicInfo(const TESTopic* topic, bool& deferred, TESObjectREFR* speaker,
                                                TESObjectREFR* listener, bool filter, TESTopic* previousTopic,
                                                BSSimpleList<DialogueItem*>* history);
-    TESQuest* GetParentQuest(TESTopicInfo*);
-    TESTopicInfo* FindMatchingTopicInfo(MobileObject*, PlayerCharacter*);
-    TESTopicInfo* FindMatchingTopicInfo(bool&, MobileObject*, PlayerCharacter*);
     bool IsNew();
-    bool HasDummyPrompt();
-    bool IsPersuasion();
-    const BSStringT<char>& GetDummyPrompt();
-    bool IsRemappedRumors() const;
-    static TESTopic* GetAudioBackendData(DIALOGUE_TYPE type, int subtype);
-    BSSimpleList<QuestDialogueInfo*>* GetQuestInfoList() const;
-    DIALOGUE_TYPE GetDialogueType();
-    static TESTopic* GetTopicFromInfo(TESTopicInfo* info);
-    bool InsertInfoAfter(TESQuest* quest, TESTopicInfo* info, unsigned int previousInfoID);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESTopic) == 0x40);

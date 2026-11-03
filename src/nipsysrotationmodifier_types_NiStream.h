@@ -2,6 +2,7 @@
 #ifndef FNV_NIPSYSROTATIONMODIFIER_FNV_NISTREAM_H
 #define FNV_NIPSYSROTATIONMODIFIER_FNV_NISTREAM_H
 
+#include "fnv/decl/S_00a64670_Foo.h"
 #include "nipsysrotationmodifier_layout_support.h"
 #include "nipsysrotationmodifier_NiFixedString.h"
 #include "nipsysrotationmodifier_NiObject.h"
@@ -188,7 +189,6 @@ FNV_STATIC_ASSERT(offsetof(ProcessorAffinityInfo, m_uiProcessorAffinityMask) == 
 class NiStream
 {
   public:
-    unsigned int ReadUnsignedInteger();
     void** m_ppVirtualMethodTable;                                     // +0x0, 4 bytes
     BSStreamHeader m_kHeader;                            // +0x4, 196 bytes
     NiTPrimitiveArray_NiObjectGroup___ m_kObjectGroups;  // +0xC8, 16 bytes

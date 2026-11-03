@@ -3,27 +3,55 @@
 
 
 // Fallout: New Vegas decompilation: fallout_shared/bgstextureset.cpp.
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00472840_impl.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_00591170.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TESDataHandler.h"
+#include "fnv/decl/TESFullName.h"
+#include "fnv/decl/TextureLoader.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_0048e370__FUN_0048e370_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_00593000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00af4000.h"
+#include "fnv/symbols_00af6000.h"
+#include "fnv/symbols_00afd000.h"
+#include "fnv/symbols_011c3000.h"
 #include "bgstextureset_packet.h"
-void FUN_00593210();
-BGSTextureSet* __cdecl FUN_00593220();
-void __cdecl _Deallocate(void*);
 struct S591140
 {
-    void FUN_00591170();
     void* FUN_00591140(unsigned int);
 };
-void __cdecl _delete(void*, unsigned int);
 struct Holder
 {
     void FUN_005923c0();
     void* FUN_00592380(unsigned int flags);
+public:
+    void FUN_00485680();
 };
 struct FullNameEx
 {
     int _m0;
     int _m1;
     int _m2;
-    void SetFullName(char const*);
 };
 struct Holder00592cc0
 {
@@ -33,21 +61,17 @@ struct Holder00592cc0
 };
 struct FUN_004855a0
 {
-    void M();
 };
 struct FUN_00485680
 {
-    void M();
 };
 struct FUN_0048e370_obj
 {
-    void FUN_0048e370(unsigned int);
 };
 struct FUN_00593320_shell
 {
     void FUN_00593320(void*);
 };
-void __cdecl FUN_00485950(unsigned int, unsigned int);
 extern unsigned int DAT_0118c574[6];
 struct FUN_00592810_shell
 {
@@ -55,7 +79,6 @@ struct FUN_00592810_shell
 };
 struct FUN_005e79a0_t : public TESForm
 {
-    bool FUN_00485270(TESForm*);
 };
 struct FUN_005932e0_shell
 {
@@ -88,7 +111,6 @@ struct DecalDataOwned : public DecalData
 };
 struct BoundObjectCopier
 {
-    void CopyBoundObject(TESForm* apForm);
 };
 struct BGSTextureSetCopy : public BGSTextureSet
 {
@@ -96,7 +118,6 @@ struct BGSTextureSetCopy : public BGSTextureSet
 };
 struct DecalDataCopier
 {
-    void Copy(DecalData* apSrc);
 };
 template <class T> class NiPointer
 {
@@ -118,7 +139,6 @@ class BSShaderManager
     static void GetTexture(const char* apPath, bool abFlag, NiPointer<NiTexture>& arspTexture, bool abFlag2,
                            bool abFlag3);
 };
-int FUN_00406d30(char*, unsigned int, const char*);
 struct TexSetIface
 {
     virtual void v00();
@@ -186,7 +206,6 @@ struct ValueList
     int unk04;
     int unk08;
 
-    void FUN_00489100(int iValue);
 };
 
 struct Owner
@@ -209,22 +228,22 @@ void Owner::FUN_00593030(unsigned int uiType, int iValue)
     switch (uiType)
     {
     case 0:
-        m_kList0.FUN_00489100(iValue);
+        reinterpret_cast<::TESFullName *>(&(m_kList0))->SetFullName((const char *)(iValue));
         break;
     case 1:
-        m_kList1.FUN_00489100(iValue);
+        reinterpret_cast<::TESFullName *>(&(m_kList1))->SetFullName((const char *)(iValue));
         break;
     case 2:
-        m_kList2.FUN_00489100(iValue);
+        reinterpret_cast<::TESFullName *>(&(m_kList2))->SetFullName((const char *)(iValue));
         break;
     case 3:
-        m_kList3.FUN_00489100(iValue);
+        reinterpret_cast<::TESFullName *>(&(m_kList3))->SetFullName((const char *)(iValue));
         break;
     case 4:
-        m_kList4.FUN_00489100(iValue);
+        reinterpret_cast<::TESFullName *>(&(m_kList4))->SetFullName((const char *)(iValue));
         break;
     case 5:
-        m_kList5.FUN_00489100(iValue);
+        reinterpret_cast<::TESFullName *>(&(m_kList5))->SetFullName((const char *)(iValue));
         break;
     }
 }

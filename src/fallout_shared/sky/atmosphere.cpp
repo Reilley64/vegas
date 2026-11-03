@@ -2,26 +2,63 @@
 // src/fallout_shared/sky/atmosphere.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/sky/atmosphere.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/BSFaceGenNiNode.h"
+#include "fnv/decl/BSMultiBoundRoom.h"
+#include "fnv/decl/BSShaderManager.h"
+#include "fnv/decl/F940Owner.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00476c90_Class.h"
+#include "fnv/decl/FUN_0049ed90_shell.h"
+#include "fnv/decl/FUN_004e45e0_shell.h"
+#include "fnv/decl/FUN_00507700_cls.h"
+#include "fnv/decl/FUN_0050d100_shell.h"
+#include "fnv/decl/FUN_0057b0a0_shell.h"
+#include "fnv/decl/FUN_005a8080.h"
+#include "fnv/decl/FUN_005bfbd0_Class.h"
+#include "fnv/decl/FUN_00624700_shell.h"
+#include "fnv/decl/FUN_00633bf0_Class.h"
+#include "fnv/decl/FUN_00633c20_Class.h"
+#include "fnv/decl/FUN_00633c40_Class.h"
+#include "fnv/decl/FUN_00633c60_Class.h"
+#include "fnv/decl/FUN_00634930_cls.h"
+#include "fnv/decl/FUN_008d0600_s.h"
+#include "fnv/decl/FUN_009a5480_class.h"
+#include "fnv/decl/FUN_009c1a50_shell.h"
+#include "fnv/decl/FUN_00c3a8a0_cls.h"
+#include "fnv/decl/ImageSpaceEffectParam.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/NiAVObject.h"
+#include "fnv/decl/NiCamera.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/S_FUN_0045bc00.h"
+#include "fnv/decl/TESAmmoInitCalls.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/fnv_00633d90__FUN_00633d90_Class.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0045b000.h"
+#include "fnv/symbols_0045c000.h"
+#include "fnv/symbols_00558000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005bf000.h"
+#include "fnv/symbols_00b55000.h"
+#include "fnv/symbols_00b89000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_011ff000.h"
 struct Atmosphere
 {
     void FUN_00633190();
 };
 
-void __cdecl _Deallocate(void* p);
 
 struct FUN_00633160_shell : Atmosphere
 {
     void* FUN_00633160(unsigned int flags);
 };
-
-// @fnv 0x00633160
-void* FUN_00633160_shell::FUN_00633160(unsigned int flags)
-{
-    FUN_00633190();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
 
 struct PathingRefStandIn
 {
@@ -47,6 +84,14 @@ struct FUN_00633190 : PathingStandInBase
 
     virtual ~FUN_00633190();
 };
+// @fnv 0x00633160
+void* FUN_00633160_shell::FUN_00633160(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00633190 *>(this)->FUN_00633190::~FUN_00633190();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Destructor that resets the four PathingRefStandIn members (m_kRefB, m_kRefA, m_kRefD, m_kRefC) to null.
 // @fnv 0x00633190
@@ -132,8 +177,6 @@ struct AtmoNode
     {
         AtmoFree(pvMem);
     }
-    void FUN_004902f0(bool bAppCulled);
-    void FUN_00440460(void* pkProperty);
 };
 
 template <class T> struct AtmoPtr
@@ -146,19 +189,10 @@ template <class T> struct AtmoPtr
 struct AtmoProperty;
 struct AtmoPropertyList
 {
-    void* FUN_0043c490();
 };
 struct AtmoShaderMgr
 {
-    AtmoPropertyList* FUN_00558310();
 };
-AtmoShaderMgr* __cdecl FUN_0045c670();
-void __cdecl FUN_00b899a0(AtmoPtr<AtmoNode>* pspNode);
-void __cdecl FUN_00b55540(int iUnk, AtmoProperty* pkFog);
-void __cdecl FUN_005b5e40(const char* pFormat, ...);
-extern unsigned char g_bNoSky_011f941e;
-extern char g_kNiNodeRTTI_011f4a40[];
-bool __cdecl FUN_0043b300(void* pkRTTI, AtmoObject* pkObject);
 
 struct AtmoObject
 {
@@ -166,7 +200,6 @@ struct AtmoObject
     virtual void v01();
     virtual void v02();
     virtual int IsGeometry();
-    AtmoNode* FUN_0045bc00(int iIndex);
 };
 
 struct AtmoStream
@@ -174,7 +207,6 @@ struct AtmoStream
     char unk000[0x5cc];
     AtmoStream();
     ~AtmoStream();
-    bool FUN_00c3a8a0(const char* pPath, int iFlags);
 };
 
 struct AtmoLoadedModel
@@ -182,7 +214,6 @@ struct AtmoLoadedModel
     int unk00[4];
     AtmoLoadedModel(const char* pPath, AtmoStream* pkStream, int a3, int a4);
     ~AtmoLoadedModel();
-    AtmoObject* FUN_0043b230();
 };
 
 struct AtmosphereImpl
@@ -194,50 +225,49 @@ struct AtmosphereImpl
     AtmoPtr<AtmoNode> m_spSkyNode;
     AtmoPtr<AtmoNode> m_spSkyShape;
 
-    void CreateSortAdjustNode(AtmoNode* pkRoot);
     void SetAtmosphere(AtmoNode* pkRoot, AtmoProperty* pkFog);
 };
 
 // @fnv 0x00633260
 void AtmosphereImpl::SetAtmosphere(AtmoNode* pkRoot, AtmoProperty* pkFog)
 {
-    CreateSortAdjustNode(pkRoot);
-    if (!g_bNoSky_011f941e)
+    reinterpret_cast<::F940Owner *>(this)->CreateSortAdjustNode((::F940Parent *)(pkRoot));
+    if (!(*reinterpret_cast<unsigned char *>(&::DAT_011f941e)))
     {
-        FUN_00b899a0(&m_spSkyShape);
-        m_spSkyShape.FUN_00559450()->FUN_004902f0(true);
-        m_spSkyShape.FUN_00559450()->FUN_00440460(FUN_0045c670()->FUN_00558310()->FUN_0043c490());
+        ::FUN_00b899a0((*(::ShapePtr_b899a0 *)(&m_spSkyShape)));
+        reinterpret_cast<::TaskQueueInterface *>((((::AtmoNode *)(::FUN_00559450((int *)&(m_spSkyShape))))))->FUN_004902f0(true);
+        reinterpret_cast<::FUN_00440460_S *>((((::AtmoNode *)(::FUN_00559450((int *)&(m_spSkyShape))))))->FUN_00440460((const ::V3 *)(void *)(((void *)&(reinterpret_cast<::NiAVObject *>((((::AtmoPropertyList *)(::FUN_00558310((::NiNode_00558310 *)(((::AtmoShaderMgr *)(::FUN_0045c670()))))))))->FUN_0043c490()))));
         m_spSkyNode.FUN_0066b0d0(new AtmoNode(0));
-        m_spSkyNode.FUN_00559450()->FUN_004902f0(true);
-        m_spSkyNode.FUN_00559450()->AttachChildInAvailableSlot(m_spSkyShape.FUN_00559450(), 1);
-        m_spRootNode.FUN_00559450()->AttachChildInAvailableSlot(m_spSkyNode.FUN_00559450(), 1);
+        reinterpret_cast<::TaskQueueInterface *>((((::AtmoNode *)(::FUN_00559450((int *)&(m_spSkyNode))))))->FUN_004902f0(true);
+        ((::AtmoNode *)(::FUN_00559450((int *)&(m_spSkyNode))))->AttachChildInAvailableSlot(((::AtmoNode *)(::FUN_00559450((int *)&(m_spSkyShape)))), 1);
+        ((::AtmoNode *)(::FUN_00559450((int *)&(m_spRootNode))))->AttachChildInAvailableSlot(((::AtmoNode *)(::FUN_00559450((int *)&(m_spSkyNode)))), 1);
     }
 
     AtmoStream kStream;
-    if (kStream.FUN_00c3a8a0("Meshes\\Sky\\Atmosphere.nif", 0))
+    if (reinterpret_cast<::FUN_00c3a8a0_cls *>(&(kStream))->FUN_00c3a8a0((unsigned int)("Meshes\\Sky\\Atmosphere.nif"), 0))
     {
         AtmoLoadedModel kModel_("Meshes\\Sky\\Atmosphere.nif", &kStream, 0, 0);
-        AtmoObject* pkFirstVal2 = kModel_.FUN_0043b230();
+        AtmoObject* pkFirstVal2 = ((::AtmoObject *)(::fnv_0043b230::FUN_0043b230((const char *)&(kModel_))));
         AtmoNode* pkMeshRes = 0;
-        AtmoObject* pkObjectOut = kModel_.FUN_0043b230();
+        AtmoObject* pkObjectOut = ((::AtmoObject *)(::fnv_0043b230::FUN_0043b230((const char *)&(kModel_))));
         if (pkObjectOut)
         {
             if (pkObjectOut->IsGeometry())
-                pkMeshRes = pkObjectOut->FUN_0045bc00(0);
-            else if (FUN_0043b300(g_kNiNodeRTTI_011f4a40, pkObjectOut))
+                pkMeshRes = ((::AtmoNode *)(reinterpret_cast<::S_FUN_0045bc00 *>((pkObjectOut))->FUN_0045bc00(0)));
+            else if (::FUN_0043b300((const ::NiRTTI *)((*reinterpret_cast<char (*)[]>(&::g_011f4a40))), (::NiAVObject *)(pkObjectOut)))
                 pkMeshRes = (AtmoNode*)pkObjectOut;
         }
         if (!pkMeshRes)
         {
-            FUN_005b5e40("Cannot load the atmosphere model.");
+            ::FUN_005b5e40();
             return;
         }
         m_spAtmosphere.FUN_0066b0d0(pkMeshRes);
-        m_spAtmosphere.FUN_00559450()->FUN_004902f0(true);
-        m_spRootNode.FUN_00559450()->AttachChildInAvailableSlot(m_spAtmosphere.FUN_00559450(), 1);
+        reinterpret_cast<::TaskQueueInterface *>((((::AtmoNode *)(::FUN_00559450((int *)&(m_spAtmosphere))))))->FUN_004902f0(true);
+        ((::AtmoNode *)(::FUN_00559450((int *)&(m_spRootNode))))->AttachChildInAvailableSlot(((::AtmoNode *)(::FUN_00559450((int *)&(m_spAtmosphere)))), 1);
     }
     m_spFog.FUN_0066b0d0(pkFog);
-    FUN_00b55540(0, pkFog);
+    ::BSShaderManager::SetFogPropertyForIndex(0, (::BSFogProperty *)(pkFog));
 }
 
 namespace fnv_006335d0 {
@@ -246,7 +276,6 @@ struct NiPoint3
     float x;
     float y;
     float z;
-    NiPoint3* ScaleTo(NiPoint3* out, float s);
 };
 struct Param
 {
@@ -254,7 +283,6 @@ struct Param
     float b;
     float c;
     float d;
-    Param* FUN_00414430(float a0, float a1, float a2, float a3);
 };
 struct NiFrustum
 {
@@ -268,15 +296,12 @@ struct NiFrustum
 };
 struct NiCamera
 {
-    const NiFrustum& GetViewFrustum() const;
 };
 struct FUN_00507700_cls : NiCamera
 {
-    void FUN_00507700(float f);
 };
 struct Stub_00a6faf0 : FUN_00507700_cls
 {
-    void FUN_00a6faf0(NiFrustum* fr);
 };
 struct BSFaceGenAnimationData : Stub_00a6faf0
 {
@@ -290,53 +315,34 @@ struct Light
 };
 struct FUN_00633bf0_Class
 {
-    void FUN_00633bf0(const NiPoint3* v);
 };
 struct FUN_00633c20_Class : FUN_00633bf0_Class
 {
-    void FUN_00633c20(float a, float b);
 };
 struct FUN_00633c40_Class : FUN_00633c20_Class
 {
-    void FUN_00633c40(float a);
 };
 struct FUN_00633c60_Class : FUN_00633c40_Class
 {
-    void FUN_00633c60(const NiPoint3& v);
 };
 struct Fog : FUN_00633c60_Class
 {
-    void FUN_0049ed90(bool b);
-    void FUN_005bf9a0(float a, float b);
-    void FUN_005bfbd0(float a);
 };
 struct Ref
 {
     int unk00;
-    Fog* FUN_00559450();
 };
 struct FUN_009a5480_class
 {
-    float GetFieldE4Float();
 };
 struct BSMultiBoundRoom : FUN_009a5480_class
 {
-    void* FUN_006ab360();
 };
 struct Node : BSMultiBoundRoom
 {
-    int FUN_00476c90();
-    NiPoint3* FUN_00624700();
-    NiPoint3* FUN_0050d100();
-    NiPoint3* FUN_009c1a50();
-    NiPoint3* FUN_005a8080();
-    Light* FUN_00923000();
-    float GetFieldE8Float();
 };
 struct Probe
 {
-    int FUN_008d6f30();
-    float FUN_0057b0a0();
 };
 struct Info
 {
@@ -346,7 +352,6 @@ struct Info
 };
 struct BSFaceGenNiNode
 {
-    BSFaceGenAnimationData* GetAnimationData();
     virtual void v00();
     virtual void v01();
     virtual void v02();
@@ -413,17 +418,6 @@ struct BSFaceGenNiNode
     virtual void v3f();
     virtual float v40();
 };
-extern Probe* DAT_011dea3c;
-extern Param DAT_011ff8e0;
-extern Param DAT_011ff8f0;
-extern Param DAT_011ff900;
-extern unsigned char DAT_011f941e;
-extern float DAT_011f9190;
-Fog* __cdecl FUN_00b55520(int a0);
-void __cdecl FUN_00b55540(int a0, Fog* a1);
-BSFaceGenNiNode* __cdecl FUN_0045c670();
-void* __fastcall FUN_00558310(BSFaceGenNiNode* w);
-Info* __fastcall FUN_0045bb80(void* p);
 struct Atm
 {
     int unk00;
@@ -433,7 +427,6 @@ struct Atm
     int unk10;
     int unk14;
     unsigned char unk18;
-    void FUN_008d0600(Node* n, float f);
     void UpdateAtmosphere(Node* node, float f);
 };
 // Updates the atmosphere for a node: refreshes the fog reference, computes fog positions, and syncs the face-gen animation frustum far plane.
@@ -465,63 +458,63 @@ void Atm::UpdateAtmosphere(Node* node, float f)
 
                                         if (!node)
                                             return;
-                                        if (FUN_00b55520(0) != unk0c.FUN_00559450())
-                                            FUN_00b55540(0, unk0c.FUN_00559450());
-                                        FUN_008d0600(node, f);
-                                        if (node->FUN_00476c90() == 3 || 2 == node->FUN_00476c90())
+                                        if (((::fnv_006335d0::Fog *)(::FUN_00b55520(0))) != ((::fnv_006335d0::Fog *)(::FUN_00559450((int *)&(unk0c)))))
+                                            ::BSShaderManager::SetFogPropertyForIndex(0, (::BSFogProperty *)(::fnv_006335d0::Fog *)(((::fnv_006335d0::Fog *)(::FUN_00559450((int *)&(unk0c))))));
+                                        reinterpret_cast<::FUN_008d0600_s *>(this)->FUN_008d0600((int)(node), f);
+                                        if (((int)(reinterpret_cast<::FUN_00476c90_Class *>((node))->FUN_00476c90())) == 3 || 2 == ((int)(reinterpret_cast<::FUN_00476c90_Class *>((node))->FUN_00476c90())))
                                         {
-                                            if (!(unk08.FUN_00559450()))
+                                            if (!(((::fnv_006335d0::Fog *)(::FUN_00559450((int *)&(unk08))))))
                                                 return;
-                                            if (DAT_011dea3c != 0 && DAT_011dea3c->FUN_008d6f30() &&
-                                                FUN_0045bb80(FUN_00558310(FUN_0045c670()))->unk08 <
-                                                    DAT_011dea3c->FUN_0057b0a0())
+                                            if ((*reinterpret_cast<::fnv_006335d0::Probe * *>(&::_g_thePlayer)) != 0 && ((int)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::fnv_006335d0::Probe * *>(&::_g_thePlayer))))->GetTarget())) &&
+                                                ((::fnv_006335d0::Info *)(::FUN_0045bb80((int)(((void *)(::FUN_00558310((::NiNode_00558310 *)(::fnv_006335d0::BSFaceGenNiNode *)(((::fnv_006335d0::BSFaceGenNiNode *)(::FUN_0045c670()))))))))))->unk08 <
+                                                    reinterpret_cast<::FUN_0057b0a0_shell *>(((*reinterpret_cast<::fnv_006335d0::Probe * *>(&::_g_thePlayer))))->FUN_0057b0a0())
                                             {
-                                                DAT_011ff8e0 = *pData.FUN_00414430(node->FUN_00624700()->x,
-                                                                                   node->FUN_00624700()->y,
-                                                                                   node->FUN_00624700()->z, 1.0f);
-                                                DAT_011ff8f0 =
-                                                    *p0.FUN_00414430(node->FUN_00624700()->x, node->FUN_00624700()->y,
-                                                                     node->FUN_00624700()->z, 1.0f);
-                                                DAT_011ff900 = *light.FUN_00414430(node->FUN_00624700()->x,
-                                                                                   node->FUN_00624700()->y,
-                                                                                   node->FUN_00624700()->z, 1.0);
+                                                (*reinterpret_cast<::fnv_006335d0::Param *>(&::DAT_011ff8e0)) = *((::fnv_006335d0::Param *)(new ((void *)&(pData)) ::ImageSpaceEffectParam(((::fnv_006335d0::NiPoint3 *)(reinterpret_cast<::FUN_00624700_shell *>((node))->FUN_00624700()))->x,
+                                                                                   ((::fnv_006335d0::NiPoint3 *)(reinterpret_cast<::FUN_00624700_shell *>((node))->FUN_00624700()))->y,
+                                                                                   ((::fnv_006335d0::NiPoint3 *)(reinterpret_cast<::FUN_00624700_shell *>((node))->FUN_00624700()))->z, 1.0f)));
+                                                (*reinterpret_cast<::fnv_006335d0::Param *>(&::DAT_011ff8f0)) =
+                                                    *((::fnv_006335d0::Param *)(new ((void *)&(p0)) ::ImageSpaceEffectParam(((::fnv_006335d0::NiPoint3 *)(reinterpret_cast<::FUN_00624700_shell *>((node))->FUN_00624700()))->x, ((::fnv_006335d0::NiPoint3 *)(reinterpret_cast<::FUN_00624700_shell *>((node))->FUN_00624700()))->y,
+                                                                     ((::fnv_006335d0::NiPoint3 *)(reinterpret_cast<::FUN_00624700_shell *>((node))->FUN_00624700()))->z, 1.0f)));
+                                                (*reinterpret_cast<::fnv_006335d0::Param *>(&::DAT_011ff900)) = *((::fnv_006335d0::Param *)(new ((void *)&(light)) ::ImageSpaceEffectParam(((::fnv_006335d0::NiPoint3 *)(reinterpret_cast<::FUN_00624700_shell *>((node))->FUN_00624700()))->x,
+                                                                                   ((::fnv_006335d0::NiPoint3 *)(reinterpret_cast<::FUN_00624700_shell *>((node))->FUN_00624700()))->y,
+                                                                                   ((::fnv_006335d0::NiPoint3 *)(reinterpret_cast<::FUN_00624700_shell *>((node))->FUN_00624700()))->z, 1.0)));
                                             }
                                             else
                                             {
-                                                DAT_011ff8e0 =
-                                                    *k.FUN_00414430(node->FUN_0050d100()->x, node->FUN_0050d100()->y,
-                                                                    node->FUN_0050d100()->z, 1.0);
-                                                DAT_011ff8f0 =
-                                                    *p4.FUN_00414430(node->FUN_009c1a50()->x, node->FUN_009c1a50()->y,
-                                                                     node->FUN_009c1a50()->z, 1.0);
-                                                DAT_011ff900 =
-                                                    *t.FUN_00414430(node->FUN_005a8080()->x, node->FUN_005a8080()->y,
-                                                                    node->FUN_005a8080()->z, 1.0f);
+                                                (*reinterpret_cast<::fnv_006335d0::Param *>(&::DAT_011ff8e0)) =
+                                                    *((::fnv_006335d0::Param *)(new ((void *)&(k)) ::ImageSpaceEffectParam(((::fnv_006335d0::NiPoint3 *)(reinterpret_cast<::FUN_0050d100_shell *>((node))->FUN_0050d100()))->x, ((::fnv_006335d0::NiPoint3 *)(reinterpret_cast<::FUN_0050d100_shell *>((node))->FUN_0050d100()))->y,
+                                                                    ((::fnv_006335d0::NiPoint3 *)(reinterpret_cast<::FUN_0050d100_shell *>((node))->FUN_0050d100()))->z, 1.0)));
+                                                (*reinterpret_cast<::fnv_006335d0::Param *>(&::DAT_011ff8f0)) =
+                                                    *((::fnv_006335d0::Param *)(new ((void *)&(p4)) ::ImageSpaceEffectParam(((::fnv_006335d0::NiPoint3 *)(reinterpret_cast<::FUN_009c1a50_shell *>((node))->FUN_009c1a50()))->x, ((::fnv_006335d0::NiPoint3 *)(reinterpret_cast<::FUN_009c1a50_shell *>((node))->FUN_009c1a50()))->y,
+                                                                     ((::fnv_006335d0::NiPoint3 *)(reinterpret_cast<::FUN_009c1a50_shell *>((node))->FUN_009c1a50()))->z, 1.0)));
+                                                (*reinterpret_cast<::fnv_006335d0::Param *>(&::DAT_011ff900)) =
+                                                    *((::fnv_006335d0::Param *)(new ((void *)&(t)) ::ImageSpaceEffectParam(((::fnv_006335d0::NiPoint3 *)(reinterpret_cast<struct ::FUN_005a8080 *>((node))->GetField()))->x, ((::fnv_006335d0::NiPoint3 *)(reinterpret_cast<struct ::FUN_005a8080 *>((node))->GetField()))->y,
+                                                                    ((::fnv_006335d0::NiPoint3 *)(reinterpret_cast<struct ::FUN_005a8080 *>((node))->GetField()))->z, 1.0f)));
                                             }
                                         }
-                                        if (0 != unk0c.FUN_00559450())
+                                        if (0 != ((::fnv_006335d0::Fog *)(::FUN_00559450((int *)&(unk0c)))))
                                         {
-                                            p1 = node->FUN_00923000();
-                                            unk0c.FUN_00559450()->FUN_0049ed90(p1->unk04 > p1->unk00);
+                                            p1 = ((::fnv_006335d0::Light *)(reinterpret_cast<::TESAmmoInitCalls *>((node))->FUN_00923000()));
+                                            reinterpret_cast<::FUN_0049ed90_shell *>((((::fnv_006335d0::Fog *)(::FUN_00559450((int *)&(unk0c))))))->FUN_0049ed90(p1->unk04 > p1->unk00);
                                             if (unk18)
                                             {
-                                                unk0c.FUN_00559450()->FUN_005bf9a0(p1->unk00, p1->unk04);
-                                                unk0c.FUN_00559450()->FUN_005bfbd0(node->GetFieldE8Float());
+                                                ::FUN_005bf9a0((char *)(((::fnv_006335d0::Fog *)(::FUN_00559450((int *)&(unk0c))))), p1->unk00, p1->unk04);
+                                                reinterpret_cast<::FUN_005bfbd0_Class *>((((::fnv_006335d0::Fog *)(::FUN_00559450((int *)&(unk0c))))))->FUN_005bfbd0(reinterpret_cast<::FUN_004e45e0_shell *>((node))->GetFieldE8Float());
                                             }
-                                            if (!(DAT_011f941e))
+                                            if (!((*reinterpret_cast<unsigned char *>(&::DAT_011f941e))))
                                             {
-                                                p3 = DAT_011f9190 / 3.75f;
-                                                unk0c.FUN_00559450()->FUN_00633bf0(
-                                                    node->FUN_00624700()->ScaleTo(&pNode, p3));
+                                                p3 = ::DAT_011f9190 / 3.75f;
+                                                reinterpret_cast<::FUN_00633bf0_Class *>((((::fnv_006335d0::Fog *)(::FUN_00559450((int *)&(unk0c))))))->FUN_00633bf0(
+                                                    (const ::NiPoint3 *)(const ::fnv_006335d0::NiPoint3 *)(((::fnv_006335d0::NiPoint3 *)(reinterpret_cast<::NiPoint3 *>((((::fnv_006335d0::NiPoint3 *)(reinterpret_cast<::FUN_00624700_shell *>((node))->FUN_00624700()))))->ScaleTo((::NiPoint3 *)(::fnv_006335d0::NiPoint3 *)(&pNode), p3)))));
                                             }
                                             else
                                             {
-                                                unk0c.FUN_00559450()->FUN_00633bf0(node->FUN_00624700());
+                                                reinterpret_cast<::FUN_00633bf0_Class *>((((::fnv_006335d0::Fog *)(::FUN_00559450((int *)&(unk0c))))))->FUN_00633bf0((const ::NiPoint3 *)(const ::fnv_006335d0::NiPoint3 *)(((::fnv_006335d0::NiPoint3 *)(reinterpret_cast<::FUN_00624700_shell *>((node))->FUN_00624700()))));
                                             }
-                                            len = node->GetFieldE4Float();
-                                            unk0c.FUN_00559450()->FUN_00633c40(node->GetFieldE4Float());
-                                            unk0c.FUN_00559450()->FUN_00633c20(p1->unk08, p1->unk0c);
-                                            unk0c.FUN_00559450()->FUN_00633c60(*(NiPoint3*)node->FUN_006ab360());
+                                            len = reinterpret_cast<::FUN_009a5480_class *>((node))->GetFieldE4Float();
+                                            reinterpret_cast<::FUN_00633c40_Class *>((((::fnv_006335d0::Fog *)(::FUN_00559450((int *)&(unk0c))))))->FUN_00633c40(reinterpret_cast<::FUN_009a5480_class *>((node))->GetFieldE4Float());
+                                            reinterpret_cast<::FUN_00633c20_Class *>((((::fnv_006335d0::Fog *)(::FUN_00559450((int *)&(unk0c))))))->FUN_00633c20(p1->unk08, p1->unk0c);
+                                            reinterpret_cast<::FUN_00633c60_Class *>((((::fnv_006335d0::Fog *)(::FUN_00559450((int *)&(unk0c))))))->FUN_00633c60((const ::NiPoint3 &)(*(NiPoint3*)reinterpret_cast<::BSMultiBoundRoom *>((node))->FUN_006ab360()));
                                         }
                                     }
                                 }
@@ -531,16 +524,16 @@ void Atm::UpdateAtmosphere(Node* node, float f)
                     if (unk18)
                     {
                         u = 0;
-                        farv = FUN_0045c670()->v40();
-                        u = FUN_0045c670()->GetAnimationData();
+                        farv = ((::fnv_006335d0::BSFaceGenNiNode *)(::FUN_0045c670()))->v40();
+                        u = ((::fnv_006335d0::BSFaceGenAnimationData *)(reinterpret_cast<::BSFaceGenNiNode *>((((::fnv_006335d0::BSFaceGenNiNode *)(::FUN_0045c670()))))->GetAnimationData()));
                         if (0 != u)
                         {
-                            tmp = u->GetViewFrustum();
+                            tmp = (*(const ::fnv_006335d0::NiFrustum *)&(reinterpret_cast<::NiCamera *>((void *)(u))->GetViewFrustum()));
                             if (farv != tmp.unk14)
                             {
                                 tmp.unk14 = farv;
-                                u->FUN_00507700(farv / tmp.unk10);
-                                u->FUN_00a6faf0(&tmp);
+                                reinterpret_cast<::FUN_00507700_cls *>((u))->FUN_00507700(farv / tmp.unk10);
+                                reinterpret_cast<::NiCamera *>((u))->UpdateViewFrustum((*(const ::NiFrustum *)(&tmp)));
                             }
                         }
                     }
@@ -582,8 +575,6 @@ struct FUN_00633cc0 : FUN_00633cc0_SkyObject
     unsigned short m_58;
     unsigned char m_5a;
 
-    void FUN_00633d90();
-    void FUN_00634930();
     FUN_00633cc0();
     virtual void vf();
 };
@@ -592,7 +583,7 @@ struct FUN_00633cc0 : FUN_00633cc0_SkyObject
 // @fnv 0x00633cc0
 FUN_00633cc0::FUN_00633cc0() : m_58(0)
 {
-    FUN_00633d90();
-    FUN_00634930();
+    reinterpret_cast<::fnv_00633d90::FUN_00633d90_Class *>(this)->FUN_00633d90();
+    reinterpret_cast<::FUN_00634930_cls *>(this)->FUN_00634930();
     m_5a = 0;
 }

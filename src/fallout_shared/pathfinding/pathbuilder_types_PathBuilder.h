@@ -2,6 +2,10 @@
 #ifndef FNV_PATHBUILDER_H
 #define FNV_PATHBUILDER_H
 
+#include "fnv/decl/FUN_006e8f40_shell.h"
+#include "fnv/decl/fnv_006cec40__PathBuilder.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_006e6000.h"
 #include "layout_support.h"
 #include "layout_support.h"
 class FindTriangleForLocationFilter;
@@ -18,7 +22,6 @@ class MemoryManager
   public:
     ScrapHeapBuffer* GetGeneralAllocator();
 };
-MemoryManager* FUN_00401020();
 #pragma pack(push, 4)
 class FindTriangleForLocationFilter
 {
@@ -85,15 +88,10 @@ class PathBuilder
     PathBuilder(PathingRequest*, PathingSolution*);
     bool BuildPath();
     bool BuildActorPathSegments(Actor*);
-    bool BuildPathSpans(BSSimpleArray<NavMeshEdgeData, 1024>&);
     bool TryConnectPathNodes(unsigned int, unsigned int);
-    bool BuildPathSegment(unsigned int, unsigned int);
-    bool IsNavMeshInfoCompatible(const NavMeshInfo*, const NavMeshInfo*);
-    bool CanPathBetweenNavMeshes(const NavMeshInfo*, const NavMeshInfo*);
     bool FUN_006c9b20();
     bool BuildPathForActor(Actor*, unsigned int);
     void* AdvanceCounter();
-    void* FUN_006e8f40(void*);
     PathingInfoEntry* GetPathingInfoEntry(PathingInfoEntry&);
     // PathBuilder
     // bool __cdecl PathBuilder::*()
@@ -118,7 +116,6 @@ class PathBuilder
     // void* __cdecl PathBuilder::*(unsigned int)
 };
 #pragma pack(pop)
-void* FUN_006e6da0(unsigned int, void*);
 FNV_STATIC_ASSERT(sizeof(PathBuilder) == 52);
 FNV_STATIC_ASSERT(offsetof(PathBuilder, pRequest) == 0);
 FNV_STATIC_ASSERT(offsetof(PathBuilder, m_pOutputSolution) == 4);

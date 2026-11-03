@@ -5,6 +5,44 @@
 
 // src/fallout/ai/combat/vats_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/ai/combat/vats.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a39f0_shell.h"
+#include "fnv/decl/FUN_004a3eb0_shell.h"
+#include "fnv/decl/FUN_004a3fb0_shell.h"
+#include "fnv/decl/FUN_004a46b0_class.h"
+#include "fnv/decl/FUN_004eaf60_shell.h"
+#include "fnv/decl/FUN_0058d630_shell.h"
+#include "fnv/decl/FUN_0059ce80_shell.h"
+#include "fnv/decl/FUN_00639aa0_shell.h"
+#include "fnv/decl/FUN_0088b030_shell.h"
+#include "fnv/decl/FUN_008b70d0_shell.h"
+#include "fnv/decl/FUN_0093e840_shell.h"
+#include "fnv/decl/FUN_0095f530_shell.h"
+#include "fnv/decl/FUN_009c8870_Class.h"
+#include "fnv/decl/FUN_009ca500_shell.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/S819.h"
+#include "fnv/decl/ShadowLightData.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_004a3da0__FUN_004a3da0_shell.h"
+#include "fnv/decl/fnv_008cdd90__FUN_008cdd90_shell.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_004a4000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_005db000.h"
+#include "fnv/symbols_00716000.h"
+#include "fnv/symbols_00944000.h"
+#include "fnv/symbols_011cf000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f2000.h"
+#include "fnv/symbols_011f6000.h"
 #include "vats_decls.h"
 struct BooleanFloatQuery;
 struct TESObjectREFR;
@@ -35,15 +73,12 @@ struct FUN_009ca410_shell : public VATS
     void ProcessVATSCommands();
 };
 struct PlayerCharacter;
-extern PlayerCharacter* DAT_011f21f0;
 struct Animation;
 struct Actor
 {
-    Animation* GetAnimation() const;
 };
 struct FUN_00498910_shell
 {
-    void FUN_00498910(bool, bool);
 };
 struct Node
 {
@@ -53,12 +88,10 @@ struct Node
 struct FUN_009ca410_shell_base : public VATS
 {
     bool FUN_008256d0();
-    Node* FUN_006815c0();
     void FUN_0063f7b0();
 };
 struct StandIn
 {
-    void* FUN_009c8870(unsigned int);
 };
 extern float DAT_011afe74;
 extern float DAT_011afe78;
@@ -73,14 +106,11 @@ struct SoundListView
 struct ListHolder
 {
     bool _ref_008256d0();
-    void* _ref_006815c0();
     void* FUN_009c71c0();
 };
 struct MyList
 {
     bool _ref_008256d0();
-    MyList* _ref_00726070();
-    VATSCommand** _ref_006815c0();
     VATSCommand* FUN_009c71f0();
 };
 struct bhkWorld
@@ -96,7 +126,6 @@ struct FUN_009c9900_shell
 };
 struct FUN_009ca4a0
 {
-    void FUN_009ca500();
     FUN_009ca4a0();
 };
 struct Helper62d0
@@ -137,22 +166,18 @@ class HitL8
 class HitListL8
 {
   public:
-    int GetCount();
     void* GetAt(int iIndex);
 };
 
 class HitArrayL8
 {
   public:
-    HitListL8* GetList();
 };
 
 class PickFlagsL8
 {
   public:
     PickFlagsL8(int iValue);
-    void SetType(int iType);
-    void SetTarget(void* pvTarget);
     int m_iValue;
 };
 
@@ -161,10 +186,6 @@ class PickQueryL8
   public:
     PickQueryL8();
     void SetFlags(PickFlagsL8 kFlags);
-    void SetOrigin(const NiPoint3L8& akStart);
-    void SetEnd(const NiPoint3L8& kEnd);
-    void SetResults(HitResultsL8* pkResults);
-    HitArrayL8* GetHits();
     __m128 m_akData[11];
 };
 
@@ -227,13 +248,11 @@ class WorldL8
 class CellL8
 {
   public:
-    WorldL8* GetWorld();
 };
 
 class ProjL8
 {
   public:
-    void* GetTarget();
 };
 
 class RefL8
@@ -365,10 +384,7 @@ class RefL8
     virtual void r07b();
     virtual void r07c();
     virtual const NiPoint3L8* GetPos();
-    CellL8* GetParentCell();
-    ProjL8* GetProjectileData();
 };
-extern RefL8* g_pkPlayerL8;
 
 class PackageL8
 {
@@ -377,10 +393,6 @@ class PackageL8
     RefL8* m_pkTarget;
 };
 
-void __cdecl FUN_00c82870(int iLayer, unsigned __int64 ulMask);
-void* __cdecl FUN_005dbe10();
-void* __cdecl FUN_004b5820(void* pvCollidable);
-RefL8* __cdecl FUN_0056f930(void* pvCollidable);
 
 class CheckerL8
 {
@@ -396,38 +408,38 @@ bool CheckerL8::FUN_009c8f20(PackageL8* pkPackage)
         pkTarget = pkPackage->m_pkTarget;
     if (!pkTarget)
         return false;
-    WorldL8* pkWorld = pkTarget->GetParentCell() ? pkTarget->GetParentCell()->GetWorld() : 0;
+    WorldL8* pkWorld = ((::CellL8 *)(reinterpret_cast<::LowProcess *>((pkTarget))->GetTarget())) ? ((::WorldL8 *)(reinterpret_cast<::FUN_004543c0_cls *>((((::CellL8 *)(reinterpret_cast<::LowProcess *>((pkTarget))->GetTarget()))))->FUN_004543c0())) : 0;
     if (!pkWorld)
         return false;
     unsigned int uiMask = 0x26206;
-    FUN_00c82870(0x27, uiMask);
-    NiPoint3L8 kFrom = *g_pkPlayerL8->GetPos();
+    ::ShadowLightData::SetTargetMaskForSelection(0x27, uiMask);
+    NiPoint3L8 kFrom = *(*reinterpret_cast<::RefL8 * *>(&::DAT_011f21f0))->GetPos();
     NiPoint3L8 kTo = *pkTarget->GetPos();
     kFrom.z += 60.0;
     kTo.z += 60.0;
     PickQueryL8 kQuery;
     PickFlagsL8 kFlags(0);
-    kFlags.SetType(0x27);
+    reinterpret_cast<::FUN_004a39f0_shell *>(&(kFlags))->FUN_004a39f0(0x27);
     RefL8* pkActor = pkTarget->IsActor() ? pkTarget : 0;
-    if (pkActor && pkActor->GetProjectileData())
-        kFlags.SetTarget(pkActor->GetProjectileData()->GetTarget());
+    if (pkActor && ((::ProjL8 *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((pkActor))->FUN_009306d0())))
+        reinterpret_cast<::FUN_0059ce80_shell *>(&(kFlags))->FUN_0059ce80((unsigned int)(((void *)(reinterpret_cast<::S819 *>((((::ProjL8 *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((pkActor))->FUN_009306d0()))))->FUN_00819250()))));
     else
-        kFlags.SetTarget(FUN_005dbe10());
+        reinterpret_cast<::FUN_0059ce80_shell *>(&(kFlags))->FUN_0059ce80((unsigned int)(((void *)(::FUN_005dbe10()))));
     kQuery.SetFlags(kFlags);
-    kQuery.SetOrigin(kFrom);
-    kQuery.SetEnd(kTo);
+    reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(kQuery))->FUN_004a3da0((void *)&(kFrom));
+    reinterpret_cast<::FUN_004a3eb0_shell *>(&(kQuery))->FUN_004a3eb0((void *)&(kTo));
     HitResultsL8 kResults;
-    kQuery.SetResults(&kResults);
+    reinterpret_cast<::FUN_004a3fb0_shell *>(&(kQuery))->FUN_004a3fb0((::hkpAllRayHitCollector *)(::HitResultsL8 *)(&kResults));
     bool bPickResultFound = false;
     pkWorld->Pick(kQuery);
-    for (int i = 0; !bPickResultFound && i < kQuery.GetHits()->GetList()->GetCount(); i++)
+    for (int i = 0; !bPickResultFound && i < ((int)(reinterpret_cast<::Callees *>((((::HitListL8 *)(::FUN_00460140((int)(((::HitArrayL8 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(kQuery))->FUN_008cdd90()))))))))->FUN_00726070())); i++)
     {
-        HitL8 kHit(kQuery.GetHits()->GetList()->GetAt(i));
-        void* pvCollidable = FUN_004b5820(kHit.m_pvCollidable);
-        RefL8* pkRef = FUN_0056f930(pvCollidable);
+        HitL8 kHit(((void *)(reinterpret_cast<::FUN_004a46b0_class *>((((::HitListL8 *)(::FUN_00460140((int)(((::HitArrayL8 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(kQuery))->FUN_008cdd90()))))))))->GetEntryAt(i))));
+        void* pvCollidable = ((void *)(::FUN_004b5820((::FormLike *)(kHit.m_pvCollidable))));
+        RefL8* pkRef = ((::RefL8 *)(::FUN_0056f930((::NiAVObject *)(pvCollidable))));
         if (pvCollidable)
         {
-            if (pkRef == pkTarget || pkRef == g_pkPlayerL8)
+            if (pkRef == pkTarget || pkRef == (*reinterpret_cast<::RefL8 * *>(&::DAT_011f21f0)))
                 continue;
             else
                 return false;

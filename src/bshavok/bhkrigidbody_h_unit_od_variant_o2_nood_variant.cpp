@@ -5,6 +5,34 @@
 
 // src/bshavok/bhkrigidbody_h_unit_od_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/bshavok/bhkrigidbody_h_unit.cpp functions whose prologue its flags cannot
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C87710HavokObject.h"
+#include "fnv/decl/CA8830Object.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_005d3d10_This.h"
+#include "fnv/decl/FUN_00a6e190_shell.h"
+#include "fnv/decl/FUN_00c87a50_t.h"
+#include "fnv/decl/FUN_00ca8800_Class.h"
+#include "fnv/decl/FUN_00ca8860_cls.h"
+#include "fnv/decl/MotionMassView.h"
+#include "fnv/decl/Object.h"
+#include "fnv/decl/S.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/Wrapper482.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00c8e000.h"
+#include "fnv/symbols_01022000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_0126f000.h"
+#include "fnv/symbols_01272000.h"
 #include "bhkrigidbody.h"
 
 struct S8d280_Quad
@@ -65,7 +93,6 @@ S8d280_Mat* FUN_00c8d280_cls::FUN_00c8d280(S8d280_Mat* out)
 
 // Preserves full 2026-10-24 prior contributor reconstruction; prior observed  /Od compiler mismatch.
 
-extern unsigned int DAT_0126fd98;
 struct ThreadState
 {
     unsigned int unk000;
@@ -243,17 +270,16 @@ struct ThreadState
     unsigned int unk2b0;
     unsigned int unk2b4;
 };
-extern __declspec(thread) ThreadState s_tlsData;
 struct MemoryContext
 {
     unsigned int previous;
-    MemoryContext() : previous(s_tlsData.unk2b4)
+    MemoryContext() : previous((*reinterpret_cast<::ThreadState *>(&::g_tlsBlock)).unk2b4)
     {
-        s_tlsData.unk2b4 = 0x10;
+        (*reinterpret_cast<::ThreadState *>(&::g_tlsBlock)).unk2b4 = 0x10;
     }
     ~MemoryContext()
     {
-        s_tlsData.unk2b4 = previous;
+        (*reinterpret_cast<::ThreadState *>(&::g_tlsBlock)).unk2b4 = previous;
     }
 };
 struct InspectorList
@@ -261,20 +287,18 @@ struct InspectorList
     unsigned int state00;
     void** items;
     unsigned short capacity, length, occupied, growth;
-    void Grow(unsigned int count);
-    void SetAt(unsigned int index, void** entry);
     __forceinline void append(void*& entry)
     {
         unsigned int location = length;
         if (location >= capacity)
-            Grow(location + growth);
-        SetAt(location, &entry);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(location + growth);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(location, (*(char * *)(&entry)));
     }
     __forceinline void appendInline(void* const& entry)
     {
         unsigned int location = length;
         if (location >= capacity)
-            Grow(location + growth);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(location + growth);
         if (location >= length)
         {
             length = (unsigned short)(location + 1);
@@ -309,8 +333,6 @@ struct MaterialInspector
 {
     unsigned int field00, field04, field08, field0c, field10;
     InspectionNode firstField;
-    void BaseInspect(InspectorList*);
-    void ReadInfo(void*);
     void FUN_00c8f870(InspectorList*);
 };
 struct PointFormat
@@ -384,7 +406,6 @@ struct __declspec(align(16)) AlignedDynamicArray
     unsigned char unkd5, unkd6, unkd7;
     unsigned int unkd8, unkdc;
     AlignedDynamicArray();
-    const char* quality();
     __forceinline void ClearAndRelease(Allocator& a)
     {
         count = 0;
@@ -396,95 +417,88 @@ struct __declspec(align(16)) AlignedDynamicArray
         ClearAndRelease(GetAllocator()->getAllocator());
     }
 };
-extern void* __cdecl MakeHeading(const char*);
-extern void* __cdecl MakeFloat(const char*, float);
-extern void* __cdecl MakeInt(const char*, const char*);
-extern void* __cdecl MakeCount(const char*, unsigned int);
-extern void __cdecl ExtractPoint(PointFormat*, const FloatVector*);
-extern void __cdecl AddMotion(InspectorList*, int);
-extern int __cdecl FormatText(char*, unsigned int, const char*, ...);
 // @fnv 0x00c8f870
 void MaterialInspector::FUN_00c8f870(InspectorList* output)
 {
     MemoryContext context;
-    BaseInspect(output);
+    reinterpret_cast<::Object *>(this)->FUN_00c9d6b0((::StringArray *)(output));
     {
-        void* entry = MakeHeading(DAT_012681c0.m_pcName);
+        void* entry = ((void *)(::FUN_00a7d330((*reinterpret_cast<::NiRTTI *>(&::g_012681c0)).m_pcName)));
         {
             unsigned int index = output->length;
             if (index >= output->capacity)
-                output->Grow(index + output->growth);
-            output->SetAt(index, &entry);
+                reinterpret_cast<::ViewerStrings *>((output))->SetSize(index + output->growth);
+            reinterpret_cast<::fnv_00b5c7d0::StrArr *>((output))->SetAt(index, (*(char * *)(&entry)));
         }
     }
     AlignedDynamicArray info;
-    ReadInfo(&info);
+    reinterpret_cast<::Wrapper482 *>(this)->FUN_00c8cfd0((::Info482 *)(void *)(&info));
     {
         void* entry;
         PointFormat point;
         QuaternionFormat rotation;
-        ExtractPoint(&point, &info.rotation);
+        ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&point)), (*(const ::hkVector4 *)(&info.rotation)));
         rotation.x = info.position.x;
         rotation.y = info.position.y;
         rotation.z = info.position.z;
         rotation.w = info.position.w;
-        entry = point.format("Position");
+        entry = ((void *)(reinterpret_cast<::NiPoint3 *>((void *)&(point))->FUN_00a59af0("Position")));
         {
             unsigned int index = output->length;
             if (index >= output->capacity)
-                output->Grow(index + output->growth);
-            output->SetAt(index, &entry);
+                reinterpret_cast<::ViewerStrings *>((output))->SetSize(index + output->growth);
+            reinterpret_cast<::fnv_00b5c7d0::StrArr *>((output))->SetAt(index, (*(char * *)(&entry)));
         }
-        entry = rotation.format("Rotation");
+        entry = ((void *)(reinterpret_cast<::FUN_00a6e190_shell *>((void *)&(rotation))->FUN_00a6e190("Rotation")));
         {
             unsigned int index = output->length;
             if (index >= output->capacity)
-                output->Grow(index + output->growth);
-            output->SetAt(index, &entry);
+                reinterpret_cast<::ViewerStrings *>((output))->SetSize(index + output->growth);
+            reinterpret_cast<::fnv_00b5c7d0::StrArr *>((output))->SetAt(index, (*(char * *)(&entry)));
         }
-        ExtractPoint(&point, &info.centerOfMass);
-        entry = point.format("COM");
+        ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&point)), (*(const ::hkVector4 *)(&info.centerOfMass)));
+        entry = ((void *)(reinterpret_cast<::NiPoint3 *>((void *)&(point))->FUN_00a59af0("COM")));
         {
             unsigned int index = output->length;
             if (index >= output->capacity)
-                output->Grow(index + output->growth);
-            output->SetAt(index, &entry);
+                reinterpret_cast<::ViewerStrings *>((output))->SetSize(index + output->growth);
+            reinterpret_cast<::fnv_00b5c7d0::StrArr *>((output))->SetAt(index, (*(char * *)(&entry)));
         }
-        entry = MakeFloat("MASS", info.mass);
+        entry = ((void *)(::FUN_00a7d550("MASS", info.mass)));
         {
             unsigned int index = output->length;
             if (index >= output->capacity)
-                output->Grow(index + output->growth);
-            output->SetAt(index, &entry);
+                reinterpret_cast<::ViewerStrings *>((output))->SetSize(index + output->growth);
+            reinterpret_cast<::fnv_00b5c7d0::StrArr *>((output))->SetAt(index, (*(char * *)(&entry)));
         }
-        entry = MakeFloat("LINDAMP", info.linDamp);
+        entry = ((void *)(::FUN_00a7d550("LINDAMP", info.linDamp)));
         {
             unsigned int index = output->length;
             if (index >= output->capacity)
-                output->Grow(index + output->growth);
-            output->SetAt(index, &entry);
+                reinterpret_cast<::ViewerStrings *>((output))->SetSize(index + output->growth);
+            reinterpret_cast<::fnv_00b5c7d0::StrArr *>((output))->SetAt(index, (*(char * *)(&entry)));
         }
-        entry = MakeFloat("ANGDAMP", info.angDamp);
+        entry = ((void *)(::FUN_00a7d550("ANGDAMP", info.angDamp)));
         {
             unsigned int index = output->length;
             if (index >= output->capacity)
-                output->Grow(index + output->growth);
-            output->SetAt(index, &entry);
+                reinterpret_cast<::ViewerStrings *>((output))->SetSize(index + output->growth);
+            reinterpret_cast<::fnv_00b5c7d0::StrArr *>((output))->SetAt(index, (*(char * *)(&entry)));
         }
-        entry = MakeFloat("FRICTION", info.friction);
+        entry = ((void *)(::FUN_00a7d550("FRICTION", info.friction)));
         output->append(entry);
-        entry = MakeFloat("REST", info.restitution);
+        entry = ((void *)(::FUN_00a7d550("REST", info.restitution)));
         output->append(entry);
-        AddMotion(output, info.motionType);
-        entry = MakeFloat("MAXLINVEL", info.maxLinVel);
+        ::AddMotionTypeName((::StrArr *)(output), info.motionType);
+        entry = ((void *)(::FUN_00a7d550("MAXLINVEL", info.maxLinVel)));
         output->append(entry);
-        entry = MakeFloat("MAXANGVEL", info.maxAngVel);
+        entry = ((void *)(::FUN_00a7d550("MAXANGVEL", info.maxAngVel)));
         output->append(entry);
-        ExtractPoint(&point, &info.linVelocity);
-        entry = point.format("LinVel");
+        ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&point)), (*(const ::hkVector4 *)(&info.linVelocity)));
+        entry = ((void *)(reinterpret_cast<::NiPoint3 *>((void *)&(point))->FUN_00a59af0("LinVel")));
         output->append(entry);
-        ExtractPoint(&point, &info.angVelocity);
-        entry = point.format("AngVel");
+        ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&point)), (*(const ::hkVector4 *)(&info.angVelocity)));
+        entry = ((void *)(reinterpret_cast<::NiPoint3 *>((void *)&(point))->FUN_00a59af0("AngVel")));
         output->append(entry);
         FloatMatrix3 inertia;
         inertia = info.inertia;
@@ -492,11 +506,11 @@ void MaterialInspector::FUN_00c8f870(InspectorList* output)
         diagonal.x = inertia.a.x;
         diagonal.y = inertia.b.y;
         diagonal.z = inertia.c.z;
-        entry = diagonal.format("InertiaTensor");
+        entry = ((void *)(reinterpret_cast<::NiPoint3 *>((void *)&(diagonal))->FUN_00a59af0("InertiaTensor")));
         output->append(entry);
-        entry = MakeFloat("PENDEPTH", info.penetration);
+        entry = ((void *)(::FUN_00a7d550("PENDEPTH", info.penetration)));
         output->append(entry);
-        entry = MakeInt("QUALITYTYPE", info.quality());
+        entry = ((void *)(::fnv_00a7d5e0::FUN_00a7d5e0("QUALITYTYPE", reinterpret_cast<::S *>(&(info))->FUN_00c8d4a0())));
         output->append(entry);
         unsigned int count = 0;
         InspectionNode* node = &firstField;
@@ -505,7 +519,7 @@ void MaterialInspector::FUN_00c8f870(InspectorList* output)
             ++count;
             node = node->next;
         }
-        entry = MakeCount("ACTCONCOUNT", count);
+        entry = ((void *)(::FUN_00a7d510("ACTCONCOUNT", count)));
         output->append(entry);
     }
     for (InspectionNode* current = &firstField; current && current->item; current = current->next)
@@ -513,8 +527,8 @@ void MaterialInspector::FUN_00c8f870(InspectorList* output)
         InspectionField* field = current->item;
         const char* name = field->description()->m_pcName;
         char message[128];
-        FormatText(message, 128, "%s: 0x%8X", name, field);
-        output->appendInline(MakeInt("ACTCON", message));
+        ::FUN_00406d00(message, 128, "%s: 0x%8X", name, field);
+        output->appendInline(((void *)(::fnv_00a7d5e0::FUN_00a7d5e0("ACTCON", message))));
     }
 }
 
@@ -725,8 +739,6 @@ struct Q8f6e0_Arg
     int unk248;
     Q8f6e0_Mem* mem;
 };
-extern int __cdecl FUN_00406d00(char* buf, int n, const char* fmt, ...);
-extern Q8f6e0_Report* DAT_01268360;
 extern const char str_010c6118[];
 extern const char str_010c60dc[];
 struct Q8f6e0_Obj
@@ -778,7 +790,6 @@ struct Q8f6e0_Obj
     virtual void vb0();
     virtual Q8f6e0_Dummy* vB4(unsigned char* p);
     int FUN_00c8f6e0(Q8f6e0_Arg* a);
-    int FUN_00c87710(Q8f6e0_Arg* a);
 };
 // @fnv 0x00c8f6e0
 int Q8f6e0_Obj::FUN_00c8f6e0(Q8f6e0_Arg* a)
@@ -798,13 +809,13 @@ int Q8f6e0_Obj::FUN_00c8f6e0(Q8f6e0_Arg* a)
     }
     else
     {
-        FUN_00c87710(a);
+        reinterpret_cast<::C87710HavokObject *>(this)->FUN_00c87710((*(::C87710Stream *)(a)));
     }
     if (warn || recovered)
     {
         char buf[0x100];
         FUN_00406d00(buf, 0x100, str_010c6118, a->name);
-        DAT_01268360->log(!recovered, 0x234f2250, buf, str_010c60dc, 0x220);
+        (*reinterpret_cast<::Q8f6e0_Report * *>(&::DAT_01268360))->log(!recovered, 0x234f2250, buf, str_010c60dc, 0x220);
     }
     return r;
 }

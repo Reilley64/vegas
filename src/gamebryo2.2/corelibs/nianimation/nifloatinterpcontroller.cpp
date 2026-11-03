@@ -2,15 +2,19 @@
 // src/gamebryo2.2/corelibs/nianimation/nifloatinterpcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nifloatinterpcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00a3c500_shell.h"
+#include "fnv/decl/Holder00a390a0.h"
+#include "fnv/decl/NiObject.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a35000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f4000.h"
 struct StrArr
 {
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 
-extern "C" void __stdcall FUN_00a390a0(StrArr*);
-extern "C" char* __cdecl FUN_00a7d330(const char*);
-extern "C" const char* const g_011f3ec8_arg1;
 
 template <class T> class NiTMallocInterface
 {
@@ -28,16 +32,16 @@ typedef NiTPrimitiveArray<char*, NiTMallocInterface<char*> > NiTPrimitiveArray_c
 // @fnv 0x00a576c0
 void __stdcall FUN_00a576c0(NiTPrimitiveArray_char* pkStrings)
 {
-    FUN_00a390a0(pkStrings);
-    char* pStr = FUN_00a7d330(g_011f3ec8_arg1);
+    reinterpret_cast<::Holder00a390a0 *>((pkStrings))->FUN_00a390a0({});
+    char* pStr = ::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f4220)));
     unsigned int idx = *(reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(pkStrings) + 0x0a));
     unsigned int cnt = *(reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(pkStrings) + 0x08));
     if (idx >= cnt)
     {
         unsigned int extra = *(reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(pkStrings) + 0x0e));
-        pkStrings->SetSize(idx + extra);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(idx + extra);
     }
-    pkStrings->SetAt(idx, pStr);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(idx, pStr);
 }
 
 struct BSFadeNode
@@ -66,18 +70,15 @@ namespace fnv_00a57670 {
 struct NiRTTI;
 struct NiObject
 {
-    NiObject* DynamicCast(const NiRTTI*);
 };
 struct GlobalObjectO2_00a7b610
 {
 };
-extern GlobalObjectO2_00a7b610 g_011f3738;
 struct NiInterpolator : NiObject
 {
 };
 struct PoseInterpStub
 {
-    void SetFloatValue(float);
 };
 struct NiFloatInterpolator : PoseInterpStub
 {
@@ -159,16 +160,18 @@ void NiFloatInterpController::SetInterpolatorValue(NiInterpolator* pkInterp, uns
         pkFloatInterp = 0;
     else
         pkFloatInterp =
-            reinterpret_cast<NiFloatInterpolator*>(pkInterp->DynamicCast(reinterpret_cast<const NiRTTI*>(&g_011f3738)));
+            reinterpret_cast<NiFloatInterpolator*>(((::fnv_00a57670::NiObject *)(reinterpret_cast<::NiObject *>((pkInterp))->DynamicCast((const ::NiRTTI *)(const ::fnv_00a57670::NiRTTI *)(reinterpret_cast<const NiRTTI*>(&(*reinterpret_cast<::fnv_00a57670::GlobalObjectO2_00a7b610 *>(&::g_011f3738))))))));
     GetValue(&fValue);
-    pkFloatInterp->SetFloatValue(fValue);
+    reinterpret_cast<::FUN_00a3c500_shell *>((pkFloatInterp))->SetFloatValue(fValue);
 }
 }  // namespace fnv_00a57670
 
 struct NiStream;
+class NiStream;
 struct NiSingleInterpController
 {
-    void LinkObject(NiStream&);
+public:
+    void LoadBinary(::NiStream &);
 };
 struct FUN_00a57630 : NiSingleInterpController
 {
@@ -177,7 +180,7 @@ struct FUN_00a57630 : NiSingleInterpController
 // @fnv 0x00a57630
 void FUN_00a57630::LinkObject(NiStream& kStream)
 {
-    NiSingleInterpController::LinkObject(kStream);
+    ::FUN_00a35850();
 }
 
 namespace fnv_00a57c70 {
@@ -186,7 +189,6 @@ struct NiStream
 };
 struct NiSingleInterpController
 {
-    void LoadBinary(NiStream&);
 };
 struct FUN_00a57c70 : NiSingleInterpController
 {
@@ -195,6 +197,6 @@ struct FUN_00a57c70 : NiSingleInterpController
 // @fnv 0x00a57c70
 void FUN_00a57c70::LoadBinary(NiStream& kStream)
 {
-    NiSingleInterpController::LoadBinary(kStream);
+    reinterpret_cast<::NiSingleInterpController *>(this)->LoadBinary((::NiStream &)(kStream));
 }
 }  // namespace fnv_00a57c70

@@ -3,14 +3,41 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /GF /Ob1 (unit src/fallout_shared/tesobjectcell.cpp lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/decl/BGSImpactData.h"
+#include "fnv/decl/CollectionView.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_004120b0_shell.h"
+#include "fnv/decl/FUN_00416870_t.h"
+#include "fnv/decl/FUN_00418660_shell.h"
+#include "fnv/decl/FUN_00421c30_shell.h"
+#include "fnv/decl/FUN_0043a010_shell.h"
+#include "fnv/decl/FUN_00458400_cls.h"
+#include "fnv/decl/FUN_0045cee0_shell.h"
+#include "fnv/decl/FUN_004610d0_shell.h"
+#include "fnv/decl/FUN_005445d0_shell.h"
+#include "fnv/decl/FUN_00544600_shell.h"
+#include "fnv/decl/FUN_00545cb0_shell.h"
+#include "fnv/decl/FUN_00558b40_shell.h"
+#include "fnv/decl/FUN_00558b80_shell.h"
+#include "fnv/decl/FUN_009604f0_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00b5a9a0_List.h"
+#include "fnv/decl/ThreeByThreeMatrix.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_00558b60__FUN_00558b60_shell.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00541000.h"
+#include "fnv/symbols_0054f000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_011c9000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_01203000.h"
 #include "tesobjectcell_packet.h"
 void __cdecl operator delete(void* pointer);
 const char kTESObjectCELLCellRefLockEnter[] = "TESObjectCELL::CellRefLockEnter()";
-unsigned int FUN_0054f4c0();
 NiAVObject* FUN_0054f4f0();
 
-extern double DAT_01017cf8;
-float __cdecl FUN_00408820(float);
 double __cdecl FUN_00ec6cde(double);
 double __cdecl FUN_00ec9f30(double);
 
@@ -82,11 +109,10 @@ struct M_004b4500 : FUN_004b4600_Class
         };
         float entry[3][3];
     };
-    bool FUN_004b46a0(M_004b4500*);
     M_004b4500 Inverse()
     {
         M_004b4500 inverse;
-        if (!FUN_004b46a0(&inverse))
+        if (!reinterpret_cast<::ThreeByThreeMatrix *>(this)->Inverse((*(::ThreeByThreeMatrix *)(&inverse))))
             inverse.FUN_004b4600();
         return inverse;
     }
@@ -127,7 +153,7 @@ unsigned char BoxInput::FUN_00c34890(const SphereInput* sphere)
         point7.y = NiAbs(point7.y);
         point7.z = NiAbs(point7.z);
         radius6 = sphere->radius;
-        bound.Set(point7.x - radius6, point7.y - radius6, point7.z - radius6);
+        reinterpret_cast<::FUN_00416870_t *>(&(bound))->FUN_00416870(point7.x - radius6, point7.y - radius6, point7.z - radius6);
     }
     if (!(bound.x <= halfWidth) || !(bound.z <= halfDepth) || !(bound.y <= 0.0))
         return false;
@@ -189,7 +215,6 @@ typedef NiTListItem<NiPointer<NiRefObject> > Item;
 struct NiTPointerAllocator
 {
     unsigned int m_uiCount;
-    void FUN_0045cee0(Item* pkItem);
 };
 
 struct NiTPointerListBase
@@ -203,7 +228,7 @@ struct NiTPointerListBase
     {
         int unused[5];  // compiled-out debug locals of the inlined helper
         pkItem->m_element.FUN_0066b0d0(0);
-        m_kItemCount.FUN_0045cee0(pkItem);
+        reinterpret_cast<::FUN_0045cee0_shell *>(&(m_kItemCount))->FUN_0045cee0(pkItem);
         m_kItemCount.m_uiCount--;
     }
     NiPointer<NiRefObject> FUN_00c5bfb0(Item*& kPos);
@@ -253,7 +278,6 @@ struct RefObj5b
     }
 };
 
-extern CRITICAL_SECTION DAT_01203328;
 
 template <class T> class SmartPtr5b
 {
@@ -295,7 +319,6 @@ struct ListItem5b
 
 struct Alloc5b
 {
-    ListItem5b* FUN_0043a010();
 };
 
 struct List5b
@@ -315,13 +338,12 @@ struct List5b
         return e;
     }
 
-    void FUN_00b5a9a0(ListItem5b*);
 
     void AddHead(const SmartPtr5b<RefObj5b>& element)
     {
-        ListItem5b* pkNode = m_kItemCount.FUN_0043a010();
+        ListItem5b* pkNode = ((::ListItem5b *)(reinterpret_cast<::FUN_0043a010_shell *>(&(m_kItemCount))->FUN_0043a010()));
         pkNode->m_element.FUN_006e5cc0(element);
-        FUN_00b5a9a0(pkNode);
+        reinterpret_cast<::FUN_00b5a9a0_List *>(this)->FUN_00b5a9a0((::FUN_00b5a9a0_Node *)(pkNode));
     }
 
     SmartPtr5b<RefObj5b> FUN_00c5bfb0(ListItem5b*& pos);
@@ -359,7 +381,7 @@ void Owner5b::FUN_00c5b1c0(RefObj5b* p)
 {
     if (!p)
         return;
-    EnterCriticalSection(&DAT_01203328);
+    EnterCriticalSection(&(*reinterpret_cast<::_RTL_CRITICAL_SECTION *>(&::DAT_01203328)));
     ListItem5b* pos = m_list50.GetHeadPos();
     while (pos)
     {
@@ -381,7 +403,7 @@ void Owner5b::FUN_00c5b1c0(RefObj5b* p)
             }
         }
     }
-    LeaveCriticalSection(&DAT_01203328);
+    LeaveCriticalSection(&(*reinterpret_cast<::_RTL_CRITICAL_SECTION *>(&::DAT_01203328)));
 }
 
 namespace fnv_00c5b370 {
@@ -448,7 +470,6 @@ struct ItemNode
 
 struct NodePool
 {
-    ItemNode* FUN_0043a010();
 };
 
 struct ItemList
@@ -456,12 +477,11 @@ struct ItemList
     int unk00;
     int unk04;
     NodePool pool;
-    void FUN_00b5a9a0(ItemNode* node);
     inline void AddTail(const NiPointer<RefObject>& ref)
     {
-        ItemNode* pNode = pool.FUN_0043a010();
+        ItemNode* pNode = ((::fnv_00c5b370::ItemNode *)(reinterpret_cast<::FUN_0043a010_shell *>(&(pool))->FUN_0043a010()));
         pNode->item = ref;
-        FUN_00b5a9a0(pNode);
+        reinterpret_cast<::FUN_00b5a9a0_List *>(this)->FUN_00b5a9a0((::FUN_00b5a9a0_Node *)(pNode));
     }
 };
 
@@ -481,7 +501,6 @@ struct PendingList
     }
 };
 
-extern char DAT_01203328;
 
 struct ItemQueue
 {
@@ -515,7 +534,7 @@ struct ItemQueue
 // @fnv 0x00c5b370
 void ItemQueue::FUN_00c5b370(RefObject* obj)
 {
-    EnterCriticalSection(&DAT_01203328);
+    EnterCriticalSection(&(*reinterpret_cast<char *>(&::DAT_01203328)));
     items.AddTail(obj);
     RefObject* p;
     ItemNode* it;
@@ -531,6 +550,6 @@ void ItemQueue::FUN_00c5b370(RefObject* obj)
             break;
         }
     }
-    LeaveCriticalSection(&DAT_01203328);
+    LeaveCriticalSection(&(*reinterpret_cast<char *>(&::DAT_01203328)));
 }
 }  // namespace fnv_00c5b370

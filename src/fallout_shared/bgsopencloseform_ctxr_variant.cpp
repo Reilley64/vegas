@@ -1,10 +1,53 @@
 
 // bgsopencloseform_ctxr_variant.cpp: rename variant for 0x0047a560 (integration 2026-10-30): the unit's skeleton with ExtraDataList renamed, whose names are bound elsewhere.
+#include "fnv/decl/C47AAF0Player.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00407820_shell.h"
+#include "fnv/decl/FUN_0041e690.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00518080_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_006c0f10_shell.h"
+#include "fnv/decl/FUN_00759450_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_0087b600_Holder.h"
+#include "fnv/decl/FUN_0098adb0_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00ad73b0_t.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FUN_00ad8b60_h.h"
+#include "fnv/decl/ObstMgr0dc0.h"
+#include "fnv/decl/SoundPlaybackHandle.h"
+#include "fnv/decl/TESPackage.h"
+#include "fnv/decl/TESTopicInfoData.h"
+#include "fnv/decl/fnv_0041d490__FUN_0041d490_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_0047a520__Fn47a520.h"
+#include "fnv/decl/fnv_00572d30__FUN_00572d30_shell.h"
+#include "fnv/decl/fnv_00578a30__Thing.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_0087b140__FUN_0087b140_Holder.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_0047a000.h"
+#include "fnv/symbols_0047b000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_006c0000.h"
+#include "fnv/symbols_008c7000.h"
+#include "fnv/symbols_00c69000.h"
+#include "fnv/symbols_00c6a000.h"
+#include "fnv/symbols_00c6b000.h"
+#include "fnv/symbols_011c4000.h"
+#include "fnv/symbols_011d7000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f3000.h"
 #include "bgsopencloseform_packet_decls.h"
 class ExtraDataList_r0047a560
 {
   public:
-    void CallExtraDataListMethod36(TESObjectREFR*);
 };
 
 class CtlV;
@@ -151,58 +194,45 @@ class RefV
 class ModelOps
 {
   public:
-    CtlV* GetObject3D();
 };
 class MgrX
 {
   public:
-    NiControllerSequence* FUN_0047a520(const NiFixedString&);
-    void FUN_0047aa40(bool);
-    bool FUN_0047aab0(NiControllerSequence*, int, int, float, float, int);
 };
 class SeqX
 {
   public:
-    int FUN_008041a0();
     void FUN_0098adb0(float);
 };
 class DoorX
 {
   public:
-    void* FUN_00407820();
-    unsigned int FUN_00407840();
 };
 class Door2
 {
   public:
-    bool FUN_00518080();
 };
 class SoundH
 {
   public:
-    unsigned int FUN_0084e3a0(unsigned int);
 };
 class BSAudio;
 class BSAudioSoundHandle;
 class BSAudioS_
 {
   public:
-    static BSAudio* GetSingleton();
 };
 class BSAudio2
 {
   public:
-    BSAudioSoundHandle FUN_00ad73b0(unsigned int);
 };
 class TaskQ2
 {
   public:
-    void QueueTaskIfPresent(void*);
 };
 class RefX
 {
   public:
-    void SetQuickKeysEnabled(int);
 };
 class OCF
 {
@@ -230,7 +260,6 @@ class SettingX
   public:
     TSETTING_VALUE* Bool();
 };
-extern SettingX DAT_011c4c64;
 
 class BSAudioSoundHandle
 {
@@ -240,16 +269,8 @@ class BSAudioSoundHandle
     int m8;
     BSAudioSoundHandle();
     ~BSAudioSoundHandle();
-    void FUN_00418890(const void*);
-    bool Play(bool);
-    bool FUN_00ad8b60(float, float, float);
 };
 
-extern TESObjectREFR* _g_thePlayer;
-OCF* GetOpenCloseForm(TESBoundObject*);
-bool FUN_008c7aa0();
-void FUN_00c6a270(NiAVObject*, bool, bool, int);
-void FUN_00c69ee0(void*, bool, bool);
 NiFixedString& FUN_0047a500();
 NiFixedString& FUN_0047a510();
 
@@ -261,44 +282,44 @@ void FUN_0047a560(TESObjectREFR* apRefr, TESObjectREFR* apActor, BGSOpenCloseFor
     bool bFlag = false;
     if (((RefV*)apRefr)->v1d0())
     {
-        if (((RefV*)apRefr)->v1d0()->GetObject3D())
+        if (((::CtlV *)(::fnv_0043b230::FUN_0043b230((const char *)(((RefV*)apRefr)->v1d0())))))
         {
-            CtlV* p3d = ((RefV*)apRefr)->v1d0()->GetObject3D();
-            NiAVObject* pAV = (NiAVObject*)FUN_00653270(&DAT_011f36ac, (NiProperty*)p3d);
+            CtlV* p3d = ((::CtlV *)(::fnv_0043b230::FUN_0043b230((const char *)(((RefV*)apRefr)->v1d0()))));
+            NiAVObject* pAV = (NiAVObject*)((::SkyShaderProperty *)(::FUN_00653270(&(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac)), (::NiObject *)(::NiProperty *)((NiProperty*)p3d))));
             if (pAV)
             {
-                NiControllerSequence* pSeqA = ((MgrX*)pAV)->FUN_0047a520(FUN_0047a500());
-                NiControllerSequence* pSeqB = ((MgrX*)pAV)->FUN_0047a520(FUN_0047a510());
+                NiControllerSequence* pSeqA = ((::NiControllerSequence *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((((MgrX*)pAV)))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(FUN_0047a500()))));
+                NiControllerSequence* pSeqB = ((::NiControllerSequence *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((((MgrX*)pAV)))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(FUN_0047a510()))));
                 if (pSeqA && pSeqB)
                 {
                     bFlag = true;
-                    if (((SeqX*)pSeqA)->FUN_008041a0() != 1 && ((SeqX*)pSeqB)->FUN_008041a0() != 1)
+                    if (((int)(reinterpret_cast<::LowProcess *>((((SeqX*)pSeqA)))->GetActiveCombatTarget())) != 1 && ((int)(reinterpret_cast<::LowProcess *>((((SeqX*)pSeqB)))->GetActiveCombatTarget())) != 1)
                     {
                         NiControllerSequence* p2c;
                         SoundH* p28 = 0;
                         TESObjectDOOR* pPathNodeDoor = dynamic_cast<TESObjectDOOR*>(apForm);
-                        if (!apRefr->GetAction(ACTION_OPEN))
+                        if (!reinterpret_cast<::fnv_00572d30::FUN_00572d30_shell *>((apRefr))->FUN_00572d30((*(int *)&(const ::OBJECT_ACTION &)(ACTION_OPEN))))
                         {
                             if (pPathNodeDoor)
-                                p28 = (SoundH*)((DoorX*)pPathNodeDoor)->FUN_00407820();
+                                p28 = (SoundH*)((void *)(reinterpret_cast<::FUN_00407820_shell *>((((DoorX*)pPathNodeDoor)))->FUN_00407820()));
                             p2c = pSeqA;
                             ((FUN_00572d50_shell*)apRefr)->FUN_00572d50(4);
                         }
                         else
                         {
                             if (pPathNodeDoor)
-                                p28 = (SoundH*)((DoorX*)pPathNodeDoor)->FUN_00407840();
+                                p28 = (SoundH*)reinterpret_cast<::TESPackage *>((((DoorX*)pPathNodeDoor)))->GetRefCount();
                             p2c = pSeqB;
                             ((FUN_00572db0_shell*)apRefr)->FUN_00572db0(4);
                         }
-                        if (!((SettingX*)&DAT_011c4c64)->Bool()->b && apActor && ((RefV*)apActor)->v100() &&
-                            apActor != _g_thePlayer && ((RefV*)apRefr)->v1d0())
+                        if (!((SettingX*)&(*reinterpret_cast<::SettingX *>(&::g_011c4c64)))->Bool()->b && apActor && ((RefV*)apActor)->v100() &&
+                            apActor != (*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)) && ((RefV*)apRefr)->v1d0())
                         {
                             bool bSkip = true;
-                            if (apRefr->GetObjectReference()->GetFormType() == ENUM_FORM_ID_DOOR_ID)
+                            if (((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apRefr))->FUN_007af430()))->GetFormType() == ENUM_FORM_ID_DOOR_ID)
                             {
-                                TESBoundObject* pObj = apRefr->GetObjectReference();
-                                if (((Door2*)pObj)->FUN_00518080())
+                                TESBoundObject* pObj = ((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apRefr))->FUN_007af430()));
+                                if (reinterpret_cast<::FUN_00518080_shell *>((((Door2*)pObj)))->FUN_00518080())
                                     bSkip = false;
                             }
                             if (bSkip)
@@ -306,42 +327,41 @@ void FUN_0047a560(TESObjectREFR* apRefr, TESObjectREFR* apActor, BGSOpenCloseFor
                                 void* pNi = ((RefV*)apRefr)->v1d0();
                                 if (FUN_008c7aa0())
                                 {
-                                    ((TaskQ2*)TaskQueueInterface::GetSingleton())->QueueTaskIfPresent(pNi);
+                                    reinterpret_cast<::fnv_0087b140::FUN_0087b140_Holder *>((((TaskQ2*)TaskQueueInterface::GetSingleton())))->QueueTaskIfPresent((::fnv_0087b140::G00559a40 *)(pNi));
                                 }
                                 else
                                 {
-                                    FUN_00c6a270((NiAVObject*)pNi, 1, 1, 0);
-                                    FUN_00c69ee0(pNi, 1, 1);
+                                    ::FUN_00c6a270((int)((NiAVObject*)pNi), 1, 1, 0);
+                                    ::FUN_00c69ee0((::NiAVObject *)(pNi), 1, 1);
                                 }
                             }
                         }
-                        ((MgrX*)pAV)->FUN_0047aa40(true);
-                        ((MgrX*)pAV)->FUN_0047aab0(p2c, 0, 0, 1.0f, 0.0f, 0);
-                        p2c->FUN_0098adb0(-DAT_0101ab70);
+                        reinterpret_cast<::TaskQueueInterface *>((((MgrX*)pAV)))->QueueReferenceStateTask(true);
+                        reinterpret_cast<::NiControllerManager *>((((MgrX*)pAV)))->ActivateControllerSequence(p2c, 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
+                        reinterpret_cast<::FUN_0098adb0_shell *>((p2c))->FUN_0098adb0(-DAT_0101ab70);
                         if (p28)
                         {
                             BSAudioSoundHandle h;
-                            if (apActor == _g_thePlayer)
+                            if (apActor == (*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))
                             {
-                                h.FUN_00418890(&((BSAudio2*)BSAudioS_::GetSingleton())
-                                                    ->FUN_00ad73b0(p28->FUN_0084e3a0(0x80000121u)));
+                                reinterpret_cast<::SoundPlaybackHandle *>(&(h))->operator=((*(const ::SoundPlaybackHandle *)(&reinterpret_cast<::FUN_00ad73b0_t *>((((BSAudio2*)::FUN_00453a70())))->FUN_00ad73b0(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((p28))->FUN_0084e3a0())), {}))));
                             }
                             else
                             {
-                                h.FUN_00418890(
-                                    &((BSAudio2*)BSAudioS_::GetSingleton())->FUN_00ad73b0(p28->FUN_0084e3a0(0x102)));
+                                reinterpret_cast<::SoundPlaybackHandle *>(&(h))->operator=(
+                                    (*(const ::SoundPlaybackHandle *)(&reinterpret_cast<::FUN_00ad73b0_t *>((((BSAudio2*)::FUN_00453a70())))->FUN_00ad73b0(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((p28))->FUN_0084e3a0())), {}))));
                                 NiPoint3 pt = *((RefV*)apRefr)->v1f4();
-                                h.FUN_00ad8b60(pt.x, pt.y, pt.z);
+                                reinterpret_cast<::FUN_00ad8b60_h *>(&(h))->FUN_00ad8b60(pt.x, pt.y, pt.z);
                             }
-                            h.Play(false);
+                            reinterpret_cast<::FUN_00ad8830_shell *>(&(h))->FUN_00ad8830(false);
                         }
-                        ((ExtraDataList_r0047a560*)apRefr->GetExtraData())->CallExtraDataListMethod36(apActor);
+                        reinterpret_cast<::FUN_0041e690 *>((((ExtraDataList_r0047a560*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((apRefr))->FUN_005d43c0())))))->SetLinkedReference(apActor);
                         ((RefV*)apRefr)->v048(0x80000000u);
-                        if (p2c == pSeqA && apActor == _g_thePlayer)
+                        if (p2c == pSeqA && apActor == (*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))
                         {
-                            OCF* pOCF = GetOpenCloseForm(apRefr->GetObjectReference());
+                            OCF* pOCF = ((::OCF *)(::GetOpenCloseForm((::TESForm *)(::TESBoundObject *)(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apRefr))->FUN_007af430()))))));
                             if (pOCF && pOCF->v2())
-                                ((RefX*)_g_thePlayer)->SetQuickKeysEnabled(1);
+                                reinterpret_cast<::C47AAF0Player *>((((RefX*)(*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))))->SetQuickKeysEnabled(1);
                         }
                     }
                 }
@@ -362,7 +382,7 @@ void FUN_0047a560(TESObjectREFR* apRefr, TESObjectREFR* apActor, BGSOpenCloseFor
             ((FUN_00572d50_shell*)apRefr)->FUN_00572d50(4);
             break;
         }
-        OCF* pOCF2 = GetOpenCloseForm(apRefr->GetObjectReference());
+        OCF* pOCF2 = ((::OCF *)(::GetOpenCloseForm((::TESForm *)(::TESBoundObject *)(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apRefr))->FUN_007af430()))))));
         if (pOCF2)
         {
             if (bOpen)

@@ -1,5 +1,41 @@
 // fallout/ai/combat/continuousbeamprojectile.cpp: ContinuousBeamProjectile, ScScaler, AlignOwner (7 functions)
 
+#include "fnv/decl/Actor.h"
+#include "fnv/decl/BGSMessageInitAccess.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00444d00_Class.h"
+#include "fnv/decl/FUN_0047d370_shell.h"
+#include "fnv/decl/FUN_004d7d50_StandIn.h"
+#include "fnv/decl/FUN_004ee4b0_shell.h"
+#include "fnv/decl/FUN_00534570_shell.h"
+#include "fnv/decl/FUN_005bfbd0_Class.h"
+#include "fnv/decl/FUN_00979840_cls.h"
+#include "fnv/decl/FUN_00a673d0_shell.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/GeometryVertexBuffer.h"
+#include "fnv/decl/MyPoint439180.h"
+#include "fnv/decl/Owner.h"
+#include "fnv/decl/Projectile.h"
+#include "fnv/decl/ProjectileHit.h"
+#include "fnv/decl/S00a67410.h"
+#include "fnv/decl/TESActorBaseData.h"
+#include "fnv/decl/TESGrass.h"
+#include "fnv/decl/ThreeByThreeMatrix.h"
+#include "fnv/decl/fnv_005de0a0__FUN_005de0a0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00979260__Projectile.h"
+#include "fnv/decl/fnv_009bda10__ProjectileRuntime.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0043c000.h"
+#include "fnv/symbols_004a8000.h"
+#include "fnv/symbols_00537000.h"
+#include "fnv/symbols_00549000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00874000.h"
+#include "fnv/symbols_009c2000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_01202000.h"
 class ContinuousBeamProjectile
 {
   public:
@@ -14,13 +50,16 @@ int ContinuousBeamProjectile::Initialize()
 
 struct Pt
 {
-    float Length() const;
 };
 
 struct NiPoint3 : Pt
 {
     float x, y, z;
     NiPoint3 operator-(const NiPoint3&) const;
+public:
+    float ComputeMagnitude() const;
+public:
+    static const ::NiPoint3 ZERO;
 };
 
 struct XActor
@@ -152,12 +191,10 @@ struct XActor
     virtual void d124();
     virtual NiPoint3* GetPos();
 
-    void* GetActorBase();
 };
 
 struct S9b46c0 : XActor
 {
-    bool FUN_00444d00(int);
 };
 
 struct FUN_009795c0_shell : S9b46c0
@@ -168,10 +205,8 @@ struct FUN_009795c0_shell : S9b46c0
 struct List_009e03e0
 {
     char pad[8];
-    void RemoveAll();
 };
 
-bool __cdecl CanProjectileHit(void*, void*, void*, void*);
 
 struct FUN_009ab9c0_struct : FUN_009795c0_shell
 {
@@ -179,22 +214,21 @@ struct FUN_009ab9c0_struct : FUN_009795c0_shell
     List_009e03e0 list_88;
     bool field_90;
 
-    bool ProcessHit(void*, NiPoint3*, void*, void*, void*, void*);
     bool FUN_009ab9c0(void* arg1, NiPoint3* arg2, void* arg3, void* arg4, void* arg5, void* arg6);
 };
 
 // @fnv 0x009ab9c0
 bool FUN_009ab9c0_struct::FUN_009ab9c0(void* arg1, NiPoint3* arg2, void* arg3, void* arg4, void* arg5, void* arg6)
 {
-    if (CanProjectileHit(arg1, arg4, this, GetActorBase()) && !FUN_00444d00(0x20) &&
-        ProcessHit(arg1, arg2, arg3, arg4, arg5, arg6))
+    if (::fnv_009c2c80::CanProjectileHit((::fnv_009c2c80::RefObj *)(arg1), (::fnv_009c2c80::CdBody *)(arg4), (int)(this), (::fnv_009c2c80::ProjData *)(void *)(((void *)(reinterpret_cast<::Actor *>(this)->GetActorBase())))) && !reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(0x20) &&
+        reinterpret_cast<::ProjectileHit *>(this)->ProcessHit((::Obj *)(arg1), (*(const ::Vec *)(arg2)), (*(const ::Vec *)(arg3)), (::Buffer *)(arg4), (int)(arg5), (int)(arg6)))
     {
         if (field_90)
         {
-            list_88.RemoveAll();
+            reinterpret_cast<::FileMatchList *>(&(list_88))->RemoveAll();
         }
         field_90 = 0;
-        FUN_009795c0((*arg2 - *GetPos()).Length());
+        FUN_009795c0(reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::Pt &)((*arg2 - *GetPos())))->ComputeMagnitude());
         return true;
     }
     return false;
@@ -203,8 +237,6 @@ bool FUN_009ab9c0_struct::FUN_009ab9c0(void* arg1, NiPoint3* arg2, void* arg3, v
 struct NiRTTI;
 struct NiAVObject;
 
-bool __cdecl FUN_0043b300(NiRTTI const*, NiAVObject*);
-extern char const* const g_011f4a48_arg1;
 
 struct NiGeometryData
 {
@@ -213,11 +245,12 @@ struct NiGeometryData
         MUTABLE = 0
     };
     void SetDataConsistency(Consistency);
+public:
+    bool IsGeometryDataStreamable(bool);
 };
 
 struct NiGeometry
 {
-    NiGeometryData* FUN_005495f0();
 };
 
 struct NiNode
@@ -226,12 +259,15 @@ struct NiNode
     NiAVObject* GetAt(unsigned int);
 };
 
+struct NiPoint3;
 struct NiAVObject
 {
     virtual void vfunc_00();
     virtual void vfunc_04();
     virtual void vfunc_08();
     virtual NiNode* GetAsNiNode();
+public:
+    ::NiPoint3 &FUN_0043c490();
 };
 
 struct FUN_009abe40_struct
@@ -245,10 +281,10 @@ void FUN_009abe40_struct::MarkGeometryDataMutable(NiAVObject* ap3D)
 {
     if (ap3D)
     {
-        if (FUN_0043b300((const NiRTTI*)&g_011f4a48_arg1, ap3D))
+        if (::FUN_0043b300((const NiRTTI*)&(*reinterpret_cast<const char *const *>(&::g_011f4acc)), ap3D))
         {
             NiGeometry* pgeom = (NiGeometry*)ap3D;
-            NiGeometryData* pdata = pgeom->FUN_005495f0();
+            NiGeometryData* pdata = ((::NiGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)(pgeom))));
             if (pdata)
             {
                 pdata->SetDataConsistency((NiGeometryData::Consistency)0);
@@ -271,12 +307,10 @@ void FUN_009abe40_struct::MarkGeometryDataMutable(NiAVObject* ap3D)
 
 struct S_009ab280_Target
 {
-    void FUN_005bfbd0(float f);
 };
 struct S_009ab280_Sub
 {
     int unk00;
-    S_009ab280_Target* FUN_00559450();
 };
 struct S_009ab280_Proj;
 struct S_009ab280_Owner
@@ -475,46 +509,40 @@ struct S_009ab280_Proj
     int unk14c;
     S_009ab280_Sub m150;
     int unk154;
-    void FUN_005de0a0(int flag, int value);
-    void FUN_009bda10();
-    float GetFirstLightParameter();
-    S_009ab280_Owner* FUN_00874480();
-    void FUN_009bc8f0();
     void InitContinuousBeam();
 };
-void __cdecl FUN_005b5e40(const char* msg);
 
 // Sets several flags via FUN_005de0a0, clears unk154, updates m150, and registers this as the owner's unk1a0 or logs an error and calls FUN_009bc8f0.
 // @fnv 0x009ab280
 void S_009ab280_Proj::InitContinuousBeam()
 {
-    FUN_005de0a0(0x10, 0);
-    FUN_005de0a0(1, 1);
-    FUN_005de0a0(2, 0);
-    FUN_005de0a0(8, 1);
-    FUN_005de0a0(0x20, 0);
-    FUN_005de0a0(0x100, 1);
-    FUN_005de0a0(0x80, 1);
-    FUN_005de0a0(0x2000, 1);
+    reinterpret_cast<::fnv_005de0a0::FUN_005de0a0_shell *>(this)->FUN_005de0a0(0x10, 0);
+    reinterpret_cast<::fnv_005de0a0::FUN_005de0a0_shell *>(this)->FUN_005de0a0(1, 1);
+    reinterpret_cast<::fnv_005de0a0::FUN_005de0a0_shell *>(this)->FUN_005de0a0(2, 0);
+    reinterpret_cast<::fnv_005de0a0::FUN_005de0a0_shell *>(this)->FUN_005de0a0(8, 1);
+    reinterpret_cast<::fnv_005de0a0::FUN_005de0a0_shell *>(this)->FUN_005de0a0(0x20, 0);
+    reinterpret_cast<::fnv_005de0a0::FUN_005de0a0_shell *>(this)->FUN_005de0a0(0x100, 1);
+    reinterpret_cast<::fnv_005de0a0::FUN_005de0a0_shell *>(this)->FUN_005de0a0(0x80, 1);
+    reinterpret_cast<::fnv_005de0a0::FUN_005de0a0_shell *>(this)->FUN_005de0a0(0x2000, 1);
     unk154 = 0;
-    FUN_009bda10();
-    if (m150.FUN_00559450())
+    reinterpret_cast<::fnv_009bda10::ProjectileRuntime *>(this)->FUN_009bda10();
+    if (((::S_009ab280_Target *)(::FUN_00559450((int *)&(m150)))))
     {
-        m150.FUN_00559450()->FUN_005bfbd0(GetFirstLightParameter());
+        reinterpret_cast<::FUN_005bfbd0_Class *>((((::S_009ab280_Target *)(::FUN_00559450((int *)&(m150))))))->FUN_005bfbd0(reinterpret_cast<::fnv_00979260::Projectile *>(this)->GetFirstLightParameter());
     }
-    S_009ab280_Owner* owner = FUN_00874480();
+    S_009ab280_Owner* owner = ((::S_009ab280_Owner *)(::FUN_00874480((char *)this)));
     if (owner)
     {
         if (owner->unk1a0)
         {
-            owner->unk1a0->FUN_009bc8f0();
+            reinterpret_cast<::Projectile *>((owner->unk1a0))->FUN_009bc8f0();
         }
         owner->unk1a0 = this;
     }
     else
     {
-        FUN_005b5e40("Continuous Beam created without Shooter!");
-        FUN_009bc8f0();
+        ::FUN_005b5e40();
+        reinterpret_cast<::Projectile *>(this)->FUN_009bc8f0();
     }
 }
 
@@ -526,25 +554,19 @@ struct ScPoint2
 {
     float x, y;
 };
-extern ScPoint3 g_kZero_011f426c;
 struct ScRTTI
 {
     int unk;
 };
-extern ScRTTI g_kRTTI_01202558;
-extern ScRTTI g_kRTTI_012024e0;
-extern ScRTTI g_kRTTI_01202508;
 
 struct ScTransform
 {
     char pad00[0xc];
     float m_fScale;
-    void FUN_00439180(float fScale);
 };
 struct ScData
 {
     virtual void v00();
-    unsigned short FUN_0047d370();
 };
 struct ScGeomData
 {
@@ -588,24 +610,13 @@ struct ScGeomData
 struct ScAccess
 {
     ScAccess();
-    void FUN_00534570(int iIndex, ScPoint3* pkPt);
-    void FUN_0065b390(int iIndex, ScPoint3* pkPt);
     int pad[3];
 };
 struct ScGeom
 {
-    ScGeomData* FUN_004a8a90();
-    bool FUN_00a67360(int i);
-    void FUN_00a67410(ScAccess* pkAccess);
-    void FUN_00a673d0();
-    ScPoint3* FUN_007af430();
-    unsigned short FUN_004a8ae0();
-    ScPoint2* FUN_0055b980();
 };
 struct ScChild
 {
-    float FUN_00639b20();
-    void FUN_004ee4b0(float fValue);
 };
 struct ScAVObject
 {
@@ -664,13 +675,7 @@ struct ScAVObject
     virtual void v34();
     virtual void v35();
     virtual void FUN_vd8(void* pkArg);
-    ScTransform* GetSourceFilesFromForm();
-    ScGeom* FUN_005495f0();
-    unsigned int FUN_004d7d50();
-    ScAVObject* GetByIndex(unsigned int uiIndex);
 };
-bool __cdecl FUN_0043b300(ScRTTI* pkRTTI, void* pkObject);
-void* __cdecl FUN_0043c4b0();
 
 struct ScScaler
 {
@@ -683,52 +688,52 @@ void ScScaler::ScaleObject(ScAVObject* pkObject, float fScale)
 {
     if (pkObject)
     {
-        pkObject->GetSourceFilesFromForm()->m_fScale *= fScale;
-        pkObject->GetSourceFilesFromForm()->FUN_00439180(fScale);
-        ScGeom* pkGeom = pkObject->FUN_005495f0();
+        ((::ScTransform *)(::GetSourceFilesFromForm((char *)(pkObject))))->m_fScale *= fScale;
+        reinterpret_cast<::MyPoint439180 *>((((::ScTransform *)(::GetSourceFilesFromForm((char *)(pkObject))))))->FUN_00439180(fScale);
+        ScGeom* pkGeom = ((::ScGeom *)(::fnv_005495f0::FUN_005495f0((const char *)(pkObject))));
         if (pkGeom)
         {
-            if (FUN_0043b300(&g_kRTTI_01202558, pkGeom))
+            if (::FUN_0043b300((const ::NiRTTI *)(::ScRTTI *)(&(*reinterpret_cast<::ScRTTI *>(&::g_01202558))), (::NiAVObject *)(pkGeom)))
             {
-                if (FUN_0043b300(&g_kRTTI_012024e0, pkObject))
+                if (::FUN_0043b300((const ::NiRTTI *)(::ScRTTI *)(&(*reinterpret_cast<::ScRTTI *>(&::g_012024e0))), (::NiAVObject *)(pkObject)))
                 {
                     ScAVObject* pkNode = pkObject;
-                    for (unsigned int i = 0; i < pkNode->FUN_004d7d50(); i++)
+                    for (unsigned int i = 0; i < reinterpret_cast<::FUN_004d7d50_StandIn *>((pkNode))->FUN_004d7d50(); i++)
                     {
-                        ScAVObject* pkChild = pkNode->GetByIndex(i);
-                        if (FUN_0043b300(&g_kRTTI_01202508, pkChild))
+                        ScAVObject* pkChild = ((::ScAVObject *)(reinterpret_cast<::Owner *>((pkNode))->GetByIndex(i)));
+                        if (::FUN_0043b300((const ::NiRTTI *)(::ScRTTI *)(&(*reinterpret_cast<::ScRTTI *>(&::g_01202508))), (::NiAVObject *)(pkChild)))
                         {
                             ScChild* pkTarget = (ScChild*)pkChild;
-                            pkTarget->FUN_004ee4b0(pkTarget->FUN_00639b20() * fScale);
+                            reinterpret_cast<::FUN_004ee4b0_shell *>((pkTarget))->FUN_004ee4b0(reinterpret_cast<::TESGrass *>((pkTarget))->GetLowestAllowedSlope() * fScale);
                         }
                     }
                 }
             }
-            else if (pkGeom->FUN_004a8a90() && pkGeom->FUN_004a8a90()->FUN_v8c())
+            else if (((::ScGeomData *)(::fnv_004a8a90::FUN_004a8a90((char *)(pkGeom)))) && ((::ScGeomData *)(::fnv_004a8a90::FUN_004a8a90((char *)(pkGeom))))->FUN_v8c())
             {
                 ScAccess kAccess;
-                ScGeomData* pkData = pkGeom->FUN_004a8a90();
-                if (pkGeom->FUN_00a67360(1))
+                ScGeomData* pkData = ((::ScGeomData *)(::fnv_004a8a90::FUN_004a8a90((char *)(pkGeom))));
+                if (reinterpret_cast<::NiGeometryData *>((pkGeom))->IsGeometryDataStreamable(1))
                 {
-                    pkGeom->FUN_00a67410(&kAccess);
-                    for (int j = 0; j < ((ScData*)pkData)->FUN_0047d370(); j++)
+                    reinterpret_cast<::S00a67410 *>((pkGeom))->FUN_00a67410((::BSFaceGenMorphData *)(::ScAccess *)(&kAccess));
+                    for (int j = 0; j < reinterpret_cast<::FUN_0047d370_shell *>((((ScData*)pkData)))->FUN_0047d370(); j++)
                     {
-                        ScPoint3 kPt = g_kZero_011f426c;
-                        kAccess.FUN_00534570(j, &kPt);
+                        ScPoint3 kPt = (*reinterpret_cast<::ScPoint3 *>((void *)&::NiPoint3::ZERO));
+                        reinterpret_cast<::FUN_00534570_shell *>(&(kAccess))->FUN_00534570(j, (*(::NiPoint3 *)(&kPt)));
                         kPt.y *= fScale;
-                        kAccess.FUN_0065b390(j, &kPt);
+                        reinterpret_cast<::GeometryVertexBuffer *>(&(kAccess))->SetVertex(j, (*(const ::NiPoint3 *)(&kPt)));
                     }
-                    pkGeom->FUN_00a673d0();
+                    reinterpret_cast<::FUN_00a673d0_shell *>((pkGeom))->FUN_00a673d0();
                 }
             }
-            else if (pkGeom->FUN_007af430())
+            else if (((::ScPoint3 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pkGeom))->FUN_007af430())))
             {
-                for (int k = 0; k < pkGeom->FUN_004a8ae0(); k++)
+                for (int k = 0; k < reinterpret_cast<::TESActorBaseData *>((pkGeom))->GetFatigue(); k++)
                 {
-                    pkGeom->FUN_007af430()[k].y *= fScale;
-                    pkGeom->FUN_0055b980()[k].y *= fScale;
+                    ((::ScPoint3 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pkGeom))->FUN_007af430()))[k].y *= fScale;
+                    ((::ScPoint2 *)(reinterpret_cast<::BGSMessageInitAccess *>((pkGeom))->GetIconFormID()))[k].y *= fScale;
                 }
-                pkObject->FUN_vd8(FUN_0043c4b0());
+                pkObject->FUN_vd8(((void *)(::FUN_0043c4b0())));
             }
         }
     }
@@ -748,7 +753,7 @@ class AlignMatrix
 {
   public:
     float m_afEntry[9];
-    AlignMatrix FUN_004b45b0() const;                           // Transpose
+                               // Transpose
     AlignMatrix FUN_0043f8d0(const AlignMatrix& kOther) const;  // operator*
 };
 
@@ -1100,32 +1105,8 @@ class AlignOwner
     int unk90;
     AlignMatrix m_kRotate;  // +0x94
 
-    float GetFirstLightParameter();
-    AlignTargetSource* FUN_00874480();
-    void FUN_009abd00(AlignSceneObject* pkObject, float fScale, float fUnk);
     void UpdateAlignment();
 };
-
-// Updates the 3D object's world data and recomputes m_kRotate from the target node's transform when a target node exists.
-// @fnv 0x009ab160
-void AlignOwner::UpdateAlignment()
-{
-    AlignSceneObject* pkObject2 = Get3D();
-    if (pkObject2)
-    {
-        float fScale = GetFirstLightParameter();
-        if (fScale < 1.0)
-            fScale = 1.0f;
-        FUN_009abd00(pkObject2, fScale, 0.0f);
-        AlignSceneObject* pkTarget2 = FUN_00874480() ? FUN_00874480()->GetTargetNode() : 0;
-        if (pkTarget2)
-        {
-            NiUpdateData kData2(0.0f, false, false);
-            pkObject2->UpdateWorldData(kData2);
-            m_kRotate = Get3D()->FUN_00461130().FUN_0043f8d0(pkTarget2->FUN_00461130().FUN_004b45b0());
-        }
-    }
-}
 
 struct Point3_bd00
 {
@@ -1141,8 +1122,6 @@ struct AVObject_bd00
     virtual void Unk04();
     virtual void Unk08();
     virtual Node_bd00* GetAsNiNode();
-    Point3_bd00& FUN_0043c490();
-    void FUN_00440460(const Point3_bd00&);
 };
 
 struct Node_bd00 : AVObject_bd00
@@ -1154,15 +1133,31 @@ struct Node_bd00 : AVObject_bd00
 struct Rtti_bd00
 {
 };
-extern Rtti_bd00 DAT_011f4acc;
-bool __cdecl FUN_0043b300(const Rtti_bd00*, AVObject_bd00*);
 
 struct BeamScaler_bd00
 {
-    float FUN_00979840(AVObject_bd00*);
-    void ScaleObject(AVObject_bd00*, float);
     void FUN_009abd00(AVObject_bd00* obj, float f1, float f2);
 };
+// Updates the 3D object's world data and recomputes m_kRotate from the target node's transform when a target node exists.
+// @fnv 0x009ab160
+void AlignOwner::UpdateAlignment()
+{
+    AlignSceneObject* pkObject2 = Get3D();
+    if (pkObject2)
+    {
+        float fScale = reinterpret_cast<::fnv_00979260::Projectile *>(this)->GetFirstLightParameter();
+        if (fScale < 1.0)
+            fScale = 1.0f;
+        reinterpret_cast<::BeamScaler_bd00 *>(this)->FUN_009abd00((::AVObject_bd00 *)(pkObject2), fScale, 0.0f);
+        AlignSceneObject* pkTarget2 = ((::AlignTargetSource *)(::FUN_00874480((char *)this))) ? ((::AlignTargetSource *)(::FUN_00874480((char *)this)))->GetTargetNode() : 0;
+        if (pkTarget2)
+        {
+            NiUpdateData kData2(0.0f, false, false);
+            pkObject2->UpdateWorldData(kData2);
+            m_kRotate = Get3D()->FUN_00461130().FUN_0043f8d0((*(::AlignMatrix *)(reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(pkTarget2->FUN_00461130()))->FUN_004b45b0({}))));
+        }
+    }
+}
 
 // If obj is non-null, scales its point when f2 > 0, then scales it or recursively processes its child nodes.
 // @fnv 0x009abd00
@@ -1173,19 +1168,19 @@ void BeamScaler_bd00::FUN_009abd00(AVObject_bd00* apObject, float f1, float f2)
         if (f2 > 0.0f)
         {
             float scale = f1 / f2;
-            Point3_bd00 translate8 = apObject->FUN_0043c490();
-            translate8 *= scale;
-            apObject->FUN_00440460(translate8);
+            Point3_bd00 translate8 = (*(::Point3_bd00 *)&(reinterpret_cast<::NiAVObject *>((apObject))->FUN_0043c490()));
+            reinterpret_cast<::MyPoint439180 *>((void *)&(const ::Point3_bd00 &)(translate8))->FUN_00439180(scale);
+            reinterpret_cast<::FUN_00440460_S *>((apObject))->FUN_00440460((const ::V3 *)&(translate8));
         }
 
-        if (FUN_0043b300(&DAT_011f4acc, apObject))
+        if (::FUN_0043b300((const ::NiRTTI *)(const ::Rtti_bd00 *)(&(*reinterpret_cast<::Rtti_bd00 *>(&::g_011f4acc))), (::NiAVObject *)(apObject)))
         {
             AVObject_bd00* target2 = apObject;
-            float val3 = (f2 > 0.0f) ? f2 : this->FUN_00979840(target2);
+            float val3 = (f2 > 0.0f) ? f2 : reinterpret_cast<::FUN_00979840_cls *>((this))->FUN_00979840((::ArgRef *)(target2));
             if (val3 != 0.0f)
             {
                 float fRatio = f1 / val3;
-                this->ScaleObject(target2, fRatio);
+                reinterpret_cast<::ScScaler *>((this))->ScaleObject((::ScAVObject *)(target2), fRatio);
             }
         }
         else

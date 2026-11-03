@@ -5,6 +5,16 @@
 
 // src/havok/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/HostC9C6.h"
+#include "fnv/decl/POwner.h"
+#include "fnv/decl/PhantomListeners.h"
+#include "fnv/decl/S_00cad500_This.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_0102f000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_01272000.h"
 struct FUN_00cad480_Class
 {
     void __thiscall FUN_00cad480(void* arg);
@@ -140,7 +150,6 @@ struct FUN_00cad6f0_class
 };
 struct FUN_00cade20_Class
 {
-    void __thiscall FUN_00cade20(int, int, int, int, int, int);
 };
 struct FUN_00cafbd0_Class
 {
@@ -176,7 +185,6 @@ struct FNVBuffers
         return FUN_00c85750()->GetAllocator()->Allocate(bytes);
     }
 };
-void __cdecl FUN_00d06cb0(FNVArray*, unsigned int);
 struct FNVOwner
 {
     FNVBuffers*& Buffers()
@@ -185,27 +193,24 @@ struct FNVOwner
     }
     void FUN_00c9c5b0(int value);
 };
-extern __declspec(thread) int g_tlsMemContext;
 struct S_00cac150_Scope
 {
     int m_oldContext;
     S_00cac150_Scope(int ctx)
     {
-        m_oldContext = g_tlsMemContext;
-        g_tlsMemContext = ctx;
+        m_oldContext = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = ctx;
     }
     ~S_00cac150_Scope()
     {
-        g_tlsMemContext = m_oldContext;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_oldContext;
     }
 };
 struct S_00cac150_Item1
 {
-    void FUN_00c9c670(void* arg);
 };
 struct S_00cac150_Item2
 {
-    void RemoveListener(void* arg);
 };
 struct S_00cac150
 {
@@ -279,7 +284,6 @@ struct CpuObject
     CpuScalar* value;
     unsigned int FUN_00cac910();
 };
-extern float DAT_0101e2bc;
 struct FUN_00cacf10_cls
 {
     int unk00;
@@ -360,7 +364,6 @@ struct BhkElem
 };
 struct BhkTarget
 {
-    void FUN_00c9c670(void* v);
 };
 struct BhkProxy
 {
@@ -415,7 +418,6 @@ struct FUN_00cad900_arg
     unsigned int unk0c;
     unsigned char flag10;
 };
-extern "C" int __cdecl FUN_00d06f80(int ptr, int size);
 extern "C" char str_010c8444[];
 extern "C" char str_010c8450[];
 extern "C" char str_010c8460[];
@@ -465,14 +467,11 @@ struct FUN_00cad900_cls
 
     void FUN_00cad900(FUN_00cad900_arg* a1, int a2);
 };
-extern char str_0102f13c[];
-extern char DAT_0104e3d0[];
 extern char DAT_010c84a4[];
 extern char DAT_010c8488[];
 extern char DAT_010c8470[];
 struct FUN_00cad500_Class
 {
-    void __thiscall FUN_00cad500(void* arg);
 };
 struct FUN_00cada70_cls
 {
@@ -521,7 +520,6 @@ struct FUN_00cada70_cls
 
     FUN_00cada70_cls* Construct(void* a1);
 };
-extern float DAT_0104da48;
 struct __declspec(align(16)) Vec289
 {
     float x, y, z, w;
@@ -564,10 +562,10 @@ class hkpCdPointCollector
     virtual void AddCdPoint(const void*) = 0;
     virtual void reset()
     {
-        limit = DAT_0104da48;
+        limit = ::DAT_0104da48;
     }
     float limit;
-    __declspec(nothrow) hkpCdPointCollector() : limit(DAT_0104da48)
+    __declspec(nothrow) hkpCdPointCollector() : limit(::DAT_0104da48)
     {}
 };
 struct ContactArray289
@@ -600,19 +598,15 @@ class hkpAllCdPointCollector : public hkpCdPointCollector
     virtual void reset()
     {
         contacts.count = 0;
-        limit = DAT_0104da48;
+        limit = ::DAT_0104da48;
     }
 };
 struct Query289
 {
-    __declspec(nothrow) void FUN_00cade20(void*, void*, hkpCdPointCollector*, hkpCdPointCollector*, unsigned,
-                                          unsigned) throw();
     void CollectAllContactPoints(void*, void*);
 };
 
 #include <xmmintrin.h>
-extern const void* DAT_0104da28;
-extern float DAT_0104da48;
 struct Allocator197
 {
     virtual void v00();
@@ -641,15 +635,15 @@ struct Collector197
     Contact197 local[8];
     Collector197() throw()
     {
-        vtable = &DAT_0104da28;
-        distance = DAT_0104da48;
+        vtable = &(*reinterpret_cast<const void * *>(&::g_vtblInst0104da28));
+        distance = ::DAT_0104da48;
         data = local;
         capacity = 0x80000008;
         count = 0;
     }
     void Release() throw()
     {
-        vtable = &DAT_0104da28;
+        vtable = &(*reinterpret_cast<const void * *>(&::g_vtblInst0104da28));
         FNVMemoryManager* manager = FUN_00c85750();
         unsigned int flags = capacity;
         Allocator197* heap = reinterpret_cast<Allocator197*>(manager->GetAllocator());

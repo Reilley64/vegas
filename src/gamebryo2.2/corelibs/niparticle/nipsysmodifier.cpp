@@ -1,18 +1,42 @@
 // gamebryo2.2/corelibs/niparticle/nipsysmodifier.cpp: NiPSysModifier, MyIsEqual, ParticleModifierBinary, ParticleModifier (8 functions)
 
+#include <new>
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/A5D6E0This.h"
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Cls_a64ea0.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a5d3a0.h"
+#include "fnv/decl/FUN_00a5d430_Class.h"
+#include "fnv/decl/FUN_00a5d450_class.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
+#include "fnv/decl/FUN_00a641f0_cls.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a64df0__FUN_00a64df0_Stream.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0105a000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_010c0000.h"
+#include "fnv/symbols_01202000.h"
 #include "nipsysmodifier_decls.h"
 
 // @fnv 0x00C318B0
 void NiPSysModifier::LoadBinary(NiStream& kStream)
 {
-    NiObject::LoadBinary(kStream);
+    reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup((::NiStream *)&(kStream));
     if (kStream.m_uiNifVersion < 0x14010001)
-        kStream.ReadFixedString(m_kName);
+        reinterpret_cast<::Cls_a64ea0 *>(&(kStream))->FUN_00a64ea0((char **)&(m_kName));
     else
-        kStream.ReadStringTableEntry(m_kName);
+        reinterpret_cast<::fnv_00a64df0::FUN_00a64df0_Stream *>(&(kStream))->FUN_00a64df0((::fnv_00a64df0::NiFixedString &)(m_kName));
 
     NiBinaryStreamLoad(*kStream.m_pUnderlyingStream, &m_uiUpdateOrder);
-    kStream.ResetStreamState();
+    reinterpret_cast<::FUN_00a645b0_cls *>(&(kStream))->FUN_00a645b0();
     unsigned char ucActive;
     NiBinaryStreamLoad(*kStream.m_pUnderlyingStream, &ucActive);
     m_bModifierActive = ucActive != 0;
@@ -21,14 +45,14 @@ void NiPSysModifier::LoadBinary(NiStream& kStream)
 // @fnv 0x00C31780
 void NiPSysModifier::CopyMemberData(NiPSysModifier* pkDest, CloningProcess& kCloning)
 {
-    NiObject::CreateVertexBufferSet(pkDest, kCloning);
+    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((unsigned int)(pkDest), (void *)&(kCloning));
     char* pcName = m_kName.m_kHandle;
     if (pkDest->m_kName.m_kHandle != pcName)
     {
-        if (pcName != EmptyFS.m_kHandle)
+        if (pcName != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             InterlockedIncrement(reinterpret_cast<volatile long*>(pcName - 8));
         char* pcOldName = pkDest->m_kName.m_kHandle;
-        if (pcOldName != EmptyFS.m_kHandle)
+        if (pcOldName != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             InterlockedDecrement(reinterpret_cast<volatile long*>(pcOldName - 8));
         pkDest->m_kName.m_kHandle = pcName;
     }
@@ -39,7 +63,7 @@ void NiPSysModifier::CopyMemberData(NiPSysModifier* pkDest, CloningProcess& kClo
 // @fnv 0x00C317E0
 void NiPSysModifier::ProcessClone(CloningProcess& kCloning)
 {
-    NiObject::ProcessClone(kCloning);
+    reinterpret_cast<::FUN_00a5d430_Class *>(this)->FUN_00a5d430((unsigned int)&(kCloning));
     NiObject* pkClone = 0;
     NiPSysCloneMapGetAt(kCloning.m_pCloneMap, this, pkClone);
     NiPSysModifier* pkDest = static_cast<NiPSysModifier*>(pkClone);
@@ -50,7 +74,7 @@ void NiPSysModifier::ProcessClone(CloningProcess& kCloning)
 // @fnv 0x00C31650
 void NiPSysModifier::LinkObject(NiStream& kStream)
 {
-    NiObject::LinkObject(kStream);
+    ::FUN_00a89af0((int)this);
     kStream.GetLoadedObject();
 }
 
@@ -66,15 +90,13 @@ void NiPSysModifier_shell::FUN_00c31640(NiParticleSystem* pkTarget)
         reinterpret_cast<unsigned int>(pkTarget);
 }
 
-extern const char* const g_01202528_arg1;
 
 // @fnv 0x00c31710
 const char* const* __cdecl FUN_00c31710()
 {
-    return &g_01202528_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_012027d0));
 }
 
-bool __stdcall IsSameAs(NiObject* pkObject);
 struct MyIsEqual
 {
     bool FUN_00c31830(NiObject* pkObject);
@@ -84,7 +106,7 @@ struct MyIsEqual
 bool MyIsEqual::FUN_00c31830(NiObject* pkObject)
 {
     NiPSysModifier* pkDest = (NiPSysModifier*)pkObject;
-    if (IsSameAs(pkObject) && *(void**)((char*)this + 8) == *(void**)((char*)pkDest + 8) &&
+    if (reinterpret_cast<::A5d470Class *>((pkObject))->IsSameAs({}) && *(void**)((char*)this + 8) == *(void**)((char*)pkDest + 8) &&
         *(unsigned int*)((char*)this + 0xc) == *(unsigned int*)((char*)pkDest + 0xc) &&
         *(unsigned char*)((char*)this + 0x14) == *(unsigned char*)((char*)pkDest + 0x14))
         return true;
@@ -133,7 +155,6 @@ struct OutputBinaryStream : NiBinaryStream
 struct OutputStream : NiStream
 {
     OutputBinaryStream* m_pBackingStream;
-    void WriteObjectLink(NiFixedString&);
 };
 struct LinkOutput
 {
@@ -155,7 +176,6 @@ struct BinaryObjectBase
 {
     void* vtable;
     unsigned int referenceCount;
-    void FUN_00a89af0(OutputStream&);
 };
 struct ParticleModifierBinary : BinaryObjectBase
 {
@@ -178,15 +198,13 @@ __forceinline void BooleanWrite(OutputBinaryStream* stream, bool value)
 // @fnv 0x00c31950
 void ParticleModifierBinary::FUN_00c31950(OutputStream& stream)
 {
-    FUN_00a89af0(stream);
-    stream.WriteObjectLink(name);
+    ::FUN_00a89af0((int)this);
+    reinterpret_cast<::FUN_00a641f0_cls *>(&(stream))->WriteObjectLink((void *)&(name));
     PrimitiveWrite(stream.m_pBackingStream, order);
     reinterpret_cast<LinkOutput*>(&stream)->SaveObject(target);
     BooleanWrite(stream.m_pBackingStream, active);
 }
 
-extern "C" char* DAT_0109b220;
-extern "C" int DAT_010c09cc;
 extern "C" void(__stdcall* DAT_00fdf1c0)(char*);
 extern "C" void(__stdcall* DAT_00fdf1c4)(char*);
 struct ParticleModifier
@@ -197,24 +215,23 @@ struct ParticleModifier
     unsigned int order;
     void* target;
     bool active;
-    void __thiscall FUN_00a5d3a0();
     ParticleModifier* __thiscall FUN_00c316a0(char* volatile* newName, unsigned int newOrder);
 };
 // @fnv 0x00c316a0
 ParticleModifier* __thiscall ParticleModifier::FUN_00c316a0(char* volatile* newName, unsigned int newOrder)
 {
-    FUN_00a5d3a0();
+    new ((void *)this) struct ::FUN_00a5d3a0();
     vtable = &DAT_010c09cc;
-    name = DAT_0109b220;
+    name = ::DAT_0109b220;
     order = newOrder;
     target = 0;
     active = true;
     char* pNewName = *newName;
     if (name != pNewName)
     {
-        if (pNewName != DAT_0109b220)
+        if (pNewName != ::DAT_0109b220)
             DAT_00fdf1c0(pNewName - 8);
-        if (name != DAT_0109b220)
+        if (name != ::DAT_0109b220)
             DAT_00fdf1c4(name - 8);
         name = pNewName;
     }
@@ -229,22 +246,14 @@ struct StrArr
     unsigned short m_usSize;
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
-    void SetSize(unsigned int uiMaxSize);
-    void SetAt(unsigned int uiIndex, char*& pElement);
     __forceinline void Add(char* pElement)
     {
         unsigned int uiIndex = m_usSize;
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, pElement);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, pElement);
     }
 };
-void __stdcall AppendCameraPathEntries(StrArr* apViewerStrings);
-char* __cdecl FUN_00a7d330(const char* pcText);
-char* __cdecl FUN_00a7d5e0(const char* pcPrefix, const char* pcValue);
-char* __cdecl FUN_00a7d510(const char* pcPrefix, unsigned int uiValue);
-char* __cdecl FUN_00a7d370(const char* pcPrefix, bool bValue);
-extern const char g_011d4e34_arg1[];
 
 struct FUN_00c319e0_cls : ParticleModifierBinary
 {
@@ -255,19 +264,17 @@ struct FUN_00c319e0_cls : ParticleModifierBinary
 // @fnv 0x00c319e0
 void FUN_00c319e0_cls::FUN_00c319e0(StrArr* apViewerStrings)
 {
-    AppendCameraPathEntries(apViewerStrings);
-    apViewerStrings->Add(FUN_00a7d330(g_01202528_arg1));
+    reinterpret_cast<::A5D6E0This *>((apViewerStrings))->AppendCameraPathEntries({});
+    apViewerStrings->Add(FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_012027d0))));
     const char* pcName = name.m_kHandle;
-    apViewerStrings->Add(FUN_00a7d5e0(g_011d4e34_arg1, pcName));
+    apViewerStrings->Add(::fnv_00a7d5e0::FUN_00a7d5e0(g_011d4e34_arg1, pcName));
     apViewerStrings->Add(FUN_00a7d510("Order", order));
     apViewerStrings->Add(FUN_00a7d370("Active", active));
 }
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-void __cdecl FUN_00aa1460(void* pvMem, unsigned int uiSize);
 
 namespace c318 {
-extern char* DAT_0109b220;
 }
 
 class NiFixedStringC318
@@ -275,7 +282,7 @@ class NiFixedStringC318
   public:
     ~NiFixedStringC318()
     {
-        if (m_kHandle != c318::DAT_0109b220)
+        if (m_kHandle != ::DAT_0109b220)
             InterlockedDecrement((long volatile*)(m_kHandle - 8));
     }
     char* m_kHandle;

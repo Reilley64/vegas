@@ -2,6 +2,8 @@
 // src/havok/physics/collide/util/kdtree/mediator/hkpcollidablemediator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/util/kdtree/mediator/hkpcollidablemediator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00d07950_cls.h"
+#include "fnv/symbols_00d1a000.h"
 struct Child { unsigned int unk00; unsigned int unk04; };
 struct Owner { unsigned int unk00; unsigned int unk04; Child* child; unsigned int FUN_00d9e000(); };
 // @fnv 0x00d9e000
@@ -32,7 +34,6 @@ struct SubRec {
     virtual void v10();
     virtual void v14();
     virtual void v18(OutSlot* out);
-    void FUN_00d07950(OutSlot* out);
 };
 
 struct ItemRec {
@@ -90,7 +91,6 @@ struct CtxRec {
     void* m_78;
 };
 
-void __cdecl FUN_00d1a330(void* mgr, OutSlot* out, int flag);
 
 class ListWalker {
 public:
@@ -117,12 +117,12 @@ ListWalker* ListWalker::InitWalker(ItemListRec* list, CtxRec* ctx)
                         OutPlain out;
                         SubRec* sub = (SubRec*)((char*)m_08->m_items[iIndex] + m_08->m_items[iIndex]->m_subOff);
                         out.m_ptr = sub;
-                        FUN_00d1a330(ctx->m_78, (OutSlot*)&out, 1);
+                        ::FUN_00d1a330((const ::CollisionContext *)(ctx->m_78), (::EntityNode *const *)(::OutSlot *)((OutSlot*)&out), 1);
                     } else {
                         OutSlot out;
                         SubRec* sub = (SubRec*)((char*)m_08->m_items[iIndex] + m_08->m_items[iIndex]->m_subOff);
                         sub->v18(&out);
-                        sub->FUN_00d07950(&out);
+                        reinterpret_cast<::FUN_00d07950_cls *>((sub))->FUN_00d07950((*(const ::hkAabbD07950 *)(&out)));
                     }
                 }
                 ++iIndex;

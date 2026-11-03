@@ -2,6 +2,30 @@
 #ifndef FNV_GLOBALFUNC_DECLS_H
 #define FNV_GLOBALFUNC_DECLS_H
 
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/MyHost.h"
+#include "fnv/decl/TESTexLoader.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/fnv_0043b1b0__FUN_0043b1b0_shell.h"
+#include "fnv/decl/fnv_0057bd60__fnv_anon_tesobjectrefr__Dummy.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00448000.h"
+#include "fnv/symbols_004a2000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_004b6000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_00537000.h"
+#include "fnv/symbols_00c68000.h"
+#include "fnv/symbols_011c6000.h"
+#include "fnv/symbols_011d5000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_01202000.h"
+#include "fnv/symbols_01267000.h"
 void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
 // Canonical folded binding for NiFixedString string-handle conversion.
@@ -24,7 +48,6 @@ class BipedNodeNames
     static void InitializeMultiBounds();
 };
 extern NiFixedString* DAT_011c61a4;
-extern NiFixedString* DAT_011c61a8;
 extern NiFixedString* DAT_011c61ac;
 extern NiFixedString* DAT_011c61b0;
 extern NiFixedString* DAT_011c61b4;
@@ -34,49 +57,30 @@ extern NiFixedString* DAT_011c61c0;
 extern NiFixedString* DAT_011c61c4;
 extern NiFixedString* DAT_011c61c8;
 extern NiFixedString* DAT_011c61cc;
-extern NiFixedString* DAT_011c61d0;
-extern NiFixedString* DAT_011c61d4;
-extern NiFixedString* DAT_011c61d8;
 extern NiFixedString* DAT_011c61dc;
 extern NiFixedString* DAT_011c61e0;
 extern NiFixedString* DAT_011c61e4;
 extern NiFixedString* DAT_011c61e8;
-extern NiFixedString* DAT_011c61ec;
 extern NiFixedString* DAT_011c61f0;
 extern NiFixedString* DAT_011c61f4;
 extern NiFixedString* DAT_011c61f8;
 extern NiFixedString* DAT_011c61fc;
-extern NiFixedString* DAT_011c6200;
 extern NiFixedString* DAT_011c6204;
 extern NiFixedString* DAT_011c6208;
-extern NiFixedString* DAT_011c620c;
 extern NiFixedString* DAT_011c6210;
 extern NiFixedString* DAT_011c6214;
 extern NiFixedString* DAT_011c6218;
-extern NiFixedString* DAT_011c621c;
-extern NiFixedString* DAT_011c6220;
 extern NiFixedString* DAT_011c6224;
-extern NiFixedString* DAT_011c6228;
-extern NiFixedString* DAT_011c622c;
 extern NiFixedString* DAT_011c6230;
 extern NiFixedString* DAT_011c6234;
 extern NiFixedString* DAT_011c6238;
-extern NiFixedString* DAT_011c623c;
 extern NiFixedString* DAT_011c6240;
 extern NiFixedString* DAT_011c6244;
 extern NiFixedString* DAT_011c6248;
 extern NiFixedString* DAT_011c624c;
-extern NiFixedString* DAT_011c6250;
 extern NiFixedString* DAT_011c6254;
-extern NiFixedString* DAT_011c6258;
 extern NiFixedString* DAT_011c625c;
 extern NiFixedString* DAT_011c6260;
-extern NiFixedString* DAT_011c6264;
-extern NiFixedString* DAT_011c6268;
-extern NiFixedString* DAT_011c626c;
-extern NiFixedString* DAT_011c6270;
-extern NiFixedString* DAT_011c6274;
-extern NiFixedString* DAT_011c6278;
 enum LANGUAGE
 {
     LANGUAGE_ENGLISH,
@@ -88,7 +92,6 @@ enum LANGUAGE
 };
 int FUN_004b71a0();
 LANGUAGE GetConfiguredLanguage();
-const char* LocateString(const char*, const char*);
 template <class T> unsigned int BSStringLength(const T*);
 int strcat_s(char*, unsigned int, const char*);
 extern "C" int memcpy_s(void*, unsigned int, const void*, unsigned int);
@@ -104,7 +107,6 @@ class NiControllerManager;
 class NiTimeController
 {
   public:
-    int FUN_00441110();
 };
 class NiProperty;
 class NiObjectNET
@@ -119,11 +121,12 @@ class NiObjectNET
     NiTimeController* m_pControllers;
     void* m_ppExtraData;
     unsigned short m_usExtraDataCount, m_usMaxSize;
+public:
+    void GetNumChildren();
 };
 class NiBound
 {
   public:
-    float FUN_0084d030();
 };
 class NiAVObject : public NiObjectNET
 {
@@ -135,10 +138,7 @@ class NiAVObject : public NiObjectNET
     void* m_spCollisionObject;
     NiBound* m_spWorldBound;
     int IsVisualObject();
-    NiProperty* GetProperty(unsigned int);
-    NiNode* GetParent();
     class NiExtraData* GetExtraData(const NiFixedString&);
-    NiTimeController* GetController(const NiRTTI*);
 };
 class NiNode : public NiAVObject
 {
@@ -321,21 +321,15 @@ template <class T> class NiPointer
 class TES
 {
   public:
-    void CreateTextureImage(const char*, NiPointer<NiSourceTexture>&, bool, bool);
 };
-extern TES* g_TES;
-extern NiRTTI DAT_011f444c;
-bool FUN_0043b300(const NiRTTI*, NiAVObject*);
 
 class NiExtraData
 {
   public:
-    bool FUN_004b5fa0();
 };
 class NiControllerManager
 {
   public:
-    NiControllerManager* GetStringAtOffset();
     virtual void vfn_0();
     virtual void vfn_4();
     virtual void vfn_8();
@@ -383,17 +377,12 @@ class TESTopicInfoData
 };
 extern NiNode* DAT_011c6328;
 extern NiControllerManager* DAT_011c6324;
-extern NiRTTI DAT_011f36ac;
-const NiFixedString& FUN_00448a80();
 const NiFixedString& FUN_004b5f60();
 const NiFixedString& FUN_004b5f70();
 const NiFixedString& FUN_004b5f80();
 const NiFixedString& FUN_004b5f90();
-int FUN_00404dc0(const char*, const char*);
 extern "C" int _strnicmp(const char*, const char*, unsigned int);
 
-extern NiRTTI DAT_012024e0;
-int FUN_004a2c20(NiProperty*);
 class TESObjectLIGH;
 class EffectSetting
 {
@@ -405,6 +394,10 @@ class NiPoint3
 {
   public:
     float x, y, z;
+public:
+    float ComputeMagnitude() const;
+public:
+    static const ::NiPoint3 ZERO;
 };
 extern "C" float logf(float);
 struct CollisionObjectCountContext
@@ -418,9 +411,6 @@ struct CollisionObjectCountContext
     unsigned int uiFilterFlags;
 };
 class NiCollisionObject;
-void FUN_004b6740(NiCollisionObject*, CollisionObjectCountContext*);
-void FUN_00c68900(NiAVObject*, CollisionObjectCountContext*,
-                  void (*)(NiCollisionObject*, CollisionObjectCountContext*));
 class ActorMover
 {
   public:
@@ -465,11 +455,9 @@ template <class Collection> class SettingT
   public:
     SETTING_VALUE* Bool();
 };
-extern SettingT<INISettingCollection> DAT_011d5a30;
 class bhkWorld
 {
   public:
     static bool QPickCountOverride();
 };
-extern bool DAT_012677a3;
 #endif

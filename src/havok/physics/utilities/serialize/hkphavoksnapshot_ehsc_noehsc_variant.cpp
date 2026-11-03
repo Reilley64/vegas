@@ -5,6 +5,22 @@
 
 // src/havok/physics/utilities/serialize/hkphavoksnapshot.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/serialize/hkphavoksnapshot.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00d46d40_s.h"
+#include "fnv/decl/FUN_00d47770.h"
+#include "fnv/decl/FUN_00d49750.h"
+#include "fnv/decl/FUN_00d4bab0.h"
+#include "fnv/decl/FUN_00d4c220_s.h"
+#include "fnv/decl/FnvClassNameNode.h"
+#include "fnv/decl/HostType.h"
+#include "fnv/decl/ReferencedObjectHolder.h"
+#include "fnv/decl/SStringPtr.h"
+#include "fnv/decl/fnv_00cc0ae0__FUN_00cc0ae0_cls.h"
+#include "fnv/decl/fnv_00d4aa70__FUN_00d4aa70.h"
+#include "fnv/decl/fnv_00d4c250__FUN_00d4c250.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cc0000.h"
+#include "fnv/symbols_01268000.h"
 struct CallbackInterface
 {
     virtual void reserved0();
@@ -24,7 +40,6 @@ struct Object
 {
     void* unk00;
     unsigned short unk04;
-    void FUN_00cc0ae0();
     Object* FUN_00cc0dd0(unsigned int flags);
 };
 struct D481D0StringPtr
@@ -36,7 +51,6 @@ struct D481D0StringPtr
 };
 struct D481D0Class
 {
-    const char* getName() const;
 };
 struct D481D0ReferencedObject;
 struct D481D0RefVariant
@@ -46,7 +60,6 @@ struct D481D0RefVariant
     D481D0RefVariant() : m_ptr(0)
     {}
     void set(D481D0ReferencedObject* obj, const D481D0Class* pClassInfo);
-    const D481D0Class* GetVariantValue() const;
 };
 struct FUN_00d481d0
 {
@@ -67,10 +80,6 @@ struct CC0D30Registry
 {
     int unk00;
 };
-extern CC0D30Registry g_CC0D30DefaultRegistry;
-CC0D30Result __cdecl FUN_00cc0bc0(const void* data, const CC0D30Registry& registry, const void* pClassInfo, void* out,
-                                  int flags);
-CC0D30Result __cdecl FUN_00cc0d30(const void* data, const void* pClassInfo, void* out, int flags);
 struct S_00cc0d60_R
 {
     char v;
@@ -85,12 +94,7 @@ struct S_00cc0d60_A
     int unkC;
     int unk10;
     int unk14;
-    void FUN_00d4c220();
-    void FUN_00d4c2d0(void* a, int b);
-    void FUN_00d4c250();
 };
-S_00cc0d60_R* FUN_00cc0d30(void** pa, S_00cc0d60_A* a, void* b, int c, int d);
-S_00cc0d60_R FUN_00cc0d60(void* a2, void* a3, int a4, int a5, int a6);
 struct Allocator
 {
     virtual void* unk0();
@@ -109,7 +113,6 @@ struct hkBool
     }
 };
 struct PtrList;
-void __cdecl ResizeAudioStream(void* a, PtrList* l, unsigned int n);
 struct PtrList
 {
     void** m_00;
@@ -133,34 +136,23 @@ struct Obj70
 {
     unsigned int unk00;
     unsigned short m_04;
-    Obj70* FUN_00d4bab0(void* v);
 };
 struct Obj110
 {
     unsigned int unk00;
     unsigned short m_04;
-    Obj110* FUN_00d4aa70(void* v);
 };
 struct Obj80
 {
     unsigned int unk00;
     unsigned short m_04;
-    Obj80* FUN_00d49750(void* v);
 };
 struct TypeMatcher
 {
-    hkBool FUN_00d46d80(void* v);
 };
 struct GlobalObjectO2_00d472a0 : TypeMatcher
 {
 };
-extern GlobalObjectO2_00d472a0 g_01268f2c;
-extern GlobalObjectO2_00d472a0 g_01268e24;
-extern GlobalObjectO2_00d472a0 g_01268c5c;
-extern GlobalObjectO2_00d472a0 g_01268bcc;
-extern GlobalObjectO2_00d472a0 g_01268eb4;
-extern GlobalObjectO2_00d472a0 g_01268d4c;
-extern GlobalObjectO2_00d472a0 g_01268c14;
 struct FUN_00cc08f0_cls
 {
     unsigned int unk00;
@@ -196,15 +188,12 @@ inline hkMemoryRouterS* getRouter()
 }
 
 struct HavokElementArray;
-void __cdecl ResizeAudioStream(void* alloc, void* arr, int elemSize);
 
 struct hkClassS
 {
-    const char* FUN_00d46d40() const;
 };
 struct hkReferencedObjectS
 {
-    void FUN_00c905b0();
 };
 struct hkStringPtr
 {
@@ -221,11 +210,9 @@ struct hkRefVariantS
     __forceinline ~hkRefVariantS()
     {
         if (m_pRetainedObject)
-            m_pRetainedObject->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pRetainedObject))->FUN_00c905b0();
         m_pRetainedObject = 0;
     }
-    void FUN_00d47770(const void* object, const hkClassS* pClassInfo);
-    const hkClassS* FUN_00d477a0() const;
 };
 struct NamedVariantS
 {
@@ -240,9 +227,9 @@ struct NamedVariantS
 
     __forceinline void set(const char* name, const void* object, const hkClassS* pClassInfo)
     {
-        m_name = name;
-        m_pReferencedResource.FUN_00d47770(object, pClassInfo);
-        m_pClassName = m_pReferencedResource.FUN_00d477a0() ? m_pReferencedResource.FUN_00d477a0()->FUN_00d46d40() : 0;
+        reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(m_name))->FUN_00cb0c10(name);
+        reinterpret_cast<::FUN_00d47770 *>(&(m_pReferencedResource))->SetObject((::hkReferencedObject *)(object), (int)(pClassInfo));
+        reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(m_pClassName))->FUN_00cb0c10(((const ::hkClassS *)(reinterpret_cast<::ReferencedObjectHolder *>((void *)&(m_pReferencedResource))->FUN_00d477a0())) ? reinterpret_cast<::FnvClassNameNode *>((void *)(((const ::hkClassS *)(reinterpret_cast<::ReferencedObjectHolder *>((void *)&(m_pReferencedResource))->FUN_00d477a0()))))->FUN_00d46d40() : 0);
     }
 };
 inline void* operator new(unsigned int, void* p)
@@ -276,7 +263,7 @@ struct NamedVariantArray
     {
         hkMemoryAllocator& a = getRouter()->heap();
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
-            ResizeAudioStream(&a, this, sizeof(NamedVariantS));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&a), (::AudioStream *)(void *)(this), sizeof(NamedVariantS));
         new (m_data + m_iElementCount) NamedVariantS();
         return m_data[m_iElementCount++];
     }
@@ -294,13 +281,12 @@ struct hkResultS
     int m_pClassEnum;
     hkResultS();
 };
-extern int DAT_01268b54;
 hkResultS __cdecl FUN_00cc0b50(const void* object, const void* pClassInfo, int a3, int a4, int a5, int a6);
 
 // @fnv 0x00cc0bc0
 hkResultS __cdecl FUN_00cc0bc0(const void* object, const hkClassS& pClassInfo, int a3, int a4, int a5)
 {
     hkRootLevelContainerS container;
-    container.m_kNamedVariants.AllocatePair().set(pClassInfo.FUN_00d46d40(), object, &pClassInfo);
-    return FUN_00cc0b50(&container, &DAT_01268b54, a3, a4, a5, 0);
+    container.m_kNamedVariants.AllocatePair().set(reinterpret_cast<::FnvClassNameNode *>((void *)&(pClassInfo))->FUN_00d46d40(), object, &pClassInfo);
+    return FUN_00cc0b50(&container, &(*reinterpret_cast<int *>(&::g_01268b54)), a3, a4, a5, 0);
 }

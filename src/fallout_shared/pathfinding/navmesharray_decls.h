@@ -1,6 +1,8 @@
 #ifndef NAVMESHARRAY_DECLS_H
 #define NAVMESHARRAY_DECLS_H
 
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/symbols_00464000.h"
 class NavMesh;
 template <class T> class NiPointer
 {
@@ -13,8 +15,6 @@ typedef NiPointer<NavMesh> NavMeshPtr;
 class GlobalObject_00869f00
 {
   public:
-    unsigned int GetSize();
     NavMesh*& GetAt(unsigned int);
 };
-NavMeshPtr MakeNavMeshPointer(NavMesh*);
 #endif

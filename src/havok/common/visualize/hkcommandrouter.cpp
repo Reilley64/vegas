@@ -2,6 +2,12 @@
 // src/havok/common/visualize/hkcommandrouter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/hkcommandrouter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/DD8FE0_Stream.h"
+#include "fnv/decl/StringBuf.h"
+#include "fnv/decl/fnv_00cb1870__hkMapBaseCB18.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00dda000.h"
 struct FUN_00dd95b0_Source
 {
     virtual void ReportDiagnostic();
@@ -51,7 +57,6 @@ struct MessageContext
 MessageContext* __cdecl FUN_00c85750();
 struct MessageSink
 {
-    void __thiscall FUN_00cb1870(void* active, unsigned int value, InputProvider* source);
 };
 struct MessageProcessor
 {
@@ -71,7 +76,7 @@ void MessageProcessor::ProcessInputData(InputProvider* source)
     {
         unsigned char value = bytes[i];
         MessageContext* context = FUN_00c85750();
-        sink.FUN_00cb1870(context->active, value, source);
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(sink))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(context->active)), value, (unsigned int)(source));
     }
 }
 
@@ -124,7 +129,6 @@ struct S_00dd9660_Router
     }
 };
 
-int __cdecl FUN_00c908c0(S_00dd9660_Heap& alloc, void* arr, int reqCapacity, int elemSize) throw();
 
 struct S_00dd9660_CharArray
 {
@@ -143,7 +147,7 @@ struct S_00dd9660_CharArray
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(alloc, this, newSize, sizeof(char));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(char));
         }
     }
     __forceinline void _setSize(S_00dd9660_Heap& alloc, int n) throw()
@@ -201,7 +205,6 @@ struct S_00dd9660_StringBuf
     {
         m_kStringBuffer[0] = 0;
     }
-    void FUN_00d61d00(const char* fmt, ...) throw();
 };
 
 struct S_00dd9660_StreamReader;
@@ -213,20 +216,18 @@ struct S_00dd9660_IArchive
     S_00dd9660_StreamReader* m_pStreamReader;
     char m_bStreamResult;
 
-    void FUN_00dd8fe0(void* buf, int elemSize, int nelem);
-    void FUN_00ddac60(S_00dd9660_Vector4& v);
     S_00dd9660_Bool GetStreamResult();
 
     __forceinline hkUint8 read8u()
     {
         hkUint8 c;
-        FUN_00dd8fe0(&c, 1, 1);
+        reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&c, 1, 1);
         return c;
     }
     __forceinline hkUint64 read64u()
     {
         hkUint64 c;
-        FUN_00dd8fe0(&c, 8, 1);
+        reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&c, 8, 1);
         return c;
     }
 };
@@ -241,7 +242,6 @@ struct S_00dd9660_Process
 
 struct S_00dd9660_CommandMap
 {
-    int LookupBucketValue(unsigned long key, S_00dd9660_Process** out);
 };
 
 struct S_00dd9660_Handler
@@ -263,7 +263,7 @@ S_00dd9660_Bool S_00dd9660_Handler::ReadCommands(S_00dd9660_IArchive* stream)
         if (command != 0xf0)
         {
             S_00dd9660_Process* p;
-            if (m_kCommandMap.LookupBucketValue(command, &p) == 0 && p)
+            if (::LookupBucketValue((::DepthLimit *)&(m_kCommandMap), command, (int)(&p), {}) == 0 && p)
             {
                 p->ExecuteCommand(command);
             }
@@ -272,16 +272,16 @@ S_00dd9660_Bool S_00dd9660_Handler::ReadCommands(S_00dd9660_IArchive* stream)
                 S_00dd9660_Vector4 v;
                 if (command == 0xb0)
                 {
-                    stream->FUN_00ddac60(v);
+                    ::FUN_00ddac60((::FUN_00ddac60_Obj *)(stream));
                     hkUint64 id = stream->read64u();
                 }
                 else if (command == 0xb1)
                 {
-                    stream->FUN_00ddac60(v);
+                    ::FUN_00ddac60((::FUN_00ddac60_Obj *)(stream));
                 }
                 S_00dd9660_StringBuf buf;
                 buf.clear();
-                buf.FUN_00d61d00("VDB: Found a command (%x) with no handler. Could corrupt the stream.", command);
+                reinterpret_cast<::StringBuf *>(&(buf))->FUN_00d61d00("VDB: Found a command (%x) with no handler. Could corrupt the stream.", command);
             }
         }
     } while (stream->GetStreamResult() && command != 0xf0);

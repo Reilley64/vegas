@@ -1,5 +1,44 @@
 // bsshader/tallgrassshader.cpp: TallGrassShader, Self, ShaderRegister, TallGrassPrograms and more (25 functions)
 
+#include "fnv/decl/AAF40Updater.h"
+#include "fnv/decl/D3DRenderStateGroup.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_004bc320_shell.h"
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00ba3780_struct.h"
+#include "fnv/decl/FUN_00ba8d00_cls.h"
+#include "fnv/decl/FUN_00be1750_shell.h"
+#include "fnv/decl/FUN_00e7ecd0_cls.h"
+#include "fnv/decl/H_00ba39a0.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiCullingProperty.h"
+#include "fnv/decl/NiD3DGPUProgramCache.h"
+#include "fnv/decl/NiD3DPass.h"
+#include "fnv/decl/StageSet.h"
+#include "fnv/decl/StateGroup.h"
+#include "fnv/decl/fnv_00a815c0__NiShadeProperty.h"
+#include "fnv/decl/fnv_00a95190__NiShadeProperty.h"
+#include "fnv/decl/fnv_00baa570__FUN_00baa570.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00b97000.h"
+#include "fnv/symbols_00ba9000.h"
+#include "fnv/symbols_00be0000.h"
+#include "fnv/symbols_00e76000.h"
+#include "fnv/symbols_00e7e000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_010a1000.h"
+#include "fnv/symbols_010b8000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_011fa000.h"
+#include "fnv/symbols_011fd000.h"
+#include "fnv/symbols_01200000.h"
+#include "fnv/symbols_0126f000.h"
+#include "fnv/symbols_01272000.h"
 #include "tallgrassshader_decls.h"
 // Creates the constants object with the given count (defaulting to 5 when count is -1) if it does not already exist.
 // @fnv 0x00ba95e0
@@ -22,7 +61,6 @@ struct Prop
 };
 struct PropHelper
 {
-    Prop* GetProperty(unsigned int);
 };
 struct Node;
 struct Obj
@@ -50,9 +88,9 @@ void FUN_00ba90a0(Obj* apObj)
         return;
     if (apObj->v7())
     {
-        Prop* p = ((PropHelper*)apObj)->GetProperty(3);
+        Prop* p = ((::Prop *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)apObj)))->FUN_00a59d30(3)));
         if (p)
-            p->FUN_00ba8d00((p->flags & 0x10) <= 0);
+            reinterpret_cast<::FUN_00ba8d00_cls *>((p))->FUN_00ba8d00((p->flags & 0x10) <= 0);
         return;
     }
     Node* n = apObj->v3();
@@ -78,7 +116,6 @@ struct Prop
 };
 struct PropHelper
 {
-    Prop* GetProperty(unsigned int);
 };
 struct Node;
 struct Obj
@@ -106,9 +143,9 @@ void FUN_00ba9120(Obj* pObj, int a)
         return;
     if (pObj->v7())
     {
-        Prop* p = ((PropHelper*)pObj)->GetProperty(3);
+        Prop* p = ((::fnv_00ba9120::Prop *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)pObj)))->FUN_00a59d30(3)));
         if (p)
-            p->FUN_00ba8d00(a);
+            reinterpret_cast<::FUN_00ba8d00_cls *>((p))->FUN_00ba8d00(a);
         return;
     }
     Node* n = pObj->v3();
@@ -135,7 +172,6 @@ struct Prop
 };
 struct PropHelper
 {
-    Prop* GetProperty(unsigned int);
 };
 struct Node;
 struct Obj
@@ -163,7 +199,7 @@ void FUN_00ba91a0(Obj* pObj, int a, bool b)
         return;
     if (pObj->v6())
     {
-        Prop* p = ((PropHelper*)pObj)->GetProperty(3);
+        Prop* p = ((::fnv_00ba91a0::Prop *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)pObj)))->FUN_00a59d30(3)));
         if (p)
             p->FUN_00441130(a, b);
         return;
@@ -188,7 +224,7 @@ void __fastcall FUN_00ba9230(void** self, int)
 {
     void* p = self[1];
     self[0] = &DAT_010b8480;
-    g_memoryManager.Deallocate(p);
+    reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
 }
 
 struct BSFadeNode
@@ -236,13 +272,10 @@ struct S
     char pad[0x24];
     T* t;
 };
-extern S* DAT_0126f74c;
-extern int DAT_011f95e4;
-extern int DAT_011f95e8;
 // @fnv 0x00bac8d0
 void __stdcall FUN_00bac8d0(unsigned int k)
 {
-    S* g = DAT_0126f74c;
+    S* g = (*reinterpret_cast<::S * *>(&::DAT_0126f74c));
     if ((k >= 0x1c && k <= 0x25) || k - 0x262 <= 9)
     {
         g->t->a->f = DAT_011f95e4;
@@ -258,7 +291,6 @@ void __stdcall FUN_00bac8d0(unsigned int k)
 namespace fnv_00bac950 {
 struct TextureReceiver
 {
-    void* FUN_004bc320(int);
 };
 struct Poly
 {
@@ -338,9 +370,6 @@ struct GeomStub
 {
     Inner* in;
 };
-extern GeomStub** DAT_011f91e0;
-extern unsigned int DAT_011f91e4;
-extern Cx* DAT_0126f74c;
 struct Self
 {
     virtual void s0();
@@ -416,26 +445,25 @@ struct Self
 // @fnv 0x00bac950
 int Self::FUN_00bac950(Arg* arg)
 {
-    unsigned int k = DAT_011f91e4;
+    unsigned int k = ::DAT_011f91e4;
     Poly* p = arg->p;
-    Slot* a = DAT_0126f74c->t->a;
+    Slot* a = (*reinterpret_cast<::fnv_00bac950::Cx * *>(&::DAT_0126f74c))->t->a;
     a->f = p->s45();
     if (k - 0x284 <= 3)
     {
-        Slot* b = DAT_0126f74c->t->b;
-        b->f = DAT_011f91e0[3]->in->tr->FUN_004bc320(0);
+        Slot* b = (*reinterpret_cast<::fnv_00bac950::Cx * *>(&::DAT_0126f74c))->t->b;
+        b->f = ((void *)(reinterpret_cast<::FUN_004bc320_shell *>(((*reinterpret_cast<::fnv_00bac950::GeomStub ** *>(&::DAT_011f91e0))[3]->in->tr))->FUN_004bc320(0)));
     }
     return s66();
 }
 }  // namespace fnv_00bac950
 
-void __fastcall FUN_00baa570(void*);
 void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 // Calls FUN_00baa570 on self, then if bit 0 of flags is set calls __Dummy_00b6fef0 with self and 0x1e0, and returns self.
 // @fnv 0x00baced0
 void* __fastcall FUN_00baced0(void* self, int, unsigned int flags)
 {
-    FUN_00baa570(self);
+    reinterpret_cast<::fnv_00baa570::FUN_00baa570 *>((self))->fnv_00baa570::FUN_00baa570::~FUN_00baa570();
     if (flags & 1)
         __Dummy_00b6fef0(self, 0x1e0);
     return self;
@@ -444,18 +472,14 @@ void* __fastcall FUN_00baced0(void* self, int, unsigned int flags)
 struct NiTexture;
 struct ImageSpaceTexture
 {
-    NiTexture* GetTexture() const;
-    void AddRenderedTexture();
-    void FUN_00ba38b0();
 };
-extern ImageSpaceTexture DAT_012005a4;
 // @fnv 0x00bad4a0
 void FUN_00bad4a0()
 {
-    if (DAT_012005a4.GetTexture())
+    if (((::NiTexture *)(reinterpret_cast<::FUN_00ba3780_struct *>((void *)&((*reinterpret_cast<::ImageSpaceTexture *>(&::DAT_012005a4))))->FUN_00ba3780())))
     {
-        DAT_012005a4.AddRenderedTexture();
-        DAT_012005a4.FUN_00ba38b0();
+        reinterpret_cast<::H_00ba39a0 *>(&((*reinterpret_cast<::ImageSpaceTexture *>(&::DAT_012005a4))))->FUN_00ba39a0();
+        reinterpret_cast<::Holder *>(&((*reinterpret_cast<::ImageSpaceTexture *>(&::DAT_012005a4))))->FUN_00ba38b0();
     }
 }
 
@@ -520,16 +544,12 @@ struct G4_bacd00
 {
     int a, b, c, d;
 };
-extern G4_bacd00 DAT_011a9bd0;
-extern G4_bacd00 DAT_01200570;
-extern int _fnv_particle_shader_renderer_level;
-extern MemoryManager _g_memoryManager;
 struct Elem_bacd00
 {
     float f[4];
     static void* operator new[](unsigned int s)
     {
-        return _g_memoryManager.Allocate(s);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(s);
     }
 };
 struct FUN_00bacd00 : BSShader
@@ -556,8 +576,8 @@ FUN_00bacd00::FUN_00bacd00(RefObj_bacd00* pDecl)
     m_i68 = 6;
     m_spDecl = pDecl;
     m_f11c = 0.0f;
-    DAT_01200570 = DAT_011a9bd0;
-    if (_fnv_particle_shader_renderer_level >= 2)
+    (*reinterpret_cast<::G4_bacd00 *>(&::DAT_01200570)) = (*reinterpret_cast<::G4_bacd00 *>(&::DAT_011a9bd0));
+    if (::DAT_011f91c0 >= 2)
         m_usElementCount = 0xe4;
     else
         m_usElementCount = 0x50;
@@ -616,21 +636,18 @@ struct NiD3DVertexDeclaration
     virtual void d43();
     virtual void d44();
     virtual void Finish();
-    static NiD3DVertexDeclaration* Create(NiRenderer*, unsigned int, unsigned int);
 };
-extern NiRenderer* DAT_011f9508;
-extern __declspec(thread) int QMemContextTls[0x2b8 / 4];
 struct QAutoMemContext
 {
     int m_eMemoryContext;
     QAutoMemContext(int iNew)
     {
-        m_eMemoryContext = QMemContextTls[0x2b4 / 4];
-        QMemContextTls[0x2b4 / 4] = iNew;
+        m_eMemoryContext = (*reinterpret_cast<int (*)[174]>(&::g_tlsBlock))[0x2b4 / 4];
+        (*reinterpret_cast<int (*)[174]>(&::g_tlsBlock))[0x2b4 / 4] = iNew;
     }
     ~QAutoMemContext()
     {
-        QMemContextTls[0x2b4 / 4] = m_eMemoryContext;
+        (*reinterpret_cast<int (*)[174]>(&::g_tlsBlock))[0x2b4 / 4] = m_eMemoryContext;
     }
 };
 struct FUN_00bacd00 : BSFadeNode
@@ -723,7 +740,7 @@ struct FUN_00bacd00 : BSFadeNode
 FUN_00bacd00* CreateShaderFadeNode()
 {
     QAutoMemContext tempMemContext(0x1c);
-    NiD3DVertexDeclaration* m_pVertexDeclaration1 = NiD3DVertexDeclaration::Create(DAT_011f9508, 5, 1);
+    NiD3DVertexDeclaration* m_pVertexDeclaration1 = ((::fnv_00bacf00::NiD3DVertexDeclaration *)(::FUN_00e76700((::NiRenderer *)((*reinterpret_cast<::fnv_00bacf00::NiRenderer * *>(&::DAT_011f9508))), 5, 1)));
     m_pVertexDeclaration1->SetEntry(0, 0, 0, 2, 0);
     m_pVertexDeclaration1->SetEntry(1, 3, 3, 2, 0);
     m_pVertexDeclaration1->SetEntry(2, 5, 4, 3, 0);
@@ -812,7 +829,6 @@ struct NiPropertyState_stub
     virtual void v67();
     virtual void v68();
     virtual void v69();
-    void FUN_00a81430(FUN_00ba8e50*, unsigned int);
 };
 struct FUN_00ba8ff0_shell : NiPropertyState_stub
 {
@@ -830,7 +846,7 @@ struct FUN_00ba8ff0_shell : NiPropertyState_stub
 FUN_00ba8e50* FUN_00ba8ff0_shell::CreatePropertyStateCopy(unsigned int uiPass)
 {
     FUN_00ba8e50* pResult = new FUN_00ba8e50;
-    FUN_00a81430(pResult, uiPass);
+    reinterpret_cast<::NiCullingProperty *>(this)->FUN_00a81430(pResult, (*(::CloningProcess *)(uiPass)));
     *(int*)((char*)pResult + 0x20) = f20;
     *(int*)((char*)pResult + 0x24) = f24;
     *(float*)((char*)pResult + 0x28) = f28;
@@ -859,7 +875,6 @@ static __forceinline void S_BinRead(S_00ba9380_Bin* bin, void* v, unsigned int b
 }
 struct FUN_00ba9380_cls
 {
-    void SaveToStream(void* pOther);
     void FUN_00ba9380(void* pOther);
 };
 // Calls SaveToStream, then reads four 4-byte values from the stream at pOther+0x250 into this+0x58, this+0x20, this+0x24 and this+0x30.
@@ -867,7 +882,7 @@ struct FUN_00ba9380_cls
 void FUN_00ba9380_cls::FUN_00ba9380(void* pOther)
 {
     char* pObj = (char*)pOther;
-    SaveToStream(pOther);
+    reinterpret_cast<::fnv_00a815c0::NiShadeProperty *>(this)->SaveToStream((*(::fnv_00a815c0::NiStream *)(pOther)));
     S_BinRead(*(S_00ba9380_Bin**)(pObj + 0x250), (char*)this + 0x58, 4);
     char* p = (char*)this + 0x20;
     for (int i = 0; i < 2; i++)
@@ -883,9 +898,7 @@ extern int DAT_00ffdead;
 
 struct S_00ba9520_Heap
 {
-    void FUN_00aa4060(void* p);
 };
-extern S_00ba9520_Heap DAT_011f6238;
 
 struct S_00ba9520_Entry
 {
@@ -911,7 +924,7 @@ struct S_00ba9520_Base
     ~S_00ba9520_Base()
     {
         unk00 = (int)&DAT_010b8480;
-        DAT_011f6238.FUN_00aa4060(unk04);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::S_00ba9520_Heap *>(&::g_memoryManager))))->FUN_00aa4060(unk04);
     }
 };
 
@@ -932,11 +945,11 @@ FUN_00ba9520::~FUN_00ba9520()
             pEntry->unk04 = 0;
             if (pEntry->unk0c != 0)
             {
-                DAT_011f6238.FUN_00aa4060(pEntry->unk0c);
+                reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::S_00ba9520_Heap *>(&::g_memoryManager))))->FUN_00aa4060(pEntry->unk0c);
                 pEntry->unk0c = 0;
             }
             pEntry->unk0b = 0;
-            DAT_011f6238.FUN_00aa4060(pEntry);
+            reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::S_00ba9520_Heap *>(&::g_memoryManager))))->FUN_00aa4060(pEntry);
         }
     }
     unk10 = &DAT_00ffdead;
@@ -951,59 +964,42 @@ struct TLS_bad060
     int m_iThreadLocalValue;
 };
 }
-extern __declspec(thread) TLS_bad060 tls_bad060;
 
 struct AutoMemContext_bad060
 {
     int m_eOldContext;
     AutoMemContext_bad060(int aeMemoryContext)
     {
-        m_eOldContext = tls_bad060.m_iThreadLocalValue;
-        tls_bad060.m_iThreadLocalValue = aeMemoryContext;
+        m_eOldContext = (*reinterpret_cast<::fnv_anon_00bad060::TLS_bad060 *>(&::g_tlsBlock)).m_iThreadLocalValue;
+        (*reinterpret_cast<::fnv_anon_00bad060::TLS_bad060 *>(&::g_tlsBlock)).m_iThreadLocalValue = aeMemoryContext;
     }
     ~AutoMemContext_bad060()
     {
-        tls_bad060.m_iThreadLocalValue = m_eOldContext;
+        (*reinterpret_cast<::fnv_anon_00bad060::TLS_bad060 *>(&::g_tlsBlock)).m_iThreadLocalValue = m_eOldContext;
     }
 };
 
-void __cdecl FUN_00e804d0(void*);
 
 struct Shader_bad060 : BSShader
 {
     NiPointer<NiD3DPass> m_aspPass[0x2c];
-    void ConfigureBeamPasses();
     bool FUN_00bad060();
 };
 
-// @fnv 0x00bad060
-bool Shader_bad060::FUN_00bad060()
-{
-    AutoMemContext_bad060 kContext(0x1c);
-    for (int i = 0; i < 0x2c; ++i)
-    {
-        FUN_00e804d0(&m_aspPass[i]);
-    }
-    ConfigureBeamPasses();
-    return true;
-}
-
-extern __declspec(thread) int gShaderAllocationContext;
 extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
-extern "C" char DAT_010a1e50, DAT_010af648, DAT_01011584;
-extern "C" char DAT_010b8c54, DAT_010b8c48, DAT_010b8c34, DAT_010b8c24;
+extern "C" char DAT_010af648;
+extern "C" char DAT_010b8c54, DAT_010b8c48, DAT_010b8c24;
 extern "C" char DAT_010b8c10, DAT_010b8bfc, DAT_010b8bec;
-extern "C" char DAT_011fd884, DAT_011fa280, DAT_011fa290, DAT_01200510;
 struct AllocationScope
 {
     int previous;
-    AllocationScope() : previous(gShaderAllocationContext)
+    AllocationScope() : previous((*reinterpret_cast<int *>(&::currentAllocationContext)))
     {
-        gShaderAllocationContext = 28;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 28;
     }
     ~AllocationScope()
     {
-        gShaderAllocationContext = previous;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = previous;
     }
 };
 struct ShaderVariableMap : RefObj_bacd00
@@ -1036,18 +1032,18 @@ void ShaderRegister::InitializeShaderVariableMaps()
     {
         mainGroup = new ShaderVariableMap(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x18), 0);
         static_cast<ShaderVariableMap*>(mainGroup.m_pObject)
-            ->Register(&DAT_010a1e50, 0x20000009, 0, 9, 4, 0, 0, 0, 0, 0);
+            ->Register(&(*reinterpret_cast<char *>((void *)&::DAT_010A1E50)), 0x20000009, 0, 9, 4, 0, 0, 0, 0, 0);
         static_cast<ShaderVariableMap*>(mainGroup.m_pObject)
-            ->Register(&DAT_010af648, 0x10000007, 0, 13, 1, &DAT_01011584, 0x10, 4, &DAT_011fd884, 0);
+            ->Register(&DAT_010af648, 0x10000007, 0, 13, 1, &(*reinterpret_cast<char *>((void *)&::DAT_01011584)), 0x10, 4, &DAT_011fd884, 0);
         static_cast<ShaderVariableMap*>(mainGroup.m_pObject)
-            ->Register(&DAT_010b8c54, 0x10000007, 0, 15, 1, &DAT_01011584, 0x10, 4, &DAT_011fa280, 0);
+            ->Register(&DAT_010b8c54, 0x10000007, 0, 15, 1, &(*reinterpret_cast<char *>((void *)&::DAT_01011584)), 0x10, 4, &(*reinterpret_cast<char *>((void *)&::DAT_011FA280)), 0);
         static_cast<ShaderVariableMap*>(mainGroup.m_pObject)
-            ->Register(&DAT_010b8c48, 0x10000007, 0, 14, 1, &DAT_01011584, 0x10, 4, &DAT_011fa290, 0);
+            ->Register(&DAT_010b8c48, 0x10000007, 0, 14, 1, &(*reinterpret_cast<char *>((void *)&::DAT_01011584)), 0x10, 4, &(*reinterpret_cast<char *>((void *)&::DAT_011FA290)), 0);
         static_cast<ShaderVariableMap*>(mainGroup.m_pObject)
-            ->Register(&DAT_010b8c34, 0x10000009, 0, 0, 9, &DAT_01011584, 0x90, 4, &DAT_01200510, 0);
+            ->Register(&(*reinterpret_cast<char *>((void *)&::DAT_010B8C34)), 0x10000009, 0, 0, 9, &(*reinterpret_cast<char *>((void *)&::DAT_01011584)), 0x90, 4, &DAT_01200510, 0);
         unsigned int count = *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(this) + 0x1ac);
         static_cast<ShaderVariableMap*>(mainGroup.m_pObject)
-            ->Register(&DAT_010b8c24, 0x10000009, 0, 20, count, &DAT_01011584, count << 4, 4,
+            ->Register(&DAT_010b8c24, 0x10000009, 0, 20, count, &(*reinterpret_cast<char *>((void *)&::DAT_01011584)), count << 4, 4,
                        *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x1a4), 0);
         *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x1a8) =
             static_cast<ShaderVariableMap*>(mainGroup.m_pObject)->Lookup(&DAT_010b8c24);
@@ -1056,13 +1052,13 @@ void ShaderRegister::InitializeShaderVariableMaps()
     {
         extraGroup = new ShaderVariableMap(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x18), 2);
         static_cast<ShaderVariableMap*>(extraGroup.m_pObject)
-            ->Register(&DAT_010b8c10, 0x10000007, 0, 2, 1, &DAT_01011584, 0x10, 4,
+            ->Register(&DAT_010b8c10, 0x10000007, 0, 2, 1, &(*reinterpret_cast<char *>((void *)&::DAT_01011584)), 0x10, 4,
                        reinterpret_cast<char*>(this) + 0x1b0, 0);
         static_cast<ShaderVariableMap*>(extraGroup.m_pObject)
-            ->Register(&DAT_010b8bfc, 0x10000007, 0, 4, 1, &DAT_01011584, 0x10, 4,
+            ->Register(&DAT_010b8bfc, 0x10000007, 0, 4, 1, &(*reinterpret_cast<char *>((void *)&::DAT_01011584)), 0x10, 4,
                        reinterpret_cast<char*>(this) + 0x1c0, 0);
         static_cast<ShaderVariableMap*>(extraGroup.m_pObject)
-            ->Register(&DAT_010b8bec, 0x10000007, 0, 3, 1, &DAT_01011584, 0x10, 4,
+            ->Register(&DAT_010b8bec, 0x10000007, 0, 3, 1, &(*reinterpret_cast<char *>((void *)&::DAT_01011584)), 0x10, 4,
                        reinterpret_cast<char*>(this) + 0x1d0, 0);
     }
 }
@@ -1077,7 +1073,6 @@ struct FUN_00bad400_Elem
 struct FUN_00ba3aa0_Arr
 {
     int unk00;
-    void SetAt(unsigned int index, FUN_00bad400_Elem* const& value);
 };
 struct FUN_00ba3d30_Base
 {
@@ -1102,7 +1097,7 @@ FUN_00bad400::~FUN_00bad400()
         {
             delete m1c[i];
             FUN_00bad400_Elem* none = 0;
-            m18.SetAt(i, none);
+            reinterpret_cast<::FUN_00a41520_cls *>(&(m18))->FUN_00ba3aa0(i, (::KeyPair **)&(none));
         }
     }
 }
@@ -1209,21 +1204,19 @@ struct Source215
     float z;
 };
 extern bool DAT_0120045c, DAT_0120045d, DAT_0120045e, DAT_011adcdc;
-extern Renderer215* DAT_011f9508;
 extern Matrix215 DAT_01200470, DAT_012004b0;
-extern Point215 DAT_012004f0;
 // If neither flag is set, copies the renderer's two matrices and the source's x/y/z point into globals and sets DAT_0120045e true and DAT_011adcdc false.
 // @fnv 0x00ba9420
 void FUN_00ba9420(const Source215* source)
 {
     if (!DAT_0120045c && !DAT_0120045d)
     {
-        DAT_01200470 = DAT_011f9508->first;
-        DAT_012004b0 = DAT_011f9508->second;
+        DAT_01200470 = (*reinterpret_cast<::Renderer215 * *>(&::DAT_011f9508))->first;
+        DAT_012004b0 = (*reinterpret_cast<::Renderer215 * *>(&::DAT_011f9508))->second;
         DAT_0120045e = true;
         DAT_011adcdc = false;
         Point215 point = {source->x, source->y, source->z};
-        DAT_012004f0 = point;
+        (*reinterpret_cast<::Point215 *>(&::DAT_012004f0)) = point;
     }
 }
 
@@ -1248,7 +1241,6 @@ struct S_00ba92c0_Stream;
 
 struct S_00ba92c0_Base
 {
-    void FUN_00a95190(S_00ba92c0_Stream& kStream);
 };
 
 struct S_00ba92c0_Stream
@@ -1448,7 +1440,7 @@ struct S_00ba92c0_Prop : S_00ba92c0_Base
 // @fnv 0x00ba92c0
 void S_00ba92c0_Prop::FUN_00ba92c0(S_00ba92c0_Stream& kStream)
 {
-    FUN_00a95190(kStream);
+    reinterpret_cast<::fnv_00a95190::NiShadeProperty *>(this)->FUN_00a95190((::fnv_00a95190::NiStream &)(kStream));
     S_00ba92c0_BinRead(kStream.m_pkBin, &unk58, 4);
     for (int i = 0; i < 2; ++i)
         S_00ba92c0_BinRead(kStream.m_pkBin, &m_auiFlags[i], 4);
@@ -1635,7 +1627,6 @@ struct GrassThreadMemory
     int unk2b0;
     int context;
 };
-extern "C" volatile unsigned int DAT_0126fd98;
 extern "C" unsigned long __readfsdword(unsigned long);
 struct GrassMemoryScope
 {
@@ -1643,7 +1634,7 @@ struct GrassMemoryScope
     int previous;
     GrassMemoryScope()
     {
-        unsigned int index = DAT_0126fd98;
+        unsigned int index = ::DAT_0126fd98;
         thread = ((GrassThreadMemory**)__readfsdword(0x2c))[index];
         previous = thread->context;
         thread->context = 28;
@@ -1706,12 +1697,7 @@ struct GrassShaderRef
         return *this;
     }
 };
-extern int DAT_011f91c0;
-extern bool DAT_011f948b, DAT_011f94a4, DAT_011f948a, DAT_011f9421;
-const char* __cdecl FUN_00b4f380(int);
 int __cdecl FUN_004dc060(int);
-void __cdecl FUN_00be0c00(const char*, char*);
-int __cdecl FUN_00406d00(char*, unsigned int, const char*, ...);
 struct TallGrassPrograms
 {
     int unk000;
@@ -1790,8 +1776,6 @@ struct TallGrassPrograms
     int unk124;
     GrassShaderRef vertexPrograms[24];
     GrassShaderRef pixelPrograms[7];
-    GrassShader* FUN_00be0fe0(const char*, GrassMacro*, const char*, const char*);
-    GrassShader* FUN_00be1750(const char*, GrassMacro*, const char*, const char*);
     void FUN_00baafc0();
 };
 inline GrassMacro* FindGrassMacroEnd(GrassShaderDescriptor* desc)
@@ -2103,7 +2087,7 @@ void TallGrassPrograms::FUN_00baafc0()
          {"PS_2_0", 0, "SHADOWMAP", "", "DEPTHBIAS", "-0.7", "SAMPLE", "4", "PASSES", "2", 0}},
 
     };
-    const char* shaderProfile = FUN_00b4f380(1);
+    const char* shaderProfile = ::NiD3DGPUProgramCache::GetPixelShaderProfile(1);
     char binaryShaderName[260];
     char sourcePath[260];
     if (DAT_011f91c0 != 1)
@@ -2116,15 +2100,15 @@ void TallGrassPrograms::FUN_00baafc0()
                 for (int index = 0; index < 24; index++)
                 {
                     FUN_00be0c00(vertex[index].source, sourcePath);
-                    FUN_00406d00(binaryShaderName, 260, "GRASS2%03i.vso", index);
+                    ::FUN_00406d00(binaryShaderName, 260, "GRASS2%03i.vso", index);
                     const char* vertexShaderProfile = "vs_2_0";
                     if (DAT_011f94a4 && DAT_011f948a)
                     {
-                        FUN_00406d00(binaryShaderName, 260, "GRASS23x%03i.vso", index);
+                        ::FUN_00406d00(binaryShaderName, 260, "GRASS23x%03i.vso", index);
                         vertexShaderProfile = "vs_3_0";
                     }
-                    vertexPrograms[index] = FUN_00be0fe0(sourcePath, (GrassMacro*)vertex[index].macros,
-                                                         vertexShaderProfile, binaryShaderName);
+                    vertexPrograms[index] = ((::GrassShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(sourcePath), (const char *)(::GrassMacro *)((GrassMacro*)vertex[index].macros),
+                                                         vertexShaderProfile)));
                 }
             }
         }
@@ -2133,15 +2117,15 @@ void TallGrassPrograms::FUN_00baafc0()
             for (int index = 0; index < 24; index++)
             {
                 FUN_00be0c00(vertex[index].source, sourcePath);
-                FUN_00406d00(binaryShaderName, 260, "GRASS2%03i.vso", index);
+                ::FUN_00406d00(binaryShaderName, 260, "GRASS2%03i.vso", index);
                 const char* vertexShaderProfile = "vs_2_0";
                 if (DAT_011f94a4 && DAT_011f948a)
                 {
-                    FUN_00406d00(binaryShaderName, 260, "GRASS23x%03i.vso", index);
+                    ::FUN_00406d00(binaryShaderName, 260, "GRASS23x%03i.vso", index);
                     vertexShaderProfile = "vs_3_0";
                 }
                 vertexPrograms[index] =
-                    FUN_00be0fe0(sourcePath, (GrassMacro*)vertex[index].macros, vertexShaderProfile, binaryShaderName);
+                    ((::GrassShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(sourcePath), (const char *)(::GrassMacro *)((GrassMacro*)vertex[index].macros), vertexShaderProfile)));
             }
         }
         for (int index = 0, pixelOffset = 0; pixelOffset < (int)sizeof(pixel);
@@ -2163,28 +2147,28 @@ void TallGrassPrograms::FUN_00baafc0()
                             reinterpret_cast<GrassShaderDescriptor*>(reinterpret_cast<char*>(pixel) + pixelOffset));
                         macro->name = "TRANSPARENCYMS";
                         macro->value = "";
-                        FUN_00406d00(binaryShaderName, 260, "GRASS2%03iTMS.pso", index);
+                        ::FUN_00406d00(binaryShaderName, 260, "GRASS2%03iTMS.pso", index);
                     }
                     else
-                        FUN_00406d00(binaryShaderName, 260, "GRASS2%03i.pso", index);
+                        ::FUN_00406d00(binaryShaderName, 260, "GRASS2%03i.pso", index);
                     FUN_00be0c00(
                         reinterpret_cast<GrassShaderDescriptor*>(reinterpret_cast<char*>(pixel) + pixelOffset)->source,
                         sourcePath);
                     if (DAT_011f94a4 && DAT_011f948a)
                     {
                         if (DAT_011f9421)
-                            FUN_00406d00(binaryShaderName, 260, "GRASS23x%03iTMS.pso", index);
+                            ::FUN_00406d00(binaryShaderName, 260, "GRASS23x%03iTMS.pso", index);
                         else
-                            FUN_00406d00(binaryShaderName, 260, "GRASS23x%03i.pso", index);
+                            ::FUN_00406d00(binaryShaderName, 260, "GRASS23x%03i.pso", index);
                         shaderProfile = "ps_3_0";
                     }
                     else
-                        shaderProfile = FUN_00b4f380(1);
-                    pixelPrograms[index] = FUN_00be1750(sourcePath,
+                        shaderProfile = ::NiD3DGPUProgramCache::GetPixelShaderProfile(1);
+                    pixelPrograms[index] = ((::GrassShader *)(reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750((char *)(sourcePath),
                                                         (GrassMacro*)reinterpret_cast<GrassShaderDescriptor*>(
                                                             reinterpret_cast<char*>(pixel) + pixelOffset)
                                                             ->macros,
-                                                        shaderProfile, binaryShaderName);
+                                                        (char *)(shaderProfile), (char *)(binaryShaderName))));
                 }
             }
             else
@@ -2197,27 +2181,27 @@ void TallGrassPrograms::FUN_00baafc0()
                     macro->name = "TRANSPARENCYMS";
                     macro->value = "";
                     if (DAT_011f94a4 && DAT_011f948a)
-                        FUN_00406d00(binaryShaderName, 260, "GRASS23x%03iTMS.pso", index);
+                        ::FUN_00406d00(binaryShaderName, 260, "GRASS23x%03iTMS.pso", index);
                     else
-                        FUN_00406d00(binaryShaderName, 260, "GRASS2%03iTMS.pso", index);
+                        ::FUN_00406d00(binaryShaderName, 260, "GRASS2%03iTMS.pso", index);
                 }
                 else
                 {
                     if (DAT_011f94a4 && DAT_011f948a)
-                        FUN_00406d00(binaryShaderName, 260, "GRASS23x%03i.pso", index);
+                        ::FUN_00406d00(binaryShaderName, 260, "GRASS23x%03i.pso", index);
                     else
-                        FUN_00406d00(binaryShaderName, 260, "GRASS2%03i.pso", index);
+                        ::FUN_00406d00(binaryShaderName, 260, "GRASS2%03i.pso", index);
                 }
                 if (DAT_011f94a4 && DAT_011f948a)
                     shaderProfile = "ps_3_0";
                 FUN_00be0c00(
                     reinterpret_cast<GrassShaderDescriptor*>(reinterpret_cast<char*>(pixel) + pixelOffset)->source,
                     sourcePath);
-                pixelPrograms[index] = FUN_00be1750(
-                    sourcePath,
+                pixelPrograms[index] = ((::GrassShader *)(reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750(
+                    (char *)(sourcePath),
                     (GrassMacro*)reinterpret_cast<GrassShaderDescriptor*>(reinterpret_cast<char*>(pixel) + pixelOffset)
                         ->macros,
-                    shaderProfile, binaryShaderName);
+                    (char *)(shaderProfile), (char *)(binaryShaderName))));
             }
         }
     }
@@ -2266,13 +2250,8 @@ FUN_00ba94b0::FUN_00ba94b0(unsigned int n) : MidLevel(n)
 
 struct State_c160
 {
-    void SetNodeValue(unsigned int, unsigned int, bool);
 };
-State_c160* FUN_00e7f5d0();
 int FUN_004dc060(int);
-extern bool DAT_011f941e, DAT_011f9421;
-extern unsigned int DAT_011f9534, DAT_011f948c;
-extern float DAT_01200458;
 struct Stage_c160
 {
     unsigned int unk00;
@@ -2300,16 +2279,13 @@ struct Stage_c160
     unsigned int unk58;
     unsigned int unk5c;
     unsigned int unk60;
-    void FUN_00e7ecd0();
     void DecRefCount()
     {
         --unk60;
         if (unk60 == 0)
-            FUN_00e7ecd0();
+            reinterpret_cast<::FUN_00e7ecd0_cls *>(this)->FUN_00e7ecd0();
     }
 };
-void AssignStageFromPool(Stage_c160**);
-void ConfigureBeamStage(Stage_c160*, int, int, int, int);
 struct StagePtr_c160
 {
     Stage_c160* object;
@@ -2327,7 +2303,7 @@ struct Scope_c160
     TLS_bad060* tls;
     Scope_c160()
     {
-        tls = &tls_bad060;
+        tls = &(*reinterpret_cast<::fnv_anon_00bad060::TLS_bad060 *>(&::g_tlsBlock));
         previous = tls->m_iThreadLocalValue;
         tls->m_iThreadLocalValue = 28;
     }
@@ -2362,12 +2338,11 @@ struct Pass_c160
     unsigned int unk54;
     unsigned int unk58;
     RefPtr_bacd00 vertex;
-    void FUN_00e802b0(unsigned int, Stage_c160*);
     void Set(unsigned int key, unsigned int value)
     {
         if (!state)
-            state = FUN_00e7f5d0();
-        state->SetNodeValue(key, value, true);
+            state = ((::State_c160 *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+        reinterpret_cast<::StateGroup *>((state))->SetNodeValue(key, value, true);
     }
 };
 struct Shader_c160 : BSShader
@@ -2380,6 +2355,17 @@ struct Shader_c160 : BSShader
     RefObj_bacd00* pixel[7];
     void ConfigureBeamPasses();
 };
+// @fnv 0x00bad060
+bool Shader_bad060::FUN_00bad060()
+{
+    AutoMemContext_bad060 kContext(0x1c);
+    for (int i = 0; i < 0x2c; ++i)
+    {
+        ::NiD3DPass::CreateD3DPass((*(::NiPointer< ::NiD3DPass> *)(&m_aspPass[i])));
+    }
+    reinterpret_cast<::Shader_c160 *>(this)->ConfigureBeamPasses();
+    return true;
+}
 // Configures up to 44 beam passes by assigning stages from a pool, setting node values, and linking vertex and pixel shader objects.
 // @fnv 0x00bac160
 void Shader_c160::ConfigureBeamPasses()
@@ -2393,10 +2379,10 @@ void Shader_c160::ConfigureBeamPasses()
         if (pass->unk18 < 1)
         {
             {
-                AssignStageFromPool(&stage.object);
+                ::AssignStageFromPool((*(::StageReturn * *)(&stage.object)));
                 Stage_c160* current = stage.object;
-                ConfigureBeamStage(current, 0, 3, 2, 0);
-                pass->FUN_00e802b0(pass->unk14, current);
+                ::ConfigureBeamStage((::BeamStage *)(current), 0, 3, 2, 0);
+                reinterpret_cast<::StageSet *>((pass))->FUN_00e802b0(pass->unk14, (::Stage321 *)(current));
             }
         }
         int pixelIndex;
@@ -2407,16 +2393,16 @@ void Shader_c160::ConfigureBeamPasses()
                 if (pass->unk18 < 3)
                 {
                     {
-                        AssignStageFromPool(&stage.object);
+                        ::AssignStageFromPool((*(::StageReturn * *)(&stage.object)));
                         Stage_c160* current = stage.object;
-                        ConfigureBeamStage(current, 1, 1, 2, 0);
-                        pass->FUN_00e802b0(pass->unk14, current);
+                        ::ConfigureBeamStage((::BeamStage *)(current), 1, 1, 2, 0);
+                        reinterpret_cast<::StageSet *>((pass))->FUN_00e802b0(pass->unk14, (::Stage321 *)(current));
                     }
                     {
-                        AssignStageFromPool(&stage.object);
+                        ::AssignStageFromPool((*(::StageReturn * *)(&stage.object)));
                         Stage_c160* current = stage.object;
-                        ConfigureBeamStage(current, 2, 1, 2, 0);
-                        pass->FUN_00e802b0(pass->unk14, current);
+                        ::ConfigureBeamStage((::BeamStage *)(current), 2, 1, 2, 0);
+                        reinterpret_cast<::StageSet *>((pass))->FUN_00e802b0(pass->unk14, (::Stage321 *)(current));
                     }
                 }
                 pixelIndex = 2;
@@ -2448,18 +2434,18 @@ void Shader_c160::ConfigureBeamPasses()
         if (pass->unk18 < 2)
         {
             {
-                AssignStageFromPool(&stage.object);
+                ::AssignStageFromPool((*(::StageReturn * *)(&stage.object)));
                 Stage_c160* current = stage.object;
-                ConfigureBeamStage(current, 0, 3, 2, 0);
-                pass->FUN_00e802b0(pass->unk14, current);
+                ::ConfigureBeamStage((::BeamStage *)(current), 0, 3, 2, 0);
+                reinterpret_cast<::StageSet *>((pass))->FUN_00e802b0(pass->unk14, (::Stage321 *)(current));
             }
             {
-                AssignStageFromPool(&stage.object);
+                ::AssignStageFromPool((*(::StageReturn * *)(&stage.object)));
                 Stage_c160* current = stage.object;
-                ConfigureBeamStage(current, 1, 3, 2, 0);
+                ::ConfigureBeamStage((::BeamStage *)(current), 1, 3, 2, 0);
                 current->unk08 = DAT_011f9534;
                 current->unk0c = 1;
-                pass->FUN_00e802b0(pass->unk14, current);
+                reinterpret_cast<::StageSet *>((pass))->FUN_00e802b0(pass->unk14, (::Stage321 *)(current));
             }
         }
         int pixelIndex;
@@ -2470,16 +2456,16 @@ void Shader_c160::ConfigureBeamPasses()
                 if (pass->unk18 < 4)
                 {
                     {
-                        AssignStageFromPool(&stage.object);
+                        ::AssignStageFromPool((*(::StageReturn * *)(&stage.object)));
                         Stage_c160* current = stage.object;
-                        ConfigureBeamStage(current, 2, 1, 2, 0);
-                        pass->FUN_00e802b0(pass->unk14, current);
+                        ::ConfigureBeamStage((::BeamStage *)(current), 2, 1, 2, 0);
+                        reinterpret_cast<::StageSet *>((pass))->FUN_00e802b0(pass->unk14, (::Stage321 *)(current));
                     }
                     {
-                        AssignStageFromPool(&stage.object);
+                        ::AssignStageFromPool((*(::StageReturn * *)(&stage.object)));
                         Stage_c160* current = stage.object;
-                        ConfigureBeamStage(current, 3, 1, 2, 0);
-                        pass->FUN_00e802b0(pass->unk14, current);
+                        ::ConfigureBeamStage((::BeamStage *)(current), 3, 1, 2, 0);
+                        reinterpret_cast<::StageSet *>((pass))->FUN_00e802b0(pass->unk14, (::Stage321 *)(current));
                     }
                 }
                 pixelIndex = 3;
@@ -2512,16 +2498,16 @@ void Shader_c160::ConfigureBeamPasses()
         if (pass->unk18 < 2)
         {
             {
-                AssignStageFromPool(&stage.object);
+                ::AssignStageFromPool((*(::StageReturn * *)(&stage.object)));
                 Stage_c160* current = stage.object;
-                ConfigureBeamStage(current, 0, 3, 2, 0);
-                pass->FUN_00e802b0(pass->unk14, current);
+                ::ConfigureBeamStage((::BeamStage *)(current), 0, 3, 2, 0);
+                reinterpret_cast<::StageSet *>((pass))->FUN_00e802b0(pass->unk14, (::Stage321 *)(current));
             }
             {
-                AssignStageFromPool(&stage.object);
+                ::AssignStageFromPool((*(::StageReturn * *)(&stage.object)));
                 Stage_c160* current = stage.object;
-                ConfigureBeamStage(current, 1, 3, 2, 0);
-                pass->FUN_00e802b0(pass->unk14, current);
+                ::ConfigureBeamStage((::BeamStage *)(current), 1, 3, 2, 0);
+                reinterpret_cast<::StageSet *>((pass))->FUN_00e802b0(pass->unk14, (::Stage321 *)(current));
             }
         }
         pass->Set(27, 1);
@@ -2532,7 +2518,7 @@ void Shader_c160::ConfigureBeamPasses()
         pass->Set(195, *reinterpret_cast<unsigned int*>(&value));
         pass->Set(152, 63);
         pass->vertex = vertex[j + 20];
-        pass->pixel = pixel[DAT_011f948c + 4];
+        pass->pixel = pixel[(*reinterpret_cast<unsigned int *>(&::DAT_011f948c)) + 4];
     }
 }
 
@@ -2794,20 +2780,11 @@ struct BloodSplatterShader
     int unk5c;
 };
 
-extern GeomStub** DAT_011f91e0;
-extern NiBound DAT_011f4288;
-extern unsigned char DAT_011f91a7;
 extern float DAT_011f9ee0, DAT_011f9ee4, DAT_011f9ee8, DAT_011f9eec;
-extern float DAT_011f940c;
-extern float DAT_011f9188;
-extern unsigned char DAT_011f9427;
-extern char DAT_011f91d8;
-extern float DAT_011fd890;
-extern float DAT_011fd874, DAT_011fd878, DAT_011adce0, DAT_011fd880;
+extern float DAT_011fd878, DAT_011adce0, DAT_011fd880;
 
 extern "C"
 {
-    extern V4_bacd00 DAT_011fa0c0;
     extern G4_bacd00 DAT_01200560;
     extern float DAT_0120055c;
     extern float DAT_01200530, DAT_01200534, DAT_01200538;
@@ -2815,11 +2792,9 @@ extern "C"
     extern V4_bacd00 DAT_01200590;
 }
 
-int __cdecl FUN_00b97f20(unsigned int a, unsigned int b, int c);
 
 struct BSParticleShader : FUN_00bacd00
 {
-    void FUN_00baaf40(GeomStub* geom, Param2* p2);
     void SetShaderParams(Param1* p1);
 };
 
@@ -2827,9 +2802,9 @@ struct BSParticleShader : FUN_00bacd00
 // @fnv 0x00bac9c0
 void BSParticleShader::SetShaderParams(Param1* p1)
 {
-    GeomStub* geom = *DAT_011f91e0;
+    GeomStub* geom = *(*reinterpret_cast<::GeomStub ** *>(&::DAT_011f91e0));
     void* world = &geom->m_kWorldSpaceTransform;
-    NiBound* bound = geom->m_pkWorldBound ? geom->m_pkWorldBound : &DAT_011f4288;
+    NiBound* bound = geom->m_pkWorldBound ? geom->m_pkWorldBound : &::g_defaultBound;
     int unk34 = geom->unkB8->unk34;
     int unkBC = geom->unkBC;
     Param2* p2 = p1->unk0C;
@@ -2838,7 +2813,7 @@ void BSParticleShader::SetShaderParams(Param1* p1)
 
     if (DAT_011f91a7)
     {
-        DAT_011fa0c0 = V4_bacd00(1.0f, 1.0f, 1.0f, 1.0f);
+        (*reinterpret_cast<::V4_bacd00 *>((void *)&::DAT_011FA0C0)) = V4_bacd00(1.0f, 1.0f, 1.0f, 1.0f);
     }
 
     *(G4_bacd00*)&DAT_01200560 = *(G4_bacd00*)&DAT_011f9ee0;
@@ -2849,7 +2824,7 @@ void BSParticleShader::SetShaderParams(Param1* p1)
     }
     else
     {
-        *(G4_bacd00*)&m_k3 = DAT_011a9bd0;
+        *(G4_bacd00*)&m_k3 = (*reinterpret_cast<::G4_bacd00 *>(&::DAT_011a9bd0));
     }
 
     m_f11c = (float)((DAT_011f940c / 3600.0) * (double)6.28318f * p2->unk7C->f34);
@@ -2872,16 +2847,16 @@ void BSParticleShader::SetShaderParams(Param1* p1)
     }
     DAT_01200538 = 1.0f;
 
-    FUN_00baaf40(geom, p2);
+    reinterpret_cast<::AAF40Updater *>(this)->FUN_00baaf40(geom, (::AAF40Object *)(p2));
 
     if (DAT_011f941e)
     {
         DAT_01200580 = DAT_011f9188;
     }
 
-    if (!DAT_011f9427 && DAT_011f95e4 && (DAT_011f91d8 & 0x20))
+    if (!DAT_011f9427 && DAT_011f95e4 && ((*reinterpret_cast<char *>(&::fnv_005bf7b0::DAT_011f91d8)) & 0x20))
     {
-        if (_fnv_particle_shader_renderer_level >= 2)
+        if (::DAT_011f91c0 >= 2)
         {
             if ((unsigned int)DAT_011fd890)
             {
@@ -2900,16 +2875,16 @@ void BSParticleShader::SetShaderParams(Param1* p1)
         }
     }
 
-    if (_fnv_particle_shader_renderer_level < 2 || !DAT_011f941e)
+    if (::DAT_011f91c0 < 2 || !DAT_011f941e)
     {
-        FUN_00b97f20((p1->unk00->word18 >> 10) & 7, p1->unk00->byte1A, 0);
+        ::FUN_00b97f20((p1->unk00->word18 >> 10) & 7, p1->unk00->byte1A, 0);
     }
 
     BSShaderFields* fields = (BSShaderFields*)this;
     PassHandler* pass = fields->unk30;
     if (pass)
     {
-        int unk44 = ((BloodSplatterShader*)DAT_0126f74c)->unk44;
+        int unk44 = ((BloodSplatterShader*)(*reinterpret_cast<::S * *>(&::DAT_0126f74c)))->unk44;
         if (unk44)
         {
             pass->vfunc30(unk44, geom, unkBC, 0, unk34, p1, 0, &geom->m_kWorldSpaceTransform, bound, 0, 1);
@@ -2918,7 +2893,7 @@ void BSParticleShader::SetShaderParams(Param1* p1)
     pass = fields->unk34;
     if (pass)
     {
-        int unk5c = ((BloodSplatterShader*)DAT_0126f74c)->unk5c;
+        int unk5c = ((BloodSplatterShader*)(*reinterpret_cast<::S * *>(&::DAT_0126f74c)))->unk5c;
         if (unk5c)
         {
             pass->vfunc30(unk5c, geom, unkBC, 0, unk34, p1, 0, &geom->m_kWorldSpaceTransform, bound, 0, 1);

@@ -1,5 +1,25 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nidynamicgeometrygroup.cpp: NiDynamicGeometryGroup, SomeClass, UnsharedGroupStub, Group and more (17 functions)
 
+#include <new>
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/FUN_00e98710_cls.h"
+#include "fnv/decl/HashTableBase.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiGeometryData.h"
+#include "fnv/decl/S_00b601a0_Map.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00537000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00e98000.h"
+#include "fnv/symbols_010f0000.h"
+#include "fnv/symbols_010f1000.h"
+#include "fnv/symbols_011bf000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_0126f000.h"
+#include "fnv/symbols_01400000.h"
 #include "nidynamicgeometrygroup_decls.h"
 // Constructs a NiDynamicGeometryGroup and initializes nextIndex to 0.
 // @fnv 0x00e957b0
@@ -24,6 +44,8 @@ struct NiGeometryBufferData
     unsigned int m_uiRegisterStreamCount;
     char pad2[4];
     NiVBChip** m_ppkVertexBuffers;
+public:
+    NiGeometryBufferData();
 };
 // @fnv 0x00e951e0
 void __stdcall FUN_00e951e0(NiGeometryBufferData* pkBuffData, unsigned int uiStream)
@@ -35,7 +57,7 @@ void __stdcall FUN_00e951e0(NiGeometryBufferData* pkBuffData, unsigned int uiStr
         {
             if (pkChip->m_pkOwningStream)
             {
-                pkChip->m_pkTreeBlock->NiObject::LinkObject(*pkChip->m_pkOwningStream);
+                ::FUN_00a89af0((int)(pkChip->m_pkTreeBlock));
                 pkChip->m_pkOwningStream = 0;
             }
             if (uiStream < pkBuffData->m_uiRegisterStreamCount)
@@ -49,8 +71,6 @@ struct BSFadeNode
     static void* __cdecl operator new(unsigned int);
 };
 
-extern NiGeometryGroup* DAT_0126fa34;
-extern void* DAT_010f1008;
 
 // Returns the cached NiGeometryGroup singleton, constructing it with BSFadeNode::operator new and initialising it if DAT_0126fa34 is null.
 // @fnv 0x00e94d70
@@ -63,7 +83,7 @@ NiGeometryGroup* __cdecl GetGeometryGroup()
         if (pkGroup != 0)
         {
             pkGroup->NiGeometryGroup::NiGeometryGroup();
-            *reinterpret_cast<void**>(pkGroup) = &DAT_010f1008;
+            *reinterpret_cast<void**>(pkGroup) = &(*reinterpret_cast<void * *>(&::DAT_010f1008));
             DAT_0126fa34 = pkGroup;
         }
         else
@@ -77,9 +97,7 @@ NiGeometryGroup* __cdecl GetGeometryGroup()
 void __cdecl _NiFreeAlias(void*);
 struct MM
 {
-    void __thiscall _DeallocateAlias(void*);
 };
-extern MM g_memoryManager;
 extern int DAT_010f1034;
 struct FUN_00e95780_shell
 {
@@ -95,39 +113,24 @@ void* __thiscall FUN_00e95780_shell::FUN_00e95780(unsigned int auiFlags)
     _0 = (void*)&DAT_010f1034;
     _NiFreeAlias(tmp);
     if (auiFlags & 1)
-        g_memoryManager._DeallocateAlias(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(this);
     return this;
 }
 
-void __cdecl FUN_00e95880();
 void __cdecl operator delete(void*, unsigned int);
 struct FUN_00e95b40_shell
 {
     virtual ~FUN_00e95b40_shell();
     void* __thiscall DestroyIfFlagged(unsigned int uiFlags);
 };
-// Calls FUN_00e95880, then deletes this with size 0x50 when bit 0 of uiFlags is set, and returns this.
-// @fnv 0x00e95b40
-void* __thiscall FUN_00e95b40_shell::DestroyIfFlagged(unsigned int uiFlags)
-{
-    FUN_00e95880();
-    if (uiFlags & 1)
-        operator delete(this, 0x50);
-    return this;
-}
-
 // Stand-ins for the unnamed/undeclared entities used by this function.
 struct NiTMapBaseStub
 {
-    void __thiscall RemoveAll();
 };
 
-extern MM _g_memoryManager;
 
 void __cdecl _NiFree(void*);
 
-extern void* vftable_DynamicMap;
-extern void* vftable_DynamicMapBase;
 
 // Minimal polymorphic stand-in for the DynamicMap<NiVBChip> class hierarchy.
 struct FUN_00e95380_shell
@@ -142,14 +145,14 @@ struct FUN_00e95380_shell
 // @fnv 0x00e95380
 void* __thiscall FUN_00e95380_shell::DestroyDynamicMap(unsigned int uiFlags)
 {
-    m_pVftable = &vftable_DynamicMap;
-    ((NiTMapBaseStub*)this)->RemoveAll();
-    m_pVftable = &vftable_DynamicMapBase;
-    ((NiTMapBaseStub*)this)->RemoveAll();
+    m_pVftable = &(*reinterpret_cast<void * *>(&::DAT_010f109c));
+    reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
+    m_pVftable = &(*reinterpret_cast<void * *>(&::DAT_010f105c));
+    reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
     _NiFree(m_pUnk08);
     if (uiFlags & 1)
     {
-        _g_memoryManager._DeallocateAlias(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(this);
     }
     return this;
 }
@@ -186,18 +189,15 @@ void* SomeClass::FUN_00a93c50(unsigned int uiIndex)
 
 struct Base_00b601a0
 {
-    void __thiscall FUN_00b601a0();
 };
 
 struct Base_00aa4060
 {
-    void __thiscall FUN_00aa4060(void*);
 };
 
 extern "C" void __cdecl FUN_00aa10f0(int);
 extern void* DAT_010f107c;
 extern void* DAT_010f103c;
-extern void* DAT_011f6238;
 
 struct S_00e95300
 {
@@ -212,13 +212,13 @@ struct S_00e95300
 S_00e95300* __thiscall S_00e95300::FUN_00e95300(int aiFlags)
 {
     m_vftable = &DAT_010f107c;
-    ((Base_00b601a0*)this)->FUN_00b601a0();
+    reinterpret_cast<::S_00b601a0_Map *>((((Base_00b601a0*)this)))->FUN_00b601a0();
     m_vftable = &DAT_010f103c;
-    ((Base_00b601a0*)this)->FUN_00b601a0();
+    reinterpret_cast<::S_00b601a0_Map *>((((Base_00b601a0*)this)))->FUN_00b601a0();
     FUN_00aa10f0((int)m_unk08);
     if (aiFlags & 1)
     {
-        ((Base_00aa4060*)&DAT_011f6238)->FUN_00aa4060(this);
+        reinterpret_cast<::FNV_MemoryManager *>((((Base_00aa4060*)&(*reinterpret_cast<void * *>(&::g_memoryManager)))))->FUN_00aa4060(this);
     }
     return this;
 }
@@ -226,10 +226,7 @@ S_00e95300* __thiscall S_00e95300::FUN_00e95300(int aiFlags)
 namespace fnv_00e95500 {
 struct MemoryManager
 {
-    void* __thiscall FUN_00aa3e40(unsigned int);
 };
-extern MemoryManager DAT_011f6238;
-extern char DAT_01400000;
 struct Buffer
 {
     unsigned int unk00;
@@ -237,7 +234,6 @@ struct Buffer
     unsigned int unk08, unk0c, unk10, unk14, unk18, unk1c;
     unsigned int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
     unsigned int unk40, unk44, unk48, unk4c, unk50;
-    Buffer* __thiscall FUN_00e947c0();
 };
 struct Destination
 {
@@ -247,7 +243,6 @@ struct Destination
 };
 struct FUN_00e95500_Class
 {
-    void __thiscall FUN_00e98730(Buffer*);
     void __thiscall EnsureBuffer(Destination*);
 };
 // If destination->buffer1c is null, allocates a 0x54-byte Buffer, initializes it, stores it in buffer1c, calls FUN_00e98730, and sets index18 to 0xffff.
@@ -256,12 +251,12 @@ void FUN_00e95500_Class::EnsureBuffer(Destination* destination)
 {
     if (destination->buffer1c == 0)
     {
-        Buffer* ptr = static_cast<Buffer*>(DAT_011f6238.FUN_00aa3e40(0x54));
-        Buffer* newBuffer = ptr ? ptr->FUN_00e947c0() : 0;
+        Buffer* ptr = static_cast<Buffer*>(reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00e95500::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(0x54));
+        Buffer* newBuffer = ptr ? ((::fnv_00e95500::Buffer *)(new ((void *)(ptr)) ::NiGeometryBufferData())) : 0;
         newBuffer->unk3c = 4;
         destination->buffer1c = newBuffer;
-        newBuffer->unk04 = &DAT_01400000;
-        FUN_00e98730(newBuffer);
+        newBuffer->unk04 = &(*reinterpret_cast<char *>(&::DAT_01400000));
+        ::FUN_00e98730((int)this, (int)(newBuffer), {});
         destination->index18 = 0xffff;
     }
 }
@@ -272,16 +267,11 @@ struct RttiStub
     const char* m_pcName;
     const RttiStub* m_pBaseRTTI;
 };
-extern const RttiStub kRtti_TriShapeData;
-extern const RttiStub kRtti_TriStripsData;
 
 struct MemMgrStub
 {
-    void* Allocate(unsigned int uiSize);
 };
-extern MemMgrStub g_kMemMgrStub;
 
-extern int DAT_011bf558;
 
 struct GeomDataStub
 {
@@ -302,10 +292,8 @@ struct GeomDataStub
     int unk2c;
     int unk30;
     struct BuffDataStub* m_pkGeometryRendererData;
-    void SetConsistencyMask(unsigned short usMask);
 };
 
-bool __cdecl IsKindOfStub(const RttiStub* pkRTTI, GeomDataStub* pkObject);
 
 inline bool IsKindOfInline(const RttiStub* pkRTTI, GeomDataStub* pkObject)
 {
@@ -320,7 +308,7 @@ struct BuffDataStub
     BuffDataStub() throw();
     static void* operator new(unsigned int uiSize)
     {
-        return g_kMemMgrStub.Allocate(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemMgrStub *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }
     int unk00;
     unsigned int m_uiValue1;
@@ -363,7 +351,6 @@ struct PartitionStub
 
 struct UnsharedGroupStub
 {
-    void AddToBuffer(BuffDataStub* pkBuffData);
     void CreateBufferData(GeomDataStub* pkData, bool bHasAnimation, PartitionStub* pkPartition);
 };
 
@@ -384,9 +371,9 @@ void UnsharedGroupStub::CreateBufferData(GeomDataStub* pkData, bool abUnused, Pa
         if (pkData->m_pkGeometryRendererData)
             return;
         pkBuffData = new BuffDataStub;
-        if (IsKindOfInline(&kRtti_TriShapeData, pkData))
+        if (IsKindOfInline(&(*reinterpret_cast<const ::RttiStub *>(&::g_011f4a88)), pkData))
             pkBuffData->m_uiType = 4;
-        else if (IsKindOfStub(&kRtti_TriStripsData, pkData))
+        else if (::FUN_0043b300((const ::NiRTTI *)(const ::RttiStub *)(&(*reinterpret_cast<const ::RttiStub *>(&::g_011f4a70))), (::NiAVObject *)(pkData)))
             pkBuffData->m_uiType = 5;
         pkData->m_pkGeometryRendererData = pkBuffData;
     }
@@ -395,8 +382,8 @@ void UnsharedGroupStub::CreateBufferData(GeomDataStub* pkData, bool abUnused, Pa
     bool bHasNormals = pkData->m_pkNormal != 0;
     bool bBinormals = bHasNormals && (pkData->m_usFlags & 0xf000);
     unsigned int uiT = pkData->m_usFlags & 1;
-    if (uiT > (unsigned int)DAT_011bf558)
-        uiT = DAT_011bf558;
+    if (uiT > (unsigned int)(*reinterpret_cast<int *>(&::DAT_011bf558)))
+        uiT = (*reinterpret_cast<int *>(&::DAT_011bf558));
     unsigned int uiFlags = 0;
     if (bColors)
         uiFlags = 0x400000;
@@ -405,8 +392,8 @@ void UnsharedGroupStub::CreateBufferData(GeomDataStub* pkData, bool abUnused, Pa
     if (bBinormals)
         uiFlags |= 0x200000;
     pkBuffData->m_uiValue1 = (uiT << 24) | uiFlags;
-    AddToBuffer(pkBuffData);
-    pkData->SetConsistencyMask(0xffff);
+    ::FUN_00e98730((int)this, (int)(pkBuffData), {});
+    reinterpret_cast<::NiGeometryData *>((pkData))->SetDirtyFlags(0xffff);
 }
 
 struct ByteFlag
@@ -421,7 +408,6 @@ struct ByteFlag
 };
 struct MemoryAllocationProvider
 {
-    void* AllocateStream(unsigned int, unsigned int*, unsigned int*, bool, ByteFlag);
 };
 struct Chip
 {
@@ -433,7 +419,6 @@ struct Chip
     unsigned int stride;
 };
 MemoryAllocationProvider* __cdecl CreateBufferSetData(unsigned int, void*, unsigned int, unsigned int);
-Chip* __cdecl FUN_00537d60(unsigned int, void*, unsigned int, unsigned int, unsigned int);
 template <class T> struct Map
 {
     unsigned int vtable, size;
@@ -471,83 +456,6 @@ struct Group
     unsigned int nextIndex;
     Chip* GetOrCreateChip(Data*, unsigned int);
 };
-// @fnv 0x00e95550
-Chip* Group::GetOrCreateChip(Data* data, unsigned int stream)
-{
-    Chip* chip = 0;
-    unsigned int count = data->count;
-    unsigned int key = data->key;
-    unsigned int length = stream < count ? data->lengths[stream] : 0;
-    unsigned int stride = data->stride * length;
-    unsigned int size = 0;
-    unsigned int offset = 0;
-    if (count > 1)
-    {
-        if (streamSets.capacity < count)
-        {
-            streamSets.FUN_00a90180(count);
-            streamChips.FUN_00a90180(count);
-        }
-        if (nextIndex >= streamSets.capacity)
-            nextIndex = 0;
-        MemoryAllocationProvider* set = streamSets.data[nextIndex];
-        if (!set)
-        {
-            set = CreateBufferSetData(2048, device, 0, 0);
-            streamSets.FUN_00ba3aa0(nextIndex, set);
-        }
-        ByteFlag flag(data->flag);
-        void* buffer = set->AllocateStream(stride, &size, &offset, true, flag);
-        Chip* branchChip = streamChips.data[nextIndex];
-        if (!branchChip)
-        {
-            branchChip = FUN_00537d60(0, buffer, size, stride, 0);
-            chip = branchChip;
-            streamChips.FUN_00ba3aa0(nextIndex, chip);
-        }
-        else
-        {
-            branchChip->buffer = buffer;
-            branchChip->size = size;
-            branchChip->stride = stride;
-        }
-        branchChip->set = set;
-        branchChip->offset = offset;
-        data->result = 0;
-        ++nextIndex;
-        return branchChip;
-    }
-    else
-    {
-        MemoryAllocationProvider* set = 0;
-        unsigned int mapKey = key ? key : length | 0x80000000;
-        if (!sets.FUN_00a53c30(mapKey, set) || !set)
-        {
-            set = CreateBufferSetData(2048, device, key, 0);
-            sets.InsertOrUpdate(mapKey, set);
-        }
-        ByteFlag flag(data->flag);
-        void* buffer = set->AllocateStream(stride, &size, &offset, false, flag);
-        chips.FUN_00a53c30(mapKey, chip);
-        Chip* result = chip;
-        if (!result)
-        {
-            result = FUN_00537d60(0, buffer, size, stride, 0);
-            chips.InsertOrUpdate(mapKey, result);
-        }
-        else
-        {
-            result->buffer = buffer;
-            result->size = size;
-            result->stride = stride;
-        }
-        result->set = set;
-        result->offset = offset;
-        data->result = size / length;
-        return result;
-    }
-}
-
 struct NiMemObject
 {
     static void* __cdecl operator new(unsigned int uiSize);
@@ -628,9 +536,7 @@ namespace fnv_00e952c0 {
 void _NiFreeAlias(void*);
 struct MemoryManager
 {
-    void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 struct NiTMapBaseStub
 {
     virtual void RemoveAll();
@@ -642,7 +548,7 @@ struct FUN_00e952c0 : NiTMapBaseStub
     virtual ~FUN_00e952c0();
     static void operator delete(void* p)
     {
-        g_memoryManager.Deallocate(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00e952c0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(p);
     }
 };
 // Destructor that calls RemoveAll and then frees the m_08 alias via _NiFreeAlias.
@@ -658,12 +564,9 @@ namespace fnv_00e95340 {
 void __cdecl _NiFreeAlias(void*);
 struct MemoryManager
 {
-    void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 struct NiTMapBaseStub
 {
-    void RemoveAll();
 };
 struct FUN_00e95340
 {
@@ -672,13 +575,13 @@ struct FUN_00e95340
     virtual ~FUN_00e95340();
     void operator delete(void* p)
     {
-        g_memoryManager.Deallocate(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00e95340::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(p);
     }
 };
 // @fnv 0x00e95340
 FUN_00e95340::~FUN_00e95340()
 {
-    ((NiTMapBaseStub*)this)->RemoveAll();
+    reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
     _NiFreeAlias(_08);
 }
 }  // namespace fnv_00e95340
@@ -708,6 +611,82 @@ struct S_00e987c0_Class
     S_00e987c0_Stream* __thiscall AllocateStream(unsigned int uiStream, unsigned int* lpOffset, unsigned int* lpFlags,
                                                  unsigned char bForceFallback, unsigned char bUseSpecialFlags);
 };
+// @fnv 0x00e95550
+Chip* Group::GetOrCreateChip(Data* data, unsigned int stream)
+{
+    Chip* chip = 0;
+    unsigned int count = data->count;
+    unsigned int key = data->key;
+    unsigned int length = stream < count ? data->lengths[stream] : 0;
+    unsigned int stride = data->stride * length;
+    unsigned int size = 0;
+    unsigned int offset = 0;
+    if (count > 1)
+    {
+        if (streamSets.capacity < count)
+        {
+            reinterpret_cast<::FUN_00a41520_cls *>(&(streamSets))->FUN_00a90180(count);
+            reinterpret_cast<::FUN_00a41520_cls *>(&(streamChips))->FUN_00a90180(count);
+        }
+        if (nextIndex >= streamSets.capacity)
+            nextIndex = 0;
+        MemoryAllocationProvider* set = streamSets.data[nextIndex];
+        if (!set)
+        {
+            set = CreateBufferSetData(2048, device, 0, 0);
+            reinterpret_cast<::FUN_00a41520_cls *>(&(streamSets))->FUN_00ba3aa0(nextIndex, (::KeyPair **)&(set));
+        }
+        ByteFlag flag(data->flag);
+        void* buffer = ((void *)(reinterpret_cast<::S_00e987c0_Class *>((set))->AllocateStream(stride, &size, &offset, true, (*(unsigned char *)&(const ::ByteFlag &)(flag)))));
+        Chip* branchChip = streamChips.data[nextIndex];
+        if (!branchChip)
+        {
+            branchChip = ((::Chip *)(::FUN_00537d60_Create(0, (unsigned int)(buffer), size, stride, 0)));
+            chip = branchChip;
+            reinterpret_cast<::FUN_00a41520_cls *>(&(streamChips))->FUN_00ba3aa0(nextIndex, (::KeyPair **)&(chip));
+        }
+        else
+        {
+            branchChip->buffer = buffer;
+            branchChip->size = size;
+            branchChip->stride = stride;
+        }
+        branchChip->set = set;
+        branchChip->offset = offset;
+        data->result = 0;
+        ++nextIndex;
+        return branchChip;
+    }
+    else
+    {
+        MemoryAllocationProvider* set = 0;
+        unsigned int mapKey = key ? key : length | 0x80000000;
+        if (!reinterpret_cast<::A54440Hash *>(&(sets))->FUN_00a53c30((::A54440Manager *)(mapKey), (::A54440Manager **)&(set)) || !set)
+        {
+            set = CreateBufferSetData(2048, device, key, 0);
+            reinterpret_cast<::HashTableBase *>(&(sets))->InsertOrUpdate(mapKey, (unsigned int)(set));
+        }
+        ByteFlag flag(data->flag);
+        void* buffer = ((void *)(reinterpret_cast<::S_00e987c0_Class *>((set))->AllocateStream(stride, &size, &offset, false, (*(unsigned char *)&(const ::ByteFlag &)(flag)))));
+        reinterpret_cast<::A54440Hash *>(&(chips))->FUN_00a53c30((::A54440Manager *)(mapKey), (::A54440Manager **)&(chip));
+        Chip* result = chip;
+        if (!result)
+        {
+            result = ((::Chip *)(::FUN_00537d60_Create(0, (unsigned int)(buffer), size, stride, 0)));
+            reinterpret_cast<::HashTableBase *>(&(chips))->InsertOrUpdate(mapKey, (unsigned int)(result));
+        }
+        else
+        {
+            result->buffer = buffer;
+            result->size = size;
+            result->stride = stride;
+        }
+        result->set = set;
+        result->offset = offset;
+        data->result = size / length;
+        return result;
+    }
+}
 
 // Updates the stream size and allocation as needed, advances or resets the offset, sets flags, and returns the stream pointer.
 // @fnv 0x00e987c0
@@ -780,9 +759,6 @@ L_00b3:
 }
 
 extern unsigned int DAT_010f10c4;
-extern unsigned int DAT_010f0f7c;
-extern unsigned int DAT_010f109c;
-extern unsigned int DAT_010f105c;
 
 struct ReleaseBuffer
 {
@@ -840,9 +816,9 @@ template <class T> struct DynamicMapData
     void Destroy(void* derivedVtable, void* baseVtable)
     {
         vtable = (MapVtableData<T>*)derivedVtable;
-        FUN_00b601a0();
+        reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
         vtable = (MapVtableData<T>*)baseVtable;
-        FUN_00b601a0();
+        reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
         _NiFree(table);
     }
     void* GetFirst() const
@@ -905,9 +881,17 @@ struct DynamicGroupData
     DynamicArrayData<DynamicSetData> streamSets;
     DynamicArrayData<DynamicChipData> streamChips;
     unsigned int nextIndex;
-    void FUN_00e98710();
     void FUN_00e95880();
 };
+// Calls FUN_00e95880, then deletes this with size 0x50 when bit 0 of uiFlags is set, and returns this.
+// @fnv 0x00e95b40
+void* __thiscall FUN_00e95b40_shell::DestroyIfFlagged(unsigned int uiFlags)
+{
+    static_cast<::DynamicGroupData *>(nullptr)->FUN_00e95880();
+    if (uiFlags & 1)
+        operator delete(this, 0x50);
+    return this;
+}
 
 // Iterates the set and chip maps and stream arrays, destroys entries, updates vtables, clears a matching global pointer, and calls FUN_00e98710.
 // @fnv 0x00e95880
@@ -950,11 +934,11 @@ void DynamicGroupData::FUN_00e95880()
     }
     if (this == (void*)DAT_0126fa38)
         DAT_0126fa38 = 0;
-    streamChips.vtable = &DAT_010f0f7c;
+    streamChips.vtable = &(*reinterpret_cast<unsigned int *>(&::DAT_010f0f7c));
     _NiFree(streamChips.data);
     streamSets.vtable = &DAT_010f1034;
     _NiFree(streamSets.data);
     chips.Destroy(&DAT_010f109c, &DAT_010f105c);
     sets.Destroy(&DAT_010f107c, &DAT_010f103c);
-    FUN_00e98710();
+    reinterpret_cast<::FUN_00e98710_cls *>(this)->FUN_00e98710();
 }

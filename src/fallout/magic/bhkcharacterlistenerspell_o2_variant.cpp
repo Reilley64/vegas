@@ -4,6 +4,8 @@
 
 // src/fallout/magic/bhkcharacterlistenerspell.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/bhkcharacterlistenerspell.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/BoundOwner.h"
+#include "fnv/symbols_01268000.h"
 struct NiRTTI
 {
 };
@@ -12,7 +14,6 @@ struct bhkCharacterProxy
     virtual ~bhkCharacterProxy();
     const NiRTTI* GetRTTI();
 };
-extern const NiRTTI g_01268344;
 struct FUN_00806f10_shell
 {
     unsigned int FUN_00806f10();
@@ -20,7 +21,6 @@ struct FUN_00806f10_shell
 
 struct FUN_00cbe8d0_class
 {
-    void __thiscall FUN_00cbe8d0();
 };
 struct FUN_00c6d4a0_class
 {
@@ -389,5 +389,5 @@ struct FUN_00c6d4a0_class
 void FUN_00c6d4a0_class::FUN_00c6d4a0()
 {
     if (unk598)
-        unk598->FUN_00cbe8d0();
+        reinterpret_cast<::BoundOwner *>((unk598))->FUN_00cbe8d0();
 }

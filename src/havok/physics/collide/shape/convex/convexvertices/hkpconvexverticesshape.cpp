@@ -2,6 +2,19 @@
 // src/havok/physics/collide/shape/convex/convexvertices/hkpconvexverticesshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/convexvertices/hkpconvexverticesshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cbe000.h"
+#include "fnv/symbols_00d26000.h"
+#include "fnv/symbols_00d2c000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_010d0000.h"
+#include "fnv/symbols_010d9000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpConvexVerticesShape.h"
 
 struct FUN_00d58d60_t
@@ -26,23 +39,22 @@ struct FUN_00d591d0_class
     void FUN_00d591d0(void*, float, int);
 };
 
-void __cdecl FUN_00d26230(void*, void*, void*, float, int);
 
 // Calls FUN_00d26230 with this+0x20, this+0x30, the float at this+0x10 plus b, and c.
 // @fnv 0x00d591d0
 void FUN_00d591d0_class::FUN_00d591d0(void* a, float afDelta, int c)
 {
-    FUN_00d26230(
-        a,
-        reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x20),
-        reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x30),
+    ::FUN_00d26230(
+        (*(const ::hkTransformD262 *)(a)),
+        (*(const ::hkVector4D262 *)(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x20))),
+        (*(const ::hkVector4D262 *)(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x30))),
         *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x10) + afDelta,
-        c
+        (*(::hkAabbD262 *)(c))
     );
 }
 
-struct RefObj { void RetainReference(); void removeReference(); };
-struct DDCC60World { void removeReference(); };
+struct RefObj {   };
+struct DDCC60World {  };
 struct FUN_00d5a320 {
     void FUN_00d59f40();
     void AssignReference(RefObj* p, bool b);
@@ -51,8 +63,8 @@ struct FUN_00d5a320 {
 // @fnv 0x00d5a320
 void FUN_00d5a320::AssignReference(RefObj* apRef, bool b)
 {
-    if (apRef) apRef->RetainReference();
-    if (*(DDCC60World**)((char*)this + 0x60)) (*(DDCC60World**)((char*)this + 0x60))->removeReference();
+    if (apRef) reinterpret_cast<::FUN_00c90510_class *>((apRef))->FUN_00c90510();
+    if (*(DDCC60World**)((char*)this + 0x60)) reinterpret_cast<::hkReferencedObjectC905 *>(((*(DDCC60World**)((char*)this + 0x60))))->FUN_00c905b0();
     *(RefObj**)((char*)this + 0x60) = apRef;
     if (b && apRef) FUN_00d59f40();
 }
@@ -156,6 +168,7 @@ int SearchObject::FUN_00d5a4c0(unsigned int arg0, unsigned int arg1, unsigned in
 }
 
 union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
+#include "fnv/symbols_simd.h"
 extern "C" __m128 _mm_setr_ps(float, float, float, float);
 struct hkVec4Q {
     __m128 m_vComponents;
@@ -217,7 +230,6 @@ __m128 _mm_movehl_ps(__m128, __m128);
 
 typedef __m128 hkQuadReal;
 
-extern const hkQuadReal hkQuadRealSignMask;
 
 struct hkSimdRealq
 {
@@ -231,7 +243,7 @@ struct hkVector4q
     hkQuadReal m_vComponents;
 
     __forceinline void operator=(const hkVector4q& v) { m_vComponents = v.m_vComponents; }
-    __forceinline void setNeg4(const hkVector4q& v) { m_vComponents = _mm_xor_ps(v.m_vComponents, hkQuadRealSignMask); }
+    __forceinline void setNeg4(const hkVector4q& v) { m_vComponents = _mm_xor_ps(v.m_vComponents, (*reinterpret_cast<const ::fnv_00d59cc0::__m128 *>((void *)&::DAT_010c44d0))); }
     __forceinline void _setRotatedInverseDir(const hkMatrix3q& r, const hkVector4q& b);
     void SetRotatedDirection(const hkMatrix3q& r, const hkVector4q& b) throw();
     __forceinline hkSimdRealq dot4xyz1(const hkVector4q& a) const
@@ -536,7 +548,6 @@ struct ConvexD5A360 {
     int unk50;
     ArrayD5A360<Vector4D5A360> m_kVertices;
     int m_iConnectivity;
-    void FUN_00d59f40();
     void SetVertices(const ArrayD5A360<Vector4D5A360>& kVertices);
 };
 
@@ -546,7 +557,7 @@ void ConvexD5A360::SetVertices(const ArrayD5A360<Vector4D5A360>& kVertices)
 {
     m_kVertices = kVertices;
     if (m_iConnectivity)
-        FUN_00d59f40();
+        reinterpret_cast<::FUN_00d5a320 *>(this)->FUN_00d59f40();
 }
 
 struct FUN_00d58d20
@@ -612,8 +623,6 @@ void hkpConvexVerticesShapeImpl::FUN_00d59060(const hkpVertexId* ids, int numIds
 
 class SpliceAllocator;
 struct AlignedSpliceVector {__m128 value;};
-void __cdecl FUN_00c908c0(SpliceAllocator& allocator,void* array,int capacity,int elementBytes);
-void __cdecl FUN_00d2cc70(void* destination,const void* source,unsigned bytes);
 struct VectorSpliceArray {
     AlignedSpliceVector* data;
     int size;
@@ -628,9 +637,9 @@ void VectorSpliceArray::FUN_00d5a410(SpliceAllocator& allocator,int first,int re
     if((capacityAndFlags&0x3fffffff)<newSize) {
         int requested=(capacityAndFlags&0x3fffffff)*2;
         if(newSize>=requested)requested=newSize;
-        FUN_00c908c0(allocator,this,requested,sizeof(AlignedSpliceVector));
+        ::FUN_00c908c0((::SpawnedObject *)&(allocator),(::SpawnedArray *)(void *)(this),requested,sizeof(AlignedSpliceVector));
     }
-    FUN_00d2cc70(data+first+insertCount,data+first+removeCount,tailCount*sizeof(AlignedSpliceVector));
+    ::FUN_00d2cc70(data+first+insertCount,(void *)(data+first+removeCount),tailCount*sizeof(AlignedSpliceVector));
     AlignedSpliceVector* destination=data+first;
     for(int i=0;i<insertCount;++i) {
         __m128 value=source[i].value;
@@ -685,7 +694,6 @@ namespace hkD598 {
     public:
         unsigned short m_usMemSizeAndFlags;
         short m_sReferenceCount;
-        void FUN_00c905b0() throw();
     };
 
     class hkpShape : public hkReferencedObject {
@@ -729,7 +737,7 @@ namespace FUN_00d59870 {
     hkpConvexVerticesShape::~hkpConvexVerticesShape()
     {
         if (m_pConnectivity)
-            m_pConnectivity->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pConnectivity))->FUN_00c905b0();
     }
 }
 
@@ -769,7 +777,6 @@ struct MatchVector
 void setInt24W(int value) { ((int*)&m_vComponents)[3] = value | 0x3f000000; }
 };
 
-extern const MatchVector DAT_010d9fe0;
 extern const MatchVector DAT_010d0fa0;
 
 struct hkFourTransposedPointsQ
@@ -839,7 +846,6 @@ void MatchShape::FUN_00d58ee0(const MatchVector& direction, MatchVector& support
     supportingVertexOut.setInt24W(vertexId);
 }
 
-extern void* DAT_010d0fc4;
 extern "C" void _ReadWriteBarrier();
 
 
@@ -850,7 +856,6 @@ struct InputValues {
 };
 
 struct FinalCall {
-    void FUN_00d59900(int x, int z, int y);
 };
 
 __forceinline void AllocateVectors(
@@ -933,15 +938,6 @@ struct FUN_00d59bd0 : ConvexPart {
 };
 
 
-// Constructs the base with type 6 and radius r, copies source into planes, then calls FUN_00d59900 with input->x, input->z and input->y.
-// @fnv 0x00d59bd0
-FUN_00d59bd0::FUN_00d59bd0(InputValues* input, const ArrayD5A360<Vector4D5A360>& source, float r)
-    : ConvexPart(6, r), convexPiece(0), connectivity(0)
-{
-    ResizePlanes(planes, source);
-    ((FinalCall*)this)->FUN_00d59900(input->x, input->z, input->y);
-}
-
 extern "C" __m128 _mm_set_ss(float);
 extern "C" float _mm_cvtss_f32(__m128);
 extern "C" __m128 _mm_setzero_ps(void);
@@ -965,12 +961,6 @@ extern "C" void _WriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 
-extern "C" unsigned long DAT_0126835c;
-extern float DAT_01011d78;
-extern float DAT_01017718;
-extern float DAT_01016248;
-extern __m128 DAT_010c7160;
-extern float DAT_01012054;
 
 struct ConvexPiece;
 
@@ -980,7 +970,7 @@ struct TimerStream { int unk00; TimerRec* m_cur; int unk08; TimerRec* m_kRayEnd;
 
 __forceinline void TimerMark(const char* name, int kind)
 {
-    TimerStream* s = (TimerStream*)TlsGetValue(DAT_0126835c);
+    TimerStream* s = (TimerStream*)TlsGetValue(::DAT_0126835c);
     TimerRec* r = s->m_cur;
     if (r < s->m_kRayEnd) {
         r->m_name = name;
@@ -996,7 +986,7 @@ __forceinline void TimerMark(const char* name, int kind)
 
 __forceinline void TimerMarkOut(const char* name, int kind)
 {
-    TimerStream* s = (TimerStream*)TlsGetValue(DAT_0126835c);
+    TimerStream* s = (TimerStream*)TlsGetValue(::DAT_0126835c);
     TimerRec* r = s->m_cur;
     if (r < s->m_kRayEnd) {
         r->m_name = name;
@@ -1018,7 +1008,6 @@ struct hkBoolRet {
 struct __declspec(align(16)) V4 { float x, y, z, w; };
 struct FourVecs { float xs[4]; float ys[4]; float zs[4]; };
 
-void __cdecl ResizeAudioStream(void*, void*, int);
 
 struct PlaneArr { V4* m_data; int m_iElementCount; int m_iCapacityState; };
 
@@ -1085,9 +1074,9 @@ hkBoolRet ConvexVertsShape::FUN_00d592a0(const RayInput& input, RayOutput& resul
             if (n > 0) {
                 struct FaceScratch { V4 p1, p0, p2, plane; __m128 zero, three, half; };
                 FaceScratch scratch;
-                scratch.zero = _mm_set_ss(DAT_01011d78);
-                scratch.three = _mm_set_ss(DAT_01017718);
-                scratch.half = _mm_set_ss(DAT_01016248);
+                scratch.zero = _mm_set_ss(::DAT_01011d78);
+                scratch.three = _mm_set_ss(::DAT_01017718);
+                scratch.half = _mm_set_ss(::fnv_00c88020::DAT_01016248);
                 PlaneArr* arr = &m_kPlaneArray;
                 int count = n;
                 do {
@@ -1115,7 +1104,7 @@ hkBoolRet ConvexVertsShape::FUN_00d592a0(const RayInput& input, RayOutput& resul
                     scratch.plane.w = LowFloat(_mm_sub_ss(DAT_010c7160, dot));
                     hkMemoryRouterD598& router = FUN_00c85750();
                     if (arr->m_iElementCount == (arr->m_iCapacityState & 0x3fffffff)) {
-                        ResizeAudioStream(router.m_pStreamAllocator, arr, 0x10);
+                        ::ResizeAudioStream((::AudioAllocator *)(router.m_pStreamAllocator), (::AudioStream *)(arr), 0x10);
                     }
                     *(__m128*)&arr->m_data[arr->m_iElementCount] = *(__m128*)&scratch.plane;
                     arr->m_iElementCount++;
@@ -1196,7 +1185,7 @@ struct VertArray96Q {
         {
             int cap2 = cap + cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(reinterpret_cast<SpliceAllocator&>(alloc), this, newSize, sizeof(hkVec4Q));
+            ::FUN_00c908c0((::SpawnedObject *)&(reinterpret_cast<SpliceAllocator&>(alloc)), (::SpawnedArray *)(void *)(this), newSize, sizeof(hkVec4Q));
         }
         m_iElementCount = n;
     }
@@ -1231,7 +1220,6 @@ struct NineIntegerRecord
     __forceinline hkMemoryAllocator& heap() { return *m_pStreamAllocator; }
 };
 NineIntegerRecord* GetMemoryRouter_c85750();
-void __cdecl ArrayUtilReserve_c908c0(hkMemoryAllocator& alloc, void* array, int numElements, int sizeElem);
 
 struct FourFloatVector
 {
@@ -1260,7 +1248,7 @@ template <class T> struct Array
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            ArrayUtilReserve_c908c0(alloc, this, newSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
         }
     }
     __forceinline void _setSize(hkMemoryAllocator& alloc, int n)
@@ -1287,7 +1275,6 @@ struct Aabb
     }
 };
 
-void __cdecl CalcAabb_cbeaf0(const float* vertexArray, int numVertices, int striding, Aabb& aabbOut);
 
 struct ConvexVerticesShape
 {
@@ -1307,6 +1294,14 @@ struct ConvexVerticesShape
 
     void FUN_00d59900(const float* vertexIn, int byteStriding, int numVertices);
 };
+// Constructs the base with type 6 and radius r, copies source into planes, then calls FUN_00d59900 with input->x, input->z and input->y.
+// @fnv 0x00d59bd0
+FUN_00d59bd0::FUN_00d59bd0(InputValues* input, const ArrayD5A360<Vector4D5A360>& source, float r)
+    : ConvexPart(6, r), convexPiece(0), connectivity(0)
+{
+    ResizePlanes(planes, source);
+    reinterpret_cast<::ConvexVerticesShape *>((((FinalCall*)this)))->FUN_00d59900((const float *)(input->x), input->z, input->y);
+}
 
 // Stores numVertices, copies vertexIn into m_kRotatedVertices padded to a multiple of four, and computes the AABB center and half-extents.
 // @fnv 0x00d59900
@@ -1342,7 +1337,7 @@ void ConvexVerticesShape::FUN_00d59900(const float* vertexIn, int byteStriding, 
     }
 
     Aabb aabb;
-    CalcAabb_cbeaf0(vertexIn, numVertices, byteStriding, aabb);
+    ::fnv_00cbeaf0::FUN_00cbeaf0(vertexIn, numVertices, byteStriding, (::fnv_00cbeaf0::hkAabb &)(aabb));
     aabb.getHalfExtents(m_kAabbHalfExtents);
     aabb.getCenter(m_kAabbCenter);
 }

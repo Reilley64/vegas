@@ -10,6 +10,14 @@
 // to their real unit once identified.
 // src/staging/blk_00da0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00cfbd60_cls.h"
+#include "fnv/decl/MoppCastMachine.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00da0000.h"
+#include "fnv/symbols_00da6000.h"
+#include "fnv/symbols_00df2000.h"
 #include "../../include/layout_support.h"
 struct ScratchBlock
 {
@@ -33,11 +41,9 @@ struct ScratchBlock
     unsigned int unk38;
     unsigned int unk3C;
 };
-void __cdecl FUN_00da6fd0(ScratchBlock* block);
 class ScratchOwner
 {
   public:
-    void AddEntry(ScratchBlock* block, int a, int b);
 };
 void __cdecl FUN_00da7020(ScratchOwner* owner);
 struct FinishingFlag
@@ -59,7 +65,6 @@ class __declspec(align(16)) S00da0780_Object
     S00da0780_Member m_kMember;
     int unk0C;
 };
-const void* __cdecl FUN_00da0780();
 #include <xmmintrin.h>
 __declspec(align(16)) struct FUN_00da7180_cls
 {
@@ -75,7 +80,6 @@ __declspec(align(16)) struct FUN_00da7180_cls
 };
 
 extern char g_initFlag;
-void __cdecl ValidateHavokKeyCode(char*);
 
 class S00da8180_Lane
 {
@@ -268,7 +272,7 @@ __declspec(noinline) void S00da8180_AabbCastMachine::FUN_00da71c0(const MachineV
     child.m_vTo = fQuery->m_vTo;
     if (level < 3)
     {
-        FUN_00da71c0(query, pc + 1, &child, level + 1);
+        reinterpret_cast<::MoppCastMachine *>(this)->FUN_00da71c0((const ::VectorPropertyRecord *)(query), pc + 1, (::TwoPointVectorBundles *)(::Vector4Pair *)(&child), level + 1);
     }
 }
 
@@ -277,7 +281,7 @@ void S00da8180_AabbCastMachine::FUN_00da8180(const AabbCastInput& input, void* c
 {
     if (!g_initFlag)
     {
-        ValidateHavokKeyCode(&g_initFlag);
+        ::ValidateHavokKeyCode((bool *)(char *)(&g_initFlag));
         if (!g_initFlag)
         {
             return;
@@ -308,5 +312,5 @@ void S00da8180_AabbCastMachine::FUN_00da8180(const AabbCastInput& input, void* c
     query.m_iValueAtOffset04 = 0;
     query.m_property = 0;
     m_isStartQuery = (*programCounter != 0xd) - 1;
-    FUN_00da71c0(&query, programCounter, &fQuery, 0);
+    reinterpret_cast<::MoppCastMachine *>(this)->FUN_00da71c0((const ::VectorPropertyRecord *)(const ::MachineVectorIndexRecord *)(&query), programCounter, (::TwoPointVectorBundles *)(::Vector4Pair *)(&fQuery), 0);
 }

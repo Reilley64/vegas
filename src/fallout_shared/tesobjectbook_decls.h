@@ -3,6 +3,23 @@
 #define FNV_TESOBJECTBOOK_DECLS_H
 
 #include <malloc.h>
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_0041fd00_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00472840_impl.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TESRegionGrassObject.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/symbols_00478000.h"
+#include "fnv/symbols_0047a000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_0066e000.h"
 enum ENUM_FORM_ID
 {
     FORM_MISC = 0x1f
@@ -17,7 +34,6 @@ class TESFormList;
 class TESFormInitFlag
 {
   public:
-    bool IsFormInitialized() const;
 };
 class TESForm
 {
@@ -106,9 +122,12 @@ class TESForm
     unsigned int formID;
     void* mods[2];
     void SetInitializationState(bool initialized);
-    void SetFormType(enum ENUM_FORM_ID type);
-    void LoadRecordHeader(TESFile* file);
-    void ReadTypedData(TESFile* file, void* data, unsigned short size);
+public:
+    bool GetInitialized() const;
+public:
+    void ClearData();
+public:
+    void LoadGame(void *);
 };
 class TESBoundObject : public TESForm
 {
@@ -144,7 +163,6 @@ class TESFullName : public BaseFormComponent
 class TESFullNameLoader
 {
   public:
-    static void LoadFullNameChunk(TESFullName*, TESFile*);
 };
 class TESModel : public BaseFormComponent
 {
@@ -162,7 +180,6 @@ class TESModelTextureSwap : public TESModel
     ~TESModelTextureSwap();
     void* textureSwapList[2];
     void InitItem(TESForm* form);
-    bool ParseTextureSwapData(void*, unsigned int, unsigned int);
 };
 class TESTexture : public BaseFormComponent
 {
@@ -183,7 +200,6 @@ class TESScriptableForm : public BaseFormComponent
     Script* script;
     bool resolved;
     void InitItem(TESForm* form);
-    void SetScript(Script* script);
 };
 class TESEnchantableForm : public BaseFormComponent
 {
@@ -192,7 +208,6 @@ class TESEnchantableForm : public BaseFormComponent
     unsigned short enchantmentAmount;
     unsigned int castingType;
     void InitItem(TESForm* form);
-    void SetFormEnchanting(EnchantmentItem*);
     void SetFormEnchantmentAmount(unsigned short);
 };
 class TESValueForm : public BaseFormComponent
@@ -222,7 +237,6 @@ class BGSDestructibleObjectForm : public BaseFormComponent
     ~BGSDestructibleObjectForm();
     void* destructionData;
     void InitItem(TESForm* form);
-    static void LoadDestructibleData(BGSDestructibleObjectForm*, TESFile*);
 };
 class BGSMessageIcon : public BaseFormComponent
 {
@@ -230,7 +244,6 @@ class BGSMessageIcon : public BaseFormComponent
     BGSMessageIcon();
     ~BGSMessageIcon();
     TESIcon icon;
-    static void LoadMessageIconChunk(BGSMessageIcon*, TESFile*);
 };
 class BGSPickupPutdownSounds : public BaseFormComponent
 {
@@ -240,13 +253,10 @@ class BGSPickupPutdownSounds : public BaseFormComponent
     TESSound* pickupSound;
     TESSound* putdownSound;
     void InitItem(TESForm* form);
-    void SetPickupSound(TESSound*);
-    void SetPutdownSound(TESSound*);
 };
 class MagicCaster
 {
   public:
-    void SetSelectedMagicItem(MagicItem* spell);
 };
 namespace ActorValue {
 enum Index
@@ -257,28 +267,21 @@ enum Section
 {
     kSectionBook = 2
 };
-Index __cdecl GetActorValueForSectionIndex(Section section, unsigned char index);
 }
 extern "C" void* __cdecl memset(void*, int, unsigned int);
 class TESFile
 {
   public:
-    unsigned char GetTESForm();
-    unsigned int GetChunkID();
-    unsigned int GetChunkSize();
     bool NextChunk();
-    bool GetChunkData(void*, unsigned int);
     bool GetChunkData(unsigned int*);
 };
 class TESFileFormVersion
 {
   public:
-    unsigned short GetFormVersion();
 };
 class TESFileChunkData16
 {
   public:
-    bool GetChunkData(unsigned short*);
 };
 struct BookData
 {

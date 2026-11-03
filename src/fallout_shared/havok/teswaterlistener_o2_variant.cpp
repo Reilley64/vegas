@@ -4,29 +4,33 @@
 
 // src/fallout_shared/havok/teswaterlistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/teswaterlistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_00563200_Struct.h"
+#include "fnv/decl/FUN_0062e860_cls.h"
+#include "fnv/decl/FUN_009d9f40_Class.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/OwnerC9Body.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_0062f000.h"
+#include "fnv/symbols_00631000.h"
+#include "fnv/symbols_011c7000.h"
 struct FUN_0062e750_shell
 {
     void* __thiscall FUN_0062e750(unsigned int flags);
-    void __thiscall FUN_0062e860();
 };
-void __cdecl _Deallocate(void* p);
 extern int DAT_011c7a3c;
-void FUN_0062f310(int value);
 extern unsigned char DAT_011c7a5a;
 void FUN_0062f8e0(unsigned char value);
-extern float _DAT_011c7a5c;
-void FUN_0062f8f0(float value);
 struct BSOcclusionPlane
 {
-    unsigned int GetCullResult() const;
 };
 struct ExtraDataList
 {
-    unsigned int GetRoomId();
 };
 struct BSThread
 {
-    unsigned int GetThreadID();
 };
 unsigned int __cdecl GetOcclusionPlaneThreadID(BSOcclusionPlane* pPlane);
 extern "C" float __cdecl ExpFloat(float);
@@ -34,13 +38,10 @@ float FUN_00630aa0(float value);
 extern "C" double __cdecl _exp(double);
 float ExpFloat(float value);
 extern float _gModifierZero;
-float __cdecl SignOfFloat(float a);
 struct FUN_005631e0_shell
 {
-    int __thiscall MaskWithField(int a);
     bool __thiscall IsNonZero(int a);
 };
-float __cdecl FUN_004a3e90(float);
 struct FUN_0062e710_shell
 {
     void __thiscall SetValueAt(float f, int a, int b);
@@ -51,7 +52,6 @@ struct BSSimpleList_Ragdoll
 };
 struct TESDataHandler
 {
-    BSSimpleList_Ragdoll* __thiscall GetBGSRagdollList();
 };
 struct FUN_006310c0_shell
 {
@@ -60,7 +60,6 @@ struct FUN_006310c0_shell
 
 struct FUN_00c9a460_shell
 {
-    void __thiscall AddObject(int a);
     void __thiscall FUN_00c9a600(int a);
 };
 
@@ -68,5 +67,5 @@ struct FUN_00c9a460_shell
 void __thiscall FUN_00c9a460_shell::FUN_00c9a600(int a)
 {
     int r = ((int(__thiscall*)(void*, int))(*reinterpret_cast<void***>(this))[9])(this, a);
-    AddObject(r);
+    reinterpret_cast<::OwnerC9Body *>(this)->AddObject((::RefObjectC9 *)(r));
 }

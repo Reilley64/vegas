@@ -3,21 +3,32 @@
 #define FNV_BGSBODYPART_DECLS_H
 
 
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_005e3fc0_shell.h"
+#include "fnv/decl/FUN_005e3fe0_class.h"
+#include "fnv/decl/FUN_00994ef0_Class.h"
+#include "fnv/decl/MagicProjectile.h"
+#include "fnv/decl/QueueModelHolder.h"
+#include "fnv/decl/TESPackage.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00489000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_011c3000.h"
 extern "C" void* _alloca(unsigned int);
 #pragma intrinsic(_alloca)
-int Warning(const char*, ...);
 class TESFileFormVersion
 {
   public:
-    unsigned short GetFormVersion();
 };
 class TESFile
 {
   public:
-    unsigned int GetChunkID();
-    unsigned int GetChunkSize();
     bool NextChunk();
-    bool GetChunkData(void*, unsigned int);
     bool IsEndianConversionRequired();
 };
 class TESFile;
@@ -27,8 +38,6 @@ class TESForm
     virtual ~TESForm();
     bool GetInitialized() const;
     TESFile* GetFile(int);
-    static void RemapFormIDForFile(unsigned int&, TESFile*);
-    static TESForm* GetFormByID(unsigned int);
 };
 class BGSExplosion : public TESForm
 {
@@ -49,7 +58,6 @@ class BaseProcess;
 class Actor
 {
   public:
-    BaseProcess* GetProcess();
 };
 class TESSound;
 class TESEffectShader;
@@ -57,13 +65,11 @@ class EffectSetting
 {
   public:
     TESSound* GetCastSound();
-    TESEffectShader* GetEnchantEffectShader();
 };
 class Tile;
 class InterfaceManager
 {
   public:
-    Tile* FUN_004fd400();
     void FUN_00500a20(Tile*);
 };
 enum IO_TASK_PRIORITY
@@ -85,14 +91,14 @@ class NiPoint3
     float x;
     float y;
     float z;
+public:
+    static const ::NiPoint3 ZERO;
 };
-extern "C" NiPoint3 NiPoint3_ZERO;
 
 class BodyPartInfo
 {
   public:
     BodyPartInfo();
-    void SwapEndianFields();
     float m_fDamageMultiplier;
     unsigned char cFlags;
     unsigned char cType;
@@ -135,7 +141,6 @@ class TESModel
     virtual void vfn_14();
     virtual void vfn_18(const char*);
     static void LoadModelData(TESModel*, TESFile*);
-    static void LoadTextureSwapData(TESModel*, TESFile*);
     TESModel();
     ~TESModel();
     unsigned int GetModelLength() const;
@@ -144,9 +149,7 @@ class TESModel
 class ModelLoader
 {
   public:
-    void ProcessModelRequest(TESModel*, int, QueuedFile*, bool, bool, bool, bool);
 };
-extern ModelLoader* g_modelLoader;
 
 template <class T> class BSStringT
 {
@@ -181,9 +184,6 @@ class BGSBodyPart
     BGSBodyPart();
     void InitItem(TESForm*);
     bool Load(TESFile*);
-    unsigned int FUN_005e3fc0();
-    void FUN_00994ef0(BGSImpactDataSet*);
-    void FUN_005e3d20();
     virtual void vfn_00();
     void QueueResourceLoad(IO_TASK_PRIORITY, QueuedFile*);
 };

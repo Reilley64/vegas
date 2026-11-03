@@ -1,6 +1,20 @@
 // src/fallout/ai/arrowprojectile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/arrowprojectile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_005be5c0_shell.h"
+#include "fnv/decl/FUN_0085f810_shell.h"
+#include "fnv/decl/FUN_008cc6d0_class.h"
+#include "fnv/decl/FUN_008d0240_Class.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_005de0f0__FUN_005de0f0_shell.h"
+#include "fnv/decl/fnv_00968670__FUN_00968670_shell.h"
+#include "fnv/symbols_011e0000.h"
 class MobileObject
 {
   public:
@@ -142,15 +156,11 @@ class MobileObject
     virtual void Unk_87();
     virtual void Unk_88();
     virtual bool Unk_89();
-    bool FUN_00440d80();
 };
 
 class Projectile : public MobileObject
 {
   public:
-    MobileObject* FUN_0085f810();
-    void FUN_008d0240();
-    void FUN_008cc6d0(int a);
 };
 
 class ArrowProjectile : public Projectile
@@ -159,14 +169,12 @@ class ArrowProjectile : public Projectile
 
 struct ProjectileNode;
 bool __fastcall FUN_008256d0(ProjectileNode* node);
-ProjectileNode* __fastcall FUN_00726070(ProjectileNode* node);
-void __fastcall FUN_00470470(ProjectileNode* node);
 
 struct ProjectileNode
 {
-    Projectile** FUN_006815c0();
 };
 
+class ActorPackageContext;
 class BaseProcess
 {
   public:
@@ -599,29 +607,24 @@ class BaseProcess
     virtual void Unk_1AA();
     virtual void Unk_1AB();
     virtual ProjectileNode* Unk_1AC();
-    int FUN_0045cd60();
+public:
+    ::ActorPackageContext *GetCurrentProcessData();
 };
 
 class Actor : public MobileObject
 {
   public:
-    BaseProcess* GetCurrentProcess();
 };
 
 struct ActorList
 {
-    unsigned int FUN_005be5c0(int type);
-    unsigned int FUN_005de0f0(int type);
-    MobileObject* FUN_00968670(unsigned int i);
 };
 
 class ProcessLists
 {
   public:
-    ActorList* FUN_00717e50();
 };
 
-extern ProcessLists DAT_011e0e80;
 
 // @fnv 0x008cddd0
 void FUN_008cddd0(MobileObject* owner, bool bFlag)
@@ -634,7 +637,7 @@ void FUN_008cddd0(MobileObject* owner, bool bFlag)
     if (owner->Unk_40())
     {
         Actor* pActor = (Actor*)owner;
-        BaseProcess* process = pActor->GetCurrentProcess();
+        BaseProcess* process = ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor))->GetBaseTexture()));
         if (process)
         {
             if (process->Unk_1AC())
@@ -642,33 +645,33 @@ void FUN_008cddd0(MobileObject* owner, bool bFlag)
                 ProjectileNode* node = process->Unk_1AC();
                 while (node && !FUN_008256d0(node))
                 {
-                    Projectile* projectile = *node->FUN_006815c0();
+                    Projectile* projectile = *((::Projectile **)(new ((void *)(node)) ::Vec3()));
                     if (projectile)
                     {
-                        if (projectile->FUN_0085f810() == owner)
+                        if (((::MobileObject *)(reinterpret_cast<::FUN_0085f810_shell *>((projectile))->FUN_0085f810())) == owner)
                         {
-                            projectile->FUN_008d0240();
-                            if (!projectile->FUN_00440d80())
+                            reinterpret_cast<::FUN_008d0240_Class *>((projectile))->FUN_008d0240();
+                            if (!reinterpret_cast<::FUN_00440d80_shell *>((projectile))->FUN_00440d80())
                             {
                                 if (bFlag)
                                     projectile->Unk_31(1);
                                 else
-                                    projectile->FUN_008cc6d0(3);
+                                    reinterpret_cast<::FUN_008cc6d0_class *>((projectile))->FUN_008cc6d0(3);
                             }
                         }
-                        if (projectile->FUN_00440d80())
+                        if (reinterpret_cast<::FUN_00440d80_shell *>((projectile))->FUN_00440d80())
                             projectile->Unk_73(0, 1);
                     }
-                    node = FUN_00726070(node);
+                    node = ((::ProjectileNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
                 }
-                FUN_00470470(process->Unk_1AC());
+                reinterpret_cast<::FileMatchList *>((process->Unk_1AC()))->RemoveAll();
             }
-            if (process->FUN_0045cd60() == 0)
+            if (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60())) == 0)
             {
                 bHigh = true;
                 bLow = false;
             }
-            else if (process->FUN_0045cd60() == 1)
+            else if (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60())) == 1)
             {
                 bHigh = false;
                 bLow = true;
@@ -679,19 +682,19 @@ void FUN_008cddd0(MobileObject* owner, bool bFlag)
     if (bHigh)
     {
         MobileObject* object = 0;
-        for (unsigned int i = 0; i < DAT_011e0e80.FUN_00717e50()->FUN_005be5c0(0); i++)
+        for (unsigned int i = 0; i < reinterpret_cast<::FUN_005be5c0_shell *>((((::ActorList *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ProcessLists *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_005be5c0(0); i++)
         {
             bool bStopped = false;
-            object = DAT_011e0e80.FUN_00717e50()->FUN_00968670(i);
+            object = ((::MobileObject *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::ActorList *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ProcessLists *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670(i)));
             if (object->Unk_89())
             {
                 ArrowProjectile* arrow = dynamic_cast<ArrowProjectile*>(object);
                 if (arrow)
                 {
-                    if (arrow->FUN_0085f810() == owner)
+                    if (((::MobileObject *)(reinterpret_cast<::FUN_0085f810_shell *>((arrow))->FUN_0085f810())) == owner)
                     {
-                        arrow->FUN_008d0240();
-                        if (!object->FUN_00440d80())
+                        reinterpret_cast<::FUN_008d0240_Class *>((arrow))->FUN_008d0240();
+                        if (!reinterpret_cast<::FUN_00440d80_shell *>((object))->FUN_00440d80())
                         {
                             if (bFlag)
                             {
@@ -700,11 +703,11 @@ void FUN_008cddd0(MobileObject* owner, bool bFlag)
                             }
                             else
                             {
-                                arrow->FUN_008cc6d0(3);
+                                reinterpret_cast<::FUN_008cc6d0_class *>((arrow))->FUN_008cc6d0(3);
                             }
                         }
                     }
-                    if (arrow->FUN_00440d80())
+                    if (reinterpret_cast<::FUN_00440d80_shell *>((arrow))->FUN_00440d80())
                         arrow->Unk_73(0, 1);
                 }
             }
@@ -714,26 +717,26 @@ void FUN_008cddd0(MobileObject* owner, bool bFlag)
     if (bLow)
     {
         MobileObject* object = 0;
-        for (unsigned int i = DAT_011e0e80.FUN_00717e50()->FUN_005de0f0(1);
-             i < DAT_011e0e80.FUN_00717e50()->FUN_005be5c0(1); i++)
+        for (unsigned int i = reinterpret_cast<::fnv_005de0f0::FUN_005de0f0_shell *>((((::ActorList *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ProcessLists *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_005de0f0(1);
+             i < reinterpret_cast<::FUN_005be5c0_shell *>((((::ActorList *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ProcessLists *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_005be5c0(1); i++)
         {
             bool bStopped = false;
-            object = DAT_011e0e80.FUN_00717e50()->FUN_00968670(i);
+            object = ((::MobileObject *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::ActorList *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ProcessLists *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670(i)));
             if (object->Unk_89())
             {
                 ArrowProjectile* arrow = dynamic_cast<ArrowProjectile*>(object);
                 if (arrow)
                 {
-                    if (arrow->FUN_0085f810() == owner)
+                    if (((::MobileObject *)(reinterpret_cast<::FUN_0085f810_shell *>((arrow))->FUN_0085f810())) == owner)
                     {
-                        arrow->FUN_008d0240();
-                        if (!object->FUN_00440d80())
+                        reinterpret_cast<::FUN_008d0240_Class *>((arrow))->FUN_008d0240();
+                        if (!reinterpret_cast<::FUN_00440d80_shell *>((object))->FUN_00440d80())
                         {
                             arrow->Unk_31(1);
                             bStopped = true;
                         }
                     }
-                    if (arrow->FUN_00440d80())
+                    if (reinterpret_cast<::FUN_00440d80_shell *>((arrow))->FUN_00440d80())
                         arrow->Unk_73(0, 1);
                 }
             }

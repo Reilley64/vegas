@@ -3,6 +3,7 @@
 #define FNV_SRC_BGSMESSAGE_H
 
 
+#include "fnv/decl/Twin_0086cf00.h"
 #include "layout_support.h"
 #include "TESForm.h"
 #include "TESFullName.h"
@@ -26,7 +27,6 @@ class BGSMessage : public TESForm, public TESFullName, public TESDescription
     void ResetFormData();
     void ClearData();
     void ClearButtons();
-    void SetIcon(BGSMenuIcon* icon);
     void InitItem();
     bool Load(TESFile* file);
 };

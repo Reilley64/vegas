@@ -2,6 +2,47 @@
 // src/fallout_shared/havok/testraplistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/testraplistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/ContOwner_620.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_0045c650_shell.h"
+#include "fnv/decl/FUN_004a4960_class.h"
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_00576830_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00620810_List.h"
+#include "fnv/decl/FUN_00621c90_Class.h"
+#include "fnv/decl/FUN_00622570_Class.h"
+#include "fnv/decl/FUN_00629ab0_shell.h"
+#include "fnv/decl/FUN_0062d8a0.h"
+#include "fnv/decl/FUN_0066db70_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/Holder0057c400.h"
+#include "fnv/decl/ImpactManager620.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MagicCaster_shell.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_0042ce10__FUN_0042ce10_shell.h"
+#include "fnv/decl/fnv_00565870__FUN_00565870_shell.h"
+#include "fnv/decl/fnv_0062a100__FUN_0062a100_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/s572e10__Owner.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_005ac000.h"
+#include "fnv/symbols_0062b000.h"
+#include "fnv/symbols_0069b000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_011dd000.h"
 struct FUN_0062d2f0_shell
 {
     void* GetOffset160();
@@ -31,7 +72,6 @@ struct bhkTrapListener
     void FUN_0062d760();
     void* DestroyIfFlagged(unsigned int);
 };
-void* __cdecl _Deallocate(void*);
 
 void bhkTrapListener::FUN_0062d760()
 {}
@@ -42,11 +82,10 @@ void* bhkTrapListener::DestroyIfFlagged(unsigned int flags)
 {
     FUN_0062d760();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
-extern int DAT_0104e3d0;
 
 struct FUN_0062d740_shell
 {
@@ -57,13 +96,12 @@ struct FUN_0062d740_shell
 // @fnv 0x0062d740
 void FUN_0062d740_shell::FUN_0062d740()
 {
-    m_field = (int)&DAT_0104e3d0;
+    m_field = (int)&(*reinterpret_cast<int *>(&::DAT_0104e3d0));
 }
 
 struct CombatWorldStateListNode
 {
     CombatWorldStateListNode* GetNext();
-    int _ref_0084e3a0();
 };
 
 struct FUN_0062dee0_shell
@@ -79,7 +117,7 @@ bool __thiscall FUN_0062dee0_shell::FUN_0062dee0(int arg)
     CombatWorldStateListNode* p = *(CombatWorldStateListNode**)((char*)this + 0x20);
     while (p)
     {
-        if (p->_ref_0084e3a0() == arg)
+        if (reinterpret_cast<::FUN_0084e3a0_Class *>((p))->FUN_0084e3a0() == arg)
             return true;
         p = p->GetNext();
     }
@@ -109,12 +147,6 @@ struct FUN_0062dfe0_shell
     void FUN_0062dfe0();
 };
 
-// @fnv 0x0062c700
-void FUN_0062c700_shell::FUN_0062c700()
-{
-    ((FUN_0062dfe0_shell*)this)->FUN_0062dfe0();
-}
-
 struct FUN_0062d710_shell : FUN_0062d740_shell
 {
     void* FUN_0062d710(unsigned int flags);
@@ -126,13 +158,12 @@ void* FUN_0062d710_shell::FUN_0062d710(unsigned int flags)
 {
     this->FUN_0062d740();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct TESTrapListener
 {
-    void FUN_0062d8a0();
     void* FUN_0062d870(unsigned int flags);
 };
 
@@ -140,9 +171,9 @@ struct TESTrapListener
 // @fnv 0x0062d870
 void* TESTrapListener::FUN_0062d870(unsigned int flags)
 {
-    FUN_0062d8a0();
+    reinterpret_cast<::FUN_0062d8a0 *>(this)->FUN_0062d8a0::~FUN_0062d8a0();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -156,46 +187,43 @@ void* FUN_0062e200_shell::FUN_0062e200(unsigned int flags)
 {
     ((FUN_0062e040_shell*)this)->FUN_0062e040();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct FUN_0062e230_shell
 {
-    void* FUN_004a4960(unsigned int a, unsigned int b, unsigned int c);
     void* FUN_0062e230(unsigned int a, unsigned int b, unsigned int c);
 };
 // Calls FUN_004a4960 with the three arguments and returns this.
 // @fnv 0x0062e230
 void* __thiscall FUN_0062e230_shell::FUN_0062e230(unsigned int a, unsigned int b, unsigned int c)
 {
-    FUN_004a4960(a, b, c);
+    reinterpret_cast<::FUN_004a4960_class *>(this)->FUN_004a4960((void *)(a), (void *)(b), c);
     return this;
 }
 
 struct BSSimpleList
 {
-    BSSimpleList* GetNext();
     BSSimpleList* FUN_006207a0(BSSimpleList* target);
 };
 struct TESRaceForm
 {
-    void Initialize(unsigned int);
 };
 // @fnv 0x006207a0
 BSSimpleList* BSSimpleList::FUN_006207a0(BSSimpleList* pHead)
 {
     if (this == pHead)
-        pHead = this->GetNext();
+        pHead = ((::BSSimpleList *)(reinterpret_cast<::Callees *>((this))->FUN_00726070()));
     else
     {
         BSSimpleList* current = pHead;
         while (current)
         {
-            BSSimpleList* item = current->GetNext();
+            BSSimpleList* item = ((::BSSimpleList *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
             if (this == item)
             {
-                ((TESRaceForm*)current)->Initialize((unsigned int)item->GetNext());
+                reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)current)))->Initialize((::CombatController *)((unsigned int)((::BSSimpleList *)(reinterpret_cast<::Callees *>((item))->FUN_00726070()))));
                 break;
             }
             current = item;
@@ -213,7 +241,7 @@ void* FUN_0062c720_shell::FUN_0062c720(unsigned int flags)
 {
     FUN_0062c700();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -238,20 +266,8 @@ struct FUN_0062c770_shell : FUN_0062dfe0_shell
 {
     void* FUN_0062c770(unsigned int flags);
 };
-// Calls FUN_0062dfe0, then deallocates this when flags has bit 0 set, and returns this.
-// @fnv 0x0062c770
-void* FUN_0062c770_shell::FUN_0062c770(unsigned int flags)
-{
-    FUN_0062dfe0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct NiTPointerMap
 {
-    bool IsEmpty();
-    void* RemoveFirstNode();
 };
 struct Target062c980
 {
@@ -261,25 +277,9 @@ struct Target062c980
     NiTPointerMap map;
     void ClearMap();
 };
-// Resets field4 to 0, then repeatedly takes an item from map and deallocates it until the map is empty.
-// @fnv 0x0062c980
-void Target062c980::ClearMap()
-{
-    void* pDelete;
-    void* pItem;
-    field4 = 0;
-    while (!map.IsEmpty())
-    {
-        pItem = map.RemoveFirstNode();
-        pDelete = pItem;
-        _Deallocate(pDelete);
-    }
-}
-
 namespace fnv_0062cb60 {
 struct NiTPointerMap
 {
-    bool IsEmpty();
     void* RemoveFirstNode();
 };
 struct FUN_0062cb60_shell
@@ -294,7 +294,7 @@ struct FUN_0062cb60_shell
 // @fnv 0x0062cb60
 void* FUN_0062cb60_shell::FUN_0062cb60()
 {
-    if (m_map.IsEmpty())
+    if (::IsFieldCZero((::Dummy_0069b080 *)&(m_map)))
         return 0;
     return m_map.RemoveFirstNode();
 }
@@ -302,7 +302,6 @@ void* FUN_0062cb60_shell::FUN_0062cb60()
 
 struct InnerMember
 {
-    void _ref_006815c0();
 };
 struct MyCollector
 {
@@ -316,7 +315,7 @@ struct MyCollector
 void* MyCollector::FUN_0062d3c0()
 {
     __vftable = (void*)&DAT_0104e328;
-    m_04._ref_006815c0();
+    new ((void *)&(m_04)) ::Vec3();
     FUN_0062d330();
     return this;
 }
@@ -345,16 +344,6 @@ struct hkpAllCdBodyPairCollector : hkpCdBodyPairCollector
 {
     void* FUN_0062d440(unsigned int);
 };
-// Calls FUN_0062d4b0 on this, then FUN_0062d470(this) if bit 0 of flags is set, and returns this.
-// @fnv 0x0062d440
-void* hkpAllCdBodyPairCollector::FUN_0062d440(unsigned int flags)
-{
-    ((S_62d4b0*)this)->FUN_0062d4b0();
-    if (flags & 1)
-        FUN_0062d470(this);
-    return this;
-}
-
 struct TrigEntry
 {
     int a;
@@ -370,7 +359,7 @@ struct TrapHolder
 // @fnv 0x0062d570
 bool TrapHolder::FUN_0062d570(CombatWorldStateListNode* p)
 {
-    int ptriggers = p->_ref_0084e3a0();
+    int ptriggers = reinterpret_cast<::FUN_0084e3a0_Class *>((p))->FUN_0084e3a0();
     {
         int i;
         for (i = 0; i < cnt; ++i)
@@ -390,7 +379,7 @@ struct FUN_0062d6f0_shell
 // @fnv 0x0062d6f0
 void* FUN_0062d6f0_shell::FUN_0062d6f0()
 {
-    *reinterpret_cast<void**>(this) = &DAT_0104e3d0;
+    *reinterpret_cast<void**>(this) = &(*reinterpret_cast<int *>(&::DAT_0104e3d0));
     return this;
 }
 
@@ -421,7 +410,6 @@ bool FUN_0062df20_shell::FUN_0062df20(int a1, int a2)
 namespace fnv_0062df60 {
 struct FUN_0057c400_shell
 {
-    void __thiscall FUN_0057c400(unsigned int);
 };
 struct FUN_0062df60_shell
 {
@@ -430,7 +418,7 @@ struct FUN_0062df60_shell
 // @fnv 0x0062df60
 void __thiscall FUN_0062df60_shell::FUN_0062df60(unsigned int a)
 {
-    ((FUN_0057c400_shell*)this)->FUN_0057c400(a);
+    reinterpret_cast<::Holder0057c400 *>((((FUN_0057c400_shell*)this)))->FUN_0057c400(a);
 }
 }  // namespace fnv_0062df60
 
@@ -444,12 +432,6 @@ struct FUN_0062e170_shell
     void FUN_0062e170();
 };
 
-// @fnv 0x0062df80
-void FUN_0062df80_shell::FUN_0062df80()
-{
-    reinterpret_cast<FUN_0062e170_shell*>(this)->FUN_0062e170();
-}
-
 struct Data62
 {
     int a;
@@ -460,21 +442,10 @@ struct C62
 {
     virtual void f0();
     virtual Data62* f1();
-    void FUN_0062e2f0(Data62* p);
     void SetC(int* p);
 };
-// Gets a Data62 via f1(), stores the int pointed to by p into its c field, then passes it to FUN_0062e2f0.
-// @fnv 0x0062e060
-void C62::SetC(int* piValue)
-{
-    Data62* iVar1 = f1();
-    iVar1->c = *piValue;
-    FUN_0062e2f0(iVar1);
-}
-
 struct CalleeObj
 {
-    void FUN_00622570(bool);
 };
 struct FUN_0062e120_shell
 {
@@ -486,7 +457,7 @@ struct FUN_0062e120_shell
 // @fnv 0x0062e120
 void* FUN_0062e120_shell::FUN_0062e120(void* pObject)
 {
-    ((CalleeObj*)pObject)->FUN_00622570(_flag == 0);
+    reinterpret_cast<::FUN_00622570_Class *>((((CalleeObj*)pObject)))->FUN_00622570(_flag == 0);
     return pObject;
 }
 
@@ -499,6 +470,11 @@ struct FUN_0062e170 : Date
     void InitHelper();
     ~FUN_0062e170();
 };
+// @fnv 0x0062df80
+void FUN_0062df80_shell::FUN_0062df80()
+{
+    reinterpret_cast<::FUN_0062e170 *>((reinterpret_cast<FUN_0062e170_shell*>(this)))->FUN_0062e170::~FUN_0062e170();
+}
 // Destructor that calls InitHelper before the base Date destructor runs.
 // @fnv 0x0062e170
 FUN_0062e170::~FUN_0062e170()
@@ -555,6 +531,14 @@ struct FUN_0062e2f0_shell
     int m_uiItemCount;
     void FUN_0062e2f0(void* block);
 };
+// Gets a Data62 via f1(), stores the int pointed to by p into its c field, then passes it to FUN_0062e2f0.
+// @fnv 0x0062e060
+void C62::SetC(int* piValue)
+{
+    Data62* iVar1 = f1();
+    iVar1->c = *piValue;
+    reinterpret_cast<::FUN_0062e2f0_shell *>(this)->FUN_0062e2f0(iVar1);
+}
 
 // @fnv 0x0062e2f0
 void FUN_0062e2f0_shell::FUN_0062e2f0(void* block)
@@ -569,14 +553,11 @@ void FUN_0062e2f0_shell::FUN_0062e2f0(void* block)
     ++m_uiItemCount;
 }
 
-void __fastcall FUN_00626870(void*);
 struct H_A100
 {
-    void* GetSizeMasked();
 };
 struct H_6db70
 {
-    void FUN_0066db70(void*, void*);
 };
 struct S_0062e350
 {
@@ -588,10 +569,10 @@ struct S_0062e350
 // @fnv 0x0062e350
 void S_0062e350::FUN_0062e350(void* a)
 {
-    FUN_00626870(this);
+    reinterpret_cast<::FUN_00621c90_Class *>((this))->FUN_00626870();
     if (!(f8 & 0x80000000))
     {
-        ((H_6db70*)a)->FUN_0066db70(f0, ((H_A100*)this)->GetSizeMasked());
+        reinterpret_cast<::FUN_0066db70_Class *>((((H_6db70*)a)))->FUN_0066db70((int)(f0), (int)(((void *)(reinterpret_cast<::fnv_0062a100::FUN_0062a100_shell *>((((H_A100*)this)))->GetSizeMasked()))));
     }
     f0 = 0;
     f8 = 0x80000000;
@@ -712,7 +693,7 @@ struct TrapTargetEntry
 // @fnv 0x0062c600
 void TrapTargetEntry::FUN_0062c600(ZoneEntry* apTrap)
 {
-    ((Caller*)_list._ref_0084e3a0())->target(apTrap, this);
+    ((Caller*)reinterpret_cast<::FUN_0084e3a0_Class *>(&(_list))->FUN_0084e3a0())->target(apTrap, this);
 }
 
 struct FUN_0062c6e0_shell
@@ -722,7 +703,6 @@ struct FUN_0062c6e0_shell
 
 struct Base
 {
-    void FUN_0062c750();
 };
 
 extern void* DAT_0104e2f8;
@@ -730,20 +710,19 @@ extern void* DAT_0104e2f8;
 // @fnv 0x0062c6e0
 FUN_0062c6e0_shell::FUN_0062c6e0_shell()
 {
-    ((Base*)this)->FUN_0062c750();
+    new ((void *)(((Base*)this))) ::FUN_0062c750_shell();
     *(void**)this = &DAT_0104e2f8;
 }
 
 // @fnv 0x0062d330
 void MyCollector::FUN_0062d330()
 {
-    ((CalleeObj*)((char*)this + 4))->FUN_00622570(false);
+    reinterpret_cast<::FUN_00622570_Class *>((((CalleeObj*)((char*)this + 4))))->FUN_00622570(false);
 }
 
 namespace fnv_0062d550 {
 struct FUN_0062d570
 {
-    void ProcessIntegerValue(int param);
 };
 
 struct FUN_0062d550_shell
@@ -756,13 +735,12 @@ struct FUN_0062d550_shell
 // @fnv 0x0062d550
 void FUN_0062d550_shell::ForwardToMember(int aiValue)
 {
-    m_0x10.ProcessIntegerValue(aiValue);
+    reinterpret_cast<::TrapHolder *>(&(m_0x10))->FUN_0062d570((::CombatWorldStateListNode *)(aiValue));
 }
 }  // namespace fnv_0062d550
 
 struct FUN_0062c7a0_shell
 {
-    void FUN_0062c7a0();
 };
 
 struct FUN_0062d9e0_shell
@@ -772,15 +750,8 @@ struct FUN_0062d9e0_shell
     void CallMemberAtOffset();
 };
 
-// @fnv 0x0062d9e0
-void FUN_0062d9e0_shell::CallMemberAtOffset()
-{
-    ((FUN_0062c7a0_shell*)((char*)this + 0x10))->FUN_0062c7a0();
-}
-
 struct FUN_00620810_shell
 {
-    void FindByFlags(int a);
 };
 struct FUN_0062db40_shell
 {
@@ -789,7 +760,7 @@ struct FUN_0062db40_shell
 // @fnv 0x0062db40
 void FUN_0062db40_shell::FUN_0062db40(int aiValue)
 {
-    ((FUN_00620810_shell*)this)->FindByFlags(aiValue);
+    reinterpret_cast<::FUN_00620810_List *>((((FUN_00620810_shell*)this)))->FindByFlags(aiValue);
 }
 
 namespace fnv_0062dfa0 {
@@ -814,15 +785,12 @@ struct bhkWorld;
 struct TESObjectCELL;
 struct ExtraDataList
 {
-    bhkWorld* GetRoomId();
 };
 struct BSOcclusionPlane
 {
-    ExtraDataList* GetCullResult() const;
 };
 struct TESObject
 {
-    TESObject* GetNext();
 };
 // Returns the TESObject obtained from the plane's cull result extra data world, or null if any step is missing.
 // @fnv 0x0062ddb0
@@ -831,13 +799,13 @@ TESObject* __cdecl GetOcclusionPlaneObject(BSOcclusionPlane* pOcclusionPlane)
     TESObject* pResult = 0;
     if (pOcclusionPlane)
     {
-        ExtraDataList* pData = pOcclusionPlane->GetCullResult();
+        ExtraDataList* pData = ((::ExtraDataList *)(reinterpret_cast<::LowProcess *>((void *)(pOcclusionPlane))->GetTarget()));
         if (pData)
         {
-            bhkWorld* pWorld = pData->GetRoomId();
+            bhkWorld* pWorld = ((::bhkWorld *)(reinterpret_cast<::FUN_004543c0_cls *>((pData))->FUN_004543c0()));
             if (pWorld)
             {
-                TESObject* pObj = ((TESObject*)pWorld)->GetNext();
+                TESObject* pObj = ((::TESObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)pWorld)))->FUN_007af430()));
                 pResult = pObj ? (TESObject*)((char*)pObj - 8) : 0;
             }
         }
@@ -862,7 +830,7 @@ void FUN_0062de90_shell::FUN_0062de90(CombatWorldStateListNode* target)
     CombatWorldStateListNode* node = m_20;
     while (node)
     {
-        if (node->_ref_0084e3a0() == (int)target)
+        if (reinterpret_cast<::FUN_0084e3a0_Class *>((node))->FUN_0084e3a0() == (int)target)
         {
             ((FUN_0062d510_shell*)node)->FUN_0062d510();
             break;
@@ -891,7 +859,6 @@ FUN_0062d840_shell* FUN_0062d7c0_shell::FUN_0062d7c0(unsigned int a, unsigned in
 }
 
 struct TESObjectREFR;
-TESObjectREFR* __cdecl FUN_0062b4e0(void*);
 struct RootContactPoint
 {
     void* m_p0;
@@ -916,7 +883,6 @@ struct RootContactPoint
 };
 struct FUN_00620340_shell
 {
-    void* FUN_00620340(RootContactPoint*, TESObjectREFR*, TESObjectREFR*, int, int);
 };
 struct FUN_0062dc80_shell
 {
@@ -933,7 +899,7 @@ bool FUN_0062dc80_shell::FUN_0062dc80(RootContactPoint* arPoint)
     if (ptrapRef && m_pReference && ((bool(__thiscall*)(void*))(*(void***)m_pReference)[0x40])(m_pReference))
     {
         ZoneEntry* ptrap =
-            (ZoneEntry*)((FUN_00620340_shell*)((char*)this - 8))->FUN_00620340(arPoint, ptrapRef, m_pReference, 0, 1);
+            (ZoneEntry*)((void *)(reinterpret_cast<::ImpactManager620 *>((((FUN_00620340_shell*)((char*)this - 8))))->FUN_00620340((::CollisionInfo620 *)(arPoint), ptrapRef, m_pReference, (void *)(0), 1)));
         bres = ptrap != 0;
     }
     return bres;
@@ -949,6 +915,20 @@ struct FUN_0062e0a0_shell : NiTPointerMap
     int m_uiItemCount;
     void* RemoveFirstNode();
 };
+// Resets field4 to 0, then repeatedly takes an item from map and deallocates it until the map is empty.
+// @fnv 0x0062c980
+void Target062c980::ClearMap()
+{
+    void* pDelete;
+    void* pItem;
+    field4 = 0;
+    while (!::IsFieldCZero((::Dummy_0069b080 *)&(map)))
+    {
+        pItem = reinterpret_cast<::FUN_0062e0a0_shell *>(&(map))->RemoveFirstNode();
+        pDelete = pItem;
+        ::FUN_00401030(pDelete);
+    }
+}
 
 // @fnv 0x0062e0a0
 void* FUN_0062e0a0_shell::RemoveFirstNode()
@@ -1001,7 +981,7 @@ void FUN_0062cb90_shell::CompactEntries()
     {
         if (entries[allocated].flag == 0)
         {
-            j = ::operator new(8);
+            j = ::FUN_00401000(8);
             index = static_cast<FUN_0062cb90_Allocated*>(j);
             index->state = 2;
             index->value = entries[allocated].value;
@@ -1032,13 +1012,12 @@ struct FUN_0062d310_shell : MyCollector
 // @fnv 0x0062d310
 void FUN_0062d310_shell::FUN_0062d310()
 {
-    FUN_00626870((char*)this + 8);
+    reinterpret_cast<::FUN_00621c90_Class *>(((char*)this + 8))->FUN_00626870();
     FUN_0062d330();
 }
 
 struct BSAudio
 {
-    int GetAudioBackendData();
 };
 struct MemoryManager
 {
@@ -1056,41 +1035,25 @@ void __cdecl FUN_0062d470(void* ap)
 {
     if (ap)
     {
-        Vt62d470* apTopic = (Vt62d470*)((BSAudio*)_D1A0E0GetMemoryRouter())->GetAudioBackendData();
+        Vt62d470* apTopic = (Vt62d470*)((int)(reinterpret_cast<::MagicCaster_shell *>((((BSAudio*)_D1A0E0GetMemoryRouter())))->FUN_0044edb0()));
         apTopic->vf2(ap, 0x114);
     }
 }
 
 struct BGSSaveLoadGame
 {
-    bool FUN_0042ce10();
 };
 
-extern BGSSaveLoadGame* g_BGSSaveLoadGame;
 
 struct FUN_0062c860_shell
 {
-    void ApplyEntriesToRef(int arg);
 };
 
-int __fastcall _ref_0084e3a0(void* self);
-
-// If the save/load game check fails, calls ApplyEntriesToRef with _ref_0084e3a0(this) on the object at offset 0x10, then calls ClearMap on it.
-// @fnv 0x0062d510
-void FUN_0062d510_shell::FUN_0062d510()
-{
-    if (!g_BGSSaveLoadGame->FUN_0042ce10())
-    {
-        reinterpret_cast<FUN_0062c860_shell*>(reinterpret_cast<char*>(this) + 0x10)
-            ->ApplyEntriesToRef(_ref_0084e3a0(this));
-    }
-
-    reinterpret_cast<Target062c980*>(reinterpret_cast<char*>(this) + 0x10)->ClearMap();
-}
 
 struct FUN_00620720_shell
 {
-    void* FUN_00620720(unsigned int a, unsigned int b);
+public:
+    ::FUN_00620720_shell *FUN_00620720(void *, void *);
 };
 struct FUN_0062c640_shell
 {
@@ -1104,18 +1067,11 @@ struct FUN_0062dc50_shell
     void* m_iThirdValue;
     void* FUN_0062dc50(unsigned int a, unsigned int b);
 };
-// Calls FUN_00620720 with a and b, then FUN_0062c640 on the object at offset 0x10, and returns this.
-// @fnv 0x0062dc50
-void* FUN_0062dc50_shell::FUN_0062dc50(unsigned int auiArg1, unsigned int auiArg2)
-{
-    ((FUN_00620720_shell*)this)->FUN_00620720(auiArg1, auiArg2);
-    ((FUN_0062c640_shell*)((char*)this + 0x10))->FUN_0062c640();
-    return this;
-}
-
+struct AnimIdle;
 struct FUN_00620680_Class
 {
-    void* FUN_00620680(void*, void*);
+public:
+    ::AnimIdle *FUN_00620680(int, int);
 };
 
 struct FUN_0062dd20_vtable
@@ -1275,8 +1231,7 @@ bool FUN_0062dd20_shell::FUN_0062dd20(RootContactPoint& arPoint)
         {
             ZoneEntry* ptrap;
             ptrap = reinterpret_cast<ZoneEntry*>(
-                reinterpret_cast<FUN_00620680_Class*>(reinterpret_cast<char*>(this) - 8)
-                    ->FUN_00620680(*reinterpret_cast<void**>(reinterpret_cast<char*>(&arPoint) + 0x48), m_pReference));
+                ((void *)(reinterpret_cast<FUN_00620680_Class*>(reinterpret_cast<char*>(this) - 8)->FUN_00620680((int)(*reinterpret_cast<void**>(reinterpret_cast<char*>(&arPoint) + 0x48)), (int)(m_pReference)))));
         }
         bres = true;
     }
@@ -1297,6 +1252,14 @@ struct FUN_0062c640
     FX62c640_Member m_kMemberDescriptor;
     FUN_0062c640();
 };
+// Calls FUN_00620720 with a and b, then FUN_0062c640 on the object at offset 0x10, and returns this.
+// @fnv 0x0062dc50
+void* FUN_0062dc50_shell::FUN_0062dc50(unsigned int auiArg1, unsigned int auiArg2)
+{
+    ((FUN_00620720_shell*)this)->FUN_00620720((void *)(auiArg1), (void *)(auiArg2));
+    new ((void *)(((FUN_0062c640_shell*)((char*)this + 0x10)))) ::FUN_0062c640();
+    return this;
+}
 
 // @fnv 0x0062c640
 FUN_0062c640::FUN_0062c640()
@@ -1376,12 +1339,7 @@ struct Extra62C
 };
 struct Ref62C : Form62C
 {
-    Extra62C* FUN_005d43c0();
-    void FUN_00572e10(Ref62C*);
-    void FUN_00565870();
 };
-Form62C* FUN_004839c0(unsigned int);
-bool FUN_005ac750(Form62C*, Extra62C*, unsigned int);
 struct Entry62C
 {
     unsigned int id;
@@ -1393,6 +1351,17 @@ struct Shell62C
     int count;
     void ApplyEntriesToRef(Ref62C*);
 };
+// If the save/load game check fails, calls ApplyEntriesToRef with _ref_0084e3a0(this) on the object at offset 0x10, then calls ClearMap on it.
+// @fnv 0x0062d510
+void FUN_0062d510_shell::FUN_0062d510()
+{
+    if (!reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>((g_BGSSaveLoadGame))->FUN_0042ce10())
+    {
+        reinterpret_cast<::Shell62C *>((reinterpret_cast<FUN_0062c860_shell*>(reinterpret_cast<char*>(this) + 0x10)))->ApplyEntriesToRef((::Ref62C *)(reinterpret_cast<::FUN_0084e3a0_Class *>((this))->FUN_0084e3a0()));
+    }
+
+    reinterpret_cast<Target062c980*>(reinterpret_cast<char*>(this) + 0x10)->ClearMap();
+}
 // @fnv 0x0062c860
 void Shell62C::ApplyEntriesToRef(Ref62C* ref)
 {
@@ -1402,16 +1371,16 @@ void Shell62C::ApplyEntriesToRef(Ref62C* ref)
     unsigned int size = count;
     for (int i = 0; i < count; i++)
         copy[i] = entries[i].id;
-    Extra62C* extra = ref->FUN_005d43c0();
+    Extra62C* extra = ((::Extra62C *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()));
     for (unsigned int j = 0; j < size; j++)
     {
-        Form62C* form = FUN_004839c0(copy[j]);
+        Form62C* form = ((::Form62C *)(::FUN_004839c0(copy[j])));
         if (form && form->isRef())
         {
             Ref62C* target = (Ref62C*)form;
-            FUN_005ac750(target, extra, 0x40000000);
-            ref->FUN_00572e10(target);
-            ref->FUN_00565870();
+            ::FUN_005ac750((::TESForm *)(target), (::ExtraDataList *)(extra), 0x40000000);
+            reinterpret_cast<::s572e10::Owner *>((ref))->FUN_00572e10((int)(target));
+            reinterpret_cast<::fnv_00565870::FUN_00565870_shell *>((ref))->FUN_00565870();
         }
     }
     delete[] copy;
@@ -1429,7 +1398,6 @@ struct CollisionState
 };
 struct CollisionQueue
 {
-    void SetC(CollisionState**);
 };
 struct CollisionRegistry
 {
@@ -1442,7 +1410,7 @@ struct CollisionRegistry
 // @fnv 0x0062c9d0
 bool CollisionRegistry::RegisterCollision(void* object)
 {
-    int key = _ref_0084e3a0(object);
+    int key = reinterpret_cast<::FUN_0084e3a0_Class *>((object))->FUN_0084e3a0();
     for (int i = 0; i < count; ++i)
     {
         if (key == entries[i].key)
@@ -1474,7 +1442,7 @@ bool CollisionRegistry::RegisterCollision(void* object)
     CollisionState* state = new CollisionState;
     state->state = 1;
     state->key = key;
-    queue.SetC(&state);
+    reinterpret_cast<::C62 *>(&(queue))->SetC((int *)(::CollisionState **)(&state));
     return false;
 }
 
@@ -1490,7 +1458,6 @@ struct S_0062d350_Base
     S_0062d350_Base();
     ~S_0062d350_Base();
     virtual void v00();
-    void FUN_0062d310();
 };
 
 struct FUN_0062d350 : S_0062d350_Base
@@ -1504,7 +1471,7 @@ struct FUN_0062d350 : S_0062d350_Base
 // @fnv 0x0062d350
 FUN_0062d350::FUN_0062d350() : m8(0)
 {
-    FUN_0062d310();
+    reinterpret_cast<::FUN_0062d310_shell *>(this)->FUN_0062d310();
 }
 
 class FUN_0062e040_base
@@ -1519,6 +1486,20 @@ class FUN_0062dfe0 : public FUN_0062e040_base
   public:
     virtual ~FUN_0062dfe0();
 };
+// @fnv 0x0062c700
+void FUN_0062c700_shell::FUN_0062c700()
+{
+    reinterpret_cast<::FUN_0062dfe0 *>((((FUN_0062dfe0_shell*)this)))->FUN_0062dfe0::~FUN_0062dfe0();
+}
+// Calls FUN_0062dfe0, then deallocates this when flags has bit 0 set, and returns this.
+// @fnv 0x0062c770
+void* FUN_0062c770_shell::FUN_0062c770(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0062dfe0 *>(this)->FUN_0062dfe0::~FUN_0062dfe0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Destructor that forwards to ClearList on this object.
 // @fnv 0x0062dfe0
@@ -1564,8 +1545,6 @@ class EntryList62C
   public:
     ~EntryList62C();
 
-    bool IsEmpty();
-    CacheEntry62C* RemoveHead();
 
     void* m_pkHead;
     void* m_pkTail;
@@ -1582,6 +1561,11 @@ class FUN_0062c7a0_Cache
     int unk08;
     EntryList62C m_kEntries;
 };
+// @fnv 0x0062d9e0
+void FUN_0062d9e0_shell::CallMemberAtOffset()
+{
+    reinterpret_cast<::FUN_0062c7a0_Cache *>((((FUN_0062c7a0_shell*)((char*)this + 0x10))))->FUN_0062c7a0_Cache::~FUN_0062c7a0_Cache();
+}
 
 // Resets the buffer size, deletes the stored entry, and removes and deletes every entry in the list until it is empty.
 // @fnv 0x0062c7a0
@@ -1591,9 +1575,9 @@ FUN_0062c7a0_Cache::~FUN_0062c7a0_Cache()
     if (m_pCacheEntry)
         delete m_pCacheEntry;
     m_pCacheEntry = 0;
-    while (!m_kEntries.IsEmpty())
+    while (!::IsFieldCZero((::Dummy_0069b080 *)&(m_kEntries)))
     {
-        CacheEntry62C* pkEntry = m_kEntries.RemoveHead();
+        CacheEntry62C* pkEntry = ((::CacheEntry62C *)(reinterpret_cast<::FUN_0062e0a0_shell *>(&(m_kEntries))->RemoveFirstNode()));
         delete pkEntry;
     }
 }
@@ -1680,12 +1664,9 @@ struct TESObjectREFR : Ref62C
     virtual void v138();
     virtual bool FlagA(int);
     virtual bool FlagB();
-    bool FUN_00440da0();
-    bool FUN_00440d80();
 };
 struct Check62
 {
-    bool FUN_005609f0();
 };
 struct ArrayEntry62
 {
@@ -1699,19 +1680,13 @@ struct Array62
     void* data;
     int size;
     int capacity;
-    Check62 FUN_0062e120();
-    int FUN_00726070();
-    ArrayEntry62* FUN_0062e150(int);
-    ArrayEntry62* FUN_00629ab0(int);
 };
 struct World62
 {
-    void FUN_00483710();
 };
 struct CollisionObject62;
 struct Broad62
 {
-    CollisionObject62* FUN_004b59d0();
 };
 struct CollisionObject62
 {
@@ -1733,9 +1708,6 @@ struct CollisionObject62
     virtual void v15();
     virtual void v16();
     virtual void Collect(void*, int);
-    World62* FUN_0044ddc0();
-    Array62* GetOffset160();
-    Array62* FUN_0045c650();
 };
 struct FUN_0062d350_Collector
 {
@@ -1748,13 +1720,10 @@ struct FUN_0062d350_Collector
     int capacityFlags;
     FUN_0062d350_Collector();
     ~FUN_0062d350_Collector();
-    void FUN_0062d310();
     Array62* FUN_00413f40();
 };
 struct Registry62 : CollisionRegistry
 {
-    void CompactEntries();
-    CollisionState* FUN_0062cb60();
 };
 struct Subject62
 {
@@ -1763,60 +1732,56 @@ struct Subject62
     int field8;
     int fieldC;
     Registry62 registry;
-    TESObjectREFR* _ref_0084e3a0();
-    Broad62* FUN_0044ddc0();
     bool ProcessCollisionPairs(int);
 };
-void* FUN_004b59f0(void*);
-void __cdecl FUN_00401030(void*);
 // @fnv 0x0062cc90
 bool Subject62::ProcessCollisionPairs(int arg)
 {
     bool world = false;
-    TESObjectREFR* owner = _ref_0084e3a0();
-    if (!owner || owner->FUN_00440da0() || owner->FUN_00440d80() || !owner->Active())
+    TESObjectREFR* owner = ((::TESObjectREFR *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()));
+    if (!owner || reinterpret_cast<::TESForm *>((owner))->GetDisabled() || reinterpret_cast<::FUN_00440d80_shell *>((owner))->FUN_00440d80() || !owner->Active())
         return world;
-    Broad62* pending = FUN_0044ddc0();
-    CollisionObject62* kind = pending->FUN_004b59d0();
-    World62* broad = kind->FUN_0044ddc0();
+    Broad62* pending = ((::Broad62 *)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
+    CollisionObject62* kind = ((::CollisionObject62 *)(::FUN_004b59d0((const char *)(pending))));
+    World62* broad = ((::World62 *)(reinterpret_cast<::Twin_0044ddc0 *>((kind))->GetName()));
     if (broad)
-        broad->FUN_00483710();
+        reinterpret_cast<::TESForm *>((broad))->ClearData();
     int changed = kind->Kind();
     if (broad)
-        broad->FUN_00483710();
+        reinterpret_cast<::TESForm *>((broad))->ClearData();
     if (changed == 1)
     {
         CollisionObject62* shape = kind;
-        if (!shape->GetOffset160()->FUN_0062e120().FUN_005609f0())
+        if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::Check62 &)((*(::Check62 *)(reinterpret_cast<::FUN_0062e120_shell *>((((::Array62 *)(reinterpret_cast<::FUN_0062d2f0_shell *>((shape))->GetOffset160()))))->FUN_0062e120({})))))->FUN_005609f0())
         {
             FUN_0062d350_Collector collector;
-            collector.FUN_0062d310();
+            reinterpret_cast<::FUN_0062d310_shell *>(&(collector))->FUN_0062d310();
             if (broad)
-                broad->FUN_00483710();
+                reinterpret_cast<::TESForm *>((broad))->ClearData();
             shape->Collect(&collector, 0);
             if (broad)
-                broad->FUN_00483710();
+                reinterpret_cast<::TESForm *>((broad))->ClearData();
             Array62* array = collector.FUN_00413f40();
-            if (!array->FUN_0062e120().FUN_005609f0())
+            if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::Check62 &)((*(::Check62 *)(reinterpret_cast<::FUN_0062e120_shell *>((array))->FUN_0062e120({})))))->FUN_005609f0())
             {
-                int count = array->FUN_00726070();
+                int count = ((int)(reinterpret_cast<::Callees *>((array))->FUN_00726070()));
                 for (int i = 0; i < count; i++)
                 {
-                    void* body = array->FUN_0062e150(i)->bodyC;
+                    void* body = ((::ArrayEntry62 *)(reinterpret_cast<::FUN_0062e150_cls *>((array))->FUN_0062e150(i)))->bodyC;
                     if (body)
                     {
                         TESObjectREFR* ref = FUN_0062b4e0(body);
                         if (ref)
                         {
-                            bool flag = ref->IsActor() && FUN_004b59f0(body);
+                            bool flag = ref->IsActor() && ::FUN_004b59f0(body);
                             bool actor = ref->FlagA(0) || ref->FlagB();
                             if (!flag || actor)
                             {
                                 bool found = registry.RegisterCollision(ref);
                                 if (found)
                                 {
-                                    Extra62C* extra = _ref_0084e3a0()->FUN_005d43c0();
-                                    world |= FUN_005ac750(ref, extra, 0x10000000);
+                                    Extra62C* extra = ((::Extra62C *)(reinterpret_cast<::FUN_005d43c0_ *>((((::TESObjectREFR *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))->FUN_005d43c0()));
+                                    world |= ::FUN_005ac750((::TESForm *)(ref), (::ExtraDataList *)(extra), 0x10000000);
                                 }
                             }
                         }
@@ -1828,27 +1793,27 @@ bool Subject62::ProcessCollisionPairs(int arg)
     else if (kind->Kind() == 0)
     {
         CollisionObject62* shape = kind;
-        Array62* array = shape->FUN_0045c650();
-        if (!array->FUN_0062e120().FUN_005609f0())
+        Array62* array = ((::Array62 *)(reinterpret_cast<::FUN_0045c650_shell *>((shape))->FUN_0045c650()));
+        if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::Check62 &)((*(::Check62 *)(reinterpret_cast<::FUN_0062e120_shell *>((array))->FUN_0062e120({})))))->FUN_005609f0())
         {
-            int count = array->FUN_00726070();
+            int count = ((int)(reinterpret_cast<::Callees *>((array))->FUN_00726070()));
             for (int i = 0; i < count; i++)
             {
-                void* body = array->FUN_00629ab0(i)->bodyA;
+                void* body = ((::ArrayEntry62 *)&(reinterpret_cast<::FUN_00629ab0_shell *>((array))->FUN_00629ab0(i)))->bodyA;
                 if (body)
                 {
                     TESObjectREFR* ref = FUN_0062b4e0(body);
                     if (ref)
                     {
-                        bool flag = ref->IsActor() && FUN_004b59f0(body);
+                        bool flag = ref->IsActor() && ::FUN_004b59f0(body);
                         bool actor = ref->FlagA(0) || ref->FlagB();
                         if (!flag || actor)
                         {
                             bool found = registry.RegisterCollision(ref);
                             if (found)
                             {
-                                Extra62C* extra = _ref_0084e3a0()->FUN_005d43c0();
-                                world |= FUN_005ac750(ref, extra, 0x10000000);
+                                Extra62C* extra = ((::Extra62C *)(reinterpret_cast<::FUN_005d43c0_ *>((((::TESObjectREFR *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))->FUN_005d43c0()));
+                                world |= ::FUN_005ac750((::TESForm *)(ref), (::ExtraDataList *)(extra), 0x10000000);
                             }
                         }
                     }
@@ -1856,8 +1821,8 @@ bool Subject62::ProcessCollisionPairs(int arg)
             }
         }
     }
-    registry.CompactEntries();
-    CollisionState* object = registry.FUN_0062cb60();
+    reinterpret_cast<::FUN_0062cb90_shell *>(&(registry))->CompactEntries();
+    CollisionState* object = ((::CollisionState *)(reinterpret_cast<::fnv_0062cb60::FUN_0062cb60_shell *>(&(registry))->FUN_0062cb60()));
     if (object)
     {
         unsigned int ref;
@@ -1866,76 +1831,43 @@ bool Subject62::ProcessCollisionPairs(int arg)
         else
             ref = 0x40000000;
         unsigned int id = object->key;
-        Ref62C* flags = (Ref62C*)FUN_004839c0(id);
+        Ref62C* flags = (Ref62C*)((::Form62C *)(::FUN_004839c0(id)));
         delete object;
         if (flags)
         {
-            Extra62C* extra = _ref_0084e3a0()->FUN_005d43c0();
-            world |= FUN_005ac750(flags, extra, ref);
-            _ref_0084e3a0()->FUN_00572e10(flags);
+            Extra62C* extra = ((::Extra62C *)(reinterpret_cast<::FUN_005d43c0_ *>((((::TESObjectREFR *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))->FUN_005d43c0()));
+            world |= ::FUN_005ac750((::TESForm *)(flags), (::ExtraDataList *)(extra), ref);
+            reinterpret_cast<::s572e10::Owner *>((((::TESObjectREFR *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))->FUN_00572e10((int)(flags));
         }
     }
     return world;
 }
 
 struct TESObjectREFR;
-TESObjectREFR* __cdecl FUN_0062b4e0(void* object);
 struct EventContext
 {
-    void* FUN_0043b540();
 };
 struct InputBody
 {
-    EventContext* FUN_00460140();
 };
 struct EventCode
 {
     int value;
-    void FUN_008c71b0(void* rawCode);
-    int FUN_0043b4d0();
 };
 struct TrapEventHandler
 {
-    void FUN_00576800(TESObjectREFR* reference);
     void FUN_00620130(TESObjectREFR* reference);
 };
 struct FUN_0062da00_Class
 {
     void HandleTrapEvent(InputBody* source);
 };
-// Resolves the event code from the input body and, for codes 14, 16 or 30, dispatches the referenced object to the trap handler.
-// @fnv 0x0062da00
-void FUN_0062da00_Class::HandleTrapEvent(InputBody* pInputBody)
-{
-    EventContext* resolvedBody = pInputBody->FUN_00460140();
-    EventCode notification;
-    notification.FUN_008c71b0(resolvedBody->FUN_0043b540());
-    int category = notification.FUN_0043b4d0();
-    if (category == 14 || category == 16 || category == 30)
-    {
-        TESObjectREFR* reference = FUN_0062b4e0(resolvedBody);
-        if (reference != 0)
-        {
-            if (category == 14 || category == 16)
-            {
-                reinterpret_cast<TrapEventHandler*>(reinterpret_cast<char*>(this) - 8)->FUN_00576800(reference);
-            }
-            else
-            {
-                reinterpret_cast<TrapEventHandler*>(reinterpret_cast<char*>(this) - 8)->FUN_00620130(reference);
-            }
-        }
-    }
-}
-
 struct LocalClass
 {
-    int FUN_0043b540();
 };
 
 struct ArgClass
 {
-    LocalClass* FUN_00460140();
 };
 
 struct FUN_0043b4d0_shell
@@ -1948,6 +1880,30 @@ struct GlobalObject_008c71b0 : FUN_0043b4d0_shell
     int unk00;
     GlobalObject_008c71b0(int);
 };
+// Resolves the event code from the input body and, for codes 14, 16 or 30, dispatches the referenced object to the trap handler.
+// @fnv 0x0062da00
+void FUN_0062da00_Class::HandleTrapEvent(InputBody* pInputBody)
+{
+    EventContext* resolvedBody = ((::EventContext *)(::FUN_00460140((int)(pInputBody))));
+    EventCode notification;
+    new ((void *)&(notification)) ::GlobalObject_008c71b0((int)(((void *)(::FUN_0043b540((char *)(resolvedBody))))));
+    int category = reinterpret_cast<::FUN_0043b4d0_shell *>(&(notification))->FUN_0043b4d0();
+    if (category == 14 || category == 16 || category == 30)
+    {
+        TESObjectREFR* reference = FUN_0062b4e0(resolvedBody);
+        if (reference != 0)
+        {
+            if (category == 14 || category == 16)
+            {
+                reinterpret_cast<::FUN_00576830_shell *>((reinterpret_cast<TrapEventHandler*>(reinterpret_cast<char*>(this) - 8)))->FUN_00576800((::BSOcclusionPlane *)(reference));
+            }
+            else
+            {
+                reinterpret_cast<TrapEventHandler*>(reinterpret_cast<char*>(this) - 8)->FUN_00620130(reference);
+            }
+        }
+    }
+}
 
 struct FUN_0062d9b0_Class : BSSimpleList
 {
@@ -1971,8 +1927,8 @@ struct TargetClass
 // @fnv 0x0062da90
 void TargetClass::RemoveMatchingListEntry(ArgClass* arg)
 {
-    LocalClass* v8 = arg->FUN_00460140();
-    GlobalObject_008c71b0 v4(v8->FUN_0043b540());
+    LocalClass* v8 = ((::LocalClass *)(::FUN_00460140((int)(arg))));
+    GlobalObject_008c71b0 v4(((int)(::FUN_0043b540((char *)(v8)))));
 
     if (unk04)
     {
@@ -2010,6 +1966,15 @@ class FUN_0062d4b0 : public FUN_0062d420
 
     virtual ~FUN_0062d4b0();
 };
+// Calls FUN_0062d4b0 on this, then FUN_0062d470(this) if bit 0 of flags is set, and returns this.
+// @fnv 0x0062d440
+void* hkpAllCdBodyPairCollector::FUN_0062d440(unsigned int flags)
+{
+    reinterpret_cast<class ::FUN_0062d4b0 *>((((S_62d4b0*)this)))->FUN_0062d4b0::~FUN_0062d4b0();
+    if (flags & 1)
+        FUN_0062d470(this);
+    return this;
+}
 
 // @fnv 0x0062d4b0
 FUN_0062d4b0::~FUN_0062d4b0()
@@ -2018,17 +1983,14 @@ FUN_0062d4b0::~FUN_0062d4b0()
 struct CollisionBody;
 struct CollisionArgument
 {
-    CollisionBody* FUN_00460140();
 };
 struct CollisionBody
 {
-    unsigned int FUN_0043b540();
 };
 struct FilterWord
 {
     unsigned int filter;
     FilterWord(unsigned int);
-    int FUN_0043b4d0();
 };
 struct ListenerNode
 {
@@ -2044,7 +2006,6 @@ struct ListenerNode
     unsigned int unk24;
     unsigned int unk28;
     ListenerNode(TESObjectREFR*, CollisionBody*);
-    void FUN_006ecd40(ListenerNode*);
 };
 struct TrapListener
 {
@@ -2056,16 +2017,16 @@ struct TrapListener
 // @fnv 0x0062db60
 void TrapListener::AddListener(CollisionArgument* apCollisionArgument)
 {
-    CollisionBody* body = apCollisionArgument->FUN_00460140();
-    FilterWord filter(body->FUN_0043b540());
-    int layer = filter.FUN_0043b4d0();
+    CollisionBody* body = ((::CollisionBody *)(::FUN_00460140((int)(apCollisionArgument))));
+    FilterWord filter(::FUN_0043b540((char *)(body)));
+    int layer = reinterpret_cast<::FUN_0043b4d0_shell *>(&(filter))->FUN_0043b4d0();
     if (layer == 12 || layer == 22 || layer == 24)
     {
         TESObjectREFR* reference = FUN_0062b4e0(body);
         if (reference)
         {
             ListenerNode* node = new ListenerNode(reference, body);
-            node->FUN_006ecd40(head);
+            reinterpret_cast<::CombatProcedure *>((node))->Initialize((::CombatController *)(head));
             head = node;
         }
     }
@@ -2077,12 +2038,10 @@ struct Item62DE
 {
     virtual void vfn_00();
     virtual void vfn_04();
-    Item62DE* FUN_00620180();
 };
 
 struct Child62DE
 {
-    bool ProcessCollisionPairs(float f);
     Child62DE* FUN_0062d990();
 };
 
@@ -2107,7 +2066,7 @@ void Updater62DE::FUN_0062de20(float f)
         Child62DE* child = m_children;
         while (child)
         {
-            child->ProcessCollisionPairs(f);
+            reinterpret_cast<::Subject62 *>((child))->ProcessCollisionPairs(f);
             child = child->FUN_0062d990();
         }
     }
@@ -2115,7 +2074,7 @@ void Updater62DE::FUN_0062de20(float f)
     while (item)
     {
         item->vfn_04();
-        item = item->FUN_00620180();
+        item = ((::Item62DE *)(reinterpret_cast<::ContOwner_620 *>((item))->FUN_00620180()));
     }
 }
 
@@ -2155,7 +2114,6 @@ struct EventCaller_62c5a0
 
 struct EventLink_62c5a0
 {
-    EventLink_62c5a0* FUN_00726070();
 };
 
 struct EventNode_62c5a0 : EventCaller_62c5a0, EventLink_62c5a0
@@ -2164,7 +2122,6 @@ struct EventNode_62c5a0 : EventCaller_62c5a0, EventLink_62c5a0
 
 struct EventCollection_62c5a0
 {
-    EventNode_62c5a0* FUN_00825c00();
     void FUN_0062c5a0();
 };
 
@@ -2172,10 +2129,10 @@ struct EventCollection_62c5a0
 // @fnv 0x0062c5a0
 void EventCollection_62c5a0::FUN_0062c5a0()
 {
-    EventNode_62c5a0* node = FUN_00825c00();
+    EventNode_62c5a0* node = ((::EventNode_62c5a0 *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(this)->FUN_00825c00()));
     while (node != 0)
     {
         node->Invoke(this);
-        node = static_cast<EventNode_62c5a0*>(node->FUN_00726070());
+        node = static_cast<EventNode_62c5a0*>(((::EventLink_62c5a0 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())));
     }
 }

@@ -1,5 +1,31 @@
 // bsshader/debugshader.cpp: BloodSplatterBeamShader, SpeedTreeFrondShaderX, DebugShaderLoader, DebugShaderInit and more (15 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/E7DEF0TextureStage.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00a87790_cls.h"
+#include "fnv/decl/FUN_00a87900_class.h"
+#include "fnv/decl/FUN_00be1750_shell.h"
+#include "fnv/decl/FUN_00e7ecd0_cls.h"
+#include "fnv/decl/NiRenderer.h"
+#include "fnv/decl/NiScreenElementsData.h"
+#include "fnv/decl/NiScreenElementsDataShell.h"
+#include "fnv/decl/StageSet.h"
+#include "fnv/decl/StateGroup.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00be0000.h"
+#include "fnv/symbols_00e76000.h"
+#include "fnv/symbols_00e7e000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01018000.h"
+#include "fnv/symbols_0106b000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_0126f000.h"
 #include "debugshader_local.h"
 
 // @fnv 0x00bd1950
@@ -20,10 +46,10 @@ bool BloodSplatterBeamShader::ConfigureShaderPass()
 {
     NiD3DPass::CreateD3DPass(spRenderPass);
     NiPointer<BeamStage> stage;
-    BeamStage::CreateNewStage(stage);
-    ConfigureBeamStage(stage.m_pObject, 0, 3, 2, true);
-    stage.m_pObject->FUN_00e7def0(0);
-    spRenderPass.m_pObject->FUN_00e802b0(spRenderPass.m_pObject->m_uiStageMask, stage.m_pObject);
+    ::AssignStageFromPool((::StageReturn *&)(stage));
+    ::ConfigureBeamStage(stage.m_pObject, 0, 3, 2, true);
+    reinterpret_cast<::E7DEF0TextureStage *>((stage.m_pObject))->FUN_00e7def0(0);
+    reinterpret_cast<::StageSet *>((spRenderPass.m_pObject))->FUN_00e802b0(spRenderPass.m_pObject->m_uiStageMask, (::Stage321 *)(stage.m_pObject));
     spRenderPass.m_pObject->SetVertexShader(m_spTreeVertexShader.m_pObject);
     spRenderPass.m_pObject->SetPixelShader(m_spPixelShaderVariants[0].m_pObject);
     spRenderPass.m_pObject->SetRenderState(7, 0, true);
@@ -36,22 +62,6 @@ bool BloodSplatterBeamShader::ConfigureShaderPass()
     return true;
 }
 
-// @fnv 0x00bd23f0
-BSShader* BloodSplatterBeamShader::CreateShader()
-{
-    NiD3DVertexDeclaration* decl = NiD3DVertexDeclaration::Create(DAT_011f9508, 2, 1);
-    decl->SetEntry(0, 0, 0, 2, 0);
-    decl->SetEntry(1, 7, 5, 1, 0);
-    decl->vfn_b4();
-    BloodSplatterBeamShader* shader = new BloodSplatterBeamShader;
-    shader->Initialize();
-    shader->InitializeShaderData();
-    shader->ConfigureShaderPass();
-    shader->UseShaderDeclaration(decl);
-    return shader;
-}
-
-extern "C" void __cdecl _delete(void* ptr, int size);
 
 struct FUN_00bd23c0_shell
 {
@@ -59,16 +69,6 @@ struct FUN_00bd23c0_shell
     void FUN_00bd1ab0();
     void* DestroyIfFlagged(int);
 };
-
-// Calls FUN_00bd1ab0, then deletes this with size 0xc0 when arg has bit 0 set, and returns this.
-// @fnv 0x00bd23c0
-void* FUN_00bd23c0_shell::DestroyIfFlagged(int arg)
-{
-    FUN_00bd1ab0();
-    if (arg & 1)
-        _delete(this, 0xc0);
-    return this;
-}
 
 struct FUN_00bd2720_shell
 {
@@ -86,7 +86,6 @@ struct FUN_00bd3f80_shell
 {
     void FUN_00bd3f80();
 };
-extern int _fnv_particle_shader_renderer_level;
 typedef void(__thiscall* FUN_00bd3f80_Fn)(FUN_00bd3f80_shell*);
 // Calls virtual slots 81 and 87 on this, and slot 88 when _fnv_particle_shader_renderer_level is at least 2.
 // @fnv 0x00bd3f80
@@ -94,7 +93,7 @@ void FUN_00bd3f80_shell::FUN_00bd3f80()
 {
     ((FUN_00bd3f80_Fn*)*(void***)this)[81](this);
     ((FUN_00bd3f80_Fn*)*(void***)this)[87](this);
-    if (_fnv_particle_shader_renderer_level >= 2)
+    if (::DAT_011f91c0 >= 2)
         ((FUN_00bd3f80_Fn*)*(void***)this)[88](this);
 }
 
@@ -152,6 +151,15 @@ struct FUN_00bd1ab0 : public FUN_00bd1ab0_Base
     unsigned int m_uiShaderState;
     virtual ~FUN_00bd1ab0();
 };
+// Calls FUN_00bd1ab0, then deletes this with size 0xc0 when arg has bit 0 set, and returns this.
+// @fnv 0x00bd23c0
+void* FUN_00bd23c0_shell::DestroyIfFlagged(int arg)
+{
+    reinterpret_cast<::FUN_00bd1ab0 *>(this)->FUN_00bd1ab0::~FUN_00bd1ab0();
+    if (arg & 1)
+        ::FUN_00aa1460(this, 0xc0);
+    return this;
+}
 
 // Clears the vertex shader, both pixel shaders, the screen elements and all 16 texture pointers.
 // @fnv 0x00bd1ab0
@@ -200,7 +208,6 @@ struct FUN_00bd1c50_owner
 };
 
 extern unsigned int DAT_01202338;
-extern void* DAT_0126f74c;
 
 class FUN_00bd1c50_cls
 {
@@ -306,7 +313,7 @@ int FUN_00bd1c50_cls::FUN_00bd1c50(int a1, int a2, int a3, int a4, int a5, int a
     m_5c->m_24->m_00->m_08 = m_6c[m_bc];
     NiRefObject* pObject = reinterpret_cast<NiRefObject*>(m_6c[18 + DAT_01202338]);
     m_5c->m_44 = pObject;
-    DAT_0126f74c = m_5c;
+    (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = m_5c;
     return 0;
 }
 
@@ -323,8 +330,6 @@ struct ShaderDescX
 };
 
 void* FUN_00ec61c0(void* apDst, int aiValue, unsigned int auiSize);
-void FUN_00be0c00(const char* apFile, char* apPath);
-int sprintf_s(char* apBuffer, unsigned int auiSize, const char* apFormat, ...);
 
 class NiD3DGPUProgramCache
 {
@@ -339,8 +344,6 @@ class SpeedTreeFrondShaderX
     NiPointer<NiD3DVertexShader> m_pFrondVertexShaderVariants[4];
     NiPointer<NiD3DPixelShader> m_pFrondPixelShaderVariants[2];
 
-    NiD3DVertexShader* FUN_00be0fe0(char* apPath, ShaderMacroX* apMacros, const char* apProfile, char* apName);
-    NiD3DPixelShader* FUN_00be1750(char* apPath, ShaderMacroX* apMacros, const char* apProfile, char* apName);
     void CreateShaders();
 };
 
@@ -391,8 +394,8 @@ void SpeedTreeFrondShaderX::CreateShaders()
         if (kVertexShaders[i].pFile)
         {
             FUN_00be0c00(kVertexShaders[i].pFile, acPath);
-            sprintf_s(acName, 0x104, "STFROND%03i.vso", i);
-            m_pFrondVertexShaderVariants[i] = FUN_00be0fe0(acPath, kVertexShaders[i].kMacros, "vs_1_1", acName);
+            ::FUN_00406d00(acName, 0x104, "STFROND%03i.vso", i);
+            m_pFrondVertexShaderVariants[i] = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(acPath), (const char *)(kVertexShaders[i].kMacros), "vs_1_1")));
         }
         else
         {
@@ -401,15 +404,15 @@ void SpeedTreeFrondShaderX::CreateShaders()
     }
 
     const char* pPixelProfile = NiD3DGPUProgramCache::GetPixelShaderProfile(true);
-    if (_fnv_particle_shader_renderer_level >= 2)
+    if (::DAT_011f91c0 >= 2)
     {
         for (int i = 0; i < 2; i++)
         {
             if (kPixelShaders[i].pFile)
             {
                 FUN_00be0c00(kPixelShaders[i].pFile, acPath);
-                sprintf_s(acName, 0x104, "STFROND2%03i.pso", i);
-                m_pFrondPixelShaderVariants[i] = FUN_00be1750(acPath, kPixelShaders[i].kMacros, pPixelProfile, acName);
+                ::FUN_00406d00(acName, 0x104, "STFROND2%03i.pso", i);
+                m_pFrondPixelShaderVariants[i] = reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750(acPath, kPixelShaders[i].kMacros, (char *)(pPixelProfile), acName);
             }
             else
             {
@@ -424,8 +427,8 @@ void SpeedTreeFrondShaderX::CreateShaders()
             if (kPixelShaders[i].pFile)
             {
                 FUN_00be0c00(kPixelShaders[i].pFile, acPath);
-                sprintf_s(acName, 0x104, "STFROND%03i.pso", i);
-                m_pFrondPixelShaderVariants[i] = FUN_00be1750(acPath, kPixelShaders[i].kMacros, pPixelProfile, acName);
+                ::FUN_00406d00(acName, 0x104, "STFROND%03i.pso", i);
+                m_pFrondPixelShaderVariants[i] = reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750(acPath, kPixelShaders[i].kMacros, (char *)(pPixelProfile), acName);
             }
             else
             {
@@ -437,10 +440,22 @@ void SpeedTreeFrondShaderX::CreateShaders()
 
 struct DebugShaderLoader : BloodSplatterBeamShader
 {
-    NiD3DVertexShader* FUN_00be0fe0(char*, ShaderMacroX*, const char*, char*);
-    NiD3DPixelShader* FUN_00be1750(char*, ShaderMacroX*, const char*, char*);
     void LoadDebugShaders();
 };
+// @fnv 0x00bd23f0
+BSShader* BloodSplatterBeamShader::CreateShader_00bd23f0()
+{
+    NiD3DVertexDeclaration* decl = ::FUN_00e76700(DAT_011f9508, 2, 1);
+    decl->SetEntry(0, 0, 0, 2, 0);
+    decl->SetEntry(1, 7, 5, 1, 0);
+    decl->vfn_b4();
+    BloodSplatterBeamShader* shader = new BloodSplatterBeamShader;
+    shader->Initialize();
+    reinterpret_cast<::DebugShaderLoader *>((shader))->LoadDebugShaders();
+    shader->ConfigureShaderPass();
+    shader->UseShaderDeclaration(decl);
+    return shader;
+}
 
 // @fnv 0x00bd16f0
 void DebugShaderLoader::LoadDebugShaders()
@@ -454,8 +469,8 @@ void DebugShaderLoader::LoadDebugShaders()
     vertexDesc.kMacros[0].Definition = 0;
     FUN_00ec61c0(&vertexDesc.kMacros[1], 0, 64);
     FUN_00be0c00(vertexDesc.pFile, path);
-    sprintf_s(name, 260, "DEBUG.vso");
-    m_spTreeVertexShader = FUN_00be0fe0(path, vertexDesc.kMacros, "vs_1_1", name);
+    ::FUN_00406d00(name, 260, "DEBUG.vso");
+    m_spTreeVertexShader = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(path), (const char *)(vertexDesc.kMacros), "vs_1_1")));
 
     ShaderDescX pixelDesc;
     pixelDesc.pFile = "imagespace\\1x\\p\\copy.p.hlsl";
@@ -463,8 +478,8 @@ void DebugShaderLoader::LoadDebugShaders()
     pixelDesc.kMacros[0].Definition = 0;
     FUN_00ec61c0(&pixelDesc.kMacros[1], 0, 64);
     FUN_00be0c00(pixelDesc.pFile, path);
-    sprintf_s(name, 260, "DEBUG00.pso");
-    m_spPixelShaderVariants[0] = FUN_00be1750(path, pixelDesc.kMacros, profile, name);
+    ::FUN_00406d00(name, 260, "DEBUG00.pso");
+    m_spPixelShaderVariants[0] = reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750(path, pixelDesc.kMacros, (char *)(profile), name);
 
     ShaderDescX maskedPixelDesc;
     maskedPixelDesc.pFile = "imagespace\\1x\\p\\copy.p.hlsl";
@@ -473,8 +488,8 @@ void DebugShaderLoader::LoadDebugShaders()
     maskedPixelDesc.kMacros[1].Name = 0;
     FUN_00ec61c0(&maskedPixelDesc.kMacros[1].Definition, 0, 60);
     FUN_00be0c00(maskedPixelDesc.pFile, path);
-    sprintf_s(name, 260, "DEBUG01.pso");
-    m_spPixelShaderVariants[1] = FUN_00be1750(path, maskedPixelDesc.kMacros, profile, name);
+    ::FUN_00406d00(name, 260, "DEBUG01.pso");
+    m_spPixelShaderVariants[1] = reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750(path, maskedPixelDesc.kMacros, (char *)(profile), name);
 }
 
 struct QuadData : NiMemObject
@@ -508,10 +523,6 @@ struct QuadData : NiMemObject
     unsigned int unk68;
     unsigned int unk6c;
     QuadData(bool, bool, unsigned short, int, int, int, int, int, int);
-    bool FUN_00a87ae0(int, int, int);
-    bool SetRectangle(int, float, float, float, float);
-    bool FUN_00a88130(int, int, float, float, float, float);
-    void FUN_00a87900();
 };
 struct QuadUpdate
 {
@@ -578,22 +589,20 @@ struct ScreenQuad : NiScreenElements
     }
     bool Insert(int a, int b, int c)
     {
-        return GetData()->FUN_00a87ae0(a, b, c);
+        return ((bool)(reinterpret_cast<::NiScreenElementsDataShell *>((GetData()))->FUN_00a87ae0(a, b, (const unsigned short *)(c))));
     }
     bool Rectangle(int a, float b, float c, float d, float e)
     {
-        return GetData()->SetRectangle(a, b, c, d, e);
+        return reinterpret_cast<::NiScreenElementsData *>((GetData()))->SetRectangle(a, b, c, d, e);
     }
     bool Texture(int a, int b, float c, float d, float e, float f)
     {
-        return GetData()->FUN_00a88130(a, b, c, d, e, f);
+        return reinterpret_cast<::NiScreenElementsData *>((GetData()))->SetRectangleBounds(a, b, c, d, e, f);
     }
     void Finish()
     {
-        GetData()->FUN_00a87900();
+        reinterpret_cast<::FUN_00a87900_class *>((GetData()))->FUN_00a87900();
     }
-    void FUN_00a5a040();
-    void Update(QuadUpdate&);
 };
 struct PixelConstantMap : NiD3DShaderConstantMap
 {
@@ -622,22 +631,21 @@ struct DebugShaderInit : BloodSplatterBeamShader
     {
         return static_cast<ScreenQuad*>(m_pMenuBackgroundScreenGeometry.m_pObject);
     }
-    bool FUN_00be0870();
     bool InitDebugShader();
 };
 extern const float DAT_011ae620;
 // @fnv 0x00bd24c0
 bool DebugShaderInit::InitDebugShader()
 {
-    bool result = FUN_00be0870();
+    bool result = reinterpret_cast<::BSShader *>(this)->Initialize();
     QuadUpdate update;
     m_pMenuBackgroundScreenGeometry = new ScreenQuad(new QuadData(false, false, 1, 1, 1, 4, 1, 2, 1));
     static_cast<ScreenQuad*>(m_pMenuBackgroundScreenGeometry.m_pObject)->Insert(4, 0, 0);
     static_cast<ScreenQuad*>(m_pMenuBackgroundScreenGeometry.m_pObject)->Rectangle(0, -1.0f, 1.0f, 2.0f, -2.0f);
     static_cast<ScreenQuad*>(m_pMenuBackgroundScreenGeometry.m_pObject)->Texture(0, 0, 0.0f, 0.0f, 1.0f, 1.0f);
     static_cast<ScreenQuad*>(m_pMenuBackgroundScreenGeometry.m_pObject)->Finish();
-    static_cast<ScreenQuad*>(m_pMenuBackgroundScreenGeometry.m_pObject)->FUN_00a5a040();
-    GetScreenQuad()->Update(update);
+    reinterpret_cast<::FUN_00a5a040_Class *>((static_cast<ScreenQuad*>(m_pMenuBackgroundScreenGeometry.m_pObject)))->FUN_00a5a040();
+    reinterpret_cast<::FUN_00a59c60_cls *>((GetScreenQuad()))->FUN_00a59c60((int)&(update));
     if (!m_spFirstShaderConstantMap.m_pObject)
     {
         m_spFirstShaderConstantMap = new PixelConstantMap(m_pShaderObject, 2);
@@ -647,11 +655,10 @@ bool DebugShaderInit::InitDebugShader()
     return result;
 }
 
-void LoadDebugShaders();
 // @fnv 0x00bd1940
 void FUN_00bd1940()
 {
-    LoadDebugShaders();
+    static_cast<::DebugShaderLoader *>(nullptr)->LoadDebugShaders();
 }
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
@@ -708,8 +715,6 @@ struct RenderRectangle
 
 struct RenderView
 {
-    void FUN_00a88020(int flags, float x, float y, float width, float height);
-    void FUN_00a87900();
 };
 
 struct RenderContext : RenderResource
@@ -769,7 +774,6 @@ struct RenderContext : RenderResource
     {
         this->owner = owner;
     }
-    void FUN_00a87790(void* device);
 };
 
 struct DisplayTarget
@@ -939,12 +943,7 @@ struct DisplayDevice
         reinterpret_cast<Function>(vtable[0x190 / 4])(this, bounds);
     }
 };
-extern "C" DisplayDevice* DAT_011f4748;
-extern "C" double DAT_01011588;
-extern "C" double DAT_01011598;
-extern "C" double DAT_0106b168;
 extern "C" double DAT_010760f0;
-extern "C" float DAT_010181bc;
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
@@ -1043,16 +1042,16 @@ void RenderOwner::DrawSlots(void* destination)
     }
     else
     {
-        DisplayTarget* screen = DAT_011f4748->GetScreen();
+        DisplayTarget* screen = (*reinterpret_cast<::DisplayDevice * *>(&::NiRenderer::ms_pRenderer))->GetScreen();
         width = (float)screen->GetWidth();
-        height = DAT_011f4748->GetScreen()->GetHeight();
+        height = (*reinterpret_cast<::DisplayDevice * *>(&::NiRenderer::ms_pRenderer))->GetScreen()->GetHeight();
     }
 
     double ratio = height / width;
     float ratioClamped = Larger(1.0f, ratio);
     float horizontal = ratio / ratioClamped;
     float vertical = 1.0f / Second(1.0f, ratio);
-    RenderRectangle viewportRect = {DAT_010181bc, horizontal, vertical - 0.0500000007450580596923828125, 0.0f};
+    RenderRectangle viewportRect = {::DAT_010181bc, horizontal, vertical - 0.0500000007450580596923828125, 0.0f};
 
     FNV_STUB_NiPointer<RenderContext> context;
     context = this->context;
@@ -1070,19 +1069,19 @@ void RenderOwner::DrawSlots(void* destination)
 
             float fTileY = (float)(GetIndex() >> 2);
             float fTileX = (float)(GetIndex() & 3);
-            float bx = fTileX * DAT_01011588 - 1.0f;
-            float by = fTileY * DAT_01011598 + 1.0f;
-            float fSizeX = fScaleX * DAT_0106b168;
+            float bx = fTileX * ::DAT_01011588 - 1.0f;
+            float by = fTileY * ::DAT_01011598 + 1.0f;
+            float fSizeX = fScaleX * ::DAT_0106b168;
             float fSizeY = fScaleY * DAT_010760f0;
-            context.m_pObject->GetView()->FUN_00a88020(0, bx, by, fSizeX, fSizeY);
-            context.m_pObject->GetView()->FUN_00a87900();
+            reinterpret_cast<::NiScreenElementsData *>((context.m_pObject->GetView()))->SetRectangle(0, bx, by, fSizeX, fSizeY);
+            reinterpret_cast<::FUN_00a87900_class *>((context.m_pObject->GetView()))->FUN_00a87900();
             context.m_pObject->SetOwner(this);
             DrawFrame(context.m_pObject);
-            if ((DAT_011f4748->GetStatus() == 1 || DAT_011f4748->GetStatus() == 2) && DAT_011f4748->GetMode() == 1)
+            if (((*reinterpret_cast<::DisplayDevice * *>(&::NiRenderer::ms_pRenderer))->GetStatus() == 1 || (*reinterpret_cast<::DisplayDevice * *>(&::NiRenderer::ms_pRenderer))->GetStatus() == 2) && (*reinterpret_cast<::DisplayDevice * *>(&::NiRenderer::ms_pRenderer))->GetMode() == 1)
             {
-                DAT_011f4748->PrepareFrame(&viewportRect);
+                (*reinterpret_cast<::DisplayDevice * *>(&::NiRenderer::ms_pRenderer))->PrepareFrame(&viewportRect);
             }
-            context.m_pObject->FUN_00a87790(DAT_011f4748);
+            reinterpret_cast<::FUN_00a87790_cls *>((context.m_pObject))->FUN_00a87790((int)((*reinterpret_cast<::DisplayDevice * *>(&::NiRenderer::ms_pRenderer))));
             slots[GetIndex()] = 0;
             context.m_pObject->SetOwner(0);
         }
@@ -1127,13 +1126,11 @@ inline bool IsKindOfType(const NiRTTI* pkRTTI, NiTexture* pkObject)
 class TextureKindA : public NiRTTIObject
 {
   public:
-    static NiRTTI ms_kRTTI;
 };
 
 class TextureKindB : public NiRTTIObject
 {
   public:
-    static NiRTTI ms_kRTTI;
 };
 
 class TextureRenderer
@@ -1185,8 +1182,8 @@ void TextureRenderer::AddTexture(NiTexture* pkTexture)
     if (iSlot == -1)
         return;
 
-    if (IsKindOfType(&TextureKindA::ms_kRTTI, pkTexture))
+    if (IsKindOfType(&(*reinterpret_cast<::NiRTTI *>(&::g_011f444c)), pkTexture))
         m_aspTextures[iSlot] = pkTexture;
-    else if (IsKindOfType(&TextureKindB::ms_kRTTI, pkTexture))
+    else if (IsKindOfType(&(*reinterpret_cast<::NiRTTI *>(&::g_011f4ac4)), pkTexture))
         m_aspTextures[iSlot] = pkTexture;
 }

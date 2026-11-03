@@ -5,6 +5,45 @@
 
 // src/speedtree/treeengine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/treeengine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/B2AE90_Object.h"
+#include "fnv/decl/B2EVector.h"
+#include "fnv/decl/B30Owner.h"
+#include "fnv/decl/Cls.h"
+#include "fnv/decl/FNV_00b3efe0_Obj.h"
+#include "fnv/decl/FUN_00b2e1b0_class.h"
+#include "fnv/decl/FUN_00b2e330_It.h"
+#include "fnv/decl/FUN_00b3ed20_cls.h"
+#include "fnv/decl/FUN_00b3f130_shell.h"
+#include "fnv/decl/FUN_00b42980.h"
+#include "fnv/decl/FnvB2e080.h"
+#include "fnv/decl/IndexSet.h"
+#include "fnv/decl/PtrVector.h"
+#include "fnv/decl/S00b3d1b0_Obj.h"
+#include "fnv/decl/S00b408b0_Obj.h"
+#include "fnv/decl/S_00b3ed80.h"
+#include "fnv/decl/ScaledVec6.h"
+#include "fnv/decl/StripBuilder.h"
+#include "fnv/decl/Target.h"
+#include "fnv/decl/V3cdd0.h"
+#include "fnv/decl/Vector_b17f50.h"
+#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
+#include "fnv/decl/fnv_00b059e0__FUN_00b06090.h"
+#include "fnv/decl/fnv_00b2df90__vecb2d__VcVector.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0044c000.h"
+#include "fnv/symbols_00b13000.h"
+#include "fnv/symbols_00b2e000.h"
+#include "fnv/symbols_00b3f000.h"
+#include "fnv/symbols_00b40000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_01030000.h"
+#include "fnv/symbols_0108c000.h"
+#include "fnv/symbols_011f8000.h"
 struct FUN_00b2bcf0_shell
 {
     void FUN_00b2bcf0(float* a, float* b);
@@ -22,23 +61,18 @@ struct FUN_00b2bdc0_shell
 void __cdecl operator delete(void*);
 struct FUN_00b2ae60_shell
 {
-    void __thiscall FUN_00b2ae90();
     void* __thiscall DestroyIfFlagged(unsigned int flags);
 };
 struct RandomNumberGenerator
 {
     void SeedRandomGenerator(long);
-    float GenerateRandomFloat(float, float);
 };
-extern float DAT_0108cb00;
-extern float _DAT_010162c0;
 struct FUN_00b2c0c0_shell
 {
     void InitSeed(unsigned int seed);
 };
 struct ElementIterator
 {
-    int __thiscall GetNextElement();
 };
 struct FUN_00b2daf0_shell : CTreeEngine
 {
@@ -61,18 +95,13 @@ template <class C, class T, class A> class basic_string
 };
 }
 
-extern unsigned int DAT_010173f0;
 struct NarrowString : std::basic_string<char, std::char_traits<char>, std::allocator<char> >
 {
     NarrowString& AssignFromString(const NarrowString& rhs);
 };
 struct FUN_00b04d40_Obj
 {
-    float FUN_00b04d40(int a);
 };
-extern FUN_00b04d40_Obj DAT_011f8e9c;
-extern double DAT_01012060;
-extern double DAT_01012070;
 struct FUN_00b2bd40_Obj
 {
     int unk00;
@@ -98,7 +127,6 @@ struct FUN_00b2bd40_Obj
 };
 struct FUN_00b3d720_String
 {
-    void __thiscall FUN_0044a730(bool a, unsigned int b);
     int unk00;
     int unk04;
     int unk08;
@@ -127,11 +155,7 @@ struct FUN_00b3d720_Class
 
     FUN_00b3d720_Class* __thiscall FUN_00b3d720();
 };
-extern float DAT_01030ff0;
-extern float DAT_0101df44;
-extern float DAT_01016248;
 extern float DAT_010a587c;
-extern float DAT_01017b78;
 
 void __stdcall FUN_00ec5fce(void* self, unsigned int elemSize, unsigned int count, void* dtor);
 void FUN_00b33370();
@@ -152,7 +176,6 @@ struct S00b2b490_Elem
     int unk0c;
     int unk10;
     int unk14;
-    void FUN_00b17f50();
     void* FUN_00b2b490(unsigned int flags);
 };
 
@@ -170,29 +193,27 @@ void* S00b2b490_Elem::FUN_00b2b490(unsigned int flags)
         FUN_00ec5fce(this, 0x18, *((unsigned int*)this - 1), FUN_00b33370);
         if (flags & 1)
         {
-            operator delete((char*)this - 4);
+            ::FUN_00401030((char*)this - 4);
         }
         return (char*)this - 4;
     }
     {
         S00b2b490_Guard g;
-        FUN_00b17f50();
+        reinterpret_cast<::Vector_b17f50 *>(this)->FUN_00b17f50();
     }
     {
         void* p = m0;
-        operator delete(p);
+        ::FUN_00401030(p);
     }
     if (flags & 1)
     {
-        operator delete(this);
+        ::FUN_00401030(this);
     }
     return this;
 }
 
 extern const char* DAT_011ad36c;
-extern unsigned int DAT_010173f0;
 void FUN_00ec7c56();
-void FUN_0044ccd0(char*, unsigned int, const char*, unsigned int);
 unsigned int __cdecl strlen(const char*);
 
 struct SptAllocator
@@ -217,17 +238,17 @@ struct SptString : SptStringBase
     unsigned int capacity;
     SptString(const char* text) : SptStringBase(SptAllocator())
     {
-        FUN_0044a730(false, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
         assign(text);
     }
     SptString() : SptStringBase(SptAllocator())
     {
-        FUN_0044a730(false, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
     }
     SptString(const SptString& rhs) : SptStringBase(SptAllocator())
     {
-        FUN_0044a730(false, 0);
-        assign(rhs, 0, DAT_010173f0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
+        assign(rhs, 0, ::g_010173f0);
     }
     void range_error();
     bool grow(unsigned int, bool = false);
@@ -246,7 +267,7 @@ struct SptString : SptStringBase
         }
         else if (grow(num))
         {
-            FUN_0044ccd0(pointer(), capacity, rhs.pointer() + off, num);
+            ::FUN_0044ccd0(pointer(), capacity, rhs.pointer() + off, num);
             eos(num);
         }
         return *this;
@@ -261,7 +282,7 @@ struct SptString : SptStringBase
     SptString& AppendChars(unsigned int, char);
     ~SptString()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     SptString& FUN_0044a4c0(const char*);
     void deallocate(char*, unsigned int);
@@ -282,7 +303,7 @@ struct SptString : SptStringBase
         {
 
             if (n > 0)
-                FUN_0044ccd0(storage.buffer, 16, storage.data, n);
+                ::FUN_0044ccd0(storage.buffer, 16, storage.data, n);
             deallocate(storage.data, capacity + 1);
         }
         capacity = 15;
@@ -366,9 +387,8 @@ struct SptFilename
     SptFilename(const SptFilename& rhs);
     ~SptFilename()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
-    void FUN_0044a730(bool, unsigned int);
     SptFilename& AssignFromString(const SptFilename&);
     SptFilename& FUN_00b2b910(const SptFilename&);
     __forceinline void operator=(const SptFilename& rhs)
@@ -410,11 +430,10 @@ struct CTreeFileAccessImpl : ElementIterator
     {
         return m_pos >= m_buffer.size();
     }
-    int GetElementAtOffset();
     SptString FUN_00b3ee40()
     {
         SptString value;
-        int length = GetNextElement();
+        int length = ((int)(reinterpret_cast<::S_00b3ed80 *>(this)->GetNextElement()));
         for (int i = 0; i < length; ++i)
             value.AppendChars(1, m_buffer[m_pos++]);
         return SptString(value);
@@ -423,17 +442,14 @@ struct CTreeFileAccessImpl : ElementIterator
 
 struct Sub94
 {
-    void FUN_00b3d1b0(ElementIterator* a);
 };
 
 struct Sub10c
 {
-    void FUN_00b408b0(ElementIterator* a);
 };
 
 struct SubA4
 {
-    void FUN_00b2db10(SubA4* a);
 };
 
 struct CTreeEngineImpl : CTreeEngine
@@ -499,66 +515,9 @@ struct CTreeEngineImpl : CTreeEngine
     int unk108;
     Sub10c m_sub10c;
 
-    void FUN_00b2bde0(ElementIterator* a);
     void FUN_00b2cbc0(ElementIterator* a);
     bool FUN_00b2b550(CTreeFileAccessImpl* file);
 };
-
-// @fnv 0x00b2b550
-bool CTreeEngineImpl::FUN_00b2b550(CTreeFileAccessImpl* file)
-{
-    bool bSuccess = false;
-
-    int strBuf9 = file->GetNextElement();
-    if (strBuf9 != 0x3e8)
-    {
-        throw SptError("missing begin_file token", false);
-    }
-
-    SptString str3 = ((CTreeFileAccessImpl*)file)->FUN_00b3ee40();
-    if (str3 != SptString(DAT_011ad36c))
-    {
-        throw SptError("not a valid SpeedTree SPT file", false);
-    }
-
-    strBuf9 = file->GetNextElement();
-    do
-    {
-        switch (strBuf9)
-        {
-        case 0x3ea:
-            FUN_00b2bde0(file);
-            break;
-        case 0x3ec:
-            m_sub94.FUN_00b3d1b0(file);
-            break;
-        case 0x3f3:
-            m_sub10c.FUN_00b408b0(file);
-            break;
-        default:
-            throw SptError("malformed SpeedTree SPT file", false);
-        }
-        strBuf9 = file->GetNextElement();
-    } while (strBuf9 != 0x3e9);
-
-    if (!((CTreeFileAccessImpl*)file)->EndOfFile() && ((CTreeFileAccessImpl*)file)->GetElementAtOffset() == 0x1b58)
-    {
-        static_cast<ElementIterator*>(file)->GetNextElement();
-        FUN_00b2cbc0(file);
-    }
-
-    m_pcFileName = m_pcFileName;
-
-    m_suba4.FUN_00b2db10(&m_suba4);
-
-    if (m_actualSize > -1.0f)
-    {
-        FUN_00b2bd20(m_actualSize, m_actualVariance);
-    }
-
-    bSuccess = true;
-    return bSuccess;
-}
 
 struct FUN_00b2b910_shell : NarrowString
 {
@@ -601,7 +560,7 @@ inline basic_string<C, T, A>& basic_string<C, T, A>::assign(const basic_string<C
         v19 = v18 + v14;
         v20 = v19 + v15;
         v21 = v20 + v16;
-        _Tidy(v21 != 0, v21);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(v21 != 0, v21);
         return *this;
     }
     return assign(_Right, _Roff + 1, _Count);
@@ -611,7 +570,7 @@ inline basic_string<C, T, A>& basic_string<C, T, A>::assign(const basic_string<C
 // @fnv 0x00b2b910
 NarrowString& FUN_00b2b910_shell::FUN_00b2b910(const NarrowString& rhs)
 {
-    assign(rhs, 0, DAT_010173f0);
+    assign(rhs, 0, ::g_010173f0);
     return *this;
 }
 
@@ -701,7 +660,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -936,7 +895,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 struct BxLogicError : public BxException
 {
@@ -973,7 +932,7 @@ template <class T> struct GvAlloc
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     void destroy(pointer _Ptr)
     {
@@ -1600,7 +1559,7 @@ void GvManager::FUN_00b2b940()
                     delete bItemFound[i][j];
                     bItemFound[i][j] = 0;
                 }
-                bItemFound[i].clear();
+                reinterpret_cast<::IndexSet *>(&(bItemFound[i]))->FUN_00b32350();
             }
         }
         delete[] bItemFound;
@@ -1610,7 +1569,7 @@ void GvManager::FUN_00b2b940()
             delete kLinks[k];
             kLinks[k] = 0;
         }
-        kLinks.clear();
+        reinterpret_cast<::IndexSet *>(&(kLinks))->FUN_00b32350();
         bInitialized = false;
     }
 }
@@ -1729,19 +1688,18 @@ struct S2bde0_Str
     S2bde0_Str(const char* s);
     __forceinline S2bde0_Str(const S2bde0_Str& r)
     {
-        FUN_0044a730(false, 0);
-        AssignSubstring(r, 0, DAT_010173f0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
+        AssignSubstring(r, 0, ::g_010173f0);
     }
     inline S2bde0_Str(struct S2bde0_RStr s);
     __forceinline ~S2bde0_Str()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
-    void FUN_0044a730(bool b, unsigned n);
     S2bde0_Str& AssignSubstring(const S2bde0_Str& r, unsigned o, unsigned n);
     __forceinline S2bde0_Str& operator=(const S2bde0_Str& r)
     {
-        AssignSubstring(r, 0, DAT_010173f0);
+        AssignSubstring(r, 0, ::g_010173f0);
         return *this;
     }
 };
@@ -1755,8 +1713,8 @@ struct S2bde0_Name : S2bde0_Str
 };
 inline S2bde0_Str::S2bde0_Str(S2bde0_RStr s)
 {
-    FUN_0044a730(false, 0);
-    AssignSubstring(s, 0, DAT_010173f0);
+    reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
+    AssignSubstring(s, 0, ::g_010173f0);
 }
 struct S2bde0_ExBase
 {
@@ -1772,6 +1730,7 @@ struct S2bde0_ExBase
     S2bde0_ExBase(const S2bde0_Str& s);
     virtual ~S2bde0_ExBase();
 };
+struct FUN_0044a4c0;
 struct FUN_00b09480 : S2bde0_ExBase
 {
     FUN_00b09480(const S2bde0_Str& msg, bool bErrno) : S2bde0_ExBase(bErrno ? S2bde0_Str("e") : msg)
@@ -1780,11 +1739,11 @@ struct FUN_00b09480 : S2bde0_ExBase
         dq[0] = 0;
     }
     virtual ~FUN_00b09480();
+public:
+    FUN_00b09480(const ::FUN_0044a4c0 &, bool);
 };
 struct S2bde0_Parser
 {
-    float FUN_00b3ed20();
-    bool FUN_00b06180();
     S2bde0_RStr FUN_00b3ee40();
 };
 struct S2bde0_Ctx
@@ -1880,7 +1839,6 @@ struct S2bde0_Tree
     int iUnk20;
     S2bde0_Name strName;
     float f40, f44, f48, f4c, f50;
-    void InitSeed(int);
     void FUN_00b2c790(S2bde0_Parser*);
     void FUN_00b2bde0(S2bde0_Parser* p);
 };
@@ -1888,7 +1846,7 @@ struct S2bde0_Tree
 void S2bde0_Tree::FUN_00b2bde0(S2bde0_Parser* p)
 {
     int iCount;
-    int iToken = ((ElementIterator*)p)->GetNextElement();
+    int iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((((ElementIterator*)p)))->GetNextElement()));
     do
     {
         switch (iToken)
@@ -1903,27 +1861,27 @@ void S2bde0_Tree::FUN_00b2bde0(S2bde0_Parser* p)
                 break;
             }
         case 0x7d5: {
-            iCount = ((ElementIterator*)p)->GetNextElement();
-            InitSeed(iCount);
+            iCount = ((int)(reinterpret_cast<::S_00b3ed80 *>((((ElementIterator*)p)))->GetNextElement()));
+            reinterpret_cast<::FUN_00b2c0c0_shell *>(this)->InitSeed(iCount);
             break;
         }
         case 0x7d3:
-            f44 = p->FUN_00b3ed20();
+            f44 = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
             break;
         case 0x7d1:
-            f40 = p->FUN_00b3ed20();
+            f40 = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
             break;
         case 0x7d4:
-            ((ElementIterator*)p)->GetNextElement();
+            reinterpret_cast<::S_00b3ed80 *>((((ElementIterator*)p)))->GetNextElement();
             break;
         case 0x7d2:
-            p->FUN_00b06180();
+            reinterpret_cast<::fnv_00b059e0::FUN_00b06090 *>((p))->FUN_00b06180();
             break;
         case 0x7d6:
-            f4c = p->FUN_00b3ed20();
+            f4c = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
             break;
         case 0x7d7:
-            f50 = p->FUN_00b3ed20();
+            f50 = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
             break;
         case 0x3f6:
             FUN_00b2c790(p);
@@ -1931,15 +1889,13 @@ void S2bde0_Tree::FUN_00b2bde0(S2bde0_Parser* p)
         default:
             throw FUN_00b09480("malformed general tree information", false);
         }
-        iToken = ((ElementIterator*)p)->GetNextElement();
+        iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((((ElementIterator*)p)))->GetNextElement()));
     } while (iToken != 0x3eb);
     DeadEnd();
 }
 
 namespace fnv_00b2c130 {
 void __cdecl FUN_00ec7c56();
-void __cdecl FUN_00b138c0(void* p);
-void __cdecl FUN_00401030(void* p);
 
 struct Elem
 {
@@ -1954,7 +1910,6 @@ struct Elem
     {
         m_34 = f;
     }
-    void BuildStripIndices(int a, void* p);
 };
 
 struct FUN_00b17db0;
@@ -1967,7 +1922,7 @@ struct Iter : CIter
 {
     Iter(Elem** p, FUN_00b17db0* v)
     {
-        FUN_00b42980(p, v);
+        reinterpret_cast<::FUN_00b42980 *>(this)->Set((unsigned int)(p), (*(const ::FUN_00b42980 *)(v)));
     }
     Iter()
     {}
@@ -1975,12 +1930,10 @@ struct Iter : CIter
     {
         (CIter&)* this = (const CIter&)o;
     }
-    void FUN_00b42980(Elem** p, FUN_00b17db0* v);
-    void FUN_00b2e330(int i);
     Iter operator+(int i)
     {
         Iter tmp = *this;
-        tmp.FUN_00b2e330(i);
+        reinterpret_cast<::FUN_00b2e330_It *>(&(tmp))->FUN_00b2e330(i);
         return tmp;
     }
 };
@@ -1991,7 +1944,7 @@ struct VB
     ~VB()
     {
         void* p = m_00;
-        FUN_00401030(p);
+        ::FUN_00401030(p);
     }
 };
 
@@ -2005,9 +1958,8 @@ struct FUN_00b17db0 : VB
     ~FUN_00b17db0()
     {
         int d[7];
-        FUN_00b17f50();
+        reinterpret_cast<::Vector_b17f50 *>(this)->FUN_00b17f50();
     }
-    void FUN_00b17f50();
     unsigned int size()
     {
         return m_kRayEnd - m_pRayStart;
@@ -2022,7 +1974,6 @@ struct FUN_00b17db0 : VB
     {
         return Iter(m_pRayStart, this);
     }
-    void FUN_00b15390(Elem** pp);
     Iter FUN_00b2def0(CIter p);
     Iter FUN_00b156b0(CIter p, Elem** pp);
 };
@@ -2033,10 +1984,8 @@ struct FUN_00b3f100
     FUN_00b3f100();
     ~FUN_00b3f100()
     {
-        FUN_00aa7830();
+        reinterpret_cast<::ScaledVec6 *>(this)->ScaledVec6::~ScaledVec6();
     }
-    void FUN_00aa7830();
-    float FUN_00b3f130(float a, float b);
 };
 
 struct Obj58
@@ -2048,9 +1997,6 @@ struct Obj5c
 {
     int m_00[34];
     FUN_00b17db0 m_88;
-    void FUN_00b30c80(int a);
-    void FUN_00b306d0(unsigned short a);
-    void FUN_00b2fdc0(int a, int b, int c);
 };
 
 inline float W(Elem* const& e)
@@ -2134,22 +2080,22 @@ void MainC::FUN_00b2c130()
         if (v_z > v_maxA * fDist)
         {
             Dead9();
-            v_cntIn.FUN_00b15390(&k[dir]);
+            reinterpret_cast<::IndexSet *>(&(v_cntIn))->FUN_00b15390((*(const unsigned int *)(&k[dir])));
             k.FUN_00b2def0(k.begin() + dir);
             dir--;
         }
         else
         {
             Dead5();
-            float v_g = q.FUN_00b3f130(0.0f, m_100);
+            float v_g = reinterpret_cast<::FUN_00b3f130_shell *>(&(q))->FUN_00b3f130(0.0f, m_100);
             float v_r = 1.0f - v_g;
             v_z = v_r * v_z + v_g * v_maxA;
             v_z = Max(v_z, 0.0f);
             k[dir]->Set(v_z);
         }
     }
-    FUN_00b138c0(&k);
-    FUN_00b138c0(&v_cntIn);
+    ::fnv_00b138c0::FUN_00b138c0((::fnv_00b138c0::CheckedRange *)(void *)(&k));
+    ::fnv_00b138c0::FUN_00b138c0((::fnv_00b138c0::CheckedRange *)(void *)(&v_cntIn));
     {
         int v_n;
         for (v_n = 0; v_n < v_cntIn.size(); v_n++)
@@ -2163,7 +2109,7 @@ void MainC::FUN_00b2c130()
         for (v_p = 0; v_p < v_k; v_p++)
         {
             if (!v_p)
-                m_5c->FUN_00b30c80(0);
+                reinterpret_cast<::B30Owner *>((m_5c))->FUN_00b30c80(0);
             float v_acc = (int)v_k < 2 ? 1.0f : Lerp((float)((double)v_p / (double)(int)(v_k - 1)), m_f8);
             float v_target = v_acc * v_sum;
             int lhs = 0;
@@ -2174,16 +2120,16 @@ void MainC::FUN_00b2c130()
                 w = w + W(k[e]);
                 lhs = 1 + lhs;
             }
-            m_5c->FUN_00b306d0((unsigned short)v_p);
+            reinterpret_cast<::Cls *>((m_5c))->FUN_00b306d0((unsigned short)v_p);
             if (v_p == 0 && lhs == 0)
             {
-                m_5c->FUN_00b2fdc0(0, 0, 0);
+                reinterpret_cast<::Target *>((m_5c))->FUN_00b2fdc0(0, 0, 0);
             }
             else
             {
                 int v_s;
                 for (v_s = 0; v_s < lhs; v_s++)
-                    k[v_s]->BuildStripIndices(v_p, m_5c);
+                    reinterpret_cast<::StripBuilder *>((k[v_s]))->BuildStripIndices(v_p, (::StripDestination *)(m_5c));
             }
         }
     }
@@ -2265,7 +2211,7 @@ class FUN_00b2cb50 : public VectorValB2CB50
 // @fnv 0x00b2cb50
 FUN_00b2cb50::~FUN_00b2cb50()
 {
-    Tidy();
+    reinterpret_cast<::FUN_00b2e1b0_class *>(this)->FreeBuffer();
 }
 
 namespace fnv_00b2cbc0 {
@@ -2279,9 +2225,8 @@ struct FUN_0044a4c0
     FUN_0044a4c0(const FUN_0044a4c0& r);
     ~FUN_0044a4c0()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
-    void FUN_0044a730(bool b, unsigned n);
 };
 struct FUN_00b096a0
 {
@@ -2306,15 +2251,12 @@ struct Parser
 {
     unsigned uiPos;
     ByteVec kData;
-    int GetNextElement();
 };
-int __cdecl FUN_00b405c0(Parser* p);
 struct LodQ
 {
     int ai[6];
     LodQ();
     ~LodQ();
-    void FUN_00b15390(const int& v);
 };
 inline void DeadTop()
 {
@@ -2335,27 +2277,27 @@ void Tree::FUN_00b2cbc0(Parser* p)
 {
     DeadTop();
     int iCount = 0;
-    int iLevel = p->GetNextElement();
+    int iLevel = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
     iLodCount = iLevel;
     delete[] pLods;
     pLods = new LodQ[iLodCount];
-    int iTok = p->GetNextElement();
+    int iTok = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
     while (iTok != 0x1b59)
     {
         if (iCount >= iLodCount)
             throw FUN_00b09480("too many leaf lod levels", false);
         if (iTok != 0x1b5a)
             throw FUN_00b09480("malformed leaf lod data", false);
-        iTok = p->GetNextElement();
+        iTok = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
         while (iTok != 0x1b5b)
         {
             if (iTok != 0x1b5c)
                 throw FUN_00b09480("malformed leaf lod data", false);
-            pLods[iCount].FUN_00b15390(FUN_00b405c0(p));
-            iTok = p->GetNextElement();
+            reinterpret_cast<::IndexSet *>(&(pLods[iCount]))->FUN_00b15390((const unsigned int &)((const int &)(((int)(::FUN_00b405c0((::Parser *)(p)))))));
+            iTok = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
         }
         iCount++;
-        iTok = p->GetNextElement();
+        iTok = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
     }
     bLodsLoaded = true;
 }
@@ -2419,7 +2361,7 @@ inline char* AllocateChars(unsigned int ItemUpdateArray, char*)
         ItemUpdateArray = 0;
     else if (((unsigned int)(-1) / ItemUpdateArray) < sizeof(char))
         throw std::bad_alloc(0);
-    return (char*)::operator new(ItemUpdateArray * sizeof(char));
+    return (char*)::FUN_00401000(ItemUpdateArray * sizeof(char));
 }
 struct CharAllocator
 {
@@ -2429,7 +2371,7 @@ struct CharAllocator
     {}
     void deallocate(char* pcPtr, unsigned int)
     {
-        ::operator delete(pcPtr);
+        ::FUN_00401030(pcPtr);
     }
     char* allocate(unsigned int ItemUpdateArray)
     {
@@ -2634,7 +2576,7 @@ struct String : public StringVal
         if (m_uiRes < uiNewsize)
             _Copy(uiNewsize, m_uiSize);
         else if (bTrim && uiNewsize < 16)
-            _Tidy(true, uiNewsize < m_uiSize ? uiNewsize : m_uiSize);
+            reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, uiNewsize < m_uiSize ? uiNewsize : m_uiSize);
         else if (uiNewsize == 0)
             _Eos(0);
         return 0 < uiNewsize;
@@ -2756,9 +2698,6 @@ struct TextureControlVector
 };
 struct TreeFileAccess
 {
-    int ParseToken();
-    bool ParseBool();
-    float ParseReal();
 };
 struct TreeEngineB2D090
 {
@@ -2795,14 +2734,14 @@ void TreeEngineB2D090::FUN_00b2d090(TreeFileAccess* pFile)
 {
     for (unsigned int i = 0; i < m_vTextureControls.size(); ++i)
     {
-        if (pFile->ParseToken() != 15002)
+        if (((int)(reinterpret_cast<::S_00b3ed80 *>((pFile))->GetNextElement())) != 15002)
             throw IdvFileError("malformed texture controls", false);
-        m_vTextureControls.atA(i)->m_bFlag = pFile->ParseBool();
-        if (pFile->ParseToken() != 15003)
+        m_vTextureControls.atA(i)->m_bFlag = reinterpret_cast<::fnv_00b059e0::FUN_00b06090 *>((pFile))->FUN_00b06180();
+        if (((int)(reinterpret_cast<::S_00b3ed80 *>((pFile))->GetNextElement())) != 15003)
             throw IdvFileError("malformed texture controls", false);
-        m_vTextureControls[i]->m_fValue = pFile->ParseReal();
+        m_vTextureControls[i]->m_fValue = reinterpret_cast<::FUN_00b3ed20_cls *>((pFile))->FUN_00b3ed20();
     }
-    if (pFile->ParseToken() != 15001)
+    if (((int)(reinterpret_cast<::S_00b3ed80 *>((pFile))->GetNextElement())) != 15001)
         throw IdvFileError("malformed texture controls", false);
 }
 }  // namespace fnv_00b2d090
@@ -2824,7 +2763,7 @@ struct FUN_0044a4c0 : std::basic_string<char, std::char_traits<char>, std::alloc
     FUN_0044a4c0& append(const char*);
     __forceinline ~FUN_0044a4c0()
     {
-        _Tidy(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
 };
 extern int* errno_ptr();
@@ -2893,7 +2832,6 @@ extern int DAT_01170384;
 extern void FUN_00ec7c56();
 struct Reader : ElementIterator
 {
-    float FUN_00b3ed20();
 };
 struct Flare
 {
@@ -2934,7 +2872,6 @@ struct FlareVector
             FUN_00ec7c56();
         return first[index];
     }
-    Flare*& FUN_00b31230(unsigned int);
 };
 struct FlareEngine
 {
@@ -2970,85 +2907,85 @@ void FlareEngine::FUN_00b2d2e0(Reader* reader)
 {
     for (unsigned int index = 0; index < flares.size(); ++index)
     {
-        if (reader->GetNextElement() != 0x3e82)
+        if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e82)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
             _CxxThrowException(&error, (_ThrowInfo*)&DAT_01170384);
         }
-        flares[index]->value24 = reader->FUN_00b3ed20();
-        if (reader->GetNextElement() != 0x3e83)
+        flares[index]->value24 = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
+        if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e83)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
             _CxxThrowException(&error, (_ThrowInfo*)&DAT_01170384);
         }
-        flares[index]->value28 = reader->GetNextElement();
-        if (reader->GetNextElement() != 0x3e84)
+        flares[index]->value28 = ((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement()));
+        if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e84)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
             _CxxThrowException(&error, (_ThrowInfo*)&DAT_01170384);
         }
-        flares[index]->value2c = reader->FUN_00b3ed20();
-        if (reader->GetNextElement() != 0x3e85)
+        flares[index]->value2c = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
+        if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e85)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
             _CxxThrowException(&error, (_ThrowInfo*)&DAT_01170384);
         }
-        flares[index]->value30 = reader->FUN_00b3ed20();
-        if (reader->GetNextElement() != 0x3e86)
+        flares[index]->value30 = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
+        if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e86)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
             _CxxThrowException(&error, (_ThrowInfo*)&DAT_01170384);
         }
-        flares[index]->value34 = reader->FUN_00b3ed20();
-        if (reader->GetNextElement() != 0x3e87)
+        flares[index]->value34 = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
+        if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e87)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
             _CxxThrowException(&error, (_ThrowInfo*)&DAT_01170384);
         }
-        flares[index]->value38 = reader->FUN_00b3ed20();
-        if (reader->GetNextElement() != 0x3e88)
+        flares[index]->value38 = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
+        if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e88)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
             _CxxThrowException(&error, (_ThrowInfo*)&DAT_01170384);
         }
-        flares[index]->value3c = reader->FUN_00b3ed20();
-        if (reader->GetNextElement() != 0x3e89)
+        flares[index]->value3c = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
+        if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e89)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
             _CxxThrowException(&error, (_ThrowInfo*)&DAT_01170384);
         }
-        flares.FUN_00b31230(index)->value40 = reader->FUN_00b3ed20();
-        if (reader->GetNextElement() != 0x3e8a)
+        ((::fnv_00b2d2e0::Flare *)&(reinterpret_cast<::PtrVector *>(&(flares))->FUN_00b31230(index)))->value40 = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
+        if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e8a)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
             _CxxThrowException(&error, (_ThrowInfo*)&DAT_01170384);
         }
-        flares.FUN_00b31230(index)->value44 = reader->FUN_00b3ed20();
-        if (reader->GetNextElement() != 0x3e8b)
+        ((::fnv_00b2d2e0::Flare *)&(reinterpret_cast<::PtrVector *>(&(flares))->FUN_00b31230(index)))->value44 = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
+        if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e8b)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
             _CxxThrowException(&error, (_ThrowInfo*)&DAT_01170384);
         }
-        flares.FUN_00b31230(index)->value48 = reader->FUN_00b3ed20();
-        if (reader->GetNextElement() != 0x3e8c)
+        ((::fnv_00b2d2e0::Flare *)&(reinterpret_cast<::PtrVector *>(&(flares))->FUN_00b31230(index)))->value48 = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
+        if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e8c)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
             _CxxThrowException(&error, (_ThrowInfo*)&DAT_01170384);
         }
-        flares.FUN_00b31230(index)->value4c = reader->FUN_00b3ed20();
+        ((::fnv_00b2d2e0::Flare *)&(reinterpret_cast<::PtrVector *>(&(flares))->FUN_00b31230(index)))->value4c = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
     }
-    if (reader->GetNextElement() != 0x3e81)
+    if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e81)
     {
         FUN_0044a4c0 message("malformed flare info");
         FUN_00b09480 error(message, 0);
@@ -3103,27 +3040,21 @@ inline Elem* _Checked_base(Elem* const& _It)
     _Unchanged_checked_iterator_base_type_tag _Base_tag;
     return _Checked_base(_It, _Base_tag);
 }
-Elem* __cdecl FUN_00b2e500(Elem*, Elem*, Elem*, random_access_iterator_tag, _Nonscalar_ptr_iterator_tag,
-                           _Range_checked_iterator_tag);
-Elem* __cdecl FUN_00b2e3f0(Elem*, Elem*, Elem*);
 inline Elem* copy_new(Elem* _First, Elem* _Last, Elem* _Dest)
 {
-    return FUN_00b2e500(_Checked_base(_First), _Checked_base(_Last), _Dest, _Iter_random(_First, _Dest),
-                        _Ptr_cat(_First, _Dest), _Range_checked_iterator_tag());
+    return ((::Elem *)(::FUN_00b2e500((::record_model::FUN_00b2e680 *)(::Elem *)(_Checked_base(_First)), (::record_model::FUN_00b2e680 *)(::Elem *)(_Checked_base(_Last)), (::record_model::FUN_00b2e680 *)(_Dest))));
 }
 void __cdecl operator delete(void*);
 struct Alloc
 {
     void deallocate(Elem* _Ptr, unsigned int)
     {
-        ::operator delete(_Ptr);
+        ::FUN_00401030(_Ptr);
     }
 };
-Elem* __cdecl FUN_00b2e570(Elem*, Elem*, Elem*, Alloc&, _Nonscalar_ptr_iterator_tag, _Range_checked_iterator_tag);
 inline Elem* unchecked_uninitialized_copy(Elem* _First, Elem* _Last, Elem* _Dest, Alloc& _Al)
 {
-    return FUN_00b2e570(_Checked_base(_First), _Checked_base(_Last), _Dest, _Al, _Ptr_cat(_First, _Dest),
-                        _Range_checked_iterator_tag());
+    return ((::Elem *)(::FUN_00b2e570((::FUN_00b2e740 *)(::Elem *)(_Checked_base(_First)), (::FUN_00b2e740 *)(::Elem *)(_Checked_base(_Last)), (::FUN_00b2e740 *)(_Dest))));
 }
 struct BaseAux
 {
@@ -3232,15 +3163,67 @@ struct Vec : VecVal
     {
         return _Myfirst == 0 ? 0 : _Myend - _Myfirst;
     }
-    void FUN_00b2df90();
-    void FUN_00b2e140(Elem*, Elem*);
-    bool InitBuffer(unsigned int);
     Elem* _Ucopy(Elem* _First, Elem* _Last, Elem* _Ptr)
     {
         return unchecked_uninitialized_copy(_First, _Last, _Ptr, this->_Alval);
     }
     Vec& FUN_00b2db10(const Vec& _Right);
 };
+// @fnv 0x00b2b550
+bool CTreeEngineImpl::FUN_00b2b550(CTreeFileAccessImpl* file)
+{
+    bool bSuccess = false;
+
+    int strBuf9 = ((int)(reinterpret_cast<::S_00b3ed80 *>((file))->GetNextElement()));
+    if (strBuf9 != 0x3e8)
+    {
+        throw SptError("missing begin_file token", false);
+    }
+
+    SptString str3 = ((CTreeFileAccessImpl*)file)->FUN_00b3ee40();
+    if (str3 != SptString(DAT_011ad36c))
+    {
+        throw SptError("not a valid SpeedTree SPT file", false);
+    }
+
+    strBuf9 = ((int)(reinterpret_cast<::S_00b3ed80 *>((file))->GetNextElement()));
+    do
+    {
+        switch (strBuf9)
+        {
+        case 0x3ea:
+            reinterpret_cast<::S2bde0_Tree *>(this)->FUN_00b2bde0((::S2bde0_Parser *)(file));
+            break;
+        case 0x3ec:
+            reinterpret_cast<::S00b3d1b0_Obj *>(&(m_sub94))->FUN_00b3d1b0((::S00b3d1b0_Src *)(file));
+            break;
+        case 0x3f3:
+            reinterpret_cast<::S00b408b0_Obj *>(&(m_sub10c))->FUN_00b408b0((::S00b408b0_Reader *)(file));
+            break;
+        default:
+            throw SptError("malformed SpeedTree SPT file", false);
+        }
+        strBuf9 = ((int)(reinterpret_cast<::S_00b3ed80 *>((file))->GetNextElement()));
+    } while (strBuf9 != 0x3e9);
+
+    if (!((CTreeFileAccessImpl*)file)->EndOfFile() && ((int)(reinterpret_cast<::FNV_00b3efe0_Obj *>((((CTreeFileAccessImpl*)file)))->GetElementAtOffset())) == 0x1b58)
+    {
+        reinterpret_cast<::S_00b3ed80 *>((static_cast<ElementIterator*>(file)))->GetNextElement();
+        FUN_00b2cbc0(file);
+    }
+
+    m_pcFileName = m_pcFileName;
+
+    reinterpret_cast<::Vec *>(&(m_suba4))->FUN_00b2db10((*(const ::Vec *)(&m_suba4)));
+
+    if (m_actualSize > -1.0f)
+    {
+        FUN_00b2bd20(m_actualSize, m_actualVariance);
+    }
+
+    bSuccess = true;
+    return bSuccess;
+}
 // @fnv 0x00b2db10
 Vec& Vec::FUN_00b2db10(const Vec& _Right)
 {
@@ -3248,11 +3231,11 @@ Vec& Vec::FUN_00b2db10(const Vec& _Right)
     {
         S00b2db10_padA();
         if (_Right.size() == 0)
-            FUN_00b2df90();
+            reinterpret_cast<::fnv_00b2df90::vecb2d::VcVector *>(this)->FUN_00b2df90();
         else if (_Right.size() <= size())
         {
             Elem* z = copy_new(_Right._Myfirst, _Right._Mylast, _Myfirst);
-            FUN_00b2e140(z, _Mylast);
+            reinterpret_cast<::B2EVector *>(this)->FUN_00b2e140((::B2EElem *)(z), (::B2EElem *)(_Mylast));
             _Mylast = _Myfirst + _Right.size();
             S00b2db10_padB();
         }
@@ -3260,7 +3243,7 @@ Vec& Vec::FUN_00b2db10(const Vec& _Right)
         {
             Elem* z;
             z = _Right._Myfirst + size();
-            FUN_00b2e3f0(_Right._Myfirst, z, _Myfirst);
+            ::fnv_00b2e3f0::FUN_00b2e3f0((::fnv_00b2e3f0::record_model::FUN_00b2e680 *)(_Right._Myfirst), (::fnv_00b2e3f0::record_model::FUN_00b2e680 *)(z), (::fnv_00b2e3f0::record_model::FUN_00b2e680 *)(_Myfirst));
             S00b2db10_padC();
             S00b2db10_padC2();
             _Mylast = _Ucopy(z, _Right._Mylast, _Mylast);
@@ -3270,10 +3253,10 @@ Vec& Vec::FUN_00b2db10(const Vec& _Right)
         {
             if (_Myfirst != 0)
             {
-                FUN_00b2e140(_Myfirst, _Mylast);
+                reinterpret_cast<::B2EVector *>(this)->FUN_00b2e140((::B2EElem *)(_Myfirst), (::B2EElem *)(_Mylast));
                 this->_Alval.deallocate(_Myfirst, _Myend - _Myfirst);
             }
-            if (InitBuffer(_Right.size()))
+            if (reinterpret_cast<::FnvB2e080 *>(this)->InitBuffer(_Right.size()))
             {
                 S00b2db10_padE();
                 _Mylast = _Ucopy(_Right._Myfirst, _Right._Mylast, _Myfirst);
@@ -3293,9 +3276,8 @@ struct FUN_0044a4c0
     FUN_0044a4c0(const FUN_0044a4c0& r);
     ~FUN_0044a4c0()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
-    void FUN_0044a730(bool b, unsigned n);
 };
 struct FUN_00b096a0
 {
@@ -3318,7 +3300,6 @@ struct FUN_00b09480 : FUN_00b096a0
     virtual ~FUN_00b09480();
 };
 }
-extern const float DAT_0101e2bc;
 inline void DeadTop()
 {
     int aiD[63];
@@ -3396,38 +3377,38 @@ struct LodInfoReader : CTreeEngine
 void __thiscall LodInfoReader::FUN_00b2ceb0(ElementIterator* a)
 {
     DeadTop();
-    int token = a->GetNextElement();
+    int token = ((int)(reinterpret_cast<::S_00b3ed80 *>((a))->GetNextElement()));
     do
     {
         switch (token)
         {
         case 0x232f:
-            this->unk78 = a->GetNextElement();
+            this->unk78 = ((int)(reinterpret_cast<::S_00b3ed80 *>((a))->GetNextElement()));
             break;
         case 0x2330:
-            this->unkF4 = static_cast<S2bde0_Parser*>(static_cast<void*>(a))->FUN_00b3ed20();
+            this->unkF4 = reinterpret_cast<::FUN_00b3ed20_cls *>((static_cast<S2bde0_Parser*>(static_cast<void*>(a))))->FUN_00b3ed20();
             break;
         case 0x2332:
-            this->unkFC = static_cast<S2bde0_Parser*>(static_cast<void*>(a))->FUN_00b3ed20();
+            this->unkFC = reinterpret_cast<::FUN_00b3ed20_cls *>((static_cast<S2bde0_Parser*>(static_cast<void*>(a))))->FUN_00b3ed20();
             if (this->unkFC == 0.0f)
-                this->unkFC = DAT_0101e2bc;
+                this->unkFC = ::DAT_0101e2bc;
             break;
         case 0x2333:
-            this->unkD8 = a->GetNextElement();
+            this->unkD8 = ((int)(reinterpret_cast<::S_00b3ed80 *>((a))->GetNextElement()));
             break;
         case 0x2334:
-            this->unkF8 = static_cast<S2bde0_Parser*>(static_cast<void*>(a))->FUN_00b3ed20();
+            this->unkF8 = reinterpret_cast<::FUN_00b3ed20_cls *>((static_cast<S2bde0_Parser*>(static_cast<void*>(a))))->FUN_00b3ed20();
             break;
         case 0x2335:
-            this->unk100 = static_cast<S2bde0_Parser*>(static_cast<void*>(a))->FUN_00b3ed20();
+            this->unk100 = reinterpret_cast<::FUN_00b3ed20_cls *>((static_cast<S2bde0_Parser*>(static_cast<void*>(a))))->FUN_00b3ed20();
             break;
         case 0x2336:
-            this->unk104 = static_cast<S2bde0_Parser*>(static_cast<void*>(a))->FUN_00b3ed20();
+            this->unk104 = reinterpret_cast<::FUN_00b3ed20_cls *>((static_cast<S2bde0_Parser*>(static_cast<void*>(a))))->FUN_00b3ed20();
             break;
         default:
             throw LodErrorDetail::FUN_00b09480("malformed engine lod data", false);
         }
-    } while ((token = a->GetNextElement()) != 0x232e);
+    } while ((token = ((int)(reinterpret_cast<::S_00b3ed80 *>((a))->GetNextElement()))) != 0x232e);
 }
 
 extern const char str_010a54cc[];
@@ -3453,8 +3434,6 @@ struct S00b2c790_Error
 
 struct S00b2c790_Sub
 {
-    void FUN_00b32350();
-    void FUN_00b15390(int* value);
 };
 
 struct S00b2c790_Local
@@ -3566,7 +3545,6 @@ __forceinline void TreeClear()
     local.unk38 = 0;
 }
 
-int __cdecl FUN_00b3f8e0(ElementIterator* value);
 
 // @fnv 0x00b2c790
 void S2bde0_Tree::FUN_00b2c790(S2bde0_Parser* parser)
@@ -3578,20 +3556,20 @@ void S2bde0_Tree::FUN_00b2c790(S2bde0_Parser* parser)
     int branchCount;
 
     TreeClear();
-    TreeSub(this)->FUN_00b32350();
+    reinterpret_cast<::IndexSet *>((TreeSub(this)))->FUN_00b32350();
 
-    count_2 = reinterpret_cast<ElementIterator*>(parser)->GetNextElement();
+    count_2 = ((int)(reinterpret_cast<::S_00b3ed80 *>((reinterpret_cast<ElementIterator*>(parser)))->GetNextElement()));
     for (index4 = 0; index4 < count_2; ++index4)
     {
-        item5 = FUN_00b3f8e0(reinterpret_cast<ElementIterator*>(parser));
-        TreeSub(this)->FUN_00b15390(&item5);
+        item5 = ((int)(::FUN_00b3f8e0((::Parser *)(::ElementIterator *)(reinterpret_cast<ElementIterator*>(parser)))));
+        reinterpret_cast<::IndexSet *>((TreeSub(this)))->FUN_00b15390((*(const unsigned int *)(&item5)));
     }
 
-    branchCount = reinterpret_cast<ElementIterator*>(parser)->GetNextElement();
+    branchCount = ((int)(reinterpret_cast<::S_00b3ed80 *>((reinterpret_cast<ElementIterator*>(parser)))->GetNextElement()));
     if (branchCount != 0x3f7)
     {
         S2bde0_Str text4(str_010a54cc);
-        error2.FUN_00b09480(&text4, 0);
+        new ((void *)&(error2)) ::FUN_00b09480((*(const ::FUN_0044a4c0 *)(&text4)), 0);
         FUN_00ec7894(&error2, &DAT_01170384);
     }
 }

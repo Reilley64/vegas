@@ -2,6 +2,7 @@
 #ifndef FNV_NIBLENDFLOATINTERPOLATOR_H
 #define FNV_NIBLENDFLOATINTERPOLATOR_H
 
+#include "fnv/decl/FUN_00a37260_shell.h"
 #include "layout_support.h"
 #include "NiObject.h"
 class NiBlendFloatInterpolator;
@@ -90,7 +91,6 @@ class NiBlendInterpolator : public NiInterpolator
   public:
     NiBlendInterpolator(bool onlyUseHighestWeight, float weightThreshold, unsigned char arraySize);
     virtual void LoadBinary(NiStream& stream);
-    void NormalizeWeights();
     __forceinline bool GetBlendUpdateTime(float&, NiBlendInterpolator__InterpArrayItem&);
     // base NiInterpolator at +0x0, size 12
     unsigned char m_uiObjectFlags;         // +0xC, 1 bytes

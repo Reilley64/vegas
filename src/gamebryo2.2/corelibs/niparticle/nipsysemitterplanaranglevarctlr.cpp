@@ -1,12 +1,17 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysemitterplanaranglevarctlr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysemitterplanaranglevarctlr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_01202730;
 
 // @fnv 0x00c2b460
+#include "fnv/decl/NiPSysAirFieldAirFrictionCtlr.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00c32000.h"
+#include "fnv/symbols_01202000.h"
 void* __cdecl FUN_00c2b460()
 {
-    return &g_01202730;
+    return &(*reinterpret_cast<void * *>(&::g_01202730));
 }
 
 struct NiPSysEmitterPlanarAngleVarCtlr
@@ -48,21 +53,17 @@ struct StrArr
     unsigned short m_usSize;
     unsigned short _pad1;
     unsigned short m_usGrowBy;
-    void __thiscall SetSize(unsigned int);
-    void __thiscall SetAt(unsigned int, char*&);
 };
-void __stdcall FUN_00c32f60(StrArr*);
-char* __cdecl _FUN_00a7d330(void*);
 // Appends the string returned by _FUN_00a7d330(g_01202730) to the end of pkStrings, growing the array if it is full.
 // @fnv 0x00c2b4d0
 void __stdcall FUN_00c2b4d0(StrArr* pkStrings)
 {
     FUN_00c32f60(pkStrings);
-    char* pcString = _FUN_00a7d330(g_01202730);
+    char* pcString = ::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_01202730))));
     unsigned int uiIndex = pkStrings->m_usSize;
     if (uiIndex >= pkStrings->m_usMaxSize)
-        pkStrings->SetSize(uiIndex + pkStrings->m_usGrowBy);
-    pkStrings->SetAt(uiIndex, pcString);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(uiIndex + pkStrings->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiIndex, pcString);
 }
 
 struct NiMemObject
@@ -74,7 +75,6 @@ struct FUN_00c32d80
 {
     virtual void base0();
     FUN_00c32d80();
-    void FUN_00c32de0(CloneShell*, void*);
 };
 struct CloneShell : FUN_00c32d80
 {
@@ -96,13 +96,13 @@ CloneShell* C_00c2b480::FUN_00c2b480(void* volatile argument)
     if (clone)
     {
         new ((void*)clone) CloneShell;
-        FUN_00c32de0(clone, argument);
+        reinterpret_cast<::NiPSysAirFieldAirFrictionCtlr *>(this)->CopyMemberData((::NiPSysAirFieldAirFrictionCtlr *)(clone), (*(::CloningProcess *)(argument)));
     }
     else
     {
         void* processCopy = argument;
         clone = 0;
-        FUN_00c32de0(clone, processCopy);
+        reinterpret_cast<::NiPSysAirFieldAirFrictionCtlr *>(this)->CopyMemberData((::NiPSysAirFieldAirFrictionCtlr *)(clone), (*(::CloningProcess *)(processCopy)));
     }
     return clone;
 }

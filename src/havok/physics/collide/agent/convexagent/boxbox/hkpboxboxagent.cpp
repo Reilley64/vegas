@@ -2,11 +2,14 @@
 // src/havok/physics/collide/agent/convexagent/boxbox/hkpboxboxagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/boxbox/hkpboxboxagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* __cdecl FUN_00d401d0(void);
-extern "C" void* __cdecl FUN_00d406c0(void);
-extern "C" void* __cdecl FUN_00dac450(void);
-extern "C" void* __cdecl FUN_00daf8e0(void);
 
+#include "fnv/decl/FUN_00cfbbe0_cls.h"
+#include "fnv/decl/FUN_00db0920_cls.h"
+#include "fnv/decl/hkpGskBaseAgent_S.h"
+#include "fnv/symbols_00d40000.h"
+#include "fnv/symbols_00d41000.h"
+#include "fnv/symbols_00dac000.h"
+#include "fnv/symbols_00daf000.h"
 struct FUN_00d408e0_1
 {
     void* p1;
@@ -21,10 +24,10 @@ struct FUN_00d408e0_1
 // @fnv 0x00d408e0
 void __cdecl FUN_00d408e0(FUN_00d408e0_1* a)
 {
-    a->p1 = (void*)&FUN_00d401d0;
-    a->p2 = (void*)&FUN_00d406c0;
-    a->p3 = (void*)&FUN_00dac450;
-    a->p4 = (void*)&FUN_00daf8e0;
+    a->p1 = (void*)&((void *(&)())::FUN_00d401d0);
+    a->p2 = (void*)&((void *(&)())::FUN_00d406c0);
+    a->p3 = (void*)&((void *(&)())::hkpGskBaseAgent_S::FUN_00dac450);
+    a->p4 = (void*)&((void *(&)())::FUN_00daf8e0);
     a->b1 = 0;
     a->b2 = 0;
 }
@@ -76,31 +79,25 @@ struct D41FD0AgentFuncs
 
 struct D41FD0CollisionDispatcher
 {
-    void registerCollisionAgent(D41FD0AgentFuncs& f, int typeA, int typeB);
 };
 
-void __cdecl D41FD0CreateAgent();
-void __cdecl D41FD0StaticGetPenetrations();
-void __cdecl D41FD0StaticGetClosestPoints();
-void __cdecl D41FD0StaticLinearCast();
 
 // Fills a collision agent function table with the static agent callbacks and registers it for collision type pair 0x12/0x12.
 // @fnv 0x00d41fd0
 void __cdecl RegisterStaticCollisionAgent(D41FD0CollisionDispatcher* dispatcher)
 {
     D41FD0AgentFuncs agentFuncs;
-    agentFuncs.m_pCreateFunc = D41FD0CreateAgent;
-    agentFuncs.m_pQueryPenetrationsFunc = D41FD0StaticGetPenetrations;
-    agentFuncs.m_pGetPenetrationsFunc = D41FD0StaticGetClosestPoints;
-    agentFuncs.m_pLinearCastFunc = D41FD0StaticLinearCast;
+    agentFuncs.m_pCreateFunc = ((void (&)())::CreateSpawnObject);
+    agentFuncs.m_pQueryPenetrationsFunc = ((void (&)())::TestGsk);
+    agentFuncs.m_pGetPenetrationsFunc = ((void (&)())::hkpGskBaseAgent_S::FUN_00dac450);
+    agentFuncs.m_pLinearCastFunc = ((void (&)())::FUN_00daf8e0);
     agentFuncs.m_bIsFlipped = false;
     agentFuncs.m_bIsPredictive = true;
-    dispatcher->registerCollisionAgent(agentFuncs, 0x12, 0x12);
+    reinterpret_cast<::FUN_00cfbbe0_cls *>((dispatcher))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)&(agentFuncs), 0x12, 0x12);
 }
 
 extern "C" const double DAT_010cf200;
 extern "C" char DAT_010cf1c4;
-extern "C" void* __cdecl FUN_00dacc00(void* a1, void* a2, void* a3, void* a4);
 extern "C" void* __cdecl FUN_00c85750(void);
 
 class Allocator
@@ -131,7 +128,6 @@ class SrcObj
 class SubStub
 {
   public:
-    void FUN_00db0920();
 };
 
 class SpawnedObject
@@ -165,10 +161,10 @@ void* FUN_00d401d0(void* apFirst, void* apSecond, void* a3, void* a4)
     pSpawned->m_06 = 1;
     pSpawned->m_08 = a4;
     pSpawned->vptr = &DAT_010cf1c4;
-    ((SubStub*)((char*)pSpawned + 0x10))->FUN_00db0920();
+    reinterpret_cast<::FUN_00db0920_cls *>((((SubStub*)((char*)pSpawned + 0x10))))->FUN_00db0920();
     return pSpawned;
 callPath:
-    return FUN_00dacc00(apFirst, apSecond, a3, a4);
+    return ((void *)(::FUN_00dacc00((int)(apFirst), (int)(apSecond), (int)(a3), (int)(a4))));
 }
 
 extern "C" void __cdecl FUN_00d40470(void* a, void* b, void* c, void* d);
@@ -181,19 +177,17 @@ extern "C" void __stdcall FUN_00d406a0(void* apArg1, void* apArg2, void* apArg3,
 
 typedef void(__cdecl* FUN_00d406c0_fn4)(void*, void*, void*, void*);
 
-extern "C" void* __cdecl FUN_00d406c0(void);
 
 // @fnv 0x00d408c0
 void __stdcall FUN_00d408c0(void* a1, void* a2, void* a3, void* a4)
 {
-    ((FUN_00d406c0_fn4)FUN_00d406c0)(a1, a2, a3, a4);
+    ((FUN_00d406c0_fn4)((void *(&)())::FUN_00d406c0))(a1, a2, a3, a4);
 }
 
 __declspec(noinline) void __cdecl FUN_00d408e0(FUN_00d408e0_1*);
 
 struct BoxAgentRegistry
 {
-    void __thiscall FUN_00cfbbe0(const FUN_00d408e0_1& kFuncs, int a, int b);
 };
 
 // Initializes a FUN_00d408e0_1 struct with zeroed fields, calls FUN_00d408e0 to populate it, and registers it with pkObj via FUN_00cfbbe0.
@@ -204,5 +198,5 @@ void __cdecl FUN_00d40910(BoxAgentRegistry* pkObj)
     kFuncs.b1 = 0;
     kFuncs.b2 = 0;
     FUN_00d408e0(&kFuncs);
-    pkObj->FUN_00cfbbe0(kFuncs, 4, 4);
+    reinterpret_cast<::FUN_00cfbbe0_cls *>((pkObj))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)&(kFuncs), 4, 4);
 }

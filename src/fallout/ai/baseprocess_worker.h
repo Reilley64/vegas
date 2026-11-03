@@ -2,6 +2,14 @@
 #ifndef FNV_BASEPROCESS_WORKER_H
 #define FNV_BASEPROCESS_WORKER_H
 
+#include "fnv/decl/CFActor.h"
+#include "fnv/decl/FUN_008675e0_shell.h"
+#include "fnv/decl/FUN_008c6970_shell.h"
+#include "fnv/decl/FUN_008c6c80_Class.h"
+#include "fnv/decl/FUN_0092ca70_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00914c60__Shell914.h"
+#include "fnv/symbols_008d1000.h"
 #include "layout_support.h"
 #include "ActorPackageContext.h"
 class BGSLoadFormBuffer;
@@ -31,11 +39,7 @@ FNV_STATIC_ASSERT(sizeof(BaseProcess) == 0x30);
 class ActorPackageCall
 {
   public:
-    void SetPackageAndTarget(TESPackage*, TESObjectREFR*);
     void LoadGame(BGSLoadFormBuffer*);
-    void ApplyLoadBuffer(BGSLoadFormBuffer*);
-    void FUN_008c6970(BGSLoadFormBuffer*);
-    void FUN_008c6c80(BGSLoadFormBuffer*);
 };
 class TESPackage
 {
@@ -45,7 +49,6 @@ class TESPackage
 class CachedValuesCall
 {
   public:
-    void ClearField44();
 };
 class GuardActorPackageDataCall
 {
@@ -57,6 +60,8 @@ class LowProcess
 {
   public:
     PatrolActorPackageData* GetCurrentPackageData();
+public:
+    void HandlePackageChange(::LowProcess *);
 };
 class ActorPackageDataVirtualCall
 {
@@ -67,7 +72,6 @@ class ActorPackageDataVirtualCall
 class BGSLoadFormBuffer
 {
   public:
-    void ReadTypedData(void*, unsigned int);
 };
 class BGSLoadFormBufferVirtual
 {
@@ -78,27 +82,22 @@ class BGSLoadFormBufferVirtual
 class MiddleHighProcessCall
 {
   public:
-    void CopyProcessDataFrom(MiddleHighProcessCall*);
 };
 class CopyCall00914c60
 {
   public:
-    void FUN_00914c60(CopyCall00914c60*);
 };
 class CachedValuesCopyCall
 {
   public:
-    void Copy(CachedValuesCopyCall*);
 };
 class LowProcessCopyCall
 {
   public:
-    void HandlePackageChange(LowProcessCopyCall*);
 };
 class LowProcessCachedCopyCall
 {
   public:
-    void HandlePackageChange(LowProcessCachedCopyCall*);
 };
 extern char DAT_0118a6b8;
 extern char DAT_0118a6d4;

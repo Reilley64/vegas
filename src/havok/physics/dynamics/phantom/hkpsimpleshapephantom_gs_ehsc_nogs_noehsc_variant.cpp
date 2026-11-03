@@ -5,6 +5,16 @@
 
 // src/havok/physics/dynamics/phantom/hkpsimpleshapephantom.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/phantom/hkpsimpleshapephantom.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/C.h"
+#include "fnv/decl/FUN_00ca94c0_Class.h"
+#include "fnv/decl/FUN_00d07cf0_cls.h"
+#include "fnv/decl/fnv_00d1f780__FUN_00d1f780.h"
+#include "fnv/decl/hkpAabbPhantomD07.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cf2000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_01269000.h"
 #include "havok/hkpSimpleShapePhantom.h"
 struct FUN_00d1f9c0_Memory
 {
@@ -17,13 +27,11 @@ struct FUN_00d1f9c0_Router
     unsigned char pad[0x10];
     FUN_00d1f9c0_Memory* memory;
 };
-FUN_00d1f9c0_Router* _D1A0E0GetMemoryRouter();
 struct FUN_00d1f9c0_StandIn
 {
     void* vtable;
     unsigned short size;
 
-    void FUN_00d1f780();
     void* FUN_00d1f9c0(unsigned int flags);
 };
 int FUN_00d1f220();
@@ -40,7 +48,6 @@ struct DetailLess
         return a->key < b->key;
     }
 };
-void __cdecl QuickSortShapeDetails(ShapeDetail** a, int lo, int hi, DetailLess less);
 struct hkBoolXd1f230
 {
     char m_cBooleanValue;
@@ -198,7 +205,6 @@ struct hkpSimpleShapePhantomCollisionDetailD1F5
 class FUN_00ca9520_class : public hkpShapePhantom
 {
   public:
-    void NotifyAll(hkpCollidableD1F5* pkCollidable, hkBoolD1F5 bCollidableWasAdded) throw();
 };
 class hkpSimpleShapePhantomD1F5 : public FUN_00ca9520_class
 {
@@ -209,7 +215,6 @@ class hkpSimpleShapePhantomD1F5 : public FUN_00ca9520_class
     void FUN_00d1f5a0(hkpCollidableD1F5* pkCollidable) throw();
 };
 class hkClassD1F6;
-extern const hkClassD1F6 DAT_0126902c;
 int __cdecl FUN_00d06f80(const void* pvChunk, int iNumBytes) throw();
 template <class T> class hkArrayD1F6
 {
@@ -257,7 +262,6 @@ class hkOverlapD1F6;
 class hkpShapeD1F6
 {
   public:
-    void WritePhantomLists(hkStatisticsCollectorD1F6* pkCollector, const hkClassD1F6* pkClass) const throw();
 };
 class hkObjD1F6 : public hkpShapeD1F6
 {
@@ -359,9 +363,6 @@ struct CollisionMemoryRouter
     int unk00, unk04, unk08, unk0c;
     void* allocator;
 };
-extern "C" int __stdcall FUN_00ca94c0(void* object);
-extern "C" CollisionMemoryRouter* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void* allocator, void* array, int elementSize);
 struct FUN_00d1f690_Member : hkpSimpleShapePhantom
 {
     void AddCollisionDetail(void* object);
@@ -1163,9 +1164,8 @@ struct LcCastInput : LcCollisionInput
     LcCastInput()
     {
         unk04 = 0;
-        unk60 = LC_EPS;
+        unk60 = ::DAT_0104da4c;
     }
-    static const float LC_EPS;
 };
 
 typedef void (*LcCastFunc)(const LcCollidable&, const LcCollidable&, const LcCastInput&, void*, void*);
@@ -1680,7 +1680,6 @@ struct LcPhantom
     int unk158;
     int unk15c;
     LcCollidableArray unk160;
-    void FUN_00d07ec0(LcAabb* aabb);
     void FUN_00d1f270(const LcVec4& position, const LcCastIn& input, void* castCollector, void* startCollector);
 };
 
@@ -1700,7 +1699,7 @@ void LcPhantom::FUN_00d1f270(const LcVec4& position, const LcCastIn& input, void
     __m128 pathMax = _mm_max_ps(zero, path.m_vComponents);
     aabb.unk00.m_vComponents = _mm_add_ps(aabb.unk00.m_vComponents, pathMin);
     aabb.unk10.m_vComponents = _mm_add_ps(aabb.unk10.m_vComponents, pathMax);
-    FUN_00d07ec0(&aabb);
+    reinterpret_cast<::hkpAabbPhantomD07 *>(this)->FUN_00d07ec0((*(const ::hkAabbD07 *)(&aabb)));
 
     LcCastInput lcInput;
     const LcProcessInput* in = unk08->unk78;

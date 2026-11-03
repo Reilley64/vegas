@@ -1,15 +1,30 @@
 // gamebryo2.2/corelibs/nimain/nitexture.cpp: NiObjectNET, NiTexture, Elements (13 functions)
 
+#include <new>
+#include "fnv/decl/FUN_00a5c200.h"
+#include "fnv/decl/FUN_00a5c240_shell.h"
+#include "fnv/decl/GeomData.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/S.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a62000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f5000.h"
+#include "fnv/symbols_011f6000.h"
 #include "nitexture_match.h"
 
 // Removes the extra-data entry at index under a critical section, releasing its reference and shifting the remaining entries down.
 // @fnv 0x00a5b990
 void NiObjectNET::DeleteExtraData(unsigned short index)
 {
-    fnv_EnterCriticalSection(&DAT_011f4380);
+    fnv_EnterCriticalSection(&(*reinterpret_cast<unsigned char *>(&::DAT_011f4380)));
     if (index >= m_usExtraDataCount)
     {
-        fnv_LeaveCriticalSection(&DAT_011f4380);
+        fnv_LeaveCriticalSection(&(*reinterpret_cast<unsigned char *>(&::DAT_011f4380)));
         return;
     }
 
@@ -24,7 +39,7 @@ void NiObjectNET::DeleteExtraData(unsigned short index)
         m_ppExtraData[i] = m_ppExtraData[i + 1];
     --m_usExtraDataCount;
     m_ppExtraData[m_usExtraDataCount] = 0;
-    fnv_LeaveCriticalSection(&DAT_011f4380);
+    fnv_LeaveCriticalSection(&(*reinterpret_cast<unsigned char *>(&::DAT_011f4380)));
 }
 
 // @fnv 0x00a47350
@@ -55,7 +70,7 @@ void* __cdecl FUN_00a47380()
     NiProperty* p = (NiProperty*)BSFadeNode::operator new(0x18);
     if (p)
     {
-        p->NiProperty::NiProperty();
+        new ((void *)(p)) struct ::FUN_00a5c200();
         *(int**)p = &DAT_010983bc;
         return p;
     }
@@ -64,22 +79,19 @@ void* __cdecl FUN_00a47380()
 
 struct MemoryManager
 {
-    void* Allocate(unsigned int);
 };
-extern MemoryManager g_memoryManager;
 
 struct Pool00a91290
 {
     int a, b, c, d, e, f;
 };
 
-extern Pool00a91290* DAT_011f5e50;
 
 // Allocates a Pool00a91290, zeroes its first four fields, sets the last two to 8, and stores it in DAT_011f5e50 (or null on failure).
 // @fnv 0x00a91290
 void __cdecl FUN_00a91290()
 {
-    Pool00a91290* p = (Pool00a91290*)g_memoryManager.Allocate(sizeof(Pool00a91290));
+    Pool00a91290* p = (Pool00a91290*)reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(sizeof(Pool00a91290));
     if (p)
     {
         p->a = 0;
@@ -95,22 +107,19 @@ void __cdecl FUN_00a91290()
 }
 
 struct GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_011f3f38;
 // Returns a pointer to the global object g_011f3f38, ignoring both arguments.
 // @fnv 0x00a47370
 GlobalObjectO2_00a7b610* __fastcall FUN_00a47370(void*, int)
 {
-    return &g_011f3f38;
+    return &::g_011f3f38;
 }
 
-void __fastcall DestroyFogProperty(void*);
-void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 // @fnv 0x00a473b0
 void* __fastcall FUN_00a473b0(void* self, int, unsigned int flags)
 {
-    DestroyFogProperty(self);
+    reinterpret_cast<::FUN_00a5c240_shell *>((self))->DestroyFogProperty();
     if (flags & 1)
-        __Dummy_00b6fef0(self, 0x18);
+        ::FUN_00aa1460(self, 0x18);
     return self;
 }
 
@@ -130,28 +139,24 @@ template <class T, class A> struct NiTArray
     void SetAt(unsigned int, T&);
 };
 typedef NiTArray<ActorCombatGroup*, NiTMallocInterface<ActorCombatGroup*> > CGArray;
-extern const char* const g_011f444c_arg1;
 struct FUN_00a62a40_this
 {
-    void FUN_00a5ca80(CGArray*);
 };
-ActorCombatGroup* __cdecl FUN_00a7d330(const char*);
-ActorCombatGroup* __cdecl FUN_00a7d4d0(const char*, unsigned int);
 // @fnv 0x00a62a40
 void __fastcall FUN_00a62a40(FUN_00a62a40_this* self, int, CGArray* apArray)
 {
-    self->FUN_00a5ca80(apArray);
-    ActorCombatGroup* pEntry = FUN_00a7d330(g_011f444c_arg1);
+    reinterpret_cast<::S *>((self))->FUN_00a5ca80((::StrArray *)(apArray));
+    ActorCombatGroup* pEntry = ((::ActorCombatGroup *)(::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f450c)))));
     unsigned int n = apArray->m_usESize;
     if (n >= apArray->m_usMaxSize)
-        apArray->SetSize(n + apArray->m_usGrowBy);
-    apArray->SetAt(n, pEntry);
+        reinterpret_cast<::ViewerStrings *>((apArray))->SetSize(n + apArray->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((apArray))->SetAt(n, (char *&)(pEntry));
     unsigned char* st = *reinterpret_cast<unsigned char**>(reinterpret_cast<unsigned char*>(self) + 0x24);
-    pEntry = FUN_00a7d4d0("State", st ? st[0x5b] : 0);
+    pEntry = ((::ActorCombatGroup *)(::FUN_00a7d4d0("State", st ? st[0x5b] : 0)));
     n = apArray->m_usESize;
     if (n >= apArray->m_usMaxSize)
-        apArray->SetSize(n + apArray->m_usGrowBy);
-    apArray->SetAt(n, pEntry);
+        reinterpret_cast<::ViewerStrings *>((apArray))->SetSize(n + apArray->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((apArray))->SetAt(n, (char *&)(pEntry));
 }
 
 struct TexInfo
@@ -228,9 +233,6 @@ struct TextureCacheEntry
     int value;
     void FUN_00a5f860(int);
 };
-extern TextureCacheEntry DAT_011f4514[10];
-extern const char DAT_011f4600[];
-int CreateCheckerboardTexture(const TextureColor*, const TextureColor*, const char*, unsigned int);
 // Looks up a cached texture for a type index, generating it from per-type color pairs via CreateCheckerboardTexture when not yet cached, and returns the cached value.
 // @fnv 0x00a62690
 int GetTextureForType(int unused, int type)
@@ -239,7 +241,7 @@ int GetTextureForType(int unused, int type)
     if (index >= 10)
         return 0;
     unsigned int mode = 1;
-    if (!DAT_011f4514[index].value)
+    if (!(*reinterpret_cast<TextureCacheEntry (*)[10]>(&::g_aspObjects_11f4514))[index].value)
     {
         TextureColor firstColor, secondColor;
         switch (type)
@@ -285,16 +287,15 @@ int GetTextureForType(int unused, int type)
             mode = 6;
             break;
         }
-        DAT_011f4514[index].FUN_00a5f860(CreateCheckerboardTexture(&firstColor, &secondColor, DAT_011f4600, mode));
+        (*reinterpret_cast<TextureCacheEntry (*)[10]>(&::g_aspObjects_11f4514))[index].FUN_00a5f860(((int)(::CreateCheckerboardTexture((*(const ::CheckerColor *)(&firstColor)), (*(const ::CheckerColor *)(&secondColor)), (*(const ::NiPixelFormat *)((*reinterpret_cast<const char (*)[]>(&::gNiPoint3StartupDst)))), mode))));
     }
-    return DAT_011f4514[index].value;
+    return (*reinterpret_cast<TextureCacheEntry (*)[10]>(&::g_aspObjects_11f4514))[index].value;
 }
 
-extern "C" void __cdecl FUN_00a5c0e0();
 // @fnv 0x00a47360
 extern "C" void __cdecl FUN_00a47360()
 {
-    FUN_00a5c0e0();
+    static_cast<::NiObjectNET *>(nullptr)->LinkObject(*(::NiStream *)nullptr);
 }
 
 struct FUN_00a62660_cls
@@ -323,8 +324,8 @@ template <class T> class ViewerArray
     {
         unsigned int uiIndex = m_usSize;
         if (uiIndex >= m_usMaxSize)
-            FUN_0096ad30(uiIndex + m_usGrowBy);
-        FUN_0096ae90(uiIndex, element);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(element));
         return uiIndex;
     }
 
@@ -337,15 +338,10 @@ template <class T> class ViewerArray
 };
 typedef ViewerArray<char*> ViewerStrings;
 
-extern const char* DAT_011f5e54;
-char* FUN_00a7d330(const char* pcClassName);
-char* FUN_00a7d370(const char* pcPrefix, bool bValue);
-char* FUN_00a7d510(const char* pcPrefix, unsigned int uiValue);
 
 class ElementsBase
 {
   public:
-    void RegisterFields(ViewerStrings* pkStrings);
 };
 
 class Elements : public ElementsBase
@@ -390,11 +386,11 @@ class Elements : public ElementsBase
 // @fnv 0x00a912d0
 void Elements::FUN_00a912d0(ViewerStrings* pkStrings)
 {
-    ElementsBase::RegisterFields(pkStrings);
-    pkStrings->Add(FUN_00a7d330(DAT_011f5e54));
-    pkStrings->Add(FUN_00a7d370("m_bPixelAccurate", m_bPixelAccurate));
+    reinterpret_cast<::GeomData *>(this)->RegisterFields((::StrArr *)(pkStrings));
+    pkStrings->Add(::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_011f5e54))));
+    pkStrings->Add(::FUN_00a7d370("m_bPixelAccurate", m_bPixelAccurate));
     unsigned int n = m_usNumElements;
-    pkStrings->Add(FUN_00a7d510("Num Elements", n));
+    pkStrings->Add(::FUN_00a7d510("Num Elements", n));
 }
 
 }

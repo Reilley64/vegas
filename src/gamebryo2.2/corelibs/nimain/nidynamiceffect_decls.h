@@ -2,6 +2,10 @@
 #ifndef FNV_NIDYNAMICEFFECT_DECLS_H
 #define FNV_NIDYNAMICEFFECT_DECLS_H
 
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_00462d80_shell.h"
+#include "fnv/symbols_0043a000.h"
+#include "fnv/symbols_011c5000.h"
 #include "NiObjectNET.h"
 #include "NiPoint3.h"
 
@@ -29,7 +33,7 @@ class NiBinaryStream
 };
 template <class T> inline void ReadBinaryValue(NiStream& stream, T& value)
 {
-    stream.m_pUnderlyingStream->Read(&value, sizeof(T));
+    reinterpret_cast<::FUN_00462d80_shell *>((stream.m_pUnderlyingStream))->ReadBytes(&value, sizeof(T));
 }
 class FNV_ALIGN(32) RecursiveSpinLock
 {
@@ -37,12 +41,13 @@ class FNV_ALIGN(32) RecursiveSpinLock
     volatile unsigned int m_uiOwningThreadID;
     unsigned int m_uiRecursionCount;
     unsigned char layoutPadding8[24];
-    void Lock(const char* name);
     FNV_FORCEINLINE void Unlock()
     {
         if (--m_uiRecursionCount == 0)
             m_uiOwningThreadID = 0;
     }
+public:
+    void FUN_0040fba0();
 };
 template <class T> class PoolMemoryAllocator : public PoolAllocatorBase<T>
 {
@@ -52,18 +57,18 @@ template <class T> class PoolMemoryAllocator : public PoolAllocatorBase<T>
 inline NiTListItem<NiNode*>* NiDynamicEffectNewListItem()
 {
     typedef PoolAllocatorBase<unsigned int> Pool;
-    Pool::ms_kPoolState.Lock(0);
-    Pool::LinkedListEntry* item = Pool::ms_pFreeList;
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
+    Pool::LinkedListEntry* item = (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58));
     if (!item)
     {
-        PoolMemoryAllocator<unsigned int>::CreateFreeMem();
-        item = Pool::ms_pFreeList;
+        ::FUN_0043a080();
+        item = (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58));
     }
-    Pool::ms_pFreeList = item->m_pkNext;
+    (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58)) = item->m_pkNext;
     item->m_element = 0;
     item->m_pkNext = 0;
     item->m_pUserData = 0;
-    Pool::ms_kPoolState.Unlock();
+    reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fba0();
     return reinterpret_cast<NiTListItem<NiNode*>*>(item);
 }
 struct NiDynamicEffectTransform

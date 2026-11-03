@@ -2,9 +2,22 @@
 // src/fallout/magic/commandeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/commandeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/FUN_00401290_Class.h"
+#include "fnv/decl/FUN_0041ca90.h"
+#include "fnv/decl/FUN_004534f0_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/MagicCaster.h"
+#include "fnv/decl/MagicTarget.h"
+#include "fnv/decl/fnv_00804210__ActiveEffectUpdateShell.h"
+#include "fnv/symbols_0080b000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_011de000.h"
 struct ActorValueInfo
 {
-    void SetScriptName(const char*) const;
 };
 
 struct FUN_0080b640_shell : ActorValueInfo
@@ -15,7 +28,7 @@ struct FUN_0080b640_shell : ActorValueInfo
 // @fnv 0x0080b640
 void FUN_0080b640_shell::FUN_0080b640(const char* apName)
 {
-    ActorValueInfo::SetScriptName(apName);
+    reinterpret_cast<::FUN_00401290_Class *>((void *)this)->FUN_00401290((int)(apName));
 }
 
 extern int DAT_010799fc;
@@ -28,15 +41,6 @@ struct FUN_0080b370_shell : FUN_0080b560_shell
     void* m_vt;
     void* FUN_0080b370(int, int, int);
 };
-// Calls the base constructor with the three arguments, sets m_vt to the address of DAT_010799fc, and returns this.
-// @fnv 0x0080b370
-void* FUN_0080b370_shell::FUN_0080b370(int aiArg1, int aiArg2, int aiArg3)
-{
-    FUN_0080b560_shell::FUN_0080b560(aiArg1, aiArg2, aiArg3);
-    m_vt = (void*)&DAT_010799fc;
-    return this;
-}
-
 class MagicCaster;
 class MagicItem;
 class EffectItem;
@@ -49,6 +53,14 @@ struct FUN_0080b560 : ActiveEffect
 {
     FUN_0080b560(MagicCaster*, MagicItem*, EffectItem*);
 };
+// Calls the base constructor with the three arguments, sets m_vt to the address of DAT_010799fc, and returns this.
+// @fnv 0x0080b370
+void* FUN_0080b370_shell::FUN_0080b370(int aiArg1, int aiArg2, int aiArg3)
+{
+    new ((void *)this) ::FUN_0080b560((::MagicCaster *)(aiArg1), (::MagicItem *)(aiArg2), (::EffectItem *)(aiArg3));
+    m_vt = (void*)&DAT_010799fc;
+    return this;
+}
 // @fnv 0x0080b560
 FUN_0080b560::FUN_0080b560(MagicCaster* a, MagicItem* pItem, EffectItem* pEffectItem)
     : ActiveEffect(a, pItem, pEffectItem)
@@ -60,34 +72,29 @@ namespace fnv_0080b7c0 {
 struct Actor;
 struct BSThread
 {
-    unsigned int GetThreadID();
 };
 struct MagicTarget
 {
-    Actor* GetOwnerActor() const;
 };
 struct MagicCaster
 {
-    Actor* GetCasterActor();
 };
 struct Proc_S
 {
-    MagicCaster* GetNext();
 };
 struct FUN_0080b7c0_shell : Proc_S
 {
     void FUN_0080b7c0();
 };
-void FUN_0080b9e0(Actor*, Actor*, int);
 // Gets the target actor from the thread ID and the caster from the next entry, then calls FUN_0080b9e0 with both and 1 if both exist.
 // @fnv 0x0080b7c0
 void FUN_0080b7c0_shell::FUN_0080b7c0()
 {
     Actor* ptarget =
-        ((BSThread*)this)->GetThreadID() ? ((MagicTarget*)((BSThread*)this)->GetThreadID())->GetOwnerActor() : 0;
-    Actor* pcaster = GetNext() ? GetNext()->GetCasterActor() : 0;
+        reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType() ? ((::fnv_0080b7c0::Actor *)(reinterpret_cast<::MagicTarget *>((void *)(((MagicTarget*)reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType())))->GetOwnerActor())) : 0;
+    Actor* pcaster = ((::fnv_0080b7c0::MagicCaster *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((::fnv_0080b7c0::Actor *)(reinterpret_cast<::MagicCaster *>((((::fnv_0080b7c0::MagicCaster *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor())) : 0;
     if (ptarget && pcaster)
-        FUN_0080b9e0(ptarget, pcaster, 1);
+        ::FUN_0080b9e0(ptarget, (int)(pcaster), 1);
 }
 }  // namespace fnv_0080b7c0
 
@@ -163,44 +170,34 @@ namespace fnv_0080b660 {
 struct Actor;
 struct MagicCaster
 {
-    Actor* FUN_00815410();
 };
 struct SourceA
 {
-    Actor* FUN_00822b40();
 };
 struct FUN_0045cd60_shell
 {
-    MagicCaster* FUN_0045cd60();
 };
 struct FUN_0080b660_class : FUN_0045cd60_shell
 {
-    SourceA* FUN_0059bb30();
     void FUN_0080b660();
 };
-void __cdecl StartHostilityAndCombat(Actor*, Actor*);
 // Resolves the source actor and magic caster actor, and if both exist calls StartHostilityAndCombat with them.
 // @fnv 0x0080b660
 void FUN_0080b660_class::FUN_0080b660()
 {
-    Actor* pSourceActor = FUN_0059bb30() ? FUN_0059bb30()->FUN_00822b40() : (Actor*)0;
-    Actor* pCasterActor = FUN_0045cd60() ? FUN_0045cd60()->FUN_00815410() : (Actor*)0;
+    Actor* pSourceActor = ((::fnv_0080b660::SourceA *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::fnv_0080b660::Actor *)(reinterpret_cast<::MagicTarget *>((((::fnv_0080b660::SourceA *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor())) : (Actor*)0;
+    Actor* pCasterActor = ((::fnv_0080b660::MagicCaster *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((::fnv_0080b660::Actor *)(reinterpret_cast<::MagicCaster *>((((::fnv_0080b660::MagicCaster *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor())) : (Actor*)0;
     if (pSourceActor && pCasterActor)
-        StartHostilityAndCombat(pSourceActor, pCasterActor);
+        ::StartHostilityAndCombat((::B850Actor *)(pSourceActor), (::B850Actor *)(pCasterActor));
 }
 }  // namespace fnv_0080b660
 
 class EffectHost;
 struct EffectSource
 {
-    EffectHost* FUN_00822b40();
-    void* FUN_00815410();
 };
 struct FUN_0080b6f0_owner
 {
-    EffectSource* FUN_0059bb30();
-    EffectSource* FUN_0045cd60();
-    void FUN_00804210(int);
 };
 class EffectHost
 {
@@ -405,14 +402,14 @@ void FUN_0080b6f0_cls::FUN_0080b6f0(int)
 {
     EffectHost* a;
     void* b;
-    a = ((FUN_0080b6f0_owner*)this)->FUN_0059bb30() != 0 ? ((FUN_0080b6f0_owner*)this)->FUN_0059bb30()->FUN_00822b40()
+    a = ((::EffectSource *)(reinterpret_cast<::ActorMover *>((((FUN_0080b6f0_owner*)this)))->GetCurrentMoveModeType())) != 0 ? ((::EffectHost *)(reinterpret_cast<::MagicTarget *>((((::EffectSource *)(reinterpret_cast<::ActorMover *>((((FUN_0080b6f0_owner*)this)))->GetCurrentMoveModeType()))))->GetOwnerActor()))
                                                          : 0;
-    b = ((FUN_0080b6f0_owner*)this)->FUN_0045cd60() != 0 ? ((FUN_0080b6f0_owner*)this)->FUN_0045cd60()->FUN_00815410()
+    b = ((::EffectSource *)(reinterpret_cast<::FUN_0045cd60_shell *>((((FUN_0080b6f0_owner*)this)))->FUN_0045cd60())) != 0 ? ((void *)(reinterpret_cast<::MagicCaster *>((((::EffectSource *)(reinterpret_cast<::FUN_0045cd60_shell *>((((FUN_0080b6f0_owner*)this)))->FUN_0045cd60()))))->GetCasterActor()))
                                                          : 0;
     if (a != 0 && b != 0)
     {
         if (a->v22c(0) || a->v2e8())
-            ((FUN_0080b6f0_owner*)this)->FUN_00804210(0);
+            reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>((((FUN_0080b6f0_owner*)this)))->FUN_00804210(0);
         else
             FUN_0080b8f0(a, b);
     }
@@ -422,7 +419,6 @@ struct B850Actor;
 
 struct B850Package
 {
-    int get();
 };
 
 struct B850Process
@@ -1044,24 +1040,22 @@ struct B850Actor
     virtual void vfunc45C();
     virtual void AddHostility(B850Actor* pkTarget, float fAmount);
 
-    B850Process* GetProcess();
 };
 
-extern "C" B850Actor* g_thePlayer;
 
 // Adds 100 hostility toward pkTarget, sets it as combat target, raises disposition, and calls get() on the target's current package if not the player.
 // @fnv 0x0080b850
 void __cdecl StartHostilityAndCombat(B850Actor* pkActor, B850Actor* pkTarget)
 {
     pkActor->AddHostility(pkTarget, 100.0f);
-    B850Process* pkProcess = pkActor->GetProcess();
+    B850Process* pkProcess = ((::B850Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture()));
     pkProcess->SetCombatTarget(pkTarget);
     pkActor->ModifyDisposition(1, 100, 0);
     B850Package* pkPackage3 = 0;
-    if (pkTarget != g_thePlayer)
-        pkPackage3 = pkTarget->GetProcess()->GetCurrentPackage();
+    if (pkTarget != (*reinterpret_cast<::B850Actor * *>(&::_g_thePlayer)))
+        pkPackage3 = ((::B850Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkTarget))->GetBaseTexture()))->GetCurrentPackage();
     if (pkPackage3)
-        pkPackage3->get();
+        reinterpret_cast<struct ::FUN_0041ca90 *>((pkPackage3))->get();
 }
 
 struct VirtOwner
@@ -1402,18 +1396,13 @@ struct VirtOwner
 
 struct ActorRef
 {
-    VirtOwner* FUN_008d8520();
-    unsigned char FUN_00493bb0();
     unsigned char FUN_00881570();
-    void FUN_004534f0(void* other);
 };
 
 struct ResultRef
 {
-    int FUN_0041ca90();
 };
 
-extern int DAT_011dea3c;
 
 // @fnv 0x0080b8f0
 void FUN_0080b8f0(void* pActor, void* pOther)
@@ -1424,52 +1413,50 @@ void FUN_0080b8f0(void* pActor, void* pOther)
     VirtOwner* w0;
     VirtOwner* w5;
     VirtOwner* w2;
-    if (reinterpret_cast<ActorRef*>(pActor)->FUN_008d8520() == 0)
+    if (((::VirtOwner *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<ActorRef*>(pActor)))->GetBaseTexture())) == 0)
         return;
     {
-        w4 = reinterpret_cast<ActorRef*>(pActor)->FUN_008d8520();
+        w4 = ((::VirtOwner *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<ActorRef*>(pActor)))->GetBaseTexture()));
         if (w4->v52c() != pOther)
         {
-            w0 = reinterpret_cast<ActorRef*>(pActor)->FUN_008d8520();
+            w0 = ((::VirtOwner *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<ActorRef*>(pActor)))->GetBaseTexture()));
             w0->v528(pOther);
         }
     }
-    if (reinterpret_cast<ActorRef*>(pActor)->FUN_00493bb0() == 0)
+    if (((unsigned char)(reinterpret_cast<::FUN_00493bb0_Class *>((reinterpret_cast<ActorRef*>(pActor)))->FUN_00493bb0())) == 0)
     {
         w3 = 0;
-        if ((int)pOther != DAT_011dea3c)
+        if ((int)pOther != (*reinterpret_cast<int *>(&::_g_thePlayer)))
         {
-            w5 = reinterpret_cast<ActorRef*>(pOther)->FUN_008d8520();
+            w5 = ((::VirtOwner *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<ActorRef*>(pOther)))->GetBaseTexture()));
             w3 = w5->v27c();
         }
-        w2 = reinterpret_cast<ActorRef*>(pActor)->FUN_008d8520();
+        w2 = ((::VirtOwner *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<ActorRef*>(pActor)))->GetBaseTexture()));
         w1 = w2->v27c();
-        if (w3 == 0 || reinterpret_cast<ResultRef*>(w3)->FUN_0041ca90() == 0x12)
+        if (w3 == 0 || reinterpret_cast<struct ::FUN_0041ca90 *>((reinterpret_cast<ResultRef*>(w3)))->get() == 0x12)
         {
             if (w1 == 0 || reinterpret_cast<ActorRef*>(pActor)->FUN_00881570() == 0)
-                reinterpret_cast<ActorRef*>(pActor)->FUN_004534f0(pOther);
+                reinterpret_cast<::FUN_004534f0_shell *>((reinterpret_cast<ActorRef*>(pActor)))->FUN_004534f0((unsigned int)(pOther));
         }
     }
 }
 
 struct FUN_008d8520_class
 {
-    void* FUN_008d8520();
 };
 
 typedef void(__thiscall* SlotNoFloat)(void* self, int aArg);
 typedef void(__thiscall* SlotWithFloat)(void* self, int aArg, float aValue);
 typedef void(__thiscall* SlotThreeInts)(void* self, int aA, int aB, int aC);
 
-extern float DAT_01024100;
 
 // If the owner's FUN_008d8520 result is non-null and abFlag is set, calls slot 330 on it with 0, then calls slots 280 and 232 on apOwner.
 // @fnv 0x0080b9e0
 void FUN_0080b9e0(void* apOwner, int aValue, bool abFlag)
 {
-    if (((FUN_008d8520_class*)apOwner)->FUN_008d8520() != 0 && abFlag)
+    if (((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((FUN_008d8520_class*)apOwner)))->GetBaseTexture())) != 0 && abFlag)
     {
-        void* pTarget = ((FUN_008d8520_class*)apOwner)->FUN_008d8520();
+        void* pTarget = ((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((FUN_008d8520_class*)apOwner)))->GetBaseTexture()));
         ((SlotNoFloat)(*(void***)pTarget)[330])(pTarget, 0);
     }
     ((SlotWithFloat)(*(void***)apOwner)[280])(apOwner, aValue, DAT_01024100);

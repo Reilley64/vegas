@@ -1,5 +1,22 @@
 // fallout_shared/tesscriptableform.cpp: TESScriptableForm (6 functions)
 
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00402000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005b5000.h"
 #include "tesscriptableform_decls.h"
 
 // Resolves the stored script ID to a Script and warns if it cannot be found, then marks the item as initialized.
@@ -11,21 +28,19 @@ void TESScriptableForm::InitItem(TESForm* owner)
     if (m_pFormScript)
     {
         unsigned int scriptID = (unsigned int)m_pFormScript;
-        TESForm::RemapFormIDForFile(scriptID, owner->GetFile(-1));
-        m_pFormScript = dynamic_cast<Script*>(GetFormByID(scriptID));
+        ::ResolveFormID((unsigned int *)&(scriptID), owner->GetFile(-1));
+        m_pFormScript = dynamic_cast<Script*>(::FUN_004839c0(scriptID));
         if (!m_pFormScript)
         {
             if (owner)
             {
                 if (((BGSCameraPath*)owner)->HasNameForWarning())
-                    Warning("MASTERFILE: Unable to find script (%08X) on owner object \"%s\".", scriptID,
-                            owner->GetName());
+                    ::FUN_005b5e40();
                 else
-                    Warning("MASTERFILE: Unable to find script (%08X) on owner object (%08X).", scriptID,
-                            owner->GetFormID());
+                    ::FUN_005b5e40();
             }
             else
-                Warning("MASTERFILE: Unable to find script (%08X) on unknown owner.", scriptID);
+                ::FUN_005b5e40();
         }
     }
     m_bHasScript = true;
@@ -38,7 +53,7 @@ void __fastcall FUN_0048cc80(void* pThis);
 // @fnv 0x0048cc50
 void* __fastcall FUN_0048cc50(BaseFormComponent* apComponent)
 {
-    apComponent->BaseFormComponent::BaseFormComponent();
+    ::FUN_00402d30((int *)(apComponent));
     *(int**)apComponent = &DAT_0101d518;
     FUN_0048cc80(apComponent);
     return apComponent;
@@ -138,7 +153,6 @@ void FUN_0048cc80_shell::FUN_0048cc80()
     ((char*)this)[8] = 0;
 }
 
-void __cdecl FUN_00485910(unsigned int, unsigned int);
 struct S_0048cca0
 {
     int field_0;
@@ -150,8 +164,8 @@ void S_0048cca0::FUN_0048cca0()
 {
     if (field_4)
     {
-        unsigned int formID = field_4->GetFormID();
-        FUN_00485910(0x49524353, formID);
+        unsigned int formID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((field_4))->FUN_0084e3a0()));
+        ::FUN_00485910(0x49524353, formID);
     }
 }
 
@@ -280,11 +294,9 @@ struct FUN_0048cce0_shell : public TESScriptableForm
 
 struct TESRaceForm
 {
-    void Initialize(unsigned int);
 };
 struct Ref00726070
 {
-    unsigned int _ref_00726070();
 };
 // Casts apCopyFC to TESScriptableForm and, if successful, initializes this TESRaceForm from the copy's referenced form.
 // @fnv 0x0048cce0
@@ -293,13 +305,12 @@ void FUN_0048cce0_shell::CopyFromScriptableForm(BaseFormComponent* apCopyFC)
     TESScriptableForm* pCopy = dynamic_cast<TESScriptableForm*>(apCopyFC);
     if (!pCopy)
         return;
-    ((TESRaceForm*)this)->Initialize(((Ref00726070*)pCopy)->_ref_00726070());
+    reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)this)))->Initialize((::CombatController *)(((unsigned int)(reinterpret_cast<::Callees *>((((Ref00726070*)pCopy)))->FUN_00726070()))));
 }
 }  // namespace fnv_0048cce0
 
 struct Helper_00726070
 {
-    unsigned int _ref_00726070();
 };
 struct Holder_0048cd30
 {
@@ -312,8 +323,8 @@ bool Holder_0048cd30::FUN_0048cd30(BaseFormComponent* apComponent)
     TESScriptableForm* b = dynamic_cast<TESScriptableForm*>(apComponent);
     if (!b)
         return true;
-    if (reinterpret_cast<Helper_00726070*>(this)->_ref_00726070() !=
-        reinterpret_cast<Helper_00726070*>(b)->_ref_00726070())
+    if (((unsigned int)(reinterpret_cast<::Callees *>((reinterpret_cast<Helper_00726070*>(this)))->FUN_00726070())) !=
+        ((unsigned int)(reinterpret_cast<::Callees *>((reinterpret_cast<Helper_00726070*>(b)))->FUN_00726070())))
         return true;
     return false;
 }

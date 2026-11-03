@@ -4,6 +4,12 @@
 
 // src/havok/physics/internal/collide/mopp/machine/hkpmoppobbvirtualmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/machine/hkpmoppobbvirtualmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00df2000.h"
+#include "fnv/symbols_01268000.h"
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 struct GridSource {
     int unk00;
@@ -88,7 +94,6 @@ struct GridCell {
     int m34;
 
     void FUN_00dd1da0(GridSource* a1, GridBounds* a2, int a3);
-    void Execute(GridScratch* s, unsigned char* p, int z);
 };
 extern "C" void _ReadWriteBarrier();
 extern "C" void __debugbreak();
@@ -108,12 +113,9 @@ struct CodeData {
 struct HitArray { int* data; int size; unsigned capacity; };
 struct AllocatorContext { int field00, field04, field08, field0c; void* allocator; };
 extern AllocatorContext* __cdecl FUN_00c85750();
-extern void __cdecl ResizeAudioStream(void*, void*, int);
 extern unsigned char DAT_01269cbc;
-extern void __cdecl ValidateHavokKeyCode(unsigned char*);
-struct ErrorText { char* data; int length; int capacity; void FUN_00cb1600(char*,int); void FUN_00cc01c0(const char*); void FUN_00cc00e0(); };
+struct ErrorText { char* data; int length; int capacity;    };
 struct ErrorReporter { virtual void ReportDiagnostic(); virtual void unused1(); virtual void unused2(); virtual int report(int,unsigned,const char*,const char*,int); };
-extern ErrorReporter* DAT_01268360;
 struct VirtualMachine {
  union {int m00;HitArray* hits;};
  int unk04;int unk08;int unk0c;
@@ -133,7 +135,7 @@ struct VirtualMachine {
  void Execute(const QueryState*,unsigned char*,int);
  __forceinline void AddHit(int value) {
   HitArray* out=hits;AllocatorContext* context=FUN_00c85750();
-  if(out->size==(out->capacity&0x3fffffff)) ResizeAudioStream(context->allocator,out,4);
+  if(out->size==(out->capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(context->allocator),(::AudioStream *)(out),4);
   int* destination=&out->data[out->size]; ++out->size; *destination=value; }
 };
 
@@ -142,6 +144,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128 {
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 
 extern "C" {
 __m128 _mm_load_ss(const float*);
@@ -157,8 +160,6 @@ __m128 _mm_set_ps1(float);
 
 #endif
 
-extern "C" __m128 DAT_01017d10;
-extern "C" __m128 DAT_010c44d0;
 
 namespace ObbQueryDetail {
 struct LowScalar { __m128 low; __forceinline LowScalar(float v):low(_mm_load_ss(&v)) {} __forceinline __m128 broadcast() const { return _mm_shuffle_ps(low,low,0); } };
@@ -168,8 +169,8 @@ struct ObbVector {
     __forceinline void add(const ObbVector& b) { m_vComponents=_mm_add_ps(m_vComponents,b.m_vComponents); }
     __forceinline void setAdd(const ObbVector& a,const ObbVector& b) { m_vComponents=_mm_add_ps(a.m_vComponents,b.m_vComponents); }
     __forceinline void setSub(const ObbVector& a,const ObbVector& b) { m_vComponents=_mm_sub_ps(a.m_vComponents,b.m_vComponents); }
-    __forceinline void neg(const ObbVector& a) { m_vComponents=_mm_xor_ps(a.m_vComponents,DAT_010c44d0); }
-    __forceinline void abs() { m_vComponents=_mm_and_ps(m_vComponents,DAT_01017d10); }
+    __forceinline void neg(const ObbVector& a) { m_vComponents=_mm_xor_ps(a.m_vComponents,::DAT_010c44d0); }
+    __forceinline void abs() { m_vComponents=_mm_and_ps(m_vComponents,::DAT_01017d10); }
     __forceinline void times(const ObbVector& b) { m_vComponents=_mm_mul_ps(m_vComponents,b.m_vComponents); }
     __forceinline void scaleBy(const LowScalar& f) { m_vComponents=_mm_mul_ps(f.broadcast(),m_vComponents); }
     template<int i> __forceinline void splat(const ObbVector& a) { m_vComponents=_mm_shuffle_ps(a.m_vComponents,a.m_vComponents,i); }
@@ -249,7 +250,7 @@ void ObbMachine::FUN_00dd1bf0(const ObbCodeView* src, const ObbTransform* t, con
 
     const ObbProgram* shape = ((const ObbCodeView*)m30)->m_pCollisionShape;
     m34 = (shape->m_type == 13) ? -1 : 0;
-    Execute(&box, (unsigned char*)shape, 0);
+    reinterpret_cast<::VirtualMachine *>(this)->Execute((const ::QueryState *)(::GridScratch *)(&box), (unsigned char *__restrict)((unsigned char*)shape), 0);
 }
 
 }

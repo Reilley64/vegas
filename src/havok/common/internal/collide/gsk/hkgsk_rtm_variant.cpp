@@ -4,12 +4,16 @@
 
 // src/havok/common/internal/collide/gsk/hkgsk.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/collide/gsk/hkgsk.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_004b4ab0_Class.h"
+#include "fnv/symbols_00d22000.h"
+#include "fnv/symbols_00e4b000.h"
 extern "C" void _ReadWriteBarrier(void);
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 extern "C"
 {
     __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
@@ -66,10 +70,9 @@ struct hkVector4
         return _mm_movemask_ps(_mm_cmplt_ps(m_vComponents, _mm_setzero_ps())) & 7;
     }
 };
-extern __m128 DAT_010c44d0;
 __forceinline void hkVector4::setNeg4(const hkVector4& v)
 {
-    m_vComponents = _mm_xor_ps(v.m_vComponents, DAT_010c44d0);
+    m_vComponents = _mm_xor_ps(v.m_vComponents, ::DAT_010c44d0);
 }
 static __forceinline int hkDot3LessZero(const hkVector4& a, const hkVector4& b)
 {
@@ -272,7 +275,6 @@ struct Both
     Clip first;
     Clip second;
 };
-extern "C" int FUN_00d22e40(Shape*, const V*, const V*, const V*, Clip*);
 static __forceinline void ThreeDots(const V& first, const V& firstWeight, const V& second, const V& secondWeight,
                                     const V& third, const V& thirdWeight, V& out)
 {
@@ -321,7 +323,6 @@ struct State
     int m10, m14, m18, m1c;
     V m20, m30, m40, m50, m60, m70, m80, m90, ma0, mb0, mc0, md0, me0, mf0, m100, m110;
     V direction;
-    int FUN_00e4da90(Shape*, Shape*, V*);
     int FUN_00e4dc70(V*, Shape*, V*);
     int FUN_00e4bbe0(Shape*, Shape*, int*, int*, unsigned char, int);
 };
@@ -484,8 +485,6 @@ class VComp
     friend class Vec4;
 };
 
-extern __m128 DAT_010c44d0;
-extern __m128 DAT_010ec7f0;
 
 class Rot;
 class Xform;
@@ -508,7 +507,6 @@ class Vec4
     __forceinline VComp compareGreaterThan4(const Vec4& a) const;
     __forceinline void setNeg4(const Vec4& v);
     void FUN_00c7f700(const Rot& a, const Vec4& b);
-    void FUN_004b4ab0(const Rot& a, const Vec4& b);
     __forceinline void rotInvDir(const Rot& a, const Vec4& b);
     __forceinline void xformPos(const Xform& a, const Vec4& b);
     __forceinline SReal dot3(const Vec4& a) const;
@@ -618,7 +616,7 @@ inline void Vec4::setCross(const Vec4& v0, const Vec4& v1)
 inline void Vec4::setInterpolate4(const Vec4& v0, const Vec4& v1, const SReal& _t)
 {
     __m128 t = _t.broadcast();
-    __m128 s = _mm_sub_ps(DAT_010ec7f0, t);
+    __m128 s = _mm_sub_ps(::DAT_010ec7f0, t);
     m_vComponents = _mm_add_ps(_mm_mul_ps(s, v0.m_vComponents), _mm_mul_ps(t, v1.m_vComponents));
 }
 inline VComp Vec4::compareLessThan4(const Vec4& a) const
@@ -641,7 +639,7 @@ inline VComp Vec4::compareGreaterThan4(const Vec4& a) const
 }
 inline void Vec4::setNeg4(const Vec4& v)
 {
-    m_vComponents = _mm_xor_ps(v.m_vComponents, DAT_010c44d0);
+    m_vComponents = _mm_xor_ps(v.m_vComponents, ::DAT_010c44d0);
 }
 inline SReal Vec4::dot3(const Vec4& a) const
 {
@@ -796,7 +794,7 @@ class VUtil
 
 inline void __cdecl VUtil::mulSigns4(Vec4& inout, const Vec4& signs)
 {
-    inout.getQuad() = _mm_xor_ps(inout.getQuad(), _mm_and_ps(signs.getQuad(), DAT_010c44d0));
+    inout.getQuad() = _mm_xor_ps(inout.getQuad(), _mm_and_ps(signs.getQuad(), ::DAT_010c44d0));
 }
 
 inline void __cdecl VUtil::TransformPointArray(const Xform& t, const Vec4* vectorsIn, int numVectors, Vec4* vectorsOut)
@@ -851,7 +849,6 @@ class SegUtil
         Vec4 m_kClosestPointOnSecond;
         Pad<Real> m_fValue;
     };
-    static int __cdecl FUN_00d22e40(const Vec4& A, const Vec4& dA, const Vec4& B, const Vec4& dB, Result& result);
 };
 
 extern const SChar DAT_010ececc[];
@@ -888,7 +885,6 @@ enum GskStatus
     GSK_PD_UNSOLVABLE = 5
 };
 
-int __cdecl FUN_00e4b810(const Vec4& point, const Vec4* vertices, Real sign);
 
 extern const VComp::Mask DAT_010ec600[];
 extern const VComp::Mask DAT_010ec5f0[];
@@ -968,7 +964,6 @@ class Gsk
     };
 
   protected:
-    int FUN_00e4da90(const Vec4& support, Vec4* __restrict vertices, Vec4& normalOut);
     int checkTri0(const Vec4& support, Vec4* __restrict vertices, Vec4& normalOut);
     int isPointInTriangle(const Vec4& point, const Vec4* __restrict vertices);
     NextCase FUN_00e4bbe0(Vec4* __restrict vertexA, Vec4* __restrict vertexB, Pad<int>& dimA, Pad<int>& dimB,
@@ -1076,8 +1071,8 @@ Gsk::NextCase Gsk::FUN_00e4bbe0(Vec4* __restrict vertexA, Vec4* __restrict verte
             edgeA.setSub4(vertexA[1], vertexA[0]);
             SegUtil::Result result0;
             SegUtil::Result result1;
-            SegUtil::FUN_00d22e40(vertexA[0], edgeA, vertexB[2], edge0, result0);
-            SegUtil::FUN_00d22e40(vertexA[0], edgeA, vertexB[2], edge1, result1);
+            ::FUN_00d22e40((const ::hkVector4 &)(vertexA[0]), (const ::hkVector4 &)(edgeA), (const ::hkVector4 &)(vertexB[2]), (const ::hkVector4 &)(edge0), (::VectorPairResult &)(result0));
+            ::FUN_00d22e40((const ::hkVector4 &)(vertexA[0]), (const ::hkVector4 &)(edgeA), (const ::hkVector4 &)(vertexB[2]), (const ::hkVector4 &)(edge1), (::VectorPairResult &)(result1));
 
             int index = (result0.m_fValue > result1.m_fValue) ? 1 : 0;
 
@@ -1094,7 +1089,7 @@ Gsk::NextCase Gsk::FUN_00e4bbe0(Vec4* __restrict vertexA, Vec4* __restrict verte
             swap16(vertexA[4], vertexA[5]);
         }
 
-        int maskT = FUN_00e4da90(vertexA[0], vertexB, m_pSupport);
+        int maskT = reinterpret_cast<::TriangleSolver *>(this)->FUN_00e4da90((const ::hkVector4 &)(vertexA[0]), (::TriangleVerts &)(vertexB), (::hkVector4 &)(m_pSupport));
 
         if (maskT == VComp::MASK_XYZ)
         {
@@ -1229,7 +1224,7 @@ Gsk::ReduceDimensionResult Gsk::reduceDimension(Pad<int>& dimA, Pad<int>& dimB, 
 
         case GSK_POINT_TRIANGLE:
         case_point_triangle: {
-            int mask = FUN_00e4da90(m_akPackedVerticesA[0], m_akCachedVectors, m_pSupport);
+            int mask = reinterpret_cast<::TriangleSolver *>(this)->FUN_00e4da90((const ::hkVector4 &)(m_akPackedVerticesA[0]), (::TriangleVerts &)(m_akCachedVectors), (::hkVector4 &)(m_pSupport));
             if (mask == VComp::MASK_XYZ)
             {
                 break;
@@ -1286,7 +1281,7 @@ Gsk::ReduceDimensionResult Gsk::reduceDimension(Pad<int>& dimA, Pad<int>& dimB, 
 
         case GSK_TRIANGLE_POINT:
         case_triangle_point: {
-            int mask = FUN_00e4da90(m_akCachedVectors[0], m_akPackedVerticesA, m_pSupport);
+            int mask = reinterpret_cast<::TriangleSolver *>(this)->FUN_00e4da90((const ::hkVector4 &)(m_akCachedVectors[0]), (::TriangleVerts &)(m_akPackedVerticesA), (::hkVector4 &)(m_pSupport));
             if (mask == VComp::MASK_XYZ)
             {
                 break;
@@ -1417,7 +1412,7 @@ Gsk::ReduceDimensionResult Gsk::reduceDimension(Pad<int>& dimA, Pad<int>& dimB, 
                 goto case_edge_point;
             }
 
-            int result = SegUtil::FUN_00d22e40(a0, edgeA, b0, edgeB, m_kVectorPairResult);
+            int result = ::FUN_00d22e40((const ::hkVector4 &)(a0), (const ::hkVector4 &)(edgeA), (const ::hkVector4 &)(b0), (const ::hkVector4 &)(edgeB), (::VectorPairResult &)(m_kVectorPairResult));
             if (result == 0)
             {
                 {
@@ -1454,7 +1449,7 @@ Gsk::ReduceDimensionResult Gsk::reduceDimension(Pad<int>& dimA, Pad<int>& dimB, 
             continue;
 
         case GSK_POINT_TETRA: {
-            int maxIndex = FUN_00e4b810(m_akPackedVerticesA[0], m_akCachedVectors, 1.0f);
+            int maxIndex = ::FUN_00e4b810((const ::FaceVector &)(m_akPackedVerticesA[0]), (const ::FaceVector *)(m_akCachedVectors), 1.0f);
             if (maxIndex >= 0)
             {
                 dimB = dimB - 1;
@@ -1466,7 +1461,7 @@ Gsk::ReduceDimensionResult Gsk::reduceDimension(Pad<int>& dimA, Pad<int>& dimB, 
             goto penetration;
 
         case GSK_TETRA_POINT: {
-            int maxIndex = FUN_00e4b810(m_akCachedVectors[0], m_akPackedVerticesA, -1.0f);
+            int maxIndex = ::FUN_00e4b810((const ::FaceVector &)(m_akCachedVectors[0]), (const ::FaceVector *)(m_akPackedVerticesA), -1.0f);
             if (maxIndex >= 0)
             {
                 dimA = dimA - 1;
@@ -1644,7 +1639,7 @@ GskStatus Gsk::FUN_00e4c730(const Input& input, GskCache* __restrict cache, GskO
         dir.set(1.0f, 0.0f, 0.0f, 0.0f);
         Vec4 dirNeg;
         dirNeg.setNeg4(dir);
-        dirNeg.FUN_004b4ab0(input.m_kTransform.getRotation(), dirNeg);
+        reinterpret_cast<::FUN_004b4ab0_Class *>(&(dirNeg))->FUN_004b4ab0((int)&(input.m_kTransform.getRotation()), (int)&(dirNeg));
         shapeA->GetSupportPoint(dir, &m_akPackedVerticesA[0]);
         shapeB->GetSupportPoint(dirNeg, &m_akPackedVerticesB[0]);
         m_akCachedVectors[0].FUN_00c7f700(input.m_kTransform.getRotation(), m_akPackedVerticesB[0]);

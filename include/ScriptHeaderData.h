@@ -1,5 +1,6 @@
 #ifndef FNV_SCRIPT_HEADER_H
 #define FNV_SCRIPT_HEADER_H
+#include "fnv/decl/FUN_00414220_shell.h"
 #include "layout_support.h"
 #pragma pack(push, 4)
 class ScriptHeaderData
@@ -12,7 +13,6 @@ class ScriptHeaderData
     bool m_bQuest;                 // +0x10
     bool m_bEffect;                // +0x11
     bool m_bCompiled;              // +0x12
-    void Endian();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(ScriptHeaderData) == 0x14);

@@ -3,6 +3,8 @@
 #define FNV_NIPIXELDATA_DECLS_H
 
 
+#include "fnv/decl/FUN_00a8f010_cls.h"
+#include "fnv/symbols_00a7b000.h"
 class NiObject
 {
   public:
@@ -28,6 +30,8 @@ class NiPixelFormat
     unsigned char m_akComponents[48];
 
     NiPixelFormat() throw();
+public:
+    bool operator!=(const ::NiPixelFormat &) const;
 };
 typedef char FNV_NiPixelFormat_must_be_68[(sizeof(NiPixelFormat) == 68) ? 1 : -1];
 
@@ -57,8 +61,6 @@ class NiPixelData : public NiObject
 
     NiPixelData(unsigned int width, unsigned int height, const NiPixelFormat& format, unsigned int mipmapLevels,
                 unsigned int faces) throw();
-    static unsigned int CalculateMipmapLevels(unsigned int width, unsigned int height);
-    void AllocateData(unsigned int mipmapLevels, unsigned int faces, unsigned int totalBytes);
 };
 typedef char FNV_NiPixelData_must_be_116[(sizeof(NiPixelData) == 116) ? 1 : -1];
 

@@ -2,6 +2,7 @@
 // src/havok/animation/animation/animation/deltacompressed/hkadeltacompressedanimationclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/deltacompressed/hkadeltacompressedanimationclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00dfb720.h"
 struct AudioAllocator
 {
     virtual void v00();
@@ -56,7 +57,6 @@ struct FUN_00dfbb80_cls
     int m_iArrayLength;
     int m_iCap;
 
-    void BaseRelease();
 
     FUN_00dfbb80_cls* ReleaseBuffer(unsigned char acFlags);
     static void operator delete(void* apMemory) throw();
@@ -76,7 +76,7 @@ FUN_00dfbb80_cls* FUN_00dfbb80_cls::ReleaseBuffer(unsigned char acFlags)
     }
     m_pData = 0;
     m_iCap = 0x80000000;
-    BaseRelease();
+    reinterpret_cast<::FUN_00dfb720 *>(this)->FUN_00dfb720::~FUN_00dfb720();
     if (acFlags & 1)
     {
         AudioHolder* pHolder2 = FUN_00c85750();

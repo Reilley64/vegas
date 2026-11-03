@@ -2,6 +2,9 @@
 #ifndef FNV_BSTEMPEFFECTSIMPLEDECAL_H
 #define FNV_BSTEMPEFFECTSIMPLEDECAL_H
 
+#include "fnv/decl/DecalSetup.h"
+#include "fnv/decl/FUN_0068de30_holder.h"
+#include "fnv/decl/FUN_0068dea0_cls.h"
 #include "layout_support.h"
 #include "NiObject.h"
 #include "NiPoint3.h"
@@ -176,10 +179,6 @@ class BSTempEffectSimpleDecal : public BSTempEffect
     bool m_bTextureFlag;          // +0x140, 1 bytes
     bool m_bDecalTextureCreated;  // +0x141, 1 bytes
     unsigned char layoutPadding142[2];
-    bool ReleaseTextureObject();
-    bool CreateDecalTexture();
-    void SetDecalTint(RgbaColor&, bool);
-    bool GetByteAt2D();
     TESTopicInfoData* FUN_004a0330();
     // const NiRTTI* __cdecl BSTempEffectSimpleDecal::*()
     // BSTempEffectSimpleDecal

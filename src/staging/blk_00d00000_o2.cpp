@@ -2,6 +2,25 @@
 // src/staging/blk_00d00000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00c9ce00.h"
+#include "fnv/decl/FUN_00c9d340.h"
+#include "fnv/decl/StringBuf.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d04000.h"
+#include "fnv/symbols_00d1b000.h"
+#include "fnv/symbols_00d93000.h"
+#include "fnv/symbols_00d95000.h"
+#include "fnv/symbols_01021000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010c6000.h"
+#include "fnv/symbols_010cd000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
 
 // @fnv 0x00d1a300
@@ -46,12 +65,11 @@ void FUN_00d0a270_class::FUN_00d0a270(int ai)
 }
 
 struct D107A0RTTI;
-extern D107A0RTTI g_D107A0RTTI;
 
 // @fnv 0x00d10790
 D107A0RTTI* __cdecl FUN_00d10790()
 {
-    return &g_D107A0RTTI;
+    return &(*reinterpret_cast<::D107A0RTTI *>(&::g_012687fc));
 }
 
 extern int DAT_010cd54c;
@@ -75,14 +93,13 @@ FUN_00d107b0::FUN_00d107b0()
 
 struct FUN_00c9ce00_cls
 {
-    void FUN_00c9ce00(int);
 };
 
 // @fnv 0x00d1f180
 void __cdecl FUN_00d1f180(FUN_00c9ce00_cls* obj, int v)
 {
     if (obj)
-        obj->FUN_00c9ce00(v);
+        new ((void *)(obj)) ::FUN_00c9ce00(v);
 }
 
 struct FUN_00d1fa20_t
@@ -230,28 +247,25 @@ unsigned int D10AB0NextOdd(const unsigned int* puiValue)
     return FUN_00d10ab0(*puiValue);
 }
 
-extern int DAT_01268838;
 
 // @fnv 0x00d1f110
 int* __cdecl FUN_00d1f110()
 {
-    return &DAT_01268838;
+    return &(*reinterpret_cast<int *>(&::g_01268838));
 }
 
-extern int g_unk01268868;
 
 // @fnv 0x00d1f130
 void* __cdecl FUN_00d1f130()
 {
-    return &g_unk01268868;
+    return &(*reinterpret_cast<int *>(&::g_01268868));
 }
 
 // FUN_00d1f140 : a one-line function - getter
-extern int g_target_00d1f140;
 // @fnv 0x00d1f140
 void* FUN_00d1f140()
 {
-    return &g_target_00d1f140;
+    return &(*reinterpret_cast<int *>(&::g_01268898));
 }
 
 class D1F150Object
@@ -266,22 +280,20 @@ void FUN_00d1f150(D1F150Object* pkObject)
     pkObject->~D1F150Object();
 }
 
-extern int DAT_012688c8;
 // @fnv 0x00d1f160
 int* __cdecl FUN_00d1f160()
 {
-    return &DAT_012688c8;
+    return &(*reinterpret_cast<int *>(&::g_012688c8));
 }
 
 struct FUN_00d1f1c0_target
 {
-    void Run();
 };
 
 // @fnv 0x00d1f1c0
 void __cdecl FUN_00d1f1c0(FUN_00d1f1c0_target* pTarget)
 {
-    pTarget->Run();
+    reinterpret_cast<::FUN_00c9d340 *>((pTarget))->FUN_00c9d340::~FUN_00c9d340();
 }
 
 struct S_00d1f730_Base
@@ -428,7 +440,6 @@ struct D01E50Node
     int unk18;
     int payload;
 };
-int __cdecl FUN_00d95cf0(int, void*, D01E50Node*);
 int __cdecl FUN_00d94df0(int, void*, D01E50Node*);
 int __cdecl ExecuteConstraintCallbacks(int, void*, D01E50Node*);
 int __cdecl FUN_00d94a80(int, void*, D01E50Node*);
@@ -438,9 +449,6 @@ int __cdecl FUN_00d94570(int, void*, D01E50Node*);
 int __cdecl LogIntegrateVelocity(int, void*, D01E50Node*);
 int __cdecl FUN_00d94730(int, void*, D01E50Node*);
 int __cdecl FUN_00d943d0(int, void*, D01E50Node*);
-int __cdecl FUN_00d93ba0(int, void*, D01E50Node*);
-int __cdecl FUN_00d93380(int, void*, D01E50Node*);
-int __cdecl AccumulateShapes(int, void*, D01E50Node*);
 int __cdecl FUN_00d94340(int, void*, D01E50Node*);
 
 // Dispatches on node->kind to one of several handlers, passing node->payload, ctx and node; returns 1 for unknown kinds.
@@ -450,7 +458,7 @@ int __cdecl DispatchNodeByKind(void* pContext, D01E50Node* node)
     switch (node->kind)
     {
     case 0:
-        return FUN_00d95cf0(node->payload, pContext, node);
+        return ::fnv_00d95cf0::FUN_00d95cf0((*(::fnv_00d95cf0::TaskOwner *)(node->payload)), (*(::fnv_00d95cf0::Queue *)(pContext)), (*(::fnv_00d95cf0::Command *)(node)));
     case 1:
         return FUN_00d94df0(node->payload, pContext, node);
     case 3:
@@ -472,22 +480,21 @@ int __cdecl DispatchNodeByKind(void* pContext, D01E50Node* node)
     case 5:
         return FUN_00d94340(node->payload, pContext, node);
     case 12:
-        return FUN_00d93ba0(node->payload, pContext, node);
+        return ((int)(::FUN_00d93ba0((::S93ba0_Owner *)(node->payload), (::S93ba0_Output *)(pContext), (::S93ba0_Job *)(node))));
     case 15:
     case 13:
-        return FUN_00d93380(node->payload, pContext, node);
+        return ::FUN_00d93380((::Globals *)(node->payload), (::Queue *)(pContext), (::Job *)(node));
     case 14:
-        return AccumulateShapes(node->payload, pContext, node);
+        return ::AccumulateShapes((::Worker **)(node->payload), (::TargetClass *)(pContext), (::Caller *)(node));
     default:
         return 1;
     }
 }
 
-int __fastcall FUN_00d04380(void*);
 // @fnv 0x00d043b0
 int __cdecl FUN_00d043b0(void* ap)
 {
-    return FUN_00d04380(ap);
+    return ::FUN_00d04380(ap, {});
 }
 
 // @fnv 0x00d043d0
@@ -657,8 +664,6 @@ void FUN_00d10770()
 void __cdecl FUN_00d10780()
 {}
 
-extern int DAT_010cd664;
-void __cdecl FUN_00401030(void*);
 struct FUN_00d1bab0_t
 {
     int m_vft;
@@ -714,7 +719,6 @@ struct Holder
     ArrayAllocator* allocator;
 };
 Holder* __cdecl _FUN_00c85750();
-void __cdecl FUN_00c908c0(ArrayAllocator* allocator, void* array, int capacity, int elementSize);
 
 struct IntArray
 {
@@ -800,7 +804,7 @@ struct ArrayOfArrays
             int grown = reserved * 2;
             if (newSize >= grown)
                 grown = newSize;
-            FUN_00c908c0(allocator, this, grown, sizeof(IntArray));
+            ::FUN_00c908c0((::SpawnedObject *)(allocator), (::SpawnedArray *)(void *)(this), grown, sizeof(IntArray));
         }
         IntArray* end = data + newSize;
         for (int i = 0; i < oldSize - newSize; ++i)
@@ -842,7 +846,6 @@ ArrayRecord& ArrayRecord::FUN_00d05b50(const ArrayRecord& source)
 void FUN_00d05dd0()
 {}
 
-extern "C" int __cdecl FUN_00d61d00(void* dst, const char* format, ...);
 
 // Writes a human-readable size string (Bytes, Kb, or Mb) into dst using FUN_00d61d00 based on the value of size.
 // @fnv 0x00d06eb0
@@ -850,20 +853,20 @@ void __cdecl FUN_00d06eb0(int size, void* dst)
 {
     if (size < 0x400)
     {
-        FUN_00d61d00(dst, "%i Bytes", size);
+        reinterpret_cast<::StringBuf *>((dst))->FUN_00d61d00("%i Bytes", size);
     }
     else if (size < 0x2800)
     {
-        FUN_00d61d00(dst, "%.1f Kb", (double)size * (1.0 / 1024.0));
+        reinterpret_cast<::StringBuf *>((dst))->FUN_00d61d00("%.1f Kb", (double)size * (1.0 / 1024.0));
     }
     else if (size < 0x100000)
     {
-        FUN_00d61d00(dst, "%i Kb", size / 1024);
+        reinterpret_cast<::StringBuf *>((dst))->FUN_00d61d00("%i Kb", size / 1024);
     }
     else
     {
         float mb = (float)((double)size * (1.0 / 1048576.0));
-        FUN_00d61d00(dst, "%.2f Mb", mb);
+        reinterpret_cast<::StringBuf *>((dst))->FUN_00d61d00("%.2f Mb", mb);
     }
 }
 
@@ -918,7 +921,6 @@ unsigned char* __stdcall FUN_00d0bc20(unsigned char* result, FUN_00d0bc20_Outer*
     return result;
 }
 
-extern int DAT_010c63bc;
 extern int DAT_010cd588;
 extern int DAT_010cd598;
 
@@ -953,6 +955,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 
 extern "C" __m128 _mm_load_ps(const float* p);
 extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
@@ -990,7 +993,6 @@ struct S00d1b7f0_Frame
     __m128 diff;
 };
 
-extern "C" void __cdecl QueryKdTree(int a, int b, int c, const __m128* d, const int* e, int f, int g);
 
 // Subtracts the vector at p+0x30 from the one at p+0x40 and calls QueryKdTree with p->m00 twice, p->m1C, the difference and the p+0x30 values.
 // @fnv 0x00d1b7f0
@@ -1008,7 +1010,7 @@ void __cdecl FUN_00d1b7f0(S00d1b7f0_Input* p, int argB, int argC)
 
     frame.diff = _mm_sub_ps(*reinterpret_cast<const __m128*>(&p->m40), *reinterpret_cast<const __m128*>(&p->m30));
 
-    QueryKdTree(first, first, m1c, &frame.diff, &frame.v0, argB, argC);
+    ::QueryKdTree((void *)(first), (::KdNode *)(first), (const ::Aabb16 *)(m1c), (const float *)(const ::__m128 *)(&frame.diff), (const float *)(const int *)(&frame.v0), (const ::QueryAabb *__restrict)(argB), (::PrimIds *)(argC));
 }
 
 // @fnv 0x00d043e0
@@ -1167,9 +1169,7 @@ extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTls
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 
-extern unsigned int DAT_0126835c;
 extern char DAT_010cd648[];
-extern char DAT_010c41f8[];
 
 struct __declspec(align(16)) Vec4
 {
@@ -1202,13 +1202,12 @@ struct QueryObj
     __m128 max;
 };
 
-void __cdecl FUN_00d1b4d0(const void* a, int b, const Vec4* c, const Vec4* d, int e, int f, int g, int h, int i, int j);
 
 // Records two HkTimer profiling markers around a call to FUN_00d1b4d0 with the QueryObj vertex data and bounds.
 // @fnv 0x00d1b850
 void __cdecl FUN_00d1b850(QueryObj* obj, int arg1, int arg2)
 {
-    HkTimer* prof = (HkTimer*)TlsGetValue(DAT_0126835c);
+    HkTimer* prof = (HkTimer*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     char* cur = prof->head;
     if (cur < prof->end)
     {
@@ -1225,9 +1224,9 @@ void __cdecl FUN_00d1b850(QueryObj* obj, int arg1, int arg2)
     __m128 dv = _mm_sub_ps(obj->max, obj->min);
     const Vec4* delta = (const Vec4*)&dv;
     int count = obj->unk0c > 0 ? obj->unk0c : 128;
-    FUN_00d1b4d0(verts, vcount, delta, &mn, arg1, count, arg2, 0, 0, 0);
+    ::FUN_00d1b4d0((::S00d1b4d0_Node *)(verts), (::S00d1b4d0_Entry *)(vcount), (*(const ::RealVec *)(delta)), (*(const ::RealVec *)(&mn)), (::S00d1b4d0_Bounds *)(arg1), count, (::S00d1b4d0_List *)(arg2), (::S00d1b4d0_Callback *)(0), (unsigned int **)(0), 0);
 
-    prof = (HkTimer*)TlsGetValue(DAT_0126835c);
+    prof = (HkTimer*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     cur = prof->head;
     if (cur < prof->end)
     {
@@ -1239,7 +1238,6 @@ void __cdecl FUN_00d1b850(QueryObj* obj, int arg1, int arg2)
     }
 }
 
-extern "C" void __cdecl FUN_00d1b4d0(int, int, const __m128*, const int*, int, int, int, int, int, int);
 
 // Builds a frame from the vectors at p->m30 and p->m40 (start and difference) and calls FUN_00d1b4d0 with count m0C, or 128 if that is not positive.
 // @fnv 0x00d1b930
@@ -1259,7 +1257,7 @@ void __cdecl FUN_00d1b930(S00d1b7f0_Input* p, int argB, int argC, int argD)
     int count = p->m0C;
     if (count <= 0)
         count = 128;
-    FUN_00d1b4d0(first, second, &frame.diff, &frame.v0, argB, count, 0, 0, argC, argD);
+    ::FUN_00d1b4d0((::S00d1b4d0_Node *)(first), (::S00d1b4d0_Entry *)(second), (*(const ::RealVec *)(&frame.diff)), (*(const ::RealVec *)(&frame.v0)), (::S00d1b4d0_Bounds *)(argB), count, (::S00d1b4d0_List *)(0), (::S00d1b4d0_Callback *)(0), (unsigned int **)(argC), argD);
 }
 
 struct FUN_00d1ba90
@@ -1337,12 +1335,9 @@ extern "C"
     __m128i _mm_load_si128(__m128i const*);
 }
 
-extern double DAT_010217d0;
-extern float DAT_010cd644;
 extern __m128 DAT_011b3810;
 extern "C" void _ReadWriteBarrier(void);
 
-void __cdecl ResizeAudioStream(void* allocator, void* arr, int elemSize);
 
 struct MemSource
 {
@@ -1441,7 +1436,7 @@ void __cdecl QueryKdTree(void* tree, KdNode* node, const Aabb16* prims, const fl
         info.right = (KdNode*)((char*)cur + (cur->a & 0x7ffffffc)) + 1;
         float maxv = query->max[info.axis];
         int lo16 = (int)(unsigned short)b;
-        float lo = (float)((float)lo16 / DAT_010217d0 * scale[info.axis] + offset[info.axis]);
+        float lo = (float)((float)lo16 / ::DAT_010217d0 * scale[info.axis] + offset[info.axis]);
         if (maxv < lo)
         {
             node = info.left;
@@ -1450,7 +1445,7 @@ void __cdecl QueryKdTree(void* tree, KdNode* node, const Aabb16* prims, const fl
         {
             float minv = query->min[info.axis];
             int hi16 = (int)(b >> 16);
-            float hi = (float)((float)hi16 / DAT_010217d0 * scale[info.axis] + offset[info.axis]);
+            float hi = (float)((float)hi16 / ::DAT_010217d0 * scale[info.axis] + offset[info.axis]);
             if (minv > hi)
             {
                 node = info.right;
@@ -1472,14 +1467,14 @@ void __cdecl QueryKdTree(void* tree, KdNode* node, const Aabb16* prims, const fl
 
     ScaleSplat kHi;
     ScaleSplat kLo;
-    kHi.x = DAT_010cd644;
-    kHi.y = DAT_010cd644;
-    kHi.z = DAT_010cd644;
-    kHi.w = DAT_010cd644;
-    kLo.x = DAT_010cd644;
-    kLo.y = DAT_010cd644;
-    kLo.z = DAT_010cd644;
-    kLo.w = DAT_010cd644;
+    kHi.x = ::DAT_010cd644;
+    kHi.y = ::DAT_010cd644;
+    kHi.z = ::DAT_010cd644;
+    kHi.w = ::DAT_010cd644;
+    kLo.x = ::DAT_010cd644;
+    kLo.y = ::DAT_010cd644;
+    kLo.z = ::DAT_010cd644;
+    kLo.w = ::DAT_010cd644;
 
     __m128i zero = _mm_setzero_si128();
     const unsigned short* prim = &prims[a & 0x7fffffff].key1;
@@ -1520,7 +1515,7 @@ void __cdecl QueryKdTree(void* tree, KdNode* node, const Aabb16* prims, const fl
         {
             AllocHolder* holder = (AllocHolder*)MemSource::FUN_00c85750();
             if (hits->size == (hits->capacity & 0x3fffffff))
-                ResizeAudioStream((void*)holder->unk0C, hits, 4);
+                ::ResizeAudioStream((::AudioAllocator *)(void *)((void*)holder->unk0C), (::AudioStream *)(hits), 4);
             int* dst = hits->data + hits->size;
             for (int once = 0; once < 1; ++once)
                 dst[once] = key.packed;
@@ -1540,9 +1535,6 @@ extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_rcp_ps(__m128 a);
 
-extern __m128 DAT_01267e30;
-extern __m128 DAT_010c7170;
-extern __m128 DAT_010cd670;
 
 static inline __m128 quadRecip(__m128 r)
 {
@@ -1594,7 +1586,7 @@ struct HkRayBundle
     {
         const HkVec4& kOne = (const HkVec4&)DAT_010c7170;
         const HkVec4& kMaxPoint = (const HkVec4&)DAT_010cd670;
-        const HkVec4& kZero = (const HkVec4&)DAT_01267e30;
+        const HkVec4& kZero = (const HkVec4&)(*reinterpret_cast<::__m128 *>(&::DAT_01267e30));
         m_uiMask = mask;
         m_vFrom = from;
         HkBundle delta;
@@ -1668,7 +1660,7 @@ void __cdecl FUN_00d1b9b0(QueryObj* pQuery, int p1, int p2)
 {
     volatile unsigned int tick;
     S00d1b9b0_TlsGet pfnTls = TlsGetValue;
-    HkTimer* pBuf = (HkTimer*)pfnTls(DAT_0126835c);
+    HkTimer* pBuf = (HkTimer*)pfnTls((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     if (pBuf->head < pBuf->end)
     {
         char* pRec = pBuf->head;
@@ -1687,9 +1679,9 @@ void __cdecl FUN_00d1b9b0(QueryObj* pQuery, int p1, int p2)
     int count = pQuery->unk0c;
     if (count <= 0)
         count = 0x80;
-    FUN_00d1b4d0(a, b, &vExtent, &vMin, p1, count, 0, p2, 0, 0);
+    ::FUN_00d1b4d0((::S00d1b4d0_Node *)(a), (::S00d1b4d0_Entry *)(b), (*(const ::RealVec *)(&vExtent)), (*(const ::RealVec *)(&vMin)), (::S00d1b4d0_Bounds *)(p1), count, (::S00d1b4d0_List *)(0), (::S00d1b4d0_Callback *)(p2), (unsigned int **)(0), 0);
 
-    pBuf = (HkTimer*)pfnTls(DAT_0126835c);
+    pBuf = (HkTimer*)pfnTls((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     if (pBuf->head < pBuf->end)
     {
         char* pRec = pBuf->head;
@@ -1832,7 +1824,6 @@ struct S00d1b4d0_Bounds
     float max[4];
 };
 
-void __cdecl ResizeAudioStream(void*, void*, int);
 
 static __forceinline float S00d1b4d0_decode(int v, const RealVec& scale, const RealVec& offset, unsigned axis)
 {
@@ -1974,7 +1965,7 @@ int __cdecl FUN_00d1b4d0(S00d1b4d0_Node* node, S00d1b4d0_Entry* entries, const R
                         {
                             AllocHolder* grow = FUN_00c85750();
                             if (list->size == (int)(list->capacity & 0x3fffffff))
-                                ResizeAudioStream((void*)grow->unk0C, list, 4);
+                                ::ResizeAudioStream((::AudioAllocator *)(void *)((void*)grow->unk0C), (::AudioStream *)(list), 4);
                             copyResult(list->data + list->size, 1, *(unsigned*)&id);
                             list->size++;
                         }

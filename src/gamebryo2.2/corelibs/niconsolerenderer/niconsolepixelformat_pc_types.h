@@ -5,6 +5,8 @@
 #define FNV_PIXELFORMAT_PC_TYPES_H
 
 #include <stddef.h>
+#include "fnv/decl/A62190PixelFormat.h"
+#include "fnv/decl/FUN_00a77980_shell.h"
 #define FNV_PIXELFORMAT_JOIN_(a, b) a##b
 #define FNV_PIXELFORMAT_JOIN(a, b) FNV_PIXELFORMAT_JOIN_(a, b)
 #define FNV_PIXELFORMAT_ASSERT(x) typedef char FNV_PIXELFORMAT_JOIN(fnv_pixelformat_assert_, __LINE__)[(x) ? 1 : -1]
@@ -167,8 +169,6 @@ class NiPixelFormat : public NiMemObject
     NiComponentSpec m_akComponents[NUM_COMPS];
 
     // Genuine const declarations; PC targets are qualified caller-derived mappings.
-    unsigned int __thiscall GetMask(Component eComponent) const;
-    unsigned char __thiscall GetPixelBitData(Component eComponent) const;
 };
 
 class NiD3DTextureData : public NiPixelFormat

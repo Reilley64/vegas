@@ -6,10 +6,78 @@
 // src/fallout_shared/tesobjectcell_rtti_variant.cpp - RTTI variant unit created 2026-10-24 by rtti_variants.py for paused functions whose original code needs
 // polymorphic classes (TESObjectCELL, TESObjectREFR, TESWorldSpace). The skeleton of src/fallout_shared/tesobjectcell.cpp with those classes made polymorphic; move the functions to
 // their real unit once its classes are.
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSImpactData.h"
+#include "fnv/decl/CollectionView.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_004120b0_shell.h"
+#include "fnv/decl/FUN_00418660_shell.h"
+#include "fnv/decl/FUN_0041d390_shell.h"
+#include "fnv/decl/FUN_00421c30_shell.h"
+#include "fnv/decl/FUN_00437b90_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_004516b0_shell.h"
+#include "fnv/decl/FUN_004523c0_shell.h"
+#include "fnv/decl/FUN_00458400_cls.h"
+#include "fnv/decl/FUN_004610d0_shell.h"
+#include "fnv/decl/FUN_00477ba0_shell.h"
+#include "fnv/decl/FUN_0047c850.h"
+#include "fnv/decl/FUN_00484150_shell.h"
+#include "fnv/decl/FUN_005194d0_shell_base.h"
+#include "fnv/decl/FUN_00519500_class.h"
+#include "fnv/decl/FUN_005441b0_S.h"
+#include "fnv/decl/FUN_00544210_shell.h"
+#include "fnv/decl/FUN_005445d0_shell.h"
+#include "fnv/decl/FUN_00544600_shell.h"
+#include "fnv/decl/FUN_005455c0_cls.h"
+#include "fnv/decl/FUN_00545cb0_shell.h"
+#include "fnv/decl/FUN_00548700_Class.h"
+#include "fnv/decl/FUN_005516c0.h"
+#include "fnv/decl/FUN_00558b40_shell.h"
+#include "fnv/decl/FUN_00558b80_shell.h"
+#include "fnv/decl/FUN_00564e60_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_0087b400_shell.h"
+#include "fnv/decl/FUN_00885a30_Class.h"
+#include "fnv/decl/FUN_009604f0_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/LodGrid.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/ML.h"
+#include "fnv/decl/NiTMap_S.h"
+#include "fnv/decl/PlayerCharacter.h"
+#include "fnv/decl/ProcessLists.h"
+#include "fnv/decl/TESCallHelper.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/WorldSpaceRefShell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_00545560__FUN_00545560Class.h"
+#include "fnv/decl/fnv_00548880__FNV_Cell.h"
+#include "fnv/decl/fnv_0054ca90__Cell.h"
+#include "fnv/decl/fnv_00558b60__FUN_00558b60_shell.h"
+#include "fnv/decl/fnv_005656d0__Thing.h"
+#include "fnv/decl/fnv_0056a250__FUN_0056a250_shell.h"
+#include "fnv/decl/fnv_005728c0__FUN_005728c0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00541000.h"
+#include "fnv/symbols_00548000.h"
+#include "fnv/symbols_0054a000.h"
+#include "fnv/symbols_0054f000.h"
+#include "fnv/symbols_008c7000.h"
+#include "fnv/symbols_00944000.h"
+#include "fnv/symbols_01187000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011c9000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
 #include "tesobjectcell_packet_rtti_variant_decl_tesobjectcell_rtti_variant.h"
 void __cdecl operator delete(void* pointer);
 const char kTESObjectCELLCellRefLockEnter[] = "TESObjectCELL::CellRefLockEnter()";
-unsigned int FUN_0054f4c0();
 NiAVObject* FUN_0054f4f0();
 class CellView;
 class MobileObject : public TESObjectREFR
@@ -166,86 +234,57 @@ class RefView : public TESObjectREFR
     virtual void v092();
     virtual void Unk_24c();  // +0x24c
 
-    void* FUN_007af430();
-    bool FUN_00564e60();
-    bool FUN_00440da0();  // GetDisabled
-    class RefExtra* FUN_005d43c0();
-    CellView* FUN_008d6f30();  // GetParentCell
-    bool FUN_005656d0();
-    bool FUN_0056a250();
-    bool FUN_00437b90();
-    void FUN_005728c0(int iValue);
-    bool FUN_00548700();
-    bool IsFlag20000000Set();
+      // GetDisabled
+      // GetParentCell
 };
 class RefExtra
 {
   public:
-    void FUN_0041d390(CellView* pkCell);
 };
 struct RefList
 {
     void FUN_005ae3d0(RefView*& rpkRef);  // AddHead
-    bool FUN_005f65d0(RefView*& rpkRef);  // IsInList
+      // IsInList
+public:
+    bool FUN_005f65d0(void **);
 };
-extern RefList DAT_011ca13c;
-extern RefList DAT_011ca144;
 class CellNavHandler
 {
   public:
-    void FUN_00587d10(RefView* pkRef);
 };
 class CellDataHandler
 {
   public:
-    bool FUN_004516b0();
 };
-extern CellDataHandler* DAT_011c3f2c;
 class CellTES
 {
   public:
-    bool FUN_004511e0(CellView* pkCell, int iValue);
-    int FUN_00458be0(CellView* pkCell, int iA, int iB);
 };
-extern CellTES* DAT_011dea10;
 class CellPlayer
 {
   public:
-    bool FUN_0094df60();
 };
 // IsSleepingOrResting
-extern CellPlayer* DAT_011dea3c;
 class CellSaveLoad
 {
   public:
-    bool FUN_0047c850();
 };
-extern CellSaveLoad* DAT_011de45c;
 class CellModelLoader
 {
   public:
-    void FUN_00444850(RefView* pkRef, int iCell);
 };
-extern CellModelLoader* DAT_011c3b3c;
 class CellProcessLists
 {
   public:
-    void FUN_0096e870(RefView* pkRef);
 };
-extern CellProcessLists DAT_011e0e80;
 class CellNodeMap
 {
   public:
-    bool RemoveKey(void* pvNode);
 };
-extern CellNodeMap DAT_011ca0f4;
 class CellTaskQueue
 {
   public:
-    void FUN_0087b400(RefView* pkRef);
 };
-CellTaskQueue* FUN_004537b0();
-bool FUN_008c7aa0();
 class CellView
 {
   public:
@@ -351,26 +390,21 @@ class CellView
     int unkc0;
     void* m_pkNavMeshes;  // +0xc4
 
-    bool FUN_005516c0();
-    void FUN_00541ac0();  // CellRefLockEnter
-    void FUN_00541ae0();  // CellRefLockLeave
-    RefList* FUN_009604f0();
-    CellNavHandler* FUN_0054ddd0();
-    void FUN_0054ca90(RefView* pkRef);  // RemoveReference
-    bool FUN_00450ff0();
-    bool FUN_004523c0();
-    void FUN_00545560(RefView* pkRef);
-    void FUN_005455c0(RefView* pkRef);
-    void FUN_00548880(RefView* pkRef, bool bArg);
-    bool FUN_00548720();
-    bool FUN_00425fd0();  // IsInterior
+      // CellRefLockEnter
+      // CellRefLockLeave
+      // RemoveReference
+      // IsInterior
     void FUN_00548230(RefView* pkRef, bool bArg);
 };
+enum ENUM_FORM_ID;
 class TESForm
 {
   public:
     virtual ~TESForm();
-    int GetFormType();
+public:
+    ::ENUM_FORM_ID GetFormType() const;
+public:
+    bool GetDisabled() const;
 };
 class TESObject : public TESForm
 {
@@ -381,8 +415,6 @@ class TESBoundObject : public TESObject
 class TESObjectDOOR : public TESBoundObject
 {
   public:
-    bool FUN_005194d0();
-    bool HasEntry(TESForm* destination);
 };
 class ReferenceList
 {
@@ -395,45 +427,32 @@ class ReferenceList
     TESObjectREFR*& GetItem();
     ReferenceList* GetNext();
     void Append(TESObjectREFR*& reference);
-    void RemoveAll();
 };
 // Verified native methods use only their typed receiver in ECX.
-ReferenceList* __fastcall FUN_009604f0(TESObjectCELL* cell);
-TESObjectCELL* __fastcall FUN_005f36f0(TESWorldSpace* world);
-TESBoundObject* __fastcall FUN_007af430(TESObjectREFR* reference);
-bool __fastcall FUN_00440d80(const TESObjectREFR* reference);
-bool __fastcall FUN_00440da0(TESObjectREFR* reference);
-bool __fastcall FUN_00477ba0(TESObjectREFR* reference);
-void* __fastcall FUN_00568e50(TESObjectREFR* reference);
-void __fastcall FUN_00541ae0(TESObjectCELL* cell);
-unsigned int __cdecl GetRandomNumberInRange(int low, int high);
-TESObjectREFR* __cdecl FUN_0054afb0(TESForm* source, TESForm* destination, void* context);
 
 struct FormGroupQuery
 {
     unsigned int tag, unk04, value, kind;
 };
-extern unsigned int DAT_01187020;
-TESForm* FUN_004839c0(unsigned int);
 // @fnv 0x005434d0
 bool TESObjectCELL::FUN_005434d0(FormGroupQuery* group)
 {
 
     bool matched = false;
 
-    if (group && group->tag == DAT_01187020)
+    if (group && group->tag == ::fnv_00543df0::kGroupFormType)
     {
 
         switch (group->kind)
         {
 
         case 0:
-            matched = IsFormTypeBelowThreshold(group);
+            matched = reinterpret_cast<::FUN_00484150_shell *>(this)->IsFormTypeBelowThreshold((::FormRecordHeader *)(group));
             break;
 
         case 2:
 
-            if (IsCellInterior() && FUN_005441b0() < group->value)
+            if (IsCellInterior() && reinterpret_cast<::FUN_005441b0_S *>(this)->FUN_005441b0() < group->value)
 
                 matched = true;
 
@@ -441,7 +460,7 @@ bool TESObjectCELL::FUN_005434d0(FormGroupQuery* group)
 
         case 3:
 
-            if (IsCellInterior() && FUN_00544210() < group->value)
+            if (IsCellInterior() && reinterpret_cast<::FUN_00544210_shell *>(this)->FUN_00544210() < group->value)
 
                 matched = true;
 
@@ -465,10 +484,10 @@ bool TESObjectCELL::FUN_005434d0(FormGroupQuery* group)
             if (!IsCellInterior())
             {
 
-                if (FUN_005516c0())
+                if (reinterpret_cast<::FUN_005516c0 *>(this)->IsCellPersistent())
                     matched = true;
 
-                else if (FUN_005441b0() < group->value)
+                else if (reinterpret_cast<::FUN_005441b0_S *>(this)->FUN_005441b0() < group->value)
                     matched = true;
             }
             else
@@ -481,10 +500,10 @@ bool TESObjectCELL::FUN_005434d0(FormGroupQuery* group)
             if (!IsCellInterior())
             {
 
-                if (FUN_005516c0())
+                if (reinterpret_cast<::FUN_005516c0 *>(this)->IsCellPersistent())
                     matched = true;
 
-                else if (FUN_00544210() < group->value)
+                else if (reinterpret_cast<::FUN_00544210_shell *>(this)->FUN_00544210() < group->value)
                     matched = true;
             }
             else

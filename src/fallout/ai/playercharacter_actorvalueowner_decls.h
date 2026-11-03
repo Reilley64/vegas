@@ -3,6 +3,7 @@
 #define FNV_ACTORVALUEOWNER_H
 #include "layout_support.h"
 #pragma pack(push, 4)
+namespace ActorValue { enum Index; }
 class ActorValueOwner
 {
   public:
@@ -18,6 +19,8 @@ class ActorValueOwner
     virtual TESForm* GetActorValueOwnerForm();
     virtual unsigned short GetActorValueOwnerType();
     Actor* GetActorOwner();
+public:
+    float GetActorValueFloatByIndex(::ActorValue::Index);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(ActorValueOwner) == 0x4);

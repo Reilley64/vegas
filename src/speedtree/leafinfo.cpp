@@ -2,6 +2,8 @@
 // src/speedtree/leafinfo.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/leafinfo.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00b3f130_shell.h"
+#include "fnv/symbols_01017000.h"
 struct NiPoint3
 {
     float x;
@@ -48,7 +50,6 @@ class Scratch_cls
     unsigned int unk4C;
 };
 
-extern int DAT_010173f0;
 
 class FUN_00b2e680_cls
 {
@@ -75,7 +76,7 @@ FUN_00b2e680_cls::FUN_00b2e680_cls(const FUN_00b2e680_cls& src)
     this->m_p04 = src.m_p04;
     this->m_f10 = src.m_f10;
     Sub14_cls* sub = &m_s14;
-    sub->AssignSubstring(&src.m_s14, 0, DAT_010173f0);
+    sub->AssignSubstring(&src.m_s14, 0, (*reinterpret_cast<int *>(&::g_010173f0)));
     this->m_p30 = src.m_p30;
     this->m_p3c = src.m_p3c;
     this->m_p48 = src.m_p48;
@@ -85,7 +86,6 @@ struct S_00b3cf40_Random
 {
     S_00b3cf40_Random();
     ~S_00b3cf40_Random();
-    float FUN_00b3f130(float lo, float hi);
 };
 
 static const float DAT_01022958 = 10000.0f;
@@ -124,7 +124,7 @@ void S_00b3cf40::Init(int size)
     m_iSlotIds = new float[m_uiItemCount];
     S_00b3cf40_Random rng;
     for (int iIndex = 0; iIndex < m_uiItemCount; iIndex++)
-        m_iSlotIds[iIndex] = rng.FUN_00b3f130(0.0f, DAT_01022958);
+        m_iSlotIds[iIndex] = reinterpret_cast<::FUN_00b3f130_shell *>(&(rng))->FUN_00b3f130(0.0f, DAT_01022958);
 
     m_verts = new float[size * 16];
     float* pfVert = m_verts;

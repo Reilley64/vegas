@@ -220,7 +220,6 @@ class Actor : public MobileObject,
     virtual void Unk_135(void);
     virtual void Unk_136(void);
     TESActorBase* GetActorBase();
-    bool IsPlayerTeammate();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(Actor) == 0x1B4);

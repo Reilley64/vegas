@@ -2,6 +2,7 @@
 #ifndef FNV_GRENADEPROJECTILE_PRIVATE_TYPES_H
 #define FNV_GRENADEPROJECTILE_PRIVATE_TYPES_H
 
+#include "fnv/decl/Actor.h"
 #include "layout_support.h"
 #include "SoundPlaybackHandle.h"
 #include "InventoryStackRecord.h"
@@ -122,7 +123,6 @@ class Projectile : public MobileObject
     virtual bool ProcessImpact();
     virtual bool IsProximityTriggered();
     // JohnnyGuitarNVSE Projectile.hpp:135 and Projectile.cpp address annotation.
-    BGSProjectile* GetProjectileBase() const;
     // base MobileObject at +0x0, size 136
     BSSimpleList<Projectile__ImpactData*> m_kProjectileImpactList;  // +0x88, 8 bytes
     bool m_bHasImpactData;                                          // +0x90, 1 bytes
@@ -317,6 +317,8 @@ class GrenadeProjectile : public Projectile
     // void __cdecl GrenadeProjectile::*()
     // GrenadeProjectile& __cdecl GrenadeProjectile::*(const GrenadeProjectile&)
     // void __cdecl GrenadeProjectile::*()
+public:
+    bool FUN_009b4740();
 };
 FNV_STATIC_ASSERT(sizeof(GrenadeProjectile) == 384);
 FNV_STATIC_ASSERT(offsetof(GrenadeProjectile, m_bProximityTriggered) == 368);

@@ -2,6 +2,7 @@
 #ifndef FNV_BGSLOADFORMBUFFER_H
 #define FNV_BGSLOADFORMBUFFER_H
 
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
 #include "layout_support.h"
 #include "TESForm.h"
 class FormChangeMask;
@@ -126,7 +127,6 @@ class BGSLoadFormBuffer : public BGSLoadGameBuffer
     FormChangeMask m_cReservedBytes;  // +0x2C, 4 bytes
     FormChangeMask GetChangeFlags(unsigned int);
     FormChangeMask GetOldChangeFlags(unsigned int);
-    void ReadTypedData(void*, unsigned int);
     // BGSLoadFormBuffer
     // unsigned int __cdecl BGSLoadFormBuffer::*()
     // void __cdecl BGSLoadFormBuffer::*(TESForm*)

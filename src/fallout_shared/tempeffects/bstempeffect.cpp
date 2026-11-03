@@ -1,5 +1,18 @@
 // fallout_shared/tempeffects/bstempeffect.cpp: SandBoxActorPackageData, BSTempEffect (14 functions)
 
+#include "fnv/decl/C857A10Buffer.h"
+#include "fnv/decl/FUN_00545cb0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_008579e0_shell.h"
+#include "fnv/decl/FUN_00857aa0.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011d6000.h"
+#include "fnv/symbols_011de000.h"
 #include "bstempeffect_decls.h"
 
 // @fnv 0x009f3a30
@@ -23,7 +36,6 @@ struct FUN_00682860_shell : public BSTempEffect
 };
 
 extern const void* vftable_BSTempEffect;
-void __fastcall FUN_00a5d3d0(void*);
 
 // Resets the vtable pointer and fields at offsets 0x8, 0xc, 0x10 and 0x14, then calls FUN_00a5d3d0 on this.
 // @fnv 0x00682860
@@ -34,7 +46,7 @@ void FUN_00682860_shell::FUN_00682860()
     *(float*)((char*)this + 0x8) = 0.0f;
     *(float*)((char*)this + 0x10) = 0.0f;
     *(char*)((char*)this + 0x14) = 0;
-    FUN_00a5d3d0(this);
+    reinterpret_cast<class ::FUN_00a5d3d0 *>((this))->FUN_00a5d3d0::~FUN_00a5d3d0();
 }
 
 struct BGSEntryPointFunctionData;
@@ -52,7 +64,6 @@ int FUN_009cbb10_shell::FUN_009cbb10()
     return 3;
 }
 
-extern const char* const g_011d6a90_arg1;
 
 struct FUN_00682800_shell
 {
@@ -62,7 +73,7 @@ struct FUN_00682800_shell
 // @fnv 0x00682800
 const char* const* FUN_00682800_shell::GetRTTI() const
 {
-    return &g_011d6a90_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_011d6a44));
 }
 
 struct FUN_006828e0_shell
@@ -82,7 +93,6 @@ unsigned short __thiscall FUN_006828e0_shell::FUN_006828e0()
 
 struct BGSLoadFormBuffer
 {
-    void __thiscall ReadTypedData(void* pData, unsigned int cbData);
 };
 
 struct FUN_00682a80_shell
@@ -93,9 +103,9 @@ struct FUN_00682a80_shell
 // @fnv 0x00682a80
 void FUN_00682a80_shell::FUN_00682a80(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    apLoadGameBuffer->ReadTypedData((void*)((char*)this + 8), 4);
-    apLoadGameBuffer->ReadTypedData((void*)((char*)this + 0x10), 4);
-    apLoadGameBuffer->ReadTypedData((void*)((char*)this + 0x14), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 8)), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x10)), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x14)), 1);
 }
 
 struct FUN_00682810_shell
@@ -112,9 +122,7 @@ void FUN_00682810_shell::FUN_00682810()
 namespace fnv_00682830 {
 struct FUN_00682860_shell
 {
-    void FUN_00682860();
 };
-void _delete(void*, unsigned int);
 struct FUN_00682830_shell : BSTempEffect
 {
     void* FUN_00682830(unsigned int);
@@ -122,9 +130,9 @@ struct FUN_00682830_shell : BSTempEffect
 // @fnv 0x00682830
 void* FUN_00682830_shell::FUN_00682830(unsigned int flags)
 {
-    reinterpret_cast<FUN_00682860_shell*>(this)->FUN_00682860();
+    reinterpret_cast<::FUN_00682860_shell *>((reinterpret_cast<FUN_00682860_shell*>(this)))->FUN_00682860();
     if (flags & 1)
-        _delete(this, 0x18);
+        ::FUN_00aa1460(this, 0x18);
     return this;
 }
 }  // namespace fnv_00682830
@@ -148,7 +156,6 @@ bool FUN_006828a0_shell::FUN_006828a0(float afTimeDelta)
 
 struct BGSSaveFormBuffer
 {
-    void SaveData(void*, int, int);
 };
 struct Holder00682a30
 {
@@ -158,9 +165,9 @@ struct Holder00682a30
 // @fnv 0x00682a30
 void Holder00682a30::FUN_00682a30(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    apSaveGameBuffer->SaveData((void*)((char*)this + 8), 4, 0);
-    apSaveGameBuffer->SaveData((void*)((char*)this + 16), 4, 0);
-    apSaveGameBuffer->SaveData((void*)((char*)this + 20), 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((void*)((char*)this + 8), 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((void*)((char*)this + 16), 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((void*)((char*)this + 20), 1, 0);
 }
 
 struct SoundH
@@ -168,16 +175,12 @@ struct SoundH
     void* pBase;
     unsigned int m_uiReadOffset;
     void* pCell;
-    void* Deallocate();
 };
 
 struct TESSaveLoadGame
 {
-    void FUN_008579b0(void*, int);
-    void FUN_00857a10(int, int);
 };
 
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct FUN_00682920_shell
 {
@@ -187,14 +190,14 @@ struct FUN_00682920_shell
 // @fnv 0x00682920
 void FUN_00682920_shell::FUN_00682920()
 {
-    g_TESSaveLoadGame->FUN_008579b0((char*)this + 8, 4);
-    g_TESSaveLoadGame->FUN_008579b0((char*)this + 0x10, 4);
+    reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0((char*)this + 8, 4);
+    reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0((char*)this + 0x10, 4);
     SoundH* apSaveGameBuffer = 0;
     if (*(void**)((char*)this + 0xc))
     {
-        apSaveGameBuffer = (SoundH*)((SoundH*)*(void**)((char*)this + 0xc))->Deallocate();
+        apSaveGameBuffer = (SoundH*)((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SoundH*)*(void**)((char*)this + 0xc))))->FUN_0084e3a0()));
     }
-    g_TESSaveLoadGame->FUN_00857a10((int)&apSaveGameBuffer, 4);
+    reinterpret_cast<::C857A10Buffer *>((g_TESSaveLoadGame))->FUN_00857a10((const unsigned int *)((int)&apSaveGameBuffer), 4);
 }
 
 class NiNode;
@@ -209,21 +212,16 @@ class TESForm
 class TESObjectCELL : public TESForm
 {
   public:
-    NiNode* FUN_00545cb0();
 };
 
 struct FUN_00682990_LoadShim
 {
-    void FUN_008579e0(void*, unsigned int);
 };
 
 struct FUN_00682990_SGLShim
 {
-    void FUN_00857aa0(unsigned int*, int);
 };
 
-extern void* DAT_011de45c;
-TESForm* FUN_004839c0(unsigned int);
 
 struct FUN_00682990_shell
 {
@@ -237,17 +235,15 @@ bool FUN_00682990_shell::FUN_00682990()
     bool result = true;
     unsigned int formID;
 
-    reinterpret_cast<FUN_00682990_LoadShim*>(DAT_011de45c)
-        ->FUN_008579e0(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 8), 4);
-    reinterpret_cast<FUN_00682990_LoadShim*>(DAT_011de45c)
-        ->FUN_008579e0(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x10), 4);
-    reinterpret_cast<FUN_00682990_SGLShim*>(DAT_011de45c)->FUN_00857aa0(&formID, 4);
+    reinterpret_cast<::FUN_008579e0_shell *>((reinterpret_cast<FUN_00682990_LoadShim*>((*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 8), 4);
+    reinterpret_cast<::FUN_008579e0_shell *>((reinterpret_cast<FUN_00682990_LoadShim*>((*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x10), 4);
+    reinterpret_cast<::FUN_00857aa0 *>((reinterpret_cast<FUN_00682990_SGLShim*>((*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))))->ValidateFormIDArray(&formID, 4);
 
     *reinterpret_cast<TESObjectCELL**>(reinterpret_cast<char*>(this) + 0x0c) =
         dynamic_cast<TESObjectCELL*>(FUN_004839c0(formID));
 
     if (!*reinterpret_cast<TESObjectCELL**>(reinterpret_cast<char*>(this) + 0x0c) ||
-        !(*reinterpret_cast<TESObjectCELL**>(reinterpret_cast<char*>(this) + 0x0c))->FUN_00545cb0())
+        !reinterpret_cast<::FUN_00545cb0_shell *>(((*reinterpret_cast<TESObjectCELL**>(reinterpret_cast<char*>(this) + 0x0c))))->FUN_00545cb0())
         result = false;
 
     return result;

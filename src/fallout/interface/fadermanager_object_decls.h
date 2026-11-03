@@ -7,6 +7,16 @@
 // out-of-line helpers; the larger EH functions follow in later work.
 #include <stddef.h>
 
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00440490_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/S457d70.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_0106e000.h"
+#include "fnv/symbols_011de000.h"
 template <int> struct FNVAssert;
 template <> struct FNVAssert<1>
 {
@@ -112,13 +122,6 @@ class NiObjectNET : public NiObject
 class NiAVObject : public NiObjectNET
 {
   public:
-    NiNode* GetParent();
-    void FUN_00440490(float);
-    void FUN_00440460(const NiPoint3&);
-    void SetName(const NiFixedString&);
-    void AttachProperty(NiObject*);
-    void UpdateSceneObject();
-    void Update(NiUpdateData&);
     /*8C*/ virtual void UpdateControllers(NiUpdateData& kUpdParams);
     /*90*/ virtual void ApplyTransform(NiMatrix33* pArg1, NiVector3* pArg2, bool bArg3);
     /*94*/ virtual void Unk_25(unsigned int uArg);
@@ -177,7 +180,6 @@ template <class T> class NiPointer
 class TES
 {
   public:
-    void RefreshWorldState(int iArg1, int iArg2, int iArg3);
 };
 
 class FaderManager
@@ -218,7 +220,5 @@ FNV_STATIC_ASSERT(offsetof(FaderEntry, m_pParentNode) == 0x18);
 
 static FaderEntry s_faders[FADER_ENUM_FADER_COUNT];
 static bool s_bAllowDetach;
-extern const float s_faderClearedAlpha;
-extern TES* g_TES;
 
 #endif

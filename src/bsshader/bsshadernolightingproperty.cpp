@@ -1,6 +1,7 @@
 // src/bsshader/bsshadernolightingproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/bsshadernolightingproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/ScriptPool.h"
 struct ArgObject
 {
     virtual void v00();
@@ -51,7 +52,6 @@ struct ScopedRef
 
 struct Sub24Object
 {
-    void FUN_00439fd0(ScopedRef* apRef);
 };
 
 struct FUN_00439410_cls
@@ -77,6 +77,6 @@ void FUN_00439410_cls::FUN_00439410(ArgObject* apArg)
     if (apArg->GetCount() < 7)
     {
         ScopedRef ref(apArg);
-        m_k24.FUN_00439fd0(&ref);
+        reinterpret_cast<::ScriptPool *>(&(m_k24))->FUN_00439fd0(&ref);
     }
 }

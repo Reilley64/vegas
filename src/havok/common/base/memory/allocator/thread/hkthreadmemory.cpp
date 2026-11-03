@@ -2,6 +2,8 @@
 // src/havok/common/base/memory/allocator/thread/hkthreadmemory.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/allocator/thread/hkthreadmemory.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00d2c000.h"
+#include "fnv/symbols_010ca000.h"
 struct FUN_00d2c3a0_class
 {
     void* m0;
@@ -266,7 +268,6 @@ struct Allocator : FUN_00d2c3a0_class
     FreeNode* FUN_00d2c5a0(int size);
 };
 // The target helper ignores EDX; this ABI-compatible signature keeps its this pointer in ECX and bucket on the stack.
-extern "C" FreeNode* __fastcall AllocateBlock(Allocator* self, int unused, int bucket);
 // @fnv 0x00d2c5a0
 FreeNode* Allocator::FUN_00d2c5a0(int size)
 {
@@ -285,13 +286,12 @@ FreeNode* Allocator::FUN_00d2c5a0(int size)
             block->head = node->next;
             return node;
         }
-        return AllocateBlock(this, bucket, bucket);
+        return ((::fnv_00d2c5a0::FreeNode *)(reinterpret_cast<::CachedBlockAllocator *>((this))->AllocateBlock(bucket)));
     }
     return ((OverflowHandler*)m4)->f1(size);
 }
 }  // namespace fnv_00d2c5a0
 
-extern void FUN_00d2caa0(void* res, int a1, int n);
 
 struct SelfCls
 {
@@ -307,7 +307,7 @@ void* SelfCls::FUN_00d2c6d0(int a1, int a2, FUN_00d2c3a0_class* a3)
 {
     void* res = this->vslot1(a3->m0);
     int n = (int)a3->m0 < a2 ? (int)a3->m0 : a2;
-    FUN_00d2caa0(res, a1, n);
+    ::fnv_00d2caa0::FUN_00d2caa0(res, (void *)(a1), n);
     this->vslot2(a1, a2);
     return res;
 }
@@ -325,7 +325,6 @@ struct FUN_00d2c7a0_class
     int unk08;
     int unk0c;
     FUN_00d2c7a0_Slot slots[17];
-    void __thiscall FUN_00d2c520(int index);
     void __thiscall FUN_00d2c7a0();
 };
 
@@ -338,7 +337,7 @@ void FUN_00d2c7a0_class::FUN_00d2c7a0()
     while (index >= 0)
     {
         if (slot->object)
-            FUN_00d2c520(index);
+            reinterpret_cast<::D2C520ThreadMemory *>(this)->FUN_00d2c520(index);
         --index;
         --slot;
     }
@@ -542,46 +541,8 @@ struct FUN_00d2c600_cls
     FUN_00d2c600_obj* m_04;
     int m_08;
 
-    void FUN_00d2c450(int index, void* p);
     void Free(void* p, int size);
 };
-
-// @fnv 0x00d2c600
-void FUN_00d2c600_cls::Free(void* apBlock, int size)
-{
-    if (apBlock != 0)
-    {
-        if (size <= 0x2000)
-        {
-            int idx;
-            if (size <= 0x280)
-            {
-                idx = *(signed char*)((char*)this + 0xd8 + ((size + 0xf) >> 4));
-            }
-            else
-            {
-                idx = *(int*)((char*)this + 0x104 + (((size - 1) >> 10) * 4));
-            }
-            FUN_00d2c600_bucket* bucket = (FUN_00d2c600_bucket*)((char*)this + 0xc + idx * 8);
-            if (bucket->m_uiItemCount >= m_08)
-            {
-                FUN_00d2c450(idx, apBlock);
-            }
-            else
-            {
-                void** node = (void**)apBlock;
-                void* head = bucket->m_pFirstNode;
-                bucket->m_uiItemCount++;
-                *node = head;
-                bucket->m_pFirstNode = node;
-            }
-        }
-        else
-        {
-            m_04->unk08(apBlock, size);
-        }
-    }
-}
 
 struct FUN_00d2c670_inner
 {
@@ -732,6 +693,42 @@ struct Owner219
 
     void FUN_00d2c450(int index, Node219* out);
 };
+// @fnv 0x00d2c600
+void FUN_00d2c600_cls::Free(void* apBlock, int size)
+{
+    if (apBlock != 0)
+    {
+        if (size <= 0x2000)
+        {
+            int idx;
+            if (size <= 0x280)
+            {
+                idx = *(signed char*)((char*)this + 0xd8 + ((size + 0xf) >> 4));
+            }
+            else
+            {
+                idx = *(int*)((char*)this + 0x104 + (((size - 1) >> 10) * 4));
+            }
+            FUN_00d2c600_bucket* bucket = (FUN_00d2c600_bucket*)((char*)this + 0xc + idx * 8);
+            if (bucket->m_uiItemCount >= m_08)
+            {
+                reinterpret_cast<::Owner219 *>(this)->FUN_00d2c450(idx, (::Node219 *)(apBlock));
+            }
+            else
+            {
+                void** node = (void**)apBlock;
+                void* head = bucket->m_pFirstNode;
+                bucket->m_uiItemCount++;
+                *node = head;
+                bucket->m_pFirstNode = node;
+            }
+        }
+        else
+        {
+            m_04->unk08(apBlock, size);
+        }
+    }
+}
 // Uses blockSizes[index] to release out directly when batchThreshold is zero; otherwise trims cache batches and pushes out onto its head.
 // @fnv 0x00d2c450
 void Owner219::FUN_00d2c450(int aiSizeIndex, Node219* apBlock)
@@ -761,7 +758,6 @@ void Owner219::FUN_00d2c450(int aiSizeIndex, Node219* apBlock)
     caches[aiSizeIndex].head = apBlock;
 }
 
-extern "C" char DAT_010cacd0;
 
 struct BlockEntry
 {
@@ -886,7 +882,7 @@ __declspec(noinline) void HKThreadMemory::InitSizeClasses()
 // @fnv 0x00d2c720
 HKThreadMemory* HKThreadMemory::FUN_00d2c720()
 {
-    m0 = &DAT_010cacd0;
+    m0 = &(*reinterpret_cast<char *>(&::DAT_010cacd0));
     BlockEntry* p = blocks;
     int n = 16;
     while (n >= 0)
@@ -896,13 +892,12 @@ HKThreadMemory* HKThreadMemory::FUN_00d2c720()
         ++p;
         --n;
     }
-    InitSizeClasses();
-    FUN_00d2c3a0(0, (void*)8);
+    reinterpret_cast<::SizeClassTable *>(this)->InitSizeClasses();
+    reinterpret_cast<::FUN_00d2c3a0_class *>(this)->FUN_00d2c3a0(0, (void*)8);
     return this;
 }
 
 namespace fnv_00d2c760 {
-extern "C" char DAT_010cacd0;
 
 struct BlockEntry
 {
@@ -937,7 +932,7 @@ __declspec(noinline) void ThreadMemoryView::InitSizeClasses()
 // @fnv 0x00d2c760
 ThreadMemoryView* ThreadMemoryView::FUN_00d2c760(void* allocator)
 {
-    m0 = &DAT_010cacd0;
+    m0 = &(*reinterpret_cast<char *>(&::DAT_010cacd0));
     BlockEntry* entry = blocks;
     int remaining = 16;
     do
@@ -946,8 +941,8 @@ ThreadMemoryView* ThreadMemoryView::FUN_00d2c760(void* allocator)
         entry->count = 0;
         ++entry;
     } while (--remaining >= 0);
-    InitSizeClasses();
-    FUN_00d2c3a0(allocator, 8);
+    reinterpret_cast<::SizeClassTable *>(this)->InitSizeClasses();
+    reinterpret_cast<::FUN_00d2c3a0_class *>(this)->FUN_00d2c3a0(allocator, (void *)(8));
     return this;
 }
 }  // namespace fnv_00d2c760

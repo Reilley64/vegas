@@ -2,6 +2,12 @@
 // src/havok/physics/dynamics/constraint/chain/hkpconstraintchaininstance.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/chain/hkpconstraintchaininstance.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00c91140_Class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpWorldDecomp.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb3000.h"
 #include "havok/hkpConstraintChainInstance.h"
 
 struct FUN_00c91120
@@ -10,15 +16,12 @@ struct FUN_00c91120
 };
 struct FUN_00c91140
 {
-    void ExecutePendingOperationQueues();
 };
 struct FUN_00c97510
 {
-    void ProcessPointer(void*);
 };
 struct FUN_00cb3da0
 {
-    static void AddConstraintToCriticalLockedIsland(void*, void*);
 };
 struct FUN_00dd0460
 {
@@ -30,14 +33,14 @@ void FUN_00dd0460::EntityRemovedCallback(void* a)
     FUN_00c97510* w = *(FUN_00c97510**)((char*)a + 8);
     ++*(int*)((char*)w + 0x94);
     FUN_00c97510* w2 = *(FUN_00c97510**)((char*)this + 0x44);
-    w->ProcessPointer(w2);
-    FUN_00cb3da0::AddConstraintToCriticalLockedIsland(w, this);
+    reinterpret_cast<::hkpWorldDecomp *>((w))->FUN_00c97510((::hkpAction *)(w2));
+    ::FUN_00cb3da0((::S_00cb3da0_Ctx *)(w), this);
     if (--*(int*)((char*)w + 0x94) == 0 && !*(char*)((char*)w + 0x9c))
     {
         if (*(int*)((char*)w + 0x8c))
             ((FUN_00c91120*)w)->ExecutePendingOperations();
         if (*(int*)((char*)w + 0xa4) == 1 && *(int*)((char*)w + 0x90))
-            ((FUN_00c91140*)w)->ExecutePendingOperationQueues();
+            reinterpret_cast<::FUN_00c91140_Class *>((((FUN_00c91140*)w)))->FUN_00c91140();
     }
 }
 
@@ -57,7 +60,6 @@ struct hkMemoryRouterDD04
 };
 extern "C" hkMemoryRouterDD04& __cdecl FUN_00c85750();
 
-void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
 
 template <class T> __forceinline void constructWithCopyDD04(T* p, int n, const T& t)
 {
@@ -80,7 +82,7 @@ template <class T> class hkArrayDD04
     {
         hkMemoryAllocatorDD04& kAlloc = FUN_00c85750().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&kAlloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyDD04(m_data + m_iElementCount, 1, t);
         m_iElementCount++;
     }
@@ -89,7 +91,6 @@ template <class T> class hkArrayDD04
 class hkReferencedObjectDD04
 {
   public:
-    void FUN_00c90510() throw();
 };
 
 class hkpPhantomOverlapDD04
@@ -120,10 +121,10 @@ void hkpPhantomOverlapDD04::AddReferencedObject(hkReferencedObjectDD04* pkObject
     if (iSlot < 2 && m_pHeadNode[iSlot] == 0)
     {
         m_pHeadNode[iSlot] = pkObject;
-        pkObject->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((pkObject))->FUN_00c90510();
     }
     m_kTrackedObjects.AddBack(pkObject);
-    pkObject->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((pkObject))->FUN_00c90510();
 }
 
 class hkMemoryAllocatorDD05
@@ -173,7 +174,6 @@ template <class T> class hkArrayDD05
 class FUN_00d1df70 : public hkReferencedObject
 {
   public:
-    void removeReference();
 };
 
 class FUN_00cf40b0
@@ -196,8 +196,8 @@ class FUN_00dd05c0 : public FUN_00cf40b0
 FUN_00dd05c0::~FUN_00dd05c0() throw()
 {
     for (int i = 0; i < m_children.m_iElementCount; i++)
-        m_children.m_data[i]->removeReference();
-    m_pOwnerObject->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_children.m_data[i]))->FUN_00c905b0();
+    reinterpret_cast<::hkReferencedObjectC905 *>((m_pOwnerObject))->FUN_00c905b0();
 }
 
 namespace fnv_00dd0630 {
@@ -227,7 +227,7 @@ struct FnvCpu_FUN_00dd0630_CpuObject
 // @fnv 0x00dd0630
 FnvCpu_FUN_00dd0630_CpuObject* FnvCpu_FUN_00dd0630_CpuObject::Destroy(unsigned int flags)
 {
-    FUN_00dd05c0();
+    reinterpret_cast<::FUN_00dd05c0 *>(this)->FUN_00dd05c0::~FUN_00dd05c0();
     if (flags & 1)
     {
         FnvCpu_FUN_00dd0630_CpuAllocatorHolder* holder = FUN_00c85750();
@@ -282,7 +282,6 @@ class hkRefObj
 class hkpConstraintChainData : public hkRefObj
 {
   public:
-    void FUN_00c90510() throw();
 };
 }
 
@@ -357,7 +356,7 @@ hkpConstraintChainInstance::hkpConstraintChainInstance(hkDD05::hkpConstraintChai
     : FUN_00cf3f40::hkpConstraintInstance(1)
 {
     m_data = pkData;
-    pkData->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((pkData))->FUN_00c90510();
     m_kActorEntries[0] = 0;
     m_kActorEntries[1] = 0;
     m_pAction = new hkpConstraintChainInstanceAction(this);

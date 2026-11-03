@@ -4,6 +4,8 @@
 #ifndef FNV_STARTMENU_H
 #define FNV_STARTMENU_H
 
+#include "fnv/decl/fnv_007d7aa0__ListBox_Option.h"
+#include "fnv/symbols_011da000.h"
 #include "startmenu_decls.h"
 #include "layout_support.h"
 #include "Menu.h"
@@ -74,7 +76,6 @@ FNV_STATIC_ASSERT(offsetof(StartMenu, m_pTiles) == 0x28);
 FNV_STATIC_ASSERT(offsetof(StartMenu, m_pUserOption) == 0x1A4);
 FNV_STATIC_ASSERT(offsetof(StartMenu, uiFlags) == 0x1A8);
 FNV_STATIC_ASSERT(offsetof(StartMenu, m_fMenuTimer) == 0x1AC);
-extern StartMenu::OptionManager* DAT_011daac4;
 // @fnv 0x007cb4d0
 int StartMenu::GetClass()
 {
@@ -89,13 +90,13 @@ TileMenu* StartMenu::GetMenuTitle()
 bool StartMenu::IsStartMenuActive()
 {
     return Interface::GetSelectedTargetIndex(Interface::START_MENU) && IsFlagSet(FLAG_ACTION_MAPPING) &&
-           m_kDownloadOptions.IsSelected(m_kDownloadOptions.vfn_4());
+           reinterpret_cast<::fnv_007d7aa0::ListBox_Option *>(&(m_kDownloadOptions))->IsSelected((::fnv_007d7aa0::Tile *)(::Tile *)(m_kDownloadOptions.vfn_4()));
 }
 // @fnv 0x007cb710
 StartMenu::OptionManager* StartMenu::OptionManager::Instance()
 {
-    if (!DAT_011daac4)
-        DAT_011daac4 = new OptionManager;
-    return DAT_011daac4;
+    if (!(*reinterpret_cast<::StartMenu::OptionManager * *>(&::DAT_011daac4)))
+        (*reinterpret_cast<::StartMenu::OptionManager * *>(&::DAT_011daac4)) = new OptionManager;
+    return (*reinterpret_cast<::StartMenu::OptionManager * *>(&::DAT_011daac4));
 }
 #endif

@@ -3,6 +3,17 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00cf1480
+#include "fnv/decl/FUN_00827200_class.h"
+#include "fnv/decl/RotationRows.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_01092000.h"
+#include "fnv/symbols_01272000.h"
 void FUN_00cf1480(float afValue1, float afValue2, int* piTarget)
 {
     *reinterpret_cast<float*>(piTarget + 19) = afValue1;
@@ -371,12 +382,12 @@ struct S_00cf10f0_Ctx
     int saved;
     __forceinline S_00cf10f0_Ctx(int c)
     {
-        saved = DAT_tls.ctx;
-        DAT_tls.ctx = c;
+        saved = (*reinterpret_cast<::S_00cf10f0_Tls *>(&::g_tlsBlock)).ctx;
+        (*reinterpret_cast<::S_00cf10f0_Tls *>(&::g_tlsBlock)).ctx = c;
     }
     __forceinline ~S_00cf10f0_Ctx()
     {
-        DAT_tls.ctx = saved;
+        (*reinterpret_cast<::S_00cf10f0_Tls *>(&::g_tlsBlock)).ctx = saved;
     }
 };
 
@@ -407,7 +418,6 @@ struct S_00cf10f0_Router
 S_00cf10f0_Router* FUN_00c85750() throw();
 
 struct S_00cf10f0_Arr4;
-void __cdecl FUN_00c908c0(S_00cf10f0_Heap* heap, S_00cf10f0_Arr4* arr, int n, int elemSize);
 
 struct S_00cf10f0_Arr4
 {
@@ -419,7 +429,7 @@ struct S_00cf10f0_Arr4
         S_00cf10f0_Heap& h = FUN_00c85750()->heap();
         int cap = m_cap & 0x3fffffff;
         if (cap < n)
-            FUN_00c908c0(&h, this, (n < cap * 2) ? cap * 2 : n, 4);
+            ::FUN_00c908c0((::SpawnedObject *)(::S_00cf10f0_Heap *)(&h), (::SpawnedArray *)(::S_00cf10f0_Arr4 *)(this), (n < cap * 2) ? cap * 2 : n, 4);
     }
     __forceinline void SetSizeAndGrow(int n) throw()
     {
@@ -469,19 +479,18 @@ typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 extern "C" __m128 _mm_setzero_ps(void);
 extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long value);
 
-extern __declspec(thread) unsigned int g_uiHeapContext;
 
 struct HeapContextGuard
 {
     unsigned int m_uiOld;
     HeapContextGuard(unsigned int uiNew)
     {
-        m_uiOld = g_uiHeapContext;
-        g_uiHeapContext = uiNew;
+        m_uiOld = ::currentAllocationContext;
+        ::currentAllocationContext = uiNew;
     }
     ~HeapContextGuard()
     {
-        g_uiHeapContext = m_uiOld;
+        ::currentAllocationContext = m_uiOld;
     }
 };
 
@@ -512,7 +521,6 @@ inline AudioMgr* audio()
     return (AudioMgr*)FUN_00c85750();
 }
 
-__declspec(nothrow) void __cdecl FUN_00c908c0(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
 
 struct NiBinaryStreamStandIn
 {
@@ -555,7 +563,6 @@ struct BlobStream
     NiBinaryStreamStandIn* istr;
 };
 
-extern char DAT_0102e368[];
 
 struct __declspec(align(16)) BlobVec
 {
@@ -584,7 +591,7 @@ struct ByteArray
         if (getCapacity() < n)
         {
             int cap = 2 * getCapacity();
-            FUN_00c908c0(alloc, this, n < cap ? cap : n, sizeof(char));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), n < cap ? cap : n, sizeof(char));
         }
         m_iElementCount = n;
     }
@@ -607,7 +614,7 @@ struct BlobObject
 
     void Init()
     {
-        m_vtbl = DAT_0102e368;
+        m_vtbl = (*reinterpret_cast<char (*)[]>(&::DAT_0102e368));
         m_usMemSizeAndFlags = 0x30;
         m_sReferenceCount = 1;
         m_data.init();
@@ -708,13 +715,6 @@ void ApplyDelta(__m128* apDelta, Obj* apObj)
     apObj->m50 = _mm_add_ps(apObj->m50, vMasked);
 }
 
-extern double DAT_010924a8;
-extern double DAT_0101de30;
-extern double DAT_01011588;
-extern double DAT_01016ff0;
-extern float DAT_01016248;
-extern float DAT_01011d78;
-extern float DAT_01017718;
 extern __declspec(align(16)) float DAT_010ec7f0[4];
 
 __forceinline void normalize4(__m128& q)
@@ -749,7 +749,6 @@ struct FUN_008cd6a0_Class
     V4 rot0;
     V4 rot1;
     V4 comLocal;
-    void __thiscall FUN_00cb2d90(void*);
 };
 
 __forceinline void interpolate(__m128& dst, __m128 a, __m128 b, float w)
@@ -780,10 +779,10 @@ void __cdecl UpdateRotationInterpolation(float time, FUN_008cd6a0_Class* apTrans
     _mm_store_ss(&fComponentSum, qDotProduct);
     double product = DAT_010924a8 * fComponentSum;
     apTransform->rot1.q = sum;
-    float a = (float)(DAT_0101de30 - product);
+    float a = (float)(::DAT_0101de30 - product);
     double halfLen = DAT_01011588 * fComponentSum;
     float fPolynomial = (float)(a * (DAT_01016ff0 - a * (a * halfLen)));
-    double half = DAT_01016248;
+    double half = ::fnv_00c88020::DAT_01016248;
     __m128& qScaled = apTransform->rot1.q;
     qScaled = _mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(&fPolynomial), _mm_load_ss(&fPolynomial), 0), sum);
 
@@ -809,7 +808,7 @@ void __cdecl UpdateRotationInterpolation(float time, FUN_008cd6a0_Class* apTrans
     apTransform->com1.q = com;
     apTransform->com1.q.m128_f32[3] = 0.0f;
 
-    apTransform->FUN_00cb2d90(&apTransform->rot1);
+    reinterpret_cast<::RotationRows *>((apTransform))->FUN_00cb2d90(&apTransform->rot1);
 
     __m128 v = apTransform->comLocal.q;
     __m128 y = _mm_shuffle_ps(v, v, 0x55);
@@ -841,7 +840,6 @@ struct __declspec(align(16)) MotionMat4
 class MotionRotSet_cls
 {
   public:
-    void Set(const MotionMat4* m);
 };
 
 struct __declspec(align(16)) MotionState_cls
@@ -861,7 +859,7 @@ void SetMotionState(const MotionMat4* transform, MotionState_cls* apMotionState)
 {
     MotionVec4 q;
     _mm_store_ps((float*)&apMotionState->m_kDeltaAngle, _mm_setzero_ps());
-    ((MotionRotSet_cls*)&q)->Set(transform);
+    reinterpret_cast<::FUN_00827200_class *>((((MotionRotSet_cls*)&q)))->FUN_00cb26e0((int)(transform));
     const __m128* m = (const __m128*)transform;
     _mm_store_ps((float*)&apMotionState->m_kMotionTransform.c0, m[0]);
     _mm_store_ps((float*)&apMotionState->m_kMotionTransform.c1, m[1]);
@@ -930,7 +928,6 @@ struct Obj_t
     __m128 m80;
     __m128 m90;
 
-    void FUN_00cb2d90(const __m128& value);
 };
 
 // Applies a 3x3 matrix (m00, m10, m20) times a vector (m80) plus translation (first) to produce m40 and m50, preserving the w component of m40.
@@ -940,7 +937,7 @@ void __cdecl FUN_00cf1f80(const __m128& apTranslation, const __m128& second, Obj
     obj->m90 = _mm_setzero_ps();
     obj->m60 = second;
     obj->m70 = second;
-    obj->FUN_00cb2d90(second);
+    reinterpret_cast<::RotationRows *>((obj))->FUN_00cb2d90((void *)&(second));
     {
         __m128& t = obj->m30;
         t = apTranslation;
@@ -957,8 +954,6 @@ void __cdecl FUN_00cf1f80(const __m128& apTranslation, const __m128& second, Obj
     ((volatile float*)&obj->m50)[3] = 0.0f;
 }
 
-extern double DAT_010924a8;
-extern double DAT_01016ff0;
 
 struct VectorComponentValue
 {
@@ -1020,9 +1015,9 @@ struct hkVector4
         l = _mm_add_ps(_mm_shuffle_ps(l, l, 0x4e), l);
         l = _mm_add_ps(_mm_shuffle_ps(l, l, 0xb1), l);
         __m128 e = _mm_rsqrt_ss(l);
-        __m128 isZero = _mm_cmpeq_ss(l, _mm_set_ss(DAT_01011d78));
-        __m128 three = _mm_sub_ss(_mm_set_ss(DAT_01017718), _mm_mul_ss(_mm_mul_ss(l, e), e));
-        __m128 inv = _mm_andnot_ps(isZero, _mm_mul_ss(_mm_mul_ss(_mm_set_ss(DAT_01016248), e), three));
+        __m128 isZero = _mm_cmpeq_ss(l, _mm_set_ss(::DAT_01011d78));
+        __m128 three = _mm_sub_ss(_mm_set_ss(::DAT_01017718), _mm_mul_ss(_mm_mul_ss(l, e), e));
+        __m128 inv = _mm_andnot_ps(isZero, _mm_mul_ss(_mm_mul_ss(_mm_set_ss(::fnv_00c88020::DAT_01016248), e), three));
         m_vComponents = _mm_mul_ps(_mm_shuffle_ps(inv, inv, 0), m_vComponents);
     }
 };
@@ -1096,7 +1091,7 @@ void __cdecl FUN_00cf1920(const hkSweptTransform* sweptTrans, float afTime, FUN_
         qResult.m_vec.normalize4();
     }
     FUN_008cd6a0_Class* pTransform = apTransform;
-    pTransform->FUN_00cb2d90(&qResult);
+    reinterpret_cast<::RotationRows *>((pTransform))->FUN_00cb2d90(&qResult);
 
     hkVector4& vTranslation = *((hkVector4*)&pTransform->translation);
     __m128 vTimeWeight = _mm_load_ss(&afTime);
@@ -1113,7 +1108,6 @@ void __cdecl FUN_00cf1920(const hkSweptTransform* sweptTrans, float afTime, FUN_
     ((hkVector4*)&pTransform->translation)->sub4(vCenterShift);
 }
 
-extern float DAT_0104da4c;
 
 struct MotionExtR : FUN_008cd6a0_Class
 {
@@ -1125,7 +1119,7 @@ struct MotionExtR : FUN_008cd6a0_Class
 void __cdecl FUN_00cf1b10(float time, FUN_008cd6a0_Class* self)
 {
     float t0 = (time - self->com0.q.m128_f32[3]) * self->com1.q.m128_f32[3];
-    float w = (DAT_0104da4c < t0) ? t0 : DAT_0104da4c;
+    float w = (::DAT_0104da4c < t0) ? t0 : ::DAT_0104da4c;
 
     __m128 vRot0 = self->rot0.q;
     __m128 vRot1 = self->rot1.q;
@@ -1160,7 +1154,7 @@ void __cdecl FUN_00cf1b10(float time, FUN_008cd6a0_Class* self)
     __m128 wb = _mm_load_ss(&w);
     wb = _mm_shuffle_ps(wb, wb, 0);
     ((MotionExtR*)self)->deltaAngle.q = _mm_mul_ps(wb, ((MotionExtR*)self)->deltaAngle.q);
-    self->FUN_00cb2d90(&self->rot1);
+    reinterpret_cast<::RotationRows *>((self))->FUN_00cb2d90(&self->rot1);
 
     __m128 vComLocal = self->comLocal.q;
     __m128 vRy = _mm_mul_ps(_mm_shuffle_ps(vComLocal, vComLocal, 0x55), self->col1.q);

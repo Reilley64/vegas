@@ -36,7 +36,6 @@ struct Data
 };
 struct TargetBase
 {
-    void CastAgainstCollidable(volatile Data* value);
 };
 struct FUN_00df72c0_class
 {
@@ -44,15 +43,6 @@ struct FUN_00df72c0_class
     int unk04;
     void ForwardToBase(volatile Data* value);
 };
-// @fnv 0x00df72c0
-void FUN_00df72c0_class::ForwardToBase(volatile Data* value)
-{
-    value = value->value;
-    char* p = (char*)this;
-    p -= 8;
-    ((TargetBase*)p)->CastAgainstCollidable(value);
-}
-
 struct Param
 {
     unsigned int unk00;
@@ -62,17 +52,8 @@ struct Param
 };
 struct This
 {
-    int CastAgainstCollidable(Param*);
     int FUN_00df72e0(Param*);
 };
-// @fnv 0x00df72e0
-int This::FUN_00df72e0(Param* pParam)
-{
-    Param* pNext = pParam;
-    pNext = pNext->next0c;
-    return ((This*)((char*)this - 0xc))->CastAgainstCollidable(pNext);
-}
-
 namespace fnv_00df7300 {
 struct Param;
 struct This
@@ -286,6 +267,21 @@ struct DF7230CastCollector
 
     float CastAgainstCollidable(const DF7230Collidable* collidableB);
 };
+// @fnv 0x00df72c0
+void FUN_00df72c0_class::ForwardToBase(volatile Data* value)
+{
+    value = value->value;
+    char* p = (char*)this;
+    p -= 8;
+    reinterpret_cast<::DF7230CastCollector *>((((TargetBase*)p)))->CastAgainstCollidable((const ::DF7230Collidable *)(value));
+}
+// @fnv 0x00df72e0
+int This::FUN_00df72e0(Param* pParam)
+{
+    Param* pNext = pParam;
+    pNext = pNext->next0c;
+    return ((int)(reinterpret_cast<::DF7230CastCollector *>((((This*)((char*)this - 0xc))))->CastAgainstCollidable((const ::DF7230Collidable *)(pNext))));
+}
 
 // @fnv 0x00df7230
 float DF7230CastCollector::CastAgainstCollidable(const DF7230Collidable* collidableB)
@@ -332,7 +328,6 @@ struct FUN_00df7320_Shape
 
 struct FUN_00df7320_Collector
 {
-    float CastAgainstCollidable(FUN_00df7320_Shape* value);
     float FUN_00df7320(FUN_00df7320_Shape* shape, FUN_00df7320_Shape* other);
 };
 
@@ -340,7 +335,7 @@ struct FUN_00df7320_Collector
 float FUN_00df7320_Collector::FUN_00df7320(FUN_00df7320_Shape* shape, FUN_00df7320_Shape* other)
 {
     FUN_00df7320_Shape* target = (FUN_00df7320_Shape*)((char*)shape + shape->unk05);
-    return CastAgainstCollidable(target);
+    return reinterpret_cast<::DF7230CastCollector *>(this)->CastAgainstCollidable((const ::DF7230Collidable *)(target));
 }
 
 struct Base1

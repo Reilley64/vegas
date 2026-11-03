@@ -2,18 +2,60 @@
 #ifndef FNV_MENUCONSOLE_DECLS_H
 #define FNV_MENUCONSOLE_DECLS_H
 
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_00473180_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_005abe50_shell.h"
+#include "fnv/decl/FUN_007023a0_shell.h"
+#include "fnv/decl/FUN_0071d010_Class.h"
+#include "fnv/decl/FUN_00720f90_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a087d0_shell.h"
+#include "fnv/decl/LoadBook.h"
+#include "fnv/decl/MagicProjectile.h"
+#include "fnv/decl/Mgr20.h"
+#include "fnv/decl/ScriptCompileAndRun.h"
+#include "fnv/decl/SearchText.h"
+#include "fnv/decl/StrOwner.h"
+#include "fnv/decl/Twin_00639b40.h"
+#include "fnv/decl/fnv_00714fd0__FUN_00714fd0_shell.h"
+#include "fnv/decl/fnv_0071d380__FUN_0071d380_t.h"
+#include "fnv/decl/fnv_00720e00__FakeMgr.h"
+#include "fnv/decl/fnv_00720e60__FUN_00720e60_shell.h"
+#include "fnv/decl/fnv_00a01b00__TileLoader.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00469000.h"
+#include "fnv/symbols_004a8000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_005cb000.h"
+#include "fnv/symbols_00647000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_00702000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_0070e000.h"
+#include "fnv/symbols_0071d000.h"
+#include "fnv/symbols_007cb000.h"
+#include "fnv/symbols_00a01000.h"
+#include "fnv/symbols_00a08000.h"
+#include "fnv/symbols_00a09000.h"
+#include "fnv/symbols_00a0d000.h"
+#include "fnv/symbols_00a10000.h"
+#include "fnv/symbols_00a1c000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011f4000.h"
 #include "menuconsole_support.h"
 #include "ScriptHeaderData.h"
 
-extern "C" char* __cdecl __insecure_strcpy(char*, const char*);
 extern "C" unsigned int __cdecl strlen(const char*);
 extern "C" int __cdecl sprintf(char*, const char*, ...);
-extern "C" int __cdecl sprintf_s(char*, unsigned int, const char*, ...);
 extern "C" int __cdecl sscanf(const char*, const char*, ...);
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 int __cdecl strcat_s(char*, unsigned int, const char*);
 int __cdecl _mbsicmp(const unsigned char*, const unsigned char*);
-int __cdecl _mbscmp(const unsigned char*, const unsigned char*);
 int __cdecl _mbsnicmp(const unsigned char*, const unsigned char*, unsigned int);
 template <class T> unsigned int BSStringLength(const T*);
 class TaskQueueInterface
@@ -21,19 +63,8 @@ class TaskQueueInterface
   public:
     static void CopyStringToBuffer(char*, unsigned int, const char*);
 };
-void DebugLog(const char*, ...);
 int FUN_0071cfd0(const char*, const char*, unsigned int);
 int FUN_0071cff0(const char*, const char*, unsigned int);
-void FUN_005cbd90(char*, const char*, unsigned int);
-void FUN_0071d030(ConsoleManager*, const char*, ...);
-void FUN_007030c0(int, int);
-void FUN_007038e0(int);
-void FUN_00703920();
-void FUN_00702c80(bool, bool);
-void UpdateMenuTileVisibility();
-int FUN_0070ede0();
-int MinInt(int, int);
-int FUN_00647b70(int, int);
 
 union SETTING_VALUE
 {
@@ -42,10 +73,7 @@ union SETTING_VALUE
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Int();
 };
-extern SettingT_GameSettingCollection_ DAT_011d8cfc;
-extern SettingT_GameSettingCollection_ DAT_011d8d38;
 extern bool DAT_011d8ce4;
 
 class NiFrustum
@@ -63,7 +91,6 @@ class NiCamera
 class NiAVObject
 {
   public:
-    NiNode* GetParent();
 };
 class NiNode : public NiAVObject
 {
@@ -71,7 +98,6 @@ class NiNode : public NiAVObject
 class SkyObject
 {
   public:
-    NiNode* GetRoot();
 };
 class BSFaceGenAnimationData;
 class BSFaceGenNiNode
@@ -89,7 +115,6 @@ class TESForm
     unsigned int auiFormId;
     BSSimpleList<TESFile*> kFiles;
     void NotifySaveLoadGameOfFormChange();
-    unsigned int GetFormID();
 };
 class TESObjectREFR : public TESForm
 {
@@ -210,7 +235,6 @@ class TESObjectREFR : public TESForm
     virtual void vfn_1c8();
     virtual void vfn_1cc();
     virtual NiNode* GetNiNode_v();
-    const char* GetFullName();
 };
 enum COMPILER_NAME
 {
@@ -228,19 +252,13 @@ class Script : public TESForm
     BSSimpleList<ScriptVariableInfo*> m_kVariableList;
     Script();
     virtual ~Script();
-    void SetText(const char*);
-    void CompileScriptText(ScriptCompiler*, COMPILER_NAME, TESObjectREFR*);
 };
 FNV_STATIC_ASSERT(sizeof(Script) == 0x54);
 class Tile
 {
   public:
     virtual ~Tile();
-    void Set(int, float, bool);
     const char* FUN_00700300();
-    Tile* ReadFile(const char*);
-    void SetParent(Tile*, Tile*);
-    static int GetTraitID(const char*);
     static float GetInterfaceScale();
 };
 class TileListBoxCalls : public Tile
@@ -248,18 +266,15 @@ class TileListBoxCalls : public Tile
   public:
     float GetFloat(int);
 };
-Tile* FindNamedTile(Tile*, const char*);
 class Menu
 {
   public:
     virtual ~Menu();
     Tile* tile;
-    static bool ReadMenuDefinition(const char*, Menu*);
 };
 class BookMenu : public Menu
 {
   public:
-    void ReadBook();
 };
 class TileMenu : public Tile
 {
@@ -267,63 +282,43 @@ class TileMenu : public Tile
 class TESResponse
 {
   public:
-    TESResponse* GetNext();
 };
-Menu* FindMenuById(int);
 class TESObjectBOOK : public TESForm
 {
 };
 class TESTopicInfo
 {
   public:
-    TESActorBase* GetSpeaker();
 };
 class StartMenu
 {
   public:
-    static bool Create(bool, bool);
 };
 class InterfaceManager
 {
   public:
-    bool FUN_007023a0();
-    TESObjectREFR* FUN_007031c0();
-    Tile* FUN_004fd400();
     Tile* FUN_00586150();
     void FUN_00500a20(Tile*);
-    void SetNamedMenuOption(int);
     int GetTopEnterStackEntry();
     int GetMenuStackEntry(int);
-    int AddMenuStackEntry(int, bool);
 };
-InterfaceManager* FUN_004b7210();
 class MenuSystem
 {
   public:
     static MenuSystem* Instance(bool);
-    Tile* TileReloadContext(int);
-    bool DeleteMenu(int);
-    Menu* GetFrontmostMenu();
-    bool IsMenuClassVisible(int);
 };
 class RgbaColor;
 class DebugText
 {
   public:
-    static DebugText* Instance(bool);
-    void FUN_00a103e0(char*, float, float, int);
     int Print(const char*, float, float, int, int, float, int, const RgbaColor* = 0);
-    static void FUN_00a10c00(void*, const char*, int, float);
-    static void ClearDebugText();
 };
 class FontManager
 {
   public:
-    static FontManager* __stdcall GetFontManager(bool);
-    void SetByteAtOffset20();
+public:
+    static ::FontManager *Instance();
 };
-void* DynamicCastByRTTI(void*, NiNode*);
-extern unsigned char DAT_011f4428;
 const char* FUN_00700300(Tile*);
 
 class BSFile : public NiFile
@@ -345,7 +340,6 @@ class BSFile : public NiFile
     virtual unsigned int vfn_34(char*, unsigned int, char);
     unsigned char m_fileData[0x154];
     BSFile(const char*, OpenMode, unsigned int, bool);
-    void FUN_00473180(const void*, unsigned int);
     void Close();
 };
 FNV_STATIC_ASSERT(sizeof(BSFile) == 0x158);

@@ -4,6 +4,19 @@
 
 // src/havok/common/serialize/data/hkdataobject.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/data/hkdataobject.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00dc72e0_class.h"
+#include "fnv/decl/FUN_00dc73a0_Holder.h"
+#include "fnv/decl/FUN_00dc73c0_class.h"
+#include "fnv/decl/FUN_00dc7cc0_Class.h"
+#include "fnv/decl/FUN_00dc7dc0_StandIn.h"
+#include "fnv/decl/Owner7320.h"
+#include "fnv/decl/S00dc7d20_Cls.h"
+#include "fnv/decl/hkDataWorldDC76.h"
+#include "fnv/decl/hkDataWorldDictDC7.h"
+#include "fnv/decl/hkObjDC88.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00dba000.h"
 struct FUN_00dba680_cls
 {
     void* vtbl;
@@ -367,7 +380,6 @@ struct ValueProvider
 struct FUN_00dba760_cls
 {
     void* value;
-    void FUN_00dba760(void* newValue);
 };
 struct FUN_00dbaca0_cls
 {
@@ -483,11 +495,9 @@ struct FUN_00dbaf10_cls
     FUN_00dbaf10_callback* vtbl;
     void* p1;
     void* p2;
-    int __thiscall FUN_00dba6f0();
     void __thiscall DispatchRecords(void* records);
 };
 extern char __stdcall Equals(void*);
-bool __stdcall FUN_00dbaf90(void* param_1);
 struct DBAFB0Source
 {
     virtual void unk00();
@@ -1306,7 +1316,6 @@ struct S_00dbaed0_Target
 struct S_00dbaed0_Obj
 {
     S_00dbaed0_Target* m_target;
-    int FUN_00dba730();
     void DispatchItems(S_00dbaed0_Elem** items);
 };
 struct S_Alloc
@@ -1326,7 +1335,6 @@ struct S_Router
     }
 };
 S_Router* FUN_00c85750();
-void FUN_00c908c0(S_Alloc& a, void* arr, int n, int esz);
 struct S_Obj
 {
     virtual void v0();
@@ -1392,7 +1400,7 @@ struct S_Arr
         if (c < n)
         {
             int c2 = c + c;
-            FUN_00c908c0(a, this, (n < c2) ? c2 : n, 16);
+            ::FUN_00c908c0((::SpawnedObject *)&(a), (::SpawnedArray *)(void *)(this), (n < c2) ? c2 : n, 16);
         }
     }
     void SetSizeAndGrow(int n)
@@ -1432,7 +1440,6 @@ struct FUN_00dbac50_cls
     void __thiscall DispatchToVTableSlot8(int a1);
 };
 typedef void(__thiscall* Fnv299Dispatch)(Fnv299VTarget*, int);
-void __cdecl FUN_00dba660();
 struct ObjectValue
 {
     void* object;
@@ -1488,14 +1495,10 @@ struct DB8000_Router
 struct DB8000_Handle
 {
     unsigned int m_00;
-    DB8000_Handle* FUN_00dba650(unsigned int value);
-    void FUN_00dba660();
 };
 struct DB8000_Ref
 {
     void* m_pRetainedObject;
-    void FUN_00dba760(void* p);
-    void FUN_00dba7f0();
 };
 struct DB8000_PtrArray
 {
@@ -1583,7 +1586,6 @@ struct DB8000_ItemArray
     int m_iElementCount;
     int m_iCapacityState;
 };
-extern int __cdecl FUN_00cb0fa0(const char* a, const char* b);
 struct DB8000_Self
 {
     virtual void v0();
@@ -1597,16 +1599,6 @@ struct DB8000_Self
     virtual void v8();
     virtual unsigned int vfn9(const char* name);
 
-    void FUN_00dc7320(DB8000_Handle* h, const char* name);
-    void FUN_00dc73f0(DB8000_Handle* h, int a, int b);
-    void FUN_00dc7d20(DB8000_Handle* h, int a, int b, int c, int d);
-    void FUN_00dc7600(DB8000_Handle* h, int a);
-    void InitAndRun(const char* name, DB8000_PtrArray* out);
-    void AssignRefCountedSlot(DB8000_Handle* h1, DB8000_Handle* h2);
-    void CallWithReset(const char* name, DB8000_PtrArray* out);
-    void FUN_00dc7dc0(DB8000_Ref* ref, DB8000_Handle* h);
-    void ReleaseRef(DB8000_Handle* h);
-    void FUN_00dc72e0(DB8000_Handle* h, int a);
 };
 static int __cdecl FUN_00db8000(DB8000_Self* self, DB8000_ItemArray* items);
 volatile DB8000_Self* g_db8000_self;
@@ -1802,7 +1794,7 @@ struct DataClassResult : FUN_00dba650_cls
     DataClassResult* FUN_00dba650(unsigned int value);
     DataClassResult(unsigned int value)
     {
-        FUN_00dba650(value);
+        reinterpret_cast<::FUN_00dba650_cls *>(this)->FUN_00dba650(value);
     }
 };
 __declspec(noinline) DataClassResult* DataClassResult::FUN_00dba650(unsigned int value)

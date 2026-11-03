@@ -4,7 +4,11 @@
 
 // src/fallout_shared/packagedataescort.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/packagedataescort.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-void _Deallocate(void*);
+#include "fnv/decl/FUN_0067ad20_Class.h"
+#include "fnv/decl/fnv_0067f600__FUN_0067f600_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_01068000.h"
+#include "fnv/symbols_0119b000.h"
 struct TESEscortPackageData
 {
     virtual ~TESEscortPackageData();  // the original class is polymorphic (rtti_variants.py)
@@ -18,9 +22,7 @@ struct LocationDescriptor;
 struct TESPackageData;
 struct FUN_0067ad20_shell
 {
-    void __thiscall FUN_0067ad20();
 };
-extern int DAT_01068960;
 struct FUN_0067bc60_shell
 {
     void* m_vtbl;
@@ -33,6 +35,8 @@ struct LocationDescriptor
     void* m_vtbl;
     int m_flags;
     ~LocationDescriptor();
+public:
+    void Copy(::LocationDescriptor *, bool);
 };
 struct FUN_0067ad70_cls
 {
@@ -48,7 +52,6 @@ struct FUN_0067f030 : LocationDescriptor
     int unk08;
     FUN_0067f030();
     ~FUN_0067f030();
-    void FUN_0067f4d0(LocationDescriptor* pSource, int flags);
 };
 struct TESPackageData
 {
@@ -62,14 +65,12 @@ struct FUN_0067bd30_shell : FUN_0067ad70_cls
     TESForm* m_form;
     void LoadPackageData(BGSLoadFormBuffer* pBuffer);
 };
-extern const int DAT_0119bdec;
 extern const int DAT_0119be60;
 extern TESPackageData* __cdecl FUN_00ec43fb(BGSLoadFormBuffer* pBuffer, int arg2, const void* arg3, const void* arg4,
                                             int arg5);
 
 struct EscortLocationComparison
 {
-    bool __thiscall IsDifferentFrom(LocationDescriptor* compare);
 };
 
 struct EscortComparison
@@ -89,7 +90,7 @@ bool EscortComparison::FUN_0067be40(TESPackageData* compare)
         return true;
     if (m_pPackageTarget)
     {
-        if (reinterpret_cast<EscortLocationComparison*>(m_pPackageTarget)->IsDifferentFrom(other->m_pPackageTarget))
+        if (reinterpret_cast<::fnv_0067f600::FUN_0067f600_shell *>((reinterpret_cast<EscortLocationComparison*>(m_pPackageTarget)))->IsDifferentFrom(other->m_pPackageTarget))
             return true;
     }
     else if (other->m_pPackageTarget)

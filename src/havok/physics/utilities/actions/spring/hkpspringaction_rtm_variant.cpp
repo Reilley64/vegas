@@ -4,8 +4,13 @@
 
 // src/havok/physics/utilities/actions/spring/hkpspringaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/spring/hkpspringaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00c7f690_cls.h"
+#include "fnv/decl/hkpEntityC9C.h"
+#include "fnv/symbols_01013000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_01269000.h"
 #include "havok/hkpSpringAction.h"
-extern int g_unk01269168;
 int* __cdecl FUN_00cf4ef0();
 void* __cdecl _fnv_zlib_memset(void* pvDst, int iValue, unsigned int uiNumBytes);
 struct hkShape00D4F0
@@ -104,8 +109,6 @@ struct FUN_00cf4d80
     FUN_00cf4d80(void* a, void* b, unsigned long c);
 };
 extern int DAT_010d08f4;
-extern float DAT_01013974;
-extern float DAT_0101e2bc;
 struct FUN_00d4d340 : FUN_00cf4d80
 {
     FUN_00d4d340(void* a, void* b, unsigned long c);
@@ -139,7 +142,6 @@ struct hkVector4D4D3
 {
     __m128 m_vComponents;
 
-    void FUN_00c7f690(const hkTransformD4D3& kT, const hkVector4D4D3& kV);
     void setSub4(const hkVector4D4D3& a, const hkVector4D4D3& b)
     {
         m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents);
@@ -186,7 +188,6 @@ class hkpStiffSpringWrapperD4D3 : public hkBaseObjectD4D3
 
 extern "C" void _mm_store_ps(float*, __m128);
 extern "C" __m128 _mm_load_ps1(const float*);
-extern const float DAT_01017d00;
 struct __declspec(align(16)) SpringVector
 {
     __m128 q;
@@ -240,10 +241,9 @@ class hkpEntity
     unsigned unkE4, unkE8, unkEC;
     hkTransform transform;
     void __thiscall FUN_00ca0c40(const SpringVector* point, SpringVector* velocity);
-    void __thiscall FUN_00c9c1d0();
     void ApplyForceAtPoint(float dt, const hkVector4& force, const SpringVector& point)
     {
-        FUN_00c9c1d0();
+        reinterpret_cast<::hkpEntityC9C *>(this)->FUN_00c9c1d0();
         motion.apply(dt, &force, &point);
     }
 };
@@ -306,7 +306,7 @@ void SpringAction::FUN_00d4d530(const SpringStep& step)
     SpringVector pointA, pointB, direction, velocityA, velocityB;
     pointA.FUN_00c7f640(&a->transform, &m_kPositionA);
     pointB.FUN_00c7f640(&b->transform, &m_kPositionB);
-    float tolerance = DAT_01017d00;
+    float tolerance = ::AngularDashpotApplyD4DCB0::DAT_01017d00;
     __m128 displacement = _mm_sub_ps(pointB.get(), pointA.get());
     float length = SpringLength3(displacement);
     if (tolerance > length)

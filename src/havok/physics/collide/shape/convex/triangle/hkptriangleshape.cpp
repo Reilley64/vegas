@@ -2,16 +2,24 @@
 // src/havok/physics/collide/shape/convex/triangle/hkptriangleshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/triangle/hkptriangleshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00c7f690_cls.h"
+#include "fnv/decl/FunctionContext.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0106c000.h"
+#include "fnv/symbols_010c9000.h"
+#include "fnv/symbols_011b3000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 #include "havok/hkpTriangleShape.h"
 
-extern char const* const g_01268970_arg1;
 
-void __cdecl FUN_00c90360(char const*, char const* const*);
 
 // @fnv 0x00d1fee0
 void __cdecl FUN_00d1fee0(char const* arg1, char const* const* arg2)
 {
-    FUN_00c90360(arg1, &g_01268970_arg1);
+    reinterpret_cast<::FunctionContext *>((void *)(arg1))->FUN_00c90360((void *)(&(*reinterpret_cast<const char *const *>(&::g_01268940))), {});
 }
 
 // FUN_00d1ff10: hkpTriangleShape helper returning (m_ucWeldingPadding + 1) * 3.
@@ -45,7 +53,6 @@ extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_load_ss(const float* p);
 extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 extern "C" void _mm_store_ps(float* p, __m128 a);
-extern float DAT_0106c2e0;
 
 class FUN_00d1ff40_cls {
 public:
@@ -89,9 +96,6 @@ extern "C" __m128 _mm_rsqrt_ss(__m128);
 extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
 extern "C" __m128 _mm_andnot_ps(__m128, __m128);
 extern "C" __m128 _mm_set_ss(float);
-extern const float DAT_01011d78;
-extern const float DAT_01017718;
-extern const float DAT_01016248;
 
 // Computes the normalized cross product of two edge vectors and writes the result to out.
 // @fnv 0x00d1ff80
@@ -116,7 +120,7 @@ static __declspec(noinline) void FUN_00d1ff80(const __m128* apVertexA, const __m
     __m128 zero = _mm_set_ss(DAT_01011d78);
     __m128 mask = _mm_cmpeq_ss(length, zero);
     __m128 delta = _mm_sub_ss(_mm_set_ss(DAT_01017718), r2);
-    __m128 newtonFactor = _mm_mul_ss(_mm_mul_ss(_mm_set_ss(DAT_01016248), r), delta);
+    __m128 newtonFactor = _mm_mul_ss(_mm_mul_ss(_mm_set_ss(::fnv_00c88020::DAT_01016248), r), delta);
     __m128 scale = _mm_andnot_ps(mask, newtonFactor);
     *apNormal = _mm_mul_ps(_mm_shuffle_ps(scale, scale, 0), crossProduct);
 }
@@ -270,6 +274,7 @@ void TriangleSupport::FUN_00d20270(float const* pf, float* out)
 }
 
 #include <math.h>
+#include "fnv/symbols_simd.h"
 
 
 
@@ -280,12 +285,10 @@ extern "C" __m128 _mm_movelh_ps(__m128, __m128);
 extern "C" __m128 _mm_movehl_ps(__m128, __m128);
 extern "C" int _mm_movemask_ps(__m128);
 
-extern int DAT_011b3b4c[];
 extern int DAT_011b3b50[];
 extern float DAT_011b3b38[];
 // hkpWeldingUtility sin/cos table: cosAccept0, sinAccept0, cosSnap0, cosSnap1, cosAccept1, sinAccept1
 struct FloatArray6 { float value[6]; };
-extern FloatArray6 DAT_01269210[];
 
 static __forceinline float scalar(__m128 v) { float out; _mm_store_ss(&out, v); return out; }
 static __forceinline __m128 splat(__m128 v) { return _mm_shuffle_ps(v, v, 0); }
@@ -306,7 +309,7 @@ static __forceinline __m128 normalized3(__m128 v) {
     __m128 estimate = _mm_rsqrt_ss(length);
     __m128 zero = _mm_set_ss(DAT_01011d78);
     __m128 three = _mm_set_ss(DAT_01017718);
-    __m128 half = _mm_set_ss(DAT_01016248);
+    __m128 half = _mm_set_ss(::fnv_00c88020::DAT_01016248);
     __m128 zeroMask = _mm_cmpeq_ss(length, zero);
     __m128 product = _mm_mul_ss(_mm_mul_ss(length, estimate), estimate);
     __m128 correction = _mm_mul_ss(_mm_mul_ss(half, estimate), _mm_sub_ss(three, product));
@@ -321,17 +324,16 @@ static __forceinline bool shouldSnapOneSided(unsigned int type, const __m128& fa
 static __forceinline int getSector(unsigned int code, const __m128& face, const __m128& normal) {
     float alignment = scalar(dot3(face, normal));
     int cone;
-    if (alignment >= DAT_01269210[code].value[0]) cone = 1;
-    else if (alignment >= DAT_01269210[code].value[2]) cone = 0;
-    else if (alignment >= DAT_01269210[code].value[3]) cone = 2;
-    else if (alignment >= DAT_01269210[code].value[4]) cone = 4;
+    if (alignment >= (*reinterpret_cast<FloatArray6 (*)[]>(&::DAT_01269210))[code].value[0]) cone = 1;
+    else if (alignment >= (*reinterpret_cast<FloatArray6 (*)[]>(&::DAT_01269210))[code].value[2]) cone = 0;
+    else if (alignment >= (*reinterpret_cast<FloatArray6 (*)[]>(&::DAT_01269210))[code].value[3]) cone = 2;
+    else if (alignment >= (*reinterpret_cast<FloatArray6 (*)[]>(&::DAT_01269210))[code].value[4]) cone = 4;
     else cone = 3;
     return cone;
 }
 struct VectorOperations {
     __m128 value;
     void FUN_00c7f700(const hkRotation*, const __m128*);
-    void FUN_00c7f690(const hkTransform*, const hkVector4*);
     void FUN_00c7f640(const hkTransform*, const VectorOperations&);
 };
 struct SupportShape {
@@ -359,13 +361,13 @@ int TriangleWelding::FUN_00d203f0(unsigned short* indices, unsigned char* count,
     SupportShape* source, const hkTransform* sourceTransform, hkVector4* output) {
     unsigned int weldingType = m_eWeldingType;
     if (weldingType == 6) return 2;
-    int edge = DAT_011b3b4c[indices[0]];
+    int edge = (*reinterpret_cast<int (*)[]>(&::DAT_011b3b4c))[indices[0]];
     unsigned char sectors = *count;
     if (sectors > 1) {
-        int other = DAT_011b3b4c[indices[1]];
+        int other = (*reinterpret_cast<int (*)[]>(&::DAT_011b3b4c))[indices[1]];
         if (sectors == 3) {
             if (indices[0] + indices[1] + indices[2] == 3) return 2;
-            if (other == edge) other = DAT_011b3b4c[indices[2]];
+            if (other == edge) other = (*reinterpret_cast<int (*)[]>(&::DAT_011b3b4c))[indices[2]];
             *count = 2;
             indices[0] = (unsigned short)edge;
             indices[1] = (unsigned short)other;
@@ -404,8 +406,8 @@ int TriangleWelding::FUN_00d203f0(unsigned short* indices, unsigned char* count,
     unsigned int code = (m_kWeldingInfo >> ((signed char)edge * (signed char)5)) & 31;
 
     if (weldingType != 5) {
-        if (!shouldSnapOneSided(weldingType, face, localNormal, DAT_01269210[code].value)) return 2;
-        const float* limits = DAT_01269210[code].value;
+        if (!shouldSnapOneSided(weldingType, face, localNormal, (*reinterpret_cast<FloatArray6 (*)[]>(&::DAT_01269210))[code].value)) return 2;
+        const float* limits = (*reinterpret_cast<FloatArray6 (*)[]>(&::DAT_01269210))[code].value;
         __m128 angleCos = _mm_load_ss(limits + weldingType);
         __m128 angleSin = _mm_load_ss(limits + weldingType + 1);
         corrected.value = normalized3(_mm_add_ps(
@@ -415,7 +417,7 @@ int TriangleWelding::FUN_00d203f0(unsigned short* indices, unsigned char* count,
         if (m_ucWeldingPadding) {
             faceTemporary.value = _mm_mul_ps(_mm_load_ps1(DAT_011b3b38 + weldingType), faceTemporary.value);
             VectorOperations localPosition;
-            localPosition.FUN_00c7f690(transform, position);
+            reinterpret_cast<::FUN_00c7f690_cls *>(&(localPosition))->FUN_00c7f690((const ::S_00c7f690_M *)(transform), (const ::S_00c7f690_V *)(position));
             separation = FUN_00c9e0f0(scalar(dot3(_mm_sub_ps(localPosition.value, *(const __m128*)&m_kVertexA), faceTemporary.value)), separation);
         } else {
             VectorOperations support;
@@ -433,7 +435,7 @@ int TriangleWelding::FUN_00d203f0(unsigned short* indices, unsigned char* count,
         default: return 2;
         }
         if (*count == 1) return 0;
-        const FloatArray6& entry = DAT_01269210[code];
+        const FloatArray6& entry = (*reinterpret_cast<FloatArray6 (*)[]>(&::DAT_01269210))[code];
         __m128 angleCos = _mm_load_ss(&entry.value[cone]);
         __m128 angleSin = _mm_load_ss(&entry.value[cone + 1]);
         __m128 correction = normalized3(_mm_add_ps(
@@ -628,7 +630,6 @@ MASK_XZW=13,
 MASK_YZW=14,
 MASK_XYZW=15
 };
-static const Mask ms_kLaneMasks[4];
 __forceinline void setAnd(hkVector4ComparisonParameter a,hkVector4ComparisonParameter b){m_uiMask=_mm_and_ps(a.m_uiMask,b.m_uiMask);}
 __forceinline void setOr(hkVector4ComparisonParameter a,hkVector4ComparisonParameter b){m_uiMask=_mm_or_ps(a.m_uiMask,b.m_uiMask);}
 __forceinline void setNot(hkVector4ComparisonParameter a)
@@ -647,7 +648,6 @@ hkQuadReal e=_mm_rcp_ps(r);
 return _mm_sub_ps(_mm_add_ps(e,e),_mm_mul_ps(_mm_mul_ps(e,r),e));
 }
 }
-extern const hkQuadReal g_kQuadRealConstant;
 class hkTransform_S;
 class hkVector4_S
 {
@@ -844,8 +844,7 @@ class StringCursor
 public:
 __forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}static StringCursor&GetMonitorStream()
 {
-extern hkThreadLocalData<StringCursor*>g_pMonitorStream;
-return*g_pMonitorStream.getData();
+return*(*reinterpret_cast<::hkThreadLocalData< ::StringCursor *> *>(&::DAT_0126835c)).getData();
 }
 public:
 __forceinline char*__cdecl GetStreamStart(){return m_kRayStart.val();}
@@ -1234,7 +1233,7 @@ kComparisonMask.setAnd(kComparisonMask,distMask);
 hkVector4_S proj_length;proj_length.setSub4(dist_a,dist_b);
 hkVector4_S distance;distance.setReciprocal4(proj_length);
 distance.mul4(dist_a);
-hkVector4_S oneMinusDistance;oneMinusDistance.getQuad()=g_kQuadRealConstant;
+hkVector4_S oneMinusDistance;oneMinusDistance.getQuad()=::DAT_010c7170;
 oneMinusDistance.sub4(distance);
 const hkQuadReal edgeToleranceMul={-1e-4f,-1e-4f,-1e-4f,-1e-4f};
 hkVector4_S edge_tolerance;edge_tolerance.getQuad()=edgeToleranceMul;
@@ -1265,7 +1264,7 @@ Vector4Comparison ok20=dots20.compareGreaterThanEqual4(edge_tolerance);
 kComparisonMask.setAnd(kComparisonMask,ok20);
 for(int i=0;i<4;i++)
 {
-if(kComparisonMask.anyIsSet(Vector4Comparison::ms_kLaneMasks[i]))
+if(kComparisonMask.anyIsSet((*reinterpret_cast<const Vector4Comparison::Mask (*)[4]>(&::DAT_010c92e0))[i]))
 {
 triangleNormal.normalize3();
 results.m_akRayOutputs[i].m_fHitFraction=distance(i);

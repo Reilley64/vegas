@@ -1,5 +1,14 @@
 // gamebryo2.2/corelibs/nianimation/nisingleinterpcontroller.cpp: NiSingleInterpController, BSMultiTargetTreadTransfControllerStandIn (20 functions)
 
+#include <new>
+#include "fnv/decl/C27120Class.h"
+#include "fnv/decl/FUN_00a6d220.h"
+#include "fnv/decl/NiInterpControllerFlagCheck.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a2f000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_011f3000.h"
 #include "nisingleinterpcontroller_decls.h"
 // Calls the base NiTimeController::ProcessClone, then forwards the clone process to the interpolator if one is set.
 // @fnv 0x00a38f50
@@ -30,12 +39,11 @@ void NiSingleInterpController::LoadBinary(NiStream& stream)
 }
 
 extern int DAT_0109632c;
-void __fastcall FUN_00a6d220(void*);
 
 // @fnv 0x00a2f8c0
 void* __fastcall FUN_00a2f8c0(void* pThis)
 {
-    FUN_00a6d220(pThis);
+    new ((void *)(pThis)) class ::FUN_00a6d220();
     *((unsigned short*)pThis + 4) &= 0xffdf;
     *(int**)pThis = &DAT_0109632c;
     return pThis;
@@ -46,12 +54,11 @@ struct FUN_00a38e20_shell : public NiSingleInterpController
     void* FUN_00a38e20();
 };
 
-extern const char* const g_011f36ec_arg1;
 
 // @fnv 0x00a38e20
 void* FUN_00a38e20_shell::FUN_00a38e20()
 {
-    return const_cast<void*>(static_cast<const void*>(&g_011f36ec_arg1));
+    return const_cast<void*>(static_cast<const void*>(&(*reinterpret_cast<const char *const *>(&::g_011f3714))));
 }
 
 struct NiBlendInterpolator;
@@ -112,12 +119,11 @@ struct FUN_00a2f8e0_shell : public NiInterpController
     void* FUN_00a2f8e0();
 };
 
-extern const char* const g_011f36bc_arg1;
 
 // @fnv 0x00a2f8e0
 void* FUN_00a2f8e0_shell::FUN_00a2f8e0()
 {
-    return (void*)&g_011f36bc_arg1;
+    return (void*)&(*reinterpret_cast<const char *const *>(&::g_011f36b4));
 }
 
 struct FUN_00a38df0_shell
@@ -299,7 +305,6 @@ bool FUN_00a38fe0_shell::RegisterInterpolatorStreamables(NiStream& kStream)
 
 struct S00c27120
 {
-    void FUN_00c27120(class NiStream&);
 };
 struct FUN_00a39010_shell : NiSingleInterpController
 {
@@ -308,18 +313,14 @@ struct FUN_00a39010_shell : NiSingleInterpController
 // @fnv 0x00a39010
 void FUN_00a39010_shell::FUN_00a39010(NiStream& kStream)
 {
-    ((S00c27120*)this)->FUN_00c27120(kStream);
+    reinterpret_cast<::C27120Class *>((((S00c27120*)this)))->FUN_00c27120(kStream);
     ((void(__thiscall*)(NiStream*, NiInterpolator*))(*(void***)&kStream)[12])(&kStream,
                                                                               *(NiInterpolator**)((char*)this + 0x34));
 }
 
 struct StrArr
 {
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
-char* _FUN_00a7d330(char const*);
-extern char const* const g_011f36ec_arg1;
 struct BaseWrap
 {
     void WriteManagerControlledFlag(StrArr*);
@@ -360,11 +361,11 @@ struct Holder00a390a0
 void Holder00a390a0::FUN_00a390a0(StrArr* pkStrings)
 {
     ((BaseWrap*)this)->WriteManagerControlledFlag(pkStrings);
-    char* psz = _FUN_00a7d330(g_011f36ec_arg1);
+    char* psz = ::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f3714)));
     unsigned int uiIdx = *(unsigned short*)((char*)pkStrings + 0xA);
     if (uiIdx >= *(unsigned short*)((char*)pkStrings + 8))
-        pkStrings->SetSize(uiIdx + *(unsigned short*)((char*)pkStrings + 0xE));
-    pkStrings->SetAt(uiIdx, psz);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(uiIdx + *(unsigned short*)((char*)pkStrings + 0xE));
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiIdx, psz);
     InterpWrap* pInterp = *(InterpWrap**)((char*)this + 0x34);
     if (pInterp)
         pInterp->GetViewerStrings(pkStrings);
@@ -450,7 +451,6 @@ bool FUN_00a39030_cls::IsCompatibleWith(NiSingleInterpController* other)
     return true;
 }
 
-extern "C" short DAT_01096320;
 
 struct Holder
 {
@@ -485,7 +485,7 @@ short FUN_00a39080_cls::FUN_00a39080(int* piValue)
     {
         return 0;
     }
-    return DAT_01096320;
+    return (*reinterpret_cast<short *>((void *)&::NiInterpController::INVALID_INDEX));
 }
 
 class NiTargetA38
@@ -574,7 +574,6 @@ class NiTimeControllerA38
     {
         return (bool)(GetField(MANAGERCONTROLLED_MASK, MANAGERCONTROLLED_POS) & 1);
     }
-    void AdvanceControllerTime();
     void UpdateKeyTimes();
 
     void* m_ppVirtualMethodTable;
@@ -599,17 +598,16 @@ void NiTimeControllerA38::UpdateKeyTimes()
 {
     if (GetManagerControlled())
         return;
-    AdvanceControllerTime();
+    reinterpret_cast<::NiInterpControllerFlagCheck *>(this)->ResetIfFlagClear();
     if (m_spControllerInterpolator)
         m_spControllerInterpolator->GetBeginEndKeyTimes(&m_fLoKeyTime, &m_fHiKeyTime);
 }
 
-extern void FUN_00c9a6b0();
 
 // @fnv 0x00a35850
 void FUN_00a35850()
 {
-    FUN_00c9a6b0();
+    static_cast<::NiInterpController *>(nullptr)->LinkObject(*(::NiStream *)nullptr);
 }
 
 struct A30440Stream;
@@ -624,7 +622,7 @@ struct FUN_00a35870 : A30440Controller
 // @fnv 0x00a35870
 void FUN_00a35870::DoSave(A30440Stream& arStream)
 {
-    SaveBinary(arStream);
+    reinterpret_cast<::C27120Class *>(this)->FUN_00c27120((::NiStream &)(arStream));
 }
 
 unsigned short __cdecl FUN_00c283f0(void*, void*);
@@ -708,9 +706,8 @@ unsigned short BSMultiTargetTreadTransfControllerStandIn::FUN_00a35890()
     return unk38;
 }
 
-void __cdecl FUN_00a2f8b0(int arg);
 // @fnv 0x00a35860
 void __cdecl FUN_00a35860(int arg)
 {
-    FUN_00a2f8b0(arg);
+    ::FUN_00a2f8b0();
 }

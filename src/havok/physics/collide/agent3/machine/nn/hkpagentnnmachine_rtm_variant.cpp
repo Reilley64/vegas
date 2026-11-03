@@ -4,6 +4,17 @@
 
 // src/havok/physics/collide/agent3/machine/nn/hkpagentnnmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/machine/nn/hkpagentnnmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/SearchObject.h"
+#include "fnv/decl/hkTransformCB22.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cf1000.h"
+#include "fnv/symbols_00cfd000.h"
+#include "fnv/symbols_00cfe000.h"
+#include "fnv/symbols_00cff000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 struct LinkEntry
 {
     void* m_pIntegerData;
@@ -34,7 +45,6 @@ struct LinkNode
     LinkEntry* m_pEntries;
     int m_iArrayLength;
 };
-void* __cdecl FindEntryValue(LinkNode* apFirst, LinkNode* apSecond);
 // Stand-in for the game's record descriptor:
 //   +0x00  base address used for the last record
 //   +0x04  array of 4-byte record pointers
@@ -72,7 +82,6 @@ struct FnvCtx
     int unk10;
     int unk14;
 };
-void GetNodePairValue(FnvNode** ppA, FnvNode** ppB, FnvCtx* pCtx, int* pOutVal, int* pOutFlag);
 struct CFE820Allocator
 {
     virtual void unk00();
@@ -92,7 +101,6 @@ struct CFE820MemoryRouter
     }
 };
 extern "C" CFE820MemoryRouter& __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void* alloc, void* array, int sizeElem);
 struct CFE820BlockArray
 {
     char** m_data;
@@ -114,7 +122,7 @@ struct CFE820BlockArray
     {
         CFE820Allocator& alloc = FUN_00c85750().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&alloc, this, sizeof(char*));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(char*));
         construct(m_data + m_iElementCount, 1, e);
         m_iElementCount++;
     }
@@ -204,17 +212,13 @@ struct __declspec(align(16)) FUN_00cfeba0_Node
     int unka8;
     int unkac;
 };
-void* __cdecl FUN_00cfe1d0(void* h, void* a, void* b, unsigned int n, void* c);
-void __cdecl FUN_00cfeba0(FUN_00cfeba0_Obj* self, void** apCallbackTable, void* a3);
 struct ItemStack
 {
     int m_base;
     int* m_pItems;
     int m_uiItemCount;
 };
-void __cdecl FUN_00cfea30(ItemStack* s, int value, int a, int b);
 void __cdecl FUN_00cfed90(ItemStack* s, int a, int b);
-extern const float DAT_01012054;
 struct FUN_00cfdc90_Obj
 {
     unsigned char type;
@@ -234,7 +238,6 @@ struct FUN_00cfdc90_Obj
     int unk30;
 };
 typedef void(__cdecl* FUN_00cfdc90_Fn)(FUN_00cfdc90_Obj* self, void* p, float a, float b, void* ctx);
-void __cdecl DispatchSlotCallback(FUN_00cfdc90_Obj* obj, float x, float y, void* ctx);
 struct hkpLinkedCollidableCFEA;
 struct hkpAgentNnEntryCFEA;
 typedef void(__cdecl* hkAgent3DestroyFuncCFEA)(hkpAgentNnEntryCFEA* entry, void* agentData, void* contactMgr,
@@ -495,7 +498,7 @@ struct hkCollisionEntryArrayCFEA
         int totalSize = hkNextPowerOf2CFEA(m_iElementCount + numFreeElemsLeft);
         if (totalSize < getCapacity())
         {
-            FUN_00c909d0(&alloc, this, sizeof(hkpCollisionEntryCFEA), 0, totalSize);
+            ::fnv_00c909d0::FUN_00c909d0((*(::fnv_00c909d0::hkMemoryAllocator *)(&alloc)), this, sizeof(hkpCollisionEntryCFEA), 0, totalSize);
         }
     }
 };
@@ -505,9 +508,6 @@ struct hkpLinkedCollidableCFEA
     int unk28, unk2c, unk30, unk34, unk38, unk3c, unk40, unk44, unk48, unk4c;
     hkCollisionEntryArrayCFEA m_kCollisionEntries;
 };
-void __cdecl FUN_00cfe020(void* track, hkpAgentNnEntryCFEA* entry);
-void __cdecl FUN_00cfea30(void* track, hkpAgentNnEntryCFEA* entry, hkpCollisionDispatcherCFEA* dispatch,
-                          void* constraintOwner);
 struct hkpAgentNnSectorCFF2;
 struct hkpAgentNnEntryCFF2;
 static __forceinline int hkNextPowerOf2CFF2(unsigned int in)
@@ -564,7 +564,6 @@ struct hkSectorArrayCFF2
         m_iElementCount--;
     }
 
-    void Search(hkMemoryAllocatorCFF2& alloc, int index, hkpAgentNnSectorCFF2* const* p, int numToInsert);
 
     __forceinline void OptimizeCapacity(int numFreeElemsLeft)
     {
@@ -587,8 +586,6 @@ struct hkpAgentNnTrackCFF2
     int m_iBytesUsedInLastSector;
     hkSectorArrayCFF2 m_kSectors;
 };
-void __cdecl CloneRecord(hkpAgentNnTrackCFF2* track, hkpAgentNnEntryCFF2* entry);
-void __cdecl FUN_00cff290(hkpAgentNnTrackCFF2* track, hkpAgentNnTrackCFF2* appendee);
 extern "C" void _ReadWriteBarrier(void);
 struct S_cfe020_Entry;
 struct S_cfe020_Slot
@@ -733,11 +730,11 @@ struct S_cfe020_Blocks
             int newCap = n + 1;
             if (newCap < 1)
             {
-                FUN_00c909d0((S_cfe020_Heap*)&FUN_00c85750().heap(), &data, 4, &local, 1);
+                ::fnv_00c909d0::FUN_00c909d0((*(::fnv_00c909d0::hkMemoryAllocator *)((S_cfe020_Heap*)&FUN_00c85750().heap())), &data, 4, &local, 1);
             }
             else if (newCap < (cap & 0x3fffffff))
             {
-                FUN_00c909d0((S_cfe020_Heap*)&FUN_00c85750().heap(), &data, 4, 0, newCap);
+                ::fnv_00c909d0::FUN_00c909d0((*(::fnv_00c909d0::hkMemoryAllocator *)((S_cfe020_Heap*)&FUN_00c85750().heap())), &data, 4, 0, newCap);
             }
         }
     }
@@ -747,7 +744,6 @@ struct S_cfe020_Pool
     int used;
     S_cfe020_Blocks blocks;
 };
-void FUN_00cfe020(S_cfe020_Pool* pool, S_cfe020_Entry* dest);
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
@@ -767,7 +763,7 @@ struct LinkArray
     {
         CFE820Allocator& alloc = FUN_00c85750().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&alloc, this, sizeof(LinkEntry));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(LinkEntry));
         LinkEntry* ret = &m_data[m_iElementCount];
         m_iElementCount++;
         return ret;
@@ -809,7 +805,6 @@ struct CollidableBody
 struct __declspec(align(16)) Transform
 {
     __m128 column0, column1, column2, translation;
-    void __thiscall FUN_00cb22f0(const Transform& t1, const Transform& t2);
 };
 struct CollisionAgentEntry;
 template <typename T> class ValueWrapper
@@ -917,9 +912,6 @@ struct CollisionAgentEntry
     int unk1c;
     __m128 m_vSeparatingNormal;
 };
-CollisionAgentEntry* __cdecl FUN_00cfe8a0(CFE820Pool* pool, CollidableNode* nodeA, CollidableBody* bodyA,
-                                          CollidableNode* nodeB, CollidableBody* bodyB, unsigned char flags,
-                                          int qualityType, Dispatcher* dispatcher, void* island);
 __inline __m128 quadZero()
 {
     return _mm_setzero_ps();
@@ -1008,7 +1000,6 @@ struct PairTemporary
     PairBody a, b;
     Transform ta, tb;
 };
-void __cdecl FUN_00cf1510(const SweptPose&, float, Transform&);
 static void FUN_00cfde10(PairInput& out, PairInput& in, PairTemporary& temp);
 PairInput* volatile pairIn;
 PairTemporary* volatile pairTemp;
@@ -1109,7 +1100,6 @@ class hkTransformCFE3
 {
   public:
     hkVector4CFE3 m_kColumn0, m_kColumn1, m_kColumn2, m_vTranslation;
-    void FUN_00cb22f0(const hkTransformCFE3& a, const hkTransformCFE3& b);
 };
 
 class hkSweptTransformCFE3
@@ -1147,7 +1137,6 @@ class hkMotionStateCFE3
     }
 };
 
-void __cdecl FUN_00cf1510(const hkSweptTransformCFE3& st, hkReal t, hkTransformCFE3& out);
 
 class hkpShapeCFE3;
 
@@ -1388,7 +1377,6 @@ struct hkAgentNnMachineBodyTempCFE3
     hkTransformCFE3 m_kTransformB;
 };
 
-void* __cdecl FUN_00cfe1d0(void* h, void* a, void* b, unsigned int n, void* c);
 
 enum
 {
@@ -1423,10 +1411,10 @@ static __forceinline void calcTimInfoCFE3(const hkMotionStateCFE3& ms0, const hk
 static __forceinline void initInputAtTimeCFE3(hkpAgent3InputCFE3& in, hkAgentNnMachineBodyTempCFE3& bodyTemp,
                                               hkpAgent3InputCFE3& out)
 {
-    FUN_00cf1510(in.m_pBodyA->GetMotionState()->getSweptTransform(), in.m_pRayCastInput->m_pStepInfo.m_uiStartTime,
-                 bodyTemp.m_kTransformA);
-    FUN_00cf1510(in.m_pBodyB->GetMotionState()->getSweptTransform(), in.m_pRayCastInput->m_pStepInfo.m_uiStartTime,
-                 bodyTemp.m_kTransformB);
+    ::FUN_00cf1510((const ::hkSweptTransformL &)(in.m_pBodyA->GetMotionState()->getSweptTransform()), in.m_pRayCastInput->m_pStepInfo.m_uiStartTime,
+                 (::hkTransformL &)(bodyTemp.m_kTransformA));
+    ::FUN_00cf1510((const ::hkSweptTransformL &)(in.m_pBodyB->GetMotionState()->getSweptTransform()), in.m_pRayCastInput->m_pStepInfo.m_uiStartTime,
+                 (::hkTransformL &)(bodyTemp.m_kTransformB));
 
     out.m_pBodyA = &bodyTemp.m_pBodyA;
     out.m_pBodyB = &bodyTemp.m_pBodyB;
@@ -1438,7 +1426,7 @@ static __forceinline void initInputAtTimeCFE3(hkpAgent3InputCFE3& in, hkAgentNnM
     new (&bodyTemp.m_pBodyA) hkpCdBodyCFE3(in.m_pBodyA, &bodyTemp.m_kTransformA);
     new (&bodyTemp.m_pBodyB) hkpCdBodyCFE3(in.m_pBodyB, &bodyTemp.m_kTransformB);
 
-    out.m_kTransform.FUN_00cb22f0(bodyTemp.m_kTransformA, bodyTemp.m_kTransformB);
+    reinterpret_cast<::hkTransformCB22 *>(&(out.m_kTransform))->FUN_00cb22f0((const ::hkTransformCB22 &)(bodyTemp.m_kTransformA), (const ::hkTransformCB22 &)(bodyTemp.m_kTransformB));
 }
 
 extern "C"
@@ -1464,8 +1452,8 @@ extern "C"
         case STREAM_CALL_WITH_TIM_WITH_TRANSFORM_CFE3:
         case STREAM_CALL_AGENT_WITH_TRANSFORM_CFE3: {
             hkUchar dummy;
-            cdBodyA = (const hkpCdBodyCFE3*)FUN_00cfe1d0((void*)cdBodyA, cdBodiesA, motionStatesA, 4, &dummy);
-            cdBodyB = (const hkpCdBodyCFE3*)FUN_00cfe1d0((void*)cdBodyB, cdBodiesB, motionStatesB, 4, &dummy);
+            cdBodyA = (const hkpCdBodyCFE3*)((void *)(::FUN_00cfe1d0((::Entry *)(void *)((void*)cdBodyA), (::Entry *)(cdBodiesA), (::Vector *)(motionStatesA), 4, (unsigned char *)(void *)(&dummy))));
+            cdBodyB = (const hkpCdBodyCFE3*)((void *)(::FUN_00cfe1d0((::Entry *)(void *)((void*)cdBodyB), (::Entry *)(cdBodiesB), (::Vector *)(motionStatesB), 4, (unsigned char *)(void *)(&dummy))));
             command = hkUchar(command) & hkUchar(~TRANSFORM_FLAG_CFE3);
             goto commandSwitch;
         }
@@ -1488,7 +1476,7 @@ extern "C"
             const hkMotionStateCFE3* msA = in3.m_pBodyA->GetMotionState();
             const hkMotionStateCFE3* msB = in3.m_pBodyB->GetMotionState();
             calcTimInfoCFE3(*msA, *msB, in3.m_pRayCastInput->m_pStepInfo.m_fTimeStep, in3.m_vSubtypePosition);
-            in3.m_kTransform.FUN_00cb22f0(msA->getTransform(), msB->getTransform());
+            reinterpret_cast<::hkTransformCB22 *>(&(in3.m_kTransform))->FUN_00cb22f0((const ::hkTransformCB22 &)(msA->getTransform()), (const ::hkTransformCB22 &)(msB->getTransform()));
 
             void* agentData = e + 1;
             input.m_pCollisionDispatcher->getAgent3ProcessFunc(entry->m_ucNnTrackType)(in3, entry, agentData, 0,
@@ -1544,7 +1532,7 @@ extern "C"
             }
         PROCESS_AT_T1:
             in3.m_fSubtypeValue = dist;
-            in3.m_kTransform.FUN_00cb22f0(msA->getTransform(), msB->getTransform());
+            reinterpret_cast<::hkTransformCB22 *>(&(in3.m_kTransform))->FUN_00cb22f0((const ::hkTransformCB22 &)(msA->getTransform()), (const ::hkTransformCB22 &)(msB->getTransform()));
             input.m_pCollisionDispatcher->getAgent3ProcessFunc(entry->m_ucNnTrackType)(in3, entry, agentData,
                                                                                        &e->m_vSeparatingNormal, output);
             break;
@@ -1562,7 +1550,6 @@ void hkAgentNnMachine_ProcessAgentCFE3(hkpAgentNnEntryCFE3* entry, const hkpProc
     FUN_00cfe370(entry, input, numTim, output, mgr);
 }
 
-extern float DAT_0104da48;
 
 extern "C"
 {
@@ -1663,10 +1650,9 @@ class hkTransformCFT
 {
   public:
     hkVector4CFT m_kColumn0, m_kColumn1, m_kColumn2, m_vTranslation;
-    void FUN_00cb22f0(const hkTransformCFT& a, const hkTransformCFT& b);
     void SetMulInverse(const hkTransformCFT& a, const hkTransformCFT& b)
     {
-        FUN_00cb22f0(a, b);
+        reinterpret_cast<::hkTransformCB22 *>(this)->FUN_00cb22f0((const ::hkTransformCB22 &)(a), (const ::hkTransformCB22 &)(b));
     }
 };
 
@@ -1705,7 +1691,6 @@ class hkMotionStateCFT
     }
 };
 
-void __cdecl FUN_00cf1510(const hkSweptTransformCFT& st, hkReal t, hkTransformCFT& out);
 
 class hkpShapeCFT;
 
@@ -1917,7 +1902,7 @@ struct TrackToi
     int unk28, unk2c;
     int cache0, cache1, cache2, cache3;
     TrackProperties properties;
-    TrackToi() : time(DAT_0104da48)
+    TrackToi() : time(::DAT_0104da48)
     {}
 };
 struct hkpProcessCollisionOutputCFT
@@ -1936,7 +1921,7 @@ struct hkpProcessCollisionOutputCFT
     __forceinline void reset()
     {
         m_pAlignedPairData = &m_akContactPoints[0];
-        m_fTimeOfImpact.time = DAT_0104da48;
+        m_fTimeOfImpact.time = ::DAT_0104da48;
         m_akContactRecords = 0;
     }
     __forceinline bool isEmpty() const
@@ -1993,7 +1978,6 @@ struct hkAgentNnMachineBodyTempCFT
     hkTransformCFT m_kTransformB;
 };
 
-void* __cdecl FUN_00cfe1d0(void* h, void* a, void* b, unsigned int n, void* c);
 
 enum
 {
@@ -2057,8 +2041,6 @@ struct TrackMonitor
     char* capacity;
     char* limit;
 };
-extern unsigned int DAT_0126835c;
-extern unsigned int DAT_01269200;
 extern const float DAT_0104e148 = -3.40282e+38f;
 extern const char DAT_010cc9d0[];
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned int);
@@ -2069,10 +2051,10 @@ struct PreviousBodies
 };
 static __forceinline void fillPrevious(const hkpAgent3InputCFT& current, PreviousBodies& b, hkpAgent3InputCFT& previous)
 {
-    FUN_00cf1510(current.m_pBodyA->GetMotionState()->getSweptTransform(),
-                 current.m_pRayCastInput->m_pStepInfo.m_uiStartTime, b.ta);
-    FUN_00cf1510(current.m_pBodyB->GetMotionState()->getSweptTransform(),
-                 current.m_pRayCastInput->m_pStepInfo.m_uiStartTime, b.tb);
+    ::FUN_00cf1510((const ::hkSweptTransformL &)(current.m_pBodyA->GetMotionState()->getSweptTransform()),
+                 current.m_pRayCastInput->m_pStepInfo.m_uiStartTime, (::hkTransformL &)(b.ta));
+    ::FUN_00cf1510((const ::hkSweptTransformL &)(current.m_pBodyB->GetMotionState()->getSweptTransform()),
+                 current.m_pRayCastInput->m_pStepInfo.m_uiStartTime, (::hkTransformL &)(b.tb));
     previous.m_pBodyA = &b.a;
     previous.m_pBodyB = &b.b;
     previous.m_pContactManager = current.m_pContactManager;
@@ -2110,8 +2092,8 @@ again:
     case 12:
     case 14: {
         ValueWrapper<hkUchar> transformed;
-        a = (const hkpCdBodyCFT*)FUN_00cfe1d0((void*)a, ba, ma, 4, &transformed);
-        b = (const hkpCdBodyCFT*)FUN_00cfe1d0((void*)b, bb, mb, 4, &transformed);
+        a = (const hkpCdBodyCFT*)((void *)(::FUN_00cfe1d0((::Entry *)(void *)((void*)a), (::Entry *)(ba), (::Vector *)(ma), 4, (unsigned char *)(void *)(&transformed))));
+        b = (const hkpCdBodyCFT*)((void *)(::FUN_00cfe1d0((::Entry *)(void *)((void*)b), (::Entry *)(bb), (::Vector *)(mb), 4, (unsigned char *)(void *)(&transformed))));
         cmd = hkUchar(cmd) & hkUchar(~8);
         goto again;
     }
@@ -2217,13 +2199,13 @@ void __cdecl FUN_00cff3c0(hkpConstraintOwnerCFT* owner, TrackSectors& track, con
             _mm_prefetch((const char*)entry + 128, 0);
             _mm_prefetch((const char*)entry->m_pContactManager, 0);
             processEntry(entry, context, skipped, result);
-            if (DAT_01269200 == 1)
+            if ((*reinterpret_cast<unsigned int *>(&::DAT_01269200)) == 1)
                 return;
             if (!result.isEmpty())
                 entry->m_pContactManager->processContact(*a, *b, context, result);
         }
     }
-    TrackMonitor& stream = *(TrackMonitor*)TlsGetValue(DAT_0126835c);
+    TrackMonitor& stream = *(TrackMonitor*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     char* cur = stream.end;
     if (cur < stream.limit)
     {
@@ -2323,7 +2305,6 @@ class hkTransformProcessAgentCFEDD0
 {
   public:
     hkVector4ProcessAgentCFEDD0 m_kColumn0, m_kColumn1, m_kColumn2, m_vTranslation;
-    void FUN_00cb22f0(const hkTransformProcessAgentCFEDD0& a, const hkTransformProcessAgentCFEDD0& b);
 };
 
 class hkSweptTransformProcessAgentCFEDD0
@@ -2361,7 +2342,6 @@ class hkMotionStateProcessAgentCFEDD0
     }
 };
 
-void __cdecl FUN_00cf1510(const hkSweptTransformProcessAgentCFEDD0& st, hkReal t, hkTransformProcessAgentCFEDD0& out);
 
 class hkpShapeProcessAgentCFEDD0;
 
@@ -2607,7 +2587,6 @@ struct hkAgentNnMachineBodyTempProcessAgentCFEDD0
     hkTransformProcessAgentCFEDD0 m_kTransformB;
 };
 
-void* __cdecl FUN_00cfe1d0(void* h, void* a, void* b, unsigned int n, void* c);
 
 enum
 {
@@ -2650,10 +2629,10 @@ static __forceinline void previousInputProcessAgentCFEDD0(hkpAgent3InputProcessA
                                                           hkAgentNnMachineBodyTempProcessAgentCFEDD0& state,
                                                           hkpAgent3InputProcessAgentCFEDD0& previous)
 {
-    FUN_00cf1510(current.m_pBodyA->GetMotionState()->getSweptTransform(),
-                 current.m_pRayCastInput->m_pStepInfo.m_uiStartTime, state.m_kTransformA);
-    FUN_00cf1510(current.m_pBodyB->GetMotionState()->getSweptTransform(),
-                 current.m_pRayCastInput->m_pStepInfo.m_uiStartTime, state.m_kTransformB);
+    ::FUN_00cf1510((const ::hkSweptTransformL &)(current.m_pBodyA->GetMotionState()->getSweptTransform()),
+                 current.m_pRayCastInput->m_pStepInfo.m_uiStartTime, (::hkTransformL &)(state.m_kTransformA));
+    ::FUN_00cf1510((const ::hkSweptTransformL &)(current.m_pBodyB->GetMotionState()->getSweptTransform()),
+                 current.m_pRayCastInput->m_pStepInfo.m_uiStartTime, (::hkTransformL &)(state.m_kTransformB));
     previous.m_pBodyA = &state.m_pBodyA;
     previous.m_pBodyB = &state.m_pBodyB;
     previous.m_pContactManager = current.m_pContactManager;
@@ -2662,7 +2641,7 @@ static __forceinline void previousInputProcessAgentCFEDD0(hkpAgent3InputProcessA
     state.m_pBodyB.SetCollisionShapeAndKey(current.m_pBodyB->getShape(), current.m_pBodyB->getShapeKey());
     new (&state.m_pBodyA) hkpCdBodyProcessAgentCFEDD0(current.m_pBodyA, &state.m_kTransformA);
     new (&state.m_pBodyB) hkpCdBodyProcessAgentCFEDD0(current.m_pBodyB, &state.m_kTransformB);
-    previous.m_kTransform.FUN_00cb22f0(state.m_kTransformA, state.m_kTransformB);
+    reinterpret_cast<::hkTransformCB22 *>(&(previous.m_kTransform))->FUN_00cb22f0((const ::hkTransformCB22 &)(state.m_kTransformA), (const ::hkTransformCB22 &)(state.m_kTransformB));
 }
 extern float DAT_0104e148;
 // @fnv 0x00cfedd0
@@ -2682,10 +2661,10 @@ again:
     case 12:
     case 14: {
         hkUchar transformed;
-        a = (const hkpCdBodyProcessAgentCFEDD0*)ProcessAgentCFEDD0::FUN_00cfe1d0((void*)a, bodiesA, motionsA, 4,
-                                                                                 &transformed);
-        b = (const hkpCdBodyProcessAgentCFEDD0*)ProcessAgentCFEDD0::FUN_00cfe1d0((void*)b, bodiesB, motionsB, 4,
-                                                                                 &transformed);
+        a = (const hkpCdBodyProcessAgentCFEDD0*)((void *)(::FUN_00cfe1d0((::Entry *)(void *)((void*)a), (::Entry *)(bodiesA), (::Vector *)(motionsA), 4,
+                                                                                 (unsigned char *)(void *)(&transformed))));
+        b = (const hkpCdBodyProcessAgentCFEDD0*)((void *)(::FUN_00cfe1d0((::Entry *)(void *)((void*)b), (::Entry *)(bodiesB), (::Vector *)(motionsB), 4,
+                                                                                 (unsigned char *)(void *)(&transformed))));
         command = (hkUchar)command & 0xf7;
         goto again;
     }
@@ -2705,7 +2684,7 @@ again:
         const hkMotionStateProcessAgentCFEDD0* mb = process.m_pBodyB->GetMotionState();
         motionEstimateProcessAgentCFEDD0(*ma, *mb, process.m_pRayCastInput->m_pStepInfo.m_fTimeStep,
                                          process.m_vSubtypePosition);
-        process.m_kTransform.FUN_00cb22f0(ma->getTransform(), mb->getTransform());
+        reinterpret_cast<::hkTransformCB22 *>(&(process.m_kTransform))->FUN_00cb22f0((const ::hkTransformCB22 &)(ma->getTransform()), (const ::hkTransformCB22 &)(mb->getTransform()));
         void* data = (hkpAgentNnMachinePaddedEntryProcessAgentCFEDD0*)entry + 1;
         input.m_pCollisionDispatcher->getAgent3ProcessFunc(entry->m_ucNnTrackType)(process, entry, data, 0, output);
         break;
@@ -2755,7 +2734,7 @@ again:
         }
     processAtEnd:
         process.m_fSubtypeValue = distance;
-        process.m_kTransform.FUN_00cb22f0(ma->getTransform(), mb->getTransform());
+        reinterpret_cast<::hkTransformCB22 *>(&(process.m_kTransform))->FUN_00cb22f0((const ::hkTransformCB22 &)(ma->getTransform()), (const ::hkTransformCB22 &)(mb->getTransform()));
         input.m_pCollisionDispatcher->getAgent3ProcessFunc(entry->m_ucNnTrackType)(process, entry, data,
                                                                                    &timed->m_vSeparatingNormal, output);
         break;

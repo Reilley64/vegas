@@ -2,10 +2,24 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkptoicontactpointviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkptoicontactpointviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern int currentState;
 // @fnv 0x00d68260
+#include <new>
+#include "fnv/decl/FUN_00ddcc60.h"
+#include "fnv/decl/FUN_00ddccb0_cls.h"
+#include "fnv/decl/S_00dd9380.h"
+#include "fnv/decl/fnv_00c93a20__hkpWorldXc93a20.h"
+#include "fnv/decl/hkWorldXc91a20.h"
+#include "fnv/decl/hkpPositionTrackerCBB1.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01019000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010c6000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 int __cdecl FUN_00d68260() {
-    return currentState;
+    return ::DAT_01269004;
 }
 
 struct Allocator {
@@ -31,7 +45,6 @@ struct SpawnedChild {
     int unk00;
     int unk04;
     int m_i08;
-    void Dispatch(int arg);
 };
 
 struct FUN_00d66bf0_cls {
@@ -56,12 +69,11 @@ void FUN_00d66bf0_cls::DispatchToChild(int arg)
 {
     SpawnedChild* child = m_pChildObject;
     if (child != 0 && child->m_i08 != 0) {
-        child->Dispatch(arg);
+        reinterpret_cast<::hkpPositionTrackerCBB1 *>((child))->FUN_00cbb150((*(const ::hkVector4CBB1 *)(arg)));
     }
 }
 
 struct Target {
-    void FUN_00c91a20(void* apArg);
 };
 
 struct FUN_00d682a0_cls {
@@ -81,16 +93,14 @@ struct FUN_00d682a0_cls {
 // @fnv 0x00d682a0
 void FUN_00d682a0_cls::InvokeTargetWithSelfOffset(Target* apTarget)
 {
-    apTarget->FUN_00c91a20(((char*)this - 0x20) != 0 ? (char*)this + 8 : 0);
+    reinterpret_cast<::hkWorldXc91a20 *>((apTarget))->FUN_00c91a20(((char*)this - 0x20) != 0 ? (char*)this + 8 : 0);
 }
 
-extern char DAT_0104dd7c[];
 extern char DAT_010d1f0c[];
 extern char DAT_010d1eec[];
 extern char DAT_010d1edc[];
 extern char DAT_010d1ebc[];
 
-void __stdcall FUN_00ddccb0(int a1);
 
 struct FUN_00d682d0_cls {
     int unk00;
@@ -112,7 +122,7 @@ struct FUN_00d682d0_cls {
 // @fnv 0x00d682d0
 void* FUN_00d682d0_cls::FUN_00d682d0(int aiArg)
 {
-    FUN_00ddccb0(aiArg);
+    new ((void *)(aiArg)) ::FUN_00ddccb0_cls(*(const ::BDDCCB0Array< ::BDDCCB0ProcessContext *> *)nullptr);
     *(void* volatile*)((char*)this + 0x28) = (void*)&DAT_0104dd7c;
     *(void* volatile*)((char*)this + 0x00) = (void*)&DAT_010d1f0c;
     *(void* volatile*)((char*)this + 0x08) = (void*)&DAT_010d1eec;
@@ -182,7 +192,6 @@ struct Part3_t
 struct SubObj_t
 {
     virtual ~SubObj_t() {}
-    void Add(int aiItem);
 };
 
 struct ListBlob_t
@@ -220,7 +229,6 @@ struct ListBlob_t
 
 struct ParentBase_t
 {
-    void Init();
 };
 
 class FUN_00d68350_cls : public Part0_t, public Part1_t
@@ -253,25 +261,22 @@ void FUN_00d68350_cls::FUN_00d68350()
         {
             break;
         }
-        m_sub.Add(p->m_items[i]);
+        reinterpret_cast<::FUN_00d682a0_cls *>(&(m_sub))->InvokeTargetWithSelfOffset((::Target *)(p->m_items[i]));
         i++;
     }
     ((Part3_t*)&m_pTail)->Part3_t::~Part3_t();
-    ((ParentBase_t*)this)->Init();
+    reinterpret_cast<struct ::FUN_00ddcc60 *>((((ParentBase_t*)this)))->FUN_00ddcc60::~FUN_00ddcc60();
 }
 
 struct StateTarget {
-    int __thiscall Dispatch(const char* name, int (__cdecl* handler)(int));
 };
 
-extern StateTarget* g_stateTarget;
-extern int g_stateResult;
 extern const char str_010d1ea0[];
 
 // @fnv 0x00d686f0
 void DispatchStateHandler()
 {
-    g_stateResult = g_stateTarget->Dispatch(str_010d1ea0, FUN_00d686b0);
+    ::DAT_01269004 = reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::StateTarget * *>(&::DAT_01269cd0))))->FUN_00dd9380(str_010d1ea0, (int)(FUN_00d686b0));
 }
 
 struct FUN_00d68270_Base0 {
@@ -295,13 +300,12 @@ struct FUN_00d68270_Base2 {
 struct FUN_00d68270_Derived : public FUN_00d68270_Base0, public FUN_00d68270_Base1, public FUN_00d68270_Base2 {
 };
 struct FUN_00d68270_Arg {
-    void FUN_00c93a20(FUN_00d68270_Base2* obj);
 };
 // Calls arg->FUN_00c93a20 with the address 8 bytes past this, treated as the Base2 part of the enclosing Derived object.
 // @fnv 0x00d68270
 void FUN_00d68270_Base1::FUN_00d68270(FUN_00d68270_Arg* arg)
 {
-    arg->FUN_00c93a20(reinterpret_cast<FUN_00d68270_Derived*>(reinterpret_cast<char*>(this) - sizeof(FUN_00d68270_Base0)));
+    reinterpret_cast<::fnv_00c93a20::hkpWorldXc93a20 *>((arg))->FUN_00c93a20((::fnv_00c93a20::hkpEntityListenerXc93a20 *)(::FUN_00d68270_Base2 *)(reinterpret_cast<FUN_00d68270_Derived*>(reinterpret_cast<char*>(this) - sizeof(FUN_00d68270_Base0))));
 }
 
 // sub ecx,0x20; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
@@ -433,6 +437,7 @@ FUN_00d68740::FUN_00d68740()
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128 {
     struct { float lane0, lane1, lane2, lane3; };
 } __m128;
+#include "fnv/symbols_simd.h"
 
 extern "C" __m128 _mm_set_ss(float);
 extern "C" float _mm_cvtss_f32(__m128);
@@ -455,15 +460,7 @@ extern "C" __m128 _mm_setzero_ps(void);
 
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 
-extern float DAT_0104da4c;
-extern float DAT_01011d78;
-extern float DAT_01017718;
-extern float DAT_01016248;
-extern float DAT_01019de0;
-extern float DAT_010c69c4;
 extern const float DAT_010c69c0=(0.85f-1.0f);
-extern float DAT_010ec7f0;
-extern unsigned long DAT_0126835c;
 
 struct Vec {
     union {
@@ -508,9 +505,9 @@ __forceinline __m128 lengthSquared3(__m128 v) {
 
 __forceinline __m128 sqrtInverse(__m128 len2) {
     __m128 y0 = _mm_rsqrt_ss(len2);
-    __m128 zero = _mm_set_ss(DAT_01011d78);
-    __m128 three = _mm_set_ss(DAT_01017718);
-    __m128 half = _mm_set_ss(DAT_01016248);
+    __m128 zero = _mm_set_ss(::DAT_01011d78);
+    __m128 three = _mm_set_ss(::DAT_01017718);
+    __m128 half = _mm_set_ss(::fnv_00c88020::DAT_01016248);
     __m128 r2 = _mm_mul_ss(_mm_mul_ss(len2, y0), y0);
     __m128 eq = _mm_cmpeq_ss(len2, zero);
     __m128 inv = _mm_mul_ss(_mm_mul_ss(half, y0), _mm_sub_ss(three, r2));
@@ -565,9 +562,9 @@ static __declspec(noinline) void FUN_00d683b0(Handler* self, Vec* from, Vec* dir
         __m128 perpS = _mm_mul_ps(_mm_mul_ps(endpoints.perp.m, _mm_shuffle_ps(inv, inv, 0)), _mm_shuffle_ps(len, len, 0));
         float coeff = DAT_01019de0;
         __m128 cb = splat(coeff);
-        __m128 one = _mm_load_ps(&DAT_010ec7f0);
+        __m128 one = _mm_load_ps(&(*reinterpret_cast<float *>((void *)&::DAT_010ec7f0)));
         __m128 base = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(one, cb), from->m), _mm_mul_ps(cb, to.m));
-        float scalePos = DAT_010c69c4;
+        float scalePos = ::ArrowHeadRatios::DAT_010c69c4;
         endpoints.head1.m = _mm_add_ps(base, _mm_mul_ps(splat(scalePos), perpS));
         float scaleNeg = DAT_010c69c0;
         head2.m = _mm_add_ps(base, _mm_mul_ps(splat(scaleNeg), perpS));
@@ -593,7 +590,6 @@ void RenderLine(Handler* handler, Vec* direction, Vec* origin, int color, int id
     FUN_00d683b0(handler, origin, direction, color, id, tag);
 }
 
-extern int DAT_01269004;
 
 class S00d68670_hkBool {
 public:

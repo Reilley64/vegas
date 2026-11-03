@@ -7,6 +7,26 @@
 // to their real unit once identified.
 // src/staging/blk_00b40000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00b2ac30_t.h"
+#include "fnv/decl/FUN_00b2e330_It.h"
+#include "fnv/decl/FUN_00b3f030_Class.h"
+#include "fnv/decl/FUN_00b3f130_shell.h"
+#include "fnv/decl/FUN_00b40430_cls.h"
+#include "fnv/decl/FUN_00b404c0_cls.h"
+#include "fnv/decl/IntVector.h"
+#include "fnv/decl/V3cdd0.h"
+#include "fnv/decl/Vector_b17f50.h"
+#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00b42000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101b000.h"
+#include "fnv/symbols_0107d000.h"
+#include "fnv/symbols_01140000.h"
 #include "../../include/layout_support.h"
 struct NiPoint3
 {
@@ -69,11 +89,9 @@ struct FUN_00b40070_Class
     float unk44;
     int unk48;
 
-    void FUN_00b3f030();
     FUN_00b40070_Class* __thiscall FUN_00b40070(NiPoint3* position, unsigned char value18, unsigned char value10,
                                                 float value, int result);
 };
-extern float DAT_01016248;
 struct S_00b40850_P3
 {
     float x;
@@ -89,9 +107,6 @@ struct FUN_00b40850
     float unk18;
     FUN_00b40850();
 };
-extern float DAT_0107d9a0;
-extern float DAT_01016410;
-extern float DAT_0101b268;
 class FUN_00b40a60_cls
 {
   public:
@@ -109,7 +124,6 @@ class FUN_00b40a60_cls
     float m_2c;
     unsigned int m_30;
 
-    void InitBase(int a, int b);
     FUN_00b40a60_cls* FUN_00b40a60();
 };
 struct FUN_00b40a60_loc
@@ -249,8 +263,6 @@ class FUN_00b420a0_cls
     int CompareAndGetDelta(FUN_00b42980 const& arg);
 };
 void* operator new(unsigned int);
-extern char DAT_010176f8[];
-extern char DAT_01140ef8[];
 struct FnvThrowObj
 {
     void* vptr;
@@ -306,7 +318,6 @@ struct Tag1
 struct Tag2
 {
 };
-extern "C" void FUN_00b42f40(E8* p, unsigned n, const E8& v, void* al, Tag1 c, Tag2 r);
 inline Tag1 Ptr_cat(E8*&, E8*&)
 {
     Tag1 c;
@@ -314,7 +325,7 @@ inline Tag1 Ptr_cat(E8*&, E8*&)
 }
 inline void ufn(E8* f, unsigned n, const E8& v, char (&al)[4])
 {
-    FUN_00b42f40(f, n, v, &al, Ptr_cat(f, f), Tag2());
+    ::FUN_00b42f40((::S_00b42f40_Er *)(f), n, (::S_00b42f40_Er *)&(v));
 }
 struct CIt8
 {
@@ -350,7 +361,6 @@ struct V8
     {
         return It8(last, this);
     }
-    CIt8 FUN_00b41b50(CIt8 w, const E8& v);
     void FUN_00b417b0(const E8& v);
 };
 inline void Pad()
@@ -423,7 +433,7 @@ template <class _Ty> inline _Ty* _Allocate(unsigned int _Count, _Ty*)
         _Count = 0;
     else if (((unsigned int)(-1) / _Count) < sizeof(_Ty))
         throw _Length_error("bad allocation");
-    return ((_Ty*)::operator new(_Count * sizeof(_Ty)));
+    return ((_Ty*)::FUN_00401000(_Count * sizeof(_Ty)));
 }
 
 template <class _Ty> class allocator
@@ -448,7 +458,7 @@ template <class _Ty> class allocator
     {}
     void deallocate(pointer _Ptr, size_type)
     {
-        ::operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     pointer allocate(size_type _Count)
     {
@@ -1133,7 +1143,6 @@ struct MatchPoint
     float x;
     float y;
     float z;
-    float FUN_00b04d40(const MatchPoint& other) const;
 };
 struct MatchNode
 {
@@ -1205,7 +1214,7 @@ template <class T> struct VbAlloc
     {}
     void deallocate(pointer p, size_type)
     {
-        ::operator delete(p);
+        ::FUN_00401030 delete(p);
     }
 };
 template <class Al> struct VbBaseAlloc : VbBase
@@ -1259,7 +1268,7 @@ struct VbWords : VbVal<unsigned int, VbAlloc<unsigned int> >
     }
     ~VbWords()
     {
-        FUN_00b17f50();
+        reinterpret_cast<::Vector_b17f50 *>(this)->FUN_00b17f50();
     }
 };
 struct FUN_00b419c0 : VbBaseAlloc<VbAlloc<bool> >
@@ -1312,7 +1321,6 @@ struct CItQ_aceeb0
     {
         return _Myaux == r._Myaux;
     }
-    CItQ_aceeb0& FUN_00b42ce0(int _Off);
     int operator-(const CItQ_aceeb0& _Right) const
     {
         if (!(_Has() && _Same(_Right)))
@@ -1328,7 +1336,7 @@ struct ItQ_aceeb0 : CItQ_aceeb0
     {}
     ItQ_aceeb0& operator+=(int _Off)
     {
-        FUN_00b42ce0(_Off);
+        reinterpret_cast<::VecIter8StandIn *>(this)->FUN_00b42ce0(_Off);
         return *this;
     }
     ItQ_aceeb0 operator+(int _Off) const
@@ -1359,7 +1367,6 @@ struct VecQ_aceeb0
     {
         return ItQ_aceeb0(_Myfirst, this);
     }
-    void FUN_00b42180(CItQ_aceeb0 _Where, unsigned int _Count, const ElQ_aceeb0& _Val);
     ItQ_aceeb0 end()
     {
         return ItQ_aceeb0(_Mylast, this);
@@ -1450,7 +1457,6 @@ inline Base::Base(Alloc)
 }
 struct FUN_00b42030 : Base
 {
-    void FUN_00b32600(unsigned int count, const E& val);
     FUN_00b42030(unsigned int count, const E& val);
 };
 struct input_iterator_tagS
@@ -1798,7 +1804,7 @@ inline void* FUN_00b42df0(unsigned _Count, void*)
         _Count = 0;
     else if ((unsigned(-1) / _Count) < sizeof(FUN_00b42980))
         throw AllocationError(0);
-    return ::operator new(_Count * sizeof(FUN_00b42980));
+    return ::FUN_00401000(_Count * sizeof(FUN_00b42980));
 }
 struct RangeTag
 {
@@ -1822,9 +1828,7 @@ template <class I> inline I checked_base(I& _It)
     return checked_base2(_It, _Base_tag);
 }
 // VC-style vector insertion, with scalar record destruction and exception rollback.
-void __cdecl FUN_00401030(void*);
 FUN_00b42980* __cdecl FUN_00b431e0(const FUN_00b42980*, const FUN_00b42980*, FUN_00b42980*, void*);
-void __cdecl FUN_00b42f40(FUN_00b42980*, unsigned, const FUN_00b42980*, void*, ValueTag, RangeTag);
 FUN_00b42980* __cdecl FUN_00b43010(const FUN_00b42980*, const FUN_00b42980*, FUN_00b42980*, void*);
 template <class T, class U> inline ValueTag value_tag(const T&, const U&)
 {
@@ -1846,7 +1850,7 @@ template <class I, class A> inline I unchecked_move(I _First, I _Last, I _Dest, 
 }
 template <class I, class A> inline void unchecked_fill(I _First, unsigned _Count, const FUN_00b42980& _Val, A& _Al)
 {
-    FUN_00b42f40(_First, _Count, &_Val, &_Al, value_tag(_First, _First), RangeTag());
+    ::FUN_00b42f40((::S_00b42f40_Er *)(_First), _Count, (::S_00b42f40_Er *)(&_Val));
 }
 struct RecordAllocator
 {
@@ -1980,7 +1984,6 @@ struct RecordVector
     void FUN_00b42180(void* iteratorState, FUN_00b42980* _Where, unsigned _Count, const FUN_00b42980& _Val);
 };
 extern char str_010a5950[];
-extern int DAT_010173dc;
 namespace std {
 template <class T> struct char_traits
 {
@@ -1995,7 +1998,7 @@ template <class E, class Tr = char_traits<E>, class A = allocator<E> > class bas
     basic_string(const char* p);
     ~basic_string()
     {
-        _Tidy(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     basic_string(const basic_string& r);
 
@@ -2319,7 +2322,7 @@ template <class T> inline T* AllocateWords_Z(unsigned int _Count, T*)
         _Count = 0;
     else if (0xffffffffu / _Count < sizeof(T))
         throw AllocationFailure_Z(0);
-    return (T*)::operator new(_Count * sizeof(T));
+    return (T*)::FUN_00401000(_Count * sizeof(T));
 }
 template <class T> struct VecAlloc_Z
 {
@@ -2340,7 +2343,7 @@ template <class T> struct VecAlloc_Z
     }
     void deallocate(T* _Ptr, unsigned int)
     {
-        ::operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
 };
 struct VecAux_Z
@@ -2431,7 +2434,6 @@ struct BitVectorOps_Z
     {
         throw VectorLengthError_Z(VectorString_Z(DAT_010a5950));
     }
-    void Trim(unsigned int _Size);
 };
 struct VecContainerBase_Z : BitVectorOps_Z
 {
@@ -2750,7 +2752,6 @@ struct P133Camera
     int unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
     unsigned char kind;
     int unk44, unk48;
-    P133Camera* CloneCamera();
     P133Point const& GetPos() const
     {
         return position;
@@ -2759,8 +2760,6 @@ struct P133Camera
     {
         return kind / 2;
     }
-    P133Point FUN_00b40430();
-    void FUN_00b404c0(P133Point const&, bool);
     void SetPos(P133Point const& p)
     {
         position = p;
@@ -2772,7 +2771,6 @@ struct FUN_00b3f100
     FUN_00b3f100();
     ~FUN_00b3f100()
     {}
-    float FUN_00b3f130(float, float);
 };
 struct P133Frame
 {
@@ -2794,10 +2792,8 @@ struct P133ConstIter : IteratorBaseAuxB42
     void FUN_00b42980(P133Pair*, P133Pairs const*);
     P133ConstIter(P133Pair* p, P133Pairs const* v)
     {
-        FUN_00b42980(p, v);
+        reinterpret_cast<::FUN_00b42980 *>(this)->Set((unsigned int)(p), (*(const ::FUN_00b42980 *)(v)));
     }
-    P133ConstIter& FUN_00b41d40();
-    bool FUN_00b2ac30(P133ConstIter const&) const;
     P133Pair const& FUN_00b2ab50() const;
     P133Pair const& operator*() const
     {
@@ -2805,7 +2801,7 @@ struct P133ConstIter : IteratorBaseAuxB42
     }
     bool operator!=(P133ConstIter const& rhs) const
     {
-        return !FUN_00b2ac30(rhs);
+        return !reinterpret_cast<::FUN_00b2ac30_t *>((void *)this)->FUN_00b2ac30((::FUN_00b2ac30_t *)&(rhs));
     }
 };
 struct P133Iter : P133ConstIter
@@ -2822,7 +2818,7 @@ struct P133Iter : P133ConstIter
     }
     P133Iter& operator++()
     {
-        FUN_00b41d40();
+        reinterpret_cast<::FUN_00b41d40_It *>(this)->FUN_00b41d40();
         return *this;
     }
 };
@@ -2887,7 +2883,7 @@ struct P133List : stl::_Container_base_aux_alloc_real<stl::allocator<P133Camera*
     bool _Buy(unsigned int);
     ~P133List()
     {
-        FUN_00b17f50();
+        reinterpret_cast<::Vector_b17f50 *>(this)->FUN_00b17f50();
     }
     void _Destroy(P133Camera** a, P133Camera** b)
     {
@@ -2965,7 +2961,7 @@ struct TrimCharAllocator : TrimCharAllocatorBase
     {}
     void deallocate(char* _Ptr, unsigned int)
     {
-        ::operator delete(_Ptr);
+        ::FUN_00401030(_Ptr);
     }
 };
 struct TrimStringRoot
@@ -3135,7 +3131,7 @@ struct TrimIterator : TrimConstIterator
     {}
     TrimIterator& operator+=(int _Off)
     {
-        (*(TrimConstIterator*)this).FUN_00b2e330(_Off);
+        reinterpret_cast<::FUN_00b2e330_It *>(&((*(TrimConstIterator*)this)))->FUN_00b2e330(_Off);
         return *this;
     }
     TrimIterator operator+(int _Off) const
@@ -3297,7 +3293,7 @@ struct BitTrim : TrimContainer
 void BitTrim::FUN_00b41db0(unsigned int _Size)
 {
     if (max_size() < _Size)
-        FUN_00b429d0();
+        reinterpret_cast<::VbXlen *>((void *)this)->FUN_00b429d0();
     unsigned int _Words = _Nw(_Size);
     if (_Words < _Myvec.size())
         _Myvec.FUN_00b335c0(_Myvec.begin() + _Words, _Myvec.end());

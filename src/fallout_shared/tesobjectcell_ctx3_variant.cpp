@@ -1,10 +1,46 @@
 
 // tesobjectcell_ctx3_variant.cpp: context variant of src/fallout_shared/tesobjectcell.cpp: its stripped skeleton, as these functions were checked
 // against, for verified matches whose own declarations clash with the unit's current types.
+#include <new>
+#include "fnv/decl/BGSImpactData.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CellView.h"
+#include "fnv/decl/CollectionView.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_004120b0_shell.h"
+#include "fnv/decl/FUN_00421c30_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00458400_cls.h"
+#include "fnv/decl/FUN_004610d0_shell.h"
+#include "fnv/decl/FUN_004867a0_cls.h"
+#include "fnv/decl/FUN_005445d0_shell.h"
+#include "fnv/decl/FUN_00544600_shell.h"
+#include "fnv/decl/FUN_00545cb0_shell.h"
+#include "fnv/decl/FUN_005516c0.h"
+#include "fnv/decl/FUN_00557760_cls.h"
+#include "fnv/decl/FUN_00558b40_shell.h"
+#include "fnv/decl/FUN_00558b80_shell.h"
+#include "fnv/decl/FUN_00620b80_shell.h"
+#include "fnv/decl/FUN_009604f0_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/NavShell2.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_005340e0__TESObjectLAND.h"
+#include "fnv/decl/fnv_00558b60__FUN_00558b60_shell.h"
+#include "fnv/decl/fnv_005653d0__FUN_005653d0_shell.h"
+#include "fnv/decl/fnv_00565480__RefPersistsStandin.h"
+#include "fnv/decl/n547__Cell.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00541000.h"
+#include "fnv/symbols_0054f000.h"
+#include "fnv/symbols_011c9000.h"
+#include "fnv/symbols_011ca000.h"
 #include "tesobjectcell_packet.h"
 void __cdecl operator delete(void* pointer);
 const char kTESObjectCELLCellRefLockEnter[] = "TESObjectCELL::CellRefLockEnter()";
-unsigned int FUN_0054f4c0();
 NiAVObject* FUN_0054f4f0();
 
 struct TESForm
@@ -63,14 +99,12 @@ struct TESForm
 };
 struct TESObjectLAND
 {
-    void InitializeForCell(TESObjectCELL*);
 };
 struct NavMesh
 {
 };
 struct RefH
 {
-    bool IsDeleted() const;
 };
 struct Flt
 {
@@ -94,32 +128,22 @@ struct NavMeshCollection
     char data[0x10];
     NavMeshCollection();
     NavMeshPtr GetNavMeshAt(unsigned int);
-    void AppendNavMesh(NiPointer<NavMesh>);
 };
-int __fastcall GetReferenceFlags(void*);
 NavMeshPtr __cdecl MakeNavMeshPointer(NavMesh*);
 struct S004867a0
 {
-    TESForm* FUN_004867a0(bool, void*);
 };
 struct CellX
 {
-    void SetLandscape(TESObjectLAND*);
-    void AddReference(TESObjectREFR*, bool);
-    void SetNavMeshArray(NavMeshCollection*);
 };
 struct CellH
 {
-    bool IsCellPersistent();
 };
 struct RefX
 {
-    bool GetReferencePersistence();
-    void SetPersistentFlag(bool);
 };
 struct TempIsTemp
 {
-    bool IsTemporary() const;
 };
 struct SL
 {
@@ -133,7 +157,6 @@ struct ListX : SL
 };
 struct List_009e03e0
 {
-    void RemoveAll();
 };
 struct G2
 {
@@ -142,8 +165,6 @@ struct G2
 struct LNode
 {
     bool FUN_008256d0();
-    void** FUN_006815c0();
-    LNode* GetNext();
 };
 
 struct FUN_005436e0_shell : TESObjectCELL
@@ -161,7 +182,7 @@ TESForm* FUN_005436e0_shell::FUN_005436e0(bool abCreateEditorID, void* apCopyMap
     else
     {
         BSSimpleList<TESObjectREFR*>* pCurrentElementNext;
-        pdupcell = dynamic_cast<TESObjectCELL*>(((S004867a0*)this)->FUN_004867a0(false, apCopyMap));
+        pdupcell = dynamic_cast<TESObjectCELL*>(((::TESForm *)(reinterpret_cast<::FUN_004867a0_cls *>((((S004867a0*)this)))->FUN_004867a0((void *)(false), apCopyMap))));
         TESObjectLAND* pland;
         pland = *(TESObjectLAND**)((char*)this + 0x4c);
         if (pland)
@@ -169,58 +190,58 @@ TESForm* FUN_005436e0_shell::FUN_005436e0(bool abCreateEditorID, void* apCopyMap
             TESObjectLAND* pdupland = dynamic_cast<TESObjectLAND*>(((TESForm*)pland)->DuplicateForm(false, apCopyMap));
             if (pdupland)
             {
-                ((CellX*)pdupcell)->SetLandscape(pdupland);
-                pdupland->InitializeForCell(pdupcell);
+                reinterpret_cast<::n547::Cell *>((((CellX*)pdupcell)))->SetObj((::n547::Obj *)(pdupland));
+                reinterpret_cast<::fnv_005340e0::TESObjectLAND *>((pdupland))->FUN_005340e0((::fnv_005340e0::TESObjectCELL *)(pdupcell));
                 ((TESForm*)pdupland)->v50(true);
             }
         }
         if (*(NavMeshCollection**)((char*)this + 0x64))
         {
-            ((CellX*)pdupcell)->SetNavMeshArray(new NavMeshCollection);
+            reinterpret_cast<::FUN_00557760_cls *>((((CellX*)pdupcell)))->SetHelper((::Helper_cls *)(::NavMeshCollection *)(new NavMeshCollection));
             NavMeshPtr spmesh;
-            for (unsigned int i = 0; i < GetReferenceFlags(*(NavMeshCollection**)((char*)this + 0x64)); i++)
+            for (unsigned int i = 0; i < ((int)(reinterpret_cast<::FUN_00620b80_shell *>((*(NavMeshCollection**)((char*)this + 0x64)))->GetReferenceFlags())); i++)
             {
                 NavMesh* pmesh = (NavMesh*)(unsigned int)(*(NavMeshCollection**)((char*)this + 0x64))->GetNavMeshAt(i);
-                if (pmesh && !((RefH*)pmesh)->IsDeleted())
+                if (pmesh && !reinterpret_cast<::FUN_00440d80_shell *>((void *)(((RefH*)pmesh)))->FUN_00440d80())
                 {
                     NavMesh* pdupMesh = dynamic_cast<NavMesh*>(((TESForm*)pmesh)->DuplicateForm(false, apCopyMap));
                     if (pdupMesh)
                     {
                         *(TESObjectCELL**)((char*)pdupMesh + 0x24) = pdupcell;
                         spmesh = MakeNavMeshPointer(pdupMesh);
-                        (*(NavMeshCollection**)((char*)pdupcell + 0x64))->AppendNavMesh(spmesh);
+                        reinterpret_cast<::NavShell2 *>(((*(NavMeshCollection**)((char*)pdupcell + 0x64))))->FUN_00469500((*(::NavMeshPtr *)&(const ::NiPointer< ::NavMesh> &)(spmesh)));
                     }
                 }
             }
         }
         CellRefLockEnter();
         ListX templist;
-        pCurrentElementNext = (BSSimpleList<TESObjectREFR*>*)FUN_009604f0();
+        pCurrentElementNext = (BSSimpleList<TESObjectREFR*>*)((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
         while (pCurrentElementNext && !((LNode*)pCurrentElementNext)->FUN_008256d0())
         {
-            TESObjectREFR* pref = (TESObjectREFR*)*((LNode*)pCurrentElementNext)->FUN_006815c0();
-            if (!((TempIsTemp*)pref)->IsTemporary())
+            TESObjectREFR* pref = (TESObjectREFR*)*((void **)(new ((void *)(((LNode*)pCurrentElementNext))) ::Vec3()));
+            if (!reinterpret_cast<::FUN_004077c0_shell *>((void *)(((TempIsTemp*)pref)))->FUN_004077c0())
             {
-                if (IsCellInterior() || ((CellH*)this)->IsCellPersistent() || !((RefX*)pref)->GetReferencePersistence())
+                if (IsCellInterior() || reinterpret_cast<::FUN_005516c0 *>((((CellH*)this)))->IsCellPersistent() || !reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>((((RefX*)pref)))->FUN_005653d0())
                     ((G2*)&templist)->AddHead((int*)&pref);
             }
-            pCurrentElementNext = (BSSimpleList<TESObjectREFR*>*)((LNode*)pCurrentElementNext)->GetNext();
+            pCurrentElementNext = (BSSimpleList<TESObjectREFR*>*)((::LNode *)(reinterpret_cast<::Callees *>((((LNode*)pCurrentElementNext)))->FUN_00726070()));
         }
-        CellRefLockLeave();
+        ::FUN_00541ae0((char *)this);
         pCurrentElementNext = (BSSimpleList<TESObjectREFR*>*)&templist;
         while (pCurrentElementNext && !((LNode*)pCurrentElementNext)->FUN_008256d0())
         {
-            TESObjectREFR* pref = (TESObjectREFR*)*((LNode*)pCurrentElementNext)->FUN_006815c0();
+            TESObjectREFR* pref = (TESObjectREFR*)*((void **)(new ((void *)(((LNode*)pCurrentElementNext))) ::Vec3()));
             TESObjectREFR* pdupref = dynamic_cast<TESObjectREFR*>(((TESForm*)pref)->DuplicateForm(false, apCopyMap));
             if (pdupref)
             {
-                ((RefX*)pdupref)->SetPersistentFlag(((CellH*)pdupcell)->IsCellPersistent());
-                ((CellX*)pdupcell)->AddReference(pdupref, false);
+                reinterpret_cast<::fnv_00565480::RefPersistsStandin *>((((RefX*)pdupref)))->FUN_00565480(reinterpret_cast<::FUN_005516c0 *>((((CellH*)pdupcell)))->IsCellPersistent());
+                reinterpret_cast<::CellView *>((((CellX*)pdupcell)))->FUN_00548230((::RefView *)(pdupref), false);
                 ((TESForm*)pdupref)->v50(true);
             }
-            pCurrentElementNext = (BSSimpleList<TESObjectREFR*>*)((LNode*)pCurrentElementNext)->GetNext();
+            pCurrentElementNext = (BSSimpleList<TESObjectREFR*>*)((::LNode *)(reinterpret_cast<::Callees *>((((LNode*)pCurrentElementNext)))->FUN_00726070()));
         }
-        ((List_009e03e0*)&templist)->RemoveAll();
+        reinterpret_cast<::FileMatchList *>((((List_009e03e0*)&templist)))->RemoveAll();
     }
     return (TESForm*)pdupcell;
 }

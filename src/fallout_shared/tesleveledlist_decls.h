@@ -3,6 +3,30 @@
 #define FNV_TESLEVELEDLIST_WORKER_DECLS_H
 
 
+#include "fnv/decl/C42CE30.h"
+#include "fnv/decl/FUN_0040e7f0_owner.h"
+#include "fnv/decl/FUN_0040eb90_shell.h"
+#include "fnv/decl/FUN_004214f0_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00476be0_Class.h"
+#include "fnv/decl/FUN_00481fd0_shell.h"
+#include "fnv/decl/FUN_00482040_shell.h"
+#include "fnv/decl/FUN_00487a00_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/Owner487a60.h"
+#include "fnv/decl/fnv_004818e0__FUN_004818e0_t.h"
+#include "fnv/decl/fnv_00567e10__FUN_00567e10_shell.h"
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/decl/p07__DelStandIn.h"
+#include "fnv/decl/s428110__Owner.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_010a2000.h"
 class BSFile
 {
   public:
@@ -13,6 +37,7 @@ class BSFile
     virtual void vfn_10();
     virtual void vfn_14(unsigned int, unsigned int);
 };
+class ActorPackageContext;
 class BaseProcess
 {
   public:
@@ -20,6 +45,8 @@ class BaseProcess
     {
         POSTANIM_NONE
     };
+public:
+    ::ActorPackageContext *GetCurrentProcessData();
 };
 class HighProcess
 {
@@ -31,7 +58,6 @@ class bhkLiquidAction
   public:
     unsigned int GetInstanceSize();
 };
-extern unsigned int DAT_010a2480;
 class TESFile
 {
   public:
@@ -50,8 +76,8 @@ class TESFile
     unsigned int m_uiCurrentOffset;
     bool NextChunk();
     bool IsCurrentFormCompressed();
-    void FUN_004720d0();
-    unsigned int GetChunkID();
+public:
+    void ClearCurrentChunk();
 };
 class TESForm
 {
@@ -134,17 +160,18 @@ class TESForm
     virtual void vfn_12c();
     virtual const char* GetEditorID();
     TESFile* GetFile(int);
-    unsigned int GetFormID();
-    static TESForm* GetFormByID(unsigned int);
-    static void RemapFormIDForFile(unsigned int&, TESFile*);
 };
 class ContainerItemExtra
 {
   public:
     unsigned int data[3];
     ContainerItemExtra();
-    void FUN_0040eb90(float);
-    void InitItem(TESForm*);
+public:
+    bool Compare(::ContainerItemExtra *);
+public:
+    void Copy(::ContainerItemExtra *);
+public:
+    bool IsDefault();
 };
 class TESContainer;
 class LeveledObject;
@@ -158,8 +185,6 @@ class ExtraDataList
 class TESObjectREFR
 {
   public:
-    ExtraDataList* GetExtraData();
-    unsigned int GetReferenceLevel(bool allowShift);
 };
 
 class FormChangeMask
@@ -175,22 +200,18 @@ class BGSLoadFormBuffer
     virtual void vfn_0();
     virtual TESForm* GetForm();
     FormChangeMask GetChangeFlags(unsigned int);
-    int ReadElementCount();
-    void ReadTypedData(void*, unsigned int);
     FormChangeMask GetOldChangeFlags(unsigned int flags);
 };
 
 class TESGlobalValueReader
 {
   public:
-    float GetValue();
 };
 
 class PerkEntryConditionSet;
 class PlayerQuestData
 {
   public:
-    PerkEntryConditionSet* GetConditions();
 };
 class BGSPerkEntry
 {
@@ -198,7 +219,6 @@ class BGSPerkEntry
     TESForm* form;
     unsigned short count, level;
     ContainerItemExtra* extra;
-    void* Destroy(unsigned int);
 };
 class BGSCameraShot;
 class ActorCause;
@@ -217,27 +237,21 @@ class TESContainer
     unsigned int data[3];
     TESContainer();
     ~TESContainer();
-    void AddObject(TESForm*, int, ContainerItemExtra*);
-    void MergeContainer(TESContainer*);
-    void ScaleEntryCounts(int);
 };
 class MersenneTwister
 {
   public:
     static MersenneTwister* GetRandomGenerator();
-    unsigned int GetRandomUInt();
 };
 unsigned int DialogueRandom();
 
 class BGSLoadGameBuffer
 {
   public:
-    unsigned int ReadFormIdentifier();
 };
 class FileEntryList
 {
   public:
-    void Copy(TESForm*, unsigned short, unsigned short, TESForm*, ContainerItemExtra*);
 };
 void* operator new(unsigned int) throw();
 class TESGlobal : public TESForm
@@ -248,7 +262,6 @@ class BGSCameraPath
   public:
     int HasNameForWarning();
 };
-int Warning(const char*, ...);
 class TESLeveledList
 {
   public:
@@ -257,15 +270,10 @@ class TESLeveledList
     virtual void vfn_8();
     virtual void vfn_c();
     virtual unsigned char vfn_10();
-    unsigned char GetChanceNone();
     virtual bool vfn_14();
-    bool UsesAllEntries();
     virtual int vfn_18();
-    bool FUN_004877e0();
     bool GetAllBelow();
-    bool FUN_004878a0();
     bool GetUseAll();
-    static TESLeveledList* GetFormAsLeveledList(TESForm*);
     unsigned long leveledList[2];
     unsigned char m_pChanceGlobal;
     unsigned char m_ucChanceNone;
@@ -273,20 +281,18 @@ class TESLeveledList
     TESGlobal* m_pLevelGlobal;
     unsigned long m_kLeveledObjects[2];
 
-    LeveledObject* CreateLeveledObject(unsigned short level, unsigned short count, TESForm* form,
-                                       ContainerItemExtra* extra);
     void InitializeComponent();
     void ClearComponent();
     void InitializeLeveledList();
-    void ClearScriptAddedLeveledObjects();
     void SelectLeveledObject(unsigned short level, TESForm*& form, unsigned short& count, ContainerItemExtra*& extra,
                              bool recurse, int mode);
     void PopulateContainerWithLeveledItems(unsigned short level, unsigned short count, TESContainer* container,
                                            int mode);
-    void PopulateContainerFromReference(TESObjectREFR* reference, TESContainer* container);
     void InitItem(TESForm* form);
     void LoadGame(BGSLoadFormBuffer* buffer);
     void Revert(BGSLoadFormBuffer* buffer);
+public:
+    void FUN_0042e680(unsigned char);
 };
 
 #endif

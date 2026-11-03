@@ -4,6 +4,14 @@
 
 // src/havok/common/internal/convexhull/hkplaneequationutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/convexhull/hkplaneequationutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00d74d40_cls.h"
+#include "fnv/decl/S00d76120_cls.h"
+#include "fnv/decl/enumeration_rework__PlaneHull.h"
+#include "fnv/decl/fnv_00d76940__FUN_00d76940_cls.h"
+#include "fnv/decl/fnv_00d76ca0__FUN_00d76ca0.h"
+#include "fnv/symbols_00dd6000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_0104d000.h"
 struct Arg
 {
     void* data;
@@ -16,7 +24,6 @@ struct B
     int f2;
     int f3;
 
-    void* FUN_00d74d40();
 };
 struct A
 {
@@ -26,12 +33,7 @@ struct A
     int f3;
     int f4;
 
-    void FUN_00d76ca0();
-    int FUN_00d774a0(void*, int, void*);
-    void FUN_00d76120(int, int);
-    void FUN_00d76940();
 };
-int __cdecl ProcessArg(Arg* a, int second);
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
@@ -54,9 +56,7 @@ extern "C"
     void _mm_store_ss(float*, __m128);
     double fabs(double);
 }
-extern const float DAT_0104da4c;
 extern const float DAT_010c4990;
-extern const float DAT_01011d78;
 typedef __m128 hkQuadReal;
 struct S00dd6380_hkSimdReal
 {

@@ -4,9 +4,11 @@
 
 // src/havok/physics/collide/shape/convex/sphere/hkpsphereshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/sphere/hkpsphereshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FunctionContext.h"
+#include "fnv/symbols_00cd8000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpSphereShape.h"
-extern char const* const g_01268970_arg1;
-void __cdecl FUN_00c90360(char const* const*, char const* const*);
 void __cdecl FUN_00cd8040(char const* const* a1, char const* const* a2);
 extern int DAT_010cb5ac;
 struct FUN_00cd8160
@@ -60,7 +62,6 @@ struct Shape_00cd8100_cls
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
-extern unsigned long DAT_0126835c;
 struct hkMonitorStreamCD81
 {
     int unk00;
@@ -75,8 +76,6 @@ struct hkTimerCommandCD81
     int unk08;
 };
 extern const char DAT_010cb5f4[];
-extern const char DAT_010c41f8[];
-void* __cdecl FUN_00cd85c0(void* pvResult, float fValue, int a, int b);
 class HostCD81
 {
   public:
@@ -104,7 +103,6 @@ extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
 extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
 extern "C" int _mm_movemask_ps(__m128);
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern unsigned long DAT_0126835c;
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
 class RayMask
@@ -134,7 +132,6 @@ const RayMask::Component RayMask::components[4] = {RayMask::X, RayMask::Y, RayMa
 static const __m128 signVector = {{-0.0f, -0.0f, -0.0f, -0.0f}};
 static const __m128 tripleVector = {{3.0f, 3.0f, 3.0f, 3.0f}};
 static const __m128 halfVector = {{0.5f, 0.5f, 0.5f, 0.5f}};
-extern __m128 kOne;
 static __forceinline __m128 reciprocalVector(__m128 value)
 {
     __m128 estimate = _mm_rcp_ps(value);
@@ -295,7 +292,6 @@ struct ProbeStream
     char* end;
 };
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern unsigned long DAT_0126835c;
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
 struct ProbeSphere : hkpSphereShape
@@ -344,6 +340,7 @@ extern "C" void _mm_store_ss(float*, __m128);
 extern "C" __m128 _mm_load_ps(const float*);
 extern "C" __m128 _mm_load_ss(const float*);
 #include <math.h>
+#include "fnv/symbols_simd.h"
 
 struct FnvBool
 {
@@ -360,7 +357,6 @@ struct RayIn
     __m128 m_vTo;
 };
 
-extern const __m128 DAT_010ec7f0;
 
 static __forceinline float dot3(__m128 a, __m128 b)
 {
@@ -376,7 +372,7 @@ static __forceinline __m128 lerp(__m128 a, __m128 b, const float& t)
 {
     __m128 scalar = _mm_load_ss(&t);
     __m128 ts = _mm_shuffle_ps(scalar, scalar, 0);
-    __m128 one = DAT_010ec7f0;
+    __m128 one = ::DAT_010ec7f0;
     return _mm_add_ps(_mm_mul_ps(a, _mm_sub_ps(one, ts)), _mm_mul_ps(b, ts));
 }
 

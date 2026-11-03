@@ -1,5 +1,15 @@
 // bsshader/imagespaceshaderparam.cpp: ImageSpaceShaderParam (9 functions)
 
+#include "fnv/decl/AA4610Allocator.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00844700_Class.h"
+#include "fnv/decl/FUN_00aa45a0_Class.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
 #include "imagespaceshaderparam_decls.h"
 #include "imagespaceshaderparam_types_NiD3DShaderConstantMap.h"
 #include "imagespaceshaderparam_types_ImageSpaceShaderParam.h"
@@ -9,13 +19,13 @@
 void ImageSpaceShaderParam::AllocateShaderConstants(int vertexCount, int pixelCount)
 {
     FUN_00b8a7e0();
-    m_pVertexShaderConstantMap = new NiD3DShaderConstantMap(g_pkRenderer, 0);
-    m_pPixelShaderConstantMap = new NiD3DShaderConstantMap(g_pkRenderer, 2);
+    m_pVertexShaderConstantMap = new NiD3DShaderConstantMap((*reinterpret_cast<::GraphicsRenderer * *>(&::DAT_011f9508)), 0);
+    m_pPixelShaderConstantMap = new NiD3DShaderConstantMap((*reinterpret_cast<::GraphicsRenderer * *>(&::DAT_011f9508)), 2);
     m_iVertexShaderConstantCount = vertexCount + 3;
     if (m_iVertexShaderConstantCount > 0)
     {
         if (m_pfVertexShaderConstants)
-            g_memoryManager.Deallocate(m_pfVertexShaderConstants);
+            reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(m_pfVertexShaderConstants);
         m_pfVertexShaderConstants =
             reinterpret_cast<float*>(new ImageSpaceShaderParamFloat[m_iVertexShaderConstantCount * 4]);
         m_pVertexShaderConstantMap.m_pObject->AddConstant(
@@ -26,7 +36,7 @@ void ImageSpaceShaderParam::AllocateShaderConstants(int vertexCount, int pixelCo
     if (m_iPixelShaderConstantCount > 0)
     {
         if (m_pfPixelShaderConstants)
-            g_memoryManager.Deallocate(m_pfPixelShaderConstants);
+            reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(m_pfPixelShaderConstants);
         m_pfPixelShaderConstants =
             reinterpret_cast<float*>(new ImageSpaceShaderParamFloat[m_iPixelShaderConstantCount * 4]);
         m_pPixelShaderConstantMap.m_pObject->AddConstant(
@@ -49,7 +59,7 @@ void ImageSpaceShaderParam::SetShaderConstantVector4(int index, float x, float y
 // @fnv 0x00b8a8d0
 void ImageSpaceShaderParam::SetRenderState(unsigned int state, unsigned int value)
 {
-    m_kRenderStateMap.SetAt(state, value);
+    reinterpret_cast<::FUN_00844700_Class *>(&(m_kRenderStateMap))->FUN_00844700(state, value);
 }
 
 // Releases the object references and deallocates the two buffers, clearing each pointer to null.
@@ -68,12 +78,12 @@ void ImageSpaceShaderParam::FUN_00b8a7e0()
     }
     if (m_pfVertexShaderConstants)
     {
-        g_memoryManager.Deallocate(m_pfVertexShaderConstants);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(m_pfVertexShaderConstants);
         m_pfVertexShaderConstants = 0;
     }
     if (m_pfPixelShaderConstants)
     {
-        g_memoryManager.Deallocate(m_pfPixelShaderConstants);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(m_pfPixelShaderConstants);
         m_pfPixelShaderConstants = 0;
     }
 }
@@ -131,8 +141,6 @@ void FUN_00b8a860_shell::SetEntry(int aiIndex, float* apSource)
 
 struct ShaderConstants_4e30
 {
-    void SetReferenceVector(int idx, float f0, float f1, float f2, float f3);
-    void SetEntry(int idx, float* src);
 };
 
 struct ShaderParamOwner_4e30
@@ -244,9 +252,9 @@ bool ShaderPass_4e30::FUN_00c04e30(int arg)
     kParam2.g = apTargetLight->p24;
     kParam2.b = apTargetLight->p28;
     kParam2.a = apTargetLight->p2C;
-    pShader->SetReferenceVector(0, apTargetLight->x, apTargetLight->y, apTargetLight->z, fRadius);
-    pShader->SetEntry(1, &kParam1.r);
-    pShader->SetEntry(2, &kParam2.r);
-    pShader->SetEntry(3, &kParam3.r);
+    reinterpret_cast<::ImageSpaceShaderParam *>((pShader))->SetShaderConstantVector4(0, apTargetLight->x, apTargetLight->y, apTargetLight->z, fRadius);
+    reinterpret_cast<::FUN_00b8a860_shell *>((pShader))->SetEntry(1, &kParam1.r);
+    reinterpret_cast<::FUN_00b8a860_shell *>((pShader))->SetEntry(2, &kParam2.r);
+    reinterpret_cast<::FUN_00b8a860_shell *>((pShader))->SetEntry(3, &kParam3.r);
     return false;
 }

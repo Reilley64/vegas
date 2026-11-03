@@ -1,6 +1,10 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef FNV_PATROLACTORPACKAGEDATA_H
 #define FNV_PATROLACTORPACKAGEDATA_H
+#include "fnv/decl/FUN_009f2ba0_shell.h"
+#include "fnv/decl/FUN_009f3390_shell.h"
+#include "fnv/decl/PatrolData.h"
+#include "fnv/symbols_009f2000.h"
 #include "layout_support.h"
 #include "lowprocess_Actor.h"
 #include "lowprocess_TESObjectREFR.h"
@@ -33,10 +37,6 @@ FNV_STATIC_ASSERT(offsetof(ActorPackageData, m_ppVirtualMethodTable) == 0);
 class PatrolActorPackageData : public ActorPackageData
 {
   public:
-    bool Init(Actor*, TESPackage*);
-    bool AdvanceToNextReference(bool);
-    TESObjectREFR* GetCurrentPatrolReference();
-    static TESObjectREFR* GetPatrolReference(Actor*, TESPackage*);
 
     // base ActorPackageData at +0x0, size 4
     PatrolActorPackageData__PATROL_STATE eState;  // +0x4, 4 bytes

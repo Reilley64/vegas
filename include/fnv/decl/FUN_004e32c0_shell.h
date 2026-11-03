@@ -1,0 +1,7 @@
+#pragma once
+
+struct FUN_004e32c0_shell {
+public:
+    // 0x004e32c0
+    void FUN_004e32c0();
+};

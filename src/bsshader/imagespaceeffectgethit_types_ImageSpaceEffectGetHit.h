@@ -2,6 +2,10 @@
 #ifndef FNV_IMAGESPACEEFFECTGETHIT_H
 #define FNV_IMAGESPACEEFFECTGETHIT_H
 
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/FUN_00ba3b50_t.h"
+#include "fnv/decl/FUN_00ba3c70_shell.h"
+#include "fnv/symbols_00ba3000.h"
 #include "layout_support.h"
 #include "NiObject.h"
 #include "layout_support.h"
@@ -57,7 +61,6 @@ class NiTPrimitiveArray_ImageSpaceEffectParam___
     : public NiTArray<ImageSpaceEffectParam*, NiTMallocInterface<ImageSpaceEffectParam*> >
 {
   public:
-    void SetAt(unsigned int, ImageSpaceEffectParam*&);
 
     // base NiTArray<ImageSpaceEffectParam *,NiTMallocInterface<ImageSpaceEffectParam *> > at +0x0, size 16
     // NiTPrimitiveArray<ImageSpaceEffectParam *>
@@ -73,7 +76,6 @@ class NiTPrimitiveArray_ImageSpaceTexture___
     : public NiTArray<ImageSpaceTexture*, NiTMallocInterface<ImageSpaceTexture*> >
 {
   public:
-    unsigned int AddFirstEmpty(unsigned int);
 
     // base NiTArray<ImageSpaceTexture *,NiTMallocInterface<ImageSpaceTexture *> > at +0x0, size 16
     // NiTPrimitiveArray<ImageSpaceTexture *>
@@ -111,9 +113,6 @@ class ImageSpaceEffect
   public:
     ImageSpaceEffect();
     virtual ~ImageSpaceEffect();
-    void SetTextureArrayCount(int);
-    void SetEffectAt(int, ImageSpaceEffect*, ImageSpaceEffectParam*, int);
-    void SetEffectAt(int, int, int, int, int);
 
     bool bIsActive;       // +0x4, 1 bytes
     bool bParamsChanged;  // +0x5, 1 bytes
@@ -132,6 +131,8 @@ class ImageSpaceEffect
     // void __cdecl ImageSpaceEffect::*(int, ImageSpaceTexture*, NiTexturingProperty::FilterMode)
     // ImageSpaceEffect& __cdecl ImageSpaceEffect::*(const ImageSpaceEffect&)
     // void __cdecl ImageSpaceEffect::*()
+public:
+    void SetTextureArraySize(int);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(ImageSpaceEffect) == 88);
@@ -182,9 +183,7 @@ class ImageSpaceEffectWithTwoTextures : public ImageSpaceEffect
 {
   public:
     ImageSpaceEffectWithTwoTextures();
-    void SetEffectParamAt(int, int, int);
 
-    void Setup(ImageSpaceManager*, ImageSpaceEffectParam*);
     bool UpdateParams(ImageSpaceEffectParam*);
     // base ImageSpaceEffect at +0x0, size 88
     float* pVector4;                         // +0x58, 4 bytes

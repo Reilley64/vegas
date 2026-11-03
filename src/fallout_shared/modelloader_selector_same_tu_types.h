@@ -252,6 +252,10 @@ class TESForm : public BaseFormComponent
     unsigned long refID;
     tList<ModInfo> mods;
     ENUM_FORM_ID GetFormType() const;
+public:
+    bool GetDisabled() const;
+public:
+    void ClearData();
 };
 
 class TESObject : public TESForm
@@ -381,10 +385,15 @@ class TESModelTextureSwap : public TESModel
     tList<Texture> textureList;
 };
 
+class QueuedFile;
+class TESBoundObject;
+enum IO_TASK_PRIORITY;
 class BGSDestructibleObjectForm : public BaseFormComponent
 {
   public:
     DestructibleData* data;
+public:
+    void QueueResourceLoad(::TESBoundObject *, ::IO_TASK_PRIORITY, ::QueuedFile *);
 };
 
 class BGSPickupPutdownSounds : public BaseFormComponent

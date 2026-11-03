@@ -5,17 +5,28 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkptoicountviewer_gs_ehsc_nogs_noehsc_variant.cpp - flag-variant unit created 2026-10-29 by flag_proofs.py: contributor code for these functions matched byte for
 // byte only under /MT /O2 /GS- /EHs-c- /Gy (unit src/havok/physics/utilities/visualdebugger/viewer/collide/hkptoicountviewer.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
+#include "fnv/decl/CB1A90Owner.h"
+#include "fnv/decl/FUN_00cb18f0_t.h"
+#include "fnv/decl/FUN_00cb1fe0_t.h"
+#include "fnv/decl/HostC9C6.h"
+#include "fnv/decl/S_00dd9380.h"
+#include "fnv/decl/SearchArray.h"
+#include "fnv/decl/StringBuf.h"
+#include "fnv/decl/fnv_00c93920__hkpWorldXc93920.h"
+#include "fnv/decl/fnv_00c93a20__hkpWorldXc93a20.h"
+#include "fnv/decl/hkWorldXc91a20.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d67000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01269000.h"
 void __stdcall ClearTwoInts(int* a, int* b);
-extern int g_D67960Value;
 int __cdecl FUN_00d67960();
 struct Item;
 struct Sink
 {
-    void FUN_00c9c670(Item*);
 };
 struct Link
 {
-    void FUN_00cb1fb0(Sink*);
 };
 struct Item
 {
@@ -94,7 +105,6 @@ struct CountArray
     int capacity;
     CountArray() : data(0), size(0), capacity(-1)
     {}
-    void EnsureCapacity(void*, int);
 };
 struct BSAudio
 {
@@ -136,13 +146,9 @@ class FUN_00d67ce0 : public FUN_00ddccb0,
     CountArray counts;
     FUN_00d67ce0(int context);
 };
-void* AllocateToiCountViewer();
 struct S_00d67e10_Registry
 {
-    int Register(const char* name, void* (*create)());
 };
-extern S_00d67e10_Registry* g_00d67e10_registry;
-extern int g_00d67e10_toiCounterId;
 void RegisterToiCounter();
 struct BSAudio;
 __declspec(nothrow) BSAudio* FUN_00c85750();
@@ -171,7 +177,6 @@ struct BaseC
 {
     virtual void c0();
     ItemList* list;
-    __declspec(nothrow) void Remove(void* item);
 };
 struct Base0 : BaseP, BaseQ, BaseC
 {
@@ -205,7 +210,7 @@ struct Member : MemberBase
     __declspec(nothrow) void Release(void* heap);
     ~Member()
     {
-        Release(((AudioHeap*)FUN_00c85750())->heap);
+        reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)(((AudioHeap*)FUN_00c85750())->heap));
     }
 };
 struct FUN_00d67fa0 : Base0, Iface1, Iface2, Iface3
@@ -262,17 +267,13 @@ struct Query
 };
 struct BaseHelper
 {
-    void FUN_00d68030(void* entry, int mode);
 };
-int __cdecl FUN_00d679c0(float* direction);
 struct Context
 {
     void ProcessQuery(Query* query);
 };
 struct FUN_00d67970_helper
 {
-    void __thiscall c93920(void* value);
-    void __thiscall c93a20(void* value);
 };
 struct FUN_00d67970_class
 {
@@ -285,12 +286,10 @@ struct FUN_00d67970_class
 };
 struct OwnerBinding
 {
-    void Bind(void* owner);
 };
 struct SubLink
 {
     int unk00;
-    void Attach(int* p);
 };
 struct FUN_00d67b90_cls
 {
@@ -341,9 +340,6 @@ struct SpawnedObject
     unsigned int unk00;
     unsigned int unk04;
     SpawnedObject* m_08;
-    void FUN_00c9c670(void* listener) throw();
-    void FUN_00c91a20(void* listener) throw();
-    void ClearValue(void* listener) throw();
 };
 struct Alloc
 {
@@ -355,7 +351,6 @@ struct Alloc
 };
 struct BSAudio;
 BSAudio* FUN_00c85750() throw();
-void __cdecl ResizeAudioStream(void* a, void* arr, unsigned int size) throw();
 struct Map
 {
     Entry* m_kPrimitiveElement;
@@ -389,7 +384,6 @@ struct Map
         return it <= m_hashModMask;
     }
 
-    void FUN_00cb1fb0(SpawnedObject* o) throw();
 };
 struct Array
 {
@@ -422,7 +416,7 @@ class FUN_00d67e30_cls
     void RemoveEntriesForObject(SpawnedObject* a1);
 };
 #include <xmmintrin.h>
-extern const __m128 DAT_01017d10;
+#include "fnv/symbols_simd.h"
 __declspec(align(16)) struct SquaredLanes
 {
     float m_uiX;
@@ -430,10 +424,8 @@ __declspec(align(16)) struct SquaredLanes
     float m_uiZ;
     float m_w;
 };
-int __cdecl FUN_00d679c0(const __m128* v);
 struct PtrMapEntryObj
 {
-    void FUN_00c9c670(void* arg);
 };
 struct PtrMapEntry
 {
@@ -497,7 +489,6 @@ struct BSAudioString
     int buffer70, buffer74, buffer78, buffer7c;
 
     BSAudioString();
-    void Format(const char* format, ...);
 
     void Release()
     {
@@ -530,7 +521,6 @@ struct ContactTable
     ContactEntry* m_entries;
     int m_iElementCount;
     int m_pRayCursor;
-    int Find(const void* key);
 };
 struct ContactViewer
 {
@@ -551,8 +541,6 @@ struct ContactViewer
 
     void FUN_00d68030(void* entry, int mode);
 };
-extern void __cdecl FUN_00d67a50(int owner, int id, void* entry, int mode, const char* name, unsigned int info,
-                                 float value, BSAudioValue flags);
 struct D681E0Primary
 {
     virtual void vfunc00();
@@ -608,7 +596,6 @@ struct AdjDerived : AdjPrimaryBase, AdjSecondaryBase
 AdjDerived::AdjDerived()
 {}
 
-extern __m128 DAT_01267e30;
 extern "C" double __cdecl fabs(double);
 class S00d67a50_Shape377
 {
@@ -788,7 +775,7 @@ void FUN_00d67a50(S00d67a50_Owner377* self, int a2, S00d67a50_Context377* ctx, i
     center.scale(S00d67a50_Scalar377(0.5f));
     extent.difference(*(S00d67a50_MathVector377*)&box.mxx, center);
     S00d67a50_MathVector377 direction;
-    direction.v = DAT_01267e30;
+    direction.v = (*reinterpret_cast<::__m128 *>(&::DAT_01267e30));
     int q = i / 3;
     int r = i - q * 3;
     direction.coordinates[r] = 1.0f - 2.0f * (float)q;

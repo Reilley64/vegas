@@ -2,6 +2,11 @@
 #ifndef FNV_NITMAPBASE_DECLS_H
 #define FNV_NITMAPBASE_DECLS_H
 
+#include "fnv/decl/InteriorCellLookup.h"
+#include "fnv/decl/ResourceDescriptor.h"
+#include "fnv/decl/fnv_005892c0__FUN_005892c0_t.h"
+#include "fnv/symbols_00464000.h"
+#include "fnv/symbols_00845000.h"
 #include "layout_support.h"
 #include "NiRefObject.h"
 
@@ -62,7 +67,6 @@ template <> class NiTMapBase<DFALL<NiTMapItem<unsigned int, CombatThreatRecord*>
     unsigned int count;
     bool GetFirstPos();
     NiTMapBase* Destructor(unsigned int flags);
-    void FUN_008456c0();
 };
 class TESObjectCELL;
 extern void* DAT_01031fec[];
@@ -71,7 +75,6 @@ template <> class NiTMapBase<NiTPointerAllocator<unsigned int>, int, TESObjectCE
   public:
     void* vtable;
     NiTMapBase(unsigned int size);
-    void InitArray(unsigned int size);
 };
 class TESForm;
 extern void* DAT_01019a3c[];
@@ -80,7 +83,6 @@ template <> class NiTMapBase<NiTPointerAllocator<unsigned int>, unsigned int, TE
   public:
     void* vtable;
     NiTMapBase(unsigned int size, unsigned int flags);
-    void FUN_004705e0(unsigned int size, unsigned int flags);
 };
 class BaseFormComponent
 {
@@ -100,9 +102,7 @@ class NavMeshInfo
   public:
     char reserved[12];
     TESObjectCELL* cell;
-    TESObjectCELL* GetInteriorCell();
 };
-const char* PrepareScriptMessage(const char*, bool);
 class TESFile
 {
   public:

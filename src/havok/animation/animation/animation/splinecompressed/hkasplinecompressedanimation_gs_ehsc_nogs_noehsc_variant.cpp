@@ -5,14 +5,26 @@
 
 // src/havok/animation/animation/animation/splinecompressed/hkasplinecompressedanimation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/splinecompressed/hkasplinecompressedanimation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00e2f7c0_Class.h"
+#include "fnv/decl/FnvNode.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/fnv_00e33e90__hkaSplineCompressedAnimationE33E.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00e33000.h"
+#include "fnv/symbols_00e34000.h"
+#include "fnv/symbols_00e52000.h"
+#include "fnv/symbols_00e63000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010eb000.h"
+#include "fnv/symbols_011be000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkaSplineCompressedAnimation.h"
 struct FUN_00e33330_Class
 {
     void* __thiscall FUN_00e33330();
 };
 extern bool DAT_0126efb8;
-void __cdecl FUN_00e63c60(bool*);
-int __cdecl GetIndexedValueWithOffset(int offset, const int* values, int index, int count);
 int __stdcall FUN_00e32ed0(int a1, int a2);
 struct FnvAnimation
 {
@@ -31,10 +43,6 @@ struct FnvAnimation
     int FUN_00e32ee0(float time, int parameterA, int parameterB, int parameterC);
 };
 typedef void(__cdecl* SplineDecodeFn)(int, void*);
-extern int DAT_010eb3b8[];
-extern int DAT_010eb3d0[];
-extern SplineDecodeFn DAT_011be4b8[];
-void __cdecl DecodeSplineFrames(int* cursor, int type, int lastFrame, int firstFrame, int endFrame, void* output);
 template <class T> class hkArrayE333
 {
   public:
@@ -95,8 +103,6 @@ class hkaSplineCompressedAnimationE333
     int unk88;
     int unk8C;
 
-    void GetBlockAndTime(unsigned int frame, float delta, int& blockOut, float& blockTimeOut,
-                         unsigned char& quantizedTimeOut) const throw();
     void GetDataChunks(unsigned int frame, float delta, hkaAnimationDataChunkE333* dataChunks, int numDataChunks) const
         throw();
 };
@@ -177,8 +183,6 @@ class hkaSplineCompressedAnimationE347
     void GetBlockAndTime(unsigned int frame, float delta, int& blockOut, float& blockTimeOut,
                          unsigned char& quantizedTimeOut) const throw();
 };
-void __cdecl DecodeSplineFrame(const unsigned char*& dataInOut, int quantization, float frameDuration, float time,
-                               int numItems, void* out, int stride);
 class hkaSplineAnimE33
 {
   public:
@@ -208,7 +212,6 @@ struct hkVector4E34
 {
     float x, y, z, w;
 };
-void __cdecl BlendVector4(unsigned char mask, const hkVector4E34& a, const hkVector4E34& b, hkVector4E34& out);
 __declspec(noinline) int __cdecl FindKeyInterval(int n, int p, int u, const hkUint8* knots)
 {
     hkUint8 value = (hkUint8)u;
@@ -243,12 +246,10 @@ struct ResultArg
         return ptr;
     }
 };
-extern const AlignedVector4 DAT_01268700;
 struct FUN_00e33e10_Class : hkaSplineCompressedAnimation
 {
     void EvaluateSpline(float time, int track, int enabled, int block, unsigned int* cursor, ResultArg result);
 };
-void __cdecl FUN_00e33a30(unsigned int*, int, float, float, int, int, const AlignedVector4*, AlignedVector4*);
 struct SplineDataChunk
 {
     const char* m_data;
@@ -257,16 +258,6 @@ struct SplineDataChunk
 };
 struct SplineAnimSampler : public hkaSplineCompressedAnimation
 {
-    void GetBlockAndTime(unsigned int frame, float delta, int& blockOut, float& blockTimeOut,
-                         unsigned char& quantizedTimeOut) const;
-    void EvaluateSpline(float time, unsigned char quantizedTime, unsigned char mask, int quantization,
-                        const unsigned char** data, hkVector4* out) const;
-    void ExtractFrame(float time, unsigned char quantizedTime, unsigned char mask, int quantization,
-                      const unsigned char** data, hkQuaternion* out) const;
-    void FUN_00e33e90(float time, unsigned char quantizedTime, unsigned char mask, int quantization,
-                      const unsigned char** data, hkVector4* out) const;
-    void FUN_00e33f10(float time, unsigned char quantizedTime, unsigned char mask, int quantization,
-                      const unsigned char** data, float* out) const;
 };
 void FUN_00e33f90(unsigned int frameIndex, float delta, unsigned int maxNumTransformTracks,
                   hkQsTransform* transformsOut, unsigned int maxNumFloatTracks, float* floatsOut,
@@ -279,23 +270,13 @@ template <class T> inline const T& hkArrayAtE344(const hkArray<T>& a, int i)
 {
     return a.m_data[i];
 }
-const hkUint8* __cdecl GetIndexedValueWithOffset(const hkUint8* base, const hkUint32* offsets, hkUint32 block,
-                                                 hkUint32 offset);
 class hkaSplineCompressedAnimationE344 : public hkaSplineCompressedAnimation
 {
   public:
-    __declspec(noalias) void FUN_00e2f7c0(hkReal time, hkUint32& frameOut, hkReal& deltaOut) const;
-    __declspec(noalias) void GetBlockAndTime(hkUint32 frame, hkReal delta, hkUint32& blockOut, hkReal& blockTimeOut,
-                                             hkUint8& quantizedTimeOut) const;
-    void FUN_00e33f10(hkReal blockTime, hkUint8 quantizedTime, hkUint8 mask, int quantization,
-                      const hkUint8*& dataInOut, hkReal& out) const;
     void FUN_00e34490(hkReal time, const hkInt16* tracks, hkUint32 numTracks, hkReal* floatTracksOut) const;
 };
-extern void* __cdecl FUN_00c85750(void);
 extern void __cdecl FUN_00dfb5a0(int value);
-extern void __cdecl FUN_00c905b0(void);
 extern int DAT_010de0ec;
-extern int DAT_0102e388;
 struct FUN_00e345a0_Track
 {
     virtual void vf00();
@@ -391,7 +372,6 @@ class hkError
     virtual void slot08();
     virtual int message(int type, int id, const char* description, const char* file, int line);
 };
-extern hkError* DAT_01268360;
 
 enum QuantizationType
 {
@@ -464,9 +444,8 @@ hkBoolE330 TrackCompressionParams::FUN_00e330b0() const
     {
         char assertBuf[512];
         hkOstream ostr(assertBuf, sizeof(assertBuf));
-        ostr
-            << "Quantization may be limiting translation quality.  If artifacts are visible, try increasing the number of translation quantization bits.";
-        DAT_01268360->message(1, 0xabba5a61, assertBuf,
+        reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(ostr))->FUN_00cc01c0("Quantization may be limiting translation quality.  If artifacts are visible, try increasing the number of translation quantization bits.");
+        (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabba5a61, assertBuf,
                               ".\\Animation\\SplineCompressed\\hkaSplineCompressedAnimation.cpp", 79);
     }
 
@@ -474,9 +453,8 @@ hkBoolE330 TrackCompressionParams::FUN_00e330b0() const
     {
         char assertBuf[512];
         hkOstream ostr(assertBuf, sizeof(assertBuf));
-        ostr
-            << "Quantization may be limiting scale quality.  If artifacts are visible, try increasing the number of scale quantization bits.";
-        DAT_01268360->message(1, 0xabba5a61, assertBuf,
+        reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(ostr))->FUN_00cc01c0("Quantization may be limiting scale quality.  If artifacts are visible, try increasing the number of scale quantization bits.");
+        (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabba5a61, assertBuf,
                               ".\\Animation\\SplineCompressed\\hkaSplineCompressedAnimation.cpp", 84);
     }
 
@@ -484,9 +462,8 @@ hkBoolE330 TrackCompressionParams::FUN_00e330b0() const
     {
         char assertBuf[512];
         hkOstream ostr(assertBuf, sizeof(assertBuf));
-        ostr
-            << "Quantization may be limiting float quality.  If artifacts are visible, try increasing the number of float quantization bits.";
-        DAT_01268360->message(1, 0xabba5a61, assertBuf,
+        reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(ostr))->FUN_00cc01c0("Quantization may be limiting float quality.  If artifacts are visible, try increasing the number of float quantization bits.");
+        (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabba5a61, assertBuf,
                               ".\\Animation\\SplineCompressed\\hkaSplineCompressedAnimation.cpp", 89);
     }
 
@@ -495,9 +472,8 @@ hkBoolE330 TrackCompressionParams::FUN_00e330b0() const
     {
         char assertBuf[512];
         hkOstream ostr(assertBuf, sizeof(assertBuf));
-        ostr
-            << "Quantization may be limiting rotation quality.  If artifacts are visible, try increasing the number of rotation quantization bits.";
-        DAT_01268360->message(1, 0xabba5a61, assertBuf,
+        reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(ostr))->FUN_00cc01c0("Quantization may be limiting rotation quality.  If artifacts are visible, try increasing the number of rotation quantization bits.");
+        (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabba5a61, assertBuf,
                               ".\\Animation\\SplineCompressed\\hkaSplineCompressedAnimation.cpp", 100);
     }
 

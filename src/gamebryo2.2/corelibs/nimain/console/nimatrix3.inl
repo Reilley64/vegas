@@ -1,4 +1,5 @@
 
+#include "fnv/decl/FUN_00439f50_class.h"
 #include "nimatrix3_decls.h"
 
 // @fnv 0x00476930
@@ -53,7 +54,7 @@ void NiAVObject::SetLocalRotation(float angle,float x,float y,float z) { rotatio
 NiPoint3 NiAVObject::GetWorldTranslation() {
  NiPoint3 result;
 
- worldRotation.FUN_00439f50(0,result);
+ reinterpret_cast<::FUN_00439f50_class *>(&(worldRotation))->FUN_00439f50(0,(::NiPoint3 *)&(result));
  return result;
 }
 
@@ -77,7 +78,7 @@ void ThreeByThreeMatrix::SetYRotation(float angle) {
 NiTransform NiTransform::operator*(const NiTransform& other) const {
  NiTransform result;
  result.scale=scale*other.scale;
- result.rotation=rotation*other.rotation;
+ result.rotation=reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::ThreeByThreeMatrix &)(rotation))->operator+(other.rotation);
  result.translation=translation+NiPosData::ComputePositionAtTime(scale,rotation*other.translation);
  return result;
 }

@@ -2,6 +2,7 @@
 #ifndef FNV_NIPSYSCOLLIDER_STREAM_H
 #define FNV_NIPSYSCOLLIDER_STREAM_H
 
+#include "fnv/decl/FUN_00a645b0_cls.h"
 #include "layout_support.h"
 #include "NiFixedString.h"
 #include "NiObject.h"
@@ -203,7 +204,6 @@ FNV_STATIC_ASSERT(offsetof(ProcessorAffinityInfo, m_uiProcessorAffinityMask) == 
 class NiStream
 {
   public:
-    void ResetStreamState();
     NiObject* GetLoadedObject();
     void** m_ppVirtualMethodTable;                                     // +0x0, 4 bytes
     BSStreamHeader m_kHeader;                            // +0x4, 196 bytes

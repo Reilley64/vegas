@@ -9,6 +9,12 @@
 
 #include <xmmintrin.h>
 #include <math.h>
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_010c7000.h"
+#include "fnv/symbols_simd.h"
 struct hkMemory
 {
     virtual ~hkMemory() throw();
@@ -30,13 +36,6 @@ __forceinline hkThreadMemory* getThreadMemory() throw()
 {
     return (hkThreadMemory*)FUN_00c85750();
 }
-void __cdecl FUN_00c90940(void* mem, void* array, int elemSize) throw();
-void __cdecl FUN_00c908c0(void* mem, void* array, int reqCapacity, int elemSize) throw();
-extern const float DAT_01016248;
-extern const float DAT_01017718;
-extern const float DAT_01011d78;
-extern const __m128 DAT_010c71a0;
-extern const __m128 DAT_010c71e0;
 
 class CapsuleScalar
 {
@@ -270,7 +269,7 @@ template <typename T> struct hkArray
         hkThreadMemory* memory = getThreadMemory();
         if ((m_iCapacityState & 0x3fffffff) < n)
         {
-            FUN_00c908c0(memory->m_pMemoryAllocator, this, n, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(memory->m_pMemoryAllocator), (::SpawnedArray *)(void *)(this), n, sizeof(T));
         }
     }
     __forceinline T& AllocatePair() throw()
@@ -291,7 +290,7 @@ template <typename T> struct hkArray
     {
         hkThreadMemory* memory = getThreadMemory();
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
-            FUN_00c90940(memory->m_pMemoryAllocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(memory->m_pMemoryAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         fillOne(m_data + m_iElementCount, 1, val);
         ++m_iElementCount;
     }
@@ -376,7 +375,7 @@ void __cdecl FUN_00da16d0(const hkVector4& top, const hkVector4& bottom, float r
     {
         axis.normalize3();
         hkVector4 zAxis;
-        zAxis.m_vComponents = DAT_010c71a0;
+        zAxis.m_vComponents = (*reinterpret_cast<const ::__m128 *>(&::DAT_010c71a0));
         float dotZ = zAxis.dot3(axis);
         if (fabsf(dotZ) < 0.99999f)
         {

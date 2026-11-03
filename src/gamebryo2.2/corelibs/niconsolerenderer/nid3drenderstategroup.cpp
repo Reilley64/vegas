@@ -1,5 +1,14 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3drenderstategroup.cpp: D3DRenderStateGroup, RenderOwner, StateGroup, StateGroupE7F5 (12 functions)
 
+#include "fnv/decl/ActiveArray.h"
+#include "fnv/decl/FUN_00e7ef80_List.h"
+#include "fnv/decl/FUN_00e7efc0_List.h"
+#include "fnv/decl/fnv_00e7f210__FUN_00e7f210_cls.h"
+#include "fnv/symbols_00e7f000.h"
+#include "fnv/symbols_010a9000.h"
+#include "fnv/symbols_010b0000.h"
+#include "fnv/symbols_011ad000.h"
+#include "fnv/symbols_0126f000.h"
 #include "nid3drenderstategroup_decls.h"
 // Returns the render state group from DAT_0126f718, setting its flag to true if it was false.
 // @fnv 0x00e7f5d0
@@ -53,7 +62,6 @@ struct Renderer00e7ef40
         int m_iPad;
     } m_kVals[64];
 };
-extern Renderer00e7ef40* DAT_0126f714;
 struct Group00e7ef40
 {
     char _pad0[16];
@@ -67,7 +75,7 @@ unsigned int Group00e7ef40::FUN_00e7ef40()
     while (pkRSEntry)
     {
         int iState = pkRSEntry->m_iFadeIndex;
-        Renderer00e7ef40* pRenderer = DAT_0126f714;
+        Renderer00e7ef40* pRenderer = (*reinterpret_cast<::Renderer00e7ef40 * *>(&::DAT_0126f714));
         int iVal = pRenderer->m_kVals[iState].m_iVal;
         pRenderer->Set(iState, iVal, 0, 0);
         pkRSEntry = pkRSEntry->m_pkNext;
@@ -88,24 +96,22 @@ unsigned int Group00e7eed0::ApplyGroupEntries()
     Entry00e7ef40* entry = *(Entry00e7ef40**)((char*)this + 8);
     while (entry)
     {
-        DAT_0126f714->Set(entry->m_iFadeIndex, entry->m_iPad, 0, 0);
+        (*reinterpret_cast<::Renderer00e7ef40 * *>(&::DAT_0126f714))->Set(entry->m_iFadeIndex, entry->m_iPad, 0, 0);
         entry = entry->m_pkNext;
     }
     entry = m_pkSaved;
     while (entry)
     {
-        DAT_0126f714->Set(entry->m_iFadeIndex, entry->m_iPad, 1, 0);
+        (*reinterpret_cast<::Renderer00e7ef40 * *>(&::DAT_0126f714))->Set(entry->m_iFadeIndex, entry->m_iPad, 1, 0);
         entry = entry->m_pkNext;
     }
     return 0;
 }
 
 struct Helper00b8d460;
-Helper00b8d460* SpawnHelper00b8d460();
 
 struct Helper00b8d460
 {
-    void Init(int a, int b, int c);
 };
 
 struct Sub00b8d460
@@ -122,38 +128,9 @@ struct Owner00b8d460
     void FUN_00b8d460();
 };
 
-// Ensures m_pSub->m_pHelper exists, then initialises it three times with (0x34,1,1), (0x38,3,1) and (0x39,1,1).
-// @fnv 0x00b8d460
-void Owner00b8d460::FUN_00b8d460()
-{
-    Sub00b8d460* pSub = m_pSub;
-    if (pSub->m_pHelper == 0)
-    {
-        pSub->m_pHelper = SpawnHelper00b8d460();
-    }
-    pSub->m_pHelper->Init(0x34, 1, 1);
-
-    pSub = m_pSub;
-    if (pSub->m_pHelper == 0)
-    {
-        pSub->m_pHelper = SpawnHelper00b8d460();
-    }
-    pSub->m_pHelper->Init(0x38, 3, 1);
-
-    pSub = m_pSub;
-    if (pSub->m_pHelper == 0)
-    {
-        pSub->m_pHelper = SpawnHelper00b8d460();
-    }
-    pSub->m_pHelper->Init(0x39, 1, 1);
-}
-
 extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
-extern "C" char str_010b0158;
 extern "C" char str_010b5c70;
 extern "C" char str_010b5c64;
-extern "C" char str_010a93ec;
-extern "C" char str_010a93cc;
 
 struct RenderBuffer
 {
@@ -180,9 +157,7 @@ struct RenderBuffer
 
 struct RenderState
 {
-    void SetNodeValue(unsigned int state, unsigned int value, unsigned int enabled);
 };
-extern "C" RenderState* __cdecl FUN_00e7f5d0();
 
 struct GroupState
 {
@@ -223,39 +198,6 @@ struct RenderOwner
 typedef void(__thiscall* ApplyState)(RenderOwner*, RenderBuffer*, RenderBuffer*, const void*, const void*, const void*);
 typedef void(__thiscall* CommitState)(RenderOwner*);
 
-// Builds two RenderBuffers, applies and commits them via virtual calls, then sets render states 0x1b, 0x13 and 0x14 on the group's state.
-// @fnv 0x00b925b0
-void RenderOwner::ApplyRenderState()
-{
-    RenderBuffer currentBuffer;
-    currentBuffer.typeInfo = &str_010b0158;
-    currentBuffer.state = 0;
-    FUN_00ec61c0(&currentBuffer.state08, 0, 0x44);
-
-    RenderBuffer fallbackBuffer;
-    fallbackBuffer.typeInfo = &str_010b5c70;
-    fallbackBuffer.state = 0;
-    FUN_00ec61c0(&fallbackBuffer.state08, 0, 0x44);
-
-    reinterpret_cast<ApplyState>(virtualTable[0x13c / sizeof(void*)])(this, &currentBuffer, &fallbackBuffer,
-                                                                      &str_010b5c64, &str_010a93ec, &str_010a93cc);
-    reinterpret_cast<CommitState>(virtualTable[0x14c / sizeof(void*)])(this);
-
-    GroupState* stateOwner = group;
-    if (!stateOwner->state)
-        stateOwner->state = FUN_00e7f5d0();
-    stateOwner->state->SetNodeValue(0x1b, 1, 1);
-
-    GroupState* nextOwner = group;
-    if (!nextOwner->state)
-        nextOwner->state = FUN_00e7f5d0();
-    nextOwner->state->SetNodeValue(0x13, 5, 1);
-
-    if (!nextOwner->state)
-        nextOwner->state = FUN_00e7f5d0();
-    nextOwner->state->SetNodeValue(0x14, 6, 1);
-}
-
 struct StateNode
 {
     unsigned int key;
@@ -263,7 +205,6 @@ struct StateNode
     StateNode* prev;
     StateNode* next;
 };
-extern ObjectPool<StateNode, NiTNewInterface<StateNode> >* DAT_0126f71c;
 struct StateGroup
 {
     int unk00;
@@ -271,9 +212,6 @@ struct StateGroup
     StateNode* tailA;
     unsigned int countB;
     StateNode* tailB;
-    StateNode* FindNodeByKey(unsigned int, bool&);
-    void FUN_00e7efc0(StateNode*);
-    void FUN_00e7ef80(StateNode*);
     void AddA(StateNode* node)
     {
         if (tailA)
@@ -298,11 +236,68 @@ struct StateGroup
     }
     void SetNodeValue(unsigned int, unsigned int, bool);
 };
+// Ensures m_pSub->m_pHelper exists, then initialises it three times with (0x34,1,1), (0x38,3,1) and (0x39,1,1).
+// @fnv 0x00b8d460
+void Owner00b8d460::FUN_00b8d460()
+{
+    Sub00b8d460* pSub = m_pSub;
+    if (pSub->m_pHelper == 0)
+    {
+        pSub->m_pHelper = ((::Helper00b8d460 *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    }
+    reinterpret_cast<::StateGroup *>((pSub->m_pHelper))->SetNodeValue(0x34, 1, 1);
+
+    pSub = m_pSub;
+    if (pSub->m_pHelper == 0)
+    {
+        pSub->m_pHelper = ((::Helper00b8d460 *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    }
+    reinterpret_cast<::StateGroup *>((pSub->m_pHelper))->SetNodeValue(0x38, 3, 1);
+
+    pSub = m_pSub;
+    if (pSub->m_pHelper == 0)
+    {
+        pSub->m_pHelper = ((::Helper00b8d460 *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    }
+    reinterpret_cast<::StateGroup *>((pSub->m_pHelper))->SetNodeValue(0x39, 1, 1);
+}
+// Builds two RenderBuffers, applies and commits them via virtual calls, then sets render states 0x1b, 0x13 and 0x14 on the group's state.
+// @fnv 0x00b925b0
+void RenderOwner::ApplyRenderState()
+{
+    RenderBuffer currentBuffer;
+    currentBuffer.typeInfo = &str_010b0158;
+    currentBuffer.state = 0;
+    FUN_00ec61c0(&currentBuffer.state08, 0, 0x44);
+
+    RenderBuffer fallbackBuffer;
+    fallbackBuffer.typeInfo = &str_010b5c70;
+    fallbackBuffer.state = 0;
+    FUN_00ec61c0(&fallbackBuffer.state08, 0, 0x44);
+
+    reinterpret_cast<ApplyState>(virtualTable[0x13c / sizeof(void*)])(this, &currentBuffer, &fallbackBuffer,
+                                                                      &str_010b5c64, &str_010a93ec, &str_010a93cc);
+    reinterpret_cast<CommitState>(virtualTable[0x14c / sizeof(void*)])(this);
+
+    GroupState* stateOwner = group;
+    if (!stateOwner->state)
+        stateOwner->state = ((::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((stateOwner->state))->SetNodeValue(0x1b, 1, 1);
+
+    GroupState* nextOwner = group;
+    if (!nextOwner->state)
+        nextOwner->state = ((::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((nextOwner->state))->SetNodeValue(0x13, 5, 1);
+
+    if (!nextOwner->state)
+        nextOwner->state = ((::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((nextOwner->state))->SetNodeValue(0x14, 6, 1);
+}
 // @fnv 0x00e7f430
 void StateGroup::SetNodeValue(unsigned int key, unsigned int value, bool target)
 {
     bool foundType = false;
-    StateNode* node = FindNodeByKey(key, foundType);
+    StateNode* node = ((::StateNode *)(::FindNodeByKey((::Self_00e7f000 *)this, key, (int)&(foundType), *(bool *)nullptr)));
     if (node)
     {
         bool currentType = foundType;
@@ -311,19 +306,19 @@ void StateGroup::SetNodeValue(unsigned int key, unsigned int value, bool target)
         {
             if (currentType)
             {
-                FUN_00e7efc0(node);
+                reinterpret_cast<::FUN_00e7efc0_List *>(this)->FUN_00e7efc0((::FUN_00e7efc0_Node *)(node));
                 AddA(node);
             }
             else
             {
-                FUN_00e7ef80(node);
+                reinterpret_cast<::FUN_00e7ef80_List *>(this)->FUN_00e7ef80((::FUN_00e7ef80_Node *)(node));
                 AddB(node);
             }
         }
     }
     else
     {
-        StateNode* fresh = DAT_0126f71c->Get();
+        StateNode* fresh = (*reinterpret_cast<::ObjectPool< ::StateNode, ::NiTNewInterface< ::StateNode>> * *>(&::fnv_00e7f2b0::DAT_0126f71c))->Get();
         fresh->prev = 0;
         fresh->next = 0;
         fresh->key = key;
@@ -335,7 +330,6 @@ void StateGroup::SetNodeValue(unsigned int key, unsigned int value, bool target)
     }
 }
 
-extern char DAT_011ad832;
 struct Holder_b92d20
 {
     char pad[0x30];
@@ -343,7 +337,7 @@ struct Holder_b92d20
     RenderState* Get()
     {
         if (!pState)
-            pState = FUN_00e7f5d0();
+            pState = ((::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
         return pState;
     }
 };
@@ -356,20 +350,19 @@ struct B92D20Obj
 // @fnv 0x00b92d20
 void B92D20Obj::ConfigureRenderState()
 {
-    if (DAT_011ad832)
+    if ((*reinterpret_cast<char *>(&::fnv_004e8ec0::DAT_011ad832)))
     {
-        pHolder->Get()->SetNodeValue(0x34, 1, 1);
-        pHolder->Get()->SetNodeValue(0x38, 3, 1);
-        pHolder->Get()->SetNodeValue(0x39, 1, 1);
+        reinterpret_cast<::StateGroup *>((pHolder->Get()))->SetNodeValue(0x34, 1, 1);
+        reinterpret_cast<::StateGroup *>((pHolder->Get()))->SetNodeValue(0x38, 3, 1);
+        reinterpret_cast<::StateGroup *>((pHolder->Get()))->SetNodeValue(0x39, 1, 1);
     }
 }
 
 struct StateNodePoolE7F5
 {
-    void FindOrAdd(StateNode* const& pkNode);
     void ReleaseObject(StateNode* pkNode)
     {
-        FindOrAdd(pkNode);
+        reinterpret_cast<::ActiveArray *>(this)->FindOrAdd((void *const &)(pkNode));
     }
 };
 
@@ -423,7 +416,7 @@ struct StateGroupE7F5 : public StateGroup
 void StateGroupE7F5::RemoveNodeByKey(unsigned int uiKey)
 {
     bool bInB = false;
-    StateNode* pkNode = FindNodeByKey(uiKey, bInB);
+    StateNode* pkNode = ((::StateNode *)(::FindNodeByKey((::Self_00e7f000 *)this, uiKey, (int)&(bInB), *(bool *)nullptr)));
     if (pkNode)
     {
         if (bInB)
@@ -434,7 +427,7 @@ void StateGroupE7F5::RemoveNodeByKey(unsigned int uiKey)
         {
             RemoveA(pkNode);
         }
-        reinterpret_cast<StateNodePoolE7F5*>(DAT_0126f71c)->ReleaseObject(pkNode);
+        reinterpret_cast<StateNodePoolE7F5*>((*reinterpret_cast<::ObjectPool< ::StateNode, ::NiTNewInterface< ::StateNode>> * *>(&::fnv_00e7f2b0::DAT_0126f71c)))->ReleaseObject(pkNode);
     }
 }
 
@@ -448,13 +441,12 @@ struct RenderPassB71 : GroupState
 void RenderPassB71::FUN_00b71a10(unsigned int stateKey, unsigned int value, int)
 {
     if (!state)
-        state = FUN_00e7f5d0();
-    state->SetNodeValue(stateKey, value, true);
+        state = ((::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((state))->SetNodeValue(stateKey, value, true);
 }
 
 struct RenderStateCallB8F160
 {
-    void SetNodeValue(unsigned int state, unsigned int value, bool save);
 };
 
 struct RenderOwnerEntryB8F160 : RenderOwner
@@ -468,13 +460,13 @@ void RenderOwnerEntryB8F160::FUN_00b8f160()
 {
     GroupState* pass = group;
     if (!pass->state)
-        pass->state = FUN_00e7f5d0();
-    ((RenderStateCallB8F160*)pass->state)->SetNodeValue(0xA8, 0, true);
+        pass->state = ((::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((((RenderStateCallB8F160*)pass->state)))->SetNodeValue(0xA8, 0, true);
 
     pass = group;
     if (!pass->state)
-        pass->state = FUN_00e7f5d0();
-    ((RenderStateCallB8F160*)pass->state)->SetNodeValue(0xBE, 0xF, true);
+        pass->state = ((::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((((RenderStateCallB8F160*)pass->state)))->SetNodeValue(0xBE, 0xF, true);
 }
 
 extern int DAT_011ae680;
@@ -485,19 +477,19 @@ void __fastcall FUN_00b8f2f0(RenderOwner* owner)
 {
     GroupState* group = owner->group;
     if (!group->state)
-        group->state = FUN_00e7f5d0();
-    group->state->SetNodeValue(0x34, 1, true);
+        group->state = ((::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((group->state))->SetNodeValue(0x34, 1, true);
 
     group = owner->group;
     if (!group->state)
-        group->state = FUN_00e7f5d0();
-    group->state->SetNodeValue(0x38, 4, true);
+        group->state = ((::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((group->state))->SetNodeValue(0x38, 4, true);
 
     group = owner->group;
     int reference = DAT_011ae680;
     if (!group->state)
-        group->state = FUN_00e7f5d0();
-    group->state->SetNodeValue(0x39, reference, true);
+        group->state = ((::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((group->state))->SetNodeValue(0x39, reference, true);
 }
 
 // If owner->group->state is null, assigns FUN_00e7f5d0() to it, then sets node values 14, 52, and 56.
@@ -506,16 +498,16 @@ void __fastcall FUN_00b8f4b0(RenderOwner* owner)
 {
     GroupState* group = owner->group;
     if (!group->state)
-        group->state = FUN_00e7f5d0();
-    group->state->SetNodeValue(14, 0, true);
+        group->state = ((::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((group->state))->SetNodeValue(14, 0, true);
 
     group = owner->group;
     if (!group->state)
-        group->state = FUN_00e7f5d0();
-    group->state->SetNodeValue(52, 1, true);
+        group->state = ((::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((group->state))->SetNodeValue(52, 1, true);
 
     group = owner->group;
     if (!group->state)
-        group->state = FUN_00e7f5d0();
-    group->state->SetNodeValue(56, 3, true);
+        group->state = ((::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((group->state))->SetNodeValue(56, 3, true);
 }

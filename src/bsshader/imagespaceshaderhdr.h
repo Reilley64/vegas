@@ -2,6 +2,7 @@
 #define IMAGESPACESHADERHDR_H
 
 
+#include "fnv/decl/FUN_00a41520_cls.h"
 #include "imagespaceshaderhdr_support.h"
 
 // @fnv 0x00b90720
@@ -569,79 +570,79 @@ void ImageSpaceShaderHDRVariantThree::SetupShader()
 // @fnv 0x00b90190
 ImageSpaceShaderHDRVariantTwo::ImageSpaceShaderHDRVariantTwo()
 {
-    textures.SetSize(4);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(textures))->FUN_00a90180(4);
 }
 
 // @fnv 0x00b90330
 ImageSpaceShaderHDRVariantThree::ImageSpaceShaderHDRVariantThree()
 {
-    textures.SetSize(4);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(textures))->FUN_00a90180(4);
 }
 
 // @fnv 0x00b90520
 ImageSpaceShaderHDRVariantFour::ImageSpaceShaderHDRVariantFour()
 {
-    textures.SetSize(2);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(textures))->FUN_00a90180(2);
 }
 
 // @fnv 0x00b906b0
 ImageSpaceShaderHDRVariantFive::ImageSpaceShaderHDRVariantFive()
 {
-    textures.SetSize(2);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(textures))->FUN_00a90180(2);
 }
 
 // @fnv 0x00b90830
 ImageSpaceShaderHDRVariantSix::ImageSpaceShaderHDRVariantSix()
 {
-    textures.SetSize(2);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(textures))->FUN_00a90180(2);
 }
 
 // @fnv 0x00b909c0
 HDRBaseImageSpaceShaderVariant4::HDRBaseImageSpaceShaderVariant4()
 {
-    textures.SetSize(2);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(textures))->FUN_00a90180(2);
 }
 
 // @fnv 0x00b90b50
 HDRBaseImageSpaceShaderVariant1::HDRBaseImageSpaceShaderVariant1()
 {
-    textures.SetSize(2);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(textures))->FUN_00a90180(2);
 }
 
 // @fnv 0x00b91000
 HDRBaseImageSpaceShaderVariant2::HDRBaseImageSpaceShaderVariant2()
 {
-    textures.SetSize(3);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(textures))->FUN_00a90180(3);
 }
 
 // @fnv 0x00b911a0
 HDRBaseImageSpaceShaderVariant3::HDRBaseImageSpaceShaderVariant3()
 {
-    textures.SetSize(2);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(textures))->FUN_00a90180(2);
 }
 
 // @fnv 0x00b91340
 ImageSpaceShaderHDRVariantSeven::ImageSpaceShaderHDRVariantSeven()
 {
-    textures.SetSize(3);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(textures))->FUN_00a90180(3);
 }
 
 // @fnv 0x00b914e0
 ImageSpaceShaderHDRVariantEight::ImageSpaceShaderHDRVariantEight()
 {
-    textures.SetSize(2);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(textures))->FUN_00a90180(2);
 }
 
 // @fnv 0x00b90ce0
 HDRBaseImageSpaceShaderVariant5::HDRBaseImageSpaceShaderVariant5()
 {
-    textures.SetSize(3);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(textures))->FUN_00a90180(3);
 }
 
 // @fnv 0x00b90e70
 HDRBaseImageSpaceShaderVariant6::HDRBaseImageSpaceShaderVariant6()
 {
-    textures.SetSize(2);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(textures))->FUN_00a90180(2);
 }
 
 #endif

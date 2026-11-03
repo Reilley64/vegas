@@ -1,20 +1,52 @@
 // src/unmapped/debugtextmedia.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/debug/debugtextpages/debugtextmedia.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/BGSSaveLoadFileEntry.h"
+#include "fnv/decl/DirectoryIterator.h"
+#include "fnv/decl/FUN_004de2d0_StandIn.h"
+#include "fnv/decl/FUN_0068efb0_shell.h"
+#include "fnv/decl/FUN_006ea330_shell.h"
+#include "fnv/decl/FUN_0075f8c0_shell.h"
+#include "fnv/decl/FUN_007d5160_shell.h"
+#include "fnv/decl/FUN_007d5180_shell.h"
+#include "fnv/decl/FUN_00851f50_class.h"
+#include "fnv/decl/FUN_00851fc0_shell.h"
+#include "fnv/decl/FUN_00851ff0_class.h"
+#include "fnv/decl/FUN_00852060_Class.h"
+#include "fnv/decl/FUN_008526d0_shell.h"
+#include "fnv/decl/FUN_00852700_Class.h"
+#include "fnv/decl/FUN_008d85e0_Class.h"
+#include "fnv/decl/FileSizeInfo.h"
+#include "fnv/decl/PatrolActorPackageData.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TESTopicInfo.h"
+#include "fnv/decl/fnv_0050f9c0__FUN_0050f9c0_shell.h"
+#include "fnv/decl/fnv_00851f10__BGSSaveLoadFileEntry.h"
+#include "fnv/decl/fnv_00851f30__BGSSaveLoadFileEntry.h"
+#include "fnv/decl/fnv_00851f60__FUN_00851f60_Class.h"
+#include "fnv/decl/fnv_00851f90__FUN_00851f90_class.h"
+#include "fnv/decl/fnv_00852030__FUN_00852030_Class.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_007d6000.h"
+#include "fnv/symbols_0084c000.h"
+#include "fnv/symbols_0084d000.h"
+#include "fnv/symbols_00852000.h"
+#include "fnv/symbols_011d3000.h"
+#include "fnv/symbols_011d4000.h"
+#include "fnv/symbols_011de000.h"
 namespace fnv_00852080 {
 // FUN_00852080 v3 - full Handle-scope transcription (worker4)
 class GlobalObject_0045cf30
 {
   public:
     unsigned char* FUN_00408d60();
-    void FUN_004de2d0(int v);
 };
-extern GlobalObject_0045cf30 g_011de308;
 int __cdecl FUN_00406d50(char* dst, unsigned int sz, const char* src);
-int __cdecl FUN_0044a670(char* s);
 extern const char saveExtension[];
 int __cdecl FUN_004564f0(char* a, const char* b, int n);
-int __cdecl FUN_00406d00(char* buf, unsigned int sz, const char* fmt, ...);
 void* __cdecl operator new(unsigned int n);
 
 class Finder
@@ -22,9 +54,6 @@ class Finder
   public:
     Finder(char* p);
     ~Finder();
-    void FUN_00b00720(unsigned char* flag29);
-    bool FUN_00852700();
-    char* FUN_00436aa0();
     void* searchHandle;
     unsigned int attributes;
     unsigned int creationLow, creationHigh;
@@ -45,9 +74,6 @@ class Handle
   public:
     Handle(char* name, int a, int b, bool c);
     ~Handle();
-    int FUN_00559450();
-    void FUN_0065c290(int* pair);
-    int FUN_008526d0(int v);
     void* file;
     int mode;
     int flags;
@@ -130,15 +156,6 @@ class SaveData
 class InfoLike
 {
   public:
-    int FUN_008d85e0(int a, int b, int* pair);
-    int FUN_008d85e0();
-    void* FUN_0068efb0();
-    void FUN_00851f60(const char* s);
-    void FUN_00851f90(char* s);
-    void FUN_00851fc0(char* s);
-    void FUN_00851ff0(int a, int b, int c);
-    void FUN_00852030(const char* s);
-    void FUN_00852060(int v);
 };
 class EntryLike
 {
@@ -177,22 +194,11 @@ class EntryLike
     int unk074;
     int unk078;
 
-    char* FUN_007d5180();
-    char* FUN_007d5140();
-    char* FUN_0075f8c0();
-    unsigned int FUN_007d5160();
-    int FUN_00851ef0();
-    int FUN_00851f30();
-    int FUN_00851f10();
-    char* FUN_007d6970();
-    void FUN_006ea330();
 };
 class SingObj
 {
   public:
     void* FUN_008526c0();
-    void* FUN_00851f50();
-    bool FUN_004f1540();
 };
 SingObj* __cdecl FUN_00af2640();
 class VCall8
@@ -218,15 +224,7 @@ class VCall20
 class GlobalObject_0040c150
 {
   public:
-    const char* FUN_00403df0();
 };
-extern GlobalObject_0040c150 g_011d3954;
-extern GlobalObject_0040c150 g_011d4f78;
-extern GlobalObject_0040c150 g_011d3b2c;
-void __cdecl FUN_0084dab0(int a, int b);
-int __cdecl FUN_0084cbd0(const char* fmt, char* buf);
-void __cdecl FUN_0040fca0(int ms);
-void FUN_00852740();
 
 union SizePair
 {
@@ -242,7 +240,6 @@ class ThisCls
 {
   public:
     void* m_thispad;
-    void FUN_0050f9c0(int v);
     void FUN_00852080(int unused);
 };
 
@@ -254,20 +251,20 @@ void ThisCls::FUN_00852080(int unused)
     unsigned char settingByte16;
     char buf127[0x104];
 
-    settingByte16 = *g_011de308.FUN_00408d60();
-    g_011de308.FUN_004de2d0(0);
+    settingByte16 = *(*reinterpret_cast<::fnv_00852080::GlobalObject_0045cf30 *>(&::g_011de308)).FUN_00408d60();
+    reinterpret_cast<::FUN_004de2d0_StandIn *>(&((*reinterpret_cast<::fnv_00852080::GlobalObject_0045cf30 *>(&::g_011de308))))->FUN_004de2d0(0);
     FUN_00406d50(buf127, 0x104, "Saves");
     FUN_00406d50(buf127, 0x104, "/");
     Finder finder(buf127);
     unsigned char flag29;
     flag29 = 0;
-    finder.FUN_00b00720(&flag29);
+    reinterpret_cast<::DirectoryIterator *>(&(finder))->NextEntry((*(bool *)(&flag29)));
     while (flag29 == 0)
     {
-        if (finder.FUN_00852700() == 1)
+        if (reinterpret_cast<::FUN_00852700_Class *>(&(finder))->IsFlagged() == 1)
         {
-            lenTmp7 = FUN_0044a670(finder.FUN_00436aa0());
-            if (FUN_004564f0(finder.FUN_00436aa0() + lenTmp7 - 4, saveExtension, 4) == 0)
+            lenTmp7 = ((int)(::FUN_0044a670(((char *)(reinterpret_cast<::TESTopicInfo *>(&(finder))->GetAddTopicList())))));
+            if (FUN_004564f0(((char *)(reinterpret_cast<::TESTopicInfo *>(&(finder))->GetAddTopicList())) + lenTmp7 - 4, saveExtension, 4) == 0)
             {
                 {
                     char buf410[0x100];
@@ -278,68 +275,67 @@ void ThisCls::FUN_00852080(int unused)
                     int val4a8;
                     SizePair pair2a;
                     char buf2[0x108];
-                    FUN_00406d00(buf2, 0x104, "%s%s", buf127, finder.FUN_00436aa0());
+                    ::FUN_00406d00(buf2, 0x104, "%s%s", buf127, ((char *)(reinterpret_cast<::TESTopicInfo *>(&(finder))->GetAddTopicList())));
                     Handle handle20(buf2, 0, 0, 0);
-                    if (handle20.FUN_00559450() == 0)
+                    if (::FUN_00559450((int *)&(handle20)) == 0)
                     {
                         kPair1a12.low = 0;
                         kPair1a12.high = 0;
-                        handle20.FUN_0065c290(&kPair1a12.low);
+                        reinterpret_cast<::FileSizeInfo *>(&(handle20))->FUN_0065c290((*(::_LARGE_INTEGER *)(&kPair1a12.low)));
                         val4a8 = (int)new SaveData("SaveData", 0, kPair1a12.low);
-                        info8 = ((InfoLike*)(void*)val4a8)->FUN_0068efb0();
+                        info8 = ((void *)(reinterpret_cast<::FUN_0068efb0_shell *>((((InfoLike*)(void*)val4a8)))->FUN_0068efb0()));
                         pair2a.low = 0;
                         pair2a.high = 0;
-                        handle20.FUN_008526d0(
-                            ((InfoLike*)info8)->FUN_008d85e0(kPair1a12.low, kPair1a12.high, &pair2a.low));
-                        if (handle20.FUN_00559450() == 0)
+                        reinterpret_cast<::FUN_008526d0_shell *>(&(handle20))->SetFromCall(
+                            ((int)(reinterpret_cast<::FUN_008d85e0_Class *>((((InfoLike*)info8)))->GetUnk15C())), {}, {}, {});
+                        if (::FUN_00559450((int *)&(handle20)) == 0)
                         {
-                            FUN_00406d00(buf313, 0x104, "Copying the save game file to the target...\n\n");
+                            ::FUN_00406d00(buf313, 0x104, "Copying the save game file to the target...\n\n");
                             FUN_00406d50(buf313, 0x104, buf2);
                             ((VCall8*)FUN_00af2640()->FUN_008526c0())->v8(buf313, 1000);
                             entry3 = new EntryLike(buf2, 0);
-                            FUN_0084dab0(val4a8, (int)entry3);
-                            entry3->FUN_006ea330();
-                            ((InfoLike*)info8)->FUN_00851f60("-SAVE-");
-                            if (entry3->FUN_007d6970() != 0 && FUN_0044a670(entry3->FUN_007d6970()) != 0)
-                                ((InfoLike*)info8)->FUN_00851f90(entry3->FUN_007d6970());
+                            ::ReadSaveFileHeader((void *)(val4a8), (void *)((int)entry3));
+                            reinterpret_cast<::FUN_006ea330_shell *>((entry3))->FUN_006ea330();
+                            reinterpret_cast<::fnv_00851f60::FUN_00851f60_Class *>((((InfoLike*)info8)))->FUN_00851f60((unsigned int)("-SAVE-"));
+                            if (((char *)(::FUN_007d6970((::BGSSaveLoadFileEntry *)(entry3)))) != 0 && ((int)(::FUN_0044a670(((char *)(::FUN_007d6970((::BGSSaveLoadFileEntry *)(entry3))))))) != 0)
+                                reinterpret_cast<::fnv_00851f90::FUN_00851f90_class *>((((InfoLike*)info8)))->FUN_00851f90((unsigned int)(((char *)(::FUN_007d6970((::BGSSaveLoadFileEntry *)(entry3))))));
                             else
-                                ((InfoLike*)info8)->FUN_00851f90("Location");
-                            FUN_00406d00(
+                                reinterpret_cast<::fnv_00851f90::FUN_00851f90_class *>((((InfoLike*)info8)))->FUN_00851f90((unsigned int)("Location"));
+                            ::FUN_00406d00(
                                 buf410, 0x100, "%s\n%s %d: %s\n%s: %s",
-                                entry3->FUN_0075f8c0() ? entry3->FUN_0075f8c0() : (char*)g_011d4f78.FUN_00403df0(),
-                                g_011d3b2c.FUN_00403df0(), entry3->FUN_007d5160(),
-                                entry3->FUN_007d5140() ? entry3->FUN_007d5140() : "-", g_011d3954.FUN_00403df0(),
-                                entry3->FUN_007d5180() ? entry3->FUN_007d5180() : (char*)g_011d3954.FUN_00403df0());
-                            ((InfoLike*)info8)->FUN_00851fc0(buf410);
-                            ((InfoLike*)info8)
-                                ->FUN_00851ff0(entry3->FUN_00851ef0(), entry3->FUN_00851f10(),
-                                               ((InfoLike*)info8)->FUN_008d85e0() + entry3->FUN_00851f30());
-                            ((InfoLike*)info8)->FUN_00852030("DATA/SYSUTIL/SAVEBACK.PNG");
-                            ((InfoLike*)info8)->FUN_00852060((int)&FUN_00852740);
+                                reinterpret_cast<::FUN_0075f8c0_shell *>((entry3))->FUN_0075f8c0() ? reinterpret_cast<::FUN_0075f8c0_shell *>((entry3))->FUN_0075f8c0() : (char*)((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00852080::GlobalObject_0040c150 *>(&::g_011d4f78))))->GetMenuTitle())),
+                                ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00852080::GlobalObject_0040c150 *>(&::g_011d3b2c))))->GetMenuTitle())), reinterpret_cast<::FUN_007d5160_shell *>((entry3))->FUN_007d5160(),
+                                reinterpret_cast<::BGSSaveLoadFileEntry *>((entry3))->FUN_007d5140() ? reinterpret_cast<::BGSSaveLoadFileEntry *>((entry3))->FUN_007d5140() : "-", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00852080::GlobalObject_0040c150 *>(&::g_011d3954))))->GetMenuTitle())),
+                                reinterpret_cast<::FUN_007d5180_shell *>((entry3))->FUN_007d5180() ? reinterpret_cast<::FUN_007d5180_shell *>((entry3))->FUN_007d5180() : (char*)((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00852080::GlobalObject_0040c150 *>(&::g_011d3954))))->GetMenuTitle())));
+                            reinterpret_cast<::FUN_00851fc0_shell *>((((InfoLike*)info8)))->FUN_00851fc0((unsigned int)(buf410));
+                            reinterpret_cast<::FUN_00851ff0_class *>((((InfoLike*)info8)))->FUN_00851ff0(((int)(reinterpret_cast<::BGSSaveLoadFileEntry *>((entry3))->FUN_00851ef0())), ((int)(reinterpret_cast<::fnv_00851f10::BGSSaveLoadFileEntry *>((entry3))->FUN_00851f10())),
+                                               ((int)(reinterpret_cast<::FUN_008d85e0_Class *>((((InfoLike*)info8)))->GetUnk15C())) + ((int)(reinterpret_cast<::fnv_00851f30::BGSSaveLoadFileEntry *>((entry3))->FUN_00851f30())));
+                            reinterpret_cast<::fnv_00852030::FUN_00852030_Class *>((((InfoLike*)info8)))->FUN_00852030((int)("DATA/SYSUTIL/SAVEBACK.PNG"));
+                            reinterpret_cast<::FUN_00852060_Class *>((((InfoLike*)info8)))->SetValue((int)&((void (&)())::fnv_00852740::FUN_00852740));
                             delete entry3;
-                            FUN_0050f9c0(val4a8);
-                            ((VCall20*)FUN_00af2640()->FUN_00851f50())->v20((int)info8);
-                            while (((SingObj*)FUN_00af2640()->FUN_00851f50())->FUN_004f1540() == 1)
-                                FUN_0040fca0(10);
+                            reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>(this)->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(val4a8));
+                            ((VCall20*)reinterpret_cast<::FUN_00851f50_class *>((FUN_00af2640()))->FUN_00851f50())->v20((int)info8);
+                            while (reinterpret_cast<::PatrolActorPackageData *>((((SingObj*)reinterpret_cast<::FUN_00851f50_class *>((FUN_00af2640()))->FUN_00851f50())))->IsPatrolling() == 1)
+                                ::FUN_0040fca0(10);
                         }
                         else
                         {
-                            FUN_0084cbd0(
+                            ::FUN_0084cbd0(
                                 "BGSSaveLoadManager::CopySaveGamesFromHost failed to read the save game file buffer %s.\n",
                                 buf2);
                         }
                     }
                     else
                     {
-                        FUN_0084cbd0(
+                        ::FUN_0084cbd0(
                             "BGSSaveLoadManager::CopySaveGamesFromHost failed to open the save game file %s.\n", buf2);
                     }
                 }
             }
         }
     next_iter:
-        finder.FUN_00b00720(&flag29);
+        reinterpret_cast<::DirectoryIterator *>(&(finder))->NextEntry((*(bool *)(&flag29)));
     }
-    g_011de308.FUN_004de2d0(settingByte16);
+    reinterpret_cast<::FUN_004de2d0_StandIn *>(&((*reinterpret_cast<::fnv_00852080::GlobalObject_0045cf30 *>(&::g_011de308))))->FUN_004de2d0(settingByte16);
 }
 }  // namespace fnv_00852080

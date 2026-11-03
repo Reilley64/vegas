@@ -3,6 +3,26 @@
 #define FALLOUTRADIO_PRIVATE_DECLS_H
 
 
+#include "fnv/decl/FUN_00832190_shell.h"
+#include "fnv/decl/FUN_00833040_shell.h"
+#include "fnv/decl/FUN_00833100_shell.h"
+#include "fnv/decl/FUN_00833be0_shell.h"
+#include "fnv/decl/FUN_00835690_shell.h"
+#include "fnv/decl/FUN_00835f10_shell.h"
+#include "fnv/decl/Holder00832160.h"
+#include "fnv/decl/StateStandIn.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_00ad88f0__FUN_00ad88f0_h.h"
+#include "fnv/decl/s835fe0__RefHandle.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00830000.h"
+#include "fnv/symbols_00832000.h"
+#include "fnv/symbols_00833000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f6000.h"
 class DialoguePackage;
 class DialogueItem;
 class TESTopic;
@@ -18,10 +38,11 @@ class BGSTalkingActivator;
 class TESForm
 {
   public:
-    bool FUN_00440da0();  // declared for the original code (decl_variants.py)
+      // declared for the original code (decl_variants.py)
   public:
     virtual void FNV_type_anchor();
-    static TESForm* GetFormByID(unsigned int);
+public:
+    bool GetDisabled() const;
 };
 
 class TESObjectREFR : public TESForm
@@ -51,7 +72,6 @@ class SoundPlaybackHandle
     bool m_bLooping;
     unsigned char padding[3];
     unsigned int eState;
-    bool Stop();
     bool Release();
 };
 
@@ -79,8 +99,6 @@ class FalloutRadio
         SoundPlaybackHandle sound;
         char padding[12];
         unsigned char active;
-        void* FUN_00832190(bool);
-        void InitLoadGame(BGSLoadGameBuffer*);
     };
 
     class RadioConversation
@@ -91,10 +109,6 @@ class FalloutRadio
         unsigned int nextUpdate;
         int state;
         char padding[8];
-        bool IsFlag20Set();
-        bool FUN_00833be0();
-        void FUN_00833100(bool);
-        void SetFlag80(bool);
     };
 
     class RadioStationState
@@ -103,14 +117,11 @@ class FalloutRadio
         BGSTalkingActivator* form;
         RadioConversation station;
         BSSimpleList<RadioReceiver*> receivers;
-        void InitLoadGame(BGSLoadGameBuffer*);
-        void* FUN_00832160(bool);
     };
 
     static bool SetRadioEnabled(bool);
     static void RefreshRadioReceivers(bool);
     static bool Update(bool);
-    static void UpdateRadioConversations(bool);
     static void InitLoadGame(BGSLoadGameBuffer*);
     static RadioConversation* GetRadioConversation(BGSTalkingActivator*);
     static void RadioSynchUnPaused();
@@ -122,16 +133,13 @@ class FalloutRadio
 class TeleportableReference
 {
   public:
-    void InitLoadGame(BGSLoadGameBuffer*);
 };
 
 class FalloutAudioMedia
 {
   public:
-    static void PlayMedia(MEDIATYPE, const char*, unsigned int, bool, bool, float, unsigned int);
     static void BeginMediaUpdate();
     static void EndMediaUpdate();
-    static bool IsRadioPlaying();
 };
 
 class Interface
@@ -143,13 +151,11 @@ class Interface
 class TimeGlobal
 {
   public:
-    unsigned int GetTimeStamp();
 };
 
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Int();
 };
 
 class LowProcess
@@ -170,27 +176,14 @@ class TESDataHandler
     TESSound* GetSoundByEditorID(const char*);
 };
 
-extern FalloutRadio::RadioStationState* DAT_011dd42c;
 extern bool DAT_011dd434;
 extern unsigned char DAT_011dd436;
 extern unsigned char DAT_011dd437;
-extern SoundPlaybackHandle DAT_011dd5bc;
-extern SoundPlaybackHandle DAT_011dd638;
-extern BSSimpleList<FalloutRadio::RadioReceiver*> DAT_011dd58c;
-extern BSSimpleList<FalloutRadio::RadioStationState*> DAT_011dd554;
-extern BSSimpleList<unsigned int> DAT_011dd59c;
 extern unsigned int DAT_011dd424;
 extern unsigned char DAT_011dd435;
-extern unsigned int DAT_011dd438;
 extern unsigned int DAT_011dd43c;
-extern unsigned int DAT_011dd430;
 extern TESSound* DAT_011dd440;
-extern SettingT_GameSettingCollection_ DAT_011dd5cc;
-extern TimeGlobal g_timeGlobal;
-extern PlayerCharacter* g_thePlayer;
-extern TESDataHandler* g_dataHandler;
 extern const char DAT_0107ce14[];
 
-void FUN_008325a0(bool);
 
 #endif

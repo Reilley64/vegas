@@ -2,6 +2,8 @@
 #ifndef FNV_NIBSPLINECOMPTRANSFORMINTERPOLATOR_H
 #define FNV_NIBSPLINECOMPTRANSFORMINTERPOLATOR_H
 
+#include "fnv/decl/FUN_00a4ff00_shell.h"
+#include "fnv/decl/FUN_00a50110_obj.h"
 #include "layout_support.h"
 #include "NiObject.h"
 #include "NiPoint3.h"
@@ -126,7 +128,6 @@ class NiQuaternion
     // float __cdecl NiQuaternion::*(float)
     // float __cdecl NiQuaternion::*(float, float, float)
     // float __cdecl NiQuaternion::*(float, float)
-    void EnsureCanonicalSign();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiQuaternion) == 16);
@@ -206,7 +207,6 @@ class NiBSplineTransformInterpolator : public NiBSplineInterpolator
     // NiBSplineTransformInterpolator& __cdecl NiBSplineTransformInterpolator::*(const NiBSplineTransformInterpolator&)
     // void __cdecl NiBSplineTransformInterpolator::*()
     // void __cdecl NiBSplineTransformInterpolator::*()
-    void FUN_00a57fd0(NiBSplineTransformInterpolator*, CloningProcess&);
     void LoadBinary(NiStream&);
 };
 #pragma pack(pop)

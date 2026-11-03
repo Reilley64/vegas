@@ -2,10 +2,22 @@
 // src/fallout/ai/bsplayerdistancecheckcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/bsplayerdistancecheckcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/BSFaceGenMorphData.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_008d17d0_Class.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0045b000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_009e3000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011df000.h"
+#include "fnv/symbols_011f4000.h"
 struct NiRTTI
 {
 };
-extern "C" const NiRTTI* const g_011dfeac;
 
 struct FUN_008d1610_shell
 {
@@ -15,7 +27,7 @@ struct FUN_008d1610_shell
 // @fnv 0x008d1610
 const NiRTTI* const* FUN_008d1610_shell::GetNiRTTI()
 {
-    return &g_011dfeac;
+    return &(*reinterpret_cast<const ::NiRTTI *const *>(&::g_011dfeac));
 }
 
 struct BSPlayerDistanceCheckController
@@ -24,16 +36,6 @@ struct BSPlayerDistanceCheckController
     static void __cdecl operator delete(void* p, unsigned int size);
     void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
-
-// Runs the destructor and, when bit 0 of flags is set, frees this with operator delete; returns this.
-// @fnv 0x008d1620
-void* __thiscall BSPlayerDistanceCheckController::ScalarDeletingDestructor(unsigned int flags)
-{
-    this->BSPlayerDistanceCheckController::~BSPlayerDistanceCheckController();
-    if (flags & 1)
-        BSPlayerDistanceCheckController::operator delete(this, 0x3c);
-    return this;
-}
 
 struct TESObjectDoorController
 {
@@ -59,35 +61,29 @@ struct TESObjectDoorController
 };
 struct ControllerFactory
 {
-    void FUN_008d17d0(TESObjectDoorController*, void*);
     TESObjectDoorController* CreateController(void*);
 };
 // @fnv 0x008d1740
 TESObjectDoorController* ControllerFactory::CreateController(void* context)
 {
     TESObjectDoorController* result = new TESObjectDoorController;
-    FUN_008d17d0(result, context);
+    reinterpret_cast<::FUN_008d17d0_Class *>(this)->FUN_008d17d0((::BGSAcousticSpace *)(result), context);
     return result;
 }
 
-extern "C" const double DAT_01012060;
-extern char DAT_011f4280;
 
 struct DoorSpawnRequest
 {
     unsigned int unk00;
-    void* FUN_0045bb80();
 };
 struct ItemHandle
 {
     unsigned int raw;
     unsigned int unk04;
     unsigned int unk08;
-    double FUN_00457990();
 };
 struct ItemRef
 {
-    void FUN_00439ef0();
 };
 
 struct Manager
@@ -219,8 +215,6 @@ struct Manager
     virtual void v7c();
     virtual ItemRef* v1f4(ItemHandle* out, void* h);
 };
-extern Manager* DAT_011dea3c;
-DoorSpawnRequest* __cdecl FUN_00653270(char* tag, void* owner);
 
 struct FUN_008d1670_cls
 {
@@ -228,8 +222,6 @@ struct FUN_008d1670_cls
     void* m_2c;
     unsigned int unk30, unk34;
     void(__cdecl* m_38)(void*);
-    double FUN_00508120();
-    int GetField38();
     void UpdateDoorSpawn(unsigned int unkArg);
 };
 
@@ -238,16 +230,16 @@ void FUN_008d1670_cls::UpdateDoorSpawn(unsigned int unkArg)
 {
     DoorSpawnRequest* req;
     ItemHandle handle;
-    if (FUN_00508120() < DAT_01012060 || !GetField38() || DAT_011dea3c == 0)
+    if (((double)(reinterpret_cast<::BSFaceGenMorphData *>(this)->FUN_00508120())) < ::_DAT_01012060 || !::GetField38((char *)this) || (*reinterpret_cast<::Manager * *>(&::_g_thePlayer)) == 0)
     {
     }
     else
     {
-        req = FUN_00653270((char*)&DAT_011f4280, m_2c);
+        req = ((::DoorSpawnRequest *)(::FUN_00653270((const ::NiRTTI *)(char *)((char*)&(*reinterpret_cast<char *>(&::g_011f4280))), (::NiObject *)(m_2c))));
         if (req != 0)
         {
-            DAT_011dea3c->v1f4(&handle, req->FUN_0045bb80())->FUN_00439ef0();
-            if (handle.FUN_00457990() < FUN_00508120())
+            reinterpret_cast<::FUN_00439ef0_class *>(((*reinterpret_cast<::Manager * *>(&::_g_thePlayer))->v1f4(&handle, ((void *)(::FUN_0045bb80((int)(req)))))))->FUN_00439ef0({}, *(const ::NiPoint3 *)nullptr);
+            if (((double)(reinterpret_cast<::NiPoint3 *>(&(handle))->ComputeMagnitude())) < ((double)(reinterpret_cast<::BSFaceGenMorphData *>(this)->FUN_00508120())))
             {
                 m_38(req);
             }
@@ -256,9 +248,7 @@ void FUN_008d1670_cls::UpdateDoorSpawn(unsigned int unkArg)
 }
 
 namespace fnv_008d1720 {
-extern int DAT_011f4280;
 
-void __cdecl FUN_0043b300(int* apTarget, void* apValue);
 
 struct FUN_008d1720_cls
 {
@@ -281,7 +271,7 @@ struct FUN_008d1720_cls
 // @fnv 0x008d1720
 void FUN_008d1720_cls::FUN_008d1720()
 {
-    FUN_0043b300(&DAT_011f4280, m_pIntegerData);
+    ::FUN_0043b300((const ::NiRTTI *)(int *)(&(*reinterpret_cast<int *>(&::g_011f4280))), (::NiAVObject *)(m_pIntegerData));
 }
 }  // namespace fnv_008d1720
 
@@ -295,6 +285,15 @@ struct FUN_008d1650 : FUN_00a6d290
     virtual void v00();
     ~FUN_008d1650();
 };
+// Runs the destructor and, when bit 0 of flags is set, frees this with operator delete; returns this.
+// @fnv 0x008d1620
+void* __thiscall BSPlayerDistanceCheckController::ScalarDeletingDestructor(unsigned int flags)
+{
+    reinterpret_cast<::FUN_008d1650 *>((this))->FUN_008d1650::~FUN_008d1650();
+    if (flags & 1)
+        ::FUN_00aa1460(this, 0x3c);
+    return this;
+}
 // @fnv 0x008d1650
 FUN_008d1650::~FUN_008d1650()
 {}

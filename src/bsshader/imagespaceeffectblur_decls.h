@@ -2,13 +2,16 @@
 #ifndef IMAGESPACEEFFECTBLUR_DECLS_H
 #define IMAGESPACEEFFECTBLUR_DECLS_H
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00ba3b50_t.h"
+#include "fnv/decl/FUN_00ba3c70_shell.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00ba3000.h"
+#include "fnv/symbols_011f6000.h"
 class MemoryManager
 {
   public:
-    void* Allocate(unsigned int);
-    void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 extern float DAT_011ae6c8, DAT_011ae6cc;
 class ImageSpaceEffectParam
 {
@@ -53,10 +56,8 @@ class ImageSpaceEffect
     char prefix[24];
     NiTArray<ImageSpaceEffectParam*, NiTMallocInterface<ImageSpaceEffectParam*> > pEffectParamList;
     NiTArray<ImageSpaceTexture*, NiTMallocInterface<ImageSpaceTexture*> > pTextures;
-    void SetTextureArrayCount(int);
-    void SetEffectParamAt(int, int, int);
-    void SetEffectAt(int, ImageSpaceEffect*, ImageSpaceEffectParam*, int);
-    void SetTextureArrayAt(int, int, int, NiTexturingProperty::FilterMode, NiTexturingProperty::FilterMode);
+public:
+    void SetTextureArraySize(int);
 };
 class ImageSpaceEffectFourTexturePass : public ImageSpaceEffect
 {
@@ -70,11 +71,11 @@ class ImageSpaceShaderParam : public ImageSpaceEffectParam
     ImageSpaceShaderParam();
     static __forceinline void* operator new(unsigned int n)
     {
-        return g_memoryManager.Allocate(n);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
     }
     static __forceinline void operator delete(void* p)
     {
-        g_memoryManager.Deallocate(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
     }
     void AllocateShaderConstants(int, int);
     void SetShaderConstantVector4(int, float, float, float, float);

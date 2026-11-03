@@ -1,6 +1,7 @@
 // fallout/interface/interface_rebase_PC_NiAVObject.h: declares BSMemObject, NiTransform, NiAVObject
 #ifndef FNV_INTERFACE_REBASE_IFNV_EARLY_FOLDED_PC_NIAVOBJECT_DECLARATION_H
 #define FNV_INTERFACE_REBASE_IFNV_EARLY_FOLDED_PC_NIAVOBJECT_DECLARATION_H
+#include "fnv/decl/TaskQueueInterface.h"
 #include "interface_rebase_NiObjectNET.h"
 #include "interface_rebase_NiPoint3.h"
 #include "interface_rebase_NiProperty.h"
@@ -34,7 +35,6 @@ template <class T> class NiTPointerList : public NiTPointerListBase<NiTPointerAl
 class NiAVObject : public NiObjectNET
 {
   public:
-    void SetAppCulled(bool);
     virtual ~NiAVObject();
     virtual void UpdateControllers(NiUpdateData& arData);
     virtual void ApplyTransform(const ThreeByThreeMatrix& arRotation, const NiPoint3& arPosition, bool abOnLeft);

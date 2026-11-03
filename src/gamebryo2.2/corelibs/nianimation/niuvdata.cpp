@@ -2,12 +2,21 @@
 // src/gamebryo2.2/corelibs/nianimation/niuvdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/niuvdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern const void* g_011f3f10;
 
 // @fnv 0x00a45010
+#include "fnv/decl/A5D6E0This.h"
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f3000.h"
 const void* __cdecl FUN_00a45010()
 {
-    return &g_011f3f10;
+    return &(*reinterpret_cast<const void * *>(&::g_011f3f10));
 }
 
 struct NiUVData
@@ -15,19 +24,16 @@ struct NiUVData
     void Destructor();
     void* FUN_00a45200(unsigned int);
 };
-void __cdecl _delete(void*, unsigned int);
 // Calls Destructor, then frees this with _delete when flags has bit 1 set, and returns this.
 // @fnv 0x00a45200
 void* NiUVData::FUN_00a45200(unsigned int flags)
 {
     Destructor();
     if (flags & 1)
-        _delete(this, 0x4C);
+        ::FUN_00aa1460(this, 0x4C);
     return this;
 }
 
-extern void(__cdecl* DAT_011f38a0[])(void*);
-extern unsigned char DAT_011f3758[];
 struct S45280
 {
     void FUN_00a45280(void* keys, unsigned int count, int type);
@@ -55,8 +61,6 @@ void S45280::FUN_00a45280(void* keys, unsigned int count, int type)
 }
 
 namespace fnv_00a45340 {
-extern const unsigned char DAT_011f3758[];
-extern void(__cdecl* DAT_011f38a0[10])(void*);
 
 struct FUN_00a45340_shell
 {
@@ -74,13 +78,13 @@ struct FUN_00a45340_shell
 void FUN_00a45340_shell::FUN_00a45340(void* keys, unsigned int count, unsigned int type)
 {
     if (m_pKeyArray)
-        DAT_011f38a0[m_eRequestType](m_pKeyArray);
+        (*reinterpret_cast<void (**[10])(void *)>(&::DAT_011f38a0))[m_eRequestType](m_pKeyArray);
     if (keys && count)
     {
         m_uiNumKeys = count;
         m_pKeyArray = keys;
         m_eRequestType = type;
-        m_ucKeyDataSize = DAT_011f3758[type];
+        m_ucKeyDataSize = ::DAT_011f3758[type];
     }
     else
     {
@@ -95,8 +99,6 @@ void FUN_00a45340_shell::FUN_00a45340(void* keys, unsigned int count, unsigned i
 namespace fnv_00a45220 {
 struct TimedAnimationKey;
 
-extern unsigned char DAT_011f3758[];
-extern void(__cdecl* DAT_011f38a0[])(TimedAnimationKey*);
 
 struct FUN_00a45220_shell
 {
@@ -115,13 +117,13 @@ struct FUN_00a45220_shell
 void FUN_00a45220_shell::FUN_00a45220(TimedAnimationKey* keys, unsigned int numKeys, unsigned int type)
 {
     if (m_pKeyArray)
-        DAT_011f38a0[m_eRequestType](m_pKeyArray);
+        (*reinterpret_cast<void (**[])(fnv_00a45220::TimedAnimationKey *)>(&::DAT_011f38a0))[m_eRequestType](m_pKeyArray);
     if (keys && numKeys)
     {
         m_uiNumKeys = numKeys;
         m_pKeyArray = keys;
         m_eRequestType = type;
-        m_ucKeyDataSize = DAT_011f3758[type];
+        m_ucKeyDataSize = ::DAT_011f3758[type];
     }
     else
     {
@@ -133,8 +135,6 @@ void FUN_00a45220_shell::FUN_00a45220(TimedAnimationKey* keys, unsigned int numK
 }
 }  // namespace fnv_00a45220
 
-extern void(__cdecl* DAT_011f38a0[])(void*);
-extern unsigned char DAT_011f3758[];
 struct FUN_00a452e0_shell
 {
     unsigned char _pad0[0x20];
@@ -168,7 +168,6 @@ void FUN_00a452e0_shell::FUN_00a452e0(void* keys, unsigned int count, unsigned i
 }
 
 extern int DAT_01097f84;
-extern void(__cdecl* DAT_011f38a0[])(void*);
 
 struct NiRefObject
 {
@@ -193,7 +192,7 @@ void NiUVData::Destructor()
     p = *(void**)((char*)this + 0x30);
     if (p)
         DAT_011f38a0[*(unsigned int*)((char*)this + 0x34)](p);
-    ((NiRefObject*)this)->~NiRefObject();
+    reinterpret_cast<class ::FUN_00a5d3d0 *>((((NiRefObject*)this)))->FUN_00a5d3d0::~FUN_00a5d3d0();
 }
 
 struct StrArr
@@ -204,13 +203,8 @@ struct StrArr
     unsigned char _pad1[2];
     unsigned short m_uiGrowSize;
 
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 
-void __stdcall AppendCameraPathEntries(StrArr*);
-char* __cdecl _FUN_00a7d330(char*);
-char* __cdecl FUN_00a7d510(char const*, unsigned int);
 
 struct FUN_00a457d0_shell
 {
@@ -232,44 +226,42 @@ void FUN_00a457d0_shell::AppendKeyNames(StrArr* apViewerStrings)
     char* pString;
     unsigned int nIndex;
 
-    AppendCameraPathEntries(apViewerStrings);
+    reinterpret_cast<::A5D6E0This *>((apViewerStrings))->AppendCameraPathEntries({});
 
-    pString = _FUN_00a7d330(const_cast<char*>(static_cast<const char*>(g_011f3f10)));
+    pString = ::FUN_00a7d330(const_cast<char*>(static_cast<const char*>((*reinterpret_cast<const void * *>(&::g_011f3f10)))));
     nIndex = apViewerStrings->m_uiSize;
     if (nIndex >= apViewerStrings->m_uiCapacity)
-        apViewerStrings->SetSize(apViewerStrings->m_uiGrowSize + nIndex);
-    apViewerStrings->SetAt(nIndex, pString);
+        reinterpret_cast<::ViewerStrings *>((apViewerStrings))->SetSize(apViewerStrings->m_uiGrowSize + nIndex);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((apViewerStrings))->SetAt(nIndex, pString);
 
     pString = FUN_00a7d510("m_uiNumUOffsetKeys", m_uiNumUOffsetKeys);
     nIndex = apViewerStrings->m_uiSize;
     if (nIndex >= apViewerStrings->m_uiCapacity)
-        apViewerStrings->SetSize(apViewerStrings->m_uiGrowSize + nIndex);
-    apViewerStrings->SetAt(nIndex, pString);
+        reinterpret_cast<::ViewerStrings *>((apViewerStrings))->SetSize(apViewerStrings->m_uiGrowSize + nIndex);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((apViewerStrings))->SetAt(nIndex, pString);
 
     pString = FUN_00a7d510("m_uiNumUTilingKeys", m_uiNumUTilingKeys);
     nIndex = apViewerStrings->m_uiSize;
     if (nIndex >= apViewerStrings->m_uiCapacity)
-        apViewerStrings->SetSize(apViewerStrings->m_uiGrowSize + nIndex);
-    apViewerStrings->SetAt(nIndex, pString);
+        reinterpret_cast<::ViewerStrings *>((apViewerStrings))->SetSize(apViewerStrings->m_uiGrowSize + nIndex);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((apViewerStrings))->SetAt(nIndex, pString);
 
     pString = FUN_00a7d510("m_uiNumVOffsetKeys", m_uiNumVOffsetKeys);
     nIndex = apViewerStrings->m_uiSize;
     if (nIndex >= apViewerStrings->m_uiCapacity)
-        apViewerStrings->SetSize(apViewerStrings->m_uiGrowSize + nIndex);
-    apViewerStrings->SetAt(nIndex, pString);
+        reinterpret_cast<::ViewerStrings *>((apViewerStrings))->SetSize(apViewerStrings->m_uiGrowSize + nIndex);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((apViewerStrings))->SetAt(nIndex, pString);
 
     pString = FUN_00a7d510("m_uiNumVTilingKeys", m_uiNumVTilingKeys);
     nIndex = apViewerStrings->m_uiSize;
     if (nIndex >= apViewerStrings->m_uiCapacity)
-        apViewerStrings->SetSize(apViewerStrings->m_uiGrowSize + nIndex);
-    apViewerStrings->SetAt(nIndex, pString);
+        reinterpret_cast<::ViewerStrings *>((apViewerStrings))->SetSize(apViewerStrings->m_uiGrowSize + nIndex);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((apViewerStrings))->SetAt(nIndex, pString);
 }
 
-extern bool(__cdecl* DAT_011f3ae0[])(void*, void*);
 
 struct NiObject
 {
-    bool IsEqual(NiObject* pkObject);
 };
 
 struct NiUVDataStandIn : public NiObject
@@ -307,7 +299,7 @@ struct NiUVDataStandIn : public NiObject
 // @fnv 0x00a45090
 bool NiUVDataStandIn::FUN_00a45090(NiUVDataStandIn* pkOther)
 {
-    if (!NiObject::IsEqual(pkOther))
+    if (!reinterpret_cast<::A5d470Class *>(this)->IsSameAs((::A5d470Object *)(pkOther)))
         return false;
 
     if (m_uiNumUOffsetKeys != pkOther->m_uiNumUOffsetKeys || m_uiUOffsetKeyStride != pkOther->m_uiUOffsetKeyStride ||
@@ -321,7 +313,7 @@ bool NiUVDataStandIn::FUN_00a45090(NiUVDataStandIn* pkOther)
     unsigned int i;
     bool(__cdecl * pfnKeyEqual)(void*, void*);
 
-    pfnKeyEqual = DAT_011f3ae0[m_uiUOffsetKeyStride];
+    pfnKeyEqual = (*reinterpret_cast<bool (**[])(void *, void *)>(&::DAT_011f3ae0))[m_uiUOffsetKeyStride];
     for (i = 0; i < m_uiNumUOffsetKeys; i++)
     {
         if (!pfnKeyEqual(GetKeyPointerByIndex(m_pUOffsetKeys, i, m_ucByte48),
@@ -329,7 +321,7 @@ bool NiUVDataStandIn::FUN_00a45090(NiUVDataStandIn* pkOther)
             return false;
     }
 
-    pfnKeyEqual = DAT_011f3ae0[m_uiVOffsetKeyStride];
+    pfnKeyEqual = (*reinterpret_cast<bool (**[])(void *, void *)>(&::DAT_011f3ae0))[m_uiVOffsetKeyStride];
     for (i = 0; i < m_uiNumVOffsetKeys; i++)
     {
         if (!pfnKeyEqual(GetKeyPointerByIndex(m_pVOffsetKeys, i, m_ucByte49),
@@ -337,7 +329,7 @@ bool NiUVDataStandIn::FUN_00a45090(NiUVDataStandIn* pkOther)
             return false;
     }
 
-    pfnKeyEqual = DAT_011f3ae0[m_uiUTilingKeyStride];
+    pfnKeyEqual = (*reinterpret_cast<bool (**[])(void *, void *)>(&::DAT_011f3ae0))[m_uiUTilingKeyStride];
     for (i = 0; i < m_uiNumUTilingKeys; i++)
     {
         if (!pfnKeyEqual(GetKeyPointerByIndex(m_pUTilingKeys, i, m_ucByte4A),
@@ -345,7 +337,7 @@ bool NiUVDataStandIn::FUN_00a45090(NiUVDataStandIn* pkOther)
             return false;
     }
 
-    pfnKeyEqual = DAT_011f3ae0[m_uiVTilingKeyStride];
+    pfnKeyEqual = (*reinterpret_cast<bool (**[])(void *, void *)>(&::DAT_011f3ae0))[m_uiVTilingKeyStride];
     for (i = 0; i < m_uiNumVTilingKeys; i++)
     {
         if (!pfnKeyEqual(GetKeyPointerByIndex(m_pVTilingKeys, i, m_ucByte4B),
@@ -558,15 +550,11 @@ enum NiUVKeyType
 class NiUVKey;
 typedef NiUVKey*(__cdecl* NiUVKeyCreateFunction)(NiUVStream& kStream, unsigned int uiNumKeys);
 typedef void(__cdecl* NiUVKeyFillFunction)(NiUVKey* pkKeys, unsigned int uiNumKeys, unsigned char ucSize);
-extern unsigned char g_aucFloatKeySizes[];
-extern NiUVKeyCreateFunction g_apfnFloatKeyCreate[];
-extern NiUVKeyFillFunction g_apfnFloatKeyFill[];
 
 class NiUVObject
 {
   public:
     virtual ~NiUVObject();
-    void LoadBinary(NiUVStream& kStream);
 };
 
 class NiUVDataLoader : public NiUVObject
@@ -594,10 +582,6 @@ class NiUVDataLoader : public NiUVObject
     unsigned char m_ucByte4A;
     unsigned char m_ucByte4B;
 
-    void ReplaceUOffsetKeys(NiUVKey* pkKeys, unsigned int uiNumKeys, NiUVKeyType eType);
-    void ReplaceVOffsetKeys(NiUVKey* pkKeys, unsigned int uiNumKeys, NiUVKeyType eType);
-    void ReplaceUTilingKeys(NiUVKey* pkKeys, unsigned int uiNumKeys, NiUVKeyType eType);
-    void ReplaceVTilingKeys(NiUVKey* pkKeys, unsigned int uiNumKeys, NiUVKeyType eType);
     void FUN_00a453a0(NiUVStream& kStream);
 };
 
@@ -605,7 +589,7 @@ class NiUVDataLoader : public NiUVObject
 // @fnv 0x00a453a0
 void NiUVDataLoader::FUN_00a453a0(NiUVStream& kStream)
 {
-    NiUVObject::LoadBinary(kStream);
+    reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup((::NiStream *)&(kStream));
 
     unsigned int uiNumKeys;
     NiUVKeyType eType;
@@ -614,48 +598,48 @@ void NiUVDataLoader::FUN_00a453a0(NiUVStream& kStream)
     if (uiNumKeys > 0)
     {
         ReadStreamValue(kStream, eType);
-        m_ucByte48 = g_aucFloatKeySizes[eType];
-        NiUVKeyCreateFunction pfnCreate = g_apfnFloatKeyCreate[eType];
+        m_ucByte48 = ::DAT_011f3758[eType];
+        NiUVKeyCreateFunction pfnCreate = (*reinterpret_cast<NiUVKey *(**[])(NiUVStream &, unsigned int)>(&::DAT_011f3db0))[eType];
         NiUVKey* pkKeys = pfnCreate(kStream, uiNumKeys);
-        NiUVKeyFillFunction pfnFill = g_apfnFloatKeyFill[eType];
+        NiUVKeyFillFunction pfnFill = (*reinterpret_cast<void (**[])(NiUVKey *, unsigned int, unsigned char)>(&::DAT_011f3780))[eType];
         pfnFill(pkKeys, uiNumKeys, m_ucByte48);
-        ReplaceUOffsetKeys(pkKeys, uiNumKeys, eType);
+        reinterpret_cast<::fnv_00a45220::FUN_00a45220_shell *>(this)->FUN_00a45220((::fnv_00a45220::TimedAnimationKey *)(pkKeys), uiNumKeys, (*(unsigned int *)&(eType)));
     }
 
     ReadBinaryValue(kStream, uiNumKeys);
     if (uiNumKeys > 0)
     {
         ReadStreamValue(kStream, eType);
-        m_ucByte49 = g_aucFloatKeySizes[eType];
-        NiUVKeyCreateFunction pfnCreate = g_apfnFloatKeyCreate[eType];
+        m_ucByte49 = ::DAT_011f3758[eType];
+        NiUVKeyCreateFunction pfnCreate = (*reinterpret_cast<NiUVKey *(**[])(NiUVStream &, unsigned int)>(&::DAT_011f3db0))[eType];
         NiUVKey* pkKeys = pfnCreate(kStream, uiNumKeys);
-        NiUVKeyFillFunction pfnFill = g_apfnFloatKeyFill[eType];
+        NiUVKeyFillFunction pfnFill = (*reinterpret_cast<void (**[])(NiUVKey *, unsigned int, unsigned char)>(&::DAT_011f3780))[eType];
         pfnFill(pkKeys, uiNumKeys, m_ucByte49);
-        ReplaceVOffsetKeys(pkKeys, uiNumKeys, eType);
+        reinterpret_cast<::S45280 *>(this)->FUN_00a45280(pkKeys, uiNumKeys, (*(int *)&(eType)));
     }
 
     ReadBinaryValue(kStream, uiNumKeys);
     if (uiNumKeys > 0)
     {
         ReadStreamValue(kStream, eType);
-        m_ucByte4A = g_aucFloatKeySizes[eType];
-        NiUVKeyCreateFunction pfnCreate = g_apfnFloatKeyCreate[eType];
+        m_ucByte4A = ::DAT_011f3758[eType];
+        NiUVKeyCreateFunction pfnCreate = (*reinterpret_cast<NiUVKey *(**[])(NiUVStream &, unsigned int)>(&::DAT_011f3db0))[eType];
         NiUVKey* pkKeys = pfnCreate(kStream, uiNumKeys);
-        NiUVKeyFillFunction pfnFill = g_apfnFloatKeyFill[eType];
+        NiUVKeyFillFunction pfnFill = (*reinterpret_cast<void (**[])(NiUVKey *, unsigned int, unsigned char)>(&::DAT_011f3780))[eType];
         pfnFill(pkKeys, uiNumKeys, m_ucByte4A);
-        ReplaceUTilingKeys(pkKeys, uiNumKeys, eType);
+        reinterpret_cast<::FUN_00a452e0_shell *>(this)->FUN_00a452e0(pkKeys, uiNumKeys, (*(unsigned int *)&(eType)));
     }
 
     ReadBinaryValue(kStream, uiNumKeys);
     if (uiNumKeys > 0)
     {
         ReadStreamValue(kStream, eType);
-        m_ucByte4B = g_aucFloatKeySizes[eType];
-        NiUVKeyCreateFunction pfnCreate = g_apfnFloatKeyCreate[eType];
+        m_ucByte4B = ::DAT_011f3758[eType];
+        NiUVKeyCreateFunction pfnCreate = (*reinterpret_cast<NiUVKey *(**[])(NiUVStream &, unsigned int)>(&::DAT_011f3db0))[eType];
         NiUVKey* pkKeys = pfnCreate(kStream, uiNumKeys);
-        NiUVKeyFillFunction pfnFill = g_apfnFloatKeyFill[eType];
+        NiUVKeyFillFunction pfnFill = (*reinterpret_cast<void (**[])(NiUVKey *, unsigned int, unsigned char)>(&::DAT_011f3780))[eType];
         pfnFill(pkKeys, uiNumKeys, m_ucByte4B);
-        ReplaceVTilingKeys(pkKeys, uiNumKeys, eType);
+        reinterpret_cast<::fnv_00a45340::FUN_00a45340_shell *>(this)->FUN_00a45340(pkKeys, uiNumKeys, (*(unsigned int *)&(eType)));
     }
 }
 
@@ -841,13 +825,11 @@ template <class T> inline unsigned int ReadBinaryValue(NiStreamX& kStream, T& va
     return ReadBinaryValue(*kStream.m_pUnderlyingStream, value);
 }
 
-extern void(__cdecl* DAT_011f3a50[])(NiStreamX& kStream, void* pkKeys, unsigned int uiNumKeys);
 
 struct NiObjectLB
 {
     void* m_pVtbl;
     unsigned int m_uiRefCount;
-    void LoadBinary(NiStreamX& kStream);
 };
 
 struct NiUVDataLB : NiObjectLB
@@ -871,29 +853,29 @@ struct NiUVDataLB : NiObjectLB
 // @fnv 0x00a45610
 void NiUVDataLB::FUN_00a45610(NiStreamX& kStream)
 {
-    NiObjectLB::LoadBinary(kStream);
+    ::FUN_00a89af0((int)this);
     ReadBinaryValue(kStream, m_uiNumUOffsetKeys);
     if (m_uiNumUOffsetKeys > 0)
     {
         ReadBinaryValue(kStream, m_uiUOffsetKeyStride);
-        DAT_011f3a50[m_uiUOffsetKeyStride](kStream, m_pUOffsetKeys, m_uiNumUOffsetKeys);
+        (*reinterpret_cast<void (**[])(NiStreamX &, void *, unsigned int)>(&::g_apfnA29FE0Load))[m_uiUOffsetKeyStride](kStream, m_pUOffsetKeys, m_uiNumUOffsetKeys);
     }
     ReadBinaryValue(kStream, m_uiNumVOffsetKeys);
     if (m_uiNumVOffsetKeys > 0)
     {
         ReadBinaryValue(kStream, m_uiVOffsetKeyStride);
-        DAT_011f3a50[m_uiVOffsetKeyStride](kStream, m_pVOffsetKeys, m_uiNumVOffsetKeys);
+        (*reinterpret_cast<void (**[])(NiStreamX &, void *, unsigned int)>(&::g_apfnA29FE0Load))[m_uiVOffsetKeyStride](kStream, m_pVOffsetKeys, m_uiNumVOffsetKeys);
     }
     ReadBinaryValue(kStream, m_uiNumUTilingKeys);
     if (m_uiNumUTilingKeys > 0)
     {
         ReadBinaryValue(kStream, m_uiUTilingKeyStride);
-        DAT_011f3a50[m_uiUTilingKeyStride](kStream, m_pUTilingKeys, m_uiNumUTilingKeys);
+        (*reinterpret_cast<void (**[])(NiStreamX &, void *, unsigned int)>(&::g_apfnA29FE0Load))[m_uiUTilingKeyStride](kStream, m_pUTilingKeys, m_uiNumUTilingKeys);
     }
     ReadBinaryValue(kStream, m_uiNumVTilingKeys);
     if (m_uiNumVTilingKeys > 0)
     {
         ReadBinaryValue(kStream, m_uiVTilingKeyStride);
-        DAT_011f3a50[m_uiVTilingKeyStride](kStream, m_pVTilingKeys, m_uiNumVTilingKeys);
+        (*reinterpret_cast<void (**[])(NiStreamX &, void *, unsigned int)>(&::g_apfnA29FE0Load))[m_uiVTilingKeyStride](kStream, m_pVTilingKeys, m_uiNumVTilingKeys);
     }
 }

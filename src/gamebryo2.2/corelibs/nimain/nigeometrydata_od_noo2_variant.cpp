@@ -3,6 +3,12 @@
 // byte only under /MT /Od /GS /EHsc /Gy /GF (unit src/gamebryo2.2/corelibs/nimain/nigeometrydata.cpp lists /MT /O2 /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00a72590_Class.h"
+#include "fnv/decl/FUN_00a725d0_shell2.h"
+#include "fnv/symbols_00450000.h"
 #include "nigeometrydata_decls.h"
 #pragma optimize("", off)
 #pragma optimize("", on)

@@ -1,6 +1,21 @@
 // src/havok/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpubroadphasejob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpubroadphasejob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/Dispatcher.h"
+#include "fnv/decl/DispatcherCF7080.h"
+#include "fnv/decl/FUN_00c911d0_Class.h"
+#include "fnv/decl/FUN_00c91210_Class.h"
+#include "fnv/decl/LunaOwner.h"
+#include "fnv/decl/S_00d05020_JobQueue.h"
+#include "fnv/symbols_00cb5000.h"
+#include "fnv/symbols_00d01000.h"
+#include "fnv/symbols_00d0c000.h"
+#include "fnv/symbols_00d96000.h"
+#include "fnv/symbols_01076000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010cc000.h"
+#include "fnv/symbols_010cd000.h"
+#include "fnv/symbols_01268000.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -10,17 +25,10 @@ extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(u32);
 extern "C" long (__stdcall* DAT_00fdf1ec)(volatile long*, long);
 extern "C" u64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
-extern "C" u32 DAT_0126835c;
 
 extern const char str_010d3e68[];
-extern const char str_010cd3d8[];
-extern const char str_010c41f8[];
 extern const char str_010d3e4c[];
 extern const char str_010d3e38[];
-extern const char str_010cc5bc[];
-extern const char str_010cc5e4[];
-extern const char str_010cc5d8[];
-extern const char str_01076f38[];
 
 struct StepWords { u32 start, end, delta, inverseDelta; };
 struct BreachWords {u32 word0,word1,word2,word3;};
@@ -75,7 +83,7 @@ struct S93ba0_Cmd {
 
 __forceinline void S93ba0_timer(const char* name, const char* extra = 0)
 {
-    S93ba0_Stream* s = (S93ba0_Stream*)TlsGetValue(DAT_0126835c);
+    S93ba0_Stream* s = (S93ba0_Stream*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     S93ba0_Cmd* c = (S93ba0_Cmd*)s->current;
     if ((char*)c < s->limit) {
         c->name = name;
@@ -212,8 +220,6 @@ struct S93ba0_Conn {
 };
 
 struct S93ba0_Stager {
-    void FUN_00cf70f0(S93ba0_Pair* data, int size);
-    void FUN_00cf7080(S93ba0_Pair* data, int size, void* extra);
 };
 
 struct S93ba0_Device {
@@ -422,12 +428,9 @@ struct S93ba0_Device {
     int unk334;
     int unk338;
     int pairCapacity;
-    void FUN_00c911d0(int v);
-    void FUN_00c91210(int v);
 };
 
 struct S93ba0_Builder {
-    void FUN_00d0c030(int a, int b, void* device, S93ba0_LocalArray* first, S93ba0_LocalArray* second);
 };
 
 struct S93ba0_Setup {
@@ -553,13 +556,8 @@ struct S93ba0_Owner {
 };
 
 struct S93ba0_Output {
-    void* ProcessCallback(void* a, void* b, int c);
-    void* FUN_00d05020(int a, int b, void* job, int c);
 };
 
-extern "C" void __cdecl FUN_00cb5480(void* device, void* setup);
-extern "C" void __cdecl FUN_00d01700(void* device, void* data, int count);
-extern "C" void* __cdecl FUN_00d96530(int count, int size);
 
 __forceinline void S93ba0_copy4(void* dst,const void* src,int n) { const u32* s=(const u32*)src; u32* d=(u32*)dst; for(int j=0;j<n;++j) { *d++=*s++; } }
 struct T26_WaitExport { u32 begin; union {u32 end; int total;}; };
@@ -602,14 +600,14 @@ void* __cdecl FUN_00d93ba0(S93ba0_Owner* owner, S93ba0_Output* output, S93ba0_Jo
     S93ba0_timer( str_010d3e68);
     if (job->block->pending && owner->device->enabled &&
         (setup->newFlags & 12) && !(setup->oldFlags & 12))
-        FUN_00cb5480(owner->device, setup);
+        ::fnv_00cb5480::FUN_00cb5480((::fnv_00cb5480::LockedList *)(owner->device), (::fnv_00cb5480::ListItem *)(setup));
 
     marker = &job->block->state;
     S93ba0_LocalArray first(owner->device->pairCapacity);
     S93ba0_LocalArray second(owner->device->pairCapacity);
     S93ba0_Block* block = job->block;
-    owner->builder->FUN_00d0c030(
-        (int)setup->conn, setup->buildParam, owner->device, &first, &second);
+    ::UpdateBroadPhasePairs((::CollidableD0 **)(owner->builder), 
+        (int)setup->conn, (::WorldD0 *)(setup->buildParam), (*(::PairArrayD0 *)(owner->device)), (*(::PairArrayD0 *)(&first)));
 
     last = 1 - block->numThreads;
     int left = 0;
@@ -622,9 +620,9 @@ void* __cdecl FUN_00d93ba0(S93ba0_Owner* owner, S93ba0_Output* output, S93ba0_Jo
 
     if (prev == block->numThreads) {
         if (marker) {
-            S93ba0_timer( str_010cd3d8);
+            S93ba0_timer( ::DAT_010cd3d8);
             while (*(volatile char*)marker != 1 && *(volatile char*)marker != 2) {}
-            S93ba0_timer( str_010c41f8);
+            S93ba0_timer( ::DAT_010c41f8);
         }
         if (block->chunks) {
             total = 0;
@@ -640,7 +638,7 @@ void* __cdecl FUN_00d93ba0(S93ba0_Owner* owner, S93ba0_Output* output, S93ba0_Jo
                 S93ba0_copy4(copy + index * 16, src, n);
                 index += c->count;
             }
-            FUN_00d01700(owner->device, copy, total);
+            ::FUN_00d01700((::hkpWorld *)(owner->device), copy, (void *)(total));
             FUN_00c85750()->lifoCursor = copy;
         }
         *marker = 2;
@@ -648,7 +646,7 @@ void* __cdecl FUN_00d93ba0(S93ba0_Owner* owner, S93ba0_Output* output, S93ba0_Jo
         if (*marker != 2) {
             S93ba0_timer( str_010d3e4c);
             while (*(volatile char*)marker != 2) {}
-            S93ba0_timer( str_010c41f8);
+            S93ba0_timer( ::DAT_010c41f8);
         }
         if (block->numThreads <= 2)
             left = -1;
@@ -661,18 +659,18 @@ void* __cdecl FUN_00d93ba0(S93ba0_Owner* owner, S93ba0_Output* output, S93ba0_Jo
         conn = setup->conn;
         S93ba0_Device* device = (S93ba0_Device*)owner->device;
         if (first.m_iElementCount + second.m_iElementCount > 0) {
-            S93ba0_timer( str_010cc5e4);
-            device->FUN_00c911d0((*conn)->lockId);
-            device->stager->FUN_00cf70f0(second.m_data, second.m_iElementCount);
+            S93ba0_timer( ::DAT_010cc5e4);
+            reinterpret_cast<::FUN_00c911d0_Class *>((device))->EnterLock((void *)((*conn)->lockId));
+            reinterpret_cast<::Dispatcher *>((device->stager))->DispatchPairs((::Pair *)(second.m_data), second.m_iElementCount);
             const int needed = first.m_iElementCount;
             if (!FUN_00c85750()->getBlockAlloc()->hasSpace(needed << 10)) {
-                device->FUN_00c91210((*conn)->lockId);
+                reinterpret_cast<::FUN_00c91210_Class *>((device))->FUN_00c91210((void *)((*conn)->lockId));
             } else {
-                S93ba0_timer( str_010cc5d8);
+                S93ba0_timer( ::DAT_010cc5d8);
                 char* extra = device->extra;
-                device->stager->FUN_00cf7080(
-                    first.m_data, first.m_iElementCount, extra ? extra + 8 : 0);
-                device->FUN_00c91210((*conn)->lockId);
+                reinterpret_cast<::DispatcherCF7080 *>((device->stager))->FUN_00cf7080(
+                    (::PairCF7080 *)(first.m_data), first.m_iElementCount, (const ::FilterCF7080 *)(void *)(extra ? extra + 8 : 0));
+                reinterpret_cast<::FUN_00c91210_Class *>((device))->FUN_00c91210((void *)((*conn)->lockId));
             }
         }
         S93ba0_timer( str_01076f38);
@@ -720,14 +718,14 @@ int param=setup->param;int pitch=setup->pitch;
 initNext(job,dev,param,count,cap,pitch);
         if (count > cap) {
             int n = (count - 1) / cap + 1;
-            job->blocks = FUN_00d96530(n, 16);
+            job->blocks = ((void *)(::AllocateBlockHeader(n, 16)));
             job->numBlocks = (u16)n;
         }
-        S93ba0_timer( str_010c41f8);
-        return output->FUN_00d05020(0, 1, job, 0);
+        S93ba0_timer( ::DAT_010c41f8);
+        return ((void *)(reinterpret_cast<::S_00d05020_JobQueue *>((output))->FUN_00d05020(0, 1, (*(::S_00d05020_Job *)(job)), 0)));
     } else {
-        S93ba0_timer( str_010c41f8);
-        return output->ProcessCallback(job, job, 0);
+        S93ba0_timer( ::DAT_010c41f8);
+        return ((void *)(reinterpret_cast<::LunaOwner *>((output))->ProcessCallback((int)(job), (int)(job), 0)));
     }
 
 }

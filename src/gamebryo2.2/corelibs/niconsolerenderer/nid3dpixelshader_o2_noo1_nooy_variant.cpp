@@ -9,6 +9,9 @@
 // names and offsets of the MSVC 2008 build: NiD3DPixelShader is 48 bytes
 // and its D3D pixel shader handle lives at offset 44.
 // Direct3D9 pixel shader object; referenced by pointer only.
+#include "fnv/decl/FUN_00e89840_Class.h"
+#include "fnv/symbols_00e92000.h"
+#include "fnv/symbols_00e93000.h"
 class GeometryRelatedType;
 // Forward declarations of the renderer types named by the base chain.
 class NiD3DShaderProgramCreator;
@@ -80,7 +83,6 @@ class NiD3DPixelShader : public NiD3DShaderProgram
     GeometryRelatedType* m_pD3DPixelShader;
 };
 struct NiD3DPixelShader;
-void __cdecl FUN_00e92f30(NiD3DPixelShader*);
 struct FUN_00e898d0_shell : NiD3DPixelShader
 {
     void FUN_00e898d0();
@@ -3748,12 +3750,10 @@ bool S00e89910_Renderer::FUN_00e89910(int a1, int a2, int a3, int iUnused)
 
 extern char DAT_010ef7d4[];
 
-void __cdecl RemoveProgramFromMap(NiD3DPixelShader*);
 
 struct S_00e89970 : NiD3DPixelShader
 {
     void FUN_00e89970();
-    void FUN_00e89840();
 };
 
 // @fnv 0x00e89970
@@ -3761,7 +3761,7 @@ void S_00e89970::FUN_00e89970()
 {
     *reinterpret_cast<void**>(this) = (void*)DAT_010ef7d4;
 
-    RemoveProgramFromMap(this);
+    ::RemoveProgramFromMap((::Program *)(::NiD3DPixelShader *)(this));
 
     if (m_pD3DPixelShader != 0)
     {
@@ -3769,5 +3769,5 @@ void S_00e89970::FUN_00e89970()
     }
 
     m_pD3DPixelShader = 0;
-    FUN_00e89840();
+    reinterpret_cast<::FUN_00e89840_Class *>(this)->FUN_00e89840();
 }

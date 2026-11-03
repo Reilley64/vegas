@@ -3,15 +3,23 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /GF /Ob1 (unit src/fallout_shared/tessaveloadgame.cpp lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00855220_shell.h"
+#include "fnv/decl/FUN_00c42dd0.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/TaskThreadResume.h"
+#include "fnv/decl/Worker.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01272000.h"
 #include "tessaveloadgame_decls.h"
 
 // Constructor: base list (10 slots, grow 1, entry size 0x78), counters cleared, a helper object
 // allocated through the class operator new, and the first entry's payload cached.
 struct MemoryManagerL
 {
-    void* Allocate(unsigned int auiSize);
 };
-extern MemoryManagerL g_memoryManagerL;
 
 struct EntryL
 {
@@ -43,7 +51,7 @@ struct HelperL
     HelperL(int, int, int);
     static void* operator new(unsigned int uiSize)
     {
-        return g_memoryManagerL.Allocate(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerL *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }
     static void operator delete(void* pvMem);
 };
@@ -77,7 +85,6 @@ class BSSpinLockS
   public:
     unsigned int threadID;
     int lockCount;
-    void Lock(const char* name);
     void Unlock()
     {
         if (--lockCount == 0)
@@ -180,26 +187,23 @@ struct S_00c3e490 : C00449f80
 // @fnv 0x00c3e490
 bool S_00c3e490::FUN_00c3e490(unsigned int a)
 {
-    m_lock.Lock(0);
-    bool r = FUN_00449f80(a)->TryDequeue();
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&(m_lock))->FUN_0040fbf0((char *)(0));
+    bool r = reinterpret_cast<::Worker *>((FUN_00449f80(a)))->TryDequeue({});
     m_lock.Unlock();
     return r;
 }
 
 struct MemoryManager
 {
-    void* Allocate(unsigned int);
 };
-extern MemoryManager g_memoryManager;
 
-extern __declspec(thread) unsigned int DAT_000002b4;
 inline unsigned int GetCurrentContext()
 {
-    return DAT_000002b4;
+    return ::currentAllocationContext;
 }
 inline void SetCurrentContext(unsigned int context)
 {
-    DAT_000002b4 = context;
+    ::currentAllocationContext = context;
 }
 struct HeapContextGuard
 {
@@ -217,11 +221,11 @@ struct HeapContextGuard
 
 inline void* operator new[](unsigned int n, MemoryManager*)
 {
-    return g_memoryManager.Allocate(n);
+    return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(n);
 }
 inline void* operator new(unsigned int n, MemoryManager*)
 {
-    return g_memoryManager.Allocate(n);
+    return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(n);
 }
 void operator delete(void*, MemoryManager*);
 
@@ -300,13 +304,11 @@ extern "C" void* __cdecl memset(void* pvDest, int iValue, unsigned int uiSize);
 class MemoryManagerC4
 {
   public:
-    void* Allocate(unsigned int uiSize);
 };
-extern MemoryManagerC4 g_kMemoryManagerC4;
 
 inline void* operator new[](unsigned int uiSize)
 {
-    return g_kMemoryManagerC4.Allocate(uiSize);
+    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerC4 *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
 }
 
 template <class T> inline void ZeroArrayC4(T* pkArray, unsigned int ItemUpdateArray)
@@ -328,12 +330,11 @@ class WorkerC4
   public:
     inline static void* operator new(unsigned int uiSize)
     {
-        return g_kMemoryManagerC4.Allocate(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerC4 *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }
     inline static void operator delete(void* pv)
     {}
     WorkerC4(FUN_00c3e4f0* pkOwner, unsigned int uiID);
-    void Start();
     char m_acData[0x34];
 };
 
@@ -366,7 +367,7 @@ FUN_00c3e4f0::FUN_00c3e4f0(unsigned int uiReserved, unsigned int uiWorkers, unsi
     for (unsigned int i = 0; i < m_uiWorkers; i++)
     {
         m_ppkWorkers[i] = new WorkerC4(this, i + 2);
-        m_ppkWorkers[i]->Start();
+        reinterpret_cast<::TaskThreadResume *>((m_ppkWorkers[i]))->FUN_00c42f50();
     }
 }
 
@@ -376,16 +377,15 @@ struct ThreadDataC3
     char m_acPad[0x2b4];
     int m_iMemContext;
 };
-extern __declspec(thread) ThreadDataC3 g_kThreadDataC3;
 
 inline int GetMemContextC3()
 {
-    return g_kThreadDataC3.m_iMemContext;
+    return (*reinterpret_cast<::fnv_00c3e8b0::ThreadDataC3 *>(&::g_tlsBlock)).m_iMemContext;
 }
 
 inline void SetMemContextC3(int aiMemoryContext)
 {
-    g_kThreadDataC3.m_iMemContext = aiMemoryContext;
+    (*reinterpret_cast<::fnv_00c3e8b0::ThreadDataC3 *>(&::g_tlsBlock)).m_iMemContext = aiMemoryContext;
 }
 
 class MemContextScopeC3
@@ -406,13 +406,11 @@ class MemContextScopeC3
 class MemoryManagerC3
 {
   public:
-    void* Allocate(unsigned int uiSize);
 };
-extern MemoryManagerC3 g_kMemoryManagerC3;
 
 inline void* operator new[](unsigned int uiSize)
 {
-    return g_kMemoryManagerC3.Allocate(uiSize);
+    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00c3e8b0::MemoryManagerC3 *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
 }
 
 class IOQueueC3
@@ -420,7 +418,7 @@ class IOQueueC3
   public:
     inline static void* operator new(unsigned int uiSize)
     {
-        return g_kMemoryManagerC3.Allocate(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00c3e8b0::MemoryManagerC3 *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }
     inline static void operator delete(void* pv)
     {}

@@ -2,11 +2,12 @@
 // src/havok/common/scenedata/alignscene/hkalignscenetonodeoptions.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/alignscene/hkalignscenetonodeoptions.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/S_00e3ed00_Foo.h"
+#include "fnv/symbols_00cb0000.h"
 #include "havok/hkAlignSceneToNodeOptions.h"
 
 struct Inner
 {
-    void Run();
 };
 
 struct FUN_00e4a540_cls
@@ -23,7 +24,7 @@ struct FUN_00e4a540_cls
 // @fnv 0x00e4a540
 void FUN_00e4a540_cls::FUN_00e4a540()
 {
-    m_14->Run();
+    reinterpret_cast<::S_00e3ed00_Foo *>((m_14))->AppendToTraversalList({}, {});
 }
 
 class hkMemoryAllocatorE4AF
@@ -53,10 +54,9 @@ class FUN_00cb0c00_class
   public:
     const char* m_pcText;
 
-    void FUN_00cb0c00() throw();
     ~FUN_00cb0c00_class()
     {
-        FUN_00cb0c00();
+        ::FUN_00cb0c00((int)this);
     }
 };
 
@@ -156,7 +156,6 @@ struct Matrix4E4
         m_kColumn2(2) = 1.0f;
         m_kColumn3(3) = 1.0f;
     }
-    void FUN_00de8e50(const Matrix4E4& m) throw();
 };
 struct MatArrE4
 {
@@ -220,7 +219,7 @@ int NodeOpsE4::FUN_00e4a5a0(void* volatile pSrc, Matrix4E4* pOut, int iIndex)
         PoseE4* p = arr[i];
         int n = p->m_mats.m_iElementCount;
         int idx = (iIndex < n) ? iIndex : n - 1;
-        pOut->FUN_00de8e50(p->m_mats.m_data[idx]);
+        reinterpret_cast<::hkMatrix4 *>((pOut))->FUN_00de8e50((const ::hkMatrix4 &)(p->m_mats.m_data[idx]));
     }
     return 0;
 }

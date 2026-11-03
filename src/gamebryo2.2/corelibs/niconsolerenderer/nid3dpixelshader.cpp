@@ -9,6 +9,7 @@
 // and its D3D pixel shader handle lives at offset 44.
 
 // Direct3D9 pixel shader object; referenced by pointer only.
+#include "fnv/symbols_00e92000.h"
 class GeometryRelatedType;
 
 // Forward declarations of the renderer types named by the base chain.
@@ -95,7 +96,6 @@ void NiD3DPixelShader::SetD3DPixelShader(GeometryRelatedType* const pixelShader)
 
 struct NiD3DPixelShader;
 
-void __cdecl FUN_00e92f30(NiD3DPixelShader*);
 
 struct FUN_00e898d0_shell : NiD3DPixelShader
 {
@@ -105,7 +105,7 @@ struct FUN_00e898d0_shell : NiD3DPixelShader
 // @fnv 0x00e898d0
 void __thiscall FUN_00e898d0_shell::FUN_00e898d0()
 {
-    FUN_00e92f30(this);
+    ::fnv_00e92f30::FUN_00e92f30((::fnv_00e92f30::NiD3DPixelShader *)(::NiD3DPixelShader *)(this));
 }
 
 // ---- stand-ins for identities not defined in this unit ----

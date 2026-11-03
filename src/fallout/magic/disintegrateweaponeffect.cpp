@@ -2,6 +2,14 @@
 // src/fallout/magic/disintegrateweaponeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/disintegrateweaponeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/FUN_004be2d0_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/MagicTarget.h"
+#include "fnv/symbols_00495000.h"
+#include "fnv/symbols_005b6000.h"
+#include "fnv/symbols_00703000.h"
 struct ActiveEffect
 {
     virtual ~ActiveEffect();
@@ -111,7 +119,6 @@ struct TargetObject
     virtual void v13c();
     virtual void v140();
     virtual void v144();
-    int GetTargetFullName();
 };
 
 struct TargetSource
@@ -447,22 +454,15 @@ struct Effect
     virtual void w3c4();
     virtual void ApplyDamage(TargetObject* apTarget, float afAmount, int aiFlag);
 
-    TargetSource* FUN_008d8520();
-    const char* FUN_0055d520();
 };
 
 struct EffectOwner
 {
-    Effect* FUN_00822b40();
 };
 
-bool __cdecl FUN_005b6f70();
-void __cdecl FUN_00703c00(const char* apFormat, ...);
 
 struct FUN_0080d7b0_cls
 {
-    EffectOwner* FUN_0059bb30();
-    float GetFloatAtOffset1C();
     void ApplyDisintegrateWeaponDamage();
 };
 
@@ -470,15 +470,14 @@ struct FUN_0080d7b0_cls
 // @fnv 0x0080d7b0
 void FUN_0080d7b0_cls::ApplyDisintegrateWeaponDamage()
 {
-    Effect* pEffect = FUN_0059bb30() ? FUN_0059bb30()->FUN_00822b40() : 0;
+    Effect* pEffect = ((::EffectOwner *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::Effect *)(reinterpret_cast<::MagicTarget *>((((::EffectOwner *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
     if (pEffect == 0)
         return;
 
-    TargetObject* pTarget = pEffect->FUN_008d8520()->GetTarget();
+    TargetObject* pTarget = ((::TargetSource *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pEffect))->GetBaseTexture()))->GetTarget();
     if (pTarget != 0)
-        pEffect->ApplyDamage(pTarget, GetFloatAtOffset1C(), 0);
+        pEffect->ApplyDamage(pTarget, ::GetFloatAtOffset1C((char *)this), 0);
 
-    if (FUN_005b6f70())
-        FUN_00703c00("%s's %s takes %0.2f disintegrate weapon damage!", pEffect->FUN_0055d520(),
-                     pTarget->GetTargetFullName(), GetFloatAtOffset1C());
+    if (((bool)(::FUN_005b6f70())))
+        ::FUN_00703c00("%s's %s takes %0.2f disintegrate weapon damage!", reinterpret_cast<::FUN_0055d520_shell *>((pEffect))->FUN_0055d520());
 }

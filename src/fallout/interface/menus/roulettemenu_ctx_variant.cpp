@@ -3,6 +3,83 @@
 // against, for verified matches whose own declarations clash with the unit's current types.
 // src/fallout/interface/menus/roulettemenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/roulettemenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CloneSourceA5d6.h"
+#include "fnv/decl/CombatState.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FUN_0043fa80_s.h"
+#include "fnv/decl/FUN_0045a5e0_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_00504e00_shell.h"
+#include "fnv/decl/FUN_00504e60_shell.h"
+#include "fnv/decl/FUN_00572160_shell.h"
+#include "fnv/decl/FUN_006317a0_struct.h"
+#include "fnv/decl/FUN_007316d0_Class.h"
+#include "fnv/decl/FUN_007b52d0_cls.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00a01290_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a1dc70_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/InterfaceManager.h"
+#include "fnv/decl/MultiBoundManagerB5D.h"
+#include "fnv/decl/MyHost.h"
+#include "fnv/decl/NiAdditionalGeometryData.h"
+#include "fnv/decl/NiControllerManager.h"
+#include "fnv/decl/SSN_b5.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/Target2180.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/TimeCounter.h"
+#include "fnv/decl/TopicMenuController.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00447080__FUN_00447080_shell.h"
+#include "fnv/decl/fnv_0047a520__Fn47a520.h"
+#include "fnv/decl/fnv_007bf480__C7BF480Menu.h"
+#include "fnv/decl/fnv_00969b20__TimeRefresh.h"
+#include "fnv/decl/fnv_00969b80__FUN_00969b80_class.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_0045b000.h"
+#include "fnv/symbols_004aa000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005a6000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00705000.h"
+#include "fnv/symbols_007bb000.h"
+#include "fnv/symbols_00944000.h"
+#include "fnv/symbols_00a00000.h"
+#include "fnv/symbols_00a08000.h"
+#include "fnv/symbols_00a09000.h"
+#include "fnv/symbols_00a6d000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_01025000.h"
+#include "fnv/symbols_0102c000.h"
+#include "fnv/symbols_01049000.h"
+#include "fnv/symbols_0106b000.h"
+#include "fnv/symbols_01070000.h"
+#include "fnv/symbols_01071000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011d2000.h"
+#include "fnv/symbols_011d3000.h"
+#include "fnv/symbols_011d4000.h"
+#include "fnv/symbols_011da000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f3000.h"
 struct FUN_007b8f30_shell
 {
     int FUN_007b8f30();
@@ -10,6 +87,10 @@ struct FUN_007b8f30_shell
 struct Tile
 {
     void* m_pRenderedNodeEntry;
+public:
+    void Set(int, int);
+public:
+    static float GetInterfaceScale();
 };
 struct RouletteMenu
 {
@@ -18,7 +99,6 @@ struct RouletteMenu
     void SetTile(int id, Tile* tile);
 };
 int __cdecl FUN_007bc820();
-extern unsigned int __cdecl GetRandomNumberInRange(int, int);
 struct FUN_007bf670_shell
 {
     void FUN_007bf670();
@@ -61,7 +141,6 @@ template <typename T> class BSSimpleList
 class TESDataHandler
 {
   public:
-    BSSimpleList<TESEyes*>* GetTESEyesList();
 };
 extern double DAT_01076340;
 struct FUN_007bf530_shell
@@ -72,7 +151,6 @@ struct FUN_007bf530_shell
 };
 struct Proc_S
 {
-    void* GetNext();
 };
 struct TileSetStandIn
 {
@@ -80,8 +158,6 @@ struct TileSetStandIn
 };
 void TileSetStandIn::Set(int, float, bool)
 {}
-Proc_S* __cdecl _FUN_004b7210();
-extern RouletteMenu* DAT_011da878;
 void SetRouletteMenuTile();
 struct FUN_004a0c90_shell
 {
@@ -100,17 +176,16 @@ struct FUN_004a0c90_shell
 struct ThreeByThreeMatrix : public FUN_004a0c90_shell
 {
 };
+struct NiPoint3;
 struct NiAVObject
 {
-    void SetLocalRotation(const ThreeByThreeMatrix&);
+public:
+    ::NiPoint3 &FUN_0043c490();
 };
 struct SceneObjectLookup
 {
-    static NiAVObject* __cdecl GetObjectByName(NiAVObject*, const char*);
 };
-extern double const DAT_01023128;
 extern double DAT_01076360;
-extern char DAT_011a9448;
 struct FUN_007bf570_shell
 {
     unsigned char pad1[0x3E7C];
@@ -126,6 +201,10 @@ struct NiPoint3
     float x;
     float y;
     float z;
+public:
+    float ComputeMagnitude() const;
+public:
+    static const ::NiPoint3 ZERO;
 };
 struct NiUpdateData
 {
@@ -144,9 +223,11 @@ struct NiUpdateData
 
     NiUpdateData(float, bool, bool);
 };
+class NiAVObject;
 struct NiNode
 {
-    void Update(const NiUpdateData&);
+public:
+    ::NiAVObject *GetAt(unsigned int);
 };
 struct GO
 {
@@ -161,24 +242,18 @@ struct FUN_007bf840_shell
     void FUN_007bf840();
 };
 extern double DAT_01070e78;
-extern GO g_011da8a0;
 struct TileValue
 {
-    void SetTraitAndReset(int, float);
-    void Set(int, int);
 };
-extern int DAT_011da86c;
 struct BSSoundHandleEx
 {
     unsigned int id;
     unsigned int state;
     unsigned int flags;
     ~BSSoundHandleEx();
-    bool Play(bool);
 };
 struct BSAudio
 {
-    static BSAudio* GetSingleton();
     BSSoundHandleEx GetSoundHandleByEditorID(const char*, unsigned int);
 };
 struct BSSimpleListTESRaceSize
@@ -186,7 +261,6 @@ struct BSSimpleListTESRaceSize
     int GetSize();
     bool IsEmpty();
 };
-void __cdecl FUN_004d5c60(int);
 struct RouletteState
 {
     int unk0000;
@@ -4286,42 +4360,31 @@ struct RouletteState
     int unk3ff8;
     int unk3ffc;
     int unk4000;
-    int FUN_007bf390();
     bool FUN_007bed70(int);
     bool RemoveEntryById(int);
-    void FUN_007bf670();
-    void ApplyValueToChain(int, float);
-    void FUN_007bf840();
     void HandleRouletteInput(int, Tile*);
 };
 struct FUN_00559450_shell
 {
-    void* FUN_00559450();
 };
 struct FUN_0073ac90_shell
 {
-    int* FUN_0073ac90();
 };
 struct FUN_006317a0_shell
 {
-    void** AddEight(void* a, int b, float c, int d);
 };
 struct FUN_00a012d0_shell
 {
-    void FUN_00a012d0();
 };
 struct FUN_007b52d0_shell
 {
-    void* DereferenceIfNotNull(void* a);
 };
 struct FUN_007bf710_cls
 {
     void ApplyValueToChain(int aiId, float afValue);
 };
-extern float DAT_0102caf8;
 struct S_007bf7a0_Tile
 {
-    void FUN_004bc1f0(float a, float b, float c);
 };
 struct S_007bf7a0_Val
 {
@@ -4335,13 +4398,10 @@ struct S_007bf7a0_Val
 };
 struct S_007bf7a0_Inner
 {
-    void FUN_00a59c60(S_007bf7a0_Val* v);
 };
 struct S_007bf7a0_Holder
 {
-    S_007bf7a0_Inner* FUN_00559450();
 };
-extern S_007bf7a0_Holder DAT_011da8a0;
 struct S_007bf7a0
 {
     int unk0000, unk0004, unk0008, unk000c, unk0010, unk0014, unk0018, unk001c, unk0020, unk0024, unk0028, unk002c,
@@ -4855,12 +4915,9 @@ struct S_007bf7a0
 };
 struct SettingString
 {
-    const char* String();
 };
-extern SettingString g_011d3e08;
 struct NamedForm
 {
-    const char* GetFullName();
 };
 struct RoulettePlayerStandIn
 {
@@ -4877,14 +4934,8 @@ struct RouletteBetStandIn
     int unk00;
     int iAmount;
 };
-extern RouletteBetStandIn* DAT_011da87c;
-extern RoulettePlayerStandIn* DAT_011da880;
-extern int DAT_011da870;
-int __cdecl FUN_00406d00(char* buffer, int size, const char* format, ...);
-int __cdecl BSStringLength(const char* str);
 struct BetTile
 {
-    void Set(int id, const char* str, bool propagate);
 };
 struct RouletteBetMenu
 {
@@ -4918,24 +4969,19 @@ struct Setting
 };
 struct MenuRef
 {
-    Setting* FUN_00504e00(int);
 };
 struct Cache
 {
-    void FUN_0045a5e0(const char*);
 };
 struct Player
 {
-    void FUN_00969b20();
 };
 struct Scene
 {
-    void FUN_00572160();
 };
 struct Pointer
 {
     Scene* value;
-    Scene* FUN_00559450();
     void FUN_0066b0d0(Scene*);
     ~Pointer();
 };
@@ -5000,13 +5046,10 @@ struct Renderer
     virtual void slote0();
     virtual void slote4();
     virtual void Detach(Scene*);
-    void FUN_00b5d180();
 };
-Renderer* FUN_00450b80(int);
 struct Animation
 {
     bool FUN_008256d0();
-    void FUN_00470470();
     ~Animation();
 };
 struct Base
@@ -5042,15 +5085,7 @@ struct Entry
     unsigned int unk60;
     ~Entry();
 };
-extern Player* DAT_011dea3c;
-extern MenuRef* DAT_011da880;
-extern Cache* DAT_011c3b3c;
-extern Pointer DAT_011da8d0, DAT_011da8a0;
-extern void* DAT_011da87c;
-extern void* DAT_011da878;
-extern const char DAT_01075ff8[], DAT_01075fc4[], DAT_01070944[];
-void FUN_00406d30(char*, unsigned int, const char*);
-unsigned int FUN_0044a670(const char*);
+extern const char DAT_01075ff8[], DAT_01075fc4[];
 struct FUN_007b9020 : Base
 {
     unsigned int unk4;
@@ -5131,15 +5166,15 @@ struct FUN_007b9020 : Base
 // @fnv 0x007b9020
 FUN_007b9020::~FUN_007b9020()
 {
-    DAT_011dea3c->FUN_00969b20();
-    DAT_011c3b3c->FUN_0045a5e0(DAT_011da880->FUN_00504e00(9)->Name());
-    DAT_011c3b3c->FUN_0045a5e0(DAT_01075ff8);
-    DAT_011c3b3c->FUN_0045a5e0(DAT_01075fc4);
-    DAT_011c3b3c->FUN_0045a5e0(DAT_011da880->FUN_00504e00(6)->Name());
+    reinterpret_cast<::fnv_00969b20::TimeRefresh *>(((*reinterpret_cast<::RouletteCleanup::Player * *>(&::_g_thePlayer))))->FUN_00969b20();
+    reinterpret_cast<::FUN_0045a5e0_shell *>(((*reinterpret_cast<::RouletteCleanup::Cache * *>(&::g_modelLoader))))->FUN_0045a5e0((char *)(((::RouletteCleanup::Setting *)(reinterpret_cast<::FUN_00504e00_shell *>((DAT_011da880))->FUN_00504e00(9)))->Name()));
+    reinterpret_cast<::FUN_0045a5e0_shell *>(((*reinterpret_cast<::RouletteCleanup::Cache * *>(&::g_modelLoader))))->FUN_0045a5e0((char *)(DAT_01075ff8));
+    reinterpret_cast<::FUN_0045a5e0_shell *>(((*reinterpret_cast<::RouletteCleanup::Cache * *>(&::g_modelLoader))))->FUN_0045a5e0((char *)(DAT_01075fc4));
+    reinterpret_cast<::FUN_0045a5e0_shell *>(((*reinterpret_cast<::RouletteCleanup::Cache * *>(&::g_modelLoader))))->FUN_0045a5e0((char *)(((::RouletteCleanup::Setting *)(reinterpret_cast<::FUN_00504e00_shell *>((DAT_011da880))->FUN_00504e00(6)))->Name()));
     char* extension = 0;
     char path[260];
-    FUN_00406d30(path, 260, DAT_011da880->FUN_00504e00(6)->Name());
-    for (unsigned int index = 0; index < FUN_0044a670(path); index++)
+    ::TaskQueueInterface::CopyStringToBuffer(path, 260, ((::RouletteCleanup::Setting *)(reinterpret_cast<::FUN_00504e00_shell *>((DAT_011da880))->FUN_00504e00(6)))->Name());
+    for (unsigned int index = 0; index < ::FUN_0044a670(path); index++)
     {
         if (path[index] == '.')
         {
@@ -5149,24 +5184,24 @@ FUN_007b9020::~FUN_007b9020()
     }
     if (extension)
     {
-        FUN_00406d30(extension, 15, DAT_01070944);
-        DAT_011c3b3c->FUN_0045a5e0(path);
+        ::TaskQueueInterface::CopyStringToBuffer(extension, 15, DAT_01070944);
+        reinterpret_cast<::FUN_0045a5e0_shell *>(((*reinterpret_cast<::RouletteCleanup::Cache * *>(&::g_modelLoader))))->FUN_0045a5e0((char *)(path));
     }
-    DAT_011da8d0.FUN_0066b0d0(0);
-    FUN_00450b80(1)->Detach(DAT_011da8a0.FUN_00559450());
-    FUN_00450b80(1)->FUN_00b5d180();
-    DAT_011da8a0.FUN_00559450()->FUN_00572160();
-    DAT_011da8a0.FUN_0066b0d0(0);
+    (*reinterpret_cast<::RouletteCleanup::Pointer *>(&::g_011da8d0)).FUN_0066b0d0(0);
+    ((::RouletteCleanup::Renderer *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1)))->Detach(((::RouletteCleanup::Scene *)(::FUN_00559450((int *)&((*reinterpret_cast<::RouletteCleanup::Pointer *>(&::g_011da8a0)))))));
+    reinterpret_cast<::MultiBoundManagerB5D *>((((::RouletteCleanup::Renderer *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1)))))->FUN_00b5d180();
+    reinterpret_cast<::FUN_00572160_shell *>((((::RouletteCleanup::Scene *)(::FUN_00559450((int *)&((*reinterpret_cast<::RouletteCleanup::Pointer *>(&::g_011da8a0))))))))->FUN_00572160();
+    (*reinterpret_cast<::RouletteCleanup::Pointer *>(&::g_011da8a0)).FUN_0066b0d0(0);
     table = 0;
     wheel = 0;
     ball = 0;
-    DAT_011da8d0.FUN_0066b0d0(0);
+    (*reinterpret_cast<::RouletteCleanup::Pointer *>(&::g_011da8d0)).FUN_0066b0d0(0);
     camera = 0;
     light = 0;
     target = 0;
     pointer.FUN_0066b0d0(0);
     if (animation && !animation->FUN_008256d0())
-        animation->FUN_00470470();
+        reinterpret_cast<::FileMatchList *>((animation))->RemoveAll();
     delete animation;
     group = 0;
     for (int marker = 0; marker < 3; marker++)
@@ -5177,11 +5212,11 @@ FUN_007b9020::~FUN_007b9020()
         materials[element] = 0;
     }
     if (!animation->FUN_008256d0())
-        animation->FUN_00470470();
+        reinterpret_cast<::FileMatchList *>((animation))->RemoveAll();
     animation = 0;
-    DAT_011da87c = 0;
+    (*reinterpret_cast<void * *>(&::DAT_011da87c)) = 0;
     DAT_011da880 = 0;
-    DAT_011da878 = 0;
+    (*reinterpret_cast<void * *>(&::DAT_011da878)) = 0;
 }
 }
 struct Scene;
@@ -5196,13 +5231,10 @@ struct ModelPath
 };
 struct PathOwner
 {
-    ModelPath* FUN_00504e00(int);
 };
 struct ModelLoader
 {
-    Scene* LoadFile(const char*, int, bool, bool, bool, bool);
 };
-extern ModelLoader* g_modelLoader;
 struct NiFixedString
 {
     const char* value;
@@ -5211,14 +5243,10 @@ struct NiFixedString
 };
 struct Controller
 {
-    void* FUN_0047a520(const NiFixedString&);
-    void FUN_0048fef0(float);
 };
 struct NiRTTI;
-extern NiRTTI DAT_011f36ac;
 struct Bound
 {
-    float FUN_0084d030();
 };
 struct NiMemObject
 {
@@ -5283,13 +5311,6 @@ struct Scene : NiMemObject
     virtual void unused53();
     virtual void unused54();
     virtual void Attach(Scene*, bool);
-    void FUN_004bc1f0(float, float, float);
-    void FUN_00450f90(bool);
-    Scene* FUN_00a5d680();
-    void FUN_00a59c60(const NiUpdateData&);
-    Controller* FUN_00a5c570(const NiRTTI*);
-    Bound* FUN_0043d450();
-    void FUN_00b5ca70(Scene*, float);
 };
 struct FUN_00a5ecb0 : Scene
 {
@@ -5340,12 +5361,7 @@ struct FUN_00a5ecb0 : Scene
 struct SceneHolder
 {
     SceneHolder& operator=(Scene*);
-    Scene* FUN_00559450();
 };
-extern SceneHolder g_011da8d0;
-Scene* __cdecl FUN_004aae30(Scene*, const char*);
-Scene* __cdecl FUN_00450b80(int);
-void __cdecl FUN_00a6d2d0(Scene*);
 int __cdecl strcpy_s(char*, unsigned int, const char*);
 struct Setup
 {
@@ -9421,10 +9437,6 @@ struct Setup
     int unk3fdc;
     int state;
     void InitRouletteScene();
-    void FUN_007bf7a0();
-    void FUN_007bf840();
-    Scene* FUN_007c2180();
-    void InitRouletteWheel();
 };
 struct FUN_00733f50
 {
@@ -9441,8 +9453,6 @@ struct RouletteBetEntry
 };
 struct BetList
 {
-    RouletteBetEntry** FUN_006815c0();
-    BetList* FUN_00726070();
     bool FUN_008256d0();
     void FUN_00726c60(RouletteBetEntry*&);
     void FUN_005ae3d0(RouletteBetEntry*&);
@@ -9456,22 +9466,19 @@ struct BetGeometry
 };
 struct RouletteObject
 {
-    NiPoint3& FUN_0043c490();
-    void FUN_004bc1f0(float, float, float);
 };
 struct RouletteScene
 {
-    RouletteObject* FUN_0043b4a0(int);
 };
 struct RouletteTile
 {
-    void SetTraitAndReset(int, float);
-    void FUN_00700320(int, int);
 };
 
+namespace ActorValue { enum Index; }
 struct ActorValueOwner
 {
-    int FUN_0066ef20(int);
+public:
+    int GetActorValueAsInteger(::ActorValue::Index);
 };
 struct PlayerForRoulette
 {
@@ -9517,12 +9524,7 @@ struct PlayerForRoulette
     int unk09c;
     int unk0a0;
     ActorValueOwner av;
-    BetList* FUN_005a6260();
-    bool FUN_00969b80();
-    int FUN_00969b40();
-    int FUN_00575610(void*);
 };
-extern PlayerForRoulette* DAT_011dea3c;
 struct CasinoData
 {
     int unk00;
@@ -9539,9 +9541,6 @@ struct CasinoData
 };
 struct CasinoForRoulette
 {
-    int FUN_0084e3a0();
-    CasinoData* FUN_00504e60();
-    void* FUN_007316d0();
 };
 struct MenuVirtual
 {
@@ -9643,29 +9642,11 @@ struct PlayerVirtual
 
 struct InterfaceRoulette
 {
-    RouletteTile* FUN_00586150(const char*);
 };
 struct MenuMethods
 {
-    unsigned char HasAllTiles();
-    void FUN_00a1dc70(RouletteTile*, int);
-    void UpdateBetTileText();
-    void ApplyValueToChain(int, float);
-    void InitRouletteScene();
-    void FUN_00a1dc20(int);
-    MenuMethods* FUN_00726070();
 };
-extern SettingString g_011d2274, g_011d2d24, g_011d3abc, g_011d2424, g_011d3594, g_011d3804, g_011d3168, g_011d3300,
-    g_011d41e0, g_011d2c1c, g_011d2820, g_011d3354, g_011d487c, g_011d33fc;
-extern const char DAT_01076274[], DAT_01049638[], DAT_01025cc4[], DAT_01076254[], DAT_01076200[], DAT_010761e4[];
-extern float DAT_010162c0, DAT_0101e704;
-extern double DAT_010704f0, DAT_010704e8;
-MenuVirtual* __cdecl FUN_00a09030(int);
-bool __cdecl QueueUIMessage(const char*, int, const char*, const char*, float, bool);
-void __cdecl FUN_005b5e40(const char*);
-float __stdcall FUN_00a01530(int);
-RouletteTile* __cdecl FUN_00a08b20(Tile*, const char*);
-RouletteTile* __cdecl FUN_007bbe20(RoulettePlayerStandIn* casino, int bet, int arg3, int exchange);
+extern const char DAT_01076274[], DAT_01076254[], DAT_01076200[], DAT_010761e4[];
 struct RouletteEntry
 {
     int amount;
@@ -9674,14 +9655,11 @@ struct RouletteEntry
 };
 struct RouletteEntryNode
 {
-    RouletteEntry** FUN_006815c0();
     void FUN_0063f7b0();
-    RouletteEntryNode* FUN_00726070();
 };
 
 struct RouletteRemoveHelper
 {
-    void ResetSlotTransform(int);
 };
 class Menu
 {
@@ -9708,6 +9686,8 @@ class Menu
     int unk48;
     int unk4c;
     int unk50;
+public:
+    void SetMenuVisibility(bool);
 };
 struct Member08
 {
@@ -9732,23 +9712,13 @@ struct List08
     List08();
     ~List08();
 };
-int __cdecl FUN_00a00940(const char*, int);
-extern const char DAT_01071ba0[];
-extern const char DAT_01071b94[];
-extern const char DAT_01071b88[];
-extern const char DAT_01071b7c[];
-extern const char DAT_01071b70[];
 extern const char DAT_01073cc0[];
-extern const char DAT_01071b64[];
 extern const char DAT_01073cb4[];
 extern int DAT_011daf6c;
 extern int DAT_011daf60;
 extern int DAT_011daf58;
-extern int DAT_011daf64;
 extern int DAT_011daf68;
 extern int DAT_011daf78;
-extern int DAT_011daf5c;
-extern int DAT_011daf70;
 struct FUN_007e6780 : Menu
 {
     Member08 member54;
@@ -9759,9 +9729,7 @@ struct FUN_007e6780 : Menu
 struct NiPoint3Ex : NiPoint3
 {
     NiPoint3Ex operator-(const NiPoint3& p) const;
-    float Length() const;
 };
-int __fastcall FUN_0045bb80(int);
 namespace bf {
 struct Slot
 {
@@ -9784,8 +9752,8 @@ int Roulette::FUN_007bf390()
     int i;
     for (i = 0; i < 0x90; i++)
     {
-        NiPoint3Ex v = ((const NiPoint3Ex*)FUN_0045bb80(m_iNode))->operator-(m_akSlots[i].m_kPos);
-        float f = v.Length();
+        NiPoint3Ex v = (*(::NiPoint3Ex *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((const NiPoint3Ex*)FUN_0045bb80(m_iNode))))->FUN_00439ef0-((::NiPoint3 *)&(m_akSlots[i].m_kPos), *(const ::NiPoint3 *)nullptr)));
+        float f = reinterpret_cast<::NiPoint3 *>((void *)&(v))->ComputeMagnitude();
         if (f <= m_afRadius[0])
             break;
     }
@@ -9793,8 +9761,8 @@ int Roulette::FUN_007bf390()
     {
         for (; i < 0x9f; i++)
         {
-            NiPoint3Ex v2 = ((const NiPoint3Ex*)FUN_0045bb80(m_iNode))->operator-(m_akSlots[i].m_kPos);
-            float f2 = v2.Length();
+            NiPoint3Ex v2 = (*(::NiPoint3Ex *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((const NiPoint3Ex*)FUN_0045bb80(m_iNode))))->FUN_00439ef0-((::NiPoint3 *)&(m_akSlots[i].m_kPos), *(const ::NiPoint3 *)nullptr)));
+            float f2 = reinterpret_cast<::NiPoint3 *>((void *)&(v2))->ComputeMagnitude();
             if (f2 <= m_afRadius[i - 0x8f])
                 break;
         }
@@ -9802,33 +9770,16 @@ int Roulette::FUN_007bf390()
     return i;
 }
 }
-extern unsigned char DAT_011f426c;
-extern double DAT_0106b168;
 class SettingT_GameSettingCollection_
 {
   public:
-    const char* String();
 };
-extern SettingT_GameSettingCollection_ DAT_011d3f4c;
-extern SettingT_GameSettingCollection_ DAT_011d4dbc;
-extern SettingT_GameSettingCollection_ DAT_011d4b88;
-extern SettingT_GameSettingCollection_ DAT_011d264c;
-extern SettingT_GameSettingCollection_ DAT_011d2dcc;
-extern SettingT_GameSettingCollection_ DAT_011d32f4;
-extern SettingT_GameSettingCollection_ DAT_011d2694;
-extern SettingT_GameSettingCollection_ DAT_011d1df0;
-extern SettingT_GameSettingCollection_ DAT_011d40c0;
-extern SettingT_GameSettingCollection_ DAT_011d2d30;
-int __cdecl FUN_00406d30(char*, unsigned int, const char*);
 extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 struct BoundRes
 {
-    NiPoint3* FUN_006815c0();
 };
 struct AVCalls
 {
-    void FUN_00450f90(int);
-    BoundRes* FUN_0043d450();
 };
 struct VObj
 {
@@ -9873,7 +9824,6 @@ struct VObj
     virtual void v38();
     virtual NiAVObject* Lookup(NiFixedString*);
 };
-NiAVObject* __cdecl FUN_004aae30(NiAVObject*, char*);
 struct SubObj
 {
     int unk00;
@@ -9988,23 +9938,22 @@ struct Big
 
 void* __cdecl fnv_zlib_memset(void*, int, int);
 
-extern float DAT_0101e704;
 // @fnv 0x007bed70
 bool RouletteState::FUN_007bed70(int number)
 {
     if (unk3fe4 >= 10 || number >= 159 || number < 0 || !unk3fe8)
         return false;
     BetList* k = reinterpret_cast<BetList*>(unk3e78);
-    while (k && *k->FUN_006815c0())
+    while (k && *((::RouletteBetEntry **)(new ((void *)(k)) ::Vec3())))
     {
-        if ((*k->FUN_006815c0())->number == number)
+        if ((*((::RouletteBetEntry **)(new ((void *)(k)) ::Vec3())))->number == number)
             return false;
-        k = k->FUN_00726070();
+        k = ((::BetList *)(reinterpret_cast<::Callees *>((k))->FUN_00726070()));
     }
     NiUpdateData b(0.0f, false, false);
     NiPoint3 l = reinterpret_cast<BetGeometry*>(&unk006c)[number].position;
     unsigned int e = sizeof(RouletteBetEntry);
-    void* j = operator new(e);
+    void* j = ::FUN_00401000(e);
     RouletteBetEntry* ba = j ? (fnv_zlib_memset(j, 0, e), static_cast<RouletteBetEntry*>(j)) : 0;
     ba->amount = unk3fe8;
     ba->number = number;
@@ -10013,11 +9962,11 @@ bool RouletteState::FUN_007bed70(int number)
         reinterpret_cast<BetList*>(unk3e78)->FUN_00726c60(ba);
     else
         reinterpret_cast<BetList*>(unk3e78)->FUN_005ae3d0(ba);
-    FUN_007bf840();
+    reinterpret_cast<::FUN_007bf840_shell *>(this)->FUN_007bf840();
     ++unk3fe4;
     ++unk3fe0;
     unk3fec += unk3fe8;
-    BSAudio::GetSingleton()->GetSoundHandleByEditorID("GAMERouletteIncreaseBet", 0x121).Play(false);
+    reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(::FUN_00453a70()->GetSoundHandleByEditorID("GAMERouletteIncreaseBet", 0x121)))->FUN_00ad8830(false);
     if (unk3fe0 >= 13)
         unk3fe0 = 3;
     while (!reinterpret_cast<FUN_007bf530_shell*>(this)->IsEyesListBelowThreshold(unk3fe0) && unk3fe4 < 10)
@@ -10029,21 +9978,17 @@ bool RouletteState::FUN_007bed70(int number)
     NiPoint3 c;
     if (unk3fe4 < 10 && unk3fec < unk4000)
     {
-        c = reinterpret_cast<RouletteScene*>(static_cast<unsigned int>(g_011da8a0))->FUN_0043b4a0(2)->FUN_0043c490();
-        reinterpret_cast<RouletteScene*>(static_cast<unsigned int>(g_011da8a0))
-            ->FUN_0043b4a0(unk3fe0)
-            ->FUN_004bc1f0(c.x, c.y, 0.0f);
-        reinterpret_cast<RouletteScene*>(static_cast<unsigned int>(g_011da8a0))
-            ->FUN_0043b4a0(unk3fe0 + 10)
-            ->FUN_004bc1f0(c.x, c.y, 0.0f);
-        FUN_007bf840();
+        c = reinterpret_cast<::NiAVObject *>((((::RouletteObject *)(reinterpret_cast<::NiNode *>((reinterpret_cast<RouletteScene*>(static_cast<unsigned int>((*reinterpret_cast<::GO *>(&::g_011da8a0))))))->GetAt(2)))))->FUN_0043c490();
+        reinterpret_cast<::FUN_004bc1f0_S *>((((::RouletteObject *)(reinterpret_cast<::NiNode *>((reinterpret_cast<RouletteScene*>(static_cast<unsigned int>((*reinterpret_cast<::GO *>(&::g_011da8a0))))))->GetAt(unk3fe0)))))->FUN_004bc1f0(c.x, c.y, 0.0f);
+        reinterpret_cast<::FUN_004bc1f0_S *>((((::RouletteObject *)(reinterpret_cast<::NiNode *>((reinterpret_cast<RouletteScene*>(static_cast<unsigned int>((*reinterpret_cast<::GO *>(&::g_011da8a0))))))->GetAt(unk3fe0 + 10)))))->FUN_004bc1f0(c.x, c.y, 0.0f);
+        reinterpret_cast<::FUN_007bf840_shell *>(this)->FUN_007bf840();
     }
     if (unk3fec + unk3fe8 > unk3ff0)
     {
         unk3fe8 = unk3ff0 - unk3fec;
-        reinterpret_cast<RouletteTile*>(DAT_011da878->m_pTiles[10])->SetTraitAndReset(DAT_011da86c, 1.0f);
-        reinterpret_cast<RouletteTile*>(DAT_011da878->m_pTiles[10])->FUN_00700320(DAT_011da86c, unk3fe8);
-        reinterpret_cast<RouletteState*>(DAT_011da878)->ApplyValueToChain(6, DAT_0101e704);
+        reinterpret_cast<::FUN_00a01290_shell *>((reinterpret_cast<RouletteTile*>(DAT_011da878->m_pTiles[10])))->SetTraitAndReset(DAT_011da86c, 1.0f);
+        reinterpret_cast<::Tile *>((reinterpret_cast<RouletteTile*>(DAT_011da878->m_pTiles[10])))->Set(DAT_011da86c, unk3fe8);
+        reinterpret_cast<::FUN_007bf710_cls *>((reinterpret_cast<RouletteState*>(DAT_011da878)))->ApplyValueToChain(6, DAT_0101e704);
     }
     return true;
 }

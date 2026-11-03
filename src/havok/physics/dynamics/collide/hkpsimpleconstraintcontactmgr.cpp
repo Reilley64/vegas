@@ -2,6 +2,26 @@
 // src/havok/physics/dynamics/collide/hkpsimpleconstraintcontactmgr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/collide/hkpsimpleconstraintcontactmgr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00cf3070_class.h"
+#include "fnv/decl/FUN_00d06fb0_cls.h"
+#include "fnv/decl/FUN_00d92f20.h"
+#include "fnv/decl/S00cf3f40_Obj.h"
+#include "fnv/decl/VecOwnerAB.h"
+#include "fnv/decl/fnv_00cf40b0__FUN_00cf40b0_class.h"
+#include "fnv/decl/hkpSimpleContactConstraintData.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb3000.h"
+#include "fnv/symbols_00cfd000.h"
+#include "fnv/symbols_00cff000.h"
+#include "fnv/symbols_00d00000.h"
+#include "fnv/symbols_00d01000.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_00d0c000.h"
+#include "fnv/symbols_00d27000.h"
+#include "fnv/symbols_00d92000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpSimpleConstraintContactMgr.h"
 
 struct FUN_00cfd3f0_class {
@@ -71,7 +91,6 @@ int FUN_00cfcc70_class::FUN_00cfcc70(int value) {
     return 0;
 }
 
-extern "C" void __cdecl ProcessCollisionEvent(void*, void*, float, void*);
 
 // @fnv 0x00cfce30
 void __stdcall FUN_00cfce30(void* a1, float a2, void* a3)
@@ -89,7 +108,7 @@ void __stdcall FUN_00cfce30(void* a1, float a2, void* a3)
             if (bl == 5 || bl == 4)
                 return;
         }
-        ProcessCollisionEvent(esi, a1, a2, a3);
+        ::ProcessCollisionEvent(esi, (::CollisionEvent *)(a1), a2, (::CollisionQueue *)(a3));
     }
 }
 
@@ -131,7 +150,6 @@ unsigned char* FUN_00cfd410_class::FUN_00cfd410(unsigned short index) {
 }
 
 struct FUN_00cf40b0_class {
-    void FUN_00cf40b0();
 };
 
 struct FUN_00cfda50_class {
@@ -139,7 +157,6 @@ struct FUN_00cfda50_class {
 };
 
 extern int DAT_010cc984;
-extern int _DAT_0102e388;
 
 struct FUN_00cfd720 {
     void* m_00;
@@ -169,21 +186,6 @@ struct FUN_00cfd720 {
     ~FUN_00cfd720();
 };
 
-void __cdecl FUN_00cb3dd0(void*, void*, int);
-
-// @fnv 0x00cfd720
-FUN_00cfd720::~FUN_00cfd720() {
-    *(void**)this = (void*)&DAT_010cc984;
-    if (*(unsigned short*)(*(char**)((char*)this + 0x3c) + 4) != 0) {
-        FUN_00cb3dd0(*(void**)((char*)this + 0xc), (char*)this + 0x44, 1);
-    }
-    *(void**)((char*)this + 0x58) = 0;
-    *(void**)((char*)this + 0x5c) = 0;
-    *(void**)((char*)this + 0x50) = 0;
-    ((FUN_00cf40b0_class*)((char*)this + 0x44))->FUN_00cf40b0();
-    ((FUN_00cfda50_class*)((char*)this + 0x14))->FUN_00cfda50();
-    *(void**)this = (void*)&_DAT_0102e388;
-}
 
 struct FUN_00cfd7d0_class {
     unsigned char* m_00;
@@ -228,21 +230,6 @@ struct FUN_00cfdae0_class
 	void FUN_00cfda50();
 	FUN_00cfdae0_class* Destroy(unsigned char flags);
 };
-
-// @fnv 0x00cfdae0
-FUN_00cfdae0_class* FUN_00cfdae0_class::Destroy(unsigned char flags)
-{
-	FUN_00cfda50();
-
-	if (flags & 1)
-	{
-		FUN_00cfdae0_manager* manager = _D1A0E0GetMemoryRouter();
-		unsigned short size = m_iElementCount;
-		manager->m_router->FUN_00cfdae0_deallocate(this, size);
-	}
-
-	return this;
-}
 
 struct ContactSubobject {
     virtual void __fastcall method00(void*);
@@ -291,12 +278,11 @@ __declspec(noinline) void Base_00cfd660::target() { g_sink_00cfd660 = 1; }
 // @fnv 0x00cfd660
 void Derived_00cfd660::FUN_00cfd660() { Base_00cfd660::target(); }
 
-extern int DAT_01268798;
 
 // @fnv 0x00cfdad0
 int* __cdecl FUN_00cfdad0()
 {
-    return &DAT_01268798;
+    return &(*reinterpret_cast<int *>(&::g_01268798));
 }
 
 struct FnvCpu_FUN_00cfcc60_CpuObject { char* FUN_00cfcc60(); };
@@ -354,8 +340,6 @@ struct ContactRecord {
     void* owner;
     void* firstInput;
 };
-void __cdecl FUN_00d01900(void* handler, ContactRecord* record);
-void __cdecl FUN_00d001c0(unsigned short* contact, ContactRecord* record);
 struct FUN_00cfccf0_class {
     void* m_00; void* m_04; void* m_08; void* m_0c;
     void* m_10; void* m_14; void* m_18; void* m_1c;
@@ -379,9 +363,9 @@ void FUN_00cfccf0_class::ProcessContactPair(void* firstInput, void* secondInput)
     record.secondContact = second;
     record.owner = this;
     record.firstInput = firstInput;
-    FUN_00d01900(m_0c, &record);
-    if (first[0x102]) FUN_00d001c0(first, &record);
-    if (second[0x102]) FUN_00d001c0(second, &record);
+    ::FUN_00d01900((::WorldD *)(m_0c), (*(::RemovedEvent *)(&record)));
+    if (first[0x102]) ::FUN_00d001c0((::CManager *)(first), (::CEvent *)(::ContactRecord *)(&record));
+    if (second[0x102]) ::FUN_00d001c0((::CManager *)(second), (::CEvent *)(::ContactRecord *)(&record));
 }
 
 struct hkpConstraintInfoCFD2 {
@@ -451,9 +435,6 @@ struct hkpSimpleContactConstraintAtomCFD2 {
     }
 };
 
-void __cdecl FUN_00cfd950(hkpSimpleContactConstraintAtomCFD2* pkAtom, int iIndex);
-hkpSimpleContactConstraintAtomCFD2* __cdecl ShrinkBlockIfSparse(hkpSimpleContactConstraintAtomCFD2* pkAtom, int iNumFreeElemsLeft, hkBool& bAtomReallocated);
-void __cdecl ReplaceEntry(hkpConstraintInstanceCFD2* pkConstraint, hkpSimpleContactConstraintAtomCFD2* pkOldAtom, hkpSimpleContactConstraintAtomCFD2* pkNewAtom, int iNewSize);
 
 class hkSimpleContactConstraintDataCFD2 {
 public:
@@ -486,16 +467,16 @@ int hkSimpleContactConstraintDataCFD2::FUN_00cfd200(hkpConstraintOwnerCFD2& kCon
     else
         kConInfo.add(0x40, 1, 1);
 
-    FUN_00cfd950(pkAtom, iIndex);
+    ::fnv_00cfd950::FUN_00cfd950(pkAtom, iIndex);
     pkAtom->getContactPointPropertiesStream(iIndex)[0xf] &= ~2;
-    pkAtom = ShrinkBlockIfSparse(m_pAtom, 1, bAtomReallocated);
+    pkAtom = ((::hkpSimpleContactConstraintAtomCFD2 *)(::ShrinkBlockIfSparse((::D92740Block *)(m_pAtom), 1, (bool *)&(bAtomReallocated))));
     m_pAtom = pkAtom;
     ((FUN_00cfd7d0_class*)&m_kAtoms)->DecrementBytesAboveValue(iIndex);
 
     if (m_pHavokConstraint->m_pConstraintInternal)
         kConstraintOwner.subConstraintInfo(m_pHavokConstraint, kConInfo);
     if (bAtomReallocated) {
-        ReplaceEntry(m_pHavokConstraint, pkOldAtom, m_pAtom, m_pAtom->m_usSizeOfAllAtoms);
+        ::ReplaceEntry((int)(m_pHavokConstraint), (int)(pkOldAtom), (int)(m_pAtom), m_pAtom->m_usSizeOfAllAtoms);
         m_iAtomSize = m_pAtom->m_usSizeOfAllAtoms;
     }
     pkAtom->m_flags |= 5;
@@ -591,7 +572,6 @@ public:
         return m_pAtom->getContactPointPropertiesStream(static_cast<hkInt16>(iIndex));
     }
 
-    int FUN_00cfd200(hkpConstraintOwnerCFD& kOwner, hkUint16 id) throw();
 };
 
 struct hkpContactPointRemovedEventCFD {
@@ -607,8 +587,6 @@ struct hkpContactPointRemovedEventCFD {
         : m_usContactPointId(id), m_pContactPointProperties(pkProps), m_pEntityA(pkA), m_pEntityB(pkB), m_pContactMgr(pkMgr), m_pConstraintOwner(pkOwner) {}
 };
 
-void __cdecl FUN_00d01900(hkpWorldCFD* pkWorld, hkpContactPointRemovedEventCFD& kEvent) throw();
-void __cdecl FUN_00d001c0(hkpEntityCFD* pkEntity, hkpContactPointRemovedEventCFD& kEvent) throw();
 
 class hkpSimpleConstraintContactMgrCFD : public hkReferencedObject {
 public:
@@ -627,12 +605,12 @@ void hkpSimpleConstraintContactMgrCFD::FUN_00cfd320(hkUint16 cpId, hkpConstraint
     hkpEntityCFD* pkEntityA = m_pHavokConstraint.m_pEntityA;
     hkpEntityCFD* pkEntityB = m_pHavokConstraint.m_pEntityB;
     hkpContactPointRemovedEventCFD kEvent(cpId, this, &kOwner, m_kSimpleContactConstraintData.GetContactPointProperties(cpId), pkEntityA, pkEntityB);
-    FUN_00d01900(m_pOwningWorld, kEvent);
+    ::FUN_00d01900((::WorldD *)(m_pOwningWorld), (::RemovedEvent &)(kEvent));
     if (pkEntityA->m_kContactListeners.m_iElementCount)
-        FUN_00d001c0(pkEntityA, kEvent);
+        ::FUN_00d001c0((::CManager *)(pkEntityA), (::CEvent *)&(kEvent));
     if (pkEntityB->m_kContactListeners.m_iElementCount)
-        FUN_00d001c0(pkEntityB, kEvent);
-    if (m_kSimpleContactConstraintData.FUN_00cfd200(kOwner, cpId) == 0)
+        ::FUN_00d001c0((::CManager *)(pkEntityB), (::CEvent *)&(kEvent));
+    if (reinterpret_cast<::hkSimpleContactConstraintDataCFD2 *>(&(m_kSimpleContactConstraintData))->FUN_00cfd200((::hkpConstraintOwnerCFD2 &)(kOwner), cpId) == 0)
         kOwner.AddConstraintToCriticalLockedIsland(&m_pHavokConstraint);
 }
 
@@ -679,7 +657,6 @@ struct ContactCache
     unsigned int unk24;
     unsigned int unk28;
     unsigned int unk2C;
-    void FUN_00d92f20(ContactData* data, const unsigned char* first, const unsigned char* second);
 };
 
 struct ContactData
@@ -700,8 +677,6 @@ struct ContactData
     unsigned int unk30;
     unsigned int flags34;
 
-    void FUN_00cf3f40(int enabled);
-    void SetActive(unsigned short index);
 };
 
 struct ContactManager
@@ -730,8 +705,8 @@ ContactManager* ContactManager::InitContact(const unsigned char* first,
     state06 = 1;
     unk08 = 0;
     vtable = &DAT_010cc984;
-    cache.FUN_00d92f20(&data, second, third);
-    data.FUN_00cf3f40(1);
+    new ((void *)&(cache)) ::FUN_00d92f20(&data, second, third);
+    reinterpret_cast<::S00cf3f40_Obj *>(&(data))->FUN_00cf3f40(1);
 
     data.first14 = second;
     data.cache0C = &cache;
@@ -748,7 +723,7 @@ ContactManager* ContactManager::InitContact(const unsigned char* first,
     int secondType = static_cast<signed char>(third[0x2a]);
     int tableIndex = static_cast<signed char>(table[0x1bb0 + firstType * 10 + secondType]);
     unsigned short result = *reinterpret_cast<const unsigned short*>(table + 0x1c5c + tableIndex * 64);
-    data.SetActive(result);
+    reinterpret_cast<::FUN_00cf3070_class *>(&(data))->SetActive(result);
     return this;
 }
 
@@ -774,7 +749,6 @@ MemoryContext* __cdecl FUN_00c85750();
 struct ContactObject {
     int unk00;
     unsigned short GetAllocationSize;
-    ContactObject* InitContact(void* a, void* b, void* c);
 };
 struct FUN_00cfd780_class {
     void* unk00;
@@ -790,7 +764,7 @@ ContactObject* FUN_00cfd780_class::AllocateContactObject(OffsetDescriptor* first
     MemoryContext* manager = FUN_00c85750();
     ContactObject* pContactObject = (ContactObject*)manager->allocator->allocate(128);
     pContactObject->GetAllocationSize = 128;
-    return pContactObject->InitContact(m_08, relativeFirst, relativeSecond);
+    return ((::ContactObject *)(reinterpret_cast<::ContactManager *>((pContactObject))->InitContact((const unsigned char *)(m_08), (const unsigned char *)(relativeFirst), (const unsigned char *)(relativeSecond))));
 }
 
 namespace fnv_00cfd9f0 {
@@ -806,7 +780,6 @@ struct hkMemoryRouterCFD9 {
 };
 extern "C" hkMemoryRouterCFD9& __cdecl FUN_00c85750();
 
-void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
 
 template <class T>
 __forceinline void constructWithCopyCFD9(T* p, int n, const T& t)
@@ -827,7 +800,7 @@ public:
     {
         hkMemoryAllocatorCFD9& kAlloc = FUN_00c85750().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&kAlloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyCFD9(m_data + m_iElementCount, 1, t);
         m_iElementCount++;
     }
@@ -893,7 +866,7 @@ void AudioVtable_00cfdb10::vf08(void* object, unsigned short value) {
 // Calls FUN_00cfd720, and if bit 0 of flags is set, fetches an audio object and invokes its vtable vf08 with this and m_04.
 // @fnv 0x00cfdb10
 int ContactManager_00cfdb10::FUN_00cfdb10(unsigned char flags) {
-    FUN_00cfd720();
+    reinterpret_cast<::FUN_00cfd720 *>(this)->FUN_00cfd720::~FUN_00cfd720();
 
     if ((flags & 1) != 0) {
         AudioObject_00cfdb10* audio = FUN_00c85750();
@@ -928,8 +901,6 @@ struct ContactSource {
     int unk14, member18, unk1c, unk20, unk24, unk28, member2c;
     int unk30,unk34,unk38,unk3c,unk40,unk44,unk48,unk4c,member50;
 };
-extern "C" void __cdecl FUN_00d00ca0(void*, ContactCallDescriptor*);
-extern "C" void __cdecl FUN_00cfff00(void*, int*);
 struct ContactContext {
     void FUN_00cfcd70(ContactSource* source, void* other);
 };
@@ -953,16 +924,15 @@ void ContactContext::FUN_00cfcd70(ContactSource* source, void* other)
     info.statusA = 0;
     info.statusB = 0;
     void* first = source->firstManager;
-    FUN_00d00ca0(*(void**)((char*)first + 8), &info);
+    ::FUN_00d00ca0((::D00CA0World *)(*(void**)((char*)first + 8)), &info);
     info.kind = 0;
     if (*(unsigned short*)((char*)source->firstManager + 0x204) != 0)
-        FUN_00cfff00(source->firstManager, &info.kind);
+        ::FUN_00cfff00((::World833 *)(source->firstManager), (::ContactPointEvent *)(int *)(&info.kind));
     info.kind = 1;
     if (*(unsigned short*)((char*)source->secondManager + 0x204) != 0)
-        FUN_00cfff00(source->secondManager, &info.kind);
+        ::FUN_00cfff00((::World833 *)(source->secondManager), (::ContactPointEvent *)(int *)(&info.kind));
 }
 
-int __cdecl FUN_00d06f80(const void* pvChunk, int iNumBytes) throw();
 
 template <class T>
 class hkArrayCFD5 {
@@ -997,13 +967,12 @@ public:
     int m_0c;
     bool m_countDontDeallocate;
 
-    void DispatchWithMode(const char* pcName, const void* pvBlock, int iSize, int iFlags) throw();
 
     template <class T>
     void addArray(const char* pcName, const hkArrayCFD5<T>& kArray)
     {
         if ((kArray.m_iCapacityState & 0x80000000) == 0 || m_countDontDeallocate) {
-            int iAllocated = FUN_00d06f80(kArray.begin(), kArray.getCapacity() * sizeof(T));
+            int iAllocated = ::fnv_00d06f80::FUN_00d06f80((const char *)(const void *)(kArray.begin()), kArray.getCapacity() * sizeof(T));
             AddMemoryChunk(3, pcName, kArray.m_data, kArray.GetLogicalSize() * sizeof(T), iAllocated);
         }
     }
@@ -1026,7 +995,7 @@ public:
 void hkpSimpleConstraintContactMgrCFD5::FUN_00cfd5e0(hkStatisticsCollectorCFD5* pkCollector, const hkClassCFD5* pkClass) const throw()
 {
     pkCollector->beginObject("hkpSimpleConstraintContactMgr");
-    pkCollector->DispatchWithMode("ContactAtom", m_pAtom, m_pAtom->m_uiAgentCount, 0);
+    reinterpret_cast<::FUN_00d06fb0_cls *>((pkCollector))->DispatchWithMode((void *)("ContactAtom"), (void *)(m_pAtom), m_pAtom->m_uiAgentCount, 0);
     pkCollector->addArray("ContactIds", m_contactIds);
     pkCollector->endObject();
 }
@@ -1049,7 +1018,6 @@ namespace hkRouterCFDA {
     extern "C" hkMemoryRouterCFDA* __cdecl FUN_00c85750() throw();
 }
 
-int __cdecl RoundUpToBucketSize(int iType) throw();
 
 template <typename T>
 struct hkArrayCFDA {
@@ -1087,6 +1055,33 @@ public:
 
     virtual ~FUN_00cfda50() throw();
 };
+// @fnv 0x00cfd720
+FUN_00cfd720::~FUN_00cfd720() {
+    *(void**)this = (void*)&DAT_010cc984;
+    if (*(unsigned short*)(*(char**)((char*)this + 0x3c) + 4) != 0) {
+        ::FUN_00cb3dd0((::CB3DD0World *)(*(void**)((char*)this + 0xc)), (::CB3DD0Entity *)(void *)((char*)this + 0x44), 1);
+    }
+    *(void**)((char*)this + 0x58) = 0;
+    *(void**)((char*)this + 0x5c) = 0;
+    *(void**)((char*)this + 0x50) = 0;
+    reinterpret_cast<::fnv_00cf40b0::FUN_00cf40b0_class *>((((FUN_00cf40b0_class*)((char*)this + 0x44))))->FUN_00cf40b0();
+    reinterpret_cast<::FUN_00cfda50 *>((((FUN_00cfda50_class*)((char*)this + 0x14))))->FUN_00cfda50::~FUN_00cfda50();
+    *(void**)this = (void*)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+}
+// @fnv 0x00cfdae0
+FUN_00cfdae0_class* FUN_00cfdae0_class::Destroy(unsigned char flags)
+{
+	reinterpret_cast<::FUN_00cfda50 *>(this)->FUN_00cfda50::~FUN_00cfda50();
+
+	if (flags & 1)
+	{
+		FUN_00cfdae0_manager* manager = _D1A0E0GetMemoryRouter();
+		unsigned short size = m_iElementCount;
+		manager->m_router->FUN_00cfdae0_deallocate(this, size);
+	}
+
+	return this;
+}
 
 // Releases the hkBlockCFDA held by m_block back to the hkMemoryRouterCFDA heap using its rounded-up bucket size.
 // @fnv 0x00cfda50
@@ -1189,7 +1184,6 @@ struct hkRigidBodyStub
     hkContactListenerArray m_kContactListeners;
 
     void FUN_00ca0c40(const hkVec4& p, hkVec4& vecOut) const;
-    float FUN_00cac860() const;
 };
 
 struct hkContactPointAddedEventStub
@@ -1214,8 +1208,6 @@ struct hkContactPointAddedEventStub
         const hkGskCacheStub* gskCache, hkCPProperties* cpProp, float projectedVelocity);
 };
 
-void __cdecl FUN_00d01850(void* world, hkContactPointAddedEventStub& event);
-void __cdecl FUN_00d00110(hkRigidBodyStub* entity, hkContactPointAddedEventStub& event);
 
 struct hkSimpleContactAtomStub
 {
@@ -1233,7 +1225,6 @@ struct hkSimpleContactConstraintDataStub
     hkSimpleContactAtomStub* m_pAtom;
     unsigned int unk02c;
 
-    hkContactPointId FUN_00d92df0(hkConstraintOwnerStub* owner, hkContactPt** cpOut, hkCPProperties** cpiOut);
 };
 
 struct hkConstraintInstanceBody
@@ -1267,86 +1258,9 @@ struct hkSimpleConstraintContactMgrStub
     hkSimpleContactConstraintDataStub m_kSimpleContactConstraintData;
     hkConstraintInstanceBody m_pHavokConstraint;
 
-    hkRigidBodyStub* FUN_00cfd800(const hkCdBodyStub& a, const hkCdBodyStub& b, int maxImpulse, hkCPProperties* cpi);
     hkContactPointId FUN_00cfcf80(const hkCdBodyStub& a, const hkCdBodyStub& b, const hkProcessCollisionInputStub& input,
         hkProcessCollisionOutputStub& output, const hkGskCacheStub* contactCache, hkContactPt& cp);
 };
-
-// @fnv 0x00cfcf80
-hkContactPointId hkSimpleConstraintContactMgrStub::FUN_00cfcf80(const hkCdBodyStub& a, const hkCdBodyStub& b,
-    const hkProcessCollisionInputStub& input, hkProcessCollisionOutputStub& output,
-    const hkGskCacheStub* contactCache, hkContactPt& cp)
-{
-    int numContactPoints = m_kSimpleContactConstraintData.m_pAtom->m_usNumContactPoints;
-    if (m_uiContactPointCount + numContactPoints > m_kSimpleContactConstraintData.m_pAtom->m_usMaxNumContactPointProperties - 2)
-    {
-        return 0xffff;
-    }
-
-    if (numContactPoints == 0)
-    {
-        output.m_pConstraintOwner->AddConstraintToCriticalSection((hkConstraintInstanceStub*)&m_pHavokConstraint);
-    }
-
-    hkCPProperties* cpi;
-    hkContactPointId id;
-    {
-        hkContactPt* dcp;
-        hkConstraintOwnerStub* owner = output.m_pConstraintOwner;
-        id = m_kSimpleContactConstraintData.FUN_00d92df0(owner, &dcp, &cpi);
-        *dcp = cp;
-    }
-
-    hkRigidBodyStub* rbA = FUN_00cfd800(a, b, 10000, cpi);
-    hkRigidBodyStub* rbB = hkSelectOther(rbA, m_pHavokConstraint.m_kActorEntries[0], m_pHavokConstraint.m_kActorEntries[1]);
-
-    hkVec4 velA;
-    hkVec4 velB;
-    rbA->FUN_00ca0c40(cp.m_vContactPosition, velA);
-    rbB->FUN_00ca0c40(cp.m_vContactPosition, velB);
-
-    hkVec4 relVel;
-    relVel.setSub4(velA, velB);
-    float projectedVel = relVel.dot3(cp.m_vSeparatingNormal);
-
-    cpi->m_fAccumulatedImpulse = 0.0f;
-    cpi->m_uiUserData = 0;
-
-    hkContactPointAddedEventStub event(id, this, &input, &output, &a, &b, &cp, contactCache, cpi, projectedVel);
-    FUN_00d01850(m_pOwningWorld, event);
-    if (rbA->m_kContactListeners.GetLogicalSize())
-    {
-        FUN_00d00110(rbA, event);
-    }
-    if (rbB->m_kContactListeners.GetLogicalSize())
-    {
-        FUN_00d00110(rbB, event);
-    }
-
-    if (event.m_iResultCode == 1)
-    {
-        removeContactPointImpl(id, output.m_pConstraintOwner);
-        return 0xffff;
-    }
-
-    m_usNextProcessCallbackDelay = event.m_usNextProcessCallbackDelay;
-
-    if (input.m_flag6d && cpi->getRestitution() == 0.0f
-        && rbA->m_kContactListeners.GetLogicalSize() <= 0 && rbB->m_kContactListeners.GetLogicalSize() <= 0)
-    {
-        float invMassB = rbB->FUN_00cac860();
-        float invMassSum = rbA->FUN_00cac860() + invMassB;
-        float f = 1.0f / (invMassSum + 1e-10f);
-        cpi->m_fAccumulatedImpulse = f * -0.2f * projectedVel;
-        cpi->m_fImpulseLimit = 0.0f;
-        cpi->m_unk10 = cp.getDistance();
-    }
-    else
-    {
-        output.m_pConstraintOwner->AddCallbackRequest(m_kSimpleContactConstraintData.m_pHavokConstraint, 1);
-    }
-    return id;
-}
 
 #include <math.h>
 struct hkUFloat8q {
@@ -1412,6 +1326,81 @@ struct FUN_00cfd800_mgr {
 
     void* FUN_00cfd800(const CdBodyQ& a, const CdBodyQ& b, int maxNum, ContactPropsQ* cpi);
 };
+// @fnv 0x00cfcf80
+hkContactPointId hkSimpleConstraintContactMgrStub::FUN_00cfcf80(const hkCdBodyStub& a, const hkCdBodyStub& b,
+    const hkProcessCollisionInputStub& input, hkProcessCollisionOutputStub& output,
+    const hkGskCacheStub* contactCache, hkContactPt& cp)
+{
+    int numContactPoints = m_kSimpleContactConstraintData.m_pAtom->m_usNumContactPoints;
+    if (m_uiContactPointCount + numContactPoints > m_kSimpleContactConstraintData.m_pAtom->m_usMaxNumContactPointProperties - 2)
+    {
+        return 0xffff;
+    }
+
+    if (numContactPoints == 0)
+    {
+        output.m_pConstraintOwner->AddConstraintToCriticalSection((hkConstraintInstanceStub*)&m_pHavokConstraint);
+    }
+
+    hkCPProperties* cpi;
+    hkContactPointId id;
+    {
+        hkContactPt* dcp;
+        hkConstraintOwnerStub* owner = output.m_pConstraintOwner;
+        id = ((unsigned short)(reinterpret_cast<::hkpSimpleContactConstraintData *>(&(m_kSimpleContactConstraintData))->FUN_00d92df0((*(::hkpConstraintOwner *)(owner)), (::hkContactPoint **)(::hkContactPt **)(&dcp), (::PhysicsMaterial **)(::hkCPProperties **)(&cpi))));
+        *dcp = cp;
+    }
+
+    hkRigidBodyStub* rbA = ((::hkRigidBodyStub *)(reinterpret_cast<::FUN_00cfd800_mgr *>(this)->FUN_00cfd800((const ::CdBodyQ &)(a), (const ::CdBodyQ &)(b), 10000, (::ContactPropsQ *)(cpi))));
+    hkRigidBodyStub* rbB = hkSelectOther(rbA, m_pHavokConstraint.m_kActorEntries[0], m_pHavokConstraint.m_kActorEntries[1]);
+
+    hkVec4 velA;
+    hkVec4 velB;
+    rbA->FUN_00ca0c40(cp.m_vContactPosition, velA);
+    rbB->FUN_00ca0c40(cp.m_vContactPosition, velB);
+
+    hkVec4 relVel;
+    relVel.setSub4(velA, velB);
+    float projectedVel = relVel.dot3(cp.m_vSeparatingNormal);
+
+    cpi->m_fAccumulatedImpulse = 0.0f;
+    cpi->m_uiUserData = 0;
+
+    hkContactPointAddedEventStub event(id, this, &input, &output, &a, &b, &cp, contactCache, cpi, projectedVel);
+    ::FUN_00d01850((::S00d01850_Owner *)(m_pOwningWorld), (::S00d01850_Out *)&(event));
+    if (rbA->m_kContactListeners.GetLogicalSize())
+    {
+        ::FUN_00d00110((::ListenerOwner *)(rbA), (::ListenerEvent *)&(event));
+    }
+    if (rbB->m_kContactListeners.GetLogicalSize())
+    {
+        ::FUN_00d00110((::ListenerOwner *)(rbB), (::ListenerEvent *)&(event));
+    }
+
+    if (event.m_iResultCode == 1)
+    {
+        removeContactPointImpl(id, output.m_pConstraintOwner);
+        return 0xffff;
+    }
+
+    m_usNextProcessCallbackDelay = event.m_usNextProcessCallbackDelay;
+
+    if (input.m_flag6d && cpi->getRestitution() == 0.0f
+        && rbA->m_kContactListeners.GetLogicalSize() <= 0 && rbB->m_kContactListeners.GetLogicalSize() <= 0)
+    {
+        float invMassB = reinterpret_cast<::VecOwnerAB *>((void *)(rbB))->FUN_00cac860();
+        float invMassSum = reinterpret_cast<::VecOwnerAB *>((void *)(rbA))->FUN_00cac860() + invMassB;
+        float f = 1.0f / (invMassSum + 1e-10f);
+        cpi->m_fAccumulatedImpulse = f * -0.2f * projectedVel;
+        cpi->m_fImpulseLimit = 0.0f;
+        cpi->m_unk10 = cp.getDistance();
+    }
+    else
+    {
+        output.m_pConstraintOwner->AddCallbackRequest(m_kSimpleContactConstraintData.m_pHavokConstraint, 1);
+    }
+    return id;
+}
 
 // @fnv 0x00cfd800
 void* FUN_00cfd800_mgr::FUN_00cfd800(const CdBodyQ& a, const CdBodyQ& b, int maxNum, ContactPropsQ* cpi)
@@ -1511,21 +1500,18 @@ struct Cls {
     virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7();
     virtual void v8(int, int);
     unsigned unk04, unk08; void* m0c; unsigned unk10; unsigned unk14; unsigned unk18; unsigned unk1c; unsigned unk20; unsigned unk24; unsigned unk28; unsigned unk2c; unsigned unk30; unsigned unk34; unsigned unk38; unsigned unk3c; unsigned unk40; unsigned unk44; unsigned unk48; unsigned unk4c; unsigned unk50; unsigned unk54; unsigned m58; unsigned m5c;
-    Obj* FUN_00cfd800(int, int, int, int);
     int FUN_00cfce80(int a1, int a2, int a3, int* a4, float a5, int a6, int a7, float* a8, int a9);
 };
-void __cdecl FUN_00d01850(void*, Ctx*);
-void __cdecl FUN_00d00110(Obj*, Ctx*);
 // Dispatches an event context to m0c and to two objects with m204 set; result 1 calls v8(a4[1], a9), otherwise *a8 receives the context float; returns the result.
 // @fnv 0x00cfce80
 int Cls::FUN_00cfce80(int a1, int a2, int a3, int* a4, float a5, int a6, int a7, float* a8, int a9) {
-    Obj* o = FUN_00cfd800(a1, a2, 7, a9);
+    Obj* o = ((::Obj *)(reinterpret_cast<::FUN_00cfd800_mgr *>(this)->FUN_00cfd800((*(const ::CdBodyQ *)(a1)), (*(const ::CdBodyQ *)(a2)), 7, (::ContactPropsQ *)(a9))));
     Obj* p = (Obj*)((unsigned)o ^ m58 ^ m5c);
     Ctx c(a1,a2,a3,a4,a5,a6,a7,a8,a9,this);
     c.result = 0;
-    FUN_00d01850(m0c, &c);
-    if (o->m204) FUN_00d00110(o, &c);
-    if (p->m204) FUN_00d00110(p, &c);
+    ::FUN_00d01850((::S00d01850_Owner *)(m0c), (::S00d01850_Out *)(::Ctx *)(&c));
+    if (o->m204) ::FUN_00d00110((::ListenerOwner *)(o), (::ListenerEvent *)(::Ctx *)(&c));
+    if (p->m204) ::FUN_00d00110((::ListenerOwner *)(p), (::ListenerEvent *)(::Ctx *)(&c));
     if (c.result == 1) v8(a4[1], a9);
     else *a8 = c.f;
     return c.result;
@@ -1612,8 +1598,6 @@ struct CfdParams {
     CfdMgr* m_pOwnerObject;
 };
 
-extern "C" void __cdecl NotifyShapeSetListeners(void* a, CfdParams* p);
-extern "C" void __cdecl FUN_00d00270(void* a, CfdParams* p);
 
 struct CfdMgr {
     int unk00;
@@ -1664,9 +1648,9 @@ void CfdMgr::FUN_00cfd470(CfdEntity* apEntityA, CfdEntity* apEntityB, int unused
             }
             *out++ = ptr;
         }
-        NotifyShapeSetListeners(unk0c, &params);
-        if (bodyA->m_numJac != 0) FUN_00d00270(bodyA, &params);
-        if (bodyB->m_numJac != 0) FUN_00d00270(bodyB, &params);
+        ::NotifyShapeSetListeners((::D019B0World *)(unk0c), (::D019B0Event *)(::CfdParams *)(&params));
+        if (bodyA->m_numJac != 0) ::FUN_00d00270(bodyA, (::TaskContext *)(::CfdParams *)(&params));
+        if (bodyB->m_numJac != 0) ::FUN_00d00270(bodyB, (::TaskContext *)(::CfdParams *)(&params));
         info->m_pSolver->method14(m_data, 8);
     }
     m_uiItemCount = newCount;

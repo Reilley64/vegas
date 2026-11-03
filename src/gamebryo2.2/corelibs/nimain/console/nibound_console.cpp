@@ -1,11 +1,13 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiAGDObject.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/symbols_011f6000.h"
 struct P03MM
 {
-    void* __thiscall Allocate(unsigned int);
 };
-extern P03MM g_memoryManager;
 extern void* DAT_0109ded8;
 
 struct NiAGDDataBlock
@@ -21,7 +23,7 @@ struct NiAGDDataBlock
 // @fnv 0x00a7f650
 NiAGDDataBlock* __cdecl CreateNiAGDDataBlock()
 {
-    NiAGDDataBlock* pDataBlock = (NiAGDDataBlock*)g_memoryManager.Allocate(0x10);
+    NiAGDDataBlock* pDataBlock = (NiAGDDataBlock*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(0x10);
     if (pDataBlock != 0)
     {
         pDataBlock->m_uiRef = 0;
@@ -270,7 +272,6 @@ void __thiscall BlockHolder::FUN_00a7f5b0(void* pvBuffer, unsigned int uiBufferS
 namespace fnv_00a7f620 {
 struct NiAdditionalGeometryData
 {
-    bool __thiscall FUN_00a727f0(const NiAdditionalGeometryData*);
     char _pad_0[0x2c];
     unsigned int m_uiShaderDeclarationIndex;
     unsigned int m_uiUnknownValue;
@@ -282,7 +283,7 @@ struct BSPackedAdditionalGeometryData : NiAdditionalGeometryData
 // @fnv 0x00a7f620
 bool __thiscall BSPackedAdditionalGeometryData::FUN_00a7f620(const NiAdditionalGeometryData* pkObject)
 {
-    if (FUN_00a727f0(pkObject) && m_uiShaderDeclarationIndex == pkObject->m_uiShaderDeclarationIndex &&
+    if (reinterpret_cast<::NiAGDObject *>(this)->FUN_00a727f0((::NiObject *)(pkObject)) && m_uiShaderDeclarationIndex == pkObject->m_uiShaderDeclarationIndex &&
         m_uiUnknownValue == pkObject->m_uiUnknownValue)
         return true;
     return false;
@@ -334,7 +335,6 @@ struct Vec88
     }
 };
 
-extern Vec88 DAT_011f426c;
 
 extern "C" double __cdecl sqrt(double);
 
@@ -353,7 +353,7 @@ void Bound88::ComputeBoundingSphere(int count, const Vec88* points)
 
     if (count <= 0)
     {
-        center = DAT_011f426c;
+        center = (*reinterpret_cast<::Vec88 *>((void *)&::NiPoint3::ZERO));
         radius = 0;
         return;
     }

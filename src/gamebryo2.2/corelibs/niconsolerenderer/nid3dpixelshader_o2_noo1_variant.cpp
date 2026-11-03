@@ -9,6 +9,8 @@
 // names and offsets of the MSVC 2008 build: NiD3DPixelShader is 48 bytes
 // and its D3D pixel shader handle lives at offset 44.
 // Direct3D9 pixel shader object; referenced by pointer only.
+#include "fnv/symbols_00e92000.h"
+#include "fnv/symbols_011f5000.h"
 class GeometryRelatedType;
 // Forward declarations of the renderer types named by the base chain.
 class NiD3DShaderProgramCreator;
@@ -80,7 +82,6 @@ class NiD3DPixelShader : public NiD3DShaderProgram
     GeometryRelatedType* m_pD3DPixelShader;
 };
 struct NiD3DPixelShader;
-void __cdecl FUN_00e92f30(NiD3DPixelShader*);
 struct FUN_00e898d0_shell : NiD3DPixelShader
 {
     void FUN_00e898d0();
@@ -96,7 +97,6 @@ struct FUN_00e898c0_shell : NiD3DPixelShader
     void FUN_00e898c0();
 };
 
-extern "C" unsigned int DAT_011f5fc4[];
 
 struct S_00e89a40_Data
 {
@@ -122,7 +122,7 @@ struct S_00e89a40_Shell : NiD3DPixelShader
 bool __thiscall S_00e89a40_Shell::FUN_00e89a40(S_00e89a40_Data* data, void* destination, unsigned int count,
                                                unsigned int stride, const unsigned short* indices)
 {
-    unsigned int type = DAT_011f5fc4[data->unk14 & 0xff];
+    unsigned int type = (*reinterpret_cast<unsigned int (*)[]>(&::DAT_011f5fc4))[data->unk14 & 0xff];
 
     if (type != 8 && type != 9)
         return false;
@@ -160,7 +160,6 @@ struct ScriptAttributeTypes
     };
 };
 
-extern int DAT_011f5fc4[];
 
 struct NiShaderConstantMapEntry
 {
@@ -176,7 +175,7 @@ struct NiShaderConstantMapEntry
 
     ScriptAttributeTypes::AttributeType GetAttributeType() const
     {
-        return static_cast<ScriptAttributeTypes::AttributeType>(DAT_011f5fc4[m_uiValue1 & 0xff]);
+        return static_cast<ScriptAttributeTypes::AttributeType>((*reinterpret_cast<int (*)[]>(&::DAT_011f5fc4))[m_uiValue1 & 0xff]);
     }
 };
 

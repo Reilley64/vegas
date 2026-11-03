@@ -2,6 +2,13 @@
 #ifndef FNV_PACKAGELOCATION_H
 #define FNV_PACKAGELOCATION_H
 
+#include "fnv/decl/FUN_0067f140_shell.h"
+#include "fnv/decl/FUN_0067f1c0_shell.h"
+#include "fnv/decl/FUN_0067f1f0_shell.h"
+#include "fnv/decl/FUN_0067f410_shell.h"
+#include "fnv/decl/FUN_0067f430_shell.h"
+#include "fnv/decl/FUN_0067f460_shell.h"
+#include "fnv/decl/FUN_0067f4b0_class.h"
 #include "layout_support.h"
 #include "TESForm.h"
 #include "TESObjectREFR.h"
@@ -23,17 +30,10 @@ class LocationDescriptor
         TESForm* m_pLocationObject;    // +0x8, 4 bytes
     };
     PACK_LOC_TYPE GetLocType() const;
-    void SetLocationType(PACK_LOC_TYPE type);
-    unsigned int FUN_0067f1c0();
-    void SetRadius(unsigned int radius);
     TESObjectREFR* GetLocationReference();
     void FUN_0067f3c0(TESObjectREFR* reference);
     TESObjectCELL* GetLocationCellReference();
-    void FUN_0067f410(TESObjectCELL* cell);
-    TESBoundObject* FUN_0067f430();
-    void SetValue(TESForm* form);
     PACKAGE_OBJECT_TYPE GetObjectType();
-    void FUN_0067f4b0(PACKAGE_OBJECT_TYPE type);
     void Copy(LocationDescriptor* source, bool copy);
     // LocationDescriptor
     // void __cdecl LocationDescriptor::*()

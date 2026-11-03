@@ -3,6 +3,10 @@
 // byte only under /MT /O2 /GS /Gy (unit src/gamebryo2.2/corelibs/nianimation/nimultitargettransformcontroller.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f6000.h"
 class NiInterpolator;
 class NiAVObject;
 class ThreeByThreeMatrix
@@ -63,18 +67,15 @@ struct NiMultiTargetTransformController__PoseSource
 class MemoryManager
 {
   public:
-    void* Allocate(unsigned int);
 };
-extern MemoryManager _g_memoryManager;
 
-void* NiMalloc(unsigned int);
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 
 inline void* operator new(unsigned int n)
 {
-    return _g_memoryManager.Allocate(n);
+    return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
 }
 
 class BlendInterp
@@ -134,18 +135,17 @@ void Controller::FUN_00a2feb0(unsigned short n)
     for (unsigned short i = 0; i < n; i++)
         m_pkBlendInterpolators[i].IncRefCount();
 
-    m_ppTargetObjects = (void**)NiMalloc((unsigned int)n * 4);
+    m_ppTargetObjects = (void**)::FUN_00aa1070((unsigned int)n * 4);
     fnv_zlib_memset(m_ppTargetObjects, 0, (unsigned int)n * 4);
 }
 
 struct MMDealloc : public MemoryManager
 {
-    void Deallocate(void* p);
 };
 
 inline void operator delete(void* p) throw()
 {
-    ((MMDealloc*)&_g_memoryManager)->Deallocate(p);
+    reinterpret_cast<::FNV_MemoryManager *>((((MMDealloc*)&::g_memoryManager)))->FUN_00aa4060(p);
 }
 
 struct SNAEntry

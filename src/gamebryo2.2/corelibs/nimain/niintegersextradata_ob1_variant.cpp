@@ -3,20 +3,43 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /Ob1 (unit src/gamebryo2.2/corelibs/nimain/niintegersextradata.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a7b2c0_shell.h"
+#include "fnv/decl/FUN_00a7b330_shell.h"
+#include "fnv/decl/FUN_00c53fa0_Class.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/MyOwner.h"
+#include "fnv/decl/NiGlobalStringTable.h"
+#include "fnv/decl/NiObject_00a7b3d0.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00a64000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00c54000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_010c2000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01203000.h"
 #include "niintegersextradata_decls.h"
 struct NiFixedString
 {
 };
+class NiExtraData;
+class NiFixedString;
 struct NiAVObject
 {
-    void SetName(NiFixedString const& name);
+public:
+    ::NiExtraData *GetExtraData(const ::NiFixedString &);
 };
 extern NiFixedString* DAT_012031c0;
 struct FUN_00c543e0_shell : NiAVObject
 {
     void FUN_00c543e0();
 };
-extern int g_012031c4;
 struct FUN_00c54d60_shell
 {
     int* __thiscall FUN_00c54d60();
@@ -27,7 +50,6 @@ struct FUN_00c54030_shell
 };
 struct FUN_00a7b290_shell
 {
-    void __thiscall FUN_00a7b290(int);
 };
 struct FUN_00c54150_shell
 {
@@ -35,9 +57,9 @@ struct FUN_00c54150_shell
 };
 struct C00c541e0
 {
-    bool FUN_00a7b3d0(int);
     bool FUN_00c541e0(int);
 };
+class NiStream;
 class NiStream;
 struct NiColor
 {
@@ -45,9 +67,9 @@ struct NiColor
     float g;
     float b;
     void __thiscall SaveBinary(NiStream&);
+public:
+    void LoadBinary(::NiStream &);
 };
-void __cdecl FUN_00a303a0(NiStream&, unsigned short*);
-void __cdecl FUN_00a29550(NiStream&, unsigned char*);
 struct FUN_00c54660_shell
 {
     NiColor color;
@@ -55,10 +77,8 @@ struct FUN_00c54660_shell
     unsigned char fldE;
     void __thiscall FUN_00c54660(NiStream&);
 };
-void _delete(void*, unsigned int);
 struct S_FUN_00c53fa0
 {
-    void __thiscall FUN_00c53fa0();
 };
 struct S_FUN_00c547e0
 {
@@ -66,10 +86,7 @@ struct S_FUN_00c547e0
 };
 struct MM
 {
-    void __thiscall _DeallocateAlias(void*);
 };
-extern MM g_memoryManager;
-extern int DAT_010c2b2c;
 struct S
 {
     void* vtbl;
@@ -79,9 +96,7 @@ struct S
 struct NiStream;
 struct NiExtraDataSaveHelper : NiExtraData
 {
-    void SaveBinary(NiStream&);
 };
-void __cdecl FUN_0044adf0(NiStream&, unsigned const&);
 struct NiExtraDataSaveHelperShell : NiExtraDataSaveHelper
 {
     void FUN_00c54170(NiStream&);
@@ -96,12 +111,10 @@ struct FUN_00c53f10 : A51BF0Base
     FUN_00c53f10();
 };
 NiFixedString DAT_011f49e0;
-NiAVObject* FUN_00c54210();
 class NiStream;
 struct FUN_00c54040_cls
 {
     unsigned int baseData[3];
-    void FUN_00a7b330(NiStream&, unsigned int);
     unsigned int unk0c;
     char* entries;
     unsigned int unk14;
@@ -111,12 +124,8 @@ struct FUN_00c54040_cls
 };
 struct S_00c54130
 {
-    void FUN_00a7b3b0(int a);
     void FUN_00c54130(int a);
 };
-extern double DAT_01012060;
-extern float DAT_012031cc;
-extern double DAT_01017b70;
 struct S_00c54550_Foo
 {
     int unk00;
@@ -127,16 +136,11 @@ struct S_00c54550_Foo
     void __thiscall FUN_00c54550(float param_1);
 };
 class NiStream;
-extern double DAT_01017b70;
-void __cdecl FUN_00a30370(NiStream&, void*);
-void __cdecl FUN_00a643b0(NiStream&, void*);
 struct FUN_00c545d0_cls
 {
     unsigned int baseData[3];
-    void __thiscall FUN_00a59be0(NiStream&);
     unsigned short fldC;
     unsigned short fldE;
-    void __thiscall FUN_00c54550(float);
     void __thiscall FUN_00c545d0(NiStream& s);
 };
 struct FUN_00c54b70_cls
@@ -161,7 +165,6 @@ struct FUN_00c54c50_shell
 
     FUN_00c54c50_shell* __thiscall FUN_00c54c50(unsigned short param_1, unsigned short param_2);
 };
-extern int DAT_010c2b2c;
 void* __cdecl FUN_00c54bc0(unsigned int);
 struct FUN_00c54cc0_cls
 {
@@ -176,7 +179,6 @@ struct FUN_00c54cc0_cls
 // Deletes the global NiFixedString instance and clears the pointer; the fixed string's inline
 // destructor releases its global-string-table handle unless it is the shared null handle.
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
-extern char* DAT_0109b220;
 
 struct NiFixedStringD
 {
@@ -190,7 +192,7 @@ struct NiFixedStringD
     }
     static void operator delete(void* pvMem)
     {
-        g_memoryManager._DeallocateAlias(pvMem);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
     }
 };
 
@@ -211,10 +213,9 @@ struct ElemZ
         m_usD = 0;
         m_ucE = 0;
     }
-    bool FUN_00c54cc0(const ElemZ& kOther) const;
     bool operator!=(const ElemZ& kOther) const
     {
-        return !FUN_00c54cc0(kOther);
+        return !reinterpret_cast<::FUN_00c54cc0_cls *>((void *)this)->FUN_00c54cc0((::FUN_00c54cc0_cls *)&(kOther));
     }
 };
 struct FUN_00c54a30
@@ -238,7 +239,7 @@ void FUN_00c54a30::SetAt(unsigned int uiIndex, const ElemZ& kElem)
     }
     else if (kElem != s_kEmpty)
     {
-        if (m_pUserData[uiIndex].FUN_00c54cc0(s_kEmpty))
+        if (reinterpret_cast<::FUN_00c54cc0_cls *>((void *)&(m_pUserData[uiIndex]))->FUN_00c54cc0((::FUN_00c54cc0_cls *)&(s_kEmpty)))
             m_usUsed++;
     }
     else
@@ -281,7 +282,6 @@ class NiObject
 
 struct C54400Owner
 {
-    NiObject* FUN_00a5bdd0(const NiFixedString& kName);
 };
 
 // @fnv 0x00c54400
@@ -291,11 +291,11 @@ NiObject* __cdecl FUN_00c54400(C54400Owner* pkOwner)
     if (pkOwner)
     {
         const NiFixedString& kName = *DAT_012031c0;
-        NiObject* pkTarget = pkOwner->FUN_00a5bdd0(kName);
+        NiObject* pkTarget = ((::NiObject *)(reinterpret_cast<::NiAVObject *>((pkOwner))->GetExtraData(kName)));
         if (!pkTarget)
             pkResult = 0;
         else
-            pkResult = pkTarget->IsKindOfType((const NiRTTI*)&g_012031c4) ? pkTarget : 0;
+            pkResult = pkTarget->IsKindOfType((const NiRTTI*)&(*reinterpret_cast<int *>(&::g_012031c4))) ? pkTarget : 0;
     }
     return pkResult;
 }
@@ -377,7 +377,6 @@ class NiIntegerStreamEntryArray
         }
         m_pBase[uiIndex] = element;
     }
-    unsigned int Add(const NiIntegerStreamEntryData& element);
 };
 
 class NiIntegerStreamExtraData : public NiExtraData
@@ -399,28 +398,26 @@ void NiIntegerStreamExtraData::FUN_00c54490(const NiIntegerStreamEntryData& kEnt
             break;
     }
 
-    m_kEntries.Add(kEntry);
+    reinterpret_cast<::FUN_00c54b70_cls *>(&(m_kEntries))->FUN_00c54b70((::NiIntegerStreamEntry &)(kEntry));
 
     if (i < uiSize)
     {
         while (uiSize > i)
         {
-            m_kEntries.SetAt(uiSize, m_kEntries.GetAt(uiSize - 1));
+            reinterpret_cast<::FUN_00c54a30 *>(&(m_kEntries))->SetAt(uiSize, (const ::ElemZ &)(m_kEntries.GetAt(uiSize - 1)));
             uiSize--;
         }
-        m_kEntries.SetAt(i, kEntry);
+        reinterpret_cast<::FUN_00c54a30 *>(&(m_kEntries))->SetAt(i, (const ::ElemZ &)(kEntry));
     }
 }
 
 struct StreamHeap
 {
-    void* Alloc(unsigned int size);
 };
-extern StreamHeap DAT_011f6238;
 
 inline void* operator new[](unsigned int size)
 {
-    return DAT_011f6238.Alloc(size);
+    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::StreamHeap *>(&::g_memoryManager))))->FUN_00aa3e40(size);
 }
 
 struct StreamEntry
@@ -518,26 +515,21 @@ struct IntegersExtraData : ExtraDataBase
 
     IntegersExtraData();
     virtual ~IntegersExtraData();
-    void FUN_00c543e0();
 };
 
 // @fnv 0x00c53f10
 IntegersExtraData::IntegersExtraData()
 {
-    FUN_00c543e0();
+    reinterpret_cast<::FUN_00c543e0_shell *>(this)->FUN_00c543e0();
 }
 
 namespace fnv_00c546c0 {
 struct DynamicMemoryAllocator
 {
-    void* __thiscall FUN_00aa3e40(unsigned int size);
 };
-extern DynamicMemoryAllocator DAT_011f6238;
-extern int DAT_0109b220;
 
 struct NiGlobalStringTable
 {
-    static char* __cdecl AddString(char const* name);
 };
 
 struct NiFS
@@ -546,15 +538,15 @@ struct NiFS
 
     __forceinline void* operator new(unsigned int size)
     {
-        return DAT_011f6238.FUN_00aa3e40(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00c546c0::DynamicMemoryAllocator *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }
 
     __forceinline NiFS(char const* s)
     {
         if (s == 0)
-            handle = DAT_0109b220;
+            handle = (*reinterpret_cast<int *>(&::DAT_0109b220));
         else
-            handle = (int)NiGlobalStringTable::AddString(s);
+            handle = (int)::NiGlobalStringTable::AddString(s);
     }
 };
 
@@ -604,11 +596,11 @@ struct NiIntStreamEntryC
     }
     static void* operator new[](unsigned int stSize)
     {
-        return ((NiIntStreamMemoryC*)&g_memoryManager)->Allocate(stSize);
+        return ((NiIntStreamMemoryC*)&(*reinterpret_cast<::MM *>(&::g_memoryManager)))->Allocate(stSize);
     }
     static void operator delete[](void* pvMem)
     {
-        g_memoryManager._DeallocateAlias(pvMem);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
     }
 };
 struct NiIntStreamAllocatorC
@@ -647,7 +639,7 @@ void FUN_00c54b70_cls::FUN_00c54850(unsigned int uiMaxSize)
     m_08 = (unsigned short)uiMaxSize;
     if (uiMaxSize > 0)
     {
-        unk00[1] = (unsigned int)NiIntStreamAllocatorC::Allocate(m_08);
+        unk00[1] = (unsigned int)((::NiIntStreamEntryC *)(::FUN_00c54bc0(m_08)));
 
         for (i = 0; i < m_0a; i++)
             ((NiIntStreamEntryC*)unk00[1])[i] = pSaveBase[i];

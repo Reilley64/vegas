@@ -2,6 +2,18 @@
 #ifndef FNV_ACTOR_MAGIC_ACTOR_H
 #define FNV_ACTOR_MAGIC_ACTOR_H
 
+#include "fnv/decl/B88B5A0Actor.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_0087f3d0_shell.h"
+#include "fnv/decl/FUN_008845a0_shell.h"
+#include "fnv/decl/FUN_0088b510_cls.h"
+#include "fnv/decl/FUN_00893500_shell.h"
+#include "fnv/decl/FUN_008adcb0_shell.h"
+#include "fnv/decl/FUN_008b3ab0_shell.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/RestoreActionPointsDetail__RestoreActionPointsEntry.h"
+#include "fnv/decl/fnv_00887d00__InitActor.h"
 #include "layout_support.h"
 #include "ActorValueOwner.h"
 #include "CachedValuesOwner.h"
@@ -221,25 +233,12 @@ class Actor : public MobileObject,
     virtual void Unk_136(void);
     TESActorBase* GetActorBase();
     void SetAlphaAndFade(float fAlpha);
-    bool FUN_00576d30();
-    bool FUN_008c4560();
-    void UpdateActorEffectState();
-    BaseProcess* GetProcess();
-    void UpdateDeathState(float);
-    void RestoreHealth(float);
-    void UpdateLifeState(float);
-    float GetFatigue();
-    bool IsEssentialActor();
-    bool CanEnterLifeState();
-    void StopMoving();
-    BSFaceGenAnimationData* GetActorFaceGenData();
-    void OnLifeStateChanged();
-    bool FUN_008c51c0();
     void UpdateActorPresentation();
     void ConfigureActorState(bool bFirst, bool bSecond);
     void AddDefaultSpells();
     void SetActorLifeState(ACTOR_LIFE_STATE m_eLifeState);
-    bool IsPlayerTeammate();
+public:
+    bool IsSneaking();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(Actor) == 0x1B4);

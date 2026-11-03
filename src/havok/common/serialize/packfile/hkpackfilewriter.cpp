@@ -2,13 +2,39 @@
 // src/havok/common/serialize/packfile/hkpackfilewriter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/packfile/hkpackfilewriter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void __cdecl Vsnprintf(void*, void*, const char*, int, int, int, const char*);
 
 // Calls Vsnprintf with a and b and a formatted Havok version string (7.1.0-r1).
 // @fnv 0x00dbda20
+#include <new>
+#include "fnv/decl/CB1A90Owner.h"
+#include "fnv/decl/E02A80_cls.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cb1930_t.h"
+#include "fnv/decl/FUN_00cb1fe0_t.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00d47690_class.h"
+#include "fnv/decl/FUN_00dbd870.h"
+#include "fnv/decl/FUN_00dc1670_cls.h"
+#include "fnv/decl/FUN_00e028e0.h"
+#include "fnv/decl/FUN_00e02bb0_cls.h"
+#include "fnv/decl/FUN_00e02c70_Class.h"
+#include "fnv/decl/FUN_00e02ef0.h"
+#include "fnv/decl/FnvClassNameNode.h"
+#include "fnv/decl/OwnerDC9E.h"
+#include "fnv/decl/ReflectObj.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/fnv_00cb1870__hkMapBaseCB18.h"
+#include "fnv/decl/hkObjectD878.h"
+#include "fnv/decl/hkStringMapD874.h"
+#include "fnv/decl/hkStringMapD8765.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_0126c000.h"
 void __cdecl FUN_00dbda20(void* a, void* b)
 {
-    Vsnprintf(a, b, "Havok-%i.%i.%i-%s", 7, 1, 0, "r1");
+    ::Vsnprintf((char *)(a), (int)(b), "Havok-%i.%i.%i-%s", 7, 1, 0, "r1");
 }
 
 struct FUN_00dbdd40_s
@@ -17,11 +43,9 @@ struct FUN_00dbdd40_s
 };
 struct FUN_00d46d40_s
 {
-    const char* __thiscall FUN_00d46d40();
 };
 struct FUN_00d874d0_s
 {
-    void __thiscall FUN_00d874d0(const char*, int);
 };
 struct FUN_00dbdf30_s
 {
@@ -29,14 +53,6 @@ struct FUN_00dbdf30_s
     int m_kPointB;
     void __thiscall FUN_00dbdf30(int a, int b);
 };
-// @fnv 0x00dbdf30
-void __thiscall FUN_00dbdf30_s::FUN_00dbdf30(int pNameSource, int a)
-{
-    int idx = ((FUN_00dbdd40_s*)this)->GetOrAddString(a);
-    const char* name = ((FUN_00d46d40_s*)(void*)pNameSource)->FUN_00d46d40();
-    ((FUN_00d874d0_s*)((char*)this + 0xa8))->FUN_00d874d0(name, idx);
-}
-
 struct MemoryRouter
 {
     void* m0;
@@ -48,7 +64,6 @@ struct MemoryRouter
 extern "C" MemoryRouter* __cdecl D1A0E0GetMemoryRouter();
 struct DepthLimit
 {
-    void FUN_00cb1870(void*, void*, int);
 };
 struct FUN_00dbdae0
 {
@@ -61,13 +76,12 @@ struct FUN_00dbdae0
 void FUN_00dbdae0::FUN_00dbdae0_0(void* a, int b)
 {
     void* r = D1A0E0GetMemoryRouter()->m10;
-    m_dl.FUN_00cb1870(r, a, b);
+    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_dl))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(r)), (unsigned int)(a), b);
 }
 
 namespace fnv_00dbdf00 {
 struct DepthLimit
 {
-    void __thiscall FUN_00cb1870(void*, void*, int);
 };
 
 struct FUN_00dbdf00_router
@@ -90,7 +104,7 @@ void FUN_00dbdf00_s::FUN_00dbdf00(void* a, int b)
     int result = reinterpret_cast<FUN_00dbdd40_s*>(this)->GetOrAddString(b);
     FUN_00dbdf00_router* router = _D1A0E0GetMemoryRouter();
 
-    reinterpret_cast<DepthLimit*>(reinterpret_cast<char*>(this) + 0x9c)->FUN_00cb1870(router->m_p, a, result);
+    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((reinterpret_cast<DepthLimit*>(reinterpret_cast<char*>(this) + 0x9c)))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(router->m_p)), (unsigned int)(a), result);
 }
 }  // namespace fnv_00dbdf00
 
@@ -123,23 +137,8 @@ struct FUN_00dbe760_s : public FUN_00dbc6e0_s
     FUN_00dbe760_s* __thiscall FUN_00dbe760(int a);
 };
 
-// @fnv 0x00dbe760
-FUN_00dbe760_s* __thiscall FUN_00dbe760_s::FUN_00dbe760(int aiFlags)
-{
-    FUN_00dbc6e0_s::FUN_00dbdf60();
-
-    if (aiFlags & 1)
-    {
-        FUN_00dbe760_router* router = _D1A0E0GetMemoryRouter();
-        router->m_target->FUN_00dbe760_virtual_2(this, m_uiFilterValue);
-    }
-
-    return this;
-}
-
 struct FUN_00cb1930_s
 {
-    int LookupHashEntry(const void* key, int defaultValue);
 };
 struct FUN_00c85750_s
 {
@@ -175,18 +174,17 @@ struct FUN_00dbda80_s
 // @fnv 0x00dbda80
 void FUN_00dbda80_s::FUN_00dbda80(void* key, int value)
 {
-    int index = entryIndex.LookupHashEntry(key, -1);
+    int index = reinterpret_cast<::FUN_00cb1930_t *>(&(entryIndex))->LookupHashEntry((int)(key), -1);
     if (index >= 0)
         entries[index].state = -2;
 
     FUN_00c85750_s* router = FUN_00c85750_s::FUN_00c85750();
-    ((DepthLimit*)&entryIndex)->FUN_00cb1870(router->allocator, key, -2);
+    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((((DepthLimit*)&entryIndex)))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(router->allocator)), (unsigned int)(key), -2);
 
     FUN_00c85750_s* router2 = FUN_00c85750_s::FUN_00c85750();
-    firstDepth.FUN_00cb1870(router2->allocator, key, value);
+    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(firstDepth))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(router2->allocator)), (unsigned int)(key), value);
 }
 
-extern int DAT_0102e388;
 
 struct FUN_00dbdb10_buf
 {
@@ -203,27 +201,22 @@ struct FUN_00dbdb10_buf
 
 struct FUN_00dc1670_Obj
 {
-    void FUN_00dc1670();
 };
 
 struct FUN_00e02bb0_Obj
 {
-    void FUN_00e02bb0(void* a);
 };
 
 struct FUN_00e02ef0_Obj
 {
-    void FUN_00e02ef0();
 };
 
 struct FUN_00e02a80_Obj
 {
-    void FUN_00e02a80(void* a, void* b, void* c, void* d);
 };
 
 struct FUN_00e02c70_Obj
 {
-    void FUN_00e02c70();
 };
 
 // @fnv 0x00dbdb10
@@ -231,12 +224,12 @@ void __cdecl FUN_00dbdb10(void* apArg1, void* apArg2, void* apArg3)
 {
     FUN_00dbdb10_buf buf;
 
-    reinterpret_cast<FUN_00dc1670_Obj*>(&buf.unk00)->FUN_00dc1670();
-    reinterpret_cast<FUN_00e02bb0_Obj*>(&buf.unk14)->FUN_00e02bb0(&buf);
-    reinterpret_cast<FUN_00e02ef0_Obj*>(&buf.unk04)->FUN_00e02ef0();
-    reinterpret_cast<FUN_00e02a80_Obj*>(&buf.unk14)->FUN_00e02a80(&buf.unk04, apArg1, apArg2, apArg3);
-    buf.unk04 = (int)&DAT_0102e388;
-    reinterpret_cast<FUN_00e02c70_Obj*>(&buf.unk14)->FUN_00e02c70();
+    reinterpret_cast<::FUN_00dc1670_cls *>((reinterpret_cast<FUN_00dc1670_Obj*>(&buf.unk00)))->FUN_00dc1670();
+    reinterpret_cast<::FUN_00e02bb0_cls *>((reinterpret_cast<FUN_00e02bb0_Obj*>(&buf.unk14)))->FUN_00e02bb0((int)(&buf));
+    new ((void *)(reinterpret_cast<FUN_00e02ef0_Obj*>(&buf.unk04))) ::FUN_00e02ef0();
+    reinterpret_cast<::E02A80_cls *>((reinterpret_cast<FUN_00e02a80_Obj*>(&buf.unk14)))->FUN_00e02a80((::E02A80Arg *)(void *)(&buf.unk04), (int)(apArg1), (::E02A80Helper *)(apArg2), (int)(apArg3));
+    buf.unk04 = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    reinterpret_cast<::FUN_00e02c70_Class *>((reinterpret_cast<FUN_00e02c70_Obj*>(&buf.unk14)))->FUN_00e02c70_Class::~FUN_00e02c70_Class();
 }
 
 extern "C" void __cdecl GetOrAddString(void);
@@ -301,12 +294,9 @@ struct hkMemoryRouterDB7
     }
 };
 hkMemoryRouterDB7& __cdecl GetMemoryRouterDB7() throw();
-int __cdecl hkStrCmpDB7(const char* pcA, const char* pcB) throw();
 class hkClassDB7
 {
   public:
-    const char* getName() const throw();
-    unsigned int CalculateDatabaseSignature(int iFlags) const throw();
 };
 struct hkClassEnumDB7
 {
@@ -331,10 +321,8 @@ class hkErrorDB7
     virtual void v08();
     virtual int message(int eType, int aiSoundId, const char* pcDescription, const char* pcFile, int iLine) throw();
 };
-extern hkErrorDB7* g_pkErrorDB7;
 struct hkPointerMapDB7
 {
-    int FindValueForKey(const void* pvKey, int iDefault) const throw();
     void insert(hkMemoryAllocatorDB7& kAlloc, const void* pvKey, int iValue) throw();
     void* m_kPrimitiveElement;
     int m_iCapacityFlags;
@@ -342,7 +330,6 @@ struct hkPointerMapDB7
 };
 struct hkStringMapDB7
 {
-    void* FindValueForKey(const char* pcKey, void* pvDefault) const throw();
     void insert(const char* pcKey, void* pvValue) throw();
     void* m_kPrimitiveElement;
     int m_iCapacityFlags;
@@ -374,45 +361,43 @@ class hkPackfileWriterDB7
 // @fnv 0x00dbdb70
 int hkPackfileWriterDB7::RegisterObject(void* pvObject, const hkClassDB7* pkClass) throw()
 {
-    if (hkStrCmpDB7(pkClass->getName(), "hkClass") == 0)
+    if (::fnv_00cb0fa0::FUN_00cb0fa0(reinterpret_cast<::FnvClassNameNode *>((void *)(pkClass))->FUN_00d46d40(), "hkClass") == 0)
     {
         const hkClassDB7* pkNewClass = (const hkClassDB7*)pvObject;
-        const char* pcName = pkNewClass->getName();
-        const hkClassDB7* pkOldClass = (const hkClassDB7*)m_kObjectNameMap.FindValueForKey(pcName, 0);
+        const char* pcName = reinterpret_cast<::FnvClassNameNode *>((void *)(pkNewClass))->FUN_00d46d40();
+        const hkClassDB7* pkOldClass = (const hkClassDB7*)((void *)(reinterpret_cast<::hkObjectD878 *>((void *)&(m_kObjectNameMap))->GetValue((int)(pcName), (int)(0))));
         if (pkOldClass)
         {
-            if (pkNewClass->CalculateDatabaseSignature(0) != pkOldClass->CalculateDatabaseSignature(0))
+            if (reinterpret_cast<::FUN_00d47690_class *>((void *)(pkNewClass))->ComputeSignature(0) != reinterpret_cast<::FUN_00d47690_class *>((void *)(pkOldClass))->ComputeSignature(0))
             {
                 unsigned int assertBuf[128];
                 hkOstreamDB7 ostr(assertBuf, sizeof(assertBuf));
-                ostr
-                    << "Conflicting metadata found for class " << pkNewClass->getName()
-                    << ". Perhaps you have called setContents on data which has not been updated to the current version.";
-                if (g_pkErrorDB7->message(3, 0x2518721c, (const char*)assertBuf, ".\\Packfile\\hkPackfileWriter.cpp",
+                reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamDB7 &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamDB7 &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamDB7 &)(ostr))->FUN_00cc01c0("Conflicting metadata found for class ")))->FUN_00cc01c0(reinterpret_cast<::FnvClassNameNode *>((void *)(pkNewClass))->FUN_00d46d40())))->FUN_00cc01c0(". Perhaps you have called setContents on data which has not been updated to the current version.");
+                if ((*reinterpret_cast<::hkErrorDB7 * *>(&::DAT_01268360))->message(3, 0x2518721c, (const char*)assertBuf, ".\\Packfile\\hkPackfileWriter.cpp",
                                           178))
                     __debugbreak();
             }
-            int iIndex = m_kObjectIndexMap.FindValueForKey(pkOldClass, -1);
-            m_kObjectIndexMap.insert(GetMemoryRouterDB7().heap(), pkNewClass, iIndex);
-            m_kClassMap.insert(GetMemoryRouterDB7().heap(), pkNewClass, (int)pkOldClass);
+            int iIndex = reinterpret_cast<::FUN_00cb1930_t *>((void *)&(m_kObjectIndexMap))->LookupHashEntry((int)(pkOldClass), -1);
+            reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_kObjectIndexMap))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(GetMemoryRouterDB7().heap()), (unsigned int)(pkNewClass), iIndex);
+            reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_kClassMap))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(GetMemoryRouterDB7().heap()), (unsigned int)(pkNewClass), (int)pkOldClass);
             return 0;
         }
-        const char* pcNewName = pkNewClass->getName();
-        m_kObjectNameMap.insert(pcNewName, (void*)pkNewClass);
+        const char* pcNewName = reinterpret_cast<::FnvClassNameNode *>((void *)(pkNewClass))->FUN_00d46d40();
+        reinterpret_cast<::hkStringMapD874 *>(&(m_kObjectNameMap))->FUN_00d874d0(pcNewName, (int)((void*)pkNewClass));
     }
-    else if (hkStrCmpDB7(pkClass->getName(), "hkClassEnum") == 0)
+    else if (::fnv_00cb0fa0::FUN_00cb0fa0(reinterpret_cast<::FnvClassNameNode *>((void *)(pkClass))->FUN_00d46d40(), "hkClassEnum") == 0)
     {
         const hkClassEnumDB7* pkNewEnum = (const hkClassEnumDB7*)pvObject;
         const char* pcName = pkNewEnum->m_name;
-        const hkClassEnumDB7* pkOldEnum = (const hkClassEnumDB7*)m_kClassLookupMap.FindValueForKey(pcName, 0);
+        const hkClassEnumDB7* pkOldEnum = (const hkClassEnumDB7*)((void *)(reinterpret_cast<::hkObjectD878 *>((void *)&(m_kClassLookupMap))->GetValue((int)(pcName), (int)(0))));
         if (pkOldEnum)
         {
-            int iIndex = m_kObjectIndexMap.FindValueForKey(pkOldEnum, -1);
-            m_kObjectIndexMap.insert(GetMemoryRouterDB7().heap(), pkNewEnum, iIndex);
-            m_kClassMap.insert(GetMemoryRouterDB7().heap(), pkNewEnum, (int)pkOldEnum);
+            int iIndex = reinterpret_cast<::FUN_00cb1930_t *>((void *)&(m_kObjectIndexMap))->LookupHashEntry((int)(pkOldEnum), -1);
+            reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_kObjectIndexMap))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(GetMemoryRouterDB7().heap()), (unsigned int)(pkNewEnum), iIndex);
+            reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_kClassMap))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(GetMemoryRouterDB7().heap()), (unsigned int)(pkNewEnum), (int)pkOldEnum);
             return 0;
         }
-        m_kClassLookupMap.insert(pkNewEnum->m_name, (void*)pkNewEnum);
+        reinterpret_cast<::hkStringMapD874 *>(&(m_kClassLookupMap))->FUN_00d874d0(pkNewEnum->m_name, (int)((void*)pkNewEnum));
     }
     return 1;
 }
@@ -440,7 +425,6 @@ struct hkMemoryRouterXdbdd40
 namespace hkRouterXdbdd40 {
 extern "C" hkMemoryRouterXdbdd40& __cdecl FUN_00c85750() throw();
 }
-void __cdecl ResizeAudioStream(void* m_pPoolBase, void* pArray, int iSizeElem);
 
 template <class T> class hkArrayXdbdd40
 {
@@ -457,7 +441,7 @@ template <class T> class hkArrayXdbdd40
     {
         hkMemoryRouterXdbdd40& router = hkRouterXdbdd40::FUN_00c85750();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(router.m_pStreamAllocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router.m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         memCpyOneAlignedXdbdd40<sizeof(T)>(m_data + m_iElementCount, &e);
         m_iElementCount++;
     }
@@ -468,8 +452,6 @@ extern "C" char* __cdecl FUN_00cb1410(const char* str);
 class hkStringMapXdbdd40
 {
   public:
-    int FUN_00d87650(const char* key, int* out);
-    void FUN_00d874d0(const char* key, int value);
 };
 
 class hkStringPoolXdbdd40
@@ -481,24 +463,30 @@ class hkStringPoolXdbdd40
 
     int GetOrAddString(const char* str);
 };
+// @fnv 0x00dbdf30
+void __thiscall FUN_00dbdf30_s::FUN_00dbdf30(int pNameSource, int a)
+{
+    int idx = reinterpret_cast<::hkStringPoolXdbdd40 *>((((FUN_00dbdd40_s*)this)))->GetOrAddString((const char *)(a));
+    const char* name = reinterpret_cast<::FnvClassNameNode *>((((FUN_00d46d40_s*)(void*)pNameSource)))->FUN_00d46d40();
+    reinterpret_cast<::hkStringMapD874 *>((((FUN_00d874d0_s*)((char*)this + 0xa8))))->FUN_00d874d0(name, idx);
+}
 
 // Looks up str in m_map, returning the existing index; otherwise copies str, stores it in m_pStringFunctions, registers it in m_map, and returns the new index.
 // @fnv 0x00dbdd40
 int hkStringPoolXdbdd40::GetOrAddString(const char* apString)
 {
     int index;
-    if (m_map.FUN_00d87650(apString, &index) == 0)
+    if (reinterpret_cast<::hkStringMapD8765 *>(&(m_map))->FUN_00d87650(apString, &index) == 0)
         return index;
     char* copy = FUN_00cb1410(apString);
     int newIndex = m_pStringFunctions.m_iElementCount;
-    m_map.FUN_00d874d0(copy, newIndex);
+    reinterpret_cast<::hkStringMapD874 *>(&(m_map))->FUN_00d874d0(copy, newIndex);
     m_pStringFunctions.AddBack(copy);
     return newIndex;
 }
 
 struct S00dbde40_Base
 {
-    int __thiscall FUN_00dbddc0(int a, int b, int c);
 };
 
 struct S00dbde40_Entry
@@ -562,41 +550,6 @@ struct S00dbde40_Obj : public S00dbde40_Base
 };
 
 void* __cdecl FUN_00c85750(void);
-void __cdecl ResizeAudioStream(void* a, void* b, int c);
-extern char DAT_0126cae8;
-
-// Calls FUN_00dbddc0, builds an S00dbde40_Entry, appends it to arr, and increments unk98 or unk94 depending on b.
-// @fnv 0x00dbde40
-void S00dbde40_Obj::FUN_00dbde40(int a, int b, int c, int d, int e)
-{
-    int result = this->FUN_00dbddc0(c, d, e);
-    S00dbde40_Entry tmp;
-    tmp.unk00 = a;
-    tmp.unk04 = b;
-    tmp.unk08 = c;
-    tmp.unk0C = d;
-    tmp.unk10 = result;
-    tmp.unk14 = -1;
-
-    S00dbde40_Arr& arr = this->arr;
-    char* router = (char*)FUN_00c85750();
-
-    if (arr.m_iElementCount == (int)(arr.m_capFlags & 0x3fffffff))
-    {
-        ResizeAudioStream(*(void**)(router + 0x10), &arr, 0x18);
-    }
-
-    S00dbde40_Entry* pSlot = (S00dbde40_Entry*)((char*)arr.m_data + arr.m_iElementCount * 24);
-
-    if (pSlot != 0)
-    {
-        *pSlot = tmp;
-    }
-
-    ++arr.m_iElementCount;
-    this->unk98 += (b == (int)&DAT_0126cae8);
-    this->unk94 += (b != (int)&DAT_0126cae8);
-}
 
 class hkMemoryAllocatorDF6
 {
@@ -647,7 +600,6 @@ template <typename T> struct hkArrayDF6
 struct hkMapDF6
 {
     ~hkMapDF6() throw();
-    void ClearAndRelease(hkMemoryAllocatorDF6& kAlloc) throw();
     void* m_kPrimitiveElement;
     int m_iCapacityFlags;
     int m_iPairCount;
@@ -656,7 +608,7 @@ struct hkPointerMapDF6
 {
     ~hkPointerMapDF6() throw()
     {
-        m_map.ClearAndRelease(GetMemoryRouterDF6().heap());
+        reinterpret_cast<::CB1A90Owner *>(&(m_map))->ProcessArgument((::CB1A90Argument *)&(GetMemoryRouterDF6().heap()));
     }
     hkMapDF6 m_map;
 };
@@ -709,6 +661,19 @@ class FUN_00dbdf60 : public hkReferencedObjectDF6
     hkStringMapDF6 m_classesWritten;
     SectionTableDF6 m_kSectionTable;
 };
+// @fnv 0x00dbe760
+FUN_00dbe760_s* __thiscall FUN_00dbe760_s::FUN_00dbe760(int aiFlags)
+{
+    reinterpret_cast<::FUN_00dbdf60 *>(this)->FUN_00dbdf60::~FUN_00dbdf60();
+
+    if (aiFlags & 1)
+    {
+        FUN_00dbe760_router* router = _D1A0E0GetMemoryRouter();
+        router->m_target->FUN_00dbe760_virtual_2(this, m_uiFilterValue);
+    }
+
+    return this;
+}
 
 // Frees each object pointer stored in m_pendingObjects via the global memory router allocator.
 // @fnv 0x00dbdf60
@@ -761,9 +726,8 @@ struct hkPointerMapE4D
 {
     hkPointerMapE4D() : m_kPrimitiveElement(0), m_iCapacityFlags(0), m_iPairCount(-1)
     {
-        init(GetMemoryRouterE4D().heap(), 0);
+        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)&(GetMemoryRouterE4D().heap()), 0);
     }
-    void init(hkMemoryAllocatorE4D& kAlloc, int iNumElements);
     void insert(hkMemoryAllocatorE4D& kAlloc, const void* pvKey, int iValue);
     void* m_kPrimitiveElement;
     int m_iCapacityFlags;
@@ -784,9 +748,6 @@ struct hkPackfileSectionTableE4D
 struct hkClassE4D
 {
 };
-extern hkClassE4D g_kClassAE4D;
-extern hkClassE4D g_kClassBE4D;
-extern hkClassE4D g_kClassCE4D;
 class FUN_00dbe4d0 : public hkReferencedObjectE4D
 {
   public:
@@ -818,9 +779,9 @@ FUN_00dbe4d0::FUN_00dbe4d0() throw()
       m_kImports(hkContainerHeapAllocatorE4D()), m_iContentsSection(-1), m_iDataSection(-1), m_pvContents(0),
       m_pvContentsClass(0), m_classesWritten(hkContainerHeapAllocatorE4D())
 {
-    m_kObjectNameMap.insert(GetMemoryRouterE4D().heap(), &g_kClassAE4D, -1);
-    m_kObjectNameMap.insert(GetMemoryRouterE4D().heap(), &g_kClassBE4D, -1);
-    m_kObjectNameMap.insert(GetMemoryRouterE4D().heap(), &g_kClassCE4D, -1);
+    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_kObjectNameMap))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(GetMemoryRouterE4D().heap()), (unsigned int)(&(*reinterpret_cast<::hkClassE4D *>(&::g_0126cab8))), -1);
+    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_kObjectNameMap))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(GetMemoryRouterE4D().heap()), (unsigned int)(&(*reinterpret_cast<::hkClassE4D *>(&::g_0126ca58))), -1);
+    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_kObjectNameMap))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(GetMemoryRouterE4D().heap()), (unsigned int)(&(*reinterpret_cast<::hkClassE4D *>(&::g_0126cae8))), -1);
 }
 
 struct Mgr
@@ -832,7 +793,6 @@ struct Mgr
     virtual void v4();
     virtual void* vf5();
 };
-extern Mgr* DAT_01268b08;
 struct Cls
 {
     virtual void v0();
@@ -845,12 +805,11 @@ struct Cls
 // @fnv 0x00dbda50
 void Cls::FUN_00dbda50(void* apArg1, void* apArg2, void* apArg3)
 {
-    vf3(apArg1, apArg2, DAT_01268b08->vf5(), apArg3);
+    vf3(apArg1, apArg2, (*reinterpret_cast<::Mgr * *>(&::DAT_01268b08))->vf5(), apArg3);
 }
 
 struct S00dbddc0_Base
 {
-    int __thiscall GetOrAddString(int a);
 };
 
 struct S00dbddc0_Sub9C
@@ -858,18 +817,14 @@ struct S00dbddc0_Sub9C
     int unk00;
     int unk04;
     int unk08;
-    int __thiscall LookupHashEntry(int a, int b);
 };
 
 struct S00dbddc0_SubA8
 {
-    int __thiscall GetValue(int a, int b);
 };
 
 struct S00dbddc0_Node
 {
-    int __thiscall FUN_00d46d40();
-    S00dbddc0_Node* __thiscall FUN_00d46d50();
 };
 
 struct S00dbddc0_cls : public S00dbddc0_Base
@@ -918,32 +873,64 @@ struct S00dbddc0_cls : public S00dbddc0_Base
 
     int __thiscall FUN_00dbddc0(int a1, S00dbddc0_Node* a2, int a3);
 };
+// Calls FUN_00dbddc0, builds an S00dbde40_Entry, appends it to arr, and increments unk98 or unk94 depending on b.
+// @fnv 0x00dbde40
+void S00dbde40_Obj::FUN_00dbde40(int a, int b, int c, int d, int e)
+{
+    int result = reinterpret_cast<::S00dbddc0_cls *>((this))->FUN_00dbddc0(c, (::S00dbddc0_Node *)(d), e);
+    S00dbde40_Entry tmp;
+    tmp.unk00 = a;
+    tmp.unk04 = b;
+    tmp.unk08 = c;
+    tmp.unk0C = d;
+    tmp.unk10 = result;
+    tmp.unk14 = -1;
+
+    S00dbde40_Arr& arr = this->arr;
+    char* router = (char*)FUN_00c85750();
+
+    if (arr.m_iElementCount == (int)(arr.m_capFlags & 0x3fffffff))
+    {
+        ::ResizeAudioStream((::AudioAllocator *)(*(void**)(router + 0x10)), (::AudioStream *)(void *)(&arr), 0x18);
+    }
+
+    S00dbde40_Entry* pSlot = (S00dbde40_Entry*)((char*)arr.m_data + arr.m_iElementCount * 24);
+
+    if (pSlot != 0)
+    {
+        *pSlot = tmp;
+    }
+
+    ++arr.m_iElementCount;
+    this->unk98 += (b == (int)&(*reinterpret_cast<char *>(&::g_0126cae8)));
+    this->unk94 += (b != (int)&(*reinterpret_cast<char *>(&::g_0126cae8)));
+}
 
 // Looks up a hash entry for a1, then walks the node chain a2 calling GetValue on each key, returning the first hit or calling GetOrAddString(a3).
 // @fnv 0x00dbddc0
 int S00dbddc0_cls::FUN_00dbddc0(int a1, S00dbddc0_Node* apStartNode, int a3)
 {
-    int r = m_sub9c.LookupHashEntry(a1, -1);
+    int r = reinterpret_cast<::FUN_00cb1930_t *>(&(m_sub9c))->LookupHashEntry(a1, -1);
     if (r != -1)
     {
         return r;
     }
     S00dbddc0_Node* n = apStartNode;
-    int iKey = n->FUN_00d46d40();
-    r = m_suba8.GetValue(iKey, -1);
+    int iKey = ((int)(reinterpret_cast<::FnvClassNameNode *>((n))->FUN_00d46d40()));
+    r = reinterpret_cast<::hkObjectD878 *>(&(m_suba8))->GetValue(iKey, -1);
     if (r != -1)
     {
         return r;
     }
     do
     {
-        n = n->FUN_00d46d50();
+        n = ((::S00dbddc0_Node *)(reinterpret_cast<::ReflectObj *>((n))->FUN_00d46d50()));
         if (n == 0)
         {
-            return GetOrAddString(a3);
+            return reinterpret_cast<::hkStringPoolXdbdd40 *>(this)->GetOrAddString((const char *)(a3));
         }
-        iKey = n->FUN_00d46d40();
-        r = m_suba8.GetValue(iKey, -1);
+        iKey = ((int)(reinterpret_cast<::FnvClassNameNode *>((n))->FUN_00d46d40()));
+        r = reinterpret_cast<::hkObjectD878 *>(&(m_suba8))->GetValue(iKey, -1);
     } while (r == -1);
     return r;
 }
@@ -951,7 +938,6 @@ int S00dbddc0_cls::FUN_00dbddc0(int a1, S00dbddc0_Node* apStartNode, int a3)
 namespace fnv_00dbe680 {
 struct S00dbe680_Tbl
 {
-    int __thiscall LookupHashEntry(int a, int b);
 };
 
 struct S00dbe680_Ret
@@ -984,7 +970,6 @@ struct S00dbe680_Glob
     virtual S00dbe680_A3* v5();
 };
 
-extern S00dbe680_Glob* DAT_01268b08;
 extern void* DAT_011b7ae8;
 
 struct Class_00dbe680
@@ -1041,7 +1026,7 @@ __declspec(noinline) void Class_00dbe680::FUN_00dbe150(int a1, void* a2, S00dbe6
 // @fnv 0x00dbe680
 void Class_00dbe680::FUN_00dbe680(int a1, S00dbe680_A2* a2, S00dbe680_A3* a3, int a4)
 {
-    void* target = a3 ? (void*)a3 : (void*)DAT_01268b08->v5();
+    void* target = a3 ? (void*)a3 : (void*)(*reinterpret_cast<::fnv_00dbe680::S00dbe680_Glob * *>(&::DAT_01268b08))->v5();
     if (a2->GetLastNodeFlag().b)
     {
         target = ((S00dbe680_A3*)target)->v4(a1);
@@ -1051,8 +1036,8 @@ void Class_00dbe680::FUN_00dbe680(int a1, S00dbe680_A2* a2, S00dbe680_A3* a3, in
         target = a2;
     }
     FUN_00dbe150(a1, target, a3, a4, DAT_011b7ae8);
-    m_8c = m_hashTable.LookupHashEntry(a1, -1);
-    m_90 = m_hashTable.LookupHashEntry((int)target, -1);
+    m_8c = reinterpret_cast<::FUN_00cb1930_t *>(&(m_hashTable))->LookupHashEntry(a1, -1);
+    m_90 = reinterpret_cast<::FUN_00cb1930_t *>(&(m_hashTable))->LookupHashEntry((int)target, -1);
 }
 }  // namespace fnv_00dbe680
 
@@ -1070,12 +1055,10 @@ struct FUN_00cb18f0_t
     int unk04;
     int unk08;
     int __thiscall FindSlot(int key);
-    void __thiscall FUN_00cb1870(void* alloc, int key, int value);
-    int __thiscall LookupHashEntry(int key, int def);
     __forceinline void insert(void* key, int value)
     {
         SgE150* sg = (SgE150*)FUN_00c85750();
-        FUN_00cb1870(sg->allocator, (int)key, value);
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(sg->allocator)), (int)key, value);
     }
 };
 struct MapB8E150
@@ -1127,17 +1110,12 @@ struct BufObjE150
     int unk28;
     int unk2c;
     int unk30;
-    void __thiscall FUN_00dbd870();
-    void __thiscall FUN_00e028e0();
 };
 struct StreamObjE150
 {
     int unk00;
     int unk04;
     int unk08;
-    void __thiscall FUN_00cb1600(char* buf, int n);
-    StreamObjE150* __thiscall FUN_00cc01c0(const char* s);
-    void __thiscall FUN_00cc00e0();
 };
 struct LogObjE150
 {
@@ -1146,7 +1124,6 @@ struct LogObjE150
     virtual void v2();
     virtual int __thiscall v3(int a, int magic, const char* buf, const char* f, int line);
 };
-extern LogObjE150* DAT_01268360;
 extern int DAT_011b7aec;
 extern const char DAT_010d6734;
 extern const char DAT_010d6760;
@@ -1326,8 +1303,6 @@ struct OwnerE150
     int ub0;
     int ub4;
     MapB8E150 mapb8;
-    int __thiscall RegisterObject(void* a, void* b);
-    void __thiscall FUN_00dbde40(void* a, void* b, void* c, void* d, void* e);
     void __thiscall FUN_00dbe150(void* a1, void* a2, void* a3, void* a4, void* a5);
 };
 
@@ -1351,7 +1326,7 @@ void __thiscall OwnerE150::FUN_00dbe150(void* apKey, void* a2, void* a3, void* a
         }
         if (pResolvedKey)
         {
-            if (!RegisterObject(pResolvedKey, pResolvedValue))
+            if (!reinterpret_cast<::hkPackfileWriterDB7 *>(this)->RegisterObject(pResolvedKey, (const ::hkClassDB7 *)(pResolvedValue)))
             {
                 return;
             }
@@ -1368,9 +1343,9 @@ void __thiscall OwnerE150::FUN_00dbe150(void* apKey, void* a2, void* a3, void* a
                 pMap->insert(pResolvedKey, unk0c);
                 map58.insert(pResolvedKey, (int)apKey);
             }
-            FUN_00dbde40(pResolvedKey, pResolvedValue, apKey, a2, a5);
+            reinterpret_cast<::S00dbde40_Obj *>(this)->FUN_00dbde40((int)(pResolvedKey), (int)(pResolvedValue), (int)(apKey), (int)(a2), (int)(a5));
             BufObjE150 buf;
-            buf.FUN_00dbd870();
+            new ((void *)&(buf)) ::FUN_00dbd870();
             FUN_00dbdb10(pResolvedKey, pResolvedValue, &buf);
             int idx = 0;
             if (buf.m_uiItemCount > 0)
@@ -1388,18 +1363,18 @@ void __thiscall OwnerE150::FUN_00dbe150(void* apKey, void* a2, void* a3, void* a
                             FUN_00cb18f0_t* map9cp = &map9c;
                             if (map9cp->FindSlot((int)k1) > map9cp->unk08)
                             {
-                                int code = ((FUN_00dbdd40_s*)this)->GetOrAddString((int)a5);
-                                int iValue = map9cp->LookupHashEntry((int)pResolvedKey, code);
+                                int code = reinterpret_cast<::hkStringPoolXdbdd40 *>((((FUN_00dbdd40_s*)this)))->GetOrAddString((const char *)((int)a5));
+                                int iValue = reinterpret_cast<::FUN_00cb1930_t *>((map9cp))->LookupHashEntry((int)pResolvedKey, code);
                                 map9cp->insert(k1, iValue);
                             }
                         }
-                        FUN_00dbe150(k1, k2, a3, a4, a5);
+                        reinterpret_cast<::fnv_00dbe680::Class_00dbe680 *>(this)->FUN_00dbe150((int)(k1), k2, (::fnv_00dbe680::S00dbe680_A3 *)(a3), (int)(a4), a5);
                         if (pResolvedKey != k1)
                         {
-                            int tmp = pMap->LookupHashEntry((int)k1, -1);
+                            int tmp = reinterpret_cast<::FUN_00cb1930_t *>((pMap))->LookupHashEntry((int)k1, -1);
                             if (tmp != -1)
                             {
-                                mapb8.FUN_00dc9ec0(pResolvedKey, &tmp);
+                                reinterpret_cast<::OwnerDC9E *>(&(mapb8))->FUN_00dc9ec0((unsigned long)(pResolvedKey), (const ::KeyDC9E *)(int *)(&tmp));
                             }
                         }
                     }
@@ -1407,8 +1382,8 @@ void __thiscall OwnerE150::FUN_00dbe150(void* apKey, void* a2, void* a3, void* a
                     iOffset += 0x10;
                 } while (idx < buf.m_uiItemCount);
             }
-            FUN_00dbe150(pResolvedValue, (void*)&DAT_0126cae8, a3, a4, (void*)DAT_011b7aec);
-            buf.FUN_00e028e0();
+            reinterpret_cast<::fnv_00dbe680::Class_00dbe680 *>(this)->FUN_00dbe150((int)(pResolvedValue), (void*)&(*reinterpret_cast<char *>(&::g_0126cae8)), (::fnv_00dbe680::S00dbe680_A3 *)(a3), (int)(a4), (void*)DAT_011b7aec);
+            reinterpret_cast<::FUN_00e028e0 *>(&(buf))->FUN_00e028e0::~FUN_00e028e0();
         }
         else
         {
@@ -1419,20 +1394,16 @@ void __thiscall OwnerE150::FUN_00dbe150(void* apKey, void* a2, void* a3, void* a
     {
         ErrBufE150 errorBuffer;
         StreamObjE150 stream;
-        stream.FUN_00cb1600((char*)&errorBuffer, 0x200);
-        stream.FUN_00cc01c0(&DAT_010d6734)
-            ->FUN_00cc01c0(((FUN_00d46d40_s*)a2)->FUN_00d46d40())
-            ->FUN_00cc01c0(&DAT_010d6760)
-            ->FUN_00cc01c0(&DAT_010d67a8)
-            ->FUN_00cc01c0(&DAT_010d67e0);
-        DAT_01268360->v3(1, (int)0xabbaabba, (const char*)&errorBuffer, &DAT_010d664c, 0x121);
-        stream.FUN_00cc00e0();
+        new ((void *)&(stream)) ::FUN_00cb1600((char*)&errorBuffer, 0x200);
+        reinterpret_cast<::SinkOwner *>((((::StreamObjE150 *)(reinterpret_cast<::SinkOwner *>((((::StreamObjE150 *)(reinterpret_cast<::SinkOwner *>((((::StreamObjE150 *)(reinterpret_cast<::SinkOwner *>((((::StreamObjE150 *)(reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(&DAT_010d6734)))))->FUN_00cc01c0(reinterpret_cast<::FnvClassNameNode *>((((FUN_00d46d40_s*)a2)))->FUN_00d46d40())))))->FUN_00cc01c0(&DAT_010d6760)))))->FUN_00cc01c0(&DAT_010d67a8)))))->FUN_00cc01c0(&DAT_010d67e0);
+        (*reinterpret_cast<::LogObjE150 * *>(&::DAT_01268360))->v3(1, (int)0xabbaabba, (const char*)&errorBuffer, &DAT_010d664c, 0x121);
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();
         pMap->insert(apKey, -1);
         PairListE150* exports = &list80;
         SgE150* sg2 = (SgE150*)FUN_00c85750();
         if (exports->m_uiItemCount == (exports->m_pRayCursor & 0x3fffffff))
         {
-            ResizeAudioStream(sg2->allocator, exports, 8);
+            ::ResizeAudioStream((::AudioAllocator *)(sg2->allocator), (::AudioStream *)(exports), 8);
         }
         PairE150* p = &exports->m_data[exports->m_uiItemCount];
         p->key = apKey;
@@ -1443,7 +1414,7 @@ void __thiscall OwnerE150::FUN_00dbe150(void* apKey, void* a2, void* a3, void* a
 
 __declspec(noinline) void __thiscall MapB8E150::FUN_00dc9ec0(void* a, int* b)
 {
-    int oldIndex = indices.LookupHashEntry((int)a, -1);
+    int oldIndex = reinterpret_cast<::FUN_00cb1930_t *>(&(indices))->LookupHashEntry((int)a, -1);
     int index = AllocateSlot();
     PairE150* entries = (PairE150*)unk00;
     entries[index].key = (void*)*b;

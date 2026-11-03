@@ -2,11 +2,19 @@
 // src/havok/physics/utilities/weapons/hkpgravitygun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpgravitygun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00c7f690_cls.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00ca88e0_cls.h"
+#include "fnv/decl/MotionMassView.h"
+#include "fnv/decl/SStringPtr.h"
+#include "fnv/decl/World_e45e.h"
+#include "fnv/decl/fnv_00c91f70__RayWorld.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpGravityGunE45.h"
 #include "havok/hkpGravityGun.h"
 
 struct FUN_00e45fb0_class
 {
-    void FUN_00e45e60(int);
     void FUN_00e45fb0(int, int, int);
 };
 
@@ -14,7 +22,7 @@ struct FUN_00e45fb0_class
 void FUN_00e45fb0_class::FUN_00e45fb0(int, int, int)
 {
     if (*(int*)((char*)this + 0x24) != 0)
-        FUN_00e45e60(0);
+        reinterpret_cast<::World_e45e *>(this)->FUN_00e45e60(0);
 }
 
 struct DDCC60World
@@ -39,7 +47,7 @@ void FUN_00e45fc0_class::RemoveAllReferences(int)
     {
         do
         {
-            m_kExternalLinks[i]->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_kExternalLinks[i]))->FUN_00c905b0();
             ++i;
         } while (i < m_sReferenceCount);
     }
@@ -250,7 +258,6 @@ struct GGVector4
     {
         return m_vComponents.m128_f32[i];
     }
-    void SetTransformedPosition(const struct GGTransform& t, const GGVector4& v);
 };
 
 struct GGMotion
@@ -355,7 +362,7 @@ struct GGRigidBody
     }
     hkReal GetMassValue() const
     {
-        return m_pMotionState.GetMassValue();
+        return reinterpret_cast<::MotionMassView *>((void *)&(m_pMotionState))->FUN_00c86430();
     }
 };
 
@@ -506,7 +513,6 @@ struct GGWorld
     GGIslandArray m_kActiveSimulationIslands;
     GGIslandArray m_kInactiveSimulationIslands;
 
-    void RayCast(const GGWorldRayCastInput& input, GGRayHitCollector& collector) const;
 };
 
 struct GGTransform
@@ -552,7 +558,7 @@ GGRigidBody* GravityGun::FUN_00e45a60(const GGTransform& viewTransform, const GG
                 const GGVector4& vCenterOfMass = body->getCenterOfMassInWorld();
 
                 GGVector4 posInView;
-                posInView.SetTransformedPosition(viewTransform, vCenterOfMass);
+                reinterpret_cast<::FUN_00c7f690_cls *>(&(posInView))->FUN_00c7f690((const ::S_00c7f690_M *)&(viewTransform), (const ::S_00c7f690_V *)&(vCenterOfMass));
 
                 hkReal x = posInView(0);
                 if (x < 0.1f || x > m_fMaxPickDistance || body == characterBody)
@@ -584,7 +590,7 @@ GGRigidBody* GravityGun::FUN_00e45a60(const GGTransform& viewTransform, const GG
                     input.m_vFrom = viewTransform.m_vTranslation;
                     input.m_vTo = vCenterOfMass;
 
-                    world->RayCast(input, collector);
+                    reinterpret_cast<::fnv_00c91f70::RayWorld *>((void *)(world))->FUN_00c91f70((const void *)&(input), (void *)&(collector));
 
                     if (collector.m_kClosestHit.m_pRootCollidable == 0 ||
                         collector.m_kClosestHit.m_pRootCollidable == body->getCollidable())
@@ -648,14 +654,15 @@ struct GunListener
     virtual void gunAction(const MyVec& from, const MyVec* to = 0);
 };
 
+struct hkTransform;
+struct hkpRigidBody;
 struct hkpGravityGunEx : public hkpGravityGun
 {
-    void FUN_00e45ee0(GunTransform* a4, GunArg3* a3, DDCC60World* world);
     void FUN_00e46080(GunTransform* a4, GunArg3* a3, DDCC60World* world);
-    void FUN_00e45fb0(GunTransform* a4, GunArg3* a3, DDCC60World* world);
-    void FUN_00e45c90(hkReal dt, GunTransform* a4, GunArg3* a3);
 
     void FUN_00e46140(hkReal dt, DDCC60World* world, GunArg3* a3, GunTransform* a4, bool b1, bool b2);
+public:
+    void FUN_00e45c90(float, const ::hkTransform &, ::hkpRigidBody *);
 };
 
 // Dispatches a gun action to listeners based on b1/b2 and picked-body capacity, then calls FUN_00e45c90 with dt, a4, a3.
@@ -668,7 +675,7 @@ void hkpGravityGunEx::FUN_00e46140(hkReal dt, DDCC60World* world, GunArg3* a3, G
 
     if (b1)
     {
-        FUN_00e45ee0(apGunTransform, a3, world);
+        reinterpret_cast<::hkpGravityGunE45 *>(this)->FUN_00e45ee0((int)(apGunTransform), (int)(a3), (int)(world));
         *(__m128*)&v1 = *(__m128*)&a3->unk120;
         for (int i = 0; i < m_kListeners.m_iElementCount; ++i)
         {
@@ -689,7 +696,7 @@ void hkpGravityGunEx::FUN_00e46140(hkReal dt, DDCC60World* world, GunArg3* a3, G
         }
         else
         {
-            FUN_00e45fb0(apGunTransform, a3, world);
+            reinterpret_cast<::FUN_00e45fb0_class *>(this)->FUN_00e45fb0((int)(apGunTransform), (int)(a3), (int)(world));
             *(__m128*)&v2 = *(__m128*)&a3->unk120;
             for (int i = 0; i < m_kListeners.m_iElementCount; ++i)
             {
@@ -698,7 +705,7 @@ void hkpGravityGunEx::FUN_00e46140(hkReal dt, DDCC60World* world, GunArg3* a3, G
         }
     }
 
-    FUN_00e45c90(dt, apGunTransform, a3);
+    reinterpret_cast<::hkpGravityGunEx *>(this)->FUN_00e45c90(dt, (*(const ::hkTransform *)(apGunTransform)), (::hkpRigidBody *)(a3));
 }
 
 extern "C" __m128 _mm_shuffle_ps(__m128 _A, __m128 _B, unsigned int _Imm8);
@@ -781,7 +788,6 @@ class hkEntityE460
     hkVector4E460 m_vec1a0;
 
     void FUN_00c90510();
-    void FUN_00ca88e0(float f);
 };
 
 class hkWorldE460
@@ -797,11 +803,11 @@ class hkWorldE460
 // @fnv 0x00e46000
 void hkWorldE460::FUN_00e46000(hkEntityE460* apEntity)
 {
-    apEntity->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((apEntity))->FUN_00c90510();
     m_kActorEntries.AddBack(apEntity);
     float w = apEntity->m_vec1a0.getW();
     float f = (float)(w * 100.0);
-    apEntity->FUN_00ca88e0(f);
+    reinterpret_cast<::FUN_00ca88e0_cls *>((apEntity))->FUN_00ca88e0(f);
 }
 
 extern "C" __m128 _mm_setr_ps(float, float, float, float);
@@ -810,10 +816,9 @@ class hkStringPtrE462
 {
   public:
     char* m_pcText;
-    void FUN_00cb0c10(const char* pcString) throw();
     void operator=(const char* pcString)
     {
-        FUN_00cb0c10(pcString);
+        reinterpret_cast<::SStringPtr *>(this)->FUN_00cb0c10(pcString);
     }
 };
 

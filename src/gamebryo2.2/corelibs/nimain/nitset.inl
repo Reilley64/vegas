@@ -1,4 +1,7 @@
 
+#include "fnv/symbols_00a47000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00c1d000.h"
 class NiMaterialResource
 {
 public:
@@ -49,8 +52,6 @@ public:
     void Realloc(unsigned int uiAlloced);
 };
 
-void* __cdecl FUN_00c1d790(unsigned int count);
-void __cdecl ReleaseObjectArray(void* memory);
 
 typedef NiTSet<NiPointer<NiMaterialResource>,
                NiTNewInterface<NiPointer<NiMaterialResource> > >
@@ -83,7 +84,7 @@ void NiMaterialResourceSet::Realloc(unsigned int uiAlloced)
         if (uiAlloced > 0)
         {
             pNew = static_cast<NiPointer<NiMaterialResource>*>(
-                FUN_00c1d790(uiAlloced));
+                ((void *)(::sc1d790::FUN_00c1d790(uiAlloced))));
             for (unsigned int i = 0; i < m_uiAllocatedCapacity; ++i)
                 pNew[i] = m_pBase[i];
         }
@@ -92,7 +93,7 @@ void NiMaterialResourceSet::Realloc(unsigned int uiAlloced)
             pNew = 0;
         }
 
-        ReleaseObjectArray(m_pBase);
+        ::ReleaseObjectArray((::Obj00a47600 **)(m_pBase));
         m_pBase = pNew;
         m_uiElementCount = uiAlloced;
     }
@@ -108,8 +109,6 @@ public:
 
 extern unsigned char DAT_01096968;
 
-void* __cdecl _NiMalloc(unsigned int size);
-void __cdecl NiFree(void* memory);
 
 class NiStreamLinkIDSet : public NiTSet_unsigned_int_NiTMallocInterface_unsigned_int___
 {

@@ -7,9 +7,23 @@
 
 // src/havok/physics/utilities/visualdebugger/viewer/vehicle/hkpvehicleviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/vehicle/hkpvehicleviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00c929e0_ThisClass.h"
+#include "fnv/decl/FUN_00d46d40_s.h"
+#include "fnv/decl/S_00dd9380.h"
+#include "fnv/decl/SearchArray.h"
+#include "fnv/decl/fnv_00c93920__hkpWorldXc93920.h"
+#include "fnv/decl/hkOwnerXc937a0.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkWorldXc91700.h"
+#include "fnv/symbols_00d2c000.h"
+#include "fnv/symbols_00d63000.h"
+#include "fnv/symbols_010cc000.h"
+#include "fnv/symbols_010d1000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 struct D625A0Allocator;
 void __cdecl FUN_00c908c0(D625A0Allocator* alloc, void* array, int numElements, int sizeElem);
-void __cdecl D625A0MemMove(void* dst, const void* src, unsigned int nbytes);
 struct D625A0CharArray {
     char* m_data;
     int m_iElementCount;
@@ -19,7 +33,6 @@ struct D625A0CharArray {
 
     void ReplaceRange(D625A0Allocator& alloc, int index, int numdel, const char* p, int numtoinsert);
 };
-extern char d_010d17d0;
 char *FUN_00d634d0();
 struct ItemSink;
 typedef void (__thiscall* ProcessFn)(ItemSink* apThis, void* apItem);
@@ -111,22 +124,13 @@ struct ItemList {
     void** m_ppItems;
     int m_iArrayLength;
 
-    void FUN_00c905b0();
 };
 struct Registry {
-    void FUN_00c937a0(NotifyTarget* apTarget);
-    void FUN_00c93920(SecondTarget* apTarget);
-    ItemList* FUN_00c929e0();
 };
 struct Factory {
-    void* FUN_00dd9380(const char*, void*);
 };
-extern void* DAT_01268fcc;
-extern Factory* DAT_01269cd0;
 extern const char DAT_010d17c4;
-extern void AllocAndInitObject();
 void __cdecl FUN_00d63da0();
-extern int g_D63DC0Value;
 int __cdecl FUN_00d63dc0();
 // PassMembersToTarget - forwarding stub for a "container of" style object.
 //
@@ -134,8 +138,6 @@ int __cdecl FUN_00d63dc0();
 // the code recovers the owner pointer (this - 0x20) and passes it on to the
 // two Target methods, which are called with the owner as their `this`.
 struct Target {
-    void FUN_00c91700(void* apArg);
-    void ClearValue(void* apArg);
 };
 struct FUN_00d63480_cls {
     int unk00;
@@ -185,7 +187,6 @@ struct FUN_00d63c50 : public WorldViewerBase {
 };
 // the vftables of the class and of its bases
 extern int DAT_010cb1d4;
-extern int DAT_010ccf7c;
 extern int DAT_010d1854;
 extern int DAT_010d1834;
 extern int DAT_010d1824;
@@ -228,7 +229,7 @@ struct S_P
 };
 struct S_B0 { virtual void b0v0(); int unk04; };
 struct S_B8 { virtual void b8v0(); int unk0C; int unk10; int unk14; int unk18; int unk1C; };
-struct S_B20 { virtual void b20v0(); void PassMembersToTarget(void* child); };
+struct S_B20 { virtual void b20v0();  };
 struct FUN_00ddcc60 : S_B0, S_B8, S_B20
 {
     S_P* m24;
@@ -271,11 +272,9 @@ struct hkBoolD635 {
 };
 class hkClassD635 {
 public:
-    hkBoolD635 FUN_00d46d80(const hkClassD635& k) const throw();
 };
 class hkReferencedObjectD635 {
 public:
-    void FUN_00c90510() throw();
 };
 class hkClassNameRegistryD635 {
 public:
@@ -303,7 +302,6 @@ public:
     virtual hkVtableClassRegistryD635* GetVtableClassRegistry();
 };
 namespace hkD635 {
-    extern hkBuiltinTypeRegistryD635* DAT_01268b08;
 }
 template <class T>
 class hkArrayD635 {
@@ -1324,7 +1322,7 @@ public:
 __forceinline void*__cdecl operator new(hk_size_t nbytes){;hkReferencedObject*b=static_cast<hkReferencedObject*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16>(nbytes);;return b;}__forceinline void __cdecl operator delete(void*p){hkReferencedObject*b=static_cast<hkReferencedObject*>(p);;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,b->m_usMemSizeAndFlags);}__forceinline void*__cdecl operator new(hk_size_t,void*p){return p;}__forceinline void*__cdecl operator new[](hk_size_t,void*p){__debugbreak();return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){__debugbreak();}class CommandArgument;
 static hkProcess*__cdecl create(const hkArray<hkProcessContext*>&contexts);
 static void __cdecl RegisterViewer();
-virtual int GetOperationType(){return (int)::DAT_01268fcc;}
+virtual int GetOperationType(){return (int)(*reinterpret_cast<void * *>(&::g_D63DC0Value));}
 virtual void init();
 static inline const char*__cdecl getName(){return "Vehicles";}
 protected:
@@ -1737,7 +1735,7 @@ const hkpVehicleInstance::WheelInfo&wheel=vehicle->m_kWheelInfoArray[w];
 const hkVector4&contactPoint=wheel.m_vContactPoint.getPosition();
 const hkVector4&hardPoint=wheel.m_vContactPointVelocity;
 const int collidableId=(wheel.m_pUserData)?(int)(hkUlong)(wheel.m_pUserData->getCollidable()):0;
-m_pDisplayHandler->DisplayLine(contactPoint,hardPoint,(wheel.m_pUserData)? hkColor::RED:hkColor::ROSYBROWN,collidableId,(int)::DAT_01268fcc);
+m_pDisplayHandler->DisplayLine(contactPoint,hardPoint,(wheel.m_pUserData)? hkColor::RED:hkColor::ROSYBROWN,collidableId,(int)(*reinterpret_cast<void * *>(&::g_D63DC0Value)));
 centerPoint[w].setAddMul4(contactPoint,wheel.m_vHardPointWs,-wheelParam.m_fSphereRadius);
 {
 hkVector4 spoke;spoke=wheel.m_vHardPointWs;
@@ -1747,7 +1745,7 @@ spoke.normalize3();
 spoke.mul4(wheelParam.m_fSphereRadius);
 hkVector4 start;start.setAdd4(centerPoint[w],spoke);
 hkVector4 end;end.setSub4(centerPoint[w],spoke);
-m_pDisplayHandler->DisplayLine(start,end,(wheel.m_pUserData)? hkColor::WHITESMOKE:hkColor::ROSYBROWN,collidableId,(int)::DAT_01268fcc);
+m_pDisplayHandler->DisplayLine(start,end,(wheel.m_pUserData)? hkColor::WHITESMOKE:hkColor::ROSYBROWN,collidableId,(int)(*reinterpret_cast<void * *>(&::g_D63DC0Value)));
 }
 hkVector4 spokes[numWheelSegments];
 spokes[0].setMul4(wheelParam.m_fSphereRadius,wheel.m_vHardPointWs);
@@ -1764,7 +1762,7 @@ spokes[s-1].add4(centerPoint[w]);
 }
 if(s>=2)
 {
-m_pDisplayHandler->DisplayLine(spokes[(s-2)% numWheelSegments],spokes[(s-1)% numWheelSegments],(wheel.m_pUserData)? hkColor::WHITESMOKE:hkColor::ROSYBROWN,collidableId,(int)::DAT_01268fcc);
+m_pDisplayHandler->DisplayLine(spokes[(s-2)% numWheelSegments],spokes[(s-1)% numWheelSegments],(wheel.m_pUserData)? hkColor::WHITESMOKE:hkColor::ROSYBROWN,collidableId,(int)(*reinterpret_cast<void * *>(&::g_D63DC0Value)));
 }
 }
 }
@@ -1791,7 +1789,7 @@ firstTimeThrough=false;
 }
 else
 {
-m_pDisplayHandler->DisplayLine(a,b,hkColor::YELLOWGREEN,collidableId,(int)::DAT_01268fcc);
+m_pDisplayHandler->DisplayLine(a,b,hkColor::YELLOWGREEN,collidableId,(int)(*reinterpret_cast<void * *>(&::g_D63DC0Value)));
 }
 if(wheelsFoundOnThisAxle==totalWheelsOnThisAxle)break;
 }

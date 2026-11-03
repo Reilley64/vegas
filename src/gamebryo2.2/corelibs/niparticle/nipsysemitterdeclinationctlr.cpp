@@ -2,6 +2,12 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysemitterdeclinationctlr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysemitterdeclinationctlr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/NiPSysAirFieldAirFrictionCtlr.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00c32000.h"
+#include "fnv/symbols_01202000.h"
 struct NiPSysEmitterDeclinationCtlr
 {
     void FUN_00c2a1b0(float& fValue);
@@ -14,12 +20,11 @@ void __thiscall NiPSysEmitterDeclinationCtlr::FUN_00c2a1b0(float& fValue)
     fValue = *(float*)((char*)p + 0x20);
 }
 
-extern "C" void* g_01202758;
 
 // @fnv 0x00c2b9a0
 void* __cdecl FUN_00c2b9a0()
 {
-    return &g_01202758;
+    return &(*reinterpret_cast<void * *>(&::g_01202758));
 }
 
 namespace fnv_00c2b9b0 {
@@ -38,7 +43,6 @@ void NiPSysEmitterDeclinationCtlr::FUN_00c2b9b0(float fValue)
 
 struct NiObject;
 
-__declspec(nothrow) NiObject* __cdecl FUN_00a7d330(void* p);
 
 struct ObjArray
 {
@@ -48,28 +52,25 @@ struct ObjArray
     unsigned short m_usSize;
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
-    __declspec(nothrow) void FUN_0096ad30(unsigned int uiMaxSize);
-    __declspec(nothrow) void FUN_0096ae90(unsigned int uiIndex, NiObject* const& element);
     void Add(NiObject* const& element)
     {
         unsigned int uiIndex = m_usSize;
         if (uiIndex >= m_usMaxSize)
-            FUN_0096ad30(uiIndex + m_usGrowBy);
-        FUN_0096ae90(uiIndex, element);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(element));
     }
 };
 
 struct FUN_00c2ba10_class
 {
-    __declspec(nothrow) void FUN_00c32f60(ObjArray* arr);
     void FUN_00c2ba10(ObjArray* arr);
 };
 
 // @fnv 0x00c2ba10
 void FUN_00c2ba10_class::FUN_00c2ba10(ObjArray* pArray)
 {
-    FUN_00c32f60(pArray);
-    NiObject* obj = FUN_00a7d330(g_01202758);
+    ::FUN_00c32f60((::StrArr *)this);
+    NiObject* obj = ((::NiObject *)(::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_01202758))))));
     pArray->Add(obj);
 }
 
@@ -102,7 +103,6 @@ struct S_00c2b9c0_Obj : S_00c2b9c0_Base
 };
 struct FUN_00c2b9c0_class
 {
-    void FUN_00c32de0(S_00c2b9c0_Base* obj, unsigned int a) throw();
     S_00c2b9c0_Base* CreateObject(unsigned int a) throw();
 };
 // Allocates a new S_00c2b9c0_Obj, initializes it via FUN_00c32de0 with a, and returns it as S_00c2b9c0_Base.
@@ -110,6 +110,6 @@ struct FUN_00c2b9c0_class
 S_00c2b9c0_Base* FUN_00c2b9c0_class::CreateObject(unsigned int a) throw()
 {
     S_00c2b9c0_Base* p = new S_00c2b9c0_Obj;
-    FUN_00c32de0(p, a);
+    reinterpret_cast<::NiPSysAirFieldAirFrictionCtlr *>(this)->CopyMemberData((::NiPSysAirFieldAirFrictionCtlr *)(p), (*(::CloningProcess *)(a)));
     return p;
 }

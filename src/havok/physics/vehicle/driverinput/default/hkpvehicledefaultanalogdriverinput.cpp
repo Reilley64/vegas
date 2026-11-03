@@ -2,6 +2,11 @@
 // src/havok/physics/vehicle/driverinput/default/hkpvehicledefaultanalogdriverinput.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/driverinput/default/hkpvehicledefaultanalogdriverinput.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101f000.h"
+#include "fnv/symbols_0104d000.h"
 #include "havok/hkpVehicleDefaultAnalogDriverInput.h"
 
 struct FUN_00e43540_Arg1
@@ -458,7 +463,7 @@ static __forceinline ButtonResult makeBtn(unsigned char v)
 static __forceinline __m128 sqrtInv(__m128 x)
 {
     __m128 r = _mm_rsqrt_ss(x);
-    __m128 nr = _mm_mul_ss(_mm_mul_ss(_mm_set_ss(DAT_01016248), r),
+    __m128 nr = _mm_mul_ss(_mm_mul_ss(_mm_set_ss(::fnv_00c88020::DAT_01016248), r),
                            _mm_sub_ss(_mm_set_ss(DAT_01017718), _mm_mul_ss(_mm_mul_ss(x, r), r)));
     return _mm_andnot_ps(_mm_cmpeq_ss(x, _mm_set_ss(DAT_01011d78)), nr);
 }

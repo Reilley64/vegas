@@ -8,6 +8,16 @@
 // to their real unit once identified.
 // src/staging/blk_00d80000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00df3110.h"
+#include "fnv/decl/hkKdTreeBuilder.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00d9d000.h"
+#include "fnv/symbols_00df3000.h"
+#include "fnv/symbols_00df5000.h"
+#include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
@@ -51,7 +61,6 @@ struct BaseD85
     int unk84;
     int unk88;
     int unk8c;
-    BaseD85& Assign(const BaseD85& o);
 };
 struct ObjD85 : BaseD85
 {
@@ -263,14 +272,13 @@ struct S00d9db60_TreeStream
     S00d9db60_Node* m_pTreeNode;
 };
 
-extern const __m128 DAT_012684d0;
 
 struct S00d9db60_Comparison
 {
     __m128 m_uiMask;
     __forceinline void setXYZ()
     {
-        m_uiMask = DAT_012684d0;
+        m_uiMask = (*reinterpret_cast<const ::__m128 *>(&::DAT_012684d0));
     }
 };
 
@@ -282,8 +290,8 @@ struct S00d9db60_SparseWriter
     };
     __m128 m_kVectorBuffer[BUFFER_SIZE];
     int m_uiEdgeIndex;
-    void FUN_00df3110();  // constructor
-    void FUN_00df3160();  // flush, from the inline destructor
+      // constructor
+      // flush, from the inline destructor
 };
 
 struct S00d9db60_BuildRecursiveInput
@@ -302,13 +310,6 @@ struct S00d9db60_BuildRecursiveInput
     }
 };
 
-void __cdecl FillAabbArray(S00d9db60_Mediator*, int, int, S00d9db60_ProjectedEntry*);
-void __cdecl MixChannels(S00d9db60_WorkingSet&, S00d9db60_Node*, S00d9db60_ProjectedEntry*, int, int, int, int&);
-void __cdecl FUN_00df37b0(const S00d9db60_WorkingSet&, S00d9db60_Node*, int, int, S00d9db60_BuildRecursiveInput*, int*,
-                          S00d9db60_ProjectedEntry&);
-int __cdecl FUN_00df56a0(const S00d9db60_BuildRecursiveInput&, S00d9db60_TreeStream*, S00d9db60_ProjectedEntry*, int*,
-                         int*);
-void __cdecl FUN_00d9d950(S00d9db60_KdTree*, int, int*, int*);
 
 // @fnv 0x00d9db60
 void __cdecl FUN_00d9db60(S00d9db60_Mediator& mediator, S00d9db60_KdTree* tree)
@@ -322,7 +323,7 @@ void __cdecl FUN_00d9db60(S00d9db60_Mediator& mediator, S00d9db60_KdTree* tree)
     buffers.m_pProjectedEntryBegin = entriesA.begin();
     buffers.m_pProjectedEntryEnd = entriesB.begin();
 
-    FillAabbArray(&mediator, 0, mediator.GetNumEntries(), entriesA.begin());
+    ::FillAabbArray((::S_00d9dab0_Coll *)(::S00d9db60_Mediator *)(&mediator), 0, mediator.GetNumEntries(), (::S_00d9dab0_Aabb16 *)(::S00d9db60_ProjectedEntry *)(entriesA.begin()));
 
     S00d9db60_ProjectedEntry rootBounds;
     rootBounds.reset();
@@ -330,9 +331,9 @@ void __cdecl FUN_00d9db60(S00d9db60_Mediator& mediator, S00d9db60_KdTree* tree)
     if (mediator.GetNumEntries() < 8)
     {
         int numReservedEmptyNodes = tree->getNumReservedEmptyNodes();
-        MixChannels(buffers, tree->m_kNodeCollection.begin(), tree->getProjectedEntries(),
-                    tree->m_kNodeCollection.GetLogicalSize(), mediator.GetNumEntries(), numReservedEmptyNodes,
-                    tree->m_iNumNodes);
+        ::MixChannels((void *)&(buffers), (int *)(::S00d9db60_Node *)(tree->m_kNodeCollection.begin()), (int)(tree->getProjectedEntries()),
+                    (void *)(tree->m_kNodeCollection.GetLogicalSize()), mediator.GetNumEntries(), (int *)(numReservedEmptyNodes),
+                    (int *)&(tree->m_iNumNodes));
         entriesB.ClearAndRelease();
         entriesA.ClearAndRelease();
         return;
@@ -346,8 +347,8 @@ void __cdecl FUN_00d9db60(S00d9db60_Mediator& mediator, S00d9db60_KdTree* tree)
     subTreeInputs[3].m_pWorkingSet = &subTreeBuffers[3];
 
     int numPrimitivesPerSubTree[4];
-    FUN_00df37b0(buffers, root, tree->m_kNodeCollection.GetLogicalSize(), mediator.GetNumEntries(), subTreeInputs,
-                 numPrimitivesPerSubTree, rootBounds);
+    ::hkKdTreeBuilder::FUN_00df37b0((const ::hkKdTreeBuildInput::WorkingSet &)(buffers), (::KdTreeNode *)(root), tree->m_kNodeCollection.GetLogicalSize(), mediator.GetNumEntries(), (::hkKdTreeBuildInput::ProjectedBoundsContext *)(subTreeInputs),
+                 numPrimitivesPerSubTree, (const ::FieldlessRecord &)(rootBounds));
 
     int numReservedEmptyNodes = tree->getNumReservedEmptyNodes();
     int emptyNodesPerSubTree[4];
@@ -374,7 +375,7 @@ void __cdecl FUN_00d9db60(S00d9db60_Mediator& mediator, S00d9db60_KdTree* tree)
         input.m_iSecondInputValue = tree->m_kNodeCollection.GetLogicalSize();
 
         S00d9db60_SparseWriter writer;
-        writer.FUN_00df3110();
+        new ((void *)&(writer)) ::FUN_00df3110();
         input.m_pStreamWriter = &writer;
 
         int depth = 1;
@@ -383,12 +384,12 @@ void __cdecl FUN_00d9db60(S00d9db60_Mediator& mediator, S00d9db60_KdTree* tree)
         numPrimitivesPerSubTree[i] += emptyNodesPerSubTree[i] + (emptyNodesPerSubTree[i] & 1);
         currentNodeIdx += numPrimitivesPerSubTree[i];
 
-        subTreeDepths[i] = FUN_00df56a0(input, &stream, tree->getProjectedEntries(), &depth, &emptyNodesPerSubTree[i]);
+        subTreeDepths[i] = ::FUN_00df56a0((::Node56 *)&(input), (::Output56 **)(::S00d9db60_TreeStream *)(&stream), (int)(tree->getProjectedEntries()), &depth, &emptyNodesPerSubTree[i]);
         subTreeDepths[i] += 2;
-        writer.FUN_00df3160();
+        ::FUN_00df3160();
     }
 
-    FUN_00d9d950(tree, mediator.GetNumEntries(), subTreeDepths, numPrimitivesPerSubTree);
+    ::FUN_00d9d950((::S9d950_Owner *)(tree), mediator.GetNumEntries(), (const ::S9d950_Box *)(subTreeDepths), numPrimitivesPerSubTree);
     entriesB.ClearAndRelease();
     entriesA.ClearAndRelease();
 }

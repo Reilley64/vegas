@@ -2,20 +2,35 @@
 // src/gamebryo2.2/corelibs/nianimation/nibooltimelineinterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nibooltimelineinterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_011f4044;
 
 // @fnv 0x00a52d70
+#include "fnv/decl/FUN_00a536d0_cls.h"
+#include "fnv/decl/NiBoolInterpolatorA536.h"
+#include "fnv/decl/S_00a53280_Foo.h"
+#include "fnv/decl/S_00a53680_Child.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00a43000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa0000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109a000.h"
+#include "fnv/symbols_011f4000.h"
 void* __cdecl FUN_00a52d70()
 {
-    return &g_011f4044;
+    return &(*reinterpret_cast<void * *>(&::g_011f4044));
 }
 
 struct NiStream
 {
 };
+struct NiStream;
 struct NiBoolInterpolator
 {
     NiStream* LinkObject(NiStream*);
+public:
+    bool FUN_00a3c5b0(::NiStream *);
 };
 struct NiBoolInterpController
 {
@@ -36,7 +51,7 @@ NiBoolInterpolator* __cdecl CreateBoolInterpolator()
     NiBoolInterpolator* p = static_cast<NiBoolInterpolator*>(BSFadeNode::operator new(0x20));
     if (p)
     {
-        p->LinkObject(0);
+        reinterpret_cast<::S_00a53280_Foo *>((p))->FUN_00a53280(0);
         *reinterpret_cast<void**>(p) = reinterpret_cast<void*>(&DAT_01099fb4);
         *reinterpret_cast<int*>(reinterpret_cast<char*>(p) + 0x18) = 0;
         *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(p) + 0x1c) = 0;
@@ -62,7 +77,6 @@ struct FUN_00a52f30_shell
     char _pad2[12];
     void* ReleaseRef(unsigned int);
 };
-void __cdecl _delete(void*, unsigned int);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 // Decrements the reference count of m_ptr and calls F1 when it reaches zero, then calls FUN_00a3ca30 and frees this if flag bit 0 is set.
 // @fnv 0x00a52f30
@@ -76,7 +90,7 @@ void* FUN_00a52f30_shell::ReleaseRef(unsigned int auiFlags)
     }
     ((FUN_00a3ca30_shell*)this)->FUN_00a3ca30();
     if (auiFlags & 1)
-        _delete(this, 0x20);
+        ::FUN_00aa1460(this, 0x20);
     return this;
 }
 
@@ -88,14 +102,10 @@ struct StrArr
     unsigned short m_usSize;
     unsigned short m_usPad;
     unsigned short m_usGrowSize;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 struct Proxy536d0
 {
-    void FUN_00a536d0(StrArr*);
 };
-char* __cdecl _FUN_00a7d330(const char*);
 struct NiBoolTimelineInterpolator : NiBoolInterpolator
 {
     void AppendString(StrArr*);
@@ -104,12 +114,12 @@ struct NiBoolTimelineInterpolator : NiBoolInterpolator
 // @fnv 0x00a53020
 void NiBoolTimelineInterpolator::AppendString(StrArr* pkStrings)
 {
-    ((Proxy536d0*)this)->FUN_00a536d0(pkStrings);
-    char* pszStr = _FUN_00a7d330((const char*)g_011f4044);
+    reinterpret_cast<::FUN_00a536d0_cls *>((((Proxy536d0*)this)))->FUN_00a536d0((::FUN_00a536d0_arr *)(pkStrings));
+    char* pszStr = ::FUN_00a7d330((const char*)(*reinterpret_cast<void * *>(&::g_011f4044)));
     unsigned int uiSize = pkStrings->m_usSize;
     if (uiSize >= pkStrings->m_usMaxSize)
-        pkStrings->SetSize(uiSize + pkStrings->m_usGrowSize);
-    pkStrings->SetAt(uiSize, pszStr);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(uiSize + pkStrings->m_usGrowSize);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiSize, pszStr);
 }
 
 struct NiKeyBasedInterpolator
@@ -117,7 +127,6 @@ struct NiKeyBasedInterpolator
     NiKeyBasedInterpolator();
 };
 extern unsigned int DAT_0109a0b4;
-extern unsigned char DAT_0109a914;
 inline void* __cdecl operator new(unsigned int, void* p)
 {
     return p;
@@ -153,7 +162,7 @@ struct FUN_00a52f00 : NiBoolInterpolator
 // @fnv 0x00a52f00
 FUN_00a52f00::FUN_00a52f00(NiBoolData* pkBoolData)
 {
-    NiBoolInterpolator::LinkObject((NiStream*)pkBoolData);
+    reinterpret_cast<::S_00a53280_Foo *>(this)->FUN_00a53280((NiStream*)pkBoolData);
     m_uiLastIndex = 0;
     m_bBoolValue = 0;
     *(int**)this = &DAT_01099fb4;
@@ -164,7 +173,6 @@ struct BoolKey
     float time;
     unsigned char opposite;
 };
-unsigned char __cdecl InterpolateBooleanKey(float, BoolKey*, unsigned int, unsigned int, unsigned int&, unsigned char);
 struct BoolData
 {
     int unk00, unk04;
@@ -213,7 +221,7 @@ bool Timeline::EvaluateBoolAtTime(float time, void*, bool& out)
         if (count > 0)
         {
             previousIndex = index;
-            unsigned char opposite = InterpolateBooleanKey(time, keys, type, count, index, stride);
+            unsigned char opposite = ((unsigned char)(::InterpolateBooleanKey(time, (const ::AnimationKey *)(keys), type, count, (unsigned int *)&(index), stride)));
             unsigned int current = index;
             unsigned char result = opposite;
             unsigned char value;
@@ -319,7 +327,6 @@ class A53480Base
     int unk04;
     int unk08;
 
-    void FUN_00aa0ab0(A53480Base* pkDest, A53480CloningProcess& kCloning);
 };
 
 class A53480Object : public A53480Base
@@ -335,52 +342,49 @@ class A53480Object : public A53480Base
 // @fnv 0x00a53480
 void A53480Object::CloneTo(A53480Object* pkDest, A53480CloningProcess& kCloning)
 {
-    FUN_00aa0ab0(pkDest, kCloning);
+    ::FUN_00aa0ab0();
     pkDest->m_bFlag = m_bFlag;
     pkDest->m_spTransformData = m_spTransformData;
     pkDest->m_uiCurrentValue = m_uiCurrentValue;
 }
 
-void __cdecl FUN_00a43330();
 // @fnv 0x00a514d0
 void __cdecl FUN_00a514d0()
 {
     FUN_00a43330();
 }
 
-void __cdecl SaveToStream();
 
 // @fnv 0x00a52d00
 void __cdecl FUN_00a52d00()
 {
-    SaveToStream();
+    static_cast<::S_00a53680_Child *>(nullptr)->SaveToStream({});
 }
 
-extern void FUN_00a53600();
 
 // @fnv 0x00a52ce0
 void FUN_00a52ce0()
 {
-    FUN_00a53600();
+    static_cast<::NiBoolInterpolatorA536 *>(nullptr)->FUN_00a53600(*(::NiStream *)nullptr);
 }
 
-extern void FUN_00a3c5b0();
 
 // @fnv 0x00a52cf0
 void FUN_00a52cf0()
 {
-    FUN_00a3c5b0();
+    static_cast<::NiBoolInterpolator *>(nullptr)->FUN_00a3c5b0({});
 }
 
 struct BoolInterpolator
 {
-    bool FUN_00a53220();
     bool FUN_00a52d10();
+public:
+    bool FUN_00a53220(::BoolInterpolator *);
 };
 // @fnv 0x00a52d10
 bool BoolInterpolator::FUN_00a52d10()
 {
-    return FUN_00a53220();
+    return reinterpret_cast<::BoolInterpolator *>(this)->FUN_00a53220({});
 }
 
 class CloningProcessA52F;
@@ -411,7 +415,6 @@ class InterpA52F : public FUN_00a53280
     unsigned int m_uiLastIndex;
     bool m_bBoolValue;
 
-    void CloneTo(InterpA52F* dest, CloningProcessA52F& cloning);
     InterpA52F* FUN_00a52f80(CloningProcessA52F& cloning);
 };
 
@@ -420,6 +423,6 @@ class InterpA52F : public FUN_00a53280
 InterpA52F* InterpA52F::FUN_00a52f80(CloningProcessA52F& cloning)
 {
     InterpA52F* p = new InterpA52F;
-    CloneTo(p, cloning);
+    reinterpret_cast<::A53480Object *>(this)->CloneTo((::A53480Object *)(p), (::A53480CloningProcess &)(cloning));
     return p;
 }

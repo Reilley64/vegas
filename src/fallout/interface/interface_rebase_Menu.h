@@ -1,12 +1,12 @@
 // Source layout: Menu. PC corrections are in generate_headers.py.
 #ifndef FNV_INTERFACE_REBASE_FNV_INTERFACE_TABLINE_MENU_H
 #define FNV_INTERFACE_REBASE_FNV_INTERFACE_TABLINE_MENU_H
+#include "fnv/decl/fnv_00a1ddb0__FUN_00a1ddb0_shell.h"
+#include "fnv/symbols_00702000.h"
 #include "interface_rebase_layout_support.h"
 class Menu
 {
   public:
-    static bool IsMenuVisible(Interface::enumMenus);
-    Tile* CreateTileFromTemplate(Tile* parent, const char* name, Tile* existing);
     void** m_ppVirtualMethodTable;                                        // +0x0
     TileMenu* pMenu;                                        // +0x4
     BSSimpleList<Tile__TileTemplate*> m_kTileTemplateList;  // +0x8

@@ -3,10 +3,11 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <xmmintrin.h>
+#include "fnv/symbols_01032000.h"
 float __cdecl ClampAsin(float value);
 float __cdecl FUN_00ce00f0(float a, float b);
 
-extern "C" const double DAT_01032980;  // 1.0e-4, the length epsilon
+  // 1.0e-4, the length epsilon
 static const float kZero = 0.0f;       // the game's DAT_01011d78
 
 // Computes the three-component length; if it is not below the threshold, stores that length, a function of x and y, and a clamped asin of z over the length.
@@ -30,7 +31,7 @@ void __cdecl FUN_00ce01c0(__m128* vec)
     PlanarConversion point;
     point.radius = lenTmp;
 
-    if (point.radius < DAT_01032980)
+    if (point.radius < ::DAT_01032980)
     {
         *vec = _mm_setzero_ps();
         return;

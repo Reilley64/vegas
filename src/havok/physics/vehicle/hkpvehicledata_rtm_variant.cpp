@@ -4,6 +4,10 @@
 
 // src/havok/physics/vehicle/hkpvehicledata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/hkpvehicledata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/MatrixProduct.h"
+#include "fnv/decl/MotionMassView.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00e59000.h"
 #include "havok/hkpVehicleData.h"
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -11,6 +15,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 extern "C"
 {
     void _ReadWriteBarrier();
@@ -24,7 +29,6 @@ extern "C"
     void _mm_store_ss(float*, __m128);
 }
 
-extern __m128 DAT_01017d10;
 
 struct hkMemoryAllocator;
 struct NineIntegerRecord
@@ -40,7 +44,6 @@ struct NineIntegerRecord
     }
 };
 NineIntegerRecord* FUN_00c85750();
-void __cdecl FUN_00c908c0(hkMemoryAllocator& alloc, void* array, int numElements, int sizeElem);
 
 struct SimdReal
 {
@@ -79,7 +82,7 @@ struct FourFloatVector : QuadStorage
     }
     __forceinline void setAbs4(const FourFloatVector& v)
     {
-        m_vComponents = _mm_and_ps(v.m_vComponents, DAT_01017d10);
+        m_vComponents = _mm_and_ps(v.m_vComponents, ::DAT_01017d10);
     }
     __forceinline void setMul4(const SimdReal& r, const FourFloatVector& v)
     {
@@ -116,7 +119,6 @@ struct FloatMatrix3
     {
         return (&m_kColumn0)[i];
     }
-    void FUN_00cd5610(const FloatMatrix3& a, const FloatMatrix3& b);
 };
 
 template <class T> struct Array
@@ -140,7 +142,7 @@ template <class T> struct Array
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(alloc, this, newSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
         }
     }
     __forceinline void _setSize(hkMemoryAllocator& alloc, int n)
@@ -197,7 +199,6 @@ struct Motion
     int unkBC;
     FourFloatVector m_kInertiaAndMassInv;
 
-    float FUN_00c86430() const;
     __forceinline SimdReal getMassInv() const
     {
         return m_kInertiaAndMassInv.getSimdAt3();
@@ -266,7 +267,7 @@ struct RigidBody
 
     __forceinline float GetMassValue() const
     {
-        return m_pMotionState.FUN_00c86430();
+        return reinterpret_cast<::MotionMassView *>((void *)&(m_pMotionState))->FUN_00c86430();
     }
     __forceinline SimdReal getMassInv() const
     {
@@ -323,7 +324,6 @@ struct FrictionCinfo
     float m_fChassisUnitInertiaRoll;
 };
 
-void __cdecl FUN_00e593f0(const FrictionCinfo& ci, hkpVehicleFrictionDescription& out);
 
 __forceinline Array<WheelComponentParams>& wheelParamsOf(hkpVehicleData& d)
 {
@@ -412,7 +412,7 @@ __forceinline void initVehicleComponents(hkpVehicleData& self,
             tmp.m_kColumn0.setMul4(inertiaInvDiagOf(self)(0), r.m_kColumn0);
             tmp.m_kColumn1.setMul4(inertiaInvDiagOf(self)(1), r.m_kColumn1);
             tmp.m_kColumn2.setMul4(inertiaInvDiagOf(self)(2), r.m_kColumn2);
-            ci.m_kFrictionMatrix.FUN_00cd5610(tmp, r);
+            reinterpret_cast<::MatrixProduct *>(&(ci.m_kFrictionMatrix))->FUN_00cd5610((const ::hkMatrix3CD4B &)(tmp), (const ::CD4BA0Matrix3 &)(r));
         }
         ci.m_fMaxVelocityForPositionalFriction = chassis->getMassInv();
         ci.m_kVectorD.setAbs4(orientationOf(self).getColumn(0));
@@ -433,7 +433,7 @@ __forceinline void initVehicleComponents(hkpVehicleData& self,
             ci.m_fAxisFrictionTuning4[numAxles] += wp.m_fViscosityFriction * wp.m_fSphereRadius;
         }
 
-        FUN_00e593f0(ci, self.m_kFrictionDescription);
+        ::FUN_00e593f0((::CurveInput *)&(ci), (::CurveOutput *)&(self.m_kFrictionDescription));
     }
 }
 

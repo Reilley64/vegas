@@ -3,22 +3,26 @@
 
 #include <malloc.h>
 #include <string.h>
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/Owner487a60.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TmpEndian.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
 void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
 class TESFileFormVersion
 {
   public:
-    unsigned short GetFormVersion();
 };
 class TESFile : public TESFileFormVersion
 {
   public:
-    unsigned char GetTESForm();
-    unsigned int GetChunkID();
-    unsigned int GetChunkSize();
     bool NextChunk();
     bool IsEndianConversionRequired();
-    bool GetChunkData(void*, unsigned int);
     bool GetChunkData(unsigned int*);
 };
 class ContainerItemExtra
@@ -110,8 +114,9 @@ class TESForm
     virtual void vfn_130();
     virtual bool SetEditorID(const char*);
     char formData[0x2c];
-    void LoadRecordHeader(TESFile*);
     void SetInitializationState(bool);
+public:
+    void ClearData();
 };
 class LeveledObject
 {
@@ -119,7 +124,6 @@ class LeveledObject
     unsigned short level, pad;
     TESForm* form;
     unsigned short count, pad2;
-    void SwapEndian();
 };
 struct LeveledEntry
 {
@@ -134,7 +138,6 @@ class TESLeveledList
     char pad[2];
     TESForm* global;
     char tail[8];
-    LeveledObject* CreateLeveledObject(unsigned short, unsigned short, TESForm*, ContainerItemExtra*);
     void FUN_0042e680(unsigned char);
 };
 class TESModel
@@ -146,7 +149,6 @@ class TESModel
 class TESModelTextureSwap : public TESModel
 {
   public:
-    bool ParseTextureSwapData(void*, unsigned int, unsigned int);
 };
 class TESLevCreature : public TESForm, public TESLeveledList, public TESModelTextureSwap
 {

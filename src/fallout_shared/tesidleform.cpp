@@ -1,14 +1,68 @@
 // fallout_shared/tesidleform.cpp: TESIdleForm, IdleCopy, IdleFormDetach, IdleInit (29 functions)
 
+#include <new>
+#include "fnv/decl/B408A80String.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_004226e0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_004516b0_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004867a0_cls.h"
+#include "fnv/decl/FUN_004891d0_cls.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_005ff5d0_class.h"
+#include "fnv/decl/FUN_005ffbf0_shell.h"
+#include "fnv/decl/FUN_006004f0_shell.h"
+#include "fnv/decl/FUN_006005c0_shell.h"
+#include "fnv/decl/FUN_00600d90.h"
+#include "fnv/decl/FUN_00680910_shell.h"
+#include "fnv/decl/FUN_00680a70_shell.h"
+#include "fnv/decl/FUN_00843150_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/SDSaveForm.h"
+#include "fnv/decl/S_00462230.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/ValueModifierEffect.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_00853130__NiTMapBase.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00407000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00944000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011cb000.h"
 #include "tesidleform_match_decls.h"
+class TESObjectREFR;
 class LowProcess
 {
   public:
     TESObjectREFR* GetActiveCombatTarget();
+public:
+    ::TESObjectREFR *GetTarget();
+public:
+    void SetCurrentCombatTarget(::TESObjectREFR *);
 };
 
 extern "C" char* __cdecl strrchr(const char* string, int character);
-extern "C" int __cdecl stricmp(const char* string1, const char* string2);
 
 // @fnv 0x005fe3b0
 void TESIdleForm::ResetFormData(void)
@@ -27,7 +81,7 @@ bool TESIdleForm::IsIdleFile(void)
 {
     bool isIdleFile = false;
     const char* extension = strrchr(GetModelFilePath(), '.');
-    if (extension && stricmp(extension, ".kf") == 0)
+    if (extension && ::FUN_00404dc0(extension, ".kf") == 0)
         isIdleFile = true;
     return isIdleFile;
 }
@@ -52,62 +106,6 @@ bool TESIdleForm::IsValidForReferences(TESObjectREFR* actionRef, TESObjectREFR* 
     return conditionsMet;
 }
 
-// @fnv 0x005fe400
-void TESIdleForm::ClearData()
-{
-    if (g_dataHandler->FUN_004516b0() && !g_dataHandler->FUN_004226e0() && DAT_011cb6a0->FUN_00843150() &&
-        GetInitialized())
-        UnregisterIdleForm();
-    reinterpret_cast<PerkEntryConditionSet*>(reinterpret_cast<TESTopicInfo*>(this)->GetAddTopicList())
-        ->InitializeConditionItems();
-}
-
-// @fnv 0x005ff2e0
-TESIdleForm* TESIdleForm::FindIdleFormForObject(TESObjectREFR* actionRef, TESObjectREFR* targetRef,
-                                                BSSimpleList<IdleReplayDelayEntry*>* replayDelays)
-{
-    TESIdleForm* idle = 0;
-    if (!IsDeleted() && reinterpret_cast<PerkEntryConditionSet*>(reinterpret_cast<TESTopicInfo*>(this)->GetAddTopicList())
-                            ->ContainsTrait(actionRef, targetRef))
-    {
-        bool delayed;
-        if (IsIdleFile())
-        {
-            BSSimpleList<IdleReplayDelayEntry*>* pDelayIter = replayDelays;
-            delayed = false;
-            while (pDelayIter && !delayed && !reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(pDelayIter)->IsEmpty())
-            {
-                IdleReplayDelayEntry* pDelayEntry = reinterpret_cast<IdleReplayDelayEntry*>(
-                    reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pDelayIter)->GetItem());
-                if (*reinterpret_cast<TESIdleForm**>(pDelayEntry) == this)
-                    delayed = true;
-                pDelayIter = reinterpret_cast<BSSimpleList<IdleReplayDelayEntry*>*>(
-                    reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pDelayIter)->GetNext());
-            }
-            if (!delayed)
-                idle = this;
-        }
-        else if (FUN_005ff1d0())
-            idle = this;
-        unsigned int count = GetChildCount();
-        if (count)
-        {
-            TESIdleForm* childIdle = 0;
-            for (unsigned int i = 0; i < count; ++i)
-            {
-                TESIdleForm* child = GetChildByIndex(i);
-                if (child)
-                    childIdle = child->FindIdleFormForObject(actionRef, targetRef, replayDelays);
-                if (childIdle)
-                    break;
-            }
-            if (childIdle)
-                idle = childIdle;
-        }
-    }
-    return idle;
-}
-
 // Scans the form array for this idle and its next idle, then moves the next idle to directly follow this one and reorders it.
 // @fnv 0x005fefa0
 void TESIdleForm::BuildIdleParentPath(NiFormArray* array)
@@ -124,7 +122,7 @@ void TESIdleForm::BuildIdleParentPath(NiFormArray* array)
     } orderState;
     orderState.missing = 0;
     orderState.index = -1;
-    orderState.size = array->GetSize();
+    orderState.size = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((array))->FUN_0084e3a0()));
     orderState.nextIndex = -1;
     orderState.next = 0;
     for (unsigned int i = 0; i < orderState.size; ++i)
@@ -146,7 +144,7 @@ void TESIdleForm::BuildIdleParentPath(NiFormArray* array)
                 {
                     BSStringT<char> name;
                     GetDebugName(&name);
-                    Warning("MASTERFILE: Multiple next idles for %s.", name.String());
+                    ::FUN_005b5e40();
                 }
             }
         }
@@ -167,89 +165,35 @@ void TESIdleForm::BuildIdleParentPath(NiFormArray* array)
     }
 }
 
-// @fnv 0x005fedb0
-bool TESIdleForm::HasMissingPathArray()
+template <int N> struct EndianSizeTag
 {
-    bool success = true;
-    struct ParentState
-    {
-        TESIdleForm* parent;
-        unsigned int index;
-        TESIdleForm* previous;
-        NiFormArray* array;
-    } state;
-    state.parent = m_pParentIdleForm;
-    state.previous = m_pIdleForm;
-    if (IsFlag40Set())
-    {
-        NiFormArray* loose = DAT_011cb6a0->GetIdleArray(this);
-        if (!loose)
-        {
-            DAT_011cb6a0->GetFormArray(this);
-            loose = DAT_011cb6a0->GetIdleArray(this);
-        }
-        if (loose)
-        {
-            unsigned int size = loose->GetSize();
-            loose->SetFormAtIndex(size, this);
-        }
-        else
-        {
-            Warning("Failed to find loose idle array for '%s' (%08X)", GetName(), GetFormID());
-            success = false;
-        }
-        return success;
-    }
-    state.index = 0;
-    state.array = 0;
-    if (state.parent)
-        state.array = state.parent->AssignParentPath();
-    else
-        state.array = DAT_011cb6a0->GetFormArray(this);
-    if (state.array)
-    {
-        if (state.previous)
-        {
-            unsigned int previousIndex = state.array->GetIndexOfForm(state.previous);
-            if (previousIndex != -1)
-                ++previousIndex;
-            state.index = previousIndex;
-        }
-        if (state.index == -1 || IsDeleted())
-            state.index = state.array->GetSize() + 1;
-        state.array->SetFormAtIndex(state.index, this);
-        BuildIdleParentPath(state.array);
-    }
-    else
-    {
-        BSStringT<char> name;
-        GetDebugName(&name);
-        Warning("MASTERFILE: Could not find parent array for %s.", name.String());
-        success = false;
-    }
-    return success;
-}
+};
 
+
+struct FUN_005fea20_shell
+{
+    void SwapEndian();
+};
 // Reads the idle form's chunk stream (EDID, OBND, MODL/MODT, DATA, CTDA, ANAM), applying each subrecord and returning true on success.
 // @fnv 0x005fe810
 bool TESIdleForm::Load(TESFile* file)
 {
-    if (reinterpret_cast<TESFileFormInt*>(file)->GetTESForm() != 0x48)
+    if (reinterpret_cast<::FUN_00472660_shell *>((reinterpret_cast<TESFileFormInt*>(file)))->FUN_00472660() != 0x48)
         return false;
-    LoadRecordHeader(file);
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
     struct ReferenceItemCountEntry
     {
         FUN_005a71d0 links;
         char* editorID;
         int chunk;
     } idleRecord;
-    while ((idleRecord.chunk = file->GetChunkID()) != 0)
+    while ((idleRecord.chunk = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()))) != 0)
     {
         switch (idleRecord.chunk)
         {
         case 0x44494445:
-            idleRecord.editorID = static_cast<char*>(_alloca(file->GetChunkSize()));
-            file->GetChunkData(idleRecord.editorID, 512);
+            idleRecord.editorID = static_cast<char*>(_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(idleRecord.editorID), 512);
             SetEditorID_AtRuntime(idleRecord.editorID);
             break;
         case 0x444e424f:
@@ -260,45 +204,34 @@ bool TESIdleForm::Load(TESFile* file)
             TESModel::LoadModelData(this, file);
             break;
         case 0x41544144:
-            reinterpret_cast<BGSImpactData*>(this)->ReadTypedData(file, &data, 8);
+            reinterpret_cast<::fnv_004861f0::Form_004861f0 *>((reinterpret_cast<BGSImpactData*>(this)))->FUN_004861f0(file, &data, 8);
             break;
         case 0x41445443:
             reinterpret_cast<PerkEntryConditionSet*>(reinterpret_cast<TESTopicInfo*>(this)->GetAddTopicList())->Load(file);
             break;
         case 0x4d414e41:
             memset(&idleRecord.links, 0, 8);
-            file->GetChunkData(&idleRecord.links, 8);
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&idleRecord.links), 8);
             if (file->IsEndianConversionRequired())
-                idleRecord.links.FUN_00462230();
+                reinterpret_cast<::S_00462230 *>(&(idleRecord.links))->FUN_00462230();
             m_pParentIdleForm = reinterpret_cast<TESIdleForm*>(idleRecord.links.parent);
             m_pIdleForm = reinterpret_cast<TESIdleForm*>(idleRecord.links.previous);
-            DAT_011cb6a0->AddIdleToArray(this);
+            reinterpret_cast<::FUN_005ffbf0_shell *>((DAT_011cb6a0))->AddIdleToArray(this);
             break;
         }
         if (idleRecord.chunk == 0x41544144 && file->IsEndianConversionRequired())
-            data.SwapEndian();
+            reinterpret_cast<::FUN_005fea20_shell *>(&(data))->SwapEndian();
         if (!file->NextChunk())
             break;
     }
     return true;
 }
 
-template <int N> struct EndianSizeTag
-{
-};
-
-void __cdecl BSEndian(unsigned short*, EndianSizeTag<2>);
-
-struct FUN_005fea20_shell
-{
-    void SwapEndian();
-};
-
 // Swaps the byte order of the 16-bit value at object offset 4 using BSEndian.
 // @fnv 0x005fea20
 void FUN_005fea20_shell::SwapEndian()
 {
-    BSEndian((unsigned short*)((char*)this + 4), EndianSizeTag<2>());
+    ::FUN_00407a90((short *)(unsigned short *)((unsigned short*)((char*)this + 4)));
 }
 
 struct FUN_005ff190_shell
@@ -336,6 +269,68 @@ struct FUN_005ff200_shell
     unsigned char m_0x38;
     bool IsFlag40Set();
 };
+// @fnv 0x005fedb0
+bool TESIdleForm::HasMissingPathArray()
+{
+    bool success = true;
+    struct ParentState
+    {
+        TESIdleForm* parent;
+        unsigned int index;
+        TESIdleForm* previous;
+        NiFormArray* array;
+    } state;
+    state.parent = m_pParentIdleForm;
+    state.previous = m_pIdleForm;
+    if (reinterpret_cast<::FUN_005ff200_shell *>(this)->IsFlag40Set())
+    {
+        NiFormArray* loose = DAT_011cb6a0->GetIdleArray(this);
+        if (!loose)
+        {
+            reinterpret_cast<::FUN_006004f0_shell *>((DAT_011cb6a0))->GetFormArray((::TESForm *)(::TESIdleForm *)(this));
+            loose = DAT_011cb6a0->GetIdleArray(this);
+        }
+        if (loose)
+        {
+            unsigned int size = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((loose))->FUN_0084e3a0()));
+            loose->SetFormAtIndex(size, this);
+        }
+        else
+        {
+            ::FUN_005b5e40();
+            success = false;
+        }
+        return success;
+    }
+    state.index = 0;
+    state.array = 0;
+    if (state.parent)
+        state.array = state.parent->AssignParentPath();
+    else
+        state.array = reinterpret_cast<::FUN_006004f0_shell *>((DAT_011cb6a0))->GetFormArray((::TESForm *)(::TESIdleForm *)(this));
+    if (state.array)
+    {
+        if (state.previous)
+        {
+            unsigned int previousIndex = state.array->GetIndexOfForm(state.previous);
+            if (previousIndex != -1)
+                ++previousIndex;
+            state.index = previousIndex;
+        }
+        if (state.index == -1 || reinterpret_cast<::FUN_00440d80_shell *>((void *)this)->FUN_00440d80())
+            state.index = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((state.array))->FUN_0084e3a0())) + 1;
+        state.array->SetFormAtIndex(state.index, this);
+        BuildIdleParentPath(state.array);
+    }
+    else
+    {
+        BSStringT<char> name;
+        GetDebugName(&name);
+        ::FUN_005b5e40();
+        success = false;
+    }
+    return success;
+}
 
 // @fnv 0x005ff200
 bool FUN_005ff200_shell::IsFlag40Set()
@@ -387,7 +382,7 @@ unsigned int FUN_005ff4a0_shell::FUN_005ff4a0()
 {
     unsigned int iretval = 0;
     if (reinterpret_cast<TESForm**>(reinterpret_cast<char*>(this) + 0x40)[0])
-        iretval = reinterpret_cast<TESForm**>(reinterpret_cast<char*>(this) + 0x40)[0]->GetFormID();
+        iretval = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm**>(reinterpret_cast<char*>(this) + 0x40)[0]))->FUN_0084e3a0()));
     return iretval;
 }
 
@@ -407,7 +402,6 @@ int FUN_005ff160_shell::GetFlagsMasked()
 
 struct FUN_00600d90_shell
 {
-    void FUN_00600d90();
 };
 
 struct FUN_00600d70_shell
@@ -418,25 +412,14 @@ struct FUN_00600d70_shell
 // @fnv 0x00600d70
 void FUN_00600d70_shell::FUN_00600d70()
 {
-    ((FUN_00600d90_shell*)this)->FUN_00600d90();
+    reinterpret_cast<::FUN_00600d90 *>((((FUN_00600d90_shell*)this)))->FUN_00600d90::~FUN_00600d90();
 }
 
-void __cdecl _Deallocate(void*);
 struct FUN_005fe130_shell
 {
     void FUN_005fe180();
     void* FUN_005fe130(unsigned int);
 };
-// Calls FUN_005fe180, then deallocates this when bit 0 of flags is set, and returns this.
-// @fnv 0x005fe130
-void* FUN_005fe130_shell::FUN_005fe130(unsigned int flags)
-{
-    FUN_005fe180();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct FUN_005fe160_shell : public TESModel
 {
     FUN_005fe160_shell();
@@ -449,6 +432,51 @@ struct FUN_005ff4d0_shell : public TESIdleForm
 {
     TESIdleForm* GetIdleFormByIndex(unsigned int);
 };
+// @fnv 0x005ff2e0
+TESIdleForm* TESIdleForm::FindIdleFormForObject(TESObjectREFR* actionRef, TESObjectREFR* targetRef,
+                                                BSSimpleList<IdleReplayDelayEntry*>* replayDelays)
+{
+    TESIdleForm* idle = 0;
+    if (!reinterpret_cast<::FUN_00440d80_shell *>((void *)this)->FUN_00440d80() && reinterpret_cast<PerkEntryConditionSet*>(reinterpret_cast<TESTopicInfo*>(this)->GetAddTopicList())
+                            ->ContainsTrait(actionRef, targetRef))
+    {
+        bool delayed;
+        if (IsIdleFile())
+        {
+            BSSimpleList<IdleReplayDelayEntry*>* pDelayIter = replayDelays;
+            delayed = false;
+            while (pDelayIter && !delayed && !reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(pDelayIter)->IsEmpty())
+            {
+                IdleReplayDelayEntry* pDelayEntry = reinterpret_cast<IdleReplayDelayEntry*>(
+                    ((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pDelayIter))) ::Vec3())));
+                if (*reinterpret_cast<TESIdleForm**>(pDelayEntry) == this)
+                    delayed = true;
+                pDelayIter = reinterpret_cast<BSSimpleList<IdleReplayDelayEntry*>*>(
+                    ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pDelayIter)))->FUN_00726070())));
+            }
+            if (!delayed)
+                idle = this;
+        }
+        else if (reinterpret_cast<::FUN_005ff1d0_shell *>(this)->FUN_005ff1d0())
+            idle = this;
+        unsigned int count = reinterpret_cast<::FUN_005ff4a0_shell *>(this)->FUN_005ff4a0();
+        if (count)
+        {
+            TESIdleForm* childIdle = 0;
+            for (unsigned int i = 0; i < count; ++i)
+            {
+                TESIdleForm* child = reinterpret_cast<::FUN_005ff4d0_shell *>(this)->GetIdleFormByIndex(i);
+                if (child)
+                    childIdle = child->FindIdleFormForObject(actionRef, targetRef, replayDelays);
+                if (childIdle)
+                    break;
+            }
+            if (childIdle)
+                idle = childIdle;
+        }
+    }
+    return idle;
+}
 
 struct FUN_004d6170_shell
 {
@@ -471,7 +499,6 @@ TESIdleForm* FUN_005ff4d0_shell::GetIdleFormByIndex(unsigned int aiIndex)
     return pretidle;
 }
 
-unsigned int __cdecl GetRandomNumberInRange(int a, int b);
 
 struct FUN_005ff770_shell
 {
@@ -494,15 +521,12 @@ char FUN_005ff770_shell::GetRandomValue()
     return (char)(GetRandomNumberInRange(m_39, m_3a) - 1);
 }
 
-extern "C" unsigned int __cdecl _BSStringLength(const char*);
 struct TaskQueueInterface
 {
     static void __cdecl CopyStringToBuffer(char* dest, unsigned int size, const char* src);
 };
 struct BSStr
 {
-    int StrCmp(const char* str, bool caseSensitive) const;
-    bool Set(const char* str, unsigned int len);
 };
 struct FUN_005ff7f0_shell
 {
@@ -511,23 +535,21 @@ struct FUN_005ff7f0_shell
 // @fnv 0x005ff7f0
 bool FUN_005ff7f0_shell::SetStringIfChanged(const char* str)
 {
-    unsigned int len = _BSStringLength(str) + 1;
+    unsigned int len = ::FUN_0044a670(str) + 1;
     char* buf = (char*)_alloca(len);
     TaskQueueInterface::CopyStringToBuffer(buf, len, str);
-    if (((BSStr*)((char*)this + 0x4c))->StrCmp(buf, true) == 0)
+    if (reinterpret_cast<::B408A80String *>((void *)(((BSStr*)((char*)this + 0x4c))))->FUN_00408a80(buf, true) == 0)
         return false;
-    ((BSStr*)((char*)this + 0x4c))->Set(buf, 0);
+    reinterpret_cast<::TextString *>((((BSStr*)((char*)this + 0x4c))))->FUN_004037f0(buf, 0);
     return true;
 }
 
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm* form);
 };
 
 struct FUN_005fe510_compare_shell
 {
-    bool Compare(PerkEntryConditionSet* condition);
 };
 
 struct FUN_005fe510_shell
@@ -552,11 +574,10 @@ bool FUN_005fe510_shell::IsDifferentFrom(TESForm* apCompare)
     if (!pOtherIdle)
         return true;
 
-    if (reinterpret_cast<FUN_005e79a0_t*>(this)->FUN_00485270(pOtherIdle))
+    if (reinterpret_cast<::FUN_00509540_obj *>((reinterpret_cast<FUN_005e79a0_t*>(this)))->FUN_00485270(pOtherIdle))
         return true;
 
-    if (reinterpret_cast<FUN_005fe510_compare_shell*>(reinterpret_cast<TESTopicInfo*>(this)->GetAddTopicList())
-            ->Compare(reinterpret_cast<PerkEntryConditionSet*>(reinterpret_cast<TESTopicInfo*>(pOtherIdle)->GetAddTopicList())))
+    if (reinterpret_cast<::PerkEntryConditionSet *>((reinterpret_cast<FUN_005fe510_compare_shell*>(reinterpret_cast<TESTopicInfo*>(this)->GetAddTopicList())))->Compare(reinterpret_cast<PerkEntryConditionSet*>(reinterpret_cast<TESTopicInfo*>(pOtherIdle)->GetAddTopicList())))
         return true;
 
     if (m_0x38 != reinterpret_cast<FUN_005fe510_shell*>(pOtherIdle)->m_0x38)
@@ -580,32 +601,26 @@ bool FUN_005fe510_shell::IsDifferentFrom(TESForm* apCompare)
 
 struct FUN_004855a0
 {
-    void M();
 };
 
 struct FUN_00485680
 {
-    void M();
 };
 
 struct FUN_004891d0_obj
 {
-    void WriteToBuffer(unsigned int, unsigned int);
 };
 
 struct Idle_008b2010
 {
-    Idle_008b2010* GetState();
 };
 
 struct TESConditionSave
 {
-    void ProcessItems();
 };
 
 struct FUN_00485e00_shell
 {
-    void FUN_00485e20(int, int);
 };
 
 struct FUN_005fea50_shell
@@ -613,68 +628,63 @@ struct FUN_005fea50_shell
     void FUN_005fea50();
 };
 
-bool __cdecl _FUN_00401500();
-void __cdecl _FUN_00485990(unsigned int, void*, unsigned int);
 
 // @fnv 0x005fea50
 void FUN_005fea50_shell::FUN_005fea50()
 {
-    reinterpret_cast<FUN_004855a0*>(this)->M();
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
 
-    reinterpret_cast<FUN_004891d0_obj*>(reinterpret_cast<char*>(this) + 0x18)->WriteToBuffer(0x4c444f4d, 0x54444f4d);
+    reinterpret_cast<::FUN_004891d0_cls *>((reinterpret_cast<FUN_004891d0_obj*>(reinterpret_cast<char*>(this) + 0x18)))->WriteToBuffer((char *)(0x4c444f4d), (void *)(0x54444f4d));
 
-    reinterpret_cast<TESConditionSave*>(reinterpret_cast<TESTopicInfo*>(this)->GetAddTopicList())->ProcessItems();
+    reinterpret_cast<::FUN_00680910_shell *>((reinterpret_cast<TESConditionSave*>(reinterpret_cast<TESTopicInfo*>(this)->GetAddTopicList())))->ProcessItems();
 
     FUN_005a71d0 a;
     BGSImpactData* pImpactData;
 
     memset(&a, 0, 8);
 
-    if (reinterpret_cast<Idle_008b2010*>(this)->GetState())
+    if (((::Idle_008b2010 *)(reinterpret_cast<::LowProcess *>((reinterpret_cast<Idle_008b2010*>(this)))->GetActiveCombatTarget())))
     {
-        a.parent = reinterpret_cast<TESForm*>(reinterpret_cast<Idle_008b2010*>(this)->GetState())->GetFormID();
+        a.parent = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(((::Idle_008b2010 *)(reinterpret_cast<::LowProcess *>((reinterpret_cast<Idle_008b2010*>(this)))->GetActiveCombatTarget())))))->FUN_0084e3a0()));
     }
 
-    if (!reinterpret_cast<TESForm*>(this)->IsDeleted())
+    if (!reinterpret_cast<::FUN_00440d80_shell *>((void *)(reinterpret_cast<TESForm*>(this)))->FUN_00440d80())
     {
         pImpactData = reinterpret_cast<BGSImpactData*>(reinterpret_cast<BGSImpactData*>(this)->GetDecalTextureSet());
-        while (pImpactData && reinterpret_cast<TESForm*>(pImpactData)->IsDeleted())
+        while (pImpactData && reinterpret_cast<::FUN_00440d80_shell *>((void *)(reinterpret_cast<TESForm*>(pImpactData)))->FUN_00440d80())
             pImpactData = reinterpret_cast<BGSImpactData*>(pImpactData->GetDecalTextureSet());
         if (pImpactData)
-            a.previous = reinterpret_cast<TESForm*>(pImpactData)->GetFormID();
+            a.previous = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(pImpactData)))->FUN_0084e3a0()));
     }
 
-    if (_FUN_00401500())
-        a.FUN_00462230();
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::S_00462230 *>(&(a))->FUN_00462230();
 
-    _FUN_00485990(0x4d414e41, &a, 8);
+    ::AppendChunk(0x4d414e41, &a, 8);
 
-    if (_FUN_00401500())
-        a.FUN_00462230();
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::S_00462230 *>(&(a))->FUN_00462230();
 
-    if (_FUN_00401500())
-        reinterpret_cast<IdleAnimationData*>(reinterpret_cast<char*>(this) + 0x38)->SwapEndian();
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::FUN_005fea20_shell *>((reinterpret_cast<IdleAnimationData*>(reinterpret_cast<char*>(this) + 0x38)))->SwapEndian();
 
-    reinterpret_cast<FUN_00485e00_shell*>(this)->FUN_00485e20(
-        reinterpret_cast<int>(reinterpret_cast<char*>(this) + 0x38), 8);
+    reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20(
+        (const void *)(reinterpret_cast<int>(reinterpret_cast<char*>(this) + 0x38)), 8);
 
-    if (_FUN_00401500())
-        reinterpret_cast<IdleAnimationData*>(reinterpret_cast<char*>(this) + 0x38)->SwapEndian();
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::FUN_005fea20_shell *>((reinterpret_cast<IdleAnimationData*>(reinterpret_cast<char*>(this) + 0x38)))->SwapEndian();
 
-    reinterpret_cast<FUN_00485680*>(this)->M();
+    reinterpret_cast<::Holder *>((reinterpret_cast<FUN_00485680*>(this)))->FUN_00485680();
 }
 
 struct FUN_00680a70_obj
 {
-    void CopyConditions(FUN_00680a70_obj* a1, int a2);
 };
 
 struct FUN_005054b0_shell
 {
-    void FUN_004851b0(TESForm* apForm);
 };
 
-bool __fastcall FUN_004077c0(void const* apForm);
 
 struct FUN_005fe470_shell : public TESIdleForm
 {
@@ -688,34 +698,26 @@ void FUN_005fe470_shell::CopyFromIdleForm(TESForm* apForm)
     TESIdleForm* other = dynamic_cast<TESIdleForm*>(apForm);
     if (!other)
         return;
-    reinterpret_cast<FUN_005054b0_shell*>(this)->FUN_004851b0(other);
-    reinterpret_cast<FUN_00680a70_obj*>(reinterpret_cast<TESTopicInfo*>(this)->GetAddTopicList())
-        ->CopyConditions(reinterpret_cast<FUN_00680a70_obj*>(reinterpret_cast<TESTopicInfo*>(other)->GetAddTopicList()),
-                         0);
+    reinterpret_cast<::FormCloneOperation *>((reinterpret_cast<FUN_005054b0_shell*>(this)))->FUN_004851b0(other);
+    reinterpret_cast<::FUN_00680a70_shell *>((reinterpret_cast<FUN_00680a70_obj*>(reinterpret_cast<TESTopicInfo*>(this)->GetAddTopicList())))->CopyConditions((::PerkEntryConditionSet *)(::FUN_00680a70_obj *)(reinterpret_cast<FUN_00680a70_obj*>(reinterpret_cast<TESTopicInfo*>(other)->GetAddTopicList())),
+                         (::PerkEntryConditionSet *)(0));
     bool bFlag = reinterpret_cast<FUN_005ff200_shell*>(this)->IsFlag40Set();
     data = other->data;
-    if (!FUN_004077c0(this))
+    if (!reinterpret_cast<::FUN_004077c0_shell *>((void *)(this))->FUN_004077c0())
         reinterpret_cast<FUN_005ff220_shell*>(this)->SetFlag40(bFlag);
 }
 
 struct FormCopyMap
 {
-    bool FUN_00853130(TESForm* key, TESForm*& value);
 };
 struct IdleArrayMethods
 {
     void FUN_0061bdc0();
-    unsigned int FUN_0084e3a0();
     TESForm*& FUN_00877a30(unsigned int);
     void FUN_00864280(unsigned int);
-    void FUN_0061bd20(unsigned int, TESForm*&);
 };
 struct IdleCopy : TESIdleForm
 {
-    TESForm* FUN_004867a0(unsigned char, FormCopyMap*);
-    void FUN_008d8040(TESIdleForm*);
-    void FUN_00673400(TESIdleForm*);
-    IdleArrayMethods* FUN_005fe770();
     TESIdleForm* CopyIdleForm(unsigned char flag, FormCopyMap* map);
 };
 // Creates a copy of a TESIdleForm via FUN_004867a0, remaps two referenced forms through map, and copies the idle array entries into the copy's array.
@@ -733,22 +735,22 @@ TESIdleForm* IdleCopy::CopyIdleForm(unsigned char flag, FormCopyMap* map)
     TESForm* b;
     TESForm* ba;
     TESForm* k;
-    i = dynamic_cast<TESIdleForm*>(FUN_004867a0(flag, map));
+    i = dynamic_cast<TESIdleForm*>(((::TESForm *)(reinterpret_cast<::FUN_004867a0_cls *>(this)->FUN_004867a0((void *)(flag), map))));
     h = 0;
-    if (!map->FUN_00853130(m_pParentIdleForm, h) || !h)
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((unsigned int)(m_pParentIdleForm), (::fnv_00853130::CombatThreatRecord *&)(h)) || !h)
         h = m_pParentIdleForm;
     s = static_cast<TESIdleForm*>(h);
-    static_cast<IdleCopy*>(i)->FUN_008d8040(s);
+    reinterpret_cast<::LowProcess *>((static_cast<IdleCopy*>(i)))->SetCurrentCombatTarget((::TESObjectREFR *)(s));
     h = 0;
-    if (!map->FUN_00853130(m_pIdleForm, h) || !h)
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((unsigned int)(m_pIdleForm), (::fnv_00853130::CombatThreatRecord *&)(h)) || !h)
         h = m_pIdleForm;
     p = static_cast<TESIdleForm*>(h);
-    static_cast<IdleCopy*>(i)->FUN_00673400(p);
+    reinterpret_cast<::ValueModifierEffect *>((static_cast<IdleCopy*>(i)))->SetActorValue((::ActorValue::Index)(p));
     if (m_pParentPath)
     {
         reinterpret_cast<IdleArrayMethods*>(m_pParentPath)->FUN_0061bdc0();
-        cf = reinterpret_cast<IdleArrayMethods*>(m_pParentPath)->FUN_0084e3a0();
-        eb = static_cast<IdleCopy*>(i)->FUN_005fe770();
+        cf = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<IdleArrayMethods*>(m_pParentPath)))->FUN_0084e3a0()));
+        eb = ((::IdleArrayMethods *)(reinterpret_cast<::TESIdleForm *>((static_cast<IdleCopy*>(i)))->AssignParentPath()));
         eb->FUN_00864280(cf);
         f = 0;
         for (q = 0; q < cf; q++)
@@ -756,7 +758,7 @@ TESIdleForm* IdleCopy::CopyIdleForm(unsigned char flag, FormCopyMap* map)
             ba = reinterpret_cast<IdleArrayMethods*>(m_pParentPath)->FUN_00877a30(q);
             b = ba->CreateForm(reinterpret_cast<void*>(flag), map);
             k = b;
-            eb->FUN_0061bd20(q, k);
+            reinterpret_cast<::NiFormArray *>((eb))->SetSize(q, (unsigned int *)&(k));
             f = b;
         }
     }
@@ -765,7 +767,6 @@ TESIdleForm* IdleCopy::CopyIdleForm(unsigned char flag, FormCopyMap* map)
 
 struct IdleFormRemovableArray
 {
-    unsigned int GetIndexOf(TESForm* form);
     TESForm* RemoveAt(unsigned int index);
     void Compact();
     TESForm*& GetAt(unsigned int index);
@@ -773,75 +774,74 @@ struct IdleFormRemovableArray
 
 struct IdleManagerStub
 {
-    IdleFormRemovableArray* GetLooseIdles(TESIdleForm* idle);
-    IdleFormRemovableArray* GetRootArray(TESIdleForm* idle);
 };
 
 struct IdleChildHolder
 {
-    IdleFormRemovableArray* GetChildArray();
 };
 
 struct IdleFormLinks
 {
-    bool IsLooseIdle();
-    void SetLooseIdle(bool set);
-    IdleChildHolder* GetParentIdle();
-    void SetParentLink(int value);
     IdleFormLinks* GetPrevIdle();
-    void SetPrevIdle(IdleFormLinks* prev);
-    bool GetInitialized() const;
-    unsigned int GetFormIDValue();
 };
 
 struct IdleFormDetach : public IdleFormLinks
 {
     void DetachFromIdleList();
 };
+// @fnv 0x005fe400
+void TESIdleForm::ClearData()
+{
+    if (reinterpret_cast<::FUN_004516b0_shell *>(((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))->FUN_004516b0() && !reinterpret_cast<::FUN_004226e0_shell *>(((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))->FUN_004226e0() && reinterpret_cast<::FUN_00843150_shell *>((DAT_011cb6a0))->FUN_00843150() &&
+        GetInitialized())
+        reinterpret_cast<::IdleFormDetach *>(this)->DetachFromIdleList();
+    reinterpret_cast<PerkEntryConditionSet*>(reinterpret_cast<TESTopicInfo*>(this)->GetAddTopicList())
+        ->InitializeConditionItems();
+}
 
 // Removes this idle form from its loose-idle or sibling array, compacts the array, and relinks the neighbouring entry's previous pointer.
 // @fnv 0x005ff610
 void IdleFormDetach::DetachFromIdleList()
 {
-    if (IsLooseIdle())
+    if (reinterpret_cast<::FUN_005ff200_shell *>(this)->IsFlag40Set())
     {
-        IdleFormRemovableArray* pArray = ((IdleManagerStub*)DAT_011cb6a0)->GetLooseIdles((TESIdleForm*)this);
-        unsigned int uiIndex_2 = pArray->GetIndexOf((TESForm*)this);
+        IdleFormRemovableArray* pArray = ((::IdleFormRemovableArray *)(reinterpret_cast<::IdleAnimationManager *>((((IdleManagerStub*)DAT_011cb6a0)))->GetIdleArray((::TESForm *)(::TESIdleForm *)((TESIdleForm*)this))));
+        unsigned int uiIndex_2 = reinterpret_cast<::NiFormArray *>((pArray))->GetIndexOfForm((TESForm*)this);
         if (uiIndex_2 != -1)
         {
             pArray->RemoveAt(uiIndex_2);
             pArray->Compact();
         }
-        SetLooseIdle(false);
+        reinterpret_cast<::FUN_005ff220_shell *>(this)->SetFlag40(false);
     }
     else
     {
         IdleFormRemovableArray* pSiblingsA = 0;
-        if (GetParentIdle())
-            pSiblingsA = GetParentIdle()->GetChildArray();
+        if (((::IdleChildHolder *)(reinterpret_cast<::LowProcess *>(this)->GetActiveCombatTarget())))
+            pSiblingsA = ((::IdleFormRemovableArray *)(reinterpret_cast<::LowProcess *>((((::IdleChildHolder *)(reinterpret_cast<::LowProcess *>(this)->GetActiveCombatTarget()))))->GetTarget()));
         else
-            pSiblingsA = ((IdleManagerStub*)DAT_011cb6a0)->GetRootArray((TESIdleForm*)this);
+            pSiblingsA = ((::IdleFormRemovableArray *)(reinterpret_cast<::FUN_006005c0_shell *>((((IdleManagerStub*)DAT_011cb6a0)))->FUN_006005c0((const char *)(::TESIdleForm *)((TESIdleForm*)this))));
         if (pSiblingsA)
         {
-            unsigned int uiPos4 = pSiblingsA->GetIndexOf((TESForm*)this);
+            unsigned int uiPos4 = reinterpret_cast<::NiFormArray *>((pSiblingsA))->GetIndexOfForm((TESForm*)this);
             if (uiPos4 != -1)
             {
                 pSiblingsA->RemoveAt(uiPos4);
                 pSiblingsA->Compact();
-                SetParentLink(0);
+                reinterpret_cast<::LowProcess *>(this)->SetCurrentCombatTarget((::TESObjectREFR *)(0));
                 IdleFormLinks* pNext2 = (IdleFormLinks*)pSiblingsA->GetAt(uiPos4);
                 if (pNext2)
                 {
-                    if (pNext2->GetInitialized())
+                    if (reinterpret_cast<::TESForm *>((void *)(pNext2))->GetInitialized())
                     {
-                        pNext2->SetPrevIdle(GetPrevIdle());
+                        reinterpret_cast<::ValueModifierEffect *>((pNext2))->SetActorValue((::ActorValue::Index)(GetPrevIdle()));
                     }
                     else
                     {
                         IdleFormLinks* pPrev8 = GetPrevIdle();
-                        pNext2->SetPrevIdle((IdleFormLinks*)(pPrev8 ? pPrev8->GetFormIDValue() : 0));
+                        reinterpret_cast<::ValueModifierEffect *>((pNext2))->SetActorValue((::ActorValue::Index)((IdleFormLinks*)(pPrev8 ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pPrev8))->FUN_0084e3a0())) : 0)));
                     }
-                    SetPrevIdle(0);
+                    reinterpret_cast<::ValueModifierEffect *>(this)->SetActorValue((::ActorValue::Index)(0));
                 }
             }
         }
@@ -876,25 +876,18 @@ struct IdleChildren
 };
 struct IdleBaseArray
 {
-    unsigned int Find(void*);
-    IdleBase* At(unsigned int);
     IdleBase* Remove(unsigned int);
     void Compact();
 };
 struct IdleLink : IdleBase
 {
-    void SetParent(int);
     IdleLink* Previous();
-    void SetPrevious(IdleLink*);
 };
 struct IdleParent
 {
-    void RemoveIdle(void*);
 };
 struct IdleManager
 {
-    IdleBaseArray* FindRoot(void*);
-    IdleBaseArray* FindOther(void*);
 };
 struct IdleHandler
 {
@@ -911,42 +904,47 @@ struct FUN_005fe180 : IdleBase, IdleModel
     int prev48;
     BSStringT<char> name;
     virtual ~FUN_005fe180();
-    void Clear();
-    IdleParent* Parent();
     IdleLink* Previous();
-    unsigned int Count();
-    IdleLink* Child(unsigned int);
 };
+// Calls FUN_005fe180, then deallocates this when bit 0 of flags is set, and returns this.
+// @fnv 0x005fe130
+void* FUN_005fe130_shell::FUN_005fe130(unsigned int flags)
+{
+    reinterpret_cast<::FUN_005fe180 *>(this)->FUN_005fe180::~FUN_005fe180();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // Clears the idle, unlinks it from its parent or the root/other arrays, then detaches and deletes all children and the children container.
 // @fnv 0x005fe180
 FUN_005fe180::~FUN_005fe180()
 {
-    Clear();
-    if (!g_dataHandler->FUN_004226e0())
+    reinterpret_cast<::TESIdleForm *>(this)->ClearData();
+    if (!reinterpret_cast<::FUN_004226e0_shell *>(((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))->FUN_004226e0())
     {
-        if (Parent())
+        if (((::IdleParent *)(reinterpret_cast<::LowProcess *>(this)->GetActiveCombatTarget())))
         {
-            Parent()->RemoveIdle(this);
+            reinterpret_cast<::FUN_005ff5d0_class *>((((::IdleParent *)(reinterpret_cast<::LowProcess *>(this)->GetActiveCombatTarget()))))->FUN_005ff5d0((unsigned int)(this));
         }
         else
         {
-            IdleBaseArray* array = ((IdleManager*)DAT_011cb6a0)->FindRoot(this);
+            IdleBaseArray* array = ((::IdleBaseArray *)(reinterpret_cast<::FUN_006005c0_shell *>((((IdleManager*)DAT_011cb6a0)))->FUN_006005c0((const char *)(void *)(this))));
             if (array)
             {
-                unsigned int index = array->Find(this);
+                unsigned int index = reinterpret_cast<::NiFormArray *>((array))->GetIndexOfForm((::TESForm *)(void *)(this));
                 if (index != -1)
                 {
-                    IdleLink* next = (IdleLink*)array->At(index + 1);
+                    IdleLink* next = (IdleLink*)((::IdleBase *)(reinterpret_cast<::FUN_004d6170_shell *>((array))->FUN_004d6170(index + 1)));
                     if (next)
-                        next->SetPrevious(Previous());
+                        reinterpret_cast<::ValueModifierEffect *>((next))->SetActorValue((::ActorValue::Index)(Previous()));
                     array->Remove(index);
                     array->Compact();
                 }
             }
-            array = ((IdleManager*)DAT_011cb6a0)->FindOther(this);
+            array = ((::IdleBaseArray *)(reinterpret_cast<::IdleAnimationManager *>((((IdleManager*)DAT_011cb6a0)))->GetIdleArray((::TESForm *)(void *)(this))));
             if (array)
             {
-                unsigned int other = array->Find(this);
+                unsigned int other = reinterpret_cast<::NiFormArray *>((array))->GetIndexOfForm((::TESForm *)(void *)(this));
                 if (other != -1)
                 {
                     array->Remove(other);
@@ -957,13 +955,13 @@ FUN_005fe180::~FUN_005fe180()
     }
     if (children)
     {
-        unsigned int count = Count();
+        unsigned int count = reinterpret_cast<::FUN_005ff4a0_shell *>(this)->FUN_005ff4a0();
         if (count)
         {
             for (unsigned int pos = 0; pos < count; pos++)
             {
-                IdleLink* child = Child(pos);
-                child->SetParent(0);
+                IdleLink* child = ((::IdleLink *)(reinterpret_cast<::FUN_005ff4d0_shell *>(this)->GetIdleFormByIndex(pos)));
+                reinterpret_cast<::LowProcess *>((child))->SetCurrentCombatTarget((::TESObjectREFR *)(0));
                 delete child;
             }
         }
@@ -977,25 +975,16 @@ struct TESConditionInit
 };
 struct IdleInit : TESIdleForm
 {
-    TESConditionInit* GetAddTopicList();
-    int GetFlagsMasked();
-    void FUN_005ff190(int);
-    void FUN_008d8040(TESIdleForm*);
-    void FUN_00673400(TESIdleForm*);
-    void FUN_00484ab0(int);
     void InitLoad();
 };
-TESForm* __cdecl FUN_004839c0(unsigned int);
-void __cdecl ResolveFormID(unsigned int*, TESFile*);
-void __cdecl FNV_Warning(const char*, ...);
 // Initializes the idle form once: sets up the add-topic list, validates the anim group, resolves parent and previous idle forms, and marks it initialized.
 // @fnv 0x005feb90
 void IdleInit::InitLoad()
 {
     if (GetInitialized())
         return;
-    GetAddTopicList()->InitItem(this);
-    int id = GetFlagsMasked();
+    reinterpret_cast<::PerkEntryConditionSet *>((((::TESConditionInit *)(reinterpret_cast<::TESTopicInfo *>(this)->GetAddTopicList()))))->InitItem(this);
+    int id = reinterpret_cast<::FUN_005ff160_shell *>(this)->GetFlagsMasked();
     if (id >= 8)
     {
         switch (id)
@@ -1004,10 +993,9 @@ void IdleInit::InitLoad()
         case 21:
             break;
         default:
-            FNV_Warning(
-                "MASTERFILE: Invalid anim group section encountered on idle '%s' (%08X). Resetting to Special Idle.",
-                GetName(), GetFormID());
-            FUN_005ff190(7);
+            ::FUN_005b5e40(
+                );
+            reinterpret_cast<::FUN_005ff190_shell *>(this)->FUN_005ff190(7);
             break;
         }
     }
@@ -1020,9 +1008,9 @@ void IdleInit::InitLoad()
         {
             BSStringT<char> name;
             GetDebugName(&name);
-            FNV_Warning("MASTERFILE: Could not find parent idle (%08X) for %s.", uiFormId, name.String());
+            ::FUN_005b5e40();
         }
-        FUN_008d8040(parent);
+        reinterpret_cast<::LowProcess *>(this)->SetCurrentCombatTarget((::TESObjectREFR *)(parent));
     }
     uiFormId = (unsigned int)m_pIdleForm;
     if (uiFormId)
@@ -1033,9 +1021,9 @@ void IdleInit::InitLoad()
         {
             BSStringT<char> name;
             GetDebugName(&name);
-            FNV_Warning("MASTERFILE: Could not find previous idle (%08X) for %s.", uiFormId, name.String());
+            ::FUN_005b5e40();
         }
-        FUN_00673400(previous);
+        reinterpret_cast<::ValueModifierEffect *>(this)->SetActorValue((::ActorValue::Index)(previous));
     }
-    FUN_00484ab0(1);
+    reinterpret_cast<::TESForm *>(this)->SetInitializationState(1);
 }

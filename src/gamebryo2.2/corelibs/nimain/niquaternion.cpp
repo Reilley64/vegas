@@ -1,5 +1,11 @@
 // gamebryo2.2/corelibs/nimain/niquaternion.cpp: NiQuaternion, RgbaColor, NiQuaternionA6E (15 functions)
 
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a58000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0101a000.h"
+#include "fnv/symbols_0109c000.h"
+#include "fnv/symbols_011f3000.h"
 #include "niquaternion_decls.h"
 
 // Normalizes the quaternion by computing the reciprocal of the square root of the sum of squares and scaling all four components by it.
@@ -39,28 +45,6 @@ void RgbaColor::LoadBinary(NiStream& arStream)
         unsigned int uiBytesRead = 4;
         pkStream->m_uiStreamFlags += pkStream->m_pfnRead(pkStream, &a, 4, &uiBytesRead, 1);
     }
-}
-
-// Spherical interpolation between quaternions a and b by t, using a cosine-based warp, then normalizes the result.
-// @fnv 0x00a6e330
-void NiQuaternion::Slerp(float t, const NiQuaternion& a, const NiQuaternion& b)
-{
-    float cosine = a.m_fVectorX * b.m_fVectorX + a.m_fVectorY * b.m_fVectorY + a.m_fVectorZ * b.m_fVectorZ +
-                   a.m_fScalarPart * b.m_fScalarPart;
-    float warped;
-    if (t <= 0.5f)
-        warped = CalculateSlerpWeight(t, cosine);
-    else
-        warped = 1.0f - CalculateSlerpWeight(1.0f - t, cosine);
-    float fStart = a.m_fVectorX;
-    m_fVectorX = fStart + warped * (b.m_fVectorX - fStart);
-    fStart = a.m_fVectorY;
-    m_fVectorY = fStart + warped * (b.m_fVectorY - fStart);
-    fStart = a.m_fVectorZ;
-    m_fVectorZ = fStart + warped * (b.m_fVectorZ - fStart);
-    fStart = a.m_fScalarPart;
-    m_fScalarPart = fStart + warped * (b.m_fScalarPart - fStart);
-    EnsureCanonicalSign();
 }
 
 inline float QuaternionSqrt(float value)
@@ -127,12 +111,11 @@ void __fastcall FUN_00a6e430(NiQuaternion* self, int edx, float afTime, const Ni
     self->Slerp(2.0f * afTime * (1.0f - afTime), q1, q2);
 }
 
-extern unsigned char DAT_011F3FE4;
 
 // @fnv 0x00a4ffe0
 unsigned char* __cdecl FUN_00a4ffe0()
 {
-    return &DAT_011F3FE4;
+    return &(*reinterpret_cast<unsigned char *>(&::g_011f3fe4));
 }
 
 struct FourComponentNumericValue
@@ -144,6 +127,27 @@ struct FUN_00a4ff00_shell : public NiQuaternion
 {
     void NormalizeQuaternion();
 };
+// Spherical interpolation between quaternions a and b by t, using a cosine-based warp, then normalizes the result.
+// @fnv 0x00a6e330
+void NiQuaternion::Slerp(float t, const NiQuaternion& a, const NiQuaternion& b)
+{
+    float cosine = a.m_fVectorX * b.m_fVectorX + a.m_fVectorY * b.m_fVectorY + a.m_fVectorZ * b.m_fVectorZ +
+                   a.m_fScalarPart * b.m_fScalarPart;
+    float warped;
+    if (t <= 0.5f)
+        warped = CalculateSlerpWeight(t, cosine);
+    else
+        warped = 1.0f - CalculateSlerpWeight(1.0f - t, cosine);
+    float fStart = a.m_fVectorX;
+    m_fVectorX = fStart + warped * (b.m_fVectorX - fStart);
+    fStart = a.m_fVectorY;
+    m_fVectorY = fStart + warped * (b.m_fVectorY - fStart);
+    fStart = a.m_fVectorZ;
+    m_fVectorZ = fStart + warped * (b.m_fVectorZ - fStart);
+    fStart = a.m_fScalarPart;
+    m_fScalarPart = fStart + warped * (b.m_fScalarPart - fStart);
+    reinterpret_cast<::FUN_00a4ff00_shell *>(this)->NormalizeQuaternion();
+}
 
 extern float DAT_011F3FEC;
 extern float DAT_011F3FF0;
@@ -197,25 +201,12 @@ template <class T> inline void SerializeValue(NiStream& kStream, const T& value)
 
 struct FUN_00a6e4a0_shell : public NiQuaternion
 {
-    void SnapSmallComponentsToZero();
     void FUN_00a6e4a0(NiStream& kStream);
 };
-
-// @fnv 0x00a6e4a0
-void FUN_00a6e4a0_shell::FUN_00a6e4a0(NiStream& kStream)
-{
-    SnapSmallComponentsToZero();
-    SerializeValue(kStream, m_fVectorX);
-    SerializeValue(kStream, m_fVectorY);
-    SerializeValue(kStream, m_fVectorZ);
-    SerializeValue(kStream, m_fScalarPart);
-}
 
 extern "C" double __cdecl sqrt(double);
 extern "C" double __cdecl acos(double);
 
-extern double DAT_0101a6b0;
-extern float DAT_0109c9c4;
 static const float epsilon = 0.001f;
 
 struct FUN_00a6de50_shell
@@ -243,7 +234,7 @@ void FUN_00a6de50_shell::GetAngleAndAxis(float* angle, float* axis)
 
     float w = m_fVectorX;
     float fHalfAngle;
-    if (w > DAT_0101a6b0)
+    if (w > ::DAT_0101a6b0)
     {
         if (w < 1.0f)
         {
@@ -286,6 +277,15 @@ class NiQuaternionA6E
     float m_fVectorZ;
     float m_fScalarPart;
 };
+// @fnv 0x00a6e4a0
+void FUN_00a6e4a0_shell::FUN_00a6e4a0(NiStream& kStream)
+{
+    reinterpret_cast<::NiQuaternionA6E *>(this)->SnapSmallComponentsToZero();
+    SerializeValue(kStream, m_fVectorX);
+    SerializeValue(kStream, m_fVectorY);
+    SerializeValue(kStream, m_fVectorZ);
+    SerializeValue(kStream, m_fScalarPart);
+}
 
 // Sets each quaternion component to zero when its absolute value is at most g_fSnapEpsilonA6E but not already zero.
 // @fnv 0x00a6e0f0
@@ -347,7 +347,7 @@ Quaternion* __cdecl FUN_00a6dd50(Quaternion* output, const Quaternion* previous,
 }
 
 #include <math.h>
-extern const float g_fQuatPi;  // 0x0109c9c4
+  // 0x0109c9c4
 
 inline float NiACos(float fValue)
 {
@@ -360,7 +360,7 @@ inline float NiACos(float fValue)
     }
     else
     {
-        return g_fQuatPi;
+        return ::DAT_0109c9c4;
     }
 }
 
@@ -379,7 +379,7 @@ inline float NiAbs(float fValue)
 NiQuaternion __cdecl FUN_00a6dc90(const NiQuaternion& q)
 {
     // q = cos(A)+sin(A)*(x*i+y*j+z*k), log(q) = A*(x*i+y*j+z*k)
-    float fAngleDifference = NiACos(q.m_fVectorX);
+    float fAngleDifference = ::AcosClamped(q.m_fVectorX);
     float fSin = NiSin(fAngleDifference);
     float fCoeff;
     if (NiAbs(fSin) < 1e-03f)
@@ -422,8 +422,6 @@ void FUN_00a6e1f0_shell::SetFromEulerAngles(float afXAngle, float afYAngle, floa
 }
 
 #include <string.h>
-extern char* __cdecl NiSprintf(char*, unsigned int, const char*, ...);
-extern void* __cdecl _NiMalloc(unsigned int);
 
 struct FUN_00a6e190_shell
 {
@@ -439,7 +437,7 @@ struct FUN_00a6e190_shell
 char* __thiscall FUN_00a6e190_shell::FUN_00a6e190(const char* pcPrefix)
 {
     unsigned int uiLen = strlen(pcPrefix) + 0x80;
-    char* pcString = (char*)_NiMalloc(uiLen);
-    NiSprintf(pcString, uiLen, "%s: (w=%g,x=%g,y=%g,z=%g)", pcPrefix, f0, f4, f8, fc);
+    char* pcString = (char*)::FUN_00aa1070(uiLen);
+    ::NiSprintf(pcString, uiLen, "%s: (w=%g,x=%g,y=%g,z=%g)", pcPrefix, f0, f4, f8, fc);
     return pcString;
 }

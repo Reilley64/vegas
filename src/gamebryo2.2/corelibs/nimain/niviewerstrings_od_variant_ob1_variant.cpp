@@ -8,9 +8,13 @@
 // src/gamebryo2.2/corelibs/nimain/niviewerstrings.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/niviewerstrings.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-void* __cdecl NiMalloc(unsigned int);
-void __cdecl NiFree(void*);
 
+#include "fnv/decl/FUN_00a5ea70_t.h"
+#include "fnv/decl/S_0060ba10.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01204000.h"
 struct ViewerStrings
 {
     virtual ~ViewerStrings();
@@ -54,11 +58,11 @@ struct ViewerStrings
     }
     static char** Alloc(unsigned int n)
     {
-        return (char**)NiMalloc(n * sizeof(char*));
+        return (char**)::FUN_00aa1070(n * sizeof(char*));
     }
     static void Free(char** p)
     {
-        NiFree(p);
+        ::FUN_00aa10f0(p);
     }
     void SetAt(unsigned int uiIndex, char* const& element)
     {
@@ -87,7 +91,7 @@ struct ViewerStrings
     {
         if (uiIndex >= m_usMaxSize)
             SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, element);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(element));
         return uiIndex;
     }
     unsigned int Add(char* const& element)
@@ -104,12 +108,7 @@ struct RTTI_Stub
         return m_pcName;
     }
 };
-extern RTTI_Stub g_0120436c;
 
-char* __cdecl FUN_00a7d330(const char* name);
-char* __cdecl FUN_00a7d510(const char* label, unsigned int value);
-char* __cdecl FUN_00a7d490(const char* label, unsigned short value);
-char* __cdecl FUN_00a7d5a0(const char* label, void* value);
 
 struct NiFixedString
 {
@@ -156,7 +155,6 @@ struct ObjList
 
 struct EmitterBase
 {
-    void GetViewerStrings(ViewerStrings* pkStrings);
 };
 
 struct MeshEmitter : EmitterBase
@@ -218,15 +216,15 @@ struct MeshEmitter : EmitterBase
 // @fnv 0x00c5e9f0
 void MeshEmitter::FUN_00c5e9f0(ViewerStrings* pkStrings)
 {
-    EmitterBase::GetViewerStrings(pkStrings);
-    pkStrings->Add(FUN_00a7d330(g_0120436c.GetName()));
-    pkStrings->Add(FUN_00a7d510("Index", m_uiMax));
-    pkStrings->Add(FUN_00a7d490("Max Emitter Objs", m_usIndex));
-    pkStrings->Add(FUN_00a7d330("Emitter Objs"));
+    reinterpret_cast<::FUN_00a5ea70_t *>(this)->FUN_00a5ea70((::StrArr *)(pkStrings));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d330((*reinterpret_cast<::RTTI_Stub *>(&::g_0120436c)).GetName())));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d510("Index", m_uiMax)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d490("Max Emitter Objs", m_usIndex)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d330("Emitter Objs")));
     ListItem* kPos = m_kThirdFollowingStreamField.GetHeadPos();
     while (kPos)
     {
         NamedObject* pkObj = m_kThirdFollowingStreamField.GetNext(kPos);
-        pkStrings->Add(FUN_00a7d5a0(pkObj->GetName() ? pkObj->GetName() : "No Name", pkObj));
+        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d5a0(pkObj->GetName() ? pkObj->GetName() : "No Name", pkObj)));
     }
 }

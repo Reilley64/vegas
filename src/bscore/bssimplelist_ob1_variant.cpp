@@ -3,14 +3,17 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /Ob1 (unit src/bscore/bssimplelist.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_011f6000.h"
 #include "InventoryStackRecord.h"
 template class BSSimpleList<InventoryStackRecord*>;
 
 struct Memory185
 {
-    void FUN_00aa4060(void*);
 };
-extern Memory185 g_memoryManager;
 struct Node185
 {
     InventoryStackRecord* item;
@@ -23,7 +26,7 @@ struct Node185
     }
     static inline void operator delete(void* pointer)
     {
-        g_memoryManager.FUN_00aa4060(pointer);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::Memory185 *>(&::g_memoryManager))))->FUN_00aa4060(pointer);
     }
 };
 void Node185::FUN_00ae83e0()
@@ -40,9 +43,7 @@ void Node185::FUN_00ae83e0()
 
 struct Mem_00a0cbe0
 {
-    void Deallocate(void* p);
 };
-extern Mem_00a0cbe0 DAT_011f6238;
 
 template <class T> struct List_00a0cbe0
 {
@@ -52,11 +53,11 @@ template <class T> struct List_00a0cbe0
     ~List_00a0cbe0()
     {
         int u1, u2, u3;
-        RemoveAll();
+        reinterpret_cast<::Node185 *>(this)->FUN_00ae83e0();
     }
     static void operator delete(void* p)
     {
-        DAT_011f6238.Deallocate(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::Mem_00a0cbe0 *>(&::g_memoryManager))))->FUN_00aa4060(p);
     }
     bool IsEmpty()
     {

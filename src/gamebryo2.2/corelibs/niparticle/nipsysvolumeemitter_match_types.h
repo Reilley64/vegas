@@ -4,6 +4,7 @@
 #ifndef FNV_NIPSYSVOLUMEEMITTER_MATCH_TYPES_H
 #define FNV_NIPSYSVOLUMEEMITTER_MATCH_TYPES_H
 
+#include "fnv/decl/FUN_00a645b0_cls.h"
 #include "layout_support.h"
 #include "NiFixedString.h"
 #include "NiObject.h"
@@ -85,7 +86,6 @@ FNV_STATIC_ASSERT(offsetof(NiPSysVolumeEmitter, m_pkEmitterObject) == 84);
 class NiStream
 {
   public:
-    void ResetStreamState();
     NiObject* GetLoadedObject();
 };
 #endif

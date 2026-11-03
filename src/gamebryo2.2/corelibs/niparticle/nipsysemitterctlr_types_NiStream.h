@@ -2,6 +2,7 @@
 #ifndef FNV_NISTREAM_TYPES_H
 #define FNV_NISTREAM_TYPES_H
 
+#include "fnv/decl/FUN_00a645b0_cls.h"
 #include "layout_support.h"
 #include "NiFixedString.h"
 #include "NiObject.h"
@@ -242,7 +243,6 @@ class NiStream
     unsigned int m_uiNativeThreadId;                        // +0x3B8, 4 bytes
     char m_acSecondPathBuffer[260];                         // +0x3BC, 260 bytes
     char m_acFilePathBuffer[260];                           // +0x4C0, 260 bytes
-    void ResetStreamState();
     NiObject* GetLoadedObject();
     // NiStream
     // void __cdecl NiStream::*(NiObject*)

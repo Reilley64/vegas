@@ -6,6 +6,24 @@
 // to their real unit once identified.
 // src/staging/blk_00e00000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00cb0a70_Class.h"
+#include "fnv/decl/S00d57b20_Obj.h"
+#include "fnv/decl/S_00e11910_Cls.h"
+#include "fnv/decl/S_00e11a90_Class.h"
+#include "fnv/decl/fnv_00e23530__FUN_00e23530_cls.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00c74000.h"
+#include "fnv/symbols_00e00000.h"
+#include "fnv/symbols_00e01000.h"
+#include "fnv/symbols_00e02000.h"
+#include "fnv/symbols_00e13000.h"
+#include "fnv/symbols_0106c000.h"
+#include "fnv/symbols_010cc000.h"
+#include "fnv/symbols_010e8000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_0126e000.h"
 #include "../../include/layout_support.h"
 struct FinishFlag
 {
@@ -34,7 +52,6 @@ struct __declspec(align(16)) FinishedObject
 void* __cdecl FUN_00e005f0();
 // Havok type-registration helper: construct the class in finish-loading mode (flag 0) on the stack,
 // then return its static registration data.
-extern char DAT_010e8ab0[];
 struct hkFinishLoadedObjectFlagX
 {
     int m_bFinishing;
@@ -67,7 +84,6 @@ struct __declspec(align(16)) S_00e00cd0_Obj
     unsigned int m_5c;
     S_00e00cd0_Obj(hkFinishLoadedObjectFlagX flag);
 };
-const char* __cdecl FUN_00e00cd0();
 // Havok vtable getter: finish-construct a throwaway instance in an aligned scratch buffer (the
 // FinishingFlag constructor only re-installs the vtable and runs the members'
 // finish constructors) and return its vtable pointer.
@@ -135,7 +151,6 @@ struct __declspec(align(16)) FilterStorage402
     unsigned unk18, unk1c;
     unsigned filterType;
 };
-unsigned FUN_00e00a60();
 class __declspec(align(16)) S00e000e0_Object
 {
   public:
@@ -165,17 +180,14 @@ class __declspec(align(16)) S00e000e0_Object
     int unk58;
     int unk5C;
 };
-const void* __cdecl FUN_00e000e0();
 struct Handle_e00290
 {
     int m_v;
 };
 struct FUN_00e00290_sub
 {
-    void FUN_00cb0a70(Handle_e00290 kHandle);
     int m_00;
 };
-extern int DAT_010cc040;
 extern int DAT_010d79e8;
 struct SmallArray_e00290
 {
@@ -205,7 +217,6 @@ struct __declspec(align(16)) FUN_00e00290_obj
     int unk48;
     int unk4C;
 };
-int* __cdecl FUN_00e00290();
 class __declspec(align(16)) S00e003b0_Object
 {
   public:
@@ -303,7 +314,6 @@ class __declspec(align(16)) S00e003b0_Object
     int unk168;
     int unk16C;
 };
-const void* __cdecl FUN_00e003b0();
 class __declspec(align(16)) S00e004d0_Object
 {
   public:
@@ -365,7 +375,6 @@ class __declspec(align(16)) S00e004d0_Object
     int unkD8;
     int unkDC;
 };
-const void* __cdecl FUN_00e004d0();
 class __declspec(align(16)) S00e006b0_Object
 {
   public:
@@ -383,7 +392,6 @@ class __declspec(align(16)) S00e006b0_Object
     int unk28;
     int unk2C;
 };
-const void* __cdecl FUN_00e006b0();
 class __declspec(align(16)) S00e00b80_Object
 {
   public:
@@ -453,7 +461,6 @@ class __declspec(align(16)) S00e00b80_Object
     int unkF8;
     int unkFC;
 };
-const void* __cdecl FUN_00e00b80();
 class __declspec(align(16)) S00e00f90_Object
 {
   public:
@@ -471,7 +478,6 @@ class __declspec(align(16)) S00e00f90_Object
     int unk28;
     int unk2C;
 };
-const void* __cdecl FUN_00e00f90();
 class __declspec(align(16)) S00e01230_Object
 {
   public:
@@ -493,7 +499,6 @@ class __declspec(align(16)) S00e01230_Object
     int unk38;
     int unk3C;
 };
-const void* __cdecl FUN_00e01230();
 struct FinishLoadedObjectFlag
 {
     int m_bFinishing;
@@ -513,7 +518,6 @@ struct __declspec(align(16)) LoadedObject
     LoadedObject(FinishLoadedObjectFlag flag) : m_pHeadNode(flag), m_iSecondInteger(flag), m_third(flag)
     {}
 };
-const void* FUN_00e01830();
 class __declspec(align(16)) S00e01e50_Object
 {
   public:
@@ -527,7 +531,6 @@ class __declspec(align(16)) S00e01e50_Object
     int unk18;
     int unk1C;
 };
-const void* __cdecl FUN_00e01e50();
 class __declspec(align(16)) S00e020f0_Object
 {
   public:
@@ -541,14 +544,12 @@ class __declspec(align(16)) S00e020f0_Object
     int unk18;
     int unk1C;
 };
-const void* __cdecl FUN_00e020f0();
 struct Handle_e02180
 {
     int m_v;
 };
 struct FUN_00e02180_sub
 {
-    void FUN_00cb0a70(Handle_e02180 kHandle);
     int m_00;
 };
 extern int DAT_010e9ccc;
@@ -567,7 +568,6 @@ struct __declspec(align(16)) FUN_00e02180_obj
     int unk28;
     int unk2C;
 };
-int* __cdecl FUN_00e02180();
 class __declspec(align(16)) S00e02730_Object
 {
   public:
@@ -581,7 +581,6 @@ class __declspec(align(16)) S00e02730_Object
     int unk18;
     int unk1C;
 };
-const void* __cdecl FUN_00e02730();
 #include <xmmintrin.h>
 struct S_00e11530_Node
 {
@@ -606,7 +605,6 @@ struct VecQ
 {
     float x, y, z, w;
 };
-extern VecQ DAT_012683a0;
 struct __declspec(align(16)) TransformQ
 {
     float m_rot[12];
@@ -618,10 +616,8 @@ struct __declspec(align(16)) RotationQ
 };
 struct ShapeQ
 {
-    void FUN_00e11a90(const TransformQ* t);
     void FUN_00e11b40(const RotationQ* r);
 };
-extern unsigned __int64 g_unk01268370[6];
 struct __declspec(align(16)) Rot
 {
     unsigned __int64 d[6];
@@ -635,7 +631,6 @@ struct __declspec(align(16)) Transform
 };
 struct Owner
 {
-    void FUN_00e11a90(const Transform* xf);
     void FUN_00e11ca0(const __m128* src);
 };
 struct S00e00d70_Arg
@@ -670,9 +665,7 @@ struct __declspec(align(16)) S00e00d70_Object
     int unk54;
     int unk58;
     int unk5c;
-    void FUN_00d57b20(S00e00d70_Arg arg);
 };
-int __cdecl FUN_00e00d70();
 namespace N {
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
@@ -860,8 +853,6 @@ struct EdgeMemory
 EdgeMemory* FUN_00c85750();
 void FUN_00c908c0(void*, void*, int, int);
 void FUN_00c90940(void*, void*, int);
-float FUN_00e13870(EdgeNode*, int);
-float ClampedAcos(float);
 template <class T> inline void EdgeAllocator::reserve(EdgeArray<T>& array, int needed, int elementSize)
 {
     int available = array.capacity & 0x3fffffff;
@@ -901,12 +892,11 @@ struct EdgePool
     void* head;
     int size;
     int unk14;
-    PoolPage* FUN_00e23530();
     template <class T> T* allocate(const T& value)
     {
         PoolPage* page;
         if (!pageCount || !(page = pages[0])->freeHead)
-            page = FUN_00e23530();
+            page = ((::PoolPage *)(reinterpret_cast<::fnv_00e23530::FUN_00e23530_cls *>(this)->FUN_00e23530()));
         T* item = (T*)page->freeHead;
         page->freeHead = item->next;
         ++page->used;
@@ -929,20 +919,17 @@ struct PointerSlotArray
     int unk10;
     void* slots[1];
 };
-extern PointerSlotArray* DAT_0126ebe8;
-extern int DAT_0126ebec;
-extern int DAT_0126ebf0;
 inline void registerEdge(EdgeNode* node, int tag)
 {
-    if (!(DAT_0126ebf0 & 1))
+    if (!((*reinterpret_cast<int *>(&::DAT_0126ebf0)) & 1))
     {
-        DAT_0126ebf0 |= 1;
-        DAT_0126ebe8 = 0;
-        DAT_0126ebec = 0;
+        (*reinterpret_cast<int *>(&::DAT_0126ebf0)) |= 1;
+        (*reinterpret_cast<::PointerSlotArray * *>(&::DAT_0126ebe8)) = 0;
+        (*reinterpret_cast<int *>(&::DAT_0126ebec)) = 0;
     }
-    node->edges[tag] = (unsigned int)DAT_0126ebe8 + DAT_0126ebec;
-    if (DAT_0126ebe8)
-        DAT_0126ebe8->slots[DAT_0126ebec] = (void*)((unsigned int)node + tag);
+    node->edges[tag] = (unsigned int)(*reinterpret_cast<::PointerSlotArray * *>(&::DAT_0126ebe8)) + (*reinterpret_cast<int *>(&::DAT_0126ebec));
+    if ((*reinterpret_cast<::PointerSlotArray * *>(&::DAT_0126ebe8)))
+        (*reinterpret_cast<::PointerSlotArray * *>(&::DAT_0126ebe8))->slots[(*reinterpret_cast<int *>(&::DAT_0126ebec))] = (void*)((unsigned int)node + tag);
 }
 struct EdgeProcessor
 {
@@ -950,7 +937,6 @@ struct EdgeProcessor
     int unk04;
     EdgePool vertices;
     EdgePool edges;
-    void FUN_00e11910(EdgeNode*);
     void FUN_00e195c0(float threshold, float distance, const EdgeMesh* mesh);
 };
 
@@ -977,7 +963,6 @@ struct FUN_00e11630_Params
     FUN_00e11630_Vec* m_p10;
 };
 
-extern float DAT_0106c2e0;
 
 // @fnv 0x00e11630
 hkVector4 __stdcall FUN_00e11630(const FUN_00e11630_Params* p)

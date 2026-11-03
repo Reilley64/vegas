@@ -2,6 +2,14 @@
 #ifndef FNV_TESOBJECTARMO_H
 #define FNV_TESOBJECTARMO_H
 
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_0041fd00_shell.h"
+#include "fnv/decl/FUN_0047a380_shell.h"
+#include "fnv/decl/FUN_00535aa0_Class.h"
+#include "fnv/decl/TESRegionGrassObject.h"
+#include "fnv/decl/fnv_00503210__Unk.h"
+#include "fnv/symbols_00478000.h"
+#include "fnv/symbols_00489000.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "tesobjectarmo_TESForm.h"
@@ -26,7 +34,6 @@ class SoundDescriptor
 {
   public:
     SoundDescriptor();
-    void Endian();
     TESSound* SoundAssetTmp;
     unsigned char layoutPadding4[4];
     int eType;
@@ -119,8 +126,6 @@ FNV_STATIC_ASSERT(offsetof(TESBoundObject, TESBoundObjectBounds) == 36);
 class TESEnchantableForm : public BaseFormComponent
 {
   public:
-    void SetFormEnchanting(EnchantmentItem*);
-    void SetCastingType(MagicSystem__CastingType);
     void SetFormEnchantmentAmount(unsigned short);
     void InitItem(TESForm*);
     // base BaseFormComponent at +0x0, size 4
@@ -152,7 +157,6 @@ FNV_STATIC_ASSERT(offsetof(TESWeightForm, fWeight) == 4);
 class BipedModelForm
 {
   public:
-    void Endian();
     unsigned int m_uiBipedModelFlags;  // +0x0, 4 bytes
     unsigned char m_ucBipedModelData;  // +0x4, 1 bytes
     unsigned char layoutPadding5[3];
@@ -178,7 +182,6 @@ class TESModel : public BaseFormComponent
     virtual const char* GetModelFilePath();
     virtual void SetModelFilePath(const char*);
     static void LoadModelData(TESModel*, TESFile*);
-    static void LoadTextureSwapData(TESModel*, TESFile*);
     // base BaseFormComponent at +0x0, size 4
     BSStringT<char> m_kModelFilePath;  // +0x4, 8 bytes
     FileEntryList m_pTextureSwapData;  // +0xC, 8 bytes
@@ -203,7 +206,6 @@ FNV_STATIC_ASSERT(offsetof(TESModelTextureSwap, TextureSwapNodeAccessor) == 24);
 class BGSMessageIcon : public BaseFormComponent
 {
   public:
-    void SetMessageIconTextureName(const char*);
     // base BaseFormComponent at +0x0, size 4
     TESIcon Icon;  // +0x4, 12 bytes
 };
@@ -219,7 +221,6 @@ class TESBipedModelForm : public BaseFormComponent
 {
   public:
     bool GetIsHeavyArmor() const;
-    bool GetIsMediumArmor() const;
     void InitItem(TESForm*);
     // base BaseFormComponent at +0x0, size 4
     BipedModelForm m_kBipedModelForm;   // +0x4, 8 bytes
@@ -239,7 +240,6 @@ FNV_STATIC_ASSERT(offsetof(TESBipedModelForm, m_kFaceGenModel) == 196);
 class BGSDestructibleObjectForm : public BaseFormComponent
 {
   public:
-    static void LoadDestructibleData(BGSDestructibleObjectForm*, TESFile*);
     void InitItem(TESForm*);
     // base BaseFormComponent at +0x0, size 4
     CollisionComponent* pData;  // +0x4, 4 bytes
@@ -250,7 +250,6 @@ FNV_STATIC_ASSERT(offsetof(BGSDestructibleObjectForm, pData) == 4);
 class BGSEquipType : public BaseFormComponent
 {
   public:
-    void SetEquipType(BGSEquipType__EQUIP_TYPE);
     // base BaseFormComponent at +0x0, size 4
     BGSEquipType__EQUIP_TYPE m_eEquipType;  // +0x4, 4 bytes
 };
@@ -259,7 +258,6 @@ FNV_STATIC_ASSERT(offsetof(BGSEquipType, m_eEquipType) == 4);
 class BGSRepairItemList : public BaseFormComponent
 {
   public:
-    void SetRepairList(BGSListForm*);
     void InitItem(TESForm*);
     // base BaseFormComponent at +0x0, size 4
     BGSListForm* pListForm;  // +0x4, 4 bytes
@@ -270,7 +268,6 @@ FNV_STATIC_ASSERT(offsetof(BGSRepairItemList, pListForm) == 4);
 class BGSBipedModelList : public BaseFormComponent
 {
   public:
-    void SetBipedModelList(BGSListForm*);
     void InitItem(TESForm*);
     // base BaseFormComponent at +0x0, size 4
     BGSListForm* pListForm;  // +0x4, 4 bytes
@@ -280,8 +277,6 @@ FNV_STATIC_ASSERT(offsetof(BGSBipedModelList, pListForm) == 4);
 class BGSPickupPutdownSounds : public BaseFormComponent
 {
   public:
-    void SetPickupSound(TESSound*);
-    void SetPutdownSound(TESSound*);
     void InitItem(TESForm*);
     // base BaseFormComponent at +0x0, size 4
     TESSound* m_pPickupSound;   // +0x4, 4 bytes
@@ -293,7 +288,6 @@ FNV_STATIC_ASSERT(offsetof(BGSPickupPutdownSounds, m_pPutdownSound) == 8);
 class ArmorData
 {
   public:
-    void FUN_00535aa0();
     unsigned short m_usArmorRating;  // +0x0, 2 bytes
     unsigned char layoutPadding2[2];
     float fArmorProtectionValue;  // +0x4, 4 bytes

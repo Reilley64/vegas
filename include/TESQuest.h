@@ -24,9 +24,7 @@ class TESQuest : public TESForm
     unsigned char m_ucEnabled;                       // +0x60
     unsigned char layoutPadding61;
     unsigned short layoutPadding62;
-    bool GetEnabled();
     PerkEntryConditionSet* GetConditions();
-    bool GetAllowRepeatedTopics();
     ScriptLocals* GetScriptLocalData();
 };
 #pragma pack(pop)

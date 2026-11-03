@@ -2,6 +2,7 @@
 #ifndef FNV_BGSLOADGAMEBUFFER_H
 #define FNV_BGSLOADGAMEBUFFER_H
 
+#include "fnv/symbols_00401000.h"
 #include "bgsloadgamebuffer_decls.h"
 class BGSLoadGameBuffer
 {
@@ -17,7 +18,7 @@ class BGSLoadGameBuffer
 void BGSLoadGameBuffer::ResetReadPosition()
 {
     void* buffer = pBuffer;
-    Deallocate(buffer);
+    ::FUN_00401030(buffer);
     pBuffer = 0;
     iBufferSize = 0;
     m_uiReadOffset = 0;

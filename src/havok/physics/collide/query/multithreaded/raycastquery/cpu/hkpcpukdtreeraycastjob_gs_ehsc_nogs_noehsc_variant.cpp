@@ -4,6 +4,9 @@
 
 // src/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpukdtreeraycastjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpukdtreeraycastjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/FUN_00d98390.h"
+#include "fnv/decl/S_00d98300.h"
 struct FUN_00e4dd90_shell
 {
     void __thiscall FUN_00e4dd90(float* output);
@@ -453,9 +456,7 @@ class LocalArr
   public:
     FUN_009c1aa0_Class entries[4];
 
-    void __thiscall FUN_00d98390();
 
-    void __thiscall FUN_00d98300();
 };
 
 struct LocalGroup
@@ -533,8 +534,8 @@ void __thiscall Cls::FUN_00e4de10(Param* p1, const Mask& p2)
             }
 
             LocalArr bundleOutput;
-            bundleOutput.FUN_00d98390();
-            bundleOutput.FUN_00d98300();
+            new ((void *)&(bundleOutput)) ::FUN_00d98390();
+            reinterpret_cast<::S_00d98300 *>(&(bundleOutput))->ResetEntries();
             head->V28(&work, &bundleOutput, p2);
             for (int i = 0; i < 4; i++)
             {

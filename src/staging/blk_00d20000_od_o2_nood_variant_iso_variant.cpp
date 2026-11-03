@@ -7,12 +7,25 @@
 // to their real unit once identified.
 // src/staging/blk_00d20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00cfbd60_cls.h"
+#include "fnv/decl/hkpEntityC9C.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00d28000.h"
+#include "fnv/symbols_00d2c000.h"
+#include "fnv/symbols_00d31000.h"
+#include "fnv/symbols_00d36000.h"
+#include "fnv/symbols_00d39000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010ce000.h"
 #include "../../include/layout_support.h"
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 extern "C"
 {
     __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
@@ -51,7 +64,6 @@ struct ContactBody
     char unk100[0x10c - 0x100];
     float m_limitC;
 };
-bool FUN_00d28560(void* unused, char** items, int count, int offset);
 inline void* operator new(unsigned int, void* p) throw()
 {
     return p;
@@ -89,7 +101,6 @@ class S00d2c8a0_Derived : public S00d2c8a0_Base
     virtual void vf04();
     __m128 m_kScaleFactors;
 };
-const void* __cdecl FUN_00d2c8a0();
 struct SortPair
 {
     unsigned int key;
@@ -172,13 +183,10 @@ struct hkpAgent3FuncsD367
     bool m_bAgentFlag1;
     bool m_bAgentFlag2;
 };
-void __cdecl FUN_00d367b0(hkpAgent3FuncsD367& kFuncs);
 class hkpCollisionDispatcherD367
 {
   public:
-    void AddEntry(const hkpAgent3FuncsD367& kFuncs, int iTypeA, int iTypeB);
 };
-void __cdecl FUN_00d367d0(hkpCollisionDispatcherD367* pkDispatcher);
 struct hkpAgent3FuncsD398
 {
     hkpAgent3FuncsD398()
@@ -212,17 +220,8 @@ struct hkpAgent3FuncsD398
 class hkpCollisionDispatcherD398
 {
   public:
-    void AddEntry(const hkpAgent3FuncsD398& kFuncs, int iTypeA, int iTypeB);
 };
-void InitOutputDefaults();
-void FUN_00d39130();
-void ReleaseHandles();
-void RemoveKeyFromTable();
-void InsertIntoSlotArray();
 void FUN_00d39090();
-void FUN_00d39150();
-void FUN_00d39390();
-void __cdecl FUN_00d39840(hkpCollisionDispatcherD398* pkDispatcher);
 extern "C"
 {
     __m128 _mm_set_ps1(float a);
@@ -247,18 +246,14 @@ static __forceinline void Dot3(float& result, __m128 u, __m128 v)
     __m128 z = _mm_shuffle_ps(m, m, 0xaa);
     _mm_store_ss(&result, _mm_add_ss(z, _mm_add_ss(y, m)));
 }
-int FUN_00d231b0(const __m128* pa, const __m128* pb, const __m128* pc, const __m128* pd, ClosestPointResult* out);
 extern "C" void _mm_store_ps(float*, __m128);
 extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern float DAT_0104da48;
-extern __m128 DAT_010c44d0;
-extern char DAT_010ce80c;
 struct D2fVector4
 {
     __declspec(align(16)) float m_vComponents[4];
     void setNeg4(const D2fVector4& v)
     {
-        _mm_store_ps(m_vComponents, _mm_xor_ps(*(const __m128*)v.m_vComponents, DAT_010c44d0));
+        _mm_store_ps(m_vComponents, _mm_xor_ps(*(const __m128*)v.m_vComponents, ::DAT_010c44d0));
     }
 };
 struct __declspec(align(16)) D2fInput
@@ -293,7 +288,7 @@ struct D2fRayHitCollector
 {
     virtual void CollectRayHit(const void* a, const void* b) = 0;
     float m_fHitDistance;
-    D2fRayHitCollector() throw() : m_fHitDistance(DAT_0104da48)
+    D2fRayHitCollector() throw() : m_fHitDistance(::DAT_0104da48)
     {}
 };
 struct __declspec(align(16)) D2fCollector : D2fRayHitCollector
@@ -307,7 +302,6 @@ struct __declspec(align(16)) D2fCollector : D2fRayHitCollector
 };
 struct D2fWorld
 {
-    void FUN_00d315a0(int a, int b, D2fInput* in, D2fCollector* c1, D2fCollector* c2);
     void FUN_00d2f460(int a1, int a2, const D2fInput* a3, int a4, void* a5);
 };
 
@@ -367,7 +361,6 @@ class S00d2c960_Motion
 class S00d2c960_Body
 {
   public:
-    void FUN_00c9c1d0();
     unsigned int unk00;
     unsigned int unk04;
     unsigned int unk08;
@@ -465,6 +458,6 @@ void FUN_00d2c960_cls::FUN_00d2c960(const S00d2c960_Info* pkInfo)
     float fTime = pkInfo->m_fTime;
     S00d2c960_Body* pkBody = m_pkBody;
     N::__m128 kPosition = pkBody->m_kPathOffset;
-    pkBody->FUN_00c9c1d0();
+    reinterpret_cast<::hkpEntityC9C *>((pkBody))->FUN_00c9c1d0();
     pkBody->m_kMotion.vf58(fTime, &m_kRoomNode, &kPosition);
 }

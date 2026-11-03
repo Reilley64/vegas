@@ -7,11 +7,44 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/fallout/magic/magicballprojectile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/magicballprojectile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/ActorValueOwner.h"
+#include "fnv/decl/C70CharacterController.h"
+#include "fnv/decl/FUN_00407860_class.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_005471e0_shell.h"
+#include "fnv/decl/FUN_00810510_Class.h"
+#include "fnv/decl/FUN_00810530_c.h"
+#include "fnv/decl/FUN_00810550_class.h"
+#include "fnv/decl/FUN_00810570_shell.h"
+#include "fnv/decl/FUN_00810590_Class.h"
+#include "fnv/decl/FUN_008105c0_Class.h"
+#include "fnv/decl/FUN_008105e0_Class.h"
+#include "fnv/decl/FUN_00810640_class.h"
+#include "fnv/decl/FUN_00810660_Class.h"
+#include "fnv/decl/FUN_008106b0_Class.h"
+#include "fnv/decl/FUN_00857230_shell.h"
+#include "fnv/decl/FUN_008ac890_shell.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/S005620e0_Object.h"
+#include "fnv/decl/S_00c6d7a0_Obj.h"
+#include "fnv/decl/fnv_004a3a20__FUN_004a3a20_shell.h"
+#include "fnv/decl/fnv_00810610__FUN_00810610_Class.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/symbols_004ba000.h"
+#include "fnv/symbols_00525000.h"
+#include "fnv/symbols_0057b000.h"
+#include "fnv/symbols_00646000.h"
+#include "fnv/symbols_008cd000.h"
+#include "fnv/symbols_00b6b000.h"
+#include "fnv/symbols_00c69000.h"
+#include "fnv/symbols_00c6a000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01015000.h"
 struct FUN_00810a80_shell
 {
     float GetFloatAtOffset53C();
 };
-extern double _gModifierZero;
 struct FUN_00822a20_shell
 {
     void CheckModifierNonZero(float a);
@@ -28,7 +61,6 @@ union __declspec(align(16)) xM128
 };
 struct xFilter
 {
-    unsigned int FUN_004a3a20();
     unsigned int m_uiFilterValue;
 };
 struct xCell;
@@ -89,14 +121,9 @@ struct xWorld
     virtual void FUN_d0(void*, int, int, unsigned int, int);
 };
 
-xWorld* __fastcall xFUN_004543c0(xCell*);
-float __fastcall xFUN_005471e0(xCell*);
-bool __fastcall xFUN_004bae00(xWorld*);
 struct xAVOwner
 {
-    int FUN_0066ef20(int);
 };
-float xFUN_00646660(float, float, int);
 struct xNiAlloc
 {
     static void* operator new(unsigned int);
@@ -111,24 +138,8 @@ struct __declspec(align(16)) xCtlCinfo
 {
     xCtlCinfo(int);
     ~xCtlCinfo();
-    void FUN_00810550(float);
-    void FUN_00407860(float);
-    void SetWaterForm(void*);
-    void FUN_00810510(const xP3&);
-    void SetSound(xWorld*);
-    void SetPointer(void*);
-    void FUN_00810530(bool);
-    void FUN_00810590(int, unsigned int);
-    void SetAssociatedActorValue(int);
     xM128 m_q[12];
 };
-unsigned int xFUN_008cddb0();
-bool xFUN_00525420();
-void xFUN_00b6b910(void*, int);
-void xFUN_00c6a350(void*, int, bool, bool, bool);
-void xFUN_00c69ee0(void*, int, int);
-void xFUN_00c69f50(void*, int, int);
-extern const float xg_1015f5c;
 struct xActor;
 void* __cdecl xFUN_00553300(unsigned int);
 struct xCharCtl
@@ -192,16 +203,7 @@ struct xCharCtl
     }
     static void operator delete(void*);
     xCharCtl(xCtlCinfo*, xActor*);
-    void FUN_008106b0(float);
-    void FUN_00810610(bool);
-    void FUN_008105e0(bool);
-    void FUN_00810640(xActor*);
-    void FUN_0057b1d0(float);
     xWorld* FUN_00621ad0();
-    void FUN_00c70c90(xWorld*);
-    void* FUN_00810660();
-    void FUN_00c6d7a0(void*);
-    void FUN_005620e0(xP3*);
     xFilter FUN_0070c440();
     int m_auiShapeKeys[0x197];
 };
@@ -379,7 +381,6 @@ struct xMid
     virtual void v162();
     virtual void v163();
     virtual void FUN_290(xCtlPtr);
-    void* FUN_0045cd60();
 };
 struct xActor
 {
@@ -513,8 +514,6 @@ struct xActor
     xMid* m_68;
     char m_pad6c[0x38];
     xAVOwner m_a4;
-    xCharCtl* FUN_009306d0();
-    xCell* FUN_008d6f30();
     xFilter FUN_00931ed0();
     void FUN_008caea0(xActor* apOther, float afVal);
 };
@@ -522,75 +521,75 @@ struct xActor
 // @fnv 0x008caea0
 void xActor::FUN_008caea0(xActor* apOther, float afVal)
 {
-    if (!m_68 || m_68->FUN_0045cd60())
+    if (!m_68 || ((void *)(reinterpret_cast<::FUN_0045cd60_shell *>((m_68))->FUN_0045cd60())))
         return;
-    xCharCtl* CTL = FUN_009306d0();
-    xCell* CELL = FUN_008d6f30();
-    xWorld* WORLD = CELL ? xFUN_004543c0(CELL) : 0;
+    xCharCtl* CTL = ((::xCharCtl *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()));
+    xCell* CELL = ((::xCell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()));
+    xWorld* WORLD = CELL ? ((::xWorld *)(reinterpret_cast<::FUN_004543c0_cls *>((CELL))->FUN_004543c0())) : 0;
     if (!CTL)
     {
         xCtlCinfo CI(1);
-        CI.FUN_00810550(0.0f);
+        reinterpret_cast<::FUN_00810550_class *>(&(CI))->FUN_00810550(0.0f);
         if (apOther)
-            CI.FUN_00407860(xFUN_00646660(afVal, 50.0f, apOther->m_a4.FUN_0066ef20(0xb)));
-        CI.SetWaterForm(FUN_1d0());
-        CI.FUN_00810510(*FUN_1f4());
-        CI.SetSound(WORLD);
-        CI.SetPointer(new xShape(0.1f, true));
-        CI.FUN_00810530(false);
+            reinterpret_cast<::FUN_00407860_class *>(&(CI))->FUN_00407860(::FUN_00646660(afVal, 50.0f));
+        reinterpret_cast<::FUN_008ac890_shell *>(&(CI))->SetWaterForm((::TESWaterForm *)(void *)(FUN_1d0()));
+        reinterpret_cast<::FUN_00810510_Class *>(&(CI))->FUN_00810510((const ::NiPoint3 &)(*FUN_1f4()));
+        reinterpret_cast<::FUN_00857230_shell *>(&(CI))->SetSound((::TESSound *)(WORLD));
+        reinterpret_cast<::FUN_008105c0_Class *>(&(CI))->SetPointer(new xShape(0.1f, true));
+        reinterpret_cast<::FUN_00810530_c *>(&(CI))->FUN_00810530(false);
         if (apOther)
-            CI.FUN_00810590(6, apOther->FUN_00931ed0().FUN_004a3a20());
+            reinterpret_cast<::FUN_00810590_Class *>(&(CI))->FUN_00810590(6, reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::xFilter &)(apOther->FUN_00931ed0()))->FUN_004a3a20());
         else
-            CI.FUN_00810590(6, xFUN_008cddb0());
-        CI.SetAssociatedActorValue(6);
+            reinterpret_cast<::FUN_00810590_Class *>(&(CI))->FUN_00810590(6, ::GetCachedValue());
+        reinterpret_cast<::FUN_00810570_shell *>(&(CI))->SetAssociatedActorValue(6);
         CTL = new xCharCtl(&CI, this);
-        CTL->FUN_008106b0(1.0f);
-        CTL->FUN_00810610(xFUN_00525420());
-        CTL->FUN_008105e0(true);
+        reinterpret_cast<::FUN_008106b0_Class *>((CTL))->FUN_008106b0(1.0f);
+        reinterpret_cast<::fnv_00810610::FUN_00810610_Class *>((CTL))->FUN_00810610(((bool)(::FUN_00525420())));
+        reinterpret_cast<::FUN_008105e0_Class *>((CTL))->FUN_008105e0(true);
         m_68->FUN_290(CTL);
-        CTL->FUN_00810640(this);
+        reinterpret_cast<::FUN_00810640_class *>((CTL))->FUN_00810640((int)(this));
     }
     if (CTL)
     {
         if (CELL && WORLD)
-            CTL->FUN_0057b1d0(xFUN_005471e0(CELL));
+            ::FUN_0057b1d0((char *)(CTL), reinterpret_cast<::FUN_005471e0_shell *>((CELL))->FUN_005471e0());
         else
-            CTL->FUN_0057b1d0(xg_1015f5c);
+            ::FUN_0057b1d0((char *)(CTL), ::DAT_01015f5c);
         xWorld* PREV = CTL->FUN_00621ad0();
-        CTL->FUN_00c70c90(WORLD);
+        reinterpret_cast<::C70CharacterController *>((CTL))->FUN_00c70c90((::WorldProxy *)(WORLD));
         void* NODE = FUN_1d0();
-        void* CUR = CTL->FUN_00810660();
+        void* CUR = ((void *)(reinterpret_cast<::FUN_00810660_Class *>((CTL))->FUN_00810660()));
         bool ADD = true;
         if (CUR != NODE)
         {
-            CTL->FUN_00c6d7a0(NODE);
-            if (WORLD && xFUN_004bae00(WORLD))
+            reinterpret_cast<::S_00c6d7a0_Obj *>((CTL))->FUN_00c6d7a0((int)(NODE));
+            if (WORLD && ::FUN_004bae00((const char *)(WORLD)))
             {
                 CTL->FUN_d0(0);
-                xFUN_00b6b910(CTL->FUN_00810660(), 1);
+                ::CopyBlock48(((void *)(reinterpret_cast<::FUN_00810660_Class *>((CTL))->FUN_00810660())), (const void *)(1));
             }
-            xFUN_00c6a350(NODE, 4, true, false, true);
+            ::FUN_00c6a350((::NiAVObject *)(NODE), 4, true, false, true);
             ADD = true;
         }
         xP3 POS = *FUN_1f4();
         if (PREV != WORLD)
         {
             if (PREV)
-                xFUN_00c69ee0(NODE, 1, 0);
+                ::FUN_00c69ee0((::NiAVObject *)(NODE), 1, 0);
             POS.z = POS.z + 8.0;
             ADD = true;
         }
         if (WORLD)
         {
-            CTL->FUN_005620e0(&POS);
+            reinterpret_cast<::S005620e0_Object *>((CTL))->FUN_005620e0((const ::S005620e0_Source *)(::xP3 *)(&POS));
             if (ADD)
             {
                 xFilter FILTER = CTL->FUN_0070c440();
-                unsigned int LAYER = FILTER.FUN_004a3a20();
+                unsigned int LAYER = reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>(&(FILTER))->FUN_004a3a20();
                 WORLD->FUN_d0(NODE, 1, 0, LAYER, 0);
             }
             else
-                xFUN_00c69f50(NODE, 1, 0);
+                ::FUN_00c69f50((::S_00c69f50_Obj *)(NODE), 1, 0);
         }
     }
 }

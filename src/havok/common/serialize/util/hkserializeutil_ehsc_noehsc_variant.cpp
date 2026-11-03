@@ -5,15 +5,39 @@
 
 // src/havok/common/serialize/util/hkserializeutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/util/hkserializeutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-void __cdecl FUN_00d48620(int a, int b, int c);
+#include "fnv/decl/Cls.h"
+#include "fnv/decl/DBA7F0Ref.h"
+#include "fnv/decl/DbbOwner.h"
+#include "fnv/decl/FUN_00dba680_cls.h"
+#include "fnv/decl/FUN_00dba780_cls.h"
+#include "fnv/decl/FUN_00dba810_cls.h"
+#include "fnv/decl/FUN_00dba980_cls.h"
+#include "fnv/decl/FUN_00dbc670.h"
+#include "fnv/decl/FUN_00dbc6e0_s.h"
+#include "fnv/decl/FUN_00dc5d30.h"
+#include "fnv/decl/FUN_00dc72a0_class.h"
+#include "fnv/decl/FUN_00dcc670_Class.h"
+#include "fnv/decl/PatchManager.h"
+#include "fnv/decl/ProviderWrapper.h"
+#include "fnv/decl/SStringPtr.h"
+#include "fnv/decl/fnv_00dbd620__S_00dbd620_Owner.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00d48000.h"
+#include "fnv/symbols_00dc0000.h"
+#include "fnv/symbols_00dc3000.h"
+#include "fnv/symbols_00dc5000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010d7000.h"
+#include "fnv/symbols_011b7000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 void __cdecl FUN_00d48640(int a, int b);
-extern "C" void __cdecl FUN_00d485a0(int, int, int, int, int);
 void __cdecl FUN_00d48660(int a, int b, int c);
-extern int DAT_0102e388;
-extern int DAT_010d7540;
 struct hkReferencedObject
 {
-    void removeReference();
 };
 struct FUN_00dcc160_cls
 {
@@ -80,10 +104,6 @@ struct FUN_00dbc670_storage
 };
 struct FUN_00dbc670_shell
 {
-    void FUN_00dbc670();
-    void FUN_00dbda50(int, int, int);
-    int ProcessPoly(int, int);
-    void FUN_00dbc6e0();
 };
 struct GlobalDispatch
 {
@@ -92,13 +112,9 @@ struct GlobalDispatch
     virtual int V2();
     virtual int Dispatch(int, int, int, int, int);
 };
-extern GlobalDispatch* DAT_01269b74;
 int __cdecl FUN_00d484a0(int a1, int a2, int a3, int a4, int useLocal, int a6);
-extern void* FUN_00d48d30(void* obj_b, int a2, int a3);
 struct CtorBox
 {
-    CtorBox* InitFromValue(void* arg);
-    void FUN_00dcc160();
 
     void* f0;
     int f4;
@@ -118,15 +134,13 @@ struct S_00d49310_Result
     S_00d49310_Result(int v) : m_uiFilterValue(v)
     {}
 };
-void FUN_00d48af0(void* stream, int* out) throw();
 S_00d49310_Result FUN_00d49310(void* stream);
-int FUN_00cb0fa0(const char* a, const char* b);
 static inline int S_00d49350_Compare(const char* a, const char* b)
 {
     if (a)
     {
         if (b)
-            return FUN_00cb0fa0(a, b);
+            return ::fnv_00cb0fa0::FUN_00cb0fa0(a, b);
         return 1;
     }
     return b ? -1 : 0;
@@ -158,7 +172,6 @@ struct D493E0Ref
 };
 struct D493E0Registry
 {
-    D493E0Object* find(const void* key, int flags) const;
 };
 struct D493E0Loader
 {
@@ -192,19 +205,14 @@ struct GlobalObj
 };
 struct Obj5
 {
-    void* FUN_00dba680();
     void FUN_00dba660();
 };
 struct Obj2
 {
-    void GetObjectValue(Obj5* apOut);
-    int FUN_00dba980();
     void FUN_00dba660();
-    void GetSourcePair(Pair* apOut);
 };
 struct Obj1
 {
-    void AssignRef(Obj2* apArg);
 };
 struct PairVt
 {
@@ -213,7 +221,6 @@ struct PairVt
     virtual void unk08();
     virtual void unk0c(void** apFirst, void** apSecond);
 };
-extern int DAT_01268b08;
 struct FUN_00d49420_cls
 {
     int unk00;
@@ -236,18 +243,14 @@ static __declspec(noinline) int FUN_00d48950(int d, int a, int b, int c)
 struct Holder_cls
 {
     int unk00;
-    void FUN_00dba7f0();
 };
 struct Pending_cls
 {
     int unk00;
     int unk04;
-    void FUN_00dc5d30();
-    void FUN_00dc5d50(Holder_cls* h, int a, int b);
 };
 struct Owner_cls
 {
-    int FUN_00dba0d0(int a, int b);
 };
 static int FUN_00d48a90(int a1, int esi_in, int edi_in, int ebx_in);
 int __cdecl S00d48a90_Entry(int a1);
@@ -299,7 +302,6 @@ struct S00d48d30_Reader
     int unk08;
     S00d48d30_Reader() throw();
     ~S00d48d30_Reader() throw();
-    S00d48d30_Ref ForwardToReceiver();
     void prepare();
     int open(S00d48d30_Stream* s);
     void close();
@@ -316,8 +318,6 @@ extern const char str_010cfacc[];
 extern const char str_010cfab8[];
 extern const char str_010cfa94[];
 int S00d48d30_Finish(int opts);
-void FUN_00d48af0(void* stream, int* out) throw();
-int __cdecl FUN_00dc3300(const S00d48d30_Ref& r, int opts);
 static __declspec(noinline) int FUN_00d48a90(S00d48d30_Stream* s, S00d48d30_Reader* reader, S00d48d30_Result* out)
 {
     reader->prepare();
@@ -326,7 +326,7 @@ static __declspec(noinline) int FUN_00d48a90(S00d48d30_Stream* s, S00d48d30_Read
         if (out != 0)
         {
             out->m_iResultCode = 3;
-            out->m_message = str_010cfa94;
+            reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(out->m_message))->FUN_00cb0c10(str_010cfa94);
         }
         reader->close();
         return 1;
@@ -354,7 +354,6 @@ static __declspec(noinline) int FUN_00d48760(S00d48d30_Stream* s, S00d48d30_Form
     }
     return S00d48d30_Finish(opts);
 }
-int __cdecl FUN_00d48d30(S00d48d30_Stream* s, S00d48d30_Result* out, int opts) throw();
 struct S00d48680_Arr
 {
     char* m_data;
@@ -377,7 +376,6 @@ struct S00d48680_Sys
     }
 };
 extern "C" S00d48680_Sys* __cdecl FUN_00c85750();
-extern "C" void __cdecl FUN_00c908c0(S00d48680_Alloc* h, S00d48680_Arr* a, int cap, int flag);
 struct S00d48680_Obj
 {
     virtual void v0();
@@ -396,10 +394,6 @@ struct S00d48680_Obj
 static void FUN_00d48680(S00d48680_Obj* obj, S00d48680_Arr* arr);
 void __cdecl S00d48680_Entry(S00d48680_Obj* obj, S00d48680_Arr* arr);
 
-extern int DAT_011b7b88;
-extern "C" int __cdecl FUN_00cb1290(const void*, const void*, int);
-extern "C" const char* __cdecl FUN_00dc0fb0();
-extern "C" void* __cdecl CreateResourceFromArray(const void*, int, const void*);
 
 struct ByteBool
 {
@@ -427,7 +421,6 @@ struct VersionedDataBlock
 struct VersionString
 {
     unsigned word;
-    int Equals(const char*) const;
 };
 struct LoadFormat
 {
@@ -445,7 +438,7 @@ struct LoadError
     void set(int c, const char* text)
     {
         code = c;
-        message = text;
+        reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(message))->FUN_00cb0c10(text);
     }
 };
 struct BufferAllocator
@@ -502,7 +495,7 @@ struct BufferBase : S00d48680_Arr
         if (required > capacity())
         {
             int grown = 2 * capacity();
-            FUN_00c908c0((S00d48680_Alloc*)&allocator, this, required > grown ? required : grown, 1);
+            ::FUN_00c908c0((::SpawnedObject *)(::S00d48680_Alloc *)((S00d48680_Alloc*)&allocator), (::SpawnedArray *)(::S00d48680_Arr *)(this), required > grown ? required : grown, 1);
         }
     }
     __forceinline void resize(BufferAllocator& allocator, int count)
@@ -583,13 +576,13 @@ static __declspec(noinline) void* FUN_00d48760(VersionedDataBlock& input, const 
 {
     if (format.kind == 2)
     {
-        if (FUN_00cb1290(&format.pointerSize, &DAT_011b7b88, 4) == 0)
+        if (::FUN_00cb1290((const unsigned char *)(const void *)(&format.pointerSize), (const unsigned char *)(const void *)(&DAT_011b7b88), 4) == 0)
         {
-            if (format.version.Equals(FUN_00dc0fb0()))
+            if (reinterpret_cast<::S_00d49350 *>((void *)&(format.version))->Equals(((const char *)(::FUN_00dc0fb0()))))
             {
                 Buffer bytes;
                 FUN_00d48680((S00d48680_Obj*)&input, &bytes);
-                return CreateResourceFromArray(bytes.begin(), bytes.size(), registry);
+                return ::CreateResourceFromArray((void *)(bytes.begin()), (void *)(bytes.size()), (void *)(registry));
             }
         }
         else

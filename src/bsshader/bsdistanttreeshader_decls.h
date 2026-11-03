@@ -2,16 +2,22 @@
 #define BSDISTANTTREESHADER_DECLS_H
 
 
+#include "fnv/decl/E7DEF0TextureStage.h"
+#include "fnv/decl/FUN_00b7e330.h"
+#include "fnv/decl/FUN_00e7ecd0_cls.h"
+#include "fnv/decl/StageSet.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00be0000.h"
+#include "fnv/symbols_00e7e000.h"
+#include "fnv/symbols_011c1000.h"
+#include "fnv/symbols_011f9000.h"
 #include "bsdistanttreeshader_types_BSDistantTreeShader.h"
 #include "bsdistanttreeshader_types_NiD3DShaderConstantMap.h"
 #include "bsdistanttreeshader_types_NiPointer_NiGPUProgram_.h"
 #include "bsdistanttreeshader_types_NiConsoleShaderDeclaration.h"
 
 class NiRenderer;
-extern NiRenderer* DAT_011f9508;
-extern "C" unsigned int __security_cookie;
 extern "C" void* fnv_zlib_memset(void*, int, unsigned long);
-extern "C" int __cdecl sprintf_s(char*, unsigned int, const char*);
 extern "C" void __fastcall __security_check_cookie(unsigned int);
 
 class NiMemObjectAllocation
@@ -23,7 +29,6 @@ class NiMemObjectAllocation
 class NiD3DShaderConstantMapCalls
 {
   public:
-    NiD3DShaderConstantMap* Create(GraphicsRenderer*, NiGPUProgram__ProgramType);
 };
 
 class NiPointerDispatch
@@ -163,18 +168,14 @@ class NiConsoleDeclarationDispatch
 class BeamStage
 {
   public:
-    static void CreateNewStage(NiPointer<BeamStage>&);
-    void FUN_00e7def0(unsigned int);
-    void ReturnToPool();
 };
 class NiD3DPass
 {
   public:
     static void CreateD3DPass(NiPointer<NiD3DPass>&);
-    void FUN_00e802b0(unsigned int, BeamStage*);
+public:
+    void DestroyPass();
 };
-void ConfigureBeamStage(BeamStage*, unsigned int, unsigned int, unsigned int, bool);
 #include "MemoryManager.h"
 extern unsigned int DAT_012007b8;
-extern "C" int fnv_particle_shader_renderer_level;
 #endif

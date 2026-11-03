@@ -1,29 +1,51 @@
 
 // tesscriptcompiler_ctx_variant.cpp: context variant of src/fallout_shared/tesscriptcompiler.cpp: its stripped skeleton, as these functions were checked
 // against, for verified matches whose own declarations clash with the unit's current types.
+#include <new>
+#include "fnv/decl/B408A80String.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/Cls_5afe30.h"
+#include "fnv/decl/ExpressionConverter.h"
+#include "fnv/decl/FUN_005a8080.h"
+#include "fnv/decl/FUN_005b1570_Class.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/ScriptBlockScanner.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_005653d0__FUN_005653d0_shell.h"
+#include "fnv/decl/fnv_005ac6a0__FUN_005ac6a0.h"
+#include "fnv/decl/fnv_005b12c0__FUN_005b12c0_owner.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005ae000.h"
+#include "fnv/symbols_005b1000.h"
+#include "fnv/symbols_0118c000.h"
+#include "fnv/symbols_0118e000.h"
+#include "fnv/symbols_01190000.h"
+#include "fnv/symbols_011de000.h"
 #include "tesscriptcompiler_packet_decls.h"
-ScriptFunctionInfo* GetFunctionByOpcode(SCRIPT_OUTPUT output);
 
-int FUN_00404dc0(const char*, const char*);
 void* __cdecl operator new(unsigned int);
 class TESForm
 {
   public:
     virtual ~TESForm();
     int FUN_00401170();
+public:
+    static ::TESForm *LookupFormByEditorID(const char *);
 };
 class TESObjectREFR : public TESForm
 {
   public:
-    bool FUN_005653d0();
 };
-extern TESForm* g_thePlayer;
 struct BSStringT_char
 {
     char* data;
     unsigned short length, capacity;
-    int FUN_00408a80(const char*, bool) const;
-    bool Set(const char*, unsigned int);
 };
 class ScriptReferencedObject
 {
@@ -75,33 +97,29 @@ struct CStringArgument
     BSSimpleList<ScriptReferencedObject*> refVars;
     void* currentScript;
     BSSimpleList<void*> lines;
-    BSSimpleList<ScriptReferencedObject*>* FUN_005d43c0();
     bool FUN_005afad0(ScriptToken*, bool, bool);
 };
-TESForm* FUN_00483a00(const char*);
-TESForm* FUN_004839c0(unsigned int);
 unsigned int FUN_005afe10(const char*, char**, int);
-void ReportScriptError(CStringArgument*, const char*, ...);
 // @fnv 0x005afad0
 bool CStringArgument::FUN_005afad0(ScriptToken* token, bool variable, bool allowUnknown)
 {
     bool result = false;
     unsigned int index = 1;
     BSSimpleList<ScriptReferencedObject*>* entry = &refVars;
-    while (entry && entry->FUN_006815c0())
+    while (entry && ((::ScriptReferencedObject *)(new ((void *)(entry)) ::Vec3())))
     {
-        if (!entry->FUN_006815c0()->name.FUN_00408a80(token->name, true))
+        if (!reinterpret_cast<::B408A80String *>((void *)&(((::ScriptReferencedObject *)(new ((void *)(entry)) ::Vec3()))->name))->FUN_00408a80(token->name, true))
         {
             token->refIndex = index;
-            token->form = entry->FUN_006815c0()->form;
+            token->form = ((::ScriptReferencedObject *)(new ((void *)(entry)) ::Vec3()))->form;
             if (variable)
-                entry->FUN_006815c0()->variableID = token->variableID;
+                ((::ScriptReferencedObject *)(new ((void *)(entry)) ::Vec3()))->variableID = token->variableID;
             else
-                token->variableID = entry->FUN_006815c0()->variableID;
+                token->variableID = ((::ScriptReferencedObject *)(new ((void *)(entry)) ::Vec3()))->variableID;
             result = true;
             break;
         }
-        entry = entry->FUN_00726070();
+        entry = ((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::Callees *>((entry))->FUN_00726070()));
         index++;
     }
     if (!result)
@@ -113,12 +131,12 @@ bool CStringArgument::FUN_005afad0(ScriptToken* token, bool variable, bool allow
         {
             if (!FUN_00404dc0(token->name, "Player"))
             {
-                reference->form = g_thePlayer;
+                reference->form = (*reinterpret_cast<::TESForm * *>(&::_g_thePlayer));
                 result = true;
             }
             if (!result)
             {
-                reference->form = FUN_00483a00(token->name);
+                reference->form = ::TESForm::LookupFormByEditorID(token->name);
                 if (reference->form)
                 {
                     if (reference->form->FUN_00401170() == 3)
@@ -141,7 +159,7 @@ bool CStringArgument::FUN_005afad0(ScriptToken* token, bool variable, bool allow
             if (result && runtimeMode != 1)
             {
                 TESObjectREFR* refr = dynamic_cast<TESObjectREFR*>(reference->form);
-                if (refr && !refr->FUN_005653d0())
+                if (refr && !reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>((refr))->FUN_005653d0())
                 {
                     ReportScriptError(this, "Non-persistent reference '%s' cannot be used in a script.", token->name);
                     result = false;
@@ -161,9 +179,9 @@ bool CStringArgument::FUN_005afad0(ScriptToken* token, bool variable, bool allow
                 token->form = reference->form;
                 reference->variableID = 0;
             }
-            reference->name.Set(token->name, 0);
+            reinterpret_cast<::TextString *>(&(reference->name))->FUN_004037f0(token->name, 0);
             info.m_uiReferenceID++;
-            FUN_005d43c0()->FUN_00905820(reference);
+            reinterpret_cast<::Callees *>((((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_00905820((void *)&(reference));
             token->refIndex = info.m_uiReferenceID;
         }
         else
@@ -194,8 +212,6 @@ struct CompileString
 {
     char* text;
     unsigned short length, capacity;
-    void FUN_004037f0(const char*, unsigned);
-    const char* FUN_00559450();
 };
 
 struct CompileVariable
@@ -212,7 +228,6 @@ struct CompileVariable
 
 struct CompileVariables
 {
-    void FUN_00905820(CompileVariable* const&);
 };
 
 struct CompileReference
@@ -220,12 +235,10 @@ struct CompileReference
     unsigned unk00, unk04;
     TESForm* form;
     unsigned variableID;
-    const char* FUN_00559450();
 };
 
 struct CompileScript
 {
-    signed char FUN_005ac6a0(const char*, CompileVariable*);
 };
 
 struct CompileState
@@ -236,9 +249,6 @@ struct CompileState
     unsigned unk28, unk2c, unk30;
     unsigned variableCount;
     bool partial;
-    CompileVariables* FUN_005a8080();
-    bool FUN_005afad0(CompileWord*, bool, bool);
-    CompileReference* GetNodeValue(unsigned);
 };
 
 struct CompileLine
@@ -271,31 +281,22 @@ struct CompileCommand
     unsigned unk20, unk24;
 };
 
-extern CompileCommand DAT_0118e2f0[];
 
 extern unsigned DAT_011cadbc;
 
-extern const char* DAT_0118c594[];
 
 int FUN_005af5f0(CompileState*, CompileWord*, char*, unsigned*, unsigned char, int);
 
-int FUN_00404dc0(const char*, const char*);
 
-void ReportScriptError(CompileState*, const char*, ...);
 
-int FUN_00406d30(char*, unsigned, const char*);
 
-void* FUN_00401460(void*, const void*, unsigned);
 
-void* FUN_00403d30(void*, int, unsigned);
 
 bool FUN_005afeb0(const char*);
 
 bool FUN_005b1a90(const char*, unsigned);
 
-void FUN_005b1b60(const char*, unsigned*);
 
-CompileCommand* FUN_005b1120(int);
 
 struct CompileOperand
 {
@@ -322,15 +323,10 @@ struct CompileExpression
     CompileOperands operands;
     CompileExpression();
     ~CompileExpression();
-    char* ConvertToPostfix(char*, int*);
-    int FUN_00559450();
 };
 
 struct LineCompiler
 {
-    int CountLinesInBeginBlock(CompileState*, CompileLine*);
-    int ScanBlockLines(CompileState*, CompileLine*);
-    int CompileScriptLine(CompileState*, CompileLine*, const char*, char*);
     bool FUN_005aff40(CompileScript*, CompileState*, CompileLine*);
 };
 
@@ -360,7 +356,7 @@ bool LineCompiler::FUN_005aff40(CompileScript* script, CompileState* compiler, C
 
             for (i = 0; i < 38; ++i)
             {
-                if (!FUN_00404dc0(DAT_0118e2f0[i].name, word6.text) || !FUN_00404dc0(DAT_0118e2f0[i].alias, word6.text))
+                if (!FUN_00404dc0((*reinterpret_cast<CompileCommand (*)[]>(&::g_scriptBlocks))[i].name, word6.text) || !FUN_00404dc0((*reinterpret_cast<CompileCommand (*)[]>(&::g_scriptBlocks))[i].alias, word6.text))
                 {
                     found7 = true;
                     break;
@@ -368,15 +364,15 @@ bool LineCompiler::FUN_005aff40(CompileScript* script, CompileState* compiler, C
             }
             if (found7)
             {
-                *(unsigned short*)(line->output + line->outputSize) = (unsigned short)(DAT_0118e2f0[i].opcode);
+                *(unsigned short*)(line->output + line->outputSize) = (unsigned short)((*reinterpret_cast<CompileCommand (*)[]>(&::g_scriptBlocks))[i].opcode);
                 line->outputSize += 2;
 
                 int length = 0;
-                length = CountLinesInBeginBlock(compiler, line);
+                length = reinterpret_cast<::fnv_005b12c0::FUN_005b12c0_owner *>(this)->CountLinesInBeginBlock((::fnv_005b12c0::CStringArgument *)(compiler), (unsigned int *)(line));
 
                 if (length == -1)
                 {
-                    ReportScriptError(compiler, "Mismatched begin/end block.");
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Mismatched begin/end block.");
                     return false;
                 }
                 *(unsigned*)(line->output + line->outputSize) = 0x55555555;
@@ -385,13 +381,13 @@ bool LineCompiler::FUN_005aff40(CompileScript* script, CompileState* compiler, C
 
                 line->outputSize += 4;
 
-                CompileCommand* command = &DAT_0118e2f0[i];
+                CompileCommand* command = &(*reinterpret_cast<CompileCommand (*)[]>(&::g_scriptBlocks))[i];
 
                 if (command)
                 {
                     if (command->requiresReference && compiler->partial)
                     {
-                        ReportScriptError(compiler, "Invalid block type for quest script.");
+                        ::ReportScriptError((::CStringArgument *)(compiler), "Invalid block type for quest script.");
                         return false;
                     }
                     if (command && command->parameters)
@@ -404,7 +400,7 @@ bool LineCompiler::FUN_005aff40(CompileScript* script, CompileState* compiler, C
 
                         CompileLine parametersLine;
 
-                        FUN_00406d30(parametersLine.input, 512, line->input + line->inputOffset);
+                        ::TaskQueueInterface::CopyStringToBuffer(parametersLine.input, 512, line->input + line->inputOffset);
 
                         parametersLine.outputSize = 0;
 
@@ -413,7 +409,7 @@ bool LineCompiler::FUN_005aff40(CompileScript* script, CompileState* compiler, C
                         if (!blockCallback11(count, blockParameters0, &parametersLine, compiler))
                             return false;
 
-                        FUN_00401460(line->output + line->outputSize, parametersLine.output, parametersLine.outputSize);
+                        ::__memcpy(line->output + line->outputSize, parametersLine.output, parametersLine.outputSize);
 
                         line->outputSize += parametersLine.outputSize;
                     }
@@ -426,13 +422,13 @@ bool LineCompiler::FUN_005aff40(CompileScript* script, CompileState* compiler, C
             }
             else
             {
-                ReportScriptError(compiler, "Syntax Error.  Invalid block type in 'begin' command.");
+                ::ReportScriptError((::CStringArgument *)(compiler), "Syntax Error.  Invalid block type in 'begin' command.");
                 return false;
             }
         }
         else
         {
-            ReportScriptError(compiler, "Syntax Error.  Missing block type in 'begin' command.");
+            ::ReportScriptError((::CStringArgument *)(compiler), "Syntax Error.  Missing block type in 'begin' command.");
             return false;
         }
         break;
@@ -447,7 +443,7 @@ bool LineCompiler::FUN_005aff40(CompileScript* script, CompileState* compiler, C
         }
         else
         {
-            ReportScriptError(compiler, "Syntax Error.  Failed to store the 'begin' 'end' jump block.");
+            ::ReportScriptError((::CStringArgument *)(compiler), "Syntax Error.  Failed to store the 'begin' 'end' jump block.");
             return false;
         }
     case 30:
@@ -462,16 +458,16 @@ bool LineCompiler::FUN_005aff40(CompileScript* script, CompileState* compiler, C
 
             if (!FUN_005afeb0(variableName1))
             {
-                ReportScriptError(compiler, "Invalid variable name '%s'.\r\nCompiled script not saved!", variableName1);
+                ::ReportScriptError((::CStringArgument *)(compiler), "Invalid variable name '%s'.\r\nCompiled script not saved!", variableName1);
                 return false;
             }
             CompileVariable* variableInfo0 = new CompileVariable;
 
             variableInfo0->integer = (line->kind != 20 && line->kind != 31) ? 1 : 0;
 
-            variableInfo0->name.FUN_004037f0(variableName1, 0);
+            reinterpret_cast<::TextString *>(&(variableInfo0->name))->FUN_004037f0(variableName1, 0);
 
-            if (script->FUN_005ac6a0(variableInfo0->name.FUN_00559450(), variableInfo0))
+            if (((signed char)(reinterpret_cast<::fnv_005ac6a0::FUN_005ac6a0 *>((script))->Method_005ac6a0(((const char *)(::FUN_00559450((int *)&(variableInfo0->name)))), (unsigned int *)(variableInfo0)))))
             {
             }
             else
@@ -479,17 +475,17 @@ bool LineCompiler::FUN_005aff40(CompileScript* script, CompileState* compiler, C
                 compiler->variableCount++;
                 variableInfo0->id = compiler->variableCount;
             }
-            compiler->FUN_005a8080()->FUN_00905820(variableInfo0);
+            reinterpret_cast<::Callees *>((((::CompileVariables *)(reinterpret_cast<struct ::FUN_005a8080 *>((compiler))->GetField()))))->FUN_00905820((void *)&(variableInfo0));
 
             if (line->kind == 31)
             {
                 word6.variableID = variableInfo0->id;
-                compiler->FUN_005afad0(&word6, true, false);
+                reinterpret_cast<::CStringArgument *>((compiler))->FUN_005afad0((::ScriptToken *)(::CompileWord *)(&word6), true, false);
             }
         }
         else
         {
-            ReportScriptError(compiler, "Missing variable name in variable declaration.");
+            ::ReportScriptError((::CStringArgument *)(compiler), "Missing variable name in variable declaration.");
             return false;
         }
         break;
@@ -497,12 +493,12 @@ bool LineCompiler::FUN_005aff40(CompileScript* script, CompileState* compiler, C
     case 21: {
         if (!FUN_005af5f0(compiler, &word6, line->input, &line->inputOffset, 1, 1))
         {
-            ReportScriptError(compiler, "Missing variable name in set command.");
+            ::ReportScriptError((::CStringArgument *)(compiler), "Missing variable name in set command.");
             return false;
         }
         if (!word6.variableType || word6.variableType == 'X')
         {
-            ReportScriptError(compiler, "Unknown variable '%s'.", &word6);
+            ::ReportScriptError((::CStringArgument *)(compiler), "Unknown variable '%s'.", &word6);
             return false;
         }
         CompileWord setWord20;
@@ -511,7 +507,7 @@ bool LineCompiler::FUN_005aff40(CompileScript* script, CompileState* compiler, C
 
         if (tolower(setWord20.text[0]) != 't' || tolower(setWord20.text[1]) != 'o')
         {
-            ReportScriptError(compiler, "Syntax Error.  Missing \"to\" in set command.");
+            ::ReportScriptError((::CStringArgument *)(compiler), "Syntax Error.  Missing \"to\" in set command.");
             return false;
         }
         if (word6.refIndex > 0)
@@ -538,33 +534,33 @@ bool LineCompiler::FUN_005aff40(CompileScript* script, CompileState* compiler, C
         }
         if (!FUN_005b1a90(line->input, line->inputOffset))
         {
-            ReportScriptError(compiler, "Syntax Error.  Mismatched parentheses in set command.");
+            ::ReportScriptError((::CStringArgument *)(compiler), "Syntax Error.  Mismatched parentheses in set command.");
             return false;
         }
-        FUN_005b1b60(line->input, &line->inputOffset);
+        ::FUN_005b1b60(line->input, (int *)(unsigned int *)(&line->inputOffset));
 
         char setText20[512];
-        FUN_00403d30(setText20, 0, 512);
+        ::FUN_00403d30(setText20, 0, 512);
 
         int setLength1 = 0;
-        setLength1 = CompileScriptLine(compiler, line, line->input + line->inputOffset, setText20);
+        setLength1 = reinterpret_cast<::FUN_005b1570_Class *>(this)->CompileScriptLine((::CStringArgument *)(compiler), (unsigned int *)(line), (char *)(line->input + line->inputOffset), setText20);
 
         if (!setLength1)
         {
-            ReportScriptError(compiler, missingSetExpression);
+            ::ReportScriptError((::CStringArgument *)(compiler), missingSetExpression);
             return false;
         }
-        expressionCodeVal9 = expression5.ConvertToPostfix(setText20, &setLength1);
+        expressionCodeVal9 = reinterpret_cast<::ExpressionConverter *>(&(expression5))->ConvertToPostfix(setText20, (unsigned int *)(int *)(&setLength1));
 
-        if (expression5.FUN_00559450())
+        if (::FUN_00559450((int *)&(expression5)))
         {
-            ReportScriptError(compiler, "InfixToPostfix Error.");
+            ::ReportScriptError((::CStringArgument *)(compiler), "InfixToPostfix Error.");
             return false;
         }
         *(unsigned short*)(line->output + line->outputSize) = (unsigned short)(setLength1);
         line->outputSize += 2;
 
-        FUN_00401460(line->output + line->outputSize, expressionCodeVal9, setLength1);
+        ::__memcpy(line->output + line->outputSize, expressionCodeVal9, setLength1);
         line->outputSize += setLength1;
     }
     break;
@@ -575,32 +571,32 @@ bool LineCompiler::FUN_005aff40(CompileScript* script, CompileState* compiler, C
 
         if (!FUN_005b1a90(line->input, offset_2))
         {
-            ReportScriptError(compiler, "Mismatched parentheses.");
+            ::ReportScriptError((::CStringArgument *)(compiler), "Mismatched parentheses.");
             return false;
         }
-        FUN_005b1b60(line->input, &offset_2);
+        ::FUN_005b1b60(line->input, (int *)(unsigned int *)(&offset_2));
 
         char branchText7[512];
-        FUN_00403d30(branchText7, 0, 512);
+        ::FUN_00403d30(branchText7, 0, 512);
 
         int branchLength10 = 0;
-        branchLength10 = CompileScriptLine(compiler, line, line->input + offset_2, branchText7);
+        branchLength10 = reinterpret_cast<::FUN_005b1570_Class *>(this)->CompileScriptLine((::CStringArgument *)(compiler), (unsigned int *)(line), (char *)(line->input + offset_2), branchText7);
 
         if (!branchLength10)
             return false;
 
-        expressionCodeVal9 = expression5.ConvertToPostfix(branchText7, &branchLength10);
+        expressionCodeVal9 = reinterpret_cast<::ExpressionConverter *>(&(expression5))->ConvertToPostfix(branchText7, (unsigned int *)(int *)(&branchLength10));
 
-        if (expression5.FUN_00559450())
+        if (::FUN_00559450((int *)&(expression5)))
         {
-            ReportScriptError(compiler, DAT_0118c594[expression5.FUN_00559450()]);
+            ::ReportScriptError((::CStringArgument *)(compiler), ::g_expressionErrorStrings[::FUN_00559450((int *)&(expression5))]);
             return false;
         }
-        int branchJump11 = ScanBlockLines(compiler, line);
+        int branchJump11 = reinterpret_cast<::ScriptBlockScanner *>(this)->ScanBlockLines((::CStringArgument *)(compiler), (unsigned int *)(line));
 
         if (branchJump11 == -1)
         {
-            ReportScriptError(compiler, "Mismatched if/then/else block.");
+            ::ReportScriptError((::CStringArgument *)(compiler), "Mismatched if/then/else block.");
             return false;
         }
         *(unsigned short*)(line->output + line->outputSize) = (unsigned short)(branchJump11);
@@ -608,18 +604,18 @@ bool LineCompiler::FUN_005aff40(CompileScript* script, CompileState* compiler, C
         *(unsigned short*)(line->output + line->outputSize) = (unsigned short)(branchLength10);
         line->outputSize += 2;
 
-        FUN_00401460(line->output + line->outputSize, expressionCodeVal9, branchLength10);
+        ::__memcpy(line->output + line->outputSize, expressionCodeVal9, branchLength10);
         line->outputSize += branchLength10;
     }
     break;
 
     case 23: {
         int jump = 0;
-        jump = ScanBlockLines(compiler, line);
+        jump = reinterpret_cast<::ScriptBlockScanner *>(this)->ScanBlockLines((::CStringArgument *)(compiler), (unsigned int *)(line));
 
         if (jump == -1)
         {
-            ReportScriptError(compiler, "Mismatched if/then/else block.");
+            ::ReportScriptError((::CStringArgument *)(compiler), "Mismatched if/then/else block.");
             return false;
         }
         *(unsigned short*)(line->output + line->outputSize) = (unsigned short)(jump);
@@ -634,32 +630,32 @@ bool LineCompiler::FUN_005aff40(CompileScript* script, CompileState* compiler, C
         break;
 
     default: {
-        CompileCommand* command = FUN_005b1120(line->kind);
+        CompileCommand* command = ((::CompileCommand *)(::GetFunctionByOpcode((::SCRIPT_OUTPUT)(line->kind))));
 
         if (!command)
         {
-            ReportScriptError(compiler, "Unknown function code %d.", line->kind);
+            ::ReportScriptError((::CStringArgument *)(compiler), "Unknown function code %d.", line->kind);
             return false;
         }
         if (command)
         {
             if (command->requiresReference && compiler->partial && !line->refIndex)
             {
-                ReportScriptError(compiler, "Reference function requires explicit reference in quest script.");
+                ::ReportScriptError((::CStringArgument *)(compiler), "Reference function requires explicit reference in quest script.");
                 return false;
             }
             if (command->requiresReference && line->refIndex > 0)
             {
-                CompileReference* ref2 = compiler->GetNodeValue(line->refIndex);
+                CompileReference* ref2 = ((::CompileReference *)(reinterpret_cast<::Cls_5afe30 *>((compiler))->GetNodeValue(line->refIndex)));
 
                 TESObjectREFR* object = dynamic_cast<TESObjectREFR*>(ref2->form);
 
                 if (!object && !ref2->variableID)
                 {
-                    ReportScriptError(
-                        compiler,
+                    ::ReportScriptError(
+                        (::CStringArgument *)(compiler),
                         "Syntax error.  Invalid reference '%s' (only object references and reference variables are allowed in this context).",
-                        ref2->FUN_00559450());
+                        ((const char *)(::FUN_00559450((int *)(ref2)))));
                     return false;
                 }
             }
@@ -689,7 +685,7 @@ bool LineCompiler::FUN_005aff40(CompileScript* script, CompileState* compiler, C
     default:
         if (compiler->outputSize + line->outputSize + 10 >= 0x4000)
         {
-            ReportScriptError(compiler, "MAX_SCRIPT_SIZE exceeded.\r\nCompiled script not saved!");
+            ::ReportScriptError((::CStringArgument *)(compiler), "MAX_SCRIPT_SIZE exceeded.\r\nCompiled script not saved!");
             return false;
         }
         if (line->refIndex > 0)
@@ -704,7 +700,7 @@ bool LineCompiler::FUN_005aff40(CompileScript* script, CompileState* compiler, C
         *(unsigned short*)(compiler->output + compiler->outputSize) = (unsigned short)(line->outputSize);
         compiler->outputSize += 2;
 
-        FUN_00401460(compiler->output + compiler->outputSize, line->output, line->outputSize);
+        ::__memcpy(compiler->output + compiler->outputSize, line->output, line->outputSize);
         compiler->outputSize += line->outputSize;
     }
     return true;

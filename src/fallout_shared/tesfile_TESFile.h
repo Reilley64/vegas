@@ -2,6 +2,12 @@
 #ifndef FNV_TESFILE_QUEUE081_PRIVATE_H
 #define FNV_TESFILE_QUEUE081_PRIVATE_H
 
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00462e80_shell.h"
+#include "fnv/decl/FUN_00470ca0_t.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/bhkLiquidAction.h"
 #include "../../include/layout_support.h"
 #include "../../include/TESFileHeader.h"
 #include "../../include/FormRecordHeader.h"
@@ -65,8 +71,6 @@ class TESFile
     bool IsEndianConversionRequired();
     bool IsCurrentFormCompressed();
     TESFile(const char* path, const char* filename, NiFile::OpenMode openMode);
-    const char* GetFilename();
-    const char* GetPath();
     bool IsMasterFile();
     void SetMasterFile(bool master);
     unsigned char GetFileCompileIndex();
@@ -75,16 +79,10 @@ class TESFile
     void SetThreadSafeParent(TESFile* parent);
     bool OpenTESFile(NiFile::OpenMode openMode, bool closeOverride);
     void InitializeComponent();
-    bool SetOffset(unsigned int offset);
-    unsigned char GetTESForm();
-    unsigned int GetChunkID();
-    unsigned int GetChunkSize();
     bool GetChunkData(void* data, unsigned int size);
     bool GetChunkData(unsigned int* value);
     bool NextChunk();
-    bool GetCached();
     unsigned int GetOffset();
-    bool OpenTESFile(const char* path, const char* filename, NiFile::OpenMode openMode, bool closeOverride);
     bool GetOptimizedFile();
     bool GetIsChecked();
     void ClearCurrentChunk();
@@ -92,7 +90,6 @@ class TESFile
     void SetTempIDOwner(bool owner);
     bool GetTempIDOwner();
     unsigned int GetOffsetChunk();
-    unsigned int GetFORMSize();
     bool HasNextForm();
     bool IsGroupOpen();
 

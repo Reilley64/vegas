@@ -5,10 +5,103 @@
 
 // src/staging/blk_00420000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSFaceGenNiNode.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_0040f6e0_class.h"
+#include "fnv/decl/FUN_0040fe80_shell.h"
+#include "fnv/decl/FUN_00410020_t.h"
+#include "fnv/decl/FUN_00416870_t.h"
+#include "fnv/decl/FUN_0041d390_shell.h"
+#include "fnv/decl/FUN_0042e010_ExtraLock.h"
+#include "fnv/decl/FUN_00435de0_ctor.h"
+#include "fnv/decl/FUN_00435e00_t.h"
+#include "fnv/decl/FUN_00438af0_Class.h"
+#include "fnv/decl/FUN_0043b370_cls.h"
+#include "fnv/decl/FUN_004534f0_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_0049ed90_shell.h"
+#include "fnv/decl/FUN_0049fa20_List.h"
+#include "fnv/decl/FUN_004fbf00_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00761540_cls.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008579e0_shell.h"
+#include "fnv/decl/FUN_00857aa0.h"
+#include "fnv/decl/FUN_00898280.h"
+#include "fnv/decl/FUN_00935ae0_t.h"
+#include "fnv/decl/FUN_0094db80_shell.h"
+#include "fnv/decl/Flag512Receiver.h"
+#include "fnv/decl/Fn575690.h"
+#include "fnv/decl/Holder0042f780.h"
+#include "fnv/decl/Host096d450.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/NiPlane.h"
+#include "fnv/decl/Reference.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/S_0066e2b0_Class.h"
+#include "fnv/decl/SoundPlaybackHandle.h"
+#include "fnv/decl/StrOwner.h"
+#include "fnv/decl/TESActorBase.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/TESTopicInfo.h"
+#include "fnv/decl/TESTopicInfoData.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/WaitableObject.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_00420440__FUN_00420440_shell.h"
+#include "fnv/decl/fnv_00422c20__FUN_0042dec0_shell.h"
+#include "fnv/decl/fnv_00436180__FUN_00436180.h"
+#include "fnv/decl/fnv_004363c0__FUN_004363c0.h"
+#include "fnv/decl/fnv_004364e0__FUN_004364e0.h"
+#include "fnv/decl/fnv_00436600__FUN_00436600.h"
+#include "fnv/decl/fnv_004385f0__FUN_004385f0_Class.h"
+#include "fnv/decl/fnv_00438780__NiTPointerMap_00438780.h"
+#include "fnv/decl/fnv_00439390__NiObjectNET.h"
+#include "fnv/decl/fnv_0043b1b0__FUN_0043b1b0_shell.h"
+#include "fnv/decl/fnv_005653d0__FUN_005653d0_shell.h"
+#include "fnv/decl/fnv_00565480__RefPersistsStandin.h"
+#include "fnv/decl/fnv_00569880__FUN_00569880_cls.h"
+#include "fnv/decl/fnv_00575700__RefrV.h"
+#include "fnv/decl/fnv_009a4320__FUN_009a4320_arr.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0042f000.h"
+#include "fnv/symbols_00433000.h"
+#include "fnv/symbols_00435000.h"
+#include "fnv/symbols_00438000.h"
+#include "fnv/symbols_00439000.h"
+#include "fnv/symbols_0043a000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_004ad000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_005f3000.h"
+#include "fnv/symbols_006b3000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011c5000.h"
+#include "fnv/symbols_011c7000.h"
+#include "fnv/symbols_011cd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
 #include "../../include/layout_support.h"
 struct BaseExtraList
 {
-    bool HasExtraData(unsigned char);
 };
 struct FUN_004216d0_shell
 {
@@ -22,14 +115,12 @@ extern "C" void* __cdecl DAT_010159e8;
 struct FUN_0042f4e0_class
 {
     void* m_vtbl;
-    void __thiscall FUN_0042fe10(void* arg);
     void* __thiscall FUN_0042f4e0(void* arg);
 };
 struct FUN_0042ff10_cls
 {
     void FUN_0042ff30(int);
 };
-void FUN_0042ff10(FUN_0042ff10_cls* a, int b);
 extern int DAT_01015a08;
 struct GlobalObject_00869f00
 {
@@ -52,7 +143,6 @@ struct FUN_00435ef0 : public BSExtraData
 };
 struct FUN_006815c0
 {
-    void* __thiscall _ref_006815c0();
 };
 struct FUN_00437dd0_Class
 {
@@ -62,20 +152,16 @@ extern int DAT_01015fbc;
 struct FUN_004383b0_Class
 {
     void* p;
-    void FUN_004386b0(void*);
     void* FUN_004383b0(void* a);
 };
-extern "C" void __cdecl FUN_00438820(void*);
 extern char DAT_01015fdc;
 struct FUN_004383e0_class
 {
     void* p;
     void* __thiscall FUN_004383e0(void* a);
 };
-extern int DAT_01015ffc;
 struct AX
 {
-    void FUN_006b3eb0(unsigned int, unsigned int);
     AX* FUN_00438570();
 };
 extern int DAT_01016010;
@@ -84,7 +170,6 @@ struct BSSimpleArrayShell
     void FUN_00438a60(unsigned int, unsigned int);
     BSSimpleArrayShell* FUN_004385c0();
 };
-void __cdecl Deallocate(void*);
 struct FUN_00438940_Class
 {
     void __thiscall FUN_00438940(void* p);
@@ -118,6 +203,8 @@ struct NiObjectNET
 {
     void FUN_00439360(unsigned short a, unsigned int b, unsigned int c);
     void FUN_00439340(unsigned short a);
+public:
+    void SetFlags(unsigned short);
 };
 struct NiPoint3
 {
@@ -134,17 +221,14 @@ struct FUN_0043b260_Class
 };
 struct TaskQueueInterface
 {
-    void SetTaskFlagDWord(bool, unsigned int);
     void FUN_0043b350(bool enabled);
 };
 struct TESForm
 {
     virtual ~TESForm();  // the original class is polymorphic (rtti_variants.py)
-    void Revert(unsigned int);
 };
 struct TESObjectTREE
 {
-    TESForm* GetData();
 };
 struct FUN_0043b5b0_shell
 {
@@ -166,12 +250,10 @@ struct FUN_0043baa0_class
 {
     void FUN_0043baa0(void* p);
 };
-bool __cdecl FUN_0044ae10(unsigned char);
 struct FUN_0043fab0_class
 {
     bool __thiscall FUN_0043fab0();
 };
-extern "C" void* __cdecl _NiFreeAlias(void*);
 extern int DAT_01015a1c;
 struct FUN_0042fee0_cls : NiTPointerMap<int, int>
 {
@@ -188,10 +270,8 @@ struct FUN_00436ac0 : BE
 };
 struct NavMeshPtr
 {
-    void __thiscall FUN_0042fa40();
     void* __thiscall FUN_0042ffa0(unsigned int flags);
 };
-void __cdecl Deallocate(void*);
 struct FUN_0042ffd0_cls : public FUN_0042fee0_cls
 {
     void* __thiscall FUN_0042ffd0(unsigned int flags);
@@ -212,7 +292,6 @@ struct FUN_00435f20_class : public BE
     float m_fValue;
     FUN_00435f20_class(float f);
 };
-void __cdecl Deallocate(void*);
 struct FUN_00435f80_shell
 {
     void __thiscall FUN_00435f80();
@@ -230,35 +309,28 @@ struct FUN_00436090 : public BE
     unsigned char c;
     FUN_00436090(unsigned char);
 };
-void __cdecl Deallocate(void*);
 struct FUN_00436150_Class
 {
-    void __thiscall FUN_00436180();
     void* __thiscall FUN_00436150(unsigned int flags);
 };
 struct FUN_00436390_Class
 {
-    void __thiscall FUN_004363c0();
     void* __thiscall FUN_00436390(unsigned int flags);
 };
 struct FUN_004364b0_Class
 {
-    void __thiscall FUN_004364e0();
     void* __thiscall FUN_004364b0(unsigned int flags);
 };
 struct FUN_004365d0_class
 {
-    void* __thiscall FUN_00436600();
     void* __thiscall FUN_004365d0(unsigned int flags);
 };
 void FUN_00436720();
-void __cdecl Deallocate(void*);
 struct FUN_004366f0_class
 {
     void __thiscall FUN_00436720();
     void* __thiscall FUN_004366f0(unsigned int flags);
 };
-void Deallocate(void*);
 void FUN_00436bb0();
 struct FUN_00436af0_Class
 {
@@ -279,7 +351,6 @@ struct FUN_00438440_Class
 {
     void* __thiscall FUN_00438440(unsigned int flags);
 };
-void Deallocate(void*);
 void FUN_004385a0();
 struct FUN_00438970_class
 {
@@ -288,12 +359,10 @@ struct FUN_00438970_class
 };
 struct FUN_004389a0_Class
 {
-    void* __thiscall FUN_004385f0();
     void* __thiscall FUN_004389a0(unsigned int flags);
 };
 struct FUN_00438780_Class
 {
-    void FUN_00438780();
     void* FUN_00438a00(unsigned int flags);
 };
 struct FUN_00438900_class
@@ -306,7 +375,6 @@ struct FUN_00438a30_class
 };
 struct PointerFlagNode
 {
-    void _ref_00905330(const unsigned int&);
 };
 struct FUN_004207e0Class
 {
@@ -319,10 +387,8 @@ struct Flt
 };
 struct Holder00420dd0
 {
-    BSExtraData* __thiscall GetExtraData(unsigned char);
     unsigned int __thiscall FUN_00420dd0();
 };
-extern int DAT_01015998;
 struct FUN_0042cba0_class : public BE
 {
     void* vtbl;
@@ -336,7 +402,6 @@ struct FHolder_42cbe0 : BE
 {
     void* __thiscall FUN_0042cbe0();
 };
-extern int DAT_010151fc;
 struct FUN_0042cc10_class
 {
     int m0;
@@ -354,8 +419,6 @@ struct FUN_00432470 : public BSExtraData
 };
 struct ExtraListHelper
 {
-    BSExtraData* GetExtraData(unsigned char);
-    BSExtraData* AddExtra(BSExtraData*);
 };
 struct FUN_0042dee0_shell
 {
@@ -363,19 +426,15 @@ struct FUN_0042dee0_shell
 };
 struct ExtraDataList
 {
-    BSExtraData* GetExtraData(unsigned char);
 };
 struct ExtraLock
 {
-    bool FUN_0042dff0();
-    void FUN_0042e010(int);
     ~ExtraLock();
 };
 struct FUN_0042df90_shell
 {
     ExtraLock* FUN_0042df90(int a);
 };
-extern int DAT_01015980;
 struct FUN_0042e210_Class : public BE
 {
     void* vtbl;
@@ -396,19 +455,15 @@ struct FUN_0042e650_class : BE
 };
 struct NiAVObject
 {
-    void FUN_00401970();
 };
 struct G00559a40
 {
-    void FUN_0040f6e0();
 };
 struct FUN_0042fdc0_class
 {
     NiAVObject* m_pObject;
     NiAVObject* __thiscall FUN_0042fdc0(NiAVObject** arg);
 };
-void* __cdecl NiMalloc(unsigned int);
-void* __cdecl memset(void* dest, int c, unsigned int count);
 struct FUN_0042fe10_class
 {
     void* m_pName;
@@ -419,50 +474,32 @@ struct FUN_0042fe10_class
 };
 struct FUN_0042ff80_s
 {
-    void __thiscall FUN_0042ff80();
 };
-void __cdecl _Deallocate(void*);
 struct FUN_0042ff50_host : FUN_0042ff80_s
 {
     void* __thiscall FUN_0042ff50(unsigned int flags);
 };
-extern void* _EmptyFS;
-void* __cdecl FUN_00438210(void*);
-void __cdecl FinishScriptRunLock(void*);
-void FUN_004381d0(void* p);
-int __cdecl FUN_00438210(int* p);
-extern int DAT_01016024;
 struct FUN_00438660_class
 {
     void* vtable;
     FUN_00438660_class* FUN_00438660();
 };
 extern void* DAT_01016058;
-void __cdecl Deallocate(void*);
 struct FNStub
 {
-    const char* GetFullName();
 };
 struct TESModel
 {
-    unsigned int GetModelLength();
 };
 struct TESSound
 {
-    unsigned int Deallocate();
 };
-void __cdecl FUN_004856f0(unsigned int, void*, unsigned int);
-void __cdecl FUN_004858f0(unsigned int, unsigned char);
-void __cdecl FUN_00485910(unsigned int, unsigned int);
-void __cdecl FUN_00485950(unsigned int, unsigned int);
 struct FUN_00438c10_Class : public FNStub
 {
     void __thiscall FUN_00438c10();
 };
-extern "C" void FUN_00485710(unsigned int, unsigned int*, unsigned int);
 struct FUN_00438f90_Class
 {
-    bool FUN_00439150();
     void FUN_00438f90();
 };
 struct Unk_00439120
@@ -474,10 +511,8 @@ struct Unk_00439120
 };
 struct S_00439150
 {
-    bool __thiscall _Call_439090(const NiPoint3&);
     bool __thiscall FUN_00439150();
 };
-extern int DAT_011c3ae4;
 struct MyPoint439180
 {
     float x;
@@ -509,16 +544,11 @@ struct Helper62d0
 };
 struct ScriptPool
 {
-    Node* FUN_0049fa80();
-    void FUN_0049fa20(Node* p);
     void FUN_00439fd0(const void* arg);
 };
 struct TESSaveLoadGame
 {
-    void ReadTypedData(void* p, unsigned int size);
-    void FUN_00857aa0(unsigned int* pOut, int size);
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 struct FUN_0043a9a0_class
 {
     unsigned int a;
@@ -563,15 +593,10 @@ struct FUN_00435820 : public BSExtraData
 };
 struct FUN_00420e00_cls : public BaseExtraList
 {
-    BSExtraData* GetExtraData(unsigned char);
-    BSExtraData* AddExtra(BSExtraData*);
-    void RemoveExtra(unsigned char);
     void FUN_00420e00(void* p);
 };
 struct FUN_00421600_Class
 {
-    BSExtraData* GetExtraData(unsigned char);
-    BSExtraData* AddExtra(BSExtraData*);
     void FUN_00421600(unsigned char val);
 };
 extern int DAT_01015cd8;
@@ -589,7 +614,6 @@ struct FUN_00433830 : public BSExtraData
     ListX m_kEntryList;
     ~FUN_00433830();
 };
-void __cdecl FUN_00433750(ListX*);
 extern "C" void _fnv_zlib_memset(void* p, int c, unsigned int n);
 struct FUN_00438820_Class
 {
@@ -601,8 +625,6 @@ struct FUN_00438820_Class
 };
 struct BaseExtraList2
 {
-    BSExtraData* GetExtraData(unsigned char type);
-    BSExtraData* AddExtra(BSExtraData* extra);
 };
 struct TESLeveledList
 {
@@ -612,9 +634,6 @@ struct FUN_0042e5a0_class
 {
     void FUN_0042e5a0(unsigned char type);
 };
-extern int DAT_01016038;
-void* __cdecl NiMalloc(unsigned int);
-void* __cdecl memset(void* dest, int c, unsigned int count);
 struct FUN_004386b0_Class
 {
     void* p;
@@ -622,7 +641,6 @@ struct FUN_004386b0_Class
 };
 struct NiPoint3Set
 {
-    void Set(float x, float y, float z);
 };
 struct FUN_00439ef0_class : public NiPoint3
 {
@@ -646,7 +664,6 @@ struct LH
 };
 struct FUN_00420440_Class
 {
-    void FUN_00420440(void* pObject);
 };
 struct FUN_00416b80
 {
@@ -682,7 +699,6 @@ struct FUN_0042dff0_shell
 };
 struct FUN_0042e130_Base
 {
-    void RemoveExtra(unsigned char);
 };
 struct FUN_0042e130_shell : FUN_0042e130_Base
 {
@@ -719,12 +735,12 @@ struct BSSimpleArrayShell_FUN_00430000
 };
 struct FUN_0072ba80_shell
 {
-    void __thiscall FUN_0072ba80(char* data, unsigned int count);
+public:
+    void FUN_0072ba80(void *, unsigned int);
 };
 struct AC_0042f730
 {
     void* vtbl;
-    void __fastcall FUN_0066e2b0();
     void __fastcall FUN_0042f760();
 };
 struct NiPointerStandIn
@@ -756,11 +772,11 @@ struct FUN_0043a080_Node
 };
 extern int DAT_01188f7c;
 extern void* DAT_011c5f54;
-extern void* DAT_011c5f58;
-void FUN_0043a080();
 struct Date
 {
     ~Date();
+public:
+    void *FUN_007b3fa0(unsigned int);
 };
 struct FUN_0043b5f0_cls : TESObjectTREE
 {
@@ -768,7 +784,6 @@ struct FUN_0043b5f0_cls : TESObjectTREE
 };
 struct ExtraListShell
 {
-    void FUN_00410140(unsigned char type);
     void FUN_004216b0();
 };
 extern "C" void* DAT_0101598c;
@@ -784,7 +799,6 @@ struct FUN_0042f780
     int unk04;
     int unk08;
 
-    void Init(int value);
     ~FUN_0042f780();
 };
 struct FUN_0042cb30 : public FUN_0040ecb0
@@ -831,9 +845,6 @@ struct FUN_00436b20
 };
 struct FUN_0042e060_class
 {
-    void* __thiscall FUN_00410220(unsigned char type);
-    void __thiscall FUN_00410020(void* extra, bool remove);
-    void __thiscall FUN_0040ff60(void* extra);
     void __thiscall FUN_0042e060(unsigned int a, unsigned int b);
 };
 void* __cdecl operator new(unsigned int uiSize, void* pvMem);
@@ -889,27 +900,19 @@ struct FUN_00435ce0_cls : public SpawnedBase
 struct FloatSlot
 {
     unsigned int m_bits;
-    float FUN_00435e00();
 };
 struct FloatHolder
 {
     float m_f;
-    void FUN_00435de0(float v);
 };
 struct FloatList
 {
     int unk00;
-    int FUN_0044ddc0();
-    unsigned int* FUN_006a7ad0(int idx);
-    void FUN_00438610(FloatHolder* p);
 };
 struct FloatGlobal
 {
     int unk00;
-    float* FUN_00403e20();
 };
-extern FloatGlobal DAT_011cd78c;
-float FUN_00435dd0();
 class FUN_00435d40_cls
 {
   public:
@@ -918,25 +921,19 @@ class FUN_00435d40_cls
     int unk08;
     FloatList m_0c;
 
-    void Reset();
     void FUN_00435d40();
 };
 struct FUN_00435e40_key
 {
     unsigned int m_v;
-    double Eval();
 };
 struct FUN_00435e40_arr
 {
-    unsigned int Count();
     unsigned int* GetAt(unsigned int i);
-    void RemoveAt(unsigned int i, unsigned int n);
 };
 struct FUN_00435e40_flt
 {
-    float* Get();
 };
-extern "C" char DAT_011cd580;
 struct FUN_00435e40_cls
 {
     unsigned int unk00;
@@ -1080,7 +1077,6 @@ struct SlottedSource
     virtual void v123();
     virtual void v124();
     virtual Vec3Sub* GetVariedData();
-    Vec3Sub* GetFixedData();
 };
 struct RootCtorCls
 {
@@ -1124,7 +1120,6 @@ struct Member12
 {
     Member12();
     ~Member12();
-    void Assign(const Arg12& value);
 };
 struct FUN_004360c0_cls : public Base4f
 {
@@ -1181,7 +1176,6 @@ class ChildMember
   public:
     ChildMember();
     ~ChildMember();
-    void Attach(ParamBlock* p);
 };
 class NodeBase
 {
@@ -1207,25 +1201,18 @@ struct CloneChildCell
 };
 struct CloneCell
 {
-    bool FUN_00425fd0();
 };
 struct CloneExtraList
 {
-    void FUN_0041d390(CloneCell* pCell);
 };
 struct CloneSource
 {
     char pad00[0x18];
     CloneChildCell kChildCell;
 
-    bool FUN_005653d0();
-    NiPoint3* FUN_00436aa0();
-    const NiPoint3& FUN_00430830();
-    CloneCell* FUN_008d6f30();
 };
 struct CloneProcess
 {
-    int FUN_0045cd60();
 };
 struct CloneRef
 {
@@ -1404,16 +1391,6 @@ struct CloneRef
     int unk084;
 
     CloneRef();
-    void FUN_00575690(void* pBase);
-    void FUN_00565480(bool b);
-    void FUN_00575830(const NiPoint3& kPos);
-    void FUN_00575700(NiPoint3 kAngle);
-    void FUN_004fbf00(CloneSource* pSource);
-    void FUN_00898280(bool b);
-    void FUN_00935ae0();
-    CloneExtraList* FUN_005d43c0();
-    CloneProcess* FUN_008d8520();
-    void FUN_00407800(CloneProcess* pProcess);
 };
 struct CloneLowProcess : CloneProcess
 {
@@ -1716,22 +1693,16 @@ struct CloneHighProcess : CloneMiddleHighProcess
 };
 struct CloneProcessLists
 {
-    void FUN_0096d450(CloneRef* pRef, int iLevel, bool a, bool b, bool c);
 };
-extern CloneProcessLists DAT_011e0e80;
-extern "C" CloneRef* g_thePlayer;
 struct CloneFactory
 {
     CloneRef* FUN_00436780(void* pBase, CloneSource* pSource);
 };
 struct GcItem
 {
-    unsigned int Remove(unsigned int flag);
 };
 struct GcNode
 {
-    GcNode* Next();
-    GcItem** GetItem();
     ~GcNode();
 };
 struct GcBase
@@ -1756,8 +1727,6 @@ class FUN_00438610_cls
   public:
     unsigned int m_unk00;
     unsigned int* m_pData;
-    unsigned int GetCount();
-    void Reserve(unsigned int* slot, int count);
     int FUN_00438610(unsigned int* value);
 };
 class Base_438720
@@ -1770,7 +1739,6 @@ class FUN_00438720_cls : public Base_438720
 {
   public:
     virtual ~FUN_00438720_cls();
-    void FUN_00438af0();
 };
 struct NiSpawnBase
 {
@@ -1791,13 +1759,7 @@ class FUN_004391c0 : public NiSpawnBase
   public:
     FUN_004391c0();
     virtual void v00();
-    void Init0(unsigned int a);
-    void Init1(unsigned int a);
-    void Init2(unsigned int a);
-    void Init3(unsigned int a);
     void Init4(unsigned int a);
-    void Init5(unsigned short a);
-    void Init6(unsigned int a);
     unsigned short m_0018;
 };
 // NiProperty's constructor: calls the primary base constructor, installs the
@@ -1947,9 +1909,6 @@ class TESObjectREFR
     virtual void v123();
     virtual void v124();
     virtual int v125();
-    const NiPoint3& GetAngleOnReference() const;
-    const NiPoint3& FUN_00569880();
-    Matrix FUN_0056fa00();
 };
 class NiMemObject
 {
@@ -2007,8 +1966,6 @@ struct Bound : NiMemObject
     virtual void b45();
     virtual void SetScale(int);
     int unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20;
-    void FUN_00439680(const NiPoint3&);
-    void FUN_004396b0(const Matrix&);
 };
 struct FUN_00c37ec0 : Bound
 {
@@ -2024,17 +1981,12 @@ class BSMultiBound : public NiMemObject
   public:
     int unk00, unk04, unk08, unk0c;
     BSMultiBound();
-    void FUN_004addc0(Bound*);
 };
-BSMultiBound* __cdecl FUN_00439490(TESObjectREFR* reference);
-int __cdecl FUN_0043b290();
 extern "C" long __stdcall InterlockedCompareExchange(long volatile* Destination, long Exchange, long Comparand);
 typedef long(__stdcall* InterlockedCompareExchange_t)(long volatile*, long, long);
 InterlockedCompareExchange_t DAT_00fdf1bc = InterlockedCompareExchange;
-void __cdecl FUN_0043b460(void* pDest, void* pSrc, unsigned int n);
 struct ObjB4037
 {
-    void* __thiscall FUN_007b3fa0(bool a);
 };
 struct Sub4037
 {
@@ -2205,9 +2157,6 @@ struct AnimSource
     virtual void v1EC();
     virtual void v1F0();
     virtual void* GetSourceData();
-    const AnimPoint3& GetAngleOnReference() const;
-    const AnimPoint3& FUN_00569880();
-    AnimMatrix3 FUN_0056fa00();
 };
 struct AnimInterpolator : AnimMemObject
 {
@@ -2258,8 +2207,6 @@ struct AnimInterpolator : AnimMemObject
     virtual void v0B0();
     virtual void v0B4();
     virtual void SetSource(void* apData);
-    void SetPosition(const AnimPoint3& kPos);
-    void SetRotation(const AnimMatrix3& kRot);
 };
 struct AnimPointInterpolator : AnimInterpolator
 {
@@ -2277,7 +2224,6 @@ struct AnimBlendData : AnimMemObject
 {
     int unk00, unk04, unk08, unk0C;
     AnimBlendData();
-    void SetInterpolator(AnimInterpolator* apInterp);
 };
 struct AnimController : AnimMemObject
 {
@@ -2291,9 +2237,7 @@ struct AnimController : AnimMemObject
     int unkC4, unkC8, unkCC, unkD0, unkD4, unkD8, unkDC, unkE0;
     int unkE4, unkE8;
     AnimController();
-    void SetData(AnimBlendData* apData);
 };
-AnimController* __cdecl FUN_004396e0(AnimSource* apSource);
 struct RefCountedObject
 {
     void IncRefCount();
@@ -2319,13 +2263,10 @@ class NiFixedString
 class NameSource
 {
   public:
-    const char* FUN_0043b1b0();
 };
 class NamedObject
 {
   public:
-    NameSource* FUN_00413f40();
-    void FUN_0043b9f0(const NiFixedString& kName);
 };
 class AttachedNode
 {
@@ -2333,26 +2274,21 @@ class AttachedNode
 class AttachTarget
 {
   public:
-    void FUN_0043baa0(AttachedNode* pkNode);
 };
 class NamedObjectPtr
 {
   public:
     NamedObject* m_pObject;
-    NamedObject* FUN_00559450() const;  // NiPointer<T>::operator T*
+      // NiPointer<T>::operator T*
 };
 class AttachedNodePtr
 {
   public:
     AttachedNode* m_pObject;
-    AttachedNode* FUN_00559450() const;                   // NiPointer<T>::operator T*
+                       // NiPointer<T>::operator T*
     AttachedNodePtr& FUN_0066b0d0(AttachedNode* pkNode);  // NiPointer<T>::operator=
 };
-extern int DAT_011c7d74;
 const char* __cdecl FUN_0043b9d0(const char* pcString, int iChar);
-char* __cdecl FUN_00401460(char* pcDest, const char* pcSrc, int iCount);
-AttachedNode* __cdecl FUN_005f3a20(NamedObject* pkObject, const char* pcName);
-bool __cdecl FUN_0043b300(const void* pvKey, NamedObject* pkObject);
 class NamedObjectLoader
 {
   public:
@@ -2360,7 +2296,6 @@ class NamedObjectLoader
     NamedObjectPtr m_pReferencedObject;  // +0x04
     AttachedNodePtr m_spNode;            // +0x08
 
-    AttachTarget* FUN_007fa950();
     void FUN_0043b7e0(const char* pcName);
 };
 class MenuTopic;
@@ -2380,7 +2315,6 @@ class FUN_00437510 : public ExtraBase437510
     ~FUN_00437510();
 };
 
-TESForm* __cdecl FUN_004839c0(unsigned int auiFormId);
 
 class FUN_0043a9f0_C
 {
@@ -2395,5 +2329,5 @@ void FUN_0043a9f0_C::FUN_0043a9f0()
 {
     unsigned int auiFormId = (unsigned int)m_pkRef;
     if (auiFormId)
-        m_pkRef = dynamic_cast<TESObjectREFR*>(FUN_004839c0(auiFormId));
+        m_pkRef = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(auiFormId));
 }

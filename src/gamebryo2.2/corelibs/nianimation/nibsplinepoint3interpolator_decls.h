@@ -18,11 +18,14 @@ class NiStream
     unsigned char prefix[0x24c];
     NiBinaryStream* input;
 };
+class NiStream;
 class NiColor
 {
   public:
     float r, g, b;
     void LoadBinary(NiStream&);
+public:
+    void SaveBinary(::NiStream &);
 };
 class NiBSplineInterpolator
 {

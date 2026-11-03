@@ -3,6 +3,7 @@
 #define FNV_BGSTERRAINMANAGER_DECLS_H
 
 
+#include "fnv/symbols_004d5000.h"
 class NiFile
 {
   public:
@@ -38,6 +39,5 @@ class FileFinder
 
 class BGSTerrainManager;
 
-BGSTerrainManager* ReadAnimationFromStream(BSFile*);
 
 #endif

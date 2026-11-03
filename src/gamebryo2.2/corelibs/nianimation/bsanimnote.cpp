@@ -2,12 +2,27 @@
 // src/gamebryo2.2/corelibs/nianimation/bsanimnote.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/bsanimnote.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_011f3f00;
 
 // @fnv 0x00a44920
+#include <new>
+#include "fnv/decl/A5D6E0This.h"
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a5d3a0.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f6000.h"
 void* __cdecl FUN_00a44920()
 {
-    return &g_011f3f00;
+    return &(*reinterpret_cast<void * *>(&::g_011f3f00));
 }
 
 struct TimedTextEntry
@@ -38,7 +53,6 @@ struct BSFadeNode
 
 struct _Call_a5d3a0
 {
-    void __thiscall Init();
 };
 
 // Allocates a 0x10-byte BSFadeNode, calls Init on it, sets its vtable to DAT_01097dd4, and returns the pointer or 0.
@@ -49,7 +63,7 @@ void* __cdecl FUN_00a44940()
     if (p)
     {
         _Call_a5d3a0* pFadeNode = (_Call_a5d3a0*)p;
-        pFadeNode->Init();
+        new ((void *)(pFadeNode)) struct ::FUN_00a5d3a0();
         *(void**)(p) = &DAT_01097dd4;
         return p;
     }
@@ -57,7 +71,6 @@ void* __cdecl FUN_00a44940()
 }
 
 struct NiObject;
-bool __stdcall IsSameAs(NiObject*);
 struct TmpNote
 {
     int _a[2];
@@ -69,7 +82,7 @@ struct TmpNote
 // @fnv 0x00a44880
 bool __thiscall TmpNote::Matches(NiObject* apObject)
 {
-    if (IsSameAs(apObject))
+    if (reinterpret_cast<::A5d470Class *>((apObject))->IsSameAs({}))
     {
         if (eType == ((TmpNote*)apObject)->eType)
         {
@@ -80,8 +93,11 @@ bool __thiscall TmpNote::Matches(NiObject* apObject)
     return false;
 }
 
+class NiObject;
 struct NiStream
 {
+public:
+    ::NiObject *GetLoadedObject();
 };
 struct NiObject
 {
@@ -154,9 +170,7 @@ struct NiRefObject
 };
 struct MemoryManager
 {
-    void __thiscall Deallocate(void* p);
 };
-extern MemoryManager g_memoryManager;
 struct Holder44970
 {
     void* m_00;
@@ -176,25 +190,23 @@ void Holder44970::Destroy()
         if (p)
             delete p;
     }
-    g_memoryManager.Deallocate(m_08);
-    ((NiRefObject*)this)->NiRefObject::~NiRefObject();
+    reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(m_08);
+    reinterpret_cast<class ::FUN_00a5d3d0 *>((((NiRefObject*)this)))->FUN_00a5d3d0::~FUN_00a5d3d0();
 }
 
 namespace fnv_00a44a10 {
 struct BSAnimNotes
 {
     unsigned char _pad[16];
-    void Destroy();
     void* DestroyIfFlagged(unsigned int);
 };
-void __cdecl _delete(void*, unsigned int);
 // Calls Destroy, then deletes this with size 0x10 when bit 0 of a1 is set, and returns this.
 // @fnv 0x00a44a10
 void* BSAnimNotes::DestroyIfFlagged(unsigned int auiFlags)
 {
-    Destroy();
+    reinterpret_cast<::Holder44970 *>(this)->Destroy();
     if (auiFlags & 1)
-        _delete(this, 0x10);
+        ::FUN_00aa1460(this, 0x10);
     return this;
 }
 }  // namespace fnv_00a44a10
@@ -228,7 +240,6 @@ class CA449C0Object;
 class CA449C0Stream
 {
   public:
-    CA449C0Object* GetLoadedObject();
 };
 
 class CA449C0Object
@@ -247,7 +258,6 @@ class CA449C0Object
 class CA449C0Base
 {
   public:
-    void LinkObject(CA449C0Stream& kStream);
 
     int unk00;
     int unk04;
@@ -266,10 +276,10 @@ class CA449C0Container : public CA449C0Base
 // @fnv 0x00a449c0
 void CA449C0Container::LinkObjects(CA449C0Stream& kStream)
 {
-    CA449C0Base::LinkObject(kStream);
+    ::FUN_00a89af0((int)this);
     for (int i = 0; i < m_usNumObjects; i++)
     {
-        m_ppkObjects[i] = kStream.GetLoadedObject();
+        m_ppkObjects[i] = ((::CA449C0Object *)(reinterpret_cast<::NiStream *>(&(kStream))->GetLoadedObject()));
         m_ppkObjects[i]->IncRefCount();
     }
 }
@@ -279,13 +289,11 @@ void CA449C0Container::LinkObjects(CA449C0Stream& kStream)
 class A4AF0MemoryManager
 {
   public:
-    void* Allocate(unsigned int uiSize);
 };
-extern A4AF0MemoryManager g_kA4AF0MemoryManager;
 
 inline void* __cdecl operator new[](unsigned int uiSize)
 {
-    return g_kA4AF0MemoryManager.Allocate(uiSize);
+    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::A4AF0MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
 }
 
 class A4AF0BinaryStream
@@ -463,13 +471,11 @@ class A4AF0Stream
     int unk248;
     A4AF0BinaryStream* m_pUnderlyingStream;
 
-    void ResetStreamState();
 };
 
 class A4AF0Object
 {
   public:
-    void LoadBinary(A4AF0Stream& kStream);
 };
 
 class A4AF0Node : public A4AF0Object
@@ -486,14 +492,14 @@ class A4AF0Node : public A4AF0Object
 // @fnv 0x00a44af0
 void A4AF0Node::FUN_00a44af0(A4AF0Stream& kStream)
 {
-    A4AF0Object::LoadBinary(kStream);
+    reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup((::NiStream *)&(kStream));
 
     A4AF0LoadBinary(*kStream.m_pUnderlyingStream, m_usChildCount);
     if (m_usChildCount > 0)
         m_ppkChildren = new A4AF0Object*[m_usChildCount];
 
     for (int i = 0; i < m_usChildCount; i++)
-        kStream.ResetStreamState();
+        reinterpret_cast<::FUN_00a645b0_cls *>(&(kStream))->FUN_00a645b0();
 }
 
 // GetViewerStrings for an animation note: base strings, the time, and the note type.
@@ -502,14 +508,12 @@ class C4BF0StringArray
 {
   public:
     virtual ~C4BF0StringArray();
-    void SetSize(unsigned int uiMaxSize);
-    void SetAt(unsigned int uiIndex, char* const& pcElement);
 
     unsigned int SetAtGrow(unsigned int uiIndex, char* const& pcElement)
     {
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, pcElement);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pcElement));
         return uiIndex;
     }
     unsigned int Add(char* const& pcElement)
@@ -524,8 +528,6 @@ class C4BF0StringArray
     unsigned short m_usGrowBy;
 };
 
-char* __cdecl C4BF0GetViewerString(const char* pcPrefix, float fValue);
-char* __cdecl C4BF0GetViewerString(const char* pcPrefix, const char* pcValue);
 
 class C4BF0AnimNote
 {
@@ -535,30 +537,28 @@ class C4BF0AnimNote
     int m_eRequestType;
     float m_fTime;
 
-    void BaseGetViewerStrings(C4BF0StringArray* pkStrings);
     void FUN_00a44bf0(C4BF0StringArray* pkStrings);
 };
 
 // @fnv 0x00a44bf0
 void C4BF0AnimNote::FUN_00a44bf0(C4BF0StringArray* pkStrings)
 {
-    BaseGetViewerStrings(pkStrings);
-    pkStrings->Add(C4BF0GetViewerString("Time", m_fTime));
+    reinterpret_cast<::A5D6E0This *>(this)->AppendCameraPathEntries((::NiTArray< ::BGSCameraPath *, ::NiTMallocInterface< ::BGSCameraPath *>> *)(pkStrings));
+    pkStrings->Add(::FUN_00a7d550("Time", m_fTime));
     switch (m_eRequestType)
     {
     case 1:
-        pkStrings->Add(C4BF0GetViewerString("Type", "GrabIK"));
+        pkStrings->Add(::fnv_00a7d5e0::FUN_00a7d5e0("Type", "GrabIK"));
         break;
     }
-    pkStrings->Add(C4BF0GetViewerString("Type", "AnimNote"));
+    pkStrings->Add(::fnv_00a7d5e0::FUN_00a7d5e0("Type", "AnimNote"));
 }
 
-void __cdecl AppendCameraPathEntries();
 
 // @fnv 0x00a44910
 void __cdecl FUN_00a44910()
 {
-    AppendCameraPathEntries();
+    static_cast<::A5D6E0This *>(nullptr)->AppendCameraPathEntries({});
 }
 
 class NiBinaryStreamA44
@@ -605,7 +605,6 @@ template <class T> inline void ReadBinaryValue(NiStreamA44& kStream, T& value)
 class FUN_00a89af0_helper
 {
   public:
-    void FUN_00a89af0(NiStreamA44& kStream);
 };
 
 class LoaderA44 : public FUN_00a89af0_helper
@@ -622,7 +621,7 @@ class LoaderA44 : public FUN_00a89af0_helper
 // @fnv 0x00a44a90
 void LoaderA44::FUN_00a44a90(NiStreamA44& kStream)
 {
-    FUN_00a89af0(kStream);
+    ::FUN_00a89af0((int)this);
     ReadBinaryValue(kStream, m_08);
     ReadBinaryValue(kStream, m_0C);
 }
@@ -818,7 +817,6 @@ class B80Stream
 class B80Object
 {
   public:
-    void FUN_00a89af0(B80Stream& kStream);
 };
 class B80Notes : public B80Object
 {
@@ -834,7 +832,7 @@ class B80Notes : public B80Object
 // @fnv 0x00a44b80
 void B80Notes::FUN_00a44b80(B80Stream& kStream)
 {
-    B80Object::FUN_00a89af0(kStream);
+    ::FUN_00a89af0((int)this);
     B80SaveBinary(*kStream.m_pBackingStream, m_usNumNotes);
     for (unsigned int i = 0; i < m_usNumNotes; i++)
         kStream.SaveLinkID(m_ppkNotes[i]);
@@ -870,14 +868,13 @@ class LoadObj
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0C;
-    void ReadGroup(LoadStream* s);
     void ReadBinaryFields(LoadStream* s);
 };
 // Reads a group from the load stream, then binary-reads two unsigned int fields (unk08, unk0C) into the object.
 // @fnv 0x00a44a30
 void LoadObj::ReadBinaryFields(LoadStream* apLoadStream)
 {
-    ReadGroup(apLoadStream);
+    reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup((::NiStream *)(apLoadStream));
     StreamLoadBinary(*apLoadStream->GetIstr(), unk08);
     StreamLoadBinary(*apLoadStream->GetIstr(), unk0C);
 }

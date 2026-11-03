@@ -4,6 +4,12 @@
 // to their real unit once identified.
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_011c8000.h"
+#include "fnv/symbols_011f6000.h"
 extern int DAT_01189c40;
 struct FUN_00404b10_class
 {
@@ -11,7 +17,6 @@ struct FUN_00404b10_class
     void __thiscall FUN_00404b90(int);
     void* __thiscall Initialize();
 };
-extern int DAT_01012188;
 struct FUN_00404d00_class
 {
     void* m_vtbl;
@@ -43,12 +48,8 @@ struct CombatThreatRecord
 struct FUN_009a5270_class
 {
     void* __thiscall GetFirstPos();
-    void __thiscall GetNext(void*&, unsigned int&, CombatThreatRecord*&);
-    void __thiscall RemoveAll();
     void __thiscall DeleteAllEntries();
 };
-void* __cdecl FUN_00401000(unsigned int size);
-extern void* DAT_011c8048;
 struct SpawnedObj404a80
 {
     char m00[0x120];
@@ -58,7 +59,6 @@ struct SpawnedObj404a80
         return FUN_00401000(size);
     }
 };
-void __cdecl EnsureSpawnedObj();
 class B90Base
 {
   public:
@@ -390,9 +390,7 @@ typedef void* NiTMapIterator;
 
 struct HeapManager
 {
-    void Deallocate(void* p);
 };
-extern HeapManager g_memoryManager;
 
 template <class TKEY, class TVAL> class PtrMapItem
 {
@@ -487,11 +485,11 @@ void MapOwnerStandIn::FUN_00ec2e50()
     {
         unsigned int uiKey = 0;
         void* pValue = 0;
-        m_kFormatEntries.GetNext(pos, uiKey, pValue);
+        reinterpret_cast<::C6b7f20_Map *>((void *)&(m_kFormatEntries))->FUN_006b7f20((::C6b7f20_Node **)&(pos), (unsigned int *)&(uiKey), (void **)&(pValue));
         void* pFree = pValue;
-        g_memoryManager.Deallocate(pFree);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::HeapManager *>(&::g_memoryManager))))->FUN_00aa4060(pFree);
     }
-    m_kFormatEntries.RemoveAll();
+    reinterpret_cast<::FUN_00438af0_Class *>(&(m_kFormatEntries))->FUN_00438af0();
 }
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* p);

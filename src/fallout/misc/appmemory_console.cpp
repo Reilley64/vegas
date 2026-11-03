@@ -1,9 +1,9 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00403000.h"
 void* __cdecl operator new(unsigned);
 void* __cdecl operator new[](unsigned);
-void* __cdecl FUN_00403d30(void*, int, unsigned);
 struct Heap
 {
     virtual void method0();
@@ -74,7 +74,7 @@ struct MemoryManager
 // @fnv 0x00866e00
 void MemoryManager::InitializeHeaps()
 {
-    FUN_00403d30(classes, 0, 0x108);
+    ::FUN_00403d30(classes, 0, 0x108);
     count = 3;
     heaps = new Heap*[count];
     heaps[0] = new FUN_00aa78a0(0xc800000, 0x5500000, &DAT_010824fc, false);

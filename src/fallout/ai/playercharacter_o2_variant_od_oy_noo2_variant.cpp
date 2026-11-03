@@ -5,6 +5,149 @@
 
 // src/fallout/ai/playercharacter_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/ai/playercharacter.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <new>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C00624070.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/Class_007f68a0.h"
+#include "fnv/decl/FNV_AnimationOwner.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00409480_shell.h"
+#include "fnv/decl/FUN_0043b4d0_shell.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00444d00_Class.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_00491040_shell.h"
+#include "fnv/decl/FUN_00494710_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004a39f0_shell.h"
+#include "fnv/decl/FUN_004a3c20.h"
+#include "fnv/decl/FUN_004a3eb0_shell.h"
+#include "fnv/decl/FUN_004a3fb0_shell.h"
+#include "fnv/decl/FUN_004a46b0_class.h"
+#include "fnv/decl/FUN_004b4ab0_Class.h"
+#include "fnv/decl/FUN_004b4e50_shell.h"
+#include "fnv/decl/FUN_004b4f40.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00508d70_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_0057b0a0_shell.h"
+#include "fnv/decl/FUN_0059ce80_shell.h"
+#include "fnv/decl/FUN_005a2030_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00619a70_shell.h"
+#include "fnv/decl/FUN_0061cdc0_shell.h"
+#include "fnv/decl/FUN_0061cfd0_shell.h"
+#include "fnv/decl/FUN_0061e600_t.h"
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/FUN_0082aeb0_shell.h"
+#include "fnv/decl/FUN_0082aee0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008a1710_shell.h"
+#include "fnv/decl/FUN_008c5d90_Class.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FUN_009604f0_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00961200_Class.h"
+#include "fnv/decl/FUN_00961260_Class.h"
+#include "fnv/decl/FUN_0096a350_class.h"
+#include "fnv/decl/FUN_0096a370_Class.h"
+#include "fnv/decl/FUN_00c66fb0_Class.h"
+#include "fnv/decl/FUN_00c6e280_cls.h"
+#include "fnv/decl/FUN_00c9c390_Class.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/NiNode.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/S.h"
+#include "fnv/decl/S004586d0_Obj.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S004b4db0_Quaternion.h"
+#include "fnv/decl/S_00627920.h"
+#include "fnv/decl/Script.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/TopicFlagStandIn.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/V.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/bhkCharacterController.h"
+#include "fnv/decl/bhkCollisionObject.h"
+#include "fnv/decl/bhkUnaryAction.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_0042ce10__FUN_0042ce10_shell.h"
+#include "fnv/decl/fnv_004518e0__TESObjectCELL.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_00494740__FUN_00494740_t.h"
+#include "fnv/decl/fnv_004a3a20__FUN_004a3a20_shell.h"
+#include "fnv/decl/fnv_004a3da0__FUN_004a3da0_shell.h"
+#include "fnv/decl/fnv_004b4d10__UnaryActionSettings.h"
+#include "fnv/decl/fnv_004b4ea0__TESDataHandler.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_0087ce80__FUN_0087ce80_shell.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_00897910__AnimOwner.h"
+#include "fnv/decl/fnv_008aff80__ActorStub.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/decl/fnv_00961230__FUN_00961230_Class.h"
+#include "fnv/decl/fnv_00961280__FUN_00961280_shell.h"
+#include "fnv/decl/fnv_00963eb0__PlayerView.h"
+#include "fnv/decl/s56ae10__Owner.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00461000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_004ae000.h"
+#include "fnv/symbols_004b3000.h"
+#include "fnv/symbols_004b4000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_00517000.h"
+#include "fnv/symbols_00553000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00560000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_005ac000.h"
+#include "fnv/symbols_005f2000.h"
+#include "fnv/symbols_00619000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_00624000.h"
+#include "fnv/symbols_0062b000.h"
+#include "fnv/symbols_0062c000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_00960000.h"
+#include "fnv/symbols_009e3000.h"
+#include "fnv/symbols_00c66000.h"
+#include "fnv/symbols_00c9c000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01018000.h"
+#include "fnv/symbols_0101a000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_0101f000.h"
+#include "fnv/symbols_01020000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_01197000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011cf000.h"
+#include "fnv/symbols_011d0000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
 #include "PlayerCharacter.h"
 struct FUN_00c6fd20_class
 {
@@ -16,19 +159,13 @@ struct FUN_00c6fd20_class
 struct GrabVector
 {
     __m128 value;
-    GrabVector& FUN_006815c0();
-    void FUN_00553f70(const GrabVector*);
-    void FUN_00961190(void*);
-    void FUN_004b4ab0(const GrabVector*);
 };
 struct GrabPoint
 {
     float x, y, z;
-    GrabPoint& FUN_006815c0();
     GrabPoint operator*(float) const;
     GrabPoint operator+(const GrabPoint&) const;
     GrabPoint operator-(const GrabPoint&) const;
-    float FUN_00457990() const;
 };
 struct GrabMatrix
 {
@@ -37,9 +174,6 @@ struct GrabMatrix
 struct GrabPosition
 {
     GrabVector value;
-    void SetFromScaledVector3(const GrabPoint&);
-    void FUN_004b4db0(const GrabVector*);
-    GrabVector* ApplyToAction(GrabVector*);
 };
 struct GrabBody;
 struct GrabConstraintData
@@ -50,7 +184,6 @@ struct GrabConstraintData
     GrabPosition angular;
     GrabPosition position;
     float f30, f34, f38, f3c;
-    void FUN_004b4f40();
 };
 struct GrabRay
 {
@@ -61,44 +194,28 @@ struct GrabRay
     int unk60, unk64, unk68, unk6c, unk70, unk74, unk78, unk7c;
     int unk80, unk84, unk88, unk8c, unk90, unk94, unk98, unk9c;
     int unka0, unka4, unka8, unkac;
-    void FUN_004a3c20();
     void FUN_004a3f70(int);
-    void FUN_004a3da0(const GrabPoint*);
-    void FUN_007f68a0(const GrabPoint*);
-    GrabBody* FUN_00c66fd0();
 };
 struct GrabFilter
 {
     int bits;
     GrabFilter(int);
-    void FUN_004a39f0(int);
-    void FUN_0059ce80(unsigned);
-    int FUN_004a3a20();
-    int FUN_0043b4d0();
 };
 struct GrabController
 {
-    float GetSettingFloat();
 };
 struct GrabCell;
 struct GrabRef;
 struct GrabShape;
 struct GrabItem
 {
-    GrabShape* FUN_0084e3a0();
 };
 struct GrabItems
 {
-    int GetShortAtOffset4();
-    GrabItem** FUN_0096a370(int);
 };
 struct GrabBody
 {
-    void* FUN_0044ddc0();
-    int FUN_00517670();
-    GrabItems* FUN_009604f0();
     void* FUN_004b4ec0();
-    GrabVector* FUN_004b4f00(const GrabVector*);
 };
 struct GrabWorld
 {
@@ -153,7 +270,6 @@ struct GrabWorld
     virtual void v0c0();
     virtual void v0c4();
     virtual bool Cast(GrabRay*);
-    void FUN_005533c0();
 };
 struct GrabShape
 {
@@ -230,7 +346,6 @@ struct GrabPhysics
     virtual void v0e8();
     virtual void v0ec();
     virtual void GetNavMeshData(GrabVector*);
-    GrabBody* FUN_004ae750();
     GrabFilter FUN_0043b4f0();
 };
 struct GrabRef
@@ -435,24 +550,16 @@ struct GrabRef
     virtual void v314();
     virtual bool IsStateValid();
 
-    bool FUN_00444d00(int);
-    GrabCell* FUN_008d6f30();
-    void* FUN_005d43c0();
-    GrabRef* FUN_0044ddc0();
-    GrabMatrix* FUN_00461130();
 };
 struct GrabCell
 {
-    GrabWorld* FUN_004543c0();
 };
 struct GrabSetting
 {
     bool* FUN_00408d60();
-    float* FUN_00403e20();
 };
 struct GrabSave
 {
-    bool FUN_0042ce10();
 };
 struct GrabConstraint
 {
@@ -505,7 +612,6 @@ struct GrabPointer
 {
     GrabConstraint* ptr;
     GrabPointer& FUN_0066b0d0(GrabConstraint*);
-    GrabConstraint* FUN_00559450();
 };
 struct GrabHost
 {
@@ -912,44 +1018,14 @@ struct GrabHost
     int mode;
     float mass;
     float distance;
-    void GetCameraPosAndDir(GrabPoint*, GrabPoint*, bool);
     GrabFilter* FUN_00931ed0(int*);
-    void SetEffectValue(int, float, GrabRef*);
-    void FUN_00961280();
-    GrabController* FUN_009306d0();
     void FUN_0095f930(GrabRef*, int, float);
 };
-extern GrabSetting DAT_011e0b1c;
-extern GrabSetting DAT_011d18a8, DAT_011d183c, DAT_011d1728, DAT_011d1604;
-extern GrabSetting DAT_011d1a08, DAT_011d1c7c, DAT_011d1b44, DAT_011d177c;
-extern GrabSetting DAT_011d1260, DAT_011d0048, DAT_011d0220, DAT_011d0e4c;
-extern GrabSetting DAT_011d0358, DAT_011cfeec, DAT_011d08c8, DAT_011d0ffc;
-extern GrabSave* DAT_011ddf38;
-extern const GrabPoint DAT_011a9484;
-extern const float DAT_01017868;
-extern const double DAT_01020998, DAT_0101ffa0, DAT_01018a90, DAT_01011588;
-GrabPhysics* FUN_004b52f0(GrabRef*);
-int GetBSXFlags(GrabRef*, int);
-bool FUN_005ac750(int, void*, unsigned);
-void GetScalarAndVector(GrabRef*, GrabVector*, float*);
-bool FUN_00703430();
-GrabPhysics* FUN_00960510();
-GrabRef* FUN_004b5a20(GrabBody*);
-GrabRef* FUN_0056f930(GrabRef*);
-GrabPhysics* FUN_004b5a80(GrabBody*);
-void FUN_007033d0(GrabPoint*);
-void FUN_00553fc0(GrabVector*, const GrabPoint*);
-void FUN_00458620(GrabPoint*, const GrabVector*);
-float FUN_004587d0(float);
-float FUN_00404010(float, float);
-float FUN_0040ebd0(float, float);
-float FUN_0062c300(GrabRef*);
-float LinearInterpolate(float, float, float, float, float);
 
 // @fnv 0x0095f930
 void GrabHost::FUN_0095f930(GrabRef* ref, int newMode, float range)
 {
-    if (!*DAT_011e0b1c.FUN_00408d60() && ref->IsDead() && !ref->AllowGrab(0))
+    if (!*(*reinterpret_cast<::GrabSetting *>(&::g_011e0b1c)).FUN_00408d60() && ref->IsDead() && !ref->AllowGrab(0))
         return;
     if (ref && ref->IsActor())
     {
@@ -957,120 +1033,120 @@ void GrabHost::FUN_0095f930(GrabRef* ref, int newMode, float range)
         if (actor->GetState() == 3)
         {
             GrabRef* actor2 = actor;
-            if (actor2->IsStateValid() && !actor2->FUN_00444d00(0x200))
+            if (actor2->IsStateValid() && !reinterpret_cast<::FUN_00444d00_Class *>((actor2))->FUN_00444d00(0x200))
                 return;
         }
     }
-    if (ref && ref->FUN_008d6f30())
+    if (ref && ((::GrabCell *)(reinterpret_cast<::LowProcess *>((ref))->GetTarget())))
     {
         GrabRef* root = ref->Get3D();
-        GrabPhysics* physics = FUN_004b52f0(root);
+        GrabPhysics* physics = ((::GrabPhysics *)(::FUN_004b52f0(root)));
         if (physics)
         {
-            bool character = GetBSXFlags(root, 8) || ref->IsDead();
+            bool character = ((int)(::GetBSXFlags((unsigned int)(root), 8))) || ref->IsDead();
             target = ref;
-            FUN_005ac750(0, target->FUN_005d43c0(), 0x80000);
+            ::FUN_005ac750((::TESForm *)(0), (::ExtraDataList *)(void *)(reinterpret_cast<::FUN_005d43c0_ *>((target))->FUN_005d43c0()), 0x80000);
             mode = newMode;
             distance = range;
             GrabConstraintData data;
-            data.FUN_004b4f40();
+            new ((void *)&(data)) ::FUN_004b4f40();
             float ignored = 0.0f;
             GrabVector center;
-            center.FUN_006815c0();
+            new ((void *)&(center)) ::Vec3();
             if (character && ref->IsDead())
-                GetScalarAndVector(root, &center, &ignored);
+                ::GetScalarAndVector(root, (::__m128 *)(::GrabVector *)(&center), &ignored);
             else
                 physics->GetNavMeshData(&center);
             GrabPoint direction;
-            direction.FUN_006815c0();
+            new ((void *)&(direction)) ::Vec3();
             GrabPoint origin;
-            origin.FUN_006815c0();
-            GetCameraPosAndDir(&origin, &direction, true);
+            new ((void *)&(origin)) ::Vec3();
+            reinterpret_cast<::fnv_008aff80::ActorStub *>(this)->GetCameraPosAndDir((::fnv_008aff80::Vec3 *)(::GrabPoint *)(&origin), (::fnv_008aff80::Vec3 *)(::GrabPoint *)(&direction), true);
             bool selected = false;
-            GrabWorld* world = ref->FUN_008d6f30()->FUN_004543c0();
-            if (mode == 1 && world && !DAT_011ddf38->FUN_0042ce10())
+            GrabWorld* world = ((::GrabWorld *)(reinterpret_cast<::FUN_004543c0_cls *>((((::GrabCell *)(reinterpret_cast<::LowProcess *>((ref))->GetTarget()))))->FUN_004543c0()));
+            if (mode == 1 && world && !reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::GrabSave * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10())
             {
-                if (!FUN_00703430() || !FUN_00960510())
+                if (!((bool)(::fnv_00703430::FUN_00703430())) || !((::GrabPhysics *)(::FUN_00960510())))
                 {
                     GrabRay ray;
-                    ray.FUN_004a3c20();
+                    new ((void *)&(ray)) ::FUN_004a3c20();
                     GrabFilter filter(0);
-                    filter.FUN_004a39f0(0x24);
+                    reinterpret_cast<::FUN_004a39f0_shell *>(&(filter))->FUN_004a39f0(0x24);
                     int filterTemp;
-                    filter.FUN_0059ce80(FUN_00931ed0(&filterTemp)->FUN_004a3a20());
+                    reinterpret_cast<::FUN_0059ce80_shell *>(&(filter))->FUN_0059ce80(((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((FUN_00931ed0(&filterTemp)))->FUN_004a3a20())));
                     ray.FUN_004a3f70(filter.bits);
-                    ray.FUN_004a3da0(&origin);
-                    ray.FUN_007f68a0(&(direction * distance));
+                    reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(ray))->FUN_004a3da0((void *)(&origin));
+                    reinterpret_cast<::Class_007f68a0 *>(&(ray))->FUN_007f68a0((*(const ::NiPoint3 *)(&(direction * distance))));
                     if (world->Cast(&ray))
                     {
-                        GrabBody* hit = ray.FUN_00c66fd0();
-                        GrabRef* hitRef = FUN_004b5a20(hit);
-                        GrabRef* hitNode = hitRef ? hitRef->FUN_0044ddc0() : 0;
-                        GrabRef* resolved = FUN_0056f930(hitNode);
+                        GrabBody* hit = ((::GrabBody *)(::FUN_00c66fd0((::BhkPickData *)&(ray))));
+                        GrabRef* hitRef = ((::GrabRef *)(::bhkCollisionObject::GetFromRigidBody((const ::hkpRigidBody *)(hit))));
+                        GrabRef* hitNode = hitRef ? ((::GrabRef *)(reinterpret_cast<::Twin_0044ddc0 *>((hitRef))->GetName())) : 0;
+                        GrabRef* resolved = ((::GrabRef *)(::FUN_0056f930((::NiAVObject *)(hitNode))));
                         if (hit && resolved == ref)
                         {
                             if (!character)
                             {
-                                GrabPhysics* hitPhysics = FUN_004b5a80(hit);
+                                GrabPhysics* hitPhysics = ((::GrabPhysics *)(::FUN_004b5a80(hit)));
                                 hitPhysics->GetNavMeshData(&center);
                             }
                             selected = true;
                             data.body = hit;
                             distance *= ray.hitFraction;
                             GrabPoint destination = origin + direction * distance;
-                            data.position.SetFromScaledVector3(destination);
+                            reinterpret_cast<::FUN_004b4e50_shell *>(&(data.position))->SetFromScaledVector3((void *)&(destination));
                         }
                     }
                 }
                 else
                 {
                     GrabPoint picked;
-                    FUN_007033d0(&picked);
-                    if (!DAT_011ddf38->FUN_0042ce10())
-                        distance = (picked - origin).FUN_00457990();
-                    data.position.SetFromScaledVector3(picked);
-                    GrabPhysics* pickedPhysics = FUN_00960510();
-                    data.body = pickedPhysics->FUN_004ae750();
+                    ::FUN_007033d0((int *)(::GrabPoint *)(&picked));
+                    if (!reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::GrabSave * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10())
+                        distance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::GrabPoint &)((picked - origin)))->ComputeMagnitude();
+                    reinterpret_cast<::FUN_004b4e50_shell *>(&(data.position))->SetFromScaledVector3((void *)&(picked));
+                    GrabPhysics* pickedPhysics = ((::GrabPhysics *)(::FUN_00960510()));
+                    data.body = ((::GrabBody *)(::FUN_004ae750((void *)(pickedPhysics))));
                     selected = true;
                 }
             }
             if (!selected)
             {
-                data.position.FUN_004b4db0(&center);
+                reinterpret_cast<::S004b4db0_Quaternion *>(&(data.position))->FUN_004b4db0((*(const ::S004b4db0_Vector4 *)(&center)));
                 GrabVector position;
-                position.FUN_006815c0();
+                new ((void *)&(position)) ::Vec3();
                 if (character)
                 {
                     GrabVector scratch;
-                    scratch.FUN_006815c0();
+                    new ((void *)&(scratch)) ::Vec3();
                     GrabVector rotated;
-                    rotated.FUN_006815c0();
-                    FUN_00553fc0(&rotated, &(root->FUN_00461130()->FUN_004b4500(&DAT_011a9484)));
-                    data.position.ApplyToAction(&position);
-                    position.FUN_00553f70(&rotated);
-                    data.position.FUN_004b4db0(&position);
+                    new ((void *)&(rotated)) ::Vec3();
+                    ::CopyCharacterControllerVector((::bhkCharacterController *)(::GrabVector *)(&rotated), (*(const ::NiPoint3 *)(&(((::GrabMatrix *)(::FUN_00461130((int)(root))))->FUN_004b4500(&(*reinterpret_cast<const ::GrabPoint *>((void *)&::DAT_011a9484)))))));
+                    reinterpret_cast<::fnv_004b4d10::UnaryActionSettings *>(&(data.position))->ApplyToAction((::fnv_004b4d10::bhkUnaryAction *)(::GrabVector *)(&position));
+                    reinterpret_cast<::V *>(&(position))->FUN_00553f70((*(const ::V *)(&rotated)));
+                    reinterpret_cast<::S004b4db0_Quaternion *>(&(data.position))->FUN_004b4db0((*(const ::S004b4db0_Vector4 *)(&position)));
                 }
-                if (!DAT_011ddf38->FUN_0042ce10())
+                if (!reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::GrabSave * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10())
                 {
                     GrabPoint point;
-                    point.FUN_006815c0();
-                    FUN_00458620(&point, data.position.ApplyToAction(&position));
-                    distance = (point - origin).FUN_00457990();
+                    new ((void *)&(point)) ::Vec3();
+                    ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&point)), (*(const ::hkVector4 *)(((::GrabVector *)(reinterpret_cast<::fnv_004b4d10::UnaryActionSettings *>(&(data.position))->ApplyToAction((::fnv_004b4d10::bhkUnaryAction *)(::GrabVector *)(&position)))))));
+                    distance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::GrabPoint &)((point - origin)))->ComputeMagnitude();
                 }
-                data.body = physics->FUN_004ae750();
+                data.body = ((::GrabBody *)(::FUN_004ae750((void *)(physics))));
             }
             if (mode == 1)
-                SetEffectValue(5, DAT_01017868, ref);
+                reinterpret_cast<::fnv_00963eb0::PlayerView *>(this)->SetEffectValue((void *)(5), DAT_01017868, (::fnv_00963eb0::EffectSource *)(ref));
             GrabBody* body = data.body;
-            if (!body->FUN_0044ddc0() || body->FUN_00517670() == 5 || body->FUN_00517670() == 4)
+            if (!((void *)(reinterpret_cast<::Twin_0044ddc0 *>((body))->GetName())) || ::FUN_00517670((::TESDataHandler *)(body)) == 5 || ::FUN_00517670((::TESDataHandler *)(body)) == 4)
             {
-                FUN_00961280();
+                reinterpret_cast<::fnv_00961280::FUN_00961280_shell *>(this)->FUN_00961280();
                 return;
             }
-            GrabController* controller = FUN_009306d0();
+            GrabController* controller = ((::GrabController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()));
             if (controller)
             {
-                float minDistance = FUN_004587d0(controller->GetSettingFloat()) + DAT_01020998;
+                float minDistance = FUN_004587d0(reinterpret_cast<::FUN_00c6e280_cls *>((controller))->GetSettingFloat()) + DAT_01020998;
                 if (distance < minDistance)
                     distance = minDistance;
             }
@@ -1078,17 +1154,17 @@ void GrabHost::FUN_0095f930(GrabRef* ref, int newMode, float range)
             {
                 if (character)
                 {
-                    data.f30 = *DAT_011d18a8.FUN_00403e20();
-                    data.f34 = *DAT_011d183c.FUN_00403e20();
-                    data.f3c = *DAT_011d1728.FUN_00403e20();
-                    data.f38 = *DAT_011d1604.FUN_00403e20();
+                    data.f30 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1177))))));
+                    data.f34 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1178))))));
+                    data.f3c = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1179))))));
+                    data.f38 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1180))))));
                 }
                 else
                 {
-                    data.f30 = *DAT_011d1a08.FUN_00403e20();
-                    data.f34 = *DAT_011d1c7c.FUN_00403e20();
-                    data.f3c = *DAT_011d1b44.FUN_00403e20();
-                    data.f38 = *DAT_011d177c.FUN_00403e20();
+                    data.f30 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1173))))));
+                    data.f34 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1174))))));
+                    data.f3c = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1175))))));
+                    data.f38 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1176))))));
                 }
             }
             else
@@ -1097,16 +1173,16 @@ void GrabHost::FUN_0095f930(GrabRef* ref, int newMode, float range)
                 float linearScale = 1.0f;
                 if (target->IsDead())
                 {
-                    float upper = *DAT_011d1260.FUN_00403e20();
-                    float lower = *DAT_011d0048.FUN_00403e20();
-                    float minScale = *DAT_011d0220.FUN_00403e20();
-                    float maxScale = *DAT_011d0e4c.FUN_00403e20();
-                    float clamped = FUN_0040ebd0(lower, FUN_00404010(upper, FUN_0062c300(root)));
+                    float upper = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::g_011d1260))))));
+                    float lower = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1054))))));
+                    float minScale = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::g_011d0220))))));
+                    float maxScale = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1053))))));
+                    float clamped = FUN_0040ebd0(lower, FUN_00404010(upper, ::FUN_0062c300((::NiAVObject *)(root))));
                     angularScale *= LinearInterpolate(maxScale, minScale, lower, upper, clamped);
                     bool allCharacter = true;
-                    for (int i = 0; i < body->FUN_009604f0()->GetShortAtOffset4() && allCharacter; ++i)
+                    for (int i = 0; i < ((int)(reinterpret_cast<::FUN_0096a350_class *>((((::GrabItems *)(reinterpret_cast<::FUN_009604f0_shell *>((body))->FUN_009604f0()))))->GetShortAtOffset4())) && allCharacter; ++i)
                     {
-                        GrabShape* shape = (*body->FUN_009604f0()->FUN_0096a370(i))->FUN_0084e3a0();
+                        GrabShape* shape = ((::GrabShape *)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*((::GrabItem **)(reinterpret_cast<::FUN_0096a370_Class *>((((::GrabItems *)(reinterpret_cast<::FUN_009604f0_shell *>((body))->FUN_009604f0()))))->FUN_0096a370(i))))))->FUN_0084e3a0()));
                         allCharacter = shape->GetType() == 0xb;
                     }
                     if (allCharacter)
@@ -1115,36 +1191,35 @@ void GrabHost::FUN_0095f930(GrabRef* ref, int newMode, float range)
                         angularScale *= DAT_01018a90;
                     }
                 }
-                else if (physics->FUN_0043b4f0().FUN_0043b4d0() == 0xe)
+                else if (reinterpret_cast<::FUN_0043b4d0_shell *>((void *)&(const ::GrabFilter &)(physics->FUN_0043b4f0()))->FUN_0043b4d0() == 0xe)
                 {
                     linearScale *= DAT_0101ffa0;
-                    angularScale *= DAT_01011588;
+                    angularScale *= ::DAT_01011588;
                 }
-                data.f30 = *DAT_011d0358.FUN_00403e20();
-                data.f34 = *DAT_011cfeec.FUN_00403e20() * linearScale;
-                data.f3c = *DAT_011d08c8.FUN_00403e20();
-                data.f38 = *DAT_011d0ffc.FUN_00403e20() * angularScale;
+                data.f30 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1049))))));
+                data.f34 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1050)))))) * linearScale;
+                data.f3c = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1051))))));
+                data.f38 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1052)))))) * angularScale;
             }
             GrabVector localPosition;
-            localPosition.FUN_006815c0();
+            new ((void *)&(localPosition)) ::Vec3();
             GrabVector localRotation;
-            localRotation.FUN_006815c0();
-            data.position.ApplyToAction(&localPosition);
-            localPosition.FUN_00961190(body->FUN_004b4ec0());
-            data.angular.ApplyToAction(&localRotation)
-                ->FUN_004b4ab0(&body->FUN_004b4f00(&localPosition)->FUN_006815c0());
-            data.angular.FUN_004b4db0(&localRotation);
-            target->FUN_008d6f30()->FUN_004543c0()->FUN_005533c0();
+            new ((void *)&(localRotation)) ::Vec3();
+            reinterpret_cast<::fnv_004b4d10::UnaryActionSettings *>(&(data.position))->ApplyToAction((::fnv_004b4d10::bhkUnaryAction *)(::GrabVector *)(&localPosition));
+            reinterpret_cast<::V *>(&(localPosition))->FUN_00961190((*(const ::V *)(body->FUN_004b4ec0())));
+            reinterpret_cast<::FUN_004b4ab0_Class *>((((::GrabVector *)(reinterpret_cast<::fnv_004b4d10::UnaryActionSettings *>(&(data.angular))->ApplyToAction((::fnv_004b4d10::bhkUnaryAction *)(::GrabVector *)(&localRotation))))))->FUN_004b4ab0((int)(&(*(::GrabVector *)(new ((void *)(((::GrabVector *)(::FUN_004b4f00((::TESDataHandler *)(body)))))) ::Vec3()))), {});
+            reinterpret_cast<::S004b4db0_Quaternion *>(&(data.angular))->FUN_004b4db0((*(const ::S004b4db0_Vector4 *)(&localRotation)));
+            reinterpret_cast<::Script *>((((::GrabWorld *)(reinterpret_cast<::FUN_004543c0_cls *>((((::GrabCell *)(reinterpret_cast<::LowProcess *>((target))->GetTarget()))))->FUN_004543c0()))))->GetLocalData();
             constraint.FUN_0066b0d0(new GrabConstraint(&data));
-            GrabConstraint* created = constraint.FUN_00559450();
-            created->SetWorld(target->FUN_008d6f30()->FUN_004543c0());
-            target->FUN_008d6f30()->FUN_004543c0()->FUN_005533c0();
-            mass = FUN_0062c300(ref->Get3D());
+            GrabConstraint* created = ((::GrabConstraint *)(::FUN_00559450((int *)&(constraint))));
+            created->SetWorld(((::GrabWorld *)(reinterpret_cast<::FUN_004543c0_cls *>((((::GrabCell *)(reinterpret_cast<::LowProcess *>((target))->GetTarget()))))->FUN_004543c0())));
+            reinterpret_cast<::Script *>((((::GrabWorld *)(reinterpret_cast<::FUN_004543c0_cls *>((((::GrabCell *)(reinterpret_cast<::LowProcess *>((target))->GetTarget()))))->FUN_004543c0()))))->GetLocalData();
+            mass = ::FUN_0062c300((::NiAVObject *)(::GrabRef *)(ref->Get3D()));
         }
         else if (newMode == 2)
         {
             target = ref;
-            FUN_005ac750(0, target->FUN_005d43c0(), 0x80000);
+            ::FUN_005ac750((::TESForm *)(0), (::ExtraDataList *)(void *)(reinterpret_cast<::FUN_005d43c0_ *>((target))->FUN_005d43c0()), 0x80000);
             mode = 2;
             distance = range;
         }
@@ -1152,6 +1227,7 @@ void GrabHost::FUN_0095f930(GrabRef* ref, int newMode, float range)
 }
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 namespace fnv_00960520 {
 #include <xmmintrin.h>
 /* UNVERIFIED previous contributor's C++ reconstruction, 2026-10-23; preserved for official recheck. */
@@ -1167,8 +1243,6 @@ class Vec3
     Vec3();
     Vec3 Add(const Vec3& o) const;
     Vec3 Scale(float s) const;
-    Vec3& AddTo(const Vec3& o);
-    float Length() const;
 };
 class HkVec
 {
@@ -1177,13 +1251,7 @@ class HkVec
     HkVec();
     HkVec(float s);
     void SetTransformedPos(HkTransform* t, HkVec* p);
-    void AddVec(HkVec* p);
     HkVec Delta(void) const;
-    float Length3() const;
-    void MulVec(HkVec* p);
-    float& At(int i);
-    void Set(float x, float y, float z, float w);
-    void SetRotated(void* p);
 };
 struct HkTransform
 {
@@ -1195,15 +1263,12 @@ class Handle
   public:
     unsigned int m_val;
     Handle();
-    void Assign(int v);
-    bool IsSet();
 };
 class Handle2
 {
   public:
     unsigned int m_val;
     Handle2();
-    int Get();
 };
 struct VObj
 {
@@ -1324,32 +1389,14 @@ struct VObj
     virtual void v72();
     virtual void v73();
     virtual VObj* vGet1D0();
-    int GetRace();
-    VObj* GetBase();
-    void GetDir(HkVec* out);
-    void GetVel(HkVec* out);
-    void SetDest(Vec3* p);
     Handle GetHandle();
     Handle2 GetHandle2();
-    VObj* GetCombat();
-    VObj* GetNode();
     VObj* Get3D();
     Vec3* GetPos();
-    int GetCount();
     VObj* GetAt(int i);
-    VObj* GetOwner();
-    VObj* GetParent();
-    VObj* GetNext();
-    float GetRadius();
-    VObj* GetChild(int i);
-    VObj* GetFirst();
-    void* GetRot();
-    void ApplyVel(HkVec* p);
 };
 struct ItemList
 {
-    int Count();
-    void* At(int i);
 };
 struct Obj4A0
 {
@@ -1390,7 +1437,6 @@ struct Obj430
     int unk300, unk304, unk308, unk30C, unk310, unk314, unk318;
     Obj430();
     ~Obj430();
-    ItemList* GetList();
 };
 struct ObjF0
 {
@@ -1402,50 +1448,18 @@ struct ObjF0
     int unkA0, unkA4, unkA8;
     ObjF0();
     void SetHandle(Handle h);
-    void SetOrigin(Vec3* p);
-    void SetDir(const Vec3& v);
-    void Run(Obj430* out);
-    void SetTarget(Vec3* p);
-    VObj* GetHit();
 };
 struct PickTarget
 {
-    int GetId();
     int GetState();
-    float GetRange();
 };
 struct RefHandle
 {
-    VObj* Get();
 };
 struct Setting
 {
-    float* Get();
 };
-extern VObj* DAT_011dea3c;
-extern Setting DAT_011d0664;
-extern Setting DAT_011cffc4;
-extern Setting DAT_011d1308;
-extern Setting DAT_011d0808;
-extern Setting DAT_011d04d8;
-extern Setting DAT_011d037c;
-extern const double DAT_01012070;
 extern const double DAT_01072f98;
-extern const double DAT_0101a6b0;
-extern const double DAT_01012060;
-extern const double DAT_01020998;
-VObj* GetPf8(VObj* p);
-VObj* LookupForm(int id);
-VObj* AsActor(VObj* p);
-float MaxF(float a, float b);
-float ClampF(float f);
-int HasFlag(VObj* p, int flag);
-VObj* GetProcess(VObj* p);
-float GetScale(VObj* p);
-float MinF(float a, float b);
-float Lerp(float a, float b, float c, float d, float e);
-void ToNiPoint(Vec3* out, HkVec* in);
-void ApplyImpulse(VObj* p, Vec3* v, int flag);
 struct Projectile
 {
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
@@ -1503,58 +1517,55 @@ struct Projectile
     int m_63c;
     int unk640;
     float m_644;
-    void Explode();
-    PickTarget* GetPick();
-    void GetLaunch(Vec3* pos, Vec3* dir, bool b);
     void FUN_00960520(int a);
 };
 // @fnv 0x00960520
 void Projectile::FUN_00960520(int a)
 {
-    if (m_638 == 0 || m_634.Get() == 0 || m_634.Get()->GetRace() == 0)
+    if (m_638 == 0 || ((::fnv_00960520::VObj *)(::FUN_00559450((int *)&(m_634)))) == 0 || ((int)(reinterpret_cast<::FUN_0082aeb0_shell *>((((::fnv_00960520::VObj *)(::FUN_00559450((int *)&(m_634))))))->FUN_0082aeb0())) == 0)
     {
-        Explode();
+        reinterpret_cast<::fnv_00961280::FUN_00961280_shell *>(this)->FUN_00961280();
         return;
     }
-    PickTarget* pick = GetPick();
-    if (pick != 0 && pick->GetId() == m_634.Get()->GetRace() && pick->GetState() == 1)
+    PickTarget* pick = ((::fnv_00960520::PickTarget *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()));
+    if (pick != 0 && reinterpret_cast<::FUN_00c6fd20_class *>((pick))->FUN_00c6fd20() == ((int)(reinterpret_cast<::FUN_0082aeb0_shell *>((((::fnv_00960520::VObj *)(::FUN_00559450((int *)&(m_634))))))->FUN_0082aeb0())) && ((int)(reinterpret_cast<::FUN_00961260_Class *>((pick))->GetFieldAt608())) == 1)
     {
-        Explode();
+        reinterpret_cast<::fnv_00961280::FUN_00961280_shell *>(this)->FUN_00961280();
         return;
     }
     float base = 0.0f;
     float speed = m_644 + base;
     Vec3 pos;
     Vec3 dir;
-    GetLaunch(&pos, &dir, true);
+    reinterpret_cast<::fnv_008aff80::ActorStub *>(this)->GetCameraPosAndDir((::fnv_008aff80::Vec3 *)(::fnv_00960520::Vec3 *)(&pos), (::fnv_008aff80::Vec3 *)(::fnv_00960520::Vec3 *)(&dir), true);
     ObjF0 ray;
-    VObj* weapon = m_634.Get()->GetBase();
-    VObj* shooter = GetPf8(weapon);
+    VObj* weapon = ((::fnv_00960520::VObj *)(reinterpret_cast<::FUN_0082aee0_shell *>((((::fnv_00960520::VObj *)(::FUN_00559450((int *)&(m_634))))))->FUN_0082aee0()));
+    VObj* shooter = ((::fnv_00960520::VObj *)(::FUN_004b5a80(weapon)));
     Handle owner = shooter->GetHandle();
-    owner.Assign(DAT_011dea3c->GetHandle2().Get());
+    reinterpret_cast<::FUN_0059ce80_shell *>(&(owner))->FUN_0059ce80(((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::fnv_00960520::Handle2 &)((*reinterpret_cast<::fnv_00960520::VObj * *>(&::_g_thePlayer))->GetHandle2()))->FUN_004a3a20())));
     ray.SetHandle(owner);
-    ray.SetOrigin(&pos);
-    ray.SetDir(dir.Scale(speed));
+    reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(ray))->FUN_004a3da0(&pos);
+    reinterpret_cast<::Class_007f68a0 *>(&(ray))->FUN_007f68a0((const ::NiPoint3 &)((const ::fnv_00960520::Vec3 &)(dir.Scale(speed))));
     Obj430 hits;
-    ray.Run(&hits);
-    VObj* world = DAT_011dea3c->GetCombat()->GetNode();
+    reinterpret_cast<::FUN_004a3fb0_shell *>(&(ray))->FUN_004a3fb0((::hkpAllRayHitCollector *)(::fnv_00960520::Obj430 *)(&hits));
+    VObj* world = ((::fnv_00960520::VObj *)(reinterpret_cast<::FUN_004543c0_cls *>((((::fnv_00960520::VObj *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::fnv_00960520::VObj * *>(&::_g_thePlayer))))->GetTarget()))))->FUN_004543c0()));
     if (world->vTest(&ray))
     {
         float frac = 1.0f;
-        for (int i = 0; frac == DAT_01012070 && i < hits.GetList()->Count(); i++)
+        for (int i = 0; frac == ::g_01012070 && i < ((int)(reinterpret_cast<::Callees *>((((::fnv_00960520::ItemList *)(::FUN_00460140((int)&(hits))))))->FUN_00726070())); i++)
         {
-            Obj4A0 hit(hits.GetList()->At(i));
-            VObj* form = LookupForm(hit.iRef);
+            Obj4A0 hit(((void *)(reinterpret_cast<::FUN_004a46b0_class *>((((::fnv_00960520::ItemList *)(::FUN_00460140((int)&(hits))))))->GetEntryAt(i))));
+            VObj* form = ((::fnv_00960520::VObj *)(::FUN_004b5820((::FormLike *)(hit.iRef))));
             if (form != 0)
             {
-                VObj* actor = AsActor(form);
-                if (actor != 0 && actor != m_638 && actor != DAT_011dea3c)
+                VObj* actor = ((::fnv_00960520::VObj *)(::FUN_0056f930((::NiAVObject *)(form))));
+                if (actor != 0 && actor != m_638 && actor != (*reinterpret_cast<::fnv_00960520::VObj * *>(&::_g_thePlayer)))
                 {
                     frac = hit.fValue;
                 }
             }
         }
-        speed = MaxF(0.0f, (double)frac * speed - base);
+        speed = ::FUN_00404010(0.0f, (double)frac * speed - base);
         if (m_63c == 3)
         {
             m_644 = speed;
@@ -1564,19 +1575,19 @@ void Projectile::FUN_00960520(int a)
     {
         ObjF0 ray2;
         ray2.SetHandle(shooter->GetHandle());
-        ray2.SetOrigin(&pos);
-        Vec3 tgt = *m_638->vGet1D0()->Get3D()->GetPos();
-        ray2.SetTarget(&tgt);
-        if (DAT_011dea3c->GetCombat() != 0)
+        reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(ray2))->FUN_004a3da0(&pos);
+        Vec3 tgt = *((::fnv_00960520::Vec3 *)(new ((void *)(((::fnv_00960520::VObj *)(reinterpret_cast<::FUN_0043d450_Owner *>((m_638->vGet1D0()))->FUN_0043d450())))) ::Vec3()));
+        reinterpret_cast<::FUN_004a3eb0_shell *>(&(ray2))->FUN_004a3eb0(&tgt);
+        if (((::fnv_00960520::VObj *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::fnv_00960520::VObj * *>(&::_g_thePlayer))))->GetTarget())) != 0)
         {
-            VObj* world2 = DAT_011dea3c->GetCombat()->GetNode();
+            VObj* world2 = ((::fnv_00960520::VObj *)(reinterpret_cast<::FUN_004543c0_cls *>((((::fnv_00960520::VObj *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::fnv_00960520::VObj * *>(&::_g_thePlayer))))->GetTarget()))))->FUN_004543c0()));
             if (world2->vTest(&ray2))
             {
-                VObj* hitId = ray2.GetHit();
-                VObj* hitActor = AsActor(hitId);
+                VObj* hitId = ((::fnv_00960520::VObj *)(reinterpret_cast<::FUN_00c66fb0_Class *>(&(ray2))->FUN_00c66fb0()));
+                VObj* hitActor = ((::fnv_00960520::VObj *)(::FUN_0056f930((::NiAVObject *)(hitId))));
                 if (hitActor != 0 && m_638 != hitActor && !hitActor->vIsDead())
                 {
-                    Explode();
+                    reinterpret_cast<::fnv_00961280::FUN_00961280_shell *>(this)->FUN_00961280();
                     return;
                 }
             }
@@ -1586,107 +1597,107 @@ void Projectile::FUN_00960520(int a)
     HkVec vel;
     HkVec dirv;
     HkTransform xf;
-    m_634.Get()->GetDir(&dirv);
-    m_634.Get()->GetVel(&vel);
+    reinterpret_cast<::FUN_00961200_Class *>((((::fnv_00960520::VObj *)(::FUN_00559450((int *)&(m_634))))))->ApplyToScriptLocals(&dirv);
+    reinterpret_cast<::fnv_00961230::FUN_00961230_Class *>((((::fnv_00960520::VObj *)(::FUN_00559450((int *)&(m_634))))))->FUN_00961230((::fnv_00961230::T_ *)(::fnv_00960520::HkVec *)(&vel));
     shooter->vGetTransform(&xf);
     delta.SetTransformedPos(&xf, &vel);
-    delta.AddVec(&dirv);
-    float len = ClampF(delta.Delta().Length3());
+    reinterpret_cast<::V *>(&(delta))->FUN_00961190((*(const ::V *)(&dirv)));
+    float len = ::FUN_004587d0(reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::fnv_00960520::HkVec &)(delta.Delta()))->FUN_004586d0());
     if (m_63c != 3 && len > DAT_01072f98)
     {
-        Explode();
+        reinterpret_cast<::fnv_00961280::FUN_00961280_shell *>(this)->FUN_00961280();
         return;
     }
-    int count = weapon->GetCount();
+    int count = ::FUN_00c9c380((void *)(weapon), {});
     float best = 0.0f;
     for (int j = 0; j < count; j++)
     {
-        VObj* item = weapon->GetAt(j);
+        VObj* item = ((::fnv_00960520::VObj *)(reinterpret_cast<::FUN_00c9c390_Class *>((weapon))->GetEntry(j)));
         if (item != 0)
         {
-            VObj* owner2 = item->GetOwner();
+            VObj* owner2 = ((::fnv_00960520::VObj *)(reinterpret_cast<::FUN_0084e3a0_Class *>((item))->FUN_0084e3a0()));
             if (owner2->vGetType() == 0xb)
             {
-                VObj* src = (item->GetParent() == weapon) ? item->GetNext() : item->GetParent();
-                if (src != 0 && best < src->GetRadius())
+                VObj* src = (((::fnv_00960520::VObj *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((item))->FUN_00825c00())) == weapon) ? ((::fnv_00960520::VObj *)(reinterpret_cast<::FUN_009611e0_shell *>((item))->FUN_009611e0())) : ((::fnv_00960520::VObj *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((item))->FUN_00825c00()));
+                if (src != 0 && best < reinterpret_cast<::fnv_004b4ea0::TESDataHandler *>((src))->FUN_004b4ea0())
                 {
-                    best = src->GetRadius();
+                    best = reinterpret_cast<::fnv_004b4ea0::TESDataHandler *>((src))->FUN_004b4ea0();
                 }
             }
         }
     }
-    float ratio = best / weapon->GetRadius();
-    if (len > *DAT_011d0664.Get() && ratio > *DAT_011cffc4.Get())
+    float ratio = best / reinterpret_cast<::fnv_004b4ea0::TESDataHandler *>((weapon))->FUN_004b4ea0();
+    if (len > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00960520::Setting *>(&::originalRuntimeFloatSetting1056)))))) && ratio > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00960520::Setting *>(&::originalRuntimeFloatSetting1055)))))))
     {
-        Explode();
+        reinterpret_cast<::fnv_00961280::FUN_00961280_shell *>(this)->FUN_00961280();
         return;
     }
     VObj* target = m_638->vGet1D0();
-    bool flagA = HasFlag(target, 8) != 0 ? 1 : 0;
-    bool flagB = HasFlag(target, 0x80) != 0 ? 1 : 0;
-    if (m_638->vIsDead() && shooter->GetHandle().IsSet())
+    bool flagA = ((int)(::GetBSXFlags((unsigned int)(target), 8))) != 0 ? 1 : 0;
+    bool flagB = ((int)(::GetBSXFlags((unsigned int)(target), 0x80))) != 0 ? 1 : 0;
+    if (m_638->vIsDead() && reinterpret_cast<::C00624070 *>((void *)&(const ::fnv_00960520::Handle &)(shooter->GetHandle()))->FUN_00624070())
     {
         flagA = false;
         VObj* parent = target->vGet0C();
-        if (parent != 0 && parent->GetChild(0) != 0)
+        if (parent != 0 && ((::fnv_00960520::VObj *)(reinterpret_cast<::NiNode *>((parent))->GetAt(0))) != 0)
         {
-            target = parent->GetChild(0);
+            target = ((::fnv_00960520::VObj *)(reinterpret_cast<::NiNode *>((parent))->GetAt(0)));
         }
-        VObj* proc = GetProcess(weapon);
-        VObj* node = proc ? proc->GetFirst() : 0;
+        VObj* proc = ((::fnv_00960520::VObj *)(::bhkCollisionObject::GetFromRigidBody((const ::hkpRigidBody *)(weapon))));
+        VObj* node = proc ? ((::fnv_00960520::VObj *)(reinterpret_cast<::Twin_0044ddc0 *>((proc))->GetName())) : 0;
         while (node != 0 && node != parent)
         {
             if (node == target)
             {
                 flagA = true;
             }
-            node = node->GetNext();
+            node = ((::fnv_00960520::VObj *)(reinterpret_cast<::FUN_009611e0_shell *>((node))->FUN_009611e0()));
         }
     }
-    if (target != 0 && flagA && len > *DAT_011d1308.Get())
+    if (target != 0 && flagA && len > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00960520::Setting *>(&::originalRuntimeFloatSetting1057)))))))
     {
-        float force = *DAT_011d0808.Get() * (len - *DAT_011d1308.Get()) / len;
-        float fScaledValue = *DAT_011d04d8.Get();
-        float fMin = *DAT_011d037c.Get();
-        float scale = MinF(fMin, MaxF(fScaledValue, GetScale(target)));
-        float t = Lerp(0.0f, 1.0f, fMin, fScaledValue, scale);
-        HkVec mul(force * DAT_0101a6b0 * t);
-        delta.MulVec(&mul);
+        float force = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00960520::Setting *>(&::originalRuntimeFloatSetting1058)))))) * (len - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00960520::Setting *>(&::originalRuntimeFloatSetting1057))))))) / len;
+        float fScaledValue = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00960520::Setting *>(&::g_011d04d8))))));
+        float fMin = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00960520::Setting *>(&::originalRuntimeFloatSetting1059))))));
+        float scale = ::FUN_0040ebd0(fMin, ::FUN_00404010(fScaledValue, ::FUN_0062c300((::NiAVObject *)(target))));
+        float t = ::LinearInterpolate(0.0f, 1.0f, fMin, fScaledValue, scale);
+        HkVec mul(force * ::DAT_0101a6b0 * t);
+        reinterpret_cast<::S_00627920 *>(&(delta))->FUN_00627920((::S_00561240 *)(::fnv_00960520::HkVec *)(&mul));
         if (flagB || m_638->vIsDead())
         {
             Vec3 imp;
-            ToNiPoint(&imp, &delta);
-            ApplyImpulse(target, &imp, 0);
+            ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&imp)), (*(const ::hkVector4 *)(&delta)));
+            ::FUN_0062b8d0(target, &imp, 0);
         }
         else
         {
-            VObj* body = m_634.Get()->GetBase();
+            VObj* body = ((::fnv_00960520::VObj *)(reinterpret_cast<::FUN_0082aee0_shell *>((((::fnv_00960520::VObj *)(::FUN_00559450((int *)&(m_634))))))->FUN_0082aee0()));
             if (body != 0)
             {
-                VObj* bodyProc = GetPf8(body);
+                VObj* bodyProc = ((::fnv_00960520::VObj *)(::FUN_004b5a80(body)));
                 HkVec v;
-                v.Set(delta.At(0), delta.At(1), delta.At(2), 0.0f);
-                v.SetRotated(bodyProc->GetRot());
-                bodyProc->ApplyVel(&v);
+                reinterpret_cast<::bhkUnaryAction *>(&(v))->Set(reinterpret_cast<::bhkCharacterController *>(&(delta))->GetVectorElement(0), reinterpret_cast<::bhkCharacterController *>(&(delta))->GetVectorElement(1), reinterpret_cast<::bhkCharacterController *>(&(delta))->GetVectorElement(2), 0.0f);
+                reinterpret_cast<::V *>(&(v))->FUN_00553f70((*(const ::V *)(((void *)&(::fnv_00560d80::FUN_00560d80((void *)(bodyProc)))))));
+                reinterpret_cast<::S *>((bodyProc))->FUN_00561690((int)(&v));
             }
         }
     }
-    Vec3 dest = pos.Add(dir.Scale(speed));
+    Vec3 dest = (*(::fnv_00960520::Vec3 *)(reinterpret_cast<::Point3Offset *>((void *)&(pos))->ProjectileLaunched((::NiPoint3 *)&(const ::fnv_00960520::Vec3 &)(dir.Scale(speed)), {})));
     if (pick != 0)
     {
         Vec3 step = dir.Scale(speed);
-        if (dir.z < DAT_01012060)
+        if (dir.z < ::_DAT_01012060)
         {
             step.z = 0.0f;
-            float horiz = step.Length();
-            float range = ClampF(pick->GetRange()) + DAT_01020998;
+            float horiz = reinterpret_cast<::NiPoint3 *>((void *)&(step))->GetLengthSquared();
+            float range = ::FUN_004587d0(reinterpret_cast<::FUN_00c6e280_cls *>((pick))->GetSettingFloat()) + ::DAT_01020998;
             if (horiz < range)
             {
                 float extra = range - horiz;
-                dest.AddTo(step.Scale(extra));
+                reinterpret_cast<::FUN_0063c8a0_shell *>(&(dest))->FUN_0063c8a0((void *)&(const ::fnv_00960520::Vec3 &)(step.Scale(extra)));
             }
         }
     }
-    m_634.Get()->SetDest(&dest);
+    reinterpret_cast<::FUN_008c5d90_Class *>((((::fnv_00960520::VObj *)(::FUN_00559450((int *)&(m_634))))))->FUN_008c5d90((const ::NiPoint3Local *)(::fnv_00960520::Vec3 *)(&dest));
 }
 }  // namespace fnv_00960520

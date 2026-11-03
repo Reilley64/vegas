@@ -1,10 +1,19 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_0043ba10_shell.h"
+#include "fnv/decl/FUN_00e898c0_shell.h"
+#include "fnv/decl/FakeShaderConstants.h"
+#include "fnv/decl/PlaceHolder.h"
+#include "fnv/decl/S00e898e0_Renderer.h"
+#include "fnv/decl/S00e89910_Renderer.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00ee6000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f5000.h"
 struct BaseFake
 {
     char _b[0x38];
-    void __thiscall FUN_00e898c0();
 };
 struct CT
 {
@@ -25,7 +34,7 @@ void __thiscall FUN_00e96cd0_shell::ReleaseAndReset()
         m_pShaderConstantTable->Release();
         m_pShaderConstantTable = 0;
     }
-    FUN_00e898c0();
+    reinterpret_cast<::FUN_00e898c0_shell *>(this)->FUN_00e898c0();
 }
 
 struct _D3DXCONSTANTTABLE_DESC
@@ -116,8 +125,6 @@ void __thiscall FUN_00e96d00_Class::FUN_00e96d00()
 
 #include <stddef.h>
 #include <windows.h>
-extern char* DAT_0109b220;
-extern int DAT_011f5fc4[];
 
 struct NiFixedString
 {
@@ -133,7 +140,6 @@ struct NiFixedString
         if (m_kHandle != DAT_0109b220)
             InterlockedDecrement((LONG*)(m_kHandle - 8));
     }
-    __declspec(noalias) void FUN_0043ba10(const NiFixedString& kString);
     bool Exists() const
     {
         return m_kHandle != DAT_0109b220;
@@ -180,8 +186,6 @@ struct __declspec(align(16)) Matrix16
     float m[16];
 };
 
-Matrix16* __stdcall FUN_00ee6dd4(Matrix16* pOut, const Matrix16* pM);
-void __cdecl FUN_00a29680(const char* pcFormat, ...);
 
 struct NiShaderConstantMapEntry
 {
@@ -200,7 +204,6 @@ struct NiShaderConstantMapEntry
     void* m_pConstantData;
     unsigned char unk34;
     bool m_bFlag1;
-    __declspec(noalias) void FUN_00e81c60(const NiFixedString& kName);
 };
 
 struct Device;
@@ -1462,7 +1465,7 @@ bool HLSLPixelShader::FUN_00e96fb0(NiShaderConstantMapEntry* pkEntry, const void
     if (m_pShaderConstantTable == NULL || m_pD3DPixelShader == NULL)
         return false;
 
-    int eType = DAT_011f5fc4[pkEntry->m_uiValue1 & 0xff];
+    int eType = (*reinterpret_cast<int (*)[]>(&::DAT_011f5fc4))[pkEntry->m_uiValue1 & 0xff];
     if (eType != 8 && eType != 9)
         return false;
 
@@ -1474,8 +1477,8 @@ bool HLSLPixelShader::FUN_00e96fb0(NiShaderConstantMapEntry* pkEntry, const void
         NiFixedString kVariableName(pkEntry->m_kSecondaryString);
         if (!kVariableName.Exists())
         {
-            kVariableName.FUN_0043ba10(pkEntry->m_kControlPoint);
-            pkEntry->FUN_00e81c60(kVariableName);
+            reinterpret_cast<::FUN_0043ba10_shell *>(&(kVariableName))->FUN_0043ba10((::FUN_0043ba10_shell *)&(pkEntry->m_kControlPoint));
+            reinterpret_cast<::PlaceHolder *>((pkEntry))->FUN_00e81c60((char *&)(kVariableName));
         }
 
         const char* hConstant = m_pShaderConstantTable->FindConstantByName(NULL, kVariableName);
@@ -1490,8 +1493,7 @@ bool HLSLPixelShader::FUN_00e96fb0(NiShaderConstantMapEntry* pkEntry, const void
         }
         else
         {
-            FUN_00a29680("NiD3DHLSLPixelShader::SetShaderConstantArray - %s - variable %s not found\n", m_pcName,
-                         (const char*)kVariableName);
+            ::FUN_00a29680();
             kVariableName.Release();
             return false;
         }
@@ -1506,8 +1508,7 @@ bool HLSLPixelShader::FUN_00e96fb0(NiShaderConstantMapEntry* pkEntry, const void
         {
             Matrix16 kMatrix;
             bSuccess = false;
-            FUN_00ee6dd4(&kMatrix,
-                         (const Matrix16*)((const char*)pvDataSource + pusReorderArray[i] * uiRegistersPerEntry * 16));
+            ::FUN_00ee6dd4();
             HRESULT hr =
                 m_pShaderObject->GetD3DDevice()->SetPixelShaderConstantF(uiRegister, kMatrix.m, uiRegistersPerEntry);
             if (FAILED(hr))
@@ -1525,7 +1526,7 @@ bool HLSLPixelShader::FUN_00e96fb0(NiShaderConstantMapEntry* pkEntry, const void
         for (unsigned int i = 0; i < uiNumEntries; i++)
         {
             Matrix16 kMatrix;
-            FUN_00ee6dd4(&kMatrix, (const Matrix16*)pVector4);
+            ::FUN_00ee6dd4();
             bSuccess = false;
             D3DRenderer* pkRenderer = m_pShaderObject;
             if (pkRenderer->m_pkDevice->lpVtbl->SetPixelShaderConstantF(pkRenderer->m_pkDevice, uiRegister, kMatrix.m,
@@ -1543,11 +1544,7 @@ namespace fnv_00e96da0 {
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 
-extern char* DAT_0109b220;
-extern int DAT_011f5fc4[];
 extern char DAT_010f13f0[];
-void FUN_00a29680(const char* format, ...);
-void __stdcall FUN_00ee6dd4(void* value, int source);
 
 struct String
 {
@@ -1555,18 +1552,17 @@ struct String
 
     String(const String& s)
     {
-        if (s.m_p != DAT_0109b220)
+        if (s.m_p != ::DAT_0109b220)
             InterlockedIncrement((volatile long*)(s.m_p - 8));
         m_p = s.m_p;
     }
-    __declspec(noalias) String& FUN_0043ba10(const String& s);
     String& operator=(const String& s)
     {
-        return FUN_0043ba10(s);
+        return (*(::fnv_00e96da0::String *)(reinterpret_cast<::FUN_0043ba10_shell *>(this)->FUN_0043ba10((::FUN_0043ba10_shell *)&(s))));
     }
     bool IsEmpty() const
     {
-        return m_p == DAT_0109b220;
+        return m_p == ::DAT_0109b220;
     }
     operator char*() const
     {
@@ -1576,7 +1572,7 @@ struct String
 
 inline void ReleaseString(char* p)
 {
-    if (p != DAT_0109b220)
+    if (p != ::DAT_0109b220)
         InterlockedDecrement((volatile long*)(p - 8));
 }
 
@@ -2821,9 +2817,6 @@ struct Handler
     {
         return m_device->Invoke(id, data, count) >= 0;
     }
-    bool FUN_00e898e0(int id, int arg, int extra, int flags);
-    bool FUN_00e89910(int id, int arg, int extra, int flags);
-    bool FUN_00e89940(int id, int arg, int extra, int flags);
 };
 
 struct Entry
@@ -2843,14 +2836,13 @@ struct Entry
     int m_uiFormID;
     bool unk34;
     bool m_resolved;
-    __declspec(noalias) void FUN_00e81c60(const String& name);
     __forceinline char* AcquireName()
     {
         String name(m_name);
         if (name.IsEmpty())
         {
             name = m_path;
-            FUN_00e81c60(name);
+            reinterpret_cast<::PlaceHolder *>(this)->FUN_00e81c60((char *&)(name));
         }
         return name.m_p;
     }
@@ -2892,7 +2884,7 @@ bool Player::FUN_00e96da0(Entry* entry, int arg, int extra)
         if (name.IsEmpty())
         {
             name = entry->m_path;
-            entry->FUN_00e81c60(name);
+            reinterpret_cast<::PlaceHolder *>((entry))->FUN_00e81c60((char *&)(name));
         }
         char* text = name;
         int handle = m_library->Find(0, text);
@@ -2907,12 +2899,12 @@ bool Player::FUN_00e96da0(Entry* entry, int arg, int extra)
         }
         else
         {
-            FUN_00a29680(DAT_010f13f0, m_pName, text);
+            ::FUN_00a29680();
             ReleaseString(text);
             return false;
         }
     }
-    int type = DAT_011f5fc4[entry->m_type & 0xff];
+    int type = (*reinterpret_cast<int (*)[]>(&::DAT_011f5fc4))[entry->m_type & 0xff];
     bool ok = false;
     if (type != 8 && type != 9)
     {
@@ -2920,34 +2912,34 @@ bool Player::FUN_00e96da0(Entry* entry, int arg, int extra)
         {
             int count = entry->m_extra;
             int id = entry->m_iOwnerObjectOffset;
-            if (m_handler->FUN_00e89910(id, arg, count, 0))
+            if (reinterpret_cast<::S00e89910_Renderer *>((m_handler))->FUN_00e89910(id, arg, count, 0))
                 ok = true;
         }
         else if (type == 4)
         {
             int count = entry->m_extra;
             int id = entry->m_iOwnerObjectOffset;
-            if (m_handler->FUN_00e89910(id, arg, count, 0))
+            if (reinterpret_cast<::S00e89910_Renderer *>((m_handler))->FUN_00e89910(id, arg, count, 0))
                 ok = true;
         }
         else if (type == 3)
         {
             int count = entry->m_extra;
             int id = entry->m_iOwnerObjectOffset;
-            if (m_handler->FUN_00e89940(id, arg, count, 0))
+            if (reinterpret_cast<::FakeShaderConstants *>((m_handler))->FUN_00e89940(id, (const int *)(arg), count, 0))
                 ok = true;
         }
         else if (type == 1)
         {
             int count = entry->m_extra;
             int id = entry->m_iOwnerObjectOffset;
-            if (m_handler->FUN_00e898e0(id, arg, count, 0))
+            if (reinterpret_cast<::S00e898e0_Renderer *>((m_handler))->FUN_00e898e0(id, arg, count, 0))
                 ok = true;
         }
     }
     else
     {
-        FUN_00ee6dd4(&info, arg);
+        ::FUN_00ee6dd4();
         if (m_handler->Upload(entry->m_iOwnerObjectOffset, &info, entry->m_extra))
             ok = true;
     }

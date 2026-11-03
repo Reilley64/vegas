@@ -1,6 +1,17 @@
 #ifndef PATHINGREQUEST_DECLS_H
 #define PATHINGREQUEST_DECLS_H
 
+#include "fnv/decl/FUN_006dc910_shell.h"
+#include "fnv/decl/FUN_009344a0_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/NiPtr.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_011de000.h"
 class Actor;
 class BGSLoadFormBuffer;
 class TESForm;
@@ -18,20 +29,15 @@ class BGSLoadFormBufferView
 class Calendar
 {
   public:
-    unsigned int GetDaysPassed();
 };
 class MobileObject
 {
   public:
-    TESPackage* GetCurrentPackage();
 };
-extern PlayerCharacter* g_thePlayer;
 class BGSLoadFormBuffer
 {
   public:
     virtual unsigned char GetVersion();
-    void ReadTypedData(void*, unsigned int);
-    int ReadElementCount();
 };
 class PathingLocationLoadView
 {
@@ -42,7 +48,6 @@ class PathingLocationLoadView
 class PathingAvoidanceNode
 {
   public:
-    void LoadPathingAvoidNode(BGSLoadFormBuffer*);
 };
 template <class T, unsigned int N> class BSSimpleArray;
 class PathingAvoidNodeArray
@@ -57,24 +62,18 @@ class PathingAvoidNodeArray
 
     static void* operator new(unsigned int);
     static void operator delete(void*, unsigned int);
-    void SetSize(unsigned int, bool);
-    PathingAvoidanceNode* FUN_006a1400(unsigned int);
 };
 extern unsigned char DAT_0106d1d8;
 extern unsigned char DAT_0106d1e4;
 class PathingAvoidNodeArrayDestructionView
 {
   public:
-    void Destruct();
 };
 class PathingAvoidPointerView
 {
   public:
-    PathingAvoidPointerView& Assign(PathingAvoidNodeArray*);
-    PathingAvoidNodeArray* Get();
 };
 
-int Warning(const char*, ...);
 class FUN_006e4080 : public PathingRequest
 {
   public:
@@ -117,6 +116,4 @@ class FUN_006e4a50 : public PathingRequest
     char extra[92];
     FUN_006e4a50();
 };
-extern const float runtimeFloatSettingDefault65;
-extern const NiPoint3 pathingrequestZero;
 #endif

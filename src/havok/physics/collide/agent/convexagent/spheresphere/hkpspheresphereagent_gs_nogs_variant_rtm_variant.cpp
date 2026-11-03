@@ -7,6 +7,8 @@
 // to their real unit once identified.
 // src/havok/physics/collide/agent/convexagent/spheresphere/hkpspheresphereagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/spheresphere/hkpspheresphereagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01268000.h"
 extern "C" void __cdecl FUN_00d3f6a0(void* a, void* b, void* c, void* d);
 void __stdcall FUN_00d3fcc0(void* a, void* c, void* b, void* d);
 struct S_00d3f660_Owner
@@ -133,9 +135,7 @@ struct S_00d3f780_Obj
 // the game's globals
 // ---------------------------------------------------------------------------
 
-extern DWORD DAT_0126835c;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
-extern const __m128 DAT_01268370;
 extern "C" double __cdecl sqrt(double);
 
 // ---------------------------------------------------------------------------
@@ -194,7 +194,7 @@ void S_00d3f780_Obj::FUN_00d3f780(S_00d3f780_In* a, S_00d3f780_In* b, S_00d3f780
         }
         else
         {  // degenerate: the centres coincide
-            out->unk10 = DAT_01268370;
+            out->unk10 = (*reinterpret_cast<const ::__m128 *>(&::DAT_01268370));
             depth = -(shapeA->radius() + shapeB->radius());
         }
         // the point of contact on the second sphere
@@ -248,10 +248,7 @@ namespace fnv_00d3f980 {
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
-extern unsigned int DAT_0126835c;
 extern char DAT_010cf1a4[];
-extern char DAT_010c41f8[];
-extern __m128 DAT_01268370;
 struct Shape
 {
     void* vtable;
@@ -322,7 +319,7 @@ void __stdcall FUN_00d3f980(const Body* a, const Body* b, const Input* input, Co
 {
     ScalarScratch scratch;
     {
-        Monitor* stream = (Monitor*)TlsGetValue(DAT_0126835c);
+        Monitor* stream = (Monitor*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
         Event* p = stream->current;
         if (p < stream->end)
         {
@@ -360,7 +357,7 @@ void __stdcall FUN_00d3f980(const Body* a, const Body* b, const Input* input, Co
         else
         {
             scratch.collision.distance = 0.0f;
-            normal = _mm_shuffle_ps(DAT_01268370, _mm_unpackhi_ps(DAT_01268370, point.normal), 0xc4);
+            normal = _mm_shuffle_ps((*reinterpret_cast<::__m128 *>(&::DAT_01268370)), _mm_unpackhi_ps((*reinterpret_cast<::__m128 *>(&::DAT_01268370)), point.normal), 0xc4);
         }
         point.normal = normal;
         scratch.collision.radiusA = shapeA->radius;
@@ -374,11 +371,11 @@ void __stdcall FUN_00d3f980(const Body* a, const Body* b, const Input* input, Co
         collector->AddContactPoint(point);
     }
     {
-        Monitor* stream = (Monitor*)TlsGetValue(DAT_0126835c);
+        Monitor* stream = (Monitor*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
         Event* p = stream->current;
         if (p < stream->end)
         {
-            p->tag = DAT_010c41f8;
+            p->tag = ::DAT_010c41f8;
             _ReadWriteBarrier();
             scratch.profiling.endStamp = (unsigned int)__rdtsc();
             p->time = scratch.profiling.endStamp;

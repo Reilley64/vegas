@@ -5,6 +5,10 @@
 
 // src/havok/common/scenedata/mesh/hkxmeshsection.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/mesh/hkxmeshsection.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkxMeshSection.h"
 extern int DAT_010e9b7c;
 struct IndexArray
@@ -25,7 +29,6 @@ struct FUN_00e61720
     void* m_iMaterialIndex;
     IndexArray m_kUserChannels;
     FUN_00e61720(void* arg);
-    void FUN_00e61770(void* arg);
 };
 inline void* operator new(unsigned int, void* p)
 {
@@ -62,13 +65,13 @@ template <class T> class hkRefPtrE6
     hkRefPtrE6(const hkRefPtrE6& rp)
     {
         if (rp.m_pRetainedObject)
-            rp.m_pRetainedObject->RetainReference();
+            reinterpret_cast<::FUN_00c90510_class *>((void *)(rp.m_pRetainedObject))->FUN_00c90510();
         m_pRetainedObject = rp.m_pRetainedObject;
     }
     ~hkRefPtrE6()
     {
         if (m_pRetainedObject)
-            m_pRetainedObject->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((void *)(m_pRetainedObject))->FUN_00c905b0();
         m_pRetainedObject = 0;
     }
     __forceinline hkRefPtrE6& operator=(const hkRefPtrE6& rp)
@@ -93,9 +96,9 @@ class hkRefVariantE6 : public hkRefPtrE6<hkReferencedObjectE6>
         {
             hkReferencedObjectE6* p = o.m_pRetainedObject;
             if (p)
-                p->RetainReference();
+                reinterpret_cast<::FUN_00c90510_class *>((void *)(p))->FUN_00c90510();
             if (m_pRetainedObject)
-                m_pRetainedObject->removeReference();
+                reinterpret_cast<::hkReferencedObjectC905 *>((void *)(m_pRetainedObject))->FUN_00c905b0();
             m_pRetainedObject = p;
         }
         return *this;
@@ -209,7 +212,6 @@ class hkErrorData
     virtual int message(int type, int id, const char* desc, const char* file, int line) throw();
 };
 
-extern hkErrorData* DAT_01268360;
 
 static inline void PushBackTriangle(hkArray<hkGeometryTriangle>& arr, const hkGeometryTriangle& t)
 {
@@ -274,8 +276,8 @@ void hkxMeshSectionImpl::FUN_00e61530(hkGeometryData& geometry, int materialInde
             default: {
                 char buf[512];
                 hkErrStreamData ostr(buf, sizeof(buf));
-                ostr << "Unsupported index buffer type - Ignoring";
-                DAT_01268360->message(1, 0xabbaa883, buf, ".\\Mesh\\hkxMeshSection.cpp", 141);
+                reinterpret_cast<::SinkOwner *>((void *)&(const ::hkErrStreamData &)(ostr))->FUN_00cc01c0("Unsupported index buffer type - Ignoring");
+                (*reinterpret_cast<::hkErrorData * *>(&::DAT_01268360))->message(1, 0xabbaa883, buf, ".\\Mesh\\hkxMeshSection.cpp", 141);
             }
                 ci = numIndices;
                 continue;

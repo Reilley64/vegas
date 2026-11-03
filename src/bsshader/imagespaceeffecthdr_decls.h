@@ -3,6 +3,10 @@
 #define IMAGESPACEEFFECTHDR_DECLS_H
 
 #include <stddef.h>
+#include "fnv/decl/FUN_00ba3c70_shell.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
 void operator delete(void*);
 class ImageSpaceEffect;
 class ImageSpaceEffectParam;
@@ -11,9 +15,7 @@ class ImageSpaceTexture;
 class MemoryManager
 {
   public:
-    void* Allocate(unsigned int size);
 };
-extern MemoryManager g_memoryManager;
 template <class T> class NiTMallocInterface
 {
 };
@@ -51,7 +53,7 @@ class ImageSpaceShaderParam : public ImageSpaceEffectParam
     ImageSpaceShaderParam();
     static void* operator new(size_t size)
     {
-        return g_memoryManager.Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }
     void AllocateShaderConstants(int, int);
     void FUN_00b8a7c0();
@@ -67,8 +69,8 @@ class ImageSpaceEffect
     NiTArray<ImageSpaceEffectParam*, NiTMallocInterface<ImageSpaceEffectParam*> > pEffectParamList;
     NiTArray<ImageSpaceTexture*, NiTMallocInterface<ImageSpaceTexture*> > pTextures;
     unsigned char remainingArrays[32];
-    void SetTextureArrayCount(int);
-    void SetEffectAt(int, ImageSpaceEffect*, ImageSpaceEffectParam*, int);
+public:
+    void SetTextureArraySize(int);
 };
 class HDRImageSpaceEffect : public ImageSpaceEffect
 {
@@ -199,8 +201,6 @@ class NiRenderer
     bool m_bRendererFlagB;
     char _pdbpad_20a[118];
 };
-extern bool DAT_011f941f;
-extern bool DAT_011f9420;
 extern const float DAT_011add48[];
 extern const float DAT_011add88[];
 extern const float DAT_011ade88[];

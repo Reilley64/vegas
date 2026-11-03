@@ -3,6 +3,44 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /GF /Ob1 (unit src/fallout_shared/facegen/bsfacegenmodel.cpp lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/ExtraOwnerB.h"
+#include "fnv/decl/FUN_00456650_shell.h"
+#include "fnv/decl/FUN_00457b80_class.h"
+#include "fnv/decl/FUN_00457ba0_class.h"
+#include "fnv/decl/FUN_0049ec60.h"
+#include "fnv/decl/FUN_00534570_shell.h"
+#include "fnv/decl/FUN_0065a620_shell.h"
+#include "fnv/decl/FUN_0065a970_shell.h"
+#include "fnv/decl/FUN_0065b3e0_Holder.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00a5bfa0_shell.h"
+#include "fnv/decl/FUN_00a673d0_shell.h"
+#include "fnv/decl/GeometryVertexBuffer.h"
+#include "fnv/decl/NiObjectNET.h"
+#include "fnv/decl/S00a67410.h"
+#include "fnv/decl/TESTopicInfoData.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/fnv_00447080__FUN_00447080_shell.h"
+#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_0043f000.h"
+#include "fnv/symbols_00549000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00607000.h"
+#include "fnv/symbols_00651000.h"
+#include "fnv/symbols_00652000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_0065c000.h"
+#include "fnv/symbols_00ab5000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0119b000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011de000.h"
 #include "bsfacegenmodel_decls.h"
 
 extern "C" unsigned int __cdecl strlen(const char* pcString);
@@ -87,7 +125,7 @@ inline char* AllocateChars(unsigned int ItemUpdateArray, char*)
         ItemUpdateArray = 0;
     else if (((unsigned int)(-1) / ItemUpdateArray) < sizeof(char))
         throw std::bad_alloc(0);
-    return (char*)::operator new(ItemUpdateArray * sizeof(char));
+    return (char*)::FUN_00401000(ItemUpdateArray * sizeof(char));
 }
 struct CharAllocator
 {
@@ -97,7 +135,7 @@ struct CharAllocator
     {}
     void deallocate(char* pcPtr, unsigned int)
     {
-        ::operator delete(pcPtr);
+        ::FUN_00401030(pcPtr);
     }
     char* allocate(unsigned int ItemUpdateArray)
     {
@@ -122,7 +160,6 @@ struct StringVal : public StringBase
 };
 struct String : public StringVal
 {
-    static const unsigned int npos;
     String(const char* pcPtr) : StringVal()
     {
         _Tidy();
@@ -131,7 +168,7 @@ struct String : public StringVal
     String(const String& kRight) : StringVal(kRight.m_kAlval)
     {
         _Tidy();
-        assign(kRight, 0, npos);
+        assign(kRight, 0, ::g_010173f0);
     }
     ~String()
     {
@@ -178,7 +215,7 @@ struct String : public StringVal
     }
     String& append(const String& kRight)
     {
-        return append(kRight, 0, npos);
+        return append(kRight, 0, ::g_010173f0);
     }
     String& append(const String& kRight, unsigned int uiRoff, unsigned int ItemUpdateArray)
     {
@@ -187,7 +224,7 @@ struct String : public StringVal
         unsigned int uiElementCount = kRight.size() - uiRoff;
         if (uiElementCount < ItemUpdateArray)
             ItemUpdateArray = uiElementCount;
-        if (npos - m_uiSize <= ItemUpdateArray || m_uiSize + ItemUpdateArray < m_uiSize)
+        if (::g_010173f0 - m_uiSize <= ItemUpdateArray || m_uiSize + ItemUpdateArray < m_uiSize)
             _Xlen();
         if (0 < ItemUpdateArray && _Grow(uiElementCount = m_uiSize + ItemUpdateArray))
         {
@@ -200,7 +237,7 @@ struct String : public StringVal
     {
         if (_Inside(pcPtr))
             return append(*this, pcPtr - _Myptr(), ItemUpdateArray);
-        if (npos - m_uiSize <= ItemUpdateArray)
+        if (::g_010173f0 - m_uiSize <= ItemUpdateArray)
             _Xlen();
         unsigned int uiElementCount;
         if (0 < ItemUpdateArray && _Grow(uiElementCount = m_uiSize + ItemUpdateArray))
@@ -214,7 +251,7 @@ struct String : public StringVal
     {
         return append(pcPtr, CharTraits::length(pcPtr));
     }
-    String& erase(unsigned int uiOff = 0, unsigned int ItemUpdateArray = npos)
+    String& erase(unsigned int uiOff = 0, unsigned int ItemUpdateArray = ::g_010173f0)
     {
         if (m_uiSize < uiOff)
             _Xran();
@@ -300,7 +337,7 @@ struct String : public StringVal
         if (m_uiRes < uiNewsize)
             _Copy(uiNewsize, m_uiSize);
         else if (bTrim && uiNewsize < 16)
-            _Tidy(true, uiNewsize < m_uiSize ? uiNewsize : m_uiSize);
+            reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, uiNewsize < m_uiSize ? uiNewsize : m_uiSize);
         else if (uiNewsize == 0)
             _Eos(0);
         return 0 < uiNewsize;
@@ -451,7 +488,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 template <class T> struct BxAllocT
 {
@@ -470,7 +507,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -630,7 +667,7 @@ struct BxString : public BxStringVal
         }
         else if (_Trim && _Newsize < 16)
         {
-            _Tidy(true, _Newsize < _Mysize ? _Newsize : _Mysize);
+            reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, _Newsize < _Mysize ? _Newsize : _Mysize);
         }
         else if (_Newsize == 0)
         {

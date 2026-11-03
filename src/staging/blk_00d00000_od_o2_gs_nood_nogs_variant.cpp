@@ -5,6 +5,12 @@
 
 // src/staging/blk_00d00000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00c9e910_Class.h"
+#include "fnv/decl/Obj.h"
+#include "fnv/decl/PhantomBounds.h"
+#include "fnv/symbols_00450000.h"
 #include "../../include/layout_support.h"
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -48,7 +54,6 @@ struct hkTransform
     __m128 m_kColumn1;
     __m128 m_kColumn2;
     __m128 m_vTranslation;
-    void FUN_00cb23e0(const hkTransform& t);
 };
 
 union hkAabbQ
@@ -119,7 +124,6 @@ class hkpShapePhantom : public hkpPhantom
     int unkA8;
     int unkAC;
     hkTransformf m_kMotionState;
-    void FUN_00c9e910(const hkTransform& t);
 };
 
 class hkpAabbPhantom : public hkpPhantom
@@ -169,7 +173,6 @@ class hkpAabbPhantom : public hkpPhantom
     int unkA8;
     int unkAC;
     hkAabbf m_kBounds;
-    void FUN_00cf24a0(const hkAabbQ& aabb);
 };
 
 // @fnv 0x00d05df0
@@ -193,8 +196,8 @@ void __cdecl FUN_00d05df0(hkpPhantom* phantom, const hkTransform& transform)
         current.m_kColumn1 = c1.q;
         current.m_kColumn2 = c2.q;
         current.m_vTranslation = t.q;
-        current.FUN_00cb23e0(transform);
-        sp->FUN_00c9e910(current);
+        reinterpret_cast<::Obj *>(&(current))->FUN_00cb23e0((int)&(transform));
+        reinterpret_cast<::FUN_00c9e910_Class *>((sp))->FUN_00c9e910((int)&(current));
         break;
     }
     case 0: {
@@ -203,7 +206,7 @@ void __cdecl FUN_00d05df0(hkpPhantom* phantom, const hkTransform& transform)
         aabb.f = ap->m_kBounds;
         aabb.q.m_kMinimumCorner = _mm_add_ps(transform.m_vTranslation, aabb.q.m_kMinimumCorner);
         aabb.q.m_kMaximumCorner = _mm_add_ps(transform.m_vTranslation, aabb.q.m_kMaximumCorner);
-        ap->FUN_00cf24a0(aabb);
+        reinterpret_cast<::PhantomBounds *>((ap))->FUN_00cf24a0((const ::hkAabb &)(aabb));
         break;
     }
     }

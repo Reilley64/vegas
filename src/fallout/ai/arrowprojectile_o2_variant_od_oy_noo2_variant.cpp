@@ -9,11 +9,34 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <xmmintrin.h>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSMultiBoundSphere.h"
+#include "fnv/decl/FUN_0043b4d0_shell.h"
+#include "fnv/decl/FUN_004ae6a0_shell.h"
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_00632c30_Class.h"
+#include "fnv/decl/FUN_00632c60_Class.h"
+#include "fnv/decl/FUN_008cd6a0_Class.h"
+#include "fnv/decl/FUN_00c7f690_cls.h"
+#include "fnv/decl/Holder_cffa0.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/S632.h"
+#include "fnv/decl/TESTopicInfo.h"
+#include "fnv/decl/bhkCollisionObject.h"
+#include "fnv/decl/bhkFilter.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00461000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_004ae000.h"
+#include "fnv/symbols_0056d000.h"
+#include "fnv/symbols_006fa000.h"
+#include "fnv/symbols_008cf000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
 struct Vec3
 {
     float x, y, z;
     Vec3 __thiscall ApplyScaled(float f);
-    Vec3 __thiscall FUN_00439e90(const Vec3& o);
 };
 
 struct __declspec(align(16)) Vec4
@@ -22,14 +45,11 @@ struct __declspec(align(16)) Vec4
     Vec4();
 };
 
-void __cdecl FUN_004a3e00(Vec4* out, const Vec3& in);
 
 struct Filter
 {
     int v;
     Filter();
-    int __thiscall FUN_0043b4d0();
-    int __thiscall FUN_006240b0();
 };
 
 struct Shape;
@@ -98,23 +118,13 @@ struct WorldObj
     virtual void slot3b();
     virtual void slot3c();
     virtual void GetTransform(EObj*);
-    Shape* __thiscall FUN_004ae6a0();
     Filter __thiscall FUN_0043b4f0();
-    bool __thiscall FUN_008cffa0();
-    void* __thiscall FUN_00436aa0();
-    void* __thiscall FUN_00891170();
 };
 
 struct CollObj
 {
-    WorldObj* __thiscall FUN_006fa820();
-    float __thiscall FUN_004a7bd0();
 };
 
-CollObj* __cdecl FUN_0043b610(void* p);
-bool __cdecl FUN_0043b300(const void* rtti, void* obj);
-extern char RTTI_01267e64;
-extern char RTTI_012683c8;
 
 struct EObj
 {
@@ -125,7 +135,6 @@ struct EObj
     RawVector storage[4];
     EObj();
     void __thiscall FUN_00cb2240(void* g, void* f);
-    void __thiscall FUN_008cd6a0(void* x, void* y);
 };
 
 struct GObj
@@ -138,12 +147,10 @@ struct GObj
     GObj(EObj* e);
 };
 
-void __cdecl FUN_0056df80(EObj* e, void* child);
 
 struct CSub
 {
     __m128 quad;
-    void __thiscall FUN_00c7f690(EObj* e, Vec4* v);
 };
 
 struct __declspec(align(16)) CObj
@@ -151,20 +158,17 @@ struct __declspec(align(16)) CObj
     CSub m0;
     CSub m1;
     unsigned int flags20, filter24;
-    void __thiscall FUN_00632ca0();
 };
 
 struct Sub2;
 struct DObj;
 struct ResObj
 {
-    void* __thiscall ForwardToV8(Sub2*, CObj*, DObj*);
 };
 
 struct Sub2
 {
     bool value;
-    bool __thiscall FUN_005609f0();
 };
 
 struct __declspec(align(16)) DObj
@@ -174,19 +178,18 @@ struct __declspec(align(16)) DObj
     int m_uiExtraInfo, unk18, unk1c;
     unsigned int shapeKeys[8];
     void* rootCollidable;
-    void __thiscall FUN_004a3d20();
-    Sub2* __thiscall FUN_00632c60(Sub2* b);
 };
 
 struct Shape
 {
-    ResObj* __thiscall FUN_004ae750();
 };
 
+class NiAVObject;
 struct NiNode
 {
     unsigned int __thiscall FUN_0043b480();
-    void* __thiscall FUN_0043b4a0(unsigned int i);
+public:
+    ::NiAVObject *GetAt(unsigned int);
 };
 
 struct P1Obj
@@ -195,7 +198,6 @@ struct P1Obj
     virtual void slot01();
     virtual void slot02();
     virtual NiNode* getNode();
-    void* __thiscall FUN_00461130();
 };
 
 // @fnv 0x008cfbc0
@@ -204,43 +206,43 @@ void* __cdecl FUN_008cfbc0(void* p1, Vec3 a, Vec3 b, float* p4, bool p5)
     bool flag = false;
     if (p1)
     {
-        CollObj* coll = FUN_0043b610(p1);
+        CollObj* coll = ((::CollObj *)(::bhkCollisionObject::GetFromNiAVObject((::NiAVObject *)(p1))));
         if (coll)
         {
-            WorldObj* world = coll->FUN_006fa820();
-            Shape* shape = world ? world->FUN_004ae6a0() : 0;
+            WorldObj* world = ((::WorldObj *)(::fnv_006fa820::FUN_006fa820((const char *)(coll))));
+            Shape* shape = world ? ((::Shape *)(reinterpret_cast<::FUN_004ae6a0_shell *>((world))->FUN_004ae6a0())) : 0;
             if (shape)
             {
-                if (world->FUN_0043b4f0().FUN_0043b4d0() == 8)
+                if (reinterpret_cast<::FUN_0043b4d0_shell *>((void *)&(const ::Filter &)(world->FUN_0043b4f0()))->FUN_0043b4d0() == 8)
                 {
-                    if (world->FUN_0043b4f0().FUN_006240b0() != 0x12)
+                    if (reinterpret_cast<::bhkFilter *>((void *)&(const ::Filter &)(world->FUN_0043b4f0()))->FUN_006240b0() != 0x12)
                     {
-                        if (world->FUN_0043b4f0().FUN_006240b0() != 0x13)
+                        if (reinterpret_cast<::bhkFilter *>((void *)&(const ::Filter &)(world->FUN_0043b4f0()))->FUN_006240b0() != 0x13)
                         {
-                            if (!p5 || world->FUN_0043b4f0().FUN_006240b0() != 1)
+                            if (!p5 || reinterpret_cast<::bhkFilter *>((void *)&(const ::Filter &)(world->FUN_0043b4f0()))->FUN_006240b0() != 1)
                             {
                                 Vec4 va;
-                                FUN_004a3e00(&va, a);
+                                ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&va)), (const ::fnv_004a3e00::NiPoint3 &)(a));
                                 Vec4 vb;
-                                FUN_004a3e00(&vb, a.FUN_00439e90(b.ApplyScaled(*p4)));
+                                ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&vb)), (const ::fnv_004a3e00::NiPoint3 &)((const ::Vec3 &)((*(::Vec3 *)(reinterpret_cast<::Point3Offset *>(&(a))->ProjectileLaunched((::NiPoint3 *)&(const ::Vec3 &)(b.ApplyScaled(*p4)), {}))))));
                                 CObj oc;
-                                oc.FUN_00632ca0();
+                                reinterpret_cast<::S632 *>(&(oc))->FUN_00632ca0();
                                 DObj od;
-                                od.FUN_004a3d20();
+                                ::FUN_004a3d20((void *)&(od));
                                 EObj oe;
-                                if (FUN_0043b300(&RTTI_01267e64, coll))
+                                if (::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<char *>(&::g_01267e64))), (::NiAVObject *)(coll)))
                                 {
                                     CollObj* scaledColl = coll;
-                                    if (!world->FUN_008cffa0() || scaledColl->FUN_004a7bd0() == 1.0)
+                                    if (!reinterpret_cast<::Holder_cffa0 *>((world))->FUN_008cffa0() || reinterpret_cast<::BSMultiBoundSphere *>((scaledColl))->GetRadius() == 1.0)
                                     {
-                                        FUN_0056df80(&oe, ((P1Obj*)p1)->FUN_00461130());
-                                        if (FUN_0043b300(&RTTI_012683c8, world))
+                                        ::FromHK((*(::hkTransform *)(&oe)), (*(const ::NiTransform *)(((void *)(::FUN_00461130((int)(((P1Obj*)p1))))))));
+                                        if (::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<char *>(&::g_012683c8))), (::NiAVObject *)(world)))
                                         {
                                             WorldObj* transformedWorld = world;
                                             EObj of;
                                             GObj og(&oe);
-                                            of.FUN_008cd6a0(transformedWorld->FUN_00891170(),
-                                                            transformedWorld->FUN_00436aa0());
+                                            reinterpret_cast<::FUN_008cd6a0_Class *>(&(of))->FUN_008cd6a0(((void *)(reinterpret_cast<::BGSCameraPath *>((transformedWorld))->GetShotList())),
+                                                            ((void *)(reinterpret_cast<::TESTopicInfo *>((transformedWorld))->GetAddTopicList())));
                                             oe.FUN_00cb2240(&og, &of);
                                         }
                                     }
@@ -253,12 +255,12 @@ void* __cdecl FUN_008cfbc0(void* p1, Vec3 a, Vec3 b, float* p4, bool p5)
                                 {
                                     world->GetTransform(&oe);
                                 }
-                                oc.m0.FUN_00c7f690(&oe, &va);
-                                oc.m1.FUN_00c7f690(&oe, &vb);
+                                reinterpret_cast<::FUN_00c7f690_cls *>(&(oc.m0))->FUN_00c7f690((const ::S_00c7f690_M *)(::EObj *)(&oe), (const ::S_00c7f690_V *)(::Vec4 *)(&va));
+                                reinterpret_cast<::FUN_00c7f690_cls *>(&(oc.m1))->FUN_00c7f690((const ::S_00c7f690_M *)(::EObj *)(&oe), (const ::S_00c7f690_V *)(::Vec4 *)(&vb));
                                 Sub2 bt;
-                                shape->FUN_004ae750()->ForwardToV8(&bt, &oc, &od);
+                                reinterpret_cast<::FUN_00632c30_Class *>((((::ResObj *)(::FUN_004ae750((void *)(shape))))))->ForwardToV8(&bt, &oc, &od);
                                 Sub2 bt2;
-                                if (od.FUN_00632c60(&bt2)->FUN_005609f0())
+                                if (reinterpret_cast<::FUN_005609f0_shell *>((((::Sub2 *)(reinterpret_cast<::FUN_00632c60_Class *>(&(od))->FUN_00632c60((::CalleeObj *)(::Sub2 *)(&bt2))))))->FUN_005609f0())
                                 {
                                     *p4 *= od.fraction;
                                     flag = true;
@@ -275,7 +277,7 @@ void* __cdecl FUN_008cfbc0(void* p1, Vec3 a, Vec3 b, float* p4, bool p5)
             unsigned int i;
             for (i = 0; i < node->FUN_0043b480(); i++)
             {
-                void* childItem = node->FUN_0043b4a0(i);
+                void* childItem = ((void *)(node->GetAt(i)));
                 void* r = FUN_008cfbc0(childItem, a, b, p4, p5);
                 if (r)
                     return r;

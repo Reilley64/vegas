@@ -1,16 +1,28 @@
 // fallout_shared/bgsmessageicon.cpp: BGSMessageIcon, TESModelTextureSwap, ThisStandIn (11 functions)
 
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00402d50.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_0048a470_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
 #include "bgsmessageicon_decls.h"
 // @fnv 0x0047a220
 void BGSMessageIcon::ClearComponent()
 {
-    Icon.Free();
+    reinterpret_cast<::FUN_00402d50 *>(&(Icon))->FUN_00402d50::~FUN_00402d50();
 }
 
 // @fnv 0x0048a3d0
 TESModelTextureSwap::TESModelTextureSwap()
 {
-    InitializeComponent();
+    reinterpret_cast<::FUN_0048a470_shell *>(this)->FUN_0048a470();
 }
 
 struct FUN_0047a130 : public BaseFormComponent
@@ -33,16 +45,14 @@ struct NiPoint3Stub
 };
 struct TeleportableReference
 {
-    const NiPoint3Stub& GetPosition();
 };
 struct TexHelper
 {
-    static void ReadTextureData(TESTexture*, TESFile*);
 };
 // @fnv 0x0047a290
 void __cdecl FUN_0047a290(TeleportableReference* pObject, TESFile* pFile)
 {
-    TexHelper::ReadTextureData((TESTexture*)&pObject->GetPosition(), pFile);
+    ::TESTexture::ReadTextureData((TESTexture*)&(*(const ::NiPoint3Stub *)(reinterpret_cast<::BaseProcess *>((pObject))->GetCurrentProcessData())), pFile);
 }
 
 struct FUN_0047a380_shell : public BGSMessageIcon
@@ -75,13 +85,11 @@ FUN_0047a1a0::~FUN_0047a1a0()
 
 struct FNStub
 {
-    char const* GetFullName() const;
 };
 struct BGSTESTexture
 {
     unsigned int GetModelLength() const;
 };
-void __cdecl FUN_004856f0(unsigned int, void*, unsigned int);
 struct FUN_0047a240_shell
 {
     void FUN_0047a240(unsigned int);
@@ -90,8 +98,8 @@ struct FUN_0047a240_shell
 void FUN_0047a240_shell::FUN_0047a240(unsigned int a1)
 {
     if (((BGSTESTexture*)((char*)this + 4))->GetModelLength())
-        FUN_004856f0(a1, (void*)((FNStub*)((char*)this + 4))->GetFullName(),
-                     ((BGSTESTexture*)((char*)this + 4))->GetModelLength() + 1);
+        ::FUN_004856f0((void *)(a1), (void*)((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(((FNStub*)((char*)this + 4))))->FUN_00408da0())),
+                     (void *)(((BGSTESTexture*)((char*)this + 4))->GetModelLength() + 1));
 }
 
 namespace fnv_0047a2b0 {
@@ -101,7 +109,6 @@ struct FUN_0047a300_shell
 };
 struct FUN_0047a380_shell
 {
-    void FUN_0047a380(char*);
 };
 struct FUN_0047a2b0_shell
 {
@@ -113,11 +120,10 @@ void FUN_0047a2b0_shell::FUN_0047a2b0(BaseFormComponent* component)
     BGSMessageIcon* msgIcon = dynamic_cast<BGSMessageIcon*>(component);
     if (!msgIcon)
         return;
-    ((FUN_0047a380_shell*)this)->FUN_0047a380(((FUN_0047a300_shell*)msgIcon)->FUN_0047a300());
+    reinterpret_cast<::FUN_0047a380_shell *>((((FUN_0047a380_shell*)this)))->FUN_0047a380(((FUN_0047a300_shell*)msgIcon)->FUN_0047a300());
 }
 }  // namespace fnv_0047a2b0
 
-int _stricmp(const char*, const char*);
 struct Caller300
 {
     const char* FUN_0047a300();
@@ -132,7 +138,7 @@ bool ThisStandIn::FUN_0047a320(BaseFormComponent* apComponent)
     BGSMessageIcon* icon = dynamic_cast<BGSMessageIcon*>(apComponent);
     if (!icon)
         return true;
-    if (_stricmp(((Caller300*)this)->FUN_0047a300(), ((Caller300*)icon)->FUN_0047a300()))
+    if (::FUN_00404dc0(((Caller300*)this)->FUN_0047a300(), ((Caller300*)icon)->FUN_0047a300()))
         return true;
     return false;
 }
@@ -140,7 +146,6 @@ bool ThisStandIn::FUN_0047a320(BaseFormComponent* apComponent)
 namespace fnv_0047a300 {
 struct FNStub
 {
-    const char* GetFullName();
 };
 
 struct FUN_0047a300_shell : FNStub
@@ -151,7 +156,7 @@ struct FUN_0047a300_shell : FNStub
 // @fnv 0x0047a300
 const char* FUN_0047a300_shell::FUN_0047a300()
 {
-    return reinterpret_cast<FNStub*>(reinterpret_cast<char*>(this) + 4)->GetFullName();
+    return ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(reinterpret_cast<char*>(this) + 4)))->FUN_00408da0()));
 }
 }  // namespace fnv_0047a300
 

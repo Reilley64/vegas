@@ -5,6 +5,21 @@
 
 // src/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpuworldraycastjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpuworldraycastjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/LunaOwner.h"
+#include "fnv/decl/RayCaster_00df8aa0.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00df8000.h"
+#include "fnv/symbols_00e2a000.h"
+#include "fnv/symbols_00e2b000.h"
+#include "fnv/symbols_00e2c000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_010c3000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010cc000.h"
+#include "fnv/symbols_010db000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_0126e000.h"
 struct ValueHolder
 {
     int unk00;
@@ -16,7 +31,6 @@ struct ValueHolder
     unsigned char* CopyValue(unsigned char* output);
 };
 struct S_00df8990_Obj;
-extern void(__cdecl* DAT_0126ec04)(void* a, void* b, S_00df8990_Obj* obj);
 struct S_00df8990_Obj
 {
     void InvokeCallback(void* a, void* b);
@@ -44,7 +58,6 @@ struct S_00df8d60
     int unkC;
     int unk10;
     float unk14;
-    S_00df8d60_Bool FUN_00df8aa0(const void* data);
     float FUN_00df8d60(const S_00df8d60_Data* data, int unused);
 };
 struct ParamBlock
@@ -61,7 +74,6 @@ struct ParamBlock
 };
 struct Container
 {
-    void FUN_00df8aa0(int* apOut, int aiValue);
 };
 struct FUN_00df8db0_cls
 {
@@ -96,7 +108,6 @@ struct FUN_00df8960_cls
 };
 struct AdjustedBase
 {
-    void FUN_00df8aa0(void* apFirst, int aiSecond);
 };
 struct AdjustOwner
 {
@@ -111,7 +122,6 @@ struct FUN_00df8dd0_Param
 };
 struct FUN_00df8dd0_helper
 {
-    void FUN_00df8aa0(FUN_00df8dd0_Param** pp, unsigned int value);
 };
 struct FUN_00df8dd0_cls
 {
@@ -181,10 +191,7 @@ NiExtraDataBase::NiExtraDataBase()
 Derived::Derived()
 {}
 #include <xmmintrin.h>
-extern char DAT_010dbb04[];
-extern void(__cdecl* DAT_0126ec04)(void* a, void* b, struct S_00df8990_Obj* obj);
 struct S_00df8990_Obj;
-void __cdecl FUN_00e2b9b0(void* a, void* b, S_00df8990_Obj* obj);
 struct Source
 {
     __m128 m_v00;
@@ -299,21 +306,16 @@ struct Interface
     virtual void v58();
     virtual void v5c(void* a, Output* b, unsigned int c);
 };
-void __cdecl FUN_00df89b0(Interface* iface, Source* src, Output* out, Spawned* spawned);
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 namespace fnv_00df8df0 {
 #include <windows.h>
 #include <xmmintrin.h>
 
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
-extern unsigned int DAT_0126835c;
-extern const char DAT_010dbaf8, DAT_010dbae4, DAT_010dbad8, DAT_010dbacc;
-extern const char DAT_010dbb0c[], DAT_010c41f8[];
-extern const char DAT_010dbb04, DAT_010ccfac, DAT_010ccfa0, DAT_010ccf8c, DAT_010c3bb8;
-extern __m128 DAT_01267e30, DAT_010c7170, DAT_010cd670;
-extern const float DAT_01012068;
+extern const char DAT_010dbb0c[];
 struct __declspec(align(16)) Vec
 {
     float x, y, z, w;
@@ -336,17 +338,8 @@ static __forceinline Pool* pool()
 {
     return (Pool*)FUN_00c85750();
 }
-void __cdecl FUN_00c908c0(Allocator*, void*, int, int) throw();
-void __cdecl FUN_00e2c8a0(void*, void*, void*, int, void*, void*, int) throw();
-void __cdecl FUN_00e2cc30(void*, void*, void*, int, void*, void*, int) throw();
-void __cdecl FUN_00e2abf0(void*, void*, int, void*, int, int, int, int) throw();
-void __cdecl FUN_00e2b070(void*, void*, int, void*, int, int, int, int, int) throw();
-void __cdecl FUN_00e2b510(void*, void*, int, void*, int, int, int, int, int) throw();
-void __cdecl FUN_00e2acf0(void*, void*, int, void*, int, int, int, int, int) throw();
-void __cdecl FUN_00df89b0(void*, void*, void*, void*) throw();
 struct Finalizer
 {
-    void __thiscall ProcessCallback(void*, void*, int) throw();
 };
 struct Header
 {
@@ -437,7 +430,7 @@ struct VertexBuffer
             int next = old * 2;
             if (n >= next)
                 next = n;
-            FUN_00c908c0(a, &data, next, 32);
+            ::FUN_00c908c0((::SpawnedObject *)(a), (::SpawnedArray *)(void *)(&data), next, 32);
         }
     }
     __forceinline void Clear() throw()
@@ -474,10 +467,10 @@ struct __declspec(align(16)) Field
     Vec vector70;
     __forceinline void Init() throw()
     {
-        name0 = &DAT_010dbaf8;
-        name1 = &DAT_010dbae4;
-        name2 = &DAT_010dbad8;
-        name3 = &DAT_010dbacc;
+        name0 = &(*reinterpret_cast<const char *>(&::DAT_010dbaf8));
+        name1 = &(*reinterpret_cast<const char *>(&::DAT_010dbae4));
+        name2 = &(*reinterpret_cast<const char *>(&::DAT_010dbad8));
+        name3 = &(*reinterpret_cast<const char *>(&::DAT_010dbacc));
         weight = 1.0f;
         property50 = 0;
         property54 = 0;
@@ -486,10 +479,10 @@ struct __declspec(align(16)) Field
     }
     __forceinline void Reset() throw()
     {
-        name3 = &DAT_010ccfac;
-        name2 = &DAT_010ccfa0;
-        *(const void* volatile*)&name1 = &DAT_010ccf8c;
-        *(const void* volatile*)&name0 = &DAT_010c3bb8;
+        name3 = &(*reinterpret_cast<const char *>(&::DAT_010ccfac));
+        name2 = &(*reinterpret_cast<const char *>(&::DAT_010ccfa0));
+        *(const void* volatile*)&name1 = &(*reinterpret_cast<const char *>(&::DAT_010ccf8c));
+        *(const void* volatile*)&name0 = &(*reinterpret_cast<const char *>(&::DAT_010c3bb8));
     }
 };
 struct State
@@ -499,7 +492,7 @@ struct State
     int a, b, c, d, e;
     __forceinline void Init() throw()
     {
-        type = &DAT_010dbb04;
+        type = &(*reinterpret_cast<const char *>(&::DAT_010dbb04));
         weight = 1.0f;
         a = 0;
         b = 0;
@@ -557,7 +550,7 @@ struct TraceContext
 void __cdecl FUN_00df8df0(void* result, MeshRequest* request)
 {
     {
-        TraceContext* t = (TraceContext*)TlsGetValue(DAT_0126835c);
+        TraceContext* t = (TraceContext*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
         TraceEntry* p = t->head;
         if (p < t->end)
         {
@@ -621,22 +614,22 @@ void __cdecl FUN_00df8df0(void* result, MeshRequest* request)
                 SimdValue width;
                 width.sub(*(SimdValue*)&v->bounds, *(SimdValue*)&v->position);
                 SimdValue eq;
-                eq.eq(width, DAT_01267e30);
+                eq.eq(width, (*reinterpret_cast<::__m128 *>(&::DAT_01267e30)));
                 SimdValue selected;
-                selected.select(width, DAT_010c7170, eq);
+                selected.select(width, ::DAT_010c7170, eq);
                 __m128 value = selected.v;
-                __m128 high = _mm_unpackhi_ps(value, DAT_010c7170);
+                __m128 high = _mm_unpackhi_ps(value, ::DAT_010c7170);
                 value = _mm_shuffle_ps(value, high, 0xc4);
                 __m128 reciprocal = _mm_rcp_ps(value);
                 __m128 product = _mm_mul_ps(reciprocal, value);
                 product = _mm_mul_ps(product, reciprocal);
                 reciprocal = _mm_sub_ps(_mm_add_ps(reciprocal, reciprocal), product);
-                *(__m128*)&out->inverse = _mm_or_ps(_mm_andnot_ps(eq.v, reciprocal), _mm_and_ps(eq.v, DAT_010cd670));
+                *(__m128*)&out->inverse = _mm_or_ps(_mm_andnot_ps(eq.v, reciprocal), _mm_and_ps(eq.v, ::DAT_010cd670));
                 offset += 32;
                 ++v;
             } while (--queryRemaining != 0);
         }
-        *(__m128*)&shared.unit = _mm_set1_ps(DAT_01012068);
+        *(__m128*)&shared.unit = _mm_set1_ps(::DAT_01012068);
         Field* __restrict at = fields;
         queryRemaining = 4;
         do
@@ -645,8 +638,8 @@ void __cdecl FUN_00df8df0(void* result, MeshRequest* request)
             at->option = queryType;
             ++at;
         } while (queryRemaining-- != 1);
-        FUN_00e2c8a0(request->passA, vertices.data, querySource, queryType, fields, iteration.destination, count);
-        FUN_00e2cc30(request->passB, vertices.data, querySource, queryType, fields, iteration.destination, count);
+        ::fnv_00e2c8a0::FUN_00e2c8a0((::fnv_00e2c8a0::Owner *)(request->passA), (int)(vertices.data), (int)(querySource), queryType, (int)(fields), (int)(iteration.destination), count);
+        ::FUN_00e2cc30((::SplitInput *)(request->passB), (int)(vertices.data), (int)(querySource), queryType, (int)(fields), (int)(iteration.destination), count);
         pool()->cursor = iteration.destination;
         Field* end = fields + 4;
         int remaining = 3;
@@ -665,7 +658,7 @@ void __cdecl FUN_00df8df0(void* result, MeshRequest* request)
             iteration.count = remainingVertices;
             do
             {
-                FUN_00e2abf0(queryFinal, source, queryType, &finalState, 0, 0, 0, 0);
+                ::FUN_00e2abf0(queryFinal, (::S_00df8990_Obj *)(source), queryType, (::CastOutput *)(void *)(&finalState));
                 ++source;
             } while (--iteration.count != 0);
         }
@@ -677,9 +670,9 @@ void __cdecl FUN_00df8df0(void* result, MeshRequest* request)
             do
             {
                 *(__m128*)&scratch.range = *(__m128*)&shared.unit;
-                FUN_00e2b070(request->passA, face, queryType, &scratch.range, 0, 0, 0, 0, 0);
-                FUN_00e2b510(request->passB, face, queryType, &scratch.range, 0, 0, 0, 0, 0);
-                FUN_00e2acf0(queryFinal, face, queryType, &scratch.range, 0, 0, 0, 0, 0);
+                ::FUN_00e2b070((const ::Input *)(request->passA), (::BundleCommand *)(face), (void *)(queryType), (*(::RayVector *)(&scratch.range)), (void *)(0), (void *)(0), (void *)(0), (void *)(0), (int *)(0));
+                ::FUN_00e2b510((::Owner *)(request->passB), (::RayBatch *)(face), queryType, (*(::__m128 *)(&scratch.range)));
+                ::FUN_00e2acf0(queryFinal, (::InputStruct *)(face), (void *)(queryType), (float *)(void *)(&scratch.range));
                 ++face;
             } while (--iteration.count != 0);
         }
@@ -696,7 +689,7 @@ void __cdecl FUN_00df8df0(void* result, MeshRequest* request)
             {
                 field.weight = 1.0f;
                 field.dirty = 0;
-                FUN_00df89b0(request->shapeBuilder, vertex, &field, &shared.state);
+                ::FUN_00df89b0((::Interface *)(request->shapeBuilder), (::Source *)(vertex), (::Output *)(void *)(&field), (::Spawned *)(void *)(&shared.state));
                 ++vertex;
                 ++iteration.count;
             } while (iteration.count < request->vertexCount);
@@ -732,7 +725,7 @@ void __cdecl FUN_00df8df0(void* result, MeshRequest* request)
                         c.output = 0;
                         field.weight = 1.0f;
                         field.dirty = 0;
-                        FUN_00df89b0(request->shapeBuilder, &c, &field, &shared.state);
+                        ::FUN_00df89b0((::Interface *)(request->shapeBuilder), (::Source *)(void *)(&c), (::Output *)(void *)(&field), (::Spawned *)(void *)(&shared.state));
                         queryFaces->outputs[iteration.count] = c.output;
                         ++iteration.count;
                     } while (iteration.count < queryFaces->count);
@@ -742,17 +735,17 @@ void __cdecl FUN_00df8df0(void* result, MeshRequest* request)
         }
     }
     {
-        TraceContext* t = (TraceContext*)TlsGetValue(DAT_0126835c);
+        TraceContext* t = (TraceContext*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
         TraceEntry* p = t->head;
         if (p < t->end)
         {
-            p->label = DAT_010c41f8;
+            p->label = ::DAT_010c41f8;
             _ReadWriteBarrier();
             iteration.stamp = (unsigned int)__rdtsc();
             p->stamp = iteration.stamp;
             t->head = p + 1;
         }
     }
-    ((Finalizer*)result)->ProcessCallback(request, request, 0);
+    reinterpret_cast<::LunaOwner *>((((Finalizer*)result)))->ProcessCallback((int)(request), (int)(request), 0);
 }
 }  // namespace fnv_00df8df0

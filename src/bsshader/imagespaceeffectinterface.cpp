@@ -2,6 +2,18 @@
 // src/bsshader/imagespaceeffectinterface.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/imagespaceeffectinterface.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/BA3760Object.h"
+#include "fnv/decl/BBA3C00Shader.h"
+#include "fnv/decl/BSShaderManager.h"
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/FUN_00ba3780_struct.h"
+#include "fnv/decl/FUN_00ba3c70_shell.h"
+#include "fnv/decl/Holder00ba37f0.h"
+#include "fnv/decl/ImageSpaceEffect.h"
+#include "fnv/decl/ImageSpaceShaderParam.h"
+#include "fnv/symbols_011ae000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01200000.h"
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
 struct MemoryManagerStandIn
@@ -10,7 +22,6 @@ struct MemoryManagerStandIn
     void* FUN_00aa3e40(unsigned int uiSize);
 };
 
-extern MemoryManagerStandIn g_memoryManager_011f6238;
 
 void __cdecl PipboyFree(void* pvMem);
 
@@ -34,13 +45,9 @@ struct NiTextureStandIn : NiRefObjectStandIn
 {
 };
 
-extern NiTextureStandIn* g_pkScanlines_01200810;
 
-extern NiTextureStandIn* g_pkDistortMap_01200814;
 
-extern NiTextureStandIn* g_spPipboyTexture_01200818;
 
-void __cdecl FUN_00b55840(const char* pPath, int iFlags, NiTextureStandIn** ppTexture, int a4, int a5);
 
 struct PipboySourceTexture
 {
@@ -128,7 +135,7 @@ struct PipboyPass : PipboyParamBase
 
     static void* operator new(unsigned int uiSize)
     {
-        return g_memoryManager_011f6238.FUN_00aa3e40(uiSize);
+        return (*reinterpret_cast<::MemoryManagerStandIn *>(&::g_memoryManager)).FUN_00aa3e40(uiSize);
     }
 
     static void operator delete(void* pvMem)
@@ -136,11 +143,8 @@ struct PipboyPass : PipboyParamBase
         PipboyFree(pvMem);
     }
 
-    void FUN_00ba37f0(NiTextureStandIn* pkTexture);
 
-    void FUN_00ba3760(int iValue);
 
-    PipboySourceTexture* FUN_00ba3780();
 };
 
 struct PipboyConstantsBase : PipboyParamBase
@@ -196,7 +200,7 @@ struct PipboyConstants : PipboyConstantsBase
 
     static void* operator new(unsigned int uiSize)
     {
-        return g_memoryManager_011f6238.FUN_00aa3e40(uiSize);
+        return (*reinterpret_cast<::MemoryManagerStandIn *>(&::g_memoryManager)).FUN_00aa3e40(uiSize);
     }
 
     static void operator delete(void* pvMem)
@@ -204,9 +208,7 @@ struct PipboyConstants : PipboyConstantsBase
         PipboyFree(pvMem);
     }
 
-    void FUN_00b8ab10(int a1, int a2);
 
-    void FUN_00b8a790(int iIndex, float f0, float f1, float f2, float f3);
 };
 
 template <class T> struct PipboyArray
@@ -242,7 +244,7 @@ template <class T> struct PipboyArray
 
     __forceinline void Assign(unsigned int index, T value)
     {
-        FUN_00ba3aa0(index, value);
+        reinterpret_cast<::FUN_00a41520_cls *>(this)->FUN_00ba3aa0(index, (::KeyPair **)&(value));
     }
     T GetAt(unsigned int uiIndex) const
     {
@@ -250,25 +252,15 @@ template <class T> struct PipboyArray
     }
 };
 
-extern float g_f011ae5e8;
 
-extern float g_f011ae5ec;
 
-extern float g_f011ae5f0;
 
-extern float g_f011ae5f4;
 
-extern float g_f011ae5f8;
 
-extern float g_f012007e8;
 
-extern float g_f012007f0;
 
-extern float g_f012007f4;
 
-extern float g_af01200800[4];
 
-extern bool g_b012007f8;
 
 struct PipboyGeometryData
 {
@@ -385,11 +377,8 @@ struct PipboyShader
 
     PipboyArray<PipboyParamBase*> m_kPasses;
 
-    void SetTextureArraySize(int iCount);
 
-    void SetEntryRanges(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9);
 
-    void FUN_00ba3c70(int iIndex, void* pkData, PipboyConstants* pkConstants, int a4);
 
     void SetupScanlineDistortion(PipboyGeometry* pkGeometry, int iUnused);
 };
@@ -401,15 +390,15 @@ void PipboyShader::SetupScanlineDistortion(PipboyGeometry* pkGeometry, int iUnus
 
     unk04 = 0;
 
-    SetTextureArraySize(2);
+    reinterpret_cast<::ImageSpaceEffect *>(this)->SetTextureArraySize(2);
 
-    m_kPasses.FUN_00a90180(5);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_kPasses))->FUN_00a90180(5);
 
-    FUN_00b55840(s_szScanlines, 1, &g_pkScanlines_01200810, 0, 0);
+    ::BSShaderManager::GetTexture(s_szScanlines, 1, (*(::NiPointer< ::NiTexture> *)(&(*reinterpret_cast<::NiTextureStandIn * *>(&::recon7fbee0::DAT_01200810)))), 0, 0);
 
-    NiTextureStandIn* pkScanlines = g_pkScanlines_01200810;
+    NiTextureStandIn* pkScanlines = (*reinterpret_cast<::NiTextureStandIn * *>(&::recon7fbee0::DAT_01200810));
 
-    FUN_00b55840(s_szDistortMap, 1, &g_pkDistortMap_01200814, 0, 0);
+    ::BSShaderManager::GetTexture(s_szDistortMap, 1, (*(::NiPointer< ::NiTexture> *)(&g_pkDistortMap_01200814)), 0, 0);
 
     // The distortion snapshot is dead before the texel scale is computed.
     union DistortionTexel
@@ -421,38 +410,38 @@ void PipboyShader::SetupScanlineDistortion(PipboyGeometry* pkGeometry, int iUnus
 
     {
         PipboyParamBase* pPass = new PipboyPass;
-        m_kPasses.FUN_00ba3aa0(3, pPass);
+        reinterpret_cast<::FUN_00a41520_cls *>(&(m_kPasses))->FUN_00ba3aa0(3, (::KeyPair **)&(pPass));
     }
 
-    static_cast<PipboyPass*>(m_kPasses.GetAt(3))->FUN_00ba37f0(pkScanlines);
+    reinterpret_cast<::Holder00ba37f0 *>((static_cast<PipboyPass*>(m_kPasses.GetAt(3))))->FUN_00ba37f0((::Tex00ba37f0 *)(pkScanlines));
 
-    static_cast<PipboyPass*>(m_kPasses.GetAt(3))->FUN_00ba3760(3);
+    reinterpret_cast<::BA3760Object *>((static_cast<PipboyPass*>(m_kPasses.GetAt(3))))->FUN_00ba3760(3);
 
     {
         PipboyParamBase* pPass = new PipboyPass;
-        m_kPasses.FUN_00ba3aa0(4, pPass);
+        reinterpret_cast<::FUN_00a41520_cls *>(&(m_kPasses))->FUN_00ba3aa0(4, (::KeyPair **)&(pPass));
     }
 
     NiTextureStandIn* pkDistort = distortion.pointer;
-    static_cast<PipboyPass*>(m_kPasses.m_pBase[4])->FUN_00ba37f0(pkDistort);
+    reinterpret_cast<::Holder00ba37f0 *>((static_cast<PipboyPass*>(m_kPasses.m_pBase[4])))->FUN_00ba37f0((::Tex00ba37f0 *)(pkDistort));
 
-    static_cast<PipboyPass*>(m_kPasses.GetAt(4))->FUN_00ba3760(0);
+    reinterpret_cast<::BA3760Object *>((static_cast<PipboyPass*>(m_kPasses.GetAt(4))))->FUN_00ba3760(0);
 
     {
         PipboyParamBase* pPass = new PipboyPass;
-        m_kPasses.FUN_00ba3aa0(2, pPass);
+        reinterpret_cast<::FUN_00a41520_cls *>(&(m_kPasses))->FUN_00ba3aa0(2, (::KeyPair **)&(pPass));
     }
 
-    static_cast<PipboyPass*>(m_kPasses.GetAt(2))->FUN_00ba3760(0);
+    reinterpret_cast<::BA3760Object *>((static_cast<PipboyPass*>(m_kPasses.GetAt(2))))->FUN_00ba3760(0);
 
-    static_cast<PipboyPass*>(m_kPasses.GetAt(2))->FUN_00ba37f0(0);
+    reinterpret_cast<::Holder00ba37f0 *>((static_cast<PipboyPass*>(m_kPasses.GetAt(2))))->FUN_00ba37f0((::Tex00ba37f0 *)(::NiTextureStandIn *)(0));
 
-    if (g_spPipboyTexture_01200818)
+    if ((*reinterpret_cast<::NiTextureStandIn * *>(&::recon7fbee0::DAT_01200818)))
     {
 
-        g_spPipboyTexture_01200818->DecRefCount();
+        (*reinterpret_cast<::NiTextureStandIn * *>(&::recon7fbee0::DAT_01200818))->DecRefCount();
 
-        g_spPipboyTexture_01200818 = 0;
+        (*reinterpret_cast<::NiTextureStandIn * *>(&::recon7fbee0::DAT_01200818)) = 0;
     }
 
     float fTexelX = 0.0f;
@@ -462,56 +451,56 @@ void PipboyShader::SetupScanlineDistortion(PipboyGeometry* pkGeometry, int iUnus
     if (m_kPasses.m_pBase[0])
     {
 
-        PipboySourceTexture* pkSource = static_cast<PipboyPass*>(m_kPasses.m_pBase[0])->FUN_00ba3780();
+        PipboySourceTexture* pkSource = ((::PipboySourceTexture *)(reinterpret_cast<::FUN_00ba3780_struct *>((static_cast<PipboyPass*>(m_kPasses.m_pBase[0])))->FUN_00ba3780()));
 
-        fTexelX = 1.0f / (float)pkSource->GetWidth() * g_f011ae5e8;
+        fTexelX = 1.0f / (float)pkSource->GetWidth() * ::DAT_011ae5e8;
 
-        fTexelY = 1.0f / (float)pkSource->GetHeight() * g_f011ae5e8;
+        fTexelY = 1.0f / (float)pkSource->GetHeight() * ::DAT_011ae5e8;
     }
 
     PipboyConstants* pkConst0 = new PipboyConstants;
 
-    pkConst0->FUN_00b8ab10(0, 4);
+    reinterpret_cast<::ImageSpaceShaderParam *>((pkConst0))->AllocateShaderConstants(0, 4);
 
     pkConst0->unk55 = 1;
 
     pkConst0->unk56 = 1;
 
-    pkConst0->FUN_00b8a790(0, g_f011ae5ec, g_f012007e8, g_f011ae5f4, g_f011ae5f0);
+    reinterpret_cast<::ImageSpaceShaderParam *>((pkConst0))->SetShaderConstantVector4(0, ::DAT_011ae5ec, ::DAT_012007e8, ::DAT_011ae5f4, ::DAT_011ae5f0);
 
-    pkConst0->FUN_00b8a790(1, g_f012007f0, g_f012007f4, g_f011ae5f8, g_b012007f8 ? 1.0f : 0.0f);
+    reinterpret_cast<::ImageSpaceShaderParam *>((pkConst0))->SetShaderConstantVector4(1, ::DAT_012007f0, ::DAT_012007f4, ::DAT_011ae5f8, (*reinterpret_cast<bool *>(&::recon7fbee0::DAT_012007f8)) ? 1.0f : 0.0f);
 
-    pkConst0->FUN_00b8a790(2, g_af01200800[0], g_af01200800[1], g_af01200800[2], g_af01200800[3]);
+    reinterpret_cast<::ImageSpaceShaderParam *>((pkConst0))->SetShaderConstantVector4(2, (*reinterpret_cast<float (*)[4]>(&::recon7fbee0::DAT_01200800))[0], (*reinterpret_cast<float (*)[4]>(&::recon7fbee0::DAT_01200800))[1], (*reinterpret_cast<float (*)[4]>(&::recon7fbee0::DAT_01200800))[2], (*reinterpret_cast<float (*)[4]>(&::recon7fbee0::DAT_01200800))[3]);
 
-    pkConst0->FUN_00b8a790(3, fTexelX, fTexelY, 0.0f, 0.0f);
+    reinterpret_cast<::ImageSpaceShaderParam *>((pkConst0))->SetShaderConstantVector4(3, fTexelX, fTexelY, 0.0f, 0.0f);
 
     PipboyConstants* pkConst1 = new PipboyConstants;
 
-    pkConst1->FUN_00b8ab10(0, 5);
+    reinterpret_cast<::ImageSpaceShaderParam *>((pkConst1))->AllocateShaderConstants(0, 5);
 
     pkConst1->unk55 = 1;
 
     pkConst1->unk56 = 1;
 
-    pkConst1->FUN_00b8a790(0, g_f011ae5ec, g_f012007e8, g_f011ae5f4, g_f011ae5f0);
+    reinterpret_cast<::ImageSpaceShaderParam *>((pkConst1))->SetShaderConstantVector4(0, ::DAT_011ae5ec, ::DAT_012007e8, ::DAT_011ae5f4, ::DAT_011ae5f0);
 
-    pkConst1->FUN_00b8a790(1, g_f012007f0, g_f012007f4, g_f011ae5f8, g_b012007f8 ? 1.0f : 0.0f);
+    reinterpret_cast<::ImageSpaceShaderParam *>((pkConst1))->SetShaderConstantVector4(1, ::DAT_012007f0, ::DAT_012007f4, ::DAT_011ae5f8, (*reinterpret_cast<bool *>(&::recon7fbee0::DAT_012007f8)) ? 1.0f : 0.0f);
 
-    pkConst1->FUN_00b8a790(2, g_af01200800[0], g_af01200800[1], g_af01200800[2], g_af01200800[3]);
+    reinterpret_cast<::ImageSpaceShaderParam *>((pkConst1))->SetShaderConstantVector4(2, (*reinterpret_cast<float (*)[4]>(&::recon7fbee0::DAT_01200800))[0], (*reinterpret_cast<float (*)[4]>(&::recon7fbee0::DAT_01200800))[1], (*reinterpret_cast<float (*)[4]>(&::recon7fbee0::DAT_01200800))[2], (*reinterpret_cast<float (*)[4]>(&::recon7fbee0::DAT_01200800))[3]);
 
-    pkConst1->FUN_00b8a790(3, fTexelX, fTexelY, 0.0f, 0.0f);
+    reinterpret_cast<::ImageSpaceShaderParam *>((pkConst1))->SetShaderConstantVector4(3, fTexelX, fTexelY, 0.0f, 0.0f);
 
-    pkConst1->FUN_00b8a790(4, 1.0f, 0.0f, 0.0f, 0.0f);
+    reinterpret_cast<::ImageSpaceShaderParam *>((pkConst1))->SetShaderConstantVector4(4, 1.0f, 0.0f, 0.0f, 0.0f);
 
     m_kConstants.Assign(0, pkConst0);
 
     m_kConstants.Assign(1, pkConst1);
 
-    SetEntryRanges(0, 2, 1, 3, 4, 0, 0, 0, 0);
+    reinterpret_cast<::BBA3C00Shader *>(this)->SetEntryRanges(0, 2, 1, 3, 4, 0, 0, 0, 0);
 
-    SetEntryRanges(1, 2, 1, 3, 4, 0, 0, 0, 0);
+    reinterpret_cast<::BBA3C00Shader *>(this)->SetEntryRanges(1, 2, 1, 3, 4, 0, 0, 0, 0);
 
-    FUN_00ba3c70(0, pkGeometry->unk08->unk120, pkConst0, 0);
+    reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(0, (::ImageSpaceEffect *)(pkGeometry->unk08->unk120), (::ImageSpaceEffectParam *)(pkConst0), 0);
 
-    FUN_00ba3c70(1, pkGeometry->unk08->unk124, pkConst1, 0);
+    reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(1, (::ImageSpaceEffect *)(pkGeometry->unk08->unk124), (::ImageSpaceEffectParam *)(pkConst1), 0);
 }

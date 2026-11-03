@@ -7,6 +7,9 @@
 // to their real unit once identified.
 // src/havok/common/base/math/matrix/hkmatrix4.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/matrix/hkmatrix4.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00cb20b0_shell.h"
+#include "fnv/decl/MProduct.h"
+#include "fnv/decl/Matrix4V.h"
 struct FUN_00de8f30_Class
 {
     float m_data[16];
@@ -56,7 +59,6 @@ struct hkMatrix4
     hkVector4 m_kColumn1;
     hkVector4 m_kColumn2;
     hkVector4 m_kColumn3;
-    void FUN_00de8da0(const hkMatrix4& a, const hkMatrix4& b);
     void FUN_00de8e50(const hkMatrix4& b);
     void operator=(const hkMatrix4& o)
     {
@@ -73,7 +75,6 @@ struct FUN_00de90f0_Class
 };
 struct CB20B0_Class
 {
-    void FUN_00cb20b0(void* src);
 };
 struct Matrix44_shell
 {
@@ -86,7 +87,6 @@ struct Owner
     __m128 row10;
     __m128 row20;
     __m128 row30;
-    void FUN_00de8910(float value);
     void FUN_00de8c50(const __m128* source, float value);
 };
 struct SourceBlockCDF
@@ -114,7 +114,6 @@ struct SourceBlockCDF
 };
 struct TargetBlockCDF
 {
-    void FUN_00cd55b0(SourceBlockCDF* pkSource, int iArg);
 };
 struct FUN_00cdf230_cls
 {

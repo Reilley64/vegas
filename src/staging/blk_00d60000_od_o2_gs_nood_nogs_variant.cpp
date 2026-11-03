@@ -5,10 +5,15 @@
 
 // src/staging/blk_00d60000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00dce000.h"
+#include "fnv/symbols_010d3000.h"
 #include "../../include/layout_support.h"
 
 #include <xmmintrin.h>
-extern __declspec(align(16)) const unsigned int DAT_010c44d0[4];
+#include "fnv/symbols_simd.h"
 
 struct hkVector4
 {
@@ -37,7 +42,7 @@ void hkQuaternion::FUN_00d6bec0(const hkQuaternion& q, hkVector4& out) const
     d = _mm_add_ps(_mm_shuffle_ps(d, d, 0x4e), d);
     d = _mm_add_ps(_mm_shuffle_ps(d, d, 0xb1), d);
     if (_mm_movemask_ps(d) & 1)
-        out.m_vComponents = _mm_xor_ps(out.m_vComponents, *(const __m128*)DAT_010c44d0);
+        out.m_vComponents = _mm_xor_ps(out.m_vComponents, *(const __m128*)(*reinterpret_cast<const unsigned int (*)[4]>((void *)&::DAT_010c44d0)));
 }
 
 namespace fnv_00d6c470 {
@@ -56,26 +61,22 @@ union ThreeVectors
         __m128 z;
     };
 };
-extern unsigned char DAT_010d33c1[];
-extern unsigned char DAT_010d33c2[];
-extern __m128 DAT_010c44d0;
-extern void __cdecl FUN_00dcee80(ThreeVectors*, int, int);
 
 // @fnv 0x00d6c470
 static __declspec(noinline) void FUN_00d6c470(const FaceCode* face, const __m128* normals, const unsigned char* points,
                                               int a, int b)
 {
     unsigned int index = face->index;
-    unsigned int first = DAT_010d33c1[index];
-    unsigned int second = DAT_010d33c2[index];
+    unsigned int first = ::DAT_010d33c1[index];
+    unsigned int second = ::DAT_010d33c2[index];
     ThreeVectors basis;
     basis.x = normals[index];
     basis.z = *reinterpret_cast<const __m128*>(points + first);
     basis.y = *reinterpret_cast<const __m128*>(points + second);
-    FUN_00dcee80(&basis, a, b);
+    ::FUN_00dcee80((*(const ::S_00dcee80_Info *)(&basis)), (*(const ::S_00dcee80_QueryIn *)(a)), (*(::S_00dcee80_QueryOut *)(b)));
     basis.z = *reinterpret_cast<const __m128*>(points + second);
-    basis.y = _mm_xor_ps(DAT_010c44d0, *reinterpret_cast<const __m128*>(points + first));
-    FUN_00dcee80(&basis, a, b);
+    basis.y = _mm_xor_ps(::DAT_010c44d0, *reinterpret_cast<const __m128*>(points + first));
+    ::FUN_00dcee80((*(const ::S_00dcee80_Info *)(&basis)), (*(const ::S_00dcee80_QueryIn *)(a)), (*(::S_00dcee80_QueryOut *)(b)));
 }
 const FaceCode* volatile inputFace;
 const __m128* volatile inputNormals;
@@ -105,9 +106,7 @@ struct Box
     char* p;
 };
 
-extern unsigned char DAT_010d33c0[];
 
-void __cdecl FUN_00dcee80(__m128* vec, int a1, int a2);
 
 struct Triple
 {
@@ -126,7 +125,7 @@ static __declspec(noinline) void FUN_00d6c500(Span* span, int a1, Box base, Box 
         t.first = *(__m128*)(b + DAT_010d33c0[i]);
         t.second = *(__m128*)(b + DAT_010d33c0[i + 1]);
         t.third = *(__m128*)(p10.p + DAT_010d33c0[i + 2]);
-        FUN_00dcee80(&t.second, a1, a2);
+        ::FUN_00dcee80((*(const ::S_00dcee80_Info *)(&t.second)), (*(const ::S_00dcee80_QueryIn *)(a1)), (*(::S_00dcee80_QueryOut *)(a2)));
     }
 }
 

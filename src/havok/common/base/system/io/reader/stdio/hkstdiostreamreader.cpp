@@ -2,6 +2,8 @@
 // src/havok/common/base/system/io/reader/stdio/hkstdiostreamreader.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/reader/stdio/hkstdiostreamreader.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010cc000.h"
 extern "C" size_t __cdecl fread(void* ptr, size_t size, size_t count, void* stream);
 
 struct FUN_00d2bcd0_class
@@ -23,7 +25,6 @@ void FUN_00d2bcd0_class::ReadOrMarkFailed(void* buffer, unsigned int count)
     m_10 = 0;
 }
 
-extern int DAT_0102e388;
 extern int DAT_010ce6c0;
 extern int __cdecl _fclose(int);
 
@@ -40,7 +41,7 @@ void __thiscall FUN_00d2bda0_cls::DestroyFileHandle()
     *(int*)this = (int)&DAT_010ce6c0;
     if (file)
         _fclose(file);
-    *(int*)this = (int)&DAT_0102e388;
+    *(int*)this = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 long __cdecl _ftell(void*);
@@ -139,7 +140,6 @@ void Owner::FUN_00d2bdf0()
     invoke(unk08, 0);
 }
 
-extern int DAT_010cc2fc;
 struct Prefix
 {
     int vtable;
@@ -232,13 +232,12 @@ struct CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void DestroyFileHandle();
     CpuObject* FUN_00d2be00(unsigned int flags);
 };
 // @fnv 0x00d2be00
 CpuObject* CpuObject::FUN_00d2be00(unsigned int flags)
 {
-    DestroyFileHandle();
+    reinterpret_cast<::FUN_00d2bda0_cls *>(this)->DestroyFileHandle();
     if (flags & 1)
     {
         CpuAllocatorHolder* holder = FUN_00c85750();

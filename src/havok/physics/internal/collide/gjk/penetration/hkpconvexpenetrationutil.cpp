@@ -2,6 +2,15 @@
 // src/havok/physics/internal/collide/gjk/penetration/hkpconvexpenetrationutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/gjk/penetration/hkpconvexpenetrationutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/DFB0B0_Owner.h"
+#include "fnv/decl/Host.h"
+#include "fnv/decl/Hull.h"
+#include "fnv/decl/Tester.h"
+#include "fnv/decl/hkpMinkowskiDF9B.h"
+#include "fnv/symbols_00e2d000.h"
+#include "fnv/symbols_01032000.h"
+#include "fnv/symbols_010db000.h"
+#include "fnv/symbols_01268000.h"
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
@@ -38,7 +47,6 @@ struct Obj
     int m_iThirdValue;
     int m_auiShapeKeys[4];
     Entry m_usTrailingValue[4];
-    void FUN_00e2d440();
     void SetEntries(const hkVector4* a, const hkVector4* b, const hkVector4* c);
 };
 
@@ -53,7 +61,7 @@ void Obj::SetEntries(const hkVector4* aVecA, const hkVector4* aVecB, const hkVec
         m_usTrailingValue[iIndex].m_iThirdValue = aVecC[iIndex];
         m_usTrailingValue[iIndex].m_flag = 0;
     }
-    FUN_00e2d440();
+    reinterpret_cast<::Hull *>(this)->FUN_00e2d440();
     m_iThirdValue = 0;
 }
 
@@ -256,8 +264,6 @@ void FUN_00cd7530(P pos, P t0, Mid t1, __int64 packedTail)
 }
 
 extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern const double DAT_01032980;
-extern const double DAT_010dbb40;
 
 struct S00dfa940_Entry
 {
@@ -283,8 +289,6 @@ struct S00dfa940_Simplex
     int m_t2;
     int m_t3;
 
-    void SetEntries(const hkVector4* a, const hkVector4* b, const hkVector4* c);
-    int GetNearestEntry();
 };
 
 double FUN_00df9ae0();
@@ -318,9 +322,6 @@ struct S00dfa940_Solver
     int m_6c;
 
     int FUN_00dfa940(int a1);
-    int FUN_00df9fe0(int a1, int* out);
-    void FUN_00df9b50(int idx, S00dfa940_Entry* e);
-    int FUN_00df9c90(S00dfa940_Simplex* o, int idx, S00dfa940_Entry* e, int* out);
     void FUN_00df9d90(S00dfa940_Simplex* o, int idx, int a1);
 };
 
@@ -338,7 +339,7 @@ int S00dfa940_Solver::FUN_00dfa940(int a1)
     for (;;)
     {
         res = 0;
-        if (FUN_00df9fe0(a1, &res) == 1)
+        if (reinterpret_cast<::Host *>(this)->FUN_00df9fe0((::Output *)(a1), &res) == 1)
         {
             ret = res;
             if (ret != 3)
@@ -346,12 +347,12 @@ int S00dfa940_Solver::FUN_00dfa940(int a1)
         }
         else
         {
-            simplex.SetEntries(m_60, m_64, m_68);
-            vi = simplex.GetNearestEntry();
+            reinterpret_cast<::Obj *>(&(simplex))->SetEntries(m_60, m_64, m_68);
+            vi = ((int)(reinterpret_cast<::DFB0B0_Owner *>(&(simplex))->GetNearestEntry()));
             e = &simplex.m_usTrailingValue[simplex.m_num++];
             e->m_flag = 0;
-            FUN_00df9b50(vi, e);
-            if (FUN_00df9c90(&simplex, vi, e, &res) != 1)
+            reinterpret_cast<::hkpMinkowskiDF9B *>(this)->FUN_00df9b50((*(const ::hkVector4DF9B *)(vi)), (*(::hkpCdVertexPairDF9B *)(e)));
+            if (reinterpret_cast<::Tester *>(this)->FUN_00df9c90((::Shape *)(::S00dfa940_Simplex *)(&simplex), (const ::Tri *)(vi), (const ::Vec4 *)(e), &res) != 1)
             {
                 for (;;)
                 {
@@ -361,12 +362,12 @@ int S00dfa940_Solver::FUN_00dfa940(int a1)
                         ret = 2;
                         goto done;
                     }
-                    vi = simplex.GetNearestEntry();
+                    vi = ((int)(reinterpret_cast<::DFB0B0_Owner *>(&(simplex))->GetNearestEntry()));
                     simplex.m_num++;
                     e = &simplex.m_usTrailingValue[n];
                     e->m_flag = 0;
-                    FUN_00df9b50(vi, e);
-                    if (FUN_00df9c90(&simplex, vi, e, &res) == 1)
+                    reinterpret_cast<::hkpMinkowskiDF9B *>(this)->FUN_00df9b50((*(const ::hkVector4DF9B *)(vi)), (*(::hkpCdVertexPairDF9B *)(e)));
+                    if (reinterpret_cast<::Tester *>(this)->FUN_00df9c90((::Shape *)(::S00dfa940_Simplex *)(&simplex), (const ::Tri *)(vi), (const ::Vec4 *)(e), &res) == 1)
                         break;
                 }
             }
@@ -382,7 +383,7 @@ int S00dfa940_Solver::FUN_00dfa940(int a1)
         if (m_5c >= 0x14)
             goto out;
         m_6c = 0;
-        float f = (float)((FUN_00df9ae0() - DAT_01032980) * DAT_010dbb40);
+        float f = (float)((FUN_00df9ae0() - ::DAT_01032980) * DAT_010dbb40);
         tmp.x = f;
         tmp.y = f;
         tmp.z = f;
@@ -398,7 +399,7 @@ out:
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 #include <windows.h>
-extern DWORD DAT_0126835c;
+#include "fnv/symbols_simd.h"
 
 struct S_00dfaac0_TimerCommand
 {
@@ -448,7 +449,6 @@ struct __declspec(align(16)) S_00dfaac0_Penetration
 {
     int unk00;
     S_00dfaac0_Penetration(int a, int b, const S_00dfaac0_Transform& t, float f, int c, int d, int e, int g);
-    int FUN_00dfa940(int out);
     int unk04;
     int unk08;
     int unk0C;
@@ -478,7 +478,6 @@ struct __declspec(align(16)) S_00dfaac0_Penetration
     int unk6C;
 };
 
-int __cdecl FUN_00e2db70(int a, int b, const S_00dfaac0_Transform& t, int c, int d, int out);
 
 // Constructs a Penetration object and calls FUN_00dfa940; if it returns 3, calls FUN_00e2db70 and returns 1, otherwise returns the original result.
 // @fnv 0x00dfaac0
@@ -486,10 +485,10 @@ int __cdecl TestPenetration(int a, int b, const S_00dfaac0_Transform& t, float f
 {
     S_00dfaac0_MonitorStream::GetMonitorStream().timer("TtPenetration");
     S_00dfaac0_Penetration penetration(a, b, t, f, c, d, e, g);
-    int result = penetration.FUN_00dfa940(out);
+    int result = reinterpret_cast<::S00dfa940_Solver *>(&(penetration))->FUN_00dfa940(out);
     if (result == 3)
     {
-        FUN_00e2db70(a, b, t, c, d, out);
+        ::FUN_00e2db70((const ::S2db70_Shape *)(a), (const ::S2db70_Shape *)(b), (const ::S2db70_Transform &)(t), (*(::S2db70_Vector4 *)(c)), (*(::S2db70_Vector4 *)(d)), (*(::S2db70_Out *)(out)));
         result = 1;
     }
     S_00dfaac0_MonitorStream::GetMonitorStream().timer("Et");
@@ -510,7 +509,6 @@ extern "C"
     __m128 _mm_set_ps1(float);
 }
 
-extern "C" const __m128 DAT_010c44d0;
 
 struct Arg1
 {
@@ -567,7 +565,6 @@ struct WorkObject
     int unk0c, unk10, unk14, unk18, unk1c;
     Entry m_usTrailingValue[186];
     hkVector4 unk2ea0;
-    void SetEntries(const hkVector4*, const hkVector4*, const hkVector4*);
     Entry* allocEntry()
     {
         Entry* e = &m_usTrailingValue[m_num++];
@@ -613,9 +610,6 @@ struct Item
         m_unk6C = u6c;
     }
 
-    int FUN_00df9fe0(LocalStruct70* s, int* arr);
-    void FUN_00df9b50(int field2ff0, Entry* entry);
-    int FUN_00df9c90(const WorkObject& obj, int field2ff0, Entry* entry, int* arr);
     void FUN_00df9d90(WorkObject* obj, int field2ff0, LocalStruct70* s);
 };
 
@@ -655,7 +649,7 @@ int FUN_00dfaba0(const hkTransform* transform, Arg1* arg1, Arg2** arg2, int coun
             item->m_arg5 = arg5[i];
             item->init(arg1, arg2[i], *arg4, 0.0001f, item->m_vec70, item->m_vecB0, item->m_vecF0, 0);
 
-            if (item->FUN_00df9fe0(&local_s, arr) == 1)
+            if (reinterpret_cast<::Host *>((item))->FUN_00df9fe0((::Output *)(::LocalStruct70 *)(&local_s), arr) == 1)
             {
                 count--;
             }
@@ -663,7 +657,7 @@ int FUN_00dfaba0(const hkTransform* transform, Arg1* arg1, Arg2** arg2, int coun
             {
                 Item* p = item;
                 ++workId;
-                p->m_obj.SetEntries(p->m_vec70, p->m_vecB0, p->m_vecF0);
+                reinterpret_cast<::Obj *>(&(p->m_obj))->SetEntries(p->m_vec70, p->m_vecB0, p->m_vecF0);
             }
         }
 
@@ -693,8 +687,8 @@ int FUN_00dfaba0(const hkTransform* transform, Arg1* arg1, Arg2** arg2, int coun
                     continue;
                 }
                 Entry* entry = pItem->m_obj.allocEntry();
-                pItem->FUN_00df9b50(pItem->m_field2ff0, entry);
-                if (pItem->FUN_00df9c90(pItem->m_obj, pItem->m_field2ff0, entry, &arr[i]) == 1)
+                reinterpret_cast<::hkpMinkowskiDF9B *>((pItem))->FUN_00df9b50((*(const ::hkVector4DF9B *)(pItem->m_field2ff0)), (*(::hkpCdVertexPairDF9B *)(entry)));
+                if (reinterpret_cast<::Tester *>((pItem))->FUN_00df9c90((::Shape *)&(pItem->m_obj), (const ::Tri *)(pItem->m_field2ff0), (const ::Vec4 *)(entry), &arr[i]) == 1)
                 {
                     if (arr[i] == 3)
                     {
@@ -713,7 +707,7 @@ int FUN_00dfaba0(const hkTransform* transform, Arg1* arg1, Arg2** arg2, int coun
     float neg_w = -out_vec.w;
     hkVector4 neg_vec_v;
     neg_vec_v = out_vec;
-    __m128 neg_vec = _mm_xor_ps(*(__m128*)&neg_vec_v, DAT_010c44d0);
+    __m128 neg_vec = _mm_xor_ps(*(__m128*)&neg_vec_v, ::DAT_010c44d0);
     float f10 = arg1->float10;
 
     Item* pItem = buffer;

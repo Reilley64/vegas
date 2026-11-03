@@ -5,13 +5,19 @@
 
 // src/havok/physics/collide/shape/compound/collection/extendedmeshshape/hkpextendedmeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/extendedmeshshape/hkpextendedmeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00d1f1e0_class.h"
+#include "fnv/decl/SpawnedOwnerQ.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00ceb000.h"
+#include "fnv/symbols_00d26000.h"
+#include "fnv/symbols_00d55000.h"
+#include "fnv/symbols_0104d000.h"
 struct FUN_00d554a0_class
 {
     int m_d0;
-    int __thiscall FUN_00d1f1e0();
     int __thiscall GetOrInitValue();
 };
-void __cdecl FUN_00d26230(void* first, void* second, void* third, float value, int last);
 struct FUN_00d56040_shell
 {
     void __thiscall FUN_00d56040(void* first, float value, int last);
@@ -32,7 +38,6 @@ inline AudioMgr* audio()
 {
     return (AudioMgr*)FUN_00c85750();
 }
-__declspec(nothrow) void __cdecl FUN_00c908c0(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
 struct hkShortArray
 {
     short* m_data;
@@ -47,7 +52,7 @@ struct hkShortArray
     {
         AudioMgr* m = audio();
         if (getCapacity() < n)
-            FUN_00c908c0(m->heap(), this, n, sizeof(short));
+            ::FUN_00c908c0((::SpawnedObject *)&(m->heap()), (::SpawnedArray *)(void *)(this), n, sizeof(short));
     }
     __forceinline void reserve(int n)
     {
@@ -55,7 +60,7 @@ struct hkShortArray
         if (getCapacity() < n)
         {
             int cap = 2 * getCapacity();
-            FUN_00c908c0(alloc, this, n < cap ? cap : n, sizeof(short));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), n < cap ? cap : n, sizeof(short));
         }
     }
     __forceinline void SetSizeAndGrow(int n)
@@ -98,7 +103,6 @@ struct S_00d56880_Router
         return *m_pStreamAllocator;
     }
 };
-void __cdecl FUN_00c908c0(S_00d56880_Alloc& a, void* arr, int n, int elemSize);
 inline void* operator new(unsigned int, void* p)
 {
     return p;
@@ -154,7 +158,7 @@ struct S_00d56880_Array
         {
             int cap2 = 2 * getCapacity();
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(a, this, newSize, sizeof(S_00d56880_Elem));
+            ::FUN_00c908c0((::SpawnedObject *)&(a), (::SpawnedArray *)(void *)(this), newSize, sizeof(S_00d56880_Elem));
         }
     }
     __forceinline S_00d56880_Elem* expandBy(int n)
@@ -232,7 +236,6 @@ struct FUN_00d55520_cls
     int unk14;
     int m_18;
 };
-int __stdcall FUN_00d55520(FUN_00d55520_cls* a1);
 struct SpawnedOwner
 {
     int unk00;
@@ -292,7 +295,6 @@ struct SpawnedOwner
     int unkD8;
     int m_0xdc;
 
-    int FUN_00d55530(int aiIndex);
 };
 struct FUN_00d555d0_cls
 {
@@ -417,8 +419,6 @@ struct S_00d55bd0_TriangleShape : S_00d55bd0_Shape
     S_00d55bd0_Vector4 m_kVertexB;
     S_00d55bd0_Vector4 m_kVertexC;
 };
-S_00d55bd0_Bool IsDegenerateTriangle(const S_00d55bd0_Vector4& a, const S_00d55bd0_Vector4& b,
-                                     const S_00d55bd0_Vector4& c, float tolerance);
 struct S_00d55bd0_TrianglesSubpart
 {
     int unk0;
@@ -524,7 +524,6 @@ struct S_00d55bd0_MeshShape
 };
 struct hkReferencedObject
 {
-    void removeReference();
 };
 struct BufferAllocator
 {
@@ -573,7 +572,6 @@ struct __declspec(align(16)) FUN_00d55b40_Buffer
 {
     int v[128];
 };
-extern char* __cdecl IsDegenerateTriangle(char* result, const void* v0, const void* v1, const void* v2, float tol);
 struct bhkShapeOwner
 {
     virtual void* v0();
@@ -639,6 +637,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 extern "C" __m128 _mm_setzero_ps();
 struct hkVector4D562
 {
@@ -699,7 +698,7 @@ struct ArrayD562
         if (getCapacity() < n)
         {
             int cap = 2 * getCapacity();
-            FUN_00c908c0(alloc, this, n < cap ? cap : n, sizeof(ElemD562));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), n < cap ? cap : n, sizeof(ElemD562));
         }
     }
     __forceinline ElemD562& AllocatePair()
@@ -730,7 +729,6 @@ extern "C" __m128 _mm_min_ps(__m128 _A, __m128 _B);
 extern "C" __m128 _mm_mul_ps(__m128 _A, __m128 _B);
 extern "C" __m128 _mm_sub_ps(__m128 _A, __m128 _B);
 extern "C" __m128 _mm_xor_ps(__m128 _A, __m128 _B);
-extern float DAT_0104da48;
 
 struct S00d55950_hkAabb
 {
@@ -738,10 +736,7 @@ struct S00d55950_hkAabb
     __m128 m_kMaximumCorner;
 };
 
-void __cdecl FUN_00d55680(void* elem, void* unk80, S00d55950_hkAabb* aabb);
 
-extern __m128 DAT_010c44d0;
-extern __m128 DAT_010c71d0;
 struct S00d55950_MeshTransform
 {
     __m128 rotation0, rotation1, rotation2;
@@ -764,8 +759,8 @@ struct S00d55950_MeshChild
 };
 static __declspec(noinline) void FUN_00d558b0(const S_00d56880_Elem* elem, S00d55950_hkAabb* out)
 {
-    out->m_kMinimumCorner = _mm_load_ps1(&DAT_0104da48);
-    out->m_kMaximumCorner = _mm_xor_ps(out->m_kMinimumCorner, DAT_010c44d0);
+    out->m_kMinimumCorner = _mm_load_ps1(&::DAT_0104da48);
+    out->m_kMaximumCorner = _mm_xor_ps(out->m_kMinimumCorner, ::DAT_010c44d0);
     S00d55950_MeshTransform transform;
     transform.translation.x = elem->unk30;
     transform.translation.y = elem->unk34;
@@ -843,14 +838,14 @@ struct S_00d55950
 void S_00d55950::FUN_00d55950()
 {
     S00d55950_hkAabb bounds;
-    bounds.m_kMinimumCorner = _mm_load_ps1(&DAT_0104da48);
-    bounds.m_kMaximumCorner = _mm_xor_ps(bounds.m_kMinimumCorner, DAT_010c44d0);
+    bounds.m_kMinimumCorner = _mm_load_ps1(&::DAT_0104da48);
+    bounds.m_kMaximumCorner = _mm_xor_ps(bounds.m_kMinimumCorner, ::DAT_010c44d0);
     __m128 padVec = _mm_load_ps1(&this->m_ucUnknownByte);
 
     for (int i = 0; i < this->m_iCapacityFlags; ++i)
     {
         S00d55950_hkAabb tempAabb;
-        FUN_00d55680(&this->m_pElements[i], &this->unk80, &tempAabb);
+        ::FUN_00d55680((*(const ::TrianglesSubpart *)(&this->m_pElements[i])), (*(const ::hkVector4q *)(&this->unk80)), (*(::hkAabbq *)(&tempAabb)));
         tempAabb.m_kMinimumCorner = _mm_sub_ps(tempAabb.m_kMinimumCorner, padVec);
         tempAabb.m_kMaximumCorner = _mm_add_ps(tempAabb.m_kMaximumCorner, padVec);
         bounds.m_kMinimumCorner = _mm_min_ps(bounds.m_kMinimumCorner, tempAabb.m_kMinimumCorner);

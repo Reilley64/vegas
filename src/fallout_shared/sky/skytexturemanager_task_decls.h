@@ -2,6 +2,7 @@
 #ifndef FNV_SKYTEXTUREMANAGER_TASK_DECLS_H
 #define FNV_SKYTEXTUREMANAGER_TASK_DECLS_H
 
+#include "fnv/decl/FUN_0045cd60_shell.h"
 #include "layout_support.h"
 #include "layout_support.h"
 class BSFileEntry;
@@ -115,7 +116,6 @@ class QueuedFileEntry : public QueuedFile
     // base QueuedFile at +0x0, size 40
     char* pFileName;            // +0x28, 4 bytes
     BSFileEntry* m_pFileEntry;  // +0x2C, 4 bytes
-    char* GetFileName();
     // QueuedFileEntry
     // void __cdecl QueuedFileEntry::*()
     // void __cdecl QueuedFileEntry::*()

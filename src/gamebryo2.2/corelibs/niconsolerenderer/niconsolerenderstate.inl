@@ -1,10 +1,11 @@
+#include "fnv/decl/FUN_00a62660_cls.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f4000.h"
 #include "niconsolerenderstate_decls.h"
 class NiFixedString { public: int value; };
-extern NiFixedString EmptyFS;
-extern char g_NiObjectNETExtraDataLock;
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
-class NiTexture { public: const NiFixedString& GetFilename(); };
+class NiTexture { public:  };
 class NiExtraData : public NiTexture {};
 class NiAVObject {
 public:
@@ -15,22 +16,22 @@ public:
 };
 // @fnv 0x00a5bdd0
 NiExtraData* NiAVObject::GetExtraData(const NiFixedString& key) {
- if (key.value == EmptyFS.value) return 0;
- EnterCriticalSection(&g_NiObjectNETExtraDataLock);
+ if (key.value == (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).value) return 0;
+ EnterCriticalSection(&(*reinterpret_cast<char *>(&::DAT_011f4380)));
  short low = 0;
  short high = count - 1;
  short mid;
  while (low <= high) {
   mid = (high + low) >> 1;
   int diff = key.value;
-  diff -= data[mid]->GetFilename().value;
+  diff -= (*(const ::NiFixedString *)&(reinterpret_cast<::FUN_00a62660_cls *>((data[mid]))->FUN_00a62660())).value;
   if (diff == 0) {
-   LeaveCriticalSection(&g_NiObjectNETExtraDataLock);
+   LeaveCriticalSection(&(*reinterpret_cast<char *>(&::DAT_011f4380)));
    return data[mid];
   }
   if (diff > 0) low = mid + 1;
   else high = mid - 1;
  }
- LeaveCriticalSection(&g_NiObjectNETExtraDataLock);
+ LeaveCriticalSection(&(*reinterpret_cast<char *>(&::DAT_011f4380)));
  return 0;
 }

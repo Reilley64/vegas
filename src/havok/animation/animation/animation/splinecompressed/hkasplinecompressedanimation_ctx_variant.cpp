@@ -3,13 +3,24 @@
 // against, for verified matches whose own declarations clash with the unit's current types.
 // src/havok/animation/animation/animation/splinecompressed/hkasplinecompressedanimation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/splinecompressed/hkasplinecompressedanimation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00e2f7c0_Class.h"
+#include "fnv/decl/FnvNode.h"
+#include "fnv/decl/fnv_00e33e90__hkaSplineCompressedAnimationE33E.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00e33000.h"
+#include "fnv/symbols_00e34000.h"
+#include "fnv/symbols_00e52000.h"
+#include "fnv/symbols_00e63000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010eb000.h"
+#include "fnv/symbols_011be000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkaSplineCompressedAnimation.h"
 struct FUN_00e33330_Class {
     void* __thiscall FUN_00e33330();
 };
 extern bool DAT_0126efb8;
-void __cdecl FUN_00e63c60(bool *);
-int __cdecl GetIndexedValueWithOffset(int offset, const int *values, int index, int count);
 int __stdcall FUN_00e32ed0(int a1, int a2);
 struct FnvAnimation
 {
@@ -28,10 +39,6 @@ struct FnvAnimation
     int FUN_00e32ee0(float time, int parameterA, int parameterB, int parameterC);
 };
 typedef void (__cdecl *SplineDecodeFn)(int, void*);
-extern int DAT_010eb3b8[];
-extern int DAT_010eb3d0[];
-extern SplineDecodeFn DAT_011be4b8[];
-void __cdecl DecodeSplineFrames(int* cursor,int type,int lastFrame,int firstFrame,int endFrame,void* output);
 template <class T>
 class hkArrayE333 {
 public:
@@ -84,7 +91,6 @@ public:
     int unk88;
     int unk8C;
 
-    void GetBlockAndTime(unsigned int frame, float delta, int& blockOut, float& blockTimeOut, unsigned char& quantizedTimeOut) const throw();
     void GetDataChunks(unsigned int frame, float delta, hkaAnimationDataChunkE333* dataChunks, int numDataChunks) const throw();
 };
 typedef char fnv_check_e33350[(sizeof(hkaSplineCompressedAnimationE333) == 0x90) ? 1 : -1];
@@ -153,7 +159,6 @@ public:
 
     void GetBlockAndTime(unsigned int frame, float delta, int& blockOut, float& blockTimeOut, unsigned char& quantizedTimeOut) const throw();
 };
-void __cdecl DecodeSplineFrame(const unsigned char*& dataInOut, int quantization, float frameDuration, float time, int numItems, void* out, int stride);
 class hkaSplineAnimE33 {
 public:
     virtual ~hkaSplineAnimE33();
@@ -180,7 +185,6 @@ public:
 struct hkVector4E34 {
     float x, y, z, w;
 };
-void __cdecl BlendVector4(unsigned char mask, const hkVector4E34& a, const hkVector4E34& b, hkVector4E34& out);
 __declspec(noinline) int __cdecl FindKeyInterval(int n, int p, int u, const hkUint8* knots)
 {
     hkUint8 value = (hkUint8)u;
@@ -200,39 +204,25 @@ int __cdecl FUN_00e32f10(const hkUint8*& pDataInOut, int& iNOut, int& iPOut, int
 #include <xmmintrin.h>
 struct __declspec(align(16)) AlignedVector4 {float x,y,z,w;};
 struct ResultArg { AlignedVector4* ptr; AlignedVector4* get() const {return ptr;} };
-extern const AlignedVector4 DAT_01268700;
 struct FUN_00e33e10_Class:hkaSplineCompressedAnimation{
  void EvaluateSpline(float time,int track,int enabled,int block,unsigned int*cursor,ResultArg result);
 };
-void __cdecl FUN_00e33a30(unsigned int*,int,float,float,int,int,const AlignedVector4*,AlignedVector4*);
 struct SplineDataChunk {
     const char* m_data;
     int m_iElementCount;
     unsigned char m_offset;
 };
 struct SplineAnimSampler : public hkaSplineCompressedAnimation {
-    void GetBlockAndTime(unsigned int frame, float delta, int& blockOut, float& blockTimeOut, unsigned char& quantizedTimeOut) const;
-    void EvaluateSpline(float time, unsigned char quantizedTime, unsigned char mask, int quantization, const unsigned char** data, hkVector4* out) const;
-    void ExtractFrame(float time, unsigned char quantizedTime, unsigned char mask, int quantization, const unsigned char** data, hkQuaternion* out) const;
-    void FUN_00e33e90(float time, unsigned char quantizedTime, unsigned char mask, int quantization, const unsigned char** data, hkVector4* out) const;
-    void FUN_00e33f10(float time, unsigned char quantizedTime, unsigned char mask, int quantization, const unsigned char** data, float* out) const;
 };
 void FUN_00e33f90(unsigned int frameIndex, float delta, unsigned int maxNumTransformTracks, hkQsTransform* transformsOut, unsigned int maxNumFloatTracks, float* floatsOut, const SplineDataChunk* dataChunks, int numDataChunks);
 template <class T> inline T& hkArrayAtE344(hkArray<T>& a, int i) { return a.m_data[i]; }
 template <class T> inline const T& hkArrayAtE344(const hkArray<T>& a, int i) { return a.m_data[i]; }
-const hkUint8* __cdecl GetIndexedValueWithOffset(const hkUint8* base, const hkUint32* offsets, hkUint32 block, hkUint32 offset);
 class hkaSplineCompressedAnimationE344 : public hkaSplineCompressedAnimation {
 public:
-    __declspec(noalias) void FUN_00e2f7c0(hkReal time, hkUint32& frameOut, hkReal& deltaOut) const;
-    __declspec(noalias) void GetBlockAndTime(hkUint32 frame, hkReal delta, hkUint32& blockOut, hkReal& blockTimeOut, hkUint8& quantizedTimeOut) const;
-    void FUN_00e33f10(hkReal blockTime, hkUint8 quantizedTime, hkUint8 mask, int quantization, const hkUint8*& dataInOut, hkReal& out) const;
     void FUN_00e34490(hkReal time, const hkInt16* tracks, hkUint32 numTracks, hkReal* floatTracksOut) const;
 };
-extern void* __cdecl FUN_00c85750(void);
 extern void __cdecl FUN_00dfb5a0(int value);
-extern void __cdecl FUN_00c905b0(void);
 extern int DAT_010de0ec;
-extern int DAT_0102e388;
 struct FUN_00e345a0_Track {
     virtual void vf00();
     virtual void vf04();
@@ -291,7 +281,6 @@ struct FUN_00e32ec0_Class : public hkaSplineCompressedAnimation {
 
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" unsigned __int64 __rdtsc(void);
-extern unsigned long DAT_0126835c;
 extern "C" void _ReadWriteBarrier(void);
 
 struct S00e340e0_Cmd { const char* name; unsigned int ticks; unsigned int extra; };
@@ -403,7 +392,7 @@ void S00e340e0_Anim::FUN_00e340e0(float time, unsigned int maxNumTransformTracks
     int block;
     float blockTime;
     unsigned char quantizedTime;
-    GetBlockAndTime(frame, delta, block, blockTime, quantizedTime);
+    reinterpret_cast<::hkaSplineCompressedAnimationE347 *>((void *)this)->GetBlockAndTime(frame, delta, block, blockTime, quantizedTime);
     const int* offsets = m_kFirstUInt32Array;
     int base = (int)m_data;
     const unsigned char* transformData = (const unsigned char*)GetIndexedValueWithOffset(base, offsets, block, m_iMaskAndQuantizationSize);
@@ -414,9 +403,9 @@ void S00e340e0_Anim::FUN_00e340e0(float time, unsigned int maxNumTransformTracks
     for (unsigned int i = 0; i < maxNumTransformTracks; i++)
     {
         unsigned char mask = *maskPtr++;
-        EvaluateSpline(blockTime, quantizedTime, *maskPtr++, mask & 3, transformData, transformTracksOut[i].m_vTranslation);
-        ExtractFrame(blockTime, quantizedTime, *maskPtr++, (mask >> 2) & 0xf, transformData, transformTracksOut[i].m_rotation);
-        FUN_00e33e90(blockTime, quantizedTime, *maskPtr++, mask >> 6, transformData, transformTracksOut[i].m_vScale);
+        reinterpret_cast<::FUN_00e33e10_Class *>((void *)this)->EvaluateSpline(blockTime, quantizedTime, *maskPtr++, mask & 3, (unsigned int *)&(transformData), (*(::ResultArg *)&(transformTracksOut[i].m_vTranslation)));
+        reinterpret_cast<::hkaSplineAnimE33 *>((void *)this)->ExtractFrame(blockTime, quantizedTime, *maskPtr++, (void *)((mask >> 2) & 0xf), transformData, (int)&(transformTracksOut[i].m_rotation));
+        reinterpret_cast<::fnv_00e33e90::hkaSplineCompressedAnimationE33E *>((void *)this)->FUN_00e33e90(blockTime, quantizedTime, *maskPtr++, mask >> 6, transformData, (::fnv_00e33e90::hkVector4E33E &)(transformTracksOut[i].m_vScale));
     }
     const unsigned char* floatData = m_data + m_kFloatBlockOffsets[block] + m_kFirstUInt32Array[block];
     const unsigned char* floatMask = m_data + m_iNumTransformTracks * 4 + m_kFirstUInt32Array[block];

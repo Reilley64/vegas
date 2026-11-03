@@ -3,6 +3,13 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00ddcdd0
+#include "fnv/decl/CD2210World.h"
+#include "fnv/decl/Candidate.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_0101f000.h"
+#include "fnv/symbols_0103c000.h"
 unsigned int FUN_00ddcdd0(unsigned int auiValue, unsigned int auiIndex, unsigned int auiFieldValue)
 {
     return (auiValue & ~(0x1f << (auiIndex * 5))) | (auiFieldValue << (auiIndex * 5));
@@ -46,8 +53,6 @@ struct DDCC60Listener
 
 struct DDCC60World
 {
-    __declspec(nothrow) void removeListener(DDCC60Listener* listener);
-    __declspec(nothrow) void removeReference();
 };
 
 struct FUN_00ddcc60 : DDCC60ReferencedObject, DDCC60Action, DDCC60Listener
@@ -63,8 +68,8 @@ FUN_00ddcc60::~FUN_00ddcc60()
 {
     if (m_pOwningWorld)
     {
-        m_pOwningWorld->removeListener(this);
-        m_pOwningWorld->removeReference();
+        reinterpret_cast<::CD2210World *>((m_pOwningWorld))->RemoveListener((::CD2210Listener *)(::DDCC60Listener *)(this));
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_pOwningWorld))->FUN_00c905b0();
         m_pOwningWorld = 0;
     }
 }
@@ -95,7 +100,7 @@ struct CpuObject
 // @fnv 0x00ddcd70
 CpuObject* CpuObject::DestroyOrFree(unsigned int flags)
 {
-    FUN_00ddcc60();
+    reinterpret_cast<struct ::FUN_00ddcc60 *>(this)->FUN_00ddcc60::~FUN_00ddcc60();
     if (flags & 1)
     {
         CpuAllocatorHolder* holder = FUN_00c85750();
@@ -105,7 +110,6 @@ CpuObject* CpuObject::DestroyOrFree(unsigned int flags)
 }
 
 extern double DAT_010cd5a8;
-extern double DAT_0101ff40;
 // Scans 31 candidate angles computed from index and returns the first index whose candidate is >= angle, decremented when angle is positive and not equal.
 // @fnv 0x00ddce10
 int FindAngleIndex(float angle)
@@ -126,7 +130,6 @@ int FindAngleIndex(float angle)
     return index;
 }
 
-int __cdecl FUN_00cb0fa0(const char* pcA, const char* pcB);
 
 class __declspec(novtable) BDDCCB0ReferencedObject
 {
@@ -151,8 +154,6 @@ class BDDCCB0WorldAddedListener;
 class BDDCCB0PhysicsContext : public BDDCCB0ReferencedObject, public BDDCCB0ProcessContext
 {
   public:
-    void AddWorldAddedListener(BDDCCB0WorldAddedListener* pkListener);
-    void RetainReference();
 };
 
 template <class T> class BDDCCB0Array
@@ -208,7 +209,7 @@ FUN_00ddccb0_cls::FUN_00ddccb0_cls(const BDDCCB0Array<BDDCCB0ProcessContext*>& k
     int iSize = kContexts.GetLogicalSize();
     for (int i = 0; i < iSize; i++)
     {
-        if (FUN_00cb0fa0("Physics", kContexts[i]->getType()) == 0)
+        if (::fnv_00cb0fa0::FUN_00cb0fa0("Physics", kContexts[i]->getType()) == 0)
         {
             m_pkContext = static_cast<BDDCCB0PhysicsContext*>(kContexts[i]);
             break;
@@ -217,8 +218,8 @@ FUN_00ddccb0_cls::FUN_00ddccb0_cls(const BDDCCB0Array<BDDCCB0ProcessContext*>& k
 
     if (m_pkContext)
     {
-        m_pkContext->AddWorldAddedListener(this);
-        m_pkContext->RetainReference();
+        reinterpret_cast<::Candidate *>((m_pkContext))->FindOrAddPointer(this);
+        reinterpret_cast<::FUN_00c90510_class *>((m_pkContext))->FUN_00c90510();
     }
 }
 
@@ -289,7 +290,6 @@ DDCE80Bool __cdecl AreZDiffering(const DDCE80Point& a, const DDCE80Point& b)
 #include <math.h>
 namespace fnv_00ddd040 {
 extern "C" double __cdecl fabs(double);
-extern double DAT_0103c7c8;
 struct S_V
 {
     __m128 q;
@@ -315,7 +315,7 @@ unsigned char* __cdecl IsDotProductBelowThreshold(unsigned char* out, S_P a, S_P
     _mm_store_ss(&d, vSum);
     d = (float)fabs(d);
     unsigned char r;
-    if (d < DAT_0103c7c8)
+    if (d < ::DAT_0103c7c8)
     {
         r = 1;
     }

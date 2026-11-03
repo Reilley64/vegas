@@ -4,6 +4,18 @@
 
 // src/havok/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00d06fb0_cls.h"
+#include "fnv/decl/S_00d112c0.h"
+#include "fnv/decl/fnv_00d11650__AxisSweep3.h"
+#include "fnv/decl/fnv_00d13bd0__FUN_00d13bd0.h"
+#include "fnv/decl/fnv_00d1a040__Container.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_00d10000.h"
+#include "fnv/symbols_00d11000.h"
+#include "fnv/symbols_00d13000.h"
+#include "fnv/symbols_00d9f000.h"
+#include "fnv/symbols_010cd000.h"
+#include "fnv/symbols_011b3000.h"
 struct hkp3AxisSweep {
     int FUN_00d11630();
 };
@@ -12,13 +24,11 @@ struct BSAudio { void* p; int a; int b; };
 BSAudio* __cdecl FUN_00c85750();
 void __cdecl ResizeAudioStream(void*, void*, int);
 struct UnkRet { int x; int y; };
-void __fastcall AppendPairToBuffer(UnkRet* apFirst, UnkRet* apSecond, void* apBuffer);
 void __fastcall ToggleBit(int aiBitIndex, void* apBits);
 struct Entry {
     unsigned short key;
     unsigned short value;
 };
-Entry* __stdcall LowerBoundEntry(Entry* first, Entry* last, unsigned short key);
 struct FUN_00d11960_cls {
     int* m_pEntryData;
     int m_iArrayLength;
@@ -36,7 +46,6 @@ struct D1A0E0MemoryRouter {
 };
 extern "C" D1A0E0MemoryRouter& __cdecl D1A0E0GetMemoryRouter();
 void __cdecl FUN_00c908c0(D1A0E0Allocator* alloc, void* array, int numElements, int sizeElem);
-extern char* g_D1A0E0Tables[2];
 struct D1A0E0Entry {
     unsigned short m_flags;
     unsigned short m_uiEdgeIndex;
@@ -189,7 +198,6 @@ struct SweepEntry { // 16-byte entry, matches shl eax,4 stride
 };
 // Tail-call target observed forwarding (this, handle, entry) with edx = handle kept live:
 // __fastcall helper taking (self in ecx, handle in edx, entry on stack).
-void __fastcall FUN_00d11650(void* self, UnkHandle* handle, SweepEntry* entry);
 // Stand-in owner class for the __thiscall thunk; fnvcheck matches the name FUN_00d119c0.
 struct FUN_00d119c0_owner {
     int unk00;
@@ -258,11 +266,9 @@ struct FUN_00d11c10_cls {
     int unk08;
     int m_0C;
 };
-void __fastcall AppendPairEntry(FUN_00d11c10_cls* pFirst, FUN_00d11c10_cls* pSecond, PairArray* arr);
 unsigned short MaxUnsignedShort(unsigned short a, unsigned short b);
 BSAudio* __cdecl FUN_00c85750();
 void __cdecl ResizeAudioStream(void*, void*, int);
-void __fastcall AppendPairToBuffer(UnkRet* a, UnkRet* b, void* c);
 struct FnvNode {
     unsigned int m_00;
     unsigned int m_04;
@@ -285,7 +291,6 @@ struct FnvHolderTail {
     int unk0c;
     void* m_pAllocator;
 };
-void __fastcall FUN_00d11c60(void* base, FnvNode* pNode, unsigned short ausValue, FnvNode* pOther, FnvArr* pPairArr);
 struct FUN_00d11da0_cls;
 struct FUN_00d11da0_holder {
     int unk00;
@@ -327,7 +332,6 @@ struct S_00d138a0_Node {
     unsigned short unk0a;
     int unk0c;
 };
-void __cdecl CollectNodePairs(int unused, S_00d138a0_Node* node, int count, S_00d138a0_Array* out);
 struct AllocIface {
     virtual void* unk00();
     virtual void* Alloc(unsigned int size);
@@ -343,11 +347,9 @@ struct SpawnedObject {
     int unk00;
     unsigned short m_wSize;
 
-    SpawnedObject* Init(int a, int b, int c);
 };
 SpawnedObject* FUN_00d182a0(int a, int b, int c);
 int __cdecl FUN_00d19d10(const float* afValues, float* pfMin);
-extern int DAT_011b37a4[];
 struct hkp3AxisSweep;
 struct Endpoint {
     unsigned short value;
@@ -369,7 +371,6 @@ void __cdecl FUN_00d19fa0(unsigned int* auiValues, int lo, int hi, int auiUnused
 void __cdecl QuickSortByLowWord(unsigned int* auiArray, int lo, int hi, int auiUnused);
 static int FUN_00d10b10(void* self, int index, unsigned int* apuiBits);
 int IsBitmapBitSet(void* table, int index, unsigned int* bits);
-extern int DAT_011b37a4[];
 class FUN_00d11120_cls {
 public:
     Endpoint* m_endpoints;
@@ -450,7 +451,6 @@ struct S_d11790_Sweep {
     S_d11790_Edge* axis2;
     void FixNodeEdges(unsigned h);
 };
-extern "C" int __cdecl FUN_00d06f80(const void* ptr, int size);
 struct hkStatisticsCollector {
     virtual void dummy0();
     virtual void dummy1();
@@ -464,7 +464,6 @@ struct hkStatisticsCollector {
     int pad0C;
     char m_reportInplaceAllocations;
 
-    void DispatchWithMode(const char* name, const void* ptr, int size, int unk);
 };
 template <typename T>
 struct hkArray {
@@ -840,9 +839,6 @@ static __forceinline void HandlePair(ThisCls* idx, Record* rec, Record* other, P
     }
 }
 #include <xmmintrin.h>
-extern __m128 DAT_010c44d0;
-extern __m128 DAT_010c7170;
-extern float DAT_010cd5b0;
 struct FUN_00d10e10_cls {
     unsigned int unk00;
     unsigned int unk04;
@@ -1226,7 +1222,6 @@ struct Sweep {
     Sub* m_d8;
 
     void FUN_00d15fc0();
-    void FixNodeEdges(int) throw();
     __forceinline void setNodeIndex(Elem& node, int i) throw() {
         int* const& h = node.h;
         if (((unsigned)h & 1) == 0) {
@@ -1236,7 +1231,6 @@ struct Sweep {
         }
     }
 };
-extern int DAT_011b37ac[2];
 struct SweepMerge {
     Endpoint* m_endpoints;
     void FUN_00d19e40(char* cells, int n, Endpoint* source, int count);
@@ -1407,7 +1401,6 @@ struct AxisSweep {
     int numRecords;
     int unkA8;
     SweepType* types;
-    void FUN_00d112c0(int numRecords, unsigned short code, SweepRecord* rec, int index, void* buffer);
     void FUN_00d14100(int* index, EventList* events);
 };
 extern "C" void _ReadWriteBarrier();
@@ -1471,7 +1464,6 @@ struct SweepNodesX {
 };
 struct SweepAxisX {
  Endpoint* data; int size; int capacity;
- void FUN_00d11960(int a,int b);
 };
 struct SweepOwnerX {
  int unk00;
@@ -1519,9 +1511,6 @@ struct SweepOwnerX {
  int groupCount;
  unsigned short shiftBits, unusedD6;
  SweepGroupX* groups;
- void FUN_00d112c0(int count,int key,SweepNodeX* node,unsigned int index,unsigned int* bits);
- void FUN_00d10d10(SweepNodeX* base,int count,SweepNodeX* node);
- void FixNodeEdges(unsigned int index);
  void FUN_00d14600(unsigned int* handle,SweepPairsX* pairs);
 };
 struct CacheNode { unsigned short minY,minZ,maxY,maxZ,minX,maxX; unsigned int handle; };
@@ -1596,6 +1585,7 @@ void CacheOwner::FUN_00d13950(Blk* input, unsigned int out) {
 }
 #include <xmmintrin.h>
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 extern "C" void _ReadBarrier();
 template<class T> struct Arr;
 struct IAlloc {
@@ -1627,7 +1617,6 @@ struct Heap {
 };
 static Heap* GetHeap() { return (Heap*)FUN_00c85750(); }
 void __cdecl FUN_00c908c0(IAlloc* a, void* arr, int cap, int esz);
-void __cdecl FUN_00d9fcf0(void* a, int n, void* scratch);
 template<class T> struct Arr {
     T* data;
     int size;
@@ -1674,10 +1663,9 @@ struct Key { unsigned short key, idx; };
 struct RemovedHandle { int idx; };
 struct RemovedHandleList { RemovedHandle** items; int count; };
 struct Node { unsigned short idx, pad; Arr<unsigned short> arr; };
-struct Stub_00d1a040 { int a, b, c; void FUN_00d1a040(Box*, Arr<int>*); };
-struct Stub_00d1a0e0 { int a, b, c; void FUN_00d1a0e0(Box*, Arr<int>*); };
-struct Stub_00d1a180 { int a, b, c; void RemapEndPoints(Box*, Arr<int>*); };
-void __cdecl CollectNodePairs(void*, Box*, int, int);
+struct Stub_00d1a040 { int a, b, c;  };
+struct Stub_00d1a0e0 { int a, b, c;  };
+struct Stub_00d1a180 { int a, b, c;  };
 struct AssignedSweep {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
@@ -1691,8 +1679,6 @@ struct AssignedSweep {
     int nodeCount;
     int unkD4;
     Node* nodes;
-    void BuildBroadPhasePairs(Box*, int, Box*, int, int, int);
-    void FixNodeEdges(int);
     void FUN_00d193e0(RemovedHandleList*, int);
 };
 
@@ -1703,9 +1689,6 @@ struct SweepHandle { unsigned index; };
 struct __declspec(align(16)) SweepBounds { unsigned v[4]; };
 struct SweepBoundsPair { SweepBounds low,high; };
 struct SweepBox { unsigned lo[4],hi[4]; };
-void __fastcall FUN_00d11c60(void*,CacheNode*,unsigned,CacheNode*,void*);
-void __fastcall RemoveOrAppendTagEntry(void*,CacheNode*,unsigned,CacheNode*,void*);
-void __fastcall AppendPairEntry(CacheNode*,CacheNode*,void*);
 struct SweepTarget {
  unsigned unk00;
  unsigned unk04;
@@ -1763,12 +1746,12 @@ struct SweepTarget {
   return flags;
  }
  template<int Axis> __forceinline void added(CacheNode* a,CacheNode* b,unsigned index,void* out) {
-  if(Axis==0) FUN_00d11c60(pairs,a,index,b,out);
+  if(Axis==0) ::FUN_00d11c60(pairs,(::FnvNode *)(a),index,(::FnvNode *)(b),(::FnvArr *)(out));
   else AppendPairToBuffer((UnkRet*)a,(UnkRet*)b,out);
  }
  template<int Axis> __forceinline void removed(CacheNode* a,CacheNode* b,unsigned index,void* out) {
-  if(Axis==0) RemoveOrAppendTagEntry(pairs,a,index,b,out);
-  else AppendPairEntry(a,b,out);
+  if(Axis==0) ::fnv_00d11d00::RemoveOrAppendTagEntry((char *)(pairs),(::fnv_00d11d00::TagEntity *)(a),index,(::fnv_00d11d00::TagOwner *)(b),(::fnv_00d11d00::PairArray *)(out));
+  else ::AppendPairEntry((::FUN_00d11c10_cls *)(a),(::FUN_00d11c10_cls *)(b),(::PairArray *)(out));
  }
  template<int Axis> __forceinline void updateAxis(CacheNode* allNodes,SweepAxis& axis,CacheNode* node,unsigned index,unsigned low,unsigned high,void* add,void* remove) {
   CacheNode* leftNeighbor; (void)leftNeighbor;

@@ -2,6 +2,16 @@
 // src/havok/physics/dynamics/phantom/hkpaabbphantom.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/phantom/hkpaabbphantom.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/C.h"
+#include "fnv/decl/CA92A0Object.h"
+#include "fnv/decl/FUN_00ca94c0_Class.h"
+#include "fnv/decl/FUN_00d07cf0_cls.h"
+#include "fnv/decl/hkpAabbPhantomD07.h"
+#include "fnv/decl/hkpPhantomD07E.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 #include "havok/hkpAabbPhantom.h"
 
 // @fnv 0x00cf2460
@@ -109,7 +119,6 @@ struct PresentFlag
 };
 struct FUN_00cf2a60_t : hkpAabbPhantom
 {
-    void NotifyAll(hkpCollidable* collidable, PresentFlag wasPresent);
     void FUN_00cf2a60(hkpCollidable* collidable);
 };
 // Searches the phantom's collidable list for the given collidable, notifies via NotifyAll whether it was present, and removes it by swapping in the last entry.
@@ -135,7 +144,7 @@ void FUN_00cf2a60_t::FUN_00cf2a60(hkpCollidable* collidable)
     }
     index = -1;
 search_done:
-    NotifyAll(collidable, PresentFlag(index >= 0));
+    reinterpret_cast<::C *>(this)->NotifyAll((int)(collidable), (*(char *)&(const ::PresentFlag &)(PresentFlag(index >= 0))));
     if (index >= 0)
     {
         --m_ppOverlappingCollidables.m_iElementCount;
@@ -148,9 +157,7 @@ search_done:
 
 class hkClassCF2A;
 
-extern const hkClassCF2A DAT_0126902c;
 
-int __cdecl FUN_00d06f80(const void* pvChunk, int iNumBytes) throw();
 
 template <class T> class hkArrayCF2A
 {
@@ -189,7 +196,7 @@ class hkStatisticsCollectorCF2A
     {
         if ((kArray.m_iCapacityState & 0x80000000) == 0 || m_countDontDeallocate)
         {
-            int iAllocated = FUN_00d06f80(kArray.m_data, kArray.getCapacity() * sizeof(T));
+            int iAllocated = ::fnv_00d06f80::FUN_00d06f80((const char *)(kArray.m_data), kArray.getCapacity() * sizeof(T));
             AddMemoryChunk(3, pcName, kArray.m_data, kArray.GetLogicalSize() * sizeof(T), iAllocated);
         }
     }
@@ -205,7 +212,6 @@ class FUN_00d08130
     hkInt16 m_sReferenceCount;
     char m_pad08[0xa8];
 
-    void WritePhantomLists(hkStatisticsCollectorCF2A* pkCollector, const hkClassCF2A* pkClass) const throw();
 };
 
 struct hkVector4CF2A
@@ -235,7 +241,7 @@ void hkpAabbPhantomCF2A::AddToStatisticsCollector(hkStatisticsCollectorCF2A* pkC
                                                   const hkClassCF2A* pkClass) const throw()
 {
     pkCollector->addArray("OvrlpCollPtr", m_ppOverlappingCollidables);
-    WritePhantomLists(pkCollector, &DAT_0126902c);
+    reinterpret_cast<::FUN_00d07cf0_cls *>((void *)this)->WritePhantomLists((::PhArchive *)(pkCollector), (int)(&(*reinterpret_cast<const ::hkClassCF2A *>(&::g_0126902c))));
 }
 
 class hkMemoryAllocatorCF2C;
@@ -254,7 +260,6 @@ struct hkMemoryRouterCF2C
 };
 extern "C" hkMemoryRouterCF2C& __cdecl FUN_00c85750() throw();
 
-void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
 
 template <class T> __forceinline void constructWithCopyCF2C(T* p, int n, const T& t)
 {
@@ -277,7 +282,7 @@ template <class T> class hkArrayCF2C
     {
         hkMemoryAllocatorCF2C& kAlloc = FUN_00c85750().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&kAlloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyCF2C(m_data + m_iElementCount, 1, t);
         m_iElementCount++;
     }
@@ -341,14 +346,13 @@ class hkPhantomCF2C
     hkArrayCF2C<void*> m_overlaps;
     bool m_dirty;
 
-    int FUN_00ca94c0(void* p);
     void AddOverlap(void* p);
 };
 
 // @fnv 0x00cf2b50
 void hkPhantomCF2C::AddOverlap(void* pOverlap)
 {
-    if (FUN_00ca94c0(pOverlap) == 0)
+    if (reinterpret_cast<::FUN_00ca94c0_Class *>(this)->FUN_00ca94c0((unsigned int)(pOverlap)) == 0)
     {
         m_overlaps.AddBack(pOverlap);
         m_dirty = true;
@@ -647,7 +651,6 @@ class hkPhantomCF2C
     int unkCC;
     hkArrayCF2C<void*> m_overlaps;
 
-    void FreeListenerArrays();
     void ClearOverlapsIfEmpty();
 };
 
@@ -657,7 +660,7 @@ void hkPhantomCF2C::ClearOverlapsIfEmpty()
 {
     if (m_overlaps.m_iElementCount == 0)
         m_overlaps.ClearAndRelease();
-    FreeListenerArrays();
+    reinterpret_cast<::hkpPhantomD07E *>(this)->FreeListenerArrays();
 }
 }  // namespace fnv_00cf2c50
 
@@ -788,7 +791,6 @@ class hkpWorldObjectCF2D
     {
         return &m_kCollidable;
     }
-    void CopyEntriesFrom(const hkpWorldObjectCF2D* pkOtherObj) throw();
 };
 
 class FUN_00cf2cb0 : public hkpWorldObjectCF2D
@@ -821,7 +823,7 @@ hkpWorldObjectCF2D* FUN_00cf2cb0::FUN_00cf2d50() const throw()
     FUN_00cf2cb0* pkPhantom = new FUN_00cf2cb0(m_kBounds, getCollidable()->GetFilterInfoForKey());
     pkPhantom->m_kPhantomOverlapListeners = m_kPhantomOverlapListeners;
     pkPhantom->m_kPhantomListeners = m_kPhantomListeners;
-    pkPhantom->CopyEntriesFrom(this);
+    reinterpret_cast<::CA92A0Object *>((pkPhantom))->CopyEntriesFrom((const ::CA92A0Object *)(const ::fnv_00cf2d50::hkpWorldObjectCF2D *)(this));
     return pkPhantom;
 }
 }  // namespace fnv_00cf2d50
@@ -868,7 +870,7 @@ class FUN_00cf2bf0
 // @fnv 0x00cf2f60
 FUN_00cf2bf0* FUN_00cf2bf0::DestroyAndFree(unsigned int uiFlags) throw()
 {
-    this->FUN_00cf2bf0::~FUN_00cf2bf0();
+    reinterpret_cast<::fnv_00cf2bf0::FUN_00cf2bf0 *>((this))->fnv_00cf2bf0::FUN_00cf2bf0::~FUN_00cf2bf0();
     if (uiFlags & 1)
         FUN_00cf2bf0::operator delete(this);
     return this;
@@ -894,7 +896,6 @@ extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
-extern "C" unsigned long DAT_0126835c;
 
 struct StringCursor
 {
@@ -1050,7 +1051,7 @@ class Phantom_00cf26b0 : public hkpAabbPhantom
 // @fnv 0x00cf26b0
 void Phantom_00cf26b0::FUN_00cf26b0(const WorldRayCastInput& input, WorldRayCastOutput& output) const
 {
-    StringCursor* pTlsCursor = (StringCursor*)TlsGetValue(DAT_0126835c);
+    StringCursor* pTlsCursor = (StringCursor*)TlsGetValue(::DAT_0126835c);
     char* cmd = pTlsCursor->m_commandPtr;
     if (cmd < pTlsCursor->m_endPtr)
     {
@@ -1098,7 +1099,7 @@ void Phantom_00cf26b0::FUN_00cf26b0(const WorldRayCastInput& input, WorldRayCast
         output.m_vHitNormal.FUN_00c7f700(output.m_pRootCollidable->m_pMotionState, &output.m_vHitNormal);
     }
 
-    StringCursor* hit = (StringCursor*)TlsGetValue(DAT_0126835c);
+    StringCursor* hit = (StringCursor*)TlsGetValue(::DAT_0126835c);
     char* cmd2 = hit->m_commandPtr;
     if (cmd2 < hit->m_endPtr)
     {
@@ -1175,7 +1176,6 @@ void FnvCpu_FUN_00cf2470_CpuObject::FUN_00cf2470(FnvCpu_FUN_00cf2470_CpuData0* i
 
 struct PhantomBounds
 {
-    void __thiscall FUN_00d07ec0(hkAabb* bounds);
     void __thiscall FUN_00cf24a0(const hkAabb& source);
 };
 // Copies the minimum and maximum corners from source into the embedded hkAabb at offset 0xb0, then calls FUN_00d07ec0 on it.
@@ -1185,7 +1185,7 @@ void PhantomBounds::FUN_00cf24a0(const hkAabb& source)
     hkAabb* target = reinterpret_cast<hkAabb*>(reinterpret_cast<char*>(this) + 0xb0);
     _mm_store_ps(&target->m_kMinimumCorner.x, _mm_load_ps(&source.m_kMinimumCorner.x));
     _mm_store_ps(&target->m_kMaximumCorner.x, _mm_load_ps(&source.m_kMaximumCorner.x));
-    FUN_00d07ec0(target);
+    reinterpret_cast<::hkpAabbPhantomD07 *>(this)->FUN_00d07ec0((*(const ::hkAabbD07 *)(target)));
 }
 
 template <class T> struct Array_cf2c

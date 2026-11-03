@@ -2,10 +2,31 @@
 // src/havok/physics/collide/shape/compound/collection/extendedmeshshape/hkpextendedmeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/extendedmeshshape/hkpextendedmeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00827200_class.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00c9e340.h"
+#include "fnv/decl/FUN_00d1f1e0_class.h"
+#include "fnv/decl/RotationRows.h"
+#include "fnv/decl/S_00d55950.h"
+#include "fnv/decl/Standin_2.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpExtendedMeshShapeTrianglesSubpartD4AB.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d26000.h"
+#include "fnv/symbols_00d55000.h"
+#include "fnv/symbols_00d57000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010c6000.h"
+#include "fnv/symbols_011b1000.h"
+#include "fnv/symbols_011b2000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
 struct FUN_00d554a0_class
 {
     int m_d0;
-    int __thiscall FUN_00d1f1e0();
     int __thiscall GetOrInitValue();
 };
 
@@ -13,11 +34,10 @@ struct FUN_00d554a0_class
 int __thiscall FUN_00d554a0_class::GetOrInitValue()
 {
     if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xd0) < 0)
-        *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xd0) = FUN_00d1f1e0();
+        *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xd0) = reinterpret_cast<::FUN_00d1f1e0_class *>(this)->FUN_00d1f1e0();
     return *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xd0);
 }
 
-void __cdecl FUN_00d26230(void* first, void* second, void* third, float value, int last);
 struct FUN_00d56040_shell
 {
     void __thiscall FUN_00d56040(void* first, float value, int last);
@@ -26,7 +46,7 @@ struct FUN_00d56040_shell
 // @fnv 0x00d56040
 void __thiscall FUN_00d56040_shell::FUN_00d56040(void* first, float value, int last)
 {
-    FUN_00d26230(first, (unsigned char*)this + 0x90, (unsigned char*)this + 0xa0, value, last);
+    ::FUN_00d26230((*(const ::hkTransformD262 *)(first)), (*(const ::hkVector4D262 *)((unsigned char*)this + 0x90)), (*(const ::hkVector4D262 *)((unsigned char*)this + 0xa0)), value, (*(::hkAabbD262 *)(last)));
 }
 
 struct hkMemoryAllocator;
@@ -48,7 +68,6 @@ inline AudioMgr* audio()
     return (AudioMgr*)FUN_00c85750();
 }
 
-__declspec(nothrow) void __cdecl FUN_00c908c0(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
 
 struct hkShortArray
 {
@@ -64,7 +83,7 @@ struct hkShortArray
     {
         AudioMgr* m = audio();
         if (getCapacity() < n)
-            FUN_00c908c0(m->heap(), this, n, sizeof(short));
+            ::FUN_00c908c0((::SpawnedObject *)&(m->heap()), (::SpawnedArray *)(void *)(this), n, sizeof(short));
     }
     __forceinline void reserve(int n)
     {
@@ -72,7 +91,7 @@ struct hkShortArray
         if (getCapacity() < n)
         {
             int cap = 2 * getCapacity();
-            FUN_00c908c0(alloc, this, n < cap ? cap : n, sizeof(short));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), n < cap ? cap : n, sizeof(short));
         }
     }
     __forceinline void SetSizeAndGrow(int n)
@@ -140,7 +159,6 @@ struct S_00d56880_Router
         return *m_pStreamAllocator;
     }
 };
-void __cdecl FUN_00c908c0(S_00d56880_Alloc& a, void* arr, int n, int elemSize);
 
 inline void* operator new(unsigned int, void* p)
 {
@@ -199,7 +217,7 @@ struct S_00d56880_Array
         {
             int cap2 = 2 * getCapacity();
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(a, this, newSize, sizeof(S_00d56880_Elem));
+            ::FUN_00c908c0((::SpawnedObject *)&(a), (::SpawnedArray *)(void *)(this), newSize, sizeof(S_00d56880_Elem));
         }
     }
     __forceinline S_00d56880_Elem* expandBy(int n)
@@ -352,7 +370,6 @@ struct SpawnedOwner
     int unkD8;
     int m_0xdc;
 
-    int FUN_00d55530(int aiIndex);
 };
 
 struct FUN_00d555d0_cls
@@ -360,19 +377,6 @@ struct FUN_00d555d0_cls
     int m_d0;
     int GetSpawnedValue(int aiKey);
 };
-
-// Looks up the entry for aiKey via FUN_00d55530 on the owning object and returns its first int, or the owner's m_0xdc when not found.
-// @fnv 0x00d555d0
-int FUN_00d555d0_cls::GetSpawnedValue(int aiKey)
-{
-    SpawnedOwner* outer = (SpawnedOwner*)((char*)this - 0x10);
-    int* v = (int*)outer->FUN_00d55530(aiKey);
-    if (v != 0)
-    {
-        return *v;
-    }
-    return outer->m_0xdc;
-}
 
 struct Child
 {
@@ -915,7 +919,7 @@ int FUN_00d56160_cls::Vec4(FUN_00d56160_items* items, unsigned int value)
         FUN_00d56160_big tmp;
         unsigned char hit;
         FUN_00d56160_out* r = m_sub.FUN_00d55ce0((value << (32 - m_b0)) | i, &tmp.m_out);
-        if (*IsDegenerateTriangle(&hit, &r->m_20, &r->m_30, &r->m_40, DAT_011b2e90) == 0)
+        if (*IsDegenerateTriangle(&hit, &r->m_20, &r->m_30, &r->m_40, ::DAT_011b2e90) == 0)
         {
             ++count;
         }
@@ -926,7 +930,6 @@ int FUN_00d56160_cls::Vec4(FUN_00d56160_items* items, unsigned int value)
 
 struct hkReferencedObject
 {
-    void removeReference();
 };
 struct BufferAllocator
 {
@@ -966,7 +969,7 @@ void Container::FUN_00d56800()
     for (int i = 0; i < savedCount; ++i)
     {
         if (savedData[i])
-            savedData[i]->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((savedData[i]))->FUN_00c905b0();
         savedData[i] = 0;
     }
     count = 0;
@@ -1000,14 +1003,11 @@ BSAudio* FUN_00c85750();
 
 extern "C" char DAT_010d0ecc[];
 extern "C" char DAT_010d0ea8[];
-extern "C" char DAT_010c6fb0[];
-extern "C" char DAT_0102e388[];
 
 struct Elem40
 {
     int v00, v04, v08, v0c, v10, v14, v18, v1c;
     int v20, v24, v28, v2c, v30, v34, v38, v3c;
-    void FUN_00d56800();
 };
 
 struct Elem60
@@ -1045,7 +1045,7 @@ template <class T> struct hkArray
         T* p = m_data;
         for (int i = 0; i < n; i++)
         {
-            p[i].FUN_00d56800();
+            reinterpret_cast<::Container *>(&(p[i]))->FUN_00d56800();
         }
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
@@ -1083,8 +1083,8 @@ void Obj::FUN_00d56e00()
     mcc.ClearAndRelease();
     mc0.destroyAndDeallocate();
     mb4.ClearAndRelease();
-    m_vtbl10 = DAT_010c6fb0;
-    m_vtbl = DAT_0102e388;
+    m_vtbl10 = (*reinterpret_cast<char (*)[]>(&::DAT_010c6fb0));
+    m_vtbl = (*reinterpret_cast<char (*)[]>(&::DAT_0102e388));
 }
 }  // namespace fnv_00d56e00
 
@@ -1208,6 +1208,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 
 extern "C" __m128 _mm_setzero_ps();
 
@@ -1272,7 +1273,7 @@ struct ArrayD562
         if (getCapacity() < n)
         {
             int cap = 2 * getCapacity();
-            FUN_00c908c0(alloc, this, n < cap ? cap : n, sizeof(ElemD562));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), n < cap ? cap : n, sizeof(ElemD562));
         }
     }
     __forceinline ElemD562& AllocatePair()
@@ -1520,8 +1521,6 @@ extern "C" __m128 _mm_xor_ps(__m128, __m128);
 extern "C" __m128 _mm_min_ps(__m128, __m128);
 extern "C" __m128 _mm_max_ps(__m128, __m128);
 
-extern float DAT_0104da48;
-extern __m128 DAT_010c44d0;
 
 struct hkVec4
 {
@@ -1550,7 +1549,6 @@ struct hkTransformS
     hkVec4 m_kColumn1;
     hkVec4 m_kColumn2;
     hkVec4 m_vTranslation;
-    void FUN_00cb2d90(const hkQuatS& q);
 };
 struct hkShapeS
 {
@@ -1581,12 +1579,12 @@ struct ShapeHolderS
 // @fnv 0x00d558b0
 static __declspec(noinline) void FUN_00d558b0(const ShapeHolderS* apShapeHolder, hkAabbS* out)
 {
-    __m128 v = _mm_load_ss(&DAT_0104da48);
+    __m128 v = _mm_load_ss(&::DAT_0104da48);
     out->m_kMinimumCorner.m_vComponents = _mm_shuffle_ps(v, v, 0);
-    out->m_kMaximumCorner.m_vComponents = _mm_xor_ps(out->m_kMinimumCorner.m_vComponents, DAT_010c44d0);
+    out->m_kMaximumCorner.m_vComponents = _mm_xor_ps(out->m_kMinimumCorner.m_vComponents, ::DAT_010c44d0);
     hkTransformS t;
     t.m_vTranslation = apShapeHolder->m_vTranslation;
-    t.FUN_00cb2d90(apShapeHolder->m_rotation);
+    reinterpret_cast<::RotationRows *>(&(t))->FUN_00cb2d90((void *)&(apShapeHolder->m_rotation));
     for (int i = 0; i < apShapeHolder->m_numShapes; i++)
     {
         hkAabbS a;
@@ -1628,10 +1626,8 @@ extern "C"
 
 typedef float hkReal;
 
-extern __m128 DAT_010c44d0;
 
 struct hkTransformq;
-extern hkTransformq DAT_01268370;
 
 struct __declspec(align(16)) hkVector4q
 {
@@ -1704,7 +1700,7 @@ struct TrianglesSubpart
 void __cdecl FUN_00d55680(const TrianglesSubpart& part, const hkVector4q& scale, hkAabbq& aabb)
 {
     aabb.m_kMinimumCorner.SetAllComponents(3.40282e+38f);
-    aabb.m_kMaximumCorner.m_vComponents = _mm_xor_ps(aabb.m_kMinimumCorner.m_vComponents, DAT_010c44d0);
+    aabb.m_kMaximumCorner.m_vComponents = _mm_xor_ps(aabb.m_kMinimumCorner.m_vComponents, ::DAT_010c44d0);
     for (int i = 0; i < part.m_iTriangleCount; i++)
     {
         const hkReal* v0;
@@ -1738,7 +1734,7 @@ void __cdecl FUN_00d55680(const TrianglesSubpart& part, const hkVector4q& scale,
             hkVector4q vertex;
             vertex.set(v0[0] * scale(0), v0[1] * scale(1), v0[2] * scale(2));
             hkVector4q transformed;
-            transformed.FUN_00c7f640(DAT_01268370, vertex);
+            transformed.FUN_00c7f640((*reinterpret_cast<::hkTransformq *>(&::DAT_01268370)), vertex);
             aabb.m_kMinimumCorner.setMin4(aabb.m_kMinimumCorner, transformed);
             aabb.m_kMaximumCorner.setMax4(aabb.m_kMaximumCorner, transformed);
         }
@@ -1746,7 +1742,7 @@ void __cdecl FUN_00d55680(const TrianglesSubpart& part, const hkVector4q& scale,
             hkVector4q vertex;
             vertex.set(*(const volatile float*)&v1[0] * scale(0), v1[1] * scale(1), v1[2] * scale(2));
             hkVector4q transformed;
-            transformed.FUN_00c7f640(DAT_01268370, vertex);
+            transformed.FUN_00c7f640((*reinterpret_cast<::hkTransformq *>(&::DAT_01268370)), vertex);
             aabb.m_kMinimumCorner.setMin4(aabb.m_kMinimumCorner, transformed);
             aabb.m_kMaximumCorner.setMax4(aabb.m_kMaximumCorner, transformed);
         }
@@ -1754,7 +1750,7 @@ void __cdecl FUN_00d55680(const TrianglesSubpart& part, const hkVector4q& scale,
             hkVector4q vertex;
             vertex.set(v2[0] * scale(0), v2[1] * scale(1), v2[2] * scale(2));
             hkVector4q transformed;
-            transformed.FUN_00c7f640(DAT_01268370, vertex);
+            transformed.FUN_00c7f640((*reinterpret_cast<::hkTransformq *>(&::DAT_01268370)), vertex);
             aabb.m_kMinimumCorner.setMin4(aabb.m_kMinimumCorner, transformed);
             aabb.m_kMaximumCorner.setMax4(aabb.m_kMaximumCorner, transformed);
         }
@@ -1787,23 +1783,16 @@ extern "C"
 
 extern int DAT_010c749c;
 extern int DAT_010d0e5c;
-extern __m128 DAT_010c4c10;
-extern float DAT_011b153c;
 
-void __cdecl CopySixteenByteBlocks(void* dst, const void* src);
-void __cdecl FUN_00d570d0(void* dst, const void* src);
 
 struct HelperC9E340
 {
-    void FUN_00c9e340(int type, float radius, const S_00d55bd0_Shape* child, int unk);
 };
 struct HelperCB2D90
 {
-    void FUN_00cb2d90(const void* rotation);
 };
 struct HelperD5D7A0
 {
-    const S_00d55bd0_Shape* FUN_00d5d7a0(const S_00d55bd0_Shape* child, const void* transform, int unk);
 };
 
 struct MeshSubpartTriangle
@@ -1979,7 +1968,7 @@ const S_00d55bd0_Shape* ExtendedMeshShape::FUN_00d55ce0(unsigned int key, void* 
         }
         else
         {
-            CopySixteenByteBlocks(subpartBuffer, (const char*)m_kTrianglesSubparts + uiSubpartIndex * 96);
+            ::CopySixteenByteBlocks((int *)(subpartBuffer), (const int *)(const void *)((const char*)m_kTrianglesSubparts + uiSubpartIndex * 96));
             r = (const MeshSubpartTriangle*)subpartBuffer;
         }
 
@@ -2046,7 +2035,7 @@ const S_00d55bd0_Shape* ExtendedMeshShape::FUN_00d55ce0(unsigned int key, void* 
     else
     {
         void* subpartBuffer = (void*)(((unsigned int)subpartStorage + 0x3f) & ~0x3f);
-        FUN_00d570d0(subpartBuffer, (const char*)m_kShapesSubparts + (uiSubpartIndex << 6));
+        ::FUN_00d570d0((int *)(subpartBuffer), (const int *)(const void *)((const char*)m_kShapesSubparts + (uiSubpartIndex << 6)));
         const MeshSubpartShape* pSubpartShape = (const MeshSubpartShape*)subpartBuffer;
 
         int mvA = pSubpartShape->m_type & 0xc0ffffff;
@@ -2060,7 +2049,7 @@ const S_00d55bd0_Shape* ExtendedMeshShape::FUN_00d55ce0(unsigned int key, void* 
             if (buffer)
             {
                 float radius = ((const TriangleShape*)childShape)->m_fSphereRadius;
-                ((HelperC9E340*)buffer)->FUN_00c9e340(0xb, radius, childShape, 0);
+                new ((void *)(((HelperC9E340*)buffer))) ::FUN_00c9e340(0xb, radius, (::FUN_00d1df70 *)(childShape), 0);
                 ((TriangleShape*)buffer)->vtable = (int)&DAT_010d0e5c;
                 __m128 scale = _mm_and_ps(*(__m128*)&pSubpartShape->m_vTranslation, DAT_010c4c10);
                 *(__m128*)&((TriangleShape*)buffer)->m_kVertexA = scale;
@@ -2072,11 +2061,11 @@ const S_00d55bd0_Shape* ExtendedMeshShape::FUN_00d55ce0(unsigned int key, void* 
         {
             Transform transform;
             transform.m_vTranslation = pSubpartShape->m_vTranslation;
-            ((HelperCB2D90*)&transform)->FUN_00cb2d90(&pSubpartShape->m_rotation);
+            reinterpret_cast<::RotationRows *>((((HelperCB2D90*)&transform)))->FUN_00cb2d90((void *)(&pSubpartShape->m_rotation));
 
             if (buffer)
             {
-                return ((HelperD5D7A0*)buffer)->FUN_00d5d7a0(childShape, &transform, 0);
+                return ((const ::S_00d55bd0_Shape *)(reinterpret_cast<::Standin *>((((HelperD5D7A0*)buffer)))->FUN_00d5d7a0((const ::hkpConvexShape *)(childShape), (*(const ::AlignedTransform *)(&transform)), 0)));
             }
         }
         return 0;
@@ -2087,7 +2076,6 @@ extern "C" void _mm_store_ps(float*, __m128);
 extern "C" __m128 _mm_add_ps(__m128, __m128);
 extern "C" __m128 _mm_sub_ps(__m128, __m128);
 extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern __m128 DAT_010c71d0;
 struct MeshEntry
 {
     void FUN_00d4ad60(int);
@@ -2137,15 +2125,13 @@ struct MeshOwner
     int m_uiItemCount;
     int unkC8, unkCC, unkD0, unkD4, unkD8, unkDC;
     int m_children;
-    S_00d56880_Elem* AppendElement();
-    int FUN_00d55520(int);
     int FUN_00d56900(volatile int);
 };
 // Appends a shape element, expands the owner AABB to include it, and returns the new element index.
 // @fnv 0x00d56900
 int MeshOwner::FUN_00d56900(volatile int key)
 {
-    S_00d56880_Elem* elem = AppendElement();
+    S_00d56880_Elem* elem = reinterpret_cast<::S_00d56880 *>(this)->AppendElement();
     ((MeshEntry*)elem)->FUN_00d4ad60(key);
     hkAabbS bounds;
     __m128 lo = _mm_sub_ps(m_kCenterPosition, m_vHalfExtents);
@@ -2155,7 +2141,7 @@ int MeshOwner::FUN_00d56900(volatile int key)
     __m128 mx = _mm_max_ps(hi, bounds.m_kMaximumCorner.m_vComponents);
     _mm_store_ps((float*)&m_kCenterPosition, _mm_mul_ps(_mm_add_ps(mx, mn), DAT_010c71d0));
     m_vHalfExtents = _mm_mul_ps(_mm_sub_ps(mx, mn), DAT_010c71d0);
-    m_children += FUN_00d55520(key);
+    m_children += ::FUN_00d55520((::FUN_00d55520_cls *)this);
     return m_uiItemCount - 1;
 }
 
@@ -2177,7 +2163,6 @@ struct SubBuf
 };
 
 AudioHolder* __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(void* a, void* b, int c, int d);
 
 struct Allocator
 {
@@ -2271,7 +2256,7 @@ void FUN_00d56200_cls::FUN_00d56200(int a1)
         SubBuf* sub = &m_cc;
         AudioHolder* pHolder = FUN_00c85750();
         if ((sub->m_08 & 0x3fffffff) < total)
-            FUN_00c908c0(pHolder->m_10, sub, total, 2);
+            ::FUN_00c908c0((::SpawnedObject *)(pHolder->m_10), (::SpawnedArray *)(sub), total, 2);
         AudioHolder* pHolder2 = FUN_00c85750();
         void* alloc2 = pHolder2->m_10;
         int size = sub->m_08 & 0x3fffffff;
@@ -2280,7 +2265,7 @@ void FUN_00d56200_cls::FUN_00d56200(int a1)
             int cap = size * 2;
             if (total >= cap)
                 cap = total;
-            FUN_00c908c0(alloc2, sub, cap, 2);
+            ::FUN_00c908c0((::SpawnedObject *)(alloc2), (::SpawnedArray *)(sub), cap, 2);
         }
         sub->m_04 = total;
         return;
@@ -2416,6 +2401,18 @@ struct SpawnedOwnerQ
     ChanGroupNeg* negGroups;
     int FUN_00d55530(int aiIndex);
 };
+// Looks up the entry for aiKey via FUN_00d55530 on the owning object and returns its first int, or the owner's m_0xdc when not found.
+// @fnv 0x00d555d0
+int FUN_00d555d0_cls::GetSpawnedValue(int aiKey)
+{
+    SpawnedOwner* outer = (SpawnedOwner*)((char*)this - 0x10);
+    int* v = (int*)reinterpret_cast<::SpawnedOwnerQ *>((outer))->FUN_00d55530(aiKey);
+    if (v != 0)
+    {
+        return *v;
+    }
+    return outer->m_0xdc;
+}
 // Splits aiIndex into a group number and offset, picks an entry from groups, negGroups (high bit set) or the inline entry, and returns its get(offset) or 0.
 // @fnv 0x00d55530
 int SpawnedOwnerQ::FUN_00d55530(int aiIndex)
@@ -2446,7 +2443,6 @@ extern "C" __m128 _mm_setr_ps(float, float, float, float);
 extern "C" __m128 _mm_min_ps(__m128, __m128);
 extern "C" __m128 _mm_max_ps(__m128, __m128);
 
-extern float DAT_01011d78;
 
 struct __declspec(align(16)) Vec4Q
 {
@@ -2474,7 +2470,7 @@ static __declspec(noinline) void __cdecl FUN_00d55600(const Vec3* apPoint, const
     float y = apPoint->y * scale->y;
     float z = apPoint->z * scale->z;
     Vec4Q p;
-    *(__m128*)&p = _mm_setr_ps(x, y, z, DAT_01011d78);
+    *(__m128*)&p = _mm_setr_ps(x, y, z, ::DAT_01011d78);
     Vec4Q out;
     out.FUN_00c7f640(transform, &p);
     __m128 o = *(__m128*)&out;
@@ -2566,7 +2562,6 @@ struct hkAabbD563
 
 struct hkpD563Tree
 {
-    void FUN_00d4abf0(void* arg);
 };
 
 struct hkpD563Key
@@ -2574,15 +2569,12 @@ struct hkpD563Key
     unsigned int unk00, unk04, unk08, unk0c;
 };
 
-void __cdecl FUN_00d55680(hkpD563Tree* tree, const hkpD563Key* key, hkAabbD563* out);
 
 class hkpD563Shape
 {
 
   public:
-    hkpD563Tree* FUN_00d562f0();
 
-    int Vec4(void* arg, int level);
 
     void FUN_00d563a0(void* arg);
 
@@ -2616,9 +2608,9 @@ class hkpD563Shape
 void hkpD563Shape::FUN_00d563a0(void* arg)
 {
 
-    hkpD563Tree* tree = FUN_00d562f0();
+    hkpD563Tree* tree = ((::hkpD563Tree *)(reinterpret_cast<::OwnerD562 *>(this)->FUN_00d562f0()));
 
-    tree->FUN_00d4abf0(arg);
+    reinterpret_cast<::hkpExtendedMeshShapeTrianglesSubpartD4AB *>((tree))->FUN_00d4abf0((*(const ::hkpExtendedMeshShapeTrianglesSubpartD4AB *)(arg)));
 
     hkAabbD563 existing;
 
@@ -2628,7 +2620,7 @@ void hkpD563Shape::FUN_00d563a0(void* arg)
 
     existing.m_kMaximumCorner.setAdd4(m_kAabbHalfExtents, m_kAabbCenter);
 
-    FUN_00d55680(tree, &m_key, &updated);
+    ::FUN_00d55680((*(const ::TrianglesSubpart *)(tree)), (*(const ::hkVector4q *)(&m_key)), (*(::hkAabbq *)(&updated)));
 
     hkVector4D563 tolerance;
 
@@ -2660,7 +2652,7 @@ void hkpD563Shape::FUN_00d563a0(void* arg)
 
     int lastLevel = m_numLevels - 1;
 
-    m_total += Vec4(arg, lastLevel);
+    m_total += reinterpret_cast<::fnv_00d56160::FUN_00d56160_cls *>(this)->Vec4((::fnv_00d56160::FUN_00d56160_items *)(arg), lastLevel);
 }
 
 extern "C"
@@ -2673,13 +2665,9 @@ typedef signed char hkInt8;
 typedef short hkInt16;
 typedef unsigned short hkUint16;
 
-extern const __m128 g_hkQuadZero;
-extern const __m128 g_hkQuadAbsMask;
 
 struct hkConvexShapeS
 {
-    void RetainReference() const;
-    void removeReference() const;
 };
 
 template <class T> struct hkRefPtrS
@@ -2692,11 +2680,11 @@ template <class T> struct hkRefPtrS
     {
         if (e)
         {
-            e->RetainReference();
+            reinterpret_cast<::FUN_00c90510_class *>((void *)(e))->FUN_00c90510();
         }
         if (m_pRetainedObject)
         {
-            m_pRetainedObject->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((void *)(m_pRetainedObject))->FUN_00c905b0();
         }
         m_pRetainedObject = e;
     }
@@ -2726,7 +2714,7 @@ template <typename T> struct hkArrS
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(alloc, this, newSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
         }
     }
 
@@ -2764,7 +2752,6 @@ struct hkVector4f
 struct hkQuaternionS
 {
     __m128 m_vec;
-    void FUN_00cb26e0(const void* rotation);
 };
 
 struct hkBoolS
@@ -2784,7 +2771,6 @@ struct hkTransformD566
     hkBoolS FUN_00cd4e00(const hkTransformD566& other, hkReal epsilon) const;
 };
 
-extern const hkTransformD566 g_hkTransformIdentity;
 
 struct hkVector4CompS
 {
@@ -2826,7 +2812,7 @@ struct ShapesSubpartT
 
 static __forceinline hkVector4CompS compareEquals3(const hkVector4f& a, const __m128& b, hkReal epsilon)
 {
-    const __m128 diff = _mm_and_ps(_mm_sub_ps(*(const __m128*)&a, b), g_hkQuadAbsMask);
+    const __m128 diff = _mm_and_ps(_mm_sub_ps(*(const __m128*)&a, b), ::DAT_01017d10);
     const __m128 eps = _mm_set_ps1(epsilon);
     hkVector4CompS c;
     c.m_uiMask = _mm_cmple_ps(diff, eps);
@@ -2840,7 +2826,7 @@ ShapesSubpartT* ShapesSubpartT::FUN_00d56660(hkConvexShapeS* const* childShapes,
 {
     initSubpart(1);
     m_kChildShapes.init();
-    m_rotation.FUN_00cb26e0(&transform);
+    reinterpret_cast<::FUN_00827200_class *>(&(m_rotation))->FUN_00cb26e0((int)(&transform));
     m_vTranslation = transform.m_vTranslation;
 
     hkRefPtrS<hkConvexShapeS>* dst = m_kChildShapes.expandBy(numChildShapes);
@@ -2849,9 +2835,9 @@ ShapesSubpartT* ShapesSubpartT::FUN_00d56660(hkConvexShapeS* const* childShapes,
         dst[i] = childShapes[i];
     }
 
-    hkVector4CompS isZero = compareEquals3(m_vTranslation, g_hkQuadZero, 0.001f);
+    hkVector4CompS isZero = compareEquals3(m_vTranslation, (*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30)), 0.001f);
     int flags = (isZero.allAreSetXYZ() ? 0 : 1) |
-                (transform.FUN_00cd4e00(g_hkTransformIdentity, 0.001f).m_cBooleanValue ? 0 : 2);
+                (transform.FUN_00cd4e00((*reinterpret_cast<const ::hkTransformD566 *>(&::DAT_01268370)), 0.001f).m_cBooleanValue ? 0 : 2);
     *(int*)&m_vTranslation.w = flags | 0x3f000000;
     return this;
 }
@@ -2949,7 +2935,7 @@ template <typename T> struct hkArray
         if (getCapacity() < n)
         {
             int cap = 2 * getCapacity();
-            FUN_00c908c0(alloc, this, n < cap ? cap : n, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), n < cap ? cap : n, sizeof(T));
         }
     }
 };
@@ -2990,7 +2976,6 @@ struct FUN_00d56ab0 : public FUN_00d21410
     float m_ce4;
 
     FUN_00d56ab0(Src& input);
-    void __thiscall FUN_00d55950();
 };
 
 // Constructs the object by copying fields from input, allocating and copying m_w, initializing m_aiIndexedValues from input.arr, and calling FUN_00d55950.
@@ -3060,6 +3045,6 @@ FUN_00d56ab0::FUN_00d56ab0(Src& input) : FUN_00d21410(14, 1)
         arr.m_data[i].a30 = _mm_setzero_ps();
         arr.m_data[i].a49 = s->arr[i].f18;
     }
-    FUN_00d55950();
-    m_ce0 = reinterpret_cast<FUN_00d554a0_class*>(static_cast<Base2*>(this))->FUN_00d1f1e0();
+    reinterpret_cast<::S_00d55950 *>(this)->FUN_00d55950();
+    m_ce0 = reinterpret_cast<::FUN_00d1f1e0_class *>((reinterpret_cast<FUN_00d554a0_class*>(static_cast<Base2*>(this))))->FUN_00d1f1e0();
 }

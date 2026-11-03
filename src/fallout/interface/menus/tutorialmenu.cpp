@@ -2,17 +2,39 @@
 // src/fallout/interface/menus/tutorialmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/tutorialmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/FUN_00a1d910_shell.h"
+#include "fnv/decl/FUN_00a1dc70_shell.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TileListBoxCalls.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
+#include "fnv/decl/fnv_00a01b00__TileLoader.h"
+#include "fnv/decl/fnv_00a1d9e0__FUN_00a1d9e0_shell.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00707000.h"
+#include "fnv/symbols_007cc000.h"
+#include "fnv/symbols_007d0000.h"
+#include "fnv/symbols_00a00000.h"
+#include "fnv/symbols_00a09000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_01070000.h"
+#include "fnv/symbols_011d2000.h"
+#include "fnv/symbols_011d3000.h"
+#include "fnv/symbols_011d4000.h"
+#include "fnv/symbols_011db000.h"
 struct FUN_007e8e20_shell
 {
-    void ShowPageByIndex(int);
     void FUN_007e8e20();
 };
-
-// @fnv 0x007e8e20
-void FUN_007e8e20_shell::FUN_007e8e20()
-{
-    ShowPageByIndex(*(int*)(this + 0x48) + 1);
-}
 
 struct TutorialMenu
 {
@@ -31,41 +53,33 @@ struct FUN_007e8e40_shell : FUN_007e8e20_shell
     void DecrementAndDispatch();
 };
 
-// @fnv 0x007e8e40
-void FUN_007e8e40_shell::DecrementAndDispatch()
-{
-    ShowPageByIndex(((int*)this)[0x48 / 4] - 1);
-}
-
 struct Tile
 {
     void Set(int, int);
+public:
+    static float GetInterfaceScale();
 };
 struct Menu
 {
-    void LoadMenuData();
-    void FUN_00a1d9e0();
+public:
+    void SetMenuVisibility(bool);
 };
 struct FORenderedMenu;
-FORenderedMenu* __cdecl FUN_00707ad0();
-void __cdecl HandleBackAction();
-extern Menu* DAT_011db088;
 
 struct BSSimpleList
 {
-    void* FUN_00726070();
 };
 
 // @fnv 0x007e8d60
 void FUN_007e8d60()
 {
-    if (DAT_011db088)
+    if ((*reinterpret_cast<::Menu * *>(&::DAT_011db088)))
     {
-        reinterpret_cast<Tile*>(reinterpret_cast<BSSimpleList*>(DAT_011db088)->FUN_00726070())->Set(0x1772, 1);
-        if (FUN_00707ad0())
-            DAT_011db088->FUN_00a1d9e0();
+        reinterpret_cast<Tile*>(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList*>((*reinterpret_cast<::Menu * *>(&::DAT_011db088)))))->FUN_00726070())->Set(0x1772, 1);
+        if (::FUN_00707ad0())
+            reinterpret_cast<::fnv_00a1d9e0::FUN_00a1d9e0_shell *>(((*reinterpret_cast<::Menu * *>(&::DAT_011db088))))->FUN_00a1d9e0();
         else
-            DAT_011db088->LoadMenuData();
+            reinterpret_cast<::FUN_00a1d910_shell *>(((*reinterpret_cast<::Menu * *>(&::DAT_011db088))))->FUN_00a1d910();
         HandleBackAction();
     }
 }
@@ -81,11 +95,13 @@ struct Interface
         E10 = 10
     };
 };
+class Tile;
 struct InterfaceManager
 {
     static void __cdecl SendGamepadButton(Interface::enumGamepadButtons);
+public:
+    ::Tile *FUN_00586150();
 };
-void* __cdecl FUN_004b7210();
 void __cdecl FUN_007e8d60();
 struct VHack
 {
@@ -113,7 +129,7 @@ bool TMenu::HandleGamepadButton(int aiButton, float afValue)
 {
     if (InterfaceH::GetSelectedTargetIndex(((VHack*)this)->v13()) && aiButton == 10)
     {
-        FUN_004b7210();
+        ::fnv_004b7210::FUN_004b7210();
         InterfaceManager::SendGamepadButton((Interface::enumGamepadButtons)10);
         FUN_007e8d60();
         return true;
@@ -127,7 +143,6 @@ bool TMenu::HandleGamepadButton(int aiButton, float afValue)
 namespace fnv_007e9010 {
 struct Tile
 {
-    void Set(int, int);
 };
 struct FUN_007e9010_Owner
 {
@@ -142,8 +157,8 @@ struct FUN_007e9010_Owner
 // @fnv 0x007e9010
 void FUN_007e9010_Owner::FUN_007e9010()
 {
-    tileB->Set(0xFAF, 0 < m_iMapDisplayMode);
-    tileA->Set(0xFAF, m_iMapDisplayMode + 1 < m_uiPageCount);
+    reinterpret_cast<::Tile *>((tileB))->Set(0xFAF, 0 < m_iMapDisplayMode);
+    reinterpret_cast<::Tile *>((tileA))->Set(0xFAF, m_iMapDisplayMode + 1 < m_uiPageCount);
 }
 }  // namespace fnv_007e9010
 
@@ -175,7 +190,6 @@ void FUN_007e8db0_shell::FUN_007e8db0(int aiID, Tile* apTarget)
 
 struct MenuValueField
 {
-    char* __thiscall FUN_00408da0();
 };
 struct MenuStringReader
 {
@@ -200,12 +214,7 @@ struct MenuRecord
 };
 struct MenuTileField
 {
-    void __thiscall FUN_00a01350(unsigned int property, char* text, int forceUpdate);
-    void __thiscall FUN_00700320(unsigned int property, int matched);
-    void __thiscall FUN_00a012d0(void* value, float fade, int flags);
 };
-extern char str_010702d8[];
-extern "C" void* __cdecl FUN_00a00940(const char* descriptor, int index);
 struct TutorialMenuView
 {
     int unk00;
@@ -235,20 +244,20 @@ void TutorialMenuView::ApplyRecordToTiles(MenuRecord* record)
         return;
     if (text38 != 0)
     {
-        text38->FUN_00a01350(0xFC4, record->value18.FUN_00408da0(), 1);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((text38))->FUN_00a01350(0xFC4, ((char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(record->value18))->FUN_00408da0())), 1);
     }
     if (text28 != 0)
     {
         description = record->record24.ReadString(0, 0x43534544);
         if (description != 0)
         {
-            text28->FUN_00700320(0xFBE, description[0] == '<');
-            text28->FUN_00a01350(0xFC4, description, 1);
+            reinterpret_cast<::Tile *>((text28))->Set(0xFBE, description[0] == '<');
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((text28))->FUN_00a01350(0xFC4, description, 1);
         }
     }
     if (text40 != 0)
     {
-        text40->FUN_00a012d0(FUN_00a00940(str_010702d8, -1), 0.0f, 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((text40))->FUN_00a012d0((int)(((void *)(::FUN_00a00940(str_010702d8, -1)))), 0.0f, 0);
     }
 }
 
@@ -261,13 +270,13 @@ struct BSStringT
     ~BSStringT();
     operator const char*() const;
 };
-int __cdecl FUN_00406f60(BSStringT* apStr, const char* apFmt, ...);
-void __cdecl FNV_Warning(unsigned int aeType, const char* apFmt, ...);
 
 class TESForm
 {
   public:
     virtual ~TESForm();
+public:
+    void ClearData();
 };
 class BGSMessage : public TESForm
 {
@@ -275,13 +284,10 @@ class BGSMessage : public TESForm
 
 struct HelpTile
 {
-    void Set(int aeValue, const char* apString, bool abPropagate);
 };
 
 struct HelpListNode
 {
-    TESForm** Item();
-    HelpListNode* Next();
 };
 
 struct HelpMenuShell
@@ -307,10 +313,18 @@ struct HelpMenuShell
     unsigned int uiCurrentPage;
     unsigned int uiPageCount;
     HelpListNode* pPages;
-    void ShowPage(BGSMessage* apPage);
-    void Refresh();
     void ShowPageByIndex(unsigned int auiPage);
 };
+// @fnv 0x007e8e20
+void FUN_007e8e20_shell::FUN_007e8e20()
+{
+    reinterpret_cast<::HelpMenuShell *>(this)->ShowPageByIndex(*(int*)(this + 0x48) + 1);
+}
+// @fnv 0x007e8e40
+void FUN_007e8e40_shell::DecrementAndDispatch()
+{
+    reinterpret_cast<::HelpMenuShell *>(this)->ShowPageByIndex(((int*)this)[0x48 / 4] - 1);
+}
 
 // Sets the current help page index, updates the page counter tile, walks the page list to the requested page, shows it and refreshes the menu.
 // @fnv 0x007e8ed0
@@ -320,20 +334,20 @@ void HelpMenuShell::ShowPageByIndex(unsigned int auiPage)
     {
         BSStringT kText;
         uiCurrentPage = auiPage;
-        FUN_00406f60(&kText, "%d/%d", auiPage + 1, uiPageCount);
-        pPageTile->Set(0xfc4, kText, true);
+        ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT *)(&kText), "%d/%d", auiPage + 1, uiPageCount);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((pPageTile))->FUN_00a01350(0xfc4, (char *)(kText), true);
         HelpListNode* pPageNode = pPages;
         while (pPageNode && auiPage--)
         {
-            pPageNode = pPageNode->Next();
+            pPageNode = ((::HelpListNode *)(reinterpret_cast<::Callees *>((pPageNode))->FUN_00726070()));
         }
         if (!pPageNode)
         {
-            FNV_Warning(0x12, "End of Help Manual reached while searching for page %d in help manual.", auiPage);
+            ::FUN_005b5e40();
             return;
         }
-        ShowPage(dynamic_cast<BGSMessage*>(*pPageNode->Item()));
-        Refresh();
+        reinterpret_cast<::TutorialMenuView *>(this)->ApplyRecordToTiles((::MenuRecord *)(::BGSMessage *)(dynamic_cast<BGSMessage*>(*((::TESForm **)(new ((void *)(pPageNode)) ::Vec3())))));
+        reinterpret_cast<::fnv_007e9010::FUN_007e9010_Owner *>(this)->FUN_007e9010();
     }
 }
 
@@ -347,8 +361,6 @@ class AA
   public:
     virtual ~AA();
 };
-AA* __cdecl FUN_00a09030(int);
-int __cdecl FUN_007cc6d0();
 
 struct TileMenu
 {
@@ -357,13 +369,7 @@ struct TileMenu
 
 struct SettingX
 {
-    const char* String();
 };
-extern SettingX DAT_011d2340;
-extern SettingX DAT_011d34b0;
-extern SettingX DAT_011d4468;
-extern SettingX DAT_011d22b0;
-extern float DAT_01023cd8;
 extern char str_01077ba4[];
 
 struct StrMem : BSStringT
@@ -377,31 +383,20 @@ class BGSListForm : public TESForm
   public:
     HelpListNode* FUN_00500940();
 };
-TESForm* __cdecl FUN_004839c0(unsigned int auID);
 
 struct TForm2
 {
-    bool IsInCombat();
 };
 
 struct IMF
 {
-    TileX* FUN_00586150();
-    TileX* FUN_0045cd60();
 };
 
 struct TileX
 {
-    TileX* ReadFile(const char* apFile);
-    Menu* FUN_00a03c90();
-    float FUN_00a011b0(int aiValue);
-    void SetString(int aiID, const char* apText, bool abFlag);
-    void SetInt(int aiID, int aiValue);
-    void Set(int aiID, float afValue, bool abFlag);
 };
 
 void* __cdecl FUN_00ec43fb(void* apObject, long alVfDelta, void* apSrcType, void* apDstType, int aiIsRef);
-float __cdecl FUN_00a01530();
 
 class HMenuX
 {
@@ -431,35 +426,29 @@ class HMenuX
     unsigned int u48;
     unsigned int u4c;
     HelpListNode* pPages;
-    void FUN_00a1dc70(void* apMenu, bool abFlag);
-    void FUN_00a1dc20(int aiValue);
-    void ApplyRecordToTiles(void* apTile);
-    void FUN_007e9010();
 };
 
 struct HelpListNode;
 
-bool __cdecl FUN_004b71d0();
 
 // @fnv 0x007e8890
 bool InitTutorialMenu(TESForm* apMsg, bool aFlag)
 {
-    AA* p = FUN_00a09030(FUN_007cc6d0());
+    AA* p = ((::AA *)(::FUN_00a09030(FUN_007cc6d0())));
     if (p)
         delete p;
 
-    TileX* pTile = ((IMF*)FUN_004b7210())->FUN_00586150()->ReadFile(str_01077ba4);
-    DAT_011db088 = pTile ? pTile->FUN_00a03c90() : 0;
+    TileX* pTile = ((::TileX *)(reinterpret_cast<::fnv_00a01b00::TileLoader *>((((::TileX *)(reinterpret_cast<::InterfaceManager *>((((IMF*)((void *)(::fnv_004b7210::FUN_004b7210())))))->FUN_00586150()))))->FUN_00a01b00((void *)(str_01077ba4))));
+    (*reinterpret_cast<::Menu * *>(&::DAT_011db088)) = pTile ? reinterpret_cast<::FUN_00a03c90_shell *>((pTile))->FUN_00a03c90() : 0;
 
-    if (DAT_011db088 != 0 && ((HMenuX*)DAT_011db088)->vGet() == FUN_007cc6d0())
+    if ((*reinterpret_cast<::Menu * *>(&::DAT_011db088)) != 0 && ((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->vGet() == FUN_007cc6d0())
     {
-        ((HMenuX*)DAT_011db088)
-            ->FUN_00a1dc70(FUN_00ec43fb(pTile, 0, (void*)&typeid(Tile), (void*)&typeid(TileMenu), 0), 0);
+        reinterpret_cast<::FUN_00a1dc70_shell *>((((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))))->FUN_00a1dc70((::TileMenu *)(void *)(FUN_00ec43fb(pTile, 0, (void*)&typeid(Tile), (void*)&typeid(TileMenu), 0)), 0);
 
-        if (pTile->FUN_00a011b0(0xfa7) == 6006.0 || pTile->FUN_00a011b0(0xfa7) == 102.0)
-            pTile->Set(0xfad, FUN_00a01530(), 1);
+        if (reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(0xfa7) == 6006.0 || reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(0xfa7) == 102.0)
+            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfad, ::Tile::GetInterfaceScale(), 1);
 
-        ((HMenuX*)DAT_011db088)->t44->SetString(0xfc4, DAT_011d2340.String(), 1);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->t44))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingX *>(&::g_011d2340))))->GetMenuTitle()))), 1);
 
         if (aFlag)
         {
@@ -467,71 +456,71 @@ bool InitTutorialMenu(TESForm* apMsg, bool aFlag)
                                                 : dynamic_cast<BGSListForm*>(FUN_004839c0(0x163u));
             if (pForm)
             {
-                ((HMenuX*)DAT_011db088)->pPages = pForm->FUN_00500940();
+                ((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->pPages = pForm->FUN_00500940();
                 if (apMsg == 0)
-                    apMsg = dynamic_cast<BGSMessage*>(*((HMenuX*)DAT_011db088)->pPages->Item());
+                    apMsg = dynamic_cast<BGSMessage*>(*((::TESForm **)(new ((void *)(((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->pPages)) ::Vec3())));
             }
-            ((HMenuX*)DAT_011db088)->t2c->SetString(0xfc4, DAT_011d34b0.String(), 1);
-            ((HMenuX*)DAT_011db088)->t30->SetString(0xfc4, DAT_011d4468.String(), 1);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->t2c))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingX *>(&::g_011d34b0))))->GetMenuTitle()))), 1);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->t30))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingX *>(&::g_011d4468))))->GetMenuTitle()))), 1);
         }
         else
         {
-            ((HMenuX*)DAT_011db088)->t2c->SetInt(0xfa3, 0);
-            ((HMenuX*)DAT_011db088)->t30->SetInt(0xfa3, 0);
+            reinterpret_cast<::Tile *>((((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->t2c))->Set(0xfa3, 0);
+            reinterpret_cast<::Tile *>((((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->t30))->Set(0xfa3, 0);
         }
 
-        ((HMenuX*)DAT_011db088)->t34->SetString(0xfc4, DAT_011d22b0.String(), 1);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->t34))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingX *>(&::g_011d22b0))))->GetMenuTitle()))), 1);
 
         if (apMsg == 0)
-            FNV_Warning(0x12, "Warning:  Unable to find valid starting message for Tutorial Menu.");
+            ::FUN_005b5e40();
 
-        ((HMenuX*)DAT_011db088)->u4c = 0;
-        ((HMenuX*)DAT_011db088)->u48 = 0;
+        ((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->u4c = 0;
+        ((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->u48 = 0;
         HelpListNode* node5;
         bool found2 = false;
-        node5 = ((HMenuX*)DAT_011db088)->pPages;
-        while (node5 != 0 && *node5->Item() != 0)
+        node5 = ((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->pPages;
+        while (node5 != 0 && *((::TESForm **)(new ((void *)(node5)) ::Vec3())) != 0)
         {
-            if (!found2 && *node5->Item() == apMsg)
+            if (!found2 && *((::TESForm **)(new ((void *)(node5)) ::Vec3())) == apMsg)
             {
-                ((HMenuX*)DAT_011db088)->u48 = ((HMenuX*)DAT_011db088)->u4c;
+                ((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->u48 = ((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->u4c;
                 found2 = true;
             }
-            ((HMenuX*)DAT_011db088)->u4c = ((HMenuX*)DAT_011db088)->u4c + 1;
-            node5 = node5->Next();
+            ((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->u4c = ((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->u4c + 1;
+            node5 = ((::HelpListNode *)(reinterpret_cast<::Callees *>((node5))->FUN_00726070()));
         }
 
         if (found2)
         {
             StrMem str;
-            FUN_00406f60(&str, "%d/%d", ((HMenuX*)DAT_011db088)->u48 + 1, ((HMenuX*)DAT_011db088)->u4c);
-            ((HMenuX*)DAT_011db088)->t3c->SetString(0xfc4, str, 1);
+            ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT *)(&str), "%d/%d", ((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->u48 + 1, ((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->u4c);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->t3c))->FUN_00a01350(0xfc4, (char *)(str), 1);
         }
         else
         {
-            ((HMenuX*)DAT_011db088)->t3c->SetInt(0xfa3, 0);
-            ((HMenuX*)DAT_011db088)->u4c = 0;
+            reinterpret_cast<::Tile *>((((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->t3c))->Set(0xfa3, 0);
+            ((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->u4c = 0;
         }
 
         if (apMsg != 0)
         {
-            ((HMenuX*)DAT_011db088)->ApplyRecordToTiles(apMsg);
-            ((HMenuX*)DAT_011db088)->FUN_007e9010();
-            ((TForm2*)DAT_011db088)->IsInCombat();
-            ((IMF*)FUN_004b7210())->FUN_0045cd60()->Set(0xfa9, DAT_01023cd8, 1);
-            ((HMenuX*)DAT_011db088)->FUN_00a1dc20(0);
+            reinterpret_cast<::TutorialMenuView *>((((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))))->ApplyRecordToTiles((::MenuRecord *)(apMsg));
+            reinterpret_cast<::fnv_007e9010::FUN_007e9010_Owner *>((((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))))->FUN_007e9010();
+            reinterpret_cast<::TESForm *>((((TForm2*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))))->ClearData();
+            reinterpret_cast<::FUN_00a012d0_t *>((((::TileX *)(reinterpret_cast<::FUN_0045cd60_shell *>((((IMF*)((void *)(::fnv_004b7210::FUN_004b7210())))))->FUN_0045cd60()))))->FUN_00a012d0(0xfa9, DAT_01023cd8, 1);
+            reinterpret_cast<::Menu *>((((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))))->SetMenuVisibility(0);
             return true;
         }
         else
         {
-            delete (HMenuX*)DAT_011db088;
+            delete (HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088));
             return false;
         }
     }
     else
     {
-        if (DAT_011db088 != 0 && ((BSSimpleList*)DAT_011db088)->FUN_00726070())
-            delete (HMenuX*)DAT_011db088;
+        if ((*reinterpret_cast<::Menu * *>(&::DAT_011db088)) != 0 && reinterpret_cast<::Callees *>((((BSSimpleList*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))))->FUN_00726070())
+            delete (HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088));
     }
     return false;
 }

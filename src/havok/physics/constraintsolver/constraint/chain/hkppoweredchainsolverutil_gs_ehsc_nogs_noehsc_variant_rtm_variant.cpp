@@ -7,6 +7,10 @@
 // to their real unit once identified.
 // src/havok/physics/constraintsolver/constraint/chain/hkppoweredchainsolverutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/constraintsolver/constraint/chain/hkppoweredchainsolverutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_00df0000.h"
+#include "fnv/symbols_00df1000.h"
+#include "fnv/symbols_00e29000.h"
+#include "fnv/symbols_0104d000.h"
 struct FUN_00df0810_Channel
 {
     float value1;
@@ -29,7 +33,6 @@ struct FUN_00df0810_Dest
     float values[3];
     int unk1c;
 };
-void __cdecl CopyChannelValue(int index, int channel, FUN_00df0810_Source* sources, FUN_00df0810_Dest* dests);
 #include <xmmintrin.h>
 static __forceinline void CopyHelper(__m128* d, const void* s)
 {
@@ -484,14 +487,6 @@ struct __declspec(align(16)) BufB
     float f0b8;
     float f0bc;
 };
-extern void __cdecl ResetJacobianRows(int a, int b, void* c, void* d);
-extern void __cdecl FUN_00df07c0(int a, void* b);
-extern void __cdecl FUN_00e29250(void* a, void* b);
-extern void __cdecl FUN_00e29470(void* a, void* b, int c);
-extern void __cdecl FUN_00e29380(void* a, void* b);
-extern void __cdecl FUN_00e298f0(void* a, void* b);
-extern float DAT_0104da4c;
-void __cdecl FUN_00df0870(int arg0, ObjF* __restrict obj, int arg2, __m128* arg3, int* arg4);
 struct hkVector4
 {
     union
@@ -526,8 +521,6 @@ struct InputStruct
     char pad2[8];
     hkAabb* aabbs;
 };
-extern "C" void __cdecl FUN_00e29510(void* out, const void* matrix, const void* in);
-void __cdecl FUN_00df11a0(InputStruct* a, hkAabb* out);
 template <class T> class Slot
 {
   public:
@@ -658,7 +651,7 @@ extern "C" void __cdecl FUN_00df1260(PoweredChain* chain, int* chosenConstraint,
     for (int i = chain->m_iConstraintCount - 1; i >= 0; i--)
     {
         Quad8 product;
-        FUN_00e29510(&product, &chain->m_kMatrices[i].m_kMiddle, &accum);
+        ::FUN_00e29510((::__m128 *)(void *)(&product), (const ::__m128 *)(const void *)(&chain->m_kMatrices[i].m_kMiddle), (const ::__m128 *)(const void *)(&accum));
         accum.setSub8(target[i], product);
         for (int axis = 0; axis < 3; axis++)
         {
@@ -1089,6 +1082,7 @@ void __cdecl FUN_00df1060(int index, int axis, const ChainState& state, Quad8* o
 }
 
 #include <math.h>
+#include "fnv/symbols_simd.h"
 typedef __m128 hkQuad;
 class hkSimd
 {
@@ -1390,7 +1384,7 @@ void __cdecl FUN_00df1430(const hkChainInfo& info, int& modifiedConstraintIndex,
     impLeft.setZero8();
     {
         hkVec8 tmp;
-        FUN_00e29510(&tmp, &((hkTriple*)info.m_kMatrices)[info.m_iConstraintCount - 1].m_diag, &impLeft);
+        ::FUN_00e29510((::__m128 *)(void *)(&tmp), (const ::__m128 *)(const void *)(&((hkTriple*)info.m_kMatrices)[info.m_iConstraintCount - 1].m_diag), (const ::__m128 *)(const void *)(&impLeft));
         impLeft.setSub8(g[info.m_iConstraintCount - 1], tmp);
     }
     for (int i = info.m_iConstraintCount - 1; i >= 0; i--)
@@ -1402,7 +1396,7 @@ void __cdecl FUN_00df1430(const hkChainInfo& info, int& modifiedConstraintIndex,
         if (tIdx >= 0)
         {
             hkVec8 tmp;
-            FUN_00e29510(&tmp, &baseTriple->m_diag, &impLeft);
+            ::FUN_00e29510((::__m128 *)(void *)(&tmp), (const ::__m128 *)(const void *)(&baseTriple->m_diag), (const ::__m128 *)(const void *)(&impLeft));
             impLeft.setSub8(g[tIdx], tmp);
         }
         else
@@ -1412,19 +1406,19 @@ void __cdecl FUN_00df1430(const hkChainInfo& info, int& modifiedConstraintIndex,
         hkMat6 offDiagTransp;
         if (tIdx >= 0)
         {
-            FUN_00e29250(&offDiagTransp, (void*)&baseTriple->m_upperInv);
+            ::FUN_00e29250((*(::E29250Matrix6 *)(&offDiagTransp)), (*(const ::E29250Matrix6 *)((void*)&baseTriple->m_upperInv)));
         }
         else
         {
             offDiagTransp.setIdentity();
         }
         hkVec8 resultVelocityVec;
-        FUN_00e29510(&resultVelocityVec, &offDiagTransp, &impLeft);
+        ::FUN_00e29510((::__m128 *)(void *)(&resultVelocityVec), (const ::__m128 *)(const void *)(&offDiagTransp), (const ::__m128 *)(const void *)(&impLeft));
         {
             hkVec8 tmp;
-            FUN_00e29510(&tmp, &baseTriple[1].m_upper, &impCenter);
+            ::FUN_00e29510((::__m128 *)(void *)(&tmp), (const ::__m128 *)(const void *)(&baseTriple[1].m_upper), (const ::__m128 *)(const void *)(&impCenter));
             resultVelocityVec.add8(tmp);
-            FUN_00e29510(&tmp, &baseTriple[1].m_upperInv, &impRight);
+            ::FUN_00e29510((::__m128 *)(void *)(&tmp), (const ::__m128 *)(const void *)(&baseTriple[1].m_upperInv), (const ::__m128 *)(const void *)(&impRight));
             resultVelocityVec.add8(tmp);
         }
         for (int c = 0; c < 3; c++)

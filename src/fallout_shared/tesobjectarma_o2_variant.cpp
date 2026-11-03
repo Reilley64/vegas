@@ -2,12 +2,32 @@
 // src/fallout_shared/tesobjectarma_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/tesobjectarma.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_0047a380_shell.h"
+#include "fnv/decl/FUN_0048ea80_Class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00512810_holder.h"
+#include "fnv/decl/FUN_00535aa0_Class.h"
+#include "fnv/decl/FakeForm.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TESFullName.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_0048ea40__TESValueForm.h"
+#include "fnv/decl/fnv_00503210__Unk.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00478000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_00489000.h"
+#include "fnv/symbols_005b5000.h"
 #include "tesobjectarma_load.h"
 class TESForm;
 class TESFormInitFlag
 {
   public:
-    bool IsFormInitialized() const;
 };
 class TESForm
 {
@@ -90,9 +110,11 @@ class TESForm
     virtual void Slot75();
     virtual const char* GetEditorID();
     virtual bool SetEditorID(const char*);
-    void LoadRecordHeader(TESFile*);
-    void SetFormType(ENUM_FORM_ID);
     void SetInitializationState(bool initialized);
+public:
+    bool GetInitialized() const;
+public:
+    void LoadGame(void *);
 };
 class TESBipedModelForm
 {
@@ -112,7 +134,6 @@ class BGSDestructibleObjectForm
 {
   public:
     unsigned char bytes[8];
-    static void LoadDestructibleData(BGSDestructibleObjectForm*, TESFile*);
     void InitItem(TESForm* form);
 };
 class TESObjectARMA : public TESForm
@@ -129,7 +150,6 @@ class TESObjectARMA : public TESForm
     void InitItem();
 };
 extern "C" void* __cdecl memset(void* destination, int value, unsigned int size);
-extern int __cdecl Warning(const char* format, ...);
 struct TESObjectARMO
 {
     TESObjectARMO();
@@ -137,7 +157,6 @@ struct TESObjectARMO
 };
 struct SFTX
 {
-    void SetFormType(int);
 };
 extern int DAT_0102a214;
 extern int DAT_0102a228;
@@ -158,11 +177,9 @@ struct FUN_00511e40
 };
 struct FUN_00484d60_holder
 {
-    void SaveIfChanged(unsigned int);
 };
 struct FUN_0048ea40_holder
 {
-    void FUN_0048ea40(unsigned int);
 };
 struct FUN_005144c0_shell
 {
@@ -171,11 +188,9 @@ struct FUN_005144c0_shell
 struct BGSLoadFormBuffer;
 struct TESValueFormLoadGame
 {
-    void LoadGame(BGSLoadFormBuffer*);
 };
 struct TESFormBufferAccess
 {
-    void LoadGame(BGSLoadFormBuffer*);
 };
 struct FUN_005160a0_shell : TESObjectARMO
 {

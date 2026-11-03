@@ -2,6 +2,11 @@
 // src/havok/physics/dynamics/constraint/bilateral/ragdoll/hkpragdollconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/ragdoll/hkpragdollconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00c7f690_cls.h"
+#include "fnv/decl/FUN_00ca9360_cls.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_0104d000.h"
 #include "havok/hkpRagdollConstraintData.h"
 
 // @fnv 0x00cde9d0
@@ -43,11 +48,9 @@ char* FUN_00cde9b0_cls::FUN_00cde9b0(int aiIndex)
 }
 
 extern int DAT_010cb71c;
-extern int _DAT_0102e388;
 
 struct DDCC60World
 {
-    void __thiscall removeReference(void);
 };
 
 struct FUN_00cdf1f0
@@ -66,9 +69,9 @@ FUN_00cdf1f0::~FUN_00cdf1f0()
     {
         DDCC60World* p = m_refs[i];
         if (p)
-            p->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((p))->FUN_00c905b0();
     }
-    m_ppVirtualMethodTable = &_DAT_0102e388;
+    m_ppVirtualMethodTable = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 struct FUN_00cde970_cls
@@ -193,6 +196,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
 };
+#include "fnv/symbols_simd.h"
 struct __declspec(align(16)) FUN_00cdf190_Vec
 {
     float x;
@@ -255,7 +259,7 @@ struct FnvCpu_FUN_00cdf530_CpuObject
 // @fnv 0x00cdf530
 FnvCpu_FUN_00cdf530_CpuObject* FnvCpu_FUN_00cdf530_CpuObject::FUN_00cdf530(unsigned int flags)
 {
-    FUN_00cdf1f0();
+    reinterpret_cast<::FUN_00cdf1f0 *>(this)->FUN_00cdf1f0::~FUN_00cdf1f0();
     if (flags & 1)
     {
         FnvCpu_FUN_00cdf530_CpuAllocatorHolder* holder = FUN_00c85750();
@@ -533,7 +537,6 @@ union hkVector4q
 
 struct hkVector4Out : public hkVector4
 {
-    void SetTransformedPosition(const hkTransform& t, const hkVector4& v);
 };
 
 static __forceinline void hkNormalize3(hkVector4q& v)
@@ -634,8 +637,8 @@ void hkpRagdollConstraintDataEx::FUN_00cdeae0(const hkTransform& bodyATransform,
     hkSetTransposeMul(t.m_kRotationA, reinterpret_cast<const hkMatrix3q&>(bodyATransform.m_rotation), baseConstraint);
     hkSetTransposeMul(t.m_kRotationB, reinterpret_cast<const hkMatrix3q&>(bodyBTransform.m_rotation), baseConstraint);
 
-    static_cast<hkVector4Out&>(t.m_kTranslationA).SetTransformedPosition(bodyATransform, pivot);
-    static_cast<hkVector4Out&>(t.m_kTranslationB).SetTransformedPosition(bodyBTransform, pivot);
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(static_cast<hkVector4Out&>(t.m_kTranslationA)))->FUN_00c7f690((const ::S_00c7f690_M *)&(bodyATransform), (const ::S_00c7f690_V *)&(pivot));
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(static_cast<hkVector4Out&>(t.m_kTranslationB)))->FUN_00c7f690((const ::S_00c7f690_M *)&(bodyBTransform), (const ::S_00c7f690_V *)&(pivot));
 
     t.m_kMotorAxes = t.m_kRotationB;
 }
@@ -646,7 +649,6 @@ extern "C" __m128 _mm_sub_ps(__m128 _A, __m128 _B);
 extern "C" __m128 _mm_mul_ps(__m128 _A, __m128 _B);
 extern "C" __m128 _mm_shuffle_ps(__m128 _A, __m128 _B, unsigned int _Imm8);
 
-extern const __m128 DAT_010c71e0;
 
 struct Quat
 {
@@ -797,7 +799,6 @@ void FUN_00cdef90_cls::FUN_00cdef90(float afStart, float afEnd)
 namespace fnv_00cb9170 {
 struct FUN_00ca9360_sub
 {
-    void FUN_00ca9360(float*);
 };
 
 struct FUN_00cb9170
@@ -926,7 +927,6 @@ struct FUN_00cb9170
     float m_fC8;
     FUN_00cb9170();
 };
-extern "C" float DAT_0104da48;
 // Initializes the FUN_00cb9170 object by setting default values for its fields and calling FUN_00ca9360 with a float pointer.
 // @fnv 0x00cb9170
 FUN_00cb9170::FUN_00cb9170()
@@ -946,8 +946,8 @@ FUN_00cb9170::FUN_00cb9170()
     *limit = 0xc;
     m_c4 = 5;
     m_c6 = 0;
-    m_c7.FUN_00ca9360(&f);
-    m_fC8 = DAT_0104da48;
+    reinterpret_cast<::FUN_00ca9360_cls *>(&(m_c7))->FUN_00ca9360(&f);
+    m_fC8 = ::DAT_0104da48;
 }
 }  // namespace fnv_00cb9170
 

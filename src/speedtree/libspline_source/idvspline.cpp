@@ -1,5 +1,21 @@
 // speedtree/libspline_source/idvspline.cpp: Script, SplineSampler (12 functions)
 
+#include "fnv/decl/FNVTokenParser.h"
+#include "fnv/decl/FUN_00594cd0_Class.h"
+#include "fnv/decl/FUN_00594d20_Class.h"
+#include "fnv/decl/FUN_00594d40_class.h"
+#include "fnv/decl/FUN_00b1c7a0_cls.h"
+#include "fnv/decl/Holder5934d0.h"
+#include "fnv/decl/OwnerB380.h"
+#include "fnv/decl/fnv_00b3a050__treeb3a__TrTree.h"
+#include "fnv/decl/fnv_00b3b880__Tree.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_004b1000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00b3b000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01019000.h"
+#include "fnv/symbols_01140000.h"
 #include "idvspline_decls.h"
 
 // @fnv 0x00593DB0
@@ -18,10 +34,10 @@ double ExpressionEvaluator::Eval(const char* data, TESObjectREFR* reference, TES
     Value.m_dFloatingPointValue = 0.0;
     if (!length || m_eExpressionError)
         return 0.0;
-    m_kOperandStack.ResetField();
+    reinterpret_cast<::FUN_00594d40_class *>(&(m_kOperandStack))->ResetField();
     if (length > 512)
     {
-        SetError(EXPRESSION_ERROR_ERROR_EXPRESSION_OUTOFMEMORY);
+        reinterpret_cast<::Holder5934d0 *>(this)->SetError((*(int *)&(const ::EXPRESSION_ERROR &)(EXPRESSION_ERROR_ERROR_EXPRESSION_OUTOFMEMORY)));
         return 0.0;
     }
     char Buffer[513];
@@ -30,16 +46,16 @@ double ExpressionEvaluator::Eval(const char* data, TESObjectREFR* reference, TES
     Buffer[length] = 0;
     char* pToken = Buffer;
     token.text = Token;
-    input.consumed = ParseToken(&pToken, token.text, &token.type, skip, &input.data);
+    input.consumed = reinterpret_cast<::FNVTokenParser *>(this)->ParseToken(&pToken, token.text, (unsigned int *)(::ExpressionOperator *)(&token.type), skip, (int *)(&input.data));
     if (!input.consumed)
         token.text = 0;
     while (input.consumed)
     {
         if (token.type < EXPRESSION_OPERATORS_EXP_COUNT && token.type > EXPRESSION_OPERATORS_EXP_RIGHTPAREN)
         {
-            if (!m_kOperandStack.FUN_00594d20())
+            if (!reinterpret_cast<::FUN_00594d20_Class *>(&(m_kOperandStack))->FUN_00594d20())
             {
-                Value1 = m_kOperandStack.PopEntry();
+                Value1 = (*(::ExpressionValue *)(reinterpret_cast<::FUN_00594cd0_Class *>(&(m_kOperandStack))->PopEntry({})));
                 if (token.type == EXPRESSION_OPERATORS_EXP_UNARYMINUS)
                 {
                     if (!Value1.Type)
@@ -51,9 +67,9 @@ double ExpressionEvaluator::Eval(const char* data, TESObjectREFR* reference, TES
                 }
                 else
                 {
-                    if (!m_kOperandStack.FUN_00594d20())
+                    if (!reinterpret_cast<::FUN_00594d20_Class *>(&(m_kOperandStack))->FUN_00594d20())
                     {
-                        eoOperand2 = m_kOperandStack.PopEntry();
+                        eoOperand2 = (*(::ExpressionValue *)(reinterpret_cast<::FUN_00594cd0_Class *>(&(m_kOperandStack))->PopEntry({})));
                         switch (token.type)
                         {
                         case EXPRESSION_OPERATORS_EXP_AND:
@@ -369,7 +385,7 @@ double ExpressionEvaluator::Eval(const char* data, TESObjectREFR* reference, TES
                                             Value1.m_dFloatingPointValue = 1.0;
                                         else
                                         {
-                                            SetError(EXPRESSION_ERROR_ERROR_EXPRESSION_DIVIDEBYZERO);
+                                            reinterpret_cast<::Holder5934d0 *>(this)->SetError((*(int *)&(const ::EXPRESSION_ERROR &)(EXPRESSION_ERROR_ERROR_EXPRESSION_DIVIDEBYZERO)));
                                             goto failure;
                                         }
                                     }
@@ -387,7 +403,7 @@ double ExpressionEvaluator::Eval(const char* data, TESObjectREFR* reference, TES
                                             Value1.m_dFloatingPointValue = 1.0;
                                         else
                                         {
-                                            SetError(EXPRESSION_ERROR_ERROR_EXPRESSION_DIVIDEBYZERO);
+                                            reinterpret_cast<::Holder5934d0 *>(this)->SetError((*(int *)&(const ::EXPRESSION_ERROR &)(EXPRESSION_ERROR_ERROR_EXPRESSION_DIVIDEBYZERO)));
                                             goto failure;
                                         }
                                     }
@@ -410,7 +426,7 @@ double ExpressionEvaluator::Eval(const char* data, TESObjectREFR* reference, TES
                                             Value1.m_dFloatingPointValue = 1.0;
                                         else
                                         {
-                                            SetError(EXPRESSION_ERROR_ERROR_EXPRESSION_DIVIDEBYZERO);
+                                            reinterpret_cast<::Holder5934d0 *>(this)->SetError((*(int *)&(const ::EXPRESSION_ERROR &)(EXPRESSION_ERROR_ERROR_EXPRESSION_DIVIDEBYZERO)));
                                             goto failure;
                                         }
                                     }
@@ -430,7 +446,7 @@ double ExpressionEvaluator::Eval(const char* data, TESObjectREFR* reference, TES
                                             Value1.m_dFloatingPointValue = 1.0;
                                         else
                                         {
-                                            SetError(EXPRESSION_ERROR_ERROR_EXPRESSION_DIVIDEBYZERO);
+                                            reinterpret_cast<::Holder5934d0 *>(this)->SetError((*(int *)&(const ::EXPRESSION_ERROR &)(EXPRESSION_ERROR_ERROR_EXPRESSION_DIVIDEBYZERO)));
                                             goto failure;
                                         }
                                     }
@@ -445,7 +461,7 @@ double ExpressionEvaluator::Eval(const char* data, TESObjectREFR* reference, TES
                             }
                             break;
                         default:
-                            Warning("SCRIPTS: Unhandled operator '%s' in Expression::Eval()", token.text);
+                            ::FUN_005b5e40();
                             Value.Type = 0;
                             Value.m_lIntegerValue = 0;
                         }
@@ -453,14 +469,14 @@ double ExpressionEvaluator::Eval(const char* data, TESObjectREFR* reference, TES
                     }
                     else
                     {
-                        SetError(EXPRESSION_ERROR_ERROR_EXPRESSION_STACKUNDERFLOW);
+                        reinterpret_cast<::Holder5934d0 *>(this)->SetError((*(int *)&(const ::EXPRESSION_ERROR &)(EXPRESSION_ERROR_ERROR_EXPRESSION_STACKUNDERFLOW)));
                         goto failure;
                     }
                 }
             }
             else
             {
-                SetError(EXPRESSION_ERROR_ERROR_EXPRESSION_STACKUNDERFLOW);
+                reinterpret_cast<::Holder5934d0 *>(this)->SetError((*(int *)&(const ::EXPRESSION_ERROR &)(EXPRESSION_ERROR_ERROR_EXPRESSION_STACKUNDERFLOW)));
                 goto failure;
             }
         }
@@ -471,7 +487,7 @@ double ExpressionEvaluator::Eval(const char* data, TESObjectREFR* reference, TES
                 Value.Type = 0;
                 Value.m_lIntegerValue = atol(token.text);
             }
-            else if (FUN_004b12d0(token.text))
+            else if (::FUN_004b12d0((char *)(token.text)))
             {
                 Value.Type = 1;
                 Value.m_dFloatingPointValue = atof(token.text);
@@ -486,7 +502,7 @@ double ExpressionEvaluator::Eval(const char* data, TESObjectREFR* reference, TES
                 else if (!Script::GetValue(Value.m_dFloatingPointValue, token.text, iOffset, reference, container,
                                            script, locals, false))
                 {
-                    SetError(EXPRESSION_ERROR_ERROR_EXPRESSION_SYNTAX);
+                    reinterpret_cast<::Holder5934d0 *>(this)->SetError((*(int *)&(const ::EXPRESSION_ERROR &)(EXPRESSION_ERROR_ERROR_EXPRESSION_SYNTAX)));
                     goto failure;
                 }
             }
@@ -498,15 +514,15 @@ double ExpressionEvaluator::Eval(const char* data, TESObjectREFR* reference, TES
         if (input.consumed)
         {
             input.data += input.consumed;
-            input.consumed = ParseToken(&pToken, token.text, &token.type, skip, &input.data);
+            input.consumed = reinterpret_cast<::FNVTokenParser *>(this)->ParseToken(&pToken, token.text, (unsigned int *)(::ExpressionOperator *)(&token.type), skip, (int *)(&input.data));
             if (!input.consumed)
                 token.text = 0;
         }
     }
-    if (!m_kOperandStack.FUN_00594d20())
+    if (!reinterpret_cast<::FUN_00594d20_Class *>(&(m_kOperandStack))->FUN_00594d20())
     {
-        Value = m_kOperandStack.PopEntry();
-        if (m_kOperandStack.FUN_00594d20())
+        Value = (*(::ExpressionValue *)(reinterpret_cast<::FUN_00594cd0_Class *>(&(m_kOperandStack))->PopEntry({})));
+        if (reinterpret_cast<::FUN_00594d20_Class *>(&(m_kOperandStack))->FUN_00594d20())
         {
             if (!Value.Type)
                 return Value.m_lIntegerValue;
@@ -514,10 +530,10 @@ double ExpressionEvaluator::Eval(const char* data, TESObjectREFR* reference, TES
                 return Value.m_dFloatingPointValue;
         }
         else
-            SetError(EXPRESSION_ERROR_ERROR_EXPRESSION_SYNTAX);
+            reinterpret_cast<::Holder5934d0 *>(this)->SetError((*(int *)&(const ::EXPRESSION_ERROR &)(EXPRESSION_ERROR_ERROR_EXPRESSION_SYNTAX)));
     }
     else
-        SetError(EXPRESSION_ERROR_ERROR_EXPRESSION_SYNTAX);
+        reinterpret_cast<::Holder5934d0 *>(this)->SetError((*(int *)&(const ::EXPRESSION_ERROR &)(EXPRESSION_ERROR_ERROR_EXPRESSION_SYNTAX)));
 failure:
     return 0.0;
 }
@@ -525,7 +541,6 @@ failure:
 extern "C" int __cdecl _strlen(const char*);
 extern "C" int __cdecl _sscanf(const char*, const char*, ...);
 int __cdecl FUN_00ec8965(int);
-extern const char* const DAT_01019f08;
 
 // @fnv 0x00b37f50
 const char* __cdecl FUN_00b37f50(const char* pInput, char* pToken)
@@ -588,7 +603,6 @@ struct Holder0394
     char _pad[0x18];
     Node0394* f18;
     int f1c;
-    void FUN_00b3a050(Node0394*);
     void ResetList();
 };
 // Calls FUN_00b3a050 on f18->f1, then points f18's f1, f0 and f2 links back to f18 and clears f1c.
@@ -597,7 +611,7 @@ void Holder0394::ResetList()
 {
     int padA;
     int padB;
-    FUN_00b3a050(f18->f1);
+    reinterpret_cast<::fnv_00b3a050::treeb3a::TrTree *>(this)->FUN_00b3a050((::fnv_00b3a050::treeb3a::TrNode *)(f18->f1));
     f18->f1 = f18;
     f1c = 0;
     {
@@ -619,14 +633,13 @@ struct FUN_00b3b810_shell
     char _pad[0x18];
     NodeB* f18;
     int f1c;
-    NodeB* FUN_00b3b880();
     void InitNode();
 };
 // Gets a node via FUN_00b3b880, sets its byte at 0x2d to 1, points its f0/f4/f8 links at itself, and clears f1c.
 // @fnv 0x00b3b810
 void FUN_00b3b810_shell::InitNode()
 {
-    f18 = FUN_00b3b880();
+    f18 = ((::NodeB *)(reinterpret_cast<::fnv_00b3b880::Tree *>(this)->FUN_00b3b880()));
     ((unsigned char*)f18)[0x2d] = 1;
     f18->f4 = f18;
     NodeB* p = f18;
@@ -744,7 +757,6 @@ struct VecB37
 struct HostB37
 {
     float x, y, z;
-    void FUN_00b380e0(VecB37*, VecB37*, float);
     void FUN_00b37cc0(InputB37*);
 };
 // Parses x, y, z and an optional list of VecB37 pairs with a float from input, then applies each via FUN_00b380e0.
@@ -781,7 +793,7 @@ void HostB37::FUN_00b37cc0(InputB37* input)
                 first4.y = (float)atof(token);
                 _cursor = FUN_00b37f50(_cursor, token);
                 value2 = (float)atof(token);
-                FUN_00b380e0(&second3, &first4, value2);
+                reinterpret_cast<::OwnerB380 *>(this)->FUN_00b380e0(&second3, &first4, value2);
             }
         }
     }
@@ -795,8 +807,6 @@ struct FUN_0044d6c0_class
     void* FUN_00ec78f1(void*** ppArg);
 };
 extern "C" __declspec(noreturn) void __stdcall __CxxThrowException(void* pException, void* apThrowInfo);
-extern void* DAT_010176f8;
-extern const char* const DAT_01140ef8;
 // Throws an exception if a*0x30 would overflow an unsigned int, otherwise calls operator new with a*0x30 bytes.
 // @fnv 0x00b3b540
 void __cdecl FUN_00b3b540(int aiCount, int aiUnused)
@@ -808,10 +818,10 @@ void __cdecl FUN_00b3b540(int aiCount, int aiUnused)
         void** p = 0;
         FUN_0044d6c0_class e5;
         e5.FUN_00ec78f1(&p);
-        e5.m0 = (int)&DAT_010176f8;
-        __CxxThrowException(&e5, (void*)&DAT_01140ef8);
+        e5.m0 = (int)&(*reinterpret_cast<void * *>(&::DAT_010176f8));
+        __CxxThrowException(&e5, (void*)&(*reinterpret_cast<const char *const *>(&::DAT_01140ef8)));
     }
-    operator new(aiCount * 0x30);
+    ::FUN_00401000(aiCount * 0x30);
 }
 
 struct FUN_00b31270
@@ -847,14 +857,13 @@ struct FUN_00b377c0
     FUN_00b31270 m3;
     FUN_00b31270 m4;
     FUN_00b377c0(int a0);
-    void FUN_00b1c7a0(int a0);
 };
 // @fnv 0x00b377c0
 FUN_00b377c0::FUN_00b377c0(int a0) : m0(), m1(), m2(), m3(), m4()
 {
     char buf[0x108];
     int u1;
-    FUN_00b1c7a0(a0);
+    reinterpret_cast<::FUN_00b1c7a0_cls *>(this)->FUN_00b1c7a0((*(const ::FUN_00b1c7a0_cls *)(a0)));
 }
 
 unsigned int __cdecl FUN_00ec7c56(void);

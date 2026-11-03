@@ -3,7 +3,9 @@
 
 // src/gamebryo2.2/corelibs/niparticle/nipsysmeshemitter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysmeshemitter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern int g_01202500;
+#include "fnv/symbols_00639000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_01202000.h"
 int* __cdecl FUN_00c1f4f0();
 struct NiAVObject;
 struct NiPSysVolumeEmitter
@@ -11,18 +13,15 @@ struct NiPSysVolumeEmitter
     NiPSysVolumeEmitter();
     void FUN_00c1fa30(NiAVObject* pkEmitterObj);
 };
-extern void* g_01202508;
 void* __cdecl FUN_00c1fa40();
 
-extern "C" int __cdecl FUN_006397b0();
-extern double DAT_01029790;
 
 // @fnv 0x00639780
 float __cdecl FUN_00639780()
 {
     int v;
     float result;
-    v = FUN_006397b0();
+    v = ::FUN_006397b0();
     result = (float)v / DAT_01029790;
     return result;
 }

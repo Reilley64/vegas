@@ -2,8 +2,8 @@
 // src/gamebryo2.2/corelibs/nimain/nifrustum.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nifrustum.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" int NiSprintf(char*, unsigned int, const char*, ...);
-extern "C" void* _NiMalloc(unsigned int);
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00aa1000.h"
 extern "C" unsigned int strlen(const char*);
 
 struct NiFrustum
@@ -26,8 +26,8 @@ char* NiFrustum::FUN_00a71bc0(const char* pcPrefix)
     unsigned int uiLen;
 
     uiLen = strlen(pcPrefix);
-    pcString = (char*)_NiMalloc(uiLen + 0x50);
-    NiSprintf(pcString, uiLen + 0x50, "%s = (N=%g,F=%g,L=%g,R=%g,T=%g,B=%g,O=%u)", pcPrefix, m_fNearPlane, m_fFarPlane,
+    pcString = (char*)::FUN_00aa1070(uiLen + 0x50);
+    ::NiSprintf(pcString, uiLen + 0x50, "%s = (N=%g,F=%g,L=%g,R=%g,T=%g,B=%g,O=%u)", pcPrefix, m_fNearPlane, m_fFarPlane,
               m_fLeftBound, m_fRightBound, m_fTopBound, m_fBottomBound, m_bOrthographic);
     return pcString;
 }

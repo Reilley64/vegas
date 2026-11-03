@@ -3,6 +3,10 @@
 
 // src/gamebryo2.2/corelibs/nisystem/nimemobject_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/gamebryo2.2/corelibs/nisystem/nimemobject.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include "fnv/decl/FUN_00633ba0_Class.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
 #include "nimemobject_decls.h"
 
 struct FUN_00a5c200 : ::NiObject
@@ -17,7 +21,7 @@ struct FUN_00a5c200 : ::NiObject
 FUN_00a5c200::FUN_00a5c200()
 {
     words[0] = (unsigned int)::DAT_0109b244;
-    name = ::EmptyFS;
+    name = (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220));
     controller = 0;
     extraData = 0;
     extraDataSize = 0;
@@ -49,7 +53,7 @@ void __cdecl FUN_00aa1420(int arg)
 
     obj->S_00aa1420_v1(
         (*(volatile int*)& arg = 4, &value), &arg, 2, 0,
-        (*(volatile int*)& value = arg ? arg : 1, obj = reinterpret_cast<S_00aa1420_Holder*>(DAT_011f6080)->m_00, 0),
+        (*(volatile int*)& value = arg ? arg : 1, obj = reinterpret_cast<S_00aa1420_Holder*>((*reinterpret_cast<void * *>(&::DAT_011f6080)))->m_00, 0),
         -1, 0);
 }
 
@@ -74,7 +78,7 @@ class Manager
   public:
     static Manager& Current()
     {
-        return *static_cast<Manager*>(::DAT_011f6080);
+        return *static_cast<Manager*>((*reinterpret_cast<void * *>(&::DAT_011f6080)));
     }
 
     void Deallocate(void* memory, unsigned int size)

@@ -1,9 +1,10 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-void* __cdecl FUN_00aa1070(unsigned int a);
+#include "fnv/symbols_00aa0000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00e93000.h"
 void* __cdecl memmove(void* d, const void* s, unsigned int n);
-int __cdecl FUN_00aa0020(int a, int b, const char* c);
 
 // Allocates a buffer of size b, copies a into it, stores the pointer and size in c and d, and returns false with an error if a or b is zero.
 // @fnv 0x00e98370
@@ -21,7 +22,7 @@ bool __stdcall CopyShaderBuffer(int apSource, int uiSize, int* pOutBuffer, int* 
         *pOutSize = uiSize;
         return true;
     }
-    FUN_00aa0020(1, g, "Invalid shader buffer\n");
+    ::FUN_00aa0020(1, g, "Invalid shader buffer\n");
     return false;
 }
 
@@ -30,8 +31,6 @@ extern "C" const char str_010f1628[];
 extern "C" const char str_010f12a8[];
 
 extern "C" void* __cdecl FUN_00ec61c0(void* d, int v, unsigned int n);
-extern "C" void __cdecl FUN_00aa10f0(void* p);
-extern "C" bool __cdecl FindShaderProgramFile(const char* in, char* out, unsigned int n);
 
 extern "C" __declspec(dllimport) void* __stdcall CreateFileA(const char*, unsigned int, unsigned int, void*,
                                                              unsigned int, unsigned int, void*);
@@ -59,20 +58,20 @@ bool __stdcall FUN_00e981f0(const char* apFilePath, void** apOutBuffer, unsigned
 
     if (apFilePath == 0 || *apFilePath == 0)
     {
-        FUN_00aa0020(1, aiContext, str_010f12a8);
+        ::FUN_00aa0020(1, aiContext, str_010f12a8);
         return false;
     }
 
-    if (!FindShaderProgramFile(apFilePath, szResolvedPath, 0x104))
+    if (!::FindShaderProgramFile(apFilePath, szResolvedPath, 0x104))
     {
-        ((FUN_00aa0020_4args)FUN_00aa0020)(1, aiContext, str_010f1338, apFilePath);
+        ((FUN_00aa0020_4args)((int (&)(int, int, const char *))::FUN_00aa0020))(1, aiContext, str_010f1338, apFilePath);
         return false;
     }
 
     hFile = CreateFileA(szResolvedPath, 0x80000000, 1, 0, 3, 0, 0);
     if (hFile == (void*)-1)
     {
-        ((FUN_00aa0020_4args)FUN_00aa0020)(1, aiContext, str_010f1628, szResolvedPath);
+        ((FUN_00aa0020_4args)((int (&)(int, int, const char *))::FUN_00aa0020))(1, aiContext, str_010f1628, szResolvedPath);
         return false;
     }
 
@@ -87,7 +86,7 @@ bool __stdcall FUN_00e981f0(const char* apFilePath, void** apOutBuffer, unsigned
     CloseHandle(hFile);
     if (uiBytesRead != uiFileSize)
     {
-        FUN_00aa10f0(pBuffer);
+        ::FUN_00aa10f0(pBuffer);
         return false;
     }
     *outSize = uiFileSize;

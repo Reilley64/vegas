@@ -1,4 +1,8 @@
 
+#include "fnv/decl/FUN_00a386a0_shell.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_011a8000.h"
+#include "fnv/symbols_011f3000.h"
 class NiObjectNET;
 class NiPoint3
 {
@@ -10,10 +14,6 @@ class NiQuaternion
   public:
     float w, x, y, z;
 };
-extern NiPoint3 DAT_011a8400;
-extern NiQuaternion DAT_011f3704;
-extern float DAT_01096b8c;
-extern float DAT_0109696c;
 class NiQuatTransform
 {
   public:
@@ -22,7 +22,6 @@ class NiQuatTransform
     NiPoint3 m_kTranslate;
     NiQuaternion m_kRotate;
     float m_fScale;
-    void TransformBy(NiQuatTransform&);
     NiQuatTransform CombineTransforms(const NiQuatTransform&);
     bool IsMarkedInvalid() const
     {
@@ -63,6 +62,5 @@ class NiBlendAccumTransformInterpolator
     NiQuatTransform m_kAccumulatedTransform;
     AccumItem* m_pAccumulationData;
     bool m_bHasAccumulation;
-    void UpdateAccumulation(float, NiObjectNET*);
     bool UpdateAccumulatedTransform(float, NiObjectNET*, NiQuatTransform&);
 };

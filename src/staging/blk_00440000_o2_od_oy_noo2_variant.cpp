@@ -5,9 +5,15 @@
 
 // src/staging/blk_00440000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a3c90.h"
+#include "fnv/symbols_00450000.h"
 #include "../../include/layout_support.h"
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 struct S004586d0_Obj
 {
     __declspec(align(16)) float x, y, z, w;
@@ -24,7 +30,6 @@ float S004586d0_Obj::FUN_004586d0()
 struct Holder
 {
     __m128 value;
-    void FUN_004a3c90(Holder* other);
     Holder* FUN_00458700(Holder* target, int index);
 };
 
@@ -34,16 +39,16 @@ Holder* Holder::FUN_00458700(Holder* target, int index)
     switch (index)
     {
     case 0:
-        target->FUN_004a3c90(this);
+        new ((void *)(target)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(this)));
         return target;
     case 1:
-        target->FUN_004a3c90((Holder*)&static_cast<const __m128&>(_mm_shuffle_ps(value, value, 0x55)));
+        new ((void *)(target)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)((Holder*)&static_cast<const __m128&>(_mm_shuffle_ps(value, value, 0x55)))));
         return target;
     case 2:
-        target->FUN_004a3c90((Holder*)&static_cast<const __m128&>(_mm_shuffle_ps(value, value, 0xaa)));
+        new ((void *)(target)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)((Holder*)&static_cast<const __m128&>(_mm_shuffle_ps(value, value, 0xaa)))));
         return target;
     default:
-        target->FUN_004a3c90((Holder*)&static_cast<const __m128&>(_mm_shuffle_ps(value, value, 0xff)));
+        new ((void *)(target)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)((Holder*)&static_cast<const __m128&>(_mm_shuffle_ps(value, value, 0xff)))));
         return target;
     }
 }
@@ -51,7 +56,7 @@ Holder* Holder::FUN_00458700(Holder* target, int index)
 class S00458900_Comparison
 {
   public:
-    bool FUN_00458990(int mask) const;  // allAreSet
+      // allAreSet
     __m128 m_uiMask;
 };
 
@@ -59,24 +64,12 @@ class S00458900_Vector
 {
   public:
     S00458900_Vector();                                                       // FUN_006815c0
-    void FUN_00458a10(const S00458900_Vector* a, const S00458900_Vector* b);  // setSub4
-    void FUN_00458ad0(const S00458900_Vector* v);                             // setAbs4
-    void FUN_004589c0(float f);
+      // setSub4
+                                 // setAbs4
     S00458900_Comparison FUN_00458a60(const S00458900_Vector* v) const;  // compareLessThan4
     bool FUN_00458900(const S00458900_Vector* v, float epsilon) const;   // equals3
     __m128 m_vComponents;
 };
-
-// @fnv 0x00458900
-bool S00458900_Vector::FUN_00458900(const S00458900_Vector* v, float epsilon) const
-{
-    S00458900_Vector kDiff;
-    kDiff.FUN_00458a10(this, v);
-    kDiff.FUN_00458ad0(&kDiff);
-    S00458900_Vector kEpsilon;
-    kEpsilon.FUN_004589c0(epsilon);
-    return kDiff.FUN_00458a60(&kEpsilon).FUN_00458990(7);
-}
 
 struct FUN_00458990_Holder
 {
@@ -139,16 +132,26 @@ Mask4* VecMask::FUN_00458a60(Mask4* out, const __m128* b)
     return out;
 }
 
-extern __m128 DAT_01017d10;  // abs mask (0x7fffffff x4)
+  // abs mask (0x7fffffff x4)
 
 struct S00458ad0_Vector
 {
     __m128 m_vComponents;
     void FUN_00458ad0(const S00458ad0_Vector* v);  // setAbs4
 };
+// @fnv 0x00458900
+bool S00458900_Vector::FUN_00458900(const S00458900_Vector* v, float epsilon) const
+{
+    S00458900_Vector kDiff;
+    reinterpret_cast<::S00458a10_Vector *>(&(kDiff))->FUN_00458a10((const ::S00458a10_Vector *)(const ::S00458900_Vector *)(this), (const ::S00458a10_Vector *)(v));
+    reinterpret_cast<::S00458ad0_Vector *>(&(kDiff))->FUN_00458ad0((const ::S00458ad0_Vector *)(const ::S00458900_Vector *)(&kDiff));
+    S00458900_Vector kEpsilon;
+    reinterpret_cast<::FUN_004589c0_cls *>(&(kEpsilon))->FUN_004589c0(epsilon);
+    return ((bool)(reinterpret_cast<::FUN_00458990_Holder *>((void *)(void *)&(const ::S00458900_Comparison &)(kDiff.FUN_00458a60(&kEpsilon)))->FUN_00458990(7)));
+}
 
 // @fnv 0x00458ad0
 void S00458ad0_Vector::FUN_00458ad0(const S00458ad0_Vector* v)
 {
-    m_vComponents = _mm_and_ps(v->m_vComponents, DAT_01017d10);
+    m_vComponents = _mm_and_ps(v->m_vComponents, ::DAT_01017d10);
 }

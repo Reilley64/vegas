@@ -1,6 +1,7 @@
 // Source layout: MobileObject. PC corrections are in generate_headers.py.
 #ifndef FNV_INTERFACE_REBASE_FNV_INTERFACE_PLAYER_MOBILEOBJECT_H
 #define FNV_INTERFACE_REBASE_FNV_INTERFACE_PLAYER_MOBILEOBJECT_H
+#include "fnv/decl/FUN_00935a40_cls.h"
 #include "interface_rebase_layout_support.h"
 #include "interface_rebase_TESObjectREFR.h"
 class MobileObject : public TESObjectREFR
@@ -72,7 +73,6 @@ class MobileObject : public TESObjectREFR
     virtual void Unk_BE(void);
     virtual void Unk_BF(void);
     virtual void Unk_C0(void);
-    bool HasSaidTopicInfo(TESTopicInfo* info);
 };
 FNV_STATIC_ASSERT(sizeof(MobileObject) == 0x88);
 FNV_STATIC_ASSERT(offsetof(MobileObject, m_pBaseProcess) == 0x68);

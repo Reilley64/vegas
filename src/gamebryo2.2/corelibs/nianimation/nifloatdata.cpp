@@ -1,12 +1,26 @@
 // gamebryo2.2/corelibs/nianimation/nifloatdata.cpp: NiFloatData (10 functions)
 
+#include <new>
+#include "fnv/decl/A5D6E0This.h"
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/FUN_00a5d3a0.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
+#include "fnv/decl/NiObjectD510.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a3d000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_0102d000.h"
+#include "fnv/symbols_011f3000.h"
 #include "nifloatdata_decls.h"
 
 // @fnv 0x00a3cdc0
 void NiFloatData::SetColorKeys(TimedAnimationKey* keys, unsigned int count, AnimationKey::KeyType eKeyType)
 {
     if (m_pKeyArray)
-        DAT_011f38a0[m_eRequestType](m_pKeyArray);
+        (*reinterpret_cast<void (**[])(TimedAnimationKey *)>(&::DAT_011f38a0))[m_eRequestType](m_pKeyArray);
     if (keys && count && eKeyType)
     {
         m_ucKeyDataSize = DAT_011f3758[eKeyType];
@@ -28,22 +42,18 @@ struct FUN_00a3cc80_shell : public NiFloatData
     void FUN_00a3cc80();
 };
 
-extern void(__cdecl* DAT_011f38a0[])(TimedAnimationKey*);
-extern const void* vftable_NiFloatData[];
-void __fastcall FUN_00a5d3d0(NiObject*);
 
 // @fnv 0x00a3cc80
 void FUN_00a3cc80_shell::FUN_00a3cc80()
 {
-    *(const void***)this = vftable_NiFloatData;
+    *(const void***)this = (*reinterpret_cast<const void * (*)[]>((void *)&::fnv_00a3cd00::vftable_NiFloatData));
     if (m_pKeyArray)
     {
-        DAT_011f38a0[m_eRequestType](m_pKeyArray);
+        (*reinterpret_cast<void (**[])(TimedAnimationKey *)>(&::DAT_011f38a0))[m_eRequestType](m_pKeyArray);
     }
-    FUN_00a5d3d0(this);
+    reinterpret_cast<class ::FUN_00a5d3d0 *>((this))->FUN_00a5d3d0::~FUN_00a5d3d0();
 }
 
-void __cdecl UpdateSlotStates(int, int, void*, void*, float, float);
 struct S00a3cc40
 {
     char _0[8];
@@ -57,11 +67,10 @@ struct S00a3cc40
 void S00a3cc40::FUN_00a3cc40(float m_fStartTime, float m_fMaximumDistance)
 {
     void* pkKeys = m_pKeyArray;
-    UpdateSlotStates(0, m_eRequestType, &pkKeys, &m_uiNumKeys, m_fStartTime, m_fMaximumDistance);
+    ::UpdateSlotStates(0, m_eRequestType, (void **)(void *)(&pkKeys), (int *)(void *)(&m_uiNumKeys), m_fStartTime, m_fMaximumDistance);
     m_pKeyArray = pkKeys;
 }
 
-extern unsigned char DAT_41890871[];
 struct FUN_00a3ccb0_Cls
 {
     char _pad0[8];
@@ -77,7 +86,7 @@ void FUN_00a3ccb0_Cls::FUN_00a3ccb0(void* keys, unsigned int numKeys, int type)
 {
     if (keys && numKeys && type)
     {
-        m_ucKeyDataSize = DAT_41890871[type];
+        m_ucKeyDataSize = ::DAT_011f3758[type];
         m_pKeyArray = keys;
         m_uiNumKeys = numKeys;
         m_eRequestType = type;
@@ -97,9 +106,7 @@ struct A51BF0Base
     static void* __cdecl operator new(unsigned int size);
 };
 
-void __fastcall _Call_a5d3a0(void* object);
 
-extern const char vftable_NiFloatData[];
 
 // @fnv 0x00a3cd00
 NiFloatData* CreateNiFloatData()
@@ -108,7 +115,7 @@ NiFloatData* CreateNiFloatData()
 
     if (object)
     {
-        _Call_a5d3a0(object);
+        new ((void *)(object)) struct ::FUN_00a5d3a0();
 
         object->m_uiNumKeys = 0;
         *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(object) + 0x0c) = 0;
@@ -132,8 +139,6 @@ struct StrArr
     unsigned short m_uiValue5;
     unsigned short m_uiGrowSize;
 
-    void SetSize(unsigned int size);
-    void SetAt(unsigned int index, char*& value);
 };
 
 struct GlobalObjectO2_00a7b610
@@ -149,34 +154,30 @@ struct FUN_00a3d050_shell
     void FUN_00a3d050(StrArr* strings);
 };
 
-extern GlobalObjectO2_00a7b610* g_011f3748;
 
-void __stdcall AppendCameraPathEntries(StrArr* strings);
-char* __cdecl _FUN_00a7d330(GlobalObjectO2_00a7b610* object);
-char* __cdecl FUN_00a7d510(char const* name, unsigned int value);
 
 // @fnv 0x00a3d050
 void FUN_00a3d050_shell::FUN_00a3d050(StrArr* strings)
 {
-    AppendCameraPathEntries(strings);
+    reinterpret_cast<::A5D6E0This *>((strings))->AppendCameraPathEntries({});
 
-    char* value = _FUN_00a7d330(g_011f3748);
+    char* value = ::FUN_00a7d330((const char *)((*reinterpret_cast<::GlobalObjectO2_00a7b610 * *>(&::g_011f3748))));
     unsigned int index = strings->m_uiNumSlots;
     unsigned int capacity = strings->m_uiCapacity;
 
     if (index >= capacity)
-        strings->SetSize(index + strings->m_uiGrowSize);
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_uiGrowSize);
 
-    strings->SetAt(index, value);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 
     value = FUN_00a7d510("m_uiNumKeys", m_uiNumKeys);
     index = strings->m_uiNumSlots;
     capacity = strings->m_uiCapacity;
 
     if (index >= capacity)
-        strings->SetSize(index + strings->m_uiGrowSize);
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_uiGrowSize);
 
-    strings->SetAt(index, value);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 }
 
 struct WriteStream
@@ -200,29 +201,26 @@ struct NiStream
 };
 struct NiObject_Ext : NiObject
 {
-    void FUN_00a89af0(NiStream*);
 };
 struct FUN_00a3cfd0_shell : NiFloatData
 {
     void WriteToStream(NiStream*);
 };
-extern void(__cdecl* DAT_011f3a50[])(NiStream*, TimedAnimationKey*, unsigned int);
 // @fnv 0x00a3cfd0
 void FUN_00a3cfd0_shell::WriteToStream(NiStream* stream)
 {
-    reinterpret_cast<NiObject_Ext*>(this)->FUN_00a89af0(stream);
+    ::FUN_00a89af0((int)(reinterpret_cast<NiObject_Ext*>(this)));
     stream->GetWriter()->Write(&m_uiNumKeys);
     if (m_uiNumKeys > 0)
     {
         stream->GetWriter()->Write(&m_eRequestType);
-        DAT_011f3a50[m_eRequestType](stream, m_pKeyArray, m_uiNumKeys);
+        (*reinterpret_cast<void (**[])(NiStream *, TimedAnimationKey *, unsigned int)>(&::g_apfnA29FE0Load))[m_eRequestType](stream, m_pKeyArray, m_uiNumKeys);
     }
 }
 
 struct FUN_00a3ce20_shell : public NiFloatData
 {
     void FUN_00a3ce20(float m_fStartTime, float m_fMaximumDistance, NiFloatData** ppResult);
-    void FUN_00a5d510(NiFloatData** ppOut);
 };
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* Addend);
@@ -242,14 +240,12 @@ struct NiRefShell : public NiObject
     }
 };
 
-extern void __cdecl FUN_00a3d630(int, int, TimedAnimationKey*, unsigned int, float, float, TimedAnimationKey**,
-                                 unsigned int*);
 
 // @fnv 0x00a3ce20
 void FUN_00a3ce20_shell::FUN_00a3ce20(float m_fStartTime, float m_fMaximumDistance, NiFloatData** ppResult)
 {
     NiFloatData* pData = 0;
-    FUN_00a5d510(&pData);
+    reinterpret_cast<::NiObjectD510 *>(this)->FUN_00a5d510((*(::NiPointerD510 *)(&pData)));
     NiFloatData* pCur = pData;
     if (pCur != 0)
         ((NiRefShell*)pCur)->AcquireReference();
@@ -257,8 +253,8 @@ void FUN_00a3ce20_shell::FUN_00a3ce20(float m_fStartTime, float m_fMaximumDistan
     {
         TimedAnimationKey* pKeys = 0;
         unsigned int uiNumKeys = 0;
-        FUN_00a3d630(0, (int)m_eRequestType, m_pKeyArray, m_uiNumKeys, m_fStartTime, m_fMaximumDistance, &pKeys,
-                     &uiNumKeys);
+        ::FUN_00a3d630(0, (int)m_eRequestType, m_pKeyArray, m_uiNumKeys, m_fStartTime, m_fMaximumDistance, (void **)(::TimedAnimationKey **)(&pKeys),
+                     (int *)(unsigned int *)(&uiNumKeys));
         pCur->SetColorKeys(pKeys, uiNumKeys, m_eRequestType);
     }
     NiFloatData* pOld = *ppResult;
@@ -277,11 +273,9 @@ void FUN_00a3ce20_shell::FUN_00a3ce20(float m_fStartTime, float m_fMaximumDistan
 }
 
 typedef bool(__cdecl* FUN_00a3cd40_KeyCmp)(void*, void*);
-extern FUN_00a3cd40_KeyCmp DAT_011f3ae0[];
 
 struct FUN_00a3cd40_cls : public NiFloatData
 {
-    bool IsSameAs(NiFloatData* other);
     bool FUN_00a3cd40(NiFloatData* other);
 };
 
@@ -289,7 +283,7 @@ struct FUN_00a3cd40_cls : public NiFloatData
 // @fnv 0x00a3cd40
 bool FUN_00a3cd40_cls::FUN_00a3cd40(NiFloatData* other)
 {
-    if (!IsSameAs(other))
+    if (!reinterpret_cast<::A5d470Class *>(this)->IsSameAs((::A5d470Object *)(other)))
     {
         return false;
     }
@@ -305,7 +299,7 @@ bool FUN_00a3cd40_cls::FUN_00a3cd40(NiFloatData* other)
     {
         return false;
     }
-    FUN_00a3cd40_KeyCmp cmp = DAT_011f3ae0[m_eRequestType];
+    FUN_00a3cd40_KeyCmp cmp = (*reinterpret_cast<bool (**[])(void *, void *)>(&::DAT_011f3ae0))[m_eRequestType];
     unsigned int iKeyIndex = 0;
     if (m_uiNumKeys > 0)
     {
@@ -325,14 +319,11 @@ bool FUN_00a3cd40_cls::FUN_00a3cd40(NiFloatData* other)
 
 typedef TimedAnimationKey*(__cdecl* CreateFn_cf)(NiStream&, unsigned int);
 typedef void(__cdecl* FillFn_cf)(TimedAnimationKey*, unsigned int, unsigned char);
-extern CreateFn_cf DAT_011f3db0[];
-extern FillFn_cf DAT_011f3780[];
 
 struct StreamStand_cf
 {
     void* vtable;
     unsigned int refCount;
-    void LoadStream(NiStream& stream);
 };
 
 struct KeyOwnerStand_cf
@@ -528,7 +519,7 @@ struct FUN_00a3cf10_cls : public NiFloatData
 // @fnv 0x00a3cf10
 void FUN_00a3cf10_cls::FUN_00a3cf10(NiStream& stream)
 {
-    reinterpret_cast<StreamStand_cf*>(this)->LoadStream(stream);
+    reinterpret_cast<::FUN_00a5d610_Object *>((reinterpret_cast<StreamStand_cf*>(this)))->ReadGroup((::NiStream *)&(stream));
     StreamView_cf* pStreamView = reinterpret_cast<StreamView_cf*>(&stream);
     unsigned int numKeys;
 
@@ -538,9 +529,9 @@ void FUN_00a3cf10_cls::FUN_00a3cf10(NiStream& stream)
         AnimationKey::KeyType keyType;
         LoadEnum(pStreamView->m_pUnderlyingStream, keyType);
         m_ucKeyDataSize = DAT_011f3758[keyType];
-        CreateFn_cf pCreateFn = DAT_011f3db0[keyType];
+        CreateFn_cf pCreateFn = (*reinterpret_cast<TimedAnimationKey *(**[])(NiStream &, unsigned int)>(&::DAT_011f3db0))[keyType];
         TimedAnimationKey* keys = pCreateFn(stream, numKeys);
-        FillFn_cf pFillFn = DAT_011f3780[keyType];
+        FillFn_cf pFillFn = (*reinterpret_cast<void (**[])(TimedAnimationKey *, unsigned int, unsigned char)>(&::DAT_011f3780))[keyType];
         pFillFn(keys, numKeys, m_ucKeyDataSize);
         reinterpret_cast<KeyOwnerStand_cf*>(this)->SetKeyData(keys, numKeys, keyType);
     }

@@ -3,6 +3,40 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00c1ba40
+#include <new>
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004b6190_shell.h"
+#include "fnv/decl/FUN_00eae690_Class.h"
+#include "fnv/decl/FUN_00eae9e0_cls.h"
+#include "fnv/decl/FUN_00eb3750.h"
+#include "fnv/decl/FnvCpu_FUN_00be0aa0_CpuObject.h"
+#include "fnv/decl/FnvCpu_FUN_00eae6f0_CpuObject.h"
+#include "fnv/decl/FnvCpu_FUN_00eae700_CpuObject.h"
+#include "fnv/decl/FnvCpu_FUN_00eae710_CpuObject.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiColor.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/S_00e9cb10_Obj.h"
+#include "fnv/decl/S_00eae7a0_Solver.h"
+#include "fnv/decl/S_00eaedc0_Class.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/fnv_00eae6d0__Isect.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00eaf000.h"
+#include "fnv/symbols_00eb1000.h"
+#include "fnv/symbols_00eb3000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01014000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
 int __cdecl FUN_00c1ba40()
 {
     return 2;
@@ -10,30 +44,17 @@ int __cdecl FUN_00c1ba40()
 
 struct P03MM
 {
-    void* Allocate(unsigned int);
 };
-extern P03MM g_memoryManager;
 struct NiBoundingVolume
 {
 };
 struct NiCapsuleBV : NiBoundingVolume
 {
-    NiCapsuleBV* FUN_00ea0640(const NiCapsuleBV&);
     NiBoundingVolume* FUN_00ea0700();
 };
-// @fnv 0x00ea0700
-NiBoundingVolume* NiCapsuleBV::FUN_00ea0700()
-{
-    NiCapsuleBV* pNewInstance = (NiCapsuleBV*)g_memoryManager.Allocate(0x3c);
-    if (pNewInstance)
-        return pNewInstance->FUN_00ea0640(*this);
-    return 0;
-}
-
 namespace fnv_00e9f170 {
 struct ComparableRecord
 {
-    bool FUN_00eae690(const ComparableRecord&) const;
 };
 struct NiBoundingVolume
 {
@@ -51,7 +72,7 @@ struct NiCapsuleBV : NiBoundingVolume
 // @fnv 0x00e9f170
 int NiCapsuleBV::FUN_00e9f170(const NiBoundingVolume& kABV) const
 {
-    if (kABV.F3() == 2 && ((const NiCapsuleBV&)kABV).m_kComparableRecord.FUN_00eae690(m_kComparableRecord))
+    if (kABV.F3() == 2 && ((bool)(reinterpret_cast<::FUN_00eae690_Class *>((void *)&(((const NiCapsuleBV&)kABV).m_kComparableRecord))->FUN_00eae690((const ::FUN_00eae690_Class &)(m_kComparableRecord)))))
         return 1;
     return 0;
 }
@@ -101,25 +122,8 @@ struct S00ea0640
     float vf;
     char pad[24];
     float vf2;
-    void FUN_00e9f1b0();
     S00ea0640* FUN_00ea0640(S00ea0640* a1);
 };
-// @fnv 0x00ea0640
-S00ea0640* S00ea0640::FUN_00ea0640(S00ea0640* apSource)
-{
-    v0 = (int)&DAT_010f17d0;
-    v1 = apSource->v1;
-    v2 = apSource->v2;
-    v3 = apSource->v3;
-    v4 = apSource->v4;
-    v5 = apSource->v5;
-    v6 = apSource->v6;
-    vf = apSource->vf;
-    vf2 = apSource->vf2;
-    FUN_00e9f1b0();
-    return this;
-}
-
 struct MatchList
 {
     int unk00;
@@ -152,7 +156,6 @@ bool __cdecl FUN_00e9ec10(float value, MatchList* pMatchList, unsigned int arg3,
     return false;
 }
 
-extern double DAT_01011590;
 
 struct S_00e9f1b0_P3
 {
@@ -190,6 +193,29 @@ struct S_00e9f1b0_Cls
     float m38;
     void FUN_00e9f1b0();
 };
+// @fnv 0x00ea0700
+NiBoundingVolume* NiCapsuleBV::FUN_00ea0700()
+{
+    NiCapsuleBV* pNewInstance = (NiCapsuleBV*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(0x3c);
+    if (pNewInstance)
+        return ((::NiCapsuleBV *)(reinterpret_cast<::S00ea0640 *>((pNewInstance))->FUN_00ea0640((::S00ea0640 *)&(*this))));
+    return 0;
+}
+// @fnv 0x00ea0640
+S00ea0640* S00ea0640::FUN_00ea0640(S00ea0640* apSource)
+{
+    v0 = (int)&DAT_010f17d0;
+    v1 = apSource->v1;
+    v2 = apSource->v2;
+    v3 = apSource->v3;
+    v4 = apSource->v4;
+    v5 = apSource->v5;
+    v6 = apSource->v6;
+    vf = apSource->vf;
+    vf2 = apSource->vf2;
+    reinterpret_cast<::S_00e9f1b0_Cls *>(this)->FUN_00e9f1b0();
+    return this;
+}
 
 // Computes m20 as m04 minus m10 scaled by (m1c - m38), and m2c as that scaled delta times DAT_01011590.
 // @fnv 0x00e9f1b0
@@ -199,8 +225,6 @@ void S_00e9f1b0_Cls::FUN_00e9f1b0()
     m2c = (m10 * (m1c - m38)) * DAT_01011590;
 }
 
-extern float DAT_010141cc;
-extern float DAT_01017d00;
 
 struct S_00e9f400_P3
 {
@@ -226,13 +250,6 @@ struct S_00e9f400_Obj
     int unk3c;
     int unk40;
     int unk44;
-    void InitFromParams(int a, int b, float c, float d, float e, int f);
-    void Solve(int a, int b);
-    float FUN_00eae6f0();
-    int FUN_00be0aa0();
-    S_00e9f400_P3* FUN_00eae700();
-    S_00e9f400_P3* FUN_00eae710();
-    void FUN_00eae6d0();
 };
 
 // @fnv 0x00e9f400
@@ -240,25 +257,25 @@ bool __cdecl FUN_00e9f400(float p1, int p2, int p3, int p4, int p5, float* p6, S
                           S_00e9f400_P3* p9, S_00e9f400_P3* p10)
 {
     S_00e9f400_Obj obj;
-    obj.InitFromParams(p2, p4, p1, DAT_01017d00, DAT_010141cc, 0x20);
-    obj.Solve(p3, p5);
-    *p6 = obj.FUN_00eae6f0();
-    if (obj.FUN_00be0aa0() != 3 && obj.FUN_00be0aa0() != 2)
+    reinterpret_cast<::FUN_00eae9e0_cls *>(&(obj))->InitFromParams((::S_00eae9e0_P1 *)(p2), (::S_00eae9e0_P2 *)(p4), p1, ::AngularDashpotApplyD4DCB0::DAT_01017d00, ::DAT_010141cc, 0x20);
+    reinterpret_cast<::S_00eae7a0_Solver *>(&(obj))->Solve((*(const ::S_00eae7a0_Point *)(p3)), (*(const ::S_00eae7a0_Point *)(p5)));
+    *p6 = reinterpret_cast<::FnvCpu_FUN_00eae6f0_CpuObject *>(&(obj))->FUN_00eae6f0();
+    if (reinterpret_cast<::FnvCpu_FUN_00be0aa0_CpuObject *>(&(obj))->FUN_00be0aa0() != 3 && reinterpret_cast<::FnvCpu_FUN_00be0aa0_CpuObject *>(&(obj))->FUN_00be0aa0() != 2)
     {
-        obj.FUN_00eae6d0();
+        reinterpret_cast<::fnv_00eae6d0::Isect *>(&(obj))->FUN_00eae6d0();
         return false;
     }
-    *p7 = *obj.FUN_00eae700();
+    *p7 = *((::S_00e9f400_P3 *)(reinterpret_cast<::FnvCpu_FUN_00eae700_CpuObject *>(&(obj))->FUN_00eae700()));
     if (abWantNormal)
     {
-        *p9 = *obj.FUN_00eae710();
+        *p9 = *((::S_00e9f400_P3 *)(reinterpret_cast<::FnvCpu_FUN_00eae710_CpuObject *>(&(obj))->FUN_00eae710()));
         S_00e9f400_P3 n;
         n.x = -p9->x;
         n.y = -p9->y;
         n.z = -p9->z;
         *p10 = n;
     }
-    obj.FUN_00eae6d0();
+    reinterpret_cast<::fnv_00eae6d0::Isect *>(&(obj))->FUN_00eae6d0();
     return true;
 }
 
@@ -294,12 +311,7 @@ struct S_Sphere
     float radius;
 };
 
-extern float DAT_011f426c;
-extern float DAT_011f4270;
-extern float DAT_011f4274;
 
-float __cdecl FUN_00eaf310(const S_Seg* a, const S_Seg* b, float* s, float* t);
-float __cdecl DistanceSquaredToSegment(const S_Vec3* p, const S_Seg* b, float* s);
 
 // @fnv 0x00e9f620
 bool __cdecl SweepSphereAgainstCapsule(float t, S_Capsule* apCapsule, const S_Vec3* from, S_Sphere* apSphere,
@@ -312,7 +324,7 @@ bool __cdecl SweepSphereAgainstCapsule(float t, S_Capsule* apCapsule, const S_Ve
     float fDistSq;
     float s;
     float fSegParam2;
-    bool nz = d.x != DAT_011f426c || d.y != DAT_011f4270 || d.z != DAT_011f4274;
+    bool nz = d.x != (*reinterpret_cast<float *>((void *)&::NiPoint3::ZERO)) || d.y != (*reinterpret_cast<float *>(&::_DAT_011f4270)) || d.z != (*reinterpret_cast<float *>(&::_DAT_011f4274));
     if (nz)
     {
         S_Seg sweepSeg;
@@ -321,11 +333,11 @@ bool __cdecl SweepSphereAgainstCapsule(float t, S_Capsule* apCapsule, const S_Ve
         d.z *= t;
         sweepSeg.p = apSphere->pos;
         sweepSeg.d = d;
-        fDistSq = FUN_00eaf310(&sweepSeg, &apCapsule->seg, &s, &fSegParam2);
+        fDistSq = ::FUN_00eaf310((*(const ::S_Seg *)(&sweepSeg)), (*(const ::S_Seg *)(&apCapsule->seg)), (*(float *)(&s)), (*(float *)(&fSegParam2)));
     }
     else
     {
-        fDistSq = DistanceSquaredToSegment(&apSphere->pos, &apCapsule->seg, &s);
+        fDistSq = ::DistanceSquaredToSegment((*(const ::Vector3 *)(&apSphere->pos)), (*(const ::Segment3 *)(&apCapsule->seg)), &s);
     }
     float fRadiusSum = apCapsule->radius + apSphere->radius;
     float fRadiusSumSq = fRadiusSum * fRadiusSum;
@@ -335,10 +347,8 @@ bool __cdecl SweepSphereAgainstCapsule(float t, S_Capsule* apCapsule, const S_Ve
 namespace fnv_00ea04b0 {
 struct S_00ea04b0_Alloc
 {
-    void* FUN_00aa3e40(unsigned int sz) throw();
 };
 
-extern "C" S_00ea04b0_Alloc DAT_011f6238;
 
 struct S_00ea04b0_Vec3
 {
@@ -347,8 +357,6 @@ struct S_00ea04b0_Vec3
     float z;
 };
 
-extern "C" S_00ea04b0_Vec3 DAT_011f426c;
-extern "C" S_00ea04b0_Vec3 DAT_011a946c;
 
 struct S_00ea04b0_Obj
 {
@@ -367,17 +375,16 @@ struct S_00ea04b0_Obj
 
     static void* operator new(unsigned int sz) throw()
     {
-        return DAT_011f6238.FUN_00aa3e40(sz);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00ea04b0::S_00ea04b0_Alloc *>(&::g_memoryManager))))->FUN_00aa3e40(sz);
     }
     static void operator delete(void*, unsigned int) throw()
     {}
-    void FUN_00e9f1b0() throw();
 
     __forceinline S_00ea04b0_Obj(S_00ea04b0_Vec3 v1, S_00ea04b0_Vec3 v2) throw() : m_f1c(1.0f), m_f38(1.0f)
     {
         m_v04 = v2;
         m_v10 = v1;
-        FUN_00e9f1b0();
+        reinterpret_cast<::S_00e9f1b0_Cls *>(this)->FUN_00e9f1b0();
     }
 };
 
@@ -385,7 +392,7 @@ struct S_00ea04b0_Obj
 // @fnv 0x00ea04b0
 S_00ea04b0_Obj* CreateObjWithArg(void* arg)
 {
-    S_00ea04b0_Obj* p = new S_00ea04b0_Obj(DAT_011f426c, DAT_011a946c);
+    S_00ea04b0_Obj* p = new S_00ea04b0_Obj((*reinterpret_cast<::fnv_00ea04b0::S_00ea04b0_Vec3 *>(&::DAT_011a946c)), (*reinterpret_cast<::fnv_00ea04b0::S_00ea04b0_Vec3 *>((void *)&::NiPoint3::ZERO)));
     p->vfn_00(arg);
     return p;
 }
@@ -404,12 +411,10 @@ struct Holder
 
 struct SubA
 {
-    void FUN_00a59be0(unsigned int a1);
 };
 
 struct FUN_00ea0540_cls
 {
-    void FUN_00a89af0(unsigned int a1);
     void FUN_00ea0540(unsigned int a1);
 };
 
@@ -417,9 +422,9 @@ struct FUN_00ea0540_cls
 void FUN_00ea0540_cls::FUN_00ea0540(unsigned int a1)
 {
     unsigned int obj = a1;
-    this->FUN_00a89af0(obj);
-    reinterpret_cast<SubA*>((char*)this + 0x4)->FUN_00a59be0(obj);
-    reinterpret_cast<SubA*>((char*)this + 0x10)->FUN_00a59be0(obj);
+    ::FUN_00a89af0((int)(this));
+    reinterpret_cast<::NiColor *>((reinterpret_cast<SubA*>((char*)this + 0x4)))->LoadBinary((*(::NiStream *)(obj)));
+    reinterpret_cast<::NiColor *>((reinterpret_cast<SubA*>((char*)this + 0x10)))->LoadBinary((*(::NiStream *)(obj)));
 
     {
         Holder* h = *(Holder**)((char*)obj + 0x24c);
@@ -438,7 +443,7 @@ void FUN_00ea0540_cls::FUN_00ea0540(unsigned int a1)
         }
     }
 
-    reinterpret_cast<struct S00ea0640*>(this)->FUN_00e9f1b0();
+    reinterpret_cast<::S_00e9f1b0_Cls *>((reinterpret_cast<struct S00ea0640*>(this)))->FUN_00e9f1b0();
 }
 
 struct S_00ea05c0_Bin;
@@ -617,7 +622,6 @@ struct NiColorSaveHelper
     int a;
     int b;
     int c;
-    void SaveBinary(NiStream&);
 };
 struct NiBoundingVolume_SaveHelper
 {
@@ -625,7 +629,6 @@ struct NiBoundingVolume_SaveHelper
     virtual void unk1();
     virtual void unk2();
     virtual void unk3();
-    void SaveBinary(NiStream&);
 };
 struct S_00ea05c0_Cls : NiBoundingVolume_SaveHelper
 {
@@ -646,9 +649,9 @@ struct S_00ea05c0_Cls : NiBoundingVolume_SaveHelper
 // @fnv 0x00ea05c0
 void S_00ea05c0_Cls::FUN_00ea05c0(NiStream& aStream)
 {
-    NiBoundingVolume_SaveHelper::SaveBinary(aStream);
-    m04.SaveBinary(aStream);
-    m10.SaveBinary(aStream);
+    reinterpret_cast<::S_00e9cb10_Obj *>(this)->SaveValueToStream((::S_00e9cb10_Stream *)&(aStream));
+    reinterpret_cast<::NiColor *>(&(m04))->SaveBinary(aStream);
+    reinterpret_cast<::NiColor *>(&(m10))->SaveBinary(aStream);
     BinW(aStream.m250, &m1c, 4);
     BinW(aStream.m250, &m38, 4);
 }
@@ -671,30 +674,23 @@ struct S_00ea0690
     int unk30;
     int unk34;
     float unk38;
-    void FUN_00e9f1b0();
 };
-extern int DAT_011f426c;
-extern int DAT_011f4270;
-extern int DAT_011f4274;
-extern int DAT_011a946c;
-extern int DAT_011a9470;
-extern int DAT_011a9474;
 
 // Allocates a 0x3c-byte object, initializes its vtable, center and axis vectors and two floats to 1.0, calls FUN_00e9f1b0, and returns it.
 // @fnv 0x00ea0690
 S_00ea0690* __cdecl FUN_00ea0690()
 {
-    S_00ea0690* p = (S_00ea0690*)g_memoryManager.Allocate(0x3c);
+    S_00ea0690* p = (S_00ea0690*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(0x3c);
     if (p)
     {
-        S_P3 c = {DAT_011f426c, DAT_011f4270, DAT_011f4274};
-        S_P3 a = {DAT_011a946c, DAT_011a9470, DAT_011a9474};
+        S_P3 c = {(*reinterpret_cast<int *>((void *)&::NiPoint3::ZERO)), ::_DAT_011f4270, ::_DAT_011f4274};
+        S_P3 a = {::DAT_011a946c, ::DAT_011a9470, ::DAT_011a9474};
         p->unk1c = 1.0f;
         p->unk38 = 1.0f;
         p->vt = &DAT_010f17d0;
         p->center = c;
         p->axis = a;
-        p->FUN_00e9f1b0();
+        reinterpret_cast<::S_00e9f1b0_Cls *>((p))->FUN_00e9f1b0();
         return p;
     }
     return 0;
@@ -726,37 +722,28 @@ struct IsectObj
     int unk40;
     int unk44;
     int unk48;
-    void Initialize(int a, int b, float c, float d, float e, int f);
-    void Solve(int a, int b);
-    float FUN_00eae6f0();
-    int FUN_00be0aa0();
-    Vec3e* FUN_00eae700();
-    Vec3e* FUN_00eae710();
-    void FUN_00eae6d0();
 };
-extern float DAT_010141cc;
-extern float DAT_01017d00;
 // @fnv 0x00e9f510
 bool __cdecl FUN_00e9f510(float p1, int p2, int p3, int p4, int p5, float* p6, Vec3e* p7, bool abWantNormal, Vec3e* p9,
                           Vec3e* p10)
 {
     IsectObj o;
-    o.Initialize(p2, p4, p1, DAT_01017d00, DAT_010141cc, 0x20);
-    o.Solve(p3, p5);
-    *p6 = o.FUN_00eae6f0();
-    if (o.FUN_00be0aa0() != 3 && o.FUN_00be0aa0() != 2)
+    reinterpret_cast<::S_00eaedc0_Class *>(&(o))->Initialize(p2, p4, p1, ::AngularDashpotApplyD4DCB0::DAT_01017d00, ::DAT_010141cc, 0x20);
+    reinterpret_cast<::S_00eae7a0_Solver *>(&(o))->Solve((*(const ::S_00eae7a0_Point *)(p3)), (*(const ::S_00eae7a0_Point *)(p5)));
+    *p6 = reinterpret_cast<::FnvCpu_FUN_00eae6f0_CpuObject *>(&(o))->FUN_00eae6f0();
+    if (reinterpret_cast<::FnvCpu_FUN_00be0aa0_CpuObject *>(&(o))->FUN_00be0aa0() != 3 && reinterpret_cast<::FnvCpu_FUN_00be0aa0_CpuObject *>(&(o))->FUN_00be0aa0() != 2)
     {
-        o.FUN_00eae6d0();
+        reinterpret_cast<::fnv_00eae6d0::Isect *>(&(o))->FUN_00eae6d0();
         return false;
     }
-    *p7 = *o.FUN_00eae700();
+    *p7 = *((::Vec3e *)(reinterpret_cast<::FnvCpu_FUN_00eae700_CpuObject *>(&(o))->FUN_00eae700()));
     if (abWantNormal)
     {
-        *p9 = *o.FUN_00eae710();
+        *p9 = *((::Vec3e *)(reinterpret_cast<::FnvCpu_FUN_00eae710_CpuObject *>(&(o))->FUN_00eae710()));
         Vec3e n = {-p9->x, -p9->y, -p9->z};
         *p10 = n;
     }
-    o.FUN_00eae6d0();
+    reinterpret_cast<::fnv_00eae6d0::Isect *>(&(o))->FUN_00eae6d0();
     return true;
 }
 
@@ -767,10 +754,7 @@ struct TrianglePointSet
     S_Vec3 m_kPoint2;
 };
 
-extern const S_Vec3 NiPoint3_ZERO;
 
-float __cdecl FUN_00eaff20(const S_Seg* pkSeg, const TrianglePointSet* pkPgm, float* pfSegParam, float* pfPgmParam0,
-                           float* pfPgmParam1);
 
 inline S_Vec3 operator-(const S_Vec3& kA, const S_Vec3& kB)
 {
@@ -803,17 +787,17 @@ bool __cdecl IsCapsuleSweptHit(float fTime, S_Capsule* pkCapsule0, const S_Vec3*
     float fParam0;
     float fParam1;
     float fSqrDist;
-    if (kRelVelocity != NiPoint3_ZERO)
+    if (kRelVelocity != (*reinterpret_cast<const ::S_Vec3 *>((void *)&::NiPoint3::ZERO)))
     {
         TrianglePointSet kSwept;
         kSwept.m_kStartPoint = pkCapsule1->seg.p;
         kSwept.m_kPoint1 = pkCapsule1->seg.d;
         kSwept.m_kPoint2 = kRelVelocity * fTime;
-        fSqrDist = FUN_00eaff20(&pkCapsule0->seg, &kSwept, &fSqrDist, &fParam0, &fParam1);
+        fSqrDist = ::FUN_00eaff20((*(const ::OriginDirectionPair *)(&pkCapsule0->seg)), (*(const ::TrianglePointSet *)(&kSwept)), (*(float *)(&fSqrDist)), (*(float *)(&fParam0)), (*(float *)(&fParam1)));
     }
     else
     {
-        fSqrDist = FUN_00eaf310(&pkCapsule0->seg, &pkCapsule1->seg, &fSqrDist, &fParam1);
+        fSqrDist = ::FUN_00eaf310((*(const ::S_Seg *)(&pkCapsule0->seg)), (*(const ::S_Seg *)(&pkCapsule1->seg)), (*(float *)(&fSqrDist)), (*(float *)(&fParam1)));
     }
 
     float fRadiusSum = pkCapsule0->radius + pkCapsule1->radius;
@@ -865,7 +849,6 @@ struct S9f2c0_Caps
     S9f2c0_P3 m_kSegOrigin;
     S9f2c0_P3 m_kSegDir;
     float m_fBoundRadius;
-    void FUN_00e9f1b0();
     void TransformToWorld(const S9f2c0_Caps& kModel, const S9f2c0_Xf& kWorld);
 };
 
@@ -877,7 +860,7 @@ void S9f2c0_Caps::TransformToWorld(const S9f2c0_Caps& kModel, const S9f2c0_Xf& k
     m_kAxisDirection = kWorld.m_kOrientation * kModel.m_kAxisDirection;
     m_fHalfLength = kWorld.m_fScale * kModel.m_fHalfLength;
     m_fBoundRadius = kWorld.m_fScale * kModel.m_fBoundRadius;
-    FUN_00e9f1b0();
+    reinterpret_cast<::S_00e9f1b0_Cls *>(this)->FUN_00e9f1b0();
 }
 
 struct Vec3
@@ -917,7 +900,6 @@ struct Vec3
     {
         return x * x + y * y + z * z;
     }
-    __declspec(noalias) void FUN_004a0c10();
 };
 inline Vec3 operator*(float s, const Vec3& b)
 {
@@ -983,8 +965,6 @@ struct BigStruct
     Vec3 c2c;
     Vec3 prod;
 };
-float __cdecl FUN_00eb1d20(Vec3* c20, Query* q, float* pf3c, float* p30, float* pftmp);
-float __cdecl TriangleTriangleDistance(Query* q, BigStruct* bs, float* p30, float* pftmp, float* pR, float* pf3c);
 // Tests capsule proximity to the triangle formed by pOrg, pA, and pB, then compares the computed squared distance with the squared radius.
 // @fnv 0x00e9f8c0
 bool __cdecl CapsuleTriangleIntersect(float afScale, Capsule* apCapsule, Vec3* p2, Vec3* apOrigin, Vec3* apVecA,
@@ -1007,7 +987,7 @@ bool __cdecl CapsuleTriangleIntersect(float afScale, Capsule* apCapsule, Vec3* p
     float dist = fResult - i;
     if (dist * dist > (float)(n.LengthSquared() * big * big))
     {
-        n.FUN_004a0c10();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(n))->FUN_004a0c10();
         Vec3 point;
         if (fResult > i)
         {
@@ -1034,20 +1014,20 @@ bool __cdecl CapsuleTriangleIntersect(float afScale, Capsule* apCapsule, Vec3* p
                 return false;
         }
     }
-    if (vDir.x != DAT_011f426c)
+    if (vDir.x != (*reinterpret_cast<float *>((void *)&::NiPoint3::ZERO)))
         goto ftmp;
-    if (vDir.y != DAT_011f4270)
+    if (vDir.y != (*reinterpret_cast<float *>(&::_DAT_011f4270)))
         goto ftmp;
-    if (vDir.z != DAT_011f4274)
+    if (vDir.z != (*reinterpret_cast<float *>(&::_DAT_011f4274)))
         goto ftmp;
-    fResult = FUN_00eb1d20(&apCapsule->c20, &s, &i, &fResult, &tr);
+    fResult = ::fnv_00eb1d20::FUN_00eb1d20((*(const ::fnv_00eb1d20::OriginDirectionPair *)(&apCapsule->c20)), (*(const ::fnv_00eb1d20::Triangle3D *)(&s)), (*(float *)(&i)), (*(float *)(&fResult)), (*(float *)(&tr)));
     goto done;
 ftmp: {
     BigStruct bigStruct;
     bigStruct.c20 = apCapsule->c20;
     bigStruct.c2c = apCapsule->c2c;
     bigStruct.prod = afScale * vDir;
-    fResult = TriangleTriangleDistance(&s, &bigStruct, &fResult, &tr, &big, &i);
+    fResult = ::fnv_00eb3230::TriangleTriangleDistance((const ::fnv_00eb3230::Triangle3 *)(::Query *)(&s), (const ::fnv_00eb3230::Triangle3 *)(::BigStruct *)(&bigStruct), &fResult, &tr, &big, &i);
 }
 done:
     return fResult <= apCapsule->radius * apCapsule->radius;
@@ -1325,8 +1305,6 @@ float __cdecl FUN_00eaf310(const S_Seg& a, const S_Seg& b, float& s, float& t)
 }
 
 #include <string.h>
-void* __cdecl FUN_00aa1070(unsigned int);
-int __cdecl FUN_00a305b0(char*, unsigned int, const char*, ...);
 struct S_00ea0730_Arr
 {
     int unk00;
@@ -1335,8 +1313,6 @@ struct S_00ea0730_Arr
     unsigned short esize;
     unsigned short unk0c;
     unsigned short growBy;
-    void FUN_0096ad30(unsigned int);
-    void FUN_0096ae90(unsigned int, char*&);
 };
 // Formats name as "name = CAPSULE_BV", grows the array if needed, and appends the buffer pointer to arr.
 // @fnv 0x00ea0730
@@ -1344,11 +1320,11 @@ void __stdcall AddCapsuleBV(const char* name, S_00ea0730_Arr* arr)
 {
     unsigned int n = strlen(name) + 14;
     char* buf = (char*)FUN_00aa1070(n);
-    FUN_00a305b0(buf, n, "%s = CAPSULE_BV", name);
+    ::NiSprintf(buf, n, "%s = CAPSULE_BV", name);
     unsigned int i = arr->esize;
     if (i >= arr->size)
-        arr->FUN_0096ad30(i + arr->growBy);
-    arr->FUN_0096ae90(i, buf);
+        reinterpret_cast<::ViewerStrings *>((arr))->SetSize(i + arr->growBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((arr))->SetAt(i, buf);
 }
 
 namespace fnv_00e9fdc0 {
@@ -1373,8 +1349,6 @@ struct Vec3
     {
         return x * x + y * y + z * z;
     }
-    __declspec(noalias) void FUN_004a0c10();
-    __declspec(noalias) float DotProduct(const Vec3&) const;
     Vec3 FUN_00439e90(const Vec3&) const;
     Vec3 FUN_00439ef0(const Vec3&) const;
 };
@@ -1450,20 +1424,11 @@ struct CapsuleTriangleQuery
     Capsule* capsule;
     CollisionTriangle triangle;
     float inverseRadiusSquared, segmentParameter, triangleParameter;
-    void FUN_00eb3750(Capsule*, const Vec3*, const Vec3*, const Vec3*, float, float, float, int);
-    void Solve(int, int);
-    float FUN_00eae6f0();
-    int FUN_00be0aa0();
-    const Vec3* FUN_00eae700();
-    const Vec3* FUN_00eae710();
-    void FUN_00eae6d0();
 };
-__declspec(noalias) float __cdecl FUN_00eb1d20(const CapsuleSegment*, const CollisionTriangle*, float*, float*, float*);
 __declspec(noinline) Vec3 __cdecl FUN_004a3760(float s, const Vec3& v)
 {
     return Vec3(s * v.x, s * v.y, s * v.z);
 }
-extern double DAT_0101dae8;
 extern double DAT_01016978;
 extern const float DAT_01011d78 = 0.0f;
 struct DistanceData
@@ -1485,8 +1450,8 @@ bool __cdecl FUN_00e9fdc0(float afTime, Capsule* apCapsule, Vec3* a2, const Vec3
     collisionData.triangle.p = *apTriA;
     collisionData.triangle.u = *apTriB - *apTriA;
     collisionData.triangle.v = *apTriC - *apTriA;
-    float separation = FUN_00eb1d20(&collisionData.segment, &collisionData.triangle, &collisionData.segmentParameter,
-                                    &collisionData.triangleU, &collisionData.triangleV) -
+    float separation = ::fnv_00eb1d20::FUN_00eb1d20((*(const ::fnv_00eb1d20::OriginDirectionPair *)(&collisionData.segment)), (*(const ::fnv_00eb1d20::Triangle3D *)(&collisionData.triangle)), (*(float *)(&collisionData.segmentParameter)),
+                                    (*(float *)(&collisionData.triangleU)), (*(float *)(&collisionData.triangleV))) -
                        collisionData.radiusSquared;
     if (separation <= 0.0f)
     {
@@ -1503,7 +1468,7 @@ bool __cdecl FUN_00e9fdc0(float afTime, Capsule* apCapsule, Vec3* a2, const Vec3
     Vec3 motion = *a2 - *a6;
     collisionData.motion = motion;
     float lengthSquared = collisionData.motion.LengthSquared();
-    if (lengthSquared * afTime <= DAT_0101dae8)
+    if (lengthSquared * afTime <= ::DAT_0101dae8)
         return false;
     Vec3 normal = -collisionData.triangle.u.Cross(collisionData.triangle.v);
     float centerPlane = normal.Dot(apCapsule->ptv);
@@ -1513,50 +1478,50 @@ bool __cdecl FUN_00e9fdc0(float afTime, Capsule* apCapsule, Vec3* a2, const Vec3
     float planeDistance = centerPlane - trianglePlane;
     if (planeDistance * planeDistance > radiusPlaneSquared)
     {
-        normal.FUN_004a0c10();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(normal))->FUN_004a0c10();
         Vec3 support;
         if (centerPlane > trianglePlane)
         {
             float speed = motion.Dot(normal);
             if (speed >= DAT_01011d78)
                 return false;
-            support = apCapsule->ptv.FUN_00439ef0(FUN_004a3760(extent, normal));
+            support = (*(::fnv_00e9fdc0::Vec3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(apCapsule->ptv))->FUN_00439ef0((::NiPoint3 *)&(const ::fnv_00e9fdc0::Vec3 &)(FUN_004a3760(extent, normal)), *(const ::NiPoint3 *)nullptr)));
         }
         else
         {
             float speed = motion.Dot(normal);
             if (speed <= DAT_01011d78)
                 return false;
-            support = apCapsule->ptv.FUN_00439e90(FUN_004a3760(extent, normal));
+            support = (*(::fnv_00e9fdc0::Vec3 *)(reinterpret_cast<::Point3Offset *>((void *)&(apCapsule->ptv))->ProjectileLaunched((::NiPoint3 *)&(const ::fnv_00e9fdc0::Vec3 &)(FUN_004a3760(extent, normal)), {})));
         }
         trianglePlane = normal.Dot(*apTriA);
         double planeLimit = trianglePlane + (double)0.001f;
         float supportPlane = normal.Dot(support);
         if (supportPlane > planeLimit)
         {
-            if (normal.DotProduct(support + FUN_004a3760(afTime, collisionData.motion)) >
+            if (reinterpret_cast<::FUN_004b6190_shell *>((void *)&(normal))->DotProduct((void *)&(const ::fnv_00e9fdc0::Vec3 &)(support + FUN_004a3760(afTime, collisionData.motion))) >
                 trianglePlane + (double)0.001f)
                 return false;
         }
     }
     CapsuleTriangleQuery query;
-    query.FUN_00eb3750(apCapsule, apTriA, apTriB, apTriC, afTime, DAT_01017d00, DAT_010141cc, 0x20);
-    query.Solve((int)a2, (int)a6);
-    *a7 = query.FUN_00eae6f0();
-    if (query.FUN_00be0aa0() != 3 && query.FUN_00be0aa0() != 2)
+    new ((void *)&(query)) ::FUN_00eb3750((float *)(apCapsule), (::FloatVec3Local *)(apTriA), (::FloatVec3Local *)(apTriB), (::FloatVec3Local *)(apTriC), afTime, ::AngularDashpotApplyD4DCB0::DAT_01017d00, ::DAT_010141cc, (void *)(0x20));
+    reinterpret_cast<::S_00eae7a0_Solver *>(&(query))->Solve((*(const ::S_00eae7a0_Point *)((int)a2)), (*(const ::S_00eae7a0_Point *)((int)a6)));
+    *a7 = reinterpret_cast<::FnvCpu_FUN_00eae6f0_CpuObject *>(&(query))->FUN_00eae6f0();
+    if (reinterpret_cast<::FnvCpu_FUN_00be0aa0_CpuObject *>(&(query))->FUN_00be0aa0() != 3 && reinterpret_cast<::FnvCpu_FUN_00be0aa0_CpuObject *>(&(query))->FUN_00be0aa0() != 2)
     {
-        query.FUN_00eae6d0();
+        reinterpret_cast<::fnv_00eae6d0::Isect *>(&(query))->FUN_00eae6d0();
         return false;
     }
-    const Vec3* point = query.FUN_00eae700();
+    const Vec3* point = ((const ::fnv_00e9fdc0::Vec3 *)(reinterpret_cast<::FnvCpu_FUN_00eae700_CpuObject *>(&(query))->FUN_00eae700()));
     *apPoint = *point;
     if (abNormal)
     {
-        const Vec3* pNormal = query.FUN_00eae710();
+        const Vec3* pNormal = ((const ::fnv_00e9fdc0::Vec3 *)(reinterpret_cast<::FnvCpu_FUN_00eae710_CpuObject *>(&(query))->FUN_00eae710()));
         *apNormal = *pNormal;
         *apNormal2 = -*apNormal;
     }
-    query.FUN_00eae6d0();
+    reinterpret_cast<::fnv_00eae6d0::Isect *>(&(query))->FUN_00eae6d0();
     return true;
 }
 }  // namespace fnv_00e9fdc0

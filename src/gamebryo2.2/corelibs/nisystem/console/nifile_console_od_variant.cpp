@@ -1,6 +1,7 @@
 
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/symbols_00aa1000.h"
 #include "nifile_console.h"
 
 struct MersenneTwister

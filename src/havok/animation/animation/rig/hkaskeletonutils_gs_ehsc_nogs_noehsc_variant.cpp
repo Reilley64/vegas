@@ -5,6 +5,21 @@
 
 // src/havok/animation/animation/rig/hkaskeletonutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/rig/hkaskeletonutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/CC0280Writer.h"
+#include "fnv/decl/FUN_005611c0_t.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00cde940_cls.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00cbf000.h"
+#include "fnv/symbols_00cdd000.h"
+#include "fnv/symbols_00cde000.h"
+#include "fnv/symbols_00ce0000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_01268000.h"
 struct FUN_00cdd3f0_s
 {
     int a[6];
@@ -13,14 +28,7 @@ struct FUN_00cdd3f0_s
 };
 void FUN_00cdd3f0(struct FUN_00cdd3f0_s* p);
 extern "C" void __cdecl FUN_00cddad0(int, int, int*, int, int);
-extern int DAT_01268700;
-void __cdecl CallWithGlobal(int a, int b, int c, int d);
 extern "C" void __cdecl FUN_00cddd20(void* a, void* b, void* c, void* d, void* e);
-extern int DAT_01268700;
-void FUN_00cddef0(void* a, void* b, void* c, void* d);
-extern "C" void __cdecl Atan2(float, float);
-void __cdecl FUN_00ce00f0(float a, float b);
-int __cdecl CompareStringsCaseInsensitive(const void* pKey, const void* pItem);
 struct S_00cdd390_Entry
 {
     unsigned int m_uiTaggedItem;
@@ -45,8 +53,6 @@ struct S_00cdd390_Table
         return (void*)(m_pEntries[i].m_uiTaggedItem & ~1u);
     }
 };
-short __cdecl FindIndexByKey(S_00cdd390_Table* pSearchEntries, const void* pKey,
-                             int(__cdecl* pfnCompare)(const void*, const void*));
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 template <class T> struct Array
 {
@@ -67,7 +73,6 @@ struct Hierarchy
     void* nodes;
     int count;
 };
-void __cdecl MarkHierarchyDescendants(Hierarchy* hierarchy, int root, unsigned char* flags, unsigned char finalValue);
 struct Sequence
 {
     int unk00;
@@ -81,12 +86,6 @@ bool* __cdecl AreSequenceValuesInRange(bool* result, FUN_00cdd3f0_s* limits, Seq
 struct Msg
 {
     int f0, f4, f8;
-    void Init(void* buf, int size);
-    void Done();
-    Msg& Add(const char* s);
-    Msg& Add(const char* s, int v);
-    Msg& Add();
-    Msg& Fin();
 };
 struct Logger
 {
@@ -95,7 +94,6 @@ struct Logger
     virtual void v2();
     virtual void Report(int a, int code, void* msg, const char* file, int line);
 };
-extern Logger* DAT_01268360;
 struct Names
 {
     int pad[6];
@@ -142,12 +140,10 @@ struct ScanRec
 };
 struct ScanObj
 {
-    void FUN_00cde940(int a, int b, void* c);
 };
-HolderRec* FUN_00c85750();
-unsigned char* WalkChainUntilLimit(unsigned char* pOut, ScanRec* rec, short limit, short start, ScanObj* obj);
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 // ---------------------------------------------------------------------------
 // FUN_00cdd480 - batch interpolation of 0x30 byte records.
 //
@@ -183,7 +179,6 @@ struct FUN_00cde740_v
     float c0, c1, c2, c3;
 };
 
-extern "C" void __cdecl FUN_00cde740(FUN_00cde740_v* a, FUN_00cde740_v* b, void* c, FUN_00cde740_v* d);
 
 // @fnv 0x00cdd480
 void FUN_00cdd480(unsigned count, FUN_00cde740_v* a, FUN_00cde740_v* b, float* c, FUN_00cde740_v* d)
@@ -192,7 +187,7 @@ void FUN_00cdd480(unsigned count, FUN_00cde740_v* a, FUN_00cde740_v* b, float* c
     {
         FUN_00cde740_v4 t;
         _mm_store_ps((float*)&t, _mm_load_ss(&c[i]));
-        FUN_00cde740(a + i, b + i, &t, d + i);
+        ::FUN_00cde740((const ::PoseBlend *)(::FUN_00cde740_v *)(a + i), (const ::PoseBlend *)(::FUN_00cde740_v *)(b + i), (const ::Vec4f *)(void *)(&t), (::PoseBlend *)(::FUN_00cde740_v *)(d + i));
     }
 }
 
@@ -200,17 +195,15 @@ struct __declspec(align(16)) S_00cdd4f0_Vec
 {
     float x, y, z, w;
 };
-void __cdecl FUN_00cde740(void* a, void* b, S_00cdd4f0_Vec* s, void* c);
 // @fnv 0x00cdd4f0
 void __cdecl FUN_00cdd4f0(unsigned int n, char* a, char* b, float f, char* c)
 {
     S_00cdd4f0_Vec s;
     *(__m128*)&s = _mm_load_ss(&f);
     for (unsigned int i = 0; i < n; i++)
-        FUN_00cde740(a + i * 48, b + i * 48, &s, c + i * 48);
+        ::FUN_00cde740((const ::PoseBlend *)(void *)(a + i * 48), (const ::PoseBlend *)(void *)(b + i * 48), (const ::Vec4f *)(::S_00cdd4f0_Vec *)(&s), (::PoseBlend *)(void *)(c + i * 48));
 }
 
-extern const __m128 DAT_010c71e0;
 
 class hkQuaternionDAD;
 
@@ -255,7 +248,7 @@ class __declspec(align(16)) hkVector4DAD
 class hkQuaternionDAD
 {
   public:
-    void FUN_00c66320(const hkQuaternionDAD& q0, const hkQuaternionDAD& q1);  // SetProduct
+      // SetProduct
     const hkVector4DAD& getImag() const
     {
         return m_vec;
@@ -290,7 +283,7 @@ class hkQsTransformDAD
         hkVector4DAD temp;
         temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-        m_rotation.FUN_00c66320(t1.m_rotation, t2.m_rotation);
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
         m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
     }
 
@@ -313,7 +306,6 @@ extern "C" void __cdecl FUN_00cddad0(int numTransforms, int parentIndicesIn, int
 }
 
 namespace fnv_00cddbf0 {
-extern const __m128 DAT_010c71e0;
 
 class hkQuaternionDAD;
 
@@ -363,7 +355,7 @@ class __declspec(align(16)) hkVector4DAD
 class hkQuaternionDAD
 {
   public:
-    void FUN_00c66320(const hkQuaternionDAD& q0, const hkQuaternionDAD& q1);  // SetProduct
+      // SetProduct
     const hkVector4DAD& getImag() const
     {
         return m_vec;
@@ -377,7 +369,7 @@ __forceinline void hkVector4DAD::SetRotatedDirection(const hkQuaternionDAD& quat
     hkVector4DAD qreal;
     qreal.setBroadcast3(quat.m_vec);
     hkVector4DAD q2minus1;
-    q2minus1.m_vComponents = _mm_add_ps(_mm_mul_ps(qreal.m_vComponents, qreal.m_vComponents), DAT_010c71e0);
+    q2minus1.m_vComponents = _mm_add_ps(_mm_mul_ps(qreal.m_vComponents, qreal.m_vComponents), ::DAT_010c71e0);
     hkVector4DAD ret;
     ret.setMul4(q2minus1, direction);
     hkVector4DAD imagDotDir;
@@ -398,7 +390,7 @@ class hkQsTransformDAD
         hkVector4DAD temp;
         temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-        m_rotation.FUN_00c66320(t1.m_rotation, t2.m_rotation);
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
         m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
     }
 
@@ -420,7 +412,6 @@ void __cdecl FUN_00cddbf0(int boneIndex, const short* parentIndices, const hkQsT
 }  // namespace fnv_00cddbf0
 
 namespace fnv_00cddf20 {
-extern const __m128 DAT_010c71e0;
 
 class hkQuaternionDAD;
 
@@ -470,7 +461,7 @@ class __declspec(align(16)) hkVector4DAD
 class hkQuaternionDAD
 {
   public:
-    void FUN_00c66320(const hkQuaternionDAD& q0, const hkQuaternionDAD& q1);  // SetProduct
+      // SetProduct
     const hkVector4DAD& getImag() const
     {
         return m_vec;
@@ -484,7 +475,7 @@ __forceinline void hkVector4DAD::SetRotatedDirection(const hkQuaternionDAD& quat
     hkVector4DAD qreal;
     qreal.setBroadcast3(quat.m_vec);
     hkVector4DAD q2minus1;
-    q2minus1.m_vComponents = _mm_add_ps(_mm_mul_ps(qreal.m_vComponents, qreal.m_vComponents), DAT_010c71e0);
+    q2minus1.m_vComponents = _mm_add_ps(_mm_mul_ps(qreal.m_vComponents, qreal.m_vComponents), ::DAT_010c71e0);
     hkVector4DAD ret;
     ret.setMul4(q2minus1, direction);
     hkVector4DAD imagDotDir;
@@ -505,7 +496,7 @@ class hkQsTransformDAD
         hkVector4DAD temp;
         temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-        m_rotation.FUN_00c66320(t1.m_rotation, t2.m_rotation);
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
         m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
     }
 
@@ -526,11 +517,6 @@ void __cdecl FUN_00cddf20(int numTransforms, const hkQsTransformDAD& transform, 
 }  // namespace fnv_00cddf20
 
 namespace fnv_00cde010 {
-extern __m128 DAT_010c71e0;
-extern __m128 DAT_010c7170;
-extern __m128 DAT_010c44d0;
-extern __m128 DAT_010c4c00;
-extern __m128 DAT_010c4c10;
 
 class hkQuaternionCDE;
 
@@ -567,7 +553,7 @@ class hkVector4CDE
     }
     __forceinline void setNeg4(const hkVector4CDE& a)
     {
-        m_vComponents = _mm_xor_ps(a.m_vComponents, DAT_010c44d0);
+        m_vComponents = _mm_xor_ps(a.m_vComponents, ::DAT_010c44d0);
     }
     __forceinline void setCross(const hkVector4CDE& v1, const hkVector4CDE& v2)
     {
@@ -600,7 +586,7 @@ class hkQuaternionCDE
 
     __forceinline void SetConjugate(const hkQuaternionCDE& q)
     {
-        m_vec.m_vComponents = _mm_xor_ps(DAT_010c4c00, q.m_vec.m_vComponents);
+        m_vec.m_vComponents = _mm_xor_ps(::DAT_010c4c00, q.m_vec.m_vComponents);
     }
     __declspec(noinline) void SetProduct(const hkQuaternionCDE& q0, const hkQuaternionCDE& q1)
     {
@@ -626,7 +612,7 @@ __forceinline void hkVector4CDE::SetRotatedDirection(const hkQuaternionCDE& quat
     qreal.m_vComponents = _mm_shuffle_ps(quat.m_vec.m_vComponents, quat.m_vec.m_vComponents, _MM_SHUFFLE(3, 3, 3, 3));
     hkVector4CDE q2minus1;
     q2minus1.setMul4(qreal, qreal);
-    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, DAT_010c71e0);
+    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, ::DAT_010c71e0);
     hkVector4CDE ret;
     ret.setMul4(direction, q2minus1);
     __m128 imagDotDir = quat.m_vec.dot3(direction);
@@ -643,7 +629,7 @@ __forceinline void hkVector4CDE::setRotatedInverseDir(const hkQuaternionCDE& qua
     qreal.m_vComponents = _mm_shuffle_ps(quat.m_vec.m_vComponents, quat.m_vec.m_vComponents, _MM_SHUFFLE(3, 3, 3, 3));
     hkVector4CDE q2minus1;
     q2minus1.setMul4(qreal, qreal);
-    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, DAT_010c71e0);
+    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, ::DAT_010c71e0);
     hkVector4CDE ret;
     ret.setMul4(direction, q2minus1);
     __m128 imagDotDir = quat.m_vec.dot3(direction);
@@ -668,16 +654,16 @@ class hkQsTransformCDE
         m_rotation.SetConjugate(t.m_rotation);
         hkVector4CDE s;
         s.m_vComponents = _mm_shuffle_ps(
-            t.m_vScale.m_vComponents, _mm_unpackhi_ps(t.m_vScale.m_vComponents, DAT_010c7170), _MM_SHUFFLE(3, 0, 1, 0));
+            t.m_vScale.m_vComponents, _mm_unpackhi_ps(t.m_vScale.m_vComponents, ::DAT_010c7170), _MM_SHUFFLE(3, 0, 1, 0));
         m_vScale.setReciprocal4(s);
-        m_vScale.m_vComponents = _mm_and_ps(m_vScale.m_vComponents, DAT_010c4c10);
+        m_vScale.m_vComponents = _mm_and_ps(m_vScale.m_vComponents, ::DAT_010c4c10);
     }
     __forceinline void SetProduct(const hkQsTransformCDE& t1, const hkQsTransformCDE& t2)
     {
         hkVector4CDE temp;
         temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-        m_rotation.SetProduct(t1.m_rotation, t2.m_rotation);
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
         m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
     }
     __forceinline void SetMulInverse(const hkQsTransformCDE& a, const hkQsTransformCDE& b)
@@ -702,7 +688,6 @@ __declspec(align(16)) struct Vec4f
     float y;
     float z;
     float w;
-    void normalize();
 };
 
 struct PoseBlend
@@ -712,8 +697,6 @@ struct PoseBlend
     Vec4f scale;
 };
 
-extern __m128 DAT_010ec7f0;
-extern __m128 DAT_010c71b0;
 extern const float DAT_01012054 = -1.0f;
 extern const float DAT_0104da4c = 1.192092896e-07f;
 
@@ -736,7 +719,7 @@ static __m128 hsum4(__m128 p)
 static __forceinline __m128 blend(__m128 a, __m128 b, const Vec4f* tp)
 {
     __m128 t = _mm_shuffle_ps(ld(*tp), ld(*tp), 0);
-    __m128 omt = _mm_sub_ps(DAT_010ec7f0, t);
+    __m128 omt = _mm_sub_ps(::DAT_010ec7f0, t);
     return _mm_add_ps(_mm_mul_ps(omt, a), _mm_mul_ps(b, t));
 }
 // @fnv 0x00cde740
@@ -763,11 +746,11 @@ void __cdecl FUN_00cde740(const PoseBlend* a, const PoseBlend* b, const Vec4f* t
     _mm_store_ss(&dot, hsum4(_mm_mul_ps(ld(out->rot), ld(out->rot))));
     if (dot < DAT_0104da4c)
     {
-        st(out->rot, DAT_010c71b0);
+        st(out->rot, ::DAT_010c71b0);
     }
     else
     {
-        out->rot.normalize();
+        reinterpret_cast<::FUN_005611c0_t *>(&(out->rot))->FUN_005611c0();
     }
 }
 

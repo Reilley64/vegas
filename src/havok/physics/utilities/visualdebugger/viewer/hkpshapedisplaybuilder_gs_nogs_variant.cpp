@@ -5,6 +5,7 @@
 
 // src/havok/physics/utilities/visualdebugger/viewer/hkpshapedisplaybuilder.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/hkpshapedisplaybuilder.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00ddfbb0_cls.h"
 struct S_00ddfcd0_Allocator
 {
     virtual void v0();
@@ -69,6 +70,10 @@ struct XfResult
     int m_00;
     int m_04;
 };
+struct BaseShape;
+struct Display;
+struct Transform;
+template <class> struct Array;
 struct Node
 {
     int unk00;
@@ -77,8 +82,9 @@ struct Node
     int unk0c;
     int unk10;
     __declspec(noinline) void resetX();
-    void applyX(void* shape, Mat4* m, XfResult* r);
     void FUN_00de0f90(void* shape, XfResult* result);
+public:
+    void FUN_00ddfd10(const ::BaseShape *, const struct ::Transform &, ::Array< ::Display *> &);
 };
 __declspec(noinline) void Node::resetX()
 {
@@ -95,7 +101,7 @@ void Node::FUN_00de0f90(void* shape, XfResult* result)
     _mm_store_ps(t.m[2], _mm_setzero_ps());
     t.m[2][2] = 1.0f;
     _mm_store_ps(t.m[3], _mm_setzero_ps());
-    resetX();
+    reinterpret_cast<::FUN_00ddfbb0_cls *>(this)->FUN_00ddfbb0();
     result->m_04 = 0;
-    applyX(shape, &t, result);
+    reinterpret_cast<::Node *>(this)->FUN_00ddfd10((const ::BaseShape *)(shape), (*(const struct struct ::Transform *)(&t)), (*(::Array< ::Display *> *)(result)));
 }

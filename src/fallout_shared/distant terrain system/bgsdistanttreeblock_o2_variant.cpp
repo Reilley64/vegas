@@ -4,26 +4,26 @@
 
 // src/fallout_shared/distant terrain system/bgsdistanttreeblock.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/distant terrain system/bgsdistanttreeblock.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_006f94a0.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01200000.h"
 struct NP
 {
     NP& operator=(void*);
 };
-extern NP DAT_012007c4;
 void FUN_006f7a60(void* p);
 struct BGSDistantTreeBlockLoadTask
 {
     void* Destroy(unsigned int flags);
-    void FUN_006f94a0();
 };
-void* __cdecl _Deallocate(void*);
 
-extern int _fnv_particle_shader_renderer_level;
 extern unsigned int DAT_012007b8;
 
 // @fnv 0x00bb6030
 unsigned int __cdecl FUN_00bb6030()
 {
     if (!DAT_012007b8)
-        DAT_012007b8 = 40 + ((_fnv_particle_shader_renderer_level < 2) ? 0 : 74);
+        DAT_012007b8 = 40 + ((::DAT_011f91c0 < 2) ? 0 : 74);
     return DAT_012007b8;
 }

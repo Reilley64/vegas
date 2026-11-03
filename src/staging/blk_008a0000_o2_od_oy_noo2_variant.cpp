@@ -5,6 +5,22 @@
 
 // src/staging/blk_008a0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_008a50f0_class.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/bhkCollisionObject.h"
+#include "fnv/decl/fnv_0043fcd0__FUN_0043fcd0_shell.h"
+#include "fnv/decl/fnv_008a50d0__bhkCharacterController.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_004ae000.h"
+#include "fnv/symbols_00525000.h"
+#include "fnv/symbols_00624000.h"
+#include "fnv/symbols_00c80000.h"
 #include "../../include/layout_support.h"
 
 #include <xmmintrin.h>
@@ -13,10 +29,8 @@ struct FUN_008b3d70_Vec3
     float x;
     float y;
     float z;
-    FUN_008b3d70_Vec3 FUN_00439ef0(const FUN_008b3d70_Vec3& o) const;
     FUN_008b3d70_Vec3 ApplyScaled(float f) const;
 };
-void FUN_00525340(FUN_008b3d70_Vec3* v);
 
 struct FUN_008b3d70_Hit
 {
@@ -32,58 +46,48 @@ FUN_008b3d70_Hit* FUN_008cfbc0(FUN_008b3d70_World* world, FUN_008b3d70_Vec3 orig
 struct FUN_008b3d70_hkVec
 {
     __m128 v;
-    void FUN_006815c0();
 };
 struct FUN_008b3d70_Sphere
 {
     __m128 v;
-    void FUN_006240d0();
-    void FUN_008a50f0(const FUN_008b3d70_hkVec& c);
-    void FUN_008a50d0(float r);
 };
-FUN_008b3d70_hkVec& FUN_004a3e00(FUN_008b3d70_hkVec& out, const FUN_008b3d70_Vec3& in);
 struct FUN_008b3d70_Body
 {
-    void* FUN_004ae750();
 };
-FUN_008b3d70_Body* FUN_00c806b0(FUN_008b3d70_World* world, FUN_008b3d70_Sphere* s, int flag);
 struct FUN_008b3d70_Wrap
 {
-    FUN_008b3d70_Hit* FUN_0044ddc0();
 };
-FUN_008b3d70_Wrap* FUN_004b5a20(void* p);
 
 struct FUN_008b3d70_Picker
 {
-    FUN_008b3d70_World* FUN_0043fcd0();
     void* FUN_008b3d70(FUN_008b3d70_Vec3 start, FUN_008b3d70_Vec3 end);
 };
 
 // @fnv 0x008b3d70
 void* FUN_008b3d70_Picker::FUN_008b3d70(FUN_008b3d70_Vec3 start, FUN_008b3d70_Vec3 end)
 {
-    FUN_008b3d70_World* world = FUN_0043fcd0();
+    FUN_008b3d70_World* world = ((::FUN_008b3d70_World *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0()));
     FUN_008b3d70_Hit* object = 0;
     float distance = 512.0f;
-    FUN_008b3d70_Vec3 direction = end.FUN_00439ef0(start);
-    FUN_00525340(&direction);
-    FUN_008b3d70_Vec3 origin = end.FUN_00439ef0(direction.ApplyScaled(distance).ApplyScaled(0.5f));
+    FUN_008b3d70_Vec3 direction = (*(::FUN_008b3d70_Vec3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(end))->FUN_00439ef0((::NiPoint3 *)&(start), *(const ::NiPoint3 *)nullptr)));
+    ::FUN_00525340((float *)(::FUN_008b3d70_Vec3 *)(&direction));
+    FUN_008b3d70_Vec3 origin = (*(::FUN_008b3d70_Vec3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(end))->FUN_00439ef0((::NiPoint3 *)&(const ::FUN_008b3d70_Vec3 &)(direction.ApplyScaled(distance).ApplyScaled(0.5f)), *(const ::NiPoint3 *)nullptr)));
     object = FUN_008cfbc0(world, origin, direction, &distance, 0);
     if (!object)
     {
         FUN_008b3d70_Sphere bound;
-        bound.FUN_006240d0();
+        ::FUN_006240d0((void *)&(bound));
         FUN_008b3d70_hkVec center;
-        center.FUN_006815c0();
-        FUN_004a3e00(center, end);
-        bound.FUN_008a50f0(center);
-        bound.FUN_008a50d0(200.0f);
-        FUN_008b3d70_Body* body = FUN_00c806b0(world, &bound, 0);
+        new ((void *)&(center)) ::Vec3();
+        ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(center), (const ::fnv_004a3e00::NiPoint3 &)(end));
+        reinterpret_cast<::FUN_008a50f0_class *>(&(bound))->FUN_008a50f0((int)&(center));
+        reinterpret_cast<::fnv_008a50d0::bhkCharacterController *>(&(bound))->FUN_008a50d0(200.0f);
+        FUN_008b3d70_Body* body = ((::FUN_008b3d70_Body *)(::FUN_00c806b0(world, &bound, 0)));
         if (body)
         {
-            FUN_008b3d70_Wrap* wrapper = FUN_004b5a20(body->FUN_004ae750());
+            FUN_008b3d70_Wrap* wrapper = ((::FUN_008b3d70_Wrap *)(::bhkCollisionObject::GetFromRigidBody((const ::hkpRigidBody *)(void *)(((void *)(::FUN_004ae750((void *)(body))))))));
             if (wrapper)
-                object = wrapper->FUN_0044ddc0();
+                object = ((::FUN_008b3d70_Hit *)(reinterpret_cast<::Twin_0044ddc0 *>((wrapper))->GetName()));
         }
     }
     if (object)

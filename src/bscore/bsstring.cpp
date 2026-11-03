@@ -1,5 +1,13 @@
 // bscore/bsstring.cpp: free functions (15 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/ConsoleText.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00450000.h"
 #include "layout_support.h"
 #include "original_string.h"
 #include <limits.h>
@@ -18,8 +26,8 @@ enum
 // @fnv 0x004037f0
 template <class T> bool BSStringT<T>::Set(const T* text, unsigned int minimumCapacity)
 {
-    unsigned int length = text ? BSStringLength(text) : 0;
-    unsigned int capacity = BSStringCapacityMaximum(length, minimumCapacity);
+    unsigned int length = text ? ::FUN_0044a670(text) : 0;
+    unsigned int capacity = ::FUN_00403940(length, minimumCapacity);
     if (capacity <= MaxLength())
     {
         if (capacity)
@@ -63,7 +71,7 @@ template <class T> BSStringT<T>::BSStringT()
 // @fnv 0x004037d0
 template <class T> BSStringT<T>::~BSStringT()
 {
-    Set(0, 0);
+    reinterpret_cast<::TextString *>(this)->FUN_004037f0(0, 0);
 }
 
 // Resets the string by nulling pString and setting length and max length to zero.
@@ -96,7 +104,7 @@ template <class T> void BSStringT<T>::SetMaxLength(unsigned int length)
 // @fnv 0x00438390
 template <class T> BSStringT<T>& BSStringT<T>::operator=(const T* text)
 {
-    Set(text, 0);
+    reinterpret_cast<::TextString *>(this)->FUN_004037f0(text, 0);
     return *this;
 }
 
@@ -145,7 +153,6 @@ struct FUN_004046b0_arg
 
 struct FUN_004046b0_sub
 {
-    unsigned int FUN_00717e50();
 };
 
 struct FUN_004046b0_cls
@@ -173,7 +180,7 @@ struct FUN_004046b0_cls
 FUN_004046b0_arg* FUN_004046b0_cls::AssignFromSub(FUN_004046b0_arg* apArg)
 {
     unsigned int flag = 0;
-    apArg->AssignFromString(m_38.FUN_00717e50());
+    apArg->AssignFromString(((unsigned int)(reinterpret_cast<::BaseProcess *>(&(m_38))->GetCurrentProcessData())));
     flag |= 1;
     return apArg;
 }
@@ -229,7 +236,6 @@ struct ScopeLock
 
 struct Outer
 {
-    void FUN_0071d0a0(const char* fmt, va_list args);
 };
 
 // Locks a scope, forwards the format string and variadic arguments to obj->FUN_0071d0a0, then releases the lock.
@@ -241,7 +247,7 @@ void __cdecl FUN_0071d030(Outer* apOuter, const char* fmt, ...)
     {
         va_list args;
         va_start(args, fmt);
-        apOuter->FUN_0071d0a0(fmt, args);
+        reinterpret_cast<::ConsoleText *>((apOuter))->FUN_0071d0a0(fmt, args);
         va_end(args);
     }
 }

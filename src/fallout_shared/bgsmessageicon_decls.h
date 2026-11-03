@@ -2,6 +2,7 @@
 #ifndef BGSMESSAGEICON_DECLS_H
 #define BGSMESSAGEICON_DECLS_H
 
+#include "fnv/decl/FUN_0048a470_shell.h"
 #include "BaseFormComponent.h"
 #include "TESIcon.h"
 class BGSMessageIcon : public BaseFormComponent
@@ -23,6 +24,5 @@ class TESModelTextureSwap : public TESModel
   public:
     BSSimpleList<DistantTreeTextureInfo*> TextureSwapNodeAccessor;
     TESModelTextureSwap();
-    void InitializeComponent();
 };
 #endif

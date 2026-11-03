@@ -6,6 +6,8 @@
 // src/havok/physics/dynamics/constraint/util/hkpconstraintpivotsutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/util/hkpconstraintpivotsutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_01268000.h"
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
@@ -49,8 +51,6 @@ struct hkTransformq
     }
 };
 
-extern hkTransformq g_identityTransform;
-extern float DAT_0104da48;
 
 struct hkpShapeq
 {
@@ -138,8 +138,8 @@ struct hkpClosestCdPointCollectorq : public hkpCdPointCollectorq
     }
     void reset()
     {
-        m_kPoint.setDistance(DAT_0104da48);
-        m_fEarlyOutDistance = DAT_0104da48;
+        m_kPoint.setDistance(::DAT_0104da48);
+        m_fEarlyOutDistance = ::DAT_0104da48;
         m_pRootCollidableA = 0;
     }
     virtual void AddCdPoint(const void* point);
@@ -410,7 +410,7 @@ unsigned int FUN_00d85160(hkpWorldq* world, const hkpShapeq* shape, const hkVect
     transform.setIdentityRotation();
 
     hkpCdBodyq bodyA(&sphere, &transform);
-    hkpCdBodyq bodyB(shape, &g_identityTransform);
+    hkpCdBodyq bodyB(shape, &(*reinterpret_cast<::hkTransformq *>(&::DAT_01268370)));
 
     hkpClosestCdPointCollectorq collector;
 

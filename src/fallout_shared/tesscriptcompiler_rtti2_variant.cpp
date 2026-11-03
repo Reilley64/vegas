@@ -2,8 +2,32 @@
 // polymorphic classes (-). The skeleton of src/fallout_shared/tesscriptcompiler.cpp with those classes made polymorphic; move the functions to
 // their real unit once its classes are.
 
+#include "fnv/decl/CStringArgument.h"
+#include "fnv/decl/TESContainer.h"
+#include "fnv/decl/TESObjectCELL.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/s55d310__Owner.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_004b1000.h"
+#include "fnv/symbols_004d5000.h"
+#include "fnv/symbols_005ae000.h"
+#include "fnv/symbols_005af000.h"
+#include "fnv/symbols_005b1000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_0066e000.h"
+#include "fnv/symbols_01183000.h"
+#include "fnv/symbols_01184000.h"
+#include "fnv/symbols_01186000.h"
+#include "fnv/symbols_0118a000.h"
+#include "fnv/symbols_0118c000.h"
+#include "fnv/symbols_0118e000.h"
+#include "fnv/symbols_01190000.h"
+#include "fnv/symbols_01197000.h"
+#include "fnv/symbols_01199000.h"
+#include "fnv/symbols_0119b000.h"
+#include "fnv/symbols_011ca000.h"
 #include "tesscriptcompiler_packet_decls.h"
-ScriptFunctionInfo* GetFunctionByOpcode(SCRIPT_OUTPUT output);
 
 #include <stdlib.h>
 #include <ctype.h>
@@ -26,8 +50,6 @@ struct ScriptLineBuffer
     unsigned int m_uiTrailingValue;
 };
 
-extern char DAT_01183028[];
-extern char DAT_011841cc[];
 extern "C" void* _FNV_DynamicCast(void*, int, void*, void*, int);
 
 struct EncodeFormView : TESForm
@@ -170,8 +192,6 @@ struct BGSListForm;
 
 struct EncodeReferenceView : EncodeFormView
 {
-    void* FUN_0055d310();
-    TESForm* FUN_007af430();
 };
 
 struct BGSEncounterZone;
@@ -180,7 +200,6 @@ struct TESIdleForm;
 
 struct EncodeCellView
 {
-    bool FUN_00425fd0();
 };
 
 struct TESObject;
@@ -205,21 +224,13 @@ struct SpellItem;
 
 struct MagicItem;
 
-extern char DAT_01183fb4[];
-extern char DAT_01183060[];
 extern char DAT_0118a650[];
 extern char DAT_011840dc[];
 extern char DAT_01186a18[];
 extern char DAT_011863d4[];
 extern char DAT_011863f0[];
-extern char DAT_011861dc[];
 extern char DAT_0118640c[];
-extern char DAT_01183fd0[];
-extern char DAT_01183140[];
-extern char DAT_011837c4[];
 extern char DAT_01183128[];
-extern char DAT_011846e8[];
-extern char DAT_011846a0[];
 extern char DAT_0118627c[];
 
 struct EncodeWord
@@ -235,7 +246,6 @@ struct EncodeWord
 
 struct EncodeCompiler
 {
-    bool FUN_005afad0(EncodeWord*, bool, bool);
 };
 
 struct EncodeParameter
@@ -253,37 +263,21 @@ struct EncodeKind
     unsigned short reserved;
 };
 
-extern EncodeKind DAT_0118cdd0[];
 
-extern TESForm* DAT_011ca224;
 
-bool FUN_00481f30(int);
 
-int FUN_005af5f0(EncodeCompiler*, EncodeWord*, char*, unsigned*, unsigned char, int);
 
-void FUN_005aea90(EncodeCompiler*, const char*, ...);
 
-void FUN_005b5e40(const char*, ...);
 
-int FUN_00404dc0(const char*, const char*);
 
-void* FUN_00401460(void*, const void*, unsigned);
 
-int FUN_004b12d0(const char*);
 
-int FUN_004b1230(const char*);
 
-int FUN_0066eb40(const char*);
 
-int FUN_004d5eb0(const char*);
 
-extern const char* DAT_01186cf4[];
 
-extern const char* DAT_0119bbb0[];
 
-extern const char* DAT_011869bc[];
 
-extern const char* DAT_01199e8c;
 
 extern const char* DAT_01199e90;
 
@@ -300,11 +294,8 @@ struct EncodeAnimation
     int unk20;
 };
 
-extern EncodeAnimation DAT_011977d8[];
 
-extern const char* DAT_0118a2d8[];
 
-extern unsigned char DAT_0118a598[];
 
 // @fnv 0x005b1ba0
 bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameters, ScriptLineBuffer* line,
@@ -325,18 +316,18 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
     for (index4 = 0; index4 < count; ++index4)
     {
 
-        unsigned char kindX = DAT_0118cdd0[parameters[index4].type].kind;
+        unsigned char kindX = (*reinterpret_cast<EncodeKind (*)[]>(&::DAT_0118cdd0))[parameters[index4].type].kind;
 
         EncodeWord word7;
 
-        int lengthVal = FUN_005af5f0(compiler, &word7, line->cLine, &line->uiElapsedMilliseconds, kindX, 0);
+        int lengthVal = ::FUN_005af5f0((::CompilerShell *)(compiler), (::ScriptVariableData *)(::EncodeWord *)(&word7), line->cLine, (int *)(unsigned int *)(&line->uiElapsedMilliseconds), kindX, 0);
 
         if (!lengthVal)
         {
 
             if (!parameters[index4].optional)
             {
-                FUN_005aea90(compiler, "Missing parameter %s.\r\nCompiled script not saved!", parameters[index4].name);
+                ::ReportScriptError((::CStringArgument *)(compiler), "Missing parameter %s.\r\nCompiled script not saved!", parameters[index4].name);
                 return false;
             }
 
@@ -349,20 +340,20 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
         if (kindX == 0 && (word7.refIndex > 0 || word7.variableType != 0))
         {
-            FUN_005aea90(compiler, "Parameter %s may not be a variable.\r\nCompiled script not saved!",
+            ::ReportScriptError((::CStringArgument *)(compiler), "Parameter %s may not be a variable.\r\nCompiled script not saved!",
                          parameters[index4].name);
             return false;
         }
 
-        if (DAT_0118cdd0[parameters[index4].type].isReference &&
-            (!compiler->FUN_005afad0(&word7, false, false) || !word7.refIndex))
+        if ((*reinterpret_cast<EncodeKind (*)[]>(&::DAT_0118cdd0))[parameters[index4].type].isReference &&
+            (!reinterpret_cast<::CStringArgument *>((compiler))->FUN_005afad0((::ScriptToken *)(::EncodeWord *)(&word7), false, false) || !word7.refIndex))
         {
-            FUN_005aea90(compiler, "Item '%s' not found for parameter %s.\r\nCompiled script not saved!", &word7,
+            ::ReportScriptError((::CStringArgument *)(compiler), "Item '%s' not found for parameter %s.\r\nCompiled script not saved!", &word7,
                          parameters[index4].name);
             return false;
         }
 
-        if (DAT_0118cdd0[parameters[index4].type].isReference)
+        if ((*reinterpret_cast<EncodeKind (*)[]>(&::DAT_0118cdd0))[parameters[index4].type].isReference)
         {
 
             switch (parameters[index4].type)
@@ -370,9 +361,9 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
             case 3: {
 
-                if (!word7.variableID && (!word7.form || !FUN_00481f30(word7.form->FUN_00401170())))
+                if (!word7.variableID && (!word7.form || !::TESContainer::IsValidContainerType(word7.form->FUN_00401170())))
                 {
-                    FUN_005aea90(compiler,
+                    ::ReportScriptError((::CStringArgument *)(compiler),
                                  "Invalid inventory object '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
@@ -383,9 +374,9 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
             case 50: {
 
                 if (!word7.variableID &&
-                    (!word7.form || (!FUN_00481f30(word7.form->FUN_00401170()) && word7.form->FUN_00401170() != 85)))
+                    (!word7.form || (!::TESContainer::IsValidContainerType(word7.form->FUN_00401170()) && word7.form->FUN_00401170() != 85)))
                 {
-                    FUN_005aea90(compiler,
+                    ::ReportScriptError((::CStringArgument *)(compiler),
                                  "Invalid inventory object '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
@@ -399,7 +390,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
                     (!word7.form || (!reinterpret_cast<EncodeFormView*>(word7.form)->IsReference() &&
                                      word7.form->FUN_00401170() != 85)))
                 {
-                    FUN_005aea90(compiler, "Invalid object '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid object '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -414,11 +405,11 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
                 if (!word7.variableID)
                 {
                     EncodeReferenceView* reference =
-                        (EncodeReferenceView*)_FNV_DynamicCast(word7.form, 0, DAT_01183028, DAT_011841cc, 0);
+                        (EncodeReferenceView*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), (*reinterpret_cast<char (*)[]>(&::DAT_011841cc)), 0);
 
                     if (!reference)
                     {
-                        FUN_005aea90(compiler,
+                        ::ReportScriptError((::CStringArgument *)(compiler),
                                      "Invalid object reference '%s' for parameter %s.\r\nCompiled script not saved!",
                                      &word7, parameters[index4].name);
                         return false;
@@ -428,10 +419,10 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
                     {
 
                     case 26:
-                        if (!reference->FUN_0055d310())
+                        if (!((void *)(reinterpret_cast<::s55d310::Owner *>((reference))->FUN_0055d310())))
                         {
-                            FUN_005aea90(
-                                compiler,
+                            ::ReportScriptError(
+                                (::CStringArgument *)(compiler),
                                 "Invalid container reference '%s' for parameter %s.\r\nCompiled script not saved!",
                                 &word7, parameters[index4].name);
                             return false;
@@ -439,9 +430,9 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
                         break;
 
                     case 24:
-                        if (reference->FUN_007af430() != DAT_011ca224)
+                        if (((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430())) != (*reinterpret_cast<::TESForm * *>(&::DAT_011ca224)))
                         {
-                            FUN_005aea90(compiler,
+                            ::ReportScriptError((::CStringArgument *)(compiler),
                                          "Invalid map marker '%s' for parameter %s.\r\nCompiled script not saved!",
                                          &word7, parameters[index4].name);
                             return false;
@@ -451,7 +442,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
                     case 6:
                         if (!reference->IsActor())
                         {
-                            FUN_005aea90(compiler, "Invalid actor '%s' for parameter %s.\r\nCompiled script not saved!",
+                            ::ReportScriptError((::CStringArgument *)(compiler), "Invalid actor '%s' for parameter %s.\r\nCompiled script not saved!",
                                          &word7, parameters[index4].name);
                             return false;
                         }
@@ -464,10 +455,10 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
             case 7: {
 
                 if (!word7.variableID &&
-                    (!word7.form || (!(SpellItem*)_FNV_DynamicCast(word7.form, 0, DAT_01183028, DAT_01183060, 0) &&
-                                     !(TESObjectBOOK*)_FNV_DynamicCast(word7.form, 0, DAT_01183028, DAT_0118a650, 0))))
+                    (!word7.form || (!(SpellItem*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), DAT_01183060, 0) &&
+                                     !(TESObjectBOOK*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), DAT_0118a650, 0))))
                 {
-                    FUN_005aea90(compiler, "Invalid spell item '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid spell item '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -477,11 +468,11 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
             case 9: {
 
                 EncodeCellView* object =
-                    (EncodeCellView*)_FNV_DynamicCast(word7.form, 0, DAT_01183028, DAT_01183fb4, 0);
+                    (EncodeCellView*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), (*reinterpret_cast<char (*)[]>(&::DAT_01183fb4)), 0);
 
-                if (!word7.variableID && (!object || !object->FUN_00425fd0()))
+                if (!word7.variableID && (!object || !reinterpret_cast<::TESObjectCELL *>((object))->IsCellInterior()))
                 {
-                    FUN_005aea90(compiler, "Invalid interior cell '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid interior cell '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -491,11 +482,11 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
             case 47: {
 
                 BGSEncounterZone* object =
-                    (BGSEncounterZone*)_FNV_DynamicCast(word7.form, 0, DAT_01183028, DAT_011840dc, 0);
+                    (BGSEncounterZone*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), DAT_011840dc, 0);
 
                 if (!word7.variableID && !object)
                 {
-                    FUN_005aea90(compiler,
+                    ::ReportScriptError((::CStringArgument *)(compiler),
                                  "Invalid encounter zone '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
                                  parameters[index4].name);
                     return false;
@@ -505,11 +496,11 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
             case 48: {
 
-                TESIdleForm* object = (TESIdleForm*)_FNV_DynamicCast(word7.form, 0, DAT_01183028, DAT_01186a18, 0);
+                TESIdleForm* object = (TESIdleForm*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), DAT_01186a18, 0);
 
                 if (!word7.variableID && !object)
                 {
-                    FUN_005aea90(compiler, "Invalid Idle form'%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid Idle form'%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -518,11 +509,11 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
             case 37: {
 
-                BGSListForm* object = (BGSListForm*)_FNV_DynamicCast(word7.form, 0, DAT_01183028, DAT_011863d4, 0);
+                BGSListForm* object = (BGSListForm*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), DAT_011863d4, 0);
 
                 if (!word7.variableID && !object)
                 {
-                    FUN_005aea90(compiler, "Invalid form list '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid form list '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -531,11 +522,11 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
             case 38: {
 
-                BGSMenuIcon* object = (BGSMenuIcon*)_FNV_DynamicCast(word7.form, 0, DAT_01183028, DAT_011863f0, 0);
+                BGSMenuIcon* object = (BGSMenuIcon*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), DAT_011863f0, 0);
 
                 if (!word7.variableID && !object)
                 {
-                    FUN_005aea90(compiler, "Invalid menu icon '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid menu icon '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -544,11 +535,11 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
             case 39: {
 
-                BGSPerk* object = (BGSPerk*)_FNV_DynamicCast(word7.form, 0, DAT_01183028, DAT_011861dc, 0);
+                BGSPerk* object = (BGSPerk*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), DAT_011861dc, 0);
 
                 if (!word7.variableID && !object)
                 {
-                    FUN_005aea90(compiler, "Invalid perk '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid perk '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
                                  parameters[index4].name);
                     return false;
                 }
@@ -557,11 +548,11 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
             case 40: {
 
-                BGSNote* object = (BGSNote*)_FNV_DynamicCast(word7.form, 0, DAT_01183028, DAT_0118640c, 0);
+                BGSNote* object = (BGSNote*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), DAT_0118640c, 0);
 
                 if (!word7.variableID && !object)
                 {
-                    FUN_005aea90(compiler, "Invalid note '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid note '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
                                  parameters[index4].name);
                     return false;
                 }
@@ -571,9 +562,9 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
             case 27: {
 
                 if (!word7.variableID &&
-                    (!word7.form || !(TESWorldSpace*)_FNV_DynamicCast(word7.form, 0, DAT_01183028, DAT_01183fd0, 0)))
+                    (!word7.form || !(TESWorldSpace*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), DAT_01183fd0, 0)))
                 {
-                    FUN_005aea90(compiler, "Invalid worldspace '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid worldspace '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -583,9 +574,9 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
             case 11: {
 
                 if (!word7.variableID &&
-                    (!word7.form || !(MagicItem*)_FNV_DynamicCast(word7.form, 0, DAT_01183028, DAT_01183140, 0)))
+                    (!word7.form || !(MagicItem*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), (*reinterpret_cast<char (*)[]>(&::DAT_01183140)), 0)))
                 {
-                    FUN_005aea90(compiler, "Invalid magic item '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid magic item '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -595,9 +586,9 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
             case 31: {
 
                 if (!word7.variableID &&
-                    (!word7.form || !(EffectSetting*)_FNV_DynamicCast(word7.form, 0, DAT_01183028, DAT_011837c4, 0)))
+                    (!word7.form || !(EffectSetting*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), DAT_011837c4, 0)))
                 {
-                    FUN_005aea90(compiler,
+                    ::ReportScriptError((::CStringArgument *)(compiler),
                                  "Invalid effect setting '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
                                  parameters[index4].name);
                     return false;
@@ -609,7 +600,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 13)))
                 {
-                    FUN_005aea90(compiler, "Invalid sound '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid sound '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
                                  parameters[index4].name);
                     return false;
                 }
@@ -620,7 +611,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 102)))
                 {
-                    FUN_005aea90(compiler, "Invalid music type '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid music type '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -631,7 +622,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 69)))
                 {
-                    FUN_005aea90(compiler, "Invalid topic '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid topic '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
                                  parameters[index4].name);
                     return false;
                 }
@@ -642,7 +633,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 71)))
                 {
-                    FUN_005aea90(compiler, "Invalid info '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid info '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
                                  parameters[index4].name);
                     return false;
                 }
@@ -653,7 +644,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 12)))
                 {
-                    FUN_005aea90(compiler, "Invalid race '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid race '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
                                  parameters[index4].name);
                     return false;
                 }
@@ -664,7 +655,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 7)))
                 {
-                    FUN_005aea90(compiler, "Invalid class '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid class '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
                                  parameters[index4].name);
                     return false;
                 }
@@ -675,7 +666,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 8)))
                 {
-                    FUN_005aea90(compiler, "Invalid faction '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid faction '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -686,7 +677,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 104)))
                 {
-                    FUN_005aea90(compiler, "Invalid reputation '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid reputation '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -697,7 +688,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 113)))
                 {
-                    FUN_005aea90(compiler, "Invalid challenge '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid challenge '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -708,7 +699,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 109)))
                 {
-                    FUN_005aea90(compiler, "Invalid casino '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid casino '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -719,7 +710,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 108)))
                 {
-                    FUN_005aea90(compiler, "Invalid casino chip '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid casino chip '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -730,7 +721,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 116)))
                 {
-                    FUN_005aea90(compiler, "Invalid caravan money '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid caravan money '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -741,7 +732,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 115)))
                 {
-                    FUN_005aea90(compiler, "Invalid caravan card '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid caravan card '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -752,7 +743,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 117)))
                 {
-                    FUN_005aea90(compiler, "Invalid caravan card '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid caravan card '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -763,7 +754,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 55)))
                 {
-                    FUN_005aea90(compiler, "Invalid region '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid region '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -774,7 +765,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 6)))
                 {
-                    FUN_005aea90(compiler, "Invalid global '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid global '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -786,7 +777,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
                 if (!word7.variableID &&
                     (!word7.form || (word7.form->FUN_00401170() != 39 && word7.form->FUN_00401170() != 85)))
                 {
-                    FUN_005aea90(compiler,
+                    ::ReportScriptError((::CStringArgument *)(compiler),
                                  "Invalid furniture object/list '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
@@ -797,9 +788,9 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
             case 21: {
 
                 if (!word7.variableID &&
-                    (!word7.form || !(TESObject*)_FNV_DynamicCast(word7.form, 0, DAT_01183028, DAT_01183128, 0)))
+                    (!word7.form || !(TESObject*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), DAT_01183128, 0)))
                 {
-                    FUN_005aea90(compiler, "Invalid object '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid object '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -809,9 +800,9 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
             case 25: {
 
                 if (!word7.variableID &&
-                    (!word7.form || !(TESActorBase*)_FNV_DynamicCast(word7.form, 0, DAT_01183028, DAT_011846e8, 0)))
+                    (!word7.form || !(TESActorBase*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), (*reinterpret_cast<char (*)[]>(&::DAT_011846e8)), 0)))
                 {
-                    FUN_005aea90(compiler, "Invalid actor base '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid actor base '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -821,9 +812,9 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
             case 29: {
 
                 if (!word7.variableID &&
-                    (!word7.form || !(TESPackage*)_FNV_DynamicCast(word7.form, 0, DAT_01183028, DAT_011846a0, 0)))
+                    (!word7.form || !(TESPackage*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), (*reinterpret_cast<char (*)[]>(&::DAT_011846a0)), 0)))
                 {
-                    FUN_005aea90(compiler, "Invalid package '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid package '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -833,9 +824,9 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
             case 30: {
 
                 if (!word7.variableID &&
-                    (!word7.form || !(TESCombatStyle*)_FNV_DynamicCast(word7.form, 0, DAT_01183028, DAT_0118627c, 0)))
+                    (!word7.form || !(TESCombatStyle*)_FNV_DynamicCast(word7.form, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), DAT_0118627c, 0)))
                 {
-                    FUN_005aea90(compiler, "Invalid combat style '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid combat style '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -846,7 +837,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 53)))
                 {
-                    FUN_005aea90(compiler, "Invalid weather '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid weather '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -857,7 +848,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 84)))
                 {
-                    FUN_005aea90(compiler,
+                    ::ReportScriptError((::CStringArgument *)(compiler),
                                  "Invalid Imagespace Modifier '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
@@ -869,7 +860,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 83)))
                 {
-                    FUN_005aea90(compiler, "Invalid Imagespace '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid Imagespace '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -880,7 +871,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 42)))
                 {
-                    FUN_005aea90(compiler, "Invalid NPC '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid NPC '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
                                  parameters[index4].name);
                     return false;
                 }
@@ -892,7 +883,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
                 if (!word7.variableID &&
                     (!word7.form || (word7.form->FUN_00401170() != 42 && word7.form->FUN_00401170() != 8)))
                 {
-                    FUN_005aea90(compiler, "Invalid owner '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid owner '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
                                  parameters[index4].name);
                     return false;
                 }
@@ -903,7 +894,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 79)))
                 {
-                    FUN_005aea90(compiler, "Invalid Effect Shader '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid Effect Shader '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -914,7 +905,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 98)))
                 {
-                    FUN_005aea90(compiler, "Invalid message '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid message '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -926,7 +917,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
                 if (!word7.variableID &&
                     (!word7.form || (word7.form->FUN_00401170() != 42 && word7.form->FUN_00401170() != 45)))
                 {
-                    FUN_005aea90(compiler,
+                    ::ReportScriptError((::CStringArgument *)(compiler),
                                  "Invalid NPC or LeveledCharacter '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
@@ -939,8 +930,8 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
                 if (!word7.variableID &&
                     (!word7.form || (word7.form->FUN_00401170() != 43 && word7.form->FUN_00401170() != 44)))
                 {
-                    FUN_005aea90(
-                        compiler,
+                    ::ReportScriptError(
+                        (::CStringArgument *)(compiler),
                         "Invalid Creature or LeveledCreature '%s' for parameter %s.\r\nCompiled script not saved!",
                         &word7, parameters[index4].name);
                     return false;
@@ -952,7 +943,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 45)))
                 {
-                    FUN_005aea90(compiler,
+                    ::ReportScriptError((::CStringArgument *)(compiler),
                                  "Invalid LeveledCharacter '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
@@ -964,7 +955,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 44)))
                 {
-                    FUN_005aea90(compiler,
+                    ::ReportScriptError((::CStringArgument *)(compiler),
                                  "Invalid LeveledCreature '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
                                  parameters[index4].name);
                     return false;
@@ -976,7 +967,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (!word7.variableID && (!word7.form || (word7.form->FUN_00401170() != 52)))
                 {
-                    FUN_005aea90(compiler, "Invalid LeveledItem '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid LeveledItem '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -987,7 +978,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (!word7.variableID && !word7.form)
                 {
-                    FUN_005aea90(compiler, "Invalid form '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid form '%s' for parameter %s.\r\nCompiled script not saved!", &word7,
                                  parameters[index4].name);
                     return false;
                 }
@@ -995,9 +986,8 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
             break;
 
             default:
-                FUN_005b5e40(
-                    "SCRIPTS: Param type '%d' (referenced object) unimplemented in ScriptCompiler::StandardCompile.",
-                    parameters[index4].type);
+                ::FUN_005b5e40(
+                    );
                 return false;
             }
 
@@ -1020,7 +1010,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 line->m_uiValueAfterSecondBuffer += 2;
 
-                FUN_00401460(line->cOutput + line->m_uiValueAfterSecondBuffer, &word7, lengthVal);
+                ::__memcpy(line->cOutput + line->m_uiValueAfterSecondBuffer, &word7, lengthVal);
 
                 line->m_uiValueAfterSecondBuffer += lengthVal;
 
@@ -1066,9 +1056,9 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
                     else if (parameters[index4].type == 1 || parameters[index4].type == 23)
                     {
 
-                        if (!FUN_004b1230(word7.text))
+                        if (!::IsIntegerString(word7.text))
                         {
-                            FUN_005aea90(compiler,
+                            ::ReportScriptError((::CStringArgument *)(compiler),
                                          "Unknown variable '%s' for parameter %s.\r\nCompiled script not saved!",
                                          &word7, parameters[index4].name);
                             return false;
@@ -1088,9 +1078,9 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
                     else
                     {
 
-                        if (!FUN_004b12d0(word7.text))
+                        if (!::FUN_004b12d0((char *)(word7.text)))
                         {
-                            FUN_005aea90(compiler,
+                            ::ReportScriptError((::CStringArgument *)(compiler),
                                          "Unknown variable '%s' for parameter %s.\r\nCompiled script not saved!",
                                          &word7, parameters[index4].name);
                             return false;
@@ -1113,7 +1103,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
             case 5: {
 
-                int value = FUN_0066eb40(word7.text);
+                int value = ::FindEntryIndexByName(word7.text);
 
                 if (value != 77)
                 {
@@ -1125,7 +1115,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
                 }
                 else
                 {
-                    FUN_005aea90(compiler, "Invalid actor value '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid actor value '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -1151,7 +1141,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 else
                 {
-                    FUN_005aea90(compiler, "Invalid alignment '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid alignment '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -1177,7 +1167,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 else
                 {
-                    FUN_005aea90(compiler, "Invalid CriticalStage '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid CriticalStage '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -1203,7 +1193,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 else
                 {
-                    FUN_005aea90(compiler, "Invalid EquipType '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid EquipType '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -1212,11 +1202,11 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
             case 41: {
 
-                int value = FUN_004d5eb0(word7.text);
+                int value = ::FindMiscStatIndex(word7.text);
 
                 if (value == 43)
                 {
-                    FUN_005aea90(compiler, "Invalid misc stat '%s' for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Invalid misc stat '%s' for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -1232,10 +1222,10 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
             case 28: {
 
-                if (!FUN_004b1230(word7.text))
+                if (!::IsIntegerString(word7.text))
                 {
-                    FUN_005aea90(
-                        compiler,
+                    ::ReportScriptError(
+                        (::CStringArgument *)(compiler),
                         "Invalid crime type '%s' for parameter %s.  Crime type must be a numeric value from 0-%d.\r\nCompiled script not saved!",
                         &word7, parameters[index4].name, 4);
                     return false;
@@ -1245,8 +1235,8 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (value < 0 || value >= 5)
                 {
-                    FUN_005aea90(
-                        compiler,
+                    ::ReportScriptError(
+                        (::CStringArgument *)(compiler),
                         "Invalid crime type '%s' for parameter %s.  Crime type must be a numeric value from 0-%d.\r\nCompiled script not saved!",
                         &word7, parameters[index4].name, 4);
                     return false;
@@ -1264,7 +1254,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (axis4Probe2 != 'X' && axis4Probe2 != 'Y' && axis4Probe2 != 'Z')
                 {
-                    FUN_005aea90(compiler, "Axis (X,Y,Z) required for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Axis (X,Y,Z) required for parameter %s.\r\nCompiled script not saved!",
                                  parameters[index4].name);
                     return false;
                 }
@@ -1279,7 +1269,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 int value = 2;
 
-                if (!FUN_00404dc0(word7.text, DAT_01199e8c))
+                if (!FUN_00404dc0(word7.text, (*reinterpret_cast<const char * *>((void *)&::DAT_01199e8c))))
                     value = 0;
 
                 else if (!FUN_00404dc0(word7.text, DAT_01199e90))
@@ -1287,7 +1277,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (value == 2)
                 {
-                    FUN_005aea90(compiler,
+                    ::ReportScriptError((::CStringArgument *)(compiler),
                                  "Sex (Male, Female) required for parameter %s.\r\nCompiled script not saved!",
                                  parameters[index4].name);
                     return false;
@@ -1307,7 +1297,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 for (jProbe3 = 0; jProbe3 < 245; ++jProbe3)
                 {
-                    if (!FUN_00404dc0(word7.text, DAT_011977d8[jProbe3].name))
+                    if (!FUN_00404dc0(word7.text, (*reinterpret_cast<EncodeAnimation (*)[]>(&::DAT_011977d8))[jProbe3].name))
                     {
                         value = jProbe3;
                         break;
@@ -1316,7 +1306,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (value == 255)
                 {
-                    FUN_005aea90(compiler,
+                    ::ReportScriptError((::CStringArgument *)(compiler),
                                  "Animation group \"%s\" not found for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
@@ -1343,7 +1333,7 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
                 if (!value)
                 {
-                    FUN_005aea90(compiler, "Form Type \"%s\" not found for parameter %s.\r\nCompiled script not saved!",
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Form Type \"%s\" not found for parameter %s.\r\nCompiled script not saved!",
                                  &word7, parameters[index4].name);
                     return false;
                 }
@@ -1355,15 +1345,14 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
             break;
 
             default:
-                FUN_005b5e40("SCRIPTS: Param type '%d' unimplemented in ScriptCompiler::StandardCompile.",
-                             parameters[index4].type);
+                ::FUN_005b5e40();
                 return false;
             }
     }
 
     if (line->uiElapsedMilliseconds < line->uiSize)
     {
-        FUN_005aea90(compiler, "Expected end of line.\r\nCompiled script not saved!", parameters[index4].name);
+        ::ReportScriptError((::CStringArgument *)(compiler), "Expected end of line.\r\nCompiled script not saved!", parameters[index4].name);
         return false;
     }
 

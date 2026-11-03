@@ -3,6 +3,21 @@
 #define FNV_LISTBOX_MATCH_UNIT_H
 
 
+#include "fnv/decl/Cls_764e40.h"
+#include "fnv/decl/Cls_764ef0.h"
+#include "fnv/decl/FUN_00730e20_cls.h"
+#include "fnv/decl/FUN_007a6bd0_shell.h"
+#include "fnv/decl/FUN_007a6c80_shell.h"
+#include "fnv/decl/FUN_007a79b0_shell.h"
+#include "fnv/decl/FUN_00a01230_shell.h"
+#include "fnv/decl/LBList.h"
+#include "fnv/decl/ListBoxZ.h"
+#include "fnv/decl/ListOwner.h"
+#include "fnv/decl/SelectionList.h"
+#include "fnv/decl/fnv_007d9660__SelectionList.h"
+#include "fnv/decl/sa040a0__Owner.h"
+#include "fnv/symbols_00a00000.h"
+#include "fnv/symbols_00a08000.h"
 #include "listbox_decls.h"
 #include "layout_support.h"
 #include "ListBoxBase.h"
@@ -52,8 +67,6 @@ class TileListBoxCalls : public Tile
     float GetFloat(int trait);
 };
 
-int __cdecl GetTileValueID(const char* name, int index);
-Tile* __cdecl FindNamedTile(Tile* tile, const char* name);
 
 extern "C" const char kListBoxEnabled[] = "_enabled";
 extern "C" const char kListBoxNumFiltered[] = "_number_of_visible_items";
@@ -64,7 +77,7 @@ template <>
 unsigned int ListBox<BGSSaveLoadFileEntry*>::GetVisibleEntryCount()
 {
     return m_pListTile != 0
-               ? (unsigned int)((TileListBoxCalls*)m_pListTile)->GetFloat(GetTileValueID(kListBoxNumFiltered, -1))
+               ? (unsigned int)((TileListBoxCalls*)m_pListTile)->GetFloat(::FUN_00a00940(kListBoxNumFiltered, -1))
                : 0;
 }
 
@@ -72,14 +85,14 @@ template <>
 // @fnv 0x007d8d60
 bool ListBox<BGSSaveLoadFileEntry*>::SetSelection(Tile* tile)
 {
-    return SetSelection(tile, 0);
+    return reinterpret_cast<::fnv_007d9660::SelectionList *>(this)->FUN_007d9660((::fnv_007d9660::SelectionTile *)(tile), 0);
 }
 
 template <>
 // @fnv 0x007a1910
 PerkForm* ListBox<PerkForm*>::GetSelectedData()
 {
-    return GetSelectedData(m_pSelectedTile);
+    return ((::PerkForm *)(reinterpret_cast<::LBList *>(this)->FindItemData(m_pSelectedTile)));
 }
 
 template <>
@@ -88,7 +101,7 @@ void ListBox<unsigned int>::Initialize(Tile* container, const char* templateName
 {
     m_pListTile = container;
     pTemplateName = templateName;
-    m_pHighlightedTile = FindNamedTile(m_pListTile, kListBoxScrollbar);
+    m_pHighlightedTile = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(m_pListTile), kListBoxScrollbar)));
 }
 
 template <>
@@ -111,18 +124,18 @@ template <>
 // @fnv 0x007d7630
 bool ListBox<BGSSaveLoadFileEntry*>::IsEnabled()
 {
-    return m_pListTile && m_pListTile->IsVisible();
+    return m_pListTile && reinterpret_cast<::sa040a0::Owner *>((m_pListTile))->IsAllChildrenFlag0();
 }
 
 template <>
 // @fnv 0x00730ed0
 bool ListBox<InventoryStackRecord*>::Highlight(Tile* tile)
 {
-    if (IsEnabled() && (!tile || (((ListBox_int_*)this)->ContainsKey(tile) &&
-                                  tile->ContainsTrait(GetTileValueID(kListBoxEnabled, -1)))))
+    if (reinterpret_cast<::FUN_00730e20_cls *>(this)->FUN_00730e20() && (!tile || (reinterpret_cast<::ListOwner *>((((ListBox_int_*)this)))->ContainsKey((int)(tile)) &&
+                                  reinterpret_cast<::FUN_00a01230_shell *>((tile))->IsTraitNonZero(::FUN_00a00940(kListBoxEnabled, -1)))))
     {
         m_pSelectedTile = tile;
-        ResetItems();
+        reinterpret_cast<::ListBoxZ *>(this)->FUN_0071a740();
         return true;
     }
     else
@@ -134,11 +147,11 @@ template <>
 // @fnv 0x00764a00
 bool ListBox<int>::Highlight(Tile* tile)
 {
-    if (IsEnabled() && (!tile || (((ListBox_int_*)this)->ContainsKey(tile) &&
-                                  tile->ContainsTrait(GetTileValueID(kListBoxEnabled, -1)))))
+    if (reinterpret_cast<::Cls_764e40 *>(this)->FUN_00764e40() && (!tile || (reinterpret_cast<::ListOwner *>((((ListBox_int_*)this)))->ContainsKey((int)(tile)) &&
+                                  reinterpret_cast<::FUN_00a01230_shell *>((tile))->IsTraitNonZero(::FUN_00a00940(kListBoxEnabled, -1)))))
     {
         m_pSelectedTile = tile;
-        ResetItems();
+        reinterpret_cast<::Cls_764ef0 *>(this)->UpdateHighlightTile();
         return true;
     }
     else
@@ -150,11 +163,11 @@ template <>
 // @fnv 0x007a3170
 bool ListBox<BGSNote*>::Highlight(Tile* tile)
 {
-    if (IsEnabled() && (!tile || (((ListBox_int_*)this)->ContainsKey(tile) &&
-                                  tile->ContainsTrait(GetTileValueID(kListBoxEnabled, -1)))))
+    if (reinterpret_cast<::FUN_007a6bd0_shell *>(this)->FUN_007a6bd0() && (!tile || (reinterpret_cast<::ListOwner *>((((ListBox_int_*)this)))->ContainsKey((int)(tile)) &&
+                                  reinterpret_cast<::FUN_00a01230_shell *>((tile))->IsTraitNonZero(::FUN_00a00940(kListBoxEnabled, -1)))))
     {
         m_pSelectedTile = tile;
-        ResetItems();
+        reinterpret_cast<::FUN_007a6c80_shell *>(this)->UpdateHighlightBox();
         return true;
     }
     else
@@ -166,11 +179,11 @@ template <>
 // @fnv 0x007a4ce0
 bool ListBox<BGSQuestObjective*>::Highlight(Tile* tile)
 {
-    if (IsEnabled() && (!tile || (((ListBox_int_*)this)->ContainsKey(tile) &&
-                                  tile->ContainsTrait(GetTileValueID(kListBoxEnabled, -1)))))
+    if (reinterpret_cast<::FUN_007a79b0_shell *>(this)->FUN_007a79b0() && (!tile || (reinterpret_cast<::ListOwner *>((((ListBox_int_*)this)))->ContainsKey((int)(tile)) &&
+                                  reinterpret_cast<::FUN_00a01230_shell *>((tile))->IsTraitNonZero(::FUN_00a00940(kListBoxEnabled, -1)))))
     {
         m_pSelectedTile = tile;
-        ResetItems();
+        reinterpret_cast<::SelectionList *>(this)->UpdateSelectionState();
         return true;
     }
     else

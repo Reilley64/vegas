@@ -7,13 +7,33 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/fallout/magic/summoncreatureeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/summoncreatureeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/CalleeObj.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_00458420_cls.h"
+#include "fnv/decl/FUN_004a39f0_shell.h"
+#include "fnv/decl/FUN_004a3eb0_shell.h"
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_0056e120_shell.h"
+#include "fnv/decl/FUN_0057b0a0_shell.h"
+#include "fnv/decl/FUN_00828590.h"
+#include "fnv/decl/FUN_00c9f420_Class.h"
+#include "fnv/decl/Hld621210.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MagicTarget.h"
+#include "fnv/decl/Obj.h"
+#include "fnv/decl/ScriptX.h"
+#include "fnv/decl/fnv_004a3da0__FUN_004a3da0_shell.h"
+#include "fnv/decl/fnv_0050ebf0__FUN_0050ebf0_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_004ae000.h"
+#include "fnv/symbols_011de000.h"
 struct SummonCreatureEffect
 {
     virtual ~SummonCreatureEffect();
-    void FUN_00828590();
     void* FUN_00828560(unsigned int flags);
 };
-void __cdecl _Deallocate(void*);
 struct FUN_00828da0_shell
 {
     int __thiscall GetZero(int a, int b, int c);
@@ -39,7 +59,6 @@ struct __declspec(align(16)) hkVector4
     hkVector4();
 };
 
-hkVector4& __cdecl NiPoint3ToHkVector4(hkVector4& kOut, const NiPoint3& kIn);
 
 struct hkBool
 {
@@ -56,13 +75,11 @@ struct TESForm
 
 struct TESBoundObject : TESForm
 {
-    float GetBoundSize();
 };
 
 struct TESObjectCELL;
 struct bhkWorld;
 
-bhkWorld* __fastcall GetHavokWorld(TESObjectCELL* pkCell);
 
 struct MobileObject
 {
@@ -193,13 +210,10 @@ struct MobileObject
     virtual void Vfn07c();
     virtual NiPoint3* GetPos();
 
-    TESObjectCELL* GetParentCell();
-    float GetRelevantWaterHeight();
 };
 
 struct EffectTarget
 {
-    MobileObject* GetActor();
 };
 
 struct bhkSphereShape
@@ -214,7 +228,6 @@ struct bhkSphereShape
 
     bhkSphereShape(float fRadius, bool bFlag);
     virtual ~bhkSphereShape();
-    void* GetHavokShape();
 };
 
 struct CollisionFilterInfo
@@ -238,7 +251,6 @@ struct BoundingVolumeData
     void* m_pChildShapeAabbs;
     void* m_pChildShapeKeys;
 
-    void Init();
 };
 
 struct __declspec(align(16)) Collidable
@@ -277,9 +289,6 @@ struct ShapePhantom
 
     ShapePhantom(const void* pkCollidable);
     ~ShapePhantom();
-    void SetWorld(bhkWorld* pkWorld);
-    void LinearCast(const hkVector4& kFrom, const void* pkInput, void* pkCastCollector, void* pkStartCollector);
-    void Remove();
 };
 
 struct __declspec(align(16)) CdPointCollector
@@ -519,7 +528,6 @@ struct __declspec(align(16)) CdPointCollector
 
     CdPointCollector();
     ~CdPointCollector();
-    hkBool HasHit();
 };
 
 struct __declspec(align(16)) LinearCastInput
@@ -538,7 +546,6 @@ struct PickFilter
     unsigned int m_uiFilter;
 
     PickFilter(int iValue);
-    void SetLayer(int iLayer);
 };
 
 struct RayCastOutput
@@ -566,7 +573,6 @@ struct RayCastOutput
     int unk078;
     int unk07c;
 
-    hkBool HasHit();
 };
 
 struct __declspec(align(16)) PickData
@@ -581,20 +587,15 @@ struct __declspec(align(16)) PickData
 
     PickData();
     void SetFilter(PickFilter kFilter);
-    void SetFrom(const NiPoint3& kFrom);
-    void SetTo(const NiPoint3& kTo);
 };
 
 struct TES
 {
-    void Pick(PickData& kPick);
 };
 
-extern TES* g_TES;
 
 struct SummonCreatureEffectHelper : SummonCreatureEffect
 {
-    EffectTarget* GetTarget();
     TESForm* GetBaseForm();
     bool FUN_00828f00(int iUnused, NiPoint3* pkPos);
 };
@@ -602,9 +603,9 @@ struct SummonCreatureEffectHelper : SummonCreatureEffect
 // @fnv 0x00828f00
 bool SummonCreatureEffectHelper::FUN_00828f00(int iUnused, NiPoint3* pkPos)
 {
-    MobileObject* pkActor = GetTarget() ? GetTarget()->GetActor() : 0;
+    MobileObject* pkActor = ((::EffectTarget *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::MobileObject *)(reinterpret_cast<::MagicTarget *>((((::EffectTarget *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
     TESBoundObject* pkBound = dynamic_cast<TESBoundObject*>(GetBaseForm());
-    float fRadius = pkBound->GetBoundSize();
+    float fRadius = reinterpret_cast<::fnv_0050ebf0::FUN_0050ebf0_shell *>((pkBound))->FUN_0050ebf0();
     if (64.0 > fRadius)
         fRadius = 64.0f;
 
@@ -612,43 +613,43 @@ bool SummonCreatureEffectHelper::FUN_00828f00(int iUnused, NiPoint3* pkPos)
     CollisionFilterInfo kFilter(0x26, 0, 0);
     Collidable kCollidable;
     kCollidable.m_uiFilterInfo = kFilter;
-    kCollidable.m_pShape = pkShape->GetHavokShape();
-    kCollidable.m_kBoundingVolumeData.Init();
+    kCollidable.m_pShape = ((void *)(::FUN_004ae750((void *)(pkShape))));
+    reinterpret_cast<::FUN_0056e120_shell *>(&(kCollidable.m_kBoundingVolumeData))->FUN_0056e120();
     ShapePhantom kPhantom(&kCollidable);
-    if (pkActor->GetParentCell())
-        kPhantom.SetWorld(GetHavokWorld(pkActor->GetParentCell()));
+    if (((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((pkActor))->GetTarget())))
+        reinterpret_cast<::Obj *>(&(kPhantom))->FUN_00c85810((::Obj *)(::bhkWorld *)(((::bhkWorld *)(reinterpret_cast<::FUN_004543c0_cls *>((((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((pkActor))->GetTarget()))))->FUN_004543c0()))));
 
     hkVector4 kFrom;
     CdPointCollector kStartCollector;
     CdPointCollector kCastCollector;
     LinearCastInput kInput;
-    NiPoint3ToHkVector4(kFrom, *pkPos + NiPoint3(0.0f, 0.0f, fRadius * 0.5 + 10.0));
-    NiPoint3ToHkVector4(kInput.m_vTo, *pkPos + NiPoint3(0.0f, 0.0f, fRadius * 0.5 + 10.0));
-    kPhantom.LinearCast(kFrom, &kInput, &kCastCollector, &kStartCollector);
-    if (kStartCollector.HasHit())
+    ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(kFrom), (const ::fnv_004a3e00::NiPoint3 &)((const ::NiPoint3 &)(*pkPos + NiPoint3(0.0f, 0.0f, fRadius * 0.5 + 10.0))));
+    ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(kInput.m_vTo), (const ::fnv_004a3e00::NiPoint3 &)((const ::NiPoint3 &)(*pkPos + NiPoint3(0.0f, 0.0f, fRadius * 0.5 + 10.0))));
+    reinterpret_cast<::ScriptX *>(&(kPhantom))->InvokeInterfaceCall((int)&(kFrom), (int)(&kInput), (int)(&kCastCollector), (int)(&kStartCollector));
+    if ((*(::hkBool *)(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(reinterpret_cast<::Hld621210 *>(&(kStartCollector))->FUN_00621210({})))->FUN_005609f0())))
     {
-        kPhantom.Remove();
+        reinterpret_cast<::FUN_00c9f420_Class *>(&(kPhantom))->FUN_00c9f420();
         delete pkShape;
         return false;
     }
 
-    kPhantom.Remove();
+    reinterpret_cast<::FUN_00c9f420_Class *>(&(kPhantom))->FUN_00c9f420();
     delete pkShape;
-    if (pkActor->GetRelevantWaterHeight() > pkActor->GetPos()->z)
+    if (reinterpret_cast<::FUN_0057b0a0_shell *>((pkActor))->FUN_0057b0a0() > pkActor->GetPos()->z)
         return false;
 
     PickData kPick;
     PickFilter kPickFilter(0);
-    kPickFilter.SetLayer(0x26);
+    reinterpret_cast<::FUN_004a39f0_shell *>(&(kPickFilter))->FUN_004a39f0(0x26);
     kPick.SetFilter(kPickFilter);
     NiPoint3 kStart = *pkActor->GetPos();
     kStart.z += 64.0;
     NiPoint3 kEnd = *pkPos;
     kEnd.z += 64.0;
-    kPick.SetFrom(kStart);
-    kPick.SetTo(kEnd);
-    g_TES->Pick(kPick);
-    if (kPick.m_kOutput.HasHit())
+    reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(kPick))->FUN_004a3da0((void *)&(kStart));
+    reinterpret_cast<::FUN_004a3eb0_shell *>(&(kPick))->FUN_004a3eb0((void *)&(kEnd));
+    reinterpret_cast<::FUN_00458420_cls *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_00458420((int)&(kPick));
+    if ((*(::hkBool *)(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(reinterpret_cast<::CalleeObj *>(&(kPick.m_kOutput))->FUN_005c53f0({})))->FUN_005609f0())))
         return false;
 
     return true;

@@ -8,6 +8,9 @@
 
 #include <math.h>
 #include <xmmintrin.h>
+#include "fnv/symbols_00db4000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_simd.h"
 struct __declspec(align(16)) hkVector4
 {
     float x, y, z, w;
@@ -61,9 +64,6 @@ struct SweepState
     hkVector4 ob;  // 120
 };
 
-void __cdecl FUN_00db4b50(SweepObj* obj, float t, SweepState* st);
-float __cdecl FUN_00db4ca0(SweepObj* obj, float* p, hkVector4* v, float a, float b, float c, float d, float e,
-                           SweepOut* out);
 
 static inline __m128 Cross(const __m128& a, const __m128& b)
 {
@@ -99,7 +99,7 @@ void __cdecl FUN_00db4e40(SweepObj* obj, float* p, SweepOut* out)
     do
     {
         SweepState st;
-        FUN_00db4b50(obj, tCur, &st);
+        ::FUN_00db4b50((::S_00db4b50_A *)(obj), tCur, (::S_00db4b50_Out *)(::SweepState *)(&st));
         int i = *(volatile int*)&num;
         hkVector4* it = obj->m_items;
         float dt = tEnd - tCur;
@@ -136,7 +136,7 @@ void __cdecl FUN_00db4e40(SweepObj* obj, float* p, SweepOut* out)
                 {
                     float w = it->w;
                     tEnd = w;
-                    tEnd = FUN_00db4ca0(obj, p, it, tPrev, tCur, w, dist, vel, out);
+                    tEnd = ::FUN_00db4ca0(obj, p, (const ::__m128 *)(it), tPrev, tCur, w, dist, vel, (::Out *)(out));
                 }
             }
             else
@@ -187,9 +187,6 @@ void __cdecl FUN_00db4e40(SweepObj* obj, float* p, SweepOut* out)
 // Adapted from the project's prior contributor draft of 24 October 2026.
 // The same-file caller lets VC2008 reproduce the private register convention.
 
-extern const __m128 DAT_010c44d0;
-extern const __m128 DAT_010ec7f0;
-extern const double DAT_010290f0;
 
 // @fnv 0x00db49b0
 static __declspec(noinline) float FUN_00db49b0(char* a, char* b, __m128* p, __m128* v0, __m128* v1, __m128* v2, float t)
@@ -204,7 +201,7 @@ static __declspec(noinline) float FUN_00db49b0(char* a, char* b, __m128* p, __m1
     _mm_store_ss(&d1, _mm_add_ss(_mm_shuffle_ps(q, q, 0xaa), qy));
 
     __m128 ev = _mm_set1_ps(tmp);
-    __m128 L = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(DAT_010ec7f0, ev), *(__m128*)(a + 0x40)),
+    __m128 L = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(::DAT_010ec7f0, ev), *(__m128*)(a + 0x40)),
                           _mm_mul_ps(*(__m128*)(a + 0x50), ev));
     __m128 w = _mm_sub_ps(v0x, L);
     __m128 c = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(*p, *p, 0xc9), _mm_shuffle_ps(w, w, 0xd2)),
@@ -219,7 +216,7 @@ static __declspec(noinline) float FUN_00db49b0(char* a, char* b, __m128* p, __m1
 
     tmp = (t - *(float*)(b + 0x4c)) * *(float*)(b + 0x5c);
     ev = _mm_set1_ps(tmp);
-    L = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(DAT_010ec7f0, ev), *(__m128*)(b + 0x40)),
+    L = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(::DAT_010ec7f0, ev), *(__m128*)(b + 0x40)),
                    _mm_mul_ps(*(__m128*)(b + 0x50), ev));
     w = _mm_sub_ps(v0x, L);
     // Keep one local copy for both shuffles of the second vector.

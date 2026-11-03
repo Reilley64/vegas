@@ -2,6 +2,8 @@
 // src/gamebryo2.2/corelibs/nisystem/nibinarystream.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nisystem/nibinarystream.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/symbols_011f6000.h"
 extern unsigned char DAT_011f607c;
 
 // @fnv 0x00aa1d40
@@ -17,10 +19,6 @@ struct NiBinaryStream
 };
 
 extern void* __cdecl _DeallocateAlias(void*);
-extern struct MemoryManager
-{
-    void* __thiscall Deallocate(void*);
-} g_memoryManager;
 extern int DAT_010a24b8;
 
 // Sets the vtable pointer to DAT_010a24b8 and, if fFree has bit 0 set, deallocates this via g_memoryManager, returning this.
@@ -30,7 +28,7 @@ void* __thiscall NiBinaryStream::Destroy(unsigned int fFree)
     *reinterpret_cast<void**>(this) = &DAT_010a24b8;
     if (fFree & 1)
     {
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
     }
     return this;
 }

@@ -7,14 +7,32 @@
 
 // src/havok/common/internal/geometryprocessing/hkgeometryprocessing.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/geometryprocessing/hkgeometryprocessing.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void __cdecl Deallocate(void*);
+#include "fnv/decl/FUN_00d9be30_class.h"
+#include "fnv/decl/FUN_00e241a0_cls.h"
+#include "fnv/decl/HostE10.h"
+#include "fnv/decl/MapD9.h"
+#include "fnv/decl/S_00d9d650_Tree.h"
+#include "fnv/decl/S_e1ce10_Mesh.h"
+#include "fnv/decl/This_2.h"
+#include "fnv/decl/Z_E15E50.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d1d000.h"
+#include "fnv/symbols_00de9000.h"
+#include "fnv/symbols_00dea000.h"
+#include "fnv/symbols_00ded000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010cd000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
 extern int DAT_010d9fc4;
 struct FUN_00dee620
 {
     void* m_pVTable;
     __thiscall FUN_00dee620(int testFlag);
 };
-extern "C" void __cdecl FUN_00dedf10(void*, void*, void*, void*, int, int);
 void __cdecl FUN_00dee5f0(void* first, void* second, void* third, void* fourth);
 struct FUN_00dee6b0_Class
 {
@@ -22,7 +40,6 @@ struct FUN_00dee6b0_Class
     float unk04;
     float FUN_00dee6b0(int testFlag);
 };
-extern int DAT_010cd664;
 struct AudioAllocator
 {
     virtual void v00();
@@ -37,7 +54,6 @@ struct AudioHolder
     int unk0c;
     AudioAllocator* m_pAllocator;
 };
-AudioHolder* __cdecl FUN_00c85750() throw();
 struct FUN_00dee6c0_cls
 {
     int m_vptr;
@@ -109,9 +125,6 @@ struct hkVector4
         return dot3(*this);
     }
 };
-extern const hkVector4 DAT_010c7160;
-float __cdecl FUN_00de94b0(const hkVector4& a, const hkVector4& b, const hkVector4& c, float* out);
-extern __m128 DAT_010c71d0;
 struct FUN_00dee640_cls
 {
     int unk00;
@@ -126,7 +139,6 @@ struct FUN_00dee640_cls
     void* m_pTag30;
     float UpdateNearestDistance(void* pair);
 };
-extern __m128 DAT_01267e30;
 struct Vertex
 {
     unsigned int unk00;
@@ -211,11 +223,9 @@ struct Sub08_cls
     unsigned int unk0C;
     unsigned int unk10;
     unsigned int unk14;
-    Vertex* PushFront(PendingBlock* out);
 };
 struct Sub20_cls
 {
-    Triangle* FUN_00e241a0(Triangle* node);
 };
 struct FUN_00e19200_cls
 {
@@ -230,8 +240,6 @@ extern "C"
     __m128 _mm_and_ps(__m128, __m128);
     __m128 _mm_setr_ps(float, float, float, float);
 }
-extern __m128 DAT_01017d10;
-extern float DAT_01011d78;
 struct CubeVector
 {
     __m128 lanes;
@@ -250,7 +258,7 @@ struct CubeVector
     __forceinline int longestAxis() const
     {
         CubeVector magnitude;
-        magnitude.lanes = _mm_and_ps(lanes, DAT_01017d10);
+        magnitude.lanes = _mm_and_ps(lanes, ::DAT_01017d10);
         const float* p = (const float*)&magnitude.lanes;
         if (p[0] < p[1])
             return p[1] < p[2] ? 2 : 1;
@@ -276,15 +284,12 @@ struct CubeBox
         dst.scale(DAT_010c71d0);
     }
 };
-void __cdecl FUN_00de9590(CubeBox* box);
 #include <math.h>
+#include "fnv/symbols_simd.h"
 extern const float DAT_0104da4c = 1.1920928955078125e-7f;
-extern float DAT_0104da48;
 extern "C" __m128 _mm_sqrt_ss(__m128);
 extern "C" __m128 _mm_set_ps1(float);
 extern "C" __m128 _mm_load_ss(const float*);
-float __cdecl FUN_00dea450(const hkVector4& firstStart, const hkVector4& firstEnd, const hkVector4& secondStart,
-                           const hkVector4& secondEnd, float* firstParameter, float* secondParameter);
 
 struct Sdedf10_PlacementArg;
 
@@ -324,8 +329,6 @@ __forceinline Sdedf10_Allocator& Sdedf10_heap()
     return Sdedf10_MemoryRouter::GetMonitorStream().heap();
 }
 
-void __cdecl Sdedf10_reserve(Sdedf10_Allocator& a, void* array, int reqElem, int sizeElem);
-void __cdecl Sdedf10_reserveMore(Sdedf10_Allocator& a, void* array, int sizeElem);
 
 template <typename T> __forceinline void Sdedf10_construct(T* t, int n, Sdedf10_TypeIsPod)
 {}
@@ -400,7 +403,7 @@ template <typename T, typename Tag> struct Sdedf10_ArrayBase
     {
         if (getCapacity() < n)
         {
-            Sdedf10_reserve(alloc, this, n, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), n, sizeof(T));
         }
     }
     __forceinline void GrowArrayCapacity(Sdedf10_Allocator& alloc, int n)
@@ -410,14 +413,14 @@ template <typename T, typename Tag> struct Sdedf10_ArrayBase
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            Sdedf10_reserve(alloc, this, newSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
         }
     }
     __forceinline void _pushBack(Sdedf10_Allocator& alloc, const T& t)
     {
         if (m_iElementCount == getCapacity())
         {
-            Sdedf10_reserveMore(alloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(T));
         }
         Sdedf10_constructWithCopy(m_data + m_iElementCount, 1, t, Tag());
         m_iElementCount++;
@@ -559,7 +562,6 @@ struct Sdedf10_PseudoRandom
 
 struct Sdedf10_Geometry;
 struct Sdedf10_Transform;
-extern const Sdedf10_Transform DAT_01268370;
 
 struct __declspec(align(16)) Sdedf10_Mesh
 {
@@ -634,9 +636,6 @@ struct __declspec(align(16)) Sdedf10_Mesh
 
     Sdedf10_Mesh();
     ~Sdedf10_Mesh();
-    void AppendGeometry(const Sdedf10_Geometry& geometry, const Sdedf10_Transform& transform, int material);
-    void assignVertexNormals();
-    void FinalizeMesh();
 };
 
 struct Sdedf10_NodeManager
@@ -666,11 +665,9 @@ class Sdedf10_Tree
     Sdedf10_Tree();
     virtual ~Sdedf10_Tree()
     {
-        clear();
+        reinterpret_cast<::FUN_00d9be30_class *>(this)->FUN_00d9be30();
     }
-    void build(Sdedf10_Aabb* volumes, void** userDatas, int numLeaves, Sdedf10_Array<unsigned int>& leavesOut);
     void clear();
-    void update(unsigned int leafIdx, const Sdedf10_Aabb& aabb);
 
     Sdedf10_TreeNode* m_pAabbRootNode;
     unsigned int m_usManagerValue;
@@ -716,10 +713,6 @@ struct Sdedf10_NearestFeaturePolicy : Sdedf10_ClosestPointCollector
     const Sdedf10_TreeNode* m_nearest;
 };
 
-void __cdecl Sdedf10_queryClosestPoint(const Sdedf10_Tree* tree, const Sdedf10_Vector4& point,
-                                       Sdedf10_Collector* collector);
-bool __cdecl Sdedf10_generateRandomDistribution(const Sdedf10_Mesh& mesh, int numPoints,
-                                                Sdedf10_Array<Sdedf10_Vector4>& points, Sdedf10_PseudoRandom& rng);
 
 // @fnv 0x00dedf10
 bool __cdecl FUN_00dedf10(const Sdedf10_Geometry& geometry, int numPoints, Sdedf10_Array<Sdedf10_Vector4>& points,
@@ -733,12 +726,12 @@ bool __cdecl FUN_00dedf10(const Sdedf10_Geometry& geometry, int numPoints, Sdedf
     }
 
     Sdedf10_Mesh mesh;
-    mesh.AppendGeometry(geometry, DAT_01268370, -1);
-    mesh.assignVertexNormals();
-    mesh.FinalizeMesh();
+    reinterpret_cast<::S_e1ce10_Mesh *>(&(mesh))->FUN_00e1ce10((const ::S_e1ce10_Geometry &)(geometry), (const ::S_e1ce10_Transform &)((*reinterpret_cast<const ::Sdedf10_Transform *>(&::DAT_01268370))), -1);
+    reinterpret_cast<::HostE10 *>(&(mesh))->FUN_00e11e10();
+    reinterpret_cast<::Z_E15E50 *>(&(mesh))->FUN_00e15e50();
 
     const int base = points.GetLogicalSize();
-    if (!Sdedf10_generateRandomDistribution(mesh, numPoints, points, rng))
+    if (!::FUN_00dedbb0((::Owner *)&(mesh), numPoints, (::Vec4Array *)&(points), (::Obj *)&(rng)))
     {
         return false;
     }
@@ -761,7 +754,7 @@ bool __cdecl FUN_00dedf10(const Sdedf10_Geometry& geometry, int numPoints, Sdedf
             pts[i].mul4(w);
             pts[i](3) = w;
         }
-        tree.build(aabbs.begin(), datas.begin(), aabbs.GetLogicalSize(), leaves);
+        reinterpret_cast<::S_00d9d650_Tree *>(&(tree))->BuildTree((const ::S_00d9d650_Aabb *)(::Sdedf10_Aabb *)(aabbs.begin()), (const int *)(void **)(datas.begin()), aabbs.GetLogicalSize(), (::S_00d9d650_Array<int> &)(leaves));
 
         Sdedf10_Array<Sdedf10_Vector4> samples;
         const int doubled = numPoints * 2;
@@ -771,14 +764,14 @@ bool __cdecl FUN_00dedf10(const Sdedf10_Geometry& geometry, int numPoints, Sdedf
         for (int iter = 0; iter < maxIterations; ++iter)
         {
             samples.clear();
-            if (!Sdedf10_generateRandomDistribution(mesh, numSamples, samples, rng))
+            if (!::FUN_00dedbb0((::Owner *)&(mesh), numSamples, (::Vec4Array *)&(samples), (::Obj *)&(rng)))
             {
                 return false;
             }
             for (int j = 0; j < samples.GetLogicalSize(); ++j)
             {
                 Sdedf10_NearestFeaturePolicy policy(samples[j], 3.40282e38f);
-                Sdedf10_queryClosestPoint(&tree, samples[j], &policy);
+                ::FUN_00d1dbb0((::AabbTree *)(&tree), (const ::VectorQ &)(samples[j]), (::ClosestCollector *)(::Sdedf10_Collector *)(&policy));
                 if (policy.m_nearest)
                 {
                     Sdedf10_Vector4* target = policy.m_nearest->getLeafData<Sdedf10_Vector4*>();
@@ -794,7 +787,7 @@ bool __cdecl FUN_00dedf10(const Sdedf10_Geometry& geometry, int numPoints, Sdedf
                 pts[k].mul4(invW);
                 Sdedf10_Aabb box;
                 Sdedf10_calcAabb(pts[k], 0, box);
-                tree.update(leaves[k], box);
+                reinterpret_cast<::MapD9 *>(&(tree))->FUN_00d9be50(leaves[k], (const ::Block32 *)&(box));
                 const float w = densityFunction->evaluate(pts[k]);
                 pts[k].mul4(w);
                 pts[k](3) = w;

@@ -2,6 +2,15 @@
 // src/havok/physics/dynamics/constraint/bilateral/pointtopath/hkppointtopathconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/pointtopath/hkppointtopathconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00c7f690_cls.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00d21ce0_cls.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkTransformCB22.h"
+#include "fnv/symbols_00d6f000.h"
+#include "fnv/symbols_00dce000.h"
+#include "fnv/symbols_00dcf000.h"
+#include "fnv/symbols_0102e000.h"
 #include "havok/hkpPointToPathConstraintData.h"
 
 // @fnv 0x00dee720
@@ -29,10 +38,8 @@ void __thiscall FUN_00dee7f0_class::FUN_00dee7f0(void* a)
 }
 
 extern int DAT_010da004;
-extern int _DAT_0102e388;
 struct DDCC60World
 {
-    void removeReference();
 };
 struct FUN_00dee7d0_class
 {
@@ -51,8 +58,8 @@ void __thiscall FUN_00dee7d0_class::Destroy()
     DDCC60World* p = m_obj;
     m_vft = &DAT_010da004;
     if (p)
-        p->removeReference();
-    m_vft = &_DAT_0102e388;
+        reinterpret_cast<::hkReferencedObjectC905 *>((p))->FUN_00c905b0();
+    m_vft = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 // @fnv 0x00dee740
@@ -236,7 +243,6 @@ struct hkpBridgeConstraintAtomDEE7 : public hkpConstraintAtomDEE7
     hkpBridgeConstraintAtomDEE7() : hkpConstraintAtomDEE7(1)
     {}
 
-    void FUN_00d21ce0(void* pkConstraintData);
 
     void* m_pBridge;
     void* m_pConstraintData;
@@ -265,7 +271,7 @@ FUN_00dee750::FUN_00dee750() throw() : m_path(0), m_fFriction(0.0f), m_cOrientat
 {
     m_kLocalTransforms[0].setIdentity();
     m_kLocalTransforms[1].setIdentity();
-    m_kBridgeAtoms.m_kBridgeAtom.FUN_00d21ce0(this);
+    reinterpret_cast<::FUN_00d21ce0_cls *>(&(m_kBridgeAtoms.m_kBridgeAtom))->FUN_00d21ce0(this);
 }
 
 namespace fnv_00dee870 {
@@ -281,7 +287,6 @@ extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 struct Vec_00dee870
 {
     __m128 m_vComponents;
-    void FUN_00c7f690(const void* m, const void* src);
     __forceinline void setCross(const Vec_00dee870& a, const Vec_00dee870& b)
     {
         __m128 t1 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xc9);
@@ -299,7 +304,6 @@ struct Mat_00dee870
     Vec_00dee870 c2;
     Vec_00dee870 c3;
     void FUN_00cb2240(const void* a, const void* b);
-    void FUN_00cb22f0(const void* a, const void* b);
     __forceinline void copyFrom(const Mat_00dee870& o)
     {
         c0.m_vComponents = o.c0.m_vComponents;
@@ -330,8 +334,6 @@ struct Solver_00dee870
     virtual void vt24(float t, Vec_00dee870* a);
 };
 
-extern void __fastcall FUN_00c90510(void* a);
-extern void __fastcall FUN_00c905b0(void* a);
 
 struct Obj_00dee870
 {
@@ -364,16 +366,16 @@ void Obj_00dee870::FUN_00dee870(void* a1, void* a2, void* a3, void* a4, void* a5
 
     if (a4)
     {
-        FUN_00c90510(a4);
+        reinterpret_cast<::FUN_00c90510_class *>((a4))->FUN_00c90510();
     }
     if (m_18)
     {
-        FUN_00c905b0(m_18);
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_18))->FUN_00c905b0();
     }
     m_18 = (Solver_00dee870*)a4;
     m_70.copyFrom(*(Mat_00dee870*)a5);
     xform.FUN_00cb2240(a2, a5);
-    v1.FUN_00c7f690(&xform, a3);
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(v1))->FUN_00c7f690((const ::S_00c7f690_M *)(const void *)(&xform), (const ::S_00c7f690_V *)(a3));
     float fTime = m_18->vt10(0.0f, &v1, &v1);
     m_18->vt14(fTime, &pair.hi);
     m_18->vt24(fTime, &pair.lo);
@@ -383,7 +385,7 @@ void Obj_00dee870::FUN_00dee870(void* a1, void* a2, void* a3, void* a4, void* a5
     basis.c3.m_vComponents = v1.m_vComponents;
     tmpMat.FUN_00cb2240(a5, &basis);
     xform.FUN_00cb2240(a2, &tmpMat);
-    pair.res.FUN_00cb22f0(a1, &xform);
+    reinterpret_cast<::hkTransformCB22 *>(&(pair.res))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(a1)), (*(const ::hkTransformCB22 *)(&xform)));
     m_30.copyFrom(pair.res);
 }
 }  // namespace fnv_00dee870
@@ -466,8 +468,6 @@ class hkBaseObject
 class hkReferencedObject : public hkBaseObject
 {
   public:
-    void FUN_00c90510() throw();
-    void FUN_00c905b0() throw();
 
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
@@ -515,11 +515,11 @@ void hkpPointToPathConstraintData::FUN_00deea00(const hkVector4& kPivotA, const 
 {
     if (pkPath)
     {
-        pkPath->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((pkPath))->FUN_00c90510();
     }
     if (m_path)
     {
-        m_path->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_path))->FUN_00c905b0();
     }
     m_path = pkPath;
     m_kBridgeAtoms.m_kTransforms.m_kBodyALocalFrame.setIdentity();
@@ -531,6 +531,7 @@ void hkpPointToPathConstraintData::FUN_00deea00(const hkVector4& kPivotA, const 
 }  // namespace fnv_00deea00
 
 #include <math.h>
+#include "fnv/symbols_simd.h"
 extern "C" void _WriteBarrier(void);
 extern "C" void _ReadBarrier(void);
 extern "C" void _ReadWriteBarrier(void);
@@ -553,7 +554,6 @@ extern "C"
     __m128 _mm_load_ps(const float*);
 }
 
-extern __m128 DAT_010c44d0;
 
 struct TransformQ;
 
@@ -574,7 +574,6 @@ struct VectorQ
         return reinterpret_cast<const hkReal*>(&m_vComponents)[i];
     }
 
-    void FUN_00c7f690(const TransformQ& t, const VectorQ& v);
     void FUN_00c7f640(const TransformQ& t, const VectorQ& v);
     void FUN_00c7f700(const TransformQ& t, const VectorQ& v);
 };
@@ -716,11 +715,6 @@ struct LimitRow
     hkReal m_kMaximumCorner;
 };
 
-void __cdecl AppendEventRecord(const QueryIn& in, QueryOut& out, PathRuntime* runtime, int size);
-void __cdecl FUN_00dcf100(FrictionRow* row, const QueryIn& in, QueryOut& out);
-void __cdecl FUN_00dcf280(LinearRow* row, const QueryIn& in, QueryOut& out);
-void __cdecl FUN_00dcee80(AngularRow* row, const QueryIn& in, QueryOut& out);
-void __cdecl FUN_00dcfa30(LimitRow* row, const QueryIn& in, QueryOut& out);
 
 static __forceinline hkReal hkFabs(hkReal r)
 {
@@ -785,7 +779,7 @@ static __forceinline __m128 hkCross(const __m128 v0, const __m128 v1)
 
 static __forceinline void hkSetNeg4(VectorQ& out, const VectorQ& v)
 {
-    out.m_vComponents = _mm_xor_ps(v.m_vComponents, DAT_010c44d0);
+    out.m_vComponents = _mm_xor_ps(v.m_vComponents, ::DAT_010c44d0);
 }
 
 static __forceinline CurveLengthCall& lengthSlot(CurveDispatchTable* table)
@@ -803,7 +797,7 @@ struct PointToPathData : public hkpPointToPathConstraintData
 // @fnv 0x00deea90
 void PointToPathData::FUN_00deea90(const QueryIn& in, QueryOut& out)
 {
-    AppendEventRecord(in, out, in.m_pByteBuffer, 8);
+    ::fnv_00d6f2b0::AppendEventRecord((const ::fnv_00d6f2b0::RecordSource *)&(in), (::fnv_00d6f2b0::EventRecord **)&(out), (volatile unsigned int)(in.m_pByteBuffer), 8);
 
     TransformQ pathToWorld;
     pathToWorld.FUN_00cb2240(*in.m_kBodyBLocalFrame, m_kLocalTransforms[1]);
@@ -817,7 +811,7 @@ void PointToPathData::FUN_00deea90(const QueryIn& in, QueryOut& out)
     VectorQ tangentWs;
     {
         VectorQ pivotInPathSpace;
-        pivotInPathSpace.FUN_00c7f690(pathToWorld, bodyToWorld.m_vTranslation);
+        reinterpret_cast<::FUN_00c7f690_cls *>(&(pivotInPathSpace))->FUN_00c7f690((const ::S_00c7f690_M *)&(pathToWorld), (const ::S_00c7f690_V *)&(bodyToWorld.m_vTranslation));
         runtime->m_fValueAtOffset38 =
             m_path->FindNearestPoint(runtime->m_fValueAtOffset38, pivotInPathSpace, pivotInPathSpace);
 
@@ -846,16 +840,16 @@ void PointToPathData::FUN_00deea90(const QueryIn& in, QueryOut& out)
         friction.m_kPivotVector = limitPivot;
         friction.m_fFriction = m_fFriction;
         friction.m_pRuntime = runtime;
-        FUN_00dcf100(&friction, in, out);
+        ::FUN_00dcf100((::S_00dcf100_In *)(::FrictionRow *)(&friction), (::S_00dcf100_Cfg *)&(in), (::S_00dcf100_Out **)&(out));
     }
 
     LinearRow linear;
     linear.m_kPivotA = bodyToWorld.m_vTranslation;
     linear.m_kPivotB = pathPointWs;
     linear.m_kAxisEndPoints = perpWs1;
-    FUN_00dcf280(&linear, in, out);
+    ::FUN_00dcf280((::Input_dcf280 *)(::LinearRow *)(&linear), (::S_00dcf100_Cfg *)&(in), (::Jacobian_dcf280 **)&(out));
     linear.m_kAxisEndPoints = perpWs2;
-    FUN_00dcf280(&linear, in, out);
+    ::FUN_00dcf280((::Input_dcf280 *)(::LinearRow *)(&linear), (::S_00dcf100_Cfg *)&(in), (::Jacobian_dcf280 **)&(out));
 
     if (m_cOrientationConstraintType > CONSTRAIN_ORIENTATION_NONE)
     {
@@ -863,10 +857,10 @@ void PointToPathData::FUN_00deea90(const QueryIn& in, QueryOut& out)
         angular.m_kAxisEndPoints = tangentWs;
         angular.m_perpB = bodyToWorld.m_kColumn2;
         angular.m_perpA = bodyToWorld.m_kColumn1;
-        FUN_00dcee80(&angular, in, out);
+        ::FUN_00dcee80((*(const ::S_00dcee80_Info *)(&angular)), (const ::S_00dcee80_QueryIn &)(in), (::S_00dcee80_QueryOut &)(out));
         angular.m_perpB = bodyToWorld.m_kColumn1;
         hkSetNeg4(angular.m_perpA, bodyToWorld.m_kColumn2);
-        FUN_00dcee80(&angular, in, out);
+        ::FUN_00dcee80((*(const ::S_00dcee80_Info *)(&angular)), (const ::S_00dcee80_QueryIn &)(in), (::S_00dcee80_QueryOut &)(out));
 
         if (m_cOrientationConstraintType == CONSTRAIN_ORIENTATION_TO_PATH)
         {
@@ -877,7 +871,7 @@ void PointToPathData::FUN_00deea90(const QueryIn& in, QueryOut& out)
             angular.m_kAxisEndPoints = bodyToWorld.m_kColumn2;
             hkSetNeg4(angular.m_perpB, binormalWs);
             angular.m_perpA = headingAws;
-            FUN_00dcee80(&angular, in, out);
+            ::FUN_00dcee80((*(const ::S_00dcee80_Info *)(&angular)), (const ::S_00dcee80_QueryIn &)(in), (::S_00dcee80_QueryOut &)(out));
         }
     }
 
@@ -892,7 +886,7 @@ void PointToPathData::FUN_00deea90(const QueryIn& in, QueryOut& out)
             limit.m_kMaximumCorner = length(m_path, m_path->GetStreamEnd());
         }
         limit.m_kAxisEndPoints = tangentWs;
-        FUN_00dcfa30(&limit, in, out);
+        ::FUN_00dcfa30((::Info_dcf880 *)(::LimitRow *)(&limit), (::S_00dcf100_Cfg *)&(in), (::Jac_dcf880 **)&(out));
     }
 }
 
@@ -916,7 +910,6 @@ PathDeleteRouter* __cdecl FUN_00c85750();
 
 struct PathDeleteData : hkpPointToPathConstraintData
 {
-    void __thiscall Destroy();
     void* __thiscall FUN_00deef10(unsigned char flags);
 };
 
@@ -924,7 +917,7 @@ struct PathDeleteData : hkpPointToPathConstraintData
 // @fnv 0x00deef10
 void* __thiscall PathDeleteData::FUN_00deef10(unsigned char flags)
 {
-    Destroy();
+    reinterpret_cast<::FUN_00dee7d0_class *>(this)->Destroy();
     if (flags & 1)
     {
         PathDeleteRouter* router = FUN_00c85750();

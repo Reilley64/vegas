@@ -2,6 +2,7 @@
 #ifndef FNV_MIDDLEHIGHPROCESS_DECLS_H
 #define FNV_MIDDLEHIGHPROCESS_DECLS_H
 
+#include "fnv/symbols_0092a000.h"
 #include "layout_support.h"
 #include "../../../include/Actor_decl_middlehighprocess.h"
 #include "ActorPackageContext.h"
@@ -55,7 +56,6 @@ class TESAmmoInitCalls
     void* FUN_00923000();
 };
 
-bool IsValidSandboxProcedure(int aiProcedure);
 
 extern unsigned int(__stdcall* DAT_00fdf1b0)(void*);
 
@@ -461,6 +461,8 @@ class MiddleHighProcess : public MiddleLowProcess
     // bool __cdecl MiddleHighProcess::*(ANIM_GROUP_ENUM)
     // MiddleHighProcess& __cdecl MiddleHighProcess::*(const MiddleHighProcess&)
     // void __cdecl MiddleHighProcess::*()
+public:
+    bool IsActorInCombat();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(MiddleHighProcess) == 604);

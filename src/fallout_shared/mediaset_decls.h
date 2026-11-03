@@ -3,6 +3,11 @@
 #define FNV_MEDIASET_DECLS_H
 
 
+#include "fnv/decl/FUN_00598020_Class.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00597000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00830000.h"
 #include "layout_support.h"
 #include "mediaset_form.h"
 // Unit-local full-name declaration includes its external lifetime methods.
@@ -17,7 +22,6 @@ class TESFullName : public BaseFormComponent
 class TESFormInitFlag : public TESForm
 {
   public:
-    static TESForm* GetFormByID(unsigned int formID);
 };
 
 class TESBoundObject : public TESForm
@@ -31,8 +35,6 @@ class TESSound : public TESBoundObject
 class MediaLocationController
 {
   public:
-    int FUN_00598000();
-    bool GetByteAtOffset55();
 };
 class TESObjectREFR
 {
@@ -51,13 +53,9 @@ enum MEDIATYPE
 class FalloutAudioMedia
 {
   public:
-    static bool IsMediaPlaying(MEDIATYPE, bool);
     static void FadeOutMedia(int, MEDIATYPE);
-    static void PlayMedia(MEDIATYPE, const char*, unsigned int, bool, bool, float, unsigned int);
     static void EndMediaUpdate();
 };
-unsigned int FUN_00830970(MEDIATYPE);
-unsigned int FUN_00830a20(MEDIATYPE);
 extern unsigned int DAT_011dd37c;
 
 #pragma pack(push, 4)
@@ -72,7 +70,6 @@ class MediaSet : public TESForm, public TESFullName
         float Percent;
         MediaSetEntry();
         ~MediaSetEntry();
-        void FUN_00597850();
     };
 
     enum MEDIASETTYPE
@@ -113,9 +110,7 @@ class MediaSet : public TESForm, public TESFullName
     void ClearData();
     void ResetFormData();
     bool UpdateLayerLocation(unsigned int, bool, MediaLocationController*);
-    bool PointLocation(unsigned int, bool, MediaLocationController*);
     bool UpdateBattleState(bool, unsigned int, int);
-    void UpdateIncidental(unsigned int);
     bool Update(unsigned int auiTime, bool abForce, MediaLocationController* apController);
 };
 #pragma pack(pop)
@@ -126,6 +121,5 @@ FNV_STATIC_ASSERT(offsetof(MediaSet, m_pSound2) == 0xC0);
 
 extern unsigned int DAT_011ca9fc;
 
-int Warning(const char* format, ...);
 
 #endif

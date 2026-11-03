@@ -2,6 +2,14 @@
 // src/fallout_shared/havok/bgszonetargetlistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/bgszonetargetlistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_00620110_Class.h"
+#include "fnv/decl/S_00538f40.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00553000.h"
 extern int DAT_0104d9e0;
 
 struct FUN_0061ffb0_shell
@@ -23,18 +31,16 @@ void* FUN_0061ffb0_shell::FUN_0061ffb0()
 struct BGSZoneTargetListener
 {
     void* __thiscall Destroy(unsigned int flags);
-    void __thiscall FUN_00620110();
 };
 
-void __cdecl _Deallocate(void* p);
 
 // Calls FUN_00620110, then deallocates this if flags has bit 0 set, and returns this.
 // @fnv 0x006200e0
 void* __thiscall BGSZoneTargetListener::Destroy(unsigned int flags)
 {
-    FUN_00620110();
+    reinterpret_cast<::FUN_00620110_Class *>(this)->FUN_00620110();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -56,11 +62,10 @@ void BGSZoneTargetListener::SetFlags(int flags, bool set)
 }
 }  // namespace fnv_00620760
 
-void FUN_00553380(int param);
 // @fnv 0x0087e9b0
 void CallWithParam(int param)
 {
-    FUN_00553380(param);
+    ::FUN_00553380((void *)(param));
 }
 
 struct FUN_0061fc10_shell
@@ -79,18 +84,8 @@ struct FUN_0062d840_shell
     void* __thiscall FUN_0062d840(unsigned int a, unsigned int b);
 };
 
-// Calls FUN_0061fc10 with a and b, sets the first field to point at DAT_0104e3e8, and returns this.
-// @fnv 0x0062d840
-void* __thiscall FUN_0062d840_shell::FUN_0062d840(unsigned int a, unsigned int b)
-{
-    ((FUN_0061fc10_shell*)this)->FUN_0061fc10(a, b);
-    m_iWordAt00 = &DAT_0104e3e8;
-    return this;
-}
-
 struct Member140
 {
-    void __thiscall FUN_00620720(unsigned int a, unsigned int b);
 };
 extern int DAT_0104d9cc[];
 struct FUN_0061fc10
@@ -100,32 +95,13 @@ struct FUN_0061fc10
     int _14;
     FUN_0061fc10(unsigned int a, unsigned int b);
 };
-// Calls FUN_00620720 on the member at offset 4 with a and b, then sets m0 to DAT_0104d9cc and _14 to 0.
-// @fnv 0x0061fc10
-FUN_0061fc10::FUN_0061fc10(unsigned int uiFirst, unsigned int uiSecond)
-{
-    ((Member140*)((char*)this + 4))->FUN_00620720(uiFirst, uiSecond);
-    m0 = DAT_0104d9cc;
-    _14 = 0;
-}
-
 extern int DAT_0104d9d8;
 struct FUN_0061fe70_shell
 {
     void* m_iWordAt00;
     void* m_iWordAt04;
-    void __thiscall FUN_0061fba0(unsigned int a, unsigned int b);
     void* __thiscall Construct(unsigned int a, unsigned int b);
 };
-// Calls FUN_0061fba0 with a and b, stores the address of DAT_0104d9d8 at this, and returns this.
-// @fnv 0x0061fe70
-void* __thiscall FUN_0061fe70_shell::Construct(unsigned int a, unsigned int b)
-{
-    FUN_0061fba0(a, b);
-    *reinterpret_cast<void**>(this) = &DAT_0104d9d8;
-    return this;
-}
-
 struct FUN_00620720_shell
 {
     void* m_iWordAt00;
@@ -134,6 +110,22 @@ struct FUN_00620720_shell
     void* m_iThirdValue;
     FUN_00620720_shell* __thiscall FUN_00620720(void* a, void* b);
 };
+// Calls FUN_0061fc10 with a and b, sets the first field to point at DAT_0104e3e8, and returns this.
+// @fnv 0x0062d840
+void* __thiscall FUN_0062d840_shell::FUN_0062d840(unsigned int a, unsigned int b)
+{
+    new ((void *)(((FUN_0061fc10_shell*)this))) ::FUN_0061fc10(a, b);
+    m_iWordAt00 = &DAT_0104e3e8;
+    return this;
+}
+// Calls FUN_00620720 on the member at offset 4 with a and b, then sets m0 to DAT_0104d9cc and _14 to 0.
+// @fnv 0x0061fc10
+FUN_0061fc10::FUN_0061fc10(unsigned int uiFirst, unsigned int uiSecond)
+{
+    reinterpret_cast<::FUN_00620720_shell *>((((Member140*)((char*)this + 4))))->FUN_00620720((void *)(uiFirst), (void *)(uiSecond));
+    m0 = DAT_0104d9cc;
+    _14 = 0;
+}
 
 // Stores the two arguments into the object's fields and clears the other two pointers, then returns this.
 // @fnv 0x00620720
@@ -189,8 +181,6 @@ struct ZoneLink
 {
     int unk00;
     int unk04;
-    void SetValue(int value, int flag);
-    void Attach(ZoneLink* next);
 };
 
 struct ZoneBase
@@ -242,8 +232,8 @@ ZoneNode* ZoneList::FindOrCreateNode(unsigned int key, unsigned int data, int va
     if (!node)
     {
         node = new ZoneNode(key, data);
-        node->SetValue(value, 1);
-        node->Attach(head);
+        reinterpret_cast<::fnv_00620760::BGSZoneTargetListener *>((node))->SetFlags(value, 1);
+        reinterpret_cast<::CombatProcedure *>((node))->Initialize((::CombatController *)(head));
         head = node;
     }
     return node;
@@ -329,7 +319,6 @@ extern int DAT_0104d9c4;
 
 struct S_0061fba0_Member
 {
-    void __thiscall FUN_00620720(unsigned int a, unsigned int b);
 };
 
 struct S_0061fba0_Sub
@@ -338,8 +327,6 @@ struct S_0061fba0_Sub
     int unk04;
     int unk08;
     int unk0c;
-    void __thiscall FUN_006815c0();
-    void __thiscall FUN_00538f40();
 };
 
 struct S_0061fba0_Obj
@@ -357,16 +344,24 @@ struct S_0061fba0_Obj
     int unk40;
     S_0061fba0_Obj* __thiscall FUN_0061fba0(unsigned int a, unsigned int b);
 };
+// Calls FUN_0061fba0 with a and b, stores the address of DAT_0104d9d8 at this, and returns this.
+// @fnv 0x0061fe70
+void* __thiscall FUN_0061fe70_shell::Construct(unsigned int a, unsigned int b)
+{
+    reinterpret_cast<::S_0061fba0_Obj *>(this)->FUN_0061fba0(a, b);
+    *reinterpret_cast<void**>(this) = &DAT_0104d9d8;
+    return this;
+}
 
 // @fnv 0x0061fba0
 S_0061fba0_Obj* __thiscall S_0061fba0_Obj::FUN_0061fba0(unsigned int a, unsigned int b)
 {
-    m_10.FUN_00620720(a, b);
+    reinterpret_cast<::FUN_00620720_shell *>(&(m_10))->FUN_00620720((void *)(a), (void *)(b));
     vtbl = (const void*)&DAT_0104d9c4;
-    m_20.FUN_006815c0();
-    m_30.FUN_006815c0();
-    m_20.FUN_00538f40();
-    m_30.FUN_00538f40();
+    new ((void *)&(m_20)) ::Vec3();
+    new ((void *)&(m_30)) ::Vec3();
+    reinterpret_cast<::S_00538f40 *>(&(m_20))->FUN_00538f40();
+    reinterpret_cast<::S_00538f40 *>(&(m_30))->FUN_00538f40();
     unk40 = 0x24;
     return this;
 }
@@ -374,7 +369,6 @@ S_0061fba0_Obj* __thiscall S_0061fba0_Obj::FUN_0061fba0(unsigned int a, unsigned
 struct EmbeddedLink
 {
     unsigned int unk00;
-    EmbeddedLink* FUN_00726070();
 };
 
 struct OwnerPrefix
@@ -393,7 +387,7 @@ struct LinkedOwnerLayout : OwnerPrefix, EmbeddedLink
 // @fnv 0x0061fef0
 void* FUN_0061fef0_Node::FUN_0061fef0()
 {
-    return static_cast<LinkedOwnerLayout*>(reinterpret_cast<LinkedOwnerLayout*>(this)->FUN_00726070());
+    return static_cast<LinkedOwnerLayout*>(((::EmbeddedLink *)(reinterpret_cast<::Callees *>((reinterpret_cast<LinkedOwnerLayout*>(this)))->FUN_00726070())));
 }
 
 struct Construct : ZoneNode
@@ -420,8 +414,8 @@ ZoneNode* FUN_0057b700_class::FUN_0061fd70(unsigned int key, unsigned int auiDat
     if (result == 0)
     {
         result = new Construct(key, auiData);
-        result->SetValue(auiValue, 1);
-        result->Attach((ZoneLink*)unk14);
+        reinterpret_cast<::fnv_00620760::BGSZoneTargetListener *>((result))->SetFlags(auiValue, 1);
+        reinterpret_cast<::CombatProcedure *>((result))->Initialize((::CombatController *)(::ZoneLink *)((ZoneLink*)unk14));
         unk14 = result;
     }
     return result;

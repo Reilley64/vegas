@@ -1,6 +1,25 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00420ba0_Class.h"
+#include "fnv/decl/FUN_00483c70_shell.h"
+#include "fnv/decl/FUN_004aaf10_shell.h"
+#include "fnv/decl/FUN_00549580_shell.h"
+#include "fnv/decl/FUN_006fcf30_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008693c0_shell.h"
+#include "fnv/decl/TESWorldSpace.h"
+#include "fnv/decl/fnv_0042ce10__FUN_0042ce10_shell.h"
+#include "fnv/decl/fnv_00445570__FUN_00445570_cls.h"
+#include "fnv/decl/fnv_0056fcb0__XObj.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_005de0a0__FUN_005de0a0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_01272000.h"
 struct GcScopedLock
 {
     int unk00, unk04;
@@ -10,37 +29,25 @@ struct GcScopedLock
 
 struct GcRefList
 {
-    void FUN_008693c0(void* ppkRef);
 };
-extern GcRefList g_kDeferredRefs_011de874;
-extern GcRefList g_kPendingRefs_011de8bc;
 
 struct GcManager
 {
-    void FUN_00445570(void* pkRef);
     bool FUN_00868250();
-    void FUN_004aaf10();
 };
-extern GcManager* g_pkGcManager_011c3b3c;
 
 struct GcLoader
 {
-    bool FUN_0042ce10();
 };
-extern GcLoader* g_pkLoader_011ddf38;
-extern __declspec(thread) bool t_bInLoad;
 
 struct GcBaseForm
 {
-    bool FUN_00549580();
 };
 struct GcParentCell
 {
-    void FUN_006fcf30(void* pkRef);
 };
 struct GcExtra
 {
-    GcParentCell* FUN_00586170();
 };
 
 class GcRef
@@ -318,15 +325,7 @@ class GcRef
     virtual void v268();
     virtual void StopCombat(int i);
 
-    unsigned int FUN_0084e3a0();
-    void FUN_0056fcb0();
-    void FUN_00483c70();
-    GcBaseForm* FUN_007af430();
-    GcExtra* FUN_00575d70();
-    void FUN_00420ba0(int i);
-    void FUN_005de0a0(int iFlags, int i);
 };
-GcRef* __cdecl FUN_004839c0(unsigned int auiFormId);
 
 static const char s_szLockName[] = "GarbageCollector::Add(TESObjectREFR)";
 extern const char g_szGcEnd[] = "";
@@ -335,14 +334,14 @@ extern const char g_szGcEnd[] = "";
 void __cdecl FUN_00867f90(GcRef* pkRef)
 {
     GcScopedLock kLock(1, s_szLockName);
-    if (FUN_004839c0(pkRef->FUN_0084e3a0()) != pkRef)
+    if (((::GcRef *)(::FUN_004839c0(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pkRef))->FUN_0084e3a0()))))) != pkRef)
     {
         delete pkRef;
     }
     else
     {
         pkRef->Set3D(1);
-        pkRef->FUN_0056fcb0();
+        reinterpret_cast<::fnv_0056fcb0::XObj *>((pkRef))->FUN_0056fcb0();
         if (pkRef->IsActor())
         {
             GcRef* pkActor = pkRef;
@@ -351,33 +350,33 @@ void __cdecl FUN_00867f90(GcRef* pkRef)
         if (pkRef->IsDead())
         {
             GcRef* pkDead = pkRef;
-            pkDead->FUN_00420ba0(0);
-            pkDead->FUN_005de0a0(0x400, 0);
+            reinterpret_cast<::FUN_00420ba0_Class *>((pkDead))->FUN_00420ba0(0);
+            reinterpret_cast<::fnv_005de0a0::FUN_005de0a0_shell *>((pkDead))->FUN_005de0a0(0x400, 0);
         }
-        g_pkGcManager_011c3b3c->FUN_00445570(pkRef);
-        pkRef->FUN_00483c70();
-        if (pkRef->FUN_007af430()->FUN_00549580())
+        reinterpret_cast<::fnv_00445570::FUN_00445570_cls *>(((*reinterpret_cast<::GcManager * *>(&::g_modelLoader))))->FUN_00445570((unsigned int)(pkRef));
+        reinterpret_cast<::FUN_00483c70_shell *>((pkRef))->FUN_00483c70();
+        if (reinterpret_cast<::FUN_00549580_shell *>((((::GcBaseForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pkRef))->FUN_007af430()))))->FUN_00549580())
         {
-            GcExtra* pkExtra = pkRef->FUN_00575d70();
-            if (pkExtra && pkExtra->FUN_00586170())
-                pkExtra->FUN_00586170()->FUN_006fcf30(pkRef);
+            GcExtra* pkExtra = ((::GcExtra *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((pkRef))->FUN_00575d70()));
+            if (pkExtra && ((::GcParentCell *)(reinterpret_cast<::TESWorldSpace *>((pkExtra))->GetWorldTerrainManager())))
+                reinterpret_cast<::FUN_006fcf30_shell *>((((::GcParentCell *)(reinterpret_cast<::TESWorldSpace *>((pkExtra))->GetWorldTerrainManager()))))->FUN_006fcf30((::TESObjectREFR *)(pkRef));
         }
         pkRef->AssignEditorID(0);
-        if (!t_bInLoad || (g_pkLoader_011ddf38 && g_pkLoader_011ddf38->FUN_0042ce10()))
+        if (!::g_tls_0298 || ((*reinterpret_cast<::GcLoader * *>(&::g_BGSSaveLoadGame)) && reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::GcLoader * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10()))
         {
-            if (g_pkGcManager_011c3b3c->FUN_00868250())
+            if ((*reinterpret_cast<::GcManager * *>(&::g_modelLoader))->FUN_00868250())
             {
                 delete pkRef;
-                g_pkGcManager_011c3b3c->FUN_004aaf10();
+                reinterpret_cast<::FUN_004aaf10_shell *>(((*reinterpret_cast<::GcManager * *>(&::g_modelLoader))))->FUN_004aaf10();
             }
             else
             {
-                g_kPendingRefs_011de8bc.FUN_008693c0(&pkRef);
+                reinterpret_cast<::FUN_008693c0_shell *>(&((*reinterpret_cast<::GcRefList *>(&::g_011de8bc))))->FUN_008693c0((int)(&pkRef));
             }
         }
         else
         {
-            g_kDeferredRefs_011de874.FUN_008693c0(&pkRef);
+            reinterpret_cast<::FUN_008693c0_shell *>(&((*reinterpret_cast<::GcRefList *>(&::g_011de874))))->FUN_008693c0((int)(&pkRef));
         }
     }
 }

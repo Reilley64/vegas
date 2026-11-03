@@ -2,11 +2,12 @@
 // src/havok/physics/vehicle/tyremarks/hkptyremarksinfo.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/tyremarks/hkptyremarksinfo.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00e39e80_class.h"
+#include "fnv/symbols_00d06000.h"
 #include "havok/hkpTyremarksInfo.h"
 
 class hkClassE39E;
 
-int __cdecl FUN_00d06f80(const void* pvChunk, int iNumBytes) throw();
 
 template <class T> class hkArrayE39E
 {
@@ -46,7 +47,7 @@ class hkStatisticsCollectorE39E
         if ((kArray.m_iCapacityState & 0x80000000) == 0 || m_countDontDeallocate)
         {
             const T* pData = kArray.m_data;
-            int iAllocated = FUN_00d06f80(pData, kArray.getCapacity() * sizeof(T));
+            int iAllocated = ::fnv_00d06f80::FUN_00d06f80((const char *)(pData), kArray.getCapacity() * sizeof(T));
             AddMemoryChunk(3, pcName, kArray.m_data, kArray.GetLogicalSize() * sizeof(T), iAllocated);
         }
     }
@@ -138,7 +139,7 @@ class hkSampleRingE39F
 // @fnv 0x00e39f50
 void hkSampleRingE39F::FUN_00e39f50(const hkSampleE39F& sample)
 {
-    if (sample.FUN_00e39e80() == 0.0f && m_samples[(m_pFirstNode + m_pRayCursor - 1) % m_pRayCursor].FUN_00e39e80() == 0.0f)
+    if (reinterpret_cast<::FUN_00e39e80_class *>((void *)&(sample))->FUN_00e39e80() == 0.0f && reinterpret_cast<::FUN_00e39e80_class *>((void *)&(m_samples[(m_pFirstNode + m_pRayCursor - 1) % m_pRayCursor]))->FUN_00e39e80() == 0.0f)
         return;
     hkSampleE39F& dst = m_samples[m_pFirstNode];
     dst.m_vContactPosition = sample.m_vContactPosition;

@@ -3,6 +3,56 @@
 #define FALLOUTAUDIO_DECLS_H
 
 #include <stddef.h>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/FUN_004516b0_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00547590_shell.h"
+#include "fnv/decl/FUN_0063a610_shell.h"
+#include "fnv/decl/FUN_0063dd50_shell.h"
+#include "fnv/decl/FUN_0063e210_shell.h"
+#include "fnv/decl/FUN_0063e2f0_shell.h"
+#include "fnv/decl/FUN_0068a810_class.h"
+#include "fnv/decl/FUN_0082d6e0_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00ad79b0_shell.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FUN_00ad8b60_h.h"
+#include "fnv/decl/FUN_00ad8d60_shell.h"
+#include "fnv/decl/FUN_00ad9030_shell.h"
+#include "fnv/decl/GList.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/MagicCaster_shell.h"
+#include "fnv/decl/RainSystem.h"
+#include "fnv/decl/Twin_00639b40.h"
+#include "fnv/decl/fnv_004188d0__FUN_004188d0_shell.h"
+#include "fnv/decl/fnv_00455690__FUN_00455690_shell.h"
+#include "fnv/decl/fnv_0063ef20__FUN_0063ef20_shell.h"
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
+#include "fnv/decl/fnv_00ad8100__FUN_00ad8100_shell.h"
+#include "fnv/decl/fnv_00ad88f0__FUN_00ad88f0_h.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_0048d000.h"
+#include "fnv/symbols_004df000.h"
+#include "fnv/symbols_00511000.h"
+#include "fnv/symbols_0058a000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005e3000.h"
+#include "fnv/symbols_0082d000.h"
+#include "fnv/symbols_00839000.h"
+#include "fnv/symbols_00966000.h"
+#include "fnv/symbols_009e3000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011cc000.h"
+#include "fnv/symbols_011dc000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f6000.h"
 enum ENUM_FORM_ID
 {
     FORM_NONE = 0,
@@ -12,9 +62,6 @@ class TESForm
 {
   public:
     virtual void Destroy();
-    unsigned int GetFormID();
-    void SetFormType(ENUM_FORM_ID);
-    static TESForm* GetFormByID(unsigned int);
 };
 class TESSound;
 class BGSAcousticSpace;
@@ -32,7 +79,6 @@ union SETTING_VALUE
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Float();
 };
 template <class T> class BSSimpleList
 {
@@ -60,17 +106,12 @@ class SoundPlaybackHandle
     SoundPlaybackHandle(bool);
     ~SoundPlaybackHandle();
     SoundPlaybackHandle& operator=(const SoundPlaybackHandle&);
-    void FUN_004188d0();
-    bool IsPlaying();
-    bool IsValid();
-    bool Play(bool);
-    bool Stop();
     bool Release();
     bool StopWithFade(unsigned int);
-    bool SetFadeInTime(unsigned int);
-    bool SetPosition(float, float, float);
-    void SetPriority(unsigned char);
-    void SetFormType(int);
+public:
+    bool IsPlaying() const;
+public:
+    bool IsValid() const;
 };
 class BSAudio
 {
@@ -81,27 +122,21 @@ class BSAudio
     virtual const NiPoint3& GetPosition();
     SoundPlaybackHandle GetSoundHandleByEditorID(const char*, unsigned int);
     SoundPlaybackHandle GetSoundHandleByFilePath(const char*, unsigned int, void*);
-    void Precache(const char*, unsigned int, void*);
     bool FUN_00ad7c50();
-    void FUN_00ad79b0(int);
     void FUN_00ad77f0(float, unsigned int);
     int GetCurrentTimeMilliseconds();
-    void* GetAudioBackendData();
 };
 class TESLandTexture
 {
   public:
-    static BSAudio* GetSoundSystem();
 };
 class TESWeather
 {
   public:
-    unsigned char GetWeatherDataRaw(int);
 };
 class NiGeometry
 {
   public:
-    void FUN_00450f90(bool);
 };
 class NiNode : public NiGeometry
 {
@@ -115,7 +150,6 @@ template <class T> class NiPointer
 class Model
 {
   public:
-    NiNode* GetObject3D();
 };
 class Sun : public Model
 {
@@ -123,12 +157,10 @@ class Sun : public Model
 class Clouds
 {
   public:
-    void FUN_0063a610();
 };
 class Precipitation
 {
   public:
-    void FUN_00636ed0(float);
 };
 class SkySound : public SoundPlaybackHandle
 {
@@ -157,24 +189,15 @@ class Sky
     Sky__SKY_MODE eMode;
     BSSimpleList<SkySound*>* m_pSkySounds;
     float m_fWeatherFade;
-    TESWeather* GetAudioBackendData();
-    TESWeather* FUN_0044edb0();
-    float GetFieldEC();
     void SetMode(Sky__SKY_MODE);
-    void LoadAllTextures();
-    void UnloadAllTextures();
-    void UpdateHDRValues();
 };
 class TES
 {
   public:
-    Sky* GetLogDate();
-    void FUN_00455690();
 };
 class TESObjectCELL
 {
   public:
-    BGSAcousticSpace* GetAcousticSpace();
 };
 class PlayerCharacter
 {
@@ -319,17 +342,14 @@ class PlayerCharacter
 class TESRegionData
 {
   public:
-    BSSimpleList<RegionSound*>* GetOffsetC();
 };
 class RegionDataList
 {
   public:
-    TESRegionData* Find(int);
 };
 class NiAVObject
 {
   public:
-    RegionDataList* GetParent();
 };
 struct RegionSoundSource
 {
@@ -349,20 +369,15 @@ class BGSImpactData
 class TESTopicInfo
 {
   public:
-    TESSound* GetSpeaker();
-    TESSound* GetConversationData();
 };
 class LowProcess
 {
   public:
-    TESSound* GetCurrentBoundObject();
     TESSound* GetTarget();
 };
 class BGSAcousticSpace : public BGSImpactData
 {
   public:
-    bool GetByteAtOffset48();
-    int GetField4C();
 };
 struct SoundData
 {
@@ -377,25 +392,21 @@ struct SoundData
 class TESSound : public TESForm
 {
   public:
-    const char* FUN_00511840();
-    SoundData CopyBig();
-    unsigned char GetHighByteOfField4E();
-    unsigned char FUN_0082d700();
-    unsigned int Deallocate();
     unsigned char GetField45();
-    static unsigned int GetPlaybackFlags(unsigned int);
 };
 class TESDataHandler
 {
   public:
     TESSound* GetSoundByEditorID(const char*);
-    bool FUN_004516b0();
-    void* GetFirstSceneObject();
+public:
+    unsigned int GetCompiledFileCount();
 };
 class TaskQueueInterface
 {
   public:
     static void CopyStringToBuffer(char*, unsigned int, const char*);
+public:
+    void QueueActorDisarm(bool);
 };
 class Interface
 {
@@ -425,35 +436,19 @@ class SoundPlaybackManager
     static bool CanPlaySoundAt(TESSound*, NiPoint3, float);
     static void LoadGame(class BGSLoadGameBuffer*);
     static void SetAcousticSpace(BGSAcousticSpace*);
-    static void InitFootstepImpacts();
-    static void InitializeSlots();
 };
 namespace std {
 float abs(float);
 int abs(int);
 }
-unsigned int DialogueRandom();
-bool RandomBoolean(float);
 void* __cdecl operator new(size_t);
 void __cdecl operator delete(void*);
-extern TESDataHandler* g_dataHandler;
-extern PlayerCharacter* g_thePlayer;
-extern TES* g_TES;
-extern bool DAT_011dcfa6, DAT_011dcfa7, DAT_011dcfb0, DAT_011dcfb1;
-extern TESSound* DAT_011dcfa8;
+extern bool DAT_011dcfb0, DAT_011dcfb1;
 extern unsigned int DAT_011dcfac;
-extern BGSAcousticSpace* DAT_011dcfb4;
 extern BGSAcousticSpace* DAT_011dcfb8;
 extern int DAT_011dcfc0;
-extern SettingT_GameSettingCollection_ DAT_011dd044, DAT_011dd094, DAT_011dd050, DAT_011dd06c, DAT_011dcfe4;
-extern SettingT_GameSettingCollection_ DAT_011f6dc0, DAT_011f6dcc, DAT_011f6dd8, DAT_011f6de4;
-extern SoundPlaybackHandle DAT_011dd0a0, DAT_011dd0d8;
-extern NiTPointerMap<unsigned int, SoundPlaybackHandle*> DAT_011dd014;
 class BGSLoadGameBuffer
 {
   public:
-    unsigned int ReadFormIdentifier();
 };
-int Warning(const char*, ...);
-extern bool DAT_011ccb74;
 #endif

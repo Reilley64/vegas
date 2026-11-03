@@ -5,8 +5,17 @@
 
 // src/havok/physics/collide/agent/convexagent/spherebox/hkpsphereboxagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/spherebox/hkpsphereboxagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern void __cdecl FUN_00d3c440(int a, int b, int c, int d);
-void __stdcall ForwardToD3C440(int a, int b, int c, int d);
+#include "fnv/decl/FUN_00c7f690_cls.h"
+#include "fnv/decl/FUN_00cfbbe0_cls.h"
+#include "fnv/decl/S00d3c910_SphereBoxAgent.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00d3a000.h"
+#include "fnv/symbols_00d3c000.h"
+#include "fnv/symbols_00d3d000.h"
+#include "fnv/symbols_00daf000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010ce000.h"
+#include "fnv/symbols_01268000.h"
 struct Conversion
 {
     void (*convert)();
@@ -18,26 +27,13 @@ struct Conversion
 };
 struct Registry
 {
-    void FUN_00cfbbe0(Conversion*, int, int);
 };
-void FUN_00d3c400();
-void FUN_00d3cfc0();
-void FlipAndDispatchCollector();
-void FUN_00d3ac80();
-void CreateD3C380Obj();
-void FUN_00d3c440();
-void FUN_00d3cc00();
-void FUN_00daf8e0();
-void __cdecl FUN_00d3cef0(Registry* registry);
-extern float DAT_0104da48;
-extern void __cdecl FUN_00d3cc00(void*, void*, int, void*);
 struct hkpSymmetricAgentFlipCollector
 {
     virtual void unk00();
     float unk04;
     int unk08;
 };
-void __cdecl FlipAndDispatchCollector(void* arg1, void* arg2, int arg3, int arg4);
 struct S_00d3c3c0_Holder
 {
     virtual void v00();
@@ -77,8 +73,6 @@ struct SmallRecord
     unsigned short m_w0C;
 };
 extern char DAT_010cf018[];
-AllocHolder* FUN_00c85750();
-void __cdecl FUN_00d3c400(int a, int b, int c, int d);
 class D3CF80CollectorBase
 {
   public:
@@ -100,29 +94,22 @@ class D3CF80Collector : public D3CF80CollectorBase
 class D3CF80Agent
 {
   public:
-    void ForwardToD3C440(void* pkA, void* pkB, void* pkInput, D3CF80Collector* pkCollector);
     void CollectFilteredEvents(void* pkA, void* pkB, void* pkInput, int iFilter);
 };
-extern void __cdecl FUN_00d3c440(int a, int b, int c, int d);
-extern char DAT_010ce81c[];
 struct FlipCollectorLocal
 {
     void* unk00;
     unsigned char unk04;
     int unk08;
 };
-void __cdecl FUN_00d3cfc0(int a1, int a2, int a3, int a4);
 struct CpuCallData
 {
     void* descriptor;
     float bound;
     unsigned int value;
 };
-extern float DAT_0104da48;
-extern unsigned char DAT_010ce7fc;
 struct CpuObject
 {
-    void FUN_00d3c910(void*, void*, unsigned int, CpuCallData*);
     void FUN_00d3d000(void*, void*, unsigned int, unsigned int);
 };
 
@@ -130,7 +117,7 @@ extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 #include <xmmintrin.h>
 #include <windows.h>
-extern DWORD hkMonitorStreamTls;
+#include "fnv/symbols_simd.h"
 
 struct S_00d3c440_TimerCommand
 {
@@ -149,7 +136,7 @@ struct S_00d3c440_MonitorStream
 
 static inline void S_00d3c440_Timer(const char* name)
 {
-    S_00d3c440_MonitorStream* s = (S_00d3c440_MonitorStream*)TlsGetValue(hkMonitorStreamTls);
+    S_00d3c440_MonitorStream* s = (S_00d3c440_MonitorStream*)TlsGetValue(::DAT_0126835c);
     if (s->m_kRayEnd < s->m_pCurrentCommand)
     {
         S_00d3c440_TimerCommand* h = (S_00d3c440_TimerCommand*)s->m_kRayEnd;
@@ -205,18 +192,15 @@ struct __declspec(align(16)) S_00d3c440_Transform
 
 struct __declspec(align(16)) S_00d3c440_Local : S_00d3c440_Vector4
 {
-    void FUN_00c7f690(const S_00d3c440_Transform* t, const S_00d3c440_Vector4* v);
 };
 
-extern const S_00d3c440_Vector4 DAT_01017d10;
-extern const S_00d3c440_Vector4 DAT_010c44d0;
 inline void S_00d3c440_Vector4::setAbs(const S_00d3c440_Vector4& a)
 {
-    m_vComponents = _mm_and_ps(DAT_01017d10.m_vComponents, a.m_vComponents);
+    m_vComponents = _mm_and_ps((*reinterpret_cast<const ::S_00d3c440_Vector4 *>((void *)&::DAT_01017d10)).m_vComponents, a.m_vComponents);
 }
 inline void S_00d3c440_Vector4::setFlipSign(const S_00d3c440_Vector4& a, const S_00d3c440_Vector4& b)
 {
-    m_vComponents = _mm_xor_ps(a.m_vComponents, _mm_and_ps(DAT_010c44d0.m_vComponents, b.m_vComponents));
+    m_vComponents = _mm_xor_ps(a.m_vComponents, _mm_and_ps((*reinterpret_cast<const ::S_00d3c440_Vector4 *>((void *)&::DAT_010c44d0)).m_vComponents, b.m_vComponents));
 }
 inline void S_00d3c440_Vector4::SetTransformedPoint(const S_00d3c440_Transform& t, const S_00d3c440_Vector4& v)
 {
@@ -291,7 +275,7 @@ void __cdecl FUN_00d3c440(const S_00d3c440_Body* bodyA, const S_00d3c440_Body* b
     const S_00d3c440_BoxShape* box = (const S_00d3c440_BoxShape*)b->m_pCollisionShape;
 
     S_00d3c440_Local centerInB;
-    centerInB.FUN_00c7f690(b->m_pMotionState, posA);
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(centerInB))->FUN_00c7f690((const ::S_00c7f690_M *)(b->m_pMotionState), (const ::S_00c7f690_V *)(posA));
 
     const S_00d3c440_Transform* tB = b->m_pMotionState;
     const float boxRadius = box->m_fSphereRadius;

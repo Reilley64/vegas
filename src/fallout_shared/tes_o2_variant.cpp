@@ -4,10 +4,56 @@
 
 // src/fallout_shared/tes.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/tes.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/BSFaceGenMorphData.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_00445300_shell.h"
+#include "fnv/decl/FUN_00450fd0_class.h"
+#include "fnv/decl/FUN_00454e70_shell.h"
+#include "fnv/decl/FUN_00458f90_shell.h"
+#include "fnv/decl/FUN_0045ae50.h"
+#include "fnv/decl/FUN_004623f0_shell.h"
+#include "fnv/decl/FUN_005a8080.h"
+#include "fnv/decl/FUN_00624700_shell.h"
+#include "fnv/decl/FUN_00a5e930.h"
+#include "fnv/decl/FUN_00b58570_Class.h"
+#include "fnv/decl/FUN_00c4ed40_cls.h"
+#include "fnv/decl/FUN_00c67850_Class.h"
+#include "fnv/decl/FUN_00c68a40_Class.h"
+#include "fnv/decl/FakeGame.h"
+#include "fnv/decl/S_00c4edf0_cls.h"
+#include "fnv/decl/S_Owner.h"
+#include "fnv/decl/This676.h"
+#include "fnv/decl/fnv_00447080__FUN_00447080_shell.h"
+#include "fnv/decl/fnv_00454c20__RecentItems.h"
+#include "fnv/decl/fnv_00570f00__FUN_00570f00_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00c1b4a0__RefObjectList.h"
+#include "fnv/decl/fnv_00c6aac0__FUN_00c6aac0_Owner.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00451000.h"
+#include "fnv/symbols_00452000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_0045b000.h"
+#include "fnv/symbols_0045c000.h"
+#include "fnv/symbols_00578000.h"
+#include "fnv/symbols_00993000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00b61000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_011af000.h"
+#include "fnv/symbols_011c5000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01202000.h"
+#include "fnv/symbols_01267000.h"
 struct GlobalObject_00a7b610
 {
 };
-extern GlobalObject_00a7b610 g_01202df8;
 struct NiRTTI
 {
 };
@@ -21,22 +67,17 @@ struct BSTempNodeManager
     void* FUN_00450630(unsigned int flags);
 };
 extern "C" void __cdecl FUN_00c44e20(BSTempNodeManager*);
-extern void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 struct FUN_004512a0_shell
 {
     unsigned char m_ucState;
     void SetState(unsigned char ucState);
 };
 extern char DAT_01189184;
-void FUN_00451520(unsigned char value);
 struct NP
 {
     NP& operator=(void*);
 };
-extern NP DAT_011f95e8;
-void FUN_00451570(void* arg);
 extern unsigned char DAT_011ad86c;
-void FUN_00451590(unsigned char value);
 struct AlchemyItem;
 struct BGSAddonNode;
 struct BGSDebris;
@@ -234,8 +275,6 @@ struct TESDataHandler
     void* GetQuestList();
     void AddQuest(TESQuest*);
     void RemoveQuest(TESQuest*);
-    unsigned int GetAddonNodeCount();
-    BGSAddonNode* GetAddonNodeByIndex(unsigned int);
     void RegisterAddonNode(BGSAddonNode*);
     void RemoveAddonNode(BGSAddonNode*);
     TESObjectCELL* GetCellByNameAndGrid(char*);
@@ -325,7 +364,6 @@ struct TESDataHandler
     TESFile* GetCompiledFileByIndex(int);
     unsigned int GetNextFormID();
     void SetNextFormID(unsigned int);
-    bool FormIDExists(unsigned int);
     AlchemyItem* DoesPotionMatch(AlchemyItem*);
     void SetDontRemoveIDs(bool);
     bool GetDontRemoveIDs();
@@ -482,7 +520,6 @@ struct BGSSaveLoadGame
     void ClearForm(TESForm*);
     void ClearFormID(unsigned int);
     void DeleteForm(TESForm*);
-    void ChangeFormID(unsigned int, unsigned int);
     unsigned int GetNewFormID(unsigned int);
     bool IsFormIDRemapped(unsigned int);
     void AreStringsEqual(char*, char*);
@@ -490,7 +527,6 @@ struct BGSSaveLoadGame
     void DisplayCellDebugText(TESObjectREFR*, IDebugText*);
     FormIDConverter* GetFormIDMap();
     FormIDConverter* GetWorldspaceFormIDMap();
-    SaveLoadChangeHistory* GetHistory();
     BGSReconstructFormsInAllFilesMap* GetReconstructFormsMap();
     unsigned char GetConvertedFileIndex(unsigned char);
     unsigned char GetReverseConvertedFileIndex(unsigned char);
@@ -511,13 +547,11 @@ struct BGSSaveLoadGame
     bool GetPlayerLocationInvalid();
     void SetSaveLoadFailed(bool);
     bool GetSaveLoadFailed();
-    bool SetThreadAllowChanges(bool);
     bool GetThreadAllowChanges();
     void SetLoadingMovedRefs(bool);
     bool GetLoadingMovedRefs();
     void SetReconstructingForms(bool);
     bool GetReconstructingForms();
-    bool GetAllowChanges();
     void SaveGame(SaveLoadFile*);
     bool LoadGame(SaveLoadFile*, bool);
     void PrepareLoadGame(SaveLoadFile*);
@@ -552,7 +586,6 @@ struct FUN_004523c0_shell : public BGSSaveLoadGame
 {
     bool FUN_004523c0();
 };
-int __fastcall GetByteAtOffset38(void*);
 struct FUN_00452420_shell
 {
     unsigned int pad0;   // +0x00
@@ -568,7 +601,6 @@ struct FUN_00452440_shell
 };
 struct FUN_004e32c0_shell
 {
-    bool __thiscall HasFlags(int arg);
 };
 struct PlaceableWaterData
 {
@@ -576,12 +608,9 @@ struct PlaceableWaterData
 };
 struct BGSPlaceableWater
 {
-    PlaceableWaterData* FUN_00624700();
     bool __thiscall HasFlags(unsigned int flags);
 };
 extern unsigned char DAT_0119b8c8;
-unsigned char FUN_00452480();
-int __fastcall FUN_009938b0(void*);
 struct FUN_00453470_shell
 {
     int __thiscall FUN_00453470(void);
@@ -596,12 +625,9 @@ struct FUN_00453500_shell
 };
 struct BSAudio;
 BSAudio* DAT_011f6d98;
-BSAudio* FUN_00453a70();
-extern unsigned char DAT_011f9427;
 void FUN_00454440(unsigned char value);
 struct FNStub
 {
-    char const* GetFullName() const;
 };
 struct FUN_00454b50_shell
 {
@@ -609,23 +635,18 @@ struct FUN_00454b50_shell
 };
 struct TESFaction_RankDataView
 {
-    unsigned char* GetRankDataList(void);
     bool FUN_00455620(void);
 };
-extern int DAT_011c56e8;
 void FUN_00455680();
 struct FUN_004565f0_shell
 {
     float m_f;
     float GetFloat();
 };
-extern const void* const g_01202e00;
 struct FUN_00458f20_shell
 {
     const void* const* FUN_00458f20() const;
 };
-extern "C" void __fastcall FUN_00a5e930(void*);
-extern int DAT_01017d24;
 struct FUN_00458f70_shell
 {
     void __thiscall FUN_00458f70();
@@ -690,7 +711,6 @@ struct ModelLoader
     void QueueModelFile(TESModel*, int, QueuedFile*, int);
     void QueueAlternateModel(TESModel*, int, QueuedFile*, int);
     bool QueueFileFromArchive(BSFileEntry*, int, QueuedFile*);
-    void QueueModelLoad(char*, bool, unsigned int);
     void ReleaseKF(char*, bool);
     void CancelReplacementKFList(Animation*);
     void CancelAnimIdle(AnimIdle*);
@@ -735,7 +755,6 @@ struct ModelLoader
     unsigned int GetQueuedHelmetCount();
     bool AddModel(char*, Model*);
     bool AddKF(char*, KFModel*);
-    NiNode* LoadFile(char*, int, bool, bool, bool, bool);
     KFModel* LoadKF(char*);
     void LoadPSA(char*, void*);
     bool FindModel(char*, void*);
@@ -783,7 +802,6 @@ void __cdecl FUN_004f92e0(void);
 void __cdecl FUN_00649e40(void);
 void __cdecl FUN_0065c570(void);
 void __cdecl FUN_00662760(void);
-void __cdecl FUN_0045b020(void);
 struct FUN_0045c650_shell
 {
     void* FUN_0045c650();
@@ -792,13 +810,7 @@ struct Flt
 {
     operator unsigned int(void) const;
 };
-extern Flt g_011deb7c;
-unsigned int FUN_0045c670();
 struct TESObjectREFR;
-void FUN_00578060(TESObjectREFR* self);
-void FUN_00578170(TESObjectREFR* self);
-void FUN_0045c680(TESObjectREFR* arg, bool flag);
-extern "C" double _gModifierZero;
 struct NiPoint3
 {
     float x;
@@ -819,15 +831,14 @@ struct FUN_00451cd0_shell
 };
 struct TESObjectCELL
 {
-    bool IsInterior(void);
+public:
+    bool IsCellInterior() const;
 };
 struct TESObjectCELL_AddToInteriorBuffer
 {
-    void AddCellToInteriorBuffer(TESObjectCELL* cell);
 };
 struct TESObjectCELL_AddToExteriorBuffer
 {
-    void AddCellToExteriorBuffer(TESObjectCELL* cell);
 };
 struct FUN_00454b90_shell
 {
@@ -835,30 +846,24 @@ struct FUN_00454b90_shell
 };
 struct FUN_00458f30_shell
 {
-    void FUN_00458f70();
     void* DestroyIfFlagged(unsigned int flags);
 };
-void _delete(void* obj, unsigned int size);
 struct FUN_00459840_shell
 {
-    void FUN_00458f90();
     void FUN_00459840(unsigned int a);
 };
 struct FUN_0045a730_shell
 {
     char* FUN_0045a730();
 };
-extern "C" void __cdecl _Deallocate(void*);
 struct FUN_0045ae20_shell
 {
-    void FUN_0045ae50();
     void* FUN_0045ae20(unsigned int flags);
 };
 
 struct ShaderBufferRecord;
 struct NiTStringPointerMap_00e93060
 {
-    bool GetAt(char const*, ShaderBufferRecord*&);
 };
 struct ShaderBufferRecord
 {
@@ -867,15 +872,14 @@ struct ShaderBufferRecord
 };
 struct TallGrassShaderProperty
 {
-    static NiTStringPointerMap_00e93060* __cdecl GetCacheDataMap();
 };
 // @fnv 0x00b617b0
 bool __cdecl FUN_00b617b0(char const* a, char const* b)
 {
     ShaderBufferRecord* pn = 0;
-    if (!TallGrassShaderProperty::GetCacheDataMap()->GetAt(a, pn))
+    if (!reinterpret_cast<::A54440Hash *>((((::NiTStringPointerMap_00e93060 *)(::fnv_00b61170::GetArrayHolder()))))->FUN_00a53c30((::A54440Manager *)(a), (::A54440Manager **)&(pn)))
         return false;
-    return pn->map.GetAt(b, pn);
+    return reinterpret_cast<::A54440Hash *>(&(pn->map))->FUN_00a53c30((::A54440Manager *)(b), (::A54440Manager **)&(pn));
 }
 
 // Release one update lock; when the last lock goes away, process (a budgeted part of) the pending queue
@@ -883,8 +887,6 @@ bool __cdecl FUN_00b617b0(char const* a, char const* b)
 
 class C6B540Item;
 
-extern bool g_bC6B540Processing;
-extern unsigned int g_uiC6B540MaxPerFrame;
 
 class C6B540Manager
 {
@@ -903,11 +905,6 @@ class C6B540Manager
     C6B540Item** m_ppkPending;
     unsigned int m_uiPendingCount;
 
-    void ProcessPending(C6B540Item** ppkItems, unsigned int ItemUpdateArray);
-    void FlushPending();
-    void UpdateA();
-    void UpdateB();
-    void UpdateC();
     void FUN_00c6b540(bool bProcess);
 };
 
@@ -920,46 +917,42 @@ void C6B540Manager::FUN_00c6b540(bool bProcess)
         {
             if (bProcess)
             {
-                if (m_uiPendingCount > 0 && !g_bC6B540Processing)
+                if (m_uiPendingCount > 0 && !(*reinterpret_cast<bool *>(&::DAT_012677a2)))
                 {
                     if (m_uiPendingCount >= 3000)
                         m_uiPendingCount = 3000;
                     unsigned int ItemUpdateArray =
-                        m_uiPendingCount < g_uiC6B540MaxPerFrame ? m_uiPendingCount : g_uiC6B540MaxPerFrame;
+                        m_uiPendingCount < ::DAT_011afe80 ? m_uiPendingCount : ::DAT_011afe80;
                     unsigned int uiRemaining = m_uiPendingCount - ItemUpdateArray;
-                    ProcessPending(&m_ppkPending[uiRemaining], ItemUpdateArray);
+                    reinterpret_cast<::S_Owner *>(this)->FUN_00c674d0((::S_Item **)(::C6B540Item **)(&m_ppkPending[uiRemaining]), ItemUpdateArray);
                     m_uiPendingCount = uiRemaining;
-                    g_bC6B540Processing = true;
+                    (*reinterpret_cast<bool *>(&::DAT_012677a2)) = true;
                 }
             }
             else
             {
-                FlushPending();
+                reinterpret_cast<::FUN_00c68a40_Class *>(this)->FUN_00c68a40();
             }
-            UpdateA();
-            UpdateB();
-            UpdateC();
+            reinterpret_cast<::This676 *>(this)->ClearIndexedValues();
+            reinterpret_cast<::fnv_00c6aac0::FUN_00c6aac0_Owner *>(this)->FUN_00c6aac0();
+            reinterpret_cast<::FUN_00c67850_Class *>(this)->ProcessConstraints();
         }
     }
     else if (m_uiPendingCount > 0 && !bProcess)
     {
-        FlushPending();
+        reinterpret_cast<::FUN_00c68a40_Class *>(this)->FUN_00c68a40();
     }
 }
 
 struct QueryStub
 {
-    unsigned char FUN_00c4edf0(unsigned int* state, int flags);
 };
 
-void __fastcall FUN_00c4ed40(void* p);
 
 struct MemoryManager
 {
-    void Deallocate(void* p);
 };
 
-extern MemoryManager DAT_011f6238;
 
 struct SlotEntry
 {
@@ -1087,13 +1080,13 @@ void FUN_00b631d0_cls::FUN_00b631d0()
     {
         if (m_ppData[i] != 0)
         {
-            ((QueryStub*)m_ppData[i])->FUN_00c4edf0(&state, 1);
+            reinterpret_cast<::S_00c4edf0_cls *>((((QueryStub*)m_ppData[i])))->FUN_00c4edf0((int)(&state), 1);
 
             void* item = m_ppData[i];
             if (item != 0)
             {
-                FUN_00c4ed40(item);
-                DAT_011f6238.Deallocate(item);
+                reinterpret_cast<::FUN_00c4ed40_cls *>((item))->FUN_00c4ed40();
+                reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(item);
             }
 
             m_ppData[i] = 0;
@@ -1107,12 +1100,12 @@ void FUN_00b631d0_cls::FUN_00b631d0()
     {
         if (entry->item != 0)
         {
-            ((QueryStub*)entry->item)->FUN_00c4edf0(&state, 1);
+            reinterpret_cast<::S_00c4edf0_cls *>((((QueryStub*)entry->item)))->FUN_00c4edf0((int)(&state), 1);
             void* item = entry->item;
             if (item != 0)
             {
-                FUN_00c4ed40(item);
-                DAT_011f6238.Deallocate(item);
+                reinterpret_cast<::FUN_00c4ed40_cls *>((item))->FUN_00c4ed40();
+                reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(item);
             }
             entry->item = 0;
             entry->flag = 0;
@@ -1128,12 +1121,12 @@ void FUN_00b631d0_cls::FUN_00b631d0()
         Holder* holder = (Holder*)NextHolder(node);
         if (holder != 0 && holder->item != 0)
         {
-            ((QueryStub*)holder->item)->FUN_00c4edf0(&state, 1);
+            reinterpret_cast<::S_00c4edf0_cls *>((((QueryStub*)holder->item)))->FUN_00c4edf0((int)(&state), 1);
             void* item = holder->item;
             if (item != 0)
             {
-                FUN_00c4ed40(item);
-                DAT_011f6238.Deallocate(item);
+                reinterpret_cast<::FUN_00c4ed40_cls *>((item))->FUN_00c4ed40();
+                reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(item);
             }
             holder->item = 0;
         }
@@ -1142,7 +1135,7 @@ void FUN_00b631d0_cls::FUN_00b631d0()
     void** array = m_ppData;
     m_88 = 0;
     m_uiItemCount = 0;
-    DAT_011f6238.Deallocate(array);
+    reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(array);
     m_ppData = 0;
 }
 
@@ -1172,7 +1165,6 @@ struct List
     int head;
     int tail;
     int count;
-    void FUN_00c1b4a0(const Ref&);
     Ref FUN_00b9fcc0(const Ref&);
 };
 struct Node
@@ -1183,7 +1175,6 @@ struct Node
 };
 struct S00b6da10_Other
 {
-    __declspec(noalias) void* FUN_00b58570(Item** const&);
 };
 struct Pending
 {
@@ -1225,7 +1216,7 @@ struct Manager
     {
         {
             Ref tmp(p);
-            l.FUN_00c1b4a0(tmp);
+            reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>(&(l))->FUN_00c1b4a0((const ::fnv_00c1b4a0::NiRefObjectPtr &)(tmp));
         }
         {
             Ref tmp(p);
@@ -1237,7 +1228,7 @@ struct Manager
         pending.Find(item, pos, found);
         if (found)
         {
-            other.FUN_00b58570(found);
+            reinterpret_cast<::FUN_00b58570_Class *>(&(other))->FUN_00b58570((void *)&(found));
             pending.FUN_00e7d7f0(pos);
         }
     }
@@ -1245,7 +1236,7 @@ struct Manager
     {
         {
             Ref tmp(p);
-            l.FUN_00c1b4a0(tmp);
+            reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>(&(l))->FUN_00c1b4a0((const ::fnv_00c1b4a0::NiRefObjectPtr &)(tmp));
         }
         {
             Ref tmp(p);
@@ -1265,7 +1256,7 @@ void Manager::FUN_00b6da10(Item* item)
             case 43: {
                 {
                     Ref tmp(item);
-                    list0.FUN_00c1b4a0(tmp);
+                    reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>(&(list0))->FUN_00c1b4a0((const ::fnv_00c1b4a0::NiRefObjectPtr &)(tmp));
                 }
                 {
                     Ref tmp(item);
@@ -1276,7 +1267,7 @@ void Manager::FUN_00b6da10(Item* item)
             case 17: {
                 {
                     Ref tmp(item);
-                    list1.FUN_00c1b4a0(tmp);
+                    reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>(&(list1))->FUN_00c1b4a0((const ::fnv_00c1b4a0::NiRefObjectPtr &)(tmp));
                 }
                 {
                     Ref tmp(item);
@@ -1287,7 +1278,7 @@ void Manager::FUN_00b6da10(Item* item)
             case 9: {
                 {
                     Ref tmp(item);
-                    list2.FUN_00c1b4a0(tmp);
+                    reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>(&(list2))->FUN_00c1b4a0((const ::fnv_00c1b4a0::NiRefObjectPtr &)(tmp));
                 }
                 {
                     Ref tmp(item);
@@ -1298,7 +1289,7 @@ void Manager::FUN_00b6da10(Item* item)
             case 22: {
                 {
                     Ref tmp(item);
-                    list3.FUN_00c1b4a0(tmp);
+                    reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>(&(list3))->FUN_00c1b4a0((const ::fnv_00c1b4a0::NiRefObjectPtr &)(tmp));
                 }
                 {
                     Ref tmp(item);
@@ -1309,7 +1300,7 @@ void Manager::FUN_00b6da10(Item* item)
             case 19: {
                 {
                     Ref tmp(item);
-                    list4.FUN_00c1b4a0(tmp);
+                    reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>(&(list4))->FUN_00c1b4a0((const ::fnv_00c1b4a0::NiRefObjectPtr &)(tmp));
                 }
                 {
                     Ref tmp(item);
@@ -1326,7 +1317,7 @@ void Manager::FUN_00b6da10(Item* item)
             pending.Find(item, pos, found);
             if (found)
             {
-                other.FUN_00b58570(found);
+                reinterpret_cast<::FUN_00b58570_Class *>(&(other))->FUN_00b58570((void *)&(found));
                 pending.FUN_00e7d7f0(pos);
             }
         }

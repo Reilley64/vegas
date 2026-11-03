@@ -5,7 +5,18 @@
 // src/havok/common/base/math/swepttransform/hkswepttransformutil_gs_nogs_variant.cpp - flag-variant unit created 2026-10-29 by flag_proofs.py: contributor code for these functions matched byte for
 // byte only under /MT /O2 /GS- /EHsc /Gy (unit src/havok/common/base/math/swepttransform/hkswepttransformutil.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
-void FUN_00cf1480(float a, float b, int* c);
+#include "fnv/decl/C74C20Quat.h"
+#include "fnv/decl/Quat74.h"
+#include "fnv/decl/RotationRows.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cf1000.h"
+#include "fnv/symbols_00cf2000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_01092000.h"
+#include "fnv/symbols_01272000.h"
 struct S_00cf10f0_BinaryStream;
 typedef unsigned int(__cdecl* S_00cf10f0_ReadFn)(S_00cf10f0_BinaryStream* pkThis, void* pvBuffer, unsigned int uiBytes,
                                                  unsigned int* puiComponentSizes, unsigned int uiNumComponents);
@@ -363,12 +374,12 @@ struct S_00cf10f0_Ctx
     int saved;
     __forceinline S_00cf10f0_Ctx(int c)
     {
-        saved = DAT_tls.ctx;
-        DAT_tls.ctx = c;
+        saved = (*reinterpret_cast<::S_00cf10f0_Tls *>(&::g_tlsBlock)).ctx;
+        (*reinterpret_cast<::S_00cf10f0_Tls *>(&::g_tlsBlock)).ctx = c;
     }
     __forceinline ~S_00cf10f0_Ctx()
     {
-        DAT_tls.ctx = saved;
+        (*reinterpret_cast<::S_00cf10f0_Tls *>(&::g_tlsBlock)).ctx = saved;
     }
 };
 struct S_00cf10f0_Heap
@@ -397,7 +408,6 @@ struct S_00cf10f0_Router
 };
 S_00cf10f0_Router* FUN_00c85750() throw();
 struct S_00cf10f0_Arr4;
-void __cdecl FUN_00c908c0(S_00cf10f0_Heap* heap, S_00cf10f0_Arr4* arr, int n, int elemSize);
 struct S_00cf10f0_Arr4
 {
     int* m_data;
@@ -408,7 +418,7 @@ struct S_00cf10f0_Arr4
         S_00cf10f0_Heap& h = FUN_00c85750()->heap();
         int cap = m_cap & 0x3fffffff;
         if (cap < n)
-            FUN_00c908c0(&h, this, (n < cap * 2) ? cap * 2 : n, 4);
+            ::FUN_00c908c0((::SpawnedObject *)(::S_00cf10f0_Heap *)(&h), (::SpawnedArray *)(::S_00cf10f0_Arr4 *)(this), (n < cap * 2) ? cap * 2 : n, 4);
     }
     __forceinline void SetSizeAndGrow(int n) throw()
     {
@@ -425,9 +435,6 @@ struct S_00cf10f0_Arr4
         m_cap = 0x80000000;
     }
 };
-int __cdecl LoadIntArray(S_00cf10f0_Stream* kStream, S_00cf10f0_Arr4* arr);
-int __cdecl FUN_00cf1f80(int, int, int);
-int __cdecl FUN_00cf2160(unsigned int arg0, unsigned int arg1);
 #include <xmmintrin.h>
 struct F4
 {
@@ -457,16 +464,6 @@ struct Calc
     __declspec(align(16)) F4 res;
     void __thiscall mul(Obj* o, F4* v);
 };
-extern const __m128 g_mask;
-void ApplyDelta(__m128* a, Obj* b);
-extern double DAT_010924a8;
-extern double DAT_0101de30;
-extern double DAT_01011588;
-extern double DAT_01016ff0;
-extern float DAT_01016248;
-extern float DAT_01011d78;
-extern float DAT_01017718;
-extern __declspec(align(16)) float DAT_010ec7f0[4];
 __forceinline void normalize4(__m128& q)
 {
     __m128 x2 = _mm_mul_ps(q, q);
@@ -497,17 +494,14 @@ struct FUN_008cd6a0_Class
     V4 rot0;
     V4 rot1;
     V4 comLocal;
-    void __thiscall FUN_00cb2d90(void*);
 };
 __forceinline void interpolate(__m128& dst, __m128 a, __m128 b, float w)
 {
     __m128 wb = _mm_load_ss(&w);
     wb = _mm_shuffle_ps(wb, wb, 0);
-    __m128 other = _mm_sub_ps(_mm_load_ps(DAT_010ec7f0), wb);
+    __m128 other = _mm_sub_ps(_mm_load_ps((*reinterpret_cast<float (*)[4]>((void *)&::DAT_010ec7f0))), wb);
     dst = _mm_add_ps(_mm_mul_ps(other, a), _mm_mul_ps(wb, b));
 }
-void __cdecl UpdateRotationInterpolation(float time, FUN_008cd6a0_Class* self);
-void FUN_00cf1480(float a, float b, int* c);
 struct __declspec(align(16)) MotionVec4
 {
     float x;
@@ -537,7 +531,6 @@ struct __declspec(align(16)) MotionState_cls
     MotionVec4 m_comLocal;          // +0x80
     MotionVec4 m_kDeltaAngle;       // +0x90
 };
-void SetMotionState(const MotionMat4* transform, MotionState_cls* ms);
 struct TransformData
 {
     __m128 row0;
@@ -582,9 +575,7 @@ struct Obj_t
     __m128 m80;
     __m128 m90;
 
-    void FUN_00cb2d90(const __m128& value);
 };
-void __cdecl FUN_00cf1f80(const __m128& first, const __m128& second, Obj_t* obj);
 
 extern double DAT_01012070;
 
@@ -637,7 +628,7 @@ struct LocalRotation
     hkVector4L m_kColumn0, m_kColumn1, m_kColumn2;
     void Set(void* p)
     {
-        reinterpret_cast<FUN_008cd6a0_Class*>(this)->FUN_00cb2d90(p);
+        reinterpret_cast<::RotationRows *>((reinterpret_cast<FUN_008cd6a0_Class*>(this)))->FUN_00cb2d90(p);
     }
 };
 struct hkTransformL
@@ -660,10 +651,10 @@ static inline __m128 SumSquares(__m128 v)
 static inline __m128 InvNorm(__m128 s)
 {
     __m128 rs = _mm_rsqrt_ss(s);
-    __m128 mask = _mm_cmpeq_ss(s, _mm_set_ss(DAT_01011d78));
+    __m128 mask = _mm_cmpeq_ss(s, _mm_set_ss(::DAT_01011d78));
     __m128 prod = _mm_mul_ss(_mm_mul_ss(s, rs), rs);
-    __m128 three = _mm_set_ss(DAT_01017718);
-    __m128 half = _mm_set_ss(DAT_01016248);
+    __m128 three = _mm_set_ss(::DAT_01017718);
+    __m128 half = _mm_set_ss(::fnv_00c88020::DAT_01016248);
     return _mm_andnot_ps(mask, _mm_mul_ss(_mm_mul_ss(half, rs), _mm_sub_ss(three, prod)));
 }
 
@@ -678,7 +669,7 @@ void __cdecl FUN_00cf1510(const hkSweptTransformL& sweptTrans, float t, hkTransf
     _mm_store_ss(&len2, SumSquares(sum));
     hkQuaternionL quat;
     quat.Set(sum);
-    float invLen = (float)(DAT_0101de30 - DAT_010924a8 * len2);
+    float invLen = (float)(::DAT_0101de30 - DAT_010924a8 * len2);
     invLen = (float)(invLen * (DAT_01016ff0 - DAT_01011588 * len2 * invLen * invLen));
     __m128 q = _mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(&invLen), _mm_load_ss(&invLen), 0), quat.Get());
     if (r < 0.5f)
@@ -686,7 +677,7 @@ void __cdecl FUN_00cf1510(const hkSweptTransformL& sweptTrans, float t, hkTransf
         const float u = r * 2.0f;
         __m128 u4 = _mm_load_ss(&u);
         u4 = _mm_shuffle_ps(u4, u4, 0);
-        __m128 part = _mm_mul_ps(_mm_sub_ps(_mm_load_ps(DAT_010ec7f0), u4), r0);
+        __m128 part = _mm_mul_ps(_mm_sub_ps(_mm_load_ps((*reinterpret_cast<float (*)[4]>((void *)&::DAT_010ec7f0))), u4), r0);
         q = _mm_add_ps(part, _mm_mul_ps(u4, q));
     }
     else
@@ -694,7 +685,7 @@ void __cdecl FUN_00cf1510(const hkSweptTransformL& sweptTrans, float t, hkTransf
         const float u = (float)(r * 2.0f - 1.0);
         __m128 u4 = _mm_load_ss(&u);
         u4 = _mm_shuffle_ps(u4, u4, 0);
-        __m128 part = _mm_mul_ps(_mm_sub_ps(_mm_load_ps(DAT_010ec7f0), u4), q);
+        __m128 part = _mm_mul_ps(_mm_sub_ps(_mm_load_ps((*reinterpret_cast<float (*)[4]>((void *)&::DAT_010ec7f0))), u4), q);
         q = _mm_add_ps(part, _mm_mul_ps(u4, r1));
     }
     __m128 norm = InvNorm(SumSquares(q));
@@ -705,7 +696,7 @@ void __cdecl FUN_00cf1510(const hkSweptTransformL& sweptTrans, float t, hkTransf
     __m128 a = sweptTrans.m_vCenterOfMass0.Vector4f();
     __m128 b = sweptTrans.m_vCenterOfMass1.Vector4f();
     transformOut.m_vTranslation.SetQuad(
-        _mm_add_ps(_mm_mul_ps(_mm_sub_ps(_mm_load_ps(DAT_010ec7f0), u4), a), _mm_mul_ps(b, u4)));
+        _mm_add_ps(_mm_mul_ps(_mm_sub_ps(_mm_load_ps((*reinterpret_cast<float (*)[4]>((void *)&::DAT_010ec7f0))), u4), a), _mm_mul_ps(b, u4)));
     __m128 local = sweptTrans.m_vCenterOfMassLocal.Vector4f();
     __m128 shift = _mm_mul_ps(_mm_shuffle_ps(local, local, 0x55), transformOut.m_rotation.m_kColumn1.Vector4f());
     shift =
@@ -716,16 +707,17 @@ void __cdecl FUN_00cf1510(const hkSweptTransformL& sweptTrans, float t, hkTransf
 }
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 namespace fnv_00cf1710 {
 extern "C" void _ReadWriteBarrier();
-extern double DAT_010924a8;  // 0.125
-extern double DAT_0101de30;  // 0.75
-extern double DAT_01011588;  // 0.5
-extern double DAT_01016ff0;  // 1.5
+  // 0.125
+  // 0.75
+  // 0.5
+  // 1.5
 extern double DAT_01012070;  // 1.0
-extern float DAT_01016248;   // 0.5f
-extern float DAT_01011d78;   // 0.0f
-extern float DAT_01017718;   // 3.0f
+   // 0.5f
+   // 0.0f
+   // 3.0f
 
 struct __declspec(align(16)) hkVector4L
 {
@@ -770,15 +762,15 @@ static inline __m128 Interpolate4(__m128 a, __m128 b, float t)
 {
     __m128 tt = _mm_load_ss(&t);
     tt = _mm_shuffle_ps(tt, tt, 0);
-    return _mm_add_ps(_mm_mul_ps(_mm_sub_ps(_mm_load_ps(DAT_010ec7f0), tt), a), _mm_mul_ps(tt, b));
+    return _mm_add_ps(_mm_mul_ps(_mm_sub_ps(_mm_load_ps((*reinterpret_cast<float (*)[4]>((void *)&::DAT_010ec7f0))), tt), a), _mm_mul_ps(tt, b));
 }
 static inline __m128 SqrtInverse(__m128 r)
 {
     const __m128 e = _mm_rsqrt_ss(r);
-    const __m128 mask = _mm_cmpeq_ss(r, _mm_set_ss(DAT_01011d78));
+    const __m128 mask = _mm_cmpeq_ss(r, _mm_set_ss(::DAT_01011d78));
     const __m128 q = _mm_mul_ss(_mm_mul_ss(r, e), e);
-    const __m128 three = _mm_set_ss(DAT_01017718);
-    const __m128 half = _mm_set_ss(DAT_01016248);
+    const __m128 three = _mm_set_ss(::DAT_01017718);
+    const __m128 half = _mm_set_ss(::fnv_00c88020::DAT_01016248);
     return _mm_andnot_ps(mask, _mm_mul_ss(_mm_mul_ss(half, e), _mm_sub_ss(three, q)));
 }
 
@@ -801,7 +793,7 @@ struct LocalRotation
     hkVector4L m_kColumn2;
     void Set(void* p)
     {
-        reinterpret_cast<FUN_008cd6a0_Class*>(this)->FUN_00cb2d90(p);
+        reinterpret_cast<::RotationRows *>((reinterpret_cast<FUN_008cd6a0_Class*>(this)))->FUN_00cb2d90(p);
     }
 };
 struct hkTransformL
@@ -834,15 +826,15 @@ void __cdecl FUN_00cf1710(const hkSweptTransformL& sweptTrans, float t, float de
 
     hkQuaternionL quat;
     quat.Set(sum);
-    float invLen = (float)(DAT_0101de30 - DAT_010924a8 * len2);
-    invLen = (float)(invLen * (DAT_01016ff0 - DAT_01011588 * len2 * invLen * invLen));
+    float invLen = (float)(::DAT_0101de30 - ::DAT_010924a8 * len2);
+    invLen = (float)(invLen * (::DAT_01016ff0 - ::DAT_01011588 * len2 * invLen * invLen));
     __m128 qv = _mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(&invLen), _mm_load_ss(&invLen), 0), quat.Get());
     if (r < 0.5f)
     {
         const float t2 = r * 2.0f;
         __m128 tt = _mm_load_ss(&t2);
         tt = _mm_shuffle_ps(tt, tt, 0);
-        __m128 p1 = _mm_sub_ps(_mm_load_ps(DAT_010ec7f0), tt);
+        __m128 p1 = _mm_sub_ps(_mm_load_ps((*reinterpret_cast<float (*)[4]>((void *)&::DAT_010ec7f0))), tt);
         p1 = _mm_mul_ps(p1, r0);
         tt = _mm_mul_ps(tt, qv);
         qv = _mm_add_ps(p1, tt);
@@ -852,7 +844,7 @@ void __cdecl FUN_00cf1710(const hkSweptTransformL& sweptTrans, float t, float de
         const float t2 = (float)(r * 2.0f - 1.0);
         __m128 tt = _mm_load_ss(&t2);
         tt = _mm_shuffle_ps(tt, tt, 0);
-        __m128 p1 = _mm_sub_ps(_mm_load_ps(DAT_010ec7f0), tt);
+        __m128 p1 = _mm_sub_ps(_mm_load_ps((*reinterpret_cast<float (*)[4]>((void *)&::DAT_010ec7f0))), tt);
         p1 = _mm_mul_ps(p1, qv);
         tt = _mm_mul_ps(tt, r1);
         qv = _mm_add_ps(p1, tt);
@@ -937,7 +929,7 @@ struct MotionState
     hkVector4 m_kDeltaAngle;
     void SetRotation(const hkQuaternion* p)
     {
-        reinterpret_cast<FUN_008cd6a0_Class*>(this)->FUN_00cb2d90((void*)p);
+        reinterpret_cast<::RotationRows *>((reinterpret_cast<FUN_008cd6a0_Class*>(this)))->FUN_00cb2d90((void*)p);
     }
 };
 
@@ -949,8 +941,6 @@ struct Bool8
 struct __declspec(align(16)) Quat
 {
     float x, y, z, w;
-    void FUN_00c74ac0(const hkQuaternion* a, const hkQuaternion* b);
-    float GetAngle();
     Bool8* FUN_00ce1500(Bool8* o);
     void FUN_00c74c90(hkVector4* out);
 };
@@ -970,8 +960,8 @@ void __cdecl FUN_00cf2180(const TimeInterval& info, const hkVector4& pos1, const
     st.m_qRotation1 = rot1;
 
     Quat diff;
-    diff.FUN_00c74ac0(&rot1, &st.m_qRotation0);
-    float angle = diff.GetAngle();
+    reinterpret_cast<::Quat74 *>(&(diff))->FUN_00c74ac0((*(const ::Quat74 *)(&rot1)), (*(const ::Quat74 *)(&st.m_qRotation0)));
+    float angle = reinterpret_cast<::C74C20Quat *>(&(diff))->GetAngle();
     hkVector4 axis;
     Bool8 ok;
     if (diff.FUN_00ce1500(&ok)->b != 0)

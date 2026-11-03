@@ -5,6 +5,22 @@
 
 // src/staging/blk_00d20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/Agent378.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/BvTreeAgentD3.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00cfbd60_cls.h"
+#include "fnv/decl/Manifold__NDetector.h"
+#include "fnv/decl/S00d369a0_ListAgent.h"
+#include "fnv/decl/fnv_00d324e0__AgentD.h"
+#include "fnv/decl/fnv_00d3f080__hkpSphereCapsuleAgent.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00d31000.h"
+#include "fnv/symbols_00d36000.h"
+#include "fnv/symbols_00d39000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010ce000.h"
+#include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -444,7 +460,6 @@ struct LinearCastState
 
 struct CastObj
 {
-    void __thiscall FUN_00d302d0(int a, int b, int c, LinearCastState& s);
     void __thiscall FUN_00d31610(int a1, int a2, int a3, LinearCastState& st);
 };
 
@@ -454,7 +469,7 @@ void __thiscall CastObj::FUN_00d31610(int a1, int a2, int a3, LinearCastState& s
     LinearCastState* s = &st;
     float oldDistance = s->m_fClosestPointDistanceSquared;
     LinearCastVertex* v = s->m_kRayEnd;
-    FUN_00d302d0(a2, a1, a3, st);
+    reinterpret_cast<::BvTreeAgentD3 *>(this)->FUN_00d302d0((*(const ::CdBodyD3 *)(a2)), (*(const ::CdBodyD3 *)(a1)), (*(const ::ProcessInputD3 *)(a3)), (::ProcessOutputD3 &)(st));
     for (; v < s->m_kRayEnd; v++)
     {
         hkVector4q w;
@@ -528,7 +543,6 @@ struct Simplex
 class SimplexProcessor
 {
   public:
-    void FUN_00d369a0(int a, int b, int c, Simplex* s);
     void FUN_00d36d60(int a, int b, int c, Simplex* s);
 };
 
@@ -537,7 +551,7 @@ void SimplexProcessor::FUN_00d36d60(int a, int b, int c, Simplex* s)
 {
     SimplexVertex* v = s->m_kRayEnd;
     float oldDistance = s->m_fClosestPointDistanceSquared;
-    FUN_00d369a0(b, a, c, s);
+    reinterpret_cast<::S00d369a0_ListAgent *>(this)->FUN_00d369a0((::S00d369a0_Body *)(b), (::S00d369a0_Body *)(a), (::S00d369a0_Config *)(c), (int)(s));
     for (; v < s->m_kRayEnd; v++)
     {
         const __m128* pb = &v->m_kPointB;
@@ -754,7 +768,6 @@ struct Simplex
 
 struct AgentBase
 {
-    void FUN_00d324e0(int a, int b, int c, Simplex* s);
 };
 
 struct Agent : AgentBase
@@ -767,7 +780,7 @@ void Agent::FUN_00d32850(int a, int b, int c, Simplex* s)
 {
     SimplexVertex* v = s->m_kRayEnd;
     float oldDistance = s->m_fClosestPointDistanceSquared;
-    AgentBase::FUN_00d324e0(b, a, c, s);
+    reinterpret_cast<::fnv_00d324e0::AgentD *>(this)->FUN_00d324e0((*(const ::fnv_00d324e0::BodyD *)(b)), (*(const ::fnv_00d324e0::BodyD *)(a)), (*(const ::fnv_00d324e0::InputD *)(c)), (*(::fnv_00d324e0::OutputD *)(s)));
     for (; v < s->m_kRayEnd; v++)
     {
         const __m128* pb = &v->m_kPointB;
@@ -888,20 +901,18 @@ struct hkpAgent3FuncsD367
     bool m_bAgentFlag2;
 };
 
-void __cdecl FUN_00d367b0(hkpAgent3FuncsD367& kFuncs);
 
 class hkpCollisionDispatcherD367
 {
   public:
-    void AddEntry(const hkpAgent3FuncsD367& kFuncs, int iTypeA, int iTypeB);
 };
 
 // @fnv 0x00d367d0
 void __cdecl FUN_00d367d0(hkpCollisionDispatcherD367* pkDispatcher)
 {
     __declspec(align(16)) hkpAgent3FuncsD367 kFuncs;
-    FUN_00d367b0(kFuncs);
-    pkDispatcher->AddEntry(kFuncs, 0x12, 7);
+    ::FUN_00d367b0((int)&(kFuncs));
+    reinterpret_cast<::FUN_00cfbd60_cls *>((pkDispatcher))->AddEntry((::SrcRec *)&(kFuncs), 0x12, 7);
 }
 
 namespace fnv_00d36e80 {
@@ -977,8 +988,6 @@ class hkpSymmetricAgentFlipCastCollector : public hkpCdPointCollector
 
 struct AgentBase
 {
-    void FUN_00d36960(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const ShapeSweepParameters& input,
-                      hkpCdPointCollector& collector, hkpCdPointCollector* startCollector);
 };
 
 struct Agent : AgentBase
@@ -997,11 +1006,11 @@ void Agent::FUN_00d36e80(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const S
     if (startCollector)
     {
         hkpSymmetricAgentFlipCastCollector flippedStartCollector(input.m_path, *startCollector);
-        AgentBase::FUN_00d36960(bodyB, bodyA, flippedInput, flippedCollector, &flippedStartCollector);
+        ::FUN_00d36960((int)this, (int)&(bodyB), (int)&(bodyA), (int)&(flippedInput), (int)&(flippedCollector));
     }
     else
     {
-        AgentBase::FUN_00d36960(bodyB, bodyA, flippedInput, flippedCollector, 0);
+        ::FUN_00d36960((int)this, (int)&(bodyB), (int)&(bodyA), (int)&(flippedInput), (int)&(flippedCollector));
     }
 }
 }  // namespace fnv_00d36e80
@@ -1062,7 +1071,6 @@ struct Simplex
 
 struct AgentBase
 {
-    void FUN_00d378e0(int a, int b, int c, Simplex* s);
 };
 
 struct Agent : AgentBase
@@ -1075,7 +1083,7 @@ void Agent::FUN_00d37c10(int a, int b, int c, Simplex* s)
 {
     SimplexVertex* v = s->m_kRayEnd;
     float oldDistance = s->m_fClosestPointDistanceSquared;
-    AgentBase::FUN_00d378e0(b, a, c, s);
+    reinterpret_cast<::Agent378 *>(this)->FUN_00d378e0((::Body378 *)(b), (::Body378 *)(a), (void *)(c), (::ContactBuffer378 *)(s));
     for (; v < s->m_kRayEnd; v++)
     {
         const __m128* pb = &v->m_kPointB;
@@ -1145,31 +1153,24 @@ struct hkpAgent3FuncsD398
 class hkpCollisionDispatcherD398
 {
   public:
-    void AddEntry(const hkpAgent3FuncsD398& kFuncs, int iTypeA, int iTypeB);
 };
 
-void InitOutputDefaults();
-void FUN_00d39130();
-void ReleaseHandles();
-void RemoveKeyFromTable();
-void InsertIntoSlotArray();
 void FUN_00d39090();
 void FUN_00d39150();
-void FUN_00d39390();
 
 // @fnv 0x00d39840
 void __cdecl FUN_00d39840(hkpCollisionDispatcherD398* pkDispatcher)
 {
     __declspec(align(16)) hkpAgent3FuncsD398 kFuncs;
-    kFuncs.m_pCreateFunc = InitOutputDefaults;
-    kFuncs.m_setCollisionQualityFunc = FUN_00d39390;
+    kFuncs.m_pCreateFunc = ((void (&)())::InitOutputDefaults);
+    kFuncs.m_setCollisionQualityFunc = ((void (&)())::FUN_00d39390);
     kFuncs.m_pAgentFunction11 = FUN_00d39150;
-    kFuncs.m_pAgentFunction3 = ReleaseHandles;
-    kFuncs.m_pAgentFunction4 = RemoveKeyFromTable;
-    kFuncs.m_pAgentFunction5 = InsertIntoSlotArray;
+    kFuncs.m_pAgentFunction3 = ((void (&)())::ReleaseHandles);
+    kFuncs.m_pAgentFunction4 = ((void (&)())::RemoveKeyFromTable);
+    kFuncs.m_pAgentFunction5 = ((void (&)())::InsertIntoSlotArray);
     kFuncs.m_createZeroContactFunc = FUN_00d39090;
-    kFuncs.m_pAgent3DestroyFuncs = FUN_00d39130;
-    pkDispatcher->AddEntry(kFuncs, 5, 3);
+    kFuncs.m_pAgent3DestroyFuncs = ((void (&)())::FUN_00d39130);
+    reinterpret_cast<::FUN_00cfbd60_cls *>((pkDispatcher))->AddEntry((::SrcRec *)&(kFuncs), 5, 3);
 }
 
 namespace fnv_00d3f500 {
@@ -1228,7 +1229,6 @@ struct Simplex
 
 struct AgentBase
 {
-    void FUN_00d3f080(int a, int b, int c, Simplex* s);
 };
 
 struct Agent : AgentBase
@@ -1241,7 +1241,7 @@ void Agent::FUN_00d3f500(int a, int b, int c, Simplex* s)
 {
     SimplexVertex* v = s->m_kRayEnd;
     float oldDistance = s->m_fClosestPointDistanceSquared;
-    AgentBase::FUN_00d3f080(b, a, c, s);
+    reinterpret_cast<::fnv_00d3f080::hkpSphereCapsuleAgent *>(this)->FUN_00d3f080((*(const ::fnv_00d3f080::hkpCdBody *)(b)), (*(const ::fnv_00d3f080::hkpCdBody *)(a)), (*(const ::fnv_00d3f080::GskAgentInput *)(c)), (*(::fnv_00d3f080::WorldOperationEntry *)(s)));
     for (; v < s->m_kRayEnd; v++)
     {
         const __m128* pb = &v->m_kPointB;
@@ -1294,7 +1294,6 @@ extern "C"
     unsigned __int64 __rdtsc();
     void _ReadWriteBarrier();
 }
-extern unsigned int DAT_0126835c;
 struct ProfileSample
 {
     const char* name;
@@ -1396,12 +1395,11 @@ struct Processor
         scalarTolerance = tol;
         constant = 0.01f;
     }
-    void FUN_00db2960(unsigned char*);
 };
 // @fnv 0x00d3fe90
 void* __cdecl FUN_00d3fe90(Params* p, unsigned char* out, unsigned char* obj, int unused, int z)
 {
-    ProfileBuffer* buf = (ProfileBuffer*)TlsGetValue(DAT_0126835c);
+    ProfileBuffer* buf = (ProfileBuffer*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     if (buf->current < buf->end)
     {
         ProfileSample* rec = buf->current;
@@ -1425,9 +1423,9 @@ void* __cdecl FUN_00d3fe90(Params* p, unsigned char* out, unsigned char* obj, in
     CollisionInput* input = p->input;
     float tol = input->tolerance;
     Processor state(*a, *p->b, input, p->unk10, z, p->relative, *a->transform, halfA, *p->b->transform, halfB, tol);
-    state.FUN_00db2960(obj);
+    reinterpret_cast<::Manifold::NDetector *>(&(state))->FUN_00db2960((*(::Manifold::NManifold *)(obj)));
     out[2] = obj[0x21];
-    buf = (ProfileBuffer*)TlsGetValue(DAT_0126835c);
+    buf = (ProfileBuffer*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     if (buf->current < buf->end)
     {
         ProfileSample* rec = buf->current;
@@ -1521,9 +1519,7 @@ int FUN_00d231b0(const __m128* pa, const __m128* pb, const __m128* pc, const __m
 extern "C" void _mm_store_ps(float*, __m128);
 extern "C" __m128 _mm_xor_ps(__m128, __m128);
 
-extern float DAT_0104da48;
 extern __m128 DAT_010c44d0;
-extern char DAT_010ce80c;
 
 struct D2fVector4
 {
@@ -1567,7 +1563,7 @@ struct D2fRayHitCollector
 {
     virtual void CollectRayHit(const void* a, const void* b) = 0;
     float m_fHitDistance;
-    D2fRayHitCollector() throw() : m_fHitDistance(DAT_0104da48)
+    D2fRayHitCollector() throw() : m_fHitDistance(::DAT_0104da48)
     {}
 };
 
@@ -1583,7 +1579,6 @@ struct __declspec(align(16)) D2fCollector : D2fRayHitCollector
 
 struct D2fWorld
 {
-    void FUN_00d315a0(int a, int b, D2fInput* in, D2fCollector* c1, D2fCollector* c2);
     void FUN_00d2f460(int a1, int a2, const D2fInput* a3, int a4, void* a5);
 };
 
@@ -1596,11 +1591,11 @@ void D2fWorld::FUN_00d2f460(int a1, int a2, const D2fInput* a3, int a4, void* a5
     if (a5)
     {
         D2fCollector c2(a3->m_vec, a5);
-        FUN_00d315a0(a2, a1, &tmp, &c1, &c2);
+        ::FUN_00d315a0((void *)this, (void *)(a2), (void *)(a1), &tmp, &c1);
     }
     else
     {
-        FUN_00d315a0(a2, a1, &tmp, &c1, 0);
+        ::FUN_00d315a0((void *)this, (void *)(a2), (void *)(a1), &tmp, &c1);
     }
 }
 

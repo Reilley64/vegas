@@ -1,5 +1,8 @@
 // bssystemutilities/console/bsnetworksystemutility_console.cpp: NetworkSystemUtility (4 functions)
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_011f6000.h"
 #include "bsnetworksystemutility_console_decls.h"
 // @fnv 0x00af2d70
 void NetworkSystemUtility::RegisterCallback(void(__cdecl* callback)(NetEvent, unsigned int))

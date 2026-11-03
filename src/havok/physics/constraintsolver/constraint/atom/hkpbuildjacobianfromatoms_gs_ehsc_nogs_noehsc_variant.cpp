@@ -7,8 +7,16 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 // The .rdata double added to the first matrix element (0.25) lives in the
 // original image, so it is only declared here.
-extern const double DAT_010c9300;
 // arg1: the six float vector
+#include "fnv/decl/FUN_00d71f90_cls.h"
+#include "fnv/symbols_00cbf000.h"
+#include "fnv/symbols_00d6c000.h"
+#include "fnv/symbols_00d6f000.h"
+#include "fnv/symbols_00d72000.h"
+#include "fnv/symbols_00dce000.h"
+#include "fnv/symbols_00dcf000.h"
+#include "fnv/symbols_010c9000.h"
+#include "fnv/symbols_010d3000.h"
 struct FUN_00d6ce70_Vector
 {
     float f00;
@@ -62,7 +70,6 @@ struct FUN_00d6ce70_Cursor
 {
     FUN_00d6ce70_Matrix* matrix;
 };
-void FUN_00d6ce70(FUN_00d6ce70_Vector* v, FUN_00d6ce70_Scale* s, FUN_00d6ce70_Dest* dest, FUN_00d6ce70_Cursor* cursor);
 struct WriterContext
 {
     int unk00;
@@ -110,7 +117,6 @@ struct WriterRecord
     unsigned int value;
     unsigned int whole;
 };
-extern double _DAT_010c9300;
 static void WriteFloatRecord(WriterContext* object, float** cursor, WriterArgs args);
 void RecordWrite_use(WriterContext* object, float** cursor, WriterArgs args);
 struct S00d6d990_Src
@@ -145,14 +151,13 @@ struct S00d6d990_Rec
     float unk08;
     float unk0c;
 };
-void S00d6d990_Sink(S00d6d990_Tmp* t, WriterContext* obj, S00d6d990_Rec** cur);
 static void FUN_00d6d990(S00d6d990_Src* src, S00d6d990_Rec** cur, WriterContext* obj, int a1);
 void S00d6d990_Caller(S00d6d990_Src* s, S00d6d990_Rec** c, WriterContext* o, int a);
-extern double _DAT_010c9300;
 static void FUN_00d6ea30(WriterContext* object, float** cursor, WriterArgs args);
 void RecordWriteAlt_use(WriterContext* object, float** cursor, WriterArgs args);
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 struct S00d6e280_Obj
 {
     unsigned char unk00;
@@ -255,7 +260,6 @@ struct S00d6e280_Rec
     int i0c;
 };
 
-extern "C" void FUN_00dcf100(S00d6e280_Call* p, S00d6e280_Other* o, S00d6e280_Rec** cursor);
 
 // @fnv 0x00d6e280
 static __declspec(noinline) void FUN_00d6e280(S00d6e280_Rec** cursor, __m128* table, S00d6e280_Obj* self,
@@ -270,7 +274,7 @@ static __declspec(noinline) void FUN_00d6e280(S00d6e280_Rec** cursor, __m128* ta
             _mm_store_ps((float*)&c.vb, table[self->m_flag3]);
             c.c = self->m_f4;
             c.d = other->m_64;
-            FUN_00dcf100(&c, other, cursor);
+            ::FUN_00dcf100((::S_00dcf100_In *)(::S00d6e280_Call *)(&c), (::S_00dcf100_Cfg *)(other), (::S_00dcf100_Out **)(cursor));
             return;
         }
     }
@@ -278,7 +282,7 @@ static __declspec(noinline) void FUN_00d6e280(S00d6e280_Rec** cursor, __m128* ta
     double v = rec->f00;
     rec->b04 = 1;
     rec = rec + 1;
-    (rec - 1)->f00 = (float)(v + DAT_010c9300);
+    (rec - 1)->f00 = (float)(v + ::DAT_010c9300);
     (rec - 1)->type00 = 3;
     *cursor = rec;
 }
@@ -353,7 +357,6 @@ struct FnvSubObject
     int unk74;
     int unk78;
     int unk7c;
-    void FUN_00d71f90(FnvSubObject* src);
 };
 struct FnvPacket
 {
@@ -395,9 +398,6 @@ union DispatchArgs
     unsigned int raw;
     unsigned char flag;
 };
-void __cdecl FUN_00dced90(__m128* a, __m128* b, void* dest);
-void __cdecl FUN_00d72190(NodeKind* node, FnvPacket* packet, DispatchArgs args, void* dest);
-void __cdecl FUN_00d6f460(NodeKind* node, DispatchArgs args, FnvPacket* packet, void* dest);
 
 // @fnv 0x00d6ecb0
 static __declspec(noinline) void FUN_00d6ecb0(FnvPacket* arg1, void* arg2, FnvNode* node)
@@ -411,24 +411,24 @@ static __declspec(noinline) void FUN_00d6ecb0(FnvPacket* arg1, void* arg2, FnvNo
     DispatchArgs args;
     args.raw = node->unk12;
     FnvSubObject obj1;
-    obj1.FUN_00d71f90(arg1->unk30);
+    reinterpret_cast<::FUN_00d71f90_cls *>(&(obj1))->FUN_00d71f90((const ::FUN_00d71f90_cls *)(arg1->unk30));
     FnvSubObject obj2;
-    obj2.FUN_00d71f90(arg1->unk34);
+    reinterpret_cast<::FUN_00d71f90_cls *>(&(obj2))->FUN_00d71f90((const ::FUN_00d71f90_cls *)(arg1->unk34));
     obj1.vec = _mm_mul_ps(obj1.vec, v1.vec);
     obj2.vec = _mm_mul_ps(obj2.vec, v2.vec);
     localPacket.unk30 = &obj1;
     localPacket.unk34 = &obj2;
-    FUN_00dced90(&obj1.vec, &obj2.vec, arg2);
+    ::fnv_00dced90::FUN_00dced90(&obj1.vec, &obj2.vec, (char **)(arg2));
     if (kind->kind == 0x16)
     {
         args.flag = 1;
-        FUN_00d72190(kind, &localPacket, args, arg2);
+        ::FUN_00d72190((::Node *)(kind), (::Buffer *)(::FnvPacket *)(&localPacket), (*(int *)&(const ::DispatchArgs &)(args)), (int *)(arg2));
     }
     else
     {
-        FUN_00d6f460(kind, args, &localPacket, arg2);
+        ::FUN_00d6f460((const ::Atom *)(kind), (*(int *)&(const ::DispatchArgs &)(args)), (const ::QueryIn *)(::FnvPacket *)(&localPacket), (::QueryOut *)(arg2));
     }
-    FUN_00dced90(&arg1->unk30->vec, &arg1->unk34->vec, arg2);
+    ::fnv_00dced90::FUN_00dced90(&arg1->unk30->vec, &arg1->unk34->vec, (char **)(arg2));
 }
 extern "C" FnvNode* FetchNode();
 FnvPacket* volatile sourcePacket;
@@ -438,7 +438,6 @@ void TargetCaller()
     FUN_00d6ecb0(sourcePacket, sourceDest, FetchNode());
 }
 
-extern const __m128 DAT_010c44d0;
 struct Body337
 {
     __m128 unk00, unk10, unk20;
@@ -483,7 +482,7 @@ static __declspec(noinline) void FUN_00d6cc80(const Pair337* pair, Jacobian337* 
     sum = _mm_add_ss(_mm_shuffle_ps(total, total, 0xaa), sum);
     float scalar;
     _mm_store_ss(&scalar, sum);
-    float denominator = (float)(scalar + DAT_010c9300);
+    float denominator = (float)(scalar + ::DAT_010c9300);
     float reciprocal = 1.0f / denominator;
     output->first.m128_f32[3] = reciprocal;
     *effectiveMass = reciprocal;
@@ -493,9 +492,6 @@ void BuildJacobian337(const Pair337* pair, Jacobian337* output, const __m128* di
     FUN_00d6cc80(pair, output, direction, mass);
 }
 
-extern "C" float __cdecl Atan2(float a, float b);
-extern const unsigned char DAT_010d33c1[];
-extern const unsigned char DAT_010d33c2[];
 
 struct Child
 {
@@ -548,8 +544,8 @@ static __declspec(noinline) int FUN_00d6d2e0(Obj* self, Src* src, Mat* a2, Mat* 
     if (self->flag != 0)
     {
         unsigned axis = self->axis;
-        unsigned offW = DAT_010d33c1[axis];
-        unsigned offU = DAT_010d33c2[axis];
+        unsigned offW = ::DAT_010d33c1[axis];
+        unsigned offU = ::DAT_010d33c2[axis];
         out->f1c = src->f40 * self->f0c;
         out->row = a2->rows[axis];
         __m128 W = *(__m128*)((unsigned char*)a2 + offW);
@@ -559,7 +555,7 @@ static __declspec(noinline) int FUN_00d6d2e0(Obj* self, Src* src, Mat* a2, Mat* 
         out->f14 = self->f08;
         float dot = sum3(_mm_mul_ps(U, W));
         float triple = sum3(_mm_mul_ps(cross_uv(U, V), W));
-        out->f18 = Atan2(dot, triple);
+        out->f18 = ::Atan2(dot, triple);
         float n = src->child->f04 * -1.0;
         const double kPi = 3.14159265358979323846f;
         const double kTwo = 6.28318530717958647692f;
@@ -687,9 +683,7 @@ struct __declspec(align(16)) S00d6f300_Info
     S00d6f300_Out out;
 };
 void ComputeJacobian(const __m128* n, const __m128* pos, S00d6f300_O* o, S00d6f300_Cmd* cur, S00d6f300_Info* info);
-void FUN_00dcfff0(void* h, S00d6f300_Info* info, S00d6f300_Out* out);
 void FUN_00dd03c0(S00d6f300_Out* out, S00d6f300_O* o, S00d6f300_Cmd* cur, S00d6f300_Cmd** p);
-extern const double DAT_010c9300;
 
 // @fnv 0x00d6f300
 static __declspec(noinline) void FUN_00d6f300(S00d6f300_A* s, S00d6f300_O* o, S00d6f300_B* a2, __m128* a3,
@@ -716,7 +710,7 @@ static __declspec(noinline) void FUN_00d6f300(S00d6f300_A* s, S00d6f300_O* o, S0
             S00d6f300_V4 d;
             d.setSub4(a2->m_30, ((const S00d6f300_V4*)a3)[3]);
             info.d = *b - d.dot3(((const S00d6f300_V4*)a3)[s->m_03]);
-            FUN_00dcfff0(h, &info, &info.out);
+            ::FUN_00dcfff0((::ObjA *)(h), (::ObjB *)(::S00d6f300_Info *)(&info), (float *)(::S00d6f300_Out *)(&info.out));
             FUN_00dd03c0(&info.out, o, cur, p);
             if (*b != s->m_08 || *a == 0)
             {
@@ -728,7 +722,7 @@ static __declspec(noinline) void FUN_00d6f300(S00d6f300_A* s, S00d6f300_O* o, S0
     }
     S00d6f300_Cmd* q = *p;
     q->b4 = 1;
-    q->f = (float)(q->f + DAT_010c9300);
+    q->f = (float)(q->f + ::DAT_010c9300);
     *(unsigned char*)q = 3;
     *p = q + 1;
 }

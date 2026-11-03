@@ -3,6 +3,8 @@
 // byte only under /MT /O2 /GS- /EHsc /Gy (unit src/havok/physics/internal/collide/mopp/builder/mediator/shape/hkpmoppshapemediator.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/decl/FUN_00dd51d0_class.h"
+#include "fnv/symbols_00c85000.h"
 int __stdcall ReadIntField(const void* a, int* b);
 struct FUN_00dd5260_T
 {
@@ -70,12 +72,10 @@ struct CpuAllocatorHolder
     unsigned int unk0c;
     CpuAllocator* allocator;
 };
-CpuAllocatorHolder* __cdecl FUN_00c85750();
 struct CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void FUN_00dd51d0();
     CpuObject* FUN_00dd55a0(unsigned int flags);
 };
 void __stdcall FUN_00dd51e0(int, int);

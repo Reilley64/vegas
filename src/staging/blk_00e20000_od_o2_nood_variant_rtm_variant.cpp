@@ -8,6 +8,25 @@
 // to their real unit once identified.
 // src/staging/blk_00e20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/D04B90World.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00e39e50_cls.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00d04000.h"
+#include "fnv/symbols_00d1b000.h"
+#include "fnv/symbols_00d1d000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_010c3000.h"
+#include "fnv/symbols_010cc000.h"
+#include "fnv/symbols_010db000.h"
+#include "fnv/symbols_010ed000.h"
+#include "fnv/symbols_011b3000.h"
+#include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; } __m128;
 extern "C" {
@@ -41,9 +60,6 @@ struct Face {
     int unk4c;
     __declspec(noinline) Vertex* ComputePlane();
 };
-extern float DAT_01011d78;
-extern float DAT_01017718;
-extern float DAT_01016248;
 static __forceinline __m128 dot3(__m128 a, __m128 b) {
     __m128 v = _mm_mul_ps(a,b);
     return _mm_add_ss(_mm_shuffle_ps(v,v,0xaa), _mm_add_ss(_mm_shuffle_ps(v,v,0x55),v));
@@ -55,8 +71,8 @@ Vertex* Face::ComputePlane() {
     __m128 n = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(a,a,0xc9),_mm_shuffle_ps(b,b,0xd2)),_mm_mul_ps(_mm_shuffle_ps(a,a,0xd2),_mm_shuffle_ps(b,b,0xc9)));
     __m128 len = dot3(n,n);
     __m128 inv = _mm_rsqrt_ss(len);
-    __m128 scale = _mm_mul_ss(_mm_mul_ss(_mm_set_ss(DAT_01016248),inv), _mm_sub_ss(_mm_set_ss(DAT_01017718), _mm_mul_ss(_mm_mul_ss(len,inv),inv)));
-    scale = _mm_andnot_ps(_mm_cmpeq_ss(len,_mm_set_ss(DAT_01011d78)), scale);
+    __m128 scale = _mm_mul_ss(_mm_mul_ss(_mm_set_ss(::fnv_00c88020::DAT_01016248),inv), _mm_sub_ss(_mm_set_ss(::DAT_01017718), _mm_mul_ss(_mm_mul_ss(len,inv),inv)));
+    scale = _mm_andnot_ps(_mm_cmpeq_ss(len,_mm_set_ss(::DAT_01011d78)), scale);
     normal = n;
     _ReadWriteBarrier();
     normal = _mm_mul_ps(n,_mm_shuffle_ps(scale,scale,0));
@@ -66,7 +82,6 @@ Vertex* Face::ComputePlane() {
     return first;
 }
 struct InitEntry { int vertexOffset; int faceOffset; int edgeOffset; };
-extern InitEntry DAT_010ed0f0[];
 struct Hull {
     int unk00; int unk04; int unk08; int unk0c;
     int faceCount; int unk14; int unk18; int unk1c;
@@ -80,7 +95,6 @@ struct E29SrcList { E29Src* data; int count; };
 struct E29Item { __m128 a; __m128 b; char flag20; int val24; };
 struct E29Out1 { E29Item item; void* ptr30; int one34; int zero38; char unk3c; char flag3d; };
 struct E29Out2 { E29Item items[4]; int count; char flagC4; void* ptrs[4]; int unkD8; int unkDC; int zeros[4]; int unkF0; };
-void FUN_00e29a10(E29SrcList* src, const __m128* posA, const __m128* posB, char* base, E29Out1* out1, int* outCount1, E29Out2* out2, int* outCount2);
 inline void* operator new(unsigned int, void* p) { return p; }
 struct Router_e3a1 {
     int unk00, unk04, unk08, unk0C;
@@ -91,7 +105,6 @@ void __cdecl ResizeAudioStream(void* mem, void* array, int sizeOfElement);
 struct __declspec(align(16)) Key_e3a1 {
     float m_ax, m_ay, m_az, m_aw;
     float m_bx, m_by, m_bz, m_bw;
-    Key_e3a1* FUN_00e39e50();
 };
 template <class T> struct hkArray_e3a1 {
     T* m_data;
@@ -117,11 +130,6 @@ extern "C" __m128 _mm_load_ss(const float*);
 extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
 extern "C" void _mm_store_ps(float*, __m128);
 extern "C" __m128 _mm_setr_ps(float, float, float, float);
-extern int DAT_010dbacc, DAT_010dbad8, DAT_010dbae4, DAT_010dbaf8;
-extern int DAT_010ccfac, DAT_010ccfa0, DAT_010ccf8c, DAT_010c3bb8;
-extern void* DAT_011b3830[];
-void __cdecl FUN_00d1bb50(void*, void*, void*, void*, void*, void*, void*, void*, void*, int) throw();
-void __cdecl FUN_00d1d490(void*, void*, int, void*, void*, void*) throw();
 typedef __m128 FourFloatVector;
 __forceinline FourFloatVector packFractions(float x,float y,float z,float w) { FourFloatVector v; v.m128_f32[0]=x; v.m128_f32[1]=y; v.m128_f32[2]=z; v.m128_f32[3]=w; return v; }
 struct RaySource {
@@ -184,9 +192,7 @@ struct Bundle {
 struct FractionValues { float x,y,z,w; };
 struct FractionArg { FourFloatVector* ptr; };
 struct Owner { unsigned unk00, unk04, unk08, unk0c; void* context; };
-void __cdecl FUN_00e2b510(Owner* owner, RayBatch* input, int mode, FourFloatVector& fractions);
 extern "C" void _ReadWriteBarrier(void);
-extern DWORD DAT_0126835c;
 unsigned __int64 __cdecl __rdtsc(void);
 struct ProfRec
 {
@@ -231,7 +237,6 @@ template <class T> struct ScrapArr
 class JobTarget
 {
 public:
-    void FUN_00d04380();
 };
 struct __declspec(align(16)) AutoJob
 {
@@ -302,7 +307,6 @@ struct JobSource
 class JobQueue
 {
 public:
-    void AddObjectCopy(AutoJob* pJob, int iFlag);
 };
 class JobWaiter
 {
@@ -543,6 +547,7 @@ void __cdecl FUN_00e29b80(int a, int b, int numRays, void* p1, void* p2, void* p
 }
 
 #include <math.h>
+#include "fnv/symbols_simd.h"
 extern "C" {
 __m128 _mm_add_ps(__m128, __m128);
 __m128 _mm_xor_ps(__m128, __m128);
@@ -565,8 +570,6 @@ private:
 };
 typedef const S2db70_SimdReal& S2db70_SimdRealParameter;
 
-extern const __m128 DAT_010c44d0;
-extern float DAT_0104e148;
 
 class S2db70_Vector4
 {
@@ -615,7 +618,6 @@ public:
 };
 
 struct S2db70_Transform { S2db70_Vector4 m_kColumn0, m_kColumn1, m_kColumn2, m_vTranslation; };
-extern S2db70_Transform DAT_01268370;
 
 struct S2db70_Shape
 {
@@ -702,9 +704,9 @@ extern "C" void FUN_00e2db70(const S2db70_Shape* shapeA, const S2db70_Shape* sha
                   S2db70_Vector4& pointAinA, S2db70_Vector4& pointBinB, S2db70_Out& out)
 {
     S2db70_Sample sample;
-    sample.getDistance() = DAT_0104e148;
+    sample.getDistance() = ::DAT_0104e148;
 
-    const S2db70_Vector4* axis = &DAT_01268370.m_kColumn0;
+    const S2db70_Vector4* axis = &(*reinterpret_cast<::S2db70_Transform *>(&::DAT_01268370)).m_kColumn0;
     for (int i = 0; i < 3; i++)
     {
         S2db70_Vector4 dir = *axis;
@@ -787,8 +789,6 @@ extern "C" {
 __m128 _mm_div_ss(__m128, __m128);
 __m128 _mm_add_ps(__m128, __m128);
 }
-extern float DAT_01012068;
-extern float DAT_01011d78;
 static __forceinline __m128 inverseSpan(__m128 a, __m128 b) { return _mm_div_ss(_mm_load_ss(&DAT_01012068),_mm_add_ss(a,b)); }
 // @fnv 0x00e33670
 void FUN_00e33670(float t, int unused, const float* knots, const __m128* ctrl, __m128* out)
@@ -804,7 +804,7 @@ void FUN_00e33670(float t, int unused, const float* knots, const __m128* ctrl, _
     __m128 left2 = _mm_load_ss(&f);
     f = knots[3] - t;
     __m128 right2 = _mm_load_ss(&f);
-    __m128 zero = _mm_load_ss(&DAT_01011d78);
+    __m128 zero = _mm_load_ss(&::DAT_01011d78);
     __m128 a = _mm_div_ss(_mm_add_ss(zero,n01), _mm_add_ss(right1,left2));
     __m128 b0 = _mm_add_ss(zero,_mm_mul_ss(right1,a));
     __m128 b1left = _mm_mul_ss(left2,a);

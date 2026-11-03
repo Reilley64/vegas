@@ -1,5 +1,7 @@
 // bssystem/bsfilecache.cpp: BSFileCache, StandIn (15 functions)
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/symbols_011f6000.h"
 #include "bsfilecache.h"
 
 // @fnv 0x00b00f20
@@ -47,15 +49,7 @@ struct VT_00b011b0
 };
 struct ST_00b011b0
 {
-    bool FUN_00b011e0(int);
 };
-// Calls v5 on the argument, then forwards the result to FUN_00b011e0 and returns its bool result.
-// @fnv 0x00b011b0
-bool FUN_00b011b0_shell::FUN_00b011b0(int a)
-{
-    return ((ST_00b011b0*)this)->FUN_00b011e0(((VT_00b011b0*)this)->v5(a));
-}
-
 struct FUN_00b01020
 {
     virtual ~FUN_00b01020();
@@ -118,6 +112,12 @@ struct C00b011e0
     M00b011e0* mid;
     bool FUN_00b011e0(int idx);
 };
+// Calls v5 on the argument, then forwards the result to FUN_00b011e0 and returns its bool result.
+// @fnv 0x00b011b0
+bool FUN_00b011b0_shell::FUN_00b011b0(int a)
+{
+    return reinterpret_cast<::C00b011e0 *>((((ST_00b011b0*)this)))->FUN_00b011e0(((VT_00b011b0*)this)->v5(a));
+}
 // Returns true when idx is within cnt and the entry at mid->arr[idx] has v equal to 2; otherwise false.
 // @fnv 0x00b011e0
 bool C00b011e0::FUN_00b011e0(int aiIndex)
@@ -148,9 +148,7 @@ struct FUN_00b01020_Holder
 };
 struct MemoryManager
 {
-    void _DeallocateAlias(void*);
 };
-extern MemoryManager g_memoryManager;
 struct FUN_00b01310_shell
 {
     void* FUN_00b01310(unsigned int flags);
@@ -159,9 +157,9 @@ struct FUN_00b01310_shell
 // @fnv 0x00b01310
 void* FUN_00b01310_shell::FUN_00b01310(unsigned int flags)
 {
-    ((FUN_00b01020_Holder*)this)->FUN_00b01020();
+    reinterpret_cast<::FUN_00b01020 *>((((FUN_00b01020_Holder*)this)))->FUN_00b01020::~FUN_00b01020();
     if (flags & 1)
-        g_memoryManager._DeallocateAlias(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
     return this;
 }
 

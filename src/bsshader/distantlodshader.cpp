@@ -1,5 +1,24 @@
 // bsshader/distantlodshader.cpp: DistantLODShader, BSShaderStandin, RSShader, LodCompiler (13 functions)
 
+#include "fnv/decl/D3DRenderStateGroup.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00be1750_shell.h"
+#include "fnv/decl/FUN_00e7ecd0_cls.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiD3DGPUProgramCache.h"
+#include "fnv/decl/StageSet.h"
+#include "fnv/decl/StateGroup.h"
+#include "fnv/decl/fnv_00e814b0__UnkShader.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00be0000.h"
+#include "fnv/symbols_00e76000.h"
+#include "fnv/symbols_00e7e000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_011fa000.h"
+#include "fnv/symbols_01202000.h"
 #include "distantlodshader_decls.h"
 
 // Calls the base NiD3DShader::Initialize, then invokes vfn_75, vfn_77 and vfn_76, returning false if the base call fails.
@@ -33,8 +52,8 @@ void DistantLODShader::UpdateShaderConstants()
                                               false);
         m_spSecondShaderConstantMap->AddEntry("alpha param param", 0x10000007, 0, 12, 1, "", 16, 4, &DAT_011ad860,
                                               false);
-        m_spSecondShaderConstantMap->AddEntry("fogparam", 0x10000007, 0, 11, 1, "", 16, 4, DAT_011fa280, false);
-        m_spSecondShaderConstantMap->AddEntry("fogcolor", 0x10000007, 0, 10, 1, "", 16, 4, DAT_011fa290, false);
+        m_spSecondShaderConstantMap->AddEntry("fogparam", 0x10000007, 0, 11, 1, "", 16, 4, (*reinterpret_cast<const float (*)[]>((void *)&::DAT_011FA280)), false);
+        m_spSecondShaderConstantMap->AddEntry("fogcolor", 0x10000007, 0, 10, 1, "", 16, 4, (*reinterpret_cast<const float (*)[]>((void *)&::DAT_011FA290)), false);
         m_spSecondShaderConstantMap->AddEntry("instance data", 0x10000009, 0, 0x14, m_usInstanceDataCount, "",
                                               m_usInstanceDataCount << 4, 4, m_pDiffuseDirection, false);
         m_uiInstanceData = m_spSecondShaderConstantMap->LookupSequenceByKey("instance data");
@@ -98,7 +117,6 @@ struct LodShaderBase
     char pad1[0x7c - 0x2c];
     LodObj* setA[4];
     LodObj* setB[2];
-    void FUN_00e814b0();
 };
 // Releases the objects in setA when field28 is set, releases the objects in setB, then calls FUN_00e814b0 on the shader.
 // @fnv 0x00bd4ed0
@@ -120,15 +138,14 @@ void __fastcall ReleaseLodObjects(LodShaderBase* shader, int)
         if (pObj)
             pObj->Release34();
     }
-    shader->FUN_00e814b0();
+    reinterpret_cast<::fnv_00e814b0::UnkShader *>((shader))->FUN_00e814b0();
 }
 
-extern "C" void* g_012023c8;
 
 // @fnv 0x00bd5460
 void* __cdecl FUN_00bd5460()
 {
-    return &g_012023c8;
+    return &(*reinterpret_cast<void * *>(&::g_012023c8));
 }
 
 struct FUN_00bd5470_shell
@@ -143,22 +160,11 @@ void __thiscall FUN_00bd5470_shell::FUN_00bd5470(int a, char b)
     *reinterpret_cast<char*>(this + 0x78) = b;
 }
 
-void __cdecl _delete(void*, unsigned int);
 struct S_00bd58f0
 {
     void __thiscall FUN_00bd5330();
     void* __thiscall DestroyIfFlagged(unsigned int);
 };
-// Calls FUN_00bd5330, then if bit 0 of flags is set deletes this with size 0x100, and returns this.
-// @fnv 0x00bd58f0
-void* __thiscall S_00bd58f0::DestroyIfFlagged(unsigned int flags)
-{
-    FUN_00bd5330();
-    if (flags & 1)
-        _delete(this, 0x100);
-    return this;
-}
-
 struct NiRenderer;
 
 struct ShaderVTable
@@ -330,7 +336,6 @@ struct ShaderVTable
 
 struct NiD3DVertexDeclaration : ShaderVTable
 {
-    static NiD3DVertexDeclaration* __cdecl Create(NiRenderer*, unsigned int, unsigned int);
 };
 
 struct A51BF0Base : ShaderVTable
@@ -344,13 +349,12 @@ struct FUN_00bd5670 : A51BF0Base
     FUN_00bd5670(NiD3DVertexDeclaration*);
 };
 
-extern void* DAT_011f9508;
 extern unsigned int _data_011c16bc;
 
 // @fnv 0x00bd5920
 FUN_00bd5670* FUN_00bd5920()
 {
-    NiD3DVertexDeclaration* declaration = NiD3DVertexDeclaration::Create((NiRenderer*)DAT_011f9508, 4, 1);
+    NiD3DVertexDeclaration* declaration = ::FUN_00e76700((NiRenderer*)(*reinterpret_cast<void * *>(&::DAT_011f9508)), 4, 1);
 
     FUN_00bd5670* result = 0;
 
@@ -371,24 +375,17 @@ FUN_00bd5670* FUN_00bd5920()
     return result;
 }
 
+template <class> class NiPointer;
 struct NiD3DPass
 {
-    static void __cdecl CreateD3DPass(NiD3DPass*& pass);
+public:
+    static void CreateD3DPass(::NiPointer< ::NiD3DPass> &);
 };
 
 struct FUN_00bd5a40_shell
 {
-    void __thiscall SetupRenderPass();
     bool __thiscall FUN_00bd5a40();
 };
-
-// @fnv 0x00bd5a40
-bool FUN_00bd5a40_shell::FUN_00bd5a40()
-{
-    NiD3DPass::CreateD3DPass(*(NiD3DPass**)((char*)this + 0x6c));
-    SetupRenderPass();
-    return true;
-}
 
 struct BSShaderStandin
 {
@@ -496,9 +493,7 @@ struct FUN_00b66f20
 };
 struct MM_011f6238
 {
-    void FUN_00aa4060(void* ptr);
 };
-extern MM_011f6238 DAT_011f6238;
 struct FUN_00bd5330 : FUN_00be0f10
 {
     unsigned int unknown04;
@@ -537,6 +532,15 @@ struct FUN_00bd5330 : FUN_00be0f10
     unsigned int count98;
     virtual ~FUN_00bd5330();
 };
+// Calls FUN_00bd5330, then if bit 0 of flags is set deletes this with size 0x100, and returns this.
+// @fnv 0x00bd58f0
+void* __thiscall S_00bd58f0::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00bd5330 *>(this)->FUN_00bd5330::~FUN_00bd5330();
+    if (flags & 1)
+        ::FUN_00aa1460(this, 0x100);
+    return this;
+}
 // @fnv 0x00bd5330
 FUN_00bd5330::~FUN_00bd5330()
 {
@@ -560,7 +564,7 @@ FUN_00bd5330::~FUN_00bd5330()
     }
     void* allocated = instance94;
     count98 = 0;
-    DAT_011f6238.FUN_00aa4060(allocated);
+    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM_011f6238 *>(&::g_memoryManager))))->FUN_00aa4060(allocated);
 }
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* apValue);
@@ -633,12 +637,11 @@ struct RSTexture
     int unk05C;
     unsigned int m_uiRefCount;
 
-    void Destroy();
     void DecRefCount()
     {
         --m_uiRefCount;
         if (m_uiRefCount == 0)
-            Destroy();
+            reinterpret_cast<::FUN_00e7ecd0_cls *>(this)->FUN_00e7ecd0();
     }
 };
 
@@ -657,13 +660,8 @@ struct RSTexturePtr
 
 struct RSRenderState
 {
-    void SetRenderState(int aiState, int aiValue, int aiSave);
 };
 
-RSRenderState* __cdecl RSCreateRenderState();
-void __cdecl RSGetTexture(RSTexturePtr* apTexture);
-void __cdecl RSSetupTexture(RSTexture* apTexture, int aiUnk1, int aiUnk2, int aiUnk3, int aiUnk4);
-extern int g_iRSShaderLevel;
 
 struct RSPass
 {
@@ -692,7 +690,6 @@ struct RSPass
     int unk058;
     RSRefObject* m_pkVertexShader;
 
-    void SetTexture(int aiStage, RSTexture* apTexture);
     void SetVertexShader(RSRefObject* pkShader)
     {
         if (m_pkVertexShader != pkShader)
@@ -718,7 +715,7 @@ struct RSPass
     RSRenderState* GetRenderState()
     {
         if (!m_pCurrentRenderState)
-            m_pCurrentRenderState = RSCreateRenderState();
+            m_pCurrentRenderState = ((::RSRenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
         return m_pCurrentRenderState;
     }
 };
@@ -764,33 +761,40 @@ struct RSShader
 
     void SetupRenderPass();
 };
+// @fnv 0x00bd5a40
+bool FUN_00bd5a40_shell::FUN_00bd5a40()
+{
+    ::NiD3DPass::CreateD3DPass((::NiPointer< ::NiD3DPass> &)(*(NiD3DPass**)((char*)this + 0x6c)));
+    reinterpret_cast<::RSShader *>(this)->SetupRenderPass();
+    return true;
+}
 
 // Configures the shader's render pass by setting up a texture, binding vertex and pixel shaders, and applying several render state settings.
 // @fnv 0x00bd5490
 void RSShader::SetupRenderPass()
 {
     RSTexturePtr spTexture;
-    RSGetTexture(&spTexture);
-    RSSetupTexture(spTexture.m_pObject, 0, 3, 2, 1);
-    m_pRenderPass->SetTexture(m_pRenderPass->iUnk14, spTexture.m_pObject);
+    ::AssignStageFromPool((*(::StageReturn * *)(&spTexture)));
+    ::ConfigureBeamStage((::BeamStage *)(spTexture.m_pObject), 0, 3, 2, 1);
+    reinterpret_cast<::StageSet *>((m_pRenderPass))->FUN_00e802b0(m_pRenderPass->iUnk14, (::Stage321 *)(spTexture.m_pObject));
     m_pRenderPass->SetVertexShader(m_pkVertexShader);
     m_pRenderPass->SetPixelShader(m_pkPixelShader);
     RSRenderState* pkRS;
-    if (g_iRSShaderLevel >= 2)
+    if (::DAT_011f91c0 >= 2)
     {
         pkRS = m_pRenderPass->GetRenderState();
-        pkRS->SetRenderState(0x18, 0xa, 1);
+        reinterpret_cast<::StateGroup *>((pkRS))->SetNodeValue(0x18, 0xa, 1);
     }
     pkRS = m_pRenderPass->GetRenderState();
-    pkRS->SetRenderState(0xa8, 7, 1);
+    reinterpret_cast<::StateGroup *>((pkRS))->SetNodeValue(0xa8, 7, 1);
     pkRS = m_pRenderPass->GetRenderState();
-    pkRS->SetRenderState(0x1b, 0, 1);
+    reinterpret_cast<::StateGroup *>((pkRS))->SetNodeValue(0x1b, 0, 1);
     pkRS = m_pRenderPass->GetRenderState();
-    pkRS->SetRenderState(7, 1, 1);
+    reinterpret_cast<::StateGroup *>((pkRS))->SetNodeValue(7, 1, 1);
     pkRS = m_pRenderPass->GetRenderState();
-    pkRS->SetRenderState(0x17, 4, 1);
+    reinterpret_cast<::StateGroup *>((pkRS))->SetNodeValue(0x17, 4, 1);
     pkRS = m_pRenderPass->GetRenderState();
-    pkRS->SetRenderState(0xe, 1, 1);
+    reinterpret_cast<::StateGroup *>((pkRS))->SetNodeValue(0xe, 1, 1);
 }
 
 #include <string.h>
@@ -840,13 +844,7 @@ struct LodCompiler
     NiPointer<NiRefObject> vertex[4];
     NiPointer<NiRefObject> pixel[2];
     void CompileDistanceLodShaders();
-    NiRefObject* FUN_00be0fe0(void*, void*, const char*, const char*);
-    NiRefObject* FUN_00be1750(void*, void*, unsigned int, const char*);
 };
-extern unsigned int DAT_011f91c0;
-extern "C" unsigned int __cdecl FUN_00bd5460(unsigned int);
-extern "C" int __cdecl FUN_00be0c00(const char*, void*);
-extern "C" int __cdecl FUN_00406d00(char*, unsigned int, const char*, ...);
 extern const char str_010bc23c[], str_010b8ba0[], str_010b8bc4[], str_010b8b7c[], str_010b8b74[];
 // Builds shader records and calls shader routines for the selected branch, using vs_1_1 or vs_2_0.
 // @fnv 0x00bd4f30
@@ -883,31 +881,31 @@ void LodCompiler::CompileDistanceLodShaders()
     pix[1].field0c = 0;
     pix[1].field10 = 0;
     memset(&pix[1].field14, 0, 0x38);
-    unsigned int uiShaderProfile = FUN_00bd5460(1);
+    unsigned int uiShaderProfile = ((unsigned int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
     char scratch[260], name[260];
-    if (DAT_011f91c0 == 1)
+    if ((*reinterpret_cast<unsigned int *>(&::DAT_011f91c0)) == 1)
     {
         for (int i = 0; i < 2; ++i)
         {
-            FUN_00be0c00(vert[i].name, scratch);
-            FUN_00406d00(name, 260, "DISTLOD1%03i.vso", i);
-            vertex[i] = FUN_00be0fe0(scratch, &vert[i].shader, "vs_1_1", name);
+            ::FUN_00be0c00(vert[i].name, (char *)(scratch));
+            ::FUN_00406d00(name, 260, "DISTLOD1%03i.vso", i);
+            vertex[i] = ((::NiRefObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(scratch), (const char *)(void *)(&vert[i].shader), "vs_1_1")));
         }
-        FUN_00be0c00(pix[0].name, scratch);
-        FUN_00406d00(name, 260, "DISTLOD1%03i.pso", 0);
-        pixel[0] = FUN_00be1750(scratch, &pix[0].shader, uiShaderProfile, name);
+        ::FUN_00be0c00(pix[0].name, (char *)(scratch));
+        ::FUN_00406d00(name, 260, "DISTLOD1%03i.pso", 0);
+        pixel[0] = ((::NiRefObject *)(reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750((char *)(scratch), &pix[0].shader, (char *)(uiShaderProfile), (char *)(name))));
     }
     else
     {
         for (int i = 2; i < 4; ++i)
         {
-            FUN_00be0c00(vert[i].name, scratch);
-            FUN_00406d00(name, 260, "DISTLOD2%03i.vso", i);
-            vertex[i] = FUN_00be0fe0(scratch, &vert[i].shader, "vs_2_0", name);
+            ::FUN_00be0c00(vert[i].name, (char *)(scratch));
+            ::FUN_00406d00(name, 260, "DISTLOD2%03i.vso", i);
+            vertex[i] = ((::NiRefObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(scratch), (const char *)(void *)(&vert[i].shader), "vs_2_0")));
         }
-        FUN_00be0c00(pix[1].name, scratch);
-        FUN_00406d00(name, 260, "DISTLOD2%03i.pso", 1);
-        pixel[1] = FUN_00be1750(scratch, &pix[1].shader, uiShaderProfile, name);
+        ::FUN_00be0c00(pix[1].name, (char *)(scratch));
+        ::FUN_00406d00(name, 260, "DISTLOD2%03i.pso", 1);
+        pixel[1] = ((::NiRefObject *)(reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750((char *)(scratch), &pix[1].shader, (char *)(uiShaderProfile), (char *)(name))));
     }
 }
 
@@ -965,12 +963,9 @@ struct FourFloatVector
     {}
 };
 
-extern FourFloatVector DAT_011a9bd0;
-extern int DAT_011f91c0;
 
 struct MemoryManager_Helper
 {
-    void* Allocate(unsigned int size);
 };
 
 struct InstanceData_00bd5670
@@ -981,7 +976,7 @@ struct InstanceData_00bd5670
     int unk0c;
     static void* operator new[](unsigned int size)
     {
-        return ((MemoryManager_Helper*)&DAT_011f6238)->Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>((((MemoryManager_Helper*)&(*reinterpret_cast<::MM_011f6238 *>(&::g_memoryManager)))))->FUN_00aa3e40(size);
     }
 };
 
@@ -1036,8 +1031,8 @@ FUN_00bd5670_c::FUN_00bd5670_c(NiRefObject* apDeclaration)
     }
     m_spDeclaration = apDeclaration;
     m_field70 = 0.0f;
-    m_afAmbientColor = DAT_011a9bd0;
-    if (DAT_011f91c0 >= 2)
+    m_afAmbientColor = (*reinterpret_cast<::fnv_00bd5670::FourFloatVector *>(&::DAT_011a9bd0));
+    if (::DAT_011f91c0 >= 2)
         m_usInstanceDataCount = 0xe4;
     else
         m_usInstanceDataCount = 0x50;

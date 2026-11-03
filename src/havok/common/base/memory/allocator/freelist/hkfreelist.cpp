@@ -32,16 +32,8 @@ struct PointerChainNode
     void* m_field5;
     void* m_field6;
     void* m_field7;
-    void AttachPointer(void*);
     void FUN_00dd7360();
 };
-// @fnv 0x00dd7360
-void PointerChainNode::FUN_00dd7360()
-{
-    AttachPointer(m_pFreeBlocks);
-    m_pFreeBlocks = 0;
-}
-
 // @fnv 0x00dd73d0
 void* FUN_00dd73d0(void* p, unsigned int n)
 {
@@ -91,6 +83,12 @@ struct hkFreeListStandin
 
     int FreeBlocks(hkFreeListNode* node);
 };
+// @fnv 0x00dd7360
+void PointerChainNode::FUN_00dd7360()
+{
+    reinterpret_cast<::hkFreeListStandin *>(this)->FreeBlocks((::hkFreeListNode *)(m_pFreeBlocks));
+    m_pFreeBlocks = 0;
+}
 
 // @fnv 0x00dd71c0
 int hkFreeListStandin::FreeBlocks(hkFreeListNode* node)
@@ -123,9 +121,9 @@ void FUN_00dd7200_hkFreeList::FUN_00dd7200()
 {
     PointerChainNode* p = this;
 
-    p->AttachPointer(p->m_pSecondNode);
+    reinterpret_cast<::hkFreeListStandin *>((p))->FreeBlocks((::hkFreeListNode *)(p->m_pSecondNode));
     p->m_pSecondNode = 0;
-    p->AttachPointer(p->m_pFreeBlocks);
+    reinterpret_cast<::hkFreeListStandin *>((p))->FreeBlocks((::hkFreeListNode *)(p->m_pFreeBlocks));
     p->m_pFreeBlocks = 0;
     p->m_data = 0;
     p->m_field5 = 0;
@@ -628,7 +626,6 @@ class hkFreeListDD7C
     hkFreeListBlockDD7C* m_kBlocks;
     hkFreeListBlockDD7C* m_pFreeBlocks;
 
-    int FUN_00dd7b40(hkFreeListBlockDD7C* pkBlock) throw();
     hkBoolDD7C FUN_00dd7c40(int m_iFreeBlockCount, int& iNumBlocksOut) throw();
 };
 
@@ -647,7 +644,7 @@ hkBoolDD7C hkFreeListDD7C::FUN_00dd7c40(int iMaxBlocks, int& iNumBlocksOut) thro
                 m_incrementalBlock = 0;
                 return true;
             }
-            if (FUN_00dd7b40(pkBlock))
+            if (reinterpret_cast<::hkFreeListDD7B *>(this)->FUN_00dd7b40((::hkBlockDD7B *)(pkBlock)))
             {
                 m_incrementalBlock->m_next = pkBlock->m_next;
                 pkBlock->m_next = m_pFreeBlocks;
@@ -667,7 +664,7 @@ hkBoolDD7C hkFreeListDD7C::FUN_00dd7c40(int iMaxBlocks, int& iNumBlocksOut) thro
                 m_incrementalBlock = 0;
                 return true;
             }
-            if (FUN_00dd7b40(pkBlock))
+            if (reinterpret_cast<::hkFreeListDD7B *>(this)->FUN_00dd7b40((::hkBlockDD7B *)(pkBlock)))
             {
                 m_kBlocks = pkBlock->m_next;
                 pkBlock->m_next = m_pFreeBlocks;
@@ -870,14 +867,13 @@ struct FUN_00dd7430_cls
     int unk24;
     int m_iFirst;
     int m_iLast;
-    int SumNodeCounts(int iValue);
     void FUN_00dd7430(Info_dd7430* pkInfo);
 };
 // Fills pkInfo with total node counts, start, span, and array capacity derived from m_iA, m_iB, m_iFirst, and m_iLast.
 // @fnv 0x00dd7430
 void FUN_00dd7430_cls::FUN_00dd7430(Info_dd7430* pkInfo)
 {
-    pkInfo->m_iTotal = SumNodeCounts(m_iA) + SumNodeCounts(m_iB);
+    pkInfo->m_iTotal = reinterpret_cast<::hkObjDD72 *>(this)->SumNodeCounts((::hkNodeDD72 *)(m_iA)) + reinterpret_cast<::hkObjDD72 *>(this)->SumNodeCounts((::hkNodeDD72 *)(m_iB));
     int iFirst = m_iFirst;
     int iLast = m_iLast;
     pkInfo->m_iStart = m_iArrayCapacity * iFirst;
@@ -1141,7 +1137,6 @@ struct hkFreeListWalker
     unsigned int m_unk2c;
     hkFreeListBlockServer* m_blockServer;
 
-    void WalkFreeBlocks(hkFreeListBlock* blocks, hkMemoryWalkCallback callback, int pool, void* param);
     void FUN_00dd78f0(hkMemoryWalkCallback callback, int pool, void* param);
 };
 
@@ -1149,7 +1144,7 @@ struct hkFreeListWalker
 // @fnv 0x00dd78f0
 void hkFreeListWalker::FUN_00dd78f0(hkMemoryWalkCallback callback, int pool, void* param)
 {
-    WalkFreeBlocks(m_pFreeBlocks, callback, pool, param);
+    reinterpret_cast<::hkFreeListDD72 *>(this)->WalkFreeBlocks((::hkBlockDD72 *)(m_pFreeBlocks), (void (*)(void *, int, hkBoolDD72, int, void *))(callback), pool, param);
 
     if (m_activeBlocks == 0 && m_free == 0)
     {

@@ -2,18 +2,34 @@
 // src/gamebryo2.2/corelibs/nianimation/nitextkeyextradata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nitextkeyextradata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern void* g_011f3f28;
 
 // Returns the address of the global pointer g_011f3f28.
 // @fnv 0x00a46b60
+#include "fnv/decl/A46TextKeyExtraData.h"
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/ExtraDataObject.h"
+#include "fnv/decl/ExtraDataStrings.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a57850_shell.h"
+#include "fnv/decl/FUN_00a7b2c0_shell.h"
+#include "fnv/decl/FUN_00a7b300_shell.h"
+#include "fnv/decl/MyOwner.h"
+#include "fnv/decl/NiTextKeyFnv.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f6000.h"
 void* __cdecl FUN_00a46b60()
 {
-    return &g_011f3f28;
+    return &(*reinterpret_cast<void * *>(&::g_011f3f28));
 }
 
 struct NiExtraData
 {
-    void __thiscall FUN_00a7b2e0();
 };
 
 struct BSFadeNode
@@ -29,7 +45,7 @@ void* __cdecl FUN_00a46b70()
     void* p = BSFadeNode::operator new(0x14);
     if (p)
     {
-        static_cast<NiExtraData*>(p)->FUN_00a7b2e0();
+        reinterpret_cast<::ExtraDataObject *>((static_cast<NiExtraData*>(p)))->FUN_00a7b2e0();
         *reinterpret_cast<void**>(p) = &DAT_0109827c;
         *reinterpret_cast<int*>(reinterpret_cast<char*>(p) + 0xc) = 0;
         *reinterpret_cast<int*>(reinterpret_cast<char*>(p) + 0x10) = 0;
@@ -44,8 +60,6 @@ struct NiMemObject
 };
 typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 
-extern "C" void __cdecl DestroyKeyList(void);
-extern "C" void __cdecl __Dummy_00b6fef0(void* p, unsigned int flags);
 
 struct NiTextKeyExtraData : NiMemObject
 {
@@ -54,33 +68,22 @@ struct NiTextKeyExtraData : NiMemObject
     void* __thiscall FUN_00a46ed0(unsigned int flags);
 };
 
-// @fnv 0x00a46ed0
-void* __thiscall NiTextKeyExtraData::FUN_00a46ed0(unsigned int flags)
-{
-    DestroyKeyList();
-    if (flags & 1)
-        __Dummy_00b6fef0(this, 0x14);
-    return this;
-}
-
 struct NiStream;
 struct FakeBase00
 {
-    bool __thiscall FUN_00a7b290(NiStream*);
 };
 struct FakeKey00
 {
-    void __thiscall FUN_00a57850(NiStream*);
 };
 // Calls the base loader on stream, then loads each of the 0xC-count keys at offset 0x10 from the stream, returning true on success.
 // @fnv 0x00a46b10
 bool __fastcall LoadFromStream(NiTextKeyExtraData* _this, void* _edx, NiStream* stream)
 {
-    if (!((FakeBase00*)_this)->FUN_00a7b290(stream))
+    if (!reinterpret_cast<::MyOwner *>((((FakeBase00*)_this)))->FUN_00a7b290((*(::NiStream *)(stream))))
         return false;
     unsigned int uiI;
     for (uiI = 0; uiI < *(unsigned int*)((char*)_this + 0xC); ++uiI)
-        ((FakeKey00*)((char*)*(void**)((char*)_this + 0x10) + uiI * 8))->FUN_00a57850(stream);
+        reinterpret_cast<::FUN_00a57850_shell *>((((FakeKey00*)((char*)*(void**)((char*)_this + 0x10) + uiI * 8))))->FUN_00a57850((*(::NiStream *)(stream)));
     return true;
 }
 
@@ -96,7 +99,6 @@ struct A46BB0Object
     int unk04;
     int unk08;
 
-    bool IsEqual(A46BB0Object* pkObject);
 };
 
 struct A46BB0KeyData : A46BB0Object
@@ -113,7 +115,7 @@ bool A46BB0KeyData::FUN_00a46bb0(A46BB0Object* pkObject)
 {
     if (!pkObject)
         return false;
-    if (!A46BB0Object::IsEqual(pkObject))
+    if (!reinterpret_cast<::A5d470Class *>(this)->IsSameAs((::A5d470Object *)(pkObject)))
         return false;
     A46BB0KeyData* pkOther = (A46BB0KeyData*)pkObject;
     if (m_uiNumKeys != pkOther->m_uiNumKeys)
@@ -133,17 +135,22 @@ struct FUN_00a57870_Class
 };
 struct MM
 {
-    void __thiscall Deallocate(void*);
 };
-extern MM g_memoryManager;
 struct NiStringsExtraData
 {
-    void __thiscall FUN_00a7b300();
 };
 struct FUN_00a46d50_class
 {
     void __thiscall DestroyKeyList();
 };
+// @fnv 0x00a46ed0
+void* __thiscall NiTextKeyExtraData::FUN_00a46ed0(unsigned int flags)
+{
+    static_cast<::FUN_00a46d50_class *>(nullptr)->DestroyKeyList();
+    if (flags & 1)
+        ::FUN_00aa1460(this, 0x14);
+    return this;
+}
 // @fnv 0x00a46d50
 void FUN_00a46d50_class::DestroyKeyList()
 {
@@ -163,12 +170,11 @@ void FUN_00a46d50_class::DestroyKeyList()
                 --count;
             } while (count >= 0);
         }
-        g_memoryManager.Deallocate((char*)keys - 4);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060((char*)keys - 4);
     }
-    ((NiStringsExtraData*)this)->FUN_00a7b300();
+    reinterpret_cast<::FUN_00a7b300_shell *>((((NiStringsExtraData*)this)))->FUN_00a7b300();
 }
 
-extern int DAT_0109b220;
 
 struct FUN_00a46b50_cls
 {
@@ -181,7 +187,7 @@ struct FUN_00a46b50_cls
 // @fnv 0x00a46b50
 FUN_00a46b50_cls* FUN_00a46b50_cls::FUN_00a46b50()
 {
-    m_i04 = DAT_0109b220;
+    m_i04 = (*reinterpret_cast<int *>(&::DAT_0109b220));
     return this;
 }
 
@@ -194,21 +200,19 @@ struct StrArray
     unsigned short m_usSize;
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
-    void FUN_0096ad30(unsigned int uiMaxSize);
-    void FUN_0096ae90(unsigned int uiIndex, char* const& element);
     unsigned int Add(char* const& element)
     {
         unsigned int uiIndex = m_usSize;
         if (uiIndex >= m_usMaxSize)
-            FUN_0096ad30(uiIndex + m_usGrowBy);
-        FUN_0096ae90(uiIndex, element);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(element));
         return uiIndex;
     }
     __forceinline unsigned int AddInline(char* const& element)
     {
         unsigned int uiIndex = m_usSize;
         if (uiIndex >= m_usMaxSize)
-            FUN_0096ad30(uiIndex + m_usGrowBy);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
         if (uiIndex >= m_usSize)
         {
             m_usSize = (unsigned short)(uiIndex + 1);
@@ -233,15 +237,7 @@ struct StrArray
     }
 };
 
-char* FUN_00a7d330(const char* s);
-char* FUN_00a7d510(const char* s, unsigned int v);
-char* FUN_00a7d550(const char* s, float v);
-char* FUN_00a7d5e0(const char* s, const char* v);
-void* NiMalloc(unsigned int size);
-void NiFree(void* p);
-int NiSprintf(char* buf, unsigned int size, const char* fmt, ...);
 
-extern void* g_011f3f28;
 
 struct TextKey
 {
@@ -262,7 +258,6 @@ struct ExtraDataBase
     void* m_vtbl;
     void* m_pcName;
     void* m_unk08;
-    void FUN_00a7b580(StrArray* pkStrings);
 };
 
 struct TextKeyExtraData : ExtraDataBase
@@ -276,22 +271,22 @@ struct TextKeyExtraData : ExtraDataBase
 // @fnv 0x00a46ef0
 void TextKeyExtraData::WriteToStrings(StrArray* pkStrings)
 {
-    FUN_00a7b580(pkStrings);
-    pkStrings->Add(FUN_00a7d330((const char*)g_011f3f28));
+    reinterpret_cast<::ExtraDataStrings *>(this)->FUN_00a7b580((::StrArr *)(pkStrings));
+    pkStrings->Add(FUN_00a7d330((const char*)(*reinterpret_cast<void * *>(&::g_011f3f28))));
     pkStrings->Add(FUN_00a7d510("m_uiNumKeys", m_uiNumKeys));
 
     for (unsigned int i = 0; i < m_uiNumKeys; i++)
     {
         char* pcTimeString = FUN_00a7d550("Time", m_pKeys[i].GetTime());
-        char* pcTextString = FUN_00a7d5e0("Text", m_pKeys[i].GetText());
+        char* pcTextString = ::fnv_00a7d5e0::FUN_00a7d5e0("Text", m_pKeys[i].GetText());
         unsigned int uiBufferSize = strlen(pcTimeString) + strlen(pcTextString) + 4;
-        char* pcString = (char*)NiMalloc(uiBufferSize);
+        char* pcString = (char*)::FUN_00aa1070(uiBufferSize);
         NiSprintf(pcString, uiBufferSize, "%s : %s", pcTimeString, pcTextString);
-        char* pcEntryString = FUN_00a7d5e0("TextKey", pcString);
+        char* pcEntryString = ::fnv_00a7d5e0::FUN_00a7d5e0("TextKey", pcString);
         pkStrings->AddInline(pcEntryString);
-        NiFree(pcTimeString);
-        NiFree(pcTextString);
-        NiFree(pcString);
+        ::FUN_00aa10f0(pcTimeString);
+        ::FUN_00aa10f0(pcTextString);
+        ::FUN_00aa10f0(pcString);
     }
 }
 
@@ -324,7 +319,6 @@ class NiPSysDerivedA46 : public NiPSysBaseA46
 class NiPSysOwnerA46
 {
   public:
-    void CopyMemberData(NiPSysBaseA46* pkDest, void* pvProcess);
     NiPSysBaseA46* FUN_00a46da0(void* pvProcess);
 };
 
@@ -332,7 +326,7 @@ class NiPSysOwnerA46
 NiPSysBaseA46* NiPSysOwnerA46::FUN_00a46da0(void* pvProcess)
 {
     NiPSysDerivedA46* pkClone = new NiPSysDerivedA46;
-    CopyMemberData(pkClone, pvProcess);
+    reinterpret_cast<::A46TextKeyExtraData *>(this)->FUN_00a46c20((::A46TextKeyExtraData *)(pkClone), (::CloningProcess *)(pvProcess));
     return pkClone;
 }
 
@@ -520,7 +514,7 @@ template <class T> inline void ReadBinaryValue(S00a46cf0_Stream& kStream, T& val
 class S00a46cf0_Entry
 {
   public:
-    void LoadBinary(S00a46cf0_Stream& kStream);  // ReadFromStream
+      // ReadFromStream
     unsigned int unk00;
     unsigned int unk04;
 };
@@ -528,7 +522,7 @@ class S00a46cf0_Entry
 class S00a46cf0_Base
 {
   public:
-    void LoadBinary(S00a46cf0_Stream& kStream);  // FUN_00a7b2c0
+      // FUN_00a7b2c0
     void* m_ppVirtualMethodTable;
     unsigned int unk04;
     unsigned int unk08;
@@ -546,8 +540,8 @@ class S00a46cf0_Object : public S00a46cf0_Base
 // @fnv 0x00a46cf0
 void S00a46cf0_Object::FUN_00a46cf0(S00a46cf0_Stream& kStream)
 {
-    S00a46cf0_Base::LoadBinary(kStream);
+    reinterpret_cast<::FUN_00a7b2c0_shell *>(this)->FUN_00a7b2c0((::NiStream &)(kStream));
     ReadBinaryValue(kStream, m_uiCount);
     for (unsigned int i = 0; i < m_uiCount; i++)
-        m_pEntries[i].LoadBinary(kStream);
+        reinterpret_cast<::NiTextKeyFnv *>(&(m_pEntries[i]))->ReadFromStream((::FNVStream &)(kStream));
 }

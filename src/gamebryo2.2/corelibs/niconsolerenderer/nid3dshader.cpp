@@ -1,5 +1,34 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3dshader.cpp: NiD3DShader, NiDX9AdditionalDepthStencilBufferData, ShaderStandIn, ShaderPrepQ (31 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/BoneHost.h"
+#include "fnv/decl/D3DRenderStateGroup.h"
+#include "fnv/decl/Dummy_00cc0760.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a5bca0_shell.h"
+#include "fnv/decl/FUN_00a5be90_shell.h"
+#include "fnv/decl/FUN_00a8f140_cls.h"
+#include "fnv/decl/Group00e7eed0.h"
+#include "fnv/decl/Group00e7ef40.h"
+#include "fnv/decl/NiAVObject.h"
+#include "fnv/decl/NiConsoleRenderer_shellEx.h"
+#include "fnv/decl/PackingRenderer.h"
+#include "fnv/decl/Renderer108.h"
+#include "fnv/decl/XRenderer.h"
+#include "fnv/decl/fnv_00e6fda0__Renderer.h"
+#include "fnv/decl/fnv_00e88fc0__E88FC0StageSet.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00a8f000.h"
+#include "fnv/symbols_00e6d000.h"
+#include "fnv/symbols_00e7c000.h"
+#include "fnv/symbols_00e7e000.h"
+#include "fnv/symbols_00e80000.h"
+#include "fnv/symbols_00e89000.h"
+#include "fnv/symbols_00e91000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_010ef000.h"
+#include "fnv/symbols_0126f000.h"
 #include "nid3dshader_types_NiD3DShader.h"
 #include "nid3dshader_types_NiGlobalStringTable.h"
 #include "nid3dshader_decls.h"
@@ -17,14 +46,14 @@ void NiD3DShader::InitializePoint3()
     if (oldString != &DAT_010ef37c)
     {
         DAT_0126f750 = NiGlobalStringTable::AddString(&DAT_010ef37c);
-        if (oldString != EmptyFS.m_kHandle)
+        if (oldString != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             InterlockedDecrement((long volatile*)(oldString - 8));
     }
-    DAT_0126f738 = &SetShadowWorldView;
-    DAT_0126f73c = &FUN_00e80a50;
-    DAT_0126f740 = &UpdateWorldViewMatrix;
-    DAT_0126f744 = &SetWorldViewFromShadow;
-    DAT_0126f748 = &SetWorldViewMatrix;
+    (*reinterpret_cast<void (**)()>(&::DAT_0126f738)) = &((void (&)())::SetShadowWorldView);
+    DAT_0126f73c = &((void (&)())::FUN_00e80a50);
+    DAT_0126f740 = &((void (&)())::UpdateWorldViewMatrix);
+    DAT_0126f744 = &((void (&)())::SetWorldViewFromShadow);
+    DAT_0126f748 = &((void (&)())::SetWorldViewMatrix);
 }
 
 #include "nid3dshader_depth.h"
@@ -48,7 +77,7 @@ NiDX9AdditionalDepthStencilBufferData* NiDX9AdditionalDepthStencilBufferData::Cr
     int hr = d3d->CheckDeviceFormat(adapter, deviceType, adapterFormat, 2, 1, d3dFormat);
     if (hr < 0)
     {
-        ((void(__cdecl*)(const char*, ...)) & NiD3DDefaultShader::SetShaderName)(&DAT_010ef1f0, GetHRESULTText(hr));
+        ((void(__cdecl*)(const char*, ...)) & ((void (&)(const char *))::FUN_00a29680))(&DAT_010ef1f0, ::GetHResultName(hr));
         return 0;
     }
     NiDX9AdditionalDepthStencilBufferData* data = new NiDX9AdditionalDepthStencilBufferData;
@@ -78,7 +107,7 @@ NiDX9AdditionalDepthStencilBufferData* NiDX9AdditionalDepthStencilBufferData::Cr
         device->CreateDepthStencilSurface(width, height, d3dFormat, multisampleType, 0, data->flags, &data->surface, 0);
     if (hr < 0)
     {
-        ((void(__cdecl*)(const char*, ...)) & NiD3DDefaultShader::SetShaderName)(&DAT_010ef1f0, GetHRESULTText(hr));
+        ((void(__cdecl*)(const char*, ...)) & ((void (&)(const char *))::FUN_00a29680))(&DAT_010ef1f0, ::GetHResultName(hr));
         ((void(__thiscall*)(NiDX9AdditionalDepthStencilBufferData*, unsigned int))data->vtable[0])(data, 1);
         return 0;
     }
@@ -89,31 +118,27 @@ NiDX9AdditionalDepthStencilBufferData* NiDX9AdditionalDepthStencilBufferData::Cr
         ((void(__thiscall*)(NiDX9AdditionalDepthStencilBufferData*, unsigned int))data->vtable[0])(data, 1);
         return 0;
     }
-    data->format = CreatePixelFormat(desc.format);
+    data->format = ((::NiPixelFormat *)(::CreatePixelFormat(desc.format)));
     data->d3dFormat = d3dFormat;
-    (*buffer)->SetRefObject(data);
+    reinterpret_cast<::FUN_00a8f140_cls *>(((*buffer)))->SetRefObject((::NiRefObject *)(data));
     data->parent = *buffer;
     return data;
 }
 
-extern "C" void __cdecl FUN_00e80150();
-extern "C" void __cdecl CreateStagePool();
 
 // @fnv 0x00e80620
 void __cdecl FUN_00e80620()
 {
-    FUN_00e80150();
-    CreateStagePool();
+    ::fnv_00e80150::FUN_00e80150();
+    ::CreateStagePool();
 }
 
-extern "C" void __cdecl ClearSpawnedObject();
-extern "C" void __cdecl DestroyStagePool();
 
 // @fnv 0x00e80630
 void __cdecl FUN_00e80630()
 {
-    ClearSpawnedObject();
-    DestroyStagePool();
+    ::ClearSpawnedObject();
+    ::fnv_00e7ed80::DestroyStagePool();
 }
 
 // @fnv 0x00e80690
@@ -123,7 +148,7 @@ void ResetGlobalString()
     if (old != 0)
     {
         DAT_0126f750 = NiGlobalStringTable::AddString(0);
-        if (old != EmptyFS.m_kHandle)
+        if (old != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             InterlockedDecrement((long*)(old - 8));
     }
 }
@@ -182,12 +207,11 @@ struct FUN_00e818c0_shell : public NiD3DShaderInterface
     void* FUN_00e818c0();
 };
 
-extern const char* const g_0126f754_arg1;
 
 // @fnv 0x00e818c0
 void* FUN_00e818c0_shell::FUN_00e818c0()
 {
-    return (void*)&g_0126f754_arg1;
+    return (void*)&(*reinterpret_cast<const char *const *>(&::g_0126f75c));
 }
 
 struct FUN_00e81880_shell : public NiD3DShader
@@ -224,40 +248,16 @@ struct VirtHelper
 };
 struct GroupStandIn
 {
-    void ApplyGroupEntries();
 };
 struct StateStandIn
 {
-    void ApplyRenderModes(void*, void*, int);
 };
 struct ShaderStandIn
 {
     unsigned int FUN_00e81170(void*, void*, void*, void*, void*, void*, void*);
 };
-// @fnv 0x00e81170
-unsigned int ShaderStandIn::FUN_00e81170(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7)
-{
-    if (!*(bool*)((char*)this + 0x10))
-        return 0xFFFFFFFF;
-    if (*(bool*)((char*)this + 0x24))
-        ((VirtHelper*)*(void**)((char*)this + 0x1c))->f2(a4);
-    if (*(bool*)((char*)this + 0x25))
-    {
-        void* p = *(void**)((char*)this + 0x18);
-        StateStandIn* pState = *(StateStandIn**)((char*)p + 0x8c8);
-        if (pState)
-            pState->ApplyRenderModes(a5, *(void**)((char*)a4 + 0x14), 0);
-    }
-    GroupStandIn* pGroup = *(GroupStandIn**)((char*)this + 0x2c);
-    if (pGroup)
-        pGroup->ApplyGroupEntries();
-    return 0;
-}
-
-extern int DAT_010ef39c;
 struct Helper00a8f440
 {
-    void FUN_00a8f440();
 };
 struct FUN_00e818a0_t
 {
@@ -266,7 +266,7 @@ struct FUN_00e818a0_t
 // @fnv 0x00e818a0
 void* FUN_00e818a0_t::FUN_00e818a0()
 {
-    ((Helper00a8f440*)this)->FUN_00a8f440();
+    ::FUN_00a8f440((void *)(((Helper00a8f440*)this)));
     *(int*)((char*)this + 0x14) = 0;
     *(int*)((char*)this + 0x18) = 0;
     *(int*)((char*)this + 0x1c) = 0;
@@ -508,7 +508,6 @@ void UnkShader::FUN_00e814b0()
 }  // namespace fnv_00e814b0
 
 // placeholder declaration for the referenced helper (C++ linkage)
-void __fastcall FUN_00e7ef40(void*);
 
 struct FUN_00e805f0_shell
 {
@@ -520,7 +519,7 @@ unsigned int FUN_00e805f0_shell::FUN_00e805f0(void* a1, void* a2, void* a3, void
 {
     void* decl = *(void**)((char*)this + 0x2c);
     if (decl)
-        FUN_00e7ef40(decl);
+        reinterpret_cast<::Group00e7ef40 *>((decl))->FUN_00e7ef40();
     return 0;
 }
 
@@ -601,18 +600,17 @@ void FUN_00e80640_cls::AddEntry(unsigned int uiKeyLow, unsigned int uiKeyHigh, u
     m_auiCount[uiArrayIndex]++;
 }
 
-extern char* g_pcNullStringHandle;
 
 struct FixedStr
 {
     char* m_kHandle;
     bool Exists() const
     {
-        return m_kHandle != g_pcNullStringHandle;
+        return m_kHandle != ::DAT_0109b220;
     }
     unsigned int GetLength() const
     {
-        if (m_kHandle == g_pcNullStringHandle)
+        if (m_kHandle == ::DAT_0109b220)
             return 0;
         return ((unsigned int*)m_kHandle)[-1];
     }
@@ -652,14 +650,11 @@ struct ShaderLibrary
     virtual void v18();
     virtual void ReleaseShaderInstance(const char* pcName, unsigned int uiImpl);
 };
-ShaderLibrary* FUN_00e91f10();
 
 struct RendererStub
 {
-    void PurgeShaderStub(ShaderIfaceBase* pkShader);
 };
 
-void FUN_00e7f6b0(void* pkGroup);
 
 struct ShaderIfaceBase : public RefStub
 {
@@ -671,7 +666,6 @@ struct ShaderIfaceBase : public RefStub
     void* m_pRenderState;
     bool m_bShaderState;
     virtual ~ShaderIfaceBase();
-    unsigned int GetImplementation();
 };
 
 struct FUN_00e806c0 : public ShaderIfaceBase
@@ -691,9 +685,9 @@ FUN_00e806c0::~FUN_00e806c0() throw()
 {
     if (m_kName.Exists() && m_kName.GetLength() != 0)
     {
-        ShaderLibrary* pkLib = FUN_00e91f10();
-        if (this == pkLib->AcquireShader(m_kName, GetImplementation()))
-            pkLib->ReleaseShaderInstance(m_kName, GetImplementation());
+        ShaderLibrary* pkLib = ((::ShaderLibrary *)(::FUN_00e91f10()));
+        if (this == pkLib->AcquireShader(m_kName, ((unsigned int)(reinterpret_cast<::Dummy_00cc0760 *>(this)->FUN_00cc0760()))))
+            pkLib->ReleaseShaderInstance(m_kName, ((unsigned int)(reinterpret_cast<::Dummy_00cc0760 *>(this)->FUN_00cc0760())));
         if (m_bShaderState)
         {
             if (this == pkLib->AcquireShader(m_kName, (unsigned int)-1))
@@ -701,19 +695,39 @@ FUN_00e806c0::~FUN_00e806c0() throw()
         }
     }
     if (m_pShaderObject)
-        m_pShaderObject->PurgeShaderStub(this);
+        reinterpret_cast<::NiConsoleRenderer_shellEx *>((m_pShaderObject))->FUN_00e75310((::NiD3DShaderInterface *)(::ShaderIfaceBase *)(this));
     m_bShaderEnabled = false;
-    FUN_00e7f6b0(m_pRenderStateGroup);
+    ::D3DRenderStateGroup::ReleaseRenderStateGroup((::D3DRenderStateGroup *)(m_pRenderStateGroup));
     m_uiShaderType = 0;
     DAT_0126f74c = 0;
 }
 
+struct Descriptor;
+struct RenderModes;
 struct RenderState
 {
-    void FUN_00e6fe30(void* geometry, void* context, int flags, int mode, int reserved);
-    void ApplyGeometryTransforms(void* geometry, void* info, void* context);
-    void FUN_00e6fbb0(void* context, int enabled);
+public:
+    void ApplyRenderModes(void *, ::Descriptor *, ::RenderModes *);
 };
+// @fnv 0x00e81170
+unsigned int ShaderStandIn::FUN_00e81170(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7)
+{
+    if (!*(bool*)((char*)this + 0x10))
+        return 0xFFFFFFFF;
+    if (*(bool*)((char*)this + 0x24))
+        ((VirtHelper*)*(void**)((char*)this + 0x1c))->f2(a4);
+    if (*(bool*)((char*)this + 0x25))
+    {
+        void* p = *(void**)((char*)this + 0x18);
+        StateStandIn* pState = *(StateStandIn**)((char*)p + 0x8c8);
+        if (pState)
+            reinterpret_cast<::RenderState *>((pState))->ApplyRenderModes(a5, (::Descriptor *)(*(void**)((char*)a4 + 0x14)), (::RenderModes *)(0));
+    }
+    GroupStandIn* pGroup = *(GroupStandIn**)((char*)this + 0x2c);
+    if (pGroup)
+        reinterpret_cast<::Group00e7eed0 *>((pGroup))->ApplyGroupEntries();
+    return 0;
+}
 struct IndexController
 {
     virtual void vfn_00();
@@ -742,21 +756,18 @@ int FUN_00e807d0_shell::FUN_00e807d0(void* unusedFirst, void* geometry, void* in
     {
         if (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x38) == 0)
         {
-            reinterpret_cast<RenderState*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x18))
-                ->FUN_00e6fe30(geometry, context, 0, 4, 0);
+            reinterpret_cast<::BoneHost *>((reinterpret_cast<RenderState*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x18))))->FUN_00e6fe30((::SkinMatrixBlock *)(geometry), (::Xf *)(context), 0, 4, 0);
         }
         reinterpret_cast<IndexController*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x1c))
             ->vfn_2c(*reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(info) + 0x24));
-        reinterpret_cast<RenderState*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x18))
-            ->ApplyGeometryTransforms(geometry, info, context);
+        reinterpret_cast<::fnv_00e6fda0::Renderer *>((reinterpret_cast<RenderState*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x18))))->ApplyGeometryTransforms(geometry, info, context);
     }
     else if (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x38) == 0 ||
              *reinterpret_cast<unsigned char*>(
                  reinterpret_cast<char*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x18)) + 0x209) != 0)
     {
         reinterpret_cast<IndexController*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x1c))->vfn_2c(0);
-        reinterpret_cast<RenderState*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x18))
-            ->FUN_00e6fbb0(context, 1);
+        reinterpret_cast<::XRenderer *>((reinterpret_cast<RenderState*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x18))))->FUN_00e6fbb0((*(const ::XTransform *)(context)), 1);
     }
     return 0;
 }
@@ -777,9 +788,7 @@ struct NiExtraDataStub
 };
 struct NiAVObjectStub
 {
-    NiExtraDataStub* GetExtraData(const NiFixedString&);
 };
-extern char* DAT_0126f750;
 
 struct RendererStub
 {
@@ -814,7 +823,6 @@ struct RendererGlobal
     int unk58;
     void* unk5C;
 };
-extern int DAT_0126f74c;
 
 struct SubShader
 {
@@ -973,25 +981,25 @@ unsigned int ShaderE811d0::FUN_00e811d0(NiAVObjectStub* apObject, void* a2, void
 {
     if (apObject)
     {
-        NiExtraDataStub* pExtraData = apObject->GetExtraData(*(NiFixedString*)&DAT_0126f750);
+        NiExtraDataStub* pExtraData = ((::fnv_00e811d0::NiExtraDataStub *)(reinterpret_cast<::NiAVObject *>((apObject))->GetExtraData((const ::NiFixedString &)(*(NiFixedString*)&::DAT_0126f750))));
         if (pExtraData)
         {
             pExtraData->unk18 = 0;
             pExtraData->unk20 = 0;
         }
     }
-    unsigned int result = ((RendererGlobal*)DAT_0126f74c)->base.v04(apObject, a2, a3, a4, a5, a6, a7, a8, unk38);
+    unsigned int result = ((RendererGlobal*)::DAT_0126f74c)->base.v04(apObject, a2, a3, a4, a5, a6, a7, a8, unk38);
     SubShader* pSubShader30 = unk30;
     if (pSubShader30)
     {
-        void* t = ((RendererGlobal*)DAT_0126f74c)->unk44;
+        void* t = ((RendererGlobal*)::DAT_0126f74c)->unk44;
         if (t)
             pSubShader30->v1E(t, apObject, a2, a3, a4, a5, a6, a7, a8, unk38, 1);
     }
     SubShader* pSubShader34 = unk34;
     if (pSubShader34)
     {
-        void* t = ((RendererGlobal*)DAT_0126f74c)->unk5C;
+        void* t = ((RendererGlobal*)::DAT_0126f74c)->unk5C;
         if (t)
             pSubShader34->v1E(t, apObject, a2, a3, a4, a5, a6, a7, a8, unk38, 1);
     }
@@ -1028,7 +1036,6 @@ unsigned char FUN_00e81500()
 
 struct BeamTextureState
 {
-    void SetStageValue(unsigned int uiState, unsigned int uiValue, bool bSave);
 };
 
 struct ModelMatrix3
@@ -1736,13 +1743,13 @@ extern unsigned int DAT_0126f0e4;
 void __cdecl FUN_00e80a50(const ModelMatrix3* pkRot, const ModelPoint3* pkTrans, ModelXformState* pkState, bool bSave,
                           const ModelRendererView* pkRenderer)
 {
-    pkState->m_pCurrentRenderState->SetStageValue(0xb, 0x20000, bSave);
+    reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((pkState->m_pCurrentRenderState))->SetStageValue(0xb, (void *)(0x20000), bSave);
     unsigned int uiValue = DAT_0126f0e4;
     if (uiValue != 0 && uiValue != 0x100)
         pkState->m_bFlag5e = true;
     else
         pkState->m_bFlag5e = false;
-    pkState->m_pCurrentRenderState->SetStageValue(0x18, uiValue, bSave);
+    reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((pkState->m_pCurrentRenderState))->SetStageValue(0x18, (void *)(uiValue), bSave);
 
     const ViewMatrix& V = pkRenderer->m_kSecondShadowMatrix;
     ViewMatrix& M = pkState->m_kWorldView;
@@ -1840,9 +1847,6 @@ struct FUN_00ee8910
 };
 struct GeometryAccess
 {
-    void DeleteExtraDataByKey(char**);
-    void* FUN_00a5bdd0(const NiFixedString&);
-    bool SetExtraDataName(FUN_00ee8910*);
 };
 struct PassConstants
 {
@@ -1857,7 +1861,7 @@ void* __cdecl FUN_00aa13e0(unsigned int);
 extern "C" void __cdecl BindShaderConstants(NiD3DShader* shader, NiGeometry* geometry)
 {
     GeometryAccess* pGeometryAccess = reinterpret_cast<GeometryAccess*>(geometry);
-    pGeometryAccess->DeleteExtraDataByKey(&DAT_0126f750);
+    reinterpret_cast<::FUN_00a5be90_shell *>((pGeometryAccess))->DeleteExtraDataByKey((*(const ::NiFixedString *)(&DAT_0126f750)));
     unsigned int vertexCount = 0;
     unsigned int pixelCount = 0;
     if (shader->m_spSecondShaderConstantMap.m_pObject)
@@ -1920,7 +1924,7 @@ extern "C" void __cdecl BindShaderConstants(NiD3DShader* shader, NiGeometry* geo
                 ConstantEntry* entry = shader->m_spFirstShaderConstantMap.m_pObject->GetEntry(i);
                 if (entry && (entry->flags & 0xf0000000) == 0x30000000)
                 {
-                    void* data = pGeometryAccess->FUN_00a5bdd0(entry->name);
+                    void* data = ((void *)(reinterpret_cast<::NiAVObject *>((pGeometryAccess))->GetExtraData(entry->name)));
                     if (data)
                         bindings->AddPixel(255, entry, data);
                 }
@@ -1933,7 +1937,7 @@ extern "C" void __cdecl BindShaderConstants(NiD3DShader* shader, NiGeometry* geo
                 ConstantEntry* entry = shader->m_spSecondShaderConstantMap.m_pObject->GetEntry(i);
                 if (entry && (entry->flags & 0xf0000000) == 0x30000000)
                 {
-                    void* data = pGeometryAccess->FUN_00a5bdd0(entry->name);
+                    void* data = ((void *)(reinterpret_cast<::NiAVObject *>((pGeometryAccess))->GetExtraData(entry->name)));
                     if (data)
                         bindings->AddVertex(255, entry, data);
                 }
@@ -1947,7 +1951,7 @@ extern "C" void __cdecl BindShaderConstants(NiD3DShader* shader, NiGeometry* geo
                     ConstantEntry* entry = pConstantMap->GetEntry(i);
                     if (entry && (entry->flags & 0xf0000000) == 0x30000000)
                     {
-                        void* data = pGeometryAccess->FUN_00a5bdd0(entry->name);
+                        void* data = ((void *)(reinterpret_cast<::NiAVObject *>((pGeometryAccess))->GetExtraData(entry->name)));
                         if (data)
                             bindings->AddPixel(0, entry, data);
                     }
@@ -1962,23 +1966,22 @@ extern "C" void __cdecl BindShaderConstants(NiD3DShader* shader, NiGeometry* geo
                     ConstantEntry* entry = pConstantMap->GetEntry(i);
                     if (entry && (entry->flags & 0xf0000000) == 0x30000000)
                     {
-                        void* data = pGeometryAccess->FUN_00a5bdd0(entry->name);
+                        void* data = ((void *)(reinterpret_cast<::NiAVObject *>((pGeometryAccess))->GetExtraData(entry->name)));
                         if (data)
                             bindings->AddVertex(0, entry, data);
                     }
                 }
             }
         }
-        pGeometryAccess->SetExtraDataName(bindings);
+        reinterpret_cast<::FUN_00a5bca0_shell *>((pGeometryAccess))->SetExtraDataName((::NiExtraData *)(bindings));
     }
 }
 
-extern "C" void __cdecl FUN_00e81a90();
 
 // @fnv 0x00e80570
 void __cdecl FUN_00e80570()
 {
-    FUN_00e81a90();
+    static_cast<::NiD3DShaderInterface *>(nullptr)->Initialize();
 }
 
 struct FnvCpu_FUN_00eea530_CpuObject
@@ -2007,9 +2010,9 @@ int FnvCpu_FUN_00eea530_CpuObject::FUN_00eea530()
 void __cdecl SetShadowWorldView(const ModelMatrix3* pkRot, const ModelPoint3* pkTrans, ModelXformState* pkState,
                                 bool bSave, const ModelRendererView* pkRenderer)
 {
-    pkState->m_pCurrentRenderState->SetStageValue(0xb, 0x20000, bSave);
+    reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((pkState->m_pCurrentRenderState))->SetStageValue(0xb, (void *)(0x20000), bSave);
     pkState->m_bFlag5e = true;
-    pkState->m_pCurrentRenderState->SetStageValue(0x18, 2, bSave);
+    reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((pkState->m_pCurrentRenderState))->SetStageValue(0x18, (void *)(2), bSave);
     const ViewMatrix& kV = pkRenderer->m_kSecondShadowMatrix;
     ViewMatrix& kM = pkState->m_kWorldView;
     kM._11 = pkRot->GetEntry(0, 0) * kV._11 + pkRot->GetEntry(0, 1) * kV._12 + pkRot->GetEntry(0, 2) * kV._13;
@@ -2035,9 +2038,9 @@ void __cdecl SetShadowWorldView(const ModelMatrix3* pkRot, const ModelPoint3* pk
 void __cdecl UpdateWorldViewMatrix(const ModelMatrix3* pkRot, const ModelPoint3* pkTrans, ModelXformState* pkState,
                                    bool bSave, const ModelRendererView* pkRenderer)
 {
-    pkState->m_pCurrentRenderState->SetStageValue(0xb, 0x30000, bSave);
+    reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((pkState->m_pCurrentRenderState))->SetStageValue(0xb, (void *)(0x30000), bSave);
     pkState->m_bFlag5e = true;
-    pkState->m_pCurrentRenderState->SetStageValue(0x18, 2, bSave);
+    reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((pkState->m_pCurrentRenderState))->SetStageValue(0x18, (void *)(2), bSave);
     const ViewMatrix& kV = pkRenderer->m_kSecondShadowMatrix;
     ViewMatrix& kM = pkState->m_kWorldView;
     kM._11 = pkRot->GetEntry(0, 0) * kV._11 + pkRot->GetEntry(0, 1) * kV._12 + pkRot->GetEntry(0, 2) * kV._13;
@@ -2060,9 +2063,9 @@ void __cdecl UpdateWorldViewMatrix(const ModelMatrix3* pkRot, const ModelPoint3*
 void __cdecl SetWorldViewFromShadow(const ModelMatrix3* pkRot, const ModelPoint3* pkTrans, ModelXformState* pkState,
                                     bool bSave, const ModelRendererView* pkRenderer)
 {
-    pkState->m_pCurrentRenderState->SetStageValue(0xb, 0x30000, bSave);
+    reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((pkState->m_pCurrentRenderState))->SetStageValue(0xb, (void *)(0x30000), bSave);
     pkState->m_bFlag5e = true;
-    pkState->m_pCurrentRenderState->SetStageValue(0x18, 3, bSave);
+    reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((pkState->m_pCurrentRenderState))->SetStageValue(0x18, (void *)(3), bSave);
     const ViewMatrix& kV = pkRenderer->m_kSecondShadowMatrix;
     ViewMatrix& kM = pkState->m_kWorldView;
     kM._11 = pkRot->GetEntry(0, 0) * kV._11 + pkRot->GetEntry(0, 1) * kV._12 + pkRot->GetEntry(0, 2) * kV._13;
@@ -2085,9 +2088,9 @@ void __cdecl SetWorldViewFromShadow(const ModelMatrix3* pkRot, const ModelPoint3
 void __cdecl SetWorldViewMatrix(const ModelMatrix3* pkRot, const ModelPoint3* pkTrans, ModelXformState* pkState,
                                 bool bSave, const ModelRendererView* pkRenderer)
 {
-    pkState->m_pCurrentRenderState->SetStageValue(0xb, 0x10000, bSave);
+    reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((pkState->m_pCurrentRenderState))->SetStageValue(0xb, (void *)(0x10000), bSave);
     pkState->m_bFlag5e = true;
-    pkState->m_pCurrentRenderState->SetStageValue(0x18, 3, bSave);
+    reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((pkState->m_pCurrentRenderState))->SetStageValue(0x18, (void *)(3), bSave);
     const ViewMatrix& kV = pkRenderer->m_kSecondShadowMatrix;
     ViewMatrix& kM = pkState->m_kWorldView;
     kM._11 = pkRot->GetEntry(0, 0) * kV._11 + pkRot->GetEntry(0, 1) * kV._12 + pkRot->GetEntry(0, 2) * kV._13;
@@ -2384,9 +2387,6 @@ struct RenderStateQ
 
 struct RendererQ
 {
-    void* GetPacketSlot45(void*, int);
-    void* UpdatePackingPacket(GeomBufferDataQ*, GeomDataQ*, void*, SkinPartitionQ*, ShaderDeclQ*, bool);
-    void* PrepareGeometryPacket(GeomBufferDataQ*, GeomDataQ*, void*, ShaderDeclQ*, bool);
 };
 
 struct DeviceQ
@@ -2520,7 +2520,7 @@ GeomBufferDataQ* ShaderPrepQ::PrepareShaderAndStreams(GeometryQ* pkGeometry, Ski
         {
             void* pkDecl = pkAdd->m_pAdditionalData;
             ((RenderStateQ*)m_pRenderState)
-                ->SetShaderDeclaration(((RendererQ*)m_pShaderObject)->GetPacketSlot45(pkDecl, 0));
+                ->SetShaderDeclaration(((void *)(::GetPacketSlot45((int)(((RendererQ*)m_pShaderObject))))));
         }
         else if (m_spShaderDeclaration)
             ((RenderStateQ*)m_pRenderState)
@@ -2530,16 +2530,14 @@ GeomBufferDataQ* ShaderPrepQ::PrepareShaderAndStreams(GeometryQ* pkGeometry, Ski
         if (pkPartition)
         {
             pkBuffData = pkPartition->m_pkGeometryRendererData;
-            ((RendererQ*)m_pShaderObject)
-                ->UpdatePackingPacket(pkBuffData, pkData, pkSkin, pkPartition,
-                                      (ShaderDeclQ*)(NiD3DShaderDeclaration*)m_spShaderDeclaration, false);
+            reinterpret_cast<::PackingRenderer *>((((RendererQ*)m_pShaderObject)))->UpdatePackingPacket((::PackingPacket *)(pkBuffData), (::Model_e6da60 *)(pkData), pkSkin, (::PackingData *)(pkPartition),
+                                      (::PackingGeometry *)(::ShaderDeclQ *)((ShaderDeclQ*)(NiD3DShaderDeclaration*)m_spShaderDeclaration), false);
         }
         else
         {
             pkBuffData = pkData->m_pkGeometryRendererData;
-            ((RendererQ*)m_pShaderObject)
-                ->PrepareGeometryPacket(pkBuffData, pkData, pkSkin,
-                                        (ShaderDeclQ*)(NiD3DShaderDeclaration*)m_spShaderDeclaration, false);
+            reinterpret_cast<::Renderer108 *>((((RendererQ*)m_pShaderObject)))->PrepareGeometryPacket((::Packet108 *)(pkBuffData), (::NiAVObject *)(pkData), (::Geo108 *)(pkSkin),
+                                        (::NiAVObject *)(::ShaderDeclQ *)((ShaderDeclQ*)(NiD3DShaderDeclaration*)m_spShaderDeclaration), false);
         }
     }
 

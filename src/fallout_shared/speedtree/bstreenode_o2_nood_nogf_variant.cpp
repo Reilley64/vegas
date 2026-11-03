@@ -5,35 +5,86 @@
 
 // src/fallout_shared/speedtree/bstreenode.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/speedtree/bstreenode.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/ExtraOwnerB.h"
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_004b5020_shell.h"
+#include "fnv/decl/FUN_0056e900_cls.h"
+#include "fnv/decl/FUN_00629a80_Class.h"
+#include "fnv/decl/FUN_00666f00_shell.h"
+#include "fnv/decl/FUN_006699d0_shell.h"
+#include "fnv/decl/FUN_0066a630_shell.h"
+#include "fnv/decl/FUN_0066da50.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00a5bca0_shell.h"
+#include "fnv/decl/FUN_00a5dbe0_shell.h"
+#include "fnv/decl/FUN_00a5ea70_t.h"
+#include "fnv/decl/FUN_00b4dec0_shell.h"
+#include "fnv/decl/FUN_00c6b980_cls.h"
+#include "fnv/decl/FUN_00c6c290.h"
+#include "fnv/decl/FUN_00c8bed0_cls.h"
+#include "fnv/decl/FUN_00caacf0.h"
+#include "fnv/decl/FUN_00cb78b0.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/NiGlobalStringTable.h"
+#include "fnv/decl/NiTriGeom2.h"
+#include "fnv/decl/S_0060ba10.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/fnv_0056e270__FUN_0056e270.h"
+#include "fnv/decl/fnv_00669990__BSTreeModel.h"
+#include "fnv/decl/fnv_0066d3d0__FUN_0066d3d0_shell.h"
+#include "fnv/decl/fnv_006838b0__FUN_006838b0_shell.h"
+#include "fnv/decl/fnv_00c8c5b0__TargetHolder.h"
+#include "fnv/decl/fnv_00cb7b80__FUN_00cb7b80_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_0054e000.h"
+#include "fnv/symbols_00552000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00624000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_0066b000.h"
+#include "fnv/symbols_006fa000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a93000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01066000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011d5000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01272000.h"
 struct FUN_00622430_shell
 {
     unsigned int __thiscall FUN_00622430();
 };
 struct NiRTTI;
-extern NiRTTI g_011d5e70;
 struct FUN_0066b5b0_shell
 {
     const NiRTTI* __thiscall GetNiRTTI();
 };
 struct NiAVObject;
+class NiUpdateData;
 struct NiNode
 {
-    NiAVObject* __thiscall GetAt(unsigned int);
+public:
+    void UpdateDownwardPass(::NiUpdateData &, unsigned int);
+public:
+    void UpdateSelectedDownwardPass(::NiUpdateData &, unsigned int);
 };
 struct BSTreeNode : NiNode
 {
     NiAVObject* __thiscall GetFirstChild();
 };
 struct NiCullingProcess;
-extern "C" unsigned char __cdecl FUN_0054ee20();
 struct DummyNode
 {
-    void __thiscall FUN_00a5dbe0(NiCullingProcess* arCuller);
     void __thiscall FUN_0066bf50(NiCullingProcess* arCuller);
 };
 struct FUN_00c6c290_holder
 {
-    void FUN_00c6c290();
 };
 struct FUN_0066d410_shell : public FUN_00c6c290_holder
 {
@@ -42,7 +93,6 @@ struct FUN_0066d410_shell : public FUN_00c6c290_holder
 struct NiRTTI
 {
 };
-extern const NiRTTI g_012683d0;
 struct FUN_0066d430_shell
 {
     const NiRTTI* GetRTTI() const;
@@ -50,22 +100,18 @@ struct FUN_0066d430_shell
 void __cdecl __Dummy_00b6fef0(void* p, unsigned int size);
 struct FUN_0066d440_shell
 {
-    void FUN_0066d470();
     void* FUN_0066d440(unsigned int flags);
 };
 struct FUN_0066d470_shell
 {
-    void FUN_0066d410();
     void FUN_0066d470();
 };
 struct FUN_0066d510_shell
 {
     const void* FUN_0066d510();
 };
-extern const void* g_012683e0;
 struct FUN_0066d520_shell
 {
-    void FUN_00cb78b0();
     void* FUN_0066d520(unsigned int flags);
 };
 void __cdecl __Dummy_00b6fef0(void* p, unsigned int size);
@@ -83,7 +129,6 @@ struct bhkCapsuleShape
 };
 struct FUN_0066da50_t
 {
-    void FUN_0066da50();
 };
 struct FUN_0066d7a0_shell
 {
@@ -100,14 +145,14 @@ struct FUN_0066b620_shell
 {
     NiTriBasedGeom* __thiscall GetTriBasedGeom();
 };
-extern const char* const g_012683d0_arg1;
 struct FUN_0066d400_shell
 {
     const char* const* GetArg1Ptr();
 };
 struct NiAVObject
 {
-    void __thiscall SetAppCulled(bool);
+public:
+    void SetLocalRotation(float, float, float, float);
 };
 struct BSTreeNodeVisibility : BSTreeNode
 {
@@ -115,15 +160,11 @@ struct BSTreeNodeVisibility : BSTreeNode
 };
 struct FUN_0066d3d0_shell
 {
-    void __thiscall FUN_0066d3d0(void*);
 };
-extern int DAT_01066acc;
 struct FUN_0066d3a0_shell
 {
     void* __thiscall FUN_0066d3a0(void*);
 };
-extern "C" void __cdecl FUN_004b5020();
-extern "C" void __cdecl FUN_0056e270();
 struct FUN_0056e120_shell
 {
     void __thiscall FUN_0056e120();
@@ -134,7 +175,6 @@ struct FUN_0066d550_shell
 };
 struct FUN_00c8bed0_holder
 {
-    void __thiscall FUN_00c8bed0();
 };
 void __cdecl _delete(void*, unsigned int);
 struct bhkTransformShape
@@ -143,17 +183,14 @@ struct bhkTransformShape
 };
 struct FUN_0066d740_owner
 {
-    void __thiscall FUN_00caacf0();
     void* __thiscall DestroyIfFlagged(unsigned int flags);
 };
 void __cdecl _delete(void* p, unsigned int size);
 struct FUN_0056e900_shell
 {
-    void __thiscall StepAndReturnThis();
 };
 struct FUN_006299a0_shell
 {
-    void __thiscall FUN_006299a0();
 };
 struct FUN_0066d770_shell
 {
@@ -169,12 +206,9 @@ struct NiTexturingProperty : NiObject
 };
 struct PropHelper
 {
-    void* GetProperty(unsigned int);
 };
 struct NiAVObjectProp
 {
-    void AttachProperty(NiObject*);
-    void RemoveProperty(unsigned int);
 };
 struct FUN_0066bec0_shell
 {
@@ -283,13 +317,9 @@ struct FUN_0066bf80_data
     float time;
 };
 struct NiCamera;
-extern double gModifierZero;
 struct FUN_00a5dd70_shell
 {
-    void __thiscall FUN_00a5dd70(FUN_0066bf80_data&, unsigned int);
 };
-extern "C" unsigned int __cdecl FUN_00552380();
-extern bool __cdecl FUN_004b5fc0(NiAVObject*, NiCamera*);
 enum MEM_CONTEXT
 {
     MEM_CONTEXT_SCENE = 0x1e
@@ -310,15 +340,11 @@ template <class T> struct NiPointer
 };
 struct BGSBodyPart
 {
-    const char* GetPartName();
 };
 struct bhkWorldObject;
 struct bhkCollisionObject
 {
-    bhkWorldObject* FUN_006fa820();
 };
-extern char g_01268444_arg1;
-NiObject* __cdecl FUN_00653270(const NiRTTI* apRTTI, NiObject* apObject);
 struct FUN_0066d7c0_cls
 {
     virtual void v00();
@@ -461,12 +487,10 @@ struct FUN_0066b6c0 : S_0066b6c0_Base
 };
 struct ItemList
 {
-    unsigned short GetCount();
 };
 struct SmartPtr
 {
     void* m_pObject;
-    void* Get();
 };
 struct FUN_0066b840_cls
 {
@@ -542,7 +566,6 @@ struct S_0066ba30_Str
 };
 struct S_0066ba30_Model
 {
-    unsigned short FUN_006699d0();
 };
 struct S_0066ba30_Obj;
 template <class T> struct S_0066ba30_Ptr
@@ -746,12 +769,9 @@ struct S_0066ba30
 };
 struct VisNode70
 {
-    void Method00450f90(int aFlag);
-    VisNode70* Method00a59d30(int aFlag);
 };
 struct VisNodeAlpha70
 {
-    void Method0094db80(unsigned char aAlpha);
 };
 struct FUN_0066bd30_cls
 {
@@ -912,14 +932,12 @@ struct C070Node
     virtual void vfunc140();
     virtual void UpdateTime(float fTime);
 
-    void UpdateSelectedDownwardPass(FUN_0066bf80_data& kUpdate, unsigned int uiFlags);
 };
 struct C070TreeNode : C070Node
 {
     void FUN_0066c070(FUN_0066bf80_data& kUpdate, unsigned int uiFlags);
 };
 extern char DAT_01066c5c;
-extern unsigned int DAT_012683dc;
 struct FUN_0066d490_base
 {
     FUN_0066d490_base();
@@ -928,11 +946,8 @@ struct FUN_0066d490_base
 struct FUN_0066d490_cls : FUN_0066d490_base
 {
     void* m_vptr;
-    void FUN_00cb7b80(unsigned int a1);
     FUN_0066d490_cls(unsigned int a1);
 };
-extern char DAT_01066d44;
-extern unsigned int DAT_012681b0;
 struct FUN_0066d590_base
 {
     FUN_0066d590_base();
@@ -941,23 +956,16 @@ struct FUN_0066d590_base
 struct FUN_0066d590_cls : FUN_0066d590_base
 {
     void* m_vptr;
-    void FUN_00c8c5b0(unsigned int a1);
     FUN_0066d590_cls(unsigned int a1);
 };
-extern "C" int __cdecl FUN_00406d00(char* text, unsigned size, const char* fmt, ...);
-extern "C" char* __cdecl FUN_00a7d330(const char* s);
 struct S_0066d880_List
 {
-    void FUN_0096a610(char** item);
 };
 struct S_0066d880_Obj
 {
-    unsigned char FUN_00666f00();
-    int FUN_008d6f30();
 };
 struct S_0066d880_Holder
 {
-    S_0066d880_Obj* FUN_00559450();
 };
 struct S_0066d880_Base
 {
@@ -1018,7 +1026,6 @@ struct S_0066d880_Base
     int unkd8;
     int unkdc;
     int unke0;
-    void FUN_00a5ea70(S_0066d880_List* list);
 };
 struct S_0066d880 : S_0066d880_Base
 {
@@ -1026,9 +1033,6 @@ struct S_0066d880 : S_0066d880_Base
     void FUN_0066d880(S_0066d880_List* list);
 };
 extern void* __cdecl FUN_00aa13e0(unsigned int size);
-extern void* __cdecl FUN_00401000(unsigned int size);
-extern float DAT_01016b78;
-extern void* __cdecl GetFltValueAtOffset16();
 struct FUN_00b4e150
 {
     virtual ~FUN_00b4e150();
@@ -1096,13 +1100,9 @@ struct TreePointer
     TreePointer(void* p);
     ~TreePointer();
     void FUN_0066b0d0(void* p);
-    struct TreeLists* FUN_00559450();
 };
 struct TreeLists
 {
-    unsigned short FUN_00669990();
-    unsigned short FUN_006699d0();
-    void* ConvertFloatToUInt();
 };
 struct FUN_00a5ecb0
 {
@@ -1203,8 +1203,6 @@ struct FUN_0051cf00
     unsigned int unkac;
     unsigned int unkb0;
     FUN_0051cf00();
-    void FUN_0051d000(int enabled);
-    void FUN_006404b0(float size, float a, float b, float c);
     static void* operator new(unsigned int size)
     {
         return FUN_00aa13e0(size);
@@ -1261,7 +1259,6 @@ struct FUN_0066b640
     virtual void v8c(void*);
     unsigned int unk04, unk08, unk0c, unk10;
     FUN_0066b640();
-    void FUN_00c6b980(void* p);
     static void* operator new(unsigned int size)
     {
         return FUN_00aa13e0(size);
@@ -1277,28 +1274,21 @@ struct FUN_0066b120 : FUN_00b4e150
     virtual ~FUN_0066b120();
     FUN_0066b120(void* initial, void* external);
 
-    void FUN_00b4dec0(int n);
-    void FUN_004902f0(int n);
-    void SetChildAt(int type, void* p);
-    void SetExtraDataName(void* p);
 };
 class B66B7D0Object;
 class B66B7D0Header
 {
   public:
-    unsigned short GetCount();
 };
 class B66B7D0HeaderPtr
 {
   public:
-    B66B7D0Header* Get();
 
     B66B7D0Header* m_pkHeader;
 };
 class B66B7D0ObjectPtr
 {
   public:
-    B66B7D0Object* Get();
 
     B66B7D0Object* m_pPointer;
 };
@@ -1371,7 +1361,6 @@ class C66BBB0Path;
 class C66BBB0PathRef
 {
   public:
-    C66BBB0Path* Get();
     void Reset(C66BBB0Path* pkPath);
 
     C66BBB0Path* m_pkPath;
@@ -1583,16 +1572,13 @@ struct FnvScopedContext
 };
 struct FnvModelElement
 {
-    unsigned short __thiscall FUN_00669990();
 };
 struct FnvModelReference
 {
-    FnvModelElement* __thiscall FUN_00559450();
 };
 struct FnvObjectSlot
 {
     void* m_object;
-    void* __thiscall FUN_00559450();
     void __thiscall FUN_0066b0d0(int type);
 };
 struct FnvElementCollection : S_0066b6c0_Base
@@ -1604,15 +1590,14 @@ struct FnvElementCollection : S_0066b6c0_Base
 typedef S_0066ba30_Node*(__thiscall* FnvNodeGetter)(FnvElementCollection*);
 
 #include <xmmintrin.h>
-extern __declspec(thread) unsigned int t_uiMemContextC8C;
 
 inline unsigned int GetMemContextC8C()
 {
-    return t_uiMemContextC8C;
+    return ::currentAllocationContext;
 }
 inline void SetMemContextC8C(unsigned int m_uiGeometryShaderFlags)
 {
-    t_uiMemContextC8C = m_uiGeometryShaderFlags;
+    ::currentAllocationContext = m_uiGeometryShaderFlags;
 }
 
 class AutoMemContextC8C
@@ -1653,7 +1638,6 @@ struct hkTransformC8C
     hkVector4C8C m_vTranslation;
 };
 
-extern hkTransformC8C g_kIdentityTransformC8C;
 
 struct NiMatrix3C8C
 {
@@ -1670,23 +1654,19 @@ struct NiTransformC8C
     float m_fScale;
 };
 
-extern "C" void __cdecl FUN_00624b10(NiMatrix3C8C* pOut, const hkRotationC8C* pIn);
-extern "C" void __cdecl FUN_00458620(NiPoint3C8C* pOut, const hkVector4C8C* pIn);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* pAddend);
 
-extern char* g_pNullStringC8C;
-char* __cdecl FUN_00a5b690(const char* pcString);
 
 class NiFixedStringC8C
 {
   public:
     NiFixedStringC8C(const char* pcString)
     {
-        m_kHandle = FUN_00a5b690(pcString);
+        m_kHandle = ::NiGlobalStringTable::AddString(pcString);
     }
     ~NiFixedStringC8C()
     {
-        if (m_kHandle != g_pNullStringC8C)
+        if (m_kHandle != ::DAT_0109b220)
             InterlockedDecrement((volatile long*)(m_kHandle - 8));
     }
     char* m_kHandle;
@@ -1706,7 +1686,6 @@ class NiNodeC8C
     int unk90, unk94, unk98, unk9C, unkA0, unkA4, unkA8;
 
     NiNodeC8C(int iInitial);
-    void AssignFixedString(const NiFixedStringC8C& kName);
     __declspec(restrict) static void* operator new(unsigned int uiSize)
     {
         return FUN_00aa13e0(uiSize);
@@ -1807,14 +1786,14 @@ void SceneObjectC8C::FUN_00c8c860(ParentC8C* pkParent, ArgC8C* iValue)
     AutoMemContextC8C kContext(0x10);
 
     hkTransformC8C kXform;
-    kXform = (this && m_pkBody) ? m_pkBody->m_kTransform : g_kIdentityTransformC8C;
+    kXform = (this && m_pkBody) ? m_pkBody->m_kTransform : (*reinterpret_cast<::hkTransformC8C *>(&::DAT_01268370));
 
     NiTransformC8C kLocal;
-    FUN_00624b10(&kLocal.m_kOrientation, &kXform.m_rotation);
-    FUN_00458620(&kLocal.m_kTranslation, &kXform.m_vTranslation);
+    ::FUN_00624b10((::FUN_004769c0_shell *)(::NiMatrix3C8C *)(&kLocal.m_kOrientation), (::FUN_004b4cf0_shell *)(&kXform.m_rotation));
+    ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&kLocal.m_kTranslation)), (*(const ::hkVector4 *)(&kXform.m_vTranslation)));
 
     NiNodeC8C* __restrict pkNode = new NiNodeC8C(0);
-    pkNode->AssignFixedString(NiFixedStringC8C("bhkTransformShape"));
+    ::AssignFixedString((char *)(pkNode), (int)&(const ::NiFixedStringC8C &)(NiFixedStringC8C("bhkTransformShape")), {});
     pkParent->AttachChildInAvailableSlot(pkNode, true);
     pkNode->m_kLocalTransform.m_kTranslation = kLocal.m_kTranslation;
     pkNode->m_kLocalTransform.m_kOrientation = kLocal.m_kOrientation;

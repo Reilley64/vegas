@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/havok/physics/collide/agent/convexagent/spheresphere/hkpspheresphereagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/spheresphere/hkpspheresphereagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_01268000.h"
 extern "C" void __cdecl FUN_00d3f6a0(void* a, void* b, void* c, void* d);
 void __stdcall FUN_00d3fcc0(void* a, void* c, void* b, void* d);
 struct S_00d3f660_Owner
@@ -30,7 +31,6 @@ struct S_00d3f660
 #include <windows.h>
 unsigned __int64 __cdecl __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
-extern DWORD DAT_0126835c;
 struct SRadius
 {
     int unk00;
@@ -143,7 +143,6 @@ extern "C" void __cdecl FUN_00d3f6a0(void* a, void* b, void* c, void* d)
 #include <xmmintrin.h>
 #include <math.h>
 
-extern DWORD DAT_0126835c;
 
 struct S_00d3fb20_TimerCommand
 {
@@ -212,7 +211,6 @@ struct __declspec(align(16)) S_00d3fb20_Vector4
     }
 };
 
-extern S_00d3fb20_Vector4 DAT_01268370;
 
 struct __declspec(align(16)) S_00d3fb20_Transform
 {
@@ -348,7 +346,7 @@ void __cdecl FUN_00d3fb20(const S_00d3fb20_CdBody& pA, const S_00d3fb20_CdBody& 
         else
         {
             dist = 0.0f;
-            event.m_kPoint.m_vSeparatingNormal.setXYZ(DAT_01268370);
+            event.m_kPoint.m_vSeparatingNormal.setXYZ((*reinterpret_cast<::S_00d3fb20_Vector4 *>(&::DAT_01268370)));
         }
         float w = S_00d3fb20_W(dist, sphereB->getRadius(), sphereA->getRadius());
         event.m_kPoint.m_vContactPosition.setAddMul4(posB, event.m_kPoint.m_vSeparatingNormal, sphereB->getRadius());

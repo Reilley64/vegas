@@ -1,6 +1,71 @@
 
 // hudmainmenu_ctx_variant.cpp: context variant of src/fallout/interface/menus/hudmainmenu.cpp: its stripped skeleton, as these functions were checked
 // against, for verified matches whose own declarations clash with the unit's current types.
+#include "fnv/decl/ActorTaskManager.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CamBuilder.h"
+#include "fnv/decl/FUN_00438690.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FUN_0043fa80_s.h"
+#include "fnv/decl/FUN_00440490_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c90_shell.h"
+#include "fnv/decl/FUN_004bc1f0_S.h"
+#include "fnv/decl/FUN_00524ac0_shell.h"
+#include "fnv/decl/FUN_00770070_Class.h"
+#include "fnv/decl/FUN_007700d0_cls.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/FUN_00a1dc70_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FontManager.h"
+#include "fnv/decl/GlobalObject_0044fae0.h"
+#include "fnv/decl/HotkeyWheelDisplay.h"
+#include "fnv/decl/MyHost.h"
+#include "fnv/decl/NiAVObject.h"
+#include "fnv/decl/NiAdditionalGeometryData.h"
+#include "fnv/decl/NiControllerManager.h"
+#include "fnv/decl/SSN_b5.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/TileListBoxCalls.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/fnv_0047a520__Fn47a520.h"
+#include "fnv/decl/fnv_0056c7f0__Tile.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
+#include "fnv/decl/fnv_00a01b00__TileLoader.h"
+#include "fnv/decl/fnv_00a1ddb0__FUN_00a1ddb0_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_00706000.h"
+#include "fnv/symbols_00713000.h"
+#include "fnv/symbols_00715000.h"
+#include "fnv/symbols_00717000.h"
+#include "fnv/symbols_00771000.h"
+#include "fnv/symbols_00774000.h"
+#include "fnv/symbols_0077e000.h"
+#include "fnv/symbols_008c1000.h"
+#include "fnv/symbols_00a00000.h"
+#include "fnv/symbols_00a01000.h"
+#include "fnv/symbols_00a04000.h"
+#include "fnv/symbols_00a08000.h"
+#include "fnv/symbols_00a09000.h"
+#include "fnv/symbols_00ad8000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011d2000.h"
+#include "fnv/symbols_011d3000.h"
+#include "fnv/symbols_011d4000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011d9000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f3000.h"
 #include "HUDMainMenu.h"
 static const int kGetClassValue = 1004;
 // m_pTiles is addressed by 1-based tile ID; slot 0 is the menu root.
@@ -27,7 +92,6 @@ class CompassStub
 {
   public:
     void FUN_007700b0(NiSourceTexture* texture);
-    void FUN_007700d0(bool enable);
 };
 class MenuStub;
 class Tile
@@ -42,13 +106,10 @@ class Tile
     virtual void vf18();
     virtual void vf1c();
     virtual CompassStub* vf20();
-    void FUN_00700320(int trait, int value);
-    void FUN_00a012d0(int trait, float value, bool propagate);
-    float FUN_00a011b0(int trait);
-    void FUN_00a01350(int trait, const char* text, bool propagate);
-    Tile* FUN_00a01b00(const char* path);
-    MenuStub* FUN_00a03c90();
-    NiNode* FUN_0056c7f0();
+public:
+    void Set(int, int);
+public:
+    static float GetInterfaceScale();
 };
 class TileMenu : public Tile
 {
@@ -70,28 +131,21 @@ class MenuStub
     virtual void vf2c();
     virtual void vf30();
     virtual unsigned int vf34();
-    void FUN_00a1dc70(Tile* tile, bool modal);
-    Tile* FUN_00a1ddb0(Tile* parent, const char* templateName, int unused);
-    void FUN_00a1dc20(int value);
-    int FUN_00726070();
-    bool FUN_00770070();
-    NiNode* FUN_0077ee50();
 };
 class HotKeyWheelStub
 {
   public:
-    void FUN_00701610(Tile* selector);
 };
 class InterfaceManager
 {
   public:
     Tile* FUN_00586150();
+public:
+    static float UpdateInterfaceState();
 };
 class ATMStub
 {
   public:
-    void FUN_004538a0(int value);
-    void FUN_004538c0();
 };
 class FontManagerStub
 {
@@ -101,17 +155,14 @@ class FontManagerStub
 class SettingString
 {
   public:
-    const char* FUN_00403df0();
 };
 class SettingInt
 {
   public:
-    int* FUN_0043d4d0();
 };
 class SettingFloat
 {
   public:
-    float* FUN_00403e20();
 };
 class NiFixedString
 {
@@ -121,20 +172,23 @@ class NiFixedString
     ~NiFixedString();
 };
 class NiTextureFormatPrefs;
+class NiFixedString;
+class NiTexture__FormatPrefs;
 class NiSourceTexture
 {
   public:
     void IncRefCount();
     void DecRefCount();
+public:
+    static ::NiSourceTexture *Create(const ::NiFixedString &, ::NiTexture__FormatPrefs &, bool, bool);
 };
 class ThreeByThreeMatrix
 {
   public:
     float m00, m01, m02, m10, m11, m12, m20, m21, m22;
     ThreeByThreeMatrix();
-    void FUN_00524ac0(float angle);
-    void FUN_004a0c90(float angle);
-    ThreeByThreeMatrix FUN_0043f8d0(const ThreeByThreeMatrix& other) const;
+public:
+    ::ThreeByThreeMatrix operator+(const ::ThreeByThreeMatrix &) const;
 };
 class NiUpdateData
 {
@@ -150,8 +204,8 @@ class NiUpdateData
 class NiBoundStub
 {
   public:
-    float FUN_0084d030();
 };
+class NiAVObject;
 class NiNode
 {
   public:
@@ -164,21 +218,12 @@ class NiNode
     NiNode(unsigned short childCount);
     void IncRefCount();
     void DecRefCount();
-    void FUN_0043fa80(const ThreeByThreeMatrix& rotate);
-    void FUN_00440490(float scale);
-    void FUN_004bc1f0(float x, float y, float z);
-    void FUN_00a59c60(NiUpdateData& data);
-    NiBoundStub* FUN_0043d450();
-    NiNode* FUN_0043b4a0(int index);
-    NiTimeController* FUN_00a5c570(NiRTTI* rtti);
-    void FUN_006404b0(float angle, float x, float y, float z);
+public:
+    ::NiAVObject *GetAt(unsigned int);
 };
 class NiControllerManagerStub
 {
   public:
-    void* FUN_0047a520(const NiFixedString& name);
-    void FUN_0048fef0(float time);
-    void FUN_0047aab0(void* sequence, int a, int b, float weight, float easeIn, int c);
 };
 class ShadowSceneNode
 {
@@ -239,48 +284,10 @@ class ShadowSceneNode
     virtual void vfd4();
     virtual void vfd8();
     virtual void vfdc(NiNode* node, bool flag);
-    void FUN_00b5ca70(NiNode* node, float radius);
 };
 struct HUDEmptyStub
 {
 };
-NiSourceTexture* __cdecl FUN_00a5fd70(const NiFixedString& path, NiTextureFormatPrefs& prefs, bool a, bool b);
-ShadowSceneNode* __cdecl FUN_00450b80(int index);
-extern NiTextureFormatPrefs DAT_011a9598;
-extern NiRTTI DAT_011f36ac;
-extern NiPointer<NiNode> DAT_011d9770;
-extern NiPointer<NiNode> DAT_011d975c;
-extern HUDEmptyStub* DAT_011d96bc;
-extern HUDMainMenu* HUDMainMenu_pme;
-extern SettingString DAT_011d4da4;
-extern SettingString DAT_011d21d8;
-extern SettingString DAT_011d2454;
-extern SettingString DAT_011d1f68;
-extern SettingString DAT_011d4918;
-extern SettingString DAT_011d3e8c;
-extern SettingString DAT_011d300c;
-extern SettingInt DAT_011d32d0;
-extern SettingFloat DAT_011d9774;
-extern float DAT_011d979c;
-InterfaceManager* __cdecl FUN_004b7210();
-unsigned int __cdecl FUN_00706f20();
-TileMenu* __cdecl FUN_00a09030(unsigned int id);
-float __cdecl FUN_00a01530();
-ATMStub* __cdecl FUN_00713d70();
-float __cdecl FUN_00715d40();
-float __cdecl FUN_00715da0();
-float __cdecl FUN_007177c0();
-float __cdecl FUN_00717820();
-int __cdecl FUN_00a00940(const char* name, int defaultValue);
-Tile* __cdecl FUN_00a08b20(Tile* parent, const char* name);
-void __cdecl FUN_00774800(Tile* tile, int style);
-int __cdecl FUN_00a01860(const char* name);
-FontManagerStub* __cdecl FUN_005bd5b0();
-void __cdecl FUN_0040fbe0(const char* message);
-void __cdecl FUN_007037e0();
-void __cdecl FUN_00a04200(bool value);
-void __cdecl FUN_0077e430(float value);
-void __cdecl FUN_00771700(int value);
 static const char kTemplateRightBracket[] = "template_right_bracket";
 static const char kTemplateMeter3[] = "template_meter";
 static const char kTemplateJustifyRightText6[] = "template_justify_right_text";
@@ -327,19 +334,19 @@ Tile* FUN_0076bfe0()
     Tile* pMenuTileN;
     TileMenu* pOldMenuT;
 
-    if (!FUN_004b7210())
+    if (!((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))
         return 0;
-    pOldMenuT = FUN_00a09030(FUN_00706f20());
+    pOldMenuT = ((::TileMenu *)(::FUN_00a09030(FUN_00706f20())));
     if (pOldMenuT)
         delete pOldMenuT;
-    pInterfaceMgrY = FUN_004b7210();
-    fTileAlphaM = FUN_00a01530();
-    FUN_00713d70()->FUN_004538a0(0);
-    pMenuTileN = pInterfaceMgrY->FUN_00586150()->FUN_00a01b00("Data\\Menus\\Main\\hud_main_menu.xml");
-    pMenuXB = pMenuTileN->FUN_00a03c90();
+    pInterfaceMgrY = ((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()));
+    fTileAlphaM = ::Tile::GetInterfaceScale();
+    reinterpret_cast<::GlobalObject_0044fae0 *>((((::ATMStub *)(::FUN_00713d70()))))->FUN_004538a0(0);
+    pMenuTileN = reinterpret_cast<::fnv_00a01b00::TileLoader *>((pInterfaceMgrY->FUN_00586150()))->FUN_00a01b00((void *)("Data\\Menus\\Main\\hud_main_menu.xml"));
+    pMenuXB = ((::MenuStub *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenuTileN))->FUN_00a03c90()));
     if (pMenuXB && pMenuXB->vf34() == FUN_00706f20())
     {
-        pMenuXB->FUN_00a1dc70(pMenuTileN, false);
+        reinterpret_cast<::FUN_00a1dc70_shell *>((pMenuXB))->FUN_00a1dc70((::TileMenu *)(pMenuTileN), false);
         int iInfoRowY;
         int iTotalWidthTraitA;
         int iInfoGapLeftAA;
@@ -361,571 +368,569 @@ Tile* FUN_0076bfe0()
         int iLimbOffsetXQ;
         int iLimbOffsetYB;
         int iInfoPadRightQ;
-        HUDMainMenu_pme = (HUDMainMenu*)pMenuXB;
-        iScreenWidthC = (int)FUN_00715d40();
+        ::g_pHudMainMenuInstance = (HUDMainMenu*)pMenuXB;
+        iScreenWidthC = (int)::InterfaceManager::UpdateInterfaceState();
         iScreenHeightX = (int)FUN_00715da0();
         iSafeZoneX3 = (int)FUN_007177c0();
-        iSafeZoneYY = (int)FUN_00717820();
+        iSafeZoneYY = (int)::fnv_00717820::FUN_00717820();
         iOriginalXTrait14 = FUN_00a00940("_OriginalX", -1);
         iTotalWidthTraitA = FUN_00a00940("_TotalWidth", -1);
         iImageWidthTraitT = FUN_00a00940("_ImageWidth", -1);
-        HUDMainMenu_pme->m_pTiles[59] = FUN_00a08b20(FUN_00a09030(1004), "ActionPoints");
-        HUDMainMenu_pme->m_pTiles[59]->FUN_00a012d0(
-            4001, (float)(iScreenWidthC - iSafeZoneX3 * 2) - HUDMainMenu_pme->m_pTiles[59]->FUN_00a011b0(4017) + 30.0,
+        ::g_pHudMainMenuInstance->m_pTiles[59] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "ActionPoints")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[59]))->FUN_00a012d0(
+            4001, (float)(iScreenWidthC - iSafeZoneX3 * 2) - reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[59]))->GetFloat(4017) + 30.0,
             1);
-        HUDMainMenu_pme->m_pTiles[59]->FUN_00a012d0(
-            4002, (float)(iScreenHeightX - iSafeZoneYY * 2) - HUDMainMenu_pme->m_pTiles[59]->FUN_00a011b0(4016), 1);
-        HUDMainMenu_pme->m_pTiles[59]->FUN_00700320(4008, 1);
-        HUDMainMenu_pme->m_pTiles[43] = pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[59], kTemplateRightBracket, 0);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[43], 2);
-        HUDMainMenu_pme->m_pTiles[43]->FUN_00700320(4001, -37);
-        HUDMainMenu_pme->m_pTiles[7] = pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[59], kTemplateMeter3, 0);
-        HUDMainMenu_pme->m_pTiles[7]->FUN_00700320(iOriginalXTrait14, 326);
-        HUDMainMenu_pme->m_pTiles[7]->FUN_00a012d0(4002, 41.0f, 1);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[7], 3);
-        HUDMainMenu_pme->m_pTiles[8] =
-            pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[59], kTemplateJustifyRightText6, 0);
-        HUDMainMenu_pme->m_pTiles[8]->FUN_00700320(4001, 315);
-        HUDMainMenu_pme->m_pTiles[8]->FUN_00700320(4002, 8);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[8], 0);
-        HUDMainMenu_pme->m_pTiles[12] =
-            pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[59], kTemplateJustifyRightText5, 0);
-        HUDMainMenu_pme->m_pTiles[12]->FUN_00700320(4001, 315);
-        HUDMainMenu_pme->m_pTiles[12]->FUN_00700320(4002, 80);
-        HUDMainMenu_pme->m_pTiles[12]->FUN_00700320(4025, 7);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[12], 0);
-        HUDMainMenu_pme->m_pTiles[9] =
-            pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[59], kTemplateJustifyRightText4, 0);
-        HUDMainMenu_pme->m_pTiles[9]->FUN_00700320(4001, 80);
-        HUDMainMenu_pme->m_pTiles[9]->FUN_00a012d0(4002, HUDMainMenu_pme->m_pTiles[12]->FUN_00a011b0(4002), 1);
-        HUDMainMenu_pme->m_pTiles[9]->FUN_00700320(4025, 7);
-        HUDMainMenu_pme->m_pTiles[9]->FUN_00a01350(4036, DAT_011d4da4.FUN_00403df0(), 1);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[9], 0);
-        HUDMainMenu_pme->m_pTiles[10] = pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[59], kTemplateMeter2, 0);
-        HUDMainMenu_pme->m_pTiles[10]->FUN_00700320(iOriginalXTrait14, 90);
-        HUDMainMenu_pme->m_pTiles[10]->FUN_00a012d0(4002, HUDMainMenu_pme->m_pTiles[12]->FUN_00a011b0(4002) + 3.0, 1);
-        HUDMainMenu_pme->m_pTiles[10]->FUN_00a01350(4044, kInterfaceVATSVatsBarDds, 1);
-        HUDMainMenu_pme->m_pTiles[10]->FUN_00700320(iTotalWidthTraitA, 60);
-        HUDMainMenu_pme->m_pTiles[10]->FUN_00700320(iImageWidthTraitT, 1);
-        HUDMainMenu_pme->m_pTiles[10]->FUN_00700320(4024, 200);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[10], 3);
-        HUDMainMenu_pme->m_pTiles[11] =
-            pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[59], kTemplateMeterBackground, 0);
-        HUDMainMenu_pme->m_pTiles[11]->FUN_00a012d0(4002, HUDMainMenu_pme->m_pTiles[12]->FUN_00a011b0(4002) + 3.0, 1);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[11], 4);
-        HUDMainMenu_pme->m_pTiles[86] = FUN_00a08b20(FUN_00a09030(1004), kCNDArrows);
-        HUDMainMenu_pme->m_pTiles[86]->FUN_00a012d0(4001,
-                                                    HUDMainMenu_pme->m_pTiles[59]->FUN_00a011b0(4001) +
-                                                        HUDMainMenu_pme->m_pTiles[9]->FUN_00a011b0(4001) +
-                                                        HUDMainMenu_pme->m_pTiles[10]->FUN_00a011b0(4001) +
-                                                        HUDMainMenu_pme->m_pTiles[11]->FUN_00a011b0(4017) * 0.75 + 8.0,
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[59]))->FUN_00a012d0(
+            4002, (float)(iScreenHeightX - iSafeZoneYY * 2) - reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[59]))->GetFloat(4016), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[59]->Set(4008, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[43] = reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[59], (char *)(kTemplateRightBracket), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[43]), 2);
+        ::g_pHudMainMenuInstance->m_pTiles[43]->Set(4001, -37);
+        ::g_pHudMainMenuInstance->m_pTiles[7] = reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[59], (char *)(kTemplateMeter3), (::Tile *)(0));
+        ::g_pHudMainMenuInstance->m_pTiles[7]->Set(iOriginalXTrait14, 326);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[7]))->FUN_00a012d0(4002, 41.0f, 1);
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[7]), 3);
+        ::g_pHudMainMenuInstance->m_pTiles[8] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[59], (char *)(kTemplateJustifyRightText6), (::Tile *)(0));
+        ::g_pHudMainMenuInstance->m_pTiles[8]->Set(4001, 315);
+        ::g_pHudMainMenuInstance->m_pTiles[8]->Set(4002, 8);
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[8]), 0);
+        ::g_pHudMainMenuInstance->m_pTiles[12] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[59], (char *)(kTemplateJustifyRightText5), (::Tile *)(0));
+        ::g_pHudMainMenuInstance->m_pTiles[12]->Set(4001, 315);
+        ::g_pHudMainMenuInstance->m_pTiles[12]->Set(4002, 80);
+        ::g_pHudMainMenuInstance->m_pTiles[12]->Set(4025, 7);
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[12]), 0);
+        ::g_pHudMainMenuInstance->m_pTiles[9] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[59], (char *)(kTemplateJustifyRightText4), (::Tile *)(0));
+        ::g_pHudMainMenuInstance->m_pTiles[9]->Set(4001, 80);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[9]))->FUN_00a012d0(4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[12]))->GetFloat(4002), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[9]->Set(4025, 7);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((::g_pHudMainMenuInstance->m_pTiles[9]))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingString *>(&::g_011d4da4))))->GetMenuTitle()))), 1);
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[9]), 0);
+        ::g_pHudMainMenuInstance->m_pTiles[10] = reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[59], (char *)(kTemplateMeter2), (::Tile *)(0));
+        ::g_pHudMainMenuInstance->m_pTiles[10]->Set(iOriginalXTrait14, 90);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[10]))->FUN_00a012d0(4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[12]))->GetFloat(4002) + 3.0, 1);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((::g_pHudMainMenuInstance->m_pTiles[10]))->FUN_00a01350(4044, (char *)(kInterfaceVATSVatsBarDds), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[10]->Set(iTotalWidthTraitA, 60);
+        ::g_pHudMainMenuInstance->m_pTiles[10]->Set(iImageWidthTraitT, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[10]->Set(4024, 200);
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[10]), 3);
+        ::g_pHudMainMenuInstance->m_pTiles[11] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[59], (char *)(kTemplateMeterBackground), (::Tile *)(0));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[11]))->FUN_00a012d0(4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[12]))->GetFloat(4002) + 3.0, 1);
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[11]), 4);
+        ::g_pHudMainMenuInstance->m_pTiles[86] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), kCNDArrows)));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[86]))->FUN_00a012d0(4001,
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[59]))->GetFloat(4001) +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[9]))->GetFloat(4001) +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[10]))->GetFloat(4001) +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[11]))->GetFloat(4017) * 0.75 + 8.0,
                                                     1);
-        HUDMainMenu_pme->m_pTiles[86]->FUN_00a012d0(
-            4002, HUDMainMenu_pme->m_pTiles[59]->FUN_00a011b0(4002) + HUDMainMenu_pme->m_pTiles[10]->FUN_00a011b0(4002),
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[86]))->FUN_00a012d0(
+            4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[59]))->GetFloat(4002) + reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[10]))->GetFloat(4002),
             1);
-        HUDMainMenu_pme->m_pTiles[86]->FUN_00a012d0(4016, HUDMainMenu_pme->m_pTiles[11]->FUN_00a011b0(4016), 1);
-        HUDMainMenu_pme->m_pTiles[86]->FUN_00700320(4003, 0);
-        HUDMainMenu_pme->m_pTiles[60] = FUN_00a08b20(FUN_00a09030(1004), kHitPoints);
-        HUDMainMenu_pme->m_pTiles[60]->FUN_00700320(4001, iSafeZoneX3 * 2 + 10);
-        HUDMainMenu_pme->m_pTiles[60]->FUN_00a012d0(
-            4002, (float)(iScreenHeightX - iSafeZoneYY * 2) - HUDMainMenu_pme->m_pTiles[60]->FUN_00a011b0(4016), 1);
-        HUDMainMenu_pme->m_pTiles[60]->FUN_00700320(4008, 1);
-        HUDMainMenu_pme->m_pTiles[42] = pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[60], kTemplateLeftBracket, 0);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[42], 2);
-        HUDMainMenu_pme->m_pTiles[1] = pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[60], kTemplateMeter, 0);
-        HUDMainMenu_pme->m_pTiles[1]->FUN_00700320(iOriginalXTrait14, 20);
-        HUDMainMenu_pme->m_pTiles[1]->FUN_00a012d0(4002, 41.0f, 1);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[1], 3);
-        HUDMainMenu_pme->m_pTiles[2] =
-            pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[60], kTemplateJustifyRightText3, 0);
-        HUDMainMenu_pme->m_pTiles[2]->FUN_00700320(4001, 53);
-        HUDMainMenu_pme->m_pTiles[2]->FUN_00700320(4002, 8);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[2], 0);
-        HUDMainMenu_pme->m_pTiles[6] = pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[60], kTemplateCompassWindow, 0);
-        HUDMainMenu_pme->m_pTiles[3] =
-            pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[6], kTemplateCompassIconGroup, 0);
-        HUDMainMenu_pme->m_pTiles[3]->FUN_00700320(4002, 30);
-        HUDMainMenu_pme->m_pTiles[3]->FUN_00700320(4013, 4);
-        HUDMainMenu_pme->m_pTiles[4] =
-            pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[6], "template_compass_icon_group", 0);
-        HUDMainMenu_pme->m_pTiles[4]->FUN_00700320(4002, 30);
-        HUDMainMenu_pme->m_pTiles[4]->FUN_00700320(4013, 3);
-        HUDMainMenu_pme->m_pTiles[5] =
-            pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[6], "template_compass_icon_group", 0);
-        HUDMainMenu_pme->m_pTiles[5]->FUN_00700320(4002, 10);
-        HUDMainMenu_pme->m_pTiles[5]->FUN_00700320(4013, 2);
-        for (int l_e8 = 0; l_e8 < *DAT_011d32d0.FUN_0043d4d0(); l_e8++)
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[86]))->FUN_00a012d0(4016, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[11]))->GetFloat(4016), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[86]->Set(4003, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[60] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), kHitPoints)));
+        ::g_pHudMainMenuInstance->m_pTiles[60]->Set(4001, iSafeZoneX3 * 2 + 10);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[60]))->FUN_00a012d0(
+            4002, (float)(iScreenHeightX - iSafeZoneYY * 2) - reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[60]))->GetFloat(4016), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[60]->Set(4008, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[42] = reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[60], (char *)(kTemplateLeftBracket), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[42]), 2);
+        ::g_pHudMainMenuInstance->m_pTiles[1] = reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[60], (char *)(kTemplateMeter), (::Tile *)(0));
+        ::g_pHudMainMenuInstance->m_pTiles[1]->Set(iOriginalXTrait14, 20);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[1]))->FUN_00a012d0(4002, 41.0f, 1);
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[1]), 3);
+        ::g_pHudMainMenuInstance->m_pTiles[2] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[60], (char *)(kTemplateJustifyRightText3), (::Tile *)(0));
+        ::g_pHudMainMenuInstance->m_pTiles[2]->Set(4001, 53);
+        ::g_pHudMainMenuInstance->m_pTiles[2]->Set(4002, 8);
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[2]), 0);
+        ::g_pHudMainMenuInstance->m_pTiles[6] = reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[60], (char *)(kTemplateCompassWindow), (::Tile *)(0));
+        ::g_pHudMainMenuInstance->m_pTiles[3] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[6], (char *)(kTemplateCompassIconGroup), (::Tile *)(0));
+        ::g_pHudMainMenuInstance->m_pTiles[3]->Set(4002, 30);
+        ::g_pHudMainMenuInstance->m_pTiles[3]->Set(4013, 4);
+        ::g_pHudMainMenuInstance->m_pTiles[4] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[6], (char *)("template_compass_icon_group"), (::Tile *)(0));
+        ::g_pHudMainMenuInstance->m_pTiles[4]->Set(4002, 30);
+        ::g_pHudMainMenuInstance->m_pTiles[4]->Set(4013, 3);
+        ::g_pHudMainMenuInstance->m_pTiles[5] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[6], (char *)("template_compass_icon_group"), (::Tile *)(0));
+        ::g_pHudMainMenuInstance->m_pTiles[5]->Set(4002, 10);
+        ::g_pHudMainMenuInstance->m_pTiles[5]->Set(4013, 2);
+        for (int l_e8 = 0; l_e8 < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingInt *>(&::g_011d32d0)))))); l_e8++)
         {
             Tile* l_ec =
-                ((MenuStub*)HUDMainMenu_pme)->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[5], "compass_npc_icon", 0);
+                reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((MenuStub*)::g_pHudMainMenuInstance)))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[5], (char *)("compass_npc_icon"), (::Tile *)(0));
         }
         for (int l_f0 = 0; l_f0 < 10; l_f0++)
         {
-            Tile* l_f4 = ((MenuStub*)HUDMainMenu_pme)
-                             ->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[4], "template_compass_icon_quest", 0);
+            Tile* l_f4 = reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((MenuStub*)::g_pHudMainMenuInstance)))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[4], (char *)("template_compass_icon_quest"), (::Tile *)(0));
         }
         pPlayerIcon =
-            ((MenuStub*)HUDMainMenu_pme)->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[4], "template_compass_icon_player", 0);
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((MenuStub*)::g_pHudMainMenuInstance)))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[4], (char *)("template_compass_icon_player"), (::Tile *)(0));
         for (int l_f8 = 0; l_f8 < 10; l_f8++)
         {
             Tile* l_fc =
-                ((MenuStub*)HUDMainMenu_pme)->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[3], kTemplateCompassIconMarker, 0);
+                reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((MenuStub*)::g_pHudMainMenuInstance)))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[3], (char *)(kTemplateCompassIconMarker), (::Tile *)(0));
         }
-        HUDMainMenu_pme->m_pTiles[61] = FUN_00a08b20(FUN_00a09030(1004), kRadiationMeter);
-        HUDMainMenu_pme->m_pTiles[61]->FUN_00a012d0(
-            4001, (float)(iScreenWidthC - iSafeZoneX3 * 2) - HUDMainMenu_pme->m_pTiles[61]->FUN_00a011b0(4017) - 20.0,
+        ::g_pHudMainMenuInstance->m_pTiles[61] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), kRadiationMeter)));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[61]))->FUN_00a012d0(
+            4001, (float)(iScreenWidthC - iSafeZoneX3 * 2) - reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[61]))->GetFloat(4017) - 20.0,
             1);
-        HUDMainMenu_pme->m_pTiles[61]->FUN_00700320(4002, iSafeZoneYY * 2);
-        HUDMainMenu_pme->m_pTiles[17] = FUN_00a08b20(HUDMainMenu_pme->m_pTiles[61], "radiation_bracket");
-        HUDMainMenu_pme->m_pTiles[18] = FUN_00a08b20(HUDMainMenu_pme->m_pTiles[61], "radiation_pointer");
-        HUDMainMenu_pme->m_pTiles[20] = FUN_00a08b20(HUDMainMenu_pme->m_pTiles[61], "radiation_text");
-        HUDMainMenu_pme->m_pTiles[19] = FUN_00a08b20(HUDMainMenu_pme->m_pTiles[61], "radiation_text_value");
-        HUDMainMenu_pme->m_pTiles[19]->FUN_00a01350(4036, "+0", 1);
-        HUDMainMenu_pme->m_pTiles[20]->FUN_00a01350(4036, DAT_011d21d8.FUN_00403df0(), 1);
-        HUDMainMenu_pme->m_pTiles[62] = FUN_00a08b20(FUN_00a09030(1004), "EnemyHealth");
-        HUDMainMenu_pme->m_pTiles[62]->FUN_00a012d0(
-            4001, (float)(iScreenWidthC / 2) - HUDMainMenu_pme->m_pTiles[62]->FUN_00a011b0(4017) / 2.0, 1);
-        HUDMainMenu_pme->m_pTiles[62]->FUN_00a012d0(4002, HUDMainMenu_pme->m_pTiles[60]->FUN_00a011b0(4002) + 40.0, 1);
-        HUDMainMenu_pme->m_pTiles[62]->FUN_00700320(4008, 1);
-        HUDMainMenu_pme->m_pTiles[62]->FUN_00700320(4084, 2);
-        HUDMainMenu_pme->m_pTiles[21] =
-            pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[62], "template_enemy_health_bracket", 0);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[21], 1);
-        HUDMainMenu_pme->m_pTiles[21]->FUN_00700320(4003, 1);
-        HUDMainMenu_pme->m_pTiles[22] = pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[62], "template_meter", 0);
-        HUDMainMenu_pme->m_pTiles[22]->FUN_00700320(iOriginalXTrait14, 171);
-        HUDMainMenu_pme->m_pTiles[22]->FUN_00700320(iTotalWidthTraitA, 240);
-        HUDMainMenu_pme->m_pTiles[22]->FUN_00700320(4002, 3);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[22], 3);
-        HUDMainMenu_pme->m_pTiles[22]->FUN_00700320(4003, 1);
-        HUDMainMenu_pme->m_pTiles[23] =
-            pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[62], "template_justify_center_text", 0);
-        HUDMainMenu_pme->m_pTiles[23]->FUN_00700320(4001, 170);
-        HUDMainMenu_pme->m_pTiles[23]->FUN_00700320(4002, 35);
-        HUDMainMenu_pme->m_pTiles[23]->FUN_00700320(4026, 350);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[23], 0);
+        ::g_pHudMainMenuInstance->m_pTiles[61]->Set(4002, iSafeZoneYY * 2);
+        ::g_pHudMainMenuInstance->m_pTiles[17] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[61]), "radiation_bracket")));
+        ::g_pHudMainMenuInstance->m_pTiles[18] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[61]), "radiation_pointer")));
+        ::g_pHudMainMenuInstance->m_pTiles[20] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[61]), "radiation_text")));
+        ::g_pHudMainMenuInstance->m_pTiles[19] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[61]), "radiation_text_value")));
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((::g_pHudMainMenuInstance->m_pTiles[19]))->FUN_00a01350(4036, (char *)("+0"), 1);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((::g_pHudMainMenuInstance->m_pTiles[20]))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingString *>(&::g_011d21d8))))->GetMenuTitle()))), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[62] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "EnemyHealth")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[62]))->FUN_00a012d0(
+            4001, (float)(iScreenWidthC / 2) - reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[62]))->GetFloat(4017) / 2.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[62]))->FUN_00a012d0(4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[60]))->GetFloat(4002) + 40.0, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[62]->Set(4008, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[62]->Set(4084, 2);
+        ::g_pHudMainMenuInstance->m_pTiles[21] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[62], (char *)("template_enemy_health_bracket"), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[21]), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[21]->Set(4003, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[22] = reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[62], (char *)("template_meter"), (::Tile *)(0));
+        ::g_pHudMainMenuInstance->m_pTiles[22]->Set(iOriginalXTrait14, 171);
+        ::g_pHudMainMenuInstance->m_pTiles[22]->Set(iTotalWidthTraitA, 240);
+        ::g_pHudMainMenuInstance->m_pTiles[22]->Set(4002, 3);
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[22]), 3);
+        ::g_pHudMainMenuInstance->m_pTiles[22]->Set(4003, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[23] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[62], (char *)("template_justify_center_text"), (::Tile *)(0));
+        ::g_pHudMainMenuInstance->m_pTiles[23]->Set(4001, 170);
+        ::g_pHudMainMenuInstance->m_pTiles[23]->Set(4002, 35);
+        ::g_pHudMainMenuInstance->m_pTiles[23]->Set(4026, 350);
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[23]), 0);
         iQuestYAA = iSafeZoneYY * 2 + 170;
-        HUDMainMenu_pme->m_pTiles[63] = FUN_00a08b20(FUN_00a09030(1004), "QuestReminder");
-        HUDMainMenu_pme->m_pTiles[63]->FUN_00700320(4001, iSafeZoneX3 * 2 + 15);
-        HUDMainMenu_pme->m_pTiles[63]->FUN_00700320(4002, iQuestYAA);
-        HUDMainMenu_pme->m_pTiles[13] = FUN_00a08b20(HUDMainMenu_pme->m_pTiles[63], "QuestStages");
-        HUDMainMenu_pme->m_pTiles[14] = FUN_00a08b20(HUDMainMenu_pme->m_pTiles[63], "QuestAdded");
+        ::g_pHudMainMenuInstance->m_pTiles[63] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "QuestReminder")));
+        ::g_pHudMainMenuInstance->m_pTiles[63]->Set(4001, iSafeZoneX3 * 2 + 15);
+        ::g_pHudMainMenuInstance->m_pTiles[63]->Set(4002, iQuestYAA);
+        ::g_pHudMainMenuInstance->m_pTiles[13] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[63]), "QuestStages")));
+        ::g_pHudMainMenuInstance->m_pTiles[14] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[63]), "QuestAdded")));
         for (int l_100 = 0; l_100 < 64; l_100++)
         {
-            ((MenuStub*)HUDMainMenu_pme)->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[14], "template_justify_left_text", 0);
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((MenuStub*)::g_pHudMainMenuInstance)))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[14], (char *)("template_justify_left_text"), (::Tile *)(0));
         }
         for (int l_104 = 0; l_104 < 32; l_104++)
         {
-            ((MenuStub*)HUDMainMenu_pme)->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[13], "template_filled_checkbox", 0);
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((MenuStub*)::g_pHudMainMenuInstance)))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[13], (char *)("template_filled_checkbox"), (::Tile *)(0));
         }
         for (int l_108 = 0; l_108 < 32; l_108++)
         {
-            ((MenuStub*)HUDMainMenu_pme)->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[13], "template_justify_left_text", 0);
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((MenuStub*)::g_pHudMainMenuInstance)))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[13], (char *)("template_justify_left_text"), (::Tile *)(0));
         }
-        HUDMainMenu_pme->m_pTiles[64] = FUN_00a08b20(FUN_00a09030(1004), "Region_Location");
-        HUDMainMenu_pme->m_pTiles[64]->FUN_00700320(4001, iSafeZoneX3 * 2 + 15);
-        HUDMainMenu_pme->m_pTiles[64]->FUN_00a012d0(4002, HUDMainMenu_pme->m_pTiles[60]->FUN_00a011b0(4002) - 75.0, 1);
-        HUDMainMenu_pme->m_pTiles[15] =
-            pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[64], "template_justify_left_text", 0);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[15], 0);
-        HUDMainMenu_pme->m_pTiles[15]->FUN_00700320(4003, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[64] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "Region_Location")));
+        ::g_pHudMainMenuInstance->m_pTiles[64]->Set(4001, iSafeZoneX3 * 2 + 15);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[64]))->FUN_00a012d0(4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[60]))->GetFloat(4002) - 75.0, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[15] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[64], (char *)("template_justify_left_text"), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[15]), 0);
+        ::g_pHudMainMenuInstance->m_pTiles[15]->Set(4003, 1);
         NiPoint3Stub kTextSize1 =
-            FUN_005bd5b0()->FUN_00a1b020(kTestHeight2, (int)HUDMainMenu_pme->m_pTiles[15]->FUN_00a011b0(4025),
-                                         HUDMainMenu_pme->m_pTiles[15]->FUN_00a011b0(4026), 0);
-        HUDMainMenu_pme->m_pTiles[15]->FUN_00a012d0(4002, kTextSize1.y, 1);
-        HUDMainMenu_pme->m_pTiles[16] =
-            pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[64], kTemplateJustifyLeftText3, 0);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[16], 0);
-        HUDMainMenu_pme->m_pTiles[16]->FUN_00700320(4003, 1);
-        HUDMainMenu_pme->m_pTiles[16]->FUN_00a012d0(4002, kTextSize1.y, 1);
-        HUDMainMenu_pme->m_pTiles[65] = FUN_00a08b20(FUN_00a09030(1004), "ReticleCenter");
-        HUDMainMenu_pme->m_pTiles[65]->FUN_00a012d0(
-            4001, (float)(iScreenWidthC / 2) - HUDMainMenu_pme->m_pTiles[65]->FUN_00a011b0(4017) / 2.0 - 3.0, 1);
-        HUDMainMenu_pme->m_pTiles[65]->FUN_00a012d0(
-            4002, (float)(iScreenHeightX / 2) - HUDMainMenu_pme->m_pTiles[65]->FUN_00a011b0(4016) / 2.0 - 3.0, 1);
-        HUDMainMenu_pme->m_pTiles[65]->FUN_00700320(4008, 1);
-        HUDMainMenu_pme->m_pTiles[65]->FUN_00700320(4003, 1);
-        HUDMainMenu_pme->m_pTiles[51] = pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[65], kTemplateReticleCenter, 0);
-        HUDMainMenu_pme->m_pTiles[51]->FUN_00700320(4084, 1);
-        HUDMainMenu_pme->m_pTiles[51]->FUN_00700320(4003, 1);
-        HUDMainMenu_pme->m_pTiles[66] = FUN_00a08b20(FUN_00a09030(1004), kSneakMeter);
-        HUDMainMenu_pme->m_pTiles[66]->FUN_00700320(4001, iScreenWidthC / 2);
-        HUDMainMenu_pme->m_pTiles[66]->FUN_00700320(4002, iSafeZoneYY * 2);
-        HUDMainMenu_pme->m_pTiles[66]->FUN_00700320(4008, 1);
-        HUDMainMenu_pme->m_pTiles[66]->FUN_00700320(4003, 0);
-        HUDMainMenu_pme->m_pTiles[24] = FUN_00a08b20(HUDMainMenu_pme->m_pTiles[66], kSneakNif);
-        HUDMainMenu_pme->m_pTiles[24]->FUN_00700320(4009, 0);
-        HUDMainMenu_pme->m_pTiles[67] = FUN_00a08b20(FUN_00a09030(1004), kMessages);
+            ((::FontManagerStub *)(::FontManager::Instance()))->FUN_00a1b020(kTestHeight2, (int)reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[15]))->GetFloat(4025),
+                                         reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[15]))->GetFloat(4026), 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[15]))->FUN_00a012d0(4002, kTextSize1.y, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[16] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[64], (char *)(kTemplateJustifyLeftText3), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[16]), 0);
+        ::g_pHudMainMenuInstance->m_pTiles[16]->Set(4003, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[16]))->FUN_00a012d0(4002, kTextSize1.y, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[65] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "ReticleCenter")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[65]))->FUN_00a012d0(
+            4001, (float)(iScreenWidthC / 2) - reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[65]))->GetFloat(4017) / 2.0 - 3.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[65]))->FUN_00a012d0(
+            4002, (float)(iScreenHeightX / 2) - reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[65]))->GetFloat(4016) / 2.0 - 3.0, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[65]->Set(4008, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[65]->Set(4003, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[51] = reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[65], (char *)(kTemplateReticleCenter), (::Tile *)(0));
+        ::g_pHudMainMenuInstance->m_pTiles[51]->Set(4084, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[51]->Set(4003, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[66] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), kSneakMeter)));
+        ::g_pHudMainMenuInstance->m_pTiles[66]->Set(4001, iScreenWidthC / 2);
+        ::g_pHudMainMenuInstance->m_pTiles[66]->Set(4002, iSafeZoneYY * 2);
+        ::g_pHudMainMenuInstance->m_pTiles[66]->Set(4008, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[66]->Set(4003, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[24] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[66]), kSneakNif)));
+        ::g_pHudMainMenuInstance->m_pTiles[24]->Set(4009, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[67] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), kMessages)));
         iMessageOffsetX3 = -5;
-        HUDMainMenu_pme->m_pTiles[67]->FUN_00700320(4001, iMessageOffsetX3 + iSafeZoneX3 * 2);
-        HUDMainMenu_pme->m_pTiles[67]->FUN_00700320(4002, iSafeZoneYY * 2 + 25);
-        HUDMainMenu_pme->m_pTiles[67]->FUN_00700320(4008, 1);
-        HUDMainMenu_pme->m_pTiles[25] = pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[67], kTemplateMessageIcon, 0);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[25], 6);
-        HUDMainMenu_pme->m_pTiles[26] =
-            pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[67], kTemplateJustifyLeftText2, 0);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[26], 0);
-        HUDMainMenu_pme->m_pTiles[26]->FUN_00700320(4001, 130);
-        HUDMainMenu_pme->m_pTiles[26]->FUN_00700320(4002, 5);
-        HUDMainMenu_pme->m_pTiles[26]->FUN_00700320(4026, 320);
-        HUDMainMenu_pme->m_pTiles[26]->FUN_00700320(4013, 2);
-        HUDMainMenu_pme->m_pTiles[26]->FUN_00700320(4009, 0);
-        HUDMainMenu_pme->m_pTiles[26]->FUN_00700320(4003, 1);
-        HUDMainMenu_pme->m_pTiles[27] =
-            pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[67], kTemplateMessageBracket, 0);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[27], 1);
-        HUDMainMenu_pme->m_pTiles[68] = FUN_00a08b20(FUN_00a09030(1004), "Info");
-        HUDMainMenu_pme->m_pTiles[68]->FUN_00a012d0(
-            4001, (float)(iScreenWidthC / 2) - HUDMainMenu_pme->m_pTiles[68]->FUN_00a011b0(4017) / 2.0, 1);
-        HUDMainMenu_pme->m_pTiles[68]->FUN_00a012d0(
-            4002, (float)(iScreenHeightX - iSafeZoneYY * 2) - HUDMainMenu_pme->m_pTiles[68]->FUN_00a011b0(4016) - 30.0,
+        ::g_pHudMainMenuInstance->m_pTiles[67]->Set(4001, iMessageOffsetX3 + iSafeZoneX3 * 2);
+        ::g_pHudMainMenuInstance->m_pTiles[67]->Set(4002, iSafeZoneYY * 2 + 25);
+        ::g_pHudMainMenuInstance->m_pTiles[67]->Set(4008, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[25] = reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[67], (char *)(kTemplateMessageIcon), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[25]), 6);
+        ::g_pHudMainMenuInstance->m_pTiles[26] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[67], (char *)(kTemplateJustifyLeftText2), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[26]), 0);
+        ::g_pHudMainMenuInstance->m_pTiles[26]->Set(4001, 130);
+        ::g_pHudMainMenuInstance->m_pTiles[26]->Set(4002, 5);
+        ::g_pHudMainMenuInstance->m_pTiles[26]->Set(4026, 320);
+        ::g_pHudMainMenuInstance->m_pTiles[26]->Set(4013, 2);
+        ::g_pHudMainMenuInstance->m_pTiles[26]->Set(4009, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[26]->Set(4003, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[27] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[67], (char *)(kTemplateMessageBracket), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[27]), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[68] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "Info")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[68]))->FUN_00a012d0(
+            4001, (float)(iScreenWidthC / 2) - reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[68]))->GetFloat(4017) / 2.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[68]))->FUN_00a012d0(
+            4002, (float)(iScreenHeightX - iSafeZoneYY * 2) - reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[68]))->GetFloat(4016) - 30.0,
             1);
-        HUDMainMenu_pme->m_pTiles[68]->FUN_00700320(4008, 1);
-        HUDMainMenu_pme->m_pTiles[29] = FUN_00a08b20(HUDMainMenu_pme->m_pTiles[68], kJustifyCenterHotrect);
-        HUDMainMenu_pme->m_pTiles[30] = FUN_00a08b20(HUDMainMenu_pme->m_pTiles[29], kPCShortcutLabel);
-        HUDMainMenu_pme->m_pTiles[31] = FUN_00a08b20(HUDMainMenu_pme->m_pTiles[29], kXboxButton);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[29], 0);
-        HUDMainMenu_pme->m_pTiles[29]->FUN_00a012d0(FUN_00a01860("_x"),
-                                                    HUDMainMenu_pme->m_pTiles[68]->FUN_00a011b0(4017) / 2.0, 1);
-        HUDMainMenu_pme->m_pTiles[32] =
-            pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[68], "template_justify_center_text", 0);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[32], 0);
-        HUDMainMenu_pme->m_pTiles[32]->FUN_00a012d0(4001, HUDMainMenu_pme->m_pTiles[68]->FUN_00a011b0(4017) / 2.0, 1);
-        HUDMainMenu_pme->m_pTiles[32]->FUN_00a012d0(4026, HUDMainMenu_pme->m_pTiles[68]->FUN_00a011b0(4017), 1);
-        HUDMainMenu_pme->m_pTiles[32]->FUN_00700320(4002, 0);
-        kTextSize1 = FUN_005bd5b0()->FUN_00a1b020(kTestHeight, (int)HUDMainMenu_pme->m_pTiles[32]->FUN_00a011b0(4025),
-                                                  HUDMainMenu_pme->m_pTiles[32]->FUN_00a011b0(4026), 0);
-        HUDMainMenu_pme->m_pTiles[32]->FUN_00a012d0(4108, kTextSize1.y, 1);
-        HUDMainMenu_pme->m_pTiles[33] =
-            pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[68], kTemplateJustifyCenterText3, 0);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[33], 0);
-        HUDMainMenu_pme->m_pTiles[33]->FUN_00a012d0(4001, HUDMainMenu_pme->m_pTiles[68]->FUN_00a011b0(4017) / 2.0, 1);
-        HUDMainMenu_pme->m_pTiles[33]->FUN_00a012d0(4026, HUDMainMenu_pme->m_pTiles[68]->FUN_00a011b0(4017), 1);
-        HUDMainMenu_pme->m_pTiles[33]->FUN_00700320(4002, 65);
-        HUDMainMenu_pme->m_pTiles[33]->FUN_00700320(4009, 0);
-        HUDMainMenu_pme->m_pTiles[33]->FUN_00a01350(4036, DAT_011d2454.FUN_00403df0(), 1);
-        HUDMainMenu_pme->m_pTiles[33]->FUN_00700320(4003, 0);
-        HUDMainMenu_pme->m_pTiles[34] =
-            pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[68], kTemplateJustifyCenterText2, 0);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[34], 0);
-        HUDMainMenu_pme->m_pTiles[34]->FUN_00a012d0(4001, HUDMainMenu_pme->m_pTiles[68]->FUN_00a011b0(4017) / 2.0, 1);
-        HUDMainMenu_pme->m_pTiles[34]->FUN_00a012d0(4026, HUDMainMenu_pme->m_pTiles[68]->FUN_00a011b0(4017), 1);
-        HUDMainMenu_pme->m_pTiles[34]->FUN_00700320(4002, 65);
-        HUDMainMenu_pme->m_pTiles[34]->FUN_00700320(4009, 0);
-        HUDMainMenu_pme->m_pTiles[34]->FUN_00a01350(4036, DAT_011d1f68.FUN_00403df0(), 1);
-        HUDMainMenu_pme->m_pTiles[34]->FUN_00700320(4003, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[68]->Set(4008, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[29] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[68]), kJustifyCenterHotrect)));
+        ::g_pHudMainMenuInstance->m_pTiles[30] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[29]), kPCShortcutLabel)));
+        ::g_pHudMainMenuInstance->m_pTiles[31] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[29]), kXboxButton)));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[29]), 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[29]))->FUN_00a012d0(FUN_00a01860("_x"),
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[68]))->GetFloat(4017) / 2.0, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[32] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[68], (char *)("template_justify_center_text"), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[32]), 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[32]))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[68]))->GetFloat(4017) / 2.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[32]))->FUN_00a012d0(4026, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[68]))->GetFloat(4017), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[32]->Set(4002, 0);
+        kTextSize1 = ((::FontManagerStub *)(::FontManager::Instance()))->FUN_00a1b020(kTestHeight, (int)reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[32]))->GetFloat(4025),
+                                                  reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[32]))->GetFloat(4026), 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[32]))->FUN_00a012d0(4108, kTextSize1.y, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[33] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[68], (char *)(kTemplateJustifyCenterText3), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[33]), 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[33]))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[68]))->GetFloat(4017) / 2.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[33]))->FUN_00a012d0(4026, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[68]))->GetFloat(4017), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[33]->Set(4002, 65);
+        ::g_pHudMainMenuInstance->m_pTiles[33]->Set(4009, 0);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((::g_pHudMainMenuInstance->m_pTiles[33]))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingString *>(&::g_011d2454))))->GetMenuTitle()))), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[33]->Set(4003, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[34] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[68], (char *)(kTemplateJustifyCenterText2), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[34]), 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[34]))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[68]))->GetFloat(4017) / 2.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[34]))->FUN_00a012d0(4026, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[68]))->GetFloat(4017), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[34]->Set(4002, 65);
+        ::g_pHudMainMenuInstance->m_pTiles[34]->Set(4009, 0);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((::g_pHudMainMenuInstance->m_pTiles[34]))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingString *>(&::g_011d1f68))))->GetMenuTitle()))), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[34]->Set(4003, 0);
         iInfoRowY = 60;
         iInfoGapLeftAA = 25;
         iInfoPadLeft_ = 10;
         iInfoPadRightQ = 30;
         iInfoPadMid34 = 5;
-        HUDMainMenu_pme->m_pTiles[35] =
-            pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[68], kTemplateJustifyRightText2, 0);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[35], 0);
-        HUDMainMenu_pme->m_pTiles[35]->FUN_00a012d0(
-            4001, HUDMainMenu_pme->m_pTiles[68]->FUN_00a011b0(4017) / 2.0 - iInfoGapLeftAA, 1);
-        HUDMainMenu_pme->m_pTiles[35]->FUN_00700320(4002, iInfoRowY);
-        HUDMainMenu_pme->m_pTiles[35]->FUN_00a012d0(4009, DAT_011d979c, 1);
-        HUDMainMenu_pme->m_pTiles[36] =
-            pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[68], kTemplateJustifyLeftText, 0);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[36], 0);
-        HUDMainMenu_pme->m_pTiles[36]->FUN_00700320(4001, iInfoPadLeft_);
-        HUDMainMenu_pme->m_pTiles[36]->FUN_00700320(4002, iInfoRowY);
-        HUDMainMenu_pme->m_pTiles[37] =
-            pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[68], kTemplateJustifyRightText, 0);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[37], 0);
-        HUDMainMenu_pme->m_pTiles[37]->FUN_00a012d0(
-            4001, HUDMainMenu_pme->m_pTiles[68]->FUN_00a011b0(4017) - iInfoPadRightQ, 1);
-        HUDMainMenu_pme->m_pTiles[37]->FUN_00700320(4002, iInfoRowY);
-        HUDMainMenu_pme->m_pTiles[37]->FUN_00a012d0(4009, DAT_011d979c, 1);
-        HUDMainMenu_pme->m_pTiles[38] =
-            pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[68], "template_justify_left_text", 0);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[38], 0);
-        HUDMainMenu_pme->m_pTiles[38]->FUN_00a012d0(
-            4001, HUDMainMenu_pme->m_pTiles[68]->FUN_00a011b0(4017) / 2.0 + iInfoPadMid34, 1);
-        HUDMainMenu_pme->m_pTiles[38]->FUN_00700320(4002, iInfoRowY);
-        HUDMainMenu_pme->m_pTiles[39] =
-            pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[68], "template_info_seperator", 0);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[39], 2);
-        HUDMainMenu_pme->m_pTiles[69] = FUN_00a08b20(FUN_00a09030(1004), "Subtitles");
-        HUDMainMenu_pme->m_pTiles[69]->FUN_00a012d0(
-            4001, (float)(iScreenWidthC / 2) - HUDMainMenu_pme->m_pTiles[69]->FUN_00a011b0(4017) / 2.0, 1);
-        HUDMainMenu_pme->m_pTiles[69]->FUN_00a012d0(4002,
-                                                    HUDMainMenu_pme->m_pTiles[68]->FUN_00a011b0(4002) -
-                                                        HUDMainMenu_pme->m_pTiles[69]->FUN_00a011b0(4016) - 50.0,
+        ::g_pHudMainMenuInstance->m_pTiles[35] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[68], (char *)(kTemplateJustifyRightText2), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[35]), 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[35]))->FUN_00a012d0(
+            4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[68]))->GetFloat(4017) / 2.0 - iInfoGapLeftAA, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[35]->Set(4002, iInfoRowY);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[35]))->FUN_00a012d0(4009, DAT_011d979c, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[36] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[68], (char *)(kTemplateJustifyLeftText), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[36]), 0);
+        ::g_pHudMainMenuInstance->m_pTiles[36]->Set(4001, iInfoPadLeft_);
+        ::g_pHudMainMenuInstance->m_pTiles[36]->Set(4002, iInfoRowY);
+        ::g_pHudMainMenuInstance->m_pTiles[37] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[68], (char *)(kTemplateJustifyRightText), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[37]), 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[37]))->FUN_00a012d0(
+            4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[68]))->GetFloat(4017) - iInfoPadRightQ, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[37]->Set(4002, iInfoRowY);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[37]))->FUN_00a012d0(4009, DAT_011d979c, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[38] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[68], (char *)("template_justify_left_text"), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[38]), 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[38]))->FUN_00a012d0(
+            4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[68]))->GetFloat(4017) / 2.0 + iInfoPadMid34, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[38]->Set(4002, iInfoRowY);
+        ::g_pHudMainMenuInstance->m_pTiles[39] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[68], (char *)("template_info_seperator"), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[39]), 2);
+        ::g_pHudMainMenuInstance->m_pTiles[69] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "Subtitles")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[69]))->FUN_00a012d0(
+            4001, (float)(iScreenWidthC / 2) - reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[69]))->GetFloat(4017) / 2.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[69]))->FUN_00a012d0(4002,
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[68]))->GetFloat(4002) -
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[69]))->GetFloat(4016) - 50.0,
                                                     1);
-        HUDMainMenu_pme->m_pTiles[69]->FUN_00700320(4008, 1);
-        HUDMainMenu_pme->m_pTiles[28] =
-            pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[69], kTemplateJustifyCenterText, 0);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[28], 0);
-        HUDMainMenu_pme->m_pTiles[28]->FUN_00a012d0(4001, HUDMainMenu_pme->m_pTiles[69]->FUN_00a011b0(4017) / 2.0, 1);
-        HUDMainMenu_pme->m_pTiles[28]->FUN_00a012d0(4026, HUDMainMenu_pme->m_pTiles[69]->FUN_00a011b0(4017), 1);
-        HUDMainMenu_pme->m_pTiles[70] = FUN_00a08b20(FUN_00a09030(1004), kHokeys);
-        HUDMainMenu_pme->m_pTiles[70]->FUN_00a012d0(4001, HUDMainMenu_pme->m_pTiles[59]->FUN_00a011b0(4001) + 15.0, 1);
-        HUDMainMenu_pme->m_pTiles[70]->FUN_00a012d0(4002,
+        ::g_pHudMainMenuInstance->m_pTiles[69]->Set(4008, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[28] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[69], (char *)(kTemplateJustifyCenterText), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[28]), 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[28]))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[69]))->GetFloat(4017) / 2.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[28]))->FUN_00a012d0(4026, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[69]))->GetFloat(4017), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[70] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), kHokeys)));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[70]))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[59]))->GetFloat(4001) + 15.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[70]))->FUN_00a012d0(4002,
                                                     (float)(iScreenHeightX - iSafeZoneYY * 2) -
-                                                        HUDMainMenu_pme->m_pTiles[60]->FUN_00a011b0(4016) -
-                                                        HUDMainMenu_pme->m_pTiles[70]->FUN_00a011b0(4016) - 20.0,
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[60]))->GetFloat(4016) -
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[70]))->GetFloat(4016) - 20.0,
                                                     1);
-        HUDMainMenu_pme->m_pTiles[70]->FUN_00700320(4008, 1);
-        HUDMainMenu_pme->m_pTiles[40] =
-            pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[70], "template_hotkey_selector", 0);
-        ((HotKeyWheelStub*)HUDMainMenu_pme->m_kMenuData)->FUN_00701610(HUDMainMenu_pme->m_pTiles[40]);
-        HUDMainMenu_pme->m_pTiles[41] =
-            pMenuXB->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[70], "template_justify_center_text", 0);
-        HUDMainMenu_pme->m_pTiles[41]->FUN_00a012d0(4001, HUDMainMenu_pme->m_pTiles[70]->FUN_00a011b0(4017) / 2.0, 1);
-        HUDMainMenu_pme->m_pTiles[41]->FUN_00700320(4002, -50);
-        HUDMainMenu_pme->m_pTiles[41]->FUN_00700320(4003, 0);
-        HUDMainMenu_pme->m_pTiles[71] = FUN_00a08b20(FUN_00a09030(1004), "XPMeter");
-        HUDMainMenu_pme->m_pTiles[71]->FUN_00700320(4001, iScreenWidthC - iSafeZoneX3 * 2 - 390);
-        HUDMainMenu_pme->m_pTiles[71]->FUN_00700320(4002, iScreenHeightX - iSafeZoneYY * 2 - 280);
-        HUDMainMenu_pme->m_pTiles[71]->FUN_00700320(4103, iScreenHeightX - iSafeZoneYY * 2 - 280);
-        HUDMainMenu_pme->m_pTiles[45] = FUN_00a08b20(HUDMainMenu_pme->m_pTiles[71], "XPAmount");
-        HUDMainMenu_pme->m_pTiles[46] = FUN_00a08b20(HUDMainMenu_pme->m_pTiles[71], "XPLabel");
-        HUDMainMenu_pme->m_pTiles[47] = FUN_00a08b20(HUDMainMenu_pme->m_pTiles[71], "XPPointer");
-        HUDMainMenu_pme->m_pTiles[44] = FUN_00a08b20(HUDMainMenu_pme->m_pTiles[71], "XPBracket");
-        HUDMainMenu_pme->m_pTiles[48] = FUN_00a08b20(HUDMainMenu_pme->m_pTiles[71], "XPLastLevel");
-        HUDMainMenu_pme->m_pTiles[49] = FUN_00a08b20(HUDMainMenu_pme->m_pTiles[71], "XPNextLevel");
-        HUDMainMenu_pme->m_pTiles[50] = FUN_00a08b20(HUDMainMenu_pme->m_pTiles[71], "XPLevelUp");
-        HUDMainMenu_pme->m_pTiles[72] = FUN_00a08b20(FUN_00a09030(1004), "BreathMeter");
-        HUDMainMenu_pme->m_pTiles[72]->FUN_00700320(4001, iScreenWidthC / 2);
-        HUDMainMenu_pme->m_pTiles[72]->FUN_00a012d0(4002, HUDMainMenu_pme->m_pTiles[66]->FUN_00a011b0(4002) + 80.0, 1);
-        HUDMainMenu_pme->m_pTiles[73] = FUN_00a08b20(FUN_00a09030(1004), "Explosive_positioning_rect");
-        HUDMainMenu_pme->m_pTiles[73]->FUN_00700320(4001, iScreenWidthC / 2);
-        HUDMainMenu_pme->m_pTiles[73]->FUN_00700320(4002, iScreenHeightX / 2);
+        ::g_pHudMainMenuInstance->m_pTiles[70]->Set(4008, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[40] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[70], (char *)("template_hotkey_selector"), (::Tile *)(0));
+        reinterpret_cast<::HotkeyWheelDisplay *>((((HotKeyWheelStub*)::g_pHudMainMenuInstance->m_kMenuData)))->Initialize(::g_pHudMainMenuInstance->m_pTiles[40]);
+        ::g_pHudMainMenuInstance->m_pTiles[41] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[70], (char *)("template_justify_center_text"), (::Tile *)(0));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[41]))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[70]))->GetFloat(4017) / 2.0, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[41]->Set(4002, -50);
+        ::g_pHudMainMenuInstance->m_pTiles[41]->Set(4003, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[71] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "XPMeter")));
+        ::g_pHudMainMenuInstance->m_pTiles[71]->Set(4001, iScreenWidthC - iSafeZoneX3 * 2 - 390);
+        ::g_pHudMainMenuInstance->m_pTiles[71]->Set(4002, iScreenHeightX - iSafeZoneYY * 2 - 280);
+        ::g_pHudMainMenuInstance->m_pTiles[71]->Set(4103, iScreenHeightX - iSafeZoneYY * 2 - 280);
+        ::g_pHudMainMenuInstance->m_pTiles[45] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[71]), "XPAmount")));
+        ::g_pHudMainMenuInstance->m_pTiles[46] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[71]), "XPLabel")));
+        ::g_pHudMainMenuInstance->m_pTiles[47] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[71]), "XPPointer")));
+        ::g_pHudMainMenuInstance->m_pTiles[44] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[71]), "XPBracket")));
+        ::g_pHudMainMenuInstance->m_pTiles[48] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[71]), "XPLastLevel")));
+        ::g_pHudMainMenuInstance->m_pTiles[49] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[71]), "XPNextLevel")));
+        ::g_pHudMainMenuInstance->m_pTiles[50] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[71]), "XPLevelUp")));
+        ::g_pHudMainMenuInstance->m_pTiles[72] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "BreathMeter")));
+        ::g_pHudMainMenuInstance->m_pTiles[72]->Set(4001, iScreenWidthC / 2);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[72]))->FUN_00a012d0(4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[66]))->GetFloat(4002) + 80.0, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[73] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "Explosive_positioning_rect")));
+        ::g_pHudMainMenuInstance->m_pTiles[73]->Set(4001, iScreenWidthC / 2);
+        ::g_pHudMainMenuInstance->m_pTiles[73]->Set(4002, iScreenHeightX / 2);
         for (int l_10c = 0; l_10c < 6; l_10c++)
         {
-            Tile* l_110 = ((MenuStub*)HUDMainMenu_pme)
-                              ->FUN_00a1ddb0(HUDMainMenu_pme->m_pTiles[73], "template_explosive_indicator", 0);
+            Tile* l_110 = reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((MenuStub*)::g_pHudMainMenuInstance)))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[73], (char *)("template_explosive_indicator"), (::Tile *)(0));
         }
-        HUDMainMenu_pme->m_pTiles[74] = FUN_00a08b20(FUN_00a09030(1004), "crippled_limb_indicator");
+        ::g_pHudMainMenuInstance->m_pTiles[74] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "crippled_limb_indicator")));
         iLimbOffsetXQ = 200;
         iLimbOffsetYB = 100;
         fLimbScaleAC = 75.0f;
-        HUDMainMenu_pme->m_pTiles[74]->FUN_00700320(4001, iScreenWidthC - iSafeZoneX3 * 2 - iLimbOffsetXQ);
-        HUDMainMenu_pme->m_pTiles[74]->FUN_00700320(4002, iLimbOffsetYB + iSafeZoneYY * 2);
-        HUDMainMenu_pme->m_pTiles[53] = FUN_00a08b20(HUDMainMenu_pme->m_pTiles[74], "Head");
-        HUDMainMenu_pme->m_pTiles[53]->FUN_00a012d0(4024, fLimbScaleAC, 1);
-        HUDMainMenu_pme->m_pTiles[53]->FUN_00a012d0(4017, fLimbScaleAC * 85.0 / 100.0, 1);
-        HUDMainMenu_pme->m_pTiles[53]->FUN_00a012d0(4016, fLimbScaleAC * 92.0 / 100.0, 1);
-        HUDMainMenu_pme->m_pTiles[53]->FUN_00700320(4001, 0);
-        HUDMainMenu_pme->m_pTiles[53]->FUN_00700320(4002, 40);
-        HUDMainMenu_pme->m_pTiles[52] = FUN_00a08b20(HUDMainMenu_pme->m_pTiles[74], "Face");
-        HUDMainMenu_pme->m_pTiles[52]->FUN_00a012d0(4024, fLimbScaleAC, 1);
-        HUDMainMenu_pme->m_pTiles[52]->FUN_00a012d0(4017, fLimbScaleAC * 48.0 / 100.0, 1);
-        HUDMainMenu_pme->m_pTiles[52]->FUN_00a012d0(4016, fLimbScaleAC * 64.0 / 100.0, 1);
-        HUDMainMenu_pme->m_pTiles[52]->FUN_00a012d0(4001,
-                                                    HUDMainMenu_pme->m_pTiles[53]->FUN_00a011b0(4001) +
-                                                        (HUDMainMenu_pme->m_pTiles[53]->FUN_00a011b0(4017) -
-                                                         HUDMainMenu_pme->m_pTiles[52]->FUN_00a011b0(4017)) /
+        ::g_pHudMainMenuInstance->m_pTiles[74]->Set(4001, iScreenWidthC - iSafeZoneX3 * 2 - iLimbOffsetXQ);
+        ::g_pHudMainMenuInstance->m_pTiles[74]->Set(4002, iLimbOffsetYB + iSafeZoneYY * 2);
+        ::g_pHudMainMenuInstance->m_pTiles[53] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[74]), "Head")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[53]))->FUN_00a012d0(4024, fLimbScaleAC, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[53]))->FUN_00a012d0(4017, fLimbScaleAC * 85.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[53]))->FUN_00a012d0(4016, fLimbScaleAC * 92.0 / 100.0, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[53]->Set(4001, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[53]->Set(4002, 40);
+        ::g_pHudMainMenuInstance->m_pTiles[52] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[74]), "Face")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[52]))->FUN_00a012d0(4024, fLimbScaleAC, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[52]))->FUN_00a012d0(4017, fLimbScaleAC * 48.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[52]))->FUN_00a012d0(4016, fLimbScaleAC * 64.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[52]))->FUN_00a012d0(4001,
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[53]))->GetFloat(4001) +
+                                                        (reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[53]))->GetFloat(4017) -
+                                                         reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[52]))->GetFloat(4017)) /
                                                             2.0,
                                                     1);
-        HUDMainMenu_pme->m_pTiles[52]->FUN_00a012d0(4002,
-                                                    HUDMainMenu_pme->m_pTiles[53]->FUN_00a011b0(4002) +
-                                                        (HUDMainMenu_pme->m_pTiles[53]->FUN_00a011b0(4016) -
-                                                         HUDMainMenu_pme->m_pTiles[52]->FUN_00a011b0(4016)) /
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[52]))->FUN_00a012d0(4002,
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[53]))->GetFloat(4002) +
+                                                        (reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[53]))->GetFloat(4016) -
+                                                         reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[52]))->GetFloat(4016)) /
                                                             2.0 +
                                                         fLimbScaleAC * 16.0 / 100.0,
                                                     1);
-        HUDMainMenu_pme->m_pTiles[54] = FUN_00a08b20(HUDMainMenu_pme->m_pTiles[74], "Torso");
-        HUDMainMenu_pme->m_pTiles[54]->FUN_00a012d0(4024, fLimbScaleAC, 1);
-        HUDMainMenu_pme->m_pTiles[54]->FUN_00a012d0(4017, fLimbScaleAC * 102.0 / 100.0, 1);
-        HUDMainMenu_pme->m_pTiles[54]->FUN_00a012d0(4016, fLimbScaleAC * 128.0 / 100.0, 1);
-        HUDMainMenu_pme->m_pTiles[54]->FUN_00a012d0(
-            4001, HUDMainMenu_pme->m_pTiles[53]->FUN_00a011b0(4001) + fLimbScaleAC * -14.0 / 100.0, 1);
-        HUDMainMenu_pme->m_pTiles[54]->FUN_00a012d0(
-            4002, HUDMainMenu_pme->m_pTiles[53]->FUN_00a011b0(4002) + fLimbScaleAC * 86.0 / 100.0, 1);
-        HUDMainMenu_pme->m_pTiles[55] = FUN_00a08b20(HUDMainMenu_pme->m_pTiles[74], "Left_Arm");
-        HUDMainMenu_pme->m_pTiles[55]->FUN_00a012d0(4024, fLimbScaleAC, 1);
-        HUDMainMenu_pme->m_pTiles[55]->FUN_00a012d0(4017, fLimbScaleAC * 100.0 / 100.0, 1);
-        HUDMainMenu_pme->m_pTiles[55]->FUN_00a012d0(4016, fLimbScaleAC * 52.0 / 100.0, 1);
-        HUDMainMenu_pme->m_pTiles[55]->FUN_00a012d0(
-            4001, HUDMainMenu_pme->m_pTiles[54]->FUN_00a011b0(4001) + fLimbScaleAC * 90.0 / 100.0, 1);
-        HUDMainMenu_pme->m_pTiles[55]->FUN_00a012d0(4002, HUDMainMenu_pme->m_pTiles[54]->FUN_00a011b0(4002), 1);
-        HUDMainMenu_pme->m_pTiles[56] = FUN_00a08b20(HUDMainMenu_pme->m_pTiles[74], "Right_Arm");
-        HUDMainMenu_pme->m_pTiles[56]->FUN_00a012d0(4024, fLimbScaleAC, 1);
-        HUDMainMenu_pme->m_pTiles[56]->FUN_00a012d0(4017, fLimbScaleAC * 96.0 / 100.0, 1);
-        HUDMainMenu_pme->m_pTiles[56]->FUN_00a012d0(4016, fLimbScaleAC * 54.0 / 100.0, 1);
-        HUDMainMenu_pme->m_pTiles[56]->FUN_00a012d0(
-            4001, HUDMainMenu_pme->m_pTiles[54]->FUN_00a011b0(4001) + fLimbScaleAC * -88.0 / 100.0, 1);
-        HUDMainMenu_pme->m_pTiles[56]->FUN_00a012d0(
-            4002, HUDMainMenu_pme->m_pTiles[54]->FUN_00a011b0(4002) + fLimbScaleAC * -5.0 / 100.0, 1);
-        HUDMainMenu_pme->m_pTiles[57] = FUN_00a08b20(HUDMainMenu_pme->m_pTiles[74], "Left_Leg");
-        HUDMainMenu_pme->m_pTiles[57]->FUN_00a012d0(4024, fLimbScaleAC, 1);
-        HUDMainMenu_pme->m_pTiles[57]->FUN_00a012d0(4017, fLimbScaleAC * 72.0 / 100.0, 1);
-        HUDMainMenu_pme->m_pTiles[57]->FUN_00a012d0(4016, fLimbScaleAC * 112.0 / 100.0, 1);
-        HUDMainMenu_pme->m_pTiles[57]->FUN_00a012d0(
-            4001, HUDMainMenu_pme->m_pTiles[54]->FUN_00a011b0(4001) + fLimbScaleAC * 47.0 / 100.0, 1);
-        HUDMainMenu_pme->m_pTiles[57]->FUN_00a012d0(
-            4002, HUDMainMenu_pme->m_pTiles[54]->FUN_00a011b0(4002) + fLimbScaleAC * 86.0 / 100.0, 1);
-        HUDMainMenu_pme->m_pTiles[58] = FUN_00a08b20(HUDMainMenu_pme->m_pTiles[74], "Right_Leg");
-        HUDMainMenu_pme->m_pTiles[58]->FUN_00a012d0(4024, fLimbScaleAC, 1);
-        HUDMainMenu_pme->m_pTiles[58]->FUN_00a012d0(4017, fLimbScaleAC * 84.0 / 100.0, 1);
-        HUDMainMenu_pme->m_pTiles[58]->FUN_00a012d0(4016, fLimbScaleAC * 112.0 / 100.0, 1);
-        HUDMainMenu_pme->m_pTiles[58]->FUN_00a012d0(
-            4001, HUDMainMenu_pme->m_pTiles[54]->FUN_00a011b0(4001) + fLimbScaleAC * -37.0 / 100.0, 1);
-        HUDMainMenu_pme->m_pTiles[58]->FUN_00a012d0(
-            4002, HUDMainMenu_pme->m_pTiles[54]->FUN_00a011b0(4002) + fLimbScaleAC * 83.0 / 100.0, 1);
-        HUDMainMenu_pme->m_pTiles[75] = FUN_00a08b20(FUN_00a09030(1004), "DDTIcon");
-        HUDMainMenu_pme->m_pTiles[75]->FUN_00a012d0(4001,
-                                                    HUDMainMenu_pme->m_pTiles[60]->FUN_00a011b0(4001) +
-                                                        HUDMainMenu_pme->m_pTiles[60]->FUN_00a011b0(4017) + 5.0,
+        ::g_pHudMainMenuInstance->m_pTiles[54] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[74]), "Torso")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[54]))->FUN_00a012d0(4024, fLimbScaleAC, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[54]))->FUN_00a012d0(4017, fLimbScaleAC * 102.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[54]))->FUN_00a012d0(4016, fLimbScaleAC * 128.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[54]))->FUN_00a012d0(
+            4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[53]))->GetFloat(4001) + fLimbScaleAC * -14.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[54]))->FUN_00a012d0(
+            4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[53]))->GetFloat(4002) + fLimbScaleAC * 86.0 / 100.0, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[55] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[74]), "Left_Arm")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[55]))->FUN_00a012d0(4024, fLimbScaleAC, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[55]))->FUN_00a012d0(4017, fLimbScaleAC * 100.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[55]))->FUN_00a012d0(4016, fLimbScaleAC * 52.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[55]))->FUN_00a012d0(
+            4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[54]))->GetFloat(4001) + fLimbScaleAC * 90.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[55]))->FUN_00a012d0(4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[54]))->GetFloat(4002), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[56] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[74]), "Right_Arm")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[56]))->FUN_00a012d0(4024, fLimbScaleAC, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[56]))->FUN_00a012d0(4017, fLimbScaleAC * 96.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[56]))->FUN_00a012d0(4016, fLimbScaleAC * 54.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[56]))->FUN_00a012d0(
+            4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[54]))->GetFloat(4001) + fLimbScaleAC * -88.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[56]))->FUN_00a012d0(
+            4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[54]))->GetFloat(4002) + fLimbScaleAC * -5.0 / 100.0, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[57] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[74]), "Left_Leg")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[57]))->FUN_00a012d0(4024, fLimbScaleAC, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[57]))->FUN_00a012d0(4017, fLimbScaleAC * 72.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[57]))->FUN_00a012d0(4016, fLimbScaleAC * 112.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[57]))->FUN_00a012d0(
+            4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[54]))->GetFloat(4001) + fLimbScaleAC * 47.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[57]))->FUN_00a012d0(
+            4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[54]))->GetFloat(4002) + fLimbScaleAC * 86.0 / 100.0, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[58] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[74]), "Right_Leg")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[58]))->FUN_00a012d0(4024, fLimbScaleAC, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[58]))->FUN_00a012d0(4017, fLimbScaleAC * 84.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[58]))->FUN_00a012d0(4016, fLimbScaleAC * 112.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[58]))->FUN_00a012d0(
+            4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[54]))->GetFloat(4001) + fLimbScaleAC * -37.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[58]))->FUN_00a012d0(
+            4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[54]))->GetFloat(4002) + fLimbScaleAC * 83.0 / 100.0, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[75] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "DDTIcon")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[75]))->FUN_00a012d0(4001,
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[60]))->GetFloat(4001) +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[60]))->GetFloat(4017) + 5.0,
                                                     1);
-        HUDMainMenu_pme->m_pTiles[75]->FUN_00a012d0(4002,
-                                                    HUDMainMenu_pme->m_pTiles[59]->FUN_00a011b0(4002) +
-                                                        HUDMainMenu_pme->m_pTiles[6]->FUN_00a011b0(4002) - 16.0,
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[75]))->FUN_00a012d0(4002,
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[59]))->GetFloat(4002) +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[6]))->GetFloat(4002) - 16.0,
                                                     1);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[75], 0);
-        HUDMainMenu_pme->m_pTiles[75]->FUN_00700320(4003, 0);
-        HUDMainMenu_pme->m_pTiles[76] = FUN_00a08b20(FUN_00a09030(1004), "DDTIconEnemy");
-        HUDMainMenu_pme->m_pTiles[76]->FUN_00a012d0(4001,
-                                                    HUDMainMenu_pme->m_pTiles[62]->FUN_00a011b0(4001) +
-                                                        HUDMainMenu_pme->m_pTiles[22]->FUN_00a011b0(4001) - 32.0,
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[75]), 0);
+        ::g_pHudMainMenuInstance->m_pTiles[75]->Set(4003, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[76] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "DDTIconEnemy")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[76]))->FUN_00a012d0(4001,
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[62]))->GetFloat(4001) +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[22]))->GetFloat(4001) - 32.0,
                                                     1);
-        HUDMainMenu_pme->m_pTiles[76]->FUN_00a012d0(
-            4002, HUDMainMenu_pme->m_pTiles[62]->FUN_00a011b0(4002) + HUDMainMenu_pme->m_pTiles[22]->FUN_00a011b0(4002),
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[76]))->FUN_00a012d0(
+            4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[62]))->GetFloat(4002) + reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[22]))->GetFloat(4002),
             1);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[76], 0);
-        HUDMainMenu_pme->m_pTiles[76]->FUN_00700320(4003, 1);
-        HUDMainMenu_pme->m_pTiles[76]->FUN_00700320(4084, 2);
-        HUDMainMenu_pme->m_pTiles[82] = FUN_00a08b20(FUN_00a09030(1004), "DDTIcon");
-        HUDMainMenu_pme->m_pTiles[82]->FUN_00a012d0(4001,
-                                                    HUDMainMenu_pme->m_pTiles[60]->FUN_00a011b0(4001) +
-                                                        HUDMainMenu_pme->m_pTiles[60]->FUN_00a011b0(4017) + 5.0,
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[76]), 0);
+        ::g_pHudMainMenuInstance->m_pTiles[76]->Set(4003, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[76]->Set(4084, 2);
+        ::g_pHudMainMenuInstance->m_pTiles[82] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "DDTIcon")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[82]))->FUN_00a012d0(4001,
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[60]))->GetFloat(4001) +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[60]))->GetFloat(4017) + 5.0,
                                                     1);
-        HUDMainMenu_pme->m_pTiles[82]->FUN_00a012d0(4002,
-                                                    HUDMainMenu_pme->m_pTiles[59]->FUN_00a011b0(4002) +
-                                                        HUDMainMenu_pme->m_pTiles[6]->FUN_00a011b0(4002) - 16.0,
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[82]))->FUN_00a012d0(4002,
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[59]))->GetFloat(4002) +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[6]))->GetFloat(4002) - 16.0,
                                                     1);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[82], 0);
-        HUDMainMenu_pme->m_pTiles[82]->FUN_00700320(4003, 1);
-        HUDMainMenu_pme->m_pTiles[83] = FUN_00a08b20(FUN_00a09030(1004), "DDTIconEnemyAP");
-        HUDMainMenu_pme->m_pTiles[83]->FUN_00a012d0(4001,
-                                                    HUDMainMenu_pme->m_pTiles[62]->FUN_00a011b0(4001) +
-                                                        HUDMainMenu_pme->m_pTiles[22]->FUN_00a011b0(4001) - 32.0,
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[82]), 0);
+        ::g_pHudMainMenuInstance->m_pTiles[82]->Set(4003, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[83] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "DDTIconEnemyAP")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[83]))->FUN_00a012d0(4001,
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[62]))->GetFloat(4001) +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[22]))->GetFloat(4001) - 32.0,
                                                     1);
-        HUDMainMenu_pme->m_pTiles[83]->FUN_00a012d0(
-            4002, HUDMainMenu_pme->m_pTiles[62]->FUN_00a011b0(4002) + HUDMainMenu_pme->m_pTiles[22]->FUN_00a011b0(4002),
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[83]))->FUN_00a012d0(
+            4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[62]))->GetFloat(4002) + reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[22]))->GetFloat(4002),
             1);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[83], 0);
-        HUDMainMenu_pme->m_pTiles[83]->FUN_00700320(4003, 1);
-        HUDMainMenu_pme->m_pTiles[83]->FUN_00700320(4084, 2);
-        HUDMainMenu_pme->m_pTiles[77] = FUN_00a08b20(FUN_00a09030(1004), "AmmoTypeLabel");
-        HUDMainMenu_pme->m_pTiles[77]->FUN_00a012d0(4001,
-                                                    HUDMainMenu_pme->m_pTiles[59]->FUN_00a011b0(4001) +
-                                                        HUDMainMenu_pme->m_pTiles[12]->FUN_00a011b0(4001) - 165.0,
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[83]), 0);
+        ::g_pHudMainMenuInstance->m_pTiles[83]->Set(4003, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[83]->Set(4084, 2);
+        ::g_pHudMainMenuInstance->m_pTiles[77] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "AmmoTypeLabel")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[77]))->FUN_00a012d0(4001,
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[59]))->GetFloat(4001) +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[12]))->GetFloat(4001) - 165.0,
                                                     1);
-        HUDMainMenu_pme->m_pTiles[77]->FUN_00a012d0(
-            4002, HUDMainMenu_pme->m_pTiles[59]->FUN_00a011b0(4002) + HUDMainMenu_pme->m_pTiles[12]->FUN_00a011b0(4002),
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[77]))->FUN_00a012d0(
+            4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[59]))->GetFloat(4002) + reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[12]))->GetFloat(4002),
             1);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[77], 0);
-        HUDMainMenu_pme->m_pTiles[77]->FUN_00700320(4003, 1);
-        HUDMainMenu_pme->m_pTiles[78] = FUN_00a08b20(FUN_00a09030(1004), "HardcoreMode");
-        HUDMainMenu_pme->m_pTiles[78]->FUN_00a012d0(4001, HUDMainMenu_pme->m_pTiles[60]->FUN_00a011b0(4001) + 150.0, 1);
-        HUDMainMenu_pme->m_pTiles[78]->FUN_00a012d0(4002, HUDMainMenu_pme->m_pTiles[60]->FUN_00a011b0(4002), 1);
-        FUN_00774800(HUDMainMenu_pme->m_pTiles[78], 0);
-        HUDMainMenu_pme->m_pTiles[78]->FUN_00700320(4003, 1);
-        HUDMainMenu_pme->m_pTiles[78]->FUN_00700320(4008, 1);
-        HUDMainMenu_pme->m_pTiles[79] = FUN_00a08b20(HUDMainMenu_pme->m_pTiles[78], "Dehydration");
-        HUDMainMenu_pme->m_pTiles[79]->FUN_00700320(4001, 0);
-        HUDMainMenu_pme->m_pTiles[79]->FUN_00700320(4002, 0);
-        HUDMainMenu_pme->m_pTiles[79]->FUN_00a012d0(4024, fLimbScaleAC, 1);
-        HUDMainMenu_pme->m_pTiles[79]->FUN_00700320(4009, 0);
-        HUDMainMenu_pme->m_pTiles[81] = FUN_00a08b20(HUDMainMenu_pme->m_pTiles[78], "Hunger");
-        HUDMainMenu_pme->m_pTiles[81]->FUN_00a012d0(4001, HUDMainMenu_pme->m_pTiles[79]->FUN_00a011b0(4017) + 10.0, 1);
-        HUDMainMenu_pme->m_pTiles[81]->FUN_00700320(4002, 0);
-        HUDMainMenu_pme->m_pTiles[81]->FUN_00a012d0(4024, fLimbScaleAC, 1);
-        HUDMainMenu_pme->m_pTiles[81]->FUN_00700320(4009, 0);
-        HUDMainMenu_pme->m_pTiles[80] = FUN_00a08b20(HUDMainMenu_pme->m_pTiles[78], "Sleep");
-        HUDMainMenu_pme->m_pTiles[80]->FUN_00a012d0(4001,
-                                                    HUDMainMenu_pme->m_pTiles[81]->FUN_00a011b0(4017) + 10.0 +
-                                                        HUDMainMenu_pme->m_pTiles[79]->FUN_00a011b0(4017) + 10.0,
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[77]), 0);
+        ::g_pHudMainMenuInstance->m_pTiles[77]->Set(4003, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[78] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "HardcoreMode")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[78]))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[60]))->GetFloat(4001) + 150.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[78]))->FUN_00a012d0(4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[60]))->GetFloat(4002), 1);
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[78]), 0);
+        ::g_pHudMainMenuInstance->m_pTiles[78]->Set(4003, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[78]->Set(4008, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[79] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[78]), "Dehydration")));
+        ::g_pHudMainMenuInstance->m_pTiles[79]->Set(4001, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[79]->Set(4002, 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[79]))->FUN_00a012d0(4024, fLimbScaleAC, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[79]->Set(4009, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[81] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[78]), "Hunger")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[81]))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[79]))->GetFloat(4017) + 10.0, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[81]->Set(4002, 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[81]))->FUN_00a012d0(4024, fLimbScaleAC, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[81]->Set(4009, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[80] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[78]), "Sleep")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[80]))->FUN_00a012d0(4001,
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[81]))->GetFloat(4017) + 10.0 +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[79]))->GetFloat(4017) + 10.0,
                                                     1);
-        HUDMainMenu_pme->m_pTiles[80]->FUN_00700320(4002, 0);
-        HUDMainMenu_pme->m_pTiles[80]->FUN_00a012d0(4024, fLimbScaleAC, 1);
-        HUDMainMenu_pme->m_pTiles[80]->FUN_00700320(4009, 0);
-        HUDMainMenu_pme->m_pTiles[84] = FUN_00a08b20(HUDMainMenu_pme->m_pTiles[78], "Rads");
-        HUDMainMenu_pme->m_pTiles[84]->FUN_00a012d0(4001,
-                                                    HUDMainMenu_pme->m_pTiles[81]->FUN_00a011b0(4017) + 10.0 +
-                                                        HUDMainMenu_pme->m_pTiles[79]->FUN_00a011b0(4017) + 10.0 +
-                                                        HUDMainMenu_pme->m_pTiles[80]->FUN_00a011b0(4017) + 10.0,
+        ::g_pHudMainMenuInstance->m_pTiles[80]->Set(4002, 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[80]))->FUN_00a012d0(4024, fLimbScaleAC, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[80]->Set(4009, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[84] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[78]), "Rads")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[84]))->FUN_00a012d0(4001,
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[81]))->GetFloat(4017) + 10.0 +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[79]))->GetFloat(4017) + 10.0 +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[80]))->GetFloat(4017) + 10.0,
                                                     1);
-        HUDMainMenu_pme->m_pTiles[84]->FUN_00700320(4002, 0);
-        HUDMainMenu_pme->m_pTiles[84]->FUN_00a012d0(4024, fLimbScaleAC, 1);
-        HUDMainMenu_pme->m_pTiles[84]->FUN_00700320(4009, 0);
-        HUDMainMenu_pme->m_pTiles[85] = FUN_00a08b20(HUDMainMenu_pme->m_pTiles[78], "LMBs");
-        HUDMainMenu_pme->m_pTiles[85]->FUN_00a012d0(4001,
-                                                    HUDMainMenu_pme->m_pTiles[81]->FUN_00a011b0(4017) + 10.0 +
-                                                        HUDMainMenu_pme->m_pTiles[79]->FUN_00a011b0(4017) + 10.0 +
-                                                        HUDMainMenu_pme->m_pTiles[80]->FUN_00a011b0(4017) + 10.0 +
-                                                        HUDMainMenu_pme->m_pTiles[84]->FUN_00a011b0(4017) + 10.0,
+        ::g_pHudMainMenuInstance->m_pTiles[84]->Set(4002, 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[84]))->FUN_00a012d0(4024, fLimbScaleAC, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[84]->Set(4009, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[85] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[78]), "LMBs")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[85]))->FUN_00a012d0(4001,
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[81]))->GetFloat(4017) + 10.0 +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[79]))->GetFloat(4017) + 10.0 +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[80]))->GetFloat(4017) + 10.0 +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[84]))->GetFloat(4017) + 10.0,
                                                     1);
-        HUDMainMenu_pme->m_pTiles[85]->FUN_00700320(4002, 0);
-        HUDMainMenu_pme->m_pTiles[85]->FUN_00a012d0(4024, fLimbScaleAC, 1);
-        HUDMainMenu_pme->m_pTiles[85]->FUN_00700320(4009, 0);
-        if (!((MenuStub*)HUDMainMenu_pme)->FUN_00770070())
+        ::g_pHudMainMenuInstance->m_pTiles[85]->Set(4002, 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[85]))->FUN_00a012d0(4024, fLimbScaleAC, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[85]->Set(4009, 0);
+        if (!reinterpret_cast<::FUN_00770070_Class *>((((MenuStub*)::g_pHudMainMenuInstance)))->HasAllTiles())
         {
-            FUN_0040fbe0(
-                "Hud Menu Creation Failed... This likely means that the archives were not built and the xml doesn't match the code.");
-            FUN_007037e0();
+            ::FUN_0040fbe0(
+                );
+            ::fnv_007037e0::FUN_007037e0();
         }
-        if (pMenuTileN->FUN_00a011b0(4007) == 6006.0 || pMenuTileN->FUN_00a011b0(4007) == 102.0)
-            pMenuTileN->FUN_00a012d0(4013, fTileAlphaM, true);
-        HUDMainMenu_pme->m_pTiles[12]->FUN_00a01350(4036, DAT_011d4918.FUN_00403df0(), 1);
-        HUDMainMenu_pme->m_pTiles[8]->FUN_00a01350(4036, DAT_011d3e8c.FUN_00403df0(), 1);
-        HUDMainMenu_pme->m_pTiles[2]->FUN_00a01350(4036, DAT_011d300c.FUN_00403df0(), 1);
-        HUDMainMenu_pme->m_iHudValueFirstAfterUpdateList = 856;
-        HUDMainMenu_pme->m_iHudValueSecondAfterUpdateList =
-            (int)(HUDMainMenu_pme->m_pTiles[6]->FUN_00a011b0(4017) / 2.0) - 35;
-        HUDMainMenu_pme->m_iHudValueThirdAfterUpdateList = 70;
-        pMenuTileN->FUN_00700320(4003, 1);
-        ((MenuStub*)HUDMainMenu_pme)->FUN_00726070();
-        FUN_00a04200(false);
+        if (reinterpret_cast<::TileListBoxCalls *>((pMenuTileN))->GetFloat(4007) == 6006.0 || reinterpret_cast<::TileListBoxCalls *>((pMenuTileN))->GetFloat(4007) == 102.0)
+            reinterpret_cast<::FUN_00a012d0_t *>((pMenuTileN))->FUN_00a012d0(4013, fTileAlphaM, true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((::g_pHudMainMenuInstance->m_pTiles[12]))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingString *>(&::g_011d4918))))->GetMenuTitle()))), 1);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((::g_pHudMainMenuInstance->m_pTiles[8]))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingString *>(&::g_011d3e8c))))->GetMenuTitle()))), 1);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((::g_pHudMainMenuInstance->m_pTiles[2]))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingString *>(&::g_011d300c))))->GetMenuTitle()))), 1);
+        ::g_pHudMainMenuInstance->m_iHudValueFirstAfterUpdateList = 856;
+        ::g_pHudMainMenuInstance->m_iHudValueSecondAfterUpdateList =
+            (int)(reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[6]))->GetFloat(4017) / 2.0) - 35;
+        ::g_pHudMainMenuInstance->m_iHudValueThirdAfterUpdateList = 70;
+        pMenuTileN->Set(4003, 1);
+        reinterpret_cast<::Callees *>((((MenuStub*)::g_pHudMainMenuInstance)))->FUN_00726070();
+        ::fnv_00a04200::FUN_00a04200(false);
         NiPointer<NiSourceTexture> spCompassAlphaB(0);
-        spCompassAlphaB = FUN_00a5fd70(NiFixedString("Textures\\Interface\\HUD\\hud_compass_alphamap.dds"),
-                                       DAT_011a9598, true, false);
-        HUDMainMenu_pme->m_pTiles[6]->vf20()->FUN_007700b0(spCompassAlphaB);
-        HUDMainMenu_pme->m_pTiles[6]->vf20()->FUN_007700d0(true);
-        DAT_011d9770 = new NiNode(0);
+        spCompassAlphaB = ::NiSourceTexture::Create(NiFixedString("Textures\\Interface\\HUD\\hud_compass_alphamap.dds"),
+                                       (::NiTexture__FormatPrefs &)((*reinterpret_cast<::NiTextureFormatPrefs *>(&::DAT_011a9598))), true, false);
+        ::g_pHudMainMenuInstance->m_pTiles[6]->vf20()->FUN_007700b0(spCompassAlphaB);
+        reinterpret_cast<::FUN_007700d0_cls *>((::g_pHudMainMenuInstance->m_pTiles[6]->vf20()))->set(true);
+        (*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d9770)) = new NiNode(0);
         ThreeByThreeMatrix kRotZXB;
         ThreeByThreeMatrix kRotXYB;
-        kRotZXB.FUN_00524ac0(1.5707964f);
-        kRotXYB.FUN_004a0c90(1.5707964f);
-        DAT_011d9770->FUN_0043fa80(kRotZXB.FUN_0043f8d0(kRotXYB));
-        DAT_011d9770->FUN_00440490(0.1f);
-        DAT_011d9770->FUN_004bc1f0(380.0f, 0.0f, 0.0f);
+        reinterpret_cast<::FUN_00524ac0_shell *>(&(kRotZXB))->FUN_00524ac0(1.5707964f);
+        reinterpret_cast<::FUN_004a0c90_shell *>(&(kRotXYB))->FUN_004a0c90(1.5707964f);
+        reinterpret_cast<::FUN_0043fa80_s *>((((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d9770))).operator->()))->FUN_0043fa80(reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(kRotZXB))->operator+(kRotXYB));
+        reinterpret_cast<::FUN_00440490_shell *>((((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d9770))).operator->()))->FUN_00440490(0.1f);
+        reinterpret_cast<::FUN_004bc1f0_S *>((((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d9770))).operator->()))->FUN_004bc1f0(380.0f, 0.0f, 0.0f);
         NiUpdateData kUpdateSceneY(0.0f, false, false);
-        DAT_011d9770->FUN_00a59c60(kUpdateSceneY);
-        DAT_011d975c = ((MenuStub*)HUDMainMenu_pme)->FUN_0077ee50();
-        DAT_011d96bc = new HUDEmptyStub;
-        FUN_00450b80(1)->vfdc(DAT_011d9770, true);
-        fShadowRadiusXB = DAT_011d9770->FUN_0043d450()->FUN_0084d030() * 3.0;
-        FUN_00450b80(1)->FUN_00b5ca70(DAT_011d9770, fShadowRadiusXB);
-        pBreathNodeYA = HUDMainMenu_pme->m_pTiles[72]->FUN_0056c7f0();
-        pController27 = pBreathNodeYA->FUN_0043b4a0(0)->FUN_00a5c570(&DAT_011f36ac);
-        pBreathNodeYA->FUN_006404b0(-1.5707964f, 1.0f, 0.0f, 0.0f);
+        reinterpret_cast<::FUN_00a59c60_cls *>((((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d9770))).operator->()))->FUN_00a59c60((int)&(kUpdateSceneY));
+        (*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d975c)) = ((::NiNode *)(reinterpret_cast<::CamBuilder *>((((MenuStub*)::g_pHudMainMenuInstance)))->FUN_0077ee50()));
+        (*reinterpret_cast<::HUDEmptyStub * *>(&::g_011d96bc)) = new HUDEmptyStub;
+        ::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1)->vfdc((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d9770)), true);
+        fShadowRadiusXB = reinterpret_cast<::Twin_0084d030 *>((((::NiBoundStub *)(reinterpret_cast<::FUN_0043d450_Owner *>((((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d9770))).operator->()))->FUN_0043d450()))))->GetStoredFloatValue() * 3.0;
+        reinterpret_cast<::SSN_b5 *>((::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1)))->FUN_00b5ca70((::Node_b5 *)(::NiNode *)((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d9770))), fShadowRadiusXB);
+        pBreathNodeYA = ((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((::g_pHudMainMenuInstance->m_pTiles[72]))->FUN_0056c7f0()));
+        pController27 = ((::NiTimeController *)(reinterpret_cast<::MyHost *>((((::NiNode *)(pBreathNodeYA->GetAt(0)))))->FUN_00a5c570((const ::MyRTTI *)(::NiRTTI *)(&(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac))))));
+        reinterpret_cast<::NiAVObject *>((pBreathNodeYA))->SetLocalRotation(-1.5707964f, 1.0f, 0.0f, 0.0f);
         NiUpdateData kUpdateBreath2(0.0f, true, false);
-        pBreathNodeYA->FUN_0043b4a0(0)->FUN_00a59c60(kUpdateBreath2);
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::NiNode *)(pBreathNodeYA->GetAt(0)))))->FUN_00a59c60((int)&(kUpdateBreath2));
         if (pController27)
         {
             NiControllerManagerStub* l_114 = (NiControllerManagerStub*)pController27;
-            HUDMainMenu_pme->m_pHudAnimationSequence = l_114->FUN_0047a520(NiFixedString("Forward"));
-            l_114->FUN_0048fef0(0.0f);
-            if (HUDMainMenu_pme->m_pHudAnimationSequence)
-                l_114->FUN_0047aab0(HUDMainMenu_pme->m_pHudAnimationSequence, 0, 1, 1.0f, 0.0f, 0);
+            ::g_pHudMainMenuInstance->m_pHudAnimationSequence = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((l_114))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(NiFixedString("Forward")))));
+            reinterpret_cast<::NiControllerManager *>((l_114))->DeactivateAllSequences(0.0f);
+            if (::g_pHudMainMenuInstance->m_pHudAnimationSequence)
+                reinterpret_cast<::NiControllerManager *>((l_114))->ActivateControllerSequence((::NiControllerSequence *)(::g_pHudMainMenuInstance->m_pHudAnimationSequence), 0, 1, 1.0f, 0.0f, (::NiControllerSequence *)(0));
         }
-        pMenuXB->FUN_00a1dc20(1);
-        FUN_0077e430(*DAT_011d9774.FUN_00403e20());
-        FUN_00771700(5);
-        FUN_00713d70()->FUN_004538c0();
+        reinterpret_cast<::Menu *>((pMenuXB))->SetMenuVisibility(1);
+        FUN_0077e430(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_011d9774)))))));
+        ::fnv_00771700::FUN_00771700(5);
+        reinterpret_cast<::ActorTaskManager *>((((::ATMStub *)(::FUN_00713d70()))))->WaitForTasksDuringRendering();
         return pMenuTileN;
     }
     else
     {
-        if (pMenuXB && pMenuXB->FUN_00726070())
+        if (pMenuXB && ((int)(reinterpret_cast<::Callees *>((pMenuXB))->FUN_00726070())))
             delete pMenuXB;
     }
-    FUN_00713d70()->FUN_004538c0();
+    reinterpret_cast<::ActorTaskManager *>((((::ATMStub *)(::FUN_00713d70()))))->WaitForTasksDuringRendering();
     return 0;
 }
 
@@ -1004,7 +1009,6 @@ class TESObjectREFR : public TESForm
 class Actor : public TESObjectREFR
 {
   public:
-    bool FUN_008c1bc0();
 };
 struct SubtitlePoint
 {
@@ -1016,7 +1020,6 @@ class BSSoundHandleEx
   public:
     unsigned int soundID, unk04, unk08;
     ~BSSoundHandleEx();
-    int FUN_00ad8b30();
 };
 struct SubtitleRecord
 {
@@ -1028,7 +1031,6 @@ struct SubtitleRecord
     SubtitleRecord();
 };
 void* __cdecl operator new(unsigned int);
-int __cdecl FUN_00406d30(char*, unsigned int, const char*);
 extern "C" unsigned int __cdecl strlen(const char*);
 template <class T> struct SubtitleArray
 {
@@ -1040,7 +1042,6 @@ template <class T> struct SubtitleArray
 struct SubtitleTimer
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, timestamp, unk18, unk1c;
-    unsigned int GetTimeStamp();
 };
 struct SubtitleSettingBool
 {
@@ -1048,11 +1049,7 @@ struct SubtitleSettingBool
 };
 struct SubtitleSettingFloat
 {
-    float* Float();
 };
-extern SubtitleSettingBool g_011d8928;
-extern SubtitleSettingFloat originalRuntimeFloatSetting1229;
-extern TESObjectREFR* g_thePlayer;
 class SubtitleHUD : public Menu
 {
   public:
@@ -1084,24 +1081,24 @@ bool SubtitleHUD::FUN_00774fd0(const char* text, BSSoundHandleEx sound, Subtitle
 {
     bool added = false;
     Actor* actor = speaker && speaker->IsActor() ? dynamic_cast<Actor*>(speaker) : 0;
-    if (text && (*g_011d8928.Bool() || (actor && actor->FUN_008c1bc0())))
+    if (text && (*(*reinterpret_cast<::SubtitleSettingBool *>(&::g_011d8928)).Bool() || (actor && ::FUN_008c1bc0((int)(actor)))))
     {
         SubtitleRecord* record = new SubtitleRecord;
-        FUN_00406d30(record->text, 260, text);
+        ::TaskQueueInterface::CopyStringToBuffer(record->text, 260, text);
         record->position = position;
-        record->duration = sound.FUN_00ad8b30() / 1000.0;
+        record->duration = ::FUN_00ad8b30((unsigned int *)&(sound)) / 1000.0;
         if (record->duration == 0.0)
-            record->duration = strlen(text) * (*originalRuntimeFloatSetting1229.Float());
+            record->duration = strlen(text) * (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SubtitleSettingFloat *>(&::originalRuntimeFloatSetting1229)))))));
         if (persistent)
             record->visibility = 0x7fffffff;
-        else if (speaker == g_thePlayer)
+        else if (speaker == (*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))
             record->visibility = 0;
         else if (speaker)
             record->visibility = 2;
         else
             record->visibility = 1;
-        record->timestamp = timer.GetTimeStamp();
-        subtitles.Add(record);
+        record->timestamp = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(timer))->FUN_00825c00();
+        reinterpret_cast<::FUN_00438690 *>(&(subtitles))->FUN_007cb2e0((unsigned int *)&(record));
         added = true;
     }
     return added;

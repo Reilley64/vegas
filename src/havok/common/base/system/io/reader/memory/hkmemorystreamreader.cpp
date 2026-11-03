@@ -2,6 +2,8 @@
 // src/havok/common/base/system/io/reader/memory/hkmemorystreamreader.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/reader/memory/hkmemorystreamreader.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00cb1000.h"
 struct FUN_00e059e0
 {
     int m_00;
@@ -201,7 +203,6 @@ struct FUN_00e05a80Class
 
     int __thiscall ReadFromBuffer(void* destination, int count);
 };
-extern "C" void __cdecl FUN_00cb1260(void* destination, const void* source, int count);
 
 // @fnv 0x00e05a80
 int __thiscall FUN_00e05a80Class::ReadFromBuffer(void* destination, int count)
@@ -211,7 +212,7 @@ int __thiscall FUN_00e05a80Class::ReadFromBuffer(void* destination, int count)
     {
         int remaining = m_10 - m_0c;
         int copied = count < remaining ? count : remaining;
-        FUN_00cb1260(destination, m_08 + m_0c, copied);
+        ::FUN_00cb1260(destination, m_08 + m_0c, copied);
         m_0c += copied;
         if (copied == 0 && count != 0)
             m_0c = m_10 + 1;
@@ -273,8 +274,6 @@ struct hkMemoryRouterE05B
 namespace hkRouterE05B {
 extern "C" hkMemoryRouterE05B& __cdecl FUN_00c85750() throw();
 }
-void* __cdecl AllocateWithHeader(hkMemoryAllocatorE05B& kAlloc, int iNumBytes) throw();
-void __cdecl FUN_00cb1260(void* pvDst, const void* pvSrc, int iNumBytes) throw();
 
 class hkRefObjE05B
 {
@@ -313,8 +312,8 @@ FUN_00e05b40::FUN_00e05b40(void* data, int size, int external) throw()
     m_external = external;
     if (!external)
     {
-        m_data = AllocateWithHeader(hkRouterE05B::FUN_00c85750().heap(), size);
-        FUN_00cb1260(m_data, data, size);
+        m_data = ::AllocateWithHeader((::FUN_00c85690_Allocator *)&(hkRouterE05B::FUN_00c85750().heap()), size);
+        ::FUN_00cb1260(m_data, data, size);
     }
     else
     {
@@ -333,12 +332,11 @@ struct hkMemoryRouterE05B
 };
 
 extern "C" hkMemoryRouterE05B* __cdecl FUN_00c85750() throw();
-void __cdecl FUN_00c856c0(void* pAllocator, void* p) throw();
 
 inline void hkDeallocateE05B(void* p)
 {
     hkMemoryRouterE05B* r = FUN_00c85750();
-    FUN_00c856c0(r->m_pStreamAllocator, p);
+    ::FUN_00c856c0((::FNV_Dispatch *)(r->m_pStreamAllocator), (char *)(p));
 }
 
 class hkBaseObjectE05B

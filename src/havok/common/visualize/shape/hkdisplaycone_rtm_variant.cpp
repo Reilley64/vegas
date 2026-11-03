@@ -5,6 +5,7 @@
 // src/havok/common/visualize/shape/hkdisplaycone.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplaycone.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <xmmintrin.h>
+#include "fnv/symbols_00c90000.h"
 struct __declspec(align(16)) Vertex
 {
     __m128 value;
@@ -43,14 +44,11 @@ struct GlobalContext
     Allocator* allocator;
 };
 extern "C" GlobalContext* __cdecl FUN_00c85750();
-extern "C" void __cdecl ResizeAudioStream(Allocator*, DynamicArray<Vertex>*, int);
-extern "C" void __cdecl FUN_00c908c0(Allocator*, DynamicArray<Edge>*, int, int);
 struct ForwardArg
 {
     GeometryBuffers* value;
 };
 struct MeshBuilder;
-extern "C" void __fastcall FUN_00de54b0(MeshBuilder*, ForwardArg);
 struct MeshBuilder
 {
     int unk00;
@@ -84,9 +82,9 @@ struct MeshBuilder
 };
 
 #include <math.h>
+#include "fnv/symbols_simd.h"
 extern "C" void _ReadWriteBarrier();
 
-extern const ::__m128 DAT_010c71e0;
 
 namespace cone_vertex_detail {
 static inline float my_abs(float x)
@@ -219,7 +217,7 @@ void __thiscall Cls::FUN_00de54b0(ArrayRef output)
         int grow = capacity * 2;
         if (count >= grow)
             grow = count;
-        ::FUN_00c908c0(ctx, (::DynamicArray< ::Edge>*)arr, grow, 16);
+        ::FUN_00c908c0((::SpawnedObject *)(ctx), (::SpawnedArray *)(::DynamicArray< ::Edge> *)((::DynamicArray< ::Edge>*)arr), grow, 16);
     }
     arr->m_iElementCount = count;
 

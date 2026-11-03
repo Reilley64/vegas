@@ -2,11 +2,54 @@
 // src/staging/blk_00ac0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0044a8d0_Class.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_0065cfd0_cls.h"
+#include "fnv/decl/FUN_00aae180_cls.h"
+#include "fnv/decl/FUN_00acb610.h"
+#include "fnv/decl/FUN_00acb720_cls.h"
+#include "fnv/decl/FUN_00acc8c0.h"
+#include "fnv/decl/FUN_00acdeb0.h"
+#include "fnv/decl/GvBinaryFile.h"
+#include "fnv/decl/GvBinaryFile_SV.h"
+#include "fnv/decl/GvIos.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/OutCont.h"
+#include "fnv/decl/Q.h"
+#include "fnv/decl/S00ad0720_Obj.h"
+#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
+#include "fnv/decl/fnv_0044b180__FUN_0044b180_shell.h"
+#include "fnv/decl/fnv_00ac9ff0__std__ios_base.h"
+#include "fnv/decl/fnv_00adc160__FUN_00adc160_cls.h"
+#include "fnv/decl/fnv_00adcd00__FUN_00adcd00_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00aaf000.h"
+#include "fnv/symbols_00ac0000.h"
+#include "fnv/symbols_00ac1000.h"
+#include "fnv/symbols_00ac2000.h"
+#include "fnv/symbols_00ac3000.h"
+#include "fnv/symbols_00ac6000.h"
+#include "fnv/symbols_00ad4000.h"
+#include "fnv/symbols_00ad5000.h"
+#include "fnv/symbols_00ad6000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101a000.h"
+#include "fnv/symbols_0106d000.h"
+#include "fnv/symbols_01094000.h"
+#include "fnv/symbols_010a2000.h"
+#include "fnv/symbols_010a3000.h"
+#include "fnv/symbols_010f1000.h"
+#include "fnv/symbols_01140000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01202000.h"
 #include "../../include/layout_support.h"
 
 struct FUN_00ac5340_class
 {
-    void FUN_00ac5220(int a, int b, int c);
     void FUN_00ac5340(int a, int b, int c);
 };
 
@@ -14,7 +57,7 @@ struct FUN_00ac5340_class
 // @fnv 0x00ac5340
 void FUN_00ac5340_class::FUN_00ac5340(int a, int b, int c)
 {
-    FUN_00ac5220(a, b, c);
+    reinterpret_cast<::GvBinaryFile *>(this)->FUN_00ac5220((const void *)(a), b, c);
 }
 
 void __cdecl _fclose(void*);
@@ -33,7 +76,6 @@ void FUN_00ac5ed0_This::CloseFile()
         _fclose(m_pFile);
 }
 
-extern int DAT_011f6c88;
 
 // @fnv 0x00ac63f0
 bool FUN_00ac63f0()
@@ -41,8 +83,6 @@ bool FUN_00ac63f0()
     return DAT_011f6c88 != 0;
 }
 
-extern int DAT_011f6c88;
-extern char DAT_011f6c8c;
 
 // @fnv 0x00ac6410
 void SetGlobalIfUnset(int aiValue)
@@ -54,8 +94,6 @@ void SetGlobalIfUnset(int aiValue)
     }
 }
 
-extern char DAT_011f6c8c;
-extern int DAT_011f6c88;
 
 // @fnv 0x00ac6830
 void __cdecl FUN_00ac6830()
@@ -64,16 +102,14 @@ void __cdecl FUN_00ac6830()
     DAT_011f6c88 = 0;
 }
 
-extern "C" void __cdecl FUN_00ac6850();
 extern "C" void __stdcall FUN_00eccec5(int);
-extern int DAT_011f6c88;
 
 // @fnv 0x00ac68e0
 void __cdecl FUN_00ac68e0()
 {
     if (DAT_011f6c88)
     {
-        FUN_00ac6850();
+        ::Q::FUN_00ac6850();
         FUN_00eccec5(-1);
     }
 }
@@ -100,9 +136,6 @@ void* __thiscall FUN_00acbb60_Class::GetSelf(void* apUnusedA, void* apUnusedB)
     return this;
 }
 
-extern int DAT_010a2f9c;
-extern int DAT_010a2fa4;
-void __cdecl Deallocate(void*);
 void __cdecl FUN_00ec3205(void*);
 struct FUN_00acdfa0_class
 {
@@ -115,7 +148,7 @@ void* __thiscall FUN_00acdfa0_class::FUN_00acdfa0(int aiFlags)
     *(void**)this = &DAT_010a2f9c;
     FUN_00ec3205(this);
     if (aiFlags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -142,7 +175,6 @@ unsigned char FUN_00ad4080_Class::GetParam(unsigned char aucValue, int extra)
 }
 
 extern int DAT_010a31f4;
-extern int DAT_010a31fc;
 
 struct FUN_00ad41a0_cls
 {
@@ -159,14 +191,13 @@ void FUN_00ad41a0_cls::FUN_00ad41a0()
 struct BSAudioManager
 {
     static BSAudioManager& GetRandomGenerator();
-    void FUN_00adcd00(void* a, void* b);
     void FUN_00ad84e0(void* a, void* b);
 };
 
 // @fnv 0x00ad84e0
 void BSAudioManager::FUN_00ad84e0(void* a, void* b)
 {
-    GetRandomGenerator().FUN_00adcd00(a, b);
+    reinterpret_cast<::fnv_00adcd00::FUN_00adcd00_cls *>(&(GetRandomGenerator()))->FUN_00adcd00((int)(a), (int)(b));
 }
 
 struct NiPoint3
@@ -197,23 +228,21 @@ NiPoint3* __thiscall FUN_00ac10c0_Class::AddOffset(NiPoint3* pDest, NiPoint3* pS
     return pDest;
 }
 
-int __cdecl GetHighestSetBitIndex(int);
 
 // Returns the result of GetHighestSetBitIndex if param_1 equals 1 shifted by that result, otherwise that result plus one.
 // @fnv 0x00ac6950
 int __cdecl FUN_00ac6950(int aiValue)
 {
-    if (aiValue == (1 << GetHighestSetBitIndex(aiValue)))
+    if (aiValue == (1 << ::GetHighestSetBitIndex(aiValue)))
     {
-        return GetHighestSetBitIndex(aiValue);
+        return ::GetHighestSetBitIndex(aiValue);
     }
     else
     {
-        return GetHighestSetBitIndex(aiValue) + 1;
+        return ::GetHighestSetBitIndex(aiValue) + 1;
     }
 }
 
-extern double DAT_01094ba8;
 extern double DAT_010a2f90;
 
 // @fnv 0x00ac7990
@@ -227,9 +256,7 @@ int __cdecl FUN_00ac7990(int aiLeft, int aiRight)
     return (int)v;
 }
 
-void __cdecl Deallocate(void*);
 void __cdecl FUN_00ec3205(void*);
-extern int DAT_010a2f9c;
 
 struct FUN_00ac9c30_class
 {
@@ -243,7 +270,7 @@ void* __thiscall FUN_00ac9c30_class::FUN_00ac9c30(int flags)
     m_p = &DAT_010a2f9c;
     FUN_00ec3205(this);
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -263,20 +290,8 @@ void* __thiscall FUN_00acad30_class::GetElementAt(int aiIndex)
 
 struct FUN_00ace030_class
 {
-    void* __thiscall FUN_00acb6b0();
     void* __thiscall FUN_00ace030(unsigned int flags);
 };
-
-// Calls FUN_00acb6b0, then deallocates this when flags has bit 0 set, and returns this.
-// @fnv 0x00ace030
-void* FUN_00ace030_class::FUN_00ace030(unsigned int flags)
-{
-    int pad0, pad1, pad2, pad3, pad4, pad5;
-    FUN_00acb6b0();
-    if (flags & 1)
-        Deallocate(this);
-    return this;
-}
 
 struct FUN_00ace9c0_Class
 {
@@ -322,7 +337,6 @@ FUN_00ad1a50_class* __thiscall FUN_00ad1a50_class::FUN_00ad1a50(int aiFirst, int
     return this;
 }
 
-void __cdecl Deallocate(void*);
 struct FUN_00ad3eb0_Class
 {
     int* m_p;
@@ -334,7 +348,7 @@ FUN_00ad3eb0_Class* __thiscall FUN_00ad3eb0_Class::FUN_00ad3eb0(unsigned int fla
 {
     m_p = &DAT_010a31fc;
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -354,7 +368,6 @@ char* __thiscall FUN_00ad3f50_class::FUN_00ad3f50(char* pBegin, char* end)
     return pBegin;
 }
 
-void __cdecl Deallocate(void*);
 void __cdecl free(void*);
 struct FUN_00ad41c0_Class
 {
@@ -368,13 +381,10 @@ void __thiscall FUN_00ad41c0_Class::FUN_00ad41c0()
     else if (((int*)this)[5] < 0)
     {
         void* p = (void*)((int*)this)[4];
-        Deallocate(p);
+        ::FUN_00401030(p);
     }
 }
 
-extern int DAT_010a3228;
-extern int DAT_010a31fc;
-void __cdecl Deallocate(void*);
 struct FUN_00ad5670_class
 {
     int* __thiscall FUN_00ad5670(int a);
@@ -385,14 +395,10 @@ int* __thiscall FUN_00ad5670_class::FUN_00ad5670(int aiFlags)
     *(int**)this = &DAT_010a3228;
     *(int**)this = &DAT_010a31fc;
     if (aiFlags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return (int*)this;
 }
 
-extern int DAT_010a3204;
-extern int DAT_010a3228;
-extern int DAT_010a31fc;
-void __cdecl Deallocate(void*);
 
 struct FUN_00ad5730_Class
 {
@@ -406,11 +412,10 @@ void* __thiscall FUN_00ad5730_Class::FUN_00ad5730(int flags)
     *reinterpret_cast<void**>(this) = &DAT_010a3228;
     *reinterpret_cast<void**>(this) = &DAT_010a31fc;
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
-void __fastcall FUN_00adc160(void* p);
 
 struct FUN_00ad87d0_Class
 {
@@ -427,7 +432,7 @@ void FUN_00ad87d0_Class::FUN_00ad87d0()
     *(float*)((char*)this + 0x164) = 1.0f;
     *(float*)((char*)this + 0x168) = 1.0f;
     *(float*)((char*)this + 0x16c) = 1.0f;
-    FUN_00adc160(this);
+    reinterpret_cast<::fnv_00adc160::FUN_00adc160_cls *>((this))->FUN_00adc160();
 }
 
 int __cdecl FUN_00ec34d4();
@@ -455,7 +460,6 @@ int __thiscall FUN_00ad3a10_Class::GetEntryAt(int aiIndex)
     }
 }
 
-void __cdecl ReportAssertionViolation(char const*, int);
 
 // Asserts param_1 is greater than 0, then shifts it right until it reaches 0 and returns the number of shifts minus one.
 // @fnv 0x00ac6900
@@ -512,13 +516,12 @@ NiPoint3* FUN_00ac1120_Class::ScaleToPoint3(NiPoint3* pDest, float scale)
 
 struct FUN_00ac52b0_class
 {
-    void FUN_00ac52b0(int a, int b, int c);
     void FUN_00ac5370(int a, int b, int c);
 };
 // @fnv 0x00ac5370
 void FUN_00ac52b0_class::FUN_00ac5370(int a, int b, int c)
 {
-    FUN_00ac52b0(a, b, c);
+    reinterpret_cast<::GvBinaryFile_SV *>(this)->FUN_00ac52b0((void *)(a), b, c);
 }
 
 unsigned __int64 __cdecl __time64(unsigned __int64*);
@@ -586,32 +589,12 @@ struct GlobalObjectO2_00ec3a75
     ~GlobalObjectO2_00ec3a75();
 };
 
-void __cdecl _Deallocate(void*);
 
 struct FUN_00acdf60_class
 {
     void* __thiscall DestroyAndDeallocate(int flags);
 };
 
-// Runs the destructor on the object at this-4 and, if flags has bit 0 set, deallocates it, returning that object pointer.
-// @fnv 0x00acdf60
-void* __thiscall FUN_00acdf60_class::DestroyAndDeallocate(int flags)
-{
-    {
-        int unused1;
-        int unused2;
-    }
-
-    reinterpret_cast<GlobalObjectO2_00ec3a75*>(reinterpret_cast<char*>(this) - 4)
-        ->GlobalObjectO2_00ec3a75::~GlobalObjectO2_00ec3a75();
-
-    if (flags & 1)
-        _Deallocate(reinterpret_cast<GlobalObjectO2_00ec3a75*>(reinterpret_cast<char*>(this) - 4));
-
-    return reinterpret_cast<GlobalObjectO2_00ec3a75*>(reinterpret_cast<char*>(this) - 4);
-}
-
-extern int DAT_010a30a8;
 void FUN_00ec3205(void*);
 
 struct FUN_00ace330_class
@@ -664,7 +647,7 @@ FUN_00ad3ee0::FUN_00ad3ee0(int aiFlags)
     m_vft = (void*)&DAT_010a31f4;
     m_vft = (void*)&DAT_010a31fc;
     if (aiFlags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
 }
 
 char __cdecl FUN_00ec379c(char, char*);
@@ -768,7 +751,6 @@ void __cdecl FUN_00ac1530(int p0, int p1, int p2)
     }
 }
 
-extern int DAT_010173f0;
 
 class SpawnSub
 {
@@ -805,19 +787,15 @@ void InitRange(SpawnEntry* first, SpawnEntry* last, SpawnEntry* src)
     SpawnEntry* end = last;
     for (SpawnEntry* cur = first; cur != end; cur++)
     {
-        cur->Init(src, 0, DAT_010173f0);
+        cur->Init(src, 0, (*reinterpret_cast<int *>(&::g_010173f0)));
         cur->m_sub.Attach(&src->m_sub);
     }
 }
 
 struct FUN_00ac1720_pool
 {
-    void* FUN_00aa3e40(unsigned int size);
 };
 
-extern "C" FUN_00ac1720_pool DAT_011f6238;
-extern "C" char DAT_010176f8[];
-extern "C" char DAT_01140ef8[];
 extern "C" void __stdcall FUN_00ec7894(void* err2, const char* msg);
 
 struct FUN_00ac1720_err
@@ -847,7 +825,7 @@ void __cdecl FUN_00ac1720(unsigned int count)
             FUN_00ec7894(&err2, DAT_01140ef8);
         }
     }
-    DAT_011f6238.FUN_00aa3e40(count * 4);
+    reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::FUN_00ac1720_pool *>(&::g_memoryManager))))->FUN_00aa3e40(count * 4);
 }
 
 struct FUN_00ac2760_Frame
@@ -968,12 +946,11 @@ struct FUN_00ac2760_cls
     FUN_00ac2760_cls* CopyFrom(int a);
     void AssignSubstring(int a, int b, int c);
 };
-extern int DAT_010173f0;
 // @fnv 0x00ac2760
 FUN_00ac2760_cls* FUN_00ac2760_cls::CopyFrom(int pSource)
 {
     FUN_00ac2760_Frame frame;
-    this->AssignSubstring(pSource, 0, DAT_010173f0);
+    this->AssignSubstring(pSource, 0, (*reinterpret_cast<int *>(&::g_010173f0)));
     m_1c = ((FUN_00ac2760_cls*)pSource)->m_1c;
     m_20.FUN_00ac2ca0(pSource + 0x20);
     return this;
@@ -1037,7 +1014,6 @@ void __cdecl FUN_00ac3300(char* dst, unsigned int len, char* src)
 }
 
 namespace fnv_00ac3580 {
-extern "C" void __cdecl FUN_00ac3370(int a1, int a2, int a3, int a4, unsigned char c2, unsigned char c1);
 struct ByteBox
 {
     unsigned char v;
@@ -1051,7 +1027,7 @@ void __cdecl FUN_00ac3580(int a1, int a2, int a3, int a4)
     int p2 = a2;
     int m = a1;
     int unk10;
-    FUN_00ac3370(m, p2, a3, a4, c8.v, c7.v);
+    ::FUN_00ac3370((::CopyElem12 *)(m), (::CopyElem12 *)(p2), (::CopyElem12 *)(a3));
 }
 }  // namespace fnv_00ac3580
 
@@ -1068,8 +1044,6 @@ struct BAC3640CheckedTag
 {
 };
 
-void __cdecl BAC3640UninitCopy(BAC3640Iterator kFirst, BAC3640Iterator kLast, int* piDest, void* pvAllocator,
-                               BAC3640PtrCategory kCategory, BAC3640CheckedTag kChecked);
 
 // @fnv 0x00ac3640
 void __cdecl CopyIteratorRange(BAC3640Iterator kFirst, BAC3640Iterator kLast, int* piDest, void* pvAllocator)
@@ -1080,7 +1054,7 @@ void __cdecl CopyIteratorRange(BAC3640Iterator kFirst, BAC3640Iterator kLast, in
     BAC3640Iterator kLastBase = kLast;
     int* kDest;
     BAC3640Iterator kFirstBase3 = kFirst;
-    BAC3640UninitCopy(kFirstBase3, kLastBase, piDest, pvAllocator, kCategory, kChecked);
+    ::FUN_00ac3820((*(::CopyItem16 * *)&(const ::BAC3640Iterator &)(kFirstBase3)), (*(::CopyItem16 * *)&(const ::BAC3640Iterator &)(kLastBase)), (::CopyItem16 *)(piDest));
 }
 
 struct IterPos
@@ -1100,7 +1074,6 @@ struct IterRange
     IterPos m_last;
 };
 
-void __cdecl FUN_00ac3900(IterPos first, IterPos last, int a3, int a4, EmptyTag tagA, EmptyTag tagB);
 
 // @fnv 0x00ac3690
 void __cdecl FUN_00ac3690(IterPos a1, IterPos a2, int a3, int a4)
@@ -1111,7 +1084,7 @@ void __cdecl FUN_00ac3690(IterPos a1, IterPos a2, int a3, int a4)
     IterRange r;
     r.m_last = a2;
     r.m_pHeadNode = a1;
-    FUN_00ac3900(r.m_pHeadNode, r.m_last, a3, a4, copyTag, zeroTag);
+    ::FUN_00ac3900((*(::PtC * *)&(const ::IterPos &)(r.m_pHeadNode)), (*(::PtC * *)&(const ::IterPos &)(r.m_last)), (::PtC *)(a3));
 }
 
 struct Tag1
@@ -1135,13 +1108,12 @@ struct ED : E0
 {
 };
 
-void FUN_00ac39e0(Iter a, Iter b, int c, int d, Tag1 e, Tag2 f);
 
 // Constructs temporary tag and iterator objects and forwards them with c and d to FUN_00ac39e0.
 // @fnv 0x00ac36e0
 void CallWithIterators(Iter a, Iter b, int c, int d)
 {
-    FUN_00ac39e0((ED(), Iter(a)), Iter(b), c, d, Tag1D(), Tag2());
+    ::FUN_00ac39e0((*(::E39_Element * *)&(const ::Iter &)((ED(), Iter(a)))), (*(::E39_Element * *)&(const ::Iter &)(Iter(b))), (::E39_Element *)(c));
 }
 
 struct S_00ac3f40_Arg
@@ -1183,7 +1155,6 @@ struct S_00ac3f40_Class
     void __thiscall FUN_00ac3f40(S_00ac3f40_Arg* arg);
 };
 
-extern int DAT_010173f0;
 
 // @fnv 0x00ac3f40
 void __thiscall S_00ac3f40_Class::FUN_00ac3f40(S_00ac3f40_Arg* arg)
@@ -1207,7 +1178,7 @@ void __thiscall S_00ac3f40_Class::FUN_00ac3f40(S_00ac3f40_Arg* arg)
         ReportAssertionViolation("D:\\_Fallout3\\Platforms\\Common\\Code\\SDK\\FaceGen\\binaryFile.cpp", 0x31);
     }
 
-    this->unk20.AssignSubstring(arg, 0, DAT_010173f0);
+    this->unk20.AssignSubstring(arg, 0, (*reinterpret_cast<int *>(&::g_010173f0)));
 
     S_00ac3f40_Inner* pInner = &this->unk20;
 
@@ -1231,7 +1202,6 @@ class Holder40_FUN_00ac5c00
 class Holder44_FUN_00ac5c00
 {
   public:
-    void Reset();
 };
 
 class FUN_00ac5c00_cls
@@ -1275,7 +1245,7 @@ void FUN_00ac5c00_cls::ClearHolders()
     if (m_44 != 0)
     {
         m_40 = 0;
-        m_44->Reset();
+        reinterpret_cast<::fnv_0044b180::FUN_0044b180_shell *>((m_44))->FUN_0044b180();
         m_44 = 0;
     }
     else
@@ -1353,7 +1323,6 @@ unsigned char FUN_00ac5c70_cls::FUN_00ac5c70(void* a1, unsigned int auiValue)
     return value == ptr;
 }
 
-void __cdecl ReportAssertionViolation(char const*, int);
 
 struct FgBinaryStream;
 typedef unsigned int(__cdecl* FgReadFunc)(FgBinaryStream*, void*, unsigned int, unsigned int*, unsigned int);
@@ -1439,7 +1408,6 @@ bool FgBinaryFile::FUN_00ac5cf0(void* pvBuffer, unsigned int uiSize, unsigned in
     return uiTotalTmp == uiRead6 ? true : false;
 }
 
-extern int DAT_010a2480;
 
 class FUN_00ac5e90_Target
 {
@@ -1528,9 +1496,6 @@ int FUN_00ac6100_cls::FUN_00ac6100(unsigned int a1, unsigned int uiAvailable, in
     return (iReadResult != 0) ? iReadResult : (uiAvailable < a4 ? -1 : (uiAvailable != a4));
 }
 
-extern double DAT_01011590;
-extern double DAT_0101a6b0;
-extern double DAT_0106d4c8;
 double __cdecl FUN_00ac6220();
 double __cdecl FUN_00eca920(double x);
 double __cdecl FUN_00ec6054(double x);
@@ -1552,8 +1517,8 @@ double FUN_00ac62b0_cls::SampleNormal()
     double s;
     do
     {
-        u3 = FUN_00ac6220() * DAT_01011590 + DAT_0101a6b0;
-        v = FUN_00ac6220() * DAT_01011590 + DAT_0101a6b0;
+        u3 = FUN_00ac6220() * DAT_01011590 + ::DAT_0101a6b0;
+        v = FUN_00ac6220() * DAT_01011590 + ::DAT_0101a6b0;
         s = u3 * u3 + v * v;
     } while (s > 1.0 || s == 0.0);
     double mean = this->m_00;
@@ -1561,9 +1526,6 @@ double FUN_00ac62b0_cls::SampleNormal()
     return (inv * v) * FUN_00ec6054(FUN_00eca920(s) * DAT_0106d4c8 / s) + mean;
 }
 
-extern double DAT_01011590;
-extern double DAT_0101a6b0;
-extern double DAT_0106d4c8;
 
 double __cdecl FUN_00ac6220();
 double __cdecl FUN_00eca920(double value);
@@ -1581,8 +1543,8 @@ double __cdecl GenerateGaussianRandom()
     {
         do
         {
-            second = FUN_00ac6220() * DAT_01011590 + DAT_0101a6b0;
-            first = FUN_00ac6220() * DAT_01011590 + DAT_0101a6b0;
+            second = FUN_00ac6220() * DAT_01011590 + ::DAT_0101a6b0;
+            first = FUN_00ac6220() * DAT_01011590 + ::DAT_0101a6b0;
             sum = second * second + first * first;
         } while (sum > 1.0);
     } while (sum == 0.0);
@@ -1603,8 +1565,6 @@ struct Ac6510Frame
     int unk20, unk24, unk28, unk2C, unk30, unk34, unk38, unk3C;
 };
 
-extern char DAT_011f6c8c;
-extern int DAT_011f6c88;
 
 // Calls FUN_00ec6130 on DAT_011f6c8c, passes the result to the target's FUN_0044a7f0, and returns DAT_011f6c88.
 // @fnv 0x00ac6510
@@ -1616,7 +1576,6 @@ int __cdecl ApplyGlobalToTarget(int pTarget)
     return DAT_011f6c88;
 }
 
-void __cdecl ReportAssertionViolation(char const*, int);
 
 // @fnv 0x00ac6990
 void __cdecl FindPairByIndex(unsigned int count, unsigned int target, unsigned int* puiOutA, unsigned int* puiOutB)
@@ -1668,7 +1627,6 @@ void __cdecl FUN_00ec3205(void*);
 struct SpawnedBase
 {
     unsigned int unk00;
-    void Init();
 };
 
 struct SpawnedObject
@@ -1684,7 +1642,7 @@ struct SpawnedObject
 void SpawnedObject::InitSub()
 {
     unsigned int padLocal[5];
-    m_sub.Init();
+    reinterpret_cast<::FUN_00acb610 *>(&(m_sub))->FUN_00acb610::~FUN_00acb610();
     {
         SpawnedBase* p = &m_sub;
         *(int*)p = (int)&DAT_010a2fa4;
@@ -1693,14 +1651,11 @@ void SpawnedObject::InitSub()
     }
 }
 
-extern int DAT_010a2f9c;
-extern int DAT_010a2fa4;
 void __cdecl FUN_00ec3205(void* p);
 
 struct Sub58
 {
     void* m_vptr;
-    void Init();
 };
 
 struct FUN_00ac9cb0_cls
@@ -1738,7 +1693,7 @@ void FUN_00ac9cb0_cls::InitSub58()
     unsigned int unkLocal[5];
     {
         Sub58* p;
-        m_58.Init();
+        reinterpret_cast<::FUN_00acc8c0 *>(&(m_58))->FUN_00acc8c0::~FUN_00acc8c0();
         p = &m_58;
         p->m_vptr = (void*)&DAT_010a2fa4;
         p->m_vptr = (void*)&DAT_010a2f9c;
@@ -1766,7 +1721,6 @@ struct S_00ac9da0_class
     int unk10;
     int unk14;
 
-    void __thiscall FUN_00ac6100(int a, int b, void* c, int d);
     void __thiscall FUN_00ac9da0(S_00ac9da0_string* a);
 };
 
@@ -1776,7 +1730,7 @@ void __thiscall S_00ac9da0_class::FUN_00ac9da0(S_00ac9da0_string* pString)
     int len = pString->unk14;
     unsigned int pad[2];
 
-    this->FUN_00ac6100(0, this->unk14, (pString->unk18 >= 0x10) ? pString->unk04 : (void*)((char*)pString + 4), len);
+    reinterpret_cast<::FUN_00ac6100_cls *>((this))->FUN_00ac6100(0, this->unk14, (int)((pString->unk18 >= 0x10) ? pString->unk04 : (void*)((char*)pString + 4)), len);
 }
 
 struct FUN_00aca4e0_frame
@@ -1861,7 +1815,6 @@ struct FUN_00aca4e0_cls
     int unk20;
     int unk24;
     unsigned int m_28;
-    void FUN_00ac9ff0(unsigned int flags, unsigned char mode);
     void FUN_00aca4e0(unsigned int a1, unsigned char a2);
 };
 
@@ -1875,7 +1828,7 @@ void FUN_00aca4e0_cls::FUN_00aca4e0(unsigned int auiFlags, unsigned char a2)
     {
         base = m_08;
         unsigned int flags = base | auiFlags;
-        FUN_00ac9ff0((m_28 == 0) ? (flags | 4) : flags, a2);
+        reinterpret_cast<::fnv_00ac9ff0::std::ios_base *>(this)->FUN_00ac9ff0((m_28 == 0) ? (flags | 4) : flags, a2);
     }
 }
 
@@ -1977,13 +1930,11 @@ void FUN_00acb1a0_cls::ResetListSentinel()
 }
 
 extern int DAT_010a30fc;
-void __cdecl FUN_00401030(void*);
 
 class Sub_00acb6b0
 {
   public:
     unsigned int m_00;
-    void FUN_00acb720();
 };
 
 class Mem_00acb6b0
@@ -2019,6 +1970,16 @@ class FUN_00acb6b0_cls
     Sub_00acb6b0* m_38;
     void FUN_00acb6b0();
 };
+// Calls FUN_00acb6b0, then deallocates this when flags has bit 0 set, and returns this.
+// @fnv 0x00ace030
+void* FUN_00ace030_class::FUN_00ace030(unsigned int flags)
+{
+    int pad0, pad1, pad2, pad3, pad4, pad5;
+    reinterpret_cast<::FUN_00acb6b0_cls *>(this)->FUN_00acb6b0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x00acb6b0
 void FUN_00acb6b0_cls::FUN_00acb6b0()
@@ -2029,7 +1990,7 @@ void FUN_00acb6b0_cls::FUN_00acb6b0()
     m_vft = &DAT_010a30fc;
     cur = m_38;
     prev = cur;
-    prev != 0 ? (prev->FUN_00acb720(), (((prev, 1) & 1) ? FUN_00401030(prev) : (void)0), prev) : 0;
+    prev != 0 ? (reinterpret_cast<::FUN_00acb720_cls *>((prev))->FUN_00acb720(), (((prev, 1) & 1) ? FUN_00401030(prev) : (void)0), prev) : 0;
     ((FUN_00ec3260_cls*)((char*)this + 4))->FUN_00ec3260();
 }
 
@@ -2168,26 +2129,7 @@ class FUN_00acd930_cls
         m_48;
     int m_4c;
     FUN_00acd930_cls* FUN_00acd930(int a1, int a2);
-    void Unk_acfc10(int a, int b);
 };
-
-// @fnv 0x00acd930
-FUN_00acd930_cls* FUN_00acd930_cls::FUN_00acd930(int a1, int a2)
-{
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    if (m_4c == 0 || Unk_ecd7e8(m_4c, a1, (a1 == 0 && a2 == 0) ? 4 : 0, a2) != 0)
-    {
-        return 0;
-    }
-    else
-    {
-        Unk_acfc10(m_4c, 1);
-        return this;
-    }
-}
 
 int __cdecl FUN_00ecda70(void* resource);
 struct ResourceOwner
@@ -2232,7 +2174,6 @@ struct FUN_00acda10_Obj
     virtual bool unk04();
 };
 
-FUN_00acda10_Obj* __cdecl FUN_00ad4fd0(int a);
 
 struct FUN_00acda10_Big
 {
@@ -2308,7 +2249,6 @@ struct FUN_00acda10_cls
     int unk38;
     FUN_00acda10_Obj* m_3c;
 
-    void FUN_00ad0720();
     void SetObject(int a1);
 };
 
@@ -2318,7 +2258,7 @@ void FUN_00acda10_cls::SetObject(int a1)
     FUN_00acda10_Big big2;
     big2.unk04 = 0;
     {
-        FUN_00acda10_Obj* p2 = FUN_00ad4fd0(a1);
+        FUN_00acda10_Obj* p2 = ((::FUN_00acda10_Obj *)&(::FUN_00ad4fd0((*(const ::std::locale *)(a1)))));
         if (p2->unk04())
         {
             m_3c = 0;
@@ -2326,7 +2266,7 @@ void FUN_00acda10_cls::SetObject(int a1)
         else
         {
             m_3c = p2;
-            FUN_00ad0720();
+            reinterpret_cast<::S00ad0720_Obj *>(this)->FUN_00ad0720();
         }
     }
 }
@@ -2343,14 +2283,12 @@ void FUN_00acde90_class::FUN_00acde90()
                               (*reinterpret_cast<int**>(reinterpret_cast<char*>(this) - 4))[1] - 4) = &DAT_010a318c;
 }
 
-void __cdecl FUN_00401030(void* apMemory);
 
 struct FUN_00acdff0_prim
 {
     int unk00;
     int unk04;
 
-    void BaseCleanup();
 };
 
 struct FUN_00acdff0_cls
@@ -2366,7 +2304,7 @@ FUN_00acdff0_prim* FUN_00acdff0_cls::FUN_00acdff0(unsigned int auiFlags)
 {
     int iUnused1;
     int iUnused2;
-    ((FUN_00acdff0_prim*)((char*)this - 8))->BaseCleanup();
+    reinterpret_cast<::FUN_00ace330_class *>((((FUN_00acdff0_prim*)((char*)this - 8))))->FUN_00ace330();
     if (auiFlags & 1)
     {
         FUN_00401030((char*)this - 8);
@@ -2374,14 +2312,10 @@ FUN_00acdff0_prim* FUN_00acdff0_cls::FUN_00acdff0(unsigned int auiFlags)
     return (FUN_00acdff0_prim*)((char*)this - 8);
 }
 
-void __cdecl Deallocate(void*);
 void __cdecl FUN_00ec3205(void*);
-extern int DAT_010a2f9c;
-extern int DAT_010a2fa4;
 
 struct FUN_00acdeb0_cls
 {
-    void FUN_00acdeb0();
 };
 
 struct FUN_00ace260_cls
@@ -2396,14 +2330,14 @@ FUN_00ace260_cls* FUN_00ace260_cls::DestroyAndFree(unsigned int acFlags)
 {
     unsigned int values[5];
     char* pOuter = (char*)this - 0x54;
-    ((FUN_00acdeb0_cls*)(pOuter + 0x54))->FUN_00acdeb0();
+    reinterpret_cast<::FUN_00acdeb0 *>((((FUN_00acdeb0_cls*)(pOuter + 0x54))))->FUN_00acdeb0::~FUN_00acdeb0();
     FUN_00ace260_cls* pSub = (FUN_00ace260_cls*)(pOuter + 0x54);
     pSub->m_vptr = (void*)&DAT_010a2fa4;
     pSub->m_vptr = (void*)&DAT_010a2f9c;
     FUN_00ec3205(pSub);
     if (acFlags & 1)
     {
-        Deallocate((char*)this - 0x54);
+        ::FUN_00401030((char*)this - 0x54);
     }
     return (FUN_00ace260_cls*)((char*)this - 0x54);
 }
@@ -2431,16 +2365,8 @@ class FUN_00ace860_cls
     int unk2C;
     int* m_30;
 
-    unsigned char* DecrementAndPostIncrement();
     int FUN_00ace860();
 };
-
-// @fnv 0x00ace860
-int FUN_00ace860_cls::FUN_00ace860()
-{
-    unsigned char* b;
-    return ((*m_20 != 0 ? *m_30 : 0) > 0) ? (int)*(b = DecrementAndPostIncrement()) : vSlot14();
-}
 
 class AceHolder
 {
@@ -2460,19 +2386,8 @@ class AceHolder
     unsigned int unk2c;
     unsigned int unk30;
     int* m_34;
-    unsigned char* DecrementCounterAndPostIncrementOther();
     int FUN_00ace8c0(unsigned char b);
 };
-
-// If the value at m_34 (or 0 when *m_24 is 0) is positive, writes b through the pointer from DecrementCounterAndPostIncrementOther and returns it; otherwise calls vfn1(b).
-// @fnv 0x00ace8c0
-int AceHolder::FUN_00ace8c0(unsigned char ucValue)
-{
-    unsigned char* p;
-    int t;
-    return ((*m_24 != 0 ? *m_34 : 0) > 0) ? (p = DecrementCounterAndPostIncrementOther(), *p = ucValue, (int)*p)
-                                          : vfn1((t = ucValue));
-}
 
 struct FUN_00ace930_cls
 {
@@ -2519,6 +2434,12 @@ struct FUN_00ace970_Class
 
     int DecrementAndPostIncrement();
 };
+// @fnv 0x00ace860
+int FUN_00ace860_cls::FUN_00ace860()
+{
+    unsigned char* b;
+    return ((*m_20 != 0 ? *m_30 : 0) > 0) ? (int)*(b = ((unsigned char *)(reinterpret_cast<::FUN_00ace970_Class *>(this)->DecrementAndPostIncrement()))) : vSlot14();
+}
 
 // Decrements the counter pointed to by m_30 and returns the old value of the counter pointed to by m_20, incrementing it.
 // @fnv 0x00ace970
@@ -2547,6 +2468,15 @@ struct FUN_00acea00_class
 
     int __thiscall DecrementCounterAndPostIncrementOther();
 };
+// If the value at m_34 (or 0 when *m_24 is 0) is positive, writes b through the pointer from DecrementCounterAndPostIncrementOther and returns it; otherwise calls vfn1(b).
+// @fnv 0x00ace8c0
+int AceHolder::FUN_00ace8c0(unsigned char ucValue)
+{
+    unsigned char* p;
+    int t;
+    return ((*m_24 != 0 ? *m_34 : 0) > 0) ? (p = ((unsigned char *)(reinterpret_cast<::FUN_00acea00_class *>(this)->DecrementCounterAndPostIncrementOther())), *p = ucValue, (int)*p)
+                                          : vfn1((t = ucValue));
+}
 
 // Decrements the counter at m_pCounter34 and returns the old value of the counter at m_pCounter24, incrementing it.
 // @fnv 0x00acea00
@@ -2607,8 +2537,6 @@ class FUN_00aced20_cls
     bool FUN_00aced20(unsigned int count);
 };
 
-void FUN_00ac0b00();
-void* FUN_00ad5310(unsigned int count, unsigned int flags);
 
 // @fnv 0x00aced20
 bool FUN_00aced20_cls::FUN_00aced20(unsigned int count)
@@ -2631,7 +2559,7 @@ bool FUN_00aced20_cls::FUN_00aced20(unsigned int count)
         }
         else
         {
-            m_0c = FUN_00ad5310(count, 0);
+            m_0c = ::fnv_00ad5310::FUN_00ad5310(count);
             m_10 = m_0c;
             m_14 = (char*)m_0c + count * 0x1c;
         }
@@ -2666,6 +2594,23 @@ struct S_00acfb90_Class
     void __thiscall FUN_00acfc10(int param_1, int param_2);
     void* __thiscall FUN_00acfb90();
 };
+// @fnv 0x00acd930
+FUN_00acd930_cls* FUN_00acd930_cls::FUN_00acd930(int a1, int a2)
+{
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    if (m_4c == 0 || Unk_ecd7e8(m_4c, a1, (a1 == 0 && a2 == 0) ? 4 : 0, a2) != 0)
+    {
+        return 0;
+    }
+    else
+    {
+        reinterpret_cast<::S_00acfb90_Class *>(this)->FUN_00acfc10(m_4c, 1);
+        return this;
+    }
+}
 
 int __cdecl FUN_00ec9907(void*);
 
@@ -2739,7 +2684,6 @@ void* __thiscall S_00acfb90_Class::FUN_00acfb90()
 }
 
 namespace fnv_00ad0360 {
-extern unsigned int DAT_010173f0;
 void FUN_00ec30b0();
 
 struct Flag4
@@ -2759,8 +2703,6 @@ struct FUN_00ad0360_cls
     unsigned int m_fRestLength;
     unsigned int m_pRayCursor;
 
-    bool Probe(unsigned int idx, unsigned int zero);
-    void Store(unsigned int zero, unsigned int idx, unsigned char v);
     FUN_00ad0360_cls* FUN_00ad0360(unsigned int idx, unsigned char v);
 };
 
@@ -2768,13 +2710,13 @@ struct FUN_00ad0360_cls
 FUN_00ad0360_cls* FUN_00ad0360_cls::FUN_00ad0360(unsigned int idx, unsigned char v)
 {
     unsigned int unk1, unk2, unk3, unk4, unk5, unk6;
-    if (idx == DAT_010173f0)
+    if (idx == ::g_010173f0)
     {
         FUN_00ec30b0();
     }
-    if (Probe(idx, 0))
+    if (reinterpret_cast<::FUN_0044a8d0_Class *>(this)->FUN_0044a8d0(idx, 0))
     {
-        Store(0, idx, v);
+        reinterpret_cast<::FUN_00aae180_cls *>(this)->FUN_00aae180(0, idx, v);
         Flag4 pk;
         pk.flag = 0;
         m_fRestLength = idx;
@@ -2799,47 +2741,13 @@ struct FNV_ad0470_class
     int unk28;
     int unk2c;
     unsigned char unk30;
-    void Initialize();
-    unsigned char FUN_00ad30c0(int flags);
-    void FUN_00ac9ff0(unsigned int value, int extra);
     void FUN_00ad0470(int n, bool flag);
 };
 
 void __cdecl FUN_00ec31b3(void* p);
 
-// @fnv 0x00ad0470
-void FNV_ad0470_class::FUN_00ad0470(int n, bool flag)
-{
-    int p[18];
-    unsigned int h;
-    int a[62];
-    unsigned int i;
-    this->Initialize();
-    this->unk28 = n;
-    this->unk2c = 0;
-    this->unk30 = this->FUN_00ad30c0(0x20);
-    if (this->unk28 == 0)
-    {
-        if (4)
-        {
-            h = this->unk08;
-            i = h | 4;
-            this->FUN_00ac9ff0(this->unk28 == 0 ? (i | 4) : i, 0);
-        }
-    }
-    if (flag)
-    {
-        FUN_00ec31b3(this);
-    }
-    else
-    {
-        this->unk04 = 0;
-    }
-}
-
 struct FUN_00ac9ff0_Class
 {
-    void FUN_00ac9ff0(int a, int b);
 };
 
 struct FUN_00ad0550_cls
@@ -2856,8 +2764,36 @@ struct FUN_00ad0550_cls
     void* m_24;
     void Initialize();
 };
+// @fnv 0x00ad0470
+void FNV_ad0470_class::FUN_00ad0470(int n, bool flag)
+{
+    int p[18];
+    unsigned int h;
+    int a[62];
+    unsigned int i;
+    reinterpret_cast<::FUN_00ad0550_cls *>((this))->Initialize();
+    this->unk28 = n;
+    this->unk2c = 0;
+    this->unk30 = ((unsigned char)(reinterpret_cast<::GvIos *>((this))->FUN_00ad30c0(0x20)));
+    if (this->unk28 == 0)
+    {
+        if (4)
+        {
+            h = this->unk08;
+            i = h | 4;
+            reinterpret_cast<::fnv_00ac9ff0::std::ios_base *>((this))->FUN_00ac9ff0(this->unk28 == 0 ? (i | 4) : i, 0);
+        }
+    }
+    if (flag)
+    {
+        FUN_00ec31b3(this);
+    }
+    else
+    {
+        this->unk04 = 0;
+    }
+}
 
-void* __cdecl FUN_00401000(unsigned int size);
 int __cdecl FUN_00ec36a6();
 
 // @fnv 0x00ad0550
@@ -2873,7 +2809,7 @@ void FUN_00ad0550_cls::Initialize()
     m_18 = 0;
     m_1c = 0;
     m_20 = 0;
-    ((FUN_00ac9ff0_Class*)this)->FUN_00ac9ff0(0, 0);
+    reinterpret_cast<::fnv_00ac9ff0::std::ios_base *>((((FUN_00ac9ff0_Class*)this)))->FUN_00ac9ff0(0, 0);
     int* p = (int*)FUN_00401000(4);
     m_24 = (p != 0) ? (*p = FUN_00ec36a6(), ((FUN_00ace790_class*)FUN_00ec34d4())->IncrementCounter(), (void*)p) : 0;
 }
@@ -2882,7 +2818,6 @@ namespace fnv_00ad06e0 {
 class SpawnedObject
 {
   public:
-    void IncrementCounter();
 };
 
 class FUN_00ad06e0_cls
@@ -2917,7 +2852,7 @@ unsigned int* FUN_00ad06e0_cls::FUN_00ad06e0(unsigned int* out)
         unsigned int* src = m_38;
         *out = *src;
     }
-    ((SpawnedObject*)*out)->IncrementCounter();
+    reinterpret_cast<::FUN_00ace790_class *>((((SpawnedObject*)*out)))->IncrementCounter();
     flag |= 1;
     return out;
 }
@@ -2941,7 +2876,6 @@ struct PadBlock
     unsigned int unk1C;
 };
 
-extern "C" void __cdecl FUN_00ac3300(int a1, int a2, int a3);
 
 class FUN_00ad1740_cls
 {
@@ -2960,7 +2894,7 @@ int FUN_00ad1740_cls::CallAndSum(int a1, int aiAddend, int a3)
     PadBlock nn;
     ByteBox ii = h;
     int dd = b;
-    FUN_00ac3300(dd, aiAddend, a3);
+    ::FUN_00ac3300((char *)(dd), aiAddend, (char *)(a3));
     return a1 + aiAddend;
 }
 }  // namespace fnv_00ad1740
@@ -3367,8 +3301,6 @@ struct FUN_0044d6c0_class
     void* __thiscall FUN_00ec78f1(void*** a);
 };
 
-void* __cdecl FUN_00401000(unsigned int size);
-extern void* DAT_010176f8;
 
 // Checks that n * 0x1c does not overflow, throws an exception if it would, and otherwise allocates n * 0x1c bytes via FUN_00401000.
 // @fnv 0x00ad5310
@@ -3388,11 +3320,11 @@ void* __cdecl FUN_00ad5310(unsigned int n)
             int w;
             o = 0;
             ((FUN_0044d6c0_class*)&obj)->FUN_00ec78f1((void***)&o);
-            obj = (void*)&DAT_010176f8;
+            obj = (void*)&(*reinterpret_cast<void * *>(&::DAT_010176f8));
             _CxxThrowException(&obj, (_ThrowInfo*)0x1140ef8);
         }
     }
-    return FUN_00401000(n * 0x1c);
+    return ::FUN_00401000(n * 0x1c);
 }
 }  // namespace fnv_00ad5310
 
@@ -3418,7 +3350,6 @@ unsigned int AD5700Codecvt::ClampCountToRange(AD5700State& kState, const char* _
 }
 
 namespace fnv_00ad5dd0 {
-extern "C" void __cdecl FUN_00ad66e0(int a1, int a2, int a3, int a4, unsigned char c2, unsigned char c1);
 struct ByteBox
 {
     unsigned char v;
@@ -3432,7 +3363,7 @@ void FUN_00ad5dd0(int a1, int a2, int a3, int a4)
     int p2 = a2;
     int m = a1;
     int unk10;
-    FUN_00ad66e0(m, p2, a3, a4, c8.v, c7.v);
+    ::FUN_00ad66e0((::wrac52::BxString *)(m), (::wrac52::BxString *)(p2), (::wrac52::BxString *)(a3), (*(::wrac52::GvAlloc< ::wrac52::BxString> *)(a4)));
 }
 }  // namespace fnv_00ad5dd0
 
@@ -3495,13 +3426,12 @@ struct FUN_00ad6190_cls
     void AssignSubstring(int a, int b, int c);
     FUN_00ad6190_cls* FUN_00ad6190(int a);
 };
-extern int DAT_010173f0;
 // @fnv 0x00ad6190
 FUN_00ad6190_cls* FUN_00ad6190_cls::FUN_00ad6190(int a)
 {
     FUN_00ad6190_Frame frame;
-    this->AssignSubstring(a, 0, DAT_010173f0);
-    m_1c.AssignSubstring(a + 0x1c, 0, DAT_010173f0);
+    this->AssignSubstring(a, 0, (*reinterpret_cast<int *>(&::g_010173f0)));
+    m_1c.AssignSubstring(a + 0x1c, 0, (*reinterpret_cast<int *>(&::g_010173f0)));
     return this;
 }
 }  // namespace fnv_00ad6190
@@ -3559,8 +3489,6 @@ struct BAD6B10CheckedTag
 {
 };
 
-void __cdecl FUN_00ad6d30(BAD6B10Iterator kFirst, BAD6B10Iterator kLast, int* piDest, void* pvAllocator,
-                          BAD6B10PtrCategory kCategory, BAD6B10CheckedTag kChecked);
 
 // Forwards the iterator range, destination, allocator, category and checked tag to FUN_00ad6d30.
 // @fnv 0x00ad6b10
@@ -3572,7 +3500,7 @@ void __cdecl FUN_00ad6b10(BAD6B10Iterator kFirst, BAD6B10Iterator kLast, int* pi
     BAD6B10Iterator kLastBase = kLast;
     int* kDest;
     BAD6B10Iterator kFirstBase3 = kFirst;
-    FUN_00ad6d30(kFirstBase3, kLastBase, piDest, pvAllocator, kCategory, kChecked);
+    ::FUN_00ad6d30((*(::Pair56 * *)&(const ::BAD6B10Iterator &)(kFirstBase3)), (*(::Pair56 * *)&(const ::BAD6B10Iterator &)(kLastBase)), (::Pair56 *)(piDest));
 }
 
 // Candidate: FUN_00ad6b60
@@ -3580,7 +3508,6 @@ struct FlagBox
 {
     unsigned char v;
 };
-int __cdecl FUN_00ad6e20(int a0, int a1, int a2, int a3, unsigned char f4, unsigned char f5);
 
 // Initializes a FlagBox and forwards the four arguments plus two bytes to FUN_00ad6e20, returning its result.
 // @fnv 0x00ad6b60
@@ -3592,7 +3519,7 @@ int __cdecl FUN_00ad6b60(int a0, int a1, int a2, int a3)
     int dd = a1;
     int n6 = a0;
     int n8;
-    return FUN_00ad6e20(n6, dd, a2, a3, cc, b0.v);
+    return ((int)(::fnv_00ad6e20::FUN_00ad6e20((::fnv_00ad6e20::ElemQ *)(n6), (::fnv_00ad6e20::ElemQ *)(dd), (::fnv_00ad6e20::ElemQ *)(a2))));
 }
 
 // Constructor: defaults, with the enabled flag taken from its INI setting (or false when the setting is missing).
@@ -3604,8 +3531,6 @@ class AD6F40Setting
     bool m_bValue;
 };
 
-extern AD6F40Setting g_kAD6F40EnabledSetting;
-extern bool g_bAD6F40DefaultEnabled;
 
 class AD6F40List
 {
@@ -3641,8 +3566,8 @@ class FUN_00ad6f40
 FUN_00ad6f40::FUN_00ad6f40()
 {
     m_bModifierActive = false;
-    bool* pbEnabled = &g_kAD6F40EnabledSetting ? &g_kAD6F40EnabledSetting.m_bValue
-                                               : (g_bAD6F40DefaultEnabled = false, &g_bAD6F40DefaultEnabled);
+    bool* pbEnabled = &(*reinterpret_cast<::AD6F40Setting *>(&::g_011f6dfc)) ? &(*reinterpret_cast<::AD6F40Setting *>(&::g_011f6dfc)).m_bValue
+                                               : ((*reinterpret_cast<bool *>(&::DAT_01202800)) = false, &(*reinterpret_cast<bool *>(&::DAT_01202800)));
     m_bEnableState = *pbEnabled;
     m_bPaused = false;
     m_iFadeIndex = 0;
@@ -3690,7 +3615,6 @@ void S_ad8700::FUN_00ad8700()
 }
 
 namespace fnv_00acb5f0 {
-extern char DAT_010a30a8;
 
 class FUN_00acb5f0_cls
 {
@@ -3701,12 +3625,10 @@ class FUN_00acb5f0_cls
 // @fnv 0x00acb5f0
 void FUN_00acb5f0_cls::FUN_00acb5f0()
 {
-    *(void* volatile*)((char*)this + ((int*)(*(int**)((char*)this - 8)))[1] - 8) = (void*)&DAT_010a30a8;
+    *(void* volatile*)((char*)this + ((int*)(*(int**)((char*)this - 8)))[1] - 8) = (void*)&(*reinterpret_cast<char *>(&::DAT_010a30a8));
 }
 }  // namespace fnv_00acb5f0
 
-extern int DAT_010f1e40;
-extern int DAT_01011d78;
 struct SeekPosition
 {
     int offset;
@@ -3820,12 +3742,10 @@ SeekPosition* StringBufferSeek::Seek(SeekPosition* result, int offset, int way, 
         offset = DAT_010f1e40;
     result->offset = offset;
     result->filePosition = 0;
-    result->state = DAT_01011d78;
+    result->state = (*reinterpret_cast<int *>((void *)&::DAT_01011d78));
     return result;
 }
 
-extern const long _BADOFF;
-extern const int _Stinit;
 
 struct StreamPos
 {
@@ -3893,7 +3813,7 @@ StreamPos* StringBuf::FUN_00acc490(StreamPos* _Result, StreamPos _Ptr, int _Mode
         }
     }
 
-    if (offsetA == _BADOFF)
+    if (offsetA == (*reinterpret_cast<const long *>(&::DAT_010f1e40)))
         ;
     else if ((_Mode & 1) && (aPGet2 = *_IGnext) != 0)
     {
@@ -3915,7 +3835,7 @@ StreamPos* StringBuf::FUN_00acc490(StreamPos* _Result, StreamPos _Ptr, int _Mode
             }
         }
         else
-            offsetA = _BADOFF;
+            offsetA = (*reinterpret_cast<const long *>(&::DAT_010f1e40));
     }
     else if ((_Mode & 2) && (pNext4 = *_IPnext) != 0)
     {
@@ -3928,14 +3848,14 @@ StreamPos* StringBuf::FUN_00acc490(StreamPos* _Result, StreamPos _Ptr, int _Mode
             *_IPnext += iPBumpB;
         }
         else
-            offsetA = _BADOFF;
+            offsetA = (*reinterpret_cast<const long *>(&::DAT_010f1e40));
     }
     else
-        offsetA = _BADOFF;
+        offsetA = (*reinterpret_cast<const long *>(&::DAT_010f1e40));
 
     _Result->_Myoff = offsetA;
     _Result->_Fpos = 0;
-    _Result->_Mystate = _Stinit;
+    _Result->_Mystate = (*reinterpret_cast<const int *>((void *)&::DAT_01011d78));
     return _Result;
 }
 
@@ -3995,16 +3915,12 @@ Rec12Copy* __cdecl CopyRangeBackward(Rec12Copy* first, Rec12Copy* last, Rec12Cop
     }
 }
 
-extern "C" void __cdecl FUN_00ac34c0(void* item, void* arg);
 
 class SpawnCallee_cls
 {
   public:
-    void Probe(int a, int b);
-    void Release(void* item);
 };
 
-extern SpawnCallee_cls g_ac2370Owner;
 
 struct Scratch_cls
 {
@@ -4024,16 +3940,16 @@ void FUN_00ac2370(SpawnItem_cls* apItems, unsigned int count, void* arg)
     {
         for (; count > 0; count--, apItems++)
         {
-            FUN_00ac34c0(apItems, arg);
+            ::FUN_00ac34c0((::IdName_ac34 *)(apItems), (*(const ::IdName_ac34 *)(arg)));
         }
     }
     catch (...)
     {
         for (; cur != apItems; cur++)
         {
-            if ((((SpawnCallee_cls*)((char*)cur + 4))->Probe(1, 0), 1u) & 0u)
+            if ((reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>((((SpawnCallee_cls*)((char*)cur + 4))))->FUN_0044a730(1, 0), 1u) & 0u)
             {
-                g_ac2370Owner.Release(cur);
+                reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::SpawnCallee_cls *>(&::g_memoryManager))))->FUN_00aa4060(cur);
             }
         }
         throw;
@@ -4051,12 +3967,8 @@ struct AC27Tag
 struct AC27Zero
 {
 };
-AC27Record* __cdecl FUN_00ac1170(AC27Record*, AC27Record*, AC27Record*);
-AC27Record* __cdecl CopyRecords(AC27Record*, AC27Record*, AC27Record*, AC27Tag, AC27Tag, AC27Zero);
-AC27Record* __cdecl FUN_00ac3370(AC27Record*, AC27Record*, AC27Record*, void*, AC27Tag, AC27Zero);
 struct AC27Pool
 {
-    void FUN_00aa4060(void*);
 };
 struct AC27Root
 {
@@ -4102,8 +4014,6 @@ struct AC27Vector
 {
     unsigned int unknown0, unknown4, allocator;
     AC27Record *first, *last, *limit;
-    void FUN_00ab9cd0();
-    unsigned char ReserveItems(unsigned int);
     AC27Vector& Assign(const AC27Vector&);
 };
 // Copy-assigns right into this vector, reusing existing storage when it fits and otherwise reallocating or destroying the old buffer.
@@ -4115,7 +4025,7 @@ AC27Vector& AC27Vector::Assign(const AC27Vector& right)
     {
         if (right.last - right.first == 0)
         {
-            FUN_00ab9cd0();
+            reinterpret_cast<::OutCont *>(this)->FUN_00ab9cd0();
         }
         else
         {
@@ -4131,7 +4041,7 @@ AC27Vector& AC27Vector::Assign(const AC27Vector& right)
                 DA = A6;
                 AA.p48 = AA.p58;
                 AA.p50 = AA.p54;
-                r.p4 = CopyRecords(AA.p50, AA.p48, AA.p5c, D7, DA, DT);
+                r.p4 = ((::AC27Record *)(::CopyRecords((::CopyRecord *)(AA.p50), (::CopyRecord *)(AA.p48), (::CopyRecord *)(AA.p5c))));
                 AA.p70 = last;
                 AA.p6c = AA.p70;
                 AA.p68 = r.p4;
@@ -4152,7 +4062,7 @@ AC27Vector& AC27Vector::Assign(const AC27Vector& right)
                     AC27Append AA;
                     AC27Tag D7, DA;
                     r.p8 = right.first + (last - first);
-                    FUN_00ac1170(right.first, r.p8, first);
+                    ::fnv_00ac1170::FUN_00ac1170((::fnv_00ac1170::ElemC117 *)(right.first), (::fnv_00ac1170::ElemC117 *)(r.p8), (::fnv_00ac1170::ElemC117 *)(first));
                     AA.pbc = last;
                     AA.pb8 = right.last;
                     AA.pb4 = AA.pbc;
@@ -4162,7 +4072,7 @@ AC27Vector& AC27Vector::Assign(const AC27Vector& right)
                     DA = D7;
                     AA.pa0 = AA.pb0;
                     AA.pa8 = AA.pac;
-                    last = FUN_00ac3370(AA.pa8, AA.pa0, AA.pb4, &allocator, DA, DT);
+                    last = ((::AC27Record *)(::FUN_00ac3370((::CopyElem12 *)(AA.pa8), (::CopyElem12 *)(AA.pa0), (::CopyElem12 *)(AA.pb4))));
                 }
                 else
                 {
@@ -4181,11 +4091,11 @@ AC27Vector& AC27Vector::Assign(const AC27Vector& right)
                         }
                         AA.ndc = limit - first;
                         AA.pd8 = first;
-                        ((AC27Pool*)&DAT_011f6238)->FUN_00aa4060(AA.pd8);
+                        reinterpret_cast<::FNV_MemoryManager *>((((AC27Pool*)&(*reinterpret_cast<::FUN_00ac1720_pool *>(&::g_memoryManager)))))->FUN_00aa4060(AA.pd8);
                     }
                     {
                         unsigned int uiNewCount = right.last - right.first;
-                        if (ReserveItems(uiNewCount))
+                        if (((unsigned char)(reinterpret_cast<::FUN_0065cfd0_cls *>(this)->ReserveItems(uiNewCount))))
                         {
                             AC27Pad104 A9;
                             AC27Allocate AA;
@@ -4200,7 +4110,7 @@ AC27Vector& AC27Vector::Assign(const AC27Vector& right)
                             DA = D7;
                             AA.p150 = AA.p160;
                             AA.p158 = AA.p15c;
-                            last = FUN_00ac3370(AA.p158, AA.p150, AA.p164, &allocator, DA, DT);
+                            last = ((::AC27Record *)(::FUN_00ac3370((::CopyElem12 *)(AA.p158), (::CopyElem12 *)(AA.p150), (::CopyElem12 *)(AA.p164))));
                         }
                     }
                 }
@@ -4271,7 +4181,7 @@ FUN_00acbae0_Value* FUN_00acbae0_cls::InitValue(FUN_00acbae0_Value* out, unsigne
     unsigned int value = DAT_010f1e40;
     out->m_00 = value;
     out->m_08 = 0;
-    out->m_10 = DAT_01011d78;
+    out->m_10 = (*reinterpret_cast<int *>((void *)&::DAT_01011d78));
     return out;
 }
 
@@ -4335,8 +4245,6 @@ int FUN_00acd060_cls::ReadByte()
 }
 
 extern int DAT_010a318c;
-extern int DAT_010a2fa4;
-extern int DAT_010a2f9c;
 void __cdecl FUN_00ec3205(void* component);
 struct FUN_00ace2d0_Class
 {
@@ -4344,6 +4252,22 @@ struct FUN_00ace2d0_Class
     void* componentVTable;
     void InitializeVirtualBase();
 };
+// Runs the destructor on the object at this-4 and, if flags has bit 0 set, deallocates it, returning that object pointer.
+// @fnv 0x00acdf60
+void* __thiscall FUN_00acdf60_class::DestroyAndDeallocate(int flags)
+{
+    {
+        int unused1;
+        int unused2;
+    }
+
+    reinterpret_cast<::FUN_00ace2d0_Class *>((reinterpret_cast<GlobalObjectO2_00ec3a75*>(reinterpret_cast<char*>(this) - 4)))->InitializeVirtualBase();
+
+    if (flags & 1)
+        ::FUN_00401030(reinterpret_cast<GlobalObjectO2_00ec3a75*>(reinterpret_cast<char*>(this) - 4));
+
+    return reinterpret_cast<GlobalObjectO2_00ec3a75*>(reinterpret_cast<char*>(this) - 4);
+}
 // @fnv 0x00ace2d0
 void FUN_00ace2d0_Class::InitializeVirtualBase()
 {
@@ -4365,10 +4289,7 @@ struct FUN_00ad5430_err
     unsigned int unk08;
     void FUN_00ec78f1(unsigned int* out);
 };
-extern "C" char DAT_010176f8[];
-extern "C" char DAT_01140ef8[];
 extern "C" void __stdcall FUN_00ec7894(void* err2, const char* msg);
-void* __cdecl FUN_00401000(unsigned int size);
 
 // Clamps count to zero, reports an error if count*0x18 would overflow, then allocates count*0x18 bytes and returns the pointer.
 // @fnv 0x00ad5430
@@ -4522,13 +4443,12 @@ Elem34* __cdecl FUN_00ac18c0(Elem34* first, Elem34* last, Elem34* dest)
     Elem34* armor = first;
     for (; armor != last; blend = blend + 1, armor = armor + 1)
     {
-        blend->text.AssignSubstring(armor->text, 0, DAT_010173f0);
+        blend->text.AssignSubstring(armor->text, 0, (*reinterpret_cast<int *>(&::g_010173f0)));
         blend->items.Assign(armor->items);
     }
     return center;
 }
 
-void FUN_00ac3170(int, int, int, unsigned char, unsigned char, unsigned char);
 struct Tag
 {
     unsigned char v;
@@ -4542,11 +4462,10 @@ void FUN_00ac1f60(int a1, int a2, int a3, unsigned char a4)
     unsigned char c3;
     unsigned char c7 = c3;
     char pad[284];
-    FUN_00ac3170(a1, a2, a3, a4, c7, t_.v);
+    ::FUN_00ac3170((::Elem3170 *)(a1), (::Elem3170 *)(a2), (::Elem3170 *)(a3));
 }
 
 namespace fnv_00ac2020 {
-void FUN_00ac3230(int, int, int, unsigned char, unsigned char, unsigned char);
 struct Tag
 {
     unsigned char v;
@@ -4560,7 +4479,7 @@ void FUN_00ac2020(int a1, int a2, int a3, unsigned char a4)
     unsigned char c3;
     unsigned char c7 = c3;
     char pad[276];
-    FUN_00ac3230(a1, a2, a3, a4, c7, t_.v);
+    ::FUN_00ac3230(a1, a2, a3);
 }
 }  // namespace fnv_00ac2020
 
@@ -4679,7 +4598,7 @@ extern "C" int __cdecl FUN_00ac3230(int aiSrcStart, int aiSrcEnd, int c)
         {
             it.cur = (FUN_00ac2760_cls*)((char*)it.cur - 56);
             it.dst = (FUN_00ac2760_cls*)((char*)it.dst - 56);
-            it.dst->AssignSubstring((int)it.cur, 0, DAT_010173f0);
+            it.dst->AssignSubstring((int)it.cur, 0, (*reinterpret_cast<int *>(&::g_010173f0)));
             it.dst->m_1c = it.cur->m_1c;
             it.dst->m_20.FUN_00ac2ca0((int)&it.cur->m_20);
         }
@@ -4768,14 +4687,11 @@ CopyItem16* __cdecl FUN_00ac3820(CopyItem16* first, CopyItem16* last, CopyItem16
 
 struct S00aca220_Sub
 {
-    void FUN_0044a730(int, int);
 };
 struct S00aca220_Base
 {
     void FUN_00ec79a1();
 };
-void FUN_00401030(void* p);
-extern char DAT_010a307c;
 struct S00aca220_Obj : public S00aca220_Base
 {
     char* m_pVft;
@@ -4793,8 +4709,8 @@ S00aca220_Obj* S00aca220_Obj::FUN_00aca220(int flags)
     int u3;
     int u4;
     int u5;
-    m_pVft = &DAT_010a307c;
-    m_sub.FUN_0044a730(1, 0);
+    m_pVft = &(*reinterpret_cast<char *>(&::DAT_010a307c));
+    reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(&(m_sub))->FUN_0044a730(1, 0);
     FUN_00ec79a1();
     if (flags & 1)
         FUN_00401030(this);
@@ -4802,8 +4718,6 @@ S00aca220_Obj* S00aca220_Obj::FUN_00aca220(int flags)
 }
 
 namespace fnv_00aca300 {
-extern int DAT_010a3070;
-extern int DAT_010a307c;
 struct StringLike
 {
     void Clear(bool, unsigned int);
@@ -4831,9 +4745,9 @@ void PoolSpawn::FUN_00aca300()
     int c;
     int d;
     int e;
-    m_vft = (void*)&DAT_010a3070;
-    m_vft = (void*)&DAT_010a307c;
-    ((StringLike*)((char*)this + 0xc))->Clear(true, 0);
+    m_vft = (void*)&(*reinterpret_cast<int *>(&::DAT_010a3070));
+    m_vft = (void*)&::DAT_010a307c;
+    reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>((((StringLike*)((char*)this + 0xc))))->FUN_0044a730(true, 0);
     ((FUN_0044d6f0_This*)this)->FUN_00ec79a1();
 }
 }  // namespace fnv_00aca300
@@ -4846,9 +4760,6 @@ struct S00aca340_Base
 {
     void FUN_00ec79a1();
 };
-void FUN_00401030(void* p);
-extern char DAT_010a3070;
-extern char DAT_010a307c;
 struct S00aca340_Obj : public S00aca340_Base
 {
     void* m_vft;
@@ -4867,8 +4778,8 @@ S00aca340_Obj* S00aca340_Obj::FUN_00aca340(int aiFlags)
     int u4;
     int u5;
     m_vft = &DAT_010a3070;
-    m_vft = &DAT_010a307c;
-    m_str.Clear(true, 0);
+    m_vft = &(*reinterpret_cast<char *>(&::DAT_010a307c));
+    reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(&(m_str))->FUN_0044a730(true, 0);
     FUN_00ec79a1();
     if (aiFlags & 1)
         FUN_00401030(this);
@@ -4907,8 +4818,6 @@ void FUN_00aca780_class::FUN_00aca780()
     FUN_00aca9a0();
 }
 
-extern int DAT_010f1e40;
-extern int DAT_01011d78;
 
 struct Acbb20Value
 {
@@ -4933,7 +4842,7 @@ Acbb20Value* Acbb20Cls::FUN_00acbb20(Acbb20Value* out, unsigned int, unsigned in
     int v = DAT_010f1e40;
     out->m00 = v;
     out->m08 = 0;
-    out->m10 = DAT_01011d78;
+    out->m10 = (*reinterpret_cast<int *>((void *)&::DAT_01011d78));
     return out;
 }
 
@@ -4980,7 +4889,6 @@ struct S00acede0_Elem
     int m_10;
     int m_14;
     int m_18;
-    void FUN_0044a730(int a, int b);
 };
 
 struct S00acede0_Obj
@@ -5024,7 +4932,7 @@ void S00acede0_Obj::FUN_00acede0()
         hhX = gg3;
         for (; hhX != theta4; hhX = hhX + 1)
         {
-            if (1 & (hhX->FUN_0044a730(1, 0), 0))
+            if (1 & (reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>((hhX))->FUN_0044a730(1, 0), 0))
                 FUN_00401030(hhX);
         }
         p5 = m_14 - m_0c;
@@ -5092,7 +5000,7 @@ void __thiscall S_00acfb90_Class::FUN_00acfc10(int apStream, int aiInitKind)
     ((FileBufFields*)this)->closef = ((FileInitKind)aiInitKind == FileOpen);
     ((FileBufFields*)this)->wrotesome = false;
 
-    reinterpret_cast<FUN_00acda10_cls*>(this)->FUN_00ad0720();
+    reinterpret_cast<::S00ad0720_Obj *>((reinterpret_cast<FUN_00acda10_cls*>(this)))->FUN_00ad0720();
 
     if (apStream != 0 && sizeof(char) == 1)
     {
@@ -5132,7 +5040,6 @@ void FUN_00ad6000(int a1, int a2, int a3, unsigned char a4)
 }
 }  // namespace fnv_00ad6000
 
-extern int DAT_010173f0;
 
 struct Str_00ac1600
 {
@@ -5177,14 +5084,12 @@ void __cdecl FUN_00ac1600(Rec_00ac1600* begin, Rec_00ac1600* end, const Rec_00ac
             {
                 cur->f0 = src->f0;
                 cur->v = src->v;
-                cur->s.Set(&src->s, 0, DAT_010173f0);
+                cur->s.Set(&src->s, 0, (*reinterpret_cast<int *>(&::g_010173f0)));
             }
         }
     }
 }
 
-extern int DAT_010a2f9c;
-extern int DAT_010a2fa4;
 
 void __cdecl operator delete(void* pv);
 
@@ -5209,7 +5114,7 @@ void* S00ace060_Obj::FUN_00ace060(int flags)
     int tmp4;
     int tmp5;
 
-    reinterpret_cast<S00ace060_Obj*>(zbase + 0x50)->FUN_00acb610();
+    reinterpret_cast<::FUN_00acb610 *>((reinterpret_cast<S00ace060_Obj*>(zbase + 0x50)))->FUN_00acb610::~FUN_00acb610();
 
     o = reinterpret_cast<S00ace060_Obj*>(zbase + 0x50);
     *reinterpret_cast<void**>(o) = reinterpret_cast<void*>(&DAT_010a2fa4);
@@ -5217,22 +5122,18 @@ void* S00ace060_Obj::FUN_00ace060(int flags)
     FUN_00ec3205(o);
 
     if (flags & 1)
-        ::operator delete(reinterpret_cast<char*>(this) - 0x50);
+        ::FUN_00401030(reinterpret_cast<char*>(this) - 0x50);
 
     return reinterpret_cast<char*>(this) - 0x50;
 }
 
-void __cdecl FUN_00401030(void*);
 void __cdecl FUN_00ec3205(void*);
-extern int DAT_010a2fa4;
-extern int DAT_010a2f9c;
 
 struct StreamOwner;
 
 struct StreamComponent
 {
     int* vtable;
-    void FUN_00acc8c0();
     StreamOwner* FUN_00ace150(unsigned int flags);
 };
 
@@ -5254,7 +5155,7 @@ StreamOwner* StreamComponent::FUN_00ace150(unsigned int flags)
 {
     int c, l, k, ba, b;
     StreamOwner* j = (StreamOwner*)((char*)this - 0x58);
-    ((StreamComponent*)((char*)j + 0x58))->FUN_00acc8c0();
+    reinterpret_cast<::FUN_00acc8c0 *>((((StreamComponent*)((char*)j + 0x58))))->FUN_00acc8c0::~FUN_00acc8c0();
     StreamComponent* e = (StreamComponent*)((char*)j + 0x58);
     e->vtable = &DAT_010a2fa4;
     e->vtable = &DAT_010a2f9c;

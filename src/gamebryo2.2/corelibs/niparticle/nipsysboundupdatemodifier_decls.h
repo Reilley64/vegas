@@ -2,13 +2,13 @@
 #ifndef FNV_NIPSYSBOUNDUPDATEMODIFIER_DECLS_H
 #define FNV_NIPSYSBOUNDUPDATEMODIFIER_DECLS_H
 
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_011f6000.h"
 #include "NiFixedString.h"
 #include "NiObject.h"
 #include "NiPoint3.h"
 #include "MemoryManager.h"
 
-extern MemoryManager g_memoryManager;
-extern "C" const NiPoint3 NiPoint3_ZERO;
 class NiParticleSystem;
 
 class NiBound
@@ -22,7 +22,7 @@ class NiBound
     };
     static void* operator new[](unsigned int size)
     {
-        return g_memoryManager.Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }
     void SetCenterAndRadius(const NiPoint3& center, float radius)
     {

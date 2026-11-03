@@ -1,6 +1,7 @@
 // Source layout: Menu. PC corrections are in generate_headers.py.
 #ifndef FNV_INTERFACE_REBASE_FNV_INTERFACE_TABLINE_MENU_H
 #define FNV_INTERFACE_REBASE_FNV_INTERFACE_TABLINE_MENU_H
+#include "fnv/decl/fnv_00a1ddb0__FUN_00a1ddb0_shell.h"
 #include "interface_rebase_layout_support.h"
 class Menu
 {
@@ -8,7 +9,6 @@ class Menu
     virtual ~Menu();  // the original class is polymorphic (rtti_variants.py)
   public:
     static bool IsMenuVisible(Interface::enumMenus);
-    Tile* CreateTileFromTemplate(Tile* parent, const char* name, Tile* existing);
     TileMenu* pMenu;                                        // +0x4
     BSSimpleList<Tile__TileTemplate*> m_kTileTemplateList;  // +0x8
     Tile* m_pMenuTile;                                        // +0x10

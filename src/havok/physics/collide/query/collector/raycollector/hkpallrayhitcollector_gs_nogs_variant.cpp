@@ -4,7 +4,7 @@
 
 // src/havok/physics/collide/query/collector/raycollector/hkpallrayhitcollector.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/collector/raycollector/hkpallrayhitcollector.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-void __cdecl FUN_00c852c0(void* owner, int a2, int a3, int a4);
+#include "fnv/symbols_00c85000.h"
 class FUN_00c855f0_cls
 {
   public:

@@ -7,6 +7,17 @@
 
 // src/havok/physics/collide/agent/convexagent/gjk/hkppredgskfagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/gjk/hkppredgskfagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/Drecv.h"
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_00cfbd60_cls.h"
+#include "fnv/decl/ThisClass.h"
+#include "fnv/symbols_00cf1000.h"
+#include "fnv/symbols_00d41000.h"
+#include "fnv/symbols_00dac000.h"
+#include "fnv/symbols_00dad000.h"
+#include "fnv/symbols_00dae000.h"
+#include "fnv/symbols_00db6000.h"
+#include "fnv/symbols_01268000.h"
 struct __declspec(align(16)) FUN_00d41f00_Local
 {
     unsigned int unk00;
@@ -26,13 +37,10 @@ struct __declspec(align(16)) FUN_00d41f00_Local
     unsigned char unk32;
     unsigned char unk33;
 };
-void __cdecl FUN_00d41ec0(FUN_00d41f00_Local* p);
 class SpawnedObject
 {
 public:
-    void AddEntry(FUN_00d41f00_Local* p, int a, int b);
 };
-void __cdecl FUN_00d41f00(SpawnedObject* self, int aiArg1, int aiArg2);
 
 extern "C" void __cdecl __debugbreak(void);
 typedef float hkReal;
@@ -360,8 +368,7 @@ class StringCursor
 public:
 __forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}static StringCursor&GetMonitorStream()
 {
-extern hkThreadLocalData<StringCursor*>g_pMonitorStream;
-return*g_pMonitorStream.getData();
+return*(*reinterpret_cast<::hkThreadLocalData< ::StringCursor *> *>(&::DAT_0126835c)).getData();
 }
 public:
 __forceinline char*__cdecl GetStreamStart(){return m_kRayStart.val();}
@@ -405,7 +412,7 @@ m_uiStartTicks=ticks;
 class ScopedTimer
 {
 public:
-__forceinline ~ScopedTimer(){{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};}
+__forceinline ~ScopedTimer(){{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};}
 };
 class hkMotionState
 {
@@ -791,7 +798,6 @@ friend class hkpConvexListAgent;
 hkpGskBaseAgent(hkpContactMgr*mgr):hkpIterativeLinearCastAgent(mgr){}
 protected:
 __forceinline hkBool _getClosestPoint(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,GskAgentData&output);
-static void __cdecl ComputeClosestPoint(const hkpCdBody&bodyA,const hkpCdBody&bodyB,hkReal earlyOutTolerance,ConvexShapePairCache&gsk,hkVector4&separatingNormalOut);
 hkBool ComputeClosestPoints(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,GskAgentData&output);
 static __forceinline hkBool staticGetClosestPoint(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const hkTransform&aTb,const CollisionAgentContext&input,ConvexFeaturePairCache&cache,struct GskAgentData&output);
 virtual void RemovePoint(const CollisionAgentContext&input);
@@ -894,7 +900,6 @@ protected:
 friend class hkpConvexConvexWelderAgent;
 hkpGskfAgent(const hkpCdBody&bodyA,const hkpCdBody&bodyB,hkpContactMgr*mgr);
 ~hkpGskfAgent(){}
-void ProcessGskCollision(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const GskAgentInput&input,WorldOperationEntry&result);
 public:
 static hkpCollisionAgent*__cdecl m_pVirtualFunction0(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,hkpContactMgr*mgr);
 protected:
@@ -913,7 +918,6 @@ __forceinline hkpPredGskfAgent(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const
 };
 namespace MotionUtilities
 {
-void __cdecl ComputeTransformAtTime(const hkSweptTransform&sweptTrans,hkTime time,hkTransform&transformOut);
 __forceinline void __cdecl calcTimInfo(const hkMotionState&ms0,const hkMotionState&ms1,hkReal deltaTime,hkVector4&timOut);}
 void __cdecl MotionUtilities::calcTimInfo(const hkMotionState&ms0,const hkMotionState&ms1,hkReal deltaTime,hkVector4&timOut)
 {
@@ -954,7 +958,6 @@ __forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerR
 ConvexShapePairCache():m_uiCacheFlags(0){}
 __forceinline void init(const hkpConvexShape*shapeA,const hkpConvexShape*shapeB,const ConvexFeaturePairCache&cache);
 __forceinline void checkForChangesAndUpdateCache(ConvexFeaturePairCache&cache)const;
-void WriteContactFeatureCache(ConvexFeaturePairCache&cache)const;
 protected:
 __forceinline void setFeatureChange(int f){m_iFeatureChange=f;}
 public:
@@ -990,7 +993,7 @@ if(!m_iFeatureChange)
 {
 return;
 }
-WriteContactFeatureCache(cache);
+reinterpret_cast<::ThisClass *>((void *)this)->FUN_00da9790((::Dest *)&(cache));
 }
 struct MeshVertexBasisData
 {
@@ -1002,9 +1005,6 @@ ValueWrapper<hkReal>m_fMinimumCollisionSeparation;
 ValueWrapper<hkReal>m_fMaximumSeparation;};
 extern "C"
 {
-void __cdecl RemoveManifoldContacts(ConvexContactManifold&manifold,hkpContactMgr*mgr,hkpConstraintOwner&constraintOwner);
-int __cdecl BuildManifoldOperation(ConvexContactManifold&manifold,const MeshVertexBasisData&work,int firstPointIndex,WorldOperationEntry&out,hkpContactMgr*contactMgr);
-void __cdecl BuildContactPointOperation(const AgentSubtypeMarker&in3,const hkReal allowedPenetration,const hkReal minSeparation,const hkReal toiSeparation,ConvexFeaturePairCache&gskCache,hkVector4&separatingNormal,WorldOperationEntry&output);
 __forceinline void __cdecl hkGskManifold_init(const ConvexContactManifold&manifold,const hkVector4&masterNormal,const hkpCdBody&cA,const hkpCdBody&m_ucPackageByte,hkReal keepContactMaxDist,MeshVertexBasisData&work)
 {
 work.m_fMinimumCollisionSeparation=keepContactMaxDist;
@@ -1031,7 +1031,7 @@ hkVector4Util_S::TransformPointArray(m_ucPackageByte.getTransform(),verts,manifo
 // @fnv 0x00d42020
 void hkpPredGskfAgent::FUN_00d42020(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const GskAgentInput&input,WorldOperationEntry&output)
 {
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "Gsk";h->setTime();mStream.setEnd((char*)(h+1));}};ScopedTimer timeblock155;
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "Gsk";h->setTime();mStream.setEnd((char*)(h+1));}};ScopedTimer timeblock155;
 char names[2][128];
 {
 if(m_fFloatValue !=input.m_pStepInfo.m_uiStartTime)
@@ -1045,13 +1045,13 @@ hkTransform tA;
 hkTransform tB;
 hkpCdBody bA(&bodyA,&tA);bA.SetCollisionShapeAndKey(bodyA.getShape(),bodyA.getShapeKey());
 hkpCdBody bB(&bodyB,&tB);bB.SetCollisionShapeAndKey(bodyB.getShape(),bodyB.getShapeKey());
-MotionUtilities::ComputeTransformAtTime(bodyA.GetMotionState()->getSweptTransform(),input.m_pStepInfo.m_uiStartTime,tA);
-MotionUtilities::ComputeTransformAtTime(bodyB.GetMotionState()->getSweptTransform(),input.m_pStepInfo.m_uiStartTime,tB);
+::FUN_00cf1510((const ::hkSweptTransformL &)(bodyA.GetMotionState()->getSweptTransform()),input.m_pStepInfo.m_uiStartTime,(::hkTransformL &)(tA));
+::FUN_00cf1510((const ::hkSweptTransformL &)(bodyB.GetMotionState()->getSweptTransform()),input.m_pStepInfo.m_uiStartTime,(::hkTransformL &)(tB));
 const hkpConvexShape*shapeA=static_cast<const hkpConvexShape*>(bodyA.getShape());
 const hkpConvexShape*shapeB=static_cast<const hkpConvexShape*>(bodyB.getShape());
 ConvexShapePairCache gsk;
 gsk.init(shapeA,shapeB,m_pAccessManager);
-ComputeClosestPoint(bA,bB,input.m_pCollisionQualityInfo->m_fMinimumCollisionSeparation,gsk,m_vSeparatingNormal);
+::FUN_00dac020((const ::hkpCdBodyDAC0 &)(bA),(const ::hkpCdBodyDAC0 &)(bB),(*(const ::hkpCollisionInputDAC0 *)(input.m_pCollisionQualityInfo->m_fMinimumCollisionSeparation)),(::FUN_00daad40_solver *)&(gsk),(::hkVector4DAC0 &)(m_vSeparatingNormal));
 gsk.checkForChangesAndUpdateCache(m_pAccessManager);
 }
 m_fFloatValue=input.m_pStepInfo.m_fEndTime;
@@ -1067,7 +1067,7 @@ if(0)hkTraceStream::GetMonitorStream().dontPrintf("Tim","# Tim %-6s %-6s dist:%2
 m_vSeparatingNormal(3)=distAtT1;
 if(m_kContactManifold.m_usNumContactPoints)
 {
-RemoveManifoldContacts(m_kContactManifold,m_pContactManager,*output.m_pConstraintOwner.val());
+::ReleaseAllEntries((::S_00dad640_Set *)&(m_kContactManifold),(::S_00dad640_Target *)(m_pContactManager),(void *)&(*output.m_pConstraintOwner.val()));
 }
 goto END_OF_FUNCTION;
 }
@@ -1088,7 +1088,7 @@ if(distAtT1>=minSeparation)
 goto QUICK_VERIFY_MANIFOLD;
 }
 const hkReal toiSeparation=MathUtilities::min2(qi->m_fMinimumTimeOfImpactDelta*m_fSeparationDistance,distance+qi->m_fMaximumTimeOfImpactDelta*m_fSeparationDistance);
-BuildContactPointOperation(in3,m_fSeparationDistance,minSeparation,toiSeparation,m_pAccessManager,m_vSeparatingNormal,output);
+::FUN_00db60c0(in3,m_fSeparationDistance,minSeparation,toiSeparation,m_pAccessManager,m_vSeparatingNormal,output);
 goto PROCESS_AT_T1;
 }
 QUICK_VERIFY_MANIFOLD:
@@ -1098,11 +1098,11 @@ if(0)hkTraceStream::GetMonitorStream().dontPrintf("Pts","# Pts %-6s %-6s dist:%2
 m_vSeparatingNormal(3)=distAtT1;
 MeshVertexBasisData work;
 hkGskManifold_init(m_kContactManifold,m_vSeparatingNormal,bodyA,bodyB,input.getTolerance(),work);
-BuildManifoldOperation(m_kContactManifold,work,0,output,m_pContactManager);
+::FUN_00dae3a0((::Manifold &)(m_kContactManifold),(const ::WorkData &)(work),0,(::ProcessOutput &)(output),(::Manager *)(m_pContactManager));
 goto END_OF_FUNCTION;
 }
 }
 PROCESS_AT_T1:
-ProcessGskCollision(bodyA,bodyB,input,output);
+reinterpret_cast<::Drecv *>(this)->FUN_00daccd0((::Dsrc *)&(bodyA),(::Dsrc *)&(bodyB),(::Dsrc *)&(input),(int)&(output));
 END_OF_FUNCTION:;
 }

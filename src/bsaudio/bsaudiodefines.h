@@ -14,6 +14,8 @@
 #define FNV_BSAUDIODEFINES_H
 
 
+#include "fnv/decl/FUN_0045cee0_shell.h"
+#include "fnv/symbols_00c45000.h"
 #include "bsaudiodefines_decls.h"
 #include <string.h>
 
@@ -193,7 +195,7 @@ T NiTPointerListBase<Allocator, T>::RemoveHead()
         m_pkTail = 0;
     pOldHead = reinterpret_cast<NiTListItem<T>*>(reinterpret_cast<NiTListItem<T>*>(kElement)->m_element);
     reinterpret_cast<NiTListItem<T>*>(kElement)->m_element = 0;
-    m_kItemCount.Deallocate(reinterpret_cast<NiTListItem<T>*>(kElement));
+    reinterpret_cast<::FUN_0045cee0_shell *>(&(m_kItemCount))->FUN_0045cee0(reinterpret_cast<NiTListItem<T>*>(kElement));
     m_kItemCount.m_uiCount--;
     return reinterpret_cast<T>(pOldHead);
 }
@@ -202,7 +204,7 @@ T NiTPointerListBase<Allocator, T>::RemoveHead()
 SoundMessageRecord::~SoundMessageRecord()
 {
     if (pObject)
-        FUN_00c45830(pObject);
+        ::FUN_00c45830((::MyRef *)(::NiAVObject *)(pObject));
 }
 
 #endif

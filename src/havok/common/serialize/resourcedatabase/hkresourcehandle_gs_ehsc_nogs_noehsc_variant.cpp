@@ -5,13 +5,31 @@
 
 // src/havok/common/serialize/resourcedatabase/hkresourcehandle.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/resourcedatabase/hkresourcehandle.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/AttributeFormatter.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00cb0a60.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00d46fe0_Class.h"
+#include "fnv/decl/FUN_00d87180_cls.h"
+#include "fnv/decl/FUN_00d87210_class.h"
+#include "fnv/decl/FnvClassNameNode.h"
+#include "fnv/decl/ReferencedObjectHolder.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/Struct_d86920.h"
+#include "fnv/decl/hkObjectD878.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_010eb000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkResourceHandle.h"
 struct FUN_00e2df60_class
 {
     int __thiscall FUN_00e2df60(int);
 };
 extern int DAT_010eb19c;
-void __cdecl Deallocate(void*);
 struct FUN_00e2def0_class
 {
     void* m_p;
@@ -28,7 +46,6 @@ struct D481D0RefVariant
 const void* __fastcall FUN_00e2df20(char* self, int);
 struct FUN_00d479e0_class
 {
-    void* GetValue(void const*, int);
 };
 struct FUN_00e2df80_obj
 {
@@ -48,7 +65,6 @@ struct FUN_00e2df80_class
 extern int DAT_010eb288;
 struct FUN_00cb0a70
 {
-    void m(int);
 };
 struct FUN_00e2ea20_class
 {
@@ -171,7 +187,6 @@ struct EntryArray
     int size;
     int capacityAndFlags;
 };
-void __stdcall FUN_00e2e2e0(EntryArray*);
 MemoryRouter* __cdecl FUN_00c85750();
 void __stdcall FUN_00e2e960(int x);
 class hkMemoryAllocatorE2E2;
@@ -317,7 +332,7 @@ struct S00e2e3f0_Obj
 };
 extern "C" __declspec(noinline) void __fastcall FUN_00cb0c00(void* self)
 {
-    Deallocate(self);
+    ::FUN_00401030(self);
 }
 
 // @fnv 0x00e2e3f0
@@ -372,7 +387,6 @@ struct FUN_00c90510_Class
 };
 struct FUN_00c905b0_Class
 {
-    void FUN_00c905b0();
 };
 struct C
 {
@@ -437,7 +451,6 @@ struct WorldE2E710
 };
 struct FUN_00cb0a60_target
 {
-    void __thiscall FUN_00cb0a60();
 };
 struct FUN_00e2e9e0_class
 {
@@ -485,7 +498,6 @@ struct FUN_00e2eb70 : public ReferencedE2EB70
     ArrayE2EB70<int> m_kFirst;
     ArrayE2EB70<int> m_kSecond;
 };
-extern int DAT_010eb2c4;
 struct Item_e2ebc0
 {
     int unk00;
@@ -518,7 +530,6 @@ struct FUN_00e2ebc0_class
 struct S00e2e0b0_Member;
 struct S00e2e0b0_Class
 {
-    S00e2e0b0_Member* FUN_00d46fe0(const char*);
 };
 struct S00e2e0b0_Member
 {
@@ -530,19 +541,16 @@ struct S00e2e0b0_Member
     unsigned short unk0e;
     unsigned short unk10;
     unsigned short unk12;
-    S00e2e0b0_Class* FUN_00d86920();
 };
 struct S00e2e0b0_Ref
 {
     void* unk00;
     void* unk04;
-    S00e2e0b0_Class* FUN_00d477a0();
 };
 struct S00e2e0b0_Access
 {
     void* unk00;
     void* unk04;
-    S00e2e0b0_Access* FUN_00d87180(void*, S00e2e0b0_Member*);
 };
 struct S00e2e0b0_Output
 {
@@ -573,16 +581,11 @@ struct S00e2e0b0_Entry
     unsigned int unk04;
 };
 void FUN_00c908c0(void*, S00e2e0b0_Array*, int, int);
-const char* FUN_00cb1140(const char*, int);
-void FUN_00cb1260(char*, const char*, int);
 struct S00e2e0b0_Stream
 {
     int unk00;
     int unk04;
     int unk08;
-    void FUN_00cb1600(char*, int);
-    S00e2e0b0_Stream* FUN_00cc01c0(const char*);
-    void FUN_00cc00e0();
 };
 struct S00e2e0b0_Error
 {
@@ -591,7 +594,6 @@ struct S00e2e0b0_Error
     virtual void slot08();
     virtual void report(int, unsigned int, const char*, const char*, int);
 };
-extern S00e2e0b0_Error* DAT_01268360;
 static __forceinline MemoryManager& S00e2e0b0_heap(MemoryRouter* router)
 {
     return *router->manager;
@@ -620,31 +622,31 @@ struct S00e2e0b0_Viewer
 static __forceinline S00e2e0b0_Member* S00e2e0b0_lookup(char*& object, const char*& name, S00e2e0b0_Class* pClassInfo)
 {
     char memberName[512];
-    const char* dot = FUN_00cb1140(name, '.');
+    const char* dot = ::fnv_00cb1140::FUN_00cb1140(name, '.');
     while (dot)
     {
         int length = dot - name;
-        FUN_00cb1260(memberName, name, length);
+        ::FUN_00cb1260(memberName, name, length);
         memberName[length] = 0;
         name += length + 1;
-        S00e2e0b0_Member* member = pClassInfo->FUN_00d46fe0(memberName);
+        S00e2e0b0_Member* member = ((::S00e2e0b0_Member *)(reinterpret_cast<::FUN_00d46fe0_Class *>((pClassInfo))->FUN_00d46fe0((const int *)(memberName))));
         if (!member)
             return 0;
         if (member->unk0c != 25)
         {
             char message[512];
             S00e2e0b0_Stream stream;
-            stream.FUN_00cb1600(message, 512);
-            stream.FUN_00cc01c0("Member is not of type struct : ")->FUN_00cc01c0(memberName);
-            DAT_01268360->report(1, 0xf032edfe, message, ".\\ResourceDatabase\\hkResourceHandle.cpp", 128);
-            stream.FUN_00cc00e0();
+            new ((void *)&(stream)) ::FUN_00cb1600(message, 512);
+            reinterpret_cast<::SinkOwner *>((((::S00e2e0b0_Stream *)(reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0("Member is not of type struct : ")))))->FUN_00cc01c0(memberName);
+            (*reinterpret_cast<::S00e2e0b0_Error * *>(&::DAT_01268360))->report(1, 0xf032edfe, message, ".\\ResourceDatabase\\hkResourceHandle.cpp", 128);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();
             return 0;
         }
-        pClassInfo = member->FUN_00d86920();
+        pClassInfo = ((::S00e2e0b0_Class *)(reinterpret_cast<::Struct_d86920 *>((member))->FUN_00d86920()));
         object += member->unk12;
-        dot = FUN_00cb1140(name, '.');
+        dot = ::fnv_00cb1140::FUN_00cb1140(name, '.');
     }
-    return pClassInfo->FUN_00d46fe0(name);
+    return ((::S00e2e0b0_Member *)(reinterpret_cast<::FUN_00d46fe0_Class *>((pClassInfo))->FUN_00d46fe0((const int *)(name))));
 }
 // @fnv 0x00e2e0b0
 void S00e2e0b0_Viewer::FUN_00e2e0b0(S00e2e0b0_Array* array)
@@ -658,12 +660,12 @@ void S00e2e0b0_Viewer::FUN_00e2e0b0(S00e2e0b0_Array* array)
         S00e2e0b0_Output* out = array->expandByUnchecked(1);
         name = (const char*)(unk10[i].unk00 & ~1u);
         char* object = (char*)unk08.unk00;
-        S00e2e0b0_Member* member = S00e2e0b0_lookup(object, name, unk08.FUN_00d477a0());
+        S00e2e0b0_Member* member = S00e2e0b0_lookup(object, name, ((::S00e2e0b0_Class *)(reinterpret_cast<::ReferencedObjectHolder *>(&(unk08))->FUN_00d477a0())));
         if (member)
         {
             out->unk00 = name;
             S00e2e0b0_Access access;
-            out->unk08 = *access.FUN_00d87180(object, member);
+            out->unk08 = *((::S00e2e0b0_Access *)(reinterpret_cast<::FUN_00d87180_cls *>(&(access))->FUN_00d87180((unsigned int)(object), (::B *)(member))));
             out->unk04 = (const char*)(unk10[i].unk04 & ~1u);
         }
         else
@@ -671,10 +673,10 @@ void S00e2e0b0_Viewer::FUN_00e2e0b0(S00e2e0b0_Array* array)
             array->popBack();
             char message[512];
             S00e2e0b0_Stream stream;
-            stream.FUN_00cb1600(message, 512);
-            stream.FUN_00cc01c0("Cannot find member : ")->FUN_00cc01c0(name);
-            DAT_01268360->report(1, 0xf032edf1, message, ".\\ResourceDatabase\\hkResourceHandle.cpp", 146);
-            stream.FUN_00cc00e0();
+            new ((void *)&(stream)) ::FUN_00cb1600(message, 512);
+            reinterpret_cast<::SinkOwner *>((((::S00e2e0b0_Stream *)(reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0("Cannot find member : ")))))->FUN_00cc01c0(name);
+            (*reinterpret_cast<::S00e2e0b0_Error * *>(&::DAT_01268360))->report(1, 0xf032edf1, message, ".\\ResourceDatabase\\hkResourceHandle.cpp", 146);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();
         }
     }
 }
@@ -700,7 +702,6 @@ class hkBoolR
 
 struct hkClassR
 {
-    const char* FUN_00d46d40() const;
     hkBoolR FUN_00d46d80(const hkClassR& other) const;
 };
 
@@ -711,7 +712,6 @@ struct hkClassMemberR
     {
         return m_name;
     }
-    const hkClassR* FUN_00d86920() const;
 };
 
 struct hkClassMemberAccessorR
@@ -719,7 +719,6 @@ struct hkClassMemberAccessorR
     void* m_pTargetObject;
     const hkClassMemberR* m_kMemberDescriptor;
     const hkClassMemberR& FUN_00d87370() const;
-    void*& FUN_00d87210(int index);
 };
 
 struct LinkR
@@ -768,9 +767,7 @@ struct hkErrStreamR
     int unk00;
     int unk04;
     int unk08;
-    void FUN_00cb1600(void* buf, int size);
     hkErrStreamR& operator<<(const char* s);
-    void FUN_00cc00e0();
 };
 
 struct hkErrorR
@@ -780,7 +777,6 @@ struct hkErrorR
     virtual void v08();
     virtual int message(int type, int id, const char* description, const char* file, int line);
 };
-extern hkErrorR* DAT_01268360;
 
 struct hkResourceContainerR
 {
@@ -817,20 +813,20 @@ void hkResourceHandleR::FUN_00e2e4c0(hkResourceContainerR* container)
         if (object)
         {
             const hkClassMemberR& member = link.m_kMemberAccessor.FUN_00d87370();
-            const hkClassR* expected = member.FUN_00d86920();
+            const hkClassR* expected = ((const ::fnv_00e2e4c0::hkClassR *)(reinterpret_cast<::Struct_d86920 *>((void *)&(member))->FUN_00d86920()));
             if (!expected->FUN_00d46d80(*pClassInfo) && pClassInfo != expected)
             {
                 char assertBuf[512];
                 hkErrStreamR ostr;
-                ostr.FUN_00cb1600(assertBuf, sizeof(assertBuf));
-                ostr << str_010eb20c << pClassInfo->FUN_00d46d40() << str_010eb234 << expected->FUN_00d46d40();
-                DAT_01268360->message(1, 0xf034ed21, assertBuf, str_010eb1c4, 0xb2);
-                ostr.FUN_00cc00e0();
+                new ((void *)&(ostr)) ::FUN_00cb1600(assertBuf, sizeof(assertBuf));
+                reinterpret_cast<::SinkOwner *>((void *)&(const ::fnv_00e2e4c0::hkErrStreamR &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::fnv_00e2e4c0::hkErrStreamR &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::fnv_00e2e4c0::hkErrStreamR &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::fnv_00e2e4c0::hkErrStreamR &)(ostr))->FUN_00cc01c0(str_010eb20c)))->FUN_00cc01c0(reinterpret_cast<::FnvClassNameNode *>((void *)(pClassInfo))->FUN_00d46d40())))->FUN_00cc01c0(str_010eb234)))->FUN_00cc01c0(reinterpret_cast<::FnvClassNameNode *>((void *)(expected))->FUN_00d46d40());
+                (*reinterpret_cast<::fnv_00e2e4c0::hkErrorR * *>(&::DAT_01268360))->message(1, 0xf034ed21, assertBuf, str_010eb1c4, 0xb2);
+                reinterpret_cast<struct ::FUN_00cc00e0 *>(&(ostr))->FUN_00cc00e0::~FUN_00cc00e0();
                 continue;
             }
             if (object == GetUnderlyingObject())
                 return;
-            link.m_kMemberAccessor.FUN_00d87210(0) = object;
+            ((void *)(reinterpret_cast<::FUN_00d87210_class *>(&(link.m_kMemberAccessor))->FUN_00d87210(0))) = object;
             RemoveLink(member.getName());
         }
     }
@@ -851,7 +847,6 @@ struct hkBoolResult
 
 struct hkClassE2
 {
-    const char* FUN_00d46d40() const;
     hkBoolResult FUN_00d46d80(const hkClassE2* k) const;
 };
 
@@ -934,9 +929,6 @@ struct hkErrStreamE2
     int unk00;
     int unk04;
     int unk08;
-    void FUN_00cb1600(char* buf, int bufSize);
-    hkErrStreamE2& FUN_00cc01c0(const char* s);
-    void FUN_00cc00e0();
 };
 
 struct hkErrorE2
@@ -947,7 +939,6 @@ struct hkErrorE2
     virtual int message(int type, int id, const char* description, const char* file, int line);
 };
 
-extern hkErrorE2* DAT_01268360;
 
 struct hkHandleArrayE2
 {
@@ -1007,13 +998,10 @@ hkResourceHandleE2* hkMemoryResourceContainerE2::FUN_00e2edb0(const char* object
                 {
                     char assertBuf[512];
                     hkErrStreamE2 ostr;
-                    ostr.FUN_00cb1600(assertBuf, sizeof(assertBuf));
-                    ostr.FUN_00cc01c0("Class mismatch, cannot resolve link: ")
-                        .FUN_00cc01c0(pClassInfo->FUN_00d46d40())
-                        .FUN_00cc01c0(" != ")
-                        .FUN_00cc01c0(handleClass->FUN_00d46d40());
-                    DAT_01268360->message(1, 0xf034ed22, assertBuf, ".\\ResourceDatabase\\hkResourceHandle.cpp", 0x138);
-                    ostr.FUN_00cc00e0();
+                    new ((void *)&(ostr)) ::FUN_00cb1600(assertBuf, sizeof(assertBuf));
+                    reinterpret_cast<::SinkOwner *>(&((*(::fnv_00e2edb0::hkErrStreamE2 *)(reinterpret_cast<::SinkOwner *>(&((*(::fnv_00e2edb0::hkErrStreamE2 *)(reinterpret_cast<::SinkOwner *>(&((*(::fnv_00e2edb0::hkErrStreamE2 *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0("Class mismatch, cannot resolve link: ")))))->FUN_00cc01c0(reinterpret_cast<::FnvClassNameNode *>((void *)(pClassInfo))->FUN_00d46d40())))))->FUN_00cc01c0(" != ")))))->FUN_00cc01c0(reinterpret_cast<::FnvClassNameNode *>((void *)(handleClass))->FUN_00d46d40());
+                    (*reinterpret_cast<::fnv_00e2edb0::hkErrorE2 * *>(&::DAT_01268360))->message(1, 0xf034ed22, assertBuf, ".\\ResourceDatabase\\hkResourceHandle.cpp", 0x138);
+                    reinterpret_cast<struct ::FUN_00cc00e0 *>(&(ostr))->FUN_00cc00e0::~FUN_00cc00e0();
                     return 0;
                 }
                 continue;
@@ -1067,13 +1055,13 @@ template <class T> struct hkRefPtrE2E
     __forceinline hkRefPtrE2E(T* e)
     {
         if (e)
-            e->RetainReference();
+            reinterpret_cast<::FUN_00c90510_class *>((void *)(e))->FUN_00c90510();
         m_pRetainedObject = e;
     }
     __forceinline ~hkRefPtrE2E()
     {
         if (m_pRetainedObject)
-            m_pRetainedObject->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((void *)(m_pRetainedObject))->FUN_00c905b0();
         m_pRetainedObject = 0;
     }
     __forceinline bool operator==(const hkRefPtrE2E& o) const throw()
@@ -1146,7 +1134,6 @@ class hkMemoryResourceContainer : public hkResourceBase
     virtual void v20();
     virtual hkMemoryResourceContainer* getParent() throw();
 
-    __declspec(nothrow) void RetainReference() const throw();
     __declspec(nothrow) void removeReference() const throw();
 
     int FUN_00e2e790(hkMemoryResourceContainer* newParent);
@@ -1166,18 +1153,17 @@ int hkMemoryResourceContainer::FUN_00e2e790(hkMemoryResourceContainer* newParent
         {
             char buf[0x200];
             hkErrStreamE2E os(buf, sizeof(buf));
-            os << "Cannot parent '" << m_name << "' to '" << newParent->m_name
-               << "' as this would create a circular dependency ";
-            DAT_01268360->report(1, 0xabba4554, buf, ".\\ResourceDatabase\\hkResourceHandle.cpp", 0x198);
+            reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamE2E &)(reinterpret_cast<::AttributeFormatter *>((void *)&(const ::hkOstreamE2E &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamE2E &)(reinterpret_cast<::AttributeFormatter *>((void *)&(const ::hkOstreamE2E &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamE2E &)(os))->FUN_00cc01c0("Cannot parent '")))->WriteName((::NameReference *)&(m_name))))->FUN_00cc01c0("' to '")))->WriteName((::NameReference *)&(newParent->m_name))))->FUN_00cc01c0("' as this would create a circular dependency ");
+            (*reinterpret_cast<::S00e2e0b0_Error * *>(&::DAT_01268360))->report(1, 0xabba4554, buf, ".\\ResourceDatabase\\hkResourceHandle.cpp", 0x198);
             return 1;
         }
     }
 
-    RetainReference();
+    reinterpret_cast<::FUN_00c90510_class *>((void *)this)->FUN_00c90510();
     int index = m_parent->m_children.indexOf(this);
     m_parent->m_children.removeAtAndCopy(index);
     newParent->m_children.AddBack(this);
     m_parent = newParent;
-    removeReference();
+    reinterpret_cast<::hkReferencedObjectC905 *>((void *)this)->FUN_00c905b0();
     return 0;
 }

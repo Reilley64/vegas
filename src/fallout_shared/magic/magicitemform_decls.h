@@ -3,6 +3,14 @@
 #define LUNA_MAGICITEMFORM_TASK_H
 
 
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_005b5000.h"
 class TESFile;
 class TESForm;
 class EffectSetting;
@@ -92,8 +100,6 @@ class TESForm
 
     bool GetInitialized() const;
     void SetInitializationState(bool initialized);
-    unsigned int GetFormID();
-    void LoadRecordHeader(TESFile* file);
 };
 
 class MagicItemForm : public TESForm
@@ -131,9 +137,6 @@ class TESFile
 {
   public:
     bool IsEndianConversionRequired();
-    unsigned int GetChunkID();
-    unsigned int GetChunkSize();
-    bool GetChunkData(void* data, unsigned int size);
     bool NextChunk();
 };
 
@@ -152,13 +155,11 @@ class EffectItemList
 class TESFullName
 {
   public:
-    const char* GetFullName();
 };
 
 class TESFullNameLoader
 {
   public:
-    static void LoadFullNameChunk(TESFullName* fullName, TESFile* file);
 };
 
 template <class T> class BSSimpleList
@@ -167,7 +168,6 @@ template <class T> class BSSimpleList
     unsigned int ItemsInList();
 };
 
-int Warning(const char* format, ...);
 extern const char DAT_0101361c[];
 
 #endif

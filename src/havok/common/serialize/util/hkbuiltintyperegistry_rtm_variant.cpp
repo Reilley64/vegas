@@ -4,28 +4,37 @@
 
 // src/havok/common/serialize/util/hkbuiltintyperegistry.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/util/hkbuiltintyperegistry.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00cb1930_t.h"
+#include "fnv/decl/FUN_00d87430_class.h"
+#include "fnv/decl/FUN_00d877d0_class.h"
+#include "fnv/decl/FUN_00db78a0_cls.h"
+#include "fnv/decl/FnvClassNameNode.h"
+#include "fnv/decl/fnv_00cb1870__hkMapBaseCB18.h"
+#include "fnv/decl/hkBlockD46E.h"
+#include "fnv/decl/hkObjectD878.h"
+#include "fnv/decl/hkSetD874.h"
+#include "fnv/decl/hkStringMapD874.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00d47000.h"
+#include "fnv/symbols_01269000.h"
 struct hkDefaultBuiltinTypeRegistry
 {
     int* v;
     int _pad;
     unsigned short _f;
-    void FUN_00d47860();
     hkDefaultBuiltinTypeRegistry* Initialize();
 };
 extern int DAT_010cf78c;
 struct FUN_00d479e0_class
 {
-    void* __thiscall GetValue(const void* key, const void* def);
     void* __thiscall FUN_00d479e0(const void* key);
 };
 struct FUN_00d47a80_class
 {
-    void* GetValue(void* a, int b);
     void* ForwardToOffsetMember(void* a);
 };
 struct HashEntryTable
 {
-    unsigned long FindValueForKey(unsigned long a, unsigned long b);
 };
 struct hkVtableClassRegistry
 {
@@ -37,7 +46,6 @@ struct D481D0Class
 };
 struct FUN_00d874d0_s
 {
-    void FUN_00d874d0(const char*, int);
 };
 struct FUN_00d47aa0_s
 {
@@ -60,7 +68,6 @@ struct FUN_00d874b0_class
 };
 struct FUN_00d87410_Class
 {
-    int __thiscall FUN_00d87410();
 };
 struct FUN_00d47ad0_class
 {
@@ -79,7 +86,6 @@ struct MemoryRouter
 extern "C" MemoryRouter* __cdecl D1A0E0GetMemoryRouter();
 struct DepthLimit
 {
-    void FUN_00cb1870(void*, void*, int);
 };
 struct FUN_00d47c60_class
 {
@@ -91,7 +97,6 @@ extern int DAT_01269b18;
 int __cdecl FUN_00d47a00();
 extern int DAT_01269b14;
 int __cdecl FUN_00d47a10();
-extern int DAT_01269b10;
 int FUN_00d47a20();
 struct D477C0Input
 {
@@ -100,8 +105,6 @@ struct D477C0Input
 };
 struct D477C0Source
 {
-    int FUN_00d46d40();
-    int SumLinkedValues();
 };
 struct D477C0RegistryA
 {
@@ -171,7 +174,6 @@ struct FUN_00d47940_Result
 };
 struct FUN_00d47940_Registry
 {
-    void* __thiscall GetValue(const void* key, const void* def);
 };
 struct FUN_00d47940_Obj
 {
@@ -182,7 +184,6 @@ struct FUN_00d47940_Obj
 };
 struct FUN_00d87430_Class
 {
-    int __thiscall GetEntry(int index);
 };
 struct FUN_00d47970_Class
 {
@@ -220,10 +221,9 @@ struct HavokRouter
 extern "C" HavokRouter* __cdecl FUN_00c85750();
 struct EmbeddedRegistry
 {
-    void FreeBuffer();
     ~EmbeddedRegistry()
     {
-        FreeBuffer();
+        reinterpret_cast<::FUN_00d877d0_class *>(this)->FreeBuffer();
     }
 };
 struct RegistryBase
@@ -279,7 +279,6 @@ class hkMemberD47B
 {
   public:
     int unk00;
-    void FreeBuffer() throw();
 };
 class hkObjectD47B : public hkReferencedObjectD47B
 {
@@ -311,7 +310,6 @@ struct RuntimeTypeInfoRegistry
 };
 struct NameRegistryTable
 {
-    void FUN_00db78a0(void** entries, void* info);
 };
 extern int DAT_01268b0c;
 extern void* DAT_010d5430[];
@@ -327,7 +325,7 @@ void __cdecl FUN_00d47860()
         types->registerType(*curr);
         ++curr;
     }
-    ((NameRegistryTable*)DAT_01269b10)->FUN_00db78a0(DAT_010d5430, &DAT_010d59b8);
+    reinterpret_cast<::FUN_00db78a0_cls *>((((NameRegistryTable*)DAT_01269b10)))->FUN_00db78a0((::FUN_00db78a0_item **)(DAT_010d5430), (void **)(void *)(&DAT_010d59b8));
 }
 
 struct FUN_00d47820_allocator
@@ -335,7 +333,7 @@ struct FUN_00d47820_allocator
     virtual void FUN_00d47820_dummy() = 0;
     virtual void* FUN_00d47820_alloc(unsigned int size)
     {
-        return ::operator new(size);
+        return ::FUN_00401000(size);
     }
 };
 

@@ -1,0 +1,16 @@
+#pragma once
+
+class NiAVObject;
+class NiNode;
+class NiPropertyState;
+class NiUpdateData;
+namespace fnv_00a5e5b0 { struct NiStream; }
+
+// 0x00a5e1f0
+void FUN_00a5e1f0(::NiNode *, int, ::NiUpdateData &, unsigned int);
+// 0x00a5e280
+namespace fnv_00a5e280 { void UpdateChildControllers(::NiNode *, int, ::NiUpdateData &); }
+// 0x00a5e3a0
+void FUN_00a5e3a0(::NiAVObject *, int, ::NiPropertyState *&);
+// 0x00a5e5b0
+namespace fnv_00a5e5b0 { bool RegisterChildStreamables(::NiNode *, int, ::fnv_00a5e5b0::NiStream &); }

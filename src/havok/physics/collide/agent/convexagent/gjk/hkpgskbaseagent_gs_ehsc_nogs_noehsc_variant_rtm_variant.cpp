@@ -7,6 +7,15 @@
 
 // src/havok/physics/collide/agent/convexagent/gjk/hkpgskbaseagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/gjk/hkpgskbaseagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/Cls_dafcd0.h"
+#include "fnv/decl/FUN_00da9880_cls.h"
+#include "fnv/decl/FUN_00dafe70_cls.h"
+#include "fnv/decl/GapSolver.h"
+#include "fnv/decl/ThisClass.h"
+#include "fnv/decl/hkTransformCB22.h"
+#include "fnv/symbols_00dac000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01268000.h"
 struct hkpGskBaseAgent {
     virtual void FUN_00dabe90(bool);
 };
@@ -15,7 +24,6 @@ typedef union __declspec(intrin_type) __declspec(align(16)) __m128 {
 } __m128;
 extern "C" __m128 _mm_setzero_ps(void);
 extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern float DAT_01012054;
 class FUN_00dabeb0_cls {
 public:
     int unk00;
@@ -29,7 +37,6 @@ public:
 
     void Reset(bool flag);
 };
-extern float DAT_01012054;
 class FUN_00dabed0_cls {
 public:
     int unk00;
@@ -44,7 +51,6 @@ public:
 
     void SetValueIfExpected(float expected, float value, int unused);
 };
-extern unsigned int DAT_0126835c;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
@@ -63,7 +69,6 @@ struct hkTransform {
     __m128 m_kColumn1;
     __m128 m_kColumn2;
     __m128 m_kColumn3;
-    void FUN_00cb22f0(const void* a, const void* b);
 };
 struct GskInput {
     const hkTransform* m_kTransform;
@@ -125,7 +130,6 @@ struct hkTransformDAC0 {
     hkMatrix3DAC0 m_rotation;
     hkVector4DAC0 m_vTranslation;
 
-    void FUN_00cb22f0(const hkTransformDAC0& kA, const hkTransformDAC0& kB);
 
     const hkMatrix3DAC0& getRotation() const { return m_rotation; }
 };
@@ -156,9 +160,7 @@ struct hkpCdBodyDAC0 {
 };
 struct hkpCollisionInputDAC0;
 struct FUN_00daad40_solver {
-    void FUN_00daad40(const hkpConvexShapeDAC0* pkShapeA, const hkpConvexShapeDAC0* pkShapeB, const hkTransformDAC0& kAtB, hkVector4DAC0& kPointOut);
 };
-void __cdecl FUN_00dac020(const hkpCdBodyDAC0& kBodyA, const hkpCdBodyDAC0& kBodyB, const hkpCollisionInputDAC0& kInput, FUN_00daad40_solver* pkSolver, hkVector4DAC0& kSeparatingNormal);
 extern char g_gskBaseAgentVtbl;
 struct GskNode;
 __declspec(align(16)) struct GskTmp {
@@ -178,14 +180,11 @@ __declspec(align(16)) struct GskTmp {
     int unk34;
     int unk38;
     int unk3c;
-    void Setup(int a, int b);
 };
 struct GskSub {
     int m_00;
     int m_04;
     int m_08;
-    void Init(GskNode* a, GskNode* b, GskTmp* t);
-    void Init2(GskNode* a, GskNode* b, GskTmp* t);
 };
 struct GskNode {
     GskNode* m_00;
@@ -278,9 +277,6 @@ struct GskStatus {
     __m128 m_vertsA[12];
     __m128 m_vertsB[10];
 
-    void FUN_00daad40(const void* shapeA, const void* shapeB, const hkTransform* bTa, void* out10);
-    void FUN_00da9790(void* cache);
-    void FUN_00da9880(void* out10, hkContactPoint* pointOut);
 };
 extern "C" {
     void _mm_store_ps(float*, __m128);
@@ -321,7 +317,7 @@ struct S_00dac2b0_MonitorStream {
     char* m_pCurrentCommand;
     static S_00dac2b0_MonitorStream& GetMonitorStream()
     {
-        return *(S_00dac2b0_MonitorStream*)TlsGetValue(DAT_0126835c);
+        return *(S_00dac2b0_MonitorStream*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     }
     bool memoryAvailable() const { return m_kRayEnd < m_pCurrentCommand; }
     void timer(const char* name)
@@ -337,7 +333,6 @@ struct S_00dac2b0_MonitorStream {
 };
 struct __declspec(align(16)) S_00dac2b0_Transform {
     float m[16];
-    void FUN_00cb22f0(const S_00dac2b0_Transform* a, const S_00dac2b0_Transform* b);
 };
 struct __declspec(align(16)) S_00dac2b0_Vec {
     float x, y, z, w;
@@ -346,8 +341,6 @@ struct S_00dac2b0_Shape;
 struct S_00dac2b0_Cache {
     unsigned short id0, id1, id2, id3;
     unsigned char dimA, dimB, dims;
-    void FUN_00dafe70(const S_00dac2b0_Shape* a, const S_00dac2b0_Shape* b, const S_00dac2b0_Transform* t);
-    void FUN_00dafcd0(const S_00dac2b0_Shape* a, const S_00dac2b0_Shape* b, const S_00dac2b0_Transform* t);
 };
 struct S_00dac2b0_Shape {
     virtual void v00();
@@ -382,7 +375,6 @@ struct __declspec(align(16)) S_00dac2b0_Gsk {
     int unk1C;
     S_00dac2b0_Vec m_vertsA[12];
     S_00dac2b0_Vec m_vertsB[10];
-    int FUN_00daad40(const S_00dac2b0_Shape* a, const S_00dac2b0_Shape* b, const S_00dac2b0_Transform* t, S_00dac2b0_Vec* out);
 };
 struct S_00dac2b0_Body {
     const S_00dac2b0_Shape* m_pCollisionShape;
@@ -393,12 +385,10 @@ struct S_00dac2b0_Collector {
     virtual void v0();
     virtual void AddCdBodyPair(const S_00dac2b0_Body& a, const S_00dac2b0_Body& b);
 };
-void __cdecl TestGsk(const S_00dac2b0_Body& bodyA, const S_00dac2b0_Body& bodyB, const void* input, S_00dac2b0_Collector& collector);
 union EarlyScratch { volatile unsigned int ticks; int result; float distance; };
 extern "C" __m128 _mm_add_ps(__m128, __m128);
 extern "C" __m128 _mm_mul_ps(__m128, __m128);
 extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern unsigned long hkMonitorStreamTls;
 struct S_00dac0b0_TimerCommand {
     const char* m_pCommandName;
     unsigned int m_uiStartTicks;
@@ -418,7 +408,7 @@ struct S_00dac0b0_MonitorStream {
 };
 static inline void S_00dac0b0_TimerBeginList(const char* name, const char* firstSplit, EarlyScratch& scratch)
 {
-    S_00dac0b0_MonitorStream* s = (S_00dac0b0_MonitorStream*)TlsGetValue(hkMonitorStreamTls);
+    S_00dac0b0_MonitorStream* s = (S_00dac0b0_MonitorStream*)TlsGetValue(::DAT_0126835c);
     if (s->m_kRayEnd < s->m_pCurrentCommand)
     {
         S_00dac0b0_TimerBeginListCommand* h = (S_00dac0b0_TimerBeginListCommand*)s->m_kRayEnd;
@@ -432,7 +422,7 @@ static inline void S_00dac0b0_TimerBeginList(const char* name, const char* first
 }
 static inline void S_00dac0b0_Timer(const char* name, EarlyScratch& scratch)
 {
-    S_00dac0b0_MonitorStream* s = (S_00dac0b0_MonitorStream*)TlsGetValue(hkMonitorStreamTls);
+    S_00dac0b0_MonitorStream* s = (S_00dac0b0_MonitorStream*)TlsGetValue(::DAT_0126835c);
     if (s->m_kRayEnd < s->m_pCurrentCommand)
     {
         S_00dac0b0_TimerCommand* h = (S_00dac0b0_TimerCommand*)s->m_kRayEnd;
@@ -446,7 +436,7 @@ static inline void S_00dac0b0_Timer(const char* name, EarlyScratch& scratch)
 static inline void S_00dac0b0_TimerEnd()
 {
 {
-    S_00dac0b0_MonitorStream* s = (S_00dac0b0_MonitorStream*)TlsGetValue(hkMonitorStreamTls);
+    S_00dac0b0_MonitorStream* s = (S_00dac0b0_MonitorStream*)TlsGetValue(::DAT_0126835c);
     if (s->m_kRayEnd < s->m_pCurrentCommand)
     {
         S_00dac0b0_TimerCommand* h = (S_00dac0b0_TimerCommand*)s->m_kRayEnd;
@@ -465,7 +455,6 @@ struct S_00dac0b0_Transform {
     S_00dac0b0_Vertex col1;
     S_00dac0b0_Vertex col2;
     S_00dac0b0_Vertex trans;
-    void FUN_00cb22f0(const S_00dac0b0_Transform* a, const S_00dac0b0_Transform* b);
 };
 struct S_00dac0b0_Shape {
     virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0C();
@@ -521,8 +510,6 @@ struct S_00dac0b0_Gsk {
     S_00dac0b0_Vertex b08;
     S_00dac0b0_Vertex b09;
     S_00dac0b0_Transform aTb;
-    int FUN_00daad40(S_00dac0b0_Shape* a, S_00dac0b0_Shape* b, const S_00dac0b0_Transform& aTb, S_00dac0b0_Vertex* out);
-    void FUN_00da9790(S_00dac0b0_PackedCache* dst);
 };
 template <class T> struct S_00dac0b0_Pad {
     T* m_p;
@@ -745,7 +732,6 @@ public:
 __forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
 __forceinline const hkVector4&getTranslation()const;
 __forceinline const hkRotation&getRotation()const;
-void SetMulInverse(const hkTransform_S&bTa,const hkTransform_S&bTc);
 private:
 hkRotation m_rotation;
 hkVector4 m_vTranslation;};inline void hkVector4::operator=(const hkVector4&v)
@@ -815,8 +801,7 @@ class hkMonitorStream_S
 public:
 __forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}static hkMonitorStream_S&GetMonitorStream()
 {
-extern hkThreadLocalData<hkMonitorStream_S*>g_pMonitorStream;
-return*g_pMonitorStream.getData();
+return*(*reinterpret_cast<::hkThreadLocalData< ::hkMonitorStream_S *> *>(&::DAT_0126835c)).getData();
 }
 public:
 __forceinline char*__cdecl GetStreamStart(){return m_kRayStart.val();}
@@ -1047,7 +1032,7 @@ hkUint8 m_ucFeatureTypeA:4;
 hkUint8 m_ucFeatureTypeB:4;
 public:
 void init(const hkpConvexShape*shapeA,const hkpConvexShape*shapeB,const hkTransform_S&btoa);
-void InitForTriangle(const hkpConvexShape*shapeA,const hkpTriangleShape*shapeB,const hkTransform_S&btoa);};class hkpIterativeLinearCastAgent:public hkpCollisionAgent
+};class hkpIterativeLinearCastAgent:public hkpCollisionAgent
 {
 public:
 __forceinline void*__cdecl operator new(hk_size_t nbytes){;hkReferencedObject*b=static_cast<hkReferencedObject*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16>(nbytes);;return b;}
@@ -1181,9 +1166,7 @@ __forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerR
 ConvexShapePairCache():m_uiCacheFlags(0){}
 __forceinline void init(const hkpConvexShape*shapeA,const hkpConvexShape*shapeB,const ConvexFeaturePairCache&cache);
 hkpGskStatus GetClosestPoint(const hkpConvexShape*shapeA,const hkpConvexShape*shapeB,const hkTransform_S&aTb,hkVector4&separatingNormalOut);
-void GetClosestPointBinB(const hkVector4&separatingNormal,ShapePairDistanceData&out);
 __forceinline void checkForChangesAndUpdateCache(ConvexFeaturePairCache&cache)const;
-void WriteContactFeatureCache(ConvexFeaturePairCache&cache)const;
 protected:
 __forceinline void setFeatureChange(int f){m_iFeatureChange=f;}
 public:
@@ -1216,7 +1199,7 @@ if(!m_iFeatureChange)
 {
 return;
 }
-WriteContactFeatureCache(cache);
+reinterpret_cast<::ThisClass *>((void *)this)->FUN_00da9790((::Dest *)&(cache));
 }
 __forceinline hkBool_S __cdecl hkpGskBaseAgent_S::staticGetClosestPoint(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const hkTransform_S&aTb,const hkpCollisionInput_S&input,ConvexFeaturePairCache&cache,struct GskAgentData&output)
 {
@@ -1229,7 +1212,7 @@ gsk.init(shapeA,shapeB,cache);
 const hkpGskStatus gskStatus=gsk.GetClosestPoint(shapeA,shapeB,aTb,separatingNormal);
 if(gskStatus==HK_GSK_OK)
 {
-gsk.GetClosestPointBinB(separatingNormal,output);
+reinterpret_cast<::FUN_00da9880_cls *>(&(gsk))->FUN_00da9880((const ::SpawnedSrc *)&(separatingNormal),(::SpawnedDst *)&(output));
 output.m_kSecondVector.SetRotatedDirection(bodyA.getTransform().getRotation(),output.m_vPointOnShapeA);
 const hkReal dist=output.m_fClosestPointDistanceSquared-shapeA->getRadius()-shapeB->getRadius();
 output.m_fClosestPointDistanceSquared=dist;
@@ -1267,14 +1250,14 @@ hkTransform_S aTb;
 {
 const hkpConvexShape*sA=static_cast<const hkpConvexShape*>(bodyA.getShape());
 const hkpConvexShape*sB=static_cast<const hkpConvexShape*>(bodyB.getShape());
-aTb.SetMulInverse(bodyA.getTransform(),bodyB.getTransform());
+reinterpret_cast<::hkTransformCB22 *>(&(aTb))->FUN_00cb22f0((const ::hkTransformCB22 &)(bodyA.getTransform()),(const ::hkTransformCB22 &)(bodyB.getTransform()));
 if(sB->getType()==HK_SHAPE_TRIANGLE)
 {
-cache.InitForTriangle(sA,static_cast<const hkpTriangleShape*>(sB),aTb);
+reinterpret_cast<::FUN_00dafe70_cls *>(&(cache))->FUN_00dafe70((::Iface *)(sA),(::Src *)(static_cast<const hkpTriangleShape*>(sB)),(const unsigned int *)&(aTb));
 }
 else
 {
-cache.init(sA,sB,aTb);
+reinterpret_cast<::Cls_dafcd0 *>(&(cache))->FUN_00dafcd0((::Node *)(sA),(::Node *)(sB),(const ::Vec4Blk *)&(aTb));
 }
 }
 if(staticGetClosestPoint(bodyA,bodyB,aTb,input,cache,output))

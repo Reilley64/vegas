@@ -2,6 +2,19 @@
 // src/gamebryo2.2/corelibs/nianimation/niviscontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/niviscontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00a38e00.h"
+#include "fnv/decl/FUN_00a57630.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/NiAlphaController.h"
+#include "fnv/decl/NiTimeControllerA362.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a57c70__FUN_00a57c70.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f4000.h"
 struct NiBoolInterpController
 {
     unsigned char m_bValue;  // placeholder
@@ -20,12 +33,11 @@ void NiVisController::GetVisibility(bool& abVisible)
     abVisible = !(*(unsigned char*)((char*)p + 0x30) & 1);
 }
 
-extern void* g_011f3f08;
 
 // @fnv 0x00a44eb0
 void* __cdecl FUN_00a44eb0()
 {
-    return &g_011f3f08;
+    return &(*reinterpret_cast<void * *>(&::g_011f3f08));
 }
 
 struct BSFadeNode
@@ -54,35 +66,34 @@ void* __cdecl FUN_00a44f10()
     return 0;
 }
 
-extern const char* const g_011f3ec8_arg1;
 
 // @fnv 0x00a57660
 const char* __cdecl FUN_00a57660()
 {
-    return (const char*)&g_011f3ec8_arg1;
+    return (const char*)&(*reinterpret_cast<const char *const *>(&::g_011f4220));
 }
 
-extern const char* const g_011f3f08_arg1;
 
 // @fnv 0x00a577b0
 const char* const* __cdecl FUN_00a577b0()
 {
-    return &g_011f3f08_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_011f4228));
 }
 
+class NiObject;
 struct NiStream
 {
     unsigned int m_uiNifVersion;  // +0xd8
-    void __thiscall ResetStreamState();
+public:
+    ::NiObject *GetLoadedObject();
 };
-void __stdcall FUN_00a57c70(NiStream*);
 void __stdcall FUN_00a44d20(NiStream* pStream);
 // @fnv 0x00a44d20
 void __stdcall FUN_00a44d20(NiStream* pStream)
 {
-    FUN_00a57c70(pStream);
+    reinterpret_cast<::fnv_00a57c70::FUN_00a57c70 *>((pStream))->LoadBinary(*(::fnv_00a57c70::NiStream *)nullptr);
     if (*(unsigned int*)((char*)pStream + 0xd8) < 0xa010068)
-        pStream->ResetStreamState();
+        reinterpret_cast<::FUN_00a645b0_cls *>((pStream))->FUN_00a645b0();
 }
 
 struct NiRTTI
@@ -90,7 +101,6 @@ struct NiRTTI
     const char* m_pcName;
     NiRTTI* m_pkBase;
 };
-extern NiRTTI g_011f4428_arg1;
 struct NiObjectNET
 {
     virtual void Unk0();
@@ -112,7 +122,7 @@ bool NiTransformController::IsTargetOfType(NiObjectNET* pkTarget) const
         {
             do
             {
-                if (pkRTTI == &g_011f4428_arg1)
+                if (pkRTTI == &(*reinterpret_cast<::NiRTTI *>(&::g_011f4280)))
                     return true;
                 pkRTTI = pkRTTI->m_pkBase;
             } while (pkRTTI);
@@ -124,7 +134,6 @@ bool NiTransformController::IsTargetOfType(NiObjectNET* pkTarget) const
 extern void* DAT_0109ab44;
 struct NiTimeController
 {
-    void __thiscall SetControllerActive();
 };
 struct FUN_00a57640_shell : NiTimeController
 {
@@ -133,7 +142,7 @@ struct FUN_00a57640_shell : NiTimeController
 // @fnv 0x00a57640
 FUN_00a57640_shell* __thiscall FUN_00a57640_shell::FUN_00a57640()
 {
-    SetControllerActive();
+    new ((void *)this) ::FUN_00a38e00();
     *(void**)(char*)this = &DAT_0109ab44;
     return this;
 }
@@ -148,32 +157,29 @@ struct FUN_00a57790 : NiTimeController
 // @fnv 0x00a57790
 FUN_00a57790::FUN_00a57790()
 {
-    SetControllerActive();
+    new ((void *)this) ::FUN_00a38e00();
     *(int**)this = (int*)&DAT_0109ac54;
 }
 
 struct StrArr
 {
-    void __thiscall SetSize(unsigned int);
-    void __thiscall SetAt(unsigned int, char*&);
 };
 
 void __stdcall FUN_00a57800(StrArr*);
-char* __cdecl _FUN_00a7d330(void*);
 
 // @fnv 0x00a44f40
 void __stdcall FUN_00a44f40(StrArr* pkStrings)
 {
     FUN_00a57800(pkStrings);
-    char* pcStr = _FUN_00a7d330(g_011f3f08);
+    char* pcStr = ::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_011f3f08))));
     unsigned int uiElementCount = *(unsigned short*)((char*)pkStrings + 0xa);
     unsigned int uiSize = *(unsigned short*)((char*)pkStrings + 8);
     if (uiElementCount >= uiSize)
     {
         unsigned int uiGrow = *(unsigned short*)((char*)pkStrings + 0xe);
-        pkStrings->SetSize(uiGrow + uiElementCount);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(uiGrow + uiElementCount);
     }
-    pkStrings->SetAt(uiElementCount, pcStr);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiElementCount, pcStr);
 }
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plValue);
@@ -184,7 +190,6 @@ class BA44D50Object;
 class BA44D50Stream
 {
   public:
-    BA44D50Object* GetLoadedObject();
 
     int unk00;
     int unk04;
@@ -348,7 +353,6 @@ class BA44D50BoolInterpolator : public BA44D50RefObject
 class BA44D50Controller
 {
   public:
-    void BaseLinkObject(BA44D50Stream& kStream);
     void LinkBoolInterpolator(BA44D50Stream& kStream);
 
     int unk00;
@@ -370,10 +374,10 @@ class BA44D50Controller
 // @fnv 0x00a44d50
 void BA44D50Controller::LinkBoolInterpolator(BA44D50Stream& kStream)
 {
-    BaseLinkObject(kStream);
+    reinterpret_cast<struct ::FUN_00a57630 *>(this)->LinkObject((::NiStream &)(kStream));
     if (kStream.m_uiFileVersion < 0x0A010068)
     {
-        BA44D50Object* pkData = kStream.GetLoadedObject();
+        BA44D50Object* pkData = ((::BA44D50Object *)(reinterpret_cast<::NiStream *>(&(kStream))->GetLoadedObject()));
         m_spControllerInterpolator = new BA44D50BoolInterpolator(pkData);
         m_spControllerInterpolator->Collapse();
     }
@@ -389,7 +393,7 @@ struct CtlA44 : FUN_00a57790_shell
     char m_auiShapeKeys[0x38];
     __forceinline CtlA44()
     {
-        FUN_00a57790();
+        new ((void *)this) ::FUN_00a57790();
         *(void***)this = &DAT_01097e8c;
     }
 };
@@ -399,7 +403,6 @@ inline void* __cdecl operator new(unsigned int, void* p)
 }
 struct OwnerA44
 {
-    void FUN_00a57620(CtlA44* pkCtl, unsigned int uiArg);
     CtlA44* CreateCtlA44(unsigned int uiArg);
 };
 // Allocates a 0x38-byte CtlA44, constructs it in place, passes it with uiArg to FUN_00a57620, and returns it.
@@ -408,11 +411,10 @@ CtlA44* OwnerA44::CreateCtlA44(unsigned int uiArg)
 {
     void* pMem = BSFaceGenMorphData::operator new(0x38);
     CtlA44* pkCtl = pMem ? new (pMem) CtlA44 : 0;
-    FUN_00a57620(pkCtl, uiArg);
+    reinterpret_cast<::NiAlphaController *>(this)->CopyMemberData((::NiAlphaController *)(pkCtl), (*(::CloningProcess *)(uiArg)));
     return pkCtl;
 }
 
-extern const float DAT_01096324;
 
 struct NiUpdateDataA44E
 {
@@ -514,7 +516,6 @@ class NiVisControllerA44E
 {
   public:
     virtual void vfn_00();
-    bool FUN_00a36250(float fTime);
     void FUN_00a44e10(NiUpdateDataA44E& kUpdateData);
 
     bool GetManagerControlled() const
@@ -545,7 +546,7 @@ void NiVisControllerA44E::FUN_00a44e10(NiUpdateDataA44E& kUpdateData)
     {
         m_fControllerTime = DAT_01096324;
     }
-    else if (FUN_00a36250(kUpdateData.m_fTime) &&
+    else if (reinterpret_cast<::NiTimeControllerA362 *>(this)->FUN_00a36250(kUpdateData.m_fTime) &&
              (!m_spControllerInterpolator || !m_spControllerInterpolator->AlwaysUpdate()))
     {
         return;

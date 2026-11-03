@@ -2,6 +2,8 @@
 // src/gamebryo2.2/corelibs/nimain/nicolor.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nicolor.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00aa1000.h"
 struct FUN_00a698a0_stream;
 typedef int(__cdecl* FUN_00a698a0_write_fn)(FUN_00a698a0_stream*, const void*, int, int*, int);
 struct FUN_00a698a0_stream
@@ -47,8 +49,6 @@ void FUN_00a698a0_class::FUN_00a698a0(void* context)
 }
 
 #include <string.h>
-void* _NiMalloc(unsigned int);
-int NiSprintf(char*, unsigned int, const char*, ...);
 struct NiColor
 {
     float r;
@@ -63,13 +63,11 @@ char* NiColor::GetFormattedString(const char* pPrefix) const
     char* pString;
     unsigned int uiLen;
     uiLen = strlen(pPrefix);
-    pString = (char*)_NiMalloc(uiLen + 34);
+    pString = (char*)::FUN_00aa1070(uiLen + 34);
     NiSprintf(pString, uiLen + 34, "%s = (%5.3f,%5.3f,%5.3f)", pPrefix, r, g, b);
     return pString;
 }
 
-void* __cdecl _NiMalloc(unsigned int);
-int __cdecl NiSprintf(char*, unsigned int, const char*, ...);
 struct RgbaColor
 {
     float r;
@@ -85,7 +83,7 @@ char* RgbaColor::ToString(const char* pPrefix)
     char* pString;
     unsigned int uiLen;
     uiLen = strlen(pPrefix);
-    pString = (char*)_NiMalloc(uiLen + 0x24);
+    pString = (char*)::FUN_00aa1070(uiLen + 0x24);
     NiSprintf(pString, uiLen + 0x24, "%s = (%5.3f,%5.3f,%5.3f,%5.3f)", pPrefix, r, g, b, a);
     return pString;
 }

@@ -2,6 +2,9 @@
 // src/havok/physics/utilities/serialize/hkpdisplaybindingdataclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/serialize/hkpdisplaybindingdataclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00dff6a0.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_0102e000.h"
 struct AudioAllocator
 {
     virtual void v00();
@@ -22,7 +25,6 @@ AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct RefElem_t
 {
-    void FUN_00c905b0();
 };
 
 struct RefBase_cls
@@ -49,13 +51,13 @@ FUN_00dff640_cls* FUN_00dff640_cls::FUN_00dff640(unsigned char acFlags)
 {
     if (m_pB != 0)
     {
-        m_pB->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_pB))->FUN_00c905b0();
     }
     *(RefElem_t* volatile*)&m_pB = 0;
     RefElem_t* pElemA = *(RefElem_t* volatile*)&m_pA;
     if (pElemA != 0)
     {
-        pElemA->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((pElemA))->FUN_00c905b0();
     }
     bool bShouldFree = (acFlags & 1) != 0;
     m_pA = 0;
@@ -97,7 +99,6 @@ struct PtrElem
     void Release();
 };
 
-extern int DAT_0102e388;
 
 struct FUN_00dff730_cls
 {
@@ -125,7 +126,7 @@ void FUN_00dff730_cls::ClearArrays()
     {
         if (pData1[i] != 0)
         {
-            pData1[i]->Release();
+            reinterpret_cast<::hkReferencedObjectC905 *>((pData1[i]))->FUN_00c905b0();
         }
         pData1[i] = 0;
     }
@@ -146,7 +147,7 @@ void FUN_00dff730_cls::ClearArrays()
     {
         if (pData2[j] != 0)
         {
-            pData2[j]->Release();
+            reinterpret_cast<::hkReferencedObjectC905 *>((pData2[j]))->FUN_00c905b0();
         }
         pData2[j] = 0;
     }
@@ -158,7 +159,7 @@ void FUN_00dff730_cls::ClearArrays()
     }
     m_pData2 = 0;
     m_uCapBits2 = 0x80000000u;
-    m_vptr = (int)&DAT_0102e388;
+    m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 }  // namespace fnv_00dff730
 
@@ -179,14 +180,13 @@ struct Owner
 {
     unsigned int unk00;
     unsigned short size4, unk06;
-    void FUN_00dff6a0();
     Owner* FUN_00dff810(unsigned int flags);
 };
 // Calls FUN_00dff6a0, and if flags has bit 0 set, releases this via the BSAudio allocator with size4 bytes, then returns this.
 // @fnv 0x00dff810
 Owner* Owner::FUN_00dff810(unsigned int flags)
 {
-    FUN_00dff6a0();
+    reinterpret_cast<::FUN_00dff6a0 *>(this)->FUN_00dff6a0::~FUN_00dff6a0();
     if (flags & 1u)
     {
         BSAudio* audio = FUN_00c85750();
@@ -217,13 +217,12 @@ struct CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void ClearArrays();
     CpuObject* FUN_00dff840(unsigned int flags);
 };
 // @fnv 0x00dff840
 CpuObject* CpuObject::FUN_00dff840(unsigned int flags)
 {
-    ClearArrays();
+    reinterpret_cast<::fnv_00dff730::FUN_00dff730_cls *>(this)->ClearArrays();
     if (flags & 1)
     {
         CpuAllocatorHolder* holder = FUN_00c85750();

@@ -2,11 +2,11 @@
 // src/havok/common/base/container/string/hkstringbuf.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/container/string/hkstringbuf.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c90000.h"
 struct BSAudio
 {
 };
 BSAudio* __cdecl FUN_00c85750();
-extern "C" void __cdecl FUN_00c908c0(void*, void*, int, int);
 
 struct BufferHolder
 {
@@ -42,7 +42,7 @@ BufferOwner* BufferOwner::InitBuffer()
         {
             iCapacity = 1;
         }
-        FUN_00c908c0(pAllocator, this, iCapacity, 1);
+        ::FUN_00c908c0((::SpawnedObject *)(pAllocator), (::SpawnedArray *)(void *)(this), iCapacity, 1);
     }
     m_iReferenceCount = 1;
     *m_pData = 0;
@@ -84,7 +84,7 @@ struct StringBuf : public BufferOwner
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, 1);
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(&alloc), (::SpawnedArray *)(void *)(this), newSize, 1);
         }
     }
     void SetSize(int n)

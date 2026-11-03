@@ -5,14 +5,24 @@
 
 // gamebryo2.2/corelibs/nianimation/nigeommorphercontroller.cpp
 // NiGeomMorpherController: morph-target interpolator management.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C00a41590.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a4cc0_shell.h"
+#include "fnv/decl/FUN_00a3ba10_shell.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiStream.h"
+#include "fnv/decl/S_00a64670_Foo.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f6000.h"
 #include "nigeommorphercontroller.h"
 
 namespace fnv_00a3b150 {
 struct MorphMemoryManager
 {
-    void* FUN_00aa3e40(unsigned int size);
 };
-extern MorphMemoryManager DAT_011f6238;
 struct BinaryReader
 {
     unsigned int unk00;
@@ -189,13 +199,9 @@ struct MorphStream
     unsigned int unk280;
     unsigned short unk284;
     unsigned short legacyFlags;
-    void FUN_00a645b0();
-    void FUN_00a64670();
-    NiInterpolator* FUN_00a64620();
 };
 struct LoadBase : NiInterpController
 {
-    void LoadBinary(MorphStream&);
 };
 struct LoadItem
 {
@@ -207,7 +213,7 @@ struct LoadItem
     {}
     static void* operator new[](unsigned int size) throw()
     {
-        return DAT_011f6238.FUN_00aa3e40(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a3b150::MorphMemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }
 };
 struct MorphLoad : LoadBase
@@ -225,12 +231,12 @@ struct MorphLoad : LoadBase
 // @fnv 0x00a3b150
 void MorphLoad::FUN_00a3b150(MorphStream& stream)
 {
-    LoadBase::LoadBinary(stream);
+    reinterpret_cast<::NiInterpController *>(this)->LoadBinary((::NiStream &)(stream));
     if (stream.version < 0x0a000102)
         m_uiObjectFlags = (stream.legacyFlags >> 5) & 0x3f;
     else
         stream.reader->Read(&m_uiObjectFlags, 2);
-    stream.FUN_00a645b0();
+    reinterpret_cast<::FUN_00a645b0_cls *>(&(stream))->FUN_00a645b0();
     if (stream.version >= 0x04000002)
     {
         unsigned char value;
@@ -241,7 +247,7 @@ void MorphLoad::FUN_00a3b150(MorphStream& stream)
     {
         if (stream.version < 0x14010003)
         {
-            stream.FUN_00a64670();
+            reinterpret_cast<::S_00a64670_Foo *>(&(stream))->FUN_00a64670();
         }
         else
         {
@@ -250,7 +256,7 @@ void MorphLoad::FUN_00a3b150(MorphStream& stream)
             m_pInterpolatorItems = new LoadItem[count];
             for (unsigned short index = 0; index < count; ++index)
             {
-                m_pInterpolatorItems[index].interpolator = stream.FUN_00a64620();
+                m_pInterpolatorItems[index].interpolator = ((::NiInterpolator *)(reinterpret_cast<::NiStream *>(&(stream))->DeserializeObject()));
                 stream.reader->Read(&m_pInterpolatorItems[index].weight, 4);
             }
         }

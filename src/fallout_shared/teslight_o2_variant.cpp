@@ -2,6 +2,26 @@
 // src/fallout_shared/teslight_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/teslight.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/NiObjectNET.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_0050d000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_011f4000.h"
 #include "teslight_TESFullName.h"
 #include "teslight_TESForm.h"
 #include "teslight_TESScriptableForm.h"
@@ -12,9 +32,6 @@ class TESSound : public TESForm
 #include "teslight_scene.h"
 extern "C" void* __cdecl memset(void* destination, int value, unsigned int size);
 extern "C" const char DAT_01029064[];
-extern int __cdecl Warning(const char* format, ...);
-extern float DAT_010249d8;
-NiLight* FindLightInNode(NiNode* node);
 
 struct PrimaryBase
 {

@@ -2,6 +2,20 @@
 // src/gamebryo2.2/corelibs/nianimation/niblendquaternioninterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/niblendquaternioninterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/BlendCopy.h"
+#include "fnv/decl/BlendSerializer.h"
+#include "fnv/decl/FUN_00a36890.h"
+#include "fnv/decl/FUN_00a6e4a0_shell.h"
+#include "fnv/decl/SBObject.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a37980__Blend100.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a36000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_01098000.h"
+#include "fnv/symbols_011f4000.h"
 struct NiStream;
 
 struct RgbaColor
@@ -22,7 +36,7 @@ struct NiBlendQuaternionInterpolator : NiBlendInterpolator
 // @fnv 0x00a554c0
 void NiBlendQuaternionInterpolator::FUN_00a554c0(NiStream& kStream)
 {
-    NiBlendInterpolator::LoadBinary(kStream);
+    reinterpret_cast<::fnv_00a37980::Blend100 *>(this)->FUN_00a37980((::fnv_00a37980::Stream100 &)(kStream));
     ((RgbaColor*)((char*)this + 0x30))->LoadBinary(kStream);
 }
 
@@ -34,7 +48,6 @@ struct NiStream
 
 struct NiQuaternion
 {
-    void SaveBinary(NiStream*);
 };
 
 struct NiBlendInterpolator
@@ -50,27 +63,23 @@ struct NiBlendQuaternionInterpolator : NiBlendInterpolator
 
 struct FUN_00a37ec0_tgt
 {
-    void FUN_00a37ec0(NiStream*);
 };
 
 // @fnv 0x00a554e0
 void NiBlendQuaternionInterpolator::FUN_00a554e0(NiStream* kStream)
 {
-    ((FUN_00a37ec0_tgt*)this)->FUN_00a37ec0(kStream);
-    ((NiQuaternion*)((char*)this + 0x30))->SaveBinary(kStream);
+    reinterpret_cast<::SBObject *>((((FUN_00a37ec0_tgt*)this)))->FUN_00a37ec0((*(::SBStream *)(kStream)));
+    reinterpret_cast<::FUN_00a6e4a0_shell *>((((NiQuaternion*)((char*)this + 0x30))))->FUN_00a6e4a0((*(::NiStream *)(kStream)));
 }
 }  // namespace fnv_00a554e0
 
-extern int g_011f4064;
 
 // @fnv 0x00a55500
 int* __cdecl FUN_00a55500()
 {
-    return &g_011f4064;
+    return &(*reinterpret_cast<int *>(&::g_011f4064));
 }
 
-void __fastcall FUN_00a36890(void*);
-extern int DAT_011f4208;
 extern int DAT_011f420c;
 extern int DAT_011f4210;
 extern int DAT_011f4214;
@@ -87,9 +96,9 @@ void* __cdecl FUN_00a55470()
     void* p = BSFadeNode::operator new(0x40);
     if (p)
     {
-        FUN_00a36890(p);
+        new ((void *)(p)) class ::FUN_00a36890();
         *(int**)((char*)p + 0) = &DAT_0109a3ac;
-        *(int*)((char*)p + 0x30) = DAT_011f4208;
+        *(int*)((char*)p + 0x30) = (*reinterpret_cast<int *>(&::DAT_011f4208));
         *(int*)((char*)p + 0x34) = DAT_011f420c;
         *(int*)((char*)p + 0x38) = DAT_011f4210;
         *(int*)((char*)p + 0x3c) = DAT_011f4214;
@@ -156,10 +165,13 @@ bool __stdcall FUN_00a55450(NiInterpolator* pkInterpolator)
 struct NiQuaternion
 {
     float x, y, z, w;
+public:
+    bool operator!=(const ::NiQuaternion &) const;
+public:
+    void MakeUnitLength();
 };
 struct CloneOwner
 {
-    void FUN_00a37510(void*, void*);
 };
 struct FUN_00a55510_shell : NiBlendQuaternionInterpolator
 {
@@ -171,56 +183,37 @@ void* FUN_00a55510_shell::CloneInterpolator(void* kCloning)
     void* pkObject = BSFadeNode::operator new(0x40);
     if (pkObject)
     {
-        FUN_00a36890(pkObject);
+        new ((void *)(pkObject)) class ::FUN_00a36890();
         *(int*)pkObject = (int)&DAT_0109a3ac;
-        *(NiQuaternion*)((char*)pkObject + 0x30) = *(NiQuaternion*)&DAT_011f4208;
+        *(NiQuaternion*)((char*)pkObject + 0x30) = *(NiQuaternion*)&(*reinterpret_cast<int *>(&::DAT_011f4208));
     }
     else
     {
         pkObject = 0;
     }
-    ((CloneOwner*)this)->FUN_00a37510(pkObject, kCloning);
+    reinterpret_cast<::BlendCopy *>((((CloneOwner*)this)))->FUN_00a37510((::NiBlendInterpolator *)(pkObject), (::CloningProcess *)(kCloning));
     *(NiQuaternion*)((char*)pkObject + 0x30) = *(NiQuaternion*)((char*)this + 0x30);
     return pkObject;
 }
 
 struct FUN_00a37260_shell
 {
-    void NormalizeWeights();
+public:
+    void UpdateNormalizedWeights();
 };
 
 struct FUN_00a555c0_shell
 {
-    bool FUN_00a555c0(float fTime, void* pkTarget, void* kValue);
 };
 
 struct FUN_00a556b0_shell
 {
-    bool FUN_00a556b0(float fTime, void* pkTarget, void* kValue);
 };
 
 struct FUN_00a55920_shell : NiBlendQuaternionInterpolator
 {
     bool Interpolate(float fTime, void* pkInterpTarget, NiQuaternion* kValue);
 };
-
-// @fnv 0x00a55920
-bool FUN_00a55920_shell::Interpolate(float fTime, void* pkInterpTarget, NiQuaternion* kValue)
-{
-    bool bReturnValue = false;
-    unsigned char ucCount = *(unsigned char*)((char*)this + 0xe);
-    if (ucCount == 1)
-    {
-        bReturnValue = ((FUN_00a555c0_shell*)this)->FUN_00a555c0(fTime, pkInterpTarget, kValue);
-    }
-    else if (ucCount > 0)
-    {
-        ((FUN_00a37260_shell*)this)->NormalizeWeights();
-        bReturnValue = ((FUN_00a556b0_shell*)this)->FUN_00a556b0(fTime, pkInterpTarget, kValue);
-    }
-    *(float*)((char*)this + 8) = fTime;
-    return bReturnValue;
-}
 
 struct StrArr
 {
@@ -231,13 +224,10 @@ struct StrArr
     unsigned short m_uiReserved;
     unsigned short m_uiGrowSize;
 
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 
 struct FUN_00a38080_shell
 {
-    void FUN_00a38080(StrArr*);
 };
 
 struct FUN_00a6e190_shell
@@ -250,10 +240,8 @@ struct FUN_00a6e190_shell
     char* FUN_00a6e190(const char*);
 };
 
-char* __cdecl _FUN_00a7d330(int);
 char* FUN_00a6e190(const char*);
 
-extern char str_01098800[];
 
 struct FUN_00a55980_shell : NiBlendQuaternionInterpolator
 {
@@ -263,31 +251,30 @@ struct FUN_00a55980_shell : NiBlendQuaternionInterpolator
 // @fnv 0x00a55980
 void FUN_00a55980_shell::AppendInterpolatorStrings(StrArr* pkStrings)
 {
-    reinterpret_cast<FUN_00a38080_shell*>(this)->FUN_00a38080(pkStrings);
+    reinterpret_cast<::BlendSerializer *>((reinterpret_cast<FUN_00a38080_shell*>(this)))->FUN_00a38080((::NiStream *)(pkStrings));
 
-    char* pString = _FUN_00a7d330(g_011f4064);
+    char* pString = ::FUN_00a7d330((const char *)((*reinterpret_cast<int *>(&::g_011f4064))));
 
     unsigned int uiIndex = pkStrings->m_uiCount;
     unsigned int uiSize = pkStrings->m_uiSize;
     if (uiIndex >= uiSize)
-        pkStrings->SetSize(pkStrings->m_uiGrowSize + uiIndex);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(pkStrings->m_uiGrowSize + uiIndex);
 
-    pkStrings->SetAt(uiIndex, pString);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiIndex, pString);
 
     pString = reinterpret_cast<FUN_00a6e190_shell*>(reinterpret_cast<unsigned char*>(this) + 0x30)
-                  ->FUN_00a6e190(str_01098800);
+                  ->FUN_00a6e190((*reinterpret_cast<char (*)[]>(&::DAT_01098800)));
 
     uiIndex = pkStrings->m_uiCount;
     uiSize = pkStrings->m_uiSize;
     if (uiIndex >= uiSize)
-        pkStrings->SetSize(pkStrings->m_uiGrowSize + uiIndex);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(pkStrings->m_uiGrowSize + uiIndex);
 
-    pkStrings->SetAt(uiIndex, pString);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiIndex, pString);
 }
 
 struct FUN_00a55590_sub
 {
-    bool Check(void* pkParam);
 };
 
 struct FUN_00a55590_cls
@@ -306,7 +293,6 @@ struct FUN_00a55590_cls
     int unk2C;
     FUN_00a55590_sub m_30;
 
-    bool Probe(void* pkParam);
     unsigned char CheckWithOffset(void* pkParam);
 };
 
@@ -314,15 +300,13 @@ struct FUN_00a55590_cls
 // @fnv 0x00a55590
 unsigned char FUN_00a55590_cls::CheckWithOffset(void* pkParam)
 {
-    if (!Probe(pkParam))
+    if (!::fnv_00a36fd0::FUN_00a36fd0((::fnv_00a36fd0::BlendS *)this, (int)(pkParam), {}))
     {
         return false;
     }
-    return !m_30.Check((char*)pkParam + 0x30);
+    return !reinterpret_cast<::NiQuaternion *>(&(m_30))->operator!=((*(const ::NiQuaternion *)((char*)pkParam + 0x30)));
 }
 
-extern float DAT_0109696c;
-extern int DAT_011f4208;
 extern int DAT_011f420c;
 extern int DAT_011f4210;
 extern int DAT_011f4214;
@@ -408,7 +392,7 @@ bool FUN_00a555c0_cls::FUN_00a555c0(float t, void* p2, NiQuadWords* out)
     }
     if (t == DAT_0109696c)
     {
-        out->m_00 = DAT_011f4208;
+        out->m_00 = (*reinterpret_cast<int *>(&::DAT_011f4208));
         out->m_04 = DAT_011f420c;
         out->m_08 = DAT_011f4210;
         out->m_0c = DAT_011f4214;
@@ -422,7 +406,7 @@ bool FUN_00a555c0_cls::FUN_00a555c0(float t, void* p2, NiQuadWords* out)
     NiQuadWords* pCachedQuad = &m_30;
     if (tgt->v38(t, p2, pCachedQuad) == false)
     {
-        out->m_00 = DAT_011f4208;
+        out->m_00 = (*reinterpret_cast<int *>(&::DAT_011f4208));
         out->m_04 = DAT_011f420c;
         out->m_08 = DAT_011f4210;
         *(volatile int*)&out->m_0c = DAT_011f4214;
@@ -455,7 +439,6 @@ struct NiQuat
         z = q.z + fZ;
     }
     NiQuat FUN_00a39120(float f) const;
-    void FUN_00a38560();
     void SetValues(float fW, float fX, float fY, float fZ)
     {
         w = fW;
@@ -547,6 +530,23 @@ struct QBlendInterp
     }
     bool FUN_00a556b0(float fTime, void* pkTarget, NiQuat& kValue);
 };
+// @fnv 0x00a55920
+bool FUN_00a55920_shell::Interpolate(float fTime, void* pkInterpTarget, NiQuaternion* kValue)
+{
+    bool bReturnValue = false;
+    unsigned char ucCount = *(unsigned char*)((char*)this + 0xe);
+    if (ucCount == 1)
+    {
+        bReturnValue = reinterpret_cast<::FUN_00a555c0_cls *>((((FUN_00a555c0_shell*)this)))->FUN_00a555c0(fTime, pkInterpTarget, (::NiQuadWords *)(kValue));
+    }
+    else if (ucCount > 0)
+    {
+        ((FUN_00a37260_shell*)this)->UpdateNormalizedWeights();
+        bReturnValue = reinterpret_cast<::QBlendInterp *>((((FUN_00a556b0_shell*)this)))->FUN_00a556b0(fTime, pkInterpTarget, (*(::NiQuat *)(kValue)));
+    }
+    *(float*)((char*)this + 8) = fTime;
+    return bReturnValue;
+}
 // @fnv 0x00a556b0
 bool QBlendInterp::FUN_00a556b0(float fTime, void* pkTarget, NiQuat& kValue)
 {
@@ -577,7 +577,7 @@ bool QBlendInterp::FUN_00a556b0(float fTime, void* pkTarget, NiQuat& kValue)
                 float fX = m_kValue.x;
                 float fW = m_kValue.w;
                 m_kValue.Sum4(kQuat, fW, fX, fY, fZ);
-                m_kValue.FUN_00a38560();
+                reinterpret_cast<::NiQuaternion *>(&(m_kValue))->MakeUnitLength();
                 bModified = true;
                 fTotalWeight += m_pInterpArray[uc].m_fNormalizedWeight;
             }
@@ -585,7 +585,7 @@ bool QBlendInterp::FUN_00a556b0(float fTime, void* pkTarget, NiQuat& kValue)
     }
     if (!bModified)
     {
-        m_kValue = *(NiQuat*)&DAT_011f4208;
+        m_kValue = *(NiQuat*)&(*reinterpret_cast<int *>(&::DAT_011f4208));
         kValue = m_kValue;
         return false;
     }

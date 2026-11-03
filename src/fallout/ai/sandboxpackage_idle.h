@@ -4,6 +4,14 @@
 
 // Complete missing nonvirtual APIs within this translation unit, without
 // changing shared headers or introducing alternate linker identities.
+#include "fnv/decl/fnv_004985f0__FUN_004985f0_s.h"
+#include "fnv/decl/fnv_00498cf0__FUN_00498cf0_shell.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00643000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011cd000.h"
 #define TimeGlobal SandboxSharedTimeGlobal
 #define g_timeGlobal g_sandboxSharedTimeGlobal
 #define PlayerCharacter SandboxSharedPlayerCharacter
@@ -53,8 +61,6 @@ class BSAnimGroupSequence;
 class Animation
 {
   public:
-    bool IsSequenceActive();
-    BSAnimGroupSequence* GetPlayingSequence();
 };
 
 class SandboxActorVirtual
@@ -425,17 +431,10 @@ union SETTING_VALUE
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Int();
 };
 class GlobalObject2_0040c150
 {
 };
-extern GlobalObject2_0040c150 g_011cde98;
-extern TESBoundObject* DAT_011ca244;
-extern TESBoundObject* DAT_011ca248;
-extern const float runtimeFloatSettingDefault94;
-extern float DAT_010249d8;
-float FUN_006435c0(void*, SANDBOX_PROCEDURE);
 class SandboxMobileVirtual
 {
   public:

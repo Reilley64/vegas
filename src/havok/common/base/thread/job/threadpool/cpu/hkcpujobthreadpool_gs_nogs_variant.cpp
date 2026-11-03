@@ -5,14 +5,20 @@
 
 // src/havok/common/base/thread/job/threadpool/cpu/hkcpujobthreadpool.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/thread/job/threadpool/cpu/hkcpujobthreadpool.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00d04370_cls.h"
+#include "fnv/decl/FUN_00d04390.h"
+#include "fnv/decl/WorkerThreadPoolViewD2.h"
+#include "fnv/decl/fnv_00d2d240__hkCpuJobThreadPoolD2D.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d04000.h"
+#include "fnv/symbols_00d87000.h"
+#include "fnv/symbols_0102e000.h"
 struct FUN_00d2ced0
 {
     void PerformVoidOperation();
 };
 struct FUN_00d2d330_shell
 {
-    void InitializeWorkerThread();
-    void FUN_00d2ce50();
     void FUN_00d2d330(int desired);
 };
 struct FUN_00d2ce30_shell
@@ -30,7 +36,6 @@ struct FUN_00d2ce90_class
 
     void FUN_00d2ce90();
 };
-int __fastcall FUN_00d04380(void*);
 struct FUN_00d2d380
 {
     int m0;
@@ -99,7 +104,6 @@ struct hkBoolD2CD
 class ElemD2CD
 {
   public:
-    void FUN_00d04390(int flag);
     int unk00[12];
 };
 class OwnerD2CD
@@ -117,12 +121,8 @@ class OwnerD2CD
     void FUN_00d2cde0(int value, int unused);
 };
 extern char DAT_010ce774;
-extern char DAT_0102e388;
-void FUN_00c90410(int);
 struct EventObjD2C
 {
-    void FUN_00d04370();
-    void FUN_00d04390(int);
 };
 struct ThreadObjD2C
 {
@@ -139,7 +139,6 @@ struct ThreadObjD2C
     int unk24;
     int unk28;
     EventObjD2C m_pTail;
-    void FUN_00d87a70();
 };
 struct VBaseD2C
 {
@@ -155,7 +154,6 @@ struct ArrBaseD2C
 struct ClsD2C : VBaseD2C, ArrBaseD2C
 {
     int m_uiItemCount;
-    void FUN_00d2ce90();
     void FUN_00d2cf00();
 };
 

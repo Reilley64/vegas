@@ -7,8 +7,9 @@
 // to their real unit once identified.
 // src/havok/physics/vehicle/aerodynamics/default/hkpvehicledefaultaerodynamics.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/aerodynamics/default/hkpvehicledefaultaerodynamics.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/MotionMassView.h"
+#include "fnv/symbols_01011000.h"
 #include "havok/hkpVehicleDefaultAerodynamics.h"
-extern double DAT_01011588;
 struct VehicleAerodynamicsStandIn
 {
     float FUN_00e442e0(float speed);
@@ -122,7 +123,6 @@ class hkpMotionE443
     int m_cc;
     hkVector4E443 m_kTranslationalVelocity;
 
-    float FUN_00c86430() const throw();
 };
 
 class hkpRigidBodyE443
@@ -196,7 +196,7 @@ class hkpRigidBodyE443
     }
     float GetMassValue() const
     {
-        return m_pMotionState.FUN_00c86430();
+        return reinterpret_cast<::MotionMassView *>((void *)&(m_pMotionState))->FUN_00c86430();
     }
 };
 

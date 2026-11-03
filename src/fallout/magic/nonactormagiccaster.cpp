@@ -1,8 +1,9 @@
 // src/fallout/magic/nonactormagiccaster.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/nonactormagiccaster.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00825b60.h"
+#include "fnv/symbols_00401000.h"
 void FUN_00825b60();
-void _Deallocate(void*);
 
 struct FUN_00825aa0_shell
 {
@@ -14,8 +15,8 @@ struct FUN_00825aa0_shell
 // @fnv 0x00825aa0
 void* FUN_00825aa0_shell::FUN_00825aa0(unsigned int flags)
 {
-    FUN_00825b60();
+    reinterpret_cast<::FUN_00825b60 *>(this)->FUN_00825b60::~FUN_00825b60();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }

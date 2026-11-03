@@ -7,6 +7,15 @@
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/gamebryo2.2/corelibs/nicollision/nicollisiontraversals.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nicollision/nicollisiontraversals.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/Builder.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FnvCpu_FUN_00a7b850_CpuObject.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01050000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_01203000.h"
 extern int DAT_0126fa68;
 extern int DAT_0126fa6c;
 extern int DAT_0126fa70;
@@ -25,7 +34,6 @@ struct Vec4
     __forceinline Vec4(float a, float b, float c, float d) : x(a), y(b), z(c), w(d)
     {}
 };
-extern double DAT_01017cf8;
 struct PairB
 {
     unsigned char a;
@@ -57,7 +65,7 @@ class NiPoint3
     inline void FUN_004a0c10()
     {
         float len = Length();
-        if (len > DAT_01017cf8)
+        if (len > ::DAT_01017cf8)
         {
             float inv = 1.0f / len;
             x *= inv;
@@ -71,6 +79,8 @@ class NiPoint3
             z = 0.0f;
         }
     }
+public:
+    static const ::NiPoint3 ZERO;
 };
 struct PtOp
 {
@@ -104,7 +114,6 @@ struct Sub
     int u38;
     int u3c;
     struct PairB* m40;
-    short* FUN_00a7b850();
     __forceinline Pt* GetVertices()
     {
         return m20;
@@ -185,7 +194,7 @@ struct Obj
     }
     __forceinline short* GetIndices()
     {
-        return GetMesh()->FUN_00a7b850();
+        return ((short *)(reinterpret_cast<::FnvCpu_FUN_00a7b850_CpuObject *>((GetMesh()))->FUN_00a7b850()));
     }
 };
 struct VObj
@@ -194,10 +203,6 @@ struct VObj
     virtual void vtbl001();
     virtual int vt08();
 };
-extern float DAT_010500cc;
-extern Vec4 DAT_011a9be0;
-extern NiPoint3 DAT_011f426c;
-extern int DAT_012030b0;
 struct FloatMatrix3
 {
     Pt rows[3];
@@ -261,7 +266,7 @@ struct Host
     {
         if (this == 0)
             return false;
-        return ((VObj*)this)->vt08() == (int)&DAT_012030b0;
+        return ((VObj*)this)->vt08() == (int)&(*reinterpret_cast<int *>(&::g_012030b0));
     }
     void FUN_00c34ad0(Pt p0, Obj* pA, Obj* pB, Vec4 color, unsigned char flag);
 };
@@ -298,19 +303,19 @@ void Host::FUN_00c34ad0(Pt p0, Obj* pA, Obj* pB, Vec4 color, unsigned char flag)
     int n21 = 2;
     Pt aCorners[8];
     Pt tmp4c;
-    FUN_00c35c10(aCorners);
-    tmp4c = (&aCorners[0])->operator-(p0);
-    tmp4c.FUN_004a0c10();
-    aCorners[4] = (&aCorners[0])->operator+((&tmp4c)->operator*(DAT_010500cc));
-    tmp4c = (&aCorners[1])->operator-(p0);
-    tmp4c.FUN_004a0c10();
-    aCorners[5] = (&aCorners[1])->operator+((&tmp4c)->operator*(DAT_010500cc));
-    tmp4c = (&aCorners[2])->operator-(p0);
-    tmp4c.FUN_004a0c10();
-    aCorners[6] = (&aCorners[2])->operator+((&tmp4c)->operator*(DAT_010500cc));
-    tmp4c = (&aCorners[3])->operator-(p0);
-    tmp4c.FUN_004a0c10();
-    aCorners[7] = (&aCorners[3])->operator+((&tmp4c)->operator*(DAT_010500cc));
+    reinterpret_cast<::Builder *>(this)->FUN_00c35c10((::Point *)(aCorners));
+    tmp4c = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)((&aCorners[0])))->FUN_00439ef0-((::NiPoint3 *)&(p0), *(const ::NiPoint3 *)nullptr)));
+    reinterpret_cast<::FUN_004a0c10_s *>(&(tmp4c))->FUN_004a0c10();
+    aCorners[4] = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)((&aCorners[0])))->ProjectileLaunched+((::NiPoint3 *)&(const ::NiPoint3 &)((&tmp4c)->operator*(::g_011deba0_arg1)), {})));
+    tmp4c = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)((&aCorners[1])))->FUN_00439ef0-((::NiPoint3 *)&(p0), *(const ::NiPoint3 *)nullptr)));
+    reinterpret_cast<::FUN_004a0c10_s *>(&(tmp4c))->FUN_004a0c10();
+    aCorners[5] = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)((&aCorners[1])))->ProjectileLaunched+((::NiPoint3 *)&(const ::NiPoint3 &)((&tmp4c)->operator*(::g_011deba0_arg1)), {})));
+    tmp4c = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)((&aCorners[2])))->FUN_00439ef0-((::NiPoint3 *)&(p0), *(const ::NiPoint3 *)nullptr)));
+    reinterpret_cast<::FUN_004a0c10_s *>(&(tmp4c))->FUN_004a0c10();
+    aCorners[6] = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)((&aCorners[2])))->ProjectileLaunched+((::NiPoint3 *)&(const ::NiPoint3 &)((&tmp4c)->operator*(::g_011deba0_arg1)), {})));
+    tmp4c = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)((&aCorners[3])))->FUN_00439ef0-((::NiPoint3 *)&(p0), *(const ::NiPoint3 *)nullptr)));
+    reinterpret_cast<::FUN_004a0c10_s *>(&(tmp4c))->FUN_004a0c10();
+    aCorners[7] = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)((&aCorners[3])))->ProjectileLaunched+((::NiPoint3 *)&(const ::NiPoint3 &)((&tmp4c)->operator*(::g_011deba0_arg1)), {})));
     unsigned short t13[8][2];
     t13[0][0] = 0;
     t13[0][1] = 1;
@@ -363,7 +368,7 @@ void Host::FUN_00c34ad0(Pt p0, Obj* pA, Obj* pB, Vec4 color, unsigned char flag)
     Vec4 colorA;
     Vec4 colorB;
     colObj = color;
-    colorA = DAT_011a9be0;
+    colorA = (*reinterpret_cast<::Vec4 *>(&::DAT_011a9be0));
     colorA.x = colObj.w;
     colorA.y = colObj.w;
     colorA.z = colObj.w;
@@ -395,18 +400,18 @@ void Host::FUN_00c34ad0(Pt p0, Obj* pA, Obj* pB, Vec4 color, unsigned char flag)
     }
     if (IsType())
     {
-        Pt vec128 = DAT_011f426c;
+        Pt vec128 = ::NiPoint3::ZERO;
         GetColumn(1, vec128);
-        pVertsTmp[idx46 * 2] = (&aCorners[0])->operator+((&vec128)->operator*(30.0f));
+        pVertsTmp[idx46 * 2] = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)((&aCorners[0])))->ProjectileLaunched+((::NiPoint3 *)&(const ::NiPoint3 &)((&vec128)->operator*(30.0f)), {})));
         colors8[idx46 * 2] = colorA;
-        pVertsTmp[idx46 * 2 + 1] = (&aCorners[0])->operator-((&vec128)->operator*(30.0f));
+        pVertsTmp[idx46 * 2 + 1] = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)((&aCorners[0])))->FUN_00439ef0-((::NiPoint3 *)&(const ::NiPoint3 &)((&vec128)->operator*(30.0f)), *(const ::NiPoint3 *)nullptr)));
         colors8[idx46 * 2 + 1] = colorA;
         flags0[idx46].a = 1;
         flags0[idx46].b = 0;
         idx46++;
-        pVertsTmp[idx46 * 2] = (&aCorners[3])->operator+((&vec128)->operator*(30.0f));
+        pVertsTmp[idx46 * 2] = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)((&aCorners[3])))->ProjectileLaunched+((::NiPoint3 *)&(const ::NiPoint3 &)((&vec128)->operator*(30.0f)), {})));
         colors8[idx46 * 2] = colorA;
-        pVertsTmp[idx46 * 2 + 1] = (&aCorners[3])->operator-((&vec128)->operator*(30.0f));
+        pVertsTmp[idx46 * 2 + 1] = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)((&aCorners[3])))->FUN_00439ef0-((::NiPoint3 *)&(const ::NiPoint3 &)((&vec128)->operator*(30.0f)), *(const ::NiPoint3 *)nullptr)));
         colors8[idx46 * 2 + 1] = colorA;
         flags0[idx46].a = 1;
         flags0[idx46].b = 0;

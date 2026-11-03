@@ -2,6 +2,12 @@
 // src/havok/physics/dynamics/world/util/hkpworldagentutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/hkpworldagentutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/ContainerD082.h"
+#include "fnv/symbols_00cb5000.h"
+#include "fnv/symbols_00cc0000.h"
+#include "fnv/symbols_00cc1000.h"
+#include "fnv/symbols_00cfd000.h"
+#include "fnv/symbols_00cfe000.h"
 struct S_00cc10b0_World
 {
     int unk00;
@@ -177,8 +183,6 @@ struct S_00cc10b0_Agent
     S_00cc10b0_Collidable* m_pCollidableB;
 };
 
-S_00cc10b0_Island* __cdecl PickIslandByValue(S_00cc10b0_Agent* agent, S_00cc10b0_Island* a, S_00cc10b0_Island* b);
-void __cdecl FUN_00cfea30(int* p, S_00cc10b0_Agent* agent, int w, S_00cc10b0_Island* island);
 
 // @fnv 0x00cc10b0
 void __cdecl FUN_00cc10b0(S_00cc10b0_Agent* agent)
@@ -203,12 +207,12 @@ void __cdecl FUN_00cc10b0(S_00cc10b0_Agent* agent)
     }
     else
     {
-        island = PickIslandByValue(agent, islandA, islandB);
+        island = ((::S_00cc10b0_Island *)(::PickIslandByValue((unsigned int)(agent), (::Island *)(islandA), (::Island *)(islandB))));
         islandA->markForCheck();
         entityB->m_pCurrentSimulationIsland->markForCheck();
     }
     S_00cc10b0_Listener* listener = agent->m_kListener;
-    FUN_00cfea30(&island->m_58, agent, island->m_pOwningWorld->m_80, island);
+    ::FUN_00cfea30(&island->m_58, (::hkpAgentNnEntryCFEA *)(agent), (::hkpCollisionDispatcherCFEA *)(island->m_pOwningWorld->m_80), island);
     listener->v24();
 }
 
@@ -307,7 +311,6 @@ struct Owner
     int unk0c;
     Root* root;
 };
-void __cdecl FUN_00cc10b0(Owner* owner);
 // Calls Invoke on the interface object reached through root's displacement-indexed entry, then calls FUN_00cc10b0.
 // @fnv 0x00cc1160
 void __cdecl FUN_00cc1160(Owner* owner)
@@ -319,7 +322,7 @@ void __cdecl FUN_00cc1160(Owner* owner)
     Holder* holder = entry->holder;
     Interface* pInterface = holder->interfaceObject;
     pInterface->Invoke(pOwner);
-    FUN_00cc10b0(pOwner);
+    ::FUN_00cc10b0((::S_00cc10b0_Agent *)(pOwner));
 }
 
 struct EventRecord
@@ -357,7 +360,6 @@ struct EventArray
 };
 struct SourceObject
 {
-    void __thiscall CopyAndSortGeometryList(EventArray* events);
 };
 struct EventSource
 {
@@ -396,7 +398,7 @@ void __cdecl DispatchEvents(EventSource* source, DispatchContext* context)
     events.data = 0;
     events.count = 0;
     events.capacity = (int)0x80000000;
-    source->events.CopyAndSortGeometryList(&events);
+    reinterpret_cast<::ContainerD082 *>(&(source->events))->CopyAndSortGeometryList((*(::hkArrayD082< ::ItemD082> *)(&events)));
     int index = 0;
     if (events.count > 0)
     {
@@ -463,14 +465,13 @@ struct ItemOwner
     int m_iArrayLength;
 };
 
-void __cdecl FUN_00cfdbe0(void* pItem, void* pContext);
 
 // @fnv 0x00cc0ea0
 void __cdecl FUN_00cc0ea0(ItemOwner* pOwner, void* pContext)
 {
     for (int i = 0; i < pOwner->m_iArrayLength; ++i)
     {
-        FUN_00cfdbe0(pOwner->m_pEntries[i].m_pInventoryEntryData, pContext);
+        ::FUN_00cfdbe0((::InvalidateTimDetail::Node *)(pOwner->m_pEntries[i].m_pInventoryEntryData), (*(const ::InvalidateTimDetail::Input *)(pContext)));
     }
 }
 
@@ -510,7 +511,6 @@ struct S_00cc0ed0_Blocks
     int m60;
 };
 
-void __cdecl DispatchSlotCallback(S_00cc0ed0_Rec* r, float a, float b, int c);
 
 // Iterates over the block pointers in m5c, calling DispatchSlotCallback on each record up to the block end (m58 for the last block, 0x200 otherwise).
 // @fnv 0x00cc0ed0
@@ -534,7 +534,7 @@ void __cdecl ProcessBlocks(S_00cc0ed0_Blocks* s, float a2, float a3, int a4)
             }
             while ((char*)p < end)
             {
-                DispatchSlotCallback(p, a2, a3, a4);
+                ::DispatchSlotCallback((::FUN_00cfdc90_Obj *)(p), a2, a3, (void *)(a4));
                 p = (S_00cc0ed0_Rec*)((char*)p + p->size);
             }
         } while (i < s->m60);
@@ -652,11 +652,6 @@ struct S_00cc0f40_In
 {
     S_00cc0f40_Tbl* table;
 };
-void __cdecl FUN_00cb5570(int a, S_00cc0f40_Body* b, S_00cc0f40_Body* c);
-S_00cc0f40_Coll* __cdecl FUN_00cfe1d0(S_00cc0f40_Coll* c, void* o1, void* o2, int n, char* flag);
-void __cdecl GetNodePairValue(S_00cc0f40_Coll* a, S_00cc0f40_Coll* b, S_00cc0f40_In* in, int* o1, int* o2);
-void __cdecl FUN_00cfe8a0(S_00cc0f40_Body* z, S_00cc0f40_Coll* a, S_00cc0f40_Coll* b, S_00cc0f40_Coll* c,
-                          S_00cc0f40_Coll* d, S_00cc0f40_Flag flag, int v, S_00cc0f40_In* in, int r);
 // Resolves the bodies behind two collision objects, swaps them if needed, calls the table's v3 handler and passes the result to FUN_00cfe8a0.
 // @fnv 0x00cc0f40
 void __cdecl FUN_00cc0f40(S_00cc0f40_Coll* pCollA, S_00cc0f40_Coll* pCollB, S_00cc0f40_In* in)
@@ -664,7 +659,7 @@ void __cdecl FUN_00cc0f40(S_00cc0f40_Coll* pCollA, S_00cc0f40_Coll* pCollB, S_00
     S_00cc0f40_Body* a = (S_00cc0f40_Body*)((char*)pCollA + pCollA->off);
     S_00cc0f40_Body* b = (S_00cc0f40_Body*)((char*)pCollB + pCollB->off);
     if (a->kind != 5 && b->kind != 5 && a->prop != b->prop)
-        FUN_00cb5570((int)a->unk08, a, b);
+        ::FUN_00cb5570((::ObjA *)((int)a->unk08), (::ObjB *)(a), (::ObjB *)(b));
     S_00cc0f40_Prop* pPropA = a->prop;
     S_00cc0f40_Prop* pPropB = b->prop;
     S_00cc0f40_Prop* z = pPropA->w20 == 0xffff ? (pPropB->w20 == 0xffff ? pPropA : pPropB) : pPropA;
@@ -677,11 +672,11 @@ void __cdecl FUN_00cc0f40(S_00cc0f40_Coll* pCollA, S_00cc0f40_Coll* pCollB, S_00
     unsigned int outA[16];
     unsigned int outB[16];
     if (pCollA->type->kind == 0xf)
-        s1 = FUN_00cfe1d0(pCollA, outA, bufA, 4, &flag.v);
+        s1 = ((::S_00cc0f40_Coll *)(::FUN_00cfe1d0((::Entry *)(pCollA), (::Entry *)(outA), (::Vector *)(bufA), 4, (unsigned char *)(char *)(&flag.v))));
     if (pCollB->type->kind == 0xf)
-        s2 = FUN_00cfe1d0(pCollB, outB, bufB, 4, &flag.v);
+        s2 = ((::S_00cc0f40_Coll *)(::FUN_00cfe1d0((::Entry *)(pCollB), (::Entry *)(outB), (::Vector *)(bufB), 4, (unsigned char *)(char *)(&flag.v))));
     int swap, o;
-    GetNodePairValue(s1, s2, in, &o, &swap);
+    ::GetNodePairValue((::FnvNode **)(s1), (::FnvNode **)(s2), (::FnvCtx *)(in), &o, &swap);
     if (swap)
     {
         S_00cc0f40_Coll* pTemp = pCollA;
@@ -692,7 +687,7 @@ void __cdecl FUN_00cc0f40(S_00cc0f40_Coll* pCollA, S_00cc0f40_Coll* pCollB, S_00
         s2 = pTemp;
     }
     int r = in->table->fn[a->b8c * 8 + b->b8c]->v3(pCollA, pCollB, in);
-    FUN_00cfe8a0((S_00cc0f40_Body*)((char*)z + 0x58), pCollA, s1, pCollB, s2, flag, o, in, r);
+    ::FUN_00cfe8a0((::CFE820Pool *)(::S_00cc0f40_Body *)((S_00cc0f40_Body*)((char*)z + 0x58)), (::CollidableNode *)(pCollA), (::CollidableBody *)(s1), (::CollidableNode *)(pCollB), (::CollidableBody *)(s2), (*(unsigned char *)&(const ::S_00cc0f40_Flag &)(flag)), o, (::Dispatcher *)(in), (void *)(r));
 }
 
 struct Island

@@ -5,6 +5,11 @@
 
 // src/staging/blk_00d00000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00c9ce00.h"
+#include "fnv/symbols_00450000.h"
 #include "../../include/layout_support.h"
 
 #include <xmmintrin.h>
@@ -233,12 +238,11 @@ struct __declspec(align(16)) FUN_00c9ce00_cls
     int unk214;
     int unk218;
     int unk21c;
-    void FUN_00c9ce00(int);
 };
 // @fnv 0x00d1f1a0
 int FUN_00d1f1a0()
 {
     FUN_00c9ce00_cls holder;
-    holder.FUN_00c9ce00(W().x);
+    new ((void *)&(holder)) ::FUN_00c9ce00(W().x);
     return *(int*)&holder;
 }

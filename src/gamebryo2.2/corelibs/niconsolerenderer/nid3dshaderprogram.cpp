@@ -1,11 +1,13 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void __cdecl _delete(void*, unsigned int);
 
+#include "fnv/decl/FUN_00e69970_shell.h"
+#include "fnv/decl/FUN_00e89840_Class.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0126f000.h"
 struct NiD3DShaderProgram
 {
-    void FUN_00e89840();
     void* DestroyIfFlagged(unsigned int flags);
 };
 
@@ -13,9 +15,9 @@ struct NiD3DShaderProgram
 // @fnv 0x00e898a0
 void* NiD3DShaderProgram::DestroyIfFlagged(unsigned int flags)
 {
-    FUN_00e89840();
+    reinterpret_cast<::FUN_00e89840_Class *>(this)->FUN_00e89840();
     if (flags & 1)
-        _delete(this, 0x2c);
+        ::FUN_00aa1460(this, 0x2c);
     return this;
 }
 
@@ -52,7 +54,6 @@ struct Program
     char _pad[0x14];
     NiTMapBase* pkMap;
 };
-extern Program* DAT_0126fa10;
 // If the global Program and its map exist, gets the device's name and removes that entry from the map.
 // @fnv 0x00e93790
 void RemoveDeviceFromMap(Direct3DDeviceInterface* pkD3DDevice)
@@ -70,7 +71,6 @@ void RemoveDeviceFromMap(Direct3DDeviceInterface* pkD3DDevice)
     pkM->RemoveAt(psz);
 }
 
-void __cdecl _NiFreeAlias(void*);
 extern int DAT_010f119c;
 struct S
 {
@@ -89,8 +89,8 @@ void S::FUN_00e971d0()
 {
     void* v1 = *(void**)((char*)this + 0x3C);
     *(void**)this = (void*)&DAT_010f119c;
-    _NiFreeAlias(v1);
-    _NiFreeAlias(*(void**)((char*)this + 0x40));
+    ::FUN_00aa10f0(v1);
+    ::FUN_00aa10f0(*(void**)((char*)this + 0x40));
     ComObj* p = *(ComObj**)((char*)this + 0x44);
     if (p)
     {
@@ -105,7 +105,6 @@ extern int DAT_010ef87c;
 
 struct FUN_00e69970_class
 {
-    void __thiscall ClearShader(void* a);
 };
 
 // Sets the vtable, removes this device from the map, calls FUN_00e69970 when offset 0x34 is nonzero using the pointer at 0x24, then calls FUN_00e89840.
@@ -117,7 +116,7 @@ __declspec(noinline) void S::FUN_00e89b70()
     RemoveDeviceFromMap((Direct3DDeviceInterface*)this);
     if (*(void**)(self + 0x34) != 0)
     {
-        ((FUN_00e69970_class*)*(void**)(self + 0x24))->ClearShader(this);
+        reinterpret_cast<::FUN_00e69970_shell *>((((FUN_00e69970_class*)*(void**)(self + 0x24))))->ClearShader(this);
     }
-    ((NiD3DShaderProgram*)this)->FUN_00e89840();
+    reinterpret_cast<::FUN_00e89840_Class *>((((NiD3DShaderProgram*)this)))->FUN_00e89840();
 }

@@ -2,6 +2,7 @@
 #ifndef FNV_NIPSYSSPAWNMODIFIER_DECLS_H
 #define FNV_NIPSYSSPAWNMODIFIER_DECLS_H
 
+#include "fnv/symbols_01202000.h"
 #include "layout_support.h"
 #include "NiFixedString.h"
 #include "NiObject.h"
@@ -13,6 +14,7 @@ class NiPSysBoundUpdateModifier;
 class NiBound;
 class NiRTTI;
 #pragma pack(push, 4)
+class CloningProcess;
 class NiPSysModifier : public NiObject
 {
   public:
@@ -42,6 +44,8 @@ class NiPSysModifier : public NiObject
     // void __cdecl NiPSysModifier::*()
     // NiPSysModifier& __cdecl NiPSysModifier::*(const NiPSysModifier&)
     // void __cdecl NiPSysModifier::*()
+public:
+    void CopyMemberData(::NiPSysModifier *, ::CloningProcess &);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiPSysModifier) == 24);
@@ -153,7 +157,6 @@ class NiPSysBoundUpdateModifier : public NiPSysModifier
     virtual bool IsEqual(NiObject* pkObject);
     virtual const NiRTTI* GetRTTI() const;
 
-    static const NiRTTI ms_kRTTI;
 
     short m_usUpdateSkip;                  // +0x18, 2 bytes
     unsigned short m_usUpdateSkipCounter;  // +0x1A, 2 bytes

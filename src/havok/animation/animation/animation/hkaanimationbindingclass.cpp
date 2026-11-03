@@ -2,6 +2,9 @@
 // src/havok/animation/animation/animation/hkaanimationbindingclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/hkaanimationbindingclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_0102e000.h"
 struct Record;
 struct Manager
 {
@@ -61,14 +64,11 @@ struct ReclaimState
     unsigned int m_24;  // 0x24
 };
 
-extern char DAT_0102e388;
 struct CalleeA
 {
-    void FUN_00c905b0();
 };
 struct CalleeB
 {
-    void FUN_00cb0c00();
 };
 
 // @fnv 0x00dfe9e0
@@ -98,9 +98,9 @@ void Record::ClearReferences()
     void* p = *(void* volatile*)&pState->unk0c;
     if (p != 0)
     {
-        reinterpret_cast<CalleeA*>(p)->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((reinterpret_cast<CalleeA*>(p)))->FUN_00c905b0();
     }
     pState->unk0c = 0;
-    reinterpret_cast<CalleeB*>(&pState->unk08)->FUN_00cb0c00();
-    pState->vptr = (void*)&DAT_0102e388;
+    ::FUN_00cb0c00((int)(reinterpret_cast<CalleeB*>(&pState->unk08)));
+    pState->vptr = (void*)&(*reinterpret_cast<char *>(&::DAT_0102e388));
 }

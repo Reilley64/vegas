@@ -3,6 +3,7 @@
 #define FNV_PROCESSLISTS_DEAD_ANIMATION_ACTORBASE_H
 
 
+#include "fnv/decl/FUN_005f0b00_shell.h"
 #include "processlists_TESBoundAnimObject.h"
 #include "processlists_ActorValueOwner.h"
 #include "processlists_BaseFormComponent.h"
@@ -256,7 +257,6 @@ class TESActorBase : public TESBoundAnimObject,
     virtual void ModActorValueF(ActorValue::Index index, float value);
     virtual void ModActorValueI(ActorValue::Index index, int value);
 
-    int GetHealth() const;
 };
 FNV_STATIC_ASSERT(sizeof(TESActorBase) == 0x10C);
 // The first member in each inherited data component verifies its base offset.

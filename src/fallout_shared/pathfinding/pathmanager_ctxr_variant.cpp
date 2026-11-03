@@ -1,11 +1,39 @@
 // fallout_shared/pathfinding/pathmanager_ctxr_variant.cpp: free functions (1 function)
 
+#include "fnv/decl/ActorTaskManager.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_006ea330_shell.h"
+#include "fnv/decl/FUN_006eabe0_shell.h"
+#include "fnv/decl/FUN_006eb790_shell.h"
+#include "fnv/decl/FUN_006eb7b0_shell.h"
+#include "fnv/decl/FUN_006eb7d0_shell.h"
+#include "fnv/decl/FUN_006eb7f0_shell.h"
+#include "fnv/decl/FUN_006ebde0_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00aa62e0_shell.h"
+#include "fnv/decl/GlobalObject_0044fae0.h"
+#include "fnv/decl/ManagerView.h"
+#include "fnv/decl/PlayerQuestData.h"
+#include "fnv/decl/Queue44c640.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/fnv_006c5ec0__S6c5ec0.h"
+#include "fnv/decl/fnv_006eac70__PathManagerImpl_t.h"
+#include "fnv/decl/fnv_0087ac00__Owner0087ac00.h"
+#include "fnv/decl/fnv_0087ac60__FUN_0087AC60_Holder.h"
+#include "fnv/decl/fnv_0087ad50__Host.h"
+#include "fnv/decl/fnv_00aa6220__Lock00aa6220.h"
+#include "fnv/symbols_0047d000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005dc000.h"
+#include "fnv/symbols_008c7000.h"
+#include "fnv/symbols_011d6000.h"
 #include "pathmanager_decls.h"
 class BSSpinLock_r006eae40
 {
   public:
-    void Lock(const char*);
-    void Unlock();
 };
 
 namespace fnv_006eae40 {
@@ -18,15 +46,11 @@ struct ObjA
     int unk08;
     int unk0c;
     ObjA();
-    bool FUN_006ebde0();
     ~ObjA();
 };
 
 struct PathingTaskData_Ext : public PathingTaskData
 {
-    int FUN_006ea350();
-    bool FUN_006ea490();
-    void FUN_0060d4b0(int);
 };
 
 struct ObjC
@@ -34,7 +58,6 @@ struct ObjC
     void* vtable;
     int unk04;
     ObjC();
-    void FUN_006ecd40(PathingTaskData_Ext* p);
     ~ObjC();
 };
 
@@ -51,13 +74,10 @@ struct SubC2C
     int unk0;
     int unk4;
     int unk8;
-    bool FUN_00aa6220();
-    void FUN_00aa62e0();
 };
 
 struct NameGetter
 {
-    void* FUN_00559450();
 };
 
 struct VObj
@@ -77,15 +97,10 @@ struct CollBase
 struct Coll1480 : public CollBase
 {
     virtual void Notify(void* p);
-    bool TryGetNextEntry(ObjA* pA, void** ppOut2, PathingTaskData_Ext** ppFound, int flag);
 };
 
 struct TaskQueueInterface
 {
-    static TaskQueueInterface* GetInstance();
-    void FUN_0087ac60(void* p);
-    void QueueTaskWithTwoObjects(void* a, void* b, bool c, bool d);
-    void FUN_0087ad50(void* p);
 };
 
 struct GlobalTargetObj
@@ -159,9 +174,7 @@ class GlobalObject_00633c90
     operator void*() const;
     operator NiNode*() const;
 };
-extern GlobalObject_00633c90 g_011d6e5c;
 
-bool FUN_008c7aa0();
 
 struct NiUpdateData
 {
@@ -176,7 +189,6 @@ struct NiUpdateData
 class NiNode
 {
   public:
-    void Update(const NiUpdateData& ud);
 };
 
 template <> class NiPointer<NiNode>
@@ -1501,18 +1513,17 @@ struct FUN_006eae40_shell
     int unk_1478;
     int unk_147c;
     Coll1480 m_sub1480;
-    void FUN_006c5ec0(ObjC* pC, int a);
     void FUN_006eae40();
 };
 
 // @fnv 0x006eae40
 void FUN_006eae40_shell::FUN_006eae40()
 {
-    m_lockC38.Lock("PathManagerImpl::Update");
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&(m_lockC38))->FUN_004538a0((int)("PathManagerImpl::Update"));
     switch (m_stateC24)
     {
     case 1:
-        if (m_subC2C.FUN_00aa6220())
+        if (reinterpret_cast<::fnv_00aa6220::Lock00aa6220 *>(&(m_subC2C))->FUN_00aa6220())
         {
             m_stateC24 = 2;
         }
@@ -1523,7 +1534,7 @@ void FUN_006eae40_shell::FUN_006eae40()
         break;
         break;
     case 3:
-        m_subC2C.FUN_00aa62e0();
+        reinterpret_cast<::FUN_00aa62e0_shell *>(&(m_subC2C))->FUN_00aa62e0();
         m_stateC24 = 0;
         m_countC28 = 0;
         break;
@@ -1532,19 +1543,19 @@ void FUN_006eae40_shell::FUN_006eae40()
     ObjA objA6;
     PathingTaskData_Ext* pFound_vv;
     void* pOut_b;
-    while (!objA6.FUN_006ebde0())
+    while (!reinterpret_cast<::FUN_006ebde0_shell *>(&(objA6))->FUN_006ebde0())
     {
-        if (m_sub1480.TryGetNextEntry(&objA6, &pOut_b, &pFound_vv, 1) && pFound_vv->FUN_005dc980())
+        if (reinterpret_cast<::Queue44c640 *>(&(m_sub1480))->TryGetNextEntry((::QueueIter44c640 *)(::fnv_006eae40::ObjA *)(&objA6), &pOut_b, (int)(&pFound_vv), 1) && ((bool)(::FUN_005dc980((const char *)(pFound_vv)))))
         {
-            count_iagb += pFound_vv->FUN_006ea350();
+            count_iagb += reinterpret_cast<::ManagerView *>((pFound_vv))->FUN_006ea350();
             if ((unsigned int)count_iagb > 10)
                 break;
-            if (pFound_vv->FUN_006ea490())
+            if (reinterpret_cast<::PathingTaskData *>((pFound_vv))->HasPendingMessages())
             {
-                pFound_vv->FUN_0060d4b0(0);
+                reinterpret_cast<::PlayerQuestData *>((pFound_vv))->SetIndex(0);
                 ObjC objC_oqluk;
-                objC_oqluk.FUN_006ecd40(pFound_vv);
-                FUN_006c5ec0(&objC_oqluk, 0);
+                reinterpret_cast<::CombatProcedure *>(&(objC_oqluk))->Initialize((::CombatController *)(pFound_vv));
+                reinterpret_cast<::fnv_006c5ec0::S6c5ec0 *>(this)->FUN_006c5ec0(&objC_oqluk, 0);
             }
         }
     }
@@ -1555,7 +1566,7 @@ void FUN_006eae40_shell::FUN_006eae40()
         {
         case 0:
         case 1:
-            m_sub1480.Notify(((NameGetter*)((char*)item_omdso.m_ptr + 0x18))->FUN_00559450());
+            m_sub1480.Notify(((void *)(::FUN_00559450((int *)(((NameGetter*)((char*)item_omdso.m_ptr + 0x18)))))));
             delete (VObj*)item_omdso.m_ptr;
             break;
         }
@@ -1564,40 +1575,40 @@ void FUN_006eae40_shell::FUN_006eae40()
     NiPointer<NiNode> spObj2(0);
     while (m_coll1064.ContainsItem(&spObj2))
     {
-        if (FUN_008c7aa0())
+        if (::FUN_008c7aa0())
         {
-            TaskQueueInterface::GetInstance()->FUN_0087ac60(spObj2);
+            reinterpret_cast<::fnv_0087ac60::FUN_0087AC60_Holder *>((((::fnv_006eae40::TaskQueueInterface *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087ac60((::fnv_0087ac60::G00559a40 *)(void *)(spObj2));
         }
         else
         {
-            g_011d6e5c->NotifyE8(spObj2);
+            (*reinterpret_cast<::fnv_006eae40::GlobalObject_00633c90 *>(&::g_011d6e5c))->NotifyE8(spObj2);
         }
         bFlag_ad = true;
     }
     while (m_collC50.ContainsItem(&spObj2))
     {
-        if (FUN_008c7aa0())
+        if (::FUN_008c7aa0())
         {
-            TaskQueueInterface::GetInstance()->QueueTaskWithTwoObjects(spObj2, g_011d6e5c, true, false);
+            reinterpret_cast<::fnv_0087ac00::Owner0087ac00 *>((((::fnv_006eae40::TaskQueueInterface *)(::TaskQueueInterface::GetSingleton()))))->QueueTaskWithTwoObjects((::fnv_0087ac00::G00559a40 *)(void *)(spObj2), (::fnv_0087ac00::G00559a40 *)(void *)((*reinterpret_cast<::fnv_006eae40::GlobalObject_00633c90 *>(&::g_011d6e5c))), true, false);
         }
         else
         {
-            g_011d6e5c->NotifyDC(spObj2, 1);
+            (*reinterpret_cast<::fnv_006eae40::GlobalObject_00633c90 *>(&::g_011d6e5c))->NotifyDC(spObj2, 1);
         }
         bFlag_ad = true;
     }
     if (bFlag_ad)
     {
-        if (FUN_008c7aa0())
+        if (::FUN_008c7aa0())
         {
-            TaskQueueInterface::GetInstance()->FUN_0087ad50(g_011d6e5c);
+            reinterpret_cast<::fnv_0087ad50::Host *>((((::fnv_006eae40::TaskQueueInterface *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087ad50((::fnv_0087ad50::G00559a40 *)(void *)((*reinterpret_cast<::fnv_006eae40::GlobalObject_00633c90 *>(&::g_011d6e5c))));
         }
         else
         {
             NiUpdateData ud(0.0f, false, false);
-            ((NiNode*)g_011d6e5c)->Update(ud);
+            reinterpret_cast<::FUN_00a59c60_cls *>((((NiNode*)(*reinterpret_cast<::fnv_006eae40::GlobalObject_00633c90 *>(&::g_011d6e5c)))))->FUN_00a59c60((int)&(ud));
         }
     }
-    m_lockC38.Unlock();
+    reinterpret_cast<::ActorTaskManager *>(&(m_lockC38))->WaitForTasksDuringRendering();
 }
 }  // namespace fnv_006eae40

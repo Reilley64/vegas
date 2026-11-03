@@ -1,4 +1,6 @@
 // gamebryo2.2/corelibs/nimain/niplane.cpp: NiSphere, NiPlane (4 functions)
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00aa1000.h"
 #include "niplane_decls.h"
 
 // Constructs a NiPlane with normal set to NiPoint3::ZERO and constant set to 0.0f.
@@ -23,8 +25,6 @@ void NiSphere::SaveBinary(NiStream& stream)
 }
 
 extern "C" unsigned int __cdecl strlen(const char*);
-void* __cdecl _NiMalloc(unsigned int);
-int __cdecl _NiSprintf(char*, unsigned int, const char*, ...);
 struct FUN_00a69a60_Owner
 {
     float m_f0;
@@ -40,7 +40,7 @@ char* FUN_00a69a60_Owner::FUN_00a69a60(const char* pPrefix)
     char* pBuffer;
     unsigned int uiPrefixLen;
     uiPrefixLen = strlen(pPrefix);
-    pBuffer = (char*)_NiMalloc(uiPrefixLen + 0x38);
-    _NiSprintf(pBuffer, uiPrefixLen + 0x38, "(%g,%g,%g), %g", m_f0, m_f4, m_f8, m_fC);
+    pBuffer = (char*)::FUN_00aa1070(uiPrefixLen + 0x38);
+    ::NiSprintf(pBuffer, uiPrefixLen + 0x38, "(%g,%g,%g), %g", m_f0, m_f4, m_f8, m_fC);
     return pBuffer;
 }

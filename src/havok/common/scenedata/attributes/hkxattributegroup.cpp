@@ -2,6 +2,21 @@
 // src/havok/common/scenedata/attributes/hkxattributegroup.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/attributes/hkxattributegroup.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/Cb0StringCopy.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00cb0a80_class.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00e3f8e0.h"
+#include "fnv/decl/FUN_00e5cdb0_class.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00d2c000.h"
+#include "fnv/symbols_010ec000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkxAttributeGroup.h"
 
 __forceinline void* __cdecl operator new(unsigned int, void* pvWhere) throw()
@@ -11,20 +26,15 @@ __forceinline void* __cdecl operator new(unsigned int, void* pvWhere) throw()
 
 struct FUN_00cb0c00_class
 {
-    void FUN_00cb0c00() throw();
 };
 
 class hkReferencedObject
 {
   public:
-    void FUN_00c90510() throw();
-    void removeReference() throw();
 };
 
 struct hkMemoryAllocatorE5CD;
 
-void __cdecl FUN_00c908c0(hkMemoryAllocatorE5CD& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
-void FUN_00d2cc70(void* pvDst, void* pvSrc, unsigned int uiNumBytes) throw();
 
 struct FUN_00cb0bd0
 {
@@ -32,7 +42,7 @@ struct FUN_00cb0bd0
     FUN_00cb0bd0(const FUN_00cb0bd0& kOther) throw();
     ~FUN_00cb0bd0() throw()
     {
-        ((FUN_00cb0c00_class*)this)->FUN_00cb0c00();
+        ::FUN_00cb0c00((int)(((FUN_00cb0c00_class*)this)));
     }
 };
 
@@ -42,13 +52,13 @@ struct hkRefVariantE5CD
     hkRefVariantE5CD(const hkRefVariantE5CD& kOther) throw()
     {
         if (kOther.m_pRetainedObject)
-            kOther.m_pRetainedObject->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((kOther.m_pRetainedObject))->FUN_00c90510();
         m_pRetainedObject = kOther.m_pRetainedObject;
     }
     ~hkRefVariantE5CD() throw()
     {
         if (m_pRetainedObject)
-            m_pRetainedObject->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pRetainedObject))->FUN_00c905b0();
         m_pRetainedObject = 0;
     }
 };
@@ -88,7 +98,7 @@ struct hkArrayE5CD
         {
             int iCap2 = 2 * iCapacity;
             int iNewSize = (n < iCap2) ? iCap2 : n;
-            FUN_00c908c0(kAlloc, this, iNewSize, sizeof(hkxAttributeE5CD));
+            ::FUN_00c908c0((::SpawnedObject *)&(kAlloc), (::SpawnedArray *)(void *)(this), iNewSize, sizeof(hkxAttributeE5CD));
         }
     }
     void SpliceArray(hkMemoryAllocatorE5CD& kAlloc, int iIndex, int iNumDel, const hkxAttributeE5CD* pkInsert,
@@ -114,7 +124,6 @@ void hkArrayE5CD::SpliceArray(hkMemoryAllocatorE5CD& kAlloc, int iIndex, int iNu
 struct NameReference
 {
     unsigned int encoded;
-    int FUN_00cb0a80();
 };
 struct TextWriter
 {
@@ -137,7 +146,7 @@ AttributeFormatter* AttributeFormatter::WriteName(NameReference* name)
     {
         const char* text = (const char*)(name->encoded & ~1u);
         void** methods = output->virtualMethods;
-        int length = name->FUN_00cb0a80();
+        int length = reinterpret_cast<::FUN_00cb0a80_class *>((name))->FUN_00cb0a80();
         ((WriteMethod)methods[4])(output, text, length);
     }
     else
@@ -169,10 +178,6 @@ struct MessageBuilder
     int storage;
     int length;
     int capacity;
-    void FUN_00cb1600(char* buffer, unsigned int size);
-    MessageBuilder* FUN_00cc01c0(const char*);
-    MessageBuilder* WriteName(AttrLookup*);
-    void FUN_00cc00e0();
 };
 struct AssertHandler
 {
@@ -181,11 +186,7 @@ struct AssertHandler
     virtual void unused2();
     virtual void assertFailure(int enabled, unsigned int code, void* msg, const char* source, unsigned int line);
 };
-extern "C" AssertHandler* DAT_01268360;
 extern "C" char DAT_010ecd74[];
-extern "C" char DAT_010eccfc[];
-extern "C" char DAT_010ecd0c[];
-extern "C" char DAT_010eccc8[];
 // Copies the named attribute's matrix into result when found; if missing, optionally reports an assertion failure and returns 1.
 // @fnv 0x00e5cc00
 int AttrLookup::GetAttributeMatrix(const char* apAttributeName, bool verbose, HMat4* result)
@@ -205,26 +206,20 @@ int AttrLookup::GetAttributeMatrix(const char* apAttributeName, bool verbose, HM
     {
         __declspec(align(16)) void* scratch[0x80];
         MessageBuilder message;
-        message.FUN_00cb1600(reinterpret_cast<char*>(scratch), 0x200);
-        message.FUN_00cc01c0(DAT_010ecd74)
-            ->FUN_00cc01c0(apAttributeName)
-            ->FUN_00cc01c0(DAT_010eccfc)
-            ->WriteName(this)
-            ->FUN_00cc01c0(DAT_010ecd0c);
-        DAT_01268360->assertFailure(1, 0xabbaab81, scratch, DAT_010eccc8, 0xc4);
-        message.FUN_00cc00e0();
+        new ((void *)&(message)) ::FUN_00cb1600(reinterpret_cast<char*>(scratch), 0x200);
+        reinterpret_cast<::SinkOwner *>((((::MessageBuilder *)(reinterpret_cast<::AttributeFormatter *>((((::MessageBuilder *)(reinterpret_cast<::SinkOwner *>((((::MessageBuilder *)(reinterpret_cast<::SinkOwner *>((((::MessageBuilder *)(reinterpret_cast<::SinkOwner *>(&(message))->FUN_00cc01c0(DAT_010ecd74)))))->FUN_00cc01c0(apAttributeName)))))->FUN_00cc01c0(::str_010eccfc)))))->WriteName((::NameReference *)(::AttrLookup *)(this))))))->FUN_00cc01c0(::str_010ecd0c);
+        (*reinterpret_cast<::AssertHandler * *>(&::DAT_01268360))->assertFailure(1, 0xabbaab81, scratch, ::str_010eccc8, 0xc4);
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(message))->FUN_00cc00e0::~FUN_00cc00e0();
     }
     return 1;
 }
 
 struct RefObj
 {
-    void __thiscall FUN_00c905b0(void);
 };
 
 struct Inner
 {
-    void __thiscall FUN_00cb0c00(void);
 };
 
 struct Elem
@@ -235,7 +230,6 @@ struct Elem
 
 struct NewElem
 {
-    void __thiscall FUN_00e3f8e0(void);
     int a;
     int b;
 };
@@ -255,7 +249,6 @@ struct ElemArray
     int size;
     int capacityAndFlags;
 
-    void __thiscall FUN_00e5cec0(int alloc, int zero, Elem* src, int n);
 };
 
 struct S00e5cce0_Class
@@ -263,11 +256,9 @@ struct S00e5cce0_Class
     int unk00;
     ElemArray arr;
 
-    void __thiscall FUN_00cb0c30(const S00e5cce0_Class& o);
     S00e5cce0_Class& __thiscall FUN_00e5cce0(const S00e5cce0_Class& o);
 };
 
-void __cdecl FUN_00c908c0(int alloc, ElemArray* a, int bytes, int elemSize);
 Allocator* __cdecl FUN_00c85750(void);
 
 static __forceinline void destructElems(Elem* data, int n)
@@ -277,10 +268,10 @@ static __forceinline void destructElems(Elem* data, int n)
         Elem& e = data[i];
         if (e.ref != 0)
         {
-            e.ref->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((e.ref))->FUN_00c905b0();
         }
         e.ref = 0;
-        e.inner.FUN_00cb0c00();
+        ::FUN_00cb0c00((int)&(e.inner));
     }
 }
 
@@ -290,7 +281,7 @@ static __forceinline void constructElems(NewElem* p, int n)
     {
         if (&p[i] != 0)
         {
-            p[i].FUN_00e3f8e0();
+            new ((void *)&(p[i])) ::FUN_00e3f8e0();
         }
     }
 }
@@ -299,7 +290,7 @@ static __forceinline void constructElems(NewElem* p, int n)
 // @fnv 0x00e5cce0
 S00e5cce0_Class& __thiscall S00e5cce0_Class::FUN_00e5cce0(const S00e5cce0_Class& aOther)
 {
-    FUN_00cb0c30(aOther);
+    reinterpret_cast<::Cb0StringCopy *>(this)->FUN_00cb0c30((const ::CB0StringPtr &)(aOther));
     ElemArray& s = arr;
     Allocator* pAllocator = FUN_00c85750();
     int alloc = pAllocator->unk10;
@@ -308,7 +299,7 @@ S00e5cce0_Class& __thiscall S00e5cce0_Class::FUN_00e5cce0(const S00e5cce0_Class&
     if (iCapacity < n)
     {
         int iNewCapacity = iCapacity + iCapacity;
-        FUN_00c908c0(alloc, &s, n < iNewCapacity ? iNewCapacity : n, 8);
+        ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(::ElemArray *)(&s), n < iNewCapacity ? iNewCapacity : n, 8);
     }
 
     destructElems(s.data, s.size);
@@ -320,7 +311,7 @@ S00e5cce0_Class& __thiscall S00e5cce0_Class::FUN_00e5cce0(const S00e5cce0_Class&
     {
         Elem* src = aOther.arr.data;
         int a = FUN_00c85750()->unk10;
-        s.FUN_00e5cec0(a, 0, src, iCount);
+        reinterpret_cast<::FUN_00e5cdb0_class *>(&(s))->FUN_00e5cec0(a, 0, (int)(src), iCount);
     }
     return *this;
 }

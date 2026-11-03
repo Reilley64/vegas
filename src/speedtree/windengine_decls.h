@@ -3,9 +3,11 @@
 #define FNV_WINDENGINE_DECLS_H
 
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_011f6000.h"
 #include "MemoryManager.h"
 
-extern MemoryManager g_memoryManager;
 
 class Matrix4f
 {
@@ -17,12 +19,12 @@ class Matrix4f
 
     static __forceinline void* operator new[](unsigned int size)
     {
-        return g_memoryManager.Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }
 
     static __forceinline void operator delete[](void* pointer)
     {
-        g_memoryManager.Deallocate(pointer);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(pointer);
     }
 };
 

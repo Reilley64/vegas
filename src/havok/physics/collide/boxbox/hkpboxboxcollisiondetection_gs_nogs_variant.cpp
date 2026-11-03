@@ -8,6 +8,7 @@
 // RemoveValueAt - drops slot <index> of the eight-slot table held by
 // FUN_00db0920: the last slot in use is moved into the hole and the used-slot
 // counter goes down by one.
+#include "fnv/decl/Owner.h"
 struct FUN_00db0920
 {
     int values[8];        // +0x00: eight four-byte slots, low half holds the key
@@ -32,7 +33,6 @@ struct __declspec(align(16)) Vec4
 
 struct Obj
 {
-    void FUN_00db1990(void* a1, KeyEntry* key, float scale);
     void FUN_00db1d90(void* a1, int idxA, int idxB, int axisA, int axisB, const Vec4& vecA, const Vec4& vecB,
                       float scale);
 };
@@ -53,18 +53,18 @@ void Obj::FUN_00db1d90(void* a1, int idxA, int idxB, int axisA, int axisB, const
     int maskB = _mm_movemask_ps(_mm_cmplt_ps(*(__m128*)&tmpB, zero));
     key.k0 = (unsigned char)(((maskA | 0xf8) << 4) | idxA);
     key.k1 = (unsigned char)((((~maskB) & 7) << 4) + idxB);
-    FUN_00db1990(a1, &key, scale);
+    reinterpret_cast<::Owner *>(this)->FUN_00db1990((::ContactList *)(a1), (::Input *)(::KeyEntry *)(&key), scale);
 
     int stepA = (axisA == 0) ? 0 : ((axisA != 1) + 1);
     int bitA = 1 << (stepA + 4);
     int stepB = (axisB == 0) ? 0 : ((axisB != 1) + 1);
 
     key.k0 ^= bitA;
-    FUN_00db1990(a1, &key, scale);
+    reinterpret_cast<::Owner *>(this)->FUN_00db1990((::ContactList *)(a1), (::Input *)(::KeyEntry *)(&key), scale);
 
     key.k1 ^= (unsigned char)(1 << (stepB + 4));
-    FUN_00db1990(a1, &key, scale);
+    reinterpret_cast<::Owner *>(this)->FUN_00db1990((::ContactList *)(a1), (::Input *)(::KeyEntry *)(&key), scale);
 
     key.k0 ^= bitA;
-    FUN_00db1990(a1, &key, scale);
+    reinterpret_cast<::Owner *>(this)->FUN_00db1990((::ContactList *)(a1), (::Input *)(::KeyEntry *)(&key), scale);
 }

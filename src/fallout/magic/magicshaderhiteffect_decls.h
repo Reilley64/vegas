@@ -2,6 +2,60 @@
 #ifndef MAGICSHADERHITEFFECT_DECLS_H
 #define MAGICSHADERHITEFFECT_DECLS_H
 
+#include "fnv/decl/A5D2C0Object.h"
+#include "fnv/decl/B8C4890Actor.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/EffectShaderShell.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FUN_0043fa80_s.h"
+#include "fnv/decl/FUN_00440490_shell.h"
+#include "fnv/decl/FUN_004472a0_shell.h"
+#include "fnv/decl/FUN_00456630_helper.h"
+#include "fnv/decl/FUN_004aaf30_Holder.h"
+#include "fnv/decl/FUN_00506370Class.h"
+#include "fnv/decl/FUN_00506390Class.h"
+#include "fnv/decl/FUN_005063b0Class.h"
+#include "fnv/decl/FUN_00507040Class.h"
+#include "fnv/decl/FUN_005077c0Class.h"
+#include "fnv/decl/FUN_00507810Class.h"
+#include "fnv/decl/FUN_00644930_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008d01e0_Class.h"
+#include "fnv/decl/FUN_00950bb0_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a59d00_shell.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FUN_00ad89e0_shell.h"
+#include "fnv/decl/FUN_00ad8b60_h.h"
+#include "fnv/decl/FUN_00ad8f20_shell.h"
+#include "fnv/decl/FUN_00ba8560_cls.h"
+#include "fnv/decl/ParticleInitializer.h"
+#include "fnv/decl/ParticleUpdater.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/ShaderSource.h"
+#include "fnv/decl/TESTexLoader.h"
+#include "fnv/decl/TimeoutTimer.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00447080__FUN_00447080_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_0087ac00__Owner0087ac00.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00490000.h"
+#include "fnv/symbols_00567000.h"
+#include "fnv/symbols_00820000.h"
+#include "fnv/symbols_008c7000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00a6d000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011de000.h"
 class NiNode;
 class NiAVObject;
 class ActiveEffect;
@@ -17,14 +71,13 @@ struct NiPoint3
 {
     float x, y, z;
     NiPoint3 operator-(const NiPoint3&) const;
-    float ComputeMagnitude();
+public:
+    float ComputeMagnitude() const;
 };
 struct NiBound
 {
     NiPoint3 center;
     float radius;
-    NiPoint3& GetNavMeshData();
-    float FUN_0084d030();
 };
 struct NiUpdateData
 {
@@ -91,8 +144,6 @@ class NiObjectNET : public NiMemObject
 {
   public:
     virtual void vfn_0();
-    NiTimeController* GetControllers() const;
-    void SetName(const NiFixedString&);
 };
 class NiAVObject : public NiObjectNET
 {
@@ -153,15 +204,7 @@ class NiAVObject : public NiObjectNET
     virtual void vfn_d8();
     virtual void AddObject(NiAVObject*, bool);
     unsigned char layout[0xa8];
-    NiNode* GetParent();
-    bool FUN_00456610();
-    void FUN_0043fa80(const void*);
-    void FUN_00440490(float);
-    void AssignParent(NiNode*);
-    NiAVObject* CloneObject(CloningProcess&);
-    NiBound& GetBoundingVolume();
     const NiPoint3& FUN_0045bb80();
-    void Update(NiUpdateData&);
 };
 class NiNode : public NiAVObject
 {
@@ -171,13 +214,11 @@ class NiNode : public NiAVObject
 class NiTimeController : public NiAVObject
 {
   public:
-    static void UpdateControllersForTarget(NiObjectNET*);
 };
 class TESForm
 {
   public:
     virtual void vfn_0();
-    unsigned int GetFormID();
 };
 class TESBoundObject : public TESForm
 {
@@ -317,7 +358,6 @@ class TESObjectREFR
     virtual void vfn_1ec();
     virtual void vfn_1f0();
     virtual const NiPoint3& GetPos();
-    TESBoundObject* GetObjectReference();
 };
 class BaseProcess
 {
@@ -604,18 +644,14 @@ class BaseProcess
 class Actor : public TESObjectREFR
 {
   public:
-    BaseProcess* GetProcess();
-    float FUN_008c4850();
-    void GetLightIntensity(float);
     void UpdateActorPresentation();
 };
+struct Biped;
 class PlayerCharacter : public Actor
 {
   public:
-    int FUN_00490f80();
-    MagicShaderHitEffect* GetField6A4();
-    NiNode* GetNode(bool);
-    BipedAnim* GetBipedAnimation(bool);
+public:
+    ::Biped *FUN_00950b00(bool);
 };
 struct BipedObject
 {
@@ -625,25 +661,23 @@ struct BipedObject
 class BipedAnim
 {
   public:
-    BipedObject* FindEntry(TESBoundObject*);
 };
 class EffectSetting
 {
   public:
-    bool FUN_00403e60(unsigned int);
 };
+class EffectSetting;
 class ActiveEffect
 {
   public:
     virtual void vfn_0();
-    EffectSetting* GetEffectSetting();
     bool HasFlag(unsigned int);
-    float GetAge();
+public:
+    ::EffectSetting *GetEffectSetting() const;
 };
 class InventoryItem
 {
   public:
-    TESBoundObject* GetObject();
 };
 class DisintegrateArmorEffect : public ActiveEffect
 {
@@ -653,20 +687,11 @@ class DisintegrateArmorEffect : public ActiveEffect
 class BGSTESTexture
 {
   public:
-    const char* GetTextureResourceName();
     unsigned int GetModelLength() const;
 };
 class ParticleShaderProperty
 {
   public:
-    NiTArray<NiPointer<NiAVObject> >& GetFieldAt11C();
-    void FUN_00820b70(float);
-    void SetByteAtOffset6C(int);
-    void ClearField64();
-    void FUN_00820b90();
-    void DispatchRefOp(NiAVObject*);
-    void SetParticleTime(float);
-    void UpdateParticlesAtTime(float, bool, bool);
 };
 class ParticleShader
 {
@@ -686,17 +711,6 @@ class BSShaderPPLightingProperty
 class TESEffectShader : public TESForm
 {
   public:
-    bool FUN_00507040(unsigned int);
-    BGSTESTexture* GetFieldAt14C();
-    BGSTESTexture* GetFieldAt158();
-    BGSTESTexture* GetFieldAt164();
-    float FUN_008d01e0();
-    float FUN_00644930();
-    float FUN_00567470();
-    ParticleShaderProperty* CreateParticleShaderProperty(NiAVObject*, NiAVObject*, NiSourceTexture*, float);
-    void FUN_00507810(NiAVObject*, ParticleShaderProperty*);
-    BSShaderPPLightingProperty::TextureEffectData* CreateEffectData(NiAVObject*, NiSourceTexture*, NiSourceTexture*);
-    void ApplyShaderToTree(NiAVObject*, BSShaderPPLightingProperty::TextureEffectData*);
     BGSDebris* GetAddonModels();
     char _pdbpad_4[20];
     char Data[308];
@@ -709,10 +723,13 @@ struct DebrisModelEntry
     signed char chance;
     const char* filename;
 };
+class DebrisModelEntry;
+template <class> class BSSimpleList;
 class BGSDebris
 {
   public:
-    BSSimpleList<DebrisModelEntry*>* GetData();
+public:
+    ::BSSimpleList< ::DebrisModelEntry *> *GetDataList();
 };
 template <class T> class WeightedResultList
 {
@@ -729,13 +746,10 @@ class Model : public NiObjectNET
 class ModelLoader
 {
   public:
-    NiNode* LoadFile(const char*, int, bool, bool, bool, bool);
-    void LoadModel(const char*, NiPointer<Model>&);
 };
 class TES
 {
   public:
-    void CreateTextureImage(const char*, NiPointer<NiSourceTexture>&, bool, bool);
 };
 class SoundPlaybackHandle
 {
@@ -744,30 +758,17 @@ class SoundPlaybackHandle
     bool assumeSuccess;
     unsigned int state;
     ~SoundPlaybackHandle();
-    bool SetPosition(float, float, float);
-    bool SetVolume(float);
-    bool Play(bool);
-    void SetObjectToFollow(NiAVObject*);
 };
 class BSAudio
 {
   public:
-    static BSAudio* GetSingleton();
     SoundPlaybackHandle GetSoundHandleByEditorID(const char*, unsigned int);
 };
 class TaskQueueInterface
 {
   public:
     static TaskQueueInterface* GetSingleton();
-    void QueueTaskWithTwoObjects(NiAVObject*, NiNode*, bool, bool);
 };
-bool IsConditionMet();
-float FUN_00404010(float, float);
-extern "C" int sprintf_s(char*, unsigned int, const char*, ...);
-extern PlayerCharacter* g_thePlayer;
-extern ModelLoader* g_modelLoader;
-extern TES* g_TES;
-extern unsigned char DAT_011a9448;
 class MagicShaderHitEffect
 {
   public:
@@ -844,7 +845,6 @@ class MagicShaderHitEffect
     float m_fAddonModelTimer;
     float m_fAddonModelScale;
     NiPointer<BSShaderPPLightingProperty::TextureEffectData> spTexEffectData;
-    ActiveEffect* GetEffect();
     bool Init();
     void GetSceneGraphData(bool&, bool&, float&, NiAVObject*&, NiAVObject*&);
 };

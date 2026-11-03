@@ -1,6 +1,19 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00438af0_Class.h"
+#include "fnv/decl/FUN_0043a010_shell.h"
+#include "fnv/decl/FUN_0045cee0_shell.h"
+#include "fnv/decl/FUN_004a49e0_shell.h"
+#include "fnv/decl/FUN_004edf70.h"
+#include "fnv/decl/fnv_004edfe0__FUN_004edfe0.h"
+#include "fnv/decl/fnv_00adddd0__FUN_00a1b940.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_004ed000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01023000.h"
 void __cdecl operator delete(void*);
 
 struct FUN_004edb30_t
@@ -15,7 +28,7 @@ void* __thiscall FUN_004edb30_t::FUN_004edd50(unsigned int flags)
 {
     FUN_004edb30();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -23,7 +36,6 @@ extern int DAT_010232b4;
 
 struct NiTMallocInterface
 {
-    static void __cdecl Deallocate(void**);
 };
 
 struct NiPointerListBase
@@ -37,14 +49,13 @@ struct NiPointerListBase
 void __thiscall NiPointerListBase::FUN_004edc60()
 {
     p = &DAT_010232b4;
-    NiTMallocInterface::Deallocate((void**)q);
+    ::FUN_004ede70((void**)q);
 }
 
 void __cdecl operator delete(void*);
 extern int DAT_010232bc;
 struct FUN_004edf70_t
 {
-    void __thiscall FUN_004edf70(int a, int b);
 };
 struct FUN_004edc90_t
 {
@@ -54,7 +65,7 @@ struct FUN_004edc90_t
 // @fnv 0x004edc90
 void* __thiscall FUN_004edc90_t::FUN_004edc90(int a, int b)
 {
-    reinterpret_cast<FUN_004edf70_t*>(this)->FUN_004edf70(a, b);
+    new ((void *)(reinterpret_cast<FUN_004edf70_t*>(this))) ::FUN_004edf70(a, b);
     *reinterpret_cast<int**>(this) = &DAT_010232bc;
     return this;
 }
@@ -64,9 +75,7 @@ void __cdecl operator delete(void*);
 struct ActorCombatGroup;
 struct NiTMallocInterface
 {
-    static void __cdecl Deallocate(ActorCombatGroup**);
 };
-extern int DAT_010232c4;
 struct FUN_004edcc0_t
 {
     void* m;
@@ -77,7 +86,7 @@ struct FUN_004edcc0_t
 void __thiscall FUN_004edcc0_t::InitAndDeallocate()
 {
     m = &DAT_010232c4;
-    NiTMallocInterface::Deallocate(*(ActorCombatGroup***)(this + 1));
+    ::FUN_004ede70(*(ActorCombatGroup***)(this + 1));
 }
 }  // namespace fnv_004edcc0
 
@@ -85,30 +94,26 @@ extern int DAT_010232cc;
 struct FUN_004edcf0_t
 {
     int* __thiscall InitWithGlobal(int, int);
-    void __thiscall FUN_004edfe0(int, int);
 };
 // Calls FUN_004edfe0 with the two arguments, stores the address of DAT_010232cc at the start of this object, and returns this.
 // @fnv 0x004edcf0
 int* __thiscall FUN_004edcf0_t::InitWithGlobal(int a, int b)
 {
-    FUN_004edfe0(a, b);
+    new ((void *)this) ::fnv_004edfe0::FUN_004edfe0(a, b);
     *reinterpret_cast<int**>(this) = &DAT_010232cc;
     return reinterpret_cast<int*>(this);
 }
 
-void __cdecl NiFreeAlias(void*);
 
 // @fnv 0x004ede70
 void __cdecl FUN_004ede70(void* apMemory)
 {
-    NiFreeAlias(apMemory);
+    ::FUN_00aa10f0(apMemory);
 }
 
 extern int DAT_01023254;
-void __cdecl NiFreeAlias(void*);
 struct MyMap
 {
-    void RemoveAll();
 };
 struct FUN_004eda30_t
 {
@@ -118,20 +123,17 @@ struct FUN_004eda30_t
 void __thiscall FUN_004eda30_t::FUN_004eda30()
 {
     *(int**)(void*)this = (int*)&DAT_01023254;
-    ((MyMap*)(void*)this)->RemoveAll();
-    NiFreeAlias(*(void**)((char*)this + 8));
+    reinterpret_cast<::FUN_00438af0_Class *>((((MyMap*)(void*)this)))->FUN_00438af0();
+    ::FUN_00aa10f0(*(void**)((char*)this + 8));
 }
 
 namespace fnv_004edc30 {
-extern int DAT_01023294;
 struct MyMap
 {
     void* vtbl;
     void* a;
     void* b;
-    void __thiscall RemoveAll();
 };
-void __cdecl NiFreeAlias(void*);
 struct FUN_004edc30_t
 {
     void __thiscall ClearAndFreeMap();
@@ -139,9 +141,9 @@ struct FUN_004edc30_t
 // @fnv 0x004edc30
 void __thiscall FUN_004edc30_t::ClearAndFreeMap()
 {
-    *(int**)this = (int*)&DAT_01023294;
-    ((MyMap*)this)->RemoveAll();
-    NiFreeAlias(((MyMap*)this)->b);
+    *(int**)this = (int*)&::DAT_01023294;
+    reinterpret_cast<::FUN_00438af0_Class *>((((MyMap*)this)))->FUN_00438af0();
+    ::FUN_00aa10f0(((MyMap*)this)->b);
 }
 }  // namespace fnv_004edc30
 
@@ -156,7 +158,6 @@ struct NiTPointerListBase
     NiTListItem* m_pkHead;
     NiTListItem* m_pkTail;
     int m_uiCount;
-    void DeleteItem(NiTListItem*);
     void FUN_004ed900();
 };
 // Walks the list from m_pkHead, deleting each item via DeleteItem, then resets m_uiCount, m_pkHead and m_pkTail.
@@ -168,15 +169,13 @@ void NiTPointerListBase::FUN_004ed900()
     {
         NiTListItem* pkDel = pkCurr;
         pkCurr = pkCurr->m_pNext;
-        DeleteItem(pkDel);
+        reinterpret_cast<::FUN_004a49e0_shell *>(this)->FUN_004a49e0(pkDel);
     }
     m_uiCount = 0;
     m_pkHead = 0;
     m_pkTail = 0;
 }
 
-void* __cdecl NiMalloc(unsigned int);
-void* __cdecl memset(void*, int, unsigned int);
 
 struct FUN_004ed960
 {
@@ -195,14 +194,12 @@ void* __thiscall FUN_004ed960::Init(unsigned int uiSize)
     size = uiSize;
     count = 0;
     unsigned int n = size << 2;
-    data = NiMalloc(n);
-    memset(data, 0, size << 2);
+    data = ::FUN_00aa1070(n);
+    ::FUN_00403d30(data, 0, size << 2);
     return this;
 }
 
 extern int DAT_01023274;
-void* __cdecl NiMalloc(unsigned int size);
-void* __cdecl memset(void* dst, int c, unsigned int n);
 struct FUN_004eda60_t
 {
     void* __thiscall FUN_004eda60(unsigned int count);
@@ -216,14 +213,11 @@ void* __thiscall FUN_004eda60_t::FUN_004eda60(unsigned int count)
     *(unsigned int*)((char*)this + 4) = count;
     *(int*)((char*)this + 12) = 0;
     size = *(unsigned int*)((char*)this + 4) * 4;
-    *(void**)((char*)this + 8) = NiMalloc(size);
-    memset(*(void**)((char*)this + 8), 0, *(unsigned int*)((char*)this + 4) * 4);
+    *(void**)((char*)this + 8) = ::FUN_00aa1070(size);
+    ::FUN_00403d30(*(void**)((char*)this + 8), 0, *(unsigned int*)((char*)this + 4) * 4);
     return this;
 }
 
-extern int DAT_01023294;
-void* __cdecl _NiMalloc(unsigned int);
-void* __cdecl memset(void*, int, unsigned int);
 struct FUN_004edb60_t
 {
     int* __thiscall FUN_004edb60(int size);
@@ -237,8 +231,8 @@ int* __thiscall FUN_004edb60_t::FUN_004edb60(int size)
     *(int*)((char*)this + 4) = size;
     *(int*)((char*)this + 0xc) = 0;
     tmp = *(int*)((char*)this + 4) << 2;
-    *(int*)((char*)this + 8) = (int)_NiMalloc((unsigned int)tmp);
-    memset(*(void**)((char*)this + 8), 0, (unsigned int)(*(int*)((char*)this + 4) << 2));
+    *(int*)((char*)this + 8) = (int)::FUN_00aa1070((unsigned int)tmp);
+    ::FUN_00403d30(*(void**)((char*)this + 8), 0, (unsigned int)(*(int*)((char*)this + 4) << 2));
     return (int*)this;
 }
 
@@ -249,26 +243,24 @@ struct FUN_004edc30_t
 };
 struct FUN_004edbd0 : FUN_004edc30_t
 {
-    void RemoveAll();
     virtual ~FUN_004edbd0();
 };
 // @fnv 0x004edbd0
 FUN_004edbd0::~FUN_004edbd0()
 {
-    RemoveAll();
+    reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
 }
 
 namespace fnv_004edd80 {
 void __cdecl operator delete(void*);
 struct FUN_004edc30_t
 {
-    void __thiscall ClearAndFreeMap();
     void* __thiscall FUN_004edd80(unsigned int flags);
 };
 // @fnv 0x004edd80
 void* __thiscall FUN_004edc30_t::FUN_004edd80(unsigned int flags)
 {
-    ClearAndFreeMap();
+    reinterpret_cast<::fnv_004edc30::FUN_004edc30_t *>(this)->ClearAndFreeMap();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -284,7 +276,7 @@ void* FUN_004eddb0_t::FUN_004eddb0(unsigned int flags)
 {
     ((NiPointerListBase*)this)->FUN_004edc60();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -300,21 +292,22 @@ void* FUN_004ebb30_shell::FUN_004edde0(unsigned int flags)
 {
     FUN_004ebb30();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct FUN_004ebb50_shell
 {
-    void __thiscall InitAndDeallocate();
     void* __thiscall FUN_004ede10(unsigned int flags);
+public:
+    void FUN_004ebb50();
 };
 // @fnv 0x004ede10
 void* __thiscall FUN_004ebb50_shell::FUN_004ede10(unsigned int flags)
 {
-    InitAndDeallocate();
+    reinterpret_cast<::fnv_004edcc0::FUN_004edcc0_t *>(this)->InitAndDeallocate();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -322,14 +315,13 @@ namespace fnv_004ede40 {
 void __cdecl operator delete(void*);
 struct FUN_004ebb50_shell
 {
-    void __thiscall FUN_004ebb50();
     void* __thiscall FUN_004ede40(unsigned int flags);
 };
 // Calls FUN_004ebb50, then deletes this if flags has bit 0 set, and returns this.
 // @fnv 0x004ede40
 void* __thiscall FUN_004ebb50_shell::FUN_004ede40(unsigned int flags)
 {
-    FUN_004ebb50();
+    reinterpret_cast<::FUN_004ebb50_shell *>(this)->FUN_004ebb50();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -339,11 +331,9 @@ void* __thiscall FUN_004ebb50_shell::FUN_004ede40(unsigned int flags)
 struct NiTMapItem;
 struct NiTPointerMap
 {
-    void NewItem(NiTMapItem*);
 };
 struct NodePoolView
 {
-    NiTMapItem* AddHead();
 };
 struct FUN_00ae8bf0_t
 {
@@ -362,10 +352,10 @@ void FUN_00ae8bf0_t::AddItem(const void* element)
         int e;
         int f;
         int g;
-        node = ((NodePoolView*)((char*)this + 8))->AddHead();
+        node = ((::NiTMapItem *)(reinterpret_cast<::FUN_0043a010_shell *>((((NodePoolView*)((char*)this + 8))))->FUN_0043a010()));
     }
     ((void**)node)[2] = *(void**)element;
-    ((NiTPointerMap*)this)->NewItem(node);
+    reinterpret_cast<::fnv_00adddd0::FUN_00a1b940 *>((((NiTPointerMap*)this)))->FUN_00a11db0((::fnv_00adddd0::MsgNode *)(node));
 }
 
 struct FUN_004edd20_shell
@@ -377,13 +367,12 @@ void* FUN_004edd20_shell::FUN_004edd20(unsigned int flags)
 {
     ((FUN_004eda30_t*)this)->FUN_004eda30();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct FUN_00438af0_t
 {
-    void __thiscall FUN_00438af0();
 };
 struct FUN_004eda30
 {
@@ -397,13 +386,12 @@ struct FUN_004ed9d0 : FUN_004eda30
 // @fnv 0x004ed9d0
 FUN_004ed9d0::~FUN_004ed9d0()
 {
-    ((FUN_00438af0_t*)this)->FUN_00438af0();
+    reinterpret_cast<::FUN_00438af0_Class *>((((FUN_00438af0_t*)this)))->FUN_00438af0();
 }
 
 namespace fnv_004edad0 {
 struct FUN_00438af0_t
 {
-    void FUN_00438af0();
 };
 
 struct FUN_004edb30
@@ -420,7 +408,7 @@ struct FUN_004edad0 : FUN_004edb30
 // @fnv 0x004edad0
 FUN_004edad0::~FUN_004edad0()
 {
-    reinterpret_cast<FUN_00438af0_t*>(this)->FUN_00438af0();
+    reinterpret_cast<::FUN_00438af0_Class *>((reinterpret_cast<FUN_00438af0_t*>(this)))->FUN_00438af0();
 }
 }  // namespace fnv_004edad0
 
@@ -433,7 +421,6 @@ struct S_00ae8370_Node
 struct S_00ae8370_Alloc
 {
     int unk00;
-    void FUN_0045cee0(S_00ae8370_Node* node);
 };
 struct S_00ae8370_List
 {
@@ -452,7 +439,7 @@ void S_00ae8370_List::FUN_00ae8370()
         unsigned int pad[3];
         pos = pos->unk00;
         cur->unk08 = 0;
-        unk08.FUN_0045cee0(cur);
+        reinterpret_cast<::FUN_0045cee0_shell *>(&(unk08))->FUN_0045cee0(cur);
     }
     unk08.unk00 = 0;
     unk00 = 0;
@@ -466,6 +453,6 @@ extern int DAT_01023274;
 void FUN_004edb30_t::FUN_004edb30()
 {
     *(int**)this = &DAT_01023274;
-    ((MyMap*)this)->RemoveAll();
-    NiFreeAlias(*(void**)((char*)this + 8));
+    reinterpret_cast<::FUN_00438af0_Class *>((((MyMap*)this)))->FUN_00438af0();
+    ::FUN_00aa10f0(*(void**)((char*)this + 8));
 }

@@ -2,6 +2,14 @@
 #define FNV_NISTREAM_CPP_DECLS_H
 
 // which this folder resolves case-insensitively to the niobject.h unit file: take the canonical include/NiObject.h and skip that file.
+#include "fnv/decl/A64330Obj.h"
+#include "fnv/decl/FUN_00a311e0_s.h"
+#include "fnv/decl/FUN_00aa2d60_cls.h"
+#include "fnv/decl/FUN_00aa2fb0.h"
+#include "fnv/decl/FUN_00aa2ff0_s.h"
+#include "fnv/symbols_00a61000.h"
+#include "fnv/symbols_00aa2000.h"
+#include "fnv/symbols_011f4000.h"
 #include "../../../../include/NiObject.h"
 #define FNV_NIOBJECT_UNIT_H
 #define NiStream NiStreamAtlas
@@ -10,18 +18,14 @@
 #include "nistream_types_NiBinaryStream.h"
 
 class NiTexture;
-extern "C" bool __cdecl fnv_NiStreamGetTexture(const char* textureName, NiPointer<NiTexture>& texture);
 extern "C" void __cdecl fnv_CopyFilePath(char* destination, unsigned int destinationSize, const char* source,
                                          unsigned int sourceSize);
-extern "C" bool __cdecl fnv_StandardizeFilePath(char* path);
-extern "C" char fnv_NiStreamCriticalSection;
 extern "C" void(__stdcall* fnv_EnterCriticalSection)(void* section);
 extern "C" void(__stdcall* fnv_LeaveCriticalSection)(void* section);
 
 class NiStreamLinkIDSet : public NiTSet_unsigned_int_NiTMallocInterface_unsigned_int___
 {
   public:
-    void Realloc(unsigned int allocationCount);
 };
 
 class NiStreamTopObjects : public NiTLargeObjectArray_NiPointer_NiObject___
@@ -29,7 +33,6 @@ class NiStreamTopObjects : public NiTLargeObjectArray_NiPointer_NiObject___
   public:
     void RemoveAll();
     void FUN_00cc1a10(unsigned int index, const NiPointer<NiObject>& object);
-    void FUN_00a64fe0(unsigned int size);
 };
 
 class NiStreamFixedStrings : public NiTLargeObjectArray_NiFixedString_
@@ -89,9 +92,7 @@ typedef void(__cdecl* NiStreamPostProcess)(NiStream&, NiObject*);
 class NiUnionBV
 {
   public:
-    void AddPostProcess(NiStreamPostProcess& function);
 };
-extern NiUnionBV* DAT_011f4788;
 class NiShader;
 template <class K, class V> class NiTPointerMap;
 template <class M, class V> class NiTStringTemplateMap
@@ -99,8 +100,6 @@ template <class M, class V> class NiTStringTemplateMap
   public:
     void SetAt(const char*, V);
 };
-extern NiTStringTemplateMap<NiTPointerMap<const char*, NiShader*>, NiShader*>* DAT_011f4784;
-extern bool DAT_011f4780;
 
 class NiStreamMemoryBuffer : public NiBinaryStream
 {
@@ -110,10 +109,7 @@ class NiStreamMemoryBuffer : public NiBinaryStream
     int m_uiLogicalSize;
     char* m_pString;
     unsigned int m_uiValue1;
-    void FUN_00aa2fb0(char* buffer, int size);
-    void FUN_00aa2ff0();
     void NiMemStreamDestructor();
-    char* FUN_00aa2d60();
 };
 
 inline void NiStreamReadUInt(NiBinaryStream* stream, unsigned int& value)

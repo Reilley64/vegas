@@ -1,11 +1,25 @@
 // gamebryo2.2/corelibs/nimain/nishaderfactory.cpp: NiShaderFactory, NiRefObject (11 functions)
 
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00aa00d0.h"
+#include "fnv/decl/FUN_00e89760_Class.h"
+#include "fnv/decl/HashTableBase.h"
+#include "fnv/decl/Map.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00aa0000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_0126f000.h"
 #include "nishaderfactory_types.h"
 
 // @fnv 0x00a9fff0
 NiShaderFactory* __cdecl NiShaderFactory::GetInstance()
 {
-    return ms_pShaderFactory;
+    return (*reinterpret_cast<::NiShaderFactory * *>(&::DAT_011f6044));
 }
 
 void __cdecl __Dummy_00b6fef0(void* p, unsigned int size);
@@ -14,15 +28,6 @@ struct FUN_00aa06c0
     void FUN_00aa05a0();
     FUN_00aa06c0* FUN_00aa06c0_impl(unsigned int flags);
 };
-// @fnv 0x00aa06c0
-FUN_00aa06c0* FUN_00aa06c0::FUN_00aa06c0_impl(unsigned int flags)
-{
-    FUN_00aa05a0();
-    if (flags & 1)
-        __Dummy_00b6fef0(this, 0x24);
-    return this;
-}
-
 struct BSFadeNode;
 struct BSMultiBoundNode;
 struct BSResizableTriShape;
@@ -109,16 +114,14 @@ struct FUN_00e89830_shell : public NiD3DShaderProgram
     void* FUN_00e89830();
 };
 
-extern char const* const g_0126f9ac_arg1;
 // @fnv 0x00e89830
 void* FUN_00e89830_shell::FUN_00e89830()
 {
-    return (void*)&g_0126f9ac_arg1;
+    return (void*)&(*reinterpret_cast<const char *const *>(&::g_0126f9a4));
 }
 
 struct NiFileHack
 {
-    unsigned int FileRead(void*, unsigned int);
 };
 int __cdecl SwapBufferBySizes(void*, unsigned int, void*, void*);
 // @fnv 0x00aa19e0
@@ -126,23 +129,21 @@ unsigned int __cdecl FUN_00aa19e0(NiFile* apFile, void* apBuffer, unsigned int a
 {
     if (auiSize <= 0)
         return 0;
-    unsigned int r = ((NiFileHack*)apFile)->FileRead(apBuffer, auiSize);
+    unsigned int r = reinterpret_cast<::NiFile *>((((NiFileHack*)apFile)))->FileRead(apBuffer, auiSize);
     SwapBufferBySizes(apBuffer, auiSize, apArg4, apArg5);
     return r;
 }
 
-extern char* _EmptyFS;
 
 struct ShaderConstantMap : NiTFixedStringMap_NiGlobalConstantEntry___
 {
-    void SetAt(NiFixedString* pkKey, NiGlobalConstantEntry* pkValue);
 };
 
 struct ShaderFactorySlot : NiShaderFactory
 {
     static NiShaderFactory*& Get()
     {
-        return ms_pShaderFactory;
+        return (*reinterpret_cast<::NiShaderFactory * *>(&::DAT_011f6044));
     }
 };
 
@@ -154,7 +155,6 @@ struct NiGlobalConstantEntryView : NiRefObject
 
 struct NiGlobalConstantEntryStub
 {
-    NiGlobalConstantEntry* Init(unsigned int uiKey, unsigned int a2, unsigned int a3, unsigned int a4);
 };
 
 void* __cdecl FUN_00aa13e0(unsigned int uiSize);
@@ -188,20 +188,20 @@ bool __cdecl AcquireGlobalConstantEntry(const NiFixedString* pkName, unsigned in
     if (pvMem == 0)
         return false;
     unsigned int uiKey = (unsigned int)pkName->m_kHandle;
-    NiGlobalConstantEntry* pkNew = ((NiGlobalConstantEntryStub*)pvMem)->Init(uiKey, a2, a3, a4);
+    NiGlobalConstantEntry* pkNew = ((::NiGlobalConstantEntry *)(new ((void *)(((NiGlobalConstantEntryStub*)pvMem))) ::FUN_00aa00d0((const char *)(uiKey), a2, a3, (const void *)(a4))));
     if (pkNew == 0)
         return false;
 
     InterlockedIncrement((long*)&((NiRefObject*)pkNew)->m_uiRefCount);
-    if (pkName->m_kHandle != _EmptyFS)
+    if (pkName->m_kHandle != ::DAT_0109b220)
         InterlockedIncrement((long*)(pkName->m_kHandle - 8));
 
     char* pcHandle = pkName->m_kHandle;
     NiShaderFactory* pkMapOwner = ShaderFactorySlot::Get();
     kLocal.m_kHandle = pcHandle;
-    ((ShaderConstantMap*)&pkMapOwner->m_kGlobalConstantEntryMap)->SetAt(&kLocal, pkNew);
+    reinterpret_cast<::Map *>((((ShaderConstantMap*)&pkMapOwner->m_kGlobalConstantEntryMap)))->FUN_00a6e980((*(const ::Key *)(&kLocal)), pkNew);
 
-    if (pcHandle != _EmptyFS)
+    if (pcHandle != ::DAT_0109b220)
         InterlockedDecrement((long*)(pcHandle - 8));
     return true;
 }
@@ -228,7 +228,6 @@ struct FUN_00e897d0 : public SpawnedArgBase
     int m_unk24;
     int m_unk28;
     FUN_00e897d0(int a1, int a2) throw();
-    void Init(int a1);
 };
 
 // Constructs the object from a base argument and a1, zeroes eight fields, then calls Init(a1).
@@ -243,7 +242,7 @@ FUN_00e897d0::FUN_00e897d0(int a1, int aiArg) throw() : SpawnedArgBase(aiArg)
     m_unk20 = 0;
     m_unk24 = 0;
     m_unk28 = 0;
-    Init(a1);
+    reinterpret_cast<::FUN_00e89760_Class *>(this)->FUN_00e89760((::NiConsoleRendererStub *)(a1));
 }
 
 inline NiRefObject::~NiRefObject()
@@ -253,18 +252,17 @@ inline NiRefObject::~NiRefObject()
 
 void NiFree(void* p) throw();
 
-extern char* g_pcEmptyFixedString;
 
 struct FixedStr
 {
     char* m_kHandle;
     FixedStr()
     {
-        m_kHandle = g_pcEmptyFixedString;
+        m_kHandle = ::DAT_0109b220;
     }
     ~FixedStr()
     {
-        if (m_kHandle != g_pcEmptyFixedString)
+        if (m_kHandle != ::DAT_0109b220)
             InterlockedDecrement((volatile long*)(m_kHandle - 8));
     }
 };
@@ -309,7 +307,6 @@ struct GlobalConstantMap : public GlobalConstantMapBase
     }
 };
 
-void __cdecl RemoveGlobalConstant(char** pkName) throw();
 
 struct FUN_00aa05a0 : public NiRefObject
 {
@@ -331,18 +328,25 @@ struct FUN_00aa05a0 : public NiRefObject
     void* GlobalConstantEntryRegistry;
     void* GlobalConstantMapContext;
 
-    static FUN_00aa05a0* ms_pShaderFactory;
 
     virtual ~FUN_00aa05a0() throw();
 };
+// @fnv 0x00aa06c0
+FUN_00aa06c0* FUN_00aa06c0::FUN_00aa06c0_impl(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00aa05a0 *>(this)->FUN_00aa05a0::~FUN_00aa05a0();
+    if (flags & 1)
+        __Dummy_00b6fef0(this, 0x24);
+    return this;
+}
 
 // @fnv 0x00aa05a0
 FUN_00aa05a0::~FUN_00aa05a0() throw()
 {
-    if (ms_pShaderFactory)
-        ms_pShaderFactory->ReleaseAllLibraries();
-    if (ms_pShaderFactory)
-        ms_pShaderFactory->ClearLibraries();
+    if ((*reinterpret_cast<::FUN_00aa05a0 * *>(&::DAT_011f6044)))
+        (*reinterpret_cast<::FUN_00aa05a0 * *>(&::DAT_011f6044))->ReleaseAllLibraries();
+    if ((*reinterpret_cast<::FUN_00aa05a0 * *>(&::DAT_011f6044)))
+        (*reinterpret_cast<::FUN_00aa05a0 * *>(&::DAT_011f6044))->ClearLibraries();
 
     void* pos = m_kGlobalConstantEntryMap.GetFirstPos();
     while (pos)
@@ -351,11 +355,11 @@ FUN_00aa05a0::~FUN_00aa05a0() throw()
         GlobalConstantEntry* pkEntry = 0;
         m_kGlobalConstantEntryMap.GetNext(pos, kName, pkEntry);
         if (pkEntry)
-            RemoveGlobalConstant(&kName.m_kHandle);
+            ::RemoveGlobalConstant((const ::NiFixedString *)(char **)(&kName.m_kHandle));
     }
 
-    if (ms_pShaderFactory == this)
-        ms_pShaderFactory = 0;
+    if ((*reinterpret_cast<::FUN_00aa05a0 * *>(&::DAT_011f6044)) == this)
+        (*reinterpret_cast<::FUN_00aa05a0 * *>(&::DAT_011f6044)) = 0;
 }
 
 // @fnv 0x00a38de0
@@ -365,9 +369,6 @@ int __stdcall FUN_00a38de0(int unk08)
 }
 
 extern int DAT_010a2148;
-extern int DAT_0101dce4;
-extern void* DAT_0109b220;
-extern int DAT_011f4400;
 
 typedef int(__stdcall* FUN_00aa0190_Decrement)(void*);
 extern FUN_00aa0190_Decrement DAT_00fdf1c4;
@@ -396,13 +397,13 @@ void* __thiscall FUN_00aa0190_Obj::Destroy(int aiFlags)
 
     void* head = unk08;
     FUN_00aa0190_Decrement decrement = DAT_00fdf1c4;
-    if (head != DAT_0109b220)
+    if (head != (*reinterpret_cast<void * *>(&::DAT_0109b220)))
     {
         decrement(static_cast<char*>(head) - 8);
     }
 
     vptr = &DAT_0101dce4;
-    decrement(&DAT_011f4400);
+    decrement(&(*reinterpret_cast<int *>(&::NiRefObject::ms_lObjectCount)));
 
     if ((aiFlags & 1) != 0)
     {
@@ -419,11 +420,9 @@ int __stdcall FUN_00b57fc0(int arg0, int arg1, int arg2)
     return 0;
 }
 
-extern char* _EmptyFS;
 
 struct Stub
 {
-    __declspec(noalias) void FUN_00aa0250(NiFixedString* kKey);
 };
 
 // Finds the global constant entry for pkName in the shader factory, decrements its ref count, and deletes it when it reaches zero.
@@ -450,7 +449,7 @@ bool RemoveGlobalConstant(const NiFixedString* pkName)
     if (pkEntry == 0)
         return false;
 
-    if (pkName->m_kHandle != _EmptyFS)
+    if (pkName->m_kHandle != ::DAT_0109b220)
         InterlockedIncrement((long*)(pkName->m_kHandle - 8));
     pkFactory = ShaderFactorySlot::Get();
 
@@ -459,7 +458,7 @@ bool RemoveGlobalConstant(const NiFixedString* pkName)
     kLocal.m_kHandle = pcHandle;
     if (pkEntry->m_uiRefCount == 1)
     {
-        ((Stub*)&pkFactory->m_kGlobalConstantEntryMap)->FUN_00aa0250(&kLocal);
+        reinterpret_cast<::HashTableBase *>((((Stub*)&pkFactory->m_kGlobalConstantEntryMap)))->FUN_00aa0250((const unsigned int *)(::NiFixedString *)(&kLocal));
         if (InterlockedDecrement((long*)&pkEntry->m_uiRefCount) == 0)
             pkEntry->DeleteThis();
     }
@@ -469,7 +468,7 @@ bool RemoveGlobalConstant(const NiFixedString* pkName)
             pkEntry->DeleteThis();
     }
 
-    if (pcHandle != _EmptyFS)
+    if (pcHandle != ::DAT_0109b220)
         InterlockedDecrement((long*)(pcHandle - 8));
     return true;
 }

@@ -5,9 +5,16 @@
 
 // src/speedtree/projectedshadow.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/projectedshadow.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00b0cf90_class.h"
+#include "fnv/decl/FUN_00b304f0_cls.h"
+#include "fnv/decl/MyThis.h"
+#include "fnv/decl/S_00b3ed80.h"
+#include "fnv/decl/V3cdd0.h"
+#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
+#include "fnv/decl/fnv_00b30f80__ptb30__PtOwner.h"
+#include "fnv/symbols_00b18000.h"
 struct Sub
 {
-    void FUN_0044a730(int a, int b);
 };
 struct V3
 {
@@ -141,8 +148,6 @@ struct Context
     unsigned int unknown60, unknown64, unknown68, unknown6C, unknown70, unknown74, unknown78, unknown7C;
     unsigned int unknown80, unknown84;
     VecRange points;
-    const float* FUN_00b30f80(unsigned short index);
-    void FUN_00b304f0(Vec2* uv);
 };
 struct Scr
 {
@@ -177,37 +182,36 @@ struct Scr
 struct Agent
 {
     Vec3 first, second;
-    Vec3 ProjectOntoLine(const Vec3& start, const Vec3& end, const Vec3& point);
     void FUN_00b3ea10(Context*, Vec3, float, Bounds*);
 };
 // @fnv 0x00b3ea10
 void Agent::FUN_00b3ea10(Context* context, Vec3 point, float extent, Bounds* bounds)
 {
     Vec3 lowerAA = point.FUN_00b13040(first.ScaleSwizzled(extent));
-    Vec3 kUpperA = point.AddVector(first.ScaleSwizzled(extent));
+    Vec3 kUpperA = (*(::Vec3 *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&(point))->AddVector((float *)&(const ::Vec3 &)(first.ScaleSwizzled(extent)), {})));
     Vec3 lowerB6 = point.FUN_00b13040(second.ScaleSwizzled(extent));
-    Vec3 upperB4 = point.AddVector(second.ScaleSwizzled(extent));
+    Vec3 upperB4 = (*(::Vec3 *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&(point))->AddVector((float *)&(const ::Vec3 &)(second.ScaleSwizzled(extent)), {})));
     Scr::Touch();
     context->count = 0;
     for (unsigned short index3 = 0; index3 < (unsigned short)(context->points.Size() / 3); ++index3)
     {
-        const float* input = context->FUN_00b30f80(index3);
+        const float* input = reinterpret_cast<::fnv_00b30f80::ptb30::PtOwner *>((context))->FUN_00b30f80(index3);
         Vec3 value2;
         Fill(&value2, input);
-        Vec3 projectedA7 = ProjectOntoLine(lowerAA, kUpperA, value2);
+        Vec3 projectedA7 = (*(::Vec3 *)(reinterpret_cast<::MyThis *>(this)->ProjectOntoLine((::Vec *)&(lowerAA), (::Vec *)&(kUpperA), (::Vec *)&(value2), {})));
         Vec2 uv5;
-        uv5.x = lowerAA.FUN_00b04d40(projectedA7) / (extent * 2.0f);
+        uv5.x = reinterpret_cast<::V3cdd0 *>((void *)&(lowerAA))->FUN_00b04d40((const ::V3cdd0 *)&(projectedA7)) / (extent * 2.0f);
         if (bounds)
         {
             uv5.x = bounds->MapX(uv5.x);
         }
-        Vec3 projectedB2 = ProjectOntoLine(lowerB6, upperB4, value2);
-        uv5.y = lowerB6.FUN_00b04d40(projectedB2) / (extent * 2.0f);
+        Vec3 projectedB2 = (*(::Vec3 *)(reinterpret_cast<::MyThis *>(this)->ProjectOntoLine((::Vec *)&(lowerB6), (::Vec *)&(upperB4), (::Vec *)&(value2), {})));
+        uv5.y = reinterpret_cast<::V3cdd0 *>((void *)&(lowerB6))->FUN_00b04d40((const ::V3cdd0 *)&(projectedB2)) / (extent * 2.0f);
         if (bounds)
         {
             uv5.y = bounds->MapY(uv5.y);
         }
-        context->FUN_00b304f0(&uv5);
+        reinterpret_cast<::FUN_00b304f0_cls *>((context))->FUN_00b304f0((*(const float *)(&uv5)));
     }
 }
 
@@ -253,11 +257,9 @@ struct NarrowString : std::string
     std::string FUN_00b09f90();
 };
 
-std::string __cdecl FUN_00b18860(const char*, ...);
 
 struct ChunkReader
 {
-    int GetNextElement();
     Vec3Ret GetVector3();
     std::string FUN_00b3ee40();
 };
@@ -272,7 +274,7 @@ struct FrondInfo
 // @fnv 0x00b3e750
 void FrondInfo::FUN_00b3e750(ChunkReader* reader)
 {
-    int token = reader->GetNextElement();
+    int token = ((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement()));
     do
     {
         switch (token)
@@ -292,8 +294,8 @@ void FrondInfo::FUN_00b3e750(ChunkReader* reader)
             break;
         }
         default:
-            throw IdvFileError(FUN_00b18860("malformed frond info (token %d)", token));
+            throw IdvFileError((*(std::basic_string<char, std::char_traits<char>, std::allocator<char>> *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("malformed frond info (token %d)"), (const char *)(token)))));
         }
-        token = reader->GetNextElement();
+        token = ((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement()));
     } while (token != 0x4651);
 }

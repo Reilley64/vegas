@@ -2,6 +2,7 @@
 #ifndef TESHEALTHFORM_PRIVATE_DECLS_H
 #define TESHEALTHFORM_PRIVATE_DECLS_H
 
+#include "fnv/symbols_00487000.h"
 #include "BaseFormComponent.h"
 class TESForm;
 class TESHealthForm : public BaseFormComponent
@@ -10,7 +11,6 @@ class TESHealthForm : public BaseFormComponent
     unsigned int m_uiHealthValue;
     void InitializeComponent();
     virtual unsigned int GetHealth();
-    static TESHealthForm* GetFormAsHealthForm(TESForm* form);
     static unsigned int GetBaseHealth(TESForm* form);
 };
 #endif

@@ -5,6 +5,10 @@
 
 // src/staging/blk_00b80000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/S694a0.h"
+#include "fnv/symbols_00450000.h"
 #include "../../include/layout_support.h"
 
 struct FNVVec3
@@ -174,7 +178,6 @@ struct FUN_00a69400 : FUN_00a693e0
     FUN_00a69400(void*);
     ~FUN_00a69400()
     {}
-    void FUN_00a694a0(void*);
 };
 // @fnv 0x00b9c020
 unsigned char __stdcall FUN_00b9c020(FNVCuboid* p1, FNVCuboid* p2)
@@ -204,10 +207,10 @@ unsigned char __stdcall FUN_00b9c020(FNVCuboid* p1, FNVCuboid* p2)
     vertsB[4] = pos + farDist * forward - farDist * up - farDist * right;
     FUN_00a69400 scratch(0);
     scratch.camera = p1;
-    scratch.FUN_00a694a0(&p1->fdc);
+    reinterpret_cast<::S694a0 *>(&(scratch))->FUN_00a694a0(&p1->fdc);
     first = scratch.poly;
     scratch.camera = p2;
-    scratch.FUN_00a694a0(&p2->fdc);
+    reinterpret_cast<::S694a0 *>(&(scratch))->FUN_00a694a0(&p2->fdc);
     second = scratch.poly;
     FNVPlaneArray active;
     FNVVec3* verts = 0;

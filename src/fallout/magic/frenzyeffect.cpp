@@ -2,11 +2,35 @@
 // src/fallout/magic/frenzyeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/frenzyeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/Cls.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/FUN_005be5c0_shell.h"
+#include "fnv/decl/FUN_00802d90_shell.h"
+#include "fnv/decl/FUN_0082ba60.h"
+#include "fnv/decl/FUN_0082c000_shell.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_008579e0_shell.h"
+#include "fnv/decl/ValueModifierEffect_LoadGame_Helper.h"
+#include "fnv/decl/fnv_0087f9f0__FUN_0087f9f0_shell.h"
+#include "fnv/decl/fnv_008a6730__FUN_008a6730_shell.h"
+#include "fnv/decl/fnv_00968670__FUN_00968670_shell.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00495000.h"
+#include "fnv/symbols_00649000.h"
+#include "fnv/symbols_011a0000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
 struct Actor;
 
+struct Actor;
 struct ValueModifierEffect
 {
-    unsigned short __thiscall FUN_00802d90(Actor* apActor);
+public:
+    void FUN_00802db0(::Actor *);
 };
 
 struct FrenzyEffect : ValueModifierEffect
@@ -18,25 +42,23 @@ struct FrenzyEffect : ValueModifierEffect
 unsigned short FrenzyEffect::FUN_0080df90(Actor* apActor)
 {
     unsigned short isize = 0;
-    isize += ValueModifierEffect::FUN_00802d90(apActor);
+    isize += reinterpret_cast<::FUN_00802d90_shell *>(this)->FUN_00802d90(apActor);
     isize += 1;
     return isize;
 }
 
-extern "C" float __cdecl FUN_00404010(float, float);
 extern float DAT_011dc778;
 
 // Subtracts FUN_00404010(0.0f, value) from DAT_011dc778 and stores the result back into DAT_011dc778.
 // @fnv 0x0080fc90
 void FUN_0080fc90(float value)
 {
-    DAT_011dc778 = DAT_011dc778 - FUN_00404010(0.0f, value);
+    DAT_011dc778 = DAT_011dc778 - ::FUN_00404010(0.0f, value);
 }
 
 extern int DAT_0107a16c;
 struct ValueModifierEffectCtor
 {
-    void __thiscall FUN_0080dbb0_ctor(void* a, void* b, void* c);
 };
 struct FrenzyEffectShell : ValueModifierEffect
 {
@@ -46,7 +68,7 @@ struct FrenzyEffectShell : ValueModifierEffect
 // @fnv 0x0080dbb0
 void* FrenzyEffectShell::ConstructFrenzyEffect(void* apArg1, void* apArg2, void* apArg3)
 {
-    ((ValueModifierEffectCtor*)this)->FUN_0080dbb0_ctor(apArg1, apArg2, apArg3);
+    new ((void *)(((ValueModifierEffectCtor*)this))) ::FUN_0082ba60((::MagicCaster *)(apArg1), (::MagicItem *)(apArg2), (::EffectItem *)(apArg3));
     *reinterpret_cast<void**>(this) = &DAT_0107a16c;
     *reinterpret_cast<char*>(this + 0x4c) = 0;
     return this;
@@ -54,32 +76,26 @@ void* FrenzyEffectShell::ConstructFrenzyEffect(void* apArg1, void* apArg2, void*
 
 struct TESSaveLoadGame
 {
-    void __thiscall FUN_008579b0(void*, int);
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 struct FUN_0080dfd0_shell : ValueModifierEffect
 {
-    void __thiscall FUN_00802db0(Actor*);
     void __thiscall FUN_0080dfd0(Actor* actor);
 };
 // Calls FUN_00802db0 on the actor, then passes this+0x4c and 1 to TESSaveLoadGame::FUN_008579b0.
 // @fnv 0x0080dfd0
 void __thiscall FUN_0080dfd0_shell::FUN_0080dfd0(Actor* actor)
 {
-    FUN_00802db0(actor);
-    g_TESSaveLoadGame->FUN_008579b0((char*)this + 0x4c, 1);
+    reinterpret_cast<::ValueModifierEffect *>(this)->FUN_00802db0(actor);
+    reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0((char*)this + 0x4c, 1);
 }
 
 namespace fnv_0080e000 {
 struct Base00802dd0
 {
-    void FUN_00802dd0(Actor* apActor);
 };
 struct TESSaveLoadGame
 {
-    void ReadTypedData(void* data, unsigned int size);
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 struct FUN_0080e000_shell : Base00802dd0
 {
     void FUN_0080e000(Actor* apActor);
@@ -87,8 +103,8 @@ struct FUN_0080e000_shell : Base00802dd0
 // @fnv 0x0080e000
 void FUN_0080e000_shell::FUN_0080e000(Actor* apActor)
 {
-    FUN_00802dd0(apActor);
-    g_TESSaveLoadGame->ReadTypedData((char*)this + 0x4c, 1);
+    reinterpret_cast<::ValueModifierEffect_LoadGame_Helper *>(this)->FUN_00802dd0(apActor);
+    reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_0080e000::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579e0((char*)this + 0x4c, 1);
 }
 }  // namespace fnv_0080e000
 
@@ -103,11 +119,9 @@ struct MagicTarget
 };
 struct PCH
 {
-    bool HasCombatState();
 };
 struct BSThread
 {
-    unsigned int GetThreadID();
 };
 struct Proc_S
 {
@@ -115,8 +129,6 @@ struct Proc_S
 };
 struct FUN_0080dd30_shell : ValueModifierEffect
 {
-    void FUN_0082c000();
-    unsigned int GetThreadID();
     void* GetNext();
     Actor* GetOwnerActor() const;
     Actor* GetCasterActor();
@@ -126,10 +138,10 @@ struct FUN_0080dd30_shell : ValueModifierEffect
 // @fnv 0x0080dd30
 void FUN_0080dd30_shell::FUN_0080dd30()
 {
-    FUN_0082c000();
-    Actor* target = GetThreadID() ? ((MagicTarget*)(void*)GetThreadID())->GetOwnerActor() : 0;
-    Actor* caster = ((Proc_S*)this)->GetNext() ? ((MagicCaster*)((Proc_S*)this)->GetNext())->GetCasterActor() : 0;
-    if (target && caster && ((PCH*)target)->HasCombatState())
+    reinterpret_cast<::FUN_0082c000_shell *>(this)->FUN_0082c000();
+    Actor* target = reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType() ? ((MagicTarget*)(void*)reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())->GetOwnerActor() : 0;
+    Actor* caster = ((void *)(reinterpret_cast<::FUN_0045cd60_shell *>((((Proc_S*)this)))->FUN_0045cd60())) ? ((MagicCaster*)((void *)(reinterpret_cast<::FUN_0045cd60_shell *>((((Proc_S*)this)))->FUN_0045cd60())))->GetCasterActor() : 0;
+    if (target && caster && ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PCH*)target)))->FUN_00493bb0())))
         ((char*)this)[0x4c] = 1;
 }
 
@@ -249,8 +261,6 @@ void* __cdecl CreateFrenzyEffectObject(void* apFirst, void* apSecond, void* apTh
 struct Actor
 {
     void** vtbl;
-    unsigned char FUN_00493bb0();
-    void FUN_008a6730(Actor*);
 };
 
 struct Ref
@@ -260,16 +270,12 @@ struct Ref
 
 struct Population
 {
-    unsigned int FUN_005be5c0(unsigned int unused);
-    Actor* FUN_00968670(unsigned int index);
 };
 
 struct World
 {
-    Population* FUN_00717e50();
 };
 
-extern "C" World DAT_011e0e80;
 
 struct FrenzyEffectCore
 {
@@ -277,8 +283,6 @@ struct FrenzyEffectCore
     unsigned int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
     unsigned int unk40, unk44, unk48;
     unsigned char exhausted;
-    void ApplyEffect();
-    Ref* FUN_0059bb30();
     void FUN_0080ddd0();
 };
 
@@ -288,25 +292,25 @@ typedef unsigned char(__thiscall* ActorPredicate)(Actor*);
 // @fnv 0x0080ddd0
 void FrenzyEffectCore::FUN_0080ddd0()
 {
-    ApplyEffect();
+    reinterpret_cast<::Cls *>(this)->ApplyEffect();
     if (exhausted)
         return;
     {
-        Actor* actor = FUN_0059bb30() ? FUN_0059bb30()->FUN_00822b40() : 0;
-        if (actor != 0 && actor->FUN_00493bb0())
+        Actor* actor = ((::Ref *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::Ref *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))->FUN_00822b40() : 0;
+        if (actor != 0 && ((unsigned char)(reinterpret_cast<::FUN_00493bb0_Class *>((actor))->FUN_00493bb0())))
         {
             ((ActorAction)actor->vtbl[269])(actor, 0);
-            Population* pPopulation = DAT_011e0e80.FUN_00717e50();
-            for (unsigned int uiIndex = 0; uiIndex < pPopulation->FUN_005be5c0(0); uiIndex++)
+            Population* pPopulation = ((::Population *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::World *>(&::g_011e0e80))))->GetCurrentProcessData()));
+            for (unsigned int uiIndex = 0; uiIndex < reinterpret_cast<::FUN_005be5c0_shell *>((pPopulation))->FUN_005be5c0(0); uiIndex++)
             {
-                Actor* element = pPopulation->FUN_00968670(uiIndex);
+                Actor* element = ((::Actor *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((pPopulation))->FUN_00968670(uiIndex)));
                 if (element != actor)
                 {
                     Actor* pOtherActor = element != 0 && ((ActorPredicate)element->vtbl[64])(element) ? element : 0;
                     if (pOtherActor)
                     {
-                        pOtherActor->FUN_008a6730(actor);
-                        if (pOtherActor->FUN_00493bb0())
+                        reinterpret_cast<::fnv_008a6730::FUN_008a6730_shell *>((pOtherActor))->FUN_008a6730((::TESObjectREFR *)(actor));
+                        if (((unsigned char)(reinterpret_cast<::FUN_00493bb0_Class *>((pOtherActor))->FUN_00493bb0())))
                             ((ActorAction)pOtherActor->vtbl[269])(pOtherActor, actor);
                     }
                 }
@@ -315,8 +319,6 @@ void FrenzyEffectCore::FUN_0080ddd0()
     }
 }
 
-extern char DAT_011a0ef8;
-extern char DAT_011a0f14;
 extern "C" void* __cdecl FUN_00ec43fb(void*, long, void*, void*, int);
 
 struct FrenzyCheckCharacter
@@ -508,14 +510,11 @@ struct FrenzyCheckCharacter
     virtual void v184();
     virtual void v185();
     virtual bool IsImmune();
-    unsigned short FUN_0087f9f0();
 };
 
-bool FUN_006494d0(int aiLevel, float afMagnitude);
 
 struct FrenzyCheckEffectView : FrenzyEffect
 {
-    float GetFloatAtOffset1C();
     bool FUN_0080dca0(MagicTarget* apTarget);
 };
 
@@ -524,8 +523,8 @@ struct FrenzyCheckEffectView : FrenzyEffect
 bool FrenzyCheckEffectView::FUN_0080dca0(MagicTarget* apTarget)
 {
     FrenzyCheckCharacter* pChar =
-        static_cast<FrenzyCheckCharacter*>(FUN_00ec43fb(apTarget, 0, &DAT_011a0ef8, &DAT_011a0f14, 0));
-    if (pChar && !pChar->IsDead(false) && !pChar->IsImmune() && FUN_006494d0(pChar->FUN_0087f9f0(), GetFloatAtOffset1C()))
+        static_cast<FrenzyCheckCharacter*>(FUN_00ec43fb(apTarget, 0, &(*reinterpret_cast<char *>(&::DAT_011a0ef8)), &DAT_011a0f14, 0));
+    if (pChar && !pChar->IsDead(false) && !pChar->IsImmune() && FUN_006494d0(reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>((pChar))->FUN_0087f9f0(), ::GetFloatAtOffset1C((char *)this)))
         return true;
     return false;
 }

@@ -2,6 +2,7 @@
 // src/havok/physics/constraintsolver/constraint/chain/hkpchainbuildjacobian.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/constraintsolver/constraint/chain/hkpchainbuildjacobian.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00cd5000.h"
 class ChainIndex
 {
     int index;
@@ -186,12 +187,10 @@ class hkMatrix3
     hkVector4 m_kColumn2;
 };
 
-void __cdecl FUN_00cd5530(hkMatrix3* thisMatrix, const hkMatrix3& aTb, const hkMatrix3& bTc);
-void __cdecl FUN_00cd55a0(hkMatrix3& thisMatrix);
 
 __forceinline void hkMatrix3::_setMul(const hkMatrix3& aTb, const hkMatrix3& bTc)
 {
-    FUN_00cd5530(this, aTb, bTc);
+    ::FUN_00cd5530((float *)(::hkMatrix3 *)(this), (const float *)&(aTb), (const float *)&(bTc));
 }
 
 template <class T> class ByteView
@@ -473,7 +472,7 @@ __forceinline void buildConstraintMatrixLuDecompositionForBallAndSocketChain(
             hkReal& e = triple[row].m_diagInv(k, k);
             e = hkMath_max2<hkReal>(e, 1.192092896e-07F);
         }
-        FUN_00cd55a0(triple[row].m_diagInv);
+        ::FUN_00cd55a0((::S_00cd55a0 *)&(triple[row].m_diagInv));
         triple[row].m_upper._setMul(triple[row].m_diagInv, nonDiag);
         prevNonDiag = nonDiag;
         prevUpper = triple[row].m_upper;

@@ -5,12 +5,31 @@
 
 // src/staging/blk_00a00000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/A0D2A0_StringMap.h"
+#include "fnv/decl/AE91F0Map.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0043a010_shell.h"
+#include "fnv/decl/FUN_0044a8d0_Class.h"
+#include "fnv/decl/FUN_0045cee0_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00ae8bf0_t.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/fnv_00a1c2d0__FUN_00a1c2d0_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01095000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f6000.h"
 #include "../../include/layout_support.h"
 struct P03MM
 {
-    void* Allocate(unsigned int);
 };
-extern P03MM g_memoryManager;
 struct FUN_00a1c020_Class
 {
     void* AllocateShifted(unsigned int size);
@@ -19,8 +38,6 @@ struct FUN_00a1e720_class
 {
     void __thiscall FUN_00a1e720(int a, int b, int c);
 };
-extern void* NiFreeAlias(void*);
-extern int DAT_01095524;
 struct FUN_00a1e1a0_class
 {
     int m_vtbl;
@@ -29,14 +46,12 @@ struct FUN_00a1e1a0_class
 };
 struct MemoryManager
 {
-    void Deallocate(void*);
 };
 struct FUN_00a11d80_Class
 {
     void __thiscall InitAndClear();
     void* __thiscall DestroyIfFlagged(unsigned int flags);
 };
-extern unsigned int DAT_010173f0;
 void __cdecl FUN_00ec30b0();
 int __cdecl _FUN_00ec7c66(void* dst, unsigned int size, const void* src, unsigned int count);
 struct _Secure_char_traits_tag
@@ -54,11 +69,8 @@ struct StrA
     unsigned int _Mysize;
     unsigned int _Myres;
     bool _Inside(const char*);
-    bool _Grow(unsigned int, bool);
-    StrA& FUN_00a0c570(const StrA&, unsigned int, unsigned int);
     StrA& FUN_00a0c430(const char* _Ptr, unsigned int _Count);
 };
-void* __cdecl _NiMalloc(unsigned int);
 void* __cdecl _fnv_zlib_memset(void* dst, int c, unsigned int n);
 extern int DAT_01094e1c;
 struct FUN_00a0d5f0_class
@@ -69,7 +81,6 @@ struct FUN_00a0d5f0_class
     int m_auiShapeKeys;
     FUN_00a0d5f0_class* __thiscall FUN_00a0d5f0(unsigned int size);
 };
-void* _NiMalloc(unsigned int);
 void* _fnv_zlib_memset(void* dest, int val, unsigned int size);
 extern int DAT_01094e9c;
 struct FUN_00a0d8e0
@@ -87,7 +98,6 @@ struct FUN_00a1c080_Class
     int m_uiItemCount;
     int PopFront();
 };
-void* __cdecl NiMalloc(unsigned int);
 struct FUN_00a1e450_Class
 {
     int* m_vtbl;
@@ -99,7 +109,6 @@ struct FUN_00a1e450_Class
     FUN_00a1e450_Class(unsigned short size, unsigned short x);
 };
 extern int DAT_010955e4;
-void* __cdecl _NiMalloc(unsigned int);
 void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
 struct FUN_00a1eaa0
 {
@@ -109,8 +118,6 @@ struct FUN_00a1eaa0
     int pad;
     FUN_00a1eaa0(int n);
 };
-extern int DAT_01095664;
-void* __cdecl NiMalloc(unsigned int size);
 void* __cdecl fnv_zlib_memset(void* dest, int c, unsigned int size);
 struct FUN_00a1ede0
 {
@@ -120,7 +127,6 @@ struct FUN_00a1ede0
     int m_auiShapeKeys;
     FUN_00a1ede0(int count);
 };
-extern void* NiMalloc(unsigned int);
 extern int DAT_0109568c;
 struct FUN_00a1eeb0_class
 {
@@ -141,7 +147,6 @@ struct FUN_00a0d710_class
     int m_auiShapeKeys;
     FUN_00a0d710_class* __thiscall FUN_00a0d710(unsigned int size);
 };
-extern void __cdecl _NiFree(void*);
 struct FUN_00a1ee60_class
 {
     int* m_vtbl;
@@ -153,7 +158,6 @@ struct S00a0d390
 {
     int* m_vtbl;
     int m_field;
-    void __thiscall ClearAll();
 };
 struct FUN_00a0d960_class : S00a0d390
 {
@@ -176,13 +180,10 @@ struct FUN_00a1e520_class
 };
 struct FUN_00a0d2a0_Obj
 {
-    void FUN_00a0d2a0();
 };
 struct FUN_00aa4060_Class
 {
-    void __thiscall FUN_00aa4060(void*);
 };
-extern FUN_00aa4060_Class DAT_011f6238;
 struct FUN_00a0d5c0_Local
 {
     int unk00;
@@ -206,7 +207,6 @@ struct FUN_00a0d7c0_Arg
 struct FUN_00a0d7c0_Sub
 {
     int unk00;
-    void __thiscall Process(FUN_00a0d7c0_Arg* arg);
 };
 struct FUN_00a0d7c0_Locals
 {
@@ -222,7 +222,6 @@ struct FUN_00a0d7c0_cls
     FUN_00a0d7c0_Sub m0c;
     void ResetAndProcess(FUN_00a0d7c0_Arg* arg);
 };
-void NiFree(void*);
 struct FUN_00a1e880_class : S00a0d390
 {
     void* m_data;
@@ -236,7 +235,6 @@ struct FUN_00a1e900_Class
 {
     int __thiscall FUN_00a1e900();
 };
-extern MemoryManager _g_memoryManager;
 struct Q7
 {
     int v4, v8, vC, v10, v14, v18, v1C;
@@ -259,7 +257,6 @@ struct S_00a0c9f0_Node
 struct S_00a0c9f0_Pool
 {
     int m_uiCount;
-    S_00a0c9f0_Node* FUN_0043a010();
 };
 class S_00a0c9f0
 {
@@ -276,8 +273,6 @@ struct FUN_00a0d790_class : S00a0d390
     void FUN_00a0d790();
 };
 extern int DAT_01094e9c;
-extern FUN_00aa4060_Class DAT_011f6238;
-extern void* __cdecl FUN_00aa10f0(void*);
 struct FUN_00a0d990_cls : S00a0d390
 {
     void* m_data;
@@ -351,7 +346,7 @@ struct S00a0d7f0 : S00a0d390
             {
                 pkSave = ((void**)m_data)[i];
                 ((void**)m_data)[i] = *(void**)pkSave;
-                NiFree(pkSave);
+                ::FUN_00aa10f0(pkSave);
             }
         }
         m_live = 0;
@@ -364,15 +359,13 @@ struct S00a0d7f0 : S00a0d390
 void* __thiscall S00a0d7f0::FUN_00a0d7f0(unsigned int flags)
 {
     m_vtbl = (int*)&DAT_01094e5c;
-    RemoveAll();
-    NiFree(m_data);
+    reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
+    ::FUN_00aa10f0(m_data);
     if (flags & 1)
-        _g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(this);
     return this;
 }
 
-extern NiFixedString* DAT_011f34cc;
-extern const char* DAT_0109b220;
 
 class NiFixedString
 {
@@ -381,13 +374,13 @@ class NiFixedString
     ~NiFixedString();
     void operator delete(void* pvMem)
     {
-        _g_memoryManager.Deallocate(pvMem);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(pvMem);
     }
 };
 
 inline NiFixedString::~NiFixedString()
 {
-    if (m_pcString == DAT_0109b220)
+    if (m_pcString == ::DAT_0109b220)
     {
         return;
     }
@@ -398,7 +391,7 @@ inline NiFixedString::~NiFixedString()
 // @fnv 0x00a1c790
 void __cdecl FUN_00a1c790()
 {
-    delete DAT_011f34cc;
+    delete (*reinterpret_cast<::NiFixedString * *>((void *)&::tileext::DAT_011f34cc));
 }
 
 struct NiNodeRef
@@ -536,7 +529,7 @@ StrB& StrB::FUN_00a0c570(const StrB& _Right, unsigned int _Roff, unsigned int _C
     unsigned int _Num = _Right.size() - _Roff;
     if (_Num < _Count)
         _Count = _Num;
-    if (DAT_010173f0 - _Mysize <= _Count || _Mysize + _Count < _Mysize)
+    if (::g_010173f0 - _Mysize <= _Count || _Mysize + _Count < _Mysize)
         FUN_00ec30b0();
     if (0 < _Count && _Grow(_Num = _Mysize + _Count))
     {
@@ -624,7 +617,6 @@ struct StringQ
     unsigned int _Mysize;
     unsigned int _Myres;
 
-    static const unsigned int npos;
 
     const char* _Myptr() const
     {
@@ -649,7 +641,7 @@ unsigned int StringQ::FUN_00a0c300(const char* _Ptr, unsigned int _Off, unsigned
                 break;
     }
 
-    return (npos);
+    return (::g_010173f0);
 }
 
 struct S00a1bc20_Guard
@@ -664,7 +656,6 @@ struct S00a1bc20_Guard
 class S00a1bc20_Obj
 {
   public:
-    void FUN_00a1c2d0();
     void FUN_00a1bc20();
 };
 
@@ -672,10 +663,9 @@ class S00a1bc20_Obj
 void S00a1bc20_Obj::FUN_00a1bc20()
 {
     S00a1bc20_Guard guard;
-    this->FUN_00a1c2d0();
+    reinterpret_cast<::fnv_00a1c2d0::FUN_00a1c2d0_shell *>((this))->FUN_00a1c2d0();
 }
 
-void __cdecl NiFreeE900(void* pvMem);
 
 struct MapItemE900
 {
@@ -689,8 +679,8 @@ class MapBaseE900
   public:
     virtual ~MapBaseE900()
     {
-        RemoveAll();
-        NiFreeE900(m_ppkHashTable);
+        reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
+        ::FUN_00aa10f0(m_ppkHashTable);
     }
     virtual unsigned int KeyToHashIndex(const char* key) const;
     virtual bool IsKeysEqual(const char* key1, const char* key2) const;
@@ -724,7 +714,7 @@ class PointerMapE900 : public MapBaseE900
   public:
     virtual ~PointerMapE900()
     {
-        RemoveAll();
+        reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
     }
 };
 
@@ -747,13 +737,12 @@ FUN_00a1e900::~FUN_00a1e900()
             {
                 MapItemE900* pkSave = pkItem;
                 pkItem = pkItem->m_pkNext;
-                NiFreeE900((char*)pkSave->m_key);
+                ::FUN_00aa10f0((char*)pkSave->m_key);
             }
         }
     }
 }
 
-void __cdecl NiFreeE9F0(void* pvMem);
 
 struct MapItemE9F0
 {
@@ -767,8 +756,8 @@ class MapBaseE9F0
   public:
     virtual ~MapBaseE9F0()
     {
-        RemoveAll();
-        NiFreeE9F0(m_ppkHashTable);
+        reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
+        ::FUN_00aa10f0(m_ppkHashTable);
     }
     virtual unsigned int KeyToHashIndex(const char* key) const;
     virtual bool IsKeysEqual(const char* key1, const char* key2) const;
@@ -806,7 +795,7 @@ class FUN_00a1e9f0 : public MapBaseE9F0
 // @fnv 0x00a1e9f0
 FUN_00a1e9f0::~FUN_00a1e9f0()
 {
-    RemoveAll();
+    reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
 }
 
 struct BucketNode
@@ -822,8 +811,8 @@ struct PointerArrayBase
     unsigned int itemCount;
     virtual ~PointerArrayBase()
     {
-        ClearAll();
-        FUN_00aa10f0(buckets);
+        reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
+        ::FUN_00aa10f0(buckets);
     }
     virtual void Reserved1();
     virtual void Reserved2();
@@ -851,7 +840,7 @@ struct KeyMapBase : PointerArrayBase
 {
     virtual ~KeyMapBase()
     {
-        ClearAll();
+        reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
     }
 };
 
@@ -873,7 +862,7 @@ FUN_00a1ec70::~FUN_00a1ec70()
             {
                 BucketNode* saved = node;
                 node = node->next;
-                FUN_00aa10f0(saved->key);
+                ::FUN_00aa10f0(saved->key);
             }
         }
     }
@@ -892,8 +881,8 @@ struct PointerArrayBase
     unsigned int itemCount;
     virtual ~PointerArrayBase()
     {
-        ClearAll();
-        FUN_00aa10f0(buckets);
+        reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
+        ::FUN_00aa10f0(buckets);
     }
     virtual void Reserved1();
     virtual void Reserved2();
@@ -925,17 +914,14 @@ struct FUN_00a1ed60 : PointerArrayBase
 // @fnv 0x00a1ed60
 FUN_00a1ed60::~FUN_00a1ed60()
 {
-    ClearAll();
+    reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
 }
 }  // namespace fnv_00a1ed60
 
-void __cdecl NiFreeD4D0(void* pvMem);
 
 struct MemoryManagerD4D0
 {
-    void Deallocate(void* pvMem);
 };
-extern MemoryManagerD4D0 g_kMemoryManagerD4D0;
 
 struct MapItemD4D0
 {
@@ -949,14 +935,14 @@ class FUN_00a0d4d0
   public:
     static void operator delete(void* pvMem)
     {
-        g_kMemoryManagerD4D0.Deallocate(pvMem);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManagerD4D0 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
     }
 
 // @fnv 0x00a0d4d0
     virtual ~FUN_00a0d4d0()
     {
-        RemoveAll();
-        NiFreeD4D0(m_ppkHashTable);
+        reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
+        ::FUN_00aa10f0(m_ppkHashTable);
     }
     virtual unsigned int KeyToHashIndex(const char* key) const;
     virtual bool IsKeysEqual(const char* key1, const char* key2) const;
@@ -990,13 +976,10 @@ void* MakeMapD4D0()
     return new FUN_00a0d4d0;
 }
 
-void __cdecl NiFreeD520(void* pvMem);
 
 struct MemoryManagerD520
 {
-    void Deallocate(void* pvMem);
 };
-extern MemoryManagerD520 g_kMemoryManagerD520;
 
 struct MapItemD520
 {
@@ -1010,12 +993,12 @@ class MapBaseD520
   public:
     static void operator delete(void* pvMem)
     {
-        g_kMemoryManagerD520.Deallocate(pvMem);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManagerD520 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
     }
     virtual ~MapBaseD520()
     {
-        RemoveAll();
-        NiFreeD520(m_ppkHashTable);
+        reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
+        ::FUN_00aa10f0(m_ppkHashTable);
     }
     virtual unsigned int KeyToHashIndex(const char* key) const;
     virtual bool IsKeysEqual(const char* key1, const char* key2) const;
@@ -1049,7 +1032,7 @@ class FUN_00a0d520 : public MapBaseD520
     {}
     virtual ~FUN_00a0d520()
     {
-        RemoveAll();
+        reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
     }
 };
 
@@ -1058,13 +1041,10 @@ void* MakeMapD520()
     return new FUN_00a0d520;
 }
 
-void __cdecl NiFreeD840(void* pvMem);
 
 struct MemoryManagerD840
 {
-    void Deallocate(void* pvMem);
 };
-extern MemoryManagerD840 g_kMemoryManagerD840;
 
 struct MapItemD840
 {
@@ -1078,12 +1058,12 @@ class MapBaseD840
   public:
     static void operator delete(void* pvMem)
     {
-        g_kMemoryManagerD840.Deallocate(pvMem);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManagerD840 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
     }
     virtual ~MapBaseD840()
     {
-        RemoveAll();
-        NiFreeD840(m_ppkHashTable);
+        reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
+        ::FUN_00aa10f0(m_ppkHashTable);
     }
     virtual unsigned int KeyToHashIndex(const char* key) const;
     virtual bool IsKeysEqual(const char* key1, const char* key2) const;
@@ -1117,7 +1097,7 @@ class FUN_00a0d840 : public MapBaseD840
     {}
     virtual ~FUN_00a0d840()
     {
-        RemoveAll();
+        reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
     }
 };
 
@@ -1126,13 +1106,10 @@ void* MakeMapD840()
     return new FUN_00a0d840;
 }
 
-void __cdecl NiFreeE7E0(void* pvMem);
 
 struct MemoryManagerE7E0
 {
-    void Deallocate(void* pvMem);
 };
-extern MemoryManagerE7E0 g_kMemoryManagerE7E0;
 
 struct MapItemE7E0
 {
@@ -1146,12 +1123,12 @@ class MapBaseE7E0
   public:
     static void operator delete(void* pvMem)
     {
-        g_kMemoryManagerE7E0.Deallocate(pvMem);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManagerE7E0 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
     }
     virtual ~MapBaseE7E0()
     {
-        RemoveAll();
-        NiFreeE7E0(m_ppkHashTable);
+        reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
+        ::FUN_00aa10f0(m_ppkHashTable);
     }
     virtual unsigned int KeyToHashIndex(const char* key) const;
     virtual bool IsKeysEqual(const char* key1, const char* key2) const;
@@ -1185,7 +1162,7 @@ class FUN_00a1e7e0 : public MapBaseE7E0
     {}
     virtual ~FUN_00a1e7e0()
     {
-        RemoveAll();
+        reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
     }
 };
 
@@ -1194,13 +1171,10 @@ void* MakeMapE7E0()
     return new FUN_00a1e7e0;
 }
 
-void __cdecl NiFreeE8B0(void* pvMem);
 
 struct MemoryManagerE8B0
 {
-    void Deallocate(void* pvMem);
 };
-extern MemoryManagerE8B0 g_kMemoryManagerE8B0;
 
 struct MapItemE8B0
 {
@@ -1214,14 +1188,14 @@ class FUN_00a1e8b0
   public:
     static void operator delete(void* pvMem)
     {
-        g_kMemoryManagerE8B0.Deallocate(pvMem);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManagerE8B0 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
     }
 
 // @fnv 0x00a1e8b0
     virtual ~FUN_00a1e8b0()
     {
-        RemoveAll();
-        NiFreeE8B0(m_ppkHashTable);
+        reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
+        ::FUN_00aa10f0(m_ppkHashTable);
     }
     virtual unsigned int KeyToHashIndex(const char* key) const;
     virtual bool IsKeysEqual(const char* key1, const char* key2) const;
@@ -1280,14 +1254,14 @@ struct C_00a1eb20
     }
     virtual ~C_00a1eb20()
     {
-        RemoveAll();
-        NiFree(m_data);
+        reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
+        ::FUN_00aa10f0(m_data);
     }
 };
 
 inline void operator delete(void* p)
 {
-    _g_memoryManager.Deallocate(p);
+    reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
 }
 
 struct FUN_00a1eb20 : C_00a1eb20
@@ -1295,7 +1269,7 @@ struct FUN_00a1eb20 : C_00a1eb20
 // @fnv 0x00a1eb20
     virtual ~FUN_00a1eb20()
     {
-        RemoveAll();
+        reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
     }
 };
 
@@ -1305,8 +1279,6 @@ void make_00a1eb20()
 }
 
 #include <string.h>
-unsigned int __cdecl BSStringLength(const char*);
-unsigned int __cdecl BSStringCapacityMaximum(unsigned int, unsigned int);
 struct StrMem
 {
     char* data;
@@ -1316,8 +1288,8 @@ struct StrMem
     void SetMaxLength(unsigned int);
     bool Set(const char* source, unsigned int requested)
     {
-        unsigned int len = source ? BSStringLength(source) : 0;
-        unsigned int max = BSStringCapacityMaximum(len, requested);
+        unsigned int len = source ? ::FUN_0044a670(source) : 0;
+        unsigned int max = ::FUN_00403940(len, requested);
         if (max <= MaxLength())
         {
             if (max)
@@ -1359,7 +1331,7 @@ struct StrMem
     }
     ~StrMem()
     {
-        Set(0, 0);
+        reinterpret_cast<::TextString *>(this)->FUN_004037f0(0, 0);
     }
 };
 class FUN_00a0bb50
@@ -1381,20 +1353,20 @@ struct Base670
         while (m_field)
         {
             void* p1 = m_data;
-            FUN_00aa10f0(p1);
+            ::FUN_00aa10f0(p1);
             void* p2 = m_data;
-            FUN_00aa10f0(p2);
+            ::FUN_00aa10f0(p2);
             m_field--;
         }
     }
     static void operator delete(void* p)
     {
-        DAT_011f6238.FUN_00aa4060(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_Class *>(&::g_memoryManager))))->FUN_00aa4060(p);
     }
     virtual ~Base670()
     {
-        ClearAll();
-        FUN_00aa10f0(m_data);
+        reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
+        ::FUN_00aa10f0(m_data);
     }
 };
 struct FUN_00a0d670 : Base670
@@ -1402,7 +1374,7 @@ struct FUN_00a0d670 : Base670
 // @fnv 0x00a0d670
     virtual ~FUN_00a0d670()
     {
-        ClearAll();
+        reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
     }
 };
 void Make670()
@@ -1458,7 +1430,6 @@ struct Owner_a1be10
     int m_40;
 
     Owner_a1be10(int p1, TNode_a1be10* p2, int p3, int p4);
-    void AddItem(const void* p);
 };
 
 // @fnv 0x00a1be10
@@ -1468,7 +1439,7 @@ Owner_a1be10::Owner_a1be10(int p1, TNode_a1be10* p2, int p3, int p4)
     m_14 = p3;
     m_18 = p4;
     m_40 = p1;
-    AddItem(&p2);
+    reinterpret_cast<::FUN_00ae8bf0_t *>(this)->AddItem(&p2);
     m_1c = 0x23;
     p2->unk2c = this;
     for (int i = 0; i < 8; ++i)

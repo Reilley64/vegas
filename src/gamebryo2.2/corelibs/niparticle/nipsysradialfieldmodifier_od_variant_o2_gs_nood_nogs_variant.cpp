@@ -7,7 +7,11 @@
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/gamebryo2.2/corelibs/niparticle/nipsysradialfieldmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysradialfieldmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void* g_012026b0;
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/FieldMod.h"
+#include "fnv/decl/TESCombatStyle.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_01202000.h"
 void* __cdecl FUN_00c285c0();
 
 struct NiPoint3
@@ -55,8 +59,9 @@ struct NiTransform
     float rotation[3][3];
     NiPoint3 translation;
     float scale;
-    void FUN_004b4880(NiTransform& result) const;
     NiTransform operator*(const NiTransform& rhs) const;
+public:
+    void CalculateInverse(::NiTransform &);
 };
 
 struct SceneObject
@@ -89,7 +94,6 @@ struct ParticleSystem
     Particle* particles;
 };
 
-float __cdecl FUN_00404010(float, float);
 extern "C" double __cdecl pow(double, double);
 inline float NiPow(float fBase, float fExponent)
 {
@@ -109,7 +113,6 @@ class RadialField
     float unk28;
     float radiusSquared;
     float attenuation;
-    void Update(float time, ParticleSystem* system);
     void FUN_00c287a0(float time, ParticleSystem* system);
 };
 
@@ -120,14 +123,14 @@ void RadialField::FUN_00c287a0(float time, ParticleSystem* system)
         return;
     if (!useRadius && (exponent == 0.0f || attenuation == 0.0f))
     {
-        Update(time, system);
+        reinterpret_cast<::FieldMod *>(this)->Update(time, (::NiPSysDataStandIn *)(system));
         return;
     }
     NiTransform sourceTransform = source->world;
     NiTransform inverse;
     {
         NiTransform targetTransform = target->world;
-        targetTransform.FUN_004b4880(inverse);
+        reinterpret_cast<::NiTransform *>((void *)&(targetTransform))->CalculateInverse(inverse);
     }
     {
         NiTransform fieldToSystem = inverse * sourceTransform;
@@ -140,7 +143,7 @@ void RadialField::FUN_00c287a0(float time, ParticleSystem* system)
                 continue;
             NiPoint3 position = system->positions[i];
             NiPoint3 difference = position - fieldToSystem.translation;
-            float distanceSquared = difference.SqrLength();
+            float distanceSquared = reinterpret_cast<::TESCombatStyle *>((void *)&(difference))->UpdateCombatStyle();
             if (useRadius && !(radiusSquared >= distanceSquared))
                 continue;
             NiPoint3 change;
@@ -155,7 +158,7 @@ void RadialField::FUN_00c287a0(float time, ParticleSystem* system)
                 float scale = deltaTime * strength;
                 change = difference * scale;
             }
-            particle.velocity += change;
+            reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3 &)(particle.velocity))->FUN_0063c8a0((void *)&(change));
         }
     }
 }

@@ -2,6 +2,20 @@
 // src/staging/blk_009e0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_009f9000.h"
+#include "fnv/symbols_009fa000.h"
+#include "fnv/symbols_009fb000.h"
+#include "fnv/symbols_009fc000.h"
+#include "fnv/symbols_009fd000.h"
+#include "fnv/symbols_00a38000.h"
+#include "fnv/symbols_00e7c000.h"
+#include "fnv/symbols_01093000.h"
+#include "fnv/symbols_011f3000.h"
 #include "../../include/layout_support.h"
 
 // @fnv 0x009faba0
@@ -49,13 +63,12 @@ SpectatorPackage* SpectatorPackage::FUN_009f9d10(const SpectatorPackage& aPackag
 
 struct FUN_009f9d10_cls
 {
-    void __thiscall FUN_009f9d10(int);
     int __thiscall CallAndReturnThis(int a);
 };
 // @fnv 0x009f9d30
 int __thiscall FUN_009f9d10_cls::CallAndReturnThis(int a)
 {
-    FUN_009f9d10(a);
+    reinterpret_cast<::SpectatorPackage *>(this)->FUN_009f9d10((*(const ::SpectatorPackage *)(a)));
     return (int)this;
 }
 
@@ -147,59 +160,28 @@ int FUN_009fb020_class::FUN_009fb020()
 
 struct FUN_009f9f70_class
 {
-    void __thiscall FUN_009f9f70();
 };
 struct FUN_009fbb30_class
 {
     void* __thiscall FUN_009fbb30(int flag);
 };
-// @fnv 0x009fbb30
-void* __thiscall FUN_009fbb30_class::FUN_009fbb30(int aiFlags)
-{
-    ((FUN_009f9f70_class*)this)->FUN_009f9f70();
-    if (aiFlags & 1)
-        operator delete(this);
-    return this;
-}
-
 void __cdecl operator delete(void*);
-void InitVTableAndInvokeCallback();
 struct FUN_009fbca0
 {
     FUN_009fbca0* __thiscall Method(bool);
 };
-// @fnv 0x009fbca0
-FUN_009fbca0* __thiscall FUN_009fbca0::Method(bool abDelete)
-{
-    InitVTableAndInvokeCallback();
-    if (abDelete & 1)
-        operator delete(this);
-    return this;
-}
-
-int __stdcall FUN_009fd0a0(int);
 
 // @fnv 0x009fc450
 int __stdcall FUN_009fc450(int a)
 {
     int b = *(int*)((int)a + 8);
-    return FUN_009fd0a0(b);
+    return ((int)(::FUN_009fd0a0((const wchar_t *)(b), {})));
 }
 
 struct FUN_009fc460_Class
 {
-    int __thiscall FUN_009fa560();
     void* __thiscall FUN_009fc460(int);
 };
-// @fnv 0x009fc460
-void* __thiscall FUN_009fc460_Class::FUN_009fc460(int flag)
-{
-    FUN_009fa560();
-    if (flag & 1)
-        operator delete(this);
-    return this;
-}
-
 struct FUN_009fd100_node
 {
     void* p;
@@ -222,7 +204,7 @@ void FUN_009fd100_t::DeleteList()
     {
         void* current = node;
         node = node->next;
-        operator delete(current);
+        ::FUN_00401030(current);
     }
 }
 
@@ -270,21 +252,11 @@ FUN_009fddd0_class* __thiscall FUN_009fddd0_class::FUN_009fddd0(int a)
 }
 
 void __fastcall FUN_009fdc10(void*);
-void __cdecl _Deallocate(void*);
 
 struct FUN_009fdeb0_class
 {
     int __thiscall FUN_009fdeb0(int);
 };
-
-// @fnv 0x009fdeb0
-int __thiscall FUN_009fdeb0_class::FUN_009fdeb0(int flag)
-{
-    FUN_009fdc10(this);
-    if (flag & 1)
-        _Deallocate(this);
-    return (int)this;
-}
 
 // @fnv 0x009f9d60
 int __stdcall FUN_009f9d60(int apSource, int apDest)
@@ -318,19 +290,15 @@ int __stdcall FUN_009fa1a0(int* pObject)
 
 extern int DAT_01093bcc;
 extern int DAT_01093bdc;
-extern int DAT_01093f14;
-int __stdcall FUN_009f9980(int, int);
-int __stdcall GetObjectPointer(int, int);
 // @fnv 0x009fa580
 int __stdcall FUN_009fa580(int a, int b, int c)
 {
-    if (FUN_009f9980(b, (int)&DAT_01093bdc) || FUN_009f9980(b, (int)&DAT_01093bcc) ||
-        FUN_009f9980(b, (int)&DAT_01093f14))
-        return GetObjectPointer(a, c);
+    if (::FUN_009f9980((const void *)(b), (const void *)((int)&DAT_01093bdc)) || ::FUN_009f9980((const void *)(b), (const void *)((int)&DAT_01093bcc)) ||
+        ::FUN_009f9980((const void *)(b), (const void *)((int)&DAT_01093f14)))
+        return ::GetObjectPointer((::FUN_009fceb0_object *)(a), (int *)(c));
     return 0x80004002;
 }
 
-int __stdcall FUN_009f9cd0(int a);
 
 // @fnv 0x009fa8d0
 int __stdcall FUN_009fa8d0(int p1, int* p2)
@@ -340,7 +308,7 @@ int __stdcall FUN_009fa8d0(int p1, int* p2)
         *p2 = 0;
         return 1;
     }
-    *p2 = FUN_009f9cd0(*(int*)(p1 + 0x3c));
+    *p2 = ::fnv_009f9cd0::FUN_009f9cd0(*(int*)(p1 + 0x3c));
     return *p2 ? 0 : 0x8007000e;
 }
 
@@ -365,35 +333,21 @@ int __stdcall FUN_009faca0(int pSource, int* pOutput)
 
 struct FUN_009fce60_class
 {
-    void __thiscall FUN_009fce60(int a);
 };
 struct FUN_009fcee0_class
 {
     int* __thiscall FUN_009fcee0(int a, int b);
 };
-// Calls FUN_009fce60 on the object at offset 4 with a, then stores b (or this if b is null) at offset 4 and zero at offset 8, returning this.
-// @fnv 0x009fcee0
-int* __thiscall FUN_009fcee0_class::FUN_009fcee0(int aiValue, int apParent)
-{
-    ((FUN_009fce60_class*)((char*)this + 4))->FUN_009fce60(aiValue);
-    *(int*)((char*)this + 4) = apParent ? apParent : (int)this;
-    *(int*)((char*)this + 8) = 0;
-    return (int*)this;
-}
-
 namespace fnv_009fcf10 {
-int __stdcall FUN_009f9980(int a, int b);
-void __stdcall GetObjectPointer(int a, int b);
-extern int DAT_01093f14;
 
 // @fnv 0x009fcf10
 int __stdcall FUN_009fcf10(int aObject, int b, int* apOutInterface)
 {
     if (!apOutInterface)
         return 0x80004003;
-    if (FUN_009f9980(b, (int)&DAT_01093f14))
+    if (::FUN_009f9980((const void *)(b), (const void *)((int)&::DAT_01093f14)))
     {
-        GetObjectPointer(aObject, (int)apOutInterface);
+        ::GetObjectPointer((::FUN_009fceb0_object *)(aObject), (int *)((int)apOutInterface));
         return 0;
     }
     *apOutInterface = 0;
@@ -409,33 +363,28 @@ void __fastcall FUN_009fcfe0(void** p)
         DAT_00fdf07c(*p);
 }
 
-extern "C" void __cdecl FUN_00e7cd40();
 // @fnv 0x009fd480
 void __fastcall FUN_009fd480(void* self)
 {
     *(int*)((char*)self + 0xa0) = 0;
-    FUN_00e7cd40();
+    ::FUN_00e7cd40();
 }
 
 extern int DAT_01093b4c;
-int __stdcall FUN_009f9980(int a, int* b);
-int __stdcall GetObjectPointer(int a, int b);
 int __stdcall FUN_009fa260(int a, int b, int c);
 // @fnv 0x009fd490
 int __stdcall FUN_009fd490(int pThis, int b, int c)
 {
     if (!c)
         return 0x80004003;
-    if (FUN_009f9980(b, &DAT_01093b4c))
+    if (::FUN_009f9980((const void *)(b), &DAT_01093b4c))
     {
         *(int*)(pThis + 0xa0) = 1;
-        return GetObjectPointer(pThis - 8, c);
+        return ::GetObjectPointer((::FUN_009fceb0_object *)(pThis - 8), (int *)(c));
     }
     return FUN_009fa260(pThis, b, c);
 }
 
-extern int __stdcall FUN_009f9980(int a, int b);
-extern int DAT_01093f04;
 struct FUN_009fd530_class
 {
     int __thiscall FUN_009fd530(int b);
@@ -446,10 +395,10 @@ int __thiscall FUN_009fd530_class::FUN_009fd530(int b)
     int* lock = *(int**)((char*)this + 0x20);
     DAT_00fdf05c(lock);
     char* base = (char*)*(int**)((char*)this + 0x98);
-    if (FUN_009f9980((int)(base + 0x1a0), b))
+    if (::FUN_009f9980((const void *)((int)(base + 0x1a0)), (const void *)(b)))
     {
         char* p = base + 0x1b0;
-        if (FUN_009f9980((int)p, (int)&DAT_01093f04) || FUN_009f9980((int)p, b + 0x10))
+        if (::FUN_009f9980((const void *)((int)p), (const void *)((int)&DAT_01093f04)) || ::FUN_009f9980((const void *)((int)p), (const void *)(b + 0x10)))
         {
             DAT_00fdf100(lock);
             return 0;
@@ -485,18 +434,17 @@ int __thiscall FUN_009fe0c0_class::FUN_009fe0c0()
 }
 }  // namespace fnv_009fe0c0
 
-int __stdcall FUN_009fcf10(int a, int b, int c);
 extern int DAT_01093c3c;
 extern int DAT_01093b7c;
 // Checks b against two type descriptors and forwards a (offset by 0xc or 0x10) with c to the matching handler, otherwise calls FUN_009fcf10.
 // @fnv 0x009fa260
 int __stdcall FUN_009fa260(int a, int b, int c)
 {
-    if (FUN_009f9980(b, &DAT_01093c3c))
-        return GetObjectPointer(a ? a + 0xc : 0, c);
-    if (FUN_009f9980(b, &DAT_01093b7c))
-        return GetObjectPointer(a ? a + 0x10 : 0, c);
-    return FUN_009fcf10(a, b, c);
+    if (::FUN_009f9980((const void *)(b), &DAT_01093c3c))
+        return ::GetObjectPointer((::FUN_009fceb0_object *)(a ? a + 0xc : 0), (int *)(c));
+    if (::FUN_009f9980((const void *)(b), &DAT_01093b7c))
+        return ::GetObjectPointer((::FUN_009fceb0_object *)(a ? a + 0x10 : 0), (int *)(c));
+    return ::fnv_009fcf10::FUN_009fcf10(a, b, (int *)(c));
 }
 
 typedef int(__stdcall* FUN_009fa5d0_fp)(int);
@@ -508,7 +456,6 @@ int __stdcall FUN_009fa5d0(int a)
     return (*(FUN_009fa5d0_fp*)&DAT_00fdf1c0)(a);
 }
 
-int __stdcall FUN_009fcf10(int a, int b, int c);
 extern int DAT_01093bec;
 extern int DAT_01093bfc;
 extern int DAT_01093f24;
@@ -516,15 +463,15 @@ extern int DAT_01093b9c;
 // @fnv 0x009fb480
 int __stdcall FUN_009fb480(int a, int b, int c)
 {
-    if (FUN_009f9980(b, &DAT_01093bec))
-        return GetObjectPointer(a ? a + 0xc : 0, c);
-    if (FUN_009f9980(b, &DAT_01093bfc))
-        return GetObjectPointer(a ? a + 0xc : 0, c);
-    if (FUN_009f9980(b, &DAT_01093f24))
-        return GetObjectPointer(a ? a + 0xc : 0, c);
-    if (FUN_009f9980(b, &DAT_01093b9c))
-        return GetObjectPointer(a ? a + 0x10 : 0, c);
-    return FUN_009fcf10(a, b, c);
+    if (::FUN_009f9980((const void *)(b), &DAT_01093bec))
+        return ::GetObjectPointer((::FUN_009fceb0_object *)(a ? a + 0xc : 0), (int *)(c));
+    if (::FUN_009f9980((const void *)(b), &DAT_01093bfc))
+        return ::GetObjectPointer((::FUN_009fceb0_object *)(a ? a + 0xc : 0), (int *)(c));
+    if (::FUN_009f9980((const void *)(b), &DAT_01093f24))
+        return ::GetObjectPointer((::FUN_009fceb0_object *)(a ? a + 0xc : 0), (int *)(c));
+    if (::FUN_009f9980((const void *)(b), &DAT_01093b9c))
+        return ::GetObjectPointer((::FUN_009fceb0_object *)(a ? a + 0x10 : 0), (int *)(c));
+    return ::fnv_009fcf10::FUN_009fcf10(a, b, (int *)(c));
 }
 
 extern int DAT_01093d84;
@@ -582,20 +529,6 @@ struct FUN_009fdd70_class
     int m_a4;
     FUN_009fdd70_class(int a, int b, int c, int d);
 };
-// Initialises the object: constructs the embedded FUN_009fc890 sub-object with "Output", sets vtable and member pointers, and stores b and c.
-// @fnv 0x009fdd70
-FUN_009fdd70_class::FUN_009fdd70_class(int a, int b, int c, int d)
-{
-    ((FUN_009fc890_class*)((char*)this + 8))->FUN_009fc890(0, b, d, a, L"Output", 1);
-    m_08 = (int)&DAT_01093de8;
-    m_a0 = b;
-    m_vft = (int)&DAT_01093e24;
-    m_14 = (int)&DAT_01093d9c;
-    m_18 = (int)&DAT_01093d84;
-    m_a4 = c;
-}
-
-int __stdcall FUN_009f9980(int a, int b);
 struct FUN_009f9a50_class
 {
     int __thiscall FUN_009f9a50();
@@ -603,12 +536,11 @@ struct FUN_009f9a50_class
 // @fnv 0x009f9a50
 int FUN_009f9a50_class::FUN_009f9a50()
 {
-    if (FUN_009f9980((int)this, (int)&DAT_01093f04) || FUN_009f9980((int)((char*)this + 0x2c), (int)&DAT_01093f04))
+    if (::FUN_009f9980((const void *)((int)this), (const void *)((int)&DAT_01093f04)) || ::FUN_009f9980((const void *)((int)((char*)this + 0x2c)), (const void *)((int)&DAT_01093f04)))
         return 1;
     return 0;
 }
 
-void __stdcall FUN_009f9c20(SpectatorPackage*);
 extern void(__stdcall* DAT_00fdf45c)(SpectatorPackage*);
 
 // @fnv 0x009f9cb0
@@ -616,7 +548,7 @@ void __stdcall FUN_009f9cb0(SpectatorPackage* apPackage)
 {
     if (apPackage)
     {
-        FUN_009f9c20(apPackage);
+        ::FUN_009f9c20((::FUN_009f9c20_cls *)(apPackage));
         DAT_00fdf45c(apPackage);
     }
 }
@@ -653,7 +585,6 @@ int __stdcall FUN_009fa1d0_s::ResetAndQueryVtbl()
 }
 
 extern int DAT_01093c9c;
-int __stdcall FUN_009f9cb0(int);
 struct FUN_009fa560_class
 {
     int m_vft;
@@ -674,12 +605,20 @@ struct FUN_009fa560_class
     int m_3c;
     void __thiscall FUN_009fa560();
 };
+// @fnv 0x009fc460
+void* __thiscall FUN_009fc460_Class::FUN_009fc460(int flag)
+{
+    reinterpret_cast<::FUN_009fa560_class *>(this)->FUN_009fa560();
+    if (flag & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // @fnv 0x009fa560
 void FUN_009fa560_class::FUN_009fa560()
 {
     *(int*)this = (int)&DAT_01093c9c;
     if (m_3c)
-        FUN_009f9cb0(m_3c);
+        ::FUN_009f9cb0((::SpectatorPackage *)(m_3c));
 }
 
 extern void*(__stdcall* DAT_00fdf1c4)(int*);
@@ -770,44 +709,22 @@ void __thiscall FUN_009fae70_class::FUN_009fae70()
 
 struct FUN_009fc580_class
 {
-    void FUN_009fb1c0();
     FUN_009fc580_class* Destroy(bool);
 };
-// @fnv 0x009fc580
-FUN_009fc580_class* FUN_009fc580_class::Destroy(bool abFree)
-{
-    FUN_009fb1c0();
-    if (abFree & 1)
-        _Deallocate(this);
-    return this;
-}
-
 extern int DAT_01093cf8;
 extern int DAT_01093d28;
 struct FUN_009fcc20_class
 {
-    int __thiscall FUN_009fcb90(int a, int b, int c, int d, int e);
     int __thiscall Initialize(int a, int b, int c);
 };
-// @fnv 0x009fcc20
-int __thiscall FUN_009fcc20_class::Initialize(int a, int b, int c)
-{
-    FUN_009fcb90(a, b, c, 1, 1);
-    *(int*)this = (int)&DAT_01093d28;
-    *(int*)((char*)this + 0xc) = (int)&DAT_01093cf8;
-    *(int*)((char*)this + 0x60) = 0;
-    return (int)this;
-}
-
 namespace fnv_009fce80 {
 extern int DAT_011f3294;
-extern int DAT_011f3298;
 extern int(__stdcall* DAT_00fdf1c4)(int*);
 extern void(__stdcall* DAT_00fdf0a8)(int);
 // @fnv 0x009fce80
 void FUN_009fce80()
 {
-    if (DAT_00fdf1c4(&DAT_011f3298) == 0 && DAT_011f3294)
+    if (DAT_00fdf1c4(&::DAT_011f3298) == 0 && DAT_011f3294)
     {
         DAT_00fdf0a8(DAT_011f3294);
         DAT_011f3294 = 0;
@@ -854,7 +771,7 @@ void __thiscall FUN_009fd140_class::ClearList()
     {
         FUN_009fd100_node* current = node;
         node = node->next;
-        _Deallocate(current);
+        ::FUN_00401030(current);
     }
 
     m_flag = 0;
@@ -864,19 +781,11 @@ void __thiscall FUN_009fd140_class::ClearList()
 
 struct FUN_009fa350_class
 {
-    void DispatchCall();
 };
 struct FUN_009fd450_class
 {
     void FUN_009fd450();
 };
-// @fnv 0x009fd450
-void FUN_009fd450_class::FUN_009fd450()
-{
-    *(int*)((char*)this + 0xa0) = 0;
-    ((FUN_009fa350_class*)this)->DispatchCall();
-}
-
 struct FUN_009fe690_class
 {
     int __thiscall FUN_009fe690();
@@ -964,7 +873,6 @@ void __stdcall FUN_009f9c20(FUN_009f9c20_cls* p)
 //   009f9c61  e8baffffff      call 0x009f9c20
 //   009f9c66  c3              ret
 
-void __stdcall FUN_009f9c20(SpectatorPackage* pkg);
 
 struct SpectatorPackageImpl : SpectatorPackage
 {
@@ -974,7 +882,7 @@ struct SpectatorPackageImpl : SpectatorPackage
 // @fnv 0x009f9c60
 void SpectatorPackageImpl::FUN_009f9c60()
 {
-    FUN_009f9c20(this);
+    ::FUN_009f9c20((::FUN_009f9c20_cls *)(::SpectatorPackage *)(this));
 }
 
 struct SeekableStream
@@ -1057,6 +965,14 @@ class FUN_009f9f70_cls
     int unk14;
     FUN_009f9f70_member m_18;
 };
+// @fnv 0x009fbb30
+void* __thiscall FUN_009fbb30_class::FUN_009fbb30(int aiFlags)
+{
+    reinterpret_cast<::FUN_009f9f70_cls *>((((FUN_009f9f70_class*)this)))->FUN_009f9f70_cls::~FUN_009f9f70_cls();
+    if (aiFlags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Destructor that fetches the leaf callback from m_0c and invokes it with the leaf and the holder's m_0c address.
 // @fnv 0x009f9f70
@@ -1069,7 +985,6 @@ FUN_009f9f70_cls::~FUN_009f9f70_cls()
 }
 
 extern int DAT_01093c2c;
-extern int DAT_01093f14;
 
 // Returns E_POINTER if out is null; checks p2 against two globals and returns E_NOINTERFACE with *out=0 if neither matches, otherwise delegates to GetObjectPointer.
 // @fnv 0x009f9fe0
@@ -1079,15 +994,15 @@ int __stdcall GetInterfaceForObject(int pUnk, int pIid, int* ppvOut)
     {
         return 0x80004003;
     }
-    if (FUN_009f9980(pIid, (int*)&DAT_01093c2c) == 0)
+    if (::FUN_009f9980((const void *)(pIid), (int*)&DAT_01093c2c) == 0)
     {
-        if (FUN_009f9980(pIid, (int*)&DAT_01093f14) == 0)
+        if (::FUN_009f9980((const void *)(pIid), (int*)&DAT_01093f14) == 0)
         {
             *ppvOut = 0;
             return 0x80004002;
         }
     }
-    return GetObjectPointer(pUnk, (int)ppvOut);
+    return ::GetObjectPointer((::FUN_009fceb0_object *)(pUnk), (int *)((int)ppvOut));
 }
 
 class DepObj
@@ -1127,7 +1042,7 @@ int __stdcall FUN_009fa090(CallerHolder* apHolder)
     esi->m_10 = esi->m_0c->v14();
     esi->m_08 = esi->m_0c->v18();
     esi->m_04 = 0;
-    esi->m_18.Reset();
+    reinterpret_cast<::FUN_009fd140_class *>(&(esi->m_18))->ClearList();
     return 0;
 }
 
@@ -1209,6 +1124,14 @@ struct FUN_009fa100_cls
     VkInner* m_pInner;
     void InitVTableAndInvokeCallback();
 };
+// @fnv 0x009fbca0
+FUN_009fbca0* __thiscall FUN_009fbca0::Method(bool abDelete)
+{
+    static_cast<::FUN_009fa100_cls *>(nullptr)->InitVTableAndInvokeCallback();
+    if (abDelete & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x009fa100
 void FUN_009fa100_cls::InitVTableAndInvokeCallback()
@@ -1230,16 +1153,15 @@ int __stdcall FUN_009fa120(int a, int b, int* apOut)
         return 0x80004003;
     }
 
-    if (FUN_009f9980(b, &DAT_01093c1c) || FUN_009f9980(b, &DAT_01093f14))
+    if (::FUN_009f9980((const void *)(b), &DAT_01093c1c) || ::FUN_009f9980((const void *)(b), &DAT_01093f14))
     {
-        return GetObjectPointer(a, (int)apOut);
+        return ::GetObjectPointer((::FUN_009fceb0_object *)(a), (int *)((int)apOut));
     }
 
     *apOut = 0;
     return 0x80004002;
 }
 
-int __cdecl FUN_00401030(int);
 
 class SubA4
 {
@@ -1272,7 +1194,7 @@ class FUN_009fa1f0_cls
 // @fnv 0x009fa1f0
 FUN_009fa1f0_cls::~FUN_009fa1f0_cls()
 {
-    FUN_00401030(m_14);
+    ::FUN_00401030((void *)(m_14));
 }
 
 struct S_009fa2f0_table
@@ -1524,11 +1446,18 @@ struct EntryObject
     int unk04;
     int unk08;
     void* volatile secondaryVtable;
-    void FUN_009faf50(void* subobject);
     void FUN_009fb170();
     void FUN_009fabb0();
     void FUN_009fb1c0();
 };
+// @fnv 0x009fc580
+FUN_009fc580_class* FUN_009fc580_class::Destroy(bool abFree)
+{
+    reinterpret_cast<::EntryObject *>(this)->FUN_009fb1c0();
+    if (abFree & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 struct CleanupGuard
 {
     EntryObject* const owner;
@@ -1546,7 +1475,7 @@ struct CleanupGuard
 void EntryObject::FUN_009fb1c0()
 {
     CleanupGuard cleanup(this);
-    FUN_009faf50((void*)&secondaryVtable);
+    ::FUN_009faf50((::S009faf50_FUN_009faf50_rec *)this);
     FUN_009fb170();
 }
 
@@ -1621,7 +1550,6 @@ struct SubPart
     int unk00;
     SubPart(int value);
     ~SubPart();
-    void Assign(const SubPart* other);
 };
 
 struct ResultRec
@@ -1682,26 +1610,6 @@ LayoutBase::LayoutBase(SourceObj* src)
     m_08 = 0;
     m_0c = src;
     m_14 = 1;
-}
-
-// Initializes the base from src, invokes a callback on src->m_0c, then copies fields from rec if non-null, otherwise reads v14/v18 from m_0c.
-// @fnv 0x009fc600
-FUN_009fc600::FUN_009fc600(SourceObj* apSource, ResultRec* apRecord) : LayoutBase(apSource), m_18(0)
-{
-    SourceObj* s = m_0c;
-    (s->m_0c->*(s->m_0c->m_04))(&s->m_0c);
-    if (apRecord == 0)
-    {
-        m_10 = m_0c->v14();
-        m_08 = m_0c->v18();
-    }
-    else
-    {
-        m_04 = apRecord->unk04;
-        m_08 = apRecord->unk08;
-        m_10 = apRecord->unk10;
-        m_18.Assign(&apRecord->m_18);
-    }
 }
 
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
@@ -1773,39 +1681,12 @@ struct BasePinStub : PinUnknownBase, PinIface, PinQualityIface
     char unk27;
     PinFilterStub* m_pOwnerFilter;
 
-    long AgreeMediaType(void* pReceivePin, void* pmt);
     bool IsStopped()
     {
         return m_pOwnerFilter->m_iValueAt14 == 0;
     }
     virtual long __stdcall ReceiveConnection(void* pReceivePin, void* pmt);
 };
-
-// Validates the receive pin and media type, checks connection state and lock, calls AgreeMediaType and Cleanup on failure, and returns an HRESULT.
-// @fnv 0x009fc990
-long __stdcall BasePinStub::ReceiveConnection(void* pReceivePin, void* pMediaType)
-{
-    if (pReceivePin == 0)
-    {
-        return 0x80004003;
-    }
-    PinCritSecLock lock(m_pLock);
-    if (m_Connected)
-    {
-        return 0x80040204;
-    }
-    if (!IsStopped() && !m_bCanReconnectWhenActive)
-    {
-        return 0x80040224;
-    }
-    long hr = AgreeMediaType(pReceivePin, pMediaType);
-    if (hr < 0)
-    {
-        Cleanup();
-        return hr;
-    }
-    return 0;
-}
 
 struct FUN_009fceb0_object
 {
@@ -1881,19 +1762,12 @@ POSITION9FD CBaseList9FD::Find(void* pObject) const
 struct S_009fd390_Base
 {
     int m_00;
-    int __thiscall RemoveNode(int a);
 };
 
 struct FUN_009fd390_cls : S_009fd390_Base
 {
     int __thiscall FUN_009fd390();
 };
-
-// @fnv 0x009fd390
-int __thiscall FUN_009fd390_cls::FUN_009fd390()
-{
-    return RemoveNode(m_00);
-}
 
 struct S_009fd3f0_Impl
 {
@@ -1973,7 +1847,6 @@ class Pin9FD460
     int unk09C;
     void* m_pConnected;
 
-    long Forward(void* p);
     long ForwardIfConnected(void* p);
 };
 
@@ -1981,7 +1854,7 @@ class Pin9FD460
 long Pin9FD460::ForwardIfConnected(void* p)
 {
     if (m_pConnected != 0)
-        return Forward(p);
+        return ((long)(::FUN_00a38de0((int)this)));
     return 0x80040266;
 }
 
@@ -2301,6 +2174,14 @@ class FUN_009fdc10 : public FDC10BaseFilter, public FDC10InterfaceA, public FDC1
 
     virtual ~FUN_009fdc10();
 };
+// @fnv 0x009fdeb0
+int __thiscall FUN_009fdeb0_class::FUN_009fdeb0(int flag)
+{
+    reinterpret_cast<class ::FUN_009fdc10 *>((this))->FUN_009fdc10::~FUN_009fdc10();
+    if (flag & 1)
+        ::FUN_00401030(this);
+    return (int)this;
+}
 
 // Destructor for the filter object; the body is empty, member destructors run automatically.
 // @fnv 0x009fdc10
@@ -2425,10 +2306,9 @@ struct S_Blk
     int unk0c;
     int unk10;
     int unk14;
-    void Init(int a);
     S_Blk()
     {
-        Init(0);
+        new ((void *)this) ::FUN_009fd120_class(0);
     }
     ~S_Blk();
 };
@@ -2462,7 +2342,6 @@ FUN_009fe1d0::FUN_009fe1d0(int aiValue)
 
 struct FUN_009fd270_class
 {
-    int __thiscall AddNode(int);
 };
 
 struct FUN_009fe3f0_class
@@ -2500,18 +2379,6 @@ struct FUN_009fe3f0_class
 };
 
 extern void(__stdcall* DAT_00fdf0d0)(void*);
-
-// @fnv 0x009fe3f0
-int __thiscall FUN_009fe3f0_class::FUN_009fe3f0(int value)
-{
-    if (m_50.AddNode(value))
-    {
-        DAT_00fdf0d0(reinterpret_cast<void*>(m_6c));
-        return 0;
-    }
-
-    return static_cast<int>(0x8007000e);
-}
 
 class ForwardTarget
 {
@@ -2553,7 +2420,6 @@ namespace fnv_009f9cd0 {
 extern void*(__stdcall* DAT_00fdf460)(unsigned long);
 extern void(__stdcall* DAT_00fdf45c)(void*);
 
-int __stdcall FUN_009f9bb0(void* obj, int a);
 
 // @fnv 0x009f9cd0
 int __stdcall FUN_009f9cd0(int a)
@@ -2562,7 +2428,7 @@ int __stdcall FUN_009f9cd0(int a)
     if (obj == 0)
         return 0;
 
-    if (FUN_009f9bb0(obj, a) < 0)
+    if (::FUN_009f9bb0((::S_009f9bb0_Rec *)(obj), (::S_009f9bb0_Rec *)(a)) < 0)
     {
         DAT_00fdf45c(obj);
         return 0;
@@ -2740,12 +2606,10 @@ struct Vector4f
     int w;
 };
 
-extern int DAT_01093f04;
-int __stdcall FUN_009f9980(int, int);
 
 static inline int operator==(const Vector4f& a, const Vector4f& b)
 {
-    return FUN_009f9980((int)&a, (int)&b);
+    return ::FUN_009f9980((const void *)((int)&a), (const void *)((int)&b));
 }
 
 static inline int operator!=(const Vector4f& a, const Vector4f& b)
@@ -2816,7 +2680,6 @@ S009f9d50_Value& S009f9d50_Value::FUN_009f9d50(const S009f9d50_Value& kOther)
     return FUN_009f9c80(kOther);
 }
 
-void __stdcall CopyN(unsigned short* dst, const char* src, unsigned int count);
 
 class FNVRefCountedIface
 {
@@ -2860,7 +2723,7 @@ long __stdcall FUN_009f9df0(FNVNameSource* pSrc, FNVNameDest* pDst)
     }
     if (pSrc->m_pName != 0)
     {
-        CopyN(pDst->m_pText, pSrc->m_pName, 0x80);
+        ::CopyN((wchar_t *)(pDst->m_pText), (const wchar_t *)(pSrc->m_pName), 0x80);
     }
     else
     {
@@ -2917,7 +2780,6 @@ unsigned long __stdcall ReleaseOwnerFilter(BasePin* pin)
 struct SubObj
 {
     int m_00;
-    int FUN_009f9d50(int a);
 };
 
 struct FUN_009fa330_cls
@@ -2943,7 +2805,7 @@ struct FUN_009fa330_cls
 // @fnv 0x009fa330
 int FUN_009fa330_cls::FUN_009fa330(int a)
 {
-    int r = m_34.FUN_009f9d50(a);
+    int r = ((int)(reinterpret_cast<::S009f9d50_Value *>(&(m_34))->FUN_009f9d50((*(const ::S009f9d50_Value *)(a)))));
     return r & ((r >= 0) ? 0 : -1);
 }
 
@@ -2972,7 +2834,6 @@ struct S_009fa400_output
     unsigned short unk08;
 };
 
-void __stdcall CopyN(void* dst, void* src, int size);
 
 // Returns an error if output is null; else sets output->unk00 (calling its vtable unk04), unk08 (via CopyN) and unk04 from the source fields.
 // @fnv 0x009fa400
@@ -2991,7 +2852,7 @@ int __stdcall FUN_009fa400(S_009fa400_source* source, S_009fa400_output* output)
 
     if (source->unk08 != 0)
     {
-        CopyN(&output->unk08, source->unk08, 0x80);
+        ::CopyN((wchar_t *)(void *)(&output->unk08), (const wchar_t *)(source->unk08), 0x80);
     }
     else
     {
@@ -3099,14 +2960,13 @@ struct S_009fa910_Foo
     int unk3c;
 };
 
-int __stdcall FUN_009f9cb0(int a);
 
 // @fnv 0x009fa910
 int __stdcall FUN_009fa910(S_009fa910_Foo* obj, int value)
 {
     if (obj->unk3c != 0)
     {
-        FUN_009f9cb0(obj->unk3c);
+        ::FUN_009f9cb0((::SpectatorPackage *)(obj->unk3c));
         obj->unk3c = 0;
     }
 
@@ -3116,7 +2976,7 @@ int __stdcall FUN_009fa910(S_009fa910_Foo* obj, int value)
         return 0;
     }
 
-    obj->unk3c = FUN_009f9cd0(value);
+    obj->unk3c = ::fnv_009f9cd0::FUN_009f9cd0(value);
     if (obj->unk3c == 0)
     {
         obj->unk04 &= 0xfffffff7;
@@ -3201,8 +3061,6 @@ long __stdcall CopySampleProperties(MediaSample* pSample, unsigned int cb, void*
 }
 
 struct MediaTypeSI;
-MediaTypeSI* __stdcall FUN_009f9cd0(MediaTypeSI* a);
-void __stdcall FUN_009f9cb0(MediaTypeSI*);
 
 // AM_SAMPLE2_PROPERTIES
 struct SampleProps
@@ -3285,7 +3143,7 @@ long __stdcall MediaSampleSI::FUN_009faa20(unsigned int cbProperties, const unsi
             {
                 if (pProps->pMediaType == 0)
                     return 0x80004003L;
-                pMediaType = FUN_009f9cd0(pProps->pMediaType);
+                pMediaType = ((::MediaTypeSI *)(::fnv_009f9cd0::FUN_009f9cd0((int)(pProps->pMediaType))));
                 if (pMediaType == 0)
                     return 0x8007000eL;
             }
@@ -3318,7 +3176,7 @@ long __stdcall MediaSampleSI::FUN_009faa20(unsigned int cbProperties, const unsi
             if (pProps->dwSampleFlags & 8)
             {
                 if (this->m_pMediaType != 0)
-                    FUN_009f9cb0(this->m_pMediaType);
+                    ::FUN_009f9cb0((::SpectatorPackage *)(this->m_pMediaType));
                 this->m_pMediaType = pMediaType;
             }
         }
@@ -3462,7 +3320,7 @@ struct MediaEnumCount
     int unk00;
     ~MediaEnumCount()
     {
-        FUN_009fce80((int)this);
+        ::fnv_009fce80::FUN_009fce80();
     }
 };
 
@@ -3499,7 +3357,7 @@ class FUN_009fb550
 // @fnv 0x009fb550
 FUN_009fb550::~FUN_009fb550()
 {
-    operator delete(m_mediaTypes);
+    ::FUN_00401030(m_mediaTypes);
     if (m_pin)
     {
         m_pin->Release();
@@ -3580,7 +3438,6 @@ struct FindFilter : FilterUnknown, FindPinIface
     FindCritSec* m_pLock;
     long __stdcall FindPin(const wchar_t* id, PinIface** result);
 };
-int __stdcall CompareWideStrings(const wchar_t* a, const wchar_t* b);
 // @fnv 0x009fb960
 long __stdcall FindFilter::FindPin(const wchar_t* apPinName, PinIface** result)
 {
@@ -3591,7 +3448,7 @@ long __stdcall FindFilter::FindPin(const wchar_t* apPinName, PinIface** result)
     for (int i = 0; i < count; i++)
     {
         FindPinObject* pin = GetPin(i);
-        if (CompareWideStrings(pin->Name(), apPinName) == 0)
+        if (::fnv_009fd030::CompareWideStrings(pin->Name(), apPinName) == 0)
         {
             *result = (PinIface*)pin;
             (*result)->AddRef();
@@ -3603,7 +3460,6 @@ long __stdcall FindFilter::FindPin(const wchar_t* apPinName, PinIface** result)
 }
 
 namespace fnv_009fbb50 {
-int __stdcall InitFromInterface(int a);
 
 struct IPin9FB
 {
@@ -3635,7 +3491,6 @@ struct Filter9FB
 struct List9FB
 {
     int m_pFirst;
-    int Find(void* pObj) const;
     int AddNode(int pObj);
 };
 
@@ -3669,7 +3524,7 @@ int __stdcall FUN_009fbb50(EnumPins9FB* self, unsigned long cPins, IPin9FB** ppP
     unsigned long nFetched = 0;
     if (self->m_pOwnerFilter->GetPinVersion() != self->m_iCurrentPinIndex)
     {
-        InitFromInterface((int)self);
+        ::InitFromInterface((int)self);
     }
     int n = self->m_PinCount - self->m_uiReferenceCount;
     if (n >= (int)cPins)
@@ -3691,7 +3546,7 @@ int __stdcall FUN_009fbb50(EnumPins9FB* self, unsigned long cPins, IPin9FB** ppP
         {
             return (int)0x80040203;
         }
-        if (self->m_Pins.Find(pin) == 0)
+        if (((int)(reinterpret_cast<::CBaseList9FD *>((void *)&(self->m_Pins))->Find(pin))) == 0)
         {
             *ppPins = &pin->m_iPin;
             pin->m_iPin.AddRef();
@@ -3727,14 +3582,13 @@ struct EnumMediaType
     unsigned int formatSize;
     void* format;
     void FUN_009f9c70();
-    void FUN_009f9c60();
     EnumMediaType()
     {
         FUN_009f9c70();
     }
     ~EnumMediaType()
     {
-        FUN_009f9c60();
+        reinterpret_cast<::SpectatorPackageImpl *>(this)->FUN_009f9c60();
     }
 };
 struct EnumMediaSource
@@ -3800,7 +3654,6 @@ int __stdcall GetMediaTypes(MediaEnumerator* self, unsigned long count, EnumMedi
 
 struct MediaTypeTry
 {
-    int FUN_009f9a80(MediaTypeTry* partial);
 };
 struct EnumMediaTry
 {
@@ -3811,64 +3664,26 @@ struct EnumMediaTry
     virtual long __stdcall Skip(unsigned long count);
     virtual long __stdcall Reset();
 };
-void __stdcall FUN_009f9cb0(MediaTypeTry* media);
 struct PinTry
 {
-    long FUN_009fbf00(void* receiver, MediaTypeTry* media);
     long FUN_009fbfc0(void* receiver, MediaTypeTry* partial, EnumMediaTry* enumerator);
 };
-// @fnv 0x009fbfc0
-long PinTry::FUN_009fbfc0(void* receiver, MediaTypeTry* partial, EnumMediaTry* enumerator)
-{
-    long hr = enumerator->Reset();
-    if (hr < 0)
-        return hr;
-    MediaTypeTry* media = 0;
-    unsigned long fetched = 0;
-    long failure = 0;
-    for (;;)
-    {
-        if (enumerator->Next(1, &media, &fetched) != 0)
-            break;
-        long hr;
-        if (partial && !media->FUN_009f9a80(partial))
-        {
-            hr = 0x80040207;
-        }
-        else
-        {
-            hr = FUN_009fbf00(receiver, media);
-            if (hr < 0 && failure >= 0 && hr != (long)0x80004005 && hr != (long)0x80070057 && hr != (long)0x8004022a)
-                failure = hr;
-        }
-        FUN_009f9cb0(media);
-        if (hr == 0)
-            return hr;
-    }
-    if (failure == 0)
-        failure = 0x80040207;
-    return failure;
-}
-
 typedef int(__stdcall* FNV_HRESULT_Call2)(void* self, void** out);
 typedef unsigned long(__stdcall* FNV_Release_Call)(void* self);
 
 class FNV_Callee9f9a50
 {
   public:
-    int Call9f9a50();
 };
 
 class FNV_Callee9fbf00
 {
   public:
-    int Call9fbf00(void* arg1, void* arg2);
 };
 
 class FNV_Callee9fbfc0
 {
   public:
-    int Call9fbfc0(void* arg1, void* arg2, void* out);
 };
 
 class FUN_009fc0b0_cls
@@ -3887,57 +3702,30 @@ class FUN_009fc0b0_cls
     unsigned char m_26;
     int FUN_009fc0b0(void* arg1, void* arg2);
 };
-
-// Returns Call9fbf00(arg1, arg2) if arg2's Call9f9a50() is 0; else tries twice (vtable slot 12 on arg1 or &m_0c, then Call9fbfc0), returning 0 or an HRESULT.
-// @fnv 0x009fc0b0
-int FUN_009fc0b0_cls::FUN_009fc0b0(void* arg1, void* arg2)
+// Validates the receive pin and media type, checks connection state and lock, calls AgreeMediaType and Cleanup on failure, and returns an HRESULT.
+// @fnv 0x009fc990
+long __stdcall BasePinStub::ReceiveConnection(void* pReceivePin, void* pMediaType)
 {
-    void* out = 0;
-    int hr;
-    int i;
-    void* cur = arg2;
-
-    if (cur != 0)
+    if (pReceivePin == 0)
     {
-        if (((FNV_Callee9f9a50*)cur)->Call9f9a50() == 0)
-        {
-            return ((FNV_Callee9fbf00*)this)->Call9fbf00(arg1, arg2);
-        }
+        return 0x80004003;
     }
-
-    i = 0;
-    hr = 0x80040207;
-    for (; i < 2; i = i + 1)
+    PinCritSecLock lock(m_pLock);
+    if (m_Connected)
     {
-        int r;
-        cur = arg2;
-        if (i == this->m_26)
-        {
-            r = ((FNV_HRESULT_Call2)(*(void***)arg1)[12])(arg1, &out);
-        }
-        else
-        {
-            r = ((FNV_HRESULT_Call2)(*(void***)&this->m_0c)[12])(&this->m_0c, &out);
-        }
-        if (r < 0)
-        {
-            goto next;
-        }
-        {
-            int hrResult = ((FNV_Callee9fbfc0*)this)->Call9fbfc0(arg1, arg2, out);
-            ((FNV_Release_Call)(*(void***)out)[2])(out);
-            if (hrResult >= 0)
-            {
-                return 0;
-            }
-            if (hrResult != 0x80004005 && hrResult != 0x80070057 && hrResult != 0x8004022a)
-            {
-                hr = hrResult;
-            }
-        }
-    next:;
+        return 0x80040204;
     }
-    return hr;
+    if (!IsStopped() && !m_bCanReconnectWhenActive)
+    {
+        return 0x80040224;
+    }
+    long hr = ((long)(reinterpret_cast<::FUN_009fc0b0_cls *>(this)->FUN_009fc0b0(pReceivePin, pMediaType)));
+    if (hr < 0)
+    {
+        Cleanup();
+        return hr;
+    }
+    return 0;
 }
 
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* cs);
@@ -4102,12 +3890,12 @@ void __cdecl operator delete(void*);
 
 inline void* __cdecl operator new(unsigned int, unsigned int size)
 {
-    return operator new(size);
+    return ::FUN_00401000(size);
 }
 
 inline void __cdecl operator delete(void* p, unsigned int)
 {
-    operator delete(p);
+    ::FUN_00401030(p);
 }
 
 struct SourceVirtual
@@ -4269,7 +4057,6 @@ long __stdcall FUN_009fc780::FUN_009fc7e0(FUN_009fc780** ppEnumMediaTypes)
 
 extern "C" void* __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
 void* __cdecl operator new(unsigned int);
-int __stdcall FUN_009fd080(const wchar_t*);
 
 struct FUN_009fcee0
 {
@@ -4324,6 +4111,18 @@ struct FUN_009fc890 : FUN_009fcee0
     volatile double m_dRate;
     FUN_009fc890(int objectName, void* filter, int* lock, int* phr, const wchar_t* name, int dir);
 };
+// Initialises the object: constructs the embedded FUN_009fc890 sub-object with "Output", sets vtable and member pointers, and stores b and c.
+// @fnv 0x009fdd70
+FUN_009fdd70_class::FUN_009fdd70_class(int a, int b, int c, int d)
+{
+    new ((void *)(((FUN_009fc890_class*)((char*)this + 8)))) ::FUN_009fc890(0, (void *)(b), (int *)(d), (int *)(a), L"Output", 1);
+    m_08 = (int)&DAT_01093de8;
+    m_a0 = b;
+    m_vft = (int)&DAT_01093e24;
+    m_14 = (int)&DAT_01093d9c;
+    m_18 = (int)&DAT_01093d84;
+    m_a4 = c;
+}
 // Initializes members from the arguments, copies name into a new wchar_t array, and sets m_tStart to 0, m_tStop to the maximum and m_dRate to 1.0.
 // @fnv 0x009fc890
 FUN_009fc890::FUN_009fc890(int objectName, void* apOwnerFilter, int* lock, int* phr, const wchar_t* name, int dir)
@@ -4336,7 +4135,7 @@ FUN_009fc890::FUN_009fc890(int objectName, void* apOwnerFilter, int* lock, int* 
     m_dRate = 1.0;
     if (name)
     {
-        int len = FUN_009fd080(name) + 1;
+        int len = ::FUN_009fd080((const unsigned short *)(name)) + 1;
         m_pName = new wchar_t[len];
         if (m_pName)
         {
@@ -4453,68 +4252,11 @@ struct S9fcc60_Sample
 
 struct S9fcc60_Base
 {
-    int FUN_009fb020();
-    __declspec(nothrow) void FUN_009fb170();
 };
 
-__declspec(nothrow) void* __cdecl FUN_00401000(unsigned int size);
 extern "C" __declspec(dllimport) __declspec(nothrow) void* __stdcall VirtualAlloc(void* address, unsigned int size,
                                                                                   unsigned int allocationType,
                                                                                   unsigned int protect);
-
-// Locks the allocator, computes aligned block size, allocates a buffer via VirtualAlloc, and builds the free list of sample blocks.
-// @fnv 0x009fcc60
-int S9fcc60_Alloc::FUN_009fcc60()
-{
-    S9fcc60_AutoLock lck(this);
-
-    int res = ((S9fcc60_Base*)this)->FUN_009fb020();
-    if (res < 0)
-    {
-        return res;
-    }
-    if (res == 1)
-    {
-        return 0;
-    }
-    if (m_pBuffer)
-    {
-        ((S9fcc60_Base*)this)->FUN_009fb170();
-    }
-
-    int lAlignedSize = m_lSize + m_lPrefix;
-    if (m_lAlignment > 1)
-    {
-        int lRemainder = lAlignedSize % m_lAlignment;
-        if (lRemainder != 0)
-        {
-            lAlignedSize += m_lAlignment - lRemainder;
-        }
-    }
-
-    if ((m_pBuffer = (unsigned char*)VirtualAlloc(0, m_lCount * lAlignedSize, 0x1000, 4)) == 0)
-    {
-        return 0x8007000e;
-    }
-
-    unsigned char* pBlock = m_pBuffer;
-    S9fcc60_Sample* pSample;
-    for (; m_lAllocated < m_lCount; m_lAllocated++, pBlock += lAlignedSize)
-    {
-        int hr;
-        S9fcc60_Sample* mem = (S9fcc60_Sample*)FUN_00401000(0x48);
-        pSample = mem ? mem->FUN_009fcb50(0, this, &hr, pBlock + m_lPrefix, m_lSize) : 0;
-        if (pSample == 0)
-        {
-            return 0x8007000e;
-        }
-        pSample->m_pNext = m_lFree;
-        m_lFree = pSample;
-        m_lFreeCount++;
-    }
-    m_bChanged = 0;
-    return 0;
-}
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plValue);
 
@@ -4592,7 +4334,6 @@ int __stdcall CompareWideStrings(const wchar_t* p, const wchar_t* q)
 
 extern "C" __declspec(dllimport) void* __stdcall CoTaskMemAlloc(unsigned long cb);
 extern "C" void* __cdecl memcpy(void* dst, const void* src, unsigned int size);
-int __stdcall FUN_009fd080(const wchar_t* psz);
 
 // Allocates a CoTaskMemAlloc'd copy of psz, writes the pointer to ppszReturn, and returns HRESULT.
 // @fnv 0x009fd0a0
@@ -4600,7 +4341,7 @@ long __stdcall FUN_009fd0a0(const wchar_t* psz, wchar_t** ppszReturn)
 {
     if (ppszReturn == 0)
         return 0x80004003L;
-    unsigned long nameLen = sizeof(wchar_t) * (FUN_009fd080(psz) + 1);
+    unsigned long nameLen = sizeof(wchar_t) * (::FUN_009fd080((const unsigned short *)(psz)) + 1);
     wchar_t* p = (wchar_t*)CoTaskMemAlloc(nameLen);
     int bAllocFailed;
     try
@@ -4633,12 +4374,16 @@ struct FUN_009fd200_list
     int freeCount;
     FUN_009fd200_node* freeHead;
 };
-void __cdecl FUN_00401030(void* p);
 class FUN_009fd200_cls
 {
   public:
     unsigned int RemoveNode(FUN_009fd200_node* node);
 };
+// @fnv 0x009fd390
+int __thiscall FUN_009fd390_cls::FUN_009fd390()
+{
+    return ((int)(reinterpret_cast<::FUN_009fd200_cls *>(this)->RemoveNode((::FUN_009fd200_node *)(m_00))));
+}
 // Unlinks node from the list, returns its unk08, and either pushes it onto the free list or frees it when freeCount is at limit.
 // @fnv 0x009fd200
 unsigned int FUN_009fd200_cls::RemoveNode(FUN_009fd200_node* node)
@@ -4695,7 +4440,7 @@ struct Node9FD320
         {
             FUN_009fd100_node* cur = node;
             node = node->next;
-            operator delete(cur);
+            ::FUN_00401030(cur);
         }
     }
 };
@@ -4772,7 +4517,6 @@ struct IID9FD5A0
     unsigned short d3;
     unsigned char d4[8];
 };
-extern const IID9FD5A0 DAT_01093bbc;
 
 struct Base9FD5A0
 {
@@ -4829,7 +4573,7 @@ long __stdcall FUN_009fd5a0(void** ppv)
         delete p;
         return hr;
     }
-    hr = static_cast<Iface9FD5A0*>(p)->QueryInterface(DAT_01093bbc, ppv);
+    hr = static_cast<Iface9FD5A0*>(p)->QueryInterface((*reinterpret_cast<const ::IID9FD5A0 *>(&::fnv_009fac30::DAT_01093bbc)), ppv);
     if (hr < 0)
     {
         delete p;
@@ -4869,8 +4613,6 @@ struct AllocatorStream
     int unk10;
     int unk14;
     AlignmentDevice* pDevice;
-    int __thiscall FUN_009fd3a0(long alAlign);
-    void __thiscall GetValue(long* aplAlign);
     int IsAligned(long align)
     {
         return !(align & (pDevice->GetAlignment() - 1));
@@ -4920,7 +4662,6 @@ struct AllocatorPin
     int unk9c;
     int unka0;
     AllocatorStream* pStream;
-    long __thiscall FUN_009fd5a0(IMemAllocator** appAllocator);
     long __stdcall FUN_009fd6d0(IMemAllocator* apAllocator, ALLOCATOR_PROPERTIES* apRequest,
                                 IMemAllocator** appAllocator);
 };
@@ -4936,20 +4677,20 @@ long __stdcall AllocatorPin::FUN_009fd6d0(IMemAllocator* apAllocator, ALLOCATOR_
     if (!appAllocator)
         return 0x80004003;
     if (!apRequest->cbAlign || !pStream->IsAligned(apRequest->cbAlign))
-        pStream->GetValue(&apRequest->cbAlign);
+        reinterpret_cast<::S_9fe1a0_Class *>((pStream))->GetValue((int *)(long *)(&apRequest->cbAlign));
     ALLOCATOR_PROPERTIES kActual;
-    if (apAllocator->SetProperties(apRequest, &kActual) >= 0 && pStream->FUN_009fd3a0(kActual.cbAlign))
+    if (apAllocator->SetProperties(apRequest, &kActual) >= 0 && reinterpret_cast<::HolderObj *>((pStream))->FUN_009fd3a0(kActual.cbAlign))
     {
         apAllocator->AddRef();
         *appAllocator = apAllocator;
         return 0;
     }
     IMemAllocator* fallback;
-    long hr = FUN_009fd5a0(&fallback);
+    long hr = ::FUN_009fd5a0((void **)this);
     if (hr < 0)
         return hr;
     hr = fallback->SetProperties(apRequest, &kActual);
-    if (hr >= 0 && pStream->FUN_009fd3a0(kActual.cbAlign))
+    if (hr >= 0 && reinterpret_cast<::HolderObj *>((pStream))->FUN_009fd3a0(kActual.cbAlign))
     {
         *appAllocator = fallback;
         return 0;
@@ -4977,8 +4718,6 @@ struct AsyncSample
 
 struct AsyncIo
 {
-    long Length(LONGLONG* pllTotal, LONGLONG* pllAvailable);
-    long Alignment(long* pAlignment);
     long Request(LONGLONG llPos, long lLength, int bAligned, unsigned char* pBuffer, void* pContext,
                  unsigned long dwUser);
 };
@@ -5045,11 +4784,11 @@ long __stdcall FUN_009fd7f0(AsyncOutputPin* apPin, AsyncSample* pSample, unsigne
     long lLength = (long)((tStop - tStart) / 10000000);
 
     LONGLONG llTotal = 0, llAvailable = 0;
-    hr = apPin->m_pIo->Length(&llTotal, &llAvailable);
+    hr = ((long)(reinterpret_cast<::FUN_009fe090_cls *>((apPin->m_pIo))->GetHelperValue((unsigned long long *)(long long *)(&llTotal), (unsigned int)(&llAvailable))));
     if (llPos + lLength > llTotal)
     {
         long lAlign;
-        apPin->m_pIo->Alignment(&lAlign);
+        reinterpret_cast<::S_9fe1a0_Class *>((apPin->m_pIo))->GetValue((int *)(long *)(&lAlign));
         llTotal = (llTotal + lAlign - 1) & ~(lAlign - 1);
         if (llPos + lLength > llTotal)
         {
@@ -5088,9 +4827,7 @@ struct MediaSampleStub
 
 struct SampleSourceStub
 {
-    int GetRange(__int64* pEnd, __int64* pOut);
     int GetAlignment(int* pAlign);
-    long FillSample(__int64 start, int count, unsigned char* pBuffer, long* pLen, MediaSampleStub* pSample);
 };
 
 struct SampleFilterStub
@@ -5139,47 +4876,6 @@ struct SampleFilterStub
     SampleSourceStub* source;
     long __stdcall FUN_009fd970(MediaSampleStub* pSample);
 };
-
-// Clamps the sample time range to the source's range and alignment, then fills the sample buffer via source->FillSample and sets its actual data length.
-// @fnv 0x009fd970
-long __stdcall SampleFilterStub::FUN_009fd970(MediaSampleStub* pSample)
-{
-    if (!pSample)
-        return 0x80004003;
-
-    __int64 startSec;
-    REFTIME64 tStart, tStop;
-    long hr = pSample->GetTime(&tStart, &tStop);
-    if (hr < 0)
-        return hr;
-
-    startSec = tStart / 10000000;
-    int count = (int)((tStop - tStart) / 10000000);
-    __int64 endSec;
-    __int64 extra;
-    source->GetRange(&endSec, &extra);
-    if (startSec + count > endSec)
-    {
-        int align;
-        source->GetAlignment(&align);
-        endSec = (endSec + align - 1) & ~(align - 1);
-        if (startSec + count > endSec)
-        {
-            count = (int)(endSec - startSec);
-            tStop = endSec * 10000000;
-            pSample->SetTime(&tStart, &tStop);
-        }
-    }
-
-    unsigned char* pBuffer;
-    hr = pSample->GetPointer(&pBuffer);
-    if (hr < 0)
-        return hr;
-    long len;
-    hr = source->FillSample(startSec, count, pBuffer, &len, pSample);
-    pSample->SetActualDataLength(len);
-    return hr;
-}
 
 struct Primary9FDTemplate
 {
@@ -5276,7 +4972,6 @@ void __cdecl FUN_009fdfd0()
     FUN_009fd320();
 }
 
-int __stdcall FUN_009fdf20(void);
 
 struct Ctx : FUN_009fded0_cls
 {
@@ -5288,6 +4983,46 @@ class Fdfe0Cls : public S_9fe1a0_Class
     int __thiscall FUN_009fdfe0(unsigned int p0, unsigned int p1, unsigned int p2, unsigned int p3, unsigned int* out,
                                 unsigned int p5);
 };
+// Clamps the sample time range to the source's range and alignment, then fills the sample buffer via source->FillSample and sets its actual data length.
+// @fnv 0x009fd970
+long __stdcall SampleFilterStub::FUN_009fd970(MediaSampleStub* pSample)
+{
+    if (!pSample)
+        return 0x80004003;
+
+    __int64 startSec;
+    REFTIME64 tStart, tStop;
+    long hr = pSample->GetTime(&tStart, &tStop);
+    if (hr < 0)
+        return hr;
+
+    startSec = tStart / 10000000;
+    int count = (int)((tStop - tStart) / 10000000);
+    __int64 endSec;
+    __int64 extra;
+    reinterpret_cast<::FUN_009fe090_cls *>((source))->GetHelperValue((unsigned long long *)(long long *)(&endSec), (unsigned int)(&extra));
+    if (startSec + count > endSec)
+    {
+        int align;
+        reinterpret_cast<::S_9fe1a0_Class *>((source))->GetValue(&align);
+        endSec = (endSec + align - 1) & ~(align - 1);
+        if (startSec + count > endSec)
+        {
+            count = (int)(endSec - startSec);
+            tStop = endSec * 10000000;
+            pSample->SetTime(&tStart, &tStop);
+        }
+    }
+
+    unsigned char* pBuffer;
+    hr = pSample->GetPointer(&pBuffer);
+    if (hr < 0)
+        return hr;
+    long len;
+    hr = ((long)(reinterpret_cast<::Fdfe0Cls *>((source))->FUN_009fdfe0(startSec, count, (unsigned int)(pBuffer), (unsigned int)(&len), (unsigned int *)(pSample), {})));
+    pSample->SetActualDataLength(len);
+    return hr;
+}
 
 // Checks p0, p2, p3 against unk18 alignment, calls FUN_009fded0, stores ctx.m_14 to out, returns FUN_009fdf20 result.
 // @fnv 0x009fdfe0
@@ -5313,7 +5048,7 @@ int __thiscall Fdfe0Cls::FUN_009fdfe0(unsigned int p0, unsigned int p1, unsigned
                 {
                     return hr;
                 }
-                int r = FUN_009fdf20();
+                int r = static_cast<::FUN_009fdf20_cls *>(nullptr)->FUN_009fdf20();
                 *out = (unsigned int)ctx.m_14;
                 return r;
             }
@@ -5422,67 +5157,13 @@ class CAsyncIo
     int m_bWaiting;
 
   public:
-    CAsyncRequest* LockAndProcess();  // GetDoneItem
+      // GetDoneItem
     __int64 Size()
     {
         return m_pBinaryStream->Size();
     }
     long WaitForCompletion(unsigned long dwTimeout, void** ppContext, unsigned long* pUser, long* pcbActual);
 };
-
-// Waits for an async I/O completion event, retrieves the next request, and returns its result, context, user data, and actual bytes read.
-// @fnv 0x009fe570
-long CAsyncIo::WaitForCompletion(unsigned long dwTimeout, void** ppContext, unsigned long* pUser, long* pcbActual)
-{
-    if (!ppContext)
-        return 0x80004003;  // E_POINTER
-    if (!pUser)
-        return 0x80004003;
-    if (!pcbActual)
-        return 0x80004003;
-
-    *ppContext = 0;
-
-    for (;;)
-    {
-        if (!m_evDone.Wait(dwTimeout))
-        {
-            return 0x8004022E;  // VFW_E_TIMEOUT
-        }
-
-        CAsyncRequest* pRequest = LockAndProcess();
-        if (pRequest)
-        {
-            long hr = pRequest->GetHResult();
-            if (hr == 1)
-            {  // S_FALSE: short read, fine if it ends at the end of the stream
-                if ((pRequest->GetActualLength() + pRequest->GetStart()) == Size())
-                {
-                    hr = 0;
-                }
-                else
-                {
-                    hr = 0x80004005;  // E_FAIL
-                }
-            }
-
-            *pcbActual = pRequest->GetActualLength();
-            *ppContext = pRequest->GetContext();
-            *pUser = pRequest->GetUser();
-
-            delete pRequest;
-            return hr;
-        }
-        else
-        {
-            CAutoLock lck(&m_csLists);
-            if (m_bFlushing && !m_bWaiting)
-            {
-                return 0x80040227;  // VFW_E_WRONG_STATE
-            }
-        }
-    }
-}
 
 extern "C" __declspec(dllimport) int __stdcall ResetEvent(void* hEvent);
 extern "C" __declspec(dllimport) void* __stdcall CreateThread(void* lpThreadAttributes, unsigned long dwStackSize,
@@ -5532,7 +5213,7 @@ long AsyncIoStandIn::StartThread()
 
 namespace fnv_009fe870 {
 extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(void* pkSection);
-void __cdecl FUN_00401030(void* pvMemory);  // free
+  // free
 
 class OwnedLock
 {
@@ -5549,8 +5230,8 @@ class FUN_009fd320
 {
   public:
     ~FUN_009fd320();
-    void* PopAndGetValue(void*& rpvPos);  // GetNext
-    void ClearList();                     // RemoveAll
+      // GetNext
+                         // RemoveAll
     void* m_pvHead;
     int unk04;
     int unk08;
@@ -5571,7 +5252,6 @@ class FUN_009fe870
   public:
     ~FUN_009fe870();
     void FUN_009fe690();
-    void FUN_009fe0c0();
 
     OwnedLock m_kLockA;              // +0x00
     OwnedLock m_kLockB;              // +0x1c
@@ -5590,11 +5270,11 @@ class FUN_009fe870
 FUN_009fe870::~FUN_009fe870()
 {
     FUN_009fe690();
-    FUN_009fe0c0();
+    reinterpret_cast<::fnv_009fe0c0::FUN_009fe0c0_class *>(this)->FUN_009fe0c0();
     void* pvPos = m_kListB.m_pvHead;
     while (pvPos)
-        FUN_00401030(m_kListB.PopAndGetValue(pvPos));
-    m_kListB.ClearList();
+        ::FUN_00401030(((void *)(::PopAndGetValue((int *)&(m_kListB)))));
+    reinterpret_cast<::FUN_009fd140_class *>(&(m_kListB))->ClearList();
 }
 }  // namespace fnv_009fe870
 
@@ -5613,37 +5293,14 @@ struct Host_9fe960;
 
 struct Req_9fe960
 {
-    int Init(Host_9fe960* pHost, Stream_9fe960* pStream, int a1, int a2, int a3, int a4, int a5, int a6, int a7);
 };
 
 struct Host_9fe960
 {
     int unk[6];
     Stream_9fe960* m_p18;
-    int Queue(Req_9fe960* pReq);
     int FUN_009fe960(int a1, int a2, int a3, int a4, int a5, int a6, int a7);
 };
-
-// Allocates a request, initializes it with the given parameters, and queues it on the host, returning the HRESULT.
-// @fnv 0x009fe960
-int Host_9fe960::FUN_009fe960(int a1, int a2, int a3, int a4, int a5, int a6, int a7)
-{
-    if (a4)
-    {
-        if ((a1 & (int)(m_p18->GetAlign4() - 1)) || (a3 & (int)(m_p18->GetAlign4() - 1)) ||
-            (a5 & (int)(m_p18->GetAlign4() - 1)))
-            return 0x8004020e;
-    }
-    Req_9fe960* pReq = (Req_9fe960*)operator new(0x28);
-    if (!pReq)
-        return 0x8007000e;
-    int hr = pReq->Init(this, m_p18, a1, a2, a3, a4, a5, a6, a7);
-    if (hr < 0 || (hr = Queue(pReq), hr < 0))
-    {
-        operator delete(pReq);
-    }
-    return hr;
-}
 
 struct S_009f9bb0_Unk;
 struct S_009f9bb0_Vtbl
@@ -5757,6 +5414,59 @@ struct FUN_009fcb50
     int state3c, state40, state44;
     FUN_009fcb50(int unused1, int second, int FlushUsageData, int fourth, int fifth);
 };
+// Locks the allocator, computes aligned block size, allocates a buffer via VirtualAlloc, and builds the free list of sample blocks.
+// @fnv 0x009fcc60
+int S9fcc60_Alloc::FUN_009fcc60()
+{
+    S9fcc60_AutoLock lck(this);
+
+    int res = reinterpret_cast<::FUN_009fb020_class *>((((S9fcc60_Base*)this)))->FUN_009fb020();
+    if (res < 0)
+    {
+        return res;
+    }
+    if (res == 1)
+    {
+        return 0;
+    }
+    if (m_pBuffer)
+    {
+        reinterpret_cast<::EntryObject *>((((S9fcc60_Base*)this)))->FUN_009fb170();
+    }
+
+    int lAlignedSize = m_lSize + m_lPrefix;
+    if (m_lAlignment > 1)
+    {
+        int lRemainder = lAlignedSize % m_lAlignment;
+        if (lRemainder != 0)
+        {
+            lAlignedSize += m_lAlignment - lRemainder;
+        }
+    }
+
+    if ((m_pBuffer = (unsigned char*)VirtualAlloc(0, m_lCount * lAlignedSize, 0x1000, 4)) == 0)
+    {
+        return 0x8007000e;
+    }
+
+    unsigned char* pBlock = m_pBuffer;
+    S9fcc60_Sample* pSample;
+    for (; m_lAllocated < m_lCount; m_lAllocated++, pBlock += lAlignedSize)
+    {
+        int hr;
+        S9fcc60_Sample* mem = (S9fcc60_Sample*)FUN_00401000(0x48);
+        pSample = mem ? ((::S9fcc60_Sample *)(new ((void *)(mem)) ::FUN_009fcb50((int)(0), (int)(this), (int)(&hr), (int)(pBlock + m_lPrefix), m_lSize))) : 0;
+        if (pSample == 0)
+        {
+            return 0x8007000e;
+        }
+        pSample->m_pNext = m_lFree;
+        m_lFree = pSample;
+        m_lFreeCount++;
+    }
+    m_bChanged = 0;
+    return 0;
+}
 FUN_009fcb50::FUN_009fcb50(int unused1, int second, int FlushUsageData, int fourth, int fifth) : state04(0), state08(0)
 {
     value0c = fourth;
@@ -6239,7 +5949,6 @@ struct GraphLock
         LeaveCriticalSection(m_lock);
     }
 };
-unsigned int __stdcall FUN_009fd080(const wchar_t*);
 void* __cdecl _memmove(void*, const void*, unsigned int);
 // Locks the filter, updates m_graph and m_sink from graph, and replaces m_name with a copy of name.
 // @fnv 0x009f9e50
@@ -6258,12 +5967,12 @@ int __stdcall SetGraphAndName(GraphFilter* self, GraphUnknown* graph, const wcha
     }
     if (self->m_name)
     {
-        operator delete(self->m_name);
+        ::FUN_00401030(self->m_name);
         self->m_name = 0;
     }
     if (name)
     {
-        unsigned int n = FUN_009fd080(name) + 1;
+        unsigned int n = ((unsigned int)(::FUN_009fd080((const unsigned short *)(name)))) + 1;
         self->m_name = new wchar_t[n];
         if (self->m_name)
             _memmove(self->m_name, name, n * 2);
@@ -6298,6 +6007,12 @@ struct TargetOwner
     void* m_1c;
     unsigned int __thiscall DispatchCall(void** arg);
 };
+// @fnv 0x009fd450
+void FUN_009fd450_class::FUN_009fd450()
+{
+    *(int*)((char*)this + 0xa0) = 0;
+    reinterpret_cast<::TargetOwner *>((((FUN_009fa350_class*)this)))->DispatchCall({});
+}
 // @fnv 0x009fa350
 unsigned int TargetOwner::DispatchCall(void** arg)
 {
@@ -6971,6 +6686,89 @@ class ConnectionPin
     void* m_18;
     int FUN_009fbf00(void* a1, int a2);
 };
+// @fnv 0x009fbfc0
+long PinTry::FUN_009fbfc0(void* receiver, MediaTypeTry* partial, EnumMediaTry* enumerator)
+{
+    long hr = enumerator->Reset();
+    if (hr < 0)
+        return hr;
+    MediaTypeTry* media = 0;
+    unsigned long fetched = 0;
+    long failure = 0;
+    for (;;)
+    {
+        if (enumerator->Next(1, &media, &fetched) != 0)
+            break;
+        long hr;
+        if (partial && !reinterpret_cast<::MediaType *>((media))->FUN_009f9a80((const ::MediaType *)(partial)))
+        {
+            hr = 0x80040207;
+        }
+        else
+        {
+            hr = ((long)(reinterpret_cast<::ConnectionPin *>(this)->FUN_009fbf00(receiver, (int)(media))));
+            if (hr < 0 && failure >= 0 && hr != (long)0x80004005 && hr != (long)0x80070057 && hr != (long)0x8004022a)
+                failure = hr;
+        }
+        ::FUN_009f9cb0((::SpectatorPackage *)(media));
+        if (hr == 0)
+            return hr;
+    }
+    if (failure == 0)
+        failure = 0x80040207;
+    return failure;
+}
+// Returns Call9fbf00(arg1, arg2) if arg2's Call9f9a50() is 0; else tries twice (vtable slot 12 on arg1 or &m_0c, then Call9fbfc0), returning 0 or an HRESULT.
+// @fnv 0x009fc0b0
+int FUN_009fc0b0_cls::FUN_009fc0b0(void* arg1, void* arg2)
+{
+    void* out = 0;
+    int hr;
+    int i;
+    void* cur = arg2;
+
+    if (cur != 0)
+    {
+        if (reinterpret_cast<::FUN_009f9a50_class *>((((FNV_Callee9f9a50*)cur)))->FUN_009f9a50() == 0)
+        {
+            return reinterpret_cast<::ConnectionPin *>((((FNV_Callee9fbf00*)this)))->FUN_009fbf00(arg1, (int)(arg2));
+        }
+    }
+
+    i = 0;
+    hr = 0x80040207;
+    for (; i < 2; i = i + 1)
+    {
+        int r;
+        cur = arg2;
+        if (i == this->m_26)
+        {
+            r = ((FNV_HRESULT_Call2)(*(void***)arg1)[12])(arg1, &out);
+        }
+        else
+        {
+            r = ((FNV_HRESULT_Call2)(*(void***)&this->m_0c)[12])(&this->m_0c, &out);
+        }
+        if (r < 0)
+        {
+            goto next;
+        }
+        {
+            int hrResult = ((int)(reinterpret_cast<::PinTry *>((((FNV_Callee9fbfc0*)this)))->FUN_009fbfc0(arg1, (::MediaTypeTry *)(arg2), (::EnumMediaTry *)(out))));
+            ((FNV_Release_Call)(*(void***)out)[2])(out);
+            if (hrResult >= 0)
+            {
+                return 0;
+            }
+            if (hrResult != 0x80004005 && hrResult != 0x80070057 && hrResult != 0x8004022a)
+            {
+                hr = hrResult;
+            }
+        }
+    next:;
+    }
+    return hr;
+}
 
 // Calls v10(a1) and v08(a2), stores a1 in m_18, calls methods on a1 plus v09 and v12; on failure calls v11, releases m_18 and returns the error.
 // @fnv 0x009fbf00
@@ -7077,6 +6875,17 @@ class CBaseList_9fd
     CNodeCache m_Cache;
     CNode* AddNode(void* pObject);
 };
+// @fnv 0x009fe3f0
+int __thiscall FUN_009fe3f0_class::FUN_009fe3f0(int value)
+{
+    if (((int)(reinterpret_cast<::CBaseList_9fd *>(&(m_50))->AddNode((void *)(value)))))
+    {
+        DAT_00fdf0d0(reinterpret_cast<void*>(m_6c));
+        return 0;
+    }
+
+    return static_cast<int>(0x8007000e);
+}
 
 // Allocates a CNode from the cache or heap, links it to the end of the list, and increments the node count.
 // @fnv 0x009fd270
@@ -7108,20 +6917,36 @@ CNode* CBaseList_9fd::AddNode(void* pObject)
 struct S_009fd2d0_Pos;
 struct S_009fd2d0_List
 {
-    S_009fd2d0_Pos* FUN_009fd0f0();
-    void* PopAndGetValue(S_009fd2d0_Pos** pos);
-    int AddNode(void* item);
     int FUN_009fd2d0(S_009fd2d0_List* src);
 };
+// Initializes the base from src, invokes a callback on src->m_0c, then copies fields from rec if non-null, otherwise reads v14/v18 from m_0c.
+// @fnv 0x009fc600
+FUN_009fc600::FUN_009fc600(SourceObj* apSource, ResultRec* apRecord) : LayoutBase(apSource), m_18(0)
+{
+    SourceObj* s = m_0c;
+    (s->m_0c->*(s->m_0c->m_04))(&s->m_0c);
+    if (apRecord == 0)
+    {
+        m_10 = m_0c->v14();
+        m_08 = m_0c->v18();
+    }
+    else
+    {
+        m_04 = apRecord->unk04;
+        m_08 = apRecord->unk08;
+        m_10 = apRecord->unk10;
+        reinterpret_cast<::S_009fd2d0_List *>(&(m_18))->FUN_009fd2d0((::S_009fd2d0_List *)(&apRecord->m_18));
+    }
+}
 // Walks src with FUN_009fd0f0 and PopAndGetValue, adding each item via AddNode; returns 0 as soon as an add fails, otherwise 1.
 // @fnv 0x009fd2d0
 int S_009fd2d0_List::FUN_009fd2d0(S_009fd2d0_List* src)
 {
-    S_009fd2d0_Pos* pos = src->FUN_009fd0f0();
+    S_009fd2d0_Pos* pos = ((::S_009fd2d0_Pos *)(reinterpret_cast<::CBaseList9FD *>((src))->GetHeadPositionI()));
     while (pos)
     {
-        void* item = src->PopAndGetValue(&pos);
-        if (!AddNode(item))
+        void* item = ((void *)(::PopAndGetValue((int *)(src))));
+        if (!((int)(reinterpret_cast<::CBaseList_9fd *>(this)->AddNode(item))))
             return 0;
     }
     return 1;
@@ -7148,8 +6973,6 @@ struct SyncRequest
     int m_1c;
     int m_20;
     int m_24;
-    int FUN_009fded0(void* owner, AlignSource* src, __int64 position, unsigned int length, int aligned,
-                     unsigned char* buffer, void* context, unsigned int user);
 };
 
 struct SyncReader
@@ -7161,7 +6984,6 @@ struct SyncReader
     int unk10;
     int unk14;
     AlignSource* m_18;
-    int FUN_009fdfe0(__int64 position, unsigned int length, unsigned char* buffer, unsigned int* out, unsigned int p6);
     int FUN_009fe100(__int64 position, unsigned int length, unsigned char* buffer);
 };
 
@@ -7172,21 +6994,20 @@ int SyncReader::FUN_009fe100(__int64 position, unsigned int length, unsigned cha
         ((unsigned int)buffer & (m_18->GetAlignment() - 1)) == 0)
     {
         unsigned int actual;
-        return FUN_009fdfe0(position, length, buffer, &actual, 0);
+        return reinterpret_cast<::Fdfe0Cls *>(this)->FUN_009fdfe0(position, length, (unsigned int)(buffer), (unsigned int)(&actual), (unsigned int *)(0), {});
     }
     else
     {
         SyncRequest ctx;
-        int hr = ctx.FUN_009fded0(this, m_18, position, length, 0, buffer, 0, 0);
+        int hr = reinterpret_cast<::FUN_009fded0_cls *>(&(ctx))->FUN_009fded0((int)(this), (int)(m_18), position, length, 0, (int)(buffer), (int)(0), 0, {});
         if (hr >= 0)
-            return FUN_009fdf20();
+            return static_cast<::FUN_009fdf20_cls *>(nullptr)->FUN_009fdf20();
         return hr;
     }
 }
 
 struct S_009fd390_Class
 {
-    int __thiscall FUN_009fd390();
 
     int unk00;
     int unk04;
@@ -7243,13 +7064,66 @@ struct S_009fe370_Class
 
     int __thiscall LockAndProcess();
 };
+// Waits for an async I/O completion event, retrieves the next request, and returns its result, context, user data, and actual bytes read.
+// @fnv 0x009fe570
+long CAsyncIo::WaitForCompletion(unsigned long dwTimeout, void** ppContext, unsigned long* pUser, long* pcbActual)
+{
+    if (!ppContext)
+        return 0x80004003;  // E_POINTER
+    if (!pUser)
+        return 0x80004003;
+    if (!pcbActual)
+        return 0x80004003;
+
+    *ppContext = 0;
+
+    for (;;)
+    {
+        if (!m_evDone.Wait(dwTimeout))
+        {
+            return 0x8004022E;  // VFW_E_TIMEOUT
+        }
+
+        CAsyncRequest* pRequest = ((::CAsyncRequest *)(reinterpret_cast<::S_009fe370_Class *>(this)->LockAndProcess()));
+        if (pRequest)
+        {
+            long hr = pRequest->GetHResult();
+            if (hr == 1)
+            {  // S_FALSE: short read, fine if it ends at the end of the stream
+                if ((pRequest->GetActualLength() + pRequest->GetStart()) == Size())
+                {
+                    hr = 0;
+                }
+                else
+                {
+                    hr = 0x80004005;  // E_FAIL
+                }
+            }
+
+            *pcbActual = pRequest->GetActualLength();
+            *ppContext = pRequest->GetContext();
+            *pUser = pRequest->GetUser();
+
+            delete pRequest;
+            return hr;
+        }
+        else
+        {
+            CAutoLock lck(&m_csLists);
+            if (m_bFlushing && !m_bWaiting)
+            {
+                return 0x80040227;  // VFW_E_WRONG_STATE
+            }
+        }
+    }
+}
 
 // @fnv 0x009fe370
 int S_009fe370_Class::LockAndProcess()
 {
     S_009fe370_AutoLock lock(&unk1c);
 
-    int result = unk50.FUN_009fd390();
+    int result = reinterpret_cast<::FUN_009fd390_cls *>(&(unk50))->FUN_009fd390();
 
     if (unk50.unk08 == 0)
     {
@@ -7264,7 +7138,6 @@ int S_009fe370_Class::LockAndProcess()
 
 struct S_009fe420_Item
 {
-    void __thiscall FUN_009fdf20();
 };
 
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
@@ -7331,34 +7204,8 @@ struct S_009fe420_Cls
     int unk74;
     void* unk78;
 
-    S_009fe420_Item* __thiscall FUN_009fe2f0();
-    void __thiscall FUN_009fe3f0(S_009fe420_Item* item);
     void __thiscall ProcessItems();
 };
-
-// Repeatedly takes an item from FUN_009fe2f0, runs FUN_009fdf20 on it, calls FUN_009fe3f0, and sets event unk78 when unk70 reaches 0 and unk74 is set.
-// @fnv 0x009fe420
-void __thiscall S_009fe420_Cls::ProcessItems()
-{
-    for (;;)
-    {
-        S_009fe420_Item* item;
-        {
-            S_009fe420_Lock lock(&unk1C);
-            item = FUN_009fe2f0();
-            if (!item)
-                break;
-            unk70 += 1;
-        }
-        item->FUN_009fdf20();
-        {
-            S_009fe420_Lock lock(&unk1C);
-            FUN_009fe3f0(item);
-            if (--unk70 == 0 && unk74)
-                SetEvent(unk78);
-        }
-    }
-}
 
 namespace fnv_009fabb0 {
 extern "C" __declspec(dllimport) int __stdcall CloseHandle(void* hObject);
@@ -7437,10 +7284,8 @@ FUN_009fabb0::~FUN_009fabb0()
 }  // namespace fnv_009fabb0
 
 namespace fnv_009fac30 {
-extern int DAT_01093bbc;
 extern int DAT_01093bac;
 
-int __stdcall GetObjectPointer(int* a, int b);
 
 struct InterfaceOwner
 {
@@ -7474,21 +7319,21 @@ struct InterfaceOwner
 // @fnv 0x009fac30
 void __stdcall FUN_009fac30(int a, int b, int c)
 {
-    int result = FUN_009f9980(b, &DAT_01093bbc);
+    int result = ::FUN_009f9980((const void *)(b), &DAT_01093bbc);
     InterfaceOwner* obj = (InterfaceOwner*)a;
 
     if (result == 0)
     {
-        result = FUN_009f9980(b, &DAT_01093bac);
+        result = ::FUN_009f9980((const void *)(b), &DAT_01093bac);
 
         if (result == 0 || obj->interfaceEnabled5c == 0)
         {
-            FUN_009fcf10((int)obj, b, c);
+            ::fnv_009fcf10::FUN_009fcf10((int)obj, b, (int *)(c));
             return;
         }
     }
 
-    GetObjectPointer(obj ? &obj->interface0c : 0, c);
+    ::GetObjectPointer((::FUN_009fceb0_object *)(int *)(obj ? &obj->interface0c : 0), (int *)(c));
 }
 }  // namespace fnv_009fac30
 
@@ -7646,7 +7491,6 @@ struct AsyncIo
     AsyncEvent m_evAllDone;
 
     AsyncRequest* GetWorkItem();
-    long PutDoneItem(AsyncRequest* pRequest);
     long FUN_009fe690();
 };
 
@@ -7662,7 +7506,7 @@ long AsyncIo::FUN_009fe690()
         AsyncRequest* preq;
         while ((preq = GetWorkItem()) != 0)
         {
-            PutDoneItem(preq);
+            reinterpret_cast<::FUN_009fe3f0_class *>(this)->FUN_009fe3f0((int)(preq));
         }
 
         if (m_cItemsOut > 0)
@@ -7723,7 +7567,6 @@ class S009faf50_FUN_009faf50_base
     virtual void v4();
     int unk04;
     int unk08;
-    void unk_fae70();
 };
 
 class S009faf50_FUN_009faf50_rec
@@ -7786,7 +7629,7 @@ int __stdcall FUN_009faf50(S009faf50_FUN_009faf50_rec* self)
             ((S009faf50_FUN_009faf50_owner*)((char*)self - 0xc))->v4();
             ok = 1;
         }
-        ((S009faf50_FUN_009faf50_owner*)self)->unk_fae70();
+        reinterpret_cast<::FUN_009fae70_class *>((((S009faf50_FUN_009faf50_owner*)self)))->FUN_009fae70();
     }
     if (ok != 0)
     {
@@ -7804,7 +7647,6 @@ extern "C" __declspec(dllimport) long __stdcall CoCreateInstance(const MediaGuid
 
 extern const MediaGuid DAT_0107cb08;
 extern const MediaGuid DAT_01093b8c;
-int __stdcall WriteRecordSet(int a, void* b, int c);
 
 struct S_009fba40_A
 {
@@ -7831,7 +7673,7 @@ int __stdcall FUN_009fba40(void* self)
     PinIface* p;
     if (CoCreateInstance(DAT_0107cb08, 0, 1, DAT_01093b8c, (void**)&p) >= 0)
     {
-        WriteRecordSet(r, p, 1);
+        ::fnv_009fb290::WriteRecordSet((const ::fnv_009fb290::RecordSet *)(r), (::fnv_009fb290::RecordWriter *)(p), 1);
         p->Release();
     }
     CoFreeUnusedLibraries();
@@ -7877,7 +7719,6 @@ class S009fe2f0_SubProbe38
 {
   public:
     int m_00, m_04, m_08, m_0c, m_10, m_14, m_18, m_1c, m_20, m_24, m_28, m_2c;
-    int Probe();
 };
 
 class S009fe2f0_FUN_009fe2f0_cls
@@ -7891,13 +7732,36 @@ class S009fe2f0_FUN_009fe2f0_cls
 
     int FUN_009fe2f0();
 };
+// Repeatedly takes an item from FUN_009fe2f0, runs FUN_009fdf20 on it, calls FUN_009fe3f0, and sets event unk78 when unk70 reaches 0 and unk74 is set.
+// @fnv 0x009fe420
+void __thiscall S_009fe420_Cls::ProcessItems()
+{
+    for (;;)
+    {
+        S_009fe420_Item* item;
+        {
+            S_009fe420_Lock lock(&unk1C);
+            item = ((::S_009fe420_Item *)(reinterpret_cast<::S009fe2f0_FUN_009fe2f0_cls *>(this)->FUN_009fe2f0()));
+            if (!item)
+                break;
+            unk70 += 1;
+        }
+        reinterpret_cast<::FUN_009fdf20_cls *>((item))->FUN_009fdf20();
+        {
+            S_009fe420_Lock lock(&unk1C);
+            reinterpret_cast<::FUN_009fe3f0_class *>(this)->FUN_009fe3f0((int)(item));
+            if (--unk70 == 0 && unk74)
+                SetEvent(unk78);
+        }
+    }
+}
 
 // Locks m_1c, calls m_38.Probe(), resets m_68 event if m_38.m_08 is zero, and returns the probe result.
 // @fnv 0x009fe2f0
 int S009fe2f0_FUN_009fe2f0_cls::FUN_009fe2f0()
 {
     S009fe2f0_BSAutoCSLock6153 lock(&m_1c);
-    int hr = m_38.Probe();
+    int hr = reinterpret_cast<::FUN_009fd390_cls *>(&(m_38))->FUN_009fd390();
     if (m_38.m_08 == 0)
     {
         ResetEvent(m_68);
@@ -7922,6 +7786,26 @@ struct AsyncRequestQueue
 
     long FUN_009fe7e0(void* request);
 };
+// Allocates a request, initializes it with the given parameters, and queues it on the host, returning the HRESULT.
+// @fnv 0x009fe960
+int Host_9fe960::FUN_009fe960(int a1, int a2, int a3, int a4, int a5, int a6, int a7)
+{
+    if (a4)
+    {
+        if ((a1 & (int)(m_p18->GetAlign4() - 1)) || (a3 & (int)(m_p18->GetAlign4() - 1)) ||
+            (a5 & (int)(m_p18->GetAlign4() - 1)))
+            return 0x8004020e;
+    }
+    Req_9fe960* pReq = (Req_9fe960*)::FUN_00401000(0x28);
+    if (!pReq)
+        return 0x8007000e;
+    int hr = reinterpret_cast<::FUN_009fded0_cls *>((pReq))->FUN_009fded0((int)(this), (int)(m_p18), a1, a2, a3, a4, a5, a6, a7);
+    if (hr < 0 || (hr = ((int)(reinterpret_cast<::AsyncRequestQueue *>(this)->FUN_009fe7e0(pReq))), hr < 0))
+    {
+        ::FUN_00401030(pReq);
+    }
+    return hr;
+}
 
 // @fnv 0x009fe7e0
 long AsyncRequestQueue::FUN_009fe7e0(void* request)
@@ -8090,7 +7974,7 @@ int __stdcall FUN_009fbab0(void* self)
     hr = CoCreateInstance(DAT_0107cb08, 0, 1, DAT_01093b8c, (void**)&p);
     if (hr >= 0)
     {
-        hr = WriteRecordSet(r, p, 0);
+        hr = ::fnv_009fb290::WriteRecordSet((const ::fnv_009fb290::RecordSet *)(r), (::fnv_009fb290::RecordWriter *)(p), 0);
         p->Release();
     }
     CoFreeUnusedLibraries();
@@ -8100,7 +7984,6 @@ int __stdcall FUN_009fbab0(void* self)
 
 struct ResetMediaType_009fc390
 {
-    void FUN_009f9a30();
 };
 struct PinConnectionView_009fc390
 {
@@ -8130,13 +8013,12 @@ int __stdcall FUN_009fc390(PinConnectionView_009fc390* owner, S_009f9bb0_Rec* ta
         return 0;
     }
 
-    reinterpret_cast<ResetMediaType_009fc390*>(target)->FUN_009f9a30();
+    reinterpret_cast<::FUN_009f9a30_class *>((reinterpret_cast<ResetMediaType_009fc390*>(target)))->FUN_009f9a30();
     return 0x80040209;
 }
 
 struct S009fd3c0_FUN_009fa1f0_class
 {
-    void FUN_009fa1f0();
 };
 
 // Stores four data pointers at offsets 0, 8, 0x14 and 0x18, then calls FUN_009fa1f0 on the subobject at offset 8.
@@ -8150,12 +8032,11 @@ __declspec(noinline) void FUN_009fddd0_class::FUN_009fd3c0()
     *reinterpret_cast<int*>(base + 0x14) = reinterpret_cast<int>(&DAT_01093d9c);
     *reinterpret_cast<int*>(base + 0x18) = reinterpret_cast<int>(&DAT_01093d84);
 
-    return reinterpret_cast<S009fd3c0_FUN_009fa1f0_class*>(base + 8)->FUN_009fa1f0();
+    return reinterpret_cast<::FUN_009fa1f0_cls *>((reinterpret_cast<S009fd3c0_FUN_009fa1f0_class*>(base + 8)))->FUN_009fa1f0_cls::~FUN_009fa1f0_cls();
 }
 
 struct ReleaseWakeCall
 {
-    void FUN_009fae70();
 };
 
 struct Lk_Outer
@@ -8216,7 +8097,7 @@ int __stdcall FUN_009fc480(int apOwner, Lk_Item* apItem)
         o->head = apItem;
         o->count += 1;
         if (o->p28)
-            ((ReleaseWakeCall*)((char*)o - 0xc))->FUN_009fae70();
+            reinterpret_cast<::FUN_009fae70_class *>((((ReleaseWakeCall*)((char*)o - 0xc))))->FUN_009fae70();
         int cnt = o->count;
         if (o->flag48 && cnt == o->p30)
         {
@@ -8250,6 +8131,15 @@ struct AllocatorShell_9fcb90 : S9fcc60_Alloc
 {
     int __thiscall FUN_009fcb90(int a, int b, int c, int d, int e);
 };
+// @fnv 0x009fcc20
+int __thiscall FUN_009fcc20_class::Initialize(int a, int b, int c)
+{
+    reinterpret_cast<::AllocatorShell_9fcb90 *>(this)->FUN_009fcb90(a, b, c, 1, 1);
+    *(int*)this = (int)&DAT_01093d28;
+    *(int*)((char*)this + 0xc) = (int)&DAT_01093cf8;
+    *(int*)((char*)this + 0x60) = 0;
+    return (int)this;
+}
 
 // Initializes the allocator by calling FUN_009fcee0, zeroing fields, and optionally allocating a handle via DAT_00fdf0b4.
 // @fnv 0x009fcb90
@@ -8257,7 +8147,7 @@ int __thiscall AllocatorShell_9fcb90::FUN_009fcb90(int a, int b, int apError, in
 {
     S9fcc60_Alloc* fields = this;
 
-    reinterpret_cast<AllocatorInitView*>(this)->FUN_009fcee0(a, b);
+    reinterpret_cast<::FUN_009fcee0_class *>((reinterpret_cast<AllocatorInitView*>(this)))->FUN_009fcee0(a, b);
     DAT_00fdf054(&fields->m_CritSec);
 
     int value = e;
@@ -8290,12 +8180,20 @@ int __thiscall AllocatorShell_9fcb90::FUN_009fcb90(int a, int b, int apError, in
     return reinterpret_cast<int>(this);
 }
 
-extern int DAT_011f3298;
 
 struct ObjectLifetime : FUN_009fce60_class
 {
     ObjectLifetime* __thiscall FUN_009fce60(int);
 };
+// Calls FUN_009fce60 on the object at offset 4 with a, then stores b (or this if b is null) at offset 4 and zero at offset 8, returning this.
+// @fnv 0x009fcee0
+int* __thiscall FUN_009fcee0_class::FUN_009fcee0(int aiValue, int apParent)
+{
+    reinterpret_cast<::ObjectLifetime *>((((FUN_009fce60_class*)((char*)this + 4))))->FUN_009fce60(aiValue);
+    *(int*)((char*)this + 4) = apParent ? apParent : (int)this;
+    *(int*)((char*)this + 8) = 0;
+    return (int*)this;
+}
 
 // @fnv 0x009fce60
 ObjectLifetime* __thiscall ObjectLifetime::FUN_009fce60(int)

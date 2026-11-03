@@ -2,15 +2,17 @@
 #define FNV_COMBATACTION_DECLS_H
 
 
+#include "fnv/symbols_005b5000.h"
 void* __cdecl operator new(unsigned int size);
 void __cdecl operator delete(void* memory);
-int __cdecl Warning(const char* format, ...);
 
 class UnsignedIdHandle;
 struct CombatWorldStateListNode
 {
     UnsignedIdHandle* item;
     CombatWorldStateListNode* next;
+public:
+    ::CombatWorldStateListNode *GetNext();
 };
 
 class CombatAction

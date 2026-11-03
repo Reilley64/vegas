@@ -2,11 +2,121 @@
 // src/fallout/interface/fovatseffectmanager_od_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/interface/fovatseffectmanager.cpp functions whose prologue its flags cannot
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
-extern unsigned __int64 selected_target_masks[43];
+#include <new>
+#include "fnv/decl/ActorStandIn008a.h"
+#include "fnv/decl/BGSExplosion.h"
+#include "fnv/decl/BSFaceGenNiNode.h"
+#include "fnv/decl/BSRenderedTexture.h"
+#include "fnv/decl/BSShaderManager.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/CameraState4E9.h"
+#include "fnv/decl/EquipVisibility.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_0041fd00_shell.h"
+#include "fnv/decl/FUN_00422820_shell.h"
+#include "fnv/decl/FUN_00437bd0_stub.h"
+#include "fnv/decl/FUN_00437bf0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00456630_helper.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004a0fd0_shell.h"
+#include "fnv/decl/FUN_004a1040_Helper.h"
+#include "fnv/decl/FUN_004bc320_shell.h"
+#include "fnv/decl/FUN_004ebbc0_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005e50f0_Obj.h"
+#include "fnv/decl/FUN_00608d80_shell.h"
+#include "fnv/decl/FUN_00800740_Class.h"
+#include "fnv/decl/FUN_008007b0_Class.h"
+#include "fnv/decl/FUN_00800820_Class.h"
+#include "fnv/decl/FUN_00800870_Class.h"
+#include "fnv/decl/FUN_00800900_cls.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_0087f3d0_shell.h"
+#include "fnv/decl/FUN_00881650_shell.h"
+#include "fnv/decl/FUN_00893530_shell.h"
+#include "fnv/decl/FUN_008a1710_shell.h"
+#include "fnv/decl/FUN_008ace90_shell.h"
+#include "fnv/decl/FUN_008b3b90_shell.h"
+#include "fnv/decl/FUN_008bc790_shell.h"
+#include "fnv/decl/FUN_00931fb0_shell.h"
+#include "fnv/decl/FUN_009344a0_shell.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00c4edb0_Class.h"
+#include "fnv/decl/FleeActorEntry.h"
+#include "fnv/decl/HostActor.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/MiddleLowProcess.h"
+#include "fnv/decl/NiCamera.h"
+#include "fnv/decl/PropertyOwner.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S694a0.h"
+#include "fnv/decl/S_00c4ed70_Class.h"
+#include "fnv/decl/S_00c4edf0_cls.h"
+#include "fnv/decl/StrOwner.h"
+#include "fnv/decl/SystemColorManager.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/Target.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/TeleportableReference.h"
+#include "fnv/decl/This8022.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/bhkCollisionObject.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_00457620__FUN_00457620_cls.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_004a03c0__DD.h"
+#include "fnv/decl/fnv_004a3a20__FUN_004a3a20_shell.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_008006b0__FUN_008006b0_Class.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/decl/fnv_009334b0__FUN_009334b0_shell.h"
+#include "fnv/decl/s56ae10__Owner.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0043c000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_0045c000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_004a0000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_004e9000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00574000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005e5000.h"
+#include "fnv/symbols_00718000.h"
+#include "fnv/symbols_00b6b000.h"
+#include "fnv/symbols_00ba9000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_011ae000.h"
+#include "fnv/symbols_011db000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01200000.h"
+#include "fnv/symbols_01201000.h"
+#include "fnv/symbols_01267000.h"
 #include "fovatseffectmanager_targets.h"
 #pragma optimize("", off)
 #include "fovatseffectmanager_perks.h"
-void ApplyPerkModifiers(int entryPoint, Actor* actor, ...);
 #include "fovatseffectmanager_effects.h"
 
 struct Struct801420
@@ -14,43 +124,14 @@ struct Struct801420
     int f0;
     void FUN_00801420(unsigned char a, int b);
     void FUN_00801450(unsigned char a, int b);
-    void FUN_00801880();
 };
-// @fnv 0x00801420
-void Struct801420::FUN_00801420(unsigned char a, int b)
-{
-    if (f0 == 0)
-        FUN_00801450(a, b);
-    else
-        FUN_00801880();
-}
-
 extern "C" unsigned char __cdecl FUN_00709d00();
 
 struct FOVATSEffectManager_00801a60
 {
     void FUN_00801ad0(int, int, int, unsigned char);
-    void FUN_00801bb0(int, int, int, unsigned char);
     void FUN_00801a60(int, int, int, unsigned char);
 };
-
-// @fnv 0x00801a60
-void FOVATSEffectManager_00801a60::FUN_00801a60(int a, int b, int c, unsigned char d)
-{
-    if (FUN_00709d00())
-        return;
-    if (reinterpret_cast<unsigned char*>(this)[0x129])
-    {
-        if (reinterpret_cast<unsigned char*>(this)[0x2b4])
-        {
-            FUN_00801ad0(a, b, c, d);
-        }
-        else
-        {
-            FUN_00801bb0(a, b, c, d);
-        }
-    }
-}
 
 struct SoundPlaybackHandle
 {
@@ -60,7 +141,6 @@ struct SoundPlaybackHandle
     virtual void FUN_0000000C();
     virtual void FUN_00000010();
     virtual void Play();
-    void SetFormType(int);
 };
 
 struct S5 : SoundPlaybackHandle
@@ -69,11 +149,12 @@ struct S5 : SoundPlaybackHandle
 
 struct S4
 {
-    S5* FUN_004ebbc0(int);
 };
 
 struct ImageSpaceManager : S4
 {
+public:
+    static ::ImageSpaceManager *FUN_004e3270();
 };
 
 struct FOVATSEffectManager_008019d0
@@ -81,16 +162,15 @@ struct FOVATSEffectManager_008019d0
     void FUN_008019d0();
 };
 
-ImageSpaceManager* __cdecl FUN_004e3270(void);
 extern int DAT_012007fc;
 
 // @fnv 0x008019d0
 void FOVATSEffectManager_008019d0::FUN_008019d0()
 {
-    FUN_004e3270()->FUN_004ebbc0(0x0A)->SetFormType(0);
-    FUN_004e3270()->FUN_004ebbc0(0x0B)->SetFormType(0);
-    FUN_004e3270()->FUN_004ebbc0(0x0A)->Play();
-    FUN_004e3270()->FUN_004ebbc0(0x0B)->Play();
+    reinterpret_cast<::FUN_004f15a0_shell *>((((::S5 *)(reinterpret_cast<::FUN_004ebbc0_shell *>((::ImageSpaceManager::FUN_004e3270()))->FUN_004ebbc0(0x0A)))))->FUN_004f15a0(0);
+    reinterpret_cast<::FUN_004f15a0_shell *>((((::S5 *)(reinterpret_cast<::FUN_004ebbc0_shell *>((::ImageSpaceManager::FUN_004e3270()))->FUN_004ebbc0(0x0B)))))->FUN_004f15a0(0);
+    ((::S5 *)(reinterpret_cast<::FUN_004ebbc0_shell *>((::ImageSpaceManager::FUN_004e3270()))->FUN_004ebbc0(0x0A)))->Play();
+    ((::S5 *)(reinterpret_cast<::FUN_004ebbc0_shell *>((::ImageSpaceManager::FUN_004e3270()))->FUN_004ebbc0(0x0B)))->Play();
     DAT_012007fc = 0;
 }
 
@@ -98,12 +178,10 @@ struct NiAVObject;
 
 struct RefLike
 {
-    unsigned int GetFlags();
 };
 
 struct FormLike
 {
-    unsigned int FUN_0043b540();
 };
 
 struct NodeLike
@@ -133,27 +211,18 @@ struct Vec3Like
 
 struct CellLike
 {
-    unsigned int FUN_009611e0();
 };
 
 struct TESLike
 {
-    CellLike* FUN_00457620(Vec3Like* pos);
 };
 
 struct ExtraLike
 {
-    unsigned int FUN_00c85c80(int a);
 };
 
-extern TESLike* g_TES;
 
-void* FUN_004b59f0(const void* p);
-void* FUN_004b5950(const void* p);
-RefLike* FUN_004b5a20(void* p);
-void FUN_00458620(Vec3Like* out, int v);
 void* FUN_004b5ad0(NiAVObject* p);
-void* FUN_004b5a80(const void* p);
 
 // @fnv 0x004b5820
 unsigned int FUN_004b5820(FormLike* form)
@@ -165,19 +234,19 @@ unsigned int FUN_004b5820(FormLike* form)
         void* objTmp = !node_ ? FUN_004b5950(form) : 0;
         if (node_)
         {
-            RefLike* ref = FUN_004b5a20(node_);
+            RefLike* ref = ((::RefLike *)(::bhkCollisionObject::GetFromRigidBody((const ::hkpRigidBody *)(node_))));
             if (ref)
             {
-                result5 = ref->GetFlags();
+                result5 = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((ref))->GetName()));
             }
-            else if (FilterHolder(form->FUN_0043b540()).FUN_004a3a20() == 1)
+            else if (((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::FilterHolder &)(FilterHolder(::FUN_0043b540((char *)(form)))))->FUN_004a3a20())) == 1)
             {
                 Vec3Like pos4;
-                FUN_00458620(&pos4, ((NodeLike*)node_)->FUN_004b4ec0());
-                CellLike* cellA = g_TES->FUN_00457620(&pos4);
-                if (cellA && cellA->FUN_009611e0())
+                ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&pos4)), (*(const ::hkVector4 *)(((NodeLike*)node_)->FUN_004b4ec0())));
+                CellLike* cellA = ((::CellLike *)(reinterpret_cast<::fnv_00457620::FUN_00457620_cls *>(((*reinterpret_cast<::TESLike * *>(&::g_TES))))->FUN_00457620((const float *)(::Vec3Like *)(&pos4))));
+                if (cellA && ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((cellA))->FUN_009611e0())))
                 {
-                    result5 = cellA->FUN_009611e0();
+                    result5 = ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((cellA))->FUN_009611e0()));
                 }
             }
         }
@@ -186,14 +255,14 @@ unsigned int FUN_004b5820(FormLike* form)
             RefLike* ref2 = (RefLike*)FUN_004b5ad0((NiAVObject*)objTmp);
             if (ref2)
             {
-                result5 = ref2->GetFlags();
+                result5 = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((ref2))->GetName()));
             }
             if (!result5)
             {
                 ExtraLike* extra5 = (ExtraLike*)FUN_004b5a80(objTmp);
                 if (extra5)
                 {
-                    result5 = extra5->FUN_00c85c80(0);
+                    result5 = ((unsigned int)(reinterpret_cast<::PropertyOwner *>((extra5))->FUN_00c85c80((void *)(0))));
                 }
             }
         }
@@ -204,21 +273,15 @@ unsigned int FUN_004b5820(FormLike* form)
 struct VQueryObj
 {
     ~VQueryObj();
-    unsigned char FUN_00c4edf0(unsigned int* result, int wait);
 };
 
 struct VRenderer
 {
-    void FUN_004a0370();
-    void FUN_004a03c0();
 };
-VRenderer* __cdecl FUN_0043c4b0();
 
 struct VTimeGlobal
 {
-    unsigned int FUN_00825c00();
 };
-extern VTimeGlobal g_timeGlobal;
 
 struct VTarget
 {
@@ -370,7 +433,6 @@ struct VNodePtr
     operator void*() const;
 };
 
-void __cdecl VDebugPrint(const char* fmt, ...);
 
 struct VATSEffectStub
 {
@@ -501,13 +563,6 @@ struct VATSEffectStub
     unsigned int unk2c8;
 
     void FUN_00800370();
-    void FUN_008006b0();
-    void FUN_00800740(float t);
-    void SetScaledValues(float t);
-    void FUN_00800820(float t);
-    void UpdateProgress(float t);
-    void FUN_00800900(float t);
-    void FUN_00800ac0(int a, int b, int c);
 };
 
 // @fnv 0x00800370
@@ -519,44 +574,44 @@ void VATSEffectStub::FUN_00800370()
         unk2b5 = 0;
         return;
     }
-    float time = (float)g_timeGlobal.FUN_00825c00();
+    float time = (float)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::VTimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00();
     if (unk2b4)
     {
-        FUN_00800900(time);
+        reinterpret_cast<::FUN_00800900_cls *>(this)->FUN_00800900(time);
     }
     else
     {
         if (unk284)
         {
-            UpdateProgress(time);
+            reinterpret_cast<::FUN_00800870_Class *>(this)->UpdateProgress(time);
         }
         else if (time > unk294)
         {
-            FUN_008006b0();
+            reinterpret_cast<::fnv_008006b0::FUN_008006b0_Class *>(this)->FUN_008006b0();
         }
-        SetScaledValues(time);
+        reinterpret_cast<::FUN_008007b0_Class *>(this)->SetScaledValues(time);
         if (state == 1 && unk10 != -1)
         {
-            FUN_00800820(time);
+            reinterpret_cast<::FUN_00800820_Class *>(this)->FUN_00800820(time);
         }
     }
     if (unk298)
     {
-        FUN_00800740(time);
+        reinterpret_cast<::FUN_00800740_Class *>(this)->FUN_00800740(time);
     }
     if (target && target->v22c(0))
     {
-        FUN_00800ac0(0, -1, 0);
+        reinterpret_cast<::Target *>(this)->FUN_00800ac0((::TargetActor *)(0), -1, 0);
     }
-    VDebugPrint("====== VATSEffectOnIdle ======");
+    ::FUN_0040fbe0();
     for (unsigned int i = 0; i < 16; i++)
     {
         if (node && queriesA[i] && queriesB[i])
         {
-            FUN_0043c4b0()->FUN_004a0370();
+            ::FUN_004a0370((char *)(((::VRenderer *)(::FUN_0043c4b0()))));
             unsigned int a;
             unsigned int b;
-            if (queriesA[i]->FUN_00c4edf0(&a, 1) && queriesB[i]->FUN_00c4edf0(&b, 1) && !done[i])
+            if (((unsigned char)(reinterpret_cast<::S_00c4edf0_cls *>((queriesA[i]))->FUN_00c4edf0((int)(&a), 1))) && ((unsigned char)(reinterpret_cast<::S_00c4edf0_cls *>((queriesB[i]))->FUN_00c4edf0((int)(&b), 1))) && !done[i])
             {
                 delete queriesA[i];
                 queriesA[i] = 0;
@@ -567,7 +622,7 @@ void VATSEffectStub::FUN_00800370()
                 resultA[i] = a;
                 resultB[i] = b * unk2c8;
             }
-            FUN_0043c4b0()->FUN_004a03c0();
+            reinterpret_cast<::fnv_004a03c0::DD *>((((::VRenderer *)(::FUN_0043c4b0()))))->FUN_004a03c0();
         }
     }
 }
@@ -580,28 +635,16 @@ struct Str8
 };
 struct Renderer
 {
-    void M4e9bb0(void* anim);
 };
-Renderer* GetRenderer();
 struct AnimData
 {
-    void* M45bbe0();
 };
 struct Obj
 {
-    void M4a0fd0(const char* s);
-    void M41fd00(AnimData* a);
-    void Ma694a0(void* p);
 };
 struct FaceNode
 {
-    Obj* M8d80e0();
-    AnimData* GetAnimationData();
 };
-FaceNode* GetFacialAnimationNode();
-void __cdecl SetFlag(const char* s, int f, int on);
-void __cdecl ApplyAnim(AnimData* a, const char* s, Obj* o);
-void __cdecl ApplyAnim2(AnimData* a, const char* s, int z);
 struct S801880
 {
     int unk00;
@@ -627,21 +670,29 @@ struct S801880
     Str8 name;
     void FUN_00801880();
 };
+// @fnv 0x00801420
+void Struct801420::FUN_00801420(unsigned char a, int b)
+{
+    if (f0 == 0)
+        FUN_00801450(a, b);
+    else
+        reinterpret_cast<::S801880 *>(this)->FUN_00801880();
+}
 
 // @fnv 0x00801880
 void S801880::FUN_00801880()
 {
     if (this->count > 0)
     {
-        Renderer* renderer = GetRenderer();
-        FaceNode* node5 = GetFacialAnimationNode();
+        Renderer* renderer = ((::Renderer *)(::FUN_0043c4b0()));
+        FaceNode* node5 = ((::FaceNode *)(::FUN_0045c670()));
         int unk5 = this->unk04;
-        Obj* objTmp = node5->M8d80e0();
-        objTmp->M4a0fd0(this->name);
-        AnimData* anim = node5->GetAnimationData();
-        GetRenderer()->M4e9bb0(anim);
-        objTmp->M41fd00(anim);
-        objTmp->Ma694a0(anim->M45bbe0());
+        Obj* objTmp = ((::Obj *)(reinterpret_cast<::MiddleLowProcess *>((node5))->GetProcessInteger()));
+        reinterpret_cast<::FUN_004a0fd0_shell *>((objTmp))->FUN_004a0fd0((::NiNode *)(this->name));
+        AnimData* anim = ((::AnimData *)(reinterpret_cast<::BSFaceGenNiNode *>((node5))->GetAnimationData()));
+        reinterpret_cast<::CameraState4E9 *>((((::Renderer *)(::FUN_0043c4b0()))))->SetFromCamera((*(const ::Camera4E9 *)(anim)));
+        reinterpret_cast<::FUN_0041fd00_shell *>((objTmp))->FUN_0041fd00((int)(anim));
+        reinterpret_cast<::S694a0 *>((objTmp))->FUN_00a694a0(((void *)&(reinterpret_cast<::NiCamera *>((anim))->GetViewFrustum())));
         bool found6 = false;
         const char* sel3 = 0;
         for (int i4 = 0; i4 < this->count; i4++)
@@ -649,16 +700,16 @@ void S801880::FUN_00801880()
             const char* s4 = this->names[i4];
             if (i4 == this->selected)
             {
-                SetFlag(s4, 0x31, 1);
+                ::fnv_00ba91a0::FUN_00ba91a0((::fnv_00ba91a0::Obj *)(s4), 0x31, 1);
                 sel3 = s4;
                 found6 = true;
             }
-            ApplyAnim(anim, s4, objTmp);
+            ::FUN_00b6bee0(anim, (void *)(s4), (::BSShaderAccumulator *)(objTmp));
         }
-        ApplyAnim2(anim, this->name, 0);
-        objTmp->M4a0fd0(0);
+        ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(anim), (::BSShaderAccumulator *)(this->name), 0);
+        reinterpret_cast<::FUN_004a0fd0_shell *>((objTmp))->FUN_004a0fd0((::NiNode *)(0));
         if (found6)
-            SetFlag(sel3, 0x31, 0);
+            ::fnv_00ba91a0::FUN_00ba91a0((::fnv_00ba91a0::Obj *)(sel3), 0x31, 0);
     }
 }
 
@@ -673,12 +724,10 @@ struct Vec4Tmp_00801ad0
 
 struct Holder_00801ad0
 {
-    float* FUN_00403e20();
 };
 
 struct Obj719_00801ad0
 {
-    void FUN_00719060();
 };
 
 struct Obj6e5_00801ad0
@@ -693,50 +742,37 @@ struct Obj0664_00801ad0
 
 struct Actor_00801ad0
 {
-    void* FUN_004bc320(int a);
 };
 
 struct S5_00801ad0
 {
-    void FUN_004f15a0();
 };
 
 struct Mgr_00801ad0
 {
-    S5_00801ad0* FUN_004ebbc0();
 };
 
-extern Holder_00801ad0 DAT_011db7b4;
-extern Holder_00801ad0 DAT_011db694;
-extern int DAT_01201f40;
-extern int DAT_01201f44;
-extern unsigned int DAT_01201f30;
-extern unsigned int DAT_01201f34;
-extern unsigned int DAT_01201f38;
-extern unsigned int DAT_01201f3c;
 extern float DAT_01201f2c;
 extern float DAT_011ae614;
 extern float DAT_011ae618;
 
-Obj719_00801ad0* __stdcall FUN_00718b60(int, Vec4Tmp_00801ad0*);
-Mgr_00801ad0* __stdcall FUN_004e3270(int, int);
 
 // @fnv 0x00801ad0
 void FOVATSEffectManager_00801a60::FUN_00801ad0(int a0, int a1, int a2, unsigned char a3)
 {
     Vec4Tmp_00801ad0 tmp;
-    tmp.FUN_00414430(0.0f, 0.0f, 0.0f, 0.0f);
-    FUN_00718b60(1, &tmp)->FUN_00719060();
+    new ((void *)&(tmp)) ::ImageSpaceEffectParam(0.0f, 0.0f, 0.0f, 0.0f);
+    reinterpret_cast<::SystemColorManager *>((((::Obj719_00801ad0 *)(::FUN_00718b60()))))->GetColor({}, *(::NiColor *)nullptr);
     DAT_01201f2c = *(float*)((char*)this + 0x2bc);
-    DAT_011ae614 = *DAT_011db7b4.FUN_00403e20();
-    DAT_011ae618 = *DAT_011db694.FUN_00403e20();
-    DAT_01201f30 = tmp.d0;
-    DAT_01201f34 = tmp.d1;
-    DAT_01201f38 = tmp.d2;
-    DAT_01201f3c = tmp.d3;
-    ((Obj6e5_00801ad0*)&DAT_01201f40)->FUN_006e5cc0((char*)this + 0x2c4);
-    ((Obj0664_00801ad0*)&DAT_01201f44)->FUN_0066b0d0(((Actor_00801ad0*)a1)->FUN_004bc320(0));
-    FUN_004e3270(0xb, 1)->FUN_004ebbc0()->FUN_004f15a0();
+    DAT_011ae614 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Holder_00801ad0 *>(&::g_011db7b4))))));
+    DAT_011ae618 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Holder_00801ad0 *>(&::g_011db694))))));
+    (*reinterpret_cast<unsigned int *>(&::DAT_01201f30)) = tmp.d0;
+    (*reinterpret_cast<unsigned int *>(&::DAT_01201f34)) = tmp.d1;
+    (*reinterpret_cast<unsigned int *>(&::DAT_01201f38)) = tmp.d2;
+    (*reinterpret_cast<unsigned int *>(&::DAT_01201f3c)) = tmp.d3;
+    ((Obj6e5_00801ad0*)&(*reinterpret_cast<int *>(&::DAT_01201f40)))->FUN_006e5cc0((char*)this + 0x2c4);
+    ((Obj0664_00801ad0*)&(*reinterpret_cast<int *>(&::g_spBC0500Shared)))->FUN_0066b0d0(((void *)(reinterpret_cast<::FUN_004bc320_shell *>((((Actor_00801ad0*)a1)))->FUN_004bc320(0))));
+    reinterpret_cast<::FUN_004f15a0_shell *>((((::S5_00801ad0 *)(reinterpret_cast<::FUN_004ebbc0_shell *>((((::Mgr_00801ad0 *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_004ebbc0({})))))->FUN_004f15a0({});
 }
 
 struct FUN_00414430
@@ -751,7 +787,6 @@ struct ExtraRefraction
 };
 struct ExtraListRender
 {
-    ExtraRefraction* GetRefractionProperty();
 };
 struct RenderActor
 {
@@ -1020,7 +1055,6 @@ struct RenderActor
     virtual void v418();
     virtual void v41c();
     virtual float GetRefraction();
-    ExtraListRender* FUN_005d43c0();
 };
 struct RenderDevice
 {
@@ -1075,8 +1109,6 @@ struct FUN_004a4410
 {
     int handle;
     ~FUN_004a4410();
-    void FUN_00c4ed70();
-    void FUN_00c4edb0();
 };
 struct FUN_00c4ecf0
 {
@@ -1085,28 +1117,18 @@ struct FUN_00c4ecf0
 };
 struct RenderAccumulator
 {
-    void FUN_004a1040(int);
 };
 struct AccumulatorPtr
 {
     RenderAccumulator* value;
-    RenderAccumulator* FUN_00559450();
 };
 struct RenderTexture
 {
-    void* FUN_00b6b260();
 };
 extern unsigned char DAT_01200bf6, DAT_011fd86c;
-extern Actor* DAT_011dea3c;
-bool FUN_004e9510();
-void FUN_00b6b8d0(int, void*);
-void FUN_00b6b790();
-void FUN_00b4f450(int);
-void FUN_005b5e40(const char*);
 struct VATSRender : VATSEffectStub
 {
     AccumulatorPtr accumulator;
-    void FUN_00801420(unsigned char, int);
     void FUN_00800f30(RenderTexture*, int, unsigned char, int, int, unsigned char);
 };
 // @fnv 0x00800f30
@@ -1115,12 +1137,12 @@ void VATSRender::FUN_00800f30(RenderTexture* texture, int mode, unsigned char dr
 {
     if (((RenderActor*)target)->IsHidden(0))
         return;
-    RenderDevice* restore = (RenderDevice*)FUN_0043c4b0();
+    RenderDevice* restore = (RenderDevice*)((::VRenderer *)(::FUN_0043c4b0()));
     FUN_00414430 enabled(0.0f, 0.0f, 0.0f, 0.0f);
     restore->GetColor(&enabled);
     restore->SetColor(&FUN_00414430(0.0f, 0.0f, 0.0f, 0.0f));
     if (FUN_004e9510())
-        FUN_00b6b8d0(view, texture->FUN_00b6b260());
+        ::FUN_00b6b8d0(view, (::NiRenderTargetGroup *)(void *)(((void *)(reinterpret_cast<::BSRenderedTexture *>((texture))->GetGroup()))));
     DAT_01200bf6 = 1;
     DAT_011fd86c = 1;
     unsigned char refraction;
@@ -1131,9 +1153,9 @@ void VATSRender::FUN_00800f30(RenderTexture* texture, int mode, unsigned char dr
     unsigned char actor;
     ExtraRefraction* amount = 0;
     float renderer = 0.0f;
-    ApplyPerkModifiers(0x45, DAT_011dea3c, &renderer);
-    if (saved && saved->FUN_005d43c0() && renderer > 0.0)
-        amount = saved->FUN_005d43c0()->GetRefractionProperty();
+    ApplyPerkModifiers(0x45, (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)), &renderer);
+    if (saved && ((::ExtraListRender *)(reinterpret_cast<::FUN_005d43c0_ *>((saved))->FUN_005d43c0())) && renderer > 0.0)
+        amount = ((::ExtraRefraction *)(reinterpret_cast<::FUN_00422820_shell *>((((::ExtraListRender *)(reinterpret_cast<::FUN_005d43c0_ *>((saved))->FUN_005d43c0()))))->GetRefractionProperty()));
     actor = 0;
     float issued = 0.0f;
     if (amount && saved)
@@ -1150,7 +1172,7 @@ void VATSRender::FUN_00800f30(RenderTexture* texture, int mode, unsigned char dr
                 delete (FUN_004a4410*)queriesB[unk23c];
             queriesB[unk23c] = (VQueryObj*)new FUN_00c4ecf0;
             refraction = 1;
-            ((FUN_004a4410*)queriesB[unk23c])->FUN_00c4ed70();
+            reinterpret_cast<::S_00c4ed70_Class *>((((FUN_004a4410*)queriesB[unk23c])))->FUN_00c4ed70();
         }
         else if (mode == 1)
         {
@@ -1158,36 +1180,36 @@ void VATSRender::FUN_00800f30(RenderTexture* texture, int mode, unsigned char dr
                 delete (FUN_004a4410*)queriesA[unk23c];
             queriesA[unk23c] = (VQueryObj*)new FUN_00c4ecf0;
             refraction = 1;
-            ((FUN_004a4410*)queriesA[unk23c])->FUN_00c4ed70();
+            reinterpret_cast<::S_00c4ed70_Class *>((((FUN_004a4410*)queriesA[unk23c])))->FUN_00c4ed70();
         }
     }
-    accumulator.FUN_00559450()->FUN_004a1040(8);
-    FUN_00b4f450(8);
-    FUN_00801420(draw, flags);
-    FUN_00b4f450(0);
-    accumulator.FUN_00559450()->FUN_004a1040(0);
+    reinterpret_cast<::FUN_004a1040_Helper *>((((::RenderAccumulator *)(::FUN_00559450((int *)&(accumulator))))))->Set(8);
+    ::BSShaderManager::SetRenderMode(8);
+    reinterpret_cast<::Struct801420 *>(this)->FUN_00801420(draw, flags);
+    ::BSShaderManager::SetRenderMode(0);
+    reinterpret_cast<::FUN_004a1040_Helper *>((((::RenderAccumulator *)(::FUN_00559450((int *)&(accumulator))))))->Set(0);
     if (refraction)
     {
         if (mode == 2)
         {
             if (queriesB[unk23c])
             {
-                ((FUN_004a4410*)queriesB[unk23c])->FUN_00c4edb0();
+                reinterpret_cast<::FUN_00c4edb0_Class *>((((FUN_004a4410*)queriesB[unk23c])))->FUN_00c4edb0();
                 pending[unk23c] = 1;
             }
             else
-                FUN_005b5e40("pPartialLimbQuery is NULL even though we just issued one.  This should be impossible.");
+                ::FUN_005b5e40();
         }
         else if (mode == 1)
         {
             if (queriesA[unk23c])
-                ((FUN_004a4410*)queriesA[unk23c])->FUN_00c4edb0();
+                reinterpret_cast<::FUN_00c4edb0_Class *>((((FUN_004a4410*)queriesA[unk23c])))->FUN_00c4edb0();
             else
-                FUN_005b5e40("pEntireLimbQuery is NULL even though we just issued one.  This should be impossible.");
+                ::FUN_005b5e40();
         }
     }
     if (finish)
-        FUN_00b6b790();
+        ::BSRenderedTexture::EndAllAndResetRendererState();
     if (actor && saved)
         saved->AssignActorValue(1, issued);
     DAT_01200bf6 = 0;
@@ -1195,20 +1217,7 @@ void VATSRender::FUN_00800f30(RenderTexture* texture, int mode, unsigned char dr
     restore->SetColor(&enabled);
 }
 
-extern Holder_00801ad0 DAT_011db6e4;
-extern Holder_00801ad0 DAT_011db79c;
-extern Holder_00801ad0 DAT_011db714;
-extern Holder_00801ad0 DAT_011db720;
-extern Holder_00801ad0 DAT_011db778;
-extern Obj0664_00801ad0 DAT_01200818;
-extern Obj6e5_00801ad0 DAT_01200810;
-extern Vec4Tmp_00801ad0 DAT_01200800;
-extern float DAT_012007f0, DAT_012007f4, DAT_012007e8;
-extern unsigned char DAT_012007f8;
-extern int DAT_012007ec;
-extern float DAT_011ae5f8, DAT_011ae5ec, DAT_011ae5e8;
-extern float DAT_011ae5fc, DAT_011ae5f0, DAT_011ae5f4;
-extern const float DAT_01012054;
+extern float DAT_011ae5fc;
 struct EffectModeSetup
 {
     int unk00;
@@ -1397,21 +1406,38 @@ struct EffectModeSetup
     int unk2c4;
     void FUN_00801bb0(int, Actor_00801ad0*, int, unsigned char);
 };
+// @fnv 0x00801a60
+void FOVATSEffectManager_00801a60::FUN_00801a60(int a, int b, int c, unsigned char d)
+{
+    if (FUN_00709d00())
+        return;
+    if (reinterpret_cast<unsigned char*>(this)[0x129])
+    {
+        if (reinterpret_cast<unsigned char*>(this)[0x2b4])
+        {
+            FUN_00801ad0(a, b, c, d);
+        }
+        else
+        {
+            reinterpret_cast<::EffectModeSetup *>(this)->FUN_00801bb0(a, (::Actor_00801ad0 *)(b), c, d);
+        }
+    }
+}
 // @fnv 0x00801bb0
 void EffectModeSetup::FUN_00801bb0(int unused, Actor_00801ad0* actor, int unused2, unsigned char flag)
 {
     Vec4Tmp_00801ad0 vector;
-    vector.FUN_00414430(0.0f, 0.0f, 0.0f, 0.0f);
-    FUN_00718b60(1, &vector)->FUN_00719060();
+    new ((void *)&(vector)) ::ImageSpaceEffectParam(0.0f, 0.0f, 0.0f, 0.0f);
+    reinterpret_cast<::SystemColorManager *>((((::Obj719_00801ad0 *)(::FUN_00718b60()))))->GetColor({}, *(::NiColor *)nullptr);
     DAT_012007fc = 1;
-    FUN_004e3270(10, 1)->FUN_004ebbc0()->FUN_004f15a0();
-    DAT_01200818.FUN_0066b0d0(actor->FUN_004bc320(0));
+    reinterpret_cast<::FUN_004f15a0_shell *>((((::S5_00801ad0 *)(reinterpret_cast<::FUN_004ebbc0_shell *>((((::Mgr_00801ad0 *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_004ebbc0({})))))->FUN_004f15a0({});
+    (*reinterpret_cast<::Obj0664_00801ad0 *>(&::recon7fbee0::DAT_01200818)).FUN_0066b0d0(((void *)(reinterpret_cast<::FUN_004bc320_shell *>((actor))->FUN_004bc320(0))));
     if (enabled)
     {
-        DAT_012007f0 = *DAT_011db6e4.FUN_00403e20();
-        DAT_011ae5f8 = *DAT_011db79c.FUN_00403e20();
+        DAT_012007f0 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Holder_00801ad0 *>(&::g_011db6e4))))));
+        DAT_011ae5f8 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Holder_00801ad0 *>(&::g_011db79c))))));
         DAT_012007f4 = value28c;
-        DAT_012007f8 = 0;
+        (*reinterpret_cast<unsigned char *>(&::recon7fbee0::DAT_012007f8)) = 0;
     }
     else
     {
@@ -1420,10 +1446,10 @@ void EffectModeSetup::FUN_00801bb0(int unused, Actor_00801ad0* actor, int unused
         DAT_012007f4 = DAT_01012054;
     }
     DAT_012007e8 = 0.0f;
-    DAT_01200810.FUN_006e5cc0(&unk2c4);
-    DAT_01200800 = vector;
-    DAT_011ae5ec = *DAT_011db714.FUN_00403e20();
-    DAT_011ae5e8 = *DAT_011db720.FUN_00403e20();
+    (*reinterpret_cast<::Obj6e5_00801ad0 *>(&::recon7fbee0::DAT_01200810)).FUN_006e5cc0(&unk2c4);
+    (*reinterpret_cast<::Vec4Tmp_00801ad0 *>(&::recon7fbee0::DAT_01200800)) = vector;
+    DAT_011ae5ec = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Holder_00801ad0 *>(&::g_011db714))))));
+    DAT_011ae5e8 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Holder_00801ad0 *>(&::g_011db720))))));
     DAT_011ae5ec += value2ac;
     DAT_011ae5e8 += value2b0;
     if (scaled)
@@ -1432,20 +1458,16 @@ void EffectModeSetup::FUN_00801bb0(int unused, Actor_00801ad0* actor, int unused
         DAT_011ae5e8 *= 1.0f + value2a8;
     }
     DAT_011ae5fc = value2c0;
-    DAT_011ae5f0 = *DAT_011db778.FUN_00403e20();
+    DAT_011ae5f0 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Holder_00801ad0 *>(&::g_011db778))))));
     DAT_011ae5f4 = 1.0f;
     DAT_012007ec = flag ? 1 : 0;
 }
 
 struct Obj9
 {
-    bool FUN_00456610();
-    void FUN_00450f90(int);
-    int FUN_007fa950();
 };
 struct Mid9
 {
-    Obj9* GetValueByIndex(int);
 };
 struct PtrObj9
 {
@@ -1831,8 +1853,6 @@ struct Actor9
     virtual void vtbl120();
     virtual void vtbl121();
     virtual int vt1e8();
-    Mgr9* FUN_008d8520();
-    Node9* FUN_004181e0();
 };
 
 struct Svc9
@@ -1840,18 +1860,13 @@ struct Svc9
 };
 struct X10
 {
-    void FUN_004a0fd0(int);
-    void FUN_004fb0b0(int);
 };
 struct Sub9
 {
     int v;
-    int FUN_00559450();
 };
 struct P2Obj
 {
-    X10* FUN_008d80e0();
-    Svc9* FUN_006629f0();
 };
 struct This9
 {
@@ -2034,12 +2049,7 @@ struct This9
     int unk2c4;
     int unk2c8;
     Sub9 sub2cc;
-    void UpdateEquipmentVisibility();
-    void FUN_008022c0();
 };
-P2Obj* __cdecl FUN_0045c670();
-void __cdecl FUN_00b6bee0(Svc9*, void*, X10*);
-void __cdecl FUN_00b6c0d0(Svc9*, int, int);
 
 // @fnv 0x00801450
 void Struct801420::FUN_00801450(unsigned char a, int b)
@@ -2047,18 +2057,18 @@ void Struct801420::FUN_00801450(unsigned char a, int b)
     if (((This9*)this)->actor)
     {
         if ((((This9*)this)->b129 && !(((This9*)this)->b2b4) || a) && b != 1)
-            ((This9*)this)->UpdateEquipmentVisibility();
-        VRenderer* ptr12 = FUN_0043c4b0();
-        P2Obj* q23 = FUN_0045c670();
+            reinterpret_cast<::EquipVisibility *>((((This9*)this)))->UpdateEquipmentVisibility();
+        VRenderer* ptr12 = ((::VRenderer *)(::FUN_0043c4b0()));
+        P2Obj* q23 = ((::P2Obj *)(::FUN_0045c670()));
         Actor9* actor_ = ((This9*)this)->actor;
-        X10* x102 = q23->FUN_008d80e0();
-        x102->FUN_004a0fd0(((This9*)this)->sub2cc.FUN_00559450());
-        x102->FUN_004fb0b0(1);
-        Svc9* svcX = q23->FUN_006629f0();
+        X10* x102 = ((::X10 *)(reinterpret_cast<::MiddleLowProcess *>((q23))->GetProcessInteger()));
+        reinterpret_cast<::FUN_004a0fd0_shell *>((x102))->FUN_004a0fd0((::NiNode *)(::FUN_00559450((int *)&(((This9*)this)->sub2cc))));
+        reinterpret_cast<::BGSExplosion *>((x102))->FUN_004fb0b0((::BGSImpactDataSet *)(1));
+        Svc9* svcX = ((::Svc9 *)(reinterpret_cast<::BSFaceGenNiNode *>((q23))->GetAnimationData()));
         Mgr9* mgr2X = 0;
         Obj9* o1z = 0;
         if (((This9*)this)->actor->vt100())
-            mgr2X = actor_->FUN_008d8520();
+            mgr2X = ((::Mgr9 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor_))->GetBaseTexture()));
         if (mgr2X)
             o1z = mgr2X->vt190(actor_->vt1e8());
         if (((This9*)this)->f23c == 0xe || b == 1)
@@ -2068,7 +2078,7 @@ void Struct801420::FUN_00801450(unsigned char a, int b)
                 if (!(((This9*)this)->b2b4) || a)
                 {
                     if (o1z && mgr2X)
-                        FUN_00b6bee0(svcX, o1z, x102);
+                        ::FUN_00b6bee0(svcX, o1z, (::BSShaderAccumulator *)(x102));
                 }
             }
         }
@@ -2077,46 +2087,46 @@ void Struct801420::FUN_00801450(unsigned char a, int b)
             bool flag_ = 0;
             if (o1z)
             {
-                flag_ = !o1z->FUN_00456610();
-                o1z->FUN_00450f90(1);
+                flag_ = !reinterpret_cast<::FUN_00456630_helper *>((o1z))->FUN_00456610();
+                reinterpret_cast<::TaskQueueInterface *>((o1z))->QueueActorDisarm(1);
             }
-            FUN_00b6bee0(svcX, (void*)((This9*)this)->sub08.FUN_00559450(), x102);
+            ::FUN_00b6bee0(svcX, (void*)::FUN_00559450((int *)&(((This9*)this)->sub08)), (::BSShaderAccumulator *)(x102));
             if (((This9*)this)->actor->vt100())
             {
                 Actor9* formA = ((This9*)this)->actor;
-                Mid9* xmidX = formA->FUN_004181e0()->vt180();
-                Obj9* rAX = xmidX->GetValueByIndex(((This9*)this)->f23c);
+                Mid9* xmidX = ((::Node9 *)(reinterpret_cast<::Actor *>((formA))->GetActorBase()))->vt180();
+                Obj9* rAX = ((::Obj9 *)(reinterpret_cast<::FUN_005e50f0_Obj *>((xmidX))->GetValueByIndex(((This9*)this)->f23c)));
                 void* res3cA;
                 if (rAX)
                 {
-                    res3cA = formA->vt1d0()->vt9c((int)&PtrObj9(rAX->FUN_007fa950()));
+                    res3cA = formA->vt1d0()->vt9c((int)&PtrObj9(((int)(reinterpret_cast<::StrOwner *>((rAX))->FUN_007fa950()))));
                     if (res3cA)
-                        FUN_00b6bee0(svcX, res3cA, x102);
+                        ::FUN_00b6bee0(svcX, res3cA, (::BSShaderAccumulator *)(x102));
                 }
                 if (((This9*)this)->f240 > 0)
                 {
                     for (int i = 0; i < ((This9*)this)->f240; i++)
                     {
-                        Mid9* m3A = formA->FUN_004181e0()->vt180();
-                        Obj9* ares44C = m3A->GetValueByIndex(((This9*)this)->arr244[i]);
+                        Mid9* m3A = ((::Node9 *)(reinterpret_cast<::Actor *>((formA))->GetActorBase()))->vt180();
+                        Obj9* ares44C = ((::Obj9 *)(reinterpret_cast<::FUN_005e50f0_Obj *>((m3A))->GetValueByIndex(((This9*)this)->arr244[i])));
                         void* res4c_;
                         if (ares44C)
                         {
-                            res4c_ = formA->vt1d0()->vt9c((int)&PtrObj9(ares44C->FUN_007fa950()));
+                            res4c_ = formA->vt1d0()->vt9c((int)&PtrObj9(((int)(reinterpret_cast<::StrOwner *>((ares44C))->FUN_007fa950()))));
                             if (res4c_)
-                                FUN_00b6bee0(svcX, res4c_, x102);
+                                ::FUN_00b6bee0(svcX, res4c_, (::BSShaderAccumulator *)(x102));
                         }
                     }
                 }
             }
             if (o1z && flag_)
-                o1z->FUN_00450f90(0);
+                reinterpret_cast<::TaskQueueInterface *>((o1z))->QueueActorDisarm(0);
         }
-        FUN_00b6c0d0(svcX, ((This9*)this)->sub2cc.FUN_00559450(), 0);
-        x102->FUN_004a0fd0(0);
-        x102->FUN_004fb0b0(0);
+        ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(svcX), (::BSShaderAccumulator *)(::FUN_00559450((int *)&(((This9*)this)->sub2cc))), 0);
+        reinterpret_cast<::FUN_004a0fd0_shell *>((x102))->FUN_004a0fd0((::NiNode *)(0));
+        reinterpret_cast<::BGSExplosion *>((x102))->FUN_004fb0b0((::BGSImpactDataSet *)(0));
         if ((((This9*)this)->b129 && !(((This9*)this)->b2b4) || a) && b != 1)
-            ((This9*)this)->FUN_008022c0();
+            reinterpret_cast<::This8022 *>((((This9*)this)))->FUN_008022c0();
         (void)ptr12;
     }
 }

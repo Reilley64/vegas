@@ -1,5 +1,11 @@
 // fallout_shared/pathfinding/pathinglocation_decls.h: declares TESForm, TESObjectCELL, PathingLocation, NavMeshInfo, TESWorldSpace and more
 
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_006a9520_Class.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_0068f000.h"
+#include "fnv/symbols_006dd000.h"
 #define NiPoint3 NiPoint3Layout
 #define BSSimpleArray BSSimpleArrayLayout
 #define NiPointer NiPointerLayout
@@ -18,14 +24,22 @@ class TESForm
 {
   public:
     virtual void vfn_0();
-    static TESForm* GetFormByID(unsigned int);
-    bool IsDeleted() const;
-    bool GetDisabled();
+public:
+    bool GetDisabled() const;
 };
+class TESWorldSpace;
 class TESObjectCELL : public TESForm
 {
   public:
     bool IsOutdoorCell();
+public:
+    bool IsCellInterior() const;
+public:
+    int GetCellGridX();
+public:
+    int GetCellGridY();
+public:
+    ::TESWorldSpace *GetParentWorldSpace();
 };
 
 #pragma pack(push, 4)
@@ -45,12 +59,7 @@ class PathingLocation
 
     PathingLocation();
     void LoadGame(BGSLoadGameBuffer*);
-    bool IsPathingLocationValid();
     bool HasPathingLocation();
-    bool FUN_006a9520();
-    bool IsPathingLocationFlagSet();
-    bool GetAllMeshesReachable();
-    void SetAllMeshesReachable(bool);
     bool HasValidTriangle();
     void ResetLocation();
     TESObjectCELL* GetContainingCell();
@@ -59,6 +68,8 @@ class PathingLocation
     PathingLocation(const NiPoint3&, TESObjectREFR*);
     PathingLocation& operator=(const PathingLocation&);
     void SetLocationData(const NiPoint3&, TESObjectCELL*, TESWorldSpace*);
+public:
+    bool HasValidTriangle_006dd6a0();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(PathingLocation) == 0x28);
@@ -67,7 +78,6 @@ class NavMeshInfo
 {
   public:
     bool ResolveNavMesh(NavMeshPtr&);
-    bool FUN_0068f320() const;
 };
 
 class TESWorldSpace : public TESForm
@@ -79,7 +89,6 @@ class TESWorldSpace : public TESForm
 class TESObjectREFR
 {
   public:
-    TESWorldSpace* GetParentWorldSpace();
 };
 
 class LowProcess

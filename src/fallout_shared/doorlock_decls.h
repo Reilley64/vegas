@@ -5,6 +5,11 @@
 
 #include <new>
 
+#include "fnv/decl/FUN_00569160_shell.h"
+#include "fnv/decl/OwnerLookupView.h"
+#include "fnv/decl/fnv_00567960__FUN_00567960_shell.h"
+#include "fnv/decl/s5679f0__Owner.h"
+#include "fnv/symbols_00401000.h"
 class TESActorBase;
 class TESObjectCELL;
 class TESObjectREFR;
@@ -19,10 +24,6 @@ class TESObjectREFR
 {
   public:
     ExtraRadioData* GetExtraRadioData();
-    LockExtraData* GetLock();
-    TESForm* GetOwner();
-    int GetReferenceLockLevel();
-    TESGlobal* GetLockLevelGlobal();
 };
 
 class LowProcess
@@ -34,14 +35,11 @@ class LowProcess
 class ExtraRadioData
 {
   public:
-    TESObjectCELL* FUN_0043a2b0();
 };
 
 class MemoryManager
 {
   public:
-    static void* Allocate(unsigned int size);
-    static void Deallocate(void* ptr);
 };
 
 class FUN_00411b00;
@@ -63,7 +61,6 @@ class PathingActorData
     unsigned char layoutPadding9[3];
 
     PathingActorData& operator=(const PathingActorData& other);
-    PathingActorData& FUN_00502630(const ActorData& other);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(PathingActorData) == 12);

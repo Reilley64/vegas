@@ -2,6 +2,8 @@
 #define FNV_NIPSYSDRAGMODIFIER_DECLS_H
 
 
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/S_00a64670_Foo.h"
 #include "NiObject.h"
 #include "NiFixedString.h"
 #include "NiPoint3.h"
@@ -15,13 +17,12 @@ class CloningProcess;
 class NiStream : public NiObject
 {
   public:
-    void ResetStreamState();
-    unsigned int ReadUnsignedInteger();
     unsigned int GetLinkIDFromObject(const NiObject* pkObject);
     NiObject* DeserializeObject();
     NiObject* GetLoadedObject(unsigned int uiLinkID);
 };
 
+class CloningProcess;
 class NiPSysModifier : public NiObject
 {
   public:
@@ -46,14 +47,19 @@ class NiPSysModifier : public NiObject
     unsigned int m_uiUpdateOrder;
     NiParticleSystem* m_pkTarget;
     bool m_bModifierActive;
+public:
+    void CopyMemberData(::NiPSysModifier *, ::CloningProcess &);
 };
 
 // The three-float LoadBinary implementations are folded together in the PC
+class NiStream;
 class NiColor
 {
   public:
     float r, g, b;
     void LoadBinary(NiStream& kStream);
+public:
+    void SaveBinary(::NiStream &);
 };
 
 class NiBinaryStream

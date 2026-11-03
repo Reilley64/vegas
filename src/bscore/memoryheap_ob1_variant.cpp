@@ -3,6 +3,11 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /Ob1 (unit src/bscore/memoryheap.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/decl/AbstractHeapBlockInfo.h"
+#include "fnv/decl/AbstractHeapBuckets.h"
+#include "fnv/decl/AbstractHeapX.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/symbols_011f6000.h"
 #include "memoryheap_decls.h"
 __declspec(dllimport) int __stdcall VirtualFree(void*, unsigned long, unsigned long);
 struct FUN_00aa7ab0_s
@@ -29,7 +34,6 @@ struct FUN_00aa7c60_cls
 {
     char pad[0x20f0];
     bool m_bFlag;
-    void GetHeapStats(void* pStats, bool bFull);
     void UpdateStats(void* apStats, bool abFullBlockInfo);
 };
 struct FUN_00aa7d60_blk
@@ -45,9 +49,7 @@ struct FUN_00aa7d60_cls
 };
 struct MemoryManager
 {
-    void _DeallocateAlias(void*);
 };
-extern MemoryManager g_memoryManager;
 struct FakeHeap
 {
     void FUN_00aa7930();
@@ -77,7 +79,6 @@ struct FUN_00aa7ca0_cls
 {
     char pad0[0x20f0];
     bool m_bFlag;
-    unsigned int WriteBucketInfo(FUN_00aa7ca0_obj* p);
     unsigned int FUN_00aa7ca0(FUN_00aa7ca0_obj* p);
 };
 struct AA7D00Stream
@@ -2198,7 +2199,6 @@ struct AA7D00Saver
     int unk20EC;
     bool m_bSkip;
 
-    int ValueReferencePair(AA7D00Stream* pkStream, bool bFlag);
     int FUN_00aa7d00(AA7D00Stream* pkStream, bool bFlag);
 };
 

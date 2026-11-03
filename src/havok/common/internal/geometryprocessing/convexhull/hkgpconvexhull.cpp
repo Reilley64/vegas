@@ -1,5 +1,53 @@
 // havok/common/internal/geometryprocessing/convexhull/hkgpconvexhull.cpp: hkVector4, hkMatrix3, hkTransform, Owner and more (89 functions)
 
+#include <new>
+#include "fnv/decl/BevelHull.h"
+#include "fnv/decl/CB2FC0Object.h"
+#include "fnv/decl/Centroid352.h"
+#include "fnv/decl/CentroidHull.h"
+#include "fnv/decl/ClipHull.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00cc02d0_cls.h"
+#include "fnv/decl/FUN_00cd5880_cls.h"
+#include "fnv/decl/FUN_00d9ec10_cls.h"
+#include "fnv/decl/HullBuilder.h"
+#include "fnv/decl/HullImpl.h"
+#include "fnv/decl/MProduct.h"
+#include "fnv/decl/PolygonMesh.h"
+#include "fnv/decl/PoolAllocator40.h"
+#include "fnv/decl/QuantizedHull.h"
+#include "fnv/decl/RotationRows.h"
+#include "fnv/decl/S00cd4cc0_M.h"
+#include "fnv/decl/S00d7cf00_Hull.h"
+#include "fnv/decl/S00d81510_Hull.h"
+#include "fnv/decl/S00d82ad0_Hull.h"
+#include "fnv/decl/S83_Mesh.h"
+#include "fnv/decl/S_00cd4b60.h"
+#include "fnv/decl/S_00d7a200_Owner.h"
+#include "fnv/decl/S_00d827b0_Owner.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/SupportShape.h"
+#include "fnv/decl/ThisCls.h"
+#include "fnv/decl/fnv_00d7aea0__PoolAllocator48.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cd4000.h"
+#include "fnv/symbols_00d78000.h"
+#include "fnv/symbols_00d7a000.h"
+#include "fnv/symbols_00d7b000.h"
+#include "fnv/symbols_00dea000.h"
+#include "fnv/symbols_00ded000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_0103d000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_0106c000.h"
+#include "fnv/symbols_0106e000.h"
+#include "fnv/symbols_010d3000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
 #include "fnv_asm_helpers.h"
 // src/havok/common/internal/geometryprocessing/convexhull/hkgpconvexhull.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/geometryprocessing/convexhull/hkgpconvexhull.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -23,7 +71,6 @@ void FUN_00d74dd0_Class::FUN_00d74dd0()
 }
 
 struct FUN_00d7ac40_class {
-    void FUN_00d7ac40(int);
 };
 struct FUN_00d75850_class {
     int m0;
@@ -33,35 +80,17 @@ struct FUN_00d75850_class {
     int m4;
     void FUN_00d75850();
 };
-// @fnv 0x00d75850
-void FUN_00d75850_class::FUN_00d75850()
-{
-    m2->FUN_00d7ac40(0);
-    if (m4) {
-        void (__thiscall *fn)(int, int) = *(void (__thiscall **)(int, int))*reinterpret_cast<void (__thiscall **)(int, int)>(m4);
-        fn(m4, 1);
-    }
-    m4 = 0;
-}
-
 // @fnv 0x00d76300
 int __stdcall FUN_00d76300(const int* pValues, int iIndex)
 {
     return (pValues[iIndex + 5] & ~3);
 }
 
-struct FUN_00d7c200_cls { void __thiscall FreeAll(); };
+struct FUN_00d7c200_cls {  };
 struct FUN_00d7c250_cls { void __thiscall FlushQueuedElements(); };
 struct FUN_00d7c950_cls {
     void __thiscall FUN_00d7c950();
 };
-// @fnv 0x00d7c950
-void __thiscall FUN_00d7c950_cls::FUN_00d7c950()
-{
-    ((FUN_00d7c200_cls*)((char*)this + 8))->FreeAll();
-    ((FUN_00d7c250_cls*)((char*)this + 0x20))->FlushQueuedElements();
-}
-
 // @fnv 0x00d752c0
 int __stdcall FUN_00d752c0(int* arr, int idx)
 {
@@ -288,7 +317,6 @@ int* __stdcall FUN_00d74ed0(PayloadOwner* apOwner)
 }
 
 struct TargetCallee {
-    void FUN_00d7a5a0(void* p1, void* p2, void* p3, void* p4, float p5);
 };
 
 struct FUN_00d74ee0_Class : FUN_00d74dd0_Class {
@@ -298,7 +326,7 @@ struct FUN_00d74ee0_Class : FUN_00d74dd0_Class {
 // Forwards the five arguments to the callee stored at m_08 via FUN_00d7a5a0.
 // @fnv 0x00d74ee0
 void FUN_00d74ee0_Class::ForwardToCallee(void* p1, void* p2, void* p3, void* p4, float p5) {
-    ((TargetCallee*)m_08)->FUN_00d7a5a0(p1, p2, p3, p4, p5);
+    reinterpret_cast<::ClipHull *>((((TargetCallee*)m_08)))->FUN_00d7a5a0((*(const ::ClipVector *)(p1)), (*(const ::ClipVector *)(p2)), (*(float *)(p3)), (*(float *)(p4)), p5);
 }
 
 struct D75060Inner {
@@ -333,11 +361,8 @@ struct TextBuffer {
     int unk04;
     int unk08;
     int storage[128];
-    void FUN_00cb1600(char* buffer, int capacity);
     TextBuffer* FUN_00cc01c0(const char* first, const char* middle, const char* last);
     TextBuffer* FUN_00cc01c0();
-    TextBuffer* FUN_00cc02d0();
-    void FUN_00cc00e0();
 };
 
 struct ChildData {
@@ -477,7 +502,6 @@ struct ErrorReporter {
     virtual void unk2();
     virtual int message(int type, int hash, const char* text, const char* file, int line);
 };
-extern ErrorReporter* DAT_01268360;
 void __debugbreak();
 
 struct Owner {
@@ -503,11 +527,11 @@ int Owner::FUN_00d75070(Request* request) {
     TextBuffer text;
     ChildData* child = unk08;
     if (child->flag1b5 == 0) {
-        text.FUN_00cb1600((char*)text.storage, 512);
-        text.FUN_00cc01c0("No index available (", (const char*)child->unk1b0, ")")->FUN_00cc02d0()->FUN_00cc01c0();
+        new ((void *)&(text)) ::FUN_00cb1600((char*)text.storage, 512);
+        reinterpret_cast<::SinkOwner *>((((::TextBuffer *)(reinterpret_cast<::FUN_00cc02d0_cls *>((((::TextBuffer *)(reinterpret_cast<::SinkOwner *>(&(text))->FUN_00cc01c0("No index available (")))))->FUN_00cc02d0({})))))->FUN_00cc01c0({});
         if (DAT_01268360->message(3, 0x79f9d886, (char*)text.storage, ".\\GeometryProcessing\\ConvexHull\\hkgpConvexHull.cpp", 0x148))
             __debugbreak();
-        text.FUN_00cc00e0();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(text))->FUN_00cc00e0::~FUN_00cc00e0();
     }
     return request->unk34;
 }
@@ -593,7 +617,6 @@ struct S_00d75210_Error {
     virtual int message(int type, int id, const char* desc, const char* file, int line) throw();
 };
 
-extern S_00d75210_Error* g_hkError;
 
 struct S_00d75210_Data {
     int unk00;
@@ -743,15 +766,14 @@ int S_00d75210_Self::FUN_00d75210(const S_00d75210_Data* v) const throw()
         // Havok builds this with /GS-; a non-char buffer keeps /GS from adding a cookie.
         unsigned int buf[128];
         S_00d75210_ErrStream ostr(buf, sizeof(buf));
-        ostr << "No index available (" << cfg->m_1b0 << ")";
-        if (g_hkError->message(3, 0x79f9d886, (const char*)buf, ".\\GeometryProcessing\\ConvexHull\\hkgpConvexHull.cpp", 328))
+        reinterpret_cast<::SinkOwner *>((void *)&(const ::S_00d75210_ErrStream &)(reinterpret_cast<::FUN_00cc02d0_cls *>((void *)&(const ::S_00d75210_ErrStream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::S_00d75210_ErrStream &)(ostr))->FUN_00cc01c0("No index available (")))->FUN_00cc02d0(cfg->m_1b0)))->FUN_00cc01c0(")");
+        if ((*reinterpret_cast<::S_00d75210_Error * *>(&::DAT_01268360))->message(3, 0x79f9d886, (const char*)buf, ".\\GeometryProcessing\\ConvexHull\\hkgpConvexHull.cpp", 328))
             __debugbreak();
     }
     return v->m_uiEdgeIndex;
 }
 
 struct D762F0Target {
-    void update();
 };
 
 struct D762F0Owner {
@@ -762,13 +784,7 @@ struct D762F0Owner {
     void FUN_00d762f0();
 };
 
-// @fnv 0x00d762f0
-void D762F0Owner::FUN_00d762f0()
-{
-    m_target->update();
-}
-
-struct D76910Inner { void FUN_00d7cf00(); };
+struct D76910Inner {  };
 struct D76910Owner {
     int unk00;
     int unk04;
@@ -778,13 +794,12 @@ struct D76910Owner {
 // @fnv 0x00d76910
 void D76910Owner::FUN_00d76910()
 {
-    inner->FUN_00d7cf00();
+    reinterpret_cast<::S00d7cf00_Hull *>((inner))->FUN_00d7cf00();
 }
 
 struct FUN_00d76990_State {
     int unk00;
     float unk04;
-    void FUN_00d7d2a0();
 };
 
 struct FUN_00d76990_Class {
@@ -800,7 +815,7 @@ void FUN_00d76990_Class::SetValue(float value, bool clearFlag) {
     if (clearFlag)
         *(reinterpret_cast<unsigned char*>(unk08) + 0x1b5) = 0;
     unk08->unk04 = value;
-    unk08->FUN_00d7d2a0();
+    reinterpret_cast<::HullBuilder *>((unk08))->FUN_00d7d2a0();
 }
 
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128 {
@@ -822,7 +837,6 @@ struct __declspec(align(16)) hkVec4 {
 };
 
 struct Shape {
-    float FUN_00d768b0(const hkVec4& v);
     float FUN_00d76840(const hkVec4& v);
     float FUN_00d769c0(const Vec3& p);
 };
@@ -833,11 +847,10 @@ float Shape::FUN_00d769c0(const Vec3& p)
 {
     hkVec4 v;
     *(__m128*)&v.x = _mm_setr_ps(p.x, p.y, p.z, 0.0f);
-    return FUN_00d768b0(v) - FUN_00d76840(v);
+    return reinterpret_cast<::SupportShape *>(this)->FUN_00d768b0((const ::SupportVector &)(v)) - FUN_00d76840(v);
 }
 
 struct AudioSink {
-    void FUN_00d7df60(void* apFirst, void* apSecond, bool abIsNull, void* apThird);
 };
 
 struct FUN_00d76c50_cls {
@@ -853,7 +866,7 @@ struct FUN_00d76c50_cls {
 void FUN_00d76c50_cls::DispatchToSink(void* apKey, void* apFirst, void* apSecond,
                                     void* apThird)
 {
-    m_pSink->FUN_00d7df60(apFirst, apSecond, apKey == 0, apThird);
+    reinterpret_cast<::PolygonMesh *>((m_pSink))->FUN_00d7df60((*(::PolygonArray<int> *)(apFirst)), (*(::PolygonArray<int> *)(apSecond)), apKey == 0, (bool)(apThird));
 }
 
 namespace fnv_00d76c80 {
@@ -869,7 +882,6 @@ struct Vec4i {
 
 struct FUN_00d81510_Class {
     Vec4i m_00;
-    void FUN_00d81510(int a, int b, int c, int d);
 };
 
 struct FUN_00d771c0_Owner {
@@ -884,11 +896,10 @@ struct FUN_00d771c0_Owner {
 void FUN_00d771c0_Owner::FUN_00d771c0(int a, int b, const Vec4i& v)
 {
     unk08->m_00 = v;
-    unk08->FUN_00d81510(a, b, 0, 0);
+    reinterpret_cast<::S00d81510_Hull *>((unk08))->FUN_00d81510((const ::S00d81510_Vector4 *)(a), b, 0, (const ::S00d81510_Hull *)(0));
 }
 
 struct FUN_00d83430_class {
-    void FUN_00d83430(int, int, int, float);
 };
 struct FUN_00d790a0_class {
     int unk00;
@@ -899,7 +910,7 @@ struct FUN_00d790a0_class {
 // Calls FUN_00d83430 on the object stored at unk08, passing the four arguments through unchanged.
 // @fnv 0x00d790a0
 void FUN_00d790a0_class::FUN_00d790a0(int aiArg1, int aiArg2, int aiArg3, float afArg4) {
-    unk08->FUN_00d83430(aiArg1, aiArg2, aiArg3, afArg4);
+    reinterpret_cast<::HullImpl *>((unk08))->FUN_00d83430((*(const ::HullVec *)(aiArg1)), (::FUN_00d76ca0 **)(aiArg2), (::FUN_00d76ca0 **)(aiArg3), afArg4);
 }
 
 struct S_00d79f90_Opts
@@ -1004,6 +1015,12 @@ struct S_00d7c200 {
     int unk10;
     void FreeAll();
 };
+// @fnv 0x00d7c950
+void __thiscall FUN_00d7c950_cls::FUN_00d7c950()
+{
+    reinterpret_cast<::S_00d7c200 *>((((FUN_00d7c200_cls*)((char*)this + 8))))->FreeAll();
+    ((FUN_00d7c250_cls*)((char*)this + 0x20))->FlushQueuedElements();
+}
 // @fnv 0x00d7c200
 void S_00d7c200::FreeAll() {
     for (int i = 0; i < m_iBlockCount; i++) {
@@ -1028,7 +1045,6 @@ struct S_00d7c340_Router {
     S_00d7c340_Allocator* heap() { return unk10; }
 };
 S_00d7c340_Router* FUN_00c85750();
-int ResizeAudioStream(S_00d7c340_Allocator* alloc, void* array, int elemSize);
 
 struct S_00d7c340_Elem {
     S_00d7c340_Elem* next;
@@ -1067,7 +1083,7 @@ S_00d7c340_Block* S_00d7c340::AllocateBlock()
 
     S_00d7c340_Allocator* alloc = FUN_00c85750()->heap();
     if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
-        ResizeAudioStream(alloc, this, sizeof(S_00d7c340_Block*));
+        ::ResizeAudioStream((::AudioAllocator *)(alloc), (::AudioStream *)(void *)(this), sizeof(S_00d7c340_Block*));
     S_00d7c340_Block** p = m_data + m_iElementCount;
     for (int k = 0; k < 1; k++)
         p[k] = block;
@@ -1186,10 +1202,9 @@ struct S_00d7ce20_FreeListA {
     int unkC;
     int unk10;
     int unk14;
-    void FreeAll() throw();
     ~S_00d7ce20_FreeListA() throw()
     {
-        FreeAll();
+        reinterpret_cast<::S_00d7c200 *>(this)->FreeAll();
         m_kBlocks.ClearAndFlush();
     }
 };
@@ -1204,11 +1219,10 @@ struct S_00d7ce20_FreeListB {
     int unkC;
     int unk10;
     int unk14;
-    void FlushQueuedElements() throw();
     ~S_00d7ce20_FreeListB() throw()
     {
-        FlushQueuedElements();
-        m_kBlocks.FUN_00d7c8d0();
+        reinterpret_cast<::FUN_00d7c250_cls *>(this)->FlushQueuedElements();
+        reinterpret_cast<::fnv_00d7c8d0::FUN_00d7c8d0 *>(&(m_kBlocks))->fnv_00d7c8d0::FUN_00d7c8d0::~FUN_00d7c8d0();
     }
 };
 
@@ -1270,41 +1284,8 @@ struct PoolList {
     void *unk08;
     Node *head;
     int activeCount;
-    NodeBank *FUN_00d7c2a0();
     Node *CloneNode(Node *source);
 };
-// Allocates a node from the bank's free list, copies the source node's value fields, links it at the head of the list and returns it.
-// @fnv 0x00d7ef20
-Node *PoolList::CloneNode(Node *source) {
-    NodeBank *bank;
-    if (bankValid == 0 || (*banks)->freeHead == 0)
-        bank = FUN_00d7c2a0();
-    else
-        bank = *banks;
-    Node *node = bank->freeHead;
-    bank->freeHead = node->link0;
-    bank->allocated += 1;
-    node->value10 = source->value10;
-    node->value14 = source->value14;
-    node->value18 = source->value18;
-    node->value1c = source->value1c;
-    node->value20 = source->value20;
-    node->value24 = source->value24;
-    node->value28 = source->value28;
-    node->value2c = source->value2c;
-    node->value30 = source->value30;
-    node->value34 = source->value34;
-    node->link4 = 0;
-    Node *oldHead = head;
-    node->link0 = oldHead;
-    oldHead = head;
-    if (oldHead != 0)
-        oldHead->link4 = node;
-    activeCount += 1;
-    head = node;
-    return node;
-}
-
 namespace fnv_00d7f060 {
 struct D76940Shell { void FUN_00d76940(); };
 struct D7f060Owner;
@@ -1336,7 +1317,6 @@ D7f060Owner* D7f060Owner::FUN_00d7f060(unsigned int flags)
 }
 }  // namespace fnv_00d7f060
 
-extern float DAT_0106ea1c;
 
 class FUN_00d74d40_cls
 {
@@ -1394,7 +1374,6 @@ FUN_00d74d70_cls* FUN_00d74d70_cls::FUN_00d74d70() {
     return this;
 }
 
-extern float DAT_0104da4c;
 
 struct FUN_00d74d90_cls {
     int m_i00;
@@ -1406,7 +1385,7 @@ struct FUN_00d74d90_cls {
 // @fnv 0x00d74d90
 FUN_00d74d90_cls* FUN_00d74d90_cls::FUN_00d74d90()
 {
-    m_f04 = DAT_0104da4c;
+    m_f04 = ::DAT_0104da4c;
     m_i00 = 1;
     return this;
 }
@@ -1575,7 +1554,6 @@ int FUN_00d75050_cls::FUN_00d75050()
 }
 
 struct FUN_00d7a180_target {
-    void FUN_00d7a180();
 };
 
 struct FUN_00d752d0_cls {
@@ -1587,7 +1565,7 @@ struct FUN_00d752d0_cls {
 
 // @fnv 0x00d752d0
 void FUN_00d752d0_cls::FUN_00d752d0() {
-    m_08->FUN_00d7a180();
+    reinterpret_cast<::Centroid352 *>((m_08))->FUN_00d7a180();
 }
 
 struct DiagStream {
@@ -1595,11 +1573,8 @@ struct DiagStream {
     unsigned int m_04;
     unsigned int m_08;
     unsigned int m_buf[128];
-    void FUN_00cb1600(unsigned int* buf, unsigned int size);
     DiagStream* FUN_00cc01c0(const char* fmt, unsigned int count, const char* tail);
-    DiagStream* FUN_00cc02d0();
     void FUN_00cc01c0();
-    void FUN_00cc00e0();
 };
 
 struct DiagLogger {
@@ -1609,7 +1584,6 @@ struct DiagLogger {
     virtual int Report(int level, unsigned int hash, char* msg, const char* file, int line);
 };
 
-extern DiagLogger* g_diagLogger;
 
 struct DiagState {
     unsigned int unk00;
@@ -1737,13 +1711,13 @@ float FUN_00d75390_cls::GetMass() {
     if (st->m_1b4 != 0) {
     } else {
         DiagStream s;
-        s.FUN_00cb1600(s.m_buf, 0x200);
-        DiagStream* y = s.FUN_00cc01c0("No mass properties available (", st->m_1b0, ")")->FUN_00cc02d0();
-        y->FUN_00cc01c0();
-        if (g_diagLogger->Report(3, 0x79f9d887, (char*)s.m_buf, ".\\GeometryProcessing\\ConvexHull\\hkgpConvexHull.cpp", 0x14e) != 0) {
+        new ((void *)&(s)) ::FUN_00cb1600(s.m_buf, 0x200);
+        DiagStream* y = ((::DiagStream *)(reinterpret_cast<::FUN_00cc02d0_cls *>((((::DiagStream *)(reinterpret_cast<::SinkOwner *>(&(s))->FUN_00cc01c0("No mass properties available (")))))->FUN_00cc02d0({})));
+        reinterpret_cast<::SinkOwner *>((y))->FUN_00cc01c0({});
+        if ((*reinterpret_cast<::DiagLogger * *>(&::DAT_01268360))->Report(3, 0x79f9d887, (char*)s.m_buf, ".\\GeometryProcessing\\ConvexHull\\hkgpConvexHull.cpp", 0x14e) != 0) {
             __debugbreak();
         }
-        s.FUN_00cc00e0();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(s))->FUN_00cc00e0::~FUN_00cc00e0();
     }
     return m_08->m_1a4;
 }
@@ -1754,21 +1728,8 @@ extern const double DAT_010d35e8;
 extern const double DAT_010d35e0;
 
 struct FUN_00d75440_cls {
-    float FUN_00d752e0();
-    double GetMass();
     float ComputeScaledPowerRatio();
 };
-
-// Raises the value from FUN_00d752e0 to DAT_010d35e8, scales by DAT_010d35e0, divides by GetMass and returns the float result.
-// @fnv 0x00d75440
-float FUN_00d75440_cls::ComputeScaledPowerRatio()
-{
-    float base = this->FUN_00d752e0();
-    float powered = (float)pow((double)base, DAT_010d35e8);
-    double scaled = (double)powered * DAT_010d35e0;
-    double dDivisor = this->GetMass();
-    return (float)(scaled / dDivisor);
-}
 
 struct FUN_00d75820_Tmp8 {
     int m00;
@@ -1776,7 +1737,6 @@ struct FUN_00d75820_Tmp8 {
 };
 
 struct FUN_00d75820_Target {
-    void FUN_00d7a200(int a, float b, FUN_00d75820_Tmp8* c, int d);
 };
 
 struct FUN_00d75820_cls {
@@ -1792,11 +1752,10 @@ struct FUN_00d75820_cls {
 void FUN_00d75820_cls::CallTargetWithTemp(int a1, float a2, int a3)
 {
     FUN_00d75820_Tmp8 tmpArg;
-    this->m08->FUN_00d7a200(a1, a2, &tmpArg, a3);
+    reinterpret_cast<::S_00d7a200_Owner *>((this->m08))->FUN_00d7a200((*(const ::S_00d7a200_V4 *)(a1)), a2, (int *)(::FUN_00d75820_Tmp8 *)(&tmpArg), (float *)(a3));
 }
 
 struct FUN_00d7b330_cls {
-    void FUN_00d7b330(int a1, int a2, float a3);
 };
 
 struct FUN_00d76100_cls {
@@ -1808,11 +1767,10 @@ struct FUN_00d76100_cls {
 
 // @fnv 0x00d76100
 void FUN_00d76100_cls::FUN_00d76100(int a1, int a2, float a3) {
-    m_08->FUN_00d7b330(a1, a2, a3);
+    reinterpret_cast<::QuantizedHull *>((m_08))->FUN_00d7b330((*(const ::QuantVector *)(a1)), a2, a3);
 }
 
 struct FUN_00d7caa0_class {
-    void __thiscall FUN_00d7caa0(float, int);
 };
 
 struct FUN_00d76920_class {
@@ -1824,7 +1782,7 @@ struct FUN_00d76920_class {
 
 // @fnv 0x00d76920
 void __thiscall FUN_00d76920_class::FUN_00d76920(float f, int i) {
-    m_08->FUN_00d7caa0(f, i);
+    reinterpret_cast<::BevelHull *>((m_08))->FUN_00d7caa0(f, (*(::BevelArray *)(i)));
 }
 
 struct SpawnedObject {
@@ -1834,7 +1792,6 @@ struct SpawnedObject {
 };
 
 struct TailCallee {
-    void Tail();
 };
 
 class FUN_00d77bc0_cls {
@@ -1846,13 +1803,12 @@ public:
 void FUN_00d77bc0_cls::FUN_00d77bc0() {
     SpawnedObject* self = reinterpret_cast<SpawnedObject*>(this);
     TailCallee* next = reinterpret_cast<TailCallee*>(self->m_08);
-    next->Tail();
+    reinterpret_cast<::S_00d827b0_Owner *>((next))->FUN_00d827b0({});
 }
 
 namespace fnv_00d77bd0 {
 struct Inner
 {
-    void Run();
 };
 
 struct FUN_00d77bd0_cls
@@ -1866,7 +1822,7 @@ struct FUN_00d77bd0_cls
 // @fnv 0x00d77bd0
 void FUN_00d77bd0_cls::FUN_00d77bd0()
 {
-    m_pInner->Run();
+    reinterpret_cast<::S00d82ad0_Hull *>((m_pInner))->FUN_00d82ad0({}, {});
 }
 }  // namespace fnv_00d77bd0
 
@@ -1876,7 +1832,6 @@ struct ArgPair
     int m_kPointB;
 };
 
-void __cdecl FUN_00d78ea0(int first, ArgPair* apPairs, int count);
 
 // Builds an ArgPair from a1 and a2 and passes it with a0 and count 2 to FUN_00d78ea0.
 // @fnv 0x00d79060
@@ -1886,11 +1841,10 @@ void __cdecl CallWithPair(int aiFirst, int aiFirstValue, int aiSecondValue)
 
     pair.m_kPointA = aiFirstValue;
     pair.m_kPointB = aiSecondValue;
-    FUN_00d78ea0(aiFirst, &pair, 2);
+    ::FUN_00d78ea0(aiFirst, &pair, 2);
 }
 
 struct D79090Target {
-    void update();
 };
 
 struct D79090Owner {
@@ -1904,7 +1858,7 @@ struct D79090Owner {
 // @fnv 0x00d79090
 void D79090Owner::FUN_00d79090()
 {
-    m_target->update();
+    reinterpret_cast<::S83_Mesh *>((m_target))->FUN_00d83f30({});
 }
 
 // FUN_00d79510 (0x00d79510, 102 bytes)
@@ -2142,7 +2096,6 @@ struct CreateIface {
     virtual void* v1(int);
 };
 
-void __cdecl ResizeAudioStream(void*, void*, int);
 
 // A writable handle for one slot of the item array.
 struct SlotRef {
@@ -2158,6 +2111,37 @@ struct FUN_00d7c2a0_cls {
     int m_08;
     void* FUN_00d7c2a0();
 };
+// Allocates a node from the bank's free list, copies the source node's value fields, links it at the head of the list and returns it.
+// @fnv 0x00d7ef20
+Node *PoolList::CloneNode(Node *source) {
+    NodeBank *bank;
+    if (bankValid == 0 || (*banks)->freeHead == 0)
+        bank = ((::NodeBank *)(reinterpret_cast<::FUN_00d7c2a0_cls *>(this)->FUN_00d7c2a0()));
+    else
+        bank = *banks;
+    Node *node = bank->freeHead;
+    bank->freeHead = node->link0;
+    bank->allocated += 1;
+    node->value10 = source->value10;
+    node->value14 = source->value14;
+    node->value18 = source->value18;
+    node->value1c = source->value1c;
+    node->value20 = source->value20;
+    node->value24 = source->value24;
+    node->value28 = source->value28;
+    node->value2c = source->value2c;
+    node->value30 = source->value30;
+    node->value34 = source->value34;
+    node->link4 = 0;
+    Node *oldHead = head;
+    node->link0 = oldHead;
+    oldHead = head;
+    if (oldHead != 0)
+        oldHead->link4 = node;
+    activeCount += 1;
+    head = node;
+    return node;
+}
 
 // @fnv 0x00d7c2a0
 void* FUN_00d7c2a0_cls::FUN_00d7c2a0()
@@ -2184,7 +2168,7 @@ void* FUN_00d7c2a0_cls::FUN_00d7c2a0()
     // Grow the item array when it is full.
     GlobalManager* pManager2 = (GlobalManager*)FUN_00c85750();
     if (m_04 == (m_08 & 0x3fffffff)) {
-        ResizeAudioStream(pManager2->m_10, this, 4);
+        ::ResizeAudioStream((::AudioAllocator *)(pManager2->m_10), (::AudioStream *)(void *)(this), 4);
     }
 
     // Append the new object and move the previous first item to the end.
@@ -2259,7 +2243,6 @@ void D7C850_Class::ClearAndFlush()
     m_00 = 0;
 }
 
-extern char DAT_0103d078;
 
 struct RetBlock64
 {
@@ -2304,10 +2287,6 @@ public:
 	int unk00;
 	int unk04;
 	int unk08;
-	void Init(char *buf, int size);
-	DbgStr_cls *Append(const char *pszPrefix, int value, const char *pszSuffix);
-	DbgStr_cls *Pad(void);
-	DbgStr_cls *Last(void);
 	void Release(void);
 };
 
@@ -2339,14 +2318,14 @@ void FUN_00d75490_cls::GetMassProperties(RetBlock64 *pOut64, RetBlock16 *pOut16)
 		unsigned int buf[0x80];
 		DbgStr_cls dbgStr;
 
-		dbgStr.Init((char *)buf, 0x200);
-		dbgStr.Append("No mass properties available (", pOwner->m_i1B0, &DAT_0103d078)->Pad()->Last();
+		new ((void *)&(dbgStr)) ::FUN_00cb1600((char *)buf, 0x200);
+		reinterpret_cast<::SinkOwner *>((((::DbgStr_cls *)(reinterpret_cast<::FUN_00cc02d0_cls *>((((::DbgStr_cls *)(reinterpret_cast<::SinkOwner *>(&(dbgStr))->FUN_00cc01c0("No mass properties available (")))))->FUN_00cc02d0({})))))->FUN_00cc01c0({});
 		AssertMgr_cls *pAssertMgr = (AssertMgr_cls *)DAT_01268360;
 		if (pAssertMgr->vtbl0C(3, 0x79f9d887, (char *)buf, ".\\GeometryProcessing\\ConvexHull\\hkgpConvexHull.cpp", 0x14e))
 		{
 			__debugbreak();
 		}
-		dbgStr.Release();
+		reinterpret_cast<struct ::FUN_00cc00e0 *>(&(dbgStr))->FUN_00cc00e0::~FUN_00cc00e0();
 	}
 	__m128 *pSrcVec = &m_pSharedOwner->m_v120;
 	pOut64->m_v0 = *pSrcVec;
@@ -2369,7 +2348,6 @@ struct D76250MemoryRouter {
 };
 
 namespace fnvc_adapt { extern "C" D76250MemoryRouter& __cdecl FUN_00c85750(); }
-void __cdecl FUN_00c908c0(D76250Allocator* alloc, void* array, int numElements, int sizeElem);
 
 struct D76250Vector4 {
     __m128 m_vComponents;
@@ -2390,7 +2368,7 @@ struct D76250VectorArray {
         if (cap < n) {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, sizeof(D76250Vector4));
+            ::FUN_00c908c0((::SpawnedObject *)(::D76250Allocator *)(&alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(D76250Vector4));
         }
     }
 
@@ -2425,7 +2403,6 @@ void D76250Shape::CopyVerticesToArray(D76250VectorArray& vertices) const
 }
 
 struct FUN_00d81510_cls {
-    void FUN_00d81510(int a1, int a2, int a3, int a4);
 };
 
 struct FUN_00d77320_cls {
@@ -2446,7 +2423,7 @@ void FUN_00d77320_cls::CopyAndDispatch(int* a1, int a2, const __m128* pVec, cons
     dst[2] = pUInts[2];
     dst[3] = pUInts[3];
     *(__m128*)((char*)m_08 + 0xe0) = *pVec;
-    m_08->FUN_00d81510((int)a1, a2, 1, 0);
+    reinterpret_cast<::S00d81510_Hull *>((m_08))->FUN_00d81510((const ::S00d81510_Vector4 *)((int)a1), a2, 1, (const ::S00d81510_Hull *)(0));
 }
 
 struct FnvCpu_FUN_00d74e00_CpuObject {
@@ -2462,7 +2439,6 @@ int FnvCpu_FUN_00d74e00_CpuObject::FUN_00d74e00()
 }
 
 struct S_00cc01c0_Class {
-    S_00cc01c0_Class* FUN_00cc02d0();
     void FUN_00cc01c0();
     S_00cc01c0_Class* FUN_00cc01c0(const char*, int, char*);
 };
@@ -2586,9 +2562,17 @@ struct S_00d752e0_Class {
     S_00d752e0_Entity* unk08;
     float FUN_00d752e0();
 };
+// Raises the value from FUN_00d752e0 to DAT_010d35e8, scales by DAT_010d35e0, divides by GetMass and returns the float result.
+// @fnv 0x00d75440
+float FUN_00d75440_cls::ComputeScaledPowerRatio()
+{
+    float base = reinterpret_cast<::S_00d752e0_Class *>((this))->FUN_00d752e0();
+    float powered = (float)pow((double)base, DAT_010d35e8);
+    double scaled = (double)powered * DAT_010d35e0;
+    double dDivisor = ((double)(reinterpret_cast<::FUN_00d75390_cls *>((this))->GetMass()));
+    return (float)(scaled / dDivisor);
+}
 
-extern const char str_010d3540[];
-extern const char str_010d358c[];
 
 struct S_00cb1600_Class {
     int unk000;
@@ -2723,9 +2707,7 @@ struct S_00cb1600_Class {
     int unk204;
     int unk208;
 
-    void FUN_00cb1600(int*, unsigned int);
     S_00cc01c0_Class* FUN_00cc01c0(const char*, int, char*);
-    void FUN_00cc00e0();
 };
 
 // If the entity's unk1b4 is zero, builds a message via a local helper and asserts on failure, then returns the entity's unk1a0.
@@ -2734,16 +2716,14 @@ float S_00d752e0_Class::FUN_00d752e0() {
     S_00d752e0_Entity* entity = this->unk08;
     if (entity->unk1b4 == 0) {
         S_00cb1600_Class localBuilder;
-        localBuilder.FUN_00cb1600(&localBuilder.unk00c, 0x200);
+        new ((void *)&(localBuilder)) ::FUN_00cb1600(&localBuilder.unk00c, 0x200);
 
-        S_00cc01c0_Class* value = localBuilder.FUN_00cc01c0(
-            str_010d358c,
-            entity->unk1b0,
-            &DAT_0103d078
-        );
+        S_00cc01c0_Class* value = ((::S_00cc01c0_Class *)(reinterpret_cast<::SinkOwner *>(&(localBuilder))->FUN_00cc01c0(
+            str_010d358c
+        )));
 
-        value = value->FUN_00cc02d0();
-        value->FUN_00cc01c0();
+        value = ((::S_00cc01c0_Class *)(reinterpret_cast<::FUN_00cc02d0_cls *>((value))->FUN_00cc02d0({})));
+        reinterpret_cast<::SinkOwner *>((value))->FUN_00cc01c0({});
 
         if (DAT_01268360->message(
                 3,
@@ -2754,7 +2734,7 @@ float S_00d752e0_Class::FUN_00d752e0() {
             __debugbreak();
         }
 
-        localBuilder.FUN_00cc00e0();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(localBuilder))->FUN_00cc00e0::~FUN_00cc00e0();
     }
     return this->unk08->unk1a0;
 }
@@ -2901,11 +2881,8 @@ struct S00d7d1c0_M08 {
     int f0c;
     int f10;
     int f14;
-    void FreeAll();
-    void ClearAndFlush();
 };
 struct S00d7d1c0_M20 {
-    void FlushQueuedElements();
     void FUN_00d7c8d0();
 };
 struct S00d7d1c0_Base {
@@ -2919,10 +2896,10 @@ struct S00d7d1c0_Derived : S00d7d1c0_Base {
     S00d7d1c0_M08 m08;
     S00d7d1c0_M20 m20;
     ~S00d7d1c0_Derived() {
-        m20.FlushQueuedElements();
-        m20.FUN_00d7c8d0();
-        m08.FreeAll();
-        m08.ClearAndFlush();
+        reinterpret_cast<::FUN_00d7c250_cls *>(&(m20))->FlushQueuedElements();
+        reinterpret_cast<::fnv_00d7c8d0::FUN_00d7c8d0 *>(&(m20))->fnv_00d7c8d0::FUN_00d7c8d0::~FUN_00d7c8d0();
+        reinterpret_cast<::S_00d7c200 *>(&(m08))->FreeAll();
+        reinterpret_cast<::D7C850_Class *>(&(m08))->ClearAndFlush();
     }
     S00d7d1c0_Derived* FUN_00d7d1c0(int flags);
 };
@@ -3113,20 +3090,15 @@ extern "C" double fabs(double);
 
 struct S00d78b90_Node {
     virtual void Release(int flags);
-    void FUN_00d762f0();
-    float FUN_00d752e0();
     bool FUN_00d77bd0(int idx, int arg);
 };
 
 struct S00d78b90_Node2 {
-    float FUN_00d752e0();
 };
 
 S00d78b90_Node* FUN_00d76cf0();
 
 struct S00d78b90_Store {
-    int FUN_00d74e10();
-    int FUN_00d75050();
 };
 
 struct S00d78b90_Store2 {
@@ -3135,21 +3107,21 @@ struct S00d78b90_Store2 {
 
 // @fnv 0x00d78b90
 S00d78b90_Node* FUN_00d78b90(S00d78b90_Store* apStore, float fThreshold, int arg3) {
-    if (apStore->FUN_00d74e10() == 3) {
+    if (reinterpret_cast<::FUN_00d74e10_cls *>((apStore))->FUN_00d74e10() == 3) {
         S00d78b90_Node* best = FUN_00d76cf0();
-        float f = best->FUN_00d752e0();
+        float f = reinterpret_cast<::S_00d752e0_Class *>((best))->FUN_00d752e0();
         int lo = 4;
-        int hi = apStore->FUN_00d75050();
+        int hi = reinterpret_cast<::FUN_00d75050_cls *>((apStore))->FUN_00d75050();
         while (((hi - lo) & ~1) != 0) {
             int mid = (hi + lo) >> 1;
             S00d78b90_Node* node = ((S00d78b90_Store2*)apStore)->FUN_00d76cf0();
-            node->FUN_00d762f0();
+            reinterpret_cast<::D762F0Owner *>((node))->FUN_00d762f0();
             if (!node->FUN_00d77bd0(mid, arg3)) {
                 if (node != 0)
                     node->Release(1);
                 break;
             }
-            float v = ((S00d78b90_Node2*)node)->FUN_00d752e0();
+            float v = reinterpret_cast<::S_00d752e0_Class *>((((S00d78b90_Node2*)node)))->FUN_00d752e0();
             float r = (v - f) / f;
             volatile float fAbsRatio = (float)fabs(r);
             if (fAbsRatio < fThreshold) {
@@ -3214,7 +3186,6 @@ struct PoolBlockArray {
     PoolBlock** m_data;
     int m_iElementCount;
     int m_iCapacityState;
-    PoolBlock* AllocateBlock();
 };
 
 struct FUN_00d7efc0_cls {
@@ -3231,7 +3202,7 @@ PoolEntry* FUN_00d7efc0_cls::FUN_00d7efc0(const PoolEntry* apSource)
 {
     PoolBlock* block;
     if (m_kBlocks.m_iElementCount == 0 || m_kBlocks.m_data[0]->freeList == 0)
-        block = m_kBlocks.AllocateBlock();
+        block = ((::PoolBlock *)(reinterpret_cast<::S_00d7c340 *>(&(m_kBlocks))->AllocateBlock()));
     else
         block = m_kBlocks.m_data[0];
     PoolEntry* node = block->take();
@@ -3265,29 +3236,8 @@ extern "C" __m128 _mm_mul_ps(__m128, __m128);
 extern "C" __m128 _mm_add_ss(__m128, __m128);
 extern "C" void _mm_store_ss(float*, __m128);
 
-extern const hkVec4 DAT_010c44d0;
 struct ShapeHelper {
-    void FUN_00d76320(const hkVec4* apInput, hkVec4* apOutput);
 };
-// XORs the input with DAT_010c44d0, passes it to ShapeHelper, and returns three component products summed with the input's w.
-// @fnv 0x00d76840
-float Shape::FUN_00d76840(const hkVec4& avInput)
-{
-    hkVec4 kNegated;
-    hkVec4 kResult;
-    *(__m128*)&kNegated = _mm_xor_ps(*(__m128*)&avInput, *(__m128*)&DAT_010c44d0);
-    ((ShapeHelper*)this)->FUN_00d76320(&kNegated, &kResult);
-    __m128 kW;
-    if (&avInput) kW = _mm_shuffle_ps(*(__m128*)&avInput, *(__m128*)&avInput, 0xff);
-    __m128 kP = _mm_mul_ps(*(__m128*)&avInput, *(__m128*)&kResult);
-    __m128 kSum = _mm_add_ss(_mm_shuffle_ps(kP, kP, 0x55), kP);
-    kSum = _mm_add_ss(_mm_shuffle_ps(kP, kP, 0xaa), kSum);
-    kSum = _mm_add_ss(kSum, kW);
-    float fResult;
-    _mm_store_ss(&fResult, kSum);
-    return fResult;
-}
-
 struct S00d79250_Obj {
     virtual ~S00d79250_Obj();
     int FUN_00d790a0(const hkVec4& point, S00d79250_Obj** first, S00d79250_Obj** second, float tolerance);
@@ -3303,9 +3253,7 @@ struct S00d79250_Shape {
     int unk00; int unk04;
     S00d79250_Data* data;
     int FUN_00d74f10();
-    float FUN_00d76840(const hkVec4& point);
 };
-void __cdecl FUN_00c908c0(S_00d7a010_Alloc* alloc, void* array, int numElements, int sizeElem);
 struct S00d79250_Objs {
     S00d79250_Obj** m_data;
     int m_iElementCount;
@@ -3313,7 +3261,7 @@ struct S00d79250_Objs {
     __forceinline void AddBack(S00d79250_Obj* e) {
         S_00d7c340_Router* r = FUN_00c85750();
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
-            ResizeAudioStream(r->unk10, this, sizeof(S00d79250_Obj*));
+            ::ResizeAudioStream((::AudioAllocator *)(r->unk10), (::AudioStream *)(void *)(this), sizeof(S00d79250_Obj*));
         S00d79250_Obj** p = m_data + m_iElementCount;
         __assume(p != 0);
         new (p) S00d79250_Obj*(e);
@@ -3326,7 +3274,7 @@ struct S00d79250_Indices : S_00d7a010_Array<int> {
         if (cap < n) {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&a, this, newSize, sizeof(int));
+            ::FUN_00c908c0((::SpawnedObject *)(::S_00d7a010_Alloc *)(&a), (::SpawnedArray *)(void *)(this), newSize, sizeof(int));
         }
     }
     __forceinline void SetSizeAndGrow(int n) {
@@ -3352,9 +3300,9 @@ void __cdecl FUN_00d79250(S00d79250_World* world, S00d79250_Shape* shape,
         indices[i] = i;
     while (current && indices.GetLogicalSize() > 0) {
         int best = 0;
-        float bestScore = shape->FUN_00d76840(data->points[indices[best]]);
+        float bestScore = reinterpret_cast<::Shape *>((shape))->FUN_00d76840(data->points[indices[best]]);
         for (int i = best + 1; i < indices.GetLogicalSize(); i++) {
-            float score = shape->FUN_00d76840(data->points[indices[i]]);
+            float score = reinterpret_cast<::Shape *>((shape))->FUN_00d76840(data->points[indices[i]]);
             if (score > bestScore) {
                 bestScore = score;
                 best = i;
@@ -3440,8 +3388,6 @@ struct D7Head {
     D7ListNode* h0c;
     int h10;
     int h14;
-    void FUN_00d7adb0(void* p);
-    void FUN_00d7aea0(void* p);
     void Remove(D7ListNode* e)
     {
         D7ListNode* nxt = e->n00;
@@ -3612,11 +3558,11 @@ void __thiscall D7Owner::FUN_00d7c3e0(D7Node* arg1, D7Pair* pair, D7Pair* apOutP
             if (o->ref30 == 0) {
                 D7ListNode* e = pNode->elems[i];
                 headA.Remove(e);
-                headA.FUN_00d7adb0(e);
+                reinterpret_cast<::PoolAllocator40 *>(&(headA))->FUN_00d7adb0((::PoolItem40 *)(e));
             }
         }
         headB.Remove((D7ListNode*)pNode);
-        headB.FUN_00d7aea0(pNode);
+        reinterpret_cast<::fnv_00d7aea0::PoolAllocator48 *>(&(headB))->FUN_00d7aea0((::fnv_00d7aea0::PoolItem48 *)(pNode));
     } else {
         *apOutPair = *pair;
     }
@@ -3742,16 +3688,16 @@ struct HullEdge {
 struct HullEdgeIterator {
     HullEdge m_kEdge;
     HullEdgeIterator(HullEdge e);
-    void FUN_00d7c970();
 };
 // Constructs a HullEdgeIterator from a HullEdge, calling FUN_00d7c970 if the edge has a triangle and is not canonical.
 // @fnv 0x00d7d220
 HullEdgeIterator::HullEdgeIterator(HullEdge akEdge) : m_kEdge(akEdge)
 {
-    if (m_kEdge.m_pkTriangle && !m_kEdge.isCanonical()) FUN_00d7c970();
+    if (m_kEdge.m_pkTriangle && !m_kEdge.isCanonical()) reinterpret_cast<::FUN_00d7c970_cls *>(this)->FUN_00d7c970();
 }
 
 #include <windows.h>
+#include "fnv/symbols_simd.h"
 struct S_00d7f6a0_Head {
     char m0;
     float m4;
@@ -3878,16 +3824,7 @@ struct FUN_00d7f6a0 : S_00d7f6a0_Head {
     int unk1ac;
     long m_iOwnerObjectOffset;
     FUN_00d7f6a0();
-    void Reset(int) throw();
 };
-
-// Assigns InterlockedExchangeAdd on s_nextId to m_iOwnerObjectOffset, then calls Reset(0).
-// @fnv 0x00d7f6a0
-FUN_00d7f6a0::FUN_00d7f6a0()
-{
-    m_iOwnerObjectOffset = InterlockedExchangeAdd(&s_nextId, 1);
-    Reset(0);
-}
 
 struct D76250Allocator {
     virtual void v00();
@@ -3909,8 +3846,6 @@ struct S76320_Sorter {
     int unk00;
 };
 
-void __cdecl FUN_00dedcf0(D76250VectorArray* points, S76320_Sorter* sorter);
-void __cdecl FUN_00dea810(S76320_Sorter* sorter, int a1, int a2);
 
 struct S76320_Owner {
     int unk00;
@@ -3947,6 +3882,24 @@ struct S76320_Cls {
     S76320_Owner* m_pOwnerObject;
     void FUN_00d76320(int a1, int a2);
 };
+// XORs the input with DAT_010c44d0, passes it to ShapeHelper, and returns three component products summed with the input's w.
+// @fnv 0x00d76840
+float Shape::FUN_00d76840(const hkVec4& avInput)
+{
+    hkVec4 kNegated;
+    hkVec4 kResult;
+    *(__m128*)&kNegated = _mm_xor_ps(*(__m128*)&avInput, *(__m128*)&(*reinterpret_cast<const ::hkVec4 *>((void *)&::DAT_010c44d0)));
+    reinterpret_cast<::S76320_Cls *>((((ShapeHelper*)this)))->FUN_00d76320((int)(&kNegated), (int)(&kResult));
+    __m128 kW;
+    if (&avInput) kW = _mm_shuffle_ps(*(__m128*)&avInput, *(__m128*)&avInput, 0xff);
+    __m128 kP = _mm_mul_ps(*(__m128*)&avInput, *(__m128*)&kResult);
+    __m128 kSum = _mm_add_ss(_mm_shuffle_ps(kP, kP, 0x55), kP);
+    kSum = _mm_add_ss(_mm_shuffle_ps(kP, kP, 0xaa), kSum);
+    kSum = _mm_add_ss(kSum, kW);
+    float fResult;
+    _mm_store_ss(&fResult, kSum);
+    return fResult;
+}
 
 // Collects node vectors into a temporary array, sorts them via m_sorter, frees the array, then calls FUN_00dea810 with a1 and a2.
 // @fnv 0x00d76320
@@ -3962,7 +3915,7 @@ void S76320_Cls::FUN_00d76320(int a1, int a2)
         for (S76320_Node* node = owner->m_kNode; node; node = node->m_next) {
             *dst++ = node->m_uiFilterValue;
         }
-        FUN_00dedcf0(&points, &owner->m_sorter);
+        ::FUN_00dedcf0((*(const ::VertexArray *)(&points)), (*(::FourPointArray *)(&owner->m_sorter)));
         D76250Allocator& alloc = fnvc_adapt::FUN_00c85750().heap();
         points.m_iElementCount = 0;
         if ((points.m_iCapacityState & 0x80000000) == 0)
@@ -3970,20 +3923,14 @@ void S76320_Cls::FUN_00d76320(int a1, int a2)
         points.m_data = 0;
         points.m_iCapacityState = 0x80000000;
     }
-    FUN_00dea810(&owner->m_sorter, a1, a2);
+    ::fnv_00dea810::FUN_00dea810((*(const ::fnv_00dea810::FourPointsArray *)(&owner->m_sorter)), (*(const ::fnv_00dea810::hkVector4q *)(a1)), (*(::fnv_00dea810::hkVector4q *)(a2)));
 }
 
-extern const float DAT_01012054;
-extern const float DAT_0106c288;
-extern const char str_010d3574[];
 
 struct ExportStream {
     int unk00,unk04,unk08;
-    void FUN_00cb1600(char*,int);
     ExportStream* FUN_00cc01c0(const char*,int,char*);
-    ExportStream* FUN_00cc02d0();
     void FUN_00cc01c0();
-    void FUN_00cc00e0();
 };
 struct SplitObject {
     virtual ~SplitObject();
@@ -3993,7 +3940,6 @@ struct SplitObject {
     const hkVec4& FUN_00d74fb0(int);
     __declspec(noinline) int FUN_00d74e10();
     int FUN_00d762f0();
-    float FUN_00d752e0();
 };
 __declspec(noinline) int SplitObject::FUN_00d74e10() { return data->unk1a8; }
 struct PlaneSplitter {
@@ -4010,10 +3956,10 @@ static __forceinline void CheckSplitIndex(SplitObject* source,ExportStream& stre
     ChildData* data=source->data;
     if(!data->flag1b5) {
         unsigned int buffer[128];
-        stream.FUN_00cb1600((char*)buffer,512);
-        stream.FUN_00cc01c0(str_010d3574,data->unk1b0,&DAT_0103d078)->FUN_00cc02d0()->FUN_00cc01c0();
+        new ((void *)&(stream)) ::FUN_00cb1600((char*)buffer,512);
+        reinterpret_cast<::SinkOwner *>((((::ExportStream *)(reinterpret_cast<::FUN_00cc02d0_cls *>((((::ExportStream *)(reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(str_010d3574)))))->FUN_00cc02d0({})))))->FUN_00cc01c0({});
         if(DAT_01268360->message(3,0x79f9d886,(char*)buffer,str_010d3540,0x148)) __debugbreak();
-        stream.FUN_00cc00e0();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();
     }
 }
 // Iterates source planes, splits with splitter, keeps the pair with the highest score that passes predicate, returning the best score.
@@ -4030,20 +3976,20 @@ float FUN_00d79850(SplitObject* source,PlaneSplitter* splitter,PairPredicate* pr
         hkVec4 plane=*src;
         SplitObject* pFirst;
         SplitObject* pSecond;
-        int result=splitter->FUN_00d790a0(plane,pFirst,pSecond,DAT_0106c288);
+        int result=splitter->FUN_00d790a0(plane,pFirst,pSecond,::DAT_0106c288);
         SplitObject* second=*(SplitObject* volatile*)&pSecond;
         SplitObject* first=*(SplitObject* volatile*)&pFirst;
-        if(result==3 && first && second && first->FUN_00d74e10()==3 && second->FUN_00d74e10()==3 && !second->FUN_00d762f0() && second->FUN_00d752e0()>best && !first->FUN_00d762f0()) {
+        if(result==3 && first && second && reinterpret_cast<::FUN_00d74e10_cls *>((first))->FUN_00d74e10()==3 && reinterpret_cast<::FUN_00d74e10_cls *>((second))->FUN_00d74e10()==3 && !second->FUN_00d762f0() && reinterpret_cast<::S_00d752e0_Class *>((second))->FUN_00d752e0()>best && !first->FUN_00d762f0()) {
             SplitObject* combined=CallWithPair(0,*(SplitObject* volatile*)&source,second);
             if(combined) {
-                if(combined->FUN_00d74e10()==3 && !combined->FUN_00d762f0()) {
+                if(reinterpret_cast<::FUN_00d74e10_cls *>((combined))->FUN_00d74e10()==3 && !combined->FUN_00d762f0()) {
                     workspace.pair[0]=combined;
                     workspace.pair[1]=first;
                     bool accepted;
                     if(*predicate->test(&accepted,workspace.pair,2)) {
                         delete outFirst;
                         delete outSecond;
-                        best=second->FUN_00d752e0();
+                        best=reinterpret_cast<::S_00d752e0_Class *>((second))->FUN_00d752e0();
                         outFirst=combined;
                         outSecond=first;
                         pFirst=0;
@@ -4065,15 +4011,6 @@ extern "C" __m128 _mm_move_ss(__m128, __m128);
 extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 extern "C" void _mm_store_ps(float*, __m128);
 
-extern float DAT_01011d78;
-extern float DAT_0104da48;
-extern float DAT_0104e148;
-extern __m128 DAT_01267e30;
-extern __m128 DAT_01268370;
-extern __m128 DAT_01268380;
-extern __m128 DAT_01268390;
-extern __m128 DAT_012683a0;
-void* __cdecl FUN_00cd4b50();
 
 struct FUN_00d7ac40_sub {
     virtual void v00();
@@ -4141,14 +4078,31 @@ __declspec(align(16)) struct FUN_00d7ac40_cls {
 
     void __thiscall FUN_00d7ac40(unsigned char flag);
 };
+// @fnv 0x00d75850
+void FUN_00d75850_class::FUN_00d75850()
+{
+    reinterpret_cast<::FUN_00d7ac40_cls *>((m2))->FUN_00d7ac40(0);
+    if (m4) {
+        void (__thiscall *fn)(int, int) = *(void (__thiscall **)(int, int))*reinterpret_cast<void (__thiscall **)(int, int)>(m4);
+        fn(m4, 1);
+    }
+    m4 = 0;
+}
+// Assigns InterlockedExchangeAdd on s_nextId to m_iOwnerObjectOffset, then calls Reset(0).
+// @fnv 0x00d7f6a0
+FUN_00d7f6a0::FUN_00d7f6a0()
+{
+    m_iOwnerObjectOffset = InterlockedExchangeAdd(&s_nextId, 1);
+    reinterpret_cast<::FUN_00d7ac40_cls *>(this)->FUN_00d7ac40(0);
+}
 
 // Calls m_10.v0c(), clears several fields, and initializes vectors from constants and data returned by FUN_00cd4b50().
 // @fnv 0x00d7ac40
 void FUN_00d7ac40_cls::FUN_00d7ac40(unsigned char flag)
 {
     m_10.v0c();
-    __m128 vDefault = _mm_setr_ps(DAT_01011d78, DAT_01011d78, DAT_01011d78, DAT_0104da48);
-    __m128 bScalar = _mm_load_ss(&DAT_0104da48);
+    __m128 vDefault = _mm_setr_ps(::DAT_01011d78, ::DAT_01011d78, ::DAT_01011d78, ::DAT_0104da48);
+    __m128 bScalar = _mm_load_ss(&::DAT_0104da48);
     m_58 = 0;
     m_4c = 0;
     m_64 = 0;
@@ -4158,33 +4112,33 @@ void FUN_00d7ac40_cls::FUN_00d7ac40(unsigned char flag)
     _mm_store_ps((float*)&m_70, vDefault);
     _mm_store_ps((float*)&m_80, vDefault);
     __m128 tShuffle = _mm_move_ss(vDefault, bScalar);
-    __m128 cScalar = _mm_load_ss(&DAT_0104e148);
+    __m128 cScalar = _mm_load_ss(&::DAT_0104e148);
     __m128 vb = _mm_shuffle_ps(tShuffle, tShuffle, 0);
     __m128 vc = _mm_shuffle_ps(cScalar, cScalar, 0);
     _mm_store_ps((float*)&m_90, vb);
     _mm_store_ps((float*)&m_a0, vc);
     _mm_store_ps((float*)&m_b0, vb);
     _mm_store_ps((float*)&m_c0, vc);
-    m_120 = DAT_01268370;
+    m_120 = (*reinterpret_cast<::__m128 *>(&::DAT_01268370));
     m_130 = DAT_01268380;
     m_140 = DAT_01268390;
-    m_150 = DAT_012683a0;
-    m_160 = DAT_01267e30;
+    m_150 = (*reinterpret_cast<::__m128 *>(&::DAT_012683a0));
+    m_160 = (*reinterpret_cast<::__m128 *>(&::DAT_01267e30));
     float z = 0.0f;
-    char* p = (char*)FUN_00cd4b50();
+    char* p = (char*)((void *)(::FUN_00cd4b50()));
     m_170 = *(__m128*)p;
     m_180 = *(__m128*)(p + 0x10);
     m_190 = *(__m128*)(p + 0x20);
-    __m128 zz = DAT_01267e30;
+    __m128 zz = (*reinterpret_cast<::__m128 *>(&::DAT_01267e30));
     m_1a0 = z;
     m_1a4 = z;
     m_d0 = zz;
     m_1a8 = -1;
-    m_100 = DAT_01267e30;
-    m_110 = DAT_01267e30;
-    m_f0 = DAT_01267e30;
+    m_100 = (*reinterpret_cast<::__m128 *>(&::DAT_01267e30));
+    m_110 = (*reinterpret_cast<::__m128 *>(&::DAT_01267e30));
+    m_f0 = (*reinterpret_cast<::__m128 *>(&::DAT_01267e30));
     if (!flag) {
-        m_e0 = DAT_01267e30;
+        m_e0 = (*reinterpret_cast<::__m128 *>(&::DAT_01267e30));
     }
 }
 
@@ -4198,7 +4152,6 @@ struct S_00d790d0_V4 {
 
 struct S_00d790d0_Item {
     virtual ~S_00d790d0_Item();
-    void FUN_00d762f0();
     int FUN_00d756a0(S_00d790d0_V4* v, S_00d790d0_Item** a, S_00d790d0_Item** b, float f);
     int FUN_00d790a0(int r);
 };
@@ -4215,7 +4168,7 @@ struct S_00d790d0_Arr {
     __forceinline void AddBack(S_00d790d0_Item* v) {
         S_00d7c340_Router* r = FUN_00c85750();
         if (m_iElementCount == (m_cap & 0x3fffffff))
-            ResizeAudioStream(r->unk10, this, 4);
+            ::ResizeAudioStream((::AudioAllocator *)(r->unk10), (::AudioStream *)(void *)(this), 4);
         S_00d790d0_Item** p = m_data + m_iElementCount;
         for (int k = 0; k < 1; k++)
             p[k] = v;
@@ -4224,7 +4177,7 @@ struct S_00d790d0_Arr {
     __forceinline void pushBackRef(S_00d790d0_Item*& v) {
         S_00d7c340_Router* r = FUN_00c85750();
         if (m_iElementCount == (m_cap & 0x3fffffff))
-            ResizeAudioStream(r->unk10, this, 4);
+            ::ResizeAudioStream((::AudioAllocator *)(r->unk10), (::AudioStream *)(void *)(this), 4);
         S_00d790d0_Item** p = m_data + m_iElementCount;
         for (int k = 0; k < 1; k++)
             p[k] = v;
@@ -4253,7 +4206,7 @@ void __stdcall FUN_00d790d0(int aiSteps, S_00d790d0_Arr* apItems, float afParam)
         do {
             for (int i = 0, sz = apItems->m_iElementCount; i < sz; i++) {
                 S_00d790d0_Item* e = apItems->m_data[i];
-                e->FUN_00d762f0();
+                reinterpret_cast<::D762F0Owner *>((e))->FUN_00d762f0();
                 int res = e->FUN_00d756a0(&v, &vPair.a, &vPair.b, afParam);
                 int r = e->FUN_00d790a0(res);
                 if (r == 3) {
@@ -4276,9 +4229,6 @@ void __stdcall FUN_00d790d0(int aiSteps, S_00d790d0_Arr* apItems, float afParam)
 
 namespace fnv_00d74f10 {
 extern "C" void __cdecl __debugbreak();
-extern const char DAT_010d3574[];
-extern const char DAT_0103d078[];
-extern const char DAT_010d3540[];
 struct Service {
     struct VTable {
         void* f0;
@@ -4288,16 +4238,12 @@ struct Service {
     };
     VTable *vt;
 };
-extern Service* DAT_01268360;
 struct Buffer {
     int m00;
     int m04;
     int m08;
-    void FUN_00cb1600(char* storage, int cap);
     Buffer* FUN_00cc01c0(const char* x, int n, const char* y);
     Buffer* FUN_00cc01c0();
-    Buffer* FUN_00cc02d0();
-    void FUN_00cc00e0();
 };
 struct FUN_00d74f10_class {
     int unk00;
@@ -4312,32 +4258,25 @@ int FUN_00d74f10_class::FUN_00d74f10() {
     void* storage[128];
     Buffer b;
     if (!node[0x1b5]) {
-        b.FUN_00cb1600((char*)storage, 512);
-        b.FUN_00cc01c0(DAT_010d3574, *(int*)(node+0x1b0),DAT_0103d078)->FUN_00cc02d0()->FUN_00cc01c0();
-        int iResult = DAT_01268360->vt->fC(DAT_01268360,3,0x79f9d886,(char*)storage,DAT_010d3540,0x148);
+        new ((void *)&(b)) ::FUN_00cb1600((char*)storage, 512);
+        reinterpret_cast<::SinkOwner *>((((::fnv_00d74f10::Buffer *)(reinterpret_cast<::FUN_00cc02d0_cls *>((((::fnv_00d74f10::Buffer *)(reinterpret_cast<::SinkOwner *>(&(b))->FUN_00cc01c0(::str_010d3574)))))->FUN_00cc02d0({})))))->FUN_00cc01c0({});
+        int iResult = (*reinterpret_cast<::fnv_00d74f10::Service * *>(&::DAT_01268360))->vt->fC((*reinterpret_cast<::fnv_00d74f10::Service * *>(&::DAT_01268360)),3,0x79f9d886,(char*)storage,::str_010d3540,0x148);
         if (iResult != 0) __debugbreak();
-        b.FUN_00cc00e0();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(b))->FUN_00cc00e0::~FUN_00cc00e0();
     }
     return *(int*)(item08 + 0x58);
 }
 }  // namespace fnv_00d74f10
 
 namespace fnv_00d74fb0 {
-extern const char str_010d3574[];
-extern const char str_010d3540[];
-extern const char DAT_0103d078[];
 struct S_00d74fb0_Stream {
     int unk00, unk04, unk08;
-    S_00d74fb0_Stream* FUN_00cb1600(void* buf, int size);
     S_00d74fb0_Stream& FUN_00cc01c0(const char* s);
-    S_00d74fb0_Stream& FUN_00cc02d0(int v);
-    void FUN_00cc00e0();
 };
 struct S_00d74fb0_Dbg {
     virtual void v00(); virtual void v04(); virtual void v08();
     virtual int Report(int level, unsigned int hash, const char* text, const char* file, int line);
 };
-extern S_00d74fb0_Dbg* DAT_01268360;
 struct S_00d74fb0_Inner {
     char pad[0x54];
     char* unk54;
@@ -4359,11 +4298,11 @@ char* S_00d74fb0_Obj::FUN_00d74fb0(unsigned int uiIndex)
     if (!p->unk1b5) {
         unsigned int buf[128];
         S_00d74fb0_Stream s;
-        s.FUN_00cb1600(buf, 0x200);
-        s.FUN_00cc01c0(str_010d3574).FUN_00cc02d0(p->unk1b0).FUN_00cc01c0(DAT_0103d078);
-        if (DAT_01268360->Report(3, 0x79f9d886, (const char*)buf, str_010d3540, 0x148))
+        new ((void *)&(s)) ::FUN_00cb1600(buf, 0x200);
+        reinterpret_cast<::SinkOwner *>(&((*(::fnv_00d74fb0::S_00d74fb0_Stream *)(reinterpret_cast<::FUN_00cc02d0_cls *>(&((*(::fnv_00d74fb0::S_00d74fb0_Stream *)(reinterpret_cast<::SinkOwner *>(&(s))->FUN_00cc01c0(::str_010d3574)))))->FUN_00cc02d0(p->unk1b0)))))->FUN_00cc01c0((*reinterpret_cast<const char (*)[]>(&::DAT_0103d078)));
+        if ((*reinterpret_cast<::fnv_00d74fb0::S_00d74fb0_Dbg * *>(&::DAT_01268360))->Report(3, 0x79f9d886, (const char*)buf, ::str_010d3540, 0x148))
             __debugbreak();
-        s.FUN_00cc00e0();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(s))->FUN_00cc00e0::~FUN_00cc00e0();
     }
     return unk08->unk54 + (uiIndex << 4);
 }
@@ -4491,13 +4430,13 @@ struct StrBuilder_cls {
     unsigned int m_08;
 };
 
-struct FUN_00cb1600_cls { void FUN_00cb1600(unsigned int* aBuf, int aSize); };
+struct FUN_00cb1600_cls {  };
 struct FUN_00cc01c0_cls {
     FUN_00cc01c0_cls* FUN_00cc01c0(const char* aFmt, int aValue, const char* aName);
 };
 struct FUN_00cc01c0b_cls { FUN_00cc01c0b_cls* FUN_00cc01c0(); };
-struct FUN_00cc02d0_cls { FUN_00cc02d0_cls* FUN_00cc02d0(); };
-struct FUN_00cc00e0_cls { void FUN_00cc00e0(); };
+struct FUN_00cc02d0_cls {  };
+struct FUN_00cc00e0_cls {  };
 
 struct LogSink_cls {
     virtual void v00();
@@ -4506,10 +4445,6 @@ struct LogSink_cls {
     virtual int Write(int aLevel, unsigned int aTag, unsigned int* aBuf, const char* aFmt, int aLine);
 };
 
-extern LogSink_cls* DAT_01268360;
-extern char DAT_0103d078;
-extern char str_010d358c;
-extern char str_010d3540;
 
 extern "C" void __debugbreak();
 
@@ -4529,35 +4464,28 @@ void* FUN_00d75560_cls::FUN_00d75560()
     if (sub->m_1b4 == 0) {
         StrBuilder_cls sb;
         unsigned int buf[0x80];
-        reinterpret_cast<FUN_00cb1600_cls*>(&sb)->FUN_00cb1600(buf, 0x200);
-        FUN_00cc01c0_cls* a = reinterpret_cast<FUN_00cc01c0_cls*>(&sb)->FUN_00cc01c0(&str_010d358c, sub->m_1b0, &DAT_0103d078);
-        FUN_00cc02d0_cls* b = reinterpret_cast<FUN_00cc02d0_cls*>(a)->FUN_00cc02d0();
-        reinterpret_cast<FUN_00cc01c0b_cls*>(b)->FUN_00cc01c0();
-        if (DAT_01268360->Write(3, 0x79f9d887, buf, &str_010d3540, 0x14e) != 0) {
+        new ((void *)(reinterpret_cast<FUN_00cb1600_cls*>(&sb))) ::FUN_00cb1600(buf, 0x200);
+        FUN_00cc01c0_cls* a = ((::fnv_00d75560::FUN_00cc01c0_cls *)(reinterpret_cast<::SinkOwner *>((reinterpret_cast<FUN_00cc01c0_cls*>(&sb)))->FUN_00cc01c0(&(*reinterpret_cast<char *>((void *)&::str_010d358c)))));
+        FUN_00cc02d0_cls* b = ((::fnv_00d75560::FUN_00cc02d0_cls *)(reinterpret_cast<::FUN_00cc02d0_cls *>((reinterpret_cast<FUN_00cc02d0_cls*>(a)))->FUN_00cc02d0({})));
+        reinterpret_cast<::SinkOwner *>((reinterpret_cast<FUN_00cc01c0b_cls*>(b)))->FUN_00cc01c0({});
+        if ((*reinterpret_cast<::fnv_00d75560::LogSink_cls * *>(&::DAT_01268360))->Write(3, 0x79f9d887, buf, &(*reinterpret_cast<char *>((void *)&::str_010d3540)), 0x14e) != 0) {
             __debugbreak();
         }
-        reinterpret_cast<FUN_00cc00e0_cls*>(&sb)->FUN_00cc00e0();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>((reinterpret_cast<FUN_00cc00e0_cls*>(&sb)))->FUN_00cc00e0::~FUN_00cc00e0();
     }
     return (char*)m_08 + 0x170;
 }
 }  // namespace fnv_00d75560
 
 namespace fnv_00d75600 {
-extern const char str_010d358c[];
-extern const char str_010d3540[];
-extern const char DAT_0103d078[];
 struct S_00d75600_Stream {
     int unk00, unk04, unk08;
-    S_00d75600_Stream* FUN_00cb1600(void* buf, int size);
     S_00d75600_Stream& FUN_00cc01c0(const char* s);
-    S_00d75600_Stream& FUN_00cc02d0(int v);
-    void FUN_00cc00e0();
 };
 struct S_00d75600_Dbg {
     virtual void v00(); virtual void v04(); virtual void v08();
     virtual int Report(int level, unsigned int hash, const char* text, const char* file, int line);
 };
-extern S_00d75600_Dbg* DAT_01268360;
 struct S_00d75600_Inner {
     int unk000;
     int unk004;
@@ -4683,11 +4611,11 @@ int* S_00d75600_Obj::FUN_00d75600()
     if (!p->unk1b4) {
         unsigned int buf[128];
         S_00d75600_Stream s;
-        s.FUN_00cb1600(buf, 0x200);
-        s.FUN_00cc01c0(str_010d358c).FUN_00cc02d0(p->unk1b0).FUN_00cc01c0(DAT_0103d078);
-        if (DAT_01268360->Report(3, 0x79f9d887, (const char*)buf, str_010d3540, 0x14e))
+        new ((void *)&(s)) ::FUN_00cb1600(buf, 0x200);
+        reinterpret_cast<::SinkOwner *>(&((*(::fnv_00d75600::S_00d75600_Stream *)(reinterpret_cast<::FUN_00cc02d0_cls *>(&((*(::fnv_00d75600::S_00d75600_Stream *)(reinterpret_cast<::SinkOwner *>(&(s))->FUN_00cc01c0(::str_010d358c)))))->FUN_00cc02d0(p->unk1b0)))))->FUN_00cc01c0((*reinterpret_cast<const char (*)[]>(&::DAT_0103d078)));
+        if ((*reinterpret_cast<::fnv_00d75600::S_00d75600_Dbg * *>(&::DAT_01268360))->Report(3, 0x79f9d887, (const char*)buf, ::str_010d3540, 0x14e))
             __debugbreak();
-        s.FUN_00cc00e0();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(s))->FUN_00cc00e0::~FUN_00cc00e0();
     }
     return &unk08->unk150;
 }
@@ -4695,7 +4623,6 @@ int* S_00d75600_Obj::FUN_00d75600()
 
 namespace fnv_00d76940 {
 extern int DAT_010d36e0;
-extern int DAT_0102e388;
 
 struct AudioAllocator {
     virtual void v00();
@@ -4738,7 +4665,7 @@ void FUN_00d76940_cls::FUN_00d76940()
     m_vptr = (int)&DAT_010d36e0;
     FUN_00d7ce20_cls* pObj = m_08;
     if (pObj != 0) {
-        pObj->FUN_00d7ce20();
+        reinterpret_cast<::fnv_00d7ce20::FUN_00d7ce20 *>((pObj))->fnv_00d7ce20::FUN_00d7ce20::~FUN_00d7ce20();
         AudioHolder* pHolder = FUN_00c85750();
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(pObj, 0x1c0);
@@ -4748,7 +4675,7 @@ void FUN_00d76940_cls::FUN_00d76940()
         pMember->vDtor(1);
     }
     m_10 = 0;
-    m_vptr = (int)&DAT_0102e388;
+    m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 }  // namespace fnv_00d76940
 
@@ -4790,7 +4717,7 @@ struct FUN_00d76ca0 : S_00d76ca0_Base {
 FUN_00d76ca0::FUN_00d76ca0() {
     S_00d76ca0_Alloc& h = FUN_00c85750()->heap();
     void* p = h.AllocateMemoryBlock(0x1c0);
-    m08 = p ? ((S_00d76ca0_Inner*)p)->FUN_00d7f6a0() : 0;
+    m08 = p ? ((::fnv_00d76ca0::S_00d76ca0_Inner *)(new ((void *)(((S_00d76ca0_Inner*)p))) ::FUN_00d7f6a0())) : 0;
     m0c = 0;
     m10 = 0;
 }
@@ -4820,7 +4747,6 @@ struct D76Iface {
 
 struct D76Sub {
     int unk00;
-    void* FUN_00d7f720();
 };
 
 struct D76Old {
@@ -4855,16 +4781,16 @@ D76Child* FUN_00d76cf0_cls::FUN_00d76cf0()
     D76Allocator* pAllocator = (D76Allocator*)pHolder->unk10;
     D76Child* pNew = (D76Child*)pAllocator->Alloc(0x14);
     pNew->m_04 = 0x14;
-    pNew = pNew->FUN_00d76ca0();
+    pNew = ((::fnv_00d76cf0::D76Child *)(new ((void *)(pNew)) ::fnv_00d76ca0::FUN_00d76ca0()));
     D76Old* pOld = (D76Old*)pNew->m_08;
     if (pOld != 0) {
-        pOld->FUN_00d7ce20();
+        reinterpret_cast<::fnv_00d7ce20::FUN_00d7ce20 *>((pOld))->fnv_00d7ce20::FUN_00d7ce20::~FUN_00d7ce20();
         FUN_00c85750_return* pHolder2 = FUN_00c85750();
         D76Allocator* pAllocator2 = (D76Allocator*)pHolder2->unk10;
         pAllocator2->FreeArray(pOld, 0x1c0);
     }
     pNew->m_08 = 0;
-    pNew->m_08 = ((D76Sub*)m_08)->FUN_00d7f720();
+    pNew->m_08 = ((void *)(reinterpret_cast<::ThisCls *>((((D76Sub*)m_08)))->FUN_00d7f720()));
     pNew->m_0c = m_0c;
     void* pVal;
     if (m_10 != 0) {
@@ -4897,7 +4823,6 @@ struct HkAllocator : S_00d7c340_Allocator {
     virtual void ReleaseBlock(void* p, int numBytes) throw();
 };
 
-void __cdecl FUN_00c908c0(void* alloc, void* array, int newCap, int elemSize) throw();
 
 template <typename T>
 struct hkArray {
@@ -4942,7 +4867,7 @@ struct hkArray {
         if (cap < n) {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(::S_00d7a010_Alloc *)(&alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
         }
     }
 
@@ -4960,7 +4885,7 @@ struct hkArray {
     __forceinline void AddBack(const T& t) throw() {
         S_00d7c340_Router* router = FUN_00c85750();
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff)) {
-            ResizeAudioStream(router->unk10, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router->unk10), (::AudioStream *)(void *)(this), sizeof(T));
         }
         T* p = m_data + m_iElementCount;
         __assume(p != 0);
@@ -4992,12 +4917,12 @@ void HkHull::FUN_00d80f90(hkArray<int>& indices, hkArray<int>& offsets) {
     if (!this->flag1b5) {
         unsigned int buffer[128];
         ExportStream stream;
-        stream.FUN_00cb1600((char*)buffer, 512);
-        stream.FUN_00cc01c0("No index available (", this->unk1b0, &DAT_0103d078)->FUN_00cc02d0()->FUN_00cc01c0();
+        new ((void *)&(stream)) ::FUN_00cb1600((char*)buffer, 512);
+        reinterpret_cast<::SinkOwner *>((((::ExportStream *)(reinterpret_cast<::FUN_00cc02d0_cls *>((((::ExportStream *)(reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0("No index available (")))))->FUN_00cc02d0({})))))->FUN_00cc01c0({});
         if (DAT_01268360->message(3, 0x79f9d886, (const char*)buffer, ".\\GeometryProcessing\\ConvexHull\\hkgpConvexHull.cpp", 328)) {
             fnv_Breakpoint();
         }
-        stream.FUN_00cc00e0();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();
     }
 
     hkArray<hkArray<int> > links;
@@ -5032,11 +4957,10 @@ struct D79580_Array : S_00d7a010_Array<S_00d79f90_Result*> {
     __forceinline void AddBack(S_00d79f90_Result* const& item) {
         S_00d7c340_Router* router = FUN_00c85750();
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
-            ResizeAudioStream(router->unk10, this, 4);
+            ::ResizeAudioStream((::AudioAllocator *)(router->unk10), (::AudioStream *)(void *)(this), 4);
         MakeSlot((void**)m_data, m_iElementCount) = item;
         ++m_iElementCount;
     }
-    void SwapThreeInts(D79580_Array* other);
     __forceinline void clearAndFree() {
         _clearAndDeallocate(S_00d7a010_Router::FUN_00c85750().heap());
     }
@@ -5056,7 +4980,7 @@ bool __cdecl FUN_00d79580(S_00d79f90_World* world, D79580_Array* inputs, D79580_
     D79580_Array current;
     D79580_Array next;
     D79580_Array pieces;
-    S_00d79f90_Result* pInitialPiece = world->FUN_00d76cf0();
+    S_00d79f90_Result* pInitialPiece = ((::S_00d79f90_Result *)(reinterpret_cast<::fnv_00d76cf0::FUN_00d76cf0_cls *>((world))->FUN_00d76cf0()));
     current.AddBack(pInitialPiece);
     for (int i = 0; i < inputs->m_iElementCount; ++i) {
         int count = current.m_iElementCount;
@@ -5072,7 +4996,7 @@ bool __cdecl FUN_00d79580(S_00d79f90_World* world, D79580_Array* inputs, D79580_
                 next.AddBack(current.m_data[j]);
             }
         }
-        current.SwapThreeInts(&next);
+        reinterpret_cast<::FUN_00d9ec10_cls *>(&(current))->SwapThreeInts((int *)(::D79580_Array *)(&next));
         next.m_iElementCount = 0;
     }
     for (int i = 0; i < current.m_iElementCount; ++i)
@@ -5085,8 +5009,6 @@ bool __cdecl FUN_00d79580(S_00d79f90_World* world, D79580_Array* inputs, D79580_
 }
 
 extern const char str_010d36a0[];
-extern const char str_0103d078[];
-extern const char str_010d3540[];
 typedef float hkReal;
 typedef unsigned char hkUint8;
 typedef unsigned short hkUint16;
@@ -5183,7 +5105,7 @@ public:
 static T* s_instance;
 static __forceinline T& __cdecl GetMonitorStream()
 {
-return *s_instance;
+return *(*reinterpret_cast<::hkError * *>(&::DAT_01268360));
 }
 protected:
 hkSingleton() { }
@@ -5308,7 +5230,7 @@ if( capacity < n)
 {
 int cap2 = 2 * capacity;
 int newSize = (n < cap2) ? cap2 : n;
-HavokArrayUtilities::GrowArrayCapacity(alloc, this, newSize, sizeof(T));
+::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
 }
 }
 template <typename T>
@@ -5442,8 +5364,7 @@ protected:
 void setFlippedRotation(const hkVector4& from) throw();};
 inline const hkQuaternion& __cdecl hkQuaternion::GetIdentityTransform()
 {
-extern const hkQuaternion g_kIdentityQuaternion;
-return g_kIdentityQuaternion;
+return (*reinterpret_cast<const ::hkQuaternion *>(&::DAT_012683b0));
 }
 class hkMatrix3
 {
@@ -5455,11 +5376,7 @@ __forceinline hkReal& operator() (int row, int col);
 __forceinline const hkReal& operator() (int row, int col) const;
 __forceinline void setCols( const hkVector4& r0, const hkVector4& r1, const hkVector4& r2);
 static const hkMatrix3& __cdecl GetIdentityTransform() throw();
-void SetDiagonalElements( const hkVector4& r ) throw();
-void transpose() throw();
-void SetProduct( const hkMatrix3& a, const hkMatrix3& b ) throw();
 void addMul( hkSimdRealParameter scale, const hkMatrix3& a ) throw();
-void SetFromRotation(const hkRotation& t) throw();
 void sub( const hkMatrix3& a ) throw();
 inline void operator= ( const hkMatrix3& a );
 VectorComponentValue GetDeterminant() throw();
@@ -5472,7 +5389,7 @@ hkVector4 m_kColumn2;};class __declspec(align(16)) hkRotation : public hkMatrix3
 public:
 __forceinline void* __cdecl operator new(hk_size_t nbytes) { ; void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)); ; return obj; }
 void set(const hkQuaternion& q) throw();
-void Orthonormalize() throw();};
+};
 class hkTransform
 {
 public:
@@ -5550,8 +5467,7 @@ return reinterpret_cast<const hkReal*>(&(*(hkQuadReal*)&m_quadS))[a];
 }
 inline const hkVector4& __cdecl hkVector4::getZero()
 {
-extern hkVector4 g_vZero;
-return g_vZero;
+return (*reinterpret_cast<::hkVector4 *>(&::DAT_01267e30));
 }
 inline hkVector4& hkMatrix3::getColumn(int x)
 {
@@ -5593,12 +5509,11 @@ m_rotation = rotation;
 }
 void hkTransform::SetBodyOrientation(const hkQuaternion& quatRotation)
 {
-m_rotation.set(quatRotation);
+reinterpret_cast<::RotationRows *>(&(m_rotation))->FUN_00cb2d90((void *)&(quatRotation));
 }
 const hkTransform& __cdecl hkTransform::GetIdentityTransform()
 {
-extern hkTransform g_kIdentityTransform;
-return g_kIdentityTransform;
+return (*reinterpret_cast<::hkTransform *>(&::DAT_01268370));
 }
 class hkAabb
 {
@@ -5855,11 +5770,11 @@ offd(a) += (m(b,0)*m(c,1) + m(b,1)*m(c,2) + m(b,2)*m(c,0) + m(b,0)*m(c,2) + m(b,
 static __forceinline void translateInertia(hkReal mass, const hkVector4& oldcom, const hkVector4& newcom, hkMatrix3& inertia)
 {
 hkMatrix3 a, b, w, q;
-a.SetDiagonalElements(oldcom);
-b.SetDiagonalElements(newcom);
-w.SetProduct(a, a);
-q.SetProduct(b, b);
-q.transpose();
+reinterpret_cast<::S00cd4cc0_M *>(&(a))->FUN_00cd4cc0((const float *)&(oldcom));
+reinterpret_cast<::S00cd4cc0_M *>(&(b))->FUN_00cd4cc0((const float *)&(newcom));
+reinterpret_cast<::MProduct *>(&(w))->FUN_00cd55b0((const ::MProduct &)(a), (const ::MProduct &)(a));
+reinterpret_cast<::MProduct *>(&(q))->FUN_00cd55b0((const ::MProduct &)(b), (const ::MProduct &)(b));
+reinterpret_cast<::S_00cd4b60 *>(&(q))->FUN_00cd4b60();
 w.sub(q);
 inertia.addMul(mass, w);
 }
@@ -5885,6 +5800,11 @@ int m_eVertexFloatDimensions;
 int m_iTriangleIndex;
 unsigned int m_uiUniqueId;
 bool m_bFirstImplementationFlag;};
+// @fnv 0x00d762f0
+void D762F0Owner::FUN_00d762f0()
+{
+    reinterpret_cast<::hkgpConvexHullImpl *>((m_target))->FUN_00d7b600();
+}
 
 // Updates center, area, volume, and inertia-related state based on vertex dimensionality.
 // @fnv 0x00d7b600
@@ -5894,7 +5814,7 @@ if (!m_bFirstImplementationFlag)
 {
 if (m_eVertexFloatDimensions == 3)
 {
-const hkVector4 base = GetCenterOfMass<ConvexHullVertexTransform>();
+const hkVector4 base = (*(const ::hkVector4 *)(reinterpret_cast<::CentroidHull *>((void *)this)->FUN_00d7aa30()));
 hkVector4 com = hkVector4::getZero();
 hkVector4 diag = hkVector4::getZero();
 hkVector4 offd = hkVector4::getZero();
@@ -5943,14 +5863,14 @@ hkVector4 eigenValues;
 if (inertiaM.DiagonalizeSymmetric(eigenVectors, eigenValues, 128, 1e-4f) == HK_FAILURE)
 {
 
-if(1) { hkUint32 assertBuf[128]; S00d7b600_ErrStore ostrStore; new(&ostrStore) hkErrStream(assertBuf,sizeof(assertBuf)); hkErrStream& ostr = *reinterpret_cast<hkErrStream*>(&ostrStore); ostr << str_010d36a0 << m_uiUniqueId << str_0103d078; if ( hkError::GetMonitorStream().message(hkError::MESSAGE_ERROR, 0x45465, (const char*)assertBuf, str_010d3540, 1753) ) { fnv_Breakpoint(); } ostr.hkOstream::~hkOstream(); } else;
+if(1) { hkUint32 assertBuf[128]; S00d7b600_ErrStore ostrStore; new(&ostrStore) hkErrStream(assertBuf,sizeof(assertBuf)); hkErrStream& ostr = *reinterpret_cast<hkErrStream*>(&ostrStore); reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(reinterpret_cast<::FUN_00cc02d0_cls *>((void *)&(const ::hkOstream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(ostr))->FUN_00cc01c0(str_010d36a0)))->FUN_00cc02d0(m_uiUniqueId)))->FUN_00cc01c0((*reinterpret_cast<const char (*)[]>(&::DAT_0103d078))); if ( hkError::GetMonitorStream().message(hkError::MESSAGE_ERROR, 0x45465, (const char*)assertBuf, str_010d3540, 1753) ) { fnv_Breakpoint(); } reinterpret_cast<struct ::FUN_00cc00e0 *>(&(ostr))->FUN_00cc00e0::~FUN_00cc00e0(); } else;
 }
-eigenVectors.transpose();
-eigenVectors.Orthonormalize();
+reinterpret_cast<::S_00cd4b60 *>(&(eigenVectors))->FUN_00cd4b60();
+reinterpret_cast<::CB2FC0Object *>(&(eigenVectors))->FUN_00cb2fc0();
 m_kTransformMatrix = inertiaM;
-inertiaM.SetFromRotation(eigenVectors);
+reinterpret_cast<::FUN_00cd5880_cls *>(&(inertiaM))->FUN_00cd5880((unsigned int)&(eigenVectors));
 m_vOffset.set(inertiaM(0, 0), inertiaM(1, 1), inertiaM(2, 2), 0.0f);
-eigenVectors.transpose();
+reinterpret_cast<::S_00cd4b60 *>(&(eigenVectors))->FUN_00cd4b60();
 m_kLocalTransform.SetBodyOrientation(eigenVectors);
 }
 else

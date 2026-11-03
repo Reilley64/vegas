@@ -2,23 +2,45 @@
 // src/havok/physics/utilities/visualdebugger/hkpphysicscontext.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/hkpphysicscontext.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/Debugger836.h"
+#include "fnv/decl/FUN_00c90b80.h"
+#include "fnv/decl/FUN_00c91180_Class.h"
+#include "fnv/decl/FUN_00c91190_Class.h"
+#include "fnv/decl/FUN_00c929e0_ThisClass.h"
+#include "fnv/decl/Src_00c91c50.h"
+#include "fnv/decl/fnv_00c937e0__hkpWorldXc937e0.h"
+#include "fnv/decl/fnv_00c93820__hkpWorldC938.h"
+#include "fnv/decl/fnv_00c93860__hkpWorldXc93860.h"
+#include "fnv/decl/fnv_00cd1330__FUN_00cd1330_cls.h"
+#include "fnv/decl/hkOwnerXc937a0.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkWorldC917.h"
+#include "fnv/decl/hkWorldC9175.h"
+#include "fnv/decl/hkWorldC91F.h"
+#include "fnv/decl/hkWorldXc91700.h"
+#include "fnv/decl/hkWorldXc91a70.h"
+#include "fnv/decl/hkpWorld_Listener.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d63000.h"
+#include "fnv/symbols_00d64000.h"
+#include "fnv/symbols_00d66000.h"
+#include "fnv/symbols_00d68000.h"
+#include "fnv/symbols_010cb000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 void __cdecl FUN_00d6ad40();
 void __cdecl FUN_00d6a850();
 void __cdecl RegisterCenterOfMass();
 void __cdecl RegisterConstraintsProcessFactory();
-void __cdecl RegisterConvexRadius();
-void __cdecl RegisterContactPointsActive();
 void __cdecl RegisterContactPointsInactive();
 void __cdecl DispatchStateHandler();
 void __cdecl RegisterToiCounter();
 void __cdecl RegisterInertiaTensors();
-void __cdecl RegisterMousePicking();
-void __cdecl RegisterPhantomsProcess();
 void __cdecl RegisterShapesProcess();
 void __cdecl FUN_00d651c0();
-void __cdecl RegisterSweptTransformsTask();
 void __cdecl FUN_00d63da0();
-void __cdecl InitWorldMemory();
 void __cdecl RegisterSnapshotCommands();
 void __cdecl RegisterWeldingViewer();
 
@@ -29,26 +51,25 @@ void __cdecl FUN_00cd1ed0()
     FUN_00d6a850();
     RegisterCenterOfMass();
     RegisterConstraintsProcessFactory();
-    RegisterConvexRadius();
-    RegisterContactPointsActive();
+    ::RegisterConvexRadius();
+    ::fnv_00d688d0::RegisterContactPointsActive();
     RegisterContactPointsInactive();
     DispatchStateHandler();
     RegisterToiCounter();
     RegisterInertiaTensors();
-    RegisterMousePicking();
-    RegisterPhantomsProcess();
+    ::RegisterMousePicking();
+    ::RegisterPhantomsProcess();
     RegisterShapesProcess();
     FUN_00d651c0();
-    RegisterSweptTransformsTask();
+    ::fnv_00d64630::RegisterSweptTransformsTask();
     FUN_00d63da0();
-    InitWorldMemory();
+    ::fnv_00d63400::InitWorldMemory();
     RegisterSnapshotCommands();
     RegisterWeldingViewer();
 }
 
 struct Owner
 {
-    void UntrackObject(int);
 };
 struct FUN_00cd1f60_cls
 {
@@ -59,12 +80,11 @@ void FUN_00cd1f60_cls::FUN_00cd1f60(int value)
 {
     Owner* owner = *(Owner**)((char*)this - 0x50);
     if (owner)
-        owner->UntrackObject(value);
+        reinterpret_cast<::Debugger836 *>((owner))->UntrackObject((void *)(value));
 }
 
 struct CD1FA0Target
 {
-    void UntrackObject(int value);
 };
 
 struct CD1FA0Primary
@@ -108,7 +128,7 @@ struct CD1FA0Object : CD1FA0Primary, CD1FA0Listener
 void CD1FA0Object::FUN_00cd1fa0(int value)
 {
     if (m_target)
-        m_target->UntrackObject(value);
+        reinterpret_cast<::Debugger836 *>((m_target))->UntrackObject((void *)(value));
 }
 
 namespace fnv_00cd1ff0 {
@@ -131,7 +151,6 @@ struct Event
 };
 struct Owner
 {
-    void UntrackObject(Event* e);
 };
 struct Sub
 {
@@ -147,7 +166,7 @@ void Sub::DispatchEventToOwner(Event* pEvent)
     {
         Obj* o = pEvent->obj;
         if (o && o->GetType() != 11)
-            (*(Owner**)((char*)this - 0x58))->UntrackObject(pEvent);
+            reinterpret_cast<::Debugger836 *>(((*(Owner**)((char*)this - 0x58))))->UntrackObject(pEvent);
     }
 }
 }  // namespace fnv_00cd1ff0
@@ -157,10 +176,8 @@ struct GlobalObjectO2_00d472a0
 {
     int x;
 };
-extern GlobalObjectO2_00d472a0 g_012690d4;
 struct FUN_00cd12b0_cls
 {
-    void AddElementAndNotify(int value, const void* category, const char* name, int flags);
 };
 struct Prefix
 {
@@ -203,13 +220,12 @@ void Context::FUN_00cd2020(int value)
     Owner* object = reinterpret_cast<Owner*>(reinterpret_cast<char*>(this) - sizeof(Prefix));
     FUN_00cd12b0_cls* target = object->owner;
     if (target)
-        target->AddElementAndNotify(value, &g_012690d4, "Actions", 0);
+        reinterpret_cast<::fnv_00cd1330::FUN_00cd1330_cls *>((target))->AddElementAndNotify(value, (int)(&(*reinterpret_cast<::fnv_00cd2020::GlobalObjectO2_00d472a0 *>(&::g_012690d4))), (int)("Actions"), 0);
 }
 }  // namespace fnv_00cd2020
 
 struct FUN_00cd10a0_Class
 {
-    void UntrackObject(int value);
 };
 struct FUN_00cd2040_Class
 {
@@ -221,7 +237,7 @@ void FUN_00cd2040_Class::ForwardToTarget(int value)
 {
     FUN_00cd10a0_Class* target = *(FUN_00cd10a0_Class**)((char*)this - 0x5c);
     if (target)
-        target->UntrackObject(value);
+        reinterpret_cast<::Debugger836 *>((target))->UntrackObject((void *)(value));
 }
 
 struct Prefix
@@ -273,7 +289,6 @@ struct AllocatorState
     void* allocator;
 };
 extern AllocatorState* __cdecl FUN_00c85750();
-extern void __cdecl ResizeAudioStream(void* allocator, void* array, int elementSize);
 struct PointerArray
 {
     void** data;
@@ -343,7 +358,7 @@ found:
 append:
     AllocatorState* state = FUN_00c85750();
     if (array->count == (array->capacity & 0x3fffffff))
-        ResizeAudioStream(state->allocator, array, 4);
+        ::ResizeAudioStream((::AudioAllocator *)(state->allocator), (::AudioStream *)(array), 4);
     void** slot = array->data + array->count;
     *slot = value;
     ++array->count;
@@ -456,11 +471,9 @@ void* FUN_00cd2900_owner::DestroyIfFlagged(unsigned flags)
 }  // namespace fnv_00cd2900
 
 class GlobalObjectO2_00d472a0;
-extern GlobalObjectO2_00d472a0 g_012688c8;
 class Handler
 {
   public:
-    void AddElementAndNotify(void* input, const GlobalObjectO2_00d472a0* global, const char* name, void* payload);
 };
 struct Receiver
 {
@@ -487,7 +500,7 @@ void Receiver::DispatchEntityPayload(void* input)
     Container* owner = reinterpret_cast<Container*>(reinterpret_cast<char*>(this) - sizeof(Container::Prefix));
     Handler* handler = owner->prefix.handler;
     if (handler)
-        handler->AddElementAndNotify(input, &g_012688c8, "Entities", reinterpret_cast<char*>(input) + 0x10);
+        reinterpret_cast<::fnv_00cd1330::FUN_00cd1330_cls *>((handler))->AddElementAndNotify((int)(input), (int)(&g_012688c8), (int)("Entities"), (int)(reinterpret_cast<char*>(input) + 0x10));
 }
 
 struct CD1F70Stats
@@ -499,11 +512,9 @@ struct CD1F70Stats
     int m_childStats;
 };
 
-extern const char g_CD1F70Parent[];
 
 struct CD1F70Collection
 {
-    void AddStat(CD1F70Stats* stats, const char* parent, const char* name, int* childStats);
 };
 
 class CD1F70Primary
@@ -551,7 +562,7 @@ class CD1F70World : public CD1F70Primary, public CD1F70Secondary
 void CD1F70World::CollectPhantoms(CD1F70Stats* stats)
 {
     if (m_kPhantoms)
-        m_kPhantoms->AddStat(stats, g_CD1F70Parent, "Phantoms", &stats->m_childStats);
+        reinterpret_cast<::fnv_00cd1330::FUN_00cd1330_cls *>((m_kPhantoms))->AddElementAndNotify((int)(stats), (int)((*reinterpret_cast<const char (*)[]>(&::g_0126902c))), (int)("Phantoms"), (int)(&stats->m_childStats));
 }
 
 struct CD1FB0Collector
@@ -575,11 +586,9 @@ struct CD1FB0Stats
     CD1FB0Collector* m_kCollector;
 };
 
-extern const char g_CD1FB0Parent[];
 
 struct CD1FB0Collection
 {
-    void AddStat(CD1FB0Stats* stats, const char* parent, const char* name, int* childStats);
 };
 
 class CD1FB0Primary
@@ -630,7 +639,7 @@ void CD1FB0World::CollectConstraints(CD1FB0Stats* stats)
     {
         CD1FB0Collector* collector = stats->m_kCollector;
         if (collector && collector->getType() != 11)
-            m_ppConstraints->AddStat(stats, g_CD1FB0Parent, "Constraints", 0);
+            reinterpret_cast<::fnv_00cd1330::FUN_00cd1330_cls *>((m_ppConstraints))->AddElementAndNotify((int)(stats), (int)((*reinterpret_cast<const char (*)[]>(&::g_0126908c))), (int)("Constraints"), (int)(0));
     }
 }
 
@@ -715,16 +724,10 @@ struct S_00cd2080_Lists
     int m_30;
     int m_34;
 
-    void FUN_00c905b0() throw();
 };
 
 struct S_00cd2080_Param
 {
-    void FUN_00c917a0(void* listener) throw();
-    void FUN_00c917f0(void* listener) throw();
-    void FUN_00c91700(void* listener) throw();
-    void FUN_00c91750(void* listener) throw();
-    S_00cd2080_Lists* FUN_00c929e0() throw();
 };
 
 struct S_00cd2080_Class
@@ -778,10 +781,10 @@ void S_00cd2080_Class::FUN_00cd2080(S_00cd2080_Param* param) throw()
     S_00cd2080_Listener* pListener1;
     S_00cd2080_Listener* pListener3;
     S_00cd2080_Listener* pListener2;
-    param->FUN_00c917a0(pListener0 = &this->m_listener0);
-    param->FUN_00c917f0(pListener1 = &this->m_listener1);
-    param->FUN_00c91700(pListener3 = &this->m_listener3);
-    param->FUN_00c91750(pListener2 = &this->m_listener2);
+    reinterpret_cast<::hkWorldC917 *>((param))->FUN_00c917a0(pListener0 = &this->m_listener0);
+    reinterpret_cast<::hkWorldC91F *>((param))->FUN_00c917f0(pListener1 = &this->m_listener1);
+    reinterpret_cast<::hkWorldXc91700 *>((param))->FUN_00c91700(pListener3 = &this->m_listener3);
+    reinterpret_cast<::hkWorldC9175 *>((param))->FUN_00c91750(pListener2 = &this->m_listener2);
 
     int idx;
     int count = this->m_paramCount;
@@ -800,7 +803,7 @@ done_search:
 
     if (this->m_target && idx != -1)
     {
-        this->m_target->UntrackObject((int)&this->m_elements[idx]);
+        reinterpret_cast<::Debugger836 *>((this->m_target))->UntrackObject((void *)((int)&this->m_elements[idx]));
         this->m_elements[idx].~S_00cd2080_Element();
         this->m_elementCount--;
         if (this->m_elementCount != idx)
@@ -812,7 +815,7 @@ done_search:
         }
     }
 
-    S_00cd2080_Lists* lists = param->FUN_00c929e0();
+    S_00cd2080_Lists* lists = ((::S_00cd2080_Lists *)(reinterpret_cast<::FUN_00c929e0_ThisClass *>((param))->FUN_00c929e0()));
     for (int iItem = 0; iItem < lists->m_0c; iItem++)
     {
         pListener0->onEvent((void*)lists->m_08[iItem]);
@@ -829,7 +832,7 @@ done_search:
     {
         pListener2->onEvent((void*)lists->m_14[iItem]);
     }
-    lists->FUN_00c905b0();
+    reinterpret_cast<::hkReferencedObjectC905 *>((lists))->FUN_00c905b0();
 }
 
 template <typename T> struct CD2210Array
@@ -916,7 +919,6 @@ struct CD2260Interface
 
 struct CD2260Object
 {
-    void removeOwner(CD2260Interface* owner);
 };
 
 struct CD2260Listener
@@ -991,7 +993,6 @@ class CD2260World : public CD2260Primary, public CD2260Interface
     int unk80;
     CD2260Array<CD2260Listener*> m_kListeners;
 
-    void removeInternal(CD2260Object* object);
     void FUN_00cd2260(CD2260Object* object);
 };
 
@@ -1002,10 +1003,10 @@ void CD2260World::FUN_00cd2260(CD2260Object* object)
     int index = m_kTrackedObjects.indexOf(object);
     if (index >= 0)
     {
-        object->removeOwner(this);
+        reinterpret_cast<::hkWorldXc91a70 *>((object))->FUN_00c91a70(this);
         for (int i = 0; i < m_kListeners.m_iElementCount; i++)
             m_kListeners.m_data[i]->objectRemovedCallback(object);
-        removeInternal(object);
+        reinterpret_cast<::S_00cd2080_Class *>(this)->FUN_00cd2080((::S_00cd2080_Param *)(object));
         m_kTrackedObjects.removeAt(index);
     }
 }
@@ -1018,7 +1019,6 @@ struct CD22Listener
 
 struct CD22Elem
 {
-    void FUN_00c90b80();
 };
 
 struct CD22Array
@@ -1043,28 +1043,16 @@ struct CD22Table
     int unk28;
     void** items2C;
     int count30;
-    void FUN_00c905b0();
 };
 
 struct CD22Registry
 {
-    void IncrementCounter();
-    void FUN_00c93820(void* p);
-    void FUN_00c93860(void* p);
-    void FUN_00c937a0(void* p);
-    void FUN_00c937e0(void* p);
-    CD22Table* FUN_00c929e0();
-    void FUN_00c91c50(CD22Elem* e);
-    void FUN_00c91190();
 };
 
 struct CD22Owner
 {
-    void AddElementAndNotify(CD22Elem* e, const char* d, const char* s, int z);
 };
 
-extern char DAT_01269104[];
-extern char str_010cb20c[];
 
 struct CD22Object
 {
@@ -1103,7 +1091,6 @@ struct CD22Object
 };
 
 extern AllocatorState* __cdecl FUN_00c85750();
-extern void __cdecl ResizeAudioStream(void* allocator, void* array, int elementSize);
 
 // @fnv 0x00cd22f0
 void CD22Object::RegisterWithRegistry(CD22Registry* reg)
@@ -1113,35 +1100,35 @@ void CD22Object::RegisterWithRegistry(CD22Registry* reg)
     if (reg == 0)
         return;
 
-    reg->IncrementCounter();
-    reg->FUN_00c93820(&m_5c);
-    reg->FUN_00c93860(&m_60);
-    reg->FUN_00c937a0(&m_68);
-    reg->FUN_00c937e0(&m_64);
+    reinterpret_cast<::FUN_00c91180_Class *>((reg))->IncrementCounter();
+    reinterpret_cast<::fnv_00c93820::hkpWorldC938 *>((reg))->FUN_00c93820((::fnv_00c93820::hkpEntityListenerC938 *)(void *)(&m_5c));
+    reinterpret_cast<::fnv_00c93860::hkpWorldXc93860 *>((reg))->FUN_00c93860((::fnv_00c93860::hkpEntityListenerXc93860 *)(void *)(&m_60));
+    reinterpret_cast<::hkOwnerXc937a0 *>((reg))->FUN_00c937a0(&m_68);
+    reinterpret_cast<::fnv_00c937e0::hkpWorldXc937e0 *>((reg))->FUN_00c937e0((::fnv_00c937e0::hkpEntityListenerXc937e0 *)(void *)(&m_64));
 
     CD22Array* pArray = &m_78;
     AllocatorState* holder = FUN_00c85750();
     if (pArray->count == (int)(pArray->cap & 0x3fffffff))
     {
-        ResizeAudioStream(holder->allocator, pArray, 0xf0);
+        ::ResizeAudioStream((::AudioAllocator *)(holder->allocator), (::AudioStream *)(pArray), 0xf0);
     }
 
     CD22Elem* pNewElem = (CD22Elem*)((char*)pArray->data + pArray->count * 0xf0);
     if (pNewElem != 0)
     {
-        pNewElem->FUN_00c90b80();
+        new ((void *)(pNewElem)) ::FUN_00c90b80();
     }
 
     CD22Elem* e = (CD22Elem*)((char*)pArray->data + pArray->count * 0xf0);
     pArray->count++;
-    reg->FUN_00c91c50(e);
+    reinterpret_cast<::Src_00c91c50 *>((reg))->FUN_00c91c50((::Dst_00c91c50 *)(e));
 
     if (m_0c != 0)
     {
-        m_0c->AddElementAndNotify(e, DAT_01269104, str_010cb20c, 0);
+        reinterpret_cast<::fnv_00cd1330::FUN_00cd1330_cls *>((m_0c))->AddElementAndNotify((int)(e), (int)((*reinterpret_cast<char (*)[]>(&::g_01269104))), (int)(::g_01269104_arg0), 0);
     }
 
-    CD22Table* tbl = reg->FUN_00c929e0();
+    CD22Table* tbl = ((::CD22Table *)(reinterpret_cast<::FUN_00c929e0_ThisClass *>((reg))->FUN_00c929e0()));
     for (int i = 0; i < tbl->count0C; ++i)
     {
         ((CD22Listener*)&m_5c)->Notify(tbl->items08[i]);
@@ -1158,14 +1145,12 @@ void CD22Object::RegisterWithRegistry(CD22Registry* reg)
     {
         ((CD22Listener*)&m_64)->Notify(tbl->items14[i]);
     }
-    tbl->FUN_00c905b0();
-    reg->FUN_00c91190();
+    reinterpret_cast<::hkReferencedObjectC905 *>((tbl))->FUN_00c905b0();
+    reinterpret_cast<::FUN_00c91190_Class *>((reg))->FUN_00c91190();
 }
 
 struct SpawnedCallee
 {
-    void FUN_00cd2080(void* item);
-    void RegisterWithRegistry(void* item);
 };
 
 struct FUN_00cd24d0_cls
@@ -1209,7 +1194,7 @@ void FUN_00cd24d0_cls::FUN_00cd24d0(int value)
     {
         for (int i = 0; i < m_68; ++i)
         {
-            ((SpawnedCallee*)((char*)this - 8))->FUN_00cd2080(m_64[i]);
+            reinterpret_cast<::S_00cd2080_Class *>((((SpawnedCallee*)((char*)this - 8))))->FUN_00cd2080((::S_00cd2080_Param *)(m_64[i]));
         }
     }
 
@@ -1219,14 +1204,13 @@ void FUN_00cd24d0_cls::FUN_00cd24d0(int value)
     {
         for (int i = 0; i < m_68; ++i)
         {
-            ((SpawnedCallee*)((char*)this - 8))->RegisterWithRegistry(m_64[i]);
+            reinterpret_cast<::CD22Object *>((((SpawnedCallee*)((char*)this - 8))))->RegisterWithRegistry((::CD22Registry *)(m_64[i]));
         }
     }
 }
 
 struct FUN_00c93a60_cls
 {
-    void FUN_00c93a60(void* param);
 };
 
 struct Sink
@@ -1271,7 +1255,6 @@ struct FUN_00cd2530_cls
     Sink** m_sinks;
     int m_sinkCount;
 
-    void RegisterWithRegistry(int value);
     void AddItem(int value);
 };
 
@@ -1307,12 +1290,12 @@ notFound:
     FUN_00c93a60_cls* obj = (FUN_00c93a60_cls*)pItem;
     FUN_00cd2530_cls* self = this;
     void* param = self != 0 ? (char*)self + 0x58 : 0;
-    obj->FUN_00c93a60(param);
+    reinterpret_cast<::hkpWorld_Listener *>((obj))->FUN_00c93a60(param);
 
     AllocatorState* holder = FUN_00c85750();
     if (items->count == (items->capacity & 0x3fffffff))
     {
-        ResizeAudioStream(holder->allocator, items, 4);
+        ::ResizeAudioStream((::AudioAllocator *)(holder->allocator), (::AudioStream *)(items), 4);
     }
     int n = *(int volatile*)&items->count;
     void** volatile* ppData = &items->data;
@@ -1325,7 +1308,7 @@ notFound:
         m_sinks[i]->vfunc04(pItem);
     }
 
-    RegisterWithRegistry(pItem);
+    reinterpret_cast<::CD22Object *>(this)->RegisterWithRegistry((::CD22Registry *)(pItem));
 }
 
 struct FUN_00cd2870_cls
@@ -1333,7 +1316,6 @@ struct FUN_00cd2870_cls
     int unk00;
     int unk04;
 
-    void BaseRelease();
 
     FUN_00cd2870_cls* FUN_00cd2870(unsigned int aFlags);
     static void operator delete(void* apMemory) throw();
@@ -1342,10 +1324,10 @@ struct FUN_00cd2870_cls
 // @fnv 0x00cd2870
 FUN_00cd2870_cls* FUN_00cd2870_cls::FUN_00cd2870(unsigned int aFlags)
 {
-    BaseRelease();
+    reinterpret_cast<::fnv_00cd27f0::FUN_00cd27f0 *>(this)->fnv_00cd27f0::FUN_00cd27f0::~FUN_00cd27f0();
     if (aFlags & 1)
     {
-        operator delete(this);
+        ::FUN_00401030(this);
     }
     return this;
 }
@@ -1355,7 +1337,6 @@ struct CD2890Class
     const char* m_name;
 };
 
-extern const CD2890Class g_CD2890WorldClass;
 
 struct CD2890World
 {
@@ -1365,7 +1346,7 @@ struct CD2890World
 // @fnv 0x00cd2890
 const CD2890Class* CD2890World::FUN_00cd2890() const
 {
-    return &g_CD2890WorldClass;
+    return &(*reinterpret_cast<const ::CD2890Class *>(&::fnv_00e0f800::DAT_010cb2c0));
 }
 
 struct hkBaseObject
@@ -1627,7 +1608,6 @@ class FUN_00cd2690 : public hkReferencedObjectD269,
   public:
     virtual ~FUN_00cd2690() throw();
 
-    void FUN_00cd2260(void* pkObject);
 
     hkArrayD269<void*> m_kTrackedObjects;
     hkArrayD269<ElementD269> m_elements;
@@ -1639,7 +1619,7 @@ class FUN_00cd2690 : public hkReferencedObjectD269,
 FUN_00cd2690::~FUN_00cd2690() throw()
 {
     for (int i = m_kTrackedObjects.GetLogicalSize() - 1; i >= 0; i--)
-        FUN_00cd2260(m_kTrackedObjects[i]);
+        reinterpret_cast<::CD2260World *>(this)->FUN_00cd2260((::CD2260Object *)(m_kTrackedObjects[i]));
 }
 
 struct Block8CD2A
@@ -1999,7 +1979,6 @@ struct FUN_00cd1eb0_StandIn
     int __thiscall FUN_00cd1eb0(int param);
 };
 
-extern void __cdecl FUN_00401030(void* ptr);
 
 // @fnv 0x00cd1eb0
 int __thiscall FUN_00cd1eb0_StandIn::FUN_00cd1eb0(int aiFlags)

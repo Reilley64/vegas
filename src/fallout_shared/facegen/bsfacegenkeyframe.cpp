@@ -1,5 +1,20 @@
 // fallout_shared/facegen/bsfacegenkeyframe.cpp: BSFaceGenKeyframeMultiple, BSFaceGenKeyframe, DelStandIn, KFThis and more (26 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004ed8c0_shell.h"
+#include "fnv/decl/InventoryStackRecord.h"
+#include "fnv/decl/MagicCaster_shell.h"
+#include "fnv/decl/Sd4e0.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_0064f000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_011d5000.h"
 #include "bsfacegenkeyframe_decls.h"
 
 // @fnv 0x00488d50
@@ -98,7 +113,7 @@ bool BSFaceGenKeyframeMultiple::ClearData(bool initialize)
     if (vfn_0c() != 0.0)
         changed = true;
     vfn_10(0.0f);
-    for (unsigned int i = 0; i < reinterpret_cast<OSGlobals*>(this)->GetUptimeMilliseconds(); ++i)
+    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((reinterpret_cast<OSGlobals*>(this)))->FUN_0044edb0())); ++i)
     {
         if (IsQuantityInRange(i))
         {
@@ -106,7 +121,7 @@ bool BSFaceGenKeyframeMultiple::ClearData(bool initialize)
             break;
         }
     }
-    ApplyFaceGenValues(reinterpret_cast<OSGlobals*>(this)->GetUptimeMilliseconds(), initialize);
+    ApplyFaceGenValues(((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((reinterpret_cast<OSGlobals*>(this)))->FUN_0044edb0())), initialize);
     return changed;
 }
 
@@ -171,7 +186,6 @@ struct FUN_0064f690_shell : public BSFaceGenKeyframeMultiple
 
 struct RotationValues
 {
-    float FUN_005dd4e0(unsigned int);
 };
 
 struct VTableHelper
@@ -204,15 +218,15 @@ bool FUN_0064f690_shell::DiffersFrom(BSFaceGenKeyframe* apOther)
                                                ? reinterpret_cast<BSFaceGenKeyframeMultiple*>(apOther)
                                                : 0;
     if (!pkeyframe || reinterpret_cast<VTableHelper*>(pkeyframe)->v1() != reinterpret_cast<VTableHelper*>(this)->v1() ||
-        reinterpret_cast<OSGlobals*>(pkeyframe)->GetUptimeMilliseconds() !=
-            reinterpret_cast<OSGlobals*>(this)->GetUptimeMilliseconds())
+        ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((reinterpret_cast<OSGlobals*>(pkeyframe)))->FUN_0044edb0())) !=
+            ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((reinterpret_cast<OSGlobals*>(this)))->FUN_0044edb0())))
     {
         return true;
     }
-    for (unsigned int i = 0; i < reinterpret_cast<OSGlobals*>(this)->GetUptimeMilliseconds(); ++i)
+    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((reinterpret_cast<OSGlobals*>(this)))->FUN_0044edb0())); ++i)
     {
-        if (reinterpret_cast<RotationValues*>(pkeyframe)->FUN_005dd4e0(i) !=
-            reinterpret_cast<RotationValues*>(this)->FUN_005dd4e0(i))
+        if (reinterpret_cast<::Sd4e0 *>((reinterpret_cast<RotationValues*>(pkeyframe)))->FUN_005dd4e0(i) !=
+            reinterpret_cast<::Sd4e0 *>((reinterpret_cast<RotationValues*>(this)))->FUN_005dd4e0(i))
         {
             return true;
         }
@@ -227,38 +241,32 @@ union SETTING_VALUE
 
 struct SettingT_GameSettingCollection_
 {
-    SETTING_VALUE* Float(void);
 };
 
-extern SettingT_GameSettingCollection_ originalRuntimeFloatSetting1262;
 
 // Returns the float value of originalRuntimeFloatSetting1262 if it is greater than 0.0, otherwise returns 0.0f.
 // @fnv 0x0064fb10
 float __cdecl FUN_0064fb10()
 {
-    return originalRuntimeFloatSetting1262.Float()->f > 0.0 ? originalRuntimeFloatSetting1262.Float()->f : 0.0f;
+    return ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1262))))))->f > 0.0 ? ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1262))))))->f : 0.0f;
 }
 
 namespace fnv_0064fb50 {
 struct SettingT_GameSettingCollection_
 {
-    float* Float();
 };
-extern SettingT_GameSettingCollection_ g_011d577c;
 
 // Returns the float value from g_011d577c if it is greater than zero, otherwise returns 0.0f.
 // @fnv 0x0064fb50
 float __cdecl FUN_0064fb50()
 {
-    return *g_011d577c.Float() > 0.0 ? *g_011d577c.Float() : 0.0f;
+    return *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0064fb50::SettingT_GameSettingCollection_ *>(&::g_011d577c)))))) > 0.0 ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0064fb50::SettingT_GameSettingCollection_ *>(&::g_011d577c)))))) : 0.0f;
 }
 }  // namespace fnv_0064fb50
 
-void __cdecl Deallocate(void*);
 namespace p07 {
 struct DtorStandIn
 {
-    void FUN_0083dec0();
 };
 struct DelStandIn
 {
@@ -268,9 +276,9 @@ struct DelStandIn
 // @fnv 0x0064ebe0
 void* DelStandIn::FUN_0064ebe0(unsigned int flags)
 {
-    ((DtorStandIn*)this)->FUN_0083dec0();
+    reinterpret_cast<::BSFaceGenKeyframeMultiple *>((((DtorStandIn*)this)))->BSFaceGenKeyframeMultiple::~BSFaceGenKeyframeMultiple();
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 }
@@ -294,11 +302,9 @@ struct KFX2
     virtual void s14();
     virtual void s15();
     virtual void s16();
-    float FUN_005dd4e0(unsigned int);
 };
 struct KFXLoop
 {
-    void FUN_0064a4d0(unsigned int, float);
 };
 
 struct FUN_0064ec10_obj : public BSFaceGenKeyframe
@@ -317,9 +323,9 @@ FUN_0064ec10_obj::FUN_0064ec10_obj(const FUN_0064ec10_obj& aOther) : BSFaceGenKe
     m_pfFaceGenValues = 0;
     m_uiFaceGenValueCount = 0;
     ((BSFaceGenKeyframeMultiple*)this)
-        ->BSFaceGenKeyframeMultiple::ApplyFaceGenValues(((OSGlobals*)&aOther)->GetUptimeMilliseconds(), true);
+        ->BSFaceGenKeyframeMultiple::ApplyFaceGenValues(((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((((OSGlobals*)&aOther)))->FUN_0044edb0())), true);
     for (unsigned int i = 0; i < m_uiFaceGenValueCount; i++)
-        ((KFXLoop*)this)->FUN_0064a4d0(i, ((KFX2*)&aOther)->FUN_005dd4e0(i));
+        reinterpret_cast<::BSFaceGenKeyframeMultiple *>((((KFXLoop*)this)))->FUN_0064a4d0(i, reinterpret_cast<::Sd4e0 *>((((KFX2*)&aOther)))->FUN_005dd4e0(i));
 }
 
 namespace fnv_0064f5b0 {
@@ -370,11 +376,9 @@ struct KFX
     virtual void s15();
     virtual void s16();
     virtual bool IsMultiple();
-    float FUN_005dd4e0(unsigned int);
 };
 struct KFXLoop
 {
-    void FUN_0064a4d0(unsigned int, float);
 };
 
 // @fnv 0x0064f5b0
@@ -385,13 +389,12 @@ void KFThis::CopyFromKeyframe(BSFaceGenKeyframe* apFrom)
         return;
     SetType(pSourceMultiple->GetType());
     vfn_10(pSourceMultiple->vfn_0c());
-    ApplyFaceGenValues(((OSGlobals*)pSourceMultiple)->GetUptimeMilliseconds(), true);
+    ApplyFaceGenValues(((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((((OSGlobals*)pSourceMultiple)))->FUN_0044edb0())), true);
     for (unsigned int i = 0; i < m_uiFaceGenValueCount; i++)
-        ((KFXLoop*)this)->FUN_0064a4d0(i, pSourceMultiple->FUN_005dd4e0(i));
+        reinterpret_cast<::BSFaceGenKeyframeMultiple *>((((KFXLoop*)this)))->FUN_0064a4d0(i, reinterpret_cast<::Sd4e0 *>((pSourceMultiple))->FUN_005dd4e0(i));
 }
 }  // namespace fnv_0064f5b0
 
-void __cdecl _Deallocate(void*);
 struct FUN_0064eab0_shell : BSFaceGenKeyframe
 {
     void* DestroyKeyframe(unsigned int);
@@ -400,9 +403,9 @@ struct FUN_0064eab0_shell : BSFaceGenKeyframe
 // @fnv 0x0064eab0
 void* FUN_0064eab0_shell::DestroyKeyframe(unsigned int flags)
 {
-    this->BSFaceGenKeyframe::~BSFaceGenKeyframe();
+    reinterpret_cast<::FUN_0064eae0_shell *>((this))->SetVTable();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -427,7 +430,6 @@ FUN_0064ec10_obj* FUN_0064f530_shell::FUN_0064f530()
 }
 }  // namespace fnv_0064f530
 
-extern double _gModifierZero;
 
 struct FUN_0064f7e0_shell : public BSFaceGenKeyframeMultiple
 {
@@ -442,7 +444,7 @@ bool FUN_0064f7e0_shell::FUN_0064f7e0()
     for (i = 0; i < m_uiFaceGenValueCount; ++i)
     {
         if (((bool(__thiscall*)(void*, unsigned int))(*(void***)this)[19])(this, i) &&
-            m_pfFaceGenValues[i] > _gModifierZero)
+            m_pfFaceGenValues[i] > ::_DAT_01012060)
             return false;
     }
     return true;
@@ -478,8 +480,6 @@ struct KFShell
 
 struct KFList
 {
-    unsigned int GetCount();
-    KFShell** GetHead();
     void AddTail(void* const& apItem);
 };
 
@@ -490,15 +490,15 @@ bool KFShell::AddToCompatibleList(KFList* apList)
         return false;
     if (GetAttributeStrength() < 0.0)
         return false;
-    if (apList->GetCount())
+    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((apList))->GetName())))
     {
-        KFShell* pFirst = *apList->GetHead();
+        KFShell* pFirst = *((::KFShell **)(reinterpret_cast<::InventoryStackRecord *>((apList))->GetPayloadAddress()));
         KFShell* pValid = (pFirst && pFirst->IsValid()) ? pFirst : 0;
         if (!pValid || pValid->GetType() != GetType())
             return false;
     }
     KFShell* pCopy = new KFShell(*this);
-    apList->AddTail(pCopy);
+    reinterpret_cast<::FUN_004ed8c0_shell *>((apList))->FUN_004ed8c0((int *)&(pCopy));
     return true;
 }
 
@@ -529,9 +529,6 @@ struct BlendFrame
     float* quantities;
     unsigned count;
     BlendFrame(const BlendFrame&);
-    unsigned GetCount();
-    float GetQuantity(unsigned);
-    bool SetQuantity(unsigned, float);
     bool BlendWith(BlendFrame*, BlendFrame*, float);
 };
 // Blends this frame's quantities with frames a and b using weight clamped to [0,1], copying or interpolating per index, and returns the last SetQuantity result.
@@ -563,27 +560,27 @@ bool BlendFrame::BlendWith(BlendFrame* apLeft, BlendFrame* apRight, float weight
     else
         blendA = weight;
     unsigned _maximum;
-    if (leftX->GetCount() >= right3->GetCount())
-        _maximum = leftX->GetCount();
+    if (((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((leftX))->FUN_0044edb0())) >= ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((right3))->FUN_0044edb0())))
+        _maximum = ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((leftX))->FUN_0044edb0()));
     else
-        _maximum = right3->GetCount();
+        _maximum = ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((right3))->FUN_0044edb0()));
     SetType(leftX->GetType());
     for (unsigned index = 0; index < count; ++index)
     {
         if (blendA == 0.0 || !right3->IsQuantityInRange(index))
         {
             if (leftX->IsQuantityInRange(index))
-                resultB = SetQuantity(index, leftX->GetQuantity(index));
+                resultB = reinterpret_cast<::BSFaceGenKeyframeMultiple *>(this)->FUN_0064a4d0(index, reinterpret_cast<::Sd4e0 *>((leftX))->FUN_005dd4e0(index));
         }
         else if (blendA == 1.0 || !leftX->IsQuantityInRange(index))
         {
             if (right3->IsQuantityInRange(index))
-                resultB = SetQuantity(index, right3->GetQuantity(index));
+                resultB = reinterpret_cast<::BSFaceGenKeyframeMultiple *>(this)->FUN_0064a4d0(index, reinterpret_cast<::Sd4e0 *>((right3))->FUN_005dd4e0(index));
         }
         else if (leftX->IsQuantityInRange(index) && right3->IsQuantityInRange(index))
         {
             resultB =
-                SetQuantity(index, leftX->GetQuantity(index) * (1.0 - blendA) + blendA * right3->GetQuantity(index));
+                reinterpret_cast<::BSFaceGenKeyframeMultiple *>(this)->FUN_0064a4d0(index, reinterpret_cast<::Sd4e0 *>((leftX))->FUN_005dd4e0(index) * (1.0 - blendA) + blendA * reinterpret_cast<::Sd4e0 *>((right3))->FUN_005dd4e0(index));
         }
     }
     if (_deleteLeft)
@@ -625,14 +622,11 @@ struct Vt0064eea0
 class MagicTarget;
 struct Sh0044edb0
 {
-    MagicTarget* FUN_0044edb0();
 };
 struct Sd4e0
 {
-    float FUN_005dd4e0(unsigned int i);
 };
 
-bool __cdecl FUN_0040eb10(float a, float b, float c);
 
 struct KFXLoop
 {
@@ -654,7 +648,6 @@ struct KFXLoop
     virtual void d3c();
     virtual void d40();
     virtual bool v44();
-    bool FUN_0064a4d0(unsigned int i, float v);
     bool BlendFrom(Vt0064eea0* o, float f, bool b1, bool b2);
 };
 
@@ -666,7 +659,7 @@ bool KFXLoop::BlendFrom(Vt0064eea0* pOther, float f, bool b1, bool b2)
     bool bChanged = false;
 
     if (pfOther == 0 || pfOther == (Vt0064eea0*)this || ((Vt0064eea0*)this)->v04() != pfOther->v04() ||
-        ((Sh0044edb0*)this)->FUN_0044edb0() != ((Sh0044edb0*)pfOther)->FUN_0044edb0())
+        ((::fnv_0064eea0::MagicTarget *)(reinterpret_cast<::MagicCaster_shell *>((((Sh0044edb0*)this)))->FUN_0044edb0())) != ((::fnv_0064eea0::MagicTarget *)(reinterpret_cast<::MagicCaster_shell *>((((Sh0044edb0*)pfOther)))->FUN_0044edb0())))
     {
         return false;
     }
@@ -686,25 +679,25 @@ bool KFXLoop::BlendFrom(Vt0064eea0* pOther, float f, bool b1, bool b2)
 
     for (unsigned int i = 0; i < *(unsigned int*)((char*)this + 0x10); ++i)
     {
-        if (!b1 && FUN_0040eb10(((Sd4e0*)pfOther)->FUN_005dd4e0(i), 0.0f, 0.001f))
+        if (!b1 && ::FUN_0040eb10(reinterpret_cast<::Sd4e0 *>((((Sd4e0*)pfOther)))->FUN_005dd4e0(i), 0.0f, 0.001f))
         {
             continue;
         }
-        if (((Sd4e0*)pfOther)->FUN_005dd4e0(i) < 3.4028234663852886e38)
+        if (reinterpret_cast<::Sd4e0 *>((((Sd4e0*)pfOther)))->FUN_005dd4e0(i) < 3.4028234663852886e38)
         {
-            if (f < 1.0f && ((Sd4e0*)this)->FUN_005dd4e0(i) < 3.4028234663852886e38)
+            if (f < 1.0f && reinterpret_cast<::Sd4e0 *>((((Sd4e0*)this)))->FUN_005dd4e0(i) < 3.4028234663852886e38)
             {
-                bChanged = bChanged | this->FUN_0064a4d0(i, ((Sd4e0*)this)->FUN_005dd4e0(i) * (1.0 - fClamped) +
-                                                                ((Sd4e0*)pfOther)->FUN_005dd4e0(i) * fClamped);
+                bChanged = bChanged | reinterpret_cast<::BSFaceGenKeyframeMultiple *>((this))->FUN_0064a4d0(i, reinterpret_cast<::Sd4e0 *>((((Sd4e0*)this)))->FUN_005dd4e0(i) * (1.0 - fClamped) +
+                                                                reinterpret_cast<::Sd4e0 *>((((Sd4e0*)pfOther)))->FUN_005dd4e0(i) * fClamped);
             }
             else
             {
-                bChanged = bChanged | this->FUN_0064a4d0(i, ((Sd4e0*)pfOther)->FUN_005dd4e0(i));
+                bChanged = bChanged | reinterpret_cast<::BSFaceGenKeyframeMultiple *>((this))->FUN_0064a4d0(i, reinterpret_cast<::Sd4e0 *>((((Sd4e0*)pfOther)))->FUN_005dd4e0(i));
             }
         }
         else if (b2)
         {
-            bChanged = bChanged | this->FUN_0064a4d0(i, 3.402823466e38f);
+            bChanged = bChanged | reinterpret_cast<::BSFaceGenKeyframeMultiple *>((this))->FUN_0064a4d0(i, 3.402823466e38f);
         }
     }
     return bChanged;
@@ -734,14 +727,8 @@ class xKF
     virtual bool IsValidX();
     virtual void v18();
     virtual bool IsActive(unsigned int i);
-    unsigned int GetCount();
-    float GetValue(unsigned int i);
-    bool SetValue(unsigned int i, float f);
     bool Interpolate(float fTime, xKF* pOther);
 };
-float xBaseRate();
-float xRateScale();
-float xAbs(float f);
 
 // For compatible inputs, moves active values toward pOther by a time-scaled step and returns true.
 // @fnv 0x0064f900
@@ -752,21 +739,21 @@ bool xKF::Interpolate(float fTime, xKF* pOther)
     float qrEZrs;
     bool qpqRa = false;
     unsigned int qSVM;
-    if (fTime <= 0.0 || !qsSDDgz || qsSDDgz->GetType() != GetType() || qsSDDgz->GetCount() != GetCount() ||
+    if (fTime <= 0.0 || !qsSDDgz || qsSDDgz->GetType() != GetType() || ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((qsSDDgz))->FUN_0044edb0())) != ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>(this)->FUN_0044edb0())) ||
         !IsCompatible(qsSDDgz))
         return false;
-    qfTOqo = (xBaseRate() + xRateScale() * pOther->GetScale()) * fTime;
-    for (qSVM = 0; qSVM < GetCount(); qSVM++)
+    qfTOqo = (::FUN_0064fb10() + ::fnv_0064fb50::FUN_0064fb50() * pOther->GetScale()) * fTime;
+    for (qSVM = 0; qSVM < ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>(this)->FUN_0044edb0())); qSVM++)
     {
         if (!IsActive(qSVM))
             continue;
-        qrEZrs = qsSDDgz->GetValue(qSVM) - GetValue(qSVM);
-        if (xAbs(qrEZrs) < qfTOqo)
-            qpqRa |= SetValue(qSVM, qsSDDgz->GetValue(qSVM));
+        qrEZrs = reinterpret_cast<::Sd4e0 *>((qsSDDgz))->FUN_005dd4e0(qSVM) - reinterpret_cast<::Sd4e0 *>(this)->FUN_005dd4e0(qSVM);
+        if (::FUN_00408860(qrEZrs) < qfTOqo)
+            qpqRa |= reinterpret_cast<::BSFaceGenKeyframeMultiple *>(this)->FUN_0064a4d0(qSVM, reinterpret_cast<::Sd4e0 *>((qsSDDgz))->FUN_005dd4e0(qSVM));
         else if (qrEZrs < 0.0)
-            qpqRa |= SetValue(qSVM, GetValue(qSVM) - qfTOqo);
+            qpqRa |= reinterpret_cast<::BSFaceGenKeyframeMultiple *>(this)->FUN_0064a4d0(qSVM, reinterpret_cast<::Sd4e0 *>(this)->FUN_005dd4e0(qSVM) - qfTOqo);
         else if (qrEZrs > 0.0)
-            qpqRa |= SetValue(qSVM, GetValue(qSVM) + qfTOqo);
+            qpqRa |= reinterpret_cast<::BSFaceGenKeyframeMultiple *>(this)->FUN_0064a4d0(qSVM, reinterpret_cast<::Sd4e0 *>(this)->FUN_005dd4e0(qSVM) + qfTOqo);
     }
     return true;
 }

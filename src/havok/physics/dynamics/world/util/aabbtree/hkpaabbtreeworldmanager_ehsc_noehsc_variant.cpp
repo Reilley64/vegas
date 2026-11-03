@@ -5,14 +5,26 @@
 
 // src/havok/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void __cdecl Deallocate(void*);
-extern "C" void* DAT_010ccf7c;
+#include "fnv/decl/CollectorState.h"
+#include "fnv/decl/EntListSelf.h"
+#include "fnv/decl/FUN_00c9bff0_Class.h"
+#include "fnv/decl/FUN_00d9a4d0_Class.h"
+#include "fnv/decl/FUN_00d9c7d0_C.h"
+#include "fnv/decl/FnvCpu_FUN_00cd2a00_CpuObject.h"
+#include "fnv/decl/S00d094a0_Owner.h"
+#include "fnv/decl/S00d9c610_AabbTree.h"
+#include "fnv/decl/fnv_00cb1870__hkMapBaseCB18.h"
+#include "fnv/decl/linear_cast_d9a2a0__PathBuilder.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010cc000.h"
+#include "fnv/symbols_01268000.h"
 struct FUN_00d08330 {
     void* m_p;
     FUN_00d08330(char);
 };
-extern int DAT_010ccf8c;
-extern void __cdecl Deallocate(void*);
 struct FUN_00d08350 {
     void* m_p;
     void* __thiscall Set(void* arg);
@@ -31,15 +43,10 @@ struct FUN_00d08ff0_t {
 void FUN_00d08ac0(FUN_00d08ff0_t* self, int arg);
 void FUN_00d08b90(FUN_00d08ff0_t* self, int arg);
 void FUN_00d08ff0(FUN_00d08ff0_t* self, int arg);
-extern int DAT_010ccfac;
-void __cdecl Deallocate(void*);
 struct FUN_00d0a150 {
     int* p;
     FUN_00d0a150(bool b);
 };
-extern int DAT_010ccfa0;
-extern int DAT_010ccfac;
-extern "C" void __cdecl Deallocate(void*);
 struct FUN_00d0a1a0 {
     int* a;
     int* b;
@@ -54,7 +61,6 @@ struct FUN_00d08560_class {
     void __thiscall FUN_00d08560();
 };
 struct FUN_00d08940_class {
-    void __thiscall FUN_00d08940(void* arg);
 };
 struct FUN_00d08a40_class {
     char pad0[8];
@@ -65,7 +71,6 @@ struct FUN_00d08a40_class {
     void __thiscall ProcessFlaggedEntries(void* arg);
 };
 struct FUN_00cd2a00_class {
-    void __thiscall FUN_00cd2a00();
 };
 void __stdcall FUN_00d083e0(void* arg);
 struct FUN_00d08a90_class {
@@ -86,7 +91,6 @@ struct FUN_00d08fd0_class {
     void __thiscall FUN_00d08fd0(int a);
     void __thiscall FUN_00d08c90(int a);
 };
-void __cdecl Deallocate(void*);
 struct FUN_00d0a130 {
     void* p;
     void* __thiscall Set(char b);
@@ -117,7 +121,8 @@ struct FUN_00d0a1f0_Class {
 };
 void __stdcall FUN_00d08380(int);
 struct FUN_00cd29f0_cls {
-    void FUN_00cd29f0(int iValue);
+public:
+    void FUN_00cd29f0(unsigned int);
 };
 struct FUN_00d08400_cls {
     int m_00;
@@ -258,7 +263,6 @@ public:
 };
 class hkBroadPhaseD085 {
 public:
-    void FUN_00d9c7d0(unsigned short id);
 };
 struct hkCollidableD085 {
     int unk00;
@@ -335,7 +339,7 @@ public:
         hkpCollidableD088* pkCollidable = m_kCollidables.m_data[i];
         if (pkCollidable->m_type == 1) {
             hkpEntityD088* pkEntity = pkCollidable->getOwner();
-            if (pkEntity && !pkEntity->FUN_00c9bff0().m_cBooleanValue) {
+            if (pkEntity && !(*(::hkBoolRetD088 *)(reinterpret_cast<::FUN_00c9bff0_Class *>((void *)(pkEntity))->FUN_00c9bff0({}))).m_cBooleanValue) {
                 kInactive.pushBackUnchecked(m_kCollidables.m_data[i]);
                 m_kCollidables.removeAt(i);
             }
@@ -346,7 +350,6 @@ public:
 };
 struct hkObjectE02;
 struct hkLoaderE02 {
-    int Get(char const* name, hkObjectE02** out);
 };
 struct Router {
     int a;
@@ -362,7 +365,6 @@ struct Router {
 };
 Router* __cdecl _FNV_e03300_arena();
 struct Sink {
-    void FUN_00cb1870(void*, int, int);
 };
 struct FUN_00d08940_shell {
     unsigned int unk00;
@@ -389,7 +391,6 @@ struct FUN_00d08940_shell {
     void FUN_00d08940(char const* name);
 };
 struct FUN_00d9a4d0_class {
-    void __thiscall GetEntryOffset(unsigned int value);
 };
 struct FUN_00d08c70_class {
     int unk00;
@@ -479,7 +480,6 @@ public:
     int unk44;
     void* m_48;
 
-    void FUN_00d094a0(int* p, void* a, void* b, void* c, void* d);
     void FUN_00d099a0(void* a, void* c, void* d);
 };
 struct FUN_00d0a1e0_class {
@@ -515,7 +515,6 @@ struct FUN_00d0a1e0_class {
 extern int DAT_010ccfcc;
 extern int DAT_010ccfe0;
 extern int DAT_010ccfec;
-extern float DAT_0104da4c;
 __declspec(align(16)) struct S00d08740_coll {
     int m_00;
     int m_04;
@@ -550,8 +549,6 @@ __declspec(align(16)) struct S00d08740_coll {
     int unk78;
     int unk7c;
     float m_80;
-    void FUN_00d984b0(void* a0, void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7);
-    void FUN_00d9a2a0(void* a0, void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7);
 };
 struct S00d08740_cls {
     void* m_00;
@@ -586,8 +583,6 @@ public:
     int m_iCapacityFlags;
     int m_iPairCount;
 
-    hkResultD089 LookupBucketValue(unsigned int key, unsigned int* out) const;
-    int FUN_00cb1870(hkMemoryAllocatorD089& alloc, unsigned int key, unsigned int val);
 };
 class OwnerD089 {
 public:
@@ -693,11 +688,9 @@ public:
     bool m_dirty;
     bool m_needsUpdate;
 
-    void FUN_00d08980(hkpCollidableD08* collidable);
     virtual void FUN_00d089f0(hkpSimulationIslandD08* island);
 };
 extern int DAT_010ccfcc;
-extern float DAT_0104da4c;
 __declspec(align(16)) struct S00d0a490_Obj {
     int m_00;
     int m_04;
@@ -735,7 +728,6 @@ __declspec(align(16)) struct S00d0a490_Obj {
     int m_84;
     int m_88;
     int m_8c;
-    int FUN_00d984b0(int, int, int, int, int, int, int, int);
 };
 struct S00d0a490_cls {
     int m_00;
@@ -766,9 +758,7 @@ struct hkpWorldB90 {
     hkArrayD08C<hkpSimulationIslandB90*> m_kActiveSimulationIslands;
 };
 void __cdecl FUN_00d08b90(hkArrayD08C<int*>& out, hkpWorldB90* world);
-extern unsigned int DAT_0126835c;
 extern char DAT_010cd234[];
-extern char DAT_010c41f8[];
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
@@ -802,8 +792,6 @@ struct UpdateOwner {
     int unk60;
     int unk64;
     bool dirty;
-    void FUN_00d09df0(void*, void*);
-    void FUN_00d099d0(void*, void*);
     void FUN_00d0a060(void*, void*);
 };
 // FUN_00d0a200 : MSVC this-adjusting thunk  (sub ecx, 0x14 ; jmp <impl>)
@@ -953,8 +941,6 @@ struct Node {
  void getBounds(Bounds& bounds) const { shape->getBounds(transform, 0.0f, &bounds); }
 };
 struct Tree {
-    unsigned short FUN_00d9c610(Bounds*, Node*);
-    void FUN_00d9c7d0(unsigned short);
 };
 struct ScanToken;
 struct ByteTruth {
@@ -1004,8 +990,6 @@ struct UpdateState {
     unsigned short FUN_00d083e0(Node*);
     bool isActive(int& value, Node* node) { unsigned short id = FUN_00d083e0(node); return value == 1 && id != 0xffff; }
     void FUN_00d08c90(Node*);
-    void FUN_00d099a0(NodeArrayBase&, int, int);
-    void FUN_00d094a0(FUN_00d08ff0_t*, NodeArrayBase&, int, int, int);
     void FUN_00d099d0(int, int);
 };
 struct CommandTimingEntry {
@@ -1026,7 +1010,7 @@ struct MonitorStreamD099 {
     bool memoryAvailable() const { return m_kRayEnd < m_pCurrentCommand; }
     char* GetStreamEnd() { return m_kRayEnd; }
     void setEnd(char* e) { m_kRayEnd = e; }
-    static MonitorStreamD099& GetMonitorStream() { return *(MonitorStreamD099*)TlsGetValue(DAT_0126835c); }
+    static MonitorStreamD099& GetMonitorStream() { return *(MonitorStreamD099*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))); }
 };
 static __forceinline void hkTimerBeginList(const char* name, const char* first) {
     MonitorStreamD099& mStream = MonitorStreamD099::GetMonitorStream();
@@ -1064,7 +1048,7 @@ void UpdateState::FUN_00d099d0(int arg1, int arg2) {
         hkTimerBeginList("LtIncrementalBuild", "StClear Tree");
         hkTimerSplit("StFind Inactivated");
         if (dirty) {
-            changed = CheckCollidables(inactive);
+            changed = reinterpret_cast<::hkpEntityListD088 *>(this)->CheckCollidables((::hkArrayD088< ::hkpCollidableD088 *> &)(inactive));
             hkTimerSplit("StUpdate Inactive Tree");
             Tree* t = tree;
             for (int i=0;i<inactive.GetLogicalSize();++i) {
@@ -1072,7 +1056,7 @@ void UpdateState::FUN_00d099d0(int arg1, int arg2) {
                     Bounds bounds;
                     node->getBounds(bounds);
                     hkAddValue("MiNum of Added Nodes", 1.0f);
-                    DispatchToOffsetTarget(inactive[i], t->FUN_00d9c610(&bounds, node));
+                    DispatchToOffsetTarget(inactive[i], reinterpret_cast<::S00d9c610_AabbTree *>((t))->FUN_00d9c610((*(const ::S00d9c610_Aabb *)(&bounds)), node));
             }
             dirty = false;
         }
@@ -1083,12 +1067,12 @@ void UpdateState::FUN_00d099d0(int arg1, int arg2) {
             int state = entries.getValue(it);
             if (isActive(state, node) && node->active == 1) {
                 hkAddValue("MiNum of Removed Nodes", 1.0f);
-                currentTree->FUN_00d9c7d0(FUN_00d083e0(node));
-                FUN_00d08c90(node);
+                reinterpret_cast<::FUN_00d9c7d0_C *>((currentTree))->FUN_00d9c7d0((::NodeD9C7 *)(FUN_00d083e0(node)));
+                reinterpret_cast<::hkpEntityListD08C *>(this)->FUN_00d08c90((::hkpEntityD08C *)(node));
             }
         }
         hkTimerSplit("StUpdate Active");
-        FUN_00d099a0(nodes, arg1, arg2);
+        reinterpret_cast<::hkObjD099 *>(this)->FUN_00d099a0((void *)&(nodes), (void *)(arg1), (void *)(arg2));
         hkTimerSplit("lt");
     } else {
         hkTimerBeginList("LtDynamicBuild", "StGather");
@@ -1096,7 +1080,7 @@ void UpdateState::FUN_00d099d0(int arg1, int arg2) {
         FUN_00d08ff0((FUN_00d08ff0_t*)&nodes, gatherMode);
         hkTimerSplit("StClear");
         hkTimerSplit("StRebuild");
-        FUN_00d094a0(&gather, nodes, gatherMode, arg1, arg2);
+        reinterpret_cast<::S00d094a0_Owner *>(this)->FUN_00d094a0((::S00d094a0_Tree **)(::FUN_00d08ff0_t *)(&gather), (::S00d094a0_Input *)&(nodes), (::S00d094a0_Ctx *)(gatherMode), (::S00d094a0_Queue *)(arg1), (::S00d094a0_Sync *)(arg2));
         hkTimerSplit("lt");
     }
     ((FUN_00d08550_Class*)this)->FUN_00d08550();

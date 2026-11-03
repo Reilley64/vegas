@@ -1,0 +1,9 @@
+#pragma once
+
+struct SceneNode_cls;
+
+struct SceneWalker_cls {
+public:
+    // 0x00ca1f00
+    void TraverseSceneNode(::SceneNode_cls *, int, int);
+};

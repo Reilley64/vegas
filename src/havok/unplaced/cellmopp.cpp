@@ -2,25 +2,38 @@
 // src/havok/unplaced/cellmopp.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/cellmopp.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/C68E30Owner.h"
+#include "fnv/decl/CCA1B0Level2.h"
+#include "fnv/decl/Cl537.h"
+#include "fnv/decl/FUN_005610f0_cls.h"
+#include "fnv/decl/FUN_0056d2c0_cls.h"
+#include "fnv/decl/FUN_0056e6f0.h"
+#include "fnv/decl/FUN_00622780_Class.h"
+#include "fnv/decl/FUN_00caff80.h"
+#include "fnv/decl/S00561150_Object.h"
+#include "fnv/decl/S00cb0820_World.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/bhkUnaryAction.h"
+#include "fnv/decl/fnv_00c5ac00__ArrObj.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00577000.h"
+#include "fnv/symbols_00621000.h"
+#include "fnv/symbols_00993000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00cab000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_01268000.h"
 struct GlobalObject_004aff00
 {
-    void RemoveAll();
 };
 struct FUN_00621e60
 {
-    void FUN_00621e80();
     void Clear();
 };
-// @fnv 0x00621e60
-void FUN_00621e60::Clear()
-{
-    FUN_00621e80();
-    ((GlobalObject_004aff00*)((char*)this + 8))->RemoveAll();
-}
-
 struct FUN_00622780
 {
-    void Clear();
 };
 
 struct FUN_00621e40Class
@@ -31,27 +44,25 @@ struct FUN_00621e40Class
 // @fnv 0x00621e40
 void FUN_00621e40Class::FUN_00621e40()
 {
-    ((FUN_00622780*)this)->Clear();
+    reinterpret_cast<::FUN_00622780_Class *>((((FUN_00622780*)this)))->FUN_00622780();
 }
 
 struct FUN_00622290_cls
 {
     int __thiscall FUN_00622290(int a, int b, int c);
-    void __thiscall SetPackedValue(int a, int b, int c);
 };
-
-// Calls SetPackedValue with the three arguments, then returns this.
-// @fnv 0x00622290
-int __thiscall FUN_00622290_cls::FUN_00622290(int a, int b, int c)
-{
-    SetPackedValue(a, b, c);
-    return (int)this;
-}
 
 struct FUN_006222c0_class
 {
     void SetPackedValue(unsigned int a, unsigned int c, unsigned int b);
 };
+// Calls SetPackedValue with the three arguments, then returns this.
+// @fnv 0x00622290
+int __thiscall FUN_00622290_cls::FUN_00622290(int a, int b, int c)
+{
+    reinterpret_cast<::FUN_006222c0_class *>(this)->SetPackedValue(a, b, c);
+    return (int)this;
+}
 
 // @fnv 0x006222c0
 void FUN_006222c0_class::SetPackedValue(unsigned int auiLow, unsigned int auiHigh, unsigned int auiMid)
@@ -70,7 +81,6 @@ void FUN_006222f0_Class::FUN_006222f0(int aiValue)
     *(int*)((char*)this + 0x24) = aiValue;
 }
 
-extern const char* const g_01268350_arg1;
 
 struct bhkBvTreeShape
 {
@@ -80,10 +90,9 @@ struct bhkBvTreeShape
 // @fnv 0x006223c0
 const char* const* bhkBvTreeShape::GetArg1Ptr()
 {
-    return &g_01268350_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_012682d0));
 }
 
-void* __fastcall FUN_00577190(void*);
 
 struct FUN_006223d0
 {
@@ -96,7 +105,6 @@ void* FUN_006223d0::FUN_00577190()
     return ::FUN_00577190(this);
 }
 
-extern "C" void* g_01268350;
 
 struct FUN_00622420_Class
 {
@@ -106,10 +114,9 @@ struct FUN_00622420_Class
 // @fnv 0x00622420
 void* __thiscall FUN_00622420_Class::GetGlobalPtr()
 {
-    return &g_01268350;
+    return &(*reinterpret_cast<void * *>(&::g_01268350));
 }
 
-int __fastcall FUN_009938b0(void*);
 
 struct FUN_00622470
 {
@@ -119,28 +126,19 @@ struct FUN_00622470
 // @fnv 0x00622470
 bool FUN_00622470::IsCreated()
 {
-    return FUN_009938b0(reinterpret_cast<char*>(this) + 8) != 0;
+    return ((int)(::FUN_009938b0((const unsigned short *)(void *)(reinterpret_cast<char*>(this) + 8)))) != 0;
 }
 
 struct Base537
 {
-    void FUN_00537bb0();
 };
 struct CellMopp_00622490
 {
-    void __thiscall Reset();
 };
 struct FUN_00622490 : Base537
 {
     FUN_00622490();
 };
-// @fnv 0x00622490
-FUN_00622490::FUN_00622490()
-{
-    FUN_00537bb0();
-    ((CellMopp_00622490*)((char*)this + 0x10))->Reset();
-}
-
 struct FUN_00622570_Class
 {
     unsigned char m_kPointB;
@@ -156,39 +154,24 @@ unsigned char* FUN_00622570_Class::FUN_00622570(unsigned char aucValue)
 
 struct CellMopp_00621d90
 {
-    void FUN_00621dc0();
     void* __thiscall Destroy(unsigned int flags);
     static void operator delete(void* p, unsigned int size);
 };
-// Calls FUN_00621dc0, then frees this with operator delete when flags has bit 0 set, and returns this.
-// @fnv 0x00621d90
-void* __thiscall CellMopp_00621d90::Destroy(unsigned int flags)
-{
-    this->FUN_00621dc0();
-    if (flags & 1)
-        operator delete(this, 24);
-    return this;
-}
-
-extern "C" void* DAT_0104dbac;
-extern "C" int DAT_012682cc;
 struct FUN_00622390_Class
 {
-    void __thiscall FUN_0056e6f0();
     void* __thiscall FUN_00622390();
 };
 // @fnv 0x00622390
 void* __thiscall FUN_00622390_Class::FUN_00622390()
 {
-    FUN_0056e6f0();
+    new ((void *)this) ::FUN_0056e6f0();
     *(void**)this = &DAT_0104dbac;
-    ++DAT_012682cc;
+    ++(*reinterpret_cast<int *>(&::CCA1B0Level2::ms_uiInstances));
     return this;
 }
 
 struct FUN_00622440_Class
 {
-    void __thiscall FUN_00caff80();
     void* __thiscall FUN_00622440(unsigned int flags);
     static void operator delete(void* p, unsigned int size);
 };
@@ -196,15 +179,17 @@ struct FUN_00622440_Class
 // @fnv 0x00622440
 void* __thiscall FUN_00622440_Class::FUN_00622440(unsigned int flags)
 {
-    FUN_00caff80();
+    reinterpret_cast<::FUN_00caff80 *>(this)->FUN_00caff80::~FUN_00caff80();
     if (flags & 1)
-        operator delete(this, 0x14);
+        ::FUN_00aa1460(this, 0x14);
     return this;
 }
 
+struct Param5380d0;
 struct This5380d0
 {
-    bool FUN_005380d0(unsigned int);
+public:
+    bool FUN_005380d0(::Param5380d0 *);
 };
 struct Flt
 {
@@ -216,28 +201,11 @@ struct Arr
 };
 struct CellMopp_00621ef0
 {
-    unsigned int* LookupFirstFormID();
 };
 struct CellMopp_00621e80
 {
     void FUN_00621e80();
 };
-// Gets the array from LookupFirstFormID and, if non-null, calls FUN_005380d0 on each non-zero element of the list at this+8.
-// @fnv 0x00621e80
-void CellMopp_00621e80::FUN_00621e80()
-{
-    unsigned int* pArray = ((CellMopp_00621ef0*)this)->LookupFirstFormID();
-    if (pArray)
-    {
-        for (unsigned int i = 0; i < FUN_009938b0((char*)this + 8); ++i)
-        {
-            unsigned int p = *(Flt*)((Arr*)((char*)this + 8))->GetAt(i);
-            if (p)
-                ((This5380d0*)pArray)->FUN_005380d0(p);
-        }
-    }
-}
-
 void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00ca4da0
 {
@@ -253,24 +221,19 @@ void* FUN_006223f0::Delete(unsigned int flags)
 {
     this->FUN_00ca4da0::~FUN_00ca4da0();
     if (flags & 1)
-        operator delete(this, 0x14);
+        ::FUN_00aa1460(this, 0x14);
     return this;
 }
 
 struct CellMopp_006224f0
 {
-    void InitializeCellMopp();
     void* __thiscall Reset();
 };
-
-// Calls InitializeCellMopp, then zeroes the int at offset 0x30 and the float at 0x34, and returns this.
-// @fnv 0x006224c0
-void* CellMopp_006224f0::Reset()
+// @fnv 0x00622490
+FUN_00622490::FUN_00622490()
 {
-    InitializeCellMopp();
-    *(int*)((char*)this + 0x30) = 0;
-    *(float*)((char*)this + 0x34) = 0.0f;
-    return this;
+    reinterpret_cast<::Cl537 *>(this)->FUN_00537bb0();
+    reinterpret_cast<::CellMopp_006224f0 *>((((CellMopp_00622490*)((char*)this + 0x10))))->Reset();
 }
 
 extern int DAT_011cc1c8;
@@ -284,7 +247,6 @@ struct FUN_00621dc0_base
 {
     virtual ~FUN_00621dc0_base();
     unsigned int unk04;
-    void Clear();
 };
 
 struct FUN_00621dc0_cls : FUN_00621dc0_base
@@ -292,15 +254,23 @@ struct FUN_00621dc0_cls : FUN_00621dc0_base
     FUN_00621dc0_sub m_08;
     virtual ~FUN_00621dc0_cls();
 };
+// Calls FUN_00621dc0, then frees this with operator delete when flags has bit 0 set, and returns this.
+// @fnv 0x00621d90
+void* __thiscall CellMopp_00621d90::Destroy(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00621dc0_cls *>((this))->FUN_00621dc0_cls::~FUN_00621dc0_cls();
+    if (flags & 1)
+        ::FUN_00aa1460(this, 24);
+    return this;
+}
 
 // @fnv 0x00621dc0
 FUN_00621dc0_cls::~FUN_00621dc0_cls()
 {
     --DAT_011cc1c8;
-    Clear();
+    reinterpret_cast<::FUN_00621e60 *>(this)->Clear();
 }
 
-extern int g_i622310Count;
 
 class B622310Base
 {
@@ -314,7 +284,6 @@ class B622310Base
 class FUN_00622310 : public B622310Base
 {
   public:
-    void FUN_00cb0820(void* pvArg);
 
     FUN_00622310(void* pvArg);
     virtual ~FUN_00622310();
@@ -324,8 +293,8 @@ class FUN_00622310 : public B622310Base
 // @fnv 0x00622310
 FUN_00622310::FUN_00622310(void* pvArg)
 {
-    FUN_00cb0820(pvArg);
-    g_i622310Count++;
+    reinterpret_cast<::S00cb0820_World *>(this)->FUN_00cb0820((::S00cb0820_Outer *)(pvArg));
+    ::DAT_0126834c++;
 }
 
 struct CellMoppBaseView_006815c0
@@ -338,32 +307,36 @@ struct CellMoppBaseView_006815c0
     int m14;
     float m18;
     float m1c;
-    void FUN_006815c0();
-    void FUN_004b4d50(float a, float b, float c, float d);
 };
 struct CellMoppMemberView_00622570
 {
     unsigned char m_kPointB;
-    void FUN_006815c0();
-    unsigned char* FUN_00622570(unsigned char b);
 };
-extern float DAT_01012054;
 struct CellMoppCtor_006224f0 : CellMoppBaseView_006815c0
 {
     CellMoppMemberView_00622570 m20;
     CellMoppCtor_006224f0* InitializeCellMopp();
 };
+// Calls InitializeCellMopp, then zeroes the int at offset 0x30 and the float at 0x34, and returns this.
+// @fnv 0x006224c0
+void* CellMopp_006224f0::Reset()
+{
+    reinterpret_cast<::CellMoppCtor_006224f0 *>(this)->InitializeCellMopp();
+    *(int*)((char*)this + 0x30) = 0;
+    *(float*)((char*)this + 0x34) = 0.0f;
+    return this;
+}
 // @fnv 0x006224f0
 CellMoppCtor_006224f0* CellMoppCtor_006224f0::InitializeCellMopp()
 {
-    ((CellMoppBaseView_006815c0*)this)->FUN_006815c0();
-    m20.FUN_006815c0();
-    FUN_004b4d50(1.0f, 1.0f, 1.0f, 0.0f);
+    new ((void *)(((CellMoppBaseView_006815c0*)this))) ::Vec3();
+    new ((void *)&(m20)) ::Vec3();
+    reinterpret_cast<::bhkUnaryAction *>(this)->Set(1.0f, 1.0f, 1.0f, 0.0f);
     m10 = 2;
     m14 = 2;
     m18 = 0.0f;
-    m1c = DAT_01012054;
-    m20.FUN_00622570(0);
+    m1c = ::DAT_01012054;
+    reinterpret_cast<::FUN_00622570_Class *>(&(m20))->FUN_00622570(0);
     return this;
 }
 
@@ -413,17 +386,14 @@ class C621EF0Object
 class C621EF0Pointer
 {
   public:
-    C621EF0Object* Get();
 };
 
 class C621EF0Array
 {
   public:
-    unsigned int GetSize();
     C621EF0Pointer& GetAt(unsigned int uiIndex);
 };
 
-int __cdecl C621EF0Lookup(unsigned int auiFormId);
 
 class C621EF0Owner
 {
@@ -434,12 +404,33 @@ class C621EF0Owner
 
     int LookupFirstFormID();
 };
+// @fnv 0x00621e60
+void FUN_00621e60::Clear()
+{
+    reinterpret_cast<::CellMopp_00621e80 *>(this)->FUN_00621e80();
+    reinterpret_cast<::fnv_00c5ac00::ArrObj *>((((GlobalObject_004aff00*)((char*)this + 8))))->FUN_004dffa0();
+}
+// Gets the array from LookupFirstFormID and, if non-null, calls FUN_005380d0 on each non-zero element of the list at this+8.
+// @fnv 0x00621e80
+void CellMopp_00621e80::FUN_00621e80()
+{
+    unsigned int* pArray = ((unsigned int *)(reinterpret_cast<::C621EF0Owner *>((((CellMopp_00621ef0*)this)))->LookupFirstFormID()));
+    if (pArray)
+    {
+        for (unsigned int i = 0; i < ((int)(::FUN_009938b0((const unsigned short *)(void *)((char*)this + 8)))); ++i)
+        {
+            unsigned int p = *(Flt*)((Arr*)((char*)this + 8))->GetAt(i);
+            if (p)
+                ((This5380d0*)pArray)->FUN_005380d0((::Param5380d0 *)(p));
+        }
+    }
+}
 
 // @fnv 0x00621ef0
 int C621EF0Owner::LookupFirstFormID()
 {
-    if (m_kThirdFollowingStreamField.GetSize() && m_kThirdFollowingStreamField.GetAt(0).Get())
-        return C621EF0Lookup(m_kThirdFollowingStreamField.GetAt(0).Get()->GetFormID());
+    if (::FUN_009938b0((const unsigned short *)&(m_kThirdFollowingStreamField)) && ((::C621EF0Object *)(::FUN_00559450((int *)&(m_kThirdFollowingStreamField.GetAt(0))))))
+        return ((int)(::FUN_00621480((::HighProcess *)(((::C621EF0Object *)(::FUN_00559450((int *)&(m_kThirdFollowingStreamField.GetAt(0)))))->GetFormID()))));
     else
         return 0;
 }
@@ -467,17 +458,12 @@ struct FUN_00622730_S : public B006815c0
 
 struct FUN_005610f0_Class
 {
-    void FUN_005610f0(NiPoint3* pos);
-    void FUN_00561150(FUN_00622730_S* rot);
 };
 
 struct FUN_0056d2c0_Class
 {
-    void FUN_0056d2c0(void* obj);
-    void FUN_00c68e30(void* obj, unsigned int color);
 };
 
-unsigned int __cdecl PackBytesBigEndian(int r, int g, int b, int a);
 
 class FUN_00622590_Owner : public FUN_00622470
 {
@@ -486,7 +472,6 @@ class FUN_00622590_Owner : public FUN_00622470
     int unk04;
     C621EF0Array m_kThirdFollowingStreamField;
 
-    int LookupFirstFormID();
     bool PlaceGridObjects(FUN_0056d2c0_Class* p1, const NiPoint3* pPos, int p3);
 };
 
@@ -505,23 +490,23 @@ bool FUN_00622590_Owner::PlaceGridObjects(FUN_0056d2c0_Class* p1, const NiPoint3
             float _offsetX = -2048.0f;
             for (unsigned int j8 = 0; j8 < 2; j8++)
             {
-                FUN_005610f0_Class* pObj4 = (FUN_005610f0_Class*)m_kThirdFollowingStreamField.GetAt(kIdx++).Get();
+                FUN_005610f0_Class* pObj4 = (FUN_005610f0_Class*)((::C621EF0Object *)(::FUN_00559450((int *)&(m_kThirdFollowingStreamField.GetAt(kIdx++)))));
                 NiPoint3 kPos = *pPos;
                 kPos.x += _offsetX;
                 kPos.y += offsetY2;
-                pObj4->FUN_005610f0(&kPos);
-                pObj4->FUN_00561150(&kRot);
+                reinterpret_cast<::FUN_005610f0_cls *>((pObj4))->FUN_005610f0((int)(&kPos));
+                reinterpret_cast<::S00561150_Object *>((pObj4))->FUN_00561150((const ::S00561150_Source *)(::FUN_00622730_S *)(&kRot));
                 _offsetX += 2048.0;
             }
             offsetY2 += 2048.0;
         }
-        if (LookupFirstFormID() == 0)
+        if (reinterpret_cast<::C621EF0Owner *>(this)->LookupFirstFormID() == 0)
         {
-            for (unsigned int k = 0; k < (unsigned int)FUN_009938b0(&m_kThirdFollowingStreamField); k++)
+            for (unsigned int k = 0; k < (unsigned int)((int)(::FUN_009938b0((const unsigned short *)(void *)(&m_kThirdFollowingStreamField)))); k++)
             {
-                FUN_005610f0_Class* pObj3 = (FUN_005610f0_Class*)m_kThirdFollowingStreamField.GetAt(k).Get();
-                p1->FUN_0056d2c0(pObj3);
-                p1->FUN_00c68e30(pObj3, PackBytesBigEndian(0xdc, 0x96, 0x28, 0xff));
+                FUN_005610f0_Class* pObj3 = (FUN_005610f0_Class*)((::C621EF0Object *)(::FUN_00559450((int *)&(m_kThirdFollowingStreamField.GetAt(k)))));
+                reinterpret_cast<::FUN_0056d2c0_cls *>((p1))->FUN_0056d2c0((::Arg56d2c0 *)(pObj3));
+                reinterpret_cast<::C68E30Owner *>((p1))->FUN_00c68e30((::C68E30Holder *)(pObj3), ::PackBytesBigEndian(0xdc, 0x96, 0x28, 0xff));
             }
         }
     }

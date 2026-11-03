@@ -2,14 +2,42 @@
 // src/bshavok/bhkcollisionobject_h_unit_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/bshavok/bhkcollisionobject_h_unit.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004f0180_Class.h"
+#include "fnv/decl/FUN_00c6b670_cls.h"
+#include "fnv/decl/NiAVObject.h"
+#include "fnv/decl/NiObject.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/OwnerProxy.h"
+#include "fnv/decl/QueryOwner.h"
+#include "fnv/decl/S00560c20_Object.h"
+#include "fnv/decl/ViewerCollision.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/bhkRigidBody_shell.h"
+#include "fnv/decl/fnv_006838b0__FUN_006838b0_shell.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/hkpEntityC9C.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00c6b000.h"
+#include "fnv/symbols_00c8c000.h"
+#include "fnv/symbols_01030000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_01204000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01272000.h"
 #include "bhkcollisionobject.h"
 
 struct BSFadeNode
 {
     static void* __cdecl operator new(unsigned int);
 };
-void* __fastcall FUN_00c6b910(void*);
-extern int DAT_0103046c;
 struct MyType : BSFadeNode
 {
     char d[0x14];
@@ -29,11 +57,6 @@ struct hkVector4
 {
     float x, y, z, w;
 };
-void __cdecl SetNiPoint3FromHkVector4(void*, hkVector4 const&);
-extern int _NiPoint3_ZERO;
-extern int DAT_011f4270;
-extern int DAT_011f4274;
-extern float DAT_01267e30;
 struct WeaponObject
 {
     void* FUN_00c65ef0(void*);
@@ -50,12 +73,12 @@ void* WeaponObject::FUN_00c65ef0(void* a1)
             r = (const hkVector4*)((char*)q + 0x1B0);
         else
             r = (const hkVector4*)&DAT_01267e30;
-        SetNiPoint3FromHkVector4(a1, *r);
+        ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(a1)), *r);
         return a1;
     }
-    ((int*)a1)[0] = _NiPoint3_ZERO;
-    ((int*)a1)[1] = DAT_011f4270;
-    ((int*)a1)[2] = DAT_011f4274;
+    ((int*)a1)[0] = (*reinterpret_cast<int *>((void *)&::NiPoint3::ZERO));
+    ((int*)a1)[1] = ::_DAT_011f4270;
+    ((int*)a1)[2] = ::_DAT_011f4274;
     return a1;
 }
 
@@ -65,25 +88,23 @@ struct AudioTlsState
     int m_uiMemoryContext;
 };
 
-extern __declspec(thread) AudioTlsState g_threadData;
 
 struct ScopedMemoryContext
 {
     int oldVal;
     ScopedMemoryContext(int newVal)
     {
-        oldVal = g_threadData.m_uiMemoryContext;
-        g_threadData.m_uiMemoryContext = newVal;
+        oldVal = (*reinterpret_cast<::AudioTlsState *>(&::g_tlsBlock)).m_uiMemoryContext;
+        (*reinterpret_cast<::AudioTlsState *>(&::g_tlsBlock)).m_uiMemoryContext = newVal;
     }
     ~ScopedMemoryContext()
     {
-        g_threadData.m_uiMemoryContext = oldVal;
+        (*reinterpret_cast<::AudioTlsState *>(&::g_tlsBlock)).m_uiMemoryContext = oldVal;
     }
 };
 
 struct FUN_00c659d0_shell : bhkCollisionObject
 {
-    void FUN_00c6ba30(MyType*, void*);
     MyType* FUN_00c659d0(void* param);
 };
 
@@ -92,7 +113,7 @@ MyType* FUN_00c659d0_shell::FUN_00c659d0(void* param)
 {
     ScopedMemoryContext scope(0x10);
     MyType* obj = new MyType;
-    FUN_00c6ba30(obj, param);
+    reinterpret_cast<::OwnerProxy *>(this)->FUN_00c6ba30((::OwnerProxy *)(obj), (::CloneProcess *)(param));
     return obj;
 }
 
@@ -107,7 +128,6 @@ struct FUN_00c65890_Tgt
 
 struct FUN_00c65890_Callee
 {
-    void Tail();
 };
 
 struct FUN_00c65890_cls
@@ -118,7 +138,6 @@ struct FUN_00c65890_cls
     int unk0c;
     FUN_00c65890_Tgt* m_10;
     void FUN_00c65890(int param);
-    void UpdateState(int param);
 };
 
 // @fnv 0x00c65890
@@ -134,12 +153,12 @@ void FUN_00c65890_cls::FUN_00c65890(int param)
             FUN_00c65890_Callee* p = m_08;
             if (p != 0)
             {
-                p->Tail();
+                reinterpret_cast<::NiAVObject *>((p))->UpdateWorldLoc();
             }
             return;
         }
     }
-    UpdateState(param);
+    reinterpret_cast<::FUN_00c6b670_cls *>(this)->UpdateState(param);
 }
 
 struct CollisionNode
@@ -173,16 +192,13 @@ struct SpinLock_c65f40
 {
     int owner;
     int count;
-    void Lock(const char* name);
     void Unlock()
     {
         if (--count == 0)
             owner = 0;
     }
 };
-extern SpinLock_c65f40 g_lock_c65f40;
 
-char __cdecl FUN_00c8cce0(int* type);
 
 inline bool Check(int t)
 {
@@ -191,7 +207,6 @@ inline bool Check(int t)
 
 struct WorldObj_c65f40
 {
-    void Update();
 };
 
 struct HkObj_c65f40
@@ -258,7 +273,6 @@ struct HkObj_c65f40
 };
 
 struct RTTI_c65f40;
-extern RTTI_c65f40 rtti_c65f40;
 
 struct RigidBody_c65f40
 {
@@ -321,14 +335,11 @@ struct RigidBody_c65f40
     virtual void vE0();
     int unk04;
     HkObj_c65f40* hkObj;
-    int GetType();
-    void Refresh();
     virtual bool SetMotion(int type);
 };
 
 struct NiObj_c65f40
 {
-    RigidBody_c65f40* Cast(const RTTI_c65f40* rtti);
 };
 
 struct ColObj_c65f40
@@ -347,7 +358,7 @@ void ColObj_c65f40::FUN_00c65f40(int type, NiObj_c65f40* obj, bool update)
 {
     RigidBody_c65f40* rb;
     int t;
-    if (!obj || (rb = obj->Cast(&rtti_c65f40)) == 0)
+    if (!obj || (rb = ((::RigidBody_c65f40 *)(reinterpret_cast<::NiObject *>((obj))->DynamicCast((const ::NiRTTI *)(const ::RTTI_c65f40 *)(&(*reinterpret_cast<::RTTI_c65f40 *>(&::g_012681c0))))))) == 0)
     {
         rb = body;
         if (!rb)
@@ -358,9 +369,9 @@ void ColObj_c65f40::FUN_00c65f40(int type, NiObj_c65f40* obj, bool update)
         return;
     if (type == 1 && FUN_00c8cce0(&cur))
         return;
-    g_lock_c65f40.Lock(0);
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::SpinLock_c65f40 *>(&::DAT_01267b80))))->FUN_0040fbf0((char *)(0));
     bool ok = rb->SetMotion(type);
-    g_lock_c65f40.Unlock();
+    (*reinterpret_cast<::SpinLock_c65f40 *>(&::DAT_01267b80)).Unlock();
     if (!ok)
         return;
     if (Check(rb->hkObj ? rb->hkObj->motionType : 5))
@@ -369,15 +380,15 @@ void ColObj_c65f40::FUN_00c65f40(int type, NiObj_c65f40* obj, bool update)
         flags &= ~8;
     if (update)
     {
-        t = rb->GetType();
+        t = reinterpret_cast<::bhkRigidBody_shell *>((rb))->FUN_00517630();
         if (FUN_00c8cce0(&t))
         {
             WorldObj_c65f40* w = (WorldObj_c65f40*)rb->hkObj;
             if (w)
             {
-                rb->Refresh();
-                w->Update();
-                rb->Refresh();
+                ::FUN_00a29680();
+                reinterpret_cast<::hkpEntityC9C *>((w))->FUN_00c9c1d0();
+                ::FUN_00a29680();
             }
         }
     }
@@ -560,19 +571,18 @@ struct TlsBlock
     int unk2B0;
     int m_uiMemoryContext;
 };
-extern __declspec(thread) TlsBlock g_tlsBlock;
 
 struct MemContextGuard
 {
     int oldVal;
     MemContextGuard(int newVal)
     {
-        oldVal = g_tlsBlock.m_uiMemoryContext;
-        g_tlsBlock.m_uiMemoryContext = newVal;
+        oldVal = (*reinterpret_cast<::TlsBlock *>(&::g_tlsBlock)).m_uiMemoryContext;
+        (*reinterpret_cast<::TlsBlock *>(&::g_tlsBlock)).m_uiMemoryContext = newVal;
     }
     ~MemContextGuard()
     {
-        g_tlsBlock.m_uiMemoryContext = oldVal;
+        (*reinterpret_cast<::TlsBlock *>(&::g_tlsBlock)).m_uiMemoryContext = oldVal;
     }
 };
 
@@ -594,8 +604,8 @@ template <class T, class A> class StrArray
     {
         unsigned int uiIndex = m_usSize;
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, element);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, element);
         return uiIndex;
     }
 };
@@ -609,15 +619,11 @@ struct RttiStub
         return m_pcName;
     }
 };
-extern RttiStub g_collisionRtti;
 
-char* __cdecl NiGetViewerStringA(const char* pcName);
-char* __cdecl NiGetViewerStringB(const char* pcName, bool bValue);
 
 class CollisionParent
 {
   public:
-    void ParentViewerStrings(ViewerStrings* apViewerStrings);
 };
 
 class CollisionObj : public CollisionParent
@@ -638,9 +644,9 @@ class CollisionObj : public CollisionParent
 void CollisionObj::FUN_00c66060(ViewerStrings* apViewerStrings)
 {
     MemContextGuard guard(0x10);
-    ParentViewerStrings(apViewerStrings);
-    apViewerStrings->Add(NiGetViewerStringA(g_collisionRtti.GetName()));
-    apViewerStrings->Add(NiGetViewerStringB("bUseVel", GetUseVel()));
+    reinterpret_cast<::ViewerCollision *>(this)->AppendDebugInfo((::NiTPrimitiveArray<char *, ::NiTMallocInterface<char *>> *)(apViewerStrings));
+    apViewerStrings->Add(::FUN_00a7d330((*reinterpret_cast<::RttiStub *>(&::g_012043f8)).GetName()));
+    apViewerStrings->Add(::FUN_00a7d370("bUseVel", GetUseVel()));
 }
 
 struct Mat3
@@ -660,7 +666,6 @@ struct Xform
 struct Quat
 {
     float w, x, y, z;
-    void FUN_004f0180(Mat3& a1) const;
 };
 struct HkEntity
 {
@@ -727,7 +732,6 @@ struct HkEntity
 
 struct SceneObj
 {
-    void FUN_00a68bf0();
 };
 
 struct BhkBody
@@ -735,8 +739,6 @@ struct BhkBody
     int unk00;
     int unk04;
     HkEntity* pNode08;
-    void FUN_00560c20(Quat& a1);
-    void FUN_00560bc0(Pt3& a1);
 };
 
 struct CollObj
@@ -807,13 +809,13 @@ void CollObj::FUN_00c65a80()
     if (pNode->unkE8 == 5 && pNode->unk08 != 0)
     {
         if (pObj08 != 0)
-            pObj08->FUN_00a68bf0();
+            reinterpret_cast<::NiAVObject *>((pObj08))->UpdateWorldLoc();
         return;
     }
     Quat q;
     Xform t;
-    pBody->FUN_00560c20(q);
-    q.FUN_004f0180(t.m_kOrientation);
-    pBody->FUN_00560bc0(t.m_kTranslation);
+    reinterpret_cast<::S00560c20_Object *>((pBody))->FUN_00560c20((::S00560c20_Target *)&(q));
+    reinterpret_cast<::FUN_004f0180_Class *>((void *)&(q))->FUN_004f0180((::M3_ *)&(t.m_kOrientation));
+    reinterpret_cast<::QueryOwner *>((pBody))->FUN_00560bc0((int)&(t.m_kTranslation));
     s46(t);
 }

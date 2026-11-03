@@ -7,6 +7,10 @@
 // to their real unit once identified.
 // src/staging/blk_00ca0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00c84df0_cls.h"
+#include "fnv/symbols_00450000.h"
 #include "../../include/layout_support.h"
 
 #include <xmmintrin.h>
@@ -72,7 +76,6 @@ class bhkSphereShape
     virtual void vac();
     virtual void vb0();
     virtual char* Target(char* out);
-    void FUN_00c84df0(void* a1, ArgB* a2);
     void FUN_00ca5460(void* a1, ArgB* a2);
 };
 
@@ -84,5 +87,5 @@ void bhkSphereShape::FUN_00ca5460(void* a1, ArgB* a2)
     float v = a2->f10;
     __m128 t = _mm_load_ss(&v);
     *(__m128*)(r + 0x10) = _mm_mul_ps(_mm_shuffle_ps(t, t, 0), *(__m128*)(r + 0x10));
-    this->FUN_00c84df0(a1, a2);
+    reinterpret_cast<::FUN_00c84df0_cls *>((this))->FUN_00c84df0((::FUN_00c84df0_cls *)(a1), (::FUN_00c84df0_cls *)(a2));
 }

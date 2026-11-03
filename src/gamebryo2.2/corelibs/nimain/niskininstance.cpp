@@ -1,33 +1,49 @@
 // gamebryo2.2/corelibs/nimain/niskininstance.cpp: NiSkinInstance, SkinGraph, NiSkinInstanceStub, SkinInstanceW and more (8 functions)
 
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/A5D6E0This.h"
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/CloneObject.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
+#include "fnv/decl/FUN_00a63460_shell.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/NiSkinData.h"
+#include "fnv/decl/S_00a64670_Foo.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a86000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f5000.h"
 #include "niskininstance_decls.h"
 // @fnv 0x00a86340
 void NiSkinInstance::LoadBinary(NiStream& stream)
 {
-    NiObject::LoadBinary(stream);
-    stream.ResetStreamState();
+    reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup((::NiStream *)&(stream));
+    reinterpret_cast<::FUN_00a645b0_cls *>(&(stream))->FUN_00a645b0();
     if (stream.m_uiNifVersion >= 0x0a010065)
-        stream.ResetStreamState();
-    stream.ResetStreamState();
-    stream.ReadUnsignedInteger();
+        reinterpret_cast<::FUN_00a645b0_cls *>(&(stream))->FUN_00a645b0();
+    reinterpret_cast<::FUN_00a645b0_cls *>(&(stream))->FUN_00a645b0();
+    reinterpret_cast<::S_00a64670_Foo *>(&(stream))->FUN_00a64670();
 }
 // @fnv 0x00a86380
 void NiSkinInstance::LinkObject(NiStream& stream)
 {
-    NiObject::LinkObject(stream);
+    ::FUN_00a89af0((int)this);
     m_pSkinData = stream.GetLoadedObject();
     if (stream.m_uiNifVersion >= 0x0a010065)
         m_pkSkinMeshPartition = stream.GetLoadedObject();
     m_pRootParent = stream.GetLoadedObject();
-    unsigned int count = stream.GetLinkID();
-    m_ppBones = (NiObject**)_NiMalloc(count * sizeof(NiObject*));
+    unsigned int count = reinterpret_cast<::FUN_00a63460_shell *>(&(stream))->FUN_00a63460();
+    m_ppBones = (NiObject**)::FUN_00aa1070(count * sizeof(NiObject*));
     for (unsigned int i = 0; i < count; ++i)
         m_ppBones[i] = stream.GetLoadedObject();
 }
 
 struct A46BB0Object
 {
-    bool IsEqual(A46BB0Object*);
 };
 
 struct FUN_00a864d0_Class
@@ -42,7 +58,7 @@ struct FUN_00a864d0_Class
 bool FUN_00a864d0_Class::FUN_00a864d0(A46BB0Object* pkObject)
 {
     FUN_00a864d0_Class* pkSkinInstance = (FUN_00a864d0_Class*)pkObject;
-    if (!((A46BB0Object*)this)->IsEqual(pkObject))
+    if (!reinterpret_cast<::A5d470Class *>((((A46BB0Object*)this)))->IsSameAs((::A5d470Object *)(pkObject)))
         return false;
     void* pData = *(void**)((char*)this + 8);
     void* pOtherData = *(void**)((char*)pkSkinInstance + 8);
@@ -134,13 +150,11 @@ void FUN_00a86740_cls::ClearSkinDataLink(NiStream& stream)
     }
 }
 
-void* NiMalloc(unsigned int uiSize);
 
 struct NiAVObjectStub;
 
 struct NiCloneMapStub
 {
-    bool GetAt(NiAVObjectStub* pkKey, NiAVObjectStub*& pkVal) const;
 };
 
 struct NiCloningProcessStub
@@ -198,8 +212,6 @@ struct NiSkinInstanceStub : NiObjectBaseStub
     int unk2c;
     int unk30;
 
-    bool IsCloneable(NiCloningProcessStub& kCloning);
-    void CopyMemberData(NiSkinInstanceStub* pkDest, NiCloningProcessStub& kCloning);
     NiSkinInstanceStub* FUN_00a86830(NiCloningProcessStub& kCloning);
 };
 
@@ -207,22 +219,22 @@ struct NiSkinInstanceStub : NiObjectBaseStub
 // @fnv 0x00a86830
 NiSkinInstanceStub* NiSkinInstanceStub::FUN_00a86830(NiCloningProcessStub& kCloning)
 {
-    if (!IsCloneable(kCloning))
+    if (!reinterpret_cast<::NiSkinData *>(this)->MapSkinData((::SkinMapContext &)(kCloning)))
         return this;
 
     NiSkinInstanceStub* pkClone = new NiSkinInstanceStub;
-    CopyMemberData(pkClone, kCloning);
+    reinterpret_cast<::CloneObject *>(this)->CopyRefCountedPointers((::CloneObject *)(pkClone), (void *)&(kCloning));
 
     NiAVObjectStub* pkClonedObject = 0;
     pkClone->m_pRootParent =
-        kCloning.m_pCloneMap->GetAt(m_pRootParent, pkClonedObject) ? pkClonedObject : m_pRootParent;
+        reinterpret_cast<::A54440Hash *>((void *)(kCloning.m_pCloneMap))->FUN_00a53c30((::A54440Manager *)(m_pRootParent), (::A54440Manager **)&(pkClonedObject)) ? pkClonedObject : m_pRootParent;
 
     unsigned int uiBones = m_pkSkinData->m_uiBoneCount;
-    pkClone->m_ppBones = (NiAVObjectStub**)NiMalloc(uiBones * sizeof(NiAVObjectStub*));
+    pkClone->m_ppBones = (NiAVObjectStub**)::FUN_00aa1070(uiBones * sizeof(NiAVObjectStub*));
     for (unsigned int i = 0; i < uiBones; i++)
     {
         pkClone->m_ppBones[i] =
-            kCloning.m_pCloneMap->GetAt(m_ppBones[i], pkClonedObject) ? pkClonedObject : m_ppBones[i];
+            reinterpret_cast<::A54440Hash *>((void *)(kCloning.m_pCloneMap))->FUN_00a53c30((::A54440Manager *)(m_ppBones[i]), (::A54440Manager **)&(pkClonedObject)) ? pkClonedObject : m_ppBones[i];
     }
     return pkClone;
 }
@@ -282,7 +294,6 @@ struct NiSkinDataW
 class SkinInstanceW
 {
   public:
-    void FUN_00a89af0(NiStreamW& kStream);
     void SaveSkinInstance(NiStreamW& kStream);
 
     void* m_pvVtbl;
@@ -297,7 +308,7 @@ class SkinInstanceW
 // @fnv 0x00a867a0
 void SkinInstanceW::SaveSkinInstance(NiStreamW& kStream)
 {
-    FUN_00a89af0(kStream);
+    ::FUN_00a89af0((int)this);
     kStream.SaveLinkID((NiObject*)m_pSkinData);
     kStream.SaveLinkID(m_pkSkinMeshPartition);
     kStream.SaveLinkID(m_pRootParent);
@@ -314,20 +325,18 @@ struct Strings
     void* vtable;
     char** data;
     unsigned short capacity, size, count, grow;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
     void Add(char* value)
     {
         unsigned int index = size;
         if (index >= capacity)
-            SetSize(index + grow);
-        SetAt(index, value);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(index + grow);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(index, value);
     }
     __forceinline void AddInline(char* value)
     {
         unsigned int index = size;
         if (index >= capacity)
-            SetSize(index + grow);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(index + grow);
         if (index >= size)
         {
             size = (unsigned short)(index + 1);
@@ -405,16 +414,7 @@ struct Root
     virtual void v5c();
     virtual void Describe(Strings*);
 };
-extern void __stdcall ClearStrings(Strings*);
-extern char* globalName;
-char* CopyName(char*);
-char* Label(const char*, const char*);
-char* FUN_00a7d510(const char*, unsigned int);
-void* NiMalloc(unsigned int);
-void NiFree(void*);
-int FUN_00a86280(const void*, const void*);
 extern "C" void __cdecl SortNames(void*, unsigned int, unsigned int, int(__cdecl*)(const void*, const void*));
-void FUN_00a305b0(char*, unsigned int, const char*, ...);
 struct BonePtr
 {
     Named* p;
@@ -441,10 +441,10 @@ struct Skin
 // @fnv 0x00a86920
 void Skin::FUN_00a86920(Strings* apStrings)
 {
-    ClearStrings(apStrings);
-    apStrings->Add(CopyName(globalName));
+    reinterpret_cast<::A5D6E0This *>((apStrings))->AppendCameraPathEntries({});
+    apStrings->Add(::FUN_00a7d330((*reinterpret_cast<char * *>(&::g_011f5b2c))));
     if (parent)
-        apStrings->Add(Label("Root Parent", parent->GetName()));
+        apStrings->Add(::fnv_00a7d5e0::FUN_00a7d5e0("Root Parent", parent->GetName()));
     Partition* pPartition = skin;
     if (pPartition)
     {
@@ -454,24 +454,24 @@ void Skin::FUN_00a86920(Strings* apStrings)
         apStrings->Add(FUN_00a7d510("Hardware partitions", partitions));
         unsigned int uiBoneCount = pPartition->bones;
         apStrings->Add(FUN_00a7d510("Bone Count", uiBoneCount));
-        char** ppBoneNames = (char**)NiMalloc(uiBoneCount * sizeof(char*));
+        char** ppBoneNames = (char**)::FUN_00aa1070(uiBoneCount * sizeof(char*));
         char szBoneName[1000];
         for (unsigned int index = 0; index < uiBoneCount; ++index)
         {
             sprintf(szBoneName, "%s (%08X)", bones[index]->GetName(), bones[index]);
-            ppBoneNames[index] = (char*)NiMalloc(strlen(szBoneName) + 1);
+            ppBoneNames[index] = (char*)::FUN_00aa1070(strlen(szBoneName) + 1);
             strcpy(ppBoneNames[index], szBoneName);
         }
-        SortNames(ppBoneNames, uiBoneCount, 4, FUN_00a86280);
+        SortNames(ppBoneNames, uiBoneCount, 4, ((int (&)(const void *, const void *))::FUN_00a86280));
         for (unsigned int index = 0; index < uiBoneCount; ++index)
         {
             char szIndex[10];
-            FUN_00a305b0(szIndex, 10, "  %3d", index);
-            apStrings->AddInline(Label(szIndex, ppBoneNames[index] ? ppBoneNames[index] : "<noname>"));
+            ::NiSprintf(szIndex, 10, "  %3d", index);
+            apStrings->AddInline(::fnv_00a7d5e0::FUN_00a7d5e0(szIndex, ppBoneNames[index] ? ppBoneNames[index] : "<noname>"));
         }
         for (unsigned int index = 0; index < uiBoneCount; ++index)
-            NiFree(ppBoneNames[index]);
-        NiFree(ppBoneNames);
+            ::FUN_00aa10f0(ppBoneNames[index]);
+        ::FUN_00aa10f0(ppBoneNames);
         partition->Describe(apStrings);
     }
 }

@@ -1,11 +1,29 @@
 // gamebryo2.2/corelibs/niparticle/nipsyscollider.cpp: NiPSysCollider, NiPSysColliderStandin (9 functions)
 
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/A5D6E0This.h"
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/decl/FUN_00a5d430_Class.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_01202000.h"
 #include "nipsyscollider_decls.h"
 
 // @fnv 0x00C32840
 void NiPSysCollider::LoadBinary(NiStream& stream)
 {
-    NiObject::LoadBinary(stream);
+    reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup((::NiStream *)&(stream));
     ReadBinaryValue(stream, m_fBounceFactor);
     char spawn;
     char die;
@@ -13,15 +31,15 @@ void NiPSysCollider::LoadBinary(NiStream& stream)
     m_bSpawnOnCollision = (spawn != 0);
     ReadBinaryValue(stream, die);
     m_bDieOnCollision = (die != 0);
-    stream.ResetStreamState();
-    stream.ResetStreamState();
-    stream.ResetStreamState();
+    reinterpret_cast<::FUN_00a645b0_cls *>(&(stream))->FUN_00a645b0();
+    reinterpret_cast<::FUN_00a645b0_cls *>(&(stream))->FUN_00a645b0();
+    reinterpret_cast<::FUN_00a645b0_cls *>(&(stream))->FUN_00a645b0();
 }
 
 // @fnv 0x00C32580
 void NiPSysCollider::ProcessClone(CloningProcess& cloning)
 {
-    NiObject::ProcessClone(cloning);
+    reinterpret_cast<::FUN_00a5d430_Class *>(this)->FUN_00a5d430((unsigned int)&(cloning));
     NiObject* clone = 0;
     cloning.GetClone(this, clone);
     NiPSysCollider* collider = static_cast<NiPSysCollider*>(clone);
@@ -47,7 +65,7 @@ void NiPSysCollider::ProcessClone(CloningProcess& cloning)
 // @fnv 0x00C32610
 void NiPSysCollider::LinkObject(NiStream& stream)
 {
-    NiObject::LinkObject(stream);
+    ::FUN_00a89af0((int)this);
     m_pSpawnModifier = reinterpret_cast<NiPSysSpawnModifier*>(stream.GetLoadedObject());
     m_pColliderManager = reinterpret_cast<NiPSysColliderManager*>(stream.GetLoadedObject());
     NiPSysCollider* next = static_cast<NiPSysCollider*>(stream.GetLoadedObject());
@@ -67,11 +85,10 @@ struct FUN_00c327e0_shell : public NiPSysCollider
     void* FUN_00c327e0();
 };
 
-extern const char* const g_012026a0_arg1;
 // @fnv 0x00c327e0
 void* FUN_00c327e0_shell::FUN_00c327e0()
 {
-    return (void*)&g_012026a0_arg1;
+    return (void*)&(*reinterpret_cast<const char *const *>(&::g_012027e8));
 }
 
 struct StrArr
@@ -83,18 +100,9 @@ struct StrArr
     unsigned short pad;
     unsigned short growth;
 
-    void SetSize(unsigned int size);
-    void SetAt(unsigned int index, char*& value);
 };
 
-void __stdcall AppendCameraPathEntries(StrArr* arr);
-char* __cdecl _FUN_00a7d330(char const* value);
-char* __cdecl _FUN_00a7d370(char const* value, bool flag);
-char* __cdecl FUN_00a7d550(char const* value, float number);
-char* __cdecl FUN_00a7d5a0(char const* value, void* object);
-char* __cdecl FUN_00a7d5e0(char const* value, char const* name);
 
-extern const char g_011d1f8c_arg1[];
 
 struct SpawnRef
 {
@@ -185,52 +193,52 @@ void FUN_00c329c0_object::AppendProperties(StrArr* arr)
     unsigned int capacity;
     VirtualTarget* target;
 
-    AppendCameraPathEntries(arr);
+    reinterpret_cast<::A5D6E0This *>((arr))->AppendCameraPathEntries({});
 
-    value = _FUN_00a7d330(g_012026a0_arg1);
+    value = ::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_012027e8)));
     index = arr->size;
     capacity = arr->capacity;
     if (index >= capacity)
-        arr->SetSize(arr->growth + index);
-    arr->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((arr))->SetSize(arr->growth + index);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((arr))->SetAt(index, value);
 
     value = FUN_00a7d550("Bounce", this->bounce);
     index = arr->size;
     capacity = arr->capacity;
     if (index >= capacity)
-        arr->SetSize(arr->growth + index);
-    arr->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((arr))->SetSize(arr->growth + index);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((arr))->SetAt(index, value);
 
-    value = _FUN_00a7d370("Spawn on Collide", this->spawnOnCollide);
+    value = ::FUN_00a7d370("Spawn on Collide", this->spawnOnCollide);
     index = arr->size;
     capacity = arr->capacity;
     if (index >= capacity)
-        arr->SetSize(arr->growth + index);
-    arr->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((arr))->SetSize(arr->growth + index);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((arr))->SetAt(index, value);
 
-    value = _FUN_00a7d370("Die on Collide", this->dieOnCollide);
+    value = ::FUN_00a7d370("Die on Collide", this->dieOnCollide);
     index = arr->size;
     capacity = arr->capacity;
     if (index >= capacity)
-        arr->SetSize(arr->growth + index);
-    arr->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((arr))->SetSize(arr->growth + index);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((arr))->SetAt(index, value);
 
     {
         const char* name = this->spawn ? this->spawn->name : g_011d1f8c_arg1;
-        value = FUN_00a7d5e0("Spawn Modifier", name);
+        value = ::fnv_00a7d5e0::FUN_00a7d5e0("Spawn Modifier", name);
     }
     index = arr->size;
     capacity = arr->capacity;
     if (index >= capacity)
-        arr->SetSize(arr->growth + index);
-    arr->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((arr))->SetSize(arr->growth + index);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((arr))->SetAt(index, value);
 
     value = FUN_00a7d5a0("Manager", this->manager);
     index = arr->size;
     capacity = arr->capacity;
     if (index >= capacity)
-        arr->SetSize(arr->growth + index);
-    arr->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((arr))->SetSize(arr->growth + index);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((arr))->SetAt(index, value);
 
     target = this->target;
     if (target)
@@ -473,7 +481,6 @@ class C326B0Object
     virtual void vfn58();
     virtual bool IsEqual(C326B0Object* pkObject);
 
-    bool BaseIsEqual(C326B0Object* pkObject);
 };
 
 class C326B0Modifier : public C326B0Object
@@ -498,7 +505,7 @@ class C326B0Modifier : public C326B0Object
 // @fnv 0x00c326b0
 bool C326B0Modifier::FUN_00c326b0(C326B0Object* pkObject)
 {
-    if (!BaseIsEqual(pkObject))
+    if (!reinterpret_cast<::A5d470Class *>(this)->IsSameAs((::A5d470Object *)(pkObject)))
         return false;
 
     C326B0Modifier* pkOther = (C326B0Modifier*)pkObject;
@@ -537,7 +544,6 @@ struct c327f0_Counted
     int refCount;
 };
 
-void __cdecl FUN_00aa1460(void* apMemory, unsigned int auiSize);
 
 struct FUN_00c327f0_cls
 {
@@ -553,7 +559,6 @@ struct FUN_00c327f0_cls
     int unk24;
     c327f0_Counted* m_pCounted;
 
-    void BaseCleanup();
     FUN_00c327f0_cls* FUN_00c327f0(unsigned char acFlags);
 };
 
@@ -568,7 +573,7 @@ FUN_00c327f0_cls* FUN_00c327f0_cls::FUN_00c327f0(unsigned char acFlags)
             pCounted->Release();
         }
     }
-    BaseCleanup();
+    reinterpret_cast<class ::FUN_00a5d3d0 *>(this)->FUN_00a5d3d0::~FUN_00a5d3d0();
     if (acFlags & 1)
     {
         FUN_00aa1460(this, 0x2c);
@@ -804,7 +809,7 @@ class C32900Controller : public C32900Base
 // @fnv 0x00c32900
 void C32900Controller::FUN_00c32900(C32900Stream& kStream)
 {
-    C32900Base::SaveBinary(kStream);
+    ::FUN_00a89af0((int)this);
     C32900SaveBinary(kStream, m_iType);
     C32900SaveBinary(kStream, (unsigned char)m_bFirst);
     C32900SaveBinary(kStream, (unsigned char)m_bSecond);

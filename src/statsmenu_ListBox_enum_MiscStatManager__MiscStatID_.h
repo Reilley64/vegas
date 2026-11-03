@@ -2,13 +2,13 @@
 #ifndef FNV_LISTBOX_ENUM_MISCSTATMANAGER__MISCSTATID__H
 #define FNV_LISTBOX_ENUM_MISCSTATMANAGER__MISCSTATID__H
 
+#include "fnv/decl/Owner.h"
 #include "statsmenu_layout_support.h"
 #include "statsmenu_types_MiscStatManager__MiscStatID.h"
 #include "statsmenu_ListBoxBase.h"
 class ListBox_enum_MiscStatManager__MiscStatID_ : public ListBoxBase
 {
   public:
-    Tile* GetTileForData(MiscStatManager__MiscStatID& value);
     BSSimpleList<ListBoxItem_enum_MiscStatManager__MiscStatID_*>
         bSSimpleList_ListBoxItem_enum_MiscStatManager__MiscStatID____Component;  // +0x4
     Tile* m_pListTile;                                                           // +0xC

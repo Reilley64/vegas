@@ -2,6 +2,9 @@
 #ifndef FNV_NAVMESH_TYPES_H
 #define FNV_NAVMESH_TYPES_H
 
+#include "fnv/decl/FUN_0068efb0_shell.h"
+#include "fnv/decl/FUN_00699b60_shell.h"
+#include "fnv/decl/fnv_00690d50__FUN_00690d50_shell.h"
 #include "navmesh_loadsave_layout_support.h"
 #include "navmesh_loadsave_NiPoint3.h"
 #include "navmesh_loadsave_NiRefObject.h"
@@ -270,7 +273,6 @@ FNV_STATIC_ASSERT(sizeof(NiTMap_unsigned_short_NavMeshPOVData_) == 16);
 class NavMeshGrid
 {
   public:
-    void FUN_0069dd50(NavMeshGrid*);
     unsigned int m_uiGridIndex;                                // +0x0, 4 bytes
     float m_fFirstGridValue;                                   // +0x4, 4 bytes
     float NavMeshPointEntry;                                   // +0x8, 4 bytes
@@ -296,6 +298,8 @@ class NavMeshGrid
     // void __cdecl NavMeshGrid::*(char*, unsigned int)
     // bool __cdecl NavMeshGrid::*(const char*, unsigned int, TESFile*)
     // void __cdecl NavMeshGrid::*(NavMeshGrid*)
+public:
+    void FUN_0069dd50(::NavMeshGrid *) const;
 };
 FNV_STATIC_ASSERT(sizeof(NavMeshGrid) == 40);
 FNV_STATIC_ASSERT(offsetof(NavMeshGrid, m_uiGridIndex) == 0);
@@ -341,15 +345,13 @@ class NavMeshStaticAvoidNode : public PathingAvoidanceNode
 };
 FNV_STATIC_ASSERT(sizeof(NavMeshStaticAvoidNode) == 40);
 FNV_STATIC_ASSERT(offsetof(NavMeshStaticAvoidNode, m_usTriangleID) == 36);
+class NavMeshTriangle;
 class NavMesh : public TESForm, public TESChildCell, public NiRefObject
 {
   public:
     void ForceSetFormID(unsigned int formID);
     void InitItem();
     void CopyNavMeshDataTo(class NavMeshPtr&);
-    const NavMeshInfo* FUN_0068efb0();
-    void SetDeletionState(bool);
-    void InitializeNavMeshData();
     // base TESForm at +0x0, size 24
     // base TESChildCell at +0x18, size 4
     // base NiRefObject at +0x1C, size 8
@@ -508,6 +510,8 @@ class NavMesh : public TESForm, public TESChildCell, public NiRefObject
     // bool __cdecl NavMesh::*(unsigned short, BSSimpleArray<NavMeshStaticAvoidNode *,1024>&)
     // NavMesh& __cdecl NavMesh::*(const NavMesh&)
     // void __cdecl NavMesh::*()
+public:
+    ::NavMeshTriangle *GetTriangle(unsigned short);
 };
 FNV_STATIC_ASSERT(sizeof(NavMesh) == 264);
 FNV_STATIC_ASSERT(offsetof(NavMesh, m_pOwningCell) == 36);

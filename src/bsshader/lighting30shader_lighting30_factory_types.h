@@ -4,6 +4,8 @@
 #define LIGHTING30_FACTORY_TYPES_H
 
 #include <stddef.h>
+#include "fnv/symbols_00e76000.h"
+#include "fnv/symbols_011f9000.h"
 typedef unsigned int UInt32;
 typedef unsigned short UInt16;
 #define LIGHTING30_JOIN2(a, b) a##b
@@ -337,6 +339,8 @@ class BSShader : public NiD3DDefaultShader
     unsigned int m_ePass;
     bool m_bIsBest;
     int m_iPassId;
+public:
+    bool Initialize();
 };
 LIGHTING30_ASSERT(sizeof(BSShader) == 0x6c);
 class NiShaderDeclaration : public NiObject
@@ -451,7 +455,6 @@ class NiD3DVertexDeclaration : public NiD3DShaderDeclaration
   public:
     _D3DVERTEXELEMENT9* m_pkVertexElements;
     LPDIRECT3DVERTEXDECLARATION9 m_pkD3DVertexDeclaration;
-    static NiD3DVertexDeclaration* Create(GraphicsRenderer*, UInt32, UInt32);
 };
 LIGHTING30_ASSERT(sizeof(NiD3DVertexDeclaration) == 0x34);
 class Lighting30Shader : public BSShader
@@ -496,7 +499,6 @@ LIGHTING30_ASSERT(offsetof(Lighting30Shader, m_pVertexDeclaration7) == 0x94);
 LIGHTING30_ASSERT(offsetof(Lighting30Shader, m_pVertexDeclaration8) == 0x98);
 LIGHTING30_ASSERT(offsetof(Lighting30Shader, m_pGeometryBufferData) == 0x9c);
 LIGHTING30_ASSERT(offsetof(Lighting30Shader, m_uiShaderOptions) == 0xa0);
-extern GraphicsRenderer* g_pkRenderer;
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 #endif

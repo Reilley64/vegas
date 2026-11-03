@@ -1,5 +1,32 @@
 // bsshader/bsshaderproperty.cpp: ShaderPassEntry, ShaderPassList, NiShadeProperty, ShaderPropertyRecord (23 functions)
 
+#include <new>
+#include "fnv/decl/AA4610Allocator.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/FUN_00a5c200.h"
+#include "fnv/decl/FUN_00a5c240_shell.h"
+#include "fnv/decl/FUN_00a81600_cls.h"
+#include "fnv/decl/FUN_00aa45a0_Class.h"
+#include "fnv/decl/FUN_00b8c830_class.h"
+#include "fnv/decl/FUN_00ba9520.h"
+#include "fnv/decl/LinkObjectA5.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiCullingProperty.h"
+#include "fnv/decl/TallGrassShader.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/fnv_00ba9820__FUN_00ba9820_cls.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00b4f000.h"
+#include "fnv/symbols_011f5000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01200000.h"
+#include "fnv/symbols_01272000.h"
 #include "bsshaderproperty_decls.h"
 
 // Initializes the shader property with geometry, pass, first-pass flag, light count, and copies the given lights into a newly allocated array.
@@ -75,7 +102,7 @@ void __fastcall FUN_00ba8cd0(char* pThis)
     void* pLights = *(void**)(pThis + 0xC);
     if (pLights)
     {
-        g_memoryManager.Deallocate(pLights);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(pLights);
         *(void**)(pThis + 0xC) = 0;
     }
     *(unsigned char*)(pThis + 0xB) = 0;
@@ -86,7 +113,6 @@ struct FUN_00baa000_shell : public BSShaderProperty
     void FUN_00baa000();
 };
 
-void __fastcall FUN_00ba9520(void* pThis);
 
 // Clears the int at offset 0x38, then for each pointer at offsets 0x3c-0x54 calls FUN_00ba9520, deallocates it via g_memoryManager and nulls it.
 // @fnv 0x00baa000
@@ -98,71 +124,69 @@ void FUN_00baa000_shell::FUN_00baa000()
     void* p = *reinterpret_cast<void**>(self + 0x3c);
     if (p)
     {
-        FUN_00ba9520(p);
-        g_memoryManager.Deallocate(p);
+        reinterpret_cast<struct ::FUN_00ba9520 *>((p))->FUN_00ba9520::~FUN_00ba9520();
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
         *reinterpret_cast<void**>(self + 0x3c) = 0;
     }
 
     p = *reinterpret_cast<void**>(self + 0x40);
     if (p)
     {
-        FUN_00ba9520(p);
-        g_memoryManager.Deallocate(p);
+        reinterpret_cast<struct ::FUN_00ba9520 *>((p))->FUN_00ba9520::~FUN_00ba9520();
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
         *reinterpret_cast<void**>(self + 0x40) = 0;
     }
 
     p = *reinterpret_cast<void**>(self + 0x48);
     if (p)
     {
-        FUN_00ba9520(p);
-        g_memoryManager.Deallocate(p);
+        reinterpret_cast<struct ::FUN_00ba9520 *>((p))->FUN_00ba9520::~FUN_00ba9520();
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
         *reinterpret_cast<void**>(self + 0x48) = 0;
     }
 
     p = *reinterpret_cast<void**>(self + 0x4c);
     if (p)
     {
-        FUN_00ba9520(p);
-        g_memoryManager.Deallocate(p);
+        reinterpret_cast<struct ::FUN_00ba9520 *>((p))->FUN_00ba9520::~FUN_00ba9520();
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
         *reinterpret_cast<void**>(self + 0x4c) = 0;
     }
 
     p = *reinterpret_cast<void**>(self + 0x44);
     if (p)
     {
-        FUN_00ba9520(p);
-        g_memoryManager.Deallocate(p);
+        reinterpret_cast<struct ::FUN_00ba9520 *>((p))->FUN_00ba9520::~FUN_00ba9520();
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
         *reinterpret_cast<void**>(self + 0x44) = 0;
     }
 
     p = *reinterpret_cast<void**>(self + 0x50);
     if (p)
     {
-        FUN_00ba9520(p);
-        g_memoryManager.Deallocate(p);
+        reinterpret_cast<struct ::FUN_00ba9520 *>((p))->FUN_00ba9520::~FUN_00ba9520();
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
         *reinterpret_cast<void**>(self + 0x50) = 0;
     }
 
     p = *reinterpret_cast<void**>(self + 0x54);
     if (p)
     {
-        FUN_00ba9520(p);
-        g_memoryManager.Deallocate(p);
+        reinterpret_cast<struct ::FUN_00ba9520 *>((p))->FUN_00ba9520::~FUN_00ba9520();
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
         *reinterpret_cast<void**>(self + 0x54) = 0;
     }
 }
 
-extern const char g_01200464_arg1[];
 // @fnv 0x00a81450
 const char* __cdecl FUN_00a81450()
 {
-    return g_01200464_arg1;
+    return (*reinterpret_cast<const char (*)[]>(&::g_011f5ae0));
 }
 
 struct BSSP_stub4;
 struct NiObject_stub
 {
-    void FUN_00a81430(BSSP_stub4*, int);
 };
 struct BSSP_stub4 : NiObject_stub
 {
@@ -178,7 +202,7 @@ struct BSSP_stub4 : NiObject_stub
 // @fnv 0x00ba8b10
 void __fastcall FUN_00ba8b10(BSSP_stub4* self, int, BSSP_stub4* dst, int arg)
 {
-    self->FUN_00a81430(dst, arg);
+    reinterpret_cast<::NiCullingProperty *>((self))->FUN_00a81430(dst, (*(::CloningProcess *)(arg)));
     dst->m_f0 = self->m_f0;
     dst->m_f1 = self->m_f1;
     dst->m_fAlpha = self->m_fAlpha;
@@ -204,7 +228,6 @@ void __cdecl ToggleGlobalFlag()
 
 struct NiObjectNET_stub
 {
-    void FUN_00a5c6a0(int);
 };
 struct BSSP_stub : NiObjectNET_stub
 {
@@ -216,7 +239,7 @@ struct BSSP_stub : NiObjectNET_stub
 // @fnv 0x00ba8be0
 void __fastcall FUN_00ba8be0(BSSP_stub* self, int, int arg)
 {
-    self->FUN_00a5c6a0(arg);
+    reinterpret_cast<::LinkObjectA5 *>((self))->FUN_00a5c6a0((*(::NiStream *)(arg)));
     if ((self->m_flags & 0x4000000) > 0)
         self->m_depth = 1.0f;
 }
@@ -226,7 +249,7 @@ struct AllocElem
     int v;
     static void* operator new[](unsigned int size)
     {
-        return g_memoryManager.Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }
 };
 struct BSSP_stub2
@@ -252,20 +275,17 @@ void __fastcall FUN_00ba8c30(FUN_00ba8c30_shell2* self, int)
 {
     if (self->m_p)
     {
-        g_memoryManager.Deallocate(self->m_p);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(self->m_p);
         self->m_p = 0;
     }
 }
 
-extern const char g_011fa018_arg1[];
 // @fnv 0x00ba8eb0
 const char* __cdecl FUN_00ba8eb0()
 {
-    return g_011fa018_arg1;
+    return (*reinterpret_cast<const char (*)[]>(&::g_01200464));
 }
 
-void __fastcall DestroyFogProperty(void*);
-void __cdecl _delete(void*, unsigned int);
 struct NiShadeProperty
 {
     void* Destroy(unsigned int);
@@ -274,13 +294,12 @@ struct NiShadeProperty
 // @fnv 0x00a81460
 void* NiShadeProperty::Destroy(unsigned int flags)
 {
-    DestroyFogProperty(this);
+    reinterpret_cast<::FUN_00a5c240_shell *>((this))->DestroyFogProperty();
     if (flags & 1)
-        _delete(this, 0x20);
+        ::FUN_00aa1460(this, 0x20);
     return this;
 }
 
-extern __declspec(thread) int g_iB97550AllocTag;
 
 struct BB97550AllocTagScope
 {
@@ -288,12 +307,12 @@ struct BB97550AllocTagScope
 
     BB97550AllocTagScope(int aiAllocationTag)
     {
-        m_iSaved = g_iB97550AllocTag;
-        g_iB97550AllocTag = aiAllocationTag;
+        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
     }
     ~BB97550AllocTagScope()
     {
-        g_iB97550AllocTag = m_iSaved;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
     }
 };
 
@@ -302,7 +321,6 @@ class BB97550Pass;
 class BB97550Shader
 {
   public:
-    void RenderWithTextures(BB97550Pass* pkPass, int iA, int iB, int iC, int iD, int iE);
     void FUN_00b97550(unsigned int uiPass, int iA, int iB, int iC, int iD, int iE);
 
     int unk00;
@@ -315,7 +333,7 @@ class BB97550Shader
 void BB97550Shader::FUN_00b97550(unsigned int uiPassIndex, int iA, int iB, int iC, int iD, int iE)
 {
     BB97550AllocTagScope kScope(0x27);
-    RenderWithTextures(m_ppkPasses[uiPassIndex], iA, iB, iC, iD, iE);
+    reinterpret_cast<::FUN_00b8c830_class *>(this)->RenderWithTextures((::HolderForAccum *)(m_ppkPasses[uiPassIndex]), iA, (::BSRenderedTexture *)(iB), (::BSRenderedTexture *)(iC), iD, iE);
 }
 
 struct S_00ba8c50_Slot
@@ -323,11 +341,11 @@ struct S_00ba8c50_Slot
     ShadowSceneLight* light;
     static void* operator new[](unsigned int size)
     {
-        return g_memoryManager.Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }
     static void operator delete[](void* p)
     {
-        g_memoryManager.Deallocate(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
     }
 };
 
@@ -362,7 +380,6 @@ extern int DAT_010b8488;
 
 struct FUN_00ba8e50_base
 {
-    void InitBase();
 };
 
 struct FUN_00ba8e50_cls : FUN_00ba8e50_base
@@ -399,7 +416,7 @@ struct FUN_00ba8e50_cls : FUN_00ba8e50_base
 // @fnv 0x00ba8e50
 FUN_00ba8e50_cls* FUN_00ba8e50_cls::FUN_00ba8e50()
 {
-    InitBase();
+    new ((void *)this) struct ::FUN_00a5c200();
     m_18 = 1;
     m_1c = -1;
     *(volatile int*)&m_vptr00 = (int)&DAT_010b8488;
@@ -484,7 +501,7 @@ void NiTArray<BSShaderProperty::ShaderPassEntry*, NiTNewInterface<BSShaderProper
         {
             m_pBase = 0;
         }
-        g_memoryManager.Deallocate(oldBase);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(oldBase);
     }
 }
 
@@ -535,20 +552,18 @@ struct SettingArray
     unsigned short count;
     unsigned short activeCount;
     unsigned short growBy;
-    void __thiscall FUN_0096ad30(unsigned int newSize);
-    void __thiscall FUN_0096ae90(unsigned int index, int* value);
     void AddTextValue(int* value)
     {
         unsigned int index = count;
         if (index >= capacity)
-            FUN_0096ad30(index + growBy);
-        FUN_0096ae90(index, value);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(index + growBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(index, (*(char * *)(value)));
     }
     __forceinline void AddNumericValue(int value)
     {
         unsigned int index = count;
         if (index >= capacity)
-            FUN_0096ad30(index + growBy);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(index + growBy);
         if (index >= count)
         {
             count = (unsigned short)(index + 1);
@@ -570,7 +585,7 @@ struct SettingArray
     {
         unsigned int index = count;
         if (index >= capacity)
-            FUN_0096ad30(index + growBy);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(index + growBy);
         if (index >= count)
         {
             count = (unsigned short)(index + 1);
@@ -604,15 +619,6 @@ struct ShaderFlagList
     unsigned int unknown0c;
     unsigned int count;
 };
-extern void __stdcall WriteToArray(SettingArray* target);
-extern int __cdecl FUN_00a7d330(const char* text);
-extern int __cdecl FUN_00a7d370(const char* text, int flag);
-extern int __cdecl FUN_00a7d550(const char* text, float value);
-extern int __cdecl FUN_00a7d4d0(const char* text, int value);
-extern unsigned int __cdecl FUN_00a7d510(const char* text, unsigned int value);
-extern int __cdecl FUN_00a7d5e0(const char* text, const char* value);
-extern const char* __cdecl FUN_00b4f9d0(unsigned int value);
-extern const char* DAT_01200464;
 extern const char UNK_010b8950[];
 extern const char UNK_010b8948[];
 extern const char UNK_010b893c[];
@@ -700,13 +706,13 @@ struct ShaderPropertyRecord
 // @fnv 0x00ba9890
 void ShaderPropertyRecord::WriteToSettingArray(SettingArray* output)
 {
-    WriteToArray(output);
+    reinterpret_cast<::FUN_00a81600_cls *>((output))->WriteToArray({});
     union
     {
         int token;
         volatile float scalar;
     } formatted;
-    formatted.token = FUN_00a7d330(DAT_01200464);
+    formatted.token = ((int)(::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_01200464)))));
     output->AddTextValue(&formatted.token);
     const char* flagNames[56] = {
         UNK_010b8950, UNK_010b8948, UNK_010b893c, UNK_010b892c, UNK_010b8920, UNK_010b8914, UNK_010b890c, UNK_010b88f8,
@@ -722,44 +728,44 @@ void ShaderPropertyRecord::WriteToSettingArray(SettingArray* output)
     {
         if ((flags[i >> 5] & mask) > 0 && flagNames[i] != 0)
         {
-            formatted.token = FUN_00a7d370(flagNames[i], 1);
+            formatted.token = ((int)(::FUN_00a7d370(flagNames[i], 1)));
             output->AddTextValue(&formatted.token);
         }
         mask = (mask << 1) | (mask >> 31);
     }
     if (alpha < 1.0f)
     {
-        formatted.token = FUN_00a7d550(UNK_010b85dc, alpha);
+        formatted.token = ((int)(::FUN_00a7d550(UNK_010b85dc, alpha)));
         output->AddTextValue(&formatted.token);
     }
     if (fade < 1.0f)
     {
-        formatted.token = FUN_00a7d550(UNK_010b85d0, fade);
+        formatted.token = ((int)(::FUN_00a7d550(UNK_010b85d0, fade)));
         output->AddTextValue(&formatted.token);
     }
     if (depth > 0.0f)
     {
-        formatted.token = FUN_00a7d550(UNK_010b85c4, depth);
+        formatted.token = ((int)(::FUN_00a7d550(UNK_010b85c4, depth)));
         output->AddTextValue(&formatted.token);
     }
     if ((flags[0] & 0x80u) > 0)
     {
         formatted.scalar = specular;
-        formatted.token = FUN_00a7d550(UNK_010b85b4, formatted.scalar);
+        formatted.token = ((int)(::FUN_00a7d550(UNK_010b85b4, formatted.scalar)));
         output->AddTextValue(&formatted.token);
     }
-    int numericToken = FUN_00a7d4d0(UNK_010b85a4, shaderType);
+    int numericToken = ((int)(::FUN_00a7d4d0(UNK_010b85a4, shaderType)));
     output->AddNumericValue(numericToken);
-    numericToken = FUN_00a7d4d0(UNK_010b858c, material);
+    numericToken = ((int)(::FUN_00a7d4d0(UNK_010b858c, material)));
     output->AddNumericValue(numericToken);
     if (!flagsList)
     {
-        formatted.token = FUN_00a7d330(UNK_010b8570);
+        formatted.token = ((int)(::FUN_00a7d330(UNK_010b8570)));
         output->AddTextValue(&formatted.token);
         return;
     }
     unsigned int count = flagsList->count;
-    formatted.token = FUN_00a7d510(UNK_010b855c, count);
+    formatted.token = ((unsigned int)(::FUN_00a7d510(UNK_010b855c, count)));
     output->AddTextValue(&formatted.token);
     for (unsigned int index = 0; index < count; ++index)
     {
@@ -770,11 +776,11 @@ void ShaderPropertyRecord::WriteToSettingArray(SettingArray* output)
             const unsigned int code = type;
             if (entry->secondary)
             {
-                output->AddFinal(FUN_00a7d5e0(UNK_010b8554, FUN_00b4f9d0((unsigned int)entry->type)));
+                output->AddFinal(((int)(::fnv_00a7d5e0::FUN_00a7d5e0(UNK_010b8554, ::FUN_00b4f9d0((unsigned int)entry->type)))));
             }
             else
             {
-                output->AddFinal(FUN_00a7d5e0(UNK_010b854c, FUN_00b4f9d0((unsigned int)entry->type)));
+                output->AddFinal(((int)(::fnv_00a7d5e0::FUN_00a7d5e0(UNK_010b854c, ::FUN_00b4f9d0((unsigned int)entry->type)))));
             }
         }
     }
@@ -787,7 +793,7 @@ struct FUN_00ba8e20
     virtual ~FUN_00ba8e20();
     static void operator delete(void* p)
     {
-        g_memoryManager.Deallocate(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
     }
 };
 // Default constructor for FUN_00ba8e20; performs no initialization.
@@ -796,23 +802,20 @@ FUN_00ba8e20::FUN_00ba8e20()
 {}
 FUN_00ba8e20::~FUN_00ba8e20()
 {
-    g_memoryManager.Deallocate(m_p);
+    reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(m_p);
 }
 
 namespace fnv_00bb73f0 {
 struct FUN_00ba8ab0_shell : public BSShaderProperty
 {
-    void FUN_00ba8ab0(float);
 };
 
 struct FUN_00ba9820_shell : public BSShaderProperty
 {
-    void CreateSpawnedObjectIfMissing(int);
 };
 
 struct FUN_00ba95e0_shell : public BSShaderProperty
 {
-    void FUN_00ba95e0(int);
 };
 
 struct FUN_00bb73f0_shell
@@ -862,12 +865,12 @@ BSShaderProperty::ShaderPassList* FUN_00bb73f0_shell::FUN_00bb73f0(int geometry,
             alpha = *(float*)((char*)shader + 0x3c) * m_fAlpha;
         else
             alpha = m_fAlpha;
-        ((FUN_00ba8ab0_shell*)this)->FUN_00ba8ab0(alpha);
+        reinterpret_cast<::FUN_00ba8ab0_shell *>((((FUN_00ba8ab0_shell*)this)))->FUN_00ba8ab0(alpha);
     }
 
     if (arg4 == 0xf)
     {
-        ((FUN_00ba9820_shell*)this)->CreateSpawnedObjectIfMissing(1);
+        reinterpret_cast<::fnv_00ba9820::FUN_00ba9820_cls *>((((FUN_00ba9820_shell*)this)))->CreateSpawnedObjectIfMissing(1);
         if (m_pRenderPassArray54->iSize == 0)
         {
             m_pRenderPassArray54->Add((NiGeometry*)geometry, 0x237, true, 0, 0, 0, 0, 0);
@@ -878,7 +881,7 @@ BSShaderProperty::ShaderPassList* FUN_00bb73f0_shell::FUN_00bb73f0(int geometry,
 
     if (m_uiPass != pass)
     {
-        ((FUN_00ba95e0_shell*)this)->FUN_00ba95e0(1);
+        reinterpret_cast<::TallGrassShader *>((((FUN_00ba95e0_shell*)this)))->InitializeConstants(1);
         m_pRenderPassArray3c->iSize = 0;
         m_pRenderPassArray3c->Add((NiGeometry*)geometry, 0x236, true, 0, 0, 0, 0, 0);
         m_pRenderPassArray3c->m_kRenderPasses.m_pBase[0]->m_ucLightIndex = 0xa;

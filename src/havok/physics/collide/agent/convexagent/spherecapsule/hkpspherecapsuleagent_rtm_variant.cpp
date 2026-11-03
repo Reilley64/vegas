@@ -4,6 +4,17 @@
 
 // src/havok/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_00cfbbe0_cls.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00d23000.h"
+#include "fnv/symbols_00d3a000.h"
+#include "fnv/symbols_00d3e000.h"
+#include "fnv/symbols_00d3f000.h"
+#include "fnv/symbols_00daf000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010ce000.h"
+#include "fnv/symbols_01268000.h"
 struct S_00d3ef70_CdBody;
 struct S_00d3ef70_Input;
 struct S_00d3ef70_Agent;
@@ -21,17 +32,7 @@ struct S_00d3ef70_AgentFuncs {
     bool m_bIsPredictive;
 };
 struct S_00d3ef70_Dispatcher {
-    void registerCollisionAgent(S_00d3ef70_AgentFuncs& f, int typeA, int typeB);
 };
-S_00d3ef70_Agent* FUN_00d3e2f0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, void*);
-void FUN_00d3f040(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
-void FUN_00d3f4c0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
-void FUN_00d3ac80(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&, S_00d3ef70_Collector*);
-S_00d3ef70_Agent* FUN_00d3e270(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, void*);
-void FUN_00d3e330(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
-void FUN_00d3ebe0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
-void FUN_00daf8e0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&, S_00d3ef70_Collector*);
-void FUN_00d3ef70(S_00d3ef70_Dispatcher* dispatcher);
 class InnerCls {
 public:
     virtual void v0();
@@ -74,26 +75,17 @@ struct SmallRecord {
     unsigned short m_w0C;
 };
 extern char DAT_010cf018[];
-AllocHolder* FUN_00c85750();
-void __cdecl FUN_00d3e2f0(int aiUnused1, int aiUnused2, int aiUnused3, int aiValue);
-void __cdecl FUN_00d3e330(int a, int b, int c, int d);
-void __stdcall FUN_00d3e510(int a, int b, int c, int d);
-extern char DAT_010ce81c;
 struct FUN_00d3f040_tmp {
     const char* str;
     unsigned char flag;
     unsigned int value;
 };
-void __cdecl FUN_00d3e330(unsigned int a, unsigned int b, unsigned int c, FUN_00d3f040_tmp* p);
-void __cdecl FUN_00d3f040(unsigned int a0, unsigned int a1, unsigned int a2, unsigned int uiValue);
-extern char DAT_010ce81c;
 struct AgentDispatchDescriptor {
     const void* dispatchTable;
     unsigned char isFlipped;
     volatile unsigned int tag;
 };
 struct CollisionDispatcher {
-    void FUN_00d3e510(void* bodyB, void* bodyA, void* input, AgentDispatchDescriptor* descriptor);
     void FUN_00d3f000(void* bodyA, void* bodyB, void* volatile input, unsigned int tag);
 };
 union __declspec(intrin_type) __declspec(align(16)) __m128 {
@@ -110,9 +102,7 @@ extern "C" void _mm_store_ss(float* p, __m128 a);
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
-extern unsigned long DAT_0126835c;
 extern const char str_010cf158[];
-extern const char str_010c41f8[];
 struct SphCap_Mon {
     char* m_kRayStart;
     char* m_kRayEnd;
@@ -177,7 +167,6 @@ struct S_00d3ef70_Collector {
     virtual void slot00();
     virtual void AddCdBodyPair(const S_00d3ef70_CdBody& a, const S_00d3ef70_CdBody& b);
 };
-int __cdecl FUN_00d230e0(const SphCap_Vector4& pos, const SphCap_Vector4& a, const SphCap_Vector4& b, SphCap_SegResult& out);
 struct Group1 {
     SphCap_Vector4F t0;
     SphCap_Vector4F t1;
@@ -186,7 +175,6 @@ struct Group2 {
     SphCap_Vector4F t2;
     SphCap_Vector4F t3;
 };
-void FUN_00d3e330(const S_00d3ef70_CdBody& bodyA, const S_00d3ef70_CdBody& bodyB, const S_00d3ef70_Input& input, S_00d3ef70_Collector& collector);
 
 typedef float hkReal;
 typedef unsigned short hkUint16;
@@ -535,8 +523,7 @@ class StringCursor
 public:
 __forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}static StringCursor&GetMonitorStream()
 {
-extern hkThreadLocalData<StringCursor*>g_pMonitorStream;
-return*g_pMonitorStream.getData();
+return*(*reinterpret_cast<::hkThreadLocalData< ::StringCursor *> *>(&::DAT_0126835c)).getData();
 }
 public:
 __forceinline char*__cdecl GetStreamStart(){return m_kRayStart.val();}
@@ -861,14 +848,14 @@ struct Vector4Wrapper
 __forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(SegmentSegmentClosestPoint::Vector4Wrapper));}}__forceinline void*__cdecl operator new(hk_size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](hk_size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 hkVector4 m_kClosestPoint;
 };
-static int __cdecl GetClosestPointOnLineSegment(hkVector4Parameter A,hkVector4Parameter B0,hkVector4Parameter B1,Vector4Wrapper&result);};
+};
 __forceinline hkpSphereCapsuleAgent::ClosestPointResult hkpSphereCapsuleAgent::getClosestPointInl(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,hkContactPoint&cpoint)
 {
 const hkpSphereShape*sphereA=static_cast<const hkpSphereShape*>(bodyA.getShape());
 const hkpCapsuleShape*capsuleB=static_cast<const hkpCapsuleShape*>(bodyB.getShape());
 const hkVector4&posA=bodyA.getTransform().getTranslation();
 hkVector4 capsB[2];hkVector4Util_S::TransformPointArray(bodyB.getTransform(),capsuleB->GetIndexedVertices(),2,capsB);
-SegmentSegmentClosestPoint::Vector4Wrapper result;SegmentSegmentClosestPoint::GetClosestPointOnLineSegment(posA,capsB[0],capsB[1],result);
+SegmentSegmentClosestPoint::Vector4Wrapper result;::FUN_00d230e0((const ::hkVector4D230 &)(posA),(const ::hkVector4D230 &)(capsB[0]),(const ::hkVector4D230 &)(capsB[1]),(::hkVector4D230 &)(result));
 hkVector4 aMinusB;aMinusB.setSub4(posA,result.m_kClosestPoint);
 const hkReal radiusSum=sphereA->getRadius()+capsuleB->getRadius();
 const hkReal refDist=radiusSum+input.getTolerance();
@@ -896,11 +883,11 @@ return ST_CP_HIT;}
 // @fnv 0x00d3ebe0
 void __cdecl hkpSphereCapsuleAgent::FUN_00d3ebe0(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,class hkpCdPointCollector&collector)
 {
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "SphereCapsule";h->setTime();mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "SphereCapsule";h->setTime();mStream.setEnd((char*)(h+1));}};
 ContactPointPair event(bodyA,bodyB);
 if(getClosestPointInl(bodyA,bodyB,input,event.m_kPoint))
 {
 collector.AddCdPoint(event);
 }
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
 }

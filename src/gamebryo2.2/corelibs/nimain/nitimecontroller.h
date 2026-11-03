@@ -16,6 +16,8 @@
 #define FNV_NITIMECONTROLLER_UNIT_H
 
 
+#include "fnv/decl/ControllerOwner.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
 #include "layout_support.h"
 
 class CloningProcess;
@@ -112,7 +114,6 @@ class NiObjectNET : public NiObject
     {
         return m_pControllers.m_pObject;
     }
-    void ReplaceControllers(NiTimeController* pkControl);
 
     NiFixedString m_kName;                       // +0x8
     NiPointer<NiTimeController> m_pControllers;  // +0xC
@@ -196,7 +197,6 @@ template <class T> void NiBinaryStreamLoad(NiBinaryStream& is, T* pValue, unsign
 class NiStream : public NiObject
 {
   public:
-    void ResetStreamState();
     NiObject* GetLoadedObject();
     inline unsigned int GetFileVersion() const
     {

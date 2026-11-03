@@ -1,12 +1,18 @@
 // Source layout: TESObjectREFR. PC corrections are in generate_headers.py.
 #ifndef FNV_TESOBJECTREFR_H
 #define FNV_TESOBJECTREFR_H
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/fnv_0043fcd0__FUN_0043fcd0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
 #include "layout_support.h"
 #include "ExtraDataList.h"
 #include "PlacedObjectInfo.h"
 #include "TESChildCell.h"
 #include "TESForm.h"
 #pragma pack(push, 4)
+class BGSEncounterZone;
+class BSExtraData;
 class TESObjectREFR : public TESForm
 {
   public:
@@ -89,11 +95,19 @@ class TESObjectREFR : public TESForm
     {
         CHANGE_SCRIPT_VARIABLES = 0x80000000u
     };
-    ScriptLocals* GetReferenceLocals();
-    TESObjectCELL* GetParentCell();
-    TESBoundObject* GetObjectReference();
-    NiAVObject* Get3DSimple();
     ExtraDataList* GetExtraData();
+public:
+    ::BSExtraData *GetExtraData(unsigned char) const;
+public:
+    ::BGSEncounterZone *FindEncounterZone();
+public:
+    const char *GetModelFilePath();
+public:
+    bool IsLimbMissing(int);
+public:
+    float GetScale();
+public:
+    void FUN_008984c0();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESObjectREFR) == 0x68);

@@ -2,9 +2,11 @@
 // src/havok/physics/dynamics/motion/hkpmotion.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/motion/hkpmotion.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00c86660_cls.h"
+#include "fnv/decl/hkSweptTransformq.h"
+#include "fnv/symbols_00cf2000.h"
 #include "havok/hkpMotion.h"
 
-extern "C" void __cdecl SetMotionState(void*, void*);
 
 struct FUN_00c86400_Class
 {
@@ -14,7 +16,7 @@ struct FUN_00c86400_Class
 // @fnv 0x00c86400
 void __thiscall FUN_00c86400_Class::FUN_00c86400(void* a)
 {
-    SetMotionState(a, (char*)this + 0x10);
+    ::SetMotionState((const ::MotionMat4 *)(a), (::MotionState_cls *)(void *)((char*)this + 0x10));
 }
 
 struct FUN_00c86420_Class
@@ -71,7 +73,6 @@ void __thiscall FUN_00c863a0_Class::FUN_00c863a0(void* a)
     FUN_00cf20d0(a, (char*)this + 0x10);
 }
 
-extern "C" void __cdecl FUN_00cf2160(void*, void*);
 
 struct FUN_00c863c0_Class
 {
@@ -81,7 +82,7 @@ struct FUN_00c863c0_Class
 // @fnv 0x00c863c0
 void __thiscall FUN_00c863c0_Class::FUN_00c863c0(void* a)
 {
-    FUN_00cf2160(a, (char*)this + 0x10);
+    ::FUN_00cf2160((unsigned int)(a), (unsigned int)((char*)this + 0x10));
 }
 
 extern void __cdecl FUN_00cf1f80(void*, void*, void*);
@@ -99,7 +100,6 @@ void FUN_00c863e0_Class::FUN_00c863e0(void* pFirst, void* pSecond)
 
 struct FUN_00cf22d0_Class
 {
-    void __thiscall Evaluate(float value, void* result);
 };
 
 struct FUN_00c86490_Class
@@ -113,7 +113,7 @@ struct FUN_00c86490_Class
 // @fnv 0x00c86490
 void FUN_00c86490_Class::SweepTransform(float value, void* result)
 {
-    sweptTransform.Evaluate(value, result);
+    reinterpret_cast<::hkSweptTransformq *>(&(sweptTransform))->Evaluate(value, (*(::hkTransformq *)(result)));
 }
 
 int __cdecl ApplyDelta(int, int);
@@ -352,7 +352,6 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
 };
 struct Motion_00c86660
 {
-    void __thiscall FUN_00c86660(void* a);
 };
 struct Motion_00c86610
 {
@@ -363,7 +362,7 @@ struct Motion_00c86610
 // @fnv 0x00c86610
 void __thiscall Motion_00c86610::FUN_00c86610(Motion_00c86610* apDest)
 {
-    ((Motion_00c86660*)((char*)apDest + 0x10))->FUN_00c86660((char*)this + 0x10);
+    reinterpret_cast<::FUN_00c86660_cls *>((((Motion_00c86660*)((char*)apDest + 0x10))))->FUN_00c86660((const ::FUN_00c86660_cls *)(void *)((char*)this + 0x10));
     *(__m128*)((char*)apDest + 0xd0) = *(__m128*)((char*)this + 0xd0);
     *(__m128*)((char*)apDest + 0xe0) = *(__m128*)((char*)this + 0xe0);
     ((unsigned char*)apDest + 9)[0] = ((unsigned char*)this + 9)[0];

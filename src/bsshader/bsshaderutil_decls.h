@@ -2,6 +2,12 @@
 #ifndef BSSHADERUTIL_DECLS_H
 #define BSSHADERUTIL_DECLS_H
 
+#include "fnv/decl/CameraState4E9.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_011fa000.h"
 #include "MemoryManager.h"
 
 class NiCamera;
@@ -109,7 +115,6 @@ class NiRenderer
 {
   public:
     static NiRenderer* ms_pRenderer;
-    void SetCurrentCamera(NiCamera* camera);
     unsigned char layoutPadding0[8];
     NiNode* m_pScene;
     void* m_pCamera;
@@ -141,10 +146,6 @@ class BSShaderRenderUtility
     static void SetAlphaOnNode(NiNode* node, float alpha);
 };
 
-extern NiCamera* DAT_011f917c;
-extern void* DAT_011fa050;
-extern void* DAT_011fa054;
-extern MemoryManager g_memoryManager;
 void FUN_00b54b10(BSShaderAccumulator* accumulator);
 
 struct BSShaderUtilTextureName
@@ -154,11 +155,11 @@ struct BSShaderUtilTextureName
     {}
     static void* operator new(unsigned int size)
     {
-        return g_memoryManager.Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }
     static void operator delete(void* pointer)
     {
-        g_memoryManager.Deallocate(pointer);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(pointer);
     }
 };
 

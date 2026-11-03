@@ -2,9 +2,16 @@
 // src/bsshader/imagespaceeffectmap.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/imagespaceeffectmap.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/FUN_00ba3780_struct.h"
+#include "fnv/decl/FUN_00ba3c70_shell.h"
+#include "fnv/decl/ImageSpaceEffect.h"
+#include "fnv/decl/ImageSpaceShaderParam.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00ba3000.h"
+#include "fnv/symbols_011f6000.h"
 struct S_Dst
 {
-    void FUN_00b8a790(int a, float b, float c, float d, float e);
 };
 struct S_Obj
 {
@@ -50,7 +57,6 @@ struct S_Obj
 };
 struct S_Src
 {
-    S_Obj* FUN_00ba3780();
 };
 struct S_Mid
 {
@@ -78,8 +84,8 @@ struct S_00baa330_Cls
 bool S_00baa330_Cls::FUN_00baa330(int aiUnused)
 {
     S_Dst* dst = *m1c;
-    S_Obj* pObj = m2c->m4->FUN_00ba3780();
-    dst->FUN_00b8a790(0, 1.0f / (float)pObj->v94(), 1.0f / (float)pObj->v98(), 0.0f, 0.0f);
+    S_Obj* pObj = ((::S_Obj *)(reinterpret_cast<::FUN_00ba3780_struct *>((m2c->m4))->FUN_00ba3780()));
+    reinterpret_cast<::ImageSpaceShaderParam *>((dst))->SetShaderConstantVector4(0, 1.0f / (float)pObj->v94(), 1.0f / (float)pObj->v98(), 0.0f, 0.0f);
     return true;
 }
 
@@ -139,10 +145,8 @@ struct Mid08_cls
 struct MemMgr_cls
 {
     int unk00;
-    void* FUN_00aa3e40(unsigned int size);
 };
 
-extern MemMgr_cls DAT_011f6238;
 
 struct FUN_00b8a9e0
 {
@@ -184,11 +188,8 @@ struct FUN_00b8a9e0
     FUN_00b8a9e0();
     static void* operator new(unsigned int size) throw()
     {
-        return DAT_011f6238.FUN_00aa3e40(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemMgr_cls *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }
-    void FUN_00b8ab10(int a1, int a2);
-    void FUN_00b8a790(int a1, float f0, float f1, float f2, float f3);
-    void FUN_00b8a8d0(int a1, int a2);
 };
 
 struct Sub18_cls
@@ -199,13 +200,11 @@ struct Sub18_cls
     unsigned short size;
     unsigned short effectiveSize;
     unsigned short growBy;
-    void FUN_00ba3aa0(int index, FUN_00b8a9e0* const& value);
 };
 
 struct Sub28_cls
 {
     int unk00;
-    void FUN_00a90180(int a1);
 };
 
 struct FUN_00baa240_cls
@@ -219,25 +218,22 @@ struct FUN_00baa240_cls
     Sub18_cls m_18;
     Sub28_cls m_28;
 
-    void SetTextureArraySize(int a1);
-    void SetEffectParamAt(int a1, int a2, int a3);
-    void FUN_00ba3c70(int a1, int a2, FUN_00b8a9e0* a3, int a4);
     void Initialize(FUN_00baa240_cls* a1, int a2);
 };
 
 // @fnv 0x00baa240
 void FUN_00baa240_cls::Initialize(FUN_00baa240_cls* a1, int aiArg)
 {
-    SetTextureArraySize(1);
-    m_28.FUN_00a90180(2);
+    reinterpret_cast<::ImageSpaceEffect *>(this)->SetTextureArraySize(1);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_28))->FUN_00a90180(2);
     FUN_00b8a9e0* obj = new FUN_00b8a9e0();
-    obj->FUN_00b8ab10(0, 1);
-    obj->FUN_00b8a790(0, 1.0f, 1.0f, 1.0f, 1.0f);
-    obj->FUN_00b8a8d0(0xa8, 0xf);
+    reinterpret_cast<::ImageSpaceShaderParam *>((obj))->AllocateShaderConstants(0, 1);
+    reinterpret_cast<::ImageSpaceShaderParam *>((obj))->SetShaderConstantVector4(0, 1.0f, 1.0f, 1.0f, 1.0f);
+    reinterpret_cast<::ImageSpaceShaderParam *>((obj))->SetRenderState(0xa8, 0xf);
     {
         FUN_00b8a9e0* toStore = obj;
-        m_18.FUN_00ba3aa0(0, toStore);
+        reinterpret_cast<::FUN_00a41520_cls *>(&(m_18))->FUN_00ba3aa0(0, (::KeyPair **)&(toStore));
     }
-    SetEffectParamAt(0, 1, 0);
-    FUN_00ba3c70(0, a1->m_08->m_c0, obj, 0);
+    ::SetEffectParamAt((char *)this, 0, 1, 0, {});
+    reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(0, (::ImageSpaceEffect *)(a1->m_08->m_c0), (::ImageSpaceEffectParam *)(obj), 0);
 }

@@ -2,6 +2,7 @@
 #ifndef FNV_NIPOINT3_H
 #define FNV_NIPOINT3_H
 
+#include "fnv/decl/FUN_004a0c10_s.h"
 #include "layout_support.h"
 #pragma pack(push, 4)
 class NiPoint3
@@ -35,11 +36,11 @@ class NiPoint3
     {
         return x * point.x + y * point.y + z * point.z;
     }
-    float Length() const;
-    void Unitize();
     static const NiPoint3 ZERO;
     float GetLengthSquared();
     NiPoint3 CrossProduct(const NiPoint3& point) const;
+public:
+    float ComputeMagnitude() const;
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiPoint3) == 0xC);

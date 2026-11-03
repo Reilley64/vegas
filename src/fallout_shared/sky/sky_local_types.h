@@ -21,6 +21,8 @@ class NiPoint3
   public:
     float x, y, z;
     NiPoint3(float, float, float);
+public:
+    static const ::NiPoint3 ZERO;
 };
 #pragma pack(pop)
 #endif

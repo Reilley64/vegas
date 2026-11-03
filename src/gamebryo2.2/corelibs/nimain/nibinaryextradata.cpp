@@ -2,9 +2,25 @@
 // src/gamebryo2.2/corelibs/nimain/nibinaryextradata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nibinaryextradata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/ExtraDataObject.h"
+#include "fnv/decl/ExtraDataStrings.h"
+#include "fnv/decl/FUN_00a7b2c0_shell.h"
+#include "fnv/decl/FUN_00a7b330_shell.h"
+#include "fnv/decl/MyOwner.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a26000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109d000.h"
+#include "fnv/symbols_011f4000.h"
+class NiStream;
 struct NiExtraData
 {
-    void FUN_00a7b2e0();
+public:
+    void LinkObject(::NiStream &);
+public:
+    void LoadBinary(::NiStream &);
 };
 
 struct BSFadeNode
@@ -20,7 +36,7 @@ void* __cdecl FUN_00a7f8e0()
     void* p = BSFadeNode::operator new(0x14);
     if (p)
     {
-        ((NiExtraData*)p)->FUN_00a7b2e0();
+        reinterpret_cast<::ExtraDataObject *>((((NiExtraData*)p)))->FUN_00a7b2e0();
         *reinterpret_cast<void**>(p) = &DAT_0102e394;
         *reinterpret_cast<int*>(reinterpret_cast<char*>(p) + 0x10) = 0;
         *reinterpret_cast<int*>(reinterpret_cast<char*>(p) + 0xc) = 0;
@@ -74,7 +90,6 @@ template <class T> inline void ReadBinaryValue(NiStream& stream, T* array, unsig
     stream.istr->Read(array, count);
 }
 
-void* NiMalloc(unsigned int size);
 
 struct NiBinaryExtraData : NiExtraData
 {
@@ -83,7 +98,6 @@ struct NiBinaryExtraData : NiExtraData
     int unk08;
     char* m_pData;
     unsigned int m_uiSize;
-    void FUN_00a7b4a0(NiStream& stream);
     void FUN_00a7f9a0(NiStream& stream);
 };
 
@@ -91,11 +105,11 @@ struct NiBinaryExtraData : NiExtraData
 // @fnv 0x00a7f9a0
 void NiBinaryExtraData::FUN_00a7f9a0(NiStream& stream)
 {
-    FUN_00a7b4a0(stream);
-    ReadBinaryValue(stream, m_uiSize);
+    reinterpret_cast<::NiExtraData *>(this)->LoadBinary(stream);
+    ::FUN_00a26df0((::MyStream *)&(stream), (void *)&(m_uiSize));
     if (m_uiSize <= 0)
         return;
-    m_pData = (char*)NiMalloc(m_uiSize);
+    m_pData = (char*)::FUN_00aa1070(m_uiSize);
     ReadBinaryValue(stream, m_pData, m_uiSize);
 }
 
@@ -282,14 +296,13 @@ struct NiBinaryExtraData
     void* unk08;
     void* unk0c;         // the payload pointer
     unsigned int unk10;  // the payload size
-    void FUN_00a7b2c0(NiStreamLike* s);
     void FUN_00a7fa20(NiStreamLike* s);
 };
 
 // @fnv 0x00a7fa20
 void NiBinaryExtraData::FUN_00a7fa20(NiStreamLike* apStream)
 {
-    this->FUN_00a7b2c0(apStream);
+    reinterpret_cast<::FUN_00a7b2c0_shell *>((this))->FUN_00a7b2c0((*(::NiStream *)(apStream)));
     FadeNode* node = apStream->unk250;
     {
         int flag = 4;
@@ -316,8 +329,6 @@ struct FUN_00a7fa90_obj
     unsigned short m_w0A;
     unsigned short unk0C;
     unsigned short m_w0E;
-    void FUN_0096ad30(unsigned int a);
-    void FUN_0096ae90(unsigned int a, void** out);
 };
 
 struct FUN_00a7fa90_cls
@@ -327,38 +338,32 @@ struct FUN_00a7fa90_cls
     unsigned int unk08;
     unsigned int unk0C;
     void* m_p10;
-    void FUN_00a7b580(FUN_00a7fa90_obj* s);
     void FUN_00a7fa90(FUN_00a7fa90_obj* s);
 };
 
-extern unsigned int DAT_011f4ab8;
-extern char str_0109df4c[];
-void* __cdecl FUN_00a7d330(unsigned int v);
-void* __cdecl FUN_00a7d510(const char* fmt, void* v);
 
 // @fnv 0x00a7fa90
 void FUN_00a7fa90_cls::FUN_00a7fa90(FUN_00a7fa90_obj* pObj)
 {
-    FUN_00a7b580(pObj);
-    void* r = FUN_00a7d330(DAT_011f4ab8);
+    reinterpret_cast<::ExtraDataStrings *>(this)->FUN_00a7b580((::StrArr *)(pObj));
+    void* r = ((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<unsigned int *>(&::g_011f4ab8))))));
     unsigned int a = pObj->m_w0A;
     if (a >= pObj->m_w08)
     {
-        pObj->FUN_0096ad30(a + pObj->m_w0E);
+        reinterpret_cast<::ViewerStrings *>((pObj))->SetSize(a + pObj->m_w0E);
     }
-    pObj->FUN_0096ae90(a, &r);
-    r = FUN_00a7d510(str_0109df4c, m_p10);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pObj))->SetAt(a, (*(char * *)(&r)));
+    r = ((void *)(::FUN_00a7d510(::str_0109df4c, (unsigned int)(m_p10))));
     a = pObj->m_w0A;
     if (a >= pObj->m_w08)
     {
-        pObj->FUN_0096ad30(a + pObj->m_w0E);
+        reinterpret_cast<::ViewerStrings *>((pObj))->SetSize(a + pObj->m_w0E);
     }
-    pObj->FUN_0096ae90(a, &r);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pObj))->SetAt(a, (*(char * *)(&r)));
 }
 
 struct FUN_00cb9c70_cls
 {
-    bool Check(int);
 };
 struct FUN_00a89ae0_shell
 {
@@ -367,14 +372,13 @@ struct FUN_00a89ae0_shell
 // @fnv 0x00a89ae0
 bool FUN_00a89ae0_shell::FUN_00a89ae0(int a)
 {
-    return ((FUN_00cb9c70_cls*)this)->Check(a);
+    return reinterpret_cast<::MyOwner *>((((FUN_00cb9c70_cls*)this)))->FUN_00a7b290((*(::NiStream *)(a)));
 }
 
-extern void __cdecl FUN_00a7b3b0();
 // @fnv 0x00a9af00
 void __cdecl FUN_00a9af00()
 {
-    FUN_00a7b3b0();
+    static_cast<::NiExtraData *>(nullptr)->LinkObject(*(::NiStream *)nullptr);
 }
 
 #include <string.h>
@@ -404,7 +408,6 @@ bool A7F870BinaryData::IsEqual(const A7F870BinaryData* pkOther) const
 
 struct CloningProcess;
 
-extern void* __cdecl NiMalloc(unsigned int stSize);
 
 class A7F920ExtraData
 {
@@ -415,7 +418,6 @@ class A7F920ExtraData
     __declspec(nothrow) A7F920ExtraData();
     virtual void vfunc00();
 
-    void CopyMemberData(A7F920ExtraData* pkDest, CloningProcess& kCloning);
 
     int m_uiRefCount;
     int m_kName;
@@ -442,10 +444,10 @@ class A7F920BinaryExtraData : public A7F920ExtraData
 A7F920ExtraData* A7F920BinaryExtraData::FUN_00a7f920(CloningProcess& kCloning)
 {
     A7F920BinaryExtraData* pkClone = new A7F920BinaryExtraData;
-    CopyMemberData(pkClone, kCloning);
+    reinterpret_cast<::FUN_00a7b330_shell *>(this)->FUN_00a7b330((::NiBinaryExtraData *)(pkClone), (::CloningProcess *)&(kCloning));
     if (m_uiSize > 0)
     {
-        pkClone->m_pByteBuffer = (char*)NiMalloc(m_uiSize);
+        pkClone->m_pByteBuffer = (char*)::FUN_00aa1070(m_uiSize);
         memmove(pkClone->m_pByteBuffer, m_pByteBuffer, m_uiSize);
         pkClone->m_uiSize = m_uiSize;
     }

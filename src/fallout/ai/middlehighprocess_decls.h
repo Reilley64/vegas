@@ -1,6 +1,7 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef FNV_MIDDLEHIGHPROCESS_DECLS_H
 #define FNV_MIDDLEHIGHPROCESS_DECLS_H
+#include "fnv/symbols_0092a000.h"
 #include "layout_support.h"
 #include "../../../include/Actor.h"
 #include "ActorPackageContext.h"
@@ -43,6 +44,8 @@ class BipedAnim
 {
   public:
     NiNode* GetBoneNode(BIPED_BONE);
+public:
+    void AttachFaceGenNode();
 };
 
 template <>
@@ -89,6 +92,8 @@ FNV_STATIC_ASSERT(offsetof(FurnitureMark, Position) == 0);
 FNV_STATIC_ASSERT(offsetof(FurnitureMark, m_usMarkerId) == 12);
 FNV_STATIC_ASSERT(offsetof(FurnitureMark, m_ucFlags) == 14);
 #pragma pack(push, 4)
+class MagicItem;
+class MagicTarget;
 class MiddleHighProcess : public MiddleLowProcess
 {
   public:
@@ -457,6 +462,12 @@ class MiddleHighProcess : public MiddleLowProcess
     // bool __cdecl MiddleHighProcess::*(ANIM_GROUP_ENUM)
     // MiddleHighProcess& __cdecl MiddleHighProcess::*(const MiddleHighProcess&)
     // void __cdecl MiddleHighProcess::*()
+public:
+    bool IsActorInCombat();
+public:
+    void SetSelectedMagicItem(::MagicItem *);
+public:
+    void SetMagicTarget(::MagicTarget *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(MiddleHighProcess) == 604);

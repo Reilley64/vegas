@@ -5,10 +5,95 @@
 
 // src/havok/physics/dynamics/world/hkpworld.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/hkpworld.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/BatchAdd__WorldHelper.h"
+#include "fnv/decl/C66A00This.h"
+#include "fnv/decl/C91World.h"
+#include "fnv/decl/Cls_00c98780.h"
+#include "fnv/decl/D04B90World.h"
+#include "fnv/decl/Dispatcher.h"
+#include "fnv/decl/DispatcherCF7080.h"
+#include "fnv/decl/FUN_00c66e20_Class.h"
+#include "fnv/decl/FUN_00c67850_Class.h"
+#include "fnv/decl/FUN_00c89c80_obj.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00c93580_Class.h"
+#include "fnv/decl/FUN_00cb8ac0_class.h"
+#include "fnv/decl/FUN_00cbf6b0_class.h"
+#include "fnv/decl/FUN_00cf86f0_class.h"
+#include "fnv/decl/FUN_00d06fb0_cls.h"
+#include "fnv/decl/FUN_00d07470_cls.h"
+#include "fnv/decl/FlagState.h"
+#include "fnv/decl/Fun_cls.h"
+#include "fnv/decl/HostWorld_00c951b0.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/Mgr.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/Pending.h"
+#include "fnv/decl/PhantomCls.h"
+#include "fnv/decl/Root.h"
+#include "fnv/decl/S_00c8a280_Obj.h"
+#include "fnv/decl/S_00ce5290.h"
+#include "fnv/decl/S_00cfaed0_This.h"
+#include "fnv/decl/S_00d9e280_D.h"
+#include "fnv/decl/S_Owner.h"
+#include "fnv/decl/SaveBuffer.h"
+#include "fnv/decl/Shell_c6a540.h"
+#include "fnv/decl/TW.h"
+#include "fnv/decl/TransformedPosDAD.h"
+#include "fnv/decl/ViewerConstraint.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/WorldAdvanceEntry.h"
+#include "fnv/decl/WorldFinishEntryC91C.h"
+#include "fnv/decl/WorldView.h"
+#include "fnv/decl/World_RemovePhantomBatch.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/fnv_00c67df0__PendingWorld.h"
+#include "fnv/decl/fnv_00c68de0__FNV_C68DE0_OWNER.h"
+#include "fnv/decl/fnv_00c6aac0__FUN_00c6aac0_Owner.h"
+#include "fnv/decl/fnv_00c91030__CpuObject.h"
+#include "fnv/decl/fnv_00cf3040__FUN_00cf3040_class.h"
+#include "fnv/decl/fnv_00cf7690__Vec.h"
+#include "fnv/decl/fnv_00cf7ae0__S_00cf7ae0.h"
+#include "fnv/decl/hkDebugDisplayHandlerC997.h"
+#include "fnv/decl/hkMapD01A.h"
+#include "fnv/decl/hkMultiThreadCheckCF6E.h"
+#include "fnv/decl/hkOwnerXd06540.h"
+#include "fnv/decl/hkOwnerXd06590.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpEntityC9C.h"
+#include "fnv/decl/hkpEntityC9C0.h"
+#include "fnv/decl/hkpWorldDecomp.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00c8a000.h"
+#include "fnv/symbols_00c8c000.h"
+#include "fnv/symbols_00c91000.h"
+#include "fnv/symbols_00c92000.h"
+#include "fnv/symbols_00c98000.h"
+#include "fnv/symbols_00cb3000.h"
+#include "fnv/symbols_00cb4000.h"
+#include "fnv/symbols_00cb5000.h"
+#include "fnv/symbols_00cb6000.h"
+#include "fnv/symbols_00cf1000.h"
+#include "fnv/symbols_00cfd000.h"
+#include "fnv/symbols_00cff000.h"
+#include "fnv/symbols_00d00000.h"
+#include "fnv/symbols_00d04000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010c3000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010c5000.h"
+#include "fnv/symbols_010c6000.h"
+#include "fnv/symbols_011ac000.h"
+#include "fnv/symbols_011af000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01272000.h"
 #include "havok/hkpWorld.h"
 struct FUN_00cf7c10
 {
-    void __thiscall PerformThisObjectOperation();
 };
 struct FUN_00c91120
 {
@@ -30,7 +115,6 @@ struct FUN_00cf6d20_Class
 };
 struct FUN_00cf6d30_Class
 {
-    void __thiscall ResetThreadCheck();
 };
 struct FUN_00c91280_Class
 {
@@ -248,8 +332,6 @@ struct FUN_00caa840_shell
 {
     void* m_iWordAt00;
     Data_00caa840* m_data;
-    void FUN_00c8a280(Ctx_00caa840* ctx);
-    void SaveShape(int n, Ctx_00caa840* ctx);
     void WriteToStream(Ctx_00caa840* ctx);
 };
 void __stdcall FUN_00c90e40(void* self, int arg);
@@ -257,10 +339,8 @@ struct FUN_00cf86e0_class
 {
     void FUN_00cf86e0(float);
 };
-void __fastcall FUN_00c91040(void* p, int edx, float f);
 struct RefObj
 {
-    void FUN_00c90510();
 };
 struct DDCC60World
 {
@@ -384,7 +464,6 @@ struct FUN_00c910d0_Class
 };
 struct FUN_00cf7ae0_Class
 {
-    void FUN_00cf7ae0();
 };
 struct FUN_00c91140_Class
 {
@@ -457,7 +536,6 @@ struct FUN_00c911f0_Class
 struct hkpAction;
 struct hkpPhysicsSystem
 {
-    void __thiscall FUN_00d06590(hkpAction* action);
 };
 struct FUN_00c928c0_ActionList
 {
@@ -478,7 +556,6 @@ struct FUN_00c928c0_Context
     FUN_00c928c0_ActionOwner** m_owners2;
     unsigned int m_ownerCount2;
 };
-void FUN_00c928c0(FUN_00c928c0_Context* context, hkpPhysicsSystem* physicsSystem);
 struct hkpWorld_MemUsageOut
 {
     int m_maxSize;
@@ -499,23 +576,19 @@ struct CA8B80Command
 };
 struct CA8B80Queue
 {
-    void __thiscall Push(CA8B80Command*);
 };
 struct FUN_00c97510
 {
-    void __thiscall ProcessPointer(void*);
 };
 struct FUN_00c97f50_Class
 {
     void DispatchOrQueue(void* p);
 };
-extern int DAT_010c3bb8;
 struct FUN_00c98350_Class
 {
     void* m_p;
     void* __thiscall InitAndMaybeFree(int);
 };
-void __cdecl _Deallocate(void*);
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 struct FUN_00c983e0_Class
@@ -587,7 +660,6 @@ struct CpuObject
 };
 struct FUN_00cf86f0_Class
 {
-    void __thiscall IsFieldEqual();
 };
 struct FUN_00c91060_Class
 {
@@ -640,7 +712,6 @@ struct FnvCpu_FUN_00c91090_CpuOwner
 };
 struct PendingOperations
 {
-    void __thiscall FUN_00cf7690();
 };
 struct WorldWithPending : hkpWorld
 {
@@ -690,19 +761,17 @@ struct FUN_00c98250_Class
 };
 void __stdcall FUN_00c982a0(char* pFlag, int a2, int a3, int a4, int a5, int a6);
 void __stdcall FUN_00c982b0(unsigned char* flag, int a2, int a3, int a4, int a5, int a6, int a7, int a8);
-extern __declspec(thread) int g_tlsMemContext;
-extern unsigned int DAT_011afe7c;
 struct ScopedMemContext
 {
     int m_saved;
     ScopedMemContext(int ctx)
     {
-        m_saved = g_tlsMemContext;
-        g_tlsMemContext = ctx;
+        m_saved = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = ctx;
     }
     ~ScopedMemContext()
     {
-        g_tlsMemContext = m_saved;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_saved;
     }
 };
 struct C67Owner
@@ -758,7 +827,6 @@ inline C67Owner* getEntityOwner(C67Collidable* coll)
 }
 struct C67Sink
 {
-    void RemoveEntities(C67Entry** entries, unsigned int count);
 };
 class FUN_00c67aa0_Class
 {
@@ -825,15 +893,7 @@ class FUN_00c67aa0_Class
 };
 struct WorldExt : public hkpWorld
 {
-    float FUN_00c91020() throw();
-    void FUN_00c91040(float f) throw();
-    void FUN_00c91bd0() throw();
-    bool FUN_00c91060() throw();
-    float FUN_00c91030() throw();
-    void FUN_00c91b10(float f) throw();
-    void FUN_00c93ae0(int a, int b, float f) throw();
     void FUN_00c91120() throw();
-    void FUN_00c91140() throw();
 };
 struct Class_012677d0
 {
@@ -844,20 +904,13 @@ struct Class_012677d0
     int unk10;
     int unk14;
     int unk18;
-    void EnsureObjectsCreated(unsigned char val) throw();
 };
 extern float DAT_012677c4;
 extern char DAT_012677a0;
 extern int DAT_012677c8;
-extern unsigned char DAT_012677a2;
-extern unsigned int DAT_011afe80;
 extern float DAT_011afe68;
 extern unsigned char DAT_01267b2c;
-extern Class_012677d0* DAT_012677d0;
-extern float DAT_01267b38;
-extern float DAT_011ac3a0;
 extern float DAT_012677ac;
-extern float DAT_011afe64;
 extern char DAT_012677cd;
 struct bhkWorld
 {
@@ -924,20 +977,9 @@ struct bhkWorld
     int unk4C;
     unsigned int unk50;
 
-    void FUN_00c674d0(void* p, unsigned int count) throw();
-    void ProcessConstraints() throw();
-    void FUN_00c6aac0() throw();
-    void FUN_00c6a540(float f) throw();
-    void FUN_00c66a00() throw();
-    void FUN_00c66e20(float f) throw();
-    void FUN_00c68de0() throw();
-    void FlushEntries() throw();
-    void SetProcessEnabled(int arg) throw();
 
     bool StepSimulation();
 };
-void __stdcall FUN_00c910a0(int);
-void FUN_00c911a0();
 extern void(__stdcall* DAT_00fdf100)(void*);
 struct FUN_00c91230_World : hkpWorld
 {
@@ -994,9 +1036,7 @@ struct OpPacket
 };
 struct EventSink
 {
-    void FUN_00cf7080(const Pair* p, int action, FilterCore* core);
 };
-int __cdecl FindEntryValue(const void*, const void*);
 struct FUN_00c913b0_Class
 {
     void* unknown_00;
@@ -1037,12 +1077,10 @@ struct FUN_00c913b0_Class
     void* unknown_8c;
     void* unknown_90;
     void* m_pDataAtOffset94;
-    void FUN_00c91160(const OpPacket* packet);
     void ProcessPair(const void* left, const void* right);
 };
 struct Sh00c91160
 {
-    void FUN_00c91160(void* rec);
 };
 struct QueuedOp
 {
@@ -1071,10 +1109,8 @@ struct WorldQ
 };
 class hkpWorldC914;
 class hkpMotionC914;
-void __cdecl FUN_00cf1480(float fA, float fB, int* piOut) throw();
 struct hkpCollidableQualityC914
 {
-    void SetFlagBits(unsigned char ucA, unsigned char ucB, unsigned char ucC) throw();
 };
 class hkpEntityC914
 {
@@ -1149,8 +1185,6 @@ class hkpEntityC914
     short m_ee;
     int m_f0;
 
-    void UpdateBoundingVolume(hkpWorldC914* pkWorld, const void* pvShape) throw();
-    void FUN_00c90510() throw();
 };
 struct hkWorldOperationBaseC914
 {
@@ -1384,22 +1418,16 @@ class hkpWorldC914
         if (m_iCriticalOperationsLockCount == 0 && !m_bBlockExecutingPendingOperations)
         {
             if (m_iPendingOperationCount)
-                FUN_00c91120();
+                reinterpret_cast<::FUN_00c91120 *>(this)->ExecutePendingOperations();
             if (m_iPendingOperationQueueCount == 1 && m_iQueuedOperationCount)
-                FUN_00c91140();
+                reinterpret_cast<::FUN_00c91140_Class *>(this)->FUN_00c91140();
         }
     }
 
     void FUN_00c91120() throw();
-    void FUN_00c91140() throw();
-    void FUN_00c91160(const hkWorldOperationBaseC914& kOperation) throw();
 
     hkpEntityC914* FUN_00c914d0(hkpEntityC914* pkEntity, int iInitialActivationState) throw();
 };
-void __cdecl FUN_00cb4640(hkpWorldC914* pkWorld, hkpEntityC914* pkEntity, int iInitialActivationState) throw();
-void __cdecl FUN_00cb59f0(hkpWorldC914* pkWorld, hkpEntityC914* pkEntity) throw();
-void __cdecl NotifyEntityAdded(hkpWorldC914* pkWorld, hkpEntityC914* pkEntity) throw();
-void __cdecl FUN_00cffa00(hkpEntityC914* pkEntity) throw();
 struct PointerArray
 {
     void** elements;
@@ -1637,8 +1665,6 @@ struct FUN_00c919d0_Class
 };
 struct CD22Registry
 {
-    void __thiscall IncrementCounter();
-    void __thiscall FUN_00c91190();
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -1680,9 +1706,7 @@ struct hkWorldC927
 class hkSetC927
 {
   public:
-    void FUN_00d06540(void* object);
 };
-void __cdecl FUN_00c927f0(hkWorldC927* world, hkSetC927* set);
 struct hkArrayRaw
 {
     void** m_data;
@@ -1801,14 +1825,12 @@ struct ObjectWriter
     void* m_reference08;
     int m_unknown0c;
     unsigned char m_writeAll10;
-    void DispatchWithMode(char* name, void* value, unsigned int length, int flags);
 };
 void* __cdecl FUN_00d06f80(void* array, unsigned int bytes);
 extern char str_010c6700;
 extern char str_0109c938;
 extern char str_010c66f0;
 extern char str_010c66e4;
-extern char str_010c6084;
 extern char str_010c66d8;
 extern char str_010c41a4;
 extern char str_010c66b8;
@@ -1825,8 +1847,6 @@ extern char str_010c65f8;
 extern char str_010c65e8;
 extern char str_010c65d8;
 extern char str_010c65c4;
-extern char str_010c65bc;
-extern char str_010c65b0;
 extern char str_010c65a4;
 extern char str_010c6598;
 extern char str_010c6580;
@@ -1855,7 +1875,7 @@ static __forceinline void SaveArray(ObjectWriter* writer, hkArrayRaw& array, cha
 }
 static __forceinline void SaveBlob(ObjectWriter* writer, char* name, void* address, unsigned int length)
 {
-    writer->DispatchWithMode(name, address, length, 0);
+    reinterpret_cast<::FUN_00d06fb0_cls *>((writer))->DispatchWithMode(name, address, length, 0);
 }
 struct WorldWatchDogHolder : hkpWorld
 {
@@ -1878,8 +1898,6 @@ struct ThreadMemHolder
 };
 void* FUN_00c85750();
 void ResizeAudioStream(void* alloc, void* array, int elemSize);
-void QueryEntityIntoBuffer(hkpWorld* world, hkpPhantom* phantom);
-void NotifyPhantomAdded(hkpWorld* world, hkpPhantom* phantom);
 struct PendingOperation
 {
     unsigned char m_type;
@@ -1901,13 +1919,10 @@ struct hkpPhantom : hkReferencedObject
     virtual void vfunc08();
     virtual void vfunc0C();
     virtual void* vfunc10();
-    void FUN_00d07b90();
 };
 struct FUN_00c936a0_World : hkpWorld
 {
-    void FUN_00c91160(PendingOperation* op);
     void FUN_00c91120();
-    void FUN_00c91140();
 
     hkpPhantom* FUN_00c936a0(hkpPhantom* phantom);
 };
@@ -1921,15 +1936,12 @@ struct FUN_00c93ae0_Vt
 };
 struct FUN_00c93ae0_Dtm
 {
-    void FUN_00d051b0();
 };
 struct FUN_00c93ae0_Cb
 {
-    int FUN_00c92d70(void* p, float f);
 };
 struct FUN_00c93ae0_Pair
 {
-    void FUN_00c91c00(void* a, void* b);
 };
 struct FUN_00c93ae0_class
 {
@@ -2041,12 +2053,6 @@ inline int findNull(const hkArray<void*>& values)
 }
 struct SystemWorld : hkpWorld
 {
-    void FUN_00c94bd0(void**, int, int);
-    void FUN_00c914d0(void*, int);
-    void FUN_00c954e0(void**, int);
-    void FUN_00c936a0(void*);
-    void FUN_00c97370(void*);
-    void FUN_00c97d30(SystemObject*);
     void FUN_00c97f80(PhysicsSystem* system);
 };
 class hkpConstraintInstanceC980;
@@ -2120,12 +2126,6 @@ class hkpPhysicsSystemC980
 class hkpWorldC980
 {
   public:
-    hkBoolRetC980 FUN_00c97e80(hkpConstraintInstanceC980* pkConstraint) throw();
-    void DispatchOrQueue(hkpActionC980* pkAction) throw();
-    void RemoveEntities(hkpEntityC980* const* ppkEntityBatch, int iNumEntities) throw();
-    hkBoolRetC980 ProcessTarget(hkpEntityC980* pkEntity) throw();
-    void FUN_00c95800(hkpPhantomC980* const* ppkPhantomBatch, int iNumPhantoms) throw();
-    void FUN_00c92c70(hkpPhantomC980* pkPhantom) throw();
 
     void FUN_00c980d0(const hkpPhysicsSystemC980* pkSys) throw();
 };
@@ -2282,7 +2282,6 @@ extern "C" __m128 __cdecl _mm_add_ps(__m128 a, __m128 b);
 extern "C" __m128 __cdecl _mm_sub_ps(__m128 a, __m128 b);
 struct FUN_00c986c0_Obj
 {
-    void FUN_00c986c0(__m128* a, __m128* b, int c, int d, int e);
 };
 struct FUN_00c98b60_Class
 {
@@ -2379,12 +2378,10 @@ extern void(__stdcall* DAT_00fdf05c)(void*);
 extern void(__stdcall* DAT_00fdf100)(void*);
 struct HavokHelper
 {
-    void DrawAxes(const hkRotation& rot, float a2, int a3, int a4);
     void FUN_00c99870(const hkQuaternion& a1, float a2, int a3, int a4);
 };
 struct __declspec(align(16)) AlignedRotation : hkRotation
 {
-    void FUN_00ce52e0(const hkQuaternion& a1);
 };
 struct FUN_00ca8420_Local
 {
@@ -2435,7 +2432,6 @@ struct FUN_00ca8420_Target
     int unk90;
     int unk94;
 
-    void __thiscall FUN_00c91160(FUN_00ca8420_Local* local);
 };
 struct FUN_00ca8420_Class
 {
@@ -2445,9 +2441,6 @@ struct FUN_00ca8420_Class
 
     void __thiscall FUN_00ca8420(int param2, int param3, int param4);
 };
-void __cdecl FUN_00cb6f70(void* param1, int param2, int param3, int param4);
-void __cdecl NotifyEntitySetMotionType(void* param1, void* param2);
-void __cdecl InvokeMotionTypeCallbacks(void* param1);
 struct hkVector3CA8A
 {
     float x;
@@ -2479,11 +2472,9 @@ class hkpWorldCA8A
     {
         return m_iCriticalOperationsLockCount != 0;
     }
-    void FUN_00c91160(const hkWorldOperationBaseCA8A& kOperation) throw();
 };
 struct UnkCall
 {
-    void FUN_00c9c1d0();
 };
 class hkpMotionCA8A
 {
@@ -2573,23 +2564,19 @@ struct FUN_00ca94c0_Class
 };
 struct Allocator9
 {
-    void* __thiscall FUN_00aa3e40(unsigned int size);
 };
-extern Allocator9 DAT_011f6238;
-extern "C" int DAT_010c5dc0;
-extern __declspec(thread) unsigned char threadContext9;
 struct Guard9
 {
     int previous;
     Guard9()
     {
-        int* flag = (int*)((char*)&threadContext9 + 0x2b4);
+        int* flag = (int*)((char*)&(*reinterpret_cast<unsigned char *>(&::g_tlsBlock)) + 0x2b4);
         previous = *flag;
         *flag = 16;
     }
     ~Guard9()
     {
-        int* flag = (int*)((char*)&threadContext9 + 0x2b4);
+        int* flag = (int*)((char*)&(*reinterpret_cast<unsigned char *>(&::g_tlsBlock)) + 0x2b4);
         *flag = previous;
     }
 };
@@ -2607,7 +2594,6 @@ struct Class9
     void* unk04;
     int callbackFlag;
     int* data;
-    void __thiscall CopyFromSource(Node9* node);
     int* __thiscall GetOrCreateData(unsigned char* wasEmpty);
 };
 extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
@@ -2660,7 +2646,6 @@ template <class T> inline void ReadBinaryValue(NiStream& stream, T& value)
 {
     NiBinaryStreamLoad(stream.m_pUnderlyingStream, &value, 1);
 }
-extern "C" void __cdecl SwapEndianBlocks(void* p);
 inline void SwapDword(unsigned long& val)
 {
     val = _byteswap_ulong(val);
@@ -2672,7 +2657,7 @@ inline void ByteSwapBlk(Blk40& blk)
     SwapDword(u[13]);
     SwapDword(u[14]);
     SwapDword(u[15]);
-    SwapEndianBlocks(&blk);
+    ::SwapEndianBlocks((unsigned int *)(void *)(&blk));
 }
 struct FUN_00d1df70
 {
@@ -2680,7 +2665,6 @@ struct FUN_00d1df70
 };
 struct Data_caa6a0 : Data_00caa840
 {
-    void SetReferencedObject(hkReferencedObject* obj);
 };
 struct FUN_00d53200_class
 {
@@ -2688,7 +2672,6 @@ struct FUN_00d53200_class
     Data_caa6a0* m_data;
 
     void FUN_00c8a230(NiStream& stream);
-    hkReferencedObject* FUN_00c8a330(NiStream& stream);
 
     void ReadFromStream(NiStream& stream);
 };
@@ -2875,35 +2858,29 @@ struct MemoryScope
     int previous;
     MemoryScope()
     {
-        previous = threadData.unk2B4;
-        threadData.unk2B4 = 16;
+        previous = (*reinterpret_cast<::AudioTlsState *>(&::g_tlsBlock)).unk2B4;
+        (*reinterpret_cast<::AudioTlsState *>(&::g_tlsBlock)).unk2B4 = 16;
     }
     ~MemoryScope()
     {
-        threadData.unk2B4 = previous;
+        (*reinterpret_cast<::AudioTlsState *>(&::g_tlsBlock)).unk2B4 = previous;
     }
 };
 struct Point3
 {
     float x, y, z;
-    char* FUN_00a59af0(const char*);
 };
-Point3& FUN_004a3970(Point3&, const hkVector4&);
-char* FUN_00a7d550(const char*, float);
-char* FUN_00a7d5e0(const char*, const char*);
 struct Strings
 {
     void* unk00;
     char** unk04;
     unsigned short unk08, unk0A, unk0C, unk0E;
-    void FUN_0096ad30(unsigned);
-    void FUN_0096ae90(unsigned, char*&);
     void Append(char* text)
     {
         unsigned n = unk0A;
         if (n >= unk08)
-            FUN_0096ad30(n + unk0E);
-        FUN_0096ae90(n, text);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(n + unk0E);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(n, text);
     }
 };
 struct Constraint
@@ -2950,8 +2927,9 @@ struct Owner
 {
     int unk00;
     Constraint* unk04;
-    void FUN_00c8a560(Strings*);
     void AppendConstraintToStrings(Strings*);
+public:
+    void ClearReferences();
 };
 class hkRefObjCBFB
 {
@@ -3025,8 +3003,6 @@ struct Elem676
 };
 struct Q676
 {
-    void FUN_00c954e0(Elem676** arr, int count);
-    void FUN_00c92c70(Elem676* e);
 };
 struct GC676
 {
@@ -3129,17 +3105,16 @@ struct Guard676
     int m_saved;
     Guard676()
     {
-        m_saved = g_tls676.m_2b4;
-        g_tls676.m_2b4 = 0x10;
+        m_saved = (*reinterpret_cast<::Tls676 *>(&::g_tlsBlock)).m_2b4;
+        (*reinterpret_cast<::Tls676 *>(&::g_tlsBlock)).m_2b4 = 0x10;
     }
     ~Guard676()
     {
-        g_tls676.m_2b4 = m_saved;
+        (*reinterpret_cast<::Tls676 *>(&::g_tlsBlock)).m_2b4 = m_saved;
     }
 };
 extern GC676* FUN_00c85ef0(GC676* out, Elem676* obj, void* rtti);
 extern void* FUN_00ec61c0(void* dst, int value, unsigned int size);
-extern unsigned char DAT_01267b70;
 struct BoolC68BF0
 {
     char m_cBooleanValue;
@@ -3155,11 +3130,9 @@ struct HkEntityC68BF0
 struct EntityC68BF0;
 struct HkWorldC68BF0
 {
-    BoolC68BF0 ProcessTarget(EntityC68BF0* pkEntity);
 };
 struct EntityC68BF0
 {
-    void FUN_00c90510();
     int unk00;
     int unk04;
     int unk08;
@@ -3205,10 +3178,6 @@ struct WorldC68BF0
     virtual void v8C();
     virtual void v90();
     virtual HkWorldC68BF0* GetHavokWorld();
-    void ProcessPendingItems();
-    void ReleaseBodies();
-    void ClearReferences();
-    void FlushEntries();
     bool FUN_00c68bf0(EntityC68BF0* pkEntity);
     int unk04;
     int unk08;
@@ -3255,7 +3224,6 @@ struct FUN_00c91620_Aux
     void* m_18;
     void* m_1c;
     void* m_20;
-    void FreeStorage();
 };
 struct FUN_00c91620_Target
 {
@@ -3280,7 +3248,6 @@ struct FUN_00c91620_Target
     FUN_00c91620_Aux m_30;
     int m_54;
 
-    void FUN_00c905b0();
 };
 struct FUN_00c91620_Class
 {
@@ -3327,15 +3294,9 @@ struct FUN_00c91620_Class
     unsigned char m_9d;
     void* m_a0;
     int m_a4;
-    void FUN_00c91160(FUN_00c91620_Args* args);
     void FUN_00c91120();
-    void FUN_00c91140();
     unsigned char* ProcessTarget(unsigned char* result, FUN_00c91620_Target* target);
 };
-void __cdecl FUN_00cb5c10(FUN_00c91620_Class* self, FUN_00c91620_Target* target);
-void __cdecl FUN_00d005a0(FUN_00c91620_Class* self, FUN_00c91620_Target* target);
-void __cdecl FUN_00cffab0(FUN_00c91620_Target* target);
-void __cdecl FUN_00cb4740(FUN_00c91620_Class* self, FUN_00c91620_Target* target);
 template <class T> class hkArrayXc91700
 {
   public:
@@ -3601,7 +3562,6 @@ struct ThreadStorage
     Allocator* m_pThreadAllocator;
 };
 void* FUN_00c85750();
-int __fastcall FUN_00d04380(void*);
 struct JobHeader
 {
     unsigned char m_eJobType;
@@ -3687,7 +3647,6 @@ __declspec(align(16)) struct Job : JobBase
 };
 struct JobQueue
 {
-    void AddObjectCopy(const Job& job, int priority);
 };
 struct ThreadPool
 {
@@ -3716,12 +3675,9 @@ struct hkpWorldHelper : hkpWorld
 };
 extern "C" void _ReadWriteBarrier();
 extern "C" unsigned __int64 __rdtsc();
-extern unsigned int DAT_0126835c;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned int);
 extern const char str_010c64b8[];
-extern const char str_010c41f8[];
 extern void* DAT_010c6488;
-extern float DAT_0104da4c;
 struct TimerEntry
 {
     const char* name;
@@ -3770,7 +3726,6 @@ struct __declspec(align(16)) LinearCaster
     unsigned int unk78;
     unsigned int unk7C;
     float unk80;
-    void FUN_00cfaed0(void*, void*, void*, void*, void*, int, int, void*, void*);
 };
 struct QueryTree
 {
@@ -3820,7 +3775,6 @@ struct WorldQuery : hkpWorld
 {
     void FUN_00c92430(void*, void*, void*, void*);
 };
-extern "C" void __cdecl FUN_00c927f0(void* object, void* value);
 struct zzVal_c92860
 {
     void* v;
@@ -3834,8 +3788,6 @@ class EntityC92B;
 class IslandC92B
 {
   public:
-    void RemoveEntry(EntityC92B* pkEntity);
-    void AddItem(EntityC92B* pkEntity);
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
     unsigned short m_usStorageIndex;
     unsigned short unk22;
@@ -3880,7 +3832,6 @@ class ListenerC92B
   public:
     void FUN_00c92bd0(EntityC92B* pkEntity, WorldC92B* pkWorld);
 };
-void __cdecl FUN_00cb5570(ListenerC92B* pkThis, WorldC92B* pkWorld, int* pkCurrentObject);
 class FUN_00c905b0_s
 {
   public:
@@ -3902,14 +3853,12 @@ class FUN_00c905b0_s
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 
-    void FUN_00c905b0();
 };
 class ActionC92C : public FUN_00c905b0_s
 {
   public:
     void* m_pOwningWorld;
 
-    void FUN_00d07b50();
 };
 template <class T> class hkArrayC92C
 {
@@ -3937,8 +3886,6 @@ template <class T> class hkArrayC92C
     }
 };
 class WorldC92C;
-void __cdecl FUN_00d00820(WorldC92C* pkWorld, ActionC92C* pkAction);
-void __cdecl FUN_00cb5d00(WorldC92C* pkWorld, ActionC92C* pkAction);
 struct RemoveActionOpC92C
 {
     unsigned char m_type;
@@ -3976,14 +3923,12 @@ class WorldC92C
         if (--m_iCriticalOperationsLockCount == 0 && !m_bBlockExecutingPendingOperations)
         {
             if (m_iPendingOperationCount)
-                FUN_00c91120();
+                reinterpret_cast<::FUN_00c91120 *>(this)->ExecutePendingOperations();
             if (m_iPendingOperationQueueCount == 1 && m_iQueuedOperationCount)
-                FUN_00c91140();
+                reinterpret_cast<::FUN_00c91140_Class *>(this)->FUN_00c91140();
         }
     }
     void FUN_00c91120();
-    void FUN_00c91140();
-    void FUN_00c91160(const RemoveActionOpC92C& kOp);
     void FUN_00c92c70(ActionC92C* pkAction);
 };
 template <int SIZE> __forceinline void memCpyOneAlignedXc937a0(void* dst, const void* src)
@@ -4517,8 +4462,6 @@ class FUN_00c93e50 : public hkReferencedObjectC93
 {
   public:
     virtual ~FUN_00c93e50() throw();
-    void FUN_00c93580() throw();
-    hkBoolC93 IsEntityAdded(void* pkEntity) throw();
 
     hkReferencedObjectC93* m_pSimulation;
     unsigned int unk0c;
@@ -4601,8 +4544,6 @@ class FUN_00c93e50 : public hkReferencedObjectC93
     ViolatedConstraintArrayC93* m_pViolatedConstraintArray;
     hkReferencedObjectC93* m_pBroadPhaseBorder;
 };
-void __cdecl ClearSlotReference(FUN_00c93e50* pkWorld, WorldDeletableC93* pkIsland) throw();
-void __cdecl FUN_00d00e80(FUN_00c93e50* pkWorld) throw();
 class hkMemoryAllocatorC97
 {
   public:
@@ -4685,7 +4626,6 @@ class hkpSimulationIslandC97
     {
         return m_usStorageIndex == 0xffff;
     }
-    void RegisterAction(hkpActionC97* pkAction) throw();
     unsigned int unk00;
     unsigned int unk04;
     unsigned int unk08;
@@ -4873,12 +4813,9 @@ struct hkWorldOperationC97
 };
 struct hkpWorldOperationUtilC97
 {
-    static void __cdecl ReenableCollisionBetweenEntityPair(hkpWorldC97* pkWorld, hkpEntityC97* pkEntityA,
-                                                           hkpEntityC97* pkEntityB) throw();
 };
 struct hkpWorldCallbackUtilC97
 {
-    static void __cdecl FireActionAdded(hkpWorldC97* pkWorld, hkpActionC97* pkAction) throw();
 };
 class hkpWorldC97
 {
@@ -4900,9 +4837,9 @@ class hkpWorldC97
         if (m_iCriticalOperationsLockCount == 0 && !m_bBlockExecutingPendingOperations)
         {
             if (m_iPendingOperationCount)
-                ExecutePendingOperations();
+                reinterpret_cast<::FUN_00c91120 *>(this)->ExecutePendingOperations();
             if (m_iPendingOperationQueueCount == 1 && m_iQueuedOperationCount)
-                ExecutePendingOperationQueues();
+                reinterpret_cast<::FUN_00c91140_Class *>(this)->FUN_00c91140();
         }
     }
     __forceinline void unlockAndAttemptToExecutePendingOperations()
@@ -4910,9 +4847,6 @@ class hkpWorldC97
         unlockCriticalOperations();
         attemptToExecutePendingOperations();
     }
-    void AddWorldOperation(const hkWorldOperationC97::TypeTag& kOperation) throw();
-    void ExecutePendingOperations() throw();
-    void ExecutePendingOperationQueues() throw();
     hkpActionC97* FUN_00c97370(hkpActionC97* pkAction) throw();
 
     unsigned int unk00;
@@ -5015,7 +4949,6 @@ class FUN_00cf3ea0 : public hkRefObjC97E
 class FUN_00c97e30_C
 {
   public:
-    void FUN_00c97d30(FUN_00cf3ea0* p);
     FUN_00cf3ea0* Create(void* a1, void* a2, InfoC97E* a3);
 };
 struct C97E80PendingOperation
@@ -5043,7 +4976,6 @@ struct C97E80Owner
 };
 struct C97E80PendingShell
 {
-    void __thiscall FUN_00c91160(C97E80PendingOperation* operation);
 };
 struct C97E80RemoveShell
 {
@@ -5051,18 +4983,14 @@ struct C97E80RemoveShell
 };
 struct C97E80ActionChangeShell
 {
-    void __thiscall RemoveReferenceFromSlots(hkpWorld* world);
 };
 struct C97E80ReleaseShell
 {
-    void __thiscall FUN_00c905b0();
 };
 struct C97E80CleanupShell
 {
     void __thiscall FUN_00c91120();
-    void __thiscall FUN_00c91140();
 };
-void __cdecl FUN_00cb3dd0(hkpWorld* world, C97E80Action* action, int flags);
 struct C97E80Return
 {
     bool m_iResultCode;
@@ -5071,17 +4999,14 @@ struct C97E80World : hkpWorld
 {
     C97E80Return __thiscall FUN_00c97e80(C97E80Action* action);
 };
-float __cdecl FUN_00c98210(float fA, float fB);
 struct __declspec(align(16)) FUN_00c987e0_Pose
 {
     hkVector4 translation;
     hkQuaternion rotation;
     hkVector4 scale;
-    void FUN_00ce52e0(int a1);
 };
 struct FUN_00c98780_Obj
 {
-    void FUN_00c98780(FUN_00c987e0_Pose* pose, int a2, int a3, int a4, int a5, int a6);
 };
 struct FUN_00c987e0_Cls
 {
@@ -5093,7 +5018,6 @@ struct __declspec(align(16)) EC98BE0Vector
     float y;
     float z;
     float w;
-    void __thiscall FUN_00c7f7a0(int a, int b);
 };
 struct EC98BE0Owner
 {
@@ -5151,14 +5075,12 @@ class hkListenerListC995
 class Ce52e0Helper
 {
   public:
-    void SetFromInput(int*, int);
     void FUN_00ce52e0(int a);
 };
 class hkpWorldD0AD;
 class hkMemberD0AD
 {
   public:
-    void FUN_00d9e280(hkpWorldD0AD* pkWorld);
 };
 class hkListenerAD0AD
 {
@@ -5175,7 +5097,6 @@ class hkReferencedObjectD0AD
   public:
     virtual ~hkReferencedObjectD0AD();
     int m_memSizeAndRefCount;
-    void FUN_00c905b0();
 };
 class hkSharedD0AD : public hkReferencedObjectD0AD, public hkListenerAD0AD, public hkListenerBD0AD
 {
@@ -5198,8 +5119,6 @@ class hkpWorldD0AD
     int unk1B0, unk1B4, unk1B8, unk1BC;
     hkSharedD0AD* m_pSharedObject;
 
-    void FUN_00c91750(hkListenerAD0AD* pkListener);
-    void FUN_00c91a70(hkListenerBD0AD* pkListener);
 };
 void __cdecl ReleaseSharedObject(hkpWorldD0AD* pkWorld);
 

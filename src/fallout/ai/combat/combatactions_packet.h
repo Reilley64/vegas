@@ -2,6 +2,9 @@
 // Private header for fallout/ai/combat/combatactions.cpp.
 // CombatAction's data layout (four CombatWorldStateListNode members plus eType/iFlags)
 
+#include "fnv/decl/BS9AA340List.h"
+#include "fnv/decl/SoundListView.h"
+#include "fnv/symbols_011f1000.h"
 void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
 template <class T> class BSSimpleList
@@ -17,8 +20,6 @@ template <class T> class BSSimpleList
 class CombatWorldStateListNode : public BSSimpleList<void*>
 {
   public:
-    void AddSoundEntry(int, int);
-    void RemoveItemByOwner(int);
 };
 
 class CombatAction
@@ -62,7 +63,6 @@ class CombatAction
     void FUN_0097adc0(int, int);
     void FUN_0097ade0(int, int);
     void FUN_0097bc60(int, int);
-    void FUN_00984390(int, int);
     void FUN_0097c070(int);
     void FUN_0097c240(int);
     void FUN_0097c260(int);
@@ -74,7 +74,6 @@ class CombatAction
     unsigned int iFlags;                               // +0x28
 };
 
-extern BSSimpleList<CombatAction*>* DAT_011f13d0[];
 
 class CombatActionIgnoreBlockedTarget : public CombatAction
 {

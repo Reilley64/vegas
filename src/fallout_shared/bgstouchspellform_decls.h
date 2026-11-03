@@ -3,6 +3,8 @@
 #define FNV_BGSTOUCHSPELLFORM_DECLS_H
 
 
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_005b5000.h"
 #include "TESForm.h"
 
 class BGSCameraPath
@@ -110,13 +112,13 @@ class MagicItemForm : public TESForm, public MagicItem
   public:
 };
 
+class TESForm;
 class EnchantmentItem : public MagicItemForm
 {
   public:
-    bool FUN_004094f0(TESForm* owner);
+public:
+    bool IsValidObject(::TESForm *);
 };
 
-TESForm* GetFormByID(unsigned int formID);
-int Warning(const char* format, ...);
 
 #endif

@@ -4,6 +4,20 @@
 
 // src/staging/blk_00e00000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00cb0a70_Class.h"
+#include "fnv/decl/S00d57b20_Obj.h"
+#include "fnv/decl/S_00e11910_Cls.h"
+#include "fnv/decl/S_00e11a90_Class.h"
+#include "fnv/decl/fnv_00e23530__FUN_00e23530_cls.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00e13000.h"
+#include "fnv/symbols_010cc000.h"
+#include "fnv/symbols_010e8000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_0126e000.h"
 #include "../../include/layout_support.h"
 
 struct FinishFlag
@@ -40,7 +54,6 @@ void* __cdecl FUN_00e005f0()
 
 // Havok type-registration helper: construct the class in finish-loading mode (flag 0) on the stack,
 // then return its static registration data.
-extern char DAT_010e8ab0[];
 struct hkFinishLoadedObjectFlagX
 {
     int m_bFinishing;
@@ -80,7 +93,7 @@ const char* __cdecl FUN_00e00cd0()
     hkFinishLoadedObjectFlagX flag;
     flag.m_bFinishing = 0;
     S_00e00cd0_Obj obj(flag);
-    return DAT_010e8ab0;
+    return (*reinterpret_cast<char (*)[]>(&::DAT_010e8ab0));
 }
 
 // Havok vtable getter: finish-construct a throwaway instance in an aligned scratch buffer (the
@@ -258,10 +271,8 @@ struct Handle_e00290
 };
 struct FUN_00e00290_sub
 {
-    void FUN_00cb0a70(Handle_e00290 kHandle);
     int m_00;
 };
-extern int DAT_010cc040;
 extern int DAT_010d79e8;
 struct SmallArray_e00290
 {
@@ -296,11 +307,11 @@ int* __cdecl FUN_00e00290()
 {
     Handle_e00290 kHandle = {0};
     FUN_00e00290_obj kObj;
-    kObj.m_pVtbl = &DAT_010cc040;
+    kObj.m_pVtbl = &(*reinterpret_cast<int *>((void *)&::sd6ae50::DAT_010cc040));
     kObj.m_kArray.m_pData = 0;
     kObj.m_kArray.m_usSize = 0;
     kObj.m_kArray.m_usCapacityAndFlags = 0x8000;
-    kObj.m_kSub.FUN_00cb0a70(kHandle);
+    reinterpret_cast<::FUN_00cb0a70_Class *>(&(kObj.m_kSub))->FUN_00cb0a70((*(int *)&(const ::Handle_e00290 &)(kHandle)));
     return &DAT_010d79e8;
 }
 
@@ -730,7 +741,6 @@ struct Handle_e02180
 };
 struct FUN_00e02180_sub
 {
-    void FUN_00cb0a70(Handle_e02180 kHandle);
     int m_00;
 };
 extern int DAT_010e9ccc;
@@ -755,10 +765,10 @@ int* __cdecl FUN_00e02180()
     Handle_e02180 kHandle = {0};
     FUN_00e02180_obj kObj;
     kObj.m_pVtbl = &DAT_010e9ccc;
-    kObj.m_kSub08.FUN_00cb0a70(kHandle);
-    kObj.m_kSub10.FUN_00cb0a70(kHandle);
-    kObj.m_kSub14.FUN_00cb0a70(kHandle);
-    kObj.m_kSub18.FUN_00cb0a70(kHandle);
+    reinterpret_cast<::FUN_00cb0a70_Class *>(&(kObj.m_kSub08))->FUN_00cb0a70((*(int *)&(const ::Handle_e02180 &)(kHandle)));
+    reinterpret_cast<::FUN_00cb0a70_Class *>(&(kObj.m_kSub10))->FUN_00cb0a70((*(int *)&(const ::Handle_e02180 &)(kHandle)));
+    reinterpret_cast<::FUN_00cb0a70_Class *>(&(kObj.m_kSub14))->FUN_00cb0a70((*(int *)&(const ::Handle_e02180 &)(kHandle)));
+    reinterpret_cast<::FUN_00cb0a70_Class *>(&(kObj.m_kSub18))->FUN_00cb0a70((*(int *)&(const ::Handle_e02180 &)(kHandle)));
     return kObj.m_pVtbl;
 }
 
@@ -837,7 +847,6 @@ struct VecQ
     float x, y, z, w;
 };
 
-extern VecQ DAT_012683a0;
 
 struct __declspec(align(16)) TransformQ
 {
@@ -852,7 +861,6 @@ struct __declspec(align(16)) RotationQ
 
 struct ShapeQ
 {
-    void FUN_00e11a90(const TransformQ* t);
     void FUN_00e11b40(const RotationQ* r);
 };
 
@@ -864,10 +872,9 @@ void ShapeQ::FUN_00e11b40(const RotationQ* r)
     *(__m128*)&t.m_rot[0] = *(const __m128*)&r->m_col[0];
     *(__m128*)&t.m_rot[4] = *(const __m128*)&r->m_col[4];
     *(__m128*)&t.m_rot[8] = *(const __m128*)&r->m_col[8];
-    FUN_00e11a90(&t);
+    reinterpret_cast<::S_00e11a90_Class *>(this)->FUN_00e11a90((int)(&t));
 }
 
-extern unsigned __int64 g_unk01268370[6];
 struct __declspec(align(16)) Rot
 {
     unsigned __int64 d[6];
@@ -881,25 +888,24 @@ struct __declspec(align(16)) Transform
 };
 struct Owner
 {
-    void FUN_00e11a90(const Transform* xf);
     void FUN_00e11ca0(const __m128* src);
 };
 // @fnv 0x00e11ca0
 void Owner::FUN_00e11ca0(const __m128* src)
 {
     Rot rot;
-    rot.d[0] = g_unk01268370[0];
-    rot.d[1] = g_unk01268370[1];
-    rot.d[2] = g_unk01268370[2];
-    rot.d[3] = g_unk01268370[3];
-    rot.d[4] = g_unk01268370[4];
-    rot.d[5] = g_unk01268370[5];
+    rot.d[0] = (*reinterpret_cast<unsigned long long (*)[6]>(&::DAT_01268370))[0];
+    rot.d[1] = (*reinterpret_cast<unsigned long long (*)[6]>(&::DAT_01268370))[1];
+    rot.d[2] = (*reinterpret_cast<unsigned long long (*)[6]>(&::DAT_01268370))[2];
+    rot.d[3] = (*reinterpret_cast<unsigned long long (*)[6]>(&::DAT_01268370))[3];
+    rot.d[4] = (*reinterpret_cast<unsigned long long (*)[6]>(&::DAT_01268370))[4];
+    rot.d[5] = (*reinterpret_cast<unsigned long long (*)[6]>(&::DAT_01268370))[5];
     Transform xf;
     *(__m128*)xf.r0 = *(__m128*)&rot.d[0];
     *(__m128*)xf.r1 = *(__m128*)&rot.d[2];
     *(__m128*)xf.r2 = *(__m128*)&rot.d[4];
     *(__m128*)xf.t = *src;
-    FUN_00e11a90(&xf);
+    reinterpret_cast<::S_00e11a90_Class *>(this)->FUN_00e11a90((int)(&xf));
 }
 
 struct S00e00d70_Arg
@@ -935,14 +941,13 @@ struct __declspec(align(16)) S00e00d70_Object
     int unk54;
     int unk58;
     int unk5c;
-    void FUN_00d57b20(S00e00d70_Arg arg);
 };
 
 // @fnv 0x00e00d70
 int __cdecl FUN_00e00d70()
 {
     S00e00d70_Object object;
-    object.FUN_00d57b20(S00e00d70_Arg(0));
+    reinterpret_cast<::S00d57b20_Obj *>(&(object))->FUN_00d57b20((*(int *)&(const ::S00e00d70_Arg &)(S00e00d70_Arg(0))));
     return (int)object.first;
 }
 
@@ -1132,9 +1137,6 @@ struct EdgeMemory
     EdgeAllocator* allocator;
 };
 EdgeMemory* FUN_00c85750();
-void FUN_00c908c0(void*, void*, int, int);
-void FUN_00c90940(void*, void*, int);
-float FUN_00e13870(EdgeNode*, int);
 float ClampedAcos(float);
 template <class T> inline void EdgeAllocator::reserve(EdgeArray<T>& array, int needed, int elementSize)
 {
@@ -1144,14 +1146,14 @@ template <class T> inline void EdgeAllocator::reserve(EdgeArray<T>& array, int n
         int next = available * 2;
         if (needed >= next)
             next = needed;
-        FUN_00c908c0(this, &array, next, elementSize);
+        ::FUN_00c908c0((::SpawnedObject *)(void *)(this), (::SpawnedArray *)(void *)(&array), next, elementSize);
     }
 }
 template <class T> inline void EdgeArray<T>::grow(int elementSize)
 {
     EdgeMemory* memory = FUN_00c85750();
     if (size == (capacity & 0x3fffffff))
-        FUN_00c90940(memory->allocator, this, elementSize);
+        ::ResizeAudioStream((::AudioAllocator *)(memory->allocator), (::AudioStream *)(void *)(this), elementSize);
 }
 template <class T> inline void EdgeAllocator::clear(EdgeArray<T>& array, int elementSize)
 {
@@ -1175,12 +1177,11 @@ struct EdgePool
     void* head;
     int size;
     int unk14;
-    PoolPage* FUN_00e23530();
     template <class T> T* allocate(const T& value)
     {
         PoolPage* page;
         if (!pageCount || !(page = pages[0])->freeHead)
-            page = FUN_00e23530();
+            page = ((::PoolPage *)(reinterpret_cast<::fnv_00e23530::FUN_00e23530_cls *>(this)->FUN_00e23530()));
         T* item = (T*)page->freeHead;
         page->freeHead = item->next;
         ++page->used;
@@ -1203,20 +1204,17 @@ struct PointerSlotArray
     int unk10;
     void* slots[1];
 };
-extern PointerSlotArray* DAT_0126ebe8;
-extern int DAT_0126ebec;
-extern int DAT_0126ebf0;
 inline void registerEdge(EdgeNode* node, int tag)
 {
-    if (!(DAT_0126ebf0 & 1))
+    if (!((*reinterpret_cast<int *>(&::DAT_0126ebf0)) & 1))
     {
-        DAT_0126ebf0 |= 1;
-        DAT_0126ebe8 = 0;
-        DAT_0126ebec = 0;
+        (*reinterpret_cast<int *>(&::DAT_0126ebf0)) |= 1;
+        (*reinterpret_cast<::PointerSlotArray * *>(&::DAT_0126ebe8)) = 0;
+        (*reinterpret_cast<int *>(&::DAT_0126ebec)) = 0;
     }
-    node->edges[tag] = (unsigned int)DAT_0126ebe8 + DAT_0126ebec;
-    if (DAT_0126ebe8)
-        DAT_0126ebe8->slots[DAT_0126ebec] = (void*)((unsigned int)node + tag);
+    node->edges[tag] = (unsigned int)(*reinterpret_cast<::PointerSlotArray * *>(&::DAT_0126ebe8)) + (*reinterpret_cast<int *>(&::DAT_0126ebec));
+    if ((*reinterpret_cast<::PointerSlotArray * *>(&::DAT_0126ebe8)))
+        (*reinterpret_cast<::PointerSlotArray * *>(&::DAT_0126ebe8))->slots[(*reinterpret_cast<int *>(&::DAT_0126ebec))] = (void*)((unsigned int)node + tag);
 }
 struct EdgeProcessor
 {
@@ -1224,7 +1222,6 @@ struct EdgeProcessor
     int unk04;
     EdgePool vertices;
     EdgePool edges;
-    void FUN_00e11910(EdgeNode*);
     void FUN_00e195c0(float threshold, float distance, const EdgeMesh* mesh);
 };
 // @fnv 0x00e195c0
@@ -1251,7 +1248,7 @@ void EdgeProcessor::FUN_00e195c0(float threshold, float distance, const EdgeMesh
             Vertex* second = current.second();
             Vertex* first = current.first();
             if (!(vertexLess(second, first) && (node->edges[edge] & ~3u)))
-                if ((node->edges[edge] & ~3u) && FUN_00e13870(node, edge) > 0.0f)
+                if ((node->edges[edge] & ~3u) && ::FUN_00e13870((char *)(node), edge) > 0.0f)
                 {
                     refs.grow(8);
                     EdgeRef* ref = (EdgeRef*)refs.data + refs.size;
@@ -1307,7 +1304,7 @@ void EdgeProcessor::FUN_00e195c0(float threshold, float distance, const EdgeMesh
             edge->vertices[0] = va;
             edge->vertices[1] = vb;
             edge->vertices[2] = va;
-            FUN_00e11910(edge);
+            reinterpret_cast<::S_00e11910_Cls *>(this)->FUN_00e11910((::S_00e11910_Src *)(edge));
             registerEdge(edge, 0);
             registerEdge(edge, 1);
             registerEdge(edge, 2);

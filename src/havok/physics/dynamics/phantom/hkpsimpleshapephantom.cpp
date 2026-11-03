@@ -2,6 +2,17 @@
 // src/havok/physics/dynamics/phantom/hkpsimpleshapephantom.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/phantom/hkpsimpleshapephantom.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/C.h"
+#include "fnv/decl/CA92A0Object.h"
+#include "fnv/decl/FUN_00ca94c0_Class.h"
+#include "fnv/decl/FUN_00d07cf0_cls.h"
+#include "fnv/decl/LcPhantom.h"
+#include "fnv/decl/fnv_00d1f780__FUN_00d1f780.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00c9e000.h"
+#include "fnv/symbols_00cf2000.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_01269000.h"
 #include "havok/hkpSimpleShapePhantom.h"
 
 struct FUN_00d1f9c0_Memory
@@ -24,7 +35,6 @@ struct FUN_00d1f9c0_StandIn
     void* vtable;
     unsigned short size;
 
-    void FUN_00d1f780();
     void* FUN_00d1f9c0(unsigned int flags);
 };
 
@@ -32,7 +42,7 @@ struct FUN_00d1f9c0_StandIn
 // @fnv 0x00d1f9c0
 void* FUN_00d1f9c0_StandIn::FUN_00d1f9c0(unsigned int flags)
 {
-    this->FUN_00d1f780();
+    reinterpret_cast<::fnv_00d1f780::FUN_00d1f780 *>((this))->fnv_00d1f780::FUN_00d1f780::~FUN_00d1f780();
 
     if (flags & 1)
     {
@@ -276,7 +286,6 @@ struct hkpSimpleShapePhantomCollisionDetailD1F5
 class FUN_00ca9520_class : public hkpShapePhantom
 {
   public:
-    void NotifyAll(hkpCollidableD1F5* pkCollidable, hkBoolD1F5 bCollidableWasAdded) throw();
 };
 
 class hkpSimpleShapePhantomD1F5 : public FUN_00ca9520_class
@@ -297,21 +306,19 @@ void hkpSimpleShapePhantomD1F5::FUN_00d1f5a0(hkpCollidableD1F5* pkCollidable) th
         {
             if (m_kCollisionDetails[i].m_kCollidable == pkCollidable)
             {
-                NotifyAll(pkCollidable, true);
+                reinterpret_cast<::C *>(this)->NotifyAll((int)(pkCollidable), (*(char *)&(const ::hkBoolD1F5 &)(true)));
                 m_kCollisionDetails.removeAt(i);
                 m_bOrderDirty = true;
                 return;
             }
         }
-        NotifyAll(pkCollidable, false);
+        reinterpret_cast<::C *>(this)->NotifyAll((int)(pkCollidable), (*(char *)&(const ::hkBoolD1F5 &)(false)));
     }
 }
 
 class hkClassD1F6;
 
-extern const hkClassD1F6 DAT_0126902c;
 
-int __cdecl FUN_00d06f80(const void* pvChunk, int iNumBytes) throw();
 
 template <class T> class hkArrayD1F6
 {
@@ -351,7 +358,7 @@ class hkStatisticsCollectorD1F6
         if ((kArray.m_iCapacityState & 0x80000000) == 0 || m_countDontDeallocate)
         {
             const T* pData = kArray.m_data;
-            int iAllocated = FUN_00d06f80(pData, kArray.getCapacity() * sizeof(T));
+            int iAllocated = ::fnv_00d06f80::FUN_00d06f80((const char *)(pData), kArray.getCapacity() * sizeof(T));
             AddMemoryChunk(3, pcName, kArray.m_data, kArray.GetLogicalSize() * sizeof(T), iAllocated);
         }
     }
@@ -362,7 +369,6 @@ class hkOverlapD1F6;
 class hkpShapeD1F6
 {
   public:
-    void WritePhantomLists(hkStatisticsCollectorD1F6* pkCollector, const hkClassD1F6* pkClass) const throw();
 };
 
 class hkObjD1F6 : public hkpShapeD1F6
@@ -465,7 +471,7 @@ class hkObjD1F6 : public hkpShapeD1F6
 // @fnv 0x00d1f620
 void hkObjD1F6::CollectStatistics(hkStatisticsCollectorD1F6* pkCollector, const hkClassD1F6* pkClass) const throw()
 {
-    WritePhantomLists(pkCollector, &DAT_0126902c);
+    reinterpret_cast<::FUN_00d07cf0_cls *>((void *)this)->WritePhantomLists((::PhArchive *)(pkCollector), (int)(&(*reinterpret_cast<const ::hkClassD1F6 *>(&::g_0126902c))));
     pkCollector->addArray("OverlapPtr", m_overlaps);
 }
 
@@ -474,9 +480,7 @@ struct CollisionMemoryRouter
     int unk00, unk04, unk08, unk0c;
     void* allocator;
 };
-extern "C" int __stdcall FUN_00ca94c0(void* object);
 extern "C" CollisionMemoryRouter* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void* allocator, void* array, int elementSize);
 
 struct FUN_00d1f690_Member : hkpSimpleShapePhantom
 {
@@ -489,13 +493,13 @@ void FUN_00d1f690_Member::AddCollisionDetail(void* object)
 {
     if (*reinterpret_cast<void**>(object) != 0)
     {
-        if (FUN_00ca94c0(object) == 0)
+        if (reinterpret_cast<::FUN_00ca94c0_Class *>((object))->FUN_00ca94c0({}) == 0)
         {
             hkArray<hkpSimpleShapePhantomCollisionDetail>* details = &m_kCollisionDetails;
             CollisionMemoryRouter* router = FUN_00c85750();
             if (details->m_iElementCount == (details->m_iCapacityState & 0x3fffffff))
             {
-                ResizeAudioStream(router->allocator, details, 4);
+                ::ResizeAudioStream((::AudioAllocator *)(router->allocator), (::AudioStream *)(details), 4);
             }
             void** slot = reinterpret_cast<void**>(details->m_data) + details->m_iElementCount;
             ++details->m_iElementCount;
@@ -510,12 +514,11 @@ struct hkLessD1F6
 {
 };
 
-void __cdecl QuickSortShapeDetails(void** pArr, int iStart, int iEnd, hkLessD1F6 kCmp);
 
 inline void quickSortD1F6(void** pArr, int iSize, hkLessD1F6 kCmp)
 {
     if (iSize > 1)
-        QuickSortShapeDetails(pArr, 0, iSize - 1, kCmp);
+        ::QuickSortShapeDetails((::ShapeDetail **)(pArr), 0, iSize - 1, (*(::DetailLess *)&(const ::fnv_00d1f6f0::hkLessD1F6 &)(kCmp)));
 }
 
 struct hkObjD1F6
@@ -756,7 +759,6 @@ class hkpWorldObjectD1F7
     {
         return &m_kCollidable;
     }
-    void CopyEntriesFrom(const hkpWorldObjectD1F7* pkOtherObj) throw();
 };
 
 class FUN_00d1f730 : public hkpWorldObjectD1F7
@@ -797,7 +799,7 @@ hkpWorldObjectD1F7* FUN_00d1f730::ClonePhantom() const throw()
         new FUN_00d1f730(pkCollidable->getShape(), getTransform(), pkCollidable->GetFilterInfoForKey());
     pkPhantom->m_kPhantomOverlapListeners = m_kPhantomOverlapListeners;
     pkPhantom->m_kPhantomListeners = m_kPhantomListeners;
-    pkPhantom->CopyEntriesFrom(this);
+    reinterpret_cast<::CA92A0Object *>((pkPhantom))->CopyEntriesFrom((const ::CA92A0Object *)(const ::fnv_00d1f7e0::hkpWorldObjectD1F7 *)(this));
     return pkPhantom;
 }
 }  // namespace fnv_00d1f7e0
@@ -1557,7 +1559,6 @@ void FUN_00d1f520_Phantom::QueryPenetrations(FUN_00d1f520_Collector& collector, 
 #include <xmmintrin.h>
 struct FUN_00d1f450_Obj
 {
-    void FUN_00d1f270(int* a, int b, int c, int d);
     void FUN_00d1f450(int* source, int a, int b, int c);
 };
 
@@ -1572,7 +1573,7 @@ void FUN_00d1f450_Obj::FUN_00d1f450(int* source, int a, int b, int c)
     _mm_store_ps(destination + 4, _mm_load_ps(vectors + 4));
     _mm_store_ps(destination + 8, _mm_load_ps(vectors + 8));
 
-    this->FUN_00d1f270(reinterpret_cast<int*>(reinterpret_cast<char*>(source) + 0x30), a, b, c);
+    reinterpret_cast<::LcPhantom *>((this))->FUN_00d1f270((*(const ::LcVec4 *)(reinterpret_cast<int*>(reinterpret_cast<char*>(source) + 0x30))), (*(const ::LcCastIn *)(a)), (void *)(b), (void *)(c));
 }
 
 namespace fnv_00d1f960 {
@@ -1601,7 +1602,6 @@ Router* FUN_00c85750();
 struct C : hkpSimpleShapePhantom
 {
     void FUN_00d1f960();
-    void FUN_00c9e820();
 };
 void C::FUN_00d1f960()
 {
@@ -1617,6 +1617,6 @@ void C::FUN_00d1f960()
         m_kCollisionDetails.m_data = 0;
         m_kCollisionDetails.m_iCapacityState = 0x80000000;
     }
-    FUN_00c9e820();
+    ::FUN_00c9e820();
 }
 }  // namespace fnv_00d1f960

@@ -1,6 +1,11 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_011c8000.h"
 extern int DAT_01189c40;
 
 struct FUN_00404b10_class
@@ -10,16 +15,6 @@ struct FUN_00404b10_class
     void* __thiscall Initialize();
 };
 
-// Calls FUN_00404b90 with DAT_01189c40, sets m_p to "@K@", and returns this.
-// @fnv 0x00404b10
-void* __thiscall FUN_00404b10_class::Initialize()
-{
-    FUN_00404b90(DAT_01189c40);
-    m_p = "@K@";
-    return this;
-}
-
-extern int DAT_01012188;
 struct FUN_00404d00_class
 {
     void* m_vtbl;
@@ -121,28 +116,8 @@ struct CombatThreatRecord
 };
 struct FUN_009a5270_class
 {
-    void* __thiscall GetFirstPos();
-    void __thiscall GetNext(void*&, unsigned int&, CombatThreatRecord*&);
-    void __thiscall RemoveAll();
     void __thiscall DeleteAllEntries();
 };
-// Iterates the container's entries, deletes each stored object, then removes all entries.
-// @fnv 0x009a5270
-void __thiscall FUN_009a5270_class::DeleteAllEntries()
-{
-    void* position = GetFirstPos();
-    while (position)
-    {
-        unsigned int key = 0;
-        CombatThreatRecord* pEntry = 0;
-        GetNext(position, key, pEntry);
-        delete pEntry;
-    }
-    RemoveAll();
-}
-
-void* __cdecl FUN_00401000(unsigned int size);
-extern void* DAT_011c8048;
 
 struct SpawnedObj404a80
 {
@@ -253,6 +228,14 @@ class FUN_00404b90 : public B90Base
 
     B90Buffer m_kBuffer;
 };
+// Calls FUN_00404b90 with DAT_01189c40, sets m_p to "@K@", and returns this.
+// @fnv 0x00404b10
+void* __thiscall FUN_00404b10_class::Initialize()
+{
+    new ((void *)this) ::FUN_00404b90(DAT_01189c40);
+    m_p = "@K@";
+    return this;
+}
 
 // Constructs the object, initializing m_kBuffer with the given size and a zero fill.
 // @fnv 0x00404b90
@@ -390,6 +373,20 @@ struct C6b7f20_Map
     C6b7f20_Node** buckets;
     void __thiscall FUN_006b7f20(C6b7f20_Node** position, unsigned int* outKey, void** outValue);
 };
+// Iterates the container's entries, deletes each stored object, then removes all entries.
+// @fnv 0x009a5270
+void __thiscall FUN_009a5270_class::DeleteAllEntries()
+{
+    void* position = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(this)->GetFirstPos();
+    while (position)
+    {
+        unsigned int key = 0;
+        CombatThreatRecord* pEntry = 0;
+        reinterpret_cast<::C6b7f20_Map *>(this)->FUN_006b7f20((::C6b7f20_Node **)&(position), (unsigned int *)&(key), (void **)&(pEntry));
+        delete pEntry;
+    }
+    reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
+}
 // Reads the key and value of the node at position, then advances position to the next node or the next non-empty bucket, or null.
 // @fnv 0x006b7f20
 void C6b7f20_Map::FUN_006b7f20(C6b7f20_Node** position, unsigned int* outKey, void** outValue)

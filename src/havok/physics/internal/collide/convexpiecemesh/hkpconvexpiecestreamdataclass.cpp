@@ -21,22 +21,8 @@ struct Record
 {
     int unk00;
     unsigned short value;
-    void FUN_00dffca0();
     Record* FUN_00dffd50(unsigned int flags);
 };
-// Calls FUN_00dffca0, and if flags has bit 0 set, notifies the manager from FUN_00c85750 with this record and value; returns this.
-// @fnv 0x00dffd50
-Record* Record::FUN_00dffd50(unsigned int flags)
-{
-    FUN_00dffca0();
-    if (flags & 1)
-    {
-        Holder* holder = FUN_00c85750();
-        holder->manager->Notify(this, value);
-    }
-    return this;
-}
-
 struct BufAllocator
 {
     virtual void unk00();
@@ -68,6 +54,18 @@ struct FUN_00dffca0_cls : BufferOwnerBase
 
     void FUN_00dffca0();
 };
+// Calls FUN_00dffca0, and if flags has bit 0 set, notifies the manager from FUN_00c85750 with this record and value; returns this.
+// @fnv 0x00dffd50
+Record* Record::FUN_00dffd50(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00dffca0_cls *>(this)->FUN_00dffca0();
+    if (flags & 1)
+    {
+        Holder* holder = FUN_00c85750();
+        holder->manager->Notify(this, value);
+    }
+    return this;
+}
 
 static void ReleaseOwnedBuffer(OwnedBuffer& buf)
 {

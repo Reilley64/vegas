@@ -4,8 +4,18 @@
 
 // src/havok/physics/collide/agent/convexagent/spherebox/hkpsphereboxagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/spherebox/hkpsphereboxagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern void __cdecl FUN_00d3c440(int a, int b, int c, int d);
-void __stdcall ForwardToD3C440(int a, int b, int c, int d);
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_00c7f690_cls.h"
+#include "fnv/decl/FUN_00cfbbe0_cls.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00d3a000.h"
+#include "fnv/symbols_00d3c000.h"
+#include "fnv/symbols_00d3d000.h"
+#include "fnv/symbols_00daf000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010ce000.h"
+#include "fnv/symbols_01268000.h"
 struct Conversion {
     void (*convert)();
     void (*create)();
@@ -14,24 +24,12 @@ struct Conversion {
     bool enabled;
     bool supported;
 };
-struct Registry { void FUN_00cfbbe0(Conversion*, int, int); };
-void FUN_00d3c400();
-void FUN_00d3cfc0();
-void FlipAndDispatchCollector();
-void FUN_00d3ac80();
-void CreateD3C380Obj();
-void FUN_00d3c440();
-void FUN_00d3cc00();
-void FUN_00daf8e0();
-void __cdecl FUN_00d3cef0(Registry* registry);
-extern float DAT_0104da48;
-extern void __cdecl FUN_00d3cc00(void*, void*, int, void*);
+struct Registry {  };
 struct hkpSymmetricAgentFlipCollector {
     virtual void unk00();
     float unk04;
     int unk08;
 };
-void __cdecl FlipAndDispatchCollector(void* arg1, void* arg2, int arg3, int arg4);
 struct S_00d3c3c0_Holder {
     virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c(); virtual void v10();
     virtual void v14(unsigned int idx, int arg);
@@ -62,8 +60,6 @@ struct SmallRecord {
     unsigned short m_w0C;
 };
 extern char DAT_010cf018[];
-AllocHolder* FUN_00c85750();
-void __cdecl FUN_00d3c400(int aiUnused1, int aiUnused2, int aiUnused3, int d);
 class D3CF80CollectorBase {
 public:
     D3CF80CollectorBase() : m_bHit(false) {}
@@ -80,22 +76,15 @@ public:
 };
 class D3CF80Agent {
 public:
-    void ForwardToD3C440(void* pkA, void* pkB, void* pkInput, D3CF80Collector* pkCollector);
     void CollectFilteredEvents(void* pkA, void* pkB, void* pkInput, int iFilter);
 };
-extern void __cdecl FUN_00d3c440(int a, int b, int c, int d);
-extern char DAT_010ce81c[];
 struct FlipCollectorLocal {
     void* unk00;
     unsigned char unk04;
     int unk08;
 };
-void __cdecl FUN_00d3cfc0(int aiArg1, int aiArg2, int aiArg3, int a4);
 struct CpuCallData { void* descriptor; float bound; unsigned int value; };
-extern float DAT_0104da48;
-extern unsigned char DAT_010ce7fc;
 struct CpuObject {
-    void FUN_00d3c910(void*, void*, unsigned int, CpuCallData*);
     void FUN_00d3d000(void*, void*, unsigned int, unsigned int);
 };
 union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
@@ -105,7 +94,6 @@ __m128 _mm_mul_ps(__m128, __m128);
 __m128 _mm_add_ps(__m128, __m128);
 __m128 _mm_xor_ps(__m128, __m128);
 }
-extern __m128 DAT_010c4c00;
 struct SimplexVertex
 {
     __m128 m_kPointA;
@@ -151,6 +139,7 @@ struct Agent : AgentBase
 };
 
 #include <windows.h>
+#include "fnv/symbols_simd.h"
 extern "C" {
 unsigned __int64 __rdtsc(void);
 void _ReadWriteBarrier(void);
@@ -172,9 +161,7 @@ int _mm_movemask_ps(__m128);
 __m128 _mm_unpackhi_ps(__m128, __m128);
 }
 
-extern DWORD DAT_0126835c;
 extern const char str_010cf050[];
-extern const char str_010c41f8[];
 class S3c5_Transform;
 
 struct S3c5_TimerCommand {
@@ -293,7 +280,6 @@ public:
     __forceinline __m128& getQuad() { return m_vComponents; }
     __forceinline const __m128& getQuad() const { return m_vComponents; }
 
-    void FUN_00c7f690(const S3c5_Transform& t, const S3c5_Vector4& v);
 
 __forceinline void negateSelf() { static const __declspec(align(16)) unsigned int sign[4] = {0x80000000,0x80000000,0x80000000,0x80000000}; m_vComponents = _mm_xor_ps(m_vComponents, *(const __m128*)sign); }
     __m128 m_vComponents;
@@ -428,7 +414,7 @@ __forceinline bool S3c5_SphereBoxAgent::ComputeClosestPoints(const S3c5_CdBody& 
 {
     const S3c5_Vector4& posA = bodyA.getTransform().getTranslation();
     S3c5_Vector4 posLocal;
-    posLocal.FUN_00c7f690(bodyB.getTransform(), posA);
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(posLocal))->FUN_00c7f690((const ::S_00c7f690_M *)&(bodyB.getTransform()), (const ::S_00c7f690_V *)&(posA));
 
     const S3c5_BoxShape* boxB = static_cast<const S3c5_BoxShape*>(bodyB.getShape());
     const S3c5_ConvexShape* sphereA = static_cast<const S3c5_ConvexShape*>(bodyA.getShape());
@@ -548,7 +534,7 @@ __forceinline void S3c5_SphereBoxAgent::processContact(const S3c5_CdBody& bodyA,
         }
     }
 
-    S3c5_endTimer(str_010c41f8, saved.ticks);
+    S3c5_endTimer(::DAT_010c41f8, saved.ticks);
 }
 
 // @fnv 0x00d3c5b0
@@ -579,11 +565,7 @@ void _ReadWriteBarrier(void);
 __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 }
 
-extern unsigned long DAT_0126835c;
 extern const char str_010cf050[];
-extern const char str_010c41f8[];
-extern const unsigned int DAT_01017d10[4];
-extern const unsigned int DAT_010c44d0[4];
 
 struct S00d3c910_TimerCommand
 {
@@ -655,16 +637,15 @@ struct __declspec(align(16)) S00d3c910_Vector4
     const __m128& getQuad() const { return m_vComponents; }
 
     void setZero4() { m_vComponents = _mm_setzero_ps(); }
-    void FUN_00c7f690(const struct S00d3c910_Transform& a, const S00d3c910_Vector4& b);
     void setAbs4(const S00d3c910_Vector4& v)
     {
-        m_vComponents = _mm_and_ps(v.m_vComponents, *(const __m128*)&DAT_01017d10);
+        m_vComponents = _mm_and_ps(v.m_vComponents, *(const __m128*)&(*reinterpret_cast<const unsigned int (*)[4]>((void *)&::DAT_01017d10)));
     }
     void setMin4(const S00d3c910_Vector4& a, const S00d3c910_Vector4& b) { m_vComponents = _mm_min_ps(a.getQuad(), b.getQuad()); }
     void setSub4(const S00d3c910_Vector4& a, const S00d3c910_Vector4& b) { m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents); }
     void setNeg4(const S00d3c910_Vector4& v)
     {
-        m_vComponents = _mm_xor_ps(v.m_vComponents, *(const __m128*)&DAT_010c44d0);
+        m_vComponents = _mm_xor_ps(v.m_vComponents, *(const __m128*)&(*reinterpret_cast<const unsigned int (*)[4]>((void *)&::DAT_010c44d0)));
     }
     __forceinline void setXYZ(const S00d3c910_Vector4& xyz)
     {
@@ -740,12 +721,11 @@ __forceinline void S00d3c910_Vector4::_setMul3(const S00d3c910_Matrix3& a, const
 
 namespace S00d3c910_Util
 {
-    extern const unsigned int DAT_010c44d0[4];
 
     __forceinline void mulSigns4(S00d3c910_Vector4& inout, const S00d3c910_Vector4& signs)
     {
         inout.getQuad() = _mm_xor_ps(inout.getQuad(),
-            _mm_and_ps(signs.getQuad(), *(const __m128*)&DAT_010c44d0));
+            _mm_and_ps(signs.getQuad(), *(const __m128*)&(*reinterpret_cast<const unsigned int (*)[4]>((void *)&::DAT_010c44d0))));
     }
 }
 
@@ -836,7 +816,7 @@ __forceinline bool S00d3c910_SphereBoxAgent::ComputeClosestPoints(const S00d3c91
 {
     const S00d3c910_Vector4& posA = bodyA.getTransform().getTranslation();
     S00d3c910_Vector4 posLocal;
-    posLocal.FUN_00c7f690(bodyB.getTransform(), posA);
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(posLocal))->FUN_00c7f690((const ::S_00c7f690_M *)&(bodyB.getTransform()), (const ::S_00c7f690_V *)&(posA));
 
     const S00d3c910_BoxShape* boxB = static_cast<const S00d3c910_BoxShape*>(bodyB.getShape());
     const S00d3c910_ConvexShape* sphereA = static_cast<const S00d3c910_ConvexShape*>(bodyA.getShape());
@@ -918,7 +898,7 @@ void S00d3c910_SphereBoxAgent::FUN_00d3c910(const S00d3c910_CdBody& bodyA, const
         collector.AddCdPoint(event);
     }
 
-    S00d3c910_timerBegin(str_010c41f8);
+    S00d3c910_timerBegin(::DAT_010c41f8);
 }
 
 extern "C" unsigned __int64 __rdtsc();
@@ -1129,7 +1109,6 @@ __forceinline Vector4Comparison compareLessThanZero4()const;
 __forceinline void setNeg4(const hkVector4&v);
 __forceinline void setAbs4(const hkVector4&v);
 __forceinline void setMin4(const hkVector4&a,const hkVector4&b);
-void SetTransformedPosition(const hkTransform&a,const hkVector4&b);
 __forceinline void _setMul3(const hkMatrix3&a,const hkVector4&b);
 __forceinline void _setRotatedDir(const hkRotation&a,const hkVector4&b);
 __forceinline VectorComponentValue dot3(const hkVector4&a)const;
@@ -1280,8 +1259,7 @@ class StringCursor
 public:
 __forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}static StringCursor&GetMonitorStream()
 {
-extern hkThreadLocalData<StringCursor*>g_pMonitorStream;
-return*g_pMonitorStream.getData();
+return*(*reinterpret_cast<::hkThreadLocalData< ::StringCursor *> *>(&::DAT_0126835c)).getData();
 }
 public:
 __forceinline char*__cdecl GetStreamStart(){return m_kRayStart.val();}
@@ -1568,7 +1546,7 @@ _mm_and_ps(signs.getQuad(),*(const hkQuadReal*)&signmask));}
 __forceinline hkBool hkpSphereBoxAgent::ComputeClosestPoints(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,hkContactPoint&contactOut,hkReal& scalarScratch)
 {
 const hkVector4&posA=bodyA.getTransform().getTranslation();
-hkVector4 posLocalB;posLocalB.SetTransformedPosition(bodyB.getTransform(),posA);
+hkVector4 posLocalB;reinterpret_cast<::FUN_00c7f690_cls *>(&(posLocalB))->FUN_00c7f690((const ::S_00c7f690_M *)&(bodyB.getTransform()),(const ::S_00c7f690_V *)&(posA));
 const hkpBoxShape*boxB=static_cast<const hkpBoxShape*>(bodyB.getShape());
 const hkpSphereShape*sphereA=static_cast<const hkpSphereShape*>(bodyA.getShape());
 hkVector4 absPosB;absPosB.setAbs4(posLocalB);
@@ -1637,11 +1615,11 @@ return true;}
 void __cdecl FUN_00d3cc00(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,class hkpCdPointCollector&collector)
 {
 hkUint32 ticks;
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "SphereBox";h->setTime(ticks);mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "SphereBox";h->setTime(ticks);mStream.setEnd((char*)(h+1));}};
 ContactPointPair event(bodyA,bodyB);
-if(hkpSphereBoxAgent::ComputeClosestPoints(bodyA,bodyB,input,event.m_kPoint,reinterpret_cast<hkReal&>(ticks)))
+if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(hkpSphereBoxAgent::ComputeClosestPoints(bodyA,bodyB,input,event.m_kPoint,reinterpret_cast<hkReal&>(ticks))))->FUN_005609f0())
 {
 collector.AddCdPoint(event);
 }
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime(ticks);mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime(ticks);mStream.setEnd((char*)(h+1));}};
 }

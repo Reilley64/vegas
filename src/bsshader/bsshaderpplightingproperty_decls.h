@@ -1,7 +1,7 @@
 // bsshader/bsshaderpplightingproperty_decls.h: declares BSShaderPPLightingProperty
 
+#include "fnv/symbols_011f9000.h"
 class NiTexture;
-extern NiTexture* DAT_011f9510;
 class BSShaderPPLightingProperty
 {
   public:

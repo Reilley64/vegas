@@ -1,5 +1,12 @@
 // bssystemutilities/bssystemutility.cpp: BSSystemUtility (12 functions)
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00442550_shell.h"
+#include "fnv/decl/FUN_00af2db0_cls.h"
+#include "fnv/decl/FUN_00af3120_Class.h"
+#include "fnv/decl/FnvEmptyThiscall_Class.h"
+#include "fnv/symbols_00af2000.h"
+#include "fnv/symbols_011f6000.h"
 #include "bssystemutility_private.h"
 #include <string.h>
 
@@ -11,7 +18,7 @@ void BSSystemUtility::Destroy()
     NetworkSystemUtility::GetRandomGenerator();
     FUN_00af2d30();
     IdleSystem::GetRandomGenerator();
-    FUN_00af2370();
+    ::IdleSystem::Shutdown();
 
     FUN_00af3850()->vfn_08();
     GetStaticSlot()->vfn_08();
@@ -53,11 +60,11 @@ void BSSystemUtility::Initialize(const char* pcFilePath, const char* pcArg, unsi
     GetInitObj()->vfn_04();
 
     IdleSystem::GetRandomGenerator();
-    FUN_00af2360();
+    ::IdleSystem::Startup();
     NetworkSystemUtility::GetRandomGenerator();
     IdleSystem::Initialize();
     DownloadableContentManager::GetRandomGenerator();
-    FUN_00af2750();
+    ::FUN_00af2750();
 }
 
 // If the byte at offset 0x49 is set, clears the byte at 0x48 and signals the object at offset 0x30.
@@ -67,7 +74,7 @@ void BSSystemUtility::Update()
     if (*((unsigned char*)((char*)this + 0x49)) != 0)
     {
         *((unsigned char*)((char*)this + 0x48)) = 0;
-        ((CountingSemaphore*)((char*)this + 0x30))->Signal();
+        reinterpret_cast<::FUN_00442550_shell *>((((CountingSemaphore*)((char*)this + 0x30))))->ReleaseAndInitScriptRunLock();
     }
 }
 
@@ -76,8 +83,8 @@ void BSSystemUtility::Update()
 void BSSystemUtility::FUN_00af3340()
 {
     IdleSystem::GetRandomGenerator().Idle();
-    NetworkSystemUtility::GetRandomGenerator().UpdateSteamRunningFlag();
-    DownloadableContentManager::GetRandomGenerator().FUN_00af2c80();
+    reinterpret_cast<::FUN_00af2db0_cls *>(&(NetworkSystemUtility::GetRandomGenerator()))->UpdateSteamRunningFlag();
+    reinterpret_cast<::FnvEmptyThiscall_Class *>(&(DownloadableContentManager::GetRandomGenerator()))->FUN_00af2c80();
 }
 
 struct FUN_00af3370_shell
@@ -104,13 +111,10 @@ void FUN_00af3370_shell::SetValue(unsigned char ucValue)
 
 struct MemoryManager
 {
-    void _DeallocateAlias(void* p);
 };
-extern MemoryManager g_memoryManager;
 
 struct FUN_00af33c0_Class
 {
-    void FUN_00af3120();
     void* DestroyIfFlagged(unsigned int flags);
 };
 
@@ -118,9 +122,9 @@ struct FUN_00af33c0_Class
 // @fnv 0x00af33c0
 void* FUN_00af33c0_Class::DestroyIfFlagged(unsigned int flags)
 {
-    FUN_00af3120();
+    reinterpret_cast<::FUN_00af3120_Class *>(this)->FUN_00af3120();
     if (flags & 1)
-        g_memoryManager._DeallocateAlias(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
     return this;
 }
 

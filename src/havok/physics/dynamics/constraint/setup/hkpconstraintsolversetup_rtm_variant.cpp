@@ -4,6 +4,18 @@
 
 // src/havok/physics/dynamics/constraint/setup/hkpconstraintsolversetup.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/setup/hkpconstraintsolversetup.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d01000.h"
+#include "fnv/symbols_00d1a000.h"
+#include "fnv/symbols_00d29000.h"
+#include "fnv/symbols_00d6f000.h"
+#include "fnv/symbols_00d72000.h"
+#include "fnv/symbols_00d88000.h"
+#include "fnv/symbols_00d8a000.h"
+#include "fnv/symbols_00d8d000.h"
+#include "fnv/symbols_00d92000.h"
+#include "fnv/symbols_00df0000.h"
+#include "fnv/symbols_01268000.h"
 struct State
 {
     int unk00;
@@ -27,8 +39,6 @@ struct State
     volatile float* end;
     volatile float* current;
 };
-void __cdecl FUN_00d8aac0(void* owner, void* current, int eventCode, int flags);
-void __cdecl FUN_00d88340(State* state, int reset);
 struct D88310Bool
 {
     char m_cBooleanValue;
@@ -47,8 +57,6 @@ struct D88310Stream
     char* m_kRayEnd;
     char* m_pTileTemplate;
 };
-D88310Bool __cdecl FUN_00d88310(const D88310Stream* stream, const void* unused, int numBlocks);
-void __cdecl FUN_00d88300();
 struct D88470Sub
 {
     int unk00;
@@ -102,7 +110,6 @@ struct D88470Obj
     unsigned int limitSum;
     unsigned int initSum;
 };
-D88310Bool __cdecl CheckTotalsWithinLimits(D88470Obj* obj, D88470Elem** begin, int count);
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
@@ -177,11 +184,6 @@ struct hkpConstraintSolverResourcesD886
     hkpVelocityAccumulatorD886* m_pVelocityAccumulatorC;
     hkpSolverSumVelocitiesD886* m_sumVelocities;
 };
-hkpVelocityAccumulatorD886* __cdecl FUN_00d29830(const hkStepInfoD886* pkInfo, hkpEntityD886* const* ppkEntities,
-                                                 unsigned int uiNumEntities, int iMotionOffset,
-                                                 hkpVelocityAccumulatorD886* pkAccumulatorsOut);
-void __cdecl FUN_00d88670(hkpConstraintSolverResourcesD886& kResources, hkpEntityD886* const* ppkEntities,
-                          unsigned int uiNumEntities);
 struct S88_Allocator;
 struct S88_Router
 {
@@ -196,7 +198,6 @@ struct S88_Router
     }
 };
 S88_Router* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(S88_Allocator& a, void* array, int sizeElem);
 template <typename T> struct S88_PadSpu
 {
     T m_kStorage;
@@ -488,7 +489,7 @@ struct S88_Array
         S88_Allocator& alloc = FUN_00c85750()->heap();
         if (m_iElementCount == getCapacity())
         {
-            ResizeAudioStream(alloc, this, sizeof(S88_SchemaInfo));
+            ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(S88_SchemaInfo));
         }
         return m_data[m_iElementCount++];
     }
@@ -501,22 +502,17 @@ template <typename T> inline T S88_min2(T x, T y)
 {
     return x < y ? x : y;
 }
-void __cdecl FUN_00d92900(S88_ConstraintData* data, const S88_QueryIn* in, S88_Atom* atom, int type);
-void __cdecl FUN_00d72190(S88_Atom* atom, const S88_QueryIn& in, D88310Bool writeHeader, S88_QueryOut& out);
-void __cdecl FUN_00d6f460(const S88_Atom* atoms, int atomsSize, const S88_QueryIn& in, S88_QueryOut& out);
 inline void S88_buildJacobianFromAtoms(S88_Atom* atoms, int atomsSize, const S88_QueryIn& in, S88_QueryOut& out)
 {
     if (atoms->m_type == 0x16)
     {
-        FUN_00d72190(atoms, in, D88310Bool(true), out);
+        ::FUN_00d72190((::Node *)(atoms), (::Buffer *)&(in), (*(int *)&(const ::D88310Bool &)(D88310Bool(true))), (int *)&(out));
     }
     else
     {
-        FUN_00d6f460(atoms, atomsSize, in, out);
+        ::FUN_00d6f460((const ::Atom *)(atoms), atomsSize, (const ::QueryIn *)&(in), (::QueryOut *)&(out));
     }
 }
-void __cdecl FUN_00d88760(S88_Resources& s, S88_Instance** constraints, int numConstraints,
-                          S88_Array& constraintStatus);
 struct S883_Vector4
 {
     __m128 m_vComponents;
@@ -639,10 +635,8 @@ struct S883_TaskHeader
     void* m_pByteArrayAt3C;
     void* m_pIntegerArrayAt40;
 };
-int __cdecl FUN_00d883c0(const S883_Island& island, char* buffer, int bufferSize, S883_TaskHeader& taskHeader);
 extern "C" void _mm_prefetch(char const*, int);
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern unsigned long DAT_0126835c;
 extern const char str_010d3d70[];
 extern const char str_010d3d60[];
 // hkMemoryAllocator
@@ -931,7 +925,7 @@ struct S88b50_InplaceArray
         S88b50_Allocator& alloc = S88b50_Router::GetMonitorStream().heap();
         if (m_iElementCount == getCapacity())
         {
-            ResizeAudioStream(*(S88_Allocator*)&alloc, this, sizeof(t));
+            ::ResizeAudioStream((::AudioAllocator *)&(*(S88_Allocator*)&alloc), (::AudioStream *)(void *)(this), sizeof(t));
         }
         m_data[m_iElementCount] = t;
         m_iElementCount++;
@@ -1004,13 +998,6 @@ template <typename T> inline T S88b50_max2(T x, T y)
 {
     return x > y ? x : y;
 }
-int __cdecl FUN_00d8d030(const void* solverInfo, char* schemas, hkpVelocityAccumulatorD886* accum, char* elemTemps);
-void __cdecl FUN_00df0680(const void* solverInfo, char* elemTemps, char* schemas, hkpVelocityAccumulatorD886* accum);
-int __cdecl FUN_00d29bf0(const void* solverInfo, const hkStepInfoD886* stepInfo,
-                         const hkpVelocityAccumulatorD886* accums, S88b50_Entity* const* bodies, int numBodies,
-                         int offset);
-void __cdecl FUN_00d1a330(const void* input, S88b50_Entity* const* bodies, int numBodies);
-void __cdecl FUN_00d01700(void* world, void* elems, int n);
 // hkMatrix3
 struct S88b50_Matrix3
 {
@@ -1053,7 +1040,7 @@ static __forceinline void S88b50_buildAccumulators(const hkStepInfoD886& info, S
         }
     }
     hkpVelocityAccumulatorD886* accumEnd =
-        FUN_00d29830(&info, (hkpEntityD886* const*)bodies, numBodies, 0xe0, accumulators + 1);
+        ((::hkpVelocityAccumulatorD886 *)(::FUN_00d29830((::ContextA0 *)(&info), (::SourceItem **)(::hkpEntityD886 *const *)((hkpEntityD886* const*)bodies), numBodies, 0xe0, (::TargetItem *)(::hkpVelocityAccumulatorD886 *)(accumulators + 1))));
     accumEnd->m_type = 3;
 }
 template <int SIZE> inline void S88b50_forcePrefetch(const void* p)
@@ -1130,7 +1117,7 @@ static __forceinline void S88b50_buildJacobianElements(S88_QueryIn& in, S88b50_E
                 {
                     S88_ConstraintData* data = c->m_pHavokConstraint->getDataRw();
                     S88_Atom* atom = data->m_pAtom;
-                    FUN_00d92900(data, &in, atom, 2);
+                    ::FUN_00d92900((::S00d92900_Data *)(data), (const ::S00d92900_QueryIn *)(const ::S88_QueryIn *)(&in), (::S00d92900_Atom *)(atom), 2);
                 }
                 if (c->m_ucCallbackRequest & 4)
                 {
@@ -1172,13 +1159,10 @@ static __forceinline int S88b50_integrate2(const void* solverInfo, const hkStepI
                                            const hkpVelocityAccumulatorD886* accumulators, S88b50_Entity* const* bodies,
                                            int numBodies)
 {
-    int numInactiveFrames = FUN_00d29bf0(solverInfo, &stepInfo, accumulators + 1, bodies, numBodies, 0xe0);
-    FUN_00d1a330(bodies[0]->getWorld()->getCollisionInput(), bodies, numBodies);
+    int numInactiveFrames = ::ApplyAccumulatorsPrivate::FUN_00d29bf0((*(const ::ApplyAccumulatorsPrivate::ConstraintSolverInfo *)(solverInfo)), (*(const ::ApplyAccumulatorsPrivate::hkStepInfo *)(&stepInfo)), (const ::ApplyAccumulatorsPrivate::QuantizedBoundsData *)(const ::hkpVelocityAccumulatorD886 *)(accumulators + 1), (::ApplyAccumulatorsPrivate::hkpMotion *const *)(bodies), numBodies, 0xe0);
+    ::FUN_00d1a330((const ::CollisionContext *)(const void *)(bodies[0]->getWorld()->getCollisionInput()), (::EntityNode *const *)(bodies), numBodies);
     return numInactiveFrames;
 }
-int __cdecl FUN_00d88b50(const hkStepInfoD886& stepInfo, const void* solverInfo, S88_QueryIn& constraintQueryIn,
-                         S88b50_Island& island, void* preallocatedBuffer, int preallocatedBufferSize,
-                         S88b50_Entity* const* bodies, int numBodies);
 
 extern "C"
 {

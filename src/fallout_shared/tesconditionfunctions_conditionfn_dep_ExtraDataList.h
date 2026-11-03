@@ -4,11 +4,14 @@
 
 #include "tesconditionfunctions_conditionfn_dep_layout_support.h"
 #include "tesconditionfunctions_conditionfn_dep_BaseExtraList.h"
+class ExtraDismemberedLimbs;
 class ExtraDataList : public BaseExtraList
 {
   public:
     InventoryChanges* GetContainerChangeData();
     void SetContainerChanges(InventoryChanges* changes);
+public:
+    ::ExtraDismemberedLimbs *GetDismemberedLimbs();
 };
 FNV_STATIC_ASSERT(sizeof(ExtraDataList) == 0x20);
 #endif

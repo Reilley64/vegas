@@ -1,5 +1,25 @@
 // fallout_shared/tesweatherlist.cpp: TESWeatherList, WeatherEntry (10 functions)
 
+#include <new>
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/Class005a6b10.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00526ac0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/ItemChangeList.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_00582000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_01183000.h"
 #include "tesweatherlist_decls.h"
 
 // Deletes each WeatherEntry in the list, then calls RemoveAll to clear the list.
@@ -9,11 +29,11 @@ void TESWeatherList::ClearWeatherSounds()
     BSSimpleList<WeatherEntry*>* current = this;
     while (current)
     {
-        WeatherEntry* item = current->GetItem();
-        operator delete(item);
-        current = current->GetNext();
+        WeatherEntry* item = ((::WeatherEntry *)(new ((void *)(current)) ::Vec3()));
+        ::FUN_00401030(item);
+        current = ((::BSSimpleList< ::WeatherEntry *> *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
     }
-    RemoveAll();
+    reinterpret_cast<::FileMatchList *>(this)->RemoveAll();
 }
 
 // @fnv 0x00824340
@@ -30,29 +50,29 @@ void TESWeatherList::LoadWeatherEntries(TESWeatherList* list, TESFile* file, TES
 {
     if (!file || !list || !form)
         return;
-    unsigned int count = file->GetChunkSize() / 12;
+    unsigned int count = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C() / 12;
     if (count > 0)
     {
         list->ClearWeatherSounds();
         FUN_00582570* pEntries = new FUN_00582570[count];
-        if (!file->GetChunkData(pEntries, count * 12))
-            Warning(DAT_010318b4, form->GetFormID());
+        if (!reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(pEntries), count * 12))
+            ::FUN_005b5e40();
         for (unsigned int i = 0; i < count; i++)
         {
             if (file->IsEndianConversionRequired())
-                ((ContainerItemExtraFileData*)&pEntries[i])->Endian();
-            TESForm::RemapFormIDForFile(pEntries[i].m_unk00, file);
+                reinterpret_cast<::Class005a6b10 *>((((ContainerItemExtraFileData*)&pEntries[i])))->FUN_005a6b10();
+            ::ResolveFormID((unsigned int *)&(pEntries[i].m_unk00), file);
             list->AddHead(new WeatherEntry);
-            if (!(list->GetItem()->m_weather =
-                      (TESWeather*)__RTDynamicCast(TESForm::GetFormByID(pEntries[i].m_unk00), 0,
-                                                   (void*)DAT_01183028, (void*)DAT_0118629c, 0)))
-                Warning(DAT_01031858, pEntries[i].m_unk00);
-            list->GetItem()->m_uiFilterValue = pEntries[i].m_unk04;
-            TESForm::RemapFormIDForFile(pEntries[i].m_unk08, file);
-            list->GetItem()->m_otherWeather =
-                dynamic_cast<TESGlobal*>(TESForm::GetFormByID(pEntries[i].m_unk08));
+            if (!(((::WeatherEntry *)(new ((void *)(list)) ::Vec3()))->m_weather =
+                      (TESWeather*)__RTDynamicCast(::FUN_004839c0(pEntries[i].m_unk00), 0,
+                                                   (void*)(*reinterpret_cast<const char (*)[]>(&::DAT_01183028)), (void*)DAT_0118629c, 0)))
+                ::FUN_005b5e40();
+            ((::WeatherEntry *)(new ((void *)(list)) ::Vec3()))->m_uiFilterValue = pEntries[i].m_unk04;
+            ::ResolveFormID((unsigned int *)&(pEntries[i].m_unk08), file);
+            ((::WeatherEntry *)(new ((void *)(list)) ::Vec3()))->m_otherWeather =
+                dynamic_cast<TESGlobal*>(::FUN_004839c0(pEntries[i].m_unk08));
         }
-        list->Sort(CompareSecondElement);
+        reinterpret_cast<::ItemChangeList *>((list))->SortItems((int (*)(InventoryStackRecord *, InventoryStackRecord *))(((int (&)(WeatherEntry *, WeatherEntry *))::CompareSecondElement)));
         delete[] pEntries;
     }
 }
@@ -90,10 +110,8 @@ FUN_00582570_Data* FUN_00582570_Data::FUN_00582570()
     return this;
 }
 
-unsigned int __cdecl DialogueRandom();
 struct TESGlobalValueReader
 {
-    float GetValue();
 };
 struct FUN_005827d0_list : public BSSimpleList<WeatherEntry*>
 {
@@ -101,7 +119,6 @@ struct FUN_005827d0_list : public BSSimpleList<WeatherEntry*>
 };
 struct FUN_005827d0_node
 {
-    WeatherEntry*& _ref_006815c0();
 };
 
 // @fnv 0x005827d0
@@ -113,17 +130,15 @@ TESWeather* FUN_005827d0_list::FUN_005827d0()
         pCurrent7 = this;
         while (pCurrent7)
         {
-            if (((FUN_005827d0_node*)pCurrent7)->_ref_006815c0())
+            if (((::WeatherEntry *)(new ((void *)(((FUN_005827d0_node*)pCurrent7))) ::Vec3())))
             {
-                if (((FUN_005827d0_node*)pCurrent7)->_ref_006815c0()->m_otherWeather)
-                    uiTotalChance5 += (unsigned int)((TESGlobalValueReader*)((FUN_005827d0_node*)pCurrent7)
-                                                         ->_ref_006815c0()
-                                                         ->m_otherWeather)
-                                          ->GetValue();
+                if (((::WeatherEntry *)(new ((void *)(((FUN_005827d0_node*)pCurrent7))) ::Vec3()))->m_otherWeather)
+                    uiTotalChance5 += (unsigned int)reinterpret_cast<::FUN_00526ac0_shell *>((((TESGlobalValueReader*)((::WeatherEntry *)(new ((void *)(((FUN_005827d0_node*)pCurrent7))) ::Vec3()))
+                                                         ->m_otherWeather)))->FUN_00526ac0();
                 else
-                    uiTotalChance5 += ((FUN_005827d0_node*)pCurrent7)->_ref_006815c0()->m_uiFilterValue;
+                    uiTotalChance5 += ((::WeatherEntry *)(new ((void *)(((FUN_005827d0_node*)pCurrent7))) ::Vec3()))->m_uiFilterValue;
             }
-            pCurrent7 = pCurrent7->GetNext();
+            pCurrent7 = ((::BSSimpleList< ::WeatherEntry *> *)(reinterpret_cast<::Callees *>((pCurrent7))->FUN_00726070()));
         }
         if (uiTotalChance5)
         {
@@ -139,12 +154,12 @@ TESWeather* FUN_005827d0_list::FUN_005827d0()
             pIter4 = this;
             while (pIter4)
             {
-                pEntry = ((FUN_005827d0_node*)pIter4)->_ref_006815c0();
+                pEntry = ((::WeatherEntry *)(new ((void *)(((FUN_005827d0_node*)pIter4))) ::Vec3()));
                 if (pEntry)
                 {
                     unsigned int m_uiWeatherChance =
                         pEntry->m_otherWeather
-                            ? (unsigned int)((TESGlobalValueReader*)pEntry->m_otherWeather)->GetValue()
+                            ? (unsigned int)reinterpret_cast<::FUN_00526ac0_shell *>((((TESGlobalValueReader*)pEntry->m_otherWeather)))->FUN_00526ac0()
                             : pEntry->m_uiFilterValue;
                     if (m_uiWeatherChance)
                     {
@@ -154,7 +169,7 @@ TESWeather* FUN_005827d0_list::FUN_005827d0()
                         uiLower += m_uiWeatherChance;
                     }
                 }
-                pIter4 = pIter4->GetNext();
+                pIter4 = ((::BSSimpleList< ::WeatherEntry *> *)(reinterpret_cast<::Callees *>((pIter4))->FUN_00726070()));
             }
             if (pEntry)
                 return pEntry->m_weather;
@@ -163,7 +178,6 @@ TESWeather* FUN_005827d0_list::FUN_005827d0()
     return 0;
 }
 
-void* __cdecl __memcpy(void* dest, const void* src, unsigned int size);
 struct SoundListView
 {
     void AddTail(char* const&);
@@ -189,9 +203,9 @@ void FUN_005825a0_shell::CopyWeatherList(const TESWeatherList* apCopyWL, bool ab
         while (pSourceNode)
         {
             WeatherEntry* pNewEntry = new WeatherEntry;
-            __memcpy((char*)pNewEntry, (char*)pSourceNode->GetItem(), sizeof(WeatherEntry));
-            ((SoundListView*)this)->AddTail((char* const&)pNewEntry);
-            pSourceNode = pSourceNode->GetNext();
+            __memcpy((char*)pNewEntry, (char*)((::WeatherEntry *)(new ((void *)(pSourceNode)) ::Vec3())), sizeof(WeatherEntry));
+            reinterpret_cast<::Callees *>((((SoundListView*)this)))->FUN_00905820((void *)&((char* const&)pNewEntry));
+            pSourceNode = ((::BSSimpleList< ::WeatherEntry *> *)(reinterpret_cast<::Callees *>((pSourceNode))->FUN_00726070()));
         }
     }
 }
@@ -236,13 +250,13 @@ bool FUN_00582690_shell::IsDifferentFrom(TESWeatherList* apCompareWL)
         goto L_end;
     }
 
-    for (pThisNode = this; pThisNode != 0; pThisNode = pThisNode->GetNext())
+    for (pThisNode = this; pThisNode != 0; pThisNode = ((::BSSimpleList< ::WeatherEntry *> *)(reinterpret_cast<::Callees *>((pThisNode))->FUN_00726070())))
     {
         bFound = false;
 
-        for (pCompNode = apCompareWL; !bFound && pCompNode != 0; pCompNode = pCompNode->GetNext())
+        for (pCompNode = apCompareWL; !bFound && pCompNode != 0; pCompNode = ((::BSSimpleList< ::WeatherEntry *> *)(reinterpret_cast<::Callees *>((pCompNode))->FUN_00726070())))
         {
-            bFound = (_memcmp(pThisNode->GetItem(), pCompNode->GetItem(), 0xc) == 0);
+            bFound = (_memcmp(((::WeatherEntry *)(new ((void *)(pThisNode)) ::Vec3())), ((::WeatherEntry *)(new ((void *)(pCompNode)) ::Vec3())), 0xc) == 0);
         }
 
         if (!bFound)
@@ -269,7 +283,6 @@ class SrcListItem_b6402
     unsigned int m_04;
     SrcListItem_b6402();
     ~SrcListItem_b6402();
-    void CopyFrom(const SrcListItem_b6402* aSrc, bool abAppend);
 };
 
 class SrcRecord_b6402
@@ -304,7 +317,7 @@ class FUN_004f5140 : public SrcListBase_b6402
 // @fnv 0x004f5140
 FUN_004f5140::FUN_004f5140(SrcRecord_b6402* aSrc) : SrcListBase_b6402(aSrc)
 {
-    m_08.CopyFrom(&aSrc->m_08, false);
+    reinterpret_cast<::FUN_005825a0_shell *>(&(m_08))->CopyWeatherList((const ::TESWeatherList *)(const ::SrcListItem_b6402 *)(&aSrc->m_08), false);
 }
 
 struct WeatherSaveEntry
@@ -313,11 +326,8 @@ struct WeatherSaveEntry
     unsigned int m_uiFilterValue;
     unsigned int m_globalID;
     WeatherSaveEntry();
-    void Endian();
 };
 
-bool __cdecl IsEndianSwapNeeded();
-void __cdecl WriteWeatherData(void* apDest, void* apData, unsigned int auiSize);
 
 struct FUN_00582380_shell : public TESWeatherList
 {
@@ -337,23 +347,23 @@ void FUN_00582380_shell::WriteWeatherList(void* apDest)
         BSSimpleList<WeatherEntry*>* pNode = this;
         while (pNode)
         {
-            pEntries[ItemUpdateArray].m_weatherID = ((TESForm*)pNode->GetItem()->m_weather)->GetFormID();
-            pEntries[ItemUpdateArray].m_uiFilterValue = pNode->GetItem()->m_uiFilterValue;
+            pEntries[ItemUpdateArray].m_weatherID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)((::WeatherEntry *)(new ((void *)(pNode)) ::Vec3()))->m_weather)))->FUN_0084e3a0()));
+            pEntries[ItemUpdateArray].m_uiFilterValue = ((::WeatherEntry *)(new ((void *)(pNode)) ::Vec3()))->m_uiFilterValue;
             pEntries[ItemUpdateArray].m_globalID =
-                pNode->GetItem()->m_otherWeather ? pNode->GetItem()->m_otherWeather->GetFormID() : 0;
+                ((::WeatherEntry *)(new ((void *)(pNode)) ::Vec3()))->m_otherWeather ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::WeatherEntry *)(new ((void *)(pNode)) ::Vec3()))->m_otherWeather))->FUN_0084e3a0())) : 0;
             ItemUpdateArray++;
-            pNode = pNode->GetNext();
+            pNode = ((::BSSimpleList< ::WeatherEntry *> *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
         }
-        if (IsEndianSwapNeeded())
+        if (((bool)(::FUN_00401500())))
         {
             for (unsigned int i = 0; i < ItemUpdateArray; i++)
-                pEntries[i].Endian();
+                reinterpret_cast<::Class005a6b10 *>(&(pEntries[i]))->FUN_005a6b10();
         }
-        WriteWeatherData(apDest, pEntries, ItemUpdateArray * sizeof(WeatherSaveEntry));
-        if (IsEndianSwapNeeded())
+        ::AppendChunk((unsigned int)(apDest), pEntries, ItemUpdateArray * sizeof(WeatherSaveEntry));
+        if (((bool)(::FUN_00401500())))
         {
             for (unsigned int j = 0; j < ItemUpdateArray; j++)
-                pEntries[j].Endian();
+                reinterpret_cast<::Class005a6b10 *>(&(pEntries[j]))->FUN_005a6b10();
         }
         delete[] pEntries;
     }

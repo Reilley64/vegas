@@ -2,6 +2,34 @@
 // src/fallout/interface/menus/bookmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/bookmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_004048e0_cls.h"
+#include "fnv/decl/FUN_00409700_Class.h"
+#include "fnv/decl/FUN_00418770_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_0070ec70_class.h"
+#include "fnv/decl/FUN_00a01230_shell.h"
+#include "fnv/decl/FUN_00a01440_shell.h"
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/FUN_00a1d910_shell.h"
+#include "fnv/decl/S_00aff7c0_File.h"
+#include "fnv/decl/TileListBoxCalls.h"
+#include "fnv/decl/fnv_0070bc20__FUN_0070bc20_shell.h"
+#include "fnv/decl/fnv_00714fd0__FUN_00714fd0_shell.h"
+#include "fnv/decl/fnv_007157b0__FUN_007157b0_shell.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
+#include "fnv/decl/fnv_00a1c520__FUN_00a1c520.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_00709000.h"
+#include "fnv/symbols_00715000.h"
+#include "fnv/symbols_00717000.h"
+#include "fnv/symbols_00890000.h"
+#include "fnv/symbols_00a09000.h"
+#include "fnv/symbols_01077000.h"
+#include "fnv/symbols_011de000.h"
 struct Menu
 {
     Menu();
@@ -91,7 +119,6 @@ bool BookMenu::HandleKey(int aikey)
 }
 }  // namespace fnv_0073b6b0
 
-void __cdecl _Deallocate(void*);
 struct FUN_0073ad00_shell
 {
     void __thiscall FUN_0073ad30();
@@ -103,7 +130,7 @@ void* __thiscall FUN_0073ad00_shell::FUN_0073ad00(unsigned int flags)
 {
     FUN_0073ad30();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -135,9 +162,7 @@ struct blob12
 };
 struct InterfaceManager
 {
-    static InterfaceManager* Instance();
     static void Free();
-    static void Initialize(unsigned int, bool);
     void Init(bool);
     void RefreshInterfaceState();
     SceneGraph* GetOrCreateSceneGraph(SceneGraph*, char*, bool);
@@ -157,7 +182,6 @@ struct InterfaceManager
     void SetStatsPageNumber(char);
     void SetInventoryPageNumber(char);
     void SetMapPageNumber(char);
-    static bool IsPipboyMenuActive();
     static bool IsInterfaceMenuActive();
     static bool IsCurrentRenderedMenuTopmost();
     int GetCurrentMainMenu();
@@ -178,9 +202,7 @@ struct InterfaceManager
     void InternalSetMenuMode(int);
     void CalculateConsolePickRefs();
     void ClearMenuInput();
-    int GetPickCursorX();
     int GetCursorY();
-    int GetMouseWheel();
     int GetRealCursorX();
     int GetRealCursorY();
     float GetRawCursorX();
@@ -222,7 +244,6 @@ struct InterfaceManager
     BSShaderAccumulator* GetAccumulator();
     BSShaderAccumulator* Get3dAccumulator();
     TESImageSpaceModifier* GetImageSpaceModifier();
-    void SetMenuFocusEnabled(bool);
     Tile* GetCurrentFocusTarget();
     void ClearInterfaceState(Tile*, int, bool);
     void ClearCurrentFocusTarget();
@@ -271,12 +292,10 @@ struct InterfaceManager
     TESObjectREFR* GetCurrentPickedREFR();
     struct blob12 GetActivatePickLocation();
     bool IsActivatePickFuzzy();
-    void ClearActivatePickResults();
     void SetActivatePickReference(TESObjectREFR*);
     int GetActivatePickResult(int);
     int GetTopEnterStackEntry();
     int GetMenuStackEntry(int);
-    int AddMenuStackEntry(int, bool);
     bool IsMenuInStack(unsigned int);
     void Test();
     NiAlphaProperty* GetAlphaProp();
@@ -310,7 +329,6 @@ struct InterfaceManager
     void UpdatePipboyState();
     void SetCurrentRenderedMenu(FORenderedMenu*);
     bool IsPipboyMenuOpen();
-    FORenderedMenu* GetActiveRenderedMenu();
     void DumpMenuPackingInfo();
     float GetPipboyMouseX();
     float GetPipboyMouseY();
@@ -456,6 +474,8 @@ struct InterfaceManager
     bool m_bDebugOverlayVisible;
     char _pad_3c9[3];
     char m_kInterfaceStateData[172];
+public:
+    int FUN_00747d00();
 };
 typedef char _sizecheck_InterfaceManager[sizeof(InterfaceManager) == 1144 ? 1 : -1];
 struct FUN_0073b020_shell : public InterfaceManager
@@ -463,7 +483,6 @@ struct FUN_0073b020_shell : public InterfaceManager
     int FUN_0073b020();
 };
 
-float __cdecl FUN_00715da0();
 // @fnv 0x0073b020
 int FUN_0073b020_shell::FUN_0073b020()
 {
@@ -509,13 +528,10 @@ void BookMenu::SetTileByID(int aiID, Tile* apTile)
 namespace fnv_0073afd0 {
 struct Tile
 {
-    float GetScreenY();
 };
 struct InterfaceManager
 {
-    int FUN_0073b020();
 };
-InterfaceManager* __cdecl FUN_004b7210();
 struct FUN_0073afd0_shell
 {
     char _pad00[44];
@@ -531,8 +547,8 @@ void FUN_0073afd0_shell::FUN_0073afd0(int aiID, Tile* apTarget)
     InterfaceManager* pim;
     if (aiID == 12)
     {
-        pim = FUN_004b7210();
-        _f38 = (double)_p28->GetScreenY() - pim->FUN_0073b020();
+        pim = ((::fnv_0073afd0::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()));
+        _f38 = (double)reinterpret_cast<::FUN_00a01440_shell *>((_p28))->GetAccumulatedFloat() - reinterpret_cast<::FUN_0073b020_shell *>((pim))->FUN_0073b020();
     }
 }
 }  // namespace fnv_0073afd0
@@ -565,18 +581,15 @@ void __thiscall Holder73b430::CallInnerFoo()
 namespace fnv_0073b480 {
 struct Menu
 {
-    void LoadMenuData();
 };
 
 struct Tile
 {
-    Menu* GetMenu();
     void Set(int, int);
 };
 
 struct TESObject
 {
-    bool FUN_00409700();
 };
 
 struct FUN_0073b480_shell
@@ -586,27 +599,24 @@ struct FUN_0073b480_shell
     void UpdateMenuTile();
 };
 
-Tile* __cdecl FindMenuById(int);
-void __cdecl FUN_00717280(int);
 
 // Gets tile 0x402, sets it to 0x1772/1, invokes its menu, then calls FUN_00717280 with 0x19 or 0x1b depending on FUN_00409700.
 // @fnv 0x0073b480
 void FUN_0073b480_shell::UpdateMenuTile()
 {
-    Tile* ptile = FindMenuById(0x402);
-    if (ptile && ptile->GetMenu())
+    Tile* ptile = ((::fnv_0073b480::Tile *)(::FUN_00a09030(0x402)));
+    if (ptile && ((::fnv_0073b480::Menu *)(reinterpret_cast<::FUN_00a03c90_shell *>((ptile))->FUN_00a03c90())))
     {
         ptile->Set(0x1772, 1);
-        ptile->GetMenu()->LoadMenuData();
-        if (m_pObjectToUpdateMenuTile->FUN_00409700())
-            FUN_00717280(0x19);
+        reinterpret_cast<::FUN_00a1d910_shell *>((((::fnv_0073b480::Menu *)(reinterpret_cast<::FUN_00a03c90_shell *>((ptile))->FUN_00a03c90()))))->FUN_00a1d910();
+        if (reinterpret_cast<::FUN_00409700_Class *>((m_pObjectToUpdateMenuTile))->FUN_00409700())
+            ::s717280::FUN_00717280(0x19);
         else
-            FUN_00717280(0x1b);
+            ::s717280::FUN_00717280(0x1b);
     }
 }
 }  // namespace fnv_0073b480
 
-extern unsigned int DAT_01077abc;
 struct FUN_007e7a80 : Menu
 {
     char _pad[0x50];
@@ -625,16 +635,13 @@ FUN_007e7a80::FUN_007e7a80()
 
 struct TGF
 {
-    float GetFloat(int);
 };
 
 struct Tile : TGF
 {
-    float GetScreenY();
     void Set(int, int);
 };
 
-FUN_0073b020_shell* __cdecl _FUN_004b7210();
 int __cdecl __ftol2_sse(double);
 
 struct FUN_0073b050_shell : Menu
@@ -656,9 +663,9 @@ void FUN_0073b050_shell::FUN_0073b050(int aiID, Tile* apTarget)
 
     if (aiID == 0xc)
     {
-        pim = _FUN_004b7210();
-        imarker = (static_cast<double>(pim->FUN_0073b020()) + m_fValue - m_pHighlightedTile->GetScreenY()) /
-                  m_pObject->GetFloat(0x100c);
+        pim = ((::FUN_0073b020_shell *)(::fnv_004b7210::FUN_004b7210()));
+        imarker = (static_cast<double>(pim->FUN_0073b020()) + m_fValue - reinterpret_cast<::FUN_00a01440_shell *>((m_pHighlightedTile))->GetAccumulatedFloat()) /
+                  reinterpret_cast<::TileListBoxCalls *>((m_pObject))->GetFloat(0x100c);
 
         m_pHighlightedTile->Set(0x1009, 0xc4653601);
         m_pHighlightedTile->Set(0x1009, static_cast<int>(imarker));
@@ -668,23 +675,20 @@ void FUN_0073b050_shell::FUN_0073b050(int aiID, Tile* apTarget)
 
 struct FUN_00a1c520_shell
 {
-    void __thiscall FUN_00a1c520();
 };
 
 // @fnv 0x0073ad30
 void FUN_0073ad00_shell::FUN_0073ad30()
 {
     *reinterpret_cast<unsigned int*>(this) = (unsigned int)&DAT_01070ecc;
-    reinterpret_cast<FUN_00a1c520_shell*>(this)->FUN_00a1c520();
+    reinterpret_cast<::fnv_00a1c520::FUN_00a1c520 *>((reinterpret_cast<FUN_00a1c520_shell*>(this)))->fnv_00a1c520::FUN_00a1c520::~FUN_00a1c520();
 }
 
 struct Res_0073b0f0
 {
-    short FUN_00418770();
 };
 struct Obj30_0073b0f0
 {
-    Res_0073b0f0* FUN_005d43c0(int);
 };
 struct VT_0073b0f0
 {
@@ -934,12 +938,10 @@ struct VT_0073b0f0
     virtual void v243();
     virtual void vSlot(Obj30_0073b0f0*, int);
 };
-extern VT_0073b0f0* DAT_011dea3c;
 struct FUN_0073b0f0_cls
 {
     char _pad[0x30];
     Obj30_0073b0f0* m_0x30;
-    void __thiscall UpdateMenuTile();
     void __thiscall HandleMessage(int, int);
 };
 // Handles message 0x1f by calling UpdateMenuTile; for 0x20, passes a value from m_0x30 to DAT_011dea3c's vSlot, then calls UpdateMenuTile.
@@ -948,27 +950,23 @@ void __thiscall FUN_0073b0f0_cls::HandleMessage(int msg, int unused)
 {
     if (msg == 0x1f)
     {
-        UpdateMenuTile();
+        reinterpret_cast<::fnv_0073b480::FUN_0073b480_shell *>(this)->UpdateMenuTile();
         return;
     }
     if (msg == 0x20)
     {
 
-        DAT_011dea3c->vSlot(m_0x30, m_0x30->FUN_005d43c0(0)->FUN_00418770());
-        UpdateMenuTile();
+        (*reinterpret_cast<::VT_0073b0f0 * *>(&::_g_thePlayer))->vSlot(m_0x30, reinterpret_cast<::FUN_00418770_shell *>((((::Res_0073b0f0 *)(reinterpret_cast<::FUN_005d43c0_ *>((m_0x30))->FUN_005d43c0()))))->FUN_00418770());
+        reinterpret_cast<::fnv_0073b480::FUN_0073b480_shell *>(this)->UpdateMenuTile();
     }
 }
 
 struct BookInput
 {
-    bool FUN_00409700();
     const char* CallInnerFoo();
-    bool FUN_0073b460();
 };
 struct BookTile
 {
-    void FUN_00700320(int, int);
-    void FUN_00a01350(int, const char*, bool);
 };
 struct BSStringTChar
 {
@@ -983,35 +981,30 @@ struct BookTarget : Menu
     void* unk28;
     void* unk2c;
     int unk30;
-    BookTile* FUN_00726070();
     void UpdateBookMenu(BookInput*, int);
 };
 // Updates the book menu tile: sets tile 0x1004 from input state, sets tile 0x1006 text, stores value in unk30, and sets tile 0x1007 and 0x100a.
 // @fnv 0x0073b2f0
 void BookTarget::UpdateBookMenu(BookInput* input, int value)
 {
-    if (input->FUN_00409700())
-        FUN_00726070()->FUN_00700320(0x1004, 0);
+    if (reinterpret_cast<::FUN_00409700_Class *>((input))->FUN_00409700())
+        reinterpret_cast<::Tile *>((((::BookTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(0x1004, 0);
     else
-        FUN_00726070()->FUN_00700320(0x1004, 1);
-    FUN_00726070()->FUN_00a01350(0x1006, input->CallInnerFoo(), true);
+        reinterpret_cast<::Tile *>((((::BookTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(0x1004, 1);
+    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((::BookTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->FUN_00a01350(0x1006, (char *)(input->CallInnerFoo()), true);
     unk30 = value;
-    if (!value || input->FUN_0073b460())
-        FUN_00726070()->FUN_00700320(0x1007, 0);
+    if (!value || reinterpret_cast<::FUN_0073b460_shell *>((input))->FUN_0073b460())
+        reinterpret_cast<::Tile *>((((::BookTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(0x1007, 0);
     else
-        FUN_00726070()->FUN_00700320(0x1007, 1);
+        reinterpret_cast<::Tile *>((((::BookTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(0x1007, 1);
     BSStringTChar text(input->CallInnerFoo());
-    FUN_00726070()->FUN_00700320(0x100a, -99999);
-    FUN_00726070()->FUN_00700320(0x100a, 0);
+    reinterpret_cast<::Tile *>((((::BookTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(0x100a, -99999);
+    reinterpret_cast<::Tile *>((((::BookTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(0x100a, 0);
 }
 
-void __cdecl FUN_00717280(int);
 
 struct MyTile
 {
-    bool IsTraitNonZero(int);
-    float FUN_00a011b0(int);
-    void Set(int, int);
 };
 
 struct BookMenu_Shell
@@ -1035,45 +1028,44 @@ struct BookMenu_Shell
     MyTile* m_pHighlightedTile;
     MyTile* m_pObject;
 
-    MyTile* FUN_00726070();
     void HandleScrollInput(int a1, int a2);
 };
 
 // @fnv 0x0073b150
 void BookMenu_Shell::HandleScrollInput(int a1, int a2)
 {
-    InterfaceManager* interfaceManager6 = InterfaceManager::Instance();
-    if (!this->FUN_00726070()->IsTraitNonZero(0x1004))
+    InterfaceManager* interfaceManager6 = ((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()));
+    if (!reinterpret_cast<::FUN_00a01230_shell *>((((::MyTile *)(reinterpret_cast<::Callees *>((this))->FUN_00726070()))))->IsTraitNonZero(0x1004))
     {
-        int iVar1 = (int)this->m_pHighlightedTile->FUN_00a011b0(0x100b);
-        int iVar6 = interfaceManager6->GetMouseWheel() / 120;
-        this->m_pObject->Set(0x100d, -iVar6);
-        this->m_pObject->Set(0x100d, 0);
-        if (iVar1 != this->m_pHighlightedTile->FUN_00a011b0(0x100b))
+        int iVar1 = (int)reinterpret_cast<::TileListBoxCalls *>((this->m_pHighlightedTile))->GetFloat(0x100b);
+        int iVar6 = ((int)(reinterpret_cast<::FUN_0070ec70_class *>((interfaceManager6))->FUN_0070ec70())) / 120;
+        reinterpret_cast<::Tile *>((this->m_pObject))->Set(0x100d, -iVar6);
+        reinterpret_cast<::Tile *>((this->m_pObject))->Set(0x100d, 0);
+        if (iVar1 != reinterpret_cast<::TileListBoxCalls *>((this->m_pHighlightedTile))->GetFloat(0x100b))
         {
             this->v5(a1, a2);
-            InterfaceManager::Instance()->SetMenuFocusEnabled(false);
+            reinterpret_cast<::fnv_007157b0::FUN_007157b0_shell *>((((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))))->ClearMenuTargets(false);
         }
     }
     else
     {
-        int iVar3 = (int)this->FUN_00726070()->FUN_00a011b0(0x100d);
-        if (interfaceManager6->GetMouseWheel() > 0)
+        int iVar3 = (int)reinterpret_cast<::TileListBoxCalls *>((((::MyTile *)(reinterpret_cast<::Callees *>((this))->FUN_00726070()))))->GetFloat(0x100d);
+        if (((int)(reinterpret_cast<::FUN_0070ec70_class *>((interfaceManager6))->FUN_0070ec70())) > 0)
         {
-            this->FUN_00726070()->Set(0x100a, -2);
+            reinterpret_cast<::Tile *>((((::MyTile *)(reinterpret_cast<::Callees *>((this))->FUN_00726070()))))->Set(0x100a, -2);
         }
         else
         {
-            this->FUN_00726070()->Set(0x100a, 2);
+            reinterpret_cast<::Tile *>((((::MyTile *)(reinterpret_cast<::Callees *>((this))->FUN_00726070()))))->Set(0x100a, 2);
         }
-        this->FUN_00726070()->Set(0x100a, 0);
-        if (this->FUN_00726070()->FUN_00a011b0(0x100d) != iVar3)
+        reinterpret_cast<::Tile *>((((::MyTile *)(reinterpret_cast<::Callees *>((this))->FUN_00726070()))))->Set(0x100a, 0);
+        if (reinterpret_cast<::TileListBoxCalls *>((((::MyTile *)(reinterpret_cast<::Callees *>((this))->FUN_00726070()))))->GetFloat(0x100d) != iVar3)
         {
-            int iVar5 = (int)this->FUN_00726070()->FUN_00a011b0(0x100c);
+            int iVar5 = (int)reinterpret_cast<::TileListBoxCalls *>((((::MyTile *)(reinterpret_cast<::Callees *>((this))->FUN_00726070()))))->GetFloat(0x100c);
             if (iVar5 != 0)
             {
-                InterfaceManager::Instance();
-                FUN_00717280(iVar5);
+                ::fnv_004b7210::FUN_004b7210();
+                ::s717280::FUN_00717280(iVar5);
             }
         }
     }
@@ -1121,14 +1113,11 @@ struct BSFile
     unsigned int unk148, unk14c, unk150, unk154;
     BSFile(const char*, NiFile::OpenMode, unsigned int, bool);
     ~BSFile();
-    bool FUN_00aff300(bool, bool);
-    bool FUN_008905f0();
-    void FUN_00aff7c0(BSStringT<char>*, int);
+public:
+    bool Open(bool, bool);
 };
-extern void __cdecl FUN_00703c00(const char*, ...);
 struct LoadBook
 {
-    BookTile* FUN_00726070();
     void LoadBookFile();
 };
 // Opens the book file, logs an error and returns if it fails, otherwise reads its text and passes it to the book tile with two 0x100a settings.
@@ -1136,18 +1125,18 @@ struct LoadBook
 void LoadBook::LoadBookFile()
 {
     BSStringT<char> path2(DAT_01070fa8);
-    BSFile file(path2.FUN_00559450(), NiFile::read, 0x4000, false);
+    BSFile file(((const char *)(::FUN_00559450((int *)&(path2)))), NiFile::read, 0x4000, false);
     BSStringT<char> text6;
     unsigned int length = 0;
-    file.FUN_00aff300(false, false);
-    if (!file.FUN_008905f0())
+    reinterpret_cast<::BSFile *>(&(file))->Open(false, false);
+    if (!::FUN_008905f0((bool *)&(file)))
     {
-        FUN_00703c00(DAT_01070f84, path2.FUN_00559450());
+        ::FUN_00703c00(DAT_01070f84, ((const char *)(::FUN_00559450((int *)&(path2)))));
         return;
     }
-    file.FUN_00aff7c0(&text6, -1);
-    length = text6.FUN_004048e0();
-    FUN_00726070()->FUN_00a01350(0x1006, text6.FUN_00559450(), true);
-    FUN_00726070()->FUN_00700320(0x100a, -99999);
-    FUN_00726070()->FUN_00700320(0x100a, 0);
+    reinterpret_cast<::S_00aff7c0_File *>(&(file))->FUN_00aff7c0((::S_00aff7c0_Out *)(::BSStringT<char> *)(&text6), -1);
+    length = ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(text6))->FUN_004048e0()));
+    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((::BookTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->FUN_00a01350(0x1006, (char *)(((const char *)(::FUN_00559450((int *)&(text6))))), true);
+    reinterpret_cast<::Tile *>((((::BookTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(0x100a, -99999);
+    reinterpret_cast<::Tile *>((((::BookTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(0x100a, 0);
 }

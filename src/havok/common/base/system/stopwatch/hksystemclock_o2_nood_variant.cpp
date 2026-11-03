@@ -5,10 +5,10 @@
 // src/havok/common/base/system/stopwatch/hksystemclock.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/stopwatch/hksystemclock.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_0106b000.h"
 __declspec(dllimport) int __stdcall QueryPerformanceCounter(__int64* lpPerformanceCount);
 __declspec(dllimport) int __stdcall QueryPerformanceFrequency(__int64* lpFrequency);
 
-extern double DAT_0106b798;
 
 struct Obj
 {
@@ -27,7 +27,7 @@ unsigned __int64 Obj::FUN_00dd8e20()
     if (g_freq != 0)
         return g_freq;
 
-    double best = DAT_0106b798;
+    double best = ::CombatWeapons::DAT_0106b798;
     int count = 10;
     while (count != 0)
     {

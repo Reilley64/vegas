@@ -5,6 +5,34 @@
 
 // src/staging/blk_00b40000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/BitTrim.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00b2abc0_It.h"
+#include "fnv/decl/FUN_00b2ac30_t.h"
+#include "fnv/decl/FUN_00b2e330_It.h"
+#include "fnv/decl/FUN_00b3f030_Class.h"
+#include "fnv/decl/FUN_00b3f130_shell.h"
+#include "fnv/decl/FUN_00b40430_cls.h"
+#include "fnv/decl/FUN_00b404c0_cls.h"
+#include "fnv/decl/FnvVecIter.h"
+#include "fnv/decl/IndexSet.h"
+#include "fnv/decl/IntVector.h"
+#include "fnv/decl/S_00b41ae0_Bits.h"
+#include "fnv/decl/V3cdd0.h"
+#include "fnv/decl/VectorStorage.h"
+#include "fnv/decl/Vector_b17f50.h"
+#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
+#include "fnv/decl/xlenb0f__BxVecBase.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0044d000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00b42000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101b000.h"
+#include "fnv/symbols_0107d000.h"
+#include "fnv/symbols_01140000.h"
 #include "../../include/layout_support.h"
 struct NiPoint3
 {
@@ -67,11 +95,9 @@ struct FUN_00b40070_Class
     float unk44;
     int unk48;
 
-    void FUN_00b3f030();
     FUN_00b40070_Class* __thiscall FUN_00b40070(NiPoint3* position, unsigned char value18, unsigned char value10,
                                                 float value, int result);
 };
-extern float DAT_01016248;
 struct S_00b40850_P3
 {
     float x;
@@ -87,9 +113,6 @@ struct FUN_00b40850
     float unk18;
     FUN_00b40850();
 };
-extern float DAT_0107d9a0;
-extern float DAT_01016410;
-extern float DAT_0101b268;
 class FUN_00b40a60_cls
 {
   public:
@@ -107,7 +130,6 @@ class FUN_00b40a60_cls
     float m_2c;
     unsigned int m_30;
 
-    void InitBase(int a, int b);
     FUN_00b40a60_cls* FUN_00b40a60();
 };
 struct FUN_00b40a60_loc
@@ -247,8 +269,6 @@ class FUN_00b420a0_cls
     int CompareAndGetDelta(FUN_00b42980 const& arg);
 };
 void* operator new(unsigned int);
-extern char DAT_010176f8[];
-extern char DAT_01140ef8[];
 struct FnvThrowObj
 {
     void* vptr;
@@ -324,7 +344,6 @@ struct Tag1
 struct Tag2
 {
 };
-extern "C" void FUN_00b42f40(E8* p, unsigned n, const E8& v, void* al, Tag1 c, Tag2 r);
 inline Tag1 Ptr_cat(E8*&, E8*&)
 {
     Tag1 c;
@@ -332,7 +351,7 @@ inline Tag1 Ptr_cat(E8*&, E8*&)
 }
 inline void ufn(E8* f, unsigned n, const E8& v, char (&al)[4])
 {
-    FUN_00b42f40(f, n, v, &al, Ptr_cat(f, f), Tag2());
+    ::FUN_00b42f40((::S_00b42f40_Er *)(f), n, (::S_00b42f40_Er *)&(v));
 }
 struct CIt8
 {
@@ -368,7 +387,6 @@ struct V8
     {
         return It8(last, this);
     }
-    CIt8 FUN_00b41b50(CIt8 w, const E8& v);
     void FUN_00b417b0(const E8& v);
 };
 inline void Pad()
@@ -383,18 +401,6 @@ inline It8::It8(E8* p, V8* v)
     cont = v->proxy;
     ptr = p;
 }
-// @fnv 0x00b417b0
-void V8::FUN_00b417b0(const E8& v)
-{
-    if (size() < capacity())
-        last = _Ufill(last, 1, v);
-    else
-    {
-        FUN_00b41b50(end(), v);
-        Pad();
-    }
-}
-
 struct Sub_b40000
 {
     ~Sub_b40000();
@@ -466,7 +472,7 @@ template <class _Ty> inline _Ty* _Allocate(unsigned int _Count, _Ty*)
         _Count = 0;
     else if (((unsigned int)(-1) / _Count) < sizeof(_Ty))
         throw _Length_error("bad allocation");
-    return ((_Ty*)::operator new(_Count * sizeof(_Ty)));
+    return ((_Ty*)::FUN_00401000(_Count * sizeof(_Ty)));
 }
 
 template <class _Ty> class allocator
@@ -491,7 +497,7 @@ template <class _Ty> class allocator
     {}
     void deallocate(pointer _Ptr, size_type)
     {
-        ::operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     pointer allocate(size_type _Count)
     {
@@ -618,7 +624,7 @@ template <class _Iter> inline _Iter __cdecl _Checked_base(_Iter& _It)
 template <class _FwdIt, class _Ty> inline void __cdecl _Fill(_FwdIt _First, _FwdIt _Last, const _Ty& _Val)
 {
     for (; _First != _Last; ++_First)
-        *_First = _Val;
+        reinterpret_cast<::S_00b41ae0_Bits *>((void *)&(const ::stl::_Vb_reference<unsigned int, int, ::stl::vector<bool, ::stl::allocator<bool>>> &)(*_First))->SetBit(_Val);
 }
 
 template <class _FwdIt, class _Ty> inline void __cdecl fill(_FwdIt _First, _FwdIt _Last, const _Ty& _Val)
@@ -712,7 +718,7 @@ template <class _Ty, class _Alloc> class _Vector_const_iterator : public _Iterat
     }
     bool operator!=(const _Myt& _Right) const
     {
-        return (!(*this == _Right));
+        return (!(reinterpret_cast<::FUN_00b2ac30_t *>((void *)&(const ::stl::_Vector_const_iterator< ::MatchNode *, ::stl::allocator< ::MatchNode *>> &)(*this))->FUN_00b2ac30((::FUN_00b2ac30_t *)&(_Right))));
     }
 
     _Tptr _Myptr;
@@ -733,16 +739,16 @@ template <class _Ty, class _Alloc> class _Vector_iterator : public _Vector_const
     {}
     reference operator*() const
     {
-        return ((reference) * *(_Mybase*)this);
+        return ((reference) reinterpret_cast<::FnvVecIter *>((void *)&(const ::stl::_Vector_const_iterator< ::MatchNode *, ::stl::allocator< ::MatchNode *>> &)(*(_Mybase*)this))->FUN_00b2ab50());
     }
     _Myt& operator++()
     {
-        ++(*(_Mybase*)this);
+        reinterpret_cast<::FUN_00b2abc0_It *>((void *)&(const ::stl::_Vector_const_iterator< ::MatchNode *, ::stl::allocator< ::MatchNode *>> &)((*(_Mybase*)this)))->FUN_00b2abc0();
         return (*this);
     }
     _Myt& operator+=(difference_type _Off)
     {
-        (*(_Mybase*)this) += _Off;
+        reinterpret_cast<::FUN_00b2e330_It *>((void *)&(const ::stl::_Vector_const_iterator< ::MatchNode *, ::stl::allocator< ::MatchNode *>> &)((*(_Mybase*)this)))->FUN_00b2e330(_Off);
         return (*this);
     }
     _Myt operator+(difference_type _Off) const
@@ -752,7 +758,7 @@ template <class _Ty, class _Alloc> class _Vector_iterator : public _Vector_const
     }
     difference_type operator-(const _Mybase& _Right) const
     {
-        return (*(_Mybase*)this - _Right);
+        return (reinterpret_cast<::FUN_00b420a0_cls *>((void *)&(const ::stl::_Vector_const_iterator< ::MatchNode *, ::stl::allocator< ::MatchNode *>> &)(*(_Mybase*)this))->CompareAndGetDelta((const ::FUN_00b42980 &)(_Right)));
     }
 };
 
@@ -802,7 +808,7 @@ template <class _Ty, class _Ax = allocator<_Ty> > class vector : public _Vector_
     }
     ~vector()
     {
-        _Tidy();
+        reinterpret_cast<::Vector_b17f50 *>(this)->FUN_00b17f50();
     }
     iterator begin()
     {
@@ -1177,7 +1183,6 @@ struct MatchPoint
     float x;
     float y;
     float z;
-    float FUN_00b04d40(const MatchPoint& other) const;
 };
 
 struct MatchNode
@@ -1231,7 +1236,7 @@ void Matcher::FUN_00b41110(stl::vector<MatchNode*> nodes)
         {
             if (!used2[idx])
             {
-                float d = (*i)->GetPosition().FUN_00b04d40((*j2)->GetPosition());
+                float d = reinterpret_cast<::V3cdd0 *>((void *)&((*i)->GetPosition()))->FUN_00b04d40((const ::V3cdd0 *)&((*j2)->GetPosition()));
                 if (d < limit && d < best4)
                 {
                     best4 = d;
@@ -1244,8 +1249,8 @@ void Matcher::FUN_00b41110(stl::vector<MatchNode*> nodes)
         if (pair5.second)
         {
             hole4();
-            used2[bestIdx_2] = true;
-            m_pairs.push_back(pair5);
+            reinterpret_cast<::S_00b41ae0_Bits *>((void *)&(const ::stl::_Vb_reference<unsigned int, int, ::stl::vector<bool, ::stl::allocator<bool>>> &)(used2[bestIdx_2]))->SetBit(true);
+            reinterpret_cast<::V8 *>(&(m_pairs))->FUN_00b417b0((const ::E8 &)(pair5));
         }
     }
 }
@@ -1290,7 +1295,7 @@ template <class T> struct VbAlloc
     {}
     void deallocate(pointer p, size_type)
     {
-        ::operator delete(p);
+        ::FUN_00401030 delete(p);
     }
 };
 
@@ -1351,7 +1356,7 @@ struct VbWords : VbVal<unsigned int, VbAlloc<unsigned int> >
     }
     ~VbWords()
     {
-        FUN_00b17f50();
+        reinterpret_cast<::Vector_b17f50 *>(this)->FUN_00b17f50();
     }
 };
 
@@ -1413,7 +1418,6 @@ struct CItQ_aceeb0
     {
         return _Myaux == r._Myaux;
     }
-    CItQ_aceeb0& FUN_00b42ce0(int _Off);
     int operator-(const CItQ_aceeb0& _Right) const
     {
         if (!(_Has() && _Same(_Right)))
@@ -1429,7 +1433,7 @@ struct ItQ_aceeb0 : CItQ_aceeb0
     {}
     ItQ_aceeb0& operator+=(int _Off)
     {
-        FUN_00b42ce0(_Off);
+        reinterpret_cast<::VecIter8StandIn *>(this)->FUN_00b42ce0(_Off);
         return *this;
     }
     ItQ_aceeb0 operator+(int _Off) const
@@ -1460,7 +1464,6 @@ struct VecQ_aceeb0
     {
         return ItQ_aceeb0(_Myfirst, this);
     }
-    void FUN_00b42180(CItQ_aceeb0 _Where, unsigned int _Count, const ElQ_aceeb0& _Val);
     ItQ_aceeb0 end()
     {
         return ItQ_aceeb0(_Mylast, this);
@@ -1472,6 +1475,17 @@ struct VecQ_aceeb0
     }
     ItQ_aceeb0 FUN_00b41b50(CItQ_aceeb0 _Where, const ElQ_aceeb0& _Val);
 };
+// @fnv 0x00b417b0
+void V8::FUN_00b417b0(const E8& v)
+{
+    if (size() < capacity())
+        last = _Ufill(last, 1, v);
+    else
+    {
+        reinterpret_cast<::VecQ_aceeb0 *>(this)->FUN_00b41b50((*(::CItQ_aceeb0 *)&(const ::CIt8 &)(end())), (const ::ElQ_aceeb0 &)(v));
+        Pad();
+    }
+}
 inline CItQ_aceeb0::CItQ_aceeb0(ElQ_aceeb0* _Ptr, const VecQ_aceeb0* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
@@ -1479,14 +1493,6 @@ inline CItQ_aceeb0::CItQ_aceeb0(ElQ_aceeb0* _Ptr, const VecQ_aceeb0* _Pvector) :
     _Myaux = _Pvector->_Myownedaux;
     _Myptr = _Ptr;
 }
-// @fnv 0x00b41b50
-ItQ_aceeb0 VecQ_aceeb0::FUN_00b41b50(CItQ_aceeb0 _Where, const ElQ_aceeb0& _Val)
-{
-    unsigned int _Off = size() == 0 ? 0 : _Where - begin();
-    FUN_00b42180(_Where, 1, _Val);
-    return begin() + _Off;
-}
-
 void __cdecl InvalidParameterNoInfoX41D40();
 struct ContainerBaseAuxX41D40
 {
@@ -1575,14 +1581,13 @@ inline Base::Base(Alloc)
 
 struct FUN_00b42030 : Base
 {
-    void FUN_00b32600(unsigned int count, const E& val);
     FUN_00b42030(unsigned int count, const E& val);
 };
 
 // @fnv 0x00b42030
 FUN_00b42030::FUN_00b42030(unsigned int count, const E& val) : Base()
 {
-    FUN_00b32600(count, val);
+    reinterpret_cast<::IntVector *>(this)->FUN_00b32600(count, (const int &)(val));
 }
 
 struct input_iterator_tagS
@@ -1941,7 +1946,7 @@ inline void* FUN_00b42df0(unsigned _Count, void*)
         _Count = 0;
     else if ((unsigned(-1) / _Count) < sizeof(FUN_00b42980))
         throw AllocationError(0);
-    return ::operator new(_Count * sizeof(FUN_00b42980));
+    return ::FUN_00401000(_Count * sizeof(FUN_00b42980));
 }
 struct RangeTag
 {
@@ -1965,9 +1970,7 @@ template <class I> inline I checked_base(I& _It)
     return checked_base2(_It, _Base_tag);
 }
 // VC-style vector insertion, with scalar record destruction and exception rollback.
-void __cdecl FUN_00401030(void*);
 FUN_00b42980* __cdecl FUN_00b431e0(const FUN_00b42980*, const FUN_00b42980*, FUN_00b42980*, void*);
-void __cdecl FUN_00b42f40(FUN_00b42980*, unsigned, const FUN_00b42980*, void*, ValueTag, RangeTag);
 FUN_00b42980* __cdecl FUN_00b43010(const FUN_00b42980*, const FUN_00b42980*, FUN_00b42980*, void*);
 
 template <class T, class U> inline ValueTag value_tag(const T&, const U&)
@@ -1990,7 +1993,7 @@ template <class I, class A> inline I unchecked_move(I _First, I _Last, I _Dest, 
 }
 template <class I, class A> inline void unchecked_fill(I _First, unsigned _Count, const FUN_00b42980& _Val, A& _Al)
 {
-    FUN_00b42f40(_First, _Count, &_Val, &_Al, value_tag(_First, _First), RangeTag());
+    ::FUN_00b42f40((::S_00b42f40_Er *)(_First), _Count, (::S_00b42f40_Er *)(&_Val));
 }
 
 struct RecordAllocator
@@ -2127,6 +2130,13 @@ struct RecordVector
     }
     void FUN_00b42180(void* iteratorState, FUN_00b42980* _Where, unsigned _Count, const FUN_00b42980& _Val);
 };
+// @fnv 0x00b41b50
+ItQ_aceeb0 VecQ_aceeb0::FUN_00b41b50(CItQ_aceeb0 _Where, const ElQ_aceeb0& _Val)
+{
+    unsigned int _Off = size() == 0 ? 0 : _Where - begin();
+    reinterpret_cast<::RecordVector *>(this)->FUN_00b42180((*(void * *)&(const ::CItQ_aceeb0 &)(_Where)), (::FUN_00b42980 *)(1), (unsigned int)&(_Val), *(const ::FUN_00b42980 *)nullptr);
+    return begin() + _Off;
+}
 // @fnv 0x00b42180
 void RecordVector::FUN_00b42180(void* iteratorState, FUN_00b42980* _Where, unsigned _Count, const FUN_00b42980& _Val)
 {
@@ -2134,7 +2144,7 @@ void RecordVector::FUN_00b42180(void* iteratorState, FUN_00b42980* _Where, unsig
     if (_Count == 0)
         ;
     else if (max_size() - size() < _Count)
-        FUN_00b0fb80();
+        ::xlenb0f::BxVecBase::FUN_00b0fb80();
     else if (_Capacity < size() + _Count)
     {
         _Capacity = max_size() - _Capacity / 2 < _Capacity ? 0 : _Capacity + _Capacity / 2;
@@ -2186,13 +2196,12 @@ void RecordVector::FUN_00b42180(void* iteratorState, FUN_00b42980* _Where, unsig
         FUN_00b42980 _Tmp = _Val;
         FUN_00b42980* _Oldend = _Mylast;
         _Mylast = move_tail(_Oldend - _Count, _Oldend, _Mylast);
-        FUN_00b42da0(_Where, _Oldend - _Count, _Oldend);
+        ::fnv_00b42da0::FUN_00b42da0((::fnv_00b42da0::EUMB *)(_Where), (::fnv_00b42da0::EUMB *)(::FUN_00b42980 *)(_Oldend - _Count), (::fnv_00b42da0::EUMB *)(_Oldend));
         fill_outer(_Where, _Where + _Count, _Tmp);
     }
 }
 
 extern char str_010a5950[];
-extern int DAT_010173dc;
 
 namespace std {
 template <class T> struct char_traits
@@ -2208,7 +2217,7 @@ template <class E, class Tr = char_traits<E>, class A = allocator<E> > class bas
     basic_string(const char* p);
     ~basic_string()
     {
-        _Tidy(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     basic_string(const basic_string& r);
 
@@ -2430,7 +2439,6 @@ void operator delete(void*) throw();
 void* operator new(unsigned int);
 inline void operator delete(void*, void*) throw()
 {}
-void* __cdecl FUN_0044d670(unsigned int count, void* hint);
 struct VecAux
 {
     const void* container;
@@ -2461,11 +2469,11 @@ template <class T> struct VecAlloc
     {}
     T* allocate(unsigned int count)
     {
-        return (T*)FUN_0044d670(count, (T*)0);
+        return (T*)((void *)(::FUN_0044d670(count)));
     }
     void deallocate(T* ptr, unsigned int)
     {
-        ::operator delete(ptr);
+        ::FUN_00401030 delete(ptr);
     }
 };
 template <class T> struct VecContainerAlloc : VecContainerBase
@@ -2551,7 +2559,7 @@ inline bool VecValue<Elem>::ReserveEntries(unsigned int count)
 // @fnv 0x00b416d0
 FUN_00b416d0::FUN_00b416d0() : VecValue<Elem>()
 {
-    ReserveEntries(0);
+    reinterpret_cast<::FnvCamera *>(this)->ReserveEntries(0);
 }
 
 namespace fnv_00b42da0 {
@@ -3071,7 +3079,7 @@ template <class T> struct VecAlloc
     T* allocate(unsigned int);
     void deallocate(T* _Ptr, unsigned int)
     {
-        ::operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
 };
 struct VecAux
@@ -3282,7 +3290,7 @@ struct FnvVec : VecValue
     }
     ~FnvVec()
     {
-        _Tidy();
+        reinterpret_cast<::Vector_b17f50 *>(this)->FUN_00b17f50();
     }
 };
 void VecInvalidRange();
@@ -3301,7 +3309,6 @@ inline FnvVec::ConstIterator::ConstIterator(float* _Ptr, const FnvVec* _Pvector)
 }
 struct CameraVectorOps
 {
-    void Prep(FnvVec);
     FnvVec Fetch();
     FnvVec FUN_00b40b30(FnvVec);
 };
@@ -3309,8 +3316,8 @@ struct CameraVectorOps
 FnvVec CameraVectorOps::FUN_00b40b30(FnvVec v)
 {
     FnvVec tmp;
-    Prep(v);
-    tmp = Fetch();
+    reinterpret_cast<::Matcher *>(this)->FUN_00b41110((*(::stl::vector< ::MatchNode *, ::stl::allocator< ::MatchNode *>> *)&(const ::fnv_00b40b30::FnvVec &)(v)));
+    reinterpret_cast<::VectorStorage *>((void *)&(const ::fnv_00b40b30::FnvVec &)(tmp))->FUN_00b36330((const ::VectorStorage &)((const ::fnv_00b40b30::FnvVec &)(Fetch())));
     return tmp;
 }
 }  // namespace fnv_00b40b30
@@ -3341,7 +3348,7 @@ template <class T> inline T* AllocateWords_Z(unsigned int _Count, T*)
         _Count = 0;
     else if (0xffffffffu / _Count < sizeof(T))
         throw AllocationFailure_Z(0);
-    return (T*)::operator new(_Count * sizeof(T));
+    return (T*)::FUN_00401000(_Count * sizeof(T));
 }
 template <class T> struct VecAlloc_Z
 {
@@ -3362,7 +3369,7 @@ template <class T> struct VecAlloc_Z
     }
     void deallocate(T* _Ptr, unsigned int)
     {
-        ::operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
 };
 struct VecAux_Z
@@ -3769,7 +3776,7 @@ inline void BitVectorOps_Z::Trim(unsigned int _Size)
 FUN_00b418b0::FUN_00b418b0(unsigned int n, bool val)
     : VecContainerAlloc_Z<bool>(VecAlloc_Z<bool>()), size(0), vec(Nw(n), (unsigned int)(val ? -1 : 0))
 {
-    Trim(n);
+    reinterpret_cast<::BitTrim *>(this)->FUN_00b41db0(n);
 }
 
 struct P133Pair;
@@ -3801,7 +3808,6 @@ struct P133Camera
     int unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
     unsigned char kind;
     int unk44, unk48;
-    P133Camera* CloneCamera();
     P133Point const& GetPos() const
     {
         return position;
@@ -3810,8 +3816,6 @@ struct P133Camera
     {
         return kind / 2;
     }
-    P133Point FUN_00b40430();
-    void FUN_00b404c0(P133Point const&, bool);
     void SetPos(P133Point const& p)
     {
         position = p;
@@ -3823,7 +3827,6 @@ struct FUN_00b3f100
     FUN_00b3f100();
     ~FUN_00b3f100()
     {}
-    float FUN_00b3f130(float, float);
 };
 struct P133Frame
 {
@@ -3845,10 +3848,8 @@ struct P133ConstIter : IteratorBaseAuxB42
     void FUN_00b42980(P133Pair*, P133Pairs const*);
     P133ConstIter(P133Pair* p, P133Pairs const* v)
     {
-        FUN_00b42980(p, v);
+        reinterpret_cast<::FUN_00b42980 *>(this)->Set((unsigned int)(p), (*(const ::FUN_00b42980 *)(v)));
     }
-    P133ConstIter& FUN_00b41d40();
-    bool FUN_00b2ac30(P133ConstIter const&) const;
     P133Pair const& FUN_00b2ab50() const;
     P133Pair const& operator*() const
     {
@@ -3856,7 +3857,7 @@ struct P133ConstIter : IteratorBaseAuxB42
     }
     bool operator!=(P133ConstIter const& rhs) const
     {
-        return !FUN_00b2ac30(rhs);
+        return !reinterpret_cast<::FUN_00b2ac30_t *>((void *)this)->FUN_00b2ac30((::FUN_00b2ac30_t *)&(rhs));
     }
 };
 struct P133Iter : P133ConstIter
@@ -3873,7 +3874,7 @@ struct P133Iter : P133ConstIter
     }
     P133Iter& operator++()
     {
-        FUN_00b41d40();
+        reinterpret_cast<::FUN_00b41d40_It *>(this)->FUN_00b41d40();
         return *this;
     }
 };
@@ -3938,7 +3939,7 @@ struct P133List : stl::_Container_base_aux_alloc_real<stl::allocator<P133Camera*
     bool _Buy(unsigned int);
     ~P133List()
     {
-        FUN_00b17f50();
+        reinterpret_cast<::Vector_b17f50 *>(this)->FUN_00b17f50();
     }
     void _Destroy(P133Camera** a, P133Camera** b)
     {
@@ -4000,16 +4001,16 @@ P133List P133Owner::FUN_00b40c80()
     P133List output9;
     for (P133Pairs::iterator iter = pairs.begin(); iter != pairs.end_iter(); ++iter)
     {
-        if (probability < DAT_011f8f04.FUN_00b3f130(0.0f, 1.0f))
+        if (probability < reinterpret_cast<::FUN_00b3f130_shell *>(&(DAT_011f8f04))->FUN_00b3f130(0.0f, 1.0f))
         {
-            P133Camera* camera = iter->first->CloneCamera();
+            P133Camera* camera = ((::P133Camera *)&(reinterpret_cast<::FUN_00b403a0_t *>((iter->first))->CloneCamera()));
             P133Point position3 = (iter->first->GetPos() + iter->second->GetPos()) * 0.5f;
             P133Frame* frameTmp = &scene->frames[iter->first->GetKindHalf()];
             float offset = (frameTmp->height - 0.5) * (scale * frameTmp->scale * 0.5);
             position3[2] += offset;
             camera->SetPos(position3);
-            camera->FUN_00b404c0((iter->first->FUN_00b40430() + iter->second->FUN_00b40430()) * 0.5f, false);
-            output9.FUN_00b15390(camera);
+            reinterpret_cast<::FUN_00b404c0_cls *>((camera))->FUN_00b404c0((const ::FUN_00b28440_Class *)&(const ::P133Point &)(((*(::P133Point *)(reinterpret_cast<::FUN_00b40430_cls *>((iter->first))->FUN_00b40430({}))) + (*(::P133Point *)(reinterpret_cast<::FUN_00b40430_cls *>((iter->second))->FUN_00b40430({})))) * 0.5f), false);
+            reinterpret_cast<::IndexSet *>(&(output9))->FUN_00b15390((const unsigned int &)(camera));
         }
     }
     return output9;

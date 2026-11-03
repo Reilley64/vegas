@@ -7,6 +7,22 @@
 // to their real unit once identified.
 // src/havok/physics/utilities/constraint/bilateral/hkpconstraintutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/constraint/bilateral/hkpconstraintutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_005616d0_Owner.h"
+#include "fnv/decl/FUN_00561800_Class.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00ca8800_Class.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00cd5880_cls.h"
+#include "fnv/decl/FUN_00cf3ea0.h"
+#include "fnv/decl/FUN_00d4f2a0.h"
+#include "fnv/decl/FUN_00d52fc0.h"
+#include "fnv/decl/S_00cd4b60.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/hkPragdollLimitsData.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00e5a000.h"
+#include "fnv/symbols_01268000.h"
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
@@ -19,6 +35,7 @@ typedef union __declspec(intrin_type) __declspec(align(16)) __m128
     unsigned short m128_u16[8];
     unsigned int m128_u32[4];
 } __m128;
+#include "fnv/symbols_simd.h"
 struct hkMemoryAllocator
 {
     virtual ~hkMemoryAllocator();
@@ -66,8 +83,6 @@ struct hkRefObj
     void* m_vtbl;
     unsigned short m_usMemSizeAndFlags;
     unsigned short m_sReferenceCount;
-    void FUN_00c90510();
-    void FUN_00c905b0();
 };
 struct CloneDataBase : hkRefObj
 {
@@ -80,13 +95,10 @@ struct CloneDataA : CloneDataBase
     Block5 unk80;
     Block5b unk94;
     Block5 unka8;
-    CloneDataA* FUN_00d4f2a0();
-    void FUN_00d4f270(hkBool flag);
 };
 struct CloneDataB : CloneDataBase
 {
     Block5 unk80;
-    CloneDataB* FUN_00d52fc0();
 };
 struct SourceDataHeader
 {
@@ -130,7 +142,6 @@ struct Instance : hkRefObj
     void* unk14;
     void* unk18;
     unsigned char unk1c;
-    Instance* FUN_00cf3ea0(void* entityA, void* entityB, CloneDataBase* data, int priority);
 };
 inline void* hkAlloc(int size)
 {
@@ -138,7 +149,6 @@ inline void* hkAlloc(int size)
     p->m_usMemSizeAndFlags = (unsigned short)size;
     return p;
 }
-Instance* __cdecl CloneInstanceFromSource(Instance* src);
 class FnvSink
 {
   public:
@@ -147,13 +157,9 @@ class FnvSink
     virtual void Slot2() throw();
     virtual void Write(int level, unsigned int hash, const char* msg, const char* file, int line) throw();
 };
-extern FnvSink* DAT_01268360;
 class MsgWriter
 {
   public:
-    void Init(char* buf, unsigned int cap) throw();
-    void Append(const char* s) throw();
-    void Finish() throw();
     unsigned int unk00;
     unsigned int unk04;
     unsigned int unk08;
@@ -185,7 +191,6 @@ class FnvHolder
     char unk00[0x0c];
     FnvInner* m_0c;
 };
-int FUN_00e5ad40(FnvHolder* a0, __m128* a1, __m128* a2);
 struct Ent
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
@@ -205,9 +210,6 @@ struct Ent
     int unk190, unk194, unk198, unk19c, unk1a0, unk1a4, unk1a8, unk1ac;
     __m128 unk1b0;
     __m128 unk1c0;
-    void FUN_00ca8800(__m128* v);
-    void OnTrigger(int arg);
-    void FUN_00561800(void* p);
 };
 struct FnvHolder2 : FnvHolder
 {
@@ -316,8 +318,6 @@ class hkMatrix3
   public:
     __forceinline hkMatrix3()
     {}
-    void transpose();
-    void SetFromRotation(const hkRotation& r);
     __forceinline hkVector4& getColumn(int x)
     {
         return (&m_kColumn0)[x];
@@ -528,8 +528,8 @@ void __cdecl FUN_00e5a800(Instance* constraint)
         hkMatrix3 inertiaLocA;
         bodyA->GetInertiaInvLocal(inertiaLocA);
         hkRotation invRot = transformsAtom->m_kBodyALocalFrame.getRotation();
-        invRot.transpose();
-        inertiaLocA.SetFromRotation(invRot);
+        reinterpret_cast<::S_00cd4b60 *>(&(invRot))->FUN_00cd4b60();
+        reinterpret_cast<::FUN_00cd5880_cls *>(&(inertiaLocA))->FUN_00cd5880((unsigned int)&(invRot));
         invInertiaA = float(inertiaLocA(1, 1) + inertiaLocA(2, 1)) + float(inertiaLocA(1, 2) + inertiaLocA(2, 2));
         if (useRelativeInertia && bodyA->getMassInv() > 1.192092896e-07f)
         {
@@ -542,8 +542,8 @@ void __cdecl FUN_00e5a800(Instance* constraint)
         hkMatrix3 inertiaLocB;
         bodyB->GetInertiaInvLocal(inertiaLocB);
         hkRotation invRot = transformsAtom->m_kBodyBLocalFrame.getRotation();
-        invRot.transpose();
-        inertiaLocB.SetFromRotation(invRot);
+        reinterpret_cast<::S_00cd4b60 *>(&(invRot))->FUN_00cd4b60();
+        reinterpret_cast<::FUN_00cd5880_cls *>(&(inertiaLocB))->FUN_00cd5880((unsigned int)&(invRot));
         invInertiaB = float(inertiaLocB(1, 1) + inertiaLocB(2, 1)) + float(inertiaLocB(1, 2) + inertiaLocB(2, 2));
         if (useRelativeInertia && bodyB->getMassInv() > 1.192092896e-07f)
         {

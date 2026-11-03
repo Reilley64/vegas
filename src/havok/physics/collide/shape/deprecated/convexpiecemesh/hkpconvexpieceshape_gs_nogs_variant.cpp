@@ -5,7 +5,17 @@
 
 // src/havok/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpieceshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpieceshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern int DAT_010c6fb0;
+#include <new>
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/MoppFindAllVM.h"
+#include "fnv/decl/MoppFindAllVirtualMachine.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_010c6000.h"
+#include "fnv/symbols_01268000.h"
 extern int DAT_010ece2c;
 extern int DAT_010ece08;
 struct FUN_00e607c0
@@ -53,8 +63,6 @@ struct FUN_00e60690_owner
     int* unk10;
     void DispatchToInner(int index, int value);
 };
-extern int DAT_010c6fb0;
-extern int DAT_0102e388;
 struct AudioAllocator
 {
     virtual void v00();
@@ -85,7 +93,7 @@ struct FUN_00e60c30_cls
 };
 
 #include <xmmintrin.h>
-extern float DAT_0104e148;
+#include "fnv/symbols_simd.h"
 
 struct __declspec(align(16)) FNV_V4
 {
@@ -161,7 +169,7 @@ void FNV_Owner::FUN_00e608d0(FNV_V4* pA, FNV_V4* pOut)
     ShapeBuffer338 big;
     FNV_V4 buf;
     float dot;
-    float best = DAT_0104e148;
+    float best = ::DAT_0104e148;
     int idx = 0;
     for (int i = 0; i < n28; i++)
     {
@@ -183,8 +191,6 @@ void FNV_Owner::FUN_00e608d0(FNV_V4* pA, FNV_V4* pOut)
 }
 
 extern "C" void __debugbreak();
-extern const unsigned int DAT_01017d10[4];
-void __cdecl ResizeAudioStream(void* alloc, void* array, int elemSize);
 
 inline void* operator new(unsigned int, void* p)
 {
@@ -230,7 +236,7 @@ class S5fb50_Vector4
     }
     inline void setAbs4(const S5fb50_Vector4& v)
     {
-        m_vComponents = _mm_and_ps(v.m_vComponents, *(const __m128*)&DAT_01017d10);
+        m_vComponents = _mm_and_ps(v.m_vComponents, *(const __m128*)&(*reinterpret_cast<const unsigned int (*)[4]>((void *)&::DAT_01017d10)));
     }
     inline void setMin4(const S5fb50_Vector4& a, const S5fb50_Vector4& b)
     {
@@ -298,7 +304,7 @@ struct S5fb50_Array
     {
         if (m_iElementCount == getCapacity())
         {
-            ResizeAudioStream(router->m_pAllocator, this, sizeof(S5fb50_PrimitiveInfo));
+            ::ResizeAudioStream((::AudioAllocator *)(router->m_pAllocator), (::AudioStream *)(void *)(this), sizeof(S5fb50_PrimitiveInfo));
         }
         for (int i = 0; i < 1; i++)
             ::new (m_data + m_iElementCount + i) S5fb50_PrimitiveInfo;
@@ -324,9 +330,6 @@ struct S5fb50_ErrStream
     void* unk00;
     void* unk04;
     void* unk08;
-    void FUN_00cb1600(void* buf, int bufSize);
-    void FUN_00cc01c0(const char* s);
-    void FUN_00cc00e0();
 };
 struct S5fb50_Error
 {
@@ -335,7 +338,6 @@ struct S5fb50_Error
     virtual void v08();
     virtual int message(int id, unsigned int msgId, const char* desc, const char* file, int line);
 };
-extern S5fb50_Error* DAT_01268360;
 
 class S5fb50_MoppVm
 {
@@ -359,8 +361,6 @@ class S5fb50_SphereQueryObject : public S5fb50_MoppVm
 {
   public:
     S5fb50_Sphere m_pSphere;
-    void FUN_00e66600(const S5fb50_Query* query, const unsigned char* PC);
-    void FUN_00e66290(const S5fb50_Query* query, const unsigned char* PC);
     __forceinline int checkCollision(const S5fb50_Aabb& aabb, const S5fb50_Query* query, const unsigned char* PC)
     {
         S5fb50_Vector4 center;
@@ -383,8 +383,8 @@ class S5fb50_SphereQueryObject : public S5fb50_MoppVm
         farthest.setAdd4(center, extent);
         if (farthest.lengthSquared3() < radius2)
         {
-            FUN_00e66600(query, PC);
-            FUN_00e66290(query, PC);
+            reinterpret_cast<::MoppFindAllVirtualMachine *>(this)->FUN_00e66600((const ::MoppState *)(query), PC);
+            reinterpret_cast<::MoppFindAllVM *>(this)->FUN_00e66290((const ::MoppQueryState *)(query), PC);
             return 1;
         }
         return 2;
@@ -775,17 +775,17 @@ void S5fb50_FloatAabbVm::FUN_00e5fb50(const S5fb50_Query* query, const unsigned 
             {
                 char buf[512];
                 S5fb50_ErrStream ostr;
-                ostr.FUN_00cb1600(buf, sizeof(buf));
-                ostr.FUN_00cc01c0(
+                new ((void *)&(ostr)) ::FUN_00cb1600(buf, sizeof(buf));
+                reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0(
                     "Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
-                if (DAT_01268360->message(
+                if ((*reinterpret_cast<::S5fb50_Error * *>(&::DAT_01268360))->message(
                         3, 0x1298fedd, buf,
                         "d:\\build\\20091222_000100_AiAnBeClDePh\\Source\\Physics/Internal/Collide/Mopp/Machine/hkpMoppUsingFloatAabbVirtualMachine.inl",
                         301))
                 {
                     __debugbreak();
                 }
-                ostr.FUN_00cc00e0();
+                reinterpret_cast<struct ::FUN_00cc00e0 *>(&(ostr))->FUN_00cc00e0::~FUN_00cc00e0();
             } while (0);
             continue;
         }

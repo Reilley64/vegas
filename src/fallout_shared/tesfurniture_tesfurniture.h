@@ -8,6 +8,10 @@
 #ifndef FNV_TESFURNITURE_UNIT_H
 #define FNV_TESFURNITURE_UNIT_H
 
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/symbols_00478000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00c54000.h"
 #include "tesfurniture_layout_support.h"
 #include "tesfurniture_TESForm.h"
 #include "tesfurniture_TESFullName.h"
@@ -16,8 +20,6 @@
 #include "tesfurniture_NiPoint3.h"
 class NiAVObject;
 class NiNode;
-NiAVObject* FUN_00c54400(NiNode*);
-int Warning(const char*, ...);
 class TESWaterForm;
 class BGSTalkingActivator;
 // PC column reads at 01189fa0/4/8 have the corresponding 16-byte row stride.
@@ -42,7 +44,6 @@ extern SettingT<GameSettingCollection>* g_ppFurnitureMarkerOffsetSettings[][4];
 // precedent in tessound.cpp.
 struct TESFormInitFlag : public TESForm
 {
-    bool IsFormInitialized() const;
 };
 
 // TESObject/TESBoundObject/TESBoundAnimObject chain flattened to its 48-byte
@@ -88,7 +89,6 @@ class TESModelTextureSwap : public TESModel
     TESModelTextureSwap();
     virtual ~TESModelTextureSwap();
     unsigned char layoutPadding18[0x8];
-    bool ParseTextureSwapData(void*, unsigned int, unsigned int);
 };
 FNV_STATIC_ASSERT(sizeof(TESModelTextureSwap) == 0x20);
 class CollisionComponent;
@@ -99,7 +99,6 @@ class BGSDestructibleObjectForm : public BaseFormComponent
     ~BGSDestructibleObjectForm();
     CollisionComponent* pData;  // +0x4
     void InitItem(TESForm* form);
-    static void LoadDestructibleData(BGSDestructibleObjectForm*, TESFile*);
 };
 FNV_STATIC_ASSERT(sizeof(BGSDestructibleObjectForm) == 0x8);
 FNV_STATIC_ASSERT(offsetof(BGSDestructibleObjectForm, pData) == 0x4);

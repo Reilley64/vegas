@@ -1,8 +1,8 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-void* __cdecl FUN_00aa1070(unsigned int size);
 
+#include "fnv/symbols_00aa1000.h"
 class FUN_00a8f010_cls
 {
   public:

@@ -5,6 +5,14 @@
 
 // src/havok/animation/animation/motion/default/hkadefaultanimatedreferenceframe.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/motion/default/hkadefaultanimatedreferenceframe.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FloatArgStream.h"
+#include "fnv/decl/Quat74.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01268000.h"
 struct FUN_00e41080_Obj
 {
     int unk00;
@@ -177,25 +185,21 @@ class hkOstream
     void* m_pStreamWriter;
 
   public:
-    void FUN_00cb1600(void* buf, int bufLen) throw();
-    void FUN_00cc00e0() throw();
-    hkOstream& FUN_00cc01c0(const char* str) throw();
-    hkOstream& WriteFloat(float val) throw();
     hkOstream(void* buf, int len) throw()
     {
-        FUN_00cb1600(buf, len);
+        new ((void *)this) ::FUN_00cb1600(buf, len);
     }
     ~hkOstream() throw()
     {
-        FUN_00cc00e0();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(this)->FUN_00cc00e0::~FUN_00cc00e0();
     }
     hkOstream& operator<<(const char* str) throw()
     {
-        return FUN_00cc01c0(str);
+        return (*(::hkOstream *)(reinterpret_cast<::SinkOwner *>(this)->FUN_00cc01c0(str)));
     }
     hkOstream& operator<<(float val) throw()
     {
-        return WriteFloat(val);
+        return (*(::hkOstream *)(reinterpret_cast<::FloatArgStream *>(this)->WriteFloat(val)));
     }
 };
 class hkError
@@ -206,10 +210,8 @@ class hkError
     virtual void unk2() throw();
     virtual void message(int type, unsigned int id, const char* desc, const char* file, int line) throw();
 };
-extern hkError* DAT_01268360;
-extern int DAT_01268700;
 extern int DAT_010e57a4;
-extern const char DAT_010ebe28[], DAT_010ebdec[], DAT_010ebdcc[], DAT_01012630[], DAT_010ebde0[], DAT_010ebd70[];
+extern const char DAT_010ebe28[], DAT_010ebdec[], DAT_010ebdcc[], DAT_010ebde0[], DAT_010ebd70[];
 extern "C" void __cdecl FUN_00e41220(const Config* cfg, const void* v1, void* outV, const void* v2) throw();
 extern "C" void __cdecl FUN_00e41bf0(void* outTransform, float time, const hkTransform* transforms, int numTransforms,
                                      float duration) throw();
@@ -347,24 +349,20 @@ FUN_00e41830::FUN_00e41830(const Config& config) throw() : m_ppVirtualMethodTabl
             {
                 char buf[512];
                 hkOstream os(buf, 512);
-                os.FUN_00cc01c0(DAT_010ebe28);
-                DAT_01268360->message(1, 0xabba9245, (const char*)buf, DAT_010ebdec, 88);
+                reinterpret_cast<::SinkOwner *>(&(os))->FUN_00cc01c0(DAT_010ebe28);
+                (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabba9245, (const char*)buf, DAT_010ebdec, 88);
             }
             {
                 char buf[512];
                 hkOstream os(buf, 512);
-                os.FUN_00cc01c0(DAT_010ebdcc)
-                    .WriteFloat(dotForward)
-                    .FUN_00cc01c0(DAT_01012630)
-                    .WriteFloat(dotSide)
-                    .FUN_00cc01c0(DAT_010ebde0);
-                DAT_01268360->message(1, 0xabba9245, (const char*)buf, DAT_010ebdec, 89);
+                reinterpret_cast<::SinkOwner *>(&((*(::hkOstream *)(reinterpret_cast<::FloatArgStream *>(&((*(::hkOstream *)(reinterpret_cast<::SinkOwner *>(&((*(::hkOstream *)(reinterpret_cast<::FloatArgStream *>(&((*(::hkOstream *)(reinterpret_cast<::SinkOwner *>(&(os))->FUN_00cc01c0(DAT_010ebdcc)))))->WriteFloat(dotForward)))))->FUN_00cc01c0(DAT_01012630)))))->WriteFloat(dotSide)))))->FUN_00cc01c0(DAT_010ebde0);
+                (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabba9245, (const char*)buf, DAT_010ebdec, 89);
             }
             {
                 char buf[512];
                 hkOstream os(buf, 512);
-                os.FUN_00cc01c0(DAT_010ebd70);
-                DAT_01268360->message(1, 0xabba9245, (const char*)buf, DAT_010ebdec, 90);
+                reinterpret_cast<::SinkOwner *>(&(os))->FUN_00cc01c0(DAT_010ebd70);
+                (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabba9245, (const char*)buf, DAT_010ebdec, 90);
             }
         }
     }
@@ -387,7 +385,7 @@ FUN_00e41830::FUN_00e41830(const Config& config) throw() : m_ppVirtualMethodTabl
         hkTransform curTransform;
         FUN_00e41bf0(&curTransform, time, config.m_kTransforms, config.m_numQsTransforms, config.m_fAnimationDuration);
         QuatHelper qh;
-        qh.m_rotation.FUN_00c74ac0(&curTransform.m_rotation, &startTransform.m_rotation);
+        reinterpret_cast<::Quat74 *>(&(qh.m_rotation))->FUN_00c74ac0((*(const ::Quat74 *)(&curTransform.m_rotation)), (*(const ::Quat74 *)(&startTransform.m_rotation)));
         qh.m_vTranslation.v = _mm_sub_ps(curTransform.m_vTranslation.v, startTransform.m_vTranslation.v);
         qh.m_vScale.v = unitScale;
         hkVector4 sampleOut;

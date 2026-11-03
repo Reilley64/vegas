@@ -2,15 +2,15 @@
 #ifndef IMAGESPACESHADERPARAM_DECLS_H
 #define IMAGESPACESHADERPARAM_DECLS_H
 
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
 #include "layout_support.h"
 #include "NiRefObject.h"
 #include "MemoryManager.h"
 extern "C" void* __cdecl fnv_zlib_memcpy(void*, const void*, unsigned int);
-extern unsigned char DAT_011f9440;
 class GraphicsRenderer;
 class NiD3DShaderConstantMap;
-extern GraphicsRenderer* g_pkRenderer;
-extern MemoryManager g_memoryManager;
 
 template <> class NiPointer<NiD3DShaderConstantMap>
 {
@@ -36,7 +36,7 @@ struct ImageSpaceShaderParamFloat
     float value;
     static void* operator new[](unsigned int size)
     {
-        return g_memoryManager.Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }
 };
 #endif

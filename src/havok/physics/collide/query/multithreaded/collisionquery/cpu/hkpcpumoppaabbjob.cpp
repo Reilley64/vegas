@@ -2,6 +2,10 @@
 // src/havok/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpumoppaabbjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpumoppaabbjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/GridCell.h"
+#include "fnv/decl/LunaOwner.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_01268000.h"
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 #include <xmmintrin.h>
@@ -11,7 +15,6 @@ inline void* __cdecl operator new(unsigned int, void* where) throw()
     return where;
 }
 
-extern DWORD DAT_0126835c;
 
 struct S_00df7010_TimerCommand
 {
@@ -75,7 +78,6 @@ struct S_00df7010_Router
 };
 
 S_00df7010_Router* FUN_00c85750() throw();
-void ResizeAudioStream(S_00df7010_Allocator& alloc, void* array, int sizeElem) throw();
 
 struct S_00df7010_HitArray
 {
@@ -106,7 +108,7 @@ struct S_00df7010_HitArray
     void _pushBack(S_00df7010_Allocator& alloc, const unsigned int& e)
     {
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(alloc, this, sizeof(unsigned int));
+            ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(unsigned int));
         new (m_data + m_iElementCount) unsigned int(e);
         m_iElementCount++;
     }
@@ -200,12 +202,10 @@ struct S_00df7010_VirtualMachine
     int unk34;
     int unk38;
     int unk3C;
-    void FUN_00dd1da0(const S_00df7010_MoppCode* code, const S_00df7010_Aabb& aabb, S_00df7010_HitArray* hits) throw();
 };
 
 struct S_00df7010_Output
 {
-    void ProcessCallback(const S_00df7010_Input* a, const S_00df7010_Input* b, int c) throw();
 };
 
 // Runs MOPP AABB queries against the input code data, appending a sentinel to each result buffer, then forwards the input to the output.
@@ -226,10 +226,10 @@ void __cdecl ExecuteMoppAabbQuery(S_00df7010_Output* out, const S_00df7010_Input
         S_00df7010_Query& query = input->m_queries[i];
         S_00df7010_HitArray hits(query.m_pResultBuffer, 0, 0x1000);
         S_00df7010_VirtualMachine vm;
-        vm.FUN_00dd1da0(code, query.m_kBounds, &hits);
+        reinterpret_cast<::GridCell *>(&(vm))->FUN_00dd1da0((::GridSource *)(code), (::GridBounds *)&(query.m_kBounds), (int)(&hits));
         hits.AddBack(0xffffffff);
     }
 
     S_00df7010_MonitorStream::GetMonitorStream().timer("Et");
-    out->ProcessCallback(input, input, 0);
+    reinterpret_cast<::LunaOwner *>((out))->ProcessCallback((int)(input), (int)(input), 0);
 }

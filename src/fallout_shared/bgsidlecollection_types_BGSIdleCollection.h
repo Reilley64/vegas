@@ -20,7 +20,6 @@ class BGSIdleCollection : public BaseFormComponent
     void Load(TESFile* file);
     void InitializeComponent();
     void InitItem(TESForm* form);
-    void RemoveIdleEntry(unsigned int index);
     int GetPickType();
     // BGSIdleCollection
     // void __cdecl BGSIdleCollection::*()

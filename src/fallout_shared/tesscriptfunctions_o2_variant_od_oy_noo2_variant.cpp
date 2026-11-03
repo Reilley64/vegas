@@ -5,6 +5,56 @@
 
 // src/fallout_shared/tesscriptfunctions_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/tesscriptfunctions.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <new>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSFaceGenNiNode.h"
+#include "fnv/decl/F005fd430.h"
+#include "fnv/decl/FUN_00414220_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a39f0_shell.h"
+#include "fnv/decl/FUN_004a3c20.h"
+#include "fnv/decl/FUN_004a3eb0_shell.h"
+#include "fnv/decl/FUN_00572db0_shell.h"
+#include "fnv/decl/FUN_0059ce80_shell.h"
+#include "fnv/decl/FUN_005df510_shell.h"
+#include "fnv/decl/FUN_005df560_S.h"
+#include "fnv/decl/FlagSet.h"
+#include "fnv/decl/HandlerView.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/Ref39.h"
+#include "fnv/decl/S00561240_Vector.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_004a3a20__FUN_004a3a20_shell.h"
+#include "fnv/decl/fnv_004a3da0__FUN_004a3da0_shell.h"
+#include "fnv/decl/fnv_00567490__ScaleReference.h"
+#include "fnv/decl/fnv_00572d30__FUN_00572d30_shell.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_008bcd20__FUN_008bcd20_shell.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/n451__Grid.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_0045c000.h"
+#include "fnv/symbols_00461000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_0059c000.h"
+#include "fnv/symbols_0059d000.h"
+#include "fnv/symbols_0059e000.h"
+#include "fnv/symbols_0059f000.h"
+#include "fnv/symbols_005a0000.h"
+#include "fnv/symbols_005a1000.h"
+#include "fnv/symbols_005a2000.h"
+#include "fnv/symbols_005a3000.h"
+#include "fnv/symbols_005a4000.h"
+#include "fnv/symbols_005ac000.h"
+#include "fnv/symbols_005ca000.h"
+#include "fnv/symbols_005df000.h"
+#include "fnv/symbols_0082f000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011de000.h"
 #include "tesscriptfunctions_layout_support.h"
 class ScriptParameter;
 class ScriptHeaderData;
@@ -80,9 +130,6 @@ enum OBJECT_ACTION
 class TESObjectREFR : public TESForm
 {
   public:
-    void SetScale(float);
-    bool GetAction(OBJECT_ACTION);
-    void CloseReference(OBJECT_ACTION);
 };
 class BGSMusicType;
 class FalloutAudioMedia
@@ -90,7 +137,6 @@ class FalloutAudioMedia
   public:
     static void PlayMedia(BGSMusicType*);
     static void EndMediaUpdate();
-    static void Update();
 };
 class ScriptLocals;
 class TESQuest
@@ -105,7 +151,6 @@ class Script
   public:
     static bool OnHitWithFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                   ScriptLocals*, double&, unsigned int&);
-    ScriptHeaderData* GetHeader();
     static bool StopQuestFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                   ScriptLocals*, double&, unsigned int&);
     static bool ScriptEffectUpdateFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*,
@@ -116,38 +161,26 @@ class Script
                                      ScriptLocals*, double&, unsigned int&);
     static bool GetCurrentTimeFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                        ScriptLocals*, double&, unsigned int&);
-    static bool SetScriptCondition(TESObjectREFR*, void*, void*, double&);
     static bool GetSecondsPassedFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                          ScriptLocals*, double&, unsigned int&);
-    static bool EvaluateScriptResult(TESObjectREFR*, void*, void*, double&);
     static bool GetDead(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*,
                         double&, unsigned int&);
-    static bool ResetScript(TESObjectREFR*, void*, void*, double&);
     static bool GetItemCount(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                              ScriptLocals*, double&, unsigned int&);
-    static bool HandleScriptLocals(TESObjectREFR*, void*, void*, double&);
     static bool GetSitting(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*,
                            double&, unsigned int&);
-    static bool ReadScriptArguments(TESObjectREFR*, void*, void*, double&);
     static bool GetTalkedToPC(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                               ScriptLocals*, double&, unsigned int&);
-    static bool FindScriptVariable(TESObjectREFR*, void*, void*, double&);
     static bool GetIsRaining(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                              ScriptLocals*, double&, unsigned int&);
-    static bool EvaluateWeatherCondition(TESObjectREFR*, void*, void*, double&);
     static bool GetInCell(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*,
                           double&, unsigned int&);
-    static bool EvaluateCellMembership(TESObjectREFR*, void*, void*, double&);
     static bool GetInFaction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                              ScriptLocals*, double&, unsigned int&);
-    static bool GetScriptOperand(TESObjectREFR*, void*, void*, double&);
     static bool GetRandomPercent(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                  ScriptLocals*, double&, unsigned int&);
-    static bool EvaluateRandomPercentage(TESObjectREFR*, void*, void*, double&);
     static bool GetLevel(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*,
                          double&, unsigned int&);
-    static bool EvaluateReferenceLevel(TESObjectREFR*, void*, void*, double&);
-    static void CheckFlagFunction(unsigned int, TESObjectREFR*, TESForm*, ScriptLocals*, double&);
     static bool OnAddFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                               ScriptLocals*, double&, unsigned int&);
     static bool OnSellFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
@@ -200,52 +233,23 @@ class Script
     // Insert these declaration-only additions in the existing Script public section.
     static bool IsIdlePlayingFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                       ScriptLocals*, double&, unsigned int&);
-    static bool CheckIdlePlaying(TESObjectREFR*, void*, void*, double&);
     static bool IsTalkingFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                   ScriptLocals*, double&, unsigned int&);
-    static bool CheckTalkingState(TESObjectREFR*, void*, void*, double&);
     static bool GetDayOfWeekFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                      ScriptLocals*, double&, unsigned int&);
-    static bool ParseScript(TESObjectREFR*, void*, void*, double&);
     static bool IsPCSleepingFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                      ScriptLocals*, double&, unsigned int&);
-    static bool IsPlayerAsleep(TESObjectREFR*, void*, void*, double&);
     static bool GetDestroyedFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                      ScriptLocals*, double&, unsigned int&);
-    static bool HandleScriptOperation(TESObjectREFR*, void*, void*, double&);
     static bool HasBeenEatenFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                      ScriptLocals*, double&, unsigned int&);
-    static bool GetScriptObject(TESObjectREFR*, void*, void*, double&);
     static bool GetUnconsciousFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                        ScriptLocals*, double&, unsigned int&);
-    static bool ResolveScriptValue(TESObjectREFR*, void*, void*, double&);
     static bool IsInCombatFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                    ScriptLocals*, double&, unsigned int&);
-    static bool GetScriptFunctionValue(TESObjectREFR*, void*, void*, double&);
     static bool IsInInteriorFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                      ScriptLocals*, double&, unsigned int&);
-    static bool EvaluateReferenceQuery(TESObjectREFR*, void*, void*, double&);
 
-    static bool EvaluateReferenceCondition(TESObjectREFR*, void*, void*, double&);
-    static bool CheckActorCondition(TESObjectREFR*, void*, void*, double&);
-    static bool EvaluateReferenceFlag(TESObjectREFR*, void*, void*, double&);
-    static bool EvaluateFirstReferenceOperand(TESObjectREFR*, void*, void*, double&);
-    static bool EvaluateSecondReferenceOperand(TESObjectREFR*, void*, void*, double&);
-    static bool ReadScriptOperand(TESObjectREFR*, void*, void*, double&);
-    static bool EvaluateReferenceScriptValue(TESObjectREFR*, void*, void*, double&);
-    static bool ResolveScriptReference(TESObjectREFR*, void*, void*, double&);
-    static bool CheckScriptCondition(TESObjectREFR*, void*, void*, double&);
-    static bool EvaluateSeventhReferenceOperand(TESObjectREFR*, void*, void*, double&);
-    static bool GetScriptParameter(TESObjectREFR*, void*, void*, double&);
-    static bool HandleScriptExpression(TESObjectREFR*, void*, void*, double&);
-    static bool GetScriptResult(TESObjectREFR*, void*, void*, double&);
-    static bool AdvanceScriptInstruction(TESObjectREFR*, void*, void*, double&);
-    static bool HandleScriptReference(TESObjectREFR*, void*, void*, double&);
-    static bool ExecuteScriptCommand(TESObjectREFR*, void*, void*, double&);
-    static bool EvaluateReferencePredicate(TESObjectREFR*, void*, void*, double&);
-    static bool HandleScriptEvent(TESObjectREFR*, void*, void*, double&);
-    static bool WriteScriptValue(TESObjectREFR*, void*, void*, double&);
-    static bool EvaluateReferenceProperty(TESObjectREFR*, void*, void*, double&);
     static void SetReferenceScale(TESObjectREFR*, float);
 
     static bool GetQuestCompleted(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
@@ -295,8 +299,6 @@ class Script
     static bool EvaluateScriptCallback(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                        ScriptLocals*, double&, unsigned int&);
 };
-extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*,
-                        ScriptLocals*, ...);
 #include "tesscriptfunctions_TESActorBaseData.h"
 #include "tesscriptfunctions_SCRIPT_HEADER.h"
 struct _FightReaction
@@ -314,14 +316,11 @@ typedef _FightReaction::Type FIGHT_REACTION;
 class TESFaction
 {
   public:
-    void SetFactionFightReaction(TESFaction*, FIGHT_REACTION);
 };
 class BGSListForm : public TESForm
 {
   public:
-    BSSimpleList<TESForm*>* GetList();
 };
-void* _NiMalloc(unsigned int);
 struct Map;
 struct NiProperty
 {
@@ -344,11 +343,10 @@ struct StrArr
         m_usSize = 0;
         m_usESize = 0;
         if (m_usMaxSize > 0)
-            m_pBase = (Map**)_NiMalloc(sizeof(Map*) * m_usMaxSize);
+            m_pBase = (Map**)::FUN_00aa1070(sizeof(Map*) * m_usMaxSize);
         else
             m_pBase = 0;
     }
-    void SetAt(unsigned int, Map*&);
 };
 struct StrArrP : StrArr
 {
@@ -377,6 +375,7 @@ typedef union __declspec(intrin_type) __declspec(align(16)) __m128
     unsigned __int16 m128_u16[8];
     unsigned __int32 m128_u32[4];
 } __m128;
+#include "fnv/symbols_simd.h"
 extern "C" __m128 _mm_load_ss(float const* _A);
 
 struct FUN_005dbf20
@@ -399,7 +398,6 @@ struct NiPoint3
     void FUN_005df510(unsigned int, NiPoint3*);
     NiPoint3* FUN_004b4500(void*, NiPoint3*, NiPoint3*);
 };
-float FUN_0040ebd0(float, float);
 struct __declspec(align(16)) ObjA
 {
     __m128 rayFrom;
@@ -433,53 +431,40 @@ struct __declspec(align(16)) ObjA
     int m_a4;
     int m_a8;
     int m_ac;
-    void FUN_004a3c20();
     void FUN_004a3f70(int);
-    void FUN_004a3da0(NiPoint3*);
-    void FUN_004a3eb0(NiPoint3*);
     void FUN_005dbe60(NiPoint3*);
 };
 struct S36
 {
     float matrix[9];
-    void GetRowFloats(unsigned int, float*, float*, float*);
 };
 struct MatrixS
 {
     float matrix[9];
-    void FUN_006815c0();
     void FUN_005df510(unsigned int, NiPoint3*);
     NiPoint3 FUN_004b4500(NiPoint3*);
 };
 struct AnimS
 {
-    void* GetAnimationData();
 };
 struct NodeS
 {
-    S36* FUN_00461130();
 };
-unsigned int FUN_0045c670();
-NiPoint3* __fastcall FUN_005df5b0(void*);
 struct StrSrc
 {
     void* FUN_00931ed0(int*);
 };
 struct Src2
 {
-    unsigned int FUN_004a3a20();
 };
 struct StrObj
 {
     int m_00;
     StrObj(int);
-    void FUN_004a39f0(int);
-    void FUN_0059ce80(unsigned int);
 };
 struct TESX
 {
     int FUN_00458420(ObjA*);
-    bool ContainsPoint(NiPoint3*);
 };
 struct HfS
 {
@@ -755,12 +740,9 @@ struct ObjX
     virtual void w105();
     virtual void w106();
     virtual void Gate41c(float);
-    void FUN_008bcd20();
-    void FUN_00568bd0(float);
 };
 struct DataHandlerS
 {
-    ObjX* PlaceObjectReference(void*, NiPoint3*, void*, void*, void*);
 };
 struct PlayerS
 {
@@ -890,9 +872,6 @@ struct PlayerS
     virtual void v7b();
     virtual void v7c();
     virtual NiPoint3* GetPos1f4();
-    void* FUN_00430830();
-    void* GetParentCell();
-    void* FUN_00575d70(int, int, int);
 };
 struct FormS
 {
@@ -955,10 +934,6 @@ struct FormS
     virtual void v38();
     virtual bool GateE4();
 };
-HfS* GetHealthForm(void*);
-extern PlayerS* g_thePlayer;
-extern TESX* g_TES;
-extern DataHandlerS* g_dataHandler;
 
 // @fnv 0x005df040
 bool FUN_005df040(const ScriptParameter* a0, const char* a1, TESObjectREFR* a2, TESObjectREFR* a3, Script* a4,
@@ -969,64 +944,64 @@ bool FUN_005df040(const ScriptParameter* a0, const char* a1, TESObjectREFR* a2, 
     int i1 = 1;
     float f10 = 0.0f;
     float f14 = 0.0f;
-    if (!ExtractArgs(a0, a1, &a7, a2, a3, a4, a5, &form, &i1, &f10, &f14))
+    if (!::FUN_005accb0((const ::ExtractParameter *)(a0), a1, &a7, a2, a3, (::ExtractScript *)(a4), a5, &form, &i1, &f10, &f14))
         return false;
     f14 = FUN_0040ebd0(f14, 50000.0f);
     ObjA objA;
-    objA.FUN_004a3c20();
+    new ((void *)&(objA)) ::FUN_004a3c20();
     NiPoint3 pt(0.0f, f14, 0.0f);
-    NiPoint3 pos = *g_thePlayer->GetPos1f4();
-    void* tmpEC = ((AnimS*)FUN_0045c670())->GetAnimationData();
-    S36 s36 = *((NodeS*)tmpEC)->FUN_00461130();
+    NiPoint3 pos = *(*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))->GetPos1f4();
+    void* tmpEC = ((void *)(reinterpret_cast<::BSFaceGenNiNode *>((((AnimS*)FUN_0045c670())))->GetAnimationData()));
+    S36 s36 = *((::S36 *)(::FUN_00461130((int)(((NodeS*)tmpEC)))));
     MatrixS p134;
-    p134.FUN_006815c0();
+    new ((void *)&(p134)) ::Vec3();
     NiPoint3 p140;
-    s36.GetRowFloats(0, &p140.y, &p140.z, &p140.x);
-    p134.FUN_005df510(0, &p140);
-    s36.GetRowFloats(1, &p140.y, &p140.z, &p140.x);
-    p134.FUN_005df510(1, &p140);
-    s36.GetRowFloats(2, &p140.y, &p140.z, &p140.x);
-    p134.FUN_005df510(2, &p140);
-    pos = *FUN_005df5b0(g_thePlayer);
+    reinterpret_cast<::FUN_005df560_S *>(&(s36))->GetRowFloats(0, &p140.y, &p140.z, &p140.x);
+    reinterpret_cast<::FUN_005df510_shell *>(&(p134))->FUN_005df510(0, (float *)(::NiPoint3 *)(&p140));
+    reinterpret_cast<::FUN_005df560_S *>(&(s36))->GetRowFloats(1, &p140.y, &p140.z, &p140.x);
+    reinterpret_cast<::FUN_005df510_shell *>(&(p134))->FUN_005df510(1, (float *)(::NiPoint3 *)(&p140));
+    reinterpret_cast<::FUN_005df560_S *>(&(s36))->GetRowFloats(2, &p140.y, &p140.z, &p140.x);
+    reinterpret_cast<::FUN_005df510_shell *>(&(p134))->FUN_005df510(2, (float *)(::NiPoint3 *)(&p140));
+    pos = *((::NiPoint3 *)(::FUN_005df5b0((char *)((*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))))));
     pt = p134.FUN_004b4500(&pt) + pos;
     int out15c;
-    ((StrSrc*)g_thePlayer)->FUN_00931ed0(&out15c);
+    ((StrSrc*)(*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer)))->FUN_00931ed0(&out15c);
     StrObj strObj(0);
-    strObj.FUN_004a39f0(6);
+    reinterpret_cast<::FUN_004a39f0_shell *>(&(strObj))->FUN_004a39f0(6);
     int out164;
-    strObj.FUN_0059ce80(((Src2*)((StrSrc*)g_thePlayer)->FUN_00931ed0(&out164))->FUN_004a3a20());
+    reinterpret_cast<::FUN_0059ce80_shell *>(&(strObj))->FUN_0059ce80(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((((Src2*)((StrSrc*)(*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer)))->FUN_00931ed0(&out164))))->FUN_004a3a20());
     objA.FUN_004a3f70(strObj.m_00);
-    objA.FUN_004a3da0(&pos);
-    objA.FUN_004a3eb0(&pt);
-    int res168 = g_TES->FUN_00458420(&objA);
+    reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(objA))->FUN_004a3da0(&pos);
+    reinterpret_cast<::FUN_004a3eb0_shell *>(&(objA))->FUN_004a3eb0(&pt);
+    int res168 = (*reinterpret_cast<::TESX * *>(&::g_TES))->FUN_00458420(&objA);
     (void)res168;
     NiPoint3 pt174;
     objA.FUN_005dbe60(&pt174);
-    NiPoint3 pos180 = *g_thePlayer->GetPos1f4();
+    NiPoint3 pos180 = *(*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))->GetPos1f4();
     if (((FormS*)form)->GateE4())
     {
         void* form2 = form;
-        HfS* hf = GetHealthForm(form2);
-        if (g_TES->ContainsPoint(&pt174))
+        HfS* hf = ((::HfS *)(::GetHealthForm((::TESForm *)(form2))));
+        if (reinterpret_cast<::n451::Grid *>(((*reinterpret_cast<::TESX * *>(&::g_TES))))->ContainsPoint((*(const ::n451::Pt *)(&pt174))))
         {
             pos180 = pt174;
             result = 1.0;
             ObjX* objX =
-                g_dataHandler->PlaceObjectReference(form2, &pos180, g_thePlayer->FUN_00430830(),
-                                                    g_thePlayer->GetParentCell(), g_thePlayer->FUN_00575d70(0, 0, 0));
+                ((::ObjX *)(reinterpret_cast<::HandlerView *>(((*reinterpret_cast<::DataHandlerS * *>(&::g_dataHandler))))->PlaceObjectReference((::TESBoundObject *)(form2), &pos180, (::NiPoint3 *)(void *)(((void *)(reinterpret_cast<::TESRecipe *>(((*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))))->GetData()))),
+                                                    (::TESObjectCELL *)(void *)(((void *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))))->GetTarget()))), (::TESWorldSpace *)(void *)(((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(((*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))))->FUN_00575d70()))), {}, {}, {})));
             if (!objX)
                 return false;
             if (objX->Gate100())
             {
                 ObjX* objX2 = objX;
                 objX2->Gate41c(0.0f);
-                objX2->FUN_008bcd20();
+                reinterpret_cast<::fnv_008bcd20::FUN_008bcd20_shell *>((objX2))->FUN_008bcd20();
             }
             if (hf)
             {
                 float fnc = (float)hf->Get10();
                 fnc *= 100.0;
-                objX->FUN_00568bd0(fnc);
+                reinterpret_cast<::Ref39 *>((objX))->FUN_00568bd0(fnc);
             }
         }
     }
@@ -1041,22 +1016,12 @@ class S005dbe60_Vector
 };
 
 class S005dbe60_Target;
-void __cdecl FUN_00458620(S005dbe60_Target* pTarget, const S005dbe60_Vector* pValue);
 
 class S005dbe60_Object
 {
   public:
-    void FUN_005dbec0(S005dbe60_Vector* pOut) const;
     void FUN_005dbe60(S005dbe60_Target* pTarget) const;
 };
-
-// @fnv 0x005dbe60
-void S005dbe60_Object::FUN_005dbe60(S005dbe60_Target* pTarget) const
-{
-    S005dbe60_Vector kValue;
-    FUN_005dbec0(&kValue);
-    FUN_00458620(pTarget, &kValue);
-}
 
 class S005dbec0_SimdReal
 {
@@ -1091,6 +1056,13 @@ class S005dbec0_Object
     __m128 unk30;
     float m_fScale;
 };
+// @fnv 0x005dbe60
+void S005dbe60_Object::FUN_005dbe60(S005dbe60_Target* pTarget) const
+{
+    S005dbe60_Vector kValue;
+    reinterpret_cast<::S005dbec0_Object *>((void *)this)->FUN_005dbec0((::S005dbec0_Result *)(::S005dbe60_Vector *)(&kValue));
+    ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(pTarget)), (*(const ::hkVector4 *)(&kValue)));
+}
 
 // @fnv 0x005dbec0
 void S005dbec0_Object::FUN_005dbec0(S005dbec0_Result* pOut) const
@@ -1120,10 +1092,8 @@ extern "C"
 }
 }
 
-extern const N::__m128 DAT_010ec7f0;
 struct BlendSource
 {
-    void FUN_00561240(N::__m128* pOut);
 };
 struct BlendTarget
 {
@@ -1134,8 +1104,8 @@ struct BlendTarget
 void BlendTarget::FUN_005dbf70(const N::__m128* pA, const N::__m128* pB, BlendSource* pSource)
 {
     N::__m128 pos;
-    pSource->FUN_00561240(&pos);
-    N::__m128 delta = N::_mm_sub_ps(DAT_010ec7f0, pos);
+    reinterpret_cast<::S00561240_Vector *>((pSource))->FUN_00561240((::S00561240_Vector *)(::N::__m128 *)(&pos));
+    N::__m128 delta = N::_mm_sub_ps((*reinterpret_cast<const ::N::__m128 *>((void *)&::DAT_010ec7f0)), pos);
     m_uiFilterValue = N::_mm_add_ps(N::_mm_mul_ps(delta, *pA), N::_mm_mul_ps(pos, *pB));
 }
 
@@ -1161,64 +1131,64 @@ bool FUN_005df040(const ScriptParameter* a0, const char* a1, TESObjectREFR* a2, 
     int i1 = 1;
     float f10 = 0.0f;
     float f14 = 0.0f;
-    if (!ExtractArgs(a0, a1, &a7, a2, a3, a4, a5, &form, &i1, &f10, &f14))
+    if (!::FUN_005accb0((const ::ExtractParameter *)(a0), a1, &a7, a2, a3, (::ExtractScript *)(a4), a5, &form, &i1, &f10, &f14))
         return false;
     f14 = FUN_0040ebd0(f14, 50000.0f);
     ObjA objA;
-    objA.FUN_004a3c20();
+    new ((void *)&(objA)) ::FUN_004a3c20();
     NiPoint3 pt(0.0f, f14, 0.0f);
-    NiPoint3 pos = *g_thePlayer->GetPos1f4();
-    void* tmpEC = ((AnimS*)FUN_0045c670())->GetAnimationData();
-    S36 s36 = *((NodeS*)tmpEC)->FUN_00461130();
+    NiPoint3 pos = *(*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))->GetPos1f4();
+    void* tmpEC = ((void *)(reinterpret_cast<::BSFaceGenNiNode *>((((AnimS*)FUN_0045c670())))->GetAnimationData()));
+    S36 s36 = *((::S36 *)(::FUN_00461130((int)(((NodeS*)tmpEC)))));
     MatrixS p134;
-    p134.FUN_006815c0();
+    new ((void *)&(p134)) ::Vec3();
     NiPoint3 p140;
-    s36.GetRowFloats(0, &p140.y, &p140.z, &p140.x);
-    p134.FUN_005df510(0, &p140);
-    s36.GetRowFloats(1, &p140.y, &p140.z, &p140.x);
-    p134.FUN_005df510(1, &p140);
-    s36.GetRowFloats(2, &p140.y, &p140.z, &p140.x);
-    p134.FUN_005df510(2, &p140);
-    pos = *FUN_005df5b0(g_thePlayer);
+    reinterpret_cast<::FUN_005df560_S *>(&(s36))->GetRowFloats(0, &p140.y, &p140.z, &p140.x);
+    reinterpret_cast<::FUN_005df510_shell *>(&(p134))->FUN_005df510(0, (float *)(::NiPoint3 *)(&p140));
+    reinterpret_cast<::FUN_005df560_S *>(&(s36))->GetRowFloats(1, &p140.y, &p140.z, &p140.x);
+    reinterpret_cast<::FUN_005df510_shell *>(&(p134))->FUN_005df510(1, (float *)(::NiPoint3 *)(&p140));
+    reinterpret_cast<::FUN_005df560_S *>(&(s36))->GetRowFloats(2, &p140.y, &p140.z, &p140.x);
+    reinterpret_cast<::FUN_005df510_shell *>(&(p134))->FUN_005df510(2, (float *)(::NiPoint3 *)(&p140));
+    pos = *((::NiPoint3 *)(::FUN_005df5b0((char *)((*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))))));
     pt = p134.FUN_004b4500(&pt) + pos;
     int out15c;
-    ((StrSrc*)g_thePlayer)->FUN_00931ed0(&out15c);
+    ((StrSrc*)(*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer)))->FUN_00931ed0(&out15c);
     StrObj strObj(0);
-    strObj.FUN_004a39f0(6);
+    reinterpret_cast<::FUN_004a39f0_shell *>(&(strObj))->FUN_004a39f0(6);
     int out164;
-    strObj.FUN_0059ce80(((Src2*)((StrSrc*)g_thePlayer)->FUN_00931ed0(&out164))->FUN_004a3a20());
+    reinterpret_cast<::FUN_0059ce80_shell *>(&(strObj))->FUN_0059ce80(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((((Src2*)((StrSrc*)(*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer)))->FUN_00931ed0(&out164))))->FUN_004a3a20());
     objA.FUN_004a3f70(strObj.m_00);
-    objA.FUN_004a3da0(&pos);
-    objA.FUN_004a3eb0(&pt);
-    int res168 = g_TES->FUN_00458420(&objA);
+    reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(objA))->FUN_004a3da0(&pos);
+    reinterpret_cast<::FUN_004a3eb0_shell *>(&(objA))->FUN_004a3eb0(&pt);
+    int res168 = (*reinterpret_cast<::TESX * *>(&::g_TES))->FUN_00458420(&objA);
     (void)res168;
     NiPoint3 pt174;
-    objA.FUN_005dbe60(&pt174);
-    NiPoint3 pos180 = *g_thePlayer->GetPos1f4();
+    reinterpret_cast<::S005dbe60_Object *>(&(objA))->FUN_005dbe60((::S005dbe60_Target *)(::NiPoint3 *)(&pt174));
+    NiPoint3 pos180 = *(*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))->GetPos1f4();
     if (((FormS*)form)->GateE4())
     {
         void* form2 = form;
-        HfS* hf = GetHealthForm(form2);
-        if (g_TES->ContainsPoint(&pt174))
+        HfS* hf = ((::HfS *)(::GetHealthForm((::TESForm *)(form2))));
+        if (reinterpret_cast<::n451::Grid *>(((*reinterpret_cast<::TESX * *>(&::g_TES))))->ContainsPoint((*(const ::n451::Pt *)(&pt174))))
         {
             pos180 = pt174;
             result = 1.0;
             ObjX* objX =
-                g_dataHandler->PlaceObjectReference(form2, &pos180, g_thePlayer->FUN_00430830(),
-                                                    g_thePlayer->GetParentCell(), g_thePlayer->FUN_00575d70(0, 0, 0));
+                ((::ObjX *)(reinterpret_cast<::HandlerView *>(((*reinterpret_cast<::DataHandlerS * *>(&::g_dataHandler))))->PlaceObjectReference((::TESBoundObject *)(form2), &pos180, (::NiPoint3 *)(void *)(((void *)(reinterpret_cast<::TESRecipe *>(((*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))))->GetData()))),
+                                                    (::TESObjectCELL *)(void *)(((void *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))))->GetTarget()))), (::TESWorldSpace *)(void *)(((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(((*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))))->FUN_00575d70()))), {}, {}, {})));
             if (!objX)
                 return false;
             if (objX->Gate100())
             {
                 ObjX* objX2 = objX;
                 objX2->Gate41c(0.0f);
-                objX2->FUN_008bcd20();
+                reinterpret_cast<::fnv_008bcd20::FUN_008bcd20_shell *>((objX2))->FUN_008bcd20();
             }
             if (hf)
             {
                 float fnc = (float)hf->Get10();
                 fnc *= 100.0;
-                objX->FUN_00568bd0(fnc);
+                reinterpret_cast<::Ref39 *>((objX))->FUN_00568bd0(fnc);
             }
         }
     }

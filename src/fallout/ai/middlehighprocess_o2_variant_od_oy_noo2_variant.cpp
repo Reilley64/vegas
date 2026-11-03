@@ -5,8 +5,65 @@
 
 // src/fallout/ai/middlehighprocess_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/ai/middlehighprocess.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include "fnv/decl/ActorStandIn008a.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/CacObj.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00437bd0_stub.h"
+#include "fnv/decl/FUN_00437bf0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_0049bb50_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_005094b0_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00608d80_shell.h"
+#include "fnv/decl/FUN_00629670_Class.h"
+#include "fnv/decl/FUN_006296b0_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_0087f3d0_shell.h"
+#include "fnv/decl/FUN_00881650_shell.h"
+#include "fnv/decl/FUN_00893530_shell.h"
+#include "fnv/decl/FUN_008ace90_shell.h"
+#include "fnv/decl/FUN_008b3b90_shell.h"
+#include "fnv/decl/FUN_008bc790_shell.h"
+#include "fnv/decl/FUN_00931fb0_shell.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FleeActorEntry.h"
+#include "fnv/decl/HostActor.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S005620e0_Object.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/T_.h"
+#include "fnv/decl/TeleportableReference.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_0080fb00__FUN_0080fb00_Class.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_009334b0__FUN_009334b0_shell.h"
+#include "fnv/decl/s008e2680__Owner.h"
+#include "fnv/decl/s56ae10__Owner.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_004ae000.h"
+#include "fnv/symbols_00574000.h"
+#include "fnv/symbols_0092a000.h"
 #include "middlehighprocess_decls.h"
-bool IsValidSandboxProcedure(int aiProcedure);
 
 #include <xmmintrin.h>
 // Moves the owner's rigid body to the given NiPoint3 (converted to an hkVector4).
@@ -17,16 +74,13 @@ struct __declspec(align(16)) hkVector4L
     __m128 m_vComponents;
     hkVector4L();
 };
-hkVector4L& FUN_004a3e00(hkVector4L& out, const NiPoint3& in);
 
 struct hkpRigidBodyL
 {
-    void FUN_00cac960(const hkVector4L& position);
 };
 
 struct RigidBodyOwnerL
 {
-    hkpRigidBodyL* FUN_004ae750();
     void FUN_00926980(const NiPoint3& pos);
 };
 
@@ -34,9 +88,9 @@ struct RigidBodyOwnerL
 void RigidBodyOwnerL::FUN_00926980(const NiPoint3& pos)
 {
     hkVector4L kPos;
-    hkpRigidBodyL* pBody = FUN_004ae750();
+    hkpRigidBodyL* pBody = ((::hkpRigidBodyL *)(::FUN_004ae750((void *)this)));
     if (pBody)
-        pBody->FUN_00cac960(FUN_004a3e00(kPos, pos));
+        reinterpret_cast<::CacObj *>((pBody))->FUN_00cac960((const ::CacV4 *)&((*(::hkVector4L *)&(::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(kPos), (const ::fnv_004a3e00::NiPoint3 &)(pos))))));
 }
 
 class NiPoint3L
@@ -62,7 +116,6 @@ class BGSLoadFormBufferL
     virtual void vb004();
     virtual void vb008();
     virtual ActorL* GetForm();
-    void ReadData(void* pvData, unsigned int uiSize);
 };
 
 class ActorL
@@ -202,24 +255,16 @@ class ActorL
     virtual void va20c();
     virtual void va210();
     virtual int GetSitSleepState();
-    void ResetState(int iFlag);
 };
 
 class ProcessFlagsL
 {
   public:
-    void ClearFlags(unsigned int uiMask);
-    void SetFlags(unsigned int uiMask, bool bSet);
 };
 
 class CharControllerL
 {
   public:
-    void SetEnabled(bool bEnabled);
-    void SetVelocity(NiPoint3L* pkVelocity);
-    void SetPosition(NiPoint3L* pkPosition);
-    void SetWorld(void* pvWorld);
-    void SetRotation(hkQuaternionL* pkRotation);
 
     unsigned int unk00;
     unsigned int unk04;
@@ -560,12 +605,10 @@ class CharControllerL
     float m_fG;
 };
 
-void* __cdecl FUN_00458b20();
 
 class CellRefL
 {
   public:
-    void* GetContainingCell();
 };
 
 class PlayerL
@@ -840,49 +883,49 @@ void PlayerL::FUN_00928a50(BGSLoadFormBufferL* pkBuffer)
     if (pkController)
     {
         bool bEnabled = false;
-        pkBuffer->ReadData(&bEnabled, 1);
-        pkController->SetEnabled(bEnabled);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pkBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&bEnabled), 1);
+        reinterpret_cast<::s008e2680::Owner *>((pkController))->FUN_008e2680(bEnabled);
         bool bOnGround = false;
-        pkBuffer->ReadData(&bOnGround, 1);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pkBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&bOnGround), 1);
         pkController->m_bOnGround = bOnGround;
         unsigned int uiFlags = 0;
-        pkBuffer->ReadData(&uiFlags, 4);
-        pkController->m_kFlags.ClearFlags((unsigned int)-1);
-        pkController->m_kFlags.SetFlags(uiFlags, true);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pkBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&uiFlags), 4);
+        reinterpret_cast<::FUN_006296b0_Class *>(&(pkController->m_kFlags))->FUN_006296b0((unsigned int)-1);
+        reinterpret_cast<::FUN_00629670_Class *>(&(pkController->m_kFlags))->FUN_00629670(uiFlags, true);
         if (uiFlags & 0x800)
         {
             NiPoint3L kMotionVelocity;
-            pkBuffer->ReadData(&kMotionVelocity, 0xc);
-            pkController->SetVelocity(&kMotionVelocity);
+            reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pkBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&kMotionVelocity), 0xc);
+            reinterpret_cast<::S005620e0_Object *>((pkController))->FUN_005620e0((const ::S005620e0_Source *)(::NiPoint3L *)(&kMotionVelocity));
         }
         if (pkActor && !pkActor->GetSitSleepState())
-            pkActor->ResetState(0);
-        pkBuffer->ReadData(pkController->m_afOrientation, 0x10);
-        pkBuffer->ReadData(pkController->m_afUp, 0x10);
+            reinterpret_cast<::FUN_00931fb0_shell *>((pkActor))->FUN_00931fb0(0);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pkBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(pkController->m_afOrientation), 0x10);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pkBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(pkController->m_afUp), 0x10);
         NiPoint3L kPosition;
-        pkBuffer->ReadData(&kPosition, 0xc);
-        pkController->SetPosition(&kPosition);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pkBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&kPosition), 0xc);
+        reinterpret_cast<::RigidBodyOwnerL *>((pkController))->FUN_00926980((*(const ::NiPoint3 *)(&kPosition)));
         if (pkActor)
         {
-            pkBuffer->ReadData(&pkController->m_fCoefficientA, 4);
-            pkBuffer->ReadData(&pkController->m_fB, 4);
+            reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pkBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&pkController->m_fCoefficientA), 4);
+            reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pkBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&pkController->m_fB), 4);
         }
         else
         {
-            pkBuffer->ReadData(&pkController->m_fD, 4);
+            reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pkBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&pkController->m_fD), 4);
         }
-        pkBuffer->ReadData(&pkController->m_fC, 4);
-        pkBuffer->ReadData(&pkController->m_fE, 4);
-        pkBuffer->ReadData(&pkController->m_fG, 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pkBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&pkController->m_fC), 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pkBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&pkController->m_fE), 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pkBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&pkController->m_fG), 4);
         int iState = pkActor ? pkActor->GetSitSleepState() : 0;
         if (iState == 4 || iState == 9)
         {
-            if (IsInCell(m_iWorldSpace, m_kCell.GetContainingCell()))
-                pkController->m_kFlags.SetFlags(0x8000000, true);
-            pkController->SetEnabled(false);
-            pkController->SetWorld(FUN_00458b20());
+            if (IsInCell(m_iWorldSpace, ((void *)(reinterpret_cast<::FUN_005094b0_shell *>(&(m_kCell))->FUN_005094b0()))))
+                reinterpret_cast<::FUN_00629670_Class *>(&(pkController->m_kFlags))->FUN_00629670(0x8000000, true);
+            reinterpret_cast<::s008e2680::Owner *>((pkController))->FUN_008e2680(false);
+            reinterpret_cast<::fnv_0080fb00::FUN_0080fb00_Class *>((pkController))->FUN_0080fb00((int)(FUN_00458b20()));
             hkQuaternionL kRotationBasis(0.0f, 0.0f, 1.0f, 0.0f);
-            pkController->SetRotation(&kRotationBasis);
+            reinterpret_cast<::T_ *>((pkController))->ForwardToMember((int)(&kRotationBasis));
         }
     }
 }

@@ -7,6 +7,8 @@
 // to their real unit once identified.
 // src/havok/physics/vehicle/tyremarks/hkptyremarksinfo.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/tyremarks/hkptyremarksinfo.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00e39e50_cls.h"
+#include "fnv/decl/hkSampleRingE39F.h"
 #include "havok/hkpTyremarksInfo.h"
 class hkClassE39E;
 int __cdecl FUN_00d06f80(const void* pvChunk, int iNumBytes) throw();
@@ -535,7 +537,7 @@ void InfoS::FUN_00e39fd0(float p1, P2* p2)
         W.x += A.x;
         W.w += A.w;
         Seg seg;
-        seg.FUN_00e39e50();
+        reinterpret_cast<::FUN_00e39e50_cls *>(&(seg))->FUN_00e39e50();
         seg.v0.scaled(left, B.v0);
         seg.v0.add(raised);
         seg.v0.add(A);
@@ -544,6 +546,6 @@ void InfoS::FUN_00e39fd0(float p1, P2* p2)
         seg.v1.y = (W.laneAt(1) + A.laneAt(1));
         seg.v1.z = (W.laneAt(2) + A.laneAt(2));
         seg.v1.w = energy;
-        m_kTyremarksWheels.m_data[i]->FUN_00e39f50(&seg);
+        reinterpret_cast<::hkSampleRingE39F *>((m_kTyremarksWheels.m_data[i]))->FUN_00e39f50((*(const ::hkSampleE39F *)(&seg)));
     }
 }

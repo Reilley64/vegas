@@ -7,6 +7,31 @@
 
 // src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/D762F0Owner.h"
+#include "fnv/decl/ExpandShape.h"
+#include "fnv/decl/FUN_00cd5880_cls.h"
+#include "fnv/decl/FUN_00d74d40_cls.h"
+#include "fnv/decl/FUN_00d74e10_cls.h"
+#include "fnv/decl/FUN_00d75390_cls.h"
+#include "fnv/decl/H77ConvexHull.h"
+#include "fnv/decl/RotationRows.h"
+#include "fnv/decl/S_00cd4c70.h"
+#include "fnv/decl/S_00d752e0_Class.h"
+#include "fnv/decl/fnv_00d75560__FUN_00d75560_cls.h"
+#include "fnv/decl/fnv_00d75600__S_00d75600_Obj.h"
+#include "fnv/decl/fnv_00d76940__FUN_00d76940_cls.h"
+#include "fnv/decl/fnv_00d76ca0__FUN_00d76ca0.h"
+#include "fnv/symbols_00c74000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00ca8000.h"
+#include "fnv/symbols_00ceb000.h"
+#include "fnv/symbols_00ced000.h"
+#include "fnv/symbols_00cf0000.h"
+#include "fnv/symbols_00d5a000.h"
+#include "fnv/symbols_01020000.h"
+#include "fnv/symbols_010cb000.h"
+#include "fnv/symbols_011b1000.h"
+#include "fnv/symbols_01272000.h"
 struct Object
 {
 };
@@ -22,7 +47,6 @@ struct State
     int count;
     int context;
 };
-void FUN_00cebbb0(void* state, float zero, void* receiver);
 int __cdecl ApplyLimitToReceiver(int owner, int context, int count, float limit, Receiver* receiver, float value);
 struct FUN_00cebe80_Struct
 {
@@ -30,8 +54,6 @@ struct FUN_00cebe80_Struct
     float unk04;
     float unk08;
 };
-void __cdecl FUN_00cebe80(FUN_00cebe80_Struct* pThis, float fScale, float* pMatrix);
-void __cdecl AddInertiaTensor(float* param_1, float fScale, float* pMatrix);
 struct FUN_00cec6b0_cls
 {
     unsigned int unk00;
@@ -268,8 +290,6 @@ struct Bounds
 {
     Vector lo, hi;
 };
-extern const Vector DAT_01017d10;
-void FUN_00d5ac50(char*, Matrix*, Vector*, Vector*, Vector*);
 struct Shape
 {
     virtual void v0();
@@ -302,7 +322,6 @@ void FUN_00cebdb0(const MotionLike* source, MotionLike* destination);
 extern "C" __m128 _mm_load_ss(const float*);
 struct Sub
 {
-    void Multiply(const Vector* p);
 };
 struct Owner
 {
@@ -355,7 +374,6 @@ struct S00ceccf0_Out
     S00ceccf0_Vec m_10;
     S00ceccf0_Mat m_20;
 };
-extern const double DAT_010cbf40;
 static __declspec(noinline) void __cdecl FUN_00ceba60(float a, float b, S00ceccf0_Out* out)
 {
     out->m_10.set(_mm_setzero_ps());
@@ -417,7 +435,6 @@ struct Node
     {
         return &shape;
     }
-    void FUN_00ca8920(Mat3* m);
 };
 struct LocalArr
 {
@@ -426,7 +443,6 @@ struct LocalArr
     int m_cap;
     Edge* storage[16];
 };
-void __cdecl ResizeAudioStream(void* heap, void* array, int elemSize);
 __forceinline void releaseArr(LocalArr* a)
 {
     S_00cee1c0_Router* router = FUN_00c85750();
@@ -473,21 +489,10 @@ struct Track
     int sequence;
     int timer;
     int interpolation;
-    void FUN_00d76ca0();
-    void FUN_00d77200(void* state, Probe* probe);
-    int FUN_00d74e10();
-    void FUN_00d762f0();
-    float GetMass();
-    double FUN_00d752e0();
-    __m128* FUN_00d75600();
-    __m128* FUN_00d75560();
-    void FUN_00d77be0(float scale);
-    void FUN_00d76940();
 };
 struct RowMatrix
 {
     __m128 row0, row1, row2;
-    void Multiply(const Vec4* weight);
 };
 struct Receiver2
 {
@@ -500,10 +505,7 @@ struct Receiver2
 };
 struct Status
 {
-    void FUN_00d74d40();
 };
-extern float DAT_011b153c;
-extern double DAT_01020998;
 extern double DAT_010cbf50;
 extern double DAT_010cbf48;
 inline __m128 scalarVector(float x)
@@ -513,7 +515,6 @@ inline __m128 scalarVector(float x)
 }
 extern "C" __m128 _mm_load_ss(const float*);
 extern "C" void _ReadWriteBarrier();
-int __cdecl FUN_00cebbb0(void* state, float value, Receiver2* receiver);
 struct S_00ced310_V
 {
     float x, y, z, w;
@@ -616,7 +617,6 @@ struct __declspec(align(16)) S_00ced090_V4
 struct S_00ced090_Mat
 {
     S_00ced090_V4 r0, r1, r2;
-    void FUN_00cd5880(void* xf);
 };
 struct S_00ced090_Vec
 {
@@ -628,21 +628,18 @@ struct S_00ced090_Inertia
     S_00ced090_V4 r0, r1, r2;
     void FUN_00cd5140(S_00ced090_Mat* m);
 };
-void __cdecl AddInertiaTensor(S_00ced090_Vec* d, float m, S_00ced090_Mat* mat);
-int __cdecl FUN_00ced090(S_00ced090_State* s, S_00ced090_Out* out);
 extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
-extern __declspec(thread) int DAT_012722b4;
 struct S00cf0f40_Guard
 {
     int m_saved;
     S00cf0f40_Guard()
     {
-        m_saved = DAT_012722b4;
-        DAT_012722b4 = 0x10;
+        m_saved = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 0x10;
     }
     ~S00cf0f40_Guard()
     {
-        DAT_012722b4 = m_saved;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_saved;
     }
 };
 struct S00cf0f40_Stream
@@ -826,7 +823,6 @@ inline S_00cee1c0_Heap& S00cf0f40_heap(S_00cee1c0_Router* r)
 {
     return *r->heap;
 }
-void __cdecl FUN_00c908c0(S_00cee1c0_Heap* heap, void* arr, int cap, int elemSize);
 struct S00cf0f40_Arr
 {
     S00cf0f40_Vec* m_data;
@@ -853,7 +849,7 @@ struct S00cf0f40_Arr
         if (cap < n)
         {
             int nc = cap * 2;
-            FUN_00c908c0(&heap, this, n < nc ? nc : n, sizeof(S00cf0f40_Vec));
+            ::FUN_00c908c0((::SpawnedObject *)(::S_00cee1c0_Heap *)(&heap), (::SpawnedArray *)(void *)(this), n < nc ? nc : n, sizeof(S00cf0f40_Vec));
         }
     }
     void SetSizeAndGrow(int n)
@@ -870,9 +866,9 @@ inline void S00cf0f40_Swap4(void* p)
     t = _byteswap_ulong(t);
     memcpy(p, &t, 4);
 }
-unsigned int __cdecl FUN_00cf0f40(S00cf0f40_Owner* owner, S00cf0f40_Arr* arr);
 
 #include <math.h>
+#include "fnv/symbols_simd.h"
 extern "C"
 {
     __m128 _mm_setr_ps(float, float, float, float);
@@ -1054,13 +1050,11 @@ class hkMatrix3
         (*this)(1, 1) = one;
         (*this)(2, 2) = one;
     }
-    void Multiply(hkSimdRealParameter s);
     hkVector4 m_kColumn0, m_kColumn1, m_kColumn2;
 };
 class hkRotation : public hkMatrix3
 {
   public:
-    void FUN_00cb2d90(const hkQuaternion& q);
 };
 class hkTransform
 {
@@ -1073,7 +1067,7 @@ class hkTransform
     }
     __forceinline void SetBodyOrientation(const hkQuaternion& q)
     {
-        m_rotation.FUN_00cb2d90(q);
+        reinterpret_cast<::RotationRows *>(&(m_rotation))->FUN_00cb2d90((void *)&(q));
     }
     __forceinline void setIdentity()
     {
@@ -1139,7 +1133,7 @@ template <typename T> class HavokElementArray
     __forceinline T& _expandOne(S_00cee1c0_Heap& alloc)
     {
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&alloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(T));
         T* t = m_data + m_iElementCount;
         for (int i = 0; i < 1; ++i)
             ::new (t + i) T;
@@ -1177,9 +1171,6 @@ template <typename T, unsigned N> class hkInplaceArray : public hkArray<T>
     T m_kStorage[N];
 };
 
-extern const hkVector4 DAT_01268390;
-float __cdecl ClampedAcos(float);
-int __cdecl FUN_00ced090(const hkArray<MassPropertiesTransform>& elements, hkpMassProperties& result);
 namespace MathUtilities {
 __forceinline hkReal fabs(hkReal r)
 {
@@ -1202,7 +1193,7 @@ __declspec(noinline) int __cdecl FUN_00cef6d0(const hkVector4& startAxis, const 
         if (height > 0.0f)
         {
             axis.normalize3();
-            hkVector4 canonicalZ(DAT_01268390);
+            hkVector4 canonicalZ((*reinterpret_cast<const ::hkVector4 *>(&::DAT_01268390)));
             if (MathUtilities::fabs(axis.dot3(canonicalZ)) < 0.99999f)
             {
                 hkVector4 rotAxis;
@@ -1231,11 +1222,11 @@ __declspec(noinline) int __cdecl FUN_00cef6d0(const hkVector4& startAxis, const 
                 (hkReal)(radius * radius * 0.25 + height / 2.0 * height / 2.0 / 3.0);
             el.m_kProperties.m_kInertiaTensor(1, 1) = el.m_kProperties.m_kInertiaTensor(0, 0);
             el.m_kProperties.m_kInertiaTensor(2, 2) = (hkReal)(radius * radius * 0.5);
-            el.m_kProperties.m_kInertiaTensor.Multiply(massCopy);
+            reinterpret_cast<::S_00cd4c70 *>(&(el.m_kProperties.m_kInertiaTensor))->Multiply((const ::S_V4 &)((const ::VectorComponentValue &)(massCopy)));
             el.m_kProperties.m_kCenterOfMass1.setZero4();
             el.m_kProperties.m_iBufferSize = volume;
             el.m_kProperties.m_fViscosityFriction = massCopy;
-            FUN_00ced090(elements, result);
+            ::FUN_00ced090((::S_00ced090_State *)&(elements), (::S_00ced090_Out *)&(result));
             return 0;
         }
     }

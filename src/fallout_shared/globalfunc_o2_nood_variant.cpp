@@ -3,17 +3,46 @@
 // say /MT /O2 /GS /EHsc /Gy /GF (unit src/fallout_shared/globalfunc.cpp lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton; move the functions to their real
 // unit once identified.
 
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00c86d20_Class.h"
+#include "fnv/decl/FUN_00cbb1b0_Class.h"
+#include "fnv/decl/MyHost.h"
+#include "fnv/decl/TESTexLoader.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/Wrapper86b80.h"
+#include "fnv/decl/fnv_0043b1b0__FUN_0043b1b0_shell.h"
+#include "fnv/decl/fnv_0057bd60__fnv_anon_tesobjectrefr__Dummy.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00448000.h"
+#include "fnv/symbols_004a2000.h"
+#include "fnv/symbols_004b1000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_004b6000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_00537000.h"
+#include "fnv/symbols_00605000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00c68000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101b000.h"
+#include "fnv/symbols_0101f000.h"
+#include "fnv/symbols_011c6000.h"
+#include "fnv/symbols_011d5000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_01202000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01272000.h"
 #include "globalfunc_decls.h"
-bool ConvertLocalizedString(const char* input, char* output, unsigned int capacity);
-bool UpdateObjectVisibility(NiAVObject* object);
-bool RemoveInvalidChildNodes(NiNode* object);
-bool HandleUnparentedObjectNode(NiNode* object);
-void SetObjectFormID(NiAVObject* object, unsigned int referenceID);
-bool IsObjectNetValid(NiObjectNET* object);
-float GetAngleFromVector(const NiPoint3& vector);
-int CountCollisionObjects(NiAVObject* object, bool skipPhantoms, bool skipBlendObjects, bool skipUnknown);
-LANGUAGE GetConfiguredLanguage();
-bool IsSettingEnabled();
 
 class NiRTTI
 {
@@ -21,18 +50,17 @@ class NiRTTI
     const char* name;
     const NiRTTI* parent;
 };
-extern __declspec(thread) int g_tlsCur;
 struct MemoryContextScope
 {
     int previous;
     __forceinline MemoryContextScope(int value)
     {
-        previous = g_tlsCur;
-        g_tlsCur = value;
+        previous = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = value;
     }
     __forceinline ~MemoryContextScope()
     {
-        g_tlsCur = previous;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = previous;
     }
 };
 struct StrArr
@@ -40,16 +68,7 @@ struct StrArr
     void* vtable;
     char** data;
     unsigned short capacity, size, count, growBy;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
-char* __cdecl FUN_00a7d330(const char*);
-char* __cdecl FUN_00a7d550(const char*, float);
-extern const float DAT_01016248;
-extern const float DAT_01017870;
-extern const float DAT_0101b2d0;
-extern const float str_0101ffc0;
-extern const char* DAT_0126812c;
 struct __declspec(align(16)) SpringInfo
 {
     int unk00;
@@ -65,24 +84,22 @@ struct __declspec(align(16)) SpringInfo
 };
 struct MouseSpringDiagnostic
 {
-    void FUN_00c86b80(StrArr*);
-    void FUN_00c86d20(SpringInfo*);
     void FUN_00c873d0(StrArr*);
 };
 static void AppendString(StrArr* strings, char*& value)
 {
     unsigned int index = strings->size;
     if (index >= strings->capacity)
-        strings->SetSize(index + strings->growBy);
-    strings->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->growBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 }
 // @fnv 0x00c873d0
 void MouseSpringDiagnostic::FUN_00c873d0(StrArr* strings)
 {
     MemoryContextScope scope(16);
     char* str;
-    FUN_00c86b80(strings);
-    str = FUN_00a7d330(DAT_0126812c);
+    reinterpret_cast<::Wrapper86b80 *>(this)->FUN_00c86b80((::NiTPrimitiveArray<char *, ::NiTMallocInterface<char *>> *)(strings));
+    str = FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_0126812c)));
     AppendString(strings, str);
     SpringInfo info;
     info.unk00 = 0;
@@ -94,11 +111,11 @@ void MouseSpringDiagnostic::FUN_00c873d0(StrArr* strings)
     info.vel[1] = 0;
     info.vel[2] = 0;
     info.unk2c = 0;
-    info.damping = DAT_01016248;
-    info.elasticity = DAT_01017870;
-    info.maxForce = DAT_0101b2d0;
-    info.objectDamping = str_0101ffc0;
-    FUN_00c86d20(&info);
+    info.damping = ::fnv_00c88020::DAT_01016248;
+    info.elasticity = ::DAT_01017870;
+    info.maxForce = ::DAT_0101b2d0;
+    info.objectDamping = ::g_011cc6cc_arg1;
+    reinterpret_cast<::FUN_00c86d20_Class *>(this)->FUN_00c86d20((::OutputData *)(::SpringInfo *)(&info));
     str = FUN_00a7d550("Damping", info.damping);
     AppendString(strings, str);
     str = FUN_00a7d550("Elasticity", info.elasticity);
@@ -110,19 +127,18 @@ void MouseSpringDiagnostic::FUN_00c873d0(StrArr* strings)
 }
 
 #include <xmmintrin.h>
-extern "C" __declspec(thread) int tls_memContext;
 
 struct MemContextGuard
 {
     int m_iSaved;
     MemContextGuard(int aiMemoryContext)
     {
-        m_iSaved = tls_memContext;
-        tls_memContext = aiMemoryContext;
+        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
     }
     ~MemContextGuard()
     {
-        tls_memContext = m_iSaved;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
     }
 };
 
@@ -193,8 +209,6 @@ struct MouseSpringAction
 
     MouseSpringAction(const hkVector4& kPositionInRbLocal, const hkVector4& kMousePositionInWorld, float fSpringDamping,
                       float fSpringElasticity, float fObjectDamping, void* pkBody, int iUserData);
-    void FUN_00cbb1b0(float fMaxRelativeForce);
-    void FUN_00c905b0();
 
     int unk08;
     int unk0C;
@@ -281,8 +295,8 @@ void MouseSpringOwner::FUN_00c87260(MouseSpringInfo* pkInfo)
         hkVector4(pkInfo->m_f10, pkInfo->m_f14, pkInfo->m_f18, pkInfo->m_f1C),
         hkVector4(pkInfo->m_f20, pkInfo->m_f24, pkInfo->m_f28, pkInfo->m_f2C), pkInfo->m_fSpringDamping,
         pkInfo->m_fSpringElasticity, pkInfo->m_fObjectDamping, pkInfo->m_pkBody, 0);
-    pkAction->FUN_00cbb1b0(pkInfo->m_fMaxRelativeForce);
+    reinterpret_cast<::FUN_00cbb1b0_Class *>((pkAction))->FUN_00cbb1b0(pkInfo->m_fMaxRelativeForce);
     RegisterAction(pkAction);
-    pkAction->FUN_00c905b0();
+    reinterpret_cast<::hkReferencedObjectC905 *>((pkAction))->FUN_00c905b0();
     finish(pkInfo);
 }

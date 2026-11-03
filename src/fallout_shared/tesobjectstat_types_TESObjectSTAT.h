@@ -2,6 +2,7 @@
 #ifndef FNV_TESOBJECTSTAT_H
 #define FNV_TESOBJECTSTAT_H
 
+#include "fnv/decl/FUN_0048a7b0_shell.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "TESForm.h"
@@ -191,11 +192,11 @@ FNV_STATIC_ASSERT(offsetof(TESModel, m_kModelFilePath) == 4);
 FNV_STATIC_ASSERT(offsetof(TESModel, m_pTextureSwapData) == 12);
 FNV_STATIC_ASSERT(offsetof(TESModel, cFlags) == 20);
 #pragma pack(push, 4)
+class TESForm;
 class TESModelTextureSwap : public TESModel
 {
   public:
     TESModelTextureSwap();
-    bool ParseTextureSwapData(void*, unsigned int, unsigned int);
     // base TESModel at +0x0, size 24
     BSSimpleList<DistantTreeTextureInfo*> TextureSwapNodeAccessor;  // +0x18, 8 bytes
     // TESModelTextureSwap
@@ -221,6 +222,8 @@ class TESModelTextureSwap : public TESModel
     // TESModelTextureSwap* __cdecl TESModelTextureSwap::*()
     // TESModelTextureSwap& __cdecl TESModelTextureSwap::*(const TESModelTextureSwap&)
     // void __cdecl TESModelTextureSwap::*()
+public:
+    void InitItem(::TESForm *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESModelTextureSwap) == 32);

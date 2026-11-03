@@ -1,6 +1,10 @@
 #ifndef FNV_TESOBJECTCONT_MATCH_DECLS_H
 #define FNV_TESOBJECTCONT_MATCH_DECLS_H
 
+#include "fnv/decl/FUN_008cc6d0_class.h"
+#include "fnv/decl/S_00462230.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/symbols_005b5000.h"
 class TESObjectCONT_TESScriptableInitCall
 {
   public:
@@ -14,7 +18,6 @@ class TESSound : public TESForm
 class TESFileFormVersion
 {
   public:
-    unsigned short GetFormVersion();
 };
 
 class ContainerItemExtra
@@ -44,7 +47,6 @@ class CombatProcedure
 class EffectSetting
 {
   public:
-    void SetAreaSound(TESSound*);
 };
 
 class BGSVoiceType;
@@ -58,11 +60,9 @@ struct CNTOChunkData
 {
     unsigned int formID;
     unsigned int count;
-    void FUN_00462230();
 };
 
 extern "C" ContainerItemExtraOwner* DAT_011c9348;
 
-int __cdecl Warning(const char*, ...);
 
 #endif

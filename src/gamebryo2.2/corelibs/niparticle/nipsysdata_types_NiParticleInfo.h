@@ -23,6 +23,8 @@ class Point3ParameterData
     Point3ParameterData();
     void LoadBinary(NiStream&);
     void Initialize();
+public:
+    bool Equals(const ::Point3ParameterData &);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(Point3ParameterData) == 28);

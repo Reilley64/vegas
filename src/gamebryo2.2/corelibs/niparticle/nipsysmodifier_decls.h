@@ -3,10 +3,15 @@
 #define FNV_NIPSYSMODIFIER_DECLS_H
 
 
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/Cls_a64ea0.h"
+#include "fnv/decl/FUN_00a5d450_class.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/fnv_00a64df0__FUN_00a64df0_Stream.h"
+#include "fnv/symbols_0109b000.h"
 #include "NiRefObject.h"
 #include "NiFixedString.h"
 
-extern NiFixedString EmptyFS;
 
 class NiStream;
 class CloningProcess;
@@ -20,7 +25,6 @@ class NiObject : public NiRefObject
     virtual void LinkObject(NiStream& kStream);
     virtual void ProcessClone(CloningProcess& kCloning);
     // Base copying operation has no identified name in the PC symbol evidence.
-    void CreateVertexBufferSet(NiObject* pkDest, CloningProcess& kCloning);
 };
 
 class CloningProcess
@@ -42,8 +46,8 @@ template <class T> class NiTStringPointerMap
 // The pointer-map lookup is folded with this canonically bound specialization.
 inline bool NiPSysCloneMapGetAt(NiTPointerMap<NiObject*, NiObject*>* pkMap, NiObject* pkOriginal, NiObject*& pkClone)
 {
-    return reinterpret_cast<NiTStringPointerMap<ShaderBufferRecord*>*>(pkMap)->GetAt(
-        reinterpret_cast<const char*>(pkOriginal), reinterpret_cast<ShaderBufferRecord*&>(pkClone));
+    return reinterpret_cast<::A54440Hash *>((reinterpret_cast<NiTStringPointerMap<ShaderBufferRecord*>*>(pkMap)))->FUN_00a53c30(
+        (::A54440Manager *)(reinterpret_cast<const char*>(pkOriginal)), (::A54440Manager **)&(reinterpret_cast<ShaderBufferRecord*&>(pkClone)));
 }
 
 class NiBinaryStream : public NiMemObject
@@ -71,9 +75,6 @@ class NiStream : public NiObject
     unsigned char m_streamTables[0x24C - 0xDC];
     NiBinaryStream* m_pUnderlyingStream;
 
-    void ReadFixedString(NiFixedString& kString);
-    void ReadStringTableEntry(NiFixedString& kString);
-    void ResetStreamState();
     NiObject* GetLoadedObject();
 };
 

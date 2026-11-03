@@ -2,6 +2,7 @@
 #ifndef FNV_NISHADERFACTORY_PRIVATE_TYPES_H
 #define FNV_NISHADERFACTORY_PRIVATE_TYPES_H
 
+#include "fnv/symbols_011f6000.h"
 #include "layout_support.h"
 #include "NiFixedString.h"
 #include "NiRefObject.h"
@@ -98,7 +99,6 @@ class NiShaderFactory : public NiRefObject
     static NiShaderFactory* __cdecl GetInstance();
 
   protected:
-    static NiShaderFactory* ms_pShaderFactory;
 
   public:
     // base NiRefObject at +0x0, size 8

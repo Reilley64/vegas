@@ -2,10 +2,22 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysmodifierboolctlr_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/gamebryo2.2/corelibs/niparticle/nipsysmodifierboolctlr.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <new>
+#include "fnv/decl/FUN_00a38e00.h"
+#include "fnv/decl/FUN_00c315b0_cls.h"
+#include "fnv/decl/NiTimeControllerA362.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a531a0__FUN_00a531a0_shell.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_010c0000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_01202000.h"
 #include "nipsysmodifierboolctlr_packet.h"
 // 54-byte covered span: constructor (33 B) + 15 B int3 padding +
 // 6 B static-address accessor at 0x00c31290 (nirotkey.cpp pattern).
-void FUN_00c31260();
 
 struct NiTimeController_Call
 {
@@ -21,29 +33,29 @@ struct CtlrStandin
 // @fnv 0x00c31260
 CtlrStandin* CtlrStandin::FUN_00c31260()
 {
-    ((NiTimeController_Call*)this)->SetControllerActive();
+    new ((void *)(((NiTimeController_Call*)this))) ::FUN_00a38e00();
     *(void**)this = (void*)NiPSysModifierCtlr_vtable;
-    m_s = EmptyFS;
+    m_s = (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220));
     m_p = 0;
     return this;
 }
 
+class NiRTTI;
 struct NiObject
 {
-    NiObject* DynamicCast(unsigned int const*);
+public:
+    ::NiObject *DynamicCast(const ::NiRTTI *);
 };
 struct NiInterpolator : NiObject
 {
 };
 struct NiBoolInterpolator : NiInterpolator
 {
-    void SetBoolValue(bool);
 };
 struct NiPSysModifierBoolCtlr
 {
     void FUN_00c32c70(NiInterpolator*, unsigned short);
 };
-extern unsigned int DAT_011f404c;
 // @fnv 0x00c32c70
 void NiPSysModifierBoolCtlr::FUN_00c32c70(NiInterpolator* pkInterp, unsigned short usIndex)
 {
@@ -52,9 +64,9 @@ void NiPSysModifierBoolCtlr::FUN_00c32c70(NiInterpolator* pkInterp, unsigned sho
     if (pkInterp == 0)
         pkBoolInterp = 0;
     else
-        pkBoolInterp = (NiBoolInterpolator*)pkInterp->DynamicCast(&DAT_011f404c);
+        pkBoolInterp = (NiBoolInterpolator*)pkInterp->DynamicCast((const ::NiRTTI *)(const unsigned int *)(&(*reinterpret_cast<unsigned int *>(&::g_011f404c))));
     ((void(__thiscall*)(NiPSysModifierBoolCtlr*, bool*))(*(void***)this)[60])(this, &bValue);
-    pkBoolInterp->SetBoolValue(bValue);
+    reinterpret_cast<::fnv_00a531a0::FUN_00a531a0_shell *>((pkBoolInterp))->SetBoolValue(bValue);
 }
 
 namespace fnv_00c32d30 {
@@ -65,30 +77,24 @@ struct StrArr
     unsigned short m_usSize;
     char _pad1[2];
     unsigned short m_usGrowBy;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 struct NiPSysModifierBoolCtlr
 {
-    void AppendModifierInfo(StrArr*);
     void FUN_00c32d30(StrArr*);
 };
-char* __cdecl _FUN_00a7d330(char const*);
-extern char const* const g_012026d0_arg1;
 // @fnv 0x00c32d30
 void NiPSysModifierBoolCtlr::FUN_00c32d30(StrArr* pkStrings)
 {
-    AppendModifierInfo(pkStrings);
-    char* tmp = _FUN_00a7d330(g_012026d0_arg1);
+    reinterpret_cast<::FUN_00c315b0_cls *>(this)->AppendModifierInfo(pkStrings);
+    char* tmp = ::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_012027f0)));
     unsigned int size = pkStrings->m_usSize;
     unsigned int maxs = pkStrings->m_usMaxSize;
     if (size >= maxs)
-        pkStrings->SetSize(pkStrings->m_usGrowBy + size);
-    pkStrings->SetAt(size, tmp);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(pkStrings->m_usGrowBy + size);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(size, tmp);
 }
 }  // namespace fnv_00c32d30
 
-extern const float DAT_01096324;
 
 class C32CB0Interpolator
 {
@@ -215,7 +221,6 @@ class C32CB0Controller
     virtual void vfn0F0();
     virtual void SetManagerControlled(int fValue);
 
-    bool FUN_00a36250(float fTime);
     bool GetManagerControlled() const
     {
         return ((unsigned char)(m_usFlags >> 5) & 1) != 0;
@@ -245,7 +250,7 @@ void C32CB0Controller::FUN_00c32cb0(const float& fTime)
     {
         m_fControllerTime = DAT_01096324;
     }
-    else if (FUN_00a36250(fTime) && (!m_pkInterpolator || !m_pkInterpolator->IsChannelPosed()))
+    else if (reinterpret_cast<::NiTimeControllerA362 *>(this)->FUN_00a36250(fTime) && (!m_pkInterpolator || !m_pkInterpolator->IsChannelPosed()))
     {
         return;
     }

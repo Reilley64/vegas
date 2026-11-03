@@ -3,6 +3,10 @@
 #define FNV_BGSMESSAGE_MATCH_DECLS_H
 
 
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0046e000.h"
+#include "fnv/symbols_004ff000.h"
+#include "fnv/symbols_005b5000.h"
 #include "layout_support.h"
 
 class TESForm;
@@ -26,6 +30,8 @@ class PerkEntryConditionSet
     void InitializeConditionItems();
     void Load(TESFile* file);
     void InitItem(TESForm* form);
+public:
+    bool Compare(::PerkEntryConditionSet *);
 };
 #pragma pack(pop)
 #endif
@@ -56,12 +62,7 @@ struct BGSMessageInitAccess
 
 struct BGSMessageLoadAccess
 {
-    void AddButton(PerkButtonEntry* button);
 };
 
-extern unsigned int __cdecl SetWarningState(NiTexture* texture);
-extern void __cdecl BGSMessageWarningAuxiliary(int value);
-extern int __cdecl Warning();
-extern int __cdecl Warning(const char* format, ...);
 
 #endif

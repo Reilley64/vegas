@@ -6,6 +6,9 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <xmmintrin.h>
+#include "fnv/decl/FUN_00c7f750_shell.h"
+#include "fnv/decl/FUN_00d72030_cls.h"
+#include "fnv/decl/SolverSchemaHeader.h"
 struct __declspec(align(16)) Vector
 {
     __m128 quad;
@@ -17,7 +20,6 @@ struct __declspec(align(16)) Vector
     {
         quad = value;
     }
-    void FUN_00c7f750(const void*, const Vector*);
 };
 struct State
 {
@@ -26,7 +28,6 @@ struct State
     float scale;
     float parameter;
     Vector position, axis, basis0, basis1, basis2, extra0, extra1;
-    void FUN_00d72030(const State*);
 };
 struct Header
 {
@@ -40,7 +41,6 @@ struct Command
 {
     Vector a, b, c;
 };
-extern unsigned char DAT_011b9414[];
 static __forceinline float evaluate(const Command* command, const State* first, const State* second,
                                     bool firstTermFirst = false)
 {
@@ -106,19 +106,19 @@ int __cdecl FUN_00d9f6f0(void* unused, const Header* header, const State* states
         case 26:
             do
             {
-                cursor += DAT_011b9414[*cursor];
+                cursor += ::SolverSchemaHeader::ms_aucLogicalSchemaSizes[*cursor];
             } while (*cursor == static_cast<signed char>(opcode));
             break;
         case 27: {
-            firstLocal.FUN_00d72030(first);
+            reinterpret_cast<::FUN_00d72030_cls *>(&(firstLocal))->FUN_00d72030((const ::FUN_00d72030_cls *)(first));
             first = &firstLocal;
-            secondLocal.FUN_00d72030(second);
+            reinterpret_cast<::FUN_00d72030_cls *>(&(secondLocal))->FUN_00d72030((const ::FUN_00d72030_cls *)(second));
             second = &secondLocal;
             Vector firstAxis, secondAxis, firstBasis, secondBasis;
-            firstAxis.FUN_00c7f750(cursor, &firstLocal.axis);
-            secondAxis.FUN_00c7f750(cursor + 48, &secondLocal.axis);
-            firstBasis.FUN_00c7f750(cursor, &firstLocal.basis2);
-            secondBasis.FUN_00c7f750(cursor + 48, &secondLocal.basis2);
+            reinterpret_cast<::FUN_00c7f750_shell *>(&(firstAxis))->FUN_00c7f750((float *)(cursor), (float *)(&firstLocal.axis));
+            reinterpret_cast<::FUN_00c7f750_shell *>(&(secondAxis))->FUN_00c7f750((float *)(cursor + 48), (float *)(&secondLocal.axis));
+            reinterpret_cast<::FUN_00c7f750_shell *>(&(firstBasis))->FUN_00c7f750((float *)(cursor), (float *)(&firstLocal.basis2));
+            reinterpret_cast<::FUN_00c7f750_shell *>(&(secondBasis))->FUN_00c7f750((float *)(cursor + 48), (float *)(&secondLocal.basis2));
             firstLocal.position.set(_mm_add_ps(firstLocal.position.get(), firstAxis.get()));
             firstLocal.basis1.set(_mm_add_ps(firstLocal.basis1.get(), firstBasis.get()));
             secondLocal.position.set(_mm_add_ps(secondLocal.position.get(), secondAxis.get()));

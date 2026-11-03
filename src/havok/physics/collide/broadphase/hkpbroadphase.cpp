@@ -1,13 +1,16 @@
 // src/havok/physics/collide/broadphase/hkpbroadphase.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/broadphase/hkpbroadphase.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00cf6d20_Class.h"
+#include "fnv/decl/FUN_00cf6da0_cls.h"
+#include "fnv/decl/hkMultiThreadCheckCF6E.h"
+#include "fnv/symbols_0102e000.h"
 extern char DAT_010d3f7c[];
 
 struct SpawnedObject
 {
     unsigned int m_i00;
     unsigned short m_w04;
-    void Init();
 };
 
 struct InitObject
@@ -29,7 +32,7 @@ InitObject* InitObject::FUN_00d97010()
     pSubObject->m_i00 = 0xfffffff1u;
     pSubObject->m_w04 = 0x8000;
     m_i10 = 0;
-    pSubObject->Init();
+    reinterpret_cast<::FUN_00cf6d20_Class *>((pSubObject))->FUN_00cf6d20();
     return this;
 }
 
@@ -58,14 +61,12 @@ struct SubObj
 {
     unsigned int unk00;
     unsigned int unk04;
-    void Reset();
 };
 
 class Spawned
 {
   public:
     virtual void v00();
-    Spawned* Init(void* a1);
 };
 
 class Obj
@@ -104,8 +105,8 @@ void Owner::FUN_00d97070(void* apArg)
         Holder* h = FUN_00c85750();
         Obj* obj = h->m_10;
         Spawned* s = obj->v04(0x18);
-        m_10 = (s != 0) ? s->Init(apArg) : s;
-        m_08.Reset();
+        m_10 = (s != 0) ? ((::Spawned *)(reinterpret_cast<::FUN_00cf6da0_cls *>((s))->FUN_00cf6da0((unsigned long)(apArg)))) : s;
+        reinterpret_cast<::hkMultiThreadCheckCF6E *>(&(m_08))->ResetThreadCheck();
     }
 }
 
@@ -166,7 +167,6 @@ void FUN_00d97050_cls::FUN_00d97050()
 }
 
 extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(void* apSection);
-extern char DAT_0102e388[];
 
 struct FUN_00d970c0_cls
 {
@@ -200,5 +200,5 @@ void FUN_00d970c0_cls::FUN_00d970c0()
         pAllocator->Free(pCs, 0x18);
         m_pCs = 0;
     }
-    m_vptr = (int)&DAT_0102e388;
+    m_vptr = (int)&(*reinterpret_cast<char (*)[]>(&::DAT_0102e388));
 }

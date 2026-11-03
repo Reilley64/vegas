@@ -1,5 +1,31 @@
 // bsshader/tileshader.cpp: TileShader, TileStandin, TileShaderS, PassShader (18 functions)
 
+#include "fnv/decl/BSShaderBloodSplatter.h"
+#include "fnv/decl/D3DRenderStateGroup.h"
+#include "fnv/decl/E7DE90Owner.h"
+#include "fnv/decl/E7DEF0TextureStage.h"
+#include "fnv/decl/FUN_00b71b90_class.h"
+#include "fnv/decl/FUN_00be1750_shell.h"
+#include "fnv/decl/FUN_00e7ecd0_cls.h"
+#include "fnv/decl/NiRenderer.h"
+#include "fnv/decl/StageSet.h"
+#include "fnv/decl/StateGroup.h"
+#include "fnv/decl/XRenderer.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00b79000.h"
+#include "fnv/symbols_00b97000.h"
+#include "fnv/symbols_00b98000.h"
+#include "fnv/symbols_00be0000.h"
+#include "fnv/symbols_00e76000.h"
+#include "fnv/symbols_00e7e000.h"
+#include "fnv/symbols_00e7f000.h"
+#include "fnv/symbols_011ad000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_011ff000.h"
+#include "fnv/symbols_01202000.h"
+#include "fnv/symbols_0126f000.h"
 #include "tileshader_decls.h"
 
 // @fnv 0x00bcac60
@@ -11,7 +37,7 @@ void TileShader::UpdateMaterial(const NiPropertyState* state)
 
     NiRendererSpecificPropertyView* rendererSpecific = (NiRendererSpecificPropertyView*)state->m_spProperties[4];
     if (rendererSpecific && (rendererSpecific->m_ucFlags & 1))
-        UpdateRendererStateCount(0, 0);
+        ::UpdateRendererStateCount(0, 0);
 }
 
 class NiGPUProgram;
@@ -23,9 +49,6 @@ template <class T> class NiPointer
     NiPointer<T>& operator=(T* pObject);
 };
 
-extern NiGPUProgram* DAT_012021e0;
-extern NiGPUProgram* DAT_012021e4;
-extern int DAT_0126f74c;
 
 // @fnv 0x00bcb180
 void __fastcall SelectGPUProgram(char* this_ptr, int, int arg)
@@ -43,7 +66,6 @@ void __fastcall SelectGPUProgram(char* this_ptr, int, int arg)
     }
 }
 
-extern int DAT_0126f74c;
 
 struct FUN_00bca500_shell
 {
@@ -56,12 +78,11 @@ void __thiscall FUN_00bca500_shell::FUN_00bca500(void* p)
     DAT_0126f74c = *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x6c);
 }
 
-extern "C" void* g_012021b8;
 
 // @fnv 0x00bca6b0
 void* __cdecl FUN_00bca6b0()
 {
-    return &g_012021b8;
+    return &(*reinterpret_cast<void * *>(&::g_012021b8));
 }
 
 // Sets byte at offset 8 of the objects at thisptr+0x84/0x88/0x8c based on whether a3 equals 0x24d, then calls vtable slot 0x24 on the object at thisptr+0x34.
@@ -177,7 +198,6 @@ struct TileStandin
     char _1[0x44];
     VShader* vs[3];
     PShader* ps[3];
-    void FUN_00be08b0();
     void FUN_00bca070();
 };
 // Calls UnkA0 on each non-null vertex shader when unk28 is set, then Unk88 on each non-null pixel shader, and finally calls FUN_00be08b0.
@@ -200,25 +220,14 @@ void TileStandin::FUN_00bca070()
         if (p)
             p->Unk88();
     }
-    FUN_00be08b0();
+    reinterpret_cast<::FUN_00b71b90_class *>(this)->FUN_00be08b0();
 }
 
-void __cdecl _delete(void*, unsigned int);
 struct X
 {
     void __thiscall FUN_00bca510();
     void* __thiscall DestroyIfFlagged(unsigned int);
 };
-// Calls FUN_00bca510, then if bit 0 of a1 is set frees this with _delete and returns this.
-// @fnv 0x00bcae60
-void* __thiscall X::DestroyIfFlagged(unsigned int auiFlags)
-{
-    FUN_00bca510();
-    if (auiFlags & 1)
-        _delete(this, 0x90);
-    return this;
-}
-
 namespace fnv_00bcaca0 {
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
@@ -282,8 +291,6 @@ struct RgbaColor
     }
 };
 
-extern RgbaColor DAT_01202188;
-extern RgbaColor DAT_012021a8;
 
 struct BSShader
 {
@@ -312,8 +319,8 @@ FUN_00bcaca0::FUN_00bcaca0(NiD3DVertexShader* pVertexShader1, NiD3DVertexShader*
     m_i68 = 0x14;
     m_sp88 = pVertexShader1;
     m_sp8c = pVertexShader2;
-    DAT_01202188 = RgbaColor(1.0f, 1.0f, 1.0f, 1.0f);
-    DAT_012021a8 = RgbaColor(1.0f, 1.0f, 1.0f, 1.0f);
+    (*reinterpret_cast<::fnv_00bcaca0::RgbaColor *>(&::DAT_01202188)) = RgbaColor(1.0f, 1.0f, 1.0f, 1.0f);
+    (*reinterpret_cast<::fnv_00bcaca0::RgbaColor *>(&::DAT_012021a8)) = RgbaColor(1.0f, 1.0f, 1.0f, 1.0f);
 }
 }  // namespace fnv_00bcaca0
 
@@ -384,8 +391,6 @@ struct TileShaderLayout
     NiPtr<NiD3DShaderConstantMap> m_spSecondShaderConstantMap;
     NiPtr<NiD3DShaderConstantMap> m_spFirstShaderConstantMap;
 };
-extern float DAT_01202188[4];
-extern float DAT_01202198[4];
 
 // Lazily creates the two NiD3DShaderConstantMap objects and adds the tintcolor, WorldViewProjTranspose and TexScroll entries.
 // @fnv 0x00bcaff0
@@ -447,10 +452,9 @@ struct BSShader
 {
     virtual ~BSShader();
     unsigned int m_uiRefCount;  // +04
-    static void __cdecl GetShaderPath(char const*, char*);
-    NiD3DVertexShader* CompileVertexShader(char const*, _D3DXMACRO const*, char const*, char const*);
+public:
+    bool Initialize();
 };
-int __cdecl _sprintf_s(char*, unsigned int, const char*, ...);
 extern const char $SG3295[];
 void* _fnv_zlib_memset(void*, int, unsigned int);
 struct TileShaderDef_bca0d0
@@ -512,9 +516,9 @@ void FUN_00bca0d0_shell::CreateTileVertexShaders()
     {
         if (kDefs[i].pFile)
         {
-            BSShader::GetShaderPath(kDefs[i].pFile, acPath);
-            _sprintf_s(acName, 260, "TILE1%03i.vso", i);
-            m_spVertexShaders[i] = CompileVertexShader(acPath, kDefs[i].kMacros, "vs_1_1", acName);
+            ::FUN_00be0c00(kDefs[i].pFile, acPath);
+            ::FUN_00406d00(acName, 260, "TILE1%03i.vso", i);
+            m_spVertexShaders[i] = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(acPath), (const char *)(kDefs[i].kMacros), "vs_1_1")));
         }
     }
 }
@@ -523,9 +527,14 @@ struct NiShader
 {
     virtual void Initialize();
 };
+template <class> class NiPointer;
 struct NiD3DPass
 {
     void DestroyPass();
+public:
+    bool ApplyRenderStateChanges(bool);
+public:
+    static void CreateD3DPass(::NiPointer< ::NiD3DPass> &);
 };
 struct FUN_00bca6c0_shell : NiShader
 {
@@ -535,7 +544,7 @@ struct FUN_00bca6c0_shell : NiShader
 // @fnv 0x00bca6c0
 bool FUN_00bca6c0_shell::FUN_00bca6c0()
 {
-    NiShader::Initialize();
+    reinterpret_cast<::BSShader *>(this)->Initialize();
     for (int i = 0; i < 3; ++i)
     {
         void* pObject = *(void**)((char*)this + 0x70 + i * 4);
@@ -566,7 +575,6 @@ bool FUN_00bca6c0_shell::FUN_00bca6c0()
     return true;
 }
 
-extern void* DAT_011f9508;
 
 struct A51BF0Base
 {
@@ -575,7 +583,6 @@ struct A51BF0Base
 
 struct NiD3DVertexDeclaration
 {
-    static NiD3DVertexDeclaration* __cdecl Create(void*, unsigned int, unsigned int);
 
     virtual void v00();
     virtual void v01();
@@ -720,8 +727,8 @@ struct FUN_00bcaca0 : A51BF0Base
 // @fnv 0x00bcae90
 FUN_00bcaca0* FUN_00bcae90()
 {
-    NiD3DVertexDeclaration* pFirstObject = NiD3DVertexDeclaration::Create(DAT_011f9508, 2, 1);
-    NiD3DVertexDeclaration* pSecondObject = NiD3DVertexDeclaration::Create(DAT_011f9508, 3, 1);
+    NiD3DVertexDeclaration* pFirstObject = ::FUN_00e76700((::NiRenderer *)((*reinterpret_cast<void * *>(&::DAT_011f9508))), 2, 1);
+    NiD3DVertexDeclaration* pSecondObject = ::FUN_00e76700((::NiRenderer *)((*reinterpret_cast<void * *>(&::DAT_011f9508))), 3, 1);
 
     pFirstObject->vfn_08c(0, 0, 0, 2, 0);
     pFirstObject->vfn_08c(1, 0, 5, 1, 0);
@@ -745,8 +752,6 @@ FUN_00bcaca0* FUN_00bcae90()
 }
 
 extern unsigned int DAT_011ffce8;
-extern unsigned long DAT_011ff9d8[];
-extern void* DAT_011f9508;
 
 struct SlotObj
 {
@@ -1347,13 +1352,13 @@ struct Renderer8b8
 void AddToCounterIfIdle(unsigned int uiValue, unsigned int uiIncrement)
 {
     unsigned int idx = DAT_011ffce8;
-    if (DAT_011ff9d8[idx] == 0)
+    if ((*reinterpret_cast<unsigned long (*)[]>(&::DAT_011ff9d8))[idx] == 0)
     {
-        Renderer8b8* pR = (Renderer8b8*)DAT_011f9508;
+        Renderer8b8* pR = (Renderer8b8*)(*reinterpret_cast<void * *>(&::DAT_011f9508));
         SlotObj* p = pR->m_pk08b8;
         p->Target(0xae, uiValue & 0xFF, 0, 0);
     }
-    DAT_011ff9d8[idx] += uiIncrement;
+    (*reinterpret_cast<unsigned long (*)[]>(&::DAT_011ff9d8))[idx] += uiIncrement;
 }
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
@@ -1398,7 +1403,6 @@ struct PSPtr_bca240
     }
 };
 
-int __cdecl _sprintf_s(char*, unsigned int, const char*, ...);
 
 struct TileShaderDef_bca240
 {
@@ -1438,7 +1442,6 @@ struct FUN_00bca240_shell : BSShader
     unsigned int unk74;
     unsigned int unk78;
     PSPtr_bca240 m_spPixelShaders[3];
-    NiD3DPixelShader* CompilePixelShader(char const*, _D3DXMACRO const*, char const*, char const*);
     void CreateTilePixelShaders();
 };
 
@@ -1467,9 +1470,9 @@ void FUN_00bca240_shell::CreateTilePixelShaders()
         {
             char acPath[260];
             char acName[260];
-            GetShaderPath(kDefs[i].pFile, acPath);
-            _sprintf_s(acName, 260, "TILE1%03i.pso", i);
-            m_spPixelShaders[i] = CompilePixelShader(acPath, kDefs[i].kMacros, pPixelShaderProfile, acName);
+            ::FUN_00be0c00(kDefs[i].pFile, acPath);
+            ::FUN_00406d00(acName, 260, "TILE1%03i.pso", i);
+            m_spPixelShaders[i] = reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750((char *)(acPath), (void *)(kDefs[i].kMacros), (char *)(pPixelShaderProfile), (char *)(acName));
         }
     }
 }
@@ -1530,11 +1533,10 @@ struct PassObject
     unsigned int unk5c;
     unsigned int unk60;
     unsigned int refs;
-    void DestroyPass();
     void Dec()
     {
         if (--refs == 0)
-            DestroyPass();
+            reinterpret_cast<::NiD3DPass *>(this)->DestroyPass();
     }
 };
 struct FUN_00b79930
@@ -1593,6 +1595,15 @@ struct FUN_00bca510 : FUN_00be0f10
     FUN_00b66f20 other8c;
     virtual ~FUN_00bca510();
 };
+// Calls FUN_00bca510, then if bit 0 of a1 is set frees this with _delete and returns this.
+// @fnv 0x00bcae60
+void* __thiscall X::DestroyIfFlagged(unsigned int auiFlags)
+{
+    reinterpret_cast<::FUN_00bca510 *>(this)->FUN_00bca510::~FUN_00bca510();
+    if (auiFlags & 1)
+        ::FUN_00aa1460(this, 0x90);
+    return this;
+}
 // Releases the vertex, pixel and pass references, then resets enabled64, other88 and value60.
 // @fnv 0x00bca510
 FUN_00bca510::~FUN_00bca510()
@@ -1612,13 +1623,11 @@ struct Stage321
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34,
         unk38, unk3c, unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c;
     unsigned int refCount;
-    void ReturnToPool();
-    void FUN_00e7def0(unsigned int mode);
     void Release()
     {
         --refCount;
         if (refCount == 0)
-            ReturnToPool();
+            reinterpret_cast<::FUN_00e7ecd0_cls *>(this)->FUN_00e7ecd0();
     }
 };
 struct StagePtr321
@@ -1634,26 +1643,20 @@ struct StagePtr321
 };
 struct RenderState321
 {
-    void SetNodeValue(unsigned int state, unsigned int value, bool save);
 };
-RenderState321* FUN_00e7f5d0();
 struct Pass321
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10;
     unsigned int stageCount;
     unsigned int unk18, unk1c, unk20, unk24, unk28, unk2c;
     RenderState321* state;
-    void FUN_00e802b0(unsigned int index, Stage321* stage);
     RenderState321* GetState()
     {
         if (!state)
-            state = FUN_00e7f5d0();
+            state = ((::RenderState321 *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
         return state;
     }
 };
-void FUN_00e804d0(Pass321*&);
-void AssignStageFromPool(Stage321*&);
-void ConfigureBeamStage(Stage321*, unsigned int, unsigned int, unsigned int, unsigned int);
 struct Shader321
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34,
@@ -1664,18 +1667,18 @@ struct Shader321
 // @fnv 0x00bca3c0
 bool Shader321::ConfigurePassStages()
 {
-    FUN_00e804d0(pass);
+    ::NiD3DPass::CreateD3DPass((::NiPointer< ::NiD3DPass> &)(pass));
     StagePtr321 stage;
-    AssignStageFromPool(stage.object);
-    ConfigureBeamStage(stage.object, 0, 1, 2, 1);
-    pass->FUN_00e802b0(pass->stageCount, stage.object);
-    stage.object->FUN_00e7def0(1);
-    AssignStageFromPool(stage.object);
-    ConfigureBeamStage(stage.object, 1, 1, 2, 1);
-    pass->FUN_00e802b0(pass->stageCount, stage.object);
-    pass->GetState()->SetNodeValue(7, 0, true);
-    pass->GetState()->SetNodeValue(14, 0, true);
-    pass->GetState()->SetNodeValue(168, 15, true);
+    ::AssignStageFromPool((::StageReturn *&)(stage.object));
+    ::ConfigureBeamStage((::BeamStage *)(stage.object), 0, 1, 2, 1);
+    reinterpret_cast<::StageSet *>((pass))->FUN_00e802b0(pass->stageCount, stage.object);
+    reinterpret_cast<::E7DEF0TextureStage *>((stage.object))->FUN_00e7def0(1);
+    ::AssignStageFromPool((::StageReturn *&)(stage.object));
+    ::ConfigureBeamStage((::BeamStage *)(stage.object), 1, 1, 2, 1);
+    reinterpret_cast<::StageSet *>((pass))->FUN_00e802b0(pass->stageCount, stage.object);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(7, 0, true);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(14, 0, true);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(168, 15, true);
     return true;
 }
 
@@ -1702,18 +1705,10 @@ struct NiRectI
     int bottom;
 };
 
-extern RgbaColor DAT_01202188;
-extern float DAT_01202198;
 extern float DAT_0120219c;
 extern float DAT_012021a0;
 extern float DAT_012021a4;
-extern NiRectF DAT_011ad840;
-extern unsigned char DAT_011f9426;
-extern char DAT_011f4288;
 
-void AccumulateAndDispatch(int, int, int, int, int);
-void FUN_00b980c0(unsigned int, unsigned int, unsigned int, unsigned int);
-void FUN_00b98180(unsigned int, unsigned int, unsigned int, unsigned int);
 
 struct RenderTarget
 {
@@ -1797,7 +1792,6 @@ struct ShaderManager
 {
     ShaderCtx* unk00;
 };
-extern ShaderManager* DAT_011f91e0;
 
 struct ShaderList
 {
@@ -1826,7 +1820,6 @@ struct ShaderList
     int unk58;
     void* unk5C;
 };
-extern ShaderList* DAT_0126f74c;
 
 struct AlphaProp
 {
@@ -2001,11 +1994,9 @@ struct Renderer
     virtual void d52();
     virtual RenderTarget* GetD4();
 };
-extern Renderer* DAT_011f4748;
 
 struct ShaderProp
 {
-    void FUN_00e6fbb0(void*, int);
 };
 
 struct TileShaderS
@@ -2030,44 +2021,44 @@ struct TileShaderS
 // @fnv 0x00bca980
 void TileShaderS::FUN_00bca980(const NiPropertyState* state)
 {
-    ShaderManager* mgr = DAT_011f91e0;
+    ShaderManager* mgr = (*reinterpret_cast<::fnv_00bca980::ShaderManager * *>(&::DAT_011f91e0));
     if (!mgr)
         return;
     ShaderCtx* ctx = mgr->unk00;
     void* sub68 = &ctx->unk68;
     void* v20 = ctx->unk20;
     if (!v20)
-        v20 = &DAT_011f4288;
+        v20 = &(*reinterpret_cast<char *>(&::g_defaultBound));
     void* p34 = ctx->unkB8->unk34;
     void* vBC = ctx->unkBC;
     MaterialProp* mat = (MaterialProp*)state->m_spProperties[3];
-    unk18->FUN_00e6fbb0(sub68, 0);
+    reinterpret_cast<::XRenderer *>((unk18))->FUN_00e6fbb0((*(const ::XTransform *)(sub68)), 0);
 
     if (mat->unk91)
     {
-        DAT_01202198 = mat->unk7C;
+        (*reinterpret_cast<float *>(&::DAT_01202198)) = mat->unk7C;
         DAT_0120219c = mat->unk80;
         DAT_012021a0 = mat->unk84;
         DAT_012021a4 = mat->unk88;
     }
     float scale = 1.0f;
-    DAT_01202188 = mat->unk68;
+    (*reinterpret_cast<::fnv_00bca980::RgbaColor *>(&::DAT_01202188)) = mat->unk68;
     AlphaProp* pAlpha = (AlphaProp*)state->m_spProperties[2];
     if (pAlpha)
         scale = pAlpha->unk3C;
-    DAT_01202188.a = mat->unk78 * scale;
+    (*reinterpret_cast<::fnv_00bca980::RgbaColor *>(&::DAT_01202188)).a = mat->unk78 * scale;
 
     Shader* pShader = unk30;
     if (pShader)
     {
-        void* q = DAT_0126f74c->unk44;
+        void* q = (*reinterpret_cast<::fnv_00bca980::ShaderList * *>(&::DAT_0126f74c))->unk44;
         if (q)
             pShader->Draw(q, ctx, vBC, 0, p34, state, 0, sub68, v20, 0, 1);
     }
     pShader = unk34;
     if (pShader)
     {
-        void* q = DAT_0126f74c->unk5C;
+        void* q = (*reinterpret_cast<::fnv_00bca980::ShaderList * *>(&::DAT_0126f74c))->unk5C;
         if (q)
             pShader->Draw(q, ctx, vBC, 0, p34, state, 0, sub68, v20, 0, 1);
     }
@@ -2075,28 +2066,28 @@ void TileShaderS::FUN_00bca980(const NiPropertyState* state)
     if (mat->unkAC)
     {
         NiRectI rect = mat->unk9C;
-        if (DAT_011f9426)
+        if ((*reinterpret_cast<unsigned char *>(&::DAT_011f9426)))
         {
-            Renderer* dev = DAT_011f4748;
-            if (DAT_011f4748->GetCC() == dev->GetC8())
+            Renderer* dev = (*reinterpret_cast<::fnv_00bca980::Renderer * *>(&::NiRenderer::ms_pRenderer));
+            if ((*reinterpret_cast<::fnv_00bca980::Renderer * *>(&::NiRenderer::ms_pRenderer))->GetCC() == dev->GetC8())
             {
-                NiRectF vp = DAT_011ad840;
-                unsigned int h1 = DAT_011f4748->GetD4()->unk0C;
-                RenderTarget* rt = DAT_011f4748->GetD4();
+                NiRectF vp = (*reinterpret_cast<::fnv_00bca980::NiRectF *>(&::DAT_011ad840));
+                unsigned int h1 = (*reinterpret_cast<::fnv_00bca980::Renderer * *>(&::NiRenderer::ms_pRenderer))->GetD4()->unk0C;
+                RenderTarget* rt = (*reinterpret_cast<::fnv_00bca980::Renderer * *>(&::NiRenderer::ms_pRenderer))->GetD4();
                 rect.top = (int)(h1 * vp.bottom + rect.top * (vp.top - vp.bottom));
                 rect.bottom = (int)(rt->unk0C * vp.bottom + rect.bottom * (vp.top - vp.bottom));
             }
         }
         AddToCounterIfIdle(1, 0);
-        AccumulateAndDispatch(rect.left, rect.top, rect.right, rect.bottom, 0);
+        ::AccumulateAndDispatch(rect.left, rect.top, rect.right, rect.bottom, 0);
     }
 
     FlagProp* pFlag = (FlagProp*)state->m_spProperties[4];
     if (pFlag && (pFlag->unk18 & 1))
     {
-        UpdateRendererStateCount(1, 0);
-        FUN_00b980c0((pFlag->unk18 >> 1) & 7, (pFlag->unk18 >> 4) & 7, (pFlag->unk18 >> 7) & 7, 0);
-        FUN_00b98180(pFlag->unk18 >> 12, pFlag->unk1C, pFlag->unk20, 0);
+        ::UpdateRendererStateCount(1, 0);
+        ::FUN_00b980c0((pFlag->unk18 >> 1) & 7, (pFlag->unk18 >> 4) & 7, (pFlag->unk18 >> 7) & 7, 0);
+        ::FUN_00b98180(pFlag->unk18 >> 12, pFlag->unk1C, pFlag->unk20, 0);
     }
 }
 }  // namespace fnv_00bca980
@@ -2204,9 +2195,6 @@ struct RefTarget
     int unk50, unk54, unk58, unk5C;
     unsigned int m_uiRefCount;
 
-    void ApplyPairToState(int iValue);
-    void FUN_00e7eb00(bool bFlag);
-    void FUN_00e7ecd0();
 
     __forceinline void IncRefCount()
     {
@@ -2215,7 +2203,7 @@ struct RefTarget
     __forceinline void DecRefCount()
     {
         if (--m_uiRefCount == 0)
-            FUN_00e7ecd0();
+            reinterpret_cast<::FUN_00e7ecd0_cls *>(this)->FUN_00e7ecd0();
     }
 };
 
@@ -2258,12 +2246,8 @@ struct ShaderState
     int unk48, unk4C, unk50, unk54, unk58;
     ShaderProgram* m_pPixelProgram;
 
-    Renderer* FUN_00e7f7c0();
-    void FUN_00b79950(void* pValue);
-    void FUN_00b80600(void* pValue);
 };
 
-extern ShaderState* DAT_0126f74c;
 
 struct GeometryData
 {
@@ -2381,25 +2365,25 @@ void PassShader::ApplyToRenderer(RenderPassArg* pArg)
     bool bAlt = pGeom->GetAlt();
     bool bNext = pGeom->GetNext() != 0;
     bool bSecond = pGeom->GetSecond();
-    Renderer* pRenderer = DAT_0126f74c->FUN_00e7f7c0();
-    ShaderState* state = DAT_0126f74c;
+    Renderer* pRenderer = ((::fnv_00bca760::Renderer *)((*reinterpret_cast<::fnv_00bca760::ShaderState * *>(&::DAT_0126f74c))->FUN_00e7f7c0()));
+    ShaderState* state = (*reinterpret_cast<::fnv_00bca760::ShaderState * *>(&::DAT_0126f74c));
     if (!bSecond)
     {
         if (bAlt)
-            state->FUN_00b79950(m_pVertexB);
+            ::FUN_00b79950((char *)(state), (int)(m_pVertexB), {});
         else
-            state->FUN_00b79950(m_pVertexA);
-        pRenderer->SetPixelShader(DAT_0126f74c->m_pPixelProgram->GetHandle(0));
-        state = DAT_0126f74c;
+            ::FUN_00b79950((char *)(state), (int)(m_pVertexA), {});
+        pRenderer->SetPixelShader((*reinterpret_cast<::fnv_00bca760::ShaderState * *>(&::DAT_0126f74c))->m_pPixelProgram->GetHandle(0));
+        state = (*reinterpret_cast<::fnv_00bca760::ShaderState * *>(&::DAT_0126f74c));
         if (bNext)
         {
-            state->FUN_00b80600(m_pPixelB);
-            pRenderer->SetVertexShader(DAT_0126f74c->m_pVertexProgram->GetVertexHandle(0));
+            reinterpret_cast<::BSShaderBloodSplatter *>((state))->FUN_00b80600((::NiRefObject *)(void *)(m_pPixelB));
+            pRenderer->SetVertexShader((*reinterpret_cast<::fnv_00bca760::ShaderState * *>(&::DAT_0126f74c))->m_pVertexProgram->GetVertexHandle(0));
         }
         else
         {
-            state->FUN_00b80600(m_pPixelA);
-            pRenderer->SetVertexShader(DAT_0126f74c->m_pVertexProgram->GetVertexHandle(0));
+            reinterpret_cast<::BSShaderBloodSplatter *>((state))->FUN_00b80600((::NiRefObject *)(void *)(m_pPixelA));
+            pRenderer->SetVertexShader((*reinterpret_cast<::fnv_00bca760::ShaderState * *>(&::DAT_0126f74c))->m_pVertexProgram->GetVertexHandle(0));
         }
         {
             unsigned int uiConst = m_uiConstA;
@@ -2408,11 +2392,11 @@ void PassShader::ApplyToRenderer(RenderPassArg* pArg)
     }
     else
     {
-        state->FUN_00b79950(m_pVertexC);
+        ::FUN_00b79950((char *)(state), (int)(m_pVertexC), {});
         void* pPixelC = m_pPixelC;
-        DAT_0126f74c->FUN_00b80600(pPixelC);
-        pRenderer->SetPixelShader(DAT_0126f74c->m_pPixelProgram->GetHandle(0));
-        pRenderer->SetVertexShader(DAT_0126f74c->m_pVertexProgram->GetVertexHandle(0));
+        reinterpret_cast<::BSShaderBloodSplatter *>(((*reinterpret_cast<::fnv_00bca760::ShaderState * *>(&::DAT_0126f74c))))->FUN_00b80600((::NiRefObject *)(pPixelC));
+        pRenderer->SetPixelShader((*reinterpret_cast<::fnv_00bca760::ShaderState * *>(&::DAT_0126f74c))->m_pPixelProgram->GetHandle(0));
+        pRenderer->SetVertexShader((*reinterpret_cast<::fnv_00bca760::ShaderState * *>(&::DAT_0126f74c))->m_pVertexProgram->GetVertexHandle(0));
         {
             unsigned int uiConst = m_uiConstB;
             SetConstant(uiConst);
@@ -2420,20 +2404,20 @@ void PassShader::ApplyToRenderer(RenderPassArg* pArg)
     }
 
     int iValue = bAlt ? 3 : pGeom->m_iTargetValue;
-    RefPtr<RefTarget> spFirst(DAT_0126f74c->m_pTargets->m_pFirst);
-    RefPtr<RefTarget> spSecond(DAT_0126f74c->m_pTargets->m_pSecond);
-    spFirst->ApplyPairToState(iValue);
+    RefPtr<RefTarget> spFirst((*reinterpret_cast<::fnv_00bca760::ShaderState * *>(&::DAT_0126f74c))->m_pTargets->m_pFirst);
+    RefPtr<RefTarget> spSecond((*reinterpret_cast<::fnv_00bca760::ShaderState * *>(&::DAT_0126f74c))->m_pTargets->m_pSecond);
+    reinterpret_cast<::E7DE90Owner *>(((spFirst).operator->()))->ApplyPairToState(iValue);
     if (!pGeom->m_bNoTarget && pGeom->m_pFlagTarget)
     {
         spFirst->m_pFlagTarget = pGeom->m_pFlagTarget;
-        spFirst->FUN_00e7eb00(true);
+        reinterpret_cast<::NiD3DPass *>(((spFirst).operator->()))->ApplyRenderStateChanges(true);
     }
     GeometryData* pNext = pGeom->m_pNext;
     if (pNext)
     {
-        spSecond->ApplyPairToState(0);
+        reinterpret_cast<::E7DE90Owner *>(((spSecond).operator->()))->ApplyPairToState(0);
         spSecond->m_pFlagTarget = pNext;
-        spSecond->FUN_00e7eb00(false);
+        reinterpret_cast<::NiD3DPass *>(((spSecond).operator->()))->ApplyRenderStateChanges(false);
     }
     else if (spSecond)
     {

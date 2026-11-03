@@ -2,6 +2,8 @@
 #ifndef FNV_NIDYNAMICEFFECT_STREAM_H
 #define FNV_NIDYNAMICEFFECT_STREAM_H
 
+#include "fnv/decl/FUN_00a63460_shell.h"
+#include "fnv/decl/S_00a64670_Foo.h"
 #include "layout_support.h"
 #include "NiFixedString.h"
 class BSStreamHeader;
@@ -240,8 +242,6 @@ class NiStream
     unsigned int m_uiNativeThreadId;                        // +0x3B8, 4 bytes
     char m_acSecondPathBuffer[260];                         // +0x3BC, 260 bytes
     char m_acFilePathBuffer[260];                           // +0x4C0, 260 bytes
-    unsigned int ReadUnsignedInteger();
-    unsigned int GetLinkID();
     NiObject* GetLoadedObject();
     // NiStream
     // void __cdecl NiStream::*(NiObject*)

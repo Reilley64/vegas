@@ -1,5 +1,51 @@
 // gamebryo2.2/corelibs/niparticle/nipsysemitterctlr.cpp: NiPSysEmitterCtlr, NiBoolData, ThisStruct, Host and more (39 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a37260_shell.h"
+#include "fnv/decl/FUN_00a38e90_shell.h"
+#include "fnv/decl/FUN_00a3c390.h"
+#include "fnv/decl/FUN_00a52d20_shell.h"
+#include "fnv/decl/FUN_00a532d0.h"
+#include "fnv/decl/FUN_00a57130_shell.h"
+#include "fnv/decl/FUN_00a57630.h"
+#include "fnv/decl/FUN_00a57780_shell.h"
+#include "fnv/decl/FUN_00a5d3a0.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00a6cd30_cls.h"
+#include "fnv/decl/FUN_00c315b0_cls.h"
+#include "fnv/decl/Host_data.h"
+#include "fnv/decl/NiGlobalStringTable.h"
+#include "fnv/decl/NiPSysEmitterCtlr_StandIn.h"
+#include "fnv/decl/NiTimeControllerA362.h"
+#include "fnv/decl/S_00a53280_Foo.h"
+#include "fnv/decl/S_00c313a0.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00533000__FUN_00533000_shell.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/fnv_00c1b0f0__FUN_00c1b0f0_cls.h"
+#include "fnv/decl/fnv_00c31530__NiPSysModifierCtlrRuntime.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00a56000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_0109a000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011ae000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01202000.h"
 #include "nipsysemitterctlr_types_NiPSysEmitterCtlr.h"
 #include "nipsysemitterctlr_types_NiStream.h"
 #include "nipsysemitterctlr_external.h"
@@ -9,7 +55,7 @@
 void NiPSysEmitterCtlr::LoadBinary(NiStream& stream)
 {
     NiPSysModifierCtlr::LoadBinary(stream);
-    stream.ResetStreamState();
+    reinterpret_cast<::FUN_00a645b0_cls *>(&(stream))->FUN_00a645b0();
 }
 
 // Calls the base ProcessClone, then clones the interpolator stored in the member if it is non-null.
@@ -44,66 +90,7 @@ void NiPSysEmitterCtlr::CopyMemberData(NiPSysEmitterCtlr* destination, CloningPr
     }
 
     if ((destination->m_uiObjectFlags & 0x6) == 0 && destination->m_fPhase == 0.0f)
-        destination->m_fPhase = GetRandomNumber() / DAT_01029790 * DAT_01017a40;
-}
-
-// @fnv 0x00c1c0e0
-void NiPSysEmitterCtlr::LinkObject(NiStream& stream)
-{
-    NiPSysModifierCtlr::LinkObject(stream);
-
-    if (stream.m_uiNifVersion < 0x0a010068)
-    {
-        NiObject* data = stream.GetLoadedObject();
-        if (!data)
-            return;
-
-        data->IncRefCount();
-
-        NiFloatInterpolator* floatMemory = static_cast<NiFloatInterpolator*>(NiPSysEmitterCtlr::operator new(0x18));
-        NiFloatInterpolator* floatInterpolator;
-        if (floatMemory)
-            floatInterpolator = new (floatMemory) NiFloatInterpolator(0);
-        else
-            floatInterpolator = 0;
-
-        unsigned int* fields = reinterpret_cast<unsigned int*>(data);
-        floatInterpolator->SetAnimationKeys(reinterpret_cast<void*>(fields[3]), fields[2], fields[4]);
-        fields[2] = 0;
-        fields[3] = 0;
-        fields[4] = 0;
-        reinterpret_cast<unsigned char*>(data)[0x14] = 0;
-        SetInterpolator(floatInterpolator, 0);
-
-        NiBoolInterpolator* boolMemory = static_cast<NiBoolInterpolator*>(NiPSysEmitterCtlr::operator new(0x18));
-        NiBoolInterpolator* boolInterpolator;
-        if (boolMemory)
-            boolInterpolator = reinterpret_cast<NiBoolInterpController*>(boolMemory)->LinkObject(0);
-        else
-            boolInterpolator = 0;
-
-        boolInterpolator->SetAnimationKeys(reinterpret_cast<void*>(fields[7]), fields[8], fields[6]);
-        fields[6] = 0;
-        fields[7] = 0;
-        reinterpret_cast<unsigned char*>(data)[0x24] = 0;
-        SetInterpolator(boolInterpolator, 1);
-        data->DecRefCount();
-        return;
-    }
-
-    if ((m_uiObjectFlags & 0x6) == 0 && m_fPhase == 0.0f)
-        m_fPhase = GetRandomNumber() / DAT_01029790 * DAT_01017a40;
-
-    NiInterpolator* active = static_cast<NiInterpolator*>(stream.GetLoadedObject());
-    NiInterpolator* old = m_spVisibilityInterpolator.m_pObject;
-    if (old != active)
-    {
-        if (old)
-            old->DecRefCount();
-        m_spVisibilityInterpolator.m_pObject = active;
-        if (active)
-            active->IncRefCount();
-    }
+        destination->m_fPhase = GetRandomNumber() / DAT_01029790 * ::g_d100;
 }
 
 struct NiSingleInterpControllerBase
@@ -124,17 +111,15 @@ FUN_00a38e00::FUN_00a38e00()
 }
 
 struct GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_011f4054;
 // Returns the address of the global object g_011f4054.
 // @fnv 0x00a537e0
 void* __cdecl FUN_00a537e0()
 {
-    return &g_011f4054;
+    return &::g_011f4054;
 }
 
 struct NiTimeControllerStop
 {
-    void ResetTiming();
 };
 struct FUN_00c1ba30 : NiTimeControllerStop
 {
@@ -145,14 +130,13 @@ struct FUN_00c1ba30 : NiTimeControllerStop
 void __fastcall FUN_00c1ba30(FUN_00c1ba30* self, int unused)
 {
     self->m48 = DAT_01015f5c;
-    self->ResetTiming();
+    reinterpret_cast<::FUN_00a6cd30_cls *>((self))->ResetTiming();
 }
 
-extern const char* const g_01203340_arg1;
 // @fnv 0x00c1c2f0
 const char* const* __cdecl FUN_00c1c2f0()
 {
-    return &g_01203340_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_012024e8));
 }
 
 extern int DAT_011ae754;
@@ -200,11 +184,7 @@ void NiPSysEmitterCtlr_shell::FUN_00c1bcc0(NiInterpolator* pkInterpolator, unsig
 
 struct MemoryManager
 {
-    void __thiscall Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
-extern int DAT_0109a1d4;
-void __cdecl _delete(void*, unsigned int);
 struct NiBoolData
 {
     char _0[12];
@@ -217,24 +197,22 @@ void* NiBoolData::Destroy(unsigned int auiFlags)
     void* keys = m_pKeyArray;
     *(void**)this = (void*)&DAT_0109a1d4;
     if (keys)
-        g_memoryManager.Deallocate((char*)keys - 4);
-    ((NiRefObject*)this)->NiRefObject::~NiRefObject();
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060((char*)keys - 4);
+    reinterpret_cast<class ::FUN_00a5d3d0 *>((((NiRefObject*)this)))->FUN_00a5d3d0::~FUN_00a5d3d0();
     if (auiFlags & 1)
-        _delete(this, 0x18);
+        ::FUN_00aa1460(this, 0x18);
     return this;
 }
 
-extern "C" int __cdecl NiStricmp(const char*, const char*);
-extern const unsigned short DAT_NiInterpController_INVALID_INDEX;
 // Compares pcID against two strings and returns 0, 1, or DAT_NiInterpController_INVALID_INDEX when neither matches.
 // @fnv 0x00c1ba80
 unsigned short __stdcall GetInterpControllerIndex(const char* pcControllerID)
 {
-    if (NiStricmp(pcControllerID, (const char*)DAT_011ae754) == 0)
+    if (::NiStricmp(pcControllerID, (const char*)DAT_011ae754) == 0)
         return 0;
-    if (NiStricmp(pcControllerID, (const char*)DAT_011ae758) == 0)
+    if (::NiStricmp(pcControllerID, (const char*)DAT_011ae758) == 0)
         return 1;
-    return DAT_NiInterpController_INVALID_INDEX;
+    return ::NiInterpController::INVALID_INDEX;
 }
 
 struct BSFadeNode
@@ -243,11 +221,9 @@ struct BSFadeNode
 };
 struct S1
 {
-    void* FUN_00a3c390(float);
 };
 struct S2
 {
-    void* FUN_00a532d0(int);
 };
 // @fnv 0x00c1bad0
 NiInterpolator* __stdcall CreateInterpolatorByIndex(unsigned short usInterpolatorIndex)
@@ -257,14 +233,14 @@ NiInterpolator* __stdcall CreateInterpolatorByIndex(unsigned short usInterpolato
         void* p = BSFadeNode::operator new(0x18);
         if (!p)
             return 0;
-        return (NiInterpolator*)((S1*)p)->FUN_00a3c390(0.0f);
+        return (NiInterpolator*)((void *)(new ((void *)(((S1*)p))) ::FUN_00a3c390(0.0f)));
     }
     if (usInterpolatorIndex == 1)
     {
         void* p = BSFadeNode::operator new(0x18);
         if (!p)
             return 0;
-        return (NiInterpolator*)((S2*)p)->FUN_00a532d0(0);
+        return (NiInterpolator*)((void *)(new ((void *)(((S2*)p))) class ::FUN_00a532d0(0)));
     }
     return 0;
 }
@@ -302,7 +278,6 @@ NiInterpolator* ThisStruct::GetInterpolatorByIndex(unsigned short usIndex)
     return 0;
 }
 
-bool __stdcall FUN_00a57780(NiStream& kStream);
 struct FakeInterp00c1be10
 {
     virtual void f00();
@@ -336,7 +311,7 @@ struct FUN_00c1be10_shell : NiPSysEmitterCtlr
 // @fnv 0x00c1be10
 bool FUN_00c1be10_shell::RegisterEmitterInterpolatorStreamables(NiStream& kStream)
 {
-    if (!FUN_00a57780(kStream))
+    if (!reinterpret_cast<::FUN_00a57780_shell *>((kStream))->FUN_00a57780(*(::NiStream *)nullptr))
         return false;
     NiInterpolator* pkEmitter = *(NiInterpolator**)((char*)this + 0x40);
     if (pkEmitter)
@@ -346,7 +321,6 @@ bool FUN_00c1be10_shell::RegisterEmitterInterpolatorStreamables(NiStream& kStrea
 
 struct BaseHack
 {
-    void FUN_00a57130(NiStream&);
 };
 struct FakeStream
 {
@@ -371,12 +345,10 @@ struct S_00c1be40
 // @fnv 0x00c1be40
 void S_00c1be40::FUN_00c1be40(NiStream& kStream)
 {
-    ((BaseHack*)this)->FUN_00a57130(kStream);
+    reinterpret_cast<::FUN_00a57130_shell *>((((BaseHack*)this)))->FUN_00a57130(kStream);
     ((FakeStream&)kStream).f12(*(void**)((char*)this + 0x40));
 }
 
-void* __cdecl _NiMalloc(unsigned int);
-void __cdecl _NiFreeAlias(void*);
 struct S_00c1beb0
 {
     float* m_pBase;
@@ -393,7 +365,7 @@ void S_00c1beb0::FUN_00c1beb0(unsigned int uiNewCapacity)
     float* pfNewData;
     if (uiNewCapacity > 0)
     {
-        pfNewData = (float*)_NiMalloc(uiNewCapacity * 4);
+        pfNewData = (float*)::FUN_00aa1070(uiNewCapacity * 4);
         for (unsigned int i = 0; i < m_uiSize; ++i)
             pfNewData[i] = m_pBase[i];
     }
@@ -401,7 +373,7 @@ void S_00c1beb0::FUN_00c1beb0(unsigned int uiNewCapacity)
     {
         pfNewData = 0;
     }
-    _NiFreeAlias(m_pBase);
+    ::FUN_00aa10f0(m_pBase);
     m_pBase = pfNewData;
     m_uiMaxSize = uiNewCapacity;
 }
@@ -412,7 +384,6 @@ struct A00c1bff0
 };
 struct B00c1bff0
 {
-    void* FUN_00c1b0f0(void*);
 };
 struct M00c1bff0
 {
@@ -420,7 +391,6 @@ struct M00c1bff0
     virtual void v1();
     virtual void* v2();
 };
-extern int g_01202500_arg1;
 struct H00c1bff0
 {
     char _a[0x2c];
@@ -435,13 +405,13 @@ bool H00c1bff0::FUN_00c1bff0()
 {
     if (!((A00c1bff0*)this)->FUN_00a38df0())
         return false;
-    M00c1bff0* pkModifier = (M00c1bff0*)_b->FUN_00c1b0f0(&_d);
+    M00c1bff0* pkModifier = (M00c1bff0*)reinterpret_cast<::fnv_00c1b0f0::FUN_00c1b0f0_cls *>((_b))->FUN_00c1b0f0((unsigned int *)(void *)(&_d));
     if (!pkModifier)
         return false;
     void* pRttiEntry = pkModifier->v2();
     for (; pRttiEntry; pRttiEntry = *(void**)((char*)pRttiEntry + 4))
     {
-        if (pRttiEntry == (void*)&g_01202500_arg1)
+        if (pRttiEntry == (void*)&(*reinterpret_cast<int *>(&::g_01202540)))
             return true;
     }
     return false;
@@ -452,7 +422,6 @@ struct S240
     float* m0;
     unsigned int m4;
     unsigned int m8;
-    void FUN_00c1beb0(unsigned int);
     void PushBack(float const&);
 };
 // Grows the buffer via FUN_00c1beb0 when full, then stores x at m0[m8] and increments m8.
@@ -462,46 +431,41 @@ void S240::PushBack(float const& afValue)
     if (m8 == m4)
     {
         unsigned int n = m4 > 0 ? m4 + m4 : 1;
-        FUN_00c1beb0(n);
+        reinterpret_cast<::S_00c1beb0 *>(this)->FUN_00c1beb0(n);
     }
     m0[m8++] = afValue;
 }
 
-void __cdecl _NiFreeAlias(void*);
 struct S_00c1c300
 {
     void FUN_00c1c300();
-    void FUN_00c312a0();
 };
 // Frees the pointer at offset 0x50, decrements the ref count of the interpolator at offset 0x40, then calls FUN_00c312a0.
 // @fnv 0x00c1c300
 void S_00c1c300::FUN_00c1c300()
 {
-    _NiFreeAlias(*(void**)((char*)this + 0x50));
+    ::FUN_00aa10f0(*(void**)((char*)this + 0x50));
     NiInterpolator* p = *(NiInterpolator**)((char*)this + 0x40);
     if (p)
         p->DecRefCount();
-    FUN_00c312a0();
+    reinterpret_cast<::Host_data *>(this)->FUN_00c312a0();
 }
 
-void __cdecl _NiFreeAlias(void*);
-void __cdecl _delete(void*, unsigned int);
 struct Host
 {
-    void FUN_00c312a0();
     void* ReleaseAndMaybeDelete(unsigned int);
 };
 // Frees the pointer at offset 0x50, decrements the ref count of the object at 0x40, calls FUN_00c312a0, and deletes this if flag bit 0 is set.
 // @fnv 0x00c1c340
 void* Host::ReleaseAndMaybeDelete(unsigned int flag)
 {
-    _NiFreeAlias(*(void**)((char*)this + 0x50));
+    ::FUN_00aa10f0(*(void**)((char*)this + 0x50));
     NiObject* pk = *(NiObject**)((char*)this + 0x40);
     if (pk)
         pk->DecRefCount();
-    this->FUN_00c312a0();
+    reinterpret_cast<::Host_data *>((this))->FUN_00c312a0();
     if (flag & 1)
-        _delete(this, 0x5c);
+        ::FUN_00aa1460(this, 0x5c);
     return this;
 }
 
@@ -511,14 +475,11 @@ struct RTTI_00c2b7d0
     int _0;
     RTTI_00c2b7d0* m_pkBase;
 };
-extern RTTI_00c2b7d0 g_01202500_arg1;
 struct S_00c31530
 {
-    bool IsTargetParticleSystem(void* pkTarget);
 };
 struct S_00c1b0f0
 {
-    void* FUN_00c1b0f0(void* p);
 };
 struct Mod_00c2b7d0
 {
@@ -535,9 +496,9 @@ struct Holder00c2b7d0
 bool Holder00c2b7d0::FUN_00c2b7d0(void* pkTarget)
 {
     void* pkModifier;
-    if (!((S_00c31530*)this)->IsTargetParticleSystem(pkTarget))
+    if (!reinterpret_cast<::fnv_00c31530::NiPSysModifierCtlrRuntime *>((((S_00c31530*)this)))->IsTargetParticleSystem((::fnv_00c31530::NiParticleSystemRuntime *)(pkTarget)))
         return false;
-    pkModifier = ((S_00c1b0f0*)pkTarget)->FUN_00c1b0f0((void*)((char*)this + 0x38));
+    pkModifier = reinterpret_cast<::fnv_00c1b0f0::FUN_00c1b0f0_cls *>((((S_00c1b0f0*)pkTarget)))->FUN_00c1b0f0((unsigned int *)(void *)((void*)((char*)this + 0x38)));
     if (!pkModifier)
         return false;
     RTTI_00c2b7d0* pkRTTI = ((Mod_00c2b7d0*)pkModifier)->_v2();
@@ -545,7 +506,7 @@ bool Holder00c2b7d0::FUN_00c2b7d0(void* pkTarget)
         return false;
     for (; pkRTTI; pkRTTI = pkRTTI->m_pkBase)
     {
-        if (pkRTTI == &g_01202500_arg1)
+        if (pkRTTI == &(*reinterpret_cast<::fnv_00c2b7d0::RTTI_00c2b7d0 *>(&::g_01202540)))
             return true;
     }
     return false;
@@ -554,7 +515,6 @@ bool Holder00c2b7d0::FUN_00c2b7d0(void* pkTarget)
 
 struct CallBase
 {
-    void FUN_00a38e90(float m_fStartTime, float m_fMaximumDistance);
 };
 struct InterpDummy
 {
@@ -616,7 +576,7 @@ struct MyCtlr
 // @fnv 0x00c1bbc0
 void MyCtlr::FUN_00c1bbc0(float afValue1, float afValue2)
 {
-    ((CallBase*)this)->FUN_00a38e90(afValue1, afValue2);
+    reinterpret_cast<::FUN_00a38e90_shell *>((((CallBase*)this)))->FUN_00a38e90(afValue1, afValue2);
     InterpDummy* pk = *(InterpDummy**)((char*)this + 0x40);
     if (pk)
         pk->v49(afValue1, afValue2);
@@ -633,7 +593,6 @@ struct FUN_00a40520_shell
 };
 struct FUN_00a56560_shell
 {
-    NiBlendInterpolator* ConstructBlendInterpolator(bool, float, unsigned char);
 };
 // Allocates a 0x34-byte NiBlendInterpolator and constructs variant 0 or 1 based on usIndex, returning null otherwise.
 // @fnv 0x00c1bb20
@@ -644,27 +603,23 @@ NiBlendInterpolator* __stdcall FUN_00c1bb20(unsigned short usVariant, bool bAccu
     {
         void* p = BSFadeNode::operator new(0x34);
         if (p)
-            return reinterpret_cast<FUN_00a40520_shell*>(p)->FUN_00a40520(bAccumulateAnimations, fWeightThreshold,
-                                                                          ucArraySize);
+            return ((::NiBlendInterpolator *)(new ((void *)(reinterpret_cast<FUN_00a40520_shell*>(p))) ::FUN_00a40520(bAccumulateAnimations, fWeightThreshold,
+                                                                          ucArraySize)));
     }
     else if (usVariant == 1)
     {
         void* p = BSFadeNode::operator new(0x34);
         if (p)
-            return reinterpret_cast<FUN_00a56560_shell*>(p)->ConstructBlendInterpolator(bAccumulateAnimations,
-                                                                                        fWeightThreshold, ucArraySize);
+            return ::ConstructBlendInterpolator((::NiBlendInterpolator *)(reinterpret_cast<FUN_00a56560_shell*>(p)), bAccumulateAnimations,
+                                                                                        fWeightThreshold, ucArraySize, {});
     }
     return 0;
 }
 
 struct StrArr
 {
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 
-char* __cdecl _FUN_00a7d330(char*);
-void __stdcall AppendModifierInfo(StrArr*);
 
 struct FUN_00c1ce70_shell : NiPSysEmitterCtlr
 {
@@ -674,16 +629,16 @@ struct FUN_00c1ce70_shell : NiPSysEmitterCtlr
 // @fnv 0x00c1ce70
 void FUN_00c1ce70_shell::FUN_00c1ce70(StrArr* pkStrings)
 {
-    AppendModifierInfo(pkStrings);
-    char* pcString = _FUN_00a7d330((char*)g_01203340_arg1);
+    reinterpret_cast<::FUN_00c315b0_cls *>((pkStrings))->AppendModifierInfo({});
+    char* pcString = ::FUN_00a7d330((char*)(*reinterpret_cast<const char *const *>(&::g_012024e8)));
     unsigned int uiIndex = *(unsigned short*)((char*)pkStrings + 0xa);
     unsigned int uiSize = *(unsigned short*)((char*)pkStrings + 8);
     if (uiIndex >= uiSize)
     {
         unsigned int uiGrow = *(unsigned short*)((char*)pkStrings + 0xe);
-        pkStrings->SetSize(uiGrow + uiIndex);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(uiGrow + uiIndex);
     }
-    pkStrings->SetAt(uiIndex, pcString);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiIndex, pcString);
     NiInterpolator* pkInterp = *(NiInterpolator**)((char*)this + 0x40);
     if (pkInterp)
     {
@@ -703,14 +658,13 @@ struct S_00a56be0
     volatile int unk0c;
     volatile int unk10;
 
-    void FUN_00a5d3a0();
     S_00a56be0* Initialize();
 };
 
 // @fnv 0x00a56be0
 S_00a56be0* S_00a56be0::Initialize()
 {
-    this->FUN_00a5d3a0();
+    new ((void *)(this)) struct ::FUN_00a5d3a0();
 
     unk08 = 0;
     unk00 = &DAT_0109a864;
@@ -759,6 +713,64 @@ struct CClsA
     int m14;
     void FUN_00c1bf10(unsigned int a, unsigned int b, unsigned int c);
 };
+// @fnv 0x00c1c0e0
+void NiPSysEmitterCtlr::LinkObject(NiStream& stream)
+{
+    reinterpret_cast<struct ::FUN_00a57630 *>(this)->LinkObject(stream);
+
+    if (stream.m_uiNifVersion < 0x0a010068)
+    {
+        NiObject* data = stream.GetLoadedObject();
+        if (!data)
+            return;
+
+        data->IncRefCount();
+
+        NiFloatInterpolator* floatMemory = static_cast<NiFloatInterpolator*>(NiPSysEmitterCtlr::operator new(0x18));
+        NiFloatInterpolator* floatInterpolator;
+        if (floatMemory)
+            floatInterpolator = new (floatMemory) NiFloatInterpolator(0);
+        else
+            floatInterpolator = 0;
+
+        unsigned int* fields = reinterpret_cast<unsigned int*>(data);
+        floatInterpolator->SetAnimationKeys(reinterpret_cast<void*>(fields[3]), fields[2], fields[4]);
+        fields[2] = 0;
+        fields[3] = 0;
+        fields[4] = 0;
+        reinterpret_cast<unsigned char*>(data)[0x14] = 0;
+        SetInterpolator(floatInterpolator, 0);
+
+        NiBoolInterpolator* boolMemory = static_cast<NiBoolInterpolator*>(NiPSysEmitterCtlr::operator new(0x18));
+        NiBoolInterpolator* boolInterpolator;
+        if (boolMemory)
+            boolInterpolator = ((::NiBoolInterpolator *)(reinterpret_cast<::S_00a53280_Foo *>((reinterpret_cast<NiBoolInterpController*>(boolMemory)))->FUN_00a53280(0)));
+        else
+            boolInterpolator = 0;
+
+        reinterpret_cast<::CClsA *>((boolInterpolator))->FUN_00c1bf10((unsigned int)(reinterpret_cast<void*>(fields[7])), fields[8], fields[6]);
+        fields[6] = 0;
+        fields[7] = 0;
+        reinterpret_cast<unsigned char*>(data)[0x24] = 0;
+        SetInterpolator(boolInterpolator, 1);
+        data->DecRefCount();
+        return;
+    }
+
+    if ((m_uiObjectFlags & 0x6) == 0 && m_fPhase == 0.0f)
+        m_fPhase = GetRandomNumber() / DAT_01029790 * ::g_d100;
+
+    NiInterpolator* active = static_cast<NiInterpolator*>(stream.GetLoadedObject());
+    NiInterpolator* old = m_spVisibilityInterpolator.m_pObject;
+    if (old != active)
+    {
+        if (old)
+            old->DecRefCount();
+        m_spVisibilityInterpolator.m_pObject = active;
+        if (active)
+            active->IncRefCount();
+    }
+}
 
 // Ensures m_ptr holds a CChildA, calls M(a, c, b) and clears m14 when c > 0, otherwise calls M(0, 0, 0) if m_ptr is set.
 // @fnv 0x00c1bf10
@@ -865,7 +877,6 @@ struct C1BF90Target
     virtual void vf52();
     virtual void vf53();
     virtual int vf54();
-    C1BF90Result* FUN_00653290(const void* objectType);
 };
 
 struct C1BF90Base
@@ -895,7 +906,6 @@ struct C1BF90Owner : C1BF90Base
 };
 
 extern unsigned char DAT_01096968;
-extern GlobalObjectO2_00a7b610 DAT_011f407c;
 
 // Returns vf54() if nonzero; otherwise looks up an object by DAT_011f407c and returns a value indexed by its key, or 0.
 // @fnv 0x00c1bf90
@@ -906,7 +916,7 @@ int __thiscall C1BF90Owner::GetObjectValueByKey()
     {
         if (this->unk40 != 0)
         {
-            C1BF90Result* pResult = this->unk40->FUN_00653290(&DAT_011f407c);
+            C1BF90Result* pResult = ((::C1BF90Result *)(reinterpret_cast<::NiObject *>((this->unk40))->DynamicCast((const ::NiRTTI *)(const void *)(&::g_011f407c))));
             if (pResult != 0)
             {
                 unsigned char key = pResult->FindHighestWeightIndex();
@@ -927,9 +937,7 @@ int __thiscall C1BF90Owner::GetObjectValueByKey()
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
-extern char* g_pcC1C280NullString;
 
-char* __cdecl FUN_00a5b690(const char* pcString);
 
 static const float NI_INFINITY = 3.402823466e+38f;
 static const float INVALID_FLOAT = -NI_INFINITY;
@@ -940,13 +948,13 @@ class BC1C280FixedString
     BC1C280FixedString(const char* pcString) throw()
     {
         if (pcString == 0)
-            m_kHandle = g_pcC1C280NullString;
+            m_kHandle = ::DAT_0109b220;
         else
-            m_kHandle = FUN_00a5b690(pcString);
+            m_kHandle = ::NiGlobalStringTable::AddString(pcString);
     }
     ~BC1C280FixedString() throw()
     {
-        if (m_kHandle != g_pcC1C280NullString)
+        if (m_kHandle != ::DAT_0109b220)
             InterlockedDecrement((long*)(m_kHandle - 8));
     }
 
@@ -1187,7 +1195,6 @@ template <class T> class NiPointerC1B
 class NiBaseC1B : public NiObjectC1B
 {
   public:
-    bool BaseIsEqual(NiObjectC1B* pkObject);
 
     int unk04;
     int unk08;
@@ -1212,7 +1219,7 @@ class NiBaseC1B : public NiObjectC1B
 // @fnv 0x00c1be60
 bool NiBaseC1B::FUN_00c1be60(NiObjectC1B* pkObject)
 {
-    if (!BaseIsEqual(pkObject))
+    if (!((bool)(reinterpret_cast<::S_00c313a0 *>(this)->IsEquivalentTo((::S_00c313a0 *)(pkObject)))))
         return false;
 
     NiBaseC1B* pkOther = (NiBaseC1B*)pkObject;
@@ -1269,7 +1276,6 @@ struct EmitterStandIn
     virtual void v40();
     virtual void UpdateEmitter(float fTime, unsigned short uiNumParticles, const float* afAges);
 };
-extern unsigned short DAT_011ae75c;
 struct AgeSet : NiTPrimitiveSet_float_
 {
     void Add(const float& fValue)
@@ -1296,8 +1302,8 @@ void EmitCtlr::EmitParticlesInInterval(float fTime, float fCurTime, float fLastT
             fStart = fLastTime - fEmitStart;
         unsigned short usFirst = (unsigned short)(fStart * fEmissionRate);
         unsigned int uiElementCount = (unsigned short)((unsigned short)(fDuration * fEmissionRate) - usFirst);
-        if ((unsigned short)uiElementCount > (unsigned short)DAT_011ae75c)
-            uiElementCount = DAT_011ae75c;
+        if ((unsigned short)uiElementCount > (unsigned short)(*reinterpret_cast<unsigned short *>(&::DAT_011ae75c)))
+            uiElementCount = (*reinterpret_cast<unsigned short *>(&::DAT_011ae75c));
         float fInvBirthRate = 1.0f / fEmissionRate;
         m_kBirthRateKeys.m_uiAllocatedCapacity = 0;
         for (unsigned short us = 0; us < (unsigned short)uiElementCount; us++)
@@ -1356,9 +1362,6 @@ unsigned char nsa::FUN_00a368f0_cls::FindHighestWeightIndex()
     return bestIndex;
 }
 
-extern char DAT_011f3738;
-extern char DAT_011f3e58;
-extern char DAT_011f404c;
 
 struct C040Node
 {
@@ -1373,7 +1376,6 @@ struct C040Owner
     virtual C040Node* v2();
 };
 
-unsigned char __cdecl FUN_0043b300(void* a, void* b);
 
 __forceinline bool C040Has(C040Owner* o, void* p)
 {
@@ -1389,14 +1391,14 @@ bool __stdcall FUN_00c1c040(C040Owner* pOwner, unsigned short type)
 {
     if (type == 0)
     {
-        if (pOwner && (C040Has(pOwner, &DAT_011f3738) || C040Has(pOwner, &DAT_011f3e58)))
+        if (pOwner && (C040Has(pOwner, &(*reinterpret_cast<char *>(&::g_011f3738))) || C040Has(pOwner, &(*reinterpret_cast<char *>(&::g_011f3e58)))))
             return true;
     }
     else if (type == 1)
     {
-        if (pOwner && C040Has(pOwner, &DAT_011f404c))
+        if (pOwner && C040Has(pOwner, &(*reinterpret_cast<char *>(&::g_011f404c))))
             return true;
-        if (FUN_0043b300(&DAT_011f407c, pOwner))
+        if (((unsigned char)(::FUN_0043b300((const ::NiRTTI *)(void *)(&::g_011f407c), (::NiAVObject *)(pOwner)))))
             return true;
     }
     return false;
@@ -1486,7 +1488,6 @@ class NiPSysEmitterCtlrC1C5 : public FUN_00c31260
         unsigned int m_uiMaxSize;
     } m_kRequests;
 
-    void FUN_00c1bd30(NiPSysEmitterCtlrC1C5* pkDest, CloningProcessC1C5& kCloning);
     NiPSysEmitterCtlrC1C5* FUN_00c1c570(CloningProcessC1C5& kCloning);
 };
 
@@ -1495,7 +1496,7 @@ class NiPSysEmitterCtlrC1C5 : public FUN_00c31260
 NiPSysEmitterCtlrC1C5* NiPSysEmitterCtlrC1C5::FUN_00c1c570(CloningProcessC1C5& kCloning)
 {
     NiPSysEmitterCtlrC1C5* pkClone = new NiPSysEmitterCtlrC1C5;
-    FUN_00c1bd30(pkClone, kCloning);
+    reinterpret_cast<::NiPSysEmitterCtlr *>(this)->CopyMemberData((::NiPSysEmitterCtlr *)(pkClone), (::CloningProcess &)(kCloning));
     return pkClone;
 }
 
@@ -1579,14 +1580,9 @@ struct C630Interp
     virtual void vf59();
     virtual void vf60();
     virtual bool Posed(unsigned short channel);
-    __declspec(noalias) ActiveKey* FUN_00a52d20(unsigned int&, unsigned int&, unsigned char&);
-    __declspec(noalias) ActiveKey* FUN_00533000(unsigned int&, unsigned int&, unsigned char&);
 };
 struct C630Blend
 {
-    void UpdateNormalizedWeights();
-    unsigned char FindHighestWeightIndex();
-    float GetValueForIndex(unsigned char);
 };
 struct C630Modifier
 {
@@ -1607,13 +1603,6 @@ struct C630Target
     float offset;
 };
 extern float DAT_01015f5c;
-extern const float DAT_01096324;
-extern double DAT_010241b0;
-extern double DAT_01011588;
-extern GlobalObjectO2_00a7b610 DAT_011f407c;
-extern char DAT_011f3e58;
-extern "C" bool __cdecl InterpolateBooleanKey(float, ActiveKey*, unsigned int, unsigned int, unsigned int&,
-                                              unsigned char);
 struct C630Ctlr
 {
     int unk00, unk04;
@@ -1633,11 +1622,7 @@ struct C630Ctlr
     NiInterpolator* m_pEmitterActiveInterpolator;
     float m_fScaledLastTime;
     bool m_bIsInitialized;
-    void EmitParticlesInInterval(float a, float b, float c, float d, float e, float f);
 
-    bool FUN_00a36250(float);
-    C630Interp* GetObjectValueByKey();
-    C630Interp* FUN_00639b60();
     bool Manager() const
     {
         return (bool)(((m_uiObjectFlags & 0x20) >> 5) & 1);
@@ -1654,35 +1639,35 @@ void C630Ctlr::FUN_00c1c630(float* time)
         return;
     if (Manager())
         m_fControllerTime = DAT_01096324;
-    if (m_fLastTime != DAT_010241b0 && !(m_uiObjectFlags & 6) &&
+    if (m_fLastTime != ::DAT_010241b0 && !(m_uiObjectFlags & 6) &&
         *time - m_fLastTime > ((C630Modifier*)m_pkTargetModifier)->span)
         m_fLastTime = *time;
-    if (FUN_00a36250(*time))
+    if (reinterpret_cast<::NiTimeControllerA362 *>(this)->FUN_00a36250(*time))
         return;
     if (!m_spVisibilityInterpolator.m_pObject || !m_spControllerInterpolator.m_pObject)
         return;
     float activeBlendTime = DAT_01015f5c;
-    if (FUN_0043b300(&DAT_011f407c, m_spVisibilityInterpolator))
+    if (((unsigned char)(::FUN_0043b300((const ::NiRTTI *)(void *)(&::g_011f407c), (::NiAVObject *)(void *)(m_spVisibilityInterpolator)))))
     {
         C630Blend* blend = (C630Blend*)m_spVisibilityInterpolator.m_pObject;
-        blend->UpdateNormalizedWeights();
-        unsigned char index = blend->FindHighestWeightIndex();
+        reinterpret_cast<::FUN_00a37260_shell *>((blend))->UpdateNormalizedWeights();
+        unsigned char index = reinterpret_cast<::nsa::FUN_00a368f0_cls *>((blend))->FindHighestWeightIndex();
         if (index != DAT_01096968)
-            activeBlendTime = blend->GetValueForIndex(index);
+            activeBlendTime = reinterpret_cast<::S_00c1bb90 *>((blend))->GetValueForIndex(index);
     }
-    C630Interp* emitterActive = GetObjectValueByKey();
-    bool activeTimeSet = activeBlendTime != DAT_010241b0;
+    C630Interp* emitterActive = ((::C630Interp *)(reinterpret_cast<::C1BF90Owner *>(this)->GetObjectValueByKey()));
+    bool activeTimeSet = activeBlendTime != ::DAT_010241b0;
     float birthRateTime = DAT_01015f5c;
-    if (FUN_0043b300(&DAT_011f3e58, m_spControllerInterpolator))
+    if (((unsigned char)(::FUN_0043b300((const ::NiRTTI *)(void *)(&(*reinterpret_cast<char *>(&::g_011f3e58))), (::NiAVObject *)(void *)(m_spControllerInterpolator)))))
     {
         C630Blend* blend = (C630Blend*)m_spControllerInterpolator.m_pObject;
-        blend->UpdateNormalizedWeights();
-        unsigned char index = blend->FindHighestWeightIndex();
+        reinterpret_cast<::FUN_00a37260_shell *>((blend))->UpdateNormalizedWeights();
+        unsigned char index = reinterpret_cast<::nsa::FUN_00a368f0_cls *>((blend))->FindHighestWeightIndex();
         if (index != DAT_01096968)
-            birthRateTime = blend->GetValueForIndex(index);
+            birthRateTime = reinterpret_cast<::S_00c1bb90 *>((blend))->GetValueForIndex(index);
     }
-    C630Interp* rateInterp = FUN_00639b60();
-    bool rateTimeSet = birthRateTime != DAT_010241b0;
+    C630Interp* rateInterp = ((::C630Interp *)(reinterpret_cast<::NiPSysEmitterCtlr_StandIn *>(this)->FUN_00639b60()));
+    bool rateTimeSet = birthRateTime != ::DAT_010241b0;
     if (!emitterActive || !rateInterp)
         return;
     float newTime = m_fControllerTime;
@@ -1698,7 +1683,7 @@ void C630Ctlr::FUN_00c1c630(float* time)
     m_pEmitterActiveInterpolator = (NiInterpolator*)rateInterp;
     unsigned int activeCount, activeType;
     unsigned char boolKeySize;
-    ActiveKey* emitterKeys = emitterActive->FUN_00a52d20(activeCount, activeType, boolKeySize);
+    ActiveKey* emitterKeys = ((::ActiveKey *)(reinterpret_cast<::FUN_00a52d20_shell *>((emitterActive))->FUN_00a52d20((int *)&(activeCount), (int *)&(activeType), (char *)&(boolKeySize))));
     if (!activeCount && !emitterActive->Posed(0))
         return;
     if (emitterActive->Posed(0))
@@ -1722,12 +1707,12 @@ void C630Ctlr::FUN_00c1c630(float* time)
             }
             if (!rateInterp->Value(0.0f, m_pkTarget, rateValue))
                 return;
-            EmitParticlesInInterval(deltaTime + offset, newTime, oldTime, 0.0f, newTime, rateValue);
+            reinterpret_cast<::EmitCtlr *>(this)->EmitParticlesInInterval(deltaTime + offset, newTime, oldTime, 0.0f, newTime, rateValue);
             return;
         }
         unsigned int rateCount, rateType;
         unsigned char ucRateSize;
-        ActiveKey* birthKeys = rateInterp->FUN_00533000(rateCount, rateType, ucRateSize);
+        ActiveKey* birthKeys = ((::ActiveKey *)(reinterpret_cast<::fnv_00533000::FUN_00533000_shell *>((rateInterp))->FUN_00533000((void **)&(rateCount), (void **)&(rateType), (char *)&(ucRateSize))));
         float rateBegin = birthKeys->time;
         float rateEnd = birthKeys->At(rateCount - 1, ucRateSize)->time;
         float deltaTime = 0.0f;
@@ -1736,18 +1721,18 @@ void C630Ctlr::FUN_00c1c630(float* time)
             double dDelta = rateEnd - oldTime;
             rateInterp->Value((float)(dDelta * DAT_01011588 + oldTime), m_pkTarget, rateValue);
             deltaTime = (float)dDelta;
-            EmitParticlesInInterval(offset + deltaTime, rateEnd, oldTime, rateBegin, rateEnd, rateValue);
+            reinterpret_cast<::EmitCtlr *>(this)->EmitParticlesInInterval(offset + deltaTime, rateEnd, oldTime, rateBegin, rateEnd, rateValue);
             oldTime = birthKeys->time;
         }
         double dDelta = newTime - oldTime;
         rateInterp->Value((float)(dDelta * DAT_01011588 + oldTime), m_pkTarget, rateValue);
-        EmitParticlesInInterval((float)(offset + dDelta + deltaTime), newTime, oldTime, rateBegin, newTime, rateValue);
+        reinterpret_cast<::EmitCtlr *>(this)->EmitParticlesInInterval((float)(offset + dDelta + deltaTime), newTime, oldTime, rateBegin, newTime, rateValue);
         return;
     }
     unsigned int uiLastIndex = 0;
     bool bActive;
-    bActive = InterpolateBooleanKey(newTime, emitterKeys, activeType, activeCount, uiLastIndex, boolKeySize);
-    if (m_fScaledLastTime == DAT_010241b0)
+    bActive = ::InterpolateBooleanKey(newTime, (const ::AnimationKey *)(emitterKeys), activeType, activeCount, (unsigned int *)&(uiLastIndex), boolKeySize);
+    if (m_fScaledLastTime == ::DAT_010241b0)
     {
         m_bIsInitialized = bActive;
         m_fScaledLastTime = newTime;
@@ -1854,13 +1839,13 @@ void C630Ctlr::FUN_00c1c630(float* time)
         float offset = ((C630Target*)m_pkTarget)->offset;
         if (isWrapped)
             offset = (m_fHiKeyTime - m_fLoKeyTime) + offset;
-        EmitParticlesInInterval(offset + newTime - oldTime, fCurrentEnd, intervalStart, birthBegin, birthEnd,
+        reinterpret_cast<::EmitCtlr *>(this)->EmitParticlesInInterval(offset + newTime - oldTime, fCurrentEnd, intervalStart, birthBegin, birthEnd,
                                 rateValue);
         if (pkEnd->time < newTime)
         {
             oldTime = fCurrentEnd;
             bLastActive =
-                InterpolateBooleanKey(oldTime, emitterKeys, activeType, activeCount, uiLastIndex, boolKeySize);
+                ::InterpolateBooleanKey(oldTime, (const ::AnimationKey *)(emitterKeys), activeType, activeCount, (unsigned int *)&(uiLastIndex), boolKeySize);
         }
         else
         {

@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/havok/physics/collide/query/castutil/hkpworldlinearcaster.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/castutil/hkpworldlinearcaster.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_01016000.h"
 struct FloatHolder
 {
     int unk00;
@@ -58,9 +59,8 @@ struct FUN_00cfae50_cls
 };
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 
-extern __m128 DAT_010ec7f0;
-extern float DAT_01016248;
 
 struct __declspec(align(16)) S_00cfaed0_V4
 {
@@ -212,7 +212,7 @@ struct S_00cfaed0_Vec
     __forceinline void setInterpolate4(const S_00cfaed0_Vec& a, const S_00cfaed0_Vec& b, const S_00cfaed0_Real& t)
     {
         __m128 tt = _mm_shuffle_ps(t.r, t.r, 0);
-        q = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(DAT_010ec7f0, tt), a.q), _mm_mul_ps(b.q, tt));
+        q = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(::DAT_010ec7f0, tt), a.q), _mm_mul_ps(b.q, tt));
     }
     __forceinline void setSub4(const S_00cfaed0_Vec& a, const S_00cfaed0_Vec& b)
     {
@@ -268,7 +268,7 @@ void S_00cfaed0_This::FUN_00cfaed0(S_00cfaed0_Iface* p1, S_00cfaed0_P2* a2, S_00
     a2->unk00->v07(a2->unk08, a3->f14, &out);
     S_00cfaed0_Vec& oa = *(S_00cfaed0_Vec*)&out.a;
     S_00cfaed0_Vec& ob = *(S_00cfaed0_Vec*)&out.b;
-    S_00cfaed0_Real h1(DAT_01016248), h2(DAT_01016248);
+    S_00cfaed0_Real h1(::fnv_00c88020::DAT_01016248), h2(::fnv_00c88020::DAT_01016248);
     S_00cfaed0_Vec pos;
     pos.setInterpolate4(oa, ob, h1);
     f80 = a3->f10;

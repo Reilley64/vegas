@@ -2,6 +2,17 @@
 #ifndef FNV_TESFORM_H
 #define FNV_TESFORM_H
 
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00619d00_shell.h"
+#include "fnv/decl/FUN_0061e2b0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_0061a000.h"
 #include "tesresponse_support.h"
 #include "tesresponse_component.h"
 #pragma pack(push, 4)
@@ -88,17 +99,9 @@ class TESForm : public BaseFormComponent
     virtual bool SetEditorID_AtRuntime(const char* edid);
     TESForm();
     ENUM_FORM_ID GetFormType() const;
-    static TESForm* GetFormByID(unsigned int);
     TESFile* GetFile(int fileIndex);
-    BSSimpleList<TESFile*>* GetSourceFiles();
-    bool IsDeleted() const;
-    unsigned int GetFormID();
-    bool IsTemporary() const;
     void NotifySaveLoadGameOfFormChange();
     void SetInitializationState(bool initialized);
-    void SetFormType(ENUM_FORM_ID type);
-    void LoadRecordHeader(TESFile* file);
-    static void RemapFormIDForFile(unsigned int& formID, TESFile* file);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESForm) == 0x18);
@@ -116,13 +119,10 @@ class TESQuest : public TESForm
 class TESTopic : public TESForm
 {
   public:
-    static TESTopic* GetTopicFromInfo(TESTopicInfo*);
-    TESQuest* GetParentQuest(TESTopicInfo*);
 };
 class TESTopicInfo : public TESForm
 {
   public:
-    void FormatDebugInfo(BSStringT<char>&, bool);
 };
 class TESIdleForm : public TESForm
 {

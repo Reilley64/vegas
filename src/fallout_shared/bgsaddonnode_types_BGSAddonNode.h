@@ -2,6 +2,8 @@
 #ifndef FNV_BGSADDONNODE_H
 #define FNV_BGSADDONNODE_H
 
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/FUN_00512810_holder.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "TESForm.h"
@@ -198,7 +200,6 @@ class TESModelTextureSwap : public TESModel
     TESModelTextureSwap();
     ~TESModelTextureSwap();
     void InitItem(TESForm* form);
-    bool ParseTextureSwapData(void* data, unsigned int size, unsigned int version);
     // base TESModel at +0x0, size 24
     BSSimpleList<DistantTreeTextureInfo*> TextureSwapNodeAccessor;  // +0x18, 8 bytes
     // TESModelTextureSwap
@@ -232,7 +233,6 @@ FNV_STATIC_ASSERT(offsetof(TESModelTextureSwap, TextureSwapNodeAccessor) == 24);
 class AddonNodeData
 {
   public:
-    void FUN_00512810();
     unsigned short m_usAddonNodeIndex;  // +0x0, 2 bytes
     unsigned char cFlags;               // +0x2, 1 bytes
     unsigned char layoutPadding3[1];
@@ -257,7 +257,6 @@ class BGSAddonNode : public TESBoundObject, public TESModelTextureSwap
     void ResetFormData();
     virtual void InitItem(void);
     virtual bool Load(TESFile* file);
-    bool FUN_00448bf0();
     // void __cdecl BGSAddonNode::*()
     // unsigned int __cdecl BGSAddonNode::*()
     // void __cdecl BGSAddonNode::*(unsigned int)
@@ -276,6 +275,8 @@ class BGSAddonNode : public TESBoundObject, public TESModelTextureSwap
     // unsigned int __cdecl BGSAddonNode::*()
     // BGSAddonNode& __cdecl BGSAddonNode::*(const BGSAddonNode&)
     // void __cdecl BGSAddonNode::*()
+public:
+    bool IsMasterParticleSystem() const;
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(BGSAddonNode) == 96);

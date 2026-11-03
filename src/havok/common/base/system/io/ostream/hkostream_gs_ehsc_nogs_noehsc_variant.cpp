@@ -5,15 +5,21 @@
 
 // src/havok/common/base/system/io/ostream/hkostream.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/ostream/hkostream.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00c903b0_class.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/fnv_00cbf2f0__FUN_00cbf2f0_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010c9000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkOstream.h"
-extern int DAT_01268108;
 extern "C" __declspec(dllimport) void __stdcall free(void*);
 void __cdecl FUN_00c85750();
-extern char _DAT_010c9314;
-extern char _DAT_0102e388;
 struct Old
 {
-    void ReleaseReference();
 };
 struct FUN_00cc00e0
 {
@@ -24,8 +30,6 @@ struct FUN_00cc00e0
 };
 struct hkReferencedObjectStandIn
 {
-    void RetainReference();
-    void removeReference();
 };
 struct DDCC60WorldStandIn
 {
@@ -49,7 +53,6 @@ struct FUN_00cc07f0_MemoryRouter
     unsigned char padding[0x10];
     FUN_00cc07f0_Router* pRouter;
 };
-extern FUN_00cc07f0_MemoryRouter* _D1A0E0GetMemoryRouter();
 struct FUN_00cc07f0_StandIn
 {
 // @fnv 0x00cc07f0
@@ -93,9 +96,7 @@ struct Own_00cc0470
     Sub_00cc0470* m_sub;
     void __thiscall FUN_00cc0470(void* a);
 };
-extern int g_unk01268560;
 int* __cdecl FUN_00cc04c0();
-extern int DAT_01268ad8;
 int __cdecl FUN_00cc0770();
 void __stdcall FUN_00e3b490(bool* p);
 struct FUN_00cc04a0_Slots
@@ -241,7 +242,6 @@ class FUN_00cbf430 : public GlobalObject_0045cfe0
 {
   public:
     ~FUN_00cbf430();
-    void FUN_00cbf2f0();
 };
 class hkMemoryAllocatorD60B
 {
@@ -296,8 +296,6 @@ class FUN_00d60b40 : public hkRefObjD60B
 };
 
 #include <stdarg.h>
-extern "C" void __cdecl FUN_00cb0f50(char* buffer, unsigned int size, const char* fmt, char* args);
-extern "C" int __cdecl FUN_00cb10d0(int value);
 extern "C" const char str_010c9308[];
 
 class hkWriter0080
@@ -314,7 +312,7 @@ static __declspec(noinline) void FUN_00cc0080(hkWriter0080* out, const char* str
 {
     if (str)
     {
-        out->write(str, FUN_00cb10d0((int)str));
+        out->write(str, ::fnv_00cb10d0::FUN_00cb10d0((const char *)((int)str)));
     }
     else
     {
@@ -328,7 +326,7 @@ void __cdecl FUN_00cc0410(hkOstream* self, const char* fmt, ...)
     char buf[0x2728];
     va_list ap;
     va_start(ap, fmt);
-    FUN_00cb0f50(buf, 0x2728, fmt, ap);
+    ::FUN_00cb0f50((int)(buf), 0x2728, (int)(fmt), (int)(ap));
     va_end(ap);
     FUN_00cc0080((hkWriter0080*)self->m_pStreamWriter, buf);
 }

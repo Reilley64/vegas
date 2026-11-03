@@ -5,6 +5,17 @@
 
 // src/havok/common/base/system/io/socket/bsd/hkbsdsocket.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/socket/bsd/hkbsdsocket.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/BufferOwner.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00d2b850.h"
+#include "fnv/decl/RequestReceiver.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/StringBuf.h"
+#include "fnv/symbols_00ee6000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_01268000.h"
 extern "C" void __stdcall closesocket(int);
 struct FUN_00da2dc0_class
 {
@@ -19,14 +30,11 @@ struct FUN_00da2dc0_class
     int m_pSocket;          // +0x20
     void CloseSocket();
 };
-extern int DAT_0102e388;
 extern int DAT_010d5030;
 struct hkBsdSocket
 {
-    void __thiscall CloseSocket();
     void __thiscall Destroy();
 };
-extern "C" void __cdecl FUN_00d2b850(void);
 extern "C" void __cdecl FUN_00da2de0(void*);
 extern int DAT_010d5030;
 struct FUN_00da30a0_cls
@@ -76,7 +84,6 @@ extern "C" int __stdcall FUN_00ee6d7a(int, int, int, int);
 // FUN_00ee6d9e: 6-byte 'jmp [IAT]' forwarder to WSOCK32 ordinal 21 (setsockopt, stdcall, 5 args).
 extern "C" __declspec(dllimport) int __stdcall setsockopt(unsigned int s, int level, int optname, const char* optval,
                                                           int optlen);
-int __stdcall FUN_00ee6d9e(unsigned int s, int level, int optname, const char* optval, int optlen);
 extern "C" int __stdcall FUN_00ee6d56(int, void*, int, int);
 extern "C" int __cdecl FUN_00ee6d50(void);
 struct FUN_00da2e10_cls
@@ -146,9 +153,6 @@ struct S00da2ff0_Msg
     int unk00;
     int unk04;
     int unk08;
-    void __thiscall Init(void*, int);
-    void __thiscall Done();
-    void __thiscall Add(const char*);
 };
 struct S00da2ff0_Err
 {
@@ -157,7 +161,6 @@ struct S00da2ff0_Err
     virtual void v2();
     virtual int v3(int, int, void*, const char*, int);
 };
-extern S00da2ff0_Err* DAT_01268360;
 void InitWinsock();
 
 namespace fnv_00da3230 {
@@ -182,9 +185,6 @@ struct sockaddr_inD32
 extern "C" int __stdcall FUN_00ee6dbc(int nfds, fd_setD32* pRead, fd_setD32* pWrite, fd_setD32* pExcept,
                                       const timevalD32* pTimeout);
 extern "C" int __stdcall FUN_00ee6db6(unsigned int s, fd_setD32* pSet);
-extern "C" unsigned int __stdcall FUN_00ee6db0(unsigned int s, sockaddr_inD32* pAddr, int* pAddrLen);
-extern "C" unsigned short __stdcall FUN_00ee6daa(unsigned short usNet);
-extern "C" char* __stdcall FUN_00ee6da4(unsigned int uiAddr);
 
 struct StrBufD32
 {
@@ -193,10 +193,7 @@ struct StrBufD32
     int m_iCapacityState;
     char m_kStorage[0x80];
 
-    void InitBuffer();
-    void FUN_00cbbd40();
 };
-void __cdecl FUN_00d61d00(StrBufD32* pBuf, const char* pcFmt, ...);
 
 struct OstreamD32
 {
@@ -204,9 +201,6 @@ struct OstreamD32
     int unk04;
     int unk08;
 
-    void FUN_00cb1600(char* pcBuf, int iSize);
-    OstreamD32& InvokeFromRequest(const StrBufD32& kStr);
-    void FUN_00cc00e0();
 };
 
 struct ErrorD32
@@ -216,7 +210,6 @@ struct ErrorD32
     virtual void v02();
     virtual int message(int eType, int aiSoundId, const char* pcDesc, const char* pcFile, int iLine);
 };
-extern ErrorD32* DAT_01268360;
 
 struct AllocD32
 {
@@ -302,22 +295,22 @@ void* SockD32::FUN_00da3230()
         {
             sockaddr_inD32 from;
             int iFromLen = sizeof(from);
-            unsigned int s = FUN_00ee6db0(m_pSocket, &from, &iFromLen);
+            unsigned int s = ((unsigned int)(::FUN_00ee6db0(m_pSocket, &from, &iFromLen)));
             StrBufD32 kMsg;
-            kMsg.InitBuffer();
-            FUN_00d61d00(&kMsg, "Socket got connection from [%s:%d]\n", FUN_00ee6da4(from.sin_addr),
-                         FUN_00ee6daa(from.sin_port));
+            reinterpret_cast<::BufferOwner *>(&(kMsg))->InitBuffer();
+            reinterpret_cast<::StringBuf *>((&kMsg))->FUN_00d61d00("Socket got connection from [%s:%d]\n", ::FUN_00ee6da4(from.sin_addr),
+                         ::FUN_00ee6daa(from.sin_port));
             {
                 char acBuf[512];
                 OstreamD32 kOstr;
-                kOstr.FUN_00cb1600(acBuf, sizeof(acBuf));
-                kOstr.InvokeFromRequest(kMsg);
-                DAT_01268360->message(0, -1, acBuf, ".\\System\\Io\\Socket\\Bsd\\hkBsdSocket.cpp", 0x193);
-                kOstr.FUN_00cc00e0();
+                new ((void *)&(kOstr)) ::FUN_00cb1600(acBuf, sizeof(acBuf));
+                reinterpret_cast<::RequestReceiver *>(&(kOstr))->InvokeFromRequest((void *)&(kMsg));
+                (*reinterpret_cast<::fnv_00da3230::ErrorD32 * *>(&::DAT_01268360))->message(0, -1, acBuf, ".\\System\\Io\\Socket\\Bsd\\hkBsdSocket.cpp", 0x193);
+                reinterpret_cast<struct ::FUN_00cc00e0 *>(&(kOstr))->FUN_00cc00e0::~FUN_00cc00e0();
             }
             if (s == -1)
             {
-                kMsg.FUN_00cbbd40();
+                reinterpret_cast<::FUN_00cbbd40_cls *>(&(kMsg))->FUN_00cbbd40();
                 return 0;
             }
             int iNoDelay = 1;
@@ -325,7 +318,7 @@ void* SockD32::FUN_00da3230()
             void* p = hkRouterD32::FUN_00c85750().heap().AllocateMemoryBlock(0x24);
             ((unsigned short*)p)[2] = 0x24;
             void* pkSocket = ((FUN_00da30a0_cls*)p)->InitWithParam(s);
-            kMsg.FUN_00cbbd40();
+            reinterpret_cast<::FUN_00cbbd40_cls *>(&(kMsg))->FUN_00cbbd40();
             return pkSocket;
         }
     }

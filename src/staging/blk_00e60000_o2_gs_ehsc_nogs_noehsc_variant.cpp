@@ -5,6 +5,55 @@
 
 // src/staging/blk_00e60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <new>
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/BSShaderLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a8f080_Class.h"
+#include "fnv/decl/FUN_00a8f140_cls.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00e72c20_cls.h"
+#include "fnv/decl/FUN_00e806c0.h"
+#include "fnv/decl/GraphicsRenderer.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/ResetRenderer.h"
+#include "fnv/decl/S_00e8a2b0.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/fnv_00e7bb50__FUN_00e7bb50_Class.h"
+#include "fnv/decl/fnv_00e7d4e0__FUN_00e7d4e0_cls.h"
+#include "fnv/decl/fnv_00e88fc0__E88FC0StageSet.h"
+#include "fnv/symbols_0043a000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00a8f000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00e60000.h"
+#include "fnv/symbols_00e61000.h"
+#include "fnv/symbols_00e68000.h"
+#include "fnv/symbols_00e69000.h"
+#include "fnv/symbols_00e7a000.h"
+#include "fnv/symbols_00e7c000.h"
+#include "fnv/symbols_00e7d000.h"
+#include "fnv/symbols_00e7e000.h"
+#include "fnv/symbols_00e7f000.h"
+#include "fnv/symbols_00e88000.h"
+#include "fnv/symbols_00e89000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_01022000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010ee000.h"
+#include "fnv/symbols_011aa000.h"
+#include "fnv/symbols_011c5000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_0126e000.h"
+#include "fnv/symbols_0126f000.h"
 #include "../../include/layout_support.h"
 struct FUN_00a77980_shell
 {
@@ -20,7 +69,6 @@ struct FUN_00e7cdf0_shell
     int _p5;
     int _p6;
 };
-void __cdecl FUN_00e7d1b0();
 void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00e7d230_cls
 {
@@ -28,9 +76,7 @@ struct FUN_00e7d230_cls
 };
 struct MM
 {
-    void Deallocate(void*);
 };
-extern MM g_memoryManager;
 void __cdecl DestroyArrayElements(void*);
 struct FUN_00e7f790_Class
 {
@@ -43,16 +89,11 @@ struct FUN_00e67fd0_cls
 };
 typedef void*(__stdcall* DepthDevice)(unsigned int);
 typedef int(__stdcall* CreateExFn)(unsigned int, DepthDevice**);
-extern void* DAT_0126f0d4;
-extern DepthDevice DAT_0126f0dc;
-extern CreateExFn DAT_0126f0e0;
 extern void*(__stdcall* DAT_00fdf0ac)(void*, const char*);
 extern void*(__stdcall* DAT_00fdf0b0)(const char*);
-unsigned char __cdecl InitD3D9CreateFunctions();
 extern void __cdecl NiFree(void*);
 struct MemoryManager
 {
-    void __thiscall Deallocate(void*);
 };
 extern int DAT_010eec74;
 struct FUN_00e7b200_Class
@@ -76,7 +117,6 @@ struct FUN_00e7d490_Class
 };
 struct P03MM
 {
-    void* __thiscall Allocate(unsigned int);
 };
 struct StagePool
 {
@@ -87,8 +127,6 @@ struct StagePool
     int v5;
     int v6;
 };
-extern StagePool* DAT_0126f6cc;
-void __cdecl CreateStagePool();
 struct FUN_00e7efc0_Node
 {
     int _a;
@@ -188,7 +226,6 @@ struct NiPixelFormat
     NiComponentSpec m_akComponents[4];
     NiPixelFormat();
 };
-bool __cdecl GetPixelTemplateForFormat(DX9Format_00e68530 eFormat, NiPixelFormat& kFormat);
 struct NiDX9SourceCubeMapData_S
 {
     unsigned int unk00;
@@ -236,7 +273,6 @@ struct FUN_00e7d560_Class
 };
 struct FUN_00e673f0_shell
 {
-    int __thiscall GetPrimitiveCount();
 };
 struct FUN_00e613f0
 {
@@ -247,7 +283,6 @@ struct FUN_00e613f0
     int _10;
     int __thiscall Sum();
 };
-int __cdecl CompareStringsCaseInsensitive(int, int);
 struct FUN_00e63ec0_Class
 {
     int _00;
@@ -260,8 +295,6 @@ struct NiTMapBaseStub
 {
     void RemoveAll();
 };
-extern MM g_memoryManager;
-extern int DAT_010eec54;
 struct FUN_00e7afc0_Class : NiTMapBaseStub
 {
     int vtbl;
@@ -269,9 +302,7 @@ struct FUN_00e7afc0_Class : NiTMapBaseStub
     int _08;
     FUN_00e7afc0_Class* __thiscall FUN_00e7afc0(int);
 };
-void* __cdecl _NiFree(void*);
 extern int DAT_010eec4c;
-extern MemoryManager _g_memoryManager;
 struct FUN_00e7b230_Class
 {
     void* vtbl;
@@ -285,20 +316,15 @@ struct NiD3DShader
     void* const* vtbl;
     unsigned char _padding[0x4c];
     void* m_p;
-    void __thiscall FUN_00e806c0();
     void __thiscall FUN_00e7c540();
 };
-extern int DAT_0126f590;
-unsigned char __cdecl FUN_00e7cca0(int* p);
 struct NiRefObject
 {
     void* vtbl;
+public:
+    static unsigned int ms_lObjectCount;
 };
-extern NiRefObject vftable_NiRefObject;
-extern int DAT_010eeed4;
 extern int DAT_010eefbc;
-extern long volatile DAT_011f4400;
-extern MemoryManager _g_memoryManager;
 extern void*(__stdcall* DAT_00fdf1c4)(void*);
 struct FUN_00e7d1b0_Class
 {
@@ -315,7 +341,6 @@ struct FUN_00e7d1b0_Class
 };
 struct FUN_00e7d690_Class
 {
-    void __thiscall FUN_00e7d4e0();
     FUN_00e7d690_Class* __thiscall FUN_00e7d690(int flags);
 };
 struct FUN_00e7ef80_Node
@@ -337,7 +362,6 @@ class D3DRenderStateGroup
   public:
     ~D3DRenderStateGroup();
 };
-void __cdecl _FUN_00aa1490(void* p, int size);
 void __cdecl DestroyArrayElements(void* p);
 struct FUN_00e611d0_Object
 {
@@ -370,9 +394,6 @@ struct FUN_00c85750_Result
     int unk10;
 };
 FUN_00c85750_Result* __cdecl FUN_00c85750();
-void __cdecl AppendIndexSequence(int, int, int, int, int);
-void __cdecl AppendIndices(int, int, int, int, int);
-void __cdecl FUN_00e611d0(FUN_00e611d0_Object* object, int value);
 struct FUN_00e61230_Buffer
 {
     unsigned int field00;
@@ -395,7 +416,6 @@ struct FUN_00e61230_Receiver
     virtual void begin(void* value, unsigned int mode, FUN_00e61230_Buffer* buffer) = 0;
     virtual void end(FUN_00e61230_Buffer* buffer) = 0;
 };
-extern "C" void __cdecl FUN_00e611d0(FUN_00e61230_Buffer* buffer, unsigned int stage);
 void __cdecl RunReceiverStage(FUN_00e61230_Receiver* receiver, void* value, unsigned int stage);
 struct E65000Entry
 {
@@ -1383,7 +1403,6 @@ class FUN_00e67660_cls
     FnvNode67* m_de0[100];
     int FUN_00e67660(FnvNode67* a1, int a2, int* a3, FnvEnt67** a4);
 };
-extern float DAT_0104da48;
 void* __cdecl _memmove(void*, const void*, unsigned);
 struct CopyDesc
 {
@@ -1444,9 +1463,6 @@ struct CopyPixels
     unsigned levels;
     unsigned bytesPerPixel;
 };
-const char* __cdecl GetHResultName(long);
-void __cdecl FUN_00a29680(const char*, ...);
-void __cdecl FUN_00e68150(CopyPixels* pixels, unsigned level, CopySurface* surface, unsigned face);
 struct TexDevice
 {
     virtual void __stdcall vf0() = 0;
@@ -1745,10 +1761,6 @@ struct TextureOwner
     unsigned unk70, unk74, skip;
     bool CreateTextureFromInput(TextureInput*, int);
 };
-extern int DAT_0126efc0;
-extern bool DAT_0126f0d0;
-const char* __cdecl GetHResultName(long);
-void __cdecl FUN_00a29680(const char*, ...);
 inline bool IsPowerOfTwo(unsigned n)
 {
     if (!n)
@@ -1930,9 +1942,6 @@ struct CubeMapSurface
     virtual void v01();
     virtual void __stdcall Release();
 };
-extern "C" void __cdecl FUN_00e68150(int a, unsigned int b, int c, int d);
-extern "C" void* __cdecl GetHResultName(int r);
-extern "C" void __cdecl FUN_00a29680(const char* fmt, unsigned int i, void* s);
 struct FUN_00e68870_arg
 {
     int unk00;
@@ -1997,7 +2006,6 @@ struct FUN_00e68870_cls
     void __thiscall FUN_00e68870(FUN_00e68870_arg* a1);
 };
 extern "C" char DAT_010ed37c[];
-void __cdecl FUN_00aa1460(void* pObject, unsigned int value);
 struct FUN_00e68ea0_held
 {
     virtual void v00();
@@ -2040,17 +2048,15 @@ struct FUN_00e68ea0_cls
     int unk7c;
     int unk80;
 
-    void BaseCleanup();
 
     FUN_00e68ea0_cls* FUN_00e68ea0(unsigned char acFlags);
 };
 void __cdecl NiFree(void* pvMem);
-void __cdecl BE7B040SizedFree(void* pvMem, unsigned int uiSize);
 struct BE7B040Value
 {
     static void operator delete(void* pvMem, unsigned int uiSize)
     {
-        BE7B040SizedFree(pvMem, uiSize);
+        ::FUN_00aa1460(pvMem, uiSize);
     }
 
     int m_aiData00;
@@ -2148,7 +2154,6 @@ struct Entry
     unsigned int subIdentifier;
     unsigned int properties;
     unsigned int group;
-    unsigned int FUN_00e7af60(unsigned int accumulated);
 };
 struct EntryArray
 {
@@ -2247,8 +2252,6 @@ struct FUN_00e7b550_cls
     int unk128;
     int unk12C;
     int unk130;
-    void FUN_00e7b040();
-    void FUN_00b71300();
     void DeleteAllItems();
 };
 struct ListNode_b9541
@@ -2622,7 +2625,6 @@ struct NiArr_e7bc90
 struct Base_e7bc90
 {
     unsigned int m_uiCount;
-    void BuildItemsFromSource(int a, int b) throw();
 };
 struct FUN_00e7bc90 : Base_e7bc90
 {
@@ -2631,10 +2633,7 @@ struct FUN_00e7bc90 : Base_e7bc90
 };
 struct FUN_00e7bcd0_Item
 {
-    void FUN_00e7bb50();
 };
-void __cdecl FUN_00aa1460(void* p, int size);
-void __cdecl FUN_00aa10f0(void* p);
 struct FUN_00e7bcd0_cls
 {
     int unk00;
@@ -2646,7 +2645,6 @@ struct FUN_00e7bcd0_cls
 };
 struct S_00e88fc0_Callee
 {
-    void __thiscall SetStageValue(int, int, int);
 };
 struct S_00e7c610_Object
 {
@@ -2678,7 +2676,6 @@ struct S_00e7c610_Object
     unsigned char unk5e;
     unsigned char unk5f;
 };
-void __stdcall FUN_00e7c610(float* pValue, S_00e7c610_Object* pObject);
 class FUN_00e7cc90_cls
 {
   public:
@@ -2826,13 +2823,10 @@ struct FnvBufferData
     int m_nId;
     unsigned char FUN_00e7cdb0(FnvRendererData* pRenderer);
 };
-extern int g_nLastId;
 typedef int(__stdcall* FNV_PFN_2)(void* obj, void* arg);
 typedef void(__stdcall* FNV_PFN_1)(void* obj);
-int __cdecl CreatePixelFormat(void* p);
 struct FUN_00a8f080_shell
 {
-    void __thiscall SetValues(int a, int b);
 };
 class FUN_00e7ce30_cls
 {
@@ -2886,7 +2880,6 @@ class Handler
     virtual void __stdcall v01();
     virtual void __stdcall v02();
 };
-extern MemoryManager DAT_011f6238;
 class FUN_00e7d180_cls
 {
   public:
@@ -2900,7 +2893,6 @@ class FUN_00e7d180_cls
     void FUN_00e7d180();
 };
 struct CpuOpaque;
-extern CpuOpaque DAT_0126f5a4;
 CpuOpaque* __cdecl FUN_00e7d220();
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
 struct D3DSurfaceDesc_e7d250
@@ -2955,9 +2947,6 @@ struct D3DTexture_e7d250
     virtual long __stdcall GetSurfaceLevel(unsigned int Level, D3DSurface_e7d250** ppSurfaceLevel) = 0;
 };
 struct NiPixelFormat;
-NiPixelFormat* __cdecl CreatePixelFormat(unsigned int eD3DFormat);
-const char* __cdecl NiDX9ErrorString(long hr);
-void __cdecl NiDX9Warning(const char* pcFormat, ...);
 class Ni2DBufferStub;
 class NiRefObjectStub
 {
@@ -2966,11 +2955,10 @@ class NiRefObjectStub
     NiRefObjectStub() throw()
     {
         m_uiRefCount = 0;
-        InterlockedIncrement(&ms_lObjectCount);
+        InterlockedIncrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
     }
     virtual ~NiRefObjectStub();
     unsigned int m_uiRefCount;
-    static volatile long ms_lObjectCount;
 };
 class RendererDataStub : public NiRefObjectStub
 {
@@ -3008,27 +2996,19 @@ class NiDX9TextureBufferData : public NiDX92DBufferDataStub
 class Ni2DBufferStub
 {
   public:
-    static Ni2DBufferStub* __cdecl Create(unsigned int uiWidth, unsigned int uiHeight, RendererDataStub* pkData);
-    void AttachRendererData(RendererDataStub* pkData);
 };
-extern int DAT_0126f5e0;
 int* __cdecl FUN_00e7d550();
-extern int DAT_0126f5b4;
 void* __cdecl FUN_00e7d680(void);
 class BE7F610Heap
 {
   public:
-    void Deallocate(void* pvMem);
 };
-extern BE7F610Heap g_kE7F610Heap;
-void __cdecl FUN_00aa10f0(void* pvMem);
-void __cdecl FUN_00aa1490(void* pvMem, unsigned int uiAlignment);
 class BE7F610Object
 {
   public:
     static void operator delete(void* pvMem)
     {
-        g_kE7F610Heap.Deallocate(pvMem);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::BE7F610Heap *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
     }
 };
 class BE7F610Worker : public BE7F610Object
@@ -3039,7 +3019,6 @@ class BE7F610Worker : public BE7F610Object
 class BE7F610Leaf : public BE7F610Object
 {
   public:
-    void* FUN_00e7f050(unsigned int uiFlags);
 };
 class BE7F610Buffer : public BE7F610Object
 {
@@ -3048,7 +3027,7 @@ class BE7F610Buffer : public BE7F610Object
     {
         FUN_00aa1490(m_pResource, 0x10);
         if (m_pkLeaf)
-            m_pkLeaf->FUN_00e7f050(1);
+            ::fnv_00e7f050::FUN_00e7f050((void *)(m_pkLeaf), 1, {});
     }
 
     void* m_pResource;
@@ -3070,11 +3049,6 @@ template <class T> class BE7F610Queue : public BE7F610Object
     int m_iArrayLength;
     T* m_pkOwned;
 };
-extern BE7F610Queue<BE7F610Worker>* g_pkE7F610WorkerQueue;
-extern BE7F610Queue<BE7F610Buffer>* g_pkE7F610BufferQueue;
-void __cdecl DestroyGlobalQueues();
-extern int DAT_0126f728;
-int __cdecl FUN_00e7f7c0();
 struct Q74
 {
     unsigned int a, b, c, d;
@@ -3227,10 +3201,7 @@ struct E74Node
 };
 struct E74GroupMgr
 {
-    bool ProcessCollector(void* pkGroup, E74GeomData* pkData, E74SkinInstance* pkSkin, bool bHasAnimation,
-                          unsigned int a, unsigned int b);
 };
-extern int DAT_0126f0ec;
 inline E74Node* E74NewNode()
 {
     E74Node* pkNode = (E74Node*)DAT_0126f0ec;
@@ -3250,7 +3221,6 @@ struct E74Accumulator
     char pad634[0x278];
     E74GroupMgr* m_pkGroupMgr;
     void* m_pkActorGroup;
-    bool FUN_00e72c20(E74Geometry* pkGeom, E74RefShader* pkShader);
     void AddTail(E74Node* pkNode)
     {
         if (m_pkTail)
@@ -3979,7 +3949,6 @@ struct FUN_00e74c00_cls
     int unkB04;
     void** m_ppCallbackData;
 
-    bool FUN_00e736b0();
     bool HandleDeviceLost();
 };
 typedef int(__stdcall* FNVSlot3Fn)(void*);
@@ -4031,7 +4000,6 @@ __declspec(noinline) int __cdecl FUN_00e7acb0(int key)
         return 0;
     }
 }
-int __cdecl MapCodeToIndex(int key);
 class TexFormatList
 {
   public:
@@ -4135,36 +4103,15 @@ struct PixelTemplate
     unsigned int field3c;
     unsigned int field40;
 };
-extern const PixelTemplate DAT_011aa210;
-extern const PixelTemplate DAT_011aa2a0;
-extern const PixelTemplate DAT_011aa408;
-extern const PixelTemplate DAT_011aa498;
-extern const PixelTemplate DAT_011aa4e0;
-extern const PixelTemplate DAT_011aa528;
-extern const PixelTemplate DAT_011aa570;
-extern const PixelTemplate DAT_011aa5b8;
-extern const PixelTemplate DAT_011aa600;
-extern const PixelTemplate DAT_011aa648;
-extern const PixelTemplate DAT_011aa690;
-extern const PixelTemplate DAT_011aa6d8;
-extern const PixelTemplate DAT_011aa768;
 extern const PixelTemplate DAT_011aa7b0;
 extern const PixelTemplate DAT_011aa7f8;
-extern const PixelTemplate DAT_011aa8d0;
-extern const PixelTemplate DAT_011aa960;
 extern const PixelTemplate DAT_011aa9a8;
-extern const PixelTemplate DAT_011aa9f0;
 extern const PixelTemplate DAT_011aaa38;
-extern const PixelTemplate DAT_011aaa80;
-extern const PixelTemplate DAT_011aaac8;
-extern const PixelTemplate DAT_011aab58;
 extern const PixelTemplate DAT_011aaba0;
 extern const PixelTemplate DAT_011aabe8;
 extern const PixelTemplate DAT_011aac30;
 extern const PixelTemplate DAT_011aacc0;
-extern const PixelTemplate DAT_011aad08;
 extern const PixelTemplate DAT_011aad50;
-extern const PixelTemplate DAT_011aad98;
 extern const PixelTemplate DAT_011aade0;
 extern const PixelTemplate DAT_011aae28;
 extern const PixelTemplate DAT_011aae70;
@@ -4182,19 +4129,16 @@ extern const PixelTemplate DAT_011ab1d0;
 extern const PixelTemplate DAT_011ab218;
 extern const PixelTemplate DAT_011ab2a8;
 extern const PixelTemplate DAT_011ab2f0;
-PixelTemplate& __cdecl GetPixelTemplateForFormat(int format, PixelTemplate& output);
 class CE7C500Heap
 {
   public:
-    void* Allocate(unsigned int uiSize);
 };
-extern CE7C500Heap g_kE7C500Heap;
 class CE7C500PixelFormat
 {
   public:
     static void* operator new(unsigned int uiSize)
     {
-        return g_kE7C500Heap.Allocate(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::CE7C500Heap *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }
     static void operator delete(void* pvMem);
 
@@ -4218,8 +4162,6 @@ class CE7C500PixelFormat
     int unk3C;
     int unk40;
 };
-void __cdecl CE7C500ConvertFormat(int eFormat, CE7C500PixelFormat* pkFormat);
-CE7C500PixelFormat* __cdecl CreatePixelFormat(int eFormat);
 struct DepthSurfaceDescription
 {
     unsigned int format;
@@ -4248,22 +4190,18 @@ class AdditionalDepthData : public NiDX92DBufferDataStub
     {}
 };
 extern char DAT_010ef028;
-AdditionalDepthData* __cdecl CreateDepthBufferData(AdditionalDepthDevice* device, void* surfaceSource, int, int,
-                                                   Ni2DBufferStub** buffer);
 struct IndexAllocator
 {
     int unk00;
 };
 struct IndexArray;
 void __cdecl FUN_00c908c0(IndexAllocator* alloc, IndexArray* arr, int newCap, int elemSize);
-void* __cdecl FUN_00cb1260(void* dst, const void* src, unsigned int n);
 struct IndexArray
 {
     unsigned short* data;
     int size;
     unsigned int capacity;
 };
-void __cdecl AppendIndices(int primType, const unsigned short* src, int count, int offset, IndexArray* out);
 struct HeapAlloc
 {
     virtual void* v00();
@@ -4349,8 +4287,6 @@ inline bool isTri(int t)
     return false;
 }
 void __cdecl FUN_00e60e40(int type, int count, int data, IntArray* out);
-void __cdecl FUN_00e60f50(int type, int data, int count, int base, IntArray* out);
-void __cdecl AppendIndices(int type, int data, int count, int base, U16Array* out);
 void __cdecl BuildIndexArray(IndexSource* src, IntArray* out);
 enum hkResultE63E
 {
@@ -4452,7 +4388,6 @@ struct FUN_00e76620_cls
     unsigned char __thiscall FUN_00e76620();
 };
 void __cdecl FUN_00c908c0(void*, IndexArray*, int, int);
-void __cdecl AppendIndexSequence(int type, int count, int start, IndexArray* output, void* allocator);
 class AllocatorE60F;
 struct RouterE60F
 {
@@ -4468,7 +4403,6 @@ namespace hkRouterE60F {
 extern "C" RouterE60F& __cdecl FUN_00c85750() throw();
 }
 void __cdecl FUN_00c908c0(AllocatorE60F& kAlloc, void* pArray, int iNumElements, int iSizeElem);
-void* __cdecl FUN_00cb1260(void* pDst, const void* pSrc, int iNumBytes);
 template <class T> class hkArrayE60F
 {
   public:
@@ -4496,8 +4430,6 @@ template <class T> class hkArrayE60F
         return m_data + iOldSize;
     }
 };
-void __cdecl FUN_00e60f50(int iType, const int* piIndices, int iNumIndices, int iOffset, hkArrayE60F<int>& kOut);
-extern "C" double DAT_010229b8;
 static float FUN_00e62ac0(unsigned seed);
 volatile unsigned g_e62ac0_seed = 12345u;
 volatile float g_e62ac0_sink;
@@ -5342,19 +5274,13 @@ struct FUN_00e7b260 : ModeItem404
 
     FUN_00e7b260(S00e7b590_D3D* dev, int ctx, D3DDEVTYPE id, D3DFORMAT key, bool fullscreen, bool windowed) throw();
 };
-void* __cdecl FUN_00aa13e0(unsigned int size);
 class GlobalObject_0096a2d0
 {
 
   public:
     unsigned int state;
 
-    void Lock(const char*);
 };
-extern ListNode* DAT_011c5f58;
-extern GlobalObject_0096a2d0 g_011c5f80;
-extern unsigned int DAT_011c5f84;
-void __cdecl FUN_0043a080();
 struct ItemList168
 {
 
@@ -5451,9 +5377,7 @@ struct CriticalSectionE7CF
 {
     int unk00[6];
 };
-extern CriticalSectionE7CF DAT_0126f600;
 extern NiTListE7CF<ItemE7CF*> DAT_0126f5c8;
-void __cdecl FUN_00e7cf00(void* pArg);
 struct SurfDesc
 {
     int Format;
@@ -5525,12 +5449,7 @@ struct Swap
 };
 struct Tex
 {
-    void SetValues(unsigned, unsigned);
 };
-const char* FUN_00e7a9a0(int);
-void FUN_00a29680(const char*, ...);
-extern int DAT_0126f580;
-extern int DAT_0126f590;
 class RT
 {
   public:
@@ -5643,11 +5562,9 @@ struct BarycentricResult
 void __cdecl FUN_00e61a10(const __m128* point, const __m128* a, const __m128* b, const __m128* c,
                           BarycentricResult* result);
 void __cdecl FUN_00e67550();
-bool __cdecl SetModeFlags(int mode, int* outValue, unsigned int* flags);
 namespace se695c0 {
 
 struct Block;
-int SelectFormatTileValue(int iArg, Block* pkBlock);
 
 struct Block
 {
@@ -6112,7 +6029,7 @@ struct Owner
 // @fnv 0x00e695c0
 int Owner::FUN_00e695c0(int iArg)
 {
-    return SelectFormatTileValue(iArg, &m_kBlock);
+    return ::SelectFormatTileValue((::Pair *)(iArg), (::Counts *)(::se695c0::Block *)(&m_kBlock));
 }
 
 }
@@ -6129,11 +6046,9 @@ struct NiDX9RenderTargetInfo
 };
 struct SearchIndex
 {
-    __declspec(noalias) bool Lookup(unsigned int key, NiDX9RenderTargetInfo** out);
 };
 extern "C" int __cdecl abs(int v);
 extern unsigned int DAT_011bf140[];
-int __cdecl FUN_00e7a8b0(unsigned int tbl, int* a, unsigned int* b);
 class DepthStencilSearch
 {
   public:
@@ -6157,23 +6072,21 @@ struct ClosestList
     }
     int FUN_00e7af60(int target);
 };
-int FUN_00e7ccf0(unsigned int index);
 class GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_0126f59c;
 GlobalObjectO2_00a7b610* FUN_00e7cd30();
 class FUN_00e7a5e0_Object
 {
   public:
     virtual ~FUN_00e7a5e0_Object()
     {
-        NiFree(m_pResource);
+        ::FUN_00aa10f0(m_pResource);
     }
 
     void* m_pResource;
 
     static void operator delete(void* p)
     {
-        g_memoryManager.Deallocate(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(p);
     }
 
     FUN_00e7a5e0_Object* FUN_00e7a5e0(unsigned int uiFlags);
@@ -6226,11 +6139,8 @@ struct MoppErrorStream
 
     void* writer;
 
-    void FUN_00cb1600(char*, int);
 
-    void FUN_00cc01c0(const char*);
 
-    void FUN_00cc00e0();
 };
 
 struct MoppError
@@ -6245,7 +6155,6 @@ struct MoppError
     virtual int message(int, int, const char*, const char*, int);
 };
 
-extern int DAT_01268360;
 
 struct MoppFindAllVirtualMachine
 {
@@ -6452,18 +6361,18 @@ void MoppFindAllVirtualMachine::FUN_00e66600(const MoppState* state, const unsig
 
             MoppErrorStream stream;
 
-            stream.FUN_00cb1600(buffer, sizeof(buffer));
+            new ((void *)&(stream)) ::FUN_00cb1600(buffer, sizeof(buffer));
 
-            stream.FUN_00cc01c0(
+            reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(
                 "Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
 
-            if (reinterpret_cast<MoppError*>(DAT_01268360)
+            if (reinterpret_cast<MoppError*>((*reinterpret_cast<int *>(&::DAT_01268360)))
                     ->message(3, 0x1298fedd, buffer, ".\\Collide\\Mopp\\Machine\\hkpMoppFindAllVirtualMachine.cpp",
                               305))
 
                 __debugbreak();
 
-            stream.FUN_00cc00e0();
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();
 
             continue;
         }

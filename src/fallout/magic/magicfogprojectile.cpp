@@ -2,25 +2,84 @@
 // src/fallout/magic/magicfogprojectile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/magicfogprojectile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/BSMultiBoundSphere.h"
+#include "fnv/decl/CellView.h"
+#include "fnv/decl/EffectItemListFind.h"
+#include "fnv/decl/EffectSetting.h"
+#include "fnv/decl/FUN_0043fa80_s.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00440490_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00444020_Class.h"
+#include "fnv/decl/FUN_00484d20_Class.h"
+#include "fnv/decl/FUN_00484d40_Host.h"
+#include "fnv/decl/FUN_004a39f0_shell.h"
+#include "fnv/decl/FUN_004d7d50_StandIn.h"
+#include "fnv/decl/FUN_004fd380_shell.h"
+#include "fnv/decl/FUN_0059ce80_shell.h"
+#include "fnv/decl/FUN_00621b00_shell.h"
+#include "fnv/decl/FUN_00621b20_Class.h"
+#include "fnv/decl/FUN_00639aa0_shell.h"
+#include "fnv/decl/FUN_00759450_shell.h"
+#include "fnv/decl/FUN_00792760_shell.h"
+#include "fnv/decl/FUN_00819a50_shell.h"
+#include "fnv/decl/FUN_00819a70_class.h"
+#include "fnv/decl/FUN_0081c470_shell.h"
+#include "fnv/decl/FUN_0081e830_shell.h"
+#include "fnv/decl/FUN_0081e8c0_shell.h"
+#include "fnv/decl/FUN_0081e980_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_008579e0_shell.h"
+#include "fnv/decl/FUN_008df040_shell.h"
+#include "fnv/decl/FUN_0098adb0_shell.h"
+#include "fnv/decl/FUN_00a59660_cls.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/HX.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MagicProjectile.h"
+#include "fnv/decl/NiControllerManager.h"
+#include "fnv/decl/NiNode.h"
+#include "fnv/decl/Owner.h"
+#include "fnv/decl/PlayerMover.h"
+#include "fnv/decl/SoundPlaybackHandle.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/fnv_0047a520__Fn47a520.h"
+#include "fnv/decl/fnv_00484ce0__TESSaveLoadGameHelper.h"
+#include "fnv/decl/fnv_00484d00__FUN_00484d00_shell.h"
+#include "fnv/decl/fnv_004a3a20__FUN_004a3a20_shell.h"
+#include "fnv/decl/fnv_00810ff0__Ths810.h"
+#include "fnv/decl/fnv_0081ea40__MagicProjectile.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/decl/fnv_00932520__FUN_00932520_shell.h"
+#include "fnv/decl/fnv_00ad88f0__FUN_00ad88f0_h.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_004fd000.h"
+#include "fnv/symbols_005db000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_006fa000.h"
+#include "fnv/symbols_0080f000.h"
+#include "fnv/symbols_00c4b000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_0107a000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_01202000.h"
 struct MagicFogProjectile
 {
     void FUN_008196e0();
     void* DestroyIfFlagged(unsigned int);
 };
-void _Deallocate(void*);
-// Calls FUN_008196e0, deallocates this when flags has bit 0 set, and returns this.
-// @fnv 0x00819330
-void* MagicFogProjectile::DestroyIfFlagged(unsigned int flags)
-{
-    FUN_008196e0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct RefH
 {
-    bool IsDeleted() const;
 };
 struct FUN_0081a920_shell : public RefH
 {
@@ -30,18 +89,15 @@ struct FUN_0081a920_shell : public RefH
 // @fnv 0x0081a920
 bool FUN_0081a920_shell::FUN_0081a920()
 {
-    return *(int*)((char*)this + 0xb4) != 1 && !IsDeleted();
+    return *(int*)((char*)this + 0xb4) != 1 && !reinterpret_cast<::FUN_00440d80_shell *>((void *)this)->FUN_00440d80();
 }
 
 namespace fnv_0081ad00 {
 struct TESSaveLoadGame
 {
-    unsigned char FUN_008df040();
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 struct MagicFogProjectile
 {
-    unsigned short GetSaveRecordSize(unsigned int);
     unsigned short FUN_0081ad00(unsigned int flags);
 };
 // @fnv 0x0081ad00
@@ -52,7 +108,7 @@ unsigned short MagicFogProjectile::FUN_0081ad00(unsigned int flags)
         VirtualInterface* next;
     };
     unsigned short isize = 0;
-    isize += GetSaveRecordSize(flags);
+    isize += reinterpret_cast<::FUN_0081e830_shell *>(this)->GetSaveRecordSize(flags);
     isize += 4;
     isize += 4;
     isize += 4;
@@ -60,7 +116,7 @@ unsigned short MagicFogProjectile::FUN_0081ad00(unsigned int flags)
     isize += 4;
     if (*(int*)((char*)this + 0xb4) == 1)
         isize += 4;
-    if (g_TESSaveLoadGame->FUN_008df040() >= 0x71)
+    if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::fnv_0081ad00::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x71)
     {
         isize += 4;
         isize += 2;
@@ -77,7 +133,6 @@ unsigned short MagicFogProjectile::FUN_0081ad00(unsigned int flags)
 }  // namespace fnv_0081ad00
 
 namespace fnv_00818ba0 {
-extern double _gModifierZero;
 struct MagicFogProjectile
 {
     unsigned char _pad[20];
@@ -88,7 +143,7 @@ struct MagicFogProjectile
 // @fnv 0x00818ba0
 bool MagicFogProjectile::IsAboveZero()
 {
-    return _m14 > _gModifierZero;
+    return _m14 > ::_DAT_01012060;
 }
 }  // namespace fnv_00818ba0
 
@@ -189,13 +244,10 @@ bool FUN_0081eb50_shell::ClearIfMatches(int aiValue)
 
 struct Setting
 {
-    float* FUN_00403e20();
 };
-extern Setting DAT_011d1890, DAT_011d1bd4, DAT_011d19f0;
 struct RTTI
 {
 };
-extern RTTI DAT_012024e0, DAT_01202550, DAT_01202540;
 struct Object
 {
     virtual void method0();
@@ -203,31 +255,18 @@ struct Object
     virtual void method2();
     virtual void* AsNode();
 };
-bool FUN_0043b300(const RTTI*, Object*);
-void* FUN_00653270(const RTTI*, Object*);
 struct Emitter
 {
-    float FUN_00759450();
-    void FUN_00819a70(float);
 };
 struct Controller
 {
-    float FUN_00639aa0();
-    void FUN_0098adb0(float);
-    float FUN_004a7bd0();
-    void FUN_00819a50(float);
-    float FUN_00792760();
-    void FUN_00444020(float);
 };
 struct Particle : Object
 {
-    unsigned FUN_004d7d50();
-    Object* GetByIndex(unsigned);
 };
 struct Node : Object
 {
     unsigned FUN_0043b480();
-    Object* FUN_0043b4a0(unsigned);
 };
 struct Effect
 {
@@ -285,28 +324,28 @@ void Effect::ScaleEffect(Object* object)
     {
         float fSpeedFactor2;
         {
-            float fSizeFactor = sizeScale * *DAT_011d1890.FUN_00403e20();
-            fSpeedFactor = speedScale * *DAT_011d1bd4.FUN_00403e20();
-            fSpeedFactor2 = speedScale * *DAT_011d19f0.FUN_00403e20();
-            if (FUN_0043b300(&DAT_012024e0, object))
+            float fSizeFactor = sizeScale * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1142))))));
+            fSpeedFactor = speedScale * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1144))))));
+            fSpeedFactor2 = speedScale * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1143))))));
+            if (::FUN_0043b300((const ::NiRTTI *)(const ::RTTI *)(&(*reinterpret_cast<::RTTI *>(&::g_012024e0))), (::NiAVObject *)(object)))
             {
                 Particle* particle = (Particle*)object;
-                for (unsigned i = 0; i < particle->FUN_004d7d50(); ++i)
+                for (unsigned i = 0; i < reinterpret_cast<::FUN_004d7d50_StandIn *>((particle))->FUN_004d7d50(); ++i)
                 {
                     Controller* controller;
                     {
                         Emitter* emitter;
                         {
-                            Object* entry = particle->GetByIndex(i);
-                            emitter = (Emitter*)FUN_00653270(&DAT_01202550, entry);
+                            Object* entry = ((::Object *)(reinterpret_cast<::Owner *>((particle))->GetByIndex(i)));
+                            emitter = (Emitter*)((void *)(::FUN_00653270((const ::NiRTTI *)(const ::RTTI *)(&(*reinterpret_cast<::RTTI *>(&::g_01202550))), (::NiObject *)(entry))));
                             if (emitter)
-                                emitter->FUN_00819a70(emitter->FUN_00759450() * fSizeFactor);
-                            controller = (Controller*)FUN_00653270(&DAT_01202540, entry);
+                                reinterpret_cast<::FUN_00819a70_class *>((emitter))->FUN_00819a70(reinterpret_cast<::FUN_00759450_shell *>((emitter))->FUN_00759450() * fSizeFactor);
+                            controller = (Controller*)((void *)(::FUN_00653270((const ::NiRTTI *)(const ::RTTI *)(&(*reinterpret_cast<::RTTI *>(&::g_01202540))), (::NiObject *)(entry))));
                             if (controller)
                             {
-                                controller->FUN_0098adb0(controller->FUN_00639aa0() * fSizeFactor);
-                                controller->FUN_00819a50(controller->FUN_004a7bd0() * fSpeedFactor2);
-                                controller->FUN_00444020(controller->FUN_00792760() * fSpeedFactor);
+                                reinterpret_cast<::FUN_0098adb0_shell *>((controller))->FUN_0098adb0(reinterpret_cast<::FUN_00639aa0_shell *>((controller))->FUN_00639aa0() * fSizeFactor);
+                                reinterpret_cast<::FUN_00819a50_shell *>((controller))->FUN_00819a50(reinterpret_cast<::BSMultiBoundSphere *>((controller))->GetRadius() * fSpeedFactor2);
+                                reinterpret_cast<::FUN_00444020_Class *>((controller))->FUN_00444020(reinterpret_cast<::FUN_00792760_shell *>((controller))->FUN_00792760() * fSpeedFactor);
                             }
                         }
                     }
@@ -317,7 +356,7 @@ void Effect::ScaleEffect(Object* object)
                 Node* node = (Node*)object;
                 for (unsigned i = 0; i < node->FUN_0043b480(); ++i)
                 {
-                    Object* child = node->FUN_0043b4a0(i);
+                    Object* child = ((::Object *)(reinterpret_cast<::NiNode *>((node))->GetAt(i)));
                     ScaleEffect(child);
                 }
             }
@@ -338,11 +377,7 @@ struct FUN_0081aa80
 };
 struct SaveManager
 {
-    void FUN_008579e0(void*, unsigned);
-    unsigned char FUN_008df040();
 };
-extern SaveManager* DAT_011de45c;
-void* __cdecl FUN_00401460(void*, const void*, unsigned);
 struct Projectile
 {
     virtual void method0();
@@ -510,35 +545,31 @@ struct Projectile
     int unkC4;
     FUN_0081aa80* head;
     unsigned id;
-    void DeleteAllNodes();
-    void FUN_0081e980(int, int);
-    void FUN_00484d00(void*, unsigned);
-    void FUN_00484d40(void*, unsigned);
     void LoadFromStream(int, int);
 };
 // Resets the projectile, reads several 4-byte fields and a form ID from the stream, then reads a list of form/flag records when the save version is at least 0x71.
 // @fnv 0x0081afa0
 void Projectile::LoadFromStream(int a, int b)
 {
-    DeleteAllNodes();
+    reinterpret_cast<::fnv_00819830::MagicFogProjectile *>(this)->DeleteAllNodes();
     Reset();
-    FUN_0081e980(a, b);
-    FUN_00484d00(&unkA8, 4);
-    FUN_00484d00(&unk88, 4);
-    FUN_00484d00(&unkAC, 4);
-    DAT_011de45c->FUN_008579e0(&unkB4, 4);
-    FUN_00484d00(&unkB8, 4);
+    reinterpret_cast<::FUN_0081e980_shell *>(this)->FUN_0081e980(a, b);
+    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(this)->FUN_00484d00(&unkA8, 4);
+    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(this)->FUN_00484d00(&unk88, 4);
+    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(this)->FUN_00484d00(&unkAC, 4);
+    reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&unkB4, 4);
+    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(this)->FUN_00484d00(&unkB8, 4);
     if (unkB4 == 1)
     {
         unsigned formID;
-        FUN_00484d00(&formID, 4);
-        FUN_00401460(&id, &formID, 4);
+        reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(this)->FUN_00484d00(&formID, 4);
+        ::__memcpy(&id, &formID, 4);
     }
-    if (DAT_011de45c->FUN_008df040() >= 0x71)
+    if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x71)
     {
-        FUN_00484d00(&unkB0, 4);
+        reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(this)->FUN_00484d00(&unkB0, 4);
         unsigned short count;
-        FUN_00484d00(&count, 2);
+        reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(this)->FUN_00484d00(&count, 2);
         for (unsigned i = 0; i < count; ++i)
         {
             FUN_0081aa80* record;
@@ -546,8 +577,8 @@ void Projectile::LoadFromStream(int a, int b)
                 Form* form;
                 {
                     unsigned char flags;
-                    FUN_00484d40(&form, 4);
-                    FUN_00484d00(&flags, 1);
+                    reinterpret_cast<::FUN_00484d40_Host *>(this)->FUN_00484d40((unsigned int *)(void *)(&form), 4);
+                    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(this)->FUN_00484d00(&flags, 1);
                     record = new FUN_0081aa80(form, flags, head);
                     head = record;
                 }
@@ -564,7 +595,6 @@ struct FxMatrix3
 {
     float m[9];
     FxMatrix3();
-    void FUN_00a59660(float fZ, float fX, float fY);
 };
 struct FxFixedString
 {
@@ -581,14 +611,9 @@ struct FxTransformTime
 struct FxAVObject;
 struct FxSequence
 {
-    void FUN_0098adb0(float fTime);
 };
 struct FxControllerManager
 {
-    FxSequence* FUN_0047a520(const FxFixedString& kName);
-    void FUN_0048fef0(float fTime);
-    bool FUN_0047aab0(FxSequence* pkSeq, int a2, int a3, float fWeight, float fEase, int a6);
-    void FUN_0047aa40(int i);
 };
 struct FxNode
 {
@@ -633,17 +658,7 @@ struct FxNode
     virtual void v038();
     virtual FxAVObject* GetObjectByName(const FxFixedString& kName);
 
-    void FUN_00440490(float fScale);
-    void FUN_00440460(const FxPoint3& kPos);
-    void FUN_0043fa80(const FxMatrix3& kRot);
-    void* FUN_0043b230();
-    void FUN_00a59c60(FxTransformTime* pkTime);
 };
-void __cdecl FUN_00c4b500(FxNode* pkNode);
-FxControllerManager* __cdecl FUN_00653270(void* pkRTTI, void* pkController);
-extern char g_kNiControllerManagerRTTI_011f36ac[];
-extern const float g_fInfinity_0107ad40;
-extern float g_fGameTime_011c3c08;
 
 static const char s_szAreaEffect[] = "AreaEffect";
 static const char s_szSpecialIdle[] = "SpecialIdle_Projectile";
@@ -782,8 +797,6 @@ struct FogProjectileInit
     char pad004[0xb8 - 4];
     float m_fScale;
 
-    const FxPoint3& FUN_00430830();
-    void ScaleEffect(FxAVObject* pkObject);
     void InitProjectileEffect();
 };
 
@@ -793,28 +806,28 @@ void FogProjectileInit::InitProjectileEffect()
     FxNode* pkNode = Get3D();
     if (pkNode)
     {
-        pkNode->FUN_00440490(m_fScale);
-        pkNode->FUN_00440460(GetPos());
-        FxPoint3 kAngleX = FUN_00430830();
+        reinterpret_cast<::FUN_00440490_shell *>((pkNode))->FUN_00440490(m_fScale);
+        reinterpret_cast<::FUN_00440460_S *>((pkNode))->FUN_00440460((const ::V3 *)&(GetPos()));
+        FxPoint3 kAngleX = (*(const ::FxPoint3 *)(reinterpret_cast<::TESRecipe *>(this)->GetData()));
         FxMatrix3 kKRot;
-        kKRot.FUN_00a59660(kAngleX.z, kAngleX.x, kAngleX.y);
-        pkNode->FUN_0043fa80(kKRot);
-        FUN_00c4b500(pkNode);
+        reinterpret_cast<::FUN_00a59660_cls *>(&(kKRot))->FUN_00a59660(kAngleX.z, kAngleX.x, kAngleX.y);
+        reinterpret_cast<::FUN_0043fa80_s *>((pkNode))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(kKRot));
+        ::fnv_00c4b500::FUN_00c4b500((::fnv_00c4b500::Node *)(pkNode));
         FxAVObject* pkArea_2 = pkNode->GetObjectByName(FxFixedString(s_szAreaEffect));
         if (pkArea_2)
-            ScaleEffect(pkArea_2);
-        FxControllerManager* pkManagerTmp = FUN_00653270(g_kNiControllerManagerRTTI_011f36ac, pkNode->FUN_0043b230());
+            reinterpret_cast<::Effect *>(this)->ScaleEffect((::Object *)(pkArea_2));
+        FxControllerManager* pkManagerTmp = ((::FxControllerManager *)(::FUN_00653270((const ::NiRTTI *)((*reinterpret_cast<char (*)[]>(&::g_011f36ac))), (::NiObject *)(void *)(((void *)(::fnv_0043b230::FUN_0043b230((const char *)(pkNode))))))));
         if (pkManagerTmp)
         {
-            FxSequence* pkSeqCur = pkManagerTmp->FUN_0047a520(FxFixedString(s_szSpecialIdle));
+            FxSequence* pkSeqCur = ((::FxSequence *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((pkManagerTmp))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::FxFixedString &)(FxFixedString(s_szSpecialIdle)))));
             if (pkSeqCur)
             {
-                pkManagerTmp->FUN_0048fef0(0.0f);
-                pkManagerTmp->FUN_0047aab0(pkSeqCur, 0, 0, 1.0f, 0.0f, 0);
-                pkManagerTmp->FUN_0047aa40(1);
-                pkSeqCur->FUN_0098adb0(-g_fInfinity_0107ad40);
-                FxTransformTime kTimeY(g_fGameTime_011c3c08 - 0.1f, 1, 0);
-                pkNode->FUN_00a59c60(&kTimeY);
+                reinterpret_cast<::NiControllerManager *>((pkManagerTmp))->DeactivateAllSequences(0.0f);
+                reinterpret_cast<::NiControllerManager *>((pkManagerTmp))->ActivateControllerSequence((::NiControllerSequence *)(pkSeqCur), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
+                reinterpret_cast<::TaskQueueInterface *>((pkManagerTmp))->QueueReferenceStateTask(1);
+                reinterpret_cast<::FUN_0098adb0_shell *>((pkSeqCur))->FUN_0098adb0(-g_fInfinity_0107ad40);
+                FxTransformTime kTimeY(::fnv_00563f30::DAT_011c3c08 - 0.1f, 1, 0);
+                reinterpret_cast<::FUN_00a59c60_cls *>((pkNode))->FUN_00a59c60((int)(&kTimeY));
             }
         }
     }
@@ -822,15 +835,12 @@ void FogProjectileInit::InitProjectileEffect()
 
 struct ItemA
 {
-    int FUN_0084e3a0();
 };
 struct ItemB
 {
-    unsigned char FindEffectItemIndex();
 };
 struct ItemC
 {
-    float FUN_00621b00();
 };
 struct Node2
 {
@@ -840,19 +850,11 @@ struct Node2
 };
 struct SaveMgrExt
 {
-    void FUN_008579b0(void*, unsigned int);
-    unsigned short* FUN_00825c00();
-    unsigned char FUN_008df040();
 };
 
 class FUN_0081ade0_cls
 {
   public:
-    void FUN_0081e8c0(int);
-    void FUN_00484ce0(void*, unsigned int);
-    void ForwardToSaveLoadGame(void*, unsigned int);
-    int FUN_00810fd0();
-    int FUN_00810fd0(int);
     void SaveToStream(int a1);
 
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
@@ -877,44 +879,44 @@ void FUN_0081ade0_cls::SaveToStream(int a1)
 {
     float f;
     unsigned short* out;
-    FUN_0081e8c0(a1);
-    FUN_00484ce0(&m_a8, 4);
-    FUN_00484ce0(&m88, 4);
-    FUN_00484ce0(&m_ac, 4);
-    ((SaveMgrExt*)DAT_011de45c)->FUN_008579b0(&m_b4, 4);
-    FUN_00484ce0(&m_b8, 4);
+    reinterpret_cast<::FUN_0081e8c0_shell *>(this)->FUN_0081e8c0(a1);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&m_a8, 4);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&m88, 4);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&m_ac, 4);
+    reinterpret_cast<::FUN_008579b0_shell *>((((SaveMgrExt*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&m_b4, 4);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&m_b8, 4);
     if (m_b4 == 1)
     {
         f = 0.0f;
         if (m_cc != 0)
         {
-            f = m_cc->FUN_00621b00();
+            f = reinterpret_cast<::FUN_00621b00_shell *>((m_cc))->FUN_00621b00();
         }
-        FUN_00484ce0(&f, 4);
+        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&f, 4);
     }
-    if ((int)((SaveMgrExt*)DAT_011de45c)->FUN_008df040() >= 0x71)
+    if ((int)reinterpret_cast<::FUN_008df040_shell *>((((SaveMgrExt*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008df040() >= 0x71)
     {
         Node2* cur;
         unsigned short cnt;
-        FUN_00484ce0(&m_b0, 4);
+        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&m_b0, 4);
         cnt = 0;
-        out = ((SaveMgrExt*)DAT_011de45c)->FUN_00825c00();
-        FUN_00484ce0(&cnt, 2);
+        out = ((unsigned short *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveMgrExt*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&cnt, 2);
         cur = m_c8;
         while (cur != 0)
         {
             int tmp = 0;
             if (cur->m0 != 0)
             {
-                tmp = cur->m0->FUN_0084e3a0();
+                tmp = reinterpret_cast<::FUN_0084e3a0_Class *>((cur->m0))->FUN_0084e3a0();
             }
-            ForwardToSaveLoadGame(&tmp, 4);
+            reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((int)(&tmp), 4);
             unsigned char flag = 0;
-            if (FUN_00810fd0() != 0 && cur->m4 != 0)
+            if (reinterpret_cast<::EffectSetting *>(this)->GetArchetype() != 0 && cur->m4 != 0)
             {
-                flag = ((ItemB*)(FUN_00810fd0((int)cur->m4) + 0xc))->FindEffectItemIndex();
+                flag = reinterpret_cast<::EffectItemListFind *>((((ItemB*)(reinterpret_cast<::EffectSetting *>(this)->GetArchetype() + 0xc))))->FindEffectItemIndex({});
             }
-            FUN_00484ce0(&flag, 1);
+            reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&flag, 1);
             cnt++;
             cur = cur->next;
         }
@@ -931,25 +933,19 @@ class TESObjectREFR : public TESForm
 {
   public:
 };
-TESForm* __cdecl FUN_004839c0(unsigned int auiFormId);
 
 struct FogSoundHandle
 {
     int unk00, unk04, unk08;
     ~FogSoundHandle();
     FogSoundHandle& operator=(const FogSoundHandle& kOther);
-    bool FUN_00ad8ce0();
-    void FUN_00ad8d10();
 };
 
 struct FogSoundForm
 {
-    unsigned int FUN_0084e3a0();
 };
 struct FogBaseForm
 {
-    FogSoundForm* FUN_004fd3c0();
-    FogSoundForm* FUN_004fd380();
 };
 
 struct FogLight
@@ -958,13 +954,10 @@ struct FogLight
     FogLight(unsigned int auiFormId, void* pkNode);
     void* operator new(unsigned int uiSize);
     void operator delete(void* pvMem);
-    void FUN_0081c470(int iUnk, float fRadius);
-    void FUN_00621b20(float fFadeAmount);
 };
 
 struct FogProcess
 {
-    void FUN_00548230(void* pkProjectile, int iUnk);
 };
 
 struct FogRefNode
@@ -976,7 +969,6 @@ struct FogRefNode
 
 struct FogIndexList
 {
-    int FUN_00406ee0(unsigned char m_ucClipIdentifier);
 };
 struct FogFile
 {
@@ -986,9 +978,7 @@ struct FogFile
 
 struct FogSaveManager
 {
-    unsigned char FUN_008df040();
 };
-extern FogSaveManager* g_pkSaveManager_011de45c;
 
 struct FogProjectileLoad
 {
@@ -1120,12 +1110,7 @@ struct FogProjectileLoad
     FogRefNode* m_pkRefs;
     FogLight* m_pkLight;
 
-    void ResolveMagicReferences(int a1, int a2);
-    void InitProjectileEffect();
-    FogProcess* FUN_008d6f30();
-    FogBaseForm* FUN_004fd400();
     FogSoundHandle PlaySoundByFormID(unsigned int auiFormId, int a2, int a3, int a4);
-    FogFile* FUN_00810fd0();
     void LoadProjectile(int a1, int a2);
 };
 
@@ -1133,29 +1118,29 @@ struct FogProjectileLoad
 // @fnv 0x0081b180
 void FogProjectileLoad::LoadProjectile(int a1, int a2)
 {
-    ResolveMagicReferences(a1, a2);
-    InitProjectileEffect();
-    FUN_008d6f30()->FUN_00548230(this, 0);
-    if (unkb4 != 1 && FUN_004fd400()->FUN_004fd3c0())
+    reinterpret_cast<::fnv_0081ea40::MagicProjectile *>(this)->ResolveMagicReferences(a1, a2);
+    reinterpret_cast<::FogProjectileInit *>(this)->InitProjectileEffect();
+    reinterpret_cast<::CellView *>((((::FogProcess *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_00548230((::RefView *)(void *)(this), 0);
+    if (unkb4 != 1 && ((::FogSoundForm *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((::FogBaseForm *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400())))))))
     {
-        unsigned int uiProjectileSoundFormID = FUN_004fd400()->FUN_004fd3c0()->FUN_0084e3a0();
-        if (m_kSound.FUN_00ad8ce0())
-            m_kSound.FUN_00ad8d10();
-        m_kSound = PlaySoundByFormID(uiProjectileSoundFormID, 1, 0x40000102, 1);
+        unsigned int uiProjectileSoundFormID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::FogSoundForm *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((::FogBaseForm *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400()))))))))->FUN_0084e3a0()));
+        if (reinterpret_cast<::SoundPlaybackHandle *>(&(m_kSound))->IsValid())
+            reinterpret_cast<::SoundPlaybackHandle *>(&(m_kSound))->Release();
+        reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::FogSoundHandle &)(m_kSound))->operator=((const ::SoundPlaybackHandle &)((const ::FogSoundHandle &)(PlaySoundByFormID(uiProjectileSoundFormID, 1, 0x40000102, 1))));
     }
     float fFadeAmount;
-    FUN_00401460(&fFadeAmount, &m_pkLight, 4);
+    ::__memcpy(&fFadeAmount, &m_pkLight, 4);
     m_pkLight = 0;
-    if (Get3D() && FUN_004fd400()->FUN_004fd380())
+    if (Get3D() && ((::FogSoundForm *)(reinterpret_cast<::FUN_004fd380_shell *>((((::FogBaseForm *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400()))))->FUN_004fd380())))
     {
-        m_pkLight = new FogLight(FUN_004fd400()->FUN_004fd380()->FUN_0084e3a0(), Get3D());
+        m_pkLight = new FogLight(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::FogSoundForm *)(reinterpret_cast<::FUN_004fd380_shell *>((((::FogBaseForm *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400()))))->FUN_004fd380()))))->FUN_0084e3a0())), Get3D());
         if (m_pkLight)
         {
-            m_pkLight->FUN_0081c470(0, m_fBoundRadius);
-            m_pkLight->FUN_00621b20(fFadeAmount);
+            reinterpret_cast<::FUN_0081c470_shell *>((m_pkLight))->FUN_0081c470(0, m_fBoundRadius);
+            reinterpret_cast<::FUN_00621b20_Class *>((m_pkLight))->FUN_00621b20(fFadeAmount);
         }
     }
-    if (g_pkSaveManager_011de45c->FUN_008df040() >= 0x71)
+    if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::FogSaveManager * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x71)
     {
         FogRefNode* pkNode = m_pkRefs;
         while (pkNode)
@@ -1164,15 +1149,13 @@ void FogProjectileLoad::LoadProjectile(int a1, int a2)
             unsigned char ucIndexZ = (unsigned char)pkNode->m_iValue;
             if (uiFormID_2)
                 pkNode->m_pkForm = dynamic_cast<TESObjectREFR*>(FUN_004839c0(uiFormID_2));
-            if (FUN_00810fd0())
-                pkNode->m_iValue = FUN_00810fd0()->kList.FUN_00406ee0(ucIndexZ);
+            if (((::FogFile *)(reinterpret_cast<::EffectSetting *>(this)->GetArchetype())))
+                pkNode->m_iValue = ((int)(reinterpret_cast<::HX *>(&(((::FogFile *)(reinterpret_cast<::EffectSetting *>(this)->GetArchetype()))->kList))->FUN_00406ee0(ucIndexZ)));
             pkNode = pkNode->m_pkNext;
         }
     }
 }
 
-extern unsigned int DAT_011dea3c;
-extern Setting DAT_011d15f8;
 void __cdecl FUN_0080fc90(float);
 
 struct FUN_0080fcc0
@@ -1184,9 +1167,6 @@ struct FUN_00483710
 {
     int unk00, unk04, unk08, unk0C;
     ~FUN_00483710();
-    bool FUN_00ad8ce0();
-    void FUN_00ad88f0();
-    void FUN_00ad8d10();
 };
 
 struct MagicFogObject8196
@@ -1226,21 +1206,28 @@ struct FUN_008196e0 : public FUN_0081de70, public MagicFogIface8196
     FUN_00483710 m_kSound;
     FUN_0080fcc0* m_pkCc;
     virtual ~FUN_008196e0();
-    void* FUN_009185e0();
-    void DeleteAllNodes();
 };
+// Calls FUN_008196e0, deallocates this when flags has bit 0 set, and returns this.
+// @fnv 0x00819330
+void* MagicFogProjectile::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_008196e0 *>(this)->FUN_008196e0::~FUN_008196e0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x008196e0
 FUN_008196e0::~FUN_008196e0()
 {
-    unsigned int uiValue = FUN_009185e0() ? ((MagicFogObject8196*)FUN_009185e0())->v11() : 0;
-    if (uiValue != DAT_011dea3c)
-        FUN_0080fc90(*DAT_011d15f8.FUN_00403e20());
-    DeleteAllNodes();
-    if (m_kSound.FUN_00ad8ce0())
+    unsigned int uiValue = ((void *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags())) ? ((MagicFogObject8196*)((void *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags())))->v11() : 0;
+    if (uiValue != (*reinterpret_cast<unsigned int *>(&::_g_thePlayer)))
+        FUN_0080fc90(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::g_011d15f8)))))));
+    reinterpret_cast<::fnv_00819830::MagicFogProjectile *>(this)->DeleteAllNodes();
+    if (reinterpret_cast<::SoundPlaybackHandle *>(&(m_kSound))->IsValid())
     {
-        m_kSound.FUN_00ad88f0();
-        m_kSound.FUN_00ad8d10();
+        reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&(m_kSound))->FUN_00ad88f0();
+        reinterpret_cast<::SoundPlaybackHandle *>(&(m_kSound))->Release();
     }
     if (m_pkCc)
         delete m_pkCc;
@@ -1251,15 +1238,12 @@ struct FogColor
 {
     unsigned int m_uiColor;
     FogColor();
-    void FUN_004a39f0(int iAlpha);
-    void FUN_0059ce80(int iColor);
 };
 
 struct FogColorSource
 {
     unsigned int m_uiCurrentValue;
     FogColorSource();
-    int FUN_004a3a20();
 };
 struct FogColorHolder
 {
@@ -1267,11 +1251,7 @@ struct FogColorHolder
 };
 struct FogRace
 {
-    FogColorHolder* FUN_006fa820();
 };
-FogRace* __cdecl FUN_004b5260(void* pkNode);
-int __cdecl FUN_005dbe10();
-void __cdecl FUN_0080fae0(float fValue);
 
 class FogReference3DView
 {
@@ -1400,7 +1380,6 @@ class Actor : public TESObjectREFR
   public:
     FogColorSource FUN_00931ed0();
 };
-extern Actor* g_thePlayer_011dea3c;
 
 struct FogCasterSrc
 {
@@ -1421,14 +1400,11 @@ struct FogCasterSrc
 struct FogShader
 {
     FogColor FUN_0070c440();
-    void FUN_00810ff0(FogColor kColor);
 };
 
 struct SettingStandIn
 {
-    float* FUN_00403e20();
 };
-extern SettingStandIn g_s_011d15f8;
 
 struct FogProjectileImpl
 {
@@ -1551,47 +1527,44 @@ struct FogProjectileImpl
 
     virtual void* Get3D();
 
-    void UpdateFlags(int a1, int a2);
-    FogShader* FUN_009306d0();
-    FogCasterSrc* FUN_009185e0();
     void FUN_0081b430(int a1, int a2);
 };
 
 // @fnv 0x0081b430
 void FogProjectileImpl::FUN_0081b430(int a1, int a2)
 {
-    UpdateFlags(a1, a2);
-    FogShader* pkShaderZ = FUN_009306d0();
+    reinterpret_cast<::fnv_00932520::FUN_00932520_shell *>(this)->UpdateFlags(a1, a2);
+    FogShader* pkShaderZ = ((::FogShader *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()));
     if (pkShaderZ)
     {
         int iColor;
-        if (FUN_009185e0() && FUN_009185e0()->GetRef())
+        if (((::FogCasterSrc *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags())) && ((::FogCasterSrc *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))->GetRef())
         {
-            TESObjectREFR* pkRef = FUN_009185e0()->GetRef();
+            TESObjectREFR* pkRef = ((::FogCasterSrc *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))->GetRef();
             Actor* pkActor = dynamic_cast<Actor*>(pkRef);
             if (pkActor)
             {
-                iColor = pkActor->FUN_00931ed0().FUN_004a3a20();
+                iColor = ((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::FogColorSource &)(pkActor->FUN_00931ed0()))->FUN_004a3a20()));
             }
             else
             {
-                FogRace* pkRaceA = FUN_004b5260(reinterpret_cast<FogReference3DView*>(pkRef)->Get3D());
-                FogColorHolder* pkHolderPtr = pkRaceA ? pkRaceA->FUN_006fa820() : 0;
-                iColor = pkHolderPtr ? pkHolderPtr->FUN_0043b4f0().FUN_004a3a20() : FUN_005dbe10();
+                FogRace* pkRaceA = ((::FogRace *)(::fnv_004b5260::FUN_004b5260((::NiAVObject *)(void *)(reinterpret_cast<FogReference3DView*>(pkRef)->Get3D()))));
+                FogColorHolder* pkHolderPtr = pkRaceA ? ((::FogColorHolder *)(::fnv_006fa820::FUN_006fa820((const char *)(pkRaceA)))) : 0;
+                iColor = pkHolderPtr ? ((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::FogColorSource &)(pkHolderPtr->FUN_0043b4f0()))->FUN_004a3a20())) : ((int)(::FUN_005dbe10()));
             }
         }
         else
         {
-            FogRace* pkRace2 = FUN_004b5260(Get3D());
-            FogColorHolder* pkHolder2 = pkRace2 ? pkRace2->FUN_006fa820() : 0;
-            iColor = pkHolder2 ? pkHolder2->FUN_0043b4f0().FUN_004a3a20() : FUN_005dbe10();
+            FogRace* pkRace2 = ((::FogRace *)(::fnv_004b5260::FUN_004b5260((::NiAVObject *)(void *)(Get3D()))));
+            FogColorHolder* pkHolder2 = pkRace2 ? ((::FogColorHolder *)(::fnv_006fa820::FUN_006fa820((const char *)(pkRace2)))) : 0;
+            iColor = pkHolder2 ? ((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::FogColorSource &)(pkHolder2->FUN_0043b4f0()))->FUN_004a3a20())) : ((int)(::FUN_005dbe10()));
         }
         FogColor kColor = pkShaderZ->FUN_0070c440();
-        kColor.FUN_004a39f0(7);
-        kColor.FUN_0059ce80(iColor);
-        pkShaderZ->FUN_00810ff0(kColor);
+        reinterpret_cast<::FUN_004a39f0_shell *>(&(kColor))->FUN_004a39f0(7);
+        reinterpret_cast<::FUN_0059ce80_shell *>(&(kColor))->FUN_0059ce80(iColor);
+        reinterpret_cast<::fnv_00810ff0::Ths810 *>((pkShaderZ))->FUN_00810ff0((*(int *)&(const ::FogColor &)(kColor)));
     }
-    TESObjectREFR* _pkCaster = FUN_009185e0() ? FUN_009185e0()->GetRef() : 0;
-    if (_pkCaster != g_thePlayer_011dea3c)
-        FUN_0080fae0(*g_s_011d15f8.FUN_00403e20());
+    TESObjectREFR* _pkCaster = ((::FogCasterSrc *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags())) ? ((::FogCasterSrc *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))->GetRef() : 0;
+    if (_pkCaster != (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))
+        FUN_0080fae0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingStandIn *>(&::g_011d15f8)))))));
 }

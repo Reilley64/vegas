@@ -5,6 +5,8 @@
 
 // src/havok/physics/collide/query/collector/kdtreecollector/hkpkdtreecollidableraycaster.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/collector/kdtreecollector/hkpkdtreecollidableraycaster.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_010c9000.h"
 struct FUN_00d97a10_Class
 {
     void FUN_00d97a10(float* p) const;
@@ -212,9 +214,6 @@ FUN_00d98360::FUN_00d98360()
 {}
 
 #include <xmmintrin.h>
-extern float DAT_01012054;
-extern float DAT_01012068;
-extern int DAT_010c92e0[4];
 struct Vec4
 {
     __m128 q;
@@ -380,7 +379,7 @@ void ThisCls::FUN_00d97c90(Arg0* a0, __m128* a1)
             {
                 int mask = _mm_movemask_ps(*a1);
                 char outb;
-                if ((DAT_010c92e0[i] & mask) != 0 && *sub->Query(&outb, &entries[i], a0) != 0)
+                if (((*reinterpret_cast<int (*)[4]>(&::DAT_010c92e0))[i] & mask) != 0 && *sub->Query(&outb, &entries[i], a0) != 0)
                     vals[i] = one;
                 else
                     vals[i] = -1.0f;

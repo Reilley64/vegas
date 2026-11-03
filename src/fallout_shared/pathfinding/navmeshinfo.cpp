@@ -1,5 +1,44 @@
 // fallout_shared/pathfinding/navmeshinfo.cpp: NavMeshInfo, NavMeshInfoSaveShell, NavInfo (15 functions)
 
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/FUN_00438690.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_004534f0_shell.h"
+#include "fnv/decl/FUN_004941c0_shell.h"
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/FUN_0068f0a0_shell.h"
+#include "fnv/decl/FUN_0068f1d0_shell.h"
+#include "fnv/decl/FUN_0068f2c0_shell.h"
+#include "fnv/decl/FUN_0068f6b0_shell.h"
+#include "fnv/decl/FUN_00690e10_shell.h"
+#include "fnv/decl/FUN_00693b70_shell.h"
+#include "fnv/decl/FUN_00693d30_shell.h"
+#include "fnv/decl/FUN_00693d50_shell.h"
+#include "fnv/decl/FUN_0069bda0_cls.h"
+#include "fnv/decl/FUN_0069e090_class.h"
+#include "fnv/decl/FUN_006bf8f0_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/LDMesh.h"
+#include "fnv/decl/NavMesh.h"
+#include "fnv/decl/NavMeshProxy.h"
+#include "fnv/decl/Owner45A.h"
+#include "fnv/decl/Owner69c4c0.h"
+#include "fnv/decl/TESObjectCELL.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_006f2290__BSSimpleArrayActor.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/decl/fnv_00990a60__FUN_00990a60_shell.h"
+#include "fnv/decl/fnv_009a4320__FUN_009a4320_arr.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00558000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00587000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_011de000.h"
 class NavMeshInfo;
 class TESObjectREFR;
 class TESForm;
@@ -10,13 +49,14 @@ class TESObjectWEAP;
 class SandboxProcedureData;
 class InventoryStackRecord;
 
-int __cdecl Warning(const char* format, ...);
 
 class TESForm
 {
   public:
-    static TESForm* GetFormByID(unsigned int formID);
-    static void RemapFormIDForFile(unsigned int& formID, TESFile* file);
+public:
+    bool GetDisabled() const;
+public:
+    void SetCollisionDisabled(bool);
 };
 
 class TESFile
@@ -28,20 +68,19 @@ class TESFile
 template <int N> struct EndianSizeTag
 {
 };
-void __cdecl BSEndian(unsigned int* value, EndianSizeTag<4> tag);
 extern "C" void* __cdecl memcpy(void* destination, const void* source, unsigned int size);
 
+class TESObjectREFR;
 class Pathing
 {
   public:
-    NavMeshInfo* FindReferenceByFormId();
+public:
+    ::TESObjectREFR *FindReferenceByFormId(unsigned int);
 };
 class TES
 {
   public:
-    Pathing* GetActiveCell(unsigned int formID);
 };
-extern TES* g_TES;
 class TESObjectWEAP;
 
 template <class T> class NiTNewInterface
@@ -86,6 +125,7 @@ class NavMeshBounds
 void* __cdecl operator new(unsigned int size);
 void __cdecl operator delete(void* pointer);
 
+class NavMeshPtr;
 class NavMeshInfo
 {
   public:
@@ -107,30 +147,31 @@ class NavMeshInfo
     inline void Delete();
     void ReleaseNavMesh();
     void LoadSerializedData(char* data, TESFile* file, int version);
+public:
+    bool AcquireNavMesh(::NavMeshPtr &);
 };
 
 // @fnv 0x0069af10
 template <> BSSimpleArray<NavMeshInfo*, 1024>::~BSSimpleArray()
 {
     vtable = (void**)0x0106b1a4;
-    ((BSSimpleArray<SandboxProcedureData, 1024>*)this)->Clear(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((BSSimpleArray<SandboxProcedureData, 1024>*)this)))->Clear(true);
 }
 
 // @fnv 0x006b5490
 void NavMeshInfo::ReleaseNavMesh()
 {
-    unsigned int ItemUpdateArray = ((BSSimpleArray<NavMeshInfo*, 1024>*)&m_kDoorReferences)->GetSize();
+    unsigned int ItemUpdateArray = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((BSSimpleArray<NavMeshInfo*, 1024>*)&m_kDoorReferences)))->GetName()));
     for (unsigned int i = 0; i < ItemUpdateArray; ++i)
     {
         TESObjectREFR* door =
             ((NiTArray<TESObjectREFR*, NiTNewInterface<TESObjectREFR*> >*)&m_kDoorReferences)->GetAt(i);
         ((NiTArray<TESObjectREFR*, NiTNewInterface<TESObjectREFR*> >*)&m_kDoorReferences)->GetAt(i) =
-            (TESObjectREFR*)TESForm::GetFormByID((unsigned int)door);
+            (TESObjectREFR*)::FUN_004839c0((unsigned int)door);
         if (!((NiTArray<TESObjectREFR*, NiTNewInterface<TESObjectREFR*> >*)&m_kDoorReferences)->GetAt(i))
         {
-            Warning("NavMeshInfo %08x, Could not find Door %08x referenced by NavMeshInfo", m_uiNavMeshID,
-                    (unsigned int)door);
-            ((BSSimpleArray<InventoryStackRecord*, 1024>*)&m_kDoorReferences)->Remove(i, true);
+            ::FUN_005b5e40();
+            reinterpret_cast<::FUN_006bf8f0_Class *>((((BSSimpleArray<InventoryStackRecord*, 1024>*)&m_kDoorReferences)))->FUN_006bf8f0(i, true);
             --ItemUpdateArray;
             --i;
         }
@@ -143,19 +184,19 @@ void NavMeshInfo::LoadSerializedData(char* data, TESFile* file, int version)
     unsigned int count = 0;
     memcpy(&count, data, 4);
     if (file->IsEndianConversionRequired())
-        BSEndian(&count, EndianSizeTag<4>());
-    ((BSSimpleArray<TESObjectWEAP*, 1024>*)&m_kConnectedNavMeshInfos)->SetSize(count, true);
+        ::FUN_00401080((int *)(unsigned int *)(&count));
+    reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>((((BSSimpleArray<TESObjectWEAP*, 1024>*)&m_kConnectedNavMeshInfos)))->FUN_006f2290(count, true);
     data += 4;
     for (unsigned int adjacentIndex = 0; adjacentIndex < count; ++adjacentIndex)
     {
         unsigned int adjacentID = *(unsigned int*)data;
         if (file->IsEndianConversionRequired())
-            BSEndian(&adjacentID, EndianSizeTag<4>());
-        TESForm::RemapFormIDForFile(adjacentID, file);
+            ::FUN_00401080((int *)(unsigned int *)(&adjacentID));
+        ::ResolveFormID((unsigned int *)&(adjacentID), file);
         if (adjacentID)
         {
             ((BSSimpleArray<NavMeshInfo*, 1024>*)&m_kConnectedNavMeshInfos)->operator[](adjacentIndex) =
-                g_TES->GetActiveCell(adjacentID)->FindReferenceByFormId();
+                ((::NavMeshInfo *)(((::Pathing *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_0045af00()))->FindReferenceByFormId({})));
         }
         else
         {
@@ -169,19 +210,19 @@ void NavMeshInfo::LoadSerializedData(char* data, TESFile* file, int version)
         count = 0;
         memcpy(&count, data, 4);
         if (file->IsEndianConversionRequired())
-            BSEndian(&count, EndianSizeTag<4>());
-        ((BSSimpleArray<TESObjectWEAP*, 1024>*)&m_kPreferredConnections)->SetSize(count, true);
+            ::FUN_00401080((int *)(unsigned int *)(&count));
+        reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>((((BSSimpleArray<TESObjectWEAP*, 1024>*)&m_kPreferredConnections)))->FUN_006f2290(count, true);
         data += 4;
         for (unsigned int preferredIndex = 0; preferredIndex < count; ++preferredIndex)
         {
             unsigned int preferredID = *(unsigned int*)data;
             if (file->IsEndianConversionRequired())
-                BSEndian(&preferredID, EndianSizeTag<4>());
-            TESForm::RemapFormIDForFile(preferredID, file);
+                ::FUN_00401080((int *)(unsigned int *)(&preferredID));
+            ::ResolveFormID((unsigned int *)&(preferredID), file);
             if (preferredID)
             {
                 ((BSSimpleArray<NavMeshInfo*, 1024>*)&m_kPreferredConnections)->operator[](preferredIndex) =
-                    g_TES->GetActiveCell(preferredID)->FindReferenceByFormId();
+                    ((::NavMeshInfo *)(((::Pathing *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_0045af00()))->FindReferenceByFormId({})));
             }
             else
             {
@@ -193,15 +234,15 @@ void NavMeshInfo::LoadSerializedData(char* data, TESFile* file, int version)
 
     memcpy(&count, data, 4);
     if (file->IsEndianConversionRequired())
-        BSEndian(&count, EndianSizeTag<4>());
-    ((BSSimpleArray<TESObjectWEAP*, 1024>*)&m_kDoorReferences)->SetSize(count, true);
+        ::FUN_00401080((int *)(unsigned int *)(&count));
+    reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>((((BSSimpleArray<TESObjectWEAP*, 1024>*)&m_kDoorReferences)))->FUN_006f2290(count, true);
     data += 4;
     for (unsigned int doorIndex = 0; doorIndex < count; ++doorIndex)
     {
         unsigned int doorID = *(unsigned int*)data;
         if (file->IsEndianConversionRequired())
-            BSEndian(&doorID, EndianSizeTag<4>());
-        TESForm::RemapFormIDForFile(doorID, file);
+            ::FUN_00401080((int *)(unsigned int *)(&doorID));
+        ::ResolveFormID((unsigned int *)&(doorID), file);
         ((BSSimpleArray<NavMeshInfo*, 1024>*)&m_kDoorReferences)->operator[](doorIndex) = (NavMeshInfo*)doorID;
         data += 4;
     }
@@ -260,7 +301,6 @@ void (NavMeshInfo::*navmeshinfo_delete)() = &NavMeshInfo::Delete;
 
 struct ArrSI
 {
-    unsigned int GetFlags();
 };
 
 struct FUN_0069c460_shell
@@ -276,15 +316,14 @@ int FUN_0069c460_shell::FUN_0069c460()
     result += 0x18;
     result += 2;
     result += 2;
-    result += ((ArrSI*)((char*)this + 0x28))->GetFlags() * 0xc;
-    result += ((ArrSI*)((char*)this + 0x18))->GetFlags() * 6;
+    result += ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x28))))->GetName())) * 0xc;
+    result += ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x18))))->GetName())) * 6;
     return result;
 }
 
 namespace fnv_006b4e10 {
 struct ArrSI
 {
-    unsigned int GetFlags();
 };
 
 class FUN_006b4e10_shell
@@ -298,11 +337,11 @@ unsigned int FUN_006b4e10_shell::FUN_006b4e10()
 {
     unsigned int v = 0;
     v += 4;
-    v += ((ArrSI*)((char*)this + 0x24))->GetFlags() * 4;
+    v += ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x24))))->GetName())) * 4;
     v += 4;
-    v += ((ArrSI*)((char*)this + 0x34))->GetFlags() * 4;
+    v += ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x34))))->GetName())) * 4;
     v += 4;
-    v += ((ArrSI*)((char*)this + 0x44))->GetFlags() * 4;
+    v += ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x44))))->GetName())) * 4;
     return v;
 }
 }  // namespace fnv_006b4e10
@@ -310,7 +349,6 @@ unsigned int FUN_006b4e10_shell::FUN_006b4e10()
 namespace fnv_006b5a90 {
 struct ArrSI
 {
-    unsigned int GetFlags();
 };
 
 struct FUN_006b5a90_shell
@@ -321,30 +359,26 @@ struct FUN_006b5a90_shell
 // @fnv 0x006b5a90
 unsigned int FUN_006b5a90_shell::FUN_006b5a90()
 {
-    return ((ArrSI*)((char*)this + 0x58))->GetFlags();
+    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x58))))->GetName()));
 }
 }  // namespace fnv_006b5a90
 
 struct FUN_006b4850_t : public NavMeshBounds
 {
-    void FUN_0069bda0();
     void* FUN_006b4850(unsigned int flags);
 };
-void __cdecl _Deallocate(void*);
 // Calls FUN_0069bda0, then deallocates this if flags has bit 1 set, and returns this.
 // @fnv 0x006b4850
 void* FUN_006b4850_t::FUN_006b4850(unsigned int flags)
 {
-    FUN_0069bda0();
+    reinterpret_cast<::FUN_0069bda0_cls *>(this)->FUN_0069bda0_cls::~FUN_0069bda0_cls();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
-bool FUN_00401500();
 struct FormIDStub
 {
-    unsigned int _ref_0084e3a0();
 };
 struct Flt
 {
@@ -358,7 +392,6 @@ struct NavMeshPtr
 };
 struct NavMeshInfoHelper
 {
-    bool AcquireNavMesh(NavMeshPtr& ptr);
 };
 struct Arr
 {
@@ -381,63 +414,63 @@ void NavMeshInfoSaveShell::SaveToBuffer(char* apData)
             {
                 unsigned int uiTemp;
 
-                uiTemp = ((ArrSI*)&m_kConnectedNavMeshInfos)->GetFlags();
-                if (FUN_00401500())
-                    BSEndian(&uiTemp, EndianSizeTag<4>());
+                uiTemp = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&m_kConnectedNavMeshInfos)))->GetName()));
+                if (((bool)(::FUN_00401500())))
+                    ::FUN_00401080((int *)(unsigned int *)(&uiTemp));
                 *(unsigned int*)apData = uiTemp;
                 apData += 4;
-                ItemUpdateArray = ((ArrSI*)&m_kConnectedNavMeshInfos)->GetFlags();
+                ItemUpdateArray = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&m_kConnectedNavMeshInfos)))->GetName()));
                 pInfo = 0;
                 for (unsigned int i = 0; i < ItemUpdateArray; i++)
                 {
                     pInfo = (NavMeshInfo*)*((Arr*)&m_kConnectedNavMeshInfos)->GetAt(i);
                     NavMeshPtr navMeshPtr;
-                    if (((NavMeshInfoHelper*)pInfo)->AcquireNavMesh(navMeshPtr))
+                    if (reinterpret_cast<::NavMeshInfo *>((((NavMeshInfoHelper*)pInfo)))->AcquireNavMesh(navMeshPtr))
                     {
-                        uiTemp = ((FormIDStub*)(unsigned int)*(Flt*)&navMeshPtr)->_ref_0084e3a0();
-                        if (FUN_00401500())
-                            BSEndian(&uiTemp, EndianSizeTag<4>());
+                        uiTemp = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((FormIDStub*)(unsigned int)*(Flt*)&navMeshPtr)))->FUN_0084e3a0()));
+                        if (((bool)(::FUN_00401500())))
+                            ::FUN_00401080((int *)(unsigned int *)(&uiTemp));
                         *(unsigned int*)apData = uiTemp;
                     }
                     apData += 4;
                 }
 
-                uiTemp = ((ArrSI*)&m_kPreferredConnections)->GetFlags();
-                if (FUN_00401500())
-                    BSEndian(&uiTemp, EndianSizeTag<4>());
+                uiTemp = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&m_kPreferredConnections)))->GetName()));
+                if (((bool)(::FUN_00401500())))
+                    ::FUN_00401080((int *)(unsigned int *)(&uiTemp));
                 *(unsigned int*)apData = uiTemp;
                 apData += 4;
-                ItemUpdateArray = ((ArrSI*)&m_kPreferredConnections)->GetFlags();
+                ItemUpdateArray = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&m_kPreferredConnections)))->GetName()));
                 pInfo = 0;
                 for (unsigned int j = 0; j < ItemUpdateArray; j++)
                 {
                     pInfo = (NavMeshInfo*)*((Arr*)&m_kPreferredConnections)->GetAt(j);
                     NavMeshPtr navMeshPtr;
-                    if (((NavMeshInfoHelper*)pInfo)->AcquireNavMesh(navMeshPtr))
+                    if (reinterpret_cast<::NavMeshInfo *>((((NavMeshInfoHelper*)pInfo)))->AcquireNavMesh(navMeshPtr))
                     {
-                        uiTemp = ((FormIDStub*)(unsigned int)*(Flt*)&navMeshPtr)->_ref_0084e3a0();
-                        if (FUN_00401500())
-                            BSEndian(&uiTemp, EndianSizeTag<4>());
+                        uiTemp = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((FormIDStub*)(unsigned int)*(Flt*)&navMeshPtr)))->FUN_0084e3a0()));
+                        if (((bool)(::FUN_00401500())))
+                            ::FUN_00401080((int *)(unsigned int *)(&uiTemp));
                         *(unsigned int*)apData = uiTemp;
                     }
                     apData += 4;
                 }
 
-                uiTemp = ((ArrSI*)&m_kDoorReferences)->GetFlags();
-                if (FUN_00401500())
-                    BSEndian(&uiTemp, EndianSizeTag<4>());
+                uiTemp = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&m_kDoorReferences)))->GetName()));
+                if (((bool)(::FUN_00401500())))
+                    ::FUN_00401080((int *)(unsigned int *)(&uiTemp));
                 *(unsigned int*)apData = uiTemp;
                 apData += 4;
-                ItemUpdateArray = ((ArrSI*)&m_kDoorReferences)->GetFlags();
+                ItemUpdateArray = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&m_kDoorReferences)))->GetName()));
                 pRefr = 0;
                 for (unsigned int k = 0; k < ItemUpdateArray; k++)
                 {
                     pRefr = (TESObjectREFR*)*((Arr*)&m_kDoorReferences)->GetAt(k);
                     if (pRefr)
                     {
-                        uiTemp = ((FormIDStub*)pRefr)->_ref_0084e3a0();
-                        if (FUN_00401500())
-                            BSEndian(&uiTemp, EndianSizeTag<4>());
+                        uiTemp = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((FormIDStub*)pRefr)))->FUN_0084e3a0()));
+                        if (((bool)(::FUN_00401500())))
+                            ::FUN_00401080((int *)(unsigned int *)(&uiTemp));
                         *(unsigned int*)apData = uiTemp;
                     }
                     else
@@ -456,14 +489,14 @@ struct NiPoint3
     float x;
     float y;
     float z;
+public:
+    static const ::NiPoint3 ZERO;
 };
 
 struct FUN_0069c4c0_shell
 {
-    void WriteToBuffer(char* buffer);
 };
 
-void* __cdecl __memcpy(void* destination, const void* source, unsigned int size);
 
 struct FUN_006b48f0_shell : public NavMeshInfo
 {
@@ -479,55 +512,55 @@ void FUN_006b48f0_shell::WriteToChunkBuffer(char* apChunkBuffer)
     NiPoint3 temppoint;
 
     itempint = this->uiFlags;
-    if (FUN_00401500())
-        BSEndian(&itempint, EndianSizeTag<4>());
+    if (((bool)(::FUN_00401500())))
+        ::FUN_00401080((int *)(unsigned int *)(&itempint));
     __memcpy(apChunkBuffer, &itempint, 4);
     apChunkBuffer += 4;
 
     if (this->m_pLocationNavMesh)
     {
-        if (reinterpret_cast<FormIDStub*>(this->m_pLocationNavMesh)->_ref_0084e3a0() != this->m_uiNavMeshID)
-            this->m_uiNavMeshID = reinterpret_cast<FormIDStub*>(this->m_pLocationNavMesh)->_ref_0084e3a0();
+        if (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<FormIDStub*>(this->m_pLocationNavMesh)))->FUN_0084e3a0())) != this->m_uiNavMeshID)
+            this->m_uiNavMeshID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<FormIDStub*>(this->m_pLocationNavMesh)))->FUN_0084e3a0()));
     }
 
     itempint = this->m_uiNavMeshID;
-    if (FUN_00401500())
-        BSEndian(&itempint, EndianSizeTag<4>());
+    if (((bool)(::FUN_00401500())))
+        ::FUN_00401080((int *)(unsigned int *)(&itempint));
     __memcpy(apChunkBuffer, &itempint, 4);
     apChunkBuffer += 4;
 
-    this->m_uiParentSpaceID = reinterpret_cast<FormIDStub*>(this->m_pParentSpace)->_ref_0084e3a0();
+    this->m_uiParentSpaceID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<FormIDStub*>(this->m_pParentSpace)))->FUN_0084e3a0()));
     itempint = this->m_uiParentSpaceID;
-    if (FUN_00401500())
-        BSEndian(&itempint, EndianSizeTag<4>());
+    if (((bool)(::FUN_00401500())))
+        ::FUN_00401080((int *)(unsigned int *)(&itempint));
     __memcpy(apChunkBuffer, &itempint, 4);
     apChunkBuffer += 4;
 
     itempint = this->m_uiPathingFlags;
-    if (FUN_00401500())
-        BSEndian(&itempint, EndianSizeTag<4>());
+    if (((bool)(::FUN_00401500())))
+        ::FUN_00401080((int *)(unsigned int *)(&itempint));
     __memcpy(apChunkBuffer, &itempint, 4);
     apChunkBuffer += 4;
 
     temppoint = *reinterpret_cast<const NiPoint3*>(&this->m_kNavMeshPosition);
-    if (FUN_00401500())
+    if (((bool)(::FUN_00401500())))
     {
-        BSEndian(reinterpret_cast<unsigned int*>(&temppoint.x), EndianSizeTag<4>());
-        BSEndian(reinterpret_cast<unsigned int*>(&temppoint.y), EndianSizeTag<4>());
-        BSEndian(reinterpret_cast<unsigned int*>(&temppoint.z), EndianSizeTag<4>());
+        ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(&temppoint.x)));
+        ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(&temppoint.y)));
+        ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(&temppoint.z)));
     }
     __memcpy(apChunkBuffer, &temppoint, 12);
     apChunkBuffer += 12;
 
     if (this->pBounds)
     {
-        reinterpret_cast<FUN_0069c4c0_shell*>(this->pBounds)->WriteToBuffer(apChunkBuffer);
+        reinterpret_cast<::Owner69c4c0 *>((reinterpret_cast<FUN_0069c4c0_shell*>(this->pBounds)))->WriteToBuffer(apChunkBuffer);
         apChunkBuffer += reinterpret_cast<FUN_0069c460_shell*>(this->pBounds)->FUN_0069c460();
     }
 
     ftempFloat = this->m_fStoredValue;
-    if (FUN_00401500())
-        BSEndian(reinterpret_cast<unsigned int*>(&ftempFloat), EndianSizeTag<4>());
+    if (((bool)(::FUN_00401500())))
+        ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(&ftempFloat)));
     __memcpy(apChunkBuffer, &ftempFloat, 4);
     apChunkBuffer += 4;
 }
@@ -537,60 +570,56 @@ struct FUN_006b4b50_shell : public NavMeshInfo
     void LoadNavMeshInfo(char*, TESFile*, int);
 };
 
-void* __cdecl __memcpy(void* destination, const void* source, unsigned int size);
-void __cdecl _ref_00485d50(unsigned int* formID, TESFile* file);
 
 struct TESFileAccessor
 {
-    bool GetChunkData();
 };
 
 struct FUN_0069c8f0_shell
 {
-    void ReadFromBuffer(char* data, TESFile* file, int version);
 };
 
 // @fnv 0x006b4b50
 void FUN_006b4b50_shell::LoadNavMeshInfo(char* apChunkBuffer, TESFile* apFile, int aiFileVersionNumber)
 {
     __memcpy(&this->uiFlags, apChunkBuffer, 4);
-    if (((TESFileAccessor*)apFile)->GetChunkData())
+    if (reinterpret_cast<::TESFile *>((((TESFileAccessor*)apFile)))->IsEndianConversionRequired())
     {
-        BSEndian(&this->uiFlags, EndianSizeTag<4>());
+        ::FUN_00401080((int *)(unsigned int *)(&this->uiFlags));
     }
     apChunkBuffer += 4;
 
     __memcpy(&this->m_uiNavMeshID, apChunkBuffer, 4);
-    if (((TESFileAccessor*)apFile)->GetChunkData())
+    if (reinterpret_cast<::TESFile *>((((TESFileAccessor*)apFile)))->IsEndianConversionRequired())
     {
-        BSEndian(&this->m_uiNavMeshID, EndianSizeTag<4>());
+        ::FUN_00401080((int *)(unsigned int *)(&this->m_uiNavMeshID));
     }
     apChunkBuffer += 4;
 
-    _ref_00485d50(&this->m_uiNavMeshID, apFile);
+    ::ResolveFormID(&this->m_uiNavMeshID, apFile);
 
     __memcpy(&this->m_uiParentSpaceID, apChunkBuffer, 4);
-    if (((TESFileAccessor*)apFile)->GetChunkData())
+    if (reinterpret_cast<::TESFile *>((((TESFileAccessor*)apFile)))->IsEndianConversionRequired())
     {
-        BSEndian(&this->m_uiParentSpaceID, EndianSizeTag<4>());
+        ::FUN_00401080((int *)(unsigned int *)(&this->m_uiParentSpaceID));
     }
     apChunkBuffer += 4;
 
-    _ref_00485d50(&this->m_uiParentSpaceID, apFile);
+    ::ResolveFormID(&this->m_uiParentSpaceID, apFile);
 
     __memcpy(reinterpret_cast<unsigned int*>(&this->m_uiPathingFlags), apChunkBuffer, 4);
-    if (((TESFileAccessor*)apFile)->GetChunkData())
+    if (reinterpret_cast<::TESFile *>((((TESFileAccessor*)apFile)))->IsEndianConversionRequired())
     {
-        BSEndian(reinterpret_cast<unsigned int*>(&this->m_uiPathingFlags), EndianSizeTag<4>());
+        ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(&this->m_uiPathingFlags)));
     }
     apChunkBuffer += 4;
 
     __memcpy(&this->m_kNavMeshPosition, apChunkBuffer, 12);
-    if (((TESFileAccessor*)apFile)->GetChunkData())
+    if (reinterpret_cast<::TESFile *>((((TESFileAccessor*)apFile)))->IsEndianConversionRequired())
     {
-        BSEndian(reinterpret_cast<unsigned int*>(&this->m_kNavMeshPosition.x), EndianSizeTag<4>());
-        BSEndian(reinterpret_cast<unsigned int*>(&this->m_kNavMeshPosition.y), EndianSizeTag<4>());
-        BSEndian(reinterpret_cast<unsigned int*>(&this->m_kNavMeshPosition.z), EndianSizeTag<4>());
+        ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(&this->m_kNavMeshPosition.x)));
+        ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(&this->m_kNavMeshPosition.y)));
+        ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(&this->m_kNavMeshPosition.z)));
     }
     apChunkBuffer += 12;
 
@@ -599,16 +628,16 @@ void FUN_006b4b50_shell::LoadNavMeshInfo(char* apChunkBuffer, TESFile* apFile, i
         if (!this->pBounds)
             this->pBounds = new NavMeshBounds;
 
-        ((FUN_0069c8f0_shell*)this->pBounds)->ReadFromBuffer(apChunkBuffer, apFile, aiFileVersionNumber);
+        reinterpret_cast<::LDMesh *>((((FUN_0069c8f0_shell*)this->pBounds)))->ReadFromBuffer(apChunkBuffer, (::LDFile *)(apFile), aiFileVersionNumber);
         apChunkBuffer += ((FUN_0069c460_shell*)this->pBounds)->FUN_0069c460();
     }
 
     if (aiFileVersionNumber >= 10)
     {
         __memcpy(reinterpret_cast<unsigned int*>(&this->m_fStoredValue), apChunkBuffer, 4);
-        if (((TESFileAccessor*)apFile)->GetChunkData())
+        if (reinterpret_cast<::TESFile *>((((TESFileAccessor*)apFile)))->IsEndianConversionRequired())
         {
-            BSEndian(reinterpret_cast<unsigned int*>(&this->m_fStoredValue), EndianSizeTag<4>());
+            ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(&this->m_fStoredValue)));
         }
         apChunkBuffer += 4;
     }
@@ -625,8 +654,6 @@ void FUN_006b4b50_shell::LoadNavMeshInfo(char* apChunkBuffer, TESFile* apFile, i
 //     this+0x28 (0x49f1c0) -> member at +0x18 has a non-trivial dtor
 //     (unwind funclet destroys it), member at +0x28 ctor is last.
 
-extern float D_01015f5c;
-extern float D_01016970;
 
 struct FUN_00416870
 {
@@ -664,37 +691,26 @@ class FUN_0069bcf0
 };
 
 // @fnv 0x0069bcf0
-FUN_0069bcf0::FUN_0069bcf0() : unk00(D_01015f5c, D_01015f5c, D_01015f5c), unk0C(D_01016970, D_01016970, D_01016970)
+FUN_0069bcf0::FUN_0069bcf0() : unk00(::DAT_01015f5c, ::DAT_01015f5c, ::DAT_01015f5c), unk0C(::DAT_01016970, ::DAT_01016970, ::DAT_01016970)
 {}
 
 struct MeshParent
 {
-    unsigned int FUN_0084e3a0();
 };
 struct MeshCell
 {
-    int FUN_0054ddd0();
-    int FUN_00544c60();
-    int FUN_00544c30();
 };
 struct MeshPoint
 {
     float x, y, z;
-    void FUN_0063c8a0(const MeshPoint&);
-    void ScaleByInverse(float);
 };
 struct MeshTriangle
 {
-    bool FUN_00690e10();
-    bool HasFlag40();
-    bool IsEdgeFlagSet(int);
-    unsigned short FUN_0068f2c0(int);
 };
 struct NavInfo;
 struct NavInfoPointer
 {
     NavInfo* pointer;
-    bool FUN_0069e090();
 };
 struct MeshLink
 {
@@ -703,36 +719,19 @@ struct MeshLink
 };
 struct MeshSource
 {
-    unsigned int FUN_0084e3a0();
-    MeshParent* GetDoorForm();
-    bool FUN_00440da0();
-    unsigned int FUN_00558200();
-    MeshTriangle* FUN_005582f0(unsigned short);
-    MeshLink* GetEdge(unsigned short);
-    unsigned int FUN_006b5a90();
-    NavInfo* const& FUN_0068f6b0(unsigned short);
-    MeshCell* FUN_0059bb30();
-    unsigned int GetArrFlags();
-    const MeshPoint& FUN_0068f0a0(unsigned short);
-    bool FUN_00440d80();
 };
 struct NavMeshReference
 {
     int unk00;
     NavMeshReference();
     ~NavMeshReference();
-    MeshSource* FUN_00559450();
 };
 struct MeshArray
 {
     int unk00;
     NavInfo** buffer;
     unsigned int size, capacity;
-    void FUN_008454f0(bool);
-    unsigned int FUN_0044ddc0();
     NavInfo*& FUN_00877a30(unsigned int);
-    void FUN_009a4320(unsigned int, bool);
-    void FUN_007cb2e0(NavInfo* const&);
 };
 struct NavInfo
 {
@@ -744,63 +743,57 @@ struct NavInfo
     MeshArray adjacent, preferredAdjacent, doors;
     void* mesh;
     NavMeshBounds* bounds;
-    bool FUN_00690860(NavMeshReference&);
-    void FUN_00693ef0(bool);
-    void FUN_00693d50(float);
-    void FUN_004534f0(bool);
     void InitializeFromMeshSource(MeshSource*);
 };
-extern MeshPoint DAT_011f426c;
-int PackShortPair(int, int);
 // Resets this NavInfo and rebuilds its id, parent, adjacency, doors, cell key, point and preferred ratio from the given mesh source.
 // @fnv 0x006b5560
 void NavInfo::InitializeFromMeshSource(MeshSource* source)
 {
-    id = source->FUN_0084e3a0();
-    parent = source->GetDoorForm();
-    parentId = source->GetDoorForm()->FUN_0084e3a0();
-    adjacent.FUN_008454f0(true);
-    preferredAdjacent.FUN_008454f0(true);
-    doors.FUN_008454f0(true);
+    id = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0()));
+    parent = ((::MeshParent *)(reinterpret_cast<::NavMeshProxy *>((source))->GetDoorForm()));
+    parentId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::MeshParent *)(reinterpret_cast<::NavMeshProxy *>((source))->GetDoorForm()))))->FUN_0084e3a0()));
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(adjacent))->Clear(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(preferredAdjacent))->Clear(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(doors))->Clear(true);
     flags = 0;
     if (bounds)
     {
         delete bounds;
         bounds = 0;
     }
-    if (source->FUN_00440da0())
-        FUN_00693ef0(true);
+    if (reinterpret_cast<::TESForm *>((source))->GetDisabled())
+        reinterpret_cast<::TESForm *>(this)->SetCollisionDisabled(true);
     {
-        unsigned int count = source->FUN_00558200();
+        unsigned int count = ::FUN_00558200((char *)(source));
         for (unsigned int i = 0; i < count; ++i)
         {
-            MeshTriangle* triangle = source->FUN_005582f0((unsigned short)i);
-            if (!triangle->FUN_00690e10())
+            MeshTriangle* triangle = ((::MeshTriangle *)(reinterpret_cast<::NavMesh *>((source))->GetTriangle((unsigned short)i)));
+            if (!reinterpret_cast<::FUN_00690e10_shell *>((triangle))->FUN_00690e10())
                 continue;
-            bool isPreferred = triangle->HasFlag40();
+            bool isPreferred = reinterpret_cast<::FUN_00693b70_shell *>((triangle))->HasFlag40();
             for (int edge = 0; edge < 3; ++edge)
             {
-                if (!triangle->IsEdgeFlagSet(edge))
+                if (!reinterpret_cast<::FUN_0068f1d0_shell *>((triangle))->IsEdgeFlagSet(edge))
                     continue;
-                MeshLink* link = source->GetEdge(triangle->FUN_0068f2c0(edge));
-                if (link->info.FUN_0069e090())
+                MeshLink* link = ((::MeshLink *)(reinterpret_cast<::FUN_00693d30_shell *>((source))->GetEdge(reinterpret_cast<::FUN_0068f2c0_shell *>((triangle))->FUN_0068f2c0(edge))));
+                if (reinterpret_cast<::FUN_0069e090_class *>(&(link->info))->FUN_0069e090())
                 {
                     bool add3 = true;
                     NavMeshReference reference;
-                    if (link->info.pointer->FUN_00690860(reference))
+                    if (reinterpret_cast<::NavMeshInfo *>((link->info.pointer))->AcquireNavMesh((::NavMeshPtr &)(reference)))
                     {
-                        if (reference.FUN_00559450()->FUN_00440d80())
+                        if (reinterpret_cast<::FUN_00440d80_shell *>((((::MeshSource *)(::FUN_00559450((int *)&(reference))))))->FUN_00440d80())
                             add3 = false;
                         else if (isPreferred)
                         {
-                            unsigned int size = adjacent.FUN_0044ddc0();
+                            unsigned int size = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(adjacent))->GetName()));
                             for (unsigned int j = 0; j < size; ++j)
                                 if (adjacent.FUN_00877a30(j) == link->info.pointer)
                                 {
-                                    adjacent.FUN_009a4320(j, true);
+                                    reinterpret_cast<::fnv_009a4320::FUN_009a4320_arr *>(&(adjacent))->FUN_009a4320(j, true);
                                     break;
                                 }
-                            size = preferredAdjacent.FUN_0044ddc0();
+                            size = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(preferredAdjacent))->GetName()));
                             for (unsigned int k = 0; k < size; ++k)
                                 if (preferredAdjacent.FUN_00877a30(k) == link->info.pointer)
                                 {
@@ -810,7 +803,7 @@ void NavInfo::InitializeFromMeshSource(MeshSource* source)
                         }
                         else
                         {
-                            unsigned int sizeOther = adjacent.FUN_0044ddc0();
+                            unsigned int sizeOther = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(adjacent))->GetName()));
                             for (unsigned int m = 0; m < sizeOther; ++m)
                                 if (adjacent.FUN_00877a30(m) == link->info.pointer)
                                 {
@@ -824,9 +817,9 @@ void NavInfo::InitializeFromMeshSource(MeshSource* source)
                     if (add3)
                     {
                         if (isPreferred)
-                            preferredAdjacent.FUN_007cb2e0(link->info.pointer);
+                            reinterpret_cast<::FUN_00438690 *>(&(preferredAdjacent))->FUN_007cb2e0((unsigned int *)&(link->info.pointer));
                         else
-                            adjacent.FUN_007cb2e0(link->info.pointer);
+                            reinterpret_cast<::FUN_00438690 *>(&(adjacent))->FUN_007cb2e0((unsigned int *)&(link->info.pointer));
                     }
                 }
             }
@@ -835,33 +828,33 @@ void NavInfo::InitializeFromMeshSource(MeshSource* source)
             flags |= 8;
         else
             flags &= ~8;
-        count = source->FUN_006b5a90();
+        count = reinterpret_cast<::fnv_006b5a90::FUN_006b5a90_shell *>((source))->FUN_006b5a90();
         for (unsigned int d = 0; d < count; ++d)
-            doors.FUN_007cb2e0(source->FUN_0068f6b0((unsigned short)d));
+            reinterpret_cast<::FUN_00438690 *>(&(doors))->FUN_007cb2e0((unsigned int *)&((*(::NavInfo *const *)(reinterpret_cast<::FUN_0068f6b0_shell *>((source))->FUN_0068f6b0((unsigned short)d)))));
     }
-    if (source->FUN_0059bb30()->FUN_0054ddd0())
-        cellKey = PackShortPair(source->FUN_0059bb30()->FUN_00544c30(), source->FUN_0059bb30()->FUN_00544c60());
+    if (((int)(reinterpret_cast<::TESObjectCELL *>((((::MeshCell *)(reinterpret_cast<::ActorMover *>((source))->GetCurrentMoveModeType()))))->GetParentWorldSpace())))
+        cellKey = ::PackShortPair(reinterpret_cast<::TESObjectCELL *>((((::MeshCell *)(reinterpret_cast<::ActorMover *>((source))->GetCurrentMoveModeType()))))->GetCellGridX(), reinterpret_cast<::TESObjectCELL *>((((::MeshCell *)(reinterpret_cast<::ActorMover *>((source))->GetCurrentMoveModeType()))))->GetCellGridY());
     else
         cellKey = 0;
-    point = DAT_011f426c;
-    unsigned int vertices = source->GetArrFlags();
+    point = (*reinterpret_cast<::MeshPoint *>((void *)&::NiPoint3::ZERO));
+    unsigned int vertices = reinterpret_cast<::fnv_00990a60::FUN_00990a60_shell *>((source))->GetArrFlags();
     if (vertices > 0)
     {
         for (unsigned int v = 0; v < vertices; ++v)
-            point.FUN_0063c8a0(source->FUN_0068f0a0((unsigned short)v));
-        point.ScaleByInverse((float)vertices);
+            reinterpret_cast<::FUN_0063c8a0_shell *>(&(point))->FUN_0063c8a0((void *)&((*(const ::MeshPoint *)(reinterpret_cast<::FUN_0068f0a0_shell *>((source))->FUN_0068f0a0((unsigned short)v)))));
+        reinterpret_cast<::FUN_004941c0_shell *>(&(point))->ScaleByInverse((float)vertices);
     }
-    unsigned int triangles = source->FUN_00558200();
+    unsigned int triangles = ::FUN_00558200((char *)(source));
     if (triangles)
     {
         unsigned int preferredCount = 0;
         for (unsigned int t = 0; t < triangles; ++t)
         {
-            MeshTriangle* triangle2 = source->FUN_005582f0((unsigned short)t);
-            if (triangle2->HasFlag40())
+            MeshTriangle* triangle2 = ((::MeshTriangle *)(reinterpret_cast<::NavMesh *>((source))->GetTriangle((unsigned short)t)));
+            if (reinterpret_cast<::FUN_00693b70_shell *>((triangle2))->HasFlag40())
                 ++preferredCount;
         }
-        FUN_00693d50((float)preferredCount / (float)triangles);
+        reinterpret_cast<::FUN_00693d50_shell *>(this)->FUN_00693d50((float)preferredCount / (float)triangles);
     }
-    FUN_004534f0(true);
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0(true);
 }

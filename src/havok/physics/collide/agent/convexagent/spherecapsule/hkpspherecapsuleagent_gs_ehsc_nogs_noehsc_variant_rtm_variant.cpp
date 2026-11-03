@@ -7,6 +7,18 @@
 // to their real unit once identified.
 // src/havok/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00cfbbe0_cls.h"
+#include "fnv/decl/hkpSphereCapsuleAgent.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00d23000.h"
+#include "fnv/symbols_00d3a000.h"
+#include "fnv/symbols_00d3e000.h"
+#include "fnv/symbols_00d3f000.h"
+#include "fnv/symbols_00daf000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_010ce000.h"
 struct S_00d3ef70_CdBody;
 struct S_00d3ef70_Input;
 struct S_00d3ef70_Agent;
@@ -24,17 +36,7 @@ struct S_00d3ef70_AgentFuncs {
     bool m_bIsPredictive;
 };
 struct S_00d3ef70_Dispatcher {
-    void registerCollisionAgent(S_00d3ef70_AgentFuncs& f, int typeA, int typeB);
 };
-S_00d3ef70_Agent* FUN_00d3e2f0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, void*);
-void FUN_00d3f040(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
-void FUN_00d3f4c0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
-void FUN_00d3ac80(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&, S_00d3ef70_Collector*);
-S_00d3ef70_Agent* FUN_00d3e270(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, void*);
-void FUN_00d3e330(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
-void FUN_00d3ebe0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
-void FUN_00daf8e0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&, S_00d3ef70_Collector*);
-void FUN_00d3ef70(S_00d3ef70_Dispatcher* dispatcher);
 class InnerCls {
 public:
     virtual void v0();
@@ -77,35 +79,23 @@ struct SmallRecord {
     unsigned short m_w0C;
 };
 extern char DAT_010cf018[];
-AllocHolder* FUN_00c85750();
-void __cdecl FUN_00d3e2f0(int a, int b, int c, int d);
-void __cdecl FUN_00d3e330(int a, int b, int c, int d);
-void __stdcall FUN_00d3e510(int a, int b, int c, int d);
-extern char DAT_010ce81c;
 struct FUN_00d3f040_tmp {
     const char* str;
     unsigned char flag;
     unsigned int value;
 };
-void __cdecl FUN_00d3e330(unsigned int a, unsigned int b, unsigned int c, FUN_00d3f040_tmp* p);
-void __cdecl FUN_00d3f040(unsigned int a0, unsigned int a1, unsigned int a2, unsigned int a3);
-extern char DAT_010ce81c;
 struct AgentDispatchDescriptor {
     const void* dispatchTable;
     unsigned char isFlipped;
     volatile unsigned int tag;
 };
 struct CollisionDispatcher {
-    void FUN_00d3e510(void* bodyB, void* bodyA, void* input, AgentDispatchDescriptor* descriptor);
     void FUN_00d3f000(void* bodyA, void* bodyB, void* volatile input, unsigned int tag);
 };
 
 #include <math.h>
 #include <xmmintrin.h>
 extern "C" void _ReadWriteBarrier();
-extern float DAT_01011d78;
-extern float DAT_01017718;
-extern float DAT_01016248;
 struct Vec4f { float x, y, z, w; __forceinline __m128& quad() { return *(__m128*)this; } __forceinline float& at(int i) { return (&x)[i]; } };
 struct MatF { Vec4f v[4]; };
 struct InnerP { float unk00, unk04, unk08, unk0c, f10; float unk14, unk18, unk1c; Vec4f endpoints[2]; };
@@ -113,7 +103,6 @@ struct Arg0S { InnerP* p; int unk04; Vec4f* q; };
 struct Arg1S { InnerP* p; int unk04; MatF* mat; };
 struct Arg2S { float unk00, unk04, f8; };
 struct OutS { Vec4f pos; Vec4f n; };
-void __cdecl FUN_00d230e0(Vec4f* a, Vec4f* b, Vec4f* c, Vec4f* d);
 static __forceinline bool compareValue(float a,float b) { return b>=a; }
 static __forceinline void perpendicular(Vec4f& dst, Vec4f& d) {
         int low=0, side=1; volatile int third=2; int pick;
@@ -150,7 +139,7 @@ int __cdecl FUN_00d3e530(Arg0S* a0, Arg1S* a1, Arg2S* a2, OutS* out) {
         _mm_store_ps((float*)&t[i], r);
     }
     Vec4f res;
-    FUN_00d230e0(qp, &t[0], &t[1], &res);
+    ::FUN_00d230e0((*(const ::hkVector4D230 *)(qp)), (*(const ::hkVector4D230 *)(&t[0])), (*(const ::hkVector4D230 *)(&t[1])), (*(::hkVector4D230 *)(&res)));
     Vec4f diff;
     _mm_store_ps((float*)&diff, _mm_sub_ps(_mm_load_ps((float*)qp), _mm_load_ps((float*)&res)));
     float sum1 = ap->f10 + bp->f10;
@@ -175,9 +164,9 @@ if (compareValue(S*S,lenSq)) return 0;
     __m128 nsq = _mm_mul_ps(n, n);
     __m128 nsum = _mm_add_ss(_mm_shuffle_ps(nsq, nsq, 0xaa), _mm_add_ss(_mm_shuffle_ps(nsq, nsq, 0x55), nsq));
     __m128 r = _mm_rsqrt_ss(nsum);
-    __m128 factor = _mm_mul_ss(_mm_mul_ss(_mm_set_ss(DAT_01016248), r),
-                               _mm_sub_ss(_mm_set_ss(DAT_01017718), _mm_mul_ss(_mm_mul_ss(nsum, r), r)));
-    factor = _mm_andnot_ps(_mm_cmpeq_ss(nsum, _mm_set_ss(DAT_01011d78)), factor);
+    __m128 factor = _mm_mul_ss(_mm_mul_ss(_mm_set_ss(::fnv_00c88020::DAT_01016248), r),
+                               _mm_sub_ss(_mm_set_ss(::DAT_01017718), _mm_mul_ss(_mm_mul_ss(nsum, r), r)));
+    factor = _mm_andnot_ps(_mm_cmpeq_ss(nsum, _mm_set_ss(::DAT_01011d78)), factor);
     __m128 fn = _mm_mul_ps(_mm_shuffle_ps(factor, factor, 0), n);
     out->n.quad() = fn;
     _ReadWriteBarrier();
@@ -971,14 +960,14 @@ struct Vector4Wrapper
 __forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(SegmentSegmentClosestPoint::Vector4Wrapper));}}__forceinline void*__cdecl operator new(hk_size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](hk_size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 hkVector4 m_kClosestPoint;
 };
-static int __cdecl GetClosestPointOnLineSegment(hkVector4Parameter A,hkVector4Parameter B0,hkVector4Parameter B1,Vector4Wrapper&result);};
+};
 __forceinline hkpSphereCapsuleAgent::ClosestPointResult hkpSphereCapsuleAgent::getClosestPointInl(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,hkContactPoint&cpoint)
 {
 const hkpSphereShape*sphereA=static_cast<const hkpSphereShape*>(bodyA.getShape());
 const hkpCapsuleShape*capsuleB=static_cast<const hkpCapsuleShape*>(bodyB.getShape());
 const hkVector4&posA=bodyA.getTransform().getTranslation();
 hkVector4 capsB[2];hkVector4Util_S::TransformPointArray(bodyB.getTransform(),capsuleB->GetIndexedVertices(),2,capsB);
-SegmentSegmentClosestPoint::Vector4Wrapper result;SegmentSegmentClosestPoint::GetClosestPointOnLineSegment(posA,capsB[0],capsB[1],result);
+SegmentSegmentClosestPoint::Vector4Wrapper result;::FUN_00d230e0((const ::hkVector4D230 &)(posA),(const ::hkVector4D230 &)(capsB[0]),(const ::hkVector4D230 &)(capsB[1]),(::hkVector4D230 &)(result));
 hkVector4 aMinusB;aMinusB.setSub4(posA,result.m_kClosestPoint);
 const hkReal radiusSum=sphereA->getRadius()+capsuleB->getRadius();
 const hkReal refDist=radiusSum+input.getTolerance();

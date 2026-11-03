@@ -4,6 +4,7 @@
 #include "layout_support.h"
 #include "Actor.h"
 #pragma pack(push, 4)
+class BGSLoadFormBuffer;
 class Character : public Actor
 {
   public:
@@ -16,6 +17,8 @@ class Character : public Actor
     float m_fThirdValue;  // +0x1C4
     virtual void Unk_137(void);
     virtual void Unk_138(void);
+public:
+    void LoadGame(::BGSLoadFormBuffer *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(Character) == 0x1C8);

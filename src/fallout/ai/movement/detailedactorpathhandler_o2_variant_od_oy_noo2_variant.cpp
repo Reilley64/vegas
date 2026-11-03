@@ -5,6 +5,75 @@
 
 // src/fallout/ai/movement/detailedactorpathhandler_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/ai/movement/detailedactorpathhandler.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include "fnv/decl/ActorStandIn008a.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00437bd0_stub.h"
+#include "fnv/decl/FUN_00437bf0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00608d80_shell.h"
+#include "fnv/decl/FUN_0076b610_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_0087f3d0_shell.h"
+#include "fnv/decl/FUN_00881650_shell.h"
+#include "fnv/decl/FUN_00893530_shell.h"
+#include "fnv/decl/FUN_008ace90_shell.h"
+#include "fnv/decl/FUN_008b3b90_shell.h"
+#include "fnv/decl/FUN_008b3d50_This.h"
+#include "fnv/decl/FUN_008bc790_shell.h"
+#include "fnv/decl/FUN_00905450_StandIn.h"
+#include "fnv/decl/FUN_00931fb0_shell.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FUN_009dd130_shell.h"
+#include "fnv/decl/FUN_009e1640_shell.h"
+#include "fnv/decl/FUN_009e32f0_shell.h"
+#include "fnv/decl/FUN_009e7610_shell.h"
+#include "fnv/decl/FleeActorEntry.h"
+#include "fnv/decl/HostActor.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/NiObject.h"
+#include "fnv/decl/PathingRequest.h"
+#include "fnv/decl/Point3_0053d280.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S006950d0.h"
+#include "fnv/decl/TESCombatStyle.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/TeleportableReference.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/_Dummy_0069e390.h"
+#include "fnv/decl/bhkCharacterListener.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/decl/fnv_009334b0__FUN_009334b0_shell.h"
+#include "fnv/decl/s56ae10__Owner.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00574000.h"
+#include "fnv/symbols_0069e000.h"
+#include "fnv/symbols_009e5000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f6000.h"
 #include "detailedactorpathhandler_decls.h"
 
 #include <xmmintrin.h>
@@ -24,7 +93,6 @@ struct Matrix75
 {
     float xx, xy, xz, yx, yy, yz, zx, zy, zz;
     Matrix75();
-    void SetRotation(float);
     Point75 Transform(const Point75*);
 };
 struct __declspec(align(16)) AlignedPoint75
@@ -32,7 +100,6 @@ struct __declspec(align(16)) AlignedPoint75
     __m128 value;
     AlignedPoint75(const void*);
 };
-void __cdecl ConvertPoint75(Point75*, const AlignedPoint75*);
 struct Area75
 {
     Point75 position;
@@ -50,13 +117,9 @@ struct AvoidArray75
 };
 struct Request75
 {
-    float Radius() const;
-    AvoidArray75* GetAvoid() const;
-    void SetAvoid(AvoidArray75*);
 };
 struct Flags75
 {
-    unsigned int Get(unsigned int);
 };
 struct Controller75
 {
@@ -321,7 +384,6 @@ struct Controller75
     int unk408;
     int unk40c;
     Flags75 flags;
-    const void* GetPoint();
 };
 struct Actor75
 {
@@ -502,17 +564,12 @@ struct Actor75
     virtual void slot174();
     virtual float Heading(int);
     float Radius();
-    const Point75* Velocity();
-    Controller75* Controller();
 };
 struct List75
 {
     int unk00, unk04, unk08, unk0c;
     List75();
     ~List75();
-    bool Empty();
-    unsigned int Size();
-    Actor75** At(unsigned int);
 };
 struct Refine75
 {
@@ -557,34 +614,29 @@ struct Handler75
 };
 struct Time75
 {
-    float Delta();
 };
-extern Time75 g_time75;
-extern const Point75 g_zero75;
-extern const float g_factor75;
-void __cdecl Collect75(void*, Request75*, int, const Point75*, Handler75*, List75*);
 
 // @fnv 0x009e71b0
 void __cdecl FUN_009e71b0(void* context, Request75* request, Handler75* handler)
 {
     if (handler && handler->state == 3)
         return;
-    float factor = g_factor75;
+    float factor = ::DAT_01016088;
     unsigned int scanCount = 0;
     List75 actors;
-    Collect75(context, request, 0x101, &g_zero75, handler, &actors);
-    if (!actors.Empty())
+    ::fnv_009e5690::EvaluateAvoidance((::fnv_009e5690::Actor *)(context), (::fnv_009e5690::PathingRequest *)(request), 0x101, (const ::fnv_009e5690::NiPoint3_ext *)(const ::fnv_009e71b0::Point75 *)(&(*reinterpret_cast<const ::fnv_009e71b0::Point75 *>(&::DAT_011a9478))), handler, (::fnv_009e5690::ActorAvoidEntryList *)(::fnv_009e71b0::List75 *)(&actors));
+    if (!reinterpret_cast<::FUN_0076b610_Class *>(&(actors))->FUN_0076b610())
     {
-        float radius = request->Radius();
-        AvoidArray75* avoid = request->GetAvoid();
+        float radius = ::GetFloatAtOffset68((const char *)(request));
+        AvoidArray75* avoid = ((::fnv_009e71b0::AvoidArray75 *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(request))->GetString()));
         if (!avoid)
         {
             avoid = new AvoidArray75;
-            request->SetAvoid(avoid);
+            reinterpret_cast<::PathingRequest *>((request))->SetAvoidNodeArray((::BSSimpleArray<void *, 1024> *)(avoid));
         }
-        for (unsigned int i = 0; i < actors.Size(); ++i)
+        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(actors))->GetName())); ++i)
         {
-            Actor75* actor = *actors.At(i);
+            Actor75* actor = *((::fnv_009e71b0::Actor75 **)(reinterpret_cast<::S006950d0 *>(&(actors))->GetElement(i)));
             if (handler)
                 handler->filter.Refine(&actor);
             float weight;
@@ -600,24 +652,24 @@ void __cdecl FUN_009e71b0(void* context, Request75* request, Handler75* handler)
                 kind = 2;
             }
             Matrix75 rotation;
-            rotation.SetRotation(actor->Heading(0));
-            Point75 velocity = rotation.Transform(actor->Velocity());
-            Point75 delta = velocity * g_time75.Delta();
-            if (delta.Length() > actor->Radius())
+            reinterpret_cast<::FUN_009e1640_shell *>(&(rotation))->SetRotationMatrix(actor->Heading(0));
+            Point75 velocity = rotation.Transform(((const ::fnv_009e71b0::Point75 *)(reinterpret_cast<::FUN_008b3d50_This *>((actor))->FUN_008b3d50())));
+            Point75 delta = reinterpret_cast<::Point3_0053d280 *>((void *)&(const ::fnv_009e71b0::Point75 &)(velocity))->FUN_0053d280(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_009e71b0::Time75 *>(&::g_timeGlobal))))->GetStoredFloatValue());
+            if (reinterpret_cast<::TESCombatStyle *>((void *)&(delta))->UpdateCombatStyle() > actor->Radius())
             {
-                avoid->Add(Area75(reinterpret_cast<const Position75&>(actor->Position()) + delta, weight, 2.0f, kind));
+                reinterpret_cast<::FUN_00905450_StandIn *>((avoid))->AppendNode((::PathingAvoidanceNode *)&(const ::fnv_009e71b0::Area75 &)(Area75(reinterpret_cast<const Position75&>(actor->Position()) + delta, weight, 2.0f, kind)));
             }
             Point75 position = actor->Position();
-            Controller75* controller = actor->Controller();
-            if (controller && !controller->flags.Get(0x08000000))
+            Controller75* controller = ((::fnv_009e71b0::Controller75 *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((actor))->FUN_009306d0()));
+            if (controller && !reinterpret_cast<::bhkCharacterListener *>(&(controller->flags))->FUN_00621270(0x08000000))
             {
-                AlignedPoint75 p(controller->GetPoint());
+                AlignedPoint75 p(reinterpret_cast<::NiObject *>((controller))->FUN_00621a40());
                 Point75 converted;
-                ConvertPoint75(&converted, &p);
+                ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&converted)), (*(const ::hkVector4 *)(&p)));
                 position.x = converted.x;
                 position.y = converted.y;
             }
-            avoid->Add(Area75(position, weight, 2.0f, kind));
+            reinterpret_cast<::FUN_00905450_StandIn *>((avoid))->AppendNode((::PathingAvoidanceNode *)&(const ::fnv_009e71b0::Area75 &)(Area75(position, weight, 2.0f, kind)));
             if (handler)
                 handler->state = 3;
         }

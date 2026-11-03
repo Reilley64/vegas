@@ -1,17 +1,41 @@
 // gamebryo2.2/corelibs/nianimation/nicolorinterpolator.cpp: NiColorInterpolator (17 functions)
 
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a4cc0_shell.h"
+#include "fnv/decl/FUN_00a3ca10.h"
+#include "fnv/decl/FUN_00a3d270_cls.h"
+#include "fnv/decl/FUN_00a698a0_class.h"
+#include "fnv/decl/FUN_00a95ca0_shell.h"
+#include "fnv/decl/NiColorDataHack.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_004a4c90__FUN_004a4c90_shell.h"
+#include "fnv/decl/fnv_00a3cbf0__NiKeyBasedInterpolator.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00a57000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa0000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f3000.h"
 #include "NiObject.h"
 
 class NiObjectNET;
+class NiStream;
 class RgbaColor
 {
   public:
     RgbaColor()
     {}
     float r, g, b, a;
-    bool FUN_004a4cc0(const RgbaColor&) const;
+public:
+    char *ToString(const char *);
+public:
+    void LoadBinary(::NiStream &);
 };
-extern const RgbaColor DAT_011a9430;
 
 class AnimationKey
 {
@@ -32,8 +56,6 @@ class ColorAnimationKey : public AnimationKey
 {
   public:
     RgbaColor m_kRgbaColor;
-    static RgbaColor InterpolatePosition(float, ColorAnimationKey*, KeyType, unsigned int, unsigned int&,
-                                         unsigned char);
 };
 class NiColorData : public NiObject
 {
@@ -70,7 +92,7 @@ bool NiColorInterpolator::Update(float fTime, NiObjectNET*, RgbaColor& kValue)
     if (m_fLastTime == fTime)
     {
         kValue = m_kColorValue;
-        if (m_kColorValue.FUN_004a4cc0(DAT_011a9430))
+        if (reinterpret_cast<::FUN_004a4cc0_shell *>((void *)&(m_kColorValue))->FUN_004a4cc0((void *)&(DAT_011a9430)))
             return false;
         return true;
     }
@@ -83,10 +105,10 @@ bool NiColorInterpolator::Update(float fTime, NiObjectNET*, RgbaColor& kValue)
         ColorAnimationKey* pkKeys = m_spColorData.m_pObject->m_pKeyArray;
         if (uiNumKeys > 0)
             m_kColorValue =
-                ColorAnimationKey::InterpolatePosition(fTime, pkKeys, eType, uiNumKeys, m_uiLastKeyIndex, ucKeySize);
+                ::InterpolateColor(fTime, (const char *)(pkKeys), (*(unsigned int *)&(eType)), uiNumKeys, (unsigned int *)&(m_uiLastKeyIndex), ucKeySize);
     }
 
-    if (m_kColorValue.FUN_004a4cc0(DAT_011a9430))
+    if (reinterpret_cast<::FUN_004a4cc0_shell *>((void *)&(m_kColorValue))->FUN_004a4cc0((void *)&(DAT_011a9430)))
         return false;
     kValue = m_kColorValue;
     m_fLastTime = fTime;
@@ -105,8 +127,6 @@ struct RgbaColor
     float r, g, b, a;
 };
 
-extern int DAT_01096e14;
-extern RgbaColor const DAT_011a9430;
 extern int DAT_011a9434;
 extern int DAT_011a9438;
 extern int DAT_011a943c;
@@ -116,9 +136,9 @@ __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
 // @fnv 0x00a3bd10
 NiColorInterpolator* __fastcall NiColorInterpolatorConstructor(NiColorInterpolator* pThis, int, void* pkColorData)
 {
-    reinterpret_cast<NiKeyBasedInterpolator*>(pThis)->NiKeyBasedInterpolator::NiKeyBasedInterpolator();
-    *reinterpret_cast<int**>(pThis) = &DAT_01096e14;
-    *reinterpret_cast<RgbaColor*>(reinterpret_cast<char*>(pThis) + 0x0c) = DAT_011a9430;
+    new ((void *)(reinterpret_cast<NiKeyBasedInterpolator*>(pThis))) ::FUN_00a3ca10();
+    *reinterpret_cast<int**>(pThis) = &::DAT_01096e14;
+    *reinterpret_cast<RgbaColor*>(reinterpret_cast<char*>(pThis) + 0x0c) = (*reinterpret_cast<const ::fnv_00a3bd10::RgbaColor *>((void *)&::DAT_011a9430));
     *reinterpret_cast<void**>(reinterpret_cast<char*>(pThis) + 0x1c) = pkColorData;
     if (pkColorData)
     {
@@ -134,12 +154,11 @@ struct FUN_00a3bd70_shell : public NiColorInterpolator
     void* FUN_00a3bd70();
 };
 
-extern "C" void* g_011f3730;
 
 // @fnv 0x00a3bd70
 void* FUN_00a3bd70_shell::FUN_00a3bd70()
 {
-    return &g_011f3730;
+    return &(*reinterpret_cast<void * *>(&::g_011f3730));
 }
 
 struct FUN_00a487f0_shell
@@ -172,7 +191,6 @@ void FUN_00a3bc60_shell::SetColorValue(RgbaColor akColorValue)
 
 struct DummyA3D0E0
 {
-    void FUN_00a3d0e0(float, float);
 };
 struct HostA3BCB0 : NiColorInterpolator
 {
@@ -183,9 +201,10 @@ struct HostA3BCB0 : NiColorInterpolator
 void HostA3BCB0::FUN_00a3bcb0(float afArg1, float afArg2)
 {
     if ((NiColorData*)m_spColorData)
-        ((DummyA3D0E0*)(NiColorData*)m_spColorData)->FUN_00a3d0e0(afArg1, afArg2);
+        reinterpret_cast<::NiColorDataHack *>((((DummyA3D0E0*)(NiColorData*)m_spColorData)))->FUN_00a3d0e0(afArg1, afArg2);
 }
 
+class NiObject;
 struct NiStream
 {
     virtual void f0();
@@ -201,14 +220,14 @@ struct NiStream
     virtual void f10();
     virtual void f11();
     virtual void Func12(NiColorData*);
+public:
+    ::NiObject *DeserializeObject();
 };
 struct FUN_00a95ca0_helper
 {
-    void FUN_00a95ca0(NiStream*);
 };
 struct NiColorA_SaveHelper
 {
-    void SaveBinary(NiStream*);
 };
 struct FUN_00a3bce0_shell : NiColorInterpolator
 {
@@ -217,8 +236,8 @@ struct FUN_00a3bce0_shell : NiColorInterpolator
 // @fnv 0x00a3bce0
 void FUN_00a3bce0_shell::FUN_00a3bce0(NiStream& kStream)
 {
-    ((FUN_00a95ca0_helper*)this)->FUN_00a95ca0(&kStream);
-    ((NiColorA_SaveHelper*)&m_kColorValue)->SaveBinary(&kStream);
+    reinterpret_cast<::FUN_00a95ca0_shell *>((((FUN_00a95ca0_helper*)this)))->FUN_00a95ca0((*(::S_00a58160_Stream *)(&kStream)));
+    reinterpret_cast<::FUN_00a698a0_class *>((((NiColorA_SaveHelper*)&m_kColorValue)))->FUN_00a698a0(&kStream);
     kStream.Func12(m_spColorData.m_pObject);
 }
 
@@ -234,7 +253,6 @@ struct BSFadeNode : public NiKeyBasedInterpolatorHelper
     NiPointer<NiColorData> m_spColorData;
     unsigned int m_uiLastKeyIndex;
 };
-extern int DAT_01096e14;
 extern int DAT_011a9434;
 extern int DAT_011a9438;
 extern int DAT_011a943c;
@@ -244,7 +262,7 @@ BSFadeNode* FUN_00a3c130()
     BSFadeNode* p = (BSFadeNode*)BSFadeNode::operator new(0x24);
     if (p)
     {
-        p->NiKeyBasedInterpolatorHelper::NiKeyBasedInterpolatorHelper();
+        new ((void *)(p)) ::FUN_00a3ca10();
         *(unsigned int*)p = (unsigned int)&DAT_01096e14;
         *(unsigned int*)((char*)p + 0xc) = *(unsigned int*)&DAT_011a9430;
         *(unsigned int*)((char*)p + 0x10) = DAT_011a9434;
@@ -263,11 +281,9 @@ BSFadeNode* FUN_00a3c130()
 namespace fnv_00a48990 {
 struct NiStream
 {
-    NiObject* DeserializeObject();
 };
 struct NiColorA_Helper
 {
-    void LoadBinary(NiStream&);
 };
 struct NiKeyBasedInterpolator_LoadBinary_Helper
 {
@@ -283,9 +299,9 @@ struct FUN_00a48990_StandIn : NiKeyBasedInterpolator
 // @fnv 0x00a48990
 void FUN_00a48990_StandIn::FUN_00a48990(NiStream& kStream)
 {
-    ((NiKeyBasedInterpolator_LoadBinary_Helper*)this)->NiKeyBasedInterpolator_LoadBinary_Helper::LoadBinary(kStream);
-    ((NiColorA_Helper*)&m_kColorValue)->LoadBinary(kStream);
-    m_spColorData = (NiColorData*)kStream.DeserializeObject();
+    ::FUN_00aa0ac0();
+    reinterpret_cast<::RgbaColor *>((((NiColorA_Helper*)&m_kColorValue)))->LoadBinary((::NiStream &)(kStream));
+    m_spColorData = (NiColorData*)reinterpret_cast<::NiStream *>(&(kStream))->DeserializeObject();
 }
 }  // namespace fnv_00a48990
 
@@ -374,7 +390,6 @@ FUN_00a3bd80::FUN_00a3bd80(unsigned int auiColorR, unsigned int auiColorG, unsig
 struct ColorCmp
 {
     float r, g, b, a;
-    bool NotEqual(const RgbaColor&) const;
 };
 
 inline ColorAnimationKey* ComputePositionAtTime(NiColorData* d, unsigned int& n, AnimationKey::KeyType& t,
@@ -418,7 +433,7 @@ void HostA3BDC0::CollapseConstantColorKeys()
                     for (unsigned int uiIndex = 1; bAllEqual && uiIndex < uiNumKeys; uiIndex++)
                     {
                         ColorAnimationKey* pkKey = (ColorAnimationKey*)((char*)pkKeys + uiIndex * ucKeySize);
-                        if (((ColorCmp*)&pkKey->m_kRgbaColor)->NotEqual(kValue))
+                        if (reinterpret_cast<::fnv_004a4c90::FUN_004a4c90_shell *>((void *)(((ColorCmp*)&pkKey->m_kRgbaColor)))->FUN_004a4c90((void *)&(kValue)))
                             bAllEqual = false;
                     }
                 }
@@ -433,11 +448,9 @@ void HostA3BDC0::CollapseConstantColorKeys()
 
 struct FUN_00a57050_helper
 {
-    NiColorInterpolator* FUN_00a57050(float startTime, float endTime);
 };
 struct FUN_00a3d270_helper : NiColorData
 {
-    void BuildAndSetData(float startTime, float endTime, NiColorData** clippedData);
 };
 struct FUN_00a3bef0_shell : NiColorInterpolator
 {
@@ -447,12 +460,11 @@ struct FUN_00a3bef0_shell : NiColorInterpolator
 // @fnv 0x00a3bef0
 NiColorInterpolator* FUN_00a3bef0_shell::CreateClippedInterpolator(float startTime, float endTime)
 {
-    NiColorInterpolator* interpolator = reinterpret_cast<FUN_00a57050_helper*>(this)->FUN_00a57050(startTime, endTime);
+    NiColorInterpolator* interpolator = ((::NiColorInterpolator *)(::FUN_00a57050((int)(reinterpret_cast<FUN_00a57050_helper*>(this)), startTime)));
     if (m_spColorData.m_pObject)
     {
         NiColorData* clippedData = 0;
-        reinterpret_cast<FUN_00a3d270_helper*>(m_spColorData.m_pObject)
-            ->BuildAndSetData(startTime, endTime, &clippedData);
+        reinterpret_cast<::FUN_00a3d270_cls *>((reinterpret_cast<FUN_00a3d270_helper*>(m_spColorData.m_pObject)))->BuildAndSetData(startTime, endTime, (*(::NiPointerD27< ::NiDataD27> *)(&clippedData)));
         interpolator->m_spColorData = clippedData;
         interpolator->m_uiLastKeyIndex = 0;
         if (clippedData)
@@ -463,13 +475,12 @@ NiColorInterpolator* FUN_00a3bef0_shell::CreateClippedInterpolator(float startTi
 
 struct FUN_00a3c0a0_shell : NiColorInterpolator
 {
-    void FUN_00aa0ab0(void* dst, void* proc);
     void FUN_00a3c0a0(FUN_00a3c0a0_shell* dst, void* proc);
 };
 // @fnv 0x00a3c0a0
 void FUN_00a3c0a0_shell::FUN_00a3c0a0(FUN_00a3c0a0_shell* apDest, void* proc)
 {
-    FUN_00aa0ab0(apDest, proc);
+    ::FUN_00aa0ab0();
     unsigned int* d4 = (unsigned int*)&apDest->m_kColorValue;
     unsigned int* s4 = (unsigned int*)&m_kColorValue;
     d4[0] = s4[0];
@@ -488,18 +499,13 @@ struct ViewerArray
     unsigned short m_usNext;
     unsigned short m_unk0c;
     unsigned short m_usGrow;
-    void FUN_0096ad30(unsigned int newSize);
-    void FUN_0096ae90(unsigned int index, void* elem);
 };
 
 struct ViewerNameHolder
 {
     unsigned int m_unk00;
-    void* ToString(const char* name);
 };
 
-void* FUN_00a7d330(void* arg);
-void* FUN_00a7d5a0(const char* name, unsigned int value);
 
 struct FUN_00a3c270_cls
 {
@@ -511,42 +517,41 @@ struct FUN_00a3c270_cls
     unsigned int m_unk14;
     unsigned int m_unk18;
     unsigned int m_uiFilterValue;
-    void FUN_00a3cbf0(ViewerArray* out);
     void AppendColorProperties(ViewerArray* out);
 };
 
 // @fnv 0x00a3c270
 void FUN_00a3c270_cls::AppendColorProperties(ViewerArray* out)
 {
-    this->FUN_00a3cbf0(out);
-    void* pValue = FUN_00a7d330(g_011f3730);
+    reinterpret_cast<::fnv_00a3cbf0::NiKeyBasedInterpolator *>((this))->FUN_00a3cbf0((::fnv_00a3cbf0::StrArr *)(out));
+    void* pValue = ((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_011f3730))))));
     unsigned int uiIndex = out->m_usNext;
     if (uiIndex >= out->m_usMax)
     {
-        out->FUN_0096ad30(uiIndex + out->m_usGrow);
+        reinterpret_cast<::ViewerStrings *>((out))->SetSize(uiIndex + out->m_usGrow);
     }
-    out->FUN_0096ae90(uiIndex, &pValue);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((out))->SetAt(uiIndex, (*(char * *)(&pValue)));
 
-    void* r = m_nameA.ToString("m_kColorValue");
+    void* r = ((void *)(reinterpret_cast<::RgbaColor *>(&(m_nameA))->ToString("m_kColorValue")));
     uiIndex = out->m_usNext;
     unsigned int uiMax = out->m_usMax;
     pValue = r;
     if (uiIndex >= uiMax)
     {
-        out->FUN_0096ad30(uiIndex + out->m_usGrow);
+        reinterpret_cast<::ViewerStrings *>((out))->SetSize(uiIndex + out->m_usGrow);
     }
-    out->FUN_0096ae90(uiIndex, &pValue);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((out))->SetAt(uiIndex, (*(char * *)(&pValue)));
 
     unsigned int v = m_uiFilterValue;
-    void* s = FUN_00a7d5a0("m_spColorData", v);
+    void* s = ((void *)(::FUN_00a7d5a0("m_spColorData", (void *)(v))));
     uiIndex = out->m_usNext;
     uiMax = out->m_usMax;
     pValue = s;
     if (uiIndex >= uiMax)
     {
-        out->FUN_0096ad30(uiIndex + out->m_usGrow);
+        reinterpret_cast<::ViewerStrings *>((out))->SetSize(uiIndex + out->m_usGrow);
     }
-    out->FUN_0096ae90(uiIndex, &pValue);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((out))->SetAt(uiIndex, (*(char * *)(&pValue)));
 }
 
 extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
@@ -559,7 +564,6 @@ inline NiColorInterpolator::NiColorInterpolator(NiColorData* data)
 {}
 struct Owner488
 {
-    void FUN_00a3c0a0(NiColorInterpolator*, int);
     NiColorInterpolator* CreateColorInterpolator(int);
 };
 // Allocates a NiColorInterpolator with null color data, initializes it via FUN_00a3c0a0 with arg, and returns it.
@@ -568,7 +572,7 @@ NiColorInterpolator* Owner488::CreateColorInterpolator(int arg)
 {
     void* memory = FUN_00aa13e0(sizeof(NiColorInterpolator));
     NiColorInterpolator* interpolator = memory ? new (memory) NiColorInterpolator(0) : 0;
-    FUN_00a3c0a0(interpolator, arg);
+    reinterpret_cast<::FUN_00a3c0a0_shell *>(this)->FUN_00a3c0a0((::FUN_00a3c0a0_shell *)(interpolator), (void *)(arg));
     return interpolator;
 }
 
@@ -610,7 +614,6 @@ class NiColorA3C
 {
   public:
     float r, g, b, a;
-    bool FUN_004a4c90(const NiColorA3C& c) const;
 };
 
 class FUN_00a3c190_C : public NiObjA3C
@@ -631,7 +634,7 @@ bool FUN_00a3c190_C::FUN_00a3c190(NiObjA3C* pkObject)
         return false;
 
     FUN_00a3c190_C* pkDest = (FUN_00a3c190_C*)pkObject;
-    if (m_kColorValue.FUN_004a4c90(pkDest->m_kColorValue))
+    if (reinterpret_cast<::fnv_004a4c90::FUN_004a4c90_shell *>((void *)&(m_kColorValue))->FUN_004a4c90((void *)&(pkDest->m_kColorValue)))
         return false;
 
     if ((m_spColorData && !pkDest->m_spColorData) || (!m_spColorData && pkDest->m_spColorData) ||

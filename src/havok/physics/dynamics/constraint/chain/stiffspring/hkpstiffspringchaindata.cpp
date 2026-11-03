@@ -2,6 +2,13 @@
 // src/havok/physics/dynamics/constraint/chain/stiffspring/hkpstiffspringchaindata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/chain/stiffspring/hkpstiffspringchaindata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/fnv_00e3b0a0__FUN_00e3b0a0_cls.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d6f000.h"
+#include "fnv/symbols_00dce000.h"
+#include "fnv/symbols_00dcf000.h"
+#include "fnv/symbols_00dd1000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpStiffSpringChainData.h"
 
 struct hkStiffSpringChainData
@@ -105,7 +112,7 @@ class FUN_00e3b0a0
 // @fnv 0x00e3b4a0
 FUN_00e3b0a0* FUN_00e3b0a0::DestroyAndFree(unsigned int uiFlags) throw()
 {
-    this->FUN_00e3b0a0::~FUN_00e3b0a0();
+    reinterpret_cast<::fnv_00e3b0a0::FUN_00e3b0a0_cls *>((this))->FUN_00e3b0a0();
     if (uiFlags & 1)
         FUN_00e3b0a0::operator delete(this);
     return this;
@@ -135,7 +142,6 @@ union hkVector4q
     __m128 m_vComponents;
     hkVector4 m_vec;
 };
-extern "C" const __m128 DAT_01268370;
 struct QuantizedBoundsData;
 struct SolverSchemaHeader;
 struct hkpEntityS
@@ -319,15 +325,6 @@ struct hkMemoryRouterS
     int unk0c;
     hkMemoryAllocator* m_pStreamAllocator;
 };
-void __cdecl ResizeAudioStream(hkMemoryAllocator* alloc, void* array, int sizeElem) throw();
-extern "C" void __cdecl AppendEventRecord(const SixteenWordFloatRecord& in, QueryResultSchema& out, void* solverResults,
-                                     int solverResultStriding) throw();
-SolverSchemaHeader* __cdecl FUN_00dd13b0(SolverSchemaHeader* schema) throw();
-void __cdecl FUN_00dcee70(SixteenWordFloatRecord* in) throw();
-void __cdecl FUN_00dcf720(const hk1dLinearBilateralConstraintInfo& info, const SixteenWordFloatRecord& in,
-                          SolverSchemaHeader* schema, hkReal rhs) throw();
-void __cdecl FUN_00dd1180(int numConstraints, hkReal tau, hkReal damping, hkReal cfm, int* offsets, hkUint32 base,
-                          SolverSchemaHeader* schema, const SixteenWordFloatRecord& in, QueryResultSchema& out) throw();
 __forceinline void* __cdecl operator new(unsigned int, void* p) throw()
 {
     return p;
@@ -362,7 +359,7 @@ struct hkInplaceIntArray32
     {
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
         {
-            ResizeAudioStream(alloc->m_pStreamAllocator, this, sizeof(int));
+            ::ResizeAudioStream((::AudioAllocator *)(alloc->m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(int));
         }
         new (&m_data[m_iElementCount]) int(v);
         m_iElementCount++;
@@ -397,7 +394,7 @@ struct hkpStiffSpringChainDataEx : public hkpStiffSpringChainData
 };
 void hkpStiffSpringChainDataEx::FUN_00e3b0f0(const SixteenWordFloatRecord& inNonConst, QueryResultSchema& out) volatile
 {
-    AppendEventRecord(inNonConst, out, inNonConst.m_pByteBuffer, 8);
+    ::fnv_00d6f2b0::AppendEventRecord((const ::fnv_00d6f2b0::RecordSource *)&(inNonConst), (::fnv_00d6f2b0::EventRecord **)&(out), (volatile unsigned int)(inNonConst.m_pByteBuffer), 8);
     SixteenWordFloatRecord in = inNonConst;
     in.m_pConstraintChainInstance = 0;
     in.m_pByteBuffer = 0;
@@ -411,7 +408,7 @@ void hkpStiffSpringChainDataEx::FUN_00e3b0f0(const SixteenWordFloatRecord& inNon
     in.m_kBodyBLocalFrame = &rA->m_kMotionTransform;
     in.m_fFourthQueryValue = 1.0f;
     in.m_iBeforeFourthQueryValue = in.m_fQueryInputValue;
-    SolverSchemaHeader* schema = FUN_00dd13b0(out.m_pQueryResultSchema.value());
+    SolverSchemaHeader* schema = ((::SolverSchemaHeader *)(::FUN_00dd13b0((unsigned int)(out.m_pQueryResultSchema.value()))));
     for (int i = 0; i < numConstraints; i++)
     {
         in.m_pBodyA = in.m_pBodyB;
@@ -435,14 +432,14 @@ void hkpStiffSpringChainDataEx::FUN_00e3b0f0(const SixteenWordFloatRecord& inNon
         }
         else
         {
-            bp.m_kConstraintAxis.m_vComponents = DAT_01268370;
+            bp.m_kConstraintAxis.m_vComponents = (*reinterpret_cast<const ::__m128 *>(&::DAT_01268370));
             length = 0.0f;
         }
-        FUN_00dcee70(&in);
+        ::FUN_00dcee70();
         hkReal rhs = m_pConstraintInfo.m_data[i].m_fSpringRestLength - length;
-        FUN_00dcf720(bp, in, schema, rhs);
+        ::FUN_00dcf720((const ::S_00dcf720_Info &)(bp), (const ::S_00dcf720_QueryIn &)(in), (::S_00dcf720_Jacobian *)(schema), rhs);
         schema = reinterpret_cast<SolverSchemaHeader*>(reinterpret_cast<char*>(schema) + 0x30);
     }
-    FUN_00dd1180(numConstraints, m_fTau, m_fMotorDamping, m_fMaxErrorDistance, velocityAccumulatorsOffsets.m_data, base,
-                 schema, inNonConst, out);
+    ::FUN_00dd1180(numConstraints, m_fTau, m_fMotorDamping, m_fMaxErrorDistance, (char **)(velocityAccumulatorsOffsets.m_data), base,
+                 (int)(schema), (int)&(inNonConst), (char **)&(out));
 }

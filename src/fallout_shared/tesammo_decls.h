@@ -2,6 +2,8 @@
 #ifndef TESAMMO_DECLS_H
 #define TESAMMO_DECLS_H
 
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_0097a000.h"
 class Script;
 #include "tesammo_types.h"
 
@@ -22,9 +24,7 @@ class MiddleLowProcess
 class TESAmmoInitCalls
 {
   public:
-    unsigned int GetFieldBC();
     void* FUN_00923000();
-    void FUN_00502cb0(void*);
 };
 
 extern "C"
@@ -34,6 +34,5 @@ extern "C"
     extern const char DAT_010261e8[];
 }
 
-int Warning(const char*, ...);
 
 #endif

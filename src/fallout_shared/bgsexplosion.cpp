@@ -1,5 +1,47 @@
 // fallout_shared/bgsexplosion.cpp: BGSExplosion, EffectSetting, ScalarHelper, BGSExplosionCompare and more (22 functions)
 
+#include "fnv/decl/A5D2C0Object.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSTalkingActivator.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_0041fd00_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00472840_impl.h"
+#include "fnv/decl/FUN_00487010_shell.h"
+#include "fnv/decl/FUN_004891d0_cls.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_004fb970_class.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_00516bf0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008ac890_shell.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/IntFieldContainer.h"
+#include "fnv/decl/QueueModelHolder.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/SDSaveForm.h"
+#include "fnv/decl/fnv_00447080__FUN_00447080_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_0050ee50__CloneObject17.h"
+#include "fnv/decl/fnv_0057bd60__fnv_anon_tesobjectrefr__Dummy.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_0045c000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_004fa000.h"
+#include "fnv/symbols_004fd000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011ca000.h"
 #include "bgsexplosion_types_BGSExplosion.h"
 #include "bgsexplosion_decls.h"
 
@@ -8,66 +50,63 @@
 void BGSExplosion::ResetFormData()
 {
     m_pExplosionBoundObject = 0;
-    FUN_004fadc0()->InitExplosionData();
+    ::InitExplosionData((::BGSExplosionData_init *)(FUN_004fadc0()));
 }
 
 // @fnv 0x004fabf0
 BGSExplosion::BGSExplosion()
     : TESBoundObject(), TESFullName(), TESModel(), TESEnchantableForm(), BGSPreloadable(), TESImageSpaceModifiableForm()
 {
-    Data.FUN_004faa00();
-    SetFormType((ENUM_FORM_ID)0x51);
+    ::FUN_004faa00((::ExplosionEffectSettings *)&(Data));
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)((ENUM_FORM_ID)0x51)));
     ResetFormData();
-    TESEnchantableForm::SetCastingType((MagicSystem__CastingType)2);
+    reinterpret_cast<::FUN_0041fd00_shell *>(this)->FUN_0041fd00((*(int *)&(const ::MagicSystem__CastingType &)((MagicSystem__CastingType)2)));
 }
 // @fnv 0x004fae10
 void BGSExplosion::InitItem()
 {
-    if (static_cast<TESFormInitFlag*>(static_cast<TESForm*>(this))->IsFormInitialized())
+    if (reinterpret_cast<::TESForm *>((void *)(static_cast<TESFormInitFlag*>(static_cast<TESForm*>(this))))->GetInitialized())
         return;
 
     unsigned int formID = reinterpret_cast<unsigned int>(reinterpret_cast<EffectSetting*>(this)->GetCastSound());
     if (formID)
     {
-        TESForm::RemapFormIDForFile(formID, GetFile(-1));
-        reinterpret_cast<EffectSetting*>(this)->SetCastSound(
-            reinterpret_cast<TESSound*>(dynamic_cast<TESObjectLIGH*>(TESFormInitFlag::GetFormByID(formID))));
+        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
+        reinterpret_cast<::FUN_008ac890_shell *>((reinterpret_cast<EffectSetting*>(this)))->SetWaterForm(
+            (::TESWaterForm *)(::TESSound *)(reinterpret_cast<TESSound*>(dynamic_cast<TESObjectLIGH*>(::FUN_004839c0(formID)))));
     }
 
-    formID = reinterpret_cast<unsigned int>(reinterpret_cast<EffectSetting*>(this)->GetBoltSound());
+    formID = reinterpret_cast<unsigned int>(((::TESSound *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(reinterpret_cast<EffectSetting*>(this))))));
     if (formID)
     {
-        TESForm::RemapFormIDForFile(formID, GetFile(-1));
+        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
         reinterpret_cast<EffectSetting*>(this)->SetBoltSound(
-            dynamic_cast<TESSound*>(TESFormInitFlag::GetFormByID(formID)));
+            dynamic_cast<TESSound*>(::FUN_004839c0(formID)));
     }
 
     formID = reinterpret_cast<PlayerMover*>(this)->GetActorStateFlags();
     if (formID)
     {
-        TESForm::RemapFormIDForFile(formID, GetFile(-1));
-        FUN_004febf0(dynamic_cast<TESSound*>(TESFormInitFlag::GetFormByID(formID)));
+        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
+        reinterpret_cast<::BGSTalkingActivator *>(this)->SetVoiceType((::BGSVoiceType *)(::TESSound *)(dynamic_cast<TESSound*>(::FUN_004839c0(formID))));
     }
 
-    formID = reinterpret_cast<unsigned int>(FUN_00516bf0());
+    formID = reinterpret_cast<unsigned int>(((::BGSImpactDataSet *)(reinterpret_cast<::FUN_00516bf0_shell *>(this)->FUN_00516bf0())));
     if (formID)
     {
-        TESForm::RemapFormIDForFile(formID, GetFile(-1));
-        FUN_004fb0b0(dynamic_cast<BGSImpactDataSet*>(TESFormInitFlag::GetFormByID(formID)));
-        if (!FUN_00516bf0())
-            Warning("MASTERFILE: Could not find impact data set (%08X) for explosion '%s' (%08X).", formID, GetName(),
-                    reinterpret_cast<unsigned int>(reinterpret_cast<MagicCaster*>(this)->GetSelectedMagicItem()));
+        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
+        FUN_004fb0b0(dynamic_cast<BGSImpactDataSet*>(::FUN_004839c0(formID)));
+        if (!((::BGSImpactDataSet *)(reinterpret_cast<::FUN_00516bf0_shell *>(this)->FUN_00516bf0())))
+            ::FUN_005b5e40();
     }
 
     formID = reinterpret_cast<unsigned int>(m_pExplosionBoundObject);
     if (formID)
     {
-        TESForm::RemapFormIDForFile(formID, GetFile(-1));
-        m_pExplosionBoundObject = dynamic_cast<TESBoundObject*>(TESFormInitFlag::GetFormByID(formID));
+        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
+        m_pExplosionBoundObject = dynamic_cast<TESBoundObject*>(::FUN_004839c0(formID));
         if (!m_pExplosionBoundObject)
-            Warning("MASTERFILE: Could not find impact placed object (%08X) for explosion '%s' (%08X).", formID,
-                    GetName(),
-                    reinterpret_cast<unsigned int>(reinterpret_cast<MagicCaster*>(this)->GetSelectedMagicItem()));
+            ::FUN_005b5e40();
     }
 
     TESImageSpaceModifiableForm::InitItem(this);
@@ -78,22 +117,22 @@ void BGSExplosion::InitItem()
 // @fnv 0x004fb0d0
 bool BGSExplosion::Load(TESFile* file)
 {
-    unsigned char formType = file->GetTESForm();
+    unsigned char formType = ((unsigned char)(reinterpret_cast<::FUN_00472660_shell *>((file))->FUN_00472660()));
     if (formType != 0x51)
         return false;
 
     ClearData();
-    LoadRecordHeader(file);
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
     SetInitializationState(false);
 
     int chunkID;
-    while ((chunkID = file->GetChunkID()) != 0)
+    while ((chunkID = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()))) != 0)
     {
         switch (chunkID)
         {
         case 0x44494445: {
-            char* editorID = static_cast<char*>(_alloca(file->GetChunkSize()));
-            file->GetChunkData(editorID, 0x200);
+            char* editorID = static_cast<char*>(_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(editorID), 0x200);
             SetEditorID_AtRuntime(editorID);
             break;
         }
@@ -101,7 +140,7 @@ bool BGSExplosion::Load(TESFile* file)
             readOBNDSubRecord(file);
             break;
         case 0x4c4c5546:
-            TESFullNameLoader::LoadFullNameChunk(this, file);
+            ::ReadFullName(this, file);
             break;
         case 0x4c444f4d:
         case 0x54444f4d:
@@ -118,12 +157,12 @@ bool BGSExplosion::Load(TESFile* file)
         case 0x4d414e41:
         case 0x544d4145: {
             unsigned short amount = 0;
-            reinterpret_cast<TESFileChunkData16*>(file)->GetChunkData(&amount);
-            TESEnchantableForm::FUN_00483170(amount);
+            reinterpret_cast<::FUN_00472840_impl *>((reinterpret_cast<TESFileChunkData16*>(file)))->ReadChunkData(&amount);
+            reinterpret_cast<::TESEnchantableForm *>(this)->SetFormEnchantmentAmount(amount);
             break;
         }
         case 0x41544144:
-            reinterpret_cast<BGSImpactData*>(this)->ReadTypedData(file, &Data, 0x34);
+            reinterpret_cast<::fnv_004861f0::Form_004861f0 *>((reinterpret_cast<BGSImpactData*>(this)))->FUN_004861f0(file, &Data, 0x34);
             break;
         case 0x4d414e4d: {
             unsigned int value = 0;
@@ -141,7 +180,7 @@ bool BGSExplosion::Load(TESFile* file)
         }
 
         if (chunkID == 0x41544144 && file->IsEndianConversionRequired())
-            reinterpret_cast<EndianConvertibleData*>(&Data)->Endian();
+            reinterpret_cast<::IntFieldContainer *>((reinterpret_cast<EndianConvertibleData*>(&Data)))->SwapAllFields();
 
         if (!file->NextChunk())
             break;
@@ -177,7 +216,7 @@ ExplosionEffectSettings* BGSExplosion::FUN_004fadc0()
 // @fnv 0x004faa00
 ExplosionEffectSettings* __fastcall FUN_004faa00(ExplosionEffectSettings* pThis)
 {
-    pThis->InitExplosionData();
+    ::InitExplosionData((::BGSExplosionData_init *)(pThis));
     return pThis;
 }
 
@@ -217,37 +256,23 @@ void __fastcall InitExplosionData(BGSExplosionData_init* pThis)
     pThis->i12 = 1;
 }
 
-void _Deallocate(void*);
 struct ScalarHelper
 {
-    void FUN_004fad20();
     void* FUN_004facf0(unsigned int);
 };
-// Calls FUN_004fad20, then deallocates this if bit 0 of flags is set, and returns this.
-// @fnv 0x004facf0
-void* ScalarHelper::FUN_004facf0(unsigned int flags)
-{
-    FUN_004fad20();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 int __cdecl FUN_0058e8f0(int);
 struct Proxy804
 {
-    BGSImpactData* GetImpactDataForMaterial(int);
     BGSImpactData* FUN_004fb7a0(int);
 };
 // @fnv 0x004fb7a0
 BGSImpactData* Proxy804::FUN_004fb7a0(int a)
 {
-    return GetImpactDataForMaterial(FUN_0058e8f0(a));
+    return reinterpret_cast<::BGSImpactDataSet *>(this)->GetImpactDataForMaterial(FUN_0058e8f0(a));
 }
 
 struct FUN_004fb7a0_obj
 {
-    int FUN_004fb7a0(int);
 };
 struct FUN_004fb7d0_shell
 {
@@ -258,8 +283,8 @@ struct FUN_004fb7d0_shell
 int FUN_004fb7d0_shell::FUN_004fb7d0(int a)
 {
     int result = 0;
-    if (((BGSExplosion*)this)->FUN_00516bf0())
-        result = ((FUN_004fb7a0_obj*)((BGSExplosion*)this)->FUN_00516bf0())->FUN_004fb7a0(a);
+    if (((::BGSImpactDataSet *)(reinterpret_cast<::FUN_00516bf0_shell *>((((BGSExplosion*)this)))->FUN_00516bf0())))
+        result = ((int)(reinterpret_cast<::Proxy804 *>((((FUN_004fb7a0_obj*)((::BGSImpactDataSet *)(reinterpret_cast<::FUN_00516bf0_shell *>((((BGSExplosion*)this)))->FUN_00516bf0())))))->FUN_004fb7a0(a)));
     return result;
 }
 
@@ -276,7 +301,6 @@ bool FUN_00477950_shell::HasAnyFlags(unsigned int mask)
 
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm* form);
 };
 
 extern "C" int memcmp(const void*, const void*, unsigned int);
@@ -297,7 +321,7 @@ bool BGSExplosionCompare::CompareTo(TESForm* form)
     BGSExplosion* pOther = dynamic_cast<BGSExplosion*>(form);
     if (!pOther)
         return true;
-    if (((FUN_005e79a0_t*)this)->FUN_00485270(pOther))
+    if (reinterpret_cast<::FUN_00509540_obj *>((((FUN_005e79a0_t*)this)))->FUN_00485270(pOther))
         return true;
     if (memcmp((char*)this + 0x74, pOther->FUN_004fadc0(), 0x34))
         return true;
@@ -309,11 +333,9 @@ bool BGSExplosionCompare::CompareTo(TESForm* form)
 
 struct GlobalObject_0045cfe0
 {
-    int* Int();
 };
 struct GlobalObject2_0040c150
 {
-    int* Int();
 };
 GlobalObject2_0040c150 g_011cd3b4;
 GlobalObject2_0040c150 g_011cd538;
@@ -330,13 +352,13 @@ int* FUN_004fb810_shell::FUN_004fb810()
     switch (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xa4))
     {
     case 2:
-        result = ((GlobalObject_0045cfe0*)&g_011cd3b4)->Int()[0];
+        result = ((int *)&(::FUN_0043d4d0((int *)(((GlobalObject_0045cfe0*)&g_011cd3b4)))))[0];
         break;
     case 1:
-        result = ((GlobalObject_0045cfe0*)&g_011cd538)->Int()[0];
+        result = ((int *)&(::FUN_0043d4d0((int *)(((GlobalObject_0045cfe0*)&g_011cd538)))))[0];
         break;
     case 0:
-        result = ((GlobalObject_0045cfe0*)&g_011cdde0)->Int()[0];
+        result = ((int *)&(::FUN_0043d4d0((int *)(((GlobalObject_0045cfe0*)&g_011cdde0)))))[0];
         break;
     }
     return (int*)result;
@@ -344,17 +366,14 @@ int* FUN_004fb810_shell::FUN_004fb810()
 
 struct FUN_004855a0
 {
-    void M();
 };
 
 struct DoorPart30
 {
-    void FUN_00487010();
 };
 
 struct FUN_004891d0_obj
 {
-    void WriteToBuffer(unsigned int, unsigned int);
 };
 
 struct FUN_0047bd70_shell
@@ -369,12 +388,10 @@ struct FUN_00487450_shell
 
 struct FUN_00485680
 {
-    void M();
 };
 
 struct FUN_00485e00_shell
 {
-    void FUN_00485e20(EndianConvertibleData*, int);
 };
 
 struct FUN_004fd380_shell
@@ -382,8 +399,6 @@ struct FUN_004fd380_shell
     TESObjectLIGH* FUN_004fd380();
 };
 
-bool _FUN_00401500();
-void _FUN_00485910(unsigned int, unsigned int);
 
 struct FUN_004fb3b0_shell
 {
@@ -399,58 +414,57 @@ void FUN_004fb3b0_shell::FUN_004fb3b0()
     BGSImpactDataSet* psaveImpact;
     unsigned int psaveSound1;
 
-    reinterpret_cast<FUN_004855a0*>(this)->M();
-    reinterpret_cast<DoorPart30*>(reinterpret_cast<unsigned char*>(this) + 0x30)->FUN_00487010();
-    reinterpret_cast<FUN_004891d0_obj*>(reinterpret_cast<unsigned char*>(this) + 0x3C)
-        ->WriteToBuffer(0x4C444F4D, 0x54444F4D);
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
+    reinterpret_cast<::FUN_00487010_shell *>((reinterpret_cast<DoorPart30*>(reinterpret_cast<unsigned char*>(this) + 0x30)))->FUN_00487010();
+    reinterpret_cast<::FUN_004891d0_cls *>((reinterpret_cast<FUN_004891d0_obj*>(reinterpret_cast<unsigned char*>(this) + 0x3C)))->WriteToBuffer((char *)(0x4C444F4D), (void *)(0x54444F4D));
     reinterpret_cast<FUN_0047bd70_shell*>(reinterpret_cast<unsigned char*>(this) + 0x54)->FUN_0047bd70();
     reinterpret_cast<FUN_00487450_shell*>(reinterpret_cast<unsigned char*>(this) + 0x68)->FUN_00487450();
 
     psaveLight = reinterpret_cast<EffectSetting*>(this)->GetCastSound();
-    reinterpret_cast<EffectSetting*>(this)->SetCastSound(
-        reinterpret_cast<TESSound*>(reinterpret_cast<EffectSetting*>(this)->GetCastSound()
-                                        ? reinterpret_cast<EffectSetting*>(this)->GetCastSound()->GetFormID()
-                                        : 0));
+    reinterpret_cast<::FUN_008ac890_shell *>((reinterpret_cast<EffectSetting*>(this)))->SetWaterForm(
+        (::TESWaterForm *)(::TESSound *)(reinterpret_cast<TESSound*>(reinterpret_cast<EffectSetting*>(this)->GetCastSound()
+                                        ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<EffectSetting*>(this)->GetCastSound()))->FUN_0084e3a0()))
+                                        : 0)));
 
-    psaveSound2 = reinterpret_cast<EffectSetting*>(this)->GetBoltSound();
+    psaveSound2 = ((::TESSound *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(reinterpret_cast<EffectSetting*>(this)))));
     reinterpret_cast<EffectSetting*>(this)->SetBoltSound(
-        reinterpret_cast<TESSound*>(reinterpret_cast<EffectSetting*>(this)->GetBoltSound()
-                                        ? reinterpret_cast<EffectSetting*>(this)->GetBoltSound()->GetFormID()
+        reinterpret_cast<TESSound*>(((::TESSound *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(reinterpret_cast<EffectSetting*>(this)))))
+                                        ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::TESSound *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(reinterpret_cast<EffectSetting*>(this)))))))->FUN_0084e3a0()))
                                         : 0));
 
     itempint = reinterpret_cast<PlayerMover*>(this)->GetActorStateFlags();
-    reinterpret_cast<BGSExplosion*>(this)->FUN_004febf0(reinterpret_cast<TESSound*>(
+    reinterpret_cast<::BGSTalkingActivator *>((reinterpret_cast<BGSExplosion*>(this)))->SetVoiceType((::BGSVoiceType *)(::TESSound *)(reinterpret_cast<TESSound*>(
         reinterpret_cast<PlayerMover*>(this)->GetActorStateFlags()
-            ? reinterpret_cast<TESForm*>(reinterpret_cast<PlayerMover*>(this)->GetActorStateFlags())->GetFormID()
-            : 0));
+            ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(reinterpret_cast<PlayerMover*>(this)->GetActorStateFlags())))->FUN_0084e3a0()))
+            : 0)));
 
-    psaveImpact = reinterpret_cast<BGSExplosion*>(this)->FUN_00516bf0();
+    psaveImpact = ((::BGSImpactDataSet *)(reinterpret_cast<::FUN_00516bf0_shell *>((reinterpret_cast<BGSExplosion*>(this)))->FUN_00516bf0()));
     reinterpret_cast<BGSExplosion*>(this)->FUN_004fb0b0(
-        reinterpret_cast<BGSImpactDataSet*>(reinterpret_cast<BGSExplosion*>(this)->FUN_00516bf0()
-                                                ? reinterpret_cast<BGSExplosion*>(this)->FUN_00516bf0()->GetFormID()
+        reinterpret_cast<BGSImpactDataSet*>(((::BGSImpactDataSet *)(reinterpret_cast<::FUN_00516bf0_shell *>((reinterpret_cast<BGSExplosion*>(this)))->FUN_00516bf0()))
+                                                ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::BGSImpactDataSet *)(reinterpret_cast<::FUN_00516bf0_shell *>((reinterpret_cast<BGSExplosion*>(this)))->FUN_00516bf0()))))->FUN_0084e3a0()))
                                                 : 0));
 
-    if (_FUN_00401500())
-        reinterpret_cast<EndianConvertibleData*>(reinterpret_cast<unsigned char*>(this) + 0x74)->Endian();
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::IntFieldContainer *>((reinterpret_cast<EndianConvertibleData*>(reinterpret_cast<unsigned char*>(this) + 0x74)))->SwapAllFields();
 
-    reinterpret_cast<FUN_00485e00_shell*>(this)->FUN_00485e20(
+    reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20(
         reinterpret_cast<EndianConvertibleData*>(reinterpret_cast<unsigned char*>(this) + 0x74), 0x34);
 
-    if (_FUN_00401500())
-        reinterpret_cast<EndianConvertibleData*>(reinterpret_cast<unsigned char*>(this) + 0x74)->Endian();
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::IntFieldContainer *>((reinterpret_cast<EndianConvertibleData*>(reinterpret_cast<unsigned char*>(this) + 0x74)))->SwapAllFields();
 
-    reinterpret_cast<EffectSetting*>(this)->SetCastSound(psaveLight);
+    reinterpret_cast<::FUN_008ac890_shell *>((reinterpret_cast<EffectSetting*>(this)))->SetWaterForm((::TESWaterForm *)(psaveLight));
     reinterpret_cast<EffectSetting*>(this)->SetBoltSound(psaveSound2);
-    reinterpret_cast<BGSExplosion*>(this)->FUN_004febf0(reinterpret_cast<TESSound*>(itempint));
+    reinterpret_cast<::BGSTalkingActivator *>((reinterpret_cast<BGSExplosion*>(this)))->SetVoiceType((::BGSVoiceType *)(::TESSound *)(reinterpret_cast<TESSound*>(itempint)));
     reinterpret_cast<BGSExplosion*>(this)->FUN_004fb0b0(psaveImpact);
 
     if (reinterpret_cast<FUN_004fd380_shell*>(this)->FUN_004fd380())
     {
-        psaveSound1 = reinterpret_cast<FUN_004fd380_shell*>(this)->FUN_004fd380()->GetFormID();
-        _FUN_00485910(0x4D414E49, psaveSound1);
+        psaveSound1 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<FUN_004fd380_shell*>(this)->FUN_004fd380()))->FUN_0084e3a0()));
+        ::FUN_00485910(0x4D414E49, psaveSound1);
     }
 
-    reinterpret_cast<FUN_00485680*>(this)->M();
+    reinterpret_cast<::Holder *>((reinterpret_cast<FUN_00485680*>(this)))->FUN_00485680();
 }
 
 class FUN_004fad20_cls : public TESBoundObject,
@@ -463,6 +477,15 @@ class FUN_004fad20_cls : public TESBoundObject,
   public:
     virtual ~FUN_004fad20_cls();
 };
+// Calls FUN_004fad20, then deallocates this if bit 0 of flags is set, and returns this.
+// @fnv 0x004facf0
+void* ScalarHelper::FUN_004facf0(unsigned int flags)
+{
+    reinterpret_cast<::FUN_004fad20_cls *>(this)->FUN_004fad20_cls::~FUN_004fad20_cls();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Empty destructor for a class deriving from TESBoundObject, TESFullName, TESModel, TESEnchantableForm, BGSPreloadable and TESImageSpaceModifiableForm.
 // @fnv 0x004fad20
@@ -556,13 +579,9 @@ class ExplosionFB6;
 class ModelLoaderFB6
 {
   public:
-    void ProcessModelRequest(TESSoundFileFB6* pkSound, int iA, int iB, int iPriority, bool bFlag, int iUnk, int iUnk2);
 };
 
-extern ModelLoaderFB6* g_pkModelLoaderFB6;
-extern ExplosionFB6* g_pkDefaultExplosionFB6;
 
-int __cdecl FUN_0045c6b0(TESFormFB6* pkForm);
 
 class ExplosionFB6 : public TESFormFB6, public TESSoundFileFB6, public LoaderClientFB6
 {
@@ -577,19 +596,18 @@ class ExplosionFB6 : public TESFormFB6, public TESSoundFileFB6, public LoaderCli
 void ExplosionFB6::AttachSoundAndTarget(int iA, int iB)
 {
     if (GetSoundFileLength())
-        g_pkModelLoaderFB6->ProcessModelRequest(this, iA, iB, FUN_0045c6b0(this), true, 0, 0);
+        reinterpret_cast<::QueueModelHolder *>(((*reinterpret_cast<::ModelLoaderFB6 * *>(&::g_modelLoader))))->FUN_00443d30((int)(this), iA, iB, ::FUN_0045c6b0((::TESForm_0045c6b0 *)(::TESFormFB6 *)(this)), true, 0, 0);
 
     if (m_pkTarget)
         m_pkTarget->Attach(iA, iB);
 
-    if (g_pkDefaultExplosionFB6 && g_pkDefaultExplosionFB6->GetSoundFileLength())
-        g_pkModelLoaderFB6->ProcessModelRequest(g_pkDefaultExplosionFB6, iA, iB, FUN_0045c6b0(this), true, 0, 0);
+    if ((*reinterpret_cast<::ExplosionFB6 * *>(&::DAT_011ca284)) && (*reinterpret_cast<::ExplosionFB6 * *>(&::DAT_011ca284))->GetSoundFileLength())
+        reinterpret_cast<::QueueModelHolder *>(((*reinterpret_cast<::ModelLoaderFB6 * *>(&::g_modelLoader))))->FUN_00443d30((int)((*reinterpret_cast<::ExplosionFB6 * *>(&::DAT_011ca284))), iA, iB, ::FUN_0045c6b0((::TESForm_0045c6b0 *)(::TESFormFB6 *)(this)), true, 0, 0);
 }
 
 class FNVArg
 {
   public:
-    bool IsFlagged();
 };
 
 class FNVSub
@@ -626,13 +644,11 @@ struct FNVGlobal
 class FNVFactory
 {
   public:
-    void* Create(void* a, int b, int c, int d, int e, int f);
 };
 
 class FNVRes
 {
   public:
-    int Apply(void* guard);
 };
 
 class FNVGuard
@@ -649,12 +665,9 @@ class FNVGuard
     unsigned int unk18;
 };
 
-extern FNVGlobal* g_pGlobal;
-extern FNVFactory* g_pFactory;
 
 struct FUN_004fb880_cls
 {
-    int Helper(FNVArg* a1, unsigned char a2);
     int ApplyOrCreateResult(FNVArg* a1, unsigned char a2);
 };
 
@@ -666,18 +679,18 @@ int FUN_004fb880_cls::ApplyOrCreateResult(FNVArg* a1, unsigned char a2)
     unsigned char flagTmp = 0;
     {
         FNVArg* arg = a1;
-        if (!arg->IsFlagged())
+        if (!((bool)(reinterpret_cast<::FUN_004fb970_class *>((arg))->GetByteAtOffsetD9())))
         {
-            iResult = Helper(a1, a2);
+            iResult = ((int)(reinterpret_cast<::fnv_0050ee50::CloneObject17 *>(this)->FUN_0050ee50((::TESObjectREFR *)(a1), a2)));
         }
         else
         {
-            void* obj = g_pGlobal->m_3c.v5();
-            FNVRes* pRes = (FNVRes*)g_pFactory->Create(obj, 0, 1, 0, 0, 0);
+            void* obj = (*reinterpret_cast<::FNVGlobal * *>(&::DAT_011ca284))->m_3c.v5();
+            FNVRes* pRes = (FNVRes*)((void *)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>(((*reinterpret_cast<::FNVFactory * *>(&::g_modelLoader))))->FUN_00447080((char *)(obj), 0, 1, 0, 0, 0)));
             FNVGuard guard3(1.0f);
             if (pRes != 0)
             {
-                iResult = pRes->Apply(&guard3);
+                iResult = ((int)(reinterpret_cast<::A5D2C0Object *>((pRes))->FUN_00a5d2c0((*(::A5D2C0CloningProcess *)(&guard3)))));
             }
         }
         return iResult;
@@ -722,12 +735,10 @@ FUN_004fc270::~FUN_004fc270()
 #include <string.h>
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
 };
 struct EffectSetting_shell : EffectSetting
 {
     TESObjectLIGH* GetLight();
-    void SetLight(TESObjectLIGH*);
 };
 struct BGSExplosion_shell : BGSExplosion
 {
@@ -740,7 +751,7 @@ void __thiscall BGSExplosion_shell::FUN_004fb5a0(TESForm* apCopy)
     BGSExplosion* pcopy = dynamic_cast<BGSExplosion*>(apCopy);
     if (!pcopy)
         return;
-    ((FUN_005e78f0_t*)this)->FUN_004851b0(pcopy);
+    reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0(pcopy);
     memcpy(FUN_004fadc0(), pcopy->FUN_004fadc0(), 0x34);
-    ((EffectSetting_shell*)this)->SetLight(((EffectSetting_shell*)pcopy)->GetLight());
+    reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>((((EffectSetting_shell*)this)))->FUN_0057bd60((::fnv_0057bd60::MobileObject *)(::TESObjectLIGH *)(((EffectSetting_shell*)pcopy)->GetLight()));
 }

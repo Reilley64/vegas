@@ -2,6 +2,12 @@
 // src/fallout/ai/creature_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/ai/creature.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/FUN_00494300_shell.h"
+#include "fnv/decl/fnv_00897910__AnimOwner.h"
+#include "fnv/symbols_00c43000.h"
+#include "fnv/symbols_00c68000.h"
+#include "fnv/symbols_00c80000.h"
+#include "fnv/symbols_010c5000.h"
 #include "creature_decls.h"
 
 struct DAT_010c53b4_t
@@ -10,9 +16,7 @@ struct DAT_010c53b4_t
     void*(__thiscall* Alloc)(void*, unsigned int);
     void(__thiscall* Free)(void*, void*);
 };
-extern DAT_010c53b4_t DAT_010c53b4;
 
-int __cdecl FUN_00c80c00(void*, void*, void*, int);
 
 struct LocalObj
 {
@@ -23,20 +27,20 @@ struct LocalObj
 
     LocalObj()
     {
-        vptr = &DAT_010c53b4;
+        vptr = &(*reinterpret_cast<::DAT_010c53b4_t *>(&::DAT_010c53b4));
         data = 0;
         size = 0;
         capacity = 0;
-        data = DAT_010c53b4.Alloc(this, 0x20);
+        data = (*reinterpret_cast<::DAT_010c53b4_t *>(&::DAT_010c53b4)).Alloc(this, 0x20);
         capacity = 0x20;
     }
 
     ~LocalObj()
     {
-        vptr = &DAT_010c53b4;
+        vptr = &(*reinterpret_cast<::DAT_010c53b4_t *>(&::DAT_010c53b4));
         if (data)
         {
-            DAT_010c53b4.Free(this, data);
+            (*reinterpret_cast<::DAT_010c53b4_t *>(&::DAT_010c53b4)).Free(this, data);
         }
     }
 };
@@ -45,7 +49,7 @@ struct LocalObj
 int __cdecl FUN_00c812d0(void* a1, void* a2)
 {
     LocalObj local;
-    return FUN_00c80c00(a1, &local, a2, 0);
+    return ((int)(::FUN_00c80c00((::WorkNode_cls *)(a1), (::WorkStack_cls *)(void *)(&local), (unsigned int)(a2), 0)));
 }
 
 class NiAVObject;
@@ -69,16 +73,13 @@ struct C6A350Properties
     int unkValue;
     unsigned int m_uiValue1;
 };
-extern "C" C6A350Properties* GetExtraDataChecked(NiAVObject* pkObject);
 static inline unsigned int C6A350IsEnabled(NiAVObject* pkObject)
 {
-    C6A350Properties* pkProps = GetExtraDataChecked(pkObject);
+    C6A350Properties* pkProps = ((::C6A350Properties *)(::GetExtraDataChecked((::NiAVObjectX *)(pkObject))));
     return pkProps ? (pkProps->m_uiValue1 & 2) : 0;
 }
 
 typedef void (*CollisionObjectCountCallback)(NiCollisionObject*, CollisionObjectCountContext*);
-void FUN_00c68900(NiAVObject* pkObject, CollisionObjectCountContext* pkContext,
-                  CollisionObjectCountCallback pfnCallback);
 extern CollisionObjectCountCallback DAT_011afe9c;
 
 // @fnv 0x00c6a350
@@ -95,7 +96,7 @@ bool FUN_00c6a350(NiAVObject* pkObject, int iValue, bool bRecurse, bool bForce, 
         kContext.iValue = iValue;
         kContext.iOption = bOption;
         if (DAT_011afe9c)
-            FUN_00c68900(pkObject, &kContext, DAT_011afe9c);
+            ::FUN_00c68900((::S_00c68900_Node *)(pkObject), (::S_00c68900_Context *)(::CollisionObjectCountContext *)(&kContext), (void (*)(void *, S_00c68900_Context *))(DAT_011afe9c));
     }
     return bResult;
 }

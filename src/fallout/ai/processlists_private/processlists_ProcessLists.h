@@ -2,6 +2,7 @@
 #ifndef FNV_PROCESSLISTS_PRIVATE_PROCESSLISTS_H
 #define FNV_PROCESSLISTS_PRIVATE_PROCESSLISTS_H
 
+#include "fnv/symbols_011e0000.h"
 #include "processlists_layout_support.h"
 #include "processlists_ProcessArray.h"
 #include "processlists_task_data.h"
@@ -123,5 +124,4 @@ FNV_STATIC_ASSERT(offsetof(ProcessLists, m_kLoadSemaphore) == 0x103C0);
 // qualified cross-platform identity inference, supported by independently
 // annotated PC singleton ownership and direct object-address use at 0096E327.
 // This is not an exact PC symbol annotation and does not define new storage.
-extern ProcessLists g_kProcessLists;
 #endif

@@ -2,6 +2,9 @@
 #ifndef FNV_IMAGESPACEEFFECTVATSSCAN_H
 #define FNV_IMAGESPACEEFFECTVATSSCAN_H
 
+#include "fnv/decl/BBA3C00Shader.h"
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/FUN_00ba3c70_shell.h"
 #include "layout_support.h"
 #include "layout_support.h"
 class ImageSpaceEffect;
@@ -47,7 +50,6 @@ class NiTPrimitiveArray_ImageSpaceTexture___
     : public NiTArray<ImageSpaceTexture*, NiTMallocInterface<ImageSpaceTexture*> >
 {
   public:
-    void SetSize(unsigned int size);
     // base NiTArray<ImageSpaceTexture *,NiTMallocInterface<ImageSpaceTexture *> > at +0x0, size 16
     // NiTPrimitiveArray<ImageSpaceTexture *>
     // void __cdecl NiTPrimitiveArray<ImageSpaceTexture *>::*()
@@ -92,8 +94,6 @@ class ImageSpaceEffect
     NiTPrimitiveArray_ImageSpaceEffect__EffectInput___ pEffectInputs;  // +0x38, 16 bytes
     NiTPrimitiveArray_int_ pEffectOutput;                              // +0x48, 16 bytes
     __declspec(noinline) ImageSpaceEffect();
-    void SetTextureArrayCount(int count);
-    void SetEffectAt(int index, ImageSpaceEffect* effect, ImageSpaceEffectParam* params, int flags);
     // ImageSpaceEffect
     // void __cdecl ImageSpaceEffect::*(bool)
     // ImageSpaceTexture* __cdecl ImageSpaceEffect::*(int)
@@ -103,6 +103,8 @@ class ImageSpaceEffect
     // void __cdecl ImageSpaceEffect::*(int, ImageSpaceTexture*, NiTexturingProperty::FilterMode)
     // ImageSpaceEffect& __cdecl ImageSpaceEffect::*(const ImageSpaceEffect&)
     // void __cdecl ImageSpaceEffect::*()
+public:
+    void SetTextureArraySize(int);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(ImageSpaceEffect) == 88);
@@ -120,7 +122,6 @@ class ImageSpaceEffectMultiTexture : public ImageSpaceEffect
   public:
     ImageSpaceEffectMultiTexture();
     void Setup(ImageSpaceManager* manager, ImageSpaceEffectParam* params);
-    void SetEntryRanges(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9);
     // base ImageSpaceEffect at +0x0, size 88
     // ImageSpaceEffectMultiTexture
     // void __cdecl ImageSpaceEffectMultiTexture::*()

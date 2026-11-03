@@ -3,6 +3,44 @@
 // polymorphic classes (TESPackage). The skeleton of src/fallout_shared/package.cpp with those classes made polymorphic; move the functions to
 // their real unit once its classes are.
 
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/FUN_0041ca90.h"
+#include "fnv/decl/FUN_0041cb10_shell.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00671a20_shell.h"
+#include "fnv/decl/FUN_00672fc0_shell.h"
+#include "fnv/decl/FUN_00674d70_shell.h"
+#include "fnv/decl/FUN_0067a3f0_shell.h"
+#include "fnv/decl/FUN_0067a460_shell.h"
+#include "fnv/decl/FUN_0067a640_shell.h"
+#include "fnv/decl/FUN_00833c20_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008a08c0_Class.h"
+#include "fnv/decl/FUN_008bf4e0_cls.h"
+#include "fnv/decl/FUN_009344a0_shell.h"
+#include "fnv/decl/FUN_009ec830_t.h"
+#include "fnv/decl/FleeActorEntry.h"
+#include "fnv/decl/HighProcess.h"
+#include "fnv/decl/LocationDescriptor.h"
+#include "fnv/decl/PackageEx.h"
+#include "fnv/decl/Script.h"
+#include "fnv/decl/TESClass.h"
+#include "fnv/decl/Thing.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/ZOwner.h"
+#include "fnv/decl/fnv_005653d0__FUN_005653d0_shell.h"
+#include "fnv/decl/fnv_00671d30__FUN_00671d30_shell.h"
+#include "fnv/decl/fnv_0067fd40__FUN_0067fd40_shell.h"
+#include "fnv/decl/fnv_00881680__FUN_00881680_shell.h"
+#include "fnv/decl/fnv_00884350__FUN_00884350_shell.h"
+#include "fnv/decl/fnv_009eb9c0__Crime.h"
+#include "fnv/decl/fnv_009ec810__FUN_009ec810_t.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_011cd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
 #include "package_decls_rtti_variant.h"
 
 struct A;
@@ -14,27 +52,13 @@ void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
 struct P : TESPackage
 {
-    int GetPackType();
-    bool FUN_00678610();
-    bool HasFlag400000();
-    bool FUN_0067a460();
-    bool FUN_00441b00();
-    void SetPackageType(int);
-    void FUN_00671a20(bool);
-    void SetFlag200000(bool);
-    void SetMustReachLocation(bool);
-    void SetMustComplete(bool);
-    void FUN_00671d30(Loc*);
-    void FUN_00672fc0(Target*);
-    void SetProcedureType(int);
-    Target* FUN_00671d10();
-    bool IsSpellInList(A*);
-    void AddHeadAtOffset(A*);
 };
+struct TESObjectREFR;
 class FleePackage : public P
 {
   public:
-    void FUN_009f1310(A*);
+public:
+    void FUN_009f1310(::TESObjectREFR *);
 };
 struct Created : P
 {
@@ -60,19 +84,15 @@ struct Loc
     int unk00, unk04, unk08;
     Loc();
     ~Loc();
-    void FUN_0067f3c0(A*);
 };
 struct Target
 {
     int unk00, unk04, unk08, unk0c;
     Target();
     ~Target();
-    void FUN_006800b0(int);
-    void FUN_00680110(A*);
 };
 struct Cls
 {
-    bool IsGuard();
 };
 struct List
 {
@@ -80,15 +100,10 @@ struct List
 };
 struct Lists
 {
-    List* CollectActorsByPackage(A*, int, int);
 };
-extern Lists gLists;
 struct SettingLocal
 {
-    int* Int();
 };
-extern SettingLocal g_011cd808;
-extern A* player;
 struct Proc
 {
     virtual void ReportDiagnostic();
@@ -836,134 +851,118 @@ struct A
     int unk60;
     int unk64;
     Proc* process;
-    A* FUN_0084e3a0();
-    Proc* GetCurrentProcess();
-    unsigned char GetByteAt7C4();
-    P* FUN_00881510();
-    P* GetCurrentPackage();
-    P* FUN_005d43c0();
-    bool FUN_00493bb0();
-    bool FUN_008a6650(int);
-    unsigned int FUN_0044ddc0();
-    bool FUN_00833c20();
-    void FUN_00881680(int);
-    Cls* GetClass();
-    void FUN_008bf4e0(int);
-    bool FUN_005653d0();
-    void AddActor(A*);
     void FUN_008bed50(A*, int, bool, A*);
 };
 struct Extra
 {
-    P* FUN_0041cb10();
 };
 // @fnv 0x008bed50
 void A::FUN_008bed50(A* source, int value, bool react, A* target)
 {
-    if (process && process->GetAssignedPackage() && process->GetAssignedPackage()->GetPackType() == 21)
+    if (process && process->GetAssignedPackage() && reinterpret_cast<struct ::FUN_0041ca90 *>((process->GetAssignedPackage()))->get() == 21)
         return;
     if (IsSpecial())
     {
         if (source && !target)
-            target = source->FUN_0084e3a0();
+            target = ((::A *)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0()));
         List* val;
-        val = gLists.CollectActorsByPackage(target, 21, 0);
+        val = ((::List *)(reinterpret_cast<::ZOwner *>(&((*reinterpret_cast<::Lists *>(&::g_011e0e80))))->CollectActorsByPackage((int)(target), 21, 0)));
         if (!val)
-            target->GetCurrentProcess()->SetCount(0);
+            ((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->SetCount(0);
         else
-            target->GetCurrentProcess()->SetCount(val->GetSize());
-        if (target && target->GetCurrentProcess()->GetCount() >= *g_011cd808.Int())
+            ((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->SetCount(val->GetSize());
+        if (target && ((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->GetCount() >= *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingLocal *>(&::g_011cd808)))))))
         {
             return;
         }
         else if (target)
         {
-            if (target == player && player->GetByteAt7C4())
+            if (target == (*reinterpret_cast<::A * *>(&::_g_thePlayer)) && ((unsigned char)(reinterpret_cast<::FUN_008a08c0_Class *>(((*reinterpret_cast<::A * *>(&::_g_thePlayer))))->GetByteAt7C4())))
             {
                 process->Respond(this, target, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0);
                 return;
             }
             else
-                target->GetCurrentProcess()->SetFlag(1);
+                ((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->SetFlag(1);
         }
     }
     if (GetType() == 9)
         ResetState();
     P* v = 0;
     P* package2;
-    package2 = FUN_00881510();
-    if (package2 && package2->FUN_00678610())
-        package2 = ((Extra*)FUN_005d43c0())->FUN_0041cb10();
-    if ((FUN_00493bb0() || IsState(0) || FUN_008a6650(0) ||
-         (package2 && package2->HasFlag400000() && source &&
-          source->FUN_0044ddc0() != (unsigned int)process->GetTarget())) &&
+    package2 = ((::P *)(reinterpret_cast<::Thing *>(this)->FUN_00881510()));
+    if (package2 && reinterpret_cast<::TESPackage *>((package2))->IsPackageBlockingGreeting())
+        package2 = ((::P *)(reinterpret_cast<::FUN_0041cb10_shell *>((((Extra*)((::P *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0())))))->FUN_0041cb10()));
+    if ((((bool)(reinterpret_cast<::FUN_00493bb0_Class *>(this)->FUN_00493bb0())) || IsState(0) || reinterpret_cast<::FleeActorEntry *>(this)->FUN_008a6650(0) ||
+         (package2 && reinterpret_cast<::FUN_0067a3f0_shell *>((package2))->HasFlag400000() && source &&
+          ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((source))->GetName())) != (unsigned int)process->GetTarget())) &&
         react)
     {
-        if (!IsState(0) && !source->FUN_00833c20())
-            process->React(this, source->FUN_0084e3a0(), source);
+        if (!IsState(0) && !((bool)(reinterpret_cast<::FUN_00833c20_shell *>((source))->FUN_00833c20())))
+            process->React(this, ((::A *)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0())), source);
         return;
     }
     process->Prepare();
-    if (GetCurrentPackage())
+    if (((::P *)(reinterpret_cast<::FUN_009344a0_shell *>(this)->FUN_009344a0())))
     {
-        if (GetCurrentPackage()->GetPackType() == 21)
-            v = GetCurrentPackage();
-        else if (GetCurrentPackage()->FUN_00678610())
-            FUN_00881680(0);
+        if (reinterpret_cast<struct ::FUN_0041ca90 *>((((::P *)(reinterpret_cast<::FUN_009344a0_shell *>(this)->FUN_009344a0()))))->get() == 21)
+            v = ((::P *)(reinterpret_cast<::FUN_009344a0_shell *>(this)->FUN_009344a0()));
+        else if (reinterpret_cast<::TESPackage *>((((::P *)(reinterpret_cast<::FUN_009344a0_shell *>(this)->FUN_009344a0()))))->IsPackageBlockingGreeting())
+            reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>(this)->FUN_00881680(0);
     }
-    if (source && GetClass()->IsGuard())
+    if (source && reinterpret_cast<::TESClass *>((((::Cls *)(reinterpret_cast<::fnv_00884350::FUN_00884350_shell *>(this)->FUN_00884350()))))->IsGuard())
     {
-        source->FUN_008bf4e0(1);
-        if (source->FUN_0084e3a0()->IsActor() && source->FUN_0084e3a0() != player &&
-            !source->FUN_0084e3a0()->FUN_00493bb0() && source->FUN_0084e3a0()->FUN_005653d0())
+        reinterpret_cast<::FUN_008bf4e0_cls *>((source))->set(1);
+        if (((::A *)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0()))->IsActor() && ((::A *)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0())) != (*reinterpret_cast<::A * *>(&::_g_thePlayer)) &&
+            !((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((::A *)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0()))))->FUN_00493bb0())) && reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>((((::A *)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0()))))->FUN_005653d0())
         {
             A* locationX;
-            locationX = source->FUN_0084e3a0();
-            if (!locationX->FUN_008a6650(0))
+            locationX = ((::A *)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0()));
+            if (!reinterpret_cast<::FleeActorEntry *>((locationX))->FUN_008a6650(0))
                 locationX->Flee(this, 0, 1, 1, 0, 0, -1.0f, -1.0f);
             FleePackage* flee;
-            flee = dynamic_cast<FleePackage*>(static_cast<TESPackage*>(locationX->GetCurrentPackage()));
+            flee = dynamic_cast<FleePackage*>(static_cast<TESPackage*>(((::P *)(reinterpret_cast<::FUN_009344a0_shell *>((locationX))->FUN_009344a0()))));
             if (flee)
-                flee->FUN_009f1310(this);
+                flee->FUN_009f1310((::TESObjectREFR *)(::A *)(this));
         }
     }
     if (!v)
     {
-        P* tmp = GetCurrentProcess()->GetAssignedPackage();
+        P* tmp = ((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->GetAssignedPackage();
         Created* current;
         current = new Created(source);
-        current->SetPackageType(21);
+        reinterpret_cast<::PackageEx *>((current))->SetPackageType(21);
         if (tmp)
         {
-            current->FUN_00671a20(tmp->FUN_0067a460());
-            current->SetFlag200000(tmp->FUN_00441b00());
+            reinterpret_cast<::FUN_00671a20_shell *>((current))->FUN_00671a20(reinterpret_cast<::FUN_0067a460_shell *>((tmp))->FUN_0067a460());
+            reinterpret_cast<::FUN_0067a640_shell *>((current))->SetFlag200000(reinterpret_cast<::TESPackage *>((tmp))->GetForceUnequipWeapon());
         }
-        current->SetMustReachLocation(true);
-        current->SetMustComplete(true);
+        reinterpret_cast<::TESPackage *>((current))->SetMustReachLocation(true);
+        reinterpret_cast<::TESPackage *>((current))->SetMustComplete(true);
         Loc* s = new Loc;
         if (source)
-            s->FUN_0067f3c0(source->FUN_0084e3a0());
+            reinterpret_cast<::LocationDescriptor *>((s))->FUN_0067f3c0((::TESObjectREFR *)(::A *)(((::A *)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0()))));
         else
-            s->FUN_0067f3c0(target);
-        current->FUN_00671d30(s);
+            reinterpret_cast<::LocationDescriptor *>((s))->FUN_0067f3c0((::TESObjectREFR *)(target));
+        reinterpret_cast<::fnv_00671d30::FUN_00671d30_shell *>((current))->FUN_00671d30((::fnv_00671d30::LocationDescriptor *)(s));
         delete s;
         Target* created;
         created = new Target;
-        current->FUN_00672fc0(created);
+        reinterpret_cast<::FUN_00672fc0_shell *>((current))->FUN_00672fc0((::PackageTargetRecord *)(created));
         delete created;
-        current->SetProcedureType(11);
-        current->FUN_00671d10()->FUN_006800b0(0);
+        reinterpret_cast<::TESPackage *>((current))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(11));
+        reinterpret_cast<::PackageTargetRecord *>((((::Target *)(reinterpret_cast<::Script *>((current))->GetData()))))->SetTargetKind((::PACK_TARG_TYPE)(0));
         if (source)
-            current->FUN_00671d10()->FUN_00680110(source->FUN_0084e3a0());
+            reinterpret_cast<::PackageTargetRecord *>((((::Target *)(reinterpret_cast<::Script *>((current))->GetData()))))->SetTargetObjectReference((::TESObjectREFR *)(::A *)(((::A *)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0()))));
         else
-            current->FUN_00671d10()->FUN_00680110(target);
-        GetCurrentProcess()->Reset();
-        GetCurrentProcess()->Notify(this);
+            reinterpret_cast<::PackageTargetRecord *>((((::Target *)(reinterpret_cast<::Script *>((current))->GetData()))))->SetTargetObjectReference((::TESObjectREFR *)(target));
+        ((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->Reset();
+        ((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->Notify(this);
         SetPackage(current, 0, 1);
         if (source)
-            source->AddActor(this);
+            reinterpret_cast<::fnv_009eb9c0::Crime *>((source))->AddActor((::Actor *)(::A *)(this));
         process->SetValue(value);
     }
-    else if (source && process->GetTarget() == source->FUN_0084e3a0() && !v->IsSpellInList(source))
-        v->AddHeadAtOffset(source);
+    else if (source && process->GetTarget() == ((::A *)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0())) && !reinterpret_cast<::fnv_009ec810::FUN_009ec810_t *>((v))->IsSpellInList((::fnv_009ec810::SpellItem *)(source)))
+        reinterpret_cast<::FUN_009ec830_t *>((v))->AddHeadAtOffset((int *)(source));
 }

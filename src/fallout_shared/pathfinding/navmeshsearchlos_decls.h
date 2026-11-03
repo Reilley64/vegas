@@ -1,6 +1,8 @@
 // fallout_shared/pathfinding/navmeshsearchlos_decls.h: declares NavMeshSearchLOSArray
 #ifndef NAVMESHSEARCHLOS_DECLS_H
 #define NAVMESHSEARCHLOS_DECLS_H
+#include "fnv/decl/S_006ac070.h"
+#include "fnv/symbols_006a8000.h"
 class NavMeshSearchLOSArray
 {
   public:
@@ -9,7 +11,5 @@ class NavMeshSearchLOSArray
     unsigned int size;
     unsigned int capacity;
     void Clear(bool freeStorage);
-    void FUN_006ac070(void* entries, unsigned int count);
-    void FUN_006a8500();
 };
 #endif

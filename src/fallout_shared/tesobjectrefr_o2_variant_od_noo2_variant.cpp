@@ -5,14 +5,51 @@
 
 // src/fallout_shared/tesobjectrefr_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/tesobjectrefr.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include "fnv/decl/C68CB0World.h"
+#include "fnv/decl/C8F670Object.h"
+#include "fnv/decl/Entity_c8ea.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00c84df0_cls.h"
+#include "fnv/decl/FUN_00c87600_Obj.h"
+#include "fnv/decl/FUN_00c878c0_cls.h"
+#include "fnv/decl/FUN_00c87c30_t.h"
+#include "fnv/decl/FUN_00cb2ff0.h"
+#include "fnv/decl/HavokFilterInfo.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiTMap_S.h"
+#include "fnv/decl/OwnerCD2A.h"
+#include "fnv/decl/S004b4db0_Quaternion.h"
+#include "fnv/decl/ShapeViewerFields.h"
+#include "fnv/decl/This_2.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/WorldC68BF0.h"
+#include "fnv/decl/WorldC944.h"
+#include "fnv/decl/bhkViewerObject.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00446000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_00574000.h"
+#include "fnv/symbols_00575000.h"
+#include "fnv/symbols_00579000.h"
+#include "fnv/symbols_0057a000.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00c87000.h"
+#include "fnv/symbols_00c9f000.h"
+#include "fnv/symbols_00ca0000.h"
+#include "fnv/symbols_01030000.h"
+#include "fnv/symbols_010c7000.h"
+#include "fnv/symbols_011c7000.h"
+#include "fnv/symbols_011c9000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01272000.h"
 #include "tesobjectrefr_decls.h"
-GarbageCollectorUpdateState* FUN_00446ef0();
 void* FUN_0056a8c0();
-void FUN_005743f0();
-void FUN_00575c90(unsigned char value);
-float FUN_005790b0();
-float FUN_005790d0();
-void FUN_0057acc0(unsigned int index);
 struct FUN_00c9c240_holder
 {
     void* m0;
@@ -21,13 +58,8 @@ struct FUN_00c9c240_holder
     void FUN_00c9c240();
     void FUN_00c9d600();
 };
-extern int DAT_0126810c;
-extern int DAT_01268208;
 extern int DAT_0126822c;
 extern int DAT_01268238;
-extern const void* DAT_01030394;
-extern const void* DAT_0103078c;
-extern const void* DAT_010306b4;
 struct bhkRefObject
 {
     void* vtbl;
@@ -36,7 +68,6 @@ struct bhkRefObject
     int fc;
     int f10;
     unsigned char f14;
-    bhkRefObject* Initialize();
 };
 struct FUN_0056e2d0
 {
@@ -56,21 +87,20 @@ struct ProjectileListener
 };
 struct hkReferencedObject
 {
-    void removeReference();
 };
-void FUN_00c876a0();
 struct FUN_00c9d4c0_holder
 {
     void* m0;
     void* m4;
     void* m8;
     void FUN_00c9d4c0();
-    void FUN_00c9c240();
     void FUN_00c9d600();
 };
+struct CollisionEntity;
 struct CallRet
 {
-    void FUN_00c946e0(void* a, int b, int c);
+public:
+    void FUN_00c946e0(::CollisionEntity *, int, int);
 };
 struct Holder00c9d5d0
 {
@@ -121,7 +151,6 @@ extern int DAT_01268238;
 struct FUN_00c876a0_holder
 {
     virtual ~FUN_00c876a0_holder();
-    void FUN_00c876a0();
 };
 struct bhkWorldObject
 {
@@ -133,7 +162,6 @@ struct FUN_00c9f3b0 : FUN_00c876a0_holder
 };
 struct WorldHolder
 {
-    void UpdatePhantom(void* a, int b);
 };
 struct PhantomBase
 {
@@ -183,7 +211,6 @@ struct bhkAabbPhantom : PhantomBase
     void* m8;
     void FUN_00c9f460();
 };
-extern float DAT_010c72bc;
 struct InnerS
 {
     char pad[16];
@@ -193,14 +220,12 @@ struct MyObj
 {
     char pad[8];
     InnerS* p8;
-    void __thiscall FUN_00c84e20(void* a);
 };
 struct OutS
 {
     int i0;
     float f4;
 };
-void __fastcall FUN_00c9fb70(MyObj* _this, int, OutS* _out);
 struct ArgB
 {
     char _0[16];
@@ -259,7 +284,6 @@ struct bhkSphereShape
     virtual void f43();
     virtual void f44();
     virtual RetV* Target(char* p);
-    void __thiscall FUN_00c84df0(void* a, ArgB* b);
     void __thiscall FUN_00ca0740(void* a, ArgB* b);
 };
 struct S_00cb3070
@@ -310,17 +334,12 @@ struct S_00cb3070
     virtual void v43();
     virtual void v43b();
     virtual void v44(int*);
-    void FUN_00c8ea30(int);
     void FUN_00cb3070(int);
 };
 struct MM
 {
-    void Deallocate(void* p);
-    void FUN_00cb2ff0();
     void* FUN_00cb30a0(unsigned int);
 };
-extern MM _g_memoryManager;
-extern int DAT_012681fc;
 struct FUN_00c9d620_holder : FUN_00c876a0_holder
 {
     void* m0;
@@ -329,7 +348,6 @@ struct FUN_00c9d620_holder : FUN_00c876a0_holder
     FUN_00c9d620_holder();
     ~FUN_00c9d620_holder();
 };
-extern int DAT_01268250;
 struct FUN_0056e780_Class
 {
     virtual ~FUN_0056e780_Class();
@@ -339,14 +357,7 @@ struct FUN_00c9fb00 : FUN_0056e780_Class
 {
     virtual ~FUN_00c9fb00();
 };
-extern int DAT_012680f8;
-extern int DAT_01268250;
-extern int DAT_0126825c;
-extern int DAT_01268274;
 extern void* DAT_0103093c;
-extern void* DAT_01030a24;
-extern void* DAT_01030b0c;
-extern void* DAT_01030bf4;
 struct FUN_00c9fde0 : bhkRefObject
 {
     FUN_00c9fde0();
@@ -356,7 +367,6 @@ struct A51BF0Base
     static void* __cdecl operator new(unsigned int size);
 };
 extern int DAT_01030864;
-extern int DAT_01268244;
 struct S_00cb79d0_Base
 {
     void* vtbl;
@@ -371,18 +381,17 @@ struct Object_00c9f5a0 : S_00cb79d0_Base, A51BF0Base
 {
     Object_00c9f5a0() : S_00cb79d0_Base()
     {
-        vtbl = (void*)&DAT_01030394;
+        vtbl = (void*)&(*reinterpret_cast<const void * *>(&::DAT_01030394));
         f0c = 0;
         f10 = 0;
         ++DAT_0126810c;
-        vtbl = (void*)&DAT_0103078c;
+        vtbl = (void*)&(*reinterpret_cast<const void * *>(&::DAT_0103078c));
         ++DAT_01268238;
         vtbl = (void*)&DAT_01030864;
         ++DAT_01268244;
         f14 = 0;
     }
 };
-void* FUN_00c9f5a0();
 struct FUN_00c877b0
 {
     virtual ~FUN_00c877b0();
@@ -391,9 +400,6 @@ struct FUN_00c84c50 : FUN_00c877b0
 {
     virtual ~FUN_00c84c50();
 };
-void FUN_00c876a0();
-extern int DAT_012680f8;
-extern int DAT_0126810c;
 class FUN_00c85790_base
 {
   public:
@@ -407,7 +413,6 @@ class FUN_00c85790 : public FUN_00c85790_base
     virtual ~FUN_00c85790();
     void unk08();
 };
-extern __declspec(thread) unsigned int g_havokThreadMode;
 struct CollisionObject;
 struct CollisionResult
 {
@@ -489,13 +494,13 @@ struct CollisionHandler
 struct ScopedMode
 {
     unsigned int oldValue;
-    ScopedMode() : oldValue(g_havokThreadMode)
+    ScopedMode() : oldValue(::currentAllocationContext)
     {
-        g_havokThreadMode = 0x10;
+        ::currentAllocationContext = 0x10;
     }
     ~ScopedMode()
     {
-        g_havokThreadMode = oldValue;
+        ::currentAllocationContext = oldValue;
     }
 };
 struct WorldObjectView
@@ -546,7 +551,6 @@ struct WorldObjectView
     virtual void v43();
     virtual void v44();
     virtual CollisionResult* GetResult(unsigned char* used);
-    void FUN_00c87600(int a, int b);
     void FUN_00c85900(int a, int b);
 };
 struct NiRTTI
@@ -617,26 +621,20 @@ struct DebugHelper_c849b0
     int value;
     DebugHelper_c849b0(int v) : value(v)
     {}
-    void Fill(DebugStrArray* arr);
 };
-extern __declspec(thread) int tlsHeapContext;
 struct HeapContextGuard
 {
     int saved;
     HeapContextGuard(int ctx)
     {
-        saved = tlsHeapContext;
-        tlsHeapContext = ctx;
+        saved = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = ctx;
     }
     ~HeapContextGuard()
     {
-        tlsHeapContext = saved;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = saved;
     }
 };
-char* MakeDebugHeader(const char* name);
-char* MakeDebugLine(const char* label, const char* value);
-int SprintfS(char* buf, int size, const char* fmt, ...);
-extern const char* g_debugHeaderName;
 struct bhkBase_c878c0
 {
     void* vtbl;
@@ -646,13 +644,11 @@ struct bhkBase_c878c0
     {
         return m_pObject;
     }
-    void BaseDebugInfo(DebugStrArray* arr);
 };
 struct bhkWorldObject_c86190 : bhkBase_c878c0
 {
     void FUN_00c86190(DebugStrArray* arr);
 };
-extern int DAT_012681b0;
 class FUN_00c8bed0_base_cls
 {
   public:
@@ -849,8 +845,6 @@ struct TlsBlock_t
 };
 extern __declspec(thread) TlsBlock_t g_tlsBlock;
 void* __cdecl FUN_00aa13e0(unsigned int size);
-void FUN_00c876f0();
-void FUN_00c87700();
 struct TlsGuard_t
 {
     int m_saved;
@@ -872,7 +866,6 @@ inline void* operator new(unsigned int n)
 }
 struct FUN_00c9efa0_cls
 {
-    void FUN_00c85900(FUN_00c6d190* p, unsigned int flag);
     bhkRefObject* FUN_00c9efa0(unsigned int flag);
 };
 struct S_00c9f1e0_Shape
@@ -1093,24 +1086,21 @@ struct S_00c9f1e0_Obj
     S_00c9f1e0_Ctx* ctx;
     void FUN_00c9f1e0(S_00c9f1e0_Range* r);
 };
-extern __declspec(thread) int g_iC9F270MemContext;
 class C9F270MemContext
 {
   public:
     C9F270MemContext(int aiMemoryContext)
     {
-        m_iPrevious = g_iC9F270MemContext;
-        g_iC9F270MemContext = aiMemoryContext;
+        m_iPrevious = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
     }
     ~C9F270MemContext()
     {
-        g_iC9F270MemContext = m_iPrevious;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iPrevious;
     }
 
     int m_iPrevious;
 };
-extern const char* g_pcC9F270ClassName;
-extern "C" char* __cdecl FUN_00a7d330(const char* pcName);
 class C9F270StrArray
 {
   public:
@@ -1121,8 +1111,8 @@ class C9F270StrArray
     {
         unsigned int uiIndex = m_usSize;
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, pcValue);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pcValue));
         return uiIndex;
     }
 
@@ -1136,13 +1126,11 @@ class C9F270StrArray
 class C9F270Object
 {
   public:
-    void GetViewerStringsBase(C9F270StrArray* pkStrings);
     void FUN_00c9f270(C9F270StrArray* pkStrings);
 };
 __declspec(thread) int tlsMode = 0x3b;
 struct ReleaseObject
 {
-    void DestroyObject(int value);
 };
 struct FUN_00c9f320_object
 {
@@ -1157,17 +1145,16 @@ struct TlsGuard
     int previous;
     TlsGuard()
     {
-        previous = tlsMode;
-        tlsMode = 0x10;
+        previous = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 0x10;
     }
     ~TlsGuard()
     {
-        tlsMode = previous;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = previous;
     }
 };
 struct PhysicsAction
 {
-    bool __thiscall FUN_00c68cb0(void* owner);
 };
 struct LinkedObject
 {
@@ -1220,11 +1207,8 @@ struct FUN_00c9f420_Class
     void* handle;
     bool FUN_00c9f420();
 };
-void __cdecl FUN_00c876f0();
-void __cdecl FUN_00c87700();
 struct ProjectileCreator
 {
-    void __thiscall FUN_00c85900(Object_00c9f5a0* projectile, int mode);
     Object_00c9f5a0* __thiscall FUN_00c9f640(int mode);
 };
 struct TLSBlock
@@ -1410,12 +1394,12 @@ struct ThreadFlagGuard
     int previous;
     ThreadFlagGuard()
     {
-        previous = g_tls.value;
-        g_tls.value = 16;
+        previous = (*reinterpret_cast<::TLSBlock *>(&::g_tlsBlock)).value;
+        (*reinterpret_cast<::TLSBlock *>(&::g_tlsBlock)).value = 16;
     }
     ~ThreadFlagGuard()
     {
-        g_tls.value = previous;
+        (*reinterpret_cast<::TLSBlock *>(&::g_tlsBlock)).value = previous;
     }
 };
 struct Allocator
@@ -1443,7 +1427,6 @@ struct FUN_00cf2cb0
     static void operator delete(void*);
     FUN_00cf2cb0(void* contents, int tag);
 };
-extern "C" void __fastcall FUN_00c905b0(FUN_00cf2cb0*);
 struct Input
 {
     int tag;
@@ -1502,19 +1485,18 @@ struct Receiver
     virtual void finish(void*);
     void FUN_00c9f890(Input* input);
 };
-extern __declspec(thread) int g_iC9F970AllocTag;
 struct BC9F970AllocTagScope
 {
     int m_iSaved;
 
     BC9F970AllocTagScope(int aiAllocationTag)
     {
-        m_iSaved = g_iC9F970AllocTag;
-        g_iC9F970AllocTag = aiAllocationTag;
+        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
     }
     ~BC9F970AllocTagScope()
     {
-        g_iC9F970AllocTag = m_iSaved;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
     }
 };
 class BC9F970StringArray
@@ -1527,8 +1509,8 @@ class BC9F970StringArray
     unsigned int SetAtGrow(unsigned int uiIndex, char* const& pcElement)
     {
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, pcElement);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pcElement));
         return uiIndex;
     }
     unsigned int Add(char* const& pcElement)
@@ -1542,8 +1524,6 @@ class BC9F970StringArray
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
 };
-extern const char* g_pcC9F970Name;
-char* __cdecl FUN_00a7d330(const char* pcString);
 class FUN_00c9f970_cls
 {
   public:
@@ -1554,18 +1534,17 @@ struct MemContextTLS
 {
     int unk2b4;
 };
-extern __declspec(thread) MemContextTLS g_memContextTLS;
 struct MemContextGuard
 {
     int iOld;
     MemContextGuard()
     {
-        iOld = g_memContextTLS.unk2b4;
-        g_memContextTLS.unk2b4 = 0x10;
+        iOld = (*reinterpret_cast<::MemContextTLS *>(&::currentAllocationContext)).unk2b4;
+        (*reinterpret_cast<::MemContextTLS *>(&::currentAllocationContext)).unk2b4 = 0x10;
     }
     ~MemContextGuard()
     {
-        g_memContextTLS.unk2b4 = iOld;
+        (*reinterpret_cast<::MemContextTLS *>(&::currentAllocationContext)).unk2b4 = iOld;
     }
 };
 struct ViewerStringArray
@@ -1582,8 +1561,8 @@ struct ViewerStringArray
     {
         unsigned int uiIndex = m_usSize;
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, element);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(element));
         return uiIndex;
     }
 };
@@ -1591,10 +1570,6 @@ struct ViewerRTTI
 {
     const char* m_pcName;
 };
-extern ViewerRTTI g_01268254;
-char* CreateDebugString(const char* pcText);
-char* CreateDebugString(const char* pcPrefix, float fValue);
-extern float DAT_010c72bc;
 extern float DAT_011b15c0;
 struct SphereHkShape
 {
@@ -1608,7 +1583,6 @@ struct SphereShapeBase
 {
     void* vtbl;
     int unk04;
-    void BaseGetViewerStrings(ViewerStringArray* apViewerStrings);
 };
 struct SphereShape : SphereShapeBase
 {
@@ -1619,12 +1593,10 @@ struct SphereShape : SphereShapeBase
     }
     void FUN_00c9fc50(ViewerStringArray* apViewerStrings);
 };
-extern int DAT_0126825c;
 class FUN_00c9fd70_cls : public FUN_00c9fb00
 {
   public:
     virtual ~FUN_00c9fd70_cls();
-    void FUN_00c876a0();
 };
 struct SphereScaleFields
 {
@@ -1812,31 +1784,25 @@ struct Tls_ca0090
     unsigned int unk02B0;
     unsigned int m_2b4;
 };
-extern __declspec(thread) Tls_ca0090 g_tls_ca0090;
-extern float DAT_010c72bc;
-extern char DAT_011f6238;
-extern char DAT_01267e30;
 extern int DAT_0126fd98;
 struct TlsGuard_ca0090
 {
     unsigned int m_saved;
     TlsGuard_ca0090()
     {
-        m_saved = g_tls_ca0090.m_2b4;
-        g_tls_ca0090.m_2b4 = 0x10;
+        m_saved = (*reinterpret_cast<::Tls_ca0090 *>(&::g_tlsBlock)).m_2b4;
+        (*reinterpret_cast<::Tls_ca0090 *>(&::g_tlsBlock)).m_2b4 = 0x10;
     }
     ~TlsGuard_ca0090()
     {
-        g_tls_ca0090.m_2b4 = m_saved;
+        (*reinterpret_cast<::Tls_ca0090 *>(&::g_tlsBlock)).m_2b4 = m_saved;
     }
 };
 struct MemMgr_ca0090
 {
-    void* FUN_00aa3e40(unsigned int size);
 };
 struct Sub_ca0090
 {
-    void FUN_004b4db0(void* a);
 };
 struct FUN_00ca0090_cls
 {
@@ -1844,7 +1810,6 @@ struct FUN_00ca0090_cls
     unsigned int unk04;
     void* m08;
     void* m0C;
-    void FUN_00c9fb70(void* a);
     void* FUN_00ca0090(unsigned char* out);
 };
 class CA0540Base
@@ -1852,28 +1817,25 @@ class CA0540Base
   public:
     virtual ~CA0540Base();
 
-    void Shutdown();
 };
 class FUN_00ca0540 : public CA0540Base
 {
   public:
     virtual ~FUN_00ca0540();
 
-    static unsigned int ms_uiInstances;
 };
-extern __declspec(thread) int g_iCA05B0AllocTag;
 struct BCA05B0AllocTagScope
 {
     int m_iSaved;
 
     BCA05B0AllocTagScope(int aiAllocationTag)
     {
-        m_iSaved = g_iCA05B0AllocTag;
-        g_iCA05B0AllocTag = aiAllocationTag;
+        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
     }
     ~BCA05B0AllocTagScope()
     {
-        g_iCA05B0AllocTag = m_iSaved;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
     }
 };
 class BCA05B0StringArray
@@ -1886,8 +1848,8 @@ class BCA05B0StringArray
     unsigned int SetAtGrow(unsigned int uiIndex, char* const& pcElement)
     {
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, pcElement);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pcElement));
         return uiIndex;
     }
     unsigned int Add(char* const& pcElement)
@@ -1901,15 +1863,11 @@ class BCA05B0StringArray
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
 };
-extern const char* g_pcCA05B0Name;
-char* __cdecl FUN_00a7d330(const char* pcString);
 class FUN_00ca05b0_cls
 {
   public:
-    void FUN_00c851c0(BCA05B0StringArray* pkArray);
     void FUN_00ca05b0(BCA05B0StringArray* pkArray);
 };
-extern int DAT_01268280;
 class FUN_00ca0660_base
 {
   public:
@@ -1928,20 +1886,17 @@ class CA0840Heap
   public:
     void* Allocate(unsigned int uiSize);
 };
-extern __declspec(thread) int g_iCA0840MemContext;
-extern float DAT_010c72bc;
-extern CA0840Heap g_memoryManager;
 class CA0840MemContext
 {
   public:
     CA0840MemContext(int aiMemoryContext)
     {
-        m_iPrevious = g_iCA0840MemContext;
-        g_iCA0840MemContext = aiMemoryContext;
+        m_iPrevious = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
     }
     ~CA0840MemContext()
     {
-        g_iCA0840MemContext = m_iPrevious;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iPrevious;
     }
 
     int m_iPrevious;
@@ -1954,7 +1909,7 @@ class CA0840Output
 
     static void* operator new(unsigned int uiSize)
     {
-        return g_memoryManager.Allocate(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::CA0840Heap *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }
     static void operator delete(void* pvMem);
 
@@ -1969,7 +1924,6 @@ class CA0840Constraint
     void* m_pkWorld;
     CA0840Output* m_pkOutput;
 
-    void SetOutput(CA0840Output* pkOutput);
     CA0840Output* FUN_00ca0840(bool* pbCreated);
 };
 class CAACF0Base
@@ -1977,46 +1931,36 @@ class CAACF0Base
   public:
     virtual ~CAACF0Base();
 
-    void Shutdown();
 };
 class FUN_00caacf0 : public CAACF0Base
 {
   public:
     virtual ~FUN_00caacf0();
 
-    static unsigned int ms_uiInstances;
 };
-extern int DAT_012683c8;
 void* FUN_00cb3060();
 class CC2350Base
 {
   public:
     virtual ~CC2350Base();
 };
-extern int g_iCC2350Count;
 class FUN_00cc2350 : public CC2350Base
 {
   public:
-    void Release();
 
     virtual ~FUN_00cc2350();
 };
-extern int DAT_01268660;
 struct FUN_00cca8d0 : FUN_00c9fb00
 {
     virtual ~FUN_00cca8d0();
-    void FUN_00c876a0();
 };
-extern int DAT_0126868c;
 struct FUN_00ccd080 : FUN_00c9fb00
 {
     int unk04;
     virtual ~FUN_00ccd080();
 };
-extern int DAT_0126869c;
 struct FUN_00ccdbc0 : FUN_00c9fb00
 {
-    void FUN_00c876a0();
     virtual ~FUN_00ccdbc0();
 };
 class CCE900Base
@@ -2024,11 +1968,9 @@ class CCE900Base
   public:
     virtual ~CCE900Base();
 };
-extern int g_iCCE900Count;
 class FUN_00cce900 : public CCE900Base
 {
   public:
-    void Release();
 
     virtual ~FUN_00cce900();
 };
@@ -2037,12 +1979,10 @@ struct FUN_00ccf4f0_cls : FUN_00c9fb00
     int unk04;
     virtual ~FUN_00ccf4f0_cls();
 };
-extern int DAT_012686c0;
 class FUN_00ccf740_cls : public FUN_00c9fb00
 {
   public:
     virtual ~FUN_00ccf740_cls();
-    void FUN_00c876a0();
 };
 class NiObjectC9E
 {
@@ -2065,7 +2005,6 @@ class NiControllerC9E : public NiObjectC9E
     int unk10;
     int unk14;
 };
-extern const char* DAT_0126823c;
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct HkResult_c6b
@@ -2082,18 +2021,14 @@ struct HkFlags_c6b
 };
 struct HkWorld_c6b
 {
-    HkResult_c6b FUN_00cd2a50(const void* apKey);
     void AddEntry(const void* apKey, void* apListener, HkFlags_c6b kFlags);
 };
-extern char DAT_01267b70[];
 struct World_c6b
 {
     virtual void v00();
     virtual void DeleteThis();
     volatile long m_lRefCount;
     HkWorld_c6b* m_pkWorld;
-    void Lock();
-    void Unlock();
 };
 struct FUN_00c6b980_cls
 {
@@ -2101,7 +2036,6 @@ struct FUN_00c6b980_cls
     World_c6b* m_spWorld;
     void FUN_00c6b980(World_c6b* apWorld);
 };
-extern int DAT_011f4280;
 struct S_00c85c10_pair
 {
     int unk00;
@@ -2155,7 +2089,6 @@ struct S_00c85c10_data
     S_00c85c10_entry* entries;
     int count;
 
-    void FUN_00cd2a50(int* result, int* value);
     void AddEntry(int* value, int* result, S_00c85c10_flag flag);
 };
 struct S_00c85c10
@@ -2168,7 +2101,6 @@ struct S_00c85c10
 };
 struct ActionC68bf0
 {
-    bool FUN_00c68bf0(void* owner);
 };
 struct LinkedObjectC9d590
 {
@@ -2198,23 +2130,17 @@ struct ObjectCA06
     int unk10;
     ObjectCA06();
 };
-ObjectCA06* __cdecl FUN_00ca06d0();
-extern const char* DAT_01268288;
 struct FUN_00ca0ac0_class : SphereShape
 {
     void FUN_00ca0ac0(ViewerStringArray* strings);
 };
-extern int DAT_012686d0;
 struct FUN_00cd2de0 : FUN_00c84c50
 {
     virtual ~FUN_00cd2de0();
-    void FUN_00c876a0();
 };
-extern int DAT_01268f8c;
 struct FUN_00d54e60 : FUN_00c84c50
 {
     virtual ~FUN_00d54e60();
-    void FUN_00c876a0();
 };
 
 #include <xmmintrin.h>
@@ -2224,7 +2150,6 @@ struct TmpObj
     TmpObj();
 };
 
-int __cdecl FUN_004a3e00(TmpObj* out, int a);
 
 struct VtblHolder
 {
@@ -2295,5 +2220,5 @@ struct FUN_005610f0_cls : VtblHolder
 void FUN_005610f0_cls::FUN_005610f0(int a1)
 {
     __declspec(align(16)) TmpObj tmp;
-    this->v55(FUN_004a3e00(&tmp, a1));
+    this->v55(((int)(::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&tmp)), (*(const ::fnv_004a3e00::NiPoint3 *)(a1))))));
 }

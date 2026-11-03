@@ -170,6 +170,7 @@ class FileEntryList
 FNV_STATIC_ASSERT(sizeof(FileEntryList) == 8);
 FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ucFileEntryCount) == 0);
 FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ppFileEntries) == 4);
+class TESFile;
 class TESModel : public BaseFormComponent
 {
   public:
@@ -202,6 +203,8 @@ class TESModel : public BaseFormComponent
     // FileEntryList* __cdecl TESModel::*()
     // TESModel& __cdecl TESModel::*(const TESModel&)
     // void __cdecl TESModel::*()
+public:
+    static void LoadModelData(::TESModel *, ::TESFile *);
 };
 FNV_STATIC_ASSERT(sizeof(TESModel) == 24);
 FNV_STATIC_ASSERT(offsetof(TESModel, m_kModelFilePath) == 4);
@@ -438,7 +441,6 @@ class TESObjectLIGH : public TESBoundAnimObject,
     // TESObjectLIGH
     void InitItem();
     void ResetFormData();
-    void FUN_0050c9e0(int);
     void SetSound(TESSound* sound);
     // void __cdecl TESObjectLIGH::*()
     // void __cdecl TESObjectLIGH::*()

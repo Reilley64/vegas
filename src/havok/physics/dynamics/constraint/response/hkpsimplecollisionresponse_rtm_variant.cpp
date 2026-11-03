@@ -27,6 +27,7 @@ extern "C"
     __m128 _mm_andnot_ps(__m128, __m128);
 }
 #include <math.h>
+#include "fnv/symbols_simd.h"
 
 class Scalar
 {
@@ -51,7 +52,6 @@ class Scalar
     }
 };
 
-extern const __m128 DAT_010ec7f0;
 class Vector
 {
   public:
@@ -97,7 +97,7 @@ class Vector
     __forceinline void interpolate(const Vector& a, const Vector& b, const Scalar& t)
     {
         __m128 f = t.splat();
-        __m128 inv = _mm_sub_ps(DAT_010ec7f0, f);
+        __m128 inv = _mm_sub_ps(::DAT_010ec7f0, f);
         q = _mm_add_ps(_mm_mul_ps(inv, a.q), _mm_mul_ps(f, b.q));
     }
     __forceinline Scalar dot(const Vector& b) const
@@ -597,7 +597,6 @@ static __forceinline hkQuadReal hkCross(const hkQuadReal& a, const hkQuadReal& b
     const hkQuadReal cross1 = _mm_mul_ps(_mm_shuffle_ps(a, a, 0xd2), _mm_shuffle_ps(b, b, 0xc9));
     return _mm_sub_ps(cross0, cross1);
 }
-extern hkQuadReal DAT_010c7170;
 extern const double DAT_010da2b0;
 extern const double DAT_010da2a8;
 extern const float DAT_010da2a0;
@@ -643,7 +642,7 @@ static __forceinline void inverseSymmetric(const hkMatrix3& m, float eps, hkMatr
     RealLane minimum(eps * eps * eps);
     RealLane determinant = central.inner3(r0);
     maximumLane(determinant, minimum, determinant);
-    RealLane inverse = reinterpret_cast<const RealLane&>(DAT_010c7170) / determinant;
+    RealLane inverse = reinterpret_cast<const RealLane&>((*reinterpret_cast<::ConstraintInit::__m128 *>(&::DAT_010c7170))) / determinant;
     hkQuadReal factor = inverse.spread();
     inv.getColumn(0).scaled(factor, r0);
     inv.getColumn(1).scaled(factor, r1);

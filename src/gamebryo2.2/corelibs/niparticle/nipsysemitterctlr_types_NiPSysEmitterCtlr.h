@@ -2,6 +2,8 @@
 #ifndef FNV_NIPSYSEMITTERCTLR_H
 #define FNV_NIPSYSEMITTERCTLR_H
 
+#include "fnv/decl/FUN_00a57630.h"
+#include "fnv/decl/S_00a53280_Foo.h"
 #include "layout_support.h"
 #include "NiFixedString.h"
 #include "NiObject.h"
@@ -119,6 +121,8 @@ class NiInterpController : public NiTimeController
     // void __cdecl NiInterpController::*()
     // NiInterpController& __cdecl NiInterpController::*(const NiInterpController&)
     // void __cdecl NiInterpController::*()
+public:
+    static const unsigned short INVALID_INDEX;
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiInterpController) == 52);
@@ -162,7 +166,6 @@ class NiPSysModifierCtlr : public NiSingleInterpController
     NiFixedString m_kTargetModifierName;  // +0x38, 4 bytes
     NiPSysModifier* m_pkTargetModifier;   // +0x3C, 4 bytes
     void LoadBinary(NiStream& stream);
-    void LinkObject(NiStream& stream);
     void ProcessClone(CloningProcess& process);
     void CopyMemberData(NiPSysModifierCtlr* destination, CloningProcess& process);
     // const NiRTTI* __cdecl NiPSysModifierCtlr::*()
@@ -241,13 +244,11 @@ class NiBoolInterpolator : public NiInterpolator
 {
   public:
     NiBoolInterpolator(void* data) throw();
-    void SetAnimationKeys(void* keys, unsigned int keyType, unsigned int count);
 };
 
 class NiBoolInterpController : public NiInterpolator
 {
   public:
-    NiBoolInterpolator* LinkObject(NiStream* stream);
 };
 
 #pragma pack(push, 4)

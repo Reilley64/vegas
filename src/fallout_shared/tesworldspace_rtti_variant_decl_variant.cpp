@@ -6,6 +6,35 @@
 // src/fallout_shared/tesworldspace_rtti_variant.cpp - RTTI variant unit created 2026-10-24 by rtti_variants.py for paused functions whose original code needs
 // polymorphic classes (TESForm, TESObjectCELL, TESWorldSpace). The skeleton of src/fallout_shared/tesworldspace.cpp with those classes made polymorphic; move the functions to
 // their real unit once its classes are.
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
+#include "fnv/decl/C6b7f20_Map.h"
+#include "fnv/decl/CPMap00993a80.h"
+#include "fnv/decl/CellView.h"
+#include "fnv/decl/CombatThreatMap.h"
+#include "fnv/decl/FNV_BucketMap.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00438af0_Class.h"
+#include "fnv/decl/FUN_00484150_shell.h"
+#include "fnv/decl/FUN_004867a0_cls.h"
+#include "fnv/decl/FUN_00549580_shell.h"
+#include "fnv/decl/FUN_00586280_shell.h"
+#include "fnv/decl/FUN_00587670_shell.h"
+#include "fnv/decl/FUN_00588070_shell.h"
+#include "fnv/decl/FUN_00588120_host.h"
+#include "fnv/decl/FUN_00658930_class.h"
+#include "fnv/decl/Unk00586340.h"
+#include "fnv/decl/UpdateOwner.h"
+#include "fnv/decl/fnv_00484730__FUN_00484730_shell.h"
+#include "fnv/decl/fnv_0054db50__FUN_0054db50_cls.h"
+#include "fnv/decl/fnv_0087ce80__FUN_0087ce80_shell.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00587000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_01018000.h"
+#include "fnv/symbols_01187000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011c4000.h"
 #include "tesworldspace_packet_rtti_variant_decl_tesworldspace_rtti_variant.h"
 struct GROUP_HEADER
 {
@@ -14,8 +43,6 @@ struct GROUP_HEADER
     unsigned int uiLabel;
     int iGroupType;
 };
-extern unsigned int kGroupFormType;
-TESForm* FUN_004839c0(unsigned int);
 class FormGroupOwner
 {
   public:
@@ -35,7 +62,6 @@ class FormGroupOwner
     virtual void v34();
     virtual void v38();
     virtual bool IsParentForm(TESForm* pkForm);
-    bool IsFormTypeBelowThreshold(GROUP_HEADER* pkGroup);
     bool FUN_00584d40(GROUP_HEADER* pkGroup);
 };
 class MobileObject : public TESObjectREFR
@@ -44,7 +70,6 @@ class MobileObject : public TESObjectREFR
 class Actor : public MobileObject
 {
 };
-TESForm* __cdecl FUN_004839c0(unsigned int);
 struct MapPosition532;
 struct FUN_00993820
 {
@@ -53,25 +78,18 @@ struct FUN_00993820
     MapPosition532** buckets;
     unsigned int size;
     FUN_00993820(int);
-    MapPosition532* FUN_004b9ba0();
-    void GetNextEntry(MapPosition532*&, Actor*&, unsigned __int64&);
-    void SetValue(Actor*, unsigned __int64);
-    void FUN_00438af0();
 };
 struct Child532
 {
-    void UpdateElements(void*);
 };
 struct Tail532
 {
-    void FUN_009a5c40(void*);
 };
 struct ReferenceArray532
 {
     virtual ~ReferenceArray532();
     Child532** data;
     unsigned short capacity, size, effectiveSize, grow;
-    unsigned int GetShortAtOffsetA();
     Child532*& FUN_00877a30(unsigned int);
 };
 struct CombatGroup532 : ReferenceArray532
@@ -84,39 +102,33 @@ struct CombatGroup532 : ReferenceArray532
 // The native map enumerates form pointers while cloning each cell into the new world.
 struct CellMapAccess545 : NiTPointerMap<unsigned int, TESObjectREFR*>
 {
-    void FUN_00438af0();
-    void* FUN_004b9ba0();
-    void FUN_006b7f20(void*&, unsigned int&, TESForm*&);
 };
 struct WorldClone545 : TESWorldSpace
 {
-    TESForm* FUN_004867a0(bool, TESFile*);
-    bool FUN_00587670(TESObjectCELL*);
-    void FUN_00588120();
     TESWorldSpace* FUN_00584e60(bool temporary, TESFile* file);
 };
 // @fnv 0x00584e60
 TESWorldSpace* WorldClone545::FUN_00584e60(bool temporary, TESFile* file)
 {
-    TESWorldSpace* world = dynamic_cast<TESWorldSpace*>(FUN_004867a0(temporary, file));
-    static_cast<CellMapAccess545*>(world->cellMap)->FUN_00438af0();
-    void* position = static_cast<CellMapAccess545*>(cellMap)->FUN_004b9ba0();
+    TESWorldSpace* world = dynamic_cast<TESWorldSpace*>(((::TESForm *)(reinterpret_cast<::FUN_004867a0_cls *>(this)->FUN_004867a0((void *)(temporary), file))));
+    reinterpret_cast<::FUN_00438af0_Class *>((static_cast<CellMapAccess545*>(world->cellMap)))->FUN_00438af0();
+    void* position = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((static_cast<CellMapAccess545*>(cellMap)))->GetFirstPos();
     while (position)
     {
         TESForm* form2 = 0;
         unsigned int key;
-        static_cast<CellMapAccess545*>(cellMap)->FUN_006b7f20(position, key, form2);
+        reinterpret_cast<::C6b7f20_Map *>((static_cast<CellMapAccess545*>(cellMap)))->FUN_006b7f20((::C6b7f20_Node **)&(position), (unsigned int *)&(key), (void **)&(form2));
         if (form2)
         {
             TESObjectCELL* cell3 = dynamic_cast<TESObjectCELL*>(form2->CloneForm(false, file));
             if (cell3)
             {
                 cell3->SetAltered(true);
-                static_cast<WorldClone545*>(world)->FUN_00587670(cell3);
+                reinterpret_cast<::FUN_00587670_shell *>((static_cast<WorldClone545*>(world)))->FUN_00587670(cell3);
             }
         }
     }
-    TESObjectCELL* persistent3 = GetInteriorCell();
+    TESObjectCELL* persistent3 = ((::TESObjectCELL *)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath()));
     if (persistent3)
     {
         TESObjectCELL* copy = dynamic_cast<TESObjectCELL*>(persistent3->CloneForm(false, file));
@@ -126,6 +138,6 @@ TESWorldSpace* WorldClone545::FUN_00584e60(bool temporary, TESFile* file)
             copy->SetAltered(true);
         }
     }
-    static_cast<WorldClone545*>(world)->FUN_00588120();
+    reinterpret_cast<::FUN_00588120_host *>((static_cast<WorldClone545*>(world)))->FUN_00588120();
     return world;
 }

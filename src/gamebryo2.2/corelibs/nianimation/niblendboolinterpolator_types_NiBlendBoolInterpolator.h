@@ -2,6 +2,7 @@
 #ifndef FNV_NIBLENDBOOLINTERPOLATOR_H
 #define FNV_NIBLENDBOOLINTERPOLATOR_H
 
+#include "fnv/decl/FUN_00a37260_shell.h"
 #include "layout_support.h"
 #include "NiObject.h"
 class NiBlendBoolInterpolator;
@@ -102,7 +103,6 @@ class NiBlendInterpolator : public NiInterpolator
     NiBlendInterpolator(bool, float, unsigned char);
     virtual void LoadBinary(NiStream&);
     bool IsEqual(NiObject*);
-    void NormalizeWeights();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiBlendInterpolator) == 48);
@@ -147,7 +147,6 @@ class NiBlendBoolInterpolator : public NiBlendInterpolator
     virtual void LoadBinary(NiStream&);
     virtual bool Update(float, NiObjectNET*, bool&);
     bool UpdateAccumulatedTransform(float, NiObjectNET*, bool&);
-    bool UpdateSingleInterpolator(float, NiObjectNET*, bool&);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiBlendBoolInterpolator) == 52);

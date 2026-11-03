@@ -5,6 +5,7 @@
 
 // src/havok/physics/vehicle/tyremarks/hkptyremarksinfo.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/tyremarks/hkptyremarksinfo.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00e39e60_class.h"
 #include "havok/hkpTyremarksInfo.h"
 class hkClassE39E;
 int __cdecl FUN_00d06f80(const void* pvChunk, int iNumBytes) throw();
@@ -138,7 +139,7 @@ void __thiscall S00e39e90_Info::FUN_00e39e90(int arg1, int wheelIndex, hkpTyrema
 
         do
         {
-            hkpTyremark* src = wheel->ComputeIndex(i);
+            hkpTyremark* src = ((::hkpTyremark *)(reinterpret_cast<::FUN_00e39e60_class *>((wheel))->ComputeIndex(i)));
             _mm_store_ps(&dst->m_kPointA.m_uiX, _mm_load_ps(&src->m_kPointA.m_uiX));
             _mm_store_ps(&dst->m_kPointB.m_uiX, _mm_load_ps(&src->m_kPointB.m_uiX));
             i++;

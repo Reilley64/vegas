@@ -2,9 +2,11 @@
 #ifndef FNV_BSSHADERPROPERTY_DECLS_H
 #define FNV_BSSHADERPROPERTY_DECLS_H
 
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_011f6000.h"
 #include "MemoryManager.h"
 
-extern MemoryManager g_memoryManager;
 void __cdecl operator delete(void*);
 class NiGeometry;
 class ShadowSceneLight;
@@ -16,7 +18,7 @@ struct BSShaderPropertyLightSlot
     ShadowSceneLight* light;
     static void* operator new[](unsigned int size)
     {
-        return g_memoryManager.Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }
 };
 FNV_STATIC_ASSERT(sizeof(BSShaderPropertyLightSlot) == sizeof(ShadowSceneLight*));
@@ -57,7 +59,7 @@ class BSShaderProperty::ShaderPassEntry
     }
     static void* operator new(unsigned int size)
     {
-        return g_memoryManager.Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }
 };
 
@@ -71,13 +73,12 @@ template <> class NiTArray<BSShaderProperty::ShaderPassEntry*, NiTNewInterface<B
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
     void FUN_00ba8d30(unsigned int);
-    void SetAt(unsigned int, BSShaderProperty::ShaderPassEntry*&);
     unsigned int Add(BSShaderProperty::ShaderPassEntry* item)
     {
         unsigned int index = m_usSize;
         if (index >= m_usMaxSize)
             FUN_00ba8d30(index + m_usGrowBy);
-        SetAt(index, item);
+        reinterpret_cast<::FUN_00a41520_cls *>(this)->FUN_00ba3aa0(index, (::KeyPair **)&(item));
         return index;
     }
 };

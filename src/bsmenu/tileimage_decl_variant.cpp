@@ -3,6 +3,30 @@
 // with declarations corrected to what the original code does (tileimage_private.h: int strcat_s(char*, unsigned int, const char*); -> extern "C" int __cdecl strcat_s(char*, unsigned in). Move the function to its real unit once
 // that unit declares it this way.
 
+#include "fnv/decl/FUN_0044a970_Cls.h"
+#include "fnv/decl/FUN_004bc320_shell.h"
+#include "fnv/decl/FUN_00a00f30_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a074d0_shell.h"
+#include "fnv/decl/FUN_00a07530_shell.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/S_00a0c7c0_List.h"
+#include "fnv/decl/StrA.h"
+#include "fnv/decl/StringQ.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00a1f000.h"
+#include "fnv/symbols_00a61000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011d3000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f8000.h"
 #include "tileimage_private_decl_tileimage.h"
 struct Interface
 {
@@ -17,16 +41,14 @@ struct NiGlobalStringTable
     }
 };
 struct FileFinder;
-extern FileFinder* g_fileFinder;
 struct FileFinder
 {
     int GetFileLocation(char*, char*, unsigned int, unsigned int);
     static FileFinder* GetSingleton()
     {
-        return g_fileFinder;
+        return ::g_fileFinder;
     }
 };
-extern char* EmptyFS;
 int _strcpy_s(char*, unsigned int, const char*);
 int _strcat_s(char*, unsigned int, const char*);
 namespace L {
@@ -50,13 +72,13 @@ struct NiFixedString
     NiFixedString(const char* s)
     {
         if (s == 0)
-            m_kHandle = EmptyFS;
+            m_kHandle = ::DAT_0109b220;
         else
             m_kHandle = NiGlobalStringTable::AddString(s);
     }
     ~NiFixedString()
     {
-        if (m_kHandle == EmptyFS)
+        if (m_kHandle == ::DAT_0109b220)
             return;
         NiGlobalStringTable::DecRef((long*)(m_kHandle - 8));
     }
@@ -96,8 +118,6 @@ struct NiTexturePtr
     }
 };
 }
-bool fnv_NiStreamGetTexture(char*, L::NiTexturePtr*);
-void ResolveTexturePath(const char* apFilename, float* afScale, float afZoom, char* axOut);
 
 typedef unsigned int size_t;
 extern "C" int __cdecl strcmp(const char*, const char*);
@@ -140,7 +160,7 @@ template <class CharT> struct GameString
     bool Set(const char* source, unsigned int requested)
     {
         unsigned int count = source ? BSStringLength(source) : 0;
-        unsigned int reserve = BSStringCapacityMaximum(count, requested);
+        unsigned int reserve = ::FUN_00403940(count, requested);
         unsigned int copySize = count + 1;
         unsigned int allocationSize = reserve + 1;
         if (reserve <= MaxLength())
@@ -184,9 +204,7 @@ template <class CharT> struct GameString
 typedef GameString<char> AtlasString;
 struct MemoryManager
 {
-    void* Allocate(unsigned int);
 };
-extern MemoryManager _g_memoryManager;
 struct AtlasRect
 {
     float left, right, top, bottom;
@@ -201,7 +219,7 @@ struct AtlasEntry
     {}
     static void* operator new(size_t n)
     {
-        return _g_memoryManager.Allocate(n);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
     }
     static void operator delete(void*);
 };
@@ -213,7 +231,7 @@ struct AtlasNode
     {}
     static void* operator new(size_t n)
     {
-        return _g_memoryManager.Allocate(n);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
     }
     void AddToHead(AtlasEntry** value)
     {
@@ -234,7 +252,6 @@ struct AtlasNode
         return entry;
     }
 };
-extern AtlasNode g_sheetEntries;
 struct AtlasFile
 {
     virtual ~AtlasFile();
@@ -349,11 +366,11 @@ template <class T> class allocator : public _Allocator_base<T>
     {}
     void deallocate(pointer _Ptr, size_type)
     {
-        ::operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     pointer allocate(size_type _Count)
     {
-        return (pointer)::operator new(_Count * sizeof(T));
+        return (pointer)::FUN_00401000(_Count * sizeof(T));
     }
     size_t max_size() const throw()
     {
@@ -434,11 +451,11 @@ class basic_string : public _String_val<_Elem, _Ax>
         size_type _Num = _Right.size() - _Roff;
         if (_Num < _Count)
             _Count = _Num;
-        if (npos - _Mysize <= _Count || _Mysize + _Count < _Mysize)
+        if (::g_010173f0 - _Mysize <= _Count || _Mysize + _Count < _Mysize)
             _String_base::_Xlen();
         if (0 < _Count && _Grow(_Num = _Mysize + _Count))
         {
-            _Traits_helper::copy_s<_Traits>(_Myptr() + _Mysize, _Myres - _Mysize, _Right._Myptr() + _Roff, _Count);
+            _Traits_helper::copy_s<_Traits>(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970() + _Mysize, _Myres - _Mysize, _Right._Myptr() + _Roff, _Count);
             _Eos(_Num);
         }
         return (*this);
@@ -446,13 +463,13 @@ class basic_string : public _String_val<_Elem, _Ax>
     _Myt& FUN_00a0c430(const _Elem* _Ptr, size_type _Count)
     {
         if (_Inside(_Ptr))
-            return (append(*this, _Ptr - _Myptr(), _Count));
-        if (npos - _Mysize <= _Count || _Mysize + _Count < _Mysize)
+            return (append(*this, _Ptr - reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970(), _Count));
+        if (::g_010173f0 - _Mysize <= _Count || _Mysize + _Count < _Mysize)
             _String_base::_Xlen();
         size_type _Num;
         if (0 < _Count && _Grow(_Num = _Mysize + _Count))
         {
-            _Traits_helper::copy_s<_Traits>(_Myptr() + _Mysize, _Myres - _Mysize, _Ptr, _Count);
+            _Traits_helper::copy_s<_Traits>(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970() + _Mysize, _Myres - _Mysize, _Ptr, _Count);
             _Eos(_Num);
         }
         return (*this);
@@ -460,11 +477,11 @@ class basic_string : public _String_val<_Elem, _Ax>
     _Myt& append(const _Elem* _Ptr)
     {
         ;
-        return (FUN_00a0c430(_Ptr, _Traits::length(_Ptr)));
+        return ((*(::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)&(reinterpret_cast<::StrA *>(this)->FUN_00a0c430(_Ptr, _Traits::length(_Ptr)))));
     }
     _Myt& assign(const _Myt& _Right)
     {
-        return (assign(_Right, 0, npos));
+        return (assign(_Right, 0, ::g_010173f0));
     }
     _Myt& assign(const _Myt& _Right, size_type _Roff, size_type _Count)
     {
@@ -477,7 +494,7 @@ class basic_string : public _String_val<_Elem, _Ax>
             erase((size_type)(_Roff + _Num)), erase(0, _Roff);
         else if (_Grow(_Num))
         {
-            _Traits_helper::copy_s<_Traits>(_Myptr(), _Myres, _Right._Myptr() + _Roff, _Num);
+            _Traits_helper::copy_s<_Traits>(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970(), _Myres, _Right._Myptr() + _Roff, _Num);
             _Eos(_Num);
         }
         return (*this);
@@ -485,10 +502,10 @@ class basic_string : public _String_val<_Elem, _Ax>
     _Myt& assign(const _Elem* _Ptr, size_type _Count)
     {
         if (_Inside(_Ptr))
-            return (assign(*this, _Ptr - _Myptr(), _Count));
+            return (assign(*this, _Ptr - reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970(), _Count));
         if (_Grow(_Count))
         {
-            _Traits_helper::copy_s<_Traits>(_Myptr(), _Myres, _Ptr, _Count);
+            _Traits_helper::copy_s<_Traits>(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970(), _Myres, _Ptr, _Count);
             _Eos(_Count);
         }
         return (*this);
@@ -498,7 +515,7 @@ class basic_string : public _String_val<_Elem, _Ax>
         ;
         return (assign(_Ptr, _Traits::length(_Ptr)));
     }
-    _Myt& erase(size_type _Off = 0, size_type _Count = npos)
+    _Myt& erase(size_type _Off = 0, size_type _Count = ::g_010173f0)
     {
         if (_Mysize < _Off)
             _String_base::_Xran();
@@ -506,7 +523,7 @@ class basic_string : public _String_val<_Elem, _Ax>
             _Count = _Mysize - _Off;
         if (0 < _Count)
         {
-            _Traits_helper::move_s<_Traits>(_Myptr() + _Off, _Myres - _Off, _Myptr() + _Off + _Count,
+            _Traits_helper::move_s<_Traits>(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970() + _Off, _Myres - _Off, reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970() + _Off + _Count,
                                             _Mysize - _Off - _Count);
             size_type _Newsize = _Mysize - _Count;
             _Eos(_Newsize);
@@ -539,11 +556,11 @@ class basic_string : public _String_val<_Elem, _Ax>
                 else if (_Uptr == _Myptr())
                     break;
         }
-        return (npos);
+        return (::g_010173f0);
     }
-    size_type find_last_of(_Elem _Ch, size_type _Off = npos) const
+    size_type find_last_of(_Elem _Ch, size_type _Off = ::g_010173f0) const
     {
-        return (FUN_00a0c300((const _Elem*)&_Ch, _Off, 1));
+        return (reinterpret_cast<::StringQ *>((void *)this)->FUN_00a0c300((const _Elem*)&_Ch, _Off, 1));
     }
     _Myt Substr(size_type _Off = 0, size_type _Count = npos) const
     {
@@ -593,7 +610,7 @@ class basic_string : public _String_val<_Elem, _Ax>
             }
         }
         if (0 < _Oldlen)
-            _Traits_helper::copy_s<_Traits>(_Ptr, _Newres + 1, _Myptr(), _Oldlen);
+            _Traits_helper::copy_s<_Traits>(_Ptr, _Newres + 1, reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970(), _Oldlen);
         _Tidy(true);
         _Bx._Ptr = _Ptr;
         _Myres = _Newres;
@@ -601,7 +618,7 @@ class basic_string : public _String_val<_Elem, _Ax>
     }
     void _Eos(size_type _Newsize)
     {
-        _Traits::assign(_Myptr()[_Mysize = _Newsize], _Elem());
+        _Traits::assign(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970()[_Mysize = _Newsize], _Elem());
     }
     bool _Grow(size_type _Newsize, bool _Trim = false)
     {
@@ -610,14 +627,14 @@ class basic_string : public _String_val<_Elem, _Ax>
         if (_Myres < _Newsize)
             _Copy(_Newsize, _Mysize);
         else if (_Trim && _Newsize < _BUF_SIZE)
-            _Tidy(true, _Newsize < _Mysize ? _Newsize : _Mysize);
+            reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, _Newsize < _Mysize ? _Newsize : _Mysize);
         else if (_Newsize == 0)
             _Eos(0);
         return (0 < _Newsize);
     }
     bool _Inside(const _Elem* _Ptr)
     {
-        if (_Ptr == 0 || _Ptr < _Myptr() || _Myptr() + _Mysize <= _Ptr)
+        if (_Ptr == 0 || _Ptr < reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970() || reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970() + _Mysize <= _Ptr)
             return (false);
         else
             return (true);
@@ -669,14 +686,14 @@ void FUN_00a06dd0(const char* definition, const char* image, AtlasString* textur
         bool foundDefinition4 = false;
         _strcat_s(filename9, 260, definition);
         image = slashTmp ? slashTmp + 1 : image;
-        for (AtlasNode* nodeB = &g_sheetEntries; nodeB && nodeB->entry; nodeB = nodeB->next)
+        for (AtlasNode* nodeB = &(*reinterpret_cast<::AtlasNode *>(&::fnv_00a00a30::DAT_011f3350)); nodeB && nodeB->entry; nodeB = nodeB->next)
         {
             if (!strcmp(nodeB->Get()->definition.c_str(), definition))
                 foundDefinition4 = true;
             if (!strcmp(nodeB->entry->image.c_str(), image))
             {
                 if (texture)
-                    texture->Set(nodeB->entry->texture.c_str(), 0);
+                    reinterpret_cast<::TextString *>((texture))->FUN_004037f0(nodeB->entry->texture.c_str(), 0);
                 if (bounds)
                 {
                     bounds[0] = nodeB->entry->rect.left;
@@ -703,12 +720,12 @@ void FUN_00a06dd0(const char* definition, const char* image, AtlasString* textur
                     if (line5[0] == '#' || line5[0] == '\n' || line5[0] == '\t' || line5[0] == '\r' || line5[0] == ' ')
                         continue;
                     entry5 = new AtlasEntry;
-                    entry5->definition.Set(definition, 0);
-                    entry5->image.Set(line5, 0);
+                    reinterpret_cast<::TextString *>(&(entry5->definition))->FUN_004037f0(definition, 0);
+                    reinterpret_cast<::TextString *>(&(entry5->image))->FUN_004037f0(line5, 0);
                     str.assign(definition);
                     str = str.Substr(0, str.find_last_of('\\') + 1);
                     str.append(strtok(0, " ,\t"));
-                    entry5->texture.Set(str.c_str(), 0);
+                    reinterpret_cast<::TextString *>(&(entry5->texture))->FUN_004037f0(str.c_str(), 0);
                     for (int i3 = 0; i3 < 2; i3++)
                         strtok(0, " ,\t");
                     entry5->rect.left = (float)atof(strtok(0, " ,\t"));
@@ -721,7 +738,7 @@ void FUN_00a06dd0(const char* definition, const char* image, AtlasString* textur
                     if (!strcmp(entry5->image.c_str(), image))
                     {
                         if (texture)
-                            texture->Set(entry5->texture.c_str(), 0);
+                            reinterpret_cast<::TextString *>((texture))->FUN_004037f0(entry5->texture.c_str(), 0);
                         if (bounds)
                         {
                             bounds[0] = entry5->rect.left;
@@ -730,7 +747,7 @@ void FUN_00a06dd0(const char* definition, const char* image, AtlasString* textur
                             bounds[1] = entry5->rect.right;
                         }
                     }
-                    g_sheetEntries.AddToHead(&entry5);
+                    reinterpret_cast<::S_00a0c7c0_List *>(&((*reinterpret_cast<::AtlasNode *>(&::fnv_00a00a30::DAT_011f3350))))->AddToHead((void **)(::AtlasEntry **)(&entry5));
                 }
             }
             delete fileA;

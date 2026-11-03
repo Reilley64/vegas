@@ -2,18 +2,20 @@
 #ifndef FNV_TESCLIMATE_TYPES_H
 #define FNV_TESCLIMATE_TYPES_H
 
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/TESFullName.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0046e000.h"
+#include "fnv/symbols_005b5000.h"
 #include "tesclimate_form.h"
 class TESFile
 {
   public:
-    unsigned char GetTESForm();
-    unsigned int GetChunkID();
-    unsigned int GetChunkSize();
-    bool GetChunkData(void*, unsigned int);
     bool NextChunk();
 };
-extern int __cdecl Warning();
-extern unsigned int __cdecl SetWarningState(bool);
 class BSFileEntry;
 class TESWeather;
 class TESModelTextureSwap;
@@ -44,7 +46,6 @@ class TESTexture : public BaseFormComponent
     TESTexture();
     virtual ~TESTexture();
     BSStringT<char> FullNameComponent;
-    void AssignTextureName(const char* path);
     static void ReadTextureData(TESTexture* texture, TESFile* file);
 };
 class TESWeather : public TESForm
@@ -73,9 +74,6 @@ class TESClimate : public TESForm
     void ResetFormData();
     void MakeDefault();
     bool Load(TESFile* file);
-    void SetMoonPhaseDays(unsigned int days);
-    void SetUsesMasser(bool value);
-    void SetUsesSecunda(bool value);
     TESModel m_kStarsModel;
     TESWeatherList weatherList;
     TESTexture m_kSunTextures[2];
@@ -91,5 +89,4 @@ FNV_STATIC_ASSERT(offsetof(TESClimate, m_kStarsModel) == 24);
 FNV_STATIC_ASSERT(offsetof(TESClimate, weatherList) == 48);
 FNV_STATIC_ASSERT(offsetof(TESClimate, m_kSunTextures) == 56);
 FNV_STATIC_ASSERT(offsetof(TESClimate, m_ucTimeSettings) == 80);
-extern int __cdecl Warning(const char* format, ...);
 #endif

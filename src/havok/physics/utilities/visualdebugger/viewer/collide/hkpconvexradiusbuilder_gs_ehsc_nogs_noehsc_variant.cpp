@@ -6,6 +6,9 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <xmmintrin.h>
+#include "fnv/decl/ConvexVertsQ_d59200.h"
+#include "fnv/decl/FnvCpu_FUN_00d58d50_CpuObject.h"
+#include "fnv/symbols_0101b000.h"
 struct D31Arr
 {
     void* data;                     // +0x00
@@ -44,8 +47,8 @@ struct D31Tbl2
 
 struct D31Mgr
 {
-    D31Pair* FUN_00d58d50();         // __thiscall
-    void FUN_00d59200(D31Arr* out);  // __thiscall, 1 stack arg
+             // __thiscall
+      // __thiscall, 1 stack arg
 };
 
 struct D31Tbl
@@ -57,17 +60,16 @@ __declspec(align(16)) D31Tbl tbl_0101b330;
 
 D31Tbl2* __cdecl FUN_00c85750();
 
-extern float DAT_0101b31c;
 
 // @fnv 0x00de3110
 static __declspec(noinline) float FUN_00de3110(int dummy, D31Mgr* mgr)
 {
-    D31Pair* pair = mgr->FUN_00d58d50();
+    D31Pair* pair = ((::D31Pair *)(reinterpret_cast<::FnvCpu_FUN_00d58d50_CpuObject *>((mgr))->FUN_00d58d50()));
     D31Arr out;
     out.data = 0;
     out.count = 0;
     out.capacityAndFlags = 0x80000000;
-    mgr->FUN_00d59200(&out);
+    reinterpret_cast<::ConvexVertsQ_d59200 *>((mgr))->FUN_00d59200((*(::VertArray96Q *)(&out)));
     int pc = pair->count;
 
     float best = DAT_0101b31c;

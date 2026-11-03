@@ -5,6 +5,16 @@
 
 // src/staging/blk_006e0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/PathingLocation.h"
+#include "fnv/decl/Script.h"
+#include "fnv/decl/ScriptLocals.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_0048d000.h"
+#include "fnv/symbols_004a3000.h"
 #include "../../include/layout_support.h"
 
 #include <xmmintrin.h>
@@ -18,7 +28,6 @@ struct S006e6ae0_Point3
     float x, y, z;
 };
 
-const S006e6ae0_Vector* __cdecl FUN_004a3e00(S006e6ae0_Vector* pOut, const S006e6ae0_Point3* pPoint);
 
 class S006e6ae0_Aabb
 {
@@ -63,32 +72,26 @@ class S006e6ae0_Shape
 class S006e6ae0_Body
 {
   public:
-    S006e6ae0_Shape* FUN_006286d0();
 };
 
 class S006e6ae0_World
 {
   public:
-    void FUN_005533c0();
-    S006e6ae0_Body* FUN_00541c80();
 };
 
 class S006e6ae0_Owner2
 {
   public:
-    S006e6ae0_World* FUN_004543c0();
 };
 
 class S006e6ae0_Owner1
 {
   public:
-    S006e6ae0_Owner2* FUN_006dd4f0();
 };
 
 class S006e6ae0_Node
 {
   public:
-    S006e6ae0_Owner1* GetOffsetC();
 };
 
 int __cdecl FUN_006e7620(int iValue, int iFlags);
@@ -130,14 +133,14 @@ class S006e6ae0_Object
 void S006e6ae0_Object::FUN_006e6ae0()
 {
     S006e6ae0_Aabb kAabb;
-    FUN_004a3e00(&kAabb.m_kMinimumCorner, &m_kMin);
-    FUN_004a3e00(&kAabb.m_kMaximumCorner, &m_kMax);
-    S006e6ae0_World* pkWorld = m_pkNode->GetOffsetC()->FUN_006dd4f0()->FUN_004543c0();
-    pkWorld->FUN_005533c0();
-    S006e6ae0_Shape* pkShape = pkWorld->FUN_00541c80()->FUN_006286d0();
+    ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&kAabb.m_kMinimumCorner)), (*(const ::fnv_004a3e00::NiPoint3 *)(&m_kMin)));
+    ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&kAabb.m_kMaximumCorner)), (*(const ::fnv_004a3e00::NiPoint3 *)(&m_kMax)));
+    S006e6ae0_World* pkWorld = ((::S006e6ae0_World *)(reinterpret_cast<::FUN_004543c0_cls *>((((::S006e6ae0_Owner2 *)(reinterpret_cast<::PathingLocation *>((((::S006e6ae0_Owner1 *)(::GetOffsetC((int)(m_pkNode))))))->GetContainingCell()))))->FUN_004543c0()));
+    reinterpret_cast<::Script *>((pkWorld))->GetLocalData();
+    S006e6ae0_Shape* pkShape = ((::S006e6ae0_Shape *)(reinterpret_cast<::LowProcess *>((((::S006e6ae0_Body *)(reinterpret_cast<::ScriptLocals *>((pkWorld))->GetLocalData()))))->GetPackageObjectType()));
     int iValue = pkShape->vf60();
     m_iHandle = FUN_006e7620(iValue, 0);
-    S006e6ae0_Shape* pkShape2 = pkWorld->FUN_00541c80()->FUN_006286d0();
+    S006e6ae0_Shape* pkShape2 = ((::S006e6ae0_Shape *)(reinterpret_cast<::LowProcess *>((((::S006e6ae0_Body *)(reinterpret_cast<::ScriptLocals *>((pkWorld))->GetLocalData()))))->GetPackageObjectType()));
     pkShape2->vf68(&kAabb, m_iHandle);
-    pkWorld->FUN_005533c0();
+    reinterpret_cast<::Script *>((pkWorld))->GetLocalData();
 }

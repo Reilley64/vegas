@@ -7,12 +7,21 @@
 // unit once identified.
 // src/staging/blk_00dc0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00dce000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_010c8000.h"
 #include "../../include/layout_support.h"
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 extern "C"
 {
     __m128 _mm_sub_ps(__m128, __m128);
@@ -42,7 +51,6 @@ struct MemRouter
     }
 };
 void* __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(MemAllocator* alloc, VecArray* arr, int newCap, int elemSize);
 static __forceinline float distanceSquared(__m128 a, __m128 b)
 {
     __m128 v = _mm_sub_ps(a, b);
@@ -74,7 +82,6 @@ class __declspec(align(16)) S00dced70_Object
     int unk28;
     int unk2C;
 };
-const void* __cdecl FUN_00dced70();
 struct __declspec(align(16)) FUN_00dd1f00
 {
     __m128 unk00;
@@ -119,7 +126,6 @@ struct Holder_00dd6c10
     }
 };
 void* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void* allocator, void* container, int elementSize);
 template <class T> struct Arr_00dd6c10
 {
     T* data;
@@ -152,7 +158,7 @@ struct PairList_00dd6c10
     {
         Holder_00dd6c10* h = static_cast<Holder_00dd6c10*>(FUN_00c85750());
         if (size == (capacity & 0x3fffffff))
-            ResizeAudioStream(h->allocator, this, sizeof(Pair_00dd6c10));
+            ::ResizeAudioStream((::AudioAllocator *)(h->allocator), (::AudioStream *)(void *)(this), sizeof(Pair_00dd6c10));
         Pair_00dd6c10* p = &data[size];
         if (p)
         {
@@ -212,13 +218,11 @@ static __forceinline bool gt_00dd6c10(const float& a, const float& b)
 {
     return a > b;
 }
-extern float DAT_0104e148;
 extern const float DAT_010c8440 = -1.1920929e-07f;
 extern "C" __m128 _mm_load_ss(const float*);
 extern "C" __m128 _mm_add_ps(__m128, __m128);
 extern "C" __m128 _mm_xor_ps(__m128, __m128);
 extern const float DAT_010b9be8;
-extern const __m128 DAT_010c44d0;
 struct PlanePoint
 {
     __m128 position;
@@ -289,7 +293,6 @@ inline float fabsf(float x)
 }
 extern "C" __m128 _mm_mul_ss(__m128, __m128);
 
-extern float DAT_0104da48;
 
 struct TriangleProjectionData
 {
@@ -302,14 +305,14 @@ struct TriangleProjectionData
 int __cdecl FUN_00ddd2c0(const __m128* origin, const __m128* firstAxis, const __m128* secondAxis,
                          const TriangleProjectionData* triangle, const __m128* direction)
 {
-    float maximum = DAT_0104e148;
+    float maximum = ::DAT_0104e148;
     const __m128* entry = origin;
     const __m128 center = *entry;
     entry = firstAxis;
     const __m128 axis = *entry;
     entry = triangle->vertices;
     const __m128* begin = entry;
-    float minimum = DAT_0104da48;
+    float minimum = ::DAT_0104da48;
     const __m128* vertex = begin;
     int remaining = 3;
     do
@@ -348,8 +351,8 @@ int __cdecl FUN_00ddd2c0(const __m128* origin, const __m128* firstAxis, const __
             return 1;
     }
 
-    float secondMaximum = DAT_0104e148;
-    float secondMinimum = DAT_0104da48;
+    float secondMaximum = ::DAT_0104e148;
+    float secondMinimum = ::DAT_0104da48;
     vertex = begin;
     remaining = 3;
     do

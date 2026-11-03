@@ -1,5 +1,23 @@
 // gamebryo2.2/corelibs/nimain/niscreenloddata.cpp: NiScreenLODData, Fake, Holder, LodPart_cls and more (17 functions)
 
+#include <new>
+#include "fnv/decl/FUN_008b42e0_shell.h"
+#include "fnv/decl/FUN_00a991d0_shell.h"
+#include "fnv/decl/FUN_00aa09a0.h"
+#include "fnv/decl/FUN_00aa09c0_cls.h"
+#include "fnv/decl/NiSphere.h"
+#include "fnv/decl/S_00a7fea0_Class.h"
+#include "fnv/decl/Sphere.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a72000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a88000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_010a0000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f5000.h"
 #include "niscreenloddata_decls.h"
 // @fnv 0x00a86530
 void NiScreenLODData::UpdateScreenBound(NiBound& bound)
@@ -18,13 +36,13 @@ void NiScreenLODData::UpdateScreenBound(NiBound& bound)
         }
         else
             current.Update(bone[i].bound, transform);
-        bound.Merge(&current);
+        reinterpret_cast<::Sphere *>(&(bound))->FUN_00a7f3f0((*(const ::Sphere *)(&current)));
     }
     NiTransform inverse;
-    root->world.InvertTransform(inverse);
+    reinterpret_cast<::FUN_008b42e0_shell *>((void *)&(root->world))->InvertTransform((::NiTransform *)&(inverse));
     ScreenData* finalData = data;
     inverse = finalData->transform * inverse;
-    bound.TransformPoint(inverse);
+    reinterpret_cast<::S_00a7fea0_Class *>(&(bound))->TransformPoint((const ::S_00a7fea0_Xf &)(inverse));
 }
 
 struct FUN_00a95cb0_shell : public NiScreenLODData
@@ -32,12 +50,11 @@ struct FUN_00a95cb0_shell : public NiScreenLODData
     void* FUN_00a95cb0();
 };
 
-extern "C" void* g_011f5ee8;
 
 // @fnv 0x00a95cb0
 void* FUN_00a95cb0_shell::FUN_00a95cb0()
 {
-    return &g_011f5ee8;
+    return &(*reinterpret_cast<void * *>(&::g_011f5ee8));
 }
 
 struct FUN_00a95c80_shell : public NiScreenLODData
@@ -54,12 +71,8 @@ int FUN_00a95c80_shell::ClampToLODCount(int aiIndex)
     return aiIndex < n ? aiIndex : n;
 }
 
-extern int DAT_010a051c;
-void _NiFreeAlias(void*);
-void _delete(void*, unsigned int);
 struct Holder
 {
-    void FUN_00aa09c0();
 };
 struct Fake
 {
@@ -73,10 +86,10 @@ struct Fake
 void* Fake::Destroy(unsigned int auiFlags)
 {
     vtable = (void*)&DAT_010a051c;
-    _NiFreeAlias(prop);
-    ((Holder*)this)->FUN_00aa09c0();
+    ::FUN_00aa10f0(prop);
+    reinterpret_cast<::FUN_00aa09c0_cls *>((((Holder*)this)))->FUN_00aa09c0_cls::~FUN_00aa09c0_cls();
     if (auiFlags & 1)
-        _delete(this, 0x30);
+        ::FUN_00aa1460(this, 0x30);
     return this;
 }
 
@@ -107,8 +120,6 @@ void Holder::UpdateWorldBound(NiLODNode* pkLOD)
 }
 }  // namespace fnv_00a961a0
 
-void* _NiMalloc(unsigned int);
-void _NiFree(void*);
 void* _memmove(void*, const void*, unsigned int);
 
 struct FUN_00a95d60_shell : public NiScreenLODData
@@ -124,19 +135,19 @@ void FUN_00a95d60_shell::SetProportionCount(unsigned int count)
     {
         if (!count)
         {
-            _NiFree(*(float**)((char*)this + 0x2c));
+            ::FUN_00aa10f0(*(float**)((char*)this + 0x2c));
             *(float**)((char*)this + 0x2c) = 0;
             *(unsigned int*)((char*)this + 0x28) = 0;
             return;
         }
-        float* pfNewProportions = (float*)_NiMalloc(count * 4);
+        float* pfNewProportions = (float*)::FUN_00aa1070(count * 4);
         if (*(float**)((char*)this + 0x2c))
         {
             unsigned int uiCopyCount =
                 *(int*)((char*)this + 0x28) < (int)count ? *(int*)((char*)this + 0x28) : (int)count;
             _memmove(pfNewProportions, *(float**)((char*)this + 0x2c), uiCopyCount * 4);
         }
-        _NiFree(*(float**)((char*)this + 0x2c));
+        ::FUN_00aa10f0(*(float**)((char*)this + 0x2c));
         *(float**)((char*)this + 0x2c) = pfNewProportions;
         *(unsigned int*)((char*)this + 0x28) = count;
     }
@@ -167,7 +178,6 @@ struct ScreenObj_cls
 
 struct Xform_cls
 {
-    void Extract(NiTransform& out);
 };
 
 struct ScreenSrc_cls
@@ -178,10 +188,8 @@ struct ScreenSrc_cls
     ScreenObj_cls** m_a0;
     unsigned short unkA4;
     unsigned short m_a6;
-    void Prepare();
 };
 
-extern int DAT_011f4288;
 
 struct LodPart_cls
 {
@@ -195,7 +203,7 @@ struct LodPart_cls
 void LodPart_cls::MergeBoundsFromSource(ScreenSrc_cls* apSource)
 {
     NiTransform local;
-    apSource->Prepare();
+    reinterpret_cast<::FUN_00a991d0_shell *>((apSource))->UpdateChildrenWorldData();
     m_18.radius = 0.0f;
     for (int i = 0; i < apSource->m_a6; ++i)
     {
@@ -205,12 +213,12 @@ void LodPart_cls::MergeBoundsFromSource(ScreenSrc_cls* apSource)
             NiBound* b = o->m_20;
             if (b == 0)
             {
-                b = (NiBound*)&DAT_011f4288;
+                b = (NiBound*)&(*reinterpret_cast<int *>(&::g_defaultBound));
             }
-            m_18.Merge(b);
+            reinterpret_cast<::Sphere *>(&(m_18))->FUN_00a7f3f0((*(const ::Sphere *)(b)));
         }
     }
-    ((Xform_cls*)&apSource->m_68)->Extract(local);
+    reinterpret_cast<::NiTransform *>((((Xform_cls*)&apSource->m_68)))->CalculateInverse(local);
     m_08.Update(m_18, local);
 }
 
@@ -414,7 +422,6 @@ template <class T> inline void A960A0SaveBinary(A960A0Stream& kStream, const T& 
 class A960A0Sphere
 {
   public:
-    void SaveBinary(A960A0Stream& kStream);
 
     float m_fVectorY;
     float m_fVectorZ;
@@ -425,7 +432,6 @@ class A960A0Sphere
 class A960A0Object
 {
   public:
-    void SaveBinary(A960A0Stream& kStream);
 
     int unk00;
     int unk04;
@@ -447,9 +453,9 @@ class A960A0Data : public A960A0Object
 // @fnv 0x00a960a0
 void A960A0Data::FUN_00a960a0(A960A0Stream& kStream)
 {
-    A960A0Object::SaveBinary(kStream);
-    m_kBoundA.SaveBinary(kStream);
-    m_kBoundB.SaveBinary(kStream);
+    ::FUN_00a724d0();
+    reinterpret_cast<::NiSphere *>(&(m_kBoundA))->SaveBinary((::NiStream &)(kStream));
+    reinterpret_cast<::NiSphere *>(&(m_kBoundB))->SaveBinary((::NiStream &)(kStream));
     A960A0SaveBinary(kStream, m_uiCount);
     for (unsigned int i = 0; i < m_uiCount; i++)
         A960A0SaveBinary(kStream, m_piIndices[i]);
@@ -461,7 +467,6 @@ struct ShapeSub
     float unk04;
     float unk08;
     float unk0C;
-    bool FUN_00a926b0(ShapeSub* other);
 };
 
 struct FUN_00a96130_cls
@@ -479,11 +484,11 @@ struct FUN_00a96130_cls
 // @fnv 0x00a96130
 bool FUN_00a96130_cls::Equals(FUN_00a96130_cls* other)
 {
-    if (m_08.FUN_00a926b0(&other->m_08))
+    if (reinterpret_cast<::NiBound *>(&(m_08))->FUN_00a926b0((*(const ::NiBound *)(&other->m_08))))
     {
         return false;
     }
-    if (m_18.FUN_00a926b0(&other->m_18))
+    if (reinterpret_cast<::NiBound *>(&(m_18))->FUN_00a926b0((*(const ::NiBound *)(&other->m_18))))
     {
         return false;
     }
@@ -502,10 +507,6 @@ bool FUN_00a96130_cls::Equals(FUN_00a96130_cls* other)
 }
 
 namespace fnv_00a95cc0 {
-extern int DAT_010a051c;
-extern int DAT_011f426c;
-extern int DAT_011f4270;
-extern int DAT_011f4274;
 
 struct S_00a95cc0_Foo
 {
@@ -525,7 +526,6 @@ struct S_00a95cc0_Foo
 
 struct S_00aa09a0_Foo
 {
-    void FUN_00aa09a0();
 };
 
 struct FUN_00a95cc0_shell : public NiScreenLODData
@@ -539,16 +539,16 @@ FUN_00a95cc0_shell* FUN_00a95cc0_shell::InitializeScreenLODData()
     S_00a95cc0_Foo* p = reinterpret_cast<S_00a95cc0_Foo*>(this);
     S_00aa09a0_Foo* q = reinterpret_cast<S_00aa09a0_Foo*>(this);
 
-    q->FUN_00aa09a0();
+    new ((void *)(q)) ::FUN_00aa09a0();
 
-    p->unk00 = reinterpret_cast<void*>(&DAT_010a051c);
-    p->unk08 = DAT_011f426c;
-    p->unk0c = DAT_011f4270;
-    p->unk10 = DAT_011f4274;
+    p->unk00 = reinterpret_cast<void*>(&::DAT_010a051c);
+    p->unk08 = (*reinterpret_cast<int *>((void *)&::NiPoint3::ZERO));
+    p->unk0c = ::_DAT_011f4270;
+    p->unk10 = ::_DAT_011f4274;
     p->unk14 = 0.0f;
-    p->unk18 = DAT_011f426c;
-    p->unk1c = DAT_011f4270;
-    p->unk20 = DAT_011f4274;
+    p->unk18 = (*reinterpret_cast<int *>((void *)&::NiPoint3::ZERO));
+    p->unk1c = ::_DAT_011f4270;
+    p->unk20 = ::_DAT_011f4274;
     p->unk24 = 0.0f;
     p->unk28 = 0;
     p->unk2c = 0;
@@ -604,7 +604,6 @@ struct S_00a58160_Stream
 };
 struct S_00a58160_Foo
 {
-    void FUN_00a724d0(S_00a58160_Stream&);
 };
 struct FUN_00a95ca0_shell : public S_00a58160_Foo
 {
@@ -613,7 +612,7 @@ struct FUN_00a95ca0_shell : public S_00a58160_Foo
 // @fnv 0x00a95ca0
 void FUN_00a95ca0_shell::FUN_00a95ca0(S_00a58160_Stream& s)
 {
-    FUN_00a724d0(s);
+    ::FUN_00a724d0();
 }
 
 struct FUN_00a95f40_cls
@@ -810,7 +809,6 @@ struct BoundLoader
     int unk04;
     int unk08;
     int unk0c;
-    void FUN_00a69ac0(StreamOwner* owner);
 };
 template <class T> inline void ReadValue(A960A0BinaryStream& in, T* value)
 {
@@ -825,19 +823,18 @@ struct FUN_00a961d0_cls
     BoundLoader m_18;
     unsigned int m_uiItemCount;
     unsigned int* m_iSlotIds;
-    void FUN_00a88a40(StreamOwner* owner);
     void SetProportionCount(unsigned int size);
     void LoadFromStream(StreamOwner* owner);
 };
 // @fnv 0x00a961d0
 void FUN_00a961d0_cls::LoadFromStream(StreamOwner* owner)
 {
-    FUN_00a88a40(owner);
-    m_08.FUN_00a69ac0(owner);
-    m_18.FUN_00a69ac0(owner);
+    ::FUN_00a88a40();
+    reinterpret_cast<::NiSphere *>(&(m_08))->LoadBinary((*(::NiStream *)(owner)));
+    reinterpret_cast<::NiSphere *>(&(m_18))->LoadBinary((*(::NiStream *)(owner)));
     unsigned int numberOfValues;
     ReadValue(*owner->binary, &numberOfValues);
-    SetProportionCount(numberOfValues);
+    reinterpret_cast<::FUN_00a95d60_shell *>(this)->SetProportionCount(numberOfValues);
     for (unsigned int i = 0; i < numberOfValues; ++i)
     {
         ReadValue(*owner->binary, &m_iSlotIds[i]);
@@ -852,8 +849,6 @@ struct StrArray
     unsigned short m_usSize;
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
-    void FUN_0096ad30(unsigned int uiSize);
-    void FUN_0096ae90(unsigned int uiIndex, char* const& element);
     void SetAt(unsigned int uiIndex, char* const& element)
     {
         if (uiIndex >= m_usSize)
@@ -880,7 +875,7 @@ struct StrArray
     unsigned int SetAtGrow(unsigned int uiIndex, char* element)
     {
         if (uiIndex >= m_usMaxSize)
-            FUN_0096ad30(uiIndex + m_usGrowBy);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
         SetAt(uiIndex, element);
         return uiIndex;
     }
@@ -892,18 +887,14 @@ struct StrArray
     {
         unsigned int uiIndex = m_usSize;
         if (uiIndex >= m_usMaxSize)
-            FUN_0096ad30(uiIndex + m_usGrowBy);
-        FUN_0096ae90(uiIndex, element);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(element));
         return uiIndex;
     }
 };
 struct BoundStr
 {
-    char* FUN_00a7fb20(const char* name);
 };
-char* FUN_00a7d330(const char* p);
-void* FUN_00aa1070(unsigned int size);
-int FUN_00a305b0(char* buf, unsigned int size, const char* fmt, ...);
 struct Obj96270
 {
     int unk00;
@@ -924,13 +915,13 @@ struct Obj96270
 // @fnv 0x00a96270
 void Obj96270::FUN_00a96270(StrArray* pkStrings)
 {
-    pkStrings->AddCall(FUN_00a7d330(*(const char**)&g_011f5ee8));
-    pkStrings->AddCall(m_08.FUN_00a7fb20("Bound"));
-    pkStrings->AddCall(m_18.FUN_00a7fb20("World Bound"));
+    pkStrings->AddCall(FUN_00a7d330(*(const char**)&(*reinterpret_cast<void * *>(&::g_011f5ee8))));
+    pkStrings->AddCall(reinterpret_cast<::NiBound *>(&(m_08))->FUN_00a7fb20("Bound"));
+    pkStrings->AddCall(reinterpret_cast<::NiBound *>(&(m_18))->FUN_00a7fb20("World Bound"));
     for (unsigned int i = 0; i < m_28; i++)
     {
         char* pBuffer = (char*)FUN_00aa1070(0x80);
-        FUN_00a305b0(pBuffer, 0x80, "Proportion[%d] = %g", i, m_2c[i]);
+        ::NiSprintf(pBuffer, 0x80, "Proportion[%d] = %g", i, m_2c[i]);
         pkStrings->Add(pBuffer);
     }
 }

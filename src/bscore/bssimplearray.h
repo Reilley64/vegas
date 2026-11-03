@@ -2,6 +2,18 @@
 #ifndef BSSIMPLEARRAY_H
 #define BSSIMPLEARRAY_H
 
+#include "fnv/decl/ArrQ0cd50.h"
+#include "fnv/decl/ArrayStub.h"
+#include "fnv/decl/FUN_006e3c90_cls.h"
+#include "fnv/decl/FUN_00761540_cls.h"
+#include "fnv/decl/FUN_007883b0.h"
+#include "fnv/decl/FUN_00afcde0_shell.h"
+#include "fnv/decl/S006d0510.h"
+#include "fnv/decl/SHStub.h"
+#include "fnv/decl/S_00a0d000_Class.h"
+#include "fnv/decl/fnv_006f2290__BSSimpleArrayActor.h"
+#include "fnv/decl/fnv_006f2290__CtorHelper.h"
+#include "fnv/symbols_0106c000.h"
 #include "bssimplearray_private_decls.h"
 
 namespace Tile {
@@ -23,7 +35,7 @@ template <>
 // @fnv 0x00A0CF00
 unsigned int BSSimpleArray<Tile::Value*, 8>::Add(Tile::Value*& value)
 {
-    unsigned int index = ReserveIndex();
+    unsigned int index = reinterpret_cast<::S_00a0d000_Class *>(this)->FUN_00a0d000();
     for (unsigned int i = 0; i < 1; i = i + 1)
     {
         Tile::Value** destination = pBuffer + index + i;
@@ -51,7 +63,7 @@ template <> class BSSimpleArray<AStarNode<const NavMeshInfo*, TESObjectREFR*>*, 
 // @fnv 0x006B9760
 BSSimpleArray<AStarNode<const NavMeshInfo*, TESObjectREFR*>*, 1024>::BSSimpleArray()
 {
-    vtable = &DAT_0106c264;
+    vtable = &(*reinterpret_cast<unsigned int *>(&::DAT_0106c264));
     reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(this)->FUN_006b3eb0(0, false);
 }
 
@@ -80,7 +92,7 @@ class GlobalObject_00788300
 GlobalObject_00788300::GlobalObject_00788300()
 {
     vtable = &DAT_01073e50;
-    reinterpret_cast<BSSimpleArrayPacketEffect*>(this)->FUN_007883b0(0, false);
+    reinterpret_cast<::FUN_007883b0 *>((reinterpret_cast<BSSimpleArrayPacketEffect*>(this)))->RecordRequestedSize(0, false);
 }
 
 namespace DebugText {
@@ -99,7 +111,7 @@ BSSimpleArray<DebugText::DebugTextLine*, 1024>::BSSimpleArray()
     unsigned int unused1;
     unsigned int unused2;
     vtable = &DAT_0109504c;
-    reinterpret_cast<BSSimpleArrayPacketDebug*>(this)->InitArray(0, false);
+    reinterpret_cast<::FUN_00afcde0_shell *>((reinterpret_cast<BSSimpleArrayPacketDebug*>(this)))->InitArray(0, false);
 }
 
 // @fnv 0x0043B4A0
@@ -113,7 +125,7 @@ template <>
 void BSSimpleArray<PacketNodeRecord, 1024>::ReleaseElements(PacketNodeRecord* items, unsigned int count)
 {
     for (unsigned int i = 0; i < count; i = i + 1)
-        reinterpret_cast<BSSimpleArrayPacketNode*>(items + i)->FUN_006d0510(0);
+        reinterpret_cast<::S006d0510 *>((reinterpret_cast<BSSimpleArrayPacketNode*>(items + i)))->FUN_006d0510(0);
 }
 
 template <>
@@ -121,7 +133,7 @@ template <>
 void BSSimpleArray<PathingGraphNode, 1024>::ReleaseElements(PathingGraphNode* items, unsigned int count)
 {
     for (unsigned int i = 0; i < count; i = i + 1)
-        reinterpret_cast<BSSimpleArrayPacketNode*>(items + i)->FUN_006d0510(0);
+        reinterpret_cast<::S006d0510 *>((reinterpret_cast<BSSimpleArrayPacketNode*>(items + i)))->FUN_006d0510(0);
 }
 
 template <>
@@ -138,8 +150,8 @@ template <>
 // @fnv 0x007CB2E0
 unsigned int BSSimpleArray<NavMeshInfo*, 1024>::Add(NavMeshInfo*& value)
 {
-    unsigned int index = reinterpret_cast<BSSimpleArrayPacketReserve*>(this)->FUN_00761540();
-    InitializeItems(pBuffer + index, 1);
+    unsigned int index = reinterpret_cast<::FUN_00761540_cls *>((reinterpret_cast<BSSimpleArrayPacketReserve*>(this)))->FUN_00761540();
+    reinterpret_cast<::fnv_006f2290::CtorHelper *>(this)->InitializeItems((::fnv_006f2290::NavMeshInfo **)(::NavMeshInfo **)(pBuffer + index), 1);
     pBuffer[index] = value;
     return index;
 }
@@ -174,7 +186,7 @@ void BSSimpleArray<Tile::Value*, 8>::InsertInSortedOrder(Tile::Value*& value, BS
             break;
         }
     }
-    Insert(bounds.lower, value);
+    reinterpret_cast<::ArrQ0cd50 *>(this)->FUN_00a0cd50(bounds.lower, (void *const &)(value));
 }
 // Candidate address 00719b20, 92 bytes.
 // Actual member-template declaration and callback ABI come from the supplied signature.
@@ -197,7 +209,7 @@ template <>
 // @fnv 0x006CF4A0
 void BSScrapArray<OffsetData, 1024>::_Deallocate(OffsetData* items)
 {
-    m_pAllocator->Deallocate(items);
+    reinterpret_cast<::SHStub *>((m_pAllocator))->FUN_00aa5610(items);
 }
 // Candidate address 00a1bfa0, 123 bytes.
 // Natural trivial lifetime expression may need source-shape investigation under MSVC9.
@@ -247,7 +259,7 @@ void BSSimpleArray<PathingAvoidanceNode, 1024>::_InitialSetup(unsigned int capac
     }
     if (initialSize > 0)
     {
-        InitializeItems(pBuffer, initialSize);
+        reinterpret_cast<::FUN_006e3c90_cls *>(this)->ConstructSpawnedObjects((char *)(pBuffer), initialSize);
         iSize = initialSize;
     }
 }
@@ -276,7 +288,7 @@ template <>
 // @fnv 0x006E5330
 void BSSimpleArray<unsigned int, 1024>::CopyTo<1024>(BSSimpleArray<unsigned int, 1024>* destination)
 {
-    destination->SetSize(iSize, true);
+    reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>((destination))->FUN_006f2290(iSize, true);
     for (unsigned int index = 0; index < iSize; index = index + 1)
         destination->GetAt(index) = pBuffer[index];
 }
@@ -298,12 +310,12 @@ template <> void BSSimpleArray<Tile::Value*, 8>::Insert(unsigned int index, Tile
         {
             unsigned int newCapacity = SimpleArrayStorage > 8 ? SimpleArrayStorage + 8 : SimpleArrayStorage * 2;
             Tile::Value** newBuffer = _Allocate(newCapacity);
-            UpdateEntryValue(newBuffer, pBuffer, index);
+            reinterpret_cast<::ArrayStub *>(this)->FUN_00a0cf60((char *)(newBuffer), (char *)(pBuffer), index);
             for (unsigned int i = 0; i < 1; i = i + 1)
             {
                 Tile::Value** destination = newBuffer + index + i;
             }
-            UpdateEntryValue(newBuffer + index + 1, pBuffer + index, iSize - index);
+            reinterpret_cast<::ArrayStub *>(this)->FUN_00a0cf60((char *)(::Tile::Value **)(newBuffer + index + 1), (char *)(::Tile::Value **)(pBuffer + index), iSize - index);
             _Deallocate(pBuffer);
             pBuffer = 0;
             pBuffer = newBuffer;
@@ -311,7 +323,7 @@ template <> void BSSimpleArray<Tile::Value*, 8>::Insert(unsigned int index, Tile
         }
         else
         {
-            UpdateEntryValue(pBuffer + index + 1, pBuffer + index, iSize - index);
+            reinterpret_cast<::ArrayStub *>(this)->FUN_00a0cf60((char *)(::Tile::Value **)(pBuffer + index + 1), (char *)(::Tile::Value **)(pBuffer + index), iSize - index);
             for (unsigned int i = 0; i < 1; i = i + 1)
             {
                 Tile::Value** destination = pBuffer + index + i;
@@ -363,7 +375,7 @@ template <> void BSSimpleArray<Tile::Value*, 8>::ReallocateStorage(unsigned int 
         else
         {
             Tile::Value** newBuffer = _Allocate(newCapacity);
-            UpdateEntryValue(newBuffer, pBuffer, preserveCount);
+            reinterpret_cast<::ArrayStub *>(this)->FUN_00a0cf60((char *)(newBuffer), (char *)(pBuffer), preserveCount);
             _Deallocate(pBuffer);
             pBuffer = 0;
             pBuffer = newBuffer;

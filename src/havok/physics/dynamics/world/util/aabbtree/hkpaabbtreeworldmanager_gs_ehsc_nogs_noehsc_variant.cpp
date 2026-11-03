@@ -5,15 +5,31 @@
 
 // src/havok/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void __cdecl Deallocate(void*);
-extern "C" void* DAT_010ccf7c;
+#include "fnv/decl/AabbTree16.h"
+#include "fnv/decl/CollectorState.h"
+#include "fnv/decl/EntListSelf.h"
+#include "fnv/decl/FUN_00c9bff0_Class.h"
+#include "fnv/decl/FUN_00cb1a60_t.h"
+#include "fnv/decl/FUN_00d9a4d0_Class.h"
+#include "fnv/decl/FUN_00d9c7d0_C.h"
+#include "fnv/decl/FnvCpu_FUN_00cd2a00_CpuObject.h"
+#include "fnv/decl/S00d094a0_Owner.h"
+#include "fnv/decl/UpdateState.h"
+#include "fnv/decl/fnv_00cb1870__hkMapBaseCB18.h"
+#include "fnv/decl/linear_cast_d9a2a0__PathBuilder.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00d08000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010cc000.h"
+#include "fnv/symbols_01268000.h"
 struct FUN_00d08330
 {
     void* m_p;
     FUN_00d08330(char);
 };
-extern int DAT_010ccf8c;
-extern void __cdecl Deallocate(void*);
 struct FUN_00d08350
 {
     void* m_p;
@@ -35,16 +51,11 @@ struct FUN_00d08ff0_t
 void FUN_00d08ac0(FUN_00d08ff0_t* self, int arg);
 void FUN_00d08b90(FUN_00d08ff0_t* self, int arg);
 void FUN_00d08ff0(FUN_00d08ff0_t* self, int arg);
-extern int DAT_010ccfac;
-void __cdecl Deallocate(void*);
 struct FUN_00d0a150
 {
     int* p;
     FUN_00d0a150(bool b);
 };
-extern int DAT_010ccfa0;
-extern int DAT_010ccfac;
-extern "C" void __cdecl Deallocate(void*);
 struct FUN_00d0a1a0
 {
     int* a;
@@ -54,7 +65,6 @@ struct FUN_00d0a1a0
 int __fastcall FUN_00d08390(void* self, int, int value);
 struct HashEntryTable
 {
-    void clear();
 };
 struct FUN_00d08550_Class
 {
@@ -66,7 +76,6 @@ struct FUN_00d08560_class
 };
 struct FUN_00d08940_class
 {
-    void __thiscall FUN_00d08940(void* arg);
 };
 struct FUN_00d08a40_class
 {
@@ -79,7 +88,6 @@ struct FUN_00d08a40_class
 };
 struct FUN_00cd2a00_class
 {
-    void __thiscall FUN_00cd2a00();
 };
 void __stdcall FUN_00d083e0(void* arg);
 struct FUN_00d08a90_class
@@ -103,7 +111,6 @@ struct FUN_00d08fd0_class
     void __thiscall FUN_00d08fd0(int a);
     void __thiscall FUN_00d08c90(int a);
 };
-void __cdecl Deallocate(void*);
 struct FUN_00d0a130
 {
     void* p;
@@ -136,7 +143,8 @@ struct FUN_00d0a1f0_Class
 void __stdcall FUN_00d08380(int);
 struct FUN_00cd29f0_cls
 {
-    void FUN_00cd29f0(int iValue);
+public:
+    void FUN_00cd29f0(unsigned int);
 };
 struct FUN_00d08400_cls
 {
@@ -265,8 +273,6 @@ struct hkBoolD084
 };
 hkBoolD084 __cdecl FUN_00d98ca0(void* pkBroadPhase, const hkVector4D084& kFrom, const hkVector4D084& kTo,
                                 hkpWorldRayCasterD084* pkCaster) throw();
-void __cdecl FUN_00d1bd00(void* pkTree, const hkVector4D084& kFrom, const hkVector4D084& kTo,
-                          hkpTreeCastCallbackD084* pkCaster, float fEarlyOut) throw();
 class hkpRayCastQueryD084
 {
   public:
@@ -310,7 +316,6 @@ template <class T> class hkArrayD085
 class hkBroadPhaseD085
 {
   public:
-    void FUN_00d9c7d0(unsigned short id);
 };
 struct hkCollidableD085
 {
@@ -371,7 +376,6 @@ struct hkBoolRetD088
 class hkpEntityD088
 {
   public:
-    hkBoolRetD088 FUN_00c9bff0() const throw();
 };
 struct hkpCollidableD088
 {
@@ -406,7 +410,7 @@ class hkpEntityListD088
         if (pkCollidable->m_type == 1)
         {
             hkpEntityD088* pkEntity = pkCollidable->getOwner();
-            if (pkEntity && !pkEntity->FUN_00c9bff0().m_cBooleanValue)
+            if (pkEntity && !(*(::hkBoolRetD088 *)(reinterpret_cast<::FUN_00c9bff0_Class *>((void *)(pkEntity))->FUN_00c9bff0({}))).m_cBooleanValue)
             {
                 kInactive.pushBackUnchecked(m_kCollidables.m_data[i]);
                 m_kCollidables.removeAt(i);
@@ -419,7 +423,6 @@ class hkpEntityListD088
 struct hkObjectE02;
 struct hkLoaderE02
 {
-    int Get(char const* name, hkObjectE02** out);
 };
 struct Router
 {
@@ -437,7 +440,6 @@ struct Router
 Router* __cdecl _FNV_e03300_arena();
 struct Sink
 {
-    void FUN_00cb1870(void*, int, int);
 };
 struct FUN_00d08940_shell
 {
@@ -466,7 +468,6 @@ struct FUN_00d08940_shell
 };
 struct FUN_00d9a4d0_class
 {
-    void __thiscall GetEntryOffset(unsigned int value);
 };
 struct FUN_00d08c70_class
 {
@@ -565,7 +566,6 @@ class hkObjD099
     int unk44;
     void* m_48;
 
-    void FUN_00d094a0(int* p, void* a, void* b, void* c, void* d);
     void FUN_00d099a0(void* a, void* c, void* d);
 };
 struct FUN_00d0a1e0_class
@@ -602,7 +602,6 @@ struct FUN_00d0a1e0_class
 extern int DAT_010ccfcc;
 extern int DAT_010ccfe0;
 extern int DAT_010ccfec;
-extern float DAT_0104da4c;
 __declspec(align(16)) struct S00d08740_coll
 {
     int m_00;
@@ -638,8 +637,6 @@ __declspec(align(16)) struct S00d08740_coll
     int unk78;
     int unk7c;
     float m_80;
-    void FUN_00d984b0(void* a0, void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7);
-    void FUN_00d9a2a0(void* a0, void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7);
 };
 struct S00d08740_cls
 {
@@ -687,8 +684,6 @@ class hkMapBaseD089
     int m_iCapacityFlags;
     int m_iPairCount;
 
-    hkResultD089 LookupBucketValue(unsigned int key, unsigned int* out) const;
-    int FUN_00cb1870(hkMemoryAllocatorD089& alloc, unsigned int key, unsigned int val);
 };
 class OwnerD089
 {
@@ -801,11 +796,9 @@ class TrackerD08 : public hkpPrimaryD08, public hkpIslandListenerD08
     bool m_dirty;
     bool m_needsUpdate;
 
-    void FUN_00d08980(hkpCollidableD08* collidable);
     virtual void FUN_00d089f0(hkpSimulationIslandD08* island);
 };
 extern int DAT_010ccfcc;
-extern float DAT_0104da4c;
 __declspec(align(16)) struct S00d0a490_Obj
 {
     int m_00;
@@ -844,7 +837,6 @@ __declspec(align(16)) struct S00d0a490_Obj
     int m_84;
     int m_88;
     int m_8c;
-    int FUN_00d984b0(int, int, int, int, int, int, int, int);
 };
 struct S00d0a490_cls
 {
@@ -879,9 +871,7 @@ struct hkpWorldB90
     hkArrayD08C<hkpSimulationIslandB90*> m_kActiveSimulationIslands;
 };
 void __cdecl FUN_00d08b90(hkArrayD08C<int*>& out, hkpWorldB90* world);
-extern unsigned int DAT_0126835c;
 extern char DAT_010cd234[];
-extern char DAT_010c41f8[];
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
@@ -927,8 +917,6 @@ struct UpdateOwner
     int unk60;
     int unk64;
     bool dirty;
-    void FUN_00d09df0(void*, void*);
-    void FUN_00d099d0(void*, void*);
     void FUN_00d0a060(void*, void*);
 };
 // FUN_00d0a200 : MSVC this-adjusting thunk  (sub ecx, 0x14 ; jmp <impl>)
@@ -988,8 +976,7 @@ D0A230Listener::D0A230Listener()
 {}
 
 #include <xmmintrin.h>
-extern const float DAT_01011d78;
-extern const __m128 DAT_010c7170;
+#include "fnv/symbols_simd.h"
 
 class hkMemoryAllocatorD08C
 {
@@ -1118,7 +1105,6 @@ template <class T> struct S00d09020_Local : public S00d09020_Arr<T>
 
 struct S00d09020_Builder
 {
-    void FUN_00d9ce50(S00d09020_Aabb* aabbs, S00d09020_Elem** elems, int n, S00d09020_Arr<unsigned short>* out);
 };
 
 struct D090Rows
@@ -1144,7 +1130,7 @@ struct S00d09020_Inner
 
 __forceinline void S00d09020_trace(const char* tag, volatile unsigned int& ticks)
 {
-    MonitorStream* s = (MonitorStream*)TlsGetValue(DAT_0126835c);
+    MonitorStream* s = (MonitorStream*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     MonitorEvent* e = s->current;
     if (e < s->end)
     {
@@ -1195,7 +1181,7 @@ void S00d09020_This::FUN_00d09020(S00d09020_Arg* arg, int p2, int p3)
     elems.SetSizeAndGrow(n);
 
     {
-        MonitorStream* s = (MonitorStream*)TlsGetValue(DAT_0126835c);
+        MonitorStream* s = (MonitorStream*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
         MonitorEvent* e = s->current;
         if (e < s->end)
         {
@@ -1219,7 +1205,7 @@ void S00d09020_This::FUN_00d09020(S00d09020_Arg* arg, int p2, int p3)
             out->m_kMinimumCorner.m_vComponents = retained.m_vComponents;
             S00d09020_set(out->m_kMaximumCorner, (float)q[4], (float)q[5], (float)q[6], 0.0f);
             __m128 scale = xf.m_vScale.m_vComponents;
-            __m128 t = _mm_shuffle_ps(scale, _mm_unpackhi_ps(scale, DAT_010c7170), 0xc4);
+            __m128 t = _mm_shuffle_ps(scale, _mm_unpackhi_ps(scale, ::DAT_010c7170), 0xc4);
             __m128 r = _mm_rcp_ps(t);
             __m128 inv = _mm_sub_ps(_mm_add_ps(r, r), _mm_mul_ps(_mm_mul_ps(r, t), r));
             __m128 product = inv;
@@ -1238,7 +1224,7 @@ void S00d09020_This::FUN_00d09020(S00d09020_Arg* arg, int p2, int p3)
         elems.m_data[i] = arg->m_data[i];
     }
     {
-        MonitorStream* s = (MonitorStream*)TlsGetValue(DAT_0126835c);
+        MonitorStream* s = (MonitorStream*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
         MonitorEvent* e = s->current;
         if (e < s->end)
         {
@@ -1252,7 +1238,7 @@ void S00d09020_This::FUN_00d09020(S00d09020_Arg* arg, int p2, int p3)
 
     S00d09020_Arr<unsigned short> ids;
     {
-        MonitorStream* s = (MonitorStream*)TlsGetValue(DAT_0126835c);
+        MonitorStream* s = (MonitorStream*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
         MonitorEvent* e = s->current;
         if (e < s->end)
         {
@@ -1264,9 +1250,9 @@ void S00d09020_This::FUN_00d09020(S00d09020_Arg* arg, int p2, int p3)
         }
     }
     if (n > 0)
-        builder.ptr->FUN_00d9ce50(aabbs.m_data, elems.m_data, n, &ids);
+        reinterpret_cast<::AabbTree16 *>((builder.ptr))->FUN_00d9ce50((const ::TreeAabb *)(aabbs.m_data), (const int *)(elems.m_data), n, (::TreeArray<unsigned short> *)(::S00d09020_Arr<unsigned short> *)(&ids));
     {
-        MonitorStream* s = (MonitorStream*)TlsGetValue(DAT_0126835c);
+        MonitorStream* s = (MonitorStream*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
         MonitorEvent* e = s->current;
         if (e < s->end)
         {

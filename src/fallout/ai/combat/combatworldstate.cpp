@@ -1,5 +1,62 @@
 // fallout/ai/combat/combatworldstate.cpp: CombatWorldStateListNode, CombatStateArray, WorldStateManager (8 functions)
 
+#include <new>
+#include "fnv/decl/Actor.h"
+#include "fnv/decl/AlchemyItem.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatControllerStub.h"
+#include "fnv/decl/CombatWeapon.h"
+#include "fnv/decl/EffectSetting.h"
+#include "fnv/decl/FUN_00407820_shell.h"
+#include "fnv/decl/FUN_00435e00_t.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00516bf0_shell.h"
+#include "fnv/decl/FUN_00575650_Class.h"
+#include "fnv/decl/FUN_00644790_class.h"
+#include "fnv/decl/FUN_00662a80_shell.h"
+#include "fnv/decl/FUN_00666f00_shell.h"
+#include "fnv/decl/FUN_00893590_shell.h"
+#include "fnv/decl/FUN_008a1710_shell.h"
+#include "fnv/decl/FUN_008b3c90_class.h"
+#include "fnv/decl/FUN_008d8160_Class.h"
+#include "fnv/decl/FUN_009373f0_shell.h"
+#include "fnv/decl/FUN_0097d110_shell.h"
+#include "fnv/decl/FUN_0097e310_shell.h"
+#include "fnv/decl/FUN_0097ef30_shell.h"
+#include "fnv/decl/FUN_0097fae0_cls.h"
+#include "fnv/decl/FUN_0097fd40_shell.h"
+#include "fnv/decl/FUN_0098a310_shell.h"
+#include "fnv/decl/FUN_009a0240_shell.h"
+#include "fnv/decl/FUN_009a1380_cls.h"
+#include "fnv/decl/FUN_009aa470_Class.h"
+#include "fnv/decl/InterfaceManager.h"
+#include "fnv/decl/MagicCaster_shell.h"
+#include "fnv/decl/TESCombatStyle.h"
+#include "fnv/decl/TimeoutTimer.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_0097c150__CombatActionStandIn.h"
+#include "fnv/decl/fnv_0097cfc0__CombatActionStandIn.h"
+#include "fnv/decl/fnv_0097ee90__DummyInner.h"
+#include "fnv/decl/fnv_00998980__FUN_00998980_shell.h"
+#include "fnv/decl/fnv_009a02a0__FUN_009a02a0_struct.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_004fd000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_008b3000.h"
+#include "fnv/symbols_0097a000.h"
+#include "fnv/symbols_0097b000.h"
+#include "fnv/symbols_009a9000.h"
+#include "fnv/symbols_009e3000.h"
+#include "fnv/symbols_0108c000.h"
+#include "fnv/symbols_011ce000.h"
+#include "fnv/symbols_011cf000.h"
+#include "fnv/symbols_011f1000.h"
 #include "layout_support.h"
 
 class UnsignedIdHandle;
@@ -14,7 +71,7 @@ class CombatWorldStateListNode : public BSSimpleList<UnsignedIdHandle*>
 // @fnv 0x0062d990
 CombatWorldStateListNode* CombatWorldStateListNode::GetNext()
 {
-    return static_cast<CombatWorldStateListNode*>(BSSimpleList<UnsignedIdHandle*>::GetNext());
+    return static_cast<CombatWorldStateListNode*>(((::BSSimpleList< ::UnsignedIdHandle *> *)(reinterpret_cast<::Callees *>(this)->FUN_00726070())));
 }
 
 struct FUN_009aad60_shell
@@ -28,7 +85,6 @@ CombatWorldStateListNode* __thiscall FUN_009aad60_shell::FUN_009aad60(int index)
 }
 
 class CombatAction;
-extern BSSimpleList<CombatAction*>* DAT_011f13d0[];
 // @fnv 0x009957f0
 BSSimpleList<CombatAction*>* FUN_009957f0(int index)
 {
@@ -55,7 +111,6 @@ bool FUN_009aad40_shell::IsFlagSet()
     return ((char*)this)[0x73] != 0;
 }
 
-void* __cdecl __memcpy(void* _Dst, const void* _Src, unsigned int _Size);
 struct CombatStateArray
 {
     char _00[0x50];
@@ -88,13 +143,11 @@ struct Vec
     float x, y, z;
     Vec();
     Vec operator-(const Vec&) const;
-    float FUN_004a7290() const;
 };
 struct Pos
 {
     float x, y, z, w;
     Pos();
-    Vec* FUN_006815c0();
     double FUN_00527a40(const Pos&);
 };
 struct RefType
@@ -105,16 +158,13 @@ struct Entry
 {
     int value;
     unsigned int bit;
-    bool FUN_009373f0();
 };
 struct Weapon
 {
-    int FUN_00522c80();
 };
 struct Stamp
 {
     float time;
-    float FUN_00435e00();
 };
 struct Form
 {
@@ -132,9 +182,6 @@ struct Form
     virtual void v2c();
     virtual void v30();
     virtual int Type();
-    bool IsField8One();
-    void* FUN_0044edb0();
-    bool FUN_00666f00();
 };
 struct BasePart
 {
@@ -433,123 +480,77 @@ struct Process
 };
 struct Actor
 {
-    Pos FUN_00575650();
-    Weapon* FUN_008a1710();
-    Process* FUN_008d8520();
-    float GetHealthFraction();
-    ActorBase* FUN_004181e0();
 };
 struct Caster
 {
-    void* FUN_0045cd60();
-    int GetFieldOrZero(Actor*);
-    bool FUN_0097ef30();
 };
 struct State
 {
-    Entry* GetFieldValue();
-    Entry* GetActionAtIndex(unsigned int);
-    bool FUN_0097fd40();
-    bool FUN_009a02a0(Pos*, int, int);
     RefType* FUN_007058c0();
-    unsigned char FUN_00662a80();
-    float FUN_00644790();
-    void* FUN_00407820();
-    bool FUN_0097ee90();
-    bool FUN_00998980();
-    bool FUN_008b3c10();
-    unsigned char GetByteAtOffset114();
-    Stamp GetValue94();
-    bool IsFlagSet();
-    Weapon* FUN_0097c150(int);
-    int GetField38();
-    int GetField1BC();
     int GetAt(unsigned int);
-    State* FUN_009aad60(unsigned int);
-    bool FUN_008d7f80();
-    bool FUN_009a1380();
-    int FUN_00516bf0();
 };
 struct Context
 {
-    void ValidateCurrentWeapon();
-    State* FUN_00586150();
-    Actor* GetFieldBC();
-    Actor* FUN_004030b0();
-    Caster* FUN_004fb070();
-    Form* FUN_004fd3c0();
-    Form* FUN_004fd3e0();
-    bool FUN_009a0240();
 };
 struct FloatSetting
 {
-    float* FUN_00403e20();
 };
 struct IntSetting
 {
-    int* FUN_0043d4d0();
 };
-extern FloatSetting originalRuntimeFloatSetting481, originalRuntimeFloatSetting413;
-extern IntSetting g_011ce0b4;
-extern double DAT_0108cb08;
-void FUN_005b5e40(const char*, ...);
-void FUN_009a9370(Context*, Entry*, Vec*, int);
 struct WorldStateManager
 {
-    void FUN_009aa4b0();
-    void FUN_009aad00(int, int);
-    void SetItem(int, int);
     void __thiscall UpdateWorldState(Context* context);
 };
 // @fnv 0x009aa4e0
 void WorldStateManager::UpdateWorldState(Context* context)
 {
-    FUN_009aa4b0();
-    context->ValidateCurrentWeapon();
-    State* stateB = context->FUN_00586150();
-    Actor* actor15 = context->GetFieldBC();
-    Actor* target9 = context->FUN_004030b0();
-    Pos position6 = actor15->FUN_00575650();
+    reinterpret_cast<::FUN_009aa470_Class *>(this)->FUN_009aa4b0();
+    reinterpret_cast<::CombatControllerStub *>((context))->ValidateCurrentWeapon();
+    State* stateB = ((::fnv_009aa4e0::State *)(reinterpret_cast<::InterfaceManager *>((context))->FUN_00586150()));
+    Actor* actor15 = ((::fnv_009aa4e0::Actor *)(::GetFieldBC((::FUN_0097ae90_Class *)(context))));
+    Actor* target9 = ((::fnv_009aa4e0::Actor *)(reinterpret_cast<::AlchemyItem *>((context))->FUN_004030b0()));
+    Pos position6 = (*(::fnv_009aa4e0::Pos *)(reinterpret_cast<::FUN_00575650_Class *>((actor15))->FUN_00575650({})));
     Pos targetPositions5;
     if (target9)
-        targetPositions5 = target9->FUN_00575650();
-    Caster* local4 = context->FUN_004fb070();
+        targetPositions5 = (*(::fnv_009aa4e0::Pos *)(reinterpret_cast<::FUN_00575650_Class *>((target9))->FUN_00575650({})));
+    Caster* local4 = ((::fnv_009aa4e0::Caster *)(reinterpret_cast<::EffectSetting *>((context))->GetCastSound()));
     unsigned int q = 0;
-    Form* bolt9 = context->FUN_004fd3c0();
-    Form* localX = context->FUN_004fd3e0();
-    Entry* entry7 = stateB->GetFieldValue();
-    if (entry7 && !entry7->FUN_009373f0())
+    Form* bolt9 = ((::fnv_009aa4e0::Form *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(context))));
+    Form* localX = ((::fnv_009aa4e0::Form *)(reinterpret_cast<::EffectSetting *>((context))->GetHitSound()));
+    Entry* entry7 = ((::fnv_009aa4e0::Entry *)(::GetFieldValue((unsigned int *)(stateB))));
+    if (entry7 && !reinterpret_cast<::FUN_009373f0_shell *>((entry7))->FUN_009373f0())
     {
         if (localX && localX->Type() == 7)
         {
-            if (!localX->IsField8One())
+            if (!reinterpret_cast<::FUN_0097e310_shell *>((localX))->IsField8One())
                 q |= 1 << entry7->bit;
         }
         else
         {
             Vec point4;
-            FUN_009a9370(context, entry7, &point4, 0);
-            Vec delta = point4 - *position6.FUN_006815c0();
+            ::fnv_009a9370::FUN_009a9370((::fnv_009a9370::CombatController *)(context), (::fnv_009a9370::CombatCoverPointData *)(entry7), (::fnv_009a9370::NiPoint3 *)(::fnv_009aa4e0::Vec *)(&point4), (::fnv_009a9370::NiPoint3 *)(0));
+            Vec delta = point4 - *((::fnv_009aa4e0::Vec *)(new ((void *)&(position6)) ::Vec3()));
             delta.z *= 0.10000000149011612;
-            if (delta.FUN_004a7290() < 1024.0)
+            if (reinterpret_cast<::TESCombatStyle *>((void *)&(delta))->UpdateCombatStyle() < 1024.0)
                 q |= 1 << entry7->bit;
         }
     }
-    if (bolt9 && !bolt9->IsField8One() && bolt9->Type() == 8)
+    if (bolt9 && !reinterpret_cast<::FUN_0097e310_shell *>((bolt9))->IsField8One() && bolt9->Type() == 8)
     {
         Form* boltTarget = bolt9;
-        if (boltTarget->FUN_0044edb0())
+        if (((void *)(reinterpret_cast<::MagicCaster_shell *>((boltTarget))->FUN_0044edb0())))
         {
             for (unsigned int index = 0; index < 5; ++index)
             {
-                Entry* candidate = stateB->GetActionAtIndex(index);
-                if (candidate && (void*)candidate->value == boltTarget->FUN_0044edb0())
+                Entry* candidate = ((::fnv_009aa4e0::Entry *)(reinterpret_cast<::fnv_0097cfc0::CombatActionStandIn *>((stateB))->GetActionAtIndex(index)));
+                if (candidate && (void*)candidate->value == ((void *)(reinterpret_cast<::MagicCaster_shell *>((boltTarget))->FUN_0044edb0())))
                     q |= 1 << (index + 17);
             }
         }
     }
-    if (target9 && targetPositions5.FUN_00527a40(position6) < DAT_0108cb08 && !stateB->FUN_0097fd40() &&
-        stateB->FUN_009a02a0(&targetPositions5, 1, 0))
+    if (target9 && targetPositions5.FUN_00527a40(position6) < ::DAT_0108cb08 && !reinterpret_cast<::FUN_0097fd40_shell *>((stateB))->FUN_0097fd40() &&
+        reinterpret_cast<::fnv_009a02a0::FUN_009a02a0_struct *>((stateB))->FUN_009a02a0((*(const ::fnv_009a02a0::CoordinateTriple *)(&targetPositions5)), 1, 0))
         q |= 2;
     q |= 128;
     q |= 256;
@@ -573,55 +574,55 @@ void WorldStateManager::UpdateWorldState(Context* context)
             q &= ~65536u;
             break;
         default:
-            FUN_005b5e40("COMBAT: Unsupported target ref type %i in world state update", refrA->type);
+            ::FUN_005b5e40();
             break;
         }
     }
-    if (stateB->FUN_00662a80() == 2)
+    if (reinterpret_cast<::FUN_00662a80_shell *>((stateB))->FUN_00662a80() == 2)
         q |= 4096;
-    if (localX && localX->Type() == 9 && !localX->IsField8One() && !localX->FUN_00666f00())
+    if (localX && localX->Type() == 9 && !reinterpret_cast<::FUN_0097e310_shell *>((localX))->IsField8One() && !reinterpret_cast<::FUN_00666f00_shell *>((localX))->FUN_00666f00())
         q |= 1024;
-    FUN_009aad00(1, q);
-    FUN_009aad00(2, ~q);
-    FUN_009aad00(14, stateB->FUN_00644790() > *originalRuntimeFloatSetting481.FUN_00403e20() ? 1 : 0);
-    FUN_009aad00(8, (bool)(stateB->FUN_00407820() != 0));
+    reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(1, q);
+    reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(2, ~q);
+    reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(14, reinterpret_cast<::FUN_00644790_class *>((stateB))->FUN_00644790() > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009aa4e0::FloatSetting *>(&::originalRuntimeFloatSetting481)))))) ? 1 : 0);
+    reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(8, (bool)(((void *)(reinterpret_cast<::FUN_00407820_shell *>((stateB))->FUN_00407820())) != 0));
     if (target9)
     {
-        FUN_009aad00(4, stateB->FUN_0097ee90());
-        FUN_009aad00(5, stateB->FUN_00998980() && !stateB->FUN_008b3c10() ? 1 : 0);
-        FUN_009aad00(6, stateB->GetByteAtOffset114());
-        FUN_009aad00(7, stateB->FUN_008b3c10());
-        FUN_009aad00(3, stateB->GetValue94().FUN_00435e00() > *originalRuntimeFloatSetting413.FUN_00403e20() ? 1 : 0);
-        FUN_009aad00(9, stateB->IsFlagSet());
+        reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(4, reinterpret_cast<::fnv_0097ee90::DummyInner *>((stateB))->FUN_0097ee90());
+        reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(5, reinterpret_cast<::fnv_00998980::FUN_00998980_shell *>((stateB))->FUN_00998980() && !::fnv_008b3c10::FUN_008b3c10((::fnv_008b3c10::CombatState *)(stateB)) ? 1 : 0);
+        reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(6, ((unsigned char)(reinterpret_cast<::FUN_008b3c90_class *>((stateB))->GetByteAtOffset114())));
+        reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(7, ::fnv_008b3c10::FUN_008b3c10((::fnv_008b3c10::CombatState *)(stateB)));
+        reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(3, reinterpret_cast<::FUN_00435e00_t *>((void *)&(const ::fnv_009aa4e0::Stamp &)((*(::fnv_009aa4e0::Stamp *)(reinterpret_cast<::FUN_0097fae0_cls *>((stateB))->GetValue94({})))))->FUN_00435e00() > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009aa4e0::FloatSetting *>(&::originalRuntimeFloatSetting413)))))) ? 1 : 0);
+        reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(9, reinterpret_cast<::FUN_009aad40_shell *>((stateB))->IsFlagSet());
     }
     else
-        FUN_009aad00(3, 1);
-    Weapon* weapon0 = actor15->FUN_008a1710();
-    int weapon4 = weapon0 ? weapon0->FUN_00522c80() : 6;
-    if (weapon0 && weapon0 != stateB->FUN_0097c150(weapon4))
+        reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(3, 1);
+    Weapon* weapon0 = ((::fnv_009aa4e0::Weapon *)(reinterpret_cast<::FUN_008a1710_shell *>((actor15))->FUN_008a1710()));
+    int weapon4 = weapon0 ? reinterpret_cast<::CombatWeapon *>((weapon0))->FUN_00522c80() : 6;
+    if (weapon0 && weapon0 != ((::fnv_009aa4e0::Weapon *)(reinterpret_cast<::fnv_0097c150::CombatActionStandIn *>((stateB))->FUN_0097c150(weapon4))))
         weapon4 = 7;
-    FUN_009aad00(11, weapon4);
-    SetItem(-65512, weapon4);
-    FUN_009aad00(10, actor15->FUN_008d8520()->Ready() ? weapon4 : 7);
-    FUN_009aad00(12, stateB->GetField38());
+    reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(11, weapon4);
+    reinterpret_cast<::FUN_009aad20_shell *>(this)->SetItem(-65512, (::CombatWorldStateListNode *)(weapon4));
+    reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(10, ((::fnv_009aa4e0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor15))->GetBaseTexture()))->Ready() ? weapon4 : 7);
+    reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(12, ::GetField38((char *)(stateB)));
     for (unsigned int first = 0; first < 5; ++first)
     {
-        if (stateB->GetActionAtIndex(first))
+        if (((::fnv_009aa4e0::Entry *)(reinterpret_cast<::fnv_0097cfc0::CombatActionStandIn *>((stateB))->GetActionAtIndex(first))))
         {
-            SetItem(-65514, first + 17);
+            reinterpret_cast<::FUN_009aad20_shell *>(this)->SetItem(-65514, (::CombatWorldStateListNode *)(first + 17));
             break;
         }
     }
-    FUN_009aad00(13, stateB->GetField1BC());
+    reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(13, ((int)(reinterpret_cast<::FUN_008d8160_Class *>((stateB))->GetField1BC())));
     for (unsigned int second = 0; second < 2; ++second)
     {
-        if (stateB->GetAt(second) && stateB->FUN_009aad60(second)->FUN_008d7f80())
+        if (reinterpret_cast<::FUN_0097d110_shell *>((stateB))->GetAt(second) && reinterpret_cast<::TimeoutTimer *>((((::fnv_009aa4e0::State *)(reinterpret_cast<::FUN_009aad60_shell *>((stateB))->FUN_009aad60(second)))))->CheckTimer())
         {
             bool usable = false;
             switch (second + 17)
             {
             case 17:
-                if (actor15->GetHealthFraction() * 100.0 < *g_011ce0b4.FUN_0043d4d0())
+                if (reinterpret_cast<::FUN_00893590_shell *>((actor15))->GetHealthFraction() * 100.0 < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_009aa4e0::IntSetting *>(&::g_011ce0b4)))))))
                     usable = true;
                 break;
             case 18:
@@ -630,22 +631,22 @@ void WorldStateManager::UpdateWorldState(Context* context)
             }
             if (usable)
             {
-                SetItem(-65513, second + 17);
+                reinterpret_cast<::FUN_009aad20_shell *>(this)->SetItem(-65513, (::CombatWorldStateListNode *)(second + 17));
                 break;
             }
         }
     }
-    FUN_009aad00(15, stateB->FUN_009a1380());
-    void* magicTarget3 = local4->FUN_0045cd60();
+    reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(15, ((bool)(reinterpret_cast<::FUN_009a1380_cls *>((stateB))->FUN_009a1380())));
+    void* magicTarget3 = ((void *)(reinterpret_cast<::FUN_0045cd60_shell *>((local4))->FUN_0045cd60()));
     if (magicTarget3)
-        FUN_009aad00(19, local4->GetFieldOrZero(actor15));
-    int flags28 = stateB->FUN_00516bf0();
-    if (local4->FUN_0097ef30())
+        reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(19, reinterpret_cast<::FUN_0098a310_shell *>((local4))->GetFieldOrZero((int)(actor15)));
+    int flags28 = ((int)(reinterpret_cast<::FUN_00516bf0_shell *>((stateB))->FUN_00516bf0()));
+    if (reinterpret_cast<::FUN_0097ef30_shell *>((local4))->FUN_0097ef30())
         flags28 |= 65536;
-    if (context->FUN_009a0240())
+    if (((bool)(reinterpret_cast<::FUN_009a0240_shell *>((context))->GetFixedNormals())))
         flags28 |= 131072;
-    if (!target9 || !target9->FUN_004181e0()->part.Valid())
+    if (!target9 || !((::fnv_009aa4e0::ActorBase *)(reinterpret_cast<::Actor *>((target9))->GetActorBase()))->part.Valid())
         flags28 |= 262144;
-    FUN_009aad00(18, flags28);
+    reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(18, flags28);
 }
 }  // namespace fnv_009aa4e0

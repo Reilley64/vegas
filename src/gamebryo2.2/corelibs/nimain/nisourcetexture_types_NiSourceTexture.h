@@ -106,6 +106,7 @@ FNV_STATIC_ASSERT(offsetof(NiTexture, m_pTextureRendererData) == 36);
 FNV_STATIC_ASSERT(offsetof(NiTexture, m_pkPrev) == 40);
 FNV_STATIC_ASSERT(offsetof(NiTexture, m_pkNext) == 44);
 #pragma pack(push, 4)
+struct TextureLoadStream;
 class NiSourceTexture : public NiTexture
 {
   public:
@@ -122,7 +123,6 @@ class NiSourceTexture : public NiTexture
     NiSourceTexture() throw();
     static NiSourceTexture* Create(const NiFixedString&, NiTexture__FormatPrefs&, bool, bool);
     void DestroyAppPixelData();
-    void LoadBinary(NiStream&);
     // const NiRTTI* __cdecl NiSourceTexture::*()
     // void __cdecl NiSourceTexture::*(NiStream&)
     // void __cdecl NiSourceTexture::*(NiStream&)
@@ -166,6 +166,8 @@ class NiSourceTexture : public NiTexture
     // void __cdecl NiSourceTexture::*()
     // NiSourceTexture& __cdecl NiSourceTexture::*(const NiSourceTexture&)
     // void __cdecl NiSourceTexture::*()
+public:
+    void FUN_00a60180(::TextureLoadStream &);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiSourceTexture) == 72);

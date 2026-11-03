@@ -2,6 +2,7 @@
 // src/bsshader/watershaderproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/watershaderproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/CopyObject.h"
 struct B6AB20Map
 {
     virtual ~B6AB20Map();
@@ -24,7 +25,6 @@ struct B6AB20CloningProcess
 
 struct B6AB20Object
 {
-    void Process(void* pkTarget, B6AB20CloningProcess& kCloning);
     void CloneToTarget(void* pkTarget);
 };
 
@@ -33,7 +33,7 @@ struct B6AB20Object
 void B6AB20Object::CloneToTarget(void* pkTarget)
 {
     B6AB20CloningProcess kCloning(0x101);
-    Process(pkTarget, kCloning);
+    reinterpret_cast<::CopyObject *>(this)->FUN_00b6a6c0((::CopyObject *)(pkTarget), (int)&(kCloning));
 }
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);

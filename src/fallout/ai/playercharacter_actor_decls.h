@@ -1,6 +1,9 @@
 // Source layout: Actor. PC corrections are in generate_headers.py.
 #ifndef FNV_ACTOR_H
 #define FNV_ACTOR_H
+#include "fnv/decl/FUN_008a1710_shell.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/fnv_00897910__AnimOwner.h"
 #include "layout_support.h"
 class Animation;
 class InventoryStackRecord;
@@ -12,6 +15,7 @@ class InventoryStackRecord;
 #include "ActorValueModifierList.h"
 #include "NiPoint3.h"
 #pragma pack(push, 4)
+enum SEX;
 class Actor : public MobileObject,
               public MagicCaster,
               public MagicTarget,
@@ -19,8 +23,6 @@ class Actor : public MobileObject,
               public CachedValuesOwner
 {
   public:
-    TESObjectWEAP* GetActiveWeapon();
-    unsigned short GetAnimGroup(ANIM_GROUP_ENUM group, InventoryStackRecord* item, bool handToHand, Animation* animation);
     bhkRagdollController* m_pRagdollController;            // +0xAC
     bhkRagdollPenetrationUtil* m_pRagdollPenetrationUtil;  // +0xB0
     DIALOGUE_EMOTION m_eDialogueEmotion;                   // +0xB4
@@ -222,7 +224,16 @@ class Actor : public MobileObject,
     virtual void Unk_135(void);
     virtual void Unk_136(void);
     TESActorBase* GetActorBase();
-    bool IsPlayerTeammate();
+public:
+    bool IsSneaking();
+public:
+    ::SEX GetSex();
+public:
+    void AddDefaultSpells();
+public:
+    void ConfigureActorState(bool, bool);
+public:
+    void UpdateActorPresentation();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(Actor) == 0x1B4);

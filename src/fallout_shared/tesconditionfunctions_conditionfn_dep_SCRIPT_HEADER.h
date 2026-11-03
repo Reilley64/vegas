@@ -1,6 +1,7 @@
 #ifndef TESCONDITIONFUNCTIONS_CONDITIONFN_DEP_SCRIPT_HEADER_H
 #define TESCONDITIONFUNCTIONS_CONDITIONFN_DEP_SCRIPT_HEADER_H
 
+#include "fnv/decl/FUN_00414220_shell.h"
 #include "tesconditionfunctions_conditionfn_dep_layout_support.h"
 class ScriptHeaderData
 {

@@ -2,6 +2,9 @@
 #ifndef FNV_NAVMESH_TYPES_H
 #define FNV_NAVMESH_TYPES_H
 
+#include "fnv/decl/FUN_00691140_shell.h"
+#include "fnv/decl/FUN_006a5ec0_shell.h"
+#include "fnv/decl/S00693b90.h"
 #include "layout_support.h"
 #include "NiPoint3.h"
 #include "NiRefObject.h"
@@ -56,9 +59,6 @@ FNV_STATIC_ASSERT(offsetof(NavMeshVertex, Location) == 0);
 class NavMeshTriangle
 {
   public:
-    bool FUN_006a5ec0();
-    bool FUN_00693b90();
-    bool FUN_00691140(unsigned int);
     unsigned short Vertices[3];      // +0x0, 6 bytes
     unsigned short Triangles[3];     // +0x6, 6 bytes
     unsigned int m_uiTriangleFlags;  // +0xC, 4 bytes
@@ -336,7 +336,6 @@ FNV_STATIC_ASSERT(offsetof(NavMeshGrid, TESFileRecordLoader) == 36);
 class PathingAvoidanceNode
 {
   public:
-    NavMeshTriangle* GetAvoidanceAtPoint(unsigned short);
     NiPoint3 m_kLocation;                          // +0x0, 12 bytes
     NiPoint3 TwoComponentVector;              // +0xC, 12 bytes
     float fRadius;                            // +0x18, 4 bytes
@@ -375,6 +374,8 @@ class NavMeshStaticAvoidNode : public PathingAvoidanceNode
 FNV_STATIC_ASSERT(sizeof(NavMeshStaticAvoidNode) == 40);
 FNV_STATIC_ASSERT(offsetof(NavMeshStaticAvoidNode, m_usTriangleID) == 36);
 #pragma pack(push, 4)
+class NavMeshTriangle;
+class NiPoint3;
 class NavMesh : public TESForm, public TESChildCell, public NiRefObject
 {
   public:
@@ -536,6 +537,10 @@ class NavMesh : public TESForm, public TESChildCell, public NiRefObject
     // bool __cdecl NavMesh::*(unsigned short, BSSimpleArray<NavMeshStaticAvoidNode *,1024>&)
     // NavMesh& __cdecl NavMesh::*(const NavMesh&)
     // void __cdecl NavMesh::*()
+public:
+    ::NiPoint3 GetNavMeshData(unsigned short);
+public:
+    ::NavMeshTriangle *GetTriangle(unsigned short);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NavMesh) == 264);

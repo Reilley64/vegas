@@ -5,6 +5,7 @@
 // Declaration facts: public yvileapsis/yUI-NVSE CommonLib shader headers;
 // NiTArray/ImageSpaceEffect layout follows the accepted bloom declarations
 // (decomp/src/bsshader/imagespaceeffectbloom_decls.h).
+#include "fnv/symbols_011f9000.h"
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 struct D3DXMACRO
 {
@@ -82,7 +83,6 @@ class INISettingCollection
   public:
     struct Display
     {
-        static Setting bDoTestHDR;
     };
 };
 class BSShader

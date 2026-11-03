@@ -2,6 +2,22 @@
 // src/havok/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/E06490Stack.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00e06d70_Class.h"
+#include "fnv/decl/KdQuantizer.h"
+#include "fnv/decl/SearchObject.h"
+#include "fnv/decl/SomeClass.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00cbf000.h"
+#include "fnv/symbols_00e06000.h"
+#include "fnv/symbols_00e07000.h"
+#include "fnv/symbols_01000000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_0101f000.h"
+#include "fnv/symbols_0102e000.h"
 extern "C" void __cdecl GrowBuffer();
 
 struct FUN_00e06780_class
@@ -18,7 +34,7 @@ void __thiscall FUN_00e06780_class::AppendChar(char acValue)
     *(p + base - 1) = acValue;
     ++*(int*)((char*)this + 0xc);
     if (*(int*)((char*)this + 0xc) >= *(int*)((char*)this + 8))
-        GrowBuffer();
+        static_cast<::E06490Stack *>(nullptr)->GrowBuffer();
 }
 
 struct S_00e066f0_Src
@@ -129,14 +145,13 @@ struct ByteSink
     int m_iUsed;
     char* m_pBuffer;
 
-    void GrowBuffer();
 
     void PutByte(char acValue)
     {
         m_pBuffer[m_uiLogicalSize - m_iUsed - 1] = acValue;
         m_iUsed++;
         if (m_iUsed >= m_uiLogicalSize)
-            GrowBuffer();
+            reinterpret_cast<::E06490Stack *>(this)->GrowBuffer();
     }
 
     void PutBytePair(char acFirst, char acSecond);
@@ -346,7 +361,6 @@ void __stdcall AdjustLimits(Limits* first, Limits* second, Limits* third)
 
 struct E06C20Writer
 {
-    void FUN_00e069a0(int size, void* data);
 };
 
 struct E06C20Object
@@ -359,13 +373,6 @@ struct E06C20Object
 
     int FUN_00e06c20(void* data);
 };
-
-// @fnv 0x00e06c20
-int E06C20Object::FUN_00e06c20(void* data)
-{
-    m_pStreamWriter->FUN_00e069a0(0x70, data);
-    return 5;
-}
 
 namespace fnv_00e06db0 {
 struct Node
@@ -461,8 +468,6 @@ struct E07510Input
 
 struct E07510Solver
 {
-    void FUN_00e07070(void* b, void* c, void* d);
-    void AdjustLimits(E07510Input* a, void* b, void* c);
     void FUN_00e07510(E07510Input* a, void* b, void* c, void* d);
 };
 
@@ -471,8 +476,8 @@ struct E07510Solver
 void E07510Solver::FUN_00e07510(E07510Input* pInput, void* b, void* c, void* d)
 {
     if (pInput->m_type == 1)
-        FUN_00e07070(b, c, d);
-    AdjustLimits(pInput, b, c);
+        ::FUN_00e07070((::S_00e07070_Object *)this, (::S_00e07070_Object *)(b), (::S_00e07070_Result *)(c));
+    ::AdjustLimits((::Limits *)this, (::Limits *)(pInput), (::Limits *)(b));
 }
 
 struct S_e07c50_Buf
@@ -496,9 +501,6 @@ struct S_e07c50
     int unk20;
     int unk24;
     int m_uiItemCount;
-    void FUN_00e06b20(S_e07c50_Item* item);
-    void FUN_00e06e00(S_e07c50_Item* item, int b, int c);
-    void FUN_00e07550(S_e07c50_Item* item, int c);
     int FUN_00e07c50(S_e07c50_Item* item, int b, int c);
 };
 struct S_e07c50_Item
@@ -531,20 +533,6 @@ struct S_e07c50_Item
     int unk58;
     int m_kRayEnd;
 };
-// @fnv 0x00e07c50
-int S_e07c50::FUN_00e07c50(S_e07c50_Item* item, int b, int c)
-{
-    FUN_00e06b20(item);
-    m_uiItemCount++;
-    int start = m_buf->m_iElementCount;
-    FUN_00e06e00(item, b, c);
-    FUN_00e07550(item, c);
-    item->m_kRayEnd = m_buf->m_iElementCount;
-    int r = m_buf->m_iElementCount - start;
-    item->m_flag38 = 1;
-    return r;
-}
-
 namespace fnv_00e08040 {
 struct Node
 {
@@ -586,8 +574,6 @@ struct Tracker
 {
     int unk00, unk04, unk08, count;
 };
-void __stdcall FUN_00e06b20(Node*);
-void __stdcall FUN_00e07510(Node*, void*, State*, MergeInfo*);
 struct TreeOptimizer
 {
     int unk00, unk04, unk08, unk0C;
@@ -597,8 +583,6 @@ struct TreeOptimizer
         config5C, config60, config64, config68, config6C;
     int period;
     CheckResult FUN_00e06af0(Node*, State*);
-    int FUN_00e07c50(Node*, void*, State*);
-    void FUN_00e06aa0(Node*);
     int FUN_00e07ca0(Node*, void*, State*, MergeInfo*);
     int OptimizeTree(Node*, void*, State*);
 };
@@ -633,16 +617,16 @@ int TreeOptimizer::OptimizeTree(Node* node, void* context, State* state)
     }
     if (node->leaf)
     {
-        FUN_00e06b20(node);
+        ::FUN_00e06b20((::Node *)(node));
         if (FUN_00e06af0(node, state))
-            return FUN_00e07c50(node, context, state);
+            return reinterpret_cast<::S_e07c50 *>(this)->FUN_00e07c50((::S_e07c50_Item *)(node), (int)(context), (int)(state));
     }
     else
     {
         MergeInfo info;
         info.changed = false;
         info.index = -1;
-        FUN_00e07510(node, context, state, &info);
+        reinterpret_cast<::E07510Solver *>((node))->FUN_00e07510((::E07510Input *)(context), state, &info, {});
         int score = -1;
         {
 
@@ -653,7 +637,7 @@ int TreeOptimizer::OptimizeTree(Node* node, void* context, State* state)
                 stateCopy.FUN_00e095d0(state, rightChild, &config30);
                 score = OptimizeTree(rightChild, state, &stateCopy);
                 if (score >= 0)
-                    FUN_00e06aa0(rightChild);
+                    reinterpret_cast<::S_00e06aa0 *>(this)->FUN_00e06aa0((::S_00e06aa0_Item *)(rightChild));
             }
             Node* leftChild = node->left;
             if (leftChild)
@@ -663,7 +647,7 @@ int TreeOptimizer::OptimizeTree(Node* node, void* context, State* state)
                 int leftResult = OptimizeTree(leftChild, state, &stateCopy);
                 if (leftResult >= 0)
                 {
-                    FUN_00e06aa0(leftChild);
+                    reinterpret_cast<::S_00e06aa0 *>(this)->FUN_00e06aa0((::S_00e06aa0_Item *)(leftChild));
                     if (score >= 0 && FUN_00e06af0(node, state))
                     {
                         ++count;
@@ -696,21 +680,8 @@ struct FUN_00e09640_class
 {
     virtual void unknownVirtual();
     unsigned short unk04;
-    void __thiscall DestroyAudioBuffer();
     FUN_00e09640_class* __thiscall FUN_00e09640(int flags);
 };
-// @fnv 0x00e09640
-FUN_00e09640_class* __thiscall FUN_00e09640_class::FUN_00e09640(int flags)
-{
-    DestroyAudioBuffer();
-    if (flags & 1)
-    {
-        Router* router = FUN_00c85750();
-        router->allocator->ReleaseBlock(this, unk04);
-    }
-    return this;
-}
-
 struct FUN_00e06800_cls
 {
     int unk00;
@@ -719,7 +690,6 @@ struct FUN_00e06800_cls
     int m_uiItemCount;
     char* m_buf;
 
-    void __thiscall Flush();
     void __thiscall FUN_00e06800(char a, int v);
 };
 
@@ -729,18 +699,18 @@ void __thiscall FUN_00e06800_cls::FUN_00e06800(char acByte, int aiValue)
     m_buf[m_cap - m_uiItemCount - 1] = (char)aiValue;
     m_uiItemCount++;
     if (m_uiItemCount >= m_cap)
-        Flush();
+        reinterpret_cast<::E06490Stack *>(this)->GrowBuffer();
 
     aiValue = aiValue >> 8;
     m_buf[m_cap - m_uiItemCount - 1] = (char)aiValue;
     m_uiItemCount++;
     if (m_uiItemCount >= m_cap)
-        Flush();
+        reinterpret_cast<::E06490Stack *>(this)->GrowBuffer();
 
     m_buf[m_cap - m_uiItemCount - 1] = acByte;
     m_uiItemCount++;
     if (m_uiItemCount >= m_cap)
-        Flush();
+        reinterpret_cast<::E06490Stack *>(this)->GrowBuffer();
 }
 
 struct FUN_00e06880_cls
@@ -751,7 +721,6 @@ struct FUN_00e06880_cls
     int m_uiItemCount;
     char* m_buf;
 
-    void __thiscall Flush();
     void __thiscall FUN_00e06880(char a, int v);
 };
 
@@ -762,22 +731,22 @@ void __thiscall FUN_00e06880_cls::FUN_00e06880(char acTrailingByte, int aiValue)
     m_buf[m_cap - m_uiItemCount - 1] = (char)aiValue;
     m_uiItemCount++;
     if (m_uiItemCount >= m_cap)
-        Flush();
+        reinterpret_cast<::E06490Stack *>(this)->GrowBuffer();
 
     m_buf[m_cap - m_uiItemCount - 1] = (char)(aiValue >> 8);
     m_uiItemCount++;
     if (m_uiItemCount >= m_cap)
-        Flush();
+        reinterpret_cast<::E06490Stack *>(this)->GrowBuffer();
 
     m_buf[m_cap - m_uiItemCount - 1] = (char)(aiValue >> 16);
     m_uiItemCount++;
     if (m_uiItemCount >= m_cap)
-        Flush();
+        reinterpret_cast<::E06490Stack *>(this)->GrowBuffer();
 
     m_buf[m_cap - m_uiItemCount - 1] = acTrailingByte;
     m_uiItemCount++;
     if (m_uiItemCount >= m_cap)
-        Flush();
+        reinterpret_cast<::E06490Stack *>(this)->GrowBuffer();
 }
 
 struct FUN_00e069a0_cls
@@ -788,9 +757,14 @@ struct FUN_00e069a0_cls
     int m_uiItemCount;
     char* m_buf;
 
-    void __thiscall Flush();
     void __thiscall FUN_00e069a0(char a, unsigned int v);
 };
+// @fnv 0x00e06c20
+int E06C20Object::FUN_00e06c20(void* data)
+{
+    reinterpret_cast<::FUN_00e069a0_cls *>((m_pStreamWriter))->FUN_00e069a0(0x70, (unsigned int)(data));
+    return 5;
+}
 
 // Writes the four bytes of v and then a into m_buf from the end backwards, flushing whenever the buffer fills.
 // @fnv 0x00e069a0
@@ -799,32 +773,31 @@ void __thiscall FUN_00e069a0_cls::FUN_00e069a0(char a, unsigned int auValue)
     m_buf[m_cap - m_uiItemCount - 1] = (char)auValue;
     m_uiItemCount++;
     if (m_uiItemCount >= m_cap)
-        Flush();
+        reinterpret_cast<::E06490Stack *>(this)->GrowBuffer();
 
     m_buf[m_cap - m_uiItemCount - 1] = (char)(auValue >> 8);
     m_uiItemCount++;
     if (m_uiItemCount >= m_cap)
-        Flush();
+        reinterpret_cast<::E06490Stack *>(this)->GrowBuffer();
 
     m_buf[m_cap - m_uiItemCount - 1] = (char)(auValue >> 16);
     m_uiItemCount++;
     if (m_uiItemCount >= m_cap)
-        Flush();
+        reinterpret_cast<::E06490Stack *>(this)->GrowBuffer();
 
     m_buf[m_cap - m_uiItemCount - 1] = (char)(auValue >> 24);
     m_uiItemCount++;
     if (m_uiItemCount >= m_cap)
-        Flush();
+        reinterpret_cast<::E06490Stack *>(this)->GrowBuffer();
 
     m_buf[m_cap - m_uiItemCount - 1] = a;
     m_uiItemCount++;
     if (m_uiItemCount >= m_cap)
-        Flush();
+        reinterpret_cast<::E06490Stack *>(this)->GrowBuffer();
 }
 
 struct FUN_00e06490_cls
 {
-    void __thiscall GrowBuffer();
 };
 
 struct FUN_00e06a60_cls
@@ -851,7 +824,7 @@ void __thiscall FUN_00e06a60_cls::FillWithPattern(int count)
         unk0c++;
         if (unk0c >= unk08)
         {
-            ((FUN_00e06490_cls*)this)->GrowBuffer();
+            reinterpret_cast<::E06490Stack *>((((FUN_00e06490_cls*)this)))->GrowBuffer();
         }
         n--;
     } while (n != 0);
@@ -938,7 +911,6 @@ struct Stream
     int unk0c;
     char* unk10;
 
-    void GrowBuffer();
 
     void AppendChar(char b)
     {
@@ -946,11 +918,10 @@ struct Stream
         unk0c++;
         if (unk0c >= unk08)
         {
-            GrowBuffer();
+            reinterpret_cast<::E06490Stack *>(this)->GrowBuffer();
         }
     }
 
-    void FUN_00e06800(int a, int b);
 };
 
 struct FUN_00e06c40_class
@@ -966,7 +937,7 @@ int __thiscall FUN_00e06c40_class::FUN_00e06c40(int a1, int a2)
 {
     m_stream->AppendChar((char)a2);
     m_stream->AppendChar((char)(a2 >> 8));
-    m_stream->FUN_00e06800(0xd, a1);
+    reinterpret_cast<::FUN_00e06800_cls *>((m_stream))->FUN_00e06800(0xd, a1);
     return 5;
 }
 
@@ -979,7 +950,6 @@ struct Sink
     int m_iCap;
     int m_iArrayLength;
     int m_iEnd;
-    void __thiscall Flush();
 };
 
 struct Pkt
@@ -1022,7 +992,7 @@ void __thiscall FUN_00e06cb0_cls::WritePacket(const Pkt* p)
         ((char*)s->m_iCap)[s->m_iEnd - s->m_iArrayLength - 1] = v;
         s->m_iArrayLength++;
         if (s->m_iArrayLength >= s->m_iCap)
-            s->Flush();
+            reinterpret_cast<::E06490Stack *>((s))->GrowBuffer();
     }
     {
         Sink* s = m_pSink;
@@ -1030,7 +1000,7 @@ void __thiscall FUN_00e06cb0_cls::WritePacket(const Pkt* p)
         ((char*)s->m_iCap)[s->m_iEnd - s->m_iArrayLength - 1] = v;
         s->m_iArrayLength++;
         if (s->m_iArrayLength >= s->m_iCap)
-            s->Flush();
+            reinterpret_cast<::E06490Stack *>((s))->GrowBuffer();
     }
     {
         Sink* s = m_pSink;
@@ -1038,7 +1008,7 @@ void __thiscall FUN_00e06cb0_cls::WritePacket(const Pkt* p)
         ((char*)s->m_iCap)[s->m_iEnd - s->m_iArrayLength - 1] = v;
         s->m_iArrayLength++;
         if (s->m_iArrayLength >= s->m_iCap)
-            s->Flush();
+            reinterpret_cast<::E06490Stack *>((s))->GrowBuffer();
     }
     {
         Sink* s = m_pSink;
@@ -1046,11 +1016,10 @@ void __thiscall FUN_00e06cb0_cls::WritePacket(const Pkt* p)
         ((char*)s->m_iCap)[s->m_iEnd - s->m_iArrayLength - 1] = v;
         s->m_iArrayLength++;
         if (s->m_iArrayLength >= s->m_iCap)
-            s->Flush();
+            reinterpret_cast<::E06490Stack *>((s))->GrowBuffer();
     }
 }
 
-extern char DAT_01000000;
 
 struct S_00e06e00_Item
 {
@@ -1064,10 +1033,6 @@ struct S_00e06e00_Buf
     int unk8;
     int unkC;
     int unk10;
-    void PutBytePair(int tag, unsigned int v);
-    void FUN_00e06800(int tag, unsigned int v);
-    void FUN_00e06880(int tag, unsigned int v);
-    void FUN_00e069a0(int tag, unsigned int v);
 };
 
 struct S_00e06e00_A0
@@ -1136,49 +1101,7 @@ struct S_00e06e00_Cls
     int unkC;
     S_00e06e00_Buf* unk10;
     int FUN_00e06e00(S_00e06e00_A0* a, S_00e06e00_A1* b, S_00e06e00_A2* c);
-    void WriteOp(int idx, S_00e06e00_Item* item);
 };
-
-// @fnv 0x00e06e00
-int S_00e06e00_Cls::FUN_00e06e00(S_00e06e00_A0* a, S_00e06e00_A1* b, S_00e06e00_A2* c)
-{
-    int start = unk10->unkC;
-    unsigned int v = *a->unk60 - c->unk34;
-    S_00e06e00_Buf* buf = unk10;
-    if (v < 0x20)
-    {
-        *(char*)(buf->unk10 - buf->unkC + buf->unk8 - 1) = (char)(v + 0x30);
-        buf->unkC++;
-        if (buf->unkC >= buf->unk8)
-        {
-            GrowBuffer();
-        }
-    }
-    else if (v < 0x100)
-    {
-        buf->PutBytePair(0x50, v);
-    }
-    else if (v < 0x10000)
-    {
-        buf->FUN_00e06800(0x51, v);
-    }
-    else if (v < (unsigned int)&DAT_01000000)
-    {
-        buf->FUN_00e06880(0x52, v);
-    }
-    else
-    {
-        buf->FUN_00e069a0(0x53, v);
-    }
-    for (int i = 0; i < a->unk2C; i++)
-    {
-        if (a->unk30[i] && b->unk44[i])
-        {
-            WriteOp(i, a->unk30[i]);
-        }
-    }
-    return unk10->unkC - start;
-}
 
 struct Vec3
 {
@@ -1187,7 +1110,6 @@ struct Vec3
     float z;
 };
 
-extern const double g_thresholdA;
 extern const double g_thresholdB;
 
 // Compares the x, y and z components of a Vec3 against g_thresholdA and g_thresholdB and returns a code from 0 to 12 identifying the region.
@@ -1195,13 +1117,13 @@ extern const double g_thresholdB;
 int __stdcall ClassifyVec3Region(const Vec3* pVec)
 {
     int r;
-    if ((double)pVec->x > g_thresholdA)
+    if ((double)pVec->x > ::DAT_0101ffa0)
     {
         r = 0;
-        if ((double)pVec->z > g_thresholdA)
+        if ((double)pVec->z > ::DAT_0101ffa0)
         {
             r = 5;
-            if ((double)pVec->y > g_thresholdA)
+            if ((double)pVec->y > ::DAT_0101ffa0)
             {
                 r = 9;
             }
@@ -1213,7 +1135,7 @@ int __stdcall ClassifyVec3Region(const Vec3* pVec)
         else if ((double)pVec->z < g_thresholdB)
         {
             r = 6;
-            if ((double)pVec->y > g_thresholdA)
+            if ((double)pVec->y > ::DAT_0101ffa0)
             {
                 r = 10;
             }
@@ -1224,7 +1146,7 @@ int __stdcall ClassifyVec3Region(const Vec3* pVec)
         }
         else
         {
-            if ((double)pVec->y > g_thresholdA)
+            if ((double)pVec->y > ::DAT_0101ffa0)
             {
                 r = 7;
             }
@@ -1236,10 +1158,10 @@ int __stdcall ClassifyVec3Region(const Vec3* pVec)
     }
     else
     {
-        if ((double)pVec->y > g_thresholdA)
+        if ((double)pVec->y > ::DAT_0101ffa0)
         {
             r = 1;
-            if ((double)pVec->z > g_thresholdA)
+            if ((double)pVec->z > ::DAT_0101ffa0)
             {
                 r = 3;
             }
@@ -1278,12 +1200,11 @@ struct S_00e07070_Result
     int q[3];
 };
 
-extern "C" int __stdcall FUN_00e07040(S_00e07070_Object* a, S_00e07070_Object* b);
 
 // @fnv 0x00e07070
 void __stdcall FUN_00e07070(S_00e07070_Object* a, S_00e07070_Object* b, S_00e07070_Result* out)
 {
-    int n = FUN_00e07040(a, b);
+    int n = ::FUN_00e07040((::S_00e07040_A *)(a), (::S_00e07040_B *)(b));
     out->ok = 0;
     if (n > 0)
     {
@@ -1327,13 +1248,12 @@ struct S_00e07680_Writer
     int m_pos;
     unsigned char* m_buf;
     void AppendChar(int b);
-    void GrowBuffer();
     __forceinline void put(unsigned char b)
     {
         m_buf[m_cap - m_pos - 1] = b;
         m_pos++;
         if (m_pos >= m_cap)
-            GrowBuffer();
+            reinterpret_cast<::E06490Stack *>(this)->GrowBuffer();
     }
 };
 struct S_00e07680
@@ -1343,54 +1263,8 @@ struct S_00e07680
     int unk8;
     int unkc;
     S_00e07680_Writer* w;
-    void WriteOffsetDelta(int);
     void FUN_00e07680(int a1, int a2, int a3, int a4, int a5);
 };
-
-// @fnv 0x00e07680
-void S_00e07680::FUN_00e07680(int a1, int a2, int a3, int a4, int a5)
-{
-    int e = w->m_pos;
-    int d = e - a5;
-    if (a3 < 3)
-    {
-        e -= a4;
-        if ((e > 0 || d > 0xf8) && e < 0x10000 && d < 0x10000)
-        {
-            w->AppendChar(d & 0xff);
-            w->AppendChar((d >> 8) & 0xff);
-            w->AppendChar(e & 0xff);
-            w->AppendChar((e >> 8) & 0xff);
-            w->AppendChar(a1);
-            w->AppendChar(a2);
-            w->AppendChar(a3 + 0x23);
-            return;
-        }
-        if (a2 - a1 == 1)
-        {
-            if (d > 0xfb)
-            {
-                WriteOffsetDelta(a5);
-                a5 = w->m_pos;
-            }
-            WriteOffsetDelta(a4);
-            w->put(w->m_pos - a5);
-            w->put(a1);
-            w->put(a3 + 0x20);
-            return;
-        }
-    }
-    if (d > 0xfb)
-    {
-        WriteOffsetDelta(a5);
-        a5 = w->m_pos;
-    }
-    WriteOffsetDelta(a4);
-    w->put(w->m_pos - a5);
-    w->put(a1);
-    w->put(a2);
-    w->put(a3 + 0x10);
-}
 
 struct Entry
 {
@@ -1429,39 +1303,8 @@ struct Handler
 {
     int unk00, unk04, unk08, unk0c;
     Entry* unk10;
-    void __thiscall FUN_00e06b20(Entry*);
-    int __thiscall ClassifyVec3Region(int);
-    void __thiscall FUN_00e07880(Entry*, Entry*, Entry**, Entry**);
-    void __thiscall FUN_00e07680(Entry*, Entry*, int, int, int);
-    void __thiscall WriteSize(int);
-    void __thiscall FUN_00e06db0(Entry*, Entry*, Entry*);
-    void __thiscall FUN_00e07550(Entry*, Entry*);
-    void __thiscall WritePacket(char*);
     int __thiscall FUN_00e07ca0(Entry*, Entry*, Entry*, char*);
 };
-// @fnv 0x00e07ca0
-int __thiscall Handler::FUN_00e07ca0(Entry* first, Entry* second, Entry* third, char* flag)
-{
-    Entry* originalFirst = first;
-    FUN_00e06b20(originalFirst);
-    int previous = unk10->unk0c;
-    int value = ClassifyVec3Region(originalFirst->unk60);
-    Entry* originalThird = third;
-    FUN_00e07880(originalFirst, originalThird, &first, &third);
-    FUN_00e07680(third, first, value, originalFirst->unk70->unk5c, originalFirst->unk74->unk5c);
-    int difference = originalThird->unk34 - second->unk34;
-    if (difference != 0)
-        WriteSize(difference);
-    FUN_00e06db0(originalFirst, second, originalThird);
-    FUN_00e07550(originalFirst, originalThird);
-    if (*flag)
-        WritePacket(flag);
-    originalFirst->unk5c = unk10->unk0c;
-    originalFirst->unk38 = 1;
-    return unk10->unk0c - previous;
-}
-
-extern int __cdecl FUN_00cbfef0(float f);
 
 struct S_00e07da0_Bounds
 {
@@ -1483,7 +1326,6 @@ struct S_00e07da0_Bounds
     int unk40[1];
     int unk44[1];
 
-    void AlignRanges();
 };
 
 struct S_00e07da0_Region : S_00e07da0_Bounds
@@ -1491,8 +1333,6 @@ struct S_00e07da0_Region : S_00e07da0_Bounds
     int lo48[3];
     int hi54[3];
 
-    void BuildScaledRanges(struct S_00e07da0_Node* node, void* p);
-    void FUN_00e09540();
 };
 
 struct S_00e07da0_Result
@@ -1568,122 +1408,7 @@ struct S_00e07da0_Tree
     float unk54;
 
     void BuildRegion(S_00e07da0_Node* node, S_00e07da0_Region* parent, S_00e07da0_Region* region);
-    void ComputeNodeBounds(S_00e07da0_Node* node, S_00e07da0_Region* region);
-    void FUN_00e07070(S_00e07da0_Region* parent, S_00e07da0_Region* region, S_00e07da0_Result* out);
-    int ClassifyVec3Region(void* p);
-    void FUN_00e07880(S_00e07da0_Node* node, S_00e07da0_Region* region, int* lo, int* hi);
 };
-
-// Recursively builds a region for node from parent and region, merging child bounds and states into node->info.
-// @fnv 0x00e07da0
-void S_00e07da0_Tree::BuildRegion(S_00e07da0_Node* node, S_00e07da0_Region* parent, S_00e07da0_Region* region)
-{
-    S_00e07da0_Info* info = &node->info;
-    if (info->b0 != 0)
-        return;
-
-    if (node->b4 != 0)
-    {
-        region->AlignRanges();
-        ComputeNodeBounds(node, region);
-        return;
-    }
-
-    S_00e07da0_Result out;
-    if (info->b2 == 1)
-        FUN_00e07070(parent, region, &out);
-    region->AlignRanges();
-    int axis = ClassifyVec3Region(node->unk60);
-    {
-        int lo, hi;
-        FUN_00e07880(node, region, &lo, &hi);
-    }
-
-    S_00e07da0_Node* first = node->child74;
-    S_00e07da0_Node* apChildren[2];
-    apChildren[0] = first;
-    apChildren[1] = node->child70;
-
-    for (int k = 0; k < 3; k++)
-    {
-        float sc = unk3C;
-        float* ps = &sc;
-        FUN_00cbfef0(unk54 * *ps);
-        info->mins[k] = 0;
-        info->maxs[k] = 0x7fffffff;
-    }
-
-    for (int i = 0; i < 2; i++)
-    {
-        S_00e07da0_Node* child = apChildren[i];
-        S_00e07da0_Info* pChildInfo = &child->info;
-        if (child == 0)
-            continue;
-
-        S_00e07da0_Region childRegion;
-        static_cast<S_00e07da0_Bounds&>(childRegion) = *region;
-        childRegion.unk38 = child->unk28 - child->unk24;
-        childRegion.unk3C = child->count2C;
-        for (int iIndex = 0; iIndex < child->count2C; iIndex++)
-        {
-            childRegion.unk40[iIndex] = child->offsets[iIndex];
-            childRegion.unk44[iIndex] = child->offsets[iIndex + 1] - child->offsets[iIndex];
-        }
-        childRegion.BuildScaledRanges(child, &unk30);
-        childRegion.unk0 = region->unk0 + 1;
-        childRegion.b4 = 0;
-        childRegion.FUN_00e09540();
-        BuildRegion(child, region, &childRegion);
-
-        if (child == first)
-        {
-            if (axis <= 2)
-                child->info.mins[axis] = 0;
-        }
-        else
-        {
-            if (axis <= 2)
-                child->info.maxs[axis] = 0x7fffffff;
-        }
-
-        for (int iIndex = 0; iIndex < 3; iIndex++)
-        {
-            int s = pChildInfo->state[iIndex];
-            if (s == 1)
-            {
-                if (pChildInfo->mins[iIndex] <= region->lo48[iIndex] &&
-                    pChildInfo->maxs[iIndex] >= region->hi54[iIndex])
-                {
-                    int t = info->state[iIndex];
-                    info->state[iIndex] = t < 1 ? 1 : t;
-                    pChildInfo->state[iIndex] = 0;
-                }
-            }
-            else if (s == 2)
-            {
-                if (pChildInfo->mins[iIndex] <= region->ranges[iIndex].lo &&
-                    pChildInfo->maxs[iIndex] >= region->ranges[iIndex].hi)
-                {
-                    info->state[iIndex] = 2;
-                    pChildInfo->state[iIndex] = 0;
-                }
-            }
-            if (pChildInfo->state[iIndex] == 0)
-            {
-                {
-                    int c = pChildInfo->mins[iIndex];
-                    int n = info->mins[iIndex];
-                    info->mins[iIndex] = n > c ? n : c;
-                }
-                {
-                    int c = pChildInfo->maxs[iIndex];
-                    int n = info->maxs[iIndex];
-                    info->maxs[iIndex] = n < c ? n : c;
-                }
-            }
-        }
-    }
-}
 
 struct AudioAllocator
 {
@@ -1706,7 +1431,6 @@ struct AudioHolder
 struct BSAudio;
 
 extern int DAT_010ea5dc;
-extern int DAT_0102e388;
 
 struct FUN_00e09450_cls
 {
@@ -1732,6 +1456,17 @@ struct FUN_00e09450_cls
 
     void DestroyAudioBuffer();
 };
+// @fnv 0x00e09640
+FUN_00e09640_class* __thiscall FUN_00e09640_class::FUN_00e09640(int flags)
+{
+    reinterpret_cast<::FUN_00e09450_cls *>(this)->DestroyAudioBuffer();
+    if (flags & 1)
+    {
+        Router* router = FUN_00c85750();
+        router->allocator->ReleaseBlock(this, unk04);
+    }
+    return this;
+}
 
 // @fnv 0x00e09450
 void FUN_00e09450_cls::DestroyAudioBuffer()
@@ -1747,7 +1482,7 @@ void FUN_00e09450_cls::DestroyAudioBuffer()
     }
     m_pData = 0;
     m_uCapBits = 0x80000000u;
-    m_vptr00 = (int)&DAT_0102e388;
+    m_vptr00 = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 int __cdecl FUN_00cbfe20(float v);
@@ -1887,20 +1622,17 @@ class FUN_00e095d0_cls
     unsigned int unk44;
 
     FUN_00e095d0_cls* __thiscall FUN_00e095d0(FUN_00e095d0_cls* src, unsigned int a2, unsigned int a3);
-    void __thiscall CopyOffsets(unsigned int a);
-    void __thiscall BuildScaledRanges(unsigned int a, unsigned int b);
-    void __thiscall FUN_00e09540();
 };
 
 // @fnv 0x00e095d0
 FUN_00e095d0_cls* FUN_00e095d0_cls::FUN_00e095d0(FUN_00e095d0_cls* pSource, unsigned int a2, unsigned int a3)
 {
     *this = *pSource;
-    CopyOffsets(a2);
-    BuildScaledRanges(a2, a3);
+    reinterpret_cast<::S_00e066f0 *>(this)->CopyOffsets((const ::S_00e066f0_Src *)(a2));
+    reinterpret_cast<::FUN_00e094a0_cls *>(this)->BuildScaledRanges((::FUN_00e094a0_floatset *)(a2), (float *)(a3));
     m_00 = pSource->m_00 + 1;
     m_04 = 0;
-    FUN_00e09540();
+    reinterpret_cast<::FUN_00e09540_Self *>(this)->FUN_00e09540();
     return this;
 }
 
@@ -1909,9 +1641,6 @@ FUN_00e095d0_cls* FUN_00e095d0_cls::FUN_00e095d0(FUN_00e095d0_cls* pSource, unsi
 class E6BC0Writer
 {
   public:
-    void WriteByteOp(int iOpcode, int iValue);
-    void WriteShortOp(int iOpcode, int iValue);
-    void WriteIntOp(int iOpcode, int iValue);
 };
 
 class E6BC0Encoder
@@ -1925,6 +1654,46 @@ class E6BC0Encoder
 
     void WriteOp(int iOpcode, int iValue);
 };
+// @fnv 0x00e06e00
+int S_00e06e00_Cls::FUN_00e06e00(S_00e06e00_A0* a, S_00e06e00_A1* b, S_00e06e00_A2* c)
+{
+    int start = unk10->unkC;
+    unsigned int v = *a->unk60 - c->unk34;
+    S_00e06e00_Buf* buf = unk10;
+    if (v < 0x20)
+    {
+        *(char*)(buf->unk10 - buf->unkC + buf->unk8 - 1) = (char)(v + 0x30);
+        buf->unkC++;
+        if (buf->unkC >= buf->unk8)
+        {
+            static_cast<::E06490Stack *>(nullptr)->GrowBuffer();
+        }
+    }
+    else if (v < 0x100)
+    {
+        reinterpret_cast<::ByteSink *>((buf))->PutBytePair(0x50, v);
+    }
+    else if (v < 0x10000)
+    {
+        reinterpret_cast<::FUN_00e06800_cls *>((buf))->FUN_00e06800(0x51, v);
+    }
+    else if (v < (unsigned int)&(*reinterpret_cast<char *>(&::DAT_01000000)))
+    {
+        reinterpret_cast<::FUN_00e06880_cls *>((buf))->FUN_00e06880(0x52, v);
+    }
+    else
+    {
+        reinterpret_cast<::FUN_00e069a0_cls *>((buf))->FUN_00e069a0(0x53, v);
+    }
+    for (int i = 0; i < a->unk2C; i++)
+    {
+        if (a->unk30[i] && b->unk44[i])
+        {
+            reinterpret_cast<::E6BC0Encoder *>(this)->WriteOp(i, (int)(a->unk30[i]));
+        }
+    }
+    return unk10->unkC - start;
+}
 
 // Writes iValue to the writer using a byte, short or int opcode chosen by the value's magnitude, offset from iOpcode.
 // @fnv 0x00e06bc0
@@ -1932,13 +1701,13 @@ void E6BC0Encoder::WriteOp(int iBaseOpcode, int iValue)
 {
     E6BC0Writer* pkWriter = m_pkWriter;
     if (iValue < 0)
-        pkWriter->WriteIntOp(iBaseOpcode + 0x68, iValue);
+        reinterpret_cast<::FUN_00e069a0_cls *>((pkWriter))->FUN_00e069a0(iBaseOpcode + 0x68, iValue);
     else if (iValue < 0x100)
-        pkWriter->WriteByteOp(iBaseOpcode + 0x60, iValue);
+        reinterpret_cast<::ByteSink *>((pkWriter))->PutBytePair(iBaseOpcode + 0x60, iValue);
     else if (iValue < 0x10000)
-        pkWriter->WriteShortOp(iBaseOpcode + 0x64, iValue);
+        reinterpret_cast<::FUN_00e06800_cls *>((pkWriter))->FUN_00e06800(iBaseOpcode + 0x64, iValue);
     else
-        pkWriter->WriteIntOp(iBaseOpcode + 0x68, iValue);
+        reinterpret_cast<::FUN_00e069a0_cls *>((pkWriter))->FUN_00e069a0(iBaseOpcode + 0x68, iValue);
 }
 
 struct FUN_00e06ed0_Class
@@ -1950,6 +1719,50 @@ struct FUN_00e06ed0_Class
     S_00e06e00_Buf* m_pStreamWriter;
     void WriteOffsetDelta(int iTarget);
 };
+// @fnv 0x00e07680
+void S_00e07680::FUN_00e07680(int a1, int a2, int a3, int a4, int a5)
+{
+    int e = w->m_pos;
+    int d = e - a5;
+    if (a3 < 3)
+    {
+        e -= a4;
+        if ((e > 0 || d > 0xf8) && e < 0x10000 && d < 0x10000)
+        {
+            reinterpret_cast<::FUN_00e06780_class *>((w))->AppendChar(d & 0xff);
+            reinterpret_cast<::FUN_00e06780_class *>((w))->AppendChar((d >> 8) & 0xff);
+            reinterpret_cast<::FUN_00e06780_class *>((w))->AppendChar(e & 0xff);
+            reinterpret_cast<::FUN_00e06780_class *>((w))->AppendChar((e >> 8) & 0xff);
+            reinterpret_cast<::FUN_00e06780_class *>((w))->AppendChar(a1);
+            reinterpret_cast<::FUN_00e06780_class *>((w))->AppendChar(a2);
+            reinterpret_cast<::FUN_00e06780_class *>((w))->AppendChar(a3 + 0x23);
+            return;
+        }
+        if (a2 - a1 == 1)
+        {
+            if (d > 0xfb)
+            {
+                reinterpret_cast<::FUN_00e06ed0_Class *>(this)->WriteOffsetDelta(a5);
+                a5 = w->m_pos;
+            }
+            reinterpret_cast<::FUN_00e06ed0_Class *>(this)->WriteOffsetDelta(a4);
+            w->put(w->m_pos - a5);
+            w->put(a1);
+            w->put(a3 + 0x20);
+            return;
+        }
+    }
+    if (d > 0xfb)
+    {
+        reinterpret_cast<::FUN_00e06ed0_Class *>(this)->WriteOffsetDelta(a5);
+        a5 = w->m_pos;
+    }
+    reinterpret_cast<::FUN_00e06ed0_Class *>(this)->WriteOffsetDelta(a4);
+    w->put(w->m_pos - a5);
+    w->put(a1);
+    w->put(a2);
+    w->put(a3 + 0x10);
+}
 
 // Computes the difference between the buffer's field at offset 12 and iTarget, then writes it with a width code (5-8) chosen by its magnitude if positive.
 // @fnv 0x00e06ed0
@@ -1959,17 +1772,16 @@ void FUN_00e06ed0_Class::WriteOffsetDelta(int iTargetValue)
     if (iOffset > 0)
     {
         if (iOffset < 0xff)
-            m_pStreamWriter->PutBytePair(5, iOffset);
+            reinterpret_cast<::ByteSink *>((m_pStreamWriter))->PutBytePair(5, iOffset);
         else if (iOffset < 0xffff)
-            m_pStreamWriter->FUN_00e06800(6, iOffset);
+            reinterpret_cast<::FUN_00e06800_cls *>((m_pStreamWriter))->FUN_00e06800(6, iOffset);
         else if (iOffset < 0xffffff)
-            m_pStreamWriter->FUN_00e06880(7, iOffset);
+            reinterpret_cast<::FUN_00e06880_cls *>((m_pStreamWriter))->FUN_00e06880(7, iOffset);
         else
-            m_pStreamWriter->FUN_00e069a0(8, iOffset);
+            reinterpret_cast<::FUN_00e069a0_cls *>((m_pStreamWriter))->FUN_00e069a0(8, iOffset);
     }
 }
 
-extern int __cdecl FUN_00cbfef0(float f);
 
 struct Node07400
 {
@@ -2026,6 +1838,116 @@ struct Tree07400
 
     void ComputeNodeBounds(Node07400* node, Region07400* region);
 };
+// Recursively builds a region for node from parent and region, merging child bounds and states into node->info.
+// @fnv 0x00e07da0
+void S_00e07da0_Tree::BuildRegion(S_00e07da0_Node* node, S_00e07da0_Region* parent, S_00e07da0_Region* region)
+{
+    S_00e07da0_Info* info = &node->info;
+    if (info->b0 != 0)
+        return;
+
+    if (node->b4 != 0)
+    {
+        reinterpret_cast<::FUN_00e06730_cls *>((region))->AlignRanges();
+        reinterpret_cast<::Tree07400 *>(this)->ComputeNodeBounds((::Node07400 *)(node), (::Region07400 *)(region));
+        return;
+    }
+
+    S_00e07da0_Result out;
+    if (info->b2 == 1)
+        ::FUN_00e07070((::S_00e07070_Object *)this, (::S_00e07070_Object *)(parent), (::S_00e07070_Result *)(region));
+    reinterpret_cast<::FUN_00e06730_cls *>((region))->AlignRanges();
+    int axis = ::ClassifyVec3Region((const ::Vec3 *)this);
+    {
+        int lo, hi;
+        reinterpret_cast<::KdQuantizer *>(this)->FUN_00e07880((const ::QuantNode *)(node), (const ::KdRegion *)(region), &lo, &hi);
+    }
+
+    S_00e07da0_Node* first = node->child74;
+    S_00e07da0_Node* apChildren[2];
+    apChildren[0] = first;
+    apChildren[1] = node->child70;
+
+    for (int k = 0; k < 3; k++)
+    {
+        float sc = unk3C;
+        float* ps = &sc;
+        FUN_00cbfef0(unk54 * *ps);
+        info->mins[k] = 0;
+        info->maxs[k] = 0x7fffffff;
+    }
+
+    for (int i = 0; i < 2; i++)
+    {
+        S_00e07da0_Node* child = apChildren[i];
+        S_00e07da0_Info* pChildInfo = &child->info;
+        if (child == 0)
+            continue;
+
+        S_00e07da0_Region childRegion;
+        static_cast<S_00e07da0_Bounds&>(childRegion) = *region;
+        childRegion.unk38 = child->unk28 - child->unk24;
+        childRegion.unk3C = child->count2C;
+        for (int iIndex = 0; iIndex < child->count2C; iIndex++)
+        {
+            childRegion.unk40[iIndex] = child->offsets[iIndex];
+            childRegion.unk44[iIndex] = child->offsets[iIndex + 1] - child->offsets[iIndex];
+        }
+        reinterpret_cast<::FUN_00e094a0_cls *>(&(childRegion))->BuildScaledRanges((::FUN_00e094a0_floatset *)(child), (float *)(void *)(&unk30));
+        childRegion.unk0 = region->unk0 + 1;
+        childRegion.b4 = 0;
+        reinterpret_cast<::FUN_00e09540_Self *>(&(childRegion))->FUN_00e09540();
+        BuildRegion(child, region, &childRegion);
+
+        if (child == first)
+        {
+            if (axis <= 2)
+                child->info.mins[axis] = 0;
+        }
+        else
+        {
+            if (axis <= 2)
+                child->info.maxs[axis] = 0x7fffffff;
+        }
+
+        for (int iIndex = 0; iIndex < 3; iIndex++)
+        {
+            int s = pChildInfo->state[iIndex];
+            if (s == 1)
+            {
+                if (pChildInfo->mins[iIndex] <= region->lo48[iIndex] &&
+                    pChildInfo->maxs[iIndex] >= region->hi54[iIndex])
+                {
+                    int t = info->state[iIndex];
+                    info->state[iIndex] = t < 1 ? 1 : t;
+                    pChildInfo->state[iIndex] = 0;
+                }
+            }
+            else if (s == 2)
+            {
+                if (pChildInfo->mins[iIndex] <= region->ranges[iIndex].lo &&
+                    pChildInfo->maxs[iIndex] >= region->ranges[iIndex].hi)
+                {
+                    info->state[iIndex] = 2;
+                    pChildInfo->state[iIndex] = 0;
+                }
+            }
+            if (pChildInfo->state[iIndex] == 0)
+            {
+                {
+                    int c = pChildInfo->mins[iIndex];
+                    int n = info->mins[iIndex];
+                    info->mins[iIndex] = n > c ? n : c;
+                }
+                {
+                    int c = pChildInfo->maxs[iIndex];
+                    int n = info->maxs[iIndex];
+                    info->maxs[iIndex] = n < c ? n : c;
+                }
+            }
+        }
+    }
+}
 
 // @fnv 0x00e07400
 void Tree07400::ComputeNodeBounds(Node07400* node, Region07400* region)
@@ -2075,8 +1997,6 @@ struct BufWriter
     int m_08;
     int m_0c;
     int m_10;
-    void __thiscall Flush();
-    void __thiscall WriteInt24(int v);
 };
 
 inline void EmitByte(BufWriter* w, unsigned char v)
@@ -2085,7 +2005,7 @@ inline void EmitByte(BufWriter* w, unsigned char v)
     w->m_0c++;
     if (w->m_0c >= w->m_08)
     {
-        w->Flush();
+        reinterpret_cast<::E06490Stack *>((w))->GrowBuffer();
     }
 }
 
@@ -2098,6 +2018,40 @@ struct FUN_00e07550_cls
     BufWriter* m_10;
     void __thiscall FUN_00e07550(Arg1Flags* a1, Arg2Layout* a2);
 };
+// @fnv 0x00e07c50
+int S_e07c50::FUN_00e07c50(S_e07c50_Item* item, int b, int c)
+{
+    ::FUN_00e06b20((::Node *)this);
+    m_uiItemCount++;
+    int start = m_buf->m_iElementCount;
+    reinterpret_cast<::S_00e06e00_Cls *>(this)->FUN_00e06e00((::S_00e06e00_A0 *)(item), (::S_00e06e00_A1 *)(b), (::S_00e06e00_A2 *)(c));
+    reinterpret_cast<::FUN_00e07550_cls *>(this)->FUN_00e07550((::Arg1Flags *)(item), (::Arg2Layout *)(c));
+    item->m_kRayEnd = m_buf->m_iElementCount;
+    int r = m_buf->m_iElementCount - start;
+    item->m_flag38 = 1;
+    return r;
+}
+// @fnv 0x00e07ca0
+int __thiscall Handler::FUN_00e07ca0(Entry* first, Entry* second, Entry* third, char* flag)
+{
+    Entry* originalFirst = first;
+    ::FUN_00e06b20((::Node *)this);
+    int previous = unk10->unk0c;
+    int value = ::ClassifyVec3Region((const ::Vec3 *)this);
+    Entry* originalThird = third;
+    reinterpret_cast<::KdQuantizer *>(this)->FUN_00e07880((const ::QuantNode *)(originalFirst), (const ::KdRegion *)(originalThird), (int *)(::Entry **)(&first), (int *)(::Entry **)(&third));
+    reinterpret_cast<::S_00e07680 *>(this)->FUN_00e07680((int)(third), (int)(first), value, originalFirst->unk70->unk5c, originalFirst->unk74->unk5c);
+    int difference = originalThird->unk34 - second->unk34;
+    if (difference != 0)
+        reinterpret_cast<::FUN_00e06d70_Class *>(this)->WriteSize(difference);
+    reinterpret_cast<::fnv_00e06db0::FUN_00e06db0_class *>(this)->FUN_00e06db0((int *)(originalFirst), (::fnv_00e06db0::Node *)(second), (::fnv_00e06db0::Node *)(originalThird));
+    reinterpret_cast<::FUN_00e07550_cls *>(this)->FUN_00e07550((::Arg1Flags *)(originalFirst), (::Arg2Layout *)(originalThird));
+    if (*flag)
+        reinterpret_cast<::FUN_00e06cb0_cls *>(this)->WritePacket((const ::Pkt *)(flag));
+    originalFirst->unk5c = unk10->unk0c;
+    originalFirst->unk38 = 1;
+    return unk10->unk0c - previous;
+}
 
 // @fnv 0x00e07550
 void FUN_00e07550_cls::FUN_00e07550(Arg1Flags* apFlags, Arg2Layout* apLayout)
@@ -2121,8 +2075,8 @@ void FUN_00e07550_cls::FUN_00e07550(Arg1Flags* apFlags, Arg2Layout* apLayout)
         {
             int hi = pHighValue[0];
             int lo = pHighValue[-1];
-            m_10->WriteInt24(hi + 1);
-            m_10->WriteInt24(lo);
+            reinterpret_cast<::BufferWriter *>((m_10))->WriteInt24(hi + 1);
+            reinterpret_cast<::BufferWriter *>((m_10))->WriteInt24(lo);
             EmitByte(m_10, (unsigned char)(i + 0x29));
         }
         pHighValue += 2;
@@ -2159,9 +2113,6 @@ struct KdCtx
     int unk40;
     int unk44;
 
-    void __thiscall CopyOffsets(KdNode* k);
-    void __thiscall BuildScaledRanges(KdNode* k, float* p);
-    void __thiscall FUN_00e09540();
 };
 
 struct KdNode
@@ -2227,8 +2178,6 @@ struct MyTree
     int unk5c;
     float f60[3];
 
-    int __thiscall FUN_00e07040(KdCtx* a, KdCtx* c);
-    void __thiscall FUN_00e07070(KdCtx* a, KdCtx* c, S_00e07070_Result* o);
     int __thiscall Recurse(KdNode* n, KdCtx* a, KdCtx* c);
 };
 
@@ -2276,14 +2225,14 @@ int __thiscall MyTree::Recurse(KdNode* apNode, KdCtx* a, KdCtx* c)
         int v = k + 6;
         return v > lo ? v : lo;
     }
-    if (!apNode->a && c->level < lim && FUN_00e07040(a, c) > 2)
+    if (!apNode->a && c->level < lim && ::FUN_00e07040((::S_00e07040_A *)this, (::S_00e07040_B *)(a)) > 2)
     {
         apNode->bb = 1;
     }
     S_00e07070_Result buf;
     if (apNode->bb == 1)
     {
-        FUN_00e07070(a, c, &buf);
+        ::FUN_00e07070((::S_00e07070_Object *)this, (::S_00e07070_Object *)(a), (::S_00e07070_Result *)(c));
     }
     long r[2] = {-1, -1};
     long t = 0x7fffffff;
@@ -2294,11 +2243,11 @@ int __thiscall MyTree::Recurse(KdNode* apNode, KdCtx* a, KdCtx* c)
         if (k)
         {
             KdCtx stCtx = *c;
-            stCtx.CopyOffsets(k);
-            stCtx.BuildScaledRanges(k, reinterpret_cast<float*>(&unk30));
+            reinterpret_cast<::S_00e066f0 *>(&(stCtx))->CopyOffsets((const ::S_00e066f0_Src *)(k));
+            reinterpret_cast<::FUN_00e094a0_cls *>(&(stCtx))->BuildScaledRanges((::FUN_00e094a0_floatset *)(k), reinterpret_cast<float*>(&unk30));
             stCtx.level = c->level + 1;
             stCtx.flag = 0;
-            stCtx.FUN_00e09540();
+            reinterpret_cast<::FUN_00e09540_Self *>(&(stCtx))->FUN_00e09540();
             r[i] = Recurse(k, c, &stCtx);
             if (t >= stCtx.shift)
                 t = stCtx.shift;
@@ -2342,7 +2291,6 @@ int __thiscall MyTree::Recurse(KdNode* apNode, KdCtx* a, KdCtx* c)
 }
 
 #include <xmmintrin.h>
-extern double _gModifierZero;
 struct FUN_00e07b90_bounds
 {
     float unk00, unk04, unk08, minimumX, maximumX, minimumY, maximumY, minimumZ, maximumZ;
@@ -2359,7 +2307,7 @@ void __stdcall FUN_00e07b90(const FUN_00e07b90_bounds* bounds, FUN_00e07b90_vect
     _mm_store_ps(&result->x, minCorner);
     float fLargestExtent = 0.0f;
     float extent = bounds->maximumX - bounds->minimumX;
-    if (!(extent < _gModifierZero))
+    if (!(extent < ::_DAT_01012060))
         fLargestExtent = extent;
     extent = bounds->maximumY - bounds->minimumY;
     if (!(fLargestExtent > extent))
@@ -2449,7 +2397,6 @@ struct SrcW
 };
 }
 
-void __cdecl ResizeAudioStream(e083::Alloc* a, void* arr, int elemSize);
 
 // Copies all pairs from srcp to dst, adding delta to each pair's a field, growing dst when full.
 // @fnv 0x00e08320
@@ -2461,7 +2408,7 @@ static __declspec(noinline) void FUN_00e08320(e083::PairArray* srcp, e083::PairA
     {
         e083::Router* h = (e083::Router*)FUN_00c85750();
         if (dst->m_iElementCount == (dst->m_iCapacityState & 0x3fffffff))
-            ResizeAudioStream(h->unk10, dst, 8);
+            ::ResizeAudioStream((::AudioAllocator *)(h->unk10), (::AudioStream *)(dst), 8);
         int n = dst->m_iElementCount;
         e083::Pair* out = dst->m_data + n;
         dst->m_iElementCount = n + 1;
@@ -2483,7 +2430,6 @@ struct BvAllocator
     virtual void vc();
     virtual void ReleaseBlock(void*, int);
 };
-void __cdecl ResizeAudioStream(void*, void*, int);
 inline BvAllocator& GetHeap()
 {
     return *(BvAllocator*)FUN_00c85750()->allocator;
@@ -2527,7 +2473,7 @@ template <class T> struct BvArray
     void AddBack(Router& router, const T& t)
     {
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(router.allocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router.allocator), (::AudioStream *)(void *)(this), sizeof(T));
         T* p = m_data + m_iElementCount;
         for (int i = 0; i < 1; i++)
             p[i] = t;
@@ -2550,16 +2496,15 @@ struct FUN_00e065f0
     unsigned char* m_data;
     BvArray<BvFixup> m_buffer;
 
-    void FillWithPattern(int);
-    void FUN_00e06480();
     FUN_00e065f0(unsigned int id) throw();
-    void Destroy();
     void* operator new(unsigned int n)
     {
         FUN_00e065f0* p = static_cast<FUN_00e065f0*>(GetBvRouter()->allocator->AllocateMemoryBlock(n));
         p->m_usMemSizeAndFlags = (unsigned short)n;
         return p;
     }
+public:
+    FUN_00e065f0(int);
 };
 
 struct WriterEntry
@@ -2640,15 +2585,13 @@ struct BvRange
     int unk10;
 };
 
-void __stdcall FUN_00e07c50(struct BvNode* node, FUN_00e095d0_cls* parent, FUN_00e095d0_cls* stack);
-void* __cdecl FUN_00cb1260(void*, const void*, int);
 static void FUN_00e08320(BvArray<BvFixup>* destination, BvArray<BvFixup>* source, int adjustment)
 {
     for (int i = 0; i < source->m_iElementCount; ++i)
     {
         BvAllocator& heap = GetHeap();
         if (destination->m_iElementCount == destination->getCapacity())
-            ResizeAudioStream(&heap, destination, sizeof(BvFixup));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&heap), (::AudioStream *)(destination), sizeof(BvFixup));
         BvFixup* out = destination->m_data + destination->m_iElementCount;
         ++destination->m_iElementCount;
         out->value = source->m_data[i].value;
@@ -2663,21 +2606,21 @@ static int FUN_00e08380(BvTree* tree, FUN_00e065f0* source, BvArray<int>* refs, 
     if (refs->m_iElementCount)
     {
         int bytes = tree->m_converter->ConvertReferences(refs->m_data, refs->m_iElementCount);
-        destination->FillWithPattern(bytes);
+        reinterpret_cast<::FUN_00e06a60_cls *>((destination))->FillWithPattern(bytes);
         Router* router = FUN_00c85750();
         unsigned char* temporary = static_cast<unsigned char*>(router->unk00);
         router->unk00 = temporary + ((bytes + 127) & ~127);
         tree->m_converter->writeBuffer(refs->m_data, refs->m_iElementCount, temporary);
-        FUN_00cb1260(destination->m_data + destination->m_pRayCursor - destination->m_offset, temporary, bytes);
+        ::FUN_00cb1260(destination->m_data + destination->m_pRayCursor - destination->m_offset, temporary, bytes);
         FUN_00c85750()->unk00 = temporary;
     }
     int before = destination->m_offset;
-    destination->FillWithPattern(source->m_offset + padding);
-    FUN_00cb1260(destination->m_data + destination->m_pRayCursor - destination->m_offset,
+    reinterpret_cast<::FUN_00e06a60_cls *>((destination))->FillWithPattern(source->m_offset + padding);
+    ::FUN_00cb1260(destination->m_data + destination->m_pRayCursor - destination->m_offset,
                  source->m_data + source->m_pRayCursor - source->m_offset, source->m_offset);
-    source->FUN_00e06480();
+    ::FUN_00e06480();
     FUN_00e08320(&destination->m_buffer, &source->m_buffer, destination->m_offset - source->m_offset);
-    destination->FUN_00e06480();
+    ::FUN_00e06480();
     return destination->m_offset - before;
 }
 
@@ -2697,10 +2640,7 @@ struct BvBuilder
     int unk2c;
     int m_info30;
 
-    void FUN_00e06c40(int offset, int count);
     void FUN_00e08470(BvNode* node);
-    void FUN_00e07510(BvNode* node, FUN_00e095d0_cls* parent, FUN_00e095d0_cls* stack, BvRange* range);
-    void FUN_00e07ca0(BvNode* node, FUN_00e095d0_cls* parent, FUN_00e095d0_cls* stack, BvRange* range);
     void FUN_00e08a60(BvNode* node, FUN_00e095d0_cls* parent, FUN_00e095d0_cls* stack, int depth, BvArray<int>* refs);
 };
 
@@ -2726,13 +2666,13 @@ void BvBuilder::FUN_00e08a60(BvNode* node, FUN_00e095d0_cls* parent, FUN_00e095d
             if (m_iValueAt40->m_converter != 0)
             {
                 int offset = m_pStreamWriter->m_offset + 5;
-                FUN_00e06c40(offset + ((-offset) & 3), subRefs.m_iElementCount);
+                reinterpret_cast<::FUN_00e06c40_class *>(this)->FUN_00e06c40(offset + ((-offset) & 3), subRefs.m_iElementCount);
             }
             entry.m_pStreamWriter = new FUN_00e065f0(entry.m_iOwnerObjectOffset);
             FUN_00e08380(m_iValueAt40, m_pStreamWriter, &subRefs, entry.m_pStreamWriter);
             m_pStreamWriter->m_buffer.clear();
             subRefs.ClearAndRelease(GetHeap());
-            writer.Destroy();
+            reinterpret_cast<::SomeClass *>(&(writer))->Destroy();
         }
         m_pStreamWriter = saved;
         FUN_00e08470(node);
@@ -2741,7 +2681,7 @@ void BvBuilder::FUN_00e08a60(BvNode* node, FUN_00e095d0_cls* parent, FUN_00e095d
 
     if (node->m_isLeaf)
     {
-        FUN_00e07c50(node, parent, stack);
+        reinterpret_cast<::S_e07c50 *>((node))->FUN_00e07c50((::S_e07c50_Item *)(parent), (int)(stack), {});
         const int& index = node->m_info->m_uiEdgeIndex;
         refs->AddBack(*FUN_00c85750(), index);
         return;
@@ -2752,14 +2692,14 @@ void BvBuilder::FUN_00e08a60(BvNode* node, FUN_00e095d0_cls* parent, FUN_00e095d
         FUN_00e095d0_cls child;
         range.m_valid = false;
         range.m_uiEdgeIndex = -1;
-        FUN_00e07510(node, parent, stack, &range);
+        reinterpret_cast<::E07510Solver *>(this)->FUN_00e07510((::E07510Input *)(node), parent, stack, &range);
         BvNode* right = node->m_fMaximumU;
         child.FUN_00e095d0(stack, (unsigned int)right, (unsigned int)&m_info30);
         FUN_00e08a60(right, stack, &child, depth, refs);
         BvNode* left = node->m_fMinimumU;
         child.FUN_00e095d0(stack, (unsigned int)left, (unsigned int)&m_info30);
         FUN_00e08a60(left, stack, &child, depth, refs);
-        FUN_00e07ca0(node, parent, stack, &range);
+        reinterpret_cast<::Handler *>(this)->FUN_00e07ca0((::Entry *)(node), (::Entry *)(parent), (::Entry *)(stack), (char *)(::BvRange *)(&range));
     }
 }
 
@@ -2790,7 +2730,6 @@ struct P154Memory
     static P154System* FUN_00c85750();
 };
 
-void __cdecl ResizeAudioStream(P154Allocator*, void*, int);
 struct P154Array
 {
     int* data;
@@ -2798,12 +2737,11 @@ struct P154Array
     unsigned capacity;
     P154Array() : data(0), count(0), capacity(0x80000000)
     {}
-    void Search(P154Allocator*, int, int*, int);
     void append(const int& v)
     {
         P154System* s = P154Memory::FUN_00c85750();
         if (count == int(capacity & 0x3fffffff))
-            ResizeAudioStream(s->allocator, this, 4);
+            ::ResizeAudioStream((::AudioAllocator *)(s->allocator), (::AudioStream *)(void *)(this), 4);
         constructCopy(data + count, 1, v);
         ++count;
     }
@@ -2811,7 +2749,7 @@ struct P154Array
     {
         P154System* r = P154Memory::FUN_00c85750();
         P154Allocator* a = r->allocator;
-        Search(a, pos, src, n);
+        reinterpret_cast<::SearchObject *>(this)->Search((unsigned int)(a), pos, (unsigned int)(src), n);
     }
     void clear()
     {
@@ -2837,7 +2775,7 @@ struct P154PairArray
     {
         P154System* s = P154Memory::FUN_00c85750();
         if (count == int(capacity & 0x3fffffff))
-            ResizeAudioStream(s->allocator, this, 8);
+            ::ResizeAudioStream((::AudioAllocator *)(s->allocator), (::AudioStream *)(void *)(this), 8);
         for (int i = 0; i < 1; ++i)
             new (data + count + i) P154Pair;
         return data[count++];
@@ -2866,9 +2804,6 @@ struct P154Region
     int unk08;
     int unk0c, unk10, unk14, unk18, unk1c, unk20;
     int unk24, unk28, unk2c, unk30, context, unk38, unk3c, unk40, unk44;
-    void CopyOffsets(struct P154Node*);
-    void BuildScaledRanges(struct P154Node*, float*);
-    void FUN_00e09540();
 };
 struct P154Node
 {
@@ -2904,9 +2839,6 @@ struct P154Tree
     P154Settings* settings;
     int unk18, unk1c, unk20, unk24, unk28, unk2c;
     int scale30, scale34, scale38;
-    void FUN_00e07c50(P154Node*, P154Region*, P154Region*);
-    void FUN_00e07510(P154Node*, P154Region*, P154Region*, P154Result*);
-    void FUN_00e07ca0(P154Node*, P154Region*, P154Region*, P154Result*);
     __forceinline int getCost(P154Array& a, int size)
     {
         int result = size;
@@ -2928,7 +2860,7 @@ int P154Tree::FUN_00e084f0(P154Node* node, P154Region* parent, P154Region* regio
         if (settings->metric)
             region->context = *node->values;
         int start = writer->count;
-        FUN_00e07c50(node, parent, region);
+        reinterpret_cast<::S_e07c50 *>(this)->FUN_00e07c50((::S_e07c50_Item *)(node), (int)(parent), (int)(region));
         int leafSize = writer->count - start;
         output->append(*node->values);
         int value = *node->values;
@@ -2942,16 +2874,16 @@ int P154Tree::FUN_00e084f0(P154Node* node, P154Region* parent, P154Region* regio
         P154Result info;
         info.valid = false;
         info.value = -1;
-        FUN_00e07510(node, parent, region, &info);
+        reinterpret_cast<::E07510Solver *>(this)->FUN_00e07510((::E07510Input *)(node), parent, region, &info);
         region->context = parent->context;
         P154Array lowValues;
         P154Node* low = node->low;
         P154Region child = *region;
-        child.CopyOffsets(low);
-        child.BuildScaledRanges(low, reinterpret_cast<float*>(&scale30));
+        reinterpret_cast<::S_00e066f0 *>(&(child))->CopyOffsets((const ::S_00e066f0_Src *)(low));
+        reinterpret_cast<::FUN_00e094a0_cls *>(&(child))->BuildScaledRanges((::FUN_00e094a0_floatset *)(low), reinterpret_cast<float*>(&scale30));
         child.depth = region->depth + 1;
         child.leaf = false;
-        child.FUN_00e09540();
+        reinterpret_cast<::FUN_00e09540_Self *>(&(child))->FUN_00e09540();
         int lowSize = writer->count;
         FUN_00e084f0(low, region, &child, &lowValues);
         lowSize = writer->count - lowSize;
@@ -2959,17 +2891,17 @@ int P154Tree::FUN_00e084f0(P154Node* node, P154Region* parent, P154Region* regio
         P154Array highValues;
         P154Node* high = node->high;
         child = *region;
-        child.CopyOffsets(high);
-        child.BuildScaledRanges(high, reinterpret_cast<float*>(&scale30));
+        reinterpret_cast<::S_00e066f0 *>(&(child))->CopyOffsets((const ::S_00e066f0_Src *)(high));
+        reinterpret_cast<::FUN_00e094a0_cls *>(&(child))->BuildScaledRanges((::FUN_00e094a0_floatset *)(high), reinterpret_cast<float*>(&scale30));
         child.depth = region->depth + 1;
         child.leaf = false;
-        child.FUN_00e09540();
+        reinterpret_cast<::FUN_00e09540_Self *>(&(child))->FUN_00e09540();
         int highSize = writer->count;
         FUN_00e084f0(high, region, &child, &highValues);
         highSize = writer->count - highSize;
         int highCost = getCost(highValues, highSize);
         int splitSize = writer->count;
-        FUN_00e07ca0(node, parent, region, &info);
+        reinterpret_cast<::Handler *>(this)->FUN_00e07ca0((::Entry *)(node), (::Entry *)(parent), (::Entry *)(region), (char *)(::P154Result *)(&info));
         splitSize = writer->count - splitSize;
         P154Array merged;
         merged.insert(lowValues.data, 0, lowValues.count);
@@ -3047,7 +2979,6 @@ struct AllocHolder
 };
 
 AllocHolder* FUN_00c85750();
-void ResizeAudioStream(void* allocator, PairList* list, unsigned int elemSize);
 
 struct SlotPair
 {
@@ -3149,7 +3080,7 @@ int FUN_00e08240_cls::FUN_00e08240(Node* apNode, int a2, int aiIndex)
             AllocHolder* holder = FUN_00c85750();
             if (list->m_uiItemCount == (int)(list->m_capBits & 0x3fffffff))
             {
-                ResizeAudioStream(holder->m_pAllocator, list, 8);
+                ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(list), 8);
             }
             PairEntry* e = &list->m_data[list->m_uiItemCount];
             list->m_uiItemCount++;
@@ -3240,11 +3171,9 @@ struct S_00e08470_Data
     S_00e08470_Holder* unk10;
     S_00e08470_Vector unk14;
 
-    void __thiscall FUN_00e06480();
 };
 
 extern "C" S_00e08470_Holder* __cdecl FUN_00c85750();
-extern "C" void __cdecl ResizeAudioStream(void*, S_00e08470_Vector*, int);
 
 struct S_00e08470_Class
 {
@@ -3254,7 +3183,6 @@ struct S_00e08470_Class
     int unk0c;
     S_00e08470_Data* unk10;
 
-    void __thiscall FUN_00e06c20(int);
     int __thiscall FUN_00e08470(S_00e08470_Context*);
 };
 
@@ -3264,7 +3192,7 @@ int __thiscall S_00e08470_Class::FUN_00e08470(S_00e08470_Context* context)
 {
     void* saved = this->unk10->unk0c;
 
-    this->FUN_00e06c20(context->unk40);
+    reinterpret_cast<::E06C20Object *>((this))->FUN_00e06c20((void *)(context->unk40));
 
     void* current = this->unk10->unk0c;
 
@@ -3277,7 +3205,7 @@ int __thiscall S_00e08470_Class::FUN_00e08470(S_00e08470_Context* context)
 
     if (vector->unk04 == (vector->unk08 & 0x3fffffff))
     {
-        ResizeAudioStream(holder->unk10, vector, 8);
+        ::ResizeAudioStream((::AudioAllocator *)(holder->unk10), (::AudioStream *)(vector), 8);
     }
 
     S_00e08470_Entry* entry = vector->unk00 + vector->unk04;
@@ -3286,7 +3214,7 @@ int __thiscall S_00e08470_Class::FUN_00e08470(S_00e08470_Context* context)
     entry->unk04 = context->unk40;
     entry->unk00 = current;
 
-    this->unk10->FUN_00e06480();
+    ::FUN_00e06480();
 
     return (unsigned int)current - (unsigned int)saved;
 }
@@ -3309,21 +3237,21 @@ static __declspec(noinline) int FUN_00e08380(BvTree* tree, CodeCopySource* sourc
         int* data = refs->m_data;
         int count = refs->m_iElementCount;
         int bytes = tree->m_converter->ConvertReferences(data, count);
-        destination->FillWithPattern(bytes);
+        reinterpret_cast<::FUN_00e06a60_cls *>((destination))->FillWithPattern(bytes);
         Router* router = FUN_00c85750();
         unsigned char* temporary = static_cast<unsigned char*>(router->unk00);
         router->unk00 = temporary + ((bytes + 127) & ~127);
         tree->m_converter->writeBuffer(refs->m_data, refs->m_iElementCount, temporary);
-        FUN_00cb1260(destination->m_data + destination->m_pRayCursor - destination->m_offset, temporary, bytes);
+        ::FUN_00cb1260(destination->m_data + destination->m_pRayCursor - destination->m_offset, temporary, bytes);
         FUN_00c85750()->unk00 = temporary;
     }
     int before = destination->m_offset;
-    destination->FillWithPattern(source->m_offset + padding);
-    FUN_00cb1260(destination->m_data + destination->m_pRayCursor - destination->m_offset,
+    reinterpret_cast<::FUN_00e06a60_cls *>((destination))->FillWithPattern(source->m_offset + padding);
+    ::FUN_00cb1260(destination->m_data + destination->m_pRayCursor - destination->m_offset,
                  source->m_data + source->m_pRayCursor - source->m_offset, source->m_offset);
-    source->FUN_00e06480();
+    ::FUN_00e06480();
     FUN_00e08320(&destination->m_buffer, &source->m_buffer, destination->m_offset - source->m_offset);
-    destination->FUN_00e06480();
+    ::FUN_00e06480();
     return destination->m_offset - before;
 }
 
@@ -3348,14 +3276,12 @@ struct ObjectWriter
     void FUN_00e065f0(int size) throw();
     ObjectWriter(int size) throw()
     {
-        FUN_00e065f0(size);
+        new ((void *)this) ::FUN_00e065f0(size);
     }
-    void Destroy() throw();
     ~ObjectWriter() throw()
     {
-        Destroy();
+        reinterpret_cast<::SomeClass *>(this)->Destroy();
     }
-    void FUN_00c90510() throw();
 };
 
 struct HelperEntry
@@ -3439,9 +3365,6 @@ struct __declspec(align(8)) MyBounds
     int unk40;
     int unk44;
 
-    void BuildScaledRanges(S_00e07da0_Node* node, void* p) throw();
-    void CopyOffsets(S_00e07da0_Node* node) throw();
-    void FUN_00e09540() throw();
 };
 
 struct __declspec(align(8)) MyRegion : public MyBounds
@@ -3453,10 +3376,6 @@ struct __declspec(align(8)) MyRegion : public MyBounds
     int hi54_1;
     int hi54_2;
 
-    void CopyOffsets(S_00e07da0_Node* node) throw();
-    void BuildScaledRanges(S_00e07da0_Node* node, void* p) throw();
-    void FUN_00e09540() throw();
-    void FUN_00e095d0(MyBounds* src, S_00e07da0_Node* node, void* p) throw();
 };
 
 extern "C" void __cdecl FUN_00e08380(AssemblerHelper*, ObjectWriter*, void*) throw();
@@ -3498,13 +3417,6 @@ struct Tree : public FUN_00e09640_class
     int unk6c;
     int unk70;
 
-    void Recurse(S_00e07da0_Node* node, MyBounds* b, MyRegion* r) throw();
-    void BuildRegion(S_00e07da0_Node* node, MyRegion* r1, MyRegion* r2) throw();
-    void OptimizeTree(S_00e07da0_Node* node, MyBounds* b1, MyBounds* b2) throw();
-    void FUN_00e084f0(S_00e07da0_Node* node, MyBounds* b, MyRegion* r, void* arr) throw();
-    void FUN_00e08240(S_00e07da0_Node* node, int a, int b) throw();
-    void FUN_00e08a60(S_00e07da0_Node* node, MyBounds* b1, MyBounds* b2, int a, void* arr) throw();
-    void FUN_00e06c40(int a, int b) throw();
 };
 
 typedef void(__thiscall* Vf18Fn)(Tree*, S_00e07da0_Node*, void*) throw();
@@ -3536,7 +3448,7 @@ void Tree::FUN_00e08cc0(S_00e07da0_Node* node, int arg2, int arg3)
     this->unk1C = this->unk18 >> 1;
     this->unk18 = ((this->unk18 / this->unk70) + 2) * this->unk70 - 1;
 
-    s.BuildScaledRanges(node, &this->unk30);
+    reinterpret_cast<::FUN_00e094a0_cls *>(&(s))->BuildScaledRanges((::FUN_00e094a0_floatset *)(node), (float *)(void *)(&this->unk30));
     s.unk24 = 0x10;
     s.unk30 = 0;
     s.unk2c = 0;
@@ -3544,19 +3456,19 @@ void Tree::FUN_00e08cc0(S_00e07da0_Node* node, int arg2, int arg3)
     s.unk00 = -1;
     s.unk34 = 0;
     s.unk04 = 0;
-    s.CopyOffsets(node);
-    s.FUN_00e09540();
+    reinterpret_cast<::S_00e066f0 *>(&(s))->CopyOffsets((const ::S_00e066f0_Src *)(node));
+    reinterpret_cast<::FUN_00e09540_Self *>(&(s))->FUN_00e09540();
 
     (MyBounds&)p = s;
-    p.CopyOffsets(node);
-    p.BuildScaledRanges(node, &this->unk30);
+    reinterpret_cast<::S_00e066f0 *>(&(p))->CopyOffsets((const ::S_00e066f0_Src *)(node));
+    reinterpret_cast<::FUN_00e094a0_cls *>(&(p))->BuildScaledRanges((::FUN_00e094a0_floatset *)(node), (float *)(void *)(&this->unk30));
     p.unk00 = s.unk00 + 1;
     p.unk04 = 0;
-    p.FUN_00e09540();
+    reinterpret_cast<::FUN_00e09540_Self *>(&(p))->FUN_00e09540();
 
-    this->Recurse(node, &s, &p);
+    reinterpret_cast<::MyTree *>((this))->Recurse((::KdNode *)(node), (::KdCtx *)(::MyBounds *)(&s), (::KdCtx *)(::MyRegion *)(&p));
 
-    p.BuildScaledRanges(node, &this->unk30);
+    reinterpret_cast<::FUN_00e094a0_cls *>(&(p))->BuildScaledRanges((::FUN_00e094a0_floatset *)(node), (float *)(void *)(&this->unk30));
     p.unk24 = 0x10;
     p.unk30 = 0;
     p.unk2c = 0;
@@ -3564,27 +3476,27 @@ void Tree::FUN_00e08cc0(S_00e07da0_Node* node, int arg2, int arg3)
     p.unk00 = -1;
     p.unk34 = 0;
     p.unk04 = 0;
-    p.CopyOffsets(node);
-    p.FUN_00e09540();
+    reinterpret_cast<::S_00e066f0 *>(&(p))->CopyOffsets((const ::S_00e066f0_Src *)(node));
+    reinterpret_cast<::FUN_00e09540_Self *>(&(p))->FUN_00e09540();
 
     (MyBounds&)n = (MyBounds&)p;
-    n.CopyOffsets(node);
-    n.BuildScaledRanges(node, &this->unk30);
+    reinterpret_cast<::S_00e066f0 *>(&(n))->CopyOffsets((const ::S_00e066f0_Src *)(node));
+    reinterpret_cast<::FUN_00e094a0_cls *>(&(n))->BuildScaledRanges((::FUN_00e094a0_floatset *)(node), (float *)(void *)(&this->unk30));
     n.unk00 = p.unk00 + 1;
     n.unk04 = 0;
-    n.FUN_00e09540();
-    this->BuildRegion(node, &p, &n);
+    reinterpret_cast<::FUN_00e09540_Self *>(&(n))->FUN_00e09540();
+    reinterpret_cast<::S_00e07da0_Tree *>((this))->BuildRegion(node, (::S_00e07da0_Region *)(::MyRegion *)(&p), (::S_00e07da0_Region *)(::MyRegion *)(&n));
 
     x = s;
-    x.CopyOffsets(node);
-    x.BuildScaledRanges(node, &this->unk30);
+    reinterpret_cast<::S_00e066f0 *>(&(x))->CopyOffsets((const ::S_00e066f0_Src *)(node));
+    reinterpret_cast<::FUN_00e094a0_cls *>(&(x))->BuildScaledRanges((::FUN_00e094a0_floatset *)(node), (float *)(void *)(&this->unk30));
     x.unk00 = s.unk00 + 1;
     x.unk04 = 0;
-    x.FUN_00e09540();
+    reinterpret_cast<::FUN_00e09540_Self *>(&(x))->FUN_00e09540();
 
     if (!this->m_pAssemblerHelper)
     {
-        this->OptimizeTree(node, &s, &x);
+        reinterpret_cast<::fnv_00e08040::TreeOptimizer *>((this))->OptimizeTree((::fnv_00e08040::Node *)(node), &s, (::fnv_00e08040::State *)(::MyBounds *)(&x));
         return;
     }
 
@@ -3593,19 +3505,19 @@ void Tree::FUN_00e08cc0(S_00e07da0_Node* node, int arg2, int arg3)
         EntryArray& entries = this->m_pAssemblerHelper->m_entries;
         Router* router = FUN_00c85750();
         if (entries.m_iElementCount == (entries.m_iCapacityState & 0x3fffffff))
-            ResizeAudioStream(router->allocator, &entries, 8);
+            ::ResizeAudioStream((::AudioAllocator *)(router->allocator), (::AudioStream *)(void *)(&entries), 8);
         entries.m_iElementCount++;
     }
 
     ObjectWriter* saved = this->m_stream;
-    p.FUN_00e095d0(&s, node, &this->unk30);
+    reinterpret_cast<::FUN_00e095d0_cls *>(&(p))->FUN_00e095d0((::FUN_00e095d0_cls *)(::MyBounds *)(&s), (unsigned int)(node), (unsigned int)(&this->unk30));
 
     MyArray<unsigned int> arr1;
     {
         ObjectWriter stream1(0x100000);
         this->m_stream = &stream1;
-        this->FUN_00e084f0(node, &s, &p, &arr1);
-        this->FUN_00e08240(node, node->info.unk8, 0);
+        reinterpret_cast<::P154Tree *>((this))->FUN_00e084f0((::P154Node *)(node), (::P154Region *)(::MyBounds *)(&s), (::P154Region *)(::MyRegion *)(&p), (::P154Array *)(void *)(&arr1));
+        reinterpret_cast<::fnv_00e08240::FUN_00e08240_cls *>((this))->FUN_00e08240((::fnv_00e08240::Node *)(node), node->info.unk8, 0);
     }
 
     arr1.ClearAndRelease();
@@ -3613,18 +3525,18 @@ void Tree::FUN_00e08cc0(S_00e07da0_Node* node, int arg2, int arg3)
     {
         ObjectWriter stream2(0x100000);
         this->m_stream = &stream2;
-        this->FUN_00e08a60(node, &s, &x, node->info.unk8, &arr1);
+        reinterpret_cast<::BvBuilder *>((this))->FUN_00e08a60((::BvNode *)(node), (::FUN_00e095d0_cls *)(::MyBounds *)(&s), (::FUN_00e095d0_cls *)(::MyBounds *)(&x), node->info.unk8, (::BvArray<int> *)(void *)(&arr1));
         if (this->m_pAssemblerHelper->unk1C)
         {
             int pos = this->m_stream->m_pos + 5;
-            this->FUN_00e06c40(pos + (-pos & 3), arr1.m_iElementCount);
+            reinterpret_cast<::FUN_00e06c40_class *>((this))->FUN_00e06c40(pos + (-pos & 3), arr1.m_iElementCount);
         }
         this->m_stream = saved;
         FUN_00e08380(this->m_pAssemblerHelper, &stream2, &arr1);
         HelperEntry* entry = &this->m_pAssemblerHelper->m_entries.m_data[node->info.unk8];
         ObjectWriter* w = this->m_stream;
         entry->ptr = w;
-        w->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((w))->FUN_00c90510();
         entry->pos = this->m_stream->m_pos;
     }
 }

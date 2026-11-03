@@ -1,5 +1,36 @@
 // fallout_shared/bgsacousticspace.cpp: BGSAcousticSpace (12 functions)
 
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00409480_shell.h"
+#include "fnv/decl/FUN_0040e500_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004d6170_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_0050e9f0_shell.h"
+#include "fnv/decl/FUN_0068a810_class.h"
+#include "fnv/decl/FUN_0068a830_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/Twin_00639b40.h"
+#include "fnv/decl/ValueModifierEffect.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_0087ce80__FUN_0087ce80_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_0058a000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_009e3000.h"
 #include "bgsacousticspace.h"
 #include <malloc.h>
 
@@ -31,80 +62,33 @@ void BGSAcousticSpace::ResetFormData()
     m_eCellEnvironmentType = CELL_ENVIRO_TYPE_CET_DEFAULT;
 }
 
-// @fnv 0x005899f0
-void BGSAcousticSpace::InitItem()
+// @fnv 0x0058a200
+char __fastcall GetByteAtOffset48(void* this_ptr)
 {
-    unsigned int formID;
-    if (static_cast<TESFormInitFlag*>(static_cast<TESForm*>(this))->IsFormInitialized())
-        return;
-    formID = reinterpret_cast<unsigned int>(pDawnSound);
-    if (formID)
-    {
-        RemapFormIDForFile(formID, GetFile(-1));
-        pDawnSound = dynamic_cast<TESSound*>(TESFormInitFlag::GetFormByID(formID));
-        if (!pDawnSound)
-            Warning(s_kAcousticDawnSoundWarning, formID, GetName(), GetFormID());
-    }
-    formID = reinterpret_cast<unsigned int>(pNoonSound);
-    if (formID)
-    {
-        RemapFormIDForFile(formID, GetFile(-1));
-        pNoonSound = dynamic_cast<TESSound*>(TESFormInitFlag::GetFormByID(formID));
-        if (!pNoonSound)
-            Warning(s_kAcousticNoonSoundWarning, formID, GetName(), GetFormID());
-    }
-    formID = reinterpret_cast<unsigned int>(pDuskSound);
-    if (formID)
-    {
-        RemapFormIDForFile(formID, GetFile(-1));
-        pDuskSound = dynamic_cast<TESSound*>(TESFormInitFlag::GetFormByID(formID));
-        if (!pDuskSound)
-            Warning(s_kAcousticDuskSoundWarning, formID, GetName(), GetFormID());
-    }
-    formID = reinterpret_cast<unsigned int>(pNightSound);
-    if (formID)
-    {
-        RemapFormIDForFile(formID, GetFile(-1));
-        pNightSound = dynamic_cast<TESSound*>(TESFormInitFlag::GetFormByID(formID));
-        if (!pNightSound)
-            Warning(s_kAcousticNightSoundWarning, formID, GetName(), GetFormID());
-    }
-    formID = reinterpret_cast<unsigned int>(pRegion);
-    if (formID)
-    {
-        RemapFormIDForFile(formID, GetFile(-1));
-        pRegion = dynamic_cast<TESRegion*>(TESFormInitFlag::GetFormByID(formID));
-        if (!pRegion)
-            Warning(s_kAcousticRegionWarning, formID, GetName(), GetFormID());
-    }
-    formID = reinterpret_cast<unsigned int>(pWallaSound);
-    if (formID)
-    {
-        RemapFormIDForFile(formID, GetFile(-1));
-        pWallaSound = dynamic_cast<TESSound*>(TESFormInitFlag::GetFormByID(formID));
-        if (!pWallaSound)
-            Warning(s_kAcousticWallaSoundWarning, formID, GetName(), GetFormID());
-    }
-    SetInitializationState(true);
+    return static_cast<char*>(this_ptr)[0x30];
 }
 
+struct FUN_00589f50_shell
+{
+    void SetSound(void* apSound);
+};
 // Loads an acoustic space record from a TESFile, reading the editor ID, OBND, SNAM sound slots, WNAM, RDAT region, ANAM type and INAM interior flag chunks.
 // @fnv 0x00589d30
 bool BGSAcousticSpace::Load(TESFile* file)
 {
     unsigned int soundFormID = 0;
-    LoadRecordHeader(file);
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
     SetInitializationState(false);
     int m_uiSoundEntryCount = 0;
     int chunk;
-    while ((chunk = file->GetChunkID()) != 0)
+    while ((chunk = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()))) != 0)
     {
         switch (chunk)
         {
         case 0x44494445:  // EDID
         {
-            char* buffer = static_cast<char*>(_alloca(file->GetChunkSize()));
-            file->GetChunkData(buffer, 0x200);
+            char* buffer = static_cast<char*>(_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(buffer), 0x200);
             SetEditorID_AtRuntime(buffer);
             break;
         }
@@ -115,15 +99,15 @@ bool BGSAcousticSpace::Load(TESFile* file)
             soundFormID = 0;
             file->GetChunkData(&soundFormID);
             if (m_uiSoundEntryCount == 4)
-                SetWallaSound(reinterpret_cast<TESSound*>(soundFormID));
+                reinterpret_cast<::LowProcess *>(this)->SetCurrentCombatTarget((::TESObjectREFR *)(::TESSound *)(reinterpret_cast<TESSound*>(soundFormID)));
             else if (m_uiSoundEntryCount == 3)
-                SetNightSound(reinterpret_cast<TESSound*>(soundFormID));
+                reinterpret_cast<::fnv_0087ce80::FUN_0087ce80_shell *>(this)->FUN_0087ce80((::fnv_0087ce80::TESObjectCELL *)(::TESSound *)(reinterpret_cast<TESSound*>(soundFormID)));
             else if (m_uiSoundEntryCount == 2)
-                SetDuskSound(reinterpret_cast<TESSound*>(soundFormID));
+                reinterpret_cast<::FUN_00409480_shell *>(this)->FUN_00409480((::TESActorBase *)(::TESSound *)(reinterpret_cast<TESSound*>(soundFormID)));
             else if (m_uiSoundEntryCount == 1)
-                SetNoonSound(reinterpret_cast<TESSound*>(soundFormID));
+                reinterpret_cast<::FUN_0040e500_shell *>(this)->SetValue((int)(reinterpret_cast<TESSound*>(soundFormID)));
             else
-                SetDawnSound(reinterpret_cast<TESSound*>(soundFormID));
+                reinterpret_cast<::LowProcess *>(this)->SetCurrentBoundObject((::TESBoundObject *)(::TESSound *)(reinterpret_cast<TESSound*>(soundFormID)));
             m_uiSoundEntryCount++;
             break;
         case 0x4D414E57:  // WNAM
@@ -132,11 +116,11 @@ bool BGSAcousticSpace::Load(TESFile* file)
         case 0x54414452:  // RDAT
             soundFormID = 0;
             file->GetChunkData(&soundFormID);
-            SetRegion(reinterpret_cast<TESRegion*>(soundFormID));
+            reinterpret_cast<::ValueModifierEffect *>(this)->SetActorValue((::ActorValue::Index)(reinterpret_cast<TESRegion*>(soundFormID)));
             break;
         case 0x4D414E41:  // ANAM
             file->GetChunkData(&soundFormID);
-            SetListenerID(static_cast<CELL_ENVIRO_TYPE>(soundFormID));
+            reinterpret_cast<::FUN_00589f50_shell *>(this)->SetSound((*(void * *)&(const ::CELL_ENVIRO_TYPE &)(static_cast<CELL_ENVIRO_TYPE>(soundFormID))));
             break;
         case 0x4D414E49:  // INAM
         {
@@ -155,17 +139,6 @@ bool BGSAcousticSpace::Load(TESFile* file)
     return true;
 }
 
-// @fnv 0x0058a200
-char __fastcall GetByteAtOffset48(void* this_ptr)
-{
-    return static_cast<char*>(this_ptr)[0x30];
-}
-
-struct FUN_00589f50_shell
-{
-    void SetSound(void* apSound);
-};
-
 // @fnv 0x00589f50
 void __thiscall FUN_00589f50_shell::SetSound(void* apSound)
 {
@@ -174,29 +147,78 @@ void __thiscall FUN_00589f50_shell::SetSound(void* apSound)
 
 struct Standin00589930
 {
-    void FUN_00589960();
     void* FUN_00589930(unsigned int);
 };
-void __cdecl _Deallocate(void*);
-// Calls FUN_00589960, then deallocates this if flags has bit 0 set, and returns this.
-// @fnv 0x00589930
-void* Standin00589930::FUN_00589930(unsigned int flags)
-{
-    FUN_00589960();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct NiFormArray
 {
-    TESForm* GetFormAt(unsigned int);
 };
+class BGSCameraShot;
+template <class> class BSSimpleList;
 struct BGSCameraPath
 {
     virtual ~BGSCameraPath()
     {}
+public:
+    ::BGSCameraPath *GetPrevPath();
+public:
+    ::BSSimpleList< ::BGSCameraShot *> *GetShotList();
 };
+// @fnv 0x005899f0
+void BGSAcousticSpace::InitItem()
+{
+    unsigned int formID;
+    if (reinterpret_cast<::TESForm *>((void *)(static_cast<TESFormInitFlag*>(static_cast<TESForm*>(this))))->GetInitialized())
+        return;
+    formID = reinterpret_cast<unsigned int>(pDawnSound);
+    if (formID)
+    {
+        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
+        pDawnSound = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
+        if (!pDawnSound)
+            ::FUN_005b5e40();
+    }
+    formID = reinterpret_cast<unsigned int>(pNoonSound);
+    if (formID)
+    {
+        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
+        pNoonSound = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
+        if (!pNoonSound)
+            ::FUN_005b5e40();
+    }
+    formID = reinterpret_cast<unsigned int>(pDuskSound);
+    if (formID)
+    {
+        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
+        pDuskSound = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
+        if (!pDuskSound)
+            ::FUN_005b5e40();
+    }
+    formID = reinterpret_cast<unsigned int>(pNightSound);
+    if (formID)
+    {
+        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
+        pNightSound = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
+        if (!pNightSound)
+            ::FUN_005b5e40();
+    }
+    formID = reinterpret_cast<unsigned int>(pRegion);
+    if (formID)
+    {
+        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
+        pRegion = dynamic_cast<TESRegion*>(::FUN_004839c0(formID));
+        if (!pRegion)
+            ::FUN_005b5e40();
+    }
+    formID = reinterpret_cast<unsigned int>(pWallaSound);
+    if (formID)
+    {
+        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
+        pWallaSound = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
+        if (!pWallaSound)
+            ::FUN_005b5e40();
+    }
+    SetInitializationState(true);
+}
 struct FUN_0058b630_shell
 {
     char _pad[0x2c];
@@ -209,24 +231,32 @@ BGSCameraPath* FUN_0058b630_shell::GetCameraPathAt(unsigned int uiIndex)
 {
     BGSCameraPath* result = 0;
     if (m_aiIndexedValues)
-        result = dynamic_cast<BGSCameraPath*>(m_aiIndexedValues->GetFormAt(uiIndex));
+        result = dynamic_cast<BGSCameraPath*>(reinterpret_cast<::FUN_004d6170_shell *>((m_aiIndexedValues))->FUN_004d6170(uiIndex));
     return result;
 }
 
 extern int DAT_010320fc;
 
-void __fastcall FUN_0050e9f0(void*);
 
 struct FUN_00589960_shell
 {
     void __thiscall FUN_00589960();
 };
+// Calls FUN_00589960, then deallocates this if flags has bit 0 set, and returns this.
+// @fnv 0x00589930
+void* Standin00589930::FUN_00589930(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00589960_shell *>(this)->FUN_00589960();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x00589960
 void __thiscall FUN_00589960_shell::FUN_00589960()
 {
     *reinterpret_cast<int**>(this) = &DAT_010320fc;
-    FUN_0050e9f0(this);
+    reinterpret_cast<::FUN_0050e9f0_shell *>((this))->FUN_0050e9f0();
 }
 
 struct FUN_0058a120_shell : BGSAcousticSpace
@@ -239,37 +269,29 @@ struct FUN_00792780_Class
 };
 struct CP_008c48d0
 {
-    TESSound* GetPrevPath();
 };
 struct TESTopicInfo
 {
-    TESSound* GetConversationData();
     TESRegion* GetParentQuest();
 };
 struct EP_008c48d0
 {
-    TESSound* GetEntryPoint();
 };
 struct BSOcclusionPlane
 {
-    TESSound* GetCullResult();
 };
 struct Idle_008b2010
 {
-    TESSound* GetState();
 };
 struct BGSAddonNode
 {
-    unsigned int GetIndex();
     void SetIndex(unsigned int);
 };
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
 };
 struct FUN_0068a810_shell
 {
-    int GetField4C();
 };
 // Casts apCopy to BGSAcousticSpace, copies its sound, index, region and environment fields into this, then calls FUN_004851b0.
 // @fnv 0x0058a120
@@ -279,33 +301,29 @@ void FUN_0058a120_shell::CopyFromAcousticSpace(TESForm* apCopy)
     if (!pcopy)
         return;
     ((FUN_00792780_Class*)this)->SetByteAtOffset30(GetByteAtOffset48(pcopy));
-    SetDawnSound(((CP_008c48d0*)pcopy)->GetPrevPath());
-    SetNoonSound(((TESTopicInfo*)pcopy)->GetConversationData());
-    SetDuskSound(((EP_008c48d0*)pcopy)->GetEntryPoint());
-    SetNightSound(((BSOcclusionPlane*)pcopy)->GetCullResult());
-    SetWallaSound(((Idle_008b2010*)pcopy)->GetState());
-    ((BGSAddonNode*)this)->SetIndex(((BGSAddonNode*)pcopy)->GetIndex());
-    SetRegion(((TESTopicInfo*)pcopy)->GetParentQuest());
-    SetListenerID((CELL_ENVIRO_TYPE)((FUN_0068a810_shell*)pcopy)->GetField4C());
-    ((FUN_005e78f0_t*)this)->FUN_004851b0(pcopy);
+    reinterpret_cast<::LowProcess *>(this)->SetCurrentBoundObject((::TESBoundObject *)(::TESSound *)(((::TESSound *)(reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)pcopy)))->GetPrevPath()))));
+    reinterpret_cast<::FUN_0040e500_shell *>(this)->SetValue((int)(((::TESSound *)(::GetField38((char *)(((TESTopicInfo*)pcopy)))))));
+    reinterpret_cast<::FUN_00409480_shell *>(this)->FUN_00409480((::TESActorBase *)(::TESSound *)(((::TESSound *)(reinterpret_cast<::Twin_00639b40 *>((((EP_008c48d0*)pcopy)))->GetEntryPoint()))));
+    reinterpret_cast<::fnv_0087ce80::FUN_0087ce80_shell *>(this)->FUN_0087ce80((::fnv_0087ce80::TESObjectCELL *)(::TESSound *)(((::TESSound *)(reinterpret_cast<::LowProcess *>((((BSOcclusionPlane*)pcopy)))->GetTarget()))));
+    reinterpret_cast<::LowProcess *>(this)->SetCurrentCombatTarget((::TESObjectREFR *)(::TESSound *)(((::TESSound *)(reinterpret_cast<::LowProcess *>((((Idle_008b2010*)pcopy)))->GetActiveCombatTarget()))));
+    ((BGSAddonNode*)this)->SetIndex(((unsigned int)(reinterpret_cast<::FUN_0068a830_shell *>((((BGSAddonNode*)pcopy)))->GetGrass())));
+    reinterpret_cast<::ValueModifierEffect *>(this)->SetActorValue((::ActorValue::Index)(((TESTopicInfo*)pcopy)->GetParentQuest()));
+    reinterpret_cast<::FUN_00589f50_shell *>(this)->SetSound((*(void * *)&(const ::CELL_ENVIRO_TYPE &)((CELL_ENVIRO_TYPE)reinterpret_cast<::FUN_0068a810_class *>((((FUN_0068a810_shell*)pcopy)))->GetField4C())));
+    reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0(pcopy);
 }
 
 struct FUN_004855a0
 {
-    void M();
 };
 
 struct FUN_00485680
 {
-    void M();
 };
 
 struct P09AS
 {
-    int GetField4C();
 };
 
-void _FUN_00485910(int, int);
 
 struct FUN_00589f70_shell
 {
@@ -318,76 +336,74 @@ void FUN_00589f70_shell::FUN_00589f70()
     unsigned int questFormID;
     unsigned int formID;
 
-    reinterpret_cast<FUN_004855a0*>(this)->M();
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
 
     questFormID = 0;
-    if (reinterpret_cast<CP_008c48d0*>(this)->GetPrevPath() != 0)
+    if (((::TESSound *)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<CP_008c48d0*>(this)))->GetPrevPath())) != 0)
     {
-        questFormID = reinterpret_cast<TESForm*>(reinterpret_cast<CP_008c48d0*>(this)->GetPrevPath())->GetFormID();
+        questFormID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(((::TESSound *)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<CP_008c48d0*>(this)))->GetPrevPath())))))->FUN_0084e3a0()));
     }
-    _FUN_00485910(0x4d414e53, questFormID);
+    ::FUN_00485910(0x4d414e53, questFormID);
 
     questFormID = 0;
-    if (reinterpret_cast<TESTopicInfo*>(this)->GetConversationData() != 0)
-    {
-        questFormID =
-            reinterpret_cast<TESForm*>(reinterpret_cast<TESTopicInfo*>(this)->GetConversationData())->GetFormID();
-    }
-    _FUN_00485910(0x4d414e53, questFormID);
-
-    questFormID = 0;
-    if (reinterpret_cast<EP_008c48d0*>(this)->GetEntryPoint() != 0)
-    {
-        questFormID = reinterpret_cast<TESForm*>(reinterpret_cast<EP_008c48d0*>(this)->GetEntryPoint())->GetFormID();
-    }
-    _FUN_00485910(0x4d414e53, questFormID);
-
-    questFormID = 0;
-    if (reinterpret_cast<BSOcclusionPlane*>(this)->GetCullResult() != 0)
+    if (((::TESSound *)(::GetField38((char *)(reinterpret_cast<TESTopicInfo*>(this))))) != 0)
     {
         questFormID =
-            reinterpret_cast<TESForm*>(reinterpret_cast<BSOcclusionPlane*>(this)->GetCullResult())->GetFormID();
+            ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(((::TESSound *)(::GetField38((char *)(reinterpret_cast<TESTopicInfo*>(this))))))))->FUN_0084e3a0()));
     }
-    _FUN_00485910(0x4d414e53, questFormID);
+    ::FUN_00485910(0x4d414e53, questFormID);
 
     questFormID = 0;
-    if (reinterpret_cast<Idle_008b2010*>(this)->GetState() != 0)
+    if (((::TESSound *)(reinterpret_cast<::Twin_00639b40 *>((reinterpret_cast<EP_008c48d0*>(this)))->GetEntryPoint())) != 0)
     {
-        questFormID = reinterpret_cast<TESForm*>(reinterpret_cast<Idle_008b2010*>(this)->GetState())->GetFormID();
+        questFormID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(((::TESSound *)(reinterpret_cast<::Twin_00639b40 *>((reinterpret_cast<EP_008c48d0*>(this)))->GetEntryPoint())))))->FUN_0084e3a0()));
     }
-    _FUN_00485910(0x4d414e53, questFormID);
+    ::FUN_00485910(0x4d414e53, questFormID);
 
-    _FUN_00485910(0x4d414e57, *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x50));
+    questFormID = 0;
+    if (((::TESSound *)(reinterpret_cast<::LowProcess *>((reinterpret_cast<BSOcclusionPlane*>(this)))->GetTarget())) != 0)
+    {
+        questFormID =
+            ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(((::TESSound *)(reinterpret_cast<::LowProcess *>((reinterpret_cast<BSOcclusionPlane*>(this)))->GetTarget())))))->FUN_0084e3a0()));
+    }
+    ::FUN_00485910(0x4d414e53, questFormID);
+
+    questFormID = 0;
+    if (((::TESSound *)(reinterpret_cast<::LowProcess *>((reinterpret_cast<Idle_008b2010*>(this)))->GetActiveCombatTarget())) != 0)
+    {
+        questFormID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(((::TESSound *)(reinterpret_cast<::LowProcess *>((reinterpret_cast<Idle_008b2010*>(this)))->GetActiveCombatTarget())))))->FUN_0084e3a0()));
+    }
+    ::FUN_00485910(0x4d414e53, questFormID);
+
+    ::FUN_00485910(0x4d414e57, *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x50));
 
     if (reinterpret_cast<TESTopicInfo*>(this)->GetParentQuest() != 0)
     {
-        formID = reinterpret_cast<TESForm*>(reinterpret_cast<TESTopicInfo*>(this)->GetParentQuest())->GetFormID();
-        _FUN_00485910(0x54414452, formID);
+        formID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(reinterpret_cast<TESTopicInfo*>(this)->GetParentQuest())))->FUN_0084e3a0()));
+        ::FUN_00485910(0x54414452, formID);
     }
 
-    _FUN_00485910(0x4d414e41, reinterpret_cast<P09AS*>(this)->GetField4C());
+    ::FUN_00485910(0x4d414e41, reinterpret_cast<::FUN_0068a810_class *>((reinterpret_cast<P09AS*>(this)))->GetField4C());
 
     if (*reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x30) != 0)
     {
-        _FUN_00485910(0x4d414e49, 1);
+        ::FUN_00485910(0x4d414e49, 1);
     }
     else
     {
-        _FUN_00485910(0x4d414e49, 0);
+        ::FUN_00485910(0x4d414e49, 0);
     }
 
-    reinterpret_cast<FUN_00485680*>(this)->M();
+    reinterpret_cast<::Holder *>((reinterpret_cast<FUN_00485680*>(this)))->FUN_00485680();
 }
 
 namespace fnv_0058a220 {
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
 };
 
 struct P09AS
 {
-    int GetField4C();
 };
 
 struct FUN_0058a220_shell
@@ -405,34 +421,34 @@ bool FUN_0058a220_shell::IsNotEqual(TESForm* apCompare)
     if (static_cast<unsigned char>(GetByteAtOffset48(this)) != static_cast<unsigned char>(GetByteAtOffset48(pcomp)))
         return true;
 
-    if (reinterpret_cast<FUN_005e79a0_t*>(this)->FUN_00485270(pcomp))
+    if (reinterpret_cast<::FUN_00509540_obj *>((reinterpret_cast<FUN_005e79a0_t*>(this)))->FUN_00485270(pcomp))
         return true;
 
-    if (reinterpret_cast<CP_008c48d0*>(this)->GetPrevPath() != reinterpret_cast<CP_008c48d0*>(pcomp)->GetPrevPath())
+    if (((::TESSound *)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<CP_008c48d0*>(this)))->GetPrevPath())) != ((::TESSound *)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<CP_008c48d0*>(pcomp)))->GetPrevPath())))
         return true;
 
-    if (reinterpret_cast<TESTopicInfo*>(this)->GetConversationData() !=
-        reinterpret_cast<TESTopicInfo*>(pcomp)->GetConversationData())
+    if (((::TESSound *)(::GetField38((char *)(reinterpret_cast<TESTopicInfo*>(this))))) !=
+        ((::TESSound *)(::GetField38((char *)(reinterpret_cast<TESTopicInfo*>(pcomp))))))
         return true;
 
-    if (reinterpret_cast<EP_008c48d0*>(this)->GetEntryPoint() != reinterpret_cast<EP_008c48d0*>(pcomp)->GetEntryPoint())
+    if (((::TESSound *)(reinterpret_cast<::Twin_00639b40 *>((reinterpret_cast<EP_008c48d0*>(this)))->GetEntryPoint())) != ((::TESSound *)(reinterpret_cast<::Twin_00639b40 *>((reinterpret_cast<EP_008c48d0*>(pcomp)))->GetEntryPoint())))
         return true;
 
-    if (reinterpret_cast<BSOcclusionPlane*>(this)->GetCullResult() !=
-        reinterpret_cast<BSOcclusionPlane*>(pcomp)->GetCullResult())
+    if (((::TESSound *)(reinterpret_cast<::LowProcess *>((reinterpret_cast<BSOcclusionPlane*>(this)))->GetTarget())) !=
+        ((::TESSound *)(reinterpret_cast<::LowProcess *>((reinterpret_cast<BSOcclusionPlane*>(pcomp)))->GetTarget())))
         return true;
 
-    if (reinterpret_cast<Idle_008b2010*>(this)->GetState() != reinterpret_cast<Idle_008b2010*>(pcomp)->GetState())
+    if (((::TESSound *)(reinterpret_cast<::LowProcess *>((reinterpret_cast<Idle_008b2010*>(this)))->GetActiveCombatTarget())) != ((::TESSound *)(reinterpret_cast<::LowProcess *>((reinterpret_cast<Idle_008b2010*>(pcomp)))->GetActiveCombatTarget())))
         return true;
 
-    if (reinterpret_cast<BGSAddonNode*>(this)->GetIndex() != reinterpret_cast<BGSAddonNode*>(pcomp)->GetIndex())
+    if (((unsigned int)(reinterpret_cast<::FUN_0068a830_shell *>((reinterpret_cast<BGSAddonNode*>(this)))->GetGrass())) != ((unsigned int)(reinterpret_cast<::FUN_0068a830_shell *>((reinterpret_cast<BGSAddonNode*>(pcomp)))->GetGrass())))
         return true;
 
     if (reinterpret_cast<TESTopicInfo*>(this)->GetParentQuest() !=
         reinterpret_cast<TESTopicInfo*>(pcomp)->GetParentQuest())
         return true;
 
-    if (reinterpret_cast<P09AS*>(this)->GetField4C() != reinterpret_cast<P09AS*>(pcomp)->GetField4C())
+    if (reinterpret_cast<::FUN_0068a810_class *>((reinterpret_cast<P09AS*>(this)))->GetField4C() != reinterpret_cast<::FUN_0068a810_class *>((reinterpret_cast<P09AS*>(pcomp)))->GetField4C())
         return true;
 
     return false;
@@ -451,13 +467,12 @@ class FUN_005898c0 : public FUN_0050e820
   public:
     FUN_005898c0();
     virtual ~FUN_005898c0();
-    void FUN_00589980();
 };
 
 // Sets the form type to ASPC and calls FUN_00589980.
 // @fnv 0x005898c0
 FUN_005898c0::FUN_005898c0()
 {
-    SetFormType(ENUM_FORM_ID_ASPC_ID);
-    FUN_00589980();
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)(ENUM_FORM_ID_ASPC_ID)));
+    reinterpret_cast<::BGSAcousticSpace *>(this)->ResetFormData();
 }

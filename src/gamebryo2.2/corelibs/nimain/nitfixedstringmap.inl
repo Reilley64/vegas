@@ -1,4 +1,6 @@
 
+#include "fnv/symbols_00a6e000.h"
+#include "fnv/symbols_0109b000.h"
 #include "nitfixedstringmap_decls.h"
 
 template<>
@@ -9,9 +11,9 @@ void NiAVObjectFixedStringMap::GetNext(void*& pos, NiFixedString& key, NiAVObjec
     char* handle = item->m_key.m_kHandle;
     if (key.m_kHandle != handle)
     {
-        if (handle != EmptyFS.m_kHandle)
+        if (handle != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             InterlockedIncrement(reinterpret_cast<volatile long*>(handle) - 2);
-        if (key.m_kHandle != EmptyFS.m_kHandle)
+        if (key.m_kHandle != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             InterlockedDecrement(reinterpret_cast<volatile long*>(key.m_kHandle) - 2);
         key.m_kHandle = handle;
     }
@@ -44,13 +46,13 @@ void NiCharFixedStringMap::SetAt(NiFixedString& key, const char* value)
     {
         if (key.m_kHandle == item->m_key.m_kHandle)
         {
-            AssignSharedPtr(item, key, value);
+            ::AssignSharedPtr((void *)this, item, (void *)&(key));
             return;
         }
         item = item->m_pkNext;
     }
     item = NewItem();
-    AssignSharedPtr(item, key, value);
+    ::AssignSharedPtr((void *)this, item, (void *)&(key));
     item->m_pkNext = m_ppkHashTable[hash];
     m_ppkHashTable[hash] = item;
     ++m_kItemCount.m_uiCount;

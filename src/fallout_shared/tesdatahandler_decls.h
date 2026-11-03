@@ -2,6 +2,37 @@
 #ifndef FNV_TESDATAHANDLER_DECLS_H
 #define FNV_TESDATAHANDLER_DECLS_H
 
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_004077e0_shell.h"
+#include "fnv/decl/FUN_004169d0_shell.h"
+#include "fnv/decl/FUN_0041d8a0_shell.h"
+#include "fnv/decl/FUN_0045a730_shell.h"
+#include "fnv/decl/FUN_0045c650_shell.h"
+#include "fnv/decl/FUN_00460fb0_class.h"
+#include "fnv/decl/FUN_00460fd0_class.h"
+#include "fnv/decl/FUN_004610d0_shell.h"
+#include "fnv/decl/FUN_004610f0_Class.h"
+#include "fnv/decl/FUN_00503650_shell.h"
+#include "fnv/decl/FUN_00506390Class.h"
+#include "fnv/decl/FUN_00613790_shell.h"
+#include "fnv/decl/FUN_00624700_shell.h"
+#include "fnv/decl/FUN_0062d2f0_shell.h"
+#include "fnv/decl/FUN_009d9f40_Class.h"
+#include "fnv/decl/MessageHandler.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/NiAVObject.h"
+#include "fnv/decl/PackedByteIntRecord.h"
+#include "fnv/decl/TESTopicInfoData.h"
+#include "fnv/decl/fnv_00455600__FUN_00455600_shell.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00461000.h"
+#include "fnv/symbols_004a0000.h"
+#include "fnv/symbols_004ea000.h"
+#include "fnv/symbols_00514000.h"
+#include "fnv/symbols_00637000.h"
+#include "fnv/symbols_00871000.h"
+#include "fnv/symbols_00874000.h"
+#include "fnv/symbols_00984000.h"
 #include "tesdatahandler_forms.h"
 #include "tesdatahandler_defaults.h"
 #include "tesdatahandler_files.h"
@@ -38,18 +69,13 @@ class TESDataHandler
     TESFile* loadedFiles[255];
     bool allowPlugin, specialFile, compiling, flag61b, flag61c, flag61d, flag61e, flag61f, flag620, flag621;
     unsigned char loadingGroup;
-    TESObjectCELL* GetCellByWorldPosition(float, float, TESWorldSpace*, bool);
-    TESRegionList* GetRegionList();
     void RegisterAddonNode(BGSAddonNode*);
     int GetDLCIndex(const char*);
     void GetReferencesInArea(TESObjectCELL*, const NiPoint3&, float, const NiPoint3&, float,
                              bool(__cdecl*)(TESObjectREFR*, long), long);
     void GetRegions();
-    TESFormList* GetObjectList();
     TESFile* LookupTESFile(const char*);
     unsigned int GetNextID();
-    bool IsIDUsed(unsigned int);
-    void IncrementID();
     void BuildCompiledFileList();
     TESSound* GetSoundByEditorID(const char*);
     BGSAddonNode* GetAddonNodeByIndex(unsigned int);
@@ -59,48 +85,17 @@ class TESDataHandler
     TESFile* GetCompiledFileByIndex(int);
     unsigned int GetCompiledFileCount();
     bool AddFormToDataHandler(TESForm*);
-    BSSimpleList<TESReputation*>* GetTESReputationList();
-    BSSimpleList<TESChallenge*>* GetTESChallengeList();
-    BSSimpleList<BGSRecipe*>* GetBGSRecipeList();
-    BSSimpleList<BGSRecipeCategory*>* GetBGSRecipeCategoryList();
-    BSSimpleList<TESAmmoEffect*>* GetTESAmmoEffectList();
     BSSimpleList<TESCasino*>* GetTESCasinoList();
-    BSSimpleList<TESCaravanDeck*>* GetTESCaravanDeckList();
     BSSimpleList<TESClass*>* GetTESClassList();
     BSSimpleList<BGSNote*>* GetBGSNoteList();
-    BSSimpleList<BGSHeadPart*>* GetBGSHeadPartList();
-    BSSimpleList<TESHair*>* GetTESHairList();
-    BSSimpleList<TESRace*>* GetTESRaceList();
-    BSSimpleList<BGSEncounterZone*>* GetBGSEncounterZoneList();
-    BSSimpleList<TESQuest*>* GetTESQuestList();
-    BSSimpleList<TESSound*>* GetTESSoundList();
     BSSimpleList<BGSAcousticSpace*>* GetBGSAcousticSpaceList();
-    BSSimpleList<TESLandTexture*>* GetTESLandTextureList();
-    BSSimpleList<BGSCameraShot*>* GetBGSCameraShotList();
-    BSSimpleList<Script*>* GetScriptList();
-    BSSimpleList<TESPackage*>* GetTESPackageList();
     BSSimpleList<BGSImpactData*>* GetBGSImpactDataList();
-    BSSimpleList<BGSImpactDataSet*>* GetBGSImpactDataSetList();
-    BSSimpleList<BGSMenuIcon*>* GetBGSMenuIconList();
-    BSSimpleList<SpellItem*>* GetSpellItemList();
-    BSSimpleList<EnchantmentItem*>* GetEnchantmentItemList();
-    BSSimpleList<TESLoadScreen*>* GetTESLoadScreenList();
     BSSimpleList<TESObjectANIO*>* GetTESObjectANIOList();
-    BSSimpleList<TESEffectShader*>* GetTESEffectShaderList();
     BSSimpleList<BGSProjectile*>* GetBGSProjectileList();
-    BSSimpleList<BGSDebris*>* GetBGSDebrisList();
-    BSSimpleList<BGSPerk*>* GetBGSPerkList();
-    BSSimpleList<BGSBodyPartData*>* GetBGSBodyPartDataList();
     BSSimpleList<BGSRadiationStage*>* GetBGSRadiationStageList();
-    BSSimpleList<BGSDehydrationStage*>* GetBGSDehydrationStageList();
-    BSSimpleList<BGSHungerStage*>* GetBGSHungerStageList();
     BSSimpleList<BGSSleepDeprivationStage*>* GetBGSSleepDeprivationStageList();
-    BSSimpleList<BGSRagdoll*>* GetBGSRagdollList();
     BSSimpleList<BGSLightingTemplate*>* GetBGSLightingTemplateList();
-    BSSimpleList<BGSMusicType*>* GetBGSMusicTypeList();
     BSSimpleList<TESLoadScreenType*>* GetTESLoadScreenTypeList();
-    BSSimpleList<MediaSet*>* GetMediaSetList();
-    BSSimpleList<MediaLocationController*>* GetMediaLocationControllerList();
     BSSimpleList<TESSkill*>* GetTESSkillList();
     BSSimpleList<TESTopic*>* GetTESTopicList();
     BSSimpleList<TESIdleForm*>* GetTESIdleFormList();
@@ -109,14 +104,10 @@ class TESDataHandler
     bool LoadPluginFiles(bool);
     void MarkGameSettingsLoaded();
     void ReportDataHandlerError(int);
-    void FUN_00464d30(bool);
     bool FUN_00467780(TESFile*, bool);
-    void FUN_00464d50(TESForm*);
-    void FUN_00464d70(TESForm*);
     void SetField638(TESForm*);
     BSSimpleList<TESForm*>* FUN_00436aa0();
     BSSimpleList<TESForm*>* FUN_00624700();
-    BSSimpleList<TESForm*>* FUN_004612e0();
     BSSimpleList<TESForm*>* FUN_004077e0();
     BSSimpleList<TESForm*>* FUN_0041d8a0();
     BSSimpleList<TESForm*>* FUN_0087eaa0();
@@ -128,22 +119,9 @@ class TESDataHandler
     BSSimpleList<TESForm*>* FUN_004a0d10();
     bool ConstructObject(TESFile*, bool, TESForm*, bool);
     static bool LoadForm(TESForm*, TESFile*);
-    void AddTopic(TESTopic*);
-    void AddTopicInfo(TESTopicInfo*);
     void InitializeMagicSystem();
-    BSSimpleList<BGSExplosion*>* GetBGSExplosionList();
-    BSSimpleList<TESEyes*>* GetTESEyesList();
-    BSSimpleList<BGSVoiceType*>* GetBGSVoiceTypeList();
-    BSSimpleList<TESWaterForm*>* GetTESWaterFormList();
-    BSSimpleList<TESWorldSpace*>* GetTESWorldSpaceList();
-    BSSimpleList<TESFaction*>* GetTESFactionList();
-    BSSimpleList<TESGlobal*>* GetTESGlobalList();
-    BSSimpleList<TESWeather*>* GetTESWeatherList();
-    BSSimpleList<TESClimate*>* GetTESClimateList();
     BSSimpleList<BGSListForm*>* GetBGSListFormList();
     BSSimpleList<BGSMessage*>* GetBGSMessageList();
-    BSSimpleList<TESImageSpace*>* GetTESImageSpaceList();
-    BSSimpleList<TESImageSpaceModifier*>* GetTESImageSpaceModifierList();
     BSSimpleList<TESCombatStyle*>* GetTESCombatStyleList();
     static TESForm* CreateFormForType(unsigned char);
 };

@@ -1,10 +1,68 @@
 // src/fallout_shared/tesobjectcell_iso_variant.cpp - variant unit created 2026-11-01 by rtm_route.py: community reworks of src/fallout_shared/tesobjectcell.cpp that match byte for byte only
 // with VC9 SP1 and /MT /Od /Oy- /GS /EHsc /Gy /GF (unit lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton.
 
+#include <new>
+#include "fnv/decl/Actor_0087f4a0.h"
+#include "fnv/decl/B572270Object.h"
+#include "fnv/decl/BGSImpactData.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CollectionView.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_004120b0_shell.h"
+#include "fnv/decl/FUN_00418660_shell.h"
+#include "fnv/decl/FUN_0041de40_class.h"
+#include "fnv/decl/FUN_0041df90_shell.h"
+#include "fnv/decl/FUN_0041dfd0_Shell.h"
+#include "fnv/decl/FUN_0041e310_shell.h"
+#include "fnv/decl/FUN_00421c30_shell.h"
+#include "fnv/decl/FUN_0042cde0_shell.h"
+#include "fnv/decl/FUN_0042e250_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00452370_shell.h"
+#include "fnv/decl/FUN_00458400_cls.h"
+#include "fnv/decl/FUN_004610d0_shell.h"
+#include "fnv/decl/FUN_00477090_Owner.h"
+#include "fnv/decl/FUN_00484580_shell.h"
+#include "fnv/decl/FUN_00484610_shell.h"
+#include "fnv/decl/FUN_00526120_shell.h"
+#include "fnv/decl/FUN_005445d0_shell.h"
+#include "fnv/decl/FUN_00544600_shell.h"
+#include "fnv/decl/FUN_00545cb0_shell.h"
+#include "fnv/decl/FUN_00558b40_shell.h"
+#include "fnv/decl/FUN_00558b80_shell.h"
+#include "fnv/decl/FUN_00565450_shell.h"
+#include "fnv/decl/FUN_00569250_shell.h"
+#include "fnv/decl/FUN_0056ae60_Class.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00881c90_cls.h"
+#include "fnv/decl/FUN_009604f0_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/Reference.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_0042ce10__FUN_0042ce10_shell.h"
+#include "fnv/decl/fnv_00546b10__FUN_00546b10_class.h"
+#include "fnv/decl/fnv_00550200__FUN_00550200.h"
+#include "fnv/decl/fnv_00558b60__FUN_00558b60_shell.h"
+#include "fnv/decl/fnv_005653d0__FUN_005653d0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/s577de0__Owner.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00475000.h"
+#include "fnv/symbols_00526000.h"
+#include "fnv/symbols_00541000.h"
+#include "fnv/symbols_0054f000.h"
+#include "fnv/symbols_005ac000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011c9000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
 #include "tesobjectcell_packet.h"
 void __cdecl operator delete(void* pointer);
 const char kTESObjectCELLCellRefLockEnter[] = "TESObjectCELL::CellRefLockEnter()";
-unsigned int FUN_0054f4c0();
 NiAVObject* FUN_0054f4f0();
 
 struct ExpiredRefPosition3
@@ -23,26 +81,19 @@ struct FUN_00546af0_shell : public TESObjectCELL
 };
 struct BGSSaveLoadGame
 {
-    unsigned char FUN_0042ce10();
 };
-extern BGSSaveLoadGame* g_BGSSaveLoadGame;
-extern TESDataHandler* g_dataHandler;
 struct RefNode;
 struct RefrShell;
 struct ExtraShell;
 struct ZoneShell
 {
-    bool FUN_00526120(FUN_00546af0_shell* cell);
 };
 struct Modelish
 {
-    bool FUN_0042cde0();
 };
 struct RefNode
 {
     bool FUN_008256d0();
-    RefrShell** FUN_006815c0();
-    RefNode* FUN_00726070();
     void FUN_0063f7b0();
 };
 struct Inner3c
@@ -72,16 +123,9 @@ class IngredientItem : public TESBoundObject
 };
 struct Obj34
 {
-    void UpdateSoundLevel(RefrShell* refr);
 };
 struct ExtraShell : public ExtraDataList
 {
-    void* FUN_0042e250();
-    Modelish* FUN_00418520();
-    RefNode* FUN_0041df90();
-    void FUN_0041dfd0();
-    void FUN_0041de40(int a);
-    RefrShell* FUN_0041e310();
 };
 struct RefrShell : public TESObjectREFR
 {
@@ -288,52 +332,25 @@ struct RefrShell : public TESObjectREFR
     virtual void v199();
     virtual void v200();
     virtual void V201(int a, int b, int c);
-    bool FUN_005653d0();
-    bool FUN_0056ae60();
-    bool IsExpired(unsigned int a);
-    bool FUN_00577de0();
-    void FUN_00572270();
     ZoneShell* FUN_00567d20();
-    bool FUN_00452370();
-    bool FUN_00440d80();
-    bool FUN_00565450();
-    void FUN_00569250();
-    void FUN_00484580(bool b);
-    void SetFlag2000(bool b);
-    bool FUN_0087f4a0();
-    unsigned int FUN_0084e3a0();
-    TESBoundObject* FUN_007af430();
-    void FUN_00575830(ExpiredRefPosition3* p);
     void FUN_00575700(ExpiredRefPosition3 p);
 };
 struct Calendar
 {
-    unsigned int FUN_00867e30();
+public:
+    unsigned int GetGameHoursPassed();
 };
 struct DHShell : public TESDataHandler
 {
-    bool FUN_00469860(unsigned int id);
 };
-extern Calendar g_calendar;
-unsigned int __cdecl FUN_00526100();
-bool __fastcall FUN_005262a0(void* zone);
-Obj34* __cdecl FUN_00475400(void* p);
-void __cdecl FUN_005ac190(RefrShell* refr, ExtraShell* extra);
-bool __cdecl FUN_005ac750(RefrShell* refr, ExtraShell* extra, unsigned int a);
-ExtraShell* __fastcall FUN_005d43c0(RefrShell* refr);
 struct CellShell : public FUN_00546af0_shell
 {
-    ZoneShell* FUN_00546c20();
-    RefNode* FUN_009604f0();
-    void SetDetachTime(unsigned int a, bool b);
-    void* FUN_0054ddd0();
-    bool FUN_00550200(ExpiredRefPosition3* p);
     bool FUN_0054df30();
 };
 // @fnv 0x0054df30
 bool CellShell::FUN_0054df30()
 {
-    if (g_BGSSaveLoadGame->FUN_0042ce10())
+    if (((unsigned char)(reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>((g_BGSSaveLoadGame))->FUN_0042ce10())))
         return false;
     unsigned long _type;
     bool _changed;
@@ -342,7 +359,7 @@ bool CellShell::FUN_0054df30()
     unsigned int _oldState;
     RefNode* _item;
     bool _done;
-    _oldState = g_calendar.FUN_00867e30();
+    _oldState = reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::Calendar *>(&::g_011de7b8))))->GetGameHoursPassed();
     _changed = 0;
     _done = 0;
     _type = FUN_00546af0();
@@ -350,39 +367,39 @@ bool CellShell::FUN_0054df30()
     {
         CellRefLockEnter();
         RefNode* a;
-        a = FUN_009604f0();
+        a = ((::RefNode *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
         for (; 0 != a && !a->FUN_008256d0();)
         {
             RefrShell* flag6;
-            flag6 = *a->FUN_006815c0();
-            a = a->FUN_00726070();
-            switch (flag6->FUN_007af430()->FUN_00401170())
+            flag6 = *((::RefrShell **)(new ((void *)(a)) ::Vec3()));
+            a = ((::RefNode *)(reinterpret_cast<::Callees *>((a))->FUN_00726070()));
+            switch (((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((flag6))->FUN_007af430()))->FUN_00401170())
             {
             case 0x1b:
-                if (flag6->FUN_005653d0())
+                if (reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>((flag6))->FUN_005653d0())
                 {
-                    flag6->V130(!flag6->FUN_0056ae60());
+                    flag6->V130(!reinterpret_cast<::FUN_0056ae60_Class *>((flag6))->FUN_0056ae60());
                 }
                 break;
             case 0x2a:
             case 0x2b:
-                if (flag6->FUN_005653d0())
+                if (reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>((flag6))->FUN_005653d0())
                 {
                     RefrShell* c;
                     c = flag6;
-                    if (c->IsExpired(_oldState))
+                    if (reinterpret_cast<::FUN_00881c90_cls *>((c))->IsExpired(_oldState))
                     {
-                        flag6->V130(!flag6->FUN_0056ae60());
+                        flag6->V130(!reinterpret_cast<::FUN_0056ae60_Class *>((flag6))->FUN_0056ae60());
                     }
                 }
                 break;
             }
         }
-        CellRefLockLeave();
+        ::FUN_00541ae0((char *)this);
         return true;
     }
     _allowed = 0;
-    _special = FUN_00546c20();
+    _special = ((::ZoneShell *)(reinterpret_cast<::TESObjectCELL *>(this)->FindEncounterZone()));
     if (_type == 0xffffffff)
     {
         _changed = 1;
@@ -391,12 +408,12 @@ bool CellShell::FUN_0054df30()
     }
     else
     {
-        if (_oldState - _type > FUN_00526100())
+        if (_oldState - _type > ((unsigned int)(::fnv_00526100::FUN_00526100())))
             _allowed = 1;
         if (0 != _special)
         {
-            if (FUN_005262a0(_special))
-                _changed = _special->FUN_00526120(this);
+            if (::FUN_005262a0((::BGSEncounterZone *)(_special)))
+                _changed = reinterpret_cast<::FUN_00526120_shell *>((_special))->FUN_00526120(this);
             else
                 _changed = 0;
         }
@@ -407,15 +424,15 @@ bool CellShell::FUN_0054df30()
     }
     CellRefLockEnter();
     {
-        _item = FUN_009604f0();
+        _item = ((::RefNode *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
         for (; 0 != _item && !_item->FUN_008256d0();)
         {
             RefrShell* refr2;
-            refr2 = *_item->FUN_006815c0();
-            _item = _item->FUN_00726070();
-            if (_done && ((DHShell*)g_dataHandler)->FUN_00469860(refr2->FUN_0084e3a0()))
+            refr2 = *((::RefrShell **)(new ((void *)(_item)) ::Vec3()));
+            _item = ((::RefNode *)(reinterpret_cast<::Callees *>((_item))->FUN_00726070()));
+            if (_done && reinterpret_cast<::BSShaderRenderUtility *>((((DHShell*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->IsRenderTargetId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((refr2))->FUN_0084e3a0()))))
             {
-                if (!refr2->V88() && !refr2->FUN_00577de0())
+                if (!refr2->V88() && !reinterpret_cast<::s577de0::Owner *>((refr2))->FUN_00577de0())
                     refr2->V49(1);
                 continue;
             }
@@ -425,20 +442,20 @@ bool CellShell::FUN_0054df30()
                 cnt = refr2;
             if (0 != cnt)
             {
-                if (!cnt->IsExpired(_oldState))
+                if (!reinterpret_cast<::FUN_00881c90_cls *>((cnt))->IsExpired(_oldState))
                     continue;
             }
             else
             {
                 if (_allowed)
                 {
-                    if (refr2->FUN_00452370())
+                    if (reinterpret_cast<::FUN_00452370_shell *>((refr2))->FUN_00452370())
                     {
                         Obj34* v;
-                        v = FUN_00475400(refr2->FUN_007af430());
-                        v->UpdateSoundLevel(refr2);
-                        if (!!FUN_005d43c0(refr2)->FUN_0042e250())
-                            refr2->SetFlag2000(true);
+                        v = ((::Obj34 *)(::FUN_00475400(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((refr2))->FUN_007af430())))));
+                        reinterpret_cast<::FUN_00477090_Owner *>((v))->UpdateSoundLevel((::FUN_00477090_Ref *)(refr2));
+                        if (!!((void *)(reinterpret_cast<::FUN_0042e250_shell *>((((::ExtraShell *)(reinterpret_cast<::FUN_005d43c0_ *>((refr2))->FUN_005d43c0()))))->FUN_0042e250())))
+                            reinterpret_cast<::FUN_00484610_shell *>((refr2))->SetFlag2000(true);
                     }
                 }
                 ZoneShell* q;
@@ -447,7 +464,7 @@ bool CellShell::FUN_0054df30()
                 {
                     if (q)
                     {
-                        if (!FUN_005262a0(q))
+                        if (!::FUN_005262a0((::BGSEncounterZone *)(q)))
                             continue;
                     }
                 }
@@ -459,23 +476,23 @@ bool CellShell::FUN_0054df30()
             }
             if (0 != cnt)
             {
-                if (cnt->FUN_0087f4a0())
+                if (reinterpret_cast<::Actor_0087f4a0 *>((cnt))->FUN_0087f4a0())
                 {
                     cnt->V201(1, 0, 0);
                     RefNode* i;
-                    i = FUN_005d43c0(cnt)->FUN_0041df90();
+                    i = ((::RefNode *)(reinterpret_cast<::FUN_0041df90_shell *>((((::ExtraShell *)(reinterpret_cast<::FUN_005d43c0_ *>((cnt))->FUN_005d43c0()))))->FUN_0041df90()));
                     if (0 != i)
                     {
                         for (; 0 != i && !i->FUN_008256d0();)
                         {
                             RefrShell* tmp;
-                            tmp = *i->FUN_006815c0();
-                            FUN_005d43c0(tmp)->FUN_0041de40(0);
+                            tmp = *((::RefrShell **)(new ((void *)(i)) ::Vec3()));
+                            reinterpret_cast<::FUN_0041de40_class *>((((::ExtraShell *)(reinterpret_cast<::FUN_005d43c0_ *>((tmp))->FUN_005d43c0()))))->FUN_0041de40((::TESObjectREFR *)(0));
                             if (!tmp->V88())
-                                tmp->FUN_00572270();
+                                reinterpret_cast<::B572270Object *>((tmp))->FUN_00572270();
                             i->FUN_0063f7b0();
                         }
-                        FUN_005d43c0(cnt)->FUN_0041dfd0();
+                        reinterpret_cast<::FUN_0041dfd0_Shell *>((((::ExtraShell *)(reinterpret_cast<::FUN_005d43c0_ *>((cnt))->FUN_005d43c0()))))->FUN_0041dfd0();
                     }
                     ExpiredRefPosition3 b;
                     cnt->V92(&b);
@@ -487,15 +504,15 @@ bool CellShell::FUN_0054df30()
                     }
                     else
                     {
-                        if (cnt->V165() == FUN_0054ddd0())
+                        if (cnt->V165() == ((void *)(reinterpret_cast<::TESObjectCELL *>(this)->GetParentWorldSpace())))
                         {
-                            if (FUN_00550200(&b))
+                            if (reinterpret_cast<::fnv_00550200::FUN_00550200 *>(this)->IsPointInCell((*(const ::fnv_00550200::NiPoint3 *)(&b))))
                                 s = 1;
                         }
                     }
                     if (s)
                     {
-                        cnt->FUN_00575830(&b);
+                        reinterpret_cast<::Reference *>((cnt))->FUN_00575830((::Position *)(::ExpiredRefPosition3 *)(&b));
                         cnt->FUN_00575700(cnt->V91());
                     }
                 }
@@ -503,55 +520,55 @@ bool CellShell::FUN_0054df30()
                 {
                     if (cnt->V139(0))
                     {
-                        if (!cnt->V88() && !cnt->FUN_00577de0())
+                        if (!cnt->V88() && !reinterpret_cast<::s577de0::Owner *>((cnt))->FUN_00577de0())
                         {
-                            cnt->FUN_00572270();
+                            reinterpret_cast<::B572270Object *>((cnt))->FUN_00572270();
                             RefrShell* x;
-                            x = FUN_005d43c0(cnt)->FUN_0041e310();
+                            x = ((::RefrShell *)(reinterpret_cast<::FUN_0041e310_shell *>((((::ExtraShell *)(reinterpret_cast<::FUN_005d43c0_ *>((cnt))->FUN_005d43c0()))))->FUN_0041e310()));
                             if (!!x)
-                                x->FUN_00572270();
+                                reinterpret_cast<::B572270Object *>((x))->FUN_00572270();
                         }
                         RefNode* p;
-                        p = FUN_005d43c0(cnt)->FUN_0041df90();
+                        p = ((::RefNode *)(reinterpret_cast<::FUN_0041df90_shell *>((((::ExtraShell *)(reinterpret_cast<::FUN_005d43c0_ *>((cnt))->FUN_005d43c0()))))->FUN_0041df90()));
                         if (!!p)
                         {
                             for (; p && !p->FUN_008256d0();)
                             {
                                 RefrShell* y;
-                                y = *p->FUN_006815c0();
-                                FUN_005d43c0(y)->FUN_0041de40(0);
+                                y = *((::RefrShell **)(new ((void *)(p)) ::Vec3()));
+                                reinterpret_cast<::FUN_0041de40_class *>((((::ExtraShell *)(reinterpret_cast<::FUN_005d43c0_ *>((y))->FUN_005d43c0()))))->FUN_0041de40((::TESObjectREFR *)(0));
                                 if (!y->V88())
-                                    y->FUN_00572270();
+                                    reinterpret_cast<::B572270Object *>((y))->FUN_00572270();
                                 p->FUN_0063f7b0();
                             }
-                            FUN_005d43c0(cnt)->FUN_0041dfd0();
+                            reinterpret_cast<::FUN_0041dfd0_Shell *>((((::ExtraShell *)(reinterpret_cast<::FUN_005d43c0_ *>((cnt))->FUN_005d43c0()))))->FUN_0041dfd0();
                         }
                     }
                 }
             }
             else
             {
-                switch (refr2->FUN_007af430()->FUN_00401170())
+                switch (((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((refr2))->FUN_007af430()))->FUN_00401170())
                 {
                 case 0x1b:
-                    if (refr2->FUN_0056ae60())
+                    if (reinterpret_cast<::FUN_0056ae60_Class *>((refr2))->FUN_0056ae60())
                     {
                         refr2->V130(0);
-                        if (!!FUN_005d43c0(refr2)->FUN_00418520())
+                        if (!!((::Modelish *)(reinterpret_cast<::ExtraDataList *>((((::ExtraShell *)(reinterpret_cast<::FUN_005d43c0_ *>((refr2))->FUN_005d43c0()))))->GetContainerChangeData())))
                         {
-                            if (!FUN_005d43c0(refr2)->FUN_00418520()->FUN_0042cde0())
-                                refr2->FUN_00569250();
+                            if (!reinterpret_cast<::FUN_0042cde0_shell *>((((::Modelish *)(reinterpret_cast<::ExtraDataList *>((((::ExtraShell *)(reinterpret_cast<::FUN_005d43c0_ *>((refr2))->FUN_005d43c0()))))->GetContainerChangeData()))))->FUN_0042cde0())
+                                reinterpret_cast<::FUN_00569250_shell *>((refr2))->FUN_00569250();
                         }
                     }
                     break;
                 case 0x26:
-                    refr2->FUN_00484580(false);
+                    reinterpret_cast<::FUN_00484580_shell *>((refr2))->FUN_00484580(false);
                     break;
                 case 0x1d:
-                    if (refr2->FUN_00440d80() && !refr2->FUN_00565450() && !refr2->V88())
+                    if (reinterpret_cast<::FUN_00440d80_shell *>((refr2))->FUN_00440d80() && !reinterpret_cast<::FUN_00565450_shell *>((refr2))->FUN_00565450() && !refr2->V88())
                     {
                         IngredientItem* j;
-                        j = dynamic_cast<IngredientItem*>(refr2->FUN_007af430());
+                        j = dynamic_cast<IngredientItem*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((refr2))->FUN_007af430())));
                         if (0 != j)
                         {
                             if (j->m3c.v1())
@@ -561,11 +578,11 @@ bool CellShell::FUN_0054df30()
                     break;
                 }
             }
-            FUN_005ac190(refr2, FUN_005d43c0(refr2));
-            FUN_005ac750(refr2, FUN_005d43c0(refr2), 0x80000000);
+            ::FUN_005ac190((::TESObjectREFR *)(refr2), (::ExtraDataList *)(::ExtraShell *)(((::ExtraShell *)(reinterpret_cast<::FUN_005d43c0_ *>((refr2))->FUN_005d43c0()))));
+            ::FUN_005ac750((::TESForm *)(refr2), (::ExtraDataList *)(::ExtraShell *)(((::ExtraShell *)(reinterpret_cast<::FUN_005d43c0_ *>((refr2))->FUN_005d43c0()))), 0x80000000);
         }
     }
-    CellRefLockLeave();
-    SetDetachTime(0, false);
+    ::FUN_00541ae0((char *)this);
+    reinterpret_cast<::fnv_00546b10::FUN_00546b10_class *>(this)->UpdateCellExtraData((::BSExtraData *)(0), false);
     return _changed;
 }

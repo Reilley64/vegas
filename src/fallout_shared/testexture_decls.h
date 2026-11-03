@@ -3,6 +3,7 @@
 #define FNV_TESTEXTURE_PRIVATE_DECLS_H
 
 
+#include "fnv/symbols_0040a000.h"
 #include "layout_support.h"
 
 #pragma pack(push, 4)
@@ -40,6 +41,5 @@ class TESTexture : public BaseFormComponent
 };
 #pragma pack(pop)
 
-char* __cdecl FUN_0040ab30(char* string, int character);
 
 #endif

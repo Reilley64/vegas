@@ -2,9 +2,18 @@
 // src/havok/common/base/system/io/ostream/hkostream.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/ostream/hkostream.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/C87710HavokObject.h"
+#include "fnv/decl/FUN_00c903b0_class.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00d46be0_Cls.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/fnv_00cbf2f0__FUN_00cbf2f0_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010c9000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkOstream.h"
 
-extern int DAT_01268108;
 extern "C" __declspec(dllimport) void __stdcall free(void*);
 
 // @fnv 0x00c85750
@@ -13,11 +22,8 @@ void __cdecl FUN_00c85750()
     free((void*)DAT_01268108);
 }
 
-extern char _DAT_010c9314;
-extern char _DAT_0102e388;
 struct Old
 {
-    void ReleaseReference();
 };
 struct FUN_00cc00e0
 {
@@ -29,15 +35,14 @@ struct FUN_00cc00e0
 // @fnv 0x00cc00e0
 FUN_00cc00e0::~FUN_00cc00e0()
 {
-    vtbl = (void*)&_DAT_010c9314;
+    vtbl = (void*)&(*reinterpret_cast<char *>(&::DAT_010c9314));
     if (m_pStreamWriter)
-        m_pStreamWriter->ReleaseReference();
-    vtbl = (void*)&_DAT_0102e388;
+        reinterpret_cast<::FUN_00c903b0_class *>((m_pStreamWriter))->ReleaseReference();
+    vtbl = (void*)&(*reinterpret_cast<char *>(&::DAT_0102e388));
 }
 
 struct hkReferencedObjectStandIn
 {
-    void RetainReference();
     void removeReference();
 };
 struct DDCC60WorldStandIn
@@ -50,8 +55,8 @@ struct DDCC60WorldStandIn
 // @fnv 0x00cc0480
 void DDCC60WorldStandIn::FUN_00cc0480(hkReferencedObjectStandIn* pNew)
 {
-    pNew->RetainReference();
-    m_ref->removeReference();
+    reinterpret_cast<::FUN_00c90510_class *>((pNew))->FUN_00c90510();
+    reinterpret_cast<::hkReferencedObjectC905 *>((m_ref))->FUN_00c905b0();
     m_ref = pNew;
 }
 
@@ -94,20 +99,6 @@ struct FUN_00cc07f0_StandIn
 
     FUN_00cc07f0_StandIn* FUN_00cc07f0(unsigned int deletingFlag);
 };
-
-FUN_00cc07f0_StandIn* FUN_00cc07f0_StandIn::FUN_00cc07f0(unsigned int deletingFlag)
-{
-    FUN_00cc0780();
-
-    if (deletingFlag & 1)
-    {
-        FUN_00cc07f0_MemoryRouter* memoryRouter = _D1A0E0GetMemoryRouter();
-        unsigned short size = m_nSize;
-        memoryRouter->pRouter->Free(this, size);
-    }
-
-    return this;
-}
 
 struct CpuInterface
 {
@@ -156,20 +147,18 @@ void __thiscall Own_00cc0470::FUN_00cc0470(void* a)
     m_sub->v10(a);
 }
 
-extern int g_unk01268560;
 
 // @fnv 0x00cc04c0
 int* __cdecl FUN_00cc04c0()
 {
-    return &g_unk01268560;
+    return &(*reinterpret_cast<int *>(&::g_01268560));
 }
 
-extern int DAT_01268ad8;
 
 // @fnv 0x00cc0770
 int __cdecl FUN_00cc0770()
 {
-    return reinterpret_cast<int>(&DAT_01268ad8);
+    return reinterpret_cast<int>(&(*reinterpret_cast<int *>(&::g_01268ad8)));
 }
 
 // @fnv 0x00e3b490
@@ -304,10 +293,9 @@ class FUN_00d46be0_class
     int m_0c;
     int m_10;
 
-    void FUN_00d46be0() throw();
     ~FUN_00d46be0_class() throw()
     {
-        FUN_00d46be0();
+        reinterpret_cast<::FUN_00d46be0_Cls *>(this)->FUN_00d46be0();
     }
     static void operator delete(void* p) throw()
     {
@@ -512,6 +500,19 @@ class FUN_00cc0780 : public hkBaseObjectCC07
 
     virtual ~FUN_00cc0780() throw();
 };
+FUN_00cc07f0_StandIn* FUN_00cc07f0_StandIn::FUN_00cc07f0(unsigned int deletingFlag)
+{
+    reinterpret_cast<::FUN_00cc0780 *>(this)->FUN_00cc0780::~FUN_00cc0780();
+
+    if (deletingFlag & 1)
+    {
+        FUN_00cc07f0_MemoryRouter* memoryRouter = _D1A0E0GetMemoryRouter();
+        unsigned short size = m_nSize;
+        memoryRouter->pRouter->Free(this, size);
+    }
+
+    return this;
+}
 
 // Destructor that deletes m_buffer unless m_external is set.
 // @fnv 0x00cc0780
@@ -531,13 +532,12 @@ class FUN_00cbf430 : public GlobalObject_0045cfe0
 {
   public:
     ~FUN_00cbf430();
-    void FUN_00cbf2f0();
 };
 
 // @fnv 0x00cbf430
 FUN_00cbf430::~FUN_00cbf430()
 {
-    FUN_00cbf2f0();
+    reinterpret_cast<::fnv_00cbf2f0::FUN_00cbf2f0_class *>(this)->FUN_00cbf2f0();
 }
 
 class hkMemoryAllocatorD60B
@@ -659,7 +659,6 @@ struct HavokError
     virtual void v08();
     virtual int Warning(int type, int id, const char* desc, const char* file, int line);
 };
-extern HavokError* DAT_01268360;
 
 struct BoolType
 {
@@ -743,7 +742,6 @@ struct bhkMoppBvTreeShape
     virtual void v2c();
     virtual MoppCodeHeader* slotB4(char* pAllocated);
 
-    void FUN_00c87710(NiStream& stream);
 
     unsigned int FUN_00cc9f60(NiStream& stream);
 };
@@ -772,13 +770,13 @@ unsigned int bhkMoppBvTreeShape::FUN_00cc9f60(NiStream& stream)
 
         char szWarning[512];
         OStream s(szWarning, sizeof(szWarning), true);
-        s << "File " << pcFileName << " contains an old bhkMoppBvTreeShape! " << pcAuthor << " re-export\n";
-        DAT_01268360->Warning(1, 0x234f2250, szWarning,
+        reinterpret_cast<::SinkOwner *>((void *)&(const ::OStream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::OStream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::OStream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::OStream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::OStream &)(s))->FUN_00cc01c0("File ")))->FUN_00cc01c0(pcFileName)))->FUN_00cc01c0(" contains an old bhkMoppBvTreeShape! ")))->FUN_00cc01c0(pcAuthor)))->FUN_00cc01c0(" re-export\n");
+        (*reinterpret_cast<::HavokError * *>(&::DAT_01268360))->Warning(1, 0x234f2250, szWarning,
                               "D:\\_Fallout3\\Platforms\\Common\\Code\\BSHavok\\bhkMoppBvTreeShape.cpp", 187);
     }
     else
     {
-        FUN_00c87710(stream);
+        reinterpret_cast<::C87710HavokObject *>(this)->FUN_00c87710((::C87710Stream &)(stream));
         if (stream.m_bLittleEndian != 1)
         {
             buffer->m_data = _byteswap_ulong(buffer->m_data);

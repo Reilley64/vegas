@@ -5,24 +5,37 @@
 
 // src/havok/physics/utilities/dynamics/savecontactpoints/hkpsavecontactpointsutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/dynamics/savecontactpoints/hkpsavecontactpointsutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/CB1A90Owner.h"
+#include "fnv/decl/ContainerD082.h"
+#include "fnv/decl/FUN_00cb18f0_t.h"
+#include "fnv/decl/FUN_00cb1930_t.h"
+#include "fnv/decl/FUN_00cb1fe0_t.h"
+#include "fnv/decl/SearchObject.h"
+#include "fnv/decl/fnv_00cb1870__hkMapBaseCB18.h"
+#include "fnv/decl/fnv_00dc9c20__FnvObjectHolder.h"
+#include "fnv/decl/fnv_00dce840__FUN_00dce840.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpEntityGroupDCEC.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d2d000.h"
+#include "fnv/symbols_00d32000.h"
+#include "fnv/symbols_00d35000.h"
+#include "fnv/symbols_00d36000.h"
+#include "fnv/symbols_00d39000.h"
+#include "fnv/symbols_00d3f000.h"
+#include "fnv/symbols_00d40000.h"
+#include "fnv/symbols_00d41000.h"
+#include "fnv/symbols_00da6000.h"
+#include "fnv/symbols_00dcd000.h"
+#include "fnv/symbols_00dce000.h"
 struct FUN_00dce8d0_class
 {
-    unsigned long LookupHashEntry(unsigned long key, unsigned long def);
     unsigned long GetValueOrDefault(unsigned long key);
 };
-void __cdecl FUN_00d3fe90(void);
-void __cdecl FUN_00d39390(void);
-void __cdecl FUN_00d41a30(void);
-void __cdecl FUN_00d40d80(void);
-void __cdecl FUN_00d32cd0(void);
-void __cdecl BuildEventIndex(void);
-void __fastcall FUN_00d2d890(void*, int, void*, int);
-void __cdecl FUN_00d35770(void);
-void __cdecl FUN_00d365d0(void);
-int __cdecl FUN_00dcd4d0(void* p);
 struct D10710Object
 {
-    void Search(void* a, void* b, void* c, int flag);
     void CallWithFlag(void* a, void* b, void* c);
 };
 struct Entry
@@ -79,7 +92,6 @@ struct FUN_00dcb550_class
     Item* items;
     unsigned capacity, version;
     Node* current;
-    int AddNodeEntry(Entry*);
     int SetItemContextByKey(unsigned key);
 };
 struct DCD6A0Context;
@@ -1602,7 +1614,6 @@ static int DCD6A0GetAgentId(DCD6A0AgentFunc func)
 }
 // Taking the helper's address keeps its standard stack argument, as the original codegen shows.
 int(__cdecl* g_DCD6A0GetAgentId)(DCD6A0AgentFunc) = DCD6A0GetAgentId;
-int __cdecl DispatchItemToAgent(int expected, DCD6A0Context** contextPtr, int a, int b, DCD6A0Item* item);
 struct S_00dcdd80_Heap
 {
     virtual void unk00();
@@ -1635,7 +1646,6 @@ struct S_00dcdd80_RefObj
     }
     static void operator delete(void*, unsigned int)
     {}
-    void FUN_00c905b0();
 };
 struct FUN_00dce930 : S_00dcdd80_RefObj
 {
@@ -1785,9 +1795,7 @@ struct S_00dcdd80_Item
 };
 struct S_00dcdd80_Listener
 {
-    void AddObject(FUN_00dce930* obj);
 };
-int __cdecl FUN_00dcd720(void* a, S_00dcdd80_Item* item, int c, FUN_00dce930* obj);
 static inline S_00dcdd80_WorldObj* S_00dcdd80_getRigidBody(S_00dcdd80_Collidable* c)
 {
     if (c->m_type == 1)
@@ -1800,19 +1808,12 @@ struct LocalContext
     void* vtable;
 };
 extern int DAT_010d77c0;
-extern "C" void __cdecl FUN_00dcea10(int, int, int, LocalContext*);
-void __cdecl RunWithLocalContext(int first, int second, int third);
-void __cdecl FUN_00dcea10(int, int, int, void*);
-int __cdecl FUN_00c85750();
 struct FUN_00dce7e0_local
 {
     int unk00;
     int unk04;
     int unk08;
     int unk0c;
-    void __thiscall FUN_00dce840(void*, void*);
-    void __thiscall ProcessArgument(int);
-    void __thiscall FUN_00a29680();
 };
 void __cdecl FUN_00dce7e0(int a, int b, int* p, int d);
 struct AudioAllocator
@@ -1832,9 +1833,7 @@ struct AudioHolder
 };
 struct BSAudio;
 namespace fnvc_adapt {
-BSAudio* __cdecl FUN_00c85750();
 }
-void __cdecl FUN_00c908c0(void* apAllocator, void* apArray, unsigned int auiNewCap, int aiElemSize);
 struct SrcNode
 {
     unsigned int** m_ppBuffers;
@@ -1983,8 +1982,6 @@ struct Buffer512
     unsigned int m_i1f8;
     unsigned int m_i1fc;
 };
-int __cdecl CopyAudioNodeTree(SrcNode* apSrc, int aiCount, DstBlock* apDst);
-int __cdecl CopyAudioNodeTree(SrcNode* apSrc, int aiCount, DstBlock* apDst);
 struct S_00dcda40_Heap
 {
     virtual void v0();
@@ -2033,7 +2030,6 @@ struct S_00dcda40_Arr
     S_00dcda40_Block** data;
     int size;
     int cap;
-    void Search(S_00dcda40_Heap& h, int idx, void* src, int n);
     __forceinline S_00dcda40_Arr(const S_00dcda40_Arr& other) : data(0), size(0), cap(0x80000000)
     {
         S_00dcda40_Heap& heap = (S_00dcda40_Heap&)S_00dcdd80_Router::FUN_00c85750().heap();
@@ -2058,7 +2054,7 @@ struct S_00dcda40_Arr
         void* src = other.data;
         int at = size;
         S_00dcda40_Heap& heap = (S_00dcda40_Heap&)S_00dcdd80_Router::FUN_00c85750().heap();
-        Search(heap, at, src, count);
+        reinterpret_cast<::SearchObject *>(this)->Search((unsigned int)&(heap), at, (unsigned int)(src), count);
     }
 };
 struct S_00dcda40_World
@@ -2091,7 +2087,6 @@ struct S_00dcda40_World
     int unk74;
     int unk78;
 };
-void __cdecl ProcessCollisionRecords(void* arg1, S_00dcda40_World* world, S_00dcdd80_Listener* sink);
 
 struct LinkedCollidable;
 
@@ -2133,7 +2128,6 @@ struct EntryArray
 
 struct LinkedCollidable
 {
-    void CopyAndSortGeometryList(EntryArray& entriesOut);
 };
 
 struct BodyEntity
@@ -2154,31 +2148,27 @@ struct PointerMap
     PointerMap() : m_kPrimitiveElement(0), m_iCapacityFlags(0), m_iPairCount(-1)
     {}
     ~PointerMap();
-    void EnsureCapacity(S_00dcdd80_Heap& alloc, int numElements);
-    void FUN_00cb1870(S_00dcdd80_Heap& alloc, LinkedCollidable* key, int val);
-    int FindSlot(LinkedCollidable* key);
-    void ProcessArgument(S_00dcdd80_Heap& alloc);
     bool isValid(int it) const
     {
         return it <= m_iPairCount;
     }
     void reserve(int numElements)
     {
-        EnsureCapacity(S_00dcdd80_Router::FUN_00c85750().heap(), numElements);
+        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)&(S_00dcdd80_Router::FUN_00c85750().heap()), numElements);
     }
     void insert(LinkedCollidable* key, int val)
     {
-        FUN_00cb1870(S_00dcdd80_Router::FUN_00c85750().heap(), key, val);
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(S_00dcdd80_Router::FUN_00c85750().heap()), (unsigned int)(key), val);
     }
     void clear()
     {
-        ProcessArgument(S_00dcdd80_Router::FUN_00c85750().heap());
+        reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)&(S_00dcdd80_Router::FUN_00c85750().heap()));
     }
 };
 
 __forceinline int AddAgentHelper(void* a, const CollisionKeyEntry& e, int c, FUN_00dce930* agent)
 {
-    return FUN_00dcd720(a, e.m_pAgentEntry, c, agent);
+    return ::FUN_00dcd720((::S00dcd720_Cb *)(a), (::S00dcd720_Src *)(e.m_pAgentEntry), c, (::S00dcd720_Out *)(agent));
 }
 
 // @fnv 0x00dcdc00
@@ -2193,17 +2183,17 @@ void __cdecl FUN_00dcdc00(void* a, BodyEntity** entities, int numEntities, S_00d
         map.insert(&entities[i]->m_kCollidable, 0);
 
         EntryArray entries;
-        entities[i]->m_kCollidable.CopyAndSortGeometryList(entries);
+        reinterpret_cast<::ContainerD082 *>(&(entities[i]->m_kCollidable))->CopyAndSortGeometryList((::hkArrayD082< ::ItemD082> &)(entries));
 
         for (int j = 0; j < entries.GetLogicalSize(); j++)
         {
             CollisionKeyEntry& entry = entries[j];
-            if (!map.isValid(map.FindSlot(entry.m_pCollidable)))
+            if (!map.isValid(reinterpret_cast<::FUN_00cb18f0_t *>(&(map))->FindSlot((int)(entry.m_pCollidable))))
             {
                 FUN_00dce930* agent = new FUN_00dce930();
                 if (!AddAgentHelper(a, entry, world->unk78, agent))
-                    listener->AddObject(agent);
-                agent->FUN_00c905b0();
+                    reinterpret_cast<::hkpEntityGroupDCEC *>((listener))->AddObject((::hkReferencedObjectDCEC *)(agent));
+                reinterpret_cast<::hkReferencedObjectC905 *>((agent))->FUN_00c905b0();
             }
         }
     }

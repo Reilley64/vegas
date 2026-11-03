@@ -2,8 +2,8 @@
 // src/havok/common/scenedata/attributes/hkxanimatedmatrixclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/attributes/hkxanimatedmatrixclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" int DAT_0102e388;
 
+#include "fnv/symbols_0102e000.h"
 struct AudioAllocator
 {
     virtual void v00();
@@ -51,7 +51,7 @@ FUN_00e02650_cls* FUN_00e02650_cls::Destroy(unsigned char acFlags)
     bool bFree = (acFlags & 1) != 0;
     m_08 = 0;
     m_10 = 0x80000000u;
-    m_vptr = (int)&DAT_0102e388;
+    m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (bFree)
     {
         AudioHolder* pHolder2 = FUN_00c85750();

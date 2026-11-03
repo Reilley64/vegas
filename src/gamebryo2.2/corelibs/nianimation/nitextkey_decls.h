@@ -1,5 +1,7 @@
 // gamebryo2.2/corelibs/nianimation/nitextkey_decls.h: declares NiFixedString, NiBinaryStream, NiStream, TimedTextEntry
 
+#include "fnv/decl/Cls_a64ea0.h"
+#include "fnv/decl/fnv_00a64df0__FUN_00a64df0_Stream.h"
 class NiFixedString
 {
   public:
@@ -23,8 +25,6 @@ class NiStream
     unsigned int m_uiNifVersion;
     char padDC[0x24c - 0xdc];
     NiBinaryStream* m_pUnderlyingStream;
-    void ReadStringTableEntry(NiFixedString&);
-    void ReadFixedString(NiFixedString&);
 };
 class TimedTextEntry
 {

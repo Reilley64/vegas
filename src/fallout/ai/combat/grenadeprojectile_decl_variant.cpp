@@ -2,10 +2,95 @@
 // src/fallout/ai/combat/grenadeprojectile_decl_variant.cpp - declaration variant unit created 2026-10-26 by decl_variants.py for paused function 0x009b4740: the skeleton of src/fallout/ai/combat/grenadeprojectile.cpp
 // that unit declares it this way.
 
+#include <new>
+#include "fnv/decl/Actor.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/BeamEffect.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00437b90_shell.h"
+#include "fnv/decl/FUN_00439f50_class.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00444d00_Class.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00476c90_Class.h"
+#include "fnv/decl/FUN_00477ba0_shell.h"
+#include "fnv/decl/FUN_0047c850.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004b6190_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00525430_Class.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005de080_shell.h"
+#include "fnv/decl/FUN_00645c20_Class.h"
+#include "fnv/decl/FUN_006d2c20_Class.h"
+#include "fnv/decl/FUN_00810660_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_0087ce50_cls.h"
+#include "fnv/decl/FUN_00885d70_Class.h"
+#include "fnv/decl/FUN_00931fb0_shell.h"
+#include "fnv/decl/FUN_009344a0_shell.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FUN_009b7010_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FUN_00ad89e0_shell.h"
+#include "fnv/decl/FUN_00ad8b60_h.h"
+#include "fnv/decl/FUN_00ad8f20_shell.h"
+#include "fnv/decl/ImpulseSource.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MyPoint439180.h"
+#include "fnv/decl/Projectile9c58.h"
+#include "fnv/decl/ProjectileImpact__ImpProjectile.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_005726e0__FUN_005726e0_shell.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_005de0a0__FUN_005de0a0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_0089a760__HActor.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/decl/fnv_009334b0__FUN_009334b0_shell.h"
+#include "fnv/decl/fnv_00963eb0__PlayerView.h"
+#include "fnv/decl/fnv_009bda10__ProjectileRuntime.h"
+#include "fnv/decl/fnv_009c30d0__FUN_009c30d0_shell.h"
+#include "fnv/decl/fnv_00ad88f0__FUN_00ad88f0_h.h"
+#include "fnv/decl/s56ae10__Owner.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_00525000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_00574000.h"
+#include "fnv/symbols_0062b000.h"
+#include "fnv/symbols_0069e000.h"
+#include "fnv/symbols_00874000.h"
+#include "fnv/symbols_009b5000.h"
+#include "fnv/symbols_00c69000.h"
+#include "fnv/symbols_00c6a000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f2000.h"
 #include "grenadeprojectile_types_decl_grenadeprojectile.h"
 struct S_004f15a0
 {
-    void FUN_004f15a0(int);
 };
 struct GP_Base0
 {
@@ -31,7 +116,6 @@ class FUN_009b3fa0 : public FUN_009bbc70
 };
 struct S4700
 {
-    bool FUN_009c43e0(int, bool);
     bool FUN_009b4700(int, bool);
     virtual void f0(), f1(), f2(), f3(), f4(), f5(), f6(), f7(), f8(), f9(), f10(), f11(), f12(), f13(), f14(), f15(),
         f16(), f17(), f18(), f19(), f20(), f21(), f22(), f23(), f24(), f25(), f26(), f27(), f28(), f29(), f30(), f31(),
@@ -53,9 +137,7 @@ struct S4700
 struct NiAVObject;
 struct Creature
 {
-    static void __cdecl SetNodeFlagsRecursive(NiAVObject*, int, bool, bool, bool);
 };
-extern double _gModifierZero;
 struct FUN_009b4c70_shell : public Projectile
 {
     void FUN_009b4c70();
@@ -63,7 +145,6 @@ struct FUN_009b4c70_shell : public Projectile
 struct BGSLoadFormBuffer;
 struct C009c58e0
 {
-    void __thiscall FUN_009c58e0(BGSLoadFormBuffer*);
 };
 struct S009b4d10 : public FUN_009b3fa0
 {
@@ -72,10 +153,7 @@ struct S009b4d10 : public FUN_009b3fa0
 struct NiAVObject;
 struct ObjHelper
 {
-    void* __thiscall FUN_00810660();
-    TESForm* __thiscall FUN_00621a90();
 };
-extern TESObjectREFR* __cdecl GetReferenceFromNiAVObject(NiAVObject*);
 struct FUN_009b4bf0_shell
 {
     void DispatchReferenceSourceFiles(ObjHelper* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7);
@@ -199,8 +277,6 @@ struct S9b46c0
     virtual void v114();
     virtual void v115();
     virtual void* GetLight();
-    bool FUN_00444d00(int);
-    void FUN_005726e0(void*, bool);
     void SetLightEnabled();
 };
 struct Base0
@@ -231,11 +307,9 @@ struct hkpRigidBody;
 struct hkVector4;
 struct bhkCollisionObject
 {
-    static bhkCollisionObject* __cdecl GetFromRigidBody(const hkpRigidBody*);
 };
 struct ArrSI
 {
-    NiAVObject* GetFlags();
 };
 struct FUN_00624020_Class
 {
@@ -243,10 +317,7 @@ struct FUN_00624020_Class
 };
 struct GPCdBody
 {
-    void* _ref_006815c0();
 };
-void* __cdecl FUN_004b59f0(const void*);
-NiPoint3& __cdecl SetNiPoint3FromHkVector4(NiPoint3&, const hkVector4&);
 struct NiColor
 {
     NiColor& operator*=(float);
@@ -611,22 +682,17 @@ struct GPShell
 };
 struct FUN_009b40d0_owner
 {
-    bool CheckA();
-    bool CheckB();
-    bool CheckC();
 };
 class FUN_009b40d0_cls : public Projectile
 {
   public:
     void InitProjectileFlags();
-    void SetProjFlag(unsigned int flag, bool on);
-    bool TestFlag400(unsigned int flag);
-    FUN_009b40d0_owner* GetOwnerCell();
-    void FinishSetup();
 };
 struct Vec3
 {
     float x, y, z;
+public:
+    Vec3();
 };
 struct Ref
 {
@@ -1067,19 +1133,13 @@ struct Ref
 
     int FUN_0043fcd0();
 
-    bool FUN_00437b90();
 
-    bool FUN_00477ba0();
 
-    unsigned int FUN_0044ddc0();
 
-    unsigned short GetShortAtOffset1C0();
 
     int FUN_00517630();
 
-    int SetEffectValue(int, float, int);
 
-    void FUN_0089a760(void*, int);
 };
 struct Hit
 {
@@ -1109,9 +1169,7 @@ struct HitList
 
     bool FUN_008256d0();
 
-    Hit** FUN_006815c0();
 
-    HitList* FUN_00726070();
 };
 struct ContactHelper
 {
@@ -1121,7 +1179,6 @@ struct ContactHelper
 
     ~ContactHelper();
 
-    Ref* FUN_00559450();
 };
 struct LoadedProjectile
 {
@@ -1165,30 +1222,17 @@ struct Resource
 struct EventStatus
 {
 
-    bool FUN_004fd360();
 
-    bool FUN_00975300();
 
-    bool FUN_005de080();
 };
-extern Ref* DAT_011dea3c;
-extern Ref* DAT_011f21e8;
-extern Ref* DAT_011f21ec;
-extern float DAT_0102918c;
-extern double DAT_01012060;
 struct TargetSettings
 {
-    bool FUN_00525430();
 };
-extern TargetSettings DAT_011f2250;
 extern void __cdecl PlayMysteriousStrangerSound();
-extern Ref* __cdecl FUN_004b5a80(int);
 struct FormID
 {
-    Ref* FUN_00460140();
 };
 extern LoadedProjectile* __cdecl FUN_009b4d90();
-extern void __cdecl InitFromObjects(Ref*, int, Ref*, int, Ref*);
 struct ImpactProjectile : Ref
 {
 
@@ -1264,21 +1308,13 @@ struct ImpactProjectile : Ref
 
     bool ProcessHits();
 
-    float GetFieldDC();
 
-    Ref* FUN_00874480();
 
-    Ref* FUN_00476c90();
 
-    EventStatus* FUN_004181e0();
 
-    void NotifyActorIfEligible(Ref*, int);
 
-    void ApplyImpact(Ref*, const Vec3*, const Vec3*, Ref*, int);
 
-    Vec3 FUN_009b7010(Ref*);
 
-    void FUN_009c2e80(Vec3, Vec3);
 };
 
 class Projectile__ImpactData
@@ -1298,9 +1334,6 @@ class NiUpdateData
 class NiAVObject
 {
   public:
-    float GetHeadTail();
-    void FUN_00440460(const NiPoint3&);
-    void Update(NiUpdateData&);
     const ThreeByThreeMatrix& FUN_00461130() const;
 };
 class NiNode : public NiAVObject
@@ -1309,13 +1342,8 @@ class NiNode : public NiAVObject
 class TESSaveLoadGame
 {
   public:
-    bool FUN_0047c850();
 };
-extern TESSaveLoadGame* DAT_011de45c;
-void FUN_00c69f50(NiAVObject*, bool, bool);
-void FUN_00525340(NiPoint3*);
 NiPoint3 operator*(float, const NiPoint3&);
-void FUN_0062b8d0(NiAVObject*, const NiPoint3&, bool);
 
 // @fnv 0x009b4740
 bool GrenadeProjectile::FUN_009b4740()
@@ -1323,26 +1351,26 @@ bool GrenadeProjectile::FUN_009b4740()
     if (!m_kProjectileImpactList.IsEmpty())
     {
         NiNode* node1 = GetNiNode();
-        Projectile__ImpactData* impact = m_kProjectileImpactList.GetItem();
-        if (!DAT_011de45c->FUN_0047c850())
+        Projectile__ImpactData* impact = ((::Projectile__ImpactData *)(new ((void *)&(m_kProjectileImpactList)) ::Vec3()));
+        if (!reinterpret_cast<::FUN_0047c850 *>((::g_TESSaveLoadGame))->EvaluateCondition())
         {
-            FUN_00c69f50(node1, true, false);
-            node1->FUN_00440460(impact->position + impact->normal * node1->GetHeadTail());
+            ::FUN_00c69f50((::S_00c69f50_Obj *)(node1), true, false);
+            reinterpret_cast<::FUN_00440460_S *>((node1))->FUN_00440460((const ::V3 *)&(const ::NiPoint3 &)(impact->position + impact->normal * reinterpret_cast<::FUN_0087ce50_cls *>((node1))->GetHeadTail()));
             NiUpdateData update0(0.0f, false, false);
-            node1->Update(update0);
+            reinterpret_cast<::FUN_00a59c60_cls *>((node1))->FUN_00a59c60((int)&(update0));
             NiPoint3 velocity6 = NiPoint3::ZERO;
             NiPoint3 forward1;
-            node1->FUN_00461130().FUN_00439f50(1, forward1);
-            forward1 *= -1.0f;
-            FUN_00525340(&forward1);
-            FUN_00525340(&impact->normal);
-            float dot0 = impact->normal.Dot(forward1);
+            reinterpret_cast<::FUN_00439f50_class *>((void *)&(node1->FUN_00461130()))->FUN_00439f50(1, (::NiPoint3 *)&(forward1));
+            reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3 &)(forward1))->FUN_00439180(-1.0f);
+            ::FUN_00525340((float *)(::NiPoint3 *)(&forward1));
+            ::FUN_00525340((float *)(::NiPoint3 *)(&impact->normal));
+            float dot0 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(impact->normal))->DotProduct((void *)&(forward1));
             NiPoint3 deflection = 2.0f * (dot0 * impact->normal - forward1);
             velocity6 = forward1 + deflection;
-            velocity6 *= GetProjectileBase()->GetFloatAtOffset68();
-            if (GetProjectileBase()->GetFloatAtOffsetB0() > 0.0)
-                velocity6 *= GetProjectileBase()->GetFloatAtOffsetB0();
-            FUN_0062b8d0(node1, velocity6, true);
+            reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3 &)(velocity6))->FUN_00439180(::GetFloatAtOffset68((const char *)(((::BGSProjectile *)(reinterpret_cast<::Actor *>((void *)this)->GetActorBase())))));
+            if (reinterpret_cast<::FUN_006d2c20_Class *>((((::BGSProjectile *)(reinterpret_cast<::Actor *>((void *)this)->GetActorBase()))))->GetFloatAtOffsetB0() > 0.0)
+                reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3 &)(velocity6))->FUN_00439180(reinterpret_cast<::FUN_006d2c20_Class *>((((::BGSProjectile *)(reinterpret_cast<::Actor *>((void *)this)->GetActorBase()))))->GetFloatAtOffsetB0());
+            ::FUN_0062b8d0(node1, (const void *)&(velocity6), true);
         }
     }
     return true;

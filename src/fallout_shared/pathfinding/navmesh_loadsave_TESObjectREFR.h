@@ -2,6 +2,10 @@
 #ifndef FNV_TESOBJECTREFR_H
 #define FNV_TESOBJECTREFR_H
 
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
 #include "navmesh_loadsave_layout_support.h"
 #include "navmesh_loadsave_ExtraDataList.h"
 #include "navmesh_loadsave_OBJ_REFR.h"
@@ -89,10 +93,6 @@ class TESObjectREFR : public TESForm
     {
         CHANGE_SCRIPT_VARIABLES = 0x80000000u
     };
-    ScriptLocals* GetReferenceLocals();
-    TESObjectCELL* GetParentCell();
-    TESBoundObject* GetObjectReference();
-    ExtraDataList* GetExtraData();
 };
 FNV_STATIC_ASSERT(sizeof(TESObjectREFR) == 0x68);
 FNV_STATIC_ASSERT(offsetof(TESObjectREFR, tESChildCellComponent) == 0x18);

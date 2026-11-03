@@ -3,6 +3,12 @@
 #ifndef FNV_TASK_TESCARAVAN_COPY_H
 #define FNV_TASK_TESCARAVAN_COPY_H
 
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/TESRegionGrassObject.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/symbols_0047a000.h"
+#include "fnv/symbols_00489000.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "TESForm.h"
@@ -92,7 +98,6 @@ class TESModel : public BaseFormComponent
     virtual void vfn_14();
     virtual void SetModelFilePath(const char*);
     static void LoadModelData(TESModel*, TESFile*);
-    static void LoadTextureSwapData(TESModel*, TESFile*);
     BSStringT<char> m_kModelFilePath;  // +0x4, 8 bytes
     FileEntryList m_pTextureSwapData;  // +0xC, 8 bytes
     unsigned char cFlags;              // +0x14, 1 bytes
@@ -110,7 +115,6 @@ class TESModelTextureSwap : public TESModel
   public:
     // base TESModel at +0x0, size 24
     BSSimpleList<DistantTreeTextureInfo*> TextureSwapNodeAccessor;  // +0x18, 8 bytes
-    bool ParseTextureSwapData(void*, unsigned int, unsigned int);
     void InitItem(TESForm* form);
 };
 #pragma pack(pop)
@@ -122,7 +126,6 @@ class BGSMessageIcon : public BaseFormComponent
 {
   public:
     // base BaseFormComponent at +0x0, size 4
-    static void LoadMessageIconChunk(BGSMessageIcon*, TESFile*);
     TESIcon Icon;  // +0x4, 12 bytes
 };
 #pragma pack(pop)
@@ -145,7 +148,6 @@ FNV_STATIC_ASSERT(offsetof(TESValueForm, iValue) == 4);
 class TESScriptableForm : public BaseFormComponent
 {
   public:
-    void SetScript(Script*);
     Script* m_pFormScript;  // +0x4
     bool m_bHasScript;      // +0x8
     unsigned char layoutPadding9[3];
@@ -161,8 +163,6 @@ class BGSPickupPutdownSounds : public BaseFormComponent
 {
   public:
     // base BaseFormComponent at +0x0, size 4
-    void SetPickupSound(TESSound*);
-    void SetPutdownSound(TESSound*);
     TESSound* m_pPickupSound;   // +0x4, 4 bytes
     TESSound* m_pPutdownSound;  // +0x8, 4 bytes
     ~BGSPickupPutdownSounds();
@@ -250,7 +250,6 @@ FNV_STATIC_ASSERT(offsetof(TESCaravanMoney, m_kModelTextureSwaps) == 140);
 // Unit-local shim: TESFormInitFlag declares IsFormInitialized used by InitItem.
 struct TESFormInitFlag : public TESForm
 {
-    bool IsFormInitialized() const;
 };
 
 #pragma pack(push, 4)
@@ -284,10 +283,8 @@ FNV_STATIC_ASSERT(offsetof(TESCaravanDeck, data) == 40);
 class TESFileFormVersion
 {
   public:
-    unsigned short GetFormVersion();
 };
 class TESTextureLoader
 {
   public:
-    static void ReadTextureData(TESTexture*, TESFile*);
 };

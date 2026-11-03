@@ -5,6 +5,10 @@
 
 // src/havok/physics/constraintsolver/constraint/chain/hkppoweredchainsolverutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/constraintsolver/constraint/chain/hkppoweredchainsolverutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_00df0000.h"
+#include "fnv/symbols_00df1000.h"
+#include "fnv/symbols_00e29000.h"
+#include "fnv/symbols_0104d000.h"
 struct FUN_00df0810_Channel
 {
     float value1;
@@ -27,8 +31,8 @@ struct FUN_00df0810_Dest
     float values[3];
     int unk1c;
 };
-void __cdecl CopyChannelValue(int index, int channel, FUN_00df0810_Source* sources, FUN_00df0810_Dest* dests);
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 static __forceinline void CopyHelper(__m128* d, const void* s)
 {
     d[0] = ((__m128*)s)[0];
@@ -482,14 +486,6 @@ struct __declspec(align(16)) BufB
     float f0b8;
     float f0bc;
 };
-extern void __cdecl ResetJacobianRows(int a, int b, void* c, void* d);
-extern void __cdecl FUN_00df07c0(int a, void* b);
-extern void __cdecl FUN_00e29250(void* a, void* b);
-extern void __cdecl FUN_00e29470(void* a, void* b, int c);
-extern void __cdecl FUN_00e29380(void* a, void* b);
-extern void __cdecl FUN_00e298f0(void* a, void* b);
-extern float DAT_0104da4c;
-void __cdecl FUN_00df0870(int arg0, ObjF* __restrict obj, int arg2, __m128* arg3, int* arg4);
 struct hkVector4
 {
     union
@@ -524,8 +520,6 @@ struct InputStruct
     char pad2[8];
     hkAabb* aabbs;
 };
-extern "C" void __cdecl FUN_00e29510(void* out, const void* matrix, const void* in);
-void __cdecl FUN_00df11a0(InputStruct* a, hkAabb* out);
 
 template <class T> class Slot
 {
@@ -666,7 +660,7 @@ extern "C" void __cdecl FUN_00df1260(PoweredChain* chain, int* chosenConstraint,
     for (int i = chain->m_iConstraintCount - 1; i >= 0; i--)
     {
         Quad8 product;
-        FUN_00e29510(&product, &chain->m_kMatrices[i].m_kMiddle, &accum);
+        ::FUN_00e29510((::__m128 *)(void *)(&product), (const ::__m128 *)(const void *)(&chain->m_kMatrices[i].m_kMiddle), (const ::__m128 *)(const void *)(&accum));
         accum.setSub8(target[i], product);
         for (int axis = 0; axis < 3; axis++)
         {

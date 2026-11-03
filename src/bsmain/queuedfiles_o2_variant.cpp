@@ -2,13 +2,15 @@
 // src/bsmain/queuedfiles_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/bsmain/queuedfiles.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/FUN_00c3c700_cls.h"
+#include "fnv/decl/FUN_00c3cee0_shell.h"
+#include "fnv/decl/fnv_00c3cf60__FUN_00c3cf60_shell.h"
+#include "fnv/symbols_0043b000.h"
 #include "queuedfiles.h"
 
 struct FUN_0063fa10
 {
     virtual ~FUN_0063fa10();
-    void FUN_00c3cee0(char const*);
-    void LookupFileEntryByArchive(int);
 };
 
 struct QBase : FUN_0063fa10
@@ -46,6 +48,6 @@ struct FUN_00b60640 : QBase
 // @fnv 0x00b60640
 FUN_00b60640::FUN_00b60640(char const* filename) : QBase(2)
 {
-    FUN_00c3cee0(filename);
-    LookupFileEntryByArchive(0);
+    reinterpret_cast<::FUN_00c3cee0_shell *>(this)->FUN_00c3cee0((char *)(filename));
+    reinterpret_cast<::fnv_00c3cf60::FUN_00c3cf60_shell *>(this)->LookupFileEntryByArchive(0);
 }

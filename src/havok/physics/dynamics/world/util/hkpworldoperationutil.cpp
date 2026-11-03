@@ -2,6 +2,59 @@
 // src/havok/physics/dynamics/world/util/hkpworldoperationutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/hkpworldoperationutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/C67F20List.h"
+#include "fnv/decl/CallRet.h"
+#include "fnv/decl/ContainerD082.h"
+#include "fnv/decl/CpuObject.h"
+#include "fnv/decl/Dispatcher.h"
+#include "fnv/decl/DispatcherCF7080.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00c86660_cls.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00c91120.h"
+#include "fnv/decl/FUN_00c91140_Class.h"
+#include "fnv/decl/FUN_00c9c860_Shell.h"
+#include "fnv/decl/FUN_00d07180_s.h"
+#include "fnv/decl/FUN_00d07470_cls.h"
+#include "fnv/decl/FUN_00d07830.h"
+#include "fnv/decl/FUN_00d07950_cls.h"
+#include "fnv/decl/FUN_00d081e0_cls.h"
+#include "fnv/decl/FUN_00d08210_Collidable.h"
+#include "fnv/decl/FUN_00d1dff0.h"
+#include "fnv/decl/FlagState.h"
+#include "fnv/decl/MotionMassView.h"
+#include "fnv/decl/ProjectileListener.h"
+#include "fnv/decl/S_00d071b0.h"
+#include "fnv/decl/SaveBuffer.h"
+#include "fnv/decl/WorldWithPending.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpEntityC9C0.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00c91000.h"
+#include "fnv/symbols_00ca8000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00cb3000.h"
+#include "fnv/symbols_00cb4000.h"
+#include "fnv/symbols_00cb6000.h"
+#include "fnv/symbols_00cc0000.h"
+#include "fnv/symbols_00cf1000.h"
+#include "fnv/symbols_00cf7000.h"
+#include "fnv/symbols_00cf9000.h"
+#include "fnv/symbols_00cfe000.h"
+#include "fnv/symbols_00cff000.h"
+#include "fnv/symbols_00d00000.h"
+#include "fnv/symbols_00d01000.h"
+#include "fnv/symbols_00d07000.h"
+#include "fnv/symbols_00d1a000.h"
+#include "fnv/symbols_00d27000.h"
+#include "fnv/symbols_00d28000.h"
+#include "fnv/symbols_00dd7000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_010c7000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01272000.h"
 struct FUN_00cb7460_class
 {
     int __thiscall FUN_00cb7460(int value);
@@ -28,13 +81,11 @@ void ClearSlotReference(int* thisPtr, int* p)
     }
 }
 
-void FUN_00d27ac0(int first, int second);
-void FUN_00d00960(int first, int second);
 // @fnv 0x00cb3c80
 void FUN_00cb3c80(int first, int second)
 {
-    FUN_00d27ac0(first, second);
-    FUN_00d00960(first, second);
+    ::fnv_00d27ac0::FUN_00d27ac0((void *)(first), (::fnv_00d27ac0::Constraint *)(second));
+    ::FUN_00d00960((::ProfOwner *)(first), (void *)(second));
 }
 
 struct FUN_00cb3ca0_object
@@ -84,32 +135,28 @@ struct FUN_00cb3ca0_object
     unsigned char unk9f;
     int unkA0;
     int unkA4;
-    void __thiscall FUN_00c91120();
-    void __thiscall FUN_00c91140();
 };
 
-void __cdecl FUN_00d27ac0(FUN_00cb3ca0_object* object, int* value);
-void __cdecl FUN_00d00960(FUN_00cb3ca0_object* object, int* value);
 
 // @fnv 0x00cb3ca0
 int* __cdecl FUN_00cb3ca0(FUN_00cb3ca0_object* object, int* value, int shouldNotify)
 {
     ++object->refCount94;
-    FUN_00d27ac0(object, value);
+    ::fnv_00d27ac0::FUN_00d27ac0(object, (::fnv_00d27ac0::Constraint *)(value));
     if (shouldNotify != 0)
     {
-        FUN_00d00960(object, value);
+        ::FUN_00d00960((::ProfOwner *)(object), value);
     }
     --object->refCount94;
     if (object->refCount94 == 0 && object->flag9c == 0)
     {
         if (object->unk8c != 0)
         {
-            object->FUN_00c91120();
+            reinterpret_cast<::FUN_00c91120 *>((object))->ExecutePendingOperations();
         }
         if (object->unkA4 == 1 && object->unk90 != 0)
         {
-            object->FUN_00c91140();
+            reinterpret_cast<::FUN_00c91140_Class *>((object))->FUN_00c91140();
         }
     }
     return value;
@@ -201,16 +248,14 @@ struct S_00cb3da0_Ctx
     int unk144;
 };
 
-void NotifyTargets(S_00cb3da0_Ctx* ctx, void* p);
-void DetachRecord(void* p);
 
 // If ctx->unk144 is nonzero, calls NotifyTargets with ctx and p, then always calls DetachRecord on p.
 // @fnv 0x00cb3da0
 void FUN_00cb3da0(S_00cb3da0_Ctx* ctx, void* p)
 {
     if (ctx->unk144 != 0)
-        NotifyTargets(ctx, p);
-    DetachRecord(p);
+        ::NotifyTargets((::ProfOwner *)(ctx), (unsigned long)(p));
+    ::DetachRecord((::S_00d27820_P *)(p));
 }
 
 struct CB3DD0Collidable
@@ -323,8 +368,6 @@ struct CB3DD0World
     int unk140;
     void* m_kListener;
 
-    void ExecutePendingOperations();
-    void ExecutePendingOperationQueues();
 
     void lockCriticalOperations()
     {
@@ -337,14 +380,12 @@ struct CB3DD0World
         if (m_bBlockExecutingPendingOperations)
             return;
         if (m_iPendingOperationCount)
-            ExecutePendingOperations();
+            reinterpret_cast<::FUN_00c91120 *>(this)->ExecutePendingOperations();
         if (m_iPendingOperationQueueCount == 1 && m_iQueuedOperationCount)
-            ExecutePendingOperationQueues();
+            reinterpret_cast<::FUN_00c91140_Class *>(this)->FUN_00c91140();
     }
 };
 
-void __cdecl NotifyTargets(CB3DD0World* world, CB3DD0Entity* entity);
-void __cdecl DetachRecord(CB3DD0Entity* entity);
 
 // @fnv 0x00cb3dd0
 void __cdecl FUN_00cb3dd0(CB3DD0World* world, CB3DD0Entity* entity, int fireCallbacks)
@@ -354,20 +395,19 @@ void __cdecl FUN_00cb3dd0(CB3DD0World* world, CB3DD0Entity* entity, int fireCall
     if (world->m_iCriticalOperationsLockCount)
     {
         if (fireCallbacks && world->m_kListener)
-            NotifyTargets(world, entity);
-        DetachRecord(entity);
+            ::NotifyTargets((::ProfOwner *)(world), (unsigned long)(entity));
+        ::DetachRecord((::S_00d27820_P *)(entity));
         return;
     }
     world->lockCriticalOperations();
     if (fireCallbacks && world->m_kListener)
-        NotifyTargets(world, entity);
-    DetachRecord(entity);
+        ::NotifyTargets((::ProfOwner *)(world), (unsigned long)(entity));
+    ::DetachRecord((::S_00d27820_P *)(entity));
     world->unlockCriticalOperations();
 }
 
 struct FUN_00d070b0_class
 {
-    void FUN_00d070b0();
 };
 struct CleanupList
 {
@@ -394,16 +434,16 @@ void __cdecl FUN_00cb3e90(CleanupList* apCleanupList)
     int i = apCleanupList->firstCount - 1;
     while (i >= 0)
     {
-        apCleanupList->firstObjects[i]->FUN_00d070b0();
+        ::FUN_00d070b0();
         --i;
     }
     i = apCleanupList->secondCount - 1;
     while (i >= 0)
     {
-        apCleanupList->secondObjects[i]->FUN_00d070b0();
+        ::FUN_00d070b0();
         --i;
     }
-    apCleanupList->finalObject->FUN_00d070b0();
+    ::FUN_00d070b0();
 }
 
 struct Obj;
@@ -415,7 +455,6 @@ struct Agent
     unsigned short m_20;
     char pad1[0x4c - 0x22];
     int m_4c;
-    __declspec(nothrow) void RemoveItem(Obj* o);
 };
 
 struct Obj
@@ -428,7 +467,6 @@ struct Obj
     Agent* m_cc;
 };
 
-__declspec(nothrow) void __cdecl RemoveListItem(Obj* o, Agent* a);
 
 // Clears o->m_8, calls the agent's RemoveItem, and if the agent's m_20 is not 0xffff, m_4c is 0 and ctx->m_c8 is set, calls RemoveListItem and v0(1).
 // @fnv 0x00cb4740
@@ -436,10 +474,10 @@ void __cdecl FUN_00cb4740(Obj* ctx, Obj* o)
 {
     Agent* a = o->m_cc;
     o->m_8 = 0;
-    a->RemoveItem(o);
+    reinterpret_cast<::S_00d071b0 *>((a))->RemoveItem((::S_00d071b0_Item *)(o));
     if (a->m_20 != 0xffff && a->m_4c == 0 && ctx->m_c8)
     {
-        RemoveListItem(ctx, a);
+        ::fnv_00cb4000::RemoveListItem((::fnv_00cb4000::ListOwner *)(ctx), (::fnv_00cb4000::ListItem *volatile)(a));
         a->v0(1);
     }
 }
@@ -542,7 +580,6 @@ struct S_00cb5d00_Source
 };
 struct S_00cb5d00_Sink
 {
-    void DispatchPairs(S_00cb5d00_Elem* data, int n) throw();
 };
 struct S_00cb5d00_Owner
 {
@@ -773,7 +810,7 @@ void FUN_00cb5d00(S_00cb5d00_Owner* owner, S_00cb5d00_Query* query)
     S_00cb5d00_LocalArray<S_00cb5d00_Elem> results(owner->unk338);
     owner->unk58->query(&query->unk24, &results);
     if (results.m_iElementCount != 0)
-        owner->unk64->DispatchPairs(results.m_data, results.m_iElementCount);
+        reinterpret_cast<::Dispatcher *>((owner->unk64))->DispatchPairs((::Pair *)(results.m_data), results.m_iElementCount);
 }
 
 struct Object
@@ -1133,12 +1170,12 @@ struct S_00c6aca0_Ctx
     int saved;
     __forceinline S_00c6aca0_Ctx(int c)
     {
-        saved = DAT_tls.ctx;
-        DAT_tls.ctx = c;
+        saved = (*reinterpret_cast<::S_00c6aca0_Tls *>(&::g_tlsBlock)).ctx;
+        (*reinterpret_cast<::S_00c6aca0_Tls *>(&::g_tlsBlock)).ctx = c;
     }
     __forceinline ~S_00c6aca0_Ctx()
     {
-        DAT_tls.ctx = saved;
+        (*reinterpret_cast<::S_00c6aca0_Tls *>(&::g_tlsBlock)).ctx = saved;
     }
 };
 
@@ -1221,19 +1258,14 @@ struct S_00c6aca0_Cont
     int unk08;
     int unk0c;
     ~S_00c6aca0_Cont();
-    void FUN_00c67f20();
 };
 
 struct S_00c6aca0_Mm
 {
-    void FUN_00aa4060(int p);
 };
-extern S_00c6aca0_Mm DAT_011f6238;
-extern int DAT_012677a4;
 
 struct S_00c6aca0_Ref
 {
-    void FUN_00c905b0();
 };
 struct S_00c6aca0_Base
 {
@@ -1241,7 +1273,6 @@ struct S_00c6aca0_Base
     int unk08;
     int unk0c;
     virtual ~S_00c6aca0_Base();
-    void FUN_00c876a0();
     virtual void vfn_04();
     virtual void vfn_08();
     virtual void vfn_0c();
@@ -1329,31 +1360,31 @@ FUN_00c6aca0::~FUN_00c6aca0()
         if (unk10)
         {
             callVfn94();
-            unk10->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((unk10))->FUN_00c905b0();
             unk10 = 0;
         }
     }
     callVfn94();
-    FUN_00c876a0();
+    reinterpret_cast<::ProjectileListener *>(this)->FUN_00c876a0();
     {
         int p = unk2c;
-        DAT_011f6238.FUN_00aa4060(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::S_00c6aca0_Mm *>(&::g_memoryManager))))->FUN_00aa4060((void *)(p));
     }
     {
         int p = unk34;
-        DAT_011f6238.FUN_00aa4060(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::S_00c6aca0_Mm *>(&::g_memoryManager))))->FUN_00aa4060((void *)(p));
     }
     {
         int p = unk3c;
-        DAT_011f6238.FUN_00aa4060(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::S_00c6aca0_Mm *>(&::g_memoryManager))))->FUN_00aa4060((void *)(p));
     }
     {
         int p = unk44;
-        DAT_011f6238.FUN_00aa4060(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::S_00c6aca0_Mm *>(&::g_memoryManager))))->FUN_00aa4060((void *)(p));
     }
     {
         int p = unk4c;
-        DAT_011f6238.FUN_00aa4060(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::S_00c6aca0_Mm *>(&::g_memoryManager))))->FUN_00aa4060((void *)(p));
     }
     for (int i = 0; i < unk70.m_iElementCount; i++)
     {
@@ -1362,7 +1393,7 @@ FUN_00c6aca0::~FUN_00c6aca0()
             delete p;
     }
     unk70.m_iElementCount = 0;
-    unk90.FUN_00c67f20();
+    reinterpret_cast<::C67F20List *>(&(unk90))->FUN_00c67f20();
 }
 
 struct S_00cb3f90_Bool
@@ -1505,7 +1536,6 @@ struct ListOwner
     int m_count38;        // +0x38
 };
 
-void ClearSlotReference(int* thisPtr, int* p);
 
 // Removes item from one of the owner's two lists by swapping in the last element, fixes its index, decrements the count, then calls ClearSlotReference.
 // @fnv 0x00cb4000
@@ -1528,7 +1558,7 @@ void RemoveListItem(ListOwner* self, ListItem* volatile item)
         self->m_list28[pItem->m_uiEdgeIndex]->m_uiEdgeIndex = pItem->m_uiEdgeIndex;
         self->m_count2c--;
     }
-    ClearSlotReference((int*)self, (int*)pItem);
+    ::ClearSlotReference((int*)self, (int*)pItem);
 }
 }  // namespace fnv_00cb4000
 
@@ -1548,7 +1578,6 @@ struct S_00cb5420_Router
 };
 
 S_00cb5420_Router& __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(S_00cb5420_Heap& alloc, void* array, int elemSize);
 
 template <class T> struct S_00cb5420_Array
 {
@@ -1559,7 +1588,7 @@ template <class T> struct S_00cb5420_Array
     __forceinline void _pushBack(S_00cb5420_Heap& alloc, const T& t)
     {
         if (m_iElementCount == (m_iCapacityState & 0x3FFFFFFF))
-            ResizeAudioStream(alloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(T));
         T* p = m_data + m_iElementCount;
         for (int i = 0; i < 1; ++i)
             p[i] = t;
@@ -1662,7 +1691,6 @@ struct ObjA
     int unk8C;
     int unk90;
     int m_94;
-    void FUN_00c91160(void* p);
 };
 struct ObjB
 {
@@ -1727,7 +1755,6 @@ struct FUN_00cb5570_arg
     ObjB* other;
 };
 
-void __cdecl FUN_00cb4c60(ObjA* a1, int a2, int a3);
 
 // @fnv 0x00cb5570
 void __cdecl FUN_00cb5570(ObjA* apObjA, ObjB* apOwner, ObjB* apOther)
@@ -1740,10 +1767,10 @@ void __cdecl FUN_00cb5570(ObjA* apObjA, ObjB* apOwner, ObjB* apOther)
         arg.tag = 0xc;
         arg.owner = apOwner;
         arg.other = apOther;
-        apObjA->FUN_00c91160(&arg);
+        reinterpret_cast<::WorldWithPending *>((apObjA))->FUN_00c91160();
         return;
     }
-    FUN_00cb4c60(apObjA, iOwnerValue, iOtherValue);
+    ::FUN_00cb4c60((::hkpWorld *)(apObjA), (::hkpSimulationIsland *)(iOwnerValue), (::hkpSimulationIsland *)(iOtherValue));
 }
 
 namespace fnv_00cb59f0 {
@@ -1829,7 +1856,6 @@ struct S_00cb59f0_Obj58
 
 struct S_00cb59f0_Obj64
 {
-    void FUN_00cf7080(S_00cb59f0_Elem* data, int n, char* extra) throw();
 };
 
 struct S_00cb59f0_Ctx
@@ -2070,7 +2096,6 @@ struct S_00cb59f0_A
     int unk338;
 };
 
-void __cdecl FUN_00d1a330(S_00cb59f0_Ctx* ctx, S_00cb59f0_B** items, int n) throw();
 
 // @fnv 0x00cb59f0
 void __cdecl FUN_00cb59f0(S_00cb59f0_A* a, S_00cb59f0_B* b) throw()
@@ -2079,11 +2104,11 @@ void __cdecl FUN_00cb59f0(S_00cb59f0_A* a, S_00cb59f0_B* b) throw()
     if (sub->unk00 != 0)
     {
         S_00cb59f0_Local arr(a->unk338);
-        FUN_00d1a330(a->unk78, &b, 1);
+        ::FUN_00d1a330((const ::CollisionContext *)(a->unk78), (::EntityNode *const *)(::fnv_00cb59f0::S_00cb59f0_B **)(&b), 1);
         __declspec(align(16)) S_00cb59f0_Xf localXf = b->unk30;
         a->unk58->vfn_14(&sub->unk14, &localXf, &arr);
         if (arr.m_iElementCount > 0)
-            a->unk64->FUN_00cf7080(arr.m_data, arr.m_iElementCount, a->unk7c ? a->unk7c + 8 : 0);
+            reinterpret_cast<::DispatcherCF7080 *>((a->unk64))->FUN_00cf7080((::PairCF7080 *)(arr.m_data), arr.m_iElementCount, (const ::FilterCF7080 *)(char *)(a->unk7c ? a->unk7c + 8 : 0));
     }
 }
 }  // namespace fnv_00cb59f0
@@ -2345,7 +2370,6 @@ struct BroadRec
 
 struct DispatchRec
 {
-    void FUN_00cf7080(void* pairs, int count, void* filter);
 };
 
 struct FilterRec
@@ -2364,7 +2388,6 @@ struct EntityRec
     virtual void v10();
     virtual void v14();
     virtual void v18(OutSlot* out);
-    void FUN_00d07950(OutSlot* out);
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
@@ -2415,13 +2438,13 @@ void QueryEntityIntoBuffer(WorldRec* world, EntityRec* apEntity)
     OutSlot* outPtr = &outp.out;
     apEntity->v18(outPtr);
     world->m_pBroadPhaseRecord->Query(&apEntity->m_24, outPtr, &fr.arr);
-    apEntity->FUN_00d07950(outPtr);
+    reinterpret_cast<::FUN_00d07950_cls *>((apEntity))->FUN_00d07950((*(const ::hkAabbD07950 *)(outPtr)));
 
     if (fr.arr.m_iArrayLength != 0)
     {
         FilterRec* f = world->m_iFilter;
         void* filter = f != 0 ? (void*)((char*)f + 8) : 0;
-        world->m_pCollisionDispatcher->FUN_00cf7080(fr.arr.m_pData, fr.arr.m_iArrayLength, filter);
+        reinterpret_cast<::DispatcherCF7080 *>((world->m_pCollisionDispatcher))->FUN_00cf7080((::PairCF7080 *)(fr.arr.m_pData), fr.arr.m_iArrayLength, (const ::FilterCF7080 *)(filter));
     }
     unsigned char* saved = fr.saved;
     if (saved == fr.arr.m_pData)
@@ -2742,7 +2765,7 @@ void __cdecl FUN_00cb5c10(Owner* pOwner, Evt* pEvent)
 
     int n = s.b;
     if (n > 0)
-        pOwner->unk64->add(s.a, n);
+        reinterpret_cast<::Dispatcher *>((pOwner->unk64))->DispatchPairs((::Pair *)(s.a), n);
 
     void* d = s.d;
     if (d == s.a)
@@ -2905,12 +2928,10 @@ struct S_00cb5f50_Constraint
     virtual void unk08();
     virtual void unk0C();
     virtual void getConnectedEntities(S_00cb5f50_Array<S_00cb5f50_Entity*>& entitiesOut) throw();
-    void FUN_00c905b0() throw();
 };
 
 struct S_00cb5f50_Island
 {
-    void AddItem(S_00cb5f50_Constraint* c) throw();
 };
 
 struct S_00cb5f50_World
@@ -2939,8 +2960,8 @@ void __cdecl ApplyConstraintsToEntity(S_00cb5f50_World* world, S_00cb5f50_Entity
         S_00cb5f50_Constraint* c = constraints->m_data[i];
         if (island != world->m_pFixedIsland)
         {
-            island->AddItem(c);
-            c->FUN_00c905b0();
+            reinterpret_cast<::FUN_00d07470_cls *>((island))->AddItem((::ListItem *)(c));
+            reinterpret_cast<::hkReferencedObjectC905 *>((c))->FUN_00c905b0();
             entities.clear();
             c->getConnectedEntities(entities);
             for (int j = 0; j < entities.m_iElementCount; j++)
@@ -2953,8 +2974,8 @@ void __cdecl ApplyConstraintsToEntity(S_00cb5f50_World* world, S_00cb5f50_Entity
         }
         else
         {
-            world->m_pFixedIsland->AddItem(c);
-            c->FUN_00c905b0();
+            reinterpret_cast<::FUN_00d07470_cls *>((world->m_pFixedIsland))->AddItem((::ListItem *)(c));
+            reinterpret_cast<::hkReferencedObjectC905 *>((c))->FUN_00c905b0();
         }
     }
 }
@@ -3067,7 +3088,6 @@ inline AudioMgr* audio()
     return (AudioMgr*)FUN_00c85750();
 }
 
-__declspec(nothrow) void __cdecl FUN_00c908c0(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
 
 template <class T> struct hkLocalArr
 {
@@ -3106,7 +3126,7 @@ struct hkArr
         if (getCapacity() < n)
         {
             int cap = 2 * getCapacity();
-            FUN_00c908c0(alloc, this, n < cap ? cap : n, sizeof(int));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), n < cap ? cap : n, sizeof(int));
         }
         m_iElementCount = n;
     }
@@ -3406,11 +3426,6 @@ struct S00cb5310_Owner
     int unk1CC;
     float m_1d0;
 };
-extern int DAT_01267e30;
-void ResizeAudioStream(void* alloc, S00cb5310_List* list, int n);
-bool FUN_00d28560(float* p, S00cb5310_Piece** arr, int n, int size);
-void UpdateRotationInterpolation(float f, void* p);
-void FUN_00d011b0(S00cb5310_Owner* a1, S00cb5310_Node* a2);
 // If FUN_00d28560 passes, moves node a2 from the owner's m_28 array to its m_34 list, updates its pieces and calls FUN_00d011b0; else sets a flag bit and returns.
 // @fnv 0x00cb5310
 void __cdecl FUN_00cb5310(S00cb5310_Owner* apOwner, S00cb5310_Node* apNode)
@@ -3420,7 +3435,7 @@ void __cdecl FUN_00cb5310(S00cb5310_Owner* apOwner, S00cb5310_Node* apNode)
     long holder;
     holder = apNode->m_4c;
     float* pf = &apOwner->m_1d0;
-    if (FUN_00d28560(pf, pForm, holder, 0xe0) == 0)
+    if (::FUN_00d28560(pf, (char **)(pForm), holder, 0xe0) == 0)
     {
         apNode->m_26 = (unsigned char)((apNode->m_26 & 0xf7) | 4);
         return;
@@ -3430,7 +3445,7 @@ void __cdecl FUN_00cb5310(S00cb5310_Owner* apOwner, S00cb5310_Node* apNode)
     S00cb5310_Alloc* p = reinterpret_cast<S00cb5310_Alloc*>(FUN_00c85750());
     if (list->m_04 == (int)(list->m_08 & 0x3fffffffu))
     {
-        ResizeAudioStream(p->m_pAllocator, list, 4);
+        ::ResizeAudioStream((::AudioAllocator *)(p->m_pAllocator), (::AudioStream *)(list), 4);
     }
     S00cb5310_Node** slot;
     slot = list->m_00 + list->m_04;
@@ -3451,13 +3466,13 @@ void __cdecl FUN_00cb5310(S00cb5310_Owner* apOwner, S00cb5310_Node* apNode)
         do
         {
             S00cb5310_Piece* pPiece = apNode->m_48[i];
-            UpdateRotationInterpolation(apNode->m_44, &pPiece->m_f0);
-            pPiece->m_e0.v40(&DAT_01267e30);
-            pPiece->m_e0.v44(&DAT_01267e30);
+            ::UpdateRotationInterpolation(apNode->m_44, (::FUN_008cd6a0_Class *)(void *)(&pPiece->m_f0));
+            pPiece->m_e0.v40(&(*reinterpret_cast<int *>(&::DAT_01267e30)));
+            pPiece->m_e0.v44(&(*reinterpret_cast<int *>(&::DAT_01267e30)));
             ++i;
         } while (i < apNode->m_4c);
     }
-    FUN_00d011b0(apOwner, apNode);
+    ::FUN_00d011b0((::S011b0_World *)(apOwner), (::S011b0_Island *)(apNode));
 }
 
 namespace fnv_00cb5500 {
@@ -3486,7 +3501,6 @@ struct AllocatorContext
     unsigned int allocator;
 };
 extern AllocatorContext* __cdecl FUN_00c85750();
-extern void __cdecl ResizeAudioStream(unsigned int allocator, EntryArray* list, int entrySize);
 
 // Sets entry flags, and if entry->index is 0xffff, appends entry to the EntryArray at owner+0x40, resizing it via ResizeAudioStream when full.
 // @fnv 0x00cb5500
@@ -3505,7 +3519,7 @@ void __cdecl AddEntryToList(void* owner, Entry* entry)
         AllocatorContext* allocator = FUN_00c85750();
         if (list->count == (list->capacity & 0x3fffffff))
         {
-            ResizeAudioStream(allocator->allocator, list, 4);
+            ::ResizeAudioStream((::AudioAllocator *)(allocator->allocator), (::AudioStream *)(list), 4);
         }
         Entry** slot = list->entries + list->count;
         __assume(slot != 0);
@@ -3648,13 +3662,9 @@ struct Cb5750_Source
 
 struct Cb5750_Sink
 {
-    void addSecond(S_00cb5d00_Elem* data, int n) throw();
-    void addFirst(S_00cb5d00_Elem* data, int n, void* extra) throw();
 };
 
 S_00c6aca0_Router* Cb5750_router() throw();
-void __cdecl Cb5750_merge(Cb5750_Array<S_00cb5d00_Elem>* a, Cb5750_Array<S_00cb5d00_Elem>* b) throw();
-void __cdecl Cb5750_invalid(void* world, Cb5750_Param** pp, int count) throw();
 
 struct Cb5750_Owner
 {
@@ -3869,9 +3879,6 @@ struct Cb5750_Owner
     int unk334;
     int unk338;
 
-    void defer(Cb5750_Deferred* d) throw();
-    void flush8c() throw();
-    void flush90() throw();
     void __cdecl AddCollisionShape(Cb5750_Param* param) throw();
 };
 
@@ -3884,7 +3891,7 @@ void __cdecl Cb5750_Owner::AddCollisionShape(Cb5750_Param* param) throw()
         Cb5750_Deferred deferred;
         deferred.tag = 3;
         deferred.arg = param;
-        defer(&deferred);
+        reinterpret_cast<::WorldWithPending *>(this)->FUN_00c91160();
         return;
     }
 
@@ -3897,7 +3904,7 @@ void __cdecl Cb5750_Owner::AddCollisionShape(Cb5750_Param* param) throw()
         Cb5750_LocalArray<S_00cb5d00_Elem> arr1(unk338);
         Cb5750_LocalArray<S_00cb5d00_Elem> arr2(unk338);
         if (inner->m_nav.m_bv.m_kMinimumCorner[0] > inner->m_nav.m_bv.m_kMaximumCorner[0])
-            Cb5750_invalid(unk78, &param, 1);
+            ::FUN_00d1a330((const ::CollisionContext *)(unk78), (::EntityNode *const *)(::Cb5750_Param **)(&param), 1);
 
         __declspec(align(16)) Cb5750_Aabb aabb;
         unsigned int uiExpansionShift = inner->m_nav.m_bv.m_ucExpansionShift;
@@ -3918,20 +3925,20 @@ void __cdecl Cb5750_Owner::AddCollisionShape(Cb5750_Param* param) throw()
         unk58->v2c(&key, &aabb, 1, &arr1, &arr2);
         if (arr1.m_iElementCount + arr2.m_iElementCount > 0)
         {
-            Cb5750_merge(&arr1, &arr2);
-            unk64->addSecond(arr2.m_data, arr2.m_iElementCount);
+            ::FUN_00cf7130((::EdgeArray *)(::Cb5750_Array< ::S_00cb5d00_Elem> *)(&arr1), (::EdgeArray *)(::Cb5750_Array< ::S_00cb5d00_Elem> *)(&arr2));
+            reinterpret_cast<::Dispatcher *>((unk64))->DispatchPairs((::Pair *)(arr2.m_data), arr2.m_iElementCount);
             Cb5750_Sub8* sub = unk7C;
             void* extra = sub ? &sub->unk08 : 0;
-            unk64->addFirst(arr1.m_data, arr1.m_iElementCount, extra);
+            reinterpret_cast<::DispatcherCF7080 *>((unk64))->FUN_00cf7080((::PairCF7080 *)(arr1.m_data), arr1.m_iElementCount, (const ::FilterCF7080 *)(extra));
         }
     }
 
     if (--unk94 == 0 && flag9c == 0)
     {
         if (unk8C != 0)
-            flush8c();
+            reinterpret_cast<::FUN_00c91120 *>(this)->ExecutePendingOperations();
         if (unkA4 == 1 && unk90 != 0)
-            flush90();
+            reinterpret_cast<::FUN_00c91140_Class *>(this)->FUN_00c91140();
     }
 }
 
@@ -3959,7 +3966,6 @@ struct MemoryContext
     Heap* heap;
 };
 extern "C" MemoryContext* __cdecl FUN_00c85750();
-extern "C" void __cdecl ResizeAudioStream(void* heap, void* array, int elementSize);
 
 template <class T> struct Array
 {
@@ -3970,7 +3976,7 @@ template <class T> struct Array
     {
         MemoryContext* memory = FUN_00c85750();
         if (length == (int)(capacity & 0x3fffffff))
-            ResizeAudioStream(memory->heap, this, 4);
+            ::ResizeAudioStream((::AudioAllocator *)(memory->heap), (::AudioStream *)(void *)(this), 4);
         T** address = data + length;
         __assume(address != 0);
         new (address) T*(p);
@@ -4009,7 +4015,6 @@ struct Producer
     virtual void two();
     virtual void three();
     virtual void enumerate(Scratch* result);
-    void __thiscall FUN_00c90510();
 };
 struct Handle
 {
@@ -4025,7 +4030,6 @@ struct Handle
     unsigned short index22;
     unsigned char unk24;
     unsigned char flags25;
-    void __thiscall RemoveEntry(Producer* object);
 };
 struct Actor
 {
@@ -4267,8 +4271,8 @@ void __cdecl CollectProducers(Context* context, Manager* manager, Array<Producer
             } while (j < scratch.length);
         }
         output->add(object);
-        object->FUN_00c90510();
-        handle->RemoveEntry(object);
+        reinterpret_cast<::FUN_00c90510_class *>((object))->FUN_00c90510();
+        reinterpret_cast<::SaveBuffer *>((handle))->RemoveEntry((::FUN_00d07130Arg *)(object));
         handle->flags25 = (handle->flags25 & 0xdf) | 0x10;
         if (handle->index22 == 0xffff)
         {
@@ -4576,7 +4580,6 @@ struct Heap
     void* allocator;
 };
 Heap* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void*, Array*, int);
 struct Actor
 {
     unsigned short& id()
@@ -4587,7 +4590,6 @@ struct Actor
     {
         return *(unsigned char*)((char*)this + 0x25);
     }
-    void __thiscall RemoveEntry(Entry*);
 };
 struct Entry
 {
@@ -4595,7 +4597,6 @@ struct Entry
     int unk04;
     int unk08;
     Actor* actor;
-    void __thiscall FUN_00c90510();
 };
 // Adds each element entry whose actor is parent[8] to output and removes it from that actor, then lists the actor in parent[16] if its id is 0xffff.
 // @fnv 0x00cb4790
@@ -4608,13 +4609,13 @@ void __cdecl CollectActorEntries(int* parent, int* elements, Array* output)
         {
             Heap* heap = FUN_00c85750();
             if (output->size == (int)(output->capacity & 0x3fffffff))
-                ResizeAudioStream(heap->allocator, output, 4);
+                ::ResizeAudioStream((::AudioAllocator *)(heap->allocator), (::AudioStream *)(output), 4);
             Cell* dst = &output->data[output->size];
             new (dst) Cell();
             dst->value = item;
             output->size++;
-            item->FUN_00c90510();
-            ((Actor*)parent[8])->RemoveEntry(item);
+            reinterpret_cast<::FUN_00c90510_class *>((item))->FUN_00c90510();
+            reinterpret_cast<::SaveBuffer *>((((Actor*)parent[8])))->RemoveEntry((::FUN_00d07130Arg *)(item));
             ((Actor*)parent[8])->flags() = (((Actor*)parent[8])->flags() & 0xdf) | 0x10;
             Actor* actor = (Actor*)parent[8];
             if (actor->id() == 0xffff)
@@ -4623,7 +4624,7 @@ void __cdecl CollectActorEntries(int* parent, int* elements, Array* output)
                 Array* other = (Array*)&parent[16];
                 Heap* heap2 = FUN_00c85750();
                 if (other->size == (int)(other->capacity & 0x3fffffff))
-                    ResizeAudioStream(heap2->allocator, other, 4);
+                    ::ResizeAudioStream((::AudioAllocator *)(heap2->allocator), (::AudioStream *)(other), 4);
                 Cell* dst2 = &other->data[other->size];
                 new (dst2) Cell();
                 dst2->value = actor;
@@ -4651,8 +4652,6 @@ struct hkBool
     hkBool(const hkBool& other) : value(other.value)
     {}
 };
-void __cdecl FUN_00c908c0(void*, void*, int, int);
-void __cdecl ResizeAudioStream(void*, void*, int);
 template <class T> struct hkArrayNative
 {
     T* data;
@@ -4670,14 +4669,14 @@ template <class T> struct hkArrayNative
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&a, this, newSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(&a), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
         }
     }
     void AddBack(const T& t)
     {
         S_00c6aca0_Router* r = FUN_00c85750();
         if (count == getCapacity())
-            ResizeAudioStream(&r->heap(), this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&r->heap()), (::AudioStream *)(void *)(this), sizeof(T));
         S00cb4c60_copy(data + count, 1, t);
         count++;
     }
@@ -4798,8 +4797,6 @@ struct hkpSimulationIsland
     hkArrayNative<hkpEntity*> entities;
     int unk54;
     int unk58;
-    void FUN_00d07120();
-    void MergeFrom(hkpSimulationIsland*);
 };
 struct hkpWorld
 {
@@ -4839,15 +4836,8 @@ struct hkpWorld
     unsigned char flag9c, unk9d, unk9e, unk9f;
     int unka0;
     int unka4;
-    void FUN_00c910a0(hkpSimulationIsland*);
-    void FUN_00c91120();
-    void FUN_00c91140();
 };
 void __cdecl FUN_00cb5100(hkpWorld*, hkpSimulationIsland*, hkBool);
-void __cdecl FUN_00cff290(void*, void*);
-void __cdecl FUN_00c908c0(void*, void*, int, int);
-void __cdecl ResizeAudioStream(void*, void*, int);
-void __cdecl ClearSlotReference(hkpWorld*, hkpSimulationIsland*);
 static inline int GrowCap(int cap, int need)
 {
     int nc = cap * 2;
@@ -4896,10 +4886,10 @@ void __cdecl FUN_00cb4c60(hkpWorld* apWorld, hkpSimulationIsland* apTarget, hkpS
         }
     }
     apTarget->flags25 |= (apSource->flags25 & 0xc);
-    apTarget->FUN_00d07120();
-    apSource->FUN_00d07120();
-    o->fixedIsland->FUN_00d07120();
-    FUN_00cff290(&apTarget->unk58, &apSource->unk58);
+    ::FUN_00d07120();
+    ::FUN_00d07120();
+    ::FUN_00d07120();
+    ::FUN_00cff290((::hkpAgentNnTrackCFF2 *)(void *)(&apTarget->unk58), (::hkpAgentNnTrackCFF2 *)(void *)(&apSource->unk58));
     int iTargetCount = apTarget->entities.count;
     unsigned short idx = (unsigned short)iTargetCount;
     int total = iTargetCount + apSource->entities.count;
@@ -4937,7 +4927,7 @@ void __cdecl FUN_00cb4c60(hkpWorld* apWorld, hkpSimulationIsland* apTarget, hkpS
             ++rec;
         }
     }
-    apTarget->MergeFrom(apSource);
+    reinterpret_cast<::FUN_00d07180_s *>((apTarget))->MergeFrom((::FUN_00d07180_s *)(apSource));
     apTarget->unk1C += apSource->unk1C;
     apSource->unk1C = 0;
     unsigned short uSourceIndex = apSource->storageIndex;
@@ -4968,7 +4958,7 @@ void __cdecl FUN_00cb4c60(hkpWorld* apWorld, hkpSimulationIsland* apTarget, hkpS
         hkArrayNative<hkpSimulationIsland*>* pDirtyList = &o->dirty;
         pDirtyList->AddBack(apTarget);
     }
-    ClearSlotReference(apWorld, apSource);
+    ::ClearSlotReference((int *)(apWorld), (int *)(apSource));
     delete apSource;
     int w;
     if ((apTarget->flags26 & 3) != 0 && (w = apTarget->storageIndex) != 0)
@@ -4983,14 +4973,14 @@ void __cdecl FUN_00cb4c60(hkpWorld* apWorld, hkpSimulationIsland* apTarget, hkpS
             pActiveList->data[w] = pFirstIsland;
         }
     }
-    apWorld->FUN_00c910a0(apTarget);
+    ::FUN_00c910a0((int)(apWorld));
     if (--o->refCount94 == 0 && o->flag9c == 0)
     {
         if (o->unk8c != 0)
-            o->FUN_00c91120();
+            reinterpret_cast<::FUN_00c91120 *>((o))->ExecutePendingOperations();
         if (o->unka4 == 1 && o->unk90 != 0)
         {
-            o->FUN_00c91140();
+            reinterpret_cast<::FUN_00c91140_Class *>((o))->FUN_00c91140();
             return;
         }
     }
@@ -5029,7 +5019,6 @@ struct IslandNode
     IslandList first;
     IslandList second;
 };
-void __cdecl FUN_00cb6060(IslandNode* data, Object* object, IslandList* list, int value);
 void __cdecl AddItemToContainer(Object* object, IslandNode* item);
 // Picks a list by the node's low state, runs FUN_00cb6060, then for each new item copies that state, sets its index, and may call AddItemToContainer.
 // @fnv 0x00cb6e70
@@ -5044,7 +5033,7 @@ void __cdecl PropagateStateToChildren(Object* object, int* apNode)
         list = &((IslandNode*)object)->second;
     node->flags &= 0xfc;
     int initialIndex = list->count;
-    FUN_00cb6060(node, object, list, 0);
+    ::FUN_00cb6060((::SplitIsland_Arg0 *)(node), (::SplitIsland_Arg1 *)(object), (::SplitIsland_Arg2Vec *)(list), (void *)(0));
     unsigned char uiHighState = (node->state >> 2) & 3;
     int currentIndex = initialIndex;
     while (currentIndex < list->count)
@@ -5075,7 +5064,6 @@ struct AllocHolder
 };
 
 extern "C" AllocHolder* __cdecl FUN_00c85750();
-extern "C" void __cdecl ResizeAudioStream(void* pAllocator, void* pArray, int iStride);
 
 struct PtrArray
 {
@@ -5164,7 +5152,7 @@ void FUN_00cb5480(LockedList* pList, ListItem* pItem)
         AllocHolder* holder = FUN_00c85750();
         if (arr->m_iArrayLength == (int)(arr->m_uCapFlags & 0x3fffffff))
         {
-            ResizeAudioStream(holder->m_pAllocator, arr, 4);
+            ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(arr), 4);
         }
         ListItem** slot = (ListItem**)((char*)arr->m_pData + *(volatile int*)&arr->m_iArrayLength * 4);
         *slot = pItem;
@@ -5487,7 +5475,6 @@ struct Cb4890_RemapTable
 {
     Cb4890_IntArray* m_entries;
     int m_iElementCount;
-    void RemapAndAccumulate(Cb4890_LocalBuffer<int>& map, int count, Cb4890_IntArray* src) throw();
 };
 template <class T> __forceinline T Cb4890_max2(T a, T b)
 {
@@ -5541,7 +5528,7 @@ static __declspec(noinline) void RemapElements(const Cb4890_ElemArray& list, Cb4
     if (k > n)
         out->m_data[0] = 0;
     else
-        remap->RemapAndAccumulate(used, k, src);
+        reinterpret_cast<::fnv_00d282c0::IndexRemap *>((remap))->RemapAndAccumulate((const ::fnv_00d282c0::hkArr &)(used), k, (*(::fnv_00d282c0::hkArr *)(src)));
 }
 
 volatile int g_cb4890[5];
@@ -5640,8 +5627,6 @@ struct S00cb5100_Ent
     };
     unsigned short unkee;
     int unkf0;
-    void FUN_00c90510();
-    void FUN_00c905b0();
     void setFilter(int a0, int a1, int a2)
     {
         if ((unsigned int)(a2 & 3) < (unsigned int)(be9 & 3))
@@ -5682,7 +5667,6 @@ struct S00cb5100_Body
     S00cb5100_Ent** list48;
     int count4c;
 };
-void ResizeAudioStream(void* heap, void* arr, int elemSize);
 struct S00cb5100_Arr
 {
     S00cb5100_Body** m_data;
@@ -5693,15 +5677,13 @@ struct S00cb5100_Arr
     {
         S_00c6aca0_Router* r = FUN_00c85750();
         if (m_iElementCount == (m_cap & 0x3fffffff))
-            ResizeAudioStream(r->m10, this, 4);
+            ::ResizeAudioStream((::AudioAllocator *)(r->m10), (::AudioStream *)(void *)(this), 4);
         S00cb5100_Body** out = m_data + m_iElementCount;
         for (int k = 0; k < 1; ++k)
             out[k] = e;
         ++m_iElementCount;
     }
 };
-void FUN_00cf1480(float a, float b, void* p);
-void ProcessBlocks(S00cb5100_Body* b, float f, float g, int h);
 struct S00cb5100_World
 {
     int unk00;
@@ -5905,7 +5887,6 @@ struct S00cb5100_World
     };
 };
 
-void ProcessSceneCallbacks(S00cb5100_World* w, S00cb5100_Body* b);
 
 static __declspec(noinline) S00cb5100_Body* FindItemForThreshold(S00cb5100_World* w, S00cb5100_Arr* arr, int n,
                                                                  S00cb5100_Body* b)
@@ -5939,19 +5920,19 @@ void FUN_00cb5100(S00cb5100_World* apWorld, S00cb5100_Body* apBody, bool merge)
     for (int i = 0; i < apBody->count4c; i++)
     {
         S00cb5100_Ent* e = apBody->list48[i];
-        FUN_00cf1480(0.0f, 0.0f, &e->unkf0);
+        ::FUN_00cf1480(0.0f, 0.0f, (int *)(void *)(&e->unkf0));
         e->wea = 0;
         e->wec = 0;
         e->setFilter(apWorld->b305, apWorld->b306, apWorld->b307);
     }
 
-    ProcessBlocks(apBody, apBody->f44, apWorld->f1d0, apWorld->unk78);
+    ::ProcessBlocks((::S_00cc0ed0_Blocks *)(apBody), apBody->f44, apWorld->f1d0, apWorld->unk78);
     S00cb5100_Ent* e0 = apBody->list48[0];
-    e0->FUN_00c90510();
-    ProcessSceneCallbacks(apWorld, apBody);
+    reinterpret_cast<::FUN_00c90510_class *>((e0))->FUN_00c90510();
+    ::ProcessSceneCallbacks((::Game *)(apWorld), (::Scene *)(apBody));
     if (e0->owner_cc == apBody)
     {
-        e0->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((e0))->FUN_00c905b0();
         if (merge)
         {
             int m = apBody->f1c + 3;
@@ -5961,7 +5942,7 @@ void FUN_00cb5100(S00cb5100_World* apWorld, S00cb5100_Body* apBody, bool merge)
             S00cb5100_Body* o = FindItemForThreshold(apWorld, arr, m, apBody);
             if (o)
             {
-                FUN_00cb4c60((ObjA*)apWorld, (int)o, (int)apBody);
+                ::FUN_00cb4c60((::hkpWorld *)(::ObjA *)((ObjA*)apWorld), (::hkpSimulationIsland *)((int)o), (::hkpSimulationIsland *)((int)apBody));
                 return;
             }
         }
@@ -5980,12 +5961,11 @@ void FUN_00cb5100(S00cb5100_World* apWorld, S00cb5100_Body* apBody, bool merge)
     }
     else
     {
-        e0->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((e0))->FUN_00c905b0();
     }
 }
 
 #include <xmmintrin.h>
-extern float DAT_01017d00;
 
 __forceinline int c6a870Equals3(const __m128& a, const __m128& b, float eps = 0.001f)
 {
@@ -6253,9 +6233,9 @@ void C6A870_Self::FUN_00c6a870()
             if (moved)
                 break;
             C6A870_Child* c = item->m_children[j];
-            if (c6a870Equals3(c->m_vLinearConstraint, _mm_load_ps((const float*)&DAT_01267e30)))
+            if (c6a870Equals3(c->m_vLinearConstraint, _mm_load_ps((const float*)&(*reinterpret_cast<int *>(&::DAT_01267e30)))))
             {
-                if (c6a870Equals3(c->m_vAngularConstraint, _mm_load_ps((const float*)&DAT_01267e30)))
+                if (c6a870Equals3(c->m_vAngularConstraint, _mm_load_ps((const float*)&(*reinterpret_cast<int *>(&::DAT_01267e30)))))
                     continue;
             }
             moved = 1;
@@ -6453,8 +6433,6 @@ struct Inner;
 struct CallA
 {
     signed char delta;
-    void UpdateCollisionIndices();
-    void CopyAndSortGeometryList(void* p);
 };
 struct Mgr2
 {
@@ -6745,26 +6723,16 @@ typedef void(__thiscall* FnFree)(void* self, void* p, int bytes);
 typedef void(__thiscall* Fn20)(void* self, void* p, int a, void* b, int c);
 struct RemRef
 {
-    void FUN_00c905b0();
 };
 
 struct CallB
 {
-    void UpdateNodeSlotIndices();
-    void FUN_00c90510();
 };
 struct CallInner
 {
-    void FUN_00c946e0(void* p, void* q, int a);
-    void FUN_00c91120();
-    void FUN_00c91140();
 };
-void FUN_00cf9c60(void* p, int a, void* b);
 void FUN_00cb5000(MotionObj* a0, void* b);
-void CollectActorEntries(Inner* s, MotionObj* a0, void* a);
 void CollectProducers(Inner* s, MotionObj* a0, void* a);
-void FUN_00cb4740(Inner* s, MotionObj* a0);
-void FUN_00cb3ca0(Inner* s, void* e, int z);
 struct ModeBool
 {
     bool value;
@@ -6787,14 +6755,9 @@ struct ModeBool
         return test();
     }
 };
-void FUN_00cb4230(MotionObj* a0, int mode, ModeBool fMode, ModeBool fCur, Inner* s);
-void FUN_00cb4640(Inner* s, int a5, int a7);
 void ApplyConstraintsToEntity(Inner* s, int a8, void* p);
 void FUN_00cb3ee0(void* m, MotionObj* a3, void* w, int mode);
-void FUN_00cff290(void* m, void* w);
 void FUN_00cb5570(Inner* in, MotionObj* a0, MotionObj* e);
-void UpdateRotationInterpolation(float f, void* p);
-void NotifyEntityRemoved(void* p, MotionObj* a3);
 struct VecB
 {
     void* data;
@@ -6862,8 +6825,8 @@ void FUN_00cb6f70(MotionObj* apMotionObj, int aiNewMode, int a2, MotionObj* a3, 
             return;
         if (uiCurMode == 5)
         {
-            apMotionObj->collidable.UpdateCollisionIndices();
-            ((CallB*)apMotionObj)->UpdateNodeSlotIndices();
+            reinterpret_cast<::FUN_00d08210_Collidable *>(&(apMotionObj->collidable))->UpdateCollisionIndices();
+            reinterpret_cast<::FUN_00c9c860_Shell *>((((CallB*)apMotionObj)))->UpdateNodeSlotIndices();
         }
         if (aiNewMode == 5)
             fMode.set(0);
@@ -6883,7 +6846,7 @@ void FUN_00cb6f70(MotionObj* apMotionObj, int aiNewMode, int a2, MotionObj* a3, 
         }
         if (fMode.test() && !fCur.test() && apMotionObj->m_1f8 == 0)
             return;
-        ((CallB*)apMotionObj)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((CallB*)apMotionObj)))->FUN_00c90510();
         Inner* pForm = apMotionObj->m_08;
         bool diff5 = ((uiCurMode == 5) != (aiNewMode == 5));
         if (pForm != 0 && diff5)
@@ -6905,7 +6868,7 @@ void FUN_00cb6f70(MotionObj* apMotionObj, int aiNewMode, int a2, MotionObj* a3, 
             esi.f0 = 0x200;
             FUN_00cb5000(apMotionObj, &adj);
             if (aiNewMode != 5)
-                CollectActorEntries(pForm, apMotionObj, &a);
+                ::fnv_00cb4790::CollectActorEntries((int *)(pForm), (int *)(apMotionObj), (::fnv_00cb4790::Array *)(void *)(&a));
             else
                 CollectProducers(pForm, apMotionObj, &a);
             Mgr2* manager = apMotionObj->m_cc;
@@ -6915,21 +6878,21 @@ void FUN_00cb6f70(MotionObj* apMotionObj, int aiNewMode, int a2, MotionObj* a3, 
                 if (apMotionObj->m_cc->count() > 2)
                     apMotionObj->m_cc->splitRequested = true;
             }
-            FUN_00cb4740(pForm, apMotionObj);
-            FUN_00cb4230(apMotionObj, aiNewMode, fMode, fCur, pForm);
-            FUN_00cb4640(pForm, (int)apMotionObj, a2);
+            ::FUN_00cb4740((::Obj *)(pForm), (::Obj *)(apMotionObj));
+            ::FUN_00cb4230((::ThisObj *)(apMotionObj), (::S00cb4230_MotionType)(aiNewMode), (*(::MotionFlag31 *)&(const ::ModeBool &)(fMode)), (*(::MotionFlag31 *)&(const ::ModeBool &)(fCur)), (::Node4 *)(pForm));
+            ::fnv_00cb4640::FUN_00cb4640((::fnv_00cb4640::TaskCtx *)(pForm), (::fnv_00cb4640::TaskCtx *)((int)apMotionObj), a2);
             ApplyConstraintsToEntity(pForm, (int)apMotionObj, &a);
             pForm->m_9d = 1;
             VecC vec;
             for (int i = 0; i < adj.size; i++)
             {
                 MotionObj* e = ((MotionObj**)adj.data)[i];
-                FUN_00cb3ca0(pForm, e, 0);
-                ((RemRef*)e)->FUN_00c905b0();
+                ::FUN_00cb3ca0((::FUN_00cb3ca0_object *)(pForm), (int *)(e), 0);
+                reinterpret_cast<::hkReferencedObjectC905 *>((((RemRef*)e)))->FUN_00c905b0();
             }
             if (aiNewMode != 5)
             {
-                apMotionObj->collidable.CopyAndSortGeometryList(&vec);
+                reinterpret_cast<::ContainerD082 *>(&(apMotionObj->collidable))->CopyAndSortGeometryList((*(::hkArrayD082< ::ItemD082> *)(&vec)));
                 for (int i = 0; i < vec.size; i++)
                 {
                     MotionObj* pOtherMotion = vec.data[i].f4;
@@ -6944,26 +6907,26 @@ void FUN_00cb6f70(MotionObj* apMotionObj, int aiNewMode, int a2, MotionObj* a3, 
                     FUN_00cb5570(apMotionObj->m_08, apMotionObj, work);
                 }
             }
-            FUN_00cff290(&apMotionObj->m_cc->m_58, &esi);
+            ::FUN_00cff290((::hkpAgentNnTrackCFF2 *)(void *)(&apMotionObj->m_cc->m_58), (::hkpAgentNnTrackCFF2 *)(void *)(&esi));
             if (aiNewMode == 5)
             {
-                UpdateRotationInterpolation(pForm->m_1d0, &apMotionObj->unk0f0);
+                ::UpdateRotationInterpolation(pForm->m_1d0, (::FUN_008cd6a0_Class *)(void *)(&apMotionObj->unk0f0));
                 MotionObj* o8 = pForm->m_08;
                 pForm->m_94++;
                 Fn20 fn = (Fn20)(*(void***)o8)[8];
                 fn(o8, &apMotionObj, 1, pForm, 7);
-                FUN_00cf9c60(&apMotionObj, 1, pForm);
-                NotifyEntityRemoved(apMotionObj->m_08, apMotionObj);
+                ::FUN_00cf9c60((::Entity **)(void *)(&apMotionObj), 1, (::Context *)(pForm));
+                ::NotifyEntityRemoved((::D017B0World *)(apMotionObj->m_08), apMotionObj);
                 pForm->m_94--;
             }
-            ((CallInner*)pForm)->FUN_00c946e0(apMotionObj, a3, 1);
+            reinterpret_cast<::CallRet *>((((CallInner*)pForm)))->FUN_00c946e0((::CollisionEntity *)(apMotionObj), (int)(a3), 1);
             pForm->m_9c = 0;
             if (pForm->m_94 == 0)
             {
                 if (pForm->m_8c != 0)
-                    ((CallInner*)pForm)->FUN_00c91120();
+                    reinterpret_cast<::FUN_00c91120 *>((((CallInner*)pForm)))->ExecutePendingOperations();
                 if (pForm->m_a4 == 1 && pForm->m_90 != 0)
-                    ((CallInner*)pForm)->FUN_00c91140();
+                    reinterpret_cast<::FUN_00c91140_Class *>((((CallInner*)pForm)))->FUN_00c91140();
             }
             FreeVec((void**)&vec.data, &vec.size, &vec.cap, 8);
             FreeVec(&esi.data, &esi.size, &esi.cap, 4);
@@ -6972,12 +6935,12 @@ void FUN_00cb6f70(MotionObj* apMotionObj, int aiNewMode, int a2, MotionObj* a3, 
         }
         else
         {
-            FUN_00cb4230(apMotionObj, aiNewMode, fMode, fCur, pForm);
+            ::FUN_00cb4230((::ThisObj *)(apMotionObj), (::S00cb4230_MotionType)(aiNewMode), (*(::MotionFlag31 *)&(const ::ModeBool &)(fMode)), (*(::MotionFlag31 *)&(const ::ModeBool &)(fCur)), (::Node4 *)(pForm));
             if (pForm ? true : false)
-                ((CallInner*)pForm)->FUN_00c946e0(apMotionObj, a3, 1);
+                reinterpret_cast<::CallRet *>((((CallInner*)pForm)))->FUN_00c946e0((::CollisionEntity *)(apMotionObj), (int)(a3), 1);
         }
     }
-    ((RemRef*)apMotionObj)->FUN_00c905b0();
+    reinterpret_cast<::hkReferencedObjectC905 *>((((RemRef*)apMotionObj)))->FUN_00c905b0();
 }
 
 struct S00cb4230_Vec4
@@ -7040,7 +7003,6 @@ struct S00cb4230_Swept
     S00cb4230_Quat m_qRotation1;
     S00cb4230_Vec4 m_vCenterOfMassLocal;
 };
-extern float DAT_010c7948[];
 struct S00cb4230_UFloat8
 {
     S00cb4230_UFloat8()
@@ -7071,7 +7033,6 @@ struct S00cb4230_MotionStateData
     {
         return m_kSweptTransform;
     }
-    void FUN_00c86660(void* p);
     S00cb4230_Transform m_kMotionTransform;
     S00cb4230_Swept m_kSweptTransform;
     S00cb4230_Vec4 m_kDeltaAngle;
@@ -7251,11 +7212,7 @@ struct MotionBase : RefHeader31
     MotionState* m_118;
     short m_11c;
     S00cb4230_Half m_fGravityFactor;
-    void FUN_00c905b0();
-    void FUN_00d1dff0();
-    void SetFlagBits(int a, int b, int c);
     void FUN_00c86610(MotionBase* p);
-    float FUN_00c86430();
     __forceinline static void* operator new(unsigned int nbytes)
     {
         S_00c6aca0_Heap& h = FUN_00c85750()->heap();
@@ -7434,7 +7391,6 @@ struct ThisObj
     {
         getCollidableRw()->getBroadPhaseHandle()->m_ucObjectQualityType = char(type);
     }
-    void UpdateBoundingVolume(void* a, const void* b);
 };
 struct Node4
 {
@@ -7635,16 +7591,11 @@ struct Node4
     char m_305;
     char m_306;
     char m_307;
-    float FUN_00c91020();
 };
-void __cdecl FUN_00cb1280(void* p, int a, int b);
 template <typename T> __forceinline T* __cdecl S00cb4230_AddByteOffset(T* base, long offset)
 {
     return reinterpret_cast<T*>(reinterpret_cast<char*>(base) + offset);
 }
-void __cdecl FUN_00ca8240(int mode, const S00cb4230_Vec4* p40, const S00cb4230_Quat* p80, float fret,
-                          const InertiaTensor* out, const S00cb4230_Vec4* p90, float f0, float f1, MotionBase* motion);
-void __cdecl UpdateRotationInterpolation(float f, S00cb4230_MotionStateData* p);
 
 // Switches the object's motion state to the requested mode, copying or constructing the appropriate MotionBase and updating collidable motion state.
 // @fnv 0x00cb4230
@@ -7661,9 +7612,9 @@ void __cdecl FUN_00cb4230(ThisObj* self, S00cb4230_MotionType mode, MotionFlag31
             pState->m_0c = 0;
             self->setQualityType(S00cb4230_Quality(motion->m_11c));
             S00cb4230_String::memCpy16NonEmpty(&self->m_pMotionState, pState, sizeof(MotionState) >> 4);
-            FUN_00cb1280(S00cb4230_AddByteOffset(&self->m_pMotionState, sizeof(MotionState)), 0, 0);
-            pState->FUN_00c905b0();
-            self->UpdateBoundingVolume(node, self->getCollidable()->getShape());
+            ::FUN_00cb1280(S00cb4230_AddByteOffset(&self->m_pMotionState, sizeof(MotionState)), 0, 0);
+            reinterpret_cast<::hkReferencedObjectC905 *>((pState))->FUN_00c905b0();
+            reinterpret_cast<::hkpEntityC9C0 *>((self))->UpdateBoundingVolume((const ::hkpWorldC9C0 *)(node), (const ::hkpShapeC9C0 *)(const void *)(self->getCollidable()->getShape()));
         }
 
         if (self->m_pMotionState.getType() == mode || mode == S00cb4230_DYNAMIC)
@@ -7679,12 +7630,12 @@ void __cdecl FUN_00cb4230(ThisObj* self, S00cb4230_MotionType mode, MotionFlag31
             S00cb4230_MotionStateData* pStateData = localState.GetMotionState();
             float fRestitution = pStateData->m_fRestitution;
             float j = pStateData->m_fSurfaceFriction;
-            FUN_00ca8240(mode, &localState.getPosition(), &localState.getRotation(), localState.FUN_00c86430(),
-                         &inertiaTensor, &localState.getCenterOfMassLocal(), j, fRestitution, &self->m_pMotionState);
+            ::FUN_00ca8240(mode, &localState.getPosition(), &localState.getRotation(), reinterpret_cast<::MotionMassView *>(&(localState))->FUN_00c86430(),
+                         (const float *)(const ::InertiaTensor *)(&inertiaTensor), &localState.getCenterOfMassLocal(), j, fRestitution, (::MotionStorage *)(::MotionBase *)(&self->m_pMotionState));
             localState.FUN_00c86610(pMotionBase);
             pMotionBase->setLinearDamping(localState.getLinearDamping());
             pMotionBase->setAngularDamping(localState.getAngularDamping());
-            localState.FUN_00d1dff0();
+            reinterpret_cast<::FUN_00d1dff0 *>(&(localState))->setMotion();
             goto e0;
         }
     }
@@ -7696,15 +7647,15 @@ void __cdecl FUN_00cb4230(ThisObj* self, S00cb4230_MotionType mode, MotionFlag31
         if (mode == S00cb4230_FIXED)
         {
             pObj = new (&self->m_pMotionState) BoxMotion(self->getPosition(), self->getRotation());
-            pObj->m_kMotionState.FUN_00c86660(&localState.m_kMotionState);
+            reinterpret_cast<::FUN_00c86660_cls *>(&(pObj->m_kMotionState))->FUN_00c86660((const ::FUN_00c86660_cls *)(void *)(&localState.m_kMotionState));
             pObj->m_09 = localState.m_09;
             float c = localState.GetMotionState()->getSweptTransform().getInvDeltaTime();
             if (c != 0.0f)
             {
-                UpdateRotationInterpolation(node ? node->FUN_00c91020()
+                ::UpdateRotationInterpolation(node ? reinterpret_cast<::CpuObject *>((node))->FUN_00c91020()
                                                  : 1.0f / c +
                                                        localState.GetMotionState()->getSweptTransform().getBaseTime(),
-                                            &pObj->m_kMotionState);
+                                            (::FUN_008cd6a0_Class *)(::S00cb4230_MotionStateData *)(&pObj->m_kMotionState));
             }
         }
         else
@@ -7722,7 +7673,7 @@ void __cdecl FUN_00cb4230(ThisObj* self, S00cb4230_MotionType mode, MotionFlag31
             cnt->m_06 = 1;
             pObj->m_118 = cnt;
             pObj->m_11c = (short)self->getCollidable()->getQualityType();
-            self->UpdateBoundingVolume(node, self->getCollidable()->getShape());
+            reinterpret_cast<::hkpEntityC9C0 *>((self))->UpdateBoundingVolume((const ::hkpWorldC9C0 *)(node), (const ::hkpShapeC9C0 *)(const void *)(self->getCollidable()->getShape()));
         }
         else
         {
@@ -7732,13 +7683,13 @@ void __cdecl FUN_00cb4230(ThisObj* self, S00cb4230_MotionType mode, MotionFlag31
         }
         self->m_a4 = 0;
         self->setQualityType(S00cb4230_Quality(mode != S00cb4230_FIXED));
-        localState.FUN_00d1dff0();
+        reinterpret_cast<::FUN_00d1dff0 *>(&(localState))->setMotion();
     }
 e0:
     self->m_kCollidable.setMotionState(self->getRigidMotion()->GetMotionState());
     if ((bool)node)
     {
-        self->getMotion()->SetFlagBits((unsigned char)node->m_305, (unsigned char)node->m_306,
+        reinterpret_cast<::FlagState *>((self->getMotion()))->SetFlagBits((unsigned char)node->m_305, (unsigned char)node->m_306,
                                        (unsigned char)node->m_307);
     }
 }
@@ -8040,14 +7991,13 @@ void FUN_00cb49e0(MergeWorld* owner, int remap_, MergeListArg listArg, Cb4890_In
         }
     }
 
-    ((Cb4890_RemapTable*)(*(volatile int*)&remap_))->RemapAndAccumulate(map, pos, src);
+    reinterpret_cast<::fnv_00d282c0::IndexRemap *>((((Cb4890_RemapTable*)(*(volatile int*)&remap_))))->RemapAndAccumulate((const ::fnv_00d282c0::hkArr &)(map), pos, (*(::fnv_00d282c0::hkArr *)(src)));
 }
 
 namespace fnv_00cb5000 {
 extern "C" void _ReadWriteBarrier(void);
 struct FUN_00cb5000_obj
 {
-    void Refresh();
 };
 
 struct Holder
@@ -8060,8 +8010,6 @@ struct Holder
 };
 
 Holder* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void* apAllocator, void* apVector, unsigned int auiElemSize);
-void __cdecl FUN_00cb3dd0(int aCtx, int aObj, int aFlag);
 
 struct PtrVec
 {
@@ -8149,12 +8097,12 @@ void __cdecl FUN_00cb5000(OwnerObj* apOwner, PtrVec* apOut)
         do
         {
             FUN_00cb5000_obj* pObj = apOwner->m_pEntries[i].m_pEntryObject;
-            pObj->Refresh();
-            FUN_00cb3dd0(ctx, (int)pObj, 0);
+            reinterpret_cast<::FUN_00c90510_class *>((pObj))->FUN_00c90510();
+            ::FUN_00cb3dd0((::CB3DD0World *)(ctx), (::CB3DD0Entity *)((int)pObj), 0);
             Holder* pHolder = FUN_00c85750();
             if (apOut->m_uCount == (apOut->m_uCapFlags & 0x3fffffffu))
             {
-                ResizeAudioStream(pHolder->m_pAllocator, apOut, 4);
+                ::ResizeAudioStream((::AudioAllocator *)(pHolder->m_pAllocator), (::AudioStream *)(apOut), 4);
             }
             unsigned int idx = *(unsigned int volatile*)&apOut->m_uCount;
             int* data = apOut->m_pData;
@@ -8172,12 +8120,12 @@ void __cdecl FUN_00cb5000(OwnerObj* apOwner, PtrVec* apOut)
         do
         {
             FUN_00cb5000_obj* pObj = (FUN_00cb5000_obj*)apOwner->m_pPtrs[i];
-            pObj->Refresh();
-            FUN_00cb3dd0(ctx, (int)pObj, 0);
+            reinterpret_cast<::FUN_00c90510_class *>((pObj))->FUN_00c90510();
+            ::FUN_00cb3dd0((::CB3DD0World *)(ctx), (::CB3DD0Entity *)((int)pObj), 0);
             Holder* pHolder = FUN_00c85750();
             if (apOut->m_uCount == (apOut->m_uCapFlags & 0x3fffffffu))
             {
-                ResizeAudioStream(pHolder->m_pAllocator, apOut, 4);
+                ::ResizeAudioStream((::AudioAllocator *)(pHolder->m_pAllocator), (::AudioStream *)(apOut), 4);
             }
             unsigned int idx = *(unsigned int volatile*)&apOut->m_uCount;
             int* data = apOut->m_pData;
@@ -8205,12 +8153,8 @@ struct S00cb3ee0_Holder
 
 struct S00cb3ee0_Sub
 {
-    S00cb3ee0_Holder* FUN_00d081e0();
 };
 
-int PickIslandByValue(int a, int b, int c);
-void CloneRecord(int a, int b);
-void FUN_00cfe020(int a, int b);
 
 // For each entry, calls FUN_00cfeca0 and FUN_00cfe020 if its owner byte at +0xe8 is 5, or if mode is 5 and PickIslandByValue returns motion+0xcc.
 // @fnv 0x00cb3ee0
@@ -8220,7 +8164,7 @@ void FUN_00cb3ee0(void* m, MotionObj* motion, void* w, int mode)
     char* a2 = (char*)motion;
     int a3 = (int)w;
     int a4 = mode;
-    S00cb3ee0_Holder* h = ((S00cb3ee0_Sub*)((char*)a2 + 0x10))->FUN_00d081e0();
+    S00cb3ee0_Holder* h = ((::S00cb3ee0_Holder *)(reinterpret_cast<::FUN_00d081e0_cls *>((((S00cb3ee0_Sub*)((char*)a2 + 0x10))))->FUN_00d081e0()));
     int i = 0;
     if (h->count > 0)
     {
@@ -8232,16 +8176,16 @@ void FUN_00cb3ee0(void* m, MotionObj* motion, void* w, int mode)
             if (*(unsigned char*)(esi + 0xe8) == 5)
             {
                 int item = e->item;
-                CloneRecord(a3, item);
-                FUN_00cfe020(a1, item);
+                ::fnv_00cfeca0::CloneRecord((::fnv_00cfeca0::State *)(a3), (const ::fnv_00cfeca0::Record *)(item));
+                ::FUN_00cfe020((::S_cfe020_Pool *)(a1), (::S_cfe020_Entry *)(item));
             }
             else if (a4 == 5)
             {
-                if (PickIslandByValue(e->item, *(int*)(a2 + 0xcc), *(int*)(esi + 0xcc)) == *(int*)(a2 + 0xcc))
+                if (((int)(::PickIslandByValue(e->item, (::Island *)(*(int*)(a2 + 0xcc)), (::Island *)(*(int*)(esi + 0xcc))))) == *(int*)(a2 + 0xcc))
                 {
                     int item = e->item;
-                    CloneRecord(*(int*)(esi + 0xcc) + 0x58, item);
-                    FUN_00cfe020(a1, item);
+                    ::fnv_00cfeca0::CloneRecord((::fnv_00cfeca0::State *)(*(int*)(esi + 0xcc) + 0x58), (const ::fnv_00cfeca0::Record *)(item));
+                    ::FUN_00cfe020((::S_cfe020_Pool *)(a1), (::S_cfe020_Entry *)(item));
                 }
             }
             ++i;
@@ -8286,7 +8230,6 @@ struct S55Array
     }
 };
 
-void __cdecl FUN_00c908c0(S_00c6aca0_Heap& a, void* array, int reqCapacity, int sizeElem);
 
 template <typename T>
 
@@ -8303,7 +8246,7 @@ __forceinline void S55Array<T>::GrowArrayCapacity(S_00c6aca0_Heap& a, int n)
 
         int newSize = (n < cap2) ? cap2 : n;
 
-        FUN_00c908c0(a, this, newSize, sizeof(T));
+        ::FUN_00c908c0((::SpawnedObject *)&(a), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
     }
 }
 
@@ -8461,7 +8404,6 @@ struct S55Owner
 
     unsigned char m_c8;
 
-    void __thiscall FUN_00c910b0();
 };
 
 void __cdecl FUN_00cb5100(S55Owner* owner, S55Item* item, S55Bool b);
@@ -8588,7 +8530,7 @@ void __cdecl FUN_00cb55d0(S55Owner* owner)
         }
     }
 
-    owner->FUN_00c910b0();
+    ::FUN_00c910b0();
 }
 
 extern "C" void _ReadWriteBarrier();
@@ -8632,7 +8574,6 @@ struct TaskNode
     int unk48;
     int unk4c;
     void FUN_00d07420(TaskCtx* arg);
-    TaskNode* FUN_00d07830(TaskCtx* arg);
 };
 struct TaskList
 {
@@ -8749,14 +8690,14 @@ void __cdecl FUN_00cb4640(TaskCtx* apParent, TaskCtx* apChild, int mode)
         TaskHeap* heap = (TaskHeap*)router->m10;
         TaskNode* raw = heap->alloc(0x6c);
         raw->size04 = 0x6c;
-        node = raw->FUN_00d07830(apParent);
+        node = ((::fnv_00cb4640::TaskNode *)(new ((void *)(raw)) ::FUN_00d07830((::hkpWorldQ *)(apParent))));
         node->high26 = active;
         node->low26 = active;
         node->index20 = (short)list->count;
         node->id24 = (unsigned char)node->index20;
         router = ::FUN_00c85750();
         if (list->count == (list->capacity & 0x3fffffff))
-            ::fnv_00cb5480::ResizeAudioStream(router->m10, list, 4);
+            ::ResizeAudioStream((::AudioAllocator *)(router->m10), (::AudioStream *)(list), 4);
         TaskNode** slot = list->data + list->count;
         _ReadWriteBarrier();
         *slot = node;

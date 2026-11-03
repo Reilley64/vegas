@@ -2,6 +2,10 @@
 // src/havok/physics/collide/shape/compound/collection/simplemesh/hkpsimplemeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/simplemesh/hkpsimplemeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_00d21000.h"
+#include "fnv/symbols_011b2000.h"
+#include "fnv/symbols_01269000.h"
 #include "havok/hkpSimpleMeshShape.h"
 
 struct FUN_00dfd080Object
@@ -34,19 +38,6 @@ struct FUN_00dfd080Router
 };
 
 FUN_00dfd080Router* _D1A0E0GetMemoryRouter();
-
-FUN_00dfd080Object* FUN_00dfd080Object::FUN_00dfd080(unsigned char flags)
-{
-    this->FUN_00dfcfd0();
-
-    if (flags & 1)
-    {
-        FUN_00dfd080Router* router = _D1A0E0GetMemoryRouter();
-        router->m_manager->deallocate(this, m_iElementCount);
-    }
-
-    return this;
-}
 
 struct FUN_00e3c240_s
 {
@@ -182,6 +173,18 @@ class FUN_00dfcfd0
     hkArrayDFCF<hkDFCF::Elem16DFCF> m_kSecond;
     hkArrayDFCF<unsigned char> m_kThird;
 };
+FUN_00dfd080Object* FUN_00dfd080Object::FUN_00dfd080(unsigned char flags)
+{
+    reinterpret_cast<::FUN_00dfcfd0 *>((this))->FUN_00dfcfd0::~FUN_00dfcfd0();
+
+    if (flags & 1)
+    {
+        FUN_00dfd080Router* router = _D1A0E0GetMemoryRouter();
+        router->m_manager->deallocate(this, m_iElementCount);
+    }
+
+    return this;
+}
 
 // Empty destructor body for the FUN_00dfcfd0 class; member destructors are invoked implicitly by the compiler.
 // @fnv 0x00dfcfd0
@@ -396,7 +399,6 @@ template <class T> struct hkArrayQ
         return m_iElementCount;
     }
 };
-extern float DAT_011b2e90;
 hkBoolQ __cdecl IsDegenerateTriangle(const hkVector4Q& a, const hkVector4Q& b, const hkVector4Q& c, float tol);
 struct hkGeometryQ
 {
@@ -438,8 +440,6 @@ struct TriE3C
     int a, b, c, d;
 };
 
-int __cdecl FUN_00d06f80(const void* p, int bytes);
-extern char DAT_01269198;
 
 struct StatsCollectorE3C
 {
@@ -456,7 +456,7 @@ struct StatsCollectorE3C
         if ((a.m_iCapacityState & 0x80000000) == 0 || m_collectArrays)
         {
             const T* data = a.m_data;
-            int allocated = FUN_00d06f80(data, a.getCapacity() * (int)sizeof(T));
+            int allocated = ::fnv_00d06f80::FUN_00d06f80((const char *)(data), a.getCapacity() * (int)sizeof(T));
             AddMemoryChunk(type, name, a.m_data, a.m_iElementCount * (int)sizeof(T), allocated);
         }
     }
@@ -468,7 +468,6 @@ struct MeshShapeE3C
     ArrE3C<Vec4E3C> m_kVertices;
     ArrE3C<TriE3C> m_uiTriangleCount;
     ArrE3C<unsigned char> m_materialIds;
-    void FUN_00d213e0(StatsCollectorE3C* collector, const void* cls) const;
     void FUN_00e3c4e0(StatsCollectorE3C* collector, const void* cls) const;
 };
 
@@ -479,7 +478,7 @@ void MeshShapeE3C::FUN_00e3c4e0(StatsCollectorE3C* collector, const void* cls) c
     collector->addArray("Vertices", 3, m_kVertices);
     collector->addArray("Triangles", 3, m_uiTriangleCount);
     collector->addArray("MaterialIds", 3, m_materialIds);
-    FUN_00d213e0(collector, &DAT_01269198);
+    ::FUN_00d213e0((const char *const *)this, (const char *const *)(collector));
 }
 
 // sub ecx,0x10; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
@@ -568,7 +567,6 @@ class hkpSimpleMeshShapeAudit : public hkpShapeCollectionAudit
     unsigned char m_eWeldingType;
     virtual unsigned int FUN_00e3c3b0(unsigned int oldKey) const;
 };
-extern float DAT_011b2e90;
 hkBoolResult __cdecl IsDegenerateTriangle(const MeshVertex&, const MeshVertex&, const MeshVertex&, float);
 // @fnv 0x00e3c3b0
 unsigned int hkpSimpleMeshShapeAudit::FUN_00e3c3b0(unsigned int oldKey) const

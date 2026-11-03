@@ -2,8 +2,15 @@
 // src/havok/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-void FUN_00d374f0(int a, int b, int c, int d);
 
+#include <new>
+#include "fnv/decl/FUN_00cfbbe0_cls.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d37000.h"
+#include "fnv/symbols_00d3a000.h"
+#include "fnv/symbols_00daf000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010ce000.h"
 struct FUN_00d37690_Class
 {
     void __thiscall ForwardToFunction(int a, int b, int c, int d);
@@ -12,16 +19,10 @@ struct FUN_00d37690_Class
 // @fnv 0x00d37690
 void __thiscall FUN_00d37690_Class::ForwardToFunction(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 {
-    FUN_00d374f0(aiArg1, aiArg2, aiArg3, aiArg4);
+    ::FUN_00d374f0((*(const ::S_00d374f0_CdBody *)(aiArg1)), (*(const ::S_00d374f0_CdBody *)(aiArg2)), aiArg3, (::S_00d374f0_Collector *)(aiArg4));
 }
 
-void FUN_00d37740(int a, int b, int c, int d);
-void FUN_00d37780(int a, int b, int c, int d);
-void FUN_00d37860(int a, int b, int c, int d);
 void FUN_00d378a0(int a, int b, int c, int d);
-void FUN_00d37280(int a, int b, int c, int d);
-void FUN_00daf8e0();
-void FUN_00d3ac80();
 
 struct FUN_00cfbbe0_Arg
 {
@@ -35,7 +36,6 @@ struct FUN_00cfbbe0_Arg
 
 struct FUN_00cfbbe0_Class
 {
-    void __thiscall FUN_00cfbbe0(FUN_00cfbbe0_Arg* a, int b, int c);
 };
 
 // Builds two FUN_00cfbbe0_Arg descriptors from function pointers and flags and passes each to FUN_00cfbbe0 with size arguments 0x12/0x18 and 0x18/0x12.
@@ -44,20 +44,20 @@ void FUN_00d377d0(int pClass)
 {
     FUN_00cfbbe0_Class* p = (FUN_00cfbbe0_Class*)pClass;
     FUN_00cfbbe0_Arg arg;
-    arg.f0 = (void*)&FUN_00d37780;
-    arg.f1 = (void*)&FUN_00d37860;
+    arg.f0 = (void*)&((void (&)(int, int, int, int))::fnv_00d37780::FUN_00d37780_impl);
+    arg.f1 = (void*)&((void (&)(int, int, int, int))::FUN_00d37860);
     arg.f2 = (void*)&FUN_00d378a0;
-    arg.f3 = (void*)&FUN_00d3ac80;
+    arg.f3 = (void*)&((void (&)())::FUN_00d3ac80);
     arg.f4 = 1;
     arg.f5 = 1;
-    p->FUN_00cfbbe0(&arg, 0x12, 0x18);
-    arg.f0 = (void*)&FUN_00d37740;
-    arg.f1 = (void*)&FUN_00d374f0;
-    arg.f2 = (void*)&FUN_00d37280;
-    arg.f3 = (void*)&FUN_00daf8e0;
+    reinterpret_cast<::FUN_00cfbbe0_cls *>((p))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)(::FUN_00cfbbe0_Arg *)(&arg), 0x12, 0x18);
+    arg.f0 = (void*)&::fnv_00d37740::FUN_00d37740;
+    arg.f1 = (void*)&((void (&)(int, int, int, int))::FUN_00d374f0);
+    arg.f2 = (void*)&((void (&)(int, int, int, int))::FUN_00d37280);
+    arg.f3 = (void*)&((void (&)())::FUN_00daf8e0);
     arg.f4 = 0;
     arg.f5 = 1;
-    p->FUN_00cfbbe0(&arg, 0x18, 0x12);
+    reinterpret_cast<::FUN_00cfbbe0_cls *>((p))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)(::FUN_00cfbbe0_Arg *)(&arg), 0x18, 0x12);
 }
 
 struct Handler
@@ -110,14 +110,13 @@ struct S_00d37860_Collector : S_00d37860_Base
     virtual void f1();
 };
 
-void FUN_00d374f0(void* b, void* a, void* c, S_00d37860_Collector* collector);
 
 // Builds a collector from filter and runs FUN_00d374f0 with b, a, c and the collector.
 // @fnv 0x00d37860
 void FUN_00d37860(void* a, void* b, void* c, int filter)
 {
     S_00d37860_Collector collector(filter);
-    FUN_00d374f0(b, a, c, &collector);
+    ::FUN_00d374f0((*(const ::S_00d374f0_CdBody *)(b)), (*(const ::S_00d374f0_CdBody *)(a)), (int)(c), (::S_00d374f0_Collector *)(::S_00d37860_Collector *)(&collector));
 }
 
 struct Payload
@@ -126,18 +125,15 @@ struct Payload
     float value;
     int id;
 };
-extern float DAT_0104da48;
-extern const char DAT_010ce7fc[];
-void FUN_00d37280(int, int, int, Payload*);
 // Builds a Payload from DAT_010ce7fc, DAT_0104da48 and d, then passes it with b, a and c to FUN_00d37280.
 // @fnv 0x00d378a0
 void FUN_00d378a0(int aiArg1, int aiArg2, int aiArg3, int aiId)
 {
     Payload p;
-    p.name = DAT_010ce7fc;
-    p.value = DAT_0104da48;
+    p.name = (*reinterpret_cast<const char (*)[]>(&::DAT_010ce7fc));
+    p.value = ::DAT_0104da48;
     p.id = aiId;
-    FUN_00d37280(aiArg2, aiArg1, aiArg3, &p);
+    ::FUN_00d37280((*(const ::hkpCdBody *)(aiArg2)), (*(const ::hkpCdBody *)(aiArg1)), (*(const ::CollisionAgentContext *)(aiArg3)), (*(::hkpCdPointCollector *)(&p)));
 }
 
 struct D376B0Allocator;
@@ -157,7 +153,6 @@ struct D376B0MemoryRouter
 };
 
 extern "C" D376B0MemoryRouter& __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(D376B0Allocator* alloc, void* array, int numElements, int sizeElem);
 
 class D376B0ReferencedObject
 {
@@ -194,7 +189,7 @@ struct D376B0IndexArray
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, sizeof(unsigned short));
+            ::FUN_00c908c0((::SpawnedObject *)(::D376B0Allocator *)(&alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(unsigned short));
         }
         m_iElementCount = n;
     }
@@ -276,7 +271,7 @@ void FUN_00d37740(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
     S_00d376b0_Class* result = obj->unk10->FUN_00d37740_Method(0x20);
 
     result->unk04 = 0x20;
-    result->FUN_00d376b0(aiArg1, aiArg2, aiArg3, aiArg4);
+    new ((void *)(result)) ::FUN_00d376b0((*(const ::D376B0ShapeRef *)(aiArg1)), (void *)(aiArg2), (void *)(aiArg3), (void *)(aiArg4));
 }
 }  // namespace fnv_00d37740
 
@@ -323,7 +318,7 @@ void* FUN_00d37780_impl(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
     Allocator* alloc = pAllocHolder->m_pAllocator;
     SpawnedObject* obj = (SpawnedObject*)alloc->Alloc(0x20);
     obj->m_iElementCount = 0x20;
-    ((FUN_00d376b0_cls*)obj)->FUN_00d376b0(aiArg2, aiArg1, aiArg3, aiArg4);
+    new ((void *)(((FUN_00d376b0_cls*)obj))) ::FUN_00d376b0((*(const ::D376B0ShapeRef *)(aiArg2)), (void *)(aiArg1), (void *)(aiArg3), (void *)(aiArg4));
     // the original writes the derived vtable pointer into the object here
     obj->SpawnedObject::~SpawnedObject();
     return obj;

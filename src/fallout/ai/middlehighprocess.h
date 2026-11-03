@@ -10,6 +10,8 @@
 #define FNV_MIDDLEHIGHPROCESS_H
 
 
+#include "fnv/decl/FUN_0049bb50_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
 #include "middlehighprocess_vslots.h"
 #include "ActorPackageContext.h"
 #include "MiddleLowProcess.h"
@@ -393,13 +395,13 @@ void MiddleHighProcess::Assign3DObject(NiAVObject* apNode)
 // @fnv 0x008d8420
 int MiddleHighProcess::GetCurrentProcedure()
 {
-    return PackageReference.GetProcedureIndex();
+    return reinterpret_cast<::FUN_0084e3a0_Class *>(&(PackageReference))->FUN_0084e3a0();
 }
 
 // @fnv 0x008d8440
 void MiddleHighProcess::SetCurrentProcedure(int aiIndex)
 {
-    PackageReference.AddToProcedureIndex(aiIndex);
+    reinterpret_cast<::FUN_0049bb50_shell *>(&(PackageReference))->AddToOffset(aiIndex);
 }
 
 // @fnv 0x008d8480

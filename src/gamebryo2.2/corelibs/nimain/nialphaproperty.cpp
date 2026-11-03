@@ -1,5 +1,20 @@
 // gamebryo2.2/corelibs/nimain/nialphaproperty.cpp: NiAlphaProperty (12 functions)
 
+#include <new>
+#include "fnv/decl/FUN_00a5c200.h"
+#include "fnv/decl/FUN_00a5d450_class.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a5c000.h"
+#include "fnv/symbols_00a5d000.h"
+#include "fnv/symbols_00a62000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f5000.h"
+#include "fnv/symbols_011f6000.h"
 #include "nialphaproperty_decls.h"
 
 // @fnv 0x00a5cf90
@@ -20,7 +35,8 @@ void NiAlphaProperty::LoadBinary(NiStream& stream)
 struct NiObject;
 struct EqBase
 {
-    bool FUN_00a62140(NiObject*);
+public:
+    bool FUN_00a62140(void *);
 };
 // @fnv 0x00a5cb10
 unsigned char __fastcall IsAlphaPropertyEqual(NiAlphaProperty* self, int, NiObject* pkObject)
@@ -48,7 +64,6 @@ struct RefObj
             DeleteThis();
     }
 };
-extern RefObj* DAT_011f4410;
 // If the global RefObj pointer is set, decrements its reference count and clears the pointer.
 // @fnv 0x00a5cf60
 void FUN_00a5cf60()
@@ -62,9 +77,7 @@ void FUN_00a5cf60()
 
 struct P03MM
 {
-    void* Allocate(unsigned int);
 };
-extern P03MM g_memoryManager;
 void* _NiMalloc(unsigned int);
 void* _fnv_zlib_memset(void*, int, unsigned int);
 struct SdmBase
@@ -91,22 +104,20 @@ struct SdmDerived : SdmBase
     virtual ~SdmDerived()
     {}
 };
-extern SdmBase* DAT_011f5e34;
-extern bool DAT_011f5d30;
 // Allocates 0x10 bytes, constructs an SdmDerived in place, stores it in DAT_011f5e34 and clears DAT_011f5d30.
 // @fnv 0x00a8fa50
 void CreateSdmDerived()
 {
-    void* pStorage = g_memoryManager.Allocate(0x10);
+    void* pStorage = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(0x10);
     if (pStorage)
     {
         SdmDerived* p = new (pStorage) SdmDerived();
         DAT_011f5e34 = p;
-        DAT_011f5d30 = false;
+        (*reinterpret_cast<bool *>(&::DAT_011f5d30)) = false;
         return;
     }
     DAT_011f5e34 = 0;
-    DAT_011f5d30 = false;
+    (*reinterpret_cast<bool *>(&::DAT_011f5d30)) = false;
 }
 
 struct BSFadeNode
@@ -115,9 +126,7 @@ struct BSFadeNode
 };
 struct NiPropertyCtorStub
 {
-    void FUN_00a9a640();
 };
-extern unsigned char vftable_NiAlphaProperty[];
 __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 
 // Allocates a 0x1c-byte NiAlphaProperty, initialises its vtable and flags, and stores it in DAT_011f4410 with reference counting.
@@ -127,7 +136,7 @@ void FUN_00a5cef0()
     char* pAlphaProperty = (char*)BSFadeNode::operator new(0x1c);
     if (pAlphaProperty)
     {
-        ((NiPropertyCtorStub*)pAlphaProperty)->FUN_00a9a640();
+        new ((void *)(((NiPropertyCtorStub*)pAlphaProperty))) struct ::FUN_00a5c200();
         unsigned short usFlags = 0xec;
         *(const void**)pAlphaProperty = vftable_NiAlphaProperty;
         *(unsigned short*)(pAlphaProperty + 0x18) = usFlags;
@@ -159,7 +168,7 @@ NiAlphaProperty* __cdecl CreateNiAlphaProperty()
     NiAlphaProperty* p = (NiAlphaProperty*)A51BF0Base::operator new(0x1c);
     if (p)
     {
-        ((NiPropertyCtorStub*)p)->FUN_00a9a640();
+        new ((void *)(((NiPropertyCtorStub*)p))) struct ::FUN_00a5c200();
         p->m_uiObjectFlags = 0xec;
         *(void**)p = vftable_NiAlphaProperty;
         *((unsigned char*)p + 0x1a) = 0;
@@ -360,7 +369,6 @@ class A5D020Base
     int unk10;
     int unk14;
 
-    void FUN_00a5d7b0(A5D020Stream& kStream);
 };
 
 class A5D020Property : public A5D020Base
@@ -377,7 +385,7 @@ class A5D020Property : public A5D020Base
 // @fnv 0x00a5d020
 void A5D020Property::SaveToStream(A5D020Stream& kStream)
 {
-    FUN_00a5d7b0(kStream);
+    ::FUN_00a5d7b0();
     A5D020SaveBinary(kStream, m_usFlags);
     A5D020SaveBinary(kStream, m_ucMode);
 }
@@ -386,13 +394,7 @@ struct GlobalObjectO2_00a7b610
 {
     const char* m_name;
 };
-extern GlobalObjectO2_00a7b610 g_011f4408;
 
-char* __cdecl FUN_00a7d330(const char*);
-char* __cdecl FUN_00a7d370(const char*, bool);
-char* __cdecl FUN_00a7d410(const char*, unsigned char);
-char* __cdecl GetAlphaBlendFuncName(const char*, unsigned int);
-char* __cdecl FormatTestCondition(const char*, unsigned int);
 
 struct StrArr
 {
@@ -403,8 +405,6 @@ struct StrArr
     unsigned short unk0C;
     unsigned short m_usGrowBy;
 
-    void SetSize(unsigned int uiMaxSize);
-    void SetAt(unsigned int uiIndex, char*& pcElement);
 
     unsigned int Add(char* pcElement)
     {
@@ -412,9 +412,9 @@ struct StrArr
         unsigned int uiMaxSize = m_usMaxSize;
         if (uiAlloced >= uiMaxSize)
         {
-            SetSize(uiAlloced + m_usGrowBy);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiAlloced + m_usGrowBy);
         }
-        SetAt(uiAlloced, pcElement);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiAlloced, pcElement);
         return uiAlloced;
     }
 };
@@ -468,26 +468,23 @@ class A5D080Property : public FUN_00a62a40_this
 void A5D080Property::AppendPropertyStrings(StrArr* pkStrings)
 {
     FUN_00a62a40_this::AppendString(pkStrings);
-    pkStrings->Add(FUN_00a7d330(g_011f4408.m_name));
+    pkStrings->Add(FUN_00a7d330(::g_011f4408.m_name));
     pkStrings->Add(FUN_00a7d370("m_bAlpha", GetAlphaBlending()));
-    pkStrings->Add(GetAlphaBlendFuncName("m_eSrcBlend", GetSrcBlend()));
-    pkStrings->Add(GetAlphaBlendFuncName("m_eDestBlend", GetDestBlend()));
+    pkStrings->Add(::GetAlphaBlendFuncName("m_eSrcBlend", GetSrcBlend()));
+    pkStrings->Add(::GetAlphaBlendFuncName("m_eDestBlend", GetDestBlend()));
     pkStrings->Add(FUN_00a7d370("m_bAlphaTest", GetAlphaTesting()));
-    pkStrings->Add(FormatTestCondition("m_eTestMode", GetTestMode()));
+    pkStrings->Add(::FormatTestCondition("m_eTestMode", GetTestMode()));
     pkStrings->Add(FUN_00a7d410("m_ucTestRef", GetTestRef()));
     pkStrings->Add(FUN_00a7d370("m_bNoSorter", GetNoSorter()));
 }
 
-void __cdecl FUN_00a62130();
 
 // @fnv 0x00a99e40
 void __cdecl FUN_00a99e40()
 {
-    FUN_00a62130();
+    ::FUN_00a62130({}, {}, {});
 }
 
-extern char DAT_011f4404;
-extern int DAT_010162dc;
 void* __cdecl FUN_00aa13e0(unsigned int size);
 
 struct S00a5ce30_cls
@@ -500,25 +497,22 @@ struct S00a5ce30_cls
     int unk14;
     unsigned short unk18;
     unsigned char unk1a;
-    void FUN_00a5c200();
-    void FUN_00a5d7a0(S00a5ce30_cls* dst, int proc);
     S00a5ce30_cls* FUN_00a5ce30(int a0);
 };
-void __stdcall CreateVertexBufferSet(S00a5ce30_cls* self, int proc);
 
 // @fnv 0x00a5ce30
 S00a5ce30_cls* S00a5ce30_cls::FUN_00a5ce30(int a0)
 {
-    if (unk0c == 0 && DAT_011f4404 == 0)
+    if (unk0c == 0 && (*reinterpret_cast<char *>(&::treeCloneActive)) == 0)
     {
-        CreateVertexBufferSet(this, a0);
+        reinterpret_cast<::FUN_00a5d450_class *>((this))->CreateVertexBufferSet(a0, {});
         return this;
     }
     S00a5ce30_cls* n = (S00a5ce30_cls*)FUN_00aa13e0(0x1c);
     if (n)
     {
-        n->FUN_00a5c200();
-        *(int**)n = &DAT_010162dc;
+        new ((void *)(n)) struct ::FUN_00a5c200();
+        *(int**)n = &(*reinterpret_cast<int *>(&::vftable_NiAlphaProperty));
         n->unk18 = 0xec;
         n->unk1a = 0;
     }
@@ -526,14 +520,13 @@ S00a5ce30_cls* S00a5ce30_cls::FUN_00a5ce30(int a0)
     {
         n = 0;
     }
-    FUN_00a5d7a0(n, a0);
+    ::FUN_00a5d7a0();
     n->unk18 = unk18;
     n->unk1a = unk1a;
     return n;
 }
 
 #include <string.h>
-int _NiSprintf(char*, unsigned int, const char*, ...);
 
 // Allocates a string and formats it as "pcPrefix = ALPHA_..." based on the eFunc index, returning the new string.
 // @fnv 0x00a5cb90
@@ -547,47 +540,46 @@ char* GetAlphaBlendFuncName(const char* pcPrefix, int aiFuncIndex)
     switch (aiFuncIndex)
     {
     case 0:
-        _NiSprintf(pcString, uiPrefixLen + 0x16, "%s = ALPHA_ONE", pcPrefix);
+        ::NiSprintf(pcString, uiPrefixLen + 0x16, "%s = ALPHA_ONE", pcPrefix);
         break;
     case 1:
-        _NiSprintf(pcString, uiPrefixLen + 0x16, "%s = ALPHA_ZERO", pcPrefix);
+        ::NiSprintf(pcString, uiPrefixLen + 0x16, "%s = ALPHA_ZERO", pcPrefix);
         break;
     case 2:
-        _NiSprintf(pcString, uiPrefixLen + 0x16, "%s = ALPHA_SRCCOLOR", pcPrefix);
+        ::NiSprintf(pcString, uiPrefixLen + 0x16, "%s = ALPHA_SRCCOLOR", pcPrefix);
         break;
     case 3:
-        _NiSprintf(pcString, uiPrefixLen + 0x16, "%s = ALPHA_INVSRCCOLOR", pcPrefix);
+        ::NiSprintf(pcString, uiPrefixLen + 0x16, "%s = ALPHA_INVSRCCOLOR", pcPrefix);
         break;
     case 4:
-        _NiSprintf(pcString, uiPrefixLen + 0x16, "%s = ALPHA_DESTCOLOR", pcPrefix);
+        ::NiSprintf(pcString, uiPrefixLen + 0x16, "%s = ALPHA_DESTCOLOR", pcPrefix);
         break;
     case 5:
-        _NiSprintf(pcString, uiPrefixLen + 0x16, "%s = ALPHA_INVDESTCOLOR", pcPrefix);
+        ::NiSprintf(pcString, uiPrefixLen + 0x16, "%s = ALPHA_INVDESTCOLOR", pcPrefix);
         break;
     case 6:
-        _NiSprintf(pcString, uiPrefixLen + 0x16, "%s = ALPHA_SRCALPHA", pcPrefix);
+        ::NiSprintf(pcString, uiPrefixLen + 0x16, "%s = ALPHA_SRCALPHA", pcPrefix);
         break;
     case 7:
-        _NiSprintf(pcString, uiPrefixLen + 0x16, "%s = ALPHA_INVSRCALPHA", pcPrefix);
+        ::NiSprintf(pcString, uiPrefixLen + 0x16, "%s = ALPHA_INVSRCALPHA", pcPrefix);
         break;
     case 8:
-        _NiSprintf(pcString, uiPrefixLen + 0x16, "%s = ALPHA_DESTALPHA", pcPrefix);
+        ::NiSprintf(pcString, uiPrefixLen + 0x16, "%s = ALPHA_DESTALPHA", pcPrefix);
         break;
     case 9:
-        _NiSprintf(pcString, uiPrefixLen + 0x16, "%s = ALPHA_INVDESTALPHA", pcPrefix);
+        ::NiSprintf(pcString, uiPrefixLen + 0x16, "%s = ALPHA_INVDESTALPHA", pcPrefix);
         break;
     case 10:
-        _NiSprintf(pcString, uiPrefixLen + 0x16, "%s = ALPHA_SRCALPHASAT", pcPrefix);
+        ::NiSprintf(pcString, uiPrefixLen + 0x16, "%s = ALPHA_SRCALPHASAT", pcPrefix);
         break;
     default:
-        _NiSprintf(pcString, uiPrefixLen + 0x16, "%s = UNKNOWN!!!", pcPrefix);
+        ::NiSprintf(pcString, uiPrefixLen + 0x16, "%s = UNKNOWN!!!", pcPrefix);
         break;
     }
 
     return pcString;
 }
 
-int __cdecl _NiSprintf(char* buffer, unsigned int size, const char* format, ...);
 
 // Allocates a buffer and formats a string like "name = TEST_LESS" based on the test code, returning the buffer.
 // @fnv 0x00a5cd00
@@ -600,31 +592,31 @@ char* FormatTestCondition(const char* name, int test)
     switch (test)
     {
     case 0:
-        _NiSprintf(buffer, size, "%s = TEST_ALWAYS", name);
+        ::NiSprintf(buffer, size, "%s = TEST_ALWAYS", name);
         break;
     case 1:
-        _NiSprintf(buffer, size, "%s = TEST_LESS", name);
+        ::NiSprintf(buffer, size, "%s = TEST_LESS", name);
         break;
     case 2:
-        _NiSprintf(buffer, size, "%s = TEST_EQUAL", name);
+        ::NiSprintf(buffer, size, "%s = TEST_EQUAL", name);
         break;
     case 3:
-        _NiSprintf(buffer, size, "%s = TEST_LESSEQUAL", name);
+        ::NiSprintf(buffer, size, "%s = TEST_LESSEQUAL", name);
         break;
     case 4:
-        _NiSprintf(buffer, size, "%s = TEST_GREATER", name);
+        ::NiSprintf(buffer, size, "%s = TEST_GREATER", name);
         break;
     case 5:
-        _NiSprintf(buffer, size, "%s = TEST_NOTEQUAL", name);
+        ::NiSprintf(buffer, size, "%s = TEST_NOTEQUAL", name);
         break;
     case 6:
-        _NiSprintf(buffer, size, "%s = TEST_GREATEREQUAL", name);
+        ::NiSprintf(buffer, size, "%s = TEST_GREATEREQUAL", name);
         break;
     case 7:
-        _NiSprintf(buffer, size, "%s = TEST_NEVER", name);
+        ::NiSprintf(buffer, size, "%s = TEST_NEVER", name);
         break;
     default:
-        _NiSprintf(buffer, size, "%s = UNKNOWN!!!", name);
+        ::NiSprintf(buffer, size, "%s = UNKNOWN!!!", name);
         break;
     }
 

@@ -3,6 +3,28 @@
 // polymorphic classes (TESActorBase). The skeleton of src/fallout_shared/doorlock.cpp with those classes made polymorphic; move the functions to
 // their real unit once its classes are.
 
+#include "fnv/decl/Copy9.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004cffe0_t.h"
+#include "fnv/decl/FUN_00501e80_shell.h"
+#include "fnv/decl/FUN_00526ac0_shell.h"
+#include "fnv/decl/FUN_00569160_shell.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/OwnerLookupView.h"
+#include "fnv/decl/TeleportableReference.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_0047d680__FUN_0047d680_shell.h"
+#include "fnv/decl/fnv_00546ee0__CellOwnerCheck.h"
+#include "fnv/decl/fnv_00567960__FUN_00567960_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/s5679f0__Owner.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011de000.h"
 #include "layout_support.h"
 #include "doorlock_decls.h"
 class TESObjectCELL;
@@ -23,7 +45,6 @@ class DoorAccessData
     TESGlobal* m_pLockLevelGlobal;      // +0x14, 4 bytes
     DoorAccessData(TESObjectREFR* pRef);
     ~DoorAccessData();
-    void SetDoorReference(TESObjectREFR* pRef);
     bool ReadState98();
     bool CanActorUseDoor(const PathingActorData* pActorData, bool bFlag);
     bool CanActorOpenDoor(const PathingActorData* pActorData, bool bFlag);
@@ -51,7 +72,6 @@ class TESFaction : public TESForm
 class TESGlobalValueReader
 {
   public:
-    float GetValue();
 };
 class TESGlobal : public TESGlobalValueReader
 {
@@ -59,12 +79,10 @@ class TESGlobal : public TESGlobalValueReader
 class TESActorBaseData
 {
   public:
-    int GetFactionRank(TESFaction* pFaction, bool m_bFaceGenDataValid);
 };
 class TESActorBase : public TESForm
 {
   public:
-    TESClass* GetClass();
 };
 class TESClass
 {
@@ -74,7 +92,6 @@ class TESClass
 class DoorCell
 {
   public:
-    bool IsOwnedByActor(TESActorBase* m_pActorBaseFormItem);
     TESForm* GetOwner();
 };
 struct FactionOwnership
@@ -132,10 +149,7 @@ class TESKey : public TESBoundObject
 class InventoryChanges
 {
   public:
-    bool FindItemInInventory(TESBoundObject* pItem, int iArg1, int iArg2, int& iOut, unsigned int uiArg,
-                             TESObjectREFR* pRef);
 };
-extern TESBoundObject* g_pLockpickItem;
 
 class Actor
 {
@@ -246,9 +260,7 @@ class Actor
     virtual void vf19c();
     virtual void vf1a0();
     virtual TESForm* vf1a4();
-    TESForm* FUN_007af430();
 };
-extern Actor* g_thePlayer;
 class DoorLock5021c0 : public DoorAccessData
 {
   public:
@@ -263,7 +275,7 @@ bool DoorLock5021c0::FUN_005021c0(Actor* ref, bool b)
         r7 = true;
         TESForm* obj5 = ref->vf1a4();
         if (!obj5)
-            obj5 = ref->FUN_007af430();
+            obj5 = ((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()));
         TESActorBase* base = 0;
         switch (obj5->GetFormType())
         {
@@ -280,12 +292,12 @@ bool DoorLock5021c0::FUN_005021c0(Actor* ref, bool b)
             int rank5 = 0;
             if (!fac || !b)
             {
-                if (!m_pLockLevelGlobal || m_pLockLevelGlobal->GetValue() == 0.0)
+                if (!m_pLockLevelGlobal || reinterpret_cast<::FUN_00526ac0_shell *>((m_pLockLevelGlobal))->FUN_00526ac0() == 0.0)
                     r7 = false;
             }
             if (fac && base)
             {
-                rank5 = ((TESActorBaseData*)((char*)base + 0x30))->GetFactionRank(fac, ref == g_thePlayer);
+                rank5 = reinterpret_cast<::fnv_0047d680::FUN_0047d680_shell *>((((TESActorBaseData*)((char*)base + 0x30))))->GetFactionRank((::fnv_0047d680::TESFaction *)(fac), ref == (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)));
                 if (rank5 < m_iLockLevel)
                     r7 = false;
             }

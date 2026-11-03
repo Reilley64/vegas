@@ -1,14 +1,25 @@
 
 // tesobjectrefr_ctx_variant.cpp: context variant of src/fallout_shared/tesobjectrefr.cpp: its stripped skeleton, as these functions were checked
 // against, for verified matches whose own declarations clash with the unit's current types.
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_005abf60_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/NiTMap_S.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_004d1960__InvInventory.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/s55d310__Owner.h"
+#include "fnv/symbols_00446000.h"
+#include "fnv/symbols_00482000.h"
+#include "fnv/symbols_00574000.h"
+#include "fnv/symbols_00575000.h"
+#include "fnv/symbols_00579000.h"
+#include "fnv/symbols_0057a000.h"
+#include "fnv/symbols_011c7000.h"
+#include "fnv/symbols_011c9000.h"
+#include "fnv/symbols_011f6000.h"
 #include "tesobjectrefr_decls.h"
-GarbageCollectorUpdateState* FUN_00446ef0();
 void* FUN_0056a8c0();
-void FUN_005743f0();
-void FUN_00575c90(unsigned char value);
-float FUN_005790b0();
-float FUN_005790d0();
-void FUN_0057acc0(unsigned int index);
 
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
@@ -75,15 +86,12 @@ struct AutoMemHelper
 struct ShellH;
 struct BaseExtraList
 {
-    BSExtraData* GetExtraData(unsigned char);
 };
 struct XActor
 {
-    ShellH* GetExtra() const;
 };
 struct RefH
 {
-    bool IsDeleted() const;
 };
 struct FUN_00419ed0_shell
 {
@@ -95,16 +103,11 @@ struct FUN_00419f80_shell
 };
 struct Script
 {
-    ScriptLocals* GetOrCreateScriptLocals();
 };
 struct InventoryChanges
 {
     static InventoryChanges* __cdecl CreateForReference(TESObjectREFR*);
-    void FUN_004d1960();
 };
-TESContainer* __fastcall FUN_0055d310(TESObjectREFR*);
-TESBoundObject* __fastcall _FNV_GetObjectReference(TESObjectREFR*);
-Script* FUN_004826d0(TESBoundObject*);
 struct ExtraScript
 {
     virtual ~ExtraScript();
@@ -231,26 +234,26 @@ void FUN_00565730_shell::FUN_00565730()
     Script* pScript;
     TESContainer* pCont;
     InventoryChanges* pinventory;
-    if (((RefH*)this)->IsDeleted())
+    if (reinterpret_cast<::FUN_00440d80_shell *>((void *)(((RefH*)this)))->FUN_00440d80())
         return;
     AutoMemHelper tempMemContext(0x15, true,
                                  "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESObjectREFR.cpp", 0x196e);
-    pExtra = (ExtraScript*)((BaseExtraList*)((XActor*)this)->GetExtra())->GetExtraData(0xd);
+    pExtra = (ExtraScript*)reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((((BaseExtraList*)((::ShellH *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(((XActor*)this)))->FUN_005d43c0())))))->FUN_00410220(0xd);
     if (pExtra && pExtra->pScript)
         return;
     pObj = ((VRefStandin*)this)->GetBaseObj();
     if (!pObj)
-        pObj = _FNV_GetObjectReference(this);
-    pScript = FUN_004826d0(pObj);
+        pObj = ((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((this))->FUN_007af430()));
+    pScript = ((::Script *)(::fnv_004826d0::FUN_004826d0((::fnv_004826d0::TESForm *)(pObj))));
     if (pScript)
     {
-        ((FUN_00419ed0_shell*)((XActor*)this)->GetExtra())->FUN_00419ed0(pScript);
-        ((FUN_00419f80_shell*)((XActor*)this)->GetExtra())->FUN_00419f80(pScript->GetOrCreateScriptLocals());
+        ((FUN_00419ed0_shell*)((::ShellH *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(((XActor*)this)))->FUN_005d43c0())))->FUN_00419ed0(pScript);
+        ((FUN_00419f80_shell*)((::ShellH *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(((XActor*)this)))->FUN_005d43c0())))->FUN_00419f80(reinterpret_cast<::FUN_005abf60_shell *>((pScript))->FUN_005abf60());
     }
-    pCont = FUN_0055d310(this);
+    pCont = ((::TESContainer *)(reinterpret_cast<::s55d310::Owner *>((this))->FUN_0055d310()));
     if (pCont)
     {
         pinventory = InventoryChanges::CreateForReference(this);
-        pinventory->FUN_004d1960();
+        reinterpret_cast<::fnv_004d1960::InvInventory *>((pinventory))->FUN_004d1960();
     }
 }

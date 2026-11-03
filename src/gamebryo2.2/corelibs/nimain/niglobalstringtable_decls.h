@@ -3,24 +3,28 @@
 #define NIGLOBALSTRINGTABLE_DECLS_H
 
 #include <string.h>
+#include "fnv/decl/EC2DF0Registry.h"
+#include "fnv/decl/MovieSignalState.h"
+#include "fnv/decl/StringTable169.h"
+#include "fnv/decl/ThreadedTable.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_01202000.h"
+#include "fnv/symbols_0126f000.h"
 class NiGlobalStringTable
 {
   public:
     void AddString();
     static char* AddString(const char*);
-    char* FUN_00a5b300(const char*, unsigned);
-    void FUN_00a5b5a0(char**, unsigned);
     unsigned char padding[0x68];
     unsigned m_uiLockCount;
 };
-extern NiGlobalStringTable* DAT_011f42c0;
-extern "C" volatile unsigned _tls_index;
 extern "C" unsigned long __readfsdword(unsigned long);
 #pragma intrinsic(__readfsdword)
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
-void* _NiMalloc(unsigned);
 struct NiPlaybackStat
 {
     int pad[5];
@@ -51,12 +55,7 @@ class NiPlaybackManager
     virtual void vfn_34();
     virtual void vfn_38();
     virtual unsigned vfn_3c();
-    bool GetNameByKey(const char*, char*);
-    void FUN_00ec1a00();
 };
-extern NiPlaybackManager* DAT_0126fac4;
-extern NiPlaybackTimestamp DAT_0126fad4;
-extern int DAT_01202800;
 class NiPlaybackFile
 {
   public:
@@ -67,7 +66,6 @@ class NiPlaybackFile
 };
 char* FUN_00ec6380(char*, const char*);
 int FUN_00ec923c(const char*, NiPlaybackStat*);
-int Warning(const char*, ...);
 extern "C" __declspec(dllimport) unsigned long __stdcall GetCurrentThreadId();
 extern "C" __declspec(dllimport) void* __stdcall BinkOpen(const char*, unsigned);
 #endif

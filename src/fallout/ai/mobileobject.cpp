@@ -1,5 +1,278 @@
 // fallout/ai/mobileobject.cpp: MobileObject, Actor, TESObjectREFR, VTableHelper and more (95 functions)
 
+#include <new>
+#include "fnv/decl/ActorDeletionQueue.h"
+#include "fnv/decl/ActorStandIn008a.h"
+#include "fnv/decl/AimController_c70060.h"
+#include "fnv/decl/B61F2B0Object.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSMessageInitAccess.h"
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/BipedAnim.h"
+#include "fnv/decl/C6760Ref.h"
+#include "fnv/decl/C6E030Holder.h"
+#include "fnv/decl/C70B60Character.h"
+#include "fnv/decl/C70CharacterController.h"
+#include "fnv/decl/Calendar.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CharacterProbeLocal.h"
+#include "fnv/decl/DummyFlagsShell.h"
+#include "fnv/decl/FUN_004048e0_cls.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00409480_shell.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_00414220_shell.h"
+#include "fnv/decl/FUN_0041ca90.h"
+#include "fnv/decl/FUN_004226e0_shell.h"
+#include "fnv/decl/FUN_0042e130_shell.h"
+#include "fnv/decl/FUN_0042ede0_shell.h"
+#include "fnv/decl/FUN_0042efe0_cls.h"
+#include "fnv/decl/FUN_004303e0_Class.h"
+#include "fnv/decl/FUN_00437b90_shell.h"
+#include "fnv/decl/FUN_00437bd0_stub.h"
+#include "fnv/decl/FUN_00437bf0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_004534f0_shell.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_004572e0_shell.h"
+#include "fnv/decl/FUN_0045cbc0_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_0047c850.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004a0c90_shell.h"
+#include "fnv/decl/FUN_004d5a90_Class.h"
+#include "fnv/decl/FUN_004eaf60_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_004f8960_shell.h"
+#include "fnv/decl/FUN_0050ea10_class.h"
+#include "fnv/decl/FUN_00516bf0_shell.h"
+#include "fnv/decl/FUN_00524ac0_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_0055f5b0_Class.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_00575770_shell.h"
+#include "fnv/decl/FUN_005757d0_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_0057b0a0_shell.h"
+#include "fnv/decl/FUN_005aa420_shell.h"
+#include "fnv/decl/FUN_005aae70_shell.h"
+#include "fnv/decl/FUN_005abed0_shell.h"
+#include "fnv/decl/FUN_005be5c0_shell.h"
+#include "fnv/decl/FUN_005c0860Class.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005d43e0_shell.h"
+#include "fnv/decl/FUN_00608d80_shell.h"
+#include "fnv/decl/FUN_00619a70_shell.h"
+#include "fnv/decl/FUN_00619df0_shell.h"
+#include "fnv/decl/FUN_0061b320_shell.h"
+#include "fnv/decl/FUN_0061cdc0_shell.h"
+#include "fnv/decl/FUN_0061f170_cls.h"
+#include "fnv/decl/FUN_00620b80_shell.h"
+#include "fnv/decl/FUN_00629650_Class.h"
+#include "fnv/decl/FUN_00629670_Class.h"
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/FUN_00672dd0_shell.h"
+#include "fnv/decl/FUN_00672fc0_shell.h"
+#include "fnv/decl/FUN_0067a690_shell.h"
+#include "fnv/decl/FUN_0067efd0_shell.h"
+#include "fnv/decl/FUN_00693d50_shell.h"
+#include "fnv/decl/FUN_00810660_Class.h"
+#include "fnv/decl/FUN_008126e0_shell.h"
+#include "fnv/decl/FUN_0083de40_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_0087eeb0_shell.h"
+#include "fnv/decl/FUN_0087f390_shell.h"
+#include "fnv/decl/FUN_0087f3d0_shell.h"
+#include "fnv/decl/FUN_00881650_shell.h"
+#include "fnv/decl/FUN_008846e0_shell.h"
+#include "fnv/decl/FUN_0088b0a0_c.h"
+#include "fnv/decl/FUN_00893530_shell.h"
+#include "fnv/decl/FUN_008ace90_shell.h"
+#include "fnv/decl/FUN_008b3b90_shell.h"
+#include "fnv/decl/FUN_008bc790_shell.h"
+#include "fnv/decl/FUN_009344a0_shell.h"
+#include "fnv/decl/FUN_00953ce0_Class.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_009b28a0_t.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FUN_00ad89b0_shell.h"
+#include "fnv/decl/FUN_00ad89e0_shell.h"
+#include "fnv/decl/FUN_00ad8b60_h.h"
+#include "fnv/decl/FUN_00ad8be0_shell.h"
+#include "fnv/decl/FUN_00ad8f20_shell.h"
+#include "fnv/decl/FUN_00b4e030_shell.h"
+#include "fnv/decl/FUN_00c6e280_cls.h"
+#include "fnv/decl/FUN_00c6ffc0_Class.h"
+#include "fnv/decl/FakeCell.h"
+#include "fnv/decl/FleeActorEntry.h"
+#include "fnv/decl/Holder0042f780.h"
+#include "fnv/decl/Host096d450.h"
+#include "fnv/decl/HostActor.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/LipSyncAnimation.h"
+#include "fnv/decl/LocationDescriptor.h"
+#include "fnv/decl/MagicProjectile.h"
+#include "fnv/decl/NiAVObject.h"
+#include "fnv/decl/NonActorMagicTarget.h"
+#include "fnv/decl/PD_.h"
+#include "fnv/decl/PackageEx.h"
+#include "fnv/decl/PackageTargetRecord.h"
+#include "fnv/decl/RecursiveSpinLock.h"
+#include "fnv/decl/Ref3.h"
+#include "fnv/decl/Ref55F5.h"
+#include "fnv/decl/RefS.h"
+#include "fnv/decl/Reference.h"
+#include "fnv/decl/Refr_s.h"
+#include "fnv/decl/RemOwner.h"
+#include "fnv/decl/RotationOwner.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S00561730_Vector.h"
+#include "fnv/decl/S005620e0_Object.h"
+#include "fnv/decl/S5757a0.h"
+#include "fnv/decl/SLGameShell.h"
+#include "fnv/decl/S_8c4f10_Cls.h"
+#include "fnv/decl/SaveReference.h"
+#include "fnv/decl/TESCallHelper.h"
+#include "fnv/decl/TESCombatStyle.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/TESRegion.h"
+#include "fnv/decl/TESRegionGrassObject.h"
+#include "fnv/decl/T_.h"
+#include "fnv/decl/TeleportableReference.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/ThreeByThreeMatrix.h"
+#include "fnv/decl/TopicFlagStandIn.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Twin_00639b40.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/ValueModifierEffect.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/VectorSourceB00.h"
+#include "fnv/decl/bhkCharacterListener.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_0042ce10__FUN_0042ce10_shell.h"
+#include "fnv/decl/fnv_0043fcd0__FUN_0043fcd0_shell.h"
+#include "fnv/decl/fnv_00484ce0__TESSaveLoadGameHelper.h"
+#include "fnv/decl/fnv_00484d00__FUN_00484d00_shell.h"
+#include "fnv/decl/fnv_0055a2f0__FUN_0055a2f0.h"
+#include "fnv/decl/fnv_0055e940__SaveReference.h"
+#include "fnv/decl/fnv_0055ec40__LoadObject.h"
+#include "fnv/decl/fnv_0055f240__FUN_0055f240_Class.h"
+#include "fnv/decl/fnv_0055f780__C0055f780.h"
+#include "fnv/decl/fnv_005623d0__RefX.h"
+#include "fnv/decl/fnv_00562660__FUN_00562660_shell.h"
+#include "fnv/decl/fnv_005627c0__FUN_005627c0_shell.h"
+#include "fnv/decl/fnv_005629a0__Ref.h"
+#include "fnv/decl/fnv_00564930__FUN_00564930_shell.h"
+#include "fnv/decl/fnv_00567400__FUN_00567400_shell.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_0057ace0__FUN_0057ace0_shell.h"
+#include "fnv/decl/fnv_0057ad20__FUN_0057ad20_shell.h"
+#include "fnv/decl/fnv_0057bd60__fnv_anon_tesobjectrefr__Dummy.h"
+#include "fnv/decl/fnv_005ac4f0__FUN_005ac4f0_shell.h"
+#include "fnv/decl/fnv_005de0f0__FUN_005de0f0_shell.h"
+#include "fnv/decl/fnv_00671d30__FUN_00671d30_shell.h"
+#include "fnv/decl/fnv_00671e10__FUN_00671e10_shell.h"
+#include "fnv/decl/fnv_0067a1b0__FUN_0067a1b0_shell.h"
+#include "fnv/decl/fnv_006838b0__FUN_006838b0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_0080fb00__FUN_0080fb00_Class.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00865df0__FUN_00865df0_holder.h"
+#include "fnv/decl/fnv_0087ce80__FUN_0087ce80_shell.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_008a0b10__FUN_008a0b10_shell.h"
+#include "fnv/decl/fnv_008b8f90__TaskOwner.h"
+#include "fnv/decl/fnv_00905f30__S_00905f30_Owner.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/decl/fnv_00967730__RelationOwner.h"
+#include "fnv/decl/fnv_00968670__FUN_00968670_shell.h"
+#include "fnv/decl/fnv_00ad88f0__FUN_00ad88f0_h.h"
+#include "fnv/decl/fnv_00adbfd0__FUN_00adbfd0_cls.h"
+#include "fnv/decl/fnv_00adc050__FUN_00adc050_cls.h"
+#include "fnv/decl/s008e2680__Owner.h"
+#include "fnv/decl/s54baf0__Owner.h"
+#include "fnv/decl/s56ae10__Owner.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0040a000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_004b1000.h"
+#include "fnv/symbols_004d5000.h"
+#include "fnv/symbols_00524000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00574000.h"
+#include "fnv/symbols_00579000.h"
+#include "fnv/symbols_005ac000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005c0000.h"
+#include "fnv/symbols_005d1000.h"
+#include "fnv/symbols_00619000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_0061b000.h"
+#include "fnv/symbols_00624000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_006d9000.h"
+#include "fnv/symbols_006fa000.h"
+#include "fnv/symbols_00716000.h"
+#include "fnv/symbols_00838000.h"
+#include "fnv/symbols_0087e000.h"
+#include "fnv/symbols_0089d000.h"
+#include "fnv/symbols_008a2000.h"
+#include "fnv/symbols_008a5000.h"
+#include "fnv/symbols_008b1000.h"
+#include "fnv/symbols_008c1000.h"
+#include "fnv/symbols_00930000.h"
+#include "fnv/symbols_00933000.h"
+#include "fnv/symbols_00935000.h"
+#include "fnv/symbols_00936000.h"
+#include "fnv/symbols_009e3000.h"
+#include "fnv/symbols_00ad8000.h"
+#include "fnv/symbols_00ad9000.h"
+#include "fnv/symbols_00b6b000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_0101f000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_01183000.h"
+#include "fnv/symbols_01184000.h"
+#include "fnv/symbols_011a0000.h"
+#include "fnv/symbols_011a2000.h"
+#include "fnv/symbols_011a3000.h"
+#include "fnv/symbols_011b0000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011cd000.h"
+#include "fnv/symbols_011d0000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011d3000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011d9000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f1000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
 class ExtraDismemberedLimbs;
 class bhkCharacterController;
 #include "../../../include/layout_support.h"
@@ -17,7 +290,7 @@ void MobileObject::AdvanceMovement(float delta)
 // @fnv 0x00931d70
 float MobileObject::GetLooking() const
 {
-    return GetAngleOnReference().x;
+    return (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>((void *)this)->GetData())).x;
 }
 
 // Returns true if the interface is in dialogue and the stored object pointer is non-null and its check returns true.
@@ -32,14 +305,14 @@ bool MobileObject::IsInDialogueWithPlayer() const
 // @fnv 0x009316c0
 void MobileObject::ProcessAnimation()
 {
-    RelocateTo(GetParentWorldSpace(), GetParentCell(), *GetPos(), GetAngleOnReference().z);
+    reinterpret_cast<::s56ae10::Owner *>(this)->FUN_0056ae10((int)(((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((void *)this)->FUN_00575d70()))), (int)(GetParentCell()), (int)&(*GetPos()), (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>((void *)this)->GetData())).z);
 }
 
 // Returns true if the current package exists and its pack type is IN_GAME_DIALOGUE, otherwise false.
 // @fnv 0x009336c0
 bool MobileObject::IsCombatStateActive() const
 {
-    TESPackage* package = GetCurrentPackage();
+    TESPackage* package = reinterpret_cast<::FUN_009344a0_shell *>((void *)this)->FUN_009344a0();
     if (package && package->GetPackType() == _PackageType::IN_GAME_DIALOGUE)
         return true;
     else
@@ -59,30 +332,8 @@ void Actor::SetActorEssentialState(int value)
     ActorProjectileState = value;
 }
 
-// Calls TESObjectREFR::Revert, reverts the stored reference if present, then resets the object's state flags and values to defaults.
-// @fnv 0x00932f60
-void MobileObject::Revert(BGSLoadFormBuffer* buffer)
-{
-    TESObjectREFR::Revert(buffer);
-    if (m_pBaseProcess)
-        m_pBaseProcess->Revert(buffer);
-    SetChaseMode(false);
-    m_cCharacterValue = -1;
-    m_bNinthFlag = false;
-    m_bFirstFlag = true;
-    m_bFourthBooleanValue = true;
-    m_bFifthFlag = true;
-    m_bSecondBooleanValue = false;
-    m_bThirdFlag = false;
-    m_bTenthFlag = true;
-    ProcessReferenceState = 0.0f;
-    ReferenceMobileState = 0.0f;
-    m_bEighthFlag = false;
-}
-
 #include "../../../include/BSAudio.h"
 #include "../../../include/SoundPlaybackHandle.h"
-extern TESDataHandler* g_dataHandler;
 
 // Looks up a sound form by editor name, gets a sound handle by form ID, optionally positions and attaches it to the node, sets volume to 1.0 and plays it.
 // @fnv 0x00933270
@@ -92,18 +343,18 @@ SoundPlaybackHandle MobileObject::PlaySoundByEditorName(const char* editorName, 
     if (GetNiNode())
     {
         // TESSound's evidenced primary TESForm base is at offset zero.
-        TESForm* sound = reinterpret_cast<TESForm*>(g_dataHandler->GetSoundByEditorID(editorName));
+        TESForm* sound = reinterpret_cast<TESForm*>((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))->GetSoundByEditorID(editorName));
         if (sound)
         {
-            soundHandle = BSAudio::GetSingleton()->GetSoundHandleByFormID(sound->GetFormID(), flags);
+            soundHandle = ::FUN_00453a70()->GetSoundHandleByFormID(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((sound))->FUN_0084e3a0())), flags);
             if (flags & 2)
             {
                 NiPoint3 position = *GetPos();
-                soundHandle.SetPosition(position.x, position.y, position.z);
-                soundHandle.SetObjectToFollow(reinterpret_cast<NiAVObject*>(GetNiNode()));
+                reinterpret_cast<::FUN_00ad8b60_h *>(&(soundHandle))->FUN_00ad8b60(position.x, position.y, position.z);
+                reinterpret_cast<::FUN_00ad8f20_shell *>(&(soundHandle))->FUN_00ad8f20(reinterpret_cast<NiAVObject*>(GetNiNode()));
             }
-            soundHandle.SetVolume(1.0f);
-            soundHandle.Play(loop);
+            reinterpret_cast<::FUN_00ad89e0_shell *>(&(soundHandle))->FUN_00ad89e0(1.0f);
+            reinterpret_cast<::FUN_00ad8830_shell *>(&(soundHandle))->FUN_00ad8830(loop);
         }
     }
     return soundHandle;
@@ -124,21 +375,21 @@ void Actor::SetCurrentSitSleepState(SIT_SLEEP_STATE state)
 // @fnv 0x00573090
 bool TESObjectREFR::IsLimbMissing(int limb)
 {
-    ExtraDismemberedLimbs* extra = GetExtraData()->GetDismemberedLimbs();
+    ExtraDismemberedLimbs* extra = ((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))->GetDismemberedLimbs();
     if (!extra)
         return false;
-    return extra->IsBitSet(limb);
+    return reinterpret_cast<::FUN_004303e0_Class *>((extra))->IsBitSet(limb);
 }
 // @fnv 0x009307d0
 bool MobileObject::IsActorDead()
 {
     MobileObjectRemovalState state;
     state.removed = false;
-    state.controller = GetPhysicsCharacterController();
+    state.controller = ((::bhkCharacterController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()));
     if (state.controller)
     {
-        state.controller->SetInactive();
-        state.controller->FUN_00c70c90(0);
+        reinterpret_cast<::FUN_00c6ffc0_Class *>((state.controller))->FUN_00c6ffc0();
+        reinterpret_cast<::C70CharacterController *>((state.controller))->FUN_00c70c90((::WorldProxy *)(0));
         state.removed = true;
     }
     return state.removed;
@@ -258,18 +509,16 @@ struct __declspec(align(16)) hkVector4
     hkVector4();
 };
 
-hkVector4& __cdecl FUN_004a3e00(hkVector4&, const NiPoint3&);
 
 struct FUN_004a3f40_helper
 {
-    void FUN_004a3f40(const hkVector4&);
 };
 
 // @fnv 0x004a3eb0
 void FUN_004a3eb0_shell::FUN_004a3eb0(void* arTo)
 {
     hkVector4 hkv;
-    ((FUN_004a3f40_helper*)this)->FUN_004a3f40(FUN_004a3e00(hkv, *(const NiPoint3*)arTo));
+    reinterpret_cast<::PD_ *>((((FUN_004a3f40_helper*)this)))->FUN_004a3f40((void *)&((*(::hkVector4 *)&(::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(hkv), (const ::fnv_004a3e00::NiPoint3 &)(*(const NiPoint3*)arTo))))));
 }
 
 extern int DAT_0108a490;
@@ -278,7 +527,7 @@ extern int DAT_0108a49c;
 // @fnv 0x0092eb50
 void* __fastcall FUN_0092eb50(char* this_ptr)
 {
-    ((TESObjectREFR*)this_ptr)->TESObjectREFR::TESObjectREFR();
+    new ((void *)(((TESObjectREFR*)this_ptr))) ::fnv_0055a2f0::FUN_0055a2f0();
     *(int**)(this_ptr + 0x00) = &DAT_0108a49c;
     *(int**)(this_ptr + 0x18) = &DAT_0108a490;
     *(int*)(this_ptr + 0x6c) = 0;
@@ -300,8 +549,6 @@ void* __fastcall FUN_0092eb50(char* this_ptr)
     return this_ptr;
 }
 
-float __cdecl WrapAngle(float);
-extern double DAT_0101ff58;
 
 struct VTableHelper
 {
@@ -612,9 +859,6 @@ struct VTableHelper
     virtual void v4c0();
     virtual void v4c4();
     virtual void* v4c8();
-    bool FUN_0087eeb0();
-    void FUN_005757a0(float);
-    void FUN_005757d0(float);
     void FUN_00931b60(float fAngleDifference);
 };
 
@@ -639,18 +883,18 @@ void VTableHelper::FUN_00931b60(float afAngle)
     }
 
     afAngle = WrapAngle(afAngle);
-    if (this->v100() && this->FUN_0087eeb0())
+    if (this->v100() && reinterpret_cast<::FUN_0087eeb0_shell *>((this))->FUN_0087eeb0())
     {
         afAngle = afAngle - *(float*)((char*)this + 0x2c);
         while (afAngle < DAT_0101ff58)
             afAngle = afAngle + 6.2831854820251465;
         while (afAngle >= 3.1415927410125732)
             afAngle = afAngle - 6.2831854820251465;
-        this->FUN_005757a0(afAngle);
+        reinterpret_cast<::S5757a0 *>((this))->FUN_005757a0(afAngle);
     }
     else
     {
-        this->FUN_005757d0(afAngle);
+        reinterpret_cast<::FUN_005757d0_shell *>((this))->FUN_005757d0(afAngle);
     }
 }
 
@@ -661,16 +905,12 @@ struct FUN_00931d90_shell : public MobileObject
 
 struct SettingT_GameSettingCollection_
 {
-    SETTING_VALUE* Float();
 };
-extern SettingT_GameSettingCollection_ originalRuntimeFloatSetting231;
 extern const float DAT_0108a7f8;
 extern const double DAT_0108a7f0;
 extern const float DAT_0108a7ec;
-extern const double DAT_01023128;
 struct ST_00931d90
 {
-    void FUN_00575770(float);
 };
 // Clamps afAngle between a lower limit and a per-actor-type maximum derived from a game setting, then applies it via FUN_00575770.
 // @fnv 0x00931d90
@@ -687,16 +927,16 @@ void FUN_00931d90_shell::ClampLookAngle(float afAngle)
         case 3:
         case 4:
         case 5:
-            fMaxAngle = *(float*)originalRuntimeFloatSetting231.Float() * DAT_01023128;
+            fMaxAngle = *(float*)((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting231)))))) * DAT_01023128;
             break;
         }
     }
     if (afAngle < DAT_0108a7f0)
-        ((ST_00931d90*)this)->FUN_00575770(DAT_0108a7ec);
+        reinterpret_cast<::FUN_00575770_shell *>((((ST_00931d90*)this)))->FUN_00575770(DAT_0108a7ec);
     else if (afAngle > fMaxAngle)
-        ((ST_00931d90*)this)->FUN_00575770(fMaxAngle);
+        reinterpret_cast<::FUN_00575770_shell *>((((ST_00931d90*)this)))->FUN_00575770(fMaxAngle);
     else
-        ((ST_00931d90*)this)->FUN_00575770(afAngle);
+        reinterpret_cast<::FUN_00575770_shell *>((((ST_00931d90*)this)))->FUN_00575770(afAngle);
 }
 
 struct FUN_00931e50_shell : public MobileObject
@@ -706,13 +946,12 @@ struct FUN_00931e50_shell : public MobileObject
 
 struct ST_00931e50
 {
-    void ClampLookAngle(float);
 };
 // Adds afModAngle to the object's looking angle and passes the result to ClampLookAngle.
 // @fnv 0x00931e50
 void FUN_00931e50_shell::AddModAngle(float afModAngle)
 {
-    ((ST_00931e50*)this)->ClampLookAngle(GetLooking() + afModAngle);
+    reinterpret_cast<::FUN_00931d90_shell *>((((ST_00931e50*)this)))->ClampLookAngle(GetLooking() + afModAngle);
 }
 
 struct FUN_00931e80_shell : public MobileObject
@@ -731,19 +970,38 @@ struct FUN_00931fb0_shell : public MobileObject
 {
     void FUN_00931fb0(bool);
 };
+// Calls TESObjectREFR::Revert, reverts the stored reference if present, then resets the object's state flags and values to defaults.
+// @fnv 0x00932f60
+void MobileObject::Revert(BGSLoadFormBuffer* buffer)
+{
+    reinterpret_cast<::fnv_005629a0::Ref *>(this)->FUN_005629a0((::fnv_005629a0::LoadBuffer *)(buffer));
+    if (m_pBaseProcess)
+        m_pBaseProcess->Revert(buffer);
+    reinterpret_cast<::FUN_00931fb0_shell *>(this)->FUN_00931fb0(false);
+    m_cCharacterValue = -1;
+    m_bNinthFlag = false;
+    m_bFirstFlag = true;
+    m_bFourthBooleanValue = true;
+    m_bFifthFlag = true;
+    m_bSecondBooleanValue = false;
+    m_bThirdFlag = false;
+    m_bTenthFlag = true;
+    ProcessReferenceState = 0.0f;
+    ReferenceMobileState = 0.0f;
+    m_bEighthFlag = false;
+}
 
 struct Helper_00629670
 {
-    void FUN_00629670(int, bool);
 };
 
 // @fnv 0x00931fb0
 void FUN_00931fb0_shell::FUN_00931fb0(bool abTF)
 {
-    bhkCharacterController* pcon = GetPhysicsCharacterController();
+    bhkCharacterController* pcon = ((::bhkCharacterController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()));
     if (pcon)
     {
-        reinterpret_cast<Helper_00629670*>(reinterpret_cast<char*>(pcon) + 0x410)->FUN_00629670(0x800, abTF);
+        reinterpret_cast<::FUN_00629670_Class *>((reinterpret_cast<Helper_00629670*>(reinterpret_cast<char*>(pcon) + 0x410)))->FUN_00629670(0x800, abTF);
     }
 }
 
@@ -859,20 +1117,16 @@ struct FUN_00932d60_shell : public MobileObject
 class RecursiveSpinLock
 {
   public:
-    void Lock(char const*);
-    void Unlock(void);
 };
 
 class BGSSaveLoadGame
 {
   public:
-    bool FUN_0042ce10(void);
 };
 
 class Calendar
 {
   public:
-    float GetGameTime(void);
 };
 
 class ProcessLists
@@ -885,86 +1139,73 @@ class ProcessLists
 class ActorDeletionQueue
 {
   public:
-    void FUN_0096d470(MobileObject*, int);
 };
 
 class TESResponse
 {
   public:
-    TESResponse* GetNext(void);
 };
 
 class ActiveEffect
 {
   public:
-    void FUN_00693d50(float);
 };
 
 struct Actor_Accessor : public Actor
 {
-    bool FUN_00437b90(void);
 };
 
 struct TESObjectREFR_Accessor : public TESObjectREFR
 {
-    int GetReferenceType(void);
-    void FUN_005627c0(BGSLoadFormBuffer*);
     void FUN_009319c0(int);
 };
 
-int __fastcall FUN_0042ede0(const void* this_ptr);
-void __cdecl FUN_00936ac0(unsigned int formID, int a2);
 
-extern RecursiveSpinLock DAT_011f11a0;
-extern ProcessLists DAT_011e0e80;
-extern BGSSaveLoadGame* g_BGSSaveLoadGame;
-extern Calendar g_calendar;
-extern PlayerCharacter* pPlayer;
 
 // @fnv 0x00932d60
 void FUN_00932d60_shell::FUN_00932d60(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    ((TESObjectREFR_Accessor*)this)->FUN_005627c0(apLoadGameBuffer);
+    reinterpret_cast<::fnv_005627c0::FUN_005627c0_shell *>((((TESObjectREFR_Accessor*)this)))->FUN_005627c0((::fnv_005627c0::BGSLoadFormBuffer *)(apLoadGameBuffer));
     if (m_pBaseProcess != 0)
     {
         m_pBaseProcess->ApplyLoadBuffer(reinterpret_cast< ::BGSLoadFormBuffer*>(apLoadGameBuffer));
-        if (((Actor_Accessor*)this)->FUN_00437b90())
+        if (reinterpret_cast<::FUN_00437b90_shell *>((((Actor_Accessor*)this)))->FUN_00437b90())
         {
-            DAT_011f11a0.Lock(0);
-            ((ActorDeletionQueue*)&DAT_011e0e80)->FUN_0096d470(this, (int)((TESResponse*)m_pBaseProcess)->GetNext());
+            reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::fnv_00932d60::RecursiveSpinLock *>(&::DAT_011f11a0))))->FUN_0040fbf0((char *)(0));
+            reinterpret_cast<::ActorDeletionQueue *>((((ActorDeletionQueue*)&(*reinterpret_cast<::fnv_00932d60::ProcessLists *>(&::g_011e0e80)))))->FUN_0096d470(this, (int)((::fnv_00932d60::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)m_pBaseProcess)))->FUN_0045cd60())));
             delete m_pBaseProcess;
-            DAT_011f11a0.Unlock();
+            reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::fnv_00932d60::RecursiveSpinLock *>(&::DAT_011f11a0))))->FUN_0040fba0();
             m_pBaseProcess = 0;
         }
-        else if (((TESObjectREFR_Accessor*)this)->GetReferenceType() == 0 && (PlayerCharacter*)this != pPlayer &&
-                 (((TESResponse*)m_pBaseProcess)->GetNext() == 0 ||
-                  (int)((TESResponse*)m_pBaseProcess)->GetNext() == 1))
+        else if (((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((TESObjectREFR_Accessor*)this)))->FUN_0043fcd0())) == 0 && (PlayerCharacter*)this != ::_g_thePlayer &&
+                 (((::fnv_00932d60::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)m_pBaseProcess)))->FUN_0045cd60())) == 0 ||
+                  (int)((::fnv_00932d60::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)m_pBaseProcess)))->FUN_0045cd60())) == 1))
         {
             PROCESS_TYPE edesiredProcessLevel = GetProcessTier();
             if (edesiredProcessLevel == PROCESS_TYPE_PROCESS_TYPE_MIDDLE_LOW ||
                 edesiredProcessLevel == PROCESS_TYPE_PROCESS_TYPE_LOW)
             {
-                if (g_BGSSaveLoadGame->FUN_0042ce10())
+                if (reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::fnv_00932d60::BGSSaveLoadGame * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10())
                 {
                     if (edesiredProcessLevel == PROCESS_TYPE_PROCESS_TYPE_MIDDLE_LOW)
                         Unk_92();
                     else
                         Unk_91();
-                    ((ActiveEffect*)m_pBaseProcess)->FUN_00693d50(g_calendar.GetGameTime() - 0.5);
-                    DAT_011e0e80.RemoveMobileObjectFromList(this);
+                    reinterpret_cast<::FUN_00693d50_shell *>((((ActiveEffect*)m_pBaseProcess)))->FUN_00693d50(reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::fnv_00932d60::Calendar *>(&::g_011de7b8))))->GetGameTime() - 0.5);
+                    (*reinterpret_cast<::fnv_00932d60::ProcessLists *>(&::g_011e0e80)).RemoveMobileObjectFromList(this);
                 }
                 else
                 {
-                    DAT_011e0e80.AddMobileObjectToList(this);
+                    (*reinterpret_cast<::fnv_00932d60::ProcessLists *>(&::g_011e0e80)).AddMobileObjectToList(this);
                 }
             }
         }
     }
-    if (!*((unsigned char*)this + 0x80) && !FUN_0042ede0(GetExtraData()))
+    if (!*((unsigned char*)this + 0x80) && !((int)(reinterpret_cast<::FUN_0042ede0_shell *>((void *)(((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_0042ede0())))
     {
-        FUN_00936ac0(GetFormID(), 1);
+        ::FUN_00936ac0(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())), 1);
     }
-    if (g_BGSSaveLoadGame->FUN_0042ce10() && !((Actor_Accessor*)this)->FUN_00437b90())
+    if (reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::fnv_00932d60::BGSSaveLoadGame * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10() && !reinterpret_cast<::FUN_00437b90_shell *>((((Actor_Accessor*)this)))->FUN_00437b90())
     {
         ((TESObjectREFR_Accessor*)this)->FUN_009319c0(GetProcessTier());
     }
@@ -977,31 +1218,30 @@ struct FUN_009333e0_shell : public MobileObject
 };
 
 class MagicCaster;
+class MobileObject;
 struct ProcessLists
 {
     void AddMobileObjectToList(MobileObject*);
+public:
+    void RemoveMobileObjectFromList(::MobileObject *);
 };
-extern ProcessLists DAT_011e0e80;
 struct ST_009333e0
 {
-    void FUN_00564930(bool);
     void FUN_0092ed60(bool);
 };
-bool __cdecl FUN_00933480(MobileObject*);
 // @fnv 0x009333e0
 void FUN_009333e0_shell::FUN_009333e0(bool abDeleted)
 {
-    ((ST_009333e0*)this)->FUN_00564930(abDeleted);
-    DAT_011e0e80.AddMobileObjectToList(this);
+    reinterpret_cast<::fnv_00564930::FUN_00564930_shell *>((((ST_009333e0*)this)))->FUN_00564930(abDeleted);
+    (*reinterpret_cast<::ProcessLists *>(&::g_011e0e80)).AddMobileObjectToList(this);
     if (abDeleted)
     {
-        bool bcaster = dynamic_cast<MagicCaster*>((MobileObject*)this) || FUN_00933480(this);
+        bool bcaster = dynamic_cast<MagicCaster*>((MobileObject*)this) || ((bool)(::FUN_00933480(this)));
         ((ST_009333e0*)this)->FUN_0092ed60(bcaster);
         (*(void(__thiscall**)(void*))(*(int*)this + 0x2fc))(this);
     }
 }
 
-TESForm* __cdecl _ref_004839c0(unsigned int);
 
 struct MobileObject_Helper : public MobileObject
 {
@@ -1018,7 +1258,7 @@ void __cdecl HandleMobileObjectResult(void* apContext, bool abSucceeded)
 {
     MobileObject* pactor;
     unsigned int iactorid = (unsigned int)apContext;
-    TESForm* pform = _ref_004839c0(iactorid);
+    TESForm* pform = ::FUN_004839c0(iactorid);
     if (pform && pform->IsMobileObject())
     {
         pactor = (MobileObject*)pform;
@@ -1043,9 +1283,11 @@ struct FUN_00931620_shell : public MobileObject
     void FUN_00931620(NiPoint3*);
 };
 
+struct V3;
 struct FUN_00440460_S
 {
-    void FUN_00440460(const NiPoint3*);
+public:
+    void FUN_00440460(const ::V3 *);
 };
 struct Flt
 {
@@ -1057,35 +1299,28 @@ struct FUN_0087cee0_shell
 };
 struct SetLoc_S
 {
-    void SetLocationOnReference(const NiPoint3&);
 };
 struct CharCtl_S
 {
-    void FUN_005620e0(void*);
-    void FUN_0080fb00(void*);
-    void ResetState();
 };
-void* __cdecl FUN_00458b20();
-float __fastcall FUN_005d10f0(const char*);
 
 // Sets the reference location from arVel, then forwards arVel to the character controller and to the object at offset 0x64 when its float at 0x14 is non-zero.
 // @fnv 0x00931620
 void FUN_00931620_shell::FUN_00931620(NiPoint3* arVel)
 {
-    reinterpret_cast<SetLoc_S*>(this)->SetLocationOnReference(*arVel);
-    bhkCharacterController* pcon = GetPhysicsCharacterController();
+    reinterpret_cast<::Reference *>((reinterpret_cast<SetLoc_S*>(this)))->FUN_00575830((::Position *)&(*arVel));
+    bhkCharacterController* pcon = ((::bhkCharacterController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()));
     if (pcon)
     {
-        reinterpret_cast<CharCtl_S*>(pcon)->FUN_005620e0(arVel);
-        reinterpret_cast<CharCtl_S*>(pcon)->FUN_0080fb00(FUN_00458b20());
+        reinterpret_cast<::S005620e0_Object *>((reinterpret_cast<CharCtl_S*>(pcon)))->FUN_005620e0((const ::S005620e0_Source *)(arVel));
+        reinterpret_cast<::fnv_0080fb00::FUN_0080fb00_Class *>((reinterpret_cast<CharCtl_S*>(pcon)))->FUN_0080fb00((int)(FUN_00458b20()));
         FUN_005d10f0(reinterpret_cast<const char*>(pcon));
         reinterpret_cast<FUN_0087cee0_shell*>(pcon)->FUN_0087cee0();
-        reinterpret_cast<CharCtl_S*>(pcon)->ResetState();
+        reinterpret_cast<::C6E030Holder *>((reinterpret_cast<CharCtl_S*>(pcon)))->ResetState();
     }
     if (*(int*)((char*)this + 0x64) && (unsigned int)*(Flt*)(*(char**)((char*)this + 0x64) + 0x14))
     {
-        reinterpret_cast<FUN_00440460_S*>((unsigned int)*(Flt*)(*(char**)((char*)this + 0x64) + 0x14))
-            ->FUN_00440460(arVel);
+        reinterpret_cast<FUN_00440460_S*>((unsigned int)*(Flt*)(*(char**)((char*)this + 0x64) + 0x14))->FUN_00440460((const ::V3 *)(arVel));
     }
 }
 
@@ -1097,12 +1332,9 @@ struct FUN_009334b0_shell : public MobileObject
 
 struct BGSSaveLoadGame
 {
-    bool FUN_0042ce10();
 };
-extern BGSSaveLoadGame* g_BGSSaveLoadGame;
 struct TESSaveLoadGame
 {
-    bool GetLoading();
 };
 struct PlayerCharacter
 {
@@ -1110,7 +1342,6 @@ struct PlayerCharacter
 };
 struct TES
 {
-    bool IsCellBuffered(TESObjectCELL*, bool);
 };
 struct ModelLoader
 {
@@ -1120,33 +1351,27 @@ struct MobileStandIn
 {
     unsigned int GetCurrentProcessLevel();
     TESObjectCELL* GetTarget();
-    int GetReferenceType();
 };
 struct CellStandIn
 {
-    bool HasCellExtraData();
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
-extern PlayerCharacter* g_thePlayer;
-extern TES* g_TES;
-extern ModelLoader* g_modelLoader;
 // Returns a state code based on save-loading, sleeping/resting, the target cell, model loading and cell checks.
 // @fnv 0x009334b0
 int FUN_009334b0_shell::GetCellLoadState()
 {
     TESObjectCELL* pTargetCell;
-    if (!g_TESSaveLoadGame->GetLoading() && g_thePlayer->IsSleepingOrResting())
+    if (!reinterpret_cast<::FUN_0047c850 *>(((*reinterpret_cast<::fnv_009334b0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->EvaluateCondition() && (*reinterpret_cast<::fnv_009334b0::PlayerCharacter * *>(&::_g_thePlayer))->IsSleepingOrResting())
         return ((MobileStandIn*)this)->GetCurrentProcessLevel();
     pTargetCell = ((MobileStandIn*)this)->GetTarget();
-    if (g_BGSSaveLoadGame->FUN_0042ce10() || ((MobileStandIn*)this)->GetReferenceType() ||
-        g_modelLoader->FUN_00445750(this))
+    if (reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::fnv_009334b0::BGSSaveLoadGame * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10() || ((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((MobileStandIn*)this)))->FUN_0043fcd0())) ||
+        (*reinterpret_cast<::fnv_009334b0::ModelLoader * *>(&::g_modelLoader))->FUN_00445750(this))
     {
-        if (g_TES->IsCellBuffered(pTargetCell, true))
+        if (reinterpret_cast<::TESCallHelper *>(((*reinterpret_cast<::fnv_009334b0::TES * *>(&::g_TES))))->IsCellBuffered(pTargetCell, true))
             return 0;
-        else if (g_TES->IsCellBuffered(pTargetCell, false))
+        else if (reinterpret_cast<::TESCallHelper *>(((*reinterpret_cast<::fnv_009334b0::TES * *>(&::g_TES))))->IsCellBuffered(pTargetCell, false))
             return 1;
     }
-    if ((pTargetCell && ((CellStandIn*)pTargetCell)->HasCellExtraData()) || g_TES->IsCellBuffered(pTargetCell, false))
+    if ((pTargetCell && reinterpret_cast<::TESObjectCELL *>((((CellStandIn*)pTargetCell)))->HasCellExtraData()) || reinterpret_cast<::TESCallHelper *>(((*reinterpret_cast<::fnv_009334b0::TES * *>(&::g_TES))))->IsCellBuffered(pTargetCell, false))
         return 2;
     return 3;
 }
@@ -1166,7 +1391,6 @@ unsigned int __thiscall FUN_0092f140_shell::GetFieldD2C()
     return *(unsigned int*)((unsigned char*)this + 0xd2c);
 }
 
-extern int DAT_011a2fe0;
 
 // @fnv 0x009304a0
 int __cdecl FUN_009304a0()
@@ -1176,13 +1400,14 @@ int __cdecl FUN_009304a0()
 
 struct DummyFlags
 {
-    int __thiscall FUN_00621270(int);
+public:
+    int FUN_0088b0c0();
 };
 
 // @fnv 0x00930570
 int __fastcall HasFlag40000(DummyFlags* this_)
 {
-    return ((DummyFlags*)((char*)this_ + 0x410))->FUN_00621270(0x40000) != 0;
+    return ((int)(reinterpret_cast<::bhkCharacterListener *>((((DummyFlags*)((char*)this_ + 0x410))))->FUN_00621270(0x40000))) != 0;
 }
 
 // @fnv 0x00930600
@@ -1195,20 +1420,19 @@ struct TaskQueueInterface
 {
     static void __cdecl CopyStringToBuffer(char*, unsigned int, const char*);
 };
-char* __cdecl FUN_0040ab30(char*, int);
 
 // @fnv 0x004d5ad0
 bool BuildLipPath(BSStringT<char>& path)
 {
     char fileName[260];
-    TaskQueueInterface::CopyStringToBuffer(fileName, 260, path.String());
+    TaskQueueInterface::CopyStringToBuffer(fileName, 260, ((const char *)(::FUN_00559450((int *)&(path)))));
     {
         char* dot = FUN_0040ab30(fileName, '.');
         if (!dot)
             return false;
         *dot = 0;
     }
-    path.PrintfString("%s.lip", fileName);
+    ::FUN_00406f60((::FUN_00406f90_this *)&(path), "%s.lip", fileName);
     return true;
 }
 
@@ -1233,21 +1457,9 @@ struct FUN_0092ec10_shell
     void* __thiscall DestroyIfFlagged(unsigned int flags);
 };
 
-void* __cdecl Deallocate(void* p);
-
-// Calls FUN_0092ec40, then deallocates this when bit 0 of flags is set, and returns this.
-// @fnv 0x0092ec10
-void* __thiscall FUN_0092ec10_shell::DestroyIfFlagged(unsigned int flags)
-{
-    FUN_0092ec40();
-    if (flags & 1)
-        Deallocate(this);
-    return this;
-}
 
 extern "C"
 {
-    extern float DAT_011b014c;
 }
 
 struct FUN_00930620_shell
@@ -1263,13 +1475,10 @@ void __thiscall FUN_00930620_shell::FUN_00930620()
 
 struct FUN_0083b9a0_shell
 {
-    void FUN_0083b9a0();
 };
 struct FUN_009edd80;
-extern PlayerCharacter* g_thePlayer;
 struct FUN_00967730_shell
 {
-    void FUN_00967730(Actor* apActor, Actor* apTarget, FUN_009edd80* apPackage);
 };
 
 struct FUN_009edd80 : public TESPackage
@@ -1301,38 +1510,6 @@ struct FUN_009edd80 : public TESPackage
     virtual ~FUN_009edd80();
 };
 
-// @fnv 0x009edd80
-FUN_009edd80::FUN_009edd80(FUN_0083b9a0_shell* apTopic, Actor* apSpeaker, Actor* apTarget, int aiUnk, bool abUnkBD,
-                           bool abUnkA0)
-{
-    pTopic = apTopic;
-    if (apTopic)
-        pTopic->FUN_0083b9a0();
-    iUnkA8 = 0;
-    iUnkAC = 0;
-    m_fPackageValue = 0.0f;
-    m_pDialogueSpeaker = apSpeaker;
-    pTarget = apTarget;
-    m_pDialogueSpeaker->Unk_80(0);
-    iUnk8C = 0;
-    iUnk94 = 0;
-    bUnkBD = abUnkBD;
-    bUnk98 = false;
-    bUnkBE = false;
-    bUnkBF = false;
-    bUnkC0 = false;
-    bUnkBC = true;
-    bUnkC1 = false;
-    iUnk9C = 0;
-    ((FUN_00967730_shell*)g_thePlayer)->FUN_00967730(apSpeaker, apTarget, this);
-    iUnkC4 = 0;
-    iUnkC8 = 50;
-    iUnkB8 = aiUnk;
-    bUnkA0 = abUnkA0;
-    bUnkC2 = false;
-    bUnkCC = true;
-}
-
 struct FUN_00672850_shell : TESPackage
 {
     float GetPackageFloatValue();
@@ -1355,14 +1532,13 @@ float FUN_00672850_shell::GetPackageFloatValue()
 namespace fnv_009304b0 {
 struct DummyFlags
 {
-    int FUN_00621270(int);
     int HasFlag20();
 };
 
 // @fnv 0x009304b0
 int DummyFlags::HasFlag20()
 {
-    return FUN_00621270(0x20) != 0;
+    return ((int)(reinterpret_cast<::bhkCharacterListener *>(this)->FUN_00621270(0x20))) != 0;
 }
 }  // namespace fnv_009304b0
 
@@ -1409,7 +1585,6 @@ struct TESObject
     virtual void f38();
     virtual void f39();
     virtual bool AtA0();
-    TESObject* GetNext();
 };
 struct FUN_0056f6b0_t
 {
@@ -1419,7 +1594,7 @@ struct FUN_0056f6b0_t
 // @fnv 0x0056f6b0
 bool FUN_0056f6b0_t::HasNextWithAtA0()
 {
-    return ((TESObject*)this)->GetNext() && ((TESObject*)this)->GetNext()->AtA0();
+    return ((::TESObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)this)))->FUN_007af430())) && ((::TESObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)this)))->FUN_007af430()))->AtA0();
 }
 
 struct StandIn_00672760 : public TESPackage
@@ -1483,7 +1658,6 @@ struct Holder_00884aa0
     int UpdateControllerScale();
     int FUN_00884aa0();
 };
-void __cdecl FUN_00838780(Holder_00884aa0*, int);
 // Calls UpdateControllerScale; if it returns nonzero, calls FUN_00838780 with this and 0, then returns that result.
 // @fnv 0x00884aa0
 int Holder_00884aa0::FUN_00884aa0()
@@ -1492,14 +1666,13 @@ int Holder_00884aa0::FUN_00884aa0()
     result = UpdateControllerScale();
     if (result)
     {
-        FUN_00838780(this, 0);
+        ::FUN_00838780((::TESObjectREFR *)(::Holder_00884aa0 *)(this));
     }
     return result;
 }
 
 namespace fnv_008a0270 {
 struct PC7d;
-extern PC7d* g_thePlayer;
 struct FUN_008a0270_t
 {
     bool FUN_008a0270(bool);
@@ -1508,7 +1681,7 @@ struct FUN_008a0270_t
 // @fnv 0x008a0270
 bool FUN_008a0270_t::FUN_008a0270(bool abFlag)
 {
-    if ((PC7d*)this == g_thePlayer)
+    if ((PC7d*)this == (*reinterpret_cast<::fnv_008a0270::PC7d * *>(&::_g_thePlayer)))
         return false;
     if (*(int*)((char*)this + 0x68) != 0)
     {
@@ -1537,20 +1710,16 @@ struct TESChallenge
 
 struct ExtraDataList_Shell
 {
-    void FUN_0042e130();
 };
 
 struct ActorDeletionQueue
 {
-    void FUN_0096d470(MobileObject*, int);
 };
 
 struct ProcessLists
 {
-    void AddMobileObjectToList(MobileObject*);
 };
 
-extern int DAT_011e0e80;
 
 struct FUN_0092f1c0_shell : MobileObject
 {
@@ -1567,16 +1736,16 @@ void FUN_0092f1c0_shell::FUN_0092f1c0(bool abUnused)
         ((Process_Shell_0x10*)m_pBaseProcess)->VirtualMethod_10(this);
     }
 
-    if (IsTalkingActivator() && !IsCombatStateActive())
+    if (((bool)(::FUN_00574900((const unsigned char *)this))) && !IsCombatStateActive())
     {
         TESObjectREFR* refr = ((TESChallenge*)this)->GetProgressValue();
         if (refr)
         {
-            ((ExtraDataList_Shell*)refr->GetExtraData())->FUN_0042e130();
+            reinterpret_cast<::FUN_0042e130_shell *>((((ExtraDataList_Shell*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((refr))->FUN_005d43c0())))))->FUN_0042e130();
         }
 
-        ((ActorDeletionQueue*)&DAT_011e0e80)->FUN_0096d470(this, 0);
-        ((ProcessLists*)&DAT_011e0e80)->AddMobileObjectToList(this);
+        reinterpret_cast<::ActorDeletionQueue *>((((ActorDeletionQueue*)&(*reinterpret_cast<int *>(&::g_011e0e80)))))->FUN_0096d470(this, 0);
+        reinterpret_cast<::ProcessLists *>((((ProcessLists*)&(*reinterpret_cast<int *>(&::g_011e0e80)))))->AddMobileObjectToList(this);
     }
 }
 }  // namespace fnv_0092f1c0
@@ -1584,7 +1753,6 @@ void FUN_0092f1c0_shell::FUN_0092f1c0(bool abUnused)
 namespace fnv_009305a0 {
 struct DummyFlags
 {
-    int FUN_00621270(int);
 };
 struct FUN_009305a0_Holder
 {
@@ -1595,19 +1763,17 @@ struct FUN_009305a0_Holder
 // @fnv 0x009305a0
 bool FUN_009305a0_Holder::FUN_009305a0()
 {
-    return m410.FUN_00621270(0x2000000) != 0;
+    return ((int)(reinterpret_cast<::bhkCharacterListener *>(&(m410))->FUN_00621270(0x2000000))) != 0;
 }
 }  // namespace fnv_009305a0
 
 namespace fnv_00934f90 {
 struct TESObject
 {
-    unsigned int GetNext();
 };
 struct TESObjectREFR;
 struct BGSTalkingActivator
 {
-    TESObjectREFR* GetTempRef() const;
 };
 struct FUN_00934f90_shell
 {
@@ -1620,10 +1786,10 @@ struct FUN_00934f90_shell
 void* FUN_00934f90_shell::GetTempRefOrSelf(unsigned int, void** out)
 {
     *out = this;
-    BGSTalkingActivator* tmp = (BGSTalkingActivator*)_ptr->GetNext();
-    if (tmp->GetTempRef())
+    BGSTalkingActivator* tmp = (BGSTalkingActivator*)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((_ptr))->FUN_007af430()));
+    if (((::fnv_00934f90::TESObjectREFR *)(reinterpret_cast<::FUN_00516bf0_shell *>((void *)(tmp))->FUN_00516bf0())))
     {
-        return tmp->GetTempRef();
+        return ((::fnv_00934f90::TESObjectREFR *)(reinterpret_cast<::FUN_00516bf0_shell *>((void *)(tmp))->FUN_00516bf0()));
         goto done;
     }
     return this;
@@ -1638,7 +1804,7 @@ struct FUN_009bc8c0_shell
 // @fnv 0x009bc8c0
 bool FUN_009bc8c0_shell::FUN_009bc8c0()
 {
-    if (g_dataHandler->FormIDExists(reinterpret_cast<TESForm*>(this)->GetFormID()))
+    if (reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))->IsRenderTargetId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(this)))->FUN_0084e3a0()))))
         return true;
     else
         return false;
@@ -1652,7 +1818,7 @@ struct FUN_0080f790_shell : public TESObjectREFR
 // @fnv 0x0080f790
 float __thiscall FUN_0080f790_shell::GetAngleZOnReference(int dummy)
 {
-    return GetAngleOnReference().z;
+    return (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>((void *)this)->GetData())).z;
 }
 
 struct S0092f160;
@@ -2005,7 +2171,6 @@ void FUN_0092f190_shell::FUN_0092f190()
 
 struct FUN_00629670_T
 {
-    void __thiscall FUN_00629670(unsigned int, unsigned char);
 };
 
 struct FUN_00930540_shell
@@ -2019,14 +2184,13 @@ struct FUN_00930540_shell
 // @fnv 0x00930540
 void __thiscall FUN_00930540_shell::FUN_00930540(unsigned char abValue)
 {
-    m_410.FUN_00629670(0x100, abValue);
+    reinterpret_cast<::FUN_00629670_Class *>(&(m_410))->FUN_00629670(0x100, abValue);
 }
 
 namespace fnv_009305d0 {
 class DummyFlags
 {
   public:
-    int FUN_00621270(int);
 };
 
 class FUN_009305d0_shell
@@ -2041,7 +2205,7 @@ class FUN_009305d0_shell
 // @fnv 0x009305d0
 bool FUN_009305d0_shell::FUN_009305d0()
 {
-    return m_flags.FUN_00621270(0x4000000) != 0;
+    return ((int)(reinterpret_cast<::bhkCharacterListener *>(&(m_flags))->FUN_00621270(0x4000000))) != 0;
 }
 }  // namespace fnv_009305d0
 
@@ -2049,9 +2213,7 @@ struct TESObjectCELL;
 
 struct TES
 {
-    bool IsCellBuffered(TESObjectCELL*, bool);
 };
-extern TES* g_TES;
 
 struct LowProcess
 {
@@ -2060,7 +2222,6 @@ struct LowProcess
 
 struct TESResponse
 {
-    int GetNext();
 };
 
 struct Vtable_Shell
@@ -2226,9 +2387,9 @@ bool FUN_00931880_shell::FUN_00931880()
 
     if (((Vtable_Shell*)this)->VirtualMethod_1d0())
     {
-        if (g_TES->IsCellBuffered(((LowProcess*)this)->GetTarget(), true))
+        if (reinterpret_cast<::TESCallHelper *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->IsCellBuffered(((LowProcess*)this)->GetTarget(), true))
         {
-            if (((TESResponse*)m_pBaseProcess)->GetNext())
+            if (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)m_pBaseProcess)))->FUN_0045cd60())))
             {
                 ((Vtable_Shell*)this)->VirtualMethod_240();
             }
@@ -2248,9 +2409,7 @@ struct TESObjectCELL;
 
 struct TES
 {
-    bool IsCellBuffered(TESObjectCELL*, bool);
 };
-extern TES* g_TES;
 
 struct LowProcess
 {
@@ -2259,7 +2418,6 @@ struct LowProcess
 
 struct TESResponse
 {
-    int GetNext();
 };
 
 struct Vtable_Shell
@@ -2425,9 +2583,9 @@ bool FUN_00931920_shell::CheckTargetAndDelete(bool bCheck)
 
     if (((Vtable_Shell*)this)->VirtualMethod_1d0())
     {
-        if (g_TES->IsCellBuffered(((LowProcess*)this)->GetTarget(), bCheck))
+        if (reinterpret_cast<::TESCallHelper *>(((*reinterpret_cast<::fnv_00931920::TES * *>(&::g_TES))))->IsCellBuffered((::TESObjectCELL *)(::fnv_00931920::TESObjectCELL *)(((LowProcess*)this)->GetTarget()), bCheck))
         {
-            if (((TESResponse*)m_pBaseProcess)->GetNext())
+            if (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)m_pBaseProcess)))->FUN_0045cd60())))
             {
                 ((Vtable_Shell*)this)->VirtualMethod_240();
             }
@@ -2916,14 +3074,13 @@ struct Refr_Vtable_Shell
 
 struct FUN_00932490_shell : MobileObject
 {
-    void FUN_0055f5f0(unsigned int, unsigned int);
     void SetProcessFlags(unsigned int aiFlags, unsigned int aiOldFlags);
 };
 
 // @fnv 0x00932490
 void FUN_00932490_shell::SetProcessFlags(unsigned int aiFlags, unsigned int aiOldFlags)
 {
-    FUN_0055f5f0(aiFlags, aiOldFlags);
+    reinterpret_cast<::Ref55F5 *>(this)->FUN_0055f5f0(aiFlags, aiOldFlags);
 
     if (m_pBaseProcess)
     {
@@ -2932,7 +3089,7 @@ void FUN_00932490_shell::SetProcessFlags(unsigned int aiFlags, unsigned int aiOl
 
     if ((aiFlags & 0) || (aiOldFlags & 0))
     {
-        if (GetDisabled() || IsDeleted())
+        if (GetDisabled() || reinterpret_cast<::FUN_00440d80_shell *>((void *)this)->FUN_00440d80())
         {
             ((Refr_Vtable_Shell*)this)->VirtualMethod_1cc(0, 1);
         }
@@ -3038,18 +3195,12 @@ struct FUN_009319c0_shell : public MobileObject
 
 struct RecursiveSpinLock
 {
-    void Lock(const char* name);
-    void Unlock();
 };
-extern RecursiveSpinLock DAT_011f11a0;
 struct ActorDeletionQueue
 {
-    void FUN_0096d470(MobileObject* obj, int a);
 };
-extern ActorDeletionQueue DAT_011e0e80;
 struct TESResponse
 {
-    int GetNext();
 };
 struct Base_0092c950
 {
@@ -3216,15 +3367,15 @@ bool FUN_009319c0_shell::FUN_009319c0(int aeProcessLevel)
     bool bresult = false;
     if (aeProcessLevel == -1)
     {
-        DAT_011f11a0.Lock(0);
+        reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::fnv_009319c0::RecursiveSpinLock *>(&::DAT_011f11a0))))->FUN_0040fbf0((char *)(0));
         if (*(Base_0092c950**)((char*)this + 0x68))
         {
             bresult = true;
-            DAT_011e0e80.FUN_0096d470(this, ((TESResponse*)*(Base_0092c950**)((char*)this + 0x68))->GetNext());
+            reinterpret_cast<::ActorDeletionQueue *>(&((*reinterpret_cast<::fnv_009319c0::ActorDeletionQueue *>(&::g_011e0e80))))->FUN_0096d470(this, ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)*(Base_0092c950**)((char*)this + 0x68))))->FUN_0045cd60())));
             delete *(Base_0092c950**)((char*)this + 0x68);
             *(Base_0092c950**)((char*)this + 0x68) = 0;
         }
-        DAT_011f11a0.Unlock();
+        reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::fnv_009319c0::RecursiveSpinLock *>(&::DAT_011f11a0))))->FUN_0040fba0();
     }
     else
     {
@@ -3260,17 +3411,13 @@ class bhkWorld;
 
 struct FUN_0055f780_cls
 {
-    void FUN_0055f780(unsigned int, unsigned int);
 };
-int __fastcall FUN_004f8960(void*);
 struct LowProcess
 {
     TESSound* GetTarget();
 };
-bhkWorld* __fastcall FUN_004543c0(TESObjectCELL*);
 struct FUN_005c0860Class
 {
-    bool FUN_005c0860();
 };
 struct TopicH
 {
@@ -3278,41 +3425,28 @@ struct TopicH
 };
 struct CharCtl_S
 {
-    void FUN_005620e0(void*);
 };
 struct RecursiveSpinLock
 {
-    void Lock(const char*);
-    void Unlock();
 };
 struct TESResponse
 {
-    int GetNext();
 };
 struct ActiveEffect
 {
-    void FUN_00693d50(float);
 };
 struct Calendar
 {
-    float GetGameTime();
 };
 struct ActorDeletionQueue
 {
-    void FUN_0096d470(MobileObject*, int);
 };
 struct ProcessLists
 {
-    void RemoveMobileObjectFromList(MobileObject*);
 };
 struct FUN_00577330_cls
 {
-    int GetReferenceType();
 };
-extern RecursiveSpinLock DAT_011f11a0;
-extern ProcessLists DAT_011e0e80;
-extern Calendar g_calendar;
-extern MobileObject* g_thePlayer;
 
 struct Proc_00932520
 {
@@ -3673,42 +3807,41 @@ struct FUN_00932520_shell : MobileObject
 // @fnv 0x00932520
 void FUN_00932520_shell::UpdateFlags(unsigned int aiFlags, unsigned int aiOldFlags)
 {
-    ((FUN_0055f780_cls*)this)->FUN_0055f780(aiFlags, aiOldFlags);
+    reinterpret_cast<::fnv_0055f780::C0055f780 *>((((FUN_0055f780_cls*)this)))->FUN_0055f780(aiFlags, aiOldFlags);
     Actor* pactor = dynamic_cast<Actor*>(static_cast<MobileObject*>(this));
-    if (pactor && (FUN_004f8960(pactor) == 2 || FUN_004f8960(pactor) == 1))
+    if (pactor && (reinterpret_cast<::FUN_004f8960_shell *>((pactor))->FUN_004f8960() == 2 || reinterpret_cast<::FUN_004f8960_shell *>((pactor))->FUN_004f8960() == 1))
     {
         Unk_A8();
     }
     else if (aiFlags & 6)
     {
-        bhkCharacterController* pcon = GetPhysicsCharacterController();
+        bhkCharacterController* pcon = ((::bhkCharacterController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()));
         if (pcon && ((LowProcess*)this)->GetTarget())
-            pcon->FUN_00c70c90((int)FUN_004543c0((TESObjectCELL*)((LowProcess*)this)->GetTarget()));
-        if (pcon && !((FUN_005c0860Class*)pcon)->FUN_005c0860())
+            reinterpret_cast<::C70CharacterController *>((pcon))->FUN_00c70c90((::WorldProxy *)((int)((::fnv_00932520::bhkWorld *)(reinterpret_cast<::FUN_004543c0_cls *>(((TESObjectCELL*)((LowProcess*)this)->GetTarget()))->FUN_004543c0()))));
+        if (pcon && !reinterpret_cast<::FUN_005c0860Class *>((((FUN_005c0860Class*)pcon)))->FUN_005c0860())
         {
             NiPoint3 pos = *((TopicH*)this)->GetAddTopicList();
-            ((CharCtl_S*)pcon)->FUN_005620e0(&pos);
+            reinterpret_cast<::S005620e0_Object *>((((CharCtl_S*)pcon)))->FUN_005620e0((const ::S005620e0_Source *)(void *)(&pos));
         }
     }
     if (*(Proc_00932520**)((char*)this + 0x68))
     {
-        DAT_011f11a0.Lock(0);
-        if (IsDeleted() || GetDisabled())
+        reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::fnv_00932520::RecursiveSpinLock *>(&::DAT_011f11a0))))->FUN_0040fbf0((char *)(0));
+        if (reinterpret_cast<::FUN_00440d80_shell *>((void *)this)->FUN_00440d80() || GetDisabled())
         {
-            ((ActorDeletionQueue*)&DAT_011e0e80)
-                ->FUN_0096d470(this, ((TESResponse*)*(Proc_00932520**)((char*)this + 0x68))->GetNext());
+            reinterpret_cast<::ActorDeletionQueue *>((((ActorDeletionQueue*)&(*reinterpret_cast<::fnv_00932520::ProcessLists *>(&::g_011e0e80)))))->FUN_0096d470(this, ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)*(Proc_00932520**)((char*)this + 0x68))))->FUN_0045cd60())));
             delete *(Proc_00932520**)((char*)this + 0x68);
             *(Proc_00932520**)((char*)this + 0x68) = 0;
         }
-        else if (!((FUN_00577330_cls*)this)->GetReferenceType() && this != g_thePlayer &&
-                 (!((TESResponse*)*(Proc_00932520**)((char*)this + 0x68))->GetNext() ||
-                  ((TESResponse*)*(Proc_00932520**)((char*)this + 0x68))->GetNext() == 1))
+        else if (!((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((FUN_00577330_cls*)this)))->FUN_0043fcd0())) && this != (*reinterpret_cast<::MobileObject * *>(&::_g_thePlayer)) &&
+                 (!((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)*(Proc_00932520**)((char*)this + 0x68))))->FUN_0045cd60())) ||
+                  ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)*(Proc_00932520**)((char*)this + 0x68))))->FUN_0045cd60())) == 1))
         {
             Unk_92();
-            ((ActiveEffect*)*(Proc_00932520**)((char*)this + 0x68))->FUN_00693d50(g_calendar.GetGameTime() - 0.5);
-            DAT_011e0e80.RemoveMobileObjectFromList(this);
+            reinterpret_cast<::FUN_00693d50_shell *>((((ActiveEffect*)*(Proc_00932520**)((char*)this + 0x68))))->FUN_00693d50(reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::fnv_00932520::Calendar *>(&::g_011de7b8))))->GetGameTime() - 0.5);
+            reinterpret_cast<::ProcessLists *>(&((*reinterpret_cast<::fnv_00932520::ProcessLists *>(&::g_011e0e80))))->RemoveMobileObjectFromList(this);
         }
-        DAT_011f11a0.Unlock();
+        reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::fnv_00932520::RecursiveSpinLock *>(&::DAT_011f11a0))))->FUN_0040fba0();
         if (*(Proc_00932520**)((char*)this + 0x68))
             (*(Proc_00932520**)((char*)this + 0x68))->v564(aiFlags, aiOldFlags, this);
     }
@@ -4159,32 +4292,30 @@ struct ProcLoad_00932a00
 };
 struct FUN_00932a00_t : public MobileObject
 {
-    void FUN_009319c0(int);
-    void ApplyChanges(BGSLoadFormBuffer*);
     void FUN_00932a00(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 // @fnv 0x00932a00
 void FUN_00932a00_t::FUN_00932a00(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     char cprocessLevel = -1;
-    apLoadGameBuffer->ReadTypedData((void*)&cprocessLevel, 1);
-    FUN_009319c0(cprocessLevel);
-    ApplyChanges(apLoadGameBuffer);
-    apLoadGameBuffer->ReadTypedData((void*)((char*)this + 0x84), 1);
-    apLoadGameBuffer->ReadTypedData((void*)((char*)this + 0x85), 1);
-    apLoadGameBuffer->ReadTypedData((void*)((char*)this + 0x7c), 1);
-    apLoadGameBuffer->ReadTypedData((void*)((char*)this + 0x7f), 1);
-    apLoadGameBuffer->ReadTypedData((void*)((char*)this + 0x80), 1);
-    apLoadGameBuffer->ReadTypedData((void*)((char*)this + 0x7d), 1);
-    apLoadGameBuffer->ReadTypedData((void*)((char*)this + 0x7e), 1);
-    apLoadGameBuffer->ReadTypedData((void*)((char*)this + 0x86), 1);
-    apLoadGameBuffer->ReadTypedData((void*)((char*)this + 0x74), 4);
-    apLoadGameBuffer->ReadTypedData((void*)((char*)this + 0x78), 4);
-    apLoadGameBuffer->ReadTypedData((void*)((char*)this + 0x81), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)&cprocessLevel), 1);
+    reinterpret_cast<::fnv_009319c0::FUN_009319c0_shell *>(this)->FUN_009319c0(cprocessLevel);
+    reinterpret_cast<::fnv_005623d0::RefX *>(this)->ApplyChanges((::fnv_005623d0::ChangeX *)(apLoadGameBuffer));
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x84)), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x85)), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x7c)), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x7f)), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x80)), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x7d)), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x7e)), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x86)), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x74)), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x78)), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x81)), 1);
     if (apLoadGameBuffer->GetVersion() >= 8)
-        apLoadGameBuffer->ReadTypedData((void*)((char*)this + 0x83), 1);
-    apLoadGameBuffer->ReadFormIdentifier((unsigned int*)((char*)this + 0x6c));
-    apLoadGameBuffer->ReadFormIdentifier((unsigned int*)((char*)this + 0x70));
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x83)), 1);
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apLoadGameBuffer))->FUN_008648e0((unsigned int*)((char*)this + 0x6c));
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apLoadGameBuffer))->FUN_008648e0((unsigned int*)((char*)this + 0x70));
     if (*(ProcLoad_00932a00**)((char*)this + 0x68))
         (*(ProcLoad_00932a00**)((char*)this + 0x68))->LoadGame(apLoadGameBuffer);
 }
@@ -4289,23 +4420,18 @@ struct FUN_00932b70_shell : public MobileObject
 
 struct S_00562660
 {
-    void FUN_00562660(BGSLoadFormBuffer*);
 };
 struct S_009319c0
 {
-    void FUN_009319c0(int);
 };
 struct RefX
 {
-    bool FUN_00437b90();
 };
 struct RefA
 {
-    NiAVObject* GetReferenceType();
 };
 struct TESResponse
 {
-    int GetNext();
 };
 struct Base_0092c950
 {
@@ -4805,28 +4931,28 @@ struct Ref_00932b70
 // @fnv 0x00932b70
 void FUN_00932b70_shell::FUN_00932b70(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    ((S_00562660*)this)->FUN_00562660(apLoadGameBuffer);
+    reinterpret_cast<::fnv_00562660::FUN_00562660_shell *>((((S_00562660*)this)))->FUN_00562660((::fnv_00562660::BGSLoadFormBuffer *)(apLoadGameBuffer));
     *(TESObjectREFR**)((char*)this + 0x6c) =
         *(TESObjectREFR**)((char*)this + 0x6c)
-            ? dynamic_cast<TESObjectREFR*>(GetFormByID(*(unsigned int*)((char*)this + 0x6c)))
+            ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0(*(unsigned int*)((char*)this + 0x6c)))
             : 0;
     *(MobileObject**)((char*)this + 0x70) =
         *(MobileObject**)((char*)this + 0x70)
-            ? dynamic_cast<MobileObject*>(GetFormByID(*(unsigned int*)((char*)this + 0x70)))
+            ? dynamic_cast<MobileObject*>(::FUN_004839c0(*(unsigned int*)((char*)this + 0x70)))
             : 0;
     if (*(Proc_00932b70**)((char*)this + 0x68))
         (*(Proc_00932b70**)((char*)this + 0x68))->InitLoadGame(apLoadGameBuffer);
-    if (((Ref_00932b70*)this)->GetNiNode() && !((Ref_00932b70*)this)->Unk_89() && !GetPhysicsCharacterController())
+    if (((Ref_00932b70*)this)->GetNiNode() && !((Ref_00932b70*)this)->Unk_89() && !((::bhkCharacterController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0())))
         ((Ref_00932b70*)this)->AnimateNiNode();
-    if (!*(void**)((char*)this + 0x68) && !((RefX*)this)->FUN_00437b90())
+    if (!*(void**)((char*)this + 0x68) && !reinterpret_cast<::FUN_00437b90_shell *>((((RefX*)this)))->FUN_00437b90())
     {
         *(Base_0092c950**)((char*)this + 0x68) = new Base_0092c950;
-        ((S_009319c0*)this)->FUN_009319c0(GetProcessTier());
+        reinterpret_cast<::fnv_009319c0::FUN_009319c0_shell *>((((S_009319c0*)this)))->FUN_009319c0(GetProcessTier());
     }
-    if (((RefA*)this)->GetReferenceType())
+    if (((::fnv_00932b70::NiAVObject *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((RefA*)this)))->FUN_0043fcd0())))
     {
-        if (!*(void**)((char*)this + 0x68) || (*(TESResponse**)((char*)this + 0x68))->GetNext() == 3 ||
-            (*(TESResponse**)((char*)this + 0x68))->GetNext() == 2)
+        if (!*(void**)((char*)this + 0x68) || ((int)(reinterpret_cast<::FUN_0045cd60_shell *>(((*(TESResponse**)((char*)this + 0x68))))->FUN_0045cd60())) == 3 ||
+            ((int)(reinterpret_cast<::FUN_0045cd60_shell *>(((*(TESResponse**)((char*)this + 0x68))))->FUN_0045cd60())) == 2)
             ((Ref_00932b70*)this)->Set3D(0, true);
     }
 }
@@ -4834,7 +4960,6 @@ void FUN_00932b70_shell::FUN_00932b70(BGSLoadFormBuffer* apLoadGameBuffer)
 
 struct FUN_00933150_shell : TESObjectREFR
 {
-    int GetReferenceType();
     SoundPlaybackHandle PlaySoundByFormID(unsigned int formID, bool loop, unsigned int flags, bool follow);
 };
 
@@ -4843,14 +4968,14 @@ struct FUN_00933150_shell : TESObjectREFR
 SoundPlaybackHandle FUN_00933150_shell::PlaySoundByFormID(unsigned int formID, bool loop, unsigned int flags, bool follow)
 {
     SoundPlaybackHandle sound;
-    sound = BSAudio::GetSingleton()->GetSoundHandleByFormID(formID, flags);
-    if (GetReferenceType() && (flags & 2))
+    sound = ::FUN_00453a70()->GetSoundHandleByFormID(formID, flags);
+    if (((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0())) && (flags & 2))
     {
         NiPoint3 position = *GetPos();
-        sound.SetPosition(position.x, position.y, position.z);
-        sound.SetObjectToFollow(reinterpret_cast<NiAVObject*>(GetReferenceType()));
+        reinterpret_cast<::FUN_00ad8b60_h *>(&(sound))->FUN_00ad8b60(position.x, position.y, position.z);
+        reinterpret_cast<::FUN_00ad8f20_shell *>(&(sound))->FUN_00ad8f20(reinterpret_cast<NiAVObject*>(((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0()))));
     }
-    sound.Play(loop);
+    reinterpret_cast<::FUN_00ad8830_shell *>(&(sound))->FUN_00ad8830(loop);
     return sound;
 }
 
@@ -4884,20 +5009,14 @@ struct TESTopicInfo : public TESForm
     int GetTopicType();
     int GetNextSpeaker();
     void SetNextSpeaker(int);
-    unsigned short GetInfoIndex();
     void SetInfoIndex(unsigned short);
-    PerkEntryConditionSet* GetInfoConditions();
     void SetConditionList(PerkEntryConditionSet*);
     void* GetAddTopicList();
     bool InAddTopicList(TESTopic*);
     void FormatDebugInfo(void*, bool);
-    TESQuest* GetParentQuest();
     void SetOwnerQuest(TESQuest*);
     bool IsGoodbye();
     void SetGoodbye(bool);
-    bool IsRandom();
-    void SetRandom(bool);
-    bool IsRandomEnd();
     void SetRandomEnd(bool);
     bool IsSayOnce();
     void SetSayOnce(bool);
@@ -4909,27 +5028,19 @@ struct TESTopicInfo : public TESForm
     void SetRunRumorResults(bool);
     bool IsSpeechChallenge();
     void SetSpeechChallenge(bool);
-    bool IsSayOnceADay();
     void SetSayOnceADay(bool);
     bool IsAlwaysDarkened();
     void SetAlwaysDarkened(bool);
     int GetDummyNodeState();
     void SetDummyNodeState(int);
-    TESTopicInfoData* GetConversationData();
     void SetTopicInfoData(TESTopicInfoData*);
     void* GetPrompt();
     void SetPrompt(char*);
-    bool HasPrompt();
-    void SetActorValue(ActorValueInfo*);
-    void SetPerk(BGSPerk*);
     ActorValueInfo* GetActorValue();
     BGSPerk* GetPerk();
     TESForm* GetPerkSkillStat();
     int GetDifficultyLevel();
     void SetDifficultyLevel(int);
-    int GetNextSpeakerType();
-    TESActorBase* GetSpeaker();
-    void SetSpeaker(TESActorBase*);
     void CloneResponseList(TESResponseList*);
     Script* GetResultScript(int);
     unsigned int GetTempDataOffset();
@@ -4984,7 +5095,6 @@ struct FUN_0057bd40_shell
 };
 struct SC_008c48d0
 {
-    static bool __cdecl GetLocalData(void*, ExtraDataList*, unsigned int);
 };
 struct FUN_008a5530_shell
 {
@@ -4997,45 +5107,40 @@ struct XActor
 struct Character;
 struct RunResultScript_helper
 {
-    void RunResultScript(int, Character*);
 };
 struct SetSayToTopic_helper
 {
-    void SetDialogueTopic(TESTopic*);
 };
 class PlayerCharacter
 {
   public:
-    void UpdatePlayerState();
 };
-extern PlayerCharacter* _g_thePlayer;
-bool __fastcall FUN_00579200(char const*);
 // @fnv 0x00934250
 void FUN_00934250_shell::FUN_00934250()
 {
-    BaseProcess* pProcess = ((Actor*)this)->GetProcess();
-    if (pProcess && pProcess->GetActorSoundHandle(0).IsSoundPlaying())
+    BaseProcess* pProcess = ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((Actor*)this)))->GetBaseTexture()));
+    if (pProcess && reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::SoundPlaybackHandle &)(pProcess->GetActorSoundHandle(0)))->IsValid())
     {
         TESTopicInfo* pTopicInfo = ((XActor*)this)->FUN_00934430();
         TESTopic* pMenuTopicEntry = ((FUN_0057bd40_shell*)this)->FUN_0057bd40();
-        ((SetSayToTopic_helper*)this)->SetDialogueTopic(0);
-        ((FUN_0042edb0_shell*)GetExtraData())->FUN_0042edb0();
+        reinterpret_cast<::fnv_0057ad20::FUN_0057ad20_shell *>((((SetSayToTopic_helper*)this)))->FUN_0057ad20((::fnv_0057ad20::TESTopic *)(::TESTopic *)(0));
+        ((FUN_0042edb0_shell*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0())))->FUN_0042edb0();
         if (pTopicInfo)
         {
             if (!FUN_00579200((char const*)pTopicInfo))
-                ((RunResultScript_helper*)pTopicInfo)->RunResultScript(1, (Character*)this);
-            SC_008c48d0::GetLocalData(pMenuTopicEntry, GetExtraData(), 0x40000);
+                reinterpret_cast<::FUN_0061f170_cls *>((((RunResultScript_helper*)pTopicInfo)))->FUN_0061f170((void *)(1), (::ArgObj *)(::Character *)((Character*)this));
+            ::FUN_005ac750((::TESForm *)(pMenuTopicEntry), ((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0())), 0x40000);
             *((unsigned char*)this + 0x83) = 1;
-            ((Actor*)this)->GetProcess()->SetCombatEnabled(false);
+            ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((Actor*)this)))->GetBaseTexture()))->SetCombatEnabled(false);
         }
         *((unsigned char*)this + 0x84) = 0xff;
         pProcess->StopActorSound(0);
         pProcess->SetCombatAlerted(false);
-        _g_thePlayer->UpdatePlayerState();
+        reinterpret_cast<::FUN_00953ce0_Class *>((_g_thePlayer))->FUN_00953ce0();
     }
     *((unsigned char*)this + 0x80) = 1;
     *((unsigned char*)this + 0x7f) = 1;
-    if (!IsTalkingActivator() && GetNiNode())
+    if (!((bool)(::FUN_00574900((const unsigned char *)this))) && GetNiNode())
     {
         Actor* pactor = (Actor*)this;
         ((FUN_008a5530_shell*)pactor)->FUN_008a5530();
@@ -5045,16 +5150,12 @@ void FUN_00934250_shell::FUN_00934250()
 namespace fnv_009c45d0 {
 struct RecursiveSpinLock
 {
-    void Lock(char const*);
-    void Unlock();
 };
 struct TES
 {
-    bool IsCellBuffered(TESObjectCELL*, bool);
 };
 struct TESResponse
 {
-    int GetNext();
 };
 struct LowProcess
 {
@@ -5062,7 +5163,6 @@ struct LowProcess
 };
 struct ActorDeletionQueue
 {
-    void FUN_0096d470(MobileObject*, int);
 };
 struct Loader_S
 {
@@ -5070,17 +5170,11 @@ struct Loader_S
 };
 struct BGSSaveLoadGame_S
 {
-    void FUN_00849730(void*, int);
 };
 struct ProcessDel
 {
     virtual ~ProcessDel();
 };
-extern Loader_S* g_modelLoader;
-extern BGSSaveLoadGame_S* g_BGSSaveLoadGame;
-extern TES* g_TES;
-extern ActorDeletionQueue DAT_011e0e80;
-extern RecursiveSpinLock DAT_011f11a0;
 struct FUN_009c45d0_t : public MobileObject
 {
     bool FUN_009c45d0();
@@ -5296,17 +5390,17 @@ struct MobileVtbl
 bool FUN_009c45d0_t::FUN_009c45d0()
 {
     bool result2 = true;
-    int curLevel3 = *(TESResponse**)((char*)this + 0x68) ? (*(TESResponse**)((char*)this + 0x68))->GetNext() : 3;
+    int curLevel3 = *(TESResponse**)((char*)this + 0x68) ? ((int)(reinterpret_cast<::FUN_0045cd60_shell *>(((*(TESResponse**)((char*)this + 0x68))))->FUN_0045cd60())) : 3;
     int iNewLevel = 3;
     bool bLoadedTmp = ((MobileVtbl*)this)->V324();
     TESObjectCELL* cellVal = (TESObjectCELL*)((LowProcess*)this)->GetTarget();
-    if (((MobileVtbl*)this)->V1D0() || g_modelLoader->FUN_00445750(this))
+    if (((MobileVtbl*)this)->V1D0() || (*reinterpret_cast<::fnv_009c45d0::Loader_S * *>(&::g_modelLoader))->FUN_00445750(this))
     {
-        if (g_TES->IsCellBuffered(cellVal, true))
+        if (reinterpret_cast<::TESCallHelper *>(((*reinterpret_cast<::fnv_009c45d0::TES * *>(&::g_TES))))->IsCellBuffered(cellVal, true))
         {
             iNewLevel = 0;
         }
-        else if (bLoadedTmp && g_TES->IsCellBuffered(cellVal, false))
+        else if (bLoadedTmp && reinterpret_cast<::TESCallHelper *>(((*reinterpret_cast<::fnv_009c45d0::TES * *>(&::g_TES))))->IsCellBuffered(cellVal, false))
         {
             iNewLevel = 1;
         }
@@ -5321,23 +5415,23 @@ bool FUN_009c45d0_t::FUN_009c45d0()
         {
             ((MobileVtbl*)this)->V24C();
         }
-        else if (g_dataHandler->FormIDExists(GetFormID()))
+        else if (reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))->IsRenderTargetId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))
         {
             if (bLoadedTmp)
             {
-                g_BGSSaveLoadGame->FUN_00849730(this, 0);
+                reinterpret_cast<::SLGameShell *>(((*reinterpret_cast<::fnv_009c45d0::BGSSaveLoadGame_S * *>(&::g_BGSSaveLoadGame))))->FUN_00849730((::TESForm *)(void *)(this), 0);
             }
             ((MobileVtbl*)this)->MarkForDeletion(true);
             result2 = false;
         }
         else
         {
-            int lvl = (*(TESResponse**)((char*)this + 0x68))->GetNext();
-            DAT_011f11a0.Lock(0);
-            DAT_011e0e80.FUN_0096d470(this, lvl);
+            int lvl = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>(((*(TESResponse**)((char*)this + 0x68))))->FUN_0045cd60()));
+            reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::fnv_009c45d0::RecursiveSpinLock *>(&::DAT_011f11a0))))->FUN_0040fbf0((char *)(0));
+            reinterpret_cast<::ActorDeletionQueue *>(&((*reinterpret_cast<::fnv_009c45d0::ActorDeletionQueue *>(&::g_011e0e80))))->FUN_0096d470(this, lvl);
             delete *(ProcessDel**)((char*)this + 0x68);
             *(ProcessDel**)((char*)this + 0x68) = 0;
-            DAT_011f11a0.Unlock();
+            reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::fnv_009c45d0::RecursiveSpinLock *>(&::DAT_011f11a0))))->FUN_0040fba0();
             ((MobileVtbl*)this)->V2A0();
             ((MobileVtbl*)this)->V2FC();
         }
@@ -5432,47 +5526,30 @@ struct FUN_0092f260_shell : public MobileObject
 
 class PlayerCharacter;
 class TES;
-extern TES* g_TES;
-void* __cdecl FUN_00458b20();
 struct FUN_00440460_S
 {
-    void FUN_00440460(const NiPoint3*);
 };
 struct SetLoc_S
 {
-    void SetLocationOnReference(const NiPoint3&);
 };
-extern PlayerCharacter* g_thePlayer;
 int _FNV_IsNaN(double);
 int _FNV_Finite(double);
-int _FNV_Warning(const char*, ...);
-extern double _DAT_010231b0;
-extern double _DAT_010241b0;
 extern double DAT_0108a7a0;
-extern double DAT_0101db88;
 extern unsigned int DAT_011e054c;
-extern bool DAT_011e0550;
 
 struct Setting_S
 {
-    float* Float();
 };
 struct GlobalObject2_0040c150
 {
-    int* Int();
 };
 struct Twin_0084d030
 {
-    float GetStoredFloatValue();
 };
 extern Setting_S DAT_01267bd4;
-extern Setting_S g_011e0574;
-extern GlobalObject2_0040c150 g_011e05b4;
-extern Twin_0084d030 g_timeGlobal;
 
 struct hkpCharacterContext
 {
-    static float GetReferenceTimeStep();
 };
 struct TopicH
 {
@@ -5485,28 +5562,21 @@ struct LowProcess
 };
 struct MobileObject_Helper
 {
-    float GetRelevantWaterHeight() const;
 };
 struct TESWaterHelper
 {
-    float UpdateTESState(const NiPoint3&, unsigned int);
-    void GetLandHeightAt(NiPoint3*, float*);
 };
 struct FUN_0080f790_S
 {
-    float GetAngleZOnReference(bool);
 };
 struct FUN_008846e0_shell
 {
-    unsigned int GetVtbl20Result();
 };
 struct Act_009e3520
 {
-    float GetCurrentMovementSpeed();
 };
 struct FUN_008b8f90_S
 {
-    void ProcessTargets();
 };
 
 struct NiPoint3Ex : public NiPoint3
@@ -5520,7 +5590,6 @@ class NiPoint3_ext : public NiPoint3
     NiPoint3 operator-(const NiPoint3&) const;
     NiPoint3_ext& operator+=(const NiPoint3&);
 };
-float __fastcall FUN_004a7290(const NiPoint3&);
 struct TESAngleHelper
 {
     void SetReferencePosition(NiPoint3Ex);
@@ -5529,13 +5598,8 @@ struct TESAngleHelper
 struct NiMatrix3PC
 {
     float m_afEntries[3][3];
-    void FUN_004a0c90(float);
-    void FUN_00524ac0(float);
     NiPoint3 operator*(const NiPoint3&) const;
-    NiMatrix3PC FUN_004b45b0() const;
 };
-void* __fastcall FUN_006815c0(void*);
-void* __fastcall FUN_006240d0(void*);
 
 class BSFadeNode;
 struct NiAVObjectVT
@@ -5545,26 +5609,14 @@ struct NiAVObjectVT
     virtual void v08();
     virtual void v0C();
     virtual BSFadeNode* vfn_10();
-    NiPoint3& FUN_0043c490();
 };
 struct FUN_00b4e030_S
 {
-    bool IsWithinFadeDistance(void*, float);
 };
-void* __cdecl FUN_00524c90();
 const NiPoint3& __fastcall FUN_0045bb80(void*);
 struct FUN_00561730_S
 {
-    int FUN_00561730(void*, float);
 };
-FUN_00561730_S* __fastcall FUN_0089d600(bhkCharacterController*);
-bool __fastcall FUN_00437bd0(Actor*);
-bool __fastcall FUN_0087f390(MobileObject*);
-int __fastcall FUN_005c0880(bhkCharacterController*);
-float __fastcall GetSettingFloat(bhkCharacterController*);
-float __cdecl FUN_004587d0(float);
-unsigned int __cdecl FUN_009304a0();
-bool __cdecl FUN_006d97b0(NiPoint3*, TESObjectCELL*, TESWorldSpace*, float*);
 
 struct PathingLocation
 {
@@ -5572,7 +5624,6 @@ struct PathingLocation
     PathingLocation(TESObjectREFR*);
     ~PathingLocation();
 };
-void __cdecl GetPathingLocationNormal(PathingLocation*, NiPoint3*);
 
 struct __declspec(align(16)) hkQuaternion
 {
@@ -5594,7 +5645,6 @@ struct MovementPose
     bool bFlag;
 };
 void* __fastcall FUN_009304d0(MovementPose*);
-hkVector4& __cdecl FUN_004a3e00(hkVector4&, const NiPoint3&);
 
 struct FUN_0088b0a0_c
 {
@@ -5602,11 +5652,7 @@ struct FUN_0088b0a0_c
 };
 struct CharFlags
 {
-    bool HasFlag20();
-    void FUN_00629650(int);
-    void FUN_00629670(int, bool);
 };
-bool __fastcall FUN_008a5170(CharFlags*);
 struct bhkCharControllerVT
 {
     virtual void vt00();
@@ -5660,22 +5706,7 @@ struct bhkCharControllerVT
     virtual void vt48();
     virtual void vt49();
     virtual void vfn_C8(MovementPose* apMoveData);
-    bool FUN_0088b0c0();
     int FUN_00621ad0();
-    bool HasFlag40000();
-    bool FUN_009305a0();
-    bool FUN_009305d0();
-    bool FUN_00621240();
-    void ForwardToMember(void*);
-    void FUN_00930620();
-    void FUN_00c6e820();
-    void FUN_00c70060();
-    void FUN_00c6e420(hkQuaternion*);
-    void FUN_00812b00(NiPoint3*);
-    void SetField558(float);
-    void FUN_00c70b60(MovementPose*, bool);
-    void FUN_00930540(bool);
-    void FUN_008e2680(bool);
 };
 struct MobileObjectVT
 {
@@ -5988,107 +6019,106 @@ bhkCharacterController* FUN_0092f260_shell::FUN_0092f260(float afDeltaTime, NiPo
                                                          unsigned int aiMoveDir)
 {
     Actor* pactor = ((MobileObject*)this)->IsActor() ? (Actor*)this : 0;
-    bhkCharacterController* pcon = ((MobileObject*)this)->GetPhysicsCharacterController();
+    bhkCharacterController* pcon = ((::bhkCharacterController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((((MobileObject*)this)))->FUN_009306d0()));
     bool bisProjectile = ((MobileObjectVT*)this)->vfn_224();
     if (pactor && pactor->GetActorValue((ActorValue::Index)0x33) > 0)
-        afDeltaTime /= hkpCharacterContext::GetReferenceTimeStep();
+        afDeltaTime /= ::FUN_00716440();
 
     NiPoint3 pos = *((TopicH*)this)->GetAddTopicList();
     !_FNV_IsNaN(arDeltaMove->x) && !_FNV_IsNaN(arDeltaMove->y) && !_FNV_IsNaN(arDeltaMove->z);
 
-    float fanglex = ((MobileObject*)this)->GetAngleOnReference().x;
-    float fangley = ((MobileObject*)this)->GetAngleOnReference().y;
-    float fanglez = ((MobileObject*)this)->GetAngleOnReference().z;
-    if (fanglex == _DAT_010231b0 || _FNV_IsNaN(fanglex) || !_FNV_Finite(fanglex) || fangley == _DAT_010231b0 ||
-        _FNV_IsNaN(fangley) || !_FNV_Finite(fangley) || fanglez == _DAT_010231b0 || _FNV_IsNaN(fanglez) ||
+    float fanglex = (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>((void *)(((MobileObject*)this)))->GetData())).x;
+    float fangley = (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>((void *)(((MobileObject*)this)))->GetData())).y;
+    float fanglez = (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>((void *)(((MobileObject*)this)))->GetData())).z;
+    if (fanglex == ::_DAT_010231b0 || _FNV_IsNaN(fanglex) || !_FNV_Finite(fanglex) || fangley == ::_DAT_010231b0 ||
+        _FNV_IsNaN(fangley) || !_FNV_Finite(fangley) || fanglez == ::_DAT_010231b0 || _FNV_IsNaN(fanglez) ||
         !_FNV_Finite(fanglez))
     {
-        _FNV_Warning("AI: MobileObject::Move called on '%s' (%08X) with invalid angle.",
-                     ((MobileObject*)this)->GetName(), ((MobileObject*)this)->GetFormID());
+        ::FUN_005b5e40();
         ((TESAngleHelper*)this)->SetReferencePosition(NiPoint3Ex(0, 0, 0));
     }
 
-    if (*g_011e05b4.Int())
+    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0092f260::GlobalObject2_0040c150 *>(&::g_011e05b4)))))))
     {
-        unsigned int iFrameCounter = FUN_009304a0();
+        unsigned int iFrameCounter = ((unsigned int)(::FUN_009304a0()));
         if (DAT_011e054c != iFrameCounter)
         {
-            if (iFrameCounter % (*g_011e05b4.Int() + 1))
+            if (iFrameCounter % (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0092f260::GlobalObject2_0040c150 *>(&::g_011e05b4)))))) + 1))
                 DAT_011e0550 = true;
             else
                 DAT_011e0550 = false;
             DAT_011e054c = iFrameCounter;
         }
-        if (DAT_011e0550 && ((bhkCharControllerVT*)pcon)->FUN_0088b0c0())
+        if (DAT_011e0550 && ((bool)(reinterpret_cast<::DummyFlags *>((((bhkCharControllerVT*)pcon)))->FUN_0088b0c0())))
         {
             NiMatrix3PC rot;
-            FUN_006815c0(&rot);
-            if ((MobileObject*)this == (MobileObject*)g_thePlayer)
-                rot.FUN_004a0c90(((FUN_0080f790_S*)this)->GetAngleZOnReference(false));
+            new ((void *)(&rot)) ::Vec3();
+            if ((MobileObject*)this == (MobileObject*)(*reinterpret_cast<::fnv_0092f260::PlayerCharacter * *>(&::_g_thePlayer)))
+                reinterpret_cast<::FUN_004a0c90_shell *>(&(rot))->FUN_004a0c90(reinterpret_cast<::FUN_0080f790_shell *>((((FUN_0080f790_S*)this)))->GetAngleZOnReference(false));
             else
-                rot.FUN_004a0c90(((MobileObjectVT*)this)->vfn_2BC(false));
+                reinterpret_cast<::FUN_004a0c90_shell *>(&(rot))->FUN_004a0c90(((MobileObjectVT*)this)->vfn_2BC(false));
             *arDeltaMove = rot * *arDeltaMove;
-            pos = (const NiPoint3Ex&)((NiAVObjectVT*)((MobileObject*)this)->GetNiNode())->FUN_0043c490() + *arDeltaMove;
-            ((FUN_00440460_S*)((MobileObject*)this)->GetNiNode())->FUN_00440460(&pos);
+            pos = (const NiPoint3Ex&)reinterpret_cast<::NiAVObject *>((((NiAVObjectVT*)((MobileObject*)this)->GetNiNode())))->FUN_0043c490() + *arDeltaMove;
+            reinterpret_cast<::FUN_00440460_S *>((((FUN_00440460_S*)((MobileObject*)this)->GetNiNode())))->FUN_00440460((const ::V3 *)(const ::NiPoint3 *)(&pos));
             return pcon;
         }
         else
         {
             NiPoint3 largeDelta =
-                (const NiPoint3_ext&)((NiAVObjectVT*)((MobileObject*)this)->GetNiNode())->FUN_0043c490() -
+                (const NiPoint3_ext&)reinterpret_cast<::NiAVObject *>((((NiAVObjectVT*)((MobileObject*)this)->GetNiNode())))->FUN_0043c490() -
                 *((MobileObject*)this)->GetPos();
             NiMatrix3PC rot;
-            FUN_006815c0(&rot);
-            if ((MobileObject*)this == (MobileObject*)g_thePlayer)
-                rot.FUN_004a0c90(((FUN_0080f790_S*)this)->GetAngleZOnReference(false));
+            new ((void *)(&rot)) ::Vec3();
+            if ((MobileObject*)this == (MobileObject*)(*reinterpret_cast<::fnv_0092f260::PlayerCharacter * *>(&::_g_thePlayer)))
+                reinterpret_cast<::FUN_004a0c90_shell *>(&(rot))->FUN_004a0c90(reinterpret_cast<::FUN_0080f790_shell *>((((FUN_0080f790_S*)this)))->GetAngleZOnReference(false));
             else
-                rot.FUN_004a0c90(((MobileObjectVT*)this)->vfn_2BC(false));
-            *(NiPoint3_ext*)arDeltaMove += rot.FUN_004b45b0() * largeDelta;
+                reinterpret_cast<::FUN_004a0c90_shell *>(&(rot))->FUN_004a0c90(((MobileObjectVT*)this)->vfn_2BC(false));
+            reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::fnv_0092f260::NiPoint3_ext &)(*(NiPoint3_ext*)arDeltaMove))->FUN_0063c8a0((void *)&(const ::NiPoint3 &)((*(::fnv_0092f260::NiMatrix3PC *)(reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(rot))->FUN_004b45b0({}))) * largeDelta));
         }
     }
 
     bool bdynamicMotionActor = pactor ? ((MobileObjectVT*)pactor)->vfn_4B4() : false;
     unsigned int uiSitState = ((MobileObject*)this)->Unk_85();
-    bool bsittingCheckSupport = uiSitState && pcon && FUN_0089d600(pcon)->FUN_00561730(FUN_00458b20(), 0.001f);
+    bool bsittingCheckSupport = uiSitState && pcon && ((int)(reinterpret_cast<::S00561730_Vector *>((((::fnv_0092f260::FUN_00561730_S *)(::FUN_0089d600((char *)(pcon))))))->FUN_00561730((const ::S00561730_Vector *)(void *)(::FUN_00458b20()), 0.001f)));
     bool bshouldSitStateUpdate = !uiSitState || bsittingCheckSupport;
-    NiPoint3 diff = (const NiPoint3_ext&)*((MobileObject*)this)->GetPos() - FUN_0045bb80(FUN_00524c90());
-    float flengthSqr = FUN_004a7290(diff);
-    bool bisImmobile = pactor ? (FUN_00437bd0(pactor) || pactor->Unk_8B(false) ||
+    NiPoint3 diff = (const NiPoint3_ext&)*((MobileObject*)this)->GetPos() - FUN_0045bb80(((void *)(::FUN_00524c90())));
+    float flengthSqr = reinterpret_cast<::TESCombatStyle *>((void *)(diff))->UpdateCombatStyle();
+    bool bisImmobile = pactor ? (((bool)(reinterpret_cast<::FUN_00437bd0_stub *>((pactor))->FUN_00437bd0())) || pactor->Unk_8B(false) ||
                                  ((MobileObjectVT*)pactor)->vfn_2E8() || pactor->Unk_8C())
                               : false;
 
-    if (flengthSqr > *DAT_01267bd4.Float() && !((MobileObjectVT*)this)->vfn_224() && !bdynamicMotionActor &&
-        !bisImmobile && (MobileObject*)this != (MobileObject*)g_thePlayer)
+    if (flengthSqr > *((float *)&(::FUN_00403e20((float *)&(DAT_01267bd4)))) && !((MobileObjectVT*)this)->vfn_224() && !bdynamicMotionActor &&
+        !bisImmobile && (MobileObject*)this != (MobileObject*)(*reinterpret_cast<::fnv_0092f260::PlayerCharacter * *>(&::_g_thePlayer)))
     {
         NiPoint3 tmpLoc = pos;
         NiPoint3 tmpMove = *arDeltaMove;
         NiMatrix3PC rot;
-        FUN_006815c0(&rot);
-        if ((MobileObject*)this == (MobileObject*)g_thePlayer)
-            rot.FUN_004a0c90(((FUN_0080f790_S*)this)->GetAngleZOnReference(false));
+        new ((void *)(&rot)) ::Vec3();
+        if ((MobileObject*)this == (MobileObject*)(*reinterpret_cast<::fnv_0092f260::PlayerCharacter * *>(&::_g_thePlayer)))
+            reinterpret_cast<::FUN_004a0c90_shell *>(&(rot))->FUN_004a0c90(reinterpret_cast<::FUN_0080f790_shell *>((((FUN_0080f790_S*)this)))->GetAngleZOnReference(false));
         else
-            rot.FUN_004a0c90(((MobileObjectVT*)this)->vfn_2BC(false));
+            reinterpret_cast<::FUN_004a0c90_shell *>(&(rot))->FUN_004a0c90(((MobileObjectVT*)this)->vfn_2BC(false));
         tmpMove = rot * tmpMove;
-        (NiPoint3_ext&)tmpLoc += tmpMove;
-        TESWorldSpace* pws = ((MobileObject*)this)->GetParentWorldSpace();
+        reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::fnv_0092f260::NiPoint3_ext &)((NiPoint3_ext&)tmpLoc))->FUN_0063c8a0((void *)&(tmpMove));
+        TESWorldSpace* pws = ((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((void *)(((MobileObject*)this)))->FUN_00575d70()));
         TESObjectCELL* pCell = ((LowProcess*)this)->GetTarget();
         float fheightNavMesh;
-        if (FUN_006d97b0(&tmpLoc, pCell, pws, &fheightNavMesh))
+        if (::FUN_006d97b0((*(const ::NiPoint3 *)(&tmpLoc)), pCell, pws, &fheightNavMesh))
         {
-            if (pcon && FUN_005c0880(pcon) == 5)
+            if (pcon && ::FUN_005c0880((char *)(pcon)) == 5)
             {
-                if (*(float*)(*(char**)((char*)this + 0x64) + 8) == _DAT_010241b0)
+                if (*(float*)(*(char**)((char*)this + 0x64) + 8) == ::DAT_010241b0)
                     *(float*)(*(char**)((char*)this + 0x64) + 8) =
-                        ((TESWaterHelper*)g_TES)->UpdateTESState(*((MobileObject*)this)->GetPos(), 0);
-                float fheightWater = ((MobileObject_Helper*)this)->GetRelevantWaterHeight();
-                if (fheightWater == _DAT_010241b0)
+                        reinterpret_cast<::FUN_0045cbc0_shell *>((((TESWaterHelper*)(*reinterpret_cast<::fnv_0092f260::TES * *>(&::g_TES)))))->GetCellHeightAtPosition((const ::NiPoint3 *)&(*((MobileObject*)this)->GetPos()), (::CellView *)(0));
+                float fheightWater = reinterpret_cast<::FUN_0057b0a0_shell *>((void *)(((MobileObject_Helper*)this)))->FUN_0057b0a0();
+                if (fheightWater == ::DAT_010241b0)
                 {
                     if (pcon)
                     {
-                        if (FUN_0087f390((MobileObject*)this))
-                            ((FUN_0088b0a0_c*)pcon)->set(2);
+                        if (reinterpret_cast<::FUN_0087f390_shell *>(((MobileObject*)this))->FUN_0087f390())
+                            reinterpret_cast<::FUN_0088b0a0_c *>((((FUN_0088b0a0_c*)pcon)))->set(2);
                         else
-                            ((FUN_0088b0a0_c*)pcon)->set(0);
+                            reinterpret_cast<::FUN_0088b0a0_c *>((((FUN_0088b0a0_c*)pcon)))->set(0);
                         tmpLoc.z = fheightNavMesh;
                     }
                 }
@@ -6105,109 +6135,108 @@ bhkCharacterController* FUN_0092f260_shell::FUN_0092f260(float afDeltaTime, NiPo
             {
                 tmpLoc.z = fheightNavMesh;
             }
-            if (pcon && ((bhkCharControllerVT*)pcon)->FUN_00621ad0() && !((bhkCharControllerVT*)pcon)->HasFlag40000() &&
-                (((bhkCharControllerVT*)pcon)->FUN_009305a0() || ((bhkCharControllerVT*)pcon)->FUN_009305a0() ||
-                 FUN_008a5170((CharFlags*)((char*)pcon + 0x410))))
+            if (pcon && ((bhkCharControllerVT*)pcon)->FUN_00621ad0() && !((bool)(::HasFlag40000((::DummyFlags *)(((bhkCharControllerVT*)pcon))))) &&
+                (reinterpret_cast<::fnv_009305a0::FUN_009305a0_Holder *>((((bhkCharControllerVT*)pcon)))->FUN_009305a0() || reinterpret_cast<::fnv_009305a0::FUN_009305a0_Holder *>((((bhkCharControllerVT*)pcon)))->FUN_009305a0() ||
+                 ::FUN_008a5170((const ::_Dummy_008a5170 *)(::fnv_0092f260::CharFlags *)((CharFlags*)((char*)pcon + 0x410)))))
             {
                 NiPoint3 hitNormal;
-                FUN_006815c0(&hitNormal);
+                new ((void *)(&hitNormal)) ::Vec3();
                 PathingLocation kPathingLocation((TESObjectREFR*)this);
-                GetPathingLocationNormal(&kPathingLocation, &hitNormal);
+                ::GetPathingLocationNormal((*(::PathingLocation *)(&kPathingLocation)), (*(::NiPoint3 *)(&hitNormal)));
                 hkVector4 kSupportNormal;
-                FUN_006815c0(&kSupportNormal);
-                FUN_004a3e00(kSupportNormal, hitNormal);
-                ((bhkCharControllerVT*)pcon)->ForwardToMember(&kSupportNormal);
-                ((bhkCharControllerVT*)pcon)->FUN_00930620();
-                ((bhkCharControllerVT*)pcon)->FUN_00c6e820();
-                ((bhkCharControllerVT*)pcon)->FUN_00c70060();
-                float fzAngle = ((MobileObject*)this)->GetAngleOnReference().z;
+                new ((void *)(&kSupportNormal)) ::Vec3();
+                ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(kSupportNormal), (const ::fnv_004a3e00::NiPoint3 &)(hitNormal));
+                reinterpret_cast<::T_ *>((((bhkCharControllerVT*)pcon)))->ForwardToMember((int)(&kSupportNormal));
+                reinterpret_cast<::FUN_00930620_shell *>((((bhkCharControllerVT*)pcon)))->FUN_00930620();
+                reinterpret_cast<::CharacterProbeLocal *>((((bhkCharControllerVT*)pcon)))->FUN_00c6e820();
+                reinterpret_cast<::AimController_c70060 *>((((bhkCharControllerVT*)pcon)))->FUN_00c70060();
+                float fzAngle = (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>((void *)(((MobileObject*)this)))->GetData())).z;
                 hkQuaternion kQuat;
-                FUN_006240d0(&kQuat);
+                ::FUN_006240d0(&kQuat);
                 kQuat.FUN_00cb2450((char*)pcon + 0x4c0, -fzAngle);
-                ((bhkCharControllerVT*)pcon)->FUN_00c6e420(&kQuat);
+                reinterpret_cast<::RotationOwner *>((((bhkCharControllerVT*)pcon)))->FUN_00c6e420((::FUN_005611c0_t *)(::fnv_0092f260::hkQuaternion *)(&kQuat));
             }
             ((MobileObjectVT*)this)->vfn_2A8(&tmpLoc);
-            if (pcon && FUN_005c0880(pcon) == 2)
-                ((bhkCharControllerVT*)pcon)->FUN_008e2680(false);
+            if (pcon && ::FUN_005c0880((char *)(pcon)) == 2)
+                reinterpret_cast<::s008e2680::Owner *>((((bhkCharControllerVT*)pcon)))->FUN_008e2680(false);
             return pcon;
         }
     }
 
     if (bshouldSitStateUpdate)
     {
-        if ((MobileObject*)this == (MobileObject*)g_thePlayer)
-            ((CharFlags*)((char*)pcon + 0x410))->FUN_00629670(0x8000000, bdynamicMotionActor);
+        if ((MobileObject*)this == (MobileObject*)(*reinterpret_cast<::fnv_0092f260::PlayerCharacter * *>(&::_g_thePlayer)))
+            reinterpret_cast<::FUN_00629670_Class *>((((CharFlags*)((char*)pcon + 0x410))))->FUN_00629670(0x8000000, bdynamicMotionActor);
         if (pcon && !((MobileObject*)this)->Unk_8B(true))
         {
             MovementPose kMoveData;
             FUN_009304d0(&kMoveData);
             kMoveData.fMoveElapsedTime = afDeltaTime;
-            kMoveData.Angle = ((MobileObject*)this)->GetAngleOnReference();
+            kMoveData.Angle = (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>((void *)(((MobileObject*)this)))->GetData()));
             kMoveData.DeltaMove = *arDeltaMove;
             kMoveData.iMoveDir = aiMoveDir;
             kMoveData.bFlag = true;
-            if ((MobileObject*)this != (MobileObject*)g_thePlayer && pactor)
+            if ((MobileObject*)this != (MobileObject*)(*reinterpret_cast<::fnv_0092f260::PlayerCharacter * *>(&::_g_thePlayer)) && pactor)
             {
                 NiAVObject* pNode = (NiAVObject*)((MobileObject*)this)->GetNiNode();
                 BSFadeNode* pfadeNode = pNode ? ((NiAVObjectVT*)pNode)->vfn_10() : 0;
                 kMoveData.bFlag =
-                    pfadeNode ? ((FUN_00b4e030_S*)pfadeNode)->IsWithinFadeDistance(FUN_00524c90(), 0.8f) : true;
+                    pfadeNode ? reinterpret_cast<::FUN_00b4e030_shell *>((((FUN_00b4e030_S*)pfadeNode)))->IsWithinFadeDistance((::NiCamera *)(void *)(((void *)(::FUN_00524c90()))), 0.8f) : true;
             }
-            if (((bhkCharControllerVT*)pcon)->FUN_00621240() && !bsittingCheckSupport)
+            if (reinterpret_cast<::DummyFlagsShell *>((((bhkCharControllerVT*)pcon)))->FUN_00621240() && !bsittingCheckSupport)
             {
                 NiPoint3 oldPos;
-                FUN_006815c0(&oldPos);
+                new ((void *)(&oldPos)) ::Vec3();
                 NiMatrix3PC rot;
-                FUN_006815c0(&rot);
-                if ((MobileObject*)this == (MobileObject*)g_thePlayer)
-                    rot.FUN_004a0c90(((FUN_0080f790_S*)this)->GetAngleZOnReference(false));
+                new ((void *)(&rot)) ::Vec3();
+                if ((MobileObject*)this == (MobileObject*)(*reinterpret_cast<::fnv_0092f260::PlayerCharacter * *>(&::_g_thePlayer)))
+                    reinterpret_cast<::FUN_004a0c90_shell *>(&(rot))->FUN_004a0c90(reinterpret_cast<::FUN_0080f790_shell *>((((FUN_0080f790_S*)this)))->GetAngleZOnReference(false));
                 else
-                    rot.FUN_004a0c90(((MobileObjectVT*)this)->vfn_2BC(false));
+                    reinterpret_cast<::FUN_004a0c90_shell *>(&(rot))->FUN_004a0c90(((MobileObjectVT*)this)->vfn_2BC(false));
                 *arDeltaMove = rot * *arDeltaMove;
-                (NiPoint3_ext&)pos += *arDeltaMove;
-                ((bhkCharControllerVT*)pcon)->FUN_00812b00(&oldPos);
+                reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::fnv_0092f260::NiPoint3_ext &)((NiPoint3_ext&)pos))->FUN_0063c8a0((void *)&(*arDeltaMove));
+                reinterpret_cast<::VectorSourceB00 *>((((bhkCharControllerVT*)pcon)))->FUN_00812b00(&oldPos);
                 *arDeltaMove = (const NiPoint3_ext&)pos - oldPos;
-                kMoveData.DeltaMove = rot.FUN_004b45b0() * *arDeltaMove;
+                kMoveData.DeltaMove = (*(::fnv_0092f260::NiMatrix3PC *)(reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(rot))->FUN_004b45b0({}))) * *arDeltaMove;
             }
-            if (((bhkCharControllerVT*)pcon)->FUN_009305a0() || ((bhkCharControllerVT*)pcon)->FUN_009305d0())
+            if (reinterpret_cast<::fnv_009305a0::FUN_009305a0_Holder *>((((bhkCharControllerVT*)pcon)))->FUN_009305a0() || reinterpret_cast<::fnv_009305d0::FUN_009305d0_shell *>((((bhkCharControllerVT*)pcon)))->FUN_009305d0())
             {
-                ((CharFlags*)((char*)pcon + 0x410))->FUN_00629650(0);
-                ((bhkCharControllerVT*)pcon)->SetField558(*g_011e0574.Float() * g_timeGlobal.GetStoredFloatValue());
+                reinterpret_cast<::FUN_00629650_Class *>((((CharFlags*)((char*)pcon + 0x410))))->FUN_00629650(0);
+                ::SetField558((void *)(((bhkCharControllerVT*)pcon)), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0092f260::Setting_S *>(&::g_011e0574)))))) * reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_0092f260::Twin_0084d030 *>(&::g_timeGlobal))))->GetStoredFloatValue());
             }
-            if (pactor && (((FUN_008846e0_shell*)pactor)->GetVtbl20Result() & 0x3f))
-                kMoveData.fSpeed = ((Act_009e3520*)pactor)->GetCurrentMovementSpeed();
+            if (pactor && (reinterpret_cast<::FUN_008846e0_shell *>((((FUN_008846e0_shell*)pactor)))->GetVtbl20Result() & 0x3f))
+                kMoveData.fSpeed = reinterpret_cast<::fnv_008a0b10::FUN_008a0b10_shell *>((((Act_009e3520*)pactor)))->FUN_008a0b10();
             else
                 kMoveData.fSpeed = 0;
             if (bdynamicMotionActor &&
-                ((MobileObject*)this == (MobileObject*)g_thePlayer || !((MobileObjectVT*)pactor)->vfn_38C()))
-                ((bhkCharControllerVT*)pcon)
-                    ->FUN_00c70b60(&kMoveData, (MobileObject*)this == (MobileObject*)g_thePlayer);
+                ((MobileObject*)this == (MobileObject*)(*reinterpret_cast<::fnv_0092f260::PlayerCharacter * *>(&::_g_thePlayer)) || !((MobileObjectVT*)pactor)->vfn_38C()))
+                reinterpret_cast<::C70B60Character *>((((bhkCharControllerVT*)pcon)))->FUN_00c70b60((::C70B60UpdateData *)(::fnv_0092f260::MovementPose *)(&kMoveData), (MobileObject*)this == (MobileObject*)(*reinterpret_cast<::fnv_0092f260::PlayerCharacter * *>(&::_g_thePlayer)));
             else
                 ((bhkCharControllerVT*)pcon)->vfn_C8(&kMoveData);
-            if (((CharFlags*)((char*)pcon + 0x410))->HasFlag20())
+            if (((bool)(reinterpret_cast<::fnv_009304b0::DummyFlags *>((((CharFlags*)((char*)pcon + 0x410))))->HasFlag20())))
             {
                 NiPoint3 newPos;
-                FUN_006815c0(&newPos);
-                ((bhkCharControllerVT*)pcon)->FUN_00812b00(&newPos);
-                float flift = FUN_004587d0(GetSettingFloat(pcon)) * 2.0f;
+                new ((void *)(&newPos)) ::Vec3();
+                reinterpret_cast<::VectorSourceB00 *>((((bhkCharControllerVT*)pcon)))->FUN_00812b00(&newPos);
+                float flift = ::FUN_004587d0(reinterpret_cast<::FUN_00c6e280_cls *>((pcon))->GetSettingFloat()) * 2.0f;
                 newPos.z += flift;
                 ((MobileObjectVT*)this)->vfn_2A8(&newPos);
             }
-            if (!((bhkCharControllerVT*)pcon)->FUN_00621240())
+            if (!reinterpret_cast<::DummyFlagsShell *>((((bhkCharControllerVT*)pcon)))->FUN_00621240())
             {
-                ((bhkCharControllerVT*)pcon)->FUN_00812b00(&pos);
-                if (FUN_008a5170((CharFlags*)((char*)pcon + 0x410)) && !bdynamicMotionActor)
+                reinterpret_cast<::VectorSourceB00 *>((((bhkCharControllerVT*)pcon)))->FUN_00812b00(&pos);
+                if (::FUN_008a5170((const ::_Dummy_008a5170 *)(::fnv_0092f260::CharFlags *)((CharFlags*)((char*)pcon + 0x410))) && !bdynamicMotionActor)
                     ((MobileObjectVT*)this)->vfn_2C4(kMoveData.Angle.z);
-                if (FUN_004a7290((const NiPoint3_ext&)pos - *((MobileObject*)this)->GetPos()) > DAT_0108a7a0)
+                if (reinterpret_cast<::TESCombatStyle *>((void *)((const NiPoint3_ext&)pos - *((MobileObject*)this)->GetPos()))->UpdateCombatStyle() > DAT_0108a7a0)
                 {
                     pos = *((MobileObject*)this)->GetPos();
                     ((MobileObjectVT*)this)->vfn_2A8(&pos);
                 }
                 float fheight = 0;
-                if (!((LowProcess*)g_TES)->GetCurrentBoundObject())
+                if (!((::TESObjectCELL *)(reinterpret_cast<::BGSCameraPath *>((((LowProcess*)(*reinterpret_cast<::fnv_0092f260::TES * *>(&::g_TES)))))->GetPrevPath())))
                 {
-                    ((TESWaterHelper*)g_TES)->GetLandHeightAt(&pos, &fheight);
-                    if (fheight - pos.z > DAT_0101db88)
+                    reinterpret_cast<::FUN_004572e0_shell *>((((TESWaterHelper*)(*reinterpret_cast<::fnv_0092f260::TES * *>(&::g_TES)))))->GetLandHeightAt((*(const ::NiPoint3 *)(&pos)), (*(float *)(&fheight)));
+                    if (fheight - pos.z > ::DAT_0101db88)
                     {
                         pos.z = fheight;
                         ((MobileObjectVT*)this)->vfn_2A8(&pos);
@@ -6215,35 +6244,35 @@ bhkCharacterController* FUN_0092f260_shell::FUN_0092f260(float afDeltaTime, NiPo
                 }
             }
             if (pactor)
-                ((FUN_008b8f90_S*)pactor)->ProcessTargets();
+                reinterpret_cast<::fnv_008b8f90::TaskOwner *>((((FUN_008b8f90_S*)pactor)))->ProcessTargets();
         }
         else
         {
             NiMatrix3PC rot;
-            FUN_006815c0(&rot);
+            new ((void *)(&rot)) ::Vec3();
             if (((MobileObjectVT*)this)->vfn_224())
             {
-                rot.FUN_00524ac0(((MobileObject*)this)->GetLooking());
+                reinterpret_cast<::FUN_00524ac0_shell *>(&(rot))->FUN_00524ac0(((MobileObject*)this)->GetLooking());
                 *arDeltaMove = rot * *arDeltaMove;
             }
-            if ((MobileObject*)this == (MobileObject*)g_thePlayer)
-                rot.FUN_004a0c90(((FUN_0080f790_S*)this)->GetAngleZOnReference(false));
+            if ((MobileObject*)this == (MobileObject*)(*reinterpret_cast<::fnv_0092f260::PlayerCharacter * *>(&::_g_thePlayer)))
+                reinterpret_cast<::FUN_004a0c90_shell *>(&(rot))->FUN_004a0c90(reinterpret_cast<::FUN_0080f790_shell *>((((FUN_0080f790_S*)this)))->GetAngleZOnReference(false));
             else
-                rot.FUN_004a0c90(((MobileObjectVT*)this)->vfn_2BC(false));
+                reinterpret_cast<::FUN_004a0c90_shell *>(&(rot))->FUN_004a0c90(((MobileObjectVT*)this)->vfn_2BC(false));
             *arDeltaMove = rot * *arDeltaMove;
-            (NiPoint3_ext&)pos += *arDeltaMove;
+            reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::fnv_0092f260::NiPoint3_ext &)((NiPoint3_ext&)pos))->FUN_0063c8a0((void *)&(*arDeltaMove));
         }
     }
     else if (((MobileObject*)this)->Unk_8B(false) && !bdynamicMotionActor)
     {
         NiMatrix3PC rot;
-        FUN_006815c0(&rot);
-        if ((MobileObject*)this == (MobileObject*)g_thePlayer)
-            rot.FUN_004a0c90(((FUN_0080f790_S*)this)->GetAngleZOnReference(false));
+        new ((void *)(&rot)) ::Vec3();
+        if ((MobileObject*)this == (MobileObject*)(*reinterpret_cast<::fnv_0092f260::PlayerCharacter * *>(&::_g_thePlayer)))
+            reinterpret_cast<::FUN_004a0c90_shell *>(&(rot))->FUN_004a0c90(reinterpret_cast<::FUN_0080f790_shell *>((((FUN_0080f790_S*)this)))->GetAngleZOnReference(false));
         else
-            rot.FUN_004a0c90(((MobileObjectVT*)this)->vfn_2BC(false));
+            reinterpret_cast<::FUN_004a0c90_shell *>(&(rot))->FUN_004a0c90(((MobileObjectVT*)this)->vfn_2BC(false));
         *arDeltaMove = rot * *arDeltaMove;
-        (NiPoint3_ext&)pos += *arDeltaMove;
+        reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::fnv_0092f260::NiPoint3_ext &)((NiPoint3_ext&)pos))->FUN_0063c8a0((void *)&(*arDeltaMove));
     }
 
     if (uiSitState || bsittingCheckSupport)
@@ -6251,28 +6280,28 @@ bhkCharacterController* FUN_0092f260_shell::FUN_0092f260(float afDeltaTime, NiPo
         MovementPose kMoveData;
         FUN_009304d0(&kMoveData);
         kMoveData.fMoveElapsedTime = afDeltaTime;
-        kMoveData.Angle = ((MobileObject*)this)->GetAngleOnReference();
+        kMoveData.Angle = (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>((void *)(((MobileObject*)this)))->GetData()));
         kMoveData.DeltaMove = *arDeltaMove;
         kMoveData.iMoveDir = aiMoveDir;
         kMoveData.bFlag = true;
         if (!bsittingCheckSupport)
-            ((bhkCharControllerVT*)pcon)->FUN_00c70b60(&kMoveData, false);
+            reinterpret_cast<::C70B60Character *>((((bhkCharControllerVT*)pcon)))->FUN_00c70b60((::C70B60UpdateData *)(::fnv_0092f260::MovementPose *)(&kMoveData), false);
         if (bsittingCheckSupport)
         {
-            ((bhkCharControllerVT*)pcon)->FUN_00930540(true);
-            ((bhkCharControllerVT*)pcon)->FUN_008e2680(false);
+            reinterpret_cast<::FUN_00930540_shell *>((((bhkCharControllerVT*)pcon)))->FUN_00930540(true);
+            reinterpret_cast<::s008e2680::Owner *>((((bhkCharControllerVT*)pcon)))->FUN_008e2680(false);
         }
         NiMatrix3PC rot;
-        FUN_006815c0(&rot);
-        if ((MobileObject*)this == (MobileObject*)g_thePlayer)
-            rot.FUN_004a0c90(((FUN_0080f790_S*)this)->GetAngleZOnReference(false));
+        new ((void *)(&rot)) ::Vec3();
+        if ((MobileObject*)this == (MobileObject*)(*reinterpret_cast<::fnv_0092f260::PlayerCharacter * *>(&::_g_thePlayer)))
+            reinterpret_cast<::FUN_004a0c90_shell *>(&(rot))->FUN_004a0c90(reinterpret_cast<::FUN_0080f790_shell *>((((FUN_0080f790_S*)this)))->GetAngleZOnReference(false));
         else
-            rot.FUN_004a0c90(((MobileObjectVT*)this)->vfn_2BC(false));
+            reinterpret_cast<::FUN_004a0c90_shell *>(&(rot))->FUN_004a0c90(((MobileObjectVT*)this)->vfn_2BC(false));
         *arDeltaMove = rot * *arDeltaMove;
-        (NiPoint3_ext&)pos += *arDeltaMove;
+        reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::fnv_0092f260::NiPoint3_ext &)((NiPoint3_ext&)pos))->FUN_0063c8a0((void *)&(*arDeltaMove));
     }
 
-    ((SetLoc_S*)this)->SetLocationOnReference(pos);
+    reinterpret_cast<::Reference *>((((SetLoc_S*)this)))->FUN_00575830((::Position *)&(pos));
     return pcon;
 }
 }  // namespace fnv_0092f260
@@ -6308,16 +6337,13 @@ struct ExtraSayTopicInfoOnceADay : public BSExtraData
 {
     BSSimpleList<TopicInfoVisitRecord*>* pList;
 };
+class DialogueResponse;
 struct DialogueItem
 {
     TESObjectREFR* SelectDefaultResponseList();
+public:
+    ::DialogueResponse *GetActiveResponse();
 };
-ExtraSayTopicInfoOnceADay* __fastcall FUN_0042efe0(const ExtraDataList* apList);
-extern UTSO_SettingT<GameSettingCollection> originalRuntimeFloatSetting1061;
-extern unsigned int DAT_011a39c4;
-extern float DAT_011e0358;
-extern unsigned int DAT_011e035c;
-extern signed char DAT_011e0360;
 
 struct FUN_00935ae0_t : public MobileObject
 {
@@ -6331,18 +6357,18 @@ void FUN_00935ae0_t::FUN_00935ae0()
     ExtraSayTopicInfoOnceADay* pextra9 = 0;
     BSSimpleList<TopicInfoVisitRecord*>* pList;
 
-    if (IsTalkingActivator())
-        pextra9 = FUN_0042efe0(((DialogueItem*)this)->SelectDefaultResponseList()->GetExtraData());
+    if (((bool)(::FUN_00574900((const unsigned char *)this))))
+        pextra9 = ((::ExtraSayTopicInfoOnceADay *)(reinterpret_cast<::FUN_0042efe0_cls *>((void *)(((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((((DialogueItem*)this)->SelectDefaultResponseList()))->FUN_005d43c0()))))->FUN_0042efe0()));
     else
-        pextra9 = FUN_0042efe0(GetExtraData());
+        pextra9 = ((::ExtraSayTopicInfoOnceADay *)(reinterpret_cast<::FUN_0042efe0_cls *>((void *)(((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_0042efe0()));
     if (pextra9)
     {
         pList = pextra9->pList;
-        while (pList && pList->GetItem())
+        while (pList && ((::TopicInfoVisitRecord *)(new ((void *)(pList)) ::Vec3())))
         {
             int icurrentyear;
             float fhour2;
-            TopicInfoVisitRecord* psayonceinfo6 = pList->GetItem();
+            TopicInfoVisitRecord* psayonceinfo6 = ((::TopicInfoVisitRecord *)(new ((void *)(pList)) ::Vec3()));
             int icurrentmonth3;
             int iday_;
             float fcurrenthourB;
@@ -6350,7 +6376,7 @@ void FUN_00935ae0_t::FUN_00935ae0()
             int iyear7;
             bool aBremove = false;
             int icurrentday5;
-            fhour2 = psayonceinfo6->fHour + originalRuntimeFloatSetting1061.Float()->f;
+            fhour2 = psayonceinfo6->fHour + ((::UTSO_SettingValue *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::UTSO_SettingT< ::GameSettingCollection> *>(&::originalRuntimeFloatSetting1061))))))->f;
             iday_ = psayonceinfo6->iDate & 0x1ff;
             imonth2 = (psayonceinfo6->iDate & 0x1e00) >> 9;
             iyear7 = (psayonceinfo6->iDate & 0x7ffe000) >> 13;
@@ -6380,13 +6406,13 @@ void FUN_00935ae0_t::FUN_00935ae0()
             }
             if (aBremove)
             {
-                pList->Remove(psayonceinfo6);
+                reinterpret_cast<::ItemChangeListNode *>((pList))->FUN_00905330((::InventoryStackRecord *const &)(psayonceinfo6));
                 delete psayonceinfo6;
                 pList = pextra9->pList;
             }
             else
             {
-                pList = pList->GetNext();
+                pList = ((::BSSimpleList< ::TopicInfoVisitRecord *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
             }
         }
     }
@@ -6409,7 +6435,6 @@ struct FUN_009b3490_shell
 struct BSSimpleList_standin
 {
     bool _ref_008256d0();
-    FUN_009b3490_shell** _ref_006815c0();
     void _ref_0063f7b0();
 };
 
@@ -6427,7 +6452,6 @@ struct DelStandIn
 
 struct TESCreature
 {
-    void SetCombatStyle(TESCombatStyle*);
 };
 
 struct FUN_009c4da0_shell
@@ -6440,22 +6464,21 @@ void FUN_009c4da0_shell::ClearCombatStyleAndActorCause()
 {
     while (!((BSSimpleList_standin*)((char*)this + 0x88))->_ref_008256d0())
     {
-        delete *((BSSimpleList_standin*)((char*)this + 0x88))->_ref_006815c0();
+        delete *((::FUN_009b3490_shell **)(new ((void *)(((BSSimpleList_standin*)((char*)this + 0x88)))) ::Vec3()));
         ((BSSimpleList_standin*)((char*)this + 0x88))->_ref_0063f7b0();
     }
 
-    ((NiPointer<ActorCause>*)((char*)this + 0x120))->operator=(0);
+    reinterpret_cast<::Holder0042f780 *>((((NiPointer<ActorCause>*)((char*)this + 0x120))))->FUN_0042f780=((::AC_0042f730 *)(::ActorCause *)(0));
 
     if (((FUN_008d8b80Class*)this)->FUN_008d8b80())
     {
         delete (p07::DelStandIn*)((FUN_008d8b80Class*)this)->FUN_008d8b80();
-        ((TESCreature*)this)->SetCombatStyle(0);
+        reinterpret_cast<::FUN_008126e0_shell *>((((TESCreature*)this)))->SetWhich((int)(0));
     }
 }
 
 struct FUN_0055e730_shell
 {
-    unsigned short __thiscall FUN_0055e730(unsigned int aiFlags);
 };
 
 struct FUN_00931ff0_shell : public MobileObject
@@ -6468,7 +6491,7 @@ unsigned short __thiscall FUN_00931ff0_shell::FUN_00931ff0(unsigned int aiFlags)
 {
     unsigned short isize = 0;
     isize += 1;
-    isize += ((FUN_0055e730_shell*)this)->FUN_0055e730(aiFlags);
+    isize += reinterpret_cast<::SaveReference *>((((FUN_0055e730_shell*)this)))->FUN_0055e730(aiFlags);
     if (m_pBaseProcess)
         isize += m_pBaseProcess->GetSaveSize(aiFlags, this);
     return isize;
@@ -6480,19 +6503,16 @@ class BGSSaveFormBuffer;
 class TESResponse
 {
   public:
-    int GetNext();
 };
 
 class SaveFormIDHelper
 {
   public:
-    void SerializeFormData(void*, int);
 };
 
 class BGSSaveFormBuffer : public SaveFormIDHelper
 {
   public:
-    void SaveData(void*, int, int);
 };
 
 struct V0
@@ -7330,7 +7350,6 @@ struct FUN_00932880_shell
     unsigned char field85;
     unsigned char field86;
 
-    void FUN_00562230(BGSSaveFormBuffer*);
     void FUN_00932880(BGSSaveFormBuffer*);
 };
 
@@ -7340,24 +7359,24 @@ void FUN_00932880_shell::FUN_00932880(BGSSaveFormBuffer* pSaveGameBuffer)
     char cprocessLevel = -1;
 
     if (m_pBaseProcess)
-        cprocessLevel = m_pBaseProcess->GetNext();
+        cprocessLevel = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pBaseProcess))->FUN_0045cd60()));
 
-    pSaveGameBuffer->SaveData(&cprocessLevel, 1, 0);
-    this->FUN_00562230(pSaveGameBuffer);
-    pSaveGameBuffer->SaveData(&field84, 1, 0);
-    pSaveGameBuffer->SaveData(&field85, 1, 0);
-    pSaveGameBuffer->SaveData(&field7c, 1, 0);
-    pSaveGameBuffer->SaveData(&field7f, 1, 0);
-    pSaveGameBuffer->SaveData(&field80, 1, 0);
-    pSaveGameBuffer->SaveData(&field7d, 1, 0);
-    pSaveGameBuffer->SaveData(&field7e, 1, 0);
-    pSaveGameBuffer->SaveData(&field86, 1, 0);
-    pSaveGameBuffer->SaveData(&field74, 4, 0);
-    pSaveGameBuffer->SaveData(&field78, 4, 0);
-    pSaveGameBuffer->SaveData(&field81, 1, 0);
-    pSaveGameBuffer->SaveData(&field83, 1, 0);
-    pSaveGameBuffer->SerializeFormData(m_pLinkedReference, 0);
-    pSaveGameBuffer->SerializeFormData(m_pMobileObject, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((pSaveGameBuffer))->FUN_00865e50(&cprocessLevel, 1, 0);
+    reinterpret_cast<::Refr_s *>((this))->FUN_00562230((::BGSSaveFormBuffer *)(pSaveGameBuffer));
+    reinterpret_cast<::FUN_00865e50_shell *>((pSaveGameBuffer))->FUN_00865e50(&field84, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((pSaveGameBuffer))->FUN_00865e50(&field85, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((pSaveGameBuffer))->FUN_00865e50(&field7c, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((pSaveGameBuffer))->FUN_00865e50(&field7f, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((pSaveGameBuffer))->FUN_00865e50(&field80, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((pSaveGameBuffer))->FUN_00865e50(&field7d, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((pSaveGameBuffer))->FUN_00865e50(&field7e, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((pSaveGameBuffer))->FUN_00865e50(&field86, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((pSaveGameBuffer))->FUN_00865e50(&field74, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((pSaveGameBuffer))->FUN_00865e50(&field78, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((pSaveGameBuffer))->FUN_00865e50(&field81, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((pSaveGameBuffer))->FUN_00865e50(&field83, 1, 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((pSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(m_pLinkedReference), 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((pSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(m_pMobileObject), 0);
 
     if (m_pBaseProcess)
         reinterpret_cast<V330*>(m_pBaseProcess)->SaveGame(pSaveGameBuffer);
@@ -7397,7 +7416,6 @@ struct Gen_vec3_local
 
 struct Gen_probe_target
 {
-    bool FUN_005547c0(Gen_vec3_local* v, float* f);
 };
 
 class FUN_00576470_cls
@@ -7530,7 +7548,6 @@ class FUN_00576470_cls
     virtual void v1f0();
     virtual Gen_vec3_local* v1f4();
     Gen_probe_target* FUN_008d6f30();
-    void FUN_00575830(Gen_vec3_local* v);
     bool ProbeAndApplyHeight();
 };
 
@@ -7544,10 +7561,10 @@ bool FUN_00576470_cls::ProbeAndApplyHeight()
     {
         Gen_vec3_local v2 = *this->v1f4();
         float f;
-        if (pProbeTarget->FUN_005547c0(&v2, &f))
+        if (reinterpret_cast<::FakeCell *>((pProbeTarget))->FUN_005547c0((*(const ::NiPoint3 *)(&v2)), (*(float *)(&f))))
         {
             v2.z = f;
-            this->FUN_00575830(&v2);
+            reinterpret_cast<::Reference *>((this))->FUN_00575830((::Position *)(::Gen_vec3_local *)(&v2));
             result2 = true;
         }
     }
@@ -7612,10 +7629,8 @@ class E6C0Node
     virtual void SetVisible(int iValue);
 
     void* GetData();
-    void FUN_00c6ffc0();
 };
 
-void __cdecl CopyBlock48(void* pvData, const void* pvValue);
 
 class E6C0Owner
 {
@@ -7819,7 +7834,6 @@ class E6C0Owner
     virtual void Refresh();
 
     E6C0Node* GetNode();
-    void Hide();
     void SetShown(bool bShow);
 };
 
@@ -7827,49 +7841,40 @@ class E6C0Owner
 // @fnv 0x0081e6c0
 void E6C0Owner::SetShown(bool bShow)
 {
-    E6C0Node* pkNode = GetNode();
+    E6C0Node* pkNode = ((::E6C0Node *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()));
     if (pkNode)
     {
         if (bShow)
         {
             pkNode->SetVisible(0);
-            CopyBlock48(pkNode->GetData(), (const void*)1);
+            CopyBlock48(((void *)(reinterpret_cast<::FUN_00810660_Class *>((pkNode))->FUN_00810660())), (const void*)1);
             Refresh();
         }
         else
         {
-            pkNode->FUN_00c6ffc0();
-            Hide();
+            reinterpret_cast<::FUN_00c6ffc0_Class *>((pkNode))->FUN_00c6ffc0();
+            reinterpret_cast<::MagicProjectile *>(this)->FUN_0081e730();
         }
     }
 }
 
 struct SpinLockStub
 {
-    void Lock(const char* name);
-    void Unlock();
 };
-extern SpinLockStub g_refLock;
 
 struct ProcessStub
 {
     virtual ~ProcessStub();
-    int GetProcessValue();
 };
 
 struct RefStub;
 struct ProcessListsStub
 {
-    void RemoveRef(RefStub* ref);
-    void QueueRemoval(RefStub* ref, int value);
 };
-extern ProcessListsStub g_processLists;
 
 struct DataHandlerStub
 {
-    bool IsClearing();
 };
-extern DataHandlerStub* g_dataHandlerStub;
 
 struct FormStub
 {
@@ -7879,7 +7884,6 @@ struct FormStub
     int unk0C;
     int unk10;
     int unk14;
-    bool IsTemporary();
 };
 
 struct ChildCellStub
@@ -7909,7 +7913,6 @@ struct RefStub : FormStub, ChildCellStub
     int unk5C;
     int unk60;
     int unk64;
-    void ClearRef();
 };
 
 struct FUN_0092ec40 : RefStub
@@ -7933,32 +7936,40 @@ struct FUN_0092ec40 : RefStub
     bool m_bThirdActorFlag;
     virtual ~FUN_0092ec40();
 };
+// Calls FUN_0092ec40, then deallocates this when bit 0 of flags is set, and returns this.
+// @fnv 0x0092ec10
+void* __thiscall FUN_0092ec10_shell::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0092ec40 *>(this)->FUN_0092ec40::~FUN_0092ec40();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x0092ec40
 FUN_0092ec40::~FUN_0092ec40()
 {
-    g_refLock.Lock(0);
-    if (!IsTemporary())
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::SpinLockStub *>(&::DAT_011f11a0))))->FUN_0040fbf0((char *)(0));
+    if (!reinterpret_cast<::FUN_004077c0_shell *>(this)->FUN_004077c0())
     {
-        g_processLists.RemoveRef(this);
-        if (!g_dataHandlerStub->IsClearing())
+        reinterpret_cast<::ProcessLists *>(&((*reinterpret_cast<::ProcessListsStub *>(&::g_011e0e80))))->RemoveMobileObjectFromList((::MobileObject *)(::RefStub *)(this));
+        if (!reinterpret_cast<::FUN_004226e0_shell *>(((*reinterpret_cast<::DataHandlerStub * *>(&::g_dataHandler))))->FUN_004226e0())
         {
-            ClearRef();
+            reinterpret_cast<::C6760Ref *>(this)->FUN_00576760();
         }
         if (m_pBaseProcess)
         {
-            g_processLists.QueueRemoval(this, m_pBaseProcess->GetProcessValue());
+            reinterpret_cast<::ActorDeletionQueue *>(&((*reinterpret_cast<::ProcessListsStub *>(&::g_011e0e80))))->FUN_0096d470((::MobileObject *)(::RefStub *)(this), ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pBaseProcess))->FUN_0045cd60())));
         }
     }
     delete m_pBaseProcess;
-    g_refLock.Unlock();
+    reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::SpinLockStub *>(&::DAT_011f11a0))))->FUN_0040fba0();
     if (m_bSixthFlag)
     {
         m_pOwningCell = 0;
     }
 }
 
-extern NiPoint3 DAT_011f426c;
 
 struct FUN_009304d0_shell
 {
@@ -7977,8 +7988,8 @@ struct FUN_009304d0_shell
 void* __thiscall FUN_009304d0_shell::FUN_009304d0()
 {
     unk00 = 0.0f;
-    unk04 = DAT_011f426c;
-    unk10 = DAT_011f426c;
+    unk04 = ::NiPoint3::ZERO;
+    unk10 = ::NiPoint3::ZERO;
     unk20 = 0.0f;
     unk24 = true;
     return this;
@@ -8166,7 +8177,6 @@ struct FUN_00931cc0_obj
     virtual void v2C4(float f);
     void FUN_00931cc0(FUN_00931cc0_obj* other);
 };
-float __cdecl GetDirectionAngle(const NiPoint3* p);
 
 // Computes the distance between this object's and other's v1F4 points and passes it to v2C4.
 // @fnv 0x00931cc0
@@ -8210,30 +8220,19 @@ struct FieldData
 };
 struct CastObject
 {
-    World* FUN_006fa820();
-    FieldData* GetReferenceFlags();
 };
 struct PointerView
 {
-    BaseCast* FUN_00559450();
 };
 struct NodeList
 {
-    PointerView* FUN_006815c0();
-    NodeList* FUN_00726070();
 };
 struct World
 {
-    NodeList* FUN_007d6bb0();
 };
-CastObject* FUN_00653270(const CastType*, BaseCast*);
-extern CastType DAT_01267e64;
-extern CastType DAT_012683ec;
 struct SubObject
 {
-    BaseCast* FUN_006838b0();
 };
-NiFixedString* FUN_0087e9a0();
 struct ParentView
 {
     virtual void f0();
@@ -8456,15 +8455,13 @@ struct AngleView
     virtual void f174();
     virtual float f175(int);
 
-    bool FUN_0087eeb0();
     float GetAdjustedAngle();
 };
-float WrapAngle(float);
 // @fnv 0x00936da0
 float AngleView::GetAdjustedAngle()
 {
     float angle = f175(0);
-    if (f64() && FUN_0087eeb0())
+    if (f64() && reinterpret_cast<::FUN_0087eeb0_shell *>(this)->FUN_0087eeb0())
     {
         ParentView* parent = f116();
         if (parent)
@@ -8473,19 +8470,19 @@ float AngleView::GetAdjustedAngle()
             if (sub)
             {
                 CastObject* base;
-                BaseCast* collision = sub->FUN_006838b0();
-                base = FUN_00653270(&DAT_01267e64, collision);
+                BaseCast* collision = ((::BaseCast *)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>((sub))->FUN_006838b0()));
+                base = ((::CastObject *)(::FUN_00653270((const ::NiRTTI *)(const ::CastType *)(&(*reinterpret_cast<::CastType *>(&::g_01267e64))), (::NiObject *)(collision))));
                 if (base)
                 {
-                    World* list = base->FUN_006fa820();
-                    NodeList* world = list->FUN_007d6bb0();
-                    while (world && world->FUN_006815c0()->FUN_00559450())
+                    World* list = ((::World *)(::fnv_006fa820::FUN_006fa820((const char *)(base))));
+                    NodeList* world = ((::NodeList *)(reinterpret_cast<::NonActorMagicTarget *>((list))->GetActiveEffectList()));
+                    while (world && ((::BaseCast *)(::FUN_00559450((int *)(((::PointerView *)(new ((void *)(world)) ::Vec3())))))))
                     {
-                        CastObject* body = FUN_00653270(&DAT_012683ec, world->FUN_006815c0()->FUN_00559450());
-                        world = world->FUN_00726070();
+                        CastObject* body = ((::CastObject *)(::FUN_00653270((const ::NiRTTI *)(const ::CastType *)(&(*reinterpret_cast<::CastType *>(&::g_012683ec))), (::NiObject *)(::BaseCast *)(((::BaseCast *)(::FUN_00559450((int *)(((::PointerView *)(new ((void *)(world)) ::Vec3()))))))))));
+                        world = ((::NodeList *)(reinterpret_cast<::Callees *>((world))->FUN_00726070()));
                         if (body)
                         {
-                            angle -= body->GetReferenceFlags()->angle;
+                            angle -= ((::FieldData *)(reinterpret_cast<::FUN_00620b80_shell *>((body))->GetReferenceFlags()))->angle;
                             angle = WrapAngle(angle);
                             break;
                         }
@@ -8499,27 +8496,19 @@ float AngleView::GetAdjustedAngle()
 
 struct VoiceString
 {
-    const char* FUN_00559450();
 };
 struct VoiceResponse
 {
-    VoiceString* FUN_00460140();
-    VoiceString* FUN_006815c0();
 };
 struct VoiceInfo
 {
-    void FUN_0061f170(int, void*);
-    void FUN_0061f150();
 };
 struct VoiceItem
 {
-    VoiceInfo* FUN_0084e3a0();
     void FUN_0083c7b0();
-    VoiceResponse* FUN_0083c820();
 };
 struct VoiceTopic
 {
-    VoiceItem* FUN_0061b320(void*, void*, void*, void*, bool);
 };
 struct VoiceForm
 {
@@ -8531,29 +8520,19 @@ struct VoiceNode
 };
 struct VoiceFile
 {
-    unsigned int FUN_00559450();
     ~VoiceFile();
 };
 struct VoiceAudio
 {
     SoundPlaybackHandle FUN_00ad7480(const char*, unsigned int, void*);
 };
-VoiceAudio* __cdecl FUN_00453a70();
-int __cdecl strcpy_s(char*, unsigned int, const char*);
-VoiceFile* __cdecl FUN_004d52d0(BSStringT<char>&);
-void __cdecl FUN_005790f0(void*, unsigned int);
-float __cdecl FUN_005790b0();
-float __cdecl FUN_005790d0();
 void __cdecl FUN_00705210(const char*, SoundPlaybackHandle, NiPoint3, void*, bool);
 struct VoiceSetting
 {
     bool* FUN_00408d60();
 };
-extern VoiceSetting DAT_011d8928;
 struct VoiceSoundMethods
 {
-    void FUN_00ad8be0(float, float);
-    void FUN_00ad8e60(void(__cdecl*)(void*, unsigned int), void*);
 };
 struct VoiceHost
 {
@@ -8683,11 +8662,6 @@ struct VoiceHost
     virtual void slot123();
     virtual void slot124();
     virtual const NiPoint3& GetPosition();
-    void FUN_0057ad20(VoiceTopic*);
-    void FUN_0057ace0(VoiceInfo*);
-    VoiceForm* FUN_007af430();
-    void* FUN_0084e3a0();
-    bool FUN_008c1bc0();
     SoundPlaybackHandle PlayVoiceTopic(VoiceTopic*, void*, bool, bool, bool, void*, bool);
 };
 // @fnv 0x00578a80
@@ -8696,41 +8670,41 @@ SoundPlaybackHandle VoiceHost::PlayVoiceTopic(VoiceTopic* topic, void* listener,
 {
     SoundPlaybackHandle pItem;
     float extra = 0.0f;
-    VoiceItem* time = topic->FUN_0061b320(this, listener, 0, 0, false);
+    VoiceItem* time = ((::VoiceItem *)(reinterpret_cast<::FUN_0061b320_shell *>((topic))->FUN_0061b320((::TESObjectREFR *)(void *)(this), (::TESObjectREFR *)(listener), (::TESTopic *)(void *)(0), 0, false)));
     float flags = 0.0f;
-    FUN_0057ad20(topic);
+    reinterpret_cast<::fnv_0057ad20::FUN_0057ad20_shell *>(this)->FUN_0057ad20((::fnv_0057ad20::TESTopic *)(topic));
     unsigned int kSound = 0;
     VoiceForm* pForm;
-    if (FUN_007af430() && FUN_007af430()->FUN_00401170() == 0x16)
-        pForm = FUN_007af430();
+    if (((::VoiceForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) && ((::VoiceForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))->FUN_00401170() == 0x16)
+        pForm = ((::VoiceForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()));
     if (time)
     {
-        VoiceInfo* pInfo = time->FUN_0084e3a0();
-        FUN_0057ace0(pInfo);
+        VoiceInfo* pInfo = ((::VoiceInfo *)(reinterpret_cast<::FUN_0084e3a0_Class *>((time))->FUN_0084e3a0()));
+        reinterpret_cast<::fnv_0057ace0::FUN_0057ace0_shell *>(this)->FUN_0057ace0((::fnv_0057ace0::TESTopicInfo *)(pInfo));
         if (pInfo)
         {
-            pInfo->FUN_0061f170(0, this);
-            pInfo->FUN_0061f150();
+            reinterpret_cast<::FUN_0061f170_cls *>((pInfo))->FUN_0061f170((void *)(0), (::ArgObj *)(void *)(this));
+            reinterpret_cast<::TESTopicInfo *>((pInfo))->AddTopicList();
         }
         time->FUN_0083c7b0();
-        VoiceResponse* pResponse = time->FUN_0083c820();
+        VoiceResponse* pResponse = ((::VoiceResponse *)(reinterpret_cast<::DialogueItem *>((time))->GetActiveResponse()));
         if (pResponse)
         {
-            if (pResponse->FUN_00460140()->FUN_00559450())
+            if (((const char *)(::FUN_00559450((int *)(((::VoiceString *)(::FUN_00460140((int)(pResponse)))))))))
             {
                 char path[512];
-                strcpy_s(path, 512, pResponse->FUN_00460140()->FUN_00559450());
+                ::TaskQueueInterface::CopyStringToBuffer(path, 512, ((const char *)(::FUN_00559450((int *)(((::VoiceString *)(::FUN_00460140((int)(pResponse)))))))));
                 if (bComputeDuration)
                 {
                     VoiceFile* file = 0;
                     BSStringT<char> name;
-                    name.Set(path, 512);
+                    reinterpret_cast<::TextString *>(&(name))->FUN_004037f0(path, 512);
                     if (BuildLipPath(name))
                     {
-                        file = FUN_004d52d0(name);
+                        file = ((::VoiceFile *)(::LoadBGSTerrainManager((const ::NiPointer< ::NiNode> &)(name))));
                         if (file)
                         {
-                            flags = file->FUN_00559450() / 30.0;
+                            flags = ((unsigned int)(::FUN_00559450((int *)(file)))) / 30.0;
                             delete file;
                         }
                     }
@@ -8738,34 +8712,34 @@ SoundPlaybackHandle VoiceHost::PlayVoiceTopic(VoiceTopic* topic, void* listener,
                 if (force || !GetNode())
                 {
                     if (bUseAlternateFlags)
-                        pItem = FUN_00453a70()->FUN_00ad7480(path, kSound | 0x101, 0);
+                        pItem = ((::VoiceAudio *)(::FUN_00453a70()))->FUN_00ad7480(path, kSound | 0x101, 0);
                     else
-                        pItem = FUN_00453a70()->FUN_00ad7480(path, kSound | 0x105, 0);
+                        pItem = ((::VoiceAudio *)(::FUN_00453a70()))->FUN_00ad7480(path, kSound | 0x105, 0);
                 }
                 else
                 {
                     if (bUseAlternateFlags)
-                        pItem = FUN_00453a70()->FUN_00ad7480(path, kSound | 0x102, 0);
+                        pItem = ((::VoiceAudio *)(::FUN_00453a70()))->FUN_00ad7480(path, kSound | 0x102, 0);
                     else
-                        pItem = FUN_00453a70()->FUN_00ad7480(path, kSound | 0x106, 0);
+                        pItem = ((::VoiceAudio *)(::FUN_00453a70()))->FUN_00ad7480(path, kSound | 0x106, 0);
                 }
                 if (!force && GetNode())
                 {
                     NiPoint3 position = GetNode()->FUN_0045bb80();
-                    pItem.SetPosition(position.x, position.y, position.z);
-                    ((VoiceSoundMethods*)&pItem)->FUN_00ad8be0(FUN_005790b0(), FUN_005790d0());
-                    pItem.SetObjectToFollow((NiAVObject*)GetNode());
+                    reinterpret_cast<::FUN_00ad8b60_h *>(&(pItem))->FUN_00ad8b60(position.x, position.y, position.z);
+                    reinterpret_cast<::FUN_00ad8be0_shell *>((((VoiceSoundMethods*)&pItem)))->FUN_00ad8be0(FUN_005790b0(), FUN_005790d0());
+                    reinterpret_cast<::FUN_00ad8f20_shell *>(&(pItem))->FUN_00ad8f20((NiAVObject*)GetNode());
                 }
-                pItem.Play(false);
-                ((VoiceSoundMethods*)&pItem)->FUN_00ad8e60(FUN_005790f0, FUN_0084e3a0());
+                reinterpret_cast<::FUN_00ad8830_shell *>(&(pItem))->FUN_00ad8830(false);
+                reinterpret_cast<::SoundPlaybackHandle *>((((VoiceSoundMethods*)&pItem)))->SetCompletionCallback((void (*)(void *, bool))(((void (&)(void *, unsigned int))::fnv_005790f0::FUN_005790f0)), ((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())));
             }
             else if (pInfo)
-                FUN_005790f0(FUN_0084e3a0(), 0);
-            if (*DAT_011d8928.FUN_00408d60() || (IsActor() && FUN_008c1bc0()))
+                ::fnv_005790f0::FUN_005790f0((unsigned int)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))));
+            if (*(*reinterpret_cast<::VoiceSetting *>(&::g_011d8928)).FUN_00408d60() || (IsActor() && ::FUN_008c1bc0((int)this)))
             {
                 if (flags <= 0.0)
                     flags = 2.0f;
-                FUN_00705210(pResponse->FUN_006815c0()->FUN_00559450(), pItem, GetPosition(), listener, finalFlag);
+                FUN_00705210(((const char *)(::FUN_00559450((int *)(((::VoiceString *)(new ((void *)(pResponse)) ::Vec3())))))), pItem, GetPosition(), listener, finalFlag);
             }
         }
     }
@@ -8778,7 +8752,6 @@ struct TESObjectCELL;
 
 struct ProcessStandIn
 {
-    int GetProcessLevel();
 };
 
 struct LoaderStandIn
@@ -8788,7 +8761,6 @@ struct LoaderStandIn
 
 struct TESStandIn
 {
-    bool IsCellBuffered(TESObjectCELL* cell, bool kCellSearchPosition);
 };
 
 struct RefStandIn;
@@ -8818,7 +8790,6 @@ struct RefStandIn
     TESObjectCELL* GetParentCell();
 };
 
-extern LoaderStandIn* g_modelLoader;
 
 struct ActorStandIn : RefStandIn
 {
@@ -9011,12 +8982,12 @@ bool ActorStandIn::UpdateProcessLevel()
 {
     bool bResult = true;
     bool bLowOnly5 = false;
-    int iCurLevel4 = unk68->GetProcessLevel();
+    int iCurLevel4 = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((unk68))->FUN_0045cd60()));
     int iWantLevel = 3;
     TESObjectCELL* pCell4 = GetParentCell();
     if (unk8C == 2 && unk88 && unk88->unk28)
     {
-        if (unk88->unk28 == (RefStandIn*)g_thePlayer)
+        if (unk88->unk28 == (RefStandIn*)::_g_thePlayer)
         {
             if (iCurLevel4)
                 MoveToHighStandIn();
@@ -9027,11 +8998,11 @@ bool ActorStandIn::UpdateProcessLevel()
             pCell4 = unk88->unk28->GetParentCell();
         }
     }
-    if (IsPersistentStandIn() || g_modelLoader->IsQueued(this))
+    if (IsPersistentStandIn() || (*reinterpret_cast<::LoaderStandIn * *>(&::g_modelLoader))->IsQueued(this))
     {
-        if (((TESStandIn*)g_TES)->IsCellBuffered(pCell4, true))
+        if (reinterpret_cast<::TESCallHelper *>((((TESStandIn*)(*reinterpret_cast<::TES * *>(&::g_TES)))))->IsCellBuffered(pCell4, true))
             iWantLevel = 0;
-        else if (((TESStandIn*)g_TES)->IsCellBuffered(pCell4, false))
+        else if (reinterpret_cast<::TESCallHelper *>((((TESStandIn*)(*reinterpret_cast<::TES * *>(&::g_TES)))))->IsCellBuffered(pCell4, false))
             iWantLevel = 1;
     }
     if (unk8C == 0)
@@ -9228,7 +9199,6 @@ struct ProcessShim
     int unknown_250;
     int unknown_254;
     int unknown_258;
-    int FUN_0045cd60();
 };
 struct FUN_00913fe0 : ProcessShim
 {
@@ -9236,8 +9206,6 @@ struct FUN_00913fe0 : ProcessShim
 };
 struct ProcessListsExtra
 {
-    void FUN_0096d470(MobileObject* object, int type);
-    void FUN_0096d450(MobileObject* object, int enabled, int a, int b, int c);
 };
 struct MobileObjectVT
 {
@@ -9377,47 +9345,41 @@ struct FUN_008cf8f0_shell : MobileObject
 // @fnv 0x008cf8f0
 bool FUN_008cf8f0_shell::SwitchProcess()
 {
-    if (m_pBaseProcess && ((ProcessShim*)m_pBaseProcess)->FUN_0045cd60() == 1)
+    if (m_pBaseProcess && ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((ProcessShim*)m_pBaseProcess)))->FUN_0045cd60())) == 1)
         return true;
-    int type = ((ProcessShim*)m_pBaseProcess)->FUN_0045cd60();
-    ((ProcessListsExtra*)&DAT_011e0e80)->FUN_0096d470(this, type);
+    int type = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((ProcessShim*)m_pBaseProcess)))->FUN_0045cd60()));
+    reinterpret_cast<::ActorDeletionQueue *>((((ProcessListsExtra*)&(*reinterpret_cast<::ProcessLists *>(&::g_011e0e80)))))->FUN_0096d470(this, type);
     FUN_00913fe0* process = new FUN_00913fe0();
     process->v1(m_pBaseProcess);
     delete ((ProcessShim*)m_pBaseProcess);
     m_pBaseProcess = (BaseProcess*)process;
-    ((ProcessListsExtra*)&DAT_011e0e80)->FUN_0096d450(this, 1, 0, 0, 0);
+    reinterpret_cast<::Host096d450 *>((((ProcessListsExtra*)&(*reinterpret_cast<::ProcessLists *>(&::g_011e0e80)))))->FUN_0096d450(this, 1, 0, 0, (::MobileObject *)(0));
     ((MobileObjectVT*)this)->v127(0);
     ((ProcessShim*)m_pBaseProcess)->v18();
     return true;
 }
 
-float& __fastcall FUN_00403e20(float* pThis);
 struct Obj930A
 {
-    bhkCharacterController* FUN_009306d0();
 };
 struct ActorV_S
 {
-    float GetScale();
 };
 struct FUN_00c6d4b0_Class
 {
     void FUN_00c6d4b0(float);
 };
-bool __fastcall FUN_009306b0(bhkCharacterController* pController);
-extern SettingT_GameSettingCollection_ originalRuntimeFloatSetting847;
-extern SettingT_GameSettingCollection_ originalRuntimeFloatSetting848;
 // @fnv 0x00930640
 int Holder_00884aa0::UpdateControllerScale()
 {
-    bhkCharacterController* controller = reinterpret_cast<Obj930A*>(this)->FUN_009306d0();
+    bhkCharacterController* controller = ((::bhkCharacterController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((reinterpret_cast<Obj930A*>(this)))->FUN_009306d0()));
     if (controller)
     {
         float scale =
-            FUN_00403e20((float*)&originalRuntimeFloatSetting847) * reinterpret_cast<ActorV_S*>(this)->GetScale();
-        if (FUN_009306b0(controller))
+            FUN_00403e20((float*)&(*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting847))) * reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((reinterpret_cast<ActorV_S*>(this)))->FUN_00567400();
+        if (::FUN_009306b0(controller))
         {
-            scale = scale * FUN_00403e20((float*)&originalRuntimeFloatSetting848);
+            scale = scale * FUN_00403e20((float*)&(*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting848)));
         }
         reinterpret_cast<FUN_00c6d4b0_Class*>(controller)->FUN_00c6d4b0(scale);
     }
@@ -9426,29 +9388,16 @@ int Holder_00884aa0::UpdateControllerScale()
 
 struct WorkerSaveLoad
 {
-    bool FUN_0055f5b0();
-    bool FUN_0047c850();
 };
-extern WorkerSaveLoad* DAT_011de45c;
 struct WorkerSpinLock
 {
-    void FUN_0040fbf0(const char*);
-    void Unlock();
 };
-extern WorkerSpinLock DAT_011f11a0;
 struct WorkerDeleteQueue
 {
-    void FUN_0096d470(MobileObject*, int);
 };
 
 struct WorkerMobile : MobileObject
 {
-    void FUN_00571b50();
-    void FUN_00483710();
-    void FUN_004534f0(unsigned int);
-    void FUN_0055f240(unsigned int);
-    bool FUN_00440da0();
-    bool FUN_00440d80();
     int FUN_00931850();
     void FUN_00932750(unsigned int);
 };
@@ -9457,22 +9406,22 @@ void WorkerMobile::FUN_00932750(unsigned int flags)
 {
     if (flags & 0x20)
     {
-        FUN_00571b50();
-        FUN_00483710();
-        FUN_004534f0(0);
-        FUN_00483710();
+        reinterpret_cast<::BipedAnim *>(this)->AttachFaceGenNode();
+        reinterpret_cast<::TESForm *>(this)->ClearData();
+        reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0(0);
+        reinterpret_cast<::TESForm *>(this)->ClearData();
     }
-    FUN_0055f240(flags);
+    reinterpret_cast<::fnv_0055f240::FUN_0055f240_Class *>(this)->FUN_0055f240(flags);
     if (m_pBaseProcess)
         m_pBaseProcess->Revert(flags, this);
-    if (DAT_011de45c->FUN_0055f5b0() && DAT_011de45c->FUN_0047c850() && m_pBaseProcess &&
-        (FUN_00440da0() || FUN_00440d80()))
+    if (reinterpret_cast<::FUN_0055f5b0_Class *>(((*reinterpret_cast<::WorkerSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_0055f5b0() && reinterpret_cast<::FUN_0047c850 *>(((*reinterpret_cast<::WorkerSaveLoad * *>(&::g_TESSaveLoadGame))))->EvaluateCondition() && m_pBaseProcess &&
+        (reinterpret_cast<::TESForm *>(this)->GetDisabled() || reinterpret_cast<::FUN_00440d80_shell *>(this)->FUN_00440d80()))
     {
-        DAT_011f11a0.FUN_0040fbf0(0);
-        ((WorkerDeleteQueue*)&DAT_011e0e80)->FUN_0096d470(this, FUN_00931850());
+        reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::WorkerSpinLock *>(&::DAT_011f11a0))))->FUN_0040fbf0((char *)(0));
+        reinterpret_cast<::ActorDeletionQueue *>((((WorkerDeleteQueue*)&(*reinterpret_cast<::ProcessLists *>(&::g_011e0e80)))))->FUN_0096d470(this, FUN_00931850());
         delete m_pBaseProcess;
         m_pBaseProcess = 0;
-        DAT_011f11a0.Unlock();
+        reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::WorkerSpinLock *>(&::DAT_011f11a0))))->FUN_0040fba0();
     }
 }
 
@@ -9483,7 +9432,6 @@ class Conversation
     PlayerCharacter* listener;
     TESTopic* topic;
     Conversation(Character*, PlayerCharacter*, TESTopic*);
-    bool FUN_0083b9a0();
 };
 struct FUN_00670b30
 {
@@ -9492,7 +9440,6 @@ struct FUN_00670b30
     float radius;
     FUN_00670b30();
     ~FUN_00670b30();
-    void FUN_0067f3c0(TESObjectREFR*);
 };
 struct PackageTargetObj
 {
@@ -9502,20 +9449,9 @@ struct PackageTargetObj
     float radius;
     PackageTargetObj();
     ~PackageTargetObj();
-    void FUN_006800b0(int);
-    void FUN_00680110(TESObjectREFR*);
-    void FUN_00403550(unsigned int);
 };
 struct PackageMethods
 {
-    void FUN_0067a1b0(TESPackage*);
-    void SetPackageType(int);
-    void FUN_00826b40(bool);
-    void FUN_00826b90(bool);
-    void FUN_00671d30(FUN_00670b30*);
-    void FUN_00672fc0(PackageTargetObj*);
-    void FUN_00984f60(int);
-    PackageTargetObj* FUN_00671d10();
 };
 struct DialogueHost : TESObjectREFR
 {
@@ -9570,7 +9506,6 @@ struct DialogueHost : TESObjectREFR
     virtual void slot_bf();
     virtual MobileObject* GetDialogueSpeaker(MobileObject*, int*);
     int FUN_00931850();
-    void FUN_00934250();
     bool FUN_00934fd0(MobileObject* target, int p2, int p3, int p4, int p5, bool refresh, TESTopic* topic, int p8,
                       int p9);
 };
@@ -9584,67 +9519,10 @@ struct FUN_0067f030
     float radius;
     FUN_0067f030();
 };
-// @fnv 0x00934fd0
-bool DialogueHost::FUN_00934fd0(MobileObject* target, int aiUnused2, int aiUnused3, int aiUnused4, int aiUnused5,
-                                bool refresh, TESTopic* topic, int aiUnused8, int aiUnused9)
-{
-    if (FUN_00931850() || ((DialogueHost*)target)->FUN_00931850())
-        return false;
-    TESPackage* context = ((MobileObject*)this)->GetCurrentAIProcess()->GetCurrentPackage();
-    Conversation* speaker = 0;
-    if (!target || (target->Unk_85() != 0 && target->Unk_85() != 4 && target->Unk_85() != 9))
-        return false;
-    MobileObject* conversation = (MobileObject*)this;
-    int previous = 0;
-    if (((MobileObject*)this)->IsTalkingActivator())
-        conversation = GetDialogueSpeaker(target, &previous);
-    if (target != (MobileObject*)g_thePlayer)
-        speaker = new Conversation((Character*)conversation, (PlayerCharacter*)target, topic);
-    FUN_00934250();
-    process->StopRunOncePackage();
-    if (target == (MobileObject*)g_thePlayer || speaker->FUN_0083b9a0())
-    {
-        ((MobileObject*)this)->GetCurrentAIProcess()->SetProcessReference((MobileObject*)this);
-        ((MobileObject*)this)->GetCurrentAIProcess()->ClearCachedTargetReferences(true);
-        ((MobileObject*)this)->GetCurrentAIProcess()->ClearHighProcessState(target);
-        target->GetCurrentAIProcess()->ClearCachedTargetReferences(true);
-        target->GetCurrentAIProcess()->ClearHighProcessState(this);
-        FUN_009edd80* location =
-            new FUN_009edd80((FUN_0083b9a0_shell*)speaker, (Actor*)this, (Actor*)target, previous, true, true);
-        location->iUnk8C = (int)topic;
-        if (context)
-            ((PackageMethods*)location)->FUN_0067a1b0(context);
-        ((PackageMethods*)location)->SetPackageType(28);
-        ((PackageMethods*)location)->FUN_00826b40(true);
-        ((PackageMethods*)location)->FUN_00826b90(true);
-        FUN_00670b30* package = (FUN_00670b30*)new FUN_0067f030;
-        package->FUN_0067f3c0(target);
-        ((PackageMethods*)location)->FUN_00671d30(package);
-        delete package;
-        PackageTargetObj* destination = new PackageTargetObj;
-        ((PackageMethods*)location)->FUN_00672fc0(destination);
-        delete destination;
-        ((PackageMethods*)location)->FUN_00984f60(10);
-        ((PackageMethods*)location)->FUN_00671d10()->FUN_006800b0(0);
-        ((PackageMethods*)location)->FUN_00671d10()->FUN_00680110(target);
-        if (Unk_85() == 4)
-            ((PackageMethods*)location)->FUN_00671d10()->FUN_00403550(200);
-        else
-            ((PackageMethods*)location)->FUN_00671d10()->FUN_00403550(90);
-        ((MobileObject*)this)->GetCurrentAIProcess()->ResetPackageState();
-        SetDialoguePackage(location, false, true);
-        if (refresh)
-            ((MobileObject*)this)->GetCurrentAIProcess()->SetProcessTarget((MobileObject*)this, 1);
-        return true;
-    }
-    return false;
-}
-
 struct B9B1450ModelLoader
 {
     bool FUN_00445750(TESObjectREFR* pkRef);
 };
-extern B9B1450ModelLoader* g_pModelLoader;
 
 class FUN_009b1450_Mobile : public MobileObject
 {
@@ -9656,10 +9534,10 @@ class FUN_009b1450_Mobile : public MobileObject
 bool FUN_009b1450_Mobile::FUN_009b1450()
 {
     bool bResult = true;
-    int eCurrent = m_pBaseProcess->GetProcessLevel();
+    int eCurrent = (*(::PROCESS_TYPE *)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pBaseProcess))->FUN_0045cd60()));
     int eDesired2 = 3;
     TESObjectCELL* pkCell = GetParentCell();
-    if ((GetNiNode() || g_pModelLoader->FUN_00445750(this)) && g_TES->IsCellBuffered(pkCell, true))
+    if ((GetNiNode() || (*reinterpret_cast<::B9B1450ModelLoader * *>(&::g_modelLoader))->FUN_00445750(this)) && reinterpret_cast<::TESCallHelper *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->IsCellBuffered(pkCell, true))
         eDesired2 = 0;
     if (eCurrent != eDesired2)
     {
@@ -9819,17 +9697,14 @@ class MiddleHighProcess : public BaseProcess
     int unk254;
     int unk258;
     MiddleHighProcess();
+public:
+    bool IsActorInCombat();
 };
 struct ProcessLock
 {
-    void __thiscall Lock(const char*);
-    void __thiscall Unlock();
 };
-extern ProcessLock g_011f11a0;
 struct QueueReplacement
 {
-    void __thiscall FUN_0096d470(MobileObject*, PROCESS_TYPE);
-    void __thiscall FUN_0096d450(MobileObject*, int, bool, bool, int);
 };
 struct FUN_009c4920_shell : public MobileObject
 {
@@ -9838,18 +9713,18 @@ struct FUN_009c4920_shell : public MobileObject
 // @fnv 0x009c4920
 bool FUN_009c4920_shell::ReplaceProcessWithMiddleHigh()
 {
-    g_011f11a0.Lock(0);
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::ProcessLock *>(&::DAT_011f11a0))))->FUN_0040fbf0((char *)(0));
     if (m_pBaseProcess)
     {
-        PROCESS_TYPE level = m_pBaseProcess->GetProcessLevel();
-        ((QueueReplacement*)&DAT_011e0e80)->FUN_0096d470(this, level);
+        PROCESS_TYPE level = (*(::PROCESS_TYPE *)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pBaseProcess))->FUN_0045cd60()));
+        reinterpret_cast<::ActorDeletionQueue *>((((QueueReplacement*)&(*reinterpret_cast<::ProcessLists *>(&::g_011e0e80)))))->FUN_0096d470(this, (*(int *)&(level)));
     }
     BaseProcess* process = new MiddleHighProcess;
     process->Copy(m_pBaseProcess);
     delete m_pBaseProcess;
     m_pBaseProcess = process;
-    ((QueueReplacement*)&DAT_011e0e80)->FUN_0096d450(this, 1, false, false, 0);
-    g_011f11a0.Unlock();
+    reinterpret_cast<::Host096d450 *>((((QueueReplacement*)&(*reinterpret_cast<::ProcessLists *>(&::g_011e0e80)))))->FUN_0096d450(this, 1, false, false, (::MobileObject *)(0));
+    reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::ProcessLock *>(&::DAT_011f11a0))))->FUN_0040fba0();
     return true;
 }
 
@@ -9859,7 +9734,6 @@ struct AnimPoint
 };
 struct Audio277
 {
-    static Audio277* FUN_00453a70();
     SoundPlaybackHandle FUN_00ad7480(int, unsigned int, int);
 };
 struct Owner277
@@ -9997,14 +9871,14 @@ struct Owner277
 SoundPlaybackHandle Owner277::PlaySoundAtOwner(int aiID, bool abFlag, unsigned int auiFlags)
 {
     SoundPlaybackHandle kHandle;
-    kHandle = Audio277::FUN_00453a70()->FUN_00ad7480(aiID, auiFlags, 0);
+    kHandle = ((::Audio277 *)(::FUN_00453a70()))->FUN_00ad7480(aiID, auiFlags, 0);
     if (v1D0() && (auiFlags & 2))
     {
         AnimPoint kPos = *GetPosition();
-        kHandle.SetPosition(kPos.x, kPos.y, kPos.z);
-        kHandle.SetObjectToFollow(v1D0());
+        reinterpret_cast<::FUN_00ad8b60_h *>(&(kHandle))->FUN_00ad8b60(kPos.x, kPos.y, kPos.z);
+        reinterpret_cast<::FUN_00ad8f20_shell *>(&(kHandle))->FUN_00ad8f20(v1D0());
     }
-    kHandle.Play(abFlag);
+    reinterpret_cast<::FUN_00ad8830_shell *>(&(kHandle))->FUN_00ad8830(abFlag);
     return kHandle;
 }
 
@@ -10869,36 +10743,26 @@ class ProcessVTableFix
 class Host096d450
 {
   public:
-    void FUN_0096d450(MobileObject* actor, int level, bool b1, bool b2, bool b3);
 };
 
 class ActorDeletionQueue
 {
   public:
-    void FUN_0096d470(MobileObject* actor, int level);
 };
 
 struct GlobalLock_011f11a0
 {
-    void Lock(const char*);
-    void Unlock();
 };
 
-extern "C" GlobalLock_011f11a0 DAT_011f11a0;
-extern "C" void* DAT_011e0e80;
 
 class TES
 {
   public:
-    bool FUN_004511e0(TESObjectCELL* cell, int unk);
 };
-extern TES* g_TES;
 
 class FUN_009320e0_class : public Actor
 {
   public:
-    void FUN_00484d00(void* pData, int size);
-    void FUN_0055ec40(void* arg1, void* arg2);
     void SetProcessLevel(void* arg1, void* arg2);
 };
 
@@ -10906,23 +10770,23 @@ class FUN_009320e0_class : public Actor
 void FUN_009320e0_class::SetProcessLevel(void* arg1, void* arg2)
 {
     char processType;
-    FUN_00484d00(&processType, 1);
+    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(this)->FUN_00484d00(&processType, 1);
     switch (processType)
     {
     case PROCESS_TYPE_PROCESS_TYPE_NONE:
         if (m_pBaseProcess)
         {
-            DAT_011f11a0.Lock(0);
-            ((ActorDeletionQueue*)&DAT_011e0e80)->FUN_0096d470(this, m_pBaseProcess->GetProcessLevel());
+            reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::fnv_009320e0::GlobalLock_011f11a0 *>(&::DAT_011f11a0))))->FUN_0040fbf0((char *)(0));
+            reinterpret_cast<::ActorDeletionQueue *>((((ActorDeletionQueue*)&(*reinterpret_cast<void * *>(&::g_011e0e80)))))->FUN_0096d470(this, (*(::PROCESS_TYPE *)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pBaseProcess))->FUN_0045cd60())));
             delete m_pBaseProcess;
-            DAT_011f11a0.Unlock();
+            reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::fnv_009320e0::GlobalLock_011f11a0 *>(&::DAT_011f11a0))))->FUN_0040fba0();
             m_pBaseProcess = 0;
         }
         break;
     case PROCESS_TYPE_PROCESS_TYPE_HIGH:
         if (m_pBaseProcess)
         {
-            if (m_pBaseProcess->GetProcessLevel() != PROCESS_TYPE_PROCESS_TYPE_HIGH)
+            if ((*(::PROCESS_TYPE *)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pBaseProcess))->FUN_0045cd60())) != PROCESS_TYPE_PROCESS_TYPE_HIGH)
             {
                 StartHighProcess();
             }
@@ -10930,13 +10794,13 @@ void FUN_009320e0_class::SetProcessLevel(void* arg1, void* arg2)
         else
         {
             m_pBaseProcess = new HighProcess();
-            ((Host096d450*)&DAT_011e0e80)->FUN_0096d450(this, PROCESS_TYPE_PROCESS_TYPE_HIGH, false, false, false);
+            reinterpret_cast<::Host096d450 *>((((Host096d450*)&(*reinterpret_cast<void * *>(&::g_011e0e80)))))->FUN_0096d450(this, PROCESS_TYPE_PROCESS_TYPE_HIGH, false, false, (::MobileObject *)(false));
         }
         break;
     case PROCESS_TYPE_PROCESS_TYPE_MIDDLE_HIGH:
         if (m_pBaseProcess)
         {
-            if (m_pBaseProcess->GetProcessLevel() != PROCESS_TYPE_PROCESS_TYPE_MIDDLE_HIGH)
+            if ((*(::PROCESS_TYPE *)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pBaseProcess))->FUN_0045cd60())) != PROCESS_TYPE_PROCESS_TYPE_MIDDLE_HIGH)
             {
                 Unk_93();
             }
@@ -10944,14 +10808,13 @@ void FUN_009320e0_class::SetProcessLevel(void* arg1, void* arg2)
         else
         {
             m_pBaseProcess = new MiddleHighProcess();
-            ((Host096d450*)&DAT_011e0e80)
-                ->FUN_0096d450(this, PROCESS_TYPE_PROCESS_TYPE_MIDDLE_HIGH, false, false, false);
+            reinterpret_cast<::Host096d450 *>((((Host096d450*)&(*reinterpret_cast<void * *>(&::g_011e0e80)))))->FUN_0096d450(this, PROCESS_TYPE_PROCESS_TYPE_MIDDLE_HIGH, false, false, (::MobileObject *)(false));
         }
         break;
     case PROCESS_TYPE_PROCESS_TYPE_MIDDLE_LOW:
         if (m_pBaseProcess)
         {
-            if (m_pBaseProcess->GetProcessLevel() != PROCESS_TYPE_PROCESS_TYPE_MIDDLE_LOW)
+            if ((*(::PROCESS_TYPE *)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pBaseProcess))->FUN_0045cd60())) != PROCESS_TYPE_PROCESS_TYPE_MIDDLE_LOW)
             {
                 Unk_92();
             }
@@ -10959,14 +10822,13 @@ void FUN_009320e0_class::SetProcessLevel(void* arg1, void* arg2)
         else
         {
             m_pBaseProcess = new FUN_0092c950();
-            ((Host096d450*)&DAT_011e0e80)
-                ->FUN_0096d450(this, PROCESS_TYPE_PROCESS_TYPE_MIDDLE_LOW, false, false, false);
+            reinterpret_cast<::Host096d450 *>((((Host096d450*)&(*reinterpret_cast<void * *>(&::g_011e0e80)))))->FUN_0096d450(this, PROCESS_TYPE_PROCESS_TYPE_MIDDLE_LOW, false, false, (::MobileObject *)(false));
         }
         break;
     case PROCESS_TYPE_PROCESS_TYPE_LOW:
         if (m_pBaseProcess)
         {
-            if (m_pBaseProcess->GetProcessLevel() != PROCESS_TYPE_PROCESS_TYPE_LOW)
+            if ((*(::PROCESS_TYPE *)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pBaseProcess))->FUN_0045cd60())) != PROCESS_TYPE_PROCESS_TYPE_LOW)
             {
                 Unk_91();
             }
@@ -10974,20 +10836,20 @@ void FUN_009320e0_class::SetProcessLevel(void* arg1, void* arg2)
         else
         {
             m_pBaseProcess = new FUN_00906dc0();
-            ((Host096d450*)&DAT_011e0e80)->FUN_0096d450(this, PROCESS_TYPE_PROCESS_TYPE_LOW, false, false, false);
+            reinterpret_cast<::Host096d450 *>((((Host096d450*)&(*reinterpret_cast<void * *>(&::g_011e0e80)))))->FUN_0096d450(this, PROCESS_TYPE_PROCESS_TYPE_LOW, false, false, (::MobileObject *)(false));
         }
         break;
     }
 
     if (GetNiNode())
     {
-        if (!g_TES->FUN_004511e0(GetParentCell(), 0) || processType != 0)
+        if (!reinterpret_cast<::TESCallHelper *>(((*reinterpret_cast<::fnv_009320e0::TES * *>(&::g_TES))))->IsCellBuffered(GetParentCell(), 0) || processType != 0)
         {
             Set3D(0, true);
         }
     }
 
-    FUN_0055ec40(arg1, arg2);
+    reinterpret_cast<::fnv_0055ec40::LoadObject *>(this)->FUN_0055ec40((unsigned int)(arg1), (unsigned int)(arg2));
 
     if (m_pBaseProcess)
     {
@@ -11003,20 +10865,12 @@ struct GlobalObject_0041a250
     GlobalObject_0041a250();
     ~GlobalObject_0041a250();
     void FUN_00418900(const GlobalObject_0041a250&);
-    bool FUN_00ad8830(bool);
-    void* FUN_00559450(void*, unsigned);
 };
 struct Audio
 {
     GlobalObject_0041a250 FUN_00ad73b0(unsigned, unsigned);
-    void FUN_00adbfd0(void*);
 };
-Audio* FUN_00453a70();
-Audio* FUN_00ad9060();
-void FUN_00935cc0();
-void FUN_00935d90();
 struct Obj;
-extern Obj* DAT_011e0548;
 extern Obj* DAT_011dea3c;
 struct Obj
 {
@@ -11262,21 +11116,8 @@ struct Obj
     int unk8C;
     int unk90;
     int unk94;
-    Obj* FUN_008d8520();
-    int FUN_0041ca90();
-    Obj* FUN_007af430();
-    unsigned FUN_0084e3a0();
-    int FUN_005e3fa0();
     GlobalObject_0041a250 PlaySoundByFormID(unsigned, int, unsigned, int);
-    int FUN_00441110(Obj*);
-    int FUN_009611e0();
-    Obj* FUN_006815c0();
-    int FUN_004048e0();
-    int FUN_0044ddc0();
-    Obj* FUN_00460140();
-    void* FUN_00559450(GlobalObject_0041a250*, int, int, int, int, int, int, int, int, int, int);
     Obj* FUN_008d6f30();
-    void FUN_0054baf0();
     void FUN_009339a0(float, Obj*, bool);
 };
 // @fnv 0x009339a0
@@ -11284,47 +11125,46 @@ void Obj::FUN_009339a0(float delta, Obj* target, bool skip)
 {
     Obj* data7 = v1e4();
     Obj* actor_ = 0;
-    Obj* form4 = FUN_008d8520()->v22c();
-    if (form4 && form4->FUN_0041ca90() == 28)
+    Obj* form4 = ((::fnv_009339a0::Obj *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v22c();
+    if (form4 && reinterpret_cast<struct ::FUN_0041ca90 *>((form4))->get() == 28)
         actor_ = form4;
     bool aUnused4 = false;
     bool changedVal = false;
-    if (target && FUN_008d8520() && unk7C)
+    if (target && ((::fnv_009339a0::Obj *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())) && unk7C)
     {
         GlobalObject_0041a250 sound;
         changedVal = true;
-        DAT_011e0548 = this;
+        (*reinterpret_cast<::fnv_009339a0::Obj * *>(&::DAT_011e0548)) = this;
         unk7D = 1;
         bool pending = true;
-        if (target->FUN_007af430())
+        if (((::fnv_009339a0::Obj *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((target))->FUN_007af430())))
         {
-            unsigned id2 = target->FUN_007af430()->FUN_0084e3a0();
+            unsigned id2 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::fnv_009339a0::Obj *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((target))->FUN_007af430()))))->FUN_0084e3a0()));
             GlobalObject_0041a250 _other;
-            if (FUN_005e3fa0())
+            if (((int)(reinterpret_cast<::DialogueItem *>(this)->SelectDefaultResponseList())))
             {
-                int progressA = FUN_005e3fa0();
-                _other.FUN_00418900(FUN_00453a70()->FUN_00ad73b0(id2, 0x105));
-                _other.FUN_00ad8830(false);
+                int progressA = ((int)(reinterpret_cast<::DialogueItem *>(this)->SelectDefaultResponseList()));
+                reinterpret_cast<::SoundPlaybackHandle *>(&(_other))->operator=((const ::SoundPlaybackHandle &)((const ::fnv_009339a0::GlobalObject_0041a250 &)(((::fnv_009339a0::Audio *)(::FUN_00453a70()))->FUN_00ad73b0(id2, 0x105))));
+                reinterpret_cast<::FUN_00ad8830_shell *>(&(_other))->FUN_00ad8830(false);
             }
             else
             {
-                _other.FUN_00418900(PlaySoundByFormID(id2, 0, 0x40000102, 1));
+                reinterpret_cast<::SoundPlaybackHandle *>(&(_other))->operator=((const ::SoundPlaybackHandle &)((const ::fnv_009339a0::GlobalObject_0041a250 &)(PlaySoundByFormID(id2, 0, 0x40000102, 1))));
             }
-            Audio* manager4 = FUN_00ad9060();
-            manager4->FUN_00adbfd0(_other.FUN_00559450((void*)FUN_00935cc0, FUN_0084e3a0()));
+            Audio* manager4 = ((::fnv_009339a0::Audio *)(::FUN_00ad9060()));
+            reinterpret_cast<::fnv_00adbfd0::FUN_00adbfd0_cls *>((manager4))->FUN_00adbfd0((int)(((void *)(::FUN_00559450((int *)&(_other))))), {}, {});
             pending = false;
             unk7F = 0;
             unk7C = 0;
         }
         if (pending & unk7F)
         {
-            float volumeA = v284(target->FUN_00460140()->FUN_00559450(
-                &sound, target->FUN_0044ddc0(), target->FUN_0084e3a0(), target->FUN_006815c0()->FUN_004048e0(),
-                target->FUN_009611e0(), target->FUN_00441110(DAT_011dea3c), 1, 1, 0, 1, 1));
-            Audio* manager3 = FUN_00ad9060();
-            manager3->FUN_00adbfd0(sound.FUN_00559450((void*)FUN_00935d90, FUN_0084e3a0()));
+            float volumeA = v284(((void *)(::FUN_00559450((int *)(((::fnv_009339a0::Obj *)(::FUN_00460140((int)(target)))))
+                ))));
+            Audio* manager3 = ((::fnv_009339a0::Audio *)(::FUN_00ad9060()));
+            reinterpret_cast<::fnv_00adbfd0::FUN_00adbfd0_cls *>((manager3))->FUN_00adbfd0((int)(((void *)(::FUN_00559450((int *)&(sound))))), {}, {});
             unk80 = 0;
-            FUN_008d8520()->v318(volumeA);
+            ((::fnv_009339a0::Obj *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v318(volumeA);
         }
     }
     if (!skip)
@@ -11336,7 +11176,7 @@ void Obj::FUN_009339a0(float delta, Obj* target, bool skip)
         actor_->unk94 = (int)this;
     Obj* item_ = FUN_008d6f30();
     if (item_)
-        item_->FUN_0054baf0();
+        reinterpret_cast<::s54baf0::Owner *>((item_))->FUN_0054baf0();
     v178();
 }
 }  // namespace fnv_009339a0
@@ -11346,7 +11186,6 @@ class TESObjectCELL;
 class GlobalE3D0
 {
   public:
-    bool FUN_004511e0(TESObjectCELL* pkCell, int iFlag);
 };
 
 namespace GlobalsE3D0 {
@@ -11371,7 +11210,7 @@ class FUN_0081e3d0_C
 bool FUN_0081e3d0_C::FUN_0081e3d0()
 {
     bool bResult = true;
-    if (!DAT_011dea10->FUN_004511e0(FUN_008d6f30(), 1))
+    if (!reinterpret_cast<::TESCallHelper *>(((*reinterpret_cast<::GlobalE3D0 * *>(&::g_TES))))->IsCellBuffered(FUN_008d6f30(), 1))
     {
         delete this;
         bResult = false;
@@ -12054,12 +11893,6 @@ class xProc
 };
 struct xInfo
 {
-    bool IsSilent();
-    int GetPrevPath();
-    bool MustReach();
-    bool MustComplete();
-    void* GetLocationPointer();
-    void* GetLoc2();
     void* GetTarget();
 };
 class xConv
@@ -12067,21 +11900,13 @@ class xConv
   public:
     int m_ai[3];
     xConv(class xActorD* pA, class xActorD* pB, void* pTopic);
-    bool Start();
 };
 class xPkg
 {
   public:
     int m_ai[0x34];
     xPkg(xConv* pConv, class xActorD* pA, class xActorD* pB, int i, bool b1, bool b2);
-    void CopyFrom(xInfo* pInfo);
-    void SetFlag(int i);
-    void SetMustReach(bool b);
-    void SetMustComplete(bool b);
-    void SetLoc(void* p);
-    void SetLoc2(void* p);
     void SetTarget(void* p);
-    void SetProcType(int i);
 };
 class xActorD
 {
@@ -12278,69 +12103,13 @@ class xActorD
     virtual void AddPackage(class xPkg* p, int a, int b);
     int m_aiPad[0x19];
     xProc* m_pkProc;
-    xProc* GetProcess();
-    void StopTalk();
-    void SetSpeaker(xActorD* p);
     xPkg* GetCurrentPackage();
     bool StartConversation(xInfo* pInfo);
 };
-extern xActorD* xThePlayer;
-
-// On success, builds a package from pInfo, updates process state, and adds packages for the actors when applicable.
-// @fnv 0x00935480
-bool xActorD::StartConversation(xInfo* pInfo)
-{
-    int qrEZrs = GetProcess()->GetStateX();
-    xConv* qsSDDgz = 0;
-    xActorD* qfTOqo = m_pkProc->GetTarget();
-    if (qfTOqo != xThePlayer)
-        qsSDDgz = new xConv(this, qfTOqo, 0);
-    StopTalk();
-    m_pkProc->Refresh();
-    if (qfTOqo == xThePlayer || qsSDDgz->Start())
-    {
-        if (!pInfo->IsSilent())
-        {
-            GetProcess()->SetTalking(1);
-            GetProcess()->SetPartner(qfTOqo);
-            qfTOqo->GetProcess()->SetTalking(1);
-            qfTOqo->GetProcess()->SetPartner(this);
-        }
-        xPkg* qxQHW = new xPkg(qsSDDgz, this, qfTOqo, 0, 0, pInfo->GetPrevPath() == 0);
-        if (pInfo)
-            qxQHW->CopyFrom(pInfo);
-        qxQHW->SetFlag(0x1c);
-        qxQHW->SetMustReach(pInfo->MustReach());
-        qxQHW->SetMustComplete(pInfo->MustComplete());
-        qxQHW->SetLoc(pInfo->GetLocationPointer());
-        qxQHW->SetLoc2(pInfo->GetLoc2());
-        qxQHW->SetTarget(pInfo->GetTarget());
-        qxQHW->SetProcType(10);
-        GetProcess()->Reset();
-        AddPackage(qxQHW, 0, 1);
-        SetSpeaker(qfTOqo);
-        m_pkProc->SetTarget(qfTOqo);
-        m_pkProc->Update();
-        m_pkProc->Update();
-        if (qfTOqo != xThePlayer && qfTOqo != this)
-        {
-            qfTOqo->GetProcess()->ClearPartner(qfTOqo);
-            qfTOqo->AddPackage(GetCurrentPackage(), 0, 1);
-            qfTOqo->GetProcess()->SetTarget(qfTOqo);
-            qfTOqo->SetSpeaker(this);
-        }
-        else if (!qfTOqo->IsBusyX(0))
-            GetProcess()->SetDialogue(this, 3);
-        return true;
-    }
-    return false;
-}
 
 class FUN_00932070_MobileObject : public MobileObject
 {
   public:
-    void FUN_00484ce0(char* data, unsigned int size);
-    void FUN_0055e940(unsigned int saveID);
     void SaveProcess(unsigned int saveID);
 };
 
@@ -12351,22 +12120,20 @@ void FUN_00932070_MobileObject::SaveProcess(unsigned int saveID)
     char level = -1;
     if (m_pBaseProcess)
     {
-        level = m_pBaseProcess->GetProcessLevel();
+        level = (*(::PROCESS_TYPE *)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pBaseProcess))->FUN_0045cd60()));
     }
-    FUN_00484ce0(&level, 1);
-    FUN_0055e940(saveID);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&level, 1);
+    reinterpret_cast<::fnv_0055e940::SaveReference *>(this)->FUN_0055e940(saveID);
     if (m_pBaseProcess)
     {
         m_pBaseProcess->SaveGame(saveID, this);
     }
 }
 
-extern NiPoint3 DAT_011e05d0;
 
 class MagicProjectileTarget
 {
   public:
-    void __thiscall FUN_0050ea10(NiPoint3& point) const;
 };
 
 class MagicProjectileRef
@@ -12796,8 +12563,8 @@ NiPoint3 __thiscall MagicProjectileObject::FUN_00933630()
     if (unk68 && unk68->vf5f0())
     {
         MagicProjectileTarget* target = unk68->vf5f0();
-        target->FUN_0050ea10(DAT_011e05d0);
-        return DAT_011e05d0;
+        reinterpret_cast<::FUN_0050ea10_class *>((void *)(target))->FUN_0050ea10((*reinterpret_cast<::NiPoint3 *>(&::g_011e05d0)));
+        return (*reinterpret_cast<::NiPoint3 *>(&::g_011e05d0));
     }
     return FUN_0056fb10();
 }
@@ -12806,15 +12573,149 @@ struct Mid83b9a0
 {
     int _pad[2];
     Mid83b9a0* _p8;
-    int* _ref_006815c0();
     bool FUN_0083b9a0();
 };
+// @fnv 0x009edd80
+FUN_009edd80::FUN_009edd80(FUN_0083b9a0_shell* apTopic, Actor* apSpeaker, Actor* apTarget, int aiUnk, bool abUnkBD,
+                           bool abUnkA0)
+{
+    pTopic = apTopic;
+    if (apTopic)
+        reinterpret_cast<::Mid83b9a0 *>((pTopic))->FUN_0083b9a0();
+    iUnkA8 = 0;
+    iUnkAC = 0;
+    m_fPackageValue = 0.0f;
+    m_pDialogueSpeaker = apSpeaker;
+    pTarget = apTarget;
+    m_pDialogueSpeaker->Unk_80(0);
+    iUnk8C = 0;
+    iUnk94 = 0;
+    bUnkBD = abUnkBD;
+    bUnk98 = false;
+    bUnkBE = false;
+    bUnkBF = false;
+    bUnkC0 = false;
+    bUnkBC = true;
+    bUnkC1 = false;
+    iUnk9C = 0;
+    reinterpret_cast<::fnv_00967730::RelationOwner *>((((FUN_00967730_shell*)::_g_thePlayer)))->FUN_00967730((::fnv_00967730::RefDistance *)(apSpeaker), (::fnv_00967730::RefDistance *)(apTarget), (::fnv_00967730::Relationship *)(::FUN_009edd80 *)(this));
+    iUnkC4 = 0;
+    iUnkC8 = 50;
+    iUnkB8 = aiUnk;
+    bUnkA0 = abUnkA0;
+    bUnkC2 = false;
+    bUnkCC = true;
+}
+// @fnv 0x00934fd0
+bool DialogueHost::FUN_00934fd0(MobileObject* target, int aiUnused2, int aiUnused3, int aiUnused4, int aiUnused5,
+                                bool refresh, TESTopic* topic, int aiUnused8, int aiUnused9)
+{
+    if (FUN_00931850() || ((DialogueHost*)target)->FUN_00931850())
+        return false;
+    TESPackage* context = ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(((MobileObject*)this)))->GetBaseTexture()))->GetCurrentPackage();
+    Conversation* speaker = 0;
+    if (!target || (target->Unk_85() != 0 && target->Unk_85() != 4 && target->Unk_85() != 9))
+        return false;
+    MobileObject* conversation = (MobileObject*)this;
+    int previous = 0;
+    if (((bool)(::FUN_00574900((const unsigned char *)(((MobileObject*)this))))))
+        conversation = GetDialogueSpeaker(target, &previous);
+    if (target != (MobileObject*)::_g_thePlayer)
+        speaker = new Conversation((Character*)conversation, (PlayerCharacter*)target, topic);
+    reinterpret_cast<::FUN_00934250_shell *>(this)->FUN_00934250();
+    process->StopRunOncePackage();
+    if (target == (MobileObject*)::_g_thePlayer || reinterpret_cast<::Mid83b9a0 *>((speaker))->FUN_0083b9a0())
+    {
+        ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(((MobileObject*)this)))->GetBaseTexture()))->SetProcessReference((MobileObject*)this);
+        ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(((MobileObject*)this)))->GetBaseTexture()))->ClearCachedTargetReferences(true);
+        ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(((MobileObject*)this)))->GetBaseTexture()))->ClearHighProcessState(target);
+        ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(target))->GetBaseTexture()))->ClearCachedTargetReferences(true);
+        ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(target))->GetBaseTexture()))->ClearHighProcessState(this);
+        FUN_009edd80* location =
+            new FUN_009edd80((FUN_0083b9a0_shell*)speaker, (Actor*)this, (Actor*)target, previous, true, true);
+        location->iUnk8C = (int)topic;
+        if (context)
+            reinterpret_cast<::fnv_0067a1b0::FUN_0067a1b0_shell *>((((PackageMethods*)location)))->FUN_0067a1b0(context);
+        reinterpret_cast<::PackageEx *>((((PackageMethods*)location)))->SetPackageType(28);
+        reinterpret_cast<::TESPackage *>((((PackageMethods*)location)))->SetMustReachLocation(true);
+        reinterpret_cast<::TESPackage *>((((PackageMethods*)location)))->SetMustComplete(true);
+        FUN_00670b30* package = (FUN_00670b30*)new FUN_0067f030;
+        reinterpret_cast<::LocationDescriptor *>((package))->FUN_0067f3c0(target);
+        reinterpret_cast<::fnv_00671d30::FUN_00671d30_shell *>((((PackageMethods*)location)))->FUN_00671d30((::fnv_00671d30::LocationDescriptor *)(package));
+        delete package;
+        PackageTargetObj* destination = new PackageTargetObj;
+        reinterpret_cast<::FUN_00672fc0_shell *>((((PackageMethods*)location)))->FUN_00672fc0((::PackageTargetRecord *)(destination));
+        delete destination;
+        reinterpret_cast<::TESPackage *>((((PackageMethods*)location)))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(10));
+        reinterpret_cast<::PackageTargetRecord *>((((::PackageTargetObj *)(reinterpret_cast<::Script *>((((PackageMethods*)location)))->GetData()))))->SetTargetKind((::PACK_TARG_TYPE)(0));
+        reinterpret_cast<::PackageTargetRecord *>((((::PackageTargetObj *)(reinterpret_cast<::Script *>((((PackageMethods*)location)))->GetData()))))->SetTargetObjectReference(target);
+        if (Unk_85() == 4)
+            reinterpret_cast<::TESRegionGrassObject *>((((::PackageTargetObj *)(reinterpret_cast<::Script *>((((PackageMethods*)location)))->GetData()))))->AssignLandTexture((::TESLandTexture *)(200));
+        else
+            reinterpret_cast<::TESRegionGrassObject *>((((::PackageTargetObj *)(reinterpret_cast<::Script *>((((PackageMethods*)location)))->GetData()))))->AssignLandTexture((::TESLandTexture *)(90));
+        ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(((MobileObject*)this)))->GetBaseTexture()))->ResetPackageState();
+        SetDialoguePackage(location, false, true);
+        if (refresh)
+            ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(((MobileObject*)this)))->GetBaseTexture()))->SetProcessTarget((MobileObject*)this, 1);
+        return true;
+    }
+    return false;
+}
+// On success, builds a package from pInfo, updates process state, and adds packages for the actors when applicable.
+// @fnv 0x00935480
+bool xActorD::StartConversation(xInfo* pInfo)
+{
+    int qrEZrs = ((::xProc *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->GetStateX();
+    xConv* qsSDDgz = 0;
+    xActorD* qfTOqo = m_pkProc->GetTarget();
+    if (qfTOqo != (*reinterpret_cast<::xActorD * *>(&::_g_thePlayer)))
+        qsSDDgz = new xConv(this, qfTOqo, 0);
+    reinterpret_cast<::FUN_00934250_shell *>(this)->FUN_00934250();
+    m_pkProc->Refresh();
+    if (qfTOqo == (*reinterpret_cast<::xActorD * *>(&::_g_thePlayer)) || reinterpret_cast<::Mid83b9a0 *>((qsSDDgz))->FUN_0083b9a0())
+    {
+        if (!reinterpret_cast<::FUN_0067a690_shell *>((pInfo))->HasFlag100000())
+        {
+            ((::xProc *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->SetTalking(1);
+            ((::xProc *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->SetPartner(qfTOqo);
+            ((::xProc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((qfTOqo))->GetBaseTexture()))->SetTalking(1);
+            ((::xProc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((qfTOqo))->GetBaseTexture()))->SetPartner(this);
+        }
+        xPkg* qxQHW = new xPkg(qsSDDgz, this, qfTOqo, 0, 0, ((int)(reinterpret_cast<::BGSCameraPath *>((pInfo))->GetPrevPath())) == 0);
+        if (pInfo)
+            reinterpret_cast<::fnv_0067a1b0::FUN_0067a1b0_shell *>((qxQHW))->FUN_0067a1b0((::TESPackage *)(pInfo));
+        reinterpret_cast<::PackageEx *>((qxQHW))->SetPackageType(0x1c);
+        reinterpret_cast<::TESPackage *>((qxQHW))->SetMustReachLocation(::FUN_008b1ff0((const char *)(pInfo)));
+        reinterpret_cast<::TESPackage *>((qxQHW))->SetMustComplete(reinterpret_cast<::FUN_0067efd0_shell *>((pInfo))->FUN_0067efd0());
+        reinterpret_cast<::fnv_00671d30::FUN_00671d30_shell *>((qxQHW))->FUN_00671d30((::fnv_00671d30::LocationDescriptor *)(void *)(((void *)(reinterpret_cast<::BGSMessageInitAccess *>((pInfo))->GetIconFormID()))));
+        reinterpret_cast<::fnv_00671e10::FUN_00671e10_shell *>((qxQHW))->FUN_00671e10((::fnv_00671e10::LocationDescriptor *)(void *)(((void *)(reinterpret_cast<::FUN_00672dd0_shell *>((pInfo))->FUN_00672dd0()))));
+        reinterpret_cast<::FUN_00672fc0_shell *>((qxQHW))->FUN_00672fc0((::PackageTargetRecord *)(void *)(((void *)(reinterpret_cast<::Script *>((pInfo))->GetData()))));
+        reinterpret_cast<::TESPackage *>((qxQHW))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(10));
+        ((::xProc *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->Reset();
+        AddPackage(qxQHW, 0, 1);
+        reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>(this)->FUN_0057bd60((::fnv_0057bd60::MobileObject *)(qfTOqo));
+        m_pkProc->SetTarget(qfTOqo);
+        reinterpret_cast<::TESForm *>((m_pkProc))->ClearData();
+        reinterpret_cast<::TESForm *>((m_pkProc))->ClearData();
+        if (qfTOqo != (*reinterpret_cast<::xActorD * *>(&::_g_thePlayer)) && qfTOqo != this)
+        {
+            ((::xProc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((qfTOqo))->GetBaseTexture()))->ClearPartner(qfTOqo);
+            qfTOqo->AddPackage(((::xPkg *)(reinterpret_cast<::FUN_009344a0_shell *>(this)->FUN_009344a0())), 0, 1);
+            ((::xProc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((qfTOqo))->GetBaseTexture()))->SetTarget(qfTOqo);
+            reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>((qfTOqo))->FUN_0057bd60((::fnv_0057bd60::MobileObject *)(::xActorD *)(this));
+        }
+        else if (!qfTOqo->IsBusyX(0))
+            ((::xProc *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->SetDialogue(this, 3);
+        return true;
+    }
+    return false;
+}
 // Sets _p8 to this, then returns whether the value pointed to by _ref_006815c0() is non-zero.
 // @fnv 0x0083b9a0
 bool Mid83b9a0::FUN_0083b9a0()
 {
     _p8 = this;
-    return _p8 && *_p8->_ref_006815c0() ? 1 : 0;
+    return _p8 && *((int *)(new ((void *)(_p8)) ::Vec3())) ? 1 : 0;
 }
 
 namespace fnv_009344d0 {
@@ -12828,13 +12729,6 @@ struct SoundRef
     ~SoundRef();
     SoundRef& operator=(const SoundRef&);
     SoundRef& FUN_00418900(const SoundRef&);
-    unsigned int FUN_00559450();
-    void FUN_00ad8be0(float, float);
-    bool FUN_00ad8b60(float, float, float);
-    void FUN_00ad8f20(void*);
-    bool SetStaticAttenuation(int);
-    void FUN_00ad8870(int, int);
-    int FUN_00ad8b30();
 };
 struct FUN_0040c0e0
 {
@@ -12843,18 +12737,13 @@ struct FUN_0040c0e0
     unsigned short capacity;
     FUN_0040c0e0(const char*);
     ~FUN_0040c0e0();
-    const char* FUN_00559450();
 };
 struct Package
 {
-    int FUN_005f36f0();
 };
 struct Item
 {
     ~Item();
-    unsigned int FUN_00559450();
-    void FUN_004d5930(void*, float);
-    double GetNegativeMagnitude();
     int FUN_004d5850(int);
 };
 struct ActorObject;
@@ -13547,16 +13436,10 @@ struct ActorObject
     int unk78;
     unsigned char flag7c;
     unsigned char flag7d;
-    unsigned char FUN_00574900();
     __forceinline Process* GetProcess()
     {
-        return (Process*)((MobileObject*)this)->GetCurrentAIProcess();
+        return (Process*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(((MobileObject*)this)))->GetBaseTexture()));
     }
-    void FUN_00934250();
-    double FUN_005723b0(void*, int, int);
-    unsigned int FUN_0084e3a0();
-    Package* FUN_009344a0();
-    void* FUN_005e3fa0();
     float FUN_009344d0(const char*, SoundRef*, unsigned int, unsigned int, int, int, int, ActorObject*, unsigned char,
                        unsigned char, unsigned char, unsigned char, unsigned char);
 };
@@ -13566,16 +13449,12 @@ struct Point
 };
 struct Node
 {
-    void* FUN_007af430();
 };
 struct Setting
 {
-    float* FUN_00403e20();
-    int* FUN_0043d4d0();
 };
 struct EventManager
 {
-    void StartLipSyncTask(ActorObject*, const char*);
 };
 struct Audio
 {
@@ -13584,32 +13463,14 @@ struct Audio
 typedef void(__cdecl* SoundCallback)(void*, unsigned int);
 struct AudioManager
 {
-    void FUN_00adc050(unsigned int, SoundCallback, unsigned int);
 };
 struct Clock
 {
-    int FUN_00825c00();
 };
 struct PlayerCharacter_ext : public PlayerCharacter
 {
-    bool FUN_004eaf60();
 };
-extern float DAT_011d951c;
-extern Setting g_011cd378, originalRuntimeFloatSetting1221, g_011e060c, originalRuntimeFloatSetting184;
-extern EventManager g_011f11e0;
-extern Clock g_timeGlobal;
-extern double DAT_0101db88, DAT_01017b70, DAT_01012060, DAT_01017a40;
-extern float g_011c56fc_arg1;
 extern char str_01084d70;
-int __cdecl FUN_00406d30(char*, unsigned int, const char*);
-bool __cdecl BuildLipPath(FUN_0040c0e0&);
-Item* __cdecl FUN_004d52d0(const FUN_0040c0e0&);
-void __cdecl SetFormAccumulate(void*, unsigned int);
-Audio* __cdecl FUN_00453a70();
-AudioManager* __cdecl FUN_00ad9060();
-float __cdecl FUN_005790d0();
-float __cdecl FUN_005790b0();
-double __cdecl FUN_008a2d20();
 // Creates and queues a named sound, configures playback parameters, and returns a computed float.
 // @fnv 0x009344d0
 float ActorObject::FUN_009344d0(const char* apSoundName, SoundRef* apSoundRef, unsigned int arg3, unsigned int arg4,
@@ -13623,46 +13484,46 @@ float ActorObject::FUN_009344d0(const char* apSoundName, SoundRef* apSoundRef, u
     {
         Item* curItem;
 
-        if (!FUN_00574900())
+        if (!::FUN_00574900((const unsigned char *)this))
             return 0.0f;
         {
             char text[512];
             float elapsed = 0.0f;
             FUN_0040c0e0 callState2(apSoundName);
-            curItem = GetProcess()->v223();
+            curItem = ((::fnv_009344d0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v223();
             ActorObject* isPlayer = 0;
             v181(arg3);
             v183(arg4);
             if (apSoundName == 0)
                 return 0.0f;
-            FUN_00406d30(text, 512, apSoundName);
-            FUN_00934250();
+            ::TaskQueueInterface::CopyStringToBuffer(text, 512, apSoundName);
+            reinterpret_cast<::FUN_00934250_shell *>(this)->FUN_00934250();
             unsigned char child = (unsigned char)(int)(this == (void*)_g_thePlayer);
             float active = 0.0f;
             float timeMs;
             playFlag = child ? (unsigned char)1 : playerSound;
-            if (FUN_005723b0(_g_thePlayer, 0, 0) < *g_011cd378.FUN_0043d4d0() &&
-                (!child || (child && ((PlayerCharacter_ext*)_g_thePlayer)->FUN_004eaf60())))
+            if (((double)(reinterpret_cast<::RefS *>(this)->FUN_005723b0((::RefS *)(_g_thePlayer), 0, 0))) < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_009344d0::Setting *>(&::g_011cd378)))))) &&
+                (!child || (child && reinterpret_cast<::FUN_004eaf60_shell *>((((PlayerCharacter_ext*)_g_thePlayer)))->FUN_004eaf60())))
                 isPlayer = v110(0);
             if (!curItem)
             {
-                if (arg12 && !GetProcess()->v222())
+                if (arg12 && !((::fnv_009344d0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v222())
                 {
-                    if (BuildLipPath(callState2))
+                    if (::BuildLipPath((::BSStringT<char> &)(callState2)))
                     {
                         if (arg11)
                         {
-                            GetProcess()->v220(1);
-                            GetProcess()->v85(1);
-                            g_011f11e0.StartLipSyncTask(this, callState2.FUN_00559450());
+                            ((::fnv_009344d0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v220(1);
+                            ((::fnv_009344d0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v85(1);
+                            reinterpret_cast<::fnv_00905f30::S_00905f30_Owner *>(&((*reinterpret_cast<::fnv_009344d0::EventManager *>(&::fnv_008a20d0::g_011f11e0))))->StartLipSyncTask((::fnv_00905f30::S_00905f30_Actor *)(::fnv_009344d0::ActorObject *)(this), ((const char *)(::FUN_00559450((int *)&(callState2)))));
                             return 0.0f;
                         }
                         else
                         {
-                            curItem = FUN_004d52d0(callState2);
+                            curItem = ((::fnv_009344d0::Item *)(::LoadBGSTerrainManager((const ::NiPointer< ::NiNode> &)(callState2))));
                             if (!curItem)
-                                DAT_011d951c = *originalRuntimeFloatSetting1221.FUN_00403e20();
-                            GetProcess()->v220(0);
+                                ::DAT_011d951c = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009344d0::Setting *>(&::originalRuntimeFloatSetting1221))))));
+                            ((::fnv_009344d0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v220(0);
                         }
                     }
                 }
@@ -13672,10 +13533,10 @@ float ActorObject::FUN_009344d0(const char* apSoundName, SoundRef* apSoundRef, u
                     found = v110(0);
                     if (found)
                         found->v73(&str_01084d70);
-                    if (GetProcess()->v222())
+                    if (((::fnv_009344d0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v222())
                     {
-                        SetFormAccumulate((void*)FUN_0084e3a0(), 0);
-                        GetProcess()->v221(0);
+                        ::SetFormAccumulate((int)((void*)((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))));
+                        ((::fnv_009344d0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v221(0);
                     }
                 }
             }
@@ -13695,77 +13556,77 @@ float ActorObject::FUN_009344d0(const char* apSoundName, SoundRef* apSoundRef, u
                     if (tmp->v64())
                     {
                         ActorObject* c = tmp;
-                        Package* kIter = c->FUN_009344a0();
-                        if (kIter && kIter->FUN_005f36f0())
+                        Package* kIter = ((::fnv_009344d0::Package *)(reinterpret_cast<::FUN_009344a0_shell *>((c))->FUN_009344a0()));
+                        if (kIter && ((int)(reinterpret_cast<::BGSCameraPath *>((kIter))->GetPrevPath())))
                             next = 0;
                     }
                     if (otherTarget || next)
-                        tmp->GetProcess()->v17(tmp, otherTarget, (otherTarget != 0) + 2, 0, 1, 1);
+                        ((::fnv_009344d0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((tmp))->GetBaseTexture()))->v17(tmp, otherTarget, (otherTarget != 0) + 2, 0, 1, 1);
                 }
             }
             if (curItem)
             {
-                active = (float)((double)curItem->FUN_00559450() / DAT_0101db88);
-                curItem->FUN_004d5930(isPlayer, g_011c56fc_arg1);
+                active = (float)((double)((unsigned int)(::FUN_00559450((int *)(curItem)))) / ::DAT_0101db88);
+                reinterpret_cast<::LipSyncAnimation *>((curItem))->ApplyToAnimationData((::BSFaceGenAnimationData *)(isPlayer), ::DAT_0101df44);
             }
-            if (update && GetProcess())
-                GetProcess()->v187(arg3);
+            if (update && ((::fnv_009344d0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))
+                ((::fnv_009344d0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v187(arg3);
             unsigned int flagsZ = 0x104;
-            Node* node2 = (Node*)FUN_005e3fa0();
-            if (node2 && node2->FUN_007af430())
+            Node* node2 = (Node*)((void *)(reinterpret_cast<::DialogueItem *>(this)->SelectDefaultResponseList()));
+            if (node2 && ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((node2))->FUN_007af430())))
             {
-                void* space1 = node2->FUN_007af430();
+                void* space1 = ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((node2))->FUN_007af430()));
             }
             if (!playFlag)
                 flagsZ |= 2;
             else
                 flagsZ |= 1;
-            *apSoundRef = FUN_00453a70()->FUN_00ad7480(text, flagsZ, 0);
-            mgr = FUN_00ad9060();
+            reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::fnv_009344d0::SoundRef &)(*apSoundRef))->operator=((const ::SoundPlaybackHandle &)((const ::fnv_009344d0::SoundRef &)(((::fnv_009344d0::Audio *)(::FUN_00453a70()))->FUN_00ad7480(text, flagsZ, 0))));
+            mgr = ((::fnv_009344d0::AudioManager *)(::FUN_00ad9060()));
             ActorObject* kSource;
             kSource = this;
             if (other && other->v64())
                 kSource = other;
-            mgr->FUN_00adc050(apSoundRef->FUN_00559450(), SetFormAccumulate, kSource->FUN_0084e3a0());
+            reinterpret_cast<::fnv_00adc050::FUN_00adc050_cls *>((mgr))->FUN_00adc050(((unsigned int)(::FUN_00559450((int *)(apSoundRef)))), (int)(((void (&)(void *, unsigned int))::SetFormAccumulate)), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((kSource))->FUN_0084e3a0())));
             if (!playFlag)
             {
                 Point pos = *v125();
-                apSoundRef->FUN_00ad8be0(FUN_005790b0(), FUN_005790d0());
-                apSoundRef->FUN_00ad8b60(pos.x, pos.y, pos.z);
-                apSoundRef->FUN_00ad8f20(v116());
+                reinterpret_cast<::FUN_00ad8be0_shell *>((apSoundRef))->FUN_00ad8be0(::FUN_005790b0(), ::FUN_005790d0());
+                reinterpret_cast<::FUN_00ad8b60_h *>((apSoundRef))->FUN_00ad8b60(pos.x, pos.y, pos.z);
+                reinterpret_cast<::FUN_00ad8f20_shell *>((apSoundRef))->FUN_00ad8f20((::NiAVObject *)(void *)(v116()));
             }
             else
-                apSoundRef->SetStaticAttenuation((int)(*g_011e060c.FUN_00403e20() * DAT_01017a40));
+                reinterpret_cast<::FUN_00ad89b0_shell *>((apSoundRef))->SetStaticAttenuation((int)(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009344d0::Setting *>(&::g_011e060c)))))) * ::g_d100));
             if (curItem)
             {
-                timeMs = (float)((curItem->GetNegativeMagnitude() + FUN_008a2d20()) * DAT_01017b70);
-                apSoundRef->FUN_00ad8870((int)timeMs, 0);
-                elapsed = (float)(curItem->GetNegativeMagnitude() + FUN_008a2d20());
-                if (active > DAT_01012060)
+                timeMs = (float)((((double)(reinterpret_cast<::FUN_004d5a90_Class *>((curItem))->GetNegativeMagnitude())) + ((double)(::fnv_008a2d20::FUN_008a2d20()))) * ::DAT_01017b70);
+                reinterpret_cast<::SoundPlaybackHandle *>((apSoundRef))->SchedulePlayback((int)timeMs, 0);
+                elapsed = (float)(((double)(reinterpret_cast<::FUN_004d5a90_Class *>((curItem))->GetNegativeMagnitude())) + ((double)(::fnv_008a2d20::FUN_008a2d20())));
+                if (active > ::_DAT_01012060)
                     elapsed += active;
-                else if (apSoundRef->FUN_00ad8b30())
-                    elapsed = (float)(apSoundRef->FUN_00ad8b30() / DAT_01017b70 + elapsed);
+                else if (::FUN_00ad8b30((unsigned int *)(apSoundRef)))
+                    elapsed = (float)(::FUN_00ad8b30((unsigned int *)(apSoundRef)) / ::DAT_01017b70 + elapsed);
                 else
-                    elapsed = (float)((double)duration * *originalRuntimeFloatSetting184.FUN_00403e20() + elapsed);
-                GetProcess()->v467(g_timeGlobal.FUN_00825c00() + (int)timeMs);
-                GetProcess()->v465(curItem);
+                    elapsed = (float)((double)duration * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009344d0::Setting *>(&::originalRuntimeFloatSetting184)))))) + elapsed);
+                ((::fnv_009344d0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v467(((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_009344d0::Clock *>(&::g_timeGlobal))))->FUN_00825c00())) + (int)timeMs);
+                ((::fnv_009344d0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v465(curItem);
             }
             else
             {
-                apSoundRef->FUN_00ad8870(1, 0);
-                elapsed = (float)((double)duration * *originalRuntimeFloatSetting184.FUN_00403e20());
+                reinterpret_cast<::SoundPlaybackHandle *>((apSoundRef))->SchedulePlayback(1, 0);
+                elapsed = (float)((double)duration * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009344d0::Setting *>(&::originalRuntimeFloatSetting184)))))));
             }
             if (flag7d)
                 flag7c = 0;
-            GetProcess()->v292(0, *apSoundRef);
+            ((::fnv_009344d0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v292(0, *apSoundRef);
             if (curItem)
             {
-                if (curItem != GetProcess()->v466())
+                if (curItem != ((::fnv_009344d0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v466())
                 {
                     delete curItem;
                 }
-                GetProcess()->v224(0);
-                GetProcess()->v220(0);
+                ((::fnv_009344d0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v224(0);
+                ((::fnv_009344d0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v220(0);
             }
             return elapsed;
         }
@@ -13774,8 +13635,6 @@ float ActorObject::FUN_009344d0(const char* apSoundName, SoundRef* apSoundRef, u
 }  // namespace fnv_009344d0
 
 namespace fnv_0092ed60 {
-extern int DAT_01184920;
-extern int DAT_011a0e88;
 extern "C" void* __cdecl FNV_DynamicCast(void*, long, void*, void*, int);
 
 class FNVPoly
@@ -14195,44 +14054,33 @@ class FNVPoly
 class BSShaderNoLightingProperty
 {
   public:
-    FNVPoly* FUN_008d8520();
 };
 class FNVTreeRoot;
 class FUN_005be5c0_shell
 {
   public:
-    unsigned int FUN_005be5c0(unsigned int);
 };
 class TopicInfoArray : public FUN_005be5c0_shell
 {
   public:
-    TESObjectREFR* FUN_00968670(unsigned int);
-    unsigned int FUN_005de0f0(unsigned int);
 };
 class FNVTreeRoot
 {
   public:
     TopicInfoArray* FUN_00717e50();
 };
-extern int DAT_011e0e80;
-extern Actor* _g_thePlayer;
 
 class FNVReferenceActions
 {
   public:
-    void FUN_008c4f10(void*);
-    void FUN_009c4c80(void*);
 };
 class FUN_009b28a0_t
 {
   public:
-    void FUN_009b28a0(void*);
 };
 class FUN_0092f140_shell
 {
   public:
-    void* GetFieldD2C();
-    void FUN_00524d70();
 };
 class FNVCurrent : public TESObjectREFR
 {
@@ -14243,45 +14091,45 @@ class FNVCurrent : public TESObjectREFR
 // @fnv 0x0092ed60
 void FNVCurrent::FUN_0092ed60(bool refresh)
 {
-    TopicInfoArray* topicInfoArray = reinterpret_cast<FNVTreeRoot*>(&DAT_011e0e80)->FUN_00717e50();
+    TopicInfoArray* topicInfoArray = reinterpret_cast<FNVTreeRoot*>(&(*reinterpret_cast<int *>(&::g_011e0e80)))->FUN_00717e50();
     TESObjectREFR* index = 0;
     unsigned int array = 0;
-    for (; array < topicInfoArray->FUN_005be5c0(0); ++array)
+    for (; array < reinterpret_cast<::FUN_005be5c0_shell *>((topicInfoArray))->FUN_005be5c0(0); ++array)
     {
-        index = topicInfoArray->FUN_00968670(array);
+        index = ((::TESObjectREFR *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((topicInfoArray))->FUN_00968670(array)));
         if (index != this)
         {
             if (index->IsActor())
             {
                 TESObjectREFR* first = index;
 
-                reinterpret_cast<BSShaderNoLightingProperty*>(first)->FUN_008d8520()->v664(this);
+                ((::fnv_0092ed60::FNVPoly *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<BSShaderNoLightingProperty*>(first)))->GetBaseTexture()))->v664(this);
                 if (refresh)
                 {
-                    reinterpret_cast<FNVReferenceActions*>(first)->FUN_008c4f10(
-                        reinterpret_cast<FNVPoly*>(this)->v198());
+                    reinterpret_cast<::S_8c4f10_Cls *>((reinterpret_cast<FNVReferenceActions*>(first)))->FUN_008c4f10(
+                        (int)(reinterpret_cast<FNVPoly*>(this)->v198()));
                 }
 
-                if (reinterpret_cast<BSShaderNoLightingProperty*>(first)->FUN_008d8520()->v3d0() ==
+                if (((::fnv_0092ed60::FNVPoly *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<BSShaderNoLightingProperty*>(first)))->GetBaseTexture()))->v3d0() ==
                     reinterpret_cast<FNVPoly*>(this)->v19c())
                 {
 
-                    reinterpret_cast<BSShaderNoLightingProperty*>(first)->FUN_008d8520()->v3d4(0);
+                    ((::fnv_0092ed60::FNVPoly *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<BSShaderNoLightingProperty*>(first)))->GetBaseTexture()))->v3d4(0);
                 }
             }
             else if (reinterpret_cast<FNVPoly*>(index)->v224())
             {
                 TESObjectREFR* other = index;
-                reinterpret_cast<FNVReferenceActions*>(other)->FUN_009c4c80(this);
+                reinterpret_cast<::RemOwner *>((reinterpret_cast<FNVReferenceActions*>(other)))->FUN_009c4c80((::RemForm *)(void *)(this));
             }
             else if (reinterpret_cast<FNVPoly*>(index)->v220())
             {
                 TESObjectREFR* other = index;
-                reinterpret_cast<FUN_009b28a0_t*>(other)->FUN_009b28a0(this);
+                reinterpret_cast<::FUN_009b28a0_t *>((reinterpret_cast<FUN_009b28a0_t*>(other)))->FUN_009b28a0((unsigned int)(this));
             }
             else if (refresh)
             {
-                void* mobile = FNV_DynamicCast(index, 0, &DAT_01184920, &DAT_011a0e88, 0);
+                void* mobile = FNV_DynamicCast(index, 0, &(*reinterpret_cast<int *>(&::DAT_01184920)), &::SaveInitialData85A520::DAT_011a0e88, 0);
                 if (mobile)
                 {
 
@@ -14291,10 +14139,10 @@ void FNVCurrent::FUN_0092ed60(bool refresh)
         }
     }
     {
-        unsigned int offset = topicInfoArray->FUN_005de0f0(1);
-        for (; offset < topicInfoArray->FUN_005be5c0(1); ++offset)
+        unsigned int offset = reinterpret_cast<::fnv_005de0f0::FUN_005de0f0_shell *>((topicInfoArray))->FUN_005de0f0(1);
+        for (; offset < reinterpret_cast<::FUN_005be5c0_shell *>((topicInfoArray))->FUN_005be5c0(1); ++offset)
         {
-            index = topicInfoArray->FUN_00968670(offset);
+            index = ((::TESObjectREFR *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((topicInfoArray))->FUN_00968670(offset)));
             if (index != this)
             {
                 Actor* target = dynamic_cast<Actor*>(reinterpret_cast<MobileObject*>(index));
@@ -14303,20 +14151,20 @@ void FNVCurrent::FUN_0092ed60(bool refresh)
                     if (refresh)
                     {
 
-                        reinterpret_cast<FNVReferenceActions*>(target)->FUN_008c4f10(
-                            reinterpret_cast<FNVPoly*>(this)->v198());
+                        reinterpret_cast<::S_8c4f10_Cls *>((reinterpret_cast<FNVReferenceActions*>(target)))->FUN_008c4f10(
+                            (int)(reinterpret_cast<FNVPoly*>(this)->v198()));
                     }
 
-                    if (reinterpret_cast<BSShaderNoLightingProperty*>(target)->FUN_008d8520()->v3d0() ==
+                    if (((::fnv_0092ed60::FNVPoly *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<BSShaderNoLightingProperty*>(target)))->GetBaseTexture()))->v3d0() ==
                         reinterpret_cast<FNVPoly*>(this)->v19c())
                     {
 
-                        reinterpret_cast<BSShaderNoLightingProperty*>(target)->FUN_008d8520()->v3d4(0);
+                        ((::fnv_0092ed60::FNVPoly *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<BSShaderNoLightingProperty*>(target)))->GetBaseTexture()))->v3d4(0);
                     }
                 }
                 else if (refresh)
                 {
-                    void* mobile2 = FNV_DynamicCast(index, 0, &DAT_01184920, &DAT_011a0e88, 0);
+                    void* mobile2 = FNV_DynamicCast(index, 0, &(*reinterpret_cast<int *>(&::DAT_01184920)), &::SaveInitialData85A520::DAT_011a0e88, 0);
                     if (mobile2)
                     {
 
@@ -14326,42 +14174,40 @@ void FNVCurrent::FUN_0092ed60(bool refresh)
             }
         }
     }
-    if (_g_thePlayer)
+    if ((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))
     {
-        if (reinterpret_cast<BSShaderNoLightingProperty*>(_g_thePlayer)->FUN_008d8520())
+        if (((::fnv_0092ed60::FNVPoly *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<BSShaderNoLightingProperty*>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->GetBaseTexture())))
         {
 
-            reinterpret_cast<BSShaderNoLightingProperty*>(_g_thePlayer)->FUN_008d8520()->v664(this);
+            ((::fnv_0092ed60::FNVPoly *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<BSShaderNoLightingProperty*>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->GetBaseTexture()))->v664(this);
         }
         if (refresh)
         {
 
-            reinterpret_cast<FNVReferenceActions*>(_g_thePlayer)
-                ->FUN_008c4f10(reinterpret_cast<FNVPoly*>(this)->v198());
+            reinterpret_cast<::S_8c4f10_Cls *>((reinterpret_cast<FNVReferenceActions*>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->FUN_008c4f10((int)(reinterpret_cast<FNVPoly*>(this)->v198()));
         }
-        if (reinterpret_cast<BSShaderNoLightingProperty*>(_g_thePlayer)->FUN_008d8520())
+        if (((::fnv_0092ed60::FNVPoly *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<BSShaderNoLightingProperty*>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->GetBaseTexture())))
         {
 
-            if (reinterpret_cast<BSShaderNoLightingProperty*>(_g_thePlayer)->FUN_008d8520()->v3d0() ==
+            if (((::fnv_0092ed60::FNVPoly *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<BSShaderNoLightingProperty*>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->GetBaseTexture()))->v3d0() ==
                 reinterpret_cast<FNVPoly*>(this)->v19c())
             {
 
-                reinterpret_cast<BSShaderNoLightingProperty*>(_g_thePlayer)->FUN_008d8520()->v3d4(0);
+                ((::fnv_0092ed60::FNVPoly *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<BSShaderNoLightingProperty*>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->GetBaseTexture()))->v3d4(0);
             }
         }
-        if (_g_thePlayer && reinterpret_cast<FUN_0092f140_shell*>(_g_thePlayer)->GetFieldD2C() == this)
+        if ((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)) && ((void *)(reinterpret_cast<::FUN_0092f140_shell *>((reinterpret_cast<FUN_0092f140_shell*>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->GetFieldD2C())) == this)
         {
-            reinterpret_cast<FUN_0092f140_shell*>(_g_thePlayer)->FUN_00524d70();
+            ::fnv_00524d70::FUN_00524d70((char *)(reinterpret_cast<FUN_0092f140_shell*>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))));
         }
     }
 }
 }  // namespace fnv_0092ed60
 
 extern int DAT_0118a690;
-extern int _DAT_01183028;
 void* __cdecl FNV_DynamicCast(void*, int, void*, void*, int);
 // @fnv 0x00933480
 int FUN_00933480(void* apObject)
 {
-    return FNV_DynamicCast(apObject, 0, &_DAT_01183028, &DAT_0118a690, 0) != 0;
+    return FNV_DynamicCast(apObject, 0, &::DAT_01183028, &DAT_0118a690, 0) != 0;
 }

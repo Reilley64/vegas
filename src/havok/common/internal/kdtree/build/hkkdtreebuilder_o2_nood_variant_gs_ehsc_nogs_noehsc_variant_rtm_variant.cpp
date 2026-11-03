@@ -5,6 +5,11 @@
 // src/havok/common/internal/kdtree/build/hkkdtreebuilder_o2_nood_variant_gs_ehsc_nogs_noehsc_variant.cpp - flag-variant unit created 2026-10-31 by flag_proofs.py: contributor code for these functions matched byte for
 // byte only under /MT /O2 /GS- /EHs-c- /Gy (unit src/havok/common/internal/kdtree/build/hkkdtreebuilder_o2_nood_variant.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/symbols_00cfc000.h"
+#include "fnv/symbols_00d19000.h"
+#include "fnv/symbols_01268000.h"
 #include "fnv_asm_helpers.h"
 // src/havok/common/internal/kdtree/build/hkkdtreebuilder_o2_nood_variant.cpp - flag-variant unit created 2026-10-24 by flag_moves.py: the bytes and the matched neighbours of these functions
 // say /MT /O2 /GS /EHsc /Gy (unit src/havok/common/internal/kdtree/build/hkkdtreebuilder.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions to their real
@@ -145,7 +150,7 @@ public:
 static T*s_instance;
 static __forceinline T&__cdecl GetMonitorStream()
 {
-return*s_instance;
+return*(*reinterpret_cast<::hkError * *>(&::DAT_01268360));
 }
 protected:
 hkSingleton(){}
@@ -592,7 +597,7 @@ int splittingValue2=(splitPlaneMidRight+1)<<10;
 initializeIterator(entry,buffersIn.m_pProjectedEntryBegin);
 FieldlessRecord*endEntry=buffersIn.m_pProjectedEntryBegin+numPrimitives;
 hkBool fullyBalancedFallback=(numPartitioned[0]==0 || numPartitioned[1]==0 || numPartitioned[2]==0 || numPartitioned[3]==0);
-if(fullyBalancedFallback)
+if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(fullyBalancedFallback))->FUN_005609f0())
 {
 fullyBalancedFallbackJump:
 
@@ -602,7 +607,7 @@ int evenJobSize=numPrimitives / 4;
 if(treeSize<KdTree::getSizeForFastBuild(evenJobSize)*4+8)
 {
 
-if(1){char assertBuf[512];hkErrStream ostr(assertBuf,sizeof(assertBuf));ostr<<DAT_010da240;if(hkError::GetMonitorStream().message(hkError::MESSAGE_ERROR,0x5010d60c,assertBuf,DAT_010da21c,408)){fnv_Breakpoint();}}else;
+if(1){char assertBuf[512];hkErrStream ostr(assertBuf,sizeof(assertBuf));reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(ostr))->FUN_00cc01c0(DAT_010da240);if(hkError::GetMonitorStream().message(hkError::MESSAGE_ERROR,0x5010d60c,assertBuf,DAT_010da21c,408)){fnv_Breakpoint();}}else;
 }
 FieldlessRecord*endEntries[4];
 endEntries[0]=buffersIn.m_pProjectedEntryBegin+evenJobSize;
@@ -616,8 +621,8 @@ while(entry<endEntries[j])
 hkSplitType minE=entry->m_kMinimumCorner[(hkInt16)splitAxis];
 hkSplitType maxE=entry->m_kMaximumCorner[(hkInt16)splitAxis];
 jobSize[j]++;
-min[j]=MathUtilities::min2(min[j],minE);
-max[j]=MathUtilities::max2(max[j],maxE);
+min[j]=::FUN_00cfcb80(min[j],minE);
+max[j]=::MaxUnsignedShort(max[j],maxE);
 entry++;
 }
 }
@@ -631,26 +636,26 @@ hkSplitType maxE=entry->m_kMaximumCorner[(hkInt16)splitAxis];
 if(minE<splittingValue0)
 {
 jobSize[0]++;
-min[0]=MathUtilities::min2(min[0],minE);
-max[0]=MathUtilities::max2(max[0],maxE);
+min[0]=::FUN_00cfcb80(min[0],minE);
+max[0]=::MaxUnsignedShort(max[0],maxE);
 }
 else if(minE<splittingValue1)
 {
 jobSize[1]++;
-min[1]=MathUtilities::min2(min[1],minE);
-max[1]=MathUtilities::max2(max[1],maxE);
+min[1]=::FUN_00cfcb80(min[1],minE);
+max[1]=::MaxUnsignedShort(max[1],maxE);
 }
 else if(minE<splittingValue2)
 {
 jobSize[2]++;
-min[2]=MathUtilities::min2(min[2],minE);
-max[2]=MathUtilities::max2(max[2],maxE);
+min[2]=::FUN_00cfcb80(min[2],minE);
+max[2]=::MaxUnsignedShort(max[2],maxE);
 }
 else
 {
 jobSize[3]++;
-min[3]=MathUtilities::min2(min[3],minE);
-max[3]=MathUtilities::max2(max[3],maxE);
+min[3]=::FUN_00cfcb80(min[3],minE);
+max[3]=::MaxUnsignedShort(max[3],maxE);
 }
 entry++;
 }
@@ -688,7 +693,7 @@ initializeIterator(dest1,buffersIn.m_pProjectedEntryEnd+jobSize[0]);
 initializeIterator(dest2,buffersIn.m_pProjectedEntryEnd+jobSize[0]+jobSize[1]);
 initializeIterator(dest3,buffersIn.m_pProjectedEntryEnd+jobSize[0]+jobSize[1]+jobSize[2]);
 initializeIterator(entry,buffersIn.m_pProjectedEntryBegin);
-if(fullyBalancedFallback)
+if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(fullyBalancedFallback))->FUN_005609f0())
 {
 int evenJobSize=numPrimitives / 4;
 FieldlessRecord*endEntries[4];
@@ -757,7 +762,7 @@ entry++;
 KdTreeEdgeIndex sparseWriter;
 {
 KdTreeNode thisNode;
-thisNode.setSplit(splitAxis,MathUtilities::min2(min[2],min[3]),MathUtilities::max2(max[1],max[0]));
+thisNode.setSplit(splitAxis,::FUN_00cfcb80(min[2],min[3]),::MaxUnsignedShort(max[1],max[0]));
 thisNode.setLeftAndRightByteOffset(16);
 WRITE_NODE_WITH_MANAGER(treeOut,0,thisNode,&sparseWriter);
 }

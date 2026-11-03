@@ -17,6 +17,16 @@
 #ifndef FNV_EXTRADATAOBJECTS_PRIVATE_PACKET_H
 #define FNV_EXTRADATAOBJECTS_PRIVATE_PACKET_H
 
+#include "fnv/decl/FUN_0040f700_shell.h"
+#include "fnv/decl/FUN_0041fd00_shell.h"
+#include "fnv/decl/TESRegion.h"
+#include "fnv/decl/fnv_00567e10__FUN_00567e10_shell.h"
+#include "fnv/decl/fnv_0087f9f0__FUN_0087f9f0_shell.h"
+#include "fnv/symbols_005e5000.h"
+#include "fnv/symbols_009a3000.h"
+#include "fnv/symbols_01183000.h"
+#include "fnv/symbols_011c6000.h"
+#include "fnv/symbols_011de000.h"
 #include "extradataobjects_private_layout_support.h"
 
 class TESObjectREFR;
@@ -272,7 +282,6 @@ class FUN_00432f30_D : public BSExtraData
     void FUN_00432f30();
 };
 
-extern char* DAT_011c6444;
 class ExtraSecuritronFace
 {
   public:
@@ -301,7 +310,6 @@ enum MagicSystem__CastingType
 class TESEnchantableForm
 {
   public:
-    void SetCastingType(MagicSystem__CastingType);
 };
 class BaseProcess
 {
@@ -316,10 +324,12 @@ class TESForm
   public:
     unsigned int GetFormID();
 };
+class TESActorBase;
 class Actor : public TESForm
 {
   public:
-    unsigned short GetLevel();
+public:
+    ::TESActorBase *GetActorBase();
 };
 template <class T, unsigned int N> class BSSimpleArray
 {
@@ -327,7 +337,6 @@ template <class T, unsigned int N> class BSSimpleArray
     template <class U> unsigned int Find(U&, unsigned int, bool(__cdecl*)(U&, U&));
     unsigned int Add(T&);
 };
-bool __cdecl FUN_009a3830(NavMeshInfo*&, NavMeshInfo*&);
 class ExtraGuardedRefData
 {
   public:
@@ -336,7 +345,6 @@ class ExtraGuardedRefData
     void AddGuardingActor(Actor*);
 };
 
-extern char DAT_01183b2c;
 extern char DAT_01184680;
 extern "C" void* __cdecl __RTDynamicCast(void*, long, void*, void*, int);
 class TESFaction;
@@ -349,7 +357,6 @@ class QuestDialogueInfo;
 class TESTopic
 {
   public:
-    BSSimpleList<QuestDialogueInfo*>* GetQuestInfoList() const;
 };
 // Names of nested/template specializations use the canonical generator identifier mapping.
 class ExtraFactionChanges;
@@ -378,15 +385,12 @@ FNV_STATIC_ASSERT(sizeof(ExtraFactionChanges) == 16);
 FNV_STATIC_ASSERT(offsetof(ExtraFactionChanges, m_pFactionChanges) == 12);
 
 class PlayerCharacter;
-extern PlayerCharacter* g_thePlayer;
-void __cdecl ApplyPerkModifiers(int, Actor*, ...);
 
 // Genuine declaration-only members used through pointers. PC ABIs are
 // supplied by IDENTITIES.md for 00567e10 and 0087f9f0.
 class TESObjectREFR
 {
   public:
-    unsigned int GetReferenceLevel(bool allowShift);
 };
 class PlayerCharacter : public Actor
 {

@@ -2,6 +2,12 @@
 // src/gamebryo2.2/corelibs/nimain/nitexturingproperty_od_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/gamebryo2.2/corelibs/nimain/nitexturingproperty.cpp functions whose prologue its flags cannot
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/FUN_00462d80_shell.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f6000.h"
 #include "nitexturingproperty_decls.h"
 
 class ObjectBase
@@ -34,6 +40,6 @@ void Owner_b9713::FUN_00533f40(ObjectBase* v)
         ObjectBase* a = old;
         ObjectBase* b8 = a;
         b8 ? b8->Destroy(1) : 0;
-        m_ppData.SetAt(0, v);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(m_ppData))->SetAt(0, (char *&)(v));
     }
 }

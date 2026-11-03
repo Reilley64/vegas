@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3ddefaultshader_decls.h: declares NiFixedString, NiGlobalStringTable, NiD3DShader
 #ifndef NID3DDEFAULTSHADER_DECLS_H
 #define NID3DDEFAULTSHADER_DECLS_H
+#include "fnv/symbols_0109b000.h"
 extern "C" void _ReadWriteBarrier();
 #pragma intrinsic(_ReadWriteBarrier)
 class NiFixedString
@@ -8,7 +9,6 @@ class NiFixedString
   public:
     char* m_handle;
 };
-extern NiFixedString EmptyFS;
 class NiGlobalStringTable
 {
   public:

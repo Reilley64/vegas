@@ -7,6 +7,8 @@
    for compilation. Do not write or repeat packet-declarations, nor any headers that might
    be present in the checker's context. */
 
+#include "fnv/decl/FUN_00827200_class.h"
+#include "fnv/decl/HkFloatCheck.h"
 class FUN_005611c0_t
 {
   public:
@@ -44,7 +46,6 @@ void FUN_005611c0_t::FUN_00cb2830(float* apPoints)
 struct FUN_00cb24c0_cls
 {
     __m128 m_00;
-    void FUN_00c7f500(unsigned char* flag);
     unsigned char* IsNormalized(unsigned char* flag);
 };
 
@@ -52,7 +53,7 @@ struct FUN_00cb24c0_cls
 // @fnv 0x00cb24c0
 unsigned char* FUN_00cb24c0_cls::IsNormalized(unsigned char* apResult)
 {
-    FUN_00c7f500(apResult);
+    reinterpret_cast<::HkFloatCheck *>(this)->FUN_00c7f500((bool *)(apResult));
     __m128 t = _mm_mul_ps(m_00, m_00);
     __m128 a = _mm_add_ps(_mm_shuffle_ps(t, t, 0x4e), t);
     __m128 vSumAll = _mm_add_ps(_mm_shuffle_ps(a, a, 0xb1), a);
@@ -85,7 +86,6 @@ struct SubObj
     unsigned int unk08;
     unsigned int unk0C;
 
-    void CallSub(Block64* p);
 };
 
 __declspec(align(16)) struct FUN_00cf5950_cls
@@ -113,7 +113,7 @@ void FUN_00cf5950_cls::CopyBlock(Block64* src)
     dst->v1 = src->v1;
     dst->v2 = src->v2;
     dst->v3 = src->v3;
-    m_sub.CallSub(dst);
+    reinterpret_cast<::FUN_00827200_class *>(&(m_sub))->FUN_00cb26e0((int)(dst));
 }
 
 struct S00cb2550_V4

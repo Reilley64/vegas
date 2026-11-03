@@ -1,5 +1,51 @@
 // fallout_shared/tesleveledlist.cpp: TESLeveledList, TESFile, NiRefObject, TmpEndian and more (46 functions)
 
+#include <new>
+#include "fnv/decl/BSFaceGenKeyframe.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_0040e7f0_owner.h"
+#include "fnv/decl/FUN_0040eb90_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00476be0_Class.h"
+#include "fnv/decl/FUN_00481fd0_shell.h"
+#include "fnv/decl/FUN_00482040_shell.h"
+#include "fnv/decl/FUN_00487a00_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_00865f20_shell.h"
+#include "fnv/decl/FUN_00865ff0_shell.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/decl/FUN_00c4f980.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/Holder0040e9f0.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/fnv_004280f0__FUN_004280f0_shell.h"
+#include "fnv/decl/fnv_004818e0__FUN_004818e0_t.h"
+#include "fnv/decl/fnv_00567e10__FUN_00567e10_shell.h"
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/decl/fnv_00865df0__FUN_00865df0_holder.h"
+#include "fnv/decl/fnv_00c4f9b0__FUN_00c4f9b0_class.h"
+#include "fnv/decl/fnv_00c4fa10__FUN_00c4fa10_shell.h"
+#include "fnv/decl/fnv_00c4fa30__FUN_00c4fa30_shell.h"
+#include "fnv/decl/fnv_00c4fa60__FUN_00c4fa60_shell.h"
+#include "fnv/decl/p07__DelStandIn.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00407000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00a26000.h"
+#include "fnv/symbols_00a3d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_010a2000.h"
+#include "fnv/symbols_01183000.h"
+#include "fnv/symbols_011c8000.h"
+#include "fnv/symbols_01204000.h"
 #include "tesleveledlist_decls.h"
 
 extern "C" double __cdecl floor(double value);
@@ -19,376 +65,6 @@ void TESLeveledList::ClearComponent()
     InitializeLeveledList();
 }
 
-// @fnv 0x00488f10
-void TESLeveledList::Revert(BGSLoadFormBuffer* buffer)
-{
-    if (buffer->GetOldChangeFlags(0x80000000))
-        ClearScriptAddedLeveledObjects();
-}
-
-// @fnv 0x00487f70
-void TESLeveledList::PopulateContainerWithLeveledItems(unsigned short level, unsigned short count,
-                                                       TESContainer* container, int mode)
-{
-    if (level < 1)
-        level = 1;
-    if (container && count > 0)
-    {
-        unsigned int selectionLevel = level;
-        if ((FUN_004877e0() && mode == 0) || mode > 0)
-        {
-            struct LevelScan
-            {
-                unsigned short maxLevel;
-                BSSimpleList<BGSPerkEntry*>* node;
-            } scan;
-            scan.maxLevel = 0;
-            scan.node = reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(
-                reinterpret_cast<PlayerQuestData*>(this)->GetConditions());
-            while (scan.node && !reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(scan.node)->IsEmpty())
-            {
-                unsigned short entryLevel = scan.node->GetItem()->level;
-                if (entryLevel > scan.maxLevel)
-                    scan.maxLevel = entryLevel;
-                scan.node = scan.node->GetNext();
-            }
-            if (scan.maxLevel < selectionLevel)
-                selectionLevel = scan.maxLevel;
-        }
-        TESContainer selected;
-        if (vfn_14())
-        {
-            for (int i = 0; i < count; ++i)
-            {
-                struct Selection
-                {
-                    TESForm* form;
-                    unsigned short quantity;
-                    ContainerItemExtra* extra;
-                } result;
-                result.form = 0;
-                result.quantity = 0;
-                result.extra = 0;
-                SelectLeveledObject((unsigned short)selectionLevel, result.form, result.quantity, result.extra, false,
-                                    mode);
-                if (result.form && result.quantity)
-                {
-                    TESLeveledList* nested = GetFormAsLeveledList(result.form);
-                    if (nested)
-                        nested->PopulateContainerWithLeveledItems(level, result.quantity, &selected, mode);
-                    else if (result.form->Unk_39())
-                    {
-                        TESForm* object = result.form;
-                        if (object)
-                            selected.AddObject(object, result.quantity, result.extra);
-                    }
-                }
-            }
-        }
-        else
-        {
-            struct Selection
-            {
-                TESForm* form;
-                unsigned short quantity;
-                ContainerItemExtra* extra;
-            } result;
-            {
-                bool useAll;
-                result.form = 0;
-                result.quantity = 0;
-                result.extra = 0;
-                if (FUN_004878a0())
-                {
-                    int roll;
-                    {
-                        unsigned char chance;
-                        useAll = false;
-                        chance = vfn_10();
-                        roll = DialogueRandom() % 100;
-                        if (roll >= chance)
-                        {
-                            BSSimpleList<BGSPerkEntry*>* node = reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(
-                                reinterpret_cast<PlayerQuestData*>(this)->GetConditions());
-                            while (node && !reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(node)->IsEmpty())
-                            {
-                                BGSPerkEntry* entry = node->GetItem();
-                                node = node->GetNext();
-                                result.form = entry->form;
-                                result.quantity = entry->count;
-                                result.extra = entry->extra;
-                                if (result.form && result.quantity)
-                                {
-                                    TESLeveledList* nested = GetFormAsLeveledList(result.form);
-                                    if (nested)
-                                        nested->PopulateContainerWithLeveledItems(level, result.quantity, &selected,
-                                                                                  mode);
-                                    else if (result.form->Unk_39())
-                                    {
-                                        TESForm* object = result.form;
-                                        if (object)
-                                            selected.AddObject(object, result.quantity, result.extra);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    SelectLeveledObject((unsigned short)selectionLevel, result.form, result.quantity, result.extra,
-                                        false, mode);
-                    if (result.form && result.quantity)
-                    {
-                        TESLeveledList* nested = GetFormAsLeveledList(result.form);
-                        if (nested)
-                            nested->PopulateContainerWithLeveledItems(level, result.quantity, &selected, mode);
-                        else if (result.form->Unk_39())
-                        {
-                            TESForm* object = result.form;
-                            if (object)
-                                selected.AddObject(object, result.quantity, result.extra);
-                        }
-                    }
-                }
-                selected.ScaleEntryCounts(count);
-            }
-        }
-        container->MergeContainer(&selected);
-    }
-}
-
-// Rolls chance and level range over perk entries, picks one entry, optionally recurses into a nested leveled list, and writes form, count and extra.
-// @fnv 0x00487d00
-void TESLeveledList::SelectLeveledObject(unsigned short level, TESForm*& form, unsigned short& count,
-                                         ContainerItemExtra*& extra, bool recurse, int mode)
-{
-    struct LevelRange
-    {
-        int lastLevel;
-        BSSimpleList<BGSPerkEntry*>* first;
-        int minimumLevel;
-        unsigned int choices;
-    } range;
-    bool foundRange;
-    {
-        form = 0;
-        count = 0;
-        extra = 0;
-        unsigned char chance = vfn_10();
-        if (chance > 0)
-        {
-            int roll = DialogueRandom() % 100;
-            if (roll < chance)
-                return;
-        }
-        range.minimumLevel = level;
-        if ((FUN_004877e0() && mode == 0) || mode > 0)
-        {
-            int difference = vfn_18();
-            if (difference)
-                range.minimumLevel = level - difference;
-            else
-                range.minimumLevel = -1;
-        }
-        range.choices = 1;
-        range.lastLevel = 0;
-        range.first = 0;
-        BSSimpleList<BGSPerkEntry*>* node =
-            reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(reinterpret_cast<PlayerQuestData*>(this)->GetConditions());
-        foundRange = false;
-        while (node)
-        {
-            BGSPerkEntry* entry = node->GetItem();
-            if (entry)
-            {
-                int entryLevel = entry->level;
-                if (entryLevel > level)
-                    break;
-                if (entryLevel > range.lastLevel && (range.lastLevel == 0 || !foundRange))
-                {
-                    if (entryLevel >= range.minimumLevel)
-                        foundRange = true;
-                    range.choices = 1;
-                    range.first = node;
-                    range.lastLevel = entryLevel;
-                }
-                else
-                    ++range.choices;
-            }
-            node = node->GetNext();
-        }
-        if (range.first)
-        {
-            struct SelectedForm
-            {
-                unsigned short count;
-                BGSPerkEntry* entry;
-                ContainerItemExtra* extra;
-                TESForm* form;
-            } result;
-            {
-                unsigned int pick = DialogueRandom() % range.choices;
-                node = range.first;
-                while (pick)
-                {
-                    node = node->GetNext();
-                    --pick;
-                    if (!node)
-                        return;
-                }
-                result.entry = node->GetItem();
-                result.form = result.entry->form;
-                result.count = result.entry->count;
-                result.extra = result.entry->extra;
-                {
-                    TESLeveledList* nested = GetFormAsLeveledList(result.entry->form);
-                    if (nested && recurse)
-                    {
-                        struct RecursiveForm
-                        {
-                            ContainerItemExtra* extra;
-                            TESForm* form;
-                            unsigned short count;
-                        } recursive;
-                        recursive.form = 0;
-                        recursive.count = 0;
-                        recursive.extra = 0;
-                        nested->SelectLeveledObject(level, recursive.form, recursive.count, recursive.extra, recurse,
-                                                    mode);
-                        result.form = recursive.form;
-                        result.count *= recursive.count;
-                        if (recursive.extra)
-                            result.extra = recursive.extra;
-                    }
-                    form = result.form;
-                    count = result.count;
-                    extra = result.extra;
-                }
-            }
-        }
-    }
-}
-
-// Resolves each perk entry's form and the chance global against the owner's file, removing and warning about entries that fail to resolve.
-// @fnv 0x00488570
-void TESLeveledList::InitItem(TESForm* owner)
-{
-    struct ResolveState
-    {
-        BGSPerkEntry* entry;
-        BSSimpleList<BGSPerkEntry*>* node;
-        BSSimpleList<BGSPerkEntry*>* previous;
-        TESFile* file;
-    } resolveState;
-    {
-        resolveState.previous = 0;
-        resolveState.node =
-            reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(reinterpret_cast<PlayerQuestData*>(this)->GetConditions());
-        resolveState.entry = 0;
-        resolveState.file = owner ? owner->GetFile(-1) : 0;
-        unsigned int formID, globalID;
-        while (resolveState.node && (resolveState.entry = resolveState.node->GetItem()) != 0)
-        {
-            formID = reinterpret_cast<unsigned int>(resolveState.entry->form);
-            TESForm::RemapFormIDForFile(formID, resolveState.file);
-            resolveState.entry->form = TESForm::GetFormByID(formID);
-            if (!resolveState.entry->form)
-            {
-                reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(resolveState.node)->RemoveHead();
-                struct DeletedEntry
-                {
-                    BGSPerkEntry* doomed;
-                    BGSPerkEntry* object;
-                } deletion;
-                deletion.doomed = resolveState.entry;
-                deletion.object = deletion.doomed;
-                deletion.object ? deletion.object->Destroy(1) : 0;
-                resolveState.entry = 0;
-                if (owner)
-                {
-                    if (reinterpret_cast<BGSCameraPath*>(owner)->HasNameForWarning())
-                        Warning("MASTERFILE: Unable to find Leveled Object Form (%08X) for owner object \"%s\".",
-                                formID, owner->GetEditorID());
-                    else
-                        Warning("MASTERFILE: Unable to find Leveled Object Form (%08X) for owner object (%08X).",
-                                formID, owner->GetFormID());
-                }
-                else
-                    Warning("MASTERFILE: Unable to find Leveled Object Form (%08X) for unknown owner.", formID);
-            }
-            else
-            {
-                resolveState.previous = resolveState.node;
-                resolveState.node = resolveState.node->GetNext();
-            }
-            if (resolveState.entry && resolveState.entry->extra)
-                resolveState.entry->extra->InitItem(owner);
-        }
-        if (m_pLevelGlobal)
-        {
-            globalID = reinterpret_cast<unsigned int>(m_pLevelGlobal);
-            TESForm::RemapFormIDForFile(globalID, resolveState.file);
-            m_pLevelGlobal = dynamic_cast<TESGlobal*>(TESForm::GetFormByID(globalID));
-            if (!m_pLevelGlobal)
-            {
-                if (owner)
-                {
-                    if (reinterpret_cast<BGSCameraPath*>(owner)->HasNameForWarning())
-                        Warning("MASTERFILE: Unable to find Leveled Chance Global (%08X) for owner object \"%s\".",
-                                globalID, owner->GetEditorID());
-                    else
-                        Warning("MASTERFILE: Unable to find Leveled Chance Global (%08X) for owner object (%08X).",
-                                globalID, owner->GetFormID());
-                }
-                else
-                    Warning("MASTERFILE: Unable to find Leveled Chance Global (%08X) for unknown owner.", globalID);
-            }
-        }
-    }
-}
-
-// @fnv 0x00488d70
-void TESLeveledList::LoadGame(BGSLoadFormBuffer* buffer)
-{
-    if (buffer->GetChangeFlags(0x80000000))
-    {
-        if (!reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(m_kLeveledObjects)->IsEmpty())
-            ClearScriptAddedLeveledObjects();
-        unsigned int uiEntryCount = buffer->ReadElementCount();
-        for (unsigned int i = 0; i < uiEntryCount; ++i)
-        {
-            struct SavedForm
-            {
-                TESForm* form;
-                float health;
-            } savedItem;
-            {
-                savedItem.form = 0;
-                unsigned short count = 0;
-                unsigned short level = 0;
-                savedItem.health = 0;
-                savedItem.form =
-                    TESForm::GetFormByID(reinterpret_cast<BGSLoadGameBuffer*>(buffer)->ReadFormIdentifier());
-                buffer->ReadTypedData(&level, 2);
-                buffer->ReadTypedData(&count, 2);
-                buffer->ReadTypedData(&savedItem.health, 4);
-                if (savedItem.form)
-                {
-                    ContainerItemExtra* extra = 0;
-                    if (savedItem.health != -1.0)
-                    {
-                        extra = new ContainerItemExtra;
-                        extra->FUN_0040eb90(savedItem.health);
-                    }
-                    reinterpret_cast<FileEntryList*>(this)->Copy(buffer->GetForm(), level, count, savedItem.form,
-                                                                 extra);
-                }
-            }
-        }
-    }
-}
-
 // @fnv 0x004726f0
 bool TESFile::NextChunk()
 {
@@ -402,42 +78,16 @@ bool TESFile::NextChunk()
     m_uiRecordOffset += m_uiChunkSize + 6;
     if (m_uiRecordOffset >= chunkPos.formSize)
     {
-        FUN_004720d0();
+        reinterpret_cast<::TESFile *>(this)->ClearCurrentChunk();
         return false;
     }
     chunkPos.offset = m_uiRecordSize + reinterpret_cast<bhkLiquidAction*>(this)->GetInstanceSize() + m_uiRecordOffset;
     if (!IsCurrentFormCompressed())
-        m_pFile->vfn_14(chunkPos.offset, DAT_010a2480);
+        m_pFile->vfn_14(chunkPos.offset, (*reinterpret_cast<unsigned int *>(&::DAT_010a2480)));
     m_uiCurrentOffset = 0;
-    FUN_004720d0();
-    GetChunkID();
+    reinterpret_cast<::TESFile *>(this)->ClearCurrentChunk();
+    reinterpret_cast<::FUN_004726b0_class *>(this)->FUN_004726b0();
     return true;
-}
-
-// @fnv 0x00487900
-void TESLeveledList::InitializeLeveledList()
-{
-    BSSimpleList<BGSPerkEntry*>* node =
-        reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(reinterpret_cast<PlayerQuestData*>(this)->GetConditions());
-    while (node)
-    {
-        BGSPerkEntry* entry = node->GetItem();
-        if (entry)
-        {
-            struct DeletedEntry
-            {
-                BGSPerkEntry* doomed;
-                BGSPerkEntry* object;
-            } deletion;
-            deletion.doomed = entry;
-            deletion.object = deletion.doomed;
-            deletion.object ? deletion.object->Destroy(1) : 0;
-            reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(node)->RemoveHead();
-        }
-        else
-            node = node->GetNext();
-    }
-    reinterpret_cast<BSSimpleList<ActorCause*>*>(m_kLeveledObjects)->RemoveAll();
 }
 
 // @fnv 0x004877e0
@@ -461,7 +111,7 @@ bool TESLeveledList::GetUseAll()
 // @fnv 0x00487f50
 unsigned int DialogueRandom()
 {
-    return MersenneTwister::GetRandomGenerator()->GetRandomUInt();
+    return reinterpret_cast<::FUN_00476be0_Class *>((MersenneTwister::GetRandomGenerator()))->FUN_00476be0();
 }
 
 struct BGSSaveFormBuffer;
@@ -565,16 +215,6 @@ struct FUN_00487790_shell : public TESLeveledList
 {
     unsigned char FUN_00487790();
 };
-
-// Returns the value of the TESGlobalValueReader at offset 0x10 if present, otherwise the byte at offset 0x0c.
-// @fnv 0x00487790
-unsigned char FUN_00487790_shell::FUN_00487790()
-{
-    if (*reinterpret_cast<TESGlobalValueReader* const*>(reinterpret_cast<const char*>(this) + 0x10))
-        return static_cast<unsigned char>(
-            (*reinterpret_cast<TESGlobalValueReader* const*>(reinterpret_cast<const char*>(this) + 0x10))->GetValue());
-    return *reinterpret_cast<const unsigned char*>(reinterpret_cast<const char*>(this) + 0x0c);
-}
 
 namespace fnv_00487840 {
 struct BGSSaveFormBuffer;
@@ -729,10 +369,10 @@ void FUN_00488350_shell::AddLeveledItemsToContainer(TESObjectREFR* apRef, TESCon
 
     float fLevelMult = 1.0f;
     int iallbelowforce = 0;
-    apRef->GetExtraData()->GetLeveledItemData(fLevelMult, iallbelowforce);
+    ((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((apRef))->FUN_005d43c0()))->GetLeveledItemData(fLevelMult, iallbelowforce);
 
     unsigned int icalclevel = 1;
-    icalclevel = apRef->GetReferenceLevel(true);
+    icalclevel = reinterpret_cast<::fnv_00567e10::FUN_00567e10_shell *>((apRef))->FUN_00567e10(true);
 
     int ilevel = (int)floor(icalclevel * fLevelMult);
     if (ilevel < 1)
@@ -846,14 +486,12 @@ struct FUN_0050ad90_shell : public TESLeveledList
 
 struct GlobalObject2_0040c150
 {
-    int* Int();
 };
-extern GlobalObject2_0040c150 g_011c8e1c;
 
 // @fnv 0x0050ad90
 int FUN_0050ad90_shell::FUN_0050ad90()
 {
-    return *g_011c8e1c.Int();
+    return *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0050ad90::GlobalObject2_0040c150 *>(&::g_011c8e1c))))));
 }
 }  // namespace fnv_0050ad90
 
@@ -953,14 +591,12 @@ struct FUN_0050b370_shell : public TESLeveledList
 
 struct GlobalObject2_0040c150
 {
-    int* Int();
 };
-extern GlobalObject2_0040c150 g_011c8ed4;
 
 // @fnv 0x0050b370
 int FUN_0050b370_shell::FUN_0050b370()
 {
-    return *g_011c8ed4.Int();
+    return *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0050b370::GlobalObject2_0040c150 *>(&::g_011c8ed4))))));
 }
 }  // namespace fnv_0050b370
 
@@ -973,6 +609,15 @@ struct FUN_00526ac0_shell : public TESGlobal
 {
     float FUN_00526ac0();
 };
+// Returns the value of the TESGlobalValueReader at offset 0x10 if present, otherwise the byte at offset 0x0c.
+// @fnv 0x00487790
+unsigned char FUN_00487790_shell::FUN_00487790()
+{
+    if (*reinterpret_cast<TESGlobalValueReader* const*>(reinterpret_cast<const char*>(this) + 0x10))
+        return static_cast<unsigned char>(
+            reinterpret_cast<::FUN_00526ac0_shell *>(((*reinterpret_cast<TESGlobalValueReader* const*>(reinterpret_cast<const char*>(this) + 0x10))))->FUN_00526ac0());
+    return *reinterpret_cast<const unsigned char*>(reinterpret_cast<const char*>(this) + 0x0c);
+}
 
 // @fnv 0x00526ac0
 float FUN_00526ac0_shell::FUN_00526ac0()
@@ -1086,7 +731,6 @@ struct FUN_00c61260_shell
 void __thiscall FUN_00c61260_shell::FUN_00c61260(int a, int b, int c, int d, int e, int f)
 {}
 
-extern "C" void* g_01204398;
 
 struct FUN_00c61270_shell
 {
@@ -1096,7 +740,7 @@ struct FUN_00c61270_shell
 // @fnv 0x00c61270
 void* __thiscall FUN_00c61270_shell::FUN_00c61270()
 {
-    return &g_01204398;
+    return &(*reinterpret_cast<void * *>(&::g_01204398));
 }
 
 struct NiRefObject
@@ -1105,14 +749,13 @@ struct NiRefObject
     static void* __thiscall FUN_00c61280(NiRefObject* obj, unsigned int flags);
 };
 
-extern "C" void __cdecl __Dummy_00b6fef0(void* p, unsigned int size);
 
 // @fnv 0x00c61280
 void* __thiscall NiRefObject::FUN_00c61280(NiRefObject* obj, unsigned int flags)
 {
-    obj->NiRefObject::~NiRefObject();
+    reinterpret_cast<class ::FUN_00a5d3d0 *>((obj))->FUN_00a5d3d0::~FUN_00a5d3d0();
     if (flags & 1)
-        __Dummy_00b6fef0(obj, 0x28);
+        ::FUN_00aa1460(obj, 0x28);
     return obj;
 }
 
@@ -1130,7 +773,6 @@ void __thiscall FUN_004878c0_shell::SetFlag4(bool abSet)
         reinterpret_cast<unsigned char*>(this)[0xd] &= ~4;
 }
 
-extern void __fastcall FUN_00c4f980(void*);
 extern int DAT_010c34ac;
 
 struct FUN_00c60d50_shell
@@ -1142,15 +784,13 @@ struct FUN_00c60d50_shell
 // @fnv 0x00c60d50
 FUN_00c60d50_shell::FUN_00c60d50_shell()
 {
-    FUN_00c4f980(this);
+    new ((void *)(this)) struct ::FUN_00c4f980();
     vtable_ptr = &DAT_010c34ac;
 }
 
 template <int N> struct EndianSizeTag
 {
 };
-void __cdecl BSEndian(int*, EndianSizeTag<2>);
-void __cdecl BSEndian(unsigned short*, EndianSizeTag<2>);
 struct TmpEndian
 {
     unsigned short f0;
@@ -1162,9 +802,9 @@ struct TmpEndian
 // @fnv 0x00488510
 void TmpEndian::SwapEndian()
 {
-    BSEndian(&f0, EndianSizeTag<2>());
-    BSEndian(&f1, EndianSizeTag<2>());
-    BSEndian(&f2, EndianSizeTag<2>());
+    ::FUN_00407a90((short *)(unsigned short *)(&f0));
+    ::FUN_00401080(&f1);
+    ::FUN_00407a90((short *)(unsigned short *)(&f2));
 }
 
 class NiStream;
@@ -1173,10 +813,13 @@ struct FUN_00c4f9f0_shell
     char _pad[12];
     void FUN_00c4f9f0(NiStream&);
 };
+class NiStream;
 struct NiColor
 {
     char _pad[12];
     void LoadBinary(NiStream&);
+public:
+    void SaveBinary(::NiStream &);
 };
 template <typename T> void ReadBinaryValue(NiStream&, T&);
 struct FUN_00c60e70_shell : public FUN_00c4f9f0_shell
@@ -1192,30 +835,28 @@ void FUN_00c60e70_shell::FUN_00c60e70(NiStream& stream)
     FUN_00c4f9f0(stream);
     c1.LoadBinary(stream);
     c2.LoadBinary(stream);
-    ReadBinaryValue<unsigned int>(stream, u);
+    ::FUN_00a26df0((::MyStream *)&(stream), (void *)&(u));
 }
 
 struct FUN_00c60ec0_shell
 {
-    void FUN_00c4fa10(int);
     void FUN_00c60ec0(int a);
 };
 
 // @fnv 0x00c60ec0
 void FUN_00c60ec0_shell::FUN_00c60ec0(int aiValue)
 {
-    FUN_00c4fa10(aiValue);
+    reinterpret_cast<::fnv_00c4fa10::FUN_00c4fa10_shell *>(this)->FUN_00c4fa10((*(::fnv_00c4fa10::NiStream *)(aiValue)));
 }
 
 struct FUN_00c38020_shell
 {
-    unsigned char FUN_00c4fa30(int);
     bool FUN_00c60ee0(int);
 };
 // @fnv 0x00c60ee0
 bool FUN_00c38020_shell::FUN_00c60ee0(int a)
 {
-    if (!FUN_00c4fa30(a))
+    if (!((unsigned char)(reinterpret_cast<::fnv_00c4fa30::FUN_00c4fa30_shell *>(this)->FUN_00c4fa30((*(::fnv_00c4fa30::NiStream *)(a))))))
         return false;
     return true;
 }
@@ -1223,17 +864,14 @@ bool FUN_00c38020_shell::FUN_00c60ee0(int a)
 namespace fnv_00c60f10 {
 struct NiColor
 {
-    void SaveBinary(class NiStream&);
     float r;
     float g;
     float b;
 };
 struct FUN_00c38050_Holder
 {
-    void FUN_00c4fa60(class NiStream&);
     unsigned char data[12];
 };
-void __cdecl CallAnimCallback(class NiStream&, int*);
 struct Host : FUN_00c38050_Holder
 {
     NiColor c1;
@@ -1244,25 +882,20 @@ struct Host : FUN_00c38050_Holder
 // @fnv 0x00c60f10
 void Host::FUN_00c60f10(class NiStream& s)
 {
-    FUN_00c38050_Holder::FUN_00c4fa60(s);
-    c1.SaveBinary(s);
-    c2.SaveBinary(s);
-    CallAnimCallback(s, &f24);
+    reinterpret_cast<::fnv_00c4fa60::FUN_00c4fa60_shell *>(this)->FUN_00c4fa60((::fnv_00c4fa60::NiStream &)(s));
+    reinterpret_cast<::NiColor *>(&(c1))->SaveBinary(s);
+    reinterpret_cast<::NiColor *>(&(c2))->SaveBinary(s);
+    ::CallAnimCallback((::FUN_00a3da50_Owner *)&(s), (int)(&f24));
 }
 }  // namespace fnv_00c60f10
 
 namespace fnv_00488c50 {
 struct BSFaceGenKeyframe
 {
-    float GetTime();
 };
 struct BGSSaveFormBuffer
 {
     FormChangeMask GetChangeFlags(unsigned int);
-    void SerializeFormData(void*, int);
-    void SaveData(void*, int, int);
-    unsigned int FUN_00865f20();
-    void FUN_00865ff0(int, unsigned int);
 };
 struct LeveledObject
 {
@@ -1278,28 +911,28 @@ struct FUN_00488c50_shell : TESLeveledList
 // @fnv 0x00488c50
 void FUN_00488c50_shell::SaveLeveledListEntries(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    if (apSaveGameBuffer->GetChangeFlags(0x80000000))
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
     {
         unsigned int isaveGameCount = 0;
-        unsigned int isaveGameBufferPos = apSaveGameBuffer->FUN_00865f20();
+        unsigned int isaveGameBufferPos = reinterpret_cast<::FUN_00865f20_shell *>((apSaveGameBuffer))->FUN_00865f20();
         BSSimpleList<LeveledObject*>* pCurrentElementNext = (BSSimpleList<LeveledObject*>*)((char*)this + 0x14);
         while (pCurrentElementNext)
         {
             LeveledObject* pitem = pCurrentElementNext->GetItem();
             if (pitem)
             {
-                apSaveGameBuffer->SerializeFormData(pitem->pForm, 0);
-                apSaveGameBuffer->SaveData((char*)pitem + 6, 2, 0);
-                apSaveGameBuffer->SaveData((char*)pitem + 4, 2, 0);
+                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(pitem->pForm), 0);
+                reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)pitem + 6, 2, 0);
+                reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)pitem + 4, 2, 0);
                 float fhealthPercent = -1.0f;
                 if (*(void**)((char*)pitem + 8))
-                    fhealthPercent = ((BSFaceGenKeyframe*)*(void**)((char*)pitem + 8))->GetTime();
-                apSaveGameBuffer->SaveData(&fhealthPercent, 4, 0);
+                    fhealthPercent = reinterpret_cast<::BSFaceGenKeyframe *>((((BSFaceGenKeyframe*)*(void**)((char*)pitem + 8))))->GetTime();
+                reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&fhealthPercent, 4, 0);
                 isaveGameCount++;
             }
-            pCurrentElementNext = pCurrentElementNext->GetNext();
+            pCurrentElementNext = ((::BSSimpleList< ::fnv_00488c50::LeveledObject *> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
         }
-        apSaveGameBuffer->FUN_00865ff0(isaveGameCount, isaveGameBufferPos);
+        reinterpret_cast<::FUN_00865ff0_shell *>((apSaveGameBuffer))->FUN_00865ff0(isaveGameCount, isaveGameBufferPos);
     }
 }
 }  // namespace fnv_00488c50
@@ -1307,10 +940,351 @@ void FUN_00488c50_shell::SaveLeveledListEntries(BGSSaveFormBuffer* apSaveGameBuf
 struct Vec3
 {
     float x, y, z;
+public:
+    Vec3();
 };
+// @fnv 0x00487f70
+void TESLeveledList::PopulateContainerWithLeveledItems(unsigned short level, unsigned short count,
+                                                       TESContainer* container, int mode)
+{
+    if (level < 1)
+        level = 1;
+    if (container && count > 0)
+    {
+        unsigned int selectionLevel = level;
+        if ((reinterpret_cast<::TESLeveledList *>(this)->GetAllBelow() && mode == 0) || mode > 0)
+        {
+            struct LevelScan
+            {
+                unsigned short maxLevel;
+                BSSimpleList<BGSPerkEntry*>* node;
+            } scan;
+            scan.maxLevel = 0;
+            scan.node = reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(
+                ((::PerkEntryConditionSet *)(reinterpret_cast<::BaseProcess *>((reinterpret_cast<PlayerQuestData*>(this)))->GetCurrentProcessData())));
+            while (scan.node && !reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(scan.node)->IsEmpty())
+            {
+                unsigned short entryLevel = ((::BGSPerkEntry *)(new ((void *)(scan.node)) ::Vec3()))->level;
+                if (entryLevel > scan.maxLevel)
+                    scan.maxLevel = entryLevel;
+                scan.node = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((scan.node))->FUN_00726070()));
+            }
+            if (scan.maxLevel < selectionLevel)
+                selectionLevel = scan.maxLevel;
+        }
+        TESContainer selected;
+        if (vfn_14())
+        {
+            for (int i = 0; i < count; ++i)
+            {
+                struct Selection
+                {
+                    TESForm* form;
+                    unsigned short quantity;
+                    ContainerItemExtra* extra;
+                } result;
+                result.form = 0;
+                result.quantity = 0;
+                result.extra = 0;
+                SelectLeveledObject((unsigned short)selectionLevel, result.form, result.quantity, result.extra, false,
+                                    mode);
+                if (result.form && result.quantity)
+                {
+                    TESLeveledList* nested = ::FUN_00487be0(result.form);
+                    if (nested)
+                        nested->PopulateContainerWithLeveledItems(level, result.quantity, &selected, mode);
+                    else if (result.form->Unk_39())
+                    {
+                        TESForm* object = result.form;
+                        if (object)
+                            reinterpret_cast<::fnv_004818e0::FUN_004818e0_t *>(&(selected))->FUN_004818e0((::TESObject *)(object), result.quantity, result.extra);
+                    }
+                }
+            }
+        }
+        else
+        {
+            struct Selection
+            {
+                TESForm* form;
+                unsigned short quantity;
+                ContainerItemExtra* extra;
+            } result;
+            {
+                bool useAll;
+                result.form = 0;
+                result.quantity = 0;
+                result.extra = 0;
+                if (reinterpret_cast<::TESLeveledList *>(this)->GetUseAll())
+                {
+                    int roll;
+                    {
+                        unsigned char chance;
+                        useAll = false;
+                        chance = vfn_10();
+                        roll = DialogueRandom() % 100;
+                        if (roll >= chance)
+                        {
+                            BSSimpleList<BGSPerkEntry*>* node = reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(
+                                ((::PerkEntryConditionSet *)(reinterpret_cast<::BaseProcess *>((reinterpret_cast<PlayerQuestData*>(this)))->GetCurrentProcessData())));
+                            while (node && !reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(node)->IsEmpty())
+                            {
+                                BGSPerkEntry* entry = ((::BGSPerkEntry *)(new ((void *)(node)) ::Vec3()));
+                                node = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+                                result.form = entry->form;
+                                result.quantity = entry->count;
+                                result.extra = entry->extra;
+                                if (result.form && result.quantity)
+                                {
+                                    TESLeveledList* nested = ::FUN_00487be0(result.form);
+                                    if (nested)
+                                        nested->PopulateContainerWithLeveledItems(level, result.quantity, &selected,
+                                                                                  mode);
+                                    else if (result.form->Unk_39())
+                                    {
+                                        TESForm* object = result.form;
+                                        if (object)
+                                            reinterpret_cast<::fnv_004818e0::FUN_004818e0_t *>(&(selected))->FUN_004818e0((::TESObject *)(object), result.quantity, result.extra);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    SelectLeveledObject((unsigned short)selectionLevel, result.form, result.quantity, result.extra,
+                                        false, mode);
+                    if (result.form && result.quantity)
+                    {
+                        TESLeveledList* nested = ::FUN_00487be0(result.form);
+                        if (nested)
+                            nested->PopulateContainerWithLeveledItems(level, result.quantity, &selected, mode);
+                        else if (result.form->Unk_39())
+                        {
+                            TESForm* object = result.form;
+                            if (object)
+                                reinterpret_cast<::fnv_004818e0::FUN_004818e0_t *>(&(selected))->FUN_004818e0((::TESObject *)(object), result.quantity, result.extra);
+                        }
+                    }
+                }
+                reinterpret_cast<::FUN_00482040_shell *>(&(selected))->ScaleEntryCounts(count);
+            }
+        }
+        reinterpret_cast<::FUN_00481fd0_shell *>((container))->AddAllFromContainer(&selected);
+    }
+}
+// Rolls chance and level range over perk entries, picks one entry, optionally recurses into a nested leveled list, and writes form, count and extra.
+// @fnv 0x00487d00
+void TESLeveledList::SelectLeveledObject(unsigned short level, TESForm*& form, unsigned short& count,
+                                         ContainerItemExtra*& extra, bool recurse, int mode)
+{
+    struct LevelRange
+    {
+        int lastLevel;
+        BSSimpleList<BGSPerkEntry*>* first;
+        int minimumLevel;
+        unsigned int choices;
+    } range;
+    bool foundRange;
+    {
+        form = 0;
+        count = 0;
+        extra = 0;
+        unsigned char chance = vfn_10();
+        if (chance > 0)
+        {
+            int roll = DialogueRandom() % 100;
+            if (roll < chance)
+                return;
+        }
+        range.minimumLevel = level;
+        if ((reinterpret_cast<::TESLeveledList *>(this)->GetAllBelow() && mode == 0) || mode > 0)
+        {
+            int difference = vfn_18();
+            if (difference)
+                range.minimumLevel = level - difference;
+            else
+                range.minimumLevel = -1;
+        }
+        range.choices = 1;
+        range.lastLevel = 0;
+        range.first = 0;
+        BSSimpleList<BGSPerkEntry*>* node =
+            reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(((::PerkEntryConditionSet *)(reinterpret_cast<::BaseProcess *>((reinterpret_cast<PlayerQuestData*>(this)))->GetCurrentProcessData())));
+        foundRange = false;
+        while (node)
+        {
+            BGSPerkEntry* entry = ((::BGSPerkEntry *)(new ((void *)(node)) ::Vec3()));
+            if (entry)
+            {
+                int entryLevel = entry->level;
+                if (entryLevel > level)
+                    break;
+                if (entryLevel > range.lastLevel && (range.lastLevel == 0 || !foundRange))
+                {
+                    if (entryLevel >= range.minimumLevel)
+                        foundRange = true;
+                    range.choices = 1;
+                    range.first = node;
+                    range.lastLevel = entryLevel;
+                }
+                else
+                    ++range.choices;
+            }
+            node = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+        }
+        if (range.first)
+        {
+            struct SelectedForm
+            {
+                unsigned short count;
+                BGSPerkEntry* entry;
+                ContainerItemExtra* extra;
+                TESForm* form;
+            } result;
+            {
+                unsigned int pick = DialogueRandom() % range.choices;
+                node = range.first;
+                while (pick)
+                {
+                    node = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+                    --pick;
+                    if (!node)
+                        return;
+                }
+                result.entry = ((::BGSPerkEntry *)(new ((void *)(node)) ::Vec3()));
+                result.form = result.entry->form;
+                result.count = result.entry->count;
+                result.extra = result.entry->extra;
+                {
+                    TESLeveledList* nested = ::FUN_00487be0(result.entry->form);
+                    if (nested && recurse)
+                    {
+                        struct RecursiveForm
+                        {
+                            ContainerItemExtra* extra;
+                            TESForm* form;
+                            unsigned short count;
+                        } recursive;
+                        recursive.form = 0;
+                        recursive.count = 0;
+                        recursive.extra = 0;
+                        nested->SelectLeveledObject(level, recursive.form, recursive.count, recursive.extra, recurse,
+                                                    mode);
+                        result.form = recursive.form;
+                        result.count *= recursive.count;
+                        if (recursive.extra)
+                            result.extra = recursive.extra;
+                    }
+                    form = result.form;
+                    count = result.count;
+                    extra = result.extra;
+                }
+            }
+        }
+    }
+}
+// Resolves each perk entry's form and the chance global against the owner's file, removing and warning about entries that fail to resolve.
+// @fnv 0x00488570
+void TESLeveledList::InitItem(TESForm* owner)
+{
+    struct ResolveState
+    {
+        BGSPerkEntry* entry;
+        BSSimpleList<BGSPerkEntry*>* node;
+        BSSimpleList<BGSPerkEntry*>* previous;
+        TESFile* file;
+    } resolveState;
+    {
+        resolveState.previous = 0;
+        resolveState.node =
+            reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(((::PerkEntryConditionSet *)(reinterpret_cast<::BaseProcess *>((reinterpret_cast<PlayerQuestData*>(this)))->GetCurrentProcessData())));
+        resolveState.entry = 0;
+        resolveState.file = owner ? owner->GetFile(-1) : 0;
+        unsigned int formID, globalID;
+        while (resolveState.node && (resolveState.entry = ((::BGSPerkEntry *)(new ((void *)(resolveState.node)) ::Vec3()))) != 0)
+        {
+            formID = reinterpret_cast<unsigned int>(resolveState.entry->form);
+            ::ResolveFormID((unsigned int *)&(formID), resolveState.file);
+            resolveState.entry->form = ::FUN_004839c0(formID);
+            if (!resolveState.entry->form)
+            {
+                reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(resolveState.node)->RemoveHead();
+                struct DeletedEntry
+                {
+                    BGSPerkEntry* doomed;
+                    BGSPerkEntry* object;
+                } deletion;
+                deletion.doomed = resolveState.entry;
+                deletion.object = deletion.doomed;
+                deletion.object ? reinterpret_cast<::p07::DelStandIn *>((deletion.object))->Destroy_00481760(1) : 0;
+                resolveState.entry = 0;
+                if (owner)
+                {
+                    if (reinterpret_cast<BGSCameraPath*>(owner)->HasNameForWarning())
+                        ::FUN_005b5e40();
+                    else
+                        ::FUN_005b5e40();
+                }
+                else
+                    ::FUN_005b5e40();
+            }
+            else
+            {
+                resolveState.previous = resolveState.node;
+                resolveState.node = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((resolveState.node))->FUN_00726070()));
+            }
+            if (resolveState.entry && resolveState.entry->extra)
+                reinterpret_cast<::FUN_0040e7f0_owner *>((resolveState.entry->extra))->ResolveFormReferences((::FormContext *)(owner));
+        }
+        if (m_pLevelGlobal)
+        {
+            globalID = reinterpret_cast<unsigned int>(m_pLevelGlobal);
+            ::ResolveFormID((unsigned int *)&(globalID), resolveState.file);
+            m_pLevelGlobal = dynamic_cast<TESGlobal*>(::FUN_004839c0(globalID));
+            if (!m_pLevelGlobal)
+            {
+                if (owner)
+                {
+                    if (reinterpret_cast<BGSCameraPath*>(owner)->HasNameForWarning())
+                        ::FUN_005b5e40();
+                    else
+                        ::FUN_005b5e40();
+                }
+                else
+                    ::FUN_005b5e40();
+            }
+        }
+    }
+}
+// @fnv 0x00487900
+void TESLeveledList::InitializeLeveledList()
+{
+    BSSimpleList<BGSPerkEntry*>* node =
+        reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(((::PerkEntryConditionSet *)(reinterpret_cast<::BaseProcess *>((reinterpret_cast<PlayerQuestData*>(this)))->GetCurrentProcessData())));
+    while (node)
+    {
+        BGSPerkEntry* entry = ((::BGSPerkEntry *)(new ((void *)(node)) ::Vec3()));
+        if (entry)
+        {
+            struct DeletedEntry
+            {
+                BGSPerkEntry* doomed;
+                BGSPerkEntry* object;
+            } deletion;
+            deletion.doomed = entry;
+            deletion.object = deletion.doomed;
+            deletion.object ? reinterpret_cast<::p07::DelStandIn *>((deletion.object))->Destroy_00481760(1) : 0;
+            reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(node)->RemoveHead();
+        }
+        else
+            node = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+    }
+    reinterpret_cast<::FileMatchList *>((reinterpret_cast<BSSimpleList<ActorCause*>*>(m_kLeveledObjects)))->RemoveAll();
+}
 struct Shell
 {
-    void CopyMembersStreamWithField(Shell*, int);
     char pad0c[0xc];
     Vec3 m0c;
     Vec3 m18;
@@ -1321,7 +1295,7 @@ struct Shell
 // @fnv 0x00c60e00
 void Shell::FUN_00c60e00(Shell* dest, int aiArg)
 {
-    CopyMembersStreamWithField(dest, aiArg);
+    reinterpret_cast<::fnv_00c4f9b0::FUN_00c4f9b0_class *>(this)->CopyMembersStreamWithField((::fnv_00c4f9b0::NiObject *)(dest), (void *)(aiArg));
     dest->m0c = m0c;
     dest->m18 = m18;
     float f = m24;
@@ -1340,7 +1314,6 @@ struct Shell : public A51BF0Base
 {
     char padding[36];
 
-    void FUN_00c60e00(Shell* object, int value);
 };
 
 struct FUN_00c60d50_shell : public Shell
@@ -1358,7 +1331,7 @@ struct FUN_00c60d70_shell : public Shell
 Shell* FUN_00c60d70_shell::FUN_00c60d70(int value)
 {
     Shell* shell = new FUN_00c60d50_shell;
-    FUN_00c60e00(shell, value);
+    reinterpret_cast<::Shell *>(this)->FUN_00c60e00((::Shell *)(shell), value);
     return shell;
 }
 }  // namespace fnv_00c60d70
@@ -1366,71 +1339,107 @@ Shell* FUN_00c60d70_shell::FUN_00c60d70(int value)
 struct ScriptAddedEntries
 {
     unsigned char FUN_008256d0();
-    BGSPerkEntry*& FUN_006815c0();
     void FUN_0063f7b0();
 };
 struct CurrentLeveledEntries
 {
-    void FUN_00905330(BGSPerkEntry* const&);
 };
 struct FUN_00487980_shell : TESLeveledList
 {
     void FUN_00487980();
 };
+// @fnv 0x00488f10
+void TESLeveledList::Revert(BGSLoadFormBuffer* buffer)
+{
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0())
+        reinterpret_cast<::FUN_00487980_shell *>(this)->FUN_00487980();
+}
+// @fnv 0x00488d70
+void TESLeveledList::LoadGame(BGSLoadFormBuffer* buffer)
+{
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
+    {
+        if (!reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(m_kLeveledObjects)->IsEmpty())
+            reinterpret_cast<::FUN_00487980_shell *>(this)->FUN_00487980();
+        unsigned int uiEntryCount = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((buffer))->FUN_00864a60();
+        for (unsigned int i = 0; i < uiEntryCount; ++i)
+        {
+            struct SavedForm
+            {
+                TESForm* form;
+                float health;
+            } savedItem;
+            {
+                savedItem.form = 0;
+                unsigned short count = 0;
+                unsigned short level = 0;
+                savedItem.health = 0;
+                savedItem.form =
+                    ::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((reinterpret_cast<BGSLoadGameBuffer*>(buffer)))->FUN_008648a0());
+                reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&level), 2);
+                reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&count), 2);
+                reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&savedItem.health), 4);
+                if (savedItem.form)
+                {
+                    ContainerItemExtra* extra = 0;
+                    if (savedItem.health != -1.0)
+                    {
+                        extra = new ContainerItemExtra;
+                        reinterpret_cast<::FUN_0040eb90_shell *>((extra))->FUN_0040eb90(savedItem.health);
+                    }
+                    reinterpret_cast<::FUN_00487a00_shell *>((reinterpret_cast<FileEntryList*>(this)))->FUN_00487a00(buffer->GetForm(), level, count, savedItem.form,
+                                                                 extra);
+                }
+            }
+        }
+    }
+}
 
 // @fnv 0x00487980
 void FUN_00487980_shell::FUN_00487980()
 {
     while (!reinterpret_cast<ScriptAddedEntries*>(m_kLeveledObjects)->FUN_008256d0())
     {
-        BGSPerkEntry* entryToDestroy = reinterpret_cast<ScriptAddedEntries*>(m_kLeveledObjects)->FUN_006815c0();
+        BGSPerkEntry* entryToDestroy = ((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<ScriptAddedEntries*>(m_kLeveledObjects))) ::Vec3()));
         reinterpret_cast<ScriptAddedEntries*>(m_kLeveledObjects)->FUN_0063f7b0();
-        reinterpret_cast<CurrentLeveledEntries*>(leveledList)->FUN_00905330(entryToDestroy);
+        reinterpret_cast<::ItemChangeListNode *>((reinterpret_cast<CurrentLeveledEntries*>(leveledList)))->FUN_00905330((::InventoryStackRecord *const &)(entryToDestroy));
 
         BGSPerkEntry* item = entryToDestroy;
         BGSPerkEntry* removed = item;
-        removed ? removed->Destroy(1) : 0;
+        removed ? reinterpret_cast<::p07::DelStandIn *>((removed))->Destroy_00481760(1) : 0;
     }
 }
 
-extern void __cdecl FUN_004858f0(unsigned int, unsigned int);
-extern void __cdecl FUN_00485910(unsigned int, unsigned int);
-extern void __cdecl AppendChunk(unsigned int, const void*, unsigned int);
-extern unsigned char __cdecl FUN_00401500();
 
 struct LevelNode_00488400
 {
-    LeveledObject** FUN_006815c0();
-    LevelNode_00488400* FUN_00726070();
 };
 
 struct ExtraSaver_00488400 : ContainerItemExtra
 {
-    void WriteToChunk();
 };
 
 struct FUN_00488400_shell : TESLeveledList
 {
-    LevelNode_00488400* FUN_00717e50();
     void SaveLeveledList();
 };
 
 // @fnv 0x00488400
 void FUN_00488400_shell::SaveLeveledList()
 {
-    FUN_004858f0(0x444c564c, m_pChanceGlobal);
-    FUN_004858f0(0x464c564c, m_ucChanceNone);
+    ::FUN_004858f0(0x444c564c, m_pChanceGlobal);
+    ::FUN_004858f0(0x464c564c, m_ucChanceNone);
     if (m_pLevelGlobal)
     {
-        unsigned int chanceFormID = m_pLevelGlobal->GetFormID();
-        FUN_00485910(0x474c564c, chanceFormID);
+        unsigned int chanceFormID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pLevelGlobal))->FUN_0084e3a0()));
+        ::FUN_00485910(0x474c564c, chanceFormID);
     }
-    LevelNode_00488400* pEntryNode = FUN_00717e50();
+    LevelNode_00488400* pEntryNode = ((::LevelNode_00488400 *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
     LeveledObject* entry;
-    while (pEntryNode && (entry = *pEntryNode->FUN_006815c0()) != 0)
+    while (pEntryNode && (entry = *((::LeveledObject **)(new ((void *)(pEntryNode)) ::Vec3()))) != 0)
     {
         TmpEndian levelEntryData;
-        levelEntryData.f1 = entry->pForm->GetFormID();
+        levelEntryData.f1 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((entry->pForm))->FUN_0084e3a0()));
         levelEntryData.f0 = entry->sLevel;
         levelEntryData.f2 = entry->m_sCount;
         if (FUN_00401500())
@@ -1439,8 +1448,8 @@ void FUN_00488400_shell::SaveLeveledList()
         if (FUN_00401500())
             levelEntryData.SwapEndian();
         if (entry->m_pExtraData)
-            static_cast<ExtraSaver_00488400*>(entry->m_pExtraData)->WriteToChunk();
-        pEntryNode = pEntryNode->FUN_00726070();
+            reinterpret_cast<::Holder0040e9f0 *>((static_cast<ExtraSaver_00488400*>(entry->m_pExtraData)))->WriteToChunk();
+        pEntryNode = ((::LevelNode_00488400 *)(reinterpret_cast<::Callees *>((pEntryNode))->FUN_00726070()));
     }
 }
 
@@ -1560,8 +1569,6 @@ struct ListExtra
     TESForm* owner;
     unsigned int rank;
     float health;
-    bool FUN_0040e9c0();
-    bool Compare(ListExtra*);
 };
 struct LeveledEntry
 {
@@ -1574,11 +1581,8 @@ struct ListNode
     LeveledEntry* item;
     ListNode* next;
     bool FUN_008256d0();
-    ListNode* FUN_00726070();
-    LeveledEntry*& FUN_006815c0();
 };
 // The external leaf consumes the component receiver in ECX and returns its embedded head.
-ListNode* __fastcall FUN_00717e50(TESLeveledList*);
 class LeveledComparison : public TESLeveledList
 {
   public:
@@ -1601,16 +1605,16 @@ bool LeveledComparison::FUN_004889d0(BaseFormComponent* component)
         return true;
     if (m_pLevelGlobal != pOtherList->m_pLevelGlobal)
         return true;
-    ListNode* first = FUN_00717e50(this);
-    ListNode* pSecondNode = FUN_00717e50(pOtherList);
+    ListNode* first = ((::ListNode *)(reinterpret_cast<::BaseProcess *>((this))->GetCurrentProcessData()));
+    ListNode* pSecondNode = ((::ListNode *)(reinterpret_cast<::BaseProcess *>((pOtherList))->GetCurrentProcessData()));
     if (first->FUN_008256d0() != pSecondNode->FUN_008256d0())
         return true;
     if (!first->FUN_008256d0())
     {
         while (first && pSecondNode)
         {
-            LeveledEntry* a = first->FUN_006815c0();
-            LeveledEntry* b = pSecondNode->FUN_006815c0();
+            LeveledEntry* a = ((::LeveledEntry *)(new ((void *)(first)) ::Vec3()));
+            LeveledEntry* b = ((::LeveledEntry *)(new ((void *)(pSecondNode)) ::Vec3()));
             if (a && b)
             {
                 if (a->form != b->form)
@@ -1621,22 +1625,22 @@ bool LeveledComparison::FUN_004889d0(BaseFormComponent* component)
                     return true;
                 if (a->extra && !b->extra)
                 {
-                    if (!a->extra->FUN_0040e9c0())
+                    if (!reinterpret_cast<::ContainerItemExtra *>((a->extra))->IsDefault())
                         return true;
                 }
                 if (!a->extra && b->extra)
                 {
-                    if (!b->extra->FUN_0040e9c0())
+                    if (!reinterpret_cast<::ContainerItemExtra *>((b->extra))->IsDefault())
                         return true;
                 }
                 if (a->extra && b->extra)
                 {
-                    if (a->extra->Compare(b->extra))
+                    if (reinterpret_cast<::ContainerItemExtra *>((a->extra))->Compare((::ContainerItemExtra *)(b->extra)))
                         return true;
                 }
             }
-            first = first->FUN_00726070();
-            pSecondNode = pSecondNode->FUN_00726070();
+            first = ((::ListNode *)(reinterpret_cast<::Callees *>((first))->FUN_00726070()));
+            pSecondNode = ((::ListNode *)(reinterpret_cast<::Callees *>((pSecondNode))->FUN_00726070()));
         }
         if (first || pSecondNode)
             return true;
@@ -1673,7 +1677,7 @@ FUN_00c60d50_shell* __cdecl FUN_00c610a0(void)
 }  // namespace fnv_00c610a0
 
 extern "C" void* __cdecl FUN_00ec43fb(void* in, int vfDelta, void* srcType, void* targetType, int isReference);
-extern char DAT_01183040[]; /* .?AVBaseFormComponent@@ */
+ /* .?AVBaseFormComponent@@ */
 extern char DAT_01186c1c[]; /* .?AVTESLeveledList@@ */
 
 class LevObjX
@@ -1690,29 +1694,18 @@ class LevObjX
 class LLNode_cls
 {
   public:
-    LevObjX** FUN_006815c0();
-    LLNode_cls* FUN_00726070();
     bool FUN_008256d0();
     void FUN_005ae3d0(LevObjX*& obj);
-    void FUN_00905820(LevObjX*& obj);
 };
 
 class CIE_cls : public ContainerItemExtra
 {
   public:
-    bool FUN_0040e9c0();
-    void FUN_0040e980(ContainerItemExtra* src3);
 };
 
 class FUN_004887a0_cls : public TESLeveledList
 {
   public:
-    LLNode_cls* FUN_00717e50();
-    void FUN_00487900();
-    void FUN_0042e680(unsigned char v);
-    void SetFlag(bool v);
-    void SetFlag2(bool v);
-    void SetFlag4(bool v);
     void FUN_004887a0(void* comp);
 };
 
@@ -1720,40 +1713,40 @@ class FUN_004887a0_cls : public TESLeveledList
 // @fnv 0x004887a0
 void FUN_004887a0_cls::FUN_004887a0(void* apSource)
 {
-    TESLeveledList* src3 = (TESLeveledList*)FUN_00ec43fb(apSource, 0, &DAT_01183040, &DAT_01186c1c, 0);
+    TESLeveledList* src3 = (TESLeveledList*)FUN_00ec43fb(apSource, 0, &(*reinterpret_cast<char (*)[]>(&::DAT_01183040)), &DAT_01186c1c, 0);
     if (src3 == 0)
     {
         return;
     }
-    FUN_00487900();
-    LLNode_cls* it = static_cast<FUN_004887a0_cls*>(src3)->FUN_00717e50();
+    reinterpret_cast<::TESLeveledList *>(this)->InitializeLeveledList();
+    LLNode_cls* it = ((::LLNode_cls *)(reinterpret_cast<::BaseProcess *>((static_cast<FUN_004887a0_cls*>(src3)))->GetCurrentProcessData()));
     LevObjX* cell5;
-    LLNode_cls* dst = FUN_00717e50();
-    while (it != 0 && (cell5 = *it->FUN_006815c0()) != 0)
+    LLNode_cls* dst = ((::LLNode_cls *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
+    while (it != 0 && (cell5 = *((::LevObjX **)(new ((void *)(it)) ::Vec3()))) != 0)
     {
         LevObjX* newObj = new LevObjX();
         newObj->form = cell5->form;
         newObj->count = cell5->count;
         newObj->level = cell5->level;
-        if (cell5->extra != 0 && !static_cast<CIE_cls*>(cell5->extra)->FUN_0040e9c0())
+        if (cell5->extra != 0 && !reinterpret_cast<::ContainerItemExtra *>((static_cast<CIE_cls*>(cell5->extra)))->IsDefault())
         {
             newObj->extra = new ContainerItemExtra();
-            static_cast<CIE_cls*>(newObj->extra)->FUN_0040e980(cell5->extra);
+            reinterpret_cast<::ContainerItemExtra *>((static_cast<CIE_cls*>(newObj->extra)))->Copy(cell5->extra);
         }
-        if (FUN_00717e50()->FUN_008256d0())
+        if (((::LLNode_cls *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()))->FUN_008256d0())
         {
             dst->FUN_005ae3d0(newObj);
         }
         else
         {
-            dst->FUN_00905820(newObj);
-            dst = dst->FUN_00726070();
+            reinterpret_cast<::Callees *>((dst))->FUN_00905820((void *)&(newObj));
+            dst = ((::LLNode_cls *)(reinterpret_cast<::Callees *>((dst))->FUN_00726070()));
         }
-        it = it->FUN_00726070();
+        it = ((::LLNode_cls *)(reinterpret_cast<::Callees *>((it))->FUN_00726070()));
     }
     m_pLevelGlobal = src3->m_pLevelGlobal;
-    FUN_0042e680(src3->vfn_10());
-    SetFlag(src3->FUN_004877e0());
-    SetFlag2(src3->vfn_14());
-    SetFlag4(src3->FUN_004878a0());
+    reinterpret_cast<::TESLeveledList *>(this)->FUN_0042e680(src3->vfn_10());
+    reinterpret_cast<::FUN_00487800_shell *>(this)->SetFlag(src3->GetAllBelow());
+    reinterpret_cast<::FUN_00487860_shell *>(this)->SetFlag2(src3->vfn_14());
+    reinterpret_cast<::FUN_004878c0_shell *>(this)->SetFlag4(src3->GetUseAll());
 }

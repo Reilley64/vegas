@@ -2,6 +2,13 @@
 // src/havok/common/base/math/matrix/hkmatrix4.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/matrix/hkmatrix4.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00cb20b0_shell.h"
+#include "fnv/decl/FUN_00de87c0_class.h"
+#include "fnv/decl/MProduct.h"
+#include "fnv/decl/S00de9140_Matrix4.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_0104d000.h"
 struct FUN_00de8f30_Class
 {
     float m_data[16];
@@ -137,6 +144,7 @@ typedef union __declspec(intrin_type) __declspec(align(16)) __m128
     unsigned short m128_u16[8];
     unsigned int m128_u32[4];
 } __m128;
+#include "fnv/symbols_simd.h"
 
 struct __declspec(align(16)) hkVector4
 {
@@ -153,7 +161,6 @@ struct hkMatrix4
     hkVector4 m_kColumn1;
     hkVector4 m_kColumn2;
     hkVector4 m_kColumn3;
-    void FUN_00de8da0(const hkMatrix4& a, const hkMatrix4& b);
     void FUN_00de8e50(const hkMatrix4& b);
     void operator=(const hkMatrix4& o)
     {
@@ -163,14 +170,6 @@ struct hkMatrix4
         m_kColumn3 = o.m_kColumn3;
     }
 };
-
-// @fnv 0x00de8e50
-void hkMatrix4::FUN_00de8e50(const hkMatrix4& b)
-{
-    hkMatrix4 t;
-    t.FUN_00de8da0(*this, b);
-    *this = t;
-}
 
 struct FUN_00de90f0_Class
 {
@@ -194,7 +193,6 @@ void FUN_00de90f0_Class::FUN_00de90f0(const __m128* source)
 
 struct CB20B0_Class
 {
-    void FUN_00cb20b0(void* src);
 };
 struct Matrix44_shell
 {
@@ -204,7 +202,7 @@ struct Matrix44_shell
 // @fnv 0x00de9130
 void Matrix44_shell::FUN_00de9130(CB20B0_Class* dst)
 {
-    dst->FUN_00cb20b0(this);
+    reinterpret_cast<::FUN_00cb20b0_shell *>((dst))->FUN_00cb20b0((const ::Matrix44 *)(void *)(this));
 }
 
 struct Owner
@@ -213,7 +211,6 @@ struct Owner
     __m128 row10;
     __m128 row20;
     __m128 row30;
-    void FUN_00de8910(float value);
     void FUN_00de8c50(const __m128* source, float value);
 };
 // Copies four __m128 rows from source into row00..row30, then calls FUN_00de8910 with value.
@@ -224,7 +221,7 @@ void Owner::FUN_00de8c50(const __m128* apRows, float value)
     row10 = apRows[1];
     row20 = apRows[2];
     row30 = apRows[3];
-    FUN_00de8910(value);
+    reinterpret_cast<::S00de9140_Matrix4 *>(this)->FUN_00de8910(value);
 }
 
 struct SourceBlockCDF
@@ -252,7 +249,6 @@ struct SourceBlockCDF
 };
 struct TargetBlockCDF
 {
-    void FUN_00cd55b0(SourceBlockCDF* pkSource, int iArg);
 };
 struct FUN_00cdf230_cls
 {
@@ -287,7 +283,7 @@ struct FUN_00cdf230_cls
 // @fnv 0x00cdf230
 void FUN_00cdf230_cls::FUN_00cdf230(int iArg)
 {
-    m_kRoomNode.FUN_00cd55b0(&m_kSource, iArg);
+    reinterpret_cast<::MProduct *>(&(m_kRoomNode))->FUN_00cd55b0((*(const ::MProduct *)(&m_kSource)), (*(const ::MProduct *)(iArg)));
 }
 
 extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
@@ -322,7 +318,6 @@ const MatR* MatR::Add(const MatR* other)
     return other;
 }
 
-extern float DAT_0104da4c;
 
 __declspec(align(16)) struct S00de9270_Vec
 {
@@ -355,7 +350,6 @@ struct FUN_00de8da0_Class
     float unk04;
     float unk08;
     float unk0c;
-    void FUN_00de8da0(void* dst, const float* src);
 };
 
 __declspec(noinline) void FUN_00de8910_Class::FUN_00de8910(float s)
@@ -373,22 +367,6 @@ struct S00de9270_cls
     float unk0c;
     void FUN_00de9270(void* dst, const S00de9270_Mat* src);
 };
-
-// Copies the matrix into a local, passes its first row to FUN_00de8910, then passes the local data to FUN_00de8da0 for writing to dst.
-// @fnv 0x00de9270
-void S00de9270_cls::FUN_00de9270(void* dst, const S00de9270_Mat* src)
-{
-    S00de9270_Mat matTmp;
-    *(__m128*)&matTmp.m_r0 = *(const __m128*)&src->m_r0;
-    *(__m128*)&matTmp.m_r1 = *(const __m128*)&src->m_r1;
-    *(__m128*)&matTmp.m_r2 = *(const __m128*)&src->m_r2;
-    *(__m128*)&matTmp.m_r3 = *(const __m128*)&src->m_r3;
-
-    FUN_00de8910_Class* row = (FUN_00de8910_Class*)&matTmp.m_r0;
-    row->FUN_00de8910(DAT_0104da4c);
-
-    ((FUN_00de8da0_Class*)this)->FUN_00de8da0(dst, (const float*)&matTmp.m_r0);
-}
 
 extern "C" __m128 _mm_sub_ps(__m128, __m128);
 
@@ -500,13 +478,35 @@ struct Matrix4V
 {
     void FUN_00de8da0(const Matrix4Q* left, MatrixPointerQ right);
 };
+// @fnv 0x00de8e50
+void hkMatrix4::FUN_00de8e50(const hkMatrix4& b)
+{
+    hkMatrix4 t;
+    reinterpret_cast<::Matrix4V *>(&(t))->FUN_00de8da0((const ::Matrix4Q *)&(*this), (*(::MatrixPointerQ *)&(b)));
+    *this = t;
+}
+// Copies the matrix into a local, passes its first row to FUN_00de8910, then passes the local data to FUN_00de8da0 for writing to dst.
+// @fnv 0x00de9270
+void S00de9270_cls::FUN_00de9270(void* dst, const S00de9270_Mat* src)
+{
+    S00de9270_Mat matTmp;
+    *(__m128*)&matTmp.m_r0 = *(const __m128*)&src->m_r0;
+    *(__m128*)&matTmp.m_r1 = *(const __m128*)&src->m_r1;
+    *(__m128*)&matTmp.m_r2 = *(const __m128*)&src->m_r2;
+    *(__m128*)&matTmp.m_r3 = *(const __m128*)&src->m_r3;
+
+    FUN_00de8910_Class* row = (FUN_00de8910_Class*)&matTmp.m_r0;
+    reinterpret_cast<::S00de9140_Matrix4 *>((row))->FUN_00de8910(::DAT_0104da4c);
+
+    reinterpret_cast<::Matrix4V *>((((FUN_00de8da0_Class*)this)))->FUN_00de8da0((const ::Matrix4Q *)(dst), (::MatrixPointerQ)((const float*)&matTmp.m_r0));
+}
 
 // Stores the matrix product formed by dotting each row of right with each column of left.
 // @fnv 0x00de8da0
 void Matrix4V::FUN_00de8da0(const Matrix4Q* left, MatrixPointerQ right)
 {
     Matrix4Q columns(*left);
-    columns.SwapFields((hkMatrix4*)this);
+    reinterpret_cast<::FUN_00de87c0_class *>(&(columns))->SwapFields();
     float* destination = reinterpret_cast<float*>(this);
     const float* input = reinterpret_cast<const float*>(right.value);
     for (int row = 0; row != 4; ++row)
@@ -529,9 +529,6 @@ extern "C"
     int _mm_movemask_ps(__m128);
 }
 
-extern float DAT_01011d78;
-extern float DAT_01012068;
-extern __m128 DAT_01017d10;
 
 struct FUN_00de8ea0_cls
 {
@@ -545,10 +542,10 @@ struct FUN_00de8ea0_cls
 int FUN_00de8ea0_cls::FUN_00de8ea0()
 {
     __m128 column = _mm_setr_ps(m_data[3], m_data[7], m_data[11], m_data[15]);
-    __m128 ref = _mm_setr_ps(DAT_01011d78, DAT_01011d78, DAT_01011d78, DAT_01012068);
+    __m128 ref = _mm_setr_ps(::DAT_01011d78, ::DAT_01011d78, ::DAT_01011d78, DAT_01012068);
     __m128 diff = _mm_sub_ps(column, ref);
-    __m128 absDiff = _mm_and_ps(diff, DAT_01017d10);
-    __m128 bound = _mm_set_ps1(DAT_01011d78);
+    __m128 absDiff = _mm_and_ps(diff, ::DAT_01017d10);
+    __m128 bound = _mm_set_ps1(::DAT_01011d78);
     __m128 cmp = _mm_cmple_ps(absDiff, bound);
     int mask = _mm_movemask_ps(cmp) & 7;
     return mask == 7;

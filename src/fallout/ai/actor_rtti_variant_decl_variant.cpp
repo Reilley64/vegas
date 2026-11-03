@@ -5,6 +5,84 @@
 // src/fallout/ai/actor_rtti_variant.cpp - RTTI variant unit created 2026-10-24 by rtti_variants.py for paused functions whose original code needs
 // polymorphic classes (TESBoundObject). The skeleton of src/fallout/ai/actor.cpp with those classes made polymorphic; move the functions to
 // their real unit once its classes are.
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/BaseExtraList_shell.h"
+#include "fnv/decl/Calendar.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00409480_shell.h"
+#include "fnv/decl/FUN_00416870_t.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00453700_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_00491040_shell.h"
+#include "fnv/decl/FUN_00491180_shell.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/FUN_00494710_shell.h"
+#include "fnv/decl/FUN_0049bdc0_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00508100_shell.h"
+#include "fnv/decl/FUN_00508d70_shell.h"
+#include "fnv/decl/FUN_005224e0_class.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_0057b0a0_shell.h"
+#include "fnv/decl/FUN_005a2030_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00619a70_shell.h"
+#include "fnv/decl/FUN_0061cdc0_shell.h"
+#include "fnv/decl/FUN_0061cfd0_shell.h"
+#include "fnv/decl/FUN_0061e600_t.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00867c60_shell.h"
+#include "fnv/decl/FUN_008846e0_shell.h"
+#include "fnv/decl/FUN_008b7c00_cls.h"
+#include "fnv/decl/FUN_008bff50_Standin.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FUN_0098adb0_shell.h"
+#include "fnv/decl/FUN_009c8d60_t.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/Me.h"
+#include "fnv/decl/OwnershipReferenceView.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/ThisStub.h"
+#include "fnv/decl/TopicFlagStandIn.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/UAMActor.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_0043fcd0__FUN_0043fcd0_shell.h"
+#include "fnv/decl/fnv_004518e0__TESObjectCELL.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_004955c0__FUN_004955c0_t.h"
+#include "fnv/decl/fnv_00567050__FUN_00567050_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_0087ce80__FUN_0087ce80_shell.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_00895110__PickActor.h"
+#include "fnv/decl/fnv_0089f580__ActorStub.h"
+#include "fnv/decl/fnv_008b28c0__This8b.h"
+#include "fnv/decl/fnv_009721f0__FUN_009721f0_shell.h"
+#include "fnv/decl/fnv_009eb9c0__Crime.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00619000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_009e3000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_01020000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_011cd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f2000.h"
+#include "fnv/symbols_011f6000.h"
 #include "actor_rtti_actor_decl_actor_rtti_variant.h"
 
 struct FUN_009eb500;
@@ -346,31 +424,19 @@ struct FUN_009eb500
     int unknown14, unknown18, unknown1C, unknown20, unknown24;
     int unknown28, unknown2C, unknown30, unknown34, unknown38;
     FUN_009eb500(int, TESObjectREFR*, Actor*, int, int, int);
-    Actor* FUN_0044ddc0();
-    Actor* FUN_0084e3a0();
-    void AddActor(Actor*);
 };
 
 struct CrimeLimit
 {
-    int* FUN_0043d4d0();
 };
-extern CrimeLimit g_011cd9f4;
 struct CrimeCalendar
 {
-    float FUN_00867da0();
-    char FUN_00867d60();
     int FUN_00867d20();
-    int FUN_00867c60();
 };
-extern CrimeCalendar g_011de7b8;
 struct CrimeQueue
 {
-    void AddObjectToList(FUN_009eb500*);
 };
-extern CrimeQueue g_011e0e80;
 
-extern PlayerCharacter* DAT_011dea3c;
 class TESNPC : public TESBoundObject
 {
 };
@@ -378,44 +444,44 @@ class TESNPC : public TESBoundObject
 void Actor::FUN_008c00e0(TESObjectREFR* victimRef, int amount, int crimeValue)
 {
     bool status = false;
-    if ((Actor*)this != DAT_011dea3c)
+    if ((Actor*)this != ::_g_thePlayer)
         return;
-    if (DAT_011dea3c->GetField230() < *g_011cd9f4.FUN_0043d4d0() && (Actor*)this == DAT_011dea3c)
+    if (((int)(reinterpret_cast<::FUN_005224e0_class *>((::_g_thePlayer))->GetField230())) < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::CrimeLimit *>(&::g_011cd9f4)))))) && (Actor*)this == ::_g_thePlayer)
         status = true;
     Actor* entry = dynamic_cast<Actor*>(victimRef);
     if (entry->IsDead() || entry->IsDisabled())
     {
-        entry->GetProcess()->ClearCrime(true);
+        ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((entry))->GetBaseTexture()))->ClearCrime(true);
         return;
     }
-    if ((Actor*)this != DAT_011dea3c && ActorValueOwner::FUN_0066ef20(42) == 100 && IsSneaking())
+    if ((Actor*)this != ::_g_thePlayer && reinterpret_cast<::ActorValueOwner *>(this)->GetActorValueAsInteger((::ActorValue::Index)(42)) == 100 && IsSneaking())
         return;
     FUN_009eb500* isLowLevel = 0;
     isLowLevel = new FUN_009eb500(1, victimRef, (Actor*)this, amount, crimeValue, 0);
     Actor* target = (Actor*)victimRef;
     bool crime = false;
-    if ((isLowLevel && target == isLowLevel->FUN_0044ddc0()) || isLowLevel->FUN_0044ddc0()->FUN_005785e0(target, true))
+    if ((isLowLevel && target == ((::Actor *)(reinterpret_cast<::Twin_0044ddc0 *>((isLowLevel))->GetName()))) || reinterpret_cast<::OwnershipReferenceView *>((((::Actor *)(reinterpret_cast<::Twin_0044ddc0 *>((isLowLevel))->GetName()))))->FUN_005785e0(target, true))
         crime = true;
-    CrimeStatus* base = target->GetProcess()->FindCrime(isLowLevel->FUN_0084e3a0(), 0);
+    CrimeStatus* base = ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->FindCrime(((::Actor *)(reinterpret_cast<::FUN_0084e3a0_Class *>((isLowLevel))->FUN_0084e3a0())), 0);
     int victim = 3;
     if (!base)
-        target->GetProcess()->SetCrimeStatus(target, victim);
+        ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->SetCrimeStatus(target, victim);
     else
         base->status = victim;
-    TESNPC* form = dynamic_cast<TESNPC*>(target->GetObjectReference());
-    entry->GetProcess()->ClearCrime(true);
-    target->GetExtraData()->AddOrCreateExtraItem(isLowLevel, g_011de7b8.FUN_00867da0());
-    isLowLevel->AddActor((Actor*)this);
-    g_011e0e80.AddObjectToList(isLowLevel);
-    target->FUN_008bff50();
-    target->FUN_008b7c00(true, true);
+    TESNPC* form = dynamic_cast<TESNPC*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((target))->FUN_007af430())));
+    ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((entry))->GetBaseTexture()))->ClearCrime(true);
+    reinterpret_cast<::BaseExtraList_shell *>((((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((target))->FUN_005d43c0()))))->AddOrCreateExtraItem(isLowLevel, reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::CrimeCalendar *>(&::g_011de7b8))))->GetGameTime());
+    reinterpret_cast<::fnv_009eb9c0::Crime *>((isLowLevel))->AddActor((Actor*)this);
+    reinterpret_cast<::fnv_009721f0::FUN_009721f0_shell *>(&((*reinterpret_cast<::CrimeQueue *>(&::g_011e0e80))))->AddObjectToList((::fnv_009721f0::TESFormList *)(isLowLevel));
+    reinterpret_cast<::FUN_008bff50_Standin *>((target))->FUN_008bff50();
+    reinterpret_cast<::FUN_008b7c00_cls *>((target))->FUN_008b7c00(true, true);
     if (m_bActorListValid)
     {
         bool alert = true;
         if (m_iIntegerAfterActorListValid > 0)
         {
             int day = m_iIntegerAfterActorListValid & 0x1ff;
-            if (day != g_011de7b8.FUN_00867d60())
+            if (day != ((char)(reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::CrimeCalendar *>(&::g_011de7b8))))->GetDayOfMonth())))
             {
                 alert = false;
                 m_bActorListValid = false;
@@ -423,7 +489,7 @@ void Actor::FUN_008c00e0(TESObjectREFR* victimRef, int amount, int crimeValue)
         }
         if (alert)
         {
-            this->Alert(DAT_011dea3c, 0, 1, 0, 0, 0, 1, 0);
+            this->Alert(::_g_thePlayer, 0, 1, 0, 0, 0, 1, 0);
             return;
         }
     }
@@ -431,7 +497,7 @@ void Actor::FUN_008c00e0(TESObjectREFR* victimRef, int amount, int crimeValue)
     {
         m_bActorListValid = true;
         m_iIntegerAfterActorListValid =
-            (g_011de7b8.FUN_00867d20() << 9) | g_011de7b8.FUN_00867d60() | (g_011de7b8.FUN_00867c60() << 13);
+            ((*reinterpret_cast<::CrimeCalendar *>(&::g_011de7b8)).FUN_00867d20() << 9) | ((char)(reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::CrimeCalendar *>(&::g_011de7b8))))->GetDayOfMonth())) | (((int)(reinterpret_cast<::FUN_00867c60_shell *>(&((*reinterpret_cast<::CrimeCalendar *>(&::g_011de7b8))))->FUN_00867c60())) << 13);
     }
-    target->FUN_008bf500((Actor*)this);
+    reinterpret_cast<::Me *>((target))->FUN_008bf500((Actor*)this);
 }

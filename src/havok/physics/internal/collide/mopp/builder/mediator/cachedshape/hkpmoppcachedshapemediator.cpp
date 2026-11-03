@@ -3,6 +3,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00dd55d0
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d54000.h"
 int __stdcall InitIntToZero(int, int* piValue)
 {
     *piValue = 0;
@@ -73,7 +75,6 @@ struct S_00d54cd0_Result
     int unk28;
     bool unk2C;
 };
-S_00d54cd0_Result* FUN_00d54a40(S_00d54cd0_Base* col, void* world, S_00d54cd0_Input* in, void* out) throw();
 // @fnv 0x00d54cd0
 S_00d54cd0_Result* FUN_00d54cd0(void* world, S_00d54cd0_Input* pInput, void* out)
 {
@@ -81,12 +82,12 @@ S_00d54cd0_Result* FUN_00d54cd0(void* world, S_00d54cd0_Input* pInput, void* out
     if (pInput->unk20)
     {
         S_00d54cd0_All col(world);
-        r = FUN_00d54a40(&col, world, pInput, out);
+        r = ((::S_00d54cd0_Result *)(::FUN_00d54a40(&col, world, (::Arg2Struct *)(pInput), (::SearchObject *)(out))));
     }
     else
     {
         S_00d54cd0_Closest col(world);
-        r = FUN_00d54a40(&col, world, pInput, out);
+        r = ((::S_00d54cd0_Result *)(::FUN_00d54a40(&col, world, (::Arg2Struct *)(pInput), (::SearchObject *)(out))));
     }
     r->unk2C = pInput->unk1E == 0;
     return r;
@@ -216,33 +217,8 @@ class FUN_00dd5cd0_cls
     int unk10;
     Mgr* m_pMgr;
 
-    void ComputeAxisRanges(Item* item, int m, int a, int b);
     void ProcessItems(int a, int b);
 };
-
-// Iterates count items from m_pMgr starting at m, calling ComputeAxisRanges on each item whose v14() is nonzero, advancing m via v0c.
-// @fnv 0x00dd5cd0
-void FUN_00dd5cd0_cls::ProcessItems(int aiArg1, int aiArg2)
-{
-    __declspec(align(16)) int slots[127];
-    int i;
-    int count = m_pMgr->v04();
-    int m = m_pMgr->v08();
-    if (count > 0)
-    {
-        i = count;
-        do
-        {
-            Item* item = m_pMgr->v14(m, slots);
-            if (item->v14())
-            {
-                ComputeAxisRanges(item, m, aiArg1, aiArg2);
-            }
-            m = m_pMgr->v0c(m);
-            i = i - 1;
-        } while (i != 0);
-    }
-}
 
 class DD5D50ReferencedObject
 {
@@ -333,7 +309,6 @@ struct Vec4Bits
     unsigned int u3;
 };
 
-void __cdecl ResizeAudioStream(AudioAllocator* apAllocator, void* apVector, int aiElemSize);
 
 struct Src_00dd5b00
 {
@@ -385,6 +360,29 @@ struct Obj_00dd5b00
 
     void ComputeAxisRanges(Src_00dd5b00* apSource, int aiId, Item_00dd5b00* apItems, int aiCount);
 };
+// Iterates count items from m_pMgr starting at m, calling ComputeAxisRanges on each item whose v14() is nonzero, advancing m via v0c.
+// @fnv 0x00dd5cd0
+void FUN_00dd5cd0_cls::ProcessItems(int aiArg1, int aiArg2)
+{
+    __declspec(align(16)) int slots[127];
+    int i;
+    int count = m_pMgr->v04();
+    int m = m_pMgr->v08();
+    if (count > 0)
+    {
+        i = count;
+        do
+        {
+            Item* item = m_pMgr->v14(m, slots);
+            if (item->v14())
+            {
+                reinterpret_cast<::Obj_00dd5b00 *>(this)->ComputeAxisRanges((::Src_00dd5b00 *)(item), m, (::Item_00dd5b00 *)(aiArg1), aiArg2);
+            }
+            m = m_pMgr->v0c(m);
+            i = i - 1;
+        } while (i != 0);
+    }
+}
 
 inline float Dot3_00dd5b00(const __m128& a, const __m128& b)
 {
@@ -412,7 +410,7 @@ void Obj_00dd5b00::ComputeAxisRanges(Src_00dd5b00* apSource, int aiId, Item_00dd
     AudioHolder* pGrow = FUN_00c85750();
     if (pList->m_iArrayLength == (int)(pList->m_uCapFlags & 0x3fffffff))
     {
-        ResizeAudioStream(pGrow->m_pAllocator, pList, 0x6c);
+        ::ResizeAudioStream(pGrow->m_pAllocator, (::AudioStream *)(pList), 0x6c);
     }
     Entry_00dd5b00* pEntry = &pList->m_pData[pList->m_iArrayLength++];
     pEntry->m_iOwnerObjectOffset = aiId;

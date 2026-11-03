@@ -3,28 +3,39 @@
 // to their real unit once identified.
 
 
+#include "fnv/decl/DD8FE0_Stream.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00d46f60_Class.h"
+#include "fnv/decl/FUN_00d605d0_class.h"
+#include "fnv/decl/FUN_00d607b0_class.h"
+#include "fnv/decl/FUN_00d609a0_Class.h"
+#include "fnv/decl/FUN_00dd90d0_cls.h"
+#include "fnv/decl/S_00dd9380.h"
+#include "fnv/decl/fnv_00ddb550__FUN_00ddb550_cls.h"
+#include "fnv/decl/fnv_00ddb670__FUN_00ddb670.h"
+#include "fnv/decl/hkOwnerXcd13c0.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00d60000.h"
+#include "fnv/symbols_00ddb000.h"
+#include "fnv/symbols_00ddc000.h"
+#include "fnv/symbols_00e0b000.h"
+#include "fnv/symbols_010d6000.h"
+#include "fnv/symbols_011b7000.h"
+#include "fnv/symbols_01269000.h"
+#include "fnv/symbols_0126c000.h"
 void __stdcall GetPunctuationChars(char** apOutString, int* apiLength);
 struct hkInspectProcess;
 struct hkProcess;
-extern hkProcess* DAT_01269cd0;
 extern hkInspectProcess* DAT_01269cd4;
-void __cdecl FUN_00ddb710(hkProcess*);
 struct hkProcessFactory
 {
-    hkInspectProcess* __thiscall RegisterProcess(const char*, void(__cdecl*)(hkProcess*));
 };
-extern hkProcessFactory* FUN_00dd9380;
 void __cdecl RegisterObjectInspectionProcess();
 struct hkInspectProcessStandIn
 {
-    void __thiscall WriteObjectHeader(void* object, int type, int flags);
-    void __thiscall RemovePair(void* object);
 };
-void __cdecl FUN_00ddb5d0(void* object, int type, char addObject, int flags, hkInspectProcess* inspectProcess);
-void __cdecl CreateImpl(hkProcess*);
 struct hkInspectProcess;
-extern hkInspectProcess* DAT_01269cd8;
-hkInspectProcess* __cdecl CreateStatisticsProcess();
 struct hkInspectProcess;
 extern hkInspectProcess* DAT_01269cd4;
 hkInspectProcess* FUN_00ddbeb0();
@@ -53,8 +64,6 @@ class hkSourceDDB6
     int unk00;
     void* m_target;
 
-    void FUN_00c90510() throw();
-    void FUN_00cd13c0(void(__cdecl* callback)(void*), void* userData) throw();
 };
 struct hkSourceListDDB6
 {
@@ -69,7 +78,6 @@ template <typename T> struct hkArrayDDB6
     hkArrayDDB6() throw() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
     {}
 };
-void __cdecl FUN_00ddb5d0(void* userData);
 class FUN_00ddb600 : public hkRefObjDDB6, public hkListenerDDB6
 {
   public:
@@ -105,7 +113,6 @@ struct FnvCpu_FUN_00ddb710_CpuBlock
     unsigned short size;
     FnvCpu_FUN_00ddb710_CpuBlock* FUN_00ddb600(unsigned int value);
 };
-void* __cdecl FUN_00ddb710(unsigned int value);
 struct MemoryManager
 {
     virtual void unk0();
@@ -127,7 +134,6 @@ struct TestClass
     unsigned short m_usAllocationSize;
     unsigned short m_iObjectReferenceCount;
 
-    void FUN_00ddb670();
     void* FUN_00ddbed0(char flags);
 };
 class hkClass;
@@ -173,9 +179,6 @@ class ProcessContext
 class hkOArchive
 {
   public:
-    void FUN_00d60960(unsigned int);
-    void FUN_00d605d0(unsigned char);
-    void FUN_00d609a0(unsigned __int64);
 };
 struct hkInspectProcess
 {
@@ -192,15 +195,10 @@ struct LayoutRulesDDB3
     unsigned char m_bReusePaddingOptimization;
     unsigned char m_bEmptyBaseClassOptimization;
 };
-extern const LayoutRulesDDB3 DAT_011b7b88;
 class GlobalObjectO2_00d472a0;
-extern GlobalObjectO2_00d472a0 g_0126cae8;
 class FUN_00d605d0_Class
 {
   public:
-    void FUN_00d60960(int iCommand);
-    void FUN_00d605d0(unsigned int uiValue);
-    void FUN_00d609a0(const GlobalObjectO2_00d472a0* pkClass, int iFlags);
 };
 struct TrackedObjectDDB3
 {
@@ -248,7 +246,6 @@ class InspectProcessDDB3 : public ProcessBaseDDB3, public ListenerDDB3
     int unk18, unk1C, unk20, unk24, unk28;
     TrackedListDDB3* m_pkTracked;
 
-    void WriteObjectHeader(void* pvObject, int iType, int iFlags);
     virtual void WriteTrackedObjects();
 };
 struct hkMemoryAllocatorQ
@@ -271,7 +268,6 @@ struct hkMemoryRouterQ
         return *m_pStreamAllocator;
     }
 };
-void __cdecl ResizeAudioStream(hkMemoryAllocatorQ* alloc, void* array, int sizeElem) throw();
 template <typename T> struct hkArrQ
 {
     T* m_data;
@@ -317,7 +313,7 @@ template <typename T> struct hkArrQ
     {
         if (m_iElementCount == getCapacity())
         {
-            ResizeAudioStream(&alloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(::hkMemoryAllocatorQ *)(&alloc), (::AudioStream *)(void *)(this), sizeof(T));
         }
         T* p = m_data + m_iElementCount;
         m_iElementCount++;
@@ -383,7 +379,6 @@ struct hkLayoutRulesQ
     unsigned char m_bReusePaddingOptimization;
     unsigned char m_bEmptyBaseClassOptimization;
 };
-extern hkLayoutRulesQ DAT_010d6ae8;
 struct hkStructureLayoutQ
 {
     hkLayoutRulesQ m_kLayoutRules;
@@ -415,12 +410,7 @@ struct hkWrittenObjectQ
 };
 struct hkDisplayOStreamQ
 {
-    void FUN_00d60960(int size) throw();
-    void FUN_00d605d0(unsigned int cmd) throw();
-    void FUN_00d607b0(const char* data, int size) throw();
 };
-int __cdecl FUN_00e0bd40(hkArrayStreamWriterQ* writer, hkStructureLayoutQ* layout, const void* object, int flags,
-                         const void* original, const hkClassQ* pClassInfo, hkArrQ<hkObjectPatchQ>* patches) throw();
 struct hkInspectProcessQ
 {
     int unk00;
@@ -482,16 +472,16 @@ int hkInspectProcessQ::FUN_00ddb770(const void* object, const hkClassQ* pClassIn
 
     hkArrQ<char> buffer;
     hkArrayStreamWriterQ writer(&buffer, 1);
-    int size = FUN_00e0bd40(&writer, &layout, object, 0, object, realClass, &patches);
+    int size = ::FUN_00e0bd40((::Sink *)(::hkArrayStreamWriterQ *)(&writer), (::ObjectWriteInfo *)(::hkStructureLayoutQ *)(&layout), (unsigned int)(object), 0, (int)(object), (unsigned int)(realClass), (::ObjectWriteArrItem *)(::hkArrQ< ::hkObjectPatchQ> *)(&patches));
     if (size != buffer.GetLogicalSize() || size < 1)
     {
         return -1;
     }
 
     int total = size + 1;
-    m_pDisplayStream->FUN_00d60960(total);
-    m_pDisplayStream->FUN_00d605d0(0x24);
-    m_pDisplayStream->FUN_00d607b0(buffer.m_data, buffer.GetLogicalSize());
+    ::FUN_00d60960((const float *)(m_pDisplayStream));
+    reinterpret_cast<::FUN_00d605d0_class *>((m_pDisplayStream))->FUN_00d605d0(0x24);
+    reinterpret_cast<::FUN_00d607b0_class *>((m_pDisplayStream))->FUN_00d607b0((int)(buffer.m_data));
     if (recurse)
     {
         for (int i = 0; i < patches.GetLogicalSize(); i++)
@@ -525,30 +515,28 @@ Derived::Derived()
 typedef unsigned __int64 Wide;
 struct InputArchive
 {
-    void FUN_00dd8fe0(void* data, int width, int count);
-    int FUN_00dd90d0(void* data, int bytes);
     __forceinline Wide readWide()
     {
         Wide value;
-        FUN_00dd8fe0(&value, 8, 1);
+        reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&value, 8, 1);
         return value;
     }
     __forceinline unsigned short readWord()
     {
         unsigned short value;
-        FUN_00dd8fe0(&value, 2, 1);
+        reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&value, 2, 1);
         return value;
     }
     __forceinline unsigned int ReadTag()
     {
         unsigned int value;
-        FUN_00dd8fe0(&value, 4, 1);
+        reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&value, 4, 1);
         return value;
     }
     __forceinline unsigned char readByte()
     {
         unsigned char value;
-        FUN_00dd8fe0(&value, 1, 1);
+        reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&value, 1, 1);
         return value;
     }
 };
@@ -580,8 +568,6 @@ static __forceinline HeapAllocator& getHeap()
 {
     return static_cast<HeapRouter*>(FUN_00c85750())->heap();
 }
-void __cdecl FUN_00c908c0(HeapAllocator&, void*, int, int);
-void __cdecl ResizeAudioStream(HeapAllocator&, void*, int);
 template <class T> struct ListBase
 {
     T* data;
@@ -620,7 +606,7 @@ template <class T> struct ListBase
         if (getCapacity() < n)
         {
             int twice = 2 * getCapacity();
-            FUN_00c908c0(heap, this, n < twice ? twice : n, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(heap), (::SpawnedArray *)(void *)(this), n < twice ? twice : n, sizeof(T));
         }
     }
     __forceinline void resize(HeapAllocator& heap, int n)
@@ -639,7 +625,7 @@ template <class T> struct ListBase
     __forceinline T& expand(HeapAllocator& heap)
     {
         if (size == getCapacity())
-            ResizeAudioStream(heap, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)&(heap), (::AudioStream *)(void *)(this), sizeof(T));
         return data[size++];
     }
     __forceinline void remove(int index)
@@ -684,7 +670,6 @@ template <class T> struct List : ListBase<T>
 struct MemberInfo;
 struct TypeInfo
 {
-    MemberInfo& FUN_00d46f60(int index);
     const MemberInfo& FUN_00d46f20(int index) const;
 };
 struct MemberInfo
@@ -764,7 +749,6 @@ static __declspec(noinline) void* FUN_00ddb450(void* address, const List<unsigne
     }
     return 0;
 }
-void __cdecl FUN_00cb1260(void* destination, const void* source, int bytes);
 struct InspectInputBase
 {
     virtual void FUN_00ddbae0(unsigned char);
@@ -796,16 +780,16 @@ void InspectConsumer::FUN_00ddbae0(unsigned char command)
         unsigned int bytes = input->ReadTag();
         List<unsigned char> payload(bytes);
         payload.SetSizeAndGrow(bytes);
-        input->FUN_00dd90d0(payload.begin(), bytes);
+        reinterpret_cast<::FUN_00dd90d0_cls *>((input))->FUN_00dd90d0((int)(payload.begin()));
         if (objectID > 0 && classID > 0 && path.GetLogicalSize() > 0 && bytes > 0)
         {
             void* object = reinterpret_cast<void*>(unsigned int(objectID));
             TypeInfo* type = reinterpret_cast<TypeInfo*>(unsigned int(classID));
-            const MemberInfo& field = type->FUN_00d46f60(path[0]);
+            const MemberInfo& field = (*(::MemberInfo *)(reinterpret_cast<::FUN_00d46f60_Class *>((type))->FUN_00d46f60(path[0])));
             void* destination = FUN_00ddb450(static_cast<char*>(object) + field.getOffset(), path, 0, field.getKind(),
                                              field.getSubtype(), &field);
             if (destination)
-                FUN_00cb1260(destination, payload.begin(), bytes);
+                ::FUN_00cb1260(destination, payload.begin(), bytes);
         }
         break;
     }

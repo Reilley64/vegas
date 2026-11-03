@@ -2,10 +2,33 @@
 // src/bsshader/bsshadermanager_od_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/bsshader/bsshadermanager.cpp functions whose prologue its flags cannot
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/FUN_0046e8e0_This.h"
+#include "fnv/decl/FUN_0046eb00_Class.h"
+#include "fnv/decl/FUN_0046eb20_Class.h"
+#include "fnv/decl/FUN_0046ebd0_Class.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00ba3780_struct.h"
+#include "fnv/decl/NiNode.h"
+#include "fnv/decl/fnv_0046eb40__FUN_0046eb40_Class.h"
+#include "fnv/decl/fnv_0046eb60__FUN_0046eb60_Class.h"
+#include "fnv/decl/fnv_0046eb80__FUN_0046eb80_Class.h"
+#include "fnv/decl/fnv_0046eba0__FUN_0046eba0_class.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_00a60000.h"
+#include "fnv/symbols_00a61000.h"
+#include "fnv/symbols_00b4f000.h"
+#include "fnv/symbols_00b54000.h"
+#include "fnv/symbols_00b55000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f8000.h"
+#include "fnv/symbols_011f9000.h"
 #include "bsshadermanager_decls.h"
 #include <stddef.h>
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" int __cdecl sprintf_s(char*, size_t, const char*, ...);
 extern "C" int __cdecl strcpy_s(char*, size_t, const char*);
 extern "C" char* __cdecl strrchr(const char*, int);
 extern "C" int __cdecl _strnicmp(const char*, const char*, size_t);
@@ -111,12 +134,15 @@ template <> class NiPointer<NiTexture>
         }
     }
 };
+class NiFixedString;
+class NiTexture__FormatPrefs;
 class NiSourceTexture : public NiTexture
 {
   public:
     void* m_spPixelData;
     const char* m_pcFileName;
-    static NiSourceTexture* Create(const NiFixedString&, NiTexture::TextureFormatPreferences&, bool, bool);
+public:
+    static ::NiSourceTexture *Create(const ::NiFixedString &, ::NiTexture__FormatPrefs &, bool, bool);
 };
 class FileFinder
 {
@@ -135,7 +161,6 @@ class TextureFileEntrySetter
 class NiAVObject
 {
   public:
-    void UpdateSceneObject();
 };
 class ShadowSceneNode
 {
@@ -159,19 +184,9 @@ class BSShaderManager
     static void SetObjectTypeRecursively(NiAVObject*, eObjectType, bool, bool);
     static void SetFogPropertyForIndex(int, BSFogProperty*);
 };
-extern "C" FileFinder* g_fileFinder;
-extern "C" bool fnv_NiStreamGetTexture(const char*, NiPointer<NiTexture>&);
-NiTexture* CreateSpawnedCubeShell(const NiFixedString&, NiRenderer*, NiTexture::TextureFormatPreferences&);
-extern NiRenderer* DAT_011f9508;
-extern NiTexture::TextureFormatPreferences DAT_011a9598;
-extern NiRTTI DAT_011f444c;
-extern const double DAT_01023128, DAT_010ad6d8;
+extern const double DAT_010ad6d8;
 extern float DAT_011adcc8;
-extern unsigned int DAT_011f91b8;
 extern void (*DAT_011f9f38)(), (*DAT_011f9f3c)();
-extern void (*DAT_011f9f40[16])(), (*DAT_011f9f80[16])();
-extern unsigned int (*DAT_011f91ec)(NiAVObject*);
-extern ShadowSceneNode* DAT_011f91c8[4];
 class SkyShaderProperty
 {
   public:
@@ -183,21 +198,15 @@ class SkyShaderProperty
 // The shipped setter was built without optimization.
 #pragma optimize("", off)
 #pragma optimize("", on)
-void __cdecl FUN_00b4f2f0(int idx, ShadowSceneNode* p);
 struct ImageSpaceTexture
 {
-    NiTexture* GetTexture();
 };
 struct ImageSpaceManager
 {
     char data[0x204];
     ImageSpaceTexture m_texture;
 };
-extern ImageSpaceManager* DAT_011f91ac;
-NiTexture* GetImageSpaceTexture();
-extern "C" NiTexture* DAT_011f95ec;
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-void __cdecl FUN_00b54ac0(NiTexture* pkTexture);
 struct PropHelper
 {
     virtual void vfn_0();
@@ -207,17 +216,11 @@ struct PropHelper
     virtual void vfn_10();
     virtual void vfn_14();
     virtual void* vfn_18();
-    void* GetProperty(unsigned int);
     char _pad[0x9C];
     void** m_children;
     unsigned short _pad2;
     unsigned short m_uiItemCount;
 };
-void __cdecl ProcessPropertyTree(PropHelper*, int);
-void __cdecl ProcessPropertyTree(PropHelper* obj, int param2);
-BSFogProperty* __cdecl FUN_00b55520(int aiShadowSceneNode);
-void ProcessPropertyTree(NiAVObject*, unsigned int);
-void FUN_00b55b80(NiAVObject* obj);
 struct tagRECT
 {
     long left;
@@ -255,31 +258,19 @@ struct TGAVObject
 struct TGNode : TGAVObject
 {
     unsigned int GetArrayCount();
-    TGAVObject* GetAt(unsigned int auiIndex);
 };
 
 struct TGGeometry : TGAVObject
 {
-    TGProperty* GetProperty(unsigned int auiType);
 };
 
 struct TGTexturingProperty
 {
-    TGTextureInfo* GetDetailMap(TGGeometry* apGeom, const char* apName, int aiArg, bool abAlpha);
-    TGTextureInfo* GetBumpMap(TGGeometry* apGeom, const char* apName, int aiArg, bool abAlpha);
-    TGTextureInfo* GetGlowMap(TGGeometry* apGeom, const char* apName, int aiArg, bool abAlpha);
-    TGTextureInfo* GetGlossMap(TGGeometry* apGeom, const char* apName, int aiArg, bool abAlpha);
-    TGTextureInfo* GetDarkMap(TGGeometry* apGeom, const char* apName, int aiArg, bool abAlpha);
-    unsigned int GetDecalMapCount();
-    TGTextureInfo* GetDecalMap(unsigned int auiIndex, TGGeometry* apGeom, const char* apName, int aiArg, bool abAlpha);
 };
 
-extern TGRTTI g_kTexturingPropertyRTTI;
-TGTexturingProperty* __cdecl TGDynamicCast(const TGRTTI* apRTTI, TGProperty* apProperty);
 
 struct TGGatherer
 {
-    void AddTexture(TGTextureInfo* apInfo);
     void FUN_0046e910(TGAVObject* apObject, int aiArg);
 };
 
@@ -291,17 +282,17 @@ void TGGatherer::FUN_0046e910(TGAVObject* apObject, int aiArg)
         if (apObject->IsGeometry())
         {
             TGGeometry* pGeom = (TGGeometry*)apObject;
-            TGProperty* pAlpha6 = pGeom->GetProperty(3);
-            TGTexturingProperty* pTexProp2 = TGDynamicCast(&g_kTexturingPropertyRTTI, pGeom->GetProperty(5));
+            TGProperty* pAlpha6 = ((::TGProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((pGeom))->FUN_00a59d30(3)));
+            TGTexturingProperty* pTexProp2 = ((::TGTexturingProperty *)(::FUN_00653270((const ::NiRTTI *)(const ::TGRTTI *)(&(*reinterpret_cast<::TGRTTI *>(&::g_011f49a4))), (::NiObject *)(::TGProperty *)(((::TGProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((pGeom))->FUN_00a59d30(5)))))));
             if (pTexProp2)
             {
-                AddTexture(pTexProp2->GetDetailMap(pGeom, "Detail Map", aiArg, pAlpha6 != 0));
-                AddTexture(pTexProp2->GetBumpMap(pGeom, "Bump Map", aiArg, pAlpha6 != 0));
-                AddTexture(pTexProp2->GetGlowMap(pGeom, "Glow Map", aiArg, pAlpha6 != 0));
-                AddTexture(pTexProp2->GetGlossMap(pGeom, "Gloss Map", aiArg, pAlpha6 != 0));
-                AddTexture(pTexProp2->GetDarkMap(pGeom, "Dark Map", aiArg, pAlpha6 != 0));
-                for (unsigned int i = 0; i < pTexProp2->GetDecalMapCount(); i++)
-                    AddTexture(pTexProp2->GetDecalMap(i, pGeom, "Decal Map", aiArg, pAlpha6 != 0));
+                reinterpret_cast<::FUN_0046e8e0_This *>(this)->FUN_0046e8e0((::KFModel *)(::TGTextureInfo *)(((::TGTextureInfo *)(reinterpret_cast<::FUN_0046eb20_Class *>((pTexProp2))->GetElementAt2()))), {}, {}, {}, {});
+                reinterpret_cast<::FUN_0046e8e0_This *>(this)->FUN_0046e8e0((::KFModel *)(::TGTextureInfo *)(((::TGTextureInfo *)(reinterpret_cast<::fnv_0046eb80::FUN_0046eb80_Class *>((pTexProp2))->GetEntryAt5()))), {}, {}, {}, {});
+                reinterpret_cast<::FUN_0046e8e0_This *>(this)->FUN_0046e8e0((::KFModel *)(::TGTextureInfo *)(((::TGTextureInfo *)(reinterpret_cast<::fnv_0046eb60::FUN_0046eb60_Class *>((pTexProp2))->FUN_0046eb60()))), {}, {}, {}, {});
+                reinterpret_cast<::FUN_0046e8e0_This *>(this)->FUN_0046e8e0((::KFModel *)(::TGTextureInfo *)(((::TGTextureInfo *)(reinterpret_cast<::fnv_0046eb40::FUN_0046eb40_Class *>((pTexProp2))->FUN_0046eb40()))), {}, {}, {}, {});
+                reinterpret_cast<::FUN_0046e8e0_This *>(this)->FUN_0046e8e0((::KFModel *)(::TGTextureInfo *)(((::TGTextureInfo *)(reinterpret_cast<::FUN_0046eb00_Class *>((pTexProp2))->GetSecondElement()))), {}, {}, {}, {});
+                for (unsigned int i = 0; i < reinterpret_cast<::FUN_0046ebd0_Class *>((pTexProp2))->FUN_0046ebd0(); i++)
+                    reinterpret_cast<::FUN_0046e8e0_This *>(this)->FUN_0046e8e0((::KFModel *)(::TGTextureInfo *)(((::TGTextureInfo *)(reinterpret_cast<::fnv_0046eba0::FUN_0046eba0_class *>((pTexProp2))->GetElementAtOffset(i)))), {}, {}, {}, {});
             }
         }
         else if (apObject && apObject->IsSceneNode())
@@ -310,7 +301,7 @@ void TGGatherer::FUN_0046e910(TGAVObject* apObject, int aiArg)
             unsigned int uiCount5 = pNode->GetArrayCount();
             for (unsigned int j2 = 0; j2 < uiCount5; j2++)
             {
-                TGAVObject* pChild2 = pNode->GetAt(j2);
+                TGAVObject* pChild2 = ((::TGAVObject *)(reinterpret_cast<::NiNode *>((pNode))->GetAt(j2)));
                 if (pChild2)
                     FUN_0046e910(pChild2, aiArg);
             }

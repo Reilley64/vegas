@@ -3,6 +3,20 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00d0b5d0
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00c91620_Class.h"
+#include "fnv/decl/FUN_00ca8420_Class.h"
+#include "fnv/decl/PhRemoveListener.h"
+#include "fnv/decl/SearchArray.h"
+#include "fnv/decl/World_RemovePhantomBatch.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkWorldXc91a70.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00e10000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010c9000.h"
+#include "fnv/symbols_010cb000.h"
+#include "fnv/symbols_010cc000.h"
 int __cdecl CompareByOffsetD4(const void* apFirst, const void* apSecond)
 {
     return *(const char**)((const char*)apFirst + 0xd4) < *(const char**)((const char*)apSecond + 0xd4);
@@ -10,7 +24,6 @@ int __cdecl CompareByOffsetD4(const void* apFirst, const void* apSecond)
 
 struct hkReferencedObject
 {
-    void removeReference();
 };
 struct Item : hkReferencedObject
 {
@@ -24,11 +37,9 @@ struct Item : hkReferencedObject
     int unk20;
     int unk24;
     int unk28;
-    void FUN_00d07c80(void* owner);
 };
 struct Manager
 {
-    void FUN_00c95800(Item** entries, int count);
 };
 struct Collection
 {
@@ -51,14 +62,14 @@ void AllocatorOwner::ReleaseEntries()
 {
     if (manager == 0)
         return;
-    manager->FUN_00c95800(entries, 6);
+    reinterpret_cast<::World_RemovePhantomBatch *>((manager))->FUN_00c95800((::hkpPhantom **)(entries), 6);
     Item** pEntry = entries;
     void* owner = &unk0C;
     int count = 6;
     do
     {
-        (*pEntry)->FUN_00d07c80(owner);
-        (*pEntry)->removeReference();
+        reinterpret_cast<::PhRemoveListener *>(((*pEntry)))->FUN_00d07c80(owner);
+        reinterpret_cast<::hkReferencedObjectC905 *>(((*pEntry)))->FUN_00c905b0();
         *pEntry = 0;
         ++pEntry;
         --count;
@@ -70,14 +81,12 @@ void AllocatorOwner::ReleaseEntries()
 struct DispatchItem;
 struct DispatchOwner
 {
-    void ProcessTarget(bool*, DispatchItem*);
 };
 struct DispatchItem
 {
     unsigned int unknown00;
     unsigned int unknown04;
     DispatchOwner* owner;
-    void FUN_00ca8420(unsigned char, unsigned char, unsigned char);
 };
 struct Dispatcher
 {
@@ -103,16 +112,16 @@ void Dispatcher::DispatchItemByMode(DispatchItem* item)
     switch (mode)
     {
     case 0:
-        item->FUN_00ca8420(5, 1, 0);
+        reinterpret_cast<::FUN_00ca8420_Class *>((item))->FUN_00ca8420(5, 1, 0);
         break;
     case 1:
-        item->FUN_00ca8420(5, 1, 0);
+        reinterpret_cast<::FUN_00ca8420_Class *>((item))->FUN_00ca8420(5, 1, 0);
         break;
     case 2:
         if (item->owner == owner)
         {
             bool success;
-            owner->ProcessTarget(&success, item);
+            reinterpret_cast<::FUN_00c91620_Class *>((owner))->ProcessTarget((unsigned char *)(bool *)(&success), (::FUN_00c91620_Target *)(item));
         }
         break;
     }
@@ -170,13 +179,10 @@ begin:
 
 struct OwnerDest
 {
-    void FUN_00c91a70(void* p);
-    void ClearValue(void* p);
 };
 
 struct NodeHdr
 {
-    void FUN_00c905b0();
 };
 
 struct FUN_00d0b530_cls
@@ -192,16 +198,14 @@ struct FUN_00d0b530_cls
 // @fnv 0x00d0b530
 void FUN_00d0b530_cls::FUN_00d0b530(int unused)
 {
-    m_0C->FUN_00c91a70(((char*)this - 8) ? (void*)this : 0);
-    m_0C->ClearValue(((char*)this - 8) ? (void*)((char*)this + 8) : 0);
-    ((NodeHdr*)((char*)this - 8))->FUN_00c905b0();
+    reinterpret_cast<::hkWorldXc91a70 *>((m_0C))->FUN_00c91a70(((char*)this - 8) ? (void*)this : 0);
+    reinterpret_cast<::SearchArray *>((m_0C))->ClearValue((int)(((char*)this - 8) ? (void*)((char*)this + 8) : 0));
+    reinterpret_cast<::hkReferencedObjectC905 *>((((NodeHdr*)((char*)this - 8))))->FUN_00c905b0();
 }
 
 struct D0B630Entity;
 
 int __cdecl CompareByOffsetD4(const void* a, const void* b);
-void __cdecl FUN_00e10760(D0B630Entity** data, int lo, int hi, int(__cdecl* cmp)(const void*, const void*));
-void __cdecl FUN_00c90740(D0B630Entity** objects, int numObjects, int strideInBytes);
 
 class D0B630Primary
 {
@@ -246,10 +250,10 @@ void D0B630Collector::FlushDeferredEntities(const void* event)
     if (m_numDeferred)
     {
         if (m_numDeferred > 1)
-            FUN_00e10760(m_deferred, 0, m_numDeferred - 1, CompareByOffsetD4);
+            ::FUN_00e10760((::S_00e10760_Item **)(m_deferred), 0, m_numDeferred - 1, (bool (*)(S_00e10760_Item *, S_00e10760_Item *))(CompareByOffsetD4));
         for (int i = 0; i < m_numDeferred; i++)
             entityAdded(m_deferred[i]);
-        FUN_00c90740(m_deferred, m_numDeferred, sizeof(D0B630Entity*));
+        ::FUN_00c90740(m_deferred, m_numDeferred, sizeof(D0B630Entity*));
         m_numDeferred = 0;
     }
 }
@@ -271,11 +275,9 @@ struct D0B6A0MemoryRouter
 };
 
 extern "C" D0B6A0MemoryRouter& __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void* alloc, void* array, int sizeElem);
 
 struct D0B6A0Entity
 {
-    void RetainReference() const;
 };
 
 struct D0B6A0Collidable
@@ -324,7 +326,7 @@ struct D0B6A0EntityArray
     {
         D0B6A0Allocator& alloc = FUN_00c85750().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&alloc, this, sizeof(D0B6A0Entity*));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(D0B6A0Entity*));
         construct(m_data + m_iElementCount, 1, e);
         m_iElementCount++;
     }
@@ -379,7 +381,7 @@ void D0B6A0Collector::HandleEvent(const D0B6A0Event& event)
             if (m_deferAdds)
             {
                 m_deferredEntities.AddBack(entity);
-                entity->RetainReference();
+                reinterpret_cast<::FUN_00c90510_class *>((void *)(entity))->FUN_00c90510();
             }
             else
             {
@@ -415,10 +417,6 @@ extern int DAT_010cd3c4;
 extern int DAT_010cd3b4;
 extern int DAT_010cd3a4;
 extern int DAT_010cd394;
-extern int DAT_010ccf7c;
-extern int DAT_010c925c;
-extern int DAT_010cb1c4;
-extern int DAT_0102e388;
 
 struct FUN_00d0bb20_cls
 {
@@ -440,10 +438,10 @@ struct FUN_00d0bb20_cls
 
 static inline void ResetBaseVptrs(int* vptrs)
 {
-    vptrs[4] = (int)&DAT_010ccf7c;
-    vptrs[3] = (int)&DAT_010c925c;
-    vptrs[2] = (int)&DAT_010cb1c4;
-    vptrs[0] = (int)&DAT_0102e388;
+    vptrs[4] = (int)&(*reinterpret_cast<int *>(&::DAT_010ccf7c));
+    vptrs[3] = (int)&::DAT_010c925c;
+    vptrs[2] = (int)&::DAT_010cb1c4;
+    vptrs[0] = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 // @fnv 0x00d0bb20
@@ -459,7 +457,7 @@ void FUN_00d0bb20_cls::Destroy()
     {
         if (*pEntry != 0)
         {
-            (*pEntry)->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>(((*pEntry)))->FUN_00c905b0();
             *pEntry = 0;
         }
         pEntry++;
@@ -476,10 +474,10 @@ void FUN_00d0bb20_cls::Destroy()
     unsigned int* puiCap = &m_uCapBits;
     m_pData = 0;
     *puiCap = 0x80000000u;
-    m_vptr10 = (int)&DAT_010ccf7c;
-    m_vptr0c = (int)&DAT_010c925c;
-    m_vptr08 = (int)&DAT_010cb1c4;
-    m_vptr00 = (int)&DAT_0102e388;
+    m_vptr10 = (int)&(*reinterpret_cast<int *>(&::DAT_010ccf7c));
+    m_vptr0c = (int)&::DAT_010c925c;
+    m_vptr08 = (int)&::DAT_010cb1c4;
+    m_vptr00 = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 }  // namespace fnv_00d0bb20
 

@@ -5,6 +5,13 @@
 
 // src/havok/physics/dynamics/phantom/hkpaabbphantom.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/phantom/hkpaabbphantom.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/C.h"
+#include "fnv/decl/FUN_00ca94c0_Class.h"
+#include "fnv/decl/FUN_00d07cf0_cls.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 #include "havok/hkpAabbPhantom.h"
 int __cdecl FUN_00cf2460();
 struct hkBoolXcf24d0
@@ -91,11 +98,9 @@ struct PresentFlag
 };
 struct FUN_00cf2a60_t : hkpAabbPhantom
 {
-    void NotifyAll(hkpCollidable* collidable, PresentFlag wasPresent);
     void FUN_00cf2a60(hkpCollidable* collidable);
 };
 class hkClassCF2A;
-extern const hkClassCF2A DAT_0126902c;
 int __cdecl FUN_00d06f80(const void* pvChunk, int iNumBytes) throw();
 template <class T> class hkArrayCF2A
 {
@@ -147,7 +152,6 @@ class FUN_00d08130
     hkInt16 m_sReferenceCount;
     char m_pad08[0xa8];
 
-    void WritePhantomLists(hkStatisticsCollectorCF2A* pkCollector, const hkClassCF2A* pkClass) const throw();
 };
 struct hkVector4CF2A
 {
@@ -265,7 +269,6 @@ class hkPhantomCF2C
     hkArrayCF2C<void*> m_overlaps;
     bool m_dirty;
 
-    int FUN_00ca94c0(void* p);
     void AddOverlap(void* p);
 };
 struct hkLessCF2B
@@ -355,7 +358,6 @@ extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
-extern "C" unsigned long DAT_0126835c;
 struct StringCursor
 {
     void* m_kRayStart;
@@ -500,9 +502,7 @@ extern "C" __m128 _mm_sqrt_ss(__m128);
 extern "C" void _mm_store_ss(float*, __m128);
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 
-extern float DAT_0104da4c;
 extern const char str_010cbfd0[];
-extern const char str_010c41f8[];
 
 struct MonTimerCmd
 {
@@ -518,7 +518,7 @@ struct MonStream
     char* m_pCurrentCommand;
     static MonStream* GetInstance()
     {
-        return (MonStream*)TlsGetValue(DAT_0126835c);
+        return (MonStream*)TlsGetValue(::DAT_0126835c);
     }
     void Timer(const char* s)
     {
@@ -585,7 +585,7 @@ struct LcInput : CollInput
     void* m_pConfiguration;
     LcInput()
     {
-        m_fMaxExtraPenetration = DAT_0104da4c;
+        m_fMaxExtraPenetration = ::DAT_0104da4c;
     }
     void set(const ProcInput& ci)
     {
@@ -1145,7 +1145,7 @@ void PhantomS::FUN_00cf2880(const CollidableS* collA, const LinCastInputS& input
         if (ms->m_kRayEnd < ms->m_pCurrentCommand)
         {
             MonTimerCmd* h = (MonTimerCmd*)ms->m_kRayEnd;
-            h->m_iFieldAfterHasHit = str_010c41f8;
+            h->m_iFieldAfterHasHit = ::DAT_010c41f8;
             _ReadWriteBarrier();
             *(volatile unsigned int*)&sh.tick = (unsigned int)__rdtsc();
             h->m_uiStartTicks = *(volatile unsigned int*)&sh.tick;
@@ -1268,7 +1268,7 @@ class Phantom_00cf2510 : public hkpAabbPhantom
 void Phantom_00cf2510::FUN_00cf2510(const WorldRayCastInput& input, PhRayHitCollector& collector) const
 {
     {
-        StringCursor& mStream = *(StringCursor*)TlsGetValue(DAT_0126835c);
+        StringCursor& mStream = *(StringCursor*)TlsGetValue(::DAT_0126835c);
         if (mStream.m_commandPtr < mStream.m_endPtr)
         {
             MonTimerCmd* h = (MonTimerCmd*)mStream.m_commandPtr;
@@ -1304,7 +1304,7 @@ void Phantom_00cf2510::FUN_00cf2510(const WorldRayCastInput& input, PhRayHitColl
     }
 
     {
-        StringCursor& mStream = *(StringCursor*)TlsGetValue(DAT_0126835c);
+        StringCursor& mStream = *(StringCursor*)TlsGetValue(::DAT_0126835c);
         if (mStream.m_commandPtr < mStream.m_endPtr)
         {
             MonTimerCmd* h = (MonTimerCmd*)mStream.m_commandPtr;

@@ -5,6 +5,7 @@
 
 // src/havok/physics/dynamics/motion/rigid/hkpboxmotion.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/motion/rigid/hkpboxmotion.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/MatrixProduct.h"
 #include "havok/hkpBoxMotion.h"
 struct FUN_00d1e670_StandIn
 {
@@ -104,7 +105,6 @@ struct RotationD1E850
 };
 struct PairOutD1E850
 {
-    void FUN_00cd5610(const RotationD1E850* pkRotation, const hkVector4* pkColumns);
 };
 struct ShapeD1E850 : hkpBoxMotion
 {
@@ -129,6 +129,5 @@ void ShapeD1E850::FUN_00d1e850(int pkOutRaw)
     kScaled.m_kColumn2.Vector4f() =
         _mm_mul_ps(_mm_shuffle_ps(QuadD1E850(m_kInertiaAndMassInv), QuadD1E850(m_kInertiaAndMassInv), 0xaa),
                    QuadD1E850(m_kMotionState.m_kMotionTransform.m_rotation.m_kColumn2));
-    (reinterpret_cast<PairOutD1E850*>(*(volatile int*)&pkOutRaw))
-        ->FUN_00cd5610(&kScaled, &m_kMotionState.m_kMotionTransform.m_rotation.m_kColumn0);
+    reinterpret_cast<::MatrixProduct *>(((reinterpret_cast<PairOutD1E850*>(*(volatile int*)&pkOutRaw))))->FUN_00cd5610((*(const ::hkMatrix3CD4B *)(&kScaled)), (*(const ::CD4BA0Matrix3 *)(&m_kMotionState.m_kMotionTransform.m_rotation.m_kColumn0)));
 }

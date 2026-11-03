@@ -61,6 +61,8 @@ class NiD3DShaderInterface : public NiShader
     // bool __cdecl NiD3DShaderInterface::*()
     // NiD3DShaderInterface& __cdecl NiD3DShaderInterface::*(const NiD3DShaderInterface&)
     // void __cdecl NiD3DShaderInterface::*()
+public:
+    bool Initialize();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiD3DShaderInterface) == 36);

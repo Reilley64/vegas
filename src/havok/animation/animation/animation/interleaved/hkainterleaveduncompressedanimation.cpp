@@ -2,6 +2,9 @@
 // src/havok/animation/animation/animation/interleaved/hkainterleaveduncompressedanimation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/interleaved/hkainterleaveduncompressedanimation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00e2f7c0_Class.h"
+#include "fnv/symbols_00e3f000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkaInterleavedUncompressedAnimation.h"
 
 struct FUN_00e3f950_class
@@ -289,7 +292,6 @@ extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 typedef void*(__stdcall* TlsGetValueFn)(unsigned long);
-extern unsigned long DAT_0126835c;
 
 struct ProfRec
 {
@@ -338,16 +340,13 @@ inline SampleRec* S00e3ffc0_zero(SampleRec* recs)
 }
 struct FUN_00e2f7c0_Obj
 {
-    void FUN_00e2f7c0(float a1, int* a2, float* a3);
 };
 __forceinline int S00e3ffc0_getFrame(FUN_00e2f7c0_Obj* o, float t, float* d)
 {
     int f;
-    o->FUN_00e2f7c0(t, &f, d);
+    reinterpret_cast<::FUN_00e2f7c0_Class *>((o))->FUN_00e2f7c0(t, (unsigned int *)(int *)(&f), d);
     return f;
 }
-void __cdecl FUN_00e3fda0(int frame, float delta, unsigned int nT, QsT* tOut, unsigned int nF, float* fOut,
-                          SampleRec* recs, int n);
 
 struct hkaAnimSlot : hkaInterleavedUncompressedAnimation
 {
@@ -416,7 +415,7 @@ void hkaAnimSlot::FUN_00e3ffc0(float time, unsigned int nT, QsT* tOut, unsigned 
         int frame = S00e3ffc0_getFrame((FUN_00e2f7c0_Obj*)this, time, &u.delta);
         SampleRec recs[3];
         SampleIndividualTracks(frame, u.delta, S00e3ffc0_zero(recs), 3);
-        FUN_00e3fda0(frame, u.delta, nT, tOut, nF, fOut, recs, 3);
+        ::FUN_00e3fda0(frame, u.delta, nT, (::hkQsTransform *)(tOut), nF, fOut, (const ::DataChunk *)(recs), 3);
     }
     {
         ProfBuf* pProfLog = (ProfBuf*)pfnTlsGetValue(DAT_0126835c);

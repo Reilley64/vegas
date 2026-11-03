@@ -3,17 +3,21 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /GF /Ob1 (unit src/bssystem/bsfile.cpp lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiLODData.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01272000.h"
 #include "bsfile_decls.h"
 
-extern "C" __declspec(thread) int tls_memContext;
 
 inline int GetMemContext()
 {
-    return tls_memContext;
+    return (*reinterpret_cast<int *>(&::currentAllocationContext));
 }
 inline void SetMemContext(int aiMemoryContext)
 {
-    tls_memContext = aiMemoryContext;
+    (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
 }
 
 struct MemContextGuard
@@ -32,12 +36,10 @@ struct MemContextGuard
 
 struct GlobalAllocator
 {
-    void* __thiscall FUN_00aa3e40(unsigned int uiSize);
 };
-extern GlobalAllocator DAT_011f6238;
 inline void* FileAlloc(unsigned int uiSize)
 {
-    return DAT_011f6238.FUN_00aa3e40(uiSize);
+    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::GlobalAllocator *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
 }
 
 class FileObject
@@ -68,7 +70,6 @@ class FileObject
     {
         return m_pFile != 0;
     }
-    unsigned int FUN_00aa1570(void* pBuffer, unsigned int uiBytes);
     void FUN_00aff490();
 };
 
@@ -91,7 +92,7 @@ void FileObject::FUN_00aff490()
             {
                 m_uiBufferReadSize = m_uiBufferAllocSize;
                 m_uiPos = 0;
-                uiRead = FUN_00aa1570(m_pBuffer, m_uiBufferAllocSize);
+                uiRead = reinterpret_cast<::NiLODData *>(this)->Write(m_pBuffer, m_uiBufferAllocSize);
                 if (uiRead != m_uiBufferAllocSize)
                     m_bGood = false;
             }

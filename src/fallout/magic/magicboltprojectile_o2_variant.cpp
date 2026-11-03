@@ -4,16 +4,17 @@
 
 // src/fallout/magic/magicboltprojectile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/magicboltprojectile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/symbols_00811000.h"
+#include "fnv/symbols_00bc0000.h"
+#include "fnv/symbols_011ae000.h"
 struct RefH
 {
-    bool IsDeleted() const;
 };
 struct FUN_00811930_shell : RefH
 {
     bool IsNotDeleted() const;
 };
-extern int DAT_011ae61c;
-void FUN_00811e00(int value);
 struct FUN_008133d0_shell
 {
     void FUN_008133d0(int value);
@@ -132,13 +133,12 @@ struct Emitter
     unsigned int unk16c;
     unsigned int unk170;
     unsigned char active, state, flags, centered;
-    int FUN_00bc0b40();
     void FUN_00bc2360();
 };
 // @fnv 0x00bc2360
 void Emitter::FUN_00bc2360()
 {
-    int available = FUN_00bc0b40();
+    int available = ((int)(::FUN_00bc0b40()));
     elapsed = 0.0f;
     active = false;
     if (available < count * stride)

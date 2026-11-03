@@ -3,6 +3,20 @@
 #define ITEMMODMENU_UNIT_DECLS_H
 
 
+#include "fnv/decl/FUN_00a01290_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/FUN_00a1dc70_shell.h"
+#include "fnv/decl/fnv_00a01b00__TileLoader.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00867000.h"
+#include "fnv/symbols_00a01000.h"
+#include "fnv/symbols_00a09000.h"
+#include "fnv/symbols_0106e000.h"
+#include "fnv/symbols_01070000.h"
+#include "fnv/symbols_011d9000.h"
+#include "fnv/symbols_011da000.h"
 #pragma pack(push, 4)
 
 class Tile;
@@ -30,10 +44,8 @@ class Menu
 
     Menu();
     ~Menu();
-    void SetTileMenu(TileMenu* tile, bool flag);
     void SetMenuVisibility(bool visible);
 
-    bool FUN_007273f0();
 };
 
 class ListBox_ItemChange___
@@ -52,14 +64,10 @@ class Tile
   public:
     virtual Tile* Destroy(bool doFree) = 0;
 
-    static int GetTraitID(const char* name);
-    static Tile* FindMenuById(int menuClass);
-    Tile* ReadFile(const char* path);
-    Menu* GetMenu();
 
-    void Set(int trait, float value, bool clearActions);
-    void SetTraitFloat(int trait, float value);
     static float GetInterfaceScale();
+public:
+    void Set(int, int);
 };
 
 class InterfaceManager
@@ -68,10 +76,12 @@ class InterfaceManager
     Tile* FUN_00586150();
 };
 
+class InventoryStackRecord;
 class InventoryMenu
 {
   public:
-    void FUN_00867a20();
+public:
+    static ::InventoryStackRecord *ms_pActionPointSource;
 };
 
 class TileListBoxCalls
@@ -127,17 +137,12 @@ extern "C"
     extern void* DAT_01073b7c;
     extern void* DAT_01075c5c;
 
-    extern const char DAT_0106ed18[];
-    extern const char DAT_0106ed20[];
-    extern const char DAT_01070244[];
     extern const char DAT_01073b64[];
     extern const char DAT_01075c44[];
     extern const char DAT_01073bc4[];
     extern const char DAT_01073be0[];
     extern const char DAT_01073c34[];
 
-    extern double DAT_010704e8;
-    extern double DAT_010704f0;
 
     extern int DAT_011d9f3c;
     extern unsigned char DAT_011d9f40;
@@ -145,15 +150,9 @@ extern "C"
     extern int DAT_011d9f48;
     extern int DAT_011d9f4c;
 
-    extern int DAT_011da748;
-    extern int DAT_011da74c;
     extern int DAT_011da750;
-    extern int DAT_011da754;
-    extern Menu* DAT_011d9f54;
 }
 
-InterfaceManager* __cdecl FUN_004b7210();
 int __cdecl FUN_00783640();
-int __cdecl Warning(const char* message, ...);
 
 #endif

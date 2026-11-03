@@ -2,6 +2,9 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpconstraintchaindrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpconstraintchaindrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/CpuObject.h"
+#include "fnv/decl/DE44C0Object.h"
+#include "fnv/decl/FUN_00de4530Owner.h"
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
@@ -170,7 +173,6 @@ struct Vec
 };
 struct Sub
 {
-    void FUN_00e10a10(void* a);
 };
 struct Listener
 {
@@ -202,8 +204,6 @@ struct Obj
     hkRotation m_kFirstRotation;
     hkRotation m_kSecondRotation;
     Sub mC0;
-    void FUN_00de44c0(int a, int b);
-    void FUN_00de4530(int a, int b);
     void FireChainConstraints(ChainInstance* c, Listener* l, int a, int b);
 };
 
@@ -211,7 +211,7 @@ struct Obj
 void Obj::FireChainConstraints(ChainInstance* apChain, Listener* apListener, int aiArg1, int aiArg2)
 {
     ChainData* data = apChain->m_data;
-    mC0.FUN_00e10a10(apListener);
+    reinterpret_cast<::CpuObject *>(&(mC0))->FUN_00e10a10((int)(apListener));
     int iPairCount = apChain->m_iActorEntryCount - 1;
     for (int iPair = 0; iPair < iPairCount; iPair++)
     {
@@ -242,8 +242,8 @@ void Obj::FireChainConstraints(ChainInstance* apChain, Listener* apListener, int
         }
         m50.FUN_00c7f640(&transformB, pivotB);
         m40.FUN_00c7f640(&transformA, pivotA);
-        FUN_00de44c0(aiArg1, aiArg2);
-        FUN_00de4530(aiArg1, aiArg2);
+        reinterpret_cast<::DE44C0Object *>(this)->FUN_00de44c0(aiArg1, aiArg2);
+        reinterpret_cast<::FUN_00de4530Owner *>(this)->FUN_00de4530(aiArg1, aiArg2);
         apListener->Fire(&m40, &m50, 0xffff0000, aiArg1, aiArg2);
     }
 }

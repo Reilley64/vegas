@@ -3,9 +3,9 @@
 #define FNV_NIBLENDBOOLINTERPOLATOR_NIBINARYSTREAM_H
 
 
-extern float DAT_0109696c;
-extern unsigned char DAT_0109a914;
 
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_0109a000.h"
 class NiBinaryStream;
 #pragma pack(push, 4)
 class NiBinaryStream

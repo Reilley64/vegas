@@ -7,6 +7,10 @@
 // to their real unit once identified.
 // src/havok/physics/constraintsolver/constraint/contact/hkpsimplecontactconstraintinfo.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/constraintsolver/constraint/contact/hkpsimplecontactconstraintinfo.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_00d6f000.h"
+#include "fnv/symbols_00d72000.h"
+#include "fnv/symbols_010c7000.h"
+#include "fnv/symbols_01268000.h"
 struct StateD72090
 {
     float unk00;
@@ -18,7 +22,6 @@ struct StateD72090
     float unk18;
     float unk1C;
 };
-void FUN_00d72090(StateD72090* out);
 #include <string.h>
 struct Node
 {
@@ -66,14 +69,13 @@ struct __declspec(align(16)) Buffer
     int unk78;
     int unk7c;
 };
-extern "C" void __cdecl FUN_00d72090(void*);
 extern "C" void __cdecl FUN_00d72190(Node*, Buffer*, int, int*);
-extern "C" void __cdecl FUN_00d6f460(Node*, unsigned short, Buffer*, int*);
 extern "C" Buffer* __cdecl GetSharedBuffer();
 static void __cdecl FUN_00d6c5a0(Node* self, int* counter, Buffer* source);
 void __cdecl Caller(Node* self, int* counter);
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 
 typedef float hkReal;
 typedef __m128 hkQuadReal;
@@ -184,7 +186,6 @@ typedef const VectorComponentValue& hkSimdRealParameter;
 class hkMatrix3;
 class hkRotation;
 
-extern const hkQuadReal DAT_010c44d0;
 
 class hkVector4
 {
@@ -354,10 +355,9 @@ class hkTransform
     hkRotation m_rotation;
     hkVector4 m_vTranslation;
 };
-extern const hkTransform DAT_01268370;
 __forceinline const hkTransform& hkTransform::GetIdentityTransform()
 {
-    return DAT_01268370;
+    return (*reinterpret_cast<const ::hkTransform *>(&::DAT_01268370));
 }
 
 __forceinline void hkVector4::_setMul3(const hkMatrix3& a, const hkVector4& b)
@@ -394,14 +394,13 @@ class hkContactPoint
     hkVector4 m_vSeparatingNormal;
 };
 
-extern const hkReal DAT_010c7948[];
 
 class QuantizedFloat8
 {
   public:
     __forceinline operator hkReal() const
     {
-        return DAT_010c7948[m_uiFilterValue];
+        return ::DAT_010c7948[m_uiFilterValue];
     }
     hkUint8 m_uiFilterValue;
 };
@@ -981,7 +980,7 @@ extern "C" void __cdecl FUN_00d72190(Node* atomNode, Buffer* queryIn, int writeH
                 {
                     const int typeAddon = 2;
                     sc->initSingleContact(*jac1Lin2Ang, typeAddon);
-                    jac1Lin2Ang->setUserValue(DAT_010c7948[maxImpulse]);
+                    jac1Lin2Ang->setUserValue(::DAT_010c7948[maxImpulse]);
                 }
             }
             else

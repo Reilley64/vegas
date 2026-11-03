@@ -1,5 +1,46 @@
 // fallout_shared/tesreactionform.cpp: TESReactionForm, ReactionCompare, C0B0Owner, TESReactionFormLoad (21 functions)
 
+#include <new>
+#include "fnv/decl/C857A10Buffer.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/Class005a6b10.h"
+#include "fnv/decl/EffectSetting.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_008579e0_shell.h"
+#include "fnv/decl/FUN_00857aa0.h"
+#include "fnv/decl/FUN_00862110_cls.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_00865f20_shell.h"
+#include "fnv/decl/FUN_00865ff0_shell.h"
+#include "fnv/decl/FUN_008df040_shell.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_004280f0__FUN_004280f0_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/decl/fnv_00865df0__FUN_00865df0_holder.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_0048b000.h"
+#include "fnv/symbols_004fd000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_01183000.h"
+#include "fnv/symbols_011de000.h"
 #include "tesreactionform_decls.h"
 
 void __cdecl operator delete(void* pointer);
@@ -21,14 +62,12 @@ void TESReactionForm::ClearComponent()
 // @fnv 0x0048bb10
 void TESReactionForm::ClearReactionList()
 {
-    while (reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData())
-               ->GetItem() != 0)
+    while (((::InventoryStackRecord *)(new ((void *)(reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData()))) ::Vec3())) != 0)
     {
         InventoryStackRecord* pToFree =
-            reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData())
-                ->GetItem();
+            ((::InventoryStackRecord *)(new ((void *)(reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData()))) ::Vec3()));
         InventoryStackRecord* pItem = pToFree;
-        ::operator delete(pItem);
+        ::FUN_00401030(pItem);
         reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData())
             ->RemoveHead();
     }
@@ -44,18 +83,18 @@ template <> BSMapBase<int, DistantTreeTextureInfo*>::BSMapBase(unsigned int size
 // @fnv 0x0048cb40
 void TESReactionForm::InitLoadGame(BGSLoadFormBuffer* buffer)
 {
-    if (buffer->GetChangeFlags(4))
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(4)))->FUN_004280f0())
     {
         BSSimpleList<BGSCameraShot*>* current = reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(&m_kReactionList);
         BSSimpleList<BGSCameraShot*>* previous = 0;
         while (current && !current->IsEmpty())
         {
-            ReactionInfo* reaction = reinterpret_cast<ReactionInfo*>(current->GetItem());
+            ReactionInfo* reaction = reinterpret_cast<ReactionInfo*>(((::BGSCameraShot *)(new ((void *)(current)) ::Vec3())));
             bool remove = false;
             if (reaction)
             {
                 reaction->formID = reaction->formID
-                                       ? reinterpret_cast<unsigned int>(TESForm::GetFormByID(reaction->formID))
+                                       ? reinterpret_cast<unsigned int>(::FUN_004839c0(reaction->formID))
                                        : 0;
                 if (!reaction->formID)
                 {
@@ -71,8 +110,8 @@ void TESReactionForm::InitLoadGame(BGSLoadFormBuffer* buffer)
             {
                 if (previous)
                 {
-                    previous->Remove(current->GetItem());
-                    current = previous->GetNext();
+                    reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)(((::BGSCameraShot *)(new ((void *)(current)) ::Vec3()))));
+                    current = ((::BSSimpleList< ::BGSCameraShot *> *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
                 }
                 else
                 {
@@ -82,7 +121,7 @@ void TESReactionForm::InitLoadGame(BGSLoadFormBuffer* buffer)
             else
             {
                 previous = current;
-                current = current->GetNext();
+                current = ((::BSSimpleList< ::BGSCameraShot *> *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
             }
         }
     }
@@ -98,28 +137,27 @@ void TESReactionForm::InitItem(TESForm* form)
         reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData());
     BSSimpleList<BGSCameraShot*>* pFile = 0;
     pPrev = form ? form->GetFile(-1) : 0;
-    while (pList && pList->GetItem())
+    while (pList && ((::BGSCameraShot *)(new ((void *)(pList)) ::Vec3())))
     {
-        ReactionInfo* reaction = reinterpret_cast<ReactionInfo*>(pList->GetItem());
+        ReactionInfo* reaction = reinterpret_cast<ReactionInfo*>(((::BGSCameraShot *)(new ((void *)(pList)) ::Vec3())));
         unsigned int formID = reaction->formID;
-        TESForm::RemapFormIDForFile(formID, pPrev);
-        reaction->formID = reinterpret_cast<unsigned int>(TESForm::GetFormByID(formID));
+        ::ResolveFormID((unsigned int *)&(formID), pPrev);
+        reaction->formID = reinterpret_cast<unsigned int>(::FUN_004839c0(formID));
         if (reaction->formID)
         {
-            pList = pList->GetNext();
+            pList = ((::BSSimpleList< ::BGSCameraShot *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
         }
         else
         {
-            Warning("MASTERFILE: Form (%08X) not found for reaction of pForm (%08X) '%s'.\r\n", formID,
-                    form->GetFormID(), form->GetEditorID());
-            if (pList->GetNext() || !pFile)
+            ::FUN_005b5e40();
+            if (((::BSSimpleList< ::BGSCameraShot *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070())) || !pFile)
             {
                 pList->RemoveHead();
             }
             else
             {
-                pFile->Remove(reinterpret_cast<BGSCameraShot* const&>(reaction));
-                pList = pFile->GetNext();
+                reinterpret_cast<::ItemChangeListNode *>((pFile))->FUN_00905330((::InventoryStackRecord *const &)(reinterpret_cast<BGSCameraShot* const&>(reaction)));
+                pList = ((::BSSimpleList< ::BGSCameraShot *> *)(reinterpret_cast<::Callees *>((pFile))->FUN_00726070()));
             }
             delete reaction;
         }
@@ -138,8 +176,6 @@ struct GROUP_REACTION_dummy
     int eFightReaction;
 };
 
-GROUP_REACTION_dummy** __fastcall _ref_006815c0(void* pList);
-void* __fastcall _ref_00726070(void* pList);
 
 // Searches the reaction list for a matching form and returns its fight reaction, or 0 if not found.
 // @fnv 0x0048c1b0
@@ -148,12 +184,12 @@ int FUN_0048c1b0_shell::FUN_0048c1b0(TESForm* apForm)
     if (apForm != 0)
     {
         void* pList = reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData();
-        while (pList != 0 && *_ref_006815c0(pList) != 0)
+        while (pList != 0 && *((::GROUP_REACTION_dummy **)(new ((void *)(pList)) ::Vec3())) != 0)
         {
-            GROUP_REACTION_dummy* fr = *_ref_006815c0(pList);
+            GROUP_REACTION_dummy* fr = *((::GROUP_REACTION_dummy **)(new ((void *)(pList)) ::Vec3()));
             if (fr->pForm == apForm)
                 return fr->eFightReaction;
-            pList = _ref_00726070(pList);
+            pList = reinterpret_cast<::Callees *>((pList))->FUN_00726070();
         }
     }
     return 0;
@@ -161,11 +197,9 @@ int FUN_0048c1b0_shell::FUN_0048c1b0(TESForm* apForm)
 
 struct SoundListView
 {
-    void AddTail(GROUP_REACTION_dummy* const&);
 };
 struct ListH_0048bfc0
 {
-    void _ref_00905330(GROUP_REACTION_dummy**);
 };
 struct RF_0048bfc0
 {
@@ -184,14 +218,14 @@ void __fastcall FUN_0048bfc0(BaseProcess* self, Args_0048bfc0 args)
         return;
     bool bFound = false;
     void* pList = self->GetCurrentProcessData();
-    while (pList && *_ref_006815c0(pList))
+    while (pList && *((::GROUP_REACTION_dummy **)(new ((void *)(pList)) ::Vec3())))
     {
-        GROUP_REACTION_dummy* fr = *_ref_006815c0(pList);
+        GROUP_REACTION_dummy* fr = *((::GROUP_REACTION_dummy **)(new ((void *)(pList)) ::Vec3()));
         if (fr->pForm == args.apForm)
         {
             if (args.aiReaction == 0 && fr->eFightReaction == 0)
             {
-                ((ListH_0048bfc0*)((char*)self + 4))->_ref_00905330(&fr);
+                reinterpret_cast<::ItemChangeListNode *>((((ListH_0048bfc0*)((char*)self + 4))))->FUN_00905330((*(::InventoryStackRecord *const *)(&fr)));
                 delete fr;
             }
             else
@@ -201,14 +235,14 @@ void __fastcall FUN_0048bfc0(BaseProcess* self, Args_0048bfc0 args)
             bFound = true;
             break;
         }
-        pList = _ref_00726070(pList);
+        pList = reinterpret_cast<::Callees *>((pList))->FUN_00726070();
     }
     if (!bFound && args.aiReaction)
     {
         GROUP_REACTION_dummy* fr = new GROUP_REACTION_dummy;
         fr->pForm = args.apForm;
         fr->iOffset = args.aiReaction;
-        ((SoundListView*)self->GetCurrentProcessData())->AddTail(fr);
+        reinterpret_cast<::Callees *>((((SoundListView*)self->GetCurrentProcessData())))->FUN_00905820((void *)&(fr));
     }
 }
 
@@ -265,9 +299,6 @@ struct G2
 };
 struct BGSLoadFormBufferA
 {
-    bool ReadFormIdentifier(void*);
-    void ReadTypedData(void*, unsigned int);
-    int ReadElementCount();
 };
 struct FUN_0048ca90 : TESReactionForm
 {
@@ -276,16 +307,16 @@ struct FUN_0048ca90 : TESReactionForm
 // @fnv 0x0048ca90
 void FUN_0048ca90::LoadReaction(BGSLoadFormBuffer* buffer)
 {
-    if (buffer->GetChangeFlags(4))
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(4)))->FUN_004280f0())
     {
         ClearReactionList();
-        unsigned int count = ((BGSLoadFormBufferA*)buffer)->ReadElementCount();
+        unsigned int count = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((((BGSLoadFormBufferA*)buffer)))->FUN_00864a60();
         for (unsigned int i = 0; i < count; ++i)
         {
             ReactionEntry* entry = new ReactionEntry;
-            ((BGSLoadFormBufferA*)buffer)->ReadFormIdentifier(&entry->formID);
-            ((BGSLoadFormBufferA*)buffer)->ReadTypedData(&entry->a, 4);
-            ((BGSLoadFormBufferA*)buffer)->ReadTypedData(&entry->b, 4);
+            reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((((BGSLoadFormBufferA*)buffer)))->FUN_008648e0((unsigned int *)(void *)(&entry->formID));
+            reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((((BGSLoadFormBufferA*)buffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&entry->a), 4);
+            reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((((BGSLoadFormBufferA*)buffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&entry->b), 4);
             ((G2*)((char*)this + 4))->AddHead(entry);
         }
     }
@@ -293,7 +324,6 @@ void FUN_0048ca90::LoadReaction(BGSLoadFormBuffer* buffer)
 
 struct RefH : public TESForm
 {
-    bool IsDeleted() const;
 };
 
 struct ContainerItemExtraFileData
@@ -301,11 +331,8 @@ struct ContainerItemExtraFileData
     unsigned int formID;
     unsigned int field4;
     unsigned int field8;
-    void Endian();
 };
 
-bool FUN_00401500();
-void AppendChunk(unsigned int, void*, unsigned int);
 
 struct FUN_0048bb70_shell : public BaseProcess
 {
@@ -319,26 +346,26 @@ void FUN_0048bb70_shell::WriteCameraShotList()
     BGSCameraShot* shot;
     ContainerItemExtraFileData data;
 
-    while (current && current->GetItem())
+    while (current && ((::BGSCameraShot *)(new ((void *)(current)) ::Vec3())))
     {
-        shot = current->GetItem();
+        shot = ((::BGSCameraShot *)(new ((void *)(current)) ::Vec3()));
 
-        if (!(*reinterpret_cast<RefH**>(shot))->IsDeleted())
+        if (!reinterpret_cast<::FUN_00440d80_shell *>((void *)((*reinterpret_cast<RefH**>(shot))))->FUN_00440d80())
         {
-            data.formID = (*reinterpret_cast<RefH**>(shot))->GetFormID();
+            data.formID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<RefH**>(shot))))->FUN_0084e3a0()));
             data.field4 = *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(shot) + 4);
             data.field8 = *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(shot) + 8);
 
-            if (FUN_00401500())
-                data.Endian();
+            if (((bool)(::FUN_00401500())))
+                reinterpret_cast<::Class005a6b10 *>(&(data))->FUN_005a6b10();
 
-            AppendChunk(0x4d414e58, &data, 0xc);
+            ::AppendChunk(0x4d414e58, &data, 0xc);
 
-            if (FUN_00401500())
-                data.Endian();
+            if (((bool)(::FUN_00401500())))
+                reinterpret_cast<::Class005a6b10 *>(&(data))->FUN_005a6b10();
         }
 
-        current = (BSSimpleList<BGSCameraShot*>*)current->GetNext();
+        current = (BSSimpleList<BGSCameraShot*>*)((::BSSimpleList< ::BGSCameraShot *> *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
     }
 }
 
@@ -351,48 +378,42 @@ struct GROUP_REACTION_bd50
 
 struct ReactionListOps_bd50
 {
-    ReactionListOps_bd50* FUN_00717e50();
-    GROUP_REACTION_bd50** FUN_006815c0();
-    void FUN_00905820(GROUP_REACTION_bd50** item);
-    ReactionListOps_bd50* FUN_00726070();
 };
 
-extern int DAT_01183040;
 extern int DAT_01186b30;
 void* __cdecl FUN_00ec43fb(TESForm* form, unsigned int a, void* b, void* c, unsigned int d);
 
 struct FUN_0048bd50_shell : public TESReactionForm
 {
-    void FUN_0048bb10();
     void CopyReactionList(TESForm* form);
 };
 
 // @fnv 0x0048bd50
 void FUN_0048bd50_shell::CopyReactionList(TESForm* form)
 {
-    ReactionListOps_bd50* p = (ReactionListOps_bd50*)FUN_00ec43fb(form, 0, &DAT_01183040, &DAT_01186b30, 0);
+    ReactionListOps_bd50* p = (ReactionListOps_bd50*)FUN_00ec43fb(form, 0, &(*reinterpret_cast<int *>(&::DAT_01183040)), &DAT_01186b30, 0);
     if (p == 0)
     {
         return;
     }
-    this->FUN_0048bb10();
+    reinterpret_cast<::TESReactionForm *>((this))->ClearReactionList();
     ReactionListOps_bd50* cur5;
     ReactionListOps_bd50* dst;
-    dst = ((ReactionListOps_bd50*)this)->FUN_00717e50();
-    cur5 = p->FUN_00717e50();
-    while (cur5 != 0 && *cur5->FUN_006815c0() != 0)
+    dst = ((::ReactionListOps_bd50 *)(reinterpret_cast<::BaseProcess *>((((ReactionListOps_bd50*)this)))->GetCurrentProcessData()));
+    cur5 = ((::ReactionListOps_bd50 *)(reinterpret_cast<::BaseProcess *>((p))->GetCurrentProcessData()));
+    while (cur5 != 0 && *((::GROUP_REACTION_bd50 **)(new ((void *)(cur5)) ::Vec3())) != 0)
     {
-        GROUP_REACTION_bd50* src2 = *cur5->FUN_006815c0();
+        GROUP_REACTION_bd50* src2 = *((::GROUP_REACTION_bd50 **)(new ((void *)(cur5)) ::Vec3()));
         GROUP_REACTION_bd50* item = new GROUP_REACTION_bd50;
         item->pForm = src2->pForm;
         item->iOffset = src2->iOffset;
         item->eFightReaction = src2->eFightReaction;
-        dst->FUN_00905820(&item);
-        if (dst->FUN_00726070() != 0)
+        reinterpret_cast<::Callees *>((dst))->FUN_00905820(&item);
+        if (((::ReactionListOps_bd50 *)(reinterpret_cast<::Callees *>((dst))->FUN_00726070())) != 0)
         {
-            dst = dst->FUN_00726070();
+            dst = ((::ReactionListOps_bd50 *)(reinterpret_cast<::Callees *>((dst))->FUN_00726070()));
         }
-        cur5 = cur5->FUN_00726070();
+        cur5 = ((::ReactionListOps_bd50 *)(reinterpret_cast<::Callees *>((cur5))->FUN_00726070()));
     }
 }
 
@@ -404,13 +425,10 @@ struct ReactionData
 };
 struct ReactionList
 {
-    ReactionData** FUN_006815c0();
-    ReactionList* FUN_00726070();
     bool FUN_008256d0();
 };
 struct ReactionAccess
 {
-    ReactionList* FUN_00717e50();
 };
 struct ReactionCompare : TESReactionForm
 {
@@ -423,14 +441,14 @@ bool ReactionCompare::FUN_0048be40(BaseFormComponent* component)
     TESReactionForm* right = dynamic_cast<TESReactionForm*>(component);
     if (!right)
         return true;
-    ReactionList* other = reinterpret_cast<ReactionAccess*>(this)->FUN_00717e50();
-    ReactionList* left = reinterpret_cast<ReactionAccess*>(right)->FUN_00717e50();
+    ReactionList* other = ((::ReactionList *)(reinterpret_cast<::BaseProcess *>((reinterpret_cast<ReactionAccess*>(this)))->GetCurrentProcessData()));
+    ReactionList* left = ((::ReactionList *)(reinterpret_cast<::BaseProcess *>((reinterpret_cast<ReactionAccess*>(right)))->GetCurrentProcessData()));
     while (other)
     {
         if (!left)
             return true;
-        ReactionData* rhs = *other->FUN_006815c0();
-        ReactionData* lhs = *left->FUN_006815c0();
+        ReactionData* rhs = *((::ReactionData **)(new ((void *)(other)) ::Vec3()));
+        ReactionData* lhs = *((::ReactionData **)(new ((void *)(left)) ::Vec3()));
         if (rhs && lhs)
         {
             if (rhs->form != lhs->form)
@@ -442,8 +460,8 @@ bool ReactionCompare::FUN_0048be40(BaseFormComponent* component)
         }
         else if (rhs || lhs)
             return true;
-        left = left->FUN_00726070();
-        other = other->FUN_00726070();
+        left = ((::ReactionList *)(reinterpret_cast<::Callees *>((left))->FUN_00726070()));
+        other = ((::ReactionList *)(reinterpret_cast<::Callees *>((other))->FUN_00726070()));
     }
     if (left && !left->FUN_008256d0())
         return true;
@@ -464,21 +482,16 @@ struct C0B0Entry
 class C0B0Node
 {
   public:
-    C0B0Entry** GetItem();
-    C0B0Node* GetNext();
 };
 
 class C0B0List : public C0B0Node
 {
   public:
-    void AddTail(C0B0Entry* const& rpkEntry);
-    void Remove(C0B0Entry* const& rpkEntry);
 };
 
 class C0B0Owner
 {
   public:
-    C0B0List* GetList();
     void FUN_0048c0b0(C0B0Form* pkForm, int iDelta);
 };
 
@@ -489,17 +502,17 @@ void C0B0Owner::FUN_0048c0b0(C0B0Form* pkForm, int iDelta)
         return;
 
     C0B0Entry* pkEntry = 0;
-    C0B0Node* pkIter = GetList();
+    C0B0Node* pkIter = ((::C0B0List *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
     bool bFound = false;
-    while (pkIter && *pkIter->GetItem())
+    while (pkIter && *((::C0B0Entry **)(new ((void *)(pkIter)) ::Vec3())))
     {
-        pkEntry = *pkIter->GetItem();
+        pkEntry = *((::C0B0Entry **)(new ((void *)(pkIter)) ::Vec3()));
         if (pkEntry->m_pkForm == pkForm)
         {
             bFound = true;
             break;
         }
-        pkIter = pkIter->GetNext();
+        pkIter = ((::C0B0Node *)(reinterpret_cast<::Callees *>((pkIter))->FUN_00726070()));
     }
 
     if (!bFound)
@@ -507,14 +520,14 @@ void C0B0Owner::FUN_0048c0b0(C0B0Form* pkForm, int iDelta)
         pkEntry = new C0B0Entry;
         pkEntry->m_pkForm = pkForm;
         pkEntry->m_iArrayLength = iDelta;
-        GetList()->AddTail(pkEntry);
+        reinterpret_cast<::Callees *>((((::C0B0List *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()))))->FUN_00905820((void *)&(pkEntry));
     }
     else
     {
         pkEntry->m_iArrayLength += iDelta;
         if (!pkEntry->m_iArrayLength)
         {
-            GetList()->Remove(pkEntry);
+            reinterpret_cast<::ItemChangeListNode *>((((::C0B0List *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()))))->FUN_00905330((::InventoryStackRecord *const &)(pkEntry));
             delete pkEntry;
         }
     }
@@ -522,7 +535,6 @@ void C0B0Owner::FUN_0048c0b0(C0B0Form* pkForm, int iDelta)
 
 struct FUN_0048c220_shell
 {
-    void* FUN_00717e50();
     void FUN_0048c220(TESForm* apForm, int aiReaction);
 };
 // If apForm is non-null, updates the matching list entry's reaction or appends a new entry when aiReaction is non-zero.
@@ -534,17 +546,17 @@ void FUN_0048c220_shell::FUN_0048c220(TESForm* apForm, int aiReaction)
         return;
     }
     bool bFound = false;
-    void* pNode = FUN_00717e50();
-    while (pNode != 0 && *_ref_006815c0(pNode) != 0)
+    void* pNode = ((void *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
+    while (pNode != 0 && *((::GROUP_REACTION_dummy **)(new ((void *)(pNode)) ::Vec3())) != 0)
     {
-        GROUP_REACTION_dummy* pItem = *_ref_006815c0(pNode);
+        GROUP_REACTION_dummy* pItem = *((::GROUP_REACTION_dummy **)(new ((void *)(pNode)) ::Vec3()));
         if (pItem->pForm == apForm)
         {
             pItem->eFightReaction = aiReaction;
             bFound = true;
             break;
         }
-        pNode = _ref_00726070(pNode);
+        pNode = reinterpret_cast<::Callees *>((pNode))->FUN_00726070();
     }
     if (!bFound && aiReaction != 0)
     {
@@ -552,20 +564,13 @@ void FUN_0048c220_shell::FUN_0048c220(TESForm* apForm, int aiReaction)
         newItem->pForm = apForm;
         newItem->iOffset = 0;
         newItem->eFightReaction = aiReaction;
-        static_cast<SoundListView*>(FUN_00717e50())->AddTail(newItem);
+        reinterpret_cast<::Callees *>((static_cast<SoundListView*>(((void *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData())))))->FUN_00905820((void *)&(newItem));
     }
 }
 
 namespace fnv_0048c2e0 {
-extern "C" char str_01012c78[];
-extern "C" char str_0101d4c8[];
-extern "C" char str_01012cb0[];
-extern void* DAT_011de45c;
-extern unsigned char DAT_011de4e8;
 struct Global_011de45c
 {
-    bool FUN_00862110();
-    unsigned int* FUN_004fd3e0();
 };
 struct Global_011de4e8
 {
@@ -577,10 +582,8 @@ struct ActorPackageContext
 };
 struct FUN_0048c2e0_shell : BaseProcess
 {
-    ActorPackageContext* FUN_00717e50();
     unsigned short FUN_0048c2e0(unsigned int flags);
 };
-void __cdecl FUN_0040fbe0(const char*, ...);
 // Computes the serialized size of the package data when flag bit 4 is set, adding fixed fields and per-entry sizes, and logs the result.
 // @fnv 0x0048c2e0
 unsigned short FUN_0048c2e0_shell::FUN_0048c2e0(unsigned int flags)
@@ -589,26 +592,26 @@ unsigned short FUN_0048c2e0_shell::FUN_0048c2e0(unsigned int flags)
     if ((flags & 4) != 0)
     {
         unsigned short start = count;
-        if (((Global_011de45c*)DAT_011de45c)->FUN_00862110())
+        if (reinterpret_cast<::FUN_00862110_cls *>((((Global_011de45c*)(*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))))->FUN_00862110())
         {
             count += 4;
             count += 2;
         }
-        ActorPackageContext* package = FUN_00717e50();
+        ActorPackageContext* package = ((::fnv_0048c2e0::ActorPackageContext *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
         count += 2;
         count += package->FUN_005ae380() * 8;
-        if (*((Global_011de4e8*)&DAT_011de4e8)->FUN_00408d60() != 0)
+        if (*((Global_011de4e8*)&(*reinterpret_cast<unsigned char *>(&::g_011de4e8)))->FUN_00408d60() != 0)
         {
-            unsigned int* formID = ((Global_011de45c*)DAT_011de45c)->FUN_004fd3e0();
+            unsigned int* formID = ((unsigned int *)(reinterpret_cast<::EffectSetting *>((((Global_011de45c*)(*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))))->GetHitSound()));
             if (formID != 0)
             {
-                TESForm* form = TESForm::GetFormByID(*formID);
-                FUN_0040fbe0(str_01012cb0, count - start, *formID, form->GetEditorID(),
+                TESForm* form = ::FUN_004839c0(*formID);
+                ::FUN_0040fbe0(::DAT_01012cb0, count - start, *formID, form->GetEditorID(),
                              *(unsigned int*)((unsigned char*)formID + 5), 0x557, str_0101d4c8);
             }
             else
             {
-                FUN_0040fbe0(str_01012c78, count - start, 0x557, str_0101d4c8);
+                ::FUN_0040fbe0(::DAT_01012c78, count - start, 0x557, str_0101d4c8);
             }
         }
     }
@@ -624,25 +627,11 @@ struct ObjC400
 };
 struct SaveC400
 {
-    unsigned int FUN_00825c00();
-    bool FUN_00862110();
-    void FUN_008579b0(void*, int);
-    void FUN_00857a10(void*, int);
-    ObjC400* FUN_004fd3e0();
 };
 struct GlobalObject_0045cf30
 {
     unsigned char* Bool();
 };
-extern SaveC400* DAT_011de45c;
-extern GlobalObject_0045cf30 DAT_011de4e8;
-extern const char str_0101d4c8[];
-extern const char str_010153a0[];
-extern const char str_0101536c[];
-extern const char str_01015318[];
-TESForm* __cdecl FUN_004839c0(unsigned int);
-void __cdecl FUN_0040fbe0(const char*, ...);
-int Warning(const char*, ...);
 
 struct S24
 {
@@ -656,57 +645,57 @@ void S24::WriteReactionList(unsigned int auiFlags)
     {
         unsigned short sizeWord = 0;
         unsigned int posSize4 = 0;
-        unsigned int startPos = DAT_011de45c->FUN_00825c00();
-        if (*DAT_011de4e8.Bool())
+        unsigned int startPos = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveC400 * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        if (*::g_011de4e8.Bool())
         {
-            startPos = DAT_011de45c->FUN_00825c00();
+            startPos = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveC400 * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
         }
-        if (DAT_011de45c->FUN_00862110())
+        if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::SaveC400 * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
         {
             int tag = 0x424c4f4b;
-            DAT_011de45c->FUN_008579b0(&tag, 4);
-            posSize4 = DAT_011de45c->FUN_00825c00();
-            DAT_011de45c->FUN_008579b0(&sizeWord, 2);
+            reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveC400 * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&tag, 4);
+            posSize4 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveC400 * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+            reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveC400 * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&sizeWord, 2);
         }
         unsigned short kCount = 0;
-        unsigned int posCountC = DAT_011de45c->FUN_00825c00();
-        DAT_011de45c->FUN_008579b0(&kCount, 2);
-        ReactionListOps_bd50* node = ((ReactionListOps_bd50*)this)->FUN_00717e50();
+        unsigned int posCountC = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveC400 * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveC400 * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&kCount, 2);
+        ReactionListOps_bd50* node = ((::ReactionListOps_bd50 *)(reinterpret_cast<::BaseProcess *>((((ReactionListOps_bd50*)this)))->GetCurrentProcessData()));
         while (node)
         {
-            GROUP_REACTION_bd50* item = *node->FUN_006815c0();
+            GROUP_REACTION_bd50* item = *((::GROUP_REACTION_bd50 **)(new ((void *)(node)) ::Vec3()));
             if (item)
             {
-                unsigned int formID = item->pForm->GetFormID();
-                DAT_011de45c->FUN_00857a10(&formID, 4);
-                DAT_011de45c->FUN_008579b0(&item->iOffset, 4);
+                unsigned int formID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((item->pForm))->FUN_0084e3a0()));
+                reinterpret_cast<::C857A10Buffer *>(((*reinterpret_cast<::SaveC400 * *>(&::g_TESSaveLoadGame))))->FUN_00857a10((const unsigned int *)(void *)(&formID), 4);
+                reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveC400 * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&item->iOffset, 4);
                 kCount++;
             }
-            node = node->FUN_00726070();
+            node = ((::ReactionListOps_bd50 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         }
         *(unsigned short*)posCountC = kCount;
-        if (*DAT_011de4e8.Bool())
+        if (*::g_011de4e8.Bool())
         {
-            unsigned int endPos2 = DAT_011de45c->FUN_00825c00();
-            ObjC400* kObj = DAT_011de45c->FUN_004fd3e0();
+            unsigned int endPos2 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveC400 * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+            ObjC400* kObj = ((::ObjC400 *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::SaveC400 * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
             if (kObj)
             {
                 TESForm* form = FUN_004839c0(kObj->formID);
-                FUN_0040fbe0(str_010153a0, endPos2 - startPos, kObj->formID, form->GetEditorID(),
-                             *(int*)((char*)kObj + 5), 1403, str_0101d4c8);
+                ::FUN_0040fbe0(::DAT_010153a0, endPos2 - startPos, kObj->formID, form->GetEditorID(),
+                             *(int*)((char*)kObj + 5), 1403, ::fnv_0048c2e0::str_0101d4c8);
             }
             else
             {
-                FUN_0040fbe0(str_0101536c, endPos2 - startPos, 1403, str_0101d4c8);
+                ::FUN_0040fbe0(::DAT_0101536c, endPos2 - startPos, 1403, ::fnv_0048c2e0::str_0101d4c8);
             }
         }
-        if (DAT_011de45c->FUN_00862110())
+        if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::SaveC400 * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
         {
-            unsigned int endPos = DAT_011de45c->FUN_00825c00();
+            unsigned int endPos = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveC400 * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
             unsigned int blockStart = posSize4;
             if (endPos > blockStart + 0xffff)
             {
-                Warning(str_01015318, str_0101d4c8, 1403);
+                ::FUN_005b5e40(::DAT_01015318, ::fnv_0048c2e0::str_0101d4c8, 1403);
             }
             *(unsigned short*)posSize4 = (unsigned short)(endPos - blockStart);
         }
@@ -726,21 +715,11 @@ struct SaveLoadFormInfo
 
 struct SaveLoadGameStub
 {
-    bool FUN_00862110();
-    void ReadTypedData(void* apData, unsigned int auiSize);
-    void ReadFormIdentifier(unsigned int* apID, int aiSize);
-    SaveLoadFormInfo* GetCurrentFormInfo();
-    unsigned int GetBufferPosition();
-    unsigned char GetVersion();
 };
-extern SaveLoadGameStub* g_TESSaveLoadGame;
 
-TESForm* LookupFormByID(unsigned int auiFormID);
 
 struct TESReactionFormLoad : public TESReactionForm
 {
-    void ResetReactions();
-    void AddReaction(unsigned int auiFormID, int aiReaction);
     void LoadReactions(unsigned int auiChangeFlags, BGSLoadFormBuffer* apBuffer);
 };
 
@@ -752,94 +731,74 @@ void TESReactionFormLoad::LoadReactions(unsigned int auiChangeFlags, BGSLoadForm
         unsigned short usLength = 0;
         unsigned int dwStart = 0;
         unsigned short usNum;
-        if (g_TESSaveLoadGame->FUN_00862110())
+        if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
         {
             unsigned int uiMarker;
-            g_TESSaveLoadGame->ReadTypedData(&uiMarker, 4);
+            reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&uiMarker, 4);
             if (uiMarker != 0x424C4F4B)
             {
-                SaveLoadFormInfo* pInfo = g_TESSaveLoadGame->GetCurrentFormInfo();
+                SaveLoadFormInfo* pInfo = ((::SaveLoadFormInfo *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)((*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame))))));
                 if (pInfo)
                 {
-                    TESForm* pForm = LookupFormByID(pInfo->formID);
-                    Warning(
-                        "SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
-                        "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESReactionForm.cpp", 1415,
-                        pInfo->formID, pForm->GetEditorID(), pInfo->version, *(unsigned int*)&pInfo->flagsByte0);
+                    TESForm* pForm = ::FUN_004839c0(pInfo->formID);
+                    ::FUN_005b5e40(
+                        );
                 }
                 else
                 {
-                    Warning(
-                        "SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Current version is %i",
-                        "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESReactionForm.cpp", 1415,
-                        g_TESSaveLoadGame->GetVersion());
+                    ::FUN_005b5e40(
+                        );
                 }
             }
-            dwStart = g_TESSaveLoadGame->GetBufferPosition();
-            g_TESSaveLoadGame->ReadTypedData(&usLength, 2);
+            dwStart = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+            reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&usLength, 2);
         }
-        ResetReactions();
-        g_TESSaveLoadGame->ReadTypedData(&usNum, 2);
+        reinterpret_cast<::TESReactionForm *>(this)->ClearReactionList();
+        reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&usNum, 2);
         for (unsigned int i = 0; i < usNum; i++)
         {
             unsigned int auiFormId;
-            g_TESSaveLoadGame->ReadFormIdentifier(&auiFormId, 4);
+            reinterpret_cast<::FUN_00857aa0 *>(((*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame))))->ValidateFormIDArray(&auiFormId, 4);
             int iFactionReaction;
-            g_TESSaveLoadGame->ReadTypedData(&iFactionReaction, 4);
-            AddReaction(auiFormId, iFactionReaction);
+            reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&iFactionReaction, 4);
+            ::FUN_0048bfc0((::BaseProcess *)this, (::Args_0048bfc0)(auiFormId));
         }
-        if (g_TESSaveLoadGame->FUN_00862110())
+        if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
         {
-            unsigned int endPos = g_TESSaveLoadGame->GetBufferPosition();
-            SaveLoadFormInfo* pEndInfo = g_TESSaveLoadGame->GetCurrentFormInfo();
+            unsigned int endPos = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+            SaveLoadFormInfo* pEndInfo = ((::SaveLoadFormInfo *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)((*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame))))));
             if (pEndInfo)
             {
-                TESForm* pEndForm = LookupFormByID(pEndInfo->formID);
+                TESForm* pEndForm = ::FUN_004839c0(pEndInfo->formID);
                 if (endPos > usLength + dwStart)
                 {
-                    Warning(
-                        "SAVELOAD: LoadGame Buffer overrun of %i bytes in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
-                        endPos - (usLength + dwStart),
-                        "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESReactionForm.cpp", 1433,
-                        pEndInfo->formID, pEndForm->GetEditorID(), pEndInfo->version,
-                        *(unsigned int*)&pEndInfo->flagsByte0);
+                    ::FUN_005b5e40(
+                        );
                 }
                 else if (endPos < usLength + dwStart)
                 {
-                    Warning(
-                        "SAVELOAD: LoadGame Buffer underrun of %i bytes in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
-                        (usLength + dwStart) - endPos,
-                        "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESReactionForm.cpp", 1433,
-                        pEndInfo->formID, pEndForm->GetEditorID(), pEndInfo->version,
-                        *(unsigned int*)&pEndInfo->flagsByte0);
+                    ::FUN_005b5e40(
+                        );
                 }
             }
             else
             {
                 if (endPos > usLength + dwStart)
                 {
-                    Warning(
-                        "SAVELOAD: LoadGame Buffer overrun of %i bytes in file %s on line %i.  Current version is %i",
-                        endPos - (usLength + dwStart),
-                        "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESReactionForm.cpp", 1433,
-                        g_TESSaveLoadGame->GetVersion());
+                    ::FUN_005b5e40(
+                        );
                 }
                 else if (endPos < usLength + dwStart)
                 {
-                    Warning(
-                        "SAVELOAD: LoadGame Buffer underrun of %i bytes in file %s on line %i.  Current version is %i",
-                        (usLength + dwStart) - endPos,
-                        "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESReactionForm.cpp", 1433,
-                        g_TESSaveLoadGame->GetVersion());
+                    ::FUN_005b5e40(
+                        );
                 }
             }
         }
     }
 }
 
-void* __fastcall _ref_00717e50(void* pList);
 void __fastcall _ref_0063f7b0(void* pList);
-unsigned int __cdecl _ref_004839c0(unsigned int aFormID);
 
 struct FUN_0048c930_shell
 {
@@ -852,29 +811,29 @@ void FUN_0048c930_shell::ResolveGroupReactionForms(unsigned int flags, unsigned 
 {
     if (flags & 4)
     {
-        void* iter = _ref_00717e50(this);
+        void* iter = ((void *)(reinterpret_cast<::BaseProcess *>((this))->GetCurrentProcessData()));
         int count = 0;
         while (iter != 0)
         {
-            GROUP_REACTION_dummy* entry = *_ref_006815c0(iter);
+            GROUP_REACTION_dummy* entry = *((::GROUP_REACTION_dummy **)(new ((void *)(iter)) ::Vec3()));
             if (entry != 0)
             {
                 unsigned int formID = (unsigned int)entry->pForm;
-                entry->pForm = (TESForm*)_ref_004839c0(formID);
+                entry->pForm = (TESForm*)((unsigned int)(::FUN_004839c0(formID)));
                 if (entry->pForm == 0)
                 {
                     _ref_0063f7b0(iter);
                     GROUP_REACTION_dummy* dead = entry;
-                    operator delete(dead);
+                    ::FUN_00401030(dead);
                 }
                 else
                 {
-                    iter = _ref_00726070(iter);
+                    iter = reinterpret_cast<::Callees *>((iter))->FUN_00726070();
                 }
             }
             else
             {
-                iter = _ref_00726070(iter);
+                iter = reinterpret_cast<::Callees *>((iter))->FUN_00726070();
             }
         }
     }
@@ -882,7 +841,6 @@ void FUN_0048c930_shell::ResolveGroupReactionForms(unsigned int flags, unsigned 
 
 struct FUN_0048c9d0_ChangeFlags
 {
-    bool FUN_004280f0();
 };
 
 struct FUN_0048c9d0_ListNode
@@ -890,17 +848,11 @@ struct FUN_0048c9d0_ListNode
     void* item;
     FUN_0048c9d0_ListNode* next;
 
-    FUN_0048c9d0_ListNode* FUN_006815c0();
-    FUN_0048c9d0_ListNode* FUN_00726070();
 };
 
 struct FUN_0048c9d0_SaveBuffer
 {
     FUN_0048c9d0_ChangeFlags* FUN_00428110(int* value, int size);
-    unsigned int FUN_00865f20();
-    void FUN_00865df0(int value, int flag);
-    void FUN_00865e50(void* data, unsigned int size, int flag);
-    void FUN_00865ff0(int count, unsigned int value);
 };
 
 struct FUN_0048c9d0_Class
@@ -921,24 +873,24 @@ void FUN_0048c9d0_Class::FUN_0048c9d0(FUN_0048c9d0_SaveBuffer* buffer)
 
     {
         int temp;
-        if (buffer->FUN_00428110(&temp, 4)->FUN_004280f0())
+        if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((buffer->FUN_00428110(&temp, 4)))->FUN_004280f0({}))
         {
             count = 0;
-            value = buffer->FUN_00865f20();
+            value = reinterpret_cast<::FUN_00865f20_shell *>((buffer))->FUN_00865f20();
             cursor = &list;
             while (cursor != 0)
             {
-                item = cursor->FUN_006815c0()->item;
+                item = ((::FUN_0048c9d0_ListNode *)(new ((void *)(cursor)) ::Vec3()))->item;
                 if (item != 0)
                 {
-                    buffer->FUN_00865df0(*(int*)item, 0);
-                    buffer->FUN_00865e50((char*)item + 4, 4, 0);
-                    buffer->FUN_00865e50((char*)item + 8, 4, 0);
+                    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(*(int*)item), 0);
+                    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)item + 4, 4, 0);
+                    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)item + 8, 4, 0);
                     count = count + 1;
                 }
-                cursor = cursor->FUN_00726070();
+                cursor = ((::FUN_0048c9d0_ListNode *)(reinterpret_cast<::Callees *>((cursor))->FUN_00726070()));
             }
-            buffer->FUN_00865ff0(count, value);
+            reinterpret_cast<::FUN_00865ff0_shell *>((buffer))->FUN_00865ff0(count, value);
         }
     }
 }

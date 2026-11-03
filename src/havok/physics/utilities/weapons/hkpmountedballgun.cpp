@@ -2,16 +2,19 @@
 // src/havok/physics/utilities/weapons/hkpmountedballgun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpmountedballgun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00e46f90.h"
+#include "fnv/decl/SStringPtr.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_010ec000.h"
 #include "havok/hkpMountedBallGun.h"
 
 #include <xmmintrin.h>
-extern unsigned int DAT_010ec004;
-extern float DAT_01011d78;
-extern float DAT_01016410;
 
 struct FUN_00e46f90_Obj
 {
-    void FUN_00e46f90(int a);
 };
 struct HKStr
 {
@@ -70,11 +73,11 @@ struct FUN_00e45150_class
 MBG* FUN_00e45150_class::Initialize(int a)
 {
     MBG* self = (MBG*)this;
-    ((FUN_00e46f90_Obj*)this)->FUN_00e46f90(a);
-    self->vfptr = (void*)&DAT_010ec004;
+    new ((void *)(((FUN_00e46f90_Obj*)this))) ::FUN_00e46f90(a);
+    self->vfptr = (void*)&(*reinterpret_cast<unsigned int *>(&::DAT_010ec004));
     self->m_type = 4;
-    self->m_name = "MountedBallGun";
-    __m128 v = _mm_setr_ps(DAT_01011d78, DAT_01016410, DAT_01011d78, DAT_01011d78);
+    reinterpret_cast<::SStringPtr *>((void *)&(const ::HKStr &)(self->m_name))->FUN_00cb0c10("MountedBallGun");
+    __m128 v = _mm_setr_ps(::DAT_01011d78, DAT_01016410, ::DAT_01011d78, ::DAT_01011d78);
     self->m_vContactPosition.v = v;
     return self;
 }
@@ -100,7 +103,6 @@ struct hkMemoryRouterQ
 };
 
 void* __cdecl FUN_00c85750();
-void __cdecl FUN_00cb1260(void* dst, const void* src, int numBytes);
 
 inline hkMemoryRouterQ& getRouter()
 {
@@ -157,12 +159,12 @@ template <typename T> void hkQueueQ<T>::FUN_00e45460(int aiMinCapacity)
                 {
                     int numHead = m_pRayCursor - m_pFirstNode;
                     int numTail = m_pTail;
-                    FUN_00cb1260(p, m_data + m_pFirstNode, numHead * sizeof(T));
-                    FUN_00cb1260(p + numHead, m_data, numTail * sizeof(T));
+                    ::FUN_00cb1260(p, m_data + m_pFirstNode, numHead * sizeof(T));
+                    ::FUN_00cb1260(p + numHead, m_data, numTail * sizeof(T));
                 }
                 else
                 {
-                    FUN_00cb1260(p, m_data + m_pFirstNode, m_iNodeCount * sizeof(T));
+                    ::FUN_00cb1260(p, m_data + m_pFirstNode, m_iNodeCount * sizeof(T));
                 }
             }
             m_pFirstNode = 0;

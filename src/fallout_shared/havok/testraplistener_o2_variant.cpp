@@ -4,6 +4,12 @@
 
 // src/fallout_shared/havok/testraplistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/testraplistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_004a4960_class.h"
+#include "fnv/decl/FUN_0062d8a0.h"
+#include "fnv/decl/FUN_0062dfe0.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0104e000.h"
 struct FUN_0062d2f0_shell
 {
     void* GetOffset160();
@@ -18,8 +24,6 @@ struct bhkTrapListener
     void FUN_0062d760();
     void* DestroyIfFlagged(unsigned int);
 };
-void* __cdecl _Deallocate(void*);
-extern int DAT_0104e3d0;
 struct FUN_0062d740_shell
 {
     int m_field;
@@ -27,8 +31,6 @@ struct FUN_0062d740_shell
 };
 struct CombatWorldStateListNode
 {
-    CombatWorldStateListNode* GetNext();
-    int _ref_0084e3a0();
 };
 struct FUN_0062dee0_shell
 {
@@ -46,7 +48,6 @@ struct FUN_0062c700_shell
 };
 struct FUN_0062dfe0_shell
 {
-    void FUN_0062dfe0();
 };
 struct FUN_0062d710_shell : FUN_0062d740_shell
 {
@@ -54,7 +55,6 @@ struct FUN_0062d710_shell : FUN_0062d740_shell
 };
 struct TESTrapListener
 {
-    void FUN_0062d8a0();
     void* FUN_0062d870(unsigned int flags);
 };
 struct FUN_0062e200_shell
@@ -63,7 +63,6 @@ struct FUN_0062e200_shell
 };
 struct FUN_0062e230_shell
 {
-    void* FUN_004a4960(unsigned int a, unsigned int b, unsigned int c);
     void* FUN_0062e230(unsigned int a, unsigned int b, unsigned int c);
 };
 

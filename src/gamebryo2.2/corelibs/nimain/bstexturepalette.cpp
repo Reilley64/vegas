@@ -1,5 +1,21 @@
 // gamebryo2.2/corelibs/nimain/bstexturepalette.cpp: TextureFileEntrySetter, TexMap (6 functions)
 
+#include "fnv/decl/A619B0Map.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a61670_Map.h"
+#include "fnv/decl/FUN_00a61920_Class.h"
+#include "fnv/decl/HashA616.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NameTableA61.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a61000.h"
+#include "fnv/symbols_00af4000.h"
+#include "fnv/symbols_00af6000.h"
+#include "fnv/symbols_00afd000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
 #include "bstexturepalette_decls.h"
 
 #pragma optimize("", off)
@@ -26,36 +42,14 @@ BSFileEntry* __cdecl TextureFileEntrySetter::FindEntryForTexture(const NiTexture
         lookupResult.handle = lookupResult.name->m_kHandle;
         archiveKey.texturePath = lookupResult.handle;
         CleanPath(archiveKey.texturePath, path, sizeof(path));
-        FileNameHash::CreateDirectoryAndFileHashes(path, archiveKey.directoryHash, archiveKey.fileHash);
+        ::HashPathComponents(path, (::FileNameHash *)&(archiveKey.directoryHash), (::FileNameHash *)&(archiveKey.fileHash));
         lookupResult.entry =
-            ArchiveManager::FindFileEntry(ARCHIVE_TYPE_TEXTURES, archiveKey.directoryHash, archiveKey.fileHash, path);
+            ((::BSFileEntry *)(::fnv_00af6540::FindFileEntryInArchives((*(int *)&(const ::ArchiveType &)(ARCHIVE_TYPE_TEXTURES)), (::fnv_00af6540::FileNameHash &)(archiveKey.directoryHash), (::fnv_00af6540::FileNameHash &)(archiveKey.fileHash), path)));
         return lookupResult.entry;
     }
 }
 
 #pragma optimize("", on)
-
-// Locks the spin lock, looks up the texture's priority bucket, stores the priority on the item and registers the file entry if the item has none.
-// @fnv 0x00a61c50
-void __cdecl TextureFileEntrySetter::SetTexture(NiTexture* texture, const BSFileEntry* entry)
-{
-    if (DAT_011f4468)
-    {
-        g_spinLock.Lock(0);
-        unsigned int priority = GetTextureSizeLevel(texture);
-        TextureCacheNode* item = DAT_011f4464[priority].FindOrInsertTexture(texture);
-        item->m_usTextureSizeLevel = (unsigned short)priority;
-        if (!item->m_pFileEntry)
-        {
-            if (!entry)
-                entry = FindEntryForTexture(texture);
-            if (entry)
-                DAT_011f4468->SetAt(entry, item);
-        }
-        if (--g_spinLock.m_uiRecursionCount == 0)
-            g_spinLock.m_uiOwningThreadID = 0;
-    }
-}
 
 struct FUN_00a61e60_ent
 {
@@ -66,11 +60,9 @@ struct FUN_00a61e60_ent
 };
 struct FUN_00a61670_stub
 {
-    void RemoveByKey(void* p);
 };
 struct FUN_00a61890_stub
 {
-    void RemoveNode(void* p);
 };
 void* __cdecl FindNodeByObject(const void* p);
 extern int DAT_011f4484;
@@ -80,13 +72,13 @@ bool FUN_00a61f30(const void* apTexture)
     bool bres = false;
     if (DAT_011f4468)
     {
-        g_spinLock.Lock(0);
+        reinterpret_cast<::FUN_0040fbf0_shell *>(&(g_spinLock))->FUN_0040fbf0((char *)(0));
         FUN_00a61e60_ent* pitem = (FUN_00a61e60_ent*)FindNodeByObject(apTexture);
         if (pitem)
         {
             if (pitem->pad4)
-                ((FUN_00a61670_stub*)DAT_011f4468)->RemoveByKey(pitem->pad4);
-            ((FUN_00a61890_stub*)((char*)DAT_011f4464 + pitem->w * 0xb28))->RemoveNode(pitem);
+                reinterpret_cast<::FUN_00a61670_Map *>((((FUN_00a61670_stub*)DAT_011f4468)))->RemoveByKey((unsigned int)(pitem->pad4));
+            reinterpret_cast<::NameTableA61 *>((((FUN_00a61890_stub*)((char*)(*reinterpret_cast<::TextureCacheMap * *>(&::DAT_011f4464)) + pitem->w * 0xb28))))->RemoveNode((::NodeA61 *)(pitem));
             bres = true;
         }
         if (--DAT_011f4484 == 0)
@@ -97,11 +89,8 @@ bool FUN_00a61f30(const void* apTexture)
 
 struct P03MM
 {
-    void* Allocate(unsigned int);
 };
-extern P03MM g_memoryManager;
 
-unsigned int __cdecl GetPathHash(const char*, bool);
 unsigned int __cdecl FUN_00a61530(const char*);
 bool __cdecl FUN_00a614d0(const char*, const char*);
 
@@ -159,7 +148,7 @@ struct BSTexMapItem_StandIn
 
     void* operator new(size_t size)
     {
-        return g_memoryManager.Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }
 
     BSTexMapItem_StandIn(NiTexture* tex, TextureCacheNode* next)
@@ -177,6 +166,27 @@ struct FUN_00a617c0_shell : public TextureFileEntrySetter
 {
     TextureCacheNode* FindOrInsertTexture(NiTexture* apTex);
 };
+// Locks the spin lock, looks up the texture's priority bucket, stores the priority on the item and registers the file entry if the item has none.
+// @fnv 0x00a61c50
+void __cdecl TextureFileEntrySetter::SetTexture(NiTexture* texture, const BSFileEntry* entry)
+{
+    if (DAT_011f4468)
+    {
+        reinterpret_cast<::FUN_0040fbf0_shell *>(&(g_spinLock))->FUN_0040fbf0((char *)(0));
+        unsigned int priority = GetTextureSizeLevel(texture);
+        TextureCacheNode* item = reinterpret_cast<::FUN_00a617c0_shell *>(&((*reinterpret_cast<::TextureCacheMap * *>(&::DAT_011f4464))[priority]))->FindOrInsertTexture(texture);
+        item->m_usTextureSizeLevel = (unsigned short)priority;
+        if (!item->m_pFileEntry)
+        {
+            if (!entry)
+                entry = FindEntryForTexture(texture);
+            if (entry)
+                reinterpret_cast<::HashA616 *>((DAT_011f4468))->FUN_00a61610((unsigned int)(entry), (::EntryA616 *)(item));
+        }
+        if (--g_spinLock.m_uiRecursionCount == 0)
+            g_spinLock.m_uiOwningThreadID = 0;
+    }
+}
 
 // Looks up a texture by its path in a hash bucket, returning the matching item or inserting a new one and incrementing the count.
 // @fnv 0x00a617c0
@@ -204,7 +214,6 @@ TextureCacheNode* FUN_00a617c0_shell::FindOrInsertTexture(NiTexture* apTex)
 
 struct S_00a61b90_Map : TextureCacheMap
 {
-    bool FindShaderByHash(unsigned int hash, const char* path, NiTexture** ppTex);
 };
 
 // Locks the spin lock, hashes the path suffix, releases any existing texture in ppTex, and probes up to 7 map slots for a matching texture.
@@ -214,7 +223,7 @@ bool __cdecl FindTextureByPath(const char* path, NiTexture** ppTex)
     bool found = false;
     if (DAT_011f4468 != 0)
     {
-        g_spinLock.Lock(0);
+        reinterpret_cast<::FUN_0040fbf0_shell *>(&(g_spinLock))->FUN_0040fbf0((char *)(0));
         unsigned int offset = GetPathHash(path, true);
         const char* name = path + offset;
         unsigned int hash = FUN_00a61530(path + offset);
@@ -230,7 +239,7 @@ bool __cdecl FindTextureByPath(const char* path, NiTexture** ppTex)
         {
             if (iSlot-- == 0)
                 break;
-            found = static_cast<S_00a61b90_Map*>(DAT_011f4464 + iSlot)->FindShaderByHash(hash, name, ppTex);
+            found = reinterpret_cast<::FUN_00a61920_Class *>((static_cast<S_00a61b90_Map*>((*reinterpret_cast<::TextureCacheMap * *>(&::DAT_011f4464)) + iSlot)))->FindShaderByHash(hash, (int)(name), (::NiShader **)(ppTex));
         } while (!found);
         if (--g_spinLock.m_uiRecursionCount == 0)
             g_spinLock.m_uiOwningThreadID = 0;
@@ -256,7 +265,6 @@ struct TexPtr
 };
 struct TexEntryMap
 {
-    void RemoveByKey(BSFileEntry* apEntry);
 };
 struct TexMap
 {
@@ -282,7 +290,6 @@ struct TexMap
         }
         return it.pItem != 0;
     }
-    void RemoveNode(TextureCacheNode* apItem);
 };
 struct TexSpinLock
 {
@@ -294,7 +301,6 @@ struct TexSpinLock
             m_uiOwningThreadID = 0;
     }
 };
-extern unsigned char DAT_011f4461;
 extern int DAT_011a95fc;
 bool __cdecl FUN_00a616e0(TexMapIter& arIter);
 __declspec(noinline) bool TexMap::GetNext(TexMapIter& it, TexPtr& tex)
@@ -328,12 +334,12 @@ __declspec(noinline) bool TexMap::GetNext(TexMapIter& it, TexPtr& tex)
 
 inline bool Next(TexMapIter& it, TexPtr& tex, bool cross = true)
 {
-    bool more = ((TexMap*)DAT_011f4464)[it.uiMap].GetNext(it, tex);
+    bool more = reinterpret_cast<::A619B0Map *>(&(((TexMap*)(*reinterpret_cast<::TextureCacheMap * *>(&::DAT_011f4464)))[it.uiMap]))->GetNext((::A619B0Iterator &)(it), (::A619B0Pointer< ::A619B0Object> &)(tex));
     if (!more && cross)
     {
         while (it.uiMap-- != 0)
         {
-            more = ((TexMap*)DAT_011f4464)[it.uiMap].First(it);
+            more = ((TexMap*)(*reinterpret_cast<::TextureCacheMap * *>(&::DAT_011f4464)))[it.uiMap].First(it);
             if (more)
                 break;
         }
@@ -347,7 +353,7 @@ __declspec(noinline) bool __cdecl FUN_00a616e0(TexMapIter& it)
     do
     {
         --idx;
-        TexMap& m = ((TexMap*)DAT_011f4464)[idx];
+        TexMap& m = ((TexMap*)(*reinterpret_cast<::TextureCacheMap * *>(&::DAT_011f4464)))[idx];
         it.uiBucket = 0;
         it.pItem = 0;
         if (m.iCount)
@@ -374,7 +380,7 @@ void __cdecl FUN_00a61cd0()
 {
     if (DAT_011f4468)
     {
-        g_spinLock.Lock(0);
+        reinterpret_cast<::FUN_0040fbf0_shell *>(&(g_spinLock))->FUN_0040fbf0((char *)(0));
         int removed = 0;
         DAT_011f4461 = 0;
         TexMapIter it;
@@ -392,8 +398,8 @@ void __cdecl FUN_00a61cd0()
                 if (last && last->m_uiRefCount == 2)
                 {
                     if (olditem->m_pFileEntry)
-                        ((TexEntryMap*)DAT_011f4468)->RemoveByKey(olditem->m_pFileEntry);
-                    ((TexMap*)DAT_011f4464)[oldmap].RemoveNode(olditem);
+                        reinterpret_cast<::FUN_00a61670_Map *>((((TexEntryMap*)DAT_011f4468)))->RemoveByKey((unsigned int)(olditem->m_pFileEntry));
+                    reinterpret_cast<::NameTableA61 *>(&(((TexMap*)(*reinterpret_cast<::TextureCacheMap * *>(&::DAT_011f4464)))[oldmap]))->RemoveNode((::NodeA61 *)(olditem));
                     ++removed;
                 }
             } while (more && removed < DAT_011a95fc);

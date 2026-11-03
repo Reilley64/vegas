@@ -1,1 +1,7 @@
+#include "fnv/decl/FUN_00a62660_cls.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00e69000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_0126f000.h"
 #include "niconsolerenderstate.inl"

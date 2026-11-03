@@ -2,12 +2,34 @@
 // src/bsshader/particleshaderproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/particleshaderproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern int g_01200434;
 
 // @fnv 0x00ba7f10
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00a673d0_shell.h"
+#include "fnv/decl/FUN_00baa0e0.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/MersenneTwister.h"
+#include "fnv/decl/NiGeometryData.h"
+#include "fnv/decl/RenderOwner.h"
+#include "fnv/decl/S00a67410.h"
+#include "fnv/decl/ShaderPropertyRecord.h"
+#include "fnv/decl/TallGrassShader.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/fnv_00c5ac00__ArrObj.h"
+#include "fnv/decl/reconstruct_c5a9d0__Array.h"
+#include "fnv/symbols_005e0000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00ba7000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_0101f000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01200000.h"
 int& __cdecl FUN_00ba7f10()
 {
-    return g_01200434;
+    return (*reinterpret_cast<int *>(&::g_01200434));
 }
 
 template <class T> class NiTMallocInterface
@@ -21,36 +43,29 @@ template <class T, class A> class NiTPrimitiveArray
 };
 struct BaseStr
 {
-    void WriteToSettingArray(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*);
 };
 struct ParticleShaderProperty : BaseStr
 {
     void FUN_00ba7f20(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*);
 };
-char* __cdecl _FUN_00a7d330(const char*);
 // @fnv 0x00ba7f20
 void ParticleShaderProperty::FUN_00ba7f20(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* apStrings)
 {
-    WriteToSettingArray(apStrings);
-    char* str = _FUN_00a7d330((const char*)g_01200434);
+    reinterpret_cast<::ShaderPropertyRecord *>(this)->WriteToSettingArray((::SettingArray *)(apStrings));
+    char* str = ::FUN_00a7d330((const char*)(*reinterpret_cast<int *>(&::g_01200434)));
     unsigned int size = *(unsigned short*)((char*)apStrings + 0xA);
     if (size >= *(unsigned short*)((char*)apStrings + 8))
-        apStrings->SetSize(size + *(unsigned short*)((char*)apStrings + 0xE));
-    apStrings->SetAt(size, str);
+        reinterpret_cast<::ViewerStrings *>((apStrings))->SetSize(size + *(unsigned short*)((char*)apStrings + 0xE));
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((apStrings))->SetAt(size, str);
 }
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern int DAT_0101fbcc;
-extern int DAT_01016ca4;
 extern int DAT_01200424;
-char** __cdecl FUN_005e0ba0(unsigned int);
 int __cdecl GetFloatQuadTable();
 void* _fnv_zlib_memset(void*, int, unsigned int);
 struct MemoryManager
 {
-    void* Allocate(unsigned int);
 };
-extern MemoryManager g_memoryManager;
 struct ParticleShader
 {
     static unsigned int __cdecl GetShaderParticleCount();
@@ -66,6 +81,8 @@ struct NiPoint3
         y = fY;
         z = fZ;
     }
+public:
+    static const ::NiPoint3 ZERO;
 };
 struct RgbaColor
 {
@@ -131,13 +148,12 @@ struct GlobalObject_004aff00
             m_pBase = 0;
     }
     ~GlobalObject_004aff00();
-    void RemoveAll();
 };
 struct PrimArray : GlobalObject_004aff00
 {
     PrimArray(unsigned int uiMaxSize, unsigned int uiGrowBy) : GlobalObject_004aff00(uiMaxSize, uiGrowBy)
     {
-        vt = &DAT_01016ca4;
+        vt = &::reconstruct_c5a9d0::Array::DAT_0101fbd4;
     }
 };
 struct BoundDataBlock
@@ -145,7 +161,7 @@ struct BoundDataBlock
     char data[0x30];
     static void* operator new[](unsigned int size)
     {
-        return g_memoryManager.Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(size);
     }
 };
 struct FUN_00ba8e50
@@ -222,7 +238,7 @@ FUN_00ba7f70::FUN_00ba7f70() : kArray(10, 10)
     m_fParticleParameter13 = 1.0f;
     m_vecParticlePosition = NiPoint3(0.0f, 0.0f, 0.0f);
     fUnk148 = 0.0f;
-    kArray.RemoveAll();
+    reinterpret_cast<::fnv_00c5ac00::ArrObj *>(&(kArray))->FUN_004dffa0();
     GetFloatQuadTable();
     pParticleBuffer = 0;
     unsigned int iparticleCount = ParticleShader::GetShaderParticleCount();
@@ -322,7 +338,6 @@ struct ParticleEmitter : ParticleSystemBase
     int unk100;
     float fScaleTime;
 
-    int GetParticleCount();
     void AdvanceParticleTimes(float fTime);
 };
 
@@ -330,7 +345,7 @@ struct ParticleEmitter : ParticleSystemBase
 void ParticleEmitter::AdvanceParticleTimes(float fTime)
 {
     float fTimeSinceScaleStart = fTime - fScaleTime;
-    int iCount = GetParticleCount();
+    int iCount = ((int)(::ParticleShader::GetShaderParticleCount()));
     for (int i = 0; i < iCount; i++)
     {
         if (pParticles[i].m_fFirstFloatValue != 3.402823466385288598e+38)
@@ -341,11 +356,8 @@ void ParticleEmitter::AdvanceParticleTimes(float fTime)
 
 struct TableAllocator
 {
-    void* FUN_00aa3e40(unsigned int uiSize);
 };
-extern int DAT_011f6238;
 extern int DAT_01200420;
-unsigned int __cdecl FUN_00ba52d0();
 
 struct FloatQuad
 {
@@ -353,7 +365,7 @@ struct FloatQuad
 
     static void* operator new[](unsigned int uiSize)
     {
-        return reinterpret_cast<TableAllocator*>(&DAT_011f6238)->FUN_00aa3e40(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<TableAllocator*>(&(*reinterpret_cast<int *>(&::g_memoryManager)))))->FUN_00aa3e40(uiSize);
     }
 };
 
@@ -364,7 +376,7 @@ int __cdecl GetFloatQuadTable()
     if (*ppTable != 0)
         return (int)*ppTable;
 
-    unsigned int uiQuadCount = FUN_00ba52d0();
+    unsigned int uiQuadCount = ::ParticleShader::GetShaderParticleCount();
     char* pBase = (char*)new FloatQuad[uiQuadCount * 4];
     unsigned int i = 0;
     *ppTable = pBase;
@@ -422,7 +434,6 @@ struct ShaderArrayOwner
     int unk34;
     int unk38;
     ShaderArrayHolder* m_pHolder;
-    void Prep(int);
     ShaderArrayHolder* EnsureShaderArrayEntries(int, int, int, int, int, int);
 };
 
@@ -430,7 +441,7 @@ struct ShaderArrayOwner
 // @fnv 0x00ba7420
 ShaderArrayHolder* ShaderArrayOwner::EnsureShaderArrayEntries(int p1, int, int, int, int, int)
 {
-    Prep(-1);
+    reinterpret_cast<::TallGrassShader *>(this)->InitializeConstants(-1);
     ShaderArrayHolder* h = m_pHolder;
     if (h->m_uiCount == 0)
     {
@@ -446,7 +457,6 @@ ShaderArrayHolder* ShaderArrayOwner::EnsureShaderArrayEntries(int p1, int, int, 
 struct FUN_00aa5140
 {
     FUN_00aa5140();
-    int FUN_00aa5230(int);
     static FUN_00aa5140& Get()
     {
         static FUN_00aa5140 generator;
@@ -455,7 +465,7 @@ struct FUN_00aa5140
 };
 inline float RandomRange(const float& high, const float& low)
 {
-    unsigned int random = FUN_00aa5140::Get().FUN_00aa5230(-1);
+    unsigned int random = ((int)(reinterpret_cast<::MersenneTwister *>(&(FUN_00aa5140::Get()))->GetRandomUInt(-1)));
     float result = low + (high - low) * random * 2.3283064365386963e-10;
     return result;
 }
@@ -467,7 +477,7 @@ struct ParticleInitializer : FUN_00ba7f70
 // @fnv 0x00ba6e00
 void ParticleInitializer::InitParticles(float time)
 {
-    unsigned int count = FUN_00ba52d0();
+    unsigned int count = ::ParticleShader::GetShaderParticleCount();
     float lifeVariation = m_fParticleParameter6 / m_fParticleParameter5;
     float speedVariation = m_fParticleParameter8 / m_fParticleParameter7;
     fScaleTime = time;
@@ -490,9 +500,9 @@ void ParticleInitializer::InitParticles(float time)
         reinterpret_cast<Particle*>(pParticles)[i].unk24 = rotationSpeed;
         reinterpret_cast<Particle*>(pParticles)[i].unk28 = RandomRange(1.0f + speedVariation, 1.0f - speedVariation);
         int boundX = (int)m_fParticleParameter12;
-        float textureX = (float)FUN_00aa5140::Get().FUN_00aa5230(boundX);
+        float textureX = (float)((int)(reinterpret_cast<::MersenneTwister *>(&(FUN_00aa5140::Get()))->GetRandomUInt(boundX)));
         int boundY = (int)m_fParticleParameter13;
-        float textureY = (float)FUN_00aa5140::Get().FUN_00aa5230(boundY);
+        float textureY = (float)((int)(reinterpret_cast<::MersenneTwister *>(&(FUN_00aa5140::Get()))->GetRandomUInt(boundY)));
         float v = textureY / m_fParticleParameter13;
         float u = textureX / m_fParticleParameter12;
         float texture = v * 100.0 + u;
@@ -510,10 +520,9 @@ struct PickVector
         memcpy(this, &rhs, sizeof(*this));
         return *this;
     }
-    void FUN_004a0c10();
     const PickVector* Normalized()
     {
-        FUN_004a0c10();
+        reinterpret_cast<::FUN_004a0c10_s *>(this)->FUN_004a0c10();
         return this;
     }
 };
@@ -550,14 +559,11 @@ inline void CopyPoint(PickVector& dst, const PickVector& src)
 {
     dst = src;
 }
-extern PickVector DAT_011f426c;
-extern double DAT_01029790;
-extern double DAT_01012070;
 unsigned int __cdecl FUN_00ecadb8();
 
 inline float RandSigned()
 {
-    volatile float r = (float)((double)(int)FUN_00ecadb8() * 2.0 / DAT_01029790 - DAT_01012070);
+    volatile float r = (float)((double)(int)FUN_00ecadb8() * 2.0 / DAT_01029790 - ::g_01012070);
     return r;
 }
 
@@ -727,10 +733,6 @@ struct PickShape
     int unk28;
     int unk2C;
     PickMesh* m_pMesh;
-    bool FUN_00a67360(int);
-    void FUN_00a67410(void*);
-    void GetBounds(void*);
-    void FUN_00a673d0();
 };
 
 struct PickMover
@@ -808,8 +810,8 @@ struct EmitterPick : ParticleEmitter
 // @fnv 0x00ba74a0
 void EmitterPick::PickParticle(int aiIndex)
 {
-    PickVector a = DAT_011f426c;
-    PickVector b = DAT_011f426c;
+    PickVector a = (*reinterpret_cast<::PickVector *>((void *)&::NiPoint3::ZERO));
+    PickVector b = (*reinterpret_cast<::PickVector *>((void *)&::NiPoint3::ZERO));
     PickElem* e = 0;
     PickWorkspace scratch;
     if (m_usElementCount > 0)
@@ -862,25 +864,25 @@ void EmitterPick::PickParticle(int aiIndex)
                 scratch.other.view.base = 0;
                 scratch.other.view.stride = 0;
                 scratch.other.view.flag = 0;
-                if (pShape->FUN_00a67360(1) != 0)
+                if (reinterpret_cast<::NiGeometryData *>((pShape))->IsGeometryDataStreamable(1) != 0)
                 {
-                    pShape->FUN_00a67410(&scratch.work.view);
-                    pShape->GetBounds(&scratch.other.view);
+                    reinterpret_cast<::S00a67410 *>((pShape))->FUN_00a67410((::BSFaceGenMorphData *)(void *)(&scratch.work.view));
+                    reinterpret_cast<::RenderOwner *>((pShape))->GetBounds((::BoundOut *)(void *)(&scratch.other.view));
                     PickVector* __restrict pVecA =
                         (PickVector*)((char*)scratch.work.view.base + scratch.work.view.stride * uiRemainder);
                     a = *pVecA;
                     PickVector* __restrict pVecB =
                         (PickVector*)((char*)scratch.other.view.base + scratch.other.view.stride * uiRemainder);
                     b = *pVecB;
-                    pShape->FUN_00a673d0();
+                    reinterpret_cast<::FUN_00a673d0_shell *>((pShape))->FUN_00a673d0();
                 }
             }
             else
             {
-                PickVector* pVecA = pShape->m_pVecA != 0 ? pShape->m_pVecA + uiRemainder : (PickVector*)&DAT_011f426c;
+                PickVector* pVecA = pShape->m_pVecA != 0 ? pShape->m_pVecA + uiRemainder : (PickVector*)&(*reinterpret_cast<::PickVector *>((void *)&::NiPoint3::ZERO));
                 PickVector* pVecBBase = pShape->m_pVecB;
                 a = *pVecA;
-                PickVector* __restrict pVecB = pVecBBase != 0 ? pVecBBase + uiRemainder : (PickVector*)&DAT_011f426c;
+                PickVector* __restrict pVecB = pVecBBase != 0 ? pVecBBase + uiRemainder : (PickVector*)&(*reinterpret_cast<::PickVector *>((void *)&::NiPoint3::ZERO));
                 b = *pVecB;
             }
             if (reinterpret_cast<unsigned char&>(unk6C) != 0)
@@ -899,8 +901,8 @@ void EmitterPick::PickParticle(int aiIndex)
     }
     else
     {
-        a = DAT_011f426c;
-        b = DAT_011f426c;
+        a = (*reinterpret_cast<::PickVector *>((void *)&::NiPoint3::ZERO));
+        b = (*reinterpret_cast<::PickVector *>((void *)&::NiPoint3::ZERO));
     }
 L_0353:
     int byteOffset = aiIndex * sizeof(Particle);
@@ -914,7 +916,6 @@ L_0353:
 }
 
 #include <math.h>
-extern NiPoint3 NiPoint3_ZERO;
 struct ParticleSceneNode
 {
     int unk00, unk04;
@@ -957,84 +958,8 @@ inline NiPoint3 operator-(const NiPoint3& a, const NiPoint3& b)
 }
 struct ParticleUpdater : FUN_00ba7f70
 {
-    void PickParticle(int);
-    void FUN_00ba7860(int);
-    void FUN_00ba71d0(int);
     void FUN_00ba7b60(float time, bool compensate, bool emit);
 };
-// Ages and emits particles, optionally compensating for parent node movement.
-// @fnv 0x00ba7b60
-void ParticleUpdater::FUN_00ba7b60(float time, bool compensate, bool emit)
-{
-    float delta = time - fScaleTime;
-    delta = (float)fabs(delta);
-    float amount = delta;
-    int count = FUN_00ba52d0();
-    int maximum = (int)(count * m_fParticleParameter4);
-    int limit = count;
-    if (count >= maximum)
-        limit = maximum;
-    amount = amount / m_fParticleParameter5 * limit + m_fParticleParameter3;
-    int remaining = (int)amount;
-    m_fParticleParameter3 = amount - remaining;
-    NiPoint3 movement = NiPoint3_ZERO;
-    if (compensate)
-    {
-        ParticleSceneNode* node = static_cast<ParticleSceneNode*>(pParticleBuffer)->parent;
-        while (node)
-        {
-            if (!strcmp(node->name, "Bip01"))
-            {
-                movement = node->worldPosition - node->parent->worldPosition;
-                break;
-            }
-            node = node->parent;
-        }
-    }
-    for (int i = 0; i < count; ++i)
-    {
-        Particle* particle = reinterpret_cast<Particle*>(pParticles) + i;
-        float age = time - particle->fTime;
-        if (!(age < 0.0f) && !(age * particle->unk1C > m_fParticleParameter5))
-            continue;
-        if (particle->m_fFirstFloatValue != 3.4028234663852886e+38)
-        {
-            reinterpret_cast<Particle*>(pParticles)[i].m_fFirstFloatValue = 3.4028234663852886e+38f;
-            reinterpret_cast<Particle*>(pParticles)[i].unk04 = 3.4028234663852886e+38f;
-            reinterpret_cast<Particle*>(pParticles)[i].unk08 = 3.4028234663852886e+38f;
-            reinterpret_cast<Particle*>(pParticles)[i].fTime = -10000.0f;
-            reinterpret_cast<Particle*>(pParticles)[i].unk10 = 0.0f;
-            reinterpret_cast<Particle*>(pParticles)[i].unk14 = 0.0f;
-            reinterpret_cast<Particle*>(pParticles)[i].unk18 = 0.0f;
-            --iParticleCount;
-        }
-        if (emit && remaining > 0 && iParticleCount < limit)
-        {
-            switch (m_iParticleDataValue)
-            {
-            case 0:
-                PickParticle(i);
-                break;
-            case 1:
-                FUN_00ba7860(i);
-                break;
-            case 2:
-                FUN_00ba71d0(i);
-                break;
-            }
-            --remaining;
-            ++iParticleCount;
-            if (compensate)
-            {
-                reinterpret_cast<Particle*>(pParticles)[i].m_fFirstFloatValue -= movement.x;
-                reinterpret_cast<Particle*>(pParticles)[i].unk04 -= movement.y;
-                reinterpret_cast<Particle*>(pParticles)[i].unk08 -= movement.z;
-            }
-        }
-    }
-    fScaleTime = time;
-}
-
 #include <stdlib.h>
 extern "C" void _ReadWriteBarrier();
 struct SpawnVector
@@ -1044,7 +969,6 @@ struct SpawnVector
     {}
     SpawnVector(float a, float b, float c) : x(a), y(b), z(c)
     {}
-    __declspec(noalias) void FUN_004a0c10();
 };
 
 inline float RandomSigned()
@@ -1113,7 +1037,7 @@ void ParticleSpawner::FUN_00ba7860(unsigned int index)
             position = node->position * t + parent->position * (1.0f - t);
             float z = RandomSigned();
             direction = SpawnVector(RandomLast(), 0.0f, z);
-            direction.FUN_004a0c10();
+            reinterpret_cast<::FUN_004a0c10_s *>(&(direction))->FUN_004a0c10();
             direction = node->rotation.FUN_004b4500(&direction);
         }
         else
@@ -1122,12 +1046,12 @@ void ParticleSpawner::FUN_00ba7860(unsigned int index)
             float z = RandomSigned();
             float y = RandomSigned();
             direction = SpawnVector(RandomLast(), y, z);
-            direction.FUN_004a0c10();
+            reinterpret_cast<::FUN_004a0c10_s *>(&(direction))->FUN_004a0c10();
         }
     }
     else
     {
-        direction = position = *(const SpawnVector*)&DAT_011f426c;
+        direction = position = *(const SpawnVector*)&(*reinterpret_cast<::PickVector *>((void *)&::NiPoint3::ZERO));
     }
     Particle* const& particles = pParticles;
     particles[index].m_fFirstFloatValue = position.x;
@@ -1151,7 +1075,6 @@ struct Point71 : NiPoint3
         y = Y;
         z = Z;
     }
-    void FUN_004a0c10();
 };
 struct Transform71
 {
@@ -1274,6 +1197,78 @@ struct Target71
     Array71 kArray;
     void FUN_00ba71d0(unsigned int index);
 };
+// Ages and emits particles, optionally compensating for parent node movement.
+// @fnv 0x00ba7b60
+void ParticleUpdater::FUN_00ba7b60(float time, bool compensate, bool emit)
+{
+    float delta = time - fScaleTime;
+    delta = (float)fabs(delta);
+    float amount = delta;
+    int count = ::ParticleShader::GetShaderParticleCount();
+    int maximum = (int)(count * m_fParticleParameter4);
+    int limit = count;
+    if (count >= maximum)
+        limit = maximum;
+    amount = amount / m_fParticleParameter5 * limit + m_fParticleParameter3;
+    int remaining = (int)amount;
+    m_fParticleParameter3 = amount - remaining;
+    NiPoint3 movement = ::NiPoint3::ZERO;
+    if (compensate)
+    {
+        ParticleSceneNode* node = static_cast<ParticleSceneNode*>(pParticleBuffer)->parent;
+        while (node)
+        {
+            if (!strcmp(node->name, "Bip01"))
+            {
+                movement = node->worldPosition - node->parent->worldPosition;
+                break;
+            }
+            node = node->parent;
+        }
+    }
+    for (int i = 0; i < count; ++i)
+    {
+        Particle* particle = reinterpret_cast<Particle*>(pParticles) + i;
+        float age = time - particle->fTime;
+        if (!(age < 0.0f) && !(age * particle->unk1C > m_fParticleParameter5))
+            continue;
+        if (particle->m_fFirstFloatValue != 3.4028234663852886e+38)
+        {
+            reinterpret_cast<Particle*>(pParticles)[i].m_fFirstFloatValue = 3.4028234663852886e+38f;
+            reinterpret_cast<Particle*>(pParticles)[i].unk04 = 3.4028234663852886e+38f;
+            reinterpret_cast<Particle*>(pParticles)[i].unk08 = 3.4028234663852886e+38f;
+            reinterpret_cast<Particle*>(pParticles)[i].fTime = -10000.0f;
+            reinterpret_cast<Particle*>(pParticles)[i].unk10 = 0.0f;
+            reinterpret_cast<Particle*>(pParticles)[i].unk14 = 0.0f;
+            reinterpret_cast<Particle*>(pParticles)[i].unk18 = 0.0f;
+            --iParticleCount;
+        }
+        if (emit && remaining > 0 && iParticleCount < limit)
+        {
+            switch (m_iParticleDataValue)
+            {
+            case 0:
+                reinterpret_cast<::EmitterPick *>(this)->PickParticle(i);
+                break;
+            case 1:
+                reinterpret_cast<::ParticleSpawner *>(this)->FUN_00ba7860(i);
+                break;
+            case 2:
+                reinterpret_cast<::Target71 *>(this)->FUN_00ba71d0(i);
+                break;
+            }
+            --remaining;
+            ++iParticleCount;
+            if (compensate)
+            {
+                reinterpret_cast<Particle*>(pParticles)[i].m_fFirstFloatValue -= movement.x;
+                reinterpret_cast<Particle*>(pParticles)[i].unk04 -= movement.y;
+                reinterpret_cast<Particle*>(pParticles)[i].unk08 -= movement.z;
+            }
+        }
+    }
+    fScaleTime = time;
+}
 inline float RandomUnit71()
 {
     return (float)(rand() / 32767.0);
@@ -1300,7 +1295,7 @@ void Target71::FUN_00ba71d0(unsigned int index)
             direction.Set(0.0f, m_fParticleParameter1 * RandomUnit71(), 0.0f);
             position = direction;
             direction = Point71(RandomSigned71(), 0.0f, RandomSigned71());
-            direction.FUN_004a0c10();
+            reinterpret_cast<::FUN_004a0c10_s *>(&(direction))->FUN_004a0c10();
             if (m_bParticleEnabled)
             {
                 Point71 result;
@@ -1313,8 +1308,8 @@ void Target71::FUN_00ba71d0(unsigned int index)
     }
     else
     {
-        static_cast<NiPoint3&>(position) = NiPoint3_ZERO;
-        static_cast<NiPoint3&>(direction) = NiPoint3_ZERO;
+        static_cast<NiPoint3&>(position) = ::NiPoint3::ZERO;
+        static_cast<NiPoint3&>(direction) = ::NiPoint3::ZERO;
     }
     pParticles[index].x = position.x;
     pParticles[index].y = position.y;
@@ -1326,15 +1321,12 @@ void Target71::FUN_00ba71d0(unsigned int index)
 }
 
 extern int DAT_010b8250;
-void __fastcall FUN_00baa0e0(void*);
 struct MemoryManagerDealloc
 {
-    void* Deallocate(void*);
 };
-extern MemoryManagerDealloc g_dealloc;
 void operator delete[](void* p)
 {
-    g_dealloc.Deallocate(p);
+    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManagerDealloc *>(&::g_memoryManager))))->FUN_00aa4060(p);
 }
 struct NiNode : NiRefObject
 {
@@ -1356,7 +1348,7 @@ struct BaseParticle
         unk44, unk48, unk4C, unk50, unk54, unk58, unk5C;
     ~BaseParticle()
     {
-        FUN_00baa0e0(this);
+        reinterpret_cast<class ::FUN_00baa0e0 *>((this))->FUN_00baa0e0::~FUN_00baa0e0();
     }
 };
 struct FUN_00ba7df0 : FUN_00ba8e50
@@ -1407,11 +1399,11 @@ FUN_00ba7df0::~FUN_00ba7df0()
         spRetainedObject.m_pObject->DecRefCount();
         spRetainedObject.m_pObject = 0;
     }
-    kArray.RemoveAll();
+    reinterpret_cast<::fnv_00c5ac00::ArrObj *>(&(kArray))->FUN_004dffa0();
     delete[] pParticles;
     if (--DAT_01200424 == 0)
     {
-        g_dealloc.Deallocate(reinterpret_cast<void*>(DAT_01200420));
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManagerDealloc *>(&::g_memoryManager))))->FUN_00aa4060(reinterpret_cast<void*>(DAT_01200420));
         DAT_01200420 = 0;
     }
 }

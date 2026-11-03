@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/havok/animation/animation/animation/interleaved/hkainterleaveduncompressedanimation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/interleaved/hkainterleaveduncompressedanimation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_005611c0_t.h"
 #include "havok/hkaInterleavedUncompressedAnimation.h"
 struct FUN_00e3f950_class
 {
@@ -35,11 +36,7 @@ struct FUN_00e3f920_class
     virtual void FUN_00e3f920(float, int, int, int);
 };
 #include <xmmintrin.h>
-extern __m128 DAT_010c71e0;
-extern __m128 DAT_010c7170;
-extern __m128 DAT_010c44d0;
-extern __m128 DAT_010c4c00;
-extern __m128 DAT_010c4c10;
+#include "fnv/symbols_simd.h"
 class hkQuaternionE40;
 class hkVector4E40
 {
@@ -74,7 +71,7 @@ class hkVector4E40
     }
     __forceinline void setNeg4(const hkVector4E40& a)
     {
-        m_vComponents = _mm_xor_ps(a.m_vComponents, DAT_010c44d0);
+        m_vComponents = _mm_xor_ps(a.m_vComponents, ::DAT_010c44d0);
     }
     __forceinline void setCross(const hkVector4E40& v1, const hkVector4E40& v2)
     {
@@ -131,7 +128,7 @@ __forceinline void hkVector4E40::SetRotatedDirection(const hkQuaternionE40& quat
     qreal.m_vComponents = _mm_shuffle_ps(quat.m_vec.m_vComponents, quat.m_vec.m_vComponents, _MM_SHUFFLE(3, 3, 3, 3));
     hkVector4E40 q2minus1;
     q2minus1.setMul4(qreal, qreal);
-    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, DAT_010c71e0);
+    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, ::DAT_010c71e0);
     hkVector4E40 ret;
     ret.setMul4(direction, q2minus1);
     __m128 imagDotDir = quat.m_vec.dot3(direction);
@@ -147,7 +144,7 @@ __forceinline void hkVector4E40::setRotatedInverseDir(const hkQuaternionE40& qua
     qreal.m_vComponents = _mm_shuffle_ps(quat.m_vec.m_vComponents, quat.m_vec.m_vComponents, _MM_SHUFFLE(3, 3, 3, 3));
     hkVector4E40 q2minus1;
     q2minus1.setMul4(qreal, qreal);
-    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, DAT_010c71e0);
+    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, ::DAT_010c71e0);
     hkVector4E40 ret;
     ret.setMul4(direction, q2minus1);
     __m128 imagDotDir = quat.m_vec.dot3(direction);
@@ -180,7 +177,7 @@ class hkQsTransformE40
         hkVector4E40 temp;
         temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-        m_rotation.SetProduct(t1.m_rotation, t2.m_rotation);
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
         m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
     }
 };
@@ -203,8 +200,6 @@ class FUN_00e401d0Owner
     void FUN_00e401d0(int iTrack, const hkQsTransformE40& kTransform);
 };
 
-extern const __m128 DAT_010c7160;
-extern const __m128 DAT_010ec7f0;
 
 class S00e3f9b0_SimdReal
 {
@@ -238,7 +233,7 @@ class S00e3f9b0_SimdReal
 
 inline S00e3f9b0_SimdReal operator-(const S00e3f9b0_SimdReal& r)
 {
-    return _mm_sub_ss(DAT_010c7160, r.getQuad());
+    return _mm_sub_ss(::DAT_010c7160, r.getQuad());
 }
 
 class S00e3f9b0_Vec4
@@ -265,7 +260,7 @@ class S00e3f9b0_Vec4
     __forceinline void setInterpolate4(const S00e3f9b0_Vec4& v0, const S00e3f9b0_Vec4& v1, const S00e3f9b0_SimdReal& _t)
     {
         __m128 t = _t.broadcast();
-        __m128 s = _mm_sub_ps(DAT_010ec7f0, t);
+        __m128 s = _mm_sub_ps(::DAT_010ec7f0, t);
         m_vComponents = _mm_add_ps(_mm_mul_ps(s, v0.m_vComponents), _mm_mul_ps(v1.m_vComponents, t));
     }
     inline S00e3f9b0_SimdReal dot4(const S00e3f9b0_Vec4& a) const
@@ -287,7 +282,6 @@ class S00e3f9b0_Quat
     {
         m_vec = q.m_vec;
     }
-    void FUN_005611c0();
     S00e3f9b0_Vec4 m_vec;
 };
 
@@ -303,7 +297,7 @@ class S00e3f9b0_QsT
     __forceinline void setInterpolate4(const S00e3f9b0_QsT& a, const S00e3f9b0_QsT& b, const S00e3f9b0_SimdReal& t)
     {
         const __m128 ts = t.broadcast();
-        m_vScale.m_vComponents = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(DAT_010ec7f0, ts), a.m_vScale.m_vComponents),
+        m_vScale.m_vComponents = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(::DAT_010ec7f0, ts), a.m_vScale.m_vComponents),
                                             _mm_mul_ps(ts, b.m_vScale.m_vComponents));
         m_vTranslation.setInterpolate4(a.m_vTranslation, b.m_vTranslation, t);
 
@@ -316,7 +310,7 @@ class S00e3f9b0_QsT
         v.setMul4(S00e3f9b0_SimdReal(signedT), b.m_rotation.m_vec);
         v.addMul4(S00e3f9b0_SimdReal(oneMinusT), a.m_rotation.m_vec);
         out.m_vec = v;
-        out.FUN_005611c0();
+        reinterpret_cast<::FUN_005611c0_t *>(&(out))->FUN_005611c0();
 
         m_rotation = out;
     }

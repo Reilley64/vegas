@@ -2,31 +2,27 @@
 #ifndef IMAGESPACETEXTURE_DECLS_H
 #define IMAGESPACETEXTURE_DECLS_H
 
+#include "fnv/decl/Manager.h"
+#include "fnv/symbols_011f9000.h"
 class MagicItem;
 class NonActorMagicCaster
 {
   public:
-    void SetSelectedMagicItem(MagicItem*);
 };
 class MagicCaster
 {
   public:
-    void SetSelectedMagicItem(MagicItem*);
 };
 class NiTexture;
 class BSRenderedTexture;
 class ImageSpaceTexture
 {
   public:
-    void SetTexture(NiTexture*);
-    void AddRenderedTexture();
 };
 class BSTextureManager
 {
   public:
-    void AddRenderedTexture(BSRenderedTexture*);
 };
-extern BSTextureManager* DAT_011f91a8;
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long*);
 #endif

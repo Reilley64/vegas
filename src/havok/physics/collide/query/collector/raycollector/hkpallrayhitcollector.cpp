@@ -2,6 +2,8 @@
 // src/havok/physics/collide/query/collector/raycollector/hkpallrayhitcollector.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/collector/raycollector/hkpallrayhitcollector.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cf0000.h"
 void __cdecl FUN_00c852c0(void* owner, int a2, int a3, int a4);
 
 class FUN_00c855f0_cls
@@ -53,8 +55,6 @@ struct AudioHolder
 };
 
 AudioHolder* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(AudioAllocator* apAllocator, void* apContainer, unsigned int auiElemSize);
-void __cdecl CollectValuesReversed(void* apDst, unsigned int auiSize, void* apOwner);
 
 struct ChainNode
 {
@@ -132,7 +132,7 @@ void FUN_00c85520_cls::AddEntry(ChainOwner* apOwner, SourceEntry* apSource)
     AudioHolder* pHolder = FUN_00c85750();
     if (pList->m_uCount == (pList->m_uCapFlags & 0x3fffffffu))
     {
-        ResizeAudioStream(pHolder->m_pAllocator, pList, sizeof(SpawnedEntry));
+        ::ResizeAudioStream(pHolder->m_pAllocator, (::AudioStream *)(pList), sizeof(SpawnedEntry));
     }
 
     SpawnedEntry* pNew = pList->m_pData + pList->m_uCount;
@@ -153,7 +153,7 @@ void FUN_00c85520_cls::AddEntry(ChainOwner* apOwner, SourceEntry* apSource)
     pDst->m_i14 = apSource->m_i14;
     pDst->m_i18 = apSource->m_i18;
     pDst->m_i1C = apSource->m_i1C;
-    CollectValuesReversed(&pDst->m_i20, 8, apOwner);
+    ::CollectValuesReversed((int *)(void *)(&pDst->m_i20), 8, (::LinkedEntry *)(apOwner));
 
     ChainNode* pLast = (ChainNode*)apOwner;
     while (pLast->m_pNext != 0)

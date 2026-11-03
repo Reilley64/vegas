@@ -5,6 +5,10 @@
 
 // src/staging/blk_00e20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/RotationRows.h"
+#include "fnv/symbols_00450000.h"
 #include "../../include/layout_support.h"
 
 #include <xmmintrin.h>
@@ -133,7 +137,6 @@ class hkRotationE3B
 class ChildE3B
 {
   public:
-    void FUN_00cb2d90(const void* pSource);
 };
 
 class FrameE3B
@@ -150,5 +153,5 @@ class FrameE3B
 void FrameE3B::FUN_00e3b630(const void* pSource)
 {
     m_rotation.setIdentity();
-    m_pChildAtom.FUN_00cb2d90(pSource);
+    reinterpret_cast<::RotationRows *>(&(m_pChildAtom))->FUN_00cb2d90((void *)(pSource));
 }

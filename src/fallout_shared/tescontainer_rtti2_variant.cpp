@@ -2,6 +2,21 @@
 // polymorphic classes (-). The skeleton of src/fallout_shared/tescontainer.cpp with those classes made polymorphic; move the functions to
 // their real unit once its classes are.
 
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_0040e7f0_owner.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00481a90_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/p07__DelStandIn.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_005b5000.h"
 #include "tescontainer_decls.h"
 #include "BaseFormComponent.h"
 class ContainerItemExtra
@@ -26,7 +41,6 @@ class InventoryItemEntry
     void* object;
     ContainerItemExtra* extra;
     void Copy(InventoryItemEntry* other);
-    void InitItem(TESForm* form);
 };
 struct ContainerCountState
 {
@@ -44,8 +58,6 @@ class TESContainer : public BaseFormComponent
   public:
     BSSimpleList<InventoryStackRecord*> objectList;
     virtual void Init();
-    BSSimpleList<InventoryStackRecord*>* GetObjectList();
-    void AddObject(InventoryItemEntry* object);
     void ClearObjects();
     void InitItem(TESForm* form);
     virtual void Free();
@@ -57,6 +69,7 @@ class TESContainer : public BaseFormComponent
     TESContainer();
 };
 
+class TESFile;
 class TESForm
 {
   public:
@@ -138,9 +151,8 @@ class TESForm
     virtual void vfn12C();
     virtual const char* GetEditorID();
 
-    int FUN_00484e60(int iIndex);
-    int FUN_00474cb0();
-    unsigned int FUN_0084e3a0();
+public:
+    ::TESFile *GetFile(int);
 };
 
 class TESBoundObject : public TESForm
@@ -150,12 +162,8 @@ class TESBoundObject : public TESForm
 class B81390Extra
 {
   public:
-    void ResolveFormReferences(TESForm* pkOwner);
 };
 
-void __cdecl ResolveFormID(unsigned int* puiFormID, int iFile);
-TESForm* __cdecl FUN_004839c0(unsigned int auiFormId);
-void __cdecl FUN_005b5e40(const char* pcFormat, ...);
 
 class B81390ContainerObject
 {
@@ -171,24 +179,22 @@ class B81390ContainerObject
 void B81390ContainerObject::FUN_00481390(TESForm* pkOwner)
 {
     unsigned int auiFormId = (unsigned int)m_pPointer;
-    ResolveFormID(&auiFormId, pkOwner->FUN_00484e60(-1));
+    ::ResolveFormID(&auiFormId, (::TESFile *)(((int)(pkOwner->GetFile(-1)))));
     m_pPointer = dynamic_cast<TESBoundObject*>(FUN_004839c0(auiFormId));
     if (!m_pPointer)
     {
         if (pkOwner)
         {
-            if (pkOwner->FUN_00474cb0())
-                FUN_005b5e40("MASTERFILE: Unable to find container object (%08X) on owner object \"%s\".", auiFormId,
-                             pkOwner->GetEditorID());
+            if (reinterpret_cast<::BGSCameraPath *>((pkOwner))->HasNameForWarning())
+                ::FUN_005b5e40();
             else
-                FUN_005b5e40("MASTERFILE: Unable to find container object (%08X) on owner object (%08X).", auiFormId,
-                             pkOwner->FUN_0084e3a0());
+                ::FUN_005b5e40();
         }
         else
         {
-            FUN_005b5e40("MASTERFILE: Unable to find container object (%08X) on unknown owner.", auiFormId);
+            ::FUN_005b5e40();
         }
     }
     if (m_pkExtra)
-        m_pkExtra->ResolveFormReferences(pkOwner);
+        reinterpret_cast<::FUN_0040e7f0_owner *>((m_pkExtra))->ResolveFormReferences((::FormContext *)(pkOwner));
 }

@@ -5,6 +5,11 @@
 
 // src/havok/common/internal/collide/tree/aabbtree/queryutils/hkaabbtreequeryutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/collide/tree/aabbtree/queryutils/hkaabbtreequeryutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/IdxStand_.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d1b000.h"
+#include "fnv/symbols_00d1c000.h"
+#include "fnv/symbols_00d1d000.h"
 struct FUN_00d1bb40_Class
 {
     int* FUN_00d1bb40(unsigned short index);
@@ -30,7 +35,6 @@ struct S_00d1bcb0_Router
     }
 };
 S_00d1bcb0_Router* FUN_00c85750();
-void ResizeAudioStream(S_00d1bcb0_Allocator& alloc, void* array, int sizeElem);
 struct S_00d1bcb0_Entry
 {
     int m_kPointA;
@@ -49,7 +53,7 @@ struct S_00d1bcb0_Array
     void _pushBack(S_00d1bcb0_Allocator& alloc, const S_00d1bcb0_Entry& e)
     {
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(alloc, this, sizeof(S_00d1bcb0_Entry));
+            ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(S_00d1bcb0_Entry));
         new (m_data + m_iElementCount) S_00d1bcb0_Entry(e);
         m_iElementCount++;
     }
@@ -64,19 +68,12 @@ struct S_00d1bcb0
     S_00d1bcb0_Array* m_ppData;
     bool FUN_00d1bcb0(int a, int b);
 };
-extern int __cdecl FUN_00d1c560(void*, int, int, int, int, int);
-int __cdecl CallWithDefaults(void* arg0, int arg1, int arg2);
-int __cdecl FUN_00d1c560(void* a, void* b, int c, int d, void* e, void* f);
-int __cdecl FUN_00d1d4d0(void* a, void* b, void* e, void* f);
-extern int __cdecl FUN_00d1c560(void*, int, int, int, int, int);
-int __cdecl FUN_00d1d500(void* arg0, int arg1, int arg2);
-extern "C" void* __cdecl FUN_00d1ce50(void* p, int a, int b, int c, int d, int e);
 // @fnv 0x00d1d540
 extern "C" void* __cdecl FUN_00d1d540(void* p, int a, int d, int e)
 {
     if (!p)
         return 0;
-    return FUN_00d1ce50(p, a, 0, 0, d, e);
+    return ((void *)(::FUN_00d1ce50((::TreeD1C *)(p), (*(const ::hkAabbD1C *)(a)), (::CollectorD1C *)(0), (::hkArrayIntD1C *)(0), (int **)(d), e)));
 }
 
 extern "C" void* __cdecl FUN_00d1d240(void* p, int a, int b, int c, int d, int e);
@@ -88,15 +85,12 @@ extern "C" void* __cdecl FUN_00d1d570(void* p, int a, int b)
     return FUN_00d1d240(p, a, b, 0, 0, 0);
 }
 
-extern "C" void __cdecl FUN_00d1ca00();
 // @fnv 0x00d1d530
 extern "C" void __cdecl FUN_00d1d530()
 {
-    FUN_00d1ca00();
+    ::FUN_00d1ca00({}, {}, {}, {}, {}, {});
 }
 
-extern int __cdecl FUN_00d1bfa0();
-int __cdecl FUN_00d1d490();
 
 #include <xmmintrin.h>
 class hkVector4D1C
@@ -162,7 +156,7 @@ struct hkArrayIntD1C
     {
         S_00d1bcb0_Allocator& alloc = FUN_00c85750()->heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(alloc, this, sizeof(int));
+            ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(int));
         construct(m_data + m_iElementCount, 1, e);
         m_iElementCount++;
     }
@@ -289,7 +283,6 @@ struct Node
 struct NodeArr
 {
     Node* m_data;
-    Node* FUN_00d9a4c0(unsigned int index);
 };
 
 struct Tree
@@ -325,7 +318,6 @@ struct HkAllocator
     virtual void ReturnMemory(void* p, int n);
 };
 
-void FUN_00c908c0(S_00d1bcb0_Allocator* alloc, void* arr, int cap, int elemSize);
 
 struct Stack
 {
@@ -351,7 +343,7 @@ struct Stack
             int newCap = cap * 2;
             if (n >= newCap)
                 newCap = n;
-            FUN_00c908c0(alloc, this, newCap, (int)sizeof(Pair));
+            ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(void *)(this), newCap, (int)sizeof(Pair));
         }
         m_iElementCount = n;
     }
@@ -408,9 +400,9 @@ int FUN_00d1d890(Tree* treeA, Tree* treeB, Collider* cb)
                 if (aLeaf)
                     continue;
 
-                Node* c0 = treeA->m_kNodeCollection.FUN_00d9a4c0(nodeA->m_child0);
+                Node* c0 = ((::Node *)(reinterpret_cast<::IdxStand_ *>(&(treeA->m_kNodeCollection))->FUN_00d9a4c0(nodeA->m_child0)));
                 _mm_prefetch((const char*)c0, _MM_HINT_NTA);
-                Node* c1 = treeA->m_kNodeCollection.FUN_00d9a4c0(nodeA->m_child1);
+                Node* c1 = ((::Node *)(reinterpret_cast<::IdxStand_ *>(&(treeA->m_kNodeCollection))->FUN_00d9a4c0(nodeA->m_child1)));
                 _mm_prefetch((const char*)c1, _MM_HINT_NTA);
                 stack.m_data[index].a = c0;
                 stack.m_data[index].b = c0;
@@ -438,8 +430,8 @@ int FUN_00d1d890(Tree* treeA, Tree* treeB, Collider* cb)
                     }
                     else
                     {
-                        Node* c0 = treeB->m_kNodeCollection.FUN_00d9a4c0(nodeB->m_child0);
-                        Node* c1 = treeB->m_kNodeCollection.FUN_00d9a4c0(nodeB->m_child1);
+                        Node* c0 = ((::Node *)(reinterpret_cast<::IdxStand_ *>(&(treeB->m_kNodeCollection))->FUN_00d9a4c0(nodeB->m_child0)));
+                        Node* c1 = ((::Node *)(reinterpret_cast<::IdxStand_ *>(&(treeB->m_kNodeCollection))->FUN_00d9a4c0(nodeB->m_child1)));
                         stack.m_data[index].a = nodeA;
                         stack.m_data[index].b = c0;
                         _mm_prefetch((const char*)c0, _MM_HINT_NTA);
@@ -452,8 +444,8 @@ int FUN_00d1d890(Tree* treeA, Tree* treeB, Collider* cb)
                 }
                 else if (bLeaf)
                 {
-                    Node* c0 = treeA->m_kNodeCollection.FUN_00d9a4c0(nodeA->m_child0);
-                    Node* c1 = treeA->m_kNodeCollection.FUN_00d9a4c0(nodeA->m_child1);
+                    Node* c0 = ((::Node *)(reinterpret_cast<::IdxStand_ *>(&(treeA->m_kNodeCollection))->FUN_00d9a4c0(nodeA->m_child0)));
+                    Node* c1 = ((::Node *)(reinterpret_cast<::IdxStand_ *>(&(treeA->m_kNodeCollection))->FUN_00d9a4c0(nodeA->m_child1)));
                     stack.m_data[index].a = c0;
                     stack.m_data[index].b = nodeB;
                     _mm_prefetch((const char*)c0, _MM_HINT_NTA);
@@ -465,13 +457,13 @@ int FUN_00d1d890(Tree* treeA, Tree* treeB, Collider* cb)
                 }
                 else
                 {
-                    Node* a0 = treeA->m_kNodeCollection.FUN_00d9a4c0(nodeA->m_child0);
+                    Node* a0 = ((::Node *)(reinterpret_cast<::IdxStand_ *>(&(treeA->m_kNodeCollection))->FUN_00d9a4c0(nodeA->m_child0)));
                     _mm_prefetch((const char*)a0, _MM_HINT_NTA);
-                    Node* a1 = treeA->m_kNodeCollection.FUN_00d9a4c0(nodeA->m_child1);
+                    Node* a1 = ((::Node *)(reinterpret_cast<::IdxStand_ *>(&(treeA->m_kNodeCollection))->FUN_00d9a4c0(nodeA->m_child1)));
                     _mm_prefetch((const char*)a1, _MM_HINT_NTA);
-                    Node* b0 = treeB->m_kNodeCollection.FUN_00d9a4c0(nodeB->m_child0);
+                    Node* b0 = ((::Node *)(reinterpret_cast<::IdxStand_ *>(&(treeB->m_kNodeCollection))->FUN_00d9a4c0(nodeB->m_child0)));
                     _mm_prefetch((const char*)b0, _MM_HINT_NTA);
-                    Node* b1 = treeB->m_kNodeCollection.FUN_00d9a4c0(nodeB->m_child1);
+                    Node* b1 = ((::Node *)(reinterpret_cast<::IdxStand_ *>(&(treeB->m_kNodeCollection))->FUN_00d9a4c0(nodeB->m_child1)));
                     _mm_prefetch((const char*)b1, _MM_HINT_NTA);
                     stack.m_data[index].a = a0;
                     stack.m_data[index].b = b0;

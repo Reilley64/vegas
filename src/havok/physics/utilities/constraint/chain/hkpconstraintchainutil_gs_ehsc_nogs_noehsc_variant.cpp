@@ -5,6 +5,25 @@
 
 // src/havok/physics/utilities/constraint/chain/hkpconstraintchainutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/constraint/chain/hkpconstraintchainutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/CB1A90Owner.h"
+#include "fnv/decl/D10710Object.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cb18f0_t.h"
+#include "fnv/decl/FUN_00cb1fe0_t.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/QuatResult.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/fnv_00cb1870__hkMapBaseCB18.h"
+#include "fnv/decl/fnv_00e5c440__SearchObject.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpPhantomOverlapDD04.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d2c000.h"
+#include "fnv/symbols_00e5a000.h"
+#include "fnv/symbols_00e5b000.h"
+#include "fnv/symbols_01268000.h"
 struct CallTarget_00e5c370
 {
     int InsertAndDelete(int, int, int, int, int);
@@ -32,11 +51,9 @@ struct AudioHolder
 AudioHolder* __cdecl FUN_00c85750() throw();
 struct DispatchTarget
 {
-    void CallWithFlag(void* aValue, int aZero, void* aOut);
 };
 struct OutObject
 {
-    void FUN_00c90510();
 };
 struct FUN_00e5c460_cls
 {
@@ -59,6 +76,7 @@ struct FUN_00e5c460_cls
     void FUN_00e5c460(OutObject* a1);
 };
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 __declspec(align(16)) struct XfOut_cls
 {
     unsigned int m_00;
@@ -66,9 +84,12 @@ __declspec(align(16)) struct XfOut_cls
     unsigned int m_08;
     unsigned int m_0c;
 };
+struct S_00c7f690_M;
+struct S_00c7f690_V;
 struct FUN_00c7f690_cls
 {
-    void FUN_00c7f690(const __m128* m, const __m128* v);
+public:
+    void FUN_00c7f690(const ::S_00c7f690_M *, const ::S_00c7f690_V *);
 };
 struct XfSub_cls
 {
@@ -92,7 +113,6 @@ struct XfScene_cls
     int unk34;
     char** m_38;
     int m_3c;
-    void AddReferencedObject(XfScene_cls* other);
 };
 static char* XfSelectRec(char* rec)
 {
@@ -134,7 +154,6 @@ struct KeyOwnerA
 };
 struct Sub18
 {
-    void FUN_00e5c440(AudioAllocator* a, int b, Pair32* c);
 };
 struct OwnerC
 {
@@ -165,10 +184,7 @@ struct ListB
     unsigned int unk34;
     unsigned int* m_38;
     unsigned int m_3c;
-    void AddReferencedObject(unsigned int key);
-    void FUN_00e5c460(unsigned int key);
 };
-int FUN_00e5ad40(KeyOwnerA* a, Tmp16* p, Tmp16* q);
 int FUN_00e5b8f0(KeyOwnerA* a1, ListB* a2, OwnerC* a3, ...);
 inline void* operator new(unsigned int, void* p)
 {
@@ -191,8 +207,6 @@ struct S_00e5c370_Elem
         reinterpret_cast<__m128&>(b) = reinterpret_cast<const __m128&>(o.b);
     }
 };
-void __cdecl FUN_00c908c0(S_00e5c370_Alloc& alloc, void* arr, int numElem, int sizeElem);
-void __cdecl FUN_00d2cc70(void* dst, const void* src, int nbytes);
 template <typename T> struct S_00e5c370_ArrayBase
 {
     T* m_data;
@@ -209,7 +223,7 @@ template <typename T> struct S_00e5c370_ArrayBase
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(a, this, newSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(a), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
         }
     }
 // @fnv 0x00e5c370
@@ -219,7 +233,7 @@ template <typename T> struct S_00e5c370_ArrayBase
         int numtomove = m_iElementCount - index - numdel;
         if (newsize > getCapacity())
             GrowArrayCapacity(alloc, newsize);
-        FUN_00d2cc70(m_data + index + numtoinsert, m_data + index + numdel, numtomove * sizeof(T));
+        ::FUN_00d2cc70(m_data + index + numtoinsert, (void *)(m_data + index + numdel), numtomove * sizeof(T));
         T* dst = m_data + index;
         for (int i = 0; i < numtoinsert; i++)
             new (dst + i) T(p[i]);
@@ -294,7 +308,6 @@ struct RefObject
     virtual void v04();
     virtual void v08();
     unsigned short sizeFlags, refs;
-    void FUN_00c905b0() const;
 };
 struct Node : RefObject
 {
@@ -391,15 +404,11 @@ struct FUN_00dd0530 : Edge
     {
         return allocateObject(size);
     }
-    void AddReferencedObject(Node*);
 };
 
 struct Stream
 {
     int unk00, unk04, unk08;
-    void FUN_00cb1600(void*, int);
-    void FUN_00cc01c0(const char*);
-    void FUN_00cc00e0();
 };
 struct Reporter;
 struct ReporterVtable
@@ -413,14 +422,11 @@ struct Reporter
 {
     ReporterVtable* vtable;
 };
-extern Reporter* DAT_01268360;
 static const char unsupported[] = "Not supported types of constraints used to build a chain!";
 static const char* const filename = ".\\Constraint\\Chain\\hkpConstraintChainUtil.cpp";
 static const char unordered[] =
     "Constraints are not ordered properly ! Two consecutive constraint share no common hkpEntity.";
 static const char nomotors[] = "No motors extracted from the original constraint.";
-int __cdecl FUN_00e5ad40(const Edge*, V4&, V4&);
-void __cdecl GetConstraintMotorValues(const void*, Body*&, Body*&, Body*&);
 struct Buffer
 {
     void* words[128];
@@ -454,7 +460,7 @@ FUN_00dd0530* __cdecl FUN_00e5b510(Edges& edges, ByteFlag clone)
     Node* start = edges.data[0]->getA();
     if (edges.size > 1 && (start == edges.data[1]->getA() || start == edges.data[1]->getB()))
         start = edges.data[0]->getB();
-    result->AddReferencedObject(start);
+    reinterpret_cast<::hkpPhantomOverlapDD04 *>((result))->AddReferencedObject((::hkReferencedObjectDD04 *)(start));
     Buffer buffer;
     for (int i = 0; i < edges.size; ++i)
     {
@@ -470,14 +476,14 @@ FUN_00dd0530* __cdecl FUN_00e5b510(Edges& edges, ByteFlag clone)
         };
         V4 first;
         V4 second;
-        if (FUN_00e5ad40(edges[i], first, second) == 1)
+        if (::FUN_00e5ad40((::FnvHolder *)(edges[i]), (::__m128 *)&(first), (::__m128 *)&(second)) == 1)
         {
-            validationStream.FUN_00cb1600(buffer, 512);
-            validationStream.FUN_00cc01c0(unsupported);
-            DAT_01268360->vtable->report(DAT_01268360, 1, 0xabbad88d, buffer, filename, 183);
-            validationStream.FUN_00cc00e0();
-            chain->FUN_00c905b0();
-            result->FUN_00c905b0();
+            new ((void *)&(validationStream)) ::FUN_00cb1600(buffer, 512);
+            reinterpret_cast<::SinkOwner *>(&(validationStream))->FUN_00cc01c0(unsupported);
+            (*reinterpret_cast<::Reporter * *>(&::DAT_01268360))->vtable->report((*reinterpret_cast<::Reporter * *>(&::DAT_01268360)), 1, 0xabbad88d, buffer, filename, 183);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(validationStream))->FUN_00cc00e0::~FUN_00cc00e0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((void *)(chain))->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((void *)(result))->FUN_00c905b0();
             return 0;
         }
         if (edges[i]->getA() != result->nodes.back())
@@ -485,27 +491,27 @@ FUN_00dd0530* __cdecl FUN_00e5b510(Edges& edges, ByteFlag clone)
             exchangeValues(first, second);
             if (edges[i]->getB() != result->nodes.back())
             {
-                validationStream.FUN_00cb1600(buffer, 512);
-                validationStream.FUN_00cc01c0(unordered);
-                DAT_01268360->vtable->report(DAT_01268360, 1, 0xabbad88d, buffer, filename, 194);
-                validationStream.FUN_00cc00e0();
-                chain->FUN_00c905b0();
-                result->FUN_00c905b0();
+                new ((void *)&(validationStream)) ::FUN_00cb1600(buffer, 512);
+                reinterpret_cast<::SinkOwner *>(&(validationStream))->FUN_00cc01c0(unordered);
+                (*reinterpret_cast<::Reporter * *>(&::DAT_01268360))->vtable->report((*reinterpret_cast<::Reporter * *>(&::DAT_01268360)), 1, 0xabbad88d, buffer, filename, 194);
+                reinterpret_cast<struct ::FUN_00cc00e0 *>(&(validationStream))->FUN_00cc00e0::~FUN_00cc00e0();
+                reinterpret_cast<::hkReferencedObjectC905 *>((void *)(chain))->FUN_00c905b0();
+                reinterpret_cast<::hkReferencedObjectC905 *>((void *)(result))->FUN_00c905b0();
                 return 0;
             }
         }
         V4 rotation;
-        rotation.FUN_00c74b70(&edges[i]->getA()->position, &edges[i]->getB()->position);
-        GetConstraintMotorValues(edges[i]->data, a, b, c);
+        reinterpret_cast<::QuatResult *>(&(rotation))->FUN_00c74b70((const float *)(const ::V4 *)(&edges[i]->getA()->position), (const float *)(const ::V4 *)(&edges[i]->getB()->position));
+        ::fnv_00e5ae60::GetConstraintMotorValues((::fnv_00e5ae60::S_00e5ae60_Constraint *)(edges[i]->data), (int *)&(a), (int *)&(b), (int *)&(c));
         if (!a)
         {
             Stream validationStream;
-            validationStream.FUN_00cb1600(buffer, 512);
-            validationStream.FUN_00cc01c0(nomotors);
-            DAT_01268360->vtable->report(DAT_01268360, 1, 0xabba88d3, buffer, filename, 207);
-            validationStream.FUN_00cc00e0();
-            chain->FUN_00c905b0();
-            result->FUN_00c905b0();
+            new ((void *)&(validationStream)) ::FUN_00cb1600(buffer, 512);
+            reinterpret_cast<::SinkOwner *>(&(validationStream))->FUN_00cc01c0(nomotors);
+            (*reinterpret_cast<::Reporter * *>(&::DAT_01268360))->vtable->report((*reinterpret_cast<::Reporter * *>(&::DAT_01268360)), 1, 0xabba88d3, buffer, filename, 207);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(validationStream))->FUN_00cc00e0::~FUN_00cc00e0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((void *)(chain))->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((void *)(result))->FUN_00c905b0();
             return 0;
         }
         if (!b)
@@ -522,12 +528,12 @@ FUN_00dd0530* __cdecl FUN_00e5b510(Edges& edges, ByteFlag clone)
         if (edges[i]->getA() == result->nodes.back())
         {
             chain->records[chain->count - 1].reversed = 1;
-            result->AddReferencedObject(edges[i]->getB());
+            reinterpret_cast<::hkpPhantomOverlapDD04 *>((result))->AddReferencedObject((::hkReferencedObjectDD04 *)(::Node *)(edges[i]->getB()));
         }
         else
-            result->AddReferencedObject(edges[i]->getA());
+            reinterpret_cast<::hkpPhantomOverlapDD04 *>((result))->AddReferencedObject((::hkReferencedObjectDD04 *)(::Node *)(edges[i]->getA()));
     }
-    chain->FUN_00c905b0();
+    reinterpret_cast<::hkReferencedObjectC905 *>((void *)(chain))->FUN_00c905b0();
     return result;
 }
 
@@ -577,7 +583,6 @@ struct S5ba30_HeapAllocator
     }
 };
 
-void __cdecl ResizeAudioStream(S_00e5c370_Alloc& alloc, void* arr, int sizeElem);
 
 struct S5ba30_IsPod
 {
@@ -645,7 +650,7 @@ template <typename T> struct S5ba30_ArrayOps
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(alloc, this, newSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
         }
     }
     __forceinline void _setSize(S_00e5c370_Alloc& alloc, int n)
@@ -659,7 +664,7 @@ template <typename T> struct S5ba30_ArrayOps
     {
         if (m_iElementCount == getCapacity())
         {
-            ResizeAudioStream(alloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(T));
         }
         S5ba30_ArrayUtil::constructWithCopy(m_data + m_iElementCount, 1, t, S5ba30_IsPod());
         m_iElementCount++;
@@ -790,13 +795,9 @@ struct S5ba30_MapBase
         int i = (int)(unsigned long)it;
         return i <= m_iPairCount;
     }
-    Iterator FindSlot(unsigned long key) const;
-    int FUN_00cb1870(S_00e5c370_Alloc& a, unsigned long key, unsigned long val);
-    void ProcessArgument(S_00e5c370_Alloc& a);
-    void EnsureCapacity(S_00e5c370_Alloc& a, int numElements);
     __forceinline Iterator findKey(unsigned long key) const
     {
-        return FindSlot(key);
+        return ((::S5ba30_Dummy *)(reinterpret_cast<::FUN_00cb18f0_t *>((void *)this)->FindSlot(key)));
     }
 };
 
@@ -808,15 +809,15 @@ struct S5ba30_Map : public S5ba30_MapBase
     }
     ~S5ba30_Map()
     {
-        ProcessArgument(S5ba30_HeapAllocator().get(this));
+        reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)&(S5ba30_HeapAllocator().get(this)));
     }
     __forceinline int insert(unsigned long key, unsigned long val)
     {
-        return FUN_00cb1870(S5ba30_HeapAllocator().get(this), key, val);
+        return reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(S5ba30_HeapAllocator().get(this)), key, val);
     }
     __forceinline void reserve(int numElements)
     {
-        EnsureCapacity(S5ba30_HeapAllocator().get(this), numElements);
+        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)&(S5ba30_HeapAllocator().get(this)), numElements);
     }
 };
 
@@ -865,9 +866,6 @@ struct S5ba30_ConstraintInstance
     }
 };
 
-void __cdecl CollectConnectedNodesAndEdges(const S5ba30_Array<S5ba30_ConstraintInstance*>& allConstraints,
-                                           const S5ba30_Entity* entity, S5ba30_Array<S5ba30_Entity*>& entitiesOut,
-                                           S5ba30_Array<S5ba30_ConstraintInstance*>& constraintsOut);
 
 struct S5ba30_ErrStream
 {
@@ -876,10 +874,9 @@ struct S5ba30_ErrStream
     void* m_pStreamWriter;
     S5ba30_ErrStream(void* buf, int bufSize);
     ~S5ba30_ErrStream();
-    S5ba30_ErrStream& FUN_00cc01c0(const char* str);
     __forceinline S5ba30_ErrStream& operator<<(const char* str)
     {
-        return FUN_00cc01c0(str);
+        return (*(::S5ba30_ErrStream *)(reinterpret_cast<::SinkOwner *>(this)->FUN_00cc01c0(str)));
     }
 };
 
@@ -893,7 +890,7 @@ struct S5ba30_Error
 };
 inline S5ba30_Error& S5ba30_Error::GetMonitorStream()
 {
-    return *reinterpret_cast<S5ba30_Error*>(DAT_01268360);
+    return *reinterpret_cast<S5ba30_Error*>((*reinterpret_cast<::Reporter * *>(&::DAT_01268360)));
 }
 
 namespace fnv_anon_00e5ba30 {
@@ -999,7 +996,7 @@ S5ba30_Result __cdecl FUN_00e5ba30(const S5ba30_Array<S5ba30_ConstraintInstance*
 
         adjEntities.clear();
         adjConstraints.clear();
-        CollectConnectedNodesAndEdges(allConstraints, entity, adjEntities, adjConstraints);
+        ::CollectConnectedNodesAndEdges((::ChainArray<void *> *)&(allConstraints), (void *)(entity), (::ChainArray<void *> *)&(adjEntities), (::ChainArray<void *> *)&(adjConstraints));
 
         for (int a = 0; a < adjEntities.GetLogicalSize() && !done; a++)
         {

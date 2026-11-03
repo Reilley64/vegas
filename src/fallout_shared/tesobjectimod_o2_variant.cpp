@@ -2,11 +2,43 @@
 // src/fallout_shared/tesobjectimod_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/tesobjectimod.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00477f20_shell.h"
+#include "fnv/decl/FUN_0047a240_shell.h"
+#include "fnv/decl/FUN_00484bf0_shell.h"
+#include "fnv/decl/FUN_00487010_shell.h"
+#include "fnv/decl/FUN_0048a520_shell.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/FUN_0048ea80_Class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00519e70.h"
+#include "fnv/decl/FakeForm.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/PC7d.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TESRegionGrassObject.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_0047b560__FUN_0047b560_shell.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_0048e370__FUN_0048e370_shell.h"
+#include "fnv/decl/fnv_0048e9b0__TESValueForm.h"
+#include "fnv/decl/fnv_0048e9e0__TESValueForm.h"
+#include "fnv/decl/fnv_0048ea10__TESValueForm.h"
+#include "fnv/decl/fnv_0048ea40__TESValueForm.h"
+#include "fnv/decl/form_load_legacy__TESFormLoadProxy.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00478000.h"
+#include "fnv/symbols_0047a000.h"
+#include "fnv/symbols_00487000.h"
 #include "tesobjectimod_decls.h"
 class TESFormInitFlag : public TESObjectIMODVirtuals
 {
   public:
-    bool IsFormInitialized() const;
 };
 enum ENUM_FORM_ID
 {
@@ -19,9 +51,10 @@ class TESForm : public TESFormInitFlag
 
   public:
     void SetInitializationState(bool initialized);
-    void SetFormType(ENUM_FORM_ID type);
-    void LoadRecordHeader(TESFile*);
-    void ReadTypedData(TESFile*, void*, unsigned short);
+public:
+    bool GetInitialized() const;
+public:
+    void LoadGame(void *);
 };
 class TESBoundObject : public TESForm
 {
@@ -58,7 +91,6 @@ class TESModelTextureSwap : public TESModel
     TESModelTextureSwap();
     ~TESModelTextureSwap();
     void InitItem(TESForm* form);
-    bool ParseTextureSwapData(void*, unsigned int, unsigned int);
 };
 class TESTexture : public TESObjectIMODComponentVirtuals
 {
@@ -81,7 +113,6 @@ class TESScriptableForm : public TESObjectIMODComponentVirtuals
 
   public:
     TESScriptableForm();
-    void SetScript(Script*);
     void InitItem(TESForm* form);
 };
 class TESDescription : public TESObjectIMODComponentVirtuals
@@ -118,7 +149,6 @@ class BGSDestructibleObjectForm : public TESObjectIMODComponentVirtuals
 
   public:
     BGSDestructibleObjectForm();
-    static void LoadDestructibleData(BGSDestructibleObjectForm*, TESFile*);
     ~BGSDestructibleObjectForm();
     void InitItem(TESForm* form);
 };
@@ -129,7 +159,6 @@ class BGSMessageIcon : public TESObjectIMODComponentVirtuals
 
   public:
     BGSMessageIcon();
-    static void LoadMessageIconChunk(BGSMessageIcon*, TESFile*);
     ~BGSMessageIcon();
 };
 class BGSPickupPutdownSounds : public TESObjectIMODComponentVirtuals
@@ -139,8 +168,6 @@ class BGSPickupPutdownSounds : public TESObjectIMODComponentVirtuals
 
   public:
     BGSPickupPutdownSounds();
-    void SetPickupSound(TESSound*);
-    void SetPutdownSound(TESSound*);
     ~BGSPickupPutdownSounds();
     void InitItem(TESForm* form);
 };
@@ -167,11 +194,9 @@ struct FUN_0051a5d0_shell
 };
 struct TESFormStub
 {
-    void __thiscall FUN_00484c50(unsigned int, unsigned int);
 };
 struct TESValueFormStub
 {
-    void __thiscall FUN_0048ea10(unsigned int, unsigned int);
 };
 struct BGSLoadFormBuffer;
 struct FUN_0051a630_shell : public TESObjectIMOD
@@ -180,28 +205,22 @@ struct FUN_0051a630_shell : public TESObjectIMOD
 };
 struct TESFormLoadGame
 {
-    void LoadGame(BGSLoadFormBuffer* buffer);
 };
 struct TESValueFormLoadGame
 {
-    void LoadGame(BGSLoadFormBuffer* buffer);
 };
 struct FUN_00519e40_shell : public TESObjectIMOD
 {
     void* __thiscall FUN_00519e40(unsigned int flags);
 };
-extern "C" void __cdecl _Deallocate(void*);
 struct FUN_00519e70_stub
 {
-    void __thiscall FUN_00519e70();
 };
 struct FUN_00484bf0
 {
-    unsigned short __thiscall GetSaveSize(unsigned int);
 };
 struct FUN_0048e9b0
 {
-    unsigned short __thiscall GetSaveSize(unsigned int);
 };
 struct FUN_0051a550_shell
 {
@@ -209,8 +228,6 @@ struct FUN_0051a550_shell
 };
 struct FUN_0051b070_shell
 {
-    void __thiscall FUN_00484c20(unsigned int);
-    void __thiscall FUN_0048e9e0(unsigned int);
 };
 struct FUN_0051a5a0_shell
 {
@@ -219,11 +236,9 @@ struct FUN_0051a5a0_shell
 struct BGSSaveFormBuffer;
 struct FUN_00484d60_holder
 {
-    void __thiscall SaveIfChanged(BGSSaveFormBuffer*);
 };
 struct FUN_0048ea40_holder
 {
-    void __thiscall FUN_0048ea40(BGSSaveFormBuffer*);
 };
 struct FUN_0051a600_shell
 {
@@ -231,15 +246,12 @@ struct FUN_0051a600_shell
 };
 struct S_00477f20
 {
-    void __thiscall FUN_00477f20();
 };
 struct S_00487010
 {
-    void __thiscall FUN_00487010();
 };
 struct S_0048a520
 {
-    void __thiscall ProcessAndFreeData(unsigned int, unsigned int, unsigned int);
 };
 struct S_0048cca0
 {
@@ -251,11 +263,9 @@ struct FUN_00482cb0_shell
 };
 struct FUN_004855a0
 {
-    void __thiscall M();
 };
 struct FUN_00485680
 {
-    void __thiscall M();
 };
 struct FUN_00485e00_shell
 {
@@ -263,15 +273,12 @@ struct FUN_00485e00_shell
 };
 struct FUN_0047a240_holder
 {
-    void __thiscall FUN_0047a240(unsigned int);
 };
 struct FUN_0047b560_holder
 {
-    void __thiscall LogFormIDs();
 };
 struct FUN_0048e370_holder
 {
-    void __thiscall FUN_0048e370(unsigned int);
 };
 struct FUN_0051a420_shell : public TESObjectIMOD
 {

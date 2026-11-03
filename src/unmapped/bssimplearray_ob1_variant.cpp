@@ -4,25 +4,49 @@
 // to their real unit once identified.
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern int DAT_0106b8a0;
+#include "fnv/decl/Array6cff.h"
+#include "fnv/decl/BSSimpleArray_PathingNode_1024.h"
+#include "fnv/decl/FUN_006925b0_class.h"
+#include "fnv/decl/FUN_006a21c0_class.h"
+#include "fnv/decl/FUN_006b3f40_Class.h"
+#include "fnv/decl/FUN_006cee10_shell.h"
+#include "fnv/decl/FUN_006d01d0_Class.h"
+#include "fnv/decl/FUN_006e3d30_cls.h"
+#include "fnv/decl/FUN_006e8f40_shell.h"
+#include "fnv/decl/FUN_006e9570_cls.h"
+#include "fnv/decl/FUN_006e95d0_Class.h"
+#include "fnv/decl/FUN_006e9700_Class.h"
+#include "fnv/decl/FUN_006f9eb0_Class.h"
+#include "fnv/decl/FUN_009a3d00_class.h"
+#include "fnv/decl/FUN_00a1c1f0_shell.h"
+#include "fnv/decl/MemoryManager.h"
+#include "fnv/decl/SHStub.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_0069cea0__FUN_0069cea0_class.h"
+#include "fnv/decl/fnv_006d0450__S5460.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/decl/fnv_009f6540__FUN_009f6540_Class.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0042f000.h"
+#include "fnv/symbols_006a1000.h"
+#include "fnv/symbols_006b3000.h"
+#include "fnv/symbols_0106b000.h"
+#include "fnv/symbols_010a2000.h"
 struct FUN_006cf9d0
 {
     int* vfptr;
-    void FUN_009a3d00(unsigned int maxSize, unsigned int growBy);
     FUN_006cf9d0(unsigned int maxSize, unsigned int growBy);
 };
 extern int DAT_0106b91c;
 struct FUN_006cf180
 {
     void* vfptr;
-    void ResizeAndConstruct(int a, int b);
     FUN_006cf180();
 };
 struct FUN_006cf250_Class
 {
     void* __thiscall AllocateBuffer(unsigned int count);
 };
-extern "C" void* __cdecl _Reallocate(void* p, unsigned int size);
 struct FUN_006cf280_Class
 {
     void* __thiscall FUN_006cf280(void* p, unsigned int n);
@@ -31,7 +55,6 @@ bool AreBytesEqual(const unsigned char* a, const unsigned char* b);
 extern int DAT_0106b8c8;
 struct Dummy_0061bf20
 {
-    void FUN_006b3f40(int, int);
 };
 struct FUN_006cf9a0 : Dummy_0061bf20
 {
@@ -41,7 +64,6 @@ struct FUN_006cf9a0 : Dummy_0061bf20
 extern int DAT_0106c9e0;
 struct GlobalObject_00869f00
 {
-    void Clear(bool);
 };
 struct FUN_006cfaa0
 {
@@ -52,7 +74,6 @@ struct FUN_006e91e0_cls
 {
     void* __thiscall AllocateBlock(int count);
 };
-void* __cdecl _Reallocate(void* p, unsigned int size);
 struct FUN_006e9210
 {
     void Reallocate(void* p, unsigned int size);
@@ -61,7 +82,6 @@ extern int DAT_0106d4e8;
 struct FUN_006e9230_class
 {
     int* vfptr;
-    void FUN_006e97a0(int a, int b);
     FUN_006e9230_class();
 };
 extern int DAT_0106d4e8;
@@ -78,7 +98,6 @@ struct BSSimpleArray_006e93c0
 {
     void* AllocateElements(int count);
 };
-void* __cdecl Reallocate(void* p, int size);
 struct FUN_006e93f0
 {
     void* __thiscall FUN_006e93f0_(void* p, int n);
@@ -96,7 +115,6 @@ struct FUN_00691820_arr
 {
     int m0;
     unsigned short* pBuffer;
-    unsigned int GetNextPosition();
     unsigned int Append(const unsigned short* aValue);
 };
 struct NavMeshSearchLOSArray
@@ -126,13 +144,13 @@ struct PathingLocationArray
     void* m_pItems;
     unsigned int m_uiCount;
     void ConstructItems(PathingLocation* pItems, unsigned int ItemUpdateArray);
-    unsigned int AppendSlot();
     unsigned int FUN_006cf1b0(const PathingLocation& aValue);
+public:
+    void ResizeAndConstruct(unsigned int, unsigned int);
 };
 struct PathBuilderDetailedPathInfos
 {
     int* vfptr;
-    void Clear(bool);
     virtual ~PathBuilderDetailedPathInfos();
 };
 struct FUN_006cf340 : PathBuilderDetailedPathInfos
@@ -164,6 +182,8 @@ struct ArrHelper
 struct S5460
 {
     unsigned int __thiscall FUN_00978bc0();
+public:
+    int GetNextPosition();
 };
 struct FUN_006cf4c0_Array
 {
@@ -176,7 +196,6 @@ extern int DAT_0106c990;
 struct FUN_0069b1d0
 {
     virtual ~FUN_0069b1d0();
-    void Clear(bool);
 };
 struct FUN_006cf610 : FUN_0069b1d0
 {
@@ -185,19 +204,14 @@ struct FUN_006cf610 : FUN_0069b1d0
 struct ScrapHeapBuffer
 {
     void* Allocate(unsigned int, unsigned int);
-    void Deallocate(void*);
 };
 struct ArrSI
 {
-    unsigned int GetFlags();
 };
-extern unsigned int DAT_010a2720;
-void* __cdecl __memcpy(void* dst, const void* src, unsigned int size);
 struct FUN_006cf6a0_Class
 {
     void* __thiscall CopyAndFreeBuffer(void* src, unsigned int size);
 };
-void __cdecl Deallocate(void* p);
 struct FUN_006cf230_Class
 {
     void* __thiscall FUN_006cf230();
@@ -206,7 +220,6 @@ struct FUN_006cfc80_Class
 {
     void* __thiscall FUN_006cfc80(unsigned int flags);
 };
-void __cdecl Deallocate(void* p);
 struct FUN_006cf340_Class
 {
     void* __thiscall FUN_006cf340();
@@ -223,8 +236,6 @@ struct FUN_006cfd40_Class
 };
 struct FUN_006e9410_shell
 {
-    void FUN_006e90a0(int a, int b);
-    void* FUN_006e8f40(int a, void* b);
 };
 struct FUN_006e9530_shell
 {
@@ -266,11 +277,11 @@ struct FUN_006dc590
 };
 struct FUN_0072ba80_shell
 {
-    void FUN_0072ba80(char* dst, unsigned int count);
+public:
+    void FUN_0072ba80(void *, unsigned int);
 };
 struct FUN_006f9eb0_class
 {
-    void FUN_006f9eb0(unsigned int newSize, int oldSize);
 };
 struct FUN_006f9790_class
 {
@@ -290,7 +301,6 @@ struct FUN_006cf520_Class
 };
 struct FUN_006d0450_Class
 {
-    int __thiscall GetNextIndex();
 };
 struct BSSimpleArrayActor
 {
@@ -301,12 +311,12 @@ struct BSSimpleArrayActor
     unsigned int iSize;
     unsigned int SimpleArrayStorage;
 
-    void Clear(bool abFreeMemory);
     void FUN_005eee80(unsigned int aiNewSize, bool abFreeMemory);
 };
 struct FUN_005ef6a0Class
 {
-    void __thiscall SetOrReplace(unsigned int newSize, int oldSize);
+public:
+    void SetOrReplace(int, int);
 };
 void* __cdecl operator new(unsigned int, void*);
 struct EightByteData
@@ -377,15 +387,12 @@ struct FUN_006cf900_Class : EH
 };
 struct PSClearStub
 {
-    void __thiscall Clear(bool abFreeMemory);
 };
 struct SaveGameSizeState
 {
-    void __thiscall FUN_006e95d0(unsigned int pBuffer, unsigned int ItemUpdateArray);
 };
 struct S5460Helper
 {
-    void __thiscall FUN_006cfe70(unsigned int aiNewSize, unsigned int uiOldSize);
 };
 struct FUN_006e90a0_class
 {
@@ -452,7 +459,6 @@ struct PathingAvoidanceNode
 };
 struct S5460_FUN_006e3d30_Helper
 {
-    void* __thiscall FUN_006e3d30(unsigned int newSize, unsigned int oldSize);
 };
 struct BSSimpleArray_PathingAvoidNode_1024
 {
@@ -463,12 +469,10 @@ struct BSSimpleArray_PathingAvoidNode_1024
     unsigned int iSize;
     unsigned int SimpleArrayStorage;
 
-    void InitializeItems(PathingAvoidanceNode* pItems, unsigned int ItemUpdateArray);
     void SetSize(unsigned int aiNewSize, bool abFreeMemory);
 };
 struct FUN_009f6540_Helper
 {
-    void __thiscall FUN_009f6540(unsigned int, unsigned int);
 };
 struct Host9f6340
 {
@@ -493,8 +497,6 @@ struct FUN_0069cfe0_Elem
 };
 struct FUN_0069cfe0_Dst
 {
-    void FUN_0069cea0(unsigned int count, int flag);
-    FUN_0069cfe0_Elem* FUN_006a1440(unsigned int index);
 };
 struct FUN_0069cfe0_cls
 {
@@ -516,14 +518,11 @@ struct FUN_005e0510
 extern int DAT_0106c968;
 struct HeapProvider
 {
-    void* FUN_00aa42e0();
 };
-HeapProvider* __cdecl FUN_00401020();
 struct FUN_006cf2a0 : FUN_005e0510
 {
     void* m_pStreamAllocator;
     FUN_006cf2a0(int first, int second, void* heap);
-    void FUN_006b3eb0(int first, int second);
 };
 struct FUN_006cf700_cls
 {
@@ -543,12 +542,9 @@ struct ItemRaw
 };
 struct ParamHost
 {
-    void Prepare(unsigned int count, int flags);
-    void* ProcessItem(unsigned int index, ItemRaw* item);
 };
 struct ItemFinish
 {
-    void FUN_006cf900();
 };
 struct FUN_006cf8a0_cls
 {
@@ -560,11 +556,9 @@ struct FUN_006cf8a0_cls
 };
 struct FUN_006cf940_Item
 {
-    void FUN_006dcce0();
 };
 struct FUN_006cf940_Owner
 {
-    void FUN_006cff60(unsigned int count, int flag);
     FUN_006cf940_Item* FUN_00691750(unsigned int index, char* pItem);
 };
 struct FUN_006cf940_cls
@@ -583,7 +577,6 @@ struct FUN_006cfac0_base
 struct FUN_006cfac0_cls : FUN_006cfac0_base
 {
     virtual ~FUN_006cfac0_cls();
-    void FUN_008454f0(int flag);
 };
 struct FUN_006d0540_shell
 {
@@ -625,12 +618,9 @@ struct FUN_006e3c90_cls
 };
 struct FUN_006e9470_Helper
 {
-    void FUN_006e9280(unsigned int count, int flag);
-    void* FUN_006e8f80(int index, void* item);
 };
 struct FUN_006e9470_Obj
 {
-    void FUN_006e9570();
 };
 struct FUN_006e9470_cls
 {
@@ -649,20 +639,16 @@ struct S_00a0d000_Class
     unsigned int m_uiSize;
     unsigned int m_uiReservedSize;
 
-    void FUN_00a0d0c0(unsigned int newCapacity, unsigned int copyCount);
 };
 struct FUN_006cf230
 {
     virtual ~FUN_006cf230();
-    void Clear(bool abFree);
 };
 class Allocator6CF;
 class MemoryManager6CF
 {
   public:
-    Allocator6CF* GetDefaultAllocator();
 };
-MemoryManager6CF* __cdecl GetMemoryManager6CF();
 class ContainerBase6CF
 {
   public:
@@ -694,7 +680,6 @@ class FUN_006cfbc0 : public CFBC0Base
 {
   public:
     virtual ~FUN_006cfbc0();
-    void Clear(bool bFree);
 };
 struct FUN_006e9280_Item
 {
@@ -707,8 +692,6 @@ struct FUN_006e9280_shell
     FUN_006e9280_Item* m_pBuffer;
     unsigned int m_uiSize;
     unsigned int m_uiCapacity;
-    void FUN_006a21c0(unsigned int uiNewAlloc, unsigned int uiCopy);
-    void ConstructArray(FUN_006e9280_Item* pItems, unsigned int ItemUpdateArray);
     void FUN_006cff20(FUN_006e9280_Item* pItems, unsigned int ItemUpdateArray);
     void FUN_006e9280(unsigned int uiNewSize, bool bShrink);
 };
@@ -817,7 +800,6 @@ struct ArrQ0cd50
     unsigned int m_iElementCount;
     unsigned int m_alloc;
     void FUN_00a0cf00(void* const& item);
-    void FUN_00a0cf60(void** dst, void** src, unsigned int count);
     bool IsFull()
     {
         if (m_iElementCount == m_alloc)
@@ -849,9 +831,9 @@ void ArrQ0cd50::FUN_00a0cd50(unsigned int index, void* const& item)
         DeadQ2();
         unsigned int newSize = GetNewSize();
         void** p = Allocate(newSize);
-        FUN_00a0cf60(p, m_pBuffer, index);
+        reinterpret_cast<::ArrayStub *>(this)->FUN_00a0cf60((char *)(p), (char *)(m_pBuffer), index);
         ConstructItems(p + index, 1);
-        FUN_00a0cf60(p + index + 1, m_pBuffer + index, m_iElementCount - index);
+        reinterpret_cast<::ArrayStub *>(this)->FUN_00a0cf60((char *)(void **)(p + index + 1), (char *)(void **)(m_pBuffer + index), m_iElementCount - index);
         Free(m_pBuffer);
         m_pBuffer = 0;
         m_pBuffer = p;
@@ -860,7 +842,7 @@ void ArrQ0cd50::FUN_00a0cd50(unsigned int index, void* const& item)
     else
     {
         DeadQ4();
-        FUN_00a0cf60(m_pBuffer + index + 1, m_pBuffer + index, m_iElementCount - index);
+        reinterpret_cast<::ArrayStub *>(this)->FUN_00a0cf60((char *)(void **)(m_pBuffer + index + 1), (char *)(void **)(m_pBuffer + index), m_iElementCount - index);
         ConstructItems(m_pBuffer + index, 1);
     }
     m_iElementCount++;
@@ -918,7 +900,7 @@ struct ArrayConstructor
         }
         if (initial > 0)
         {
-            ConstructElements(data, initial);
+            reinterpret_cast<::FUN_00a1c1f0_shell *>(this)->ConstructElements((::FUN_00a1c1f0_elem *)(data), initial);
             size = initial;
         }
     }

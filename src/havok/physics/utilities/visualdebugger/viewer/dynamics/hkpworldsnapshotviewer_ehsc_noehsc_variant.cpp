@@ -5,10 +5,22 @@
 
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpworldsnapshotviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkpworldsnapshotviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00d605d0_class.h"
+#include "fnv/decl/FUN_00d607b0_class.h"
+#include "fnv/decl/FUN_00ddcc60.h"
+#include "fnv/decl/FUN_00ddccb0_cls.h"
+#include "fnv/decl/FUN_00ddf170_cls.h"
+#include "fnv/decl/S_00dd9380.h"
+#include "fnv/decl/hkOArchive_2.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d60000.h"
+#include "fnv/symbols_00d62000.h"
+#include "fnv/symbols_010d6000.h"
+#include "fnv/symbols_011b7000.h"
+#include "fnv/symbols_01269000.h"
 extern int DAT_010d16f0;
 extern int DAT_010d1700;
 extern int DAT_010d1720;
-extern void __cdecl FUN_00ddcc60();
 struct FUN_00d62fe0_cls
 {
     void __thiscall FUN_00d62fe0();
@@ -22,13 +34,9 @@ struct FUN_00d63210_class
 typedef void(__cdecl* SnapshotFn)();
 struct ProfileRegistry
 {
-    int FUN_00dd9380(const char* apName, SnapshotFn apfnHandler);
 };
-extern ProfileRegistry* DAT_01269cd0;
 extern int DAT_01268fc4;
 extern int DAT_01268fc0;
-void __cdecl FUN_00d62f20();
-void __cdecl AllocateRecordWithData();
 void __cdecl RegisterSnapshotCommands();
 struct FUN_00c7be20_cls;
 struct FUN_00c7be20_holder
@@ -53,7 +61,6 @@ struct FUN_00c7be20_arr
     unsigned int m_capFlags;
 };
 void* __cdecl FUN_00c85750() throw();
-void __cdecl FUN_00c908c0(void* allocator, FUN_00c7be20_arr* self, unsigned int newCap, int elemSize);
 struct FUN_00c7be20_cls
 {
     int unk00;
@@ -102,7 +109,6 @@ extern int DAT_010d1774;
 extern int DAT_010d1764;
 struct SubObject
 {
-    void Init(int a, int b);
 };
 struct FUN_00d63280_cls
 {
@@ -118,7 +124,6 @@ struct FUN_00d63280_cls
     int unk24;
     SubObject m_sub28;
 
-    void Setup(int b);
     FUN_00d63280_cls* FUN_00d63280(int a, int b);
 };
 
@@ -160,7 +165,6 @@ struct NineIntegerRecord
 void* __cdecl FUN_00c85750() throw();
 
 struct FUN_00c7be20_arr;
-void __cdecl FUN_00c908c0(void* allocator, FUN_00c7be20_arr* self, unsigned int newCap, int elemSize);
 
 inline hkMemoryAllocator& containerHeap()
 {
@@ -204,7 +208,7 @@ struct hkCharArray
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, (FUN_00c7be20_arr*)this, newSize, 1);
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(&alloc), (::SpawnedArray *)(::FUN_00c7be20_arr *)((FUN_00c7be20_arr*)this), newSize, 1);
         }
     }
     void SetSizeAndGrow(int n)
@@ -234,8 +238,6 @@ struct StructureLayoutRules
     unsigned char m_bEmptyBaseClassOptimization;
 };
 
-extern StructureLayoutRules DAT_010d6ae8;
-extern StructureLayoutRules DAT_011b7b88;
 extern int DAT_01268fc0;
 extern int DAT_01268fc4;
 
@@ -246,10 +248,6 @@ hkBool __cdecl FUN_00cc0d60(hkpWorld* world, hkArrayStreamWriter* writer, hkBool
 
 struct hkDisplaySerializeOStream
 {
-    void FUN_00d60960(int n);
-    void FUN_00d605d0(unsigned int b);
-    void WriteInt(int n);
-    void FUN_00d607b0(const char* buf, int n);
 };
 
 struct hkProcessHandler
@@ -329,7 +327,7 @@ void FUN_00d63040_cls::FUN_00d63040(float frameTimeInMs)
         storage.reserve(100 * 1024);
         hkArrayStreamWriter sw(&storage, 1);
 
-        const StructureLayoutRules& rules = m_convertToPC.m_cBooleanValue ? DAT_010d6ae8 : DAT_011b7b88;
+        const StructureLayoutRules& rules = m_convertToPC.m_cBooleanValue ? (*reinterpret_cast<::StructureLayoutRules *>(&::DAT_010d6ae8)) : (*reinterpret_cast<::StructureLayoutRules *>(&::DAT_011b7b88));
         for (int wi = 0; wi < m_iValueAtOffset0C->getNumWorlds(); ++wi)
         {
             storage.SetSizeAndGrow(0);
@@ -337,14 +335,14 @@ void FUN_00d63040_cls::FUN_00d63040(float frameTimeInMs)
             int length = storage.GetLogicalSize();
             if (length >= 1)
             {
-                m_pDisplayStream->FUN_00d60960(length + 9);
-                m_pDisplayStream->FUN_00d605d0(0xd0);
-                m_pDisplayStream->FUN_00d605d0(rules.m_ucBytesInPointer);
-                m_pDisplayStream->FUN_00d605d0(rules.m_bLittleEndian);
-                m_pDisplayStream->FUN_00d605d0(rules.m_bReusePaddingOptimization);
-                m_pDisplayStream->FUN_00d605d0(rules.m_bEmptyBaseClassOptimization);
-                m_pDisplayStream->WriteInt(length);
-                m_pDisplayStream->FUN_00d607b0(storage.begin(), length);
+                ::FUN_00d60960((const float *)(m_pDisplayStream));
+                reinterpret_cast<::FUN_00d605d0_class *>((m_pDisplayStream))->FUN_00d605d0(0xd0);
+                reinterpret_cast<::FUN_00d605d0_class *>((m_pDisplayStream))->FUN_00d605d0(rules.m_ucBytesInPointer);
+                reinterpret_cast<::FUN_00d605d0_class *>((m_pDisplayStream))->FUN_00d605d0(rules.m_bLittleEndian);
+                reinterpret_cast<::FUN_00d605d0_class *>((m_pDisplayStream))->FUN_00d605d0(rules.m_bReusePaddingOptimization);
+                reinterpret_cast<::FUN_00d605d0_class *>((m_pDisplayStream))->FUN_00d605d0(rules.m_bEmptyBaseClassOptimization);
+                reinterpret_cast<::hkOArchive_2 *>((m_pDisplayStream))->WriteInt(length);
+                reinterpret_cast<::FUN_00d607b0_class *>((m_pDisplayStream))->FUN_00d607b0((int)(storage.begin()));
             }
         }
     }

@@ -2,6 +2,28 @@
 // src/havok/physics/dynamics/world/util/kdtree/hkpkdtreeworldmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/kdtree/hkpkdtreeworldmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/Dispatcher.h"
+#include "fnv/decl/FUN_00d04350_cls.h"
+#include "fnv/decl/FUN_00d04370_cls.h"
+#include "fnv/decl/FUN_00d0a270_class.h"
+#include "fnv/decl/FUN_00d976d0_cls.h"
+#include "fnv/decl/FUN_00d97970_cls.h"
+#include "fnv/decl/ListWalker.h"
+#include "fnv/decl/Owner.h"
+#include "fnv/decl/fnv_00c93820__hkpWorldC938.h"
+#include "fnv/decl/fnv_00c93860__hkpWorldXc93860.h"
+#include "fnv/decl/fnv_00d04b50__Owner.h"
+#include "fnv/decl/fnv_00d97850__FUN_00d97850_cls.h"
+#include "fnv/decl/hkWorldC917.h"
+#include "fnv/decl/hkWorldC91F.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d04000.h"
+#include "fnv/symbols_00d9d000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_01076000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01268000.h"
 struct hkpKdTreeWorldManager
 {
     int m_kPointA;
@@ -30,7 +52,6 @@ void __fastcall FUN_00d0ad90(char* self, int unused, char flag)
 
 struct FUN_00d0a270_StandIn
 {
-    void __thiscall FUN_00d0a270(int);
 };
 
 struct FUN_00d0a340_StandIn
@@ -56,22 +77,19 @@ void __thiscall FUN_00d0a340_StandIn::SetFlagOrForward(int arg)
         return;
     }
 
-    return reinterpret_cast<FUN_00d0a270_StandIn*>(reinterpret_cast<char*>(this) - 0x14)->FUN_00d0a270(arg);
+    return reinterpret_cast<::FUN_00d0a270_class *>((reinterpret_cast<FUN_00d0a270_StandIn*>(reinterpret_cast<char*>(this) - 0x14)))->FUN_00d0a270(arg);
 }
 
 struct FUN_00c917a0_shell
 {
-    void FUN_00c917a0(void*);
 };
 
 struct FUN_00c917f0_shell
 {
-    void FUN_00c917f0(void*);
 };
 
 struct FUN_00d97850_shell
 {
-    void ClearBuffers();
 };
 
 void* __cdecl _D1A0E0GetMemoryRouter();
@@ -79,8 +97,6 @@ void* __cdecl _D1A0E0GetMemoryRouter();
 extern int DAT_010cd278;
 extern int DAT_010cd25c;
 extern int DAT_010cd244;
-extern int _DAT_0102e388;
-extern int DAT_0104e3d0;
 extern int $SG5957;
 
 struct FUN_00d0a4f0
@@ -101,13 +117,13 @@ FUN_00d0a4f0::~FUN_00d0a4f0()
     *(int*)((char*)this + 0x14) = (int)&DAT_010cd25c;
     *(int*)((char*)this + 0x18) = (int)&DAT_010cd244;
 
-    ((FUN_00c917a0_shell*)*(void**)((char*)this + 0x1c))->FUN_00c917a0((char*)this + 0x14);
-    ((FUN_00c917f0_shell*)*(void**)((char*)this + 0x1c))->FUN_00c917f0((char*)this + 0x18);
+    reinterpret_cast<::hkWorldC917 *>((((FUN_00c917a0_shell*)*(void**)((char*)this + 0x1c))))->FUN_00c917a0((char*)this + 0x14);
+    reinterpret_cast<::hkWorldC91F *>((((FUN_00c917f0_shell*)*(void**)((char*)this + 0x1c))))->FUN_00c917f0((char*)this + 0x18);
 
     void* p = *(void**)((char*)this + 0x10);
     if (p)
     {
-        ((FUN_00d97850_shell*)p)->ClearBuffers();
+        reinterpret_cast<::fnv_00d97850::FUN_00d97850_cls *>((((FUN_00d97850_shell*)p)))->ClearBuffers();
         void* router = _D1A0E0GetMemoryRouter();
         void* mgr = *(void**)((char*)router + 0x10);
         void** vtbl = *(void***)mgr;
@@ -115,8 +131,8 @@ FUN_00d0a4f0::~FUN_00d0a4f0()
         fn(mgr, p, 0x50);
     }
 
-    *(int*)this = (int)&_DAT_0102e388;
-    *(int*)((char*)this + 0x18) = (int)&DAT_0104e3d0;
+    *(int*)this = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    *(int*)((char*)this + 0x18) = (int)&(*reinterpret_cast<int *>(&::DAT_0104e3d0));
     *(int*)((char*)this + 0x14) = (int)&$SG5957;
 }
 
@@ -196,7 +212,7 @@ void __thiscall FUN_00d0a360_Owner::HandleArg(int arg)
         }
         else
         {
-            reinterpret_cast<FUN_00d0a270_StandIn*>(reinterpret_cast<char*>(this) - 0x18)->FUN_00d0a270(arg);
+            reinterpret_cast<::FUN_00d0a270_class *>((reinterpret_cast<FUN_00d0a270_StandIn*>(reinterpret_cast<char*>(this) - 0x18)))->FUN_00d0a270(arg);
         }
     }
 }
@@ -347,7 +363,6 @@ struct D0A6A0_World
 };
 
 struct D0A6A0_Allocator;
-void FUN_00c908c0(D0A6A0_Allocator& alloc, void* arr, int numElem, int sizeElem);
 
 struct D0A6A0_CollidableArray
 {
@@ -366,7 +381,7 @@ struct D0A6A0_CollidableArray
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(alloc, this, newSize, 4);
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, 4);
         }
     }
     void pushBackUnchecked(D0A6A0_Collidable* c)
@@ -462,24 +477,9 @@ void D0A6A0_Manager::CollectCollidables(D0A6A0_CollidableArray& aCollidables)
 
 struct FUN_00d0ac40_Owner
 {
-    void FUN_00d0a810(int a, int b, int c, int d);
     void FUN_00d0a560(int a, int b);
     void FUN_00d0ac40(int a, int b, int c, int d);
 };
-// Calls FUN_00d0a810 with all four arguments when c and d are both nonzero, otherwise calls FUN_00d0a560 with a and b.
-// @fnv 0x00d0ac40
-void FUN_00d0ac40_Owner::FUN_00d0ac40(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
-{
-    if (aiArg3 && aiArg4)
-    {
-        FUN_00d0a810(aiArg1, aiArg2, aiArg3, aiArg4);
-    }
-    else
-    {
-        FUN_00d0a560(aiArg1, aiArg2);
-    }
-}
-
 namespace fnv_00d0adc0 {
 class hkMemoryAllocatorD0A
 {
@@ -734,11 +734,9 @@ void RayCasterD0A4::CastRay(const RayInputD0A4* pkInput, QueryD0A4* pkQuery, int
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
-extern unsigned long DAT_0126835c;
 extern const char str_010cd2d8[];
 extern const char str_010cd2cc[];
 extern const char str_010cd2c0[];
-extern const char str_01076f38[];
 struct D0AMon
 {
     int unk00;
@@ -799,8 +797,6 @@ struct D0AObj
     int unk18;
     int unk1c;
     char m_flag;
-    void CollectCollidables(D0ARange*);
-    void FUN_00d0ac40(D0ASub*, D0ARange*, int, int);
     void CollectAndProcessCollidables(int a, int b);
 };
 // Records timing markers, collects collidables into a range, processes them via FUN_00d0ac40, and frees the result buffer if it was heap-allocated.
@@ -826,7 +822,7 @@ void D0AObj::CollectAndProcessCollidables(int a, int b)
     r.m_kPointA = 0;
     r.m_kPointB = 0;
     r.m_iThirdValue = (int)0x80000000;
-    CollectCollidables(&r);
+    reinterpret_cast<::D0A6A0_Manager *>(this)->CollectCollidables((*(::D0A6A0_CollidableArray *)(&r)));
     {
         D0AMon* mon = (D0AMon*)TlsGetValue(DAT_0126835c);
         char* pos = mon->m_kRayEnd;
@@ -841,7 +837,7 @@ void D0AObj::CollectAndProcessCollidables(int a, int b)
             mon->m_kRayEnd = pos + sizeof(D0ATimer12);
         }
     }
-    FUN_00d0ac40(&m_sub, &r, a, b);
+    reinterpret_cast<::FUN_00d0ac40_Owner *>(this)->FUN_00d0ac40((int)(&m_sub), (int)(&r), a, b);
     m_flag = 0;
     {
         D0AMon* mon = (D0AMon*)TlsGetValue(DAT_0126835c);
@@ -918,8 +914,6 @@ class WorldHolderD0A
 class WorldD0A
 {
   public:
-    void FUN_00c93820(hkpEntityListenerD0A* pkListener);
-    void FUN_00c93860(hkpPhantomListenerD0A* pkListener);
 };
 
 class FUN_00d0a2d0 : public WorldD0A
@@ -942,8 +936,8 @@ ListenerMgrD0A::ListenerMgrD0A(FUN_00d0a2d0* pkWorld, bool bFlag) throw()
     : m_pkWorld(pkWorld), m_bModifierActive(true), m_bFlag(bFlag)
 {
     *(FUN_00d0a2d0* volatile*)&m_pOwningWorld = 0;
-    m_pkWorld->FUN_00c93820(this);
-    m_pkWorld->FUN_00c93860(this);
+    reinterpret_cast<::fnv_00c93820::hkpWorldC938 *>((m_pkWorld))->FUN_00c93820((::fnv_00c93820::hkpEntityListenerC938 *)(::hkpEntityListenerD0A *)(this));
+    reinterpret_cast<::fnv_00c93860::hkpWorldXc93860 *>((m_pkWorld))->FUN_00c93860((::fnv_00c93860::hkpEntityListenerXc93860 *)(::hkpPhantomListenerD0A *)(this));
 }
 
 namespace fnv_00d0a560 {
@@ -995,29 +989,24 @@ BSAudio* __cdecl FUN_00c85750(void);
 struct FUN_00d9df50_Obj
 {
     int unk00;
-    void InitWalker(int a1, void* a2);
 };
 
 struct FUN_00d9e000_Obj
 {
     int unk00;
     int unk04;
-    int FUN_00d9e000();
 };
 
 struct FUN_00d976d0_Obj
 {
-    void FUN_00d976d0();
 };
 
 struct FUN_00d97850_Obj
 {
-    void ClearBuffers();
 };
 
 struct FUN_00d97970_Obj
 {
-    int Init(void* p);
 };
 
 struct S00d0a560_Holder
@@ -1099,15 +1088,9 @@ struct S00d0a560_TimerBuf
 };
 
 extern "C" void _ReadWriteBarrier(void);
-extern unsigned long DAT_0126835c;
 extern int str_010cd2a4;
-extern int str_010c41f8;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 
-void __cdecl GetAudioPair(void* out, int n);
-void __cdecl FreeBufferPair(void* out, int n);
-void __cdecl DrawIfCountPositive(void* p, int v);
-void __cdecl FillAabbArray(void* p, int a, int b, int c);
 
 struct S00d0a560_Owner
 {
@@ -1128,21 +1111,21 @@ struct S00d0a560_Owner
 void S00d0a560_Owner::FUN_00d0a560(int* out, int ch)
 {
     S00d0a560_Frame f;
-    ((FUN_00d9df50_Obj*)&f.s24)->InitWalker(ch, unk1C);
+    reinterpret_cast<::ListWalker *>((((FUN_00d9df50_Obj*)&f.s24)))->InitWalker((::ItemListRec *)(ch), (::CtxRec *)(unk1C));
     FUN_00d97850_Obj* v = (FUN_00d97850_Obj*)*out;
     if (v != 0)
     {
-        v->ClearBuffers();
+        reinterpret_cast<::fnv_00d97850::FUN_00d97850_cls *>((v))->ClearBuffers();
         fnvc_adapt::FUN_00c85750()->heap().slot2(v, 0x50);
     }
-    int t2 = f.s24.FUN_00d9e000();
-    ((FUN_00d976d0_Obj*)&f.s30)->FUN_00d976d0();
+    int t2 = ((int)(reinterpret_cast<::Owner *>(&(f.s24))->FUN_00d9e000()));
+    reinterpret_cast<::FUN_00d976d0_cls *>((((FUN_00d976d0_Obj*)&f.s30)))->FUN_00d976d0();
     unk1C->unk58->slot16(&f.s44, &f.s50);
     f.s30.unk00 = t2;
     f.s30.unk05 = 0;
     FUN_00d97970_Obj* p = (FUN_00d97970_Obj*)fnvc_adapt::FUN_00c85750()->heap().slot1(0x50);
-    *out = p ? p->Init(&f.s30) : 0;
-    S00d0a560_TimerBuf* pTimerBuf = (S00d0a560_TimerBuf*)TlsGetValue(DAT_0126835c);
+    *out = p ? ((int)(reinterpret_cast<::FUN_00d97970_cls *>((p))->Init((unsigned int)(&f.s30)))) : 0;
+    S00d0a560_TimerBuf* pTimerBuf = (S00d0a560_TimerBuf*)TlsGetValue(::DAT_0126835c);
     S00d0a560_Timer* c = pTimerBuf->cur;
     if (c < pTimerBuf->end)
     {
@@ -1152,15 +1135,15 @@ void S00d0a560_Owner::FUN_00d0a560(int* out, int ch)
         c->tick = f.tk;
         pTimerBuf->cur = c + 1;
     }
-    GetAudioPair(&f.l1c, t2);
-    FillAabbArray(&f.s24, 0, t2, f.l1c.unk00);
-    DrawIfCountPositive(&f.l1c, *out);
-    FreeBufferPair(&f.l1c, t2);
-    pTimerBuf = (S00d0a560_TimerBuf*)TlsGetValue(DAT_0126835c);
+    ::fnv_00d9d800::GetAudioPair((int *)(void *)(&f.l1c), t2);
+    ::FillAabbArray((::S_00d9dab0_Coll *)(void *)(&f.s24), 0, t2, (::S_00d9dab0_Aabb16 *)(f.l1c.unk00));
+    ::DrawIfCountPositive(&f.l1c, (::DrawParams *)(*out));
+    ::FreeBufferPair((::BufferPair *)(void *)(&f.l1c), t2);
+    pTimerBuf = (S00d0a560_TimerBuf*)TlsGetValue(::DAT_0126835c);
     c = pTimerBuf->cur;
     if (c < pTimerBuf->end)
     {
-        c->name = (int)&str_010c41f8;
+        c->name = (int)&(*reinterpret_cast<int *>(&::DAT_010c41f8));
         _ReadWriteBarrier();
         f.tk = (unsigned int)__rdtsc();
         c->tick = f.tk;
@@ -1261,7 +1244,6 @@ struct TreeInfo
     short field06;
     int field08, field0c;
     FourFloatVector minimum, maximum;
-    void FUN_00d976d0();
 };
 struct Tree
 {
@@ -1273,8 +1255,6 @@ struct Tree
     {
         return extra + size;
     }
-    void ClearBuffers();
-    Tree* Init(TreeInfo*);
 };
 struct Bounds
 {
@@ -1315,9 +1295,6 @@ struct Scratch
     void* first;
     void* second;
 };
-void __cdecl GetAudioPair(Scratch*, int);
-void __cdecl FreeBufferPair(Scratch*, int);
-void __cdecl FUN_00d9d950(Tree*, int, int*, int*);
 struct Counter
 {
     int value;
@@ -1325,9 +1302,6 @@ struct Counter
 struct Semaphore
 {
     void* handle;
-    Semaphore* Create(int, int);
-    void FUN_00d04370();
-    void FUN_00d04380();
 };
 struct BuildJob
 {
@@ -1353,8 +1327,6 @@ struct BuildJob
 };
 struct Queue
 {
-    void FUN_00d04b50(BuildJob*, int);
-    void FUN_00d051b0();
 };
 struct Workers
 {
@@ -1436,13 +1408,26 @@ struct Manager
     World* world;
     void FUN_00d0a810(Tree**, Input*, Queue*, Workers*);
 };
+// Calls FUN_00d0a810 with all four arguments when c and d are both nonzero, otherwise calls FUN_00d0a560 with a and b.
+// @fnv 0x00d0ac40
+void FUN_00d0ac40_Owner::FUN_00d0ac40(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+{
+    if (aiArg3 && aiArg4)
+    {
+        reinterpret_cast<::Manager *>(this)->FUN_00d0a810((::Tree **)(aiArg1), (::Input *)(aiArg2), (::Queue *)(aiArg3), (::Workers *)(aiArg4));
+    }
+    else
+    {
+        FUN_00d0a560(aiArg1, aiArg2);
+    }
+}
 // @fnv 0x00d0a810
 void Manager::FUN_00d0a810(Tree** tree, Input* input, Queue* queue, Workers* workers)
 {
     Tree* oldTree = *tree;
     if (oldTree)
     {
-        oldTree->ClearBuffers();
+        reinterpret_cast<::fnv_00d97850::FUN_00d97850_cls *>((oldTree))->ClearBuffers();
         getRouter()->heap->freeBlock(oldTree, 0x50);
     }
     struct Frame
@@ -1470,14 +1455,14 @@ void Manager::FUN_00d0a810(Tree** tree, Input* input, Queue* queue, Workers* wor
     } tail;
     int count = input->count;
     tail.count = count;
-    job.FUN_00d976d0();
+    reinterpret_cast<::FUN_00d976d0_cls *>(&(job))->FUN_00d976d0();
     job.count = count;
     job.enabled = 1;
     world->bounds->getBounds(&job.minimum, &job.maximum);
     void* storage = getRouter()->heap->allocate(0x50);
-    *tree = storage ? static_cast<Tree*>(storage)->Init(&job) : 0;
+    *tree = storage ? ((::Tree *)(reinterpret_cast<::FUN_00d97970_cls *>((static_cast<Tree*>(storage)))->Init((unsigned int)(&job)))) : 0;
     Scratch& scratch = early.scratch;
-    GetAudioPair(&scratch, count);
+    ::fnv_00d9d800::GetAudioPair((int *)(::Scratch *)(&scratch), count);
     Counter* counter = static_cast<Counter*>(getRouter()->heap->allocate(16));
     tail.counter = counter;
     counter->value = 4;
@@ -1491,7 +1476,7 @@ void Manager::FUN_00d0a810(Tree** tree, Input* input, Queue* queue, Workers* wor
     Semaphore* semaphore;
     storage = getRouter()->heap->allocate(4);
     if (storage)
-        semaphore = static_cast<Semaphore*>(storage)->Create(0, 1000);
+        semaphore = ((::Semaphore *)(reinterpret_cast<::FUN_00d04350_cls *>((static_cast<Semaphore*>(storage)))->Create(0, 1000)));
     else
         semaphore = 0;
     info.affinity = -1;
@@ -1528,10 +1513,10 @@ void Manager::FUN_00d0a810(Tree** tree, Input* input, Queue* queue, Workers* wor
             stream->current = reinterpret_cast<char*>(record) + 16;
         }
     }
-    queue->FUN_00d04b50(&info, 0);
+    reinterpret_cast<::fnv_00d04b50::Owner *>((queue))->FUN_00d04b50(&info, 0);
     timerEvent(str_010cd0f4);
     workers->start(queue, 3);
-    queue->FUN_00d051b0();
+    reinterpret_cast<::Dispatcher *>((queue))->FUN_00d051b0();
     {
         TimerStream* stream = static_cast<TimerStream*>(TlsGetValue(DAT_0126835c));
         char* cur = stream->current;
@@ -1548,16 +1533,16 @@ void Manager::FUN_00d0a810(Tree** tree, Input* input, Queue* queue, Workers* wor
     }
     workers->wait();
     timerEvent(str_010cd0d0);
-    semaphore->FUN_00d04380();
+    ::FUN_00d04380((void *)(semaphore), {});
     timerEvent(str_010cd0c4);
     int count2;
-    FUN_00d9d950(*tree, count2 = const_cast<const int&>(tail.count), info.first, info.second);
+    ::FUN_00d9d950((::S9d950_Owner *)(*tree), count2 = const_cast<const int&>(tail.count), (const ::S9d950_Box *)(info.first), info.second);
     timerEvent(str_01076f38);
-    FreeBufferPair(&scratch, count2);
+    ::FreeBufferPair((::BufferPair *)(::Scratch *)(&scratch), count2);
     getRouter()->heap->freeBlock(const_cast<Counter* const&>(tail.counter), 16);
     if (semaphore)
     {
-        semaphore->FUN_00d04370();
+        reinterpret_cast<::FUN_00d04370_cls *>((semaphore))->FUN_00d04370();
         getRouter()->heap->freeBlock(semaphore, 4);
     }
     ReturnMemory(early.secondData, early.secondCap);

@@ -6,6 +6,8 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d5a000.h"
 struct hkMemoryAllocator
 {
     virtual ~hkMemoryAllocator();
@@ -31,7 +33,6 @@ struct NineIntegerRecord
 
 NineIntegerRecord* __cdecl FUN_00c85750();
 
-void __cdecl FUN_00c908c0(hkMemoryAllocator* alloc, void* array, int newCapacity, int elemSize);
 
 struct hkTransform;
 
@@ -85,7 +86,7 @@ template <typename T> struct hkArray
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(::hkMemoryAllocator *)(&alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
         }
     }
     void SetSizeAndGrow(int n)
@@ -172,14 +173,12 @@ struct FUN_00de1d20_Shape : hkpShape
 
 struct VertexSource;
 
-void __cdecl FUN_00d5a6a0(const VertexSource* src, hkArray<hkVector4>* verticesOut);
-void __cdecl InitAndSetB(const FloatArrayDescriptor& vertices, hkGeometry& geometryOut);
 
 // @fnv 0x00de3360
 static __declspec(noinline) hkpShape* FUN_00de3360(const VertexSource* src, const hkTransform& transform)
 {
     hkArray<hkVector4> localVertices;
-    FUN_00d5a6a0(src, &localVertices);
+    ::FUN_00d5a6a0(src, (*(::D5C110VertexArray *)(&localVertices)));
     const int numVertices = localVertices.GetLogicalSize();
     if (numVertices < 1)
     {
@@ -199,7 +198,7 @@ static __declspec(noinline) hkpShape* FUN_00de3360(const VertexSource* src, cons
     stridedVerts.m_iStridedVertexCount = vertices.GetLogicalSize();
     stridedVerts.m_iVertexStride = sizeof(hkVector4);
     stridedVerts.m_kVertices = (const float*)vertices.begin();
-    InitAndSetB(stridedVerts, *geom);
+    ::InitAndSetB((void *)&(stridedVerts), (int)&(*geom));
 
     hkpShape* shape = new FUN_00de1d20_Shape(geom);
     return shape;

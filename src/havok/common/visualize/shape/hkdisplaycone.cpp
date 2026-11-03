@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <xmmintrin.h>
+#include "fnv/symbols_00c90000.h"
 struct __declspec(align(16)) Vertex
 {
     __m128 value;
@@ -41,8 +42,6 @@ struct GlobalContext
     Allocator* allocator;
 };
 extern "C" GlobalContext* __cdecl FUN_00c85750();
-extern "C" void __cdecl ResizeAudioStream(Allocator*, DynamicArray<Vertex>*, int);
-extern "C" void __cdecl FUN_00c908c0(Allocator*, DynamicArray<Edge>*, int, int);
 struct ForwardArg
 {
     GeometryBuffers* value;
@@ -96,7 +95,7 @@ void __thiscall MeshBuilder::InitializeGeometry()
     GlobalContext* manager = FUN_00c85750();
     if (vertices.size == (vertices.capacityAndFlags & 0x3fffffffu))
     {
-        ResizeAudioStream(manager->allocator, &vertices, sizeof(Vertex));
+        ::ResizeAudioStream((::AudioAllocator *)(manager->allocator), (::AudioStream *)(::DynamicArray< ::Vertex> *)(&vertices), sizeof(Vertex));
     }
     __m128 value = _mm_load_ps(reinterpret_cast<const float*>(&initialVertex));
     _mm_store_ps(reinterpret_cast<float*>(&vertices.data[vertices.size]), value);
@@ -111,7 +110,7 @@ void __thiscall MeshBuilder::InitializeGeometry()
         int newCapacity = capacity * 2;
         if (required >= newCapacity)
             newCapacity = required;
-        FUN_00c908c0(edgeAllocator, &edges, newCapacity, sizeof(Edge));
+        ::FUN_00c908c0((::SpawnedObject *)(edgeAllocator), (::SpawnedArray *)(::DynamicArray< ::Edge> *)(&edges), newCapacity, sizeof(Edge));
     }
     edges.size = required;
     int index = 0;
@@ -183,7 +182,6 @@ struct S_00de58c0_Local
 
 struct S_00de58c0_Alloc;
 S_00de58c0_Router* __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(S_00de58c0_Alloc* a, S_00de58c0_Arr* arr, int n, int elemSize);
 
 struct S_00de58c0_Obj
 {
@@ -240,7 +238,7 @@ void S_00de58c0_Obj::FUN_00de58c0(S_00de58c0_Arr* out, S_00de58c0_Alloc* alloc)
     if ((out->m_cap & 0x3fffffff) < newSize)
     {
         int iDoubledCap = (out->m_cap & 0x3fffffff) * 2;
-        FUN_00c908c0(alloc, out, newSize < iDoubledCap ? iDoubledCap : newSize, 16);
+        ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(out), newSize < iDoubledCap ? iDoubledCap : newSize, 16);
     }
     out->m_iElementCount = newSize;
     int iWrite = 0;

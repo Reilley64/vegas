@@ -2,6 +2,21 @@
 #ifndef FNV_BGSNOTE_DECLS_H
 #define FNV_BGSNOTE_DECLS_H
 
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TESRegionGrassObject.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_0048e000.h"
+#include "fnv/symbols_005b5000.h"
 void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
 class TESFile;
@@ -19,7 +34,6 @@ class TESTexture
     char data[8];
     TESTexture();
     ~TESTexture();
-    void AssignTextureName(const char*);
     static void ReadTextureData(TESTexture*, TESFile*);
 };
 enum NOTE_TYPE
@@ -114,14 +128,11 @@ class TESForm
     virtual const char* GetEditorID();
     virtual void SetEditorID(const char*);
     char data[0x2c];
-    void SetFormType(ENUM_FORM_ID);
-    void LoadRecordHeader(TESFile*);
     bool GetInitialized() const;
     TESFile* GetFile(int);
-    static void RemapFormIDForFile(unsigned int&, TESFile*);
-    static TESForm* GetFormByID(unsigned int);
-    unsigned int GetFormID();
     void SetInitializationState(bool);
+public:
+    void LoadGame(void *);
 };
 class TESBoundObject : public TESForm
 {
@@ -145,6 +156,8 @@ class TESFullName
     char data[8];
     TESFullName();
     ~TESFullName();
+public:
+    void SetFullName(const char *);
 };
 class TESIcon : public TESTexture
 {
@@ -160,8 +173,6 @@ class BGSPickupPutdownSounds
     BGSPickupPutdownSounds();
     ~BGSPickupPutdownSounds();
     void InitItem(TESForm*);
-    void SetPickupSound(class TESSound*);
-    void SetPutdownSound(class TESSound*);
 };
 class TESQuest : public TESForm
 {
@@ -175,7 +186,6 @@ class TESTopic : public TESForm
 class TESActorBase : public TESForm
 {
 };
-int Warning(const char*, ...);
 template <class T> struct BGSNoteReference
 {
     unsigned int id;
@@ -215,31 +225,22 @@ class BGSNote : public TESBoundObject,
     bool Load(TESFile*);
     TESTexture* GetNoteTexture();
     TESSound* FUN_005e9100();
-    void SetNoteSound(TESSound*);
     TESTopic* FUN_005e9240();
-    void SetNoteTopic(TESTopic*);
     TESActorBase* FUN_005e92a0();
-    void SetNoteSpeaker(TESActorBase*);
     void ResetFormData();
-    int GetNoteType();
     TESDescription* GetNoteDescription();
 };
 class TESFile
 {
   public:
     ENUM_FORM_ID GetTESForm();
-    int GetChunkID();
-    unsigned int GetChunkSize();
     bool GetChunkData(unsigned int*);
-    bool GetChunkData(void*, unsigned int);
     bool NextChunk();
 };
 class TESFullNameLoader
 {
   public:
-    static void LoadFullNameChunk(TESFullName*, TESFile*);
 };
-bool __cdecl IsChunkTypeIcon(int);
 extern "C" void* __cdecl _alloca(unsigned int);
 #pragma intrinsic(_alloca)
 #endif

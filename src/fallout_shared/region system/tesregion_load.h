@@ -3,13 +3,15 @@
 #define TESREGION_LOAD_H
 
 #include <malloc.h>
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_011c3000.h"
 class TESFile
 {
   public:
-    unsigned char GetTESForm();
-    unsigned int GetChunkID();
-    unsigned int GetChunkSize();
-    bool GetChunkData(void*, unsigned int);
     bool GetChunkData(unsigned int*);
     bool NextChunk();
 };
@@ -30,13 +32,10 @@ class TESRegionDataManager
 class TESRegionLoadHandler
 {
   public:
-    TESRegionDataManager* GetRegionDataManager();
 };
-extern TESDataHandler* g_dataHandler;
 class TESRegionLoadList
 {
   public:
-    void Remove(RegionPointList* const&);
 };
 void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);

@@ -4,13 +4,16 @@
 
 // src/fallout_shared/havok/foislandactivationlistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/foislandactivationlistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/TESTopicInfo.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00624000.h"
+#include "fnv/symbols_0104d000.h"
 struct hkpIslandActivationListener
 {
-    void InitPtr();
     void* FUN_006241e0(unsigned int);
 };
-extern "C" void __cdecl _Deallocate(void*);
-extern int DAT_0104de10;
 struct FUN_00624210_shell
 {
     int* m_ptr;
@@ -26,12 +29,7 @@ struct hkVector4;
 struct NiTransform;
 struct TopicH
 {
-    NiPoint3* GetAddTopicList();
-    NiPoint3& _ref_006815c0();
 };
-void FUN_00624b10(NiTransform*, NiPoint3*);
-NiPoint3& SetNiPoint3FromHkVector4(NiPoint3&, const hkVector4&);
-NiTransform* FUN_00624ad0(NiTransform* arNiTran, TopicH* arTopicH);
 
 // FUN_00624be0 : 8-byte MSVC this-adjusting (virtual) thunk.
 //     sub ecx, 0x4 ; jmp FUN_00624190

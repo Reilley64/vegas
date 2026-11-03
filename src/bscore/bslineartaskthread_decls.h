@@ -2,6 +2,8 @@
 #ifndef BSLINEARTASKTHREAD_DECLS_H
 #define BSLINEARTASKTHREAD_DECLS_H
 
+#include "fnv/decl/FUN_00442550_shell.h"
+#include "fnv/decl/SemaphoreWaitReceiver.h"
 class BSThread
 {
   public:
@@ -15,8 +17,6 @@ class CountingSemaphore
   public:
     CountingSemaphore();
     ~CountingSemaphore();
-    void Wait();
-    void Signal();
     unsigned char data[12];
 };
 class BSLinearTaskThread : public BSThread

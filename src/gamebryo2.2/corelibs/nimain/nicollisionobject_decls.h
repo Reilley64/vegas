@@ -2,6 +2,8 @@
 #ifndef NICOLLISIONOBJECT_DECLS_H
 #define NICOLLISIONOBJECT_DECLS_H
 
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/Owner62B.h"
 class NiStream;
 class NiAVObject;
 class NiObject
@@ -24,7 +26,6 @@ class NiCollisionObject : public NiObject
 class NiStream
 {
   public:
-    void ResetStreamState();
     NiObject* GetLoadedObject();
 };
 class NiAVObject : public NiObject
@@ -32,6 +33,5 @@ class NiAVObject : public NiObject
   public:
     unsigned char padding[0x14];
     NiCollisionObject* m_spCollisionObject;
-    void AssignCollisionObject(NiCollisionObject*);
 };
 #endif

@@ -1,5 +1,11 @@
 // bssystemutilities/bssavedatasystemutility.cpp: BSSaveDataSystemUtility, TargetClass (4 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00af2f20_Class.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_011f6000.h"
 #include "BSSaveDataSystemUtility.h"
 
 // @fnv 0x00af2f60
@@ -29,20 +35,17 @@ void FUN_00af2f40_shell::CallVTableMethod()
 class MemoryManager
 {
   public:
-    void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 struct TargetClass
 {
-    void FUN_00af2f20();
     void* FUN_00af2fc0(unsigned int flags);
 };
 // @fnv 0x00af2fc0
 void* TargetClass::FUN_00af2fc0(unsigned int flags)
 {
-    FUN_00af2f20();
+    reinterpret_cast<::FUN_00af2f20_Class *>(this)->FUN_00af2f20();
     if (flags & 1)
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(this);
     return this;
 }
 

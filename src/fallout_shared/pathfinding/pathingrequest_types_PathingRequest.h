@@ -2,6 +2,16 @@
 #ifndef FNV_PATHINGREQUEST_H
 #define FNV_PATHINGREQUEST_H
 
+#include "fnv/decl/FUN_006a7910_shell.h"
+#include "fnv/decl/FUN_006c9900_shell.h"
+#include "fnv/decl/FUN_006d3ac0_Class.h"
+#include "fnv/decl/FUN_006d3ae0.h"
+#include "fnv/decl/FUN_006e29b0_Class.h"
+#include "fnv/decl/TESObjectTREE.h"
+#include "fnv/decl/_Dummy_0069e390.h"
+#include "fnv/symbols_0048d000.h"
+#include "fnv/symbols_0069e000.h"
+#include "fnv/symbols_006a9000.h"
 #include "layout_support.h"
 class Actor;
 template <class T, unsigned int N> class BSSimpleArray;
@@ -67,27 +77,17 @@ class PathingRequest : public PathingInfo
   public:
     PathingRequest();
     void CopyTo(PathingRequest*);
-    PathingLocation* GetOrigin();
-    PathingLocation* FUN_006a9540();
     float GetActorRadius();
-    float GetFloatAtOffset68();
-    PathingActorData* FUN_006c9900();
     float GetCenterRadius();
     NiPoint3 FUN_006a7910();
     float GetTargetRadius();
     float GetSmoothingRandomness();
-    BSSimpleArray<void*, 1024>* GetString();
     float GetGoalZDelta();
-    void SetOrigin(PathingLocation*);
     void SetDestination(PathingLocation*);
     void SetActorRadius(float);
-    void FUN_006d3ae0(float);
-    void FUN_006e29b0(PathingActorData*);
     void SetCenterRadius(float);
-    void FUN_006e2980(NiPoint3&, float);
     void SetSmoothingRandomness(float);
     void SetAvoidNodeArray(BSSimpleArray<void*, 1024>*);
-    void SetGoalZDelta(float);
 
     static void* operator new(unsigned int);
     static void operator delete(void*, unsigned int);

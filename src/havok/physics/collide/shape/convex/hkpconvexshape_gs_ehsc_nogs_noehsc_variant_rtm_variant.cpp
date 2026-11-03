@@ -7,12 +7,14 @@
 // to their real unit once identified.
 // src/havok/physics/collide/shape/convex/hkpconvexshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/hkpconvexshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpConvexShape.h"
 int __stdcall FUN_00c9e1e0(int a1, int a2, int a3, int a4, int a5, int a6, int a7);
 struct FUN_00d1df70
 {
-    void FUN_00c90510() throw();
-    void removeReference() throw();
 };
 class hkReferencedObjectC9E3
 {
@@ -52,7 +54,7 @@ class hkpSingleShapeContainerC9E3 : public hkpShapeContainerC9E3
     hkpSingleShapeContainerC9E3(FUN_00d1df70* pkChild, int iRef) : m_pContainedShape(pkChild)
     {
         if (iRef == 1)
-            m_pContainedShape->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((m_pContainedShape))->FUN_00c90510();
     }
     virtual ~hkpSingleShapeContainerC9E3() throw();
     FUN_00d1df70* m_pContainedShape;
@@ -69,8 +71,6 @@ class FUN_00c9e340 : public hkpConvexShapeC9E3
 #include <xmmintrin.h>
 #include <emmintrin.h>
 
-extern const hkTransform DAT_01268370;
-extern float DAT_01016248;
 
 struct CenterVector
 {
@@ -110,7 +110,7 @@ class DummyClass
 void DummyClass::FUN_00c9e250(CenterVector* centreOut)
 {
     CenterAabb aabb;
-    getAabb(DAT_01268370, 0.0f, aabb);
+    getAabb((*reinterpret_cast<const ::hkTransform *>(&::DAT_01268370)), 0.0f, aabb);
     centreOut->SetAdd(aabb.m_kMaximumCorner, aabb.m_kMinimumCorner);
-    centreOut->Scale(DAT_01016248);
+    centreOut->Scale(::fnv_00c88020::DAT_01016248);
 }

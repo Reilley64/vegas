@@ -3,6 +3,7 @@
 #define FNV_TESANIMGROUP_TYPES_H
 
 #include <stddef.h>
+#include "fnv/symbols_01197000.h"
 #define TESANIMGROUP_JOIN_INNER(a, b) a##b
 #define TESANIMGROUP_JOIN(a, b) TESANIMGROUP_JOIN_INNER(a, b)
 #define TESANIMGROUP_ASSERT(c) typedef char TESANIMGROUP_JOIN(tesanimgroup_assert_, __LINE__)[(c) ? 1 : -1]
@@ -20,7 +21,8 @@ class NiPoint3
 {
   public:
     float x, y, z;
-    float Length() const;
+public:
+    float ComputeMagnitude() const;
 };
 class TESSound;
 class NiControllerSequence;
@@ -453,5 +455,4 @@ struct TESAnimGroupActionEntry
     ANIM_GROUP_ACTION_TYPE action;
     unsigned char padding[32];
 };
-extern TESAnimGroupActionEntry DAT_011977e4[];
 #endif

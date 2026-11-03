@@ -1,6 +1,7 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef FNV_INTERFACE_REBASE_FNV_BSANIMGROUPSEQUENCE_H
 #define FNV_INTERFACE_REBASE_FNV_BSANIMGROUPSEQUENCE_H
+#include "fnv/symbols_004ee000.h"
 #include "interface_rebase_layout_support.h"
 #include "interface_rebase_NiFixedString.h"
 #include "interface_rebase_NiObject.h"
@@ -198,7 +199,6 @@ FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_bHasAnimNotes) == 114);
 class BSAnimGroupSequence : public NiControllerSequence
 {
   public:
-    static bool PlayAnimSounds(NiControllerSequence*, TESObjectREFR*);
     // base NiControllerSequence at +0x0, size 116
     NiPointer<TESAnimGroup> m_spAnimGroup;  // +0x74, 4 bytes
     // const NiRTTI* __cdecl BSAnimGroupSequence::*()

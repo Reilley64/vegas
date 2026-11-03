@@ -3,17 +3,23 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /Ob1 (unit src/fallout/ai/combat/projectile.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/decl/FUN_00978f10_shell.h"
+#include "fnv/decl/RefLoad.h"
+#include "fnv/decl/fnv_00ae5a50__Mgr_00ae5a50.h"
+#include "fnv/symbols_00ad9000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01022000.h"
+#include "fnv/symbols_01272000.h"
 #include "projectile_decls.h"
 
-extern "C" __declspec(thread) int tls_memContext;
 
 inline int GetMemContext()
 {
-    return tls_memContext;
+    return (*reinterpret_cast<int *>(&::currentAllocationContext));
 }
 inline void SetMemContext(int aiMemoryContext)
 {
-    tls_memContext = aiMemoryContext;
+    (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
 }
 
 struct MemContextGuard
@@ -43,7 +49,6 @@ class SoundSystem
     SoundResult FUN_00ae5a50(int a, int b, int c);
 };
 
-SoundSystem* FUN_00ad9060();
 
 class SoundWrapper
 {
@@ -55,5 +60,5 @@ class SoundWrapper
 SoundResult SoundWrapper::FUN_00ad7480(int a, int b, int c)
 {
     MemContextGuard kGuard(11);
-    return FUN_00ad9060()->FUN_00ae5a50(a, b, c);
+    return ((::SoundSystem *)(::FUN_00ad9060()))->FUN_00ae5a50(a, b, c);
 }

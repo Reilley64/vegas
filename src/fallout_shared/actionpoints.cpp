@@ -7,6 +7,8 @@
 // canonical generated Setting.h omits those vanilla accessors, so the needed
 // declarations are authored locally for this TU.
 
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_011d5000.h"
 #pragma pack(push, 4)
 union SETTING_VALUE
 {
@@ -30,10 +32,8 @@ class SettingT_GameSettingCollection_
   public:
     SettingT_GameSettingCollection_();
     ~SettingT_GameSettingCollection_();
-    SETTING_VALUE* Float();
 };
 
-extern SettingT_GameSettingCollection_ fActionPointsRestoreRate;
 
 class ActionPoints
 {
@@ -44,7 +44,7 @@ class ActionPoints
 // @fnv 0x0066dda0
 float ActionPoints::GetActionPoints()
 {
-    return fActionPointsRestoreRate.Float()->f;
+    return ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d5ff4))))))->f;
 }
 
 // Returns true for action codes 0-8, 16, 17, 19, 20 and 21, and false for any other code.

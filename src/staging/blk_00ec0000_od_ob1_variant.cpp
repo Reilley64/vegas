@@ -5,23 +5,42 @@
 
 // src/staging/blk_00ec0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/EC1060File.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00438af0_Class.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/MapOwnerStandIn.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/MovieSignalState.h"
+#include "fnv/decl/NiRenderer.h"
+#include "fnv/decl/fnv_00ec25e0__FUN_00ec25e0_cls.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00aa2000.h"
+#include "fnv/symbols_00ebf000.h"
+#include "fnv/symbols_00ec0000.h"
+#include "fnv/symbols_00ec1000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01063000.h"
+#include "fnv/symbols_010f1000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01202000.h"
+#include "fnv/symbols_0126f000.h"
+#include "fnv/symbols_01272000.h"
 #include "../../include/layout_support.h"
 struct BGSMoviePlayer
 {
-    void __thiscall FUN_00ec2760(int a);
 };
-extern BGSMoviePlayer* DAT_0126fac4;
 int __stdcall FUN_00ec16b0(int a);
 struct P03MM
 {
-    void* Allocate(unsigned int);
 };
-extern P03MM g_memoryManager;
 struct FUN_00ec1a40_Class
 {
     void* FUN_00ec1a40();
 };
-extern "C" int __cdecl _NiStricmp(const char*, const char*);
 struct FUN_00ec1c90_class
 {
     int __thiscall AreStringsEqualIgnoreCase(const char* a, const char* b);
@@ -33,12 +52,10 @@ struct FUN_00ec1dc0_Class
 };
 struct FUN_00ec1f20Class
 {
-    void FUN_00ec1570();
     void* FUN_00ec1f20();
 };
 struct FUN_00ec1f40Class
 {
-    void __thiscall FUN_00ec1020();
     void __thiscall FUN_00ec1f40();
 };
 struct FUN_00ec29b0_class
@@ -75,14 +92,12 @@ struct FUN_00ec1570_t
     int i;
     bool j;
 };
-void __fastcall FUN_00ec1570(FUN_00ec1570_t* p);
 struct MemoryManager
 {
     void __thiscall Deallocate(void*);
 };
 struct FUN_00ec15e0_shell
 {
-    void __thiscall FUN_00ec15e0();
 };
 struct FUN_00ec19d0_class
 {
@@ -90,7 +105,6 @@ struct FUN_00ec19d0_class
 };
 struct FUN_00ec0cd0_Class
 {
-    unsigned char __thiscall InitPlayback(int a, int b, unsigned char c, int d);
 };
 struct FUN_00ec1f60_Class
 {
@@ -98,7 +112,6 @@ struct FUN_00ec1f60_Class
     unsigned char m_0024;
     unsigned char InitAndCheck(int a, unsigned char b);
 };
-void __cdecl FNV_Warning(const char*);
 struct FUN_00ec1fb0_class
 {
     void __thiscall DisableThreadPriorityBoost();
@@ -196,7 +209,6 @@ struct FUN_00ec1a60_class
 {
     void __thiscall FreeStruct(FUN_00ec1a60_t* p);
 };
-extern "C" void __cdecl _NiFree(void*);
 extern int DAT_010f1ca4;
 struct FUN_00ec1b80_Map
 {
@@ -209,18 +221,15 @@ struct FUN_00ec1b80_Class
     int m_0008;
     void __thiscall Initialize();
 };
-void* __cdecl _NiMalloc(unsigned int size);
 unsigned int __cdecl _strlen(const char* s);
 int __cdecl _strcpy_s(char* dest, unsigned int size, const char* src);
 struct FUN_00ec1cc0_Class
 {
     void __thiscall AssignString(void* a, const char* b, int c);
 };
-extern int DAT_010f1c20;
 struct FUN_00ec1a90_Class
 {
     int m_ppVirtualMethodTable;
-    void __thiscall FUN_00ec1a90();
 };
 struct FUN_00ec1d30_Class : FUN_00ec1a90_Class
 {
@@ -299,7 +308,6 @@ struct FUN_00ec0460_cls
     virtual void __stdcall v68(void);
     virtual void __stdcall v69(int a, int b, int c);
 };
-void __cdecl FUN_00ec0460(FUN_00ec0460_cls* p);
 struct GridDesc
 {
     int unk00;
@@ -319,7 +327,6 @@ struct GridDesc
     int unk38;
     unsigned int cellSize;
 };
-void __cdecl FUN_00ec0720(int target, float x, float y, float sx, float sy, unsigned int w, unsigned int h);
 void __cdecl FUN_00ec0550(GridDesc* grid, float startX, float startY, float scaleX, float scaleY);
 struct NiPlaybackFrameSize
 {
@@ -337,13 +344,7 @@ class NiPlaybackManager
     virtual void v05();
     virtual void v06();
     virtual int GetRenderer();
-    float GetFrameRate(unsigned int uiWidth, unsigned int uiHeight, bool bLooping);
-    float GetWidthScale(float fRate, unsigned int uiWidth, bool bLooping);
-    float GetHeightScale(float fRate, unsigned int uiHeight, bool bLooping);
 };
-void* __cdecl CreatePlaybackTextures(int iRenderer, unsigned int uiWidth, unsigned int uiHeight, int iCount, int iFlags,
-                                     int iFormat);
-void __cdecl FNV_Warning(const char*, ...);
 class NiPlaybackFile
 {
   public:
@@ -361,7 +362,6 @@ class NiPlaybackFile
     bool InitPlayback(const char* pcName, bool bQuiet, bool bLoop, bool bLooping);
 };
 extern "C" __declspec(dllimport) void __stdcall BinkClose(int handle);
-void __cdecl ReleaseInterfaceArray(int value);
 struct FUN_00ec1020_cls
 {
     int m_00;
@@ -374,8 +374,6 @@ struct FUN_00ec14d0_bink
     void* m_00;
     unsigned int m_04;
 };
-int __cdecl LockNextTile(unsigned int a, int* p1, int* p2, int* p3, int* p4, int* p5, int* p6);
-int __cdecl ApplyLastEffect(unsigned int a);
 extern "C" __declspec(dllimport) int __stdcall BinkDoFrame(void* hBink);
 extern "C" __declspec(dllimport) int __stdcall BinkCopyToBufferRect(void* hBink, void* dest, int destPitch,
                                                                     unsigned int destHeight, unsigned int destX,
@@ -399,14 +397,11 @@ extern "C" __declspec(dllimport) void* __stdcall CreateThread(void* pvSecurity, 
 extern "C" __declspec(dllimport) unsigned long __stdcall ResumeThread(void* hThread);
 extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void* hHandle,
                                                                              unsigned long ulMilliseconds);
-void __cdecl FUN_00aa2740(unsigned long ulThreadId, const char* pcName);
 struct BEC16D0Setting
 {
     void* m_pvVtable;
     int m_iValue;
 };
-extern BEC16D0Setting g_kEC16D0PrioritySetting;
-extern int g_iEC16D0DefaultSetting;
 struct BEC16D0Semaphore
 {
     volatile long m_lCount;
@@ -431,23 +426,18 @@ class BEC16D0MoviePlayerThread
     int unk2C;
     BEC16D0Semaphore m_kStartSemaphore;
 
-    void SetPriority(int iPriority);
     void FUN_00ec16d0(void* pvParam, bool bFlag22, int iPriority, bool bFlag23, bool bFlag24, float fValue28);
 };
 extern int DAT_010f1ca4;
-void __cdecl FUN_00aa10f0(int aValue);
 struct FUN_00ec1df0_pool
 {
-    void FUN_00aa4060(void* apMemory);
 };
-extern FUN_00ec1df0_pool DAT_011f6238;
 struct FUN_00ec1df0_cls
 {
     int m_vptr;
     int m_04;
     int m_08;
 
-    void BaseCleanup();
 
     FUN_00ec1df0_cls* FUN_00ec1df0(unsigned int acFlags);
 };
@@ -471,9 +461,7 @@ struct S_00ec2b20
     virtual unsigned int v13();
     float __thiscall ComputeAdjustedValue(float a, unsigned int b, bool c);
 };
-extern int DAT_0126fae0;
 extern int DAT_0126fae4;
-extern int DAT_01202800;
 struct FUN_00ec2c40_cls
 {
     int m_0000;
@@ -488,7 +476,6 @@ struct FUN_00ec2c40_cls
     int m_0024;
     int m_0028;
     int m_002c;
-    void __thiscall SetThreadPriorityLevel(int);
     void FUN_00ec2c40();
 };
 // Look up the file name registered under a key and copy it into a MAX_PATH buffer.
@@ -699,20 +686,19 @@ struct ThreadData2490
     unsigned int unk2B0;
     unsigned int context;
 };
-extern __declspec(thread) ThreadData2490 g_thread2490;
 struct Scope2490
 {
     unsigned int previous;
     Scope2490()
     {
-        unsigned int current = g_thread2490.context;
+        unsigned int current = (*reinterpret_cast<::ThreadData2490 *>(&::g_tlsBlock)).context;
         previous = current;
-        g_thread2490.context = 20;
+        (*reinterpret_cast<::ThreadData2490 *>(&::g_tlsBlock)).context = 20;
     }
     ~Scope2490()
     {
         unsigned int restored = previous;
-        g_thread2490.context = restored;
+        (*reinterpret_cast<::ThreadData2490 *>(&::g_tlsBlock)).context = restored;
     }
 };
 struct Movie2490
@@ -721,10 +707,9 @@ struct Movie2490
     Movie2490();
     static void* operator new(unsigned int size)
     {
-        return g_memoryManager.Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }
     static void operator delete(void*);
-    unsigned char InitAndCheck(int, unsigned char);
 };
 struct FUN_00ec2490_Class
 {
@@ -733,15 +718,13 @@ struct FUN_00ec2490_Class
     int unk10;
     Movie2490* cached;
     bool hasCached;
-    void PauseMovie();
-    void FUN_00ec25e0();
     unsigned char FUN_00ec2490(int, unsigned char);
 };
 // @fnv 0x00ec2490
 unsigned char FUN_00ec2490_Class::FUN_00ec2490(int value, unsigned char option)
 {
     Scope2490 scope;
-    PauseMovie();
+    reinterpret_cast<::FUN_00ec2a10_class *>(this)->PauseMovie();
     if (hasCached && cached)
     {
         movie = cached;
@@ -752,9 +735,9 @@ unsigned char FUN_00ec2490_Class::FUN_00ec2490(int value, unsigned char option)
     {
         movie = new Movie2490;
     }
-    unsigned char result = movie->InitAndCheck(value, option);
+    unsigned char result = reinterpret_cast<::FUN_00ec1f60_Class *>((movie))->InitAndCheck(value, option);
     if (!result)
-        FUN_00ec25e0();
+        reinterpret_cast<::fnv_00ec25e0::FUN_00ec25e0_cls *>(this)->FUN_00ec25e0();
     return result;
 }
 
@@ -762,7 +745,6 @@ namespace fnv_00ec2ca0 {
 struct MemMgr_cls
 {
     int unk00;
-    void* FUN_00aa3e40(unsigned int size);
 };
 
 struct SpawnedObject
@@ -781,17 +763,16 @@ struct SpawnedObject
     SpawnedObject();
     static __forceinline void* operator new(unsigned int size) throw()
     {
-        return reinterpret_cast<MemMgr_cls*>(&DAT_011f6238)->FUN_00aa3e40(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<MemMgr_cls*>(&(*reinterpret_cast<::FUN_00ec1df0_pool *>(&::g_memoryManager)))))->FUN_00aa3e40(size);
     }
-    void FUN_00ec0ac0(int a, int b, int c, int d);
 };
 
 // @fnv 0x00ec2ca0
 int __stdcall FUN_00ec2ca0(int a1)
 {
     SpawnedObject* obj = new SpawnedObject();
-    obj->FUN_00ec0ac0(a1, 1, 1, 1);
-    reinterpret_cast<FUN_00ec2d40_class*>(DAT_0126fac4)->SetValueAndReset((int)obj);
+    reinterpret_cast<::NiPlaybackFile *>((obj))->FindString((const char *)(a1), 1, 1, 1);
+    reinterpret_cast<FUN_00ec2d40_class*>(::DAT_0126fac4)->SetValueAndReset((int)obj);
     return 0;
 }
 }  // namespace fnv_00ec2ca0
@@ -803,7 +784,6 @@ struct MovieSemaphore
     int unk00;
     void* handle;
 };
-extern __declspec(thread) int g_tlsAllocTag;
 
 struct ScopedAllocTag
 {
@@ -811,37 +791,32 @@ struct ScopedAllocTag
     __forceinline ScopedAllocTag(int previous)
     {
         saved = previous;
-        g_tlsAllocTag = 0x14;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 0x14;
     }
     __forceinline ~ScopedAllocTag()
     {
         int old = saved;
-        g_tlsAllocTag = old;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = old;
     }
 };
 
 struct MovieMemMgr
 {
-    void* Allocate(unsigned int size);
     void Deallocate(void* p);
 };
-extern MovieMemMgr g_movieMem;
 
 struct MovieBoolSetting
 {
     int vtbl;
     bool value;
 };
-extern MovieBoolSetting g_0126fac8;
 
 unsigned int __cdecl _strlen(const char* s);
 char* __cdecl _strcpy(char* dst, const char* src);
 char* __cdecl MovieStrtok(char* s, const char* delim);
 int __cdecl MovieStricmp(const char* a, const char* b);
-void __cdecl FNV_Warning(const char* fmt, ...);
 extern "C" __declspec(dllimport) unsigned long __stdcall GetCurrentThreadId();
 
-extern const char g_movieDelims[];
 extern const char g_movieExt[];
 extern const char g_movieWarnFmt[];
 
@@ -886,7 +861,6 @@ struct MoviePlayerA
     int unk38;
     bool unk3c;
 
-    void FUN_00ec2320(const char* name, bool first, int a, int b, bool c, bool d, int e, bool f, bool g);
     void FUN_00ec1a00()
     {
         MovieSemaphore* semaphore = &semaphore30;
@@ -897,51 +871,6 @@ struct MoviePlayerA
     void FUN_00ec2760(const char* list);
 };
 
-// @fnv 0x00ec2760
-void MoviePlayerA::FUN_00ec2760(const char* list)
-{
-    char* ext2;
-    int tidTmp3 = g_tlsAllocTag;
-    ScopedAllocTag tag(tidTmp3);
-    Lock();
-    unsigned int size;
-    size = _strlen(list) + 1;
-    char* buf2 = (char*)g_movieMem.Allocate(size);
-    _strcpy(buf2, list);
-    char* tok_2 = MovieStrtok(buf2, g_movieDelims);
-    bool first = true;
-    unk3c = 0;
-    while (tok_2)
-    {
-        if (!unk21 && CanQueue(first))
-        {
-            ext2 = tok_2 + _strlen(tok_2) - 3;
-            if (MovieStricmp(ext2, g_movieExt) == 0)
-            {
-                bool* setting =
-                    &g_0126fac8 ? &g_0126fac8.value : (*(bool*)& DAT_01202800 = false, (bool*)&DAT_01202800);
-                FUN_00ec2320(tok_2, first, 1, 0, *setting, unk22, 0, unk23, unk24);
-            }
-            else
-            {
-                FNV_Warning(g_movieWarnFmt, tok_2);
-            }
-        }
-        tok_2 = MovieStrtok(0, g_movieDelims);
-    }
-    g_movieMem.Deallocate(buf2);
-    unk21 = 0;
-    if (!unk20)
-        unk08 = 0;
-    {
-        unsigned long previous5 = GetCurrentThreadId();
-        if (previous5 != GetThreadId() && !unk3c)
-            FUN_00ec1a00();
-    }
-    Unlock();
-}
-
-void __cdecl NiFree1BB0(void* pvMem);
 
 struct MemoryManager1BB0
 {
@@ -965,8 +894,8 @@ class MapBase1BB0
     }
     virtual ~MapBase1BB0()
     {
-        RemoveAll();
-        NiFree1BB0(m_ppkHashTable);
+        reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
+        ::FUN_00aa10f0(m_ppkHashTable);
     }
     virtual unsigned int KeyToHashIndex(const char* key) const;
     virtual bool IsKeysEqual(const char* key1, const char* key2) const;
@@ -1001,7 +930,7 @@ class FUN_00ec1bb0 : public MapBase1BB0
 // @fnv 0x00ec1bb0
 FUN_00ec1bb0::~FUN_00ec1bb0()
 {
-    RemoveAll();
+    reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
 }
 
 struct TlsData
@@ -1181,20 +1110,18 @@ struct TlsData
     unsigned int unk02B0;
     unsigned int m_2b4;
 };
-extern __declspec(thread) TlsData g_tls;
 
 struct MemPoolCalls
 {
-    void* FUN_00aa3e40(unsigned int size);
 };
 
 inline unsigned int GetAllocContext()
 {
-    return g_tls.m_2b4;
+    return (*reinterpret_cast<::TlsData *>(&::g_tlsBlock)).m_2b4;
 }
 inline void SetAllocContext(unsigned int v)
 {
-    g_tls.m_2b4 = v;
+    (*reinterpret_cast<::TlsData *>(&::g_tlsBlock)).m_2b4 = v;
 }
 
 struct ScopedAllocContext
@@ -1203,7 +1130,7 @@ struct ScopedAllocContext
     inline ScopedAllocContext(unsigned int ctx)
     {
         m_saved = GetAllocContext();
-        g_tls.m_2b4 = ctx;
+        (*reinterpret_cast<::TlsData *>(&::g_tlsBlock)).m_2b4 = ctx;
     }
     inline ~ScopedAllocContext()
     {
@@ -1215,23 +1142,20 @@ struct ScopedAllocContext
 void* __stdcall FUN_00ec1ff0(unsigned int size)
 {
     ScopedAllocContext ctx(0x14);
-    return ((MemPoolCalls*)&DAT_011f6238)->FUN_00aa3e40(size);
+    return reinterpret_cast<::MemoryManagerStandIn *>((((MemPoolCalls*)&(*reinterpret_cast<::FUN_00ec1df0_pool *>(&::g_memoryManager)))))->FUN_00aa3e40(size);
 }
 
-extern __declspec(thread) unsigned int t_uiMemContextEC2200;
 struct MemoryManagerEC2200
 {
-    void* Allocate(unsigned int uiSize);
     void Deallocate(void* pvMem);
 };
-extern MemoryManagerEC2200 g_kMemoryEC2200;
 inline unsigned int GetMemContextEC2200()
 {
-    return t_uiMemContextEC2200;
+    return ::currentAllocationContext;
 }
 inline void SetMemContextEC2200(unsigned int m_uiGeometryShaderFlags)
 {
-    t_uiMemContextEC2200 = m_uiGeometryShaderFlags;
+    ::currentAllocationContext = m_uiGeometryShaderFlags;
 }
 class AutoMemContextEC2200
 {
@@ -1252,14 +1176,13 @@ class PlaybackFileEC2200
   public:
     static void* operator new(unsigned int uiSize)
     {
-        return g_kMemoryEC2200.Allocate(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerEC2200 *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }
     static void operator delete(void* pvMem)
     {
-        g_kMemoryEC2200.Deallocate(pvMem);
+        (*reinterpret_cast<::MemoryManagerEC2200 *>(&::g_memoryManager)).Deallocate(pvMem);
     }
     PlaybackFileEC2200();
-    bool FindString(const char* pcName, bool bA, bool bB, bool bC);
     int unk00;
     int unk04;
     int unk08;
@@ -1274,7 +1197,6 @@ class PlaybackFileEC2200
 class PlaybackEC2200
 {
   public:
-    void Close();
     bool FUN_00ec2200(const char* pcName, bool bA, bool bB, bool bC);
     int unk00;
     int unk04;
@@ -1287,21 +1209,20 @@ bool PlaybackEC2200::FUN_00ec2200(const char* pcName, bool bA, bool bB, bool bC)
 {
     AutoMemContextEC2200 kContext(20);
     m_pFile = new PlaybackFileEC2200;
-    bool bSuccess = m_pFile->FindString(pcName, bA, bB, bC);
+    bool bSuccess = reinterpret_cast<::NiPlaybackFile *>((m_pFile))->FindString(pcName, bA, bB, bC);
     if (!bSuccess)
-        Close();
+        reinterpret_cast<::fnv_00ec25e0::FUN_00ec25e0_cls *>(this)->FUN_00ec25e0();
     return bSuccess;
 }
 
-extern "C" __declspec(thread) int tls_memContext;
 
 inline int GetMemContext()
 {
-    return tls_memContext;
+    return (*reinterpret_cast<int *>(&::currentAllocationContext));
 }
 inline void SetMemContext(int aiMemoryContext)
 {
-    tls_memContext = aiMemoryContext;
+    (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
 }
 
 struct MemContextGuard
@@ -1325,10 +1246,9 @@ class BSMovieJob
     BSMovieJob();
     static void* operator new(unsigned int uiSize)
     {
-        return g_memoryManager.Allocate(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }
     static void operator delete(void* pv);
-    bool FUN_00ec0e00(void* pFile, bool a, bool b, bool c, bool d, bool e, bool f, bool g, float fScale);
 };
 
 class BSMovieThread
@@ -1341,32 +1261,50 @@ class BSMovieThread
     bool m_bPending;
     int unk1c, unk20, unk24;
     float m_fScale;
-    void PauseMovie();
-    void FUN_00ec25e0();
     bool FUN_00ec2320(void* pFile, bool a, bool b, bool c, bool d, bool e, bool bReuse, bool f, bool g);
 };
-
-// @fnv 0x00ec2320
-bool BSMovieThread::FUN_00ec2320(void* pFile, bool a, bool b, bool c, bool d, bool e, bool bReuse, bool f, bool g)
+// @fnv 0x00ec2760
+void MoviePlayerA::FUN_00ec2760(const char* list)
 {
-    MemContextGuard kGuard(20);
-    if (!bReuse)
+    char* ext2;
+    int tidTmp3 = (*reinterpret_cast<int *>(&::currentAllocationContext));
+    ScopedAllocTag tag(tidTmp3);
+    Lock();
+    unsigned int size;
+    size = _strlen(list) + 1;
+    char* buf2 = (char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MovieMemMgr *>(&::g_memoryManager))))->FUN_00aa3e40(size);
+    _strcpy(buf2, list);
+    char* tok_2 = MovieStrtok(buf2, (*reinterpret_cast<const char (*)[]>(&::fnv_00ac9790::DAT_01063cd8)));
+    bool first = true;
+    unk3c = 0;
+    while (tok_2)
     {
-        PauseMovie();
-        if (m_bPending && m_pkSaved)
+        if (!unk21 && CanQueue(first))
         {
-            m_pkCurrent = m_pkSaved;
-            m_pkSaved = 0;
-            m_bPending = false;
+            ext2 = tok_2 + _strlen(tok_2) - 3;
+            if (MovieStricmp(ext2, g_movieExt) == 0)
+            {
+                bool* setting =
+                    &(*reinterpret_cast<::MovieBoolSetting *>(&::g_0126fac8)) ? &(*reinterpret_cast<::MovieBoolSetting *>(&::g_0126fac8)).value : (*(bool*)& DAT_01202800 = false, (bool*)&DAT_01202800);
+                reinterpret_cast<::BSMovieThread *>(this)->FUN_00ec2320((void *)(tok_2), first, 1, 0, *setting, unk22, 0, unk23, unk24);
+            }
+            else
+            {
+                ::FUN_005b5e40();
+            }
         }
-        else
-        {
-            m_pkCurrent = new BSMovieJob;
-        }
+        tok_2 = MovieStrtok(0, (*reinterpret_cast<const char (*)[]>(&::fnv_00ac9790::DAT_01063cd8)));
     }
-    bool bResult = m_pkCurrent->FUN_00ec0e00(pFile, a, b, c, d, e, f, g, m_fScale);
-    FUN_00ec25e0();
-    return bResult;
+    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MovieMemMgr *>(&::g_memoryManager))))->FUN_00aa4060(buf2);
+    unk21 = 0;
+    if (!unk20)
+        unk08 = 0;
+    {
+        unsigned long previous5 = GetCurrentThreadId();
+        if (previous5 != GetThreadId() && !unk3c)
+            reinterpret_cast<::MovieSignalState *>(this)->FUN_00ec1a00();
+    }
+    Unlock();
 }
 
 struct ThreadContext
@@ -1546,14 +1484,13 @@ struct ThreadContext
     unsigned int unk2b0;
     int m_uiMemoryContext;
 };
-extern __declspec(thread) ThreadContext g_threadContext;
 __forceinline int GetMemoryContext()
 {
-    return g_threadContext.m_uiMemoryContext;
+    return (*reinterpret_cast<::ThreadContext *>(&::g_tlsBlock)).m_uiMemoryContext;
 }
 __forceinline void SetMemoryContext(int value)
 {
-    g_threadContext.m_uiMemoryContext = value;
+    (*reinterpret_cast<::ThreadContext *>(&::g_tlsBlock)).m_uiMemoryContext = value;
 }
 
 struct HeapZoneGuard
@@ -1562,7 +1499,7 @@ struct HeapZoneGuard
     __forceinline HeapZoneGuard(int zone)
     {
         saved = GetMemoryContext();
-        g_threadContext.m_uiMemoryContext = zone;
+        (*reinterpret_cast<::ThreadContext *>(&::g_tlsBlock)).m_uiMemoryContext = zone;
     }
     __forceinline ~HeapZoneGuard()
     {
@@ -1585,7 +1522,6 @@ struct EC1060Target
     {
         return unk20 != 0;
     }
-    unsigned char __thiscall Update(unsigned char a, unsigned char b, int c);
 };
 
 struct EC2650Owner
@@ -1603,7 +1539,7 @@ unsigned char EC2650Owner::FUN_00ec2650(unsigned char a, unsigned char b)
     HeapZoneGuard guard(0x14);
     if (unk0c && unk0c->IsReady())
     {
-        return unk0c->Update(a, b, 0);
+        return ((unsigned char)(reinterpret_cast<::EC1060File *>((unk0c))->Update(a, b, 0)));
     }
     return 0;
 }
@@ -1633,8 +1569,8 @@ class NiTStringMapBase
     }
     virtual ~NiTStringMapBase()
     {
-        RemoveAll();
-        NiFree(m_ppkHashTable);
+        reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
+        ::FUN_00aa10f0(m_ppkHashTable);
     }
 };
 class NiTStringMapMid : public NiTStringMapBase
@@ -1642,7 +1578,7 @@ class NiTStringMapMid : public NiTStringMapBase
   public:
     virtual ~NiTStringMapMid()
     {
-        RemoveAll();
+        reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
     }
 };
 class NiTStringMapCopy : public NiTStringMapMid
@@ -1663,7 +1599,7 @@ NiTStringMapCopy::~NiTStringMapCopy()
             {
                 NiTMapItem<const char*, char*>* pkSave = pkItem;
                 pkItem = pkItem->m_pkNext;
-                NiFree((char*)pkSave->m_key);
+                ::FUN_00aa10f0((char*)pkSave->m_key);
             }
         }
     }
@@ -1682,8 +1618,8 @@ struct BaseE40
     int m_uiCount;
     virtual ~BaseE40()
     {
-        FUN_00438af0();
-        FUN_00aa10f0((int)m_ppkHashTable);
+        reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
+        ::FUN_00aa10f0((void *)((int)m_ppkHashTable));
     }
     virtual unsigned int KeyToHashIndex(int key) const;
     virtual bool IsKeysEqual(int a, int b) const;
@@ -1707,7 +1643,7 @@ struct BaseE40
     }
     static void operator delete(void* p)
     {
-        DAT_011f6238.FUN_00aa4060(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00ec1df0_pool *>(&::g_memoryManager))))->FUN_00aa4060(p);
     }
 };
 struct FUN_00ec1e40 : BaseE40
@@ -1715,7 +1651,7 @@ struct FUN_00ec1e40 : BaseE40
 // @fnv 0x00ec1e40
     virtual ~FUN_00ec1e40()
     {
-        FUN_00438af0();
+        reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
     }
 };
 void MakeE40()
@@ -1742,7 +1678,7 @@ template <class K, class V> class NiTMapItem;
 extern MemoryManager g_movieHeap;
 inline void NiFree(void* p)
 {
-    g_movieHeap.Deallocate(p);
+    reinterpret_cast<::FNV_MemoryManager *>(&(g_movieHeap))->FUN_00aa4060(p);
 }
 template <class T> class DFALL;
 typedef void* NiTMapIterator;
@@ -1798,7 +1734,6 @@ class BSMoviePlayer
     MovieSemaphore semaphore;
     int unk3c;
     BSTCaseInsensitiveStringMap<char*> strings;
-    void FUN_00ec25e0();
     void FUN_00ec2e50()
     {
         NiTMapIterator pos = strings.GetFirstPos();
@@ -1817,8 +1752,8 @@ class BSMoviePlayer
 BSMoviePlayer::~BSMoviePlayer()
 {
     while (unk0c != 0)
-        FUN_00ec25e0();
-    FUN_00ec2e50();
+        reinterpret_cast<::fnv_00ec25e0::FUN_00ec25e0_cls *>(this)->FUN_00ec25e0();
+    reinterpret_cast<::MapOwnerStandIn *>(this)->FUN_00ec2e50();
 }
 }  // namespace fnv_00ec15e0
 
@@ -1922,16 +1857,13 @@ BSMoviePlayer::BSMoviePlayer()
 }  // namespace fnv_00ec20c0
 
 extern "C" __declspec(dllimport) unsigned long __stdcall GetTickCount();
-extern double DAT_01012060;
 
 struct S0ERTTI
 {
     const char* m_pcName;
     const S0ERTTI* m_pBaseRTTI;
 };
-extern S0ERTTI DAT_0126f59c;
 struct S0ERenderer;
-extern S0ERenderer* DAT_011f4748;
 
 struct S0EObject
 {
@@ -2080,7 +2012,7 @@ struct S0ERenderer
 
     static S0ERenderer* GetRenderer()
     {
-        return DAT_011f4748;
+        return (*reinterpret_cast<::S0ERenderer * *>(&::NiRenderer::ms_pRenderer));
     }
 };
 
@@ -2155,18 +2087,37 @@ struct S0EPlaybackFile
     int m_iFadeIndex;
     bool m_bBusy;
 
-    bool InitPlayback(const char* pcName, bool bQuiet, bool bLoop, bool bLooping);
-    bool Update(bool bWait, bool b2, bool b3);
-    void FUN_00ec1020();
     unsigned char FUN_00ec0e00(const char* pcName, bool b1, bool b2, bool b3, bool b4, bool b5, bool b6, bool b7,
                                float afFinalFloat);
 };
+// @fnv 0x00ec2320
+bool BSMovieThread::FUN_00ec2320(void* pFile, bool a, bool b, bool c, bool d, bool e, bool bReuse, bool f, bool g)
+{
+    MemContextGuard kGuard(20);
+    if (!bReuse)
+    {
+        reinterpret_cast<::FUN_00ec2a10_class *>(this)->PauseMovie();
+        if (m_bPending && m_pkSaved)
+        {
+            m_pkCurrent = m_pkSaved;
+            m_pkSaved = 0;
+            m_bPending = false;
+        }
+        else
+        {
+            m_pkCurrent = new BSMovieJob;
+        }
+    }
+    bool bResult = ((bool)(reinterpret_cast<::S0EPlaybackFile *>((m_pkCurrent))->FUN_00ec0e00((const char *)(pFile), a, b, c, d, e, f, g, m_fScale)));
+    reinterpret_cast<::fnv_00ec25e0::FUN_00ec25e0_cls *>(this)->FUN_00ec25e0();
+    return bResult;
+}
 
 __forceinline S0EBufferData* DynamicCastBufferData(S0EObject* pkObject)
 {
     if (!pkObject)
         return 0;
-    return pkObject->IsKindOfType(&DAT_0126f59c) ? (S0EBufferData*)pkObject : 0;
+    return pkObject->IsKindOfType(&(*reinterpret_cast<::S0ERTTI *>(&::g_0126f59c))) ? (S0EBufferData*)pkObject : 0;
 }
 
 // @fnv 0x00ec0e00
@@ -2181,7 +2132,7 @@ unsigned char S0EPlaybackFile::FUN_00ec0e00(const char* pcName, bool b1, bool b2
 
     m_iFadeIndex = 1;
     m_bBusy = true;
-    if (!InitPlayback(pcName, b2, b4, b5))
+    if (!reinterpret_cast<::NiPlaybackFile *>(this)->InitPlayback(pcName, b2, b4, b5))
     {
         m_bBusy = false;
         return false;
@@ -2189,9 +2140,9 @@ unsigned char S0EPlaybackFile::FUN_00ec0e00(const char* pcName, bool b1, bool b2
     m_bBusy = false;
 
     if (b6)
-        ((S0EMoviePlayer*)DAT_0126fac4)->BeginA();
+        ((S0EMoviePlayer*)::DAT_0126fac4)->BeginA();
     if (b7)
-        ((S0EMoviePlayer*)DAT_0126fac4)->BeginB();
+        ((S0EMoviePlayer*)::DAT_0126fac4)->BeginB();
 
     pkCast2 =
         DynamicCastBufferData(S0ERenderer::GetRenderer()->GetDefaultRenderTargetGroup()->GetRenderTargetBuffer(0));
@@ -2199,12 +2150,12 @@ unsigned char S0EPlaybackFile::FUN_00ec0e00(const char* pcName, bool b1, bool b2
         m_pkDevice->SetRenderTarget(0, pkCast2->GetSurface());
 
     bWait = b1;
-    if (afFinalFloat != DAT_01012060)
+    if (afFinalFloat != ::_DAT_01012060)
         bWait = false;
     uiStart = GetTickCount();
-    while (Update(bWait, b3, b5))
+    while (reinterpret_cast<::EC1060File *>(this)->Update(bWait, b3, b5))
     {
-        if (afFinalFloat != DAT_01012060)
+        if (afFinalFloat != ::_DAT_01012060)
         {
             uiNow3 = GetTickCount();
             if (uiNow3 - uiStart > (unsigned int)(afFinalFloat * 1000.0))
@@ -2216,10 +2167,10 @@ unsigned char S0EPlaybackFile::FUN_00ec0e00(const char* pcName, bool b1, bool b2
     }
 
     bRet = m_uiFrame >= m_pkBink->m_uiFrames;
-    FUN_00ec1020();
+    reinterpret_cast<::FUN_00ec1020_cls *>(this)->FUN_00ec1020();
     if (b6)
-        ((S0EMoviePlayer*)DAT_0126fac4)->EndA();
+        ((S0EMoviePlayer*)::DAT_0126fac4)->EndA();
     if (b7)
-        ((S0EMoviePlayer*)DAT_0126fac4)->EndB();
+        ((S0EMoviePlayer*)::DAT_0126fac4)->EndB();
     return bRet;
 }

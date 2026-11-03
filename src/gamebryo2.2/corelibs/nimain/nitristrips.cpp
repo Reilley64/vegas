@@ -1,10 +1,24 @@
 // gamebryo2.2/corelibs/nimain/nitristrips.cpp: NiTriStrips, Holder (10 functions)
 
+#include <new>
+#include "fnv/decl/FUN_00416870_t.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/LineLoadEntry__LineReceiver.h"
+#include "fnv/decl/NiLines.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00a9b000.h"
+#include "fnv/symbols_0109c000.h"
+#include "fnv/symbols_0109e000.h"
+#include "fnv/symbols_010a1000.h"
+#include "fnv/symbols_011f4000.h"
 #include "nitristrips_decls.h"
 // @fnv 0x00a89740
 NiTriStrips::NiTriStrips()
 {
-    vtable = &DAT_0109ed94;
+    vtable = &::DAT_0109ed94;
 }
 
 struct NiStream;
@@ -14,13 +28,11 @@ struct blob12
 };
 struct NiPoint3
 {
-    static struct blob12 ComponentProduct(void*, void*);
     float Length();
     float SqrLength();
     float XYLength();
     float SqrXYLength();
     float Dot(void*);
-    void Unitize();
     float GetLengthSquared();
     struct blob12 Cross(void*);
     struct blob12 CrossProduct(void*);
@@ -116,12 +128,11 @@ void FUN_00a71e00_shell::GetTriangleVertices(unsigned short m_usTriangleID, NiPo
     *pkP2 = &pkVertex[usIndex2];
 }
 
-extern char const* const g_012024b8_arg1;
 
 // @fnv 0x00a71d20
 char const* const* __cdecl FUN_00a71d20()
 {
-    return &g_012024b8_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_011f4a20));
 }
 
 struct NiGeometry
@@ -131,7 +142,6 @@ struct NiGeometry
 
 struct NiParticleMeshes
 {
-    static const void* vftable;
 };
 
 struct BSFadeNode
@@ -148,7 +158,7 @@ void* __cdecl FUN_00a9b150()
     {
         NiGeometry* obj = static_cast<NiGeometry*>(pObject);
         obj->NiGeometry::NiGeometry();
-        *reinterpret_cast<void**>(pObject) = &NiParticleMeshes::vftable;
+        *reinterpret_cast<void**>(pObject) = &(*reinterpret_cast<const void * *>(&::DAT_010a11d4));
         return pObject;
     }
     return 0;
@@ -183,29 +193,24 @@ struct StrArr
     unsigned short mA;
     char _C[2];
     unsigned short mE;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 struct BaseA
 {
-    void FUN_00a897c0(StrArr*);
 };
 struct Holder : BaseA
 {
     void AppendString(StrArr*);
 };
-extern char const* const g_012024b8_arg1;
-char* _FUN_00a7d330(char const*);
 // Calls the base handler, then appends the string returned by _FUN_00a7d330 to pkStrings, growing it by mE when mA has reached m8.
 // @fnv 0x00a71e70
 void Holder::AppendString(StrArr* pkStrings)
 {
-    FUN_00a897c0(pkStrings);
-    char* tmp = _FUN_00a7d330(g_012024b8_arg1);
+    ::FUN_00a897c0((::TriGeomViewerDetail::EntryArray *)this);
+    char* tmp = ::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f4a20)));
     unsigned int sz = pkStrings->mA;
     if (sz >= pkStrings->m8)
-        pkStrings->SetSize(sz + pkStrings->mE);
-    pkStrings->SetAt(sz, tmp);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(sz + pkStrings->mE);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(sz, tmp);
 }
 
 namespace fnv_00a71d30 {
@@ -221,7 +226,6 @@ struct NiDX9Renderer : NiRenderer
 };
 struct FUN_00a80610_shell
 {
-    void FUN_00a80610(NiRenderer*);
 };
 struct FUN_00a71d30_shell
 {
@@ -231,52 +235,47 @@ struct FUN_00a71d30_shell
 void FUN_00a71d30_shell::FUN_00a71d30(NiRenderer* apkRenderer)
 {
     NiDX9Renderer* pkRenderer = (NiDX9Renderer*)apkRenderer;
-    ((FUN_00a80610_shell*)this)->FUN_00a80610(apkRenderer);
+    reinterpret_cast<::FUN_00a80610_shell *>((((FUN_00a80610_shell*)this)))->FUN_00a80610((::NiRenderer *)(apkRenderer));
     if ((pkRenderer->m_iRendererState == 1 || pkRenderer->m_iRendererState == 2) && pkRenderer->m_bRendererFlagA == 1)
         ((void(__thiscall**)(NiRenderer*, void*)) * (void***)pkRenderer)[108](pkRenderer, this);
 }
 }  // namespace fnv_00a71d30
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
-extern "C" void* DAT_0109cd44;
 struct NiTriStripsObject
 {
     void* vtable;
-    void FUN_00a89740();
     static void* operator new(unsigned int size, unsigned int extraBytes)
     {
         return FUN_00aa13e0(size + extraBytes);
     }
     NiTriStripsObject()
     {
-        FUN_00a89740();
-        vtable = &DAT_0109cd44;
+        new ((void *)this) ::NiTriStrips();
+        vtable = &(*reinterpret_cast<void * *>(&::DAT_0109cd44));
     }
 };
 struct FUN_00a71db0_class
 {
-    void FUN_00a9b140(NiTriStripsObject* strips, int value);
     NiTriStripsObject* CreateTriStripsObject(int value);
 };
 // @fnv 0x00a71db0
 NiTriStripsObject* FUN_00a71db0_class::CreateTriStripsObject(int value)
 {
     NiTriStripsObject* strips = new (0xc0) NiTriStripsObject;
-    FUN_00a9b140(strips, value);
+    ::FUN_00a9b140();
     return strips;
 }
 
-void __cdecl FUN_00a80400();
 
 // @fnv 0x00a9b140
 void __cdecl FUN_00a9b140()
 {
-    FUN_00a80400();
+    static_cast<::NiLines *>(nullptr)->CopyMemberData({}, *(::CloningProcess *)nullptr);
 }
 
-void __cdecl FUN_00a9b180();
 // @fnv 0x00a98ea0
 void __cdecl FUN_00a98ea0()
 {
-    FUN_00a9b180();
+    static_cast<::LineLoadEntry::LineReceiver *>(nullptr)->FUN_00a9b180(*(::LineLoadEntry::BinaryDataRecord *)nullptr);
 }

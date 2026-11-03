@@ -2,6 +2,7 @@
 #ifndef FNV_TESPACKAGE_H
 #define FNV_TESPACKAGE_H
 
+#include "fnv/decl/fnv_006780e0__TESPackageExt.h"
 #include "layout_support.h"
 #include "Script.h"
 #include "PerkEntryConditionSet.h"
@@ -186,7 +187,6 @@ class TESPackage : public TESForm
 {
   public:
     static float GetPackageDefaultFloat();
-    TESObjectREFR* GetTargetForActor(Actor* actor, bool arg2);
     // base TESForm at +0x0, size 24
     PACKAGE_PROCEDURE_TYPE m_eProcedureType;  // +0x18, 4 bytes
     PackageRuntimeData StridedDataTransfer;   // +0x1C, 12 bytes

@@ -5,6 +5,7 @@
 
 // src/havok/physics/vehicle/transmission/default/hkpvehicledefaulttransmission.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/transmission/default/hkpvehicledefaulttransmission.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_01012000.h"
 #include "havok/hkpVehicleDefaultTransmission_decl_hkpvehicledefaulttransmission.h"
 struct FUN_00e43d00_arg1
 {
@@ -105,7 +106,6 @@ struct FUN_00e43ea0_Class
     void FUN_00e43ea0(float a, int b, FUN_00e43ea0_State* st);
 };
 
-extern "C" const double gModifierZero;
 struct VehicleWheelInfo
 {
     int unk00;
@@ -210,7 +210,7 @@ float hkpVehicleDefaultTransmission::FUN_00e43d40(const Vehicle* vehicle, const 
     }
     float engineRpm = rpm * getTransmissionRatio(vehicle, input);
     float result;
-    if (engineRpm < gModifierZero)
+    if (engineRpm < ::_DAT_01012060)
         result = 0.0f;
     else
         result = engineRpm;

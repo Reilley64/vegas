@@ -5,6 +5,11 @@
 
 // src/staging/blk_00d80000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00cdf6d0_t.h"
+#include "fnv/decl/hkMatrix4CD60.h"
+#include "fnv/symbols_00450000.h"
 #include "../../include/layout_support.h"
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -49,7 +54,6 @@ struct BaseD85
     int unk84;
     int unk88;
     int unk8c;
-    BaseD85& Assign(const BaseD85& o);
 };
 struct ObjD85 : BaseD85
 {
@@ -87,10 +91,23 @@ struct ObjD85 : BaseD85
     ObjD85& FUN_00d85ba0(const ObjD85& o);
 };
 
+struct __declspec(align(16)) StandinClass
+{
+    unsigned short unk00;
+    __m128 value10;
+    __m128 value20;
+    __m128 value30;
+    __m128 value40;
+    __m128 value50;
+    __m128 value60;
+    __m128 value70;
+    __m128 value80;
+    StandinClass& FUN_00d85300(const StandinClass* source);
+};
 // @fnv 0x00d85ba0
 ObjD85& ObjD85::FUN_00d85ba0(const ObjD85& o)
 {
-    Assign(o);
+    reinterpret_cast<::StandinClass *>(this)->FUN_00d85300((const ::StandinClass *)&(o));
     unk90 = o.unk90;
     unk92 = o.unk92;
     unk94 = o.unk94;
@@ -123,20 +140,6 @@ ObjD85& ObjD85::FUN_00d85ba0(const ObjD85& o)
     unk12c = o.unk12c;
     return *this;
 }
-
-struct __declspec(align(16)) StandinClass
-{
-    unsigned short unk00;
-    __m128 value10;
-    __m128 value20;
-    __m128 value30;
-    __m128 value40;
-    __m128 value50;
-    __m128 value60;
-    __m128 value70;
-    __m128 value80;
-    StandinClass& FUN_00d85300(const StandinClass* source);
-};
 
 // @fnv 0x00d85300
 StandinClass& StandinClass::FUN_00d85300(const StandinClass* source)
@@ -292,7 +295,6 @@ struct hkTransformStub
         m_kColumn2(2) = 1.0f;
         m_vTranslation.setZero4();
     }
-    void FUN_00c6cd60(const hkTransformStub* t);
 };
 
 struct ShapeStub
@@ -312,7 +314,6 @@ struct ShapeStub
     int unk10;
     int unk14;
     ShapeStub* unk18;
-    ShapeStub* FUN_00cdf6d0();
 };
 
 struct ShapeWithVectors : ShapeStub
@@ -339,25 +340,25 @@ void FUN_00d84ee0(ShapeStub* shape, int key, hkTransformStub* out)
             shape = shape->unk18;
             break;
         case 13:
-            shape = shape->FUN_00cdf6d0();
+            shape = ((::ShapeStub *)(reinterpret_cast<::FUN_00cdf6d0_t *>((shape))->FUN_00cdf6d0()));
             break;
         case 1:
-            out->FUN_00c6cd60(&((ShapeWithTransforms*)shape)->m_kTransforms[key]);
+            reinterpret_cast<::hkMatrix4CD60 *>((out))->FUN_00c6cd60((*(const ::hkMatrix4CD60 *)(&((ShapeWithTransforms*)shape)->m_kTransforms[key])));
             return;
         case 2:
-            out->FUN_00c6cd60(&((ShapeWithTransforms*)shape)->m_kTransforms[key]);
+            reinterpret_cast<::hkMatrix4CD60 *>((out))->FUN_00c6cd60((*(const ::hkMatrix4CD60 *)(&((ShapeWithTransforms*)shape)->m_kTransforms[key])));
             return;
         case 6:
-            out->FUN_00c6cd60(&((ShapeWithTransforms*)shape)->m_kTransforms[key]);
+            reinterpret_cast<::hkMatrix4CD60 *>((out))->FUN_00c6cd60((*(const ::hkMatrix4CD60 *)(&((ShapeWithTransforms*)shape)->m_kTransforms[key])));
             return;
         case 7:
-            out->FUN_00c6cd60(&((ShapeWithTransforms*)shape)->m_kTransforms[key]);
+            reinterpret_cast<::hkMatrix4CD60 *>((out))->FUN_00c6cd60((*(const ::hkMatrix4CD60 *)(&((ShapeWithTransforms*)shape)->m_kTransforms[key])));
             return;
         case 14:
-            out->FUN_00c6cd60(&((ShapeWithTransforms*)shape)->m_kTransforms[key]);
+            reinterpret_cast<::hkMatrix4CD60 *>((out))->FUN_00c6cd60((*(const ::hkMatrix4CD60 *)(&((ShapeWithTransforms*)shape)->m_kTransforms[key])));
             return;
         case 9:
-            out->FUN_00c6cd60(&((ShapeWithTransforms*)shape)->m_kTransforms[key]);
+            reinterpret_cast<::hkMatrix4CD60 *>((out))->FUN_00c6cd60((*(const ::hkMatrix4CD60 *)(&((ShapeWithTransforms*)shape)->m_kTransforms[key])));
             return;
         case 0:
             out->m_vTranslation = ((ShapeWithVectors*)shape)->m_kShapeVectorData[key];

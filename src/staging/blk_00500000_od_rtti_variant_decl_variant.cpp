@@ -8,6 +8,110 @@
 // their real unit once its classes are.
 // src/staging/blk_00500000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/ActorInventoryQueryViews__ActorQuery.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/DoorAccessData.h"
+#include "fnv/decl/FUN_00438af0_Class.h"
+#include "fnv/decl/FUN_0044a970_Cls.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/FUN_004bc1f0_S.h"
+#include "fnv/decl/FUN_004e4600_shell.h"
+#include "fnv/decl/FUN_004e4620_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00505c00_shell.h"
+#include "fnv/decl/FUN_00507e10_shell.h"
+#include "fnv/decl/FUN_0050c630_helper.h"
+#include "fnv/decl/FUN_00569160_shell.h"
+#include "fnv/decl/FUN_0057c850_cls.h"
+#include "fnv/decl/FUN_00644930_shell.h"
+#include "fnv/decl/FUN_00644a50_shell.h"
+#include "fnv/decl/FUN_006a9560_Class.h"
+#include "fnv/decl/FUN_00792760_shell.h"
+#include "fnv/decl/FUN_0084d310_class.h"
+#include "fnv/decl/FUN_008d01e0_Class.h"
+#include "fnv/decl/FUN_00962810_Class.h"
+#include "fnv/decl/FUN_00962850_Class.h"
+#include "fnv/decl/FUN_009cdae0_shell.h"
+#include "fnv/decl/FUN_009e8670.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00a5e930.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/NiNode.h"
+#include "fnv/decl/NiObjectNET.h"
+#include "fnv/decl/NiPointLight.h"
+#include "fnv/decl/NiTriGeom2.h"
+#include "fnv/decl/OwnershipReferenceView.h"
+#include "fnv/decl/ParticleShader.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TESEffectShader.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/TESGrass.h"
+#include "fnv/decl/TESRegionGrassObject.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/TopicMenuController.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_004bc450__FUN_004bc450_S.h"
+#include "fnv/decl/fnv_0050c660__FUN_0050c660_shell.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_0087ad50__Host.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00457000.h"
+#include "fnv/symbols_0047f000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_004e4000.h"
+#include "fnv/symbols_00503000.h"
+#include "fnv/symbols_00505000.h"
+#include "fnv/symbols_0050c000.h"
+#include "fnv/symbols_0050d000.h"
+#include "fnv/symbols_0050e000.h"
+#include "fnv/symbols_0050f000.h"
+#include "fnv/symbols_00510000.h"
+#include "fnv/symbols_00519000.h"
+#include "fnv/symbols_0051d000.h"
+#include "fnv/symbols_0054a000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005e5000.h"
+#include "fnv/symbols_00644000.h"
+#include "fnv/symbols_0066e000.h"
+#include "fnv/symbols_0069e000.h"
+#include "fnv/symbols_006ca000.h"
+#include "fnv/symbols_00702000.h"
+#include "fnv/symbols_00705000.h"
+#include "fnv/symbols_008c7000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01018000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_0101f000.h"
+#include "fnv/symbols_01020000.h"
+#include "fnv/symbols_01021000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_011c6000.h"
+#include "fnv/symbols_011c8000.h"
+#include "fnv/symbols_011c9000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011d4000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f8000.h"
 #include "../../include/layout_support.h"
 struct FUN_00505c20_class
 {
@@ -74,10 +178,8 @@ struct FUN_00508070_class
 {
     float FUN_00508070();
 };
-extern "C" void __cdecl _ref_006815c0();
 struct FUN_00509890_class
 {
-    void __thiscall _ref_006815c0();
     void* __thiscall FUN_00509890(bool);
 };
 struct FUN_0050d1d0_class
@@ -98,12 +200,10 @@ struct FUN_0050d230_class
 };
 struct FUN_00510110_class
 {
-    void FUN_005102e0();
     void FUN_00510110();
 };
 struct TESObject
 {
-    void* GetNext();
 };
 struct FUN_00510360_Class
 {
@@ -117,19 +217,14 @@ struct FUN_00510380_Class
 {
     unsigned int __thiscall GetTerrainMinLevel(BGSTerrainManager* a);
 };
-extern "C" int __cdecl _BSStringLength(const char*);
 struct FUN_005103a0_class
 {
-    void __thiscall FindSubstring(const char* a, const char* b, int c);
     void __thiscall FUN_005103a0(const char* a, const char* b);
 };
 extern "C" int __cdecl _memcmp(const void* s1, const void* s2, unsigned int n);
-void __cdecl FUN_005104b0(const void* s1, const void* s2, unsigned int n);
 extern "C" void* __cdecl FUN_00eca2e0(void* p, int c, size_t n);
-void __cdecl FUN_005104d0(void* p, size_t n, char* c);
 struct ArrSI
 {
-    unsigned int GetFlags();
     unsigned int HasFlag10000000();
 };
 struct FUN_00519020_Class
@@ -148,13 +243,10 @@ extern "C" void* DAT_0102b3d0;
 struct FUN_00519b20_cls
 {
     void* m_p;
-    void __thiscall ConstructArray(void* arg);
     void* __thiscall FUN_00519b20(void* arg);
 };
-extern "C" unsigned int __cdecl FUN_00a5e930(void*);
 struct Unk_00a5e930
 {
-    unsigned int __thiscall FUN_00a5e930();
 };
 struct FUN_0051cfe0_Class
 {
@@ -172,17 +264,14 @@ struct FUN_0051f530_class
 {
     void __thiscall FUN_0051f530(int value);
 };
-extern "C" void* __cdecl _NiFreeAlias(void*);
 extern void* DAT_0102b3f0;
 struct FUN_00519c50_class
 {
     void* pVft;
     int _0x4;
     void* _0x8;
-    void __thiscall NiTPointerMap_RemoveAll();
     void __thiscall FUN_00519c50();
 };
-extern "C" void __cdecl _Deallocate(void*);
 void __cdecl FUN_005010f0();
 struct FUN_005010c0_class
 {
@@ -200,14 +289,12 @@ struct FUN_00507660_class
 {
     void FUN_00507660(NiPoint4 p);
 };
-void __cdecl Deallocate(void*);
 struct FUN_00519b50_class
 {
     void __thiscall FUN_00519bf0();
     void* __thiscall FUN_00519b50(unsigned int flags);
 };
 struct FUN_00519c50_class;
-void __cdecl _Deallocate(void* p);
 struct FUN_00519c80_class
 {
     void* __thiscall FUN_00519c80(unsigned int flags);
@@ -223,8 +310,6 @@ struct FUN_00501cd0_class
     void* __thiscall FUN_00501cd0();
 };
 struct TESForm;
-TESForm* __cdecl GetFormByID(unsigned int id);
-TESForm* __cdecl FUN_00505000();
 struct FUN_00507590_Data
 {
     float a;
@@ -264,6 +349,8 @@ struct BGSImpactData
 struct PathingRequest
 {
     float GetActorRadius();
+public:
+    float GetGoalZDelta();
 };
 struct FUN_00508100_shell
 {
@@ -279,16 +366,9 @@ struct FUN_00759450_shell
 };
 struct FUN_005082b0_shell
 {
-    void UpdateEnvelope(float, float, float, unsigned char, float, float, float, float, float);
 };
 struct FUN_00508090_shell
 {
-    float FUN_009a9350() const;
-    float GetActorRadius();
-    float FUN_00508100();
-    float FUN_00508120();
-    float FUN_00759450();
-    void UpdateEnvelope(float, float, float, unsigned char, float, float, float, float, float);
     void FUN_00508090(float a, float b, float c, unsigned char d);
 };
 struct FUN_0050e640_Holder
@@ -297,17 +377,13 @@ struct FUN_0050e640_Holder
     unsigned char _4;
     bool __thiscall MatchesValue(unsigned char v);
 };
-float __cdecl FUN_004579e0(float);
-float __fastcall FUN_0050ec80(short* p);
 struct AVH
 {
-    static int __cdecl GetActorValueForSectionIndex(int, unsigned char);
 };
 struct FUN_00514fd0_class
 {
     int __thiscall FUN_00514fd0();
 };
-bool __cdecl FUN_00519570(int);
 struct LH
 {
     bool IsInList(int&);
@@ -316,8 +392,6 @@ struct FUN_00519500_class
 {
     bool HasEntry(int a);
 };
-void* __cdecl NiMalloc(unsigned int size);
-void* __cdecl memset(void* dst, int c, unsigned int n);
 struct FUN_00519b20
 {
     void* __thiscall ConstructArray(unsigned int n);
@@ -386,7 +460,6 @@ struct FUN_00509a10 : TESGrassBase
 {
     TESGrassModel m_30;
     FUN_00509a10();
-    void ResetFormData();
 };
 extern int DAT_01028364;
 extern int DAT_01028378;
@@ -411,18 +484,13 @@ struct FUN_0050a5a0 : TESObjectMISC
 {
     FUN_0050a5a0();
     void SetFormType(int);
-    void SetInitializationState(bool);
 };
 struct TESObjectREFR_Flags
 {
-    unsigned int GetFlags();
-    void SetFlags(unsigned int flags);
-    void MarkAsModified(int change);
     void __thiscall SetRefFlag40000000(bool set);
 };
 struct Setting_S
 {
-    float* Float();
 };
 struct S_004ed780
 {
@@ -433,28 +501,17 @@ struct GlobalObject_0044f440 : Setting_S
 };
 struct FUN_0050e620_S
 {
-    bool FUN_0050e620(unsigned char value);
 };
 struct GlobalObject_0045cf30 : FUN_0050e620_S
 {
 };
 struct S0042fa20
 {
-    void FUN_0045ce80(int value);
 };
 struct GlobalObject_0045cfe0 : S0042fa20
 {
-    int* Int();
 };
 extern unsigned char DAT_011c8fa0;
-extern double _DAT_01012060;
-extern GlobalObject_0044f440 g_011c8fb0;
-extern GlobalObject_0045cf30 g_011c8ff0;
-extern GlobalObject_0045cf30 g_011c9028;
-extern GlobalObject_0045cfe0 g_011c9054;
-extern GlobalObject_0045cf30 g_011c9060;
-extern GlobalObject_0044f440 g_011c906c;
-extern GlobalObject_0045cfe0 g_011c907c;
 bool __cdecl InitSettingsDefaults();
 struct TESBoundObject;
 struct Actor;
@@ -467,11 +524,11 @@ struct LockExtraData
 struct P01RefA
 {
     virtual ~P01RefA();  // the original class is polymorphic (rtti_variants.py)
-    LockExtraData* GetLock();
 };
 struct TESObjectREFR : public P01RefA
 {
-    bool __thiscall CanBeUsed(Actor* actor, bool value);
+public:
+    float GetScale();
 };
 struct ActorVTable
 {
@@ -728,25 +785,15 @@ struct Actor : public ActorPad04, public ActorValueOwner
     virtual void V231();
     virtual void V232();
     virtual void ModActorValue(ActorValue::Index index, float amount, int unk);
-    bool FUN_00493bb0();
-    bool __thiscall FUN_00891db0(TESBoundObject* object, int a, int b, int c, int& count);
 };
-extern Actor* g_thePlayer;
-extern TESBoundObject* g_pLockpickItem;
 struct FUN_00516cd0_class
 {
     bool __thiscall CanUseLockedRef(TESObjectREFR* ref, Actor* actor, bool useLockpick);
 };
 int DAT_011c6200;
-int FUN_005039e0();
 struct FUN_00505b80_cls
 {
     unsigned char DispatchByType(int aType);
-    unsigned char FUN_0073cb80();
-    unsigned char FUN_00505c00();
-    unsigned char GetByteAtOffset9A();
-    unsigned char GetByteAtOffset9B();
-    unsigned char FUN_009e8670();
 };
 class ThisBase_c40
 {
@@ -863,49 +910,30 @@ class FUN_00505c40 : public ThisBase_c40
     FUN_00505c40();
     virtual ~FUN_00505c40();
     virtual void unk00();
-    void CallA_c40(int a1);
-    void CallB_c40();
 };
 class FUN_00507da0_cls
 {
   public:
     int unk00;
-    float FUN_008d01e0();
-    float FUN_00644930(float value);
-    float FUN_00507e10(float value);
-    float GetField90Float(float value);
-    float FUN_0051b8e0(float value);
-    void UpdateEnvelope(float a, float b, float c, unsigned char flag, float value);
     void FUN_00507da0(float a, float b, float c, unsigned char flag);
 };
-extern "C" double gModifierZero;
 extern float runtimeInitializationFloat2255;
-float FUN_004e44b0(float fValue);
 class B5081D0Actor
 {
   public:
-    float GetFloatAt64();
-    float GetFloatAtOffset68() const;
 
     float FUN_005081d0(float fTime);
 };
-extern "C" double gModifierZero;
 extern float runtimeInitializationFloat2255;
-float C508240Curve(float fValue);
 class C508240Ref
 {
   public:
-    float GetScale();
-    float GetHeight();
 
     float FUN_00508240(float fDistance);
 };
 namespace std {
 float abs(float);
 }
-float FUN_00404010(float, float);
-float FUN_0040ebd0(float, float);
-unsigned int FUN_00ba52d0();
 struct Envelope
 {
     float UpdateEnvelope(float current, float rate, float elapsed, unsigned char releasing, float attack, float decay,
@@ -931,8 +959,6 @@ class ActorStateSub
   public:
     ActorStateSub();
     ~ActorStateSub();
-    void FUN_004f15a0(int a);
-    void FUN_00484ab0(int a);
     void* m_00;
     int m_04;
     int m_08;
@@ -1013,7 +1039,6 @@ class B0B8F0Form
     virtual ~B0B8F0Form();
 
     void SetFormType(int eType);
-    void SetFlag(int iValue);
 
     int unk04;
     int unk08;
@@ -1088,8 +1113,6 @@ class Obj50DDB0
 
     void FUN_0050ddb0(bool bSet);
 };
-extern int DAT_011c620c;
-int __cdecl FUN_0050de10();
 struct S_0050de20_Obj
 {
     int unk00;
@@ -1104,11 +1127,8 @@ struct S_0050de20_A
 };
 struct S_0050de20_Class
 {
-    bool __thiscall FUN_0050de60(NiPointer<S_0050de20_Obj> p, int* q, int b);
     bool __thiscall FUN_0050de20(S_0050de20_A* a, int b);
 };
-extern int DAT_011f81dc;
-int FUN_0050f6e0();
 struct S_5102e0_Node
 {
     virtual void unk00();
@@ -1122,7 +1142,6 @@ struct S_5102e0_Node
     int unk10f;
     int unk14f;
     int unk18f;
-    S_5102e0_Node* FUN_00441110();
 };
 struct S_5102e0_List
 {
@@ -1131,9 +1150,6 @@ struct S_5102e0_List
     S_5102e0_Node* head;
     void FUN_005102e0();
 };
-extern unsigned int g_010173f0;
-extern "C" unsigned int __cdecl FindNextMatch(void* p, unsigned int n, char* c);
-extern "C" unsigned int __cdecl CompareRun(unsigned int found, char* a1, unsigned int count);
 struct FUN_005103d0_cls
 {
     unsigned int unk00;
@@ -1142,7 +1158,6 @@ struct FUN_005103d0_cls
     unsigned int unk0C;
     unsigned int unk10;
     unsigned int m_14;
-    unsigned int GetBase();
     unsigned int FindSubstring(char* a1, unsigned int start, unsigned int count);
 };
 struct NiTPointerMapBase
@@ -1270,8 +1285,6 @@ struct FUN_0051cf00_NiBillboardNode : public NiBillboardBase
     unsigned short m_0ac;
     float m_0b0;
     virtual void vfunc_node();
-    void FUN_0051d000(int flags);
-    void FUN_0051d060(int flags);
     FUN_0051cf00_NiBillboardNode();
     ~FUN_0051cf00_NiBillboardNode();
 };
@@ -1339,7 +1352,6 @@ class ActivatorBase508 : public FormPart508,
   public:
     virtual ~ActivatorBase508();
 
-    void ClearData();
 };
 class ListPart508
 {
@@ -1357,8 +1369,6 @@ class FUN_00508510_Activator : public ListPart508, public ActivatorBase508
 struct Item;
 struct List
 {
-    unsigned int __thiscall FUN_0043b480();
-    Item* __thiscall FUN_0043b4a0(unsigned int index);
 };
 struct Item
 {
@@ -1366,41 +1376,15 @@ struct Item
     virtual void v1();
     virtual void v2();
     virtual int v3();
-    void* __thiscall FUN_00a59d30(int kind);
 };
 struct T
 {
-    void __thiscall FUN_004bc450(void* p);
 };
-extern void* DAT_011f4998;
-void __cdecl ProcessListItems(List* list);
-void __cdecl ProcessListItems(List* list);
-extern double DAT_01011590;
 extern double DAT_01029100;
-extern double DAT_010290f8;
-extern double DAT_010290f0;
 extern double DAT_010290e8;
 extern double DAT_010290e0;
-extern double DAT_0101ff48;
 extern double DAT_010290d8;
-extern double DAT_01011588;
-extern double DAT_010290d0;
 extern double DAT_010290c8;
-extern double DAT_01012060;
-extern double DAT_01021928;
-extern double DAT_01020998;
-extern double DAT_01012070;
-extern float DAT_01012054;
-extern double DAT_010290c0;
-extern double DAT_010290b8;
-extern double DAT_010290b0;
-extern double DAT_01016408;
-extern float DAT_0101e2bc;
-extern float DAT_010181bc;
-unsigned int __cdecl FUN_00487f50();
-float __cdecl FUN_004e44b0(float v);
-float __cdecl FUN_0040ebd0(float a, float b);
-float __cdecl FUN_00404010(float a, float b);
 float __cdecl FUN_00408840(float v);
 struct NiUpdateData
 {
@@ -1411,39 +1395,21 @@ struct NiUpdateData
 };
 struct Obj
 {
-    float FUN_004e4600();
-    float FUN_006447d0();
-    float FUN_004e4620();
-    void FUN_0050c630(float v);
-    void FUN_0050c660(float v);
-    void FUN_0050c690(float v);
-    void FUN_004bc1f0(float a, float b, float c);
-    void FUN_00a59c60(NiUpdateData& u);
-    float FUN_00644a50();
-    void FUN_0050dd20(float v);
 };
 struct Ptr
 {
     void* m_p;
     ~Ptr();
-    Obj* FUN_00559450();
 };
 struct TimeGlobal
 {
-    float FUN_0084d030();
 };
-extern TimeGlobal DAT_011f6394;
 struct SettingObj
 {
-    float* FUN_00403e20();
 };
-extern SettingObj DAT_011c8fcc;
 struct TQ
 {
-    void FUN_0087ad50();
 };
-TQ* __stdcall FUN_004537b0(void* p);
-bool __cdecl FUN_008c7aa0();
 struct P3
 {
     int unk00;
@@ -1503,18 +1469,14 @@ struct Host
 };
 struct Region
 {
-    bool IsInterior();
 };
 struct Reference
 {
-    Region* World();
-    Region* Cell();
 };
 struct Node
 {
     bool Empty();
     void** Item();
-    Node* Next();
     unsigned int Size();
 };
 struct SelectionMap
@@ -1525,8 +1487,6 @@ struct SelectionMap
     int count;
     SelectionMap(unsigned int);
     ~SelectionMap();
-    bool Lookup(unsigned int, bool*);
-    void Set(unsigned int, bool);
 };
 struct Selector
 {
@@ -1535,12 +1495,7 @@ struct Selector
 };
 struct PlayerSelection
 {
-    unsigned char Previous(Selector*);
-    void Record(Selector*, unsigned char);
 };
-extern PlayerSelection* selectionPlayer;
-unsigned int DialogueRandom();
-void* FindSelection(void*, Region*, void**);
 
 struct StrMem
 {
@@ -1548,28 +1503,14 @@ struct StrMem
     unsigned short length, capacity;
     StrMem();
     ~StrMem();
-    const char* FUN_00559450() const;
 };
 struct StringSetting552
 {
-    const char* FUN_00403df0();
 };
 struct FloatSetting552
 {
-    float* FUN_00403e20();
 };
-extern StringSetting552 g_011d4ccc;
-extern StringSetting552 g_011d49c0;
-extern FloatSetting552 g_011c9284;
-extern float DAT_010162c0;
-bool FUN_00702360();
-bool QueueUIMessage(const char*, int, const char*, const char*, float, bool);
-void ApplyPerkModifiers(int, Actor*, ...);
-void FUN_004d5c60(int);
-int FUN_00406f60(StrMem*, const char*, ...);
 namespace ActorValue {
-bool IsSkill(Index);
-const char* GetActorValueName(Index);
 }
 struct SkillBookEffect552
 {
@@ -1583,24 +1524,24 @@ bool SkillBookEffect552::FUN_00515040(TESObjectREFR* reference)
     Actor* actor2 = dynamic_cast<Actor*>(reference);
     if (!actor2->CanUseSkillBook())
         return applied;
-    if (actor2->FUN_00493bb0() && !FUN_00702360())
+    if (((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((actor2))->FUN_00493bb0())) && !FUN_00702360())
     {
-        QueueUIMessage(g_011d4ccc.FUN_00403df0(), 0, 0, 0, DAT_010162c0, false);
+        ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StringSetting552 *>(&::g_011d4ccc))))->GetMenuTitle()))), 0, (int)(0), (int)(0), DAT_010162c0, false);
         return applied;
     }
     ActorValue::Index skill2 = FUN_00514fd0();
-    if (ActorValue::IsSkill(skill2))
+    if (::FUN_0047f060((*(int *)&(skill2))))
     {
-        if (g_thePlayer->GetBaseActorValue(skill2) < 200)
+        if ((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))->GetBaseActorValue(skill2) < 200)
         {
-            float amount5 = *g_011c9284.FUN_00403e20();
+            float amount5 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting552 *>(&::g_011c9284))))));
             StrMem message;
-            ApplyPerkModifiers(11, g_thePlayer, &amount5);
-            g_thePlayer->ModActorValue(skill2, amount5, 0);
-            FUN_004d5c60(15);
-            FUN_00406f60(&message, g_011d49c0.FUN_00403df0(), ActorValue::GetActorValueName(skill2),
+            ::ApplyPerkModifiers(11, (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)), &amount5);
+            (*reinterpret_cast<::Actor * *>(&::_g_thePlayer))->ModActorValue(skill2, amount5, 0);
+            ::TopicMenuController::IncrementMiscStat(15);
+            ::FUN_00406f60((::FUN_00406f90_this *)(::StrMem *)(&message), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StringSetting552 *>(&::g_011d49c0))))->GetMenuTitle())), ActorValue::GetActorValueName(skill2),
                          static_cast<int>(amount5));
-            QueueUIMessage(message.FUN_00559450(), 1, 0, 0, DAT_010162c0, false);
+            ::DispatchMessageToSink((int)(((const char *)(::FUN_00559450((int *)&(message))))), 1, (int)(0), (int)(0), DAT_010162c0, false);
             applied = true;
         }
     }

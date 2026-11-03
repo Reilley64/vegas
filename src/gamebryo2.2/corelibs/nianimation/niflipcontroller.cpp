@@ -2,6 +2,29 @@
 // src/gamebryo2.2/corelibs/nianimation/niflipcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/niflipcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_004dc540_shell.h"
+#include "fnv/decl/FUN_0060c120_cls.h"
+#include "fnv/decl/FUN_00a463e0_Holder.h"
+#include "fnv/decl/FUN_00a57630.h"
+#include "fnv/decl/FUN_00a57780_shell.h"
+#include "fnv/decl/FUN_00a63460_shell.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiTObjectArrayA47.h"
+#include "fnv/decl/NiTimeControllerA362.h"
+#include "fnv/decl/S_00a64670_Foo.h"
+#include "fnv/decl/StandIn.h"
+#include "fnv/decl/fnv_00a57c70__FUN_00a57c70.h"
+#include "fnv/symbols_004b0000.h"
+#include "fnv/symbols_005e0000.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a57000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
 struct FUN_00a4f300_shell
 {
     void* GetEntryAt(int idx);
@@ -19,12 +42,11 @@ void* FUN_00a4f300_shell::GetEntryAt(int uiIndex)
     return 0;
 }
 
-extern "C" const void* g_011f3fd4;
 
 // @fnv 0x00a4f5d0
 const void* __cdecl FUN_00a4f5d0()
 {
-    return &g_011f3fd4;
+    return &(*reinterpret_cast<const void * *>(&::g_011f3fd4));
 }
 
 struct BSFadeNode
@@ -46,8 +68,6 @@ void* __cdecl CreateNiFlipController()
     return 0;
 }
 
-void* __cdecl _NiMalloc(unsigned int);
-int __cdecl _NiSprintf(char*, unsigned int, const char*, ...);
 struct FUN_00a4f320_Holder
 {
     const char* __thiscall GetFormattedValue();
@@ -59,9 +79,9 @@ const char* __thiscall FUN_00a4f320_Holder::GetFormattedValue()
     char* pcFormattedValue = *(char**)((char*)this + 0x50);
     if (!pcFormattedValue)
     {
-        pcFormattedValue = (char*)_NiMalloc(15);
+        pcFormattedValue = (char*)::FUN_00aa1070(15);
         *(char**)((char*)this + 0x50) = pcFormattedValue;
-        _NiSprintf(pcFormattedValue, 15, "%d", *(unsigned int*)((char*)this + 0x4c));
+        ::NiSprintf(pcFormattedValue, 15, "%d", *(unsigned int*)((char*)this + 0x4c));
         pcFormattedValue = *(char**)((char*)this + 0x50);
     }
     return pcFormattedValue;
@@ -72,7 +92,6 @@ struct NiRTTI
     void* _00;
     NiRTTI* m_pkBase;
 };
-extern NiRTTI g_011f49a4;
 struct NiObjectNET
 {
     virtual void f0();
@@ -90,7 +109,7 @@ bool __stdcall FUN_00a4f5e0(NiObjectNET* pkTarget)
         return false;
     while (pkRTTI)
     {
-        if (pkRTTI == &g_011f49a4)
+        if (pkRTTI == &(*reinterpret_cast<::NiRTTI *>(&::g_011f49a4)))
             return true;
         pkRTTI = pkRTTI->m_pkBase;
     }
@@ -101,21 +120,10 @@ struct Proxy570
 {
     void __thiscall FUN_00a4f570();
 };
-void __cdecl _delete(void*, unsigned int);
 struct Proxy880
 {
     void* __thiscall DestroyIfFlagged(unsigned int);
 };
-// Calls FUN_00a4f570 on this, then if bit 0 of a1 is set frees this with _delete and returns this.
-// @fnv 0x00a4f880
-void* __thiscall Proxy880::DestroyIfFlagged(unsigned int auiFlags)
-{
-    ((Proxy570*)this)->FUN_00a4f570();
-    if (auiFlags & 1)
-        _delete(this, 0x54);
-    return this;
-}
-
 struct CloningProcess
 {
 };
@@ -193,7 +201,6 @@ struct NiTexture
 };
 struct BaseA
 {
-    bool __thiscall FUN_00a57780(NiStream&);
 };
 struct ProxyFlip : BaseA
 {
@@ -202,7 +209,7 @@ struct ProxyFlip : BaseA
 // @fnv 0x00a4f350
 bool ProxyFlip::FUN_00a4f350(NiStream& kStream)
 {
-    if (!FUN_00a57780(kStream))
+    if (!reinterpret_cast<::FUN_00a57780_shell *>(this)->FUN_00a57780(kStream))
         return false;
     unsigned int uiSize = *(unsigned short*)((char*)this + 0x42);
     unsigned int uiIndex;
@@ -229,19 +236,6 @@ struct FUN_00a4fa20_shell : FlipCopy
 {
     void* CreateFlipController(CloningProcess& kCloning);
 };
-
-// Allocates a NiFlipController, initialises it via FUN_00a4f820, copies from kCloning via FUN_00a4f920, and returns it as a NiObject.
-// @fnv 0x00a4fa20
-void* FUN_00a4fa20_shell::CreateFlipController(CloningProcess& kCloning)
-{
-    NiFlipController* pkObject = (NiFlipController*)A51BF0Base::operator new(0x54);
-    if (pkObject)
-        pkObject = (NiFlipController*)pkObject->FUN_00a4f820();
-    else
-        pkObject = 0;
-    FUN_00a4f920((NiAlphaController*)pkObject, kCloning);
-    return (NiObject*)pkObject;
-}
 
 struct FUN_00a4f270_cls
 {
@@ -297,7 +291,6 @@ struct FUN_00a4f290_class
     int unk48;
     int unk4c;
 
-    bool __thiscall FUN_00a57c10(FUN_00a4f290_class*);
     unsigned char __thiscall FUN_00a4f290(FUN_00a4f290_class*);
 };
 
@@ -305,7 +298,7 @@ struct FUN_00a4f290_class
 // @fnv 0x00a4f290
 unsigned char FUN_00a4f290_class::FUN_00a4f290(FUN_00a4f290_class* param)
 {
-    if (!FUN_00a57c10(param))
+    if (!((bool)(reinterpret_cast<::StandIn *>(this)->FUN_00a57c10((::FUN_00a57c10_This *)(param), {}))))
     {
         return 0;
     }
@@ -344,7 +337,6 @@ struct FNVWriter
 };
 struct FNVBaseController
 {
-    void __thiscall FUN_00a57c00(FNVStream*);
 };
 struct FNVFlipController : FNVBaseController
 {
@@ -354,7 +346,7 @@ struct FNVFlipController : FNVBaseController
 // @fnv 0x00a4f4e0
 void __thiscall FNVFlipController::SaveToStream(FNVStream* stream)
 {
-    FUN_00a57c00(stream);
+    ::FUN_00a57c00();
     FNVWriter* writer = *(FNVWriter**)((char*)stream + 0x250);
     writer->SaveResult((char*)this + 0x4c);
 
@@ -371,7 +363,6 @@ void __thiscall FNVFlipController::SaveToStream(FNVStream* stream)
     }
 }
 
-char** FUN_005e0ba0(unsigned int ItemUpdateArray) throw();
 
 template <class T> class A4F820Array
 {
@@ -435,6 +426,18 @@ class FUN_00a4f820 : public A4F820Controller
     int m_iArrayLength;
     int m_iFlags;
 };
+// Allocates a NiFlipController, initialises it via FUN_00a4f820, copies from kCloning via FUN_00a4f920, and returns it as a NiObject.
+// @fnv 0x00a4fa20
+void* FUN_00a4fa20_shell::CreateFlipController(CloningProcess& kCloning)
+{
+    NiFlipController* pkObject = (NiFlipController*)A51BF0Base::operator new(0x54);
+    if (pkObject)
+        pkObject = (NiFlipController*)((void *)(new ((void *)(pkObject)) ::FUN_00a4f820()));
+    else
+        pkObject = 0;
+    FUN_00a4f920((NiAlphaController*)pkObject, kCloning);
+    return (NiObject*)pkObject;
+}
 
 // @fnv 0x00a4f820
 FUN_00a4f820::FUN_00a4f820() : m_kNames(1, 1)
@@ -444,7 +447,6 @@ FUN_00a4f820::FUN_00a4f820() : m_kNames(1, 1)
     m_iFlags = 0;
 }
 
-void* FUN_00aa1070(unsigned int uiSize);
 void* FUN_00ec61c0(void* pDest, int iValue, int iCount);
 
 struct FUN_00a6d220
@@ -513,8 +515,8 @@ FUN_00a4da20_cls::FUN_00a4da20_cls()
 // and assign that texture to the affected map (regular map slot, or shader map at index - 0x400).
 struct NiTextureF;
 struct NiObjectNETF;
-extern float DAT_01096324;         // NiTimeController::INVALID_TIME
-extern const double DAT_01016408;  // 0.5
+         // NiTimeController::INVALID_TIME
+  // 0.5
 struct NiUpdateDataF
 {
     float m_fTime;
@@ -580,7 +582,6 @@ struct NiInterpolatorF
 
 struct MapF
 {
-    void SetTexture(NiTextureF* pkTexture);
 };
 struct ShaderMapArrayF
 {
@@ -608,7 +609,6 @@ struct NiTexturingPropertyF
     unsigned short m_usMapsSize;
     int unk28;
     ShaderMapArrayF* m_pShaderMaps;
-    MapF* GetShaderMap(unsigned int uiIndex) const;
     unsigned int GetShaderMapCount() const
     {
         return m_pShaderMaps ? m_pShaderMaps->GetSize() : 0;
@@ -649,7 +649,6 @@ struct NiFlipControllerF
     {
         return ((m_uiObjectFlags >> 5) & 1) ? true : false;
     }
-    bool AdvanceController(float fTime);
     void UpdateFlipController(NiUpdateDataF& kUpdate);
 };
 
@@ -659,9 +658,9 @@ void NiFlipControllerF::UpdateFlipController(NiUpdateDataF& kUpdate)
 {
     if (GetManagerControlled())
     {
-        m_fControllerTime = DAT_01096324;
+        m_fControllerTime = ::DAT_01096324;
     }
-    else if (AdvanceController(kUpdate.m_fTime) &&
+    else if (reinterpret_cast<::NiTimeControllerA362 *>(this)->FUN_00a36250(kUpdate.m_fTime) &&
              (!m_spControllerInterpolator || !m_spControllerInterpolator->AlwaysUpdate()))
     {
         return;
@@ -673,7 +672,7 @@ void NiFlipControllerF::UpdateFlipController(NiUpdateDataF& kUpdate)
         if (m_spControllerInterpolator->Update(m_fControllerTime, m_pkTarget, fValue))
         {
             unsigned int uiSize = m_usTexturesSize;
-            m_uiPosition = (unsigned int)(fValue + DAT_01016408);
+            m_uiPosition = (unsigned int)(fValue + ::DAT_01016408);
             if (m_uiPosition >= uiSize)
                 m_uiPosition = uiSize - 1;
 
@@ -682,14 +681,14 @@ void NiFlipControllerF::UpdateFlipController(NiUpdateDataF& kUpdate)
             {
                 if (m_eAffectedMap < pkProp->m_usMapsSize && pkProp->m_aMapsBase[m_eAffectedMap])
                 {
-                    pkProp->m_aMapsBase[m_eAffectedMap]->SetTexture(m_kTexturesBase[m_uiPosition]);
+                    reinterpret_cast<::FUN_004dc540_shell *>((pkProp->m_aMapsBase[m_eAffectedMap]))->FUN_004dc540((::NiAVObject *)(m_kTexturesBase[m_uiPosition]));
                 }
                 else
                 {
                     unsigned int uiShaderMapIndex = m_eAffectedMap - 0x400;
-                    if (uiShaderMapIndex < pkProp->GetShaderMapCount() && pkProp->GetShaderMap(uiShaderMapIndex))
+                    if (uiShaderMapIndex < pkProp->GetShaderMapCount() && ((::MapF *)(reinterpret_cast<::FUN_00a463e0_Holder *>((void *)(pkProp))->GetElementAt(uiShaderMapIndex))))
                     {
-                        pkProp->GetShaderMap(uiShaderMapIndex)->SetTexture(m_kTexturesBase[m_uiPosition]);
+                        reinterpret_cast<::FUN_004dc540_shell *>((((::MapF *)(reinterpret_cast<::FUN_00a463e0_Holder *>((void *)(pkProp))->GetElementAt(uiShaderMapIndex)))))->FUN_004dc540((::NiAVObject *)(m_kTexturesBase[m_uiPosition]));
                     }
                 }
             }
@@ -697,8 +696,6 @@ void NiFlipControllerF::UpdateFlipController(NiUpdateDataF& kUpdate)
     }
 }
 
-void __cdecl NiFree(void* pkData) throw();
-void __cdecl FUN_004b0220(void* pkData) throw();
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long* plCount);
 
 struct F570RefObject
@@ -727,7 +724,7 @@ struct F570Array
 {
     virtual ~F570Array() throw()
     {
-        FUN_004b0220(m_pBase);
+        ::FUN_004b0220((int)(m_pBase));
     }
 
     void* m_pBase;
@@ -765,17 +762,25 @@ struct FUN_00a4f570 : F570Base
     int m_i4C;
     void* m_pkBuf;
 };
+// Calls FUN_00a4f570 on this, then if bit 0 of a1 is set frees this with _delete and returns this.
+// @fnv 0x00a4f880
+void* __thiscall Proxy880::DestroyIfFlagged(unsigned int auiFlags)
+{
+    reinterpret_cast<::FUN_00a4f570 *>((((Proxy570*)this)))->FUN_00a4f570::~FUN_00a4f570();
+    if (auiFlags & 1)
+        ::FUN_00aa1460(this, 0x54);
+    return this;
+}
 
 // Frees m_pkBuf with NiFree and clears the pointer to null.
 // @fnv 0x00a4f570
 FUN_00a4f570::~FUN_00a4f570() throw()
 {
-    NiFree(m_pkBuf);
+    ::FUN_00aa10f0(m_pkBuf);
     m_pkBuf = 0;
 }
 
 struct NiStream;
-void __stdcall FUN_00a57c70(NiStream* stream);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long* lpAddend);
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long* lpAddend);
 
@@ -792,6 +797,7 @@ struct StreamIo
     }
 };
 
+class NiObject;
 struct NiStream
 {
     char m_000[0xd8];
@@ -799,13 +805,13 @@ struct NiStream
     char m_dc[0x170];
     StreamIo* m_io;
     unsigned int __thiscall FUN_00a64670();
+public:
+    ::NiObject *GetLoadedObject();
 };
 
 struct MemoryManager
 {
-    void* __thiscall Allocate(unsigned int size);
 };
-extern MemoryManager DAT_011f6238;
 
 struct NiMemObject
 {
@@ -904,7 +910,7 @@ struct KeyPair
 
 void* operator new[](unsigned int size)
 {
-    return DAT_011f6238.Allocate(size);
+    return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
 }
 
 struct CtrlA4F610
@@ -936,7 +942,7 @@ struct CtrlA4F610
 // @fnv 0x00a4f610
 void __thiscall CtrlA4F610::LoadFromStream(NiStream* stream)
 {
-    FUN_00a57c70(stream);
+    reinterpret_cast<::fnv_00a57c70::FUN_00a57c70 *>((stream))->LoadBinary(*(::fnv_00a57c70::NiStream *)nullptr);
     stream->m_io->Read4(&m_4c);
     if (stream->m_d8 < 0x0a010068)
     {
@@ -979,14 +985,12 @@ void __thiscall CtrlA4F610::LoadFromStream(NiStream* stream)
     }
     else
     {
-        stream->FUN_00a64670();
+        reinterpret_cast<::S_00a64670_Foo *>((stream))->FUN_00a64670();
     }
 }
 
 struct S00a4f8a0_Arr
 {
-    void __thiscall Grow(unsigned int n);
-    void __thiscall Put(unsigned int i, void** slot);
     unsigned int unk00;
     void** unk04;
     unsigned short unk08;
@@ -1028,7 +1032,7 @@ void __thiscall FlipCopy::FUN_00a4f8a0(void* apRef, unsigned int aiIndex)
     FUN_00a4f8a0_Obj* pObj = (FUN_00a4f8a0_Obj*)this;
     if (pObj->arr.unk0a <= aiIndex)
     {
-        pObj->arr.Grow(aiIndex + 1);
+        reinterpret_cast<::NiTObjectArrayA47 *>(&(pObj->arr))->FUN_0060bef0(aiIndex + 1);
     }
     FUN_00a4f8a0_Ref* pRef = (FUN_00a4f8a0_Ref*)apRef;
     apRef = pRef;
@@ -1040,9 +1044,9 @@ void __thiscall FlipCopy::FUN_00a4f8a0(void* apRef, unsigned int aiIndex)
     S00a4f8a0_Arr* pArr = &pObj->arr;
     if (aiIndex >= pArr->unk08)
     {
-        pArr->Grow(aiIndex + pArr->unk0e);
+        reinterpret_cast<::NiTObjectArrayA47 *>((pArr))->FUN_0060bef0(aiIndex + pArr->unk0e);
     }
-    pArr->Put(aiIndex, &slot);
+    reinterpret_cast<::FUN_0060c120_cls *>((pArr))->FUN_0060c120(aiIndex, (::SlotTarget *)(void **)(&slot));
     if (pRef != 0)
     {
         if (InterlockedDecrement(&pRef->m_iObjectReferenceCount) == 0)
@@ -1054,19 +1058,14 @@ void __thiscall FlipCopy::FUN_00a4f8a0(void* apRef, unsigned int aiIndex)
 
 struct A4F990Stream
 {
-    unsigned int __thiscall FUN_00a63460() throw();
-    F570RefObject* __thiscall FUN_00a63430() throw();
 };
 
 struct A4F990Array
 {
-    void __thiscall FUN_0060bef0(unsigned int uiSize) throw();
-    void __thiscall FUN_0060c120(unsigned int uiIndex, F570RefObject* const& pkObj) throw();
 };
 
 struct A4F990Base
 {
-    void __thiscall FUN_00a57630(A4F990Stream& kStream) throw();
     int unk00;
     int unk04;
     int unk08;
@@ -1093,18 +1092,18 @@ struct A4F990Flip : A4F990Base
 // @fnv 0x00a4f990
 void A4F990Flip::FUN_00a4f990(A4F990Stream& kStream) throw()
 {
-    FUN_00a57630(kStream);
+    reinterpret_cast<struct ::FUN_00a57630 *>(this)->LinkObject((::NiStream &)(kStream));
     if (unk2C)
     {
-        unsigned int uiSize = kStream.FUN_00a63460();
-        m_kTextureSwapList.FUN_0060bef0(uiSize);
+        unsigned int uiSize = reinterpret_cast<::FUN_00a63460_shell *>(&(kStream))->FUN_00a63460();
+        reinterpret_cast<::NiTObjectArrayA47 *>(&(m_kTextureSwapList))->FUN_0060bef0(uiSize);
         for (unsigned int i = 0; i < uiSize; i++)
         {
-            F570RefObject* pkTex = kStream.FUN_00a63430();
+            F570RefObject* pkTex = ((::F570RefObject *)(reinterpret_cast<::NiStream *>(&(kStream))->GetLoadedObject()));
             F570RefObject* spTex = pkTex;
             if (pkTex)
                 InterlockedIncrement(&pkTex->m_uiRefCount);
-            m_kTextureSwapList.FUN_0060c120(i, spTex);
+            reinterpret_cast<::FUN_0060c120_cls *>(&(m_kTextureSwapList))->FUN_0060c120(i, (::SlotTarget *)&(spTex));
             if (pkTex)
             {
                 if (InterlockedDecrement(&pkTex->m_uiRefCount) == 0)

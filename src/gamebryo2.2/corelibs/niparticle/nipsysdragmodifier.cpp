@@ -1,12 +1,29 @@
 // gamebryo2.2/corelibs/niparticle/nipsysdragmodifier.cpp: NiPSysDragModifier, NiPSysDragShell (7 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00c319e0_cls.h"
+#include "fnv/decl/MyIsEqual.h"
+#include "fnv/decl/NiPlane.h"
+#include "fnv/decl/ParticleModifierBinary.h"
+#include "fnv/decl/S_00a64670_Foo.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_01062000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_01202000.h"
 #include "nipsysdragmodifier_decls.h"
 
 // @fnv 0x00C2C450
 void NiPSysDragModifier::LoadBinary(NiStream& kStream)
 {
     NiPSysModifier::LoadBinary(kStream);
-    kStream.ResetStreamState();
+    reinterpret_cast<::FUN_00a645b0_cls *>(&(kStream))->FUN_00a645b0();
     reinterpret_cast<NiColor*>(&m_kDragDirection)->LoadBinary(kStream);
     ReadBinaryValue(kStream, m_fDragStrength);
     ReadBinaryValue(kStream, m_fFirstLightParameter);
@@ -30,11 +47,10 @@ void* __cdecl FUN_00c2c080()
 }
 
 struct GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_01202768;
 // @fnv 0x00c2c0a0
 void* __cdecl FUN_00c2c0a0()
 {
-    return &g_01202768;
+    return &::g_01202768;
 }
 
 namespace fnv_00c2c0b0 {
@@ -64,7 +80,6 @@ struct DragCtorStub
 };
 struct CopyStub
 {
-    void CopyMemberData(NiPSysModifier*, CloningProcess&);
 };
 struct DragData
 {
@@ -81,7 +96,7 @@ NiObject* FUN_00c2c0b0_shell::CloneDragModifier(CloningProcess* kCloning)
 {
     DragCtorStub* pAlloc = (DragCtorStub*)BSFadeNode::operator new(0x34);
     DragData* pkObject = pAlloc ? (DragData*)pAlloc->FUN_00c2c030() : 0;
-    ((CopyStub*)this)->CopyMemberData((NiPSysModifier*)pkObject, *kCloning);
+    reinterpret_cast<::NiPSysModifier *>((((CopyStub*)this)))->CopyMemberData((NiPSysModifier*)pkObject, (::CloningProcess &)(*kCloning));
     DragData* pSource = (DragData*)this;
     pkObject->a = pSource->a;
     pkObject->b = pSource->b;
@@ -93,7 +108,6 @@ NiObject* FUN_00c2c0b0_shell::CloneDragModifier(CloningProcess* kCloning)
 }
 }  // namespace fnv_00c2c0b0
 
-extern const NiPoint3 g_UNIT_X;
 static const float s_fInfinity = 3.402823466e+38F;
 
 struct NiPSysModifierStub
@@ -124,7 +138,7 @@ struct FUN_00c2c030 : NiPSysModifierStub
 // Initializes the modifier stub fields: null pointer, unit vector, 0.05, and two infinity values.
 // @fnv 0x00c2c030
 FUN_00c2c030::FUN_00c2c030()
-    : m_pParent(0), m_kDragDirection(g_UNIT_X), m_fDragStrength(0.05f), m_fFirstLightParameter(s_fInfinity),
+    : m_pParent(0), m_kDragDirection((*reinterpret_cast<const ::NiPoint3 *>(&::DAT_011a946c))), m_fDragStrength(0.05f), m_fFirstLightParameter(s_fInfinity),
       m_fSecondLightParameter(s_fInfinity)
 {}
 
@@ -155,7 +169,6 @@ struct NiPSysModifierStand
 {
     void* vtable;
     char unk04[0x14];
-    void LoadStream(NiStream& stream);
 };
 
 struct NiPoint3Stand
@@ -163,7 +176,6 @@ struct NiPoint3Stand
     float x;
     float y;
     float z;
-    void LoadStream(NiStream& stream);
 };
 
 struct FUN_00c2c4f0_cls : NiPSysDragModifier
@@ -174,10 +186,10 @@ struct FUN_00c2c4f0_cls : NiPSysDragModifier
 // @fnv 0x00c2c4f0
 void FUN_00c2c4f0_cls::FUN_00c2c4f0(NiStream& stream)
 {
-    reinterpret_cast<NiPSysModifierStand*>(this)->LoadStream(stream);
+    reinterpret_cast<::ParticleModifierBinary *>((reinterpret_cast<NiPSysModifierStand*>(this)))->FUN_00c31950((::OutputStream &)(stream));
     void** vt = *reinterpret_cast<void***>(&stream);
     reinterpret_cast<void(__thiscall*)(NiStream*, NiAVObject*)>(vt[12])(&stream, m_pParent);
-    reinterpret_cast<NiPoint3Stand*>(&m_kDragDirection)->LoadStream(stream);
+    reinterpret_cast<::NiColor *>((reinterpret_cast<NiPoint3Stand*>(&m_kDragDirection)))->SaveBinary(stream);
     DragStreamView* s = reinterpret_cast<DragStreamView*>(&stream);
     s->m_pUnderlyingStream->Load(&m_fDragStrength);
     s->m_pUnderlyingStream->Load(&m_fFirstLightParameter);
@@ -217,7 +229,6 @@ struct S_00c2c590_Vec
     int unk04;
     int unk08;
     int unk0C;
-    bool FUN_00439090(S_00c2c590_Vec* other);
 };
 struct S_00c2c590_Base
 {
@@ -227,7 +238,6 @@ struct S_00c2c590_Base
     int unk0C;
     int unk10;
     int unk14;
-    bool FUN_00c31830(S_00c2c590_Base* other);
 };
 struct S_00c2c590 : S_00c2c590_Base
 {
@@ -244,7 +254,7 @@ struct S_00c2c590 : S_00c2c590_Base
 // @fnv 0x00c2c590
 bool S_00c2c590::FUN_00c2c590(S_00c2c590* other)
 {
-    if (FUN_00c31830(other))
+    if (reinterpret_cast<::MyIsEqual *>(this)->FUN_00c31830((::NiObject *)(other)))
     {
         if (unk18 && !other->unk18)
             return false;
@@ -252,7 +262,7 @@ bool S_00c2c590::FUN_00c2c590(S_00c2c590* other)
             return false;
         if (unk18 && other->unk18 && !unk18->unk5C(other->unk18))
             return false;
-        if (!((S_00c2c590_Vec*)&other->unk1C)->FUN_00439090((S_00c2c590_Vec*)&unk1C) && other->unk28 == unk28 &&
+        if (!reinterpret_cast<::NiPlane *>((((S_00c2c590_Vec*)&other->unk1C)))->operator==((*(const ::NiPlane *)((S_00c2c590_Vec*)&unk1C))) && other->unk28 == unk28 &&
             other->unk2C == unk2C && other->unk30 == unk30)
             return true;
     }
@@ -269,7 +279,6 @@ struct DragObject
 struct Point3Serializer
 {
     float x, y, z;
-    void* FUN_00a59af0(const void* typeName);
 };
 struct StreamArray
 {
@@ -279,14 +288,12 @@ struct StreamArray
     unsigned short size;
     unsigned short activeSize;
     unsigned short growBy;
-    void FUN_0096ad30(unsigned int newCapacity);
-    void FUN_0096ae90(unsigned int index, void* const* value);
     __forceinline void Append(void* value)
     {
         unsigned int index = size;
         if (index >= capacity)
-            FUN_0096ad30(index + growBy);
-        FUN_0096ae90(index, &value);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(index + growBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(index, (*(char * *)(&value)));
     }
 };
 struct NiPSysDragShell : NiPSysModifier
@@ -298,26 +305,21 @@ struct NiPSysDragShell : NiPSysModifier
     float falloff;
     void FUN_00c2c620(NiStream& stream);
 };
-extern char DAT_0102909c;
 extern char DAT_010bff18;
 extern char DAT_010bff0c;
 extern char DAT_010bff00;
-extern char DAT_01062600;
 extern char DAT_010bfef0;
-void* __cdecl FUN_00a7d330(void* object);
-void* __cdecl FUN_00a7d5e0(const void* typeName, const void* value);
-void* __cdecl FUN_00a7d550(const void* typeName, float value);
 // Saves the modifier via NiPSysModifier::SaveBinary, then appends the drag object name, drag axis, percentage, range and falloff to the stream array.
 // @fnv 0x00c2c620
 void NiPSysDragShell::FUN_00c2c620(NiStream& stream)
 {
-    NiPSysModifier::SaveBinary(stream);
+    reinterpret_cast<::FUN_00c319e0_cls *>(this)->FUN_00c319e0((::StrArr *)&(stream));
     StreamArray& array = *reinterpret_cast<StreamArray*>(&stream);
-    array.Append(FUN_00a7d330(*reinterpret_cast<void**>(&g_01202768)));
-    const char* name = dragObject ? dragObject->objectName : &DAT_0102909c;
-    array.Append(FUN_00a7d5e0(&DAT_010bff18, name));
-    array.Append(dragAxis.FUN_00a59af0(&DAT_010bff0c));
-    array.Append(FUN_00a7d550(&DAT_010bff00, percentage));
-    array.Append(FUN_00a7d550(&DAT_01062600, range));
-    array.Append(FUN_00a7d550(&DAT_010bfef0, falloff));
+    array.Append(((void *)(::FUN_00a7d330((const char *)(*reinterpret_cast<void**>(&::g_01202768))))));
+    const char* name = dragObject ? dragObject->objectName : &(*reinterpret_cast<char *>((void *)&::g_011d1f8c_arg1));
+    array.Append(((void *)(::fnv_00a7d5e0::FUN_00a7d5e0((const char *)(const void *)(&DAT_010bff18), (const char *)(name)))));
+    array.Append(((void *)(reinterpret_cast<::NiPoint3 *>(&(dragAxis))->FUN_00a59af0((const char *)(const void *)(&DAT_010bff0c)))));
+    array.Append(((void *)(::FUN_00a7d550((const char *)(const void *)(&DAT_010bff00), percentage))));
+    array.Append(((void *)(::FUN_00a7d550((const char *)(const void *)(&(*reinterpret_cast<char *>((void *)&::g_011d3348_arg1))), range))));
+    array.Append(((void *)(::FUN_00a7d550((const char *)(const void *)(&DAT_010bfef0), falloff))));
 }

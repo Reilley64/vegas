@@ -5,7 +5,15 @@
 
 // src/havok/physics/collide/agent/heightfieldagent/hkpheightfieldagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/heightfieldagent/hkpheightfieldagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern char DAT_010ceaa8[];
+#include "fnv/decl/FUN_00cfbbe0_cls.h"
+#include "fnv/decl/hkTransformCB22.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d31000.h"
+#include "fnv/symbols_00d32000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010ce000.h"
+#include "fnv/symbols_01268000.h"
 struct hkMemoryAllocator {
     virtual ~hkMemoryAllocator();
 };
@@ -14,7 +22,6 @@ struct BSAudio {
     hkMemoryAllocator* unk10;
 };
 BSAudio* FUN_00c85750();
-void __cdecl FUN_00c908c0(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
 struct SizeSource {
     virtual void v00(); virtual void v01(); virtual void v02(); virtual void v03();
     virtual void v04(); virtual void v05(); virtual void v06(); virtual void v07();
@@ -38,7 +45,7 @@ struct hkArrayU16 {
         int c = m_iCapacityState & 0x3fffffff;
         if (c < n) {
             c = c * 2;
-            FUN_00c908c0(*alloc, this, n < c ? c : n, 2);
+            ::FUN_00c908c0((::SpawnedObject *)&(*alloc), (::SpawnedArray *)(void *)(this), n < c ? c : n, 2);
         }
     }
     __forceinline void SetSizeAndGrow(int n, const unsigned short& fill)
@@ -61,17 +68,7 @@ struct FUN_00d32060_Class {
 
     FUN_00d32060_Class* Init(const SourceRef& src, int b, int c, int flag);
 };
-extern void __cdecl FUN_00d319e0(void*, void*, void*, void*);
-void __stdcall FUN_00d32170(void* a, void* b, void* c, void* d);
 typedef void (*S_00d321e0_Func)();
-void FUN_00d32190();
-void FUN_00d32370();
-void FUN_00d323b0();
-void FUN_00d323f0();
-void AllocateTargetObj();
-void FUN_00d317d0();
-void FUN_00d319e0();
-void FUN_00d31d30();
 struct S_00d321e0_AgentFuncs {
     S_00d321e0_Func m_pCreateFunc;
     S_00d321e0_Func m_pQueryPenetrationsFunc;
@@ -81,10 +78,7 @@ struct S_00d321e0_AgentFuncs {
     bool m_bIsPredictive;
 };
 struct S_00d321e0_Dispatcher {
-    void FUN_00cfbbe0(S_00d321e0_AgentFuncs& f, int typeA, int typeB);
 };
-void FUN_00d321e0(S_00d321e0_Dispatcher* dispatcher);
-extern float g_D323B0MaxDistance;
 struct D323B0CollectorBase {
     virtual void unk00();
     virtual void unk04();
@@ -92,7 +86,7 @@ struct D323B0CollectorBase {
 
     float m_fEarlyOutDistance;
 
-    D323B0CollectorBase() : m_fEarlyOutDistance(g_D323B0MaxDistance) {}
+    D323B0CollectorBase() : m_fEarlyOutDistance(::DAT_0104da48) {}
 };
 struct D323B0Collector : D323B0CollectorBase {
     int m_iData;
@@ -102,8 +96,6 @@ struct D323B0Collector : D323B0CollectorBase {
     virtual void unk00();
     virtual void unk04();
 };
-void __cdecl FUN_00d319e0(int a, int b, int c, D323B0CollectorBase* collector);
-void __cdecl FUN_00d323b0(int a, int b, int c, int d);
 struct Handler {
     virtual void v0();
     virtual void v1();
@@ -126,26 +118,21 @@ extern "C" void __stdcall FUN_00d32030(void* arg0, void* arg1, void* arg2, void*
 {
     FUN_00d31d30(arg0, arg1, arg2, arg3, arg4);
 }
-extern "C" void __cdecl FUN_00d317d0(void* arg0, void* arg1, void* arg2, void* arg3);
 // @fnv 0x00d32150
 extern "C" void __stdcall FUN_00d32150(void* arg0, void* arg1, void* arg2, void* arg3)
 {
-    FUN_00d317d0(arg0, arg1, arg2, arg3);
+    ::FUN_00d317d0((int)(arg0), (int)(arg1), (int)(arg2), arg3);
 }
-extern char DAT_010ce81c;
-void __cdecl FUN_00d317d0(int a1, int a2, int a3, void* a4);
 struct FUN_00d32370_cls {
     void* vt;
     unsigned char flag;
     int d;
 };
-void __cdecl FUN_00d32370(int a1, int a2, int a3, int a4);
 #include <xmmintrin.h>
 
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern unsigned long DAT_0126835c;
 extern char DAT_010cea14[];
 
 union CastVector {
@@ -157,7 +144,6 @@ union CastVector {
 };
 struct CastTransform {
     CastVector r0,r1,r2,translation;
-    void __thiscall FUN_00cb22f0(const CastTransform*,const CastTransform*);
 };
 static __forceinline void transformVector(CastVector& out,const CastTransform& t,const CastVector& in) {
     CastVector x,y,z,tx,ty,tz,xy,zt;
@@ -258,12 +244,12 @@ extern "C" void __cdecl FUN_00d31d30(void* arg0,void* arg1,void* arg2,void* arg3
     CastBody* bodyA=(CastBody*)arg0;
     CastBody* bodyB=(CastBody*)arg1;
     CastInput* input=(CastInput*)arg2;
-    if(arg4) FUN_00d319e0(arg0,arg1,arg2,arg4);
+    if(arg4) ::FUN_00d319e0((int)(arg0),(int)(arg1),(int)(arg2),(::D323B0CollectorBase *)(arg4));
     event((TimerStream*)TlsGetValue(DAT_0126835c),"StGetSpheres");
     CastShape* shape=bodyA->shape;
     CastHeightField* __restrict heightField=(CastHeightField*)bodyB->shape;
     CastTransform relativeTransform;
-    relativeTransform.FUN_00cb22f0(bodyB->transform,bodyA->transform);
+    reinterpret_cast<::hkTransformCB22 *>(&(relativeTransform))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(bodyB->transform)),(*(const ::hkTransformCB22 *)(bodyA->transform)));
     int count=shape->count();
     BSAudio* scratch=FUN_00c85750();
     int savedStack=scratch->unk00;
@@ -326,13 +312,11 @@ namespace fnv_00d324e0 {
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern unsigned int DAT_0126835c;
 extern char DAT_010ceae0[];
-extern char DAT_010c41f8[];
 struct TimerEvent { const char* tag; unsigned int time; unsigned int unused; };
 struct TimerStream { int unk00; TimerEvent* next; int unk08; TimerEvent* end; };
 static __forceinline void timer(const char* tag) {
-    TimerStream* s = (TimerStream*)TlsGetValue(DAT_0126835c);
+    TimerStream* s = (TimerStream*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     TimerEvent* p = s->next;
     if (p < s->end) {
         p->tag = tag;
@@ -347,7 +331,6 @@ static __forceinline void timer(const char* tag) {
 }
 struct Matrix {
     __m128 c0,c1,c2,c3;
-    void FUN_00cb22f0(const Matrix& b, const Matrix& a);
 };
 struct SphereQuery {
     __m128* spheres; int count; float tolerance;
@@ -395,7 +378,7 @@ void AgentD::FUN_00d324e0(const BodyD& a, const BodyD& b, const InputD& input, O
     ShapeD* shapeA = a.shape;
     ShapeD* shapeB = b.shape;
     Matrix relative;
-    relative.FUN_00cb22f0(*b.transform,*a.transform);
+    reinterpret_cast<::hkTransformCB22 *>(&(relative))->FUN_00cb22f0((const ::hkTransformCB22 &)(*b.transform),(const ::hkTransformCB22 &)(*a.transform));
     int n = count;
     __m128* transformed = reserve(n);
     unsigned short* id = ids;
@@ -443,6 +426,6 @@ void AgentD::FUN_00d324e0(const BodyD& a, const BodyD& b, const InputD& input, O
     }
     ((ArenaD*)FUN_00c85750())->top = planes;
     ((ArenaD*)FUN_00c85750())->top = transformed;
-    timer(DAT_010c41f8);
+    timer(::DAT_010c41f8);
 }
 }  // namespace fnv_00d324e0

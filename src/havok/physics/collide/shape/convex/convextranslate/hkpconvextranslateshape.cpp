@@ -2,6 +2,8 @@
 // src/havok/physics/collide/shape/convex/convextranslate/hkpconvextranslateshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/convextranslate/hkpconvextranslateshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FunctionContext.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpConvexTranslateShape.h"
 
 // FUN_00dd5e60 : the stub family - load a sub-object pointer out of `this`
@@ -102,7 +104,6 @@ struct Sub_dd5e70
     virtual void v0C(const char* name, void* child, int flags);
 };
 
-extern int DAT_01268940;
 
 struct Own_dd5e70
 {
@@ -114,7 +115,6 @@ struct Own_dd5e70
     int unk14;
     void* m_sub;
 
-    void __thiscall FUN_00c90360(Sub_dd5e70* object, const int* attribute);
     void __thiscall AttachChildAndAttribute(Sub_dd5e70* object, int unused);
 };
 
@@ -122,7 +122,7 @@ struct Own_dd5e70
 void __thiscall Own_dd5e70::AttachChildAndAttribute(Sub_dd5e70* object, int unused)
 {
     object->v0C("Child", m_sub, 0);
-    FUN_00c90360(object, &DAT_01268940);
+    reinterpret_cast<::FunctionContext *>(this)->FUN_00c90360(object, (void *)(&(*reinterpret_cast<int *>(&::g_01268940))));
 }
 
 struct FUN_00dd5ea0_class
@@ -222,7 +222,6 @@ typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 extern "C" __m128 _mm_sub_ps(__m128 _A, __m128 _B);
 
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
-extern "C" unsigned long DAT_0126835c;
 extern "C" const char DAT_010d1074[];
 extern "C" const char DAT_010c41f8[];
 extern "C" unsigned __int64 __rdtsc();
@@ -243,7 +242,7 @@ struct MonitorStream
     char* m_pCurrentCommand;
     static MonitorStream* GetMonitorStream()
     {
-        return (MonitorStream*)TlsGetValue(DAT_0126835c);
+        return (MonitorStream*)TlsGetValue(::DAT_0126835c);
     }
 };
 

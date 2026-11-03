@@ -1,5 +1,26 @@
 // fallout_shared/bgsdefaultobjectmanager.cpp: BGSDefaultObjectManager, NavMesh (11 functions)
 
+#include "fnv/decl/FUN_00401290_Class.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00483630_holder.h"
+#include "fnv/decl/FUN_00485c10_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_005b5000.h"
 #include "bgsdefaultobjectmanager_form.h"
 #include "bgsdefaultobjectmanager.h"
 #include <string.h>
@@ -14,7 +35,7 @@ void BGSDefaultObjectManager::ResetFormData()
 // @fnv 0x0058db10
 TESForm* BGSDefaultObjectManager::GetDefaultObjectByIndex(DEFAULT_OBJECT index)
 {
-    if (!Instance()->IsFormInitialized())
+    if (!reinterpret_cast<::TESForm *>((void *)(Instance()))->GetInitialized())
         return 0;
     return Instance()->m_apDefaultObjects[index];
 }
@@ -34,21 +55,21 @@ BGSDefaultObjectManager* BGSDefaultObjectManager::Instance()
 // @fnv 0x0058d920
 bool BGSDefaultObjectManager::Load(TESFile* file)
 {
-    unsigned char form = file->GetTESForm();
+    unsigned char form = ((unsigned char)(reinterpret_cast<::FUN_00472660_shell *>((file))->FUN_00472660()));
     if (form != 100)
         return false;
-    LoadRecordHeader(file);
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
     SetInitializationState(false);
-    while (unsigned int chunk = file->GetChunkID())
+    while (unsigned int chunk = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())))
     {
         switch (chunk)
         {
         case 0x41544144:
-            file->GetChunkData(m_apDefaultObjects, sizeof(m_apDefaultObjects));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(m_apDefaultObjects), sizeof(m_apDefaultObjects));
             if (file->IsEndianConversionRequired())
             {
                 for (int i = 0; i < DEFAULT_OBJECT_DO_COUNT; ++i)
-                    BSEndian((unsigned int*)&m_apDefaultObjects[i], EndianSizeTag<4>());
+                    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)&m_apDefaultObjects[i]));
             }
             break;
         }
@@ -71,12 +92,12 @@ void BGSDefaultObjectManager::InitItem()
         unsigned int uiFormId = (unsigned int)m_apDefaultObjects[i];
         if (uiFormId)
         {
-            TESForm::RemapFormIDForFile(uiFormId, GetFile(-1));
-            m_apDefaultObjects[i] = TESForm::GetFormByID(uiFormId);
+            ::ResolveFormID((unsigned int *)&(uiFormId), GetFile(-1));
+            m_apDefaultObjects[i] = ::FUN_004839c0(uiFormId);
             if (m_apDefaultObjects[i] && m_apDefaultObjects[i]->GetFormType() != DAT_0118c360[i].type)
                 m_apDefaultObjects[i] = 0;
             if (!m_apDefaultObjects[i])
-                Warning("Unable to find valid '%s' default object for ID (%08X).", DAT_0118c360[i].name, uiFormId);
+                ::FUN_005b5e40();
         }
     }
     SetInitializationState(true);
@@ -86,7 +107,7 @@ void BGSDefaultObjectManager::InitItem()
 // @fnv 0x0068eb80
 NavMesh::NavMesh() : POVPointerArray(37)
 {
-    SetFormType(ENUM_FORM_ID_NAVM_ID);
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)(ENUM_FORM_ID_NAVM_ID)));
     m_pOwningCell = 0;
     m_pNavigationMesh = 0;
     pTriangleToObstacleMap = new NiTMap_unsigned_short_NiPointer_ObstacleData___(37);
@@ -105,7 +126,6 @@ void DestroyDefaultObjectManager()
 
 struct ActorValueInfo
 {
-    void SetScriptName(char const*);
 };
 
 struct FUN_0058d760 : public TESForm
@@ -117,37 +137,22 @@ struct FUN_0058d760 : public TESForm
 // @fnv 0x0058d760
 FUN_0058d760::FUN_0058d760() : TESForm()
 {
-    SetFormType((ENUM_FORM_ID)100);
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)((ENUM_FORM_ID)100)));
     SetRefID(0x31, 1);
-    ((ActorValueInfo*)this)->SetScriptName("DefaultObjectManager");
+    reinterpret_cast<::FUN_00401290_Class *>((((ActorValueInfo*)this)))->FUN_00401290((int)("DefaultObjectManager"));
     ((BGSDefaultObjectManager*)this)->ResetFormData();
 }
 
-void _Deallocate(void*);
 struct S_0058d7f0
 {
-    void InitializeVTable();
     void* FUN_0058d7f0(unsigned int);
 };
-// Calls InitializeVTable, then deallocates this when flags has bit 0 set, and returns this.
-// @fnv 0x0058d7f0
-void* S_0058d7f0::FUN_0058d7f0(unsigned int flags)
-{
-    InitializeVTable();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct FUN_004855a0
 {
-    void M();
 };
 struct FUN_00485680
 {
-    void M();
 };
-void __cdecl FUN_00485710(unsigned int, unsigned int*, unsigned int);
 struct FUN_0058d870_shell
 {
     void FUN_0058d870();
@@ -157,16 +162,16 @@ void FUN_0058d870_shell::FUN_0058d870()
 {
     unsigned int pidarray4[34];
     int i;
-    ((FUN_004855a0*)this)->M();
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
     for (i = 0; i < 34; ++i)
     {
         if (*(void**)((char*)this + 0x18 + i * 4))
-            pidarray4[i] = ((TESForm*)*(void**)((char*)this + 0x18 + i * 4))->GetFormID();
+            pidarray4[i] = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)*(void**)((char*)this + 0x18 + i * 4))))->FUN_0084e3a0()));
         else
             pidarray4[i] = 0;
     }
-    FUN_00485710(0x41544144, pidarray4, 34);
-    ((FUN_00485680*)this)->M();
+    ::FUN_00485710((void *)(0x41544144), pidarray4, (void *)(34));
+    reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
 }
 
 // InitializeVTable: constructor-like member that installs the class vtable
@@ -176,13 +181,21 @@ extern int DAT_01032dc4;
 struct FUN_0058d820_cls
 {
     void* m_pVTable;
-    void FUN_00483630();
     void InitializeVTable();
 };
+// Calls InitializeVTable, then deallocates this when flags has bit 0 set, and returns this.
+// @fnv 0x0058d7f0
+void* S_0058d7f0::FUN_0058d7f0(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0058d820_cls *>(this)->InitializeVTable();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x0058d820
 void FUN_0058d820_cls::InitializeVTable()
 {
     m_pVTable = (void*)&DAT_01032dc4;
-    FUN_00483630();
+    reinterpret_cast<::FUN_00483630_holder *>(this)->FUN_00483630_holder::~FUN_00483630_holder();
 }

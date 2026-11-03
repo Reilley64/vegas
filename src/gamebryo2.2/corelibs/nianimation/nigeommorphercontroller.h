@@ -17,6 +17,9 @@
 #define FNV_NIGEOMMORPHERCONTROLLER_UNIT_H
 
 
+#include "fnv/decl/FUN_004a4cc0_shell.h"
+#include "fnv/decl/NiControllerSequence__IDTag.h"
+#include "fnv/symbols_011a9000.h"
 #include "layout_support.h"
 #include "NiFixedString.h"
 #include "NiMemObject.h"
@@ -62,6 +65,8 @@ class AnimationKey
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 #pragma pack(push, 4)
+class CloningProcess;
+class NiObjectNET;
 class NiTimeController : public NiObject
 {
   public:
@@ -77,6 +82,10 @@ class NiTimeController : public NiObject
     float m_fControllerTime;                         // +0x28, 4 bytes
     NiObjectNET* m_pkTarget;                         // +0x2C, 4 bytes
     NiPointer<NiTimeController> m_spNextController;  // +0x30, 4 bytes
+public:
+    void ProcessClone(::CloningProcess &);
+public:
+    void SetTarget(::NiObjectNET *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiTimeController) == 52);
@@ -92,12 +101,17 @@ class NiObjectNET : public NiObject
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 #pragma pack(push, 4)
+class NiStream;
 class NiInterpController : public NiTimeController
 {
   public:
     static const unsigned short INVALID_INDEX;
 
     void CopyMemberData(NiInterpController* pkClone, CloningProcess& kCloning);
+public:
+    void LoadBinary(::NiStream &);
+public:
+    void LinkObject(::NiStream &);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiInterpController) == 52);
@@ -165,7 +179,8 @@ class NiGeomMorpherController : public NiInterpController
     unsigned short GetTargetIndex(const char* pcID) const;
     unsigned short GetTargetIndex(const NiFixedString& kID) const;
     void CopyMemberData(NiGeomMorpherController* pkClone, CloningProcess& kCloning);
-    void SetMorphData(NiMorphData* pkMorphData, bool bCanUpdate);
+public:
+    void ClearInterpolatorArray();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiGeomMorpherController) == 68);
@@ -191,14 +206,12 @@ class RgbaColor
     float b;  // +0x8
     float a;  // +0xC
 
-    bool FUN_004a4cc0(const RgbaColor&) const;
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(RgbaColor) == 16);
 FNV_STATIC_ASSERT(offsetof(RgbaColor, r) == 0);
 FNV_STATIC_ASSERT(offsetof(RgbaColor, a) == 12);
 
-extern const RgbaColor DAT_011a9430;
 extern bool DAT_011f3724;
 
 #pragma pack(push, 4)
@@ -223,7 +236,6 @@ class NiInterpolator : public NiObject
   public:
     float m_fLastTime;  // +0x8
 
-    NiInterpolator* FUN_00a5d3f0(CloningProcess& kCloning);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiInterpolator) == 12);

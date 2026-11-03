@@ -26,7 +26,6 @@ class FormComponentArray
     // void __cdecl FormComponentArray::*(FormComponentArray*)
     // bool __cdecl FormComponentArray::*(FormComponentArray*)
     // void* __cdecl FormComponentArray::*(unsigned int)
-    void ClearDataAllComponents();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(FormComponentArray) == 152);

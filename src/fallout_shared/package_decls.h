@@ -1,20 +1,41 @@
 // fallout_shared/package_decls.h: declares TESObjectREFR, MobileObject, PackageTargetRecord, DurationData, TESPackage and more
 
+#include "fnv/decl/FUN_0041ca90.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/HighProcess.h"
+#include "fnv/decl/fnv_0067fd40__FUN_0067fd40_shell.h"
 class TESPatrolPackageData;
+class ExtraRadioData;
 class TESObjectREFR
 {
   public:
-    TESObjectREFR* GetLinkedRef();
+public:
+    ::ExtraRadioData *GetExtraRadioData();
+public:
+    float GetBoundingRadius();
 };
 class MobileObject : public TESObjectREFR
 {
+public:
+    void ProcessAnimation();
 };
+class TESForm;
+enum PACKAGE_OBJECT_TYPE;
+enum PACK_TARG_TYPE;
 class PackageTargetRecord
 {
   public:
     int GetTargetKind();
     TESObjectREFR* GetReferenceTarget();
     float FUN_0084d030();
+public:
+    ::TESForm *GetTargetForm();
+public:
+    ::PACKAGE_OBJECT_TYPE GetTargetObjectType();
+public:
+    void SetTargetKind(::PACK_TARG_TYPE);
+public:
+    void InitItem(::TESForm *);
 };
 class DurationData
 {
@@ -23,6 +44,8 @@ class DurationData
     DurationData();
     ~DurationData();
     void Copy(DurationData*);
+public:
+    int FUN_00678ca0();
 };
 enum PTYPE
 {
@@ -53,8 +76,6 @@ class TESPackage
     TESObjectREFR* GetResolvedTargetReference(MobileObject*);
     void CopyScheduleFrom(DurationData*);
     void ResetFormData();
-    void SetTrespassEnabled(bool);
-    unsigned int FUN_00676280(MobileObject*);
     bool GetPackageSearchRadius(MobileObject*, float&);
     bool FUN_00673890();
     bool FUN_00674d20();
@@ -64,6 +85,8 @@ class TESPackage
     bool FUN_00670f40();
     bool FUN_00670f60();
     bool IsMustComplete();
+public:
+    bool GetForceUnequipWeapon() const;
 };
 class ImageSpaceModifierInstanceDOF
 {

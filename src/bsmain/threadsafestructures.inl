@@ -1,4 +1,8 @@
 
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_0044edd0_owner.h"
+#include "fnv/symbols_01017000.h"
 #include "threadsafestructures_ThreadSafeStructuresMatch.h"
 
 template<>
@@ -6,7 +10,7 @@ template<>
 LockFreeQueue<NiPointer<QueuedReference> >::LockFreeQueue(unsigned int maxThreads, unsigned int deleteBatchSize)
 {
     AutoMemContext context(MEM_CONTEXT_MEM_CONTEXT_TASK_OVERHEAD, true,
-        kThreadSafeStructuresSourceFile, 253);
+        ::kThreadSafeStructuresSourceFile, 253);
     iCount = 0;
     pHead = new LockFreeQueueEntry;
     pTail = pHead;
@@ -20,7 +24,7 @@ template<>
 LockFreeQueue<bhkRigidBody*>::LockFreeQueue(unsigned int maxThreads, unsigned int deleteBatchSize)
 {
     AutoMemContext context(MEM_CONTEXT_MEM_CONTEXT_TASK_OVERHEAD, true,
-        kThreadSafeStructuresSourceFile, 253);
+        ::kThreadSafeStructuresSourceFile, 253);
     iCount = 0;
     pHead = new LockFreeQueueEntry;
     pTail = pHead;
@@ -34,7 +38,7 @@ template<>
 LockFreeMap<TESObjectREFR*, BSTreeNode*>::LockFreeMap(unsigned int maxThreads, unsigned int numBuckets, unsigned int deleteBatchSize)
 {
     AutoMemContext context(MEM_CONTEXT_MEM_CONTEXT_TASK_OVERHEAD, true,
-        kThreadSafeStructuresSourceFile, 912);
+        ::kThreadSafeStructuresSourceFile, 912);
     ItemUpdateArray = 0;
     uiNumBuckets = numBuckets;
     m_pBuckets = new ThreadSafePointer<ThreadSafeHashTableNode>[uiNumBuckets];
@@ -48,7 +52,7 @@ template<>
 void LockFreeMap<TESObjectREFR*, BSTreeNode*>::DeletedNodeScanner::ScanForDeletedNodes()
 {
     AutoMemContext kContext(MEM_CONTEXT_MEM_CONTEXT_TASK_OVERHEAD, true,
-        kThreadSafeStructuresSourceFile, 866);
+        ::kThreadSafeStructuresSourceFile, 866);
     unsigned int numReferences = pOwner->GetMaxThreads() * 3;
     ThreadSafeHashTableNode** referencedNodes = new ThreadSafeHashTableNode*[numReferences];
     memcpy(referencedNodes, pOwner->m_ppDeletedNodeBuffers, numReferences * sizeof(ThreadSafeHashTableNode*));
@@ -57,7 +61,7 @@ void LockFreeMap<TESObjectREFR*, BSTreeNode*>::DeletedNodeScanner::ScanForDelete
     while (m_pDeletedNodeHead != 0)
     {
         ThreadSafeHashTableNode* pNode = m_pDeletedNodeHead;
-        m_pDeletedNodeHead = m_pDeletedNodeHead->GetNextDelete();
+        m_pDeletedNodeHead = ((::LockFreeMap< ::TESObjectREFR *, ::BSTreeNode *>::ThreadSafeHashTableNode *)(reinterpret_cast<::Callees *>((m_pDeletedNodeHead))->FUN_00726070()));
         {
             bool bReferenced = false;
             for (unsigned int index = 0; index < numReferences; ++index)
@@ -70,14 +74,14 @@ void LockFreeMap<TESObjectREFR*, BSTreeNode*>::DeletedNodeScanner::ScanForDelete
             }
             if (bReferenced)
             {
-                pNode->SetNextDelete(deleteHead);
+                reinterpret_cast<::CombatProcedure *>((pNode))->Initialize((::CombatController *)(deleteHead));
                 deleteHead = pNode;
                 ++deleteCount;
             }
             else
             {
-                pNode->SetNextDelete(0);
-                pOwner->DeleteNode(pNode);
+                reinterpret_cast<::CombatProcedure *>((pNode))->Initialize((::CombatController *)(::LockFreeMap< ::TESObjectREFR *, ::BSTreeNode *>::ThreadSafeHashTableNode *)(0));
+                reinterpret_cast<::FUN_0044edd0_owner *>((pOwner))->DispatchAndDelete((::FUN_0044edd0_Disposable *)(pNode));
             }
         }
     }
@@ -91,7 +95,7 @@ template<>
 ThreadInterfaceManager<LockFreeQueue<bhkRigidBody*>::QueueDeleteManagerTag>::ThreadInterfaceManager(unsigned int maxThreads)
 {
     AutoMemContext context(MEM_CONTEXT_MEM_CONTEXT_TASK_OVERHEAD, true,
-        kThreadSafeStructuresSourceFile, 20);
+        ::kThreadSafeStructuresSourceFile, 20);
     uiThreadCount = 0;
     uiMaxThreads = maxThreads;
     m_pThreadInterfaceEntries = new ThreadInterfaceEntry[uiMaxThreads];
@@ -104,7 +108,7 @@ template<>
 LockFreeMap<TESObjectREFR*, BSTreeNode*>::LockFreeMap(unsigned int maxThreads, unsigned int numBuckets, unsigned int deleteBatchSize)
 {
     AutoMemContext context(MEM_CONTEXT_MEM_CONTEXT_TASK_OVERHEAD, true,
-        kThreadSafeStructuresSourceFile, 912);
+        ::kThreadSafeStructuresSourceFile, 912);
     ItemUpdateArray = 0;
     uiNumBuckets = numBuckets;
     m_pBuckets = new Bucket[uiNumBuckets];
@@ -120,7 +124,7 @@ template<>
 LockFreeMap<TESObjectREFR*, BSTreeNode*>::LockFreeMap(unsigned int maxThreads, unsigned int numBuckets, unsigned int deleteBatchSize)
 {
     AutoMemContext context(MEM_CONTEXT_MEM_CONTEXT_TASK_OVERHEAD, true,
-        kThreadSafeStructuresSourceFile, 912);
+        ::kThreadSafeStructuresSourceFile, 912);
     ItemUpdateArray = 0;
     uiNumBuckets = numBuckets;
     m_pBuckets = new Bucket[uiNumBuckets];
@@ -136,7 +140,7 @@ template<>
 LockFreeMap<TESObjectREFR*, BSTreeNode*>::LockFreeMap(unsigned int maxThreads, unsigned int numBuckets, unsigned int deleteBatchSize)
 {
     AutoMemContext context(MEM_CONTEXT_MEM_CONTEXT_TASK_OVERHEAD, true,
-        kThreadSafeStructuresSourceFile, 912);
+        ::kThreadSafeStructuresSourceFile, 912);
     ItemUpdateArray = 0;
     uiNumBuckets = numBuckets;
     m_pBuckets = new Bucket[uiNumBuckets];
@@ -152,7 +156,7 @@ template<>
 LockFreeMap<TESObjectREFR*, BSTreeNode*>::LockFreeMap(unsigned int maxThreads, unsigned int numBuckets, unsigned int deleteBatchSize)
 {
     AutoMemContext context(MEM_CONTEXT_MEM_CONTEXT_TASK_OVERHEAD, true,
-        kThreadSafeStructuresSourceFile, 912);
+        ::kThreadSafeStructuresSourceFile, 912);
     ItemUpdateArray = 0;
     uiNumBuckets = numBuckets;
     m_pBuckets = new Bucket[uiNumBuckets];
@@ -168,7 +172,7 @@ template<>
 LockFreeMap<TESObjectREFR*, BSTreeNode*>::LockFreeMap(unsigned int maxThreads, unsigned int numBuckets, unsigned int deleteBatchSize)
 {
     AutoMemContext context(MEM_CONTEXT_MEM_CONTEXT_TASK_OVERHEAD, true,
-        kThreadSafeStructuresSourceFile, 912);
+        ::kThreadSafeStructuresSourceFile, 912);
     ItemUpdateArray = 0;
     uiNumBuckets = numBuckets;
     m_pBuckets = new Bucket[uiNumBuckets];

@@ -2,6 +2,9 @@
 // src/havok/physics/utilities/actions/reorient/hkpreorientaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/reorient/hkpreorientaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00d2b260.h"
+#include "fnv/symbols_010e6000.h"
 #include "havok/hkpReorientAction.h"
 
 class hkMemoryAllocatorE445
@@ -133,9 +136,7 @@ struct FNVAction
     unsigned int userData;
     const char* name;
     void* entity;
-    void FUN_00d2b260(void* entity, unsigned int option);
 };
-extern int DAT_010e6834;
 struct FUN_00e444f0 : FNVAction
 {
     int unk1c;
@@ -150,8 +151,8 @@ struct FUN_00e444f0 : FNVAction
 FUN_00e444f0::FUN_00e444f0(void* apEntity, const __m128* apRotation, const __m128* apUp, float afStrength,
                            float afDamping)
 {
-    FUN_00d2b260(apEntity, 0);
-    vtable = &DAT_010e6834;
+    new ((void *)this) ::FUN_00d2b260((::FUN_00c90510_Entity *)(apEntity), 0);
+    vtable = &::DAT_010e6834;
     rotationAxis = *apRotation;
     upAxis = *apUp;
     strength = afStrength;

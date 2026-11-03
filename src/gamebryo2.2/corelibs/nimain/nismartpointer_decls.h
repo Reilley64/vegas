@@ -3,6 +3,13 @@
 #define FNV_NISMARTPOINTER_DECLS_H
 
 
+#include "fnv/decl/FUN_0040f6e0_class.h"
+#include "fnv/decl/FUN_0042fdc0_class.h"
+#include "fnv/decl/NiPtr.h"
+#include "fnv/decl/fnv_0044b010__FUN_0044b010_shell.h"
+#include "fnv/decl/fnv_0044b050__FUN_0044b050_shell.h"
+#include "fnv/decl/fnv_0044b0f0__FUN_0044b0f0_shell.h"
+#include "fnv/decl/fnv_0044b180__FUN_0044b180_shell.h"
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
 
@@ -22,21 +29,16 @@ class WaitableObject
 {
   public:
     void FUN_00401970();
-    void FUN_0040f6e0();
 };
 
 class KFModel
 {
   public:
-    void FUN_0044b050();
-    void FUN_0044b010();
 };
 
 class LoadedFile
 {
   public:
-    void FUN_0044b180();
-    void FUN_0044b0f0();
 };
 
 template <class T> struct NiPointerRefOps
@@ -58,7 +60,6 @@ class NavMeshPtr
 {
   public:
     void* object;
-    NavMeshPtr& FUN_0042fdc0(const NavMeshPtr&);
     NavMeshPtr& operator=(const NavMeshPtr&);
 };
 
@@ -71,7 +72,6 @@ class PathingLocation
 class PathingAvoidPointerView
 {
   public:
-    PathingAvoidPointerView& Assign(PathingAvoidNodeArray*);
 };
 
 class PathingRequest

@@ -3,6 +3,62 @@
 // against, for verified matches whose own declarations clash with the unit's current types.
 // src/fallout_shared/distant terrain system/bgsterrainchunk.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/distant terrain system/bgsterrainchunk.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/AlchemyItem.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/BSFaceGenNiNode.h"
+#include "fnv/decl/BSShaderManager.h"
+#include "fnv/decl/BSShaderPPLightingProperty.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/Cls5140.h"
+#include "fnv/decl/FUN_00439680_class.h"
+#include "fnv/decl/FUN_0043caa0_shell.h"
+#include "fnv/decl/FUN_004410d0_Class.h"
+#include "fnv/decl/FUN_00453470_shell.h"
+#include "fnv/decl/FUN_004536e0_Class.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_004ea9a0_Class.h"
+#include "fnv/decl/FUN_006fa670_Target.h"
+#include "fnv/decl/FUN_006fe920_Class.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00c3a8a0_cls.h"
+#include "fnv/decl/FUN_00c3cff0_shell.h"
+#include "fnv/decl/MLx.h"
+#include "fnv/decl/Mgr_e74120.h"
+#include "fnv/decl/NiNode.h"
+#include "fnv/decl/ObjectC3.h"
+#include "fnv/decl/S.h"
+#include "fnv/decl/TESActorBaseData.h"
+#include "fnv/decl/TargetObject.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_004436c0__FUN_004436c0_Class.h"
+#include "fnv/decl/fnv_004e4c80__Main61.h"
+#include "fnv/decl/fnv_00540570__FUN_00540570_Owner.h"
+#include "fnv/decl/fnv_00c3cb70__IOTask.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00438000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0043c000.h"
+#include "fnv/symbols_00441000.h"
+#include "fnv/symbols_0048d000.h"
+#include "fnv/symbols_004ad000.h"
+#include "fnv/symbols_00549000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_006fa000.h"
+#include "fnv/symbols_006fd000.h"
+#include "fnv/symbols_0070e000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_0119f000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011c7000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_01202000.h"
 struct FUN_006fa840_shell
 {
     unsigned char GetByteAt5D();
@@ -13,7 +69,6 @@ struct FUN_006fb150_shell
 };
 struct NiAVObject
 {
-    void SetAppCulled(bool);
 };
 struct Flt
 {
@@ -38,9 +93,7 @@ struct BGSTerrainChunkLoadTask : QueuedFileEntry
     int iLevel;
     bool FUN_006fc400(char* apDescription, unsigned int aiBufferSize);
 };
-extern int _sprintf_s(char*, unsigned int, const char*, ...);
 extern "C" void __cdecl UpdateListItems();
-void __cdecl FUN_006fd1a0();
 struct FakeWorld006faad0
 {
     virtual const char* f0();
@@ -121,7 +174,6 @@ struct FakeWorld006faad0
     virtual const char* f75();
     virtual const char* GetStr();
 };
-void BuildLodMeshPath(char* a1, FakeWorld006faad0* a2, int a3, short a4, short a5);
 int __cdecl _sprintf(char*, const char*, ...);
 struct FakeFab
 {
@@ -213,10 +265,8 @@ struct S_006fbae0
     void FUN_006fbb10();
     void* DestroyIfFlagged(unsigned int);
 };
-void __cdecl _Deallocate(void*);
 struct FUN_006fbcd0_shell
 {
-    void FUN_00c3cb70(int a, int b);
     void SetFlagAndCall(int a, int b);
 };
 struct FUN_006fbfe0_shell
@@ -225,8 +275,6 @@ struct FUN_006fbfe0_shell
 };
 struct IOTask
 {
-    bool FUN_0043caa0();
-    void NotifyParents();
 };
 struct SoundPlaybackHandle;
 template <class K, class V> struct NiTPointerMap
@@ -255,7 +303,6 @@ struct IOManager
     virtual void v17();
     virtual void vfn_48(void*);
 };
-extern IOManager* DAT_01202d98;
 struct FUN_006f7140_shell : IOTask
 {
     char _pad[48];
@@ -347,7 +394,6 @@ void __cdecl BuildLODDiffuseTexturePath(char* buf, FakeObj* obj, int level, shor
 struct GO;
 struct FUN_006fea10_Class
 {
-    unsigned char FUN_006fe920(bool);
 };
 struct GO
 {
@@ -357,17 +403,13 @@ struct GO
 struct SoundListView
 {
     bool _ref_008256d0();
-    GO** _ref_006815c0();
-    SoundListView* _ref_00726070();
 };
-extern SoundListView g_011d8624;
 void UpdateSoundListItems();
 struct QueuedFile
 {
 };
 struct ModelLoader
 {
-    void QueueModelFilePath(const char*, int, QueuedFile*);
 };
 struct FUN_0043cc60_shell
 {
@@ -391,7 +433,6 @@ struct FUN_006fbbd0_shell : BGSTerrainChunkLoadTask
 {
     void LoadTerrainChunkTextures();
 };
-extern ModelLoader* g_modelLoader;
 void __cdecl BuildLODDiffuseTexturePath(char*, FakeObj*, int, short, short);
 struct FUN_006fbb10_base
 {
@@ -428,7 +469,6 @@ struct FUN_006fbb10 : FUN_006fbb10_base
     FUN_006fbb10_sub m_50;
     FUN_006fbb10_sub m_54;
 };
-extern "C" char DAT_011d85ec;
 struct Point006fac
 {
     float x, y, z;
@@ -446,24 +486,11 @@ struct TESObjectDoorController
 struct Obj006fac;
 struct Ref006fac
 {
-    Obj006fac* FUN_00559450();
     void FUN_0066b0d0(void*);
     int data;
 };
 struct Obj006fac
 {
-    Obj006fac* FUN_00559450();
-    Obj006fac* FUN_004ea9a0();
-    Obj006fac* FUN_006629f0();
-    Obj006fac* FUN_0043b230();
-    Point006fac& GetOffsetC();
-    Point006fac& FUN_00500940();
-    float GetFieldCC();
-    void FUN_00439920(void*);
-    void FUN_00a5a040();
-    void FUN_00a59c60(const FUN_0043d410&);
-    unsigned char GetByteAtOffset5C();
-    unsigned char GetByteAt5D();
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -572,7 +599,6 @@ struct FUN_00c37ec0 : TESObjectDoorController
     virtual void v44();
     virtual void v45();
     virtual void position(const Point006fac&);
-    void FUN_00439680(const Point006fac&);
 };
 struct FUN_00c46970 : TESObjectDoorController
 {
@@ -583,7 +609,6 @@ struct BSMultiBound : TESObjectDoorController
 {
     int pad[4];
     BSMultiBound();
-    void FUN_004addc0(FUN_00c37ec0*);
 };
 struct Target006fac
 {
@@ -592,27 +617,16 @@ struct Target006fac
     int p1c, p20, p24;
     unsigned char enabled, done;
     void FUN_006facb0();
-    Obj006fac* FUN_00559450();
-    void UpdateWaterReferences(int);
-    void FUN_006fb7e0();
-    void AddSelfToList();
-    void SetAllAppCulled();
 };
 struct B5D0Status
 {
-    unsigned char GetByteAtOffset5C();
 };
 struct B5D0Item
 {
-    B5D0Status* FUN_00559450();
-    void FUN_006fb760();
-    void SetAllAppCulled();
 };
 struct B5D0List
 {
     bool FUN_008256d0();
-    B5D0Item** FUN_006815c0();
-    B5D0List* FUN_00726070();
 };
 void __cdecl UpdateListItems();
 template <class T> class NiPointer
@@ -628,14 +642,13 @@ class NiProperty;
 class NiProperty : public FUN_006fb940_shell
 {
   public:
-    void FUN_00441130(int, int);
 };
 class NiGeometryData
 {
   public:
-    void SetByteAtOffset38(int);
     void FUN_00a67050(int);
-    void FUN_004410f0(int);
+public:
+    void SetCompressFlags(unsigned char);
 };
 struct PropState
 {
@@ -774,18 +787,11 @@ class NiRenderer
     virtual void v57();
     virtual void v58();
     virtual void v59(NiGeometry*, int, int, void*);
-    void FUN_00e74120();
 };
 class NiGeometry : public NiAVObject
 {
   public:
-    NiProperty* GetProperty(unsigned int);
-    NiGeometryData* FUN_005495f0();
-    PropState* FUN_004030b0();
 };
-int FUN_00438220();
-void __cdecl FUN_00b57e30(NiGeometry*, int, int);
-NiRenderer* FUN_0043c4b0();
 class TerrainChunk
 {
   public:
@@ -815,17 +821,14 @@ struct NiFixedString
 };
 struct LoadedNode
 {
-    void AssignFixedString(const NiFixedString&);
 };
 struct NodeRef
 {
     LoadedNode* m_ptr;
-    LoadedNode* Get() const;
     NodeRef& operator=(void*);
 };
 struct FinalObject
 {
-    void FUN_006fa990();
 };
 struct TerrainTask : BGSTerrainChunkLoadTask
 {
@@ -845,7 +848,6 @@ struct E14
 };
 struct C43
 {
-    E14* FUN_0043b4a0();
 };
 struct Ec
 {
@@ -866,7 +868,6 @@ struct E1d0
 };
 struct R4e
 {
-    E1d0* CreateWaterReference();
 };
 struct AutoMemX
 {
@@ -881,7 +882,6 @@ struct Q28
 };
 struct TaskX
 {
-    int GetFlagOrValue();
 };
 struct Obj18
 {
@@ -890,8 +890,6 @@ struct Obj18
 };
 struct NodeX
 {
-    unsigned FUN_00453470();
-    Obj18* FUN_0043b4a0(unsigned i);
 };
 struct RootX
 {
@@ -901,13 +899,11 @@ struct RootX
 struct PN
 {
     void* p;
-    NodeX* FUN_00559450();
     void FUN_0066b0d0(void* q);
 };
 struct PQ
 {
     void* p;
-    Q28* FUN_00559450();
     void FUN_0066b0d0(void* q);
 };
 struct PV
@@ -920,9 +916,6 @@ struct StreamX
     char buf[0x5cc];
     StreamX();
     ~StreamX();
-    bool FUN_00c3a8a0(int f);
-    RootX* GetStringAt(unsigned i);
-    unsigned GetRefAt21C();
 };
 struct SettingX
 {
@@ -936,9 +929,9 @@ class SelfX
     PQ m4c;
     PV m50;
     PN m54;
-    int FUN_00c3cff0(int a, int b);
-    int FUN_0045cd60(int a);
     void FUN_006fbd00();
+public:
+    void UpdateWaterReferences(bool);
 };
 
 struct G3
@@ -946,47 +939,31 @@ struct G3
 };
 struct G2
 {
-    G3* FUN_00559450();
-    int FUN_0043b230();
 };
 struct G1
 {
-    G2* FUN_00559450();
 };
 struct G0
 {
     void* p;
-    G1* FUN_00559450();
 };
 struct PS
 {
     void* p;
-    void* FUN_00559450();
     void FUN_0066b0d0(void* p);
 };
 struct MgrX
 {
-    R4e* FUN_0070ec90(Q28* a, G3* b, int c, void* d, int e);
 };
-extern MgrX* g_pkMgr;
-extern bool g_bFlag;
 
 struct ObjB
 {
-    short FUN_0047d3f0();
-    short FUN_004a8ae0();
-    int FUN_00726070();
 };
 struct ObjC
 {
-    int FUN_00441110();
-    ObjC* FUN_00a59d30(int);
-    int GetElement(int);
-    int GetFltValue(int);
 };
 struct Sub4
 {
-    ObjC* FUN_00559450();
 };
 struct Cls6fabc0
 {
@@ -994,9 +971,7 @@ struct Cls6fabc0
     Sub4 m_iWordAt04;
     int FUN_006fabc0(int arg);
 };
-extern int FUN_00438220();
 extern "C" int DAT_0106e180;
-int __cdecl FUN_005b5e40(void*, int, int, int);
 namespace detach6fb {
 struct D6Object
 {
@@ -1075,25 +1050,19 @@ struct D6Node
 struct D6Root;
 struct D6Ref
 {
-    D6Root* FUN_00559450();
-    D6Node* FUN_0043b230();
 };
 struct D6Owner
 {
-    D6Ref* FUN_00559450();
 };
 struct D6ChildPtr
 {
     D6Child* p;
-    D6Child* FUN_00559450();
 };
 struct D6Queue
 {
-    void DetachRef(D6Object* object, D6Root* root, D6Node* node);
 };
 struct D6Manager
 {
-    D6Queue* FUN_0070ec90();
 };
 struct D6Detacher
 {
@@ -1106,15 +1075,11 @@ struct D6Detacher
     D6ChildPtr kAttachB;
     D6Object* pObjectA;
     D6Object* pObjectB;
-    D6Owner* FUN_00559450();
     void FUN_006fb3d0(bool force);
 };
 }
 using namespace detach6fb;
-extern bool DAT_0119f154;
-extern D6Manager* DAT_011dea10;
 
-extern SettingX g_kSetting;
 
 // @fnv 0x006fbd00
 void SelfX::FUN_006fbd00()
@@ -1122,29 +1087,29 @@ void SelfX::FUN_006fbd00()
     AutoMemX kMemVal(
         0x23, 1, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Distant Terrain System\\BGSTerrainChunk.cpp",
         0x298);
-    int iFile = FUN_00c3cff0(0, 1);
+    int iFile = ((int)(reinterpret_cast<::FUN_00c3cff0_shell *>(this)->FUN_00c3cff0(0, 1)));
     StreamX kStreamVal;
-    if (kStreamVal.FUN_00c3a8a0(FUN_0045cd60(iFile)))
+    if (reinterpret_cast<::FUN_00c3a8a0_cls *>(&(kStreamVal))->FUN_00c3a8a0(((int)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())), {}))
     {
-        RootX* pkRoot = kStreamVal.GetStringAt(0);
+        RootX* pkRoot = ((::RootX *)(reinterpret_cast<::MLx *>(&(kStreamVal))->GetStringAt(0)));
         if (pkRoot->Fc())
         {
-            m54.FUN_0066b0d0(kStreamVal.GetStringAt(0));
-            m48.FUN_0066b0d0(m54.FUN_00559450()->FUN_0043b4a0(0));
-            if (m54.FUN_00559450()->FUN_00453470() > 1 && *g_kSetting.FUN_00408d60())
+            m54.FUN_0066b0d0(((::RootX *)(reinterpret_cast<::MLx *>(&(kStreamVal))->GetStringAt(0))));
+            m48.FUN_0066b0d0(((::Obj18 *)(reinterpret_cast<::NiNode *>((((::NodeX *)(::FUN_00559450((int *)&(m54))))))->GetAt(0))));
+            if (((unsigned int)(reinterpret_cast<::FUN_00453470_shell *>((((::NodeX *)(::FUN_00559450((int *)&(m54))))))->FUN_00453470())) > 1 && *(*reinterpret_cast<::SettingX *>(&::g_011c7adc)).FUN_00408d60())
             {
-                m4c.FUN_0066b0d0(m54.FUN_00559450()->FUN_0043b4a0(1)->F18());
-                if (m4c.FUN_00559450()->F28() && m4c.FUN_00559450()->F28()->GetFlagOrValue() == 3)
+                m4c.FUN_0066b0d0(((::Obj18 *)(reinterpret_cast<::NiNode *>((((::NodeX *)(::FUN_00559450((int *)&(m54))))))->GetAt(1)))->F18());
+                if (((::Q28 *)(::FUN_00559450((int *)&(m4c))))->F28() && ((int)(reinterpret_cast<::FUN_006fbfe0_shell *>((((::Q28 *)(::FUN_00559450((int *)&(m4c))))->F28()))->GetFlagOrValue())) == 3)
                     m4c.FUN_0066b0d0(0);
             }
-            if (m54.FUN_00559450()->FUN_00453470() > 2 && *g_kSetting.FUN_00408d60())
-                m50.FUN_0066b0d0(m54.FUN_00559450()->FUN_0043b4a0(2)->F18());
+            if (((unsigned int)(reinterpret_cast<::FUN_00453470_shell *>((((::NodeX *)(::FUN_00559450((int *)&(m54))))))->FUN_00453470())) > 2 && *(*reinterpret_cast<::SettingX *>(&::g_011c7adc)).FUN_00408d60())
+                m50.FUN_0066b0d0(((::Obj18 *)(reinterpret_cast<::NiNode *>((((::NodeX *)(::FUN_00559450((int *)&(m54))))))->GetAt(2)))->F18());
         }
         else
         {
-            m48.FUN_0066b0d0(kStreamVal.GetStringAt(0));
-            if (kStreamVal.GetRefAt21C() > 1)
-                m4c.FUN_0066b0d0(kStreamVal.GetStringAt(1));
+            m48.FUN_0066b0d0(((::RootX *)(reinterpret_cast<::MLx *>(&(kStreamVal))->GetStringAt(0))));
+            if (((unsigned int)(::GetRefAt21C((const char *)&(kStreamVal)))) > 1)
+                m4c.FUN_0066b0d0(((::RootX *)(reinterpret_cast<::MLx *>(&(kStreamVal))->GetStringAt(1))));
         }
     }
 }

@@ -1,14 +1,14 @@
 // bsshader/imagespaceshaderhdr_h_unit.cpp: Derived, StandIn, Candidate, Target and more (26 functions)
 
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/FUN_00c03a20_cls.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_010b3000.h"
 #include "imagespaceshaderhdr.h"
 
-extern int DAT_010b3574;
-extern int DAT_010b3598;
 struct H00b90150
 {
-    void FUN_00c03a20();
 };
-void __cdecl _delete(void*, unsigned int);
 struct S00b90150
 {
     void* FUN_00b90150(unsigned int);
@@ -18,9 +18,9 @@ void* S00b90150::FUN_00b90150(unsigned int auiFlags)
 {
     *(void**)this = (void*)&DAT_010b3598;
     *(void**)((char*)this + 0x6c) = (void*)&DAT_010b3574;
-    ((H00b90150*)this)->FUN_00c03a20();
+    reinterpret_cast<::FUN_00c03a20_cls *>((((H00b90150*)this)))->FUN_00c03a20_cls::~FUN_00c03a20_cls();
     if (auiFlags & 1)
-        _delete(this, 0xd0);
+        ::FUN_00aa1460(this, 0xd0);
     return this;
 }
 
@@ -28,9 +28,7 @@ extern int vftable_ImageSpaceShaderHDRBlendInShaderCinematicAlphamask;
 extern int DAT_010B3934;
 struct Helper00c03a20
 {
-    void FUN_00c03a20();
 };
-void __cdecl _delete(void*, unsigned int);
 struct StandIn00b904e0
 {
     void* DestroyImageSpaceShader(unsigned int);
@@ -40,18 +38,16 @@ void* StandIn00b904e0::DestroyImageSpaceShader(unsigned int auiFlags)
 {
     *(void**)this = (void*)&vftable_ImageSpaceShaderHDRBlendInShaderCinematicAlphamask;
     *(void**)((char*)this + 0x6c) = (void*)&DAT_010B3934;
-    ((Helper00c03a20*)this)->FUN_00c03a20();
+    reinterpret_cast<::FUN_00c03a20_cls *>((((Helper00c03a20*)this)))->FUN_00c03a20_cls::~FUN_00c03a20_cls();
     if (auiFlags & 1)
-        _delete(this, 0xd0);
+        ::FUN_00aa1460(this, 0xd0);
     return this;
 }
 
 extern int vftable_ImageSpaceShaderHDRBrightPassFilter;
 extern int DAT_010b3c58;
-void __cdecl _delete(void*, unsigned int);
 struct Caller
 {
-    void FUN_00c03a20();
 };
 struct StandIn
 {
@@ -62,18 +58,16 @@ void* StandIn::FUN_00b907f0(unsigned int auiFlags)
 {
     *(void**)this = (void*)&DAT_010b3c58;
     *(void**)((char*)this + 0x6c) = (void*)&vftable_ImageSpaceShaderHDRBrightPassFilter;
-    ((Caller*)this)->FUN_00c03a20();
+    reinterpret_cast<::FUN_00c03a20_cls *>((((Caller*)this)))->FUN_00c03a20_cls::~FUN_00c03a20_cls();
     if (auiFlags & 1)
-        _delete(this, 0xd0);
+        ::FUN_00aa1460(this, 0xd0);
     return this;
 }
 
 extern int vftable_ImageSpaceShaderHDRLightAdapt;
 extern int DAT_010B42A4;
-void _delete(void*, unsigned int);
 struct C00c03a20
 {
-    void FUN_00c03a20();
 };
 struct S00b90e30
 {
@@ -85,18 +79,16 @@ void* S00b90e30::DestroyImageSpaceShaderHDRLightAdapt(unsigned int flags)
 {
     *(void**)this = (void*)&vftable_ImageSpaceShaderHDRLightAdapt;
     *(void**)((char*)this + 0x6c) = (void*)&DAT_010B42A4;
-    ((C00c03a20*)this)->FUN_00c03a20();
+    reinterpret_cast<::FUN_00c03a20_cls *>((((C00c03a20*)this)))->FUN_00c03a20_cls::~FUN_00c03a20_cls();
     if (flags & 1)
-        _delete(this, 0xd0);
+        ::FUN_00aa1460(this, 0xd0);
     return this;
 }
 
 extern void* vftable_ImageSpaceShaderHDRDownSample16;
 extern void* DAT_010B3DF4;
-void __cdecl _delete(void*, unsigned int);
 struct FUN_00b90980_shell
 {
-    void FUN_00c03a20();
     void* DestroyImageSpaceShaderHDRDownSample16(unsigned int);
 };
 // @fnv 0x00b90980
@@ -104,18 +96,16 @@ void* FUN_00b90980_shell::DestroyImageSpaceShaderHDRDownSample16(unsigned int au
 {
     *(void**)this = &vftable_ImageSpaceShaderHDRDownSample16;
     *(void**)((char*)this + 0x6c) = &DAT_010B3DF4;
-    FUN_00c03a20();
+    reinterpret_cast<::FUN_00c03a20_cls *>(this)->FUN_00c03a20_cls::~FUN_00c03a20_cls();
     if (auiFlags & 1)
-        _delete(this, 0xd0);
+        ::FUN_00aa1460(this, 0xd0);
     return this;
 }
 
 extern int vftable_ImageSpaceShaderHDRDownSample16LightAdapt;
 extern int DAT_010B4914;
-void __cdecl _delete(void*, unsigned int);
 struct Unk914
 {
-    void FUN_00c03a20();
     void* FUN_00b914a0(unsigned int);
 };
 // Sets the vtable and a member pointer, calls FUN_00c03a20, and if flags bit 0 is set deletes this with size 0xd0, returning this.
@@ -124,9 +114,9 @@ void* Unk914::FUN_00b914a0(unsigned int flags)
 {
     *(void**)this = &vftable_ImageSpaceShaderHDRDownSample16LightAdapt;
     *(void**)((char*)this + 0x6c) = &DAT_010B4914;
-    this->FUN_00c03a20();
+    reinterpret_cast<::FUN_00c03a20_cls *>((this))->FUN_00c03a20_cls::~FUN_00c03a20_cls();
     if (flags & 1)
-        _delete(this, 0xd0);
+        ::FUN_00aa1460(this, 0xd0);
     return this;
 }
 
@@ -146,7 +136,7 @@ void* FUN_00b90b10_shell::DestroyImageSpaceShaderHDRDownSample9(unsigned int fla
     *(int*)((char*)this + 0x6c) = (int)&vftable_ImageSpaceShaderHDRDownSample9_2;
     FUN_00c03a20();
     if (flags & 1)
-        _delete(this, 0xd0);
+        ::FUN_00aa1460(this, 0xd0);
     return this;
 }
 
@@ -162,15 +152,14 @@ void* Candidate::FUN_00b902f0(unsigned int flags)
 {
     *reinterpret_cast<void**>(this) = &DAT_010b37a8;
     *reinterpret_cast<void**>(static_cast<ImageSpaceShaderHDRSecondary*>(this)) = &DAT_010b3788;
-    reinterpret_cast<H00b90150*>(this)->FUN_00c03a20();
+    reinterpret_cast<::FUN_00c03a20_cls *>((reinterpret_cast<H00b90150*>(this)))->FUN_00c03a20_cls::~FUN_00c03a20_cls();
     if (flags & 1)
-        _delete(this, 0xd0);
+        ::FUN_00aa1460(this, 0xd0);
     return this;
 }
 
 extern int DAT_010b3af0;
 extern int DAT_010b3ad0;
-void __cdecl FUN_00aa1460(void*, unsigned int);
 struct Target
 {
     void* table;
@@ -201,7 +190,6 @@ struct Target
     unsigned int unk64;
     unsigned int unk68;
     void* secondary;
-    void FUN_00c03a20();
     Target* FUN_00b90670(unsigned int flags);
 };
 // @fnv 0x00b90670
@@ -209,7 +197,7 @@ Target* Target::FUN_00b90670(unsigned int flags)
 {
     table = &DAT_010b3af0;
     secondary = &DAT_010b3ad0;
-    FUN_00c03a20();
+    reinterpret_cast<::FUN_00c03a20_cls *>(this)->FUN_00c03a20_cls::~FUN_00c03a20_cls();
     if (flags & 1)
         FUN_00aa1460(this, 0xd0);
     return this;
@@ -249,7 +237,6 @@ struct FUN_00b91300_cls
     unsigned int unk68;
     void* secondary;
 
-    void FUN_00c03a20();
     FUN_00b91300_cls* FUN_00b91300(unsigned int flags);
 };
 
@@ -258,7 +245,7 @@ FUN_00b91300_cls* FUN_00b91300_cls::FUN_00b91300(unsigned int flags)
 {
     table = reinterpret_cast<void*>(&DAT_010b47a0);
     secondary = reinterpret_cast<void*>(&DAT_010b477c);
-    FUN_00c03a20();
+    reinterpret_cast<::FUN_00c03a20_cls *>(this)->FUN_00c03a20_cls::~FUN_00c03a20_cls();
     if (flags & 1)
     {
         FUN_00aa1460(this, 0xd0);
@@ -808,7 +795,6 @@ Derived::Derived()
 {}
 }  // namespace fnv_00b90ff0
 
-extern "C" void __cdecl operator_delete_sized(void* pvMem, unsigned int uiSize);
 
 class B91160Primary
 {
@@ -868,7 +854,7 @@ class FUN_00b91160 : public B91160Primary, public B91160Secondary
     {}
     static void operator delete(void* pvMem, unsigned int uiSize)
     {
-        operator_delete_sized(pvMem, uiSize);
+        ::FUN_00aa1460(pvMem, uiSize);
     }
 
     int unk70;

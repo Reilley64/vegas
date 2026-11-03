@@ -1,12 +1,42 @@
 
 // modelloader_ctx_variant.cpp: context variant of src/fallout_shared/modelloader.cpp: its stripped skeleton, as these functions were checked
 // against, for verified matches whose own declarations clash with the unit's current types.
+#include "fnv/decl/BGSMessageInitAccess.h"
+#include "fnv/decl/FUN_0043caa0_shell.h"
+#include "fnv/decl/FUN_0043caf0_shell.h"
+#include "fnv/decl/FUN_0043cc60_shell.h"
+#include "fnv/decl/FUN_0043e810_shell.h"
+#include "fnv/decl/FUN_00442550_shell.h"
+#include "fnv/decl/FUN_00448a20_class.h"
+#include "fnv/decl/FUN_00448a60_struct.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_00496cd0_cls.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00c3cff0_shell.h"
+#include "fnv/decl/FUN_00c3d440_cls.h"
+#include "fnv/decl/Loader_S.h"
+#include "fnv/decl/ObjectC3.h"
+#include "fnv/decl/ParentByteQuery.h"
+#include "fnv/decl/RecursiveModelLoader.h"
+#include "fnv/decl/ThisS.h"
+#include "fnv/decl/fnv_00440ba0__FUN_00440ba0_shell.h"
+#include "fnv/decl/fnv_004414f0__FUN_004414f0.h"
+#include "fnv/decl/fnv_004446a0__FUN_004446a0_shell.h"
+#include "fnv/decl/fnv_0062a100__FUN_0062a100_shell.h"
+#include "fnv/symbols_0043c000.h"
+#include "fnv/symbols_00448000.h"
+#include "fnv/symbols_00449000.h"
+#include "fnv/symbols_0048d000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00657000.h"
+#include "fnv/symbols_00a5f000.h"
+#include "fnv/symbols_00a61000.h"
+#include "fnv/symbols_00af6000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_01202000.h"
 #include "modelloader_verified_packet.h"
-NiRenderer* FUN_0043c4b0();
-const NiFixedString& FUN_00448a80();
 
-NiRenderer* FUN_0043c4b0();
-const NiFixedString& FUN_00448a80();
 
 class AutoMemContext
 {
@@ -28,7 +58,6 @@ class NiFixedString
 class H_A100
 {
   public:
-    void* GetSizeMasked();
 };
 
 class FUN_0043c3b0_This
@@ -52,7 +81,6 @@ class FUN_0043c3d0_shell
 class TextureNode
 {
   public:
-    int FUN_0043c430();
     virtual void vfn_00();
     virtual void vfn_04();
     virtual void vfn_08();
@@ -103,15 +131,9 @@ class MyFileEntry
     virtual const char* vfn_18();
 };
 
-extern int DAT_011a9598;
-void GetNodePointer(NiNode*, NiPointer<NiNode>&);
-bool fnv_NiStreamGetTexture(const char*, NiPointer<NiNode>&);
 int FUN_0043c410();
 void FUN_0043c3f0(unsigned int);
 extern "C" char* strstr(const char*, const char*);
-NiNode* FUN_00a61040(const NiFixedString&, MyFileEntry*, NiRenderer*, void*);
-NiNode* FUN_00a5fe30(MyFileEntry*, const char*, void*, int);
-void FNV_Warning(const char*, ...);
 
 class CQueuedTexture
 {
@@ -131,9 +153,6 @@ class CQueuedTexture
     NiPointer<NiNode> unk30;
     int unk34;
 
-    void* GetArchiveFileEntry();
-    const char* GetFilePath();
-    MyFileEntry* FUN_00c3cff0(int, int);
 
     void FUN_0043c150();
 };
@@ -144,19 +163,19 @@ void CQueuedTexture::FUN_0043c150()
     AutoMemContext memContext(this->unk18, true,
                               "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\ModelLoader.cpp", 695);
 
-    if (this->GetArchiveFileEntry())
+    if (((void *)(reinterpret_cast<::BGSMessageInitAccess *>((this))->GetIconFormID())))
     {
-        GetNodePointer((NiNode*)this->GetArchiveFileEntry(), this->unk30);
+        GetNodePointer((NiNode*)((void *)(reinterpret_cast<::BGSMessageInitAccess *>((this))->GetIconFormID())), this->unk30);
     }
-    else if (this->GetFilePath())
+    else if (((const char *)(reinterpret_cast<::FUN_0045cd60_shell *>((this))->FUN_0045cd60())))
     {
-        fnv_NiStreamGetTexture(this->GetFilePath(), this->unk30);
+        ::FindTextureByPath(((const char *)(reinterpret_cast<::FUN_0045cd60_shell *>((this))->FUN_0045cd60())), (::NiTexture **)&(this->unk30));
     }
 
     if (this->unk30)
     {
         ((FUN_0043e480_shell*)(void*)this)->FUN_0043e480(true);
-        if (((TextureNode*)(void*)(NiNode*)this->unk30)->FUN_0043c430() == 3 &&
+        if (reinterpret_cast<::ParentByteQuery *>((((TextureNode*)(void*)(NiNode*)this->unk30)))->FUN_0043c430() == 3 &&
             !((FUN_0043c3d0_shell*)(void*)this)->FUN_0043c3d0())
         {
             ((TextureNode*)(void*)(NiNode*)this->unk30)->vfn_8c();
@@ -164,7 +183,7 @@ void CQueuedTexture::FUN_0043c150()
         return;
     }
 
-    MyFileEntry* fileEntry = this->FUN_00c3cff0(1, 2);
+    MyFileEntry* fileEntry = ((::MyFileEntry *)(reinterpret_cast<::FUN_00c3cff0_shell *>((this))->FUN_00c3cff0(1, 2)));
     if (fileEntry)
     {
         int tlsVal;
@@ -176,22 +195,20 @@ void CQueuedTexture::FUN_0043c150()
         }
         if (strstr(path, "_e.dd"))
         {
-            this->unk30 = FUN_00a61040(NiFixedString(path), fileEntry, FUN_0043c4b0(), &DAT_011a9598);
+            this->unk30 = ((::NiNode *)(::fnv_00a61040::FUN_00a61040((char **)&(const ::NiFixedString &)(NiFixedString(path)), (int)(fileEntry), FUN_0043c4b0(), (int *)(void *)(&DAT_011a9598))));
         }
         else
         {
-            this->unk30 = FUN_00a5fe30(fileEntry, path, &DAT_011a9598, 1);
+            this->unk30 = ((::NiNode *)(::FUN_00a5fe30((int)(fileEntry), path, (const int *)(void *)(&DAT_011a9598), 1)));
         }
         FUN_0043c3f0(tlsVal);
     }
-    else if (this->GetArchiveFileEntry())
+    else if (((void *)(reinterpret_cast<::BGSMessageInitAccess *>((this))->GetIconFormID())))
     {
-        FNV_Warning("MODELS: Could not get file for texture with file entry offset %i and size %i.",
-                    ((FUN_0043c3b0_This*)(void*)this->GetArchiveFileEntry())->FUN_0043c3b0(),
-                    ((H_A100*)(void*)this->GetArchiveFileEntry())->GetSizeMasked());
+        ::FUN_005b5e40();
     }
-    else if (this->GetFilePath())
+    else if (((const char *)(reinterpret_cast<::FUN_0045cd60_shell *>((this))->FUN_0045cd60())))
     {
-        FNV_Warning("MODELS: Could not get file for texture %s.", this->GetFilePath());
+        ::FUN_005b5e40();
     }
 }

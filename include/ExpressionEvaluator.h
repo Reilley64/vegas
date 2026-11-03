@@ -1,6 +1,7 @@
 #ifndef FNV_CEXPRESSION_H
 #define FNV_CEXPRESSION_H
 
+#include "fnv/symbols_00559000.h"
 #include "layout_support.h"
 #include "ExpressionValue.h"
 #pragma pack(push, 4)

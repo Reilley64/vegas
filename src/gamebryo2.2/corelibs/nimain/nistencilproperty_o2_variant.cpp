@@ -2,25 +2,35 @@
 // src/gamebryo2.2/corelibs/nimain/nistencilproperty_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/gamebryo2.2/corelibs/nimain/nistencilproperty.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <new>
+#include "fnv/decl/FUN_00a5c200.h"
+#include "fnv/decl/FUN_00a5d450_class.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a5d000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f4000.h"
 class NiRTTI;
 class NiStencilProperty
 {
   public:
-    static const NiRTTI ms_kRTTI;
     virtual const NiRTTI* GetRTTI() const;
 };
 
 class NiObject;
 struct EqBase
 {
-    bool FUN_00a62140(NiObject*);
     bool FUN_00a6f070(NiObject*);
+public:
+    bool FUN_00a62140(void *);
 };
 // @fnv 0x00a6f070
 bool EqBase::FUN_00a6f070(NiObject* pkObject)
 {
     NiStencilProperty* pkStencil = (NiStencilProperty*)pkObject;
-    if (FUN_00a62140(pkObject) &&
+    if (reinterpret_cast<::EqBase *>(this)->FUN_00a62140(pkObject) &&
         *(unsigned short*)((char*)pkStencil + 0x18) == *(unsigned short*)((char*)this + 0x18) &&
         *(unsigned int*)((char*)pkStencil + 0x1c) == *(unsigned int*)((char*)this + 0x1c) &&
         *(unsigned int*)((char*)pkStencil + 0x20) == *(unsigned int*)((char*)this + 0x20))
@@ -29,30 +39,28 @@ bool EqBase::FUN_00a6f070(NiObject* pkObject)
 }
 
 extern "C" unsigned int __cdecl strlen(const char*);
-char* __cdecl NiSprintf(char* dst, unsigned int size, const char* fmt, ...);
-void* __cdecl NiMalloc(unsigned int size);
 
 // @fnv 0x00a6f2d0
 char* FUN_00a6f2d0(const char* name, int stencil)
 {
     unsigned int length = strlen(name) + 0x16;
-    char* result = (char*)NiMalloc(length);
+    char* result = (char*)::FUN_00aa1070(length);
     switch (stencil)
     {
     case 0:
-        NiSprintf(result, length, "%s = DRAW_CCW_OR_BOTH", name);
+        ::NiSprintf(result, length, "%s = DRAW_CCW_OR_BOTH", name);
         break;
     case 1:
-        NiSprintf(result, length, "%s = DRAW_CCW", name);
+        ::NiSprintf(result, length, "%s = DRAW_CCW", name);
         break;
     case 2:
-        NiSprintf(result, length, "%s = DRAW_CW", name);
+        ::NiSprintf(result, length, "%s = DRAW_CW", name);
         break;
     case 3:
-        NiSprintf(result, length, "%s = DRAW_BOTH", name);
+        ::NiSprintf(result, length, "%s = DRAW_BOTH", name);
         break;
     default:
-        NiSprintf(result, length, "%s = UNKNOWN!!!", name);
+        ::NiSprintf(result, length, "%s = UNKNOWN!!!", name);
         break;
     }
     return result;
@@ -60,9 +68,11 @@ char* FUN_00a6f2d0(const char* name, int stencil)
 
 extern void* DAT_0101e07c;
 
+class NiStream;
 struct NiProperty
 {
-    void NiPropertyCtor();
+public:
+    void LoadBinary(::NiStream &);
 };
 
 struct BSFadeNode
@@ -76,7 +86,7 @@ void* __cdecl FUN_00a6f410()
     void* p = BSFadeNode::operator new(0x24);
     if (p)
     {
-        ((NiProperty*)p)->NiPropertyCtor();
+        new ((void *)(((NiProperty*)p))) struct ::FUN_00a5c200();
         *(unsigned short*)((char*)p + 0x18) = 0x4180;
         *(void**)p = &DAT_0101e07c;
         *(int*)((char*)p + 0x1c) = 0;
@@ -92,7 +102,6 @@ struct S00a6f4d0
     virtual void f1();
     long m_ref;
 };
-extern S00a6f4d0* DAT_011f4a14;
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 // @fnv 0x00a6f4d0
 void FUN_00a6f4d0()
@@ -106,35 +115,33 @@ void FUN_00a6f4d0()
     }
 }
 
-char* __cdecl NiSprintf(char* dst, unsigned int size, const char* fmt, ...);
-void* __cdecl NiMalloc(unsigned int size);
 // @fnv 0x00a6f1e0
 char* FUN_00a6f1e0(const char* name, int stencil)
 {
     unsigned int size = strlen(name) + 22;
-    char* result = (char*)NiMalloc(size);
+    char* result = (char*)::FUN_00aa1070(size);
     switch (stencil)
     {
     case 0:
-        NiSprintf(result, size, "%s = ACTION_KEEP", name);
+        ::NiSprintf(result, size, "%s = ACTION_KEEP", name);
         break;
     case 1:
-        NiSprintf(result, size, "%s = ACTION_ZERO", name);
+        ::NiSprintf(result, size, "%s = ACTION_ZERO", name);
         break;
     case 2:
-        NiSprintf(result, size, "%s = ACTION_REPLACE", name);
+        ::NiSprintf(result, size, "%s = ACTION_REPLACE", name);
         break;
     case 3:
-        NiSprintf(result, size, "%s = ACTION_INCREMENT", name);
+        ::NiSprintf(result, size, "%s = ACTION_INCREMENT", name);
         break;
     case 4:
-        NiSprintf(result, size, "%s = ACTION_DECREMENT", name);
+        ::NiSprintf(result, size, "%s = ACTION_DECREMENT", name);
         break;
     case 5:
-        NiSprintf(result, size, "%s = ACTION_INVERT", name);
+        ::NiSprintf(result, size, "%s = ACTION_INVERT", name);
         break;
     default:
-        NiSprintf(result, size, "%s = UNKNOWN!!!", name);
+        ::NiSprintf(result, size, "%s = UNKNOWN!!!", name);
         break;
     }
     return result;
@@ -143,16 +150,13 @@ char* FUN_00a6f1e0(const char* name, int stencil)
 namespace fnv_00a6f390 {
 struct NiObject
 {
-    void CopyMembersStream(NiObject*, void*);
 };
 struct CloningProcess;
 struct NiCullingProperty
 {
-    void FUN_00a5d7a0(void*, CloningProcess&);
 };
 struct NiPropertyCtorStub
 {
-    void NiPropertyCtor();
 };
 struct FUN_00a6f390 : NiProperty
 {
@@ -166,7 +170,7 @@ void* FUN_00a6f390::MakeClone(CloningProcess& kCloning)
         FUN_00a6f390* pkObject = (FUN_00a6f390*)BSFadeNode::operator new(0x24);
         if (pkObject)
         {
-            ((NiPropertyCtorStub*)pkObject)->NiPropertyCtor();
+            new ((void *)(((NiPropertyCtorStub*)pkObject))) struct ::FUN_00a5c200();
             *(void**)((char*)pkObject + 0x00) = &DAT_0101e07c;
             *(unsigned int*)((char*)pkObject + 0x1c) = 0;
             *(unsigned int*)((char*)pkObject + 0x20) = 0xffffffff;
@@ -176,7 +180,7 @@ void* FUN_00a6f390::MakeClone(CloningProcess& kCloning)
         {
             pkObject = 0;
         }
-        ((NiCullingProperty*)this)->FUN_00a5d7a0(pkObject, kCloning);
+        ::FUN_00a5d7a0();
         *(unsigned short*)((char*)pkObject + 0x18) = *(unsigned short*)((char*)this + 0x18);
         *(unsigned int*)((char*)pkObject + 0x1c) = *(unsigned int*)((char*)this + 0x1c);
         *(unsigned int*)((char*)pkObject + 0x20) = *(unsigned int*)((char*)this + 0x20);
@@ -184,7 +188,7 @@ void* FUN_00a6f390::MakeClone(CloningProcess& kCloning)
     }
     else
     {
-        ((NiObject*)this)->CopyMembersStream((NiObject*)this, &kCloning);
+        reinterpret_cast<::FUN_00a5d450_class *>((((NiObject*)this)))->CreateVertexBufferSet((unsigned int)((NiObject*)this), &kCloning);
         return this;
     }
 }
@@ -194,35 +198,35 @@ void* FUN_00a6f390::MakeClone(CloningProcess& kCloning)
 char* FUN_00a6f0b0(const char* name, int test)
 {
     unsigned int size = strlen(name) + 22;
-    char* result = (char*)NiMalloc(size);
+    char* result = (char*)::FUN_00aa1070(size);
     switch (test)
     {
     case 0:
-        NiSprintf(result, size, "%s = TEST_NEVER", name);
+        ::NiSprintf(result, size, "%s = TEST_NEVER", name);
         break;
     case 1:
-        NiSprintf(result, size, "%s = TEST_LESS", name);
+        ::NiSprintf(result, size, "%s = TEST_LESS", name);
         break;
     case 2:
-        NiSprintf(result, size, "%s = TEST_EQUAL", name);
+        ::NiSprintf(result, size, "%s = TEST_EQUAL", name);
         break;
     case 3:
-        NiSprintf(result, size, "%s = TEST_LESSEQUAL", name);
+        ::NiSprintf(result, size, "%s = TEST_LESSEQUAL", name);
         break;
     case 4:
-        NiSprintf(result, size, "%s = TEST_GREATER", name);
+        ::NiSprintf(result, size, "%s = TEST_GREATER", name);
         break;
     case 5:
-        NiSprintf(result, size, "%s = TEST_NOTEQUAL", name);
+        ::NiSprintf(result, size, "%s = TEST_NOTEQUAL", name);
         break;
     case 6:
-        NiSprintf(result, size, "%s = TEST_GREATEREQUAL", name);
+        ::NiSprintf(result, size, "%s = TEST_GREATEREQUAL", name);
         break;
     case 7:
-        NiSprintf(result, size, "%s = TEST_ALWAYS", name);
+        ::NiSprintf(result, size, "%s = TEST_ALWAYS", name);
         break;
     default:
-        NiSprintf(result, size, "%s = UNKNOWN!!!", name);
+        ::NiSprintf(result, size, "%s = UNKNOWN!!!", name);
         break;
     }
     return result;
@@ -245,7 +249,6 @@ struct Writer
 };
 struct Base
 {
-    void FUN_00a5d7b0(Stream*);
 };
 struct Property : Base
 {
@@ -258,7 +261,7 @@ struct Property : Base
 // @fnv 0x00a6f740
 void Property::FUN_00a6f740(Stream* stream)
 {
-    FUN_00a5d7b0(stream);
+    ::FUN_00a5d7b0();
     unsigned int size = 2;
     Writer* __restrict w = stream->writer();
     w->bytesWritten += w->write(w, &mode, 2, &size, 1);
@@ -275,24 +278,18 @@ struct StrArr
     void* vtable;
     char** data;
     unsigned short capacity, size, effectiveSize, growBy;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
     void Append(char* text)
     {
         unsigned int index = size;
         if (index >= capacity)
-            SetSize(index + growBy);
-        SetAt(index, text);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(index + growBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(index, text);
     }
 };
 struct FUN_00a62a40_this
 {
     void AppendString(StrArr*);
 };
-extern char* DAT_011f4a0c;
-char* __cdecl FUN_00a7d330(const char*);
-char* __cdecl FUN_00a7d370(const char*, bool);
-char* __cdecl FUN_00a7d510(const char*, unsigned int);
 char* __cdecl FUN_00a6f0b0(const char*, int);
 char* __cdecl FUN_00a6f1e0(const char*, int);
 char* __cdecl FUN_00a6f2d0(const char*, int);
@@ -308,7 +305,7 @@ struct StencilDebugProperty : FUN_00a62a40_this
 void StencilDebugProperty::FUN_00a6f7d0(StrArr* strings)
 {
     AppendString(strings);
-    strings->Append(FUN_00a7d330(DAT_011f4a0c));
+    strings->Append(FUN_00a7d330((*reinterpret_cast<char * *>(&::g_011f4a0c))));
     bool enabled = (mode & 1) != 0;
     strings->Append(FUN_00a7d370("Enabled", enabled));
     unsigned int ref = reference;
@@ -521,13 +518,12 @@ struct Stencil
     unsigned int unk14;
     unsigned short mode;
     unsigned int flags, mask;
-    void FUN_00a5d7f0(Input&);
     void FUN_00a6f500(Input& stream);
 };
 // @fnv 0x00a6f500
 void Stencil::FUN_00a6f500(Input& stream)
 {
-    FUN_00a5d7f0(stream);
+    reinterpret_cast<::NiProperty *>(this)->LoadBinary((::NiStream &)(stream));
     if (stream.version < 0x14010002)
     {
         bool enabled;
@@ -595,7 +591,7 @@ void FUN_00a6f450()
     StencilRefObj* obj = (StencilRefObj*)BSFadeNode::operator new(0x24);
     if (obj != 0)
     {
-        reinterpret_cast<NiProperty*>(obj)->NiPropertyCtor();
+        new ((void *)(reinterpret_cast<NiProperty*>(obj))) struct ::FUN_00a5c200();
         *(void**)obj = &DAT_0101e07c;
         obj->m_1c = 0;
         obj->m_20 = -1;

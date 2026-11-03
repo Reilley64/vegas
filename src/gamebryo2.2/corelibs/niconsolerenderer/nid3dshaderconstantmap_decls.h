@@ -1,4 +1,6 @@
 
+#include "fnv/symbols_00e87000.h"
+#include "fnv/symbols_011f4000.h"
 class NiD3DShaderProgram;
 class NiGeometry;
 class NiSkinInstance;
@@ -157,6 +159,8 @@ class NiShaderConstantMapEntry
     unsigned int flags, type, index, registers, extra;
     char pad28[8];
     const float* data;
+public:
+    NiShaderConstantMapEntry();
 };
 template <class T> class NiPointer
 {
@@ -270,16 +274,18 @@ class NiD3DShaderConstantMap
                                             const NiPropertyState*, const NiDynamicEffectState*, const NiTransform&,
                                             const NiBound&, unsigned int, bool);
     void ResetShaderConstantMap();
-    void ClearShaderConstantEntries(NiTObjectArray<NiPointer<NiShaderConstantMapEntry> >*);
 };
 class NiPoint3
 {
   public:
     float x, y, z;
+public:
+    ::NiPoint3 *ScaleTo(::NiPoint3 *, float);
+public:
+    static const ::NiPoint3 ZERO;
 };
 class ThreeByThreeMatrix
 {
   public:
     float m[3][3];
 };
-extern NiPoint3 DAT_011f474c;

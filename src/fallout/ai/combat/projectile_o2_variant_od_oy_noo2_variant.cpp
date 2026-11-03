@@ -5,6 +5,120 @@
 
 // src/fallout/ai/combat/projectile_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/ai/combat/projectile.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <new>
+#include "fnv/decl/A6080Speaker.h"
+#include "fnv/decl/Actor.h"
+#include "fnv/decl/AlignedVector.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSMultiBoundRoom.h"
+#include "fnv/decl/BSMultiBoundSphere.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C00624070.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/Class_007f68a0.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_00439f50_class.h"
+#include "fnv/decl/FUN_0043b4d0_shell.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00444d00_Class.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_00458820_shell.h"
+#include "fnv/decl/FUN_00458e20_shell.h"
+#include "fnv/decl/FUN_004941c0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004a0c90_shell.h"
+#include "fnv/decl/FUN_004a39f0_shell.h"
+#include "fnv/decl/FUN_004a3fb0_shell.h"
+#include "fnv/decl/FUN_004ae6a0_shell.h"
+#include "fnv/decl/FUN_00508070_class.h"
+#include "fnv/decl/FUN_00524ac0_shell.h"
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_0059ce80_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00620b80_shell.h"
+#include "fnv/decl/FUN_00626660_Class.h"
+#include "fnv/decl/FUN_00631100_shell.h"
+#include "fnv/decl/FUN_00632c30_Class.h"
+#include "fnv/decl/FUN_00632c60_Class.h"
+#include "fnv/decl/FUN_00632ce0_Class.h"
+#include "fnv/decl/FUN_00644930_shell.h"
+#include "fnv/decl/FUN_0081f1e0_Class.h"
+#include "fnv/decl/FUN_008cd6a0_Class.h"
+#include "fnv/decl/FUN_00977770_Class.h"
+#include "fnv/decl/FUN_00978f10_shell.h"
+#include "fnv/decl/FUN_009b2c90_class.h"
+#include "fnv/decl/FUN_009baf30_shell.h"
+#include "fnv/decl/FUN_009c8d60_t.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FUN_00c66be0_class.h"
+#include "fnv/decl/FUN_00c7f690_cls.h"
+#include "fnv/decl/FUN_00c855f0_cls.h"
+#include "fnv/decl/Holder_cffa0.h"
+#include "fnv/decl/InterfaceManager.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MyPoint439180.h"
+#include "fnv/decl/NiNode.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/RefLoad.h"
+#include "fnv/decl/S004586d0_Obj.h"
+#include "fnv/decl/S0062aea0_Vector.h"
+#include "fnv/decl/S_00627920.h"
+#include "fnv/decl/ScriptLocals.h"
+#include "fnv/decl/SoundWrapper.h"
+#include "fnv/decl/TESTopicInfo.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/VATS.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/bhkCollisionObject.h"
+#include "fnv/decl/bhkFilter.h"
+#include "fnv/decl/bhkRigidBody_shell.h"
+#include "fnv/decl/bhkWorld.h"
+#include "fnv/decl/fnv_004a3a20__FUN_004a3a20_shell.h"
+#include "fnv/decl/fnv_004a3da0__FUN_004a3da0_shell.h"
+#include "fnv/decl/fnv_008cdd90__FUN_008cdd90_shell.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/decl/fnv_00979260__Projectile.h"
+#include "fnv/decl/fnv_009c3e60__Holder.h"
+#include "fnv/decl/fnv_00ae5a50__Mgr_00ae5a50.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00461000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_004a8000.h"
+#include "fnv/symbols_004ae000.h"
+#include "fnv/symbols_004b2000.h"
+#include "fnv/symbols_004b3000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_0056d000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_005ac000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005db000.h"
+#include "fnv/symbols_0062b000.h"
+#include "fnv/symbols_006ca000.h"
+#include "fnv/symbols_006fa000.h"
+#include "fnv/symbols_00874000.h"
+#include "fnv/symbols_009c0000.h"
+#include "fnv/symbols_009c5000.h"
+#include "fnv/symbols_00ad9000.h"
+#include "fnv/symbols_00c66000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01022000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f2000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
 #include "projectile_decls.h"
 
 #include <xmmintrin.h>
@@ -12,7 +126,6 @@ class NiPoint3PB
 {
   public:
     NiPoint3PB operator-(const NiPoint3PB& kPt) const;
-    float Length() const;
     float x;
     float y;
     float z;
@@ -39,8 +152,6 @@ class hkVector4PB
 {
   public:
     hkVector4PB(float fX, float fY, float fZ, float fW);
-    void SetFrom(const void* pvSource);
-    void Mul4(const hkSimdRealPB& kScale);
     __m128 m_vComponents;
 };
 
@@ -53,26 +164,17 @@ class NodePB
 class TimerPB
 {
   public:
-    float GetMovementDelta();
 };
-extern TimerPB g_kTimerPB;
 
 class VATSPB
 {
   public:
-    int GetMode();
-    float GetPlayerMult();
-    float GetTargetMult();
 };
-extern VATSPB g_kVATSPB;
 
 class SettingPB
 {
   public:
-    float& GetValue();
 };
-extern SettingPB g_kDebugTimePB;
-extern bool g_bShowDebugPB;
 
 class AVOwnerPB
 {
@@ -85,13 +187,11 @@ class AVOwnerPB
 class BaseFormPB
 {
   public:
-    float GetAnimationSpeed();
 };
 
 class CollisionPB
 {
   public:
-    void* GetWorldObject();
 };
 
 class EntityPB
@@ -103,26 +203,21 @@ class EntityPB
 class BodyPB
 {
   public:
-    BodyPB* GetMotion();
-    void ApplyImpulse(float fTimeSinceScaleStart, const hkVector4PB& kImpulse);
 };
 
 class HavokWorldPB
 {
   public:
-    const void* GetGravity();
 };
 
 class CellPB
 {
   public:
-    HavokWorldPB* GetWorld();
 };
 
 class WorldObjectPB
 {
   public:
-    EntityPB* GetEntity();
 };
 
 class TrackerPB
@@ -130,19 +225,15 @@ class TrackerPB
   public:
     void Add(void* pvShooter, void* pvProjectile);
 };
-extern TrackerPB g_kTrackerPB;
 
 class TimerObjPB
 {
   public:
-    void Start(int iValue);
 };
 
 class SpherePB
 {
   public:
-    void Init();
-    void GetTransformScale(const NiPoint3PB& kPos);
 };
 
 class DebugListPB
@@ -150,7 +241,6 @@ class DebugListPB
   public:
     void Add(SpherePB* pkSphere, float fTime);
 };
-extern DebugListPB* g_pkDebugListPB;
 
 class RefPB
 {
@@ -352,22 +442,11 @@ class RefPB
     virtual void r0c2();
     virtual void r0c3();
     virtual void UpdateMotion(float fTimeSinceScaleStart);
-    bool HasFlag(unsigned int uiFlag);
-    RefPB* GetShooter();
-    BaseFormPB* GetBaseForm();
-    CellPB* GetParentCell();
-    void UpdateTimers();
     char m_acPad[0xa4 - 4];
     AVOwnerPB m_kAVOwner;
 };
-extern RefPB* g_pkPlayerPB;
-extern RefPB* g_pkPlayerTeammatePB;
 
-CollisionPB* __cdecl FUN_004a8b00(NodePB* pkNode);
-BodyPB* __cdecl FUN_004b5a80(void* pvEntity);
-void __cdecl FUN_00b6bb30(NodePB* pkNode, float fAlpha);
 float __cdecl FUN_00408840(float fValue);
-SpherePB* __cdecl CreateOctahedron(float fRadius, const NiColorAPB& kColor, int iFlags);
 
 class ProjPB : public RefPB
 {
@@ -389,71 +468,71 @@ class ProjPB : public RefPB
 // @fnv 0x009becc0
 void ProjPB::FUN_009becc0(float fUnused)
 {
-    float fTimeSinceScaleStart = g_kTimerPB.GetMovementDelta();
-    if (g_kVATSPB.GetMode() == 4 && !HasFlag(4))
+    float fTimeSinceScaleStart = reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimerPB *>(&::g_timeGlobal))))->GetStoredFloatValue();
+    if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSPB *>(&::g_011f2250))))->GetName())) == 4 && !reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(4))
     {
-        if (GetShooter() == g_pkPlayerPB)
-            fTimeSinceScaleStart *= g_kVATSPB.GetPlayerMult();
-        else if (GetShooter() == g_pkPlayerTeammatePB)
-            fTimeSinceScaleStart *= g_kVATSPB.GetTargetMult();
+        if (((::RefPB *)(::FUN_00874480((char *)this))) == (*reinterpret_cast<::RefPB * *>(&::_g_thePlayer)))
+            fTimeSinceScaleStart *= reinterpret_cast<::VATS *>(&((*reinterpret_cast<::VATSPB *>(&::g_011f2250))))->GetModeTimeMultiplier();
+        else if (((::RefPB *)(::FUN_00874480((char *)this))) == (*reinterpret_cast<::RefPB * *>(&::DAT_011f21cc)))
+            fTimeSinceScaleStart *= reinterpret_cast<::FUN_009c8d60_t *>(&((*reinterpret_cast<::VATSPB *>(&::g_011f2250))))->FUN_009c8d60();
     }
-    if (HasFlag(0x20))
+    if (reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(0x20))
     {
-        float fSpeed = GetBaseForm()->GetAnimationSpeed();
+        float fSpeed = ::GetField90Float((char *)(((::BaseFormPB *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))));
         m_fAlpha -= fTimeSinceScaleStart / fSpeed;
         if (m_fAlpha <= 0.0)
             m_fAlpha = 0.0f;
         if (Get3D())
-            FUN_00b6bb30(Get3D(), m_fAlpha);
+            ::BSShaderRenderUtility::SetAlphaOnNode((::NiNode *)(::NodePB *)(Get3D()), m_fAlpha);
     }
-    if (GetShooter() && GetShooter()->IsActor() && HasFlag(4))
+    if (((::RefPB *)(::FUN_00874480((char *)this))) && ((::RefPB *)(::FUN_00874480((char *)this)))->IsActor() && reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(4))
     {
-        RefPB* pkShooter = GetShooter();
+        RefPB* pkShooter = ((::RefPB *)(::FUN_00874480((char *)this)));
         if (pkShooter->m_kAVOwner.GetActorValueInt(0x33) > 0 && Get3D())
         {
             NodePB* pkNode = Get3D();
-            CollisionPB* pkCollision = FUN_004a8b00(pkNode);
+            CollisionPB* pkCollision = ((::CollisionPB *)(::FUN_004a8b00((::BGSBodyPart *)(pkNode))));
             BodyPB* pkBody = 0;
             BodyPB* pkMotion = 0;
-            pkBody = pkCollision ? FUN_004b5a80(((WorldObjectPB*)pkCollision->GetWorldObject())->GetEntity()) : 0;
+            pkBody = pkCollision ? ((::BodyPB *)(::FUN_004b5a80(((::EntityPB *)(reinterpret_cast<::FUN_00620b80_shell *>((((WorldObjectPB*)((void *)(::fnv_006fa820::FUN_006fa820((const char *)(pkCollision)))))))->GetReferenceFlags()))))) : 0;
             if (pkBody)
             {
-                pkMotion = pkBody->GetMotion();
-                HavokWorldPB* pkWorld = GetParentCell()->GetWorld();
+                pkMotion = ((::BodyPB *)(reinterpret_cast<::FUN_00620b80_shell *>((pkBody))->GetReferenceFlags()));
+                HavokWorldPB* pkWorld = ((::HavokWorldPB *)(reinterpret_cast<::FUN_004543c0_cls *>((((::CellPB *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0()));
                 hkVector4PB kImpulse(0.0f, 0.0f, -30.0f, 0.0f);
-                kImpulse.SetFrom(pkWorld->GetGravity());
+                reinterpret_cast<::AlignedVector *>(&(kImpulse))->FUN_004a3f10((*(const ::AlignedVector *)(((const void *)(reinterpret_cast<::A6080Speaker *>((pkWorld))->FUN_009a6080())))));
                 hkSimdRealPB kScale(2.0f);
-                kImpulse.Mul4(kScale);
-                pkMotion->ApplyImpulse(fTimeSinceScaleStart, kImpulse);
+                reinterpret_cast<::S_00627920 *>(&(kImpulse))->FUN_00627920((::S_00561240 *)&(kScale));
+                reinterpret_cast<::FUN_00631100_shell *>((pkMotion))->FUN_00631100(fTimeSinceScaleStart, (int)&(kImpulse));
             }
         }
     }
     if (GetState() != 5)
         UpdateMotion(fTimeSinceScaleStart);
     m_fXValue += fTimeSinceScaleStart;
-    UpdateTimers();
+    reinterpret_cast<::fnv_009c3e60::Holder *>(this)->FUN_009c3e60();
     if (!m_bTracked)
     {
         RefPB* pkShooter = 0;
-        if (GetShooter() && GetShooter()->IsActor())
-            pkShooter = GetShooter();
-        g_kTrackerPB.Add(pkShooter, this);
+        if (((::RefPB *)(::FUN_00874480((char *)this))) && ((::RefPB *)(::FUN_00874480((char *)this)))->IsActor())
+            pkShooter = ((::RefPB *)(::FUN_00874480((char *)this)));
+        reinterpret_cast<::FUN_00977770_Class *>(&((*reinterpret_cast<::TrackerPB *>(&::g_011e0e80))))->FUN_00977770((float)(pkShooter), (float)(this));
         m_bTracked = true;
     }
-    if (!m_bNearPlayer && !HasFlag(1) && Get3D() && g_pkPlayerPB)
+    if (!m_bNearPlayer && !reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(1) && Get3D() && (*reinterpret_cast<::RefPB * *>(&::_g_thePlayer)))
     {
-        NiPoint3PB kDiff = g_pkPlayerPB->Get3D()->GetWorldTranslate() - Get3D()->GetWorldTranslate();
-        if (FUN_00408840(kDiff.Length()) <= m_fNearDistance)
+        NiPoint3PB kDiff = (*reinterpret_cast<::RefPB * *>(&::_g_thePlayer))->Get3D()->GetWorldTranslate() - Get3D()->GetWorldTranslate();
+        if (FUN_00408840(reinterpret_cast<::NiPoint3 *>((void *)&(kDiff))->ComputeMagnitude()) <= m_fNearDistance)
         {
-            m_kTimer.Start(1);
+            reinterpret_cast<::FUN_00ad8830_shell *>(&(m_kTimer))->FUN_00ad8830(1);
             m_bNearPlayer = true;
-            if (g_bShowDebugPB)
+            if (::DAT_011f20a4)
             {
                 NiColorAPB kColor(0.0f, 0.0f, 1.0f, 0.6f);
-                SpherePB* pkSphere = CreateOctahedron(5.0f, kColor, 1);
-                pkSphere->Init();
-                pkSphere->GetTransformScale(Get3D()->GetWorldTranslate());
-                g_pkDebugListPB->Add(pkSphere, g_kDebugTimePB.GetValue());
+                SpherePB* pkSphere = ((::SpherePB *)(::CreateOctahedron(5.0f, (const struct ::FUN_004a7800 *)&(kColor), 1)));
+                reinterpret_cast<::FUN_00a5a040_Class *>((pkSphere))->FUN_00a5a040();
+                reinterpret_cast<::FUN_00440460_S *>((pkSphere))->FUN_00440460((const ::V3 *)&(Get3D()->GetWorldTranslate()));
+                reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::DebugListPB * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(pkSphere), ::FUN_00403e20((float *)&((*reinterpret_cast<::SettingPB *>(&::g_011f210c)))));
             }
         }
     }
@@ -469,26 +548,19 @@ struct S9c_Room
 };
 struct S9c_Base
 {
-    bool HasFlag8();
-    S9c_Room* FUN_006ab360();
 };
 struct S9c_Geom;
 struct S9c_Obj
 {
-    S9c_Geom* FUN_006286d0();
 };
 struct S9c_Target
 {
-    S9c_Obj* FUN_00541c80();
 };
 struct S9c_Ref
 {
-    S9c_Target* FUN_004543c0();
 };
 struct S9c_Pos
 {
-    NiPoint3 FUN_00439ef0(const NiPoint3& rhs) const;
-    NiPoint3 FUN_00439e90(const NiPoint3& rhs) const;
 };
 struct S9c_Vec
 {
@@ -507,7 +579,6 @@ struct S9c_Rec
 };
 struct S9c_Coll
 {
-    void* FUN_009b2c90();
 };
 struct __declspec(align(16)) S9c_Hits
 {
@@ -770,8 +841,6 @@ struct __declspec(align(16)) S9c_Hits
     int unk40c;
     S9c_Hits(bool b);
     ~S9c_Hits();
-    int FUN_00726070();
-    S9c_Rec* FUN_00626660(int);
 };
 struct S9c_Geom
 {
@@ -797,7 +866,6 @@ struct S9c_Geom
 struct S9c_Layer
 {
     void* p;
-    int FUN_0043b4d0();
 };
 struct S9c_World
 {
@@ -805,17 +873,8 @@ struct S9c_World
 };
 struct S9c_Form
 {
-    void* FUN_005d43c0();
 };
-void* __cdecl FUN_004b5820(void*);
-S9c_Form* __cdecl FUN_0056f930(void*);
-void* __cdecl FUN_004b5950(void*);
-S9c_World* __cdecl FUN_004b5a80(void*);
-void __cdecl FUN_005ac750(void*, void*, unsigned int);
-extern NiPoint3 DAT_011a9490;
-extern void* DAT_011ca288;
 S9c_Pt __cdecl FUN_004a3760(float, const NiPoint3*);
-void __cdecl FUN_004a3e00(S9c_Vec*, const NiPoint3*);
 
 struct S9c_Actor
 {
@@ -945,44 +1004,42 @@ struct S9c_Actor
     virtual void v123();
     virtual void v124();
     virtual S9c_Pos* GetVirtualPosition();
-    S9c_Base* FUN_004181e0();
-    S9c_Ref* FUN_008d6f30();
     bool FUN_009c0090();
 };
 // @fnv 0x009c0090
 bool S9c_Actor::FUN_009c0090()
 {
     bool found = false;
-    if (FUN_004181e0()->HasFlag8() && FUN_004181e0()->FUN_006ab360()->FUN_0048cee0())
+    if (reinterpret_cast<::FUN_009baf30_shell *>((((::fnv_009c0090::S9c_Base *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->HasFlag8() && ((::fnv_009c0090::S9c_Room *)(reinterpret_cast<::BSMultiBoundRoom *>((((::fnv_009c0090::S9c_Base *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->FUN_006ab360()))->FUN_0048cee0())
     {
-        S9c_Target* target = FUN_008d6f30() ? FUN_008d6f30()->FUN_004543c0() : 0;
+        S9c_Target* target = ((::fnv_009c0090::S9c_Ref *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) ? ((::fnv_009c0090::S9c_Target *)(reinterpret_cast<::FUN_004543c0_cls *>((((::fnv_009c0090::S9c_Ref *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0())) : 0;
         if (!target)
             return found;
-        S9c_Obj* obj = target->FUN_00541c80();
-        S9c_Geom* geom = obj ? obj->FUN_006286d0() : 0;
-        NiPoint3 from = GetVirtualPosition()->FUN_00439ef0(FUN_004a3760(1.0f, &DAT_011a9490));
-        NiPoint3 to = GetVirtualPosition()->FUN_00439e90(FUN_004a3760(1.0f, &DAT_011a9490));
+        S9c_Obj* obj = ((::fnv_009c0090::S9c_Obj *)(reinterpret_cast<::ScriptLocals *>((target))->GetLocalData()));
+        S9c_Geom* geom = obj ? ((::fnv_009c0090::S9c_Geom *)(reinterpret_cast<::LowProcess *>((obj))->GetPackageObjectType())) : 0;
+        NiPoint3 from = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(GetVirtualPosition()))->FUN_00439ef0((::NiPoint3 *)&(const ::NiPoint3 &)(FUN_004a3760(1.0f, &::DAT_011a9490)), *(const ::NiPoint3 *)nullptr)));
+        NiPoint3 to = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)(GetVirtualPosition()))->ProjectileLaunched((::NiPoint3 *)&(const ::NiPoint3 &)(FUN_004a3760(1.0f, &::DAT_011a9490)), {})));
         S9c_Ray ray;
-        FUN_004a3e00(&ray.from, &from);
-        FUN_004a3e00(&ray.to, &to);
+        ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&ray.from)), (*(const ::fnv_004a3e00::NiPoint3 *)(&from)));
+        ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&ray.to)), (*(const ::fnv_004a3e00::NiPoint3 *)(&to)));
         S9c_Hits hits(false);
         geom->Query(&ray, &hits);
-        for (int i = 0; !found && i < hits.FUN_00726070(); i++)
+        for (int i = 0; !found && i < ((int)(reinterpret_cast<::Callees *>(&(hits))->FUN_00726070())); i++)
         {
-            S9c_Rec* rec = hits.FUN_00626660(i);
+            S9c_Rec* rec = ((::fnv_009c0090::S9c_Rec *)(reinterpret_cast<::FUN_00626660_Class *>(&(hits))->FUN_00626660(i)));
             S9c_Coll* coll = rec->obj;
-            void* item = coll->FUN_009b2c90();
-            void* a = FUN_004b5820(item);
-            S9c_Form* form = FUN_0056f930(a);
-            void* c = FUN_004b5950(item);
-            S9c_World* world = c ? FUN_004b5a80(c) : 0;
+            void* item = ((void *)(reinterpret_cast<::FUN_009b2c90_class *>((coll))->FUN_009b2c90()));
+            void* a = ((void *)(::FUN_004b5820((::FormLike *)(item))));
+            S9c_Form* form = ((::fnv_009c0090::S9c_Form *)(::FUN_0056f930((::NiAVObject *)(a))));
+            void* c = ::FUN_004b5950(item);
+            S9c_World* world = c ? ((::fnv_009c0090::S9c_World *)(::FUN_004b5a80(c))) : 0;
             if (world && form)
             {
-                if (world->FUN_0043b4f0().FUN_0043b4d0() == 23 || world->FUN_0043b4f0().FUN_0043b4d0() == 24)
+                if (reinterpret_cast<::FUN_0043b4d0_shell *>((void *)&(const ::fnv_009c0090::S9c_Layer &)(world->FUN_0043b4f0()))->FUN_0043b4d0() == 23 || reinterpret_cast<::FUN_0043b4d0_shell *>((void *)&(const ::fnv_009c0090::S9c_Layer &)(world->FUN_0043b4f0()))->FUN_0043b4d0() == 24)
                 {
                     found = true;
-                    FUN_005ac750(this, form->FUN_005d43c0(), 0x80);
-                    FUN_005ac750(DAT_011ca288, form->FUN_005d43c0(), 0x100);
+                    ::FUN_005ac750((::TESForm *)(void *)(this), (::ExtraDataList *)(void *)(reinterpret_cast<::FUN_005d43c0_ *>((form))->FUN_005d43c0()), 0x80);
+                    ::FUN_005ac750((::TESForm *)((*reinterpret_cast<void * *>(&::DAT_011ca288))), (::ExtraDataList *)(void *)(reinterpret_cast<::FUN_005d43c0_ *>((form))->FUN_005d43c0()), 0x100);
                 }
             }
         }
@@ -1000,7 +1057,6 @@ class NiPoint3P9
     NiPoint3P9 operator*(float fScale) const;
     NiPoint3P9& operator*=(float fScale);
     NiPoint3P9& operator/=(float fScale);
-    void Unitize();
     float x;
     float y;
     float z;
@@ -1010,10 +1066,7 @@ class NiMatrix3P9
 {
   public:
     NiMatrix3P9();
-    void SetZRotation(float fAngleDifference);
-    void SetXRotation(float fAngleDifference);
     NiMatrix3P9 operator*(const NiMatrix3P9& kOther) const;
-    void GetCol(unsigned int uiCol, NiPoint3P9& kCol) const;
     float m_afEntries[3][3];
 };
 
@@ -1039,8 +1092,6 @@ class PickFlagsP9
 {
   public:
     PickFlagsP9(int iValue);
-    void SetType(int iType);
-    void SetTarget(void* pvTarget);
     int m_iValue;
 };
 
@@ -1048,19 +1099,13 @@ class PickQueryP9
 {
   public:
     PickQueryP9();
-    void SetFilter(void* pvFilter);
     void SetFlags(PickFlagsP9 kFlags);
-    void SetOrigin(const NiPoint3P9& akStart);
-    void SetDirection(const NiPoint3P9& kWorldPosition);
-    void SetResults(HitResultsP9* pkResults);
-    bool HasHit();
     __m128 m_akData[11];
 };
 
 class HandleP9
 {
   public:
-    void* Get();
     unsigned int m_uiHandle;
 };
 
@@ -1144,13 +1189,11 @@ class ShooterP9
 class CollHolderP9
 {
   public:
-    void* GetFilter();
 };
 
 class CollSrcP9
 {
   public:
-    CollHolderP9* GetHolder();
 };
 
 struct BroadphaseP9
@@ -1214,20 +1257,16 @@ class WorldP9
     virtual void w030();
     virtual void w031();
     virtual bool Pick(PickQueryP9& kQuery);
-    void GetNavMeshData(NiPoint3P9& kTargetCenter);
-    BroadphaseP9* GetBroadphase();
 };
 
 class CellP9
 {
   public:
-    WorldP9* GetWorld();
 };
 
 class NameP9
 {
   public:
-    const char* c_str();
 };
 
 class BaseFormP9
@@ -1310,7 +1349,6 @@ class BaseFormP9
     virtual void b04a();
     virtual void b04b();
     virtual const char* GetFullName();
-    int HasFullName();
     char m_acPad[0x30 - 4];
     NameP9 m_kName;
 };
@@ -1318,35 +1356,20 @@ class BaseFormP9
 class SettingP9
 {
   public:
-    float& GetValue();
     bool& GetBool();
 };
-extern SettingP9 g_kShowRaysP9;
-extern SettingP9 g_kRayTimeP9;
 
 class DebugP9
 {
   public:
-    void AddLine(void* pvLine, float fTime);
 };
-extern DebugP9* g_pkDebugP9;
 
-void __cdecl FUN_00458620(NiPoint3P9& kOut, const __m128& kIn);
 float __cdecl FUN_00408840(float fValue);
-float __cdecl FUN_00404010(float fA, float fB);
-void __cdecl FUN_005b5e40(const char* pcFormat, ...);
-bool __cdecl FUN_00888960();
-void __cdecl FUN_00c66230(bool bValue);
-void* __cdecl FUN_005dbe10();
-void* __cdecl FUN_004b3890(const NiPoint3P9& kStart, const NiColorAP9& kStartColor, const NiPoint3P9& kEnd,
-                           const NiColorAP9& kEndColor, int iFlags);
 
 class PlayerP9
 {
   public:
-    CellP9* GetParentCell();
 };
-extern PlayerP9* g_pkPlayerP9;
 
 class RefP9
 {
@@ -1527,70 +1550,60 @@ class RefP9
     virtual void r0ad();
     virtual void r0ae();
     virtual float GetAngle(int iAxis);
-    CellP9* GetParentCell();
-    ProjP9* GetProjectileData();
-    ShooterP9* GetShooter();
-    float GetAnimationSpeed();
-    float GetGravity();
-    float GetRange();
-    BaseFormP9* GetBaseForm();
     bool CheckHits(PickQueryP9& kQuery, float& fDistance);
-    void OnHit();
     bool FUN_009c03f0();
     char m_acPad[0x11c - 4];
     CollSrcP9 m_kCollSrc;
 };
-int __cdecl FUN_009c0d80(PickQueryP9& kQuery, RefP9* pkRef, BaseFormP9* pkBase, int iA, int iB, float fDistance);
 
 // @fnv 0x009c03f0
 bool RefP9::FUN_009c03f0()
 {
-    if (!GetParentCell() || !GetParentCell()->GetWorld())
+    if (!((::CellP9 *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) || !((::WorldP9 *)(reinterpret_cast<::FUN_004543c0_cls *>((((::CellP9 *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0())))
         return false;
-    WorldP9* pkWorld = GetParentCell()->GetWorld();
+    WorldP9* pkWorld = ((::WorldP9 *)(reinterpret_cast<::FUN_004543c0_cls *>((((::CellP9 *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0()));
     PickQueryP9 kQuery;
     NiPoint3P9 kPos;
     NiPoint3P9 kWorldPosition;
     kPos = *GetPos();
     NiMatrix3P9 kRotate;
-    kRotate.SetZRotation(GetAngle(0));
+    reinterpret_cast<::FUN_004a0c90_shell *>(&(kRotate))->FUN_004a0c90(GetAngle(0));
     NiMatrix3P9 kTilt;
-    kTilt.SetXRotation(GetAnimationSpeed());
+    reinterpret_cast<::FUN_00524ac0_shell *>(&(kTilt))->FUN_00524ac0(reinterpret_cast<::MobileObject *>(this)->GetLooking());
     kRotate = kRotate * kTilt;
-    kRotate.GetCol(1, kWorldPosition);
-    kWorldPosition.Unitize();
+    reinterpret_cast<::FUN_00439f50_class *>((void *)&(kRotate))->FUN_00439f50(1, (::NiPoint3 *)&(kWorldPosition));
+    reinterpret_cast<::FUN_004a0c10_s *>(&(kWorldPosition))->FUN_004a0c10();
     PickFlagsP9 kFlags(0);
-    if (GetProjectileData())
+    if (((::ProjP9 *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0())))
     {
-        kFlags = GetProjectileData()->GetFlags();
+        kFlags = ((::ProjP9 *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()))->GetFlags();
     }
     else
     {
-        kFlags.SetType(6);
-        if (GetShooter() && GetShooter()->IsActor())
-            kFlags.SetTarget(GetShooter()->GetHandle().Get());
+        reinterpret_cast<::FUN_004a39f0_shell *>(&(kFlags))->FUN_004a39f0(6);
+        if (((::ShooterP9 *)(::FUN_00874480((char *)this))) && ((::ShooterP9 *)(::FUN_00874480((char *)this)))->IsActor())
+            reinterpret_cast<::FUN_0059ce80_shell *>(&(kFlags))->FUN_0059ce80((unsigned int)(((void *)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::HandleP9 &)(((::ShooterP9 *)(::FUN_00874480((char *)this)))->GetHandle()))->FUN_004a3a20()))));
         else
-            kFlags.SetTarget(FUN_005dbe10());
+            reinterpret_cast<::FUN_0059ce80_shell *>(&(kFlags))->FUN_0059ce80((unsigned int)(((void *)(::FUN_005dbe10()))));
     }
-    if (m_kCollSrc.GetHolder() && m_kCollSrc.GetHolder()->GetFilter())
-        kQuery.SetFilter(m_kCollSrc.GetHolder()->GetFilter());
-    NiPoint3P9 kRay = kWorldPosition * (GetRange() - GetGravity());
+    if (((::CollHolderP9 *)(::FUN_00559450((int *)&(m_kCollSrc)))) && ((void *)(reinterpret_cast<::Twin_0044ddc0 *>((((::CollHolderP9 *)(::FUN_00559450((int *)&(m_kCollSrc))))))->GetName())))
+        reinterpret_cast<::InterfaceManager *>(&(kQuery))->FUN_00500a20((::Tile *)(void *)(((void *)(reinterpret_cast<::Twin_0044ddc0 *>((((::CollHolderP9 *)(::FUN_00559450((int *)&(m_kCollSrc))))))->GetName()))));
+    NiPoint3P9 kRay = kWorldPosition * (reinterpret_cast<::fnv_00979260::Projectile *>(this)->GetFirstLightParameter() - reinterpret_cast<::FUN_00508070_class *>(this)->FUN_00508070());
     NiPoint3P9 kTargetCenter;
-    pkWorld->GetNavMeshData(kTargetCenter);
-    BroadphaseP9* pkBroadphase = pkWorld->GetBroadphase();
+    reinterpret_cast<::FUN_00c66be0_class *>((pkWorld))->FUN_00c66be0((unsigned int)&(kTargetCenter));
+    BroadphaseP9* pkBroadphase = ((::BroadphaseP9 *)(reinterpret_cast<::ScriptLocals *>((pkWorld))->GetActionEntry()));
     NiPoint3P9 kMaxPoint;
-    FUN_00458620(kMaxPoint, pkBroadphase->m_kMax);
+    ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kMaxPoint), (const ::hkVector4 &)(pkBroadphase->m_kMax));
     NiPoint3P9 kMinBoundsCur;
-    FUN_00458620(kMinBoundsCur, pkBroadphase->m_kMin);
+    ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kMinBoundsCur), (const ::hkVector4 &)(pkBroadphase->m_kMin));
     NiPoint3P9 kExtent = kMaxPoint - kMinBoundsCur;
-    kExtent /= 2.0f;
+    reinterpret_cast<::FUN_004941c0_shell *>((void *)&(const ::NiPoint3P9 &)(kExtent))->ScaleByInverse(2.0f);
     NiPoint3P9 kRel = kPos - kTargetCenter;
     float fRatio = FUN_00404010(FUN_00408840(kRel.x / kExtent.x),
                                 FUN_00404010(FUN_00408840(kRel.y / kExtent.y), FUN_00408840(kRel.z / kExtent.z)));
     if (fRatio > 1.0)
     {
-        FUN_005b5e40("COMBAT: Projectile %s is spawning outside of the broadphase.",
-                     GetBaseForm()->HasFullName() ? GetBaseForm()->GetFullName() : GetBaseForm()->m_kName.c_str());
+        ::FUN_005b5e40();
     }
     else
     {
@@ -1602,40 +1615,40 @@ bool RefP9::FUN_009c03f0()
         if (fEndRatio > 1.0)
         {
             if (kPos.x + kRay.x > kMaxPoint.x)
-                kRay *= (kMaxPoint.x - kPos.x) / kRay.x;
+                reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3P9 &)(kRay))->FUN_00439180((kMaxPoint.x - kPos.x) / kRay.x);
             if (kPos.y + kRay.y > kMaxPoint.y)
-                kRay *= (kMaxPoint.y - kPos.y) / kRay.y;
+                reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3P9 &)(kRay))->FUN_00439180((kMaxPoint.y - kPos.y) / kRay.y);
             if (kPos.z + kRay.z > kMaxPoint.z)
-                kRay *= (kMaxPoint.z - kPos.z) / kRay.z;
+                reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3P9 &)(kRay))->FUN_00439180((kMaxPoint.z - kPos.z) / kRay.z);
             if (kPos.x + kRay.x < kMinBoundsCur.x)
-                kRay *= (kMinBoundsCur.x - kPos.x) / kRay.x;
+                reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3P9 &)(kRay))->FUN_00439180((kMinBoundsCur.x - kPos.x) / kRay.x);
             if (kPos.y + kRay.y < kMinBoundsCur.y)
-                kRay *= (kMinBoundsCur.y - kPos.y) / kRay.y;
+                reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3P9 &)(kRay))->FUN_00439180((kMinBoundsCur.y - kPos.y) / kRay.y);
             if (kPos.z + kRay.z < kMinBoundsCur.z)
-                kRay *= (kMinBoundsCur.z - kPos.z) / kRay.z;
+                reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3P9 &)(kRay))->FUN_00439180((kMinBoundsCur.z - kPos.z) / kRay.z);
         }
     }
     kQuery.SetFlags(kFlags);
-    kQuery.SetOrigin(kPos);
-    kQuery.SetDirection(kRay);
+    reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(kQuery))->FUN_004a3da0((void *)&(kPos));
+    reinterpret_cast<::Class_007f68a0 *>(&(kQuery))->FUN_007f68a0((const ::NiPoint3 &)(kRay));
     HitResultsP9 kResults;
-    kQuery.SetResults(&kResults);
-    bool bOld = FUN_00888960();
-    FUN_00c66230(true);
-    bool bHitDetected = g_pkPlayerP9->GetParentCell()->GetWorld()->Pick(kQuery);
-    FUN_00c66230(bOld);
+    reinterpret_cast<::FUN_004a3fb0_shell *>(&(kQuery))->FUN_004a3fb0((::hkpAllRayHitCollector *)(::HitResultsP9 *)(&kResults));
+    bool bOld = ::bhkWorld::QPickCountOverride();
+    ::FUN_00c66230(true);
+    bool bHitDetected = ((::WorldP9 *)(reinterpret_cast<::FUN_004543c0_cls *>((((::CellP9 *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::PlayerP9 * *>(&::_g_thePlayer))))->GetTarget()))))->FUN_004543c0()))->Pick(kQuery);
+    ::FUN_00c66230(bOld);
     float fDistance = 3.402823466e+38F;
     bHitDetected = bHitDetected | CheckHits(kQuery, fDistance);
     if (bHitDetected)
-        bHitDetected = FUN_009c0d80(kQuery, this, GetBaseForm(), 0, 1, fDistance) != 0;
-    if (g_kShowRaysP9.GetBool())
+        bHitDetected = ::FUN_009c0d80((::Scene *)&(kQuery), (::Controller *)(::RefP9 *)(this), (int)(((::BaseFormP9 *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))), (float *)(0), 1, fDistance) != 0;
+    if ((*reinterpret_cast<::SettingP9 *>(&::g_011f20ec)).GetBool())
     {
-        NiColorAP9 kColor = kQuery.HasHit() ? NiColorAP9(1.0f, 0.0f, 0.0f, 1.0f) : NiColorAP9(1.0f, 1.0f, 0.0f, 1.0f);
-        void* pvLine = FUN_004b3890(kPos, kColor, kPos + kRay, kColor, 1);
-        g_pkDebugP9->AddLine(pvLine, g_kRayTimeP9.GetValue());
+        NiColorAP9 kColor = ((bool)(reinterpret_cast<::FUN_00632ce0_Class *>(&(kQuery))->FUN_00632ce0())) ? NiColorAP9(1.0f, 0.0f, 0.0f, 1.0f) : NiColorAP9(1.0f, 1.0f, 0.0f, 1.0f);
+        void* pvLine = ((void *)(::fnv_004b3890::FUN_004b3890((const class ::FUN_006815c0 &)(kPos), (const ::fnv_004b3890::FUN_004a7800 &)(kColor), (const class ::FUN_006815c0 &)((const ::NiPoint3P9 &)(kPos + kRay)), (const ::fnv_004b3890::FUN_004a7800 &)(kColor), 1)));
+        reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::DebugP9 * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(pvLine), ::FUN_00403e20((float *)&((*reinterpret_cast<::SettingP9 *>(&::g_011f210c)))));
     }
-    if (kQuery.HasHit())
-        OnHit();
+    if (((bool)(reinterpret_cast<::FUN_00632ce0_Class *>(&(kQuery))->FUN_00632ce0())))
+        reinterpret_cast<::Projectile *>(this)->FUN_009bc8f0();
     return bHitDetected;
 }
 
@@ -1644,9 +1657,9 @@ class hkVector4
   public:
     hkVector4();
     hkVector4 FUN_00630b40() const;                       // returns a derived vector by value
-    float FUN_004586d0() const;                           // length
-    void FUN_0062aea0();                                  // normalize
-    void FUN_00627920(const class FUN_005dbf20& kScale);  // mul
+                               // length
+                                      // normalize
+      // mul
 
     __m128 m_vComponents;
 };
@@ -1658,18 +1671,15 @@ class FUN_005dbf20
     __m128 m_vValue;
 };
 
-hkVector4& FUN_004a3e00(hkVector4& kOut, const NiPoint3& kIn);
 
 class ImpulseBody
 {
   public:
-    void ApplyVirtualCall(const hkVector4& kImpulse, const hkVector4& kPoint);
 };
 
 class ImpulseLock
 {
   public:
-    void FUN_00483710();
 };
 
 class ImpulseRigidBody
@@ -1715,25 +1725,19 @@ class ImpulseRigidBody
     virtual void v37();
     virtual ImpulseLock* GetLock();  // +0x98
 
-    int FUN_00517630();  // motion type
-    ImpulseBody* FUN_004ae750();
+      // motion type
 };
 
-void* FUN_004b59f0(const void* pvObject);
-void* FUN_004b5a80(const void* pvObject);
 
 class ImpulseActorBase
 {
   public:
-    float FUN_00644930();
 };
 
-float FUN_0062b520(float fBase, ImpulseRigidBody* pkBody, int iMode);
 
 class ImpulseSource
 {
   public:
-    ImpulseActorBase* FUN_004181e0();
     void FUN_009c2e80(NiPoint3 kPoint, NiPoint3 kDirection, void* pvTarget);
 };
 
@@ -1742,27 +1746,27 @@ void ImpulseSource::FUN_009c2e80(NiPoint3 kPoint, NiPoint3 kDirection, void* pvT
 {
     if (!pvTarget)
         return;
-    ImpulseRigidBody* pkBody = (ImpulseRigidBody*)FUN_004b5a80(FUN_004b59f0(pvTarget));
+    ImpulseRigidBody* pkBody = (ImpulseRigidBody*)((::BodyPB *)(::FUN_004b5a80(FUN_004b59f0(pvTarget))));
     ImpulseLock* pkLock = pkBody ? pkBody->GetLock() : 0;
     if (pkLock)
     {
-        if (pkBody->FUN_00517630() < 4)
+        if (reinterpret_cast<::bhkRigidBody_shell *>((pkBody))->FUN_00517630() < 4)
         {
-            float fForce = FUN_004181e0()->FUN_00644930();
-            fForce = FUN_0062b520(fForce, pkBody, 1);
+            float fForce = reinterpret_cast<::FUN_00644930_shell *>((((::ImpulseActorBase *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->FUN_00644930();
+            fForce = ::FUN_0062b520(fForce, (::bhkWorldObject *)(pkBody), 1);
             if (fForce != 0.0)
             {
                 hkVector4 kImpulse;
-                FUN_004a3e00(kImpulse, kDirection);
+                ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(kImpulse), (const ::fnv_004a3e00::NiPoint3 &)(kDirection));
                 hkVector4 kPosition;
-                FUN_004a3e00(kPosition, kPoint);
-                if (kImpulse.FUN_00630b40().FUN_004586d0() > 0.0)
-                    kImpulse.FUN_0062aea0();
+                ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(kPosition), (const ::fnv_004a3e00::NiPoint3 &)(kPoint));
+                if (reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::hkVector4 &)(kImpulse.FUN_00630b40()))->FUN_004586d0() > 0.0)
+                    reinterpret_cast<::S0062aea0_Vector *>(&(kImpulse))->FUN_0062aea0();
                 FUN_005dbf20 kScale(fForce);
-                kImpulse.FUN_00627920(kScale);
-                pkLock->FUN_00483710();
-                pkBody->FUN_004ae750()->ApplyVirtualCall(kImpulse, kPosition);
-                pkLock->FUN_00483710();
+                reinterpret_cast<::S_00627920 *>(&(kImpulse))->FUN_00627920((::S_00561240 *)&(kScale));
+                reinterpret_cast<::TESForm *>((pkLock))->ClearData();
+                reinterpret_cast<::FUN_0081f1e0_Class *>((((::ImpulseBody *)(::FUN_004ae750((void *)(pkBody))))))->ApplyVirtualCall((int)&(kImpulse), (int)&(kPosition));
+                reinterpret_cast<::TESForm *>((pkLock))->ClearData();
             }
         }
     }
@@ -1773,7 +1777,6 @@ class hkTransform9C
   public:
     hkTransform9C();
     hkTransform9C(const hkTransform9C& kOther);
-    void Set(const void* pvRotation, const void* pvTranslation);
     void SetMul(const hkTransform9C& kA, const hkTransform9C& kB);
     __m128 m_akCols[4];
 };
@@ -1781,7 +1784,6 @@ class hkTransform9C
 class hkVector49C
 {
   public:
-    void SetTransformedPos(const hkTransform9C& kXform, const void* pvPos);
     __m128 m_vComponents;
 };
 
@@ -1798,7 +1800,6 @@ class ResultFlag9C
 {
   public:
     ResultFlag9C();
-    bool IsSet();
     char m_cValue;
 };
 
@@ -1806,7 +1807,6 @@ class hkAabbOut9C
 {
   public:
     hkAabbOut9C();
-    ResultFlag9C GetResult();
     __m128 m_akData[5];
 };
 
@@ -1814,22 +1814,17 @@ class Flags9C
 {
   public:
     Flags9C();
-    bool IsActive();
-    int GetMotionType();
     int m_iValue;
 };
 
 class Motion9C
 {
   public:
-    ResultFlag9C CalcAabb(const hkAabb9C& kAabb, hkAabbOut9C& kOut);
-    void* GetEntry(hkAabbOut9C& kOut);
 };
 
 class RigidBody9C
 {
   public:
-    Motion9C* GetMotion();
 };
 
 class WorldObject9C
@@ -1899,42 +1894,32 @@ class WorldObject9C
     virtual void GetTransform(hkTransform9C& kXform);
     RigidBody9C* GetRigidBody();
     Flags9C GetFlags();
-    bool IsFixed();
-    Motion9C* GetMotion();
 };
 
 class Phantom9C
 {
   public:
-    const void* GetRotation();
-    const void* GetTranslation();
 };
 
 class Listener9C
 {
   public:
     virtual void Add(void* pvEntry);
-    void Update();
 };
 
 class World9C
 {
   public:
-    const void* GetMin();
-    const void* GetMax();
-    Listener9C* GetListener();
 };
 
 class CollisionObject9C
 {
   public:
-    WorldObject9C* GetWorldObject();
 };
 
 class BlendCollisionObject9C : public CollisionObject9C
 {
   public:
-    float GetBlend();
 };
 
 class NiRTTI9C
@@ -1942,8 +1927,6 @@ class NiRTTI9C
   public:
     const char* m_pcName;
 };
-extern NiRTTI9C g_kBlendCollisionRTTI9C;
-extern NiRTTI9C g_kPhantomRTTI9C;
 
 class NiNode9C;
 class NiAVObject9C
@@ -1953,19 +1936,14 @@ class NiAVObject9C
     virtual void v1();
     virtual void v2();
     virtual NiNode9C* IsSceneNode();
-    const void* GetWorldTransform();
 };
 
 class NiNode9C
 {
   public:
     unsigned int GetArrayCount();
-    NiAVObject9C* GetAt(unsigned int uiIndex);
 };
 
-CollisionObject9C* __cdecl FUN_0043b610(NiAVObject9C* pkObject);
-bool __cdecl FUN_0043b300(NiRTTI9C* pkRTTI, void* pvObject);
-void __cdecl FUN_0056df80(hkTransform9C& kOut, const void* pvTransform);
 
 // @fnv 0x009c5ba0
 bool __cdecl FUN_009c5ba0(World9C* pkWorld, NiAVObject9C* pkObject, bool bCheckMotion, bool bUpdate)
@@ -1973,27 +1951,27 @@ bool __cdecl FUN_009c5ba0(World9C* pkWorld, NiAVObject9C* pkObject, bool bCheckM
     bool bStateChanged = false;
     if (pkObject)
     {
-        CollisionObject9C* pkCollision = FUN_0043b610(pkObject);
+        CollisionObject9C* pkCollision = ((::CollisionObject9C *)(::bhkCollisionObject::GetFromNiAVObject((::NiAVObject *)(pkObject))));
         if (pkCollision)
         {
-            WorldObject9C* pkWorldObject = pkCollision->GetWorldObject();
-            RigidBody9C* pkBody = pkWorldObject ? pkWorldObject->GetRigidBody() : 0;
-            if (pkBody && pkWorldObject->GetFlags().IsActive() &&
-                (!bCheckMotion || pkWorldObject->GetFlags().GetMotionType() != 1))
+            WorldObject9C* pkWorldObject = ((::WorldObject9C *)(::fnv_006fa820::FUN_006fa820((const char *)(pkCollision))));
+            RigidBody9C* pkBody = pkWorldObject ? ((::RigidBody9C *)(reinterpret_cast<::FUN_004ae6a0_shell *>((pkWorldObject))->FUN_004ae6a0())) : 0;
+            if (pkBody && reinterpret_cast<::C00624070 *>((void *)&(const ::Flags9C &)(pkWorldObject->GetFlags()))->FUN_00624070() &&
+                (!bCheckMotion || reinterpret_cast<::bhkFilter *>((void *)&(const ::Flags9C &)(pkWorldObject->GetFlags()))->FUN_006240b0() != 1))
             {
                 hkTransform9C kXform;
-                if (FUN_0043b300(&g_kBlendCollisionRTTI9C, pkCollision))
+                if (::FUN_0043b300((const ::NiRTTI *)(::NiRTTI9C *)(&(*reinterpret_cast<::NiRTTI9C *>(&::g_01267e64))), (::NiAVObject *)(pkCollision)))
                 {
                     BlendCollisionObject9C* pkBlend = (BlendCollisionObject9C*)pkCollision;
-                    if (!pkWorldObject->IsFixed() || pkBlend->GetBlend() == 1.0)
+                    if (!reinterpret_cast<::Holder_cffa0 *>((pkWorldObject))->FUN_008cffa0() || reinterpret_cast<::BSMultiBoundSphere *>((pkBlend))->GetRadius() == 1.0)
                     {
-                        FUN_0056df80(kXform, pkObject->GetWorldTransform());
-                        if (FUN_0043b300(&g_kPhantomRTTI9C, pkWorldObject))
+                        ::FromHK((::hkTransform &)(kXform), (*(const ::NiTransform *)(((const void *)(::FUN_00461130((int)(pkObject)))))));
+                        if (::FUN_0043b300((const ::NiRTTI *)(::NiRTTI9C *)(&(*reinterpret_cast<::NiRTTI9C *>(&::g_012683c8))), (::NiAVObject *)(pkWorldObject)))
                         {
                             Phantom9C* pkPhantom = (Phantom9C*)pkWorldObject;
                             hkTransform9C kLocal;
                             hkTransform9C kWorld(kXform);
-                            kLocal.Set(pkPhantom->GetTranslation(), pkPhantom->GetRotation());
+                            reinterpret_cast<::FUN_008cd6a0_Class *>(&(kLocal))->FUN_008cd6a0((void *)(((const void *)(reinterpret_cast<::BGSCameraPath *>((pkPhantom))->GetShotList()))), (void *)(((const void *)(reinterpret_cast<::TESTopicInfo *>((pkPhantom))->GetAddTopicList()))));
                             kXform.SetMul(kWorld, kLocal);
                         }
                     }
@@ -2008,13 +1986,13 @@ bool __cdecl FUN_009c5ba0(World9C* pkWorld, NiAVObject9C* pkObject, bool bCheckM
                 }
                 hkAabb9C kAabb;
                 hkAabbOut9C kOut;
-                kAabb.m_kMin.SetTransformedPos(kXform, pkWorld->GetMin());
-                kAabb.m_kMax.SetTransformedPos(kXform, pkWorld->GetMax());
-                pkBody->GetMotion()->CalcAabb(kAabb, kOut);
-                if (kOut.GetResult().IsSet())
+                reinterpret_cast<::FUN_00c7f690_cls *>(&(kAabb.m_kMin))->FUN_00c7f690((const ::S_00c7f690_M *)&(kXform), (const ::S_00c7f690_V *)(const void *)(((const void *)(new ((void *)(pkWorld)) ::Vec3()))));
+                reinterpret_cast<::FUN_00c7f690_cls *>(&(kAabb.m_kMax))->FUN_00c7f690((const ::S_00c7f690_M *)&(kXform), (const ::S_00c7f690_V *)(const void *)(reinterpret_cast<::FUN_00458820_shell *>((pkWorld))->FUN_00458820()));
+                reinterpret_cast<::FUN_00632c30_Class *>((((::Motion9C *)(::FUN_004ae750((void *)(pkBody))))))->ForwardToV8((void *)&(kAabb), (void *)&(kOut), {});
+                if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::ResultFlag9C &)((*(::ResultFlag9C *)(reinterpret_cast<::FUN_00632c60_Class *>(&(kOut))->FUN_00632c60({})))))->FUN_005609f0())
                 {
-                    Listener9C* pkListener = pkWorld->GetListener();
-                    pkListener->Add(pkWorldObject->GetMotion()->GetEntry(kOut));
+                    Listener9C* pkListener = ((::Listener9C *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>((pkWorld))->FUN_008cdd90()));
+                    pkListener->Add(((void *)(::FUN_00460140((int)(((::Motion9C *)(::FUN_004ae750((void *)(pkWorldObject)))))))));
                     bStateChanged = true;
                 }
             }
@@ -2024,12 +2002,12 @@ bool __cdecl FUN_009c5ba0(World9C* pkWorld, NiAVObject9C* pkObject, bool bCheckM
         {
             for (unsigned int i = 0; i < pkNode->GetArrayCount(); i++)
             {
-                NiAVObject9C* pkChild = pkNode->GetAt(i);
+                NiAVObject9C* pkChild = ((::NiAVObject9C *)(reinterpret_cast<::NiNode *>((pkNode))->GetAt(i)));
                 bStateChanged = bStateChanged | FUN_009c5ba0(pkWorld, pkChild, bCheckMotion, false);
             }
         }
     }
     if (bUpdate)
-        pkWorld->GetListener()->Update();
+        reinterpret_cast<::FUN_00c855f0_cls *>((((::Listener9C *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>((pkWorld))->FUN_008cdd90()))))->FUN_00c855f0();
     return bStateChanged;
 }

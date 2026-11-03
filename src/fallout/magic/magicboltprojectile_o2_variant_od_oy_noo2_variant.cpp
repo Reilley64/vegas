@@ -7,16 +7,47 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/fallout/magic/magicboltprojectile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/magicboltprojectile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/Bolt.h"
+#include "fnv/decl/CellView.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00456630_helper.h"
+#include "fnv/decl/FUN_004610f0_Class.h"
+#include "fnv/decl/FUN_0081c4a0_cls.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00950bb0_shell.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FUN_00ad8b60_h.h"
+#include "fnv/decl/FUN_00ad8f20_shell.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MagicProjectile.h"
+#include "fnv/decl/PathingRequest.h"
+#include "fnv/decl/PlayerMover.h"
+#include "fnv/decl/Reference.h"
+#include "fnv/decl/SoundPlaybackHandle.h"
+#include "fnv/decl/TESTopicInfo.h"
+#include "fnv/decl/fnv_00570f70__Obj570.h"
+#include "fnv/decl/fnv_0080fb00__FUN_0080fb00_Class.h"
+#include "fnv/decl/fnv_00813f30__Actor80F.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/decl/xActor_2.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_004fd000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_0080f000.h"
+#include "fnv/symbols_00811000.h"
+#include "fnv/symbols_011ae000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
 struct RefH
 {
-    bool IsDeleted() const;
 };
 struct FUN_00811930_shell : RefH
 {
     bool IsNotDeleted() const;
 };
-extern int DAT_011ae61c;
-void FUN_00811e00(int value);
 struct FUN_008133d0_shell
 {
     void FUN_008133d0(int value);
@@ -41,49 +72,32 @@ struct xSound
     xSound();
     ~xSound();
     xSound& operator=(const xSound&);
-    bool FUN_00ad8ce0();
-    void FUN_00ad8d10();
-    bool FUN_00ad8b60(float, float, float);
-    void FUN_00ad8f20(void*);
-    bool FUN_00ad8830(bool);
     int m_iWordAt00, m_iWordAt04, m_8;
 };
 struct xFltSetting
 {
-    float* FUN_00403e20();
 };
-extern xFltSetting xg_11d16f8;
 extern xFltSetting xg_11d1c28;
 extern const float xg_107a8b0;
-extern xFltSetting xg_11d1ae4;
-extern xFltSetting xg_11d1758;
 struct xIntSetting
 {
-    int* FUN_0043d4d0();
 };
-extern xIntSetting xg_11d16ec;
-void xFUN_00811e00(int);
 struct xPtr
 {
     xPtr(int);
     ~xPtr();
     void FUN_0066b0d0(void*);
-    void* FUN_00559450();
     void* m_p;
 };
 int xFUN_0081e440(void*);
 struct xNodeA
 {
-    bool FUN_00456610();
 };
 struct xPC
 {
-    xNodeA* FUN_00950bb0(bool);
 };
-extern xPC* xg_pc_11dea3c;
 struct xAudio
 {
-    static xAudio* FUN_00453a70();
     struct xSound FUN_00ad73b0(void*, unsigned int);
 };
 struct xRefList
@@ -92,33 +106,24 @@ struct xRefList
 };
 struct xDH
 {
-    xRefList* GetOffset70Ptr();
 };
-extern xDH xg_11e0e80;
-void xFUN_0080fae0(float);
 struct xRadius
 {
-    float FUN_009b0bd0();
 };
 struct xSndForm
 {
-    void* FUN_0084e3a0();
 };
 struct xEffect
 {
-    xSndForm* FUN_004fd3c0();
 };
 struct xCtl
 {
-    void FUN_0080fb00(xVec4*);
 };
 struct xCell
 {
-    void FUN_00548230(void*, bool);
 };
 struct xOwner
 {
-    void FUN_0081c4a0(void*);
 };
 struct xA
 {
@@ -151,7 +156,6 @@ struct xActorV
     virtual void* FUN_2c();
 };
 
-extern void* xg_player_11dea3c;
 struct xProj : xBase
 {
     int m_pad1c[27];
@@ -168,65 +172,54 @@ struct xProj : xBase
     xSound m_c8;
     float m_d4;
     xProj(xActorV* apA, int b, int c, int d, xP3 kP1, xP3 kP2);
-    xEffect* FUN_004fd400();
-    void FUN_008133d0(int);
-    xP3* FUN_00436aa0();
-    void FUN_00575830(const xP3&);
-    void InitEffect();
-    void FUN_00570f70(void*);
-    void FUN_00813f30();
-    xCtl* FUN_009306d0();
-    xCell* FUN_008d6f30();
-    void FUN_0081eba0();
-    xActorV* FUN_009185e0();
 };
 // @fnv 0x00811980
 xProj::xProj(xActorV* apA, int b, int c, int d, xP3 kP1, xP3 kP2)
     : xBase((int)apA, b, c, d, kP1, kP2), m_a8(0), m_b4(0), m_b8(0), m_bc(0), m_c0(0)
 {
-    xFUN_00811e00(*xg_11d16ec.FUN_0043d4d0());
-    FUN_008133d0(0);
-    m_88 = ((xRadius*)FUN_004fd400())->FUN_009b0bd0() * *xg_11d16f8.FUN_00403e20();
+    ::FUN_00811e00(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::xIntSetting *>(&::g_011d16ec)))))));
+    reinterpret_cast<::FUN_008133d0_shell *>(this)->FUN_008133d0(0);
+    m_88 = reinterpret_cast<::PathingRequest *>((((xRadius*)((::xEffect *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400())))))->GetCenterRadius() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::originalRuntimeFloatSetting1140))))));
     m_b0 = 0;
     m_c4 = 0;
     m_d4 = 0.0f;
-    if (apA->FUN_2c() == xg_player_11dea3c && xg_pc_11dea3c->FUN_00950bb0(true) &&
-        !xg_pc_11dea3c->FUN_00950bb0(true)->FUN_00456610())
+    if (apA->FUN_2c() == (*reinterpret_cast<void * *>(&::_g_thePlayer)) && ((::xNodeA *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::xPC * *>(&::_g_thePlayer))))->FUN_00950bb0(true))) &&
+        !reinterpret_cast<::FUN_00456630_helper *>((((::xNodeA *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::xPC * *>(&::_g_thePlayer))))->FUN_00950bb0(true)))))->FUN_00456610())
     {
-        xP3 POS = *FUN_00436aa0();
-        POS.z = POS.z + *xg_11d1ae4.FUN_00403e20();
-        FUN_00575830(POS);
+        xP3 POS = *((::xP3 *)(reinterpret_cast<::TESTopicInfo *>(this)->GetAddTopicList()));
+        POS.z = POS.z + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::originalRuntimeFloatSetting1193))))));
+        reinterpret_cast<::Reference *>(this)->FUN_00575830((::Position *)&(POS));
     }
-    xPtr OLD(xFUN_0081e440(FUN_004fd400()));
+    xPtr OLD(xFUN_0081e440(((::xEffect *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400()))));
     OLD.FUN_0066b0d0(0);
-    InitEffect();
-    FUN_00570f70(m_b4.FUN_00559450());
-    FUN_00813f30();
+    reinterpret_cast<::Bolt *>(this)->InitEffect();
+    reinterpret_cast<::fnv_00570f70::Obj570 *>(this)->FUN_00570f70((int)(((void *)(::FUN_00559450((int *)&(m_b4))))));
+    reinterpret_cast<::fnv_00813f30::Actor80F *>(this)->FUN_00813f30();
     xVec4 V(-xg_107a8b0, 0.0f, 0.0f, 0.0f);
-    FUN_009306d0()->FUN_0080fb00(&V);
-    FUN_008d6f30()->FUN_00548230(this, false);
-    FUN_008133d0(0);
-    if (FUN_004fd400()->FUN_004fd3c0())
+    reinterpret_cast<::fnv_0080fb00::FUN_0080fb00_Class *>((((::xCtl *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()))))->FUN_0080fb00((int)(&V));
+    reinterpret_cast<::CellView *>((((::xCell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_00548230((::RefView *)(void *)(this), false);
+    reinterpret_cast<::FUN_008133d0_shell *>(this)->FUN_008133d0(0);
+    if (((::xSndForm *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((::xEffect *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400())))))))
     {
-        void* NAME = FUN_004fd400()->FUN_004fd3c0()->FUN_0084e3a0();
-        if (m_c8.FUN_00ad8ce0())
-            m_c8.FUN_00ad8d10();
-        if (m_c0.FUN_00559450())
+        void* NAME = ((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::xSndForm *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((::xEffect *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400()))))))))->FUN_0084e3a0()));
+        if (reinterpret_cast<::SoundPlaybackHandle *>(&(m_c8))->IsValid())
+            reinterpret_cast<::SoundPlaybackHandle *>(&(m_c8))->Release();
+        if (((void *)(::FUN_00559450((int *)&(m_c0)))))
         {
-            m_c8 = xAudio::FUN_00453a70()->FUN_00ad73b0(NAME, 0x102);
-            xP3 POS2 = *FUN_00436aa0();
-            m_c8.FUN_00ad8b60(POS2.x, POS2.y, POS2.z);
-            m_c8.FUN_00ad8f20(m_c0.FUN_00559450());
-            m_c8.FUN_00ad8830(true);
+            reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::xSound &)(m_c8))->operator=((const ::SoundPlaybackHandle &)((const ::xSound &)(((::xAudio *)(::FUN_00453a70()))->FUN_00ad73b0(NAME, 0x102))));
+            xP3 POS2 = *((::xP3 *)(reinterpret_cast<::TESTopicInfo *>(this)->GetAddTopicList()));
+            reinterpret_cast<::FUN_00ad8b60_h *>(&(m_c8))->FUN_00ad8b60(POS2.x, POS2.y, POS2.z);
+            reinterpret_cast<::FUN_00ad8f20_shell *>(&(m_c8))->FUN_00ad8f20((::NiAVObject *)(void *)(((void *)(::FUN_00559450((int *)&(m_c0))))));
+            reinterpret_cast<::FUN_00ad8830_shell *>(&(m_c8))->FUN_00ad8830(true);
         }
     }
-    FUN_0081eba0();
-    void* SHOOTER = FUN_009185e0() ? FUN_009185e0()->FUN_2c() : 0;
-    if (SHOOTER != xg_player_11dea3c)
-        xFUN_0080fae0(*xg_11d1758.FUN_00403e20());
+    reinterpret_cast<::xActor *>(this)->FUN_0081eba0();
+    void* SHOOTER = ((::xActorV *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags())) ? ((::xActorV *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))->FUN_2c() : 0;
+    if (SHOOTER != (*reinterpret_cast<void * *>(&::_g_thePlayer)))
+        ::FUN_0080fae0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::originalRuntimeFloatSetting1188)))))));
     else
     {
-        xRefList* LIST = xg_11e0e80.GetOffset70Ptr();
+        xRefList* LIST = ((::xRefList *)(reinterpret_cast<::FUN_004610f0_Class *>(&((*reinterpret_cast<::xDH *>(&::g_011e0e80))))->GetOffset70Ptr()));
         if (LIST)
             LIST->FUN_005ae3d0(this);
     }

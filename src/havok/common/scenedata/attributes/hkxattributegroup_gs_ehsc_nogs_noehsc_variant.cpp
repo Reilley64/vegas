@@ -5,6 +5,18 @@
 
 // src/havok/common/scenedata/attributes/hkxattributegroup.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/attributes/hkxattributegroup.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00cb0a80_class.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00d2c000.h"
+#include "fnv/symbols_00e5c000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkxAttributeGroup.h"
 __forceinline void* __cdecl operator new(unsigned int, void* pvWhere) throw()
 {
@@ -12,24 +24,19 @@ __forceinline void* __cdecl operator new(unsigned int, void* pvWhere) throw()
 }
 struct FUN_00cb0c00_class
 {
-    void FUN_00cb0c00() throw();
 };
 class hkReferencedObject
 {
   public:
-    void FUN_00c90510() throw();
-    void removeReference() throw();
 };
 struct hkMemoryAllocatorE5CD;
-void __cdecl FUN_00c908c0(hkMemoryAllocatorE5CD& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
-void FUN_00d2cc70(void* pvDst, void* pvSrc, unsigned int uiNumBytes) throw();
 struct FUN_00cb0bd0
 {
     char* m_pcString;
     FUN_00cb0bd0(const FUN_00cb0bd0& kOther) throw();
     ~FUN_00cb0bd0() throw()
     {
-        ((FUN_00cb0c00_class*)this)->FUN_00cb0c00();
+        ::FUN_00cb0c00((int)(((FUN_00cb0c00_class*)this)));
     }
 };
 struct hkRefVariantE5CD
@@ -38,13 +45,13 @@ struct hkRefVariantE5CD
     hkRefVariantE5CD(const hkRefVariantE5CD& kOther) throw()
     {
         if (kOther.m_pRetainedObject)
-            kOther.m_pRetainedObject->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((kOther.m_pRetainedObject))->FUN_00c90510();
         m_pRetainedObject = kOther.m_pRetainedObject;
     }
     ~hkRefVariantE5CD() throw()
     {
         if (m_pRetainedObject)
-            m_pRetainedObject->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pRetainedObject))->FUN_00c905b0();
         m_pRetainedObject = 0;
     }
 };
@@ -80,7 +87,7 @@ struct hkArrayE5CD
         {
             int iCap2 = 2 * iCapacity;
             int iNewSize = (n < iCap2) ? iCap2 : n;
-            FUN_00c908c0(kAlloc, this, iNewSize, sizeof(hkxAttributeE5CD));
+            ::FUN_00c908c0((::SpawnedObject *)&(kAlloc), (::SpawnedArray *)(void *)(this), iNewSize, sizeof(hkxAttributeE5CD));
         }
     }
     void SpliceArray(hkMemoryAllocatorE5CD& kAlloc, int iIndex, int iNumDel, const hkxAttributeE5CD* pkInsert,
@@ -90,7 +97,6 @@ struct hkArrayE5CD
 struct NameReference
 {
     unsigned int encoded;
-    int FUN_00cb0a80();
 };
 struct TextWriter
 {
@@ -124,10 +130,6 @@ struct S00e5cb40_Os
     int unk00;
     int unk04;
     int unk08;
-    void FUN_00cb1600(char* buf, int size);
-    S00e5cb40_Os& FUN_00cc01c0(const char* s);
-    S00e5cb40_Os& WriteName(const hkStringPtr& s);
-    void FUN_00cc00e0();
 };
 
 struct S00e5cb40_Err
@@ -138,18 +140,16 @@ struct S00e5cb40_Err
     virtual void report(int level, unsigned int id, char* buf, const char* file, int line);
 };
 
-extern "C" S00e5cb40_Err* DAT_01268360;
 
 struct S00e5cb40_Grp : hkxAttributeGroup
 {
-    AttributeObj* FUN_00e5c670(const char* name);
     int FUN_00e5cb40(const char* name, bool warnIfNotFound, hkQuaternion* out);
 };
 
 // @fnv 0x00e5cb40
 int S00e5cb40_Grp::FUN_00e5cb40(const char* name, bool warnIfNotFound, hkQuaternion* out)
 {
-    AttributeObj* attr = FUN_00e5c670(name);
+    AttributeObj* attr = ((::AttributeObj *)(::fnv_00e5c670::FUN_00e5c670((void *)this)));
     if (attr)
     {
         *(__m128*)out = *(__m128*)attr->m_quaternion;
@@ -159,14 +159,10 @@ int S00e5cb40_Grp::FUN_00e5cb40(const char* name, bool warnIfNotFound, hkQuatern
     {
         char buf[512];
         S00e5cb40_Os os;
-        os.FUN_00cb1600(buf, sizeof(buf));
-        os.FUN_00cc01c0("Quaternion attribute ")
-            .FUN_00cc01c0(name)
-            .FUN_00cc01c0(" not found in ")
-            .WriteName(m_name)
-            .FUN_00cc01c0(" attribute group");
-        DAT_01268360->report(1, 0xabbaab81, buf, ".\\Attributes\\hkxAttributeGroup.cpp", 0xb3);
-        os.FUN_00cc00e0();
+        new ((void *)&(os)) ::FUN_00cb1600(buf, sizeof(buf));
+        reinterpret_cast<::SinkOwner *>(&((*(::S00e5cb40_Os *)(reinterpret_cast<::AttributeFormatter *>(&((*(::S00e5cb40_Os *)(reinterpret_cast<::SinkOwner *>(&((*(::S00e5cb40_Os *)(reinterpret_cast<::SinkOwner *>(&((*(::S00e5cb40_Os *)(reinterpret_cast<::SinkOwner *>(&(os))->FUN_00cc01c0("Quaternion attribute ")))))->FUN_00cc01c0(name)))))->FUN_00cc01c0(" not found in ")))))->WriteName((::NameReference *)&(m_name))))))->FUN_00cc01c0(" attribute group");
+        (*reinterpret_cast<::S00e5cb40_Err * *>(&::DAT_01268360))->report(1, 0xabbaab81, buf, ".\\Attributes\\hkxAttributeGroup.cpp", 0xb3);
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(os))->FUN_00cc00e0::~FUN_00cc00e0();
     }
     return 1;
 }

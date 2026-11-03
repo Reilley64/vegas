@@ -1,5 +1,29 @@
 // fallout_shared/bgsmusictype.cpp: BGSMusicType, MusicTypeDeletion, MusicTypeWriter, MusicTypeCopyEntry and more (8 functions)
 
+#include <new>
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_0048cea0_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/MusicFileBuilder.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_00944000.h"
 #define BSSimpleList BSSimpleListWithoutItemsInList
 #include "music_local.h"
 #undef BSSimpleList
@@ -17,15 +41,15 @@ bool BGSMusicType::Load(TESFile* file)
 {
     int iChunkID;
     unsigned int size = 0;
-    LoadRecordHeader(file);
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
     SetInitializationState(false);
-    while (iChunkID = file->GetChunkID())
+    while (iChunkID = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())))
     {
         switch (iChunkID)
         {
         case 0x44494445: {
-            char* editorID = static_cast<char*>(_alloca(file->GetChunkSize()));
-            file->GetChunkData(editorID, 0x200);
+            char* editorID = static_cast<char*>(_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(editorID), 0x200);
             SetEditorID_AtRuntime(editorID);
             break;
         }
@@ -33,8 +57,8 @@ bool BGSMusicType::Load(TESFile* file)
             readOBNDSubRecord(file);
             break;
         case 0x4d414e46: {
-            char* soundFile = static_cast<char*>(_alloca(file->GetChunkSize()));
-            file->GetChunkData(soundFile, 0);
+            char* soundFile = static_cast<char*>(_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(soundFile), 0);
             SetSoundFile(soundFile);
             break;
         }
@@ -51,14 +75,12 @@ bool BGSMusicType::Load(TESFile* file)
     return true;
 }
 
-extern "C" int __cdecl sprintf_s(char* buffer, unsigned int size, const char* format, ...);
-unsigned int __cdecl GetRandomNumberInRange(int minimum, int maximum);
 
 // Prefixes the sound file with Data\\Music unless it ends in a backslash, then selects a random track index when tracks exist.
 // @fnv 0x00591410
 void BGSMusicType::InitItem()
 {
-    if (IsFormInitialized())
+    if (reinterpret_cast<::TESForm *>((void *)this)->GetInitialized())
         return;
     struct SoundFileNames
     {
@@ -67,16 +89,16 @@ void BGSMusicType::InitItem()
     } soundFileNames;
     if (GetSoundFileLength() > 2)
     {
-        soundFileNames.soundFile = GetSoundFile();
+        soundFileNames.soundFile = ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)this)->FUN_00408da0()));
         if (soundFileNames.soundFile[GetSoundFileLength() - 1] == '\\')
         {
-            UpdateLoadingStatusCallback();
+            reinterpret_cast<::MusicFileBuilder *>(this)->FUN_005917b0();
         }
         else
         {
-            soundFileNames.name = GetSoundFile();
+            soundFileNames.name = ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)this)->FUN_00408da0()));
             char fullPath[260];
-            sprintf_s(fullPath, 260, "%s\\%s", "Data\\Music", soundFileNames.name);
+            ::FUN_00406d00(fullPath, 260, "%s\\%s", "Data\\Music", soundFileNames.name);
             SetSoundFile(fullPath);
         }
     }
@@ -92,37 +114,34 @@ struct MusicTypeDeletion : public BGSMusicType
     void* FUN_005912a0(unsigned int flags);
 };
 
-// Calls the BGSMusicType destructor and frees the object with operator delete when the low bit of flags is set.
-// @fnv 0x005912a0
-void* MusicTypeDeletion::FUN_005912a0(unsigned int flags)
-{
-    this->BGSMusicType::~BGSMusicType();
-    if (flags & 1)
-        ::operator delete(this);
-    return this;
-}
-
 class MusicType_00591320 : public TESForm, public TESSoundFile
 {
   public:
     float fVolumeScale;
     BSSimpleListWithoutItemsInList<BGSMusicType::MusicTrack*> m_kMusicFiles;
     unsigned int m_uiSelectedSoundIndex;
-    void FUN_005913b0();
     virtual ~MusicType_00591320();
 };
-
-// Destructor for MusicType_00591320 that calls FUN_005913b0 to perform cleanup.
-// @fnv 0x00591320
-MusicType_00591320::~MusicType_00591320()
+// Calls the BGSMusicType destructor and frees the object with operator delete when the low bit of flags is set.
+// @fnv 0x005912a0
+void* MusicTypeDeletion::FUN_005912a0(unsigned int flags)
 {
-    FUN_005913b0();
+    reinterpret_cast<::MusicType_00591320 *>((this))->MusicType_00591320::~MusicType_00591320();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
 }
 
 struct MusicTypeFileList_005913b0 : BGSMusicType
 {
     void FUN_005913b0();
 };
+// Destructor for MusicType_00591320 that calls FUN_005913b0 to perform cleanup.
+// @fnv 0x00591320
+MusicType_00591320::~MusicType_00591320()
+{
+    reinterpret_cast<::MusicTypeFileList_005913b0 *>(this)->FUN_005913b0();
+}
 // Removes and frees every entry in m_kMusicFiles until the list is empty.
 // @fnv 0x005913b0
 void MusicTypeFileList_005913b0::FUN_005913b0()
@@ -130,17 +149,16 @@ void MusicTypeFileList_005913b0::FUN_005913b0()
     void* pEntry = 0;
     while (!m_kMusicFiles.IsEmpty())
     {
-        pEntry = m_kMusicFiles.GetItem();
+        pEntry = ((::BGSMusicType::MusicTrack *)(new ((void *)&(m_kMusicFiles)) ::Vec3()));
         m_kMusicFiles.RemoveHead();
         void* p = pEntry;
-        operator delete(p);
+        ::FUN_00401030(p);
         pEntry = 0;
     }
 }
 
 struct MusicSoundWriter : TESSoundFile
 {
-    void FUN_0048cea0();
 };
 
 struct MusicSaveComponents
@@ -149,12 +167,9 @@ struct MusicSaveComponents
     MusicSoundWriter soundFile;
 };
 
-void FUN_00485910(int chunk, float value);
 
 struct MusicTypeWriter : BGSMusicType
 {
-    void FUN_004855a0();
-    void FUN_00485680();
     void FUN_005916b0();
 };
 
@@ -162,16 +177,15 @@ struct MusicTypeWriter : BGSMusicType
 // @fnv 0x005916b0
 void MusicTypeWriter::FUN_005916b0()
 {
-    FUN_004855a0();
-    reinterpret_cast<MusicSaveComponents*>(this)->soundFile.FUN_0048cea0();
-    FUN_00485910(0x4d414e41, fVolumeScale);
-    FUN_00485680();
+    reinterpret_cast<::fnv_004855a0::ArrSI *>(this)->FUN_004855a0();
+    reinterpret_cast<::FUN_0048cea0_shell *>(&(reinterpret_cast<MusicSaveComponents*>(this)->soundFile))->FUN_0048cea0();
+    ::FUN_00485910(0x4d414e41, fVolumeScale);
+    reinterpret_cast<::Holder *>(this)->FUN_00485680();
 }
 
 class MusicTypeCopyEntry : public BGSMusicType
 {
   public:
-    void FUN_004851b0(TESForm* source);
     void FUN_005916f0(TESForm* source);
 };
 
@@ -183,12 +197,11 @@ void MusicTypeCopyEntry::FUN_005916f0(TESForm* source)
     if (!music)
         return;
     fVolumeScale = music->fVolumeScale;
-    FUN_004851b0(music);
+    reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(music);
 }
 
 struct MusicFormComponentCompareView
 {
-    bool FUN_00485270(::TESForm* form);
 };
 
 struct MusicTypeCompareEntry : ::BGSMusicType
@@ -205,7 +218,7 @@ bool MusicTypeCompareEntry::FUN_00591740(::TESForm* form)
         return true;
     if (fVolumeScale != other->fVolumeScale)
         return true;
-    if (reinterpret_cast<MusicFormComponentCompareView*>(this)->FUN_00485270(other))
+    if (reinterpret_cast<::FUN_00509540_obj *>((reinterpret_cast<MusicFormComponentCompareView*>(this)))->FUN_00485270(other))
         return true;
     return false;
 }

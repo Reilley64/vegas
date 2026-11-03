@@ -2,6 +2,59 @@
 #ifndef FNV_TESATTACKDAMAGEFORM_CREATURE_DECLS_H
 #define FNV_TESATTACKDAMAGEFORM_CREATURE_DECLS_H
 
+#include "fnv/decl/BGSDehydrationStage.h"
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/FUN_00461560_shell.h"
+#include "fnv/decl/FUN_0047bdd0_shell.h"
+#include "fnv/decl/FUN_0047ccc0_shell.h"
+#include "fnv/decl/FUN_0047cd40_shell.h"
+#include "fnv/decl/FUN_0047cd90_shell.h"
+#include "fnv/decl/FUN_0047cdd0_shell.h"
+#include "fnv/decl/FUN_0047d370_shell.h"
+#include "fnv/decl/FUN_0047d390_shell.h"
+#include "fnv/decl/FUN_0047d3b0_shell.h"
+#include "fnv/decl/FUN_0047dd30_shell.h"
+#include "fnv/decl/FUN_0047fb50_shell.h"
+#include "fnv/decl/FUN_00480000_shell.h"
+#include "fnv/decl/FUN_004870f0_shell.h"
+#include "fnv/decl/FUN_00487240_shell.h"
+#include "fnv/decl/FUN_00507780.h"
+#include "fnv/decl/FUN_0050eaa0_shell.h"
+#include "fnv/decl/FUN_005f0640_shell.h"
+#include "fnv/decl/FUN_005f8bb0_shell.h"
+#include "fnv/decl/FUN_005f8bd0_Helper.h"
+#include "fnv/decl/FUN_005f9100_shell.h"
+#include "fnv/decl/FUN_005f91d0_shell.h"
+#include "fnv/decl/FUN_005f9ad0_shell.h"
+#include "fnv/decl/FUN_005f9af0_shell.h"
+#include "fnv/decl/FUN_005f9b10_class.h"
+#include "fnv/decl/FUN_005f9b30_shell.h"
+#include "fnv/decl/FUN_005fa2c0_shell.h"
+#include "fnv/decl/FUN_005fbdb0_shell.h"
+#include "fnv/decl/FUN_00803a90_shell.h"
+#include "fnv/decl/FUN_00821640_shell.h"
+#include "fnv/decl/FUN_00821660_shell.h"
+#include "fnv/decl/ModelCopyView.h"
+#include "fnv/decl/TABStub.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/fnv_0047ca20__FUN_0047ca20_shell.h"
+#include "fnv/decl/fnv_0047de40__TABStub.h"
+#include "fnv/decl/fnv_0047de70__TABStub.h"
+#include "fnv/decl/fnv_0047dfe0__TABStub.h"
+#include "fnv/decl/fnv_0047e010__TABStub.h"
+#include "fnv/decl/fnv_0047e1c0__S47b.h"
+#include "fnv/decl/fnv_0047e270__FUN_0047e270_shell.h"
+#include "fnv/decl/fnv_00489db0__FUN_00489db0_shell.h"
+#include "fnv/decl/fnv_0048cce0__FUN_0048cce0_shell.h"
+#include "fnv/decl/fnv_0048d630__SpellListAccess.h"
+#include "fnv/decl/fnv_0050f9c0__FUN_0050f9c0_shell.h"
+#include "fnv/symbols_0047d000.h"
+#include "fnv/symbols_00505000.h"
+#include "fnv/symbols_00567000.h"
+#include "fnv/symbols_005f8000.h"
+#include "fnv/symbols_005f9000.h"
+#include "fnv/symbols_008f2000.h"
 #include "layout_support.h"
 class ActorBaseAttributes;
 class PackedRecordData;
@@ -180,18 +233,18 @@ class TESForm : public BaseFormComponent
     unsigned int formID;
     BSSimpleList<TESFile*> sourceFiles;
     ENUM_FORM_ID GetFormType() const;
+public:
+    void ClearData();
 };
 class TESFullName : public BaseFormComponent
 {
   public:
     BSStringT<char> m_kName;
-    void BaseFormRecord(BaseFormComponent*);
 };
 class TESHealthForm : public BaseFormComponent
 {
   public:
     unsigned int m_uiHealthValue;
-    void BaseFormRecord(BaseFormComponent*);
 };
 class TESScriptableForm : public BaseFormComponent
 {
@@ -199,7 +252,6 @@ class TESScriptableForm : public BaseFormComponent
     void* pScript;
     bool bScriptResolved;
     unsigned char layoutPadding9[3];
-    void BaseFormRecord(BaseFormComponent*);
 };
 class ActorValueOwner
 {
@@ -209,7 +261,6 @@ class ActorValueOwner
 class CreatureSoundCollection
 {
   public:
-    void Copy(CreatureSoundCollection*);
 };
 #pragma pack(push, 4)
 class TESObject : public TESForm
@@ -333,27 +384,11 @@ class TESActorBaseData : public BaseFormComponent
     virtual float GetHealthRegeneration();
     virtual BGSVoiceType* GetVoiceType();
 
-    bool IsTemplateLeveled();
-    bool QCopiedTemplate();
-    void SetCopiedTemplate(bool);
-    bool GetTemplateUseFlag(TEMPLATE_USE_FLAG);
-    void SetTemplateUseFlags(unsigned short);
-    void CopyFactionList(TESActorBaseData*);
-    void SetFlags(int);
-    void FUN_0050f9a0(TESLevItem*);  // SetDeathItem (inferred from field access)
-    void SetKarmaValue(float);
-    unsigned short GetLevel();
-    unsigned short FUN_0047d390();  // GetCalcLevelMin (inferred from field access)
-    unsigned short FUN_0047d3b0();  // GetCalcLevelMax (inferred from field access)
-    bool GetMatchesPCLevel();
+      // SetDeathItem (inferred from field access)
+      // GetCalcLevelMin (inferred from field access)
+      // GetCalcLevelMax (inferred from field access)
     void SetMatchesPCLevel(bool);
-    void SetLevel(unsigned short);
-    void SetCalcLevelMin(unsigned short);
-    void SetCalcLevelMax(unsigned short);
-    unsigned short GetShortAtOffset12();  // GetSpeedMult (inferred from field access)
-    void SetSpeedMult(unsigned short);
-    void SetFatigue(unsigned short);
-    static TESForm* GetLeveledTemplateInHierarchy(TESActorBase*, unsigned short&);
+      // GetSpeedMult (inferred from field access)
 
     ActorBaseAttributes actorData;             // +0x4, 24 bytes
     TESLevItem* m_pBaseTemplateForm;           // +0x1C, 4 bytes
@@ -371,11 +406,13 @@ FNV_STATIC_ASSERT(offsetof(TESActorBaseData, m_ppTemplateForms) == 36);
 FNV_STATIC_ASSERT(offsetof(TESActorBaseData, m_pDeathItem) == 40);
 FNV_STATIC_ASSERT(offsetof(TESActorBaseData, m_pVoiceType) == 44);
 #pragma pack(push, 4)
+class BaseFormComponent;
 class TESContainer : public BaseFormComponent
 {
   public:
-    void BaseFormRecord(BaseFormComponent*);
     BSSimpleList<InventoryItemEntry*> objectList;  // +0x4, 8 bytes
+public:
+    void CopyFromBase(::BaseFormComponent *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESContainer) == 12);
@@ -384,7 +421,6 @@ FNV_STATIC_ASSERT(offsetof(TESContainer, objectList) == 4);
 class BGSTouchSpellForm : public BaseFormComponent
 {
   public:
-    void BaseFormRecord(BaseFormComponent*);
     MagicItemForm* m_pMagicItem;        // +0x4, 4 bytes
     unsigned short m_usTouchSpellType;  // +0x8, 2 bytes
     unsigned char layoutPaddingA[2];
@@ -397,7 +433,6 @@ FNV_STATIC_ASSERT(offsetof(BGSTouchSpellForm, m_usTouchSpellType) == 8);
 class TESSpellList : public BaseFormComponent
 {
   public:
-    void BaseFormRecord(BaseFormComponent*);
     BSSimpleList<SpellItem*> spellList;           // +0x4, 8 bytes
     BSSimpleList<TESLevSpell*> leveledSpellList;  // +0xC, 8 bytes
 };
@@ -449,9 +484,10 @@ class TESAIForm : public BaseFormComponent
 {
   public:
     void CopyAISettings(TESAIForm*);
-    void CopyAIPackageList(TESAIForm*);
     PackedRecordData m_kAIData;  // +0x4, 20 bytes
     PackageList m_kPackageList;  // +0x18, 8 bytes
+public:
+    void CopyAIPackageList(const ::TESAIForm *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESAIForm) == 32);
@@ -461,7 +497,6 @@ FNV_STATIC_ASSERT(offsetof(TESAIForm, m_kPackageList) == 24);
 class TESAttributes : public BaseFormComponent
 {
   public:
-    void BaseFormRecord(BaseFormComponent*);
     unsigned char cAttribute[7];  // +0x4, 7 bytes
     unsigned char layoutPaddingB[1];
 };
@@ -472,7 +507,6 @@ FNV_STATIC_ASSERT(offsetof(TESAttributes, cAttribute) == 4);
 class TESAnimation : public BaseFormComponent
 {
   public:
-    void BaseFormRecord(BaseFormComponent*);
     BSSimpleList<const char*> m_kKFFileList;  // +0x4, 8 bytes
 };
 #pragma pack(pop)
@@ -494,7 +528,6 @@ FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ppFileEntries) == 4);
 class TESModel : public BaseFormComponent
 {
   public:
-    void BaseFormRecord(BaseFormComponent*);
     BSStringT<char> m_kModelFilePath;  // +0x4, 8 bytes
     FileEntryList m_pTextureSwapData;  // +0xC, 8 bytes
     unsigned char cFlags;              // +0x14, 1 bytes
@@ -506,11 +539,13 @@ FNV_STATIC_ASSERT(offsetof(TESModel, m_kModelFilePath) == 4);
 FNV_STATIC_ASSERT(offsetof(TESModel, m_pTextureSwapData) == 12);
 FNV_STATIC_ASSERT(offsetof(TESModel, cFlags) == 20);
 #pragma pack(push, 4)
+class BaseFormComponent;
 class BGSDestructibleObjectForm : public BaseFormComponent
 {
   public:
-    void BaseFormRecord(BaseFormComponent*);
     CollisionComponent* pData;  // +0x4, 4 bytes
+public:
+    void FUN_004786e0(::BaseFormComponent *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(BGSDestructibleObjectForm) == 8);
@@ -536,17 +571,18 @@ class TESActorBase : public TESBoundAnimObject,
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESActorBase) == 268);
 #pragma pack(push, 4)
+class BaseFormComponent;
 class TESAttackDamageForm : public BaseFormComponent
 {
   public:
     TESAttackDamageForm();
     ~TESAttackDamageForm();
-    void InitializeComponent();
     virtual void Free();
     virtual unsigned short GetAttackDamage();
-    void BaseFormRecord(BaseFormComponent*);
     unsigned short m_usAttackDamage;  // +0x4, 2 bytes
     unsigned char layoutPadding6[2];
+public:
+    void FUN_0047fe30(::BaseFormComponent *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESAttackDamageForm) == 8);
@@ -566,7 +602,6 @@ FNV_STATIC_ASSERT(offsetof(FileEntryListCollection, m_ppElementArray) == 4);
 class TESModelList : public BaseFormComponent
 {
   public:
-    void BaseFormRecord(BaseFormComponent*);
     BSSimpleList<const char*> m_kModelPaths;  // +0x4, 8 bytes
     FileEntryListCollection m_kModelData;     // +0xC, 8 bytes
 };
@@ -597,28 +632,25 @@ class TESCreature : public TESActorBase, public TESAttackDamageForm, public TESM
     ~TESCreature();
     virtual void CopyFromTemplateForm(TESActorBase*);
     void SetCombatStyle(TESCombatStyle*);
-    void FUN_0050eaa0(TESCreature*);           // CopyBounds (inferred from field access)
-    BGSImpactDataSet* GetImpactDataSet();      // GetImpactDataSet (inferred from field access)
-    void SetImpactDataSet(BGSImpactDataSet*);  // SetImpactDataSet (inferred from field access)
-    CreatureSoundCollection* GetCreatureSounds();
+               // CopyBounds (inferred from field access)
+          // GetImpactDataSet (inferred from field access)
+      // SetImpactDataSet (inferred from field access)
     CreatureSoundCollection* GetMutableCreatureSounds();
-    TESCreature* GetSoundCreature();
     void SetCreatureSoundsFrom(TESCreature*);
     SOUND_LEVEL FUN_009c0070();        // GetSoundLevel (inferred from field access)
-    unsigned char FUN_0059f3a0();      // GetCreatureType (inferred from field access)
-    void FUN_005fbdb0(unsigned char);  // SetCreatureType (inferred from field access)
-    BGSListForm* GetField158();        // GetWeaponList (inferred from field access)
-    void FUN_005f8bd0(BGSListForm*);   // SetWeaponList (inferred from field access)
-    unsigned char GetCombatSkill();
-    void SetByteAt12D(unsigned char);     // SetCombatSkill (inferred from field access)
-    unsigned char FUN_005f9ad0();         // GetHandReach (inferred from field access)
-    void SetCreatureType(unsigned char);  // SetHandReach (inferred from field access)
-    float FUN_00821640();                 // GetTurnSpeed (inferred from field access)
-    void FUN_00507780(float);             // SetTurnSpeed (inferred from field access)
-    float FUN_00567470();                 // GetBaseScale (inferred from field access)
-    void SetBoltGrowWidth(float);         // SetBaseScale (inferred from field access)
-    float FUN_00821660();                 // GetFootWeight (inferred from field access)
-    void SetBoltSmallWidth(float);        // SetFootWeight (inferred from field access)
+          // GetCreatureType (inferred from field access)
+      // SetCreatureType (inferred from field access)
+            // GetWeaponList (inferred from field access)
+       // SetWeaponList (inferred from field access)
+         // SetCombatSkill (inferred from field access)
+             // GetHandReach (inferred from field access)
+      // SetHandReach (inferred from field access)
+                     // GetTurnSpeed (inferred from field access)
+                 // SetTurnSpeed (inferred from field access)
+                     // GetBaseScale (inferred from field access)
+             // SetBaseScale (inferred from field access)
+                     // GetFootWeight (inferred from field access)
+            // SetFootWeight (inferred from field access)
 
     union
     {                                                // overlapping CodeView storage
@@ -641,6 +673,8 @@ class TESCreature : public TESActorBase, public TESAttackDamageForm, public TESM
     BGSListForm* m_pCreatureListForm;  // +0x158, 4 bytes
     char m_cCreatureDataFlag;          // +0x15C, 1 bytes
     unsigned char layoutPadding15D[3];
+public:
+    signed char GetCreatureType() const;
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESCreature) == 352);
@@ -669,20 +703,15 @@ class ActorMover
 class NiTimeController
 {
   public:
-    int FUN_00441110();
 };
 class PerkEntryConditionSet;
 class PlayerQuestData
 {
   public:
-    PerkEntryConditionSet* GetConditions();
 };
 class TESIdleForm;
 class TESResponse
 {
   public:
-    void SetSpeakerIdle(TESIdleForm*);
-    void GetListenerIdle(TESIdleForm*);
 };
-TESCombatStyle* FUN_00505000();
 #endif

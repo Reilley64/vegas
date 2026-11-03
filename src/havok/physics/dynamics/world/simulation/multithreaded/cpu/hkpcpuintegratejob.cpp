@@ -1,6 +1,29 @@
 // src/havok/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuintegratejob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuintegratejob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/CB1A90Owner.h"
+#include "fnv/decl/CriticalSectionOwner.h"
+#include "fnv/decl/FUN_00cb1830.h"
+#include "fnv/decl/FUN_00cb1930_t.h"
+#include "fnv/decl/LunaOwner.h"
+#include "fnv/decl/Mgr.h"
+#include "fnv/decl/Obj.h"
+#include "fnv/decl/QueueLockView.h"
+#include "fnv/decl/S_00d05020_JobQueue.h"
+#include "fnv/decl/Worker.h"
+#include "fnv/decl/fnv_00cb1870__hkMapBaseCB18.h"
+#include "fnv/decl/fnv_00d04b50__Owner.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d1a000.h"
+#include "fnv/symbols_00d88000.h"
+#include "fnv/symbols_00d94000.h"
+#include "fnv/symbols_00d95000.h"
+#include "fnv/symbols_01076000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010cc000.h"
+#include "fnv/symbols_01268000.h"
 struct Owner {
     unsigned int field00, field04, field08, field0c;
     unsigned int field10, field14, field18, field1c;
@@ -178,8 +201,6 @@ void call_target(BlockList* blocks, Owner* owner, Group** groupHead, Block** blo
 extern "C" void _ReadWriteBarrier();
 inline void* operator new(unsigned int, void* ptr) { return ptr; }
 __declspec(nothrow) void* FUN_00c85750();
-__declspec(nothrow) void FUN_00c908c0(void*,void*,int,int);
-extern DWORD DAT_0126835c;
 struct FlagByte {
     char value;
     FlagByte() {}
@@ -249,7 +270,7 @@ public:
     void setSizeUnchecked(int n) { destroyRange(data+n,count-n); defaultRange(data+count,n-count); count=n; }
     void reserveWith(TaskAllocator& alloc,int n) {
         int old=capacity&0x3fffffff;
-        if (old<n) { int grown=old+old; if(n>=grown) grown=n; FUN_00c908c0(&alloc,this,grown,sizeof(T)); }
+        if (old<n) { int grown=old+old; if(n>=grown) grown=n; ::FUN_00c908c0((::SpawnedObject *)(void *)(&alloc),(::SpawnedArray *)(void *)(this),grown,sizeof(T)); }
     }
     void pushBackUnchecked(const T& entry) {
         copyRange(data+count,1,entry);
@@ -287,17 +308,13 @@ struct IndexPair { unsigned long key,value; };
 class EntityIndexMap {
     IndexPair* data;
     int count,mask;
-    void FUN_00cb1830(void*,int) throw();
-    int FUN_00cb1870(TaskAllocator*,unsigned long,unsigned long) throw();
     unsigned long FUN_00cb1930(unsigned long,unsigned long) const throw();
-    void FUN_00cb1a90(TaskAllocator*) throw();
-    void FUN_00a29680() throw();
     void growMap(TaskAllocator*,int) throw();
 public:
-    EntityIndexMap(void* ptr,int bytes) { FUN_00cb1830(ptr,bytes); }
-    void closeMap() { FUN_00cb1a90(TaskMemory::GetMonitorStream().heap); FUN_00a29680(); }
-    void insert(unsigned long key,unsigned long val) { FUN_00cb1870(TaskMemory::GetMonitorStream().heap,key,val); }
-    unsigned long FindValueForKey(unsigned long key,unsigned long value) const { return FUN_00cb1930(key,value); }
+    EntityIndexMap(void* ptr,int bytes) { new ((void *)this) ::FUN_00cb1830(ptr,bytes); }
+    void closeMap() { reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)(TaskMemory::GetMonitorStream().heap)); ::FUN_00a29680(); }
+    void insert(unsigned long key,unsigned long val) { reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(TaskMemory::GetMonitorStream().heap)),key,val); }
+    unsigned long FindValueForKey(unsigned long key,unsigned long value) const { return ((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>((void *)this)->LookupHashEntry(key,value))); }
 };
 __declspec(noinline) unsigned long EntityIndexMap::FUN_00cb1930(unsigned long key,unsigned long fallback) const throw() {
  if(mask>0) {
@@ -587,7 +604,7 @@ template<bool Partial> static __forceinline void appendProbe(const JobHeader* he
     }
 }
 
-extern const char str_010d3f1c[], str_010d3d60[], str_010d3f08[], str_010d3d70[], str_010c41f8[];
+extern const char str_010d3f1c[], str_010d3d60[], str_010d3f08[], str_010d3d70[];
 
 union EarlyPhase { DWORD ticks; TaskEntity* const* bodies; int pass; };
 union FinalPhase { DWORD ticks; int bytes; };
@@ -786,7 +803,7 @@ void FUN_00d95130(SceneInput island, FlagByte coherent, JobHeader* header,
         MonitorStream& stream=*(MonitorStream*)TlsGetValue(DAT_0126835c);
         if(stream.memoryAvailable()) {
             MonitorStream::CommandTimingEntry* event=(MonitorStream::CommandTimingEntry*)stream.GetStreamEnd();
-            event->m_pCommandName=str_010c41f8; _ReadWriteBarrier();
+            event->m_pCommandName=::DAT_010c41f8; _ReadWriteBarrier();
             DWORD ticks;
             __asm {
                 rdtsc
@@ -806,7 +823,7 @@ extern "C" int (__stdcall *DAT_00fdf04c)(unsigned long, void*);
 typedef short sshort;
 typedef unsigned char byte;
 
-extern const char DAT_010cc5c4[], DAT_010cc5bc[], DAT_010cc5b0[], DAT_010d3f64[], DAT_010d3f54[], DAT_01076f38[], DAT_010d3f48[], DAT_010d3f38[], DAT_010d3f2c[];
+extern const char DAT_010d3f64[], DAT_010d3f54[], DAT_010d3f48[], DAT_010d3f38[], DAT_010d3f2c[];
 
 struct FlagByte {
     char value;
@@ -871,9 +888,7 @@ __forceinline void MonitorStream::CommandTimingEntry::setTime() {
     time0 = ticks;
 }
 
-extern TlsSlot<MonitorStream*> DAT_0126835c;
-extern TlsSlot<int> DAT_012687c8;
-__forceinline MonitorStream& MonitorStream::GetMonitorStream() { return *DAT_0126835c.get(); }
+__forceinline MonitorStream& MonitorStream::GetMonitorStream() { return *(*reinterpret_cast<::fnv_00d95cf0::TlsSlot< ::fnv_00d95cf0::MonitorStream *> *>(&::DAT_0126835c)).get(); }
 
 struct TaskAllocator {
     virtual ~TaskAllocator();
@@ -961,14 +976,6 @@ struct __declspec(align(16)) QueueStorage : Command {
 };
 
 struct Queue {
-    int __thiscall FUN_00d05190(Command& cmd, int waitMode);
-    void __thiscall FUN_00d04b50(Command& cmd, int priority);
-    void __thiscall FUN_00d04d80(const Command* cmd, int flag);
-    void* __thiscall FUN_00d04400(void* storage);
-    void __thiscall FUN_00d04b00(void* token, const PacketBase& cmd, int priority);
-    void __thiscall FUN_00d04420(void* token);
-    int __thiscall FUN_00d05020(int kind, int priority, Command& next, int waitMode);
-    int __thiscall ProcessCallback(const PacketBase* prev, Command& next, int waitMode);
 };
 
 struct QueryStepBase {
@@ -1189,12 +1196,7 @@ struct AccumulatorsPacket : DynamicsPacket {
     unsigned short numEntities;
 };
 
-extern int __cdecl FUN_00d889f0(SceneIsland& island);
 extern int __cdecl FUN_00d28a30(const SolverParams& solver, const StepTiming& timing, const AccelVec& accel, void* const* entities, int numEntities, int offset);
-extern void __cdecl FUN_00d1a330(const void* input, void* const* entities, int numEntities);
-extern int __cdecl FUN_00d88b50(const StepTiming& timing, const SolverParams& solver, ConstraintQueryIn& queryIn, SceneIsland& island, void* buffer, int bufferSize, void* const* entities, int numEntities);
-extern void __cdecl FUN_00d942f0(SceneIsland* island, TaskArray<void*>& splitIslands);
-extern int __cdecl FUN_00d883c0(const SceneIsland& island, char* buffer, int bufferSize, JobHeader& header);
 
 __declspec(noinline) void __cdecl FUN_00d95130(SceneIsland* island, FlagByte onSpu, JobHeader* header, BuildCollection* builds, SolveCollection* solves)
 {
@@ -1217,23 +1219,23 @@ int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, Command& nextJobOut)
     char* buffer;
     if (island->schemaSize)
     {
-        bufferSize = FUN_00d889f0(*island);
+        bufferSize = ((int)(::fnv_00d889f0::FUN_00d889f0((void *)&(*island))));
         bufferCapacity = bufferSize;
         buffer = solverBufAlloc<char>(bufferCapacity);
         while (!buffer)
         {
             Command retryJob;
-            int prevThread = DAT_012687c8.get();
-            DAT_012687c8.set(1);
-            int status = queue.FUN_00d05190(retryJob, 1);
-            DAT_012687c8.set(prevThread);
+            int prevThread = (*reinterpret_cast<::fnv_00d95cf0::TlsSlot<int> *>(&::g_dwTlsIndex)).get();
+            (*reinterpret_cast<::fnv_00d95cf0::TlsSlot<int> *>(&::g_dwTlsIndex)).set(1);
+            int status = reinterpret_cast<::Obj *>(&(queue))->ForwardWithZero((int)&(retryJob), 1);
+            (*reinterpret_cast<::fnv_00d95cf0::TlsSlot<int> *>(&::g_dwTlsIndex)).set(prevThread);
             if (status == 0)
             {
-                queue.FUN_00d04b50(nextJobOut, 1);
+                reinterpret_cast<::fnv_00d04b50::Owner *>(&(queue))->FUN_00d04b50((void *)&(nextJobOut), 1);
                 Command stopJob;
                 stopJob.kind = PACKET_DYNAMICS;
                 stopJob.subType = 16;
-                queue.FUN_00d04d80(&stopJob, 0);
+                reinterpret_cast<::Worker *>(&(queue))->FUN_00d04d80((::TraceArg *)(&stopJob), 0);
                 nextJobOut = retryJob;
                 return 0;
             }
@@ -1259,8 +1261,8 @@ int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, Command& nextJobOut)
         if (stream.memoryAvailable())
         {
             MonitorStream::SplitTimerCommand* ev = reinterpret_cast<MonitorStream::SplitTimerCommand*>(stream.GetStreamEnd());
-            ev->tag = DAT_010cc5c4;
-            ev->splitTag = DAT_010cc5bc;
+            ev->tag = ::str_010cc5c4;
+            ev->splitTag = ::str_010cc5bc;
             ev->setTime();
             stream.setEnd((char*)(ev + 1));
         }
@@ -1275,7 +1277,7 @@ int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, Command& nextJobOut)
             if (stream.memoryAvailable())
             {
                 MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
-                ev->tag = DAT_010cc5b0;
+                ev->tag = (*reinterpret_cast<const char (*)[]>(&::DAT_010cc5b0));
                 ev->setTime();
                 stream.setEnd((char*)(ev + 1));
             }
@@ -1397,21 +1399,21 @@ int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, Command& nextJobOut)
                 if (stream.memoryAvailable())
                 {
                     MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
-                    ev->tag = DAT_01076f38;
+                    ev->tag = ::str_01076f38;
                     ev->setTime();
                     stream.setEnd((char*)(ev + 1));
                 }
             }
 
             QueueStorage tempStorage;
-            void* token = queue.FUN_00d04400(&tempStorage);
+            void* token = ((void *)(reinterpret_cast<::QueueLockView *>(&(queue))->FUN_00d04400((::RequestContext *)(void *)(&tempStorage))));
             if (splitRequested)
             {
                 SplitPacket splitJob(currentJob, 0x20, 5);
-                queue.FUN_00d04b00(token, splitJob, 0);
+                reinterpret_cast<::Mgr *>(&(queue))->InsertItemAndNotify((::PoolSet *)(token), (const ::Item &)(splitJob), 0);
             }
-            queue.FUN_00d04420(token);
-            return queue.FUN_00d05020(0, 0, nextJobOut, 0);
+            reinterpret_cast<::CriticalSectionOwner *>(&(queue))->FUN_00d04420((::Registry *)(token));
+            return reinterpret_cast<::S_00d05020_JobQueue *>(&(queue))->FUN_00d05020(0, 0, (::S_00d05020_Job &)(nextJobOut), 0);
         }
 
         {
@@ -1425,7 +1427,7 @@ int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, Command& nextJobOut)
             }
         }
         int inactiveFrames = FUN_00d28a30(stepCtx.solver, stepCtx.timing, stepCtx.gravityStep, island->GetEntities().begin(), island->GetEntities().GetLogicalSize(), 0xe0);
-        FUN_00d1a330(island->getWorld()->getCollisionInput(), island->GetEntities().begin(), island->GetEntities().GetLogicalSize());
+        ::FUN_00d1a330((const ::CollisionContext *)(const void *)(island->getWorld()->getCollisionInput()), (::EntityNode *const *)(void *const *)(island->GetEntities().begin()), island->GetEntities().GetLogicalSize());
         if (inactiveFrames <= 5)
         {
             header->shouldDeactivate = 0;
@@ -1448,7 +1450,7 @@ int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, Command& nextJobOut)
         }
         {
             ConstraintQueryIn localQuery = owner.queryIn;
-            int inactiveFrames = FUN_00d88b50(stepCtx.timing, stepCtx.solver, localQuery, *island, buffer, bufferSize, entities, numEntities);
+            int inactiveFrames = ::FUN_00d88b50((const ::hkStepInfoD886 &)(stepCtx.timing), (const void *)&(stepCtx.solver), (::S88_QueryIn &)(localQuery), (::S88b50_Island &)(*island), buffer, bufferSize, (::S88b50_Entity *const *)(entities), numEntities);
             if (inactiveFrames <= 5)
             {
                 header->shouldDeactivate = 0;
@@ -1460,14 +1462,14 @@ FINISH_BROAD_PHASE:
         SyncCheck::verify(0xF000009E, splitRequested);
         if (splitRequested)
         {
-            FUN_00d942f0(island, header->splitIslands);
+            ::ClearFlagsAndMarkDirty((::D942F0Island *)(island), (void *)&(header->splitIslands));
         }
         {
             MonitorStream& stream = MonitorStream::GetMonitorStream();
             if (stream.memoryAvailable())
             {
                 MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
-                ev->tag = DAT_01076f38;
+                ev->tag = ::str_01076f38;
                 ev->setTime();
                 stream.setEnd((char*)(ev + 1));
             }
@@ -1475,7 +1477,7 @@ FINISH_BROAD_PHASE:
         header->exportFinished = true;
         new (&nextJobOut) BroadPacket(currentJob, header);
         {
-            int status = queue.FUN_00d05020(0, 0, nextJobOut, 0);
+            int status = reinterpret_cast<::S_00d05020_JobQueue *>(&(queue))->FUN_00d05020(0, 0, (::S_00d05020_Job &)(nextJobOut), 0);
         }
         return 0;
     }
@@ -1491,7 +1493,7 @@ FINISH_BROAD_PHASE:
                 stream.setEnd((char*)(ev + 1));
             }
         }
-        FUN_00d883c0(*island, buffer, bufferSize, *header);
+        ::FUN_00d883c0((const ::S883_Island &)(*island), buffer, bufferSize, (::S883_TaskHeader &)(*header));
         header->numSolverResults = island->numSolverResults;
         header->numSolverElemTemps = island->numSolverElemTemps;
         header->queryIn = &owner.queryIn;
@@ -1510,18 +1512,18 @@ FINISH_BROAD_PHASE:
             accJob.firstEntityIdx = 0;
             accJob.numEntities = (unsigned short)numEntities;
             accJob.mode = MODE_ENABLED;
-            queue.FUN_00d04b50(nextJobOut, 0);
+            reinterpret_cast<::fnv_00d04b50::Owner *>(&(queue))->FUN_00d04b50((void *)&(nextJobOut), 0);
         }
 
         BuildCollection outBuilds;
         SolveCollection outSolves;
-        FUN_00d95130(island, stepCtx.buildOnSpu, header, &outBuilds, &outSolves);
+        ::FUN_00d95130((::SceneInput)(island), (*(::FlagByte *)&(const ::fnv_00d95cf0::FlagByte &)(stepCtx.buildOnSpu)), (::JobHeader *)(header), (::BuildCollection *)(::fnv_00d95cf0::BuildCollection *)(&outBuilds), (::SolveCollection *)(::fnv_00d95cf0::SolveCollection *)(&outSolves));
         {
             MonitorStream& stream = MonitorStream::GetMonitorStream();
             if (stream.memoryAvailable())
             {
                 MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
-                ev->tag = DAT_01076f38;
+                ev->tag = ::str_01076f38;
                 ev->setTime();
                 stream.setEnd((char*)(ev + 1));
             }
@@ -1530,7 +1532,7 @@ FINISH_BROAD_PHASE:
         header->solveTasks = outSolves;
 
         FinishPacket FinalizePacket(currentJob, header);
-        int status = queue.ProcessCallback(&FinalizePacket, nextJobOut, 0);
+        int status = reinterpret_cast<::LunaOwner *>(&(queue))->ProcessCallback((int)(&FinalizePacket), (int)&(nextJobOut), 0);
         return status;
     }
 }

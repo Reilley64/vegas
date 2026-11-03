@@ -15,6 +15,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 
 extern "C" __m128 _mm_setzero_ps();
 extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
@@ -26,8 +27,6 @@ extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
 extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 extern "C" void _mm_store_ss(float* p, __m128 a);
 
-extern const __m128 DAT_010c71d0;
-extern const __m128 DAT_010c44d0;
 
 namespace hkC9E5 {
 struct VectorComponentValue
@@ -173,10 +172,10 @@ float hkpShape::FUN_00c9e560(const hkVector4& kDirection) const
 
     hkVector4 kTargetCenter;
     kTargetCenter.setAdd4(kAabb.m_kMinimumCorner, kAabb.m_kMaximumCorner);
-    kTargetCenter.mul4(DAT_010c71d0);
+    kTargetCenter.mul4(::DAT_010c71d0);
     hkVector4 kHalfExtent;
     kHalfExtent.setSub4(kAabb.m_kMaximumCorner, kAabb.m_kMinimumCorner);
-    kHalfExtent.mul4(DAT_010c71d0);
+    kHalfExtent.mul4(::DAT_010c71d0);
 
     hkVector4 kSupport;
     kSupport.setFlipSign(kHalfExtent, kDirection);

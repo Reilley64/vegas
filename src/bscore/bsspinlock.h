@@ -7,6 +7,8 @@
 #ifndef BSCORE_BSSPINLOCK_H
 #define BSCORE_BSSPINLOCK_H
 
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_0078d200_cls.h"
 #include "layout_support.h"
 
 #pragma pack(push, 4)
@@ -17,9 +19,6 @@ class FNV_ALIGN(32) RecursiveSpinLock
     unsigned int m_uiRecursionCount;
     unsigned char layoutPadding8[24];
 
-    void Lock(const char* name);
-    bool TryLock();
-    void Unlock();
     void UnlockUnconditional();
     bool IsLocked();
     bool IsLockedByUs();
@@ -27,6 +26,8 @@ class FNV_ALIGN(32) RecursiveSpinLock
 
     static unsigned int ms_uiFirstValue;
     static unsigned int ms_uiSecondValue;
+public:
+    void FUN_0040fba0();
 };
 #pragma pack(pop)
 
@@ -40,7 +41,7 @@ RecursiveSpinLock g_spinLock;
 // @fnv 0x0078d1f0
 bool BSSpinLockGlobalTryLock()
 {
-    return g_spinLock.TryLock();
+    return reinterpret_cast<::FUN_0078d200_cls *>(&(g_spinLock))->FUN_0078d200();
 }
 
 #endif

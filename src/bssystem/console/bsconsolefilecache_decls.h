@@ -3,6 +3,7 @@
 #define FNV_BSCONSOLEFILECACHE_DECLS_H
 
 
+#include "fnv/symbols_005e0000.h"
 class TESHair;
 class TESEyes;
 class TESModel;
@@ -77,7 +78,6 @@ template <class T> class BSSimpleList
 class NiTPrimitiveArray_unsigned_int_
 {
   public:
-    void RemoveAll();
     void** m_ppVirtualMethodTable;
     unsigned int* m_pBase;
     unsigned short m_usMaxSize, m_usSize, m_usESize, m_usGrowBy;

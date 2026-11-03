@@ -7,8 +7,9 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 // The .rdata double added to the first matrix element (0.25) lives in the
 // original image, so it is only declared here.
-extern const double DAT_010c9300;
 // arg1: the six float vector
+#include "fnv/symbols_00d6c000.h"
+#include "fnv/symbols_010c9000.h"
 struct FUN_00d6ce70_Vector
 {
     float f00;
@@ -62,7 +63,6 @@ struct FUN_00d6ce70_Cursor
 {
     FUN_00d6ce70_Matrix* matrix;
 };
-void FUN_00d6ce70(FUN_00d6ce70_Vector* v, FUN_00d6ce70_Scale* s, FUN_00d6ce70_Dest* dest, FUN_00d6ce70_Cursor* cursor);
 struct WriterContext
 {
     int unk00;
@@ -110,12 +110,11 @@ struct WriterRecord
     unsigned int value;
     unsigned int whole;
 };
-extern double _DAT_010c9300;
 static void WriteFloatRecord(WriterContext* object, float** cursor, WriterArgs args);
 void RecordWrite_use(WriterContext* object, float** cursor, WriterArgs args);
 
 #include <xmmintrin.h>
-extern const __m128 DAT_010c44d0;
+#include "fnv/symbols_simd.h"
 
 struct S_00d6cb30_Vector4
 {

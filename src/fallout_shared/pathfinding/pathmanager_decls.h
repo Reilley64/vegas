@@ -1,5 +1,11 @@
 // fallout_shared/pathfinding/pathmanager_decls.h: declares QueuedMessage, ActorPathingMessageQueue, NiMemObject, PathingSolution, Pathing and more
 
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/symbols_0047d000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005dc000.h"
 class WaitableObject;
 class PathingRequest;
 class ActorPathingMessageQueue;
@@ -93,8 +99,8 @@ class Pathing
 class RecursiveSpinLock
 {
   public:
-    void Lock(const char*);
-    void Unlock();
+public:
+    void FUN_0040fba0();
 };
 
 class ParentSpaceNode;
@@ -140,8 +146,6 @@ class PathingTaskData
 
     bool HasPendingMessages();
     void Process();
-    void FUN_006ea330();
-    bool FUN_005dc980();
 };
 
 class PerformanceMeasurement;
@@ -169,13 +173,8 @@ class PathManagerImpl
   public:
     char pad[0x14c0];
     PathManagerImpl();
-    bool Initialize();
     bool BuildPath(NiPointer<PathingRequest> m_pPathingRequest, NiPointer<ActorPathingMessageQueue> spQueue);
 
-    bool FUN_006eb790();
-    void FUN_006eb7b0();
-    bool GetByteAtOffsetC34();
-    void DispatchPathingMessage(const Struct_004b0680& item);
 };
 
 union SETTING_VALUE
@@ -201,7 +200,6 @@ extern GlobalObject_0045cf30 g_011d77cc;
 
 struct DummyTimer
 {
-    void FUN_00483710();
 };
 
 class PathManager
@@ -214,9 +212,6 @@ class PathManager
     bool BuildPath(NiPointer<PathingRequest> m_pPathingRequest, NiPointer<ActorPathingMessageQueue> spQueue,
                    bool bAsync);
 
-    static PathManager* GetRandomGenerator();
-    PathManagerImpl* FUN_00559450();
-    DummyTimer* FUN_00717e50();
 };
 
 extern "C" char DAT_0103a1bc[];

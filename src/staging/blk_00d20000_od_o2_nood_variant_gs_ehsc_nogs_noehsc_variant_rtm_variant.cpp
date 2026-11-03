@@ -10,8 +10,19 @@
 // to their real unit once identified.
 // src/staging/blk_00d20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_00cfbd60_cls.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00d28000.h"
+#include "fnv/symbols_00d2c000.h"
+#include "fnv/symbols_00d36000.h"
+#include "fnv/symbols_00d39000.h"
+#include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
 union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
+#include "fnv/symbols_simd.h"
 extern "C" {
 __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 __m128 _mm_mul_ps(__m128, __m128);
@@ -49,7 +60,6 @@ struct ContactBody
     char unk100[0x10c - 0x100];
     float m_limitC;
 };
-bool FUN_00d28560(void* unused, char** items, int count, int offset);
 inline void* operator new(unsigned int, void* p) throw() { return p; }
 inline void operator delete(void*, void*) throw() {}
 struct FinishingFlag
@@ -82,7 +92,6 @@ public:
     virtual void vf04();
     __m128 m_kScaleFactors;
 };
-const void* __cdecl FUN_00d2c8a0();
 struct SortPair {
     unsigned int key;
     unsigned int val;
@@ -155,12 +164,9 @@ struct hkpAgent3FuncsD367 {
     bool m_bAgentFlag1;
     bool m_bAgentFlag2;
 };
-void __cdecl FUN_00d367b0(hkpAgent3FuncsD367& kFuncs);
 class hkpCollisionDispatcherD367 {
 public:
-    void AddEntry(const hkpAgent3FuncsD367& kFuncs, int iTypeA, int iTypeB);
 };
-void __cdecl FUN_00d367d0(hkpCollisionDispatcherD367* pkDispatcher);
 struct hkpAgent3FuncsD398 {
     hkpAgent3FuncsD398()
     {
@@ -192,17 +198,8 @@ struct hkpAgent3FuncsD398 {
 };
 class hkpCollisionDispatcherD398 {
 public:
-    void AddEntry(const hkpAgent3FuncsD398& kFuncs, int iTypeA, int iTypeB);
 };
-void InitOutputDefaults();
-void FUN_00d39130();
-void ReleaseHandles();
-void RemoveKeyFromTable();
-void InsertIntoSlotArray();
 void FUN_00d39090();
-void FUN_00d39150();
-void FUN_00d39390();
-void __cdecl FUN_00d39840(hkpCollisionDispatcherD398* pkDispatcher);
 
 typedef float hkReal;
 typedef unsigned char hkUchar;
@@ -439,8 +436,7 @@ class StringCursor
 public:
 __forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}static StringCursor&GetMonitorStream()
 {
-extern hkThreadLocalData<StringCursor*>g_pMonitorStream;
-return*g_pMonitorStream.getData();
+return*(*reinterpret_cast<::hkThreadLocalData< ::StringCursor *> *>(&::DAT_0126835c)).getData();
 }
 public:
 __forceinline char*__cdecl GetStreamStart(){return m_kRayStart.val();}
@@ -484,7 +480,7 @@ m_uiStartTicks=ticks;
 class ScopedTimer
 {
 public:
-__forceinline ~ScopedTimer(){{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};}
+__forceinline ~ScopedTimer(){{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};}
 };class hkAabb
 {
 public:
@@ -906,7 +902,7 @@ return ST_CP_MISS;}
 // @fnv 0x00d3d8c0
 void __cdecl FUN_00d3d8c0(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,class hkpCdPointCollector&collector)
 {
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "SphereTri";h->setTime();mStream.setEnd((char*)(h+1));}};ScopedTimer timeblock47;
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "SphereTri";h->setTime();mStream.setEnd((char*)(h+1));}};ScopedTimer timeblock47;
 const hkpTriangleShape*triB=static_cast<const hkpTriangleShape*>(bodyB.getShape());
 TriangleDistanceUtility::FourRealValueRecord cache;
 TriangleDistanceUtility::setupClosestPointTriangleCache(triB->GetIndexedVertices(),cache);

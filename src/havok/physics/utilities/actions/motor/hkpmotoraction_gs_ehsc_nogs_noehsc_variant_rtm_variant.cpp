@@ -7,6 +7,9 @@
 // to their real unit once identified.
 // src/havok/physics/utilities/actions/motor/hkpmotoraction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/motor/hkpmotoraction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_004b4ab0_Class.h"
+#include "fnv/decl/FUN_00c7f750_shell.h"
+#include "fnv/decl/hkpEntityC9C.h"
 #include "havok/hkpMotorAction.h"
 
 #include <xmmintrin.h>
@@ -40,8 +43,7 @@ struct Vec4
     {
         m_vComponents = _mm_mul_ps(_mm_shuffle_ps(r.m_vValue, r.m_vValue, 0), a.m_vComponents);
     }
-    void setRotatedInverseDir(const void* rot, const void* v);
-    void FUN_00c7f750(const void* m, const Vec4& v);    // FUN_00c7f750
+        // FUN_00c7f750
     void FUN_00c7f700(const void* rot, const Vec4& v);  // FUN_00c7f700
 };
 
@@ -149,11 +151,11 @@ struct RigidBody
     int unkD8;
     int unkDC;
     Motion m_pMotionState;
-    void FUN_00c9c1d0();  // FUN_00c9c1d0
+      // FUN_00c9c1d0
 
     inline void StepMotion(float dt, const Vec4& t)
     {
-        FUN_00c9c1d0();
+        reinterpret_cast<::hkpEntityC9C *>(this)->FUN_00c9c1d0();
         m_pMotionState.StepMotion(dt, t);
     }
 };
@@ -171,7 +173,7 @@ void MotorAction::FUN_00d4d860(const TimeInterval& stepInfo)
     RigidBody* rb = reinterpret_cast<RigidBody*>(m_pEntity);
 
     Vec4 currentAngVel;
-    currentAngVel.setRotatedInverseDir(&rb->m_pMotionState.m_rotation, reinterpret_cast<char*>(rb) + 0x1c0);
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(currentAngVel))->FUN_004b4ab0((int)(&rb->m_pMotionState.m_rotation), (int)(reinterpret_cast<char*>(rb) + 0x1c0));
 
     const Vec4& axis = reinterpret_cast<const Vec4&>(m_kAxisEndPoints);
     float currentRate = currentAngVel.dot3(axis);
@@ -182,7 +184,7 @@ void MotorAction::FUN_00d4d860(const TimeInterval& stepInfo)
     Mat3 worldInertia;
     rb->m_pMotionState.GetInertiaLocal(worldInertia);
 
-    angularDelta.FUN_00c7f750(&worldInertia, angularDelta);
+    reinterpret_cast<::FUN_00c7f750_shell *>(&(angularDelta))->FUN_00c7f750((float *)(&worldInertia), (float *)&(angularDelta));
     angularDelta.FUN_00c7f700(&rb->m_pMotionState.m_rotation, angularDelta);
 
     rb->StepMotion(stepInfo.m_fTimeStep, angularDelta);

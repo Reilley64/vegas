@@ -3,6 +3,7 @@
 #define FNV_MEMORYPOOL_DECLS_H
 
 
+#include "fnv/decl/FUN_0040fbf0_shell.h"
 struct MemoryPool__FreePoolBlock
 {
     MemoryPool__FreePoolBlock* m_pPreviousBlock;
@@ -16,7 +17,6 @@ class RecursiveSpinLock
     unsigned int m_uiRecursionCount;
     unsigned char layoutPadding8[24];
 
-    void Lock(const char* name);
 };
 
 class MemoryPool
@@ -37,7 +37,8 @@ class MemoryPool
     unsigned char layoutPadding5C[36];
 
     void PushFreeBlock(void* pointer);
-    void Free(void* pointer);
+public:
+    bool CommitPage(unsigned int, char *&);
 };
 
 #endif

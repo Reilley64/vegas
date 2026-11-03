@@ -6,8 +6,36 @@
 // src/fallout_shared/packagedatadialogue_rtti_variant.cpp - RTTI variant unit created 2026-10-24 by rtti_variants.py for paused functions whose original code needs
 // polymorphic classes (TESDialoguePackageData, TESPackageData). The skeleton of src/fallout_shared/packagedatadialogue.cpp with those classes made polymorphic; move the functions to
 // their real unit once its classes are.
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00619df0_shell.h"
+#include "fnv/decl/FUN_0067ad20_Class.h"
+#include "fnv/decl/FUN_0067fb60_shell.h"
+#include "fnv/decl/FUN_0067fc50_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TESRegion.h"
+#include "fnv/decl/TopicMethods.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_0067f6c0__FUN_0067f6c0_shell.h"
+#include "fnv/decl/fnv_00865df0__FUN_00865df0_holder.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_0061b000.h"
+#include "fnv/symbols_01068000.h"
 #include "packagedatadialogue_decls_rtti_variant_decl_packagedatadialogue_rtti_variant.h"
-void __cdecl Deallocate(void*);
 namespace p07 {
 struct DtorStandIn
 {
@@ -22,7 +50,7 @@ void* DelStandIn::FUN_0067b1e0(unsigned int flags)
 {
     ((DtorStandIn*)this)->FUN_0083dec0();
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 }
@@ -45,7 +73,6 @@ struct FUN_0067b280_cls : FUN_0067ad70_cls
 class BGSLoadFormBuffer;
 struct FUN_0067fc50_impl
 {
-    void ResolveObject(BGSLoadFormBuffer*);
 };
 struct FUN_0067b920_host
 {
@@ -57,7 +84,8 @@ struct FUN_0067b920_host
 };
 struct LocationDescriptor
 {
-    void Save(int);
+public:
+    void Copy(::LocationDescriptor *, bool);
 };
 struct FUN_0067b100_Class
 {
@@ -72,9 +100,6 @@ struct FUN_0067b100_Class
     void FUN_0067b100();
 };
 typedef FUN_0067b100_Class FunctionObject;
-void* memset(void*, int, unsigned int);
-bool _FUN_00401500();
-void _FUN_00485990(int, void*, unsigned int);
 struct FUN_0067b630_cls
 {
     unsigned int pad0;
@@ -91,15 +116,12 @@ struct FUN_0067b630_cls
 };
 struct FUNObj
 {
-    void FUN_0067fb60(void*);
 };
 struct SaveFormIDHelper
 {
-    void SerializeFormData(void*, int);
 };
 struct BGSSaveFormBuffer : SaveFormIDHelper
 {
-    void SaveData(void*, int, int);
 };
 struct TESPackageData
 {
@@ -125,7 +147,6 @@ struct PairOfBytes
     unsigned char first;
     unsigned char second;
 };
-extern void* UNK_010688ac;
 struct ConstructorHost
 {
     void* vtable;
@@ -138,7 +159,6 @@ struct ConstructorHost
     unsigned char value18;
     unsigned int value1C;
 
-    void FUN_0067ad20();
     ConstructorHost* Construct(float initial, unsigned int object, PairOfBytes flags, float scale,
                                unsigned char enabled, unsigned int reference);
 };
@@ -151,7 +171,6 @@ struct TargetLocation
     float radius;
     TargetLocation();
     ~TargetLocation();
-    void FUN_0067f4d0(TargetLocation*, int);
 };
 struct DialogueData544 : TESDialoguePackageData
 {
@@ -174,7 +193,7 @@ void DialogueData544::FUN_0067b310(TESPackageData* input)
         if (source->m_pTargetLocation)
         {
             m_pTargetLocation = new TargetLocation;
-            m_pTargetLocation->FUN_0067f4d0(source->m_pTargetLocation, 0);
+            reinterpret_cast<::LocationDescriptor *>((m_pTargetLocation))->Copy((::LocationDescriptor *)(source->m_pTargetLocation), 0);
         }
         pMenuTopicEntry = source->pMenuTopicEntry;
         m_bFollowingFlag = source->m_bFollowingFlag;

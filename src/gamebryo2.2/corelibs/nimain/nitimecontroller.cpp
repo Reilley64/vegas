@@ -3,6 +3,35 @@
 // NiTimeController: base timing/update functionality for animation controllers.
 // FNV 2.2 branch revision (thread-local scale cache, legacy flag conversion,
 // geometry consistency fixup on attach/link).
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/ControllerOwner.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a5d2f0_class.h"
+#include "fnv/decl/FUN_00a5d430_Class.h"
+#include "fnv/decl/FUN_00a5d450_class.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_004a8000.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a6d000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_011a8000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_0126f000.h"
 #include "nitimecontroller.h"
 #include "nitimecontroller_decls.h"
 
@@ -10,8 +39,8 @@
 // @fnv 0x00a6d0c0
 void NiTimeController::ProcessClone(CloningProcess& kCloning)
 {
-    NiObject::ProcessClone(kCloning);
-    NiTimeController* pkNext = GetNext();
+    reinterpret_cast<::FUN_00a5d430_Class *>(this)->FUN_00a5d430((unsigned int)&(kCloning));
+    NiTimeController* pkNext = ((::NiTimeController *)(::fnv_004a8a90::FUN_004a8a90((char *)this)));
     if (pkNext)
         pkNext->ProcessClone(kCloning);
 }
@@ -26,15 +55,15 @@ void NiTimeController::SetTarget(NiObjectNET* pkTarget)
 
     if (m_pkTarget)
     {
-        if (m_pkTarget->GetControllers())
-            m_pkTarget->ReplaceControllers(this);
+        if (((::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(m_pkTarget)))))
+            reinterpret_cast<::ControllerOwner *>((m_pkTarget))->FUN_00a5c480(this);
     }
 
     m_pkTarget = pkTarget;
 
     if (m_pkTarget)
     {
-        NiTimeController* pkControl = m_pkTarget->GetControllers();
+        NiTimeController* pkControl = ((::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(m_pkTarget))));
         while (pkControl)
         {
             if (pkControl == this)
@@ -42,7 +71,7 @@ void NiTimeController::SetTarget(NiObjectNET* pkTarget)
                 DecRefCount();
                 return;
             }
-            pkControl = pkControl->GetNext();
+            pkControl = ((::NiTimeController *)(::fnv_004a8a90::FUN_004a8a90((char *)(pkControl))));
         }
         m_pkTarget->AddController(this);
         if (IsGeometryController())
@@ -83,16 +112,12 @@ void NiTimeController::LinkObject(NiStream& kStream)
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-extern int DAT_011a9bd0;
-extern int DAT_011a9bd4;
-extern int DAT_011a9bd8;
-extern int DAT_011a9bdc;
 
 // Copies the four globals DAT_011a9bd0 through DAT_011a9bdc into p[0..3] and returns p.
 // @fnv 0x00a29690
 int* __cdecl CopyGlobalsToBuffer(int, int, int, int* pDest)
 {
-    pDest[0] = DAT_011a9bd0;
+    pDest[0] = (*reinterpret_cast<int *>(&::DAT_011a9bd0));
     pDest[1] = DAT_011a9bd4;
     pDest[2] = DAT_011a9bd8;
     pDest[3] = DAT_011a9bdc;
@@ -101,7 +126,6 @@ int* __cdecl CopyGlobalsToBuffer(int, int, int, int* pDest)
 
 struct TCEq : NiObject
 {
-    bool IsSameAs(NiObject* pkObject);
     unsigned short m_uiObjectFlags;
     char pad[2];
     float m_fFrequency;
@@ -115,7 +139,7 @@ struct TCEq : NiObject
 bool __fastcall FUN_00a6cc80(TCEq* pThis, int edx, NiObject* pkObject)
 {
     TCEq* pkControl = (TCEq*)pkObject;
-    if (pThis->IsSameAs(pkObject) && pThis->m_uiObjectFlags == pkControl->m_uiObjectFlags &&
+    if (reinterpret_cast<::A5d470Class *>((pThis))->IsSameAs((::A5d470Object *)(pkObject)) && pThis->m_uiObjectFlags == pkControl->m_uiObjectFlags &&
         pThis->m_fFrequency == pkControl->m_fFrequency && pThis->m_fPhase == pkControl->m_fPhase &&
         pThis->m_fLoKeyTime == pkControl->m_fLoKeyTime && pThis->m_fHiKeyTime == pkControl->m_fHiKeyTime)
     {
@@ -143,7 +167,6 @@ unsigned int __fastcall FUN_00a6cd00(TCChain* p, int edx)
     return n;
 }
 
-extern const float DAT_01015f5c;
 struct TCStart
 {
     char pad[8];
@@ -156,7 +179,7 @@ struct TCStart
 void __fastcall InitStartTime(TCStart* p, int edx, float fTime)
 {
     p->m_uiObjectFlags |= 8;
-    p->m_fLastTime = DAT_01015f5c;
+    p->m_fLastTime = ::DAT_01015f5c;
     if (p->m_uiObjectFlags & 1)
         p->m_fStartTime = fTime;
 }
@@ -211,7 +234,6 @@ void FUN_00a6cd30_cls::ResetTiming()
     }
 }
 
-extern "C" char DAT_011f4280;
 
 struct TCRtti
 {
@@ -296,7 +318,7 @@ void __cdecl StartControllersRecursive(TCAV* p, float fTime)
     {
         do
         {
-            if (r == (const TCRtti*)&DAT_011f4280)
+            if (r == (const TCRtti*)&(*reinterpret_cast<char *>(&::g_011f4280)))
                 goto L_0048;
             r = r->m_pkBase;
         } while (r != 0);
@@ -441,7 +463,6 @@ class TCTimeNode
     unsigned short m_usItemCount;
 };
 
-extern int DAT_011f4280;
 
 // @fnv 0x00a6d2d0
 void __cdecl FUN_00a6d2d0(TCTimeNode* obj)
@@ -449,7 +470,7 @@ void __cdecl FUN_00a6d2d0(TCTimeNode* obj)
     TCTimeNode* p = obj->m_pChildObject;
     while (p != 0)
     {
-        p->Slot35(DAT_01015f5c);
+        p->Slot35(::DAT_01015f5c);
         p = p->m_pNext;
     }
 
@@ -460,7 +481,7 @@ void __cdecl FUN_00a6d2d0(TCTimeNode* obj)
     if (n == 0)
         goto after_list;
 scan:
-    if (n == reinterpret_cast<TCChainLink*>(&DAT_011f4280))
+    if (n == reinterpret_cast<TCChainLink*>(&(*reinterpret_cast<int *>(&::g_011f4280))))
         goto found;
     n = n->m_pNext;
     if (n != 0)
@@ -498,14 +519,14 @@ struct NiTimeController_Luna : NiTimeController
 // @fnv 0x00a6d5e0
 void NiTimeController_Luna::FUN_00a6d5e0(NiStream& kStream)
 {
-    NiObject::LoadBinary(kStream);
-    kStream.ResetStreamState();
+    reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup((::NiStream *)&(kStream));
+    reinterpret_cast<::FUN_00a645b0_cls *>(&(kStream))->FUN_00a645b0();
     ReadBinaryValue(kStream, m_uiObjectFlags);
     ReadBinaryValue(kStream, m_fFrequency);
     ReadBinaryValue(kStream, m_fPhase);
     ReadBinaryValue(kStream, m_fLoKeyTime);
     ReadBinaryValue(kStream, m_fHiKeyTime);
-    kStream.ResetStreamState();
+    reinterpret_cast<::FUN_00a645b0_cls *>(&(kStream))->FUN_00a645b0();
     if (kStream.GetFileVersion() < 0x0A000101)
     {
         unsigned short preserved = m_uiObjectFlags;
@@ -758,13 +779,12 @@ template <class T> inline void Save_a6d730(Stream_a6d730& stream, T& value)
 }
 struct FUN_00a6d730_shell : NiTimeController
 {
-    void FUN_00a89af0(Stream_a6d730&);
     void FUN_00a6d730(Stream_a6d730&);
 };
 // @fnv 0x00a6d730
 void FUN_00a6d730_shell::FUN_00a6d730(Stream_a6d730& stream)
 {
-    FUN_00a89af0(stream);
+    ::FUN_00a89af0((int)this);
     NiTimeController* next = m_spNextController.m_pObject;
     while (next && !((Probe_a6d730*)next)->IsGeometryController())
         next = next->m_spNextController.m_pObject;
@@ -777,14 +797,9 @@ void FUN_00a6d730_shell::FUN_00a6d730(Stream_a6d730& stream)
     stream.Link(m_pkTarget);
 }
 
-extern const char* DAT_011f49e4;
 
-char* __cdecl FUN_00a7d330(const char*);
-char* __cdecl FUN_00a7d550(const char*, float);
-char* __cdecl FUN_00a7d5a0(const char*, void*);
 char* __cdecl BuildAppTimeOrInitString(const char*, int);
 char* __cdecl FUN_00a6d190(const char*, int);
-char* __cdecl FUN_00a7d370(const char*, bool);
 
 template <class T, class Allocator = NiTMallocInterface<T> > class NiTPrimitiveArray : public NiTArray<T, Allocator>
 {
@@ -796,8 +811,8 @@ template <class T, class Allocator = NiTMallocInterface<T> > class NiTPrimitiveA
     {
         unsigned int uiSize = this->m_usSize;
         if (uiSize >= this->m_usMaxSize)
-            this->SetSize(uiSize + this->m_usGrowBy);
-        this->SetAt(uiSize, (T&)element);
+            reinterpret_cast<::ViewerStrings *>((this))->SetSize(uiSize + this->m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((this))->SetAt(uiSize, (T&)element);
         return uiSize;
     }
 };
@@ -815,7 +830,7 @@ class TCController : public NiTimeController
 // @fnv 0x00a6d830
 void TCController::FUN_00a6d830(NiViewerStringsArray* pkViewerStrings)
 {
-    pkViewerStrings->Add(FUN_00a7d330(DAT_011f49e4));
+    pkViewerStrings->Add(FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_011f49e4))));
     pkViewerStrings->Add(FUN_00a7d550("m_fFrequency", m_fFrequency));
     pkViewerStrings->Add(FUN_00a7d550("m_fPhase", m_fPhase));
     pkViewerStrings->Add(FUN_00a7d550("m_fLoKeyTime", m_fLoKeyTime));
@@ -934,15 +949,6 @@ bool NiTimeControllerA362::FUN_00a36250(float fTime)
     return true;
 }
 
-extern const float DAT_01015f5c;
-extern "C" int DAT_011a8400;
-extern "C" int DAT_011a8404;
-extern "C" int DAT_011a8408;
-extern "C" int DAT_011f3704;
-extern "C" int DAT_011f3708;
-extern "C" int DAT_011f370c;
-extern "C" int DAT_011f3710;
-extern "C" float DAT_01096b8c;
 
 struct Card9
 {
@@ -956,7 +962,6 @@ struct Card9
     int a7;
     int a8;
 };
-extern "C" Card9 DAT_011a9448;
 
 union Fld
 {
@@ -994,44 +999,42 @@ void* FUN_00a362f0_cls::FUN_00a362f0()
 {
     volatile float* __restrict p = (volatile float*)this;
 
-    m_f04.i = DAT_011a8400;
-    m_f08.i = DAT_011a8404;
-    m_f0c.i = DAT_011a8408;
-    m_f10.i = DAT_011f3704;
-    m_f14.i = DAT_011f3708;
-    m_f18.i = DAT_011f370c;
-    m_f1c.i = DAT_011f3710;
-    m_f20.f = DAT_01096b8c;
-    m_f24.i = DAT_011a8400;
-    m_f28.i = DAT_011a8404;
-    m_f2c.i = DAT_011a8408;
-    m_f30.i = DAT_011f3704;
-    m_f34.i = DAT_011f3708;
-    m_f38.i = DAT_011f370c;
-    m_f3c.i = DAT_011f3710;
-    m_f40.f = DAT_01096b8c;
+    m_f04.i = (*reinterpret_cast<int *>(&::DAT_011a8400));
+    m_f08.i = ::DAT_011a8404;
+    m_f0c.i = ::DAT_011a8408;
+    m_f10.i = (*reinterpret_cast<int *>(&::DAT_011f3704));
+    m_f14.i = ::DAT_011f3708;
+    m_f18.i = ::DAT_011f370c;
+    m_f1c.i = ::DAT_011f3710;
+    m_f20.f = ::DAT_01096b8c;
+    m_f24.i = (*reinterpret_cast<int *>(&::DAT_011a8400));
+    m_f28.i = ::DAT_011a8404;
+    m_f2c.i = ::DAT_011a8408;
+    m_f30.i = (*reinterpret_cast<int *>(&::DAT_011f3704));
+    m_f34.i = ::DAT_011f3708;
+    m_f38.i = ::DAT_011f370c;
+    m_f3c.i = ::DAT_011f3710;
+    m_f40.f = ::DAT_01096b8c;
 
-    p[0] = DAT_01015f5c;
-    p[1] = DAT_01015f5c;
-    p[5] = DAT_01015f5c;
-    p[8] = DAT_01015f5c;
-    p[9] = DAT_01015f5c;
-    p[13] = DAT_01015f5c;
-    m_f40.f = DAT_01015f5c;
+    p[0] = ::DAT_01015f5c;
+    p[1] = ::DAT_01015f5c;
+    p[5] = ::DAT_01015f5c;
+    p[8] = ::DAT_01015f5c;
+    p[9] = ::DAT_01015f5c;
+    p[13] = ::DAT_01015f5c;
+    m_f40.f = ::DAT_01015f5c;
 
-    m_aiIndexedValues = DAT_011a9448;
+    m_aiIndexedValues = (*reinterpret_cast<::Card9 *>(&::DAT_011a9448));
     return this;
 }
 
 #include <string.h>
-void* __cdecl _NiMalloc(unsigned int);
-int __cdecl NiSprintf(char*, unsigned int, const char*, ...);
 // Allocates strlen(pcPrefix)+12 bytes; for eType 0 or 1, formats the prefix with APP_TIME or APP_INIT and returns the buffer.
 // @fnv 0x00a6d120
 char* __cdecl BuildAppTimeOrInitString(const char* pcPrefix, int eType)
 {
     unsigned int uiLen = (unsigned int)strlen(pcPrefix) + 12;
-    char* pcString = (char*)_NiMalloc(uiLen);
+    char* pcString = (char*)::FUN_00aa1070(uiLen);
     switch (eType)
     {
     case 0:
@@ -1044,14 +1047,12 @@ char* __cdecl BuildAppTimeOrInitString(const char* pcPrefix, int eType)
     return pcString;
 }
 
-void* __cdecl _NiMalloc(unsigned int);
-int __cdecl NiSprintf(char*, unsigned int, const char*, ...);
 // Allocates a buffer, formats pcPrefix with LOOP, REVERSE, CLAMP, or UNKNOWN!!! based on eType, and returns it.
 // @fnv 0x00a6d190
 char* __cdecl FUN_00a6d190(const char* pcPrefix, int eType)
 {
     unsigned int uiLen = (unsigned int)strlen(pcPrefix) + 11;
-    char* pcString = (char*)_NiMalloc(uiLen);
+    char* pcString = (char*)::FUN_00aa1070(uiLen);
     switch (eType)
     {
     case 0:
@@ -1134,7 +1135,7 @@ class NiTimeControllerCM : public NiTimeController
 // @fnv 0x00a6cfe0
 void NiTimeControllerCM::FUN_00a6cfe0(NiTimeController* pkDest, CloningProcess& kCloning)
 {
-    NiObject::CopyMemberData(pkDest, kCloning);
+    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((unsigned int)(pkDest), (void *)&(kCloning));
     pkDest->m_uiObjectFlags = m_uiObjectFlags;
     pkDest->m_fFrequency = m_fFrequency;
     pkDest->m_fPhase = m_fPhase;
@@ -1147,7 +1148,7 @@ void NiTimeControllerCM::FUN_00a6cfe0(NiTimeController* pkDest, CloningProcess& 
     if (m_pkTarget)
     {
         NiObject* pkClone;
-        bool bFound = kCloning.m_pCloneMap->GetAt(m_pkTarget, pkClone);
+        bool bFound = reinterpret_cast<::A54440Hash *>((void *)(kCloning.m_pCloneMap))->FUN_00a53c30((::A54440Manager *)(m_pkTarget), (::A54440Manager **)&(pkClone));
         if (bFound && m_pkTarget->GetRTTI() == pkClone->GetRTTI())
         {
             pkDest->m_pkTarget = (NiObjectNET*)pkClone;

@@ -3,6 +3,109 @@
 // polymorphic classes (Tile). The skeleton of src/fallout/interface/menus/companionwheelmenu.cpp with those classes made polymorphic; move the functions to
 // their real unit once its classes are.
 
+#include "fnv/decl/BGSDefaultObjectManager.h"
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/BSAudio.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatDamageCalculator.h"
+#include "fnv/decl/CompanionWheelInventory.h"
+#include "fnv/decl/FUN_004048e0_cls.h"
+#include "fnv/decl/FUN_0041ca90.h"
+#include "fnv/decl/FUN_0041d8a0_shell.h"
+#include "fnv/decl/FUN_0041fd00_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_0047c850.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/FUN_004f8960_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00608d80_shell.h"
+#include "fnv/decl/FUN_00619df0_shell.h"
+#include "fnv/decl/FUN_0061b320_shell.h"
+#include "fnv/decl/FUN_007563a0_shell.h"
+#include "fnv/decl/FUN_0083c7e0_shell.h"
+#include "fnv/decl/FUN_0083c850.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_0087f3d0_shell.h"
+#include "fnv/decl/FUN_0088b740_shell.h"
+#include "fnv/decl/FUN_00893590_shell.h"
+#include "fnv/decl/FUN_008ace90_shell.h"
+#include "fnv/decl/FUN_008c16c0_cls.h"
+#include "fnv/decl/FUN_008c1f80_shell.h"
+#include "fnv/decl/FUN_00933150_shell.h"
+#include "fnv/decl/FUN_009344a0_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/FUN_00a1d910_shell.h"
+#include "fnv/decl/Fn575690.h"
+#include "fnv/decl/HostActor.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/Player.h"
+#include "fnv/decl/PlayerCharacter.h"
+#include "fnv/decl/ProcessListsSub.h"
+#include "fnv/decl/Reference.h"
+#include "fnv/decl/S0042fa20.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TeleportableReference.h"
+#include "fnv/decl/TileListBoxCalls.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/VATS.h"
+#include "fnv/decl/ValueModifierEffect.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/WheelSelection.h"
+#include "fnv/decl/fnv_0042ce10__FUN_0042ce10_shell.h"
+#include "fnv/decl/fnv_00576260__FUN_00576260_shell.h"
+#include "fnv/decl/fnv_0057ace0__FUN_0057ace0_shell.h"
+#include "fnv/decl/fnv_0057ad20__FUN_0057ad20_shell.h"
+#include "fnv/decl/fnv_0057b7c0__Actor57.h"
+#include "fnv/decl/fnv_0061a720__FUN_0061a720_shell.h"
+#include "fnv/decl/fnv_007562b0__FUN_007562b0_shell.h"
+#include "fnv/decl/fnv_007575b0__FUN_007575b0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_008a7a90__ActorAnimView.h"
+#include "fnv/decl/fnv_008a8e50__ActorP_S.h"
+#include "fnv/decl/fnv_008b3c30__FUN_008b3c30_shell.h"
+#include "fnv/decl/fnv_008bb520__TES.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00457000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00564000.h"
+#include "fnv/symbols_00579000.h"
+#include "fnv/symbols_005ac000.h"
+#include "fnv/symbols_005dc000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_00702000.h"
+#include "fnv/symbols_00705000.h"
+#include "fnv/symbols_00709000.h"
+#include "fnv/symbols_00717000.h"
+#include "fnv/symbols_00754000.h"
+#include "fnv/symbols_00755000.h"
+#include "fnv/symbols_008c1000.h"
+#include "fnv/symbols_008d5000.h"
+#include "fnv/symbols_00a09000.h"
+#include "fnv/symbols_00ad8000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01013000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_01184000.h"
+#include "fnv/symbols_011cd000.h"
+#include "fnv/symbols_011cf000.h"
+#include "fnv/symbols_011d2000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011d9000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f2000.h"
 #include "companionwheelmenu_decls.h"
 struct FUN_00754bf0_shell
 {
@@ -14,16 +117,14 @@ struct FUN_00884480_shell
 };
 struct Actor
 {
-    bool __thiscall IsHostileToActor(Actor*, int, int*, bool);
+public:
+    bool IsSneaking();
+public:
+    void ConfigureActorState(bool, bool);
 };
-extern Actor* g_thePlayer;
-bool FUN_00754d90(Actor* a);
 int __cdecl FUN_00755260();
-extern "C" float __cdecl LogFloat(float);
 float FUN_00755660(float value);
-extern "C" void __cdecl CloseMenuAndRefresh(int);
 void __fastcall FUN_00756960(int thisPtr);
-extern bool __cdecl _FUN_004b71d0();
 struct FUN_00755680_shell
 {
     bool __thiscall FUN_00755680();
@@ -33,11 +134,11 @@ struct MyStandin754c30
     void __thiscall FUN_00754c60();
     void* __thiscall FUN_00754c30(unsigned int);
 };
-void __cdecl _Deallocate(void*);
 struct Tile
 {
     virtual ~Tile();  // the original class is polymorphic (rtti_variants.py)
-    void __thiscall Set(int, char const*, bool);
+public:
+    void Set(int, int);
 };
 struct Unk00755d90
 {
@@ -47,7 +148,6 @@ struct Unk00755d90
 };
 struct FUN_008a7760_holder
 {
-    void __thiscall OpenDialogMenu();
 };
 struct FUN_00756930_shell
 {
@@ -58,7 +158,8 @@ struct FUN_00756930_shell
 struct TESForm
 {
     virtual void v0();
-    static TESForm* __cdecl LookupFormByEditorID(const char*);
+public:
+    void NotifySaveLoadGameOfFormChange();
 };
 struct TESTopic
 {
@@ -66,17 +167,15 @@ struct TESTopic
 };
 struct Tile2
 {
-    void __thiscall Set(int, int);
 };
 struct FUN_007560c0_shell
 {
-    void __thiscall PlayTopicResponse(TESTopic*);
-    void __thiscall RunTopicResultScripts(TESTopic*);
     void __thiscall ToggleFollowersTacticsDistance();
 };
 struct MagicCaster
 {
-    void __thiscall SetSelectedMagicItem(int);
+public:
+    void RemoveCastingArt();
 };
 struct Date
 {
@@ -87,15 +186,12 @@ struct Menu_007a8b10
     char _pad[0x70];
     virtual ~Menu_007a8b10();
 };
-MagicCaster* __cdecl _FUN_004b7210();
-extern int DAT_011d92b8;
 struct FUN_00754c60 : Menu_007a8b10
 {
     bool _flag;
     char _pad[7];
     Date _date;
 
-    void __thiscall UpdateCompanionInteraction();
 
     ~FUN_00754c60();
 };
@@ -103,32 +199,19 @@ struct InterfaceH
 {
     static bool __cdecl GetSelectedTargetIndex(int);
 };
-void __cdecl FUN_00717280(int);
 struct FUN_007552e0_shell
 {
     void __thiscall FUN_007552e0(int, Tile*);
-    void __thiscall SelectTile(int, bool);
-    void __thiscall ToggleAggressive();
-    void __thiscall ToggleRelatedTopic();
-    void __thiscall ToggleFollowerWait();
-    void __thiscall HealCompanion();
-    void __thiscall FUN_007568d0();
 
     unsigned char _pad[0x28];
     Tile* m_pTiles[64];
 };
-unsigned int __cdecl gm_GetTickCount(void);
 float __cdecl FUN_00755660(float value);
 int __cdecl _FUN_00ec7d40(int value);
 extern char $SG3295[];
-extern double _DAT_01012060;
 extern double DAT_01071e20;
 extern float DAT_01071e28;
 extern float DAT_01071e2c;
-extern double _DAT_0104eea0;
-extern short DAT_011d8a5c;
-extern short DAT_011d8a5e;
-extern short DAT_011d8a74;
 struct FUN_00755480_shell
 {
     char _pad[0x58];
@@ -136,16 +219,11 @@ struct FUN_00755480_shell
     char _pad2[0x1C];
     unsigned int m_uiCurrentItemIndex;
 
-    void __thiscall FUN_00755c50(float value);
     void __thiscall UpdateTileTimerAndInputAngle();
 };
 struct MenuFactory
 {
-    Menu* FUN_00a03c90();
 };
-MenuFactory* __cdecl FUN_00a09030(int id);
-int __cdecl OpenCompanionMenu(int value);
-bool __cdecl DestroyCompanionWheelMenu(int value);
 extern "C" bool __cdecl FUN_00702450(int);
 struct Foo
 {
@@ -162,21 +240,16 @@ struct WheelHost
 {
     char unk00[0x28];
     int m_aiIndexedValues[16];
-    void __thiscall SelectTile(int, bool);
     void __thiscall FUN_00755760(int a, int b);
 };
 bool __cdecl FUN_00702450(int);
 struct InteractionActor;
 struct PackageNode
 {
-    PackageNode* FUN_00726070();
 };
 struct TESPackage
 {
     virtual ~TESPackage();
-    int FUN_0041ca90();
-    bool FUN_00678610();
-    PackageNode* FUN_0041d8a0();
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
@@ -211,6 +284,8 @@ struct TESPackage
     unsigned int unk80;
     unsigned int unk84;
     unsigned int unk88;
+public:
+    bool IsPackageBlockingGreeting();
 };
 struct DialoguePackage : TESPackage
 {
@@ -224,32 +299,32 @@ struct ActorLevelInfo
 };
 struct DialoguePolicy
 {
-    bool FUN_00619df0();
 };
+class DialogueResponse;
+class TESObjectREFR;
 struct DialogueItem
 {
-    DialoguePolicy* FUN_0084e3a0();
-    bool FUN_0083c7b0();
-    bool FUN_0083c7e0();
     ~DialogueItem();
     static void operator delete(void*);
+public:
+    ::TESObjectREFR *SelectDefaultResponseList();
+public:
+    bool SelectDefaultResponseList();
+public:
+    ::DialogueResponse *GetActiveResponse();
 };
 struct DialogueManager
 {
-    DialogueItem* FUN_0061b320(InteractionActor*, InteractionActor*, int, int, int);
 };
-DialogueManager* GetTopicSubTypeName(int, int);
 struct ActorPosition
 {
     float x, y, z;
 };
 struct ActorExtraData
 {
-    void FUN_00815b00();
 };
 struct ActorLock
 {
-    bool FUN_0047c850();
 };
 struct InteractionActor
 {
@@ -677,43 +752,17 @@ struct InteractionActor
     unsigned int unk80;
     unsigned int unk84;
     ActorExtraData extras;
-    InteractionActor* FUN_008d8520();
-    bool FUN_00493bb0();
-    bool FUN_00566950();
-    bool FUN_00608d80();
-    bool FUN_0087f3d0();
-    TESPackage* FUN_009344a0();
-    bool FUN_004997b0();
-    bool FUN_008ace90();
-    void StartDialog(DialogueManager*, int, int);
-    void FUN_008bb520(ActorPosition);
-    bool FUN_008b3bb0();
-    bool FUN_008b3c30();
-    void FUN_008a8e50();
-    void FUN_008a7a90();
-    const char* FUN_0055d520();
 };
-extern InteractionActor* interactionPlayer;
 struct DialogueDisplay
 {
-    void FUN_009c8950(int, int);
 };
-extern DialogueDisplay dialogueDisplay;
-void FUN_00709470(int, InteractionActor*, unsigned int, int, int, int);
 struct InputState
 {
-    void FUN_00ad8780();
 };
-InputState* __stdcall FUN_00453a70(int);
-int FUN_00702640();
 struct MessageSetting
 {
-    const char* FUN_00403df0();
 };
-extern MessageSetting lockedMessage;
 int sprintf(char*, const char*, ...);
-extern float messageDuration;
-void DispatchMessageToSink(const char*, int, int, int, float, int);
 struct InteractionMenu
 {
     unsigned int unk00;
@@ -752,7 +801,6 @@ struct BSStringT
     unsigned short m_bufLen;
     BSStringT(const BSStringT& src);
     ~BSStringT();
-    unsigned int GetLength();
     const char* CStr();
 };
 struct SoundPlaybackHandle
@@ -763,6 +811,10 @@ struct SoundPlaybackHandle
     SoundPlaybackHandle(const SoundPlaybackHandle& src);
     SoundPlaybackHandle& operator=(const SoundPlaybackHandle& src);
     ~SoundPlaybackHandle();
+public:
+    bool StopWithFade(unsigned int);
+public:
+    void SetCompletionCallback(void (*)(void *, bool), void *);
 };
 struct TESQuest;
 struct TESTopicInfo;
@@ -770,7 +822,6 @@ struct TESObjectREFR;
 struct TESTopic;
 struct SoundFile
 {
-    unsigned int GetSoundID();
 };
 struct SoundPath
 {
@@ -778,13 +829,6 @@ struct SoundPath
 };
 struct DialogueResponse
 {
-    SoundFile* GetSoundByEditorID();
-    unsigned int GetSoundID();
-    BSStringT& GetText();
-    int GetEmotionValue();
-    int GetEmotionType();
-    unsigned int GetFlags();
-    SoundPath* GetVoicePath(SoundPlaybackHandle* snd);
 };
 struct CompActor
 {
@@ -953,15 +997,12 @@ struct CompActor
                         int emotionType, int emotionValue, CompActor* target, bool a8, bool a9, bool a10, bool a11,
                         bool a12);
 
-    SoundPlaybackHandle PlaySound(unsigned int soundID, int a2, int flags, int a4);
 };
 struct TopicInfoStandin
 {
-    TESTopicInfo* GetTopicInfo(CompActor* speaker, CompActor* target);
 };
 struct TopicInfoQ
 {
-    TESQuest* GetQuest();
 };
 struct DialogueItemStandin
 {
@@ -974,8 +1015,6 @@ struct DialogueItemStandin
     int unk18;
     DialogueItemStandin(TESQuest* quest, TopicInfoStandin* topic, TopicInfoQ* info, CompActor* speaker);
     ~DialogueItemStandin();
-    void Init();
-    DialogueResponse* GetCurrentItem();
 };
 struct CompanionWheelStandin
 {
@@ -1013,16 +1052,12 @@ struct CompanionWheelStandin
     SoundPlaybackHandle sound;
 
     void PlayTopicResponse(TopicInfoStandin* topic);
-    void PlayResponse(BSStringT text, SoundPlaybackHandle snd);
 };
 struct CStringArg_757690
 {
     unsigned data;
     unsigned length;
     ~CStringArg_757690();
-    unsigned __thiscall FUN_004048e0();
-    int __thiscall FUN_00559450();
-    int __thiscall FUN_00559450(int);
 };
 struct CValueArg_757690
 {
@@ -1030,15 +1065,12 @@ struct CValueArg_757690
     unsigned kind;
     unsigned other;
     ~CValueArg_757690();
-    int __thiscall FUN_00ad8b30();
 };
 struct CWheelItem_757690
 {
-    void __thiscall FUN_00a01350(int id, int value);
 };
 struct CRelatedActor_757690
 {
-    bool __thiscall FUN_008c1bc0();
 };
 struct CInterface_757690
 {
@@ -1046,14 +1078,8 @@ struct CInterface_757690
 };
 struct CRandom_757690
 {
-    float* __thiscall FUN_00403e20();
 };
-extern CInterface_757690 DAT_011d8928;
-extern CRandom_757690 DAT_011d2178;
-extern double DAT_01012060;
-extern double DAT_01017b70;
 unsigned __cdecl FUN_00ec6130(int);
-unsigned __cdecl FUN_00457fe0();
 struct CWheelMenu_757690
 {
     void __thiscall SetItemTextAndValue(CStringArg_757690 text, CValueArg_757690 value);
@@ -1068,20 +1094,13 @@ struct ResultList
 {
     int head, tail, count;
     ~ResultList();
-    void FUN_00ad8e60(void (*)(unsigned int), unsigned int);
 };
-void FUN_005790f0(unsigned int);
 struct Sequence
 {
-    unsigned int FUN_0084e3a0();
-    void FUN_0083c7b0();
-    int FUN_0083c820();
-    void FUN_0083c850(int);
     ~Sequence();
 };
 struct Idle
 {
-    Sequence* FUN_0061b320(Reference*, int, int, int, int);
 };
 struct Reference
 {
@@ -1344,13 +1363,6 @@ struct Reference
     virtual void v256();
     virtual void v257();
     virtual ResultList PlayActor(Idle*, Actor*, bool, bool, int, int);
-    void FUN_0057ad20(Idle*);
-    unsigned int FUN_0084e3a0();
-    void FUN_0057ace0(unsigned int);
-    Reference* FUN_005e3fa0();
-    void FUN_00484490();
-    void FUN_00575690(void*);
-    void FUN_00575830(void*);
 };
 struct Process
 {
@@ -1768,7 +1780,6 @@ struct Process
     virtual void v411();
     virtual void v412();
     virtual int GetState(int);
-    int FUN_0045cd60();
 };
 struct Actor : Reference
 {
@@ -1802,26 +1813,12 @@ struct Actor : Reference
     int unk70;
     int unk74;
     float animationTime;
-    Process* FUN_008d8520();
     int FUN_00931850();
-    bool FUN_0094df60();
-    bool FUN_0087f3d0();
-    int FUN_004f8960();
-    unsigned int FUN_005d43c0();
 };
-extern Actor* DAT_011dea3c;
 struct Setting
 {
-    const int* FUN_0043d4d0();
-    void FUN_0045ce80(int);
 };
-extern Setting DAT_011cd378;
-extern const float DAT_01012054;
-extern const char DAT_011846d4, DAT_011841cc;
 Actor* FUN_00ec43fb(Reference*, int, const void*, const void*, int);
-void FUN_005ac750(Idle*, unsigned int, int);
-Reference* FUN_00564480(int, int);
-bool FUN_005accb0(void*, void*, void*, Reference*, void*, void*, void*, Idle**, int*, void**, int*, int*);
 // @fnv 0x005c8a50
 bool FUN_005c8a50(void* paramInfo, void* scriptData, Reference* source, void* containing, void* script, void* locals,
                   double* result, void* offset)
@@ -1832,7 +1829,7 @@ bool FUN_005c8a50(void* paramInfo, void* scriptData, Reference* source, void* co
     void* object4 = 0;
     int immediateA = 0;
     int _usePriority = 0;
-    if (!FUN_005accb0(paramInfo, scriptData, offset, source, containing, script, locals, &idleVal, &force, &object4,
+    if (!::FUN_005accb0((const ::ExtractParameter *)(paramInfo), (const char *)(scriptData), (unsigned int *)(offset), (::TESObjectREFR *)(source), (::TESObjectREFR *)(containing), (::ExtractScript *)(script), (::ScriptLocals *)(locals), &idleVal, &force, &object4,
                       &immediateA, &_usePriority))
         return false;
     bool forceFlag4 = false;
@@ -1844,83 +1841,83 @@ bool FUN_005c8a50(void* paramInfo, void* scriptData, Reference* source, void* co
         forceFlag4 = true;
     if (_usePriority > 0)
         priorityFlag = true;
-    Actor* actor = FUN_00ec43fb(source, 0, &DAT_011841cc, &DAT_011846d4, 0);
-    int previous = *DAT_011cd378.FUN_0043d4d0();
-    DAT_011cd378.FUN_0045ce80(0x7fffffff);
+    Actor* actor = FUN_00ec43fb(source, 0, &::DAT_011841cc, &::DAT_011846d4, 0);
+    int previous = *((const int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ScriptAnimation::Setting *>(&::g_011cd378))))));
+    reinterpret_cast<::S0042fa20 *>(&((*reinterpret_cast<::ScriptAnimation::Setting *>(&::g_011cd378))))->FUN_0045ce80(0x7fffffff);
     if (idleVal)
     {
         if (actor)
         {
-            if (actor->FUN_008d8520() && !actor->IsDead(1))
+            if (((::ScriptAnimation::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())) && !actor->IsDead(1))
             {
-                actor->animationTime = DAT_01012054;
-                actor->FUN_008d8520()->SetAlert(0);
-                actor->FUN_008d8520()->Reset();
+                actor->animationTime = ::DAT_01012054;
+                ((::ScriptAnimation::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->SetAlert(0);
+                ((::ScriptAnimation::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->Reset();
                 if (!actor->FUN_00931850())
                 {
-                    int state = actor->FUN_008d8520()->GetState(2);
-                    actor->FUN_008d8520()->SetState(0);
-                    actor->FUN_008d8520()->RestoreState(state);
-                    actor->FUN_008d8520()->Update();
+                    int state = ((::ScriptAnimation::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->GetState(2);
+                    ((::ScriptAnimation::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->SetState(0);
+                    ((::ScriptAnimation::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->RestoreState(state);
+                    ((::ScriptAnimation::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->Update();
                 }
                 else if (immediateA)
                 {
-                    actor->FUN_0057ad20(idleVal);
-                    Sequence* chosen = idleVal->FUN_0061b320(actor, 0, 0, 0, 0);
+                    reinterpret_cast<::fnv_0057ad20::FUN_0057ad20_shell *>((actor))->FUN_0057ad20((::fnv_0057ad20::TESTopic *)(idleVal));
+                    Sequence* chosen = ((::ScriptAnimation::Sequence *)(reinterpret_cast<::FUN_0061b320_shell *>((idleVal))->FUN_0061b320((::TESObjectREFR *)(actor), (::TESObjectREFR *)(0), (::TESTopic *)(0), (void *)(0), 0)));
                     if (chosen)
-                        source->FUN_0057ace0(chosen->FUN_0084e3a0());
+                        reinterpret_cast<::fnv_0057ace0::FUN_0057ace0_shell *>((source))->FUN_0057ace0((::fnv_0057ace0::TESTopicInfo *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((chosen))->FUN_0084e3a0()))));
                     ResultList events = actor->PlayActor(idleVal, actor, immediateFlag4, priorityFlag, 0, 0);
-                    events.FUN_00ad8e60(FUN_005790f0, source->FUN_0084e3a0());
+                    reinterpret_cast<::SoundPlaybackHandle *>(&(events))->SetCompletionCallback((void (*)(void *, bool))(::fnv_005790f0::FUN_005790f0), (void *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0()))));
                     return true;
                 }
-                if (DAT_011dea3c->FUN_0094df60() || actor->FUN_008d8520()->FUN_0045cd60() != 0 ||
-                    (actor->FUN_0087f3d0() && actor->FUN_004f8960() == 6))
+                if (reinterpret_cast<::PlayerCharacter *>(((*reinterpret_cast<::ScriptAnimation::Actor * *>(&::_g_thePlayer))))->IsSleepingOrResting() || ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::ScriptAnimation::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())) != 0 ||
+                    (reinterpret_cast<::FUN_0087f3d0_shell *>((actor))->FUN_0087f3d0() && reinterpret_cast<::FUN_004f8960_shell *>((actor))->FUN_004f8960() == 6))
                 {
-                    Sequence* selected = idleVal->FUN_0061b320(actor, 0, 0, 0, 1);
+                    Sequence* selected = ((::ScriptAnimation::Sequence *)(reinterpret_cast<::FUN_0061b320_shell *>((idleVal))->FUN_0061b320((::TESObjectREFR *)(actor), (::TESObjectREFR *)(0), (::TESTopic *)(0), (void *)(0), 1)));
                     if (selected)
                     {
-                        selected->FUN_0083c7b0();
-                        int unused = selected->FUN_0083c820();
-                        selected->FUN_0083c850(0);
-                        selected->FUN_0083c850(1);
-                        FUN_005ac750(idleVal, actor->FUN_005d43c0(), 0x40000);
+                        reinterpret_cast<::DialogueItem *>((selected))->SelectDefaultResponseList();
+                        int unused = ((int)(reinterpret_cast<::DialogueItem *>((selected))->GetActiveResponse()));
+                        reinterpret_cast<::FUN_0083c850 *>((selected))->AppendTopicInfo(0);
+                        reinterpret_cast<::FUN_0083c850 *>((selected))->AppendTopicInfo(1);
+                        ::FUN_005ac750((::TESForm *)(idleVal), (::ExtraDataList *)(((unsigned int)(reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0()))), 0x40000);
                         delete selected;
                     }
                 }
                 else
-                    actor->FUN_008d8520()->Play(actor, idleVal, forceFlag4, 0, 1, 1);
+                    ((::ScriptAnimation::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->Play(actor, idleVal, forceFlag4, 0, 1, 1);
             }
-            else if (actor->FUN_008d8520())
+            else if (((::ScriptAnimation::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())))
             {
-                FUN_005ac750(idleVal, actor->FUN_005d43c0(), 0x40000);
-                actor->FUN_008d8520()->Clear(0);
+                ::FUN_005ac750((::TESForm *)(idleVal), (::ExtraDataList *)(((unsigned int)(reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0()))), 0x40000);
+                ((::ScriptAnimation::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->Clear(0);
             }
         }
         else if (source && object4)
         {
-            Reference* created = FUN_00564480(59, 0);
-            created->FUN_00484490();
-            created->FUN_00575690(object4);
-            created->FUN_00575830(source->GetParent());
-            source->FUN_0057ad20(idleVal);
-            Sequence* chosen2 = idleVal->FUN_0061b320(created, 0, 0, 0, 0);
+            Reference* created = ((::ScriptAnimation::Reference *)(::FUN_00564480(59, 0)));
+            reinterpret_cast<::TESForm *>((created))->NotifySaveLoadGameOfFormChange();
+            reinterpret_cast<::Fn575690 *>((created))->FUN_00575690(object4);
+            reinterpret_cast<::Reference *>((created))->FUN_00575830((::Position *)(void *)(source->GetParent()));
+            reinterpret_cast<::fnv_0057ad20::FUN_0057ad20_shell *>((source))->FUN_0057ad20((::fnv_0057ad20::TESTopic *)(idleVal));
+            Sequence* chosen2 = ((::ScriptAnimation::Sequence *)(reinterpret_cast<::FUN_0061b320_shell *>((idleVal))->FUN_0061b320((::TESObjectREFR *)(created), (::TESObjectREFR *)(0), (::TESTopic *)(0), (void *)(0), 0)));
             if (chosen2)
-                source->FUN_0057ace0(chosen2->FUN_0084e3a0());
+                reinterpret_cast<::fnv_0057ace0::FUN_0057ace0_shell *>((source))->FUN_0057ace0((::fnv_0057ace0::TESTopicInfo *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((chosen2))->FUN_0084e3a0()))));
             ResultList events7 = created->Play(idleVal, created, immediateFlag4, priorityFlag, 0, 0, forceFlag4);
-            events7.FUN_00ad8e60(FUN_005790f0, source->FUN_0084e3a0());
+            reinterpret_cast<::SoundPlaybackHandle *>(&(events7))->SetCompletionCallback((void (*)(void *, bool))(::fnv_005790f0::FUN_005790f0), (void *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0()))));
             delete created;
         }
-        else if (source->GetNode() || (source->IsSpecial() && source->FUN_005e3fa0()->GetNode()))
+        else if (source->GetNode() || (source->IsSpecial() && ((::ScriptAnimation::Reference *)(reinterpret_cast<::DialogueItem *>((source))->SelectDefaultResponseList()))->GetNode()))
         {
-            source->FUN_0057ad20(idleVal);
-            Sequence* chosen3 = idleVal->FUN_0061b320(source, 0, 0, 0, 0);
+            reinterpret_cast<::fnv_0057ad20::FUN_0057ad20_shell *>((source))->FUN_0057ad20((::fnv_0057ad20::TESTopic *)(idleVal));
+            Sequence* chosen3 = ((::ScriptAnimation::Sequence *)(reinterpret_cast<::FUN_0061b320_shell *>((idleVal))->FUN_0061b320((::TESObjectREFR *)(source), (::TESObjectREFR *)(0), (::TESTopic *)(0), (void *)(0), 0)));
             if (chosen3)
-                source->FUN_0057ace0(chosen3->FUN_0084e3a0());
+                reinterpret_cast<::fnv_0057ace0::FUN_0057ace0_shell *>((source))->FUN_0057ace0((::fnv_0057ace0::TESTopicInfo *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((chosen3))->FUN_0084e3a0()))));
             ResultList events3 = source->Play(idleVal, 0, immediateFlag4, priorityFlag, 0, 0, forceFlag4);
-            events3.FUN_00ad8e60(FUN_005790f0, source->FUN_0084e3a0());
+            reinterpret_cast<::SoundPlaybackHandle *>(&(events3))->SetCompletionCallback((void (*)(void *, bool))(::fnv_005790f0::FUN_005790f0), (void *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0()))));
         }
     }
-    DAT_011cd378.FUN_0045ce80(previous);
+    reinterpret_cast<::S0042fa20 *>(&((*reinterpret_cast<::ScriptAnimation::Setting *>(&::g_011cd378))))->FUN_0045ce80(previous);
     return true;
 }
 }
@@ -1928,18 +1925,14 @@ bool FUN_005c8a50(void* paramInfo, void* scriptData, Reference* source, void* co
 class Tile755
 {
   public:
-    void SetInt(int m_iValueId, int iValue);
 };
 class Fader755
 {
   public:
-    void Start(int m_iPayloadInteger);
 };
 class Menu755
 {
   public:
-    Tile755* GetTile();
-    void Close();
 
     int unk00;
     int unk04;
@@ -1977,24 +1970,16 @@ class Menu755
 class SaveLoad755
 {
   public:
-    bool IsLoading();
 };
 class Manager755
 {
   public:
-    void Refresh();
 };
-extern Menu755* g_pkMenu755;
-extern SaveLoad755* g_pkSaveLoad755;
-extern Manager755 g_kManager755;
-void __cdecl CloseMenuAndRefresh(bool bFade);
 struct Tile_Set_Helper
 {
-    void Set(int, int);
 };
 struct ScriptTile256
 {
-    void Set(const char*, double);
 };
 struct MenuGlobal256
 {
@@ -2057,8 +2042,6 @@ struct Wheel256
     int unk68;
     unsigned char unk6c;
     bool aggressive;
-    void PlayTopicResponse(TESTopic*);
-    void RunTopicResultScripts(TESTopic*);
     void ToggleAggressive();
 };
 class TESBoundObject : public TESForm
@@ -2073,12 +2056,9 @@ struct HealingExtra
 };
 struct HealingExtraList
 {
-    HealingExtra*& FUN_006815c0();
 };
 struct HealingInventoryEntry
 {
-    HealingExtraList* FUN_00559450();
-    TESBoundObject* FUN_0044ddc0();
     void* FUN_004459e0(unsigned int);
 };
 struct HealingActorBase
@@ -2226,20 +2206,9 @@ struct HealingActorValues
 };
 struct HealingActor : HealingActorBase, HealingActorValues
 {
-    float GetHealthFraction();
-    HealingInventoryEntry* FUN_00576260(void*, int);
-    void EquipItemWithCaster(void*, HealingExtra*, int);
-    void FUN_008c3c40(int, int);
-    void FUN_0088b740(int, float);
 };
-extern HealingActor* DAT_011dea3c;
 extern char DAT_01183108, DAT_01183028, DAT_011830cc;
-extern double DAT_01012060, DAT_01012070;
-extern float DAT_01013974;
-TESForm* FUN_0058db10(int);
 void* FUN_00ec43fb(void*, int, void*, void*, int);
-float FUN_00646800(HealingActorValues*, int, int);
-void* FUN_008d5910(int);
 struct CompanionHealingMenu
 {
     int unk00;
@@ -2269,14 +2238,12 @@ struct CompanionHealingMenu
     int unk60;
     int unk64;
     HealingActor* companion;
-    void PlayTopicResponse(void*);
     void HealCompanion();
 };
 
 class RadialTile : public Tile
 {
   public:
-    float __thiscall GetValueFloat(unsigned int id);
 };
 struct WheelMenuV
 {
@@ -2291,7 +2258,6 @@ struct WheelMenuV
     int unk20;
     int unk24;
     Tile* tiles[16];
-    void __thiscall SelectTile(int index, bool flag);
     void __thiscall FUN_00755c50(float angle);
 };
 
@@ -2316,11 +2282,11 @@ void WheelMenuV::FUN_00755c50(float angle)
         radialTile = dynamic_cast<RadialTile*>(tiles[k]);
         if (radialTile)
         {
-            a = radialTile->GetValueFloat(0x1006);
-            high = radialTile->GetValueFloat(0x1007);
+            a = reinterpret_cast<::TileListBoxCalls *>((radialTile))->GetFloat(0x1006);
+            high = reinterpret_cast<::TileListBoxCalls *>((radialTile))->GetFloat(0x1007);
             if (angle >= a && angle < high)
             {
-                SelectTile(k, false);
+                reinterpret_cast<::WheelSelection *>(this)->SelectTile(k, false);
                 break;
             }
         }

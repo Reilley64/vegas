@@ -1,0 +1,7 @@
+#pragma once
+
+struct FUN_00527990_shell {
+public:
+    // 0x00527990
+    bool FUN_00527990(int *, int *);
+};

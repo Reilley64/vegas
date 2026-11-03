@@ -7,15 +7,20 @@
 // to their real unit once identified.
 // src/havok/physics/utilities/weapons/hkpgravitygun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpgravitygun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_005616d0_Owner.h"
+#include "fnv/decl/FUN_00ca88e0_cls.h"
+#include "fnv/decl/GravityGun.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpEntityC9C.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
 #include "havok/hkpGravityGun.h"
 struct FUN_00e45fb0_class
 {
-    void FUN_00e45e60(int);
     void FUN_00e45fb0(int, int, int);
 };
 struct DDCC60World
 {
-    void removeReference();
 };
 struct FUN_00e45fc0_class
 {
@@ -62,13 +67,10 @@ class FUN_00e46300 : public FUN_00e466a0
     virtual ~FUN_00e46300();
 };
 #include <xmmintrin.h>
-extern double DAT_01016408;
 struct Body_e45e
 {
     int unk[0x1a0 / 4];
     __m128 m_kInertiaAndMassInv;
-    void FUN_00ca88e0(float mass);
-    void FUN_00c905b0();
     float getMassInv() const
     {
         float w;
@@ -99,7 +101,6 @@ struct ObjE45
     unsigned int unk24;
     unsigned short unk28;
     unsigned char unk2a;
-    void OnTrigger(int);
 };
 
 struct MotionE45
@@ -185,7 +186,6 @@ struct BodyE45
     unsigned int unkd8;
     unsigned int unkdc;
     MotionE45 m_pMotionState;
-    void FUN_00c9c1d0();
 };
 
 struct ViewE45
@@ -301,7 +301,6 @@ struct ViewE45
     __m128 m_kTranslationalVelocity;
 };
 
-extern double DAT_01011588;
 extern "C" void _ReadWriteBarrier(void);
 
 static inline __m128 bcastE45(const float& f)
@@ -312,8 +311,6 @@ static inline __m128 bcastE45(const float& f)
 
 struct hkpGravityGunE45 : public hkpGravityGun
 {
-    ObjE45* FUN_00e45e60(int);
-    BodyE45* FUN_00e45a60(int, int, int);
     void FUN_00e45ee0(int dirSlot, int viewSlot, int p3Slot);
 };
 
@@ -327,30 +324,29 @@ void hkpGravityGunE45::FUN_00e45ee0(int dirSlot, int viewSlot, int p3Slot)
     } v;
     if (m_kPickedBodies.m_iElementCount != 0)
     {
-        ObjE45* body = FUN_00e45e60(0);
+        ObjE45* body = ((::ObjE45 *)(reinterpret_cast<::World_e45e *>(this)->FUN_00e45e60(0)));
         v.q = _mm_mul_ps(bcastE45(m_fHoldDistance), *(const __m128*)dirSlot);
         v.f[1] = (float)(v.f[1] + DAT_01011588);
         v.q = _mm_add_ps(((const ViewE45*)viewSlot)->m_kTranslationalVelocity, v.q);
-        body->OnTrigger((int)&v);
+        reinterpret_cast<::FUN_005616d0_Owner *>((body))->OnTrigger((::TriggerContext *)((int)&v));
         body->unk2a = 6;
     }
     else
     {
-        BodyE45* body = FUN_00e45a60(dirSlot, viewSlot, p3Slot);
+        BodyE45* body = ((::BodyE45 *)(reinterpret_cast<::GravityGun *>(this)->FUN_00e45a60((*(const ::GGTransform *)(dirSlot)), (const ::GGRigidBody *)(viewSlot), (const ::GGWorld *)(p3Slot))));
         if (body)
         {
             __m128 dir = *(const __m128*)dirSlot;
             v.q = dir;
             v.q = _mm_mul_ps(bcastE45(m_fPickAngle), v.q);
-            body->FUN_00c9c1d0();
+            reinterpret_cast<::hkpEntityC9C *>((body))->FUN_00c9c1d0();
             body->m_pMotionState.SetCollisionShape(*(const hkVector4*)&v);
         }
     }
 }
 
 #include <xmmintrin.h>
-extern const __m128 DAT_010ec7f0;
-extern const __m128 DAT_01017d10;
+#include "fnv/symbols_simd.h"
 struct hkSimdRealEx
 {
     __m128 m_vValue;
@@ -400,7 +396,7 @@ struct hkVector4Ex : public hkVector4
     void setInterpolate4(const hkVector4& a, const hkVector4& b, const hkSimdRealEx& t)
     {
         __m128 tv = t.broadcast();
-        __m128 one_minus_t = _mm_sub_ps(DAT_010ec7f0, tv);
+        __m128 one_minus_t = _mm_sub_ps(::DAT_010ec7f0, tv);
         *(__m128*)this = _mm_add_ps(_mm_mul_ps(one_minus_t, *(__m128*)&a), _mm_mul_ps(tv, *(__m128*)&b));
     }
     bool equals4(const hkVector4& a, float eps = 0.001f) const
@@ -474,7 +470,6 @@ struct hkpRigidBody
     int unkc0, unkc4, unkc8, unkcc;
     int unkd0, unkd4, unkd8, unkdc;
     hkpMotion m_pMotionState;  // 0xe0
-    void FUN_00c9c1d0();
 };
 struct hkpGravityGunEx : public hkpGravityGun
 {
@@ -501,7 +496,7 @@ __declspec(noinline) void hkpGravityGunEx::FUN_00e45c90(float dTime, const hkTra
         *(__m128*)&newLinearVelocity = _mm_add_ps(_mm_mul_ps(deltaPos, invDTimeVec), *(__m128*)&newLinearVelocity);
         if (!newLinearVelocity.equals4(rb->m_pMotionState.m_kTranslationalVelocity))
         {
-            rb->FUN_00c9c1d0();
+            reinterpret_cast<::hkpEntityC9C *>((rb))->FUN_00c9c1d0();
             rb->m_pMotionState.SetTranslationalVelocity(newLinearVelocity);
         }
         const float minSq = 1.0f;
@@ -512,7 +507,7 @@ __declspec(noinline) void hkpGravityGunEx::FUN_00e45c90(float dTime, const hkTra
         {
             if (!newAngularVelocity.equals4(rb->m_pMotionState.m_kAngularVelocity))
             {
-                rb->FUN_00c9c1d0();
+                reinterpret_cast<::hkpEntityC9C *>((rb))->FUN_00c9c1d0();
                 rb->m_pMotionState.SetRotationalVelocity(newAngularVelocity);
             }
         }

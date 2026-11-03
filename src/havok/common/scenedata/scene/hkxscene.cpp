@@ -2,11 +2,13 @@
 // src/havok/common/scenedata/scene/hkxscene.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/scene/hkxscene.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_0102e000.h"
 #include "havok/hkxScene.h"
 
 struct hkMalleableContactNormal
 {
-    void removeReference();
 };
 typedef hkMalleableContactNormal Ref;
 struct Alloc
@@ -26,10 +28,9 @@ void* __cdecl FUN_00c85750();
 struct FUN_00cb0c00_class
 {
     char* value;
-    void FUN_00cb0c00();
 };
 typedef FUN_00cb0c00_class String;
-extern int DAT_010e99d8, DAT_0102e388;
+extern int DAT_010e99d8;
 struct Array
 {
     Ref** data;
@@ -44,7 +45,7 @@ struct Array
         for (int i = 0; i < n; ++i)
         {
             if (p[i])
-                p[i]->removeReference();
+                reinterpret_cast<::hkReferencedObjectC905 *>((p[i]))->FUN_00c905b0();
             p[i] = 0;
         }
         size = zero;
@@ -60,7 +61,7 @@ struct Root
     __forceinline ~Root()
     {
         if (ptr)
-            ptr->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((ptr))->FUN_00c905b0();
         ptr = 0;
     }
 };
@@ -85,7 +86,7 @@ void Scene::ClearScene()
         for (int i = 0; i < n; ++i)
         {
             if (p[i])
-                p[i]->removeReference();
+                reinterpret_cast<::hkReferencedObjectC905 *>((p[i]))->FUN_00c905b0();
             p[i] = 0;
         }
         unk6c.size = 0;
@@ -101,7 +102,7 @@ void Scene::ClearScene()
         for (int i = 0; i < n; ++i)
         {
             if (p[i])
-                p[i]->removeReference();
+                reinterpret_cast<::hkReferencedObjectC905 *>((p[i]))->FUN_00c905b0();
             p[i] = 0;
         }
         unk60.size = 0;
@@ -117,7 +118,7 @@ void Scene::ClearScene()
         for (int i = 0; i < n; ++i)
         {
             if (p[i])
-                p[i]->removeReference();
+                reinterpret_cast<::hkReferencedObjectC905 *>((p[i]))->FUN_00c905b0();
             p[i] = 0;
         }
         unk54.size = 0;
@@ -133,7 +134,7 @@ void Scene::ClearScene()
         for (int i = 0; i < n; ++i)
         {
             if (p[i])
-                p[i]->removeReference();
+                reinterpret_cast<::hkReferencedObjectC905 *>((p[i]))->FUN_00c905b0();
             p[i] = 0;
         }
         unk48.size = 0;
@@ -149,7 +150,7 @@ void Scene::ClearScene()
         for (int i = 0; i < n; ++i)
         {
             if (p[i])
-                p[i]->removeReference();
+                reinterpret_cast<::hkReferencedObjectC905 *>((p[i]))->FUN_00c905b0();
             p[i] = 0;
         }
         unk3c.size = 0;
@@ -165,7 +166,7 @@ void Scene::ClearScene()
         for (int i = 0; i < n; ++i)
         {
             if (p[i])
-                p[i]->removeReference();
+                reinterpret_cast<::hkReferencedObjectC905 *>((p[i]))->FUN_00c905b0();
             p[i] = 0;
         }
         unk30.size = 0;
@@ -181,7 +182,7 @@ void Scene::ClearScene()
         for (int i = 0; i < n; ++i)
         {
             if (p[i])
-                p[i]->removeReference();
+                reinterpret_cast<::hkReferencedObjectC905 *>((p[i]))->FUN_00c905b0();
             p[i] = 0;
         }
         unk24.size = 0;
@@ -197,7 +198,7 @@ void Scene::ClearScene()
         for (int i = 0; i < n; ++i)
         {
             if (p[i])
-                p[i]->removeReference();
+                reinterpret_cast<::hkReferencedObjectC905 *>((p[i]))->FUN_00c905b0();
             p[i] = 0;
         }
         unk18.size = 0;
@@ -207,9 +208,9 @@ void Scene::ClearScene()
         unk18.capacity = 0x80000000;
     }
     unk14.~Root();
-    unk0c.FUN_00cb0c00();
-    unk08.FUN_00cb0c00();
-    unk00 = &DAT_0102e388;
+    ::FUN_00cb0c00((int)&(unk0c));
+    ::FUN_00cb0c00((int)&(unk08));
+    unk00 = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -307,7 +308,6 @@ FUN_00e4a6a0::FUN_00e4a6a0() throw() : m_fNumFrames(0.0f), m_pAabbRootNode(0)
 }
 
 extern int DAT_010e929c;
-extern int DAT_0102e388;
 
 struct Heap_e4a4
 {
@@ -354,7 +354,6 @@ template <class T> struct hkArray_e4a4
 
 struct hkReferencedObject_e4a4
 {
-    void FUN_00c905b0() throw();
 };
 
 struct Entry_e4a4
@@ -364,16 +363,15 @@ struct Entry_e4a4
     int unk08, unk0C, unk10, unk14, unk18, unk1C;
     ~Entry_e4a4() throw()
     {
-        m_pCollisionShape->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_pCollisionShape))->FUN_00c905b0();
         if (m_iMaterialIndex)
-            m_iMaterialIndex->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_iMaterialIndex))->FUN_00c905b0();
     }
 };
 
 struct Name_e4a4
 {
     int unk00;
-    void FUN_00cb0c00() throw();
 };
 
 struct Mesh_e4a4
@@ -395,9 +393,9 @@ void Mesh_e4a4::FUN_00e4a460()
     int n = m_entries.GetLogicalSize();
     for (int i = 0; i < n; i++)
         m_entries[i].~Entry_e4a4();
-    m_name.FUN_00cb0c00();
+    ::FUN_00cb0c00((int)&(m_name));
     m_iSlotIds.ClearAndRelease();
     m_ppIndices.ClearAndRelease();
     m_entries.ClearAndRelease();
-    m_vtbl = &DAT_0102e388;
+    m_vtbl = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }

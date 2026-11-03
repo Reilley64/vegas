@@ -1,22 +1,116 @@
 // fallout_shared/bgsterminal.cpp: BGSTerminal, TermHack, PlayerCharacter, TerminalCleanup and more (31 functions)
 
+#include <new>
+#include "fnv/decl/ACTIView.h"
+#include "fnv/decl/ActiV511.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/DownloadableContentManager.h"
+#include "fnv/decl/Dummy00501c30.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00414220_shell.h"
+#include "fnv/decl/FUN_00418830_shell.h"
+#include "fnv/decl/FUN_0041bf50_class.h"
+#include "fnv/decl/FUN_00461150_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00477f20_shell.h"
+#include "fnv/decl/FUN_0047d7c0_Class.h"
+#include "fnv/decl/FUN_00482cb0_shell.h"
+#include "fnv/decl/FUN_00487010_shell.h"
+#include "fnv/decl/FUN_0048a520_shell.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_005010c0_class.h"
+#include "fnv/decl/FUN_00501c10_cls.h"
+#include "fnv/decl/FUN_00510770_shell.h"
+#include "fnv/decl/FUN_00511860_holder.h"
+#include "fnv/decl/FUN_00568260_shell.h"
+#include "fnv/decl/FUN_00568680_shell.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_005aa420_shell.h"
+#include "fnv/decl/FUN_005aae70_shell.h"
+#include "fnv/decl/FUN_005abe00.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005d43e0_shell.h"
+#include "fnv/decl/FUN_00680910_shell.h"
+#include "fnv/decl/FUN_00680a70_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/InterfaceManager.h"
+#include "fnv/decl/InventoryStackRecord.h"
+#include "fnv/decl/KarmaActor.h"
+#include "fnv/decl/MagicProjectile.h"
+#include "fnv/decl/OwnerLookupView.h"
+#include "fnv/decl/OwnershipReferenceView.h"
+#include "fnv/decl/PlayerCharShell.h"
+#include "fnv/decl/RefList.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S_0048cca0.h"
+#include "fnv/decl/S_005118c0.h"
+#include "fnv/decl/Scr.h"
+#include "fnv/decl/ScriptCompareOwner.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_0041be10__FUN_0041be10_Class.h"
+#include "fnv/decl/fnv_0041bf80__FUN_0041bf80_Class.h"
+#include "fnv/decl/fnv_0041c060__MyThis.h"
+#include "fnv/decl/fnv_00422c20__FUN_0042dec0_shell.h"
+#include "fnv/decl/fnv_004280f0__FUN_004280f0_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_00567e10__FUN_00567e10_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_0087f9f0__FUN_0087f9f0_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_0046e000.h"
+#include "fnv/symbols_00478000.h"
+#include "fnv/symbols_0047a000.h"
+#include "fnv/symbols_0047e000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_004ff000.h"
+#include "fnv/symbols_00501000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005e5000.h"
+#include "fnv/symbols_0066e000.h"
+#include "fnv/symbols_00705000.h"
+#include "fnv/symbols_00709000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_011c8000.h"
+#include "fnv/symbols_011cd000.h"
+#include "fnv/symbols_011d4000.h"
+#include "fnv/symbols_011d9000.h"
+#include "fnv/symbols_011de000.h"
 #include "bgsterminal_decls.h"
 
 // Loads a terminal record from the file, dispatching each chunk to set the editor ID, model, script, menu items, sounds, and conditions.
 // @fnv 0x00500000
 bool BGSTerminal::Load(TESFile* file)
 {
-    LoadRecordHeader(file);
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
     SetInitializationState(false);
     TerminalMenuItem* current = 0;
     int uiChunkID;
-    while ((uiChunkID = file->GetChunkID()) != 0)
+    while ((uiChunkID = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()))) != 0)
     {
         switch (uiChunkID)
         {
         case 'DIDE': {
-            char* editorID = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(editorID, 0x200);
+            char* editorID = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(editorID), 0x200);
             SetEditorID(editorID);
             break;
         }
@@ -24,7 +118,7 @@ bool BGSTerminal::Load(TESFile* file)
             readOBNDSubRecord(file);
             break;
         case 'LLUF':
-            TESFullNameLoader::LoadFullNameChunk(this, file);
+            ::ReadFullName(this, file);
             break;
         case 'LDOM':
         case 'TDOM':
@@ -34,53 +128,53 @@ bool BGSTerminal::Load(TESFile* file)
             break;
         case 'SDOM': {
             void* textureData;
-            unsigned int textureSize = file->GetChunkSize();
+            unsigned int textureSize = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
             textureData = _alloca(textureSize);
-            file->GetChunkData(textureData, textureSize);
-            ParseTextureSwapData(textureData, textureSize, file->GetFormVersion());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(textureData), textureSize);
+            reinterpret_cast<::FUN_0048a7b0_shell *>(this)->LoadTextureSwapList(textureData, textureSize, reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((file))->FUN_00403570());
             break;
         }
         case 'IRCS': {
             Script* script = 0;
             file->GetChunkData((unsigned int*)&script);
-            SetScript(script);
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(script));
             TESScriptableForm::InitItem(this);
             break;
         }
         case 'TSED':
         case 'DTSD':
-            BGSDestructibleObjectForm::LoadDestructibleData(this, file);
+            ::FUN_004781e0(this, file);
             break;
         case 'CSED':
             TESDescription::ReadDescriptionFromFile(this, file);
             break;
         case 'DSLS':
         case 'RVCS': {
-            if (file->GetChunkID() == 'DSLS')
+            if (((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())) == 'DSLS')
             {
                 DAT_011c83d4 = new ScriptVariableInfo;
                 DAT_011c83d4->Load(file);
-                current->m_kScript.GetVariableList()->AddTail(DAT_011c83d4);
+                reinterpret_cast<::Callees *>((((::BSSimpleList< ::ScriptVariableInfo *> *)(reinterpret_cast<::FUN_005d43e0_shell *>(&(current->m_kScript))->FUN_005d43e0()))))->FUN_00905820((void *)&(DAT_011c83d4));
             }
             else if (DAT_011c83d4)
             {
-                char* variableName = (char*)_alloca(file->GetChunkSize());
-                file->GetChunkData(variableName, 0x200);
-                DAT_011c83d4->m_kName.Set(variableName, 0);
+                char* variableName = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(variableName), 0x200);
+                reinterpret_cast<::TextString *>(&(DAT_011c83d4->m_kName))->FUN_004037f0(variableName, 0);
             }
             break;
         }
         case 'RHCS':
-            file->GetChunkData(current->m_kScript.GetHeader(), 0);
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(((::ScriptHeaderData *)(reinterpret_cast<::BGSCameraPath *>(&(current->m_kScript))->GetConditions()))), 0);
             if (file->IsEndianConversionRequired())
-                current->m_kScript.GetHeader()->Endian();
+                reinterpret_cast<::FUN_00414220_shell *>((((::ScriptHeaderData *)(reinterpret_cast<::BGSCameraPath *>(&(current->m_kScript))->GetConditions()))))->FUN_00414220();
             break;
         case 'ADCS': {
-            unsigned int size = file->GetChunkSize();
+            unsigned int size = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
             char* data = (char*)_alloca(size);
             memset(data, 0, size);
-            file->GetChunkData(data, 0);
-            current->m_kScript.SetScriptData(size, data);
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(data), 0);
+            reinterpret_cast<::FUN_005aae70_shell *>(&(current->m_kScript))->FUN_005aae70(size, data);
             break;
         }
         case 'ORCS': {
@@ -88,7 +182,7 @@ bool BGSTerminal::Load(TESFile* file)
             ScriptReferencedObject* reference = new ScriptReferencedObject;
             file->GetChunkData(&formID);
             reference->form = (TESForm*)formID;
-            current->m_kScript.GetReferencedObjectList()->AddTail(reference);
+            reinterpret_cast<::Callees *>((((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>(&(current->m_kScript))->FUN_005d43c0()))))->FUN_00905820((void *)&(reference));
             break;
         }
         case 'VRCS': {
@@ -100,7 +194,7 @@ bool BGSTerminal::Load(TESFile* file)
             loadedVariable.reference = new ScriptReferencedObject;
             file->GetChunkData(&loadedVariable.variableID);
             loadedVariable.reference->variableID = loadedVariable.variableID;
-            current->m_kScript.GetReferencedObjectList()->AddTail(loadedVariable.reference);
+            reinterpret_cast<::Callees *>((((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>(&(current->m_kScript))->FUN_005d43c0()))))->FUN_00905820((void *)&(loadedVariable.reference));
             break;
         }
         case 'MANS': {
@@ -112,17 +206,17 @@ bool BGSTerminal::Load(TESFile* file)
         case 'MANP': {
             BGSNote* password = 0;
             file->GetChunkData((unsigned int*)&password);
-            FUN_00500a20(password);
+            reinterpret_cast<::InterfaceManager *>(this)->FUN_00500a20((::Tile *)(password));
             break;
         }
         case 'MAND':
-            file->GetChunkData(&Data, 4);
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&Data), 4);
             break;
         case 'TXTI': {
-            char* text = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(text, 0);
+            char* text = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(text), 0);
             TerminalMenuItem* item = new TerminalMenuItem;
-            item->ResponseText.Set(text, 0);
+            reinterpret_cast<::TextString *>(&(item->ResponseText))->FUN_004037f0(text, 0);
             AddMenuItem(item);
             current = item;
             break;
@@ -130,9 +224,9 @@ bool BGSTerminal::Load(TESFile* file)
         case 'MANR': {
             if (current)
             {
-                char* text = (char*)_alloca(file->GetChunkSize());
-                file->GetChunkData(text, 0);
-                current->m_kMenuText.Set(text, 0);
+                char* text = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(text), 0);
+                reinterpret_cast<::TextString *>(&(current->m_kMenuText))->FUN_004037f0(text, 0);
             }
             break;
         }
@@ -156,7 +250,7 @@ bool BGSTerminal::Load(TESFile* file)
         }
         case 'MANA':
             if (current)
-                file->GetChunkData(&current->cFlags, 1);
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&current->cFlags), 1);
             break;
         case 'ADTC':
             if (current)
@@ -174,69 +268,64 @@ bool BGSTerminal::Load(TESFile* file)
 void BGSTerminal::InitItem()
 {
     int count;
-    if (IsFormInitialized())
+    if (reinterpret_cast<::TESForm *>((void *)this)->GetInitialized())
         return;
-    TESObjectACTI::InitItem();
+    reinterpret_cast<::FUN_00510770_shell *>(this)->FUN_00510770();
     unsigned int formID = (unsigned int)pPassword;
     if (formID)
     {
-        TESForm::RemapFormIDForFile(formID, GetFile(-1));
-        pPassword = dynamic_cast<BGSNote*>(TESForm::GetFormByID(formID));
+        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
+        pPassword = dynamic_cast<BGSNote*>(::FUN_004839c0(formID));
         if (!pPassword)
-            Warning("MASTERFILE: Unable to find password (%08X) on terminal '%s' (%08X).", formID, GetEditorID(),
-                    GetFormID());
+            ::FUN_005b5e40();
     }
     count = 0;
-    BSSimpleList<TerminalMenuItem*>* pList = FUN_00461150();
+    BSSimpleList<TerminalMenuItem*>* pList = ((::BSSimpleList< ::TerminalMenuItem *> *)(reinterpret_cast<::FUN_00461150_shell *>(this)->FUN_00461150()));
     while (pList && !pList->IsEmpty())
     {
-        TerminalMenuItem* item = pList->GetItem();
-        pList = pList->GetNext();
+        TerminalMenuItem* item = ((::TerminalMenuItem *)(new ((void *)(pList)) ::Vec3()));
+        pList = ((::BSSimpleList< ::TerminalMenuItem *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
         if (item->m_pNote)
         {
             formID = (unsigned int)item->m_pNote;
-            TESForm::RemapFormIDForFile(formID, GetFile(-1));
-            item->m_pNote = dynamic_cast<BGSNote*>(TESForm::GetFormByID(formID));
+            ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
+            item->m_pNote = dynamic_cast<BGSNote*>(::FUN_004839c0(formID));
             if (!item->m_pNote)
-                Warning("MASTERFILE: Unable to find display note (%08X) for menu item %i on terminal '%s' (%08X).",
-                        formID, count, GetEditorID(), GetFormID());
+                ::FUN_005b5e40();
         }
         if (item->m_pTerminal)
         {
             formID = (unsigned int)item->m_pTerminal;
-            TESForm::RemapFormIDForFile(formID, GetFile(-1));
-            item->m_pTerminal = dynamic_cast<BGSTerminal*>(TESForm::GetFormByID(formID));
+            ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
+            item->m_pTerminal = dynamic_cast<BGSTerminal*>(::FUN_004839c0(formID));
             if (!item->m_pTerminal)
-                Warning("MASTERFILE: Unable to find submenu (%08X) for menu item %i on terminal '%s' (%08X).", formID,
-                        count, GetEditorID(), GetFormID());
+                ::FUN_005b5e40();
         }
         struct
         {
             int errors;
             int previous;
         } errors;
-        errors.previous = Warning();
-        SetWarningState(true);
-        MessageHandler::SetWarningCount(0);
-        item->m_kScript.InitItem(this);
-        SetWarningState(false);
-        errors.errors = Warning();
-        MessageHandler::SetWarningCount(errors.previous);
+        errors.previous = ::FUN_0046e8a0();
+        ::FUN_0043b2b0(true);
+        ::FUN_004fffe0(0);
+        reinterpret_cast<::Scr *>(&(item->m_kScript))->FUN_005ab400(this);
+        ::FUN_0043b2b0(false);
+        errors.errors = ::FUN_0046e8a0();
+        ::FUN_004fffe0(errors.previous);
         if (errors.errors)
-            Warning(
-                "MASTERFILE: Errors were encountered during InitItem for result script on menu item %d for terminal '%s' (%08X)\n\nSee Warnings file for more information.",
-                count, GetEditorID(), GetFormID());
-        errors.previous = Warning();
-        SetWarningState(true);
-        MessageHandler::SetWarningCount(0);
+            ::FUN_005b5e40(
+                );
+        errors.previous = ::FUN_0046e8a0();
+        ::FUN_0043b2b0(true);
+        ::FUN_004fffe0(0);
         item->Conditions.InitItem(this);
-        SetWarningState(false);
-        errors.errors = Warning();
-        MessageHandler::SetWarningCount(errors.previous);
+        ::FUN_0043b2b0(false);
+        errors.errors = ::FUN_0046e8a0();
+        ::FUN_004fffe0(errors.previous);
         if (errors.errors)
-            Warning(
-                "MASTERFILE: Errors were encountered during InitItem for conditions on menu item %d for terminal '%s' (%08X)\n\nSee Warnings file for more information.",
-                count, GetEditorID(), GetFormID());
+            ::FUN_005b5e40(
+                );
         ++count;
     }
     SetInitializationState(true);
@@ -254,26 +343,22 @@ void BGSTerminal::ResetFormData()
 // @fnv 0x00966c10
 bool PlayerCharacter::HasNote(BGSNote* note)
 {
-    return note && notes.IsInList(note);
+    return note && reinterpret_cast<::RefList *>(&(notes))->FUN_005f65d0((void **)&(note));
 }
 
 struct BaseExtraList
 {
-    void RemoveExtra(unsigned char);
 };
 
 // @fnv 0x00501a10
 void __cdecl FUN_00501a10(Script* apScript)
 {
     if (apScript)
-        reinterpret_cast<BaseExtraList*>(apScript->GetReferencedObjectList())->RemoveExtra(0x50);
+        reinterpret_cast<::fnv_00422c20::FUN_0042dec0_shell *>((reinterpret_cast<BaseExtraList*>(((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>((apScript))->FUN_005d43c0())))))->RemoveExtra(0x50);
 }
 
 struct TESObjectREFR
 {
-    TESObjectREFR* GetLinkedRef(void);
-    bool FUN_00568680(void);
-    bool IsReferenceActive(bool);
 };
 
 // @fnv 0x005012c0
@@ -282,12 +367,12 @@ bool __cdecl FUN_005012c0(TESObjectREFR* apRef)
     bool bretval = false;
     if (apRef)
     {
-        TESObjectREFR* plinkedref = apRef->GetLinkedRef();
+        TESObjectREFR* plinkedref = reinterpret_cast<::FUN_00569b80_shell *>((apRef))->FUN_00569b80();
         if (plinkedref)
         {
-            if (plinkedref->FUN_00568680())
+            if (reinterpret_cast<::FUN_00568680_shell *>((plinkedref))->FUN_00568680())
             {
-                if (!plinkedref->IsReferenceActive(true))
+                if (!reinterpret_cast<::FUN_00568260_shell *>((plinkedref))->FUN_00568260(true))
                     bretval = true;
             }
         }
@@ -309,12 +394,10 @@ bool FUN_005015d0_shell::FUN_005015d0()
 
 struct BSSimpleList_REF
 {
-    void __thiscall FUN_0041bf80(int a1);
 };
 
 struct FUN_00501b40_shell
 {
-    bool __thiscall FUN_005015d0();
     void FUN_00501b40(Script* a1);
 };
 
@@ -323,10 +406,10 @@ void FUN_00501b40_shell::FUN_00501b40(Script* pScript)
 {
     if (pScript)
     {
-        if (FUN_005015d0())
-            ((BSSimpleList_REF*)pScript->GetReferencedObjectList())->FUN_0041bf80(-1);
+        if (reinterpret_cast<::FUN_005015d0_shell *>(this)->FUN_005015d0())
+            reinterpret_cast<::fnv_0041bf80::FUN_0041bf80_Class *>((((BSSimpleList_REF*)((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>((pScript))->FUN_005d43c0())))))->FUN_0041bf80(-1);
         else
-            ((BSSimpleList_REF*)pScript->GetReferencedObjectList())->FUN_0041bf80(-2);
+            reinterpret_cast<::fnv_0041bf80::FUN_0041bf80_Class *>((((BSSimpleList_REF*)((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>((pScript))->FUN_005d43c0())))))->FUN_0041bf80(-2);
     }
 }
 
@@ -346,7 +429,7 @@ struct FUN_00501b90_shell : FUN_00511860_shell
 // @fnv 0x00501b90
 void __thiscall FUN_00501b90_shell::FUN_00501b90(void* apSaveGameBuffer)
 {
-    this->FUN_00511860(apSaveGameBuffer);
+    reinterpret_cast<::FUN_00511860_holder *>((this))->FUN_00511860((::BGSSaveFormBuffer *)(apSaveGameBuffer));
 }
 
 struct FUN_00501270_shell : public TESForm
@@ -360,7 +443,7 @@ unsigned int FUN_00501270_shell::FUN_00501270(TESObjectREFR* apRef)
     int ilockval;
     ilockval = FUN_005011a0(apRef);
     ilockval <<= 1;
-    ilockval += GetFormID() & 1;
+    ilockval += ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())) & 1;
     ilockval += 4;
     if (ilockval > 12)
         ilockval = 12;
@@ -381,7 +464,6 @@ bool __thiscall TermHack::IsSkillSufficient(TESObjectREFR* apItemActivated, floa
 
 struct Dummy0041BF50
 {
-    unsigned char __thiscall FUN_0041bf50();
 };
 // Returns true if apRef is non-null and the state byte from its referenced object list has bit 0x80 set.
 // @fnv 0x00501870
@@ -392,7 +474,7 @@ bool __cdecl FUN_00501870(TESObjectREFR* apRef)
     bretval = false;
     if (apRef)
     {
-        cstate = ((Dummy0041BF50*)((Script*)apRef)->GetReferencedObjectList())->FUN_0041bf50();
+        cstate = reinterpret_cast<::FUN_0041bf50_class *>((((Dummy0041BF50*)((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>((((Script*)apRef)))->FUN_005d43c0())))))->FUN_0041bf50();
         if (cstate & 0x80)
             bretval = true;
     }
@@ -401,7 +483,6 @@ bool __cdecl FUN_00501870(TESObjectREFR* apRef)
 
 struct FUN_0041c060_Cls
 {
-    char __thiscall FUN_0041c060();
 };
 struct FUN_00501a30_shell
 {
@@ -415,7 +496,7 @@ int __thiscall FUN_00501a30_shell::FUN_00501a30(Script* apScript)
     char c = -1;
     if (apScript)
     {
-        c = ((FUN_0041c060_Cls*)apScript->GetReferencedObjectList())->FUN_0041c060();
+        c = reinterpret_cast<::fnv_0041c060::MyThis *>((((FUN_0041c060_Cls*)((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>((apScript))->FUN_005d43c0())))))->FUN_0041c060();
     }
     if (c < 0)
     {
@@ -434,15 +515,14 @@ void FUN_00501a80_shell::FUN_00501a80(Script* apScript, int aiValue)
     if (apScript)
     {
         if (aiValue == ((unsigned char*)this)[0xA4] && !FUN_005015d0())
-            ((BSSimpleList_REF*)(apScript->GetReferencedObjectList()))->FUN_0041bf80(-1);
+            reinterpret_cast<::fnv_0041bf80::FUN_0041bf80_Class *>((((BSSimpleList_REF*)(((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>((apScript))->FUN_005d43c0()))))))->FUN_0041bf80(-1);
         else
-            ((BSSimpleList_REF*)(apScript->GetReferencedObjectList()))->FUN_0041bf80((unsigned char)aiValue);
+            reinterpret_cast<::fnv_0041bf80::FUN_0041bf80_Class *>((((BSSimpleList_REF*)(((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>((apScript))->FUN_005d43c0()))))))->FUN_0041bf80((unsigned char)aiValue);
     }
 }
 
 struct FUN_0041c060_shell
 {
-    char __thiscall FUN_0041c060();
 };
 struct FUN_00501ae0_shell : FUN_005015d0_shell
 {
@@ -456,7 +536,7 @@ bool FUN_00501ae0_shell::FUN_00501ae0(TESObjectREFR* apRef)
     if (apRef)
     {
         char clock;
-        clock = ((FUN_0041c060_shell*)((Script*)apRef)->GetReferencedObjectList())->FUN_0041c060();
+        clock = reinterpret_cast<::fnv_0041c060::MyThis *>((((FUN_0041c060_shell*)((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>((((Script*)apRef)))->FUN_005d43c0())))))->FUN_0041c060();
         if (clock == -2)
             bunlocked = true;
         else if (clock != -1)
@@ -475,11 +555,9 @@ struct BGSLoadFormBuffer
 {
     virtual unsigned char GetVersion();
     FormChangeMask __thiscall GetChangeFlags(unsigned int);
-    void __thiscall ReadTypedData(void*, unsigned int);
 };
 struct BaseStub501bb0
 {
-    void __thiscall FUN_005118c0(BGSLoadFormBuffer*);
 };
 struct Host501bb0 : BaseStub501bb0
 {
@@ -489,12 +567,12 @@ struct Host501bb0 : BaseStub501bb0
 void Host501bb0::FUN_00501bb0(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     unsigned char ucTempData;
-    FUN_005118c0(apLoadGameBuffer);
-    if (apLoadGameBuffer->GetChangeFlags(0x80000000))
+    reinterpret_cast<::S_005118c0 *>(this)->FUN_005118c0((::FUN_00428110_cls *)(apLoadGameBuffer));
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
     {
         if (apLoadGameBuffer->GetVersion() < 13)
         {
-            apLoadGameBuffer->ReadTypedData(&ucTempData, 1);
+            reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ucTempData), 1);
         }
     }
 }
@@ -511,16 +589,10 @@ bool __thiscall FUN_00501250_shell::IsFlagSet()
 
 struct Setting_S
 {
-    float* Float();
 };
 struct GlobalObject_0044f440 : Setting_S
 {
 };
-extern GlobalObject_0044f440 g_011d961c;
-extern GlobalObject_0044f440 g_011d9660;
-extern GlobalObject_0044f440 g_011d9684;
-extern GlobalObject_0044f440 g_011d95d4;
-extern GlobalObject_0044f440 g_011d9640;
 
 // @fnv 0x005017a0
 float TermHack::FUN_005017a0(TESObjectREFR* apItemActivated)
@@ -528,23 +600,20 @@ float TermHack::FUN_005017a0(TESObjectREFR* apItemActivated)
     switch (((FUN_00501270_shell*)this)->FUN_005011a0(apItemActivated))
     {
     case 0:
-        return *g_011d961c.Float();
+        return *((float *)&(::FUN_00403e20((float *)&(::g_011d961c))));
     case 1:
-        return *g_011d9660.Float();
+        return *((float *)&(::FUN_00403e20((float *)&(::g_011d9660))));
     case 2:
-        return *g_011d9684.Float();
+        return *((float *)&(::FUN_00403e20((float *)&(::g_011d9684))));
     case 3:
-        return *g_011d95d4.Float();
+        return *((float *)&(::FUN_00403e20((float *)&(::g_011d95d4))));
     case 4:
-        return *g_011d9640.Float();
+        return *((float *)&(::FUN_00403e20((float *)&(::g_011d9640))));
     default:
         return 3.402823466e+38F;
     }
 }
 
-extern "C" void ApplyPerkModifiers(int, void*, ...);
-extern double _gModifierZero;
-extern void* g_thePlayer;
 
 // Checks the script's referenced object state: returns false for state 0, compares a perk modifier against _gModifierZero for state 1, and true otherwise.
 // @fnv 0x00501990
@@ -552,15 +621,15 @@ bool __cdecl FUN_00501990(Script* apScript)
 {
     if (apScript)
     {
-        unsigned char cstate = reinterpret_cast<Dummy0041BF50*>(apScript->GetReferencedObjectList())->FUN_0041bf50();
+        unsigned char cstate = reinterpret_cast<::FUN_0041bf50_class *>((reinterpret_cast<Dummy0041BF50*>(((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>((apScript))->FUN_005d43c0())))))->FUN_0041bf50();
         switch (cstate & 0x7f)
         {
         case 0:
             return false;
         case 1: {
             float fPerkModifier = 0.0f;
-            ApplyPerkModifiers(0x14, g_thePlayer, &fPerkModifier);
-            return fPerkModifier == _gModifierZero;
+            ::ApplyPerkModifiers(0x14, (::Actor *)((*reinterpret_cast<void * *>(&::_g_thePlayer))), &fPerkModifier);
+            return fPerkModifier == ::_DAT_01012060;
         }
         default:
             return true;
@@ -571,8 +640,6 @@ bool __cdecl FUN_00501990(Script* apScript)
 
 struct ListProxy
 {
-    unsigned char __thiscall FUN_0041bf50();
-    void __thiscall SetExtraState(unsigned char a1);
 };
 struct VProxy
 {
@@ -602,12 +669,12 @@ void __cdecl SetScriptLockState(Script* apRef, bool abLock)
     unsigned char cstate;
     if (apRef)
     {
-        cstate = ((ListProxy*)apRef->GetReferencedObjectList())->FUN_0041bf50();
+        cstate = reinterpret_cast<::FUN_0041bf50_class *>((((ListProxy*)((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>((apRef))->FUN_005d43c0())))))->FUN_0041bf50();
         if (abLock)
             cstate++;
         else
             cstate = 0;
-        ((ListProxy*)apRef->GetReferencedObjectList())->SetExtraState(cstate);
+        reinterpret_cast<::fnv_0041be10::FUN_0041be10_Class *>((((ListProxy*)((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>((apRef))->FUN_005d43c0())))))->SetExtraState(cstate);
         ((VProxy*)apRef)->v18(0x80000000);
     }
 }
@@ -616,12 +683,14 @@ class ScriptLocals;
 
 struct ExtraDataList
 {
-    ScriptLocals* GetScriptLocalData();
 };
 
+class ScriptLocals;
+class TESObjectREFR;
 struct FUN_005ac1e0_shell
 {
-    bool __thiscall FUN_005ac1e0(TESObjectREFR* apRef, ScriptLocals* apLocals, ScriptLocals* apNullLocals, bool abFlag);
+public:
+    bool FUN_005ac1e0(::TESObjectREFR *, ::ScriptLocals *, ::TESObjectREFR *, bool);
 };
 
 struct FUN_00501830_shell
@@ -635,11 +704,10 @@ struct FUN_00501830_shell
 // @fnv 0x00501830
 void FUN_00501830_shell::FUN_00501830(Script* apScript)
 {
-    m_kScript.GetHeader()->quest = false;
+    ((::ScriptHeaderData *)(reinterpret_cast<::BGSCameraPath *>(&(m_kScript))->GetConditions()))->quest = false;
 
-    reinterpret_cast<FUN_005ac1e0_shell*>(&m_kScript)
-        ->FUN_005ac1e0(reinterpret_cast<TESObjectREFR*>(apScript),
-                       reinterpret_cast<ExtraDataList*>(apScript->GetReferencedObjectList())->GetScriptLocalData(), 0,
+    reinterpret_cast<FUN_005ac1e0_shell*>(&m_kScript)->FUN_005ac1e0(reinterpret_cast<TESObjectREFR*>(apScript),
+                       reinterpret_cast<::FUN_00418830_shell *>((reinterpret_cast<ExtraDataList*>(((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>((apScript))->FUN_005d43c0())))))->FUN_00418830(), (::TESObjectREFR *)(::ScriptLocals *)(0),
                        true);
 }
 
@@ -650,7 +718,7 @@ void FUN_005018b0(Script* apRef, bool abVal)
     unsigned char ucNewState;
     if (apRef != 0)
     {
-        cstate = ((ListProxy*)apRef->GetReferencedObjectList())->FUN_0041bf50();
+        cstate = reinterpret_cast<::FUN_0041bf50_class *>((((ListProxy*)((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>((apRef))->FUN_005d43c0())))))->FUN_0041bf50();
         if (abVal)
         {
             cstate = cstate | 0x80;
@@ -661,18 +729,15 @@ void FUN_005018b0(Script* apRef, bool abVal)
             cstate = cstate & 0xffffff7f;
             ucNewState = cstate;
         }
-        ((ListProxy*)apRef->GetReferencedObjectList())->SetExtraState(cstate);
+        reinterpret_cast<::fnv_0041be10::FUN_0041be10_Class *>((((ListProxy*)((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>((apRef))->FUN_005d43c0())))))->SetExtraState(cstate);
         ((VProxy*)apRef)->v18(0x80000000);
     }
 }
 
-int __cdecl FUN_00404dc0(const char* pcString1, const char* pcString2);
-int __cdecl FUN_00408b20(const char* pcString1, const char* pcString2);
 
 class B408A80String
 {
   public:
-    const char* CStr();
     int FUN_00408a80(const char* pcOther, bool bIgnoreCase);
 
     char* m_pcData;
@@ -685,9 +750,9 @@ class B408A80String
 int B408A80String::FUN_00408a80(const char* pcOther, bool bIgnoreCase)
 {
     int iResult;
-    if (pcOther && CStr())
-        iResult = bIgnoreCase ? FUN_00404dc0(CStr(), pcOther) : FUN_00408b20(CStr(), pcOther);
-    else if (!pcOther && !CStr())
+    if (pcOther && ((const char *)(::FUN_00559450((int *)this))))
+        iResult = bIgnoreCase ? FUN_00404dc0(((const char *)(::FUN_00559450((int *)this))), pcOther) : FUN_00408b20(((const char *)(::FUN_00559450((int *)this))), pcOther);
+    else if (!pcOther && !((const char *)(::FUN_00559450((int *)this))))
         iResult = 0;
     else
         iResult = pcOther ? -1 : 1;
@@ -696,23 +761,13 @@ int B408A80String::FUN_00408a80(const char* pcOther, bool bIgnoreCase)
 
 struct TerminalCleanup
 {
-    void FUN_00483710();
-    void FUN_00501050();
     void FUN_004ffc90();
 };
-
-// @fnv 0x004ffc90
-void TerminalCleanup::FUN_004ffc90()
-{
-    FUN_00483710();
-    FUN_00501050();
-}
 
 extern "C" void* memcpy(void*, const void*, unsigned int);
 
 struct TerminalPasswordAccess
 {
-    BGSNote* GetPassword();
 };
 struct BSStringCopy
 {
@@ -720,61 +775,26 @@ struct BSStringCopy
 };
 struct ScriptCopy
 {
-    void CopyFrom(Script* apScript);
 };
 struct ConditionCopy
 {
-    void CopyFrom(PerkEntryConditionSet* apConditions, bool abFlag);
 };
 
 struct BGSTerminalEx : BGSTerminal
 {
-    void ClearMenuItems();
-    void CopyActivator(TESForm* apForm);
     void CopyFromTerminal(TESForm* apForm);
 };
-
-// @fnv 0x00500cb0
-void BGSTerminalEx::CopyFromTerminal(TESForm* apForm)
-{
-    BGSTerminal* pTerminal = dynamic_cast<BGSTerminal*>(apForm);
-    if (!pTerminal)
-        return;
-    BSSimpleList<TerminalMenuItem*>* pIter = 0;
-    FUN_00500a20(((TerminalPasswordAccess*)pTerminal)->GetPassword());
-    memcpy(&Data, &pTerminal->Data, sizeof(Data));
-    ClearMenuItems();
-    pIter = pTerminal->FUN_00461150();
-    while (pIter && !pIter->IsEmpty())
-    {
-        TerminalMenuItem* pSrc = pIter->GetItem();
-        pIter = pIter->GetNext();
-        TerminalMenuItem* pItem = new TerminalMenuItem;
-        *(BSStringCopy*)&pItem->ResponseText = *(BSStringCopy*)&pSrc->ResponseText;
-        *(BSStringCopy*)&pItem->m_kMenuText = *(BSStringCopy*)&pSrc->m_kMenuText;
-        pItem->m_pNote = pSrc->m_pNote;
-        pItem->m_pTerminal = pSrc->m_pTerminal;
-        pItem->cFlags = pSrc->cFlags;
-        ((ScriptCopy*)&pItem->m_kScript)->CopyFrom(&pSrc->m_kScript);
-        ((ConditionCopy*)&pItem->Conditions)->CopyFrom(&pSrc->Conditions, false);
-        AddMenuItem(pItem);
-    }
-    CopyActivator(pTerminal);
-}
 
 extern "C" int __cdecl memcmp(const void*, const void*, unsigned int);
 
 struct TerminalStringCmp
 {
-    bool IsDifferent(const BSStringT<char>* apOther);
 };
 struct TerminalScriptCmp
 {
-    bool IsDifferent(Script* apOther);
 };
 struct TerminalConditionCmp
 {
-    bool IsDifferent(PerkEntryConditionSet* apOther);
 };
 struct TerminalMenuList
 {
@@ -783,8 +803,6 @@ struct TerminalMenuList
 
 struct TerminalCompare : public BGSTerminal
 {
-    void* GetCompareKey();
-    bool CompareBase(BGSTerminal* apOther);
     bool IsDifferentFrom(TESForm* apForm);
 };
 
@@ -794,27 +812,27 @@ bool TerminalCompare::IsDifferentFrom(TESForm* apForm)
     BGSTerminal* pTerminal = dynamic_cast<BGSTerminal*>(apForm);
     if (!pTerminal)
         return true;
-    if (GetCompareKey() != static_cast<TerminalCompare*>(pTerminal)->GetCompareKey())
+    if (((void *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400())) != ((void *)(reinterpret_cast<::MagicProjectile *>((static_cast<TerminalCompare*>(pTerminal)))->FUN_004fd400())))
         return true;
     if (memcmp(&Data, &pTerminal->Data, sizeof(TerminalCompareData)))
         return true;
 
-    BSSimpleList<TerminalMenuItem*>* pThisIter5 = FUN_00461150();
-    BSSimpleList<TerminalMenuItem*>* pOtherIter = pTerminal->FUN_00461150();
+    BSSimpleList<TerminalMenuItem*>* pThisIter5 = ((::BSSimpleList< ::TerminalMenuItem *> *)(reinterpret_cast<::FUN_00461150_shell *>(this)->FUN_00461150()));
+    BSSimpleList<TerminalMenuItem*>* pOtherIter = ((::BSSimpleList< ::TerminalMenuItem *> *)(reinterpret_cast<::FUN_00461150_shell *>((pTerminal))->FUN_00461150()));
     if (((TerminalMenuList*)pThisIter5)->GetSize() != ((TerminalMenuList*)pOtherIter)->GetSize())
         return true;
 
     while (pOtherIter && !pOtherIter->IsEmpty() && pThisIter5 && !pThisIter5->IsEmpty())
     {
-        TerminalMenuItem* pOtherItem = pOtherIter->GetItem();
-        TerminalMenuItem* pThisItem5 = pThisIter5->GetItem();
-        if (((TerminalStringCmp*)&pThisItem5->ResponseText)->IsDifferent(&pOtherItem->ResponseText))
+        TerminalMenuItem* pOtherItem = ((::TerminalMenuItem *)(new ((void *)(pOtherIter)) ::Vec3()));
+        TerminalMenuItem* pThisItem5 = ((::TerminalMenuItem *)(new ((void *)(pThisIter5)) ::Vec3()));
+        if (reinterpret_cast<::Dummy00501c30 *>((((TerminalStringCmp*)&pThisItem5->ResponseText)))->FUN_00501c30((const char *)(const ::BSStringT<char> *)(&pOtherItem->ResponseText)))
             return true;
-        if (((TerminalStringCmp*)&pThisItem5->m_kMenuText)->IsDifferent(&pOtherItem->m_kMenuText))
+        if (reinterpret_cast<::Dummy00501c30 *>((((TerminalStringCmp*)&pThisItem5->m_kMenuText)))->FUN_00501c30((const char *)(const ::BSStringT<char> *)(&pOtherItem->m_kMenuText)))
             return true;
-        if (((TerminalScriptCmp*)&pThisItem5->m_kScript)->IsDifferent(&pOtherItem->m_kScript))
+        if (reinterpret_cast<::ScriptCompareOwner *>((((TerminalScriptCmp*)&pThisItem5->m_kScript)))->IsDifferentFrom(&pOtherItem->m_kScript))
             return true;
-        if (((TerminalConditionCmp*)&pThisItem5->Conditions)->IsDifferent(&pOtherItem->Conditions))
+        if (reinterpret_cast<::PerkEntryConditionSet *>((((TerminalConditionCmp*)&pThisItem5->Conditions)))->Compare(&pOtherItem->Conditions))
             return true;
         if (pThisItem5->m_pNote != pOtherItem->m_pNote)
             return true;
@@ -822,24 +840,22 @@ bool TerminalCompare::IsDifferentFrom(TESForm* apForm)
             return true;
         if (pThisItem5->cFlags != pOtherItem->cFlags)
             return true;
-        pOtherIter = pOtherIter->GetNext();
-        pThisIter5 = pThisIter5->GetNext();
+        pOtherIter = ((::BSSimpleList< ::TerminalMenuItem *> *)(reinterpret_cast<::Callees *>((pOtherIter))->FUN_00726070()));
+        pThisIter5 = ((::BSSimpleList< ::TerminalMenuItem *> *)(reinterpret_cast<::Callees *>((pThisIter5))->FUN_00726070()));
     }
 
-    if (CompareBase(pTerminal))
+    if (reinterpret_cast<::ACTIView *>(this)->FUN_005111e0((::TESForm *)(pTerminal)))
         return true;
     return false;
 }
 
 struct FUN_00501050_ref
 {
-    int FUN_005010c0(int aFlag);
 };
 
 struct FUN_00501050_sub
 {
     bool FUN_008256d0();
-    FUN_00501050_ref** FUN_006815c0();
     void FUN_0063f7b0();
 };
 
@@ -850,52 +866,76 @@ class FUN_00501050_cls
     FUN_00501050_sub sub;
     void FUN_00501050();
 };
+// @fnv 0x004ffc90
+void TerminalCleanup::FUN_004ffc90()
+{
+    reinterpret_cast<::TESForm *>(this)->ClearData();
+    reinterpret_cast<::FUN_00501050_cls *>(this)->FUN_00501050();
+}
+// @fnv 0x00500cb0
+void BGSTerminalEx::CopyFromTerminal(TESForm* apForm)
+{
+    BGSTerminal* pTerminal = dynamic_cast<BGSTerminal*>(apForm);
+    if (!pTerminal)
+        return;
+    BSSimpleList<TerminalMenuItem*>* pIter = 0;
+    reinterpret_cast<::InterfaceManager *>(this)->FUN_00500a20((::Tile *)(::BGSNote *)(((::BGSNote *)(reinterpret_cast<::MagicProjectile *>((((TerminalPasswordAccess*)pTerminal)))->FUN_004fd400()))));
+    memcpy(&Data, &pTerminal->Data, sizeof(Data));
+    reinterpret_cast<::FUN_00501050_cls *>(this)->FUN_00501050();
+    pIter = ((::BSSimpleList< ::TerminalMenuItem *> *)(reinterpret_cast<::FUN_00461150_shell *>((pTerminal))->FUN_00461150()));
+    while (pIter && !pIter->IsEmpty())
+    {
+        TerminalMenuItem* pSrc = ((::TerminalMenuItem *)(new ((void *)(pIter)) ::Vec3()));
+        pIter = ((::BSSimpleList< ::TerminalMenuItem *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
+        TerminalMenuItem* pItem = new TerminalMenuItem;
+        reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::BSStringCopy &)(*(BSStringCopy*)&pItem->ResponseText))->CallAndReturnSelf((int)&(*(BSStringCopy*)&pSrc->ResponseText));
+        reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::BSStringCopy &)(*(BSStringCopy*)&pItem->m_kMenuText))->CallAndReturnSelf((int)&(*(BSStringCopy*)&pSrc->m_kMenuText));
+        pItem->m_pNote = pSrc->m_pNote;
+        pItem->m_pTerminal = pSrc->m_pTerminal;
+        pItem->cFlags = pSrc->cFlags;
+        reinterpret_cast<::FUN_005aa420_shell *>((((ScriptCopy*)&pItem->m_kScript)))->CopyFromScript(&pSrc->m_kScript);
+        reinterpret_cast<::FUN_00680a70_shell *>((((ConditionCopy*)&pItem->Conditions)))->CopyConditions(&pSrc->Conditions, (::PerkEntryConditionSet *)(false));
+        AddMenuItem(pItem);
+    }
+    reinterpret_cast<::ActiV511 *>(this)->FUN_00511120(pTerminal);
+}
 
 // @fnv 0x00501050
 void FUN_00501050_cls::FUN_00501050()
 {
     while (sub.FUN_008256d0() == 0)
     {
-        FUN_00501050_ref* a = *sub.FUN_006815c0();
+        FUN_00501050_ref* a = *((::FUN_00501050_ref **)(new ((void *)&(sub)) ::Vec3()));
         sub.FUN_0063f7b0();
         FUN_00501050_ref* tmp = a;
         FUN_00501050_ref* b2 = tmp;
-        (b2 != 0 ? b2->FUN_005010c0(1) : 0);
+        (b2 != 0 ? ((int)(reinterpret_cast<::FUN_005010c0_class *>((b2))->FUN_005010c0(1))) : 0);
     }
 }
 
 struct SaveForm
 {
-    void FUN_004855a0();
-    void FUN_00485680();
 };
 struct SaveFullName : TESFullName
 {
-    void FUN_00487010();
 };
 struct SaveModel : TESModelTextureSwap
 {
-    void ProcessAndFreeData(unsigned int, unsigned int, unsigned int);
 };
 struct SaveScriptable : TESScriptableForm
 {
-    void FUN_0048cca0();
 };
 struct S_00477f20 : BGSDestructibleObjectForm
 {
-    void FUN_00477f20();
 };
 struct SaveDescription : TESDescription
 {
-    void FUN_00482cb0();
 };
 struct SaveScript
 {
-    void FUN_005abe00();
 };
 struct TESConditionSave
 {
-    void ProcessItems();
 };
 struct SaveGameString
 {
@@ -912,7 +952,6 @@ struct ActivatorSoundFields : TESBoundAnimObject,
 };
 struct SaveSound
 {
-    unsigned int GetFormID();
 };
 struct SaveActivator : TESBoundAnimObject, SaveFullName, SaveModel, SaveScriptable, S_00477f20
 {
@@ -930,73 +969,65 @@ struct TerminalSave : SaveActivator, SaveDescription
     BSSimpleList<TerminalMenuItem*> m_kMenuItems;
     BGSNote* pPassword;
     TerminalCompareData Data;
-    BSSimpleList<TerminalMenuItem*>* FUN_00461150();
-    BGSNote* FUN_004fd400();
     void FUN_00500a40();
 };
-bool __cdecl FUN_00401500();
-unsigned int __cdecl BSStringLength(const char*);
-void __cdecl FUN_004856f0(unsigned int, const void*, unsigned int);
-void __cdecl FUN_004858f0(unsigned int, unsigned char);
-void __cdecl FUN_00485910(unsigned int, unsigned int);
-void __cdecl AppendChunk(unsigned int, void*, unsigned int);
 
 // @fnv 0x00500a40
 void TerminalSave::FUN_00500a40()
 {
-    reinterpret_cast<SaveForm*>(this)->FUN_004855a0();
-    SaveFullName::FUN_00487010();
-    SaveModel::ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    SaveScriptable::FUN_0048cca0();
-    S_00477f20::FUN_00477f20();
-    SaveDescription::FUN_00482cb0();
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<SaveForm*>(this)))->FUN_004855a0();
+    reinterpret_cast<::FUN_00487010_shell *>(this)->FUN_00487010();
+    reinterpret_cast<::FUN_0048a520_shell *>(this)->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
+    reinterpret_cast<::S_0048cca0 *>(this)->FUN_0048cca0();
+    reinterpret_cast<::FUN_00477f20_shell *>(this)->FUN_00477f20();
+    reinterpret_cast<::FUN_00482cb0_shell *>(this)->FUN_00482cb0();
     if (loopingSound)
     {
-        unsigned int soundID = reinterpret_cast<SaveSound*>(loopingSound)->GetFormID();
-        FUN_00485910(0x4d414e53, soundID);
+        unsigned int soundID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<SaveSound*>(loopingSound)))->FUN_0084e3a0()));
+        ::FUN_00485910(0x4d414e53, soundID);
     }
-    if (FUN_004fd400())
+    if (((::BGSNote *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400())))
     {
-        unsigned int passwordID = FUN_004fd400()->GetFormID();
-        FUN_00485910(0x4d414e50, passwordID);
+        unsigned int passwordID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::BGSNote *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400()))))->FUN_0084e3a0()));
+        ::FUN_00485910(0x4d414e50, passwordID);
     }
-    if (FUN_00401500())
-        reinterpret_cast<TerminalCleanup*>(&Data)->FUN_00483710();
-    AppendChunk(0x4d414e44, &Data, 4);
-    if (FUN_00401500())
-        reinterpret_cast<TerminalCleanup*>(&Data)->FUN_00483710();
-    BSSimpleList<TerminalMenuItem*>* pMenuNode = FUN_00461150();
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::TESForm *>((reinterpret_cast<TerminalCleanup*>(&Data)))->ClearData();
+    ::AppendChunk(0x4d414e44, &Data, 4);
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::TESForm *>((reinterpret_cast<TerminalCleanup*>(&Data)))->ClearData();
+    BSSimpleList<TerminalMenuItem*>* pMenuNode = ((::BSSimpleList< ::TerminalMenuItem *> *)(reinterpret_cast<::FUN_00461150_shell *>(this)->FUN_00461150()));
     while (pMenuNode && !pMenuNode->IsEmpty())
     {
-        TerminalMenuItem* item = pMenuNode->GetItem();
-        pMenuNode = pMenuNode->GetNext();
+        TerminalMenuItem* item = ((::TerminalMenuItem *)(new ((void *)(pMenuNode)) ::Vec3()));
+        pMenuNode = ((::BSSimpleList< ::TerminalMenuItem *> *)(reinterpret_cast<::Callees *>((pMenuNode))->FUN_00726070()));
         if (static_cast<const char*>(*reinterpret_cast<SaveGameString*>(&item->ResponseText)))
-            FUN_004856f0(
-                0x54585449, static_cast<const char*>(*reinterpret_cast<SaveGameString*>(&item->ResponseText)),
-                BSStringLength(static_cast<const char*>(*reinterpret_cast<SaveGameString*>(&item->ResponseText))) + 1);
+            ::FUN_004856f0(
+                (void *)(0x54585449), (void *)(static_cast<const char*>(*reinterpret_cast<SaveGameString*>(&item->ResponseText))),
+                (void *)(::FUN_0044a670(static_cast<const char*>(*reinterpret_cast<SaveGameString*>(&item->ResponseText))) + 1));
         else
-            FUN_00485910(0x54585449, 0);
+            ::FUN_00485910(0x54585449, 0);
         if (static_cast<const char*>(*reinterpret_cast<SaveGameString*>(&item->m_kMenuText)))
-            FUN_004856f0(
-                0x4d414e52, static_cast<const char*>(*reinterpret_cast<SaveGameString*>(&item->m_kMenuText)),
-                BSStringLength(static_cast<const char*>(*reinterpret_cast<SaveGameString*>(&item->m_kMenuText))) + 1);
+            ::FUN_004856f0(
+                (void *)(0x4d414e52), (void *)(static_cast<const char*>(*reinterpret_cast<SaveGameString*>(&item->m_kMenuText))),
+                (void *)(::FUN_0044a670(static_cast<const char*>(*reinterpret_cast<SaveGameString*>(&item->m_kMenuText))) + 1));
         else
-            FUN_00485910(0x4d414e52, 0);
+            ::FUN_00485910(0x4d414e52, 0);
         FUN_004858f0(0x4d414e41, item->cFlags);
         if (item->m_pNote)
         {
-            unsigned int noteID = item->m_pNote->GetFormID();
-            FUN_00485910(0x4d414e49, noteID);
+            unsigned int noteID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((item->m_pNote))->FUN_0084e3a0()));
+            ::FUN_00485910(0x4d414e49, noteID);
         }
         if (item->m_pTerminal)
         {
-            unsigned int submenuID = item->m_pTerminal->GetFormID();
-            FUN_00485910(0x4d414e54, submenuID);
+            unsigned int submenuID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((item->m_pTerminal))->FUN_0084e3a0()));
+            ::FUN_00485910(0x4d414e54, submenuID);
         }
-        reinterpret_cast<SaveScript*>(&item->m_kScript)->FUN_005abe00();
-        reinterpret_cast<TESConditionSave*>(&item->Conditions)->ProcessItems();
+        reinterpret_cast<::FUN_005abe00 *>((reinterpret_cast<SaveScript*>(&item->m_kScript)))->ProcessHeader();
+        reinterpret_cast<::FUN_00680910_shell *>((reinterpret_cast<TESConditionSave*>(&item->Conditions)))->ProcessItems();
     }
-    reinterpret_cast<SaveForm*>(this)->FUN_00485680();
+    reinterpret_cast<::Holder *>((reinterpret_cast<SaveForm*>(this)))->FUN_00485680();
 }
 
 struct Ref;
@@ -1006,21 +1037,14 @@ struct Form
 };
 struct Ref
 {
-    Form* GetOwner();
-    bool CanBeUsed(Ref*, bool);
 };
 struct Player
 {
-    int Check(Ref*);
-    void Penalize(int);
 };
-extern Player* _g_thePlayer;
-bool FUN_00709bc0();
 struct Open
 {
     static int GetOpenState(Ref*);
 };
-bool FUN_005012c0(Ref*);
 struct Text
 {
     char* data;
@@ -1035,24 +1059,14 @@ struct Sound
     int state;
     int flags;
     ~Sound();
-    bool Play(bool);
 };
 struct Audio
 {
     Sound GetSoundHandleByEditorID(const char*, unsigned int);
-    static Audio* GetSingleton();
 };
 struct Setting
 {
-    const char* GetString();
-    const char* String();
-    float* Float();
 };
-extern Setting g_011c8394, g_011d4810, originalRuntimeFloatSetting282;
-const char* GetActorValueName(int);
-int Format(Text*, const char*, ...);
-float Clamp(float, float);
-bool QueueUIMessage(const char*, int, const char*, const char*, float, bool);
 struct Activate
 {
     virtual void Run(Ref*, Ref*);
@@ -1134,10 +1148,7 @@ struct OwnerActor
 };
 struct Faction
 {
-    bool Test();
 };
-unsigned int FUN_0047e040(float);
-void FUN_0047a560(Ref*, Ref*, int);
 struct Terminal
 {
     int unk000;
@@ -1169,8 +1180,6 @@ struct Terminal
     int unk068;
     int unk06c;
     Activate activation;
-    float FUN_005017a0(Ref*);
-    bool FUN_005015d0();
     bool ActivateTerminal(Ref*, Ref*, int, int, int);
 };
 // @fnv 0x00501310
@@ -1184,30 +1193,30 @@ bool Terminal::ActivateTerminal(Ref* target, Ref* user, int arg3, int arg4, int 
     {
         activation.Run(target, user);
     }
-    else if (user == (Ref*)_g_thePlayer && _g_thePlayer->Check(target) == 4)
+    else if (user == (Ref*)(*reinterpret_cast<::Player * *>(&::_g_thePlayer)) && reinterpret_cast<::PlayerCharShell *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->GetTerminalAccessResult((::TESObjectREFR *)(target)) == 4)
     {
         Text message;
-        Format(&message, g_011c8394.GetString(), GetActorValueName(40), (int)Clamp(FUN_005017a0(target), 1.0f));
-        QueueUIMessage(message, 0, "Interface\\Icons\\Message Icons\\glow_message_vaultboy_angry.dds", 0, 2.0f, false);
-        Audio::GetSingleton()->GetSoundHandleByEditorID("UIPopUpMessageGeneral", 0x121).Play(false);
+        ::FUN_00406f60((::FUN_00406f90_this *)(::Text *)(&message), ((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Setting *>(&::g_011c8394))))->IsDLCAvailable())), ::ActorValue::GetActorValueName((::ActorValue::Index)(40)), (int)::InventoryStackRecord::RoundToNearestStep(reinterpret_cast<::TermHack *>(this)->FUN_005017a0((::TESObjectREFR *)(target)), 1.0f));
+        ::DispatchMessageToSink((int)(message), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_angry.dds"), (int)(0), 2.0f, false);
+        reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::Sound &)(((::Audio *)(::FUN_00453a70()))->GetSoundHandleByEditorID("UIPopUpMessageGeneral", 0x121)))->FUN_00ad8830(false);
     }
-    else if (user == (Ref*)_g_thePlayer && FUN_005012c0(target))
+    else if (user == (Ref*)(*reinterpret_cast<::Player * *>(&::_g_thePlayer)) && ::FUN_005012c0((::TESObjectREFR *)(target)))
     {
-        QueueUIMessage(g_011d4810.String(), 0, 0, 0, 2.0f, false);
+        ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting *>(&::g_011d4810))))->GetMenuTitle()))), 0, (int)(0), (int)(0), 2.0f, false);
         return false;
     }
     else
     {
         Ref* actor = user;
-        if (target->GetOwner() && !target->CanBeUsed(actor, true) && !FUN_005015d0())
+        if (((::Form *)(reinterpret_cast<::OwnerLookupView *>((target))->FUN_00567790())) && !reinterpret_cast<::OwnershipReferenceView *>((target))->FUN_005785e0((::Actor *)(actor), true) && !reinterpret_cast<::FUN_005015d0_shell *>(this)->FUN_005015d0())
         {
             bool crime = false;
-            Form* owner = target->GetOwner();
+            Form* owner = ((::Form *)(reinterpret_cast<::OwnerLookupView *>((target))->FUN_00567790()));
             int unused = 0;
             if (owner->Type() == 8)
             {
                 Faction* faction = (Faction*)owner;
-                if (!faction->Test())
+                if (!reinterpret_cast<::FUN_0047d7c0_Class *>((faction))->FUN_0047d7c0())
                     crime = true;
             }
             else
@@ -1215,15 +1224,15 @@ bool Terminal::ActivateTerminal(Ref* target, Ref* user, int arg3, int arg4, int 
                 OwnerActor* pOwnerActor = (OwnerActor*)owner;
                 if (pOwnerActor)
                 {
-                    unsigned int rank = FUN_0047e040(pOwnerActor->values.Get(23));
+                    unsigned int rank = ((unsigned int)(::fnv_0047e040::FUN_0047e040(pOwnerActor->values.Get(23))));
                     if (rank != 2 && rank != 4)
                         crime = true;
                 }
             }
             if (crime)
-                _g_thePlayer->Penalize((int)*originalRuntimeFloatSetting282.Float());
+                reinterpret_cast<::KarmaActor *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->FUN_0094fd30((int)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting282)))))));
         }
-        FUN_0047a560(target, user, 0);
+        ::FUN_0047a560((::TESObjectREFR *)(target), (::TESObjectREFR *)(user), (::BGSOpenCloseForm *)(0));
     }
     return true;
 }
@@ -1283,24 +1292,17 @@ struct FUN_004ffaa0 : TermActivator, TermDescription
     void* pPassword;
     unsigned int Data;
     FUN_004ffaa0();
-    void SetFormType(int eType);
-    void ResetFormData();
 };
 
 // @fnv 0x004ffaa0
 FUN_004ffaa0::FUN_004ffaa0()
 {
-    SetFormType(0x17);
-    ResetFormData();
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0(0x17);
+    reinterpret_cast<::BGSTerminal *>(this)->ResetFormData();
 }
 
-extern float DAT_011c83c4;
-extern void* DAT_011dea3c;
-float* __fastcall FUN_00403e20(float*);
-unsigned short __fastcall FUN_0087f9f0(void*);
 struct RefLevel
 {
-    unsigned int __thiscall FUN_00567e10(bool);
 };
 
 // Returns the initial result, optionally adding a scaled level value and capping it at 4 when the flag is set.
@@ -1311,8 +1313,8 @@ int __thiscall FUN_00501270_shell::FUN_005011a0(TESObjectREFR* apRef)
     if (reinterpret_cast<FUN_00501250_shell*>(this)->IsFlagSet())
     {
         unsigned int level =
-            apRef ? reinterpret_cast<RefLevel*>(apRef)->FUN_00567e10(false) : FUN_0087f9f0(DAT_011dea3c);
-        result += (unsigned int)((double)level * *FUN_00403e20(&DAT_011c83c4));
+            apRef ? reinterpret_cast<::fnv_00567e10::FUN_00567e10_shell *>((reinterpret_cast<RefLevel*>(apRef)))->FUN_00567e10(false) : reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<void * *>(&::_g_thePlayer))))->FUN_0087f9f0();
+        result += (unsigned int)((double)level * *((float *)&(::FUN_00403e20(&(*reinterpret_cast<float *>(&::originalRuntimeFloatSetting33))))));
         if (result > 4)
             result = 4;
     }

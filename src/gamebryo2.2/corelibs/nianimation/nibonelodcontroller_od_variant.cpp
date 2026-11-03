@@ -4,7 +4,22 @@
 
 // src/gamebryo2.2/corelibs/nianimation/nibonelodcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nibonelodcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void __cdecl _NiFreeAlias(void*);
+#include "fnv/decl/FUN_00a6d730_shell.h"
+#include "fnv/decl/FUN_00c53e40.h"
+#include "fnv/decl/NiTimeController.h"
+#include "fnv/decl/NiTimeControllerCM.h"
+#include "fnv/decl/Q52Obj.h"
+#include "fnv/decl/S_0060ba10.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00a3d000.h"
+#include "fnv/symbols_00a6d000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00c53000.h"
+#include "fnv/symbols_010c1000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_01203000.h"
 extern int DAT_0109a2a4;
 struct FUN_00a543f0_shell
 {
@@ -15,24 +30,27 @@ struct FUN_00a543f0_shell
 struct GlobalObjectO2_00a7b610
 {
 };
-extern GlobalObjectO2_00a7b610 g_011f405c;
 GlobalObjectO2_00a7b610* __cdecl FUN_00a55120();
 
 struct Unknown_00c536a0
 {
-    bool FUN_00a6d0f0(int);
     bool FUN_00c536a0(int);
 };
 // @fnv 0x00c536a0
 bool Unknown_00c536a0::FUN_00c536a0(int a)
 {
-    if (FUN_00a6d0f0(a) == 0)
+    if (::FUN_00a6d0f0((::TCReg *)this, a, *(::NiStream *)nullptr) == 0)
         return false;
     return true;
 }
 
+class NiObject;
 struct NiStream
 {
+public:
+    ::NiObject *GetLoadedObject();
+public:
+    static int RegisterObjectLoader(const char *, NiObject *(*)());
 };
 struct NiObject
 {
@@ -41,34 +59,29 @@ struct NiObject
 struct NiBSBoneLODController : NiObject
 {
     void* m_34;
-    void FUN_00c52960(void*);
     void FUN_00c53ab0(NiStream& s);
 };
 // @fnv 0x00c53ab0
 void NiBSBoneLODController::FUN_00c53ab0(NiStream& s)
 {
-    NiObject::LinkObject(s);
+    ::FUN_00a89af0((int)this);
     void* old = *(void**)((char*)this + 0x34);
     *(void**)((char*)this + 0x34) = (void*)0xffffffff;
-    FUN_00c52960(old);
+    reinterpret_cast<::Q52Obj *>(this)->FUN_00c52960((unsigned int)(old));
 }
 
 namespace fnv_00c53cd0 {
 struct NiObject;
 struct NiStream
 {
-    static int __cdecl RegisterObjectLoader(const char*, NiObject*(__cdecl*)(void));
 };
-extern const char g_012031b8_arg0[];
-NiObject* __cdecl FUN_00c537f0();
 // @fnv 0x00c53cd0
 int __cdecl FUN_00c53cd0()
 {
-    return NiStream::RegisterObjectLoader(g_012031b8_arg0, FUN_00c537f0);
+    return ::NiStream::RegisterObjectLoader(::g_012031b8_arg0, (NiObject *(*)())(((fnv_00c53cd0::NiObject *(&)())::fnv_00c537f0::FUN_00c537f0)));
 }
 }  // namespace fnv_00c53cd0
 
-extern GlobalObjectO2_00a7b610 g_012031b8;
 struct FUN_00c53e00_shell
 {
     GlobalObjectO2_00a7b610* __thiscall FUN_00c53e00();
@@ -76,7 +89,7 @@ struct FUN_00c53e00_shell
 // @fnv 0x00c53e00
 GlobalObjectO2_00a7b610* __thiscall FUN_00c53e00_shell::FUN_00c53e00()
 {
-    return &g_012031b8;
+    return &(*reinterpret_cast<::GlobalObjectO2_00a7b610 *>(&::g_012031b8));
 }
 
 class NiControllerManager
@@ -95,13 +108,12 @@ class CloneableObj
     char _pad[0x34];
     int m34;
     int m38;
-    void FUN_00a6cfe0(NiControllerManager*, CloningProcess*);
     void FUN_00c533f0(NiControllerManager*, CloningProcess*);
 };
 // @fnv 0x00c533f0
 void CloneableObj::FUN_00c533f0(NiControllerManager* a, CloningProcess* b)
 {
-    FUN_00a6cfe0(a, b);
+    reinterpret_cast<::NiTimeControllerCM *>(this)->FUN_00a6cfe0((::NiTimeController *)(a), (*(::CloningProcess *)(b)));
     a->m34 = m34;
     a->m38 = m38;
 }
@@ -109,16 +121,15 @@ void CloneableObj::FUN_00c533f0(NiControllerManager* a, CloningProcess* b)
 void operator delete(void*, unsigned int);
 struct S_00c53e10
 {
-    void FUN_00c53e40();
     void* FUN_00c53e10(unsigned int);
 };
 // @fnv 0x00c53e10
 void* S_00c53e10::FUN_00c53e10(unsigned int flags)
 {
     int pad[2];
-    this->FUN_00c53e40();
+    reinterpret_cast<::FUN_00c53e40 *>((this))->FUN_00c53e40::~FUN_00c53e40();
     if (flags & 1)
-        ::operator delete(this, 0x4c);
+        ::FUN_00aa1460(this, 0x4c);
     return this;
 }
 
@@ -143,8 +154,6 @@ bool S_00c53ed0::FUN_00c53ed0()
     return false;
 }
 
-extern "C" void __cdecl CallAnimCallback(void*, const void*);
-extern "C" void __cdecl FUN_0044adf0(void*, const void*);
 struct ObjectWriter
 {
     virtual void f00();
@@ -186,7 +195,6 @@ struct BoneLODControllerSave : NiBSBoneLODController
     BoneEntryGroup** groupArray;
     unsigned short unk44;
     unsigned short groupCount;
-    void __thiscall FUN_00a6d730(NiStream*);
     void __thiscall FUN_00c536d0(NiStream*);
 };
 // @fnv 0x00c536d0
@@ -202,11 +210,11 @@ void __thiscall BoneLODControllerSave::FUN_00c536d0(NiStream* stream)
     unsigned int innerCount;
     unsigned int j;
 
-    FUN_00a6d730(stream);
-    CallAnimCallback(stream, &m_34field);
-    FUN_0044adf0(stream, &m_38field);
+    reinterpret_cast<::FUN_00a6d730_shell *>(this)->FUN_00a6d730((*(::Stream_a6d730 *)(stream)));
+    ::CallAnimCallback((::FUN_00a3da50_Owner *)(stream), (int)(&m_34field));
+    ::FUN_0044adf0((::MiddleHighProcess *)(stream), (int)(&m_38field));
     savedCount = groupCount;
-    FUN_0044adf0(stream, &savedCount);
+    ::FUN_0044adf0((::MiddleHighProcess *)(stream), (int)(&savedCount));
 
     for (n = 0; n < groupCount; ++n)
     {
@@ -215,7 +223,7 @@ void __thiscall BoneLODControllerSave::FUN_00c536d0(NiStream* stream)
         {
             innerCount = i->count;
             zero = innerCount;
-            FUN_0044adf0(stream, &zero);
+            ::FUN_0044adf0((::MiddleHighProcess *)(stream), (int)(&zero));
             for (groupTotal = 0; groupTotal < (j = i->count); ++groupTotal)
             {
                 group = i->objects[groupTotal];
@@ -225,7 +233,7 @@ void __thiscall BoneLODControllerSave::FUN_00c536d0(NiStream* stream)
         else
         {
             object = 0;
-            CallAnimCallback(stream, &object);
+            ::CallAnimCallback((::FUN_00a3da50_Owner *)(stream), (int)(&object));
         }
     }
 }
@@ -238,7 +246,6 @@ struct RefList
 };
 struct BinaryStream
 {
-    unsigned int FUN_00a63430();
 };
 struct ControllerObject
 {
@@ -261,13 +268,12 @@ struct ControllerObject
     RefList** lists;
     unsigned short unk44;
     unsigned short listCount;
-    void FUN_00a6d500(BinaryStream*);
     void FUN_00c53a10(BinaryStream*);
 };
 // @fnv 0x00c53a10
 void ControllerObject::FUN_00c53a10(BinaryStream* stream)
 {
-    FUN_00a6d500(stream);
+    reinterpret_cast<::NiTimeController *>(this)->LinkObject((*(::NiStream *)(stream)));
     for (unsigned int i = 0; i < listCount; ++i)
     {
         RefList* list = lists[i];
@@ -278,7 +284,7 @@ void ControllerObject::FUN_00c53a10(BinaryStream* stream)
             unsigned int j;
             for (; value < (j = list->count); ++value)
             {
-                size = stream->FUN_00a63430();
+                size = ((unsigned int)(reinterpret_cast<::NiStream *>((stream))->GetLoadedObject()));
                 if (value >= list->count)
                 {
                 }
@@ -342,16 +348,12 @@ bool S_00c53cf0_Cls::FUN_00c53cf0()
     return false;
 }
 
-extern "C" char* __cdecl FUN_00a7d330(unsigned int);
-extern "C" char* __cdecl FUN_00a7d4d0(char const*, unsigned int);
-extern "C" char* __cdecl FUN_00a7d510(char const*, unsigned int);
 
 extern "C" char str_0109a388[];
 extern "C" char str_0109a394[];
 
 struct NiTPrimitiveArray_unsigned_int
 {
-    void __thiscall FUN_0096a610(unsigned int& value);
 };
 
 struct FUN_00c53c50_Class
@@ -405,13 +407,13 @@ void __thiscall FUN_00c53c50_Class::FUN_00c53c50(NiTPrimitiveArray_unsigned_int*
     FUN_00c53c50_Padding padding;
     FUN_00c53c50_Values values;
 
-    values.value3 = *(unsigned int*)&g_012031b8;
-    values.value0 = (unsigned int)FUN_00a7d330(values.value3);
-    array->FUN_0096a610(values.value0);
+    values.value3 = *(unsigned int*)&(*reinterpret_cast<::GlobalObjectO2_00a7b610 *>(&::g_012031b8));
+    values.value0 = (unsigned int)::FUN_00a7d330((const char *)(values.value3));
+    reinterpret_cast<::S_0060ba10 *>((array))->FUN_0096a610((int)&(values.value0));
 
-    values.value1 = (unsigned int)FUN_00a7d4d0(str_0109a394, this->unk34);
-    array->FUN_0096a610(values.value1);
+    values.value1 = (unsigned int)::FUN_00a7d4d0(str_0109a394, this->unk34);
+    reinterpret_cast<::S_0060ba10 *>((array))->FUN_0096a610((int)&(values.value1));
 
-    values.value2 = (unsigned int)FUN_00a7d510(str_0109a388, this->unk38);
-    array->FUN_0096a610(values.value2);
+    values.value2 = (unsigned int)::FUN_00a7d510(str_0109a388, this->unk38);
+    reinterpret_cast<::S_0060ba10 *>((array))->FUN_0096a610((int)&(values.value2));
 }

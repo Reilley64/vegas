@@ -1,23 +1,30 @@
 // src/fallout/ai/combatcontroller_iso_variant.cpp - variant unit created 2026-11-01 by rtm_route.py: community reworks of src/fallout/ai/combatcontroller.cpp that match byte for byte only
 // with VC9 SP1 and /MT /Od /Oy- /GS /EHsc /Gy (unit lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton.
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C008d46f0.h"
+#include "fnv/decl/FUN_00416870_t.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_008d85e0_Class.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_0097a000.h"
 #include "multi_bound_marker_data.h"
 
-int __fastcall FUN_007031c0(int);
 
+namespace ActorValue { enum Index; }
 struct ActorValueOwner
 {
-    int GetActorValueAsInteger(int);
+public:
+    int GetActorValueAsInteger(::ActorValue::Index);
 };
 
 struct MiddleHighProcess
 {
-    int GetWeaponForm();
 };
 
 struct TESAmmoInitCalls
 {
-    unsigned int FUN_0097ae90();
 };
 
 class Actor
@@ -164,7 +171,6 @@ class Actor
 class Creature : public Actor
 {
   public:
-    float FUN_008d46f0();
 };
 
 struct FUN_0097fc70_shell
@@ -178,25 +184,24 @@ int FUN_0097fc70_shell::FUN_0097fc70()
     int iresult = 0;
     Creature* pcreature;
 
-    if (!((Actor*)((TESAmmoInitCalls*)this)->FUN_0097ae90())->Method21c())
+    if (!((Actor*)((unsigned int)(::GetFieldBC((::FUN_0097ae90_Class *)(((TESAmmoInitCalls*)this))))))->Method21c())
     {
         if (FUN_007031c0((int)this))
         {
-            iresult = ((ActorValueOwner*)(((TESAmmoInitCalls*)this)->FUN_0097ae90() + 0xa4))
-                          ->GetActorValueAsInteger(((MiddleHighProcess*)FUN_007031c0((int)this))->GetWeaponForm());
+            iresult = ((ActorValueOwner*)(((unsigned int)(::GetFieldBC((::FUN_0097ae90_Class *)(((TESAmmoInitCalls*)this))))) + 0xa4))->GetActorValueAsInteger((::ActorValue::Index)(((int)(reinterpret_cast<::FUN_008d85e0_Class *>((((MiddleHighProcess*)FUN_007031c0((int)this))))->GetUnk15C()))));
         }
         else
         {
             iresult =
-                ((ActorValueOwner*)(((TESAmmoInitCalls*)this)->FUN_0097ae90() + 0xa4))->GetActorValueAsInteger(0x2d);
+                ((ActorValueOwner*)(((unsigned int)(::GetFieldBC((::FUN_0097ae90_Class *)(((TESAmmoInitCalls*)this))))) + 0xa4))->GetActorValueAsInteger((::ActorValue::Index)(0x2d));
         }
     }
     else
     {
-        pcreature = dynamic_cast<Creature*>((Actor*)((TESAmmoInitCalls*)this)->FUN_0097ae90());
+        pcreature = dynamic_cast<Creature*>((Actor*)((unsigned int)(::GetFieldBC((::FUN_0097ae90_Class *)(((TESAmmoInitCalls*)this))))));
         if (pcreature)
         {
-            iresult = (int)pcreature->FUN_008d46f0();
+            iresult = (int)reinterpret_cast<::C008d46f0 *>((pcreature))->FUN_008d46f0();
         }
     }
 

@@ -1,12 +1,27 @@
 // gamebryo2.2/corelibs/nianimation/nibsplinedata.cpp: NiBSplineData, SplData (7 functions)
 
+#include "fnv/decl/A5D6E0This.h"
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/CubicSplineBasis.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
+#include "fnv/decl/FUN_00a62660_cls.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f4000.h"
 #include "nibsplinedata_decls.h"
 
 // Reads the control point count and compact control point count from the stream, allocating and reading the corresponding float and short arrays.
 // @fnv 0x00a52870
 void NiBSplineData::LoadBinary(NiStream& stream)
 {
-    ReadGroup(stream);
+    reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup((::NiStream *)&(stream));
 
     NiBinaryStream* pStream = stream.m_pUnderlyingStream;
     unsigned int* puiControlPointCount = &m_uiControlPointCount;
@@ -39,9 +54,9 @@ void NiBSplineData::CalculateSplineValue(float time, float* value, unsigned int 
                                          NiBSplineBasisData* basisData, unsigned int handle, float offset,
                                          float halfRange)
 {
-    NiBSplineBasis_float_3_& basis = basisData->GetBSplineBasis();
+    NiBSplineBasis_float_3_& basis = (*(::NiBSplineBasis_float_3_ *)&(reinterpret_cast<::FUN_00a62660_cls *>((basisData))->FUN_00a62660()));
     int iCount, max;
-    basis.Compute(time, iCount, max);
+    reinterpret_cast<::CubicSplineBasis *>(&(basis))->ComputeBasisWeights(time, iCount, max);
     float points[16];
     FUN_00a89650(m_psCompactControlPoints + dimension * iCount + handle, dimension * 4, offset, halfRange, points,
                  dimension * 4);
@@ -65,17 +80,14 @@ void NiBSplineData::CalculateSplineValue(float time, float* value, unsigned int 
 }
 
 extern int DAT_01099e54;
-void __cdecl _NiFreeAlias(void*);
-void __fastcall FUN_00a5d3d0(void*);
-void __cdecl FUN_00aa1460(void*, unsigned int);
 
 // @fnv 0x00a52510
 void* __fastcall FUN_00a52510(void** pThis, int, unsigned int flags)
 {
     *pThis = &DAT_01099e54;
-    _NiFreeAlias(pThis[2]);
-    _NiFreeAlias(pThis[3]);
-    FUN_00a5d3d0(pThis);
+    ::FUN_00aa10f0(pThis[2]);
+    ::FUN_00aa10f0(pThis[3]);
+    reinterpret_cast<class ::FUN_00a5d3d0 *>((pThis))->FUN_00a5d3d0::~FUN_00a5d3d0();
     if (flags & 1)
     {
         FUN_00aa1460(pThis, 0x18);
@@ -83,7 +95,6 @@ void* __fastcall FUN_00a52510(void** pThis, int, unsigned int flags)
     return pThis;
 }
 
-extern "C" bool __stdcall IsSameAs(NiObject*);
 
 struct NiBSplineData_shell : NiBSplineData
 {
@@ -93,7 +104,7 @@ struct NiBSplineData_shell : NiBSplineData
 // @fnv 0x00a51e50
 bool NiBSplineData_shell::FUN_00a51e50(NiObject* pkObject)
 {
-    if (IsSameAs(pkObject))
+    if (reinterpret_cast<::A5d470Class *>((pkObject))->IsSameAs({}))
     {
         NiBSplineData* pkData = static_cast<NiBSplineData*>(pkObject);
         if (pkData->m_uiControlPointCount == m_uiControlPointCount &&
@@ -107,7 +118,6 @@ struct NiBSplineBaseStand
 {
     void* vtable;
     unsigned int refCount;
-    void LoadStream(NiStream& stream);
 };
 
 struct NiBSplineBinaryView
@@ -148,7 +158,7 @@ struct FUN_00a52950_cls : NiBSplineData
 // @fnv 0x00a52950
 void FUN_00a52950_cls::LoadControlPoints(NiStream& stream)
 {
-    reinterpret_cast<NiBSplineBaseStand*>(this)->LoadStream(stream);
+    ::FUN_00a89af0((int)(reinterpret_cast<NiBSplineBaseStand*>(this)));
     NiBSplineStreamView* pStreamView = reinterpret_cast<NiBSplineStreamView*>(&stream);
     pStreamView->m_pUnderlyingStream->Load(&m_uiControlPointCount);
     if (m_uiControlPointCount != 0)
@@ -164,12 +174,9 @@ void FUN_00a52950_cls::LoadControlPoints(NiStream& stream)
     }
 }
 
-extern void* g_011f4034;
 extern const char str_01099f08[];
 extern const char str_01099ee8[];
 
-void* __cdecl FUN_00a7d330(void* pv);
-void* __cdecl FUN_00a7d510(const char* pcName, unsigned int uiValue);
 
 struct ArrayArg
 {
@@ -179,15 +186,12 @@ struct ArrayArg
     unsigned short m_0a;
     unsigned short unk0c;
     unsigned short m_0e;
-    void FUN_0096ad30(unsigned int uiNewEnd);
-    void FUN_0096ae90(unsigned int uiPos, void* pvData);
 };
 
 struct NiBase_stand
 {
     void* vtable;
     unsigned int refcount;
-    void LoadStream(ArrayArg& kStream);
 };
 
 class FUN_00a52a20_cls
@@ -205,33 +209,33 @@ class FUN_00a52a20_cls
 // @fnv 0x00a52a20
 void FUN_00a52a20_cls::LoadFromStream(ArrayArg& kStream)
 {
-    reinterpret_cast<NiBase_stand*>(this)->LoadStream(kStream);
+    reinterpret_cast<::A5D6E0This *>((reinterpret_cast<NiBase_stand*>(this)))->AppendCameraPathEntries((::NiTArray< ::BGSCameraPath *, ::NiTMallocInterface< ::BGSCameraPath *>> *)&(kStream));
     {
-        void* p = FUN_00a7d330(g_011f4034);
+        void* p = ((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_011f4034))))));
         unsigned int uiPos = kStream.m_0a;
         if (uiPos >= kStream.m_08)
         {
-            kStream.FUN_0096ad30(uiPos + kStream.m_0e);
+            reinterpret_cast<::ViewerStrings *>(&(kStream))->SetSize(uiPos + kStream.m_0e);
         }
-        kStream.FUN_0096ae90(uiPos, &p);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(kStream))->SetAt(uiPos, (*(char * *)(&p)));
     }
     {
-        void* q = FUN_00a7d510(str_01099f08, m_10);
+        void* q = ((void *)(::FUN_00a7d510(str_01099f08, m_10)));
         unsigned int uiPos = kStream.m_0a;
         if (uiPos >= kStream.m_08)
         {
-            kStream.FUN_0096ad30(uiPos + kStream.m_0e);
+            reinterpret_cast<::ViewerStrings *>(&(kStream))->SetSize(uiPos + kStream.m_0e);
         }
-        kStream.FUN_0096ae90(uiPos, &q);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(kStream))->SetAt(uiPos, (*(char * *)(&q)));
     }
     {
-        void* r = FUN_00a7d510(str_01099ee8, m_14);
+        void* r = ((void *)(::FUN_00a7d510(str_01099ee8, m_14)));
         unsigned int uiPos = kStream.m_0a;
         if (uiPos >= kStream.m_08)
         {
-            kStream.FUN_0096ad30(uiPos + kStream.m_0e);
+            reinterpret_cast<::ViewerStrings *>(&(kStream))->SetSize(uiPos + kStream.m_0e);
         }
-        kStream.FUN_0096ae90(uiPos, &r);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(kStream))->SetAt(uiPos, (*(char * *)(&r)));
     }
 }
 
@@ -247,10 +251,10 @@ class SplData : public NiBSplineData
 void SplData::FUN_00a52550(float fTime, float* afPos, unsigned int uiDimension, NiBSplineBasisData* pkBasisData,
                            unsigned int uiControlPointOffset)
 {
-    NiBSplineBasis_float_3_& kBasis = pkBasisData->GetBSplineBasis();
+    NiBSplineBasis_float_3_& kBasis = (*(::NiBSplineBasis_float_3_ *)&(reinterpret_cast<::FUN_00a62660_cls *>((pkBasisData))->FUN_00a62660()));
     int iMax;
     int& iMin = (int&)fTime;
-    kBasis.Compute(fTime, iMin, iMax);
+    reinterpret_cast<::CubicSplineBasis *>(&(kBasis))->ComputeBasisWeights(fTime, iMin, iMax);
 
     const int iFirst = iMin;
     const float* pkSource = &m_pfControlPoints[uiControlPointOffset + iFirst * uiDimension];

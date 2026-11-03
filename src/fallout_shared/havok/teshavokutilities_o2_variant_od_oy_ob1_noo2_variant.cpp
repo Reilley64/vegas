@@ -7,6 +7,8 @@
 // src/fallout_shared/havok/teshavokutilities.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/teshavokutilities.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_0062b000.h"
 struct __declspec(align(16)) V_0062b8d0
 {
     char buf[16];
@@ -14,14 +16,12 @@ struct __declspec(align(16)) V_0062b8d0
     V_0062b8d0();
 };
 
-extern "C" void __cdecl FUN_004a3e00(V_0062b8d0* out, const void* in);
-extern "C" void __cdecl FUN_0062b930(void* object, V_0062b8d0* v, unsigned char flag);
 
 // @fnv 0x0062b8d0
 void __cdecl FUN_0062b8d0(void* object, const void* in, unsigned char flag)
 {
     V_0062b8d0 v;
 
-    FUN_004a3e00(&v, in);
-    FUN_0062b930(object, &v, flag);
+    ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&v)), (*(const ::fnv_004a3e00::NiPoint3 *)(in)));
+    ::FUN_0062b930((::NiAVObject *)(object), (::Vec3Arg *)(::V_0062b8d0 *)(&v), flag);
 }

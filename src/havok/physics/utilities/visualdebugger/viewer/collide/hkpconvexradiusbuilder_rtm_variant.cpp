@@ -4,6 +4,8 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_01268000.h"
 namespace bounding_plane_rework {
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 {
@@ -25,7 +27,6 @@ struct Bounds
 {
     BoundVector minimum, maximum;
 };
-extern const Transform DAT_01268370;
 struct Shape
 {
     virtual void slot00();
@@ -44,7 +45,6 @@ struct Holder
     Allocator* allocator;
 };
 extern Holder* FUN_00c85750();
-extern void __cdecl FUN_00c908c0(Allocator*, void*, int, int);
 struct PlaneArray
 {
     __m128* data;
@@ -54,7 +54,7 @@ struct PlaneArray
 static __declspec(noinline) void FUN_00de3200(Shape* shape, PlaneArray* planes, float radius)
 {
     Bounds bounds;
-    shape->getBounds(&DAT_01268370, radius, &bounds);
+    shape->getBounds(&(*reinterpret_cast<const ::bounding_plane_rework::Transform *>(&::DAT_01268370)), radius, &bounds);
     Holder* holder = FUN_00c85750();
     Allocator* allocationHeap = holder->allocator;
     int wanted = planes->size + 6;
@@ -64,7 +64,7 @@ static __declspec(noinline) void FUN_00de3200(Shape* shape, PlaneArray* planes, 
         int doubled = capacity + capacity;
         if (wanted < doubled)
             wanted = doubled;
-        FUN_00c908c0(allocationHeap, planes, wanted, 16);
+        ::FUN_00c908c0((::SpawnedObject *)(allocationHeap), (::SpawnedArray *)(planes), wanted, 16);
     }
     planes->size += 6;
     int start = planes->size;

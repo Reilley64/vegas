@@ -1,5 +1,97 @@
 // fallout_shared/globalfunc.cpp: BipedNodeNames, NiAVObject, ActorMover, PathingGraphNode and more (110 functions)
 
+#include <new>
+#include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/BSShaderManager.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/Cl537.h"
+#include "fnv/decl/CombatTargetTimestamp.h"
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_00448a60_struct.h"
+#include "fnv/decl/FUN_004534f0_shell.h"
+#include "fnv/decl/FUN_00456630_helper.h"
+#include "fnv/decl/FUN_00456650_shell.h"
+#include "fnv/decl/FUN_00495f30_shell.h"
+#include "fnv/decl/FUN_0049ec60.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004a8030_shell.h"
+#include "fnv/decl/FUN_004b9b20_class.h"
+#include "fnv/decl/FUN_0056e900_shell.h"
+#include "fnv/decl/FUN_00620b80_shell.h"
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_009d9f40_Class.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00ba8ab0_shell.h"
+#include "fnv/decl/FUN_00c86720.h"
+#include "fnv/decl/FUN_00c86cb0.h"
+#include "fnv/decl/FUN_00c877b0.h"
+#include "fnv/decl/FUN_00c87970.h"
+#include "fnv/decl/FUN_00c87c30_t.h"
+#include "fnv/decl/HashTableBase.h"
+#include "fnv/decl/MotionMassView.h"
+#include "fnv/decl/MouseSpringOwner.h"
+#include "fnv/decl/MyHost.h"
+#include "fnv/decl/NiGeometryData.h"
+#include "fnv/decl/NiTransform.h"
+#include "fnv/decl/S_FUN_0045bc00.h"
+#include "fnv/decl/SearchObject.h"
+#include "fnv/decl/TESTexLoader.h"
+#include "fnv/decl/TESTopicInfo.h"
+#include "fnv/decl/ThreeByThreeMatrix.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_0047a520__Fn47a520.h"
+#include "fnv/decl/fnv_0057bd60__fnv_anon_tesobjectrefr__Dummy.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_0098ddd0__FUN_0098ddd0_shell.h"
+#include "fnv/decl/fnv_00b675c0__FUN_00b675c0_shell.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_00438000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00448000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_004a2000.h"
+#include "fnv/symbols_004a8000.h"
+#include "fnv/symbols_004ae000.h"
+#include "fnv/symbols_004b1000.h"
+#include "fnv/symbols_004b2000.h"
+#include "fnv/symbols_004b4000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_004b6000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_00537000.h"
+#include "fnv/symbols_00549000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_006fa000.h"
+#include "fnv/symbols_00824000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00c68000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_0101b000.h"
+#include "fnv/symbols_0101f000.h"
+#include "fnv/symbols_01020000.h"
+#include "fnv/symbols_01187000.h"
+#include "fnv/symbols_0118a000.h"
+#include "fnv/symbols_011c6000.h"
+#include "fnv/symbols_011d5000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_011fa000.h"
+#include "fnv/symbols_01202000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
 #include "globalfunc_decls.h"
 
 // @fnv 0x004b7920
@@ -28,7 +120,7 @@ void BipedNodeNames::InitializeMultiBounds()
     DAT_011c61f4 = new NiFixedString("EditorMarker:0");
     DAT_011c61f8 = new NiFixedString("EditorMarker:1");
     DAT_011c61fc = new NiFixedString("EditorMarker:2");
-    DAT_011c6200 = new NiFixedString("ArrowQuiver");
+    (*reinterpret_cast<::NiFixedString * *>(&::DAT_011c6200)) = new NiFixedString("ArrowQuiver");
     DAT_011c6204 = new NiFixedString("MarkerSource");
     DAT_011c6208 = new NiFixedString("MarkerTarget");
     DAT_011c620c = new NiFixedString("AttachLight");
@@ -76,17 +168,17 @@ bool ConvertLocalizedString(const char* input, char* output, unsigned int capaci
     for (int i = 0; i < 4; ++i)
     {
         char separator = 0;
-        const char* found = LocateString(current, DAT_01189038[i]);
+        const char* found = ::FUN_004b75a0(current, DAT_01189038[i]);
         while (found)
         {
-            unsigned int tagLength = BSStringLength(DAT_01189038[i]);
+            unsigned int tagLength = ::FUN_0044a670(DAT_01189038[i]);
             if (found[tagLength] == '\\' || found[tagLength] == '/')
             {
                 separator = found[tagLength];
                 break;
             }
             else
-                found = LocateString(found + tagLength, DAT_01189038[i]);
+                found = ::FUN_004b75a0(found + tagLength, DAT_01189038[i]);
         }
         if (found)
         {
@@ -112,17 +204,17 @@ bool ConvertLocalizedString(const char* input, char* output, unsigned int capaci
     for (int i = 0; i < 5; ++i)
     {
         char separator = 0;
-        const char* found = LocateString(current, DAT_01188f84[i]);
+        const char* found = ::FUN_004b75a0(current, DAT_01188f84[i]);
         while (found)
         {
-            unsigned int tagLength = BSStringLength(DAT_01188f84[i]);
+            unsigned int tagLength = ::FUN_0044a670(DAT_01188f84[i]);
             if (found[tagLength] == '\\' || found[tagLength] == '/')
             {
                 separator = found[tagLength];
                 break;
             }
             else
-                found = LocateString(found + tagLength, DAT_01188f84[i]);
+                found = ::FUN_004b75a0(found + tagLength, DAT_01188f84[i]);
         }
         if (found)
         {
@@ -155,10 +247,10 @@ bool UpdateObjectVisibility(NiAVObject* object)
     bool changed = false;
     if (object)
     {
-        NiProperty* property = object->GetProperty(3);
+        NiProperty* property = ((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((object))->FUN_00a59d30(3)));
         NiProperty* textures = (property == 0 ? 0
-                                              : (reinterpret_cast<NiTimeController*>(property)->FUN_00441110() >= 8 &&
-                                                 reinterpret_cast<NiTimeController*>(property)->FUN_00441110() <= 12))
+                                              : (((int)(reinterpret_cast<::BGSTerrainManager *>((reinterpret_cast<NiTimeController*>(property)))->GetMinLevel())) >= 8 &&
+                                                 ((int)(reinterpret_cast<::BGSTerrainManager *>((reinterpret_cast<NiTimeController*>(property)))->GetMinLevel())) <= 12))
                                    ? property
                                    : 0;
         if (textures)
@@ -169,7 +261,7 @@ bool UpdateObjectVisibility(NiAVObject* object)
                 for (int type = 0; type < 6; ++type)
                 {
                     NiTexture* texture = textures->GetTexture(type, i);
-                    if (texture && FUN_0043b300(&DAT_011f444c, reinterpret_cast<NiAVObject*>(texture)))
+                    if (texture && FUN_0043b300(&(*reinterpret_cast<::NiRTTI *>(&::g_011f444c)), reinterpret_cast<NiAVObject*>(texture)))
                     {
                         bool swapped;
                         NiTexture* source = texture;
@@ -183,8 +275,8 @@ bool UpdateObjectVisibility(NiAVObject* object)
                             if (swapped && replacement[0])
                             {
                                 NiPointer<NiTexture> newTexture(0);
-                                g_TES->CreateTextureImage(replacement,
-                                                          reinterpret_cast<NiPointer<NiSourceTexture>&>(newTexture),
+                                reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_004568c0(replacement,
+                                                          (::TexPtr< ::NiSourceTexture> &)(reinterpret_cast<NiPointer<NiSourceTexture>&>(newTexture)),
                                                           false, false);
                                 if (newTexture)
                                 {
@@ -221,14 +313,14 @@ bool RemoveInvalidChildNodes(NiNode* apNode)
         if (pExtraData)
         {
             NiExtraData* flags = pExtraData;
-            if (flags->FUN_004b5fa0())
+            if (::FUN_004b5fa0((const ::BSXFlags *)(flags)))
             {
                 DAT_011c6328 = apNode;
-                NiTimeController* controller = apNode->GetController(&DAT_011f36ac);
+                NiTimeController* controller = ((::NiTimeController *)(reinterpret_cast<::MyHost *>((apNode))->FUN_00a5c570((const ::MyRTTI *)(const ::NiRTTI *)(&(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac))))));
                 {
                     NiControllerManager* controllerManager = reinterpret_cast<NiControllerManager*>(controller);
                     if (controllerManager)
-                        DAT_011c6324 = controllerManager->GetStringAtOffset();
+                        DAT_011c6324 = ((::NiControllerManager *)(::fnv_00537bd0::GetStringAtOffset((const char *)(controllerManager))));
                 }
             }
         }
@@ -250,8 +342,8 @@ bool RemoveInvalidChildNodes(NiNode* apNode)
             DAT_011c6324->vfn_90(FUN_004b5f80(), 0);
             DAT_011c6324->vfn_90(FUN_004b5f90(), 0);
         }
-        if (apNode->GetParent())
-            apNode->GetParent()->RemoveObject(apNode);
+        if (((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((apNode))->FUN_009611e0())))
+            ((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((apNode))->FUN_009611e0()))->RemoveObject(apNode);
         if (DAT_011c6328 == apNode)
         {
             DAT_011c6328 = 0;
@@ -323,10 +415,10 @@ void SetObjectFormID(NiAVObject* object, unsigned int referenceID)
         return;
     if (object->GetAsNiGeometry())
     {
-        NiProperty* property = object->GetProperty(3);
-        NiProperty* lighting = FUN_004a2c20(property) ? property : 0;
+        NiProperty* property = ((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((object))->FUN_00a59d30(3)));
+        NiProperty* lighting = ::FUN_004a2c20((::BGSTerrainManager *)(property)) ? property : 0;
         if (lighting)
-            reinterpret_cast<EffectSetting*>(lighting)->SetLight(reinterpret_cast<TESObjectLIGH*>(referenceID));
+            reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>((reinterpret_cast<EffectSetting*>(lighting)))->FUN_0057bd60((::fnv_0057bd60::MobileObject *)(::TESObjectLIGH *)(reinterpret_cast<TESObjectLIGH*>(referenceID)));
     }
     else
     {
@@ -342,7 +434,7 @@ bool IsObjectNetValid(NiObjectNET* object)
 {
     if (!object)
         return false;
-    if (FUN_0043b300(&DAT_012024e0, reinterpret_cast<NiAVObject*>(object)))
+    if (FUN_0043b300(&(*reinterpret_cast<::NiRTTI *>(&::g_012024e0)), reinterpret_cast<NiAVObject*>(object)))
         return true;
     NiNode* node = object->GetAsNiNode();
     if (node)
@@ -392,7 +484,7 @@ int CountCollisionObjects(NiAVObject* object, bool skipPhantoms, bool skipBlendO
         context.uiFilterFlags |= 2;
     if (skipUnknown)
         context.uiFilterFlags |= 4;
-    FUN_00c68900(object, &context, FUN_004b6740);
+    ::FUN_00c68900((::S_00c68900_Node *)(object), (::S_00c68900_Context *)(::CollisionObjectCountContext *)(&context), (void (*)(void *, S_00c68900_Context *))(((void (&)(NiCollisionObject *, CollisionObjectCountContext *))::FUN_004b6740)));
     return context.iCount;
 }
 
@@ -400,7 +492,7 @@ int CountCollisionObjects(NiAVObject* object, bool skipPhantoms, bool skipBlendO
 // @fnv 0x004b2960
 int NiAVObject::IsVisualObject()
 {
-    return m_spWorldBound && m_spWorldBound->FUN_0084d030() != 0.0;
+    return m_spWorldBound && reinterpret_cast<::Twin_0084d030 *>((m_spWorldBound))->GetStoredFloatValue() != 0.0;
 }
 
 // If a look-at target exists, copies the stored look-at point into point and returns true; otherwise returns false.
@@ -437,7 +529,7 @@ RecipeCraftingInfo* TESRecipe::GetData()
 // @fnv 0x00605d20
 bool IsSettingEnabled()
 {
-    return DAT_011d5a30.Bool()->b;
+    return (*reinterpret_cast<::SettingT< ::INISettingCollection> *>(&::g_011d5a30)).Bool()->b;
 }
 
 // @fnv 0x00888960
@@ -466,16 +558,15 @@ class NiPick
 {
   public:
     bool PerformPick(const NiPoint3&, const NiPoint3&, bool);
+public:
+    void FUN_00705fc0(void *);
 };
 
 class FOPipboyManager
 {
   public:
-    void FUN_00705fc0(NiNode*);
 };
 
-extern const NiPoint3 NiPoint3_ZERO;
-bool __cdecl PickObjectsInRadius(NiPick*, int, int, float, int);
 
 // @fnv 0x004b2780
 bool __cdecl FUN_004b2780(NiPick* pPicker, int p2, int p3, float p4, int p5, bool p6)
@@ -485,10 +576,10 @@ bool __cdecl FUN_004b2780(NiPick* pPicker, int p2, int p3, float p4, int p5, boo
     {
         if (p6)
         {
-            ((FOPipboyManager*)pPicker)->FUN_00705fc0(0);
-            pPicker->PerformPick(NiPoint3_ZERO, NiPoint3_ZERO, false);
+            reinterpret_cast<::NiPick *>((((FOPipboyManager*)pPicker)))->FUN_00705fc0(0);
+            pPicker->PerformPick(::NiPoint3::ZERO, ::NiPoint3::ZERO, false);
         }
-        bResult = PickObjectsInRadius(pPicker, p2, p3, p4, p5);
+        bResult = ::fnv_004b2800::PickObjectsInRadius((::fnv_004b2800::NiPick *)(pPicker), (*(const ::NiPoint3 *)(p2)), (*(const ::NiPoint3 *)(p3)), p4, (::NiAVObject *)(p5));
     }
     return bResult;
 }
@@ -637,7 +728,6 @@ class BGSRagdoll;
 class TESDataHandler
 {
   public:
-    BSSimpleList<BGSRagdoll*>* GetBGSRagdollList();
 };
 
 int __fastcall FUN_004b4f20(void* pThis);
@@ -645,7 +735,7 @@ int __fastcall FUN_004b4f20(void* pThis);
 // @fnv 0x004b4f00
 int __fastcall FUN_004b4f00(TESDataHandler* apDataHandler)
 {
-    return FUN_004b4f20(apDataHandler->GetBGSRagdollList());
+    return FUN_004b4f20(((::BSSimpleList< ::BGSRagdoll *> *)(reinterpret_cast<::FUN_009d9f40_Class *>((apDataHandler))->FUN_009d9f40())));
 }
 
 namespace fnv_004b4ff0 {
@@ -718,17 +808,15 @@ struct blob8
     char b[8];
 };
 
-hkpRigidBody* __fastcall FUN_004ae750(void*);
 float __fastcall FUN_004b4ea0(hkpRigidBody*);
 
 // @fnv 0x004b5400
 float __fastcall FUN_004b5400(void* pThis)
 {
-    hkpRigidBody* pb = FUN_004ae750(pThis);
+    hkpRigidBody* pb = ((::hkpRigidBody *)(::FUN_004ae750(pThis)));
     return pb ? FUN_004b4ea0(pb) : 0.0f;
 }
 
-bool __cdecl FUN_004b5470(const NiPoint3& aPt, float afCompLength);
 
 struct NiPoint3_sub : public NiPoint3
 {
@@ -738,7 +826,7 @@ struct NiPoint3_sub : public NiPoint3
 // @fnv 0x004b5440
 bool __cdecl FUN_004b5440(const NiPoint3& aPt1, const NiPoint3& aPt2, float afCompLength)
 {
-    return FUN_004b5470(((const NiPoint3_sub&)aPt1) - aPt2, afCompLength);
+    return ((bool)(::FUN_004b5470((::TESCombatStyle *)&(const ::NiPoint3 &)(((const NiPoint3_sub&)aPt1) - aPt2), afCompLength)));
 }
 
 float __cdecl FUN_004b5530(float);
@@ -765,16 +853,14 @@ float __cdecl FUN_004b5570(float _Y, float _X)
     return FUN_004b5590(_Y, _X);
 }
 
-int __fastcall FUN_004b5980(const void* collidable);
-void* __cdecl FUN_004b59c0(const void* collidable);
 
 // Returns the result of FUN_004b59c0 when FUN_004b5980 reports 2 for collidable, otherwise returns 0.
 // @fnv 0x004b5950
 void* __cdecl FUN_004b5950(const void* collidable)
 {
-    if (FUN_004b5980(collidable) == 2)
+    if (::FUN_004b5980((int)(collidable)) == 2)
     {
-        return FUN_004b59c0(collidable);
+        return ::FUN_004b59c0((const char *)(collidable));
     }
     return 0;
 }
@@ -785,16 +871,14 @@ const void* __fastcall FUN_004b59d0(const char* apBase)
     return apBase + apBase[0x10];
 }
 
-int __fastcall FUN_004b5980(const void* collidable);
-void* __cdecl FUN_004b59c0(const void* collidable);
 
 // Returns the result of FUN_004b59c0 when FUN_004b5980 reports 1 for collidable, otherwise returns 0.
 // @fnv 0x004b59f0
 void* __cdecl FUN_004b59f0(const void* collidable)
 {
-    if (FUN_004b5980(collidable) == 1)
+    if (::FUN_004b5980((int)(collidable)) == 1)
     {
-        return FUN_004b59c0(collidable);
+        return ::FUN_004b59c0((const char *)(collidable));
     }
     return 0;
 }
@@ -805,53 +889,35 @@ class NiShader
     static NiAVObject* __cdecl DynamicCast(NiAVObject*);
 };
 
-extern char const* const g_012683d0_arg1;
-void* __cdecl DynamicCastByRTTI(const void*, NiAVObject*);
 
 // @fnv 0x004b5ad0
 void* __cdecl FUN_004b5ad0(NiAVObject* apPhantom)
 {
     NiAVObject* pc = NiShader::DynamicCast(apPhantom);
-    return DynamicCastByRTTI(&g_012683d0_arg1, pc);
+    return ((void *)(::FUN_00653270((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<const char *const *>(&::g_01268168))), (::NiObject *)(pc))));
 }
 
 class BSXFlags
 {
   public:
-    unsigned int GetFlags(unsigned int) const;
 };
 
 // @fnv 0x004b5fa0
 bool __fastcall FUN_004b5fa0(const BSXFlags* pThis)
 {
-    return pThis->GetFlags(0x20) != 0;
+    return reinterpret_cast<::FUN_00448a60_struct *>((void *)(pThis))->GetMaskedValue(0x20) != 0;
 }
 
 struct NiPlane_004b6100
 {
-    float Distance(void*);
 };
 struct B_004b6100
 {
     float cx, cy, cz, radius;
     int ClassifySphereAgainstPlane(NiPlane_004b6100* m_kFogPlane);
 };
-// Computes the plane distance to this sphere and returns 2 if fully behind, 1 if fully in front, or 0 if straddling.
-// @fnv 0x004b6100
-int B_004b6100::ClassifySphereAgainstPlane(NiPlane_004b6100* m_kFogPlane)
-{
-    float fDistance = m_kFogPlane->Distance(this);
-    if (fDistance <= -radius)
-        return 2;
-    else if (fDistance >= radius)
-        return 1;
-    else
-        return 0;
-}
-
 struct NiPoint3_ext : NiPoint3
 {
-    float Dot(const NiPoint3& pt) const;
 };
 
 struct FUN_004b6160_class
@@ -860,17 +926,28 @@ struct FUN_004b6160_class
     float d;
     float EvaluatePlane(const NiPoint3& pt) const;
 };
-
-// @fnv 0x004b6160
-float FUN_004b6160_class::EvaluatePlane(const NiPoint3& aPoint) const
+// Computes the plane distance to this sphere and returns 2 if fully behind, 1 if fully in front, or 0 if straddling.
+// @fnv 0x004b6100
+int B_004b6100::ClassifySphereAgainstPlane(NiPlane_004b6100* m_kFogPlane)
 {
-    return normal.Dot(aPoint) - d;
+    float fDistance = reinterpret_cast<::FUN_004b6160_class *>((m_kFogPlane))->EvaluatePlane((*(const ::NiPoint3 *)(this)));
+    if (fDistance <= -radius)
+        return 2;
+    else if (fDistance >= radius)
+        return 1;
+    else
+        return 0;
 }
 
 struct FUN_004b6190_shell : public NiPoint3
 {
     float DotProduct(void*);
 };
+// @fnv 0x004b6160
+float FUN_004b6160_class::EvaluatePlane(const NiPoint3& aPoint) const
+{
+    return reinterpret_cast<::FUN_004b6190_shell *>((void *)&(normal))->DotProduct((void *)&(aPoint)) - d;
+}
 
 // Returns the dot product of this NiPoint3 with the NiPoint3 pointed to by pt.
 // @fnv 0x004b6190
@@ -880,30 +957,26 @@ float FUN_004b6190_shell::DotProduct(void* apPoint)
            z * static_cast<const NiPoint3*>(apPoint)->z;
 }
 
-int __cdecl FUN_00408b20(const char*, const char*);
-extern NiRTTI DAT_011f9140;
-extern NiRTTI g_0126817c;
 
 class TESObjectREFR
 {
   public:
-    unsigned int GetFlags();
 };
 
 // Skips incrementing the counter at data+0xc when the object matches the RTTI checks or is an Arrow; otherwise increments it.
 // @fnv 0x004b6740
 void __cdecl FUN_004b6740(NiAVObject* apObject, char* data)
 {
-    if ((*(unsigned int*)(data + 0x18) & 1) && FUN_0043b300(&g_0126817c, apObject))
+    if ((*(unsigned int*)(data + 0x18) & 1) && FUN_0043b300(&(*reinterpret_cast<::NiRTTI *>(&::g_0126817c)), apObject))
         return;
     if ((*(unsigned int*)(data + 0x18) & 2) &&
-        FUN_0043b300(&DAT_011f9140, (NiAVObject*)((TESObjectREFR*)apObject)->GetFlags()))
+        FUN_0043b300(&(*reinterpret_cast<::NiRTTI *>(&::g_011f9140)), (NiAVObject*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR*)apObject)))->GetName()))))
         return;
-    if ((*(unsigned int*)(data + 0x18) & 2) && ((TESObjectREFR*)apObject)->GetFlags() &&
-        ((BSFadeNode*)((TESTopicInfoData*)((TESObjectREFR*)apObject)->GetFlags())->GetLinkToList())
+    if ((*(unsigned int*)(data + 0x18) & 2) && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR*)apObject)))->GetName())) &&
+        ((BSFadeNode*)((TESTopicInfoData*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR*)apObject)))->GetName())))->GetLinkToList())
             ->FUN_0043b1b0() &&
         !FUN_00408b20(
-            (const char*)((BSFadeNode*)((TESTopicInfoData*)((TESObjectREFR*)apObject)->GetFlags())->GetLinkToList())
+            (const char*)((BSFadeNode*)((TESTopicInfoData*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR*)apObject)))->GetName())))->GetLinkToList())
                 ->FUN_0043b1b0(),
             "Arrow"))
         return;
@@ -940,15 +1013,12 @@ class MobileObject
     bool GetCharControllerFlag() const;
 };
 
-extern bool DAT_011d8a84;
-extern MobileObject g_011d8c4c;
-void* __cdecl FUN_004b7210(void);
 
 // Returns true when DAT_011d8a84 is set and, after calling FUN_004b7210, g_011d8c4c reports its char controller flag.
 // @fnv 0x004b71d0
 bool __cdecl FUN_004b71d0()
 {
-    return DAT_011d8a84 && (FUN_004b7210(), g_011d8c4c.GetCharControllerFlag());
+    return DAT_011d8a84 && (((void *)(::fnv_004b7210::FUN_004b7210())), (*reinterpret_cast<::MobileObject *>(&::g_011d8c4c)).GetCharControllerFlag());
 }
 
 struct FUN_0063f790_shell : public NiBound
@@ -976,8 +1046,6 @@ struct NiPoint3Ex : public NiPoint3
     NiPoint3Ex(float fX, float fY, float fZ);
     NiPoint3Ex operator+(const NiPoint3Ex& pt) const;
     NiPoint3Ex operator-(const NiPoint3& pt) const;
-    float Length() const;
-    void ComputeMagnitude();
 };
 
 // @fnv 0x004b1e80
@@ -1106,14 +1174,14 @@ bool FUN_004b1e80(const tagRECT* aTestRect, const NiPoint3* aStartPt, const NiPo
                     NiPoint3Ex intersect1vect = intersect1 - *aStartPt;
                     linevect.z = 0.0f;
                     intersect1vect.z = 0.0f;
-                    linevect.ComputeMagnitude();
-                    intersect1vect.ComputeMagnitude();
-                    if ((linevect + intersect1vect).Length() > 1.0)
+                    reinterpret_cast<::FUN_004a0c10_s *>(&(linevect))->FUN_004a0c10();
+                    reinterpret_cast<::FUN_004a0c10_s *>(&(intersect1vect))->FUN_004a0c10();
+                    if (reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::NiPoint3Ex &)((linevect + intersect1vect)))->ComputeMagnitude() > 1.0)
                         *aOutputIntersectPt = intersect1;
                     else
                         *aOutputIntersectPt = intersect2;
                 }
-                else if ((intersect1 - *aStartPt).Length() < (intersect2 - *aStartPt).Length())
+                else if (reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::NiPoint3Ex &)((intersect1 - *aStartPt)))->ComputeMagnitude() < reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::NiPoint3Ex &)((intersect2 - *aStartPt)))->ComputeMagnitude())
                 {
                     *aOutputIntersectPt = intersect1;
                 }
@@ -1133,7 +1201,6 @@ bool FUN_004b1e80(const tagRECT* aTestRect, const NiPoint3* aStartPt, const NiPo
 
 struct bhkRefObject
 {
-    bhkRefObject* Initialize();
 };
 
 extern unsigned char DAT_0102023c;
@@ -1151,7 +1218,7 @@ struct FUN_004b5120 : bhkRefObject
 // @fnv 0x004b5120
 FUN_004b5120::FUN_004b5120()
 {
-    Initialize();
+    reinterpret_cast<::FUN_00c87c30_t *>(this)->FUN_00c87c30();
     *reinterpret_cast<void**>(this) = &DAT_0102023c;
     *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xc) = 0;
 }
@@ -1163,21 +1230,18 @@ struct FUN_004b51a0_shell
 
 struct FUN_00c87970_shell
 {
-    void __thiscall FUN_00c87970();
 };
 
-void __cdecl __Dummy_00b6fef0(void* obj, unsigned int size);
 
 // @fnv 0x004b51a0
 void* FUN_004b51a0_shell::FUN_004b51a0(unsigned int flags)
 {
-    ((FUN_00c87970_shell*)this)->FUN_00c87970();
+    reinterpret_cast<::FUN_00c87970 *>((((FUN_00c87970_shell*)this)))->FUN_00c87970::~FUN_00c87970();
     if (flags & 1)
-        __Dummy_00b6fef0(this, 0x10);
+        ::FUN_00aa1460(this, 0x10);
     return this;
 }
 
-extern const char* const g_0126812c_arg1;
 
 struct FUN_004b51d0_shell
 {
@@ -1187,10 +1251,9 @@ struct FUN_004b51d0_shell
 // @fnv 0x004b51d0
 const char* const* __thiscall FUN_004b51d0_shell::GetRTTI()
 {
-    return &g_0126812c_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_0126811c));
 }
 
-extern const NiRTTI g_0126812c;
 
 struct FUN_004b5210_shell
 {
@@ -1200,7 +1263,7 @@ struct FUN_004b5210_shell
 // @fnv 0x004b5210
 const NiRTTI* FUN_004b5210_shell::GetRTTI() const
 {
-    return &g_0126812c;
+    return &(*reinterpret_cast<const ::NiRTTI *>(&::g_0126812c));
 }
 
 // @fnv 0x004b59a0
@@ -1234,18 +1297,19 @@ const NiFixedString& FUN_004b5f90()
 }
 
 struct bhkWorldObject;
+class NiAVObject;
 struct bhkCollisionObject
 {
-    bhkWorldObject* FUN_006fa820();
+public:
+    static ::bhkCollisionObject *GetFromNiAVObject(::NiAVObject *);
 };
-int __fastcall GetReferenceFlags(void*);
 
 // Gets the collision object's world object and, if it exists and GetReferenceFlags returns nonzero, increments the fourth int of arg.
 // @fnv 0x004b6b20
 void __cdecl FUN_004b6b20(bhkCollisionObject* apCollisionObject, void* apData)
 {
-    bhkWorldObject* result = apCollisionObject->FUN_006fa820();
-    if (result && GetReferenceFlags(result))
+    bhkWorldObject* result = ((::bhkWorldObject *)(::fnv_006fa820::FUN_006fa820((const char *)(apCollisionObject))));
+    if (result && ((int)(reinterpret_cast<::FUN_00620b80_shell *>((result))->GetReferenceFlags())))
         ((int*)apData)[3]++;
 }
 
@@ -1253,18 +1317,16 @@ namespace fnv_004b6bc0 {
 struct bhkWorldObject;
 struct bhkCollisionObject
 {
-    bhkWorldObject* FUN_006fa820(void);
 };
 
-int __fastcall GetReferenceFlags(bhkWorldObject*);
 
 // @fnv 0x004b6bc0
 void FUN_004b6bc0(bhkCollisionObject* apCollisionObject, void* dest)
 {
-    bhkWorldObject* w = apCollisionObject->FUN_006fa820();
+    bhkWorldObject* w = ((::fnv_004b6bc0::bhkWorldObject *)(::fnv_006fa820::FUN_006fa820((const char *)(apCollisionObject))));
     if (w)
     {
-        int r = GetReferenceFlags(w);
+        int r = ((int)(reinterpret_cast<::FUN_00620b80_shell *>((w))->GetReferenceFlags()));
         if (r)
         {
             if (r == ((int*)dest)[4])
@@ -1280,18 +1342,16 @@ void FUN_004b6bc0(bhkCollisionObject* apCollisionObject, void* dest)
 namespace fnv_004b6c70 {
 struct bhkCollisionObject
 {
-    int* FUN_006fa820();
 };
 
-int __fastcall GetReferenceFlags(int* obj);
 
 // @fnv 0x004b6c70
 void __cdecl FUN_004b6c70(bhkCollisionObject* apCollisionObject, int* arg2)
 {
-    int* obj = apCollisionObject->FUN_006fa820();
+    int* obj = ((int *)(::fnv_006fa820::FUN_006fa820((const char *)(apCollisionObject))));
     if (obj)
     {
-        int result = GetReferenceFlags(obj);
+        int result = ((int)(reinterpret_cast<::FUN_00620b80_shell *>((obj))->GetReferenceFlags()));
         if (result)
         {
             if (arg2[3] == arg2[5])
@@ -1307,12 +1367,11 @@ void __cdecl FUN_004b6c70(bhkCollisionObject* apCollisionObject, int* arg2)
 
 namespace fnv_004b7210 {
 struct UIRoot;
-extern UIRoot* DAT_011d8a80;
 
 // @fnv 0x004b7210
 UIRoot* FUN_004b7210()
 {
-    return DAT_011d8a80;
+    return (*reinterpret_cast<::fnv_004b7210::UIRoot * *>(&::DAT_011d8a80));
 }
 }  // namespace fnv_004b7210
 
@@ -1322,8 +1381,6 @@ struct FUN_004b5120
     FUN_004b5120();
 };
 
-extern int DAT_0102016c;
-extern int DAT_01268154;
 
 struct FUN_004b50f0 : FUN_004b5120
 {
@@ -1338,12 +1395,11 @@ FUN_004b5120::FUN_004b5120()
 // @fnv 0x004b50f0
 FUN_004b50f0::FUN_004b50f0()
 {
-    m_p = &DAT_0102016c;
-    ++DAT_01268154;
+    m_p = &::DAT_0102016c;
+    ++::DAT_01268154;
 }
 }  // namespace fnv_004b50f0
 
-extern char const* const g_01268100_arg1;
 
 struct FUN_004b5150_shell
 {
@@ -1353,28 +1409,25 @@ struct FUN_004b5150_shell
 // @fnv 0x004b5150
 char const* const* __thiscall FUN_004b5150_shell::FUN_004b5150()
 {
-    return &g_01268100_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_01268134));
 }
 
 struct bhkSerializable
 {
-    void Destroy();
     void* FUN_004b5160(unsigned int flags);
 };
 
-extern void _delete(void* ptr, unsigned int size);
 
 // Calls Destroy on this, then frees this with _delete when flags has bit 0 set, and returns this.
 // @fnv 0x004b5160
 void* bhkSerializable::FUN_004b5160(unsigned int flags)
 {
-    this->Destroy();
+    reinterpret_cast<::FUN_00c877b0 *>((this))->FUN_00c877b0::~FUN_00c877b0();
     if (flags & 1)
-        _delete(this, 0x10);
+        ::FUN_00aa1460(this, 0x10);
     return this;
 }
 
-extern const char* const g_0126811c_arg1;
 
 struct FUN_004b5190_shell
 {
@@ -1384,14 +1437,14 @@ struct FUN_004b5190_shell
 // @fnv 0x004b5190
 const char* const* FUN_004b5190_shell::FUN_004b5190()
 {
-    return &g_0126811c_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_01268158));
 }
 
 struct bhkUnaryAction
 {
-    void __thiscall FUN_00c86720();
+public:
+    void Set(float, float, float, float);
 };
-extern void __cdecl _delete(void* ptr, unsigned int size);
 
 struct FUN_004b51e0_shell : bhkUnaryAction
 {
@@ -1401,9 +1454,9 @@ struct FUN_004b51e0_shell : bhkUnaryAction
 // @fnv 0x004b51e0
 void* __thiscall FUN_004b51e0_shell::FUN_004b51e0(unsigned int flags)
 {
-    this->FUN_00c86720();
+    reinterpret_cast<::FUN_00c86720 *>((this))->FUN_00c86720::~FUN_00c86720();
     if (flags & 1)
-        _delete(this, 16);
+        ::FUN_00aa1460(this, 16);
     return this;
 }
 
@@ -1440,7 +1493,7 @@ struct UnaryActionSettings
 // @fnv 0x004b4d10
 bhkUnaryAction* UnaryActionSettings::ApplyToAction(bhkUnaryAction* apAction)
 {
-    apAction->Set(f00, f04, f08, f0C);
+    reinterpret_cast<::bhkUnaryAction *>((apAction))->Set(f00, f04, f08, f0C);
     return apAction;
 }
 }  // namespace fnv_004b4d10
@@ -1453,7 +1506,6 @@ struct FUN_004b4ee0_shell
 };
 struct TESDataHandler
 {
-    BSSimpleList_Ragdoll* GetBGSRagdollList();
 };
 struct FUN_004b4ec0_shell
 {
@@ -1462,7 +1514,7 @@ struct FUN_004b4ec0_shell
 // @fnv 0x004b4ec0
 void FUN_004b4ec0_shell::FUN_004b4ec0()
 {
-    ((FUN_004b4ee0_shell*)((TESDataHandler*)this)->GetBGSRagdollList())->FUN_004b4ee0();
+    ((FUN_004b4ee0_shell*)((::fnv_004b4ec0::BSSimpleList_Ragdoll *)(reinterpret_cast<::FUN_009d9f40_Class *>((((TESDataHandler*)this)))->FUN_009d9f40())))->FUN_004b4ee0();
 }
 }  // namespace fnv_004b4ec0
 
@@ -1477,17 +1529,13 @@ void __thiscall FUN_004b4f20_shell::FUN_004b4f20()
     ((void(__thiscall*)(void*))_ref_006815c0)((char*)this + 0x10);
 }
 
-extern float DAT_0101b2d0;
-extern float const g_011cc6cc_arg1;
 struct Base537
 {
     char _d[0x10];
-    void FUN_00537bb0();
 };
 struct Mem4fa0
 {
     char _d[0x10];
-    void FUN_004b4fa0();
 };
 struct FUN_004b4f40 : Base537
 {
@@ -1499,47 +1547,41 @@ struct FUN_004b4f40 : Base537
     float f3c;
     FUN_004b4f40();
 };
+struct FUN_004b4fa0_shell
+{
+    void* __fastcall FUN_004b4fa0();
+};
 // Calls base and member initializers, then sets f30 to 0.5, f34 to 0.3, f38 to DAT_0101b2d0 and f3c to g_011cc6cc_arg1.
 // @fnv 0x004b4f40
 FUN_004b4f40::FUN_004b4f40()
 {
-    FUN_00537bb0();
-    m10.FUN_004b4fa0();
-    m20.FUN_004b4fa0();
+    reinterpret_cast<::Cl537 *>(this)->FUN_00537bb0();
+    reinterpret_cast<::FUN_004b4fa0_shell *>(&(m10))->FUN_004b4fa0();
+    reinterpret_cast<::FUN_004b4fa0_shell *>(&(m20))->FUN_004b4fa0();
     f30 = 0.5f;
     f34 = 0.3f;
     f38 = DAT_0101b2d0;
     f3c = g_011cc6cc_arg1;
 }
 
-struct FUN_004b4fa0_shell
-{
-    void* __fastcall FUN_004b4fa0();
-};
-
-void* __fastcall FUN_004b4fc0(void*);
-
-// @fnv 0x004b4fa0
-void* __fastcall FUN_004b4fa0_shell::FUN_004b4fa0()
-{
-    FUN_004b4fc0(this);
-    return this;
-}
 
 struct S_004b4fc0
 {
-    void FUN_004b4ff0(float, float, float, float);
     void FUN_004b4fc0();
 };
+// @fnv 0x004b4fa0
+void* __fastcall FUN_004b4fa0_shell::FUN_004b4fa0()
+{
+    reinterpret_cast<::S_004b4fc0 *>((this))->FUN_004b4fc0();
+    return this;
+}
 // Calls FUN_004b4ff0 with four zero float arguments.
 // @fnv 0x004b4fc0
 void S_004b4fc0::FUN_004b4fc0()
 {
-    FUN_004b4ff0(0.0f, 0.0f, 0.0f, 0.0f);
+    reinterpret_cast<::fnv_004b4ff0::FUN_004b4ff0_shell *>(this)->FUN_004b4ff0(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
-extern int DAT_0102009c;
-extern int DAT_01268118;
 struct Fake004b50c0
 {
     void FUN_004b50f0();
@@ -1548,7 +1590,7 @@ struct Fake004b50c0
 // @fnv 0x004b50c0
 Fake004b50c0* Fake004b50c0::FUN_004b50c0()
 {
-    FUN_004b50f0();
+    new ((void *)this) ::fnv_004b50f0::FUN_004b50f0();
     *(int*)this = (int)&DAT_0102009c;
     DAT_01268118++;
     return this;
@@ -1556,24 +1598,21 @@ Fake004b50c0* Fake004b50c0::FUN_004b50c0()
 
 struct bhkMouseSpringAction
 {
-    void __thiscall FUN_00c86cb0();
     void* __thiscall FUN_004b5230(unsigned int);
 };
-void __cdecl _delete(void*, unsigned int);
 // Calls FUN_00c86cb0, frees this with _delete when flags has bit 0 set, and returns this.
 // @fnv 0x004b5230
 void* __thiscall bhkMouseSpringAction::FUN_004b5230(unsigned int flags)
 {
-    this->FUN_00c86cb0();
+    reinterpret_cast<::FUN_00c86cb0 *>((this))->FUN_00c86cb0::~FUN_00c86cb0();
     if (flags & 1)
-        _delete(this, 0x10);
+        ::FUN_00aa1460(this, 0x10);
     return this;
 }
 
 namespace fnv_004b5260 {
 struct bhkCollisionObject
 {
-    static NiAVObject* GetFromNiAVObject(NiAVObject*);
 };
 // @fnv 0x004b5260
 NiAVObject* FUN_004b5260(NiAVObject* object)
@@ -1581,7 +1620,7 @@ NiAVObject* FUN_004b5260(NiAVObject* object)
     NiAVObject* result = 0;
     if (object)
     {
-        result = bhkCollisionObject::GetFromNiAVObject(object);
+        result = ((::NiAVObject *)(::bhkCollisionObject::GetFromNiAVObject(object)));
         if (!result)
         {
             NiNode* node = object->GetAsNiNode();
@@ -1647,14 +1686,13 @@ float __cdecl FUN_004b54c0(float afValue)
 struct GlobalObjectO2_00a7b610
 {
 };
-extern GlobalObjectO2_00a7b610 g_011f3728;
 // Returns true if object or any descendant NiNode child has a controller matching g_011f3728; recurses through children.
 // @fnv 0x004b5bf0
 bool FUN_004b5bf0(NiAVObject* object)
 {
     if (!object)
         return false;
-    if (object->GetController(reinterpret_cast<const NiRTTI*>(&g_011f3728)))
+    if (((::NiTimeController *)(reinterpret_cast<::MyHost *>((object))->FUN_00a5c570((const ::MyRTTI *)(const ::NiRTTI *)(reinterpret_cast<const NiRTTI*>(&::g_011f3728))))))
         return true;
     NiNode* node = object->GetAsNiNode();
     if (node)
@@ -1700,7 +1738,6 @@ struct IntegerAndByteRecord
     int _18;
 };
 }
-void __cdecl FUN_004b6b20(NiCollisionObject*, CollisionObjectCountContext*);
 // @fnv 0x004b6ae0
 int FUN_004b6ae0(NiAVObject* apRoot)
 {
@@ -1708,7 +1745,7 @@ int FUN_004b6ae0(NiAVObject* apRoot)
     recData._08 = 18;
     recData._04 = 1;
     recData._0C = 0;
-    FUN_00c68900(apRoot, reinterpret_cast<CollisionObjectCountContext*>(&recData), FUN_004b6b20);
+    ::FUN_00c68900((::S_00c68900_Node *)(apRoot), (::S_00c68900_Context *)(::CollisionObjectCountContext *)(reinterpret_cast<CollisionObjectCountContext*>(&recData)), (void (*)(void *, S_00c68900_Context *))(((void (&)(NiCollisionObject *, CollisionObjectCountContext *))::FUN_004b6b20)));
     return recData._0C;
 }
 
@@ -1729,7 +1766,6 @@ struct IntegerAndByteRecord
     int _24;
 };
 }
-void __cdecl FUN_004b6c70(NiCollisionObject*, CollisionObjectCountContext*);
 // @fnv 0x004b6c20
 hkpWorldObject* FindCollisionObjectByIndex(NiAVObject* apRoot, int aiIndex)
 {
@@ -1739,7 +1775,7 @@ hkpWorldObject* FindCollisionObjectByIndex(NiAVObject* apRoot, int aiIndex)
     recData._12 = 0;
     recData._16 = 0;
     recData._20 = aiIndex;
-    FUN_00c68900(apRoot, (CollisionObjectCountContext*)&recData, FUN_004b6c70);
+    ::FUN_00c68900((::S_00c68900_Node *)(apRoot), (::S_00c68900_Context *)(::CollisionObjectCountContext *)((CollisionObjectCountContext*)&recData), (void (*)(void *, S_00c68900_Context *))(((void (&)(NiCollisionObject *, CollisionObjectCountContext *))::fnv_004b6c70::FUN_004b6c70)));
     return recData._16;
 }
 }  // namespace fnv_004b6c20
@@ -1780,13 +1816,10 @@ unsigned int FUN_004b70d0_shell::FUN_004b70d0()
 struct Sub004B
 {
     char pad[16];
-    void FUN_004b4fa0();
-    void FUN_004b4ff0(float, float, float, float);
 };
 struct Sub0056
 {
     char pad[16];
-    void FUN_0056e8d0();
 };
 struct Owner0066d650
 {
@@ -1798,22 +1831,19 @@ struct Owner0066d650
 // @fnv 0x0066d650
 Owner0066d650* Owner0066d650::Reset()
 {
-    f0.FUN_0056e8d0();
-    f10.FUN_004b4fa0();
-    f20.FUN_004b4fa0();
-    f20.FUN_004b4ff0(1.0f, 0.0f, 0.0f, 0.0f);
+    reinterpret_cast<::FUN_0056e900_shell *>(&(f0))->FUN_0056e8d0();
+    reinterpret_cast<::FUN_004b4fa0_shell *>(&(f10))->FUN_004b4fa0();
+    reinterpret_cast<::FUN_004b4fa0_shell *>(&(f20))->FUN_004b4fa0();
+    reinterpret_cast<::fnv_004b4ff0::FUN_004b4ff0_shell *>(&(f20))->FUN_004b4ff0(1.0f, 0.0f, 0.0f, 0.0f);
     return this;
 }
 
 namespace fnv_004b2800 {
 struct NiPick
 {
-    void FUN_00705fc0(void*);
-    bool PerformPick(const NiPoint3&, const NiPoint3&, bool);
 };
 struct FUN_00456630_helper
 {
-    bool FUN_00456610();
 };
 struct FUN_0043d450_Owner
 {
@@ -1822,7 +1852,6 @@ struct FUN_0043d450_Owner
 struct Pt
 {
     float x, y, z;
-    float Length() const;
 };
 struct NiPoint3Ex
 {
@@ -1833,20 +1862,18 @@ struct FUN_004b2800_Bound
 {
     float x, y, z, r;
 };
-bool __fastcall GetByteAtOffset17(const char*);
-NiPoint3Ex* __fastcall _ref_006815c0(FUN_004b2800_Bound*);
 
 // @fnv 0x004b2800
 bool PickObjectsInRadius(NiPick* pick, const NiPoint3& origin, const NiPoint3& dir, float radius, NiAVObject* object)
 {
     bool result = false;
-    if (pick && object && (!GetByteAtOffset17((const char*)pick) || !((FUN_00456630_helper*)object)->FUN_00456610()))
+    if (pick && object && (!((bool)(::GetByteAtOffset17((const char*)pick))) || !reinterpret_cast<::FUN_00456630_helper *>((((FUN_00456630_helper*)object)))->FUN_00456610()))
     {
         if (!object->IsVisualObject())
             return false;
         FUN_004b2800_Bound kBound = *(FUN_004b2800_Bound*)((FUN_0043d450_Owner*)object)->FUN_0043d450();
-        NiPoint3Ex kDiff = *_ref_006815c0(&kBound) - origin;
-        if (((Pt*)&kDiff)->Length() < ((NiBound*)&kBound)->FUN_0084d030() + radius)
+        NiPoint3Ex kDiff = *((::fnv_004b2800::NiPoint3Ex *)(new ((void *)(&kBound)) ::Vec3())) - origin;
+        if (reinterpret_cast<::NiPoint3 *>((void *)(((Pt*)&kDiff)))->ComputeMagnitude() < reinterpret_cast<::Twin_0084d030 *>((((NiBound*)&kBound)))->GetStoredFloatValue() + radius)
         {
             NiNode* node = object->GetAsNiNode();
             if (node)
@@ -1861,8 +1888,8 @@ bool PickObjectsInRadius(NiPick* pick, const NiPoint3& origin, const NiPoint3& d
             }
             else
             {
-                pick->FUN_00705fc0(object);
-                if (pick->PerformPick(origin, dir, true))
+                reinterpret_cast<::NiPick *>((pick))->FUN_00705fc0(object);
+                if (reinterpret_cast<::NiPick *>((pick))->PerformPick(origin, dir, true))
                     result = true;
             }
         }
@@ -1956,7 +1983,6 @@ struct BSShaderProperty : public NiShadeProperty
     bool CompareFlags(BSShaderProperty*);
     bool GetFlag(unsigned int);
     void SetFlag(unsigned int, bool);
-    void SetAlpha(float);
     float GetAlpha();
     float GetFadeAlpha();
     void SetFadeAlpha(float);
@@ -2222,7 +2248,6 @@ typedef char _sizecheck_BSShaderPPLightingProperty[sizeof(BSShaderPPLightingProp
 
 struct NiNode_00558310
 {
-    NiAVObject* FUN_0045bc00(unsigned int);
 };
 struct VObj_004b5710
 {
@@ -2231,8 +2256,6 @@ struct VObj_004b5710
     virtual void v2();
     virtual NiNode* IsSceneNode();
 };
-int __cdecl FUN_00438220();
-BSShaderPPLightingProperty* __cdecl FindAcceptedForm(NiNode*);
 // Scans the node's children in reverse for a BSShaderPPLightingProperty, returning it if found, otherwise falling back to FindAcceptedForm.
 // @fnv 0x004b5710
 BSShaderPPLightingProperty* __cdecl FindPPLightingProperty(NiNode* apNode)
@@ -2248,17 +2271,17 @@ BSShaderPPLightingProperty* __cdecl FindPPLightingProperty(NiNode* apNode)
             NiNode* pnode = ((VObj_004b5710*)pobj)->IsSceneNode();
             if (pnode)
             {
-                NiAVObject* pchild = ((NiNode_00558310*)pnode)->FUN_0045bc00(0);
+                NiAVObject* pchild = ((::NiAVObject *)(reinterpret_cast<::S_FUN_0045bc00 *>((((NiNode_00558310*)pnode)))->FUN_0045bc00(0)));
                 if (pchild)
                 {
-                    NiShadeProperty* pproperty = (NiShadeProperty*)pchild->GetProperty(FUN_00438220());
+                    NiShadeProperty* pproperty = (NiShadeProperty*)((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((pchild))->FUN_00a59d30(FUN_00438220())));
                     if (pproperty)
                     {
                         BSShaderPPLightingProperty* plightingProperty =
                             (BSShaderPPLightingProperty*)((pproperty == 0
                                                                ? 0
-                                                               : (((NiTimeController*)pproperty)->FUN_00441110() >= 8 &&
-                                                                  ((NiTimeController*)pproperty)->FUN_00441110() <= 12))
+                                                               : (((int)(reinterpret_cast<::BGSTerrainManager *>((((NiTimeController*)pproperty)))->GetMinLevel())) >= 8 &&
+                                                                  ((int)(reinterpret_cast<::BGSTerrainManager *>((((NiTimeController*)pproperty)))->GetMinLevel())) <= 12))
                                                               ? pproperty
                                                               : 0);
                         if (plightingProperty)
@@ -2271,21 +2294,19 @@ BSShaderPPLightingProperty* __cdecl FindPPLightingProperty(NiNode* apNode)
             break;
         n--;
     }
-    return FindAcceptedForm(apNode);
+    return ((::BSShaderPPLightingProperty *)(::FindAcceptedForm((::FNVNode *)(apNode))));
 }
 
-extern double _gModifierZero;
-extern double DAT_0101ff58;
 
 // @fnv 0x004b15e0
 float __cdecl FUN_004b15e0(float startAngle, float targetAngle, float* pfOutDir)
 {
     float angleDelta = targetAngle - startAngle;
     *pfOutDir = 0.0f;
-    if (angleDelta != _gModifierZero)
+    if (angleDelta != ::_DAT_01012060)
     {
         *pfOutDir = 1.0f;
-        if (angleDelta < _gModifierZero)
+        if (angleDelta < ::_DAT_01012060)
         {
             if (angleDelta > DAT_0101ff58)
                 *pfOutDir = -1.0f;
@@ -2303,7 +2324,6 @@ float __cdecl FUN_004b15e0(float startAngle, float targetAngle, float* pfOutDir)
 
 struct Model
 {
-    NiNode* GetObject3D();
 };
 struct CtlV
 {
@@ -2314,23 +2334,22 @@ struct FUN_00621b20_Class
     void FUN_00621b20(float);
     CtlV* GetNext();
 };
-extern const NiRTTI DAT_011f4428;
 // @fnv 0x004b70f0
 void FUN_004b70f0(NiNode* apNode, float afPhase)
 {
     if (!apNode)
         return;
-    NiTimeController* pcont = (NiTimeController*)((Model*)apNode)->GetObject3D();
+    NiTimeController* pcont = (NiTimeController*)((::NiNode *)(::fnv_0043b230::FUN_0043b230((const char *)(((Model*)apNode)))));
     while (pcont)
     {
         ((FUN_00621b20_Class*)pcont)->FUN_00621b20(afPhase);
-        pcont = (NiTimeController*)((FUN_00621b20_Class*)pcont)->GetNext();
+        pcont = (NiTimeController*)((::CtlV *)(::fnv_004a8a90::FUN_004a8a90((char *)(((FUN_00621b20_Class*)pcont)))));
     }
     unsigned int n = 0;
     for (; n < apNode->FUN_0043b480(); ++n)
     {
         NiAVObject* pobj = apNode->GetAt(n);
-        if (pobj && FUN_0043b300(&DAT_011f4428, pobj))
+        if (pobj && FUN_0043b300(&(*reinterpret_cast<const ::NiRTTI *>(&::g_011f4428)), pobj))
             FUN_004b70f0((NiNode*)pobj, afPhase);
     }
 }
@@ -2342,14 +2361,11 @@ struct NiBoundStandIn
     float m_acCenter[3];
     NiBoundStandIn();
 };
-bool IsBoundVisible(NiBoundStandIn*, NiCamera*);
 struct FUN_0098ddd0_shell
 {
-    void FUN_0098ddd0(NiPoint3&);
 };
 struct PackageTargetRecord
 {
-    void SetTargAcquireRadius(float);
 };
 // @fnv 0x004b61d0
 bool FUN_004b61d0(NiPoint3 location, NiCamera* camera, float radius)
@@ -2357,25 +2373,23 @@ bool FUN_004b61d0(NiPoint3 location, NiCamera* camera, float radius)
     if (!camera)
         return false;
     NiBoundStandIn sphere;
-    ((FUN_0098ddd0_shell*)&sphere)->FUN_0098ddd0(location);
-    ((PackageTargetRecord*)&sphere)->SetTargAcquireRadius(radius);
-    return IsBoundVisible(&sphere, camera);
+    reinterpret_cast<::fnv_0098ddd0::FUN_0098ddd0_shell *>((((FUN_0098ddd0_shell*)&sphere)))->FUN_0098ddd0((void *)&(location));
+    reinterpret_cast<::FUN_0063f790_shell *>((((PackageTargetRecord*)&sphere)))->FUN_0063f790(radius);
+    return ::IsBoundVisible((::NiBound *)(::NiBoundStandIn *)(&sphere), camera);
 }
 
-extern const char* const g_0120043c_arg1;
 struct _UseSaveGameBlocks;
 _UseSaveGameBlocks* _UseSaveGameBlocks(const char* const*, void*);
 struct PropHelper
 {
-    void AssignRefObj(unsigned int);
 };
 void FUN_004b6630(NiAVObject*);
 // @fnv 0x004b6630
 void FUN_004b6630(NiAVObject* object)
 {
-    PropHelper* result = (PropHelper*)_UseSaveGameBlocks(&g_0120043c_arg1, object->GetProperty(3));
+    PropHelper* result = (PropHelper*)((::_UseSaveGameBlocks *)(::FUN_00653270((const ::NiRTTI *)(const char *const *)(&(*reinterpret_cast<const char *const *>(&::g_011fa010))), (::NiObject *)(void *)(((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((object))->FUN_00a59d30(3)))))));
     if (result)
-        result->AssignRefObj(0);
+        reinterpret_cast<::fnv_00b675c0::FUN_00b675c0_shell *>((result))->AssignRefObj((::fnv_00b675c0::RefObj *)(0));
     NiNode* node = object->GetAsNiNode();
     if (node)
     {
@@ -2391,7 +2405,6 @@ void FUN_004b6630(NiAVObject* object)
 namespace fnv_004b4ea0 {
 struct hkpMotion
 {
-    float GetMassValue(void);
 };
 
 typedef hkpMotion BSSimpleList_Ragdoll;
@@ -2399,41 +2412,35 @@ typedef hkpMotion BSSimpleList_Ragdoll;
 class TESDataHandler
 {
   public:
-    BSSimpleList_Ragdoll* GetBGSRagdollList(void);
     float FUN_004b4ea0();
 };
 
 // @fnv 0x004b4ea0
 float TESDataHandler::FUN_004b4ea0()
 {
-    return GetBGSRagdollList()->GetMassValue();
+    return reinterpret_cast<::MotionMassView *>((((::fnv_004b4ea0::hkpMotion *)(reinterpret_cast<::FUN_009d9f40_Class *>(this)->FUN_009d9f40()))))->FUN_00c86430();
 }
 }  // namespace fnv_004b4ea0
 
 struct FUN_004b5020_shell
 {
     int vftable;
-    void _ref_006815c0();
     FUN_004b5020_shell* FUN_004b5020();
 };
 
 // @fnv 0x004b5020
 FUN_004b5020_shell* FUN_004b5020_shell::FUN_004b5020()
 {
-    _ref_006815c0();
+    new ((void *)this) ::Vec3();
     vftable = 0;
     return this;
 }
 
 namespace fnv_004b68a0 {
-int __cdecl FUN_00408b20(char const*, char const*);
 
-extern void const* const DAT_011f9140;
-extern NiRTTI g_0126817c;
 
 struct ArrSI
 {
-    unsigned int GetFlags();
 };
 
 struct FUN_004b68a0_data
@@ -2451,20 +2458,20 @@ struct FUN_004b68a0_data
 // @fnv 0x004b68a0
 void FUN_004b68a0(ArrSI* object, FUN_004b68a0_data* data)
 {
-    if ((data->field_18 & 1) && FUN_0043b300(&g_0126817c, reinterpret_cast<NiAVObject*>(object)))
+    if ((data->field_18 & 1) && FUN_0043b300(&(*reinterpret_cast<::NiRTTI *>(&::g_0126817c)), reinterpret_cast<NiAVObject*>(object)))
         return;
 
     if ((data->field_18 & 2) &&
-        FUN_0043b300(reinterpret_cast<const NiRTTI*>(&DAT_011f9140), reinterpret_cast<NiAVObject*>(object->GetFlags())))
+        FUN_0043b300(reinterpret_cast<const NiRTTI*>(&(*reinterpret_cast<const void *const *>(&::g_011f9140))), reinterpret_cast<NiAVObject*>(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((object))->GetName())))))
         return;
 
-    if ((data->field_18 & 2) && object->GetFlags() &&
-        reinterpret_cast<BSFadeNode*>(reinterpret_cast<TESTopicInfoData*>(object->GetFlags())->GetLinkToList())
+    if ((data->field_18 & 2) && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((object))->GetName())) &&
+        reinterpret_cast<BSFadeNode*>(reinterpret_cast<TESTopicInfoData*>(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((object))->GetName())))->GetLinkToList())
             ->FUN_0043b1b0())
     {
-        if (!FUN_00408b20(reinterpret_cast<char const*>(
+        if (!::FUN_00408b20(reinterpret_cast<char const*>(
                               reinterpret_cast<BSFadeNode*>(
-                                  reinterpret_cast<TESTopicInfoData*>(object->GetFlags())->GetLinkToList())
+                                  reinterpret_cast<TESTopicInfoData*>(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((object))->GetName())))->GetLinkToList())
                                   ->FUN_0043b1b0()),
                           "Arrow"))
             return;
@@ -2479,7 +2486,6 @@ void FUN_004b68a0(ArrSI* object, FUN_004b68a0_data* data)
 
 struct ArrSI
 {
-    unsigned int GetFlags();
 };
 
 struct FUN_004b6a00_data
@@ -2493,11 +2499,8 @@ struct FUN_004b6a00_data
     unsigned int field_18;
 };
 
-extern NiRTTI DAT_011f9140;
-extern NiRTTI g_0126817c;
 extern const char $SG20273[];
 
-int __cdecl FUN_00408b20(char const*, char const*);
 
 // Checks object against data flags and RTTI, stores it in field_10 when field_0c equals field_14, then increments field_0c.
 // @fnv 0x004b6a00
@@ -2505,28 +2508,28 @@ void __cdecl ProcessObjectMatch(NiAVObject* object, FUN_004b6a00_data* data)
 {
     if (data->field_18 & 1)
     {
-        if (FUN_0043b300(&g_0126817c, object))
+        if (FUN_0043b300(&(*reinterpret_cast<::NiRTTI *>(&::g_0126817c)), object))
             return;
     }
 
     if (data->field_18 & 2)
     {
-        if (FUN_0043b300(&DAT_011f9140, reinterpret_cast<NiAVObject*>(reinterpret_cast<ArrSI*>(object)->GetFlags())))
+        if (FUN_0043b300(&(*reinterpret_cast<::NiRTTI *>(&::g_011f9140)), reinterpret_cast<NiAVObject*>(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(object)))->GetName())))))
             return;
     }
 
     if (data->field_18 & 2)
     {
-        if (reinterpret_cast<ArrSI*>(object)->GetFlags())
+        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(object)))->GetName())))
         {
             if (reinterpret_cast<BSFadeNode*>(
-                    reinterpret_cast<TESTopicInfoData*>(reinterpret_cast<ArrSI*>(object)->GetFlags())
+                    reinterpret_cast<TESTopicInfoData*>(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(object)))->GetName())))
                         ->GetLinkToList())
                     ->FUN_0043b1b0())
             {
                 if (!FUN_00408b20(static_cast<char const*>(
                                       reinterpret_cast<BSFadeNode*>(reinterpret_cast<TESTopicInfoData*>(
-                                                                        reinterpret_cast<ArrSI*>(object)->GetFlags())
+                                                                        ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(object)))->GetName())))
                                                                         ->GetLinkToList())
                                           ->FUN_0043b1b0()),
                                   $SG20273))
@@ -2560,7 +2563,6 @@ struct BSShaderLightingProperty : A51BF0Base
 
 struct NiAVObject_Attach
 {
-    void AttachProperty(NiObject* property);
 };
 
 void AttachLightingPropertyRecursive(NiAVObject* object);
@@ -2569,10 +2571,10 @@ void AttachLightingPropertyRecursive(NiAVObject* object);
 // @fnv 0x004b6e90
 void AttachLightingPropertyRecursive(NiAVObject* object)
 {
-    if (object->GetAsNiGeometry() && !object->GetProperty(3))
+    if (object->GetAsNiGeometry() && !((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((object))->FUN_00a59d30(3))))
     {
         BSShaderLightingProperty* lightingProperty = new BSShaderLightingProperty();
-        ((NiAVObject_Attach*)object)->AttachProperty(lightingProperty);
+        reinterpret_cast<::FUN_00439410_cls *>((((NiAVObject_Attach*)object)))->FUN_00439410((::ArgObject *)(lightingProperty));
     }
 
     NiNode* node = object->GetAsNiNode();
@@ -2603,7 +2605,6 @@ void* NiAVObject_004b5b00::GetExtraDataAt(unsigned short index)
 }
 
 class NiRTTI;
-extern NiRTTI DAT_011f36ac;
 
 struct FixedStr6220
 {
@@ -2615,20 +2616,15 @@ class NiObj6220;
 class NiObj6220
 {
   public:
-    NiObj6220* GetControllers() const;
 };
-NiObj6220* NiDynamicCast(const NiRTTI*, NiObj6220*);
 
 struct AnimEntry6220
 {
     int unk00;
     int unk04;
-    FixedStr6220* GetName();
-    float GetValue();
 };
 struct AnimData6220
 {
-    AnimEntry6220* GetEntries(unsigned int* count);
 };
 struct Seq6220
 {
@@ -2636,7 +2632,6 @@ struct Seq6220
 };
 struct Mgr6220
 {
-    Seq6220* GetControllerSequence(const NiFixedString& name);
 };
 
 template <class T> unsigned int BSStringLength(const T*);
@@ -2648,23 +2643,23 @@ float GetAnimValueByPrefix(NiObj6220* obj, const char* name, const char* prefix)
 {
     if (!obj)
         return 0.0f;
-    Mgr6220* mgr = (Mgr6220*)NiDynamicCast(&DAT_011f36ac, obj->GetControllers());
+    Mgr6220* mgr = (Mgr6220*)((::NiObj6220 *)(::FUN_00653270(&(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac)), (::NiObject *)(::NiObj6220 *)(((::NiObj6220 *)(::fnv_0043b230::FUN_0043b230((const char *)(obj))))))));
     if (mgr)
     {
-        Seq6220* seq3 = mgr->GetControllerSequence(NiFixedString(name));
+        Seq6220* seq3 = ((::Seq6220 *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((mgr))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(NiFixedString(name)))));
         if (seq3)
         {
             AnimData6220* data8 = seq3->GetData();
             unsigned int aCount;
-            AnimEntry6220* entries3 = data8->GetEntries(&aCount);
-            unsigned int len = BSStringLength(prefix);
+            AnimEntry6220* entries3 = ((::AnimEntry6220 *)(reinterpret_cast<::FUN_00495f30_shell *>((data8))->FUN_00495f30((int *)(unsigned int *)(&aCount))));
+            unsigned int len = ::FUN_0044a670(prefix);
             if (len > 0)
             {
                 for (unsigned int i4 = 0; i4 < aCount; i4++)
                 {
-                    const char* s4 = *entries3[i4].GetName();
+                    const char* s4 = *((::FixedStr6220 *)(reinterpret_cast<::BaseProcess *>(&(entries3[i4]))->GetCurrentProcessData()));
                     if (s4 && !_strnicmp(s4, prefix, len))
-                        return entries3[i4].GetValue();
+                        return reinterpret_cast<::CombatTargetTimestamp *>(&(entries3[i4]))->FUN_006a7f50();
                 }
             }
         }
@@ -2684,8 +2679,6 @@ struct S_004b6810_Filter
 };
 
 typedef int(__cdecl* PFN_004b68a0)(S_004b6810_Filter*);
-int __cdecl FUN_004b68a0(S_004b6810_Filter*);
-int __cdecl FUN_00c68900(void*, S_004b6810_Filter*, PFN_004b68a0);
 
 // Builds a filter struct from the flags and a2, runs FUN_00c68900 over a1, and returns the filter's m_14 result or -1.
 // @fnv 0x004b6810
@@ -2704,11 +2697,10 @@ int __cdecl FilterByFlags(void* a1, int iValue, bool abSkipPhantoms, bool abSkip
         kFilter.m_18 |= 2;
     if (abSkipUnknown)
         kFilter.m_18 |= 4;
-    FUN_00c68900(a1, &kFilter, FUN_004b68a0);
+    ::FUN_00c68900((::S_00c68900_Node *)(a1), (::S_00c68900_Context *)(::S_004b6810_Filter *)(&kFilter), (void (*)(void *, S_00c68900_Context *))(((int (&)(S_004b6810_Filter *))::fnv_004b68a0::FUN_004b68a0)));
     return (kFilter.m_14 != -1) ? kFilter.m_14 : -1;
 }
 
-void __cdecl ProcessObjectMatch(NiCollisionObject*, CollisionObjectCountContext*);
 
 struct FUN_004b6980_Context
 {
@@ -2747,12 +2739,11 @@ int __cdecl FUN_004b6980(NiAVObject* object, void* auxiliaryData, bool flag1, bo
         context.uiFilterFlags |= 4;
     }
 
-    FUN_00c68900(object, reinterpret_cast<CollisionObjectCountContext*>(&context), ProcessObjectMatch);
+    ::FUN_00c68900((::S_00c68900_Node *)(object), (::S_00c68900_Context *)(::CollisionObjectCountContext *)(reinterpret_cast<CollisionObjectCountContext*>(&context)), (void (*)(void *, S_00c68900_Context *))(((void (&)(NiCollisionObject *, CollisionObjectCountContext *))::ProcessObjectMatch)));
 
     return context.iCount;
 }
 
-void FUN_004b6bc0(NiCollisionObject* pkObject, CollisionObjectCountContext* pkContext);
 
 // Traverses pkRoot with a context that counts collision objects and returns the auxiliary result, or -1 when it is unset.
 // @fnv 0x004b6b60
@@ -2764,7 +2755,7 @@ int FUN_004b6b60(NiAVObject* pkRoot, void* pvUserData)
     kContext.iCount = 0;
     kContext.pUserData = pvUserData;
     kContext.pAuxiliaryData = reinterpret_cast<void*>(-1);
-    FUN_00c68900(pkRoot, &kContext, FUN_004b6bc0);
+    ::FUN_00c68900((::S_00c68900_Node *)(pkRoot), (::S_00c68900_Context *)(::CollisionObjectCountContext *)(&kContext), (void (*)(void *, S_00c68900_Context *))(((void (&)(NiCollisionObject *, CollisionObjectCountContext *))::fnv_004b6bc0::FUN_004b6bc0)));
     return reinterpret_cast<int>(kContext.pAuxiliaryData) != -1 ? reinterpret_cast<int>(kContext.pAuxiliaryData) : -1;
 }
 
@@ -2779,19 +2770,13 @@ class FUN_004b6ce0_cls
     virtual void vfn_14();
     virtual void vfn_18();
     virtual void* vfn_1c();
-    FUN_004b6ce0_cls* FUN_00a59d30(int);
-    int FUN_00441110();
     unsigned int FUN_0043b480();
-    FUN_004b6ce0_cls* FUN_0043b4a0(unsigned int);
 };
 
 class FUN_004b6ce0_gl
 {
   public:
-    void FUN_004534f0(void*);
 };
-extern FUN_004b6ce0_gl DAT_011e0e80;
-int FUN_004a2c20(void*);
 
 // @fnv 0x004b6ce0
 void FUN_004b6ce0(FUN_004b6ce0_cls* p)
@@ -2808,16 +2793,16 @@ void FUN_004b6ce0(FUN_004b6ce0_cls* p)
     if (p->vfn_1c() != 0)
     {
         x8 = p;
-        RunFourthVirtual = x8->FUN_00a59d30(3);
+        RunFourthVirtual = ((::FUN_004b6ce0_cls *)(reinterpret_cast<::FUN_00a59d30_C *>((x8))->FUN_00a59d30(3)));
         if (RunFourthVirtual != 0)
         {
-            y = FUN_004a2c20(RunFourthVirtual) ? RunFourthVirtual : 0;
+            y = ::FUN_004a2c20((::BGSTerrainManager *)(RunFourthVirtual)) ? RunFourthVirtual : 0;
             if (y != 0)
             {
                 flag4 = false;
-                if (RunFourthVirtual->FUN_00441110() == 3)
+                if (((int)(reinterpret_cast<::BGSTerrainManager *>((RunFourthVirtual))->GetMinLevel())) == 3)
                     flag4 = true;
-                DAT_011e0e80.FUN_004534f0(y);
+                reinterpret_cast<::FUN_004534f0_shell *>(&((*reinterpret_cast<::FUN_004b6ce0_gl *>(&::g_011e0e80))))->FUN_004534f0((unsigned int)(y));
                 if (flag4)
                     return;
             }
@@ -2829,7 +2814,7 @@ void FUN_004b6ce0(FUN_004b6ce0_cls* p)
         if (c != 0)
         {
             for (i2 = 0; i2 < c->FUN_0043b480(); i2++)
-                FUN_004b6ce0(c->FUN_0043b4a0(i2));
+                FUN_004b6ce0(((::FUN_004b6ce0_cls *)(reinterpret_cast<::NiNode *>((c))->GetAt(i2))));
         }
     }
 }
@@ -2876,23 +2861,20 @@ struct LightingProp80
 
 struct AVObjectEx : public NiAVObject
 {
-    void AttachProperty(void*);
-    void UpdatePropertyState();
 };
 
-void __cdecl FUN_00b57e30(NiAVObject*, int, int);
 
 // Adds a LightingProp80 with shader flag 0x30 to a geometry lacking property 3, or recurses into a visual node's children.
 // @fnv 0x004b6f90
 void __cdecl EnsureLightingProperty(AVObjectEx* apObject)
 {
-    if (apObject->GetAsNiGeometry() && !apObject->GetProperty(3))
+    if (apObject->GetAsNiGeometry() && !((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((apObject))->FUN_00a59d30(3))))
     {
         LightingProp80* pProp = new LightingProp80;
         pProp->SetShaderFlag(0x30, true);
-        apObject->AttachProperty(pProp);
-        apObject->UpdatePropertyState();
-        FUN_00b57e30(apObject, 0, 0);
+        reinterpret_cast<::FUN_00439410_cls *>((apObject))->FUN_00439410((::ArgObject *)(pProp));
+        reinterpret_cast<::FUN_00a5a040_Class *>((apObject))->FUN_00a5a040();
+        ::BSShaderManager::UpdateObjectTypeRecurse(apObject, 0, 0);
     }
     else
     {
@@ -2934,7 +2916,7 @@ void __cdecl FUN_004b8cf0()
     delete DAT_011c61f4;
     delete DAT_011c61f8;
     delete DAT_011c61fc;
-    delete DAT_011c6200;
+    delete (*reinterpret_cast<::NiFixedString * *>(&::DAT_011c6200));
     delete DAT_011c6204;
     delete DAT_011c6208;
     delete DAT_011c620c;
@@ -3144,10 +3126,6 @@ struct FormName
     int unk04;
     int unk08;
 };
-extern FormName FNV_FormTypeNames[];
-extern const char* typeNames[];
-int __cdecl LookupType(unsigned char);
-void __cdecl Warn(const char*, ...);
 extern const char* DAT_01188f98;
 extern const char* DAT_01188f9c;
 extern const char* DAT_01188fa0;
@@ -3193,9 +3171,9 @@ extern const char* DAT_01189034;
 // @fnv 0x004b1b60
 const char* __cdecl FUN_004b1b60(unsigned char type)
 {
-    int index = LookupType(type);
+    int index = ::MapByteToIndex(type);
     if (index >= 0)
-        return typeNames[index];
+        return ::DAT_0118a2d8[index];
     switch (type)
     {
     case 12:
@@ -3281,10 +3259,10 @@ const char* __cdecl FUN_004b1b60(unsigned char type)
     default:
         if (type >= 121)
         {
-            Warn("FORMS: Invalid FormID sent to FormIDToString().\r\n", FNV_FormTypeNames[type].name);
+            ::FUN_005b5e40();
             type = 0;
         }
-        return FNV_FormTypeNames[type].name;
+        return (*reinterpret_cast<FormName (*)[]>((void *)&::FNV_FormTypeNames))[type].name;
     }
 }
 
@@ -3307,7 +3285,6 @@ struct NiLines : NiAVObject
     static void* operator new(unsigned int);
     static void operator delete(void*, unsigned int);
     NiLines(unsigned short, stand::NiPoint3*, RgbaColor*, void*, void*, void*, bool*);
-    void AttachProperty(LightingProp80*);
     unsigned int unk24;
     unsigned int unk28;
     unsigned int unk2c;
@@ -3369,8 +3346,8 @@ NiLines* __cdecl CreateSquareLines(float extent, const RgbaColor& color, bool ad
     if (addLighting)
     {
         LightingProp80* property = new LightingProp80;
-        lines->AttachProperty(property);
-        FUN_00b57e30((NiAVObject*)lines, 0, 0);
+        reinterpret_cast<::FUN_00439410_cls *>((lines))->FUN_00439410((::ArgObject *)(property));
+        ::BSShaderManager::UpdateObjectTypeRecurse((NiAVObject*)lines, 0, 0);
     }
     return lines;
 }
@@ -3385,15 +3362,12 @@ struct Point
     float x, y, z;
     Point();
     Point operator-(const Point&) const;
-    float Length() const;
-    void FUN_004a0c10();
     Point& operator+=(const Point&);
 };
 struct Matrix
 {
     float m00, m01, m02, m10, m11, m12, m20, m21, m22;
     Matrix();
-    Matrix FUN_004b45b0() const;
     Matrix operator*(const Matrix&) const;
     Point FUN_004b4500(const Point*);
 };
@@ -3403,19 +3377,13 @@ struct Transform : Matrix
     float scale;
     Transform();
     Transform& Relative(Transform&, const Transform&);
-    void FUN_004b4880(Transform&);
 };
 struct GeometryData
 {
-    void FUN_00a67090(unsigned int);
 };
 struct Geometry
 {
-    Point* FUN_0049ec60();
-    Point* FUN_004a8030();
-    unsigned short FUN_00456650();
     Transform& FUN_00461130();
-    GeometryData* FUN_005495f0();
 };
 struct Entry
 {
@@ -3427,13 +3395,8 @@ struct PairMap
     int unk00, unk04, unk08, unk0c;
     PairMap(int);
     ~PairMap();
-    bool FUN_004b9b20(unsigned int, Entry&);
     void SetOrInsert(unsigned int, Entry);
-    void* FUN_004b9ba0();
-    void GetNextEntry(void*&, unsigned int&, Entry&);
 };
-Point* CreateElementArray(Geometry*);
-bool FUN_0040eb10(float, float, float);
 Point FUN_004a3760(float, const Point&);
 extern Geometry* DAT_011c6320;
 void __cdecl operator delete(void*);
@@ -3447,27 +3410,27 @@ bool __cdecl MatchGeometryVertices(Geometry* source, Geometry* target, float thr
     bool bChangedB = false;
     if (!source || !target || source == target)
         return false;
-    Point* sourceVertices7 = source->FUN_0049ec60();
-    Point* sourceNormals2 = source->FUN_004a8030();
-    unsigned int uiCountX = source->FUN_00456650();
+    Point* sourceVertices7 = ((::Point *)(reinterpret_cast<::FUN_0049ec60 *>((source))->GetNext()));
+    Point* sourceNormals2 = ((::Point *)(reinterpret_cast<::FUN_004a8030_shell *>((source))->FUN_004a8030()));
+    unsigned int uiCountX = reinterpret_cast<::FUN_00456650_shell *>((source))->FUN_00456650();
     if (!sourceVertices7 || !sourceNormals2 || !uiCountX)
         return false;
-    Point* targetVertices5 = target->FUN_0049ec60();
-    Point* targetNormals2 = target->FUN_004a8030();
-    unsigned int uiCountVal = target->FUN_00456650();
+    Point* targetVertices5 = ((::Point *)(reinterpret_cast<::FUN_0049ec60 *>((target))->GetNext()));
+    Point* targetNormals2 = ((::Point *)(reinterpret_cast<::FUN_004a8030_shell *>((target))->FUN_004a8030()));
+    unsigned int uiCountVal = reinterpret_cast<::FUN_00456650_shell *>((target))->FUN_00456650();
     if (!targetVertices5 || !targetNormals2 || !uiCountVal)
         return false;
-    Point* sourcePositions = CreateElementArray(source);
+    Point* sourcePositions = ((::Point *)(::CreateElementArray((::FUN_004b4910_Source *)(source))));
     if (!sourcePositions)
         return false;
-    Point* targetVertices = CreateElementArray(target);
+    Point* targetVertices = ((::Point *)(::CreateElementArray((::FUN_004b4910_Source *)(target))));
     if (!targetVertices)
     {
         delete sourcePositions;
         return false;
     }
-    target->FUN_00461130().FUN_004b4880(aTransform);
-    rotation4 = target->FUN_00461130().FUN_004b45b0() * source->FUN_00461130();
+    reinterpret_cast<::NiTransform *>(&(target->FUN_00461130()))->CalculateInverse((::NiTransform &)(aTransform));
+    rotation4 = (*(::Matrix *)(reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(target->FUN_00461130()))->FUN_004b45b0({}))) * source->FUN_00461130();
     unsigned int best4;
     float bestDist3;
     float bestDistance10;
@@ -3478,7 +3441,7 @@ bool __cdecl MatchGeometryVertices(Geometry* source, Geometry* target, float thr
         bestDist3 = threshold >= 0.0 ? threshold : 3.402823466e+38F;
         for (unsigned int inner = 0; inner < uiCountX; inner++)
         {
-            bestDistance10 = (targetVertices[outer] - sourcePositions[inner]).Length();
+            bestDistance10 = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::Point &)((targetVertices[outer] - sourcePositions[inner])))->ComputeMagnitude();
             if (bestDistance10 < bestDist3)
             {
                 best4 = inner;
@@ -3494,7 +3457,7 @@ bool __cdecl MatchGeometryVertices(Geometry* source, Geometry* target, float thr
             entry20.second = uiCountVal;
             entry20.bestDistance10 = bestDist3;
             Entry existing;
-            if (map30.FUN_004b9b20(best4, existing))
+            if (reinterpret_cast<::FUN_004b9b20_class *>(&(map30))->FUN_004b9b20(best4, (::FUN_004b9b20_result *)&(existing)))
             {
                 if (FUN_0040eb10(entry20.bestDistance10, existing.bestDistance10, 0.001F))
                 {
@@ -3509,16 +3472,16 @@ bool __cdecl MatchGeometryVertices(Geometry* source, Geometry* target, float thr
         }
     }
     {
-        void* position = map30.FUN_004b9ba0();
+        void* position = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(&(map30))->GetFirstPos();
         unsigned int iCount = 0;
         unsigned int aHKey;
         Entry existing;
         while (position)
         {
             iCount++;
-            map30.GetNextEntry(position, aHKey, existing);
+            reinterpret_cast<::HashTableBase *>(&(map30))->GetNextEntry((::DataBufferInfo **)&(position), (int *)&(aHKey), (::TableValue *)&(existing));
             targetNormals2[existing.first] = rotation4.FUN_004b4500(&sourceNormals2[aHKey]);
-            targetNormals2[existing.first].FUN_004a0c10();
+            reinterpret_cast<::FUN_004a0c10_s *>(&(targetNormals2[existing.first]))->FUN_004a0c10();
             if (existing.second < uiCountVal)
             {
                 targetNormals2[existing.second] = targetNormals2[existing.first];
@@ -3527,8 +3490,8 @@ bool __cdecl MatchGeometryVertices(Geometry* source, Geometry* target, float thr
             if (adjust)
             {
                 if (DAT_011c6320 != source)
-                    sourceVertices7[aHKey] += FUN_004a3760(10.0F, sourceNormals2[aHKey]);
-                targetVertices5[existing.first] += FUN_004a3760(10.0F, targetNormals2[existing.first]);
+                    reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::Point &)(sourceVertices7[aHKey]))->FUN_0063c8a0((void *)&(const ::Point &)(FUN_004a3760(10.0F, sourceNormals2[aHKey])));
+                reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::Point &)(targetVertices5[existing.first]))->FUN_0063c8a0((void *)&(const ::Point &)(FUN_004a3760(10.0F, targetNormals2[existing.first])));
                 if (existing.second < uiCountVal)
                     targetVertices5[existing.second] = targetVertices5[existing.first];
             }
@@ -3538,8 +3501,8 @@ bool __cdecl MatchGeometryVertices(Geometry* source, Geometry* target, float thr
     if (bChangedB)
     {
         if (adjust)
-            source->FUN_005495f0()->FUN_00a67090(3);
-        target->FUN_005495f0()->FUN_00a67090(3);
+            reinterpret_cast<::NiGeometryData *>((((::GeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)(source))))))->SetDirtyFlags(3);
+        reinterpret_cast<::NiGeometryData *>((((::GeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)(target))))))->SetDirtyFlags(3);
     }
     if (sourcePositions)
         delete sourcePositions;
@@ -3551,8 +3514,6 @@ bool __cdecl MatchGeometryVertices(Geometry* source, Geometry* target, float thr
 
 struct FUN_004b4ee0_sub
 {
-    void* __thiscall FUN_006815c0();
-    void __thiscall FUN_00436aa0();
 };
 
 struct FUN_004b4ee0_cls
@@ -3568,13 +3529,12 @@ struct FUN_004b4ee0_cls
 // @fnv 0x004b4ee0
 void FUN_004b4ee0_cls::FUN_004b4ee0()
 {
-    ((FUN_004b4ee0_sub*)unk10.FUN_006815c0())->FUN_00436aa0();
+    reinterpret_cast<::TESTopicInfo *>((((FUN_004b4ee0_sub*)((void *)(new ((void *)&(unk10)) ::Vec3())))))->GetAddTopicList();
 }
 
 struct S4b52f0_List
 {
     unsigned int FUN_0043b480();
-    void* FUN_0043b4a0(unsigned int index);
 };
 struct S4b52f0_Obj
 {
@@ -3585,9 +3545,7 @@ struct S4b52f0_Obj
 };
 struct S4b52f0_Ref
 {
-    void* FUN_006fa820();
 };
-S4b52f0_Ref* __cdecl FUN_0043b610(void* obj);
 
 // Recursively picks, among an object's list children and its ref target, the one with the greatest FUN_004b5400 value; returns 0 for a null object.
 // @fnv 0x004b52f0
@@ -3609,7 +3567,7 @@ void* __cdecl FUN_004b52f0(void* object)
             count7 = list6->FUN_0043b480();
             for (i4 = 0; i4 < count7; i4++)
             {
-                child2 = FUN_004b52f0(list6->FUN_0043b4a0(i4));
+                child2 = FUN_004b52f0(((void *)(reinterpret_cast<::NiNode *>((list6))->GetAt(i4))));
                 if (child2 != 0)
                 {
                     if (bestX == 0 || FUN_004b5400(bestX) < FUN_004b5400(child2))
@@ -3617,8 +3575,8 @@ void* __cdecl FUN_004b52f0(void* object)
                 }
             }
         }
-        ref = FUN_0043b610(object);
-        other = ref ? ref->FUN_006fa820() : 0;
+        ref = ((::S4b52f0_Ref *)(::bhkCollisionObject::GetFromNiAVObject((::NiAVObject *)(object))));
+        other = ref ? ((void *)(::fnv_006fa820::FUN_006fa820((const char *)(ref)))) : 0;
         if (bestX != 0 && (other == 0 || FUN_004b5400(other) < FUN_004b5400(bestX)))
         {
             return bestX;
@@ -3650,22 +3608,17 @@ struct NiBoundS
     float m_fCenterY;
     float m_fCenterZ;
     float m_fBoundRadius;
-    int WhichSide(NiPlaneS* m_kFogPlane);
 };
 
 struct NiFrustumPlanesS : public NiFrustumPlanes
 {
     NiFrustumPlanesS();
-    void SetFromCamera(NiCamera* pkCamera);
-    NiPlaneS* GetPlaneS(unsigned int uiPlane);
 };
 
 struct TimeGlobalS
 {
-    unsigned int GetFrameCount();
 };
 
-extern TimeGlobalS g_timeGlobal;
 
 static NiCamera* s_pkLastCamera;
 static unsigned int s_uiLastFrame;
@@ -3678,17 +3631,17 @@ bool __cdecl IsBoundVisible(NiBound* pkBound, NiCamera* pkCamera)
 
     static NiFrustumPlanesS g_kFrustumPlanes;
 
-    if (s_pkLastCamera != pkCamera || s_uiLastFrame != g_timeGlobal.GetFrameCount())
+    if (s_pkLastCamera != pkCamera || s_uiLastFrame != reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobalS *>(&::g_timeGlobal))))->FUN_00825c00())
     {
-        g_kFrustumPlanes.SetFromCamera(pkCamera);
-        s_uiLastFrame = g_timeGlobal.GetFrameCount();
+        reinterpret_cast<::SearchObject *>(&(g_kFrustumPlanes))->FUN_00a755d0((unsigned int)(pkCamera));
+        s_uiLastFrame = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobalS *>(&::g_timeGlobal))))->FUN_00825c00();
         s_pkLastCamera = pkCamera;
     }
 
     for (unsigned int i = 0; i < 6; i++)
     {
-        NiPlaneS m_kFogPlane = *g_kFrustumPlanes.GetPlaneS(i);
-        if (((NiBoundS*)pkBound)->WhichSide(&m_kFogPlane) == 2)
+        NiPlaneS m_kFogPlane = *((::NiPlaneS *)(reinterpret_cast<::FUN_004b4cf0_shell *>(&(g_kFrustumPlanes))->FUN_004b4cf0(i)));
+        if (reinterpret_cast<::B_004b6100 *>((((NiBoundS*)pkBound)))->ClassifySphereAgainstPlane((::NiPlane_004b6100 *)(::NiPlaneS *)(&m_kFogPlane)) == 2)
             return false;
     }
     return true;
@@ -3730,10 +3683,7 @@ template <> class NiPointer<FUN_00b668b0>
 };
 struct Property6360
 {
-    void AssignRefObj(FUN_00b668b0*);
 };
-Property6360* FUN_00653270(const NiRTTI*, NiProperty*);
-extern const NiRTTI DAT_011fa010;
 // @fnv 0x004b6360
 void FUN_004b6360(NiAVObject* object, const NiPoint3* color, FUN_00b668b0* property)
 {
@@ -3751,9 +3701,9 @@ void FUN_004b6360(NiAVObject* object, const NiPoint3* color, FUN_00b668b0* prope
         ((FUN_00b668b0*)shared)->mode2 = 1;
         ((FUN_00b668b0*)shared)->mode3 = 4;
     }
-    Property6360* material = FUN_00653270(&DAT_011fa010, object->GetProperty(3));
+    Property6360* material = ((::Property6360 *)(::FUN_00653270(&(*reinterpret_cast<const ::NiRTTI *>(&::g_011fa010)), (::NiObject *)(::NiProperty *)(((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((object))->FUN_00a59d30(3)))))));
     if (material)
-        material->AssignRefObj(shared);
+        reinterpret_cast<::fnv_00b675c0::FUN_00b675c0_shell *>((material))->AssignRefObj((::fnv_00b675c0::RefObj *)(::FUN_00b668b0 *)(shared));
     NiNode* node = object->GetAsNiNode();
     if (node)
     {
@@ -3770,7 +3720,6 @@ class FUN_004b50c0
   public:
     FUN_004b50c0();
     virtual ~FUN_004b50c0();
-    void FUN_00c87260(unsigned int value);
 };
 
 class FUN_004b5040 : public FUN_004b50c0
@@ -3786,6 +3735,6 @@ extern int DAT_01268124;
 // @fnv 0x004b5040
 FUN_004b5040::FUN_004b5040(unsigned int value)
 {
-    FUN_00c87260(value);
+    reinterpret_cast<::MouseSpringOwner *>(this)->FUN_00c87260((::MouseSpringInfo *)(value));
     ++DAT_01268124;
 }

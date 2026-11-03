@@ -1,0 +1,7 @@
+#pragma once
+
+class BA3760Object {
+public:
+    // 0x00ba3760
+    void FUN_00ba3760(int);
+};

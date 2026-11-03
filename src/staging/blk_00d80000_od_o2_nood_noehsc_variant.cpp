@@ -5,6 +5,10 @@
 
 // src/staging/blk_00d80000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00d88000.h"
 #include "../../include/layout_support.h"
 
 struct hkMemoryAllocatorS
@@ -97,11 +101,10 @@ struct __declspec(align(16)) QueryCollector
     {}
 };
 
-int FUN_00d883c0(void* a, int b, int c, QueryCollector* out);
 
 // @fnv 0x00d88aa0
 int FUN_00d88aa0(void* a)
 {
     QueryCollector collector;
-    return FUN_00d883c0(a, 0, 0, &collector);
+    return ::FUN_00d883c0((*(const ::S883_Island *)(a)), (char *)(0), 0, (*(::S883_TaskHeader *)(&collector)));
 }

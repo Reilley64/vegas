@@ -7,6 +7,17 @@
 
 // src/havok/animation/animation/animation/util/hkatrackanalysis.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/util/hkatrackanalysis.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00cc02d0_cls.h"
+#include "fnv/decl/FloatArgStream.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/fnv_00e50ca0__FUN_00e50ca0_cls.h"
+#include "fnv/symbols_00e4e000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
 struct TrackAnalysis
 {
     int a;
@@ -20,10 +31,6 @@ struct TrackAnalysis
     int sum;
     int max;
 };
-void AnalyzeTrackBits(const unsigned short* values, unsigned int count, TrackAnalysis* result);
-void AnalyzeTrackBits(const unsigned short* values, unsigned int count, TrackAnalysis* result);
-void AnalyzeTrackWithZeroCount(const unsigned short* aFirstValues, const unsigned short* values,
-                               unsigned int firstCount, unsigned int count, TrackAnalysis* result);
 struct TraceSink
 {
     virtual void ReportDiagnostic();
@@ -36,7 +43,6 @@ struct TraceSink
     virtual void begin(unsigned int, const char*);
     virtual void end();
 };
-extern TraceSink* DAT_01268360;
 extern const char str_010ec758[];
 extern const char str_010ec724[];
 extern const char str_010ec74c[];
@@ -57,12 +63,6 @@ struct TextBuilder
     int state;
     int length;
     int bufferCapacity;
-    void FUN_00cb1600(char*, unsigned int);
-    TextBuilder* FUN_00cc01c0(const char*, int);
-    TextBuilder* FUN_00cc01c0(const char*, float);
-    void FUN_00cc02d0();
-    void WriteFloat();
-    void FUN_00cc00e0();
 };
 struct TrackStatistics
 {
@@ -158,7 +158,6 @@ struct TrackBuffers_e50650
     hkArray_e50650<float> m_kCubicCoefficient;
     hkArray_e50650<unsigned char> m_kE;
 
-    void FUN_00e50ca0();
 };
 struct hkBool_e50650
 {
@@ -186,9 +185,9 @@ __declspec(noinline) void __cdecl CountTail(const unsigned short* p, void* a1, u
     Analyze(p, count, s);
     Analyze((const unsigned short*)a1, a3, s);
 }
-void __cdecl FUN_00e4ebb0(const unsigned short* p, void* a1, unsigned int count, unsigned int a3, StatsB0* s);
 #include <xmmintrin.h>
 #include <math.h>
+#include "fnv/symbols_simd.h"
 struct PerTransformIn
 {
     const void* boneData;
@@ -244,9 +243,6 @@ struct PassBool
     {}
 };
 typedef void(__cdecl* QsAnalyzeFn)(TrackBuffers_e50650*, void*, void*, PassBool);
-void __cdecl FUN_00e4ead0(const unsigned short* mask, unsigned int count, TrackStatistics* result);
-void __cdecl FUN_00e4ebb0(const unsigned short* maskT, const unsigned short* maskF, unsigned int numT,
-                          unsigned int numF, TrackStatistics* result);
 struct FloatLocalArray
 {
     hkArray_e50650<float> values;
@@ -288,14 +284,7 @@ struct FloatLocalArray
 void __cdecl FUN_00e50920(const PerTransformIn& input, const PerFloatIn& finput, unsigned short* staticMask,
                           float* staticDOFs, hkBool_e50650 displayStatsReport);
 
-extern const __m128 DAT_010c7160;
-extern const __m128 DAT_010c7170;
-extern const __m128 DAT_010c71b0;
-extern const __m128 DAT_01017d10;
-extern const __m128 DAT_01267e30;
 extern unsigned char DAT_011be718[16];
-extern const float DAT_0104da48;
-extern const float DAT_0104e148;
 
 class TrackScalar
 {
@@ -336,7 +325,7 @@ inline TrackScalar operator/(const TrackScalar& left, const TrackScalar& right)
 }
 inline TrackScalar operator-(const TrackScalar& value)
 {
-    return _mm_sub_ss(DAT_010c7160, value.raw());
+    return _mm_sub_ss(::DAT_010c7160, value.raw());
 }
 
 class TrackComparison
@@ -504,7 +493,7 @@ class TrackVector
     }
     static inline const TrackVector& zeroValue()
     {
-        return reinterpret_cast<const TrackVector&>(DAT_01267e30);
+        return reinterpret_cast<const TrackVector&>((*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30)));
     }
 };
 
@@ -735,9 +724,7 @@ struct TrackReport
           clearScale(0), dynamicPosition(0), dynamicRotation(0), dynamicScale(0), dynamicFloat(0), transformDofs(0),
           floatDofs(0), ratio(0.0f)
     {}
-    void LogStatistics();
 };
-void FUN_00e4ead0(const unsigned short*, unsigned int, TrackReport&);
 
 static __forceinline void analyzeTransformTracks(const TrackInput& input, unsigned short* flags, float* output,
                                                  const TrackFlag& report)
@@ -913,7 +900,7 @@ static __forceinline void analyzeTransformTracks(const TrackInput& input, unsign
             means[track].rotation.identity();
         }
         TrackVector unit;
-        unit = DAT_010c7170;
+        unit = ::DAT_010c7170;
         if ((flags[track] & 48) == 16 && meanScale.equals3(unit, float(scaleTolerance * 0.5)))
         {
             flags[track] = (flags[track] & ~48) | 32;
@@ -965,8 +952,8 @@ static __forceinline void analyzeTransformTracks(const TrackInput& input, unsign
     if (report)
     {
         TrackReport stats;
-        FUN_00e4ead0(flags, input.tracks, stats);
-        stats.LogStatistics();
+        ::FUN_00e4ead0(flags, input.tracks, (::StatisticsResult *)&(stats));
+        reinterpret_cast<::TrackStatistics *>(&(stats))->LogStatistics();
     }
 }
 

@@ -3,6 +3,7 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /Ob1 (unit src/fallout_shared/tempeffects/bstempeffectsimpledecal.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/decl/FUN_004a0c10_s.h"
 #include "original_bstempeffectsimpledecal.h"
 // Original PC source filename label passed to the preload memory context;
 // contents and target are verified against the engine data section.
@@ -79,7 +80,7 @@ inline float NiAbs(float fValue)
 Mat3 __cdecl FUN_00c4b600(Pt kWorldPosition)
 {
     Pt kAt = kWorldPosition;
-    kAt.FUN_004a0c10();
+    reinterpret_cast<::FUN_004a0c10_s *>(&(kAt))->FUN_004a0c10();
     float fX = NiAbs(kAt.x);
     float fY2 = NiAbs(kAt.y);
     float fZ2 = NiAbs(kAt.z);
@@ -90,12 +91,12 @@ Mat3 __cdecl FUN_00c4b600(Pt kWorldPosition)
         kRight2 = Pt(-kAt.z, 0.0f, kAt.x);
     else
         kRight2 = Pt(-kAt.y, kAt.x, 0.0f);
-    kRight2.FUN_004a0c10();
+    reinterpret_cast<::FUN_004a0c10_s *>(&(kRight2))->FUN_004a0c10();
     Pt kUpVal;
     kUpVal = kRight2.FUN_004b3800(kAt);
-    kUpVal.FUN_004a0c10();
+    reinterpret_cast<::FUN_004a0c10_s *>(&(kUpVal))->FUN_004a0c10();
     kRight2 = kUpVal.FUN_004b3800(kAt);
-    kRight2.FUN_004a0c10();
+    reinterpret_cast<::FUN_004a0c10_s *>(&(kRight2))->FUN_004a0c10();
     Mat3 kMatX;
     kMatX.SetRow(0, kRight2);
     kMatX.SetRow(1, kUpVal);

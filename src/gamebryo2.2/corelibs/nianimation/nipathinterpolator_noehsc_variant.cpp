@@ -5,7 +5,29 @@
 
 // src/gamebryo2.2/corelibs/nianimation/nipathinterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nipathinterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void* g_011f3f68;
+#include "fnv/decl/FUN_00a3ce20_shell.h"
+#include "fnv/decl/FUN_00a3dd40.h"
+#include "fnv/decl/FUN_00a3e680_shell.h"
+#include "fnv/decl/FUN_00a3e9a0_cls.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00a95ca0_shell.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/S00a3cc40.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a3ca80__NiKeyBasedInterpolator.h"
+#include "fnv/decl/fnv_00a3cbf0__NiKeyBasedInterpolator.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a3f000.h"
+#include "fnv/symbols_00a57000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa0000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f4000.h"
 void* __cdecl FUN_00a3dab0();
 struct FUN_00a3dae0_shell
 {
@@ -23,11 +45,9 @@ struct FUN_00a3db70_shell
 {
     char __thiscall FUN_00a3db70(unsigned short arg);
 };
-extern "C" void* g_011f3e48;
 void* __cdecl FUN_00a3dde0();
 struct FloatDataHelper
 {
-    void __thiscall FUN_00a3cc40(float m_fStartTime, float m_fMaximumDistance);
 };
 struct NiPathInterpolator
 {
@@ -35,8 +55,6 @@ struct NiPathInterpolator
     void __thiscall FUN_00a3dc50(float m_fStartTime, float m_fMaximumDistance);
 };
 int __stdcall GetChannelIndex(unsigned short usChannel);
-extern "C" void __cdecl FUN_00a48fb0();
-extern "C" void __cdecl _delete(void*, unsigned int);
 struct FUN_00a3dac0_shell
 {
     void* __thiscall DestroyIfOdd(short idx);
@@ -45,8 +63,6 @@ struct FUN_00a3ddf0_shell
 {
     void* __thiscall FUN_00a3ddf0(void* pData, int i1, int i2, float fTime);
 };
-extern void* DAT_011f3ca8[];
-void __cdecl FUN_00a3dd40();
 void __cdecl operator delete(void*, unsigned int);
 struct FUN_00a3e980_shell
 {
@@ -60,15 +76,10 @@ struct StrArr
     unsigned short m_usSize;
     unsigned short _0C;
     unsigned short m_usGrowBy;
-    void __thiscall SetSize(unsigned int);
-    void __thiscall SetAt(unsigned int, char*&);
 };
 struct FUN_00a3cbf0_shell
 {
-    void __thiscall FUN_00a3cbf0(StrArr*);
 };
-char* __cdecl _FUN_00a7d330(const char*);
-extern const char* _g_011f3e48;
 struct TargetHolder : FUN_00a3cbf0_shell
 {
     void __thiscall AppendString(StrArr*);
@@ -125,7 +136,6 @@ struct FUN_00a3dc80_shell
 };
 struct HC1Base
 {
-    bool __thiscall FUN_00aa0ad0(void*);
 };
 struct FUN_00a3dcc0_Reg
 {
@@ -167,11 +177,7 @@ struct FUN_00a3f060_shell
 {
     void* __thiscall FUN_00a3f060(short, short);
 };
-void* __cdecl CreateA51BF0Base();
 extern float DAT_01097170;
-extern float DAT_01015f5c;
-extern double DAT_010231b0;
-extern double DAT_010241b0;
 struct FUN_00a3dba0_Class
 {
     virtual void vf00()
@@ -288,8 +294,6 @@ struct FUN_00a3dba0_Class
     virtual void vfDC()
     {}
 
-    float* __thiscall FUN_00a3ca80(int index, int mode);
-    float* __thiscall FUN_00a3ca80(int index);
 };
 struct FUN_00a3dba0_Class1 : FUN_00a3dba0_Class
 {
@@ -315,9 +319,7 @@ struct Source
     {
         return *reinterpret_cast<Stream**>(reinterpret_cast<char*>(this) + 0x24c);
     }
-    void __thiscall FUN_00a645b0();
 };
-void __stdcall FUN_00aa0ac0(Source*);
 struct PathData
 {
     unsigned int unk00, unk04, unk08;
@@ -524,7 +526,6 @@ struct FNV_Writer
     unsigned short unk32;
     float unk34;
     int unk38;
-    void __thiscall FUN_00a95ca0(FNV_NiStream* pStream);
     void __thiscall WriteToStream(FNV_NiStream* pStream);
 };
 static __forceinline void FNV_WriteField(FNV_WriteStream* pWriter, void* pData, int nSize)
@@ -536,7 +537,6 @@ static __forceinline void FNV_WriteField(FNV_WriteStream* pWriter, void* pData, 
 __declspec(dllimport) long __stdcall InterlockedIncrement(long* p);
 __declspec(dllimport) long __stdcall InterlockedDecrement(long* p);
 extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
-void* __cdecl NiMalloc(unsigned int);
 class NiRefObject
 {
   public:
@@ -607,7 +607,6 @@ template <class T> class NiPointer
 class NiInterpolatorBase : public NiObj2
 {
   public:
-    void CopyMemberData(NiInterpolatorBase* pDest, CloningProcess& kCloning);
     float m_fLastTime;
     unsigned short m_uiObjectFlags;
     void SetBit(bool bVal, unsigned short uMask)
@@ -638,13 +637,12 @@ class NiPathInterp : public NiInterpolatorBase
     int unk34;
     int m_iPathPointCount;
 
-    float CalcTotalLength();
     void SetConstVelocity(bool b)
     {
         SetBit(b, 0x10);
         if (b && GetBit(1))
         {
-            m_fTotalPathLength = CalcTotalLength();
+            m_fTotalPathLength = reinterpret_cast<::FUN_00a3e9a0_cls *>(this)->GetAccumulatedValue();
             SetBit(false, 1);
         }
     }
@@ -685,7 +683,6 @@ class NiCloningProcessA3F;
 class NiOwnerA3F
 {
   public:
-    void CopyMemberData(NiObjectA3F* pkDest, NiCloningProcessA3F& kCloning);
     NiObjectA3F* CloneObject(NiCloningProcessA3F& kCloning);
 };
 struct MyPosKey
@@ -704,7 +701,6 @@ static __forceinline MyPosKey* GetKey(MyPosKey* pkKeys, unsigned int uiIndex, un
 }
 struct PathInterpExt : public NiPathInterp
 {
-    void __thiscall FUN_00a3ea60(float fTime, unsigned int& ruiKey0, unsigned int& ruiKey1, float& rfNormTime);
     void FindKeyPair(float fTime, unsigned int& ruiKey0, unsigned int& ruiKey1, float& rfNormTime);
 };
 static const float kNegMax = -3.402823466e+38f;
@@ -718,8 +714,6 @@ class NiQuaternion
   public:
     float m_fVectorX, m_fVectorY, m_fVectorZ, m_fScalarPart;
 };
-extern const NiPoint3 DAT_011a9424;
-extern NiQuaternion DAT_011f4208;
 class NiFloatData : public NiObj2
 {
 };
@@ -815,14 +809,12 @@ template <class T> class NiPointerE6F0
 class InterpolatorE6F0 : public NiRefObjectE6F0
 {
   public:
-    void GetControllerSequence(float fA, float fB, NiPointerE6F0<InterpolatorE6F0>& spOut);
 };
 
 class ControllerE6F0
 {
   public:
     ControllerE6F0* FUN_00a3e6f0(float fA, float fB);
-    ControllerE6F0* CreateCopy(float fA, float fB);
 
     int unk00;
     int unk04;
@@ -837,11 +829,11 @@ class ControllerE6F0
 // @fnv 0x00a3e6f0
 ControllerE6F0* ControllerE6F0::FUN_00a3e6f0(float fA, float fB)
 {
-    ControllerE6F0* pkCopy = CreateCopy(fA, fB);
+    ControllerE6F0* pkCopy = ((::ControllerE6F0 *)(::FUN_00a57050((int)this, fA)));
     if (m_spInterp.m_pObject)
     {
         NiPointerE6F0<InterpolatorE6F0> spInterp;
-        m_spInterp.m_pObject->GetControllerSequence(fA, fB, spInterp);
+        reinterpret_cast<::FUN_00a3ce20_shell *>((m_spInterp.m_pObject))->FUN_00a3ce20(fA, fB, (::NiFloatData **)&(spInterp));
         pkCopy->m_spInterp = spInterp;
         pkCopy->m_iFadeIndex = 0;
     }

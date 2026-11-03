@@ -4,6 +4,9 @@
 
 // Canonical callable identities from IDENTITIES.md. Settings named by
 // JohnnyGuitarNVSE GameSettingCollection.hpp and JIP settings_enum.h.
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_011c3000.h"
 union SETTING_VALUE
 {
     int i;
@@ -12,19 +15,10 @@ union SETTING_VALUE
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Int();
-    SETTING_VALUE* Float();
 };
 class GameSettingCollection
 {
   public:
-    static SettingT_GameSettingCollection_ iLockLevelMaxVeryEasy;
-    static SettingT_GameSettingCollection_ iLockLevelMaxEasy;
-    static SettingT_GameSettingCollection_ iLockLevelMaxAverage;
-    static SettingT_GameSettingCollection_ iLockLevelMaxHard;
-    static SettingT_GameSettingCollection_ iLockLevelMaxVeryHard;
-    static SettingT_GameSettingCollection_ fLeveledLockMult;
-    static SettingT_GameSettingCollection_ iLockLevelMaxImpossible;
 };
 
 // Declaration source: include/NiPoint3.h; natural PC alignment.
@@ -35,6 +29,8 @@ class NiPoint3
     float x;  // +0x0
     float y;  // +0x4
     float z;  // +0x8
+public:
+    static const ::NiPoint3 ZERO;
 };
 FNV_STATIC_ASSERT(sizeof(NiPoint3) == 0xC);
 FNV_STATIC_ASSERT(offsetof(NiPoint3, x) == 0x0);

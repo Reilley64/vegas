@@ -1,5 +1,30 @@
 // fallout_shared/bgssleepdeprevation.cpp: BGSSleepDeprevationStage (11 functions)
 
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSHungerStage.h"
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S_00462230.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00402000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_011c3000.h"
 #include "bgssleepdeprevation.h"
 #include <malloc.h>
 
@@ -25,16 +50,16 @@ void BGSSleepDeprevationStage::ClearData()
 void BGSSleepDeprevationStage::InitItem()
 {
     unsigned int formID;
-    if (reinterpret_cast<TESFormInitFlag*>(reinterpret_cast<TESForm*>(this))->IsFormInitialized())
+    if (reinterpret_cast<::TESForm *>((void *)(reinterpret_cast<TESFormInitFlag*>(reinterpret_cast<TESForm*>(this))))->GetInitialized())
         return;
-    formID = FUN_00441110();
+    formID = reinterpret_cast<::BGSTerrainManager *>(this)->GetMinLevel();
     if (formID)
     {
-        TESForm::RemapFormIDForFile(formID, reinterpret_cast<TESForm*>(this)->GetFile(-1));
-        FUN_0050f9a0(dynamic_cast<SpellItem*>(TESFormInitFlag::GetFormByID(formID)));
+        ::ResolveFormID((unsigned int *)&(formID), reinterpret_cast<TESForm*>(this)->GetFile(-1));
+        reinterpret_cast<::BGSDehydrationStage *>(this)->FUN_0050f9a0(dynamic_cast<SpellItem*>(::FUN_004839c0(formID)));
     }
     reinterpret_cast<TESForm*>(this)->SetInitializationState(true);
-    FUN_00402550(this);
+    ::FUN_00402550((::BGSDehydrationStage *)(::BGSSleepDeprevationStage *)(this));
 }
 
 struct RemoveStageLocals
@@ -89,7 +114,7 @@ void BGSSleepDeprevationStage::ClearStageData(BGSSleepDeprevationStage* stage)
     }
 
     locals.oldStages = DAT_011c31b4;
-    ::operator delete(locals.oldStages);
+    ::FUN_00401030(locals.oldStages);
     DAT_011c31b0 = locals.newCount;
     DAT_011c31b4 = reinterpret_cast<BGSSleepDeprevationStage**>(locals.newStages);
 }
@@ -98,22 +123,22 @@ void BGSSleepDeprevationStage::ClearStageData(BGSSleepDeprevationStage* stage)
 // @fnv 0x00402390
 bool BGSSleepDeprevationStage::Load(TESFile* file)
 {
-    unsigned char formType = file->GetTESForm();
+    unsigned char formType = ((unsigned char)(reinterpret_cast<::FUN_00472660_shell *>((file))->FUN_00472660()));
     if (formType != 0x78)
         return false;
 
     reinterpret_cast<StageLoadVirtuals*>(this)->vfn_0018();
-    reinterpret_cast<TESForm*>(this)->LoadRecordHeader(file);
+    reinterpret_cast<::S00485110 *>((reinterpret_cast<TESForm*>(this)))->CallWithThis((::T00485110 *)(file));
     reinterpret_cast<TESForm*>(this)->SetInitializationState(false);
 
     unsigned int chunk;
-    while ((chunk = file->GetChunkID()) != 0)
+    while ((chunk = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()))) != 0)
     {
         switch (chunk)
         {
         case 0x44494445: {
-            char* buffer = static_cast<char*>(_alloca(file->GetChunkSize()));
-            file->GetChunkData(buffer, 0x200);
+            char* buffer = static_cast<char*>(_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(buffer), 0x200);
             reinterpret_cast<TESForm*>(this)->SetEditorID_AtRuntime(buffer);
             break;
         }
@@ -121,13 +146,13 @@ bool BGSSleepDeprevationStage::Load(TESFile* file)
             reinterpret_cast<TESForm*>(this)->readOBNDSubRecord(file);
             break;
         case 0x41544144:
-            reinterpret_cast<BGSDehydrationStage*>(this)->FUN_004861f0(
-                file, reinterpret_cast<BGSDehydrationStage*>(this)->FUN_00500940(8));
+            reinterpret_cast<::fnv_004861f0::Form_004861f0 *>((reinterpret_cast<BGSDehydrationStage*>(this)))->FUN_004861f0(
+                file, ((void *)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<BGSDehydrationStage*>(this)))->GetConditions())), {});
             break;
         }
 
         if (chunk == 0x41544144 && file->IsEndianConversionRequired())
-            reinterpret_cast<FUN_005a71d0*>(&data)->FUN_00462230();
+            reinterpret_cast<::S_00462230 *>((reinterpret_cast<FUN_005a71d0*>(&data)))->FUN_00462230();
         if (!file->NextChunk())
             break;
     }
@@ -141,7 +166,6 @@ struct HSD
 };
 struct HSI
 {
-    void ResetFormData();
 };
 struct FUN_004020f0 : public TESForm
 {
@@ -152,15 +176,12 @@ struct FUN_004020f0 : public TESForm
 // @fnv 0x004020f0
 FUN_004020f0::FUN_004020f0()
 {
-    SetFormType((ENUM_FORM_ID)0x78);
-    ((HSI*)this)->ResetFormData();
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)((ENUM_FORM_ID)0x78)));
+    reinterpret_cast<::BGSHungerStage *>((((HSI*)this)))->ResetFormData();
 }
 
-extern unsigned int _DAT_011c31b0;
-extern BGSDehydrationStage** _DAT_011c31b4;
 struct HF
 {
-    unsigned int* FUN_00500940();
 };
 struct AddLocals
 {
@@ -178,20 +199,20 @@ struct AddLocals
 void FUN_00402550(BGSDehydrationStage* stage)
 {
     AddLocals locals;
-    locals.newCount = (unsigned char)(_DAT_011c31b0 + 1);
+    locals.newCount = (unsigned char)(::DAT_011c31b0 + 1);
     locals.newStages = BGSDehydrationStage::AllocateStageArray(locals.newCount);
     locals.destination = 0;
     locals.inserted = false;
     locals.index = 0;
-    for (; locals.index < _DAT_011c31b0; ++locals.index)
+    for (; locals.index < ::DAT_011c31b0; ++locals.index)
     {
-        if (*((HF*)stage)->FUN_00500940() > *((HF*)_DAT_011c31b4[locals.index])->FUN_00500940() && !locals.inserted)
+        if (*((unsigned int *)(reinterpret_cast<::BGSCameraPath *>((((HF*)stage)))->GetConditions())) > *((unsigned int *)(reinterpret_cast<::BGSCameraPath *>((((HF*)(*reinterpret_cast<::BGSDehydrationStage ** *>(&::DAT_011c31b4))[locals.index])))->GetConditions())) && !locals.inserted)
         {
             locals.newStages[locals.destination] = stage;
             ++locals.destination;
             locals.inserted = true;
         }
-        locals.newStages[locals.destination] = _DAT_011c31b4[locals.index];
+        locals.newStages[locals.destination] = (*reinterpret_cast<::BGSDehydrationStage ** *>(&::DAT_011c31b4))[locals.index];
         ++locals.destination;
     }
     if (!locals.inserted)
@@ -199,19 +220,16 @@ void FUN_00402550(BGSDehydrationStage* stage)
         locals.newStages[locals.destination] = stage;
         ++locals.destination;
     }
-    locals.oldStages = _DAT_011c31b4;
-    ::operator delete(locals.oldStages);
-    _DAT_011c31b0 = locals.newCount;
-    _DAT_011c31b4 = locals.newStages;
+    locals.oldStages = (*reinterpret_cast<::BGSDehydrationStage ** *>(&::DAT_011c31b4));
+    ::FUN_00401030(locals.oldStages);
+    ::DAT_011c31b0 = locals.newCount;
+    (*reinterpret_cast<::BGSDehydrationStage ** *>(&::DAT_011c31b4)) = locals.newStages;
 }
 
-extern unsigned int DAT_011c31b0;
-BGSSleepDeprevationStage* __cdecl FUN_004027e0(unsigned int);
 
 class Calendar
 {
   public:
-    unsigned int GetDaysPassed();
 };
 
 // Returns the first sleep-deprivation stage whose days-passed threshold is at or below level, or null if none match.
@@ -221,29 +239,18 @@ BGSSleepDeprevationStage* __cdecl GetSleepDeprivationStage(float level)
     BGSSleepDeprevationStage* result = 0;
     for (unsigned int index = 0; index < DAT_011c31b0 && !result; ++index)
     {
-        BGSSleepDeprevationStage* stage = FUN_004027e0(index);
-        if (stage && level >= reinterpret_cast<Calendar*>(stage)->GetDaysPassed())
+        BGSSleepDeprevationStage* stage = ((::BGSSleepDeprevationStage *)(::FUN_004027e0(index)));
+        if (stage && level >= ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<Calendar*>(stage)))->FUN_009611e0())))
             result = stage;
     }
     return result;
 }
 
-void _Deallocate(void*);
 struct Dummy
 {
     void FUN_004021a0();
     void* FUN_00402170(unsigned int);
 };
-// Calls FUN_004021a0, then deallocates this when flags has bit 0 set, and returns this.
-// @fnv 0x00402170
-void* Dummy::FUN_00402170(unsigned int flags)
-{
-    FUN_004021a0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct Base5a
 {
     virtual ~Base5a();
@@ -252,6 +259,15 @@ struct FUN_004021a0 : Base5a
 {
     ~FUN_004021a0();
 };
+// Calls FUN_004021a0, then deallocates this when flags has bit 0 set, and returns this.
+// @fnv 0x00402170
+void* Dummy::FUN_00402170(unsigned int flags)
+{
+    reinterpret_cast<::FUN_004021a0 *>(this)->FUN_004021a0::~FUN_004021a0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // Destructor that calls ClearData on the BGSSleepDeprevationStage object.
 // @fnv 0x004021a0
 FUN_004021a0::~FUN_004021a0()
@@ -262,13 +278,10 @@ FUN_004021a0::~FUN_004021a0()
 namespace fnv_004022b0 {
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(BGSSleepDeprevationStage*);
 };
 struct HF
 {
-    void* FUN_00500940();
 };
-void* __memcpy(void*, const void*, unsigned int);
 struct FUN_004022b0_Host
 {
     void CopyFromSleepDeprivationStage(TESForm* apCopy);
@@ -279,8 +292,8 @@ void FUN_004022b0_Host::CopyFromSleepDeprivationStage(TESForm* apCopy)
     BGSSleepDeprevationStage* pcopy = dynamic_cast<BGSSleepDeprevationStage*>(apCopy);
     if (!pcopy)
         return;
-    ((FUN_005e78f0_t*)this)->FUN_004851b0(pcopy);
-    __memcpy(((HF*)this)->FUN_00500940(), ((HF*)pcopy)->FUN_00500940(), 8);
+    reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0(pcopy);
+    ::__memcpy(((void *)(reinterpret_cast<::BGSCameraPath *>((((HF*)this)))->GetConditions())), ((void *)(reinterpret_cast<::BGSCameraPath *>((((HF*)pcopy)))->GetConditions())), 8);
 }
 }  // namespace fnv_004022b0
 
@@ -289,8 +302,6 @@ extern "C" int __cdecl memcmp(const void* pvA, const void* pvB, unsigned int uiS
 class B402310Stage
 {
   public:
-    bool FUN_00485270(BGSSleepDeprevationStage* pkOther);
-    void* GetData();
     bool FUN_00402310(TESForm* pkForm);
 };
 
@@ -300,9 +311,9 @@ bool B402310Stage::FUN_00402310(TESForm* pkForm)
     BGSSleepDeprevationStage* pkOther = dynamic_cast<BGSSleepDeprevationStage*>(pkForm);
     if (!pkOther)
         return true;
-    if (FUN_00485270(pkOther))
+    if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270((::TESForm *)(pkOther)))
         return true;
-    if (memcmp(GetData(), reinterpret_cast<B402310Stage*>(pkOther)->GetData(), 8))
+    if (memcmp(((void *)(reinterpret_cast<::BGSCameraPath *>(this)->GetConditions())), ((void *)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<B402310Stage*>(pkOther)))->GetConditions())), 8))
         return true;
     return false;
 }

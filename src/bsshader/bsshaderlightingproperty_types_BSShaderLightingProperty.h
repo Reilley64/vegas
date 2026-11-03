@@ -2,6 +2,7 @@
 #ifndef FNV_BSSHADERLIGHTINGPROPERTY_H
 #define FNV_BSSHADERLIGHTINGPROPERTY_H
 
+#include "fnv/decl/FUN_0043a010_shell.h"
 #include "layout_support.h"
 #include "NiProperty.h"
 #include "layout_support.h"

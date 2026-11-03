@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/compoundagent/bvtree/hkpmoppagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/compoundagent/bvtree/hkpmoppagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_0102e000.h"
 struct AudioAllocator
 {
     virtual void v00();
@@ -23,7 +24,6 @@ struct AudioHolder
 AudioHolder* __cdecl FUN_00c85750() throw();
 
 extern int DAT_010ce8f4;
-extern int DAT_0102e388;
 
 struct FUN_00d2f380_cls
 {
@@ -52,5 +52,5 @@ void FUN_00d2f380_cls::DestroyArray()
     }
     m_pData = 0;
     m_uCapBits = 0x80000000u;
-    m_vptr00 = (int)&DAT_0102e388;
+    m_vptr00 = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }

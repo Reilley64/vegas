@@ -1,19 +1,38 @@
 // fallout/ai/modifierlist.cpp: ModifierListCalc (21 functions)
 
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004f5d90_shell.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_008579e0_shell.h"
+#include "fnv/decl/FUN_009373f0_shell.h"
+#include "fnv/decl/FUN_00937f40_Class.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/ModifierRoutingList.h"
+#include "fnv/decl/TimeoutTimer.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_0066e000.h"
+#include "fnv/symbols_00937000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
 #include "modifierlist_decls.h"
 
-extern "C" int gModifierListIndex[];
-extern "C" const double gModifierZero;
 
 // Deletes every Modifier returned by GetItem while removing list heads, then deletes and nulls the stored object.
 // @fnv 0x009370b0
 void ActorValueModifierList::RemoveAllModifiers()
 {
     Modifier* modifier;
-    while ((modifier = GetItem()) != 0)
+    while ((modifier = ((::Modifier *)(new ((void *)this) ::Vec3()))) != 0)
     {
         Modifier* node = modifier;
-        ::operator delete(node);
+        ::FUN_00401030(node);
         RemoveHead();
     }
 
@@ -34,7 +53,7 @@ void ActorValueModifierList::AddFastModifier(char key, Modifier* modifier)
     if (m_ppModifiedActorValues)
         m_ppModifiedActorValues->RemoveModifier(key);
 
-    if (!modifier || (modifier->GetValue() == gModifierZero && !m_bAllowZeroValueModifiers))
+    if (!modifier || (reinterpret_cast<::TimeoutTimer *>((modifier))->FUN_006b9130() == ::_DAT_01012060 && !m_bAllowZeroValueModifiers))
         return;
 
     if (!m_ppModifiedActorValues)
@@ -59,12 +78,12 @@ Modifier* ActorValueModifierList::GetModifierItem(char key)
     else
     {
         searchState.current = this;
-        while (searchState.current && searchState.current->GetItem() != 0 && !searchState.modifier)
+        while (searchState.current && ((::Modifier *)(new ((void *)(searchState.current)) ::Vec3())) != 0 && !searchState.modifier)
         {
-            Modifier* item = searchState.current->GetItem();
-            if (item && item->GetKey() == key)
+            Modifier* item = ((::Modifier *)(new ((void *)(searchState.current)) ::Vec3()));
+            if (item && ((char)(reinterpret_cast<::FUN_009373f0_shell *>((item))->FUN_009373f0())) == key)
                 searchState.modifier = item;
-            searchState.current = (ActorValueModifierList*)searchState.current->GetNext();
+            searchState.current = (ActorValueModifierList*)((::BSSimpleList< ::Modifier *> *)(reinterpret_cast<::Callees *>((searchState.current))->FUN_00726070()));
         }
     }
     return searchState.modifier;
@@ -84,7 +103,7 @@ float ActorValueModifierList::GetActorValueModifierAmount(char key, bool& found)
 {
     Modifier* modifier = GetModifierItem(key);
     found = (unsigned char)(modifier != 0);
-    return modifier ? modifier->GetValue() : 0.0f;
+    return modifier ? reinterpret_cast<::TimeoutTimer *>((modifier))->FUN_006b9130() : 0.0f;
 }
 
 // @fnv 0x00937160
@@ -96,32 +115,11 @@ void ActorValueModifierList::CopyModifierListFrom(ActorValueModifierList* apSour
     if (apSource->m_ppModifiedActorValues)
         m_ppModifiedActorValues = new ModifierPointerList(apSource->m_ppModifiedActorValues);
     ActorValueModifierList* current = apSource;
-    while (current && current->GetItem() != 0)
+    while (current && ((::Modifier *)(new ((void *)(current)) ::Vec3())) != 0)
     {
-        Modifier* item = current->GetItem();
-        AppendModifier(new Modifier(item));
-        current = (ActorValueModifierList*)current->GetNext();
-    }
-}
-
-// @fnv 0x00937480
-void ActorValueModifierList::ModifyModifier(char key, float delta, ClampStyle clamp)
-{
-    Modifier* modifier = GetModifierItem(key);
-    if (!modifier)
-    {
-        if (delta != gModifierZero || m_bAllowZeroValueModifiers)
-        {
-            modifier = new Modifier(key, delta);
-            AppendModifier(modifier);
-        }
-    }
-    else
-    {
-        float value = ModifyAndClamp(modifier->GetValue(), delta, clamp);
-        modifier->SetValue(value);
-        if (modifier->GetValue() == gModifierZero && !m_bAllowZeroValueModifiers)
-            EraseModifier(modifier);
+        Modifier* item = ((::Modifier *)(new ((void *)(current)) ::Vec3()));
+        reinterpret_cast<::ModifierRoutingList *>(this)->FUN_00937380((::ModifierEntryView *)(::Modifier *)(new Modifier(item)));
+        current = (ActorValueModifierList*)((::BSSimpleList< ::Modifier *> *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
     }
 }
 
@@ -135,13 +133,12 @@ struct FUN_009375b0_shell : Modifier
 Modifier* FUN_009375b0_shell::SetKeyAndValue(char key, float value)
 {
     cKey = key;
-    SetValue(value);
+    reinterpret_cast<::FUN_004f5d90_shell *>(this)->FUN_004f5d90(value);
     return this;
 }
 
 void* __cdecl operator new(unsigned int);
 void __cdecl FUN_00937fd0();
-extern int DAT_011e0750;
 
 // Calls FUN_00937fd0, then allocates an int array of DAT_011e0750 elements, zeroes it, and stores the pointer through pThis.
 // @fnv 0x00937d70
@@ -167,29 +164,6 @@ struct FUN_009375e0_shell : public ActorValueModifierList
 {
     void FUN_009375e0(char key, float value);
 };
-// @fnv 0x009375e0
-void FUN_009375e0_shell::FUN_009375e0(char key, float value)
-{
-    Modifier* modifier = GetModifierItem(key);
-    if (!modifier)
-    {
-        if (value != gModifierZero || m_bAllowZeroValueModifiers)
-        {
-            modifier = new Modifier(key, value);
-            AppendModifier(modifier);
-        }
-    }
-    else if (value == gModifierZero && !m_bAllowZeroValueModifiers)
-    {
-        EraseModifier(modifier);
-    }
-    else
-    {
-        modifier->SetValue(value);
-    }
-}
-
-extern double _gModifierZero;
 
 // Adds param1 and param2, then clamps the sum to 0.0f when param3 is 0 (if above _gModifierZero) or 1 (if below), returning the result.
 // @fnv 0x00937810
@@ -199,11 +173,11 @@ float __cdecl ClampSumByMode(float afValueA, float afValueB, int aiMode)
     switch (aiMode)
     {
     case 0:
-        if (result > _gModifierZero)
+        if (result > ::_DAT_01012060)
             result = 0.0f;
         break;
     case 1:
-        if (result < _gModifierZero)
+        if (result < ::_DAT_01012060)
             result = 0.0f;
         break;
     default:
@@ -233,30 +207,26 @@ struct FUN_00936fd0_shell
 FUN_00936fd0_shell* FUN_00936fd0_shell::CopyFrom(Modifier* other)
 {
     cKey = other->cKey;
-    ((Modifier*)this)->SetValue(other->GetValue());
+    reinterpret_cast<::FUN_004f5d90_shell *>((((Modifier*)this)))->FUN_004f5d90(reinterpret_cast<::TimeoutTimer *>((other))->FUN_006b9130());
     return this;
 }
 
-void _Deallocate(void*);
 struct Unk3713
 {
-    void FreeArrayItems();
     void* ReleaseIfFlagged(unsigned int);
 };
 // @fnv 0x00937130
 void* Unk3713::ReleaseIfFlagged(unsigned int flags)
 {
-    FreeArrayItems();
+    reinterpret_cast<::FUN_00937f40_Class *>(this)->FreeArrayItems();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct TESSaveLoadGame
 {
-    void FUN_008579b0(void* a, int b);
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 struct Host37870
 {
     bool FUN_00937870(Modifier* p);
@@ -266,19 +236,17 @@ bool Host37870::FUN_00937870(Modifier* apModifier)
 {
     if (apModifier == 0)
         return false;
-    char key = apModifier->GetKey();
-    float value = apModifier->GetValue();
-    g_TESSaveLoadGame->FUN_008579b0(&key, 1);
-    g_TESSaveLoadGame->FUN_008579b0(&value, 4);
+    char key = ((char)(reinterpret_cast<::FUN_009373f0_shell *>((apModifier))->FUN_009373f0()));
+    float value = reinterpret_cast<::TimeoutTimer *>((apModifier))->FUN_006b9130();
+    reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&key, 1);
+    reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&value, 4);
     return true;
 }
 
 namespace fnv_009379c0 {
 struct TESSaveLoadGame
 {
-    void ReadTypedData(void*, unsigned int);
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 struct FUN_009379c0_shell : ActorValueModifierList
 {
     void LoadModifiers();
@@ -287,16 +255,16 @@ struct FUN_009379c0_shell : ActorValueModifierList
 void FUN_009379c0_shell::LoadModifiers()
 {
     unsigned short count;
-    g_TESSaveLoadGame->ReadTypedData(&count, 2);
+    reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_009379c0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&count, 2);
     for (unsigned int i = 0; i < count; i++)
     {
         char key;
         float value;
         Modifier* modifier = 0;
-        g_TESSaveLoadGame->ReadTypedData(&key, 1);
-        g_TESSaveLoadGame->ReadTypedData(&value, 4);
+        reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_009379c0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&key, 1);
+        reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_009379c0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&value, 4);
         modifier = new Modifier(key, value);
-        AppendModifier(modifier);
+        reinterpret_cast<::ModifierRoutingList *>(this)->FUN_00937380((::ModifierEntryView *)(modifier));
     }
 }
 }  // namespace fnv_009379c0
@@ -306,26 +274,20 @@ struct Modifier;
 
 struct BSSimpleList_helper
 {
-    Modifier** _ref_006815c0();
 };
 
 struct GameTimerRecord
 {
-    unsigned int GetTime() const;
 };
 
 struct TESSaveLoadGame : GameTimerRecord
 {
-    void FUN_008579b0(void*, int);
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct Host37870
 {
-    bool FUN_00937870(Modifier*);
 };
 
-extern int DAT_011e0750;
 
 struct FUN_009378d0_shell : Host37870
 {
@@ -336,24 +298,24 @@ struct FUN_009378d0_shell : Host37870
 void FUN_009378d0_shell::CountModifiers()
 {
     unsigned short icount = 0;
-    unsigned short* pusCount = (unsigned short*)g_TESSaveLoadGame->GetTime();
-    g_TESSaveLoadGame->FUN_008579b0(&icount, 2);
+    unsigned short* pusCount = (unsigned short*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)((*reinterpret_cast<::fnv_009378d0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_009378d0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&icount, 2);
 
     BSSimpleList<Modifier*>* pmodlist = (BSSimpleList<Modifier*>*)this;
-    while (pmodlist && *((BSSimpleList_helper*)pmodlist)->_ref_006815c0())
+    while (pmodlist && *((::fnv_009378d0::Modifier **)(new ((void *)(((BSSimpleList_helper*)pmodlist))) ::Vec3())))
     {
-        Modifier* pmod = *((BSSimpleList_helper*)pmodlist)->_ref_006815c0();
-        if (FUN_00937870(pmod))
+        Modifier* pmod = *((::fnv_009378d0::Modifier **)(new ((void *)(((BSSimpleList_helper*)pmodlist))) ::Vec3()));
+        if (reinterpret_cast<::Host37870 *>(this)->FUN_00937870((::Modifier *)(pmod)))
             icount++;
-        pmodlist = pmodlist->GetNext();
+        pmodlist = ((::BSSimpleList< ::fnv_009378d0::Modifier *> *)(reinterpret_cast<::Callees *>((pmodlist))->FUN_00726070()));
     }
 
-    int ifastCount = *(void**)((char*)this + 0xc) ? DAT_011e0750 : 0;
+    int ifastCount = *(void**)((char*)this + 0xc) ? ::DAT_011e0750 : 0;
     if (ifastCount)
     {
         for (int i = 0; i < ifastCount; i++)
         {
-            FUN_00937870((*(Modifier***)*(void**)((char*)this + 0xc))[i]);
+            reinterpret_cast<::Host37870 *>(this)->FUN_00937870((::Modifier *)((*(Modifier***)*(void**)((char*)this + 0xc))[i]));
             icount++;
         }
     }
@@ -369,8 +331,6 @@ struct FUN_00938060_s
     void FreeModifierEntry(int aiIndex);
 };
 
-extern "C" void __cdecl _Deallocate(void*);
-extern "C" int gModifierListIndex[];
 
 // @fnv 0x00938060
 void FUN_00938060_s::FreeModifierEntry(int aiIndex)
@@ -380,7 +340,7 @@ void FUN_00938060_s::FreeModifierEntry(int aiIndex)
         if (gModifierListIndex[aiIndex] < 77 && m_pEntries[gModifierListIndex[aiIndex]])
         {
             void* pv = m_pEntries[gModifierListIndex[aiIndex]];
-            _Deallocate(pv);
+            ::FUN_00401030(pv);
             m_pEntries[gModifierListIndex[aiIndex]] = 0;
         }
     }
@@ -388,7 +348,6 @@ void FUN_00938060_s::FreeModifierEntry(int aiIndex)
 }  // namespace fnv_00938060
 
 extern unsigned int _data_011c16bc;
-extern int DAT_011e0750;
 
 struct FUN_00937e10
 {
@@ -423,7 +382,6 @@ FUN_00937e10::FUN_00937e10(FUN_00937e10* other)
     }
 }
 
-extern int DAT_011e0750;
 
 struct ModifierListCalc : public ActorValueModifierList
 {
@@ -472,7 +430,6 @@ class ActorValueInfo
     unsigned int uiFlags;
 };
 namespace ActorValue {
-ActorValueInfo* GetActorValueInfo(Index aeActorValueIndex);
 }
 
 class FUN_00937400_ModifierList : public BSSimpleList<Modifier*>
@@ -483,6 +440,47 @@ class FUN_00937400_ModifierList : public BSSimpleList<Modifier*>
 
     void FUN_00937400(Modifier* modifier);
 };
+// @fnv 0x00937480
+void ActorValueModifierList::ModifyModifier(char key, float delta, ClampStyle clamp)
+{
+    Modifier* modifier = GetModifierItem(key);
+    if (!modifier)
+    {
+        if (delta != ::_DAT_01012060 || m_bAllowZeroValueModifiers)
+        {
+            modifier = new Modifier(key, delta);
+            reinterpret_cast<::ModifierRoutingList *>(this)->FUN_00937380((::ModifierEntryView *)(modifier));
+        }
+    }
+    else
+    {
+        float value = ::ClampSumByMode(reinterpret_cast<::TimeoutTimer *>((modifier))->FUN_006b9130(), delta, (*(int *)&(clamp)));
+        reinterpret_cast<::FUN_004f5d90_shell *>((modifier))->FUN_004f5d90(value);
+        if (reinterpret_cast<::TimeoutTimer *>((modifier))->FUN_006b9130() == ::_DAT_01012060 && !m_bAllowZeroValueModifiers)
+            reinterpret_cast<::FUN_00937400_ModifierList *>(this)->FUN_00937400(modifier);
+    }
+}
+// @fnv 0x009375e0
+void FUN_009375e0_shell::FUN_009375e0(char key, float value)
+{
+    Modifier* modifier = GetModifierItem(key);
+    if (!modifier)
+    {
+        if (value != ::_DAT_01012060 || m_bAllowZeroValueModifiers)
+        {
+            modifier = new Modifier(key, value);
+            reinterpret_cast<::ModifierRoutingList *>(this)->FUN_00937380((::ModifierEntryView *)(modifier));
+        }
+    }
+    else if (value == ::_DAT_01012060 && !m_bAllowZeroValueModifiers)
+    {
+        reinterpret_cast<::FUN_00937400_ModifierList *>(this)->FUN_00937400(modifier);
+    }
+    else
+    {
+        reinterpret_cast<::FUN_004f5d90_shell *>((modifier))->FUN_004f5d90(value);
+    }
+}
 
 // Removes a modifier from the list, or from m_ppModifiedActorValues when the actor value is flagged and tracked there.
 // @fnv 0x00937400
@@ -490,12 +488,12 @@ void FUN_00937400_ModifierList::FUN_00937400(Modifier* modifier)
 {
     if (!modifier)
         return;
-    ActorValueInfo* pkInfo = ActorValue::GetActorValueInfo((ActorValue::Index)modifier->GetKey());
+    ActorValueInfo* pkInfo = ((::ActorValueInfo *)(::FUN_0066e920((*(int *)&(const ::ActorValue::Index &)((ActorValue::Index)((char)(reinterpret_cast<::FUN_009373f0_shell *>((modifier))->FUN_009373f0())))))));
     if (pkInfo && (pkInfo->uiFlags & 1) && m_ppModifiedActorValues)
     {
-        m_ppModifiedActorValues->RemoveModifier(modifier->GetKey());
+        reinterpret_cast<::fnv_00938060::FUN_00938060_s *>((m_ppModifiedActorValues))->FreeModifierEntry(((char)(reinterpret_cast<::FUN_009373f0_shell *>((modifier))->FUN_009373f0())));
         return;
     }
-    Remove(modifier);
+    reinterpret_cast<::ItemChangeListNode *>(this)->FUN_00905330((::InventoryStackRecord *const &)(modifier));
     delete modifier;
 }

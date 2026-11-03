@@ -7,6 +7,13 @@
 // to their real unit once identified.
 // src/havok/physics/collide/shape/convex/cylinder/hkpcylindershape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/cylinder/hkpcylindershape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FunctionContext.h"
+#include "fnv/symbols_00d22000.h"
+#include "fnv/symbols_01030000.h"
+#include "fnv/symbols_0103c000.h"
+#include "fnv/symbols_010d0000.h"
+#include "fnv/symbols_011b5000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpCylinderShape.h"
 int __cdecl FUN_00d571b0();
 // FUN_00d571a0: __thiscall getter returning the float at this+0x14,
@@ -16,8 +23,6 @@ class hkpCylinderShapeGetCylRadius : public hkpCylinderShape {
 public:
     hkReal FUN_00d571a0();
 };
-extern char DAT_01268940[];
-void __cdecl FUN_00c90360(void* item, const char* type);
 void __cdecl FUN_00d571c0(void* item, const char*);
 struct C00d573e0 {
     char  pad00[0x10];
@@ -30,9 +35,6 @@ struct C00d573e0 {
     void SetValue(float v);
 };
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
-extern char DAT_010305a8;
-extern char DAT_010d0f1c;
-extern float DAT_011b5be8;
 static __declspec(noinline) float FUN_00d571d0()
 {
     return 0.0f;
@@ -443,7 +445,6 @@ extern const float DAT_010cb428 = 1.4210854715202004e-14f;
 extern const double DAT_0103c7c8 = (double)0.05f;
 extern float DAT_011b5be0;
 extern float DAT_011b5be4;
-extern float DAT_011b5be8;
 
 struct CylinderSupportArithmetic {
     __m128 q;
@@ -556,6 +557,7 @@ void CylinderSupportShape::FUN_00d57400(const hkVector4& direction, CylinderSupp
 }
 
 #include <math.h>
+#include "fnv/symbols_simd.h"
 typedef unsigned char hkUint8_S;
 typedef unsigned short hkUint16_S;
 typedef unsigned int hkUint32_S;
@@ -674,7 +676,6 @@ hkReferencedObject_S(class FinishingFlag flag){}
 
 ;
 typedef __m128 hkQuadReal;
-extern const __m128 DAT_010ec7f0;
 class hkVector4_S;
 typedef const hkVector4_S&hkVector4Parameter;
 class VectorComponentValue
@@ -777,7 +778,7 @@ m_vComponents=_mm_sub_ps(cross0,cross1);}
 inline void hkVector4_S::setInterpolate4(const hkVector4_S&v0,const hkVector4_S&v1,hkSimdRealParameter _t)
 {
 hkQuadReal t=_t.broadcast();
-hkQuadReal s=_mm_sub_ps(DAT_010ec7f0,t);
+hkQuadReal s=_mm_sub_ps(::DAT_010ec7f0,t);
 m_vComponents=_mm_add_ps(
 _mm_mul_ps(s,v0.m_vComponents),
 _mm_mul_ps(t,v1.m_vComponents));}
@@ -823,8 +824,7 @@ class StringCursor
 public:
 __forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}static StringCursor&GetMonitorStream()
 {
-extern hkThreadLocalData<StringCursor*>g_pMonitorStream;
-return*g_pMonitorStream.getData();
+return*(*reinterpret_cast<::hkThreadLocalData< ::StringCursor *> *>(&::DAT_0126835c)).getData();
 }
 public:
 __forceinline char*__cdecl GetStreamStart(){return m_kRayStart.val();}
@@ -1155,7 +1155,6 @@ static void __cdecl registerGetAabbFunction(ShapeCallbackDispatchTable&sf);
 virtual void CalcContentStatistics(hkStatisticsCollector*collector,const hkClass_S*cls)const;
 public:
 hkpCapsuleShape(FinishingFlag flag):hkpConvexShape_S(flag){m_type=HK_SHAPE_CAPSULE;}
-static void __cdecl GetClosestPointOnLineSegment(const hkVector4_S&A,const hkVector4_S&B,const hkVector4_S&B2,hkVector4_S&pt);
 static void __cdecl GetClosestPointsBetweenInfiniteLines(const hkVector4_S&A,const hkVector4_S&dA,const hkVector4_S&B,const hkVector4_S&dB,hkReal_S&distSquared,hkReal_S&t,hkReal_S&u,hkVector4_S&p,hkVector4_S&q);
 protected:
 hkVector4_S m_kVertexA;
@@ -1175,7 +1174,7 @@ hkVector4_S vertex0;vertex0.setAdd4(thisObj->getVertex(0),radiusAxis);
 hkVector4_S vertex1;vertex1.setSub4(thisObj->getVertex(1),radiusAxis);
 hkReal_S cylTotalRadius=thisObj->m_fSphereRadius+thisObj->m_fCylinderRadius;
 {
-hkVector4_S res;hkpCapsuleShape::GetClosestPointOnLineSegment(input.m_vFrom,vertex0,vertex1,res);
+hkVector4_S res;::FUN_00d224c0((float *)&(input.m_vFrom),(float *)&(vertex0),(float *)&(vertex1),(float *)&(res));
 hkVector4_S join;join.setSub4(input.m_vFrom,res);
 hkReal_S sToCylDist=join.length3();
 if(sToCylDist<cylTotalRadius)

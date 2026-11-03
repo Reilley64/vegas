@@ -5,6 +5,291 @@
 
 // src/fallout/ai/actor_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/ai/actor.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <new>
+#include "fnv/decl/AlignedVector.h"
+#include "fnv/decl/B441420Owner.h"
+#include "fnv/decl/B5474B0Cell.h"
+#include "fnv/decl/B930700Actor.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/BlendController.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CellView.h"
+#include "fnv/decl/Cls.h"
+#include "fnv/decl/Controller.h"
+#include "fnv/decl/ControllerLocal.h"
+#include "fnv/decl/Dispatch_00c89dd0.h"
+#include "fnv/decl/DownloadableContentManager.h"
+#include "fnv/decl/Dummy.h"
+#include "fnv/decl/FNVAnimationController.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00409480_shell.h"
+#include "fnv/decl/FUN_00416870_t.h"
+#include "fnv/decl/FUN_00418800_shell.h"
+#include "fnv/decl/FUN_00418830_shell.h"
+#include "fnv/decl/FUN_0041d6d0_shell.h"
+#include "fnv/decl/FUN_00421e40_shell.h"
+#include "fnv/decl/FUN_00437bd0_stub.h"
+#include "fnv/decl/FUN_00439f50_class.h"
+#include "fnv/decl/FUN_0043b4d0_shell.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00450410_Class.h"
+#include "fnv/decl/FUN_004523c0_shell.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_00458e20_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_004893c0_class.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004a0c90_shell.h"
+#include "fnv/decl/FUN_004a39f0_shell.h"
+#include "fnv/decl/FUN_004a3eb0_shell.h"
+#include "fnv/decl/FUN_004a3fb0_shell.h"
+#include "fnv/decl/FUN_004a46b0_class.h"
+#include "fnv/decl/FUN_004ae700_S.h"
+#include "fnv/decl/FUN_004eaf60_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_004f8960_shell.h"
+#include "fnv/decl/FUN_00508100_shell.h"
+#include "fnv/decl/FUN_00508d70_shell.h"
+#include "fnv/decl/FUN_005471e0_shell.h"
+#include "fnv/decl/FUN_005475b0_shell.h"
+#include "fnv/decl/FUN_00549580_shell.h"
+#include "fnv/decl/FUN_005610f0_cls.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_0057b0a0_shell.h"
+#include "fnv/decl/FUN_00586260_shell.h"
+#include "fnv/decl/FUN_0059ce80_shell.h"
+#include "fnv/decl/FUN_005a2030_shell.h"
+#include "fnv/decl/FUN_005a9140_shell.h"
+#include "fnv/decl/FUN_005a9290_shell.h"
+#include "fnv/decl/FUN_005bb4d0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005f90c0_shell.h"
+#include "fnv/decl/FUN_005f90e0_shell.h"
+#include "fnv/decl/FUN_00619a70_shell.h"
+#include "fnv/decl/FUN_0061cdc0_shell.h"
+#include "fnv/decl/FUN_0061cfd0_shell.h"
+#include "fnv/decl/FUN_0061e600_t.h"
+#include "fnv/decl/FUN_00629670_Class.h"
+#include "fnv/decl/FUN_0062d4b0.h"
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/FUN_006e2b50_shell.h"
+#include "fnv/decl/FUN_00810510_Class.h"
+#include "fnv/decl/FUN_00810550_class.h"
+#include "fnv/decl/FUN_00810640_class.h"
+#include "fnv/decl/FUN_00810660_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00857230_shell.h"
+#include "fnv/decl/FUN_0087ea60_Class.h"
+#include "fnv/decl/FUN_0087eeb0_shell.h"
+#include "fnv/decl/FUN_008846e0_shell.h"
+#include "fnv/decl/FUN_00891130_class.h"
+#include "fnv/decl/FUN_00891150_Class.h"
+#include "fnv/decl/FUN_0089f4e0_shell.h"
+#include "fnv/decl/FUN_008a50f0_class.h"
+#include "fnv/decl/FUN_008ac890_shell.h"
+#include "fnv/decl/FUN_008ace90_shell.h"
+#include "fnv/decl/FUN_008ae480_Class.h"
+#include "fnv/decl/FUN_008ae4a0_Class.h"
+#include "fnv/decl/FUN_008e5700_cls.h"
+#include "fnv/decl/FUN_009314f0.h"
+#include "fnv/decl/FUN_00931510_Class.h"
+#include "fnv/decl/FUN_00931560_cls.h"
+#include "fnv/decl/FUN_00931580_Class.h"
+#include "fnv/decl/FUN_009315a0Class.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FUN_0093a7a0_Class.h"
+#include "fnv/decl/FUN_00947d80_cls.h"
+#include "fnv/decl/FUN_009480c0_shell.h"
+#include "fnv/decl/FUN_0094db80_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_0098adb0_shell.h"
+#include "fnv/decl/FUN_009c8d60_t.h"
+#include "fnv/decl/FUN_00a305e0_cls.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00c6e0b0_Class.h"
+#include "fnv/decl/FUN_00c7d900.h"
+#include "fnv/decl/FUN_00c7dc40.h"
+#include "fnv/decl/FUN_00cb7550_cls.h"
+#include "fnv/decl/FUN_00cc58c0.h"
+#include "fnv/decl/FUN_00cd9fe0_cls.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/FootIKDetail__Controller.h"
+#include "fnv/decl/GList.h"
+#include "fnv/decl/Holder00807080.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/Manager.h"
+#include "fnv/decl/MyPoint439180.h"
+#include "fnv/decl/NiObject.h"
+#include "fnv/decl/Obj_930.h"
+#include "fnv/decl/Owner274.h"
+#include "fnv/decl/Owner623.h"
+#include "fnv/decl/P09A.h"
+#include "fnv/decl/P103Controller.h"
+#include "fnv/decl/P3.h"
+#include "fnv/decl/PatrolActorPackageData.h"
+#include "fnv/decl/Polygon.h"
+#include "fnv/decl/PoseOwner.h"
+#include "fnv/decl/RagdollUpdateController.h"
+#include "fnv/decl/RefList.h"
+#include "fnv/decl/RelationUpdater.h"
+#include "fnv/decl/S004586d0_Obj.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S0062aea0_Vector.h"
+#include "fnv/decl/S008910c0_Vector.h"
+#include "fnv/decl/S_00422b90.h"
+#include "fnv/decl/S_0060ba10.h"
+#include "fnv/decl/S_00c6d7a0_Obj.h"
+#include "fnv/decl/S_c7a730.h"
+#include "fnv/decl/ScreenSplatter.h"
+#include "fnv/decl/Sky.h"
+#include "fnv/decl/SoundPlaybackManager.h"
+#include "fnv/decl/TESEffectShader.h"
+#include "fnv/decl/TESRegionList.h"
+#include "fnv/decl/TESTopicInfoData.h"
+#include "fnv/decl/TopicFlagStandIn.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/V.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/_FUN_00822510_Class.h"
+#include "fnv/decl/bhkCharacterController.h"
+#include "fnv/decl/bhkCollisionObject.h"
+#include "fnv/decl/cell547__C5Cell.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_0043fcd0__FUN_0043fcd0_shell.h"
+#include "fnv/decl/fnv_00451530__FUN_00451530_shell.h"
+#include "fnv/decl/fnv_004518e0__TESObjectCELL.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_004a3a20__FUN_004a3a20_shell.h"
+#include "fnv/decl/fnv_004a3da0__FUN_004a3da0_shell.h"
+#include "fnv/decl/fnv_00561580__FUN_00561580_Class.h"
+#include "fnv/decl/fnv_005617c0__FUN_005617c0_.h"
+#include "fnv/decl/fnv_00567400__FUN_00567400_shell.h"
+#include "fnv/decl/fnv_0056f110__FUN_0056f110_class.h"
+#include "fnv/decl/fnv_00571530__FUN_00571530_shell.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_0057b520__FUN_0057b520_shell.h"
+#include "fnv/decl/fnv_005ac6a0__FUN_005ac6a0.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00810610__FUN_00810610_Class.h"
+#include "fnv/decl/fnv_0087ce80__FUN_0087ce80_shell.h"
+#include "fnv/decl/fnv_0087e130__Projectile.h"
+#include "fnv/decl/fnv_0087f9f0__FUN_0087f9f0_shell.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_0088e8d0__EActor.h"
+#include "fnv/decl/fnv_00895110__PickActor.h"
+#include "fnv/decl/fnv_0089d5e0__FUN_0089d5e0_shell.h"
+#include "fnv/decl/fnv_0089f580__ActorStub.h"
+#include "fnv/decl/fnv_008a50d0__bhkCharacterController.h"
+#include "fnv/decl/fnv_008a7d50__ActorHitOwner.h"
+#include "fnv/decl/fnv_008cdd90__FUN_008cdd90_shell.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/decl/fnv_009314d0__FUN_009314d0_class.h"
+#include "fnv/decl/fnv_00931530__Dummy629670.h"
+#include "fnv/decl/fnv_00c79a50__PoseControllerLocal.h"
+#include "fnv/decl/fnv_00cda340__SkeletonPoseData.h"
+#include "fnv/decl/hkaPoseCDA.h"
+#include "fnv/decl/hkaSkeletonMapper.h"
+#include "fnv/decl/xController.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_0048d000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_004aa000.h"
+#include "fnv/symbols_004ae000.h"
+#include "fnv/symbols_004b3000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_004ba000.h"
+#include "fnv/symbols_004f2000.h"
+#include "fnv/symbols_00525000.h"
+#include "fnv/symbols_00553000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00560000.h"
+#include "fnv/symbols_0056e000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_00574000.h"
+#include "fnv/symbols_005a1000.h"
+#include "fnv/symbols_005e0000.h"
+#include "fnv/symbols_00619000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_00622000.h"
+#include "fnv/symbols_0062b000.h"
+#include "fnv/symbols_0062f000.h"
+#include "fnv/symbols_00646000.h"
+#include "fnv/symbols_00837000.h"
+#include "fnv/symbols_00891000.h"
+#include "fnv/symbols_008a5000.h"
+#include "fnv/symbols_008b6000.h"
+#include "fnv/symbols_0094d000.h"
+#include "fnv/symbols_009a3000.h"
+#include "fnv/symbols_009e3000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00b4f000.h"
+#include "fnv/symbols_00b6b000.h"
+#include "fnv/symbols_00c43000.h"
+#include "fnv/symbols_00c4b000.h"
+#include "fnv/symbols_00c59000.h"
+#include "fnv/symbols_00c68000.h"
+#include "fnv/symbols_00c6a000.h"
+#include "fnv/symbols_00c6c000.h"
+#include "fnv/symbols_00c74000.h"
+#include "fnv/symbols_00c76000.h"
+#include "fnv/symbols_00c7b000.h"
+#include "fnv/symbols_00c7d000.h"
+#include "fnv/symbols_00c7f000.h"
+#include "fnv/symbols_00c80000.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00c9b000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00cb9000.h"
+#include "fnv/symbols_00ce4000.h"
+#include "fnv/symbols_00d6b000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_01020000.h"
+#include "fnv/symbols_01022000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_01084000.h"
+#include "fnv/symbols_0108f000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_010c5000.h"
+#include "fnv/symbols_01196000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011cc000.h"
+#include "fnv/symbols_011d0000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011df000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f2000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_01204000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01272000.h"
 #include "Actor.h"
 struct MemoryManager
 {
@@ -13,38 +298,31 @@ struct MemoryManager
 extern MemoryManager g_memoryManager;
 struct bhkRagdollController
 {
-    void FUN_00c7d900();
     void* FUN_00c7de30(unsigned int);
 };
-extern "C" void* g_012685f8;
 void* __cdecl FUN_00c7fa60();
-extern "C" void __cdecl _delete(void*, int);
-void __cdecl FUN_00cc58c0();
 struct FUN_00c7fa70_Class
 {
     void* __thiscall FUN_00c7fa70(int);
 };
-extern "C" void __cdecl FUN_0062d4b0();
-extern int DAT_01084e54;
 struct FUN_00cb9900_cls
 {
     void __thiscall FUN_00cb9900();
 };
-void __cdecl FUN_00cda340();
-void __cdecl FUN_00cd9fe0();
 struct FUN_00cda4b0_cls
 {
     void __thiscall FUN_00cda4b0();
 };
 struct FUN_00cda8d0_class
 {
-    void FUN_00cda340();
     void* FUN_00cda8d0();
 };
+struct StateResetPart;
 struct FUN_00cdb290
 {
-    void __thiscall FUN_00cda690();
     void* __thiscall GetPlus4();
+public:
+    ::StateResetPart *FUN_00cdb0a0();
 };
 struct VObj
 {
@@ -62,7 +340,6 @@ struct Outer
 {
     int _0;
     unsigned short _4;
-    void __thiscall FUN_00c7dc40();
     Outer* __thiscall FUN_00c7e970(unsigned int);
 };
 struct MyNode
@@ -78,7 +355,6 @@ struct MyNode
     char _pad2[2];
     unsigned short count;
 };
-MyNode* __cdecl FUN_00c802d0(MyNode* p);
 struct MyRef
 {
     virtual ~MyRef();
@@ -165,27 +441,24 @@ struct Target
 };
 struct FUN_00c6ffc0_Class
 {
-    Target* FUN_00c6e0b0();
     void FUN_00c6ffc0();
 };
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern char* EmptyFS;
 struct FixedStr
 {
     char* h;
     FixedStr(const FixedStr& o)
     {
-        if (o.h != EmptyFS)
+        if (o.h != ::DAT_0109b220)
             InterlockedIncrement((long volatile*)(o.h - 8));
         h = o.h;
     }
     ~FixedStr()
     {
-        if (h != EmptyFS)
+        if (h != ::DAT_0109b220)
             InterlockedDecrement((long volatile*)(h - 8));
     }
-    bool Equals(const char*) const;
 };
 struct Mat3
 {
@@ -238,12 +511,8 @@ struct RArr
 {
     int _0;
     RElem* data;
-    int AppendSlot();
-    void ConstructElementArray(RElem*, int);
 };
 struct RCtx;
-RObj* __cdecl FUN_00c4b470(RCtx*, RKey*, int);
-void __cdecl FUN_00c7bcb0(RCtx* ctx, RObj* obj, RArr* arr);
 struct NiUpdateData
 {
     float m_fTime;
@@ -253,21 +522,20 @@ struct NiUpdateData
     bool b3;
     bool b4;
 };
+class NiAVObject;
 struct NiNode : NiAVObject
 {
     void Update(NiUpdateData const&);
+public:
+    ::NiAVObject *GetAt(unsigned int);
 };
 struct Creature
 {
-    static void __cdecl SetNodeFlagsRecursive(NiAVObject*, int, bool, bool, bool);
 };
-void __cdecl SetFlagRecursive(int, void*);
-void __cdecl FUN_00c7bcb0(void*, void*, void*);
 inline unsigned char GetFlag6(unsigned short w)
 {
     return (unsigned char)(w >> 6) & 1;
 }
-void __cdecl FUN_00c7d3b0(NiNode* param_1, void* param_2, void* param_3, char* param_4, unsigned int* param_5);
 struct ThreeByThreeMatrix
 {
     float m[9];
@@ -280,7 +548,6 @@ struct NiTransform
     float m_fScale;
     NiTransform operator*(const NiTransform&) const;
 };
-void FUN_00c74dd0(void*, NiTransform*);
 extern bool DAT_01267c28;
 extern bool DAT_01267c34;
 extern bool DAT_01267c40;
@@ -343,19 +610,9 @@ struct FUN_00c7d630_t
     char pad5c[4];
     ThreeByThreeMatrix m_kRot;
     void FUN_00c7d630(float);
-    void FUN_00c79680();
-    void FUN_00c7cb50(int);
-    void FUN_00c76350(void*);
-    void FUN_00c751f0(void*);
-    void FUN_00c7aa60(void*);
-    void FUN_00c7ba50(void*, void*, bool*);
-    void FUN_00c7d030(void*);
-    void FUN_00c7c870();
-    void FUN_00c79a50();
 };
 struct FUN_00cb0c00_class
 {
-    void FUN_00cb0c00();
 };
 struct VObjExt : VObj
 {
@@ -370,8 +627,6 @@ struct FUN_00c7d890_cls
     void FUN_00c7d890();
 };
 void* __cdecl FUN_00ec7230(char*, char const*, unsigned int);
-void __stdcall FUN_00c7f900(char* dst, char* src, unsigned int count);
-void __cdecl FUN_00d6b4b0(void*, unsigned int);
 struct FUN_00cdb3e0_cls
 {
     char pad[0x2c];
@@ -390,12 +645,8 @@ struct S_c6a200_Ev
     int unk10, unk14, unk18;
 };
 extern void* DAT_011afecc;
-S_c6a200_Info* __cdecl GetExtraDataChecked(void* obj);
-void __cdecl FUN_00c68900(void* obj, S_c6a200_Ev* ev, void* extra);
-bool __cdecl FUN_00c6a200(void* obj, unsigned char a1, unsigned char a2, unsigned char a3);
 struct FlagController
 {
-    void FUN_00c7b6a0(int);
     void FUN_00c7ba10(bool);
 };
 struct HkAllocator
@@ -526,11 +777,9 @@ struct AudioHolder
     int unk0c;
     AudioAllocator* m_pAllocator;
 };
-AudioHolder* __cdecl FUN_00c85750() throw();
 struct FUN_00c7d5c0_elem
 {
     int unk00;
-    void Release();
 };
 struct FUN_00c7d5c0_cls
 {
@@ -540,10 +789,6 @@ struct FUN_00c7d5c0_cls
 
     void FUN_00c7d5c0();
 };
-extern unsigned int g_01268188;
-extern unsigned int g_012685f4;
-extern const char DAT_0108febc[];
-extern const char DAT_010c52bc[];
 struct BaseObject
 {
     const char* classTable;
@@ -556,29 +801,27 @@ struct MiddleObject : BaseObject
     unsigned int initialized0c;
     MiddleObject() : initialized0c(0)
     {
-        classTable = DAT_0108febc;
-        ++g_01268188;
+        classTable = (*reinterpret_cast<const char (*)[]>(&::DAT_0108febc));
+        ++(*reinterpret_cast<unsigned int *>(&::DAT_01268188));
     }
     ~MiddleObject();
 };
 struct FUN_00c7f9e0 : MiddleObject
 {
     FUN_00c7f9e0(void* context);
-    void SpawnAndAttach(void* context);
 };
-extern __declspec(thread) int g_iCB9810AllocTag;
 struct BCB9810AllocTagScope
 {
     int m_iSaved;
 
     BCB9810AllocTagScope(int aiAllocationTag)
     {
-        m_iSaved = g_iCB9810AllocTag;
-        g_iCB9810AllocTag = aiAllocationTag;
+        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
     }
     ~BCB9810AllocTagScope()
     {
-        g_iCB9810AllocTag = m_iSaved;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
     }
 };
 struct BCB9810Node
@@ -598,7 +841,6 @@ struct BCB9810Entry
 class BCB9810Registry
 {
   public:
-    void AppendTailPair(void* pvOwner, BCB9810Node* pkNode);
     void FUN_00cb9810(void* pvOwner, BCB9810Node* pkNode);
 
     int unk00;
@@ -608,10 +850,6 @@ class BCB9810Registry
 };
 struct CE4360Iter
 {
-    int* GetFirst();
-    int* GetSecond();
-    int* GetThird();
-    int* GetFourth();
 };
 struct CE4360Context
 {
@@ -646,18 +884,13 @@ struct CE4360Context
     int unk70;
     int m_iMode;
 };
-void __cdecl FUN_00ce3a00(CE4360Context* pkContext, int a, int b, int c, int d);
-void __cdecl FUN_00ce4330(CE4360Context* pkContext, int a, int b, int c);
 void __cdecl FUN_00ce4360(CE4360Context* pkContext, CE4360Iter* pkFrom, CE4360Iter* pkTo, int iValue);
 struct RTTI_c9b
 {
     const char* m_pcName;
     RTTI_c9b* m_pBaseRTTI;
 };
-extern unsigned char DAT_011f4428;
 class GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_012043f8;
-extern float DAT_01267e30;
 struct S
 {
     virtual void v00();
@@ -719,7 +952,6 @@ struct S
     virtual void v38();
     virtual void SetMode(int iMode);
     void FUN_00561690(int);
-    void FUN_005617c0(float* pf);
 };
 struct Cast_c9b
 {
@@ -728,7 +960,6 @@ struct Cast_c9b
 };
 struct Ctrl_c9b
 {
-    Cast_c9b* FUN_00653290(GlobalObjectO2_00a7b610* pkType);
 };
 class Obj_c9b
 {
@@ -743,20 +974,17 @@ class Obj_c9b
     unsigned short m_usMax;
     unsigned short m_usElementCount;
 };
-void __cdecl ApplyCollisionEffect(Obj_c9b* pkObj, float f);
 __forceinline bool IsNode_c9b(Obj_c9b* pkObj)
 {
     RTTI_c9b* pkRTTI = pkObj->GetRTTI();
     while (pkRTTI)
     {
-        if (pkRTTI == (RTTI_c9b*)&DAT_011f4428)
+        if (pkRTTI == (RTTI_c9b*)&(*reinterpret_cast<unsigned char *>(&::g_011f4428)))
             return true;
         pkRTTI = pkRTTI->m_pBaseRTTI;
     }
     return false;
 }
-void __cdecl FUN_00c9bdf0(Obj_c9b* pkObj, float f);
-void __stdcall FUN_00c7f900(char* dst, char* src, unsigned int count);
 class FUN_00c7f970_cls
 {
   public:
@@ -772,7 +1000,6 @@ class FUN_00c7f970_cls
 };
 
 #include <xmmintrin.h>
-int __cdecl FUN_00458620(int value, int extra);
 
 struct __declspec(align(16)) ScratchVec
 {
@@ -844,7 +1071,7 @@ struct QueryOwner
 int QueryOwner::FUN_00560bc0(int param)
 {
     ScratchVec v;
-    return FUN_00458620(param, vfn_d4(&v));
+    return ((int)(::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(param)), (*(const ::hkVector4 *)(vfn_d4(&v))))));
 }
 
 class NiPoint3T8
@@ -855,12 +1082,10 @@ class NiPoint3T8
     NiPoint3T8 operator-(const NiPoint3T8& kPt) const;
     NiPoint3T8 operator*(float fScale) const;
     NiPoint3T8& operator*=(float fScale);
-    void Unitize();
     float x;
     float y;
     float z;
 };
-extern NiPoint3T8 g_kUnitZT8;
 
 class hkSimdRealT8
 {
@@ -873,45 +1098,29 @@ class hkVector4T8
 {
   public:
     hkVector4T8();
-    void SetFrom(const void* pvSource);
-    void Sub(const hkVector4T8& kOther);
     hkVector4T8 Copy() const;
-    float Length3() const;
     float& operator()(int i);
-    void Normalize3();
-    void AddMul4(const hkSimdRealT8& kScale, const hkVector4T8& kWorldPosition);
     __m128 m_vComponents;
 };
-void __cdecl FUN_004a3e00(hkVector4T8& kOut, const NiPoint3T8& kIn);
-NiPoint3T8& __cdecl FUN_00458620(NiPoint3T8& kOut, const hkVector4T8& kIn);
-hkVector4T8 __cdecl FUN_00891060(const hkVector4T8& kVec, const hkSimdRealT8& kScale);
-float __cdecl FUN_004a3e90(float fValue);
-float __cdecl FUN_0040ebd0(float fA, float fB);
 
 class ScriptVarsT8
 {
   public:
-    char GetVariable(const char* pcName, unsigned int* puiIndex);
 };
 
 class LocalsT8
 {
   public:
-    double GetVar(unsigned int uiIndex, int iUnused);
-    void SetVar(unsigned int uiIndex, double dValue);
 };
 
 class ScriptHostT8
 {
   public:
-    ScriptVarsT8* GetScriptVars();
-    LocalsT8* GetLocals();
 };
 
 class GlobalT8
 {
   public:
-    float GetValue();
 };
 extern GlobalT8 g_kTrapMultT8;
 
@@ -919,16 +1128,12 @@ class ShapeT8;
 class ObjT8
 {
   public:
-    ObjT8* GetObj();
     const void* GetPos();
-    int GetFlagsValue();
 };
 
 class HitSubT8
 {
   public:
-    class RefT8* GetReferenceWrapper();
-    ObjT8* GetObj();
 };
 
 class HitT8
@@ -942,34 +1147,24 @@ class TrapFlagsT8
 {
   public:
     TrapFlagsT8(int iValue);
-    int GetType();
     int m_iValue;
 };
 
 class BodyT8
 {
   public:
-    const void* GetLinearVelocityVector();
     const void* GetNavMeshData();
 };
-BodyT8* __cdecl FUN_004b59f0(ObjT8* pkObj);
-int __cdecl FUN_004b5a80(BodyT8* pkBody);
 
 class WeapT8
 {
   public:
-    bool IsStatic();
     const void* GetPos();
-    const void* GetDir();
-    int GetFormType();
-    void Finish(int iValue);
 };
 
 class ProjT8
 {
   public:
-    const void* GetSourceVelocity();
-    void ApplyImpulse(const NiPoint3T8& kImpulse, float fScale);
 };
 
 class NodeT8
@@ -1006,10 +1201,6 @@ class EventT8
     int m_i1c;
     int m_iFirstValue;
 };
-void __cdecl FUN_00837550(EventT8* pkEvent);
-void __cdecl FUN_00c6a350(void* pvTarget, int iMode, int iA, int iB, int iC);
-void __cdecl FUN_00cb9650(void* pvTarget);
-void __cdecl SetCollisionScale(void* pvNode, hkVector4T8* pkVelocity, float fScale, int iFlags);
 
 class AVOwnerT8
 {
@@ -1230,19 +1421,10 @@ class RefT8
     virtual void r0cc();
     virtual void r0cd();
     virtual void DamageHealth(float afDamageAmount, float fUnused, int iFlags);
-    ScriptHostT8* GetHost();
-    unsigned short GetLevel();
-    ProjT8* GetProjectileData();
-    float GetHeight();
-    void ApplyHit(float fForce, ImpulseT8* pkImpulse);
-    void UpdateHit(int iA, int iB);
-    RefT8* GetPlayerTarget();
     char m_acPad[0xa4 - 4];
     AVOwnerT8 m_kAVOwner;
     void FUN_00890610(HitT8* pkHit, WeapT8* pkWeap);
 };
-extern RefT8* g_pkPlayerT8;
-extern const double g_dMaxDeathPushBackT8;
 
 // @fnv 0x00890610
 void RefT8::FUN_00890610(HitT8* pkHit, WeapT8* pkWeap)
@@ -1253,71 +1435,71 @@ void RefT8::FUN_00890610(HitT8* pkHit, WeapT8* pkWeap)
     float fMinVelocity = 0.0f;
     bool bContinuous = false;
     float fVelocityMult = 1.0f;
-    RefT8* pkAttacker = pkHit->m_kSub.GetReferenceWrapper();
-    ScriptHostT8* pkHost = pkAttacker->GetHost();
-    ScriptVarsT8* pkVars = pkHost->GetScriptVars();
-    if (this == g_pkPlayerT8 && pkAttacker && pkAttacker == g_pkPlayerT8->GetPlayerTarget())
+    RefT8* pkAttacker = ((::RefT8 *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(pkHit->m_kSub))->FUN_0084e3a0()));
+    ScriptHostT8* pkHost = ((::ScriptHostT8 *)(reinterpret_cast<::FUN_005d43c0_ *>((pkAttacker))->FUN_005d43c0()));
+    ScriptVarsT8* pkVars = ((::ScriptVarsT8 *)(reinterpret_cast<::FUN_00418800_shell *>((pkHost))->FUN_00418800()));
+    if (this == (*reinterpret_cast<::RefT8 * *>(&::_g_thePlayer)) && pkAttacker && pkAttacker == ((::RefT8 *)(reinterpret_cast<::FUN_0089f4e0_shell *>(((*reinterpret_cast<::RefT8 * *>(&::_g_thePlayer))))->FUN_0089f4e0())))
         return;
     if (pkVars)
     {
-        LocalsT8* pkLocals = pkHost->GetLocals();
+        LocalsT8* pkLocals = ((::LocalsT8 *)(reinterpret_cast<::FUN_00418830_shell *>((pkHost))->FUN_00418830()));
         if (pkLocals)
         {
             unsigned int uiDamage;
-            if (pkVars->GetVariable("fTrapDamage", &uiDamage))
-                afDamageAmount = pkLocals->GetVar(uiDamage, 0);
+            if (reinterpret_cast<::fnv_005ac6a0::FUN_005ac6a0 *>((pkVars))->Method_005ac6a0("fTrapDamage", &uiDamage))
+                afDamageAmount = reinterpret_cast<::FUN_005a9140_shell *>((pkLocals))->FUN_005a9140(uiDamage, (::Script *)(0));
             unsigned int uiLevelled;
-            if (pkVars->GetVariable("fLevelledDamage", &uiLevelled))
-                afDamageAmount += GetLevel() * (float)pkLocals->GetVar(uiLevelled, 0);
+            if (reinterpret_cast<::fnv_005ac6a0::FUN_005ac6a0 *>((pkVars))->Method_005ac6a0("fLevelledDamage", &uiLevelled))
+                afDamageAmount += reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(this)->FUN_0087f9f0() * (float)reinterpret_cast<::FUN_005a9140_shell *>((pkLocals))->FUN_005a9140(uiLevelled, (::Script *)(0));
             unsigned int uiPushBack;
-            if (pkVars->GetVariable("fTrapPushBack", &uiPushBack))
-                fPushBack = pkLocals->GetVar(uiPushBack, 0);
+            if (reinterpret_cast<::fnv_005ac6a0::FUN_005ac6a0 *>((pkVars))->Method_005ac6a0("fTrapPushBack", &uiPushBack))
+                fPushBack = reinterpret_cast<::FUN_005a9140_shell *>((pkLocals))->FUN_005a9140(uiPushBack, (::Script *)(0));
             unsigned int uiMinVelocity;
-            if (pkVars->GetVariable("fTrapMinVelocity", &uiMinVelocity))
+            if (reinterpret_cast<::fnv_005ac6a0::FUN_005ac6a0 *>((pkVars))->Method_005ac6a0("fTrapMinVelocity", &uiMinVelocity))
             {
-                fMinVelocity = pkLocals->GetVar(uiMinVelocity, 0);
+                fMinVelocity = reinterpret_cast<::FUN_005a9140_shell *>((pkLocals))->FUN_005a9140(uiMinVelocity, (::Script *)(0));
                 if (fMinVelocity < 0.0)
                     fMinVelocity = 0.0f;
                 else
                     fMinVelocity = FUN_004a3e90(fMinVelocity);
             }
             unsigned int uiContinuous;
-            if (pkVars->GetVariable("bTrapContinuous", &uiContinuous))
-                bContinuous = pkLocals->GetVar(uiContinuous, 0) != 0.0;
+            if (reinterpret_cast<::fnv_005ac6a0::FUN_005ac6a0 *>((pkVars))->Method_005ac6a0("bTrapContinuous", &uiContinuous))
+                bContinuous = reinterpret_cast<::FUN_005a9140_shell *>((pkLocals))->FUN_005a9140(uiContinuous, (::Script *)(0)) != 0.0;
             unsigned int uiDeathPushBack;
-            if (pkVars->GetVariable("fTrapDeathPushBack", &uiDeathPushBack))
-                fDeathPushBack = pkLocals->GetVar(uiDeathPushBack, 0);
+            if (reinterpret_cast<::fnv_005ac6a0::FUN_005ac6a0 *>((pkVars))->Method_005ac6a0("fTrapDeathPushBack", &uiDeathPushBack))
+                fDeathPushBack = reinterpret_cast<::FUN_005a9140_shell *>((pkLocals))->FUN_005a9140(uiDeathPushBack, (::Script *)(0));
             else
                 fDeathPushBack = fPushBack / 10.0;
         }
     }
-    if (bContinuous || !pkWeap->IsStatic())
+    if (bContinuous || !reinterpret_cast<::FUN_00891150_Class *>((pkWeap))->FUN_00891150())
     {
-        ProjT8* pkProj = GetProjectileData();
-        BodyT8* pkBody = FUN_004b59f0(pkHit->m_kSub.GetObj());
+        ProjT8* pkProj = ((::ProjT8 *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()));
+        BodyT8* pkBody = ((::BodyT8 *)(::FUN_004b59f0(((::ObjT8 *)(reinterpret_cast<::Twin_0044ddc0 *>(&(pkHit->m_kSub))->GetName())))));
         hkVector4T8 kMotionVelocity;
         hkVector4T8 kSource;
         if (pkBody)
         {
-            if (!pkWeap->IsStatic())
+            if (!reinterpret_cast<::FUN_00891150_Class *>((pkWeap))->FUN_00891150())
             {
-                kMotionVelocity.SetFrom(pkWeap->GetPos());
-                kSource.SetFrom(pkWeap->GetDir());
+                reinterpret_cast<::AlignedVector *>(&(kMotionVelocity))->FUN_004a3f10((*(const ::AlignedVector *)(((const void *)(reinterpret_cast<::TESTopicInfo *>((pkWeap))->GetAddTopicList())))));
+                reinterpret_cast<::AlignedVector *>(&(kSource))->FUN_004a3f10((*(const ::AlignedVector *)(((const void *)(reinterpret_cast<::BGSCameraPath *>((pkWeap))->GetShotList())))));
             }
             else
             {
-                kMotionVelocity.SetFrom(pkBody->GetLinearVelocityVector());
-                kSource.SetFrom(pkBody->GetNavMeshData());
+                reinterpret_cast<::AlignedVector *>(&(kMotionVelocity))->FUN_004a3f10((*(const ::AlignedVector *)(((const void *)(::FUN_00560dc0((::TESDataHandler *)(pkBody)))))));
+                reinterpret_cast<::AlignedVector *>(&(kSource))->FUN_004a3f10((*(const ::AlignedVector *)(pkBody->GetNavMeshData())));
             }
             hkVector4T8 kProjVel;
-            if (fMinVelocity == 0.0 || kMotionVelocity.Copy().Length3() >= fMinVelocity)
+            if (fMinVelocity == 0.0 || reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::hkVector4T8 &)(kMotionVelocity.Copy()))->FUN_004586d0() >= fMinVelocity)
             {
                 if (pkProj)
                 {
-                    kProjVel.SetFrom(pkProj->GetSourceVelocity());
-                    kProjVel.Sub(kMotionVelocity);
+                    reinterpret_cast<::AlignedVector *>(&(kProjVel))->FUN_004a3f10((*(const ::AlignedVector *)(((const void *)(reinterpret_cast<::Holder00807080 *>((pkProj))->FUN_00807080())))));
+                    reinterpret_cast<::V *>(&(kProjVel))->FUN_00961190((const ::V &)(kMotionVelocity));
                     float fMin = fMinVelocity != 0.0 ? fMinVelocity : 10.0f;
-                    fVelocityMult = kProjVel.Copy().Length3() / fMin;
+                    fVelocityMult = reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::hkVector4T8 &)(kProjVel.Copy()))->FUN_004586d0() / fMin;
                     if (fVelocityMult > 2.0)
                         fVelocityMult = 2.0f;
                 }
@@ -1329,23 +1511,23 @@ void RefT8::FUN_00890610(HitT8* pkHit, WeapT8* pkWeap)
         }
         else
         {
-            if (!pkWeap->IsStatic())
+            if (!reinterpret_cast<::FUN_00891150_Class *>((pkWeap))->FUN_00891150())
             {
-                kSource.SetFrom(pkWeap->GetDir());
+                reinterpret_cast<::AlignedVector *>(&(kSource))->FUN_004a3f10((*(const ::AlignedVector *)(((const void *)(reinterpret_cast<::BGSCameraPath *>((pkWeap))->GetShotList())))));
             }
             else
             {
-                ObjT8* pkObj = pkHit->m_kSub.GetObj()->GetObj();
-                kSource.SetFrom(pkObj->GetPos());
+                ObjT8* pkObj = ((::ObjT8 *)(reinterpret_cast<::Twin_0044ddc0 *>((((::ObjT8 *)(reinterpret_cast<::Twin_0044ddc0 *>(&(pkHit->m_kSub))->GetName()))))->GetName()));
+                reinterpret_cast<::AlignedVector *>(&(kSource))->FUN_004a3f10((*(const ::AlignedVector *)(((const void *)(reinterpret_cast<::TESTopicInfo *>((pkObj))->GetAddTopicList())))));
             }
-            FUN_004a3e00(kMotionVelocity, *GetPos());
-            kMotionVelocity.Sub(kSource);
-            float& rfZ = kMotionVelocity(2);
-            rfZ += FUN_004a3e90(GetHeight() / 2.0);
+            ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(kMotionVelocity), (const ::fnv_004a3e00::NiPoint3 &)(*GetPos()));
+            reinterpret_cast<::V *>(&(kMotionVelocity))->FUN_00961190((const ::V &)(kSource));
+            float& rfZ = reinterpret_cast<::bhkCharacterController *>((void *)&(const ::hkVector4T8 &)(kMotionVelocity))->GetVectorElement(2);
+            rfZ += FUN_004a3e90(reinterpret_cast<::fnv_008853a0::FUN_008853a0_shell *>(this)->GetActorHeight() / 2.0);
         }
         bool bWasAlive = !IsDead(0);
-        TrapFlagsT8 kFlags(pkHit->m_kSub.GetObj()->GetFlagsValue());
-        if (kFlags.GetType() == 0x10)
+        TrapFlagsT8 kFlags(((int)(::FUN_0043b540((char *)(((::ObjT8 *)(reinterpret_cast<::Twin_0044ddc0 *>(&(pkHit->m_kSub))->GetName())))))));
+        if (reinterpret_cast<::FUN_0043b4d0_shell *>(&(kFlags))->FUN_0043b4d0() == 0x10)
         {
             float fResist = m_kAVOwner.GetActorValue(0x13) / 100.0;
             fResist = 1.0f - FUN_0040ebd0(fResist, 1.0f);
@@ -1360,12 +1542,12 @@ void RefT8::FUN_00890610(HitT8* pkHit, WeapT8* pkWeap)
         if (afDamageAmount > 0.0)
         {
             if (bContinuous)
-                afDamageAmount *= g_kTrapMultT8.GetValue() * fVelocityMult;
+                afDamageAmount *= reinterpret_cast<::Twin_0084d030 *>(&(g_kTrapMultT8))->GetStoredFloatValue() * fVelocityMult;
             DamageHealth(afDamageAmount, 0.0f, 0);
-            NiPoint3T8 kTargetCenter = Get3D()->GetWorldTranslate() + g_kUnitZT8 * (GetHeight() * 0.5);
+            NiPoint3T8 kTargetCenter = Get3D()->GetWorldTranslate() + (*reinterpret_cast<::NiPoint3T8 *>((void *)&::DAT_011a9484)) * (reinterpret_cast<::fnv_008853a0::FUN_008853a0_shell *>(this)->GetActorHeight() * 0.5);
             NiPoint3T8 kWorldPosition;
-            FUN_00458620(kWorldPosition, kSource);
-            if (kFlags.GetType() != 0x10)
+            ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kWorldPosition), (const ::hkVector4 &)(kSource));
+            if (reinterpret_cast<::FUN_0043b4d0_shell *>(&(kFlags))->FUN_0043b4d0() != 0x10)
             {
                 ImpulseT8 kImpulse;
                 kImpulse.m_i08 = 0;
@@ -1373,67 +1555,67 @@ void RefT8::FUN_00890610(HitT8* pkHit, WeapT8* pkWeap)
                 kImpulse.m_kTo = kTargetCenter - kWorldPosition;
                 kImpulse.m_i00 = 0;
                 kImpulse.m_i10 = -1;
-                ApplyHit(afDamageAmount * 2.0, &kImpulse);
-                if (!bContinuous && pkBody && pkWeap->GetFormType() != 0x24)
+                reinterpret_cast<::fnv_0088e8d0::EActor *>(this)->FUN_0088e8d0(afDamageAmount * 2.0, (::fnv_0088e8d0::ERequest *)(::ImpulseT8 *)(&kImpulse));
+                if (!bContinuous && pkBody && ((int)(reinterpret_cast<::LowProcess *>((pkWeap))->GetTarget())) != 0x24)
                 {
-                    NiPoint3T8 kPos = FUN_00458620(kPos, kSource);
-                    int iOffset = FUN_004b5a80(pkBody);
+                    NiPoint3T8 kPos = (*(::NiPoint3T8 *)&(::SetNiPoint3FromHkVector4((::NiPoint3 &)(kPos), (const ::hkVector4 &)(kSource))));
+                    int iOffset = ((int)(::FUN_004b5a80(pkBody)));
                     EventT8 kEvent;
                     kEvent.m_fScale = 0.5f;
                     kEvent.m_i1c = 0;
                     kEvent.m_iFirstValue = iOffset;
                     kEvent.m_ucType = 0x24;
-                    kEvent.m_ucForm = pkWeap->GetFormType();
+                    kEvent.m_ucForm = ((int)(reinterpret_cast<::LowProcess *>((pkWeap))->GetTarget()));
                     kEvent.m_kPos = kPos;
-                    kEvent.m_fAngleZ = FUN_00891060(kMotionVelocity.Copy(), hkSimdRealT8(3.0f)).Length3();
+                    kEvent.m_fAngleZ = reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::hkVector4T8 &)((*(::hkVector4T8 *)(::FUN_00891060((::Vec4Dst *)&(const ::hkVector4T8 &)(kMotionVelocity.Copy()), (::Vec4Src *)&(const ::hkSimdRealT8 &)(hkSimdRealT8(3.0f)), {})))))->FUN_004586d0();
                     kEvent.m_pvTarget = (char*)this + iOffset;
-                    FUN_00837550(&kEvent);
+                    ::ImpactSound::FUN_00837550((::ImpactSound::ImpactData *)(::EventT8 *)(&kEvent));
                 }
             }
-            UpdateHit(1, 1);
+            reinterpret_cast<::fnv_008a7d50::ActorHitOwner *>(this)->FUN_008a7d50(1, 1);
             bool bKilled = bWasAlive && IsDead(0);
             if (fPushBack > 0.0)
             {
-                if (fDeathPushBack > g_dMaxDeathPushBackT8)
+                if (fDeathPushBack > ::DAT_010179e0)
                     fDeathPushBack = 200.0f;
-                if (bKilled && this != g_pkPlayerT8)
+                if (bKilled && this != (*reinterpret_cast<::RefT8 * *>(&::_g_thePlayer)))
                 {
-                    FUN_00c6a350(Get3D(), 1, 1, 0, 1);
-                    FUN_00cb9650(Get3D());
-                    kMotionVelocity.Normalize3();
+                    ::FUN_00c6a350((::NiAVObject *)(void *)(Get3D()), 1, 1, 0, 1);
+                    ::FUN_00cb9650((::FUN_00cb9650_Object *)(void *)(Get3D()));
+                    reinterpret_cast<::S0062aea0_Vector *>(&(kMotionVelocity))->FUN_0062aea0();
                     hkSimdRealT8 kScale(1024.0f);
-                    kSource.AddMul4(kScale, kMotionVelocity);
-                    SetCollisionScale(Get3D(), &kSource, fDeathPushBack, 0);
+                    reinterpret_cast<::S008910c0_Vector *>(&(kSource))->FUN_008910c0((const ::S008910c0_Vector *)&(kScale), (const ::S008910c0_Vector *)&(kMotionVelocity));
+                    ::SetCollisionScale((::SceneNode *)(void *)(Get3D()), (unsigned int)(&kSource), fDeathPushBack, (::MaterialSelector *)(0));
                 }
                 else if (pkProj)
                 {
                     if (fPushBack > 1000.0)
                         fPushBack = 1000.0f;
                     if (bContinuous)
-                        fPushBack *= g_kTrapMultT8.GetValue() * fVelocityMult;
-                    ObjT8* pkObj = pkHit->m_kSub.GetObj();
+                        fPushBack *= reinterpret_cast<::Twin_0084d030 *>(&(g_kTrapMultT8))->GetStoredFloatValue() * fVelocityMult;
+                    ObjT8* pkObj = ((::ObjT8 *)(reinterpret_cast<::Twin_0044ddc0 *>(&(pkHit->m_kSub))->GetName()));
                     if (pkObj)
                     {
                         NiPoint3T8 kImpulse;
-                        FUN_00458620(kImpulse, kMotionVelocity);
-                        kImpulse.Unitize();
-                        kImpulse *= fPushBack;
-                        pkProj->ApplyImpulse(kImpulse, 0.5f);
+                        ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kImpulse), (const ::hkVector4 &)(kMotionVelocity));
+                        reinterpret_cast<::FUN_004a0c10_s *>(&(kImpulse))->FUN_004a0c10();
+                        reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3T8 &)(kImpulse))->FUN_00439180(fPushBack);
+                        reinterpret_cast<::Owner274 *>((pkProj))->UpdateMaxVelocity((const float *)&(kImpulse), 0.5f);
                     }
                 }
             }
             if (pkVars)
             {
-                LocalsT8* pkLocals = pkHost->GetLocals();
+                LocalsT8* pkLocals = ((::LocalsT8 *)(reinterpret_cast<::FUN_00418830_shell *>((pkHost))->FUN_00418830()));
                 if (pkLocals)
                 {
                     unsigned int uiHasHit;
-                    if (pkVars->GetVariable("bTrapHasHit", &uiHasHit))
-                        pkLocals->SetVar(uiHasHit, 1.0);
+                    if (reinterpret_cast<::fnv_005ac6a0::FUN_005ac6a0 *>((pkVars))->Method_005ac6a0("bTrapHasHit", &uiHasHit))
+                        reinterpret_cast<::FUN_005a9290_shell *>((pkLocals))->SetScriptVariable(uiHasHit, 1.0);
                 }
             }
         }
-        pkWeap->Finish(1);
+        reinterpret_cast<::FUN_00891130_class *>((pkWeap))->FUN_00891130(1);
     }
 }
 
@@ -1443,28 +1625,17 @@ struct ImpactPoint
     ImpactPoint();
     ImpactPoint operator-(const ImpactPoint&) const;
     ImpactPoint operator*(float) const;
-    void Normalize();
 };
 // FUN_008a4af0 v04 - pack types used directly; shells only for callees the pack does not declare
 struct GhostH
 {
-    bool GetGhost();
 };
 struct SettingString
 {
-    const char* GetString();
 };
-extern SettingString DAT_011cc83c;
-NiAVObject* __cdecl FUN_004aae30(NiAVObject* a, NiFixedString* b);
 struct GetterObj
 {
-    float FUN_00450410();
 };
-extern GetterObj DAT_011cc77c;
-extern GetterObj DAT_011cc86c;
-extern GetterObj DAT_011cc860;
-extern GetterObj DAT_011cc7dc;
-extern Actor* DAT_011dea3c;
 struct NormObj
 {
     void FUN_004a0c10();
@@ -1701,20 +1872,14 @@ struct ParamObj
 };
 struct SubObjSrc
 {
-    void* FUN_009306d0();
 };
 struct Sub410
 {
-    bool FUN_008a5170();
 };
-void __cdecl FUN_00c9b250(void* mgr, float z, bool flag);
 struct GlobalCount
 {
-    int FUN_004503f0();
 };
-extern GlobalCount DAT_011df838;
 
-extern SettingString DAT_011cc8cc;
 struct __declspec(align(16)) ImpactVector
 {
     __m128 value;
@@ -1724,8 +1889,6 @@ struct ImpactQuery
 {
     float x, y, z, radius;
     ImpactQuery();
-    void SetPoint(ImpactPoint const&);
-    void SetMagnitude(float);
 };
 struct ImpactColor
 {
@@ -1734,48 +1897,31 @@ struct ImpactColor
 };
 struct ImpactEffect
 {
-    void SetPosition(ImpactPoint const&);
 };
 struct ImpactEffectManager
 {
     void Add(ImpactEffect*, float);
 };
-extern ImpactEffectManager* DAT_011dea10;
-extern GetterObj DAT_011df754;
-ImpactEffect* __cdecl CreateImpactEffect(ImpactPoint const&, ImpactColor const&);
-void __cdecl ConvertImpact(ImpactVector*, ImpactPoint const*);
-void __cdecl ConvertPoint(ImpactPoint*, ImpactPoint const*);
 struct HitObject
 {
     void* GetIdentity();
 };
 struct HitIdentity
 {
-    int GetIndex();
 };
 struct HitQueryResult
 {
     void* GetIdentity();
 };
-HitQueryResult* __cdecl QueryImpact(void*, ImpactQuery*, int);
-HitIdentity* __cdecl LookupImpact(void*);
 struct HitName
 {
     char const* GetName();
 };
 struct HitPart
 {
-    HitName* GetNameObject();
 };
-void __cdecl PrintImpact(char const*, ...);
-void __cdecl ApplyImpact(void*, ImpactVector*, int);
-int __cdecl ImpactSelection();
 struct ImpactNode
 {
-    void* GetScene();
-    bool IsGhost();
-    bool IsActive();
-    int SelectPart(void*, int);
 };
 struct HostShell : Actor
 {
@@ -1784,10 +1930,10 @@ struct HostShell : Actor
 // @fnv 0x008a4af0
 void HostShell::FUN_008a4af0(ParamObj* source, float strength, float secondary, int start, int end)
 {
-    void* scene = ((ImpactNode*)this)->GetScene();
-    if (((ImpactNode*)this)->IsGhost())
+    void* scene = ((void *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((ImpactNode*)this)))->FUN_0043fcd0()));
+    if (reinterpret_cast<::FUN_008ace90_shell *>((((ImpactNode*)this)))->FUN_008ace90())
         return;
-    void* manager = FUN_004aae30((NiAVObject*)scene, (NiFixedString*)DAT_011cc83c.GetString());
+    void* manager = FUN_004aae30((NiAVObject*)scene, (NiFixedString*)((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::SettingString *>(&::g_011cc83c))))->IsDLCAvailable())));
     ImpactPoint origin;
     ImpactPoint target;
     NodeObj* node = (NodeObj*)source->GetNode116();
@@ -1798,82 +1944,82 @@ void HostShell::FUN_008a4af0(ParamObj* source, float strength, float secondary, 
     }
     ImpactPoint direction;
     direction = target - origin;
-    direction.Normalize();
+    reinterpret_cast<::FUN_004a0c10_s *>(&(direction))->FUN_004a0c10();
     int part = 0;
     if (manager)
     {
         if (strength > 100.0)
             strength = 100.0f;
-        float difference = DAT_011cc77c.FUN_00450410() - DAT_011cc86c.FUN_00450410();
-        float primary = difference * strength * 0.009999999776482582 + DAT_011cc86c.FUN_00450410();
-        difference = DAT_011cc860.FUN_00450410() - DAT_011cc7dc.FUN_00450410();
-        float amount = difference * secondary + DAT_011cc7dc.FUN_00450410();
+        float difference = reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GetterObj *>(&::g_011cc77c))))->FUN_00450410() - reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GetterObj *>(&::g_011cc86c))))->FUN_00450410();
+        float primary = difference * strength * 0.009999999776482582 + reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GetterObj *>(&::g_011cc86c))))->FUN_00450410();
+        difference = reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GetterObj *>(&::g_011cc860))))->FUN_00450410() - reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GetterObj *>(&::g_011cc7dc))))->FUN_00450410();
+        float amount = difference * secondary + reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GetterObj *>(&::g_011cc7dc))))->FUN_00450410();
         if (secondary > 75.0)
             primary = 0.0f;
         if (primary != 0.0 || amount != 0.0)
         {
             bool enabled = true;
-            if (this == DAT_011dea3c)
-                enabled = ((ImpactNode*)this)->IsActive();
+            if (this == (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))
+                enabled = reinterpret_cast<::FUN_004eaf60_shell *>((((ImpactNode*)this)))->FUN_004eaf60();
             if (!Unk_8C() && enabled)
             {
                 bool special = false;
-                void* sub = ((SubObjSrc*)this)->FUN_009306d0();
+                void* sub = ((void *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((((SubObjSrc*)this)))->FUN_009306d0()));
                 if (sub)
-                    special = ((Sub410*)((char*)sub + 0x410))->FUN_008a5170();
-                FUN_00c9b250(manager, 0.0f, special);
+                    special = ::FUN_008a5170((const ::_Dummy_008a5170 *)(((Sub410*)((char*)sub + 0x410))));
+                ::FUN_00c9b250((::SceneObject *)(manager), 0.0f, special);
             }
             if (primary != 0.0)
             {
                 ImpactPoint impulse = direction * primary;
-                if (DAT_011df838.FUN_004503f0() > 0)
+                if (reinterpret_cast<::TESObjectCELL *>(&((*reinterpret_cast<::GlobalCount *>(&::g_011df838))))->GetCellStandValue() > 0)
                 {
                     ImpactColor color(0.0f, 0.0f, 0.0f, 0.0f);
                     if (source->IsSpecial())
                         color = ImpactColor(0.0f, 0.0f, 1.0f, 1.0f);
                     else
                         color = ImpactColor(1.0f, 0.0f, 0.0f, 1.0f);
-                    ImpactEffect* effect = CreateImpactEffect(impulse * 0.1f, color);
-                    effect->SetPosition(target);
-                    DAT_011dea10->Add(effect, DAT_011df754.FUN_00450410());
+                    ImpactEffect* effect = ((::ImpactEffect *)(::FUN_00c59a50((const ::ArrowPoint &)((const ::ImpactPoint &)(impulse * 0.1f)), (const ::ArrowColor *)&(color))));
+                    reinterpret_cast<::FUN_00440460_S *>((effect))->FUN_00440460((const ::V3 *)&(target));
+                    reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::ImpactEffectManager * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(effect), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GetterObj *>(&::g_011df754))))->FUN_00450410());
                 }
                 if (enabled)
                 {
                     ImpactVector worldImpulse;
-                    ConvertImpact(&worldImpulse, &impulse);
+                    ::CopyCharacterControllerVector((::bhkCharacterController *)(::ImpactVector *)(&worldImpulse), (*(const ::NiPoint3 *)(&impulse)));
                     ImpactQuery query;
                     __declspec(align(16)) ImpactPoint position;
-                    ConvertPoint(&position, &target);
-                    query.SetPoint(position);
-                    query.SetMagnitude(30.0f);
-                    HitQueryResult* result = QueryImpact(scene, &query, 0);
+                    ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&position)), (*(const ::fnv_004a3e00::NiPoint3 *)(&target)));
+                    reinterpret_cast<::FUN_008a50f0_class *>(&(query))->FUN_008a50f0((int)&(position));
+                    reinterpret_cast<::fnv_008a50d0::bhkCharacterController *>(&(query))->FUN_008a50d0(30.0f);
+                    HitQueryResult* result = ((::HitQueryResult *)(::FUN_00c806b0(scene, &query, 0)));
                     if (result)
                     {
-                        HitIdentity* identity = LookupImpact(result->GetIdentity());
+                        HitIdentity* identity = ((::HitIdentity *)(::bhkCollisionObject::GetFromRigidBody((const ::hkpRigidBody *)(void *)(((void *)(::FUN_004ae750((void *)(result))))))));
                         if (identity)
-                            part = identity->GetIndex();
+                            part = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((identity))->GetName()));
                     }
                     if (!part)
                         part = (int)FUN_004aae30((NiAVObject*)scene,
-                                                 (NiFixedString*)((SettingString*)&DAT_011cc8cc)->GetString());
+                                                 (NiFixedString*)((const char *)(reinterpret_cast<::DownloadableContentManager *>((((SettingString*)&(*reinterpret_cast<::SettingString *>(&::g_011cc8cc)))))->IsDLCAvailable())));
                     if (part)
                     {
-                        const char* name = ((HitPart*)part)->GetNameObject()->GetName();
-                        PrintImpact("Hit At %s\r\n", name);
+                        const char* name = ((::HitName *)(reinterpret_cast<::TESTopicInfoData *>((((HitPart*)part)))->GetLinkToList()))->GetName();
+                        ::FUN_0040fbe0();
                     }
-                    ApplyImpact(manager, &worldImpulse, part);
+                    ::FUN_00cb9320((::NiAVObject *)(manager), &worldImpulse, (::NiAVObject *)(part));
                 }
             }
             if (amount != 0.0 && enabled)
             {
                 direction.x = (float)(direction.x + 1.0);
                 direction.y = (float)(direction.y + 1.0);
-                direction.Normalize();
+                reinterpret_cast<::FUN_004a0c10_s *>(&(direction))->FUN_004a0c10();
                 ImpactPoint impulse = direction * primary;
                 ImpactVector worldImpulse;
-                ConvertImpact(&worldImpulse, &impulse);
-                part = ((ImpactNode*)this)->SelectPart(scene, ImpactSelection());
-                ApplyImpact(manager, &worldImpulse, part);
+                ::CopyCharacterControllerVector((::bhkCharacterController *)(::ImpactVector *)(&worldImpulse), (*(const ::NiPoint3 *)(&impulse)));
+                part = ((int)(reinterpret_cast<::fnv_00571530::FUN_00571530_shell *>((((ImpactNode*)this)))->FUN_00571530((::fnv_00571530::NiAVObject *)(scene), (::fnv_00571530::NiFixedString *)(((int)(::FUN_008a5190()))))));
+                ::FUN_00cb9320((::NiAVObject *)(manager), &worldImpulse, (::NiAVObject *)(part));
             }
         }
     }
@@ -1898,14 +2044,11 @@ class NiPoint3H
     NiPoint3H operator-(const NiPoint3H& kPt) const;
     NiPoint3H& operator*=(float fScalar);
     NiPoint3H& operator+=(const NiPoint3H& kPt);
-    void Unitize();
 };
-extern const NiPoint3H g_kZeroH;
 
 class NiMatrix3H
 {
   public:
-    NiPoint3H GetForward() const;
 };
 
 class hkVector4H
@@ -2236,15 +2379,12 @@ class ProcessH
 class WeaponH
 {
   public:
-    float GetImpulseScale();
-    float GetImpulseRange();
 };
 
 class HavokObjectH
 {
   public:
     const NiPoint3H& GetPosition();
-    void SetTargetInfo(TargetInfoH* pkInfo);
 };
 
 class TESObjectREFRH
@@ -2478,7 +2618,6 @@ class TESObjectREFRH
     virtual void vs384();
     virtual void vs388();
     virtual bool IsRagdollable();
-    HavokObjectH* GetHavokObject();
 };
 
 class HitDataH
@@ -2502,12 +2641,6 @@ class HitDataH
     NiMatrix3H m_kRotationMatrix;
 };
 
-float __cdecl RemapValueBySettings(float fForce, bool bActor);
-float __cdecl FUN_00404010(float a, float b);
-void __cdecl FUN_00cb9650(HavokObjectH* pkObject);
-void __cdecl FUN_00c6a350(HavokObjectH* pkObject, int a, int b, int c, int d);
-void __cdecl FUN_004a3e00(hkVector4H* pkOut, const NiPoint3H* pkIn);
-void __cdecl SetCollisionScale(HavokObjectH* pkObject, hkVector4H* pkImpulse, float fImpulse, HitDataH* pkHit);
 
 class ActorH
 {
@@ -2629,7 +2762,6 @@ class ActorH
     virtual void va1c8();
     virtual void va1cc();
     virtual NiNodeH* Get3D();
-    ProcessH* GetProcess();
     BSFixedStringH GetTorsoNodeName(int iFlag);
 
     void FUN_008ae000(HitDataH* pkHit);
@@ -2642,52 +2774,52 @@ void ActorH::FUN_008ae000(HitDataH* pkHit)
     float fForce = pkHit->m_fForce;
     bool bActorSource = pkHit->m_pkSource && pkHit->m_pkSource->IsActor();
     NiNodeH* pk3D = Get3D();
-    NiPoint3H kFrom = g_kZeroH;
-    NiPoint3H kTo = g_kZeroH;
+    NiPoint3H kFrom = (*reinterpret_cast<const ::NiPoint3H *>((void *)&::NiPoint3::ZERO));
+    NiPoint3H kTo = (*reinterpret_cast<const ::NiPoint3H *>((void *)&::NiPoint3::ZERO));
     if (pk3D)
     {
-        ProcessH* pkProcess = GetProcess();
+        ProcessH* pkProcess = ((::ProcessH *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()));
         kFrom = pk3D->GetObjectByName(pkProcess->GetWeaponNodeName()).GetWorldTranslate();
     }
     if (pkTarget)
     {
         if (!pkTarget->IsDead() || pkTarget->IsRagdollable())
         {
-            HavokObjectH* pkObject = pkTarget->GetHavokObject();
+            HavokObjectH* pkObject = ((::HavokObjectH *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((pkTarget))->FUN_0043fcd0()));
             if (pkObject)
             {
-                NiPoint3H kWorldPosition = g_kZeroH;
+                NiPoint3H kWorldPosition = (*reinterpret_cast<const ::NiPoint3H *>((void *)&::NiPoint3::ZERO));
                 if (bActorSource)
                 {
-                    kWorldPosition = pkHit->m_kRotationMatrix.GetForward();
-                    kWorldPosition.Unitize();
-                    kWorldPosition *= 2048.0f;
-                    kWorldPosition += pkHit->m_kHitPos;
+                    kWorldPosition = (*(::NiPoint3H *)(reinterpret_cast<::P3 *>((void *)&(pkHit->m_kRotationMatrix))->FUN_004a0bd0({})));
+                    reinterpret_cast<::FUN_004a0c10_s *>(&(kWorldPosition))->FUN_004a0c10();
+                    reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3H &)(kWorldPosition))->FUN_00439180(2048.0f);
+                    reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3H &)(kWorldPosition))->FUN_0063c8a0((void *)&(pkHit->m_kHitPos));
                 }
                 else
                 {
                     if (pk3D)
                         kTo = pk3D->GetObjectByName(GetTorsoNodeName(0)).GetWorldTranslate();
                     kWorldPosition = kFrom - kTo;
-                    kWorldPosition.Unitize();
-                    kWorldPosition += pkHit->m_kRotationMatrix.GetForward();
-                    kWorldPosition *= 1024.0f;
-                    kWorldPosition += kFrom;
+                    reinterpret_cast<::FUN_004a0c10_s *>(&(kWorldPosition))->FUN_004a0c10();
+                    reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3H &)(kWorldPosition))->FUN_0063c8a0((void *)&(const ::NiPoint3H &)((*(::NiPoint3H *)(reinterpret_cast<::P3 *>((void *)&(pkHit->m_kRotationMatrix))->FUN_004a0bd0({})))));
+                    reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3H &)(kWorldPosition))->FUN_00439180(1024.0f);
+                    reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3H &)(kWorldPosition))->FUN_0063c8a0((void *)&(kFrom));
                 }
                 float fImpulse = RemapValueBySettings(fForce, bActorSource);
                 if (pkHit->m_pkWeapon)
                 {
-                    fImpulse = pkHit->m_pkWeapon->GetImpulseScale() * 2.5;
-                    if (bActorSource && pkHit->m_pkWeapon->GetImpulseRange() > 0.0)
+                    fImpulse = reinterpret_cast<::FUN_008ae480_Class *>((pkHit->m_pkWeapon))->GetField1A8() * 2.5;
+                    if (bActorSource && reinterpret_cast<::FUN_008ae4a0_Class *>((pkHit->m_pkWeapon))->GetField1B8() > 0.0)
                     {
                         NiPoint3H kPos = pkObject->GetPosition();
                         NiPoint3H kDelta = kPos - kFrom;
-                        float fImpulseRadiusSquared = pkHit->m_pkWeapon->GetImpulseRange();
+                        float fImpulseRadiusSquared = reinterpret_cast<::FUN_008ae4a0_Class *>((pkHit->m_pkWeapon))->GetField1B8();
                         fImpulseRadiusSquared = fImpulseRadiusSquared * fImpulseRadiusSquared;
                         float fDistSq = kDelta.x * kDelta.x + kDelta.y * kDelta.y;
                         if (fDistSq > fImpulseRadiusSquared)
                         {
-                            if (2.0 * pkHit->m_pkWeapon->GetImpulseRange() < fDistSq)
+                            if (2.0 * reinterpret_cast<::FUN_008ae4a0_Class *>((pkHit->m_pkWeapon))->GetField1B8() < fDistSq)
                             {
                                 fImpulse = fImpulse * (double)0.1f;
                             }
@@ -2700,13 +2832,13 @@ void ActorH::FUN_008ae000(HitDataH* pkHit)
                         }
                     }
                 }
-                FUN_00cb9650(pkObject);
-                FUN_00c6a350(pkObject, 1, 1, 0, 1);
+                ::FUN_00cb9650((::FUN_00cb9650_Object *)(pkObject));
+                ::FUN_00c6a350((::NiAVObject *)(pkObject), 1, 1, 0, 1);
                 TargetInfoH kInfo(0.0f, 0, 0);
-                pkObject->SetTargetInfo(&kInfo);
+                reinterpret_cast<::FUN_00a59c60_cls *>((pkObject))->FUN_00a59c60((int)(&kInfo));
                 hkVector4H kImpulse;
-                FUN_004a3e00(&kImpulse, &kWorldPosition);
-                SetCollisionScale(pkObject, &kImpulse, fImpulse, pkHit);
+                ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&kImpulse)), (*(const ::fnv_004a3e00::NiPoint3 *)(&kWorldPosition)));
+                ::SetCollisionScale((::SceneNode *)(pkObject), (unsigned int)(&kImpulse), fImpulse, (::MaterialSelector *)(pkHit));
             }
         }
     }
@@ -2723,27 +2855,18 @@ struct xMat
 {
     xMat();
     float m[9];
-    void FUN_004a0c90(float);
-    void FUN_00439f50(unsigned int, xP3&);
 };
 xP3 xFUN_004a3760(float, const xP3&);
 struct xFltSetting
 {
-    float* FUN_00403e20();
 };
-extern xFltSetting xg_11d1200;
 struct xBoolSetting
 {
     unsigned char* FUN_00408d60();
 };
-extern xBoolSetting xg_11df868;
-extern float xg_1022958;
 struct xFilter
 {
     xFilter(int);
-    void FUN_004a39f0(int);
-    void FUN_0059ce80(unsigned int);
-    int FUN_004a3a20();
     unsigned int m_uiFilterValue;
 };
 struct xAllHits
@@ -2763,21 +2886,14 @@ struct xHitInfo
 };
 struct xHitList
 {
-    int FUN_00726070();
-    xHitInfo* GetEntryAt(int);
 };
 struct xHitOwner
 {
-    xHitList* FUN_00460140();
 };
 struct __declspec(align(16)) xPick
 {
     xPick();
-    void FUN_004a3da0(xP3*);
-    void FUN_004a3eb0(const xP3&);
     void FUN_004a3f70(xFilter);
-    void FUN_004a3fb0(xAllHits*);
-    xHitOwner* FUN_008cdd90();
     char m_buf[0xb0];
 };
 struct xWorld
@@ -2836,27 +2952,18 @@ struct xWorld
 };
 
 struct xCell;
-xWorld* __fastcall xFUN_004543c0(xCell*);
 struct xPlayer
 {
-    xCell* FUN_008d6f30();
 };
-extern xPlayer* xg_player_11dea3c;
-void* xFUN_004b5820(void*);
 struct xActor;
-xActor* xFUN_0056f930(void*);
-void* xFUN_004b59f0(void*);
 struct xISParam
 {
     xISParam(float, float, float, float);
     float m[4];
 };
-void* xFUN_004b3890(const xP3&, const xISParam&, const xP3&, const xISParam&, int);
 struct xTES
 {
-    void FUN_00458e20(void*, float);
 };
-extern xTES* xg_TES_11dea10;
 struct xActor
 {
     virtual void v0();
@@ -3043,44 +3150,44 @@ struct xActor
 float xActor::FUN_008bd830(int aiUnused, float afHeight)
 {
     xP3 POS = *FUN_1f4();
-    POS.z = POS.z + *xg_11d1200.FUN_00403e20();
+    POS.z = POS.z + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::originalRuntimeFloatSetting1072))))));
     xP3 DIR;
     xMat MAT;
-    MAT.FUN_004a0c90(FUN_2bc(0) + afHeight);
-    MAT.FUN_00439f50(1, DIR);
-    DIR.FUN_004a0c10();
-    float DIST = xg_1022958;
+    reinterpret_cast<::FUN_004a0c90_shell *>(&(MAT))->FUN_004a0c90(FUN_2bc(0) + afHeight);
+    reinterpret_cast<::FUN_00439f50_class *>(&(MAT))->FUN_00439f50(1, (::NiPoint3 *)&(DIR));
+    reinterpret_cast<::FUN_004a0c10_s *>(&(DIR))->FUN_004a0c10();
+    float DIST = ::DAT_01022958;
     xP3 END = POS + xFUN_004a3760(DIST, DIR);
     bool HIT = false;
     float BEST = 3.402823466e+38F;
     xPick PICK;
-    PICK.FUN_004a3da0(&POS);
-    PICK.FUN_004a3eb0(END);
+    reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(PICK))->FUN_004a3da0(&POS);
+    reinterpret_cast<::FUN_004a3eb0_shell *>(&(PICK))->FUN_004a3eb0((void *)&(END));
     xFilter FILTER(0);
-    FILTER.FUN_004a39f0(0x23);
-    FILTER.FUN_0059ce80(FUN_00931ed0().FUN_004a3a20());
+    reinterpret_cast<::FUN_004a39f0_shell *>(&(FILTER))->FUN_004a39f0(0x23);
+    reinterpret_cast<::FUN_0059ce80_shell *>(&(FILTER))->FUN_0059ce80(((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::xFilter &)(FUN_00931ed0()))->FUN_004a3a20())));
     PICK.FUN_004a3f70(FILTER);
     xAllHits HITS;
-    PICK.FUN_004a3fb0(&HITS);
-    xWorld* WORLD = xFUN_004543c0(xg_player_11dea3c->FUN_008d6f30());
+    reinterpret_cast<::FUN_004a3fb0_shell *>(&(PICK))->FUN_004a3fb0((::hkpAllRayHitCollector *)(::xAllHits *)(&HITS));
+    xWorld* WORLD = ((::xWorld *)(reinterpret_cast<::FUN_004543c0_cls *>((((::xCell *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::xPlayer * *>(&::_g_thePlayer))))->GetTarget()))))->FUN_004543c0()));
     WORLD->FUN_c8(&PICK);
-    for (int I = 0; !HIT && I < PICK.FUN_008cdd90()->FUN_00460140()->FUN_00726070(); I++)
+    for (int I = 0; !HIT && I < ((int)(reinterpret_cast<::Callees *>((((::xHitList *)(::FUN_00460140((int)(((::xHitOwner *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(PICK))->FUN_008cdd90()))))))))->FUN_00726070())); I++)
     {
-        xHitInfo INFO(PICK.FUN_008cdd90()->FUN_00460140()->GetEntryAt(I));
-        void* OBJ = xFUN_004b5820(INFO.m_50);
-        xActor* ACTOR = xFUN_0056f930(OBJ);
-        void* OTHER = xFUN_004b59f0(INFO.m_50);
+        xHitInfo INFO(((::xHitInfo *)(reinterpret_cast<::FUN_004a46b0_class *>((((::xHitList *)(::FUN_00460140((int)(((::xHitOwner *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(PICK))->FUN_008cdd90()))))))))->GetEntryAt(I))));
+        void* OBJ = ((void *)(::FUN_004b5820((::FormLike *)(INFO.m_50))));
+        xActor* ACTOR = ((::xActor *)(::FUN_0056f930((::NiAVObject *)(OBJ))));
+        void* OTHER = ::FUN_004b59f0(INFO.m_50);
         if (OBJ && OTHER && ACTOR != this)
         {
             HIT = true;
             BEST = INFO.m_10 * DIST;
         }
     }
-    if (*xg_11df868.FUN_00408d60())
+    if (*(*reinterpret_cast<::xBoolSetting *>(&::g_011df868)).FUN_00408d60())
     {
         xISParam COLOR(1.0f, 1.0f, 0.0f, 1.0f);
-        void* LINE = xFUN_004b3890(POS, COLOR, POS + xFUN_004a3760(BEST, DIR), COLOR, 1);
-        xg_TES_11dea10->FUN_00458e20(LINE, 10.0f);
+        void* LINE = ((void *)(::fnv_004b3890::FUN_004b3890((const class ::FUN_006815c0 &)(POS), (const ::fnv_004b3890::FUN_004a7800 &)(COLOR), (const class ::FUN_006815c0 &)((const ::xP3 &)(POS + xFUN_004a3760(BEST, DIR))), (const ::fnv_004b3890::FUN_004a7800 &)(COLOR), 1)));
+        reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::xTES * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(LINE), 10.0f);
     }
     return BEST;
 }
@@ -3092,7 +3199,6 @@ struct xP3
     float x, y, z;
     xP3 operator+(const xP3&) const;
     xP3 operator-(const xP3&) const;
-    float FUN_00457990() const;
     xP3* FUN_006815c0();
     void FUN_004a0c10();
 };
@@ -3100,37 +3206,25 @@ struct xMat
 {
     xMat();
     float m[9];
-    void FUN_004a0c90(float);
-    void FUN_00439f50(unsigned int, xP3&);
 };
 xP3 xFUN_004a3760(float, const xP3&);
 struct xFltSetting
 {
-    float* FUN_00403e20();
 };
-extern xFltSetting xg_11d1200;
 struct xBoolSetting
 {
     unsigned char* FUN_00408d60();
 };
-extern xBoolSetting xg_11df868;
-extern xFltSetting xg_11d0850;
-extern xFltSetting xg_11d09e8;
-extern const double xg_10231d8;
 struct xBound
 {
     xP3* FUN_006815c0();
 };
 struct xAVObj
 {
-    xBound* FUN_0043d450();
 };
 struct xFilter
 {
     xFilter(int);
-    void FUN_004a39f0(int);
-    void FUN_0059ce80(unsigned int);
-    int FUN_004a3a20();
     unsigned int m_uiFilterValue;
 };
 struct __declspec(align(16)) xAllHits
@@ -3150,21 +3244,14 @@ struct __declspec(align(16)) xHitInfo
 };
 struct xHitList
 {
-    int FUN_00726070();
-    xHitInfo* GetEntryAt(int);
 };
 struct xHitOwner
 {
-    xHitList* FUN_00460140();
 };
 struct __declspec(align(16)) xPick
 {
     xPick();
-    void FUN_004a3da0(xP3*);
-    void FUN_004a3eb0(const xP3&);
     void FUN_004a3f70(xFilter);
-    void FUN_004a3fb0(xAllHits*);
-    xHitOwner* FUN_008cdd90();
     char m_buf[0xb0];
 };
 struct xWorld
@@ -3223,27 +3310,18 @@ struct xWorld
 };
 
 struct xCell;
-xWorld* __fastcall xFUN_004543c0(xCell*);
 struct xPlayer
 {
-    xCell* FUN_008d6f30();
 };
-extern xPlayer* xg_player_11dea3c;
-void* xFUN_004b5820(void*);
 struct xActor;
-xActor* xFUN_0056f930(void*);
-void* xFUN_004b59f0(void*);
 struct xISParam
 {
     xISParam(float, float, float, float);
     float m[4];
 };
-void* xFUN_004b3890(const xP3&, const xISParam&, const xP3&, const xISParam&, int);
 struct xTES
 {
-    void FUN_00458e20(void*, float);
 };
-extern xTES* xg_TES_11dea10;
 struct xActor
 {
     virtual void v0();
@@ -3432,42 +3510,42 @@ float xActor::FUN_008bdbd0(xActor* apTarget, float afHeight)
     if (!apTarget || !apTarget->FUN_1d0())
         return 0.0f;
     xP3 POS = *FUN_1f4();
-    POS.z = POS.z + *xg_11d1200.FUN_00403e20();
+    POS.z = POS.z + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008bdbd0::xFltSetting *>(&::originalRuntimeFloatSetting1072))))));
     xP3 DIR;
     xMat MAT;
-    MAT.FUN_004a0c90(FUN_2bc(0) + afHeight);
-    MAT.FUN_00439f50(1, DIR);
-    DIR.FUN_004a0c10();
-    xP3 TPOS = *apTarget->FUN_1d0()->FUN_0043d450()->FUN_006815c0();
+    reinterpret_cast<::FUN_004a0c90_shell *>(&(MAT))->FUN_004a0c90(FUN_2bc(0) + afHeight);
+    reinterpret_cast<::FUN_00439f50_class *>(&(MAT))->FUN_00439f50(1, (::NiPoint3 *)&(DIR));
+    reinterpret_cast<::FUN_004a0c10_s *>(&(DIR))->FUN_004a0c10();
+    xP3 TPOS = *((::fnv_008bdbd0::xP3 *)(new ((void *)(((::fnv_008bdbd0::xBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((apTarget->FUN_1d0()))->FUN_0043d450())))) ::Vec3()));
     bool DONE = false;
     float RESULT = 0.0f;
-    for (int I = 0; !DONE && I < *xg_11d0850.FUN_00403e20(); I++)
+    for (int I = 0; !DONE && I < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008bdbd0::xFltSetting *>(&::originalRuntimeFloatSetting1071)))))); I++)
     {
-        float DIST = (I + 1) * *xg_11d09e8.FUN_00403e20();
+        float DIST = (I + 1) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008bdbd0::xFltSetting *>(&::originalRuntimeFloatSetting1070))))));
         xP3 START = POS + xFUN_004a3760(DIST, DIR);
         xPick PICK;
-        PICK.FUN_004a3da0(&START);
-        PICK.FUN_004a3eb0(TPOS);
+        reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(PICK))->FUN_004a3da0(&START);
+        reinterpret_cast<::FUN_004a3eb0_shell *>(&(PICK))->FUN_004a3eb0((void *)&(TPOS));
         xFilter FILTER(0);
-        FILTER.FUN_004a39f0(0x23);
-        FILTER.FUN_0059ce80(FUN_00931ed0().FUN_004a3a20());
+        reinterpret_cast<::FUN_004a39f0_shell *>(&(FILTER))->FUN_004a39f0(0x23);
+        reinterpret_cast<::FUN_0059ce80_shell *>(&(FILTER))->FUN_0059ce80(((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::fnv_008bdbd0::xFilter &)(FUN_00931ed0()))->FUN_004a3a20())));
         PICK.FUN_004a3f70(FILTER);
         xAllHits HITS;
-        PICK.FUN_004a3fb0(&HITS);
-        if (*xg_11df868.FUN_00408d60())
+        reinterpret_cast<::FUN_004a3fb0_shell *>(&(PICK))->FUN_004a3fb0((::hkpAllRayHitCollector *)(::fnv_008bdbd0::xAllHits *)(&HITS));
+        if (*(*reinterpret_cast<::fnv_008bdbd0::xBoolSetting *>(&::g_011df868)).FUN_00408d60())
         {
             xISParam COLOR(1.0f, 1.0f, 0.0f, 1.0f);
-            void* LINE = xFUN_004b3890(TPOS, COLOR, START, COLOR, 1);
-            xg_TES_11dea10->FUN_00458e20(LINE, 10.0f);
+            void* LINE = ((void *)(::fnv_004b3890::FUN_004b3890((const class ::FUN_006815c0 &)(TPOS), (const ::fnv_004b3890::FUN_004a7800 &)(COLOR), (const class ::FUN_006815c0 &)(START), (const ::fnv_004b3890::FUN_004a7800 &)(COLOR), 1)));
+            reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::fnv_008bdbd0::xTES * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(LINE), 10.0f);
         }
-        xWorld* WORLD = xFUN_004543c0(xg_player_11dea3c->FUN_008d6f30());
+        xWorld* WORLD = ((::fnv_008bdbd0::xWorld *)(reinterpret_cast<::FUN_004543c0_cls *>((((::fnv_008bdbd0::xCell *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::fnv_008bdbd0::xPlayer * *>(&::_g_thePlayer))))->GetTarget()))))->FUN_004543c0()));
         WORLD->FUN_c8(&PICK);
-        for (int J = 0; !DONE && J < PICK.FUN_008cdd90()->FUN_00460140()->FUN_00726070(); J++)
+        for (int J = 0; !DONE && J < ((int)(reinterpret_cast<::Callees *>((((::fnv_008bdbd0::xHitList *)(::FUN_00460140((int)(((::fnv_008bdbd0::xHitOwner *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(PICK))->FUN_008cdd90()))))))))->FUN_00726070())); J++)
         {
-            xHitInfo INFO(PICK.FUN_008cdd90()->FUN_00460140()->GetEntryAt(J));
-            void* OBJ = xFUN_004b5820(INFO.m_50);
-            xActor* ACTOR = xFUN_0056f930(OBJ);
-            void* OTHER = xFUN_004b59f0(INFO.m_50);
+            xHitInfo INFO(((::fnv_008bdbd0::xHitInfo *)(reinterpret_cast<::FUN_004a46b0_class *>((((::fnv_008bdbd0::xHitList *)(::FUN_00460140((int)(((::fnv_008bdbd0::xHitOwner *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(PICK))->FUN_008cdd90()))))))))->GetEntryAt(J))));
+            void* OBJ = ((void *)(::FUN_004b5820((::FormLike *)(INFO.m_50))));
+            xActor* ACTOR = ((::fnv_008bdbd0::xActor *)(::FUN_0056f930((::NiAVObject *)(OBJ))));
+            void* OTHER = ::FUN_004b59f0(INFO.m_50);
             if (OBJ && OTHER && ACTOR != apTarget)
             {
                 DONE = true;
@@ -3475,14 +3553,14 @@ float xActor::FUN_008bdbd0(xActor* apTarget, float afHeight)
                     DONE = false;
                 if (ACTOR && ACTOR->FUN_100())
                 {
-                    float D = (TPOS - START).FUN_00457990() * INFO.m_10;
-                    if (D > xg_10231d8)
+                    float D = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::fnv_008bdbd0::xP3 &)((TPOS - START)))->ComputeMagnitude() * INFO.m_10;
+                    if (D > ::DAT_010231d8)
                         DONE = false;
                 }
             }
         }
         if (!DONE)
-            RESULT = (I + 1) * *xg_11d09e8.FUN_00403e20();
+            RESULT = (I + 1) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008bdbd0::xFltSetting *>(&::originalRuntimeFloatSetting1070))))));
     }
     return RESULT;
 }
@@ -3514,23 +3592,18 @@ class NameC7
     ~NameC7();
     const char* m_pcName;
 };
-extern const char* g_apcNamesC7[];
-bool __cdecl FUN_009a3830(const char* pcA, const NameC7& kB);
 
 class ModelC7
 {
   public:
-    const char* GetName();
 };
 
 class ClipC7
 {
   public:
-    ModelC7* GetModelFilePath();
     unsigned int GetCount();
     void* GetAt(unsigned int uiIndex);
 };
-void __cdecl FUN_00c6a200(void* pvItem, int iA, int iB, int iC);
 
 struct SlotC7
 {
@@ -3548,14 +3621,11 @@ class LinkC7
 {
   public:
     AnimDataC7* GetAnimData();
-    void* GetSkeletonA();
-    void* GetSkeletonB();
 };
 
 class HandleC7
 {
   public:
-    void* Get();
     unsigned int m_uiHandle;
 };
 
@@ -3563,7 +3633,6 @@ class FlagsC7
 {
   public:
     FlagsC7();
-    void SetTarget(void* pvTarget);
     int m_iValue;
 };
 
@@ -3577,7 +3646,6 @@ class ListenerC7
 class BitsC7
 {
   public:
-    void SetBit(unsigned int uiBit, bool bSet);
 };
 
 class ProjC7;
@@ -4029,10 +4097,6 @@ class ProcessC7
     virtual void p1b2();
     virtual void p1b3();
     virtual ClipC7* GetClip(unsigned char m_ucClipIdentifier);
-    int GetLevel();
-    ListenerC7* GetListener();
-    bool IsInDialogue();
-    void SetDialogueActor(void* pvActor);
 };
 
 class InitC7
@@ -4040,14 +4104,6 @@ class InitC7
   public:
     InitC7(int iType);
     ~InitC7();
-    void SetOwner(void* pvOwner);
-    void SetParent(void* pvParent);
-    void SetFlag857(int iValue);
-    void SetScale(float fScale);
-    void SetFlagA(bool bValue);
-    void SetFlagB(bool bValue);
-    void SetSpeed(float fSpeed);
-    void SetDefault(int iValue);
     __m128 m_akData[12];
 };
 
@@ -4110,42 +4166,25 @@ class ProjC7
     virtual void j032();
     virtual void j033();
     virtual void Reset(int iValue);
-    void SetSource(void* pvSource);
-    void SetSpeed(float fSpeed);
-    void SetFlag(bool bValue);
-    void* GetTarget();
-    void SetTarget(void* pvTarget);
-    void SetFlag931(int iValue);
     HandleC7 GetHandle();
     char m_acPad[0x410 - 4];
     BitsC7 m_kBits;
     char m_acPad2[0x650 - 0x411];
 };
-void __cdecl FUN_00c6a350(void* pvTarget, int iMode, int iA, int iB, int iC);
-void __cdecl CopyBlock48(void* pvTarget, int iValue);
-void __cdecl FUN_0062b8d0(void* pvTarget, NiPoint3C7& kPoint, int iValue);
-void __cdecl PropagateNameToHavokEntity(void* pvTarget);
-bool __cdecl FUN_00525420();
 
 class WorldC7
 {
   public:
-    bool IsBusy();
-    bool CheckC7();
 };
 
 class CellC7
 {
   public:
-    bool IsLoaded();
-    bool IsAttached();
-    WorldC7* GetWorld();
 };
 
 class SubC7
 {
   public:
-    bool IsSet();
 };
 
 class OwnerC7
@@ -4158,21 +4197,17 @@ class OwnerC7
 class ControllerC7
 {
   public:
-    bool GetFlagA();
-    bool GetFlagB();
 };
 
 class MiddleC7
 {
   public:
     void SetMode(int iMode);
-    void SetFlag(int iValue);
 };
 
 class RagdollC7
 {
   public:
-    void Attach(void* pvNode, void* pvTarget);
 };
 
 class RefC7
@@ -4364,15 +4399,7 @@ class RefC7
     virtual void r0b7();
     virtual void r0b8();
     virtual float GetScaleV();
-    void PreUpdate(int iValue);
-    CellC7* GetParentCell();
-    void* GetTarget();
     void* GetParent();
-    LinkC7* GetLink();
-    ProjC7* GetProjectileData();
-    ControllerC7* GetController();
-    float GetAnimationSpeed();
-    OwnerC7* GetOwner();
     char m_acPad[0x68 - 4];
     ProcessC7* m_pkProcess;
     void FUN_00930c70();
@@ -4381,147 +4408,141 @@ class RefC7
 class ActorC7 : public RefC7
 {
   public:
-    int GetState();
-    int GetLifeState();
-    bool IsInState(int iState);
-    bool IsBusy();
     HandleC7 GetHandle();
-    void StartCombat(void* pvTarget, int iA, int iB, int iC);
     char m_acPad2[0xac - 0x6c];
     MiddleC7* m_pkMiddle;
     RagdollC7* m_pkRagdoll;
 };
-extern RefC7* g_pkPlayerC7;
 
 // @fnv 0x00930c70
 void RefC7::FUN_00930c70()
 {
-    PreUpdate(0);
-    if (!m_pkProcess || (m_pkProcess->GetLevel() && m_pkProcess->GetLevel() != 1))
+    reinterpret_cast<::fnv_0057b520::FUN_0057b520_shell *>(this)->FUN_0057b520(0);
+    if (!m_pkProcess || (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pkProcess))->FUN_0045cd60())) && ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pkProcess))->FUN_0045cd60())) != 1))
         return;
-    CellC7* pkCell = GetParentCell();
-    ProcessC7* pkProcess = !m_pkProcess->GetLevel() ? m_pkProcess : 0;
-    if (pkCell && !pkCell->IsLoaded() && !pkCell->IsAttached())
+    CellC7* pkCell = ((::CellC7 *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()));
+    ProcessC7* pkProcess = !((int)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pkProcess))->FUN_0045cd60())) ? m_pkProcess : 0;
+    if (pkCell && !::FUN_00450ff0((void *)(pkCell)) && !reinterpret_cast<::FUN_004523c0_shell *>((pkCell))->FUN_004523c0())
         return;
-    WorldC7* pkWorld = pkCell ? pkCell->GetWorld() : 0;
+    WorldC7* pkWorld = pkCell ? ((::WorldC7 *)(reinterpret_cast<::FUN_004543c0_cls *>((pkCell))->FUN_004543c0())) : 0;
     ActorC7* pkActor = IsActor() ? (ActorC7*)this : 0;
     bool bCombat;
     if (pkActor)
     {
-        switch (pkActor->GetState())
+        switch (((int)(reinterpret_cast<::TESEffectShader *>((pkActor))->GetAddonModels())))
         {
         case 2:
         case 4:
             return;
         }
-        bCombat = pkActor->GetLifeState() == 2 || pkActor->IsInState(-1);
-        PropagateNameToHavokEntity(GetTarget());
+        bCombat = reinterpret_cast<::FUN_004f8960_shell *>((pkActor))->FUN_004f8960() == 2 || reinterpret_cast<::P09A *>((pkActor))->FUN_008aad40(-1);
+        ::PropagateNameToHavokEntity((::C6C210AVObject *)(void *)(((void *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0()))));
     }
     else
     {
         bCombat = false;
     }
-    AnimDataC7* pkAnim = GetLink()->GetAnimData();
+    AnimDataC7* pkAnim = ((::AnimDataC7 *)(reinterpret_cast<::ExtraDataList *>((((::LinkC7 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->GetDismemberedLimbs()));
     if (pkAnim && m_pkProcess && Get3D())
     {
-        unsigned int ItemUpdateArray = pkAnim->GetCount();
+        unsigned int ItemUpdateArray = ::GetObjectFlags((char *)(pkAnim));
         for (unsigned int i = 0; i < ItemUpdateArray; i++)
         {
-            SlotC7* pkSlot = pkAnim->GetAt(i);
+            SlotC7* pkSlot = ((::SlotC7 *)(reinterpret_cast<::B441420Owner *>((pkAnim))->GetInfoAt(i)));
             ClipC7* pkClip = m_pkProcess->GetClip(pkSlot->m_ucValue);
-            ModelC7* pkModel = pkClip->GetModelFilePath();
-            NameC7 kName(g_apcNamesC7[pkSlot->m_ucValue]);
-            if (pkModel && FUN_009a3830(pkModel->GetName(), kName))
+            ModelC7* pkModel = ((::ModelC7 *)(reinterpret_cast<::FUN_009611e0_shell *>((pkClip))->FUN_009611e0()));
+            NameC7 kName(::DAT_01196d6c[pkSlot->m_ucValue]);
+            if (pkModel && ::FUN_009a3830((const int *)(const char *)(((const char *)(reinterpret_cast<::TESTopicInfoData *>((pkModel))->GetLinkToList()))), (const int *)&(kName)))
                 continue;
             for (unsigned int j = 0; j < pkClip->GetCount(); j++)
             {
-                void* pvItem = pkClip->GetAt(j);
+                void* pvItem = ((void *)(reinterpret_cast<::NiNode *>((pkClip))->GetAt(j)));
                 if (pvItem)
-                    FUN_00c6a200(pvItem, 1, 1, 1);
+                    ::FUN_00c6a200(pvItem, 1, 1, 1);
             }
         }
     }
-    ProjC7* pkProj = GetProjectileData();
+    ProjC7* pkProj = ((::ProjC7 *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()));
     if (!pkProj)
     {
         InitC7 kInit(1);
-        kInit.SetOwner(GetTarget());
-        kInit.SetParent(GetParent());
-        kInit.SetFlag857(0);
-        kInit.SetScale(GetScaleV());
-        if (pkActor && GetController() && pkActor->IsMoving())
+        reinterpret_cast<::FUN_008ac890_shell *>(&(kInit))->SetWaterForm((::TESWaterForm *)(void *)(((void *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0()))));
+        reinterpret_cast<::FUN_00810510_Class *>(&(kInit))->FUN_00810510((*(const ::NiPoint3 *)(((void *)(reinterpret_cast<::TESTopicInfo *>(this)->GetAddTopicList())))));
+        reinterpret_cast<::FUN_00857230_shell *>(&(kInit))->SetSound((::TESSound *)(0));
+        reinterpret_cast<::FUN_00810550_class *>(&(kInit))->FUN_00810550(GetScaleV());
+        if (pkActor && ((::ControllerC7 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) && pkActor->IsMoving())
         {
-            kInit.SetFlagA(pkActor->GetController()->GetFlagA());
-            kInit.SetFlagB(pkActor->GetController()->GetFlagB());
-            kInit.SetSpeed(GetAnimationSpeed());
+            reinterpret_cast<::FUN_009314f0 *>(&(kInit))->SetField(reinterpret_cast<::FUN_005f90c0_shell *>((((::ControllerC7 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pkActor))->FUN_007af430()))))->FUN_005f90c0());
+            reinterpret_cast<::FUN_006e2b50_shell *>(&(kInit))->SetCantOpenDoors(reinterpret_cast<::FUN_005f90e0_shell *>((((::ControllerC7 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pkActor))->FUN_007af430()))))->FUN_005f90e0());
+            reinterpret_cast<::fnv_009314d0::FUN_009314d0_class *>(&(kInit))->FUN_009314d0(reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>(this)->FUN_00567400());
         }
         else
         {
-            kInit.SetDefault(1);
+            reinterpret_cast<::FUN_00931510_Class *>(&(kInit))->SetByteAtOffset96(1);
         }
         pkProj = new ProjC7(kInit);
-        if (pkActor && GetController())
-            pkProj->m_kBits.SetBit(0x10004000, GetOwner()->m_kSub.IsSet());
+        if (pkActor && ((::ControllerC7 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())))
+            reinterpret_cast<::FUN_00629670_Class *>(&(pkProj->m_kBits))->FUN_00629670(0x10004000, reinterpret_cast<::fnv_0089d5e0::FUN_0089d5e0_shell *>(&(((::OwnerC7 *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))->m_kSub))->FUN_0089d5e0());
         m_pkProcess->SetProjectile(pkProj);
-        pkProj->SetSource(this);
-        pkProj->SetSpeed(GetAnimationSpeed());
-        pkProj->SetFlag(FUN_00525420());
-        pkProj->m_kBits.SetBit(0x200000, true);
+        reinterpret_cast<::FUN_00810640_class *>((pkProj))->FUN_00810640((int)(this));
+        reinterpret_cast<::FUN_00931560_cls *>((pkProj))->FUN_00931560(reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>(this)->FUN_00567400());
+        reinterpret_cast<::fnv_00810610::FUN_00810610_Class *>((pkProj))->FUN_00810610(((bool)(::FUN_00525420())));
+        reinterpret_cast<::FUN_00629670_Class *>(&(pkProj->m_kBits))->FUN_00629670(0x200000, true);
         if (pkProcess)
         {
-            ListenerC7* pkListener = pkProcess->GetListener();
+            ListenerC7* pkListener = ((::ListenerC7 *)(reinterpret_cast<::FUN_00931580_Class *>((pkProcess))->FUN_00931580()));
             if (pkListener)
             {
                 FlagsC7 kFlags = pkListener->GetFlags();
-                kFlags.SetTarget(pkProj->GetHandle().Get());
+                reinterpret_cast<::FUN_0059ce80_shell *>(&(kFlags))->FUN_0059ce80((unsigned int)(((void *)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::HandleC7 &)(pkProj->GetHandle()))->FUN_004a3a20()))));
                 pkListener->SetFlags(kFlags);
             }
         }
     }
-    if (pkWorld && pkWorld->CheckC7())
-        pkProj->SetFlag931(1);
+    if (pkWorld && reinterpret_cast<::Obj_930 *>((pkWorld))->HasEntries())
+        reinterpret_cast<::fnv_00931530::Dummy629670 *>((pkProj))->FUN_00931530(1);
     if (pkActor && bCombat)
-        pkActor->m_pkRagdoll->Attach(pkActor->Get3D(), pkActor->GetHandle().Get());
-    void* pvOld = pkProj->GetTarget();
-    void* pvTarget = GetTarget();
+        reinterpret_cast<::Manager *>((pkActor->m_pkRagdoll))->FUN_00ca2ad0(pkActor->Get3D(), (unsigned int)(((void *)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::HandleC7 &)(pkActor->GetHandle()))->FUN_004a3a20()))));
+    void* pvOld = ((void *)(reinterpret_cast<::FUN_00810660_Class *>((pkProj))->FUN_00810660()));
+    void* pvTarget = ((void *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0()));
     if (pvOld != pvTarget)
     {
-        pkProj->SetTarget(pvTarget);
+        reinterpret_cast<::S_00c6d7a0_Obj *>((pkProj))->FUN_00c6d7a0((int)(pvTarget));
         NiQuaternionC7 kRot(0.0f, 0.0f, 0.0f, 0.0f);
         kRot.m_fVectorX = 1.0f;
         kRot.m_fVectorY = 0.0f;
         kRot.m_fVectorZ = 0.0f;
         kRot.m_fScalarPart = 0.25f;
-        CellC7* pkCell2 = GetParentCell();
-        WorldC7* pkWorld2 = pkCell2 ? pkCell2->GetWorld() : 0;
-        if (pkWorld2 && pkWorld2->IsBusy())
+        CellC7* pkCell2 = ((::CellC7 *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()));
+        WorldC7* pkWorld2 = pkCell2 ? ((::WorldC7 *)(reinterpret_cast<::FUN_004543c0_cls *>((pkCell2))->FUN_004543c0())) : 0;
+        if (pkWorld2 && ::FUN_004bae00((const char *)(pkWorld2)))
         {
             pkProj->Reset(0);
-            CopyBlock48(pkProj->GetTarget(), 1);
+            ::CopyBlock48(((void *)(reinterpret_cast<::FUN_00810660_Class *>((pkProj))->FUN_00810660())), (const void *)(1));
         }
-        FUN_00c6a350(pvTarget, bCombat ? 1 : 4, 1, 0, 0);
+        ::FUN_00c6a350((::NiAVObject *)(pvTarget), bCombat ? 1 : 4, 1, 0, 0);
         if (pkActor && !pkActor->IsDead(0))
         {
-            pkActor->StartCombat(pvTarget, 1, 1, 0);
-            if (this == g_pkPlayerC7 && pkActor->m_pkMiddle)
+            reinterpret_cast<::fnv_0087e130::Projectile *>((pkActor))->InitRagdollController(pvTarget, 1, 1, 0);
+            if (this == (*reinterpret_cast<::RefC7 * *>(&::_g_thePlayer)) && pkActor->m_pkMiddle)
             {
-                pkActor->m_pkMiddle->SetMode(0);
-                pkActor->m_pkMiddle->SetFlag(1);
+                reinterpret_cast<::FUN_0087ea60_Class *>((pkActor->m_pkMiddle))->FUN_0087ea60(0);
+                reinterpret_cast<::FUN_009315a0Class *>((pkActor->m_pkMiddle))->SetByteAt241(1);
             }
         }
     }
-    if (m_pkProcess && !m_pkProcess->GetLevel() && this != g_pkPlayerC7 && pkActor && pkActor->GetOwner() &&
-        !pkActor->IsBusy())
+    if (m_pkProcess && !((int)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pkProcess))->FUN_0045cd60())) && this != (*reinterpret_cast<::RefC7 * *>(&::_g_thePlayer)) && pkActor && ((::OwnerC7 *)(reinterpret_cast<::Actor *>((pkActor))->GetActorBase())) &&
+        !reinterpret_cast<::FUN_0087eeb0_shell *>((pkActor))->FUN_0087eeb0())
     {
         ProcessC7* pkHigh = m_pkProcess;
-        if (!pkHigh->IsInDialogue())
-            pkHigh->SetDialogueActor(pkActor);
+        if (!reinterpret_cast<::FUN_008e5700_cls *>((pkHigh))->HasString())
+            reinterpret_cast<::xController *>((pkHigh))->FUN_008e4e50((::xActor *)(pkActor));
     }
     SetUpdate(0);
-    if (bCombat && !GetLink()->GetSkeletonA() && !GetLink()->GetSkeletonB())
+    if (bCombat && !((void *)(reinterpret_cast<::S_00422b90 *>((((::LinkC7 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_00422b90())) && !((void *)(reinterpret_cast<::FUN_0041d6d0_shell *>((((::LinkC7 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_0041d6d0())))
     {
         NiPoint3C7 kWorldPosition(0.0f, 0.0f, -1.0f);
-        FUN_0062b8d0(pvTarget, kWorldPosition, 1);
+        ::FUN_0062b8d0(pvTarget, (const void *)&(kWorldPosition), 1);
     }
 }
 
@@ -4542,8 +4563,6 @@ struct kP3
 {
     float x, y, z;
     kP3();
-    void Subtract(kP3* o);
-    float FUN_00457990();
 };
 
 struct kP4
@@ -4551,7 +4570,6 @@ struct kP4
     __m128 v;
     kP4();
 };
-void __cdecl FUN_004a3e00(kP4* a, kP3* b);
 
 struct kP2
 {
@@ -4575,30 +4593,18 @@ struct kE
     virtual void v028();
     virtual int v2c();
     virtual int v30();
-    bool FUN_004f1540();
-    unsigned char FUN_005bb4d0();
-    kNodeT<kRef>* GetOffsetC();
-    void FUN_004f2480(int a, int b);
-    kNodeT<kRef>* FUN_00413f40();
 };
 
 struct kExt
 {
-    kE* FUN_004f35b0();
 };
 
 struct kRef
 {
-    bool FUN_00440d80();
-    void* FUN_007af430();
-    kNodeT<kShape>* FUN_00441110();
-    kExt* FUN_009611e0(int k);
-    bool FUN_00549580();
 };
 
 struct kShape
 {
-    bool FUN_004f8360(kP2* p);
     bool FUN_008256d0();
 };
 
@@ -4610,15 +4616,12 @@ struct kRefList
 
 struct kPA2
 {
-    void FUN_004893c0(int a);
 };
 struct kPA
 {
-    kPA2* FUN_0045cd60();
 };
 struct kU2
 {
-    int FUN_00500940();
 };
 struct kU
 {
@@ -4626,49 +4629,25 @@ struct kU
 };
 struct kCell
 {
-    bool IsFlag8Set();
 };
 struct kProc
 {
-    void FUN_0063c8f0();
 };
-kProc* __stdcall FUN_0046dd00(void* p);
-void __cdecl FUN_00b4f430(int a);
 
 struct kActor
 {
-    bool FUN_004518e0();
-    float FUN_005471e0();
-    bool FUN_00425fd0();
-    int FUN_005474b0(int a);
-    kPA* FUN_004543c0();
-    void* FUN_005475b0(int a);
     kU2* FUN_00547680();
-    kCell* FUN_0054ddd0();
-    int FUN_00544c30();
-    int FUN_00544c60();
-    kRefList* FUN_00547110(int a);
-    void FUN_00548230(kRef* r, int a);
 };
 
-bool __cdecl FUN_0094dba0();
-void __cdecl FUN_0062f8f0(float f);
-void __cdecl FUN_005743f0();
 struct kQ2
 {
-    void FUN_006231a0(kPA* a);
 };
-kQ2* __cdecl FUN_00622a70(float f, int a);
-float __cdecl FUN_00622bb0();
-float __cdecl FUN_00622ba0();
-void __cdecl FUN_004f24e0(kRef* r, int a, int b);
 
 struct kZ
 {
     int unk0, unk4, unk8, unkC, unk10;
     static void* operator new(unsigned int n);
     kZ();
-    void FUN_0056ea00(float f);
 };
 
 struct __declspec(align(16)) kH
@@ -4731,7 +4710,6 @@ struct __declspec(align(16)) kH
     int unkdc;
     kH();
     ~kH();
-    void FUN_0056f110(kZ* z);
     void FUN_0056f0f0(int f);
 };
 
@@ -4802,50 +4780,32 @@ struct kVV
     virtual void v0dc();
     virtual void v0e0();
     virtual void ve4(int a);
-    void FUN_00561580(int a);
-    void FUN_005610f0(kP3* p);
-    struct kVV3* FUN_004ae700();
 };
 struct kVV3
 {
-    void FUN_0094db80(int a);
 };
 
 struct kDec
 {
-    bool FUN_00822510(int a);
     void FUN_0066b0d0(kW* w);
-    kVV* FUN_00559450();
 };
 
 struct kG1
 {
-    void UpdateRelationStates(int a);
 };
-extern kG1* DAT_011c3b3c;
 struct kG2
 {
     unsigned char* FUN_00408d60();
 };
-extern kG2 DAT_011e08e0;
 struct kG3
 {
-    bool FUN_00451530();
 };
-extern kG3* DAT_011dea10;
-extern kE* DAT_011dd380;
-extern float DAT_01015f5c;
-extern float DAT_01017d00;
-extern double DAT_01017a10;
-extern double DAT_01016968;
 
 struct kO
 {
     virtual ~kO();
     int unk4, unk8, unkC;
     kO(int a, int b);
-    void FUN_005e03d0();
-    void FUN_0096a610(kRef** r);
 };
 
 struct kTyped
@@ -4855,7 +4815,6 @@ struct kTyped
 
 struct kRList
 {
-    void FUN_00470470();
     bool FUN_008256d0();
     void FUN_005ae3d0(kRef** r);
 };
@@ -4867,9 +4826,6 @@ struct kRList2
     kRList2();
     ~kRList2();
     void FUN_005ae3d0(kRef** r);
-    bool FUN_005f65d0(kRef** r);
-    void FUN_00905330(kRef** r);
-    void FUN_00470470();
     bool FUN_008256d0();
 };
 
@@ -4877,7 +4833,6 @@ struct kContainer
 {
     int unk0;
     kNodeT<kRef> head;
-    void AddRegion(kRef* r);
 };
 
 struct kS8
@@ -4888,7 +4843,6 @@ struct kS8
     ~kS8();
 };
 void __cdecl FUN_00705420(kRef* r, kS8 s, int a);
-void __cdecl FUN_0082d7c0();
 
 struct kArea
 {
@@ -6083,175 +6037,164 @@ struct kSelf
     int unkDE8;
     kDec mdec;
 
-    kActor* FUN_008d6f30();
-    void SetParentCellAndUpdateController(kActor* p);
-    void FUN_0093a7a0(kRef* r);
     struct X5
     {
-        void FUN_00421e40();
     };
-    X5* FUN_005d43c0(int a);
-    bool FUN_00437bd0();
-    bool FUN_005a1e50();
-    kArea* FUN_00891170();
-    void* FUN_00575d70();
-    void FUN_00947d80();
-    void FUN_009480c0();
     void FUN_0094cae0(kActor* p);
 };
 
 // @fnv 0x0094cae0
 void kSelf::FUN_0094cae0(kActor* p)
 {
-    if (p == FUN_008d6f30())
+    if (p == ((::fnv_0094cae0::kActor *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())))
         return;
-    if (!FUN_0094dba0())
-        FUN_0062f8f0((p && p->FUN_004518e0()) ? p->FUN_005471e0() : DAT_01015f5c);
-    FUN_005d43c0(0)->FUN_00421e40();
-    SetParentCellAndUpdateController(p);
+    if (!((bool)(::FUN_0094dba0())))
+        ::FUN_0062f8f0((p && reinterpret_cast<::fnv_004518e0::TESObjectCELL *>((p))->FUN_004518e0()) ? reinterpret_cast<::FUN_005471e0_shell *>((p))->FUN_005471e0() : ::DAT_01015f5c);
+    reinterpret_cast<::FUN_00421e40_shell *>((((::fnv_0094cae0::kSelf::X5 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_00421e40({});
+    reinterpret_cast<::B930700Actor *>(this)->SetParentCellAndUpdateController((::B930700Cell *)(p));
     if (p)
     {
-        if (!p->FUN_00425fd0())
-            FUN_0093a7a0(0);
-        FUN_005743f0();
-        m7b4 = p->FUN_005474b0(0);
-        kPA* pa = p->FUN_004543c0();
+        if (!reinterpret_cast<::TESObjectCELL *>((p))->IsCellInterior())
+            reinterpret_cast<::FUN_0093a7a0_Class *>(this)->FUN_0093a7a0((int)(0));
+        ::FUN_005743f0();
+        m7b4 = ((int)(reinterpret_cast<::B5474B0Cell *>((p))->FUN_005474b0(0)));
+        kPA* pa = ((::fnv_0094cae0::kPA *)(reinterpret_cast<::FUN_004543c0_cls *>((p))->FUN_004543c0()));
         if (pa)
         {
-            kPA2* pa2 = pa->FUN_0045cd60();
-            pa2->FUN_004893c0(1);
+            kPA2* pa2 = ((::fnv_0094cae0::kPA2 *)(reinterpret_cast<::FUN_0045cd60_shell *>((pa))->FUN_0045cd60()));
+            reinterpret_cast<::FUN_004893c0_class *>((pa2))->FUN_004893c0(1);
         }
         v1fc(0);
-        if (FUN_008d6f30() && FUN_008d6f30()->FUN_004543c0() && FUN_00622a70(FUN_00622bb0(), 0))
-            FUN_00622a70(FUN_00622bb0(), 1)->FUN_006231a0(FUN_008d6f30()->FUN_004543c0());
-        if (FUN_008d6f30() && FUN_008d6f30()->FUN_004543c0() && FUN_00622a70(FUN_00622ba0(), 0))
-            FUN_00622a70(FUN_00622ba0(), 1)->FUN_006231a0(FUN_008d6f30()->FUN_004543c0());
-        if (mdec.FUN_00822510(0))
+        if (((::fnv_0094cae0::kActor *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) && ((::fnv_0094cae0::kPA *)(reinterpret_cast<::FUN_004543c0_cls *>((((::fnv_0094cae0::kActor *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0())) && ((::fnv_0094cae0::kQ2 *)(::ScreenSplatter::Activate(::FUN_00622bb0(), 0))))
+            reinterpret_cast<::Owner623 *>((((::fnv_0094cae0::kQ2 *)(::ScreenSplatter::Activate(::FUN_00622bb0(), 1)))))->FUN_006231a0((::NiNode623 *)(::fnv_0094cae0::kPA *)(((::fnv_0094cae0::kPA *)(reinterpret_cast<::FUN_004543c0_cls *>((((::fnv_0094cae0::kActor *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0()))));
+        if (((::fnv_0094cae0::kActor *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) && ((::fnv_0094cae0::kPA *)(reinterpret_cast<::FUN_004543c0_cls *>((((::fnv_0094cae0::kActor *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0())) && ((::fnv_0094cae0::kQ2 *)(::ScreenSplatter::Activate(::FUN_00622ba0(), 0))))
+            reinterpret_cast<::Owner623 *>((((::fnv_0094cae0::kQ2 *)(::ScreenSplatter::Activate(::FUN_00622ba0(), 1)))))->FUN_006231a0((::NiNode623 *)(::fnv_0094cae0::kPA *)(((::fnv_0094cae0::kPA *)(reinterpret_cast<::FUN_004543c0_cls *>((((::fnv_0094cae0::kActor *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0()))));
+        if (reinterpret_cast<::_FUN_00822510_Class *>(&(mdec))->operator==(0))
         {
             kZ* z = new kZ;
-            z->FUN_0056ea00(DAT_01017d00);
+            ::FUN_0056ea00((::_bhkSphereShape_vtbl_helper *)(z), ::AngularDashpotApplyD4DCB0::DAT_01017d00);
             kH h;
-            h.FUN_0056f110(z);
+            reinterpret_cast<::fnv_0056f110::FUN_0056f110_class *>(&(h))->FUN_0056f110((::fnv_0056f110::ScriptLocalsX *)(z));
             int flags = 0x30000;
             flags |= 0x21;
             h.FUN_0056f0f0(flags);
             mdec.FUN_0066b0d0(new kW(&h));
-            mdec.FUN_00559450()->FUN_00561580(1);
-            mdec.FUN_00559450()->ve4(4);
-            mdec.FUN_00559450()->FUN_004ae700()->FUN_0094db80(9);
+            reinterpret_cast<::fnv_00561580::FUN_00561580_Class *>((((::fnv_0094cae0::kVV *)(::FUN_00559450((int *)&(mdec))))))->FUN_00561580(1);
+            ((::fnv_0094cae0::kVV *)(::FUN_00559450((int *)&(mdec))))->ve4(4);
+            reinterpret_cast<::FUN_0094db80_shell *>((((::fnv_0094cae0::kVV3 *)(reinterpret_cast<::FUN_004ae700_S *>((((::fnv_0094cae0::kVV *)(::FUN_00559450((int *)&(mdec))))))->FUN_004ae700()))))->FUN_0094db80(9);
             kP4 q;
             kP3 r = *v1f4();
-            FUN_004a3e00(&q, &r);
-            mdec.FUN_00559450()->FUN_005610f0(&r);
+            ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&q)), (*(const ::fnv_004a3e00::NiPoint3 *)(&r)));
+            reinterpret_cast<::FUN_005610f0_cls *>((((::fnv_0094cae0::kVV *)(::FUN_00559450((int *)&(mdec))))))->FUN_005610f0((int)(&r));
         }
-        mdec.FUN_00559450()->v9c(FUN_008d6f30()->FUN_004543c0());
-        bool busy = FUN_00437bd0() || v22c(0) || v2e8() || v230();
-        bool idle = !busy && !FUN_005a1e50();
+        ((::fnv_0094cae0::kVV *)(::FUN_00559450((int *)&(mdec))))->v9c(((::fnv_0094cae0::kPA *)(reinterpret_cast<::FUN_004543c0_cls *>((((::fnv_0094cae0::kActor *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0())));
+        bool busy = ((bool)(reinterpret_cast<::FUN_00437bd0_stub *>(this)->FUN_00437bd0())) || v22c(0) || v2e8() || v230();
+        bool idle = !busy && !::FUN_005a1e50((const bool *)this);
         if (idle)
             v494();
-        DAT_011c3b3c->UpdateRelationStates(0);
-        FUN_0046dd00(p->FUN_005475b0(0))->FUN_0063c8f0();
-        FUN_00b4f430(p->FUN_00547680()->FUN_00500940());
-        kCell* cell = p->FUN_0054ddd0();
+        reinterpret_cast<::RelationUpdater *>(((*reinterpret_cast<::fnv_0094cae0::kG1 * *>(&::g_modelLoader))))->UpdateRelationStates((::RelationTarget *)(0));
+        reinterpret_cast<::Sky *>((((::fnv_0094cae0::kProc *)(::Sky::GetInstance()))))->SetCurrentClimate({}, {});
+        ::FUN_00b4f430(((int)(reinterpret_cast<::BGSCameraPath *>((((::fnv_0094cae0::kU2 *)(reinterpret_cast<::cell547::C5Cell *>((p))->FUN_00547680()))))->GetConditions())));
+        kCell* cell = ((::fnv_0094cae0::kCell *)(reinterpret_cast<::TESObjectCELL *>((p))->GetParentWorldSpace()));
         bool found = false;
         m79c = 0;
         if (m7b0)
         {
-            m7b0->FUN_005e03d0();
+            ::FUN_005e03d0((::NiTArray_Layout *)(m7b0));
             delete m7b0;
             m7b0 = 0;
         }
-        int ix = p->FUN_00544c30();
-        int iy = p->FUN_00544c60();
+        int ix = reinterpret_cast<::TESObjectCELL *>((p))->GetCellGridX();
+        int iy = reinterpret_cast<::TESObjectCELL *>((p))->GetCellGridY();
         float x0 = ix << 12;
-        float x1 = x0 + DAT_01017a10;
+        float x1 = x0 + ::DAT_01017a10;
         float y0 = iy << 12;
-        float y1 = y0 + DAT_01017a10;
+        float y1 = y0 + ::DAT_01017a10;
         kP2 c0(x0, y0);
         kP2 c1(x0, y1);
         kP2 c2(x1, y0);
         kP2 c3(x1, y1);
-        m774.FUN_00470470();
-        DAT_011dd380 = 0;
+        reinterpret_cast<::FileMatchList *>(&(m774))->RemoveAll();
+        (*reinterpret_cast<::fnv_0094cae0::kE * *>(&::DAT_011dd380)) = 0;
         kRList2 list;
         kNodeT<kRef>* n = &m764 ? &m764.head : 0;
-        while (n && *n->Get())
+        while (n && *((::fnv_0094cae0::kRef **)(new ((void *)(n)) ::Vec3())))
         {
-            kRef* x = *n->Get();
+            kRef* x = *((::fnv_0094cae0::kRef **)(new ((void *)(n)) ::Vec3()));
             if (x)
                 list.FUN_005ae3d0(&x);
-            n = n->Next();
+            n = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(reinterpret_cast<::Callees *>((n))->FUN_00726070()));
         }
-        m764.head.FUN_00470470();
+        reinterpret_cast<::FileMatchList *>(&(m764.head))->RemoveAll();
         kE* best = 0;
-        kRefList* rl = p->FUN_00547110(1);
+        kRefList* rl = ((::fnv_0094cae0::kRefList *)(reinterpret_cast<::TESObjectCELL *>((p))->GetRegionList(1)));
         kRef* ref;
-        for (kNodeT<kRef>* it = rl ? &rl->head : 0; it && (ref = *it->Get()) != 0; it = it->Next())
+        for (kNodeT<kRef>* it = rl ? &rl->head : 0; it && (ref = *((::fnv_0094cae0::kRef **)(new ((void *)(it)) ::Vec3()))) != 0; it = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(reinterpret_cast<::Callees *>((it))->FUN_00726070())))
         {
-            kP2 pos(&FUN_00891170()->pos);
+            kP2 pos(&((::fnv_0094cae0::kArea *)(reinterpret_cast<::BGSCameraPath *>(this)->GetShotList()))->pos);
             kNodeT<kRef>* sub = 0;
-            if (ref->FUN_00440d80() || (ref->FUN_007af430() && ref->FUN_007af430() != FUN_00575d70()) ||
-                !ref->FUN_00441110() || ref->FUN_00441110()->FUN_008256d0())
+            if (reinterpret_cast<::FUN_00440d80_shell *>((ref))->FUN_00440d80() || (((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430())) && ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430())) != ((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(this)->FUN_00575d70()))) ||
+                !((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kShape> *)(reinterpret_cast<::BGSTerrainManager *>((ref))->GetMinLevel())) || ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kShape> *)(reinterpret_cast<::BGSTerrainManager *>((ref))->GetMinLevel()))->FUN_008256d0())
                 continue;
             bool done = false;
             kShape* sh;
-            for (kNodeT<kShape>* m = ref->FUN_00441110(); !done && m && (sh = *m->Get()) != 0; m = m->Next())
+            for (kNodeT<kShape>* m = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kShape> *)(reinterpret_cast<::BGSTerrainManager *>((ref))->GetMinLevel())); !done && m && (sh = *((::fnv_0094cae0::kShape **)(new ((void *)(m)) ::Vec3()))) != 0; m = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kShape> *)(reinterpret_cast<::Callees *>((m))->FUN_00726070())))
             {
-                if (sh->FUN_004f8360(&pos))
+                if (reinterpret_cast<::Polygon *>((sh))->FUN_004f8360((::PolygonPoint *)(::fnv_0094cae0::kP2 *)(&pos)))
                 {
-                    m764.AddRegion(ref);
-                    if (list.FUN_005f65d0(&ref))
-                        list.FUN_00905330(&ref);
-                    kE* e = ref->FUN_009611e0(7)->FUN_004f35b0();
+                    reinterpret_cast<::TESRegionList *>(&(m764))->AddRegion((::TESRegion *)(ref));
+                    if (reinterpret_cast<::RefList *>(&(list))->FUN_005f65d0((void **)(::fnv_0094cae0::kRef **)(&ref)))
+                        reinterpret_cast<::ItemChangeListNode *>(&(list))->FUN_00905330((*(::InventoryStackRecord *const *)(&ref)));
+                    kE* e = ((::fnv_0094cae0::kE *)(reinterpret_cast<::GList *>((((::fnv_0094cae0::kExt *)(reinterpret_cast<::FUN_009611e0_shell *>((ref))->FUN_009611e0()))))->FUN_004f35b0({})));
                     if (e)
                     {
-                        if (e->FUN_004f1540() && (!best || (best != e && best->FUN_005bb4d0() < e->FUN_005bb4d0())))
+                        if (reinterpret_cast<::PatrolActorPackageData *>((e))->IsPatrolling() && (!best || (best != e && ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((best))->FUN_005bb4d0())) < ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((e))->FUN_005bb4d0())))))
                         {
-                            m774.FUN_00470470();
+                            reinterpret_cast<::FileMatchList *>(&(m774))->RemoveAll();
                             best = e;
                         }
                         if (!best || best == e)
                         {
-                            sub = e->GetOffsetC();
-                            while (sub && *sub->Get())
+                            sub = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(::GetOffsetC((int)(e))));
+                            while (sub && *((::fnv_0094cae0::kRef **)(new ((void *)(sub)) ::Vec3())))
                             {
-                                m774.FUN_005ae3d0(sub->Get());
-                                sub = sub->Next();
+                                m774.FUN_005ae3d0(((::fnv_0094cae0::kRef **)(new ((void *)(sub)) ::Vec3())));
+                                sub = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(reinterpret_cast<::Callees *>((sub))->FUN_00726070()));
                             }
                             if (e->v30())
-                                DAT_011dd380 = e;
+                                (*reinterpret_cast<::fnv_0094cae0::kE * *>(&::DAT_011dd380)) = e;
                         }
                     }
-                    if (ref->FUN_00549580())
+                    if (reinterpret_cast<::FUN_00549580_shell *>((ref))->FUN_00549580())
                     {
                         found = true;
-                        if (sh->FUN_004f8360(&c0) && sh->FUN_004f8360(&c1) && sh->FUN_004f8360(&c2) &&
-                            sh->FUN_004f8360(&c3))
+                        if (reinterpret_cast<::Polygon *>((sh))->FUN_004f8360((::PolygonPoint *)(::fnv_0094cae0::kP2 *)(&c0)) && reinterpret_cast<::Polygon *>((sh))->FUN_004f8360((::PolygonPoint *)(::fnv_0094cae0::kP2 *)(&c1)) && reinterpret_cast<::Polygon *>((sh))->FUN_004f8360((::PolygonPoint *)(::fnv_0094cae0::kP2 *)(&c2)) &&
+                            reinterpret_cast<::Polygon *>((sh))->FUN_004f8360((::PolygonPoint *)(::fnv_0094cae0::kP2 *)(&c3)))
                             m79c = 1;
                     }
                     if (m760)
                     {
-                        kE* a = m760->FUN_009611e0(3)->FUN_004f35b0();
-                        kE* b = ref->FUN_009611e0(3)->FUN_004f35b0();
-                        if (b && (!a || (b->FUN_004f1540() && !a->FUN_004f1540()) ||
-                                  (b->FUN_004f1540() == a->FUN_004f1540() && b->FUN_005bb4d0() > a->FUN_005bb4d0())))
-                            FUN_0093a7a0(ref);
+                        kE* a = ((::fnv_0094cae0::kE *)(reinterpret_cast<::GList *>((((::fnv_0094cae0::kExt *)(reinterpret_cast<::FUN_009611e0_shell *>((m760))->FUN_009611e0()))))->FUN_004f35b0({})));
+                        kE* b = ((::fnv_0094cae0::kE *)(reinterpret_cast<::GList *>((((::fnv_0094cae0::kExt *)(reinterpret_cast<::FUN_009611e0_shell *>((ref))->FUN_009611e0()))))->FUN_004f35b0({})));
+                        if (b && (!a || (reinterpret_cast<::PatrolActorPackageData *>((b))->IsPatrolling() && !reinterpret_cast<::PatrolActorPackageData *>((a))->IsPatrolling()) ||
+                                  (reinterpret_cast<::PatrolActorPackageData *>((b))->IsPatrolling() == reinterpret_cast<::PatrolActorPackageData *>((a))->IsPatrolling() && ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((b))->FUN_005bb4d0())) > ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((a))->FUN_005bb4d0())))))
+                            reinterpret_cast<::FUN_0093a7a0_Class *>(this)->FUN_0093a7a0((int)(ref));
                     }
                     else
                     {
-                        FUN_0093a7a0(ref);
+                        reinterpret_cast<::FUN_0093a7a0_Class *>(this)->FUN_0093a7a0((int)(ref));
                     }
                     done = true;
                 }
             }
-            if (ref->FUN_00549580())
+            if (reinterpret_cast<::FUN_00549580_shell *>((ref))->FUN_00549580())
             {
                 if (!m7b0)
                     m7b0 = new kO(1, 1);
-                m7b0->FUN_0096a610(&ref);
+                reinterpret_cast<::S_0060ba10 *>((m7b0))->FUN_0096a610((int)(&ref));
             }
         }
-        if (*DAT_011e08e0.FUN_00408d60() && cell && cell->IsFlag8Set() && !DAT_011dea10->FUN_00451530() && !found)
+        if (*(*reinterpret_cast<::fnv_0094cae0::kG2 *>(&::g_011e08e0)).FUN_00408d60() && cell && reinterpret_cast<::FUN_00586260_shell *>((cell))->IsFlag8Set() && !reinterpret_cast<::fnv_00451530::FUN_00451530_shell *>(((*reinterpret_cast<::fnv_0094cae0::kG3 * *>(&::g_TES))))->FUN_00451530() && !found)
         {
             kTyped* t39 = 0;
             kTyped* t41 = 0;
@@ -6269,65 +6212,65 @@ void kSelf::FUN_0094cae0(kActor* p)
             }
             if (t39 && t39 != (kTyped*)p)
                 m79d = 1;
-            else if (t41 && t41 != (kTyped*)p->FUN_0054ddd0())
+            else if (t41 && t41 != (kTyped*)((::fnv_0094cae0::kCell *)(reinterpret_cast<::TESObjectCELL *>((p))->GetParentWorldSpace())))
                 m79d = 1;
             else
             {
                 kP3 d = *v1f4();
-                d.Subtract(&m7a0);
-                if (d.FUN_00457990() > DAT_01016968)
+                reinterpret_cast<::NiPoint3 *>(&(d))->Subtract((*(const ::NiPoint3 *)(&m7a0)));
+                if (reinterpret_cast<::NiPoint3 *>(&(d))->ComputeMagnitude() > ::DAT_01016968)
                     m79d = 1;
             }
         }
-        kE* e4 = m760 ? m760->FUN_009611e0(4)->FUN_004f35b0() : 0;
+        kE* e4 = m760 ? ((::fnv_0094cae0::kE *)(reinterpret_cast<::GList *>((((::fnv_0094cae0::kExt *)(reinterpret_cast<::FUN_009611e0_shell *>((m760))->FUN_009611e0()))))->FUN_004f35b0({}))) : 0;
         FUN_00705420(m760, e4 ? e4->v2c() : 0, 1);
-        FUN_00947d80();
-        FUN_009480c0();
+        reinterpret_cast<::FUN_00947d80_cls *>(this)->FUN_00947d80();
+        reinterpret_cast<::FUN_009480c0_shell *>(this)->FUN_009480c0();
         kNodeT<kRef>* n2 = &list.head;
-        while (n2 && *n2->Get())
+        while (n2 && *((::fnv_0094cae0::kRef **)(new ((void *)(n2)) ::Vec3())))
         {
-            kRef* x = *n2->Get();
+            kRef* x = *((::fnv_0094cae0::kRef **)(new ((void *)(n2)) ::Vec3()));
             if (x)
             {
-                kE* e = x->FUN_009611e0(8)->FUN_004f35b0();
+                kE* e = ((::fnv_0094cae0::kE *)(reinterpret_cast<::GList *>((((::fnv_0094cae0::kExt *)(reinterpret_cast<::FUN_009611e0_shell *>((x))->FUN_009611e0()))))->FUN_004f35b0({})));
                 if (e)
                 {
                     kE* e2 = e;
-                    e2->FUN_004f2480(0, 0);
+                    reinterpret_cast<::Dummy *>((e2))->FUN_004f2480(0, 0);
                 }
             }
-            n2 = n2->Next();
+            n2 = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(reinterpret_cast<::Callees *>((n2))->FUN_00726070()));
         }
         n2 = &m764 ? &m764.head : 0;
-        while (n2 && *n2->Get())
+        while (n2 && *((::fnv_0094cae0::kRef **)(new ((void *)(n2)) ::Vec3())))
         {
-            kRef* x = *n2->Get();
+            kRef* x = *((::fnv_0094cae0::kRef **)(new ((void *)(n2)) ::Vec3()));
             if (x)
             {
-                kE* e = x->FUN_009611e0(8)->FUN_004f35b0();
+                kE* e = ((::fnv_0094cae0::kE *)(reinterpret_cast<::GList *>((((::fnv_0094cae0::kExt *)(reinterpret_cast<::FUN_009611e0_shell *>((x))->FUN_009611e0()))))->FUN_004f35b0({})));
                 if (e)
                 {
                     kE* e2 = e;
-                    kNodeT<kRef>* k = e2->FUN_00413f40();
+                    kNodeT<kRef>* k = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(reinterpret_cast<::TESTopicInfoData *>((e2))->GetLinkToList()));
                     while (k)
                     {
-                        if (*k->Get())
+                        if (*((::fnv_0094cae0::kRef **)(new ((void *)(k)) ::Vec3())))
                         {
-                            FUN_008d6f30()->FUN_00548230(*k->Get(), 0);
-                            FUN_004f24e0(*k->Get(), 1, 0);
+                            reinterpret_cast<::CellView *>((((::fnv_0094cae0::kActor *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_00548230((::RefView *)(*((::fnv_0094cae0::kRef **)(new ((void *)(k)) ::Vec3()))), 0);
+                            ::FUN_004f24e0((::TESSound *)(*((::fnv_0094cae0::kRef **)(new ((void *)(k)) ::Vec3()))), 1, 0);
                         }
-                        k = k->Next();
+                        k = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(reinterpret_cast<::Callees *>((k))->FUN_00726070()));
                     }
                 }
             }
-            n2 = n2->Next();
+            n2 = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(reinterpret_cast<::Callees *>((n2))->FUN_00726070()));
         }
-        list.FUN_00470470();
+        reinterpret_cast<::FileMatchList *>(&(list))->RemoveAll();
     }
     else
     {
-        m774.FUN_00470470();
-        FUN_0082d7c0();
+        reinterpret_cast<::FileMatchList *>(&(m774))->RemoveAll();
+        ::SoundPlaybackManager::ProcessPendingSounds();
     }
 }
 }  // namespace fnv_0094cae0

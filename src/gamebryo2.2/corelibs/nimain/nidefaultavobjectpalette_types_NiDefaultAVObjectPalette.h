@@ -15,6 +15,7 @@ class NiTFixedStringMap_NiAVObject___;
 class NiTFixedStringMapBase_DFALL_NiTMapItem_NiFixedString_NiAVObject______NiAVObject___;
 class NiTFixedStringMapBase_DFALL_NiTMapItem_NiFixedString_NiAVObject______NiAVObject_____AntiBloatAllocator;
 #pragma pack(push, 4)
+struct StrArr;
 class NiAVObjectPalette : public NiObject
 {
   public:
@@ -31,6 +32,8 @@ class NiAVObjectPalette : public NiObject
     // void __cdecl NiAVObjectPalette::*()
     // NiAVObjectPalette& __cdecl NiAVObjectPalette::*(const NiAVObjectPalette&)
     // void __cdecl NiAVObjectPalette::*()
+public:
+    void AppendString(::StrArr *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiAVObjectPalette) == 8);

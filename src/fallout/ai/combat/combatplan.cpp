@@ -2,9 +2,13 @@
 // src/fallout/ai/combat/combatplan.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatplan.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00993fd0_class.h"
+#include "fnv/decl/SearchList.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/symbols_00982000.h"
+#include "fnv/symbols_00994000.h"
 struct FUN_00994860_obj
 {
-    bool __thiscall ContainsValue(int);
 };
 
 struct CombatPlan
@@ -17,7 +21,7 @@ struct CombatPlan
 bool __thiscall CombatPlan::FUN_00981940(int aiAction)
 {
     if (*reinterpret_cast<FUN_00994860_obj**>(reinterpret_cast<char*>(this) + 0xa0))
-        return (*reinterpret_cast<FUN_00994860_obj**>(reinterpret_cast<char*>(this) + 0xa0))->ContainsValue(aiAction);
+        return reinterpret_cast<::SearchList *>(((*reinterpret_cast<FUN_00994860_obj**>(reinterpret_cast<char*>(this) + 0xa0))))->ContainsValue(aiAction);
     return false;
 }
 
@@ -31,11 +35,8 @@ struct Entry
 
 struct StreamReader
 {
-    void ReadBytes(void* dst, unsigned int size);
 };
 
-int __cdecl ConvertFlagToValue(bool flag);
-int __cdecl FinishValue(bool flag);
 
 class FUN_009949a0_cls
 {
@@ -45,7 +46,6 @@ class FUN_009949a0_cls
     unsigned int unk08;
     int unk0C;
 
-    void AllocEntries(unsigned int count);
     void ReadFromStream(StreamReader* reader);
 };
 
@@ -53,22 +53,22 @@ class FUN_009949a0_cls
 // @fnv 0x009949a0
 void FUN_009949a0_cls::ReadFromStream(StreamReader* reader)
 {
-    reader->ReadBytes(&m_uiItemCount, 4);
-    AllocEntries(m_uiItemCount);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((reader))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_uiItemCount), 4);
+    reinterpret_cast<::FUN_00993fd0_class *>(this)->AllocateItemArray(m_uiItemCount);
 
     for (unsigned int uiIndex = 0; uiIndex < m_uiItemCount; ++uiIndex)
     {
         Entry* entry = m_entries[uiIndex];
         bool flag = false;
-        reader->ReadBytes(&flag, 1);
-        reader->ReadBytes(&entry->unk0C, 4);
-        entry->unk00 = ConvertFlagToValue(flag);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((reader))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&flag), 1);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((reader))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&entry->unk0C), 4);
+        entry->unk00 = ::FUN_00982070(flag);
         entry->unk04 = 0;
         entry->unk08 = 0;
     }
 
-    reader->ReadBytes(&unk08, 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((reader))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&unk08), 4);
     bool last = false;
-    reader->ReadBytes(&last, 1);
-    unk0C = FinishValue(last);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((reader))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&last), 1);
+    unk0C = ((int)(::FUN_00994a80(last)));
 }

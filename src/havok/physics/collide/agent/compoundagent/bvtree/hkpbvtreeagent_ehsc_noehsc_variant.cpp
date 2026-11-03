@@ -5,6 +5,12 @@
 
 // src/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00d2f980.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_00d2f000.h"
+#include "fnv/symbols_00d30000.h"
+#include "fnv/symbols_00d31000.h"
+#include "fnv/symbols_01268000.h"
 struct S_d2f5a0_Obj
 {
     virtual void v0();
@@ -90,7 +96,6 @@ struct ValueSource
     int unk04;
     float m_fAmount;
 };
-void __cdecl ApplyTransformToTarget(Holder* apFirst, Holder* apSecond, ValueSource* apValue, void* apContext);
 struct Allocator
 {
     virtual void* release();
@@ -109,13 +114,8 @@ struct Built
     int field00;
     short field04;
     int field08;
-    void __thiscall FUN_00d2f980(int);
 };
 extern "C" Global* __cdecl FUN_00c85750();
-void __cdecl FUN_00d2f9d0(int arg1, int arg2, int arg3, int arg4);
-void __cdecl FUN_00d30f50(void* apFirst, void* apSecond, void* apThird, void* apFourth, void* apFifth);
-void __stdcall FUN_00d315a0(void* apFirst, void* apSecond, void* apThird, void* apFourth, void* apFifth);
-extern "C" void __cdecl FUN_00d31110(void* arg0, void* arg1, void* arg2, void* arg3);
 // @fnv 0x00d315d0
 extern "C" void __stdcall FUN_00d315d0(void* arg0, void* arg1, void* arg2, void* arg3)
 {
@@ -123,7 +123,6 @@ extern "C" void __stdcall FUN_00d315d0(void* arg0, void* arg1, void* arg2, void*
 }
 
 void __cdecl FUN_00d312f0(void* apA, void* apB, void* apC, void* apD);
-void __stdcall FUN_00d315f0(void* apA, void* apB, void* apC, void* apD);
 struct D2FA00Allocator
 {
     virtual void unk00();
@@ -188,10 +187,8 @@ class D2FA00ShapeAgent : public D2FA00Agent
     {}
     virtual ~D2FA00ShapeAgent();
 };
-D2FA00Agent* __cdecl FUN_00d2fa00(const void* bodyA, const void* bodyB, const void* input, void* mgr);
 extern char str_010ce9a4[];
 extern char str_010ce9ac[];
-extern "C" void* __cdecl FUN_00d06f80(void* apBuffer, int aiCount);
 struct S_00d2f8f0_Elem
 {
     int unk00;
@@ -287,7 +284,6 @@ class OwnerD2F5
 #include <windows.h>
 unsigned __int64 __cdecl __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
-extern DWORD DAT_0126835c;
 extern LPVOID(WINAPI* DAT_00fdf044)(unsigned int);
 
 struct S312_Split

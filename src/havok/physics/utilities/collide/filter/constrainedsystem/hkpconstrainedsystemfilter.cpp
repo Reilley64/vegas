@@ -2,14 +2,18 @@
 // src/havok/physics/utilities/collide/filter/constrainedsystem/hkpconstrainedsystemfilter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/collide/filter/constrainedsystem/hkpconstrainedsystemfilter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00e46b80_class.h"
+#include "fnv/symbols_00c9c000.h"
+#include "fnv/symbols_00cc1000.h"
+#include "fnv/symbols_00cfd000.h"
+#include "fnv/symbols_0126d000.h"
 #include "havok/hkpConstrainedSystemFilter.h"
 
-extern int g_unk0126d658;
 
 // @fnv 0x00dffaf0
 void* __cdecl FUN_00dffaf0()
 {
-    return &g_unk0126d658;
+    return &(*reinterpret_cast<int *>(&::g_0126d658));
 }
 
 struct FnvCpu_FUN_00dffb00_CpuAllocator
@@ -31,14 +35,13 @@ struct FnvCpu_FUN_00dffb00_CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void FUN_00e46b80();
     FnvCpu_FUN_00dffb00_CpuObject* FUN_00dffb00(unsigned int flags);
 };
 // Calls FUN_00e46b80, then if bit 0 of flags is set, invokes the allocator's Invoke on this with size, and returns this.
 // @fnv 0x00dffb00
 FnvCpu_FUN_00dffb00_CpuObject* FnvCpu_FUN_00dffb00_CpuObject::FUN_00dffb00(unsigned int flags)
 {
-    FUN_00e46b80();
+    reinterpret_cast<::FUN_00e46b80_class *>(this)->FUN_00e46b80();
     if (flags & 1)
     {
         FnvCpu_FUN_00dffb00_CpuAllocatorHolder* pAllocatorHolder = FUN_00c85750();
@@ -114,7 +117,6 @@ struct hkpConstraintInstanceE46B
 class FUN_00c9c3c0_Class
 {
   public:
-    int FUN_00c9c380() throw();
     int GetEntryAt(int i) throw();
 };
 
@@ -156,11 +158,11 @@ hkBoolE46B hkpConstraintCollisionFilterE46B::ConstraintCollisionFilter(const hkp
     if (!pkBodyA || !pkBodyB)
         return true;
 
-    const bool bSwapBodies = pkBodyA->FUN_00c9c380() > pkBodyB->FUN_00c9c380();
+    const bool bSwapBodies = ::FUN_00c9c380((void *)(pkBodyA), {}) > ::FUN_00c9c380((void *)(pkBodyB), {});
     FUN_00c9c3c0_Class* pkEntityA = bSwapBodies ? pkBodyB : pkBodyA;
     FUN_00c9c3c0_Class* pkEntityB = bSwapBodies ? pkBodyA : pkBodyB;
 
-    int numConstraints = pkEntityA->FUN_00c9c380();
+    int numConstraints = ::FUN_00c9c380((void *)(pkEntityA), {});
     for (int i = 0; i < numConstraints; i++)
     {
         const hkpConstraintInstanceE46B* pkConstraint =
@@ -362,8 +364,6 @@ struct Owner
     virtual void v1C();
     virtual int getType();
 };
-int __cdecl CallA(void*, void*);
-void __cdecl CallB(void*);
 // If the owner at +0xc has type other than 11, calls CallA with the +0x10 offsets of the pointers at +0x14 and +0x18, and passes a nonzero result to CallB.
 // @fnv 0x00e46e30
 void __stdcall FUN_00e46e30(void* p)
@@ -374,9 +374,9 @@ void __stdcall FUN_00e46e30(void* p)
         void* b = *reinterpret_cast<void**>(reinterpret_cast<char*>(p) + 0x18);
         void* a = *reinterpret_cast<void**>(reinterpret_cast<char*>(p) + 0x14);
         void* obj =
-            reinterpret_cast<char*>(CallA(reinterpret_cast<char*>(a) + 0x10, reinterpret_cast<char*>(b) + 0x10));
+            reinterpret_cast<char*>(((int)(::FindEntryValue((::LinkNode *)(void *)(reinterpret_cast<char*>(a) + 0x10), (::LinkNode *)(void *)(reinterpret_cast<char*>(b) + 0x10)))));
         if (obj)
-            CallB(obj);
+            ::FUN_00cc1160((::Owner *)(obj));
     }
 }
 

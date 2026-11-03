@@ -2,6 +2,13 @@
 // src/fallout_shared/bgsequiptype_decl_variant.cpp - declaration variant unit created 2026-10-26 by decl_variants.py for paused function 0x00479570: the skeleton of src/fallout_shared/bgsequiptype.cpp
 // that unit declares it this way.
 
+#include "fnv/decl/TESFullName.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_01186000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011c4000.h"
 #include "bgsequiptype_decls_decl_bgsequiptype.h"
 
 struct IconString
@@ -18,7 +25,6 @@ class TESTexture : public BaseFormComponent
 {
   public:
     IconString textureName;
-    void SetTexture(const char* name);
 };
 class TESIcon : public TESTexture
 {
@@ -111,13 +117,7 @@ class TESDataHandler
     bool AddFormToDataHandler(TESForm* form);
 };
 void* __cdecl operator new(unsigned int);
-unsigned int __cdecl FUN_0044a670(const char*);
-int __cdecl FUN_00406d30(char*, unsigned int, const char*);
 int __cdecl FUN_00406d50(char*, unsigned int, const char*);
-TESForm* __cdecl LookupFormByID(unsigned int formID);
-extern TESDataHandler* g_dataHandler;
-extern const char* g_iconNames[14];
-extern BGSMenuIcon* DAT_011c4b54[14];
 // @fnv 0x00479570
 void FUN_00479570()
 {
@@ -125,20 +125,20 @@ void FUN_00479570()
     for (int i = 0; i < 14; ++i)
     {
         unsigned int formIDB = i + 0x258;
-        BGSMenuIcon* entry = dynamic_cast<BGSMenuIcon*>(LookupFormByID(formIDB));
+        BGSMenuIcon* entry = dynamic_cast<BGSMenuIcon*>(::FUN_004839c0(formIDB));
         if (!entry)
         {
             entry = new BGSMenuIcon;
             entry->SetFormID(formIDB, 1);
             char buffer[260];
-            FUN_00406d30(buffer, 260, "MenuIconEquipType");
-            FUN_00406d50(buffer, 260, g_iconNames[i]);
+            ::TaskQueueInterface::CopyStringToBuffer(buffer, 260, "MenuIconEquipType");
+            FUN_00406d50(buffer, 260, (*reinterpret_cast<const char * (*)[14]>((void *)&::DAT_011869bc))[i]);
             entry->SetEditorID(buffer);
-            FUN_00406d30(buffer, 260, "TypeIcons\\hot_keys_icon_");
-            FUN_00406d50(buffer, 260, g_iconNames[i]);
+            ::TaskQueueInterface::CopyStringToBuffer(buffer, 260, "TypeIcons\\hot_keys_icon_");
+            FUN_00406d50(buffer, 260, (*reinterpret_cast<const char * (*)[14]>((void *)&::DAT_011869bc))[i]);
             FUN_00406d50(buffer, 260, ".dds");
-            entry->SetTexture(buffer);
-            g_dataHandler->AddFormToDataHandler(entry);
+            reinterpret_cast<::TESFullName *>((entry))->SetFullName(buffer);
+            (*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))->AddFormToDataHandler(entry);
         }
         DAT_011c4b54[i] = entry;
     }

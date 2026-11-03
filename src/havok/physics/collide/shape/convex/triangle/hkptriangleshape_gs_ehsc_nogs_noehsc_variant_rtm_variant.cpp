@@ -7,9 +7,10 @@
 // to their real unit once identified.
 // src/havok/physics/collide/shape/convex/triangle/hkptriangleshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/triangle/hkptriangleshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FunctionContext.h"
+#include "fnv/symbols_011b3000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpTriangleShape.h"
-extern char const* const g_01268970_arg1;
-void __cdecl FUN_00c90360(char const*, char const* const*);
 void __cdecl FUN_00d1fee0(char const* arg1, char const* const* arg2);
 class FUN_00d1ff10_cls : public hkpTriangleShape
 {
@@ -21,7 +22,6 @@ int __cdecl ExtractEdge(unsigned short weldingInfo, int edge);
 
 #include <xmmintrin.h>
 
-extern "C" unsigned int DAT_011b3b4c[];
 extern "C" float DAT_011b3b20[];
 
 struct FUN_00d20370_Triangle

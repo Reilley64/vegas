@@ -2,6 +2,17 @@
 #ifndef FNV_NAVMESHINFOSEARCH_DECLS_H
 #define FNV_NAVMESHINFOSEARCH_DECLS_H
 
+#include "fnv/decl/ActiveEffect.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/FUN_0042e2a0_shell.h"
+#include "fnv/decl/FUN_00501e80_shell.h"
+#include "fnv/decl/FUN_0057b4b0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/Owner45A.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_0068f000.h"
+#include "fnv/symbols_011de000.h"
 #include "layout_support.h"
 // PC NiPoint3 layout with the out-of-line arithmetic used by this search.
 #define FNV_NIPOINT3_H
@@ -10,7 +21,8 @@ class NiPoint3
   public:
     float x, y, z;
     NiPoint3 operator-(const NiPoint3&) const;
-    float Length() const;
+public:
+    float ComputeMagnitude() const;
 };
 FNV_STATIC_ASSERT(sizeof(NiPoint3) == 12);
 FNV_STATIC_ASSERT(offsetof(NiPoint3, x) == 0);
@@ -40,8 +52,6 @@ class NavMeshInfo
     mutable BSSimpleArray<NavMeshInfo*, 1024> m_kConnectedNavMeshInfos;
     mutable BSSimpleArray<NavMeshInfo*, 1024> m_kPreferredConnections;
     mutable BSSimpleArray<TESObjectREFR*, 1024> m_kDoorReferences;
-    float FUN_007df1f0() const;
-    bool FUN_0068f320() const;
 };
 class NavMeshPortalData
 {
@@ -52,50 +62,47 @@ class NavMeshPortalData
 class ExtraDataList
 {
   public:
-    NavMeshPortalData* GetExtraNavMeshPortal();
 };
 class TeleportableReference
 {
   public:
-    TESObjectREFR* GetLinkedDoor();
-    const NiPoint3& GetPosition();
 };
 class TESBoundObject;
 class TESForm
 {
   public:
-    bool GetDisabled();
+public:
+    bool GetDisabled() const;
 };
+class ExtraRadioData;
 class TESObjectREFR : public TESForm
 {
   public:
-    TESBoundObject* GetObjectReference();
-    ExtraDataList* GetExtraData();
-    TeleportableReference* Set3DObject();
-    bool GetIsHiddenDoor();
+public:
+    ::ExtraRadioData *GetExtraRadioData();
 };
 class TESObjectDOOR
 {
   public:
     bool IsTeleportDoor();
 };
+class TESObjectREFR;
 class Pathing
 {
   public:
-    NavMeshInfo* FindReferenceByFormId();
     enum DOOR_LOCK_DISPOSITION
     {
         IGNORE_LOCKS = 0,
         ALLOW_LOCKS = 1,
         PENALIZE_LOCKS = 2
     };
+public:
+    ::TESObjectREFR *FindReferenceByFormId(unsigned int);
 };
 class TES
 {
   public:
-    Pathing* GetActiveCell(unsigned int);
 };
-extern TES* g_TES;
 class PathingActorData;
 class LockExtraData;
 class DoorAccessData
@@ -107,7 +114,6 @@ class DoorAccessData
     TESForm* m_pKeyForm;
     int m_iLockLevel;
     TESGlobal* m_pLockLevelGlobal;
-    void SetDoorReference(TESObjectREFR*);
     bool CanUnlockDoor(const PathingActorData*, TESObjectREFR*, bool&);
 };
 void __cdecl FUN_005330e0(float&, float, float);

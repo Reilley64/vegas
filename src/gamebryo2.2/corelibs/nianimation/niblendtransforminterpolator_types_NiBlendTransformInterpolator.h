@@ -2,6 +2,7 @@
 #ifndef NIBLENDTRANSFORMINTERPOLATOR_H
 #define NIBLENDTRANSFORMINTERPOLATOR_H
 
+#include "fnv/decl/FUN_00a37260_shell.h"
 #include "niblendtransforminterpolator_layout_support.h"
 #include "niblendtransforminterpolator_NiObject.h"
 class NiBlendInterpolator;
@@ -63,7 +64,6 @@ class NiBlendInterpolator : public NiInterpolator
     virtual void Unk_38();
     virtual void Unk_39();
     virtual void Unk_3A();
-    void NormalizeWeights();
     // base NiInterpolator at +0x0, size 12
     unsigned char m_uiObjectFlags;         // +0xC, 1 bytes
     unsigned char m_ucArraySize;    // +0xD, 1 bytes
@@ -140,14 +140,14 @@ FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_fSingleInterpolatorTime) == 32
 FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_fHighSumOfWeights) == 36);
 FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_fNextHighSumOfWeights) == 40);
 FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_fTrailingValue) == 44);
+class NiObjectNET;
+class NiQuatTransform;
 class NiBlendTransformInterpolator : public NiBlendInterpolator
 {
   public:
     virtual bool Update(float fTime, NiObjectNET* pkObject, NiQuatTransform& kTransform);
 
   protected:
-    bool UpdateAccumulatedTransform(float fTime, NiObjectNET* pkObject, NiQuatTransform& kTransform);
-    bool UpdateSingleInterpolator(float fTime, NiObjectNET* pkObject, NiQuatTransform& kTransform);
 
   public:
     // base NiBlendInterpolator at +0x0, size 48
@@ -170,6 +170,8 @@ class NiBlendTransformInterpolator : public NiBlendInterpolator
     // void __cdecl NiBlendTransformInterpolator::*()
     // NiBlendTransformInterpolator& __cdecl NiBlendTransformInterpolator::*(const NiBlendTransformInterpolator&)
     // void __cdecl NiBlendTransformInterpolator::*()
+public:
+    bool FUN_00a40b30(float, ::NiObjectNET *, ::NiQuatTransform &);
 };
 FNV_STATIC_ASSERT(sizeof(NiBlendTransformInterpolator) == 48);
 #endif

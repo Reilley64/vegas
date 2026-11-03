@@ -2,8 +2,16 @@
 // src/speedtree/branch.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/branch.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern int DAT_011ad14c;
 
+#include "fnv/decl/FUN_00b0cf90_class.h"
+#include "fnv/decl/FUN_00b3f130_shell.h"
+#include "fnv/decl/FUN_00b40430_cls.h"
+#include "fnv/decl/FUN_00b404c0_cls.h"
+#include "fnv/decl/V3cdd0.h"
+#include "fnv/symbols_00b15000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_011ad000.h"
+#include "fnv/symbols_011f8000.h"
 struct FUN_00b14ae0_class
 {
     float FUN_00b14ae0(int id, float a, float b);
@@ -130,12 +138,9 @@ struct State
     float upper;
     int count;
 };
-extern State* DAT_011f8bf4;
 struct GlobalObject_00b3f100
 {
-    float FUN_00b3f130(float, float);
 };
-extern GlobalObject_00b3f100 g_011f8c05;
 struct Link
 {
     Link* next;
@@ -166,7 +171,7 @@ bool Owner::FUN_00b13b50(Link* link, float input)
         }
         if (value > DAT_011f8bf4->threshold)
         {
-            if (g_011f8c05.FUN_00b3f130(0.0f, 1.0f) <= DAT_011f8bf4->upper)
+            if (reinterpret_cast<::FUN_00b3f130_shell *>(&(::g_011f8c05))->FUN_00b3f130(0.0f, 1.0f) <= DAT_011f8bf4->upper)
                 result = true;
         }
     }
@@ -209,7 +214,6 @@ float FUN_00b14b10_class::FUN_00b14b10(float value, float factor)
 struct b14_sub
 {
     float x, y, z;
-    float FUN_00b04d40(b14_sub* other);
 };
 
 struct b14_elem
@@ -246,7 +250,7 @@ void b14_ctx::FUN_00b14b40()
                 {
                     int t1;
                     int t2;
-                    sum = pCurrent->sub.FUN_00b04d40(&m_pActionSuccessor->sub);
+                    sum = reinterpret_cast<::V3cdd0 *>(&(pCurrent->sub))->FUN_00b04d40((const ::V3cdd0 *)(::b14_sub *)(&m_pActionSuccessor->sub));
                     this->unk30 = (pCurrent->unk18 + m_pActionSuccessor->unk18) * sum + this->unk30;
                 }
             }
@@ -340,11 +344,10 @@ float __cdecl FUN_00b15110(Link* link)
 struct Vec
 {
     float x, y, z;
-    void FUN_00b12790();                         // normalise in place
+                             // normalise in place
     void FUN_00b13040(Vec* out, const Vec* p);   // *out = *this - *p
-    Vec* ScaleSwizzled(Vec* out, float factor);  // *out = *this * factor
-    void AddVector(Vec* out, const Vec* other);  // *out = *this + *other
-    float Dot(const Vec& p);
+      // *out = *this * factor
+      // *out = *this + *other
 };
 
 // The class that owns ProjectOntoLine (in the game it derives from the vector
@@ -386,10 +389,10 @@ Vec* MyThis::ProjectOntoLine(Vec* out, Vec* a, Vec* pLineStart, Vec* c)
         return out;
     }
     pLineStart->FUN_00b13040(&ejne, a);
-    ejne.FUN_00b12790();
+    reinterpret_cast<::FUN_00b12790_class *>(&(ejne))->FUN_00b12790();
     c->FUN_00b13040(&z, a);
-    dir = z.Dot(ejne);
-    a->AddVector(out, ejne.ScaleSwizzled(&e, dir));
+    dir = reinterpret_cast<::FUN_00b2a180 *>(&(z))->Dot((const ::NiPoint3 &)(ejne));
+    reinterpret_cast<::FUN_00b0cf90_class *>((a))->AddVector((float *)(out), (const float *)(const ::Vec *)(((::Vec *)(reinterpret_cast<::FUN_00b0cff0_class *>(&(ejne))->ScaleSwizzled((::NiPoint3 *)(::Vec *)(&e), dir)))));
     return out;
 }
 
@@ -514,13 +517,10 @@ struct AngleState
 struct FacingTint
 {
     int unk00;
-    Vec* FUN_00b40430(Vec* out);
-    void FUN_00b404c0(Vec* point, int flag);
     void FUN_00b40210(Vec* point, Vec* other, float t);
 };
 
 extern double __cdecl FUN_00ec9f30(double value);
-extern double DAT_01011588;
 
 // @fnv 0x00b40210
 void FacingTint::FUN_00b40210(Vec* point, Vec* other, float t)
@@ -533,13 +533,13 @@ void FacingTint::FUN_00b40210(Vec* point, Vec* other, float t)
     Vec dest;
     AngleState basis;
     ((Vec*)((char*)this + 4))->FUN_00b13040(&sample, point);
-    sample.FUN_00b12790();
+    reinterpret_cast<::FUN_00b12790_class *>(&(sample))->FUN_00b12790();
     other->FUN_00b13040(&goal, point);
-    goal.FUN_00b12790();
+    reinterpret_cast<::FUN_00b12790_class *>(&(goal))->FUN_00b12790();
     basis.radians = ((This*)&sample)->FUN_00b12720(*(NiPoint3*)&goal);
     length = (float)(double)(float)FUN_00ec9f30(basis.radians);
     scale = (float)((length + 1.0) * DAT_01011588) * (1.0f - t) + t;
-    this->FUN_00b404c0(this->FUN_00b40430(&scaled)->ScaleSwizzled(&dest, scale), 1);
+    reinterpret_cast<::FUN_00b404c0_cls *>((this))->FUN_00b404c0((const ::FUN_00b28440_Class *)(::Vec *)(((::Vec *)(reinterpret_cast<::FUN_00b0cff0_class *>((((::Vec *)(reinterpret_cast<::FUN_00b40430_cls *>((this))->FUN_00b40430((float *)(::Vec *)(&scaled))))))->ScaleSwizzled((::NiPoint3 *)(::Vec *)(&dest), scale)))), 1);
 }
 
 #include <stdlib.h>

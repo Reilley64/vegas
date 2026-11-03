@@ -2,6 +2,7 @@
 // src/havok/physics/constraintsolver/constraint/bilateral/hkp1dbilateralconstraintbuildjacobian.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/constraintsolver/constraint/bilateral/hkp1dbilateralconstraintbuildjacobian.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_010c9000.h"
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
@@ -10,6 +11,7 @@ typedef union __declspec(intrin_type) __declspec(align(16)) __m128
     __int64 m128_i64[2];
     unsigned int m128_u32[4];
 } __m128;
+#include "fnv/symbols_simd.h"
 
 extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
@@ -335,7 +337,6 @@ void __cdecl FUN_00dcf100(S_00dcf100_In* pInput, S_00dcf100_Cfg* pConfig, S_00dc
 void __cdecl FUN_00dcee70()
 {}
 
-extern double DAT_010c9300;
 // Fills out with info's direction as the linear term and two angular terms from the body pivot offsets, then sets w terms from inverse inertia, rhs and scale.
 // @fnv 0x00dcf460
 static __declspec(noinline) void FUN_00dcf460(Jac_dcf880* apJacobian, const Info_dcf880* info,
@@ -419,7 +420,6 @@ struct Jacobian_dcf5b0
     Vector_dcf5b0 angularA;
     Vector_dcf5b0 angularB;
 };
-extern double DAT_010c9300;
 
 // Builds a Jacobian from a pivot, direction and two body frames, writes it to the output slot, and advances the output pointer.
 // @fnv 0x00dcf5b0
@@ -482,7 +482,6 @@ void __cdecl FUN_00dcf5b0(Input_dcf5b0* apInput, S_00dcf100_Cfg* apCfg, Jacobian
     *ppJacobian = out;
 }
 
-extern double DAT_010c9300;
 
 // @fnv 0x00dcfa30
 void __cdecl FUN_00dcfa30(Info_dcf880* a1, S_00dcf100_Cfg* apCfg, Jac_dcf880** ppJacobian)
@@ -557,8 +556,6 @@ void __cdecl FUN_00dcfa30(Info_dcf880* a1, S_00dcf100_Cfg* apCfg, Jac_dcf880** p
 }
 
 extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern double DAT_010c9300;
-extern __m128 DAT_010c44d0;
 struct Src
 {
     __m128* verts;
@@ -607,7 +604,7 @@ void __cdecl FUN_00dcefb0(Src* apSrc, Cfg* cfg, JOut** appOut)
         {
             S_00dcf100_Body* B = cfg->B;
             S_00dcf100_Body* A = cfg->A;
-            __m128 neg = _mm_xor_ps((*pv), DAT_010c44d0);
+            __m128 neg = _mm_xor_ps((*pv), ::DAT_010c44d0);
             __m128 r1 = _mm_mul_ps(_mm_shuffle_ps((*pv), (*pv), 0x55), S_Ld(A->col1));
             r1 = _mm_add_ps(r1, _mm_mul_ps(_mm_shuffle_ps((*pv), (*pv), 0), S_Ld(A->col0)));
             r1 = _mm_add_ps(r1, _mm_mul_ps(_mm_shuffle_ps((*pv), (*pv), 0xaa), S_Ld(A->col2)));
@@ -657,7 +654,6 @@ struct Jacobian_dcf280
     Vector_dcf280 angularA;
     Vector_dcf280 angularB;
 };
-extern double DAT_010c9300;
 
 // Fills the Jacobian at *a3 with the direction as the linear term and two angular terms from pivot offsets of the two bodies in a2, then advances *a3.
 // @fnv 0x00dcf280
@@ -935,7 +931,7 @@ struct __declspec(align(16)) S_00dcee80_Vector4
 __forceinline void S_00dcee80_Vector4::setNeg4(const S_00dcee80_Vector4& v)
 {
 
-    q() = _mm_xor_ps(v.q(), DAT_010c44d0);
+    q() = _mm_xor_ps(v.q(), ::DAT_010c44d0);
 }
 
 struct S_00dcee80_Matrix3

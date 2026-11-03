@@ -3,6 +3,87 @@
 #define MAPMENU_DECLS_H
 
 #include <stddef.h>
+#include "fnv/decl/ButtonDevice.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_00569060_shell.h"
+#include "fnv/decl/FUN_00588e40_shell.h"
+#include "fnv/decl/FUN_0059e400_shell.h"
+#include "fnv/decl/FUN_005e8d40_shell.h"
+#include "fnv/decl/FUN_005e9300_Host.h"
+#include "fnv/decl/FUN_0061f170_cls.h"
+#include "fnv/decl/FUN_007700d0_cls.h"
+#include "fnv/decl/FUN_00799dc0_class.h"
+#include "fnv/decl/FUN_0083c7e0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00877720_shell.h"
+#include "fnv/decl/FUN_00a00f30_shell.h"
+#include "fnv/decl/FUN_00a011f0_shell.h"
+#include "fnv/decl/FUN_00a01230_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a013d0_shell.h"
+#include "fnv/decl/FUN_00a01440_shell.h"
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/FUN_00a07530_shell.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00ad73b0_t.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FUN_00ad89e0_shell.h"
+#include "fnv/decl/Fn575690.h"
+#include "fnv/decl/HotkeyWheelDisplay.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MyHack.h"
+#include "fnv/decl/NiObjectNET.h"
+#include "fnv/decl/Obj_009529d0.h"
+#include "fnv/decl/S_00a04150_Class.h"
+#include "fnv/decl/S_FUN_0045bc00.h"
+#include "fnv/decl/SoundPlayback.h"
+#include "fnv/decl/SoundWrapper.h"
+#include "fnv/decl/StringHolder.h"
+#include "fnv/decl/TileFloatList.h"
+#include "fnv/decl/TutorialMessageGate718.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_0056c7f0__Tile.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_00578870__FUN_00578870_Class.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_0093d660__TravelObject.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
+#include "fnv/decl/fnv_00a01b00__TileLoader.h"
+#include "fnv/decl/fnv_00a03da0__FUN_00a03da0_shell.h"
+#include "fnv/decl/fnv_00a07dc0__FUN_00a07dc0_shell.h"
+#include "fnv/decl/fnv_00a09410__EvalValue.h"
+#include "fnv/decl/fnv_00ad88f0__FUN_00ad88f0_h.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_00438000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_00705000.h"
+#include "fnv/symbols_00706000.h"
+#include "fnv/symbols_00709000.h"
+#include "fnv/symbols_0079a000.h"
+#include "fnv/symbols_0079b000.h"
+#include "fnv/symbols_0079c000.h"
+#include "fnv/symbols_0079f000.h"
+#include "fnv/symbols_007fa000.h"
+#include "fnv/symbols_00867000.h"
+#include "fnv/symbols_00a00000.h"
+#include "fnv/symbols_00a09000.h"
+#include "fnv/symbols_00a1c000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011d2000.h"
+#include "fnv/symbols_011d3000.h"
+#include "fnv/symbols_011d4000.h"
+#include "fnv/symbols_011d5000.h"
+#include "fnv/symbols_011da000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f6000.h"
 void* __cdecl operator new(size_t);
 void __cdecl operator delete(void*);
 class NiNode;
@@ -69,6 +150,8 @@ class NiPoint3
     NiPoint3(float, float, float);
     NiPoint3 operator*(float) const;
     static const NiPoint3 ZERO;
+public:
+    float ComputeMagnitude() const;
 };
 class NiPoint2
 {
@@ -85,11 +168,11 @@ class SoundPlaybackHandle
     SoundPlaybackHandle();
     ~SoundPlaybackHandle();
     SoundPlaybackHandle& operator=(const SoundPlaybackHandle&);
-    bool Play(bool);
-    bool Stop();
     bool Pause();
-    bool IsPlaying();
-    bool SetVolume(float);
+public:
+    bool IsPlaying() const;
+public:
+    bool IsValid() const;
 };
 union SETTING_VALUE;
 class SettingT_GameSettingCollection_
@@ -97,7 +180,6 @@ class SettingT_GameSettingCollection_
   public:
     char pad[12];
     const char* String();
-    SETTING_VALUE* Float();
 };
 class INISettingCollection;
 union SETTING_VALUE
@@ -115,18 +197,14 @@ template <class T> class SettingT
 class TimeGlobal
 {
   public:
-    unsigned int GetTimeStamp();
 };
 class InputManager
 {
   public:
-    int FUN_00a23a50(int, int);
-    int FUN_00a24660(int, int);
 };
 class OSGlobals
 {
   public:
-    InputManager* FUN_00877720();
 };
 class Interface
 {
@@ -136,13 +214,8 @@ class Interface
         Map = 0x3ff
     };
     static bool GetSelectedTargetIndex(enumMenus);
-    static FOPipboyManager* GetPipboyManagerInstance();
     FOPipboyManager* GetPipboyManager();
-    static void PlayUISound(int);
     static void __cdecl SetTileFormattedText(Tile*, int, const char*, ...);
-    static bool __cdecl ShowButtonDialog(const char*, const char*, const char*, void (*)(), int, int, float, float,
-                                         ...);
-    static bool ShowMessage(const char*, int, const char*, const char*, float, bool);
 };
 class FORenderedMenu
 {
@@ -153,7 +226,6 @@ class FOPipboyManager : public FORenderedMenu
 {
   public:
     bool IsUnk28Set();
-    bool GetByteAtOffsetB9();
     FORenderedMenu* FUN_00704370();
 };
 class TileListBoxCalls
@@ -172,40 +244,26 @@ class Tile : public TileListBoxCalls
     class Value
     {
       public:
-        void SetBooleanValue(bool);
     };
-    void Set(int, float, bool);
-    void Set(int, const char*, bool);
     void Set(int, int);
-    bool ContainsTrait(int);
-    const char* GetString(int);
-    float GetScreenX();
-    float GetScreenY();
-    Tile* GetParent();
-    Value* GetValue(int);
-    Tile* GetNamedChild(const char*);
-    Tile* GetChildById(int);
-    void ResetImage();
-    void UpdateTrait(int);
     void SetFlag8000(bool);
-    void SetImageFlags(int);
     static int GetTraitID(const char*);
     static float GetInterfaceScale();
-    static Menu* FindMenuById(int);
-    Tile* ReadFile(const char*);
-    Menu* GetMenu();
-    NiNode* FUN_0056c7f0();
+public:
+    void SetName(const char *);
+public:
+    void Set(int, unsigned int);
+public:
+    bool GetSpeechChallengeFailure();
 };
-int GetTileValueID(const char*, int);
-int Warning(const char*, ...);
 class NiTexture;
 class NiProperty;
+struct NiTexture;
 class TileShaderProperty
 {
   public:
-    NiTexture* FUN_009c8640();
-    void SetTextureImage(NiTexture*);
-    void FUN_007700d0(bool);
+public:
+    void FUN_00bb7a10(::NiTexture *);
 };
 class NiAVObject
 {
@@ -245,13 +303,10 @@ class NiAVObject
     virtual void vfn_80();
     virtual void vfn_84();
     virtual void vfn_88();
-    NiProperty* GetProperty(unsigned int);
 };
-unsigned int FUN_00438220();
 class NiNode : public NiAVObject
 {
   public:
-    NiAVObject* FUN_0045bc00(unsigned int);
     virtual void vfn_8c();
     virtual void vfn_90();
     virtual void vfn_94();
@@ -282,8 +337,9 @@ class NiNode : public NiAVObject
 class MapMarkerData
 {
   public:
-    const char* GetMapLabel();
     bool IsTravelLocation();
+public:
+    bool GetVisible();
 };
 enum ENUM_FORM_ID
 {
@@ -298,10 +354,12 @@ class TESForm
     virtual void vfn_0c();
     virtual ~TESForm();
     char data[12];
-    unsigned int GetFormID();
     ENUM_FORM_ID GetFormType() const;
     void NotifySaveLoadGameOfFormChange();
+public:
+    bool GetDisabled() const;
 };
+class ExtraRadioData;
 class TESObjectREFR : public TESForm
 {
   public:
@@ -427,10 +485,8 @@ class TESObjectREFR : public TESForm
     virtual void vfn_1f0();
     virtual NiPoint3* GetPos();
     char refrData[0x60];
-    TESObjectCELL* GetParentCell();
-    TESWorldSpace* GetParentWorldSpace();
-    MapMarkerData* GetMapMarkerData();
-    void ClearReferenceState(TESBoundObject*);
+public:
+    ::ExtraRadioData *GetExtraRadioData();
 };
 class Character : public TESObjectREFR
 {
@@ -441,60 +497,50 @@ class Character : public TESObjectREFR
 class PlayerCharacter : public TESObjectREFR
 {
   public:
-    bool IsFastTravelAllowed();
-    TESObjectREFR* FUN_00798400();
-    void FUN_009529d0(TESQuest*);
-    void SetDateTimeText(BSStringT<char>&);
 };
 class TESQuest
 {
   public:
-    bool GetCompleted();
 };
 class TESWorldSpace : public TESForm
 {
   public:
-    void GetCellAtPosition(NiPoint3&, bool);
 };
 class TESObjectCELL : public TESForm
 {
   public:
-    void FUN_00555b10(NiPoint3&, NiPoint3&, bool);
 };
 class RegionObjectEntry
 {
   public:
-    PathingPath* GetTeleportPath();
     TESObjectREFR* GetReference(bool);
 };
+class TESDescription;
+class TESTexture;
 class BGSNote
 {
   public:
-    int GetNoteType();
     TESForm* FUN_005e9100();
     TESTopic* FUN_005e9240();
     TESBoundObject* FUN_005e92a0();
-    bool GetUnk7d();
-    void SetSoundNotePlayed(bool);
+public:
+    ::TESTexture *GetNoteTexture();
+public:
+    ::TESDescription *GetNoteDescription();
 };
 class TESTopicInfo
 {
   public:
-    void RunResultScript(int, Character*);
 };
 class DialogueResponse
 {
   public:
-    BSStringT<char>* GetVoiceFilePath();
-    BSStringT<char>& GetDialogueText();
 };
 class DialogueItem
 {
   public:
     bool SelectDefaultResponseList();
-    bool NextResponse();
     DialogueResponse* GetActiveResponse();
-    TESTopicInfo* GetInfo();
 };
 class Conversation
 {
@@ -503,20 +549,19 @@ class Conversation
     ~Conversation();
     Conversation(Character*, PlayerCharacter*, TESTopic*);
     bool FirstItem();
-    DialogueItem* GetCurrentItem();
     void* Destroy(bool);
 };
 class BSAudio
 {
   public:
-    static BSAudio* GetSingleton();
     SoundPlaybackHandle GetSoundHandleByFormID(unsigned int, unsigned int);
     SoundPlaybackHandle GetSoundHandleByFilePath(const char*, unsigned int, void*);
     SoundPlaybackHandle GetSoundHandleByEditorID(const char*, unsigned int);
     static void EnableAudio();
     // Instance audio entry at 0x00ad85a0 is distinct from the static dialogue flag helper.
-    void FUN_00ad85a0();
     float GetMusicVolume();
+public:
+    static void DeactivateAudio();
 };
 class FalloutRadio
 {
@@ -568,10 +613,8 @@ class Menu
     TileMenu* pMenu;
     char menuFields[32];
     Menu();
-    static bool ReadMenuDefinition(const char*, Menu*);
     void SetTileMenu(TileMenu*, bool);
     void SetMenuVisibility(bool);
-    Tile* FUN_00726070();
 };
 class MapMenu : public Menu
 {
@@ -633,33 +676,24 @@ class MapMenu : public Menu
     BSSimpleArray<Tile*> m_kMapMarkerTiles;
     MapMenu();
     static Tile* Create();
-    static void MenuDepthController();
     void UpdateDialog();
     static void StopMapMenuSounds();
     static void SetMapPositionToPlayer();
     static void UpdateMapPosition();
     static void OpenMap();
-    void UpdateSelectedQuestMarkers();
     void SelectNote(BGSNote*);
-    void RefreshMapData();
     void SetMapDisplayMode(bool);
-    void FUN_0079c090();
-    static void FUN_0079c340(bool);
-    NiPoint3 WorldToMapPosition(NiPoint3, TESWorldSpace*);
-    NiPoint3 MapToWorldPosition(NiPoint3, TESWorldSpace*);
     TESObjectREFR* GetTeleportDestination(TESObjectREFR*, PathingPath*);
     TESWorldSpace* FUN_007984d0(NiPoint3);
     void RefreshMapMarkers();
     void UpdateMapObjectives();
-    void UpdateMapHighlight();
     void SetFlag8000();
-    bool HasNoZeroEntries();
-    void FUN_00867a20();
     void SetTileMenu(TileMenu*, bool);
     void SetMenuVisibility(bool);
+public:
+    void FUN_0079af30();
 };
 extern const double DAT_01074f68, DAT_010301a8;
-void FUN_0079ffb0(bool);
 class Calendar
 {
   public:
@@ -671,50 +705,29 @@ struct SystemLocaleState
     char fields[12];
     const char* String();
 };
-extern SystemLocaleState gSystemLocaleState;
-extern Calendar g_calendar;
-int FUN_00408b20(const char*, const char*);
-extern SettingT_GameSettingCollection_ DAT_011d1da8, DAT_011d3f64, DAT_011d45f4, DAT_011d3414, DAT_011d2f10,
-    DAT_011d3180, DAT_011d4cfc, DAT_011d27a8, DAT_011d3798, DAT_011d3210, DAT_011d21e4;
-extern int DAT_011da354, DAT_011da358, DAT_011da350, DAT_011da34c, DAT_011da35c;
-extern MapMenu* DAT_011da368;
-extern PlayerCharacter* g_thePlayer;
-extern TimeGlobal g_timeGlobal;
-extern OSGlobals* g_osGlobals;
+extern int DAT_011da354, DAT_011da358, DAT_011da35c;
 extern bool DAT_011da36c, DAT_011da36d, DAT_011da36f, DAT_011da408;
-extern signed char DAT_011da36e;
 extern unsigned int DAT_011da40c;
-extern int DAT_011da344, DAT_011da348, DAT_011da360;
-extern SettingT<INISettingCollection> DAT_011da3b8;
-extern SettingT_GameSettingCollection_ DAT_011d47bc, DAT_011d4438, DAT_011d4960, DAT_011d33a8, DAT_011d4f54,
+extern int DAT_011da360;
+extern SettingT_GameSettingCollection_ DAT_011d4438, DAT_011d4960, DAT_011d33a8, DAT_011d4f54,
     DAT_011d3a2c, DAT_011d34f8, DAT_011d3684, DAT_011d4a38, DAT_011d48e8, DAT_011db458, DAT_011db37c;
 extern SettingT_GameSettingCollection_* DAT_011a03e4[3];
-extern SettingT_GameSettingCollection_ DAT_011d38ac, DAT_011d204c, DAT_011d5020, DAT_011d28a4, DAT_011d4aec;
 int FUN_00720df0();
-InterfaceManager* FUN_004b7210();
-bool FUN_004b71d0();
 bool FUN_00798440();
-bool FUN_00709d40();
 class InterfaceManager
 {
   public:
     class TutorialState
     {
       public:
-        bool ShowMessage(int, int, unsigned int);
     };
     char fields[0x4d4];
     TutorialState tutorials;
-    Tile* GetParent();
-    float FUN_007697f0();
     float GetScaledValue();
     Tile* FUN_00586150();
 };
 void FUN_00798840();
 void FUN_00798710();
-void FUN_0079be80(Tile*, TESObjectREFR*);
-bool FUN_0079b390(BGSNote*);
-bool FUN_0079b720(TESChallenge*);
 extern "C" int sprintf_s(char*, size_t, const char*, ...);
 extern "C" int _stricmp(const char*, const char*);
 template <class T> class NiPointer

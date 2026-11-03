@@ -4,6 +4,9 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpwheeldrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpwheeldrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/CpuObject.h"
+#include "fnv/decl/DE44C0Object.h"
+#include "fnv/decl/FUN_00de4530Owner.h"
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     struct
@@ -37,7 +40,6 @@ struct Dbg
 
 struct Sub
 {
-    void FUN_00e10a10(Dbg* d);
 };
 struct Ops
 {
@@ -47,8 +49,6 @@ struct Ops
 struct Ex
 {
     void FUN_00de47e0(void* a, Matrix* b, Matrix* c);
-    void FUN_00de4530(int a, int b);
-    void FUN_00de44c0(int a, int b);
 };
 
 struct Body
@@ -100,12 +100,12 @@ void DrawObject::FUN_00de71d0(Input* a, Dbg* dbg, int p3, int p4)
     Matrix t0, t1;
     __m128 q1, vc, vd, x2;
 
-    ((Sub*)&mc0)->FUN_00e10a10(dbg);
+    reinterpret_cast<::CpuObject *>((((Sub*)&mc0)))->FUN_00e10a10((int)(dbg));
     ((Ex*)this)->FUN_00de47e0(a, &t0, &t1);
     ((Ops*)&m50)->FUN_00c7f640(&t0, &b->v90);
     ((Ops*)&m40)->FUN_00c7f640(&t1, &b->v50);
-    ((Ex*)this)->FUN_00de4530(p3, p4);
-    ((Ex*)this)->FUN_00de44c0(p3, p4);
+    reinterpret_cast<::FUN_00de4530Owner *>((((Ex*)this)))->FUN_00de4530(p3, p4);
+    reinterpret_cast<::DE44C0Object *>((((Ex*)this)))->FUN_00de44c0(p3, p4);
     dbg->Line(&m40, &m50, 0xffff0000, p3, p4);
 
     ((Ops*)&q1)->FUN_00c7f700(&m90, &b->v60);

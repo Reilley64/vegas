@@ -7,12 +7,31 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/fallout/magic/telekinesiseffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/telekinesiseffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/B8182D0Object.h"
+#include "fnv/decl/FUN_00439f50_class.h"
+#include "fnv/decl/FUN_00802d90_shell.h"
+#include "fnv/decl/FUN_0082a540.h"
+#include "fnv/decl/FUN_0082aee0_shell.h"
+#include "fnv/decl/FUN_0082c000_shell.h"
+#include "fnv/decl/FUN_00a59660_cls.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/Owner5615.h"
+#include "fnv/decl/S_00627920.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/TelekinesisStartEffect.h"
+#include "fnv/decl/fnv_00961280__FUN_00961280_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_004ae000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011de000.h"
 struct FUN_0082a510_shell
 {
-    void FUN_0082a540();
     void* DestroyIfFlagged(unsigned int flags);
 };
-void __cdecl _Deallocate(void*);
 struct FUN_0082aab0_shell
 {
     void SetField644(float value);
@@ -27,7 +46,6 @@ struct Actor
 };
 struct ValueModifierEffect
 {
-    unsigned short __thiscall FUN_00802d90(Actor* apActor);
 };
 struct TelekinesisEffect : ValueModifierEffect
 {
@@ -37,14 +55,10 @@ struct FUN_008df040_shell
 {
     unsigned char __thiscall FUN_008df040();
 };
-extern FUN_008df040_shell* g_TESSaveLoadGame;
 struct FUN_0082a670_shell
 {
     void __thiscall FUN_0082a670();
-    void __thiscall FUN_0082c000();
-    void __thiscall StartTelekinesisEffect();
 };
-void* __cdecl FUN_00703390();
 struct Flt
 {
     operator unsigned int();
@@ -53,10 +67,8 @@ struct FUN_0082aa90_shell
 {
     unsigned int GetFloatAsUInt();
 };
-void* __cdecl FUN_004b5a80(void const*);
 struct FUN_0082aeb0_shell
 {
-    void* __thiscall FUN_0082aee0();
     void* __thiscall FUN_0082aeb0();
 };
 
@@ -68,15 +80,12 @@ class NiPoint3T
     NiPoint3T();
     NiPoint3T operator*(float fScalar) const;
 };
-extern const NiPoint3T g_kZeroPointT;
 
 class NiMatrix3T
 {
   public:
     float m_afEntries[3][3];
     NiMatrix3T();
-    void SetRotationFromEulerXYZ(float fXAngle, float fYAngle, float fZAngle);
-    void GetCol(unsigned int uiCol, NiPoint3T& kCol) const;
 };
 
 class hkVector4T
@@ -84,7 +93,6 @@ class hkVector4T
   public:
     __m128 m_vComponents;
     hkVector4T();
-    void mul4(const class hkSimdRealT& kScale);
 };
 
 class hkSimdRealT
@@ -94,37 +102,26 @@ class hkSimdRealT
     hkSimdRealT(float fValue);
 };
 
-void __cdecl FUN_004a3e00(hkVector4T* pkOut, const NiPoint3T* pkIn);
 
 class TelekinesisTargetController
 {
   public:
-    void Update();
 };
 
 class TelekinesisTarget
 {
   public:
-    float GetMass();
-    TelekinesisTargetController* SetLinearVelocity(const hkVector4T& kMotionVelocity);
-    void SetVelocity(const NiPoint3T& kMotionVelocity);
 };
 
 class PlayerCameraT
 {
   public:
-    FUN_0082aeb0_shell* GetGrab();
-    void ReleaseGrab();
-    const NiPoint3T& GetRotation();
 };
-extern PlayerCameraT* g_pkPlayerCameraT;
 
 class GameSettingTableT
 {
   public:
-    float& GetValue();
 };
-extern GameSettingTableT g_kTelekinesisDistanceT;
 
 class TelekinesisEffectT
 {
@@ -160,10 +157,10 @@ class TelekinesisEffectT
 // @fnv 0x0082afa0
 void TelekinesisEffectT::FUN_0082afa0()
 {
-    if (g_pkPlayerCameraT->GetGrab())
+    if (((::FUN_0082aeb0_shell *)(reinterpret_cast<::FUN_0082aa90_shell *>(((*reinterpret_cast<::PlayerCameraT * *>(&::_g_thePlayer))))->GetFloatAsUInt())))
     {
-        void* pvGrabbed = g_pkPlayerCameraT->GetGrab()->FUN_0082aee0();
-        g_pkPlayerCameraT->ReleaseGrab();
+        void* pvGrabbed = ((void *)(reinterpret_cast<::FUN_0082aee0_shell *>((((::FUN_0082aeb0_shell *)(reinterpret_cast<::FUN_0082aa90_shell *>(((*reinterpret_cast<::PlayerCameraT * *>(&::_g_thePlayer))))->GetFloatAsUInt()))))->FUN_0082aee0()));
+        reinterpret_cast<::fnv_00961280::FUN_00961280_shell *>(((*reinterpret_cast<::PlayerCameraT * *>(&::_g_thePlayer))))->FUN_00961280();
         if (pvGrabbed)
         {
             TelekinesisTarget* pkTarget = (TelekinesisTarget*)FUN_004b5a80(pvGrabbed);
@@ -171,19 +168,19 @@ void TelekinesisEffectT::FUN_0082afa0()
             {
                 NiPoint3T kForward;
                 NiMatrix3T kRotationBasis;
-                NiPoint3T kAngles = g_pkPlayerCameraT->GetRotation();
-                kRotationBasis.SetRotationFromEulerXYZ(kAngles.z, kAngles.x, kAngles.y);
-                kRotationBasis.GetCol(1, kForward);
-                NiPoint3T kIntersectionOffset = kForward * (g_kTelekinesisDistanceT.GetValue() + m_fHitDistance);
+                NiPoint3T kAngles = (*(const ::NiPoint3T *)(reinterpret_cast<::TESRecipe *>(((*reinterpret_cast<::PlayerCameraT * *>(&::_g_thePlayer))))->GetData()));
+                reinterpret_cast<::FUN_00a59660_cls *>(&(kRotationBasis))->FUN_00a59660(kAngles.z, kAngles.x, kAngles.y);
+                reinterpret_cast<::FUN_00439f50_class *>((void *)&(kRotationBasis))->FUN_00439f50(1, (::NiPoint3 *)&(kForward));
+                NiPoint3T kIntersectionOffset = kForward * (::FUN_00403e20((float *)&((*reinterpret_cast<::GameSettingTableT *>(&::originalRuntimeFloatSetting1172)))) + m_fHitDistance);
                 hkVector4T kMotionVelocity;
-                FUN_004a3e00(&kMotionVelocity, &kIntersectionOffset);
-                hkSimdRealT kMass(pkTarget->GetMass());
-                kMotionVelocity.mul4(kMass);
-                pkTarget->SetLinearVelocity(kMotionVelocity)->Update();
+                ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&kMotionVelocity)), (*(const ::fnv_004a3e00::NiPoint3 *)(&kIntersectionOffset)));
+                hkSimdRealT kMass(::FUN_004b5400((void *)(pkTarget)));
+                reinterpret_cast<::S_00627920 *>(&(kMotionVelocity))->FUN_00627920((::S_00561240 *)&(kMass));
+                reinterpret_cast<::B8182D0Object *>((((::TelekinesisTargetController *)(::FUN_004ae750((void *)(pkTarget))))))->ApplyToTarget({});
             }
             else
             {
-                pkTarget->SetVelocity(g_kZeroPointT);
+                reinterpret_cast<::Owner5615 *>((pkTarget))->FUN_005615d0((int)&((*reinterpret_cast<const ::NiPoint3T *>((void *)&::NiPoint3::ZERO))));
             }
         }
     }

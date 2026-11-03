@@ -1,13 +1,38 @@
 // fallout/misc/saveload/bgssaveloadreferencesmap.cpp: BGSSaveLoadReferencesMap, BGSCellNumericIDArrayMap (10 functions)
 
+#include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
+#include "fnv/decl/C6b7f20_Map.h"
+#include "fnv/decl/FUN_00438690.h"
+#include "fnv/decl/FUN_00438af0_Class.h"
+#include "fnv/decl/FUN_00843750_shell.h"
+#include "fnv/decl/FUN_00844700_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_0084e6a0_shell.h"
+#include "fnv/decl/FUN_00852fa0_class.h"
+#include "fnv/decl/FormBufferContext.h"
+#include "fnv/decl/NiTMap_S.h"
+#include "fnv/decl/ReconstructMapHelper.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/SaveLoadGame_8495d0.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_00853130__NiTMapBase.h"
+#include "fnv/decl/fnv_009a4320__FUN_009a4320_arr.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00587000.h"
+#include "fnv/symbols_00845000.h"
+#include "fnv/symbols_0084e000.h"
+#include "fnv/symbols_0084f000.h"
+#include "fnv/symbols_009a3000.h"
+#include "fnv/symbols_011dd000.h"
 #include "bgssaveloadreferencesmap_decls.h"
 
 // @fnv 0x00852B60
 void BGSSaveLoadReferencesMap::Clear()
 {
-    m_kReferenceIDMap.RemoveAll();
+    reinterpret_cast<::FUN_00438af0_Class *>(&(m_kReferenceIDMap))->FUN_00438af0();
     m_kCellReferences.Clear();
-    void* position = m_kWorldspaceCellReferenceMaps.GetFirstPos();
+    void* position = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(&(m_kWorldspaceCellReferenceMaps))->GetFirstPos();
     while (position)
     {
         struct WorldspaceReferences
@@ -17,16 +42,16 @@ void BGSSaveLoadReferencesMap::Clear()
         } entry;
         entry.worldspaceID = 0;
         entry.referencesMap = 0;
-        m_kWorldspaceCellReferenceMaps.GetNext(position, entry.worldspaceID, entry.referencesMap);
+        reinterpret_cast<::C6b7f20_Map *>(&(m_kWorldspaceCellReferenceMaps))->FUN_006b7f20((::C6b7f20_Node **)&(position), (unsigned int *)&(entry.worldspaceID), (void **)&(entry.referencesMap));
         delete entry.referencesMap;
     }
-    m_kWorldspaceCellReferenceMaps.RemoveAll();
+    reinterpret_cast<::FUN_00438af0_Class *>(&(m_kWorldspaceCellReferenceMaps))->FUN_00438af0();
 }
 
 // @fnv 0x008528D0
 void BGSCellNumericIDArrayMap::Clear()
 {
-    void* position = GetFirstPos();
+    void* position = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(this)->GetFirstPos();
     while (position)
     {
         struct CellReferenceIDs
@@ -36,43 +61,10 @@ void BGSCellNumericIDArrayMap::Clear()
         } entry;
         entry.cellKey = 0;
         entry.referenceIDs = 0;
-        GetNext(position, entry.cellKey, entry.referenceIDs);
+        reinterpret_cast<::C6b7f20_Map *>(this)->FUN_006b7f20((::C6b7f20_Node **)&(position), (unsigned int *)&(entry.cellKey), (void **)&(entry.referenceIDs));
         delete entry.referenceIDs;
     }
-    RemoveAll();
-}
-
-// @fnv 0x00852D20
-void BGSSaveLoadReferencesMap::LoadCellReferences(TESObjectCELL* cell, BGSReconstructFormsInAllFilesMap* forms)
-{
-    struct CellReferences
-    {
-        BGSCellNumericIDArrayMap* referencesMap;
-        unsigned int cellKey;
-    } cellReferences;
-    cellReferences.referencesMap = 0;
-    cellReferences.cellKey = 0;
-    if (cell->IsCellInterior())
-    {
-        cellReferences.cellKey = cell->GetFormID();
-        cellReferences.referencesMap = &m_kCellReferences;
-    }
-    else
-    {
-        cellReferences.cellKey = TESWorldSpace::BuildCellKey(cell->GetCellGridX(), cell->GetCellGridY());
-        m_kWorldspaceCellReferenceMaps.GetAt(cell->GetParentWorldSpace()->GetFormID(), cellReferences.referencesMap);
-    }
-    if (cellReferences.referencesMap)
-    {
-        BSSimpleArray<unsigned int, 1024>* referenceIDs = 0;
-        if (cellReferences.referencesMap->GetAt(cellReferences.cellKey, referenceIDs))
-        {
-            for (unsigned int index = 0; index < referenceIDs->GetSize(); ++index)
-                ReconstructFormID(referenceIDs->GetAt(index), forms);
-            cellReferences.referencesMap->RemoveAt(cellReferences.cellKey);
-            delete referenceIDs;
-        }
-    }
+    reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
 }
 
 struct OL4A
@@ -109,33 +101,19 @@ struct FUN_00852870_cls
 {
     void FUN_00852870();
 };
-void _Deallocate(void* obj);
 
 struct FUN_00852840_shell : FUN_00852870_cls
 {
     void* FUN_00852840(unsigned int flags);
 };
 
-// Calls FUN_00852870, then deallocates this if flags has bit 0 set, and returns this.
-// @fnv 0x00852840
-void* FUN_00852840_shell::FUN_00852840(unsigned int flags)
-{
-    FUN_00852870();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct LS3de0
 {
     unsigned int Find(unsigned int&, unsigned int, bool(__cdecl*)(int const*, int const*));
-    void UpdateEntryValue(unsigned int, unsigned int);
 };
 struct DummyPointerMap
 {
-    bool GetAt(unsigned int, unsigned int&) const;
 };
-extern "C" bool __cdecl FUN_009a3830(int const*, int const*);
 
 struct FUN_00852a10_shell : DummyPointerMap
 {
@@ -146,19 +124,18 @@ struct FUN_00852a10_shell : DummyPointerMap
 void FUN_00852a10_shell::RemoveReference(unsigned int auiKey, unsigned int a2)
 {
     unsigned int icellKey = 0;
-    if (this->GetAt(auiKey, icellKey))
+    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(this))->FUN_00853130(auiKey, (::fnv_00853130::CombatThreatRecord *&)(icellKey)))
     {
-        unsigned int idx = reinterpret_cast<LS3de0*>(icellKey)->Find(a2, 0, FUN_009a3830);
+        unsigned int idx = reinterpret_cast<LS3de0*>(icellKey)->Find(a2, 0, ::FUN_009a3830);
         if (idx != 0xFFFFFFFF)
         {
-            reinterpret_cast<LS3de0*>(icellKey)->UpdateEntryValue(idx, 1);
+            reinterpret_cast<::fnv_009a4320::FUN_009a4320_arr *>((reinterpret_cast<LS3de0*>(icellKey)))->FUN_009a4320(idx, 1);
         }
     }
 }
 
 struct Base52810
 {
-    void FUN_00852fa0(int);
 };
 extern int DAT_0107fef4;
 struct Cls52810 : Base52810
@@ -169,7 +146,7 @@ struct Cls52810 : Base52810
 // @fnv 0x00852810
 void* Cls52810::FUN_00852810()
 {
-    FUN_00852fa0(0x25);
+    reinterpret_cast<::FUN_00852fa0_class *>(this)->FUN_00852fa0(0x25);
     *(void**)this = (void*)&DAT_0107fef4;
     return this;
 }
@@ -177,7 +154,6 @@ void* Cls52810::FUN_00852810()
 struct NiPoint3;
 struct WsH
 {
-    static int __cdecl GetKeyForWorldCoord(NiPoint3 const&);
 };
 struct FUN_00852cd0_shell
 {
@@ -189,40 +165,24 @@ void FUN_00852cd0_shell::RemoveReferenceFromCell(unsigned int aiCellID, unsigned
                                                  NiPoint3 const& arPos)
 {
     BSSimpleArray<unsigned int, 1024>* pnumericIDArray = 0;
-    if (((DummyPointerMap*)((char*)this + 0x20))->GetAt(aiCellID, (unsigned int&)pnumericIDArray))
+    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)((char*)this + 0x20))))->FUN_00853130(aiCellID, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)pnumericIDArray)))
     {
         unsigned int uiCoordKey;
-        uiCoordKey = WsH::GetKeyForWorldCoord(arPos);
+        uiCoordKey = ::FUN_00587440((const ::NiPoint3 *)&(arPos));
         ((FUN_00852a10_shell*)pnumericIDArray)->RemoveReference(uiCoordKey, aiReferenceID);
     }
 }
 
 struct S00852950
 {
-    void GetOrCreateEntryAdd(int, int);
 };
 struct SetAtHelper
 {
-    void SetAt(unsigned int, unsigned int);
 };
 struct FUN_00852c00_shell : FUN_00852840_shell
 {
     void AddReferenceToCell(unsigned int aiCellID, unsigned int aiReferenceID, NiPoint3 const& arPos);
 };
-// Looks up or creates the per-cell OL4B map for aiCellID, then inserts aiReferenceID under the key derived from arPos.
-// @fnv 0x00852c00
-void FUN_00852c00_shell::AddReferenceToCell(unsigned int aiCellID, unsigned int aiReferenceID, NiPoint3 const& arPos)
-{
-    OL4B* pNumericIDArray = 0;
-    if (!((DummyPointerMap*)((char*)this + 0x20))->GetAt(aiCellID, (unsigned int&)pNumericIDArray))
-    {
-        pNumericIDArray = new OL4B;
-        ((SetAtHelper*)((char*)this + 0x20))->SetAt(aiCellID, (unsigned int)pNumericIDArray);
-    }
-    int key = WsH::GetKeyForWorldCoord(arPos);
-    ((S00852950*)pNumericIDArray)->GetOrCreateEntryAdd(key, aiReferenceID);
-}
-
 struct PSM3
 {
     PSM3();
@@ -231,24 +191,35 @@ struct PSM3
 };
 struct BSSimpleArrayActor
 {
-    unsigned int Add(void*&);
 };
 struct FUN_00852950_shell : DummyPointerMap
 {
-    void SetAt(unsigned int, unsigned int);
     unsigned int GetOrCreateEntryAdd(unsigned int aiKey, void* apValue);
 };
+// Looks up or creates the per-cell OL4B map for aiCellID, then inserts aiReferenceID under the key derived from arPos.
+// @fnv 0x00852c00
+void FUN_00852c00_shell::AddReferenceToCell(unsigned int aiCellID, unsigned int aiReferenceID, NiPoint3 const& arPos)
+{
+    OL4B* pNumericIDArray = 0;
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)((char*)this + 0x20))))->FUN_00853130(aiCellID, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)pNumericIDArray)))
+    {
+        pNumericIDArray = new OL4B;
+        reinterpret_cast<::FUN_00844700_Class *>((((SetAtHelper*)((char*)this + 0x20))))->FUN_00844700(aiCellID, (unsigned int)pNumericIDArray);
+    }
+    int key = ::FUN_00587440((const ::NiPoint3 *)&(arPos));
+    reinterpret_cast<::FUN_00852950_shell *>((((S00852950*)pNumericIDArray)))->GetOrCreateEntryAdd(key, (void *)(aiReferenceID));
+}
 // Looks up aiKey in the map; if absent, allocates a PSM3 and stores it, then adds apValue to the entry and returns the result.
 // @fnv 0x00852950
 unsigned int FUN_00852950_shell::GetOrCreateEntryAdd(unsigned int aiKey, void* apValue)
 {
     void* pEntry = 0;
-    if (!GetAt(aiKey, (unsigned int&)pEntry))
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)this)->FUN_00853130(aiKey, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)pEntry)))
     {
         pEntry = new PSM3;
-        SetAt(aiKey, (unsigned int)pEntry);
+        reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700(aiKey, (unsigned int)pEntry);
     }
-    return ((BSSimpleArrayActor*)pEntry)->Add(apValue);
+    return reinterpret_cast<::FUN_00438690 *>((((BSSimpleArrayActor*)pEntry)))->FUN_007cb2e0((unsigned int *)&(apValue));
 }
 
 struct B852AE0MapA
@@ -288,20 +259,17 @@ class FUN_00852ae0 : public B852AE0Base
     B852AE0MapA m_kMapA;
     B852AE0MapB m_kMapB;
 
-    void Clear();
     ~FUN_00852ae0();
 };
 
 // @fnv 0x00852ae0
 FUN_00852ae0::~FUN_00852ae0()
 {
-    Clear();
+    reinterpret_cast<::BGSSaveLoadReferencesMap *>(this)->Clear();
 }
 
 struct Loader2e40
 {
-    void* FUN_00559450();
-    void* FUN_00866390();
 };
 struct Change2e40
 {
@@ -314,33 +282,56 @@ struct Changes2e40
 };
 struct Host2e40
 {
-    Changes2e40* FUN_00559450();
-    void ApplyUnloadedChanges(TESObjectCELL*);
 };
-extern Host2e40* DAT_011ddf38;
 int __cdecl FUN_0084e730(unsigned int, int, int);
-void __cdecl FUN_00845cc0(const char*, ...);
 struct Info2e40
 {
     int unk00, unk04, cellID, x, y, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c;
     Info2e40();
-    bool FUN_0084e6a0(TESObjectCELL**, TESWorldSpace**);
 };
-void __cdecl FUN_0084e930(void*, int, Info2e40*);
-TESObjectCELL* __cdecl ResolveReferenceForm(unsigned int, Info2e40*, bool);
 struct Forms2e40
 {
-    void FUN_00843750(TESObjectCELL*, unsigned int, bool);
-    void FUN_008438b0(TESWorldSpace*, int, int, unsigned int, bool);
 };
 struct Target2e40
 {
     void FUN_00852e40(unsigned int, Forms2e40*);
 };
+// @fnv 0x00852D20
+void BGSSaveLoadReferencesMap::LoadCellReferences(TESObjectCELL* cell, BGSReconstructFormsInAllFilesMap* forms)
+{
+    struct CellReferences
+    {
+        BGSCellNumericIDArrayMap* referencesMap;
+        unsigned int cellKey;
+    } cellReferences;
+    cellReferences.referencesMap = 0;
+    cellReferences.cellKey = 0;
+    if (cell->IsCellInterior())
+    {
+        cellReferences.cellKey = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((cell))->FUN_0084e3a0()));
+        cellReferences.referencesMap = &m_kCellReferences;
+    }
+    else
+    {
+        cellReferences.cellKey = ::PackShortPair(cell->GetCellGridX(), cell->GetCellGridY());
+        reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(m_kWorldspaceCellReferenceMaps))->FUN_00853130(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((cell->GetParentWorldSpace()))->FUN_0084e3a0())), (::fnv_00853130::CombatThreatRecord *&)(cellReferences.referencesMap));
+    }
+    if (cellReferences.referencesMap)
+    {
+        BSSimpleArray<unsigned int, 1024>* referenceIDs = 0;
+        if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((cellReferences.referencesMap))->FUN_00853130(cellReferences.cellKey, (::fnv_00853130::CombatThreatRecord *&)(referenceIDs)))
+        {
+            for (unsigned int index = 0; index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((referenceIDs))->GetName())); ++index)
+                reinterpret_cast<::Target2e40 *>(this)->FUN_00852e40(((unsigned int)(reinterpret_cast<::S3e60 *>((referenceIDs))->FUN_006a7ad0(index))), (::Forms2e40 *)(forms));
+            reinterpret_cast<::NiTMap_S *>((cellReferences.referencesMap))->RemoveKey(cellReferences.cellKey);
+            delete referenceIDs;
+        }
+    }
+}
 // @fnv 0x00852e40
 void Target2e40::FUN_00852e40(unsigned int uiRefID, Forms2e40* forms)
 {
-    Change2e40* change = DAT_011ddf38->FUN_00559450()->FUN_009a4250(uiRefID);
+    Change2e40* change = ((::Changes2e40 *)(::FUN_00559450((int *)((*reinterpret_cast<::Host2e40 * *>(&::g_BGSSaveLoadGame))))))->FUN_009a4250(uiRefID);
     if (change)
     {
         int iChangeType = FUN_0084e730(uiRefID, 0x3a, change->key);
@@ -351,7 +342,7 @@ void Target2e40::FUN_00852e40(unsigned int uiRefID, Forms2e40* forms)
                 uiRefID);
             return;
         }
-        if (!change->loader.FUN_00559450())
+        if (!((void *)(::FUN_00559450((int *)&(change->loader)))))
         {
             FUN_00845cc0(
                 "SAVELOAD: Ref %08X is in the references map but there is no unloaded buffer for it in the changes map",
@@ -359,23 +350,23 @@ void Target2e40::FUN_00852e40(unsigned int uiRefID, Forms2e40* forms)
             return;
         }
         Info2e40 changeInfo;
-        FUN_0084e930(change->loader.FUN_00866390(), iChangeType, &changeInfo);
+        ::FUN_0084e930((::BGSLoadFormBuffer *)(void *)(((void *)(reinterpret_cast<::FormBufferContext *>(&(change->loader))->FUN_00866390()))), (::INITIAL_DATA_TYPE)(iChangeType), &changeInfo);
         if (iChangeType == 5)
         {
-            TESObjectCELL* cell = ResolveReferenceForm(uiRefID, &changeInfo, false);
+            TESObjectCELL* cell = ((::TESObjectCELL *)(::ResolveReferenceForm(uiRefID, (::ReferencePlacementData *)(::Info2e40 *)(&changeInfo), (::TESForm *)(false))));
             if (cell)
-                DAT_011ddf38->ApplyUnloadedChanges(cell);
+                reinterpret_cast<::SaveLoadGame_8495d0 *>(((*reinterpret_cast<::Host2e40 * *>(&::g_BGSSaveLoadGame))))->ApplyUnloadedChanges((::TESForm *)(cell));
         }
         else
         {
             TESObjectCELL* interior = 0;
             TESWorldSpace* world = 0;
-            if (changeInfo.FUN_0084e6a0(&interior, &world))
+            if (reinterpret_cast<::FUN_0084e6a0_shell *>(&(changeInfo))->FUN_0084e6a0((*(::TESObjectCELL * *)(&interior)), (*(::TESWorldSpace * *)(&world))))
             {
                 if (interior)
-                    forms->FUN_00843750(interior, uiRefID, false);
+                    reinterpret_cast<::FUN_00843750_shell *>((forms))->FUN_00843750((::FUN_00843750_Form *)(interior), uiRefID, false);
                 else
-                    forms->FUN_008438b0(world, changeInfo.x, changeInfo.y, uiRefID, false);
+                    reinterpret_cast<::ReconstructMapHelper *>((forms))->FUN_008438b0((::ExtendedForm *)(world), changeInfo.x, changeInfo.y, uiRefID, false);
             }
             else
             {
@@ -391,7 +382,6 @@ class FUN_008531b0
   public:
     virtual ~FUN_008531b0();
 
-    void FUN_008528d0();
 };
 
 class FUN_00852870 : public FUN_008531b0
@@ -399,10 +389,19 @@ class FUN_00852870 : public FUN_008531b0
   public:
     virtual ~FUN_00852870();
 };
+// Calls FUN_00852870, then deallocates this if flags has bit 0 set, and returns this.
+// @fnv 0x00852840
+void* FUN_00852840_shell::FUN_00852840(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00852870 *>(this)->FUN_00852870::~FUN_00852870();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // The destructor calls FUN_008528d0.
 // @fnv 0x00852870
 FUN_00852870::~FUN_00852870()
 {
-    FUN_008528d0();
+    reinterpret_cast<::BGSCellNumericIDArrayMap *>(this)->Clear();
 }

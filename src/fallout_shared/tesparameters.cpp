@@ -1,5 +1,31 @@
 // fallout_shared/tesparameters.cpp: ScriptFunctionData, TESConditionItem (5 functions)
 
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00414220_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_005aa420_shell.h"
+#include "fnv/decl/FUN_005aae70_shell.h"
+#include "fnv/decl/FUN_005abed0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00594000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00682000.h"
+#include "fnv/symbols_01183000.h"
+#include "fnv/symbols_0118c000.h"
+#include "fnv/symbols_01190000.h"
 #include "tesparameters.h"
 #include "TESForm.h"
 #include "Script.h"
@@ -28,7 +54,7 @@ bool ScriptFunctionData::IsParamTESForm(const FunctionData* apData, unsigned int
 {
     bool isTESForm = false;
     if (apData && apData->usFunction + 0x1000 == 0x1198)
-        isTESForm = IsValidTypeValue(apData, auiParam);
+        isTESForm = ::IsValidTypeValue((int)(apData), auiParam);
     else if (apData && auiParam < GetParamCount(apData))
         isTESForm = DAT_0118cdd5[g_scriptCommands[apData->usFunction].params[auiParam].typeID].isTESForm;
     return isTESForm;
@@ -133,38 +159,37 @@ void ScriptFunctionData::InitItem(TESForm* apForm, FunctionData* apData)
                     unsigned int formID = apData->uParam[uiIndex].m_uiFormID;
                     if (formID)
                     {
-                        TESForm::RemapFormIDForFile(formID, file);
-                        apData->uParam[uiIndex].pPointer = TESForm::GetFormByID(formID);
+                        ::ResolveFormID((unsigned int *)&(formID), file);
+                        apData->uParam[uiIndex].pPointer = ::FUN_004839c0(formID);
                         if (!apData->uParam[uiIndex].pPointer)
                         {
                             BSStringT<char> strFormName;
                             apForm->GetDebugName(&strFormName);
-                            Warning(DAT_01069608, formID, strFormName.String());
+                            ::FUN_005b5e40();
                         }
-                        else if (DAT_0118cdd0[g_scriptCommands[apData->usFunction].params[uiIndex].typeID].type == 11)
+                        else if ((*reinterpret_cast<ParamTypeMetadata (*)[]>(&::DAT_0118cdd0))[g_scriptCommands[apData->usFunction].params[uiIndex].typeID].type == 11)
                         {
                             apData->uParam[uiIndex].pPointer = __RTDynamicCast(
-                                apData->uParam[uiIndex].pPointer, 0, (void*)&typeid(TESForm), DAT_01183140, 0);
+                                apData->uParam[uiIndex].pPointer, 0, (void*)&typeid(TESForm), (*reinterpret_cast<char (*)[]>(&::DAT_01183140)), 0);
                             if (!apData->uParam[uiIndex].pPointer)
                             {
                                 BSStringT<char> strFormName;
                                 apForm->GetDebugName(&strFormName);
-                                Warning(DAT_010695a8, formID, strFormName.String());
+                                ::FUN_005b5e40();
                             }
                         }
                     }
                 }
-                else if (GetParamIsScriptVariable(apData, uiIndex))
+                else if (::FUN_00682380((unsigned short *)(apData), uiIndex))
                 {
                     if (uiIndex > 0)
                     {
-                        Script* script = GetScriptForParam(uiIndex - 1, apData);
-                        if (script && !script->GetVariableName(apData->uParam[uiIndex].m_uiFormID))
+                        Script* script = ::FUN_006823d0(uiIndex - 1, apData);
+                        if (script && !reinterpret_cast<::FUN_005abed0_shell *>((script))->FUN_005abed0(apData->uParam[uiIndex].m_uiFormID))
                         {
                             BSStringT<char> strFormName;
                             apForm->GetDebugName(&strFormName);
-                            Warning(DAT_01069540, apData->uParam[uiIndex].m_uiFormID,
-                                    ((TESParametersScriptSlots*)script)->vfn_130(), strFormName.String());
+                            ::FUN_005b5e40();
                         }
                     }
                 }
@@ -187,7 +212,6 @@ struct _CommandEntry
     char pad2[0x10];
 };
 
-extern _CommandEntry DAT_01190910[];
 
 // Returns true when the parameter at aiParam of apFuncData has type 4 or 6, after bounds-checking against the function's parameter count.
 // @fnv 0x00682320
@@ -196,7 +220,7 @@ bool __cdecl FUN_00682320(const FunctionData* apFuncData, unsigned int aiParam)
     bool bretval = false;
     if (apFuncData && aiParam < ScriptFunctionData::GetParamCount(apFuncData))
     {
-        switch (DAT_01190910[apFuncData->usFunction].pParameters[aiParam].eType)
+        switch ((*reinterpret_cast<_CommandEntry (*)[]>(&::g_scriptCommands))[apFuncData->usFunction].pParameters[aiParam].eType)
         {
         case 4:
         case 6:

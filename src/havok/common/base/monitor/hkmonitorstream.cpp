@@ -2,6 +2,8 @@
 // src/havok/common/base/monitor/hkmonitorstream.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/monitor/hkmonitorstream.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_01268000.h"
 struct S_00cb0da0
 {
     int m_00;
@@ -56,7 +58,6 @@ struct SpawnedBuffer
 };
 
 char* FUN_00c85750();
-void FUN_00cb0df0(SpawnedBuffer* buf);
 
 // @fnv 0x00cb0e50
 void ResizeBuffer(SpawnedBuffer* pBuffer, int iSize)
@@ -88,13 +89,12 @@ void ResizeBuffer(SpawnedBuffer* pBuffer, int iSize)
     }
     else
     {
-        FUN_00cb0df0(pBuffer);
+        ::fnv_00cb0df0::FUN_00cb0df0((::fnv_00cb0df0::GrowBuffer *)(pBuffer));
     }
 }
 
 #include <windows.h>
 namespace fnv_00cb0db0 {
-extern DWORD DAT_0126835c;
 
 class SpawnedAllocator
 {
@@ -131,7 +131,7 @@ void __cdecl FUN_00cb0db0()
     AllocHolder* holder = FUN_00c85750();
     SpawnedAllocator* alloc = holder->m_14;
     SpawnedObject* obj = (SpawnedObject*)alloc->Alloc(0x14);
-    TlsSetValue(DAT_0126835c, obj);
+    TlsSetValue(::DAT_0126835c, obj);
     obj->m_10 = 0;
     obj->m_00 = 0;
     obj->m_08 = 0;
@@ -141,7 +141,6 @@ void __cdecl FUN_00cb0db0()
 }  // namespace fnv_00cb0db0
 
 namespace fnv_00cb0df0 {
-extern DWORD DAT_0126835c;
 
 struct AudioAllocator
 {
@@ -177,7 +176,7 @@ struct GrowBuffer
 // @fnv 0x00cb0df0
 void __cdecl FUN_00cb0df0(GrowBuffer* apBuffer)
 {
-    void* pThreadData = TlsGetValue(DAT_0126835c);
+    void* pThreadData = TlsGetValue(::DAT_0126835c);
 
     char* pBegin = apBuffer->m_pBegin;
     if (pBegin != 0 && apBuffer->m_bOwned != 0)
@@ -192,6 +191,6 @@ void __cdecl FUN_00cb0df0(GrowBuffer* apBuffer)
     AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
     pAllocator2->Free(pThreadData, 0x14);
 
-    TlsSetValue(DAT_0126835c, 0);
+    TlsSetValue(::DAT_0126835c, 0);
 }
 }  // namespace fnv_00cb0df0

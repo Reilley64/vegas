@@ -2,6 +2,7 @@
 // src/havok/common/scenedata/attributes/hkxsparselyanimatedstringclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/attributes/hkxsparselyanimatedstringclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00cb0000.h"
 struct S_00e01900_Allocator
 {
     virtual void unk0();
@@ -28,10 +29,9 @@ struct S_00e01900_Router
 struct S_00e01900_Ref
 {
     void* m_ptr;
-    void FUN_00cb0c00() throw();
     ~S_00e01900_Ref() throw()
     {
-        FUN_00cb0c00();
+        ::FUN_00cb0c00((int)this);
     }
 };
 
@@ -108,7 +108,7 @@ struct CpuObject
 // @fnv 0x00e019a0
 CpuObject* CpuObject::FUN_00e019a0(unsigned int flags)
 {
-    FUN_00e01900();
+    reinterpret_cast<::FUN_00e01900 *>(this)->FUN_00e01900::~FUN_00e01900();
     if (flags & 1)
     {
         CpuAllocatorHolder* holder = FUN_00c85750();

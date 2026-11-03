@@ -124,6 +124,8 @@ class PathingRequest : public NiRefObject
     // void __cdecl PathingRequest::*(Actor*)
     // float __cdecl PathingRequest::*()
     // void __cdecl PathingRequest::*()
+public:
+    float GetCenterRadius();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(PathingRequest) == 176);

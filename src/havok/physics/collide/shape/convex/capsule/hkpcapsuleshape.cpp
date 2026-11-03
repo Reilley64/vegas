@@ -2,15 +2,16 @@
 // src/havok/physics/collide/shape/convex/capsule/hkpcapsuleshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/capsule/hkpcapsuleshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FunctionContext.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpCapsuleShape.h"
 
-extern char const* const g_01268970_arg1;
-void __cdecl FUN_00c90360(char const* const* arg1, char const* const* arg2);
 
 // @fnv 0x00d22360
 void __cdecl FUN_00d22360(char const* const* arg1, char const* const* arg2)
 {
-    FUN_00c90360(arg1, &g_01268970_arg1);
+    reinterpret_cast<::FunctionContext *>((void *)(arg1))->FUN_00c90360((void *)(&(*reinterpret_cast<const char *const *>(&::g_01268940))), {});
 }
 
 // @fnv 0x00d22350
@@ -29,6 +30,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
 };
+#include "fnv/symbols_simd.h"
 extern "C" __m128 _mm_load_ps(float const* p);
 extern "C" void _mm_store_ps(float* p, __m128 v);
 
@@ -165,7 +167,6 @@ struct ClosestLineResult
     Point4 pointA;
     Point4 pointB;
 };
-void __cdecl FUN_00d231b0(const Point4& a, const Point4& b, const Point4& c, const Point4& d, ClosestLineResult* out);
 // Calls FUN_00d231b0 to compute the closest points between two lines and writes the points, fractions and distance to the output pointers.
 // @fnv 0x00d22700
 void __cdecl GetClosestLinePoints(const Point4& aLineAStart, const Point4& aLineAEnd, const Point4& aLineBStart,
@@ -173,7 +174,7 @@ void __cdecl GetClosestLinePoints(const Point4& aLineAStart, const Point4& aLine
                                   Point4* pointA, Point4* pointB)
 {
     ClosestLineResult result;
-    FUN_00d231b0(aLineAStart, aLineAEnd, aLineBStart, aLineBEnd, &result);
+    ::FUN_00d231b0((const ::__m128 *)&(aLineAStart), (const ::__m128 *)&(aLineAEnd), (const ::__m128 *)&(aLineBStart), (const ::__m128 *)&(aLineBEnd), (::ClosestPointResult *)(::ClosestLineResult *)(&result));
     *reinterpret_cast<__m128*>(pointA) = *reinterpret_cast<const __m128*>(&result.pointA);
     *reinterpret_cast<__m128*>(pointB) = *reinterpret_cast<const __m128*>(&result.pointB);
     *pfFractionA = result.fractionA;
@@ -186,7 +187,6 @@ extern "C" __m128 _mm_mul_ps(__m128, __m128);
 extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
 extern "C" __m128 _mm_load_ss(const float*);
 extern "C" void _mm_store_ps(float*, __m128);
-extern float DAT_01016248;
 
 class Aabb_d22440
 {
@@ -211,7 +211,7 @@ void __thiscall Aabb_d22440::FUN_00d22440(__m128* pkCenter) const
 {
     __m128 sum = _mm_add_ps(m_kMax, m_kMin);
     *pkCenter = sum;
-    __m128 kHalf = _mm_load_ss(&DAT_01016248);
+    __m128 kHalf = _mm_load_ss(&::fnv_00c88020::DAT_01016248);
     kHalf = _mm_shuffle_ps(kHalf, kHalf, 0);
     *pkCenter = _mm_mul_ps(kHalf, sum);
 }

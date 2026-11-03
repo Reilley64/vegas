@@ -7,6 +7,10 @@
 // to their real unit once identified.
 // src/havok/common/visualize/shape/hkdisplaysphere.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplaysphere.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/RotationRows.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00e0a000.h"
+#include "fnv/symbols_01268000.h"
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
@@ -40,7 +44,6 @@ struct __declspec(align(16)) hkVec4f
 {
     float x, y, z, w;
 };
-extern float DAT_012683b0;
 struct FUN_008cd6a0_Class
 {
     hkVector4 m_kColumn0;
@@ -59,7 +62,6 @@ struct FUN_008cd6a0_Class
         d[10] = 1.0f;
         m_vTranslation.setZero4();
     }
-    void FUN_00cb2d90(void* p);
 };
 struct hkReferencedObject
 {
@@ -110,7 +112,6 @@ extern "C" __m128 _mm_cmpeq_ss(__m128 a, __m128 b);
 extern "C" __m128 _mm_andnot_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 void* FUN_00c85750(void);
-void __cdecl FUN_00c908c0(void* allocator, void* self, unsigned int newCap, int elemSize);
 
 struct AllocatorHolder
 {
@@ -200,7 +201,7 @@ template <class Array> static __forceinline void SubdivExpand(Array* array, int 
         int newCap = cap + cap;
         if (need < newCap)
             need = newCap;
-        FUN_00c908c0(alloc, array, need, 16);
+        ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(array), need, 16);
     }
     array->m_uiItemCount += amount;
 }

@@ -1,19 +1,43 @@
 // fallout/interface/interfacemanager_packet.h: declares Interface, InterfaceManager, TESEnchantableForm, MiddleHighProcess, NiPoint2 and more
 
+#include "fnv/decl/FUN_0041fd00_shell.h"
+#include "fnv/decl/FUN_004a4020_shell.h"
+#include "fnv/decl/FUN_00877720_shell.h"
+#include "fnv/decl/FUN_00a25560_Class.h"
+#include "fnv/decl/StrOwner.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_004dc000.h"
+#include "fnv/symbols_00718000.h"
+#include "fnv/symbols_00a01000.h"
+#include "fnv/symbols_0106e000.h"
+#include "fnv/symbols_011de000.h"
 class NiNode;
+class FOPipboyManager;
+class TESForm;
 class Interface
 {
   public:
-    NiNode* GetRoot();
     enum enumGamepadButtons
     {
         ButtonZero
     };
+public:
+    ::FOPipboyManager *GetPipboyManager();
+public:
+    static void SetQuestTarget(::TESForm *, bool);
+public:
+    static bool IsInterfaceActive();
+public:
+    static float GetFourthInterfaceFloat();
+public:
+    static bool IsInterfaceOpen();
 };
 enum GAMEPAD_BUTTON
 {
     GamepadZero
 };
+class Tile;
+class FORenderedMenu;
 class Tile;
 class InterfaceManager
 {
@@ -35,6 +59,10 @@ class InterfaceManager
     static void SendGamepadButton(Interface::enumGamepadButtons);
     static GAMEPAD_BUTTON ConvertGamepadButton(Interface::enumGamepadButtons);
     static bool IsInterfaceMenuActive();
+public:
+    ::Tile *FUN_00586150();
+public:
+    ::FORenderedMenu *GetActiveRenderedMenu();
 };
 enum MagicSystem__CastingType
 {
@@ -43,14 +71,16 @@ enum MagicSystem__CastingType
 class TESEnchantableForm
 {
   public:
-    void SetCastingType(MagicSystem__CastingType);
 };
+class TargetDoorController;
 class MiddleHighProcess
 {
   public:
     char padding[0xe4];
     TESEnchantableForm enchantable;
     void SetRunOncePackageIndex(int);
+public:
+    void AddDeferredHideLimb(::TargetDoorController *);
 };
 class TESIdleForm;
 template <class T, int N> class BSSimpleArray
@@ -79,23 +109,17 @@ template <class T> class BSSimpleList
     unsigned int ItemsInList();
 };
 
-extern bool FUN_004b71d0();
-extern InterfaceManager* FUN_004b7210();
 class InputManager
 {
   public:
-    void FUN_00a25560(GAMEPAD_BUTTON);
+public:
+    void FUN_00a253d0();
 };
 class OSGlobals
 {
   public:
-    InputManager* FUN_00877720();
 };
-extern OSGlobals* g_osGlobals;
-extern int FUN_004dc1f0();
-extern int FUN_004dc200();
 extern const double DAT_0106e7f8;
-extern const float DAT_0106ec38;
 
 template <class T> class BSStringT
 {
@@ -120,11 +144,19 @@ class SystemColorManager
 class Tile
 {
   public:
-    static int GetTraitID(const char*);
+public:
+    void Set(int, int);
+public:
+    void Set(int, unsigned int);
+public:
+    void SetSpeechChallengeFailure(bool);
 };
 class ConsoleManager
 {
   public:
     static ConsoleManager* Instance(bool);
-    bool IsConsoleActive();
+public:
+    bool Idle(int);
+public:
+    static ::ConsoleManager *pInstance;
 };

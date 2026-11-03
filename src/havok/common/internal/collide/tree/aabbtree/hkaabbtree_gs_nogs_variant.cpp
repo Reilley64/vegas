@@ -5,8 +5,15 @@
 
 // src/havok/common/internal/collide/tree/aabbtree/hkaabbtree.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/collide/tree/aabbtree/hkaabbtree.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/BuildTree.h"
+#include "fnv/decl/FUN_00d9a4d0_Class.h"
+#include "fnv/decl/S_00d9af30.h"
+#include "fnv/decl/Sd9_Tree.h"
+#include "fnv/decl/fnv_00d9c280__FUN_00d9c280_cls.h"
+#include "fnv/decl/fnv_00d9c360__D9C360Tree.h"
+#include "fnv/symbols_00d9c000.h"
+#include "fnv/symbols_01267000.h"
 struct FUN_00d9be20_class {
-    void FUN_00d9be20();
 };
 struct FUN_00d9be30_class {
     int m0;
@@ -20,7 +27,6 @@ struct FUN_00d9be30_class {
     void FUN_00d9be30();
 };
 struct FUN_00d9be20_cls {
-    void __thiscall FUN_00d9be20();
 };
 struct FUN_00d9bed0_cls {
     void __thiscall FUN_00d9bed0();
@@ -75,7 +81,6 @@ struct ElemPool {
     int m_unk08;
     IntArray m_freeArr;
 
-    void Grow(int newCapacity, int a, int b);
     int AllocElem(int a, int b, const Elem& e);
 };
 struct FUN_00d9ce00_Class
@@ -85,7 +90,6 @@ struct FUN_00d9ce00_Class
     int unk08;
     int* items;
     int count;
-    int FUN_00d9c450(int start, int first, int second);
     int* PopItem(int first, int second, int* output);
 };
 struct UnsignedShortArray { unsigned short* elements; unsigned int count; unsigned int capacity; };
@@ -155,11 +159,10 @@ struct RecordPool {
     int unk08;
     unsigned short* available;
     int count;
-    void __thiscall AllocateRecords(unsigned short typeCode, int first, int second);
     unsigned short __thiscall AddRecord(int first,int second,const Record20* item);
 };
 struct BoundsNode { unsigned short m00,m02,m04,m06,m08,m0A,m0C,m0E,m10,m12; };
-struct FUN_00d9a4d0_cls { BoundsNode* __thiscall GetEntryOffset(unsigned short key); };
+struct FUN_00d9a4d0_cls {  };
 struct FUN_00d9b450_cls { int m00,m04,m08,m0C,m10,m14,m18; FUN_00d9a4d0_cls m1c; void __thiscall UpdateBoundsNode(BoundsNode* a1,unsigned short a2,unsigned short a3); };
 struct S_00d9d650_Heap
 {
@@ -245,8 +248,6 @@ struct S_00d9d650_Node
 };
 struct S_00d9d650_Pool
 {
-    void FUN_00d9c450(int numNodes, S_00d9d650_Node** root, int* a);
-    S_00d9d650_Node* PopItem(S_00d9d650_Node** root, int* a, int* b);
 };
 struct S_00d9d650_Tree
 {
@@ -259,9 +260,6 @@ struct S_00d9d650_Tree
     int m_iNodeCount;
     S_00d9d650_Pool m_kNodePool;
 
-    void FUN_00d9d1c0(S_00d9d650_Aabb* aabbs, const int* keys, int n, S_00d9d650_Node* root, S_00d9d650_Array<int>& out, int depth);
-    void MergeNode(S_00d9d650_Node* root, int a, int b);
-    void TraverseTree(S_00d9d650_Node* root, int a);
     void BuildTree(const S_00d9d650_Aabb* aabbs, const int* keys, int n, S_00d9d650_Array<int>& out) throw();
 };
 struct Node_d9c520
@@ -276,8 +274,6 @@ struct Node_d9c520
 };
 struct Resolver_d9c520
 {
-    Node_d9c520* GetEntryOffset(unsigned short index);
-    Node_d9c520* ResolveChild(unsigned short index);
 };
 struct TrackedArray_d9c520
 {
@@ -298,16 +294,14 @@ struct Pool_d9c520
 
     void TraverseNodeTree(Node_d9c520* node, int second);
 };
-void __cdecl AppendElement();
-void __cdecl FUN_00d9c2d0(int param_1, unsigned short param_2);
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
+#include "fnv/symbols_simd.h"
 struct NodeD9C7 {
     char unk00[0x10];
     unsigned short m_usFlags;
 };
 class FreeListD9C7 {
 public:
-    void FUN_00d9c2d0(NodeD9C7* pkNode);
 };
 class FUN_00d9c7d0_C {
 public:
@@ -329,7 +323,6 @@ struct hkVector4 {
     hkVector4& operator=(const hkVector4& o) { m_vComponents = o.m_vComponents; return *this; }
     void set(float x, float y, float z, float w) { m_vComponents = _mm_setr_ps(x, y, z, w); }
 };
-extern hkVector4 DAT_01267e30;
 struct Range {
     unsigned int m_kPointA;
     unsigned int m_kPointB;
@@ -402,7 +395,6 @@ extern "C" __m128 _mm_mul_ps(__m128, __m128);
 extern "C" __m128 _mm_min_ps(__m128, __m128);
 extern "C" __m128 _mm_max_ps(__m128, __m128);
 
-extern const __m128 DAT_011b6d70;
 
 struct S00d9c610_Vector4 {
     __m128 m_vComponents;
@@ -444,8 +436,8 @@ __forceinline void S00d9c610_convertToUint32WithClip(const S00d9c610_Vector4& in
 __forceinline void S00d9c610_convertAabbToUint32(const S00d9c610_Aabb& aabb, const S00d9c610_Vector4& offsetLow, const S00d9c610_Vector4& offsetHigh, const S00d9c610_Vector4& scale, S00d9c610_AabbUint32& aabbOut)
 {
     S00d9c610_Vector4 maxVal; maxVal.m_vComponents = DAT_011b6d70;
-    S00d9c610_convertToUint32WithClip(aabb.m_kMinimumCorner, offsetLow, scale, (const S00d9c610_Vector4&)DAT_01267e30, maxVal, aabbOut.m_kMinimumCorner);
-    S00d9c610_convertToUint32WithClip(aabb.m_kMaximumCorner, offsetHigh, scale, (const S00d9c610_Vector4&)DAT_01267e30, maxVal, aabbOut.m_kMaximumCorner);
+    S00d9c610_convertToUint32WithClip(aabb.m_kMinimumCorner, offsetLow, scale, (const S00d9c610_Vector4&)(*reinterpret_cast<::hkVector4 *>(&::DAT_01267e30)), maxVal, aabbOut.m_kMinimumCorner);
+    S00d9c610_convertToUint32WithClip(aabb.m_kMaximumCorner, offsetHigh, scale, (const S00d9c610_Vector4&)(*reinterpret_cast<::hkVector4 *>(&::DAT_01267e30)), maxVal, aabbOut.m_kMaximumCorner);
 }
 
 struct S00d9c610_TreeAabb16 {
@@ -483,9 +475,6 @@ struct S00d9c610_Node {
 };
 
 struct S00d9c610_NodeManager {
-    unsigned short AddRecord(S00d9c610_Node*& rootNode, unsigned short& rootIdx, S00d9c610_Node& node);
-    S00d9c610_Node* PopGlyphRecord(S00d9c610_Node*& rootNode, unsigned short& rootIdx, unsigned short& newNodeIdx);
-    S00d9c610_Node* GetEntryOffset(unsigned short idx);
 };
 
 struct S00d9c610_AabbTree {
@@ -500,7 +489,6 @@ struct S00d9c610_AabbTree {
     S00d9c610_Vector4 m_kAabbMin;
     S00d9c610_Vector4 m_kAabbMaximum;
     S00d9c610_Vector4 m_kAabbScale;
-    void FUN_00d9b580(unsigned short insertPointIdx, unsigned short newLeafIdx, unsigned short scratchNodeIdx);
     unsigned short FUN_00d9c610(const S00d9c610_Aabb& aabb, void* userData);
 };
 
@@ -514,11 +502,11 @@ unsigned short S00d9c610_AabbTree::FUN_00d9c610(const S00d9c610_Aabb& aabb, void
         S00d9c610_Node node;
         S00d9c610_TreeAabb16::convertAabbToTreeSpace(qAabb, node.m_iBufferSize);
         node.setLeafData(userData);
-        leafIdx = m_kNodeManager.AddRecord(m_pAabbRootNode, m_usManagerValue, node);
+        leafIdx = reinterpret_cast<::RecordPool *>(&(m_kNodeManager))->AddRecord((int)&(m_pAabbRootNode), (int)&(m_usManagerValue), (const ::Record20 *)&(node));
     }
     if (m_usManagerValue == 0x7fff)
     {
-        S00d9c610_Node* n = m_kNodeManager.GetEntryOffset(leafIdx);
+        S00d9c610_Node* n = ((::S00d9c610_Node *)(reinterpret_cast<::FUN_00d9a4d0_Class *>(&(m_kNodeManager))->GetEntryOffset(leafIdx)));
         n->setParentNodeIdx(0x7fff);
         n->setSkipNodeIdx(0x7fff);
         m_pAabbRootNode = n;
@@ -527,8 +515,8 @@ unsigned short S00d9c610_AabbTree::FUN_00d9c610(const S00d9c610_Aabb& aabb, void
     else
     {
         unsigned short scratchNodeIdx;
-        m_kNodeManager.PopGlyphRecord(m_pAabbRootNode, m_usManagerValue, scratchNodeIdx);
-        FUN_00d9b580(m_usManagerValue, leafIdx, scratchNodeIdx);
+        reinterpret_cast<::fnv_00d9c280::FUN_00d9c280_cls *>(&(m_kNodeManager))->PopGlyphRecord((int *)&(m_pAabbRootNode), (unsigned short *)&(m_usManagerValue), (unsigned short *)&(scratchNodeIdx));
+        reinterpret_cast<::Sd9_Tree *>(this)->FUN_00d9b580(m_usManagerValue, leafIdx, scratchNodeIdx);
     }
     m_iNodeCount++;
     return leafIdx;

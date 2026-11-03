@@ -2,6 +2,9 @@
 #ifndef FNV_MENUTOPIC_H
 #define FNV_MENUTOPIC_H
 
+#include "fnv/decl/BraceString530.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/TopicS.h"
 #include "layout_support.h"
 #include "TESQuest.h"
 #include "TESTopic.h"
@@ -53,10 +56,7 @@ class MenuTopic
     // void* __cdecl MenuTopic::*(unsigned int)
     MenuTopic(TESQuest*, TESTopic*, TESTopicInfo*, MobileObject*, bool);
     DialogueResponse* GetActiveResponse();
-    MenuTopicText* FUN_0045cd60(float);
-    BSStringT<char> FUN_0083d8b0();
     void FUN_0083df80(TESQuest*, TESTopic*, TESTopicInfo*, MobileObject*);
-    void FillResponseList();
     TESTopicInfo* GetTopicInfo();
 };
 #pragma pack(pop)

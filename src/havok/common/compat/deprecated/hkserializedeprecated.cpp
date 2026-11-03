@@ -2,6 +2,7 @@
 // src/havok/common/compat/deprecated/hkserializedeprecated.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/compat/deprecated/hkserializedeprecated.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/SStringPtr.h"
 struct hkStringPtr
 {
     void operator=(const char*);
@@ -13,8 +14,7 @@ int __stdcall FUN_00dba5f0(int aiUnused1, int aiUnused2, int c)
     if (p)
     {
         *(int*)p = 7;
-        *(hkStringPtr*)((char*)p + 4) =
-            "Call hkSerializeDeprecated::initDeprecated() to include loading support for this file";
+        reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(*(hkStringPtr*)((char*)p + 4)))->FUN_00cb0c10("Call hkSerializeDeprecated::initDeprecated() to include loading support for this file");
     }
     return 0;
 }
@@ -26,8 +26,7 @@ int __stdcall ReportDeprecatedSerializeLoad(int aiUnused1, int aiUnused2, int pE
     if (pErrorOut)
     {
         *(int*)pErrorOut = 7;
-        *(hkStringPtr*)(pErrorOut + 4) =
-            "Call hkSerializeDeprecated::initDeprecated() to include loading support for this file";
+        reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(*(hkStringPtr*)(pErrorOut + 4)))->FUN_00cb0c10("Call hkSerializeDeprecated::initDeprecated() to include loading support for this file");
     }
     return 0;
 }

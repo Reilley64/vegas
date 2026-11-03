@@ -1,2 +1,13 @@
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_0087b190_shell.h"
+#include "fnv/decl/FUN_0087b650_shell.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_0102f000.h"
+#include "fnv/symbols_011de000.h"
 #include "virtualactorpathhandler.h"

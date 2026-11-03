@@ -2,6 +2,8 @@
 #ifndef FNV_FOVATSEFFECTMANAGER_TARGETS_H
 #define FNV_FOVATSEFFECTMANAGER_TARGETS_H
 
+#include "fnv/symbols_011db000.h"
+#include "fnv/symbols_011f4000.h"
 #include "layout_support.h"
 #include "fovatseffectmanager_shader.h"
 class NiAVObject;
@@ -28,11 +30,7 @@ class NiPoint2
     float x, y;
     NiPoint2();
 };
-extern NiPoint2 DAT_011f4980;
 class GlobalObject_0044f440;
-extern GlobalObject_0044f440 g_011db200;
-extern GlobalObject_0044f440 g_011db238;
-extern GlobalObject_0044f440 g_011db25c;
 class ShadowLightData
 {
   public:

@@ -6,12 +6,14 @@
 
 #include <math.h>
 
+#include "fnv/symbols_00df2000.h"
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
     int m128_i32[4];
 };
+#include "fnv/symbols_simd.h"
 
 extern "C" __m128 _mm_setzero_ps(void);
 extern "C" __m128 _mm_load_ss(const float*);
@@ -67,7 +69,6 @@ struct ContactParams
 };
 
 extern __m128 DAT_010c44d0;
-void __cdecl FUN_00df22f0(bool* flag);
 void __cdecl FUN_00df5e80(ContactConstraint* c, void* bodyA, void* bodyB, hkVector4* outVel);
 extern "C" __m128 _mm_and_ps(__m128, __m128);
 extern __m128 DAT_010cbfc0;
@@ -231,7 +232,7 @@ float __cdecl FUN_00df5f80(ContactConstraint* c, ContactParams* p, void* bodyA, 
     static bool s_keyValid = false;
     if (!s_keyValid)
     {
-        FUN_00df22f0(&s_keyValid);
+        ::ValidateHavokKeyCode(&s_keyValid);
         if (!s_keyValid)
         {
             return 0.0f;

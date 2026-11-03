@@ -2,6 +2,10 @@
 #ifndef FNV_IMAGESPACEMODIFIERINSTANCE_EFFECTS_H
 #define FNV_IMAGESPACEMODIFIERINSTANCE_EFFECTS_H
 
+#include "fnv/decl/B8B060Request.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FUN_00b8b7d0_cls.h"
+#include "fnv/decl/fnv_00b8b8d0__ImageSpaceDistanceEffect.h"
 class NiBound;
 // Call declarations only; no NiAVObject member data is accessed here.
 class NiAVObject : public NiObject
@@ -53,16 +57,15 @@ class NiAVObject : public NiObject
     virtual void vfn_b4();
     virtual void vfn_b8();
     virtual void UpdateWorldBound();
-    const NiBound& GetBoundingVolume() const;
 };
+class NiPoint2;
 class ImageSpaceManager
 {
   public:
     static ImageSpaceManager* FUN_004e3270();
-    void SetIfHigherPriority(float, unsigned int, float, float, float, float, const NiPoint2&);
-    void ApplyDepthOfFieldModifier(float, unsigned int, float, float, const NiBound&);
     void SetDepthOfFieldParameters(float, unsigned int, float, float, float);
-    void SetDistanceEffect(float, unsigned int, float, const NiBound&);
+public:
+    void SetRadialBlurParameters(float, float, float, float, float, const ::NiPoint2 &);
 };
 enum ImageSpaceModifierInstanceDRB__DepthOfFieldMode
 {

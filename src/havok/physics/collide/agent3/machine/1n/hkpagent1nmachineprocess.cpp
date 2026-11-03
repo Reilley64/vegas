@@ -2,6 +2,8 @@
 // src/havok/physics/collide/agent3/machine/1n/hkpagent1nmachineprocess.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/machine/1n/hkpagent1nmachineprocess.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/hkTransformCB22.h"
+#include "fnv/symbols_00cf1000.h"
 struct Pair
 {
     int a;
@@ -442,13 +444,11 @@ struct DaNode
 };
 struct DaReceiver
 {
-    void FUN_00cb22f0(void*, void*);
 };
 struct DaResultArg
 {
     DaResult* p;
 };
-void* __cdecl FUN_00cf1510(void*, float, void*);
 // Calls FUN_00cf1510 to fill dest+0x20 and dest+0x60, sets up dest, its node and result from source, then calls FUN_00cb22f0 on result+0x20.
 // @fnv 0x00da49b0
 static __declspec(noinline) void FUN_00da49b0(DaDest* dest, DaSource* source, void* p)
@@ -456,9 +456,9 @@ static __declspec(noinline) void FUN_00da49b0(DaDest* dest, DaSource* source, vo
     DaResult* result = (DaResult*)p;
     float value = source->unk0c->unk50;
     void* first = (char*)dest + 0x20;
-    FUN_00cf1510((char*)source->unk00->unk08 + 0x40, value, first);
+    ::FUN_00cf1510((*(const ::hkSweptTransformL *)((char*)source->unk00->unk08 + 0x40)), value, (*(::hkTransformL *)(first)));
     p = (char*)dest + 0x60;
-    FUN_00cf1510((char*)source->unk04->unk08 + 0x40, source->unk0c->unk50, p);
+    ::FUN_00cf1510((*(const ::hkSweptTransformL *)((char*)source->unk04->unk08 + 0x40)), source->unk0c->unk50, (*(::hkTransformL *)(p)));
     DaNode* node = (DaNode*)((char*)dest + 0x10);
     result->unk00 = dest;
     result->unk04 = node;
@@ -477,7 +477,7 @@ static __declspec(noinline) void FUN_00da49b0(DaDest* dest, DaSource* source, vo
         node->unk08 = p;
     }
     _ReadWriteBarrier();
-    ((DaReceiver*)((char*)result + 0x20))->FUN_00cb22f0(first, p);
+    reinterpret_cast<::hkTransformCB22 *>((((DaReceiver*)((char*)result + 0x20))))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(first)), (*(const ::hkTransformCB22 *)(p)));
 }
 DaDest* volatile daDest;
 DaSource* volatile daSource;

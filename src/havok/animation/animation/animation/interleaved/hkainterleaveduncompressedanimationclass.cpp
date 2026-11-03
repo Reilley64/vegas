@@ -1,6 +1,7 @@
 // src/havok/animation/animation/animation/interleaved/hkainterleaveduncompressedanimationclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/interleaved/hkainterleaveduncompressedanimationclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/fnv_00dfe360__FUN_00dfe360_cls.h"
 struct CpuAllocator
 {
     virtual void slot00();
@@ -20,13 +21,12 @@ struct CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void FUN_00dfe360();
     CpuObject* FUN_00dfe3e0(unsigned int flags);
 };
 // @fnv 0x00dfe3e0
 CpuObject* CpuObject::FUN_00dfe3e0(unsigned int flags)
 {
-    FUN_00dfe360();
+    reinterpret_cast<::fnv_00dfe360::FUN_00dfe360_cls *>(this)->FUN_00dfe360();
     if (flags & 1)
     {
         CpuAllocatorHolder* holder = FUN_00c85750();

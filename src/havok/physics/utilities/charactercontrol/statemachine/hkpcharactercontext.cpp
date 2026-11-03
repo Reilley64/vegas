@@ -2,11 +2,13 @@
 // src/havok/physics/utilities/charactercontrol/statemachine/hkpcharactercontext.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/charactercontrol/statemachine/hkpcharactercontext.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern int DAT_0102e388;
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpCharacterStateView.h"
+#include "fnv/symbols_0102e000.h"
 extern int DAT_010c8198;
 struct hkReferencedObject
 {
-    void removeReference();
 };
 struct FUN_00ca95e0_class
 {
@@ -20,8 +22,8 @@ struct FUN_00ca95e0_class
 void FUN_00ca95e0_class::FUN_00ca95e0()
 {
     m_p = (int)&DAT_010c8198;
-    ((hkReferencedObject*)m_uiZ)->removeReference();
-    m_p = (int)&DAT_0102e388;
+    reinterpret_cast<::hkReferencedObjectC905 *>((((hkReferencedObject*)m_uiZ)))->FUN_00c905b0();
+    m_p = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 struct FUN_00ca9670_cls
@@ -71,7 +73,6 @@ void FUN_00ca9690_cls::FUN_00ca9690(int value)
 }
 
 extern int DAT_010c8198;
-void __fastcall FUN_00c90510(void*);
 
 struct hkpCharacterContext
 {
@@ -105,7 +106,7 @@ hkpCharacterContext* hkpCharacterContext::Initialize(void* arg0, int arg1)
     f20 = 20.0f;
     unk1C = 625.0f;
     unk24 = 1.0f;
-    FUN_00c90510(unk0C);
+    reinterpret_cast<::FUN_00c90510_class *>((unk0C))->FUN_00c90510();
 
     return this;
 }
@@ -138,7 +139,6 @@ class hkpCharacterStateCA96
 class hkpCharacterStateManagerCA96
 {
   public:
-    hkpCharacterStateCA96* FUN_00cbc510(int iState) const throw();
 };
 
 class hkpCharacterContextCA96
@@ -158,9 +158,9 @@ class hkpCharacterContextCA96
 void hkpCharacterContextCA96::SetState(int iState, const hkpCharacterInputCA96& kInput, hkpCharacterOutputCA96& kOutput)
 {
     int iPrevState = m_iPreviousState;
-    pCharacterStateManager->FUN_00cbc510(m_iPreviousState)->leaveState(*this, iState, kInput, kOutput);
+    ((::hkpCharacterStateCA96 *)(reinterpret_cast<::hkpCharacterStateView *>((void *)(pCharacterStateManager))->FUN_00cbc510(m_iPreviousState)))->leaveState(*this, iState, kInput, kOutput);
     m_iPreviousState = iState;
-    pCharacterStateManager->FUN_00cbc510(iState)->enterState(*this, iPrevState, kInput, kOutput);
+    ((::hkpCharacterStateCA96 *)(reinterpret_cast<::hkpCharacterStateView *>((void *)(pCharacterStateManager))->FUN_00cbc510(iState)))->enterState(*this, iPrevState, kInput, kOutput);
 }
 
 struct FnvCpu_FUN_00ca9810_CpuAllocator
@@ -182,14 +182,13 @@ struct FnvCpu_FUN_00ca9810_CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void FUN_00ca95e0();
     FnvCpu_FUN_00ca9810_CpuObject* Destroy(unsigned int flags);
 };
 // Calls FUN_00ca95e0, then if bit 0 of flags is set, invokes the allocator from FUN_00c85750 on this with size, and returns this.
 // @fnv 0x00ca9810
 FnvCpu_FUN_00ca9810_CpuObject* FnvCpu_FUN_00ca9810_CpuObject::Destroy(unsigned int flags)
 {
-    FUN_00ca95e0();
+    reinterpret_cast<::FUN_00ca95e0_class *>(this)->FUN_00ca95e0();
     if (flags & 1)
     {
         FnvCpu_FUN_00ca9810_CpuAllocatorHolder* pAllocatorHolder = FUN_00c85750();
@@ -326,7 +325,6 @@ struct State
 
 struct StateManager
 {
-    State* GetReferenceTimeStep(int state);
 };
 
 struct Context
@@ -353,11 +351,11 @@ void Context::FUN_00ca96a0(const PhysicsDataBlock& input, Vector4Data& output)
 {
     output.m_fVelocity = input.m_fVelocity;
 
-    pCharacterStateManager->GetReferenceTimeStep(m_iPreviousState)->update(this, input, output);
+    ((::State *)(reinterpret_cast<::hkpCharacterStateView *>((pCharacterStateManager))->FUN_00cbc510(m_iPreviousState)))->update(this, input, output);
 
     if (m_iPreviousState == m_iStateIndex)
     {
-        pCharacterStateManager->GetReferenceTimeStep(m_iPreviousState)->change(this, input, output);
+        ((::State *)(reinterpret_cast<::hkpCharacterStateView *>((pCharacterStateManager))->FUN_00cbc510(m_iPreviousState)))->change(this, input, output);
     }
 
     m_iStateIndex = m_iPreviousState;

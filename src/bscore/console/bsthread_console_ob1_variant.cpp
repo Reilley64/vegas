@@ -1,6 +1,9 @@
 
 // to their real unit once identified.
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
 #include "bsthread_console_pc.h"
 #include "bsthread_console_pc.h"
 #include "bsthread_console_pc.h"
@@ -42,7 +45,6 @@ class FUN_00aa63c0
 {
   public:
     virtual ~FUN_00aa63c0();
-    void Shutdown();
 
     CriticalSectionAA63 m_kCriticalSection;
     void* m_hThread;
@@ -55,5 +57,5 @@ class FUN_00aa63c0
 // @fnv 0x00aa63c0
 FUN_00aa63c0::~FUN_00aa63c0()
 {
-    Shutdown();
+    reinterpret_cast<::FUN_00aa64f0_t *>(this)->StopAndCloseHandle();
 }

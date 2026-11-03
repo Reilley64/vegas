@@ -1,6 +1,20 @@
 #ifndef TESWORLDSPACE_PACKET_H
 #define TESWORLDSPACE_PACKET_H
 
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/CellView.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00549580_shell.h"
+#include "fnv/decl/FUN_00586280_shell.h"
+#include "fnv/decl/FUN_00588070_shell.h"
+#include "fnv/decl/Unk00586340.h"
+#include "fnv/decl/fnv_0054db50__FUN_0054db50_cls.h"
+#include "fnv/decl/fnv_0087ce80__FUN_0087ce80_shell.h"
+#include "fnv/symbols_00587000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_01018000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011c4000.h"
 class TESWorldSpace;
 class BGSTerrainManager;
 class TESFile;
@@ -62,8 +76,6 @@ class TESForm
     virtual void SetAltered(bool altered);
 
   public:
-    bool IsTemporary() const;
-    bool IsConstantGlobal();
 };
 class TESObjectREFR : public TESForm
 {
@@ -81,8 +93,6 @@ class TESObjectCELL : public TESForm
     char pad[32];
     unsigned char flags;
     bool IsCellInterior() const;
-    void AddReference(TESObjectREFR*, bool);
-    void AppendCellReferences(BSSimpleArray<TESObjectREFR*, 1024>&);
 };
 template <class T> class BSStringT
 {
@@ -111,8 +121,6 @@ class TESDataHandler
   public:
     bool LoadDescriptionForForm();
 };
-extern TESDataHandler* g_dataHandler;
-extern NiTPointerMap<unsigned int, TESObjectREFR*>* DAT_011c40b0;
 class TESWorldSpace
 {
   public:
@@ -142,15 +150,11 @@ class TESWorldSpace
     bool SetDateTimeText(const char*);
     BGSTerrainManager* GetWorldTerrainManager();
     TESWorldSpace* GetParentWorld(PARENT_USE_FLAG);
-    bool GetParentUseFlag(PARENT_USE_FLAG);
     TESObjectCELL* GetCellByKey(unsigned int);
     void AddPersistentReference(TESObjectREFR*);
-    TESObjectCELL* CreatePersistentCell();
-    void SetHasRegions(bool);
     static bool IsFormIDOwnedByFile(unsigned int, TESFile*);
     void ClearWorldSpaceReferences();
     TESObjectCELL* GetCellAtGridPosition(int, int);
-    static int BuildCellKey(short, short);
     void FUN_00584150(float);
     void FUN_00586110(float);
     void FUN_00586130(float);
@@ -158,7 +162,6 @@ class TESWorldSpace
     bool IsFlag4C20Set();
     void SetParent(TESWorldSpace*);
     void SetFieldD0(unsigned int);
-    TESObjectCELL* GetInteriorCell();
     void FUN_00588270(BSSimpleArray<TESObjectREFR*, 1024>&);
 };
 class Tile;
@@ -176,17 +179,18 @@ class TESEffectShader;
 class BGSAcousticSpace
 {
   public:
-    void SetNightSound(TESSound*);
 };
+class TESSound;
 class TESObjectACTI
 {
   public:
     void SetLoopingSound(TESSound*);
+public:
+    void SetActivateSound(::TESSound *);
 };
 class EffectSetting
 {
   public:
-    void SetEffectShader(TESEffectShader*);
 };
 class TESFullName
 {
@@ -195,5 +199,3 @@ class TESFullName
 };
 extern "C" void* memset(void*, int, unsigned int);
 extern float DAT_01031920;
-extern const char DAT_010187a0[];
-int Warning(const char*, ...);

@@ -2,6 +2,7 @@
 // src/havok/common/base/monitor/monitorstreamanalyzer/hkmonitorstreamanalyzerclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/monitor/monitorstreamanalyzer/hkmonitorstreamanalyzerclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/fnv_00dfdfe0__ArrayContainer.h"
 struct CpuAllocator
 {
     virtual void slot00();
@@ -21,13 +22,12 @@ struct CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void ResetAndDestroy();
     CpuObject* FUN_00dfe050(unsigned int flags);
 };
 // @fnv 0x00dfe050
 CpuObject* CpuObject::FUN_00dfe050(unsigned int flags)
 {
-    ResetAndDestroy();
+    reinterpret_cast<::fnv_00dfdfe0::ArrayContainer *>(this)->ResetAndDestroy();
     if (flags & 1)
     {
         CpuAllocatorHolder* holder = FUN_00c85750();

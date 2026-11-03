@@ -1,5 +1,49 @@
 // fallout_shared/teschallenge_decls.h: declares TESForm, TESScriptableForm, TESDescription, TESFullName, BGSMessageIcon and more
 
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/DialogueItem.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00407820_shell.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_004fd3a0_shell.h"
+#include "fnv/decl/FUN_005ac340_t.h"
+#include "fnv/decl/FUN_005f5f60_class.h"
+#include "fnv/decl/FUN_005f5fa0_cls.h"
+#include "fnv/decl/FUN_005f5fc0_class.h"
+#include "fnv/decl/FUN_005f5fe0_class.h"
+#include "fnv/decl/FUN_005f6000_Class.h"
+#include "fnv/decl/FUN_005f6060_class.h"
+#include "fnv/decl/FUN_005f60c0_Class.h"
+#include "fnv/decl/FUN_006a1b60_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TESObjectACTI.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_005f5f80__FUN_005f5f80_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_0047a000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_0048e000.h"
+#include "fnv/symbols_005a6000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00705000.h"
+#include "fnv/symbols_00706000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011cb000.h"
+#include "fnv/symbols_011de000.h"
 #include "teschallenge_support.h"
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef FNV_CHALLENGE_TYPE_H
@@ -115,19 +159,12 @@ class TESForm : public BaseFormComponent
     virtual char* GetName(void) const;
     virtual bool SetEditorID_AtRuntime(const char* edid);
     bool GetInitialized() const;
-    static TESForm* GetFormByID(unsigned int formID);
     TESForm();
     TESFile* GetFile(int fileIndex);
-    BSSimpleList<TESFile*>* GetSourceFiles();
-    bool IsDeleted() const;
-    unsigned int GetFormID();
-    bool IsTemporary() const;
     void NotifySaveLoadGameOfFormChange();
     void SetInitializationState(bool initialized);
-    void SetFormType(ENUM_FORM_ID type);
-    void LoadRecordHeader(TESFile* file);
-    void ReadTypedData(TESFile* file, void* data, unsigned short size);
-    static void RemapFormIDForFile(unsigned int& formID, TESFile* file);
+public:
+    void LoadGame(void *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESForm) == 0x18);
@@ -147,8 +184,6 @@ class TESScriptableForm : public BaseFormComponent
 {
   public:
     void InitItem(TESForm* form);
-    Script* GetScript();
-    void SetScript(Script* script);
     Script* m_pFormScript;  // +0x4
     bool m_bHasScript;      // +0x8
     unsigned char layoutPadding9[3];
@@ -191,7 +226,6 @@ FNV_STATIC_ASSERT(offsetof(TESDescription, m_uiDescriptionFileOffset) == 0x4);
 class TESFullName : public BaseFormComponent
 {
   public:
-    const char* GetFullName();
     BSStringT<char> m_kName;  // +0x4
 };
 #pragma pack(pop)
@@ -209,7 +243,6 @@ class TESChallenge;
 class BGSMessageIcon : public BaseFormComponent
 {
   public:
-    static void LoadMessageIconChunk(BGSMessageIcon*, TESFile*);
     TESIcon Icon;  // +0x4, 12 bytes
 };
 #pragma pack(pop)
@@ -219,7 +252,6 @@ FNV_STATIC_ASSERT(offsetof(BGSMessageIcon, Icon) == 4);
 class ChallengeData
 {
   public:
-    void SwapEndianFields();
     int m_iPrimaryValue;    // +0x0, 4 bytes
     int m_iAuxiliaryValue;  // +0x4, 4 bytes
     unsigned short nFlags;  // +0x8, 2 bytes
@@ -261,26 +293,7 @@ class TESChallenge : public TESForm,
   public:
     virtual void ResetFormData();
     virtual bool Load(TESFile* file);
-    void SetFormOne(TESForm* form);
-    void SetFormTwo(TESForm* form);
-    TESForm* GetFormOne();
-    TESForm* GetFormTwo();
-    CHALLENGE_TYPE GetChallengeType();
     int GetStartsLocked();
-    int GetRecurring();
-    int GetThreshold();
-    int GetInterval();
-    int GetSpecialOne();
-    int GetSpecialTwo();
-    int GetSpecialThree();
-    int GetUnlocked();
-    int GetCompleted();
-    int GetRemovedRecurring();
-    void ClearProgress();
-    void MarkCompleted(bool);
-    void SetCompletedRecurring(bool);
-    void IncrementProgress(int);
-    int GetProgressValue();
     void SetShowZero(bool);
     void MarkForSave();
     virtual void InitItem();
@@ -289,6 +302,8 @@ class TESChallenge : public TESForm,
     ChallengeProgress progress;  // +0x6C, 8 bytes
     TESForm* m_pPrimaryForm;     // +0x74, 4 bytes
     TESForm* m_pSecondaryForm;   // +0x78, 4 bytes
+public:
+    void FUN_005f60e0(int);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESChallenge) == 124);
@@ -300,15 +315,11 @@ FNV_STATIC_ASSERT(offsetof(TESChallenge, m_pSecondaryForm) == 120);
 class BGSLoadFormBuffer
 {
   public:
-    void ReadTypedData(void*, unsigned int);
 };
-int Warning(const char*, ...);
 
 class ChallengeManager
 {
   public:
-    static BSSimpleList<TESChallenge*> pChallengeList[14];
-    static BSSimpleList<TESChallenge*> ms_kInactiveChallengesByType[14];
     static void Clear();
     static void CheckCompletedChallenges();
     static bool UpdateChallengeProgress(CHALLENGE_TYPE type, int count, TESForm* formOne, TESForm* formTwo,
@@ -318,12 +329,10 @@ class ChallengeManager
 class BGSListForm : public TESForm
 {
   public:
-    BSSimpleList<TESForm*>* GetList();
 };
 class Script
 {
   public:
-    void ExecuteScript(TESObjectREFR*, ScriptLocals*);
 };
 class INISettingCollection;
 union SETTING_VALUE
@@ -338,14 +347,10 @@ template <> class SettingT<INISettingCollection>
   public:
     SETTING_VALUE* Bool();
 };
-extern SettingT<INISettingCollection> DAT_011cb4d4;
 class PlayerCharacter;
-extern PlayerCharacter* g_thePlayer;
 class Interface
 {
   public:
-    static bool ShowMessage(const char*, int, const char*, const char*, float, bool);
-    static void PlayUISound(int);
 };
 class TopicMenuController
 {
@@ -355,23 +360,15 @@ class TopicMenuController
 class TESTextureLoader
 {
   public:
-    static void ReadTextureData(TESTexture*, TESFile*);
-    static const char* GetTextureResourceName(TESForm*, TESObjectREFR*);
 };
-extern "C" int sprintf_s(char*, unsigned int, const char*, ...);
-extern const float DAT_010162c0;
 
 class TESFullNameLoader
 {
   public:
-    static void LoadFullNameChunk(TESFullName*, TESFile*);
 };
 class TESFile
 {
   public:
-    unsigned int GetChunkID();
-    unsigned int GetChunkSize();
-    bool GetChunkData(void*, unsigned int);
     bool GetChunkData(unsigned int*);
     bool IsEndianConversionRequired();
     bool NextChunk();
@@ -379,5 +376,4 @@ class TESFile
 extern "C" void* _alloca(unsigned int);
 #pragma intrinsic(_alloca)
 
-extern TESDataHandler* g_dataHandler;
 extern "C" void* memset(void*, int, unsigned int);

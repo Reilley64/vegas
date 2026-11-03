@@ -4,9 +4,73 @@
 // src/staging/blk_00a40000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <new>
+#include "fnv/decl/AHSeqOwner.h"
+#include "fnv/decl/AlphaPropInit_cls.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/CharPtrArr.h"
+#include "fnv/decl/ControllerOwner.h"
+#include "fnv/decl/EqBase.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a36890.h"
+#include "fnv/decl/FUN_00a39010_shell.h"
+#include "fnv/decl/FUN_00a3ca30_shell.h"
+#include "fnv/decl/FUN_00a3ccb0_Cls.h"
+#include "fnv/decl/FUN_00a3ea40_cls.h"
+#include "fnv/decl/FUN_00a3f060.h"
+#include "fnv/decl/FUN_00a40520.h"
+#include "fnv/decl/FUN_00a50110_obj.h"
+#include "fnv/decl/FUN_00a57130_shell.h"
+#include "fnv/decl/FUN_00a57f20_cls.h"
+#include "fnv/decl/FUN_00a57f80_cls.h"
+#include "fnv/decl/FUN_00a5aa20_cls.h"
+#include "fnv/decl/FUN_00a5bfa0_shell.h"
+#include "fnv/decl/FUN_00a5c200.h"
+#include "fnv/decl/FUN_00a5c240_shell.h"
+#include "fnv/decl/FUN_00a62660_cls.h"
+#include "fnv/decl/FUN_00a63460_shell.h"
+#include "fnv/decl/FUN_00a6d290.h"
+#include "fnv/decl/FUN_00c663d0.h"
+#include "fnv/decl/HashTableBase.h"
+#include "fnv/decl/MyHost.h"
+#include "fnv/decl/NiControllerSequence__IDTag.h"
+#include "fnv/decl/NiImageConverter.h"
+#include "fnv/decl/NiRenderer.h"
+#include "fnv/decl/NiTObjectArrayA47.h"
+#include "fnv/decl/S_00a36560.h"
+#include "fnv/decl/S_00b601a0_Map.h"
+#include "fnv/decl/ScriptPool.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a5c290__FUN_00a5c290_shell.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/reconstruct_c5a9d0__Array.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_004a4000.h"
+#include "fnv/symbols_00a42000.h"
+#include "fnv/symbols_00a47000.h"
+#include "fnv/symbols_00a57000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00a5c000.h"
+#include "fnv/symbols_00a5f000.h"
+#include "fnv/symbols_00a62000.h"
+#include "fnv/symbols_00a76000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00aa2000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_01021000.h"
+#include "fnv/symbols_01097000.h"
+#include "fnv/symbols_0109a000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_0126f000.h"
 #include "../../include/layout_support.h"
 
-extern "C" void __fastcall FUN_00a36890(void*);
 extern int DAT_0109750c;
 struct FUN_00a409b0_class
 {
@@ -16,11 +80,10 @@ struct FUN_00a409b0_class
 // @fnv 0x00a409b0
 FUN_00a409b0_class::FUN_00a409b0_class()
 {
-    FUN_00a36890(this);
+    new ((void *)(this)) class ::FUN_00a36890();
     vtbl = (void*)&DAT_0109750c;
 }
 
-void __fastcall FUN_00a36890(void*);
 
 struct BSFadeNode
 {
@@ -33,7 +96,7 @@ void* __cdecl FUN_00a409d0()
     void* p = BSFadeNode::operator new(0x30);
     if (p)
     {
-        FUN_00a36890(p);
+        new ((void *)(p)) class ::FUN_00a36890();
         *(void**)p = (void*)0x0109750c;
         return p;
     }
@@ -41,8 +104,6 @@ void* __cdecl FUN_00a409d0()
 }
 
 namespace fnv_00a411f0 {
-int* __fastcall InitTimeController(int*);
-extern int DAT_010975fc;
 struct BSFadeNode
 {
     static void* __cdecl operator new(unsigned int);
@@ -54,7 +115,7 @@ int* __cdecl FUN_00a411f0()
     int* p = static_cast<int*>(BSFadeNode::operator new(0x40));
     if (p)
     {
-        InitTimeController(p);
+        ::InitTimeController(p);
         *p = reinterpret_cast<int>(&DAT_010975fc);
         return p;
     }
@@ -68,7 +129,6 @@ float FUN_00a42050(float afT, float afFrom, float afTo)
     return afFrom * (1.0f - afT) + afTo * afT;
 }
 
-void __fastcall FUN_00a36890(void*);
 extern int DAT_01097904;
 
 struct FUN_00a42f60
@@ -82,15 +142,17 @@ struct FUN_00a42f60
 // @fnv 0x00a42f60
 FUN_00a42f60::FUN_00a42f60()
 {
-    FUN_00a36890(this);
+    new ((void *)(this)) class ::FUN_00a36890();
     m_f = 0.0f;
     m_pVTable = &DAT_01097904;
 }
 
 struct CloningProcess;
+class NiRTTI;
 struct NiObject
 {
-    void CopyMembersStream(unsigned int, void*);
+public:
+    ::NiObject *DynamicCast(const ::NiRTTI *);
 };
 struct FUN_00a44850_holder : NiObject
 {
@@ -100,21 +162,10 @@ struct FUN_00a44850_holder : NiObject
     float m_f;
     void CopyMembersStreamAndFields(FUN_00a44850_holder* dst, CloningProcess* proc);
 };
-// Copies the stream members via CopyMembersStream, then copies m_p and m_f into dst.
-// @fnv 0x00a44850
-void FUN_00a44850_holder::CopyMembersStreamAndFields(FUN_00a44850_holder* dst, CloningProcess* proc)
-{
-    CopyMembersStream((unsigned int)dst, proc);
-    dst->m_p = m_p;
-    dst->m_f = m_f;
-}
-
 struct MemoryManager
 {
-    void Deallocate(void*);
 };
 
-extern MemoryManager g_memoryManager;
 
 struct Map_00a4da90
 {
@@ -122,16 +173,6 @@ struct Map_00a4da90
     void* ReleaseIfFlagged(int);
 };
 
-// @fnv 0x00a4da00
-void* Map_00a4da90::ReleaseIfFlagged(int aiFlags)
-{
-    FUN_00a4d660();
-    if (aiFlags & 1)
-        g_memoryManager.Deallocate(this);
-    return this;
-}
-
-void __fastcall FUN_00a57f80(void*);
 void __cdecl _delete(void*, unsigned int);
 
 struct FUN_00a51af0_class
@@ -143,14 +184,13 @@ struct FUN_00a51af0_class
 // @fnv 0x00a51af0
 void* __thiscall FUN_00a51af0_class::FUN_00a51af0(unsigned char flags)
 {
-    FUN_00a57f80(this);
+    reinterpret_cast<::FUN_00a57f80_cls *>((this))->FUN_00a57f80();
     if (flags & 1)
         _delete(this, 0x34);
     return this;
 }
 
 extern int DAT_0109a264;
-extern int DAT_0109a284;
 struct NiTMapBaseStub
 {
     void RemoveAll();
@@ -168,9 +208,9 @@ struct FUN_00a540a0 : NiTMapBaseStub
 void FUN_00a540a0::Init()
 {
     vtbl = (int)&DAT_0109a284;
-    RemoveAll();
+    reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
     vtbl = (int)&DAT_0109a264;
-    RemoveAll();
+    reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
     NiFreeAlias(p);
 }
 
@@ -183,7 +223,6 @@ char* __cdecl SafeStrcat(char* destination, unsigned int destinationSize, const 
     return destination;
 }
 
-extern const char* _EmptyFS;
 
 struct FUN_00a57870_Class
 {
@@ -195,7 +234,7 @@ struct FUN_00a57870_Class
 // @fnv 0x00a57870
 void FUN_00a57870_Class::ReleaseString()
 {
-    if (m_cByteAtOffset1 != _EmptyFS)
+    if (m_cByteAtOffset1 != ::DAT_0109b220)
         InterlockedDecrement((long*)(m_cByteAtOffset1 - 8));
 }
 
@@ -206,7 +245,7 @@ void* __cdecl FUN_00a42f90()
     void* p = BSFadeNode::operator new(0x34);
     if (p)
     {
-        FUN_00a36890(p);
+        new ((void *)(p)) class ::FUN_00a36890();
         *(float*)((char*)p + 0x30) = 0.0f;
         *(int*)p = (int)&DAT_01097904;
         return p;
@@ -235,7 +274,6 @@ unsigned int __thiscall FUN_00a4d6d0_class::HashStringModulo(const char* acStrin
 }
 
 extern "C" void NiFree(void*);
-extern MemoryManager _g_memoryManager;
 extern int DAT_01098ec8;
 struct FUN_00a4d700_class : NiTMapBaseStub
 {
@@ -249,17 +287,16 @@ struct FUN_00a4d700_class : NiTMapBaseStub
 void* __thiscall FUN_00a4d700_class::FUN_00a4d700(unsigned char flags)
 {
     m_pVTable = (void*)&DAT_01098ec8;
-    RemoveAll();
+    reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
     NiFree(m_p);
     if (flags & 1)
-        _g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(this);
     return this;
 }
 
 extern int DAT_010997f4;
 struct BaseHolder
 {
-    void FUN_00a57f20(int, int);
 };
 // Allocates a 0x24-byte BSFadeNode, initialises it via FUN_00a57f20, sets its vtable and a 0xffff field, and returns it (or null).
 // @fnv 0x00a50ad0
@@ -268,7 +305,7 @@ void* __cdecl FUN_00a50ad0()
     void* p = BSFadeNode::operator new(0x24);
     if (p)
     {
-        ((BaseHolder*)p)->FUN_00a57f20(0, 0);
+        reinterpret_cast<::FUN_00a57f20_cls *>((((BaseHolder*)p)))->FUN_00a57f20((void *)(0), (void *)(0));
         *(int*)p = (int)&DAT_010997f4;
         *(int*)((char*)p + 0x20) = 0xffff;
         return p;
@@ -332,15 +369,14 @@ struct FUN_00a540d0_class : NiTMapBaseStub
 void* __thiscall FUN_00a540d0_class::FUN_00a540d0(unsigned char flags)
 {
     *reinterpret_cast<int**>(this) = &DAT_0109a264;
-    RemoveAll();
+    reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
     NiFreeAlias(p);
     if (flags & 1)
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
     return this;
 }
 
 extern int DAT_0109a2a4;
-extern MemoryManager g_memoryManager;
 void __cdecl NiFree(void*);
 struct FUN_00a54160_class
 {
@@ -355,12 +391,11 @@ void* __thiscall FUN_00a54160_class::FUN_00a54160(unsigned char flags)
     vtbl = &DAT_0109a2a4;
     NiFree(old);
     if (flags & 1)
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
     return this;
 }
 
 void __cdecl FUN_00a57500(NiFixedString*);
-void __cdecl FUN_00a76960(void*, void*);
 struct NiFixedString
 {
     const char* m_kHandle;
@@ -377,14 +412,14 @@ void __thiscall FUN_00a5fba0_class::FUN_00a5fba0(const NiFixedString* kFilename)
     NiFixedString* pDest = (NiFixedString*)((char*)this + 0x30);
     if (pDest->m_kHandle != kHandle)
     {
-        if (kHandle != _EmptyFS)
+        if (kHandle != ::DAT_0109b220)
             InterlockedIncrement((volatile long*)(kHandle - 8));
-        if (pDest->m_kHandle != _EmptyFS)
+        if (pDest->m_kHandle != ::DAT_0109b220)
             InterlockedDecrement((volatile long*)(pDest->m_kHandle - 8));
         pDest->m_kHandle = kHandle;
     }
     FUN_00a57500(pDest);
-    FUN_00a76960(pDest, (char*)this + 0x34);
+    ::fnv_00a76960::FUN_00a76960((char **)(pDest), (char **)(void *)((char*)this + 0x34));
 }
 
 // Hashes the first len&~3 bytes of s four at a time with h*33+c, then hashes remaining chars until NUL, returning h % 513.
@@ -415,7 +450,6 @@ unsigned int __stdcall FUN_00a5b270(const char* pcString, unsigned int uiLength)
 }
 
 extern "C" unsigned int __cdecl _strcpy_s(char* dst, unsigned int size, const char* src);
-void __cdecl _fnv_StandardizeFilePath(char*);
 struct NiGlobalStringTable
 {
     static char* __cdecl AddString(const char*);
@@ -425,12 +459,12 @@ void __cdecl FUN_00a57500(NiFixedString* apString)
 {
     char path[0x104];
     _strcpy_s(path, sizeof(path), apString->m_kHandle);
-    _fnv_StandardizeFilePath(path);
+    ::FUN_00aa2a00(path);
     const char* old = apString->m_kHandle;
     if (old != path)
     {
         apString->m_kHandle = NiGlobalStringTable::AddString(path);
-        if (old != _EmptyFS)
+        if (old != ::DAT_0109b220)
             InterlockedDecrement((long*)old - 2);
     }
 }
@@ -438,12 +472,10 @@ void __cdecl FUN_00a57500(NiFixedString* apString)
 extern int DAT_0109b00c;
 struct FUN_004a4650_ListBase
 {
-    void FUN_004a4650();
 };
 struct FUN_00a5a390_shell
 {
     void FUN_00a5a390();
-    void DestroyFogProperty();
 };
 
 // @fnv 0x00a5a390
@@ -453,10 +485,10 @@ void FUN_00a5a390_shell::FUN_00a5a390()
     void* old = *(void**)(p + 0x20);
     *(void**)p = &DAT_0109b00c;
     if (old)
-        _g_memoryManager.Deallocate(old);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(old);
     *(unsigned int*)(p + 0x30) &= 0xfff7ffff;
     *(void**)(p + 0x20) = 0;
-    ((FUN_004a4650_ListBase*)(p + 0x24))->FUN_004a4650();
+    ::FUN_004a4650((::FUN_004a4650_ListBase *)(((FUN_004a4650_ListBase*)(p + 0x24))));
     char* obj = (char*)*(void**)(p + 0x1c);
     if (obj)
     {
@@ -464,14 +496,14 @@ void FUN_00a5a390_shell::FUN_00a5a390()
             (*(void(__thiscall*)(void*))(*(void***)obj)[1])(obj);
         *(void**)(p + 0x1c) = 0;
     }
-    ((FUN_004a4650_ListBase*)(p + 0x24))->FUN_004a4650();
+    ::FUN_004a4650((::FUN_004a4650_ListBase *)(((FUN_004a4650_ListBase*)(p + 0x24))));
     obj = (char*)*(void**)(p + 0x1c);
     if (obj)
     {
         if (InterlockedDecrement((long*)(obj + 4)) == 0)
             (*(void(__thiscall*)(void*))(*(void***)obj)[1])(obj);
     }
-    DestroyFogProperty();
+    reinterpret_cast<::FUN_00a5c240_shell *>(this)->DestroyFogProperty();
 }
 
 extern char DAT_010976ec;
@@ -489,7 +521,7 @@ FUN_00a414c0_class* __thiscall FUN_00a414c0_class::FUN_00a414c0(unsigned char fl
     m_pVTable = &DAT_010976ec;
     NiFree(m_p);
     if (flags & 1)
-        _g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(this);
     return this;
 }
 
@@ -565,33 +597,6 @@ struct FUN_00a44f90_class
 
 extern int DAT_01097f84;
 
-// @fnv 0x00a44f90
-FUN_00a44f90_class::FUN_00a44f90_class()
-{
-    _Call_a5d3a0(this);
-    m_38 = 0.0f;
-    m_3c = 0.0f;
-    m_08 = 0;
-    m_0c = 0;
-    m_40 = 1.0f;
-    m_10 = 0;
-    m_14 = 0;
-    m_44 = 1.0f;
-    m_18 = 0;
-    m_1c = 0;
-    m_20 = 0;
-    m_24 = 0;
-    m_28 = 0;
-    m_2c = 0;
-    m_30 = 0;
-    m_34 = 0;
-    m_48 = 0;
-    m_49 = 0;
-    m_4a = 0;
-    m_4b = 0;
-    vtbl = &DAT_01097f84;
-}
-
 namespace fnv_00a47f20 {
 struct A51BF0Base
 {
@@ -630,13 +635,13 @@ struct FUN_00a4d740_class
 void* __thiscall FUN_00a4d740_class::DestroyAndFree(unsigned int flags)
 {
     m_pVTable = &DAT_01098ee8;
-    reinterpret_cast<NiTMapBaseStub*>(this)->RemoveAll();
+    reinterpret_cast<::S_00b601a0_Map *>((reinterpret_cast<NiTMapBaseStub*>(this)))->FUN_00b601a0();
     m_pVTable = &DAT_01098ec8;
-    reinterpret_cast<NiTMapBaseStub*>(this)->RemoveAll();
+    reinterpret_cast<::S_00b601a0_Map *>((reinterpret_cast<NiTMapBaseStub*>(this)))->FUN_00b601a0();
     _NiFree(m_p);
     if (flags & 1)
     {
-        _g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(this);
     }
     return this;
 }
@@ -644,7 +649,6 @@ void* __thiscall FUN_00a4d740_class::DestroyAndFree(unsigned int flags)
 namespace fnv_00a50aa0 {
 struct A51BF0Base
 {
-    void* __thiscall FUN_00a57fd0(void* dst, void* proc);
 };
 struct FUN_00a50aa0_class : A51BF0Base
 {
@@ -654,14 +658,13 @@ struct FUN_00a50aa0_class : A51BF0Base
 // @fnv 0x00a50aa0
 void FUN_00a50aa0_class::FUN_00a50aa0(void* apDest, void* proc)
 {
-    FUN_00a57fd0(apDest, proc);
+    reinterpret_cast<::FUN_00a50110_obj *>(this)->FUN_00a57fd0((::FUN_00a50110_obj *)(apDest), (*(::FUN_00a50110_proc *)(proc)));
     *(float*)((char*)apDest + 0x1c) = *(float*)((char*)this + 0x1c);
     *(int*)((char*)apDest + 0x20) = *(int*)((char*)this + 0x20);
 }
 }  // namespace fnv_00a50aa0
 
 namespace fnv_00a537f0 {
-extern int DAT_0109a1d4;
 
 struct A51BF0Base
 {
@@ -690,7 +693,7 @@ void* FUN_00a537f0()
         p->m_iThirdValue = 0;
         p->m_10 = 0;
         p->m_14 = 0;
-        p->vtbl = &DAT_0109a1d4;
+        p->vtbl = &::DAT_0109a1d4;
     }
     else
     {
@@ -713,9 +716,9 @@ void __thiscall FUN_00a57890_shell::AssignStringRef(const char** apsSource)
     const char* t = *apsSource;
     if (m_cByteAtOffset1 != t)
     {
-        if (t != _EmptyFS)
+        if (t != ::DAT_0109b220)
             InterlockedIncrement((volatile long*)(t - 8));
-        if (m_cByteAtOffset1 != _EmptyFS)
+        if (m_cByteAtOffset1 != ::DAT_0109b220)
             InterlockedDecrement((volatile long*)(m_cByteAtOffset1 - 8));
         m_cByteAtOffset1 = t;
     }
@@ -756,7 +759,6 @@ void __fastcall FUN_00a5f7b0(int pNode)
 
 struct ControllerAllocation
 {
-    ControllerAllocation* FUN_00a40520(void* target, float value, unsigned int flags);
 };
 
 // @fnv 0x00a411c0
@@ -765,7 +767,7 @@ ControllerAllocation* __stdcall FUN_00a411c0(unsigned int auiUnused1, void* targ
 {
     ControllerAllocation* controller = static_cast<ControllerAllocation*>(BSFadeNode::operator new(52));
     if (controller)
-        return controller->FUN_00a40520(target, value, flags);
+        return ((::ControllerAllocation *)(new ((void *)(controller)) ::FUN_00a40520((bool)(target), value, flags)));
     return 0;
 }
 
@@ -854,6 +856,32 @@ struct FUN_00a5d3a0 : S_00a42290_Mem
     FUN_00a5d3a0() throw();
     virtual ~FUN_00a5d3a0() throw();
 };
+// @fnv 0x00a44f90
+FUN_00a44f90_class::FUN_00a44f90_class()
+{
+    new ((void *)(this)) struct ::FUN_00a5d3a0();
+    m_38 = 0.0f;
+    m_3c = 0.0f;
+    m_08 = 0;
+    m_0c = 0;
+    m_40 = 1.0f;
+    m_10 = 0;
+    m_14 = 0;
+    m_44 = 1.0f;
+    m_18 = 0;
+    m_1c = 0;
+    m_20 = 0;
+    m_24 = 0;
+    m_28 = 0;
+    m_2c = 0;
+    m_30 = 0;
+    m_34 = 0;
+    m_48 = 0;
+    m_49 = 0;
+    m_4a = 0;
+    m_4b = 0;
+    vtbl = &DAT_01097f84;
+}
 struct S_00a42290_Q : FUN_00a5d3a0
 {
     int unk08;
@@ -864,7 +892,6 @@ struct S_00a42290_Q : FUN_00a5d3a0
     {}
     virtual ~S_00a42290_Q() throw()
     {}
-    void FUN_00a3ccb0(void* a, unsigned int b, int c);
 };
 struct S_00a42290_Ptr
 {
@@ -891,12 +918,12 @@ void S_00a42290_Cls::FUN_00a42290(void* a, unsigned int b, int c)
             S_00a42290_Q* q = new S_00a42290_Q;
             m10.FUN_0066b0d0(q);
         }
-        m10.p->FUN_00a3ccb0(a, b, c);
+        reinterpret_cast<::FUN_00a3ccb0_Cls *>((m10.p))->FUN_00a3ccb0(a, b, c);
         unk14 = 0;
     }
     else if (m10.p != 0)
     {
-        m10.p->FUN_00a3ccb0(0, 0, 0);
+        reinterpret_cast<::FUN_00a3ccb0_Cls *>((m10.p))->FUN_00a3ccb0(0, 0, 0);
     }
 }
 
@@ -957,10 +984,6 @@ struct NiRTTI
     const NiRTTI* m_pBaseRTTI;
 };
 
-extern const NiRTTI NiNodeRTTI_a42b70;
-extern const NiRTTI CtrlRTTI_A_a42b70;
-extern const NiRTTI CtrlRTTI_B_a42b70;
-extern const NiRTTI CtrlRTTI_C_a42b70;
 
 struct StubNiObject
 {
@@ -1048,7 +1071,6 @@ static inline bool IsKindOfRTTI(const NiRTTI* pkTarget, const StubNiObject* pkOb
 }
 
 void __cdecl FUN_00a427e0(StubController* p);
-void __cdecl CreateInterpolator(StubController* p);
 void __cdecl ConvertLegacyController(StubController* p);
 
 // @fnv 0x00a42b70
@@ -1056,18 +1078,18 @@ void __cdecl FUN_00a42b70(void* pArg, StubAVObject* pkObject)
 {
     if (!pkObject)
         return;
-    if (!IsKindOfRTTI(&NiNodeRTTI_a42b70, pkObject))
+    if (!IsKindOfRTTI(&(*reinterpret_cast<const ::NiRTTI *>(&::g_011f4280)), pkObject))
         return;
 
     StubController* pkCtrl = pkObject->m_pControllers;
     while (pkCtrl)
     {
         StubController* pkNext = pkCtrl->m_pkNext;
-        if (IsKindOfRTTI(&CtrlRTTI_A_a42b70, pkCtrl))
+        if (IsKindOfRTTI(&(*reinterpret_cast<const ::NiRTTI *>(&::g_011f3f58)), pkCtrl))
             FUN_00a427e0(pkCtrl);
-        else if (IsKindOfRTTI(&CtrlRTTI_B_a42b70, pkCtrl))
-            CreateInterpolator(pkCtrl);
-        else if (IsKindOfRTTI(&CtrlRTTI_C_a42b70, pkCtrl))
+        else if (IsKindOfRTTI(&(*reinterpret_cast<const ::NiRTTI *>(&::g_011f3f98)), pkCtrl))
+            ::CreateInterpolator((::LcOld *)(pkCtrl));
+        else if (IsKindOfRTTI(&(*reinterpret_cast<const ::NiRTTI *>(&::g_011f3f80)), pkCtrl))
             ConvertLegacyController(pkCtrl);
         pkCtrl = pkNext;
     }
@@ -1079,7 +1101,6 @@ void __cdecl FUN_00a42b70(void* pArg, StubAVObject* pkObject)
     }
 }
 
-extern int DAT_011f4304;
 
 struct FUN_00a42c80_virtual
 {
@@ -1088,7 +1109,6 @@ struct FUN_00a42c80_virtual
     virtual int* f02();
 };
 
-void __cdecl FUN_00a42b70(void* a1, void* a2);
 
 // @fnv 0x00a42c80
 void __cdecl FUN_00a42c80(int* param1, FUN_00a42c80_virtual* pVirtual)
@@ -1105,9 +1125,9 @@ void __cdecl FUN_00a42c80(int* param1, FUN_00a42c80_virtual* pVirtual)
 
     while (node != 0)
     {
-        if (node == &DAT_011f4304)
+        if (node == &(*reinterpret_cast<int *>(&::g_011f4304)))
         {
-            FUN_00a42b70(param1, pVirtual);
+            ::FUN_00a42b70(param1, (::StubAVObject *)(pVirtual));
             break;
         }
 
@@ -1157,7 +1177,6 @@ ControllerAllocation* CreateControllerAllocation()
 }  // namespace fnv_00a44ff0
 
 extern "C" void _NiFreeAlias(void*);
-extern "C" void __cdecl ReleaseObjectArray(void*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct RefItem
 {
@@ -1213,7 +1232,7 @@ struct RefArray
 {
     virtual ~RefArray() throw()
     {
-        ReleaseObjectArray(data);
+        ::ReleaseObjectArray((::Obj00a47600 **)(data));
     }
     SP* data;
     unsigned short maxSize, size, used, grow;
@@ -1294,7 +1313,6 @@ struct ParentData
     unsigned int unk34;
     unsigned int unk38;
     unsigned int unk3c;
-    void FUN_00a6d290();
 };
 void __cdecl FUN_00aa10f0(void*);
 struct FUN_00a49d60 : public ParentData
@@ -1313,7 +1331,7 @@ FUN_00a49d60::~FUN_00a49d60()
     FUN_00aa10f0(resource);
     second.Release();
     first.Release();
-    ParentData::FUN_00a6d290();
+    reinterpret_cast<struct ::FUN_00a6d290 *>(this)->FUN_00a6d290::~FUN_00a6d290();
 }
 
 struct FUN_00a53c90_Node
@@ -1422,14 +1440,13 @@ template <class T> class NiPointer572
     T* m_pObject;
 };
 
-extern const char* g_pcNullString572;
 
 class NiFixedString572
 {
   public:
     ~NiFixedString572() throw()
     {
-        if (m_kHandle != g_pcNullString572)
+        if (m_kHandle != ::DAT_0109b220)
             InterlockedDecrement((long volatile*)(m_kHandle - 8));
     }
 
@@ -1635,16 +1652,14 @@ struct SingletonTarget
 {
     void __thiscall FUN_00a5b3c0();
 };
-extern SingletonTarget* g_011f42c0;
 
 // @fnv 0x00a5b460
 void __cdecl FUN_00a5b460()
 {
-    g_011f42c0->FUN_00a5b3c0();
+    (*reinterpret_cast<::SingletonTarget * *>(&::DAT_011f42c0))->FUN_00a5b3c0();
 }
 
 extern void __cdecl FUN_00aa10f0(char* psz);
-extern int DAT_0102102c;
 
 struct Ent
 {
@@ -1691,7 +1706,6 @@ void FUN_00a5b470_cls::ResetEntries()
 
 __declspec(dllimport) void __stdcall InitializeCriticalSection(void* pkSection);
 
-extern int g_iA5B530Default;
 
 struct A5B530Entry
 {
@@ -1709,7 +1723,7 @@ struct A5B530Entry
         m_sB = 0;
         m_sC = 0;
         m_iValue = 0;
-        m_piSource = &g_iA5B530Default;
+        m_piSource = &::DAT_01021024;
     }
 };
 
@@ -1772,7 +1786,6 @@ FUN_00a5b530::FUN_00a5b530()
 class A5B660Heap
 {
   public:
-    void Deallocate(void* pvMem);
 };
 
 class A5B660StringTable
@@ -1782,10 +1795,9 @@ class A5B660StringTable
 
     static void operator delete(void* pvMem)
     {
-        reinterpret_cast<A5B660Heap&>(g_memoryManager).Deallocate(pvMem);
+        reinterpret_cast<::FNV_MemoryManager *>(&(reinterpret_cast<A5B660Heap&>(g_memoryManager)))->FUN_00aa4060(pvMem);
     }
 
-    static A5B660StringTable* ms_pStringTable;
 
     static void FUN_00a5b660();
 };
@@ -1794,8 +1806,8 @@ class A5B660StringTable
 // @fnv 0x00a5b660
 void A5B660StringTable::FUN_00a5b660()
 {
-    delete ms_pStringTable;
-    ms_pStringTable = 0;
+    delete (*reinterpret_cast<::A5B660StringTable * *>(&::DAT_011f42c0));
+    (*reinterpret_cast<::A5B660StringTable * *>(&::DAT_011f42c0)) = 0;
 }
 
 struct FUN_00a5b870_cls
@@ -1896,21 +1908,12 @@ class FUN_00a5d3d0
 
     unsigned int m_uiRefCount;
 
-    static long ms_lObjectCount;
 };
-
-// @fnv 0x00a5d3d0
-FUN_00a5d3d0::~FUN_00a5d3d0()
-{
-    InterlockedDecrement(&ms_lObjectCount);
-}
 
 extern void* __cdecl FUN_00aa13e0(unsigned int);
 extern int DAT_0109b5ac;
-extern int DAT_0101fbd4;
 struct NiObjectBase
 {
-    void __thiscall FUN_00a5aa20();
 };
 struct ObjectState
 {
@@ -1927,7 +1930,7 @@ NiObjectBase* __cdecl FUN_00a5f030()
     NiObjectBase* object = static_cast<NiObjectBase*>(FUN_00aa13e0(0xac));
     if (object)
     {
-        object->FUN_00a5aa20();
+        new ((void *)(object)) ::FUN_00a5aa20_cls();
         *reinterpret_cast<void**>(object) = &DAT_0109b5ac;
         ObjectState* state = reinterpret_cast<ObjectState*>(reinterpret_cast<char*>(object) + 0x9c);
         state->first = 0;
@@ -1935,7 +1938,7 @@ NiObjectBase* __cdecl FUN_00a5f030()
         state->second = 0;
         state->third = 0;
         state->count = 0;
-        state->reference = &DAT_0101fbd4;
+        state->reference = &::reconstruct_c5a9d0::Array::DAT_0101fbd4;
         return object;
     }
     return 0;
@@ -1955,7 +1958,7 @@ struct FUN_00a5f1e0_cls
     unsigned short m_w16;  // +0x16
     unsigned short m_w18;  // +0x18
 
-    void Init();  // base constructor (external)
+      // base constructor (external)
 
     FUN_00a5f1e0_cls();
 };
@@ -1963,7 +1966,7 @@ struct FUN_00a5f1e0_cls
 // @fnv 0x00a5f1e0
 FUN_00a5f1e0_cls::FUN_00a5f1e0_cls()
 {
-    Init();
+    new ((void *)this) struct ::FUN_00a5c200();
     m_w18 = 8;
     m_pVTable = &DAT_0109b72c;
 }
@@ -2003,9 +2006,6 @@ struct CountedRef
     long m_iObjectReferenceCount;
 };
 
-extern int DAT_0109b9ec;
-extern int DAT_0109b944;
-extern int DAT_0109b220;
 
 struct FUN_00a5fca0_cls
 {
@@ -2018,8 +2018,6 @@ struct FUN_00a5fca0_cls
     CountedRef* m_38;
     CountedRef* m_3c;
 
-    void FUN_00a5f800();
-    void DestroyFogProperty();
     void FUN_00a5fca0();
 };
 
@@ -2061,11 +2059,11 @@ void FUN_00a5fca0_cls::FUN_00a5fca0()
             d->DeleteThis();
         }
     }
-    if (m_34 != DAT_0109b220)
+    if (m_34 != (*reinterpret_cast<int *>(&::DAT_0109b220)))
     {
         InterlockedDecrement((long*)(m_34 - 8));
     }
-    if (m_30 != DAT_0109b220)
+    if (m_30 != (*reinterpret_cast<int *>(&::DAT_0109b220)))
     {
         InterlockedDecrement((long*)(m_30 - 8));
     }
@@ -2075,8 +2073,8 @@ void FUN_00a5fca0_cls::FUN_00a5fca0()
     {
         e->Vslot00(1);
     }
-    FUN_00a5f800();
-    DestroyFogProperty();
+    ::FUN_00a5f800((::TextureListView *)this);
+    reinterpret_cast<::FUN_00a5c240_shell *>(this)->DestroyFogProperty();
 }
 
 // Destructor of an owning pointer array: remove and free every element, then the base frees the storage.
@@ -2084,9 +2082,7 @@ void FUN_00a5fca0_cls::FUN_00a5fca0()
 class A1450MemoryManager
 {
   public:
-    void Deallocate(void* pvMem) throw();
 };
-extern A1450MemoryManager g_kA1450MemoryManager;
 
 void __cdecl A1450NiFree(void* pvMem);
 
@@ -2096,7 +2092,7 @@ struct A1450Element
 
     static void operator delete(void* pvMem)
     {
-        g_kA1450MemoryManager.Deallocate(pvMem);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::A1450MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
     }
 };
 
@@ -2231,7 +2227,14 @@ class NiRefObject
         if (InterlockedDecrement((volatile long*)&m_uiRefCount) == 0)
             DeleteThis();
     }
+public:
+    static unsigned int ms_lObjectCount;
 };
+// @fnv 0x00a5d3d0
+FUN_00a5d3d0::~FUN_00a5d3d0()
+{
+    InterlockedDecrement(&(*reinterpret_cast<long *>(&::NiRefObject::ms_lObjectCount)));
+}
 
 class FUN_00a423f0_cls
 {
@@ -2285,15 +2288,12 @@ void FUN_00a423f0_cls::FUN_00a423f0(NiRefObject* apObject)
 }
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern const NiRTTI DAT_011f36ec;
 
 struct ConvertedController;
 struct ControllerInterpolator;
 struct ControllerHost
 {
-    ConvertedController* FUN_00a5c570(const NiRTTI*);
     void FUN_00a5c000(ConvertedController*);
-    void FUN_00a5c480(StubController*);
 };
 struct ControllerFields
 {
@@ -2373,7 +2373,6 @@ struct ControllerFields
 struct ConvertedController : ControllerFields
 {
     NiPointer<ConvertedController> next;
-    ConvertedController* FUN_00a36560();
 };
 struct ControllerInterpolator : ControllerFields
 {
@@ -2381,8 +2380,6 @@ struct ControllerInterpolator : ControllerFields
     unsigned short unk32;
     int unk34;
     int data;
-    ControllerInterpolator* FUN_00a3f060(void*, void*);
-    void UpdateIfFlagged();
     void SetFlag1(bool value)
     {
         if (value)
@@ -2425,7 +2422,7 @@ struct ControllerInterpolator : ControllerFields
         else
             flags &= (unsigned short)~16;
         if (value)
-            UpdateIfFlagged();
+            reinterpret_cast<::FUN_00a3ea40_cls *>(this)->UpdateIfFlagged();
     }
 };
 struct LegacyController : StubController
@@ -2469,7 +2466,6 @@ struct LegacyController : StubController
         return (flags >> 6) & 1;
     }
 };
-void __cdecl CopyControllerSettings(StubController*, ConvertedController*);
 
 // Builds a ControllerInterpolator from the legacy controller's data and flags, attaches it to a converted controller, and links that controller into the host.
 // @fnv 0x00a42900
@@ -2477,7 +2473,7 @@ void __cdecl ConvertLegacyController(StubController* p)
 {
     LegacyController* old = static_cast<LegacyController*>(p);
     ControllerHost* host = reinterpret_cast<ControllerHost*>(old->unk2C);
-    ConvertedController* controller = host->FUN_00a5c570(&DAT_011f36ec);
+    ConvertedController* controller = ((::ConvertedController *)(reinterpret_cast<::MyHost *>((host))->FUN_00a5c570((const ::MyRTTI *)(const ::NiRTTI *)(&(*reinterpret_cast<const ::NiRTTI *>(&::g_011f36ec))))));
     if (controller)
         controller->IncRefCount();
     ControllerInterpolator* allocation = static_cast<ControllerInterpolator*>(BSFadeNode::operator new(0x5c));
@@ -2486,7 +2482,7 @@ void __cdecl ConvertLegacyController(StubController* p)
     {
         void* percentData = old->secondData;
         void* pathData = old->firstData;
-        interpolator = allocation->FUN_00a3f060(pathData, percentData);
+        interpolator = ((::ControllerInterpolator *)(new ((void *)(allocation)) ::FUN_00a3f060((::NiPosData *)(pathData), (::NiFloatData *)(percentData))));
     }
     else
         interpolator = 0;
@@ -2503,12 +2499,12 @@ void __cdecl ConvertLegacyController(StubController* p)
     if (controller && !controller->GetInterpolator(0))
     {
         controller->SetInterpolator(interpolator, 0);
-        CopyControllerSettings(p, controller);
+        ::CopyControllerSettings((::Ctl424 *)(p), (::Ctl424 *)(controller));
     }
     else
     {
         ConvertedController* fresh = static_cast<ConvertedController*>(BSFadeNode::operator new(0x38));
-        fresh = fresh ? fresh->FUN_00a36560() : 0;
+        fresh = fresh ? ((::ConvertedController *)(reinterpret_cast<::S_00a36560 *>((fresh))->FUN_00a36560())) : 0;
         if (controller != fresh)
         {
             if (controller)
@@ -2519,7 +2515,7 @@ void __cdecl ConvertLegacyController(StubController* p)
         }
         controller->SetInterpolator(interpolator, 0);
         controller->SetTarget(host);
-        CopyControllerSettings(p, controller);
+        ::CopyControllerSettings((::Ctl424 *)(p), (::Ctl424 *)(controller));
         host->FUN_00a5c000(controller->next);
         controller->next = reinterpret_cast<ConvertedController*>(old->m_pkNext);
         ConvertedController* previous = reinterpret_cast<ConvertedController*>(old->m_pkNext);
@@ -2533,7 +2529,7 @@ void __cdecl ConvertLegacyController(StubController* p)
     }
     interpolator->Update();
     if (host)
-        host->FUN_00a5c480(p);
+        reinterpret_cast<::ControllerOwner *>((host))->FUN_00a5c480((::NiTimeController *)(p));
     controller->DecRefCount();
 }
 
@@ -2590,7 +2586,6 @@ struct RTT
     const char* name;
     const RTT* base;
 };
-extern RTT g_011f3f38, g_011f3f28, g_011f4a38, g_011f36ec;
 struct Obj
 {
     virtual void slot0() throw();
@@ -2609,9 +2604,7 @@ struct Obj
     int unk28;
     int unk2c;
     Obj* next;
-    Obj* Cast(const RTT*) throw();
     bool FUN_00a5bf50(unsigned short) throw();
-    void ClearExtraData() throw();
     void Inc() throw()
     {
         InterlockedIncrement(&refs);
@@ -2677,8 +2670,6 @@ struct Result
     int unk30;
     static void* operator new(unsigned int) throw();
     Result(const char*, int, int) throw();
-    void FUN_00a47420(Obj*) throw();
-    void AddSeq(void*, Obj*) throw();
 };
 struct Stream
 {
@@ -2830,7 +2821,7 @@ Result* __cdecl CreateResultFromStreamObject(Stream* stream, unsigned int index,
     if (index >= stream->size)
         return 0;
     Obj* object = stream->objects[index];
-    Obj* source = object ? object->Cast(&g_011f3f38) : 0;
+    Obj* source = object ? ((::Obj *)(reinterpret_cast<::NiObject *>((object))->DynamicCast((const ::NiRTTI *)(const ::RTT *)(&(*reinterpret_cast<::RTT *>(&::g_011f3f38)))))) : 0;
     if (!source)
         return 0;
     if (!name)
@@ -2840,10 +2831,10 @@ Result* __cdecl CreateResultFromStreamObject(Stream* stream, unsigned int index,
     for (unsigned int i = 0; i < source->count; ++i)
     {
         Obj* extra = source->extras[(unsigned short)i];
-        Obj* found = extra ? extra->Cast(&g_011f3f28) : 0;
+        Obj* found = extra ? ((::Obj *)(reinterpret_cast<::NiObject *>((extra))->DynamicCast((const ::NiRTTI *)(const ::RTT *)(&(*reinterpret_cast<::RTT *>(&::g_011f3f28)))))) : 0;
         if (found)
         {
-            result->FUN_00a47420(found);
+            reinterpret_cast<::fnv_00a47420::FUN_00a47420_cls *>((result))->FUN_00a47420((::fnv_00a47420::NiRefObject *)(found));
             source->FUN_00a5bf50((unsigned short)i);
             break;
         }
@@ -2851,8 +2842,8 @@ Result* __cdecl CreateResultFromStreamObject(Stream* stream, unsigned int index,
     Ptr controller(source->controller);
     for (unsigned int j = 0; j < source->count; ++j)
     {
-        Obj* extra = CastInline(&g_011f4a38, source->extras[(unsigned short)j]);
-        result->AddSeq((void*)extra->controller, CastInline(&g_011f36ec, controller.p));
+        Obj* extra = CastInline(&(*reinterpret_cast<::RTT *>(&::g_011f4a38)), source->extras[(unsigned short)j]);
+        reinterpret_cast<::AHSeqOwner *>((result))->AddSeq((const char *)(void *)((void*)extra->controller), (::S_00a47ae0_Rc *)(::Obj *)(CastInline(&(*reinterpret_cast<::RTT *>(&::g_011f36ec)), controller.p)));
         Ptr next(controller.p->next);
         if (controller.p->next)
         {
@@ -2861,7 +2852,7 @@ Result* __cdecl CreateResultFromStreamObject(Stream* stream, unsigned int index,
         }
         controller = next.p;
     }
-    source->ClearExtraData();
+    reinterpret_cast<::FUN_00a5bfa0_shell *>((source))->ClearExtraData();
     return result;
 }
 
@@ -2926,9 +2917,7 @@ template <> class NiPointer<NiGPUProgram>
 };
 struct DynCastHelper
 {
-    NiObject* DynamicCast(const void*) throw();
 };
-extern unsigned int g_011f3f48;
 struct BinaryDataRecord
 {
     unsigned int unk000;
@@ -3071,7 +3060,6 @@ struct BinaryDataRecord
     unsigned int unk224;
     unsigned int count;
 };
-NiGPUProgram* CreateResultFromStreamObject(BinaryDataRecord*, unsigned int, void*) throw();
 // Looks up the GPU program at index in the stream (or via CreateResultFromStreamObject for older versions), optionally passes extra to it, and stores it in result.
 // @fnv 0x00a47f40
 void GetGPUProgram(BinaryDataRecord* stream, unsigned int index, NiPointer<NiGPUProgram>& result, void* extra)
@@ -3079,7 +3067,7 @@ void GetGPUProgram(BinaryDataRecord* stream, unsigned int index, NiPointer<NiGPU
     NiPointer<NiGPUProgram> program;
     if (stream->version < 0x04010003)
     {
-        program = CreateResultFromStreamObject(stream, index, extra);
+        program = ((::NiGPUProgram *)(::CreateResultFromStreamObject((::Stream *)(stream), index, (const char *)(extra))));
     }
     else
     {
@@ -3089,7 +3077,7 @@ void GetGPUProgram(BinaryDataRecord* stream, unsigned int index, NiPointer<NiGPU
             return;
         }
         DynCastHelper* object = stream->objects[index];
-        program = !object ? 0 : (NiGPUProgram*)object->DynamicCast(&g_011f3f48);
+        program = !object ? 0 : (NiGPUProgram*)reinterpret_cast<::NiObject *>((object))->DynamicCast((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<unsigned int *>(&::g_011f3f48))));
     }
     if (program == (NiGPUProgram*)0)
     {
@@ -3098,7 +3086,7 @@ void GetGPUProgram(BinaryDataRecord* stream, unsigned int index, NiPointer<NiGPU
     }
     if (extra)
         program.ptr->SetString(extra);
-    result = program;
+    reinterpret_cast<::FUN_00c663d0 *>((void *)&(const ::NiPointer< ::NiGPUProgram> &)(result))->operator=((const ::FUN_00c663d0 &)(program));
 }
 
 void __cdecl NiFreeA4D(void* pvMem) throw();
@@ -3115,7 +3103,7 @@ class NiTMapBaseA4D
   public:
     virtual ~NiTMapBaseA4D() throw()
     {
-        RemoveAll();
+        reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
         NiFreeA4D(m_ppkHashTable);
     }
 
@@ -3131,7 +3119,7 @@ class NiTMapA4D : public NiTMapBaseA4D
   public:
     virtual ~NiTMapA4D() throw()
     {
-        RemoveAll();
+        reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
     }
 };
 
@@ -3142,6 +3130,14 @@ class FUN_00a4d660 : public NiTMapA4D
 
     bool m_bCopy;
 };
+// @fnv 0x00a4da00
+void* Map_00a4da90::ReleaseIfFlagged(int aiFlags)
+{
+    reinterpret_cast<::FUN_00a4d660 *>(this)->FUN_00a4d660::~FUN_00a4d660();
+    if (aiFlags & 1)
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
+    return this;
+}
 
 // Destructor that, when m_bCopy is set, walks every hash bucket and frees each item's key string.
 // @fnv 0x00a4d660
@@ -3162,11 +3158,10 @@ FUN_00a4d660::~FUN_00a4d660() throw()
     }
 }
 
-void __cdecl FUN_00a57130(int a1);
 // @fnv 0x00a41220
 void __cdecl FUN_00a41220(int a1)
 {
-    FUN_00a57130(a1);
+    reinterpret_cast<::FUN_00a57130_shell *>((a1))->FUN_00a57130(*(::NiStream *)nullptr);
 }
 
 // @fnv 0x00a420e0
@@ -3292,12 +3287,11 @@ Ptr Arr::FUN_00a47540(unsigned int uiIndex) throw()
 }
 }
 
-extern "C" void __cdecl FUN_00a39010();
 
 // @fnv 0x00a57c00
 void __cdecl FUN_00a57c00()
 {
-    FUN_00a39010();
+    static_cast<::FUN_00a39010_shell *>(nullptr)->FUN_00a39010(*(::NiStream *)nullptr);
 }
 
 struct FUN_00a5d320_Class
@@ -3320,19 +3314,26 @@ void __thiscall FUN_00a5d430_Class::FUN_00a5d430(unsigned int param_1)
 
 struct NiVBSet
 {
-    void Create(unsigned int, unsigned int);
 };
 
 struct FUN_00a5d450_class
 {
     void CreateVertexBufferSet(unsigned int a, void* b);
 };
+// Copies the stream members via CopyMembersStream, then copies m_p and m_f into dst.
+// @fnv 0x00a44850
+void FUN_00a44850_holder::CopyMembersStreamAndFields(FUN_00a44850_holder* dst, CloningProcess* proc)
+{
+    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((unsigned int)dst, proc);
+    dst->m_p = m_p;
+    dst->m_f = m_f;
+}
 
 // @fnv 0x00a5d450
 void FUN_00a5d450_class::CreateVertexBufferSet(unsigned int a, void* ppSet)
 {
     NiVBSet* set = *(NiVBSet**)ppSet;
-    set->Create((unsigned int)this, a);
+    reinterpret_cast<::HashTableBase *>((set))->InsertOrUpdate((unsigned int)this, a);
 }
 
 struct NiObjectGroup;
@@ -3347,6 +3348,7 @@ struct NiBinaryStream
         m_uiPosition += m_pRead(this, id, 4, &length, 1);
     }
 };
+class NiObject;
 struct NiStream
 {
     unsigned int unk000;
@@ -3498,6 +3500,8 @@ struct NiStream
     unsigned int unk248;
     NiBinaryStream* m_pUnderlyingStream;
     NiObjectGroup* GetObjectGroup(unsigned int id);
+public:
+    ::NiObject *GetLoadedObject();
 };
 class FUN_00a5d610_Object
 {
@@ -3549,7 +3553,6 @@ void FUN_00a5d610_Object::ReadGroup(NiStream* stream)
     }
 }
 
-extern int g_011f36dc_arg1;
 struct BGSCameraPath
 {
 };
@@ -3564,7 +3567,6 @@ template <> class NiTArray<BGSCameraPath*, NiTMallocInterface<BGSCameraPath*> >
     unsigned short m_usSize;
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
-    void SetAt(unsigned int, BGSCameraPath**);
 };
 template <class T, class Allocator> class NiTPrimitiveArray;
 template <> class NiTPrimitiveArray<char*, NiTMallocInterface<char*> >
@@ -3576,15 +3578,11 @@ template <> class NiTPrimitiveArray<char*, NiTMallocInterface<char*> >
     unsigned short m_usSize;
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
-    void SetSize(unsigned int);
 };
 struct A5D6E0This : FUN_00a5d3d0
 {
     void AppendCameraPathEntries(NiTArray<BGSCameraPath*, NiTMallocInterface<BGSCameraPath*> >*);
 };
-extern void* __cdecl FUN_00a7d330(int);
-extern void* __cdecl FUN_00a7d5a0(const char*, void*);
-extern void* __cdecl FUN_00a7d510(const char*, unsigned int);
 // Appends three values obtained from FUN_00a7d330, FUN_00a7d5a0 and FUN_00a7d510 to the array, growing it via SetSize when full.
 // @fnv 0x00a5d6e0
 void A5D6E0This::AppendCameraPathEntries(NiTArray<BGSCameraPath*, NiTMallocInterface<BGSCameraPath*> >* apEntries)
@@ -3593,49 +3591,47 @@ void A5D6E0This::AppendCameraPathEntries(NiTArray<BGSCameraPath*, NiTMallocInter
     unsigned int size;
     unsigned int maxSize;
     {
-        BGSCameraPath* firstValue = (BGSCameraPath*)FUN_00a7d330(g_011f36dc_arg1);
+        BGSCameraPath* firstValue = (BGSCameraPath*)((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<int *>(&::g_011f4418))))));
         entries = apEntries;
         size = entries->m_usSize;
         maxSize = entries->m_usMaxSize;
         if (size >= maxSize)
-            reinterpret_cast<NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*>(entries)->SetSize(
+            reinterpret_cast<::ViewerStrings *>((reinterpret_cast<NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*>(entries)))->SetSize(
                 size + entries->m_usGrowBy);
-        entries->SetAt(size, &firstValue);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((entries))->SetAt(size, (*(char * *)(&firstValue)));
     }
     {
-        BGSCameraPath* currentValue = (BGSCameraPath*)FUN_00a7d5a0("this", this);
+        BGSCameraPath* currentValue = (BGSCameraPath*)((void *)(::FUN_00a7d5a0("this", this)));
         size = entries->m_usSize;
         maxSize = entries->m_usMaxSize;
         if (size >= maxSize)
-            reinterpret_cast<NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*>(entries)->SetSize(
+            reinterpret_cast<::ViewerStrings *>((reinterpret_cast<NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*>(entries)))->SetSize(
                 size + entries->m_usGrowBy);
-        entries->SetAt(size, &currentValue);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((entries))->SetAt(size, (*(char * *)(&currentValue)));
     }
     {
         unsigned int referenceCount = m_uiRefCount;
-        BGSCameraPath* currentValue = (BGSCameraPath*)FUN_00a7d510("m_uiRefCount", referenceCount);
+        BGSCameraPath* currentValue = (BGSCameraPath*)((void *)(::FUN_00a7d510("m_uiRefCount", referenceCount)));
         size = entries->m_usSize;
         maxSize = entries->m_usMaxSize;
         if (size >= maxSize)
-            reinterpret_cast<NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*>(entries)->SetSize(
+            reinterpret_cast<::ViewerStrings *>((reinterpret_cast<NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*>(entries)))->SetSize(
                 size + entries->m_usGrowBy);
-        entries->SetAt(size, &currentValue);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((entries))->SetAt(size, (*(char * *)(&currentValue)));
     }
 }
 
-extern void __cdecl FUN_00a5c290();
 
 // @fnv 0x00a5d7a0
 void __cdecl FUN_00a5d7a0()
 {
-    FUN_00a5c290();
+    static_cast<::fnv_00a5c290::FUN_00a5c290_shell *>(nullptr)->FUN_00a5c290({}, {});
 }
 
-void __cdecl SaveNiObjectLinks();
 // @fnv 0x00a5d7b0
 void __cdecl FUN_00a5d7b0()
 {
-    SaveNiObjectLinks();
+    ::fnv_00a5c5b0::SaveNiObjectLinks({}, {}, {});
 }
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*) throw();
@@ -3794,8 +3790,6 @@ void ExtraOwner::FUN_00a5aac0(int type, NiPointer<AnimIdle>& output)
     output = 0;
 }
 
-extern int DAT_0101dce4;
-extern char DAT_011f4400;
 void __cdecl _delete(void*, unsigned int);
 __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* Addend);
 struct FUN_00a5d4e0
@@ -3808,7 +3802,7 @@ struct FUN_00a5d4e0
 void* __thiscall FUN_00a5d4e0::FUN_00a5d4e0_del(unsigned char flags)
 {
     m_vtbl = &DAT_0101dce4;
-    InterlockedDecrement((long volatile*)&DAT_011f4400);
+    InterlockedDecrement((long volatile*)&(*reinterpret_cast<char *>(&::NiRefObject::ms_lObjectCount)));
     if (flags & 1)
         _delete(this, 8);
     return this;
@@ -3878,11 +3872,6 @@ CloneSourceA5d6* CloneSourceA5d6::FUN_00a5d680()
 }
 
 extern void* __cdecl FUN_00aa13e0(unsigned int size);
-extern char* __cdecl FUN_00a5b690(const char* text);
-extern void __cdecl FUN_00a57500(void* fixed);
-extern void __cdecl FUN_00a76960(void* fixed, void* out);
-extern int DAT_0109b220;
-extern unsigned char DAT_011a9594;
 extern void(__stdcall* DAT_00fdf1c0)(void*);
 extern void(__stdcall* DAT_00fdf1c4)(void*);
 
@@ -3953,7 +3942,6 @@ struct FnvSourceTexture
     unsigned short unk42;
     int source;
 
-    FnvSourceTexture* __thiscall FUN_00a5fc10();
 };
 
 // Allocates a FnvSourceTexture, sets its dimensions, flags, source, and filename, then deletes it if not loaded when DAT_011a9594 is set.
@@ -3962,7 +3950,7 @@ FnvSourceTexture* __cdecl FUN_00a5fe30(int source, const char* name, const int* 
 {
     FnvSourceTexture* object = (FnvSourceTexture*)FUN_00aa13e0(0x48);
     if (object)
-        object = object->FUN_00a5fc10();
+        object = ((::FnvSourceTexture *)(reinterpret_cast<::AlphaPropInit_cls *>((object))->FUN_00a5fc10()));
     else
         object = 0;
 
@@ -3974,23 +3962,23 @@ FnvSourceTexture* __cdecl FUN_00a5fe30(int source, const char* name, const int* 
 
     if (name)
     {
-        char* value = FUN_00a5b690(name);
+        char* value = ::NiGlobalStringTable::AddString(name);
         void(__stdcall * release)(void*) = DAT_00fdf1c4;
         char** fixed = &object->filename;
         if (*fixed != value)
         {
-            if (value != (char*)DAT_0109b220)
+            if (value != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
                 DAT_00fdf1c0(value - 8);
-            if (*fixed != (char*)DAT_0109b220)
+            if (*fixed != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
                 release(*fixed - 8);
             *fixed = value;
         }
-        FUN_00a57500(fixed);
-        FUN_00a76960(fixed, &object->normalizedName);
-        if (value != (char*)DAT_0109b220)
+        ::FUN_00a57500((::NiFixedString *)(fixed));
+        ::fnv_00a76960::FUN_00a76960((char **)(fixed), (char **)(void *)(&object->normalizedName));
+        if (value != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
             release(value - 8);
     }
-    if (DAT_011a9594 && !object->IsLoaded())
+    if ((*reinterpret_cast<unsigned char *>(&::DAT_011a9594)) && !object->IsLoaded())
     {
         object->Delete(1);
         return 0;
@@ -4000,9 +3988,6 @@ FnvSourceTexture* __cdecl FUN_00a5fe30(int source, const char* name, const int* 
 
 namespace fnv_00a5ff10 {
 extern void* __cdecl FUN_00aa13e0(unsigned int);
-extern void* __cdecl FUN_00a5b690(void*);
-extern int DAT_0109b220;
-extern unsigned char DAT_011a9594;
 typedef long(__stdcall* RefCounter)(volatile long*);
 extern RefCounter DAT_00fdf1c0;
 extern RefCounter DAT_00fdf1c4;
@@ -4015,7 +4000,6 @@ struct RefCounted
 
 struct FUN_00a5fc10_class
 {
-    void* __thiscall FUN_00a5fc10();
 };
 struct Texture
 {
@@ -4092,7 +4076,7 @@ struct OwnerTriple
 Texture* __cdecl FUN_00a5ff10(RefCounted* parent, void* filename, const OwnerTriple* apOwnerFields)
 {
     void* memory = FUN_00aa13e0(0x48);
-    Texture* object = memory ? static_cast<Texture*>(((FUN_00a5fc10_class*)memory)->FUN_00a5fc10()) : 0;
+    Texture* object = memory ? static_cast<Texture*>(((void *)(reinterpret_cast<::AlphaPropInit_cls *>((((FUN_00a5fc10_class*)memory)))->FUN_00a5fc10()))) : 0;
     OwnerTriple* storage = reinterpret_cast<OwnerTriple*>(&object->m_pSharedOwner);
     storage->m_pSharedOwner = apOwnerFields->m_pSharedOwner;
     storage->m_pFlagTarget = apOwnerFields->m_pFlagTarget;
@@ -4112,14 +4096,14 @@ Texture* __cdecl FUN_00a5ff10(RefCounted* parent, void* filename, const OwnerTri
     }
     if (filename)
     {
-        const char* value = (const char*)FUN_00a5b690(filename);
+        const char* value = (const char*)((void *)(::NiGlobalStringTable::AddString((const char *)(filename))));
         NiFixedString fixed;
         fixed.m_kHandle = value;
         ((FUN_00a5fba0_class*)object)->FUN_00a5fba0(&fixed);
-        if (value != (const char*)DAT_0109b220)
+        if (value != (const char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
             release((volatile long*)(value - 8));
     }
-    if (DAT_011a9594 && !object->CanPreload())
+    if ((*reinterpret_cast<unsigned char *>(&::DAT_011a9594)) && !object->CanPreload())
     {
         object->DeleteObject(1);
         return 0;
@@ -4128,7 +4112,6 @@ Texture* __cdecl FUN_00a5ff10(RefCounted* parent, void* filename, const OwnerTri
 }
 }  // namespace fnv_00a5ff10
 
-extern const NiRTTI DAT_011f3f90;
 struct S00a427e0_Typed
 {
     virtual void Slot0();
@@ -4206,7 +4189,6 @@ struct S00a427e0_Track : S00a427e0_Typed
     virtual void Reset();
     virtual void GetTimeRange(float&, float&);
     virtual void SetTimeRange(float, float);
-    void FUN_00a42380(S00a427e0_Interp*);
 };
 struct S00a427e0_Ctrl : S00a427e0_Typed
 {
@@ -4277,7 +4259,6 @@ struct S00a427e0_Mgr
 {
     unsigned int unk00, unk04, unk08;
     S00a427e0_Ctrl* head;
-    void FUN_00a5c480(S00a427e0_Seq*);
 };
 struct S00a427e0_Seq
 {
@@ -4296,7 +4277,6 @@ struct S00a427e0_Seq
     unsigned int unk30, unk34;
     void* data;
 };
-void __cdecl CopyControllerSettings(S00a427e0_Seq*, S00a427e0_Ctrl*);
 // Finds the first controller with a matching track, installs a new interpolator on the track, resets it, then calls manager->FUN_00a5c480(sequence).
 // @fnv 0x00a427e0
 void __cdecl FUN_00a427e0(StubController* p)
@@ -4306,14 +4286,14 @@ void __cdecl FUN_00a427e0(StubController* p)
     S00a427e0_Ctrl* controller = manager->head;
     while (controller)
     {
-        if (S00a427e0_NiIsKindOf(&DAT_011f36ec, controller))
+        if (S00a427e0_NiIsKindOf(&(*reinterpret_cast<const ::NiRTTI *>(&::g_011f36ec)), controller))
         {
             S00a427e0_Track* track = controller->GetTrack(0);
-            if (S00a427e0_NiIsKindOf(&DAT_011f3f90, track))
+            if (S00a427e0_NiIsKindOf(&(*reinterpret_cast<const ::NiRTTI *>(&::g_011f3f90)), track))
             {
                 void* data = sequence->data;
-                track->FUN_00a42380(new S00a427e0_Interp(data));
-                CopyControllerSettings(sequence, controller);
+                reinterpret_cast<::A42380Owner *>((track))->FUN_00a42380((::A42380RefObject *)(::S00a427e0_Interp *)(new S00a427e0_Interp(data)));
+                ::CopyControllerSettings((::Ctl424 *)(sequence), (::Ctl424 *)(controller));
                 float start, end;
                 track->GetTimeRange(start, end);
                 track->SetTimeRange(start, end);
@@ -4324,7 +4304,7 @@ void __cdecl FUN_00a427e0(StubController* p)
         }
         controller = controller->next;
     }
-    manager->FUN_00a5c480(sequence);
+    reinterpret_cast<::ControllerOwner *>((manager))->FUN_00a5c480((::NiTimeController *)(sequence));
 }
 
 // Stores value into m_key and obj into m_val on the NiTMapItem.
@@ -4354,9 +4334,7 @@ struct FUN_00a5abe0_lock
 {
     int m_pOwnerObject;
     int m_uiItemCount;
-    void FUN_0040fbf0(int mode);
 };
-extern FUN_00a5abe0_lock DAT_011f42a0;
 
 struct FUN_00a5abe0_node
 {
@@ -4405,12 +4383,10 @@ struct FUN_00a5abe0_item
     virtual int vfn35();
 
     long m_iWordAt04;
-    FUN_00a5abe0_item* FUN_00a5d3f0(void* ctx);
 };
 
 struct FUN_00a5abe0_sub
 {
-    void FUN_00439fd0(void** p);
 };
 
 struct FUN_00a5abe0_owner
@@ -4429,7 +4405,7 @@ struct FUN_00a5abe0_list
 // @fnv 0x00a5abe0
 void __stdcall FUN_00a5abe0(FUN_00a5abe0_owner* apOwner, void* apList, void* volatile apContext)
 {
-    DAT_011f42a0.FUN_0040fbf0(0);
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::FUN_00a5abe0_lock *>(&::DAT_011f42a0))))->FUN_0040fbf0((char *)(0));
     FUN_00a5abe0_node* node = ((FUN_00a5abe0_list*)apList)->m_pFirstNode;
     while (node != 0)
     {
@@ -4441,21 +4417,21 @@ void __stdcall FUN_00a5abe0(FUN_00a5abe0_owner* apOwner, void* apList, void* vol
             continue;
         if (item->vfn35() >= 7)
             continue;
-        item = item->FUN_00a5d3f0(apContext);
+        item = ((::FUN_00a5abe0_item *)&(reinterpret_cast<::NiControllerSequence__IDTag *>((item))->operator=((*(const ::NiControllerSequence__IDTag *)(apContext)))));
         if (item->vfn35() >= 7)
             continue;
         apList = item;
         InterlockedIncrement(&item->m_iWordAt04);
-        apOwner->m_24.FUN_00439fd0(&apList);
+        reinterpret_cast<::ScriptPool *>(&(apOwner->m_24))->FUN_00439fd0(&apList);
         if (InterlockedDecrement(&item->m_iWordAt04) == 0)
         {
             item->vSlot01();
         }
     }
-    DAT_011f42a0.m_uiItemCount--;
-    if (DAT_011f42a0.m_uiItemCount == 0)
+    (*reinterpret_cast<::FUN_00a5abe0_lock *>(&::DAT_011f42a0)).m_uiItemCount--;
+    if ((*reinterpret_cast<::FUN_00a5abe0_lock *>(&::DAT_011f42a0)).m_uiItemCount == 0)
     {
-        DAT_011f42a0.m_pOwnerObject = 0;
+        (*reinterpret_cast<::FUN_00a5abe0_lock *>(&::DAT_011f42a0)).m_pOwnerObject = 0;
     }
 }
 
@@ -4469,7 +4445,6 @@ class RefObjB
 
 struct ExtraOwnerB
 {
-    void FUN_00a5aac0(int type, RefObjB*& output) throw();
     void FUN_00a5b230(int type);
 };
 
@@ -4478,7 +4453,7 @@ struct ExtraOwnerB
 void ExtraOwnerB::FUN_00a5b230(int type)
 {
     RefObjB* out = 0;
-    FUN_00a5aac0(type, out);
+    reinterpret_cast<::ExtraOwner *>(this)->FUN_00a5aac0(type, (::NiPointer< ::AnimIdle> &)(out));
     RefObjB* p = *(RefObjB* volatile*)&out;
     if (p)
     {
@@ -4677,8 +4652,6 @@ class Manager
     virtual bool CanAttach(Owner* pkOwner);
 };
 
-extern Manager* DAT_011f4748;
-extern bool DAT_011f4448;
 
 class Owner
 {
@@ -4755,7 +4728,7 @@ class Owner
 // @fnv 0x00a5f8b0
 bool Owner::FUN_00a5f8b0()
 {
-    Manager* pkManager = DAT_011f4748;
+    Manager* pkManager = (*reinterpret_cast<::sa5f8b0::Manager * *>(&::NiRenderer::ms_pRenderer));
     if (!pkManager)
     {
         if (m_pkTask)
@@ -4776,7 +4749,7 @@ bool Owner::FUN_00a5f8b0()
     }
     if (!pkManager->CanAttach(this))
         return false;
-    if (DAT_011f4448 && m_iTarget && m_bVisible)
+    if ((*reinterpret_cast<bool *>(&::DAT_011f4448)) && m_iTarget && m_bVisible)
         OnAttach();
     m_pkTask = 0;
     return true;
@@ -5087,8 +5060,6 @@ struct Stream
     int unk0d4;
     unsigned int m_uiFileVersion;
 
-    unsigned int FUN_00a63460();
-    unsigned int FUN_00a63430();
 };
 
 struct Controller
@@ -5113,7 +5084,6 @@ struct Controller
     unsigned char unk041;
     bool m_bUsePrimary;
 
-    void FUN_00a47360(Stream* pkStream);
     void Load(Stream* pkStream);
 };
 
@@ -5121,17 +5091,17 @@ struct Controller
 // @fnv 0x00a5f9a0
 void Controller::Load(Stream* pkStream)
 {
-    FUN_00a47360(pkStream);
-    if (pkStream->FUN_00a63460())
+    ::FUN_00a47360();
+    if (reinterpret_cast<::FUN_00a63460_shell *>((pkStream))->FUN_00a63460())
     {
         if (pkStream->m_uiFileVersion >= 0x14020004 && m_bUsePrimary)
         {
-            m_spPrimary.FUN_00a5f860(pkStream->FUN_00a63430());
+            m_spPrimary.FUN_00a5f860(((unsigned int)(reinterpret_cast<::NiStream *>((pkStream))->GetLoadedObject())));
             m_spSecondary = 0;
         }
         else
         {
-            m_spSecondary.FUN_00a5f860(pkStream->FUN_00a63430());
+            m_spSecondary.FUN_00a5f860(((unsigned int)(reinterpret_cast<::NiStream *>((pkStream))->GetLoadedObject())));
             m_spPrimary = 0;
         }
     }
@@ -5141,7 +5111,6 @@ void Controller::Load(Stream* pkStream)
 
 extern "C" void(__stdcall* DAT_00fdf05c)(CRITICAL_SECTION_STUB*);
 extern "C" void(__stdcall* DAT_00fdf100)(CRITICAL_SECTION_STUB*);
-extern CRITICAL_SECTION_STUB DAT_011f4800;
 
 struct FUN_00a5fa50_Obj
 {
@@ -5241,11 +5210,11 @@ struct FUN_00a5fa50_Obj
 // @fnv 0x00a5fa50
 void __thiscall FUN_00a5fa50_Obj::FUN_00a5fa50(int param)
 {
-    if (DAT_011a9594)
+    if ((*reinterpret_cast<unsigned char *>(&::DAT_011a9594)))
     {
-        DAT_00fdf05c(&DAT_011f4800);
+        DAT_00fdf05c(&(*reinterpret_cast<::CRITICAL_SECTION_STUB *>(&::fnv_NiStreamCriticalSection)));
         FUN_00a5f8b0();
-        return DAT_00fdf100(&DAT_011f4800);
+        return DAT_00fdf100(&(*reinterpret_cast<::CRITICAL_SECTION_STUB *>(&::fnv_NiStreamCriticalSection)));
     }
 }
 
@@ -5315,7 +5284,6 @@ struct Owner
     Listener* m_pkPrimary;
     Listener* m_pkSecondary;
 
-    bool FUN_00a62130(Item* pkItem);
     bool AttachToListener(Item* pkItem);
 };
 
@@ -5323,7 +5291,7 @@ struct Owner
 // @fnv 0x00a5fa90
 bool Owner::AttachToListener(Item* pkItem)
 {
-    if (!FUN_00a62130(pkItem))
+    if (!::FUN_00a62130((void *)this, (int)(pkItem), {}))
         return false;
     pkItem->SetOwnerData(&m_iData);
     Listener* pkListener = m_pkPrimary;
@@ -5406,7 +5374,6 @@ class Controller
     bool m_b41;
     bool m_b42;
 
-    bool FUN_00a62140(Controller* pkOther);
     bool FUN_00a5fae0(Controller* pkOther);
 };
 
@@ -5414,7 +5381,7 @@ class Controller
 // @fnv 0x00a5fae0
 bool Controller::FUN_00a5fae0(Controller* pkOther)
 {
-    if (!FUN_00a62140(pkOther))
+    if (!reinterpret_cast<::EqBase *>(this)->FUN_00a62140(pkOther))
         return false;
     if (m_i30 != pkOther->m_i30)
         return false;
@@ -5437,7 +5404,6 @@ bool Controller::FUN_00a5fae0(Controller* pkOther)
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern int DAT_0109b220;
 
 class PixelDataFFE0
 {
@@ -5457,7 +5423,6 @@ class ImageConverterFFE0
     virtual PixelDataFFE0* LoadPixelDataFromFile(const char* filename, PixelDataFFE0* existing, unsigned int flags);
 };
 
-ImageConverterFFE0* FUN_00a76640() throw();
 
 class PixelDataHolderFFE0
 {
@@ -5499,10 +5464,10 @@ class SourceTextureFFE0
 // @fnv 0x00a5ffe0
 void SourceTextureFFE0::LoadPixelData()
 {
-    if (m_iName != DAT_0109b220 && m_spPixelData.m_pObject == 0 && m_pkPersistentData == 0)
+    if (m_iName != (*reinterpret_cast<int *>(&::DAT_0109b220)) && m_spPixelData.m_pObject == 0 && m_pkPersistentData == 0)
     {
         PixelDataHolderFFE0* pixelData = &m_spPixelData;
-        ImageConverterFFE0* converter = FUN_00a76640();
+        ImageConverterFFE0* converter = ((::ImageConverterFFE0 *)(::NiImageConverter::GetSharedImageConverter()));
         PixelDataFFE0* existing = pixelData->m_pObject;
         const char* filename = m_pcFilename;
 
@@ -5514,11 +5479,11 @@ void SourceTextureFFE0::LoadPixelData()
         if (pixelData->m_pObject != 0)
         {
             if (result != pixelData->m_pObject)
-                pixelData->FUN_00c663d0(&result);
+                reinterpret_cast<::FUN_00c663d0 *>((pixelData))->operator=((*(const ::FUN_00c663d0 *)(&result)));
         }
         else
         {
-            pixelData->FUN_00c663d0(&result);
+            reinterpret_cast<::FUN_00c663d0 *>((pixelData))->operator=((*(const ::FUN_00c663d0 *)(&result)));
         }
 
         if (result && InterlockedDecrement(&result->m_uiRefCount) == 0)
@@ -5550,7 +5515,7 @@ void FUN_00a473d0_class::SetString(const char* apString)
 // NiSequence::NiSequence(const char* pcName, unsigned int uiArraySize, unsigned int uiArrayGrowBy)
 // RTTI: NiSequence : NiObject : NiRefObject. Vtables not in the symbols DB are referenced by their data symbols.
 extern const void* DAT_01098454[];  // NiSequence vftable
-extern int DAT_01021024;            // NiTPrimitiveArray<char*> vftable
+            // NiTPrimitiveArray<char*> vftable
 extern const void* DAT_010984e4[];  // NiTObjectArray<NiPointer<NiTransformController> > vftable
 
 struct NiSequenceRefTarget
@@ -5584,7 +5549,7 @@ struct NiSequenceNameArray
         m_pBase = 0;
         m_vft = &DAT_01021024;
     }
-    void FUN_0096ad30(unsigned int uiSize);  // SetSize
+      // SetSize
 };
 
 // NiTObjectArray<NiPointer<NiTransformController> >
@@ -5606,7 +5571,7 @@ struct NiSequenceControllerArray
         m_pBase = 0;
         m_vft = DAT_010984e4;
     }
-    void FUN_00a47770(unsigned int uiSize);  // SetSize
+      // SetSize
 };
 
 struct NiSequence
@@ -5625,7 +5590,7 @@ struct NiSequence
 // @fnv 0x00a47bd0
 NiSequence* NiSequence::FUN_00a47bd0(const char* pcName, unsigned int uiArraySize, unsigned int uiArrayGrowBy)
 {
-    _Call_a5d3a0(this);  // NiObject::NiObject
+    new ((void *)(this)) struct ::FUN_00a5d3a0();  // NiObject::NiObject
     m_vft = DAT_01098454;
 
     m_kNameArray.Construct(0, 1);
@@ -5643,9 +5608,9 @@ NiSequence* NiSequence::FUN_00a47bd0(const char* pcName, unsigned int uiArraySiz
         m_pcName = 0;
     }
 
-    m_kNameArray.FUN_0096ad30(uiArraySize);
+    reinterpret_cast<::ViewerStrings *>(&(m_kNameArray))->SetSize(uiArraySize);
     m_kNameArray.m_usGrowBy = (unsigned short)uiArrayGrowBy;
-    m_kControllerArray.FUN_00a47770(uiArraySize);
+    reinterpret_cast<::NiTObjectArrayA47 *>(&(m_kControllerArray))->FUN_00a47770(uiArraySize);
     m_kControllerArray.m_usGrowBy = (unsigned short)uiArrayGrowBy;
 
     // m_spTextKeyData = 0 (NiPointer assignment)
@@ -5659,18 +5624,15 @@ NiSequence* NiSequence::FUN_00a47bd0(const char* pcName, unsigned int uiArraySiz
 }
 
 extern "C" unsigned long __readfsdword(unsigned long);
-extern "C" volatile unsigned long _tls_index;
 extern unsigned int DAT_011f42c8;
 extern unsigned int DAT_011f42c4;
 
 struct ThreadedTableEntry
 {
-    void __thiscall FUN_00a5b4b0(const char** key);
 };
 
 struct ThreadedTable
 {
-    unsigned int __thiscall FUN_00a5b270(const char* key, unsigned int flags);
     void __thiscall FUN_00a5b5a0(const char** key, unsigned int flags);
 };
 
@@ -5678,12 +5640,12 @@ struct ThreadedTable
 // @fnv 0x00a5b5a0
 void __thiscall ThreadedTable::FUN_00a5b5a0(const char** key, unsigned int flags)
 {
-    unsigned int tlsIndex = _tls_index;
+    unsigned int tlsIndex = (*reinterpret_cast<volatile unsigned long *>(&::DAT_0126fd98));
     unsigned char* threadData = reinterpret_cast<unsigned char**>(__readfsdword(0x2c))[tlsIndex];
     const unsigned int previousMode = *reinterpret_cast<unsigned int*>(threadData + 0x2b4);
     *reinterpret_cast<unsigned int*>(threadData + 0x2b4) = 8;
 
-    unsigned int index = FUN_00a5b270(*key, flags);
+    unsigned int index = ::FUN_00a5b270((const char *)this, (unsigned int)(*key));
     CRITICAL_SECTION_STUB* criticalSection =
         reinterpret_cast<CRITICAL_SECTION_STUB*>(reinterpret_cast<char*>(this) + 0x2080);
     EnterCriticalSection(criticalSection);
@@ -5692,7 +5654,7 @@ void __thiscall ThreadedTable::FUN_00a5b5a0(const char** key, unsigned int flags
     if (*reinterpret_cast<short*>(reinterpret_cast<char*>(this) + entryOffset + 0x0c) != 0)
         ++DAT_011f42c8;
 
-    reinterpret_cast<ThreadedTableEntry*>(reinterpret_cast<char*>(this) + entryOffset)->FUN_00a5b4b0(key);
+    reinterpret_cast<::CharPtrArr *>((reinterpret_cast<ThreadedTableEntry*>(reinterpret_cast<char*>(this) + entryOffset)))->FUN_00a5b4b0((*(char * *)(key)));
     ++DAT_011f42c4;
     LeaveCriticalSection(criticalSection);
     *reinterpret_cast<unsigned int*>(threadData + 0x2b4) = previousMode;
@@ -5805,14 +5767,13 @@ struct StringTable169
     unsigned int unk2078;
     unsigned int unk207c;
     CRITICAL_SECTION_STUB lock;
-    unsigned int FUN_00a5b270(const char*, unsigned int);
     char* FUN_00a5b300(const char* key, unsigned int length);
 };
 // Hashes key, locks the table, scans the bucket's entries for an exact match, and returns the stored string or null.
 // @fnv 0x00a5b300
 char* StringTable169::FUN_00a5b300(const char* key, unsigned int length)
 {
-    unsigned int uiHash = FUN_00a5b270(key, length);
+    unsigned int uiHash = ::FUN_00a5b270((const char *)this, (unsigned int)(key));
     CRITICAL_SECTION_STUB* bucket = &lock;
     EnterCriticalSection(bucket);
     unsigned int idx = buckets[uiHash].count;
@@ -5833,7 +5794,6 @@ char* StringTable169::FUN_00a5b300(const char* key, unsigned int length)
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
 extern "C" __declspec(dllimport) void __stdcall fnv_EnterCriticalSection(void* cs);
 extern "C" __declspec(dllimport) void __stdcall fnv_LeaveCriticalSection(void* cs);
-extern unsigned char DAT_011f4380;
 void* __cdecl FUN_00aa1070(unsigned int size);
 void __cdecl NiFreeAlias(void*);
 extern "C" void* __cdecl memmove(void* dst, const void* src, unsigned int n);
@@ -5849,7 +5809,6 @@ struct NiTexture
 {
     void* m_pVTable;
     long m_iObjectReferenceCount;
-    const ExtraName& FUN_00a62660();
 };
 struct NiObjectNET
 {
@@ -5873,13 +5832,13 @@ bool Holder::FUN_00a5ba40(NiTexture* p)
     if (!p)
         return false;
     InterlockedIncrement(&p->m_iObjectReferenceCount);
-    fnv_EnterCriticalSection(&DAT_011f4380);
+    fnv_EnterCriticalSection(&(*reinterpret_cast<unsigned char *>(&::DAT_011f4380)));
     if (m_pRayCursor < 1)
     {
         m_uiItemCount = m_pRayCursor = 1;
         m_data = (NiTexture**)FUN_00aa1070(4);
         m_data[0] = p;
-        fnv_LeaveCriticalSection(&DAT_011f4380);
+        fnv_LeaveCriticalSection(&(*reinterpret_cast<unsigned char *>(&::DAT_011f4380)));
         return true;
     }
     if (m_uiItemCount == m_pRayCursor)
@@ -5898,11 +5857,11 @@ bool Holder::FUN_00a5ba40(NiTexture* p)
     for (j = (unsigned short)(m_uiItemCount - 1); j > 0; --j)
     {
         NiTexture**& data = m_data;
-        int diff = data[j - 1]->FUN_00a62660() - data[j]->FUN_00a62660();
+        int diff = (*(const ::ExtraName *)&(reinterpret_cast<::FUN_00a62660_cls *>((data[j - 1]))->FUN_00a62660())) - (*(const ::ExtraName *)&(reinterpret_cast<::FUN_00a62660_cls *>((data[j]))->FUN_00a62660()));
         if (diff == 0)
         {
             DeleteExtraData(j);
-            fnv_LeaveCriticalSection(&DAT_011f4380);
+            fnv_LeaveCriticalSection(&(*reinterpret_cast<unsigned char *>(&::DAT_011f4380)));
             return false;
         }
         if (diff <= 0)
@@ -5911,7 +5870,7 @@ bool Holder::FUN_00a5ba40(NiTexture* p)
         m_data[j - 1] = m_data[j];
         m_data[j] = tmp;
     }
-    fnv_LeaveCriticalSection(&DAT_011f4380);
+    fnv_LeaveCriticalSection(&(*reinterpret_cast<unsigned char *>(&::DAT_011f4380)));
     return true;
 }
 
@@ -5937,7 +5896,6 @@ struct FUN_00a53540_cls
     int unk18;
     int unk1c;
 
-    void BaseCleanup();
     FUN_00a53540_cls* FUN_00a53540(unsigned char acFlags);
 };
 
@@ -5953,7 +5911,7 @@ FUN_00a53540_cls* FUN_00a53540_cls::FUN_00a53540(unsigned char acFlags)
             pCounted->Release();
         }
     }
-    BaseCleanup();
+    reinterpret_cast<::FUN_00a3ca30_shell *>(this)->FUN_00a3ca30();
     if (acFlags & 1)
     {
         FUN_00aa1460(this, 0x18);

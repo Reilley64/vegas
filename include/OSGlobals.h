@@ -2,6 +2,7 @@
 #ifndef FNV_OSGLOBALS_H
 #define FNV_OSGLOBALS_H
 
+#include "fnv/decl/MagicCaster_shell.h"
 #include "layout_support.h"
 // Partial PC prefix through sound; sizeof checks this prefix, not the entire runtime allocation.
 #pragma pack(push, 4)
@@ -23,7 +24,6 @@ class OSGlobals
     unsigned int layoutPadding1C;
     OSInputGlobals* input;  // +0x20
     OSSoundGlobals* sound;  // +0x24
-    unsigned int GetUptimeMilliseconds();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(OSGlobals) == 0x28);

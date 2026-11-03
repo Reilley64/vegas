@@ -8,6 +8,16 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <math.h>
+#include "fnv/decl/FUN_005611c0_t.h"
+#include "fnv/decl/RotationRows.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101f000.h"
+#include "fnv/symbols_0106b000.h"
+#include "fnv/symbols_010c7000.h"
+#include "fnv/symbols_010cb000.h"
+#include "fnv/symbols_010ce000.h"
+#include "fnv/symbols_01268000.h"
 namespace StepReleaseFitPrivate {
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 {
@@ -41,14 +51,6 @@ static __forceinline float StepReleaseFitscalarCopy(float f)
 }
 
 extern const __m128 DAT_01017d10;
-extern const __m128 DAT_010cbf80;
-extern const __m128 DAT_01268370;
-extern const float DAT_010c7948[256];
-extern const double DAT_01011588;
-extern const double DAT_010ce4b0;
-extern const double DAT_0106b9e8;
-extern const double DAT_0101ff40;
-extern const float DAT_010177e8;
 
 struct __declspec(align(16)) StepReleaseFitQuaternion
 {
@@ -64,7 +66,6 @@ struct __declspec(align(16)) StepReleaseFitQuaternion
         };
     };
     void FUN_00c66320(const StepReleaseFitQuaternion*, const StepReleaseFitQuaternion*);
-    void FUN_005611c0();
 };
 struct StepReleaseFitMotionState
 {
@@ -79,7 +80,6 @@ struct StepReleaseFitMotionState
     float objectRadius, linearDamping, angularDamping;
     unsigned char maxLinear, maxAngular, unkAE, unkAF;
     unsigned int unkB0, unkB4, unkB8, unkBC;
-    void FUN_00cb2d90(const StepReleaseFitQuaternion*);
 };
 struct StepReleaseFitMotion
 {
@@ -131,7 +131,7 @@ struct StepReleaseFitStepArgs
 };
 static __forceinline bool StepReleaseFitcheckVelocities(StepReleaseFitMotion* motion)
 {
-    __m128 limit = DAT_010cbf80;
+    __m128 limit = (*reinterpret_cast<const ::StepReleaseFitPrivate::__m128 *>(&::ApplyForcesStepPrivate::DAT_010cbf80));
     __m128 mask = DAT_01017d10;
     __m128 linear = motion->linearVelocity;
     __m128 angular = motion->angularVelocity;
@@ -161,12 +161,12 @@ static __forceinline void StepReleaseFitadvanceMotion(StepReleaseFitStateArgumen
     previous.iw = state.rotation1.iw;
     *(__m128*)&state.rotation0 = *(__m128*)&previous;
     __m128 oldAngular = angularVelocity;
-    float halfStep = (float)(info.deltaTime * DAT_01011588);
+    float halfStep = (float)(info.deltaTime * ::DAT_01011588);
     StepReleaseFitQuaternion increment;
     *(__m128*)&increment = _mm_mul_ps(StepReleaseFitbroadcast(halfStep), oldAngular);
-    float angleSquared = (float)(StepReleaseFitlengthSquared3(*(__m128*)&increment) * DAT_010ce4b0);
-    float maxAngleProduct = DAT_010c7948[state.maxAngular] * info.deltaTime;
-    float maxAngle = maxAngleProduct > DAT_0106b9e8 ? DAT_010177e8 : maxAngleProduct;
+    float angleSquared = (float)(StepReleaseFitlengthSquared3(*(__m128*)&increment) * ::ApplyAccumulatorsPrivate::DAT_010ce4b0);
+    float maxAngleProduct = (*reinterpret_cast<const float (*)[256]>(&::DAT_010c7948))[state.maxAngular] * info.deltaTime;
+    float maxAngle = maxAngleProduct > ::DAT_0106b9e8 ? ::DAT_010177e8 : maxAngleProduct;
     float maxAngleSquared = maxAngle * maxAngle;
     if (angleSquared <= maxAngleSquared)
     {
@@ -183,12 +183,12 @@ static __forceinline void StepReleaseFitadvanceMotion(StepReleaseFitStateArgumen
         increment.w = StepReleaseFitcosineApprox(angleSquared);
     }
     previous.FUN_00c66320(&increment, &previous);
-    previous.FUN_005611c0();
+    reinterpret_cast<::FUN_005611c0_t *>(&(previous))->FUN_005611c0();
     state.deltaAngle = _mm_add_ps(*(__m128*)&increment, *(__m128*)&increment);
     float angle = (float)sqrt(angleSquared);
-    state.deltaAngle.m128_f32[3] = (float)(angle * DAT_0101ff40);
+    state.deltaAngle.m128_f32[3] = (float)(angle * ::DAT_0101ff40);
     _mm_store_ps((float*)&state.rotation1, *(__m128*)&previous);
-    state.FUN_00cb2d90(&late.p->rotation1);
+    reinterpret_cast<::RotationRows *>(&(state))->FUN_00cb2d90((void *)(&late.p->rotation1));
 }
 // @fnv 0x00d28680
 extern "C" void __cdecl FUN_00d28680(StepReleaseFitStepArgs args)
@@ -201,8 +201,8 @@ extern "C" void __cdecl FUN_00d28680(StepReleaseFitStepArgs args)
         StepReleaseFitMotionState& state = motion->state;
         if (!StepReleaseFitcheckVelocities(motion))
         {
-            motion->linearVelocity = DAT_01268370;
-            motion->angularVelocity = DAT_01268370;
+            motion->linearVelocity = (*reinterpret_cast<const ::StepReleaseFitPrivate::__m128 *>(&::DAT_01268370));
+            motion->angularVelocity = (*reinterpret_cast<const ::StepReleaseFitPrivate::__m128 *>(&::DAT_01268370));
         }
         __m128 center = state.center1;
         const StepReleaseFitStepInfo* info = args.info;
@@ -212,7 +212,7 @@ extern "C" void __cdecl FUN_00d28680(StepReleaseFitStepArgs args)
         _ReadWriteBarrier();
         __m128 oldLinear = motion->linearVelocity;
         unsigned int maxLinearIndex = state.maxLinear;
-        double maxLinear = DAT_010c7948[maxLinearIndex];
+        double maxLinear = (*reinterpret_cast<const float (*)[256]>(&::DAT_010c7948))[maxLinearIndex];
         float speedSquared;
         {
             __m128 squares = _mm_mul_ps(oldLinear, oldLinear);
@@ -224,7 +224,7 @@ extern "C" void __cdecl FUN_00d28680(StepReleaseFitStepArgs args)
         {
             float speed = (float)sqrt(speedSquared);
             float inverse = 1.0f / speed;
-            float factor = inverse * DAT_010c7948[maxLinearIndex];
+            float factor = inverse * (*reinterpret_cast<const float (*)[256]>(&::DAT_010c7948))[maxLinearIndex];
             info = args.info;
             motion->linearVelocity = _mm_mul_ps(StepReleaseFitbroadcast(factor), oldLinear);
         }

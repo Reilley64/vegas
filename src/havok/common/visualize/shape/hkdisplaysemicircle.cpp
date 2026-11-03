@@ -2,6 +2,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <xmmintrin.h>
+#include "fnv/decl/ArcPointsPrivate__ArcSamples_de4af0.h"
+#include "fnv/symbols_00c90000.h"
 struct VectorArray
 {
     __m128* data;
@@ -26,7 +28,6 @@ struct GlobalContext
     }
 };
 extern GlobalContext* __cdecl FUN_00c85750();
-extern void __cdecl FUN_00c908c0(void*, VectorArray*, int, int);
 struct Geometry
 {
     int unk00;
@@ -69,7 +70,6 @@ struct Geometry
     int unk94;
     int unk98;
     int unk9c;
-    void __thiscall FUN_00de4af0(VectorArray*);
     void __thiscall FUN_00de4c40(VectorArray*, void*);
 };
 // Fills a temporary array via FUN_00de4af0, then writes consecutive pairs (i, i+1) from it into destination, 2*unk9c entries, growing destination as needed.
@@ -77,7 +77,7 @@ struct Geometry
 void __thiscall Geometry::FUN_00de4c40(VectorArray* destination, void* allocator)
 {
     VectorArray temporary = {0, 0, 0x80000000u};
-    FUN_00de4af0(&temporary);
+    reinterpret_cast<::ArcPointsPrivate::ArcSamples_de4af0 *>(this)->FUN_00de4af0((::ArcPointsPrivate::VecArr_de4af0 *)(::VectorArray *)(&temporary));
     int required = unk9c * 2;
     int capacity = destination->capacityAndFlags & 0x3fffffff;
     if (capacity < required)
@@ -85,7 +85,7 @@ void __thiscall Geometry::FUN_00de4c40(VectorArray* destination, void* allocator
         int newCapacity = capacity * 2;
         if (required >= newCapacity)
             newCapacity = required;
-        FUN_00c908c0(allocator, destination, newCapacity, 16);
+        ::FUN_00c908c0((::SpawnedObject *)(allocator), (::SpawnedArray *)(destination), newCapacity, 16);
     }
     destination->size = required;
     int outputIndex = 0;
@@ -127,7 +127,6 @@ struct S_de4d20_Holder
 };
 
 S_de4d20_Holder* FUN_00c85750() throw();
-void FUN_00c90940(S_de4d20_Heap& h, void* arr, int elemSize) throw();
 
 struct __declspec(align(16)) S_de4d20_Vec
 {
@@ -215,7 +214,6 @@ struct S_de4d20_Context
     int unk98;
     int m9c;
 
-    void FUN_00de4af0(S_de4d20_Grid* g) throw();
     void FUN_00de4d20() throw();
 };
 
@@ -225,13 +223,13 @@ void S_de4d20_Context::FUN_00de4d20() throw()
 {
     S_de4d20_Grid* g = new S_de4d20_Grid;
     m8 = g;
-    FUN_00de4af0(g);
+    reinterpret_cast<::ArcPointsPrivate::ArcSamples_de4af0 *>(this)->FUN_00de4af0((::ArcPointsPrivate::VecArr_de4af0 *)(g));
 
     S_de4d20_Grid* arr = m8;
     S_de4d20_Holder* r = FUN_00c85750();
 
     if (arr->size == (int)(arr->cap & 0x3fffffff))
-        FUN_00c90940(r->heap(), arr, 0x10);
+        ::ResizeAudioStream((::AudioAllocator *)&(r->heap()), (::AudioStream *)(arr), 0x10);
 
     int i = 0;
     int off = 0;

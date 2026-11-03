@@ -2,10 +2,12 @@
 // src/havok/common/base/types/geometry/localframe/hklocalframeclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/types/geometry/localframe/hklocalframeclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00df67d0.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_0102e000.h"
 struct FUN_00df67d0_Base
 {
     virtual void v0();
-    void FUN_00df67d0();
 };
 struct FUN_00da0860_manager
 {
@@ -30,7 +32,7 @@ struct FUN_00da0860_class : FUN_00df67d0_Base
 // @fnv 0x00da0860
 FUN_00da0860_class* FUN_00da0860_class::FUN_00da0860(unsigned int flags)
 {
-    FUN_00df67d0_Base::FUN_00df67d0();
+    reinterpret_cast<::FUN_00df67d0 *>(this)->FUN_00df67d0::~FUN_00df67d0();
     if (flags & 1)
     {
         BSAudio* audio = FUN_00c85750();
@@ -78,11 +80,9 @@ void* DA0890Object::GetUntaggedPointer() const
     return (void*)(m_taggedPointer & ~1u);
 }
 
-extern int DAT_0102e388;
 
 struct FUN_00cb0c00_class
 {
-    void FUN_00cb0c00();
 };
 
 BSAudio* FUN_00c85750();
@@ -98,8 +98,8 @@ struct SomeClass
 // @fnv 0x00da0800
 void* SomeClass::FUN_00da0800(unsigned int flags)
 {
-    ((FUN_00cb0c00_class*)((char*)this + 8))->FUN_00cb0c00();
-    this->vptr = (void*)&DAT_0102e388;
+    ::FUN_00cb0c00((int)(((FUN_00cb0c00_class*)((char*)this + 8))));
+    this->vptr = (void*)&(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (flags & 1)
     {
         BSAudio* a = FUN_00c85750();

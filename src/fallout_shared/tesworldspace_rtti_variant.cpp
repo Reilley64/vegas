@@ -3,6 +3,38 @@
 // polymorphic classes (TESForm, TESObjectCELL, TESWorldSpace). The skeleton of src/fallout_shared/tesworldspace.cpp with those classes made polymorphic; move the functions to
 // their real unit once its classes are.
 
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
+#include "fnv/decl/C6b7f20_Map.h"
+#include "fnv/decl/CPMap00993a80.h"
+#include "fnv/decl/CellView.h"
+#include "fnv/decl/CombatThreatMap.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00438af0_Class.h"
+#include "fnv/decl/FUN_00484150_shell.h"
+#include "fnv/decl/FUN_00549580_shell.h"
+#include "fnv/decl/FUN_00586280_shell.h"
+#include "fnv/decl/FUN_00588070_shell.h"
+#include "fnv/decl/FUN_00658930_class.h"
+#include "fnv/decl/FUN_00810570_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/SomeClass.h"
+#include "fnv/decl/TESFormSortProxy.h"
+#include "fnv/decl/Unk00586340.h"
+#include "fnv/decl/UpdateOwner.h"
+#include "fnv/decl/fnv_0054db50__FUN_0054db50_cls.h"
+#include "fnv/decl/fnv_0087ce80__FUN_0087ce80_shell.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00587000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_01018000.h"
+#include "fnv/symbols_01183000.h"
+#include "fnv/symbols_01187000.h"
+#include "fnv/symbols_0118a000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011c4000.h"
 #include "tesworldspace_packet_rtti_variant.h"
 
 struct GROUP_HEADER
@@ -12,8 +44,6 @@ struct GROUP_HEADER
     unsigned int uiLabel;
     int iGroupType;
 };
-extern unsigned int kGroupFormType;
-TESForm* FUN_004839c0(unsigned int);
 class FormGroupOwner
 {
   public:
@@ -33,19 +63,18 @@ class FormGroupOwner
     virtual void v34();
     virtual void v38();
     virtual bool IsParentForm(TESForm* pkForm);
-    bool IsFormTypeBelowThreshold(GROUP_HEADER* pkGroup);
     bool FUN_00584d40(GROUP_HEADER* pkGroup);
 };
 // @fnv 0x00584d40
 bool FormGroupOwner::FUN_00584d40(GROUP_HEADER* pkGroup)
 {
     bool bResult = false;
-    if (pkGroup && pkGroup->uiType == kGroupFormType)
+    if (pkGroup && pkGroup->uiType == ::fnv_00543df0::kGroupFormType)
     {
         switch (pkGroup->iGroupType)
         {
         case 0:
-            bResult = IsFormTypeBelowThreshold(pkGroup);
+            bResult = reinterpret_cast<::FUN_00484150_shell *>(this)->IsFormTypeBelowThreshold((::FormRecordHeader *)(pkGroup));
             break;
         case 2:
         case 3:
@@ -80,7 +109,6 @@ class MobileObject : public TESObjectREFR
 class Actor : public MobileObject
 {
 };
-TESForm* __cdecl FUN_004839c0(unsigned int);
 struct MapPosition532;
 struct FUN_00993820
 {
@@ -89,25 +117,19 @@ struct FUN_00993820
     MapPosition532** buckets;
     unsigned int size;
     FUN_00993820(int);
-    MapPosition532* FUN_004b9ba0();
-    void GetNextEntry(MapPosition532*&, Actor*&, unsigned __int64&);
     void SetValue(Actor*, unsigned __int64);
-    void FUN_00438af0();
 };
 struct Child532
 {
-    void UpdateElements(void*);
 };
 struct Tail532
 {
-    void FUN_009a5c40(void*);
 };
 struct ReferenceArray532
 {
     virtual ~ReferenceArray532();
     Child532** data;
     unsigned short capacity, size, effectiveSize, grow;
-    unsigned int GetShortAtOffsetA();
     Child532*& FUN_00877a30(unsigned int);
 };
 struct CombatGroup532 : ReferenceArray532
@@ -121,28 +143,28 @@ void CombatGroup532::FUN_00993600(void* stream)
 {
     FUN_00993820* oldMapX = map;
     map = new FUN_00993820(0x25);
-    MapPosition532* position = oldMapX->FUN_004b9ba0();
+    MapPosition532* position = ((::MapPosition532 *)(reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((oldMapX))->GetFirstPos()));
     Actor* actor_;
     unsigned __int64 valueTmp;
     unsigned int index;
     Child532* child2;
     while (position)
     {
-        oldMapX->GetNextEntry(position, actor_, valueTmp);
+        reinterpret_cast<::CPMap00993a80 *>((oldMapX))->GetNextEntry((::CPMapItem00993a80 *&)(position), (unsigned int *)&(actor_), (unsigned long long *)&(valueTmp));
         // Persisted pointer-map keys hold a 32-bit form identifier until fixup.
         actor_ = actor_ ? dynamic_cast<Actor*>(FUN_004839c0((unsigned int)actor_)) : 0;
         if (actor_)
             map->SetValue(actor_, valueTmp);
     }
-    oldMapX->FUN_00438af0();
+    reinterpret_cast<::FUN_00438af0_Class *>((oldMapX))->FUN_00438af0();
     delete oldMapX;
-    for (index = 0; index < GetShortAtOffsetA(); ++index)
+    for (index = 0; index < reinterpret_cast<::FUN_00658930_class *>(this)->GetShortAtOffsetA(); ++index)
     {
         child2 = FUN_00877a30(index);
         if (child2)
-            child2->UpdateElements(stream);
+            reinterpret_cast<::UpdateOwner *>((child2))->UpdateElements((unsigned int)(stream));
     }
-    tail->FUN_009a5c40(stream);
+    reinterpret_cast<::CombatThreatMap *>((tail))->ApplyLoadBuffer((::BGSLoadGameBuffer *)(stream));
 }
 
 class TESClimate : public TESForm
@@ -161,8 +183,6 @@ class BGSMusicType : public TESForm
 {
 };
 
-void __cdecl ResolveFormID5845(unsigned int* puiFormID, TESFile* pkFile);
-int __cdecl MasterLog5845(const char* pcFormat, ...);
 
 class TESObjectCELL5845
 {
@@ -207,8 +227,6 @@ class TESObjectCELL5845
 class CellMap5845
 {
   public:
-    void* GetFirstPos();
-    void GetNext(void*& pos, unsigned int& uiKey, TESObjectCELL5845*& pkCell);
 };
 
 class WorldSpaceOwner5845;
@@ -238,7 +256,6 @@ class WorldSpaceLOD5845
 class WorldSpaceRegion5845
 {
   public:
-    void Attach(WorldSpaceOwner5845* pkWorld);
 };
 
 class WorldSpaceOwner5845
@@ -322,19 +339,6 @@ class WorldSpaceOwner5845
     virtual void v12c();
     virtual const char* GetEditorID() const;
 
-    bool IsTemporary5845();
-    TESFile* GetFile(int iIndex);
-    int HasEditorID();
-    unsigned int GetFormID();
-    void SetClimate(TESClimate* p);
-    void SetImageSpace(TESImageSpace* p);
-    void SetEncounterZone(BGSEncounterZone* p);
-    void SetWaterType(TESWaterForm* p);
-    void SetLODWaterType(TESWaterForm* p);
-    void SetMusicType(BGSMusicType* p);
-    void SetParentWorld(TESWorldSpace* p);
-    void FinishInit(int i);
-    TESObjectCELL5845* GetPersistentCell();
     void FUN_005845e0();
 
     unsigned int unk04;
@@ -394,147 +398,131 @@ class WorldSpaceOwner5845
 // @fnv 0x005845e0
 void WorldSpaceOwner5845::FUN_005845e0()
 {
-    if (!IsTemporary5845())
+    if (!reinterpret_cast<::TESForm *>(this)->GetInitialized())
     {
         unsigned int uiFormIDA;
         uiFormIDA = m_uiClimate;
         if (uiFormIDA)
         {
-            ResolveFormID5845(&uiFormIDA, GetFile(-1));
+            ::ResolveFormID(&uiFormIDA, reinterpret_cast<::TESForm *>(this)->GetFile(-1));
             TESClimate* pkClimate = dynamic_cast<TESClimate*>(FUN_004839c0(uiFormIDA));
             if (!pkClimate)
             {
-                if (HasEditorID())
-                    MasterLog5845("MASTERFILE: Unable to find climate (%08X) on owner worldspace \"%s\".", uiFormIDA,
-                                  GetEditorID());
+                if (reinterpret_cast<::BGSCameraPath *>(this)->HasNameForWarning())
+                    ::FUN_005b5e40();
                 else
-                    MasterLog5845("MASTERFILE: Unable to find climate (%08X) on owner worldspace (%08X).", uiFormIDA,
-                                  GetFormID());
+                    ::FUN_005b5e40();
             }
-            SetClimate(pkClimate);
+            reinterpret_cast<::fnv_0087ce80::FUN_0087ce80_shell *>(this)->FUN_0087ce80((::fnv_0087ce80::TESObjectCELL *)(pkClimate));
         }
         uiFormIDA = m_uiImageSpace;
         if (uiFormIDA)
         {
-            ResolveFormID5845(&uiFormIDA, GetFile(-1));
+            ::ResolveFormID(&uiFormIDA, reinterpret_cast<::TESForm *>(this)->GetFile(-1));
             TESImageSpace* pkImageSpace2 = dynamic_cast<TESImageSpace*>(FUN_004839c0(uiFormIDA));
             if (!pkImageSpace2)
             {
-                if (HasEditorID())
-                    MasterLog5845("MASTERFILE: Unable to find imagespace (%08X) on owner worldspace \"%s\".", uiFormIDA,
-                                  GetEditorID());
+                if (reinterpret_cast<::BGSCameraPath *>(this)->HasNameForWarning())
+                    ::FUN_005b5e40();
                 else
-                    MasterLog5845("MASTERFILE: Unable to find imagespace (%08X) on owner worldspace (%08X).", uiFormIDA,
-                                  GetFormID());
+                    ::FUN_005b5e40();
             }
-            SetImageSpace(pkImageSpace2);
+            reinterpret_cast<::LowProcess *>(this)->SetCurrentCombatTarget((::TESObjectREFR *)(pkImageSpace2));
         }
         uiFormIDA = m_uiEncounterZone;
         if (uiFormIDA)
         {
-            ResolveFormID5845(&uiFormIDA, GetFile(-1));
+            ::ResolveFormID(&uiFormIDA, reinterpret_cast<::TESForm *>(this)->GetFile(-1));
             BGSEncounterZone* pkEncounterZone = dynamic_cast<BGSEncounterZone*>(FUN_004839c0(uiFormIDA));
             if (!pkEncounterZone)
             {
-                if (HasEditorID())
-                    MasterLog5845("Unable to find encounter zone (%08X) on owner worldspace \"%s\".", uiFormIDA,
-                                  GetEditorID());
+                if (reinterpret_cast<::BGSCameraPath *>(this)->HasNameForWarning())
+                    ::FUN_005b5e40();
                 else
-                    MasterLog5845("Unable to find encounter zone (%08X) on owner worldspace (%08X).", uiFormIDA,
-                                  GetFormID());
+                    ::FUN_005b5e40();
             }
-            SetEncounterZone(pkEncounterZone);
+            reinterpret_cast<::TESWorldSpace *>(this)->SetFieldD0((unsigned int)(pkEncounterZone));
         }
         uiFormIDA = m_uiWater;
         if (uiFormIDA)
         {
-            ResolveFormID5845(&uiFormIDA, GetFile(-1));
+            ::ResolveFormID(&uiFormIDA, reinterpret_cast<::TESForm *>(this)->GetFile(-1));
             TESWaterForm* pkWaterType4 = dynamic_cast<TESWaterForm*>(FUN_004839c0(uiFormIDA));
             if (!pkWaterType4)
             {
-                if (HasEditorID())
-                    MasterLog5845("MASTERFILE: Unable to find water type (%08X) on owner worldspace \"%s\".", uiFormIDA,
-                                  GetEditorID());
+                if (reinterpret_cast<::BGSCameraPath *>(this)->HasNameForWarning())
+                    ::FUN_005b5e40();
                 else
-                    MasterLog5845("MASTERFILE: Unable to find water type (%08X) on owner worldspace (%08X).", uiFormIDA,
-                                  GetFormID());
+                    ::FUN_005b5e40();
             }
-            SetWaterType(pkWaterType4);
+            reinterpret_cast<::TESObjectACTI *>(this)->SetLoopingSound((::TESSound *)(pkWaterType4));
         }
         uiFormIDA = m_uiLODWater;
         if (uiFormIDA)
         {
-            ResolveFormID5845(&uiFormIDA, GetFile(-1));
+            ::ResolveFormID(&uiFormIDA, reinterpret_cast<::TESForm *>(this)->GetFile(-1));
             TESWaterForm* pkLODWaterType3 = dynamic_cast<TESWaterForm*>(FUN_004839c0(uiFormIDA));
             if (!pkLODWaterType3)
             {
-                if (HasEditorID())
-                    MasterLog5845("MASTERFILE: Unable to find lod water type (%08X) on owner worldspace \"%s\".",
-                                  uiFormIDA, GetEditorID());
+                if (reinterpret_cast<::BGSCameraPath *>(this)->HasNameForWarning())
+                    ::FUN_005b5e40();
                 else
-                    MasterLog5845("MASTERFILE: Unable to find lod water type (%08X) on owner worldspace (%08X).",
-                                  uiFormIDA, GetFormID());
+                    ::FUN_005b5e40();
             }
-            SetLODWaterType(pkLODWaterType3);
+            reinterpret_cast<::TESObjectACTI *>(this)->SetActivateSound((::TESSound *)(pkLODWaterType3));
         }
         uiFormIDA = m_uiMusicType;
         if (uiFormIDA)
         {
-            ResolveFormID5845(&uiFormIDA, GetFile(-1));
+            ::ResolveFormID(&uiFormIDA, reinterpret_cast<::TESForm *>(this)->GetFile(-1));
             BGSMusicType* kPkMusicType = dynamic_cast<BGSMusicType*>(FUN_004839c0(uiFormIDA));
             if (!kPkMusicType)
             {
-                if (HasEditorID())
-                    MasterLog5845("MASTERFILE: Unable to find music type (%08X) on owner worldspace \"%s\".", uiFormIDA,
-                                  GetEditorID());
+                if (reinterpret_cast<::BGSCameraPath *>(this)->HasNameForWarning())
+                    ::FUN_005b5e40();
                 else
-                    MasterLog5845("MASTERFILE: Unable to find music type (%08X) on owner worldspace (%08X).", uiFormIDA,
-                                  GetFormID());
+                    ::FUN_005b5e40();
             }
-            SetMusicType(kPkMusicType);
+            reinterpret_cast<::FUN_00810570_shell *>(this)->SetAssociatedActorValue((int)(kPkMusicType));
         }
         uiFormIDA = m_uiParentWorld;
         if (uiFormIDA)
         {
-            ResolveFormID5845(&uiFormIDA, GetFile(-1));
+            ::ResolveFormID(&uiFormIDA, reinterpret_cast<::TESForm *>(this)->GetFile(-1));
             TESWorldSpace* pkParentWorldVal = dynamic_cast<TESWorldSpace*>(FUN_004839c0(uiFormIDA));
             if (!pkParentWorldVal)
             {
-                if (HasEditorID())
-                    MasterLog5845("MASTERFILE: Unable to find landscape world (%08X) on owner worldspace \"%s\".",
-                                  uiFormIDA, GetEditorID());
+                if (reinterpret_cast<::BGSCameraPath *>(this)->HasNameForWarning())
+                    ::FUN_005b5e40();
                 else
-                    MasterLog5845("MASTERFILE: Unable to find landscape world (%08X) on owner worldspace (%08X).",
-                                  uiFormIDA, GetFormID());
+                    ::FUN_005b5e40();
             }
-            SetParentWorld(pkParentWorldVal);
+            reinterpret_cast<::TESWorldSpace *>(this)->SetParent(pkParentWorldVal);
         }
         if (m_pkRegion)
-            m_pkRegion->Attach(this);
-        FinishInit(1);
+            reinterpret_cast<::SomeClass *>((m_pkRegion))->RemapImpactData((::TESForm *)(::WorldSpaceOwner5845 *)(this));
+        reinterpret_cast<::TESForm *>(this)->SetInitializationState(1);
     }
     TESObjectCELL5845* pkPersistent4;
-    void* pos2 = m_pkCellMap->GetFirstPos();
+    void* pos2 = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((m_pkCellMap))->GetFirstPos();
     while (pos2)
     {
         unsigned int uiKey3;
         TESObjectCELL5845* pkCell = 0;
-        m_pkCellMap->GetNext(pos2, uiKey3, pkCell);
+        reinterpret_cast<::C6b7f20_Map *>((m_pkCellMap))->FUN_006b7f20((::C6b7f20_Node **)&(pos2), (unsigned int *)&(uiKey3), (void **)&(pkCell));
         if (pkCell)
             pkCell->LinkPersistent();
     }
-    pkPersistent4 = GetPersistentCell();
+    pkPersistent4 = ((::TESObjectCELL5845 *)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath()));
     if (pkPersistent4)
         pkPersistent4->LinkPersistent();
     m_pkLOD = new WorldSpaceLOD5845(this);
 }
 
 extern "C" void* __cdecl FUN_00ec43fb(void* p, long off, void* src, void* dst, int isRef);
-extern char DAT_01183028, DAT_01183fb4, DAT_0118ac2c;
 struct FormX
 {
     int FUN_00401170();
-    unsigned int FUN_0084e3a0();
     bool IsLessThan(FormX* pkForm);
 };
 struct WorldX;
@@ -545,11 +533,9 @@ struct ChildX
 struct WorldX;
 struct CellX
 {
-    WorldX* FUN_0054ddd0();
 };
 struct WorldX
 {
-    unsigned int FUN_0084e3a0();
     bool IsLessThan(FormX* pkForm);
     virtual void v00(), v04(), v08(), v0c(), v10(), v14(), v18(), v1c(), v20(), v24(), v28(), v2c(), v30(), v34(),
         v38();
@@ -563,8 +549,8 @@ bool WorldX::FUN_00584be0(FormX* pkForm)
     switch (pkForm->FUN_00401170())
     {
     case 0x39: {
-        CellX* pkCell = (CellX*)FUN_00ec43fb(pkForm, 0, &DAT_01183028, &DAT_01183fb4, 0);
-        WorldX* pkWorld = pkCell ? pkCell->FUN_0054ddd0() : 0;
+        CellX* pkCell = (CellX*)FUN_00ec43fb(pkForm, 0, &(*reinterpret_cast<char *>(&::DAT_01183028)), &DAT_01183fb4, 0);
+        WorldX* pkWorld = pkCell ? ((::WorldX *)(reinterpret_cast<::TESObjectCELL *>((pkCell))->GetParentWorldSpace())) : 0;
         if (pkWorld == this)
             bResult = true;
         else if (pkWorld)
@@ -572,7 +558,7 @@ bool WorldX::FUN_00584be0(FormX* pkForm)
         break;
     }
     case 0x41:
-        if (FUN_0084e3a0() < pkForm->FUN_0084e3a0())
+        if (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())) < ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pkForm))->FUN_0084e3a0())))
             bResult = true;
         break;
     case 0x3a:
@@ -585,12 +571,12 @@ bool WorldX::FUN_00584be0(FormX* pkForm)
     case 0x42:
     case 0x43:
     case 0x69: {
-        ChildX* pkChild = (ChildX*)FUN_00ec43fb(pkForm, 0, &DAT_01183028, &DAT_0118ac2c, 0);
+        ChildX* pkChild = (ChildX*)FUN_00ec43fb(pkForm, 0, &(*reinterpret_cast<char *>(&::DAT_01183028)), &DAT_0118ac2c, 0);
         bResult = IsChildOf(pkChild->GetParentWorld());
         break;
     }
     default:
-        bResult = IsLessThan(pkForm);
+        bResult = reinterpret_cast<::TESFormSortProxy *>(this)->IsLessThan((::TESForm *)(pkForm));
         break;
     }
     return bResult;

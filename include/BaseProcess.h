@@ -1,6 +1,7 @@
 // Source layout: BaseProcess. PC corrections are in generate_headers.py.
 #ifndef FNV_BASEPROCESS_H
 #define FNV_BASEPROCESS_H
+#include "fnv/decl/FUN_0045cd60_shell.h"
 #include "layout_support.h"
 #include "ActorPackageContext.h"
 class AnimIdle;
@@ -546,7 +547,6 @@ class BaseProcess
     virtual void SetActorTarget(Actor*);                                                     // slot 0x1EA
     virtual void SetLastTargetReference(TESObjectREFR*);                                     // slot 0x1EB
     virtual void ClearTargetReference(TESObjectREFR*);                                       // slot 0x1EC
-    PROCESS_TYPE GetProcessLevel();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(BaseProcess) == 0x30);

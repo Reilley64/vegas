@@ -2,13 +2,12 @@
 // src/havok/physics/collide/filter/null/hkpnullcollisionfilter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/filter/null/hkpnullcollisionfilter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010c3000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpNullCollisionFilter.h"
 
-extern int DAT_0102e388;
-extern int DAT_010c3b80;
-extern int DAT_010c3b8c;
-extern int DAT_010c3b98;
-extern int DAT_010c3bac;
 
 struct FUN_00cfa860
 {
@@ -27,7 +26,7 @@ FUN_00cfa860::~FUN_00cfa860()
     *(void**)((char*)this + 0x10) = &DAT_010c3bac;
     *(void**)((char*)this + 0x0c) = &DAT_010c3b98;
     *(void**)((char*)this + 0x08) = &DAT_010c3b80;
-    *(void**)((char*)this + 0x00) = &DAT_0102e388;
+    *(void**)((char*)this + 0x00) = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 extern "C" unsigned __int64 __rdtsc(void);
@@ -125,11 +124,9 @@ struct S_00cfab30_this
     void __thiscall RecordAndDispatch(S_00cfab30_object*, S_00cfab30_arg*, void*, void*, void*);
 };
 
-extern int DAT_0126835c;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" void _ReadWriteBarrier(void);
 extern const char str_010cc668[];
-extern const char str_010c41f8[];
 
 // Records a start timestamp, stores arguments into fields, invokes target_call on arg08 with a local struct, then records an end timestamp.
 // @fnv 0x00cfab30
@@ -141,7 +138,7 @@ void __thiscall S_00cfab30_this::RecordAndDispatch(S_00cfab30_object* apTarget, 
     volatile unsigned int timestamp;
     S_00cfab30_local local;
 
-    allocator = (S_00cfab30_allocator*)TlsGetValue(DAT_0126835c);
+    allocator = (S_00cfab30_allocator*)TlsGetValue((*reinterpret_cast<int *>(&::DAT_0126835c)));
     record = allocator->next;
 
     if (record < allocator->end)
@@ -175,12 +172,12 @@ void __thiscall S_00cfab30_this::RecordAndDispatch(S_00cfab30_object* apTarget, 
 
     apTarget->target_call(&local, this, 0);
 
-    allocator = (S_00cfab30_allocator*)TlsGetValue(DAT_0126835c);
+    allocator = (S_00cfab30_allocator*)TlsGetValue((*reinterpret_cast<int *>(&::DAT_0126835c)));
     record = allocator->next;
 
     if (record < allocator->end)
     {
-        record->name = str_010c41f8;
+        record->name = ::DAT_010c41f8;
         _ReadWriteBarrier();
         timestamp = __rdtsc();
         record->timestamp = timestamp;

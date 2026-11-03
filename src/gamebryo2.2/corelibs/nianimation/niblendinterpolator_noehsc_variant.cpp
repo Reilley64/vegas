@@ -3,6 +3,18 @@
 // byte only under /MT /O2 /GS /Gy (unit src/gamebryo2.2/corelibs/nianimation/niblendinterpolator.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a37260_shell.h"
+#include "fnv/decl/LoadInterpItem.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiStream.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a88000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_011a8000.h"
+#include "fnv/symbols_011f6000.h"
 #include "niblendinterpolator_types_NiBlendInterpolator.h"
 #include "niblendinterpolator_types_NiBlendInterpolator__InterpArrayItem.h"
 #include "niblendinterpolator_types_NiCloningProcess.h"
@@ -10,13 +22,11 @@
 class MemoryManagerAllocHelper
 {
   public:
-    void* Allocate(unsigned int size);
 };
-extern MemoryManagerAllocHelper g_memoryManager;
 
 void* operator new[](size_t size)
 {
-    return g_memoryManager.Allocate(size);
+    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager))))->FUN_00aa3e40(size);
 }
 
 struct CloneInterpItem
@@ -35,14 +45,13 @@ struct CloneInterpItem
 
 struct BlendCopy : NiBlendInterpolator
 {
-    void FUN_00aa1000(NiBlendInterpolator* destination, CloningProcess* process);
     void FUN_00a37510(NiBlendInterpolator* destination, CloningProcess* process);
 };
 
 // @fnv 0x00a37510
 void BlendCopy::FUN_00a37510(NiBlendInterpolator* destination, CloningProcess* process)
 {
-    FUN_00aa1000(destination, process);
+    ::FUN_00aa1000();
     destination->m_uiObjectFlags = m_uiObjectFlags;
     destination->m_ucArraySize = m_ucArraySize;
     destination->m_pInterpArray = (NiBlendInterpolator__InterpArrayItem*)new CloneInterpItem[m_ucArraySize];
@@ -82,18 +91,14 @@ void BlendCopy::FUN_00a37510(NiBlendInterpolator* destination, CloningProcess* p
     }
 }
 
-extern unsigned char DAT_011a83ff;
 
 struct MM
 {
-    void Deallocate(void* pvMem);
 };
-extern MM _g_memoryManager;
 
 class MemoryManager
 {
   public:
-    void* Allocate(unsigned int uiSize);
 };
 
 class FUN_00a370a0 : public NiBlendInterpolator__InterpArrayItem
@@ -102,11 +107,11 @@ class FUN_00a370a0 : public NiBlendInterpolator__InterpArrayItem
     __declspec(nothrow) FUN_00a370a0();
     static void* operator new[](unsigned int uiSize)
     {
-        return ((MemoryManager*)&_g_memoryManager)->Allocate(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>((((MemoryManager*)&(*reinterpret_cast<::MM *>(&::g_memoryManager)))))->FUN_00aa3e40(uiSize);
     }
     static void operator delete[](void* pvMem)
     {
-        _g_memoryManager.Deallocate(pvMem);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
     }
 };
 
@@ -119,10 +124,10 @@ class NiBlendInterpolatorW : public NiBlendInterpolator
 // @fnv 0x00a37690
 bool NiBlendInterpolatorW::FUN_00a37690()
 {
-    if (DAT_011a83ff == 0)
+    if (::DAT_011a83ff == 0)
         return false;
 
-    unsigned char ucNewArraySize = m_ucArraySize + DAT_011a83ff;
+    unsigned char ucNewArraySize = m_ucArraySize + ::DAT_011a83ff;
     if (ucNewArraySize < 4)
         ucNewArraySize = 4;
 
@@ -143,9 +148,7 @@ namespace fnv_00a37980 {
 struct Stream100;
 struct Memory100
 {
-    void* FUN_00aa3e40(unsigned int);
 };
-extern Memory100 DAT_011f6238;
 
 struct FUN_00a370a0
 {
@@ -158,9 +161,8 @@ struct FUN_00a370a0
     {}
     static void* operator new[](unsigned int n) throw()
     {
-        return DAT_011f6238.FUN_00aa3e40(n);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a37980::Memory100 *>(&::g_memoryManager))))->FUN_00aa3e40(n);
     }
-    void LoadFromStream(Stream100&);
 };
 
 typedef struct FUN_00a370a0 Item100;
@@ -475,7 +477,6 @@ struct Stream100
     unsigned int unk248;
 
     Binary100* binary;
-    void* FUN_00a64620();
 };
 
 struct Blend100
@@ -487,7 +488,6 @@ struct Blend100
     Item100* array;
     void* singleInterpolator;
     float weightThreshold, singleTime, highSum, nextSum, highEase;
-    void FUN_00a88a40(Stream100&);
     void FUN_00a37980(Stream100&);
 };
 
@@ -495,7 +495,7 @@ struct Blend100
 void Blend100::FUN_00a37980(Stream100& stream)
 {
 
-    FUN_00a88a40(stream);
+    ::FUN_00a88a40();
 
     if (stream.version >= 0x0a010070)
     {
@@ -520,7 +520,7 @@ void Blend100::FUN_00a37980(Stream100& stream)
     {
 
         for (unsigned char i = 0; i < size; ++i)
-            array[i].LoadFromStream(stream);
+            reinterpret_cast<::LoadInterpItem *>(&(array[i]))->LoadFromStream((::LoadStream *)&(stream));
 
         bool managerControlled;
         stream.binary->Read(&managerControlled, 1);
@@ -555,7 +555,7 @@ void Blend100::FUN_00a37980(Stream100& stream)
 
         if (stream.version >= 0x0a01006c)
         {
-            singleInterpolator = stream.FUN_00a64620();
+            singleInterpolator = ((void *)(reinterpret_cast<::NiStream *>(&(stream))->DeserializeObject()));
             stream.binary->Read(&singleTime, 4);
         }
 
@@ -597,9 +597,9 @@ void Blend100::FUN_00a37980(Stream100& stream)
             stream.binary->Read(&highEase, 4);
 
             for (unsigned char i = 0; i < size; ++i)
-                array[i].LoadFromStream(stream);
+                reinterpret_cast<::LoadInterpItem *>(&(array[i]))->LoadFromStream((::LoadStream *)&(stream));
 
-            singleInterpolator = stream.FUN_00a64620();
+            singleInterpolator = ((void *)(reinterpret_cast<::NiStream *>(&(stream))->DeserializeObject()));
         }
     }
 }

@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/serialize/display/hkpserializeddisplaymarkerlistclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/serialize/display/hkpserializeddisplaymarkerlistclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/hkReferencedObjectC905.h"
 struct AudioAllocator
 {
     virtual void v00();
@@ -24,7 +25,6 @@ AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct RefElem_t
 {
-    void FUN_00c905b0();
 };
 
 struct RefBase_cls
@@ -51,7 +51,7 @@ FUN_00dff010_cls::~FUN_00dff010_cls() throw()
 {
     for (int i = 0; i < m_iArrayLength; i++)
     {
-        m_ppData[i]->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_ppData[i]))->FUN_00c905b0();
     }
 
     AudioHolder* pAudioHolder = FUN_00c85750();

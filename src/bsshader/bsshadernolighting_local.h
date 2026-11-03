@@ -4,6 +4,18 @@
 #ifndef FNV_BSSHADERNOLIGHTING_LOCAL_H
 #define FNV_BSSHADERNOLIGHTING_LOCAL_H
 
+#include "fnv/decl/FUN_00be1750_shell.h"
+#include "fnv/decl/XRenderer.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00b97000.h"
+#include "fnv/symbols_00bc6000.h"
+#include "fnv/symbols_00bc8000.h"
+#include "fnv/symbols_00be0000.h"
+#include "fnv/symbols_00e76000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_0126f000.h"
 #include "layout_support.h"
 // PC allocation operators absent from the task's minimal shared declaration.
 #ifndef FNV_NIMEMOBJECT_H
@@ -58,7 +70,6 @@ template <> class NiPointer<NiD3DVertexDeclaration>
     operator NiD3DShaderDeclaration*() const;
 };
 class NiRenderer;
-extern NiRenderer* DAT_011f9508;
 class NiGeometry;
 class NiTransform;
 class NiPropertyState;
@@ -82,7 +93,6 @@ struct BSNoLightingShaderConfig
 };
 extern "C" void* __cdecl memset(void*, int, unsigned int);
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
-extern "C" int __cdecl sprintf_s(char*, unsigned int, const char*, ...);
 template <class T> inline void AssignShader(NiPointer<T>& dest, T* value)
 {
     if (dest.m_pObject != value)
@@ -211,7 +221,6 @@ FNV_STATIC_ASSERT(offsetof(NiD3DShaderDeclaration, m_bHasChanges) == 40);
 class NiD3DVertexDeclaration : public NiD3DShaderDeclaration
 {
   public:
-    static NiD3DVertexDeclaration* Create(NiRenderer*, unsigned int, unsigned int);
     // base NiD3DShaderDeclaration at +0x0, size 44
     _D3DVERTEXELEMENT9* m_pkVertexElements;         // +0x2C, 4 bytes
     COMUnknownInterface* m_pkD3DVertexDeclaration;  // +0x30, 4 bytes
@@ -1413,9 +1422,6 @@ class BSShader : public NiD3DDefaultShader
     virtual void vfn_11c();
     BSShader();
     ~BSShader();
-    static void GetShaderPath(const char*, char*);
-    NiD3DVertexShader* CompileVertexShader(const char*, const _D3DXMACRO*, const char*, const char*);
-    NiD3DPixelShader* CompilePixelShader(const char*, const _D3DXMACRO*, const char*, const char*);
     // base NiD3DDefaultShader at +0x0, size 92
     NiPointer<NiD3DPass> spRenderPass;       // +0x5C, 4 bytes
     BSShaderManager__eBSSMPassEnum m_ePass;  // +0x60, 4 bytes
@@ -1494,12 +1500,7 @@ class BSShaderNoLighting : public BSShader
                        NiD3DVertexDeclaration* d9, NiD3DVertexDeclaration* d10, NiD3DVertexDeclaration* d11);
     ~BSShaderNoLighting();
     static BSShader* CreateShader();
-    void FUN_00bc77e0();
     void PrepareShaderPass(const NiPropertyState*);
-    void CopyEntriesToGlobalBuffer(NiGeometry*, const NiTransform&);
-    void UpdateGlobalMatrix(const NiPropertyState*);
-    void FUN_00bc7100();
-    void UpdateMaterialColor(BSShaderNoLightingProperty*, NiMaterialProperty*);
     void InitializeShaderData();
     NiD3DShaderDeclaration* SelectVertexDeclaration(NiGeometry* pkGeometry, BSShaderProperty* pkShaderProperty);
     // const NiRTTI* __cdecl BSShaderNoLighting::*()
@@ -1557,7 +1558,6 @@ inline NiPointer<NiD3DVertexDeclaration>::operator NiD3DShaderDeclaration*() con
 {
     return m_pObject;
 }
-extern RgbaColor DAT_011a9be0;
 extern RgbaColor DAT_01202010;
 
 #include "NiPoint3.h"
@@ -1622,6 +1622,7 @@ class BSShaderNoLightingProperty : public BSShaderProperty
     unsigned char pad68[8];
     RgbaColor kFalloff;
 };
+template <class> class NiPointer;
 class NiD3DPass
 {
   public:
@@ -1629,11 +1630,16 @@ class NiD3DPass
     NiD3DShaderProgram* m_spPixelShaderObject;
     unsigned char pad48[0x14];
     NiD3DShaderProgram* m_spVertexShaderObject;
+public:
+    bool ApplyRenderStateChanges(bool);
+public:
+    void DestroyPass();
+public:
+    static void CreateD3DPass(::NiPointer< ::NiD3DPass> &);
 };
 class GraphicsRenderer
 {
   public:
-    void ApplyObjectTransform(const NiTransform&, bool);
 };
 class ShaderPassRenderer
 {
@@ -1685,12 +1691,5 @@ class NiD3DShaderConstantMap : public NiRefObject
                                                     const void*, const NiTransform&, const NiBound&, unsigned int,
                                                     bool);
 };
-extern NiGeometry** DAT_011f91e0;
-extern unsigned int DAT_011f91e4;
-extern NiBound DAT_011f4288;
-extern NiPoint3 DAT_011f474c;
-extern int DAT_0126f74c;
 extern RgbaColor DAT_01202020;
 extern RgbaColor DAT_01202030;
-void __cdecl FUN_00b97e30(unsigned int, unsigned int);
-void __cdecl FUN_00b97de0(unsigned int, unsigned int);

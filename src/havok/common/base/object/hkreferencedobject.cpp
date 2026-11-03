@@ -2,6 +2,13 @@
 // src/havok/common/base/object/hkreferencedobject.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/object/hkreferencedobject.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00d21ce0_cls.h"
+#include "fnv/decl/FUN_00e5c490_cls.h"
+#include "fnv/symbols_00cf4000.h"
+#include "fnv/symbols_00e3e000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01272000.h"
 #include "havok/hkReferencedObject.h"
 
 struct FUN_00c903b0_class
@@ -35,43 +42,29 @@ void FUN_00c903a0_class::FUN_00c903a0()
         (*(short*)((char*)this + 6))++;
 }
 
-extern int DAT_012681d4;
 // @fnv 0x00c90410
 void __cdecl FUN_00c90410(int v)
 {
     *(int*)(*(int**)(void*)&DAT_012681d4 + 2) = v;
 }
 
-extern int DAT_0102e388;
 
 // @fnv 0x00c903d0
 int* __cdecl FUN_00c903d0()
 {
-    return &DAT_0102e388;
+    return &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 struct DDCC60World
 {
-    void removeReference();
 };
 struct RefObj
 {
-    void RetainReference();
 };
 struct FUN_00cd29c0_class
 {
     void FUN_00cd29c0(RefObj*);
 };
-// @fnv 0x00cd29c0
-void FUN_00cd29c0_class::FUN_00cd29c0(RefObj* object)
-{
-    object->RetainReference();
-    DDCC60World* pOldWorld = *reinterpret_cast<DDCC60World**>(reinterpret_cast<unsigned char*>(this) + 0x84);
-    if (pOldWorld)
-        pOldWorld->removeReference();
-    *reinterpret_cast<RefObj**>(reinterpret_cast<unsigned char*>(this) + 0x84) = object;
-}
-
 struct FUN_00cdf6e0_class
 {
     void** m_pVTable;
@@ -84,21 +77,7 @@ struct FUN_00cdf6e0_class
 
 struct FUN_00cdf6e0_Ref : hkReferencedObject
 {
-    void RetainReference();
-    void removeReference();
 };
-
-// @fnv 0x00cdf6e0
-void FUN_00cdf6e0_class::SetReferencedObject(hkReferencedObject* pObject)
-{
-    FUN_00cdf6e0_Ref* pNewRef = (FUN_00cdf6e0_Ref*)pObject;
-    if (pNewRef)
-        pNewRef->RetainReference();
-    FUN_00cdf6e0_Ref* pOldRef = (FUN_00cdf6e0_Ref*)m_pObject;
-    if (pOldRef)
-        pOldRef->removeReference();
-    m_pObject = pObject;
-}
 
 namespace fnv_00d47750 {
 struct RefObj
@@ -236,7 +215,6 @@ FUN_00e3e840_result* FUN_00e3e840_class::FindWorldByKey(FUN_00e3e840_result* res
 }
 }  // namespace fnv_00e3e840
 
-extern int DAT_012681d4;
 
 // @fnv 0x00c90480
 int __cdecl FUN_00c90480()
@@ -424,8 +402,6 @@ struct ThreadMode_9bf0
 __declspec(thread) ThreadMode_9bf0 tls_9bf0;
 struct Object_9bf0
 {
-    void FUN_00c90510();
-    void FUN_00c905b0();
 };
 struct Owner_9bf0
 {
@@ -436,26 +412,15 @@ struct Owner_9bf0
 struct RestoreMode_9bf0
 {
     unsigned int original;
-    RestoreMode_9bf0() : original(tls_9bf0.m_currentMode)
+    RestoreMode_9bf0() : original((*reinterpret_cast<::ThreadMode_9bf0 *>(&::g_tlsBlock)).m_currentMode)
     {
-        tls_9bf0.m_currentMode = 0x10;
+        (*reinterpret_cast<::ThreadMode_9bf0 *>(&::g_tlsBlock)).m_currentMode = 0x10;
     }
     ~RestoreMode_9bf0()
     {
-        tls_9bf0.m_currentMode = original;
+        (*reinterpret_cast<::ThreadMode_9bf0 *>(&::g_tlsBlock)).m_currentMode = original;
     }
 };
-// @fnv 0x00c89bf0
-void Owner_9bf0::FUN_00c89bf0(Object_9bf0* apObject)
-{
-    RestoreMode_9bf0 scoped;
-    if (apObject)
-        apObject->FUN_00c90510();
-    if (m_object)
-        m_object->FUN_00c905b0();
-    m_object = apObject;
-}
-
 struct Obj
 {
     int a;
@@ -488,7 +453,6 @@ void CreateAndInitObj()
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long index);
 extern "C" __declspec(dllimport) int __stdcall TlsSetValue(unsigned long index, void* value);
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* section);
-extern int DAT_012681d4;
 extern int DAT_012681d8;
 
 struct FUN_00c90490_state
@@ -517,7 +481,6 @@ void __cdecl EnterTlsGuard()
     TlsSetValue(DAT_012681d8, (void*)0x23df4554);
 }
 
-extern int DAT_012681d4;
 
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" __declspec(dllimport) int __stdcall TlsSetValue(unsigned long dwTlsIndex, void* pvValue);
@@ -592,20 +555,17 @@ void hkReferencedObjectC905::FUN_00c905b0()
 
 struct ObjectRef
 {
-    void FUN_00c90510();
-    void FUN_00c905b0();
 };
-extern __declspec(thread) int g_threadFlag;
 struct ThreadFlagGuard
 {
     int previousFlag;
-    ThreadFlagGuard() : previousFlag(g_threadFlag)
+    ThreadFlagGuard() : previousFlag((*reinterpret_cast<int *>(&::currentAllocationContext)))
     {
-        g_threadFlag = 16;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 16;
     }
     ~ThreadFlagGuard()
     {
-        g_threadFlag = previousFlag;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = previousFlag;
     }
 };
 struct FUN_00ca9b40_class
@@ -617,17 +577,6 @@ struct FUN_00ca9b40_class
     ObjectRef* m_pObject;
     void FUN_00ca9b40(ObjectRef* pObject);
 };
-// @fnv 0x00ca9b40
-void FUN_00ca9b40_class::FUN_00ca9b40(ObjectRef* pObject)
-{
-    ThreadFlagGuard guard;
-    if (pObject)
-        pObject->FUN_00c90510();
-    if (m_pObject)
-        m_pObject->FUN_00c905b0();
-    m_pObject = pObject;
-}
-
 struct DeviceCallback
 {
     int unk00;
@@ -641,19 +590,16 @@ struct DeviceCallback
 };
 struct Resource
 {
-    void FUN_00c905b0();
 };
 struct DeviceOwner;
 struct DeviceSubobject
 {
-    void FUN_00d21ce0(DeviceOwner*);
 };
 struct DeviceOwner
 {
     int unk00, unk04, unk08, unk0c;
     DeviceSubobject m_subobject;
     int unk14, unk18, m_payload;
-    void FUN_00ca9b40(Resource*);
 };
 struct InputObject
 {
@@ -662,31 +608,15 @@ struct InputObject
         return *reinterpret_cast<DeviceCallback* const*>(reinterpret_cast<const char*>(this) + 0x24c);
     }
 };
-Resource* __cdecl FUN_00cf4af0(InputObject*);
 struct FUN_00ca9ce0_class
 {
     int unk00;
     DeviceOwner* m_pOwnerObject;
-    void FUN_00c8a230(InputObject*);
     void ProcessInput(InputObject*);
 };
-// @fnv 0x00ca9ce0
-void FUN_00ca9ce0_class::ProcessInput(InputObject* input)
-{
-    FUN_00c8a230(input);
-    DeviceOwner* owner = m_pOwnerObject;
-    Resource* resource = FUN_00cf4af0(input);
-    owner->FUN_00ca9b40(resource);
-    owner->m_subobject.FUN_00d21ce0(owner);
-    resource->FUN_00c905b0();
-    DeviceCallback* callback = input->GetCallback();
-    callback->Process(&owner->m_payload);
-}
-
 struct FUN_00d1df70
 {
     void FUN_00c90510() throw();
-    void removeReference() throw();
 };
 
 template <class T> struct hkRefPtrE3EE
@@ -702,14 +632,14 @@ template <class T> struct hkRefPtrE3EE
     ~hkRefPtrE3EE() throw()
     {
         if (m_pRetainedObject)
-            m_pRetainedObject->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pRetainedObject))->FUN_00c905b0();
     }
     void operator=(T* e) throw()
     {
         if (e)
             e->FUN_00c90510();
         if (m_pRetainedObject)
-            m_pRetainedObject->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pRetainedObject))->FUN_00c905b0();
         m_pRetainedObject = e;
     }
     void operator=(const hkRefPtrE3EE& rp) throw()
@@ -759,8 +689,6 @@ void __cdecl SiftDownHeap(HeapEntryE3EE* apEntries, int aiIndex, int aiCount, He
 
 struct Ref_00c89b60
 {
-    void __thiscall FUN_00c90510();
-    void __thiscall FUN_00c905b0();
 };
 
 struct Tls_00c89b60
@@ -941,19 +869,18 @@ struct Tls_00c89b60
     int unk2b4;
 };
 
-extern __declspec(thread) Tls_00c89b60 tls_00c89b60;
 
 struct Scope_00c89b60
 {
     int saved;
     Scope_00c89b60()
     {
-        saved = tls_00c89b60.unk2b4;
-        tls_00c89b60.unk2b4 = 0x10;
+        saved = (*reinterpret_cast<::Tls_00c89b60 *>(&::g_tlsBlock)).unk2b4;
+        (*reinterpret_cast<::Tls_00c89b60 *>(&::g_tlsBlock)).unk2b4 = 0x10;
     }
     ~Scope_00c89b60()
     {
-        tls_00c89b60.unk2b4 = saved;
+        (*reinterpret_cast<::Tls_00c89b60 *>(&::g_tlsBlock)).unk2b4 = saved;
     }
 };
 
@@ -967,18 +894,6 @@ struct Obj_00c89b60
     Ref_00c89b60* m_pReference;
     void __thiscall FUN_00c89b60(Ref_00c89b60* r);
 };
-
-// Sets m_pReference to r, calling FUN_00c90510 on the new reference and FUN_00c905b0 on the old one if present.
-// @fnv 0x00c89b60
-void __thiscall Obj_00c89b60::FUN_00c89b60(Ref_00c89b60* apReference)
-{
-    Scope_00c89b60 s;
-    if (apReference)
-        apReference->FUN_00c90510();
-    if (m_pReference)
-        m_pReference->FUN_00c905b0();
-    m_pReference = apReference;
-}
 
 class hkMemoryAllocatorC904
 {
@@ -1031,28 +946,26 @@ class FUN_00c90830 : public hkRefObjC904
 {
   public:
     FUN_00c90830() throw();
-    void ReleaseReference() throw();
 
     int m_08;
     int unk0C[9];
 };
 
 namespace hkSingletonC904 {
-extern FUN_00c90830* DAT_012681d4;
 }
 
 static inline void replaceInstanceC904(FUN_00c90830* p)
 {
-    if (hkSingletonC904::DAT_012681d4)
-        hkSingletonC904::DAT_012681d4->ReleaseReference();
-    hkSingletonC904::DAT_012681d4 = p;
+    if ((*reinterpret_cast<::FUN_00c90830 * *>(&::DAT_012681d4)))
+        reinterpret_cast<::FUN_00c903b0_class *>(((*reinterpret_cast<::FUN_00c90830 * *>(&::DAT_012681d4))))->ReleaseReference();
+    (*reinterpret_cast<::FUN_00c90830 * *>(&::DAT_012681d4)) = p;
 }
 
 // Stores value into m_08 of the singleton, creating a FUN_00c90830 instance first if DAT_012681d4 is null.
 // @fnv 0x00c90420
 void __cdecl FUN_00c90420(int value)
 {
-    if (!hkSingletonC904::DAT_012681d4)
+    if (!(*reinterpret_cast<::FUN_00c90830 * *>(&::DAT_012681d4)))
     {
         FUN_00c90830* p = new FUN_00c90830();
         p->m_08 = value;
@@ -1060,7 +973,7 @@ void __cdecl FUN_00c90420(int value)
     }
     else
     {
-        hkSingletonC904::DAT_012681d4->m_08 = value;
+        (*reinterpret_cast<::FUN_00c90830 * *>(&::DAT_012681d4))->m_08 = value;
     }
 }
 
@@ -1071,8 +984,58 @@ struct FUN_00c90510_class
     short m_uCount;
     void FUN_00c90510();
 };
+// @fnv 0x00cd29c0
+void FUN_00cd29c0_class::FUN_00cd29c0(RefObj* object)
+{
+    reinterpret_cast<::FUN_00c90510_class *>((object))->FUN_00c90510();
+    DDCC60World* pOldWorld = *reinterpret_cast<DDCC60World**>(reinterpret_cast<unsigned char*>(this) + 0x84);
+    if (pOldWorld)
+        reinterpret_cast<::hkReferencedObjectC905 *>((pOldWorld))->FUN_00c905b0();
+    *reinterpret_cast<RefObj**>(reinterpret_cast<unsigned char*>(this) + 0x84) = object;
+}
+// @fnv 0x00cdf6e0
+void FUN_00cdf6e0_class::SetReferencedObject(hkReferencedObject* pObject)
+{
+    FUN_00cdf6e0_Ref* pNewRef = (FUN_00cdf6e0_Ref*)pObject;
+    if (pNewRef)
+        reinterpret_cast<::FUN_00c90510_class *>((pNewRef))->FUN_00c90510();
+    FUN_00cdf6e0_Ref* pOldRef = (FUN_00cdf6e0_Ref*)m_pObject;
+    if (pOldRef)
+        reinterpret_cast<::hkReferencedObjectC905 *>((pOldRef))->FUN_00c905b0();
+    m_pObject = pObject;
+}
+// @fnv 0x00c89bf0
+void Owner_9bf0::FUN_00c89bf0(Object_9bf0* apObject)
+{
+    RestoreMode_9bf0 scoped;
+    if (apObject)
+        reinterpret_cast<::FUN_00c90510_class *>((apObject))->FUN_00c90510();
+    if (m_object)
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_object))->FUN_00c905b0();
+    m_object = apObject;
+}
+// @fnv 0x00ca9b40
+void FUN_00ca9b40_class::FUN_00ca9b40(ObjectRef* pObject)
+{
+    ThreadFlagGuard guard;
+    if (pObject)
+        reinterpret_cast<::FUN_00c90510_class *>((pObject))->FUN_00c90510();
+    if (m_pObject)
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_pObject))->FUN_00c905b0();
+    m_pObject = pObject;
+}
+// Sets m_pReference to r, calling FUN_00c90510 on the new reference and FUN_00c905b0 on the old one if present.
+// @fnv 0x00c89b60
+void __thiscall Obj_00c89b60::FUN_00c89b60(Ref_00c89b60* apReference)
+{
+    Scope_00c89b60 s;
+    if (apReference)
+        reinterpret_cast<::FUN_00c90510_class *>((apReference))->FUN_00c90510();
+    if (m_pReference)
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_pReference))->FUN_00c905b0();
+    m_pReference = apReference;
+}
 
-extern int DAT_012681d4;
 extern int DAT_012681d8;
 extern int(__stdcall* DAT_00fdf044)(int);
 extern int(__stdcall* DAT_00fdf04c)(int, int);
@@ -1127,7 +1090,6 @@ void FUN_00c90510_class::FUN_00c90510()
 }
 
 namespace fnv_00cc49b0 {
-extern __declspec(thread) int tlsMode;
 struct ShortPair
 {
     int first;
@@ -1153,14 +1115,11 @@ struct FUN_00c90510_class
     virtual void vf1c();
     virtual void vf20();
     virtual void vf24(ByteFlag flag, ShortPair* output);
-    void FUN_00c90510();
-    void FUN_00c905b0();
 };
 struct FUN_00cc49b0_class;
 struct FUN_00d21ce0_class
 {
     int unk0c, unk10, unk14;
-    void FUN_00d21ce0(FUN_00cc49b0_class* parent);
 };
 struct FUN_00cc49b0_class
 {
@@ -1176,12 +1135,12 @@ struct ScopedThreadState
     int previous;
     ScopedThreadState()
     {
-        previous = tlsMode;
-        tlsMode = 16;
+        previous = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 16;
     }
     ~ScopedThreadState()
     {
-        tlsMode = previous;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = previous;
     }
 };
 // Retains value if present, releases owner if present, assigns value, copies two values from vf24, and calls subobject.FUN_00d21ce0(this).
@@ -1190,15 +1149,15 @@ void FUN_00cc49b0_class::FUN_00cc49b0(FUN_00c90510_class* apOwner)
 {
     ScopedThreadState thread;
     if (apOwner)
-        apOwner->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((apOwner))->FUN_00c90510();
     if (owner)
-        owner->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((owner))->FUN_00c905b0();
     owner = apOwner;
     ShortPair result;
     owner->vf24(ByteFlag(true), &result);
     state = (unsigned short)result.first;
     substate = (unsigned short)result.second;
-    subobject.FUN_00d21ce0(this);
+    reinterpret_cast<::FUN_00d21ce0_cls *>(&(subobject))->FUN_00d21ce0(this);
 }
 }  // namespace fnv_00cc49b0
 
@@ -1237,7 +1196,6 @@ struct NiStream
 class hkRefCC4
 {
   public:
-    void FUN_00c905b0() throw();
 };
 
 class hkShapeCC4 : public hkRefCC4
@@ -1251,7 +1209,6 @@ class hkpWorldObjectCC4
     int m_iLayer;
     unsigned char m_ucFlags;
 
-    void FUN_00cc49b0(hkShapeCC4* pkShape) throw();
 };
 
 class FUN_00d53200_class
@@ -1260,8 +1217,19 @@ class FUN_00d53200_class
     virtual ~FUN_00d53200_class();
     void FUN_00c8a230(NiStream& kStream);
 };
+// @fnv 0x00ca9ce0
+void FUN_00ca9ce0_class::ProcessInput(InputObject* input)
+{
+    reinterpret_cast<::FUN_00d53200_class *>(this)->FUN_00c8a230((*(::NiStream *)(input)));
+    DeviceOwner* owner = m_pOwnerObject;
+    Resource* resource = ((::Resource *)(::FUN_00cf4af0((*(::CF4BC0Stream *)(input)))));
+    reinterpret_cast<::FUN_00ca9b40_class *>((owner))->FUN_00ca9b40((::ObjectRef *)(resource));
+    reinterpret_cast<::FUN_00d21ce0_cls *>(&(owner->m_subobject))->FUN_00d21ce0(owner);
+    reinterpret_cast<::hkReferencedObjectC905 *>((resource))->FUN_00c905b0();
+    DeviceCallback* callback = input->GetCallback();
+    callback->Process(&owner->m_payload);
+}
 
-hkShapeCC4* __cdecl FUN_00cf4af0(NiStream& kStream) throw();
 
 class bhkWorldObjectCC4 : public FUN_00d53200_class
 {
@@ -1277,17 +1245,15 @@ void bhkWorldObjectCC4::FUN_00cc4e10(NiStream& kStream)
 {
     FUN_00c8a230(kStream);
     hkpWorldObjectCC4* pkObject = m_pPointer;
-    hkShapeCC4* pkShape = FUN_00cf4af0(kStream);
-    pkObject->FUN_00cc49b0(pkShape);
-    pkShape->FUN_00c905b0();
+    hkShapeCC4* pkShape = ((::hkShapeCC4 *)(::FUN_00cf4af0((::CF4BC0Stream &)(kStream))));
+    reinterpret_cast<::fnv_00cc49b0::FUN_00cc49b0_class *>((pkObject))->FUN_00cc49b0((::fnv_00cc49b0::FUN_00c90510_class *)(pkShape));
+    reinterpret_cast<::hkReferencedObjectC905 *>((pkShape))->FUN_00c905b0();
     kStream.m_pUnderlyingStream->Read(pkObject->m_iLayer);
     kStream.m_pUnderlyingStream->Read(pkObject->m_ucFlags);
 }
 
 struct RcObject
 {
-    void FUN_00c90510();
-    void FUN_00c905b0();
 };
 struct SortEntry
 {
@@ -1295,7 +1261,6 @@ struct SortEntry
     int key;
     int value;
 };
-void __cdecl SiftDownHeap(SortEntry* entries, int index, int count, int compare);
 // Sorts an array of SortEntry in place using a heap sort, sifting down to build the heap and then extracting elements.
 // @fnv 0x00e3eff0
 void __cdecl HeapSort(SortEntry* entries, int count, int compare)
@@ -1304,7 +1269,7 @@ void __cdecl HeapSort(SortEntry* entries, int count, int compare)
     int index = count / 2;
     while (index > 0)
     {
-        SiftDownHeap(entries, index, count, compare);
+        ::SiftDownHeap((::HeapEntryE3EE *)(entries), index, count, (::HeapLessE3EE)(compare));
         --index;
     }
     if (remaining >= 1)
@@ -1313,15 +1278,15 @@ void __cdecl HeapSort(SortEntry* entries, int count, int compare)
         do
         {
             if (entries->object)
-                entries->object->FUN_00c90510();
+                reinterpret_cast<::FUN_00c90510_class *>((entries->object))->FUN_00c90510();
             SortEntry copyEntry = *entries;
             if (entries != last)
             {
                 RcObject* GetObject = last->object;
                 if (GetObject)
-                    GetObject->FUN_00c90510();
+                    reinterpret_cast<::FUN_00c90510_class *>((GetObject))->FUN_00c90510();
                 if (entries->object)
-                    entries->object->FUN_00c905b0();
+                    reinterpret_cast<::hkReferencedObjectC905 *>((entries->object))->FUN_00c905b0();
                 entries->object = GetObject;
             }
             entries->key = last->key;
@@ -1329,26 +1294,24 @@ void __cdecl HeapSort(SortEntry* entries, int count, int compare)
             if (last != &copyEntry)
             {
                 if (copyEntry.object)
-                    copyEntry.object->FUN_00c90510();
+                    reinterpret_cast<::FUN_00c90510_class *>((copyEntry.object))->FUN_00c90510();
                 if (last->object)
-                    last->object->FUN_00c905b0();
+                    reinterpret_cast<::hkReferencedObjectC905 *>((last->object))->FUN_00c905b0();
                 last->object = copyEntry.object;
             }
             last->key = copyEntry.key;
             last->value = copyEntry.value;
             --remaining;
             --last;
-            SiftDownHeap(entries, 1, remaining, compare);
+            ::SiftDownHeap((::HeapEntryE3EE *)(entries), 1, remaining, (::HeapLessE3EE)(compare));
             if (copyEntry.object)
-                copyEntry.object->FUN_00c905b0();
+                reinterpret_cast<::hkReferencedObjectC905 *>((copyEntry.object))->FUN_00c905b0();
         } while (remaining >= 1);
     }
 }
 
 struct Resource_e3eb
 {
-    void FUN_00c90510() throw();
-    void FUN_00c905b0() throw();
 };
 
 template <class T> struct hkRefPtr_e3eb
@@ -1359,19 +1322,19 @@ template <class T> struct hkRefPtr_e3eb
     hkRefPtr_e3eb(T* const& e) throw()
     {
         if (e)
-            e->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((e))->FUN_00c90510();
         m_pRetainedObject = e;
     }
     hkRefPtr_e3eb(const hkRefPtr_e3eb& rp) throw()
     {
         if (rp.m_pRetainedObject)
-            rp.m_pRetainedObject->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((rp.m_pRetainedObject))->FUN_00c90510();
         m_pRetainedObject = rp.m_pRetainedObject;
     }
     ~hkRefPtr_e3eb() throw()
     {
         if (m_pRetainedObject)
-            m_pRetainedObject->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pRetainedObject))->FUN_00c905b0();
         m_pRetainedObject = 0;
     }
 };
@@ -1403,8 +1366,6 @@ hkRefPtr_e3eb<Resource_e3eb> Container_e3eb::FUN_00e3eb10(Resource_e3eb* apResou
 
 struct E5C4Obj
 {
-    void FUN_00c90510();
-    void FUN_00c905b0();
 };
 
 struct E5C4Ref
@@ -1414,7 +1375,7 @@ struct E5C4Ref
     {
         if (o.p != 0)
         {
-            o.p->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((o.p))->FUN_00c90510();
         }
         p = o.p;
     }
@@ -1436,7 +1397,6 @@ struct E5C4Foo
 {
     int unk0;
     E5C4Entry* d;
-    int FindEntryIndex(E5C4Obj* k);
     E5C4Ref FUN_00e5c4d0(E5C4Key k);
 };
 
@@ -1447,7 +1407,7 @@ E5C4Ref E5C4Foo::FUN_00e5c4d0(E5C4Key akKey)
     int bCreated = 0;
     volatile int tmp[2];
     tmp[0] = 0;
-    int i = FindEntryIndex(((volatile E5C4Key&)akKey).p);
+    int i = reinterpret_cast<::FUN_00e5c490_cls *>(this)->FindEntryIndex((unsigned int)(((volatile E5C4Key&)akKey).p));
     tmp[0] = 0;
     tmp[1] = 0;
     E5C4Ref* slot;
@@ -1463,7 +1423,7 @@ E5C4Ref E5C4Foo::FUN_00e5c4d0(E5C4Key akKey)
     E5C4Ref r(*slot);
     if ((bCreated & 1) != 0 && akKey.p != 0)
     {
-        akKey.p->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((akKey.p))->FUN_00c905b0();
     }
     return r;
 }
@@ -1504,9 +1464,9 @@ void S00e3eba0_class::ReplaceObject(hkReferencedObject* oldObject, hkReferencedO
         if (m_pShape != (void*)apNewObject)
         {
             if (apNewObject)
-                FUN_00c90510(apNewObject);
+                reinterpret_cast<::FUN_00c90510_class *>((apNewObject))->FUN_00c90510();
             if (m_pShape)
-                FUN_00c905b0(m_pShape);
+                reinterpret_cast<::hkReferencedObjectC905 *>((m_pShape))->FUN_00c905b0();
             m_pShape = apNewObject;
         }
     }
@@ -1516,7 +1476,6 @@ void S00e3eba0_class::ReplaceObject(hkReferencedObject* oldObject, hkReferencedO
 
 struct BatchReleaseObjectC907 : FUN_00c903b0_class
 {
-    void ReleaseReference();
 };
 // Calls FUN_00c903b0 for each strided item, acquiring the critical section when multi-threaded mode is enabled and TLS lacks the marker.
 // @fnv 0x00c90740
@@ -1538,7 +1497,7 @@ void __cdecl FUN_00c90740(void* items, int count, int stride)
             char* item = (char*)items;
             do
             {
-                (*((BatchReleaseObjectC907**)item))->ReleaseReference();
+                reinterpret_cast<::FUN_00c903b0_class *>(((*((BatchReleaseObjectC907**)item))))->ReleaseReference();
                 item += stride;
             } while (--count);
         }
@@ -1557,7 +1516,7 @@ void __cdecl FUN_00c90740(void* items, int count, int stride)
             char* item = (char*)items;
             do
             {
-                (*((BatchReleaseObjectC907**)item))->ReleaseReference();
+                reinterpret_cast<::FUN_00c903b0_class *>(((*((BatchReleaseObjectC907**)item))))->ReleaseReference();
                 item += step;
             } while (--remaining);
         }
@@ -1594,7 +1553,7 @@ void __cdecl FUN_00c90670(const void* objects, int numObjects, int stride)
         }
         for (int i = 0; i < numObjects; ++i)
         {
-            (*(ReferenceIncrementC906**)objects)->FUN_00c903a0();
+            reinterpret_cast<::FUN_00c903a0_class *>(((*(ReferenceIncrementC906**)objects)))->FUN_00c903a0();
             objects = (const char*)objects + stride;
         }
         --lock->m_lLockCount;
@@ -1608,7 +1567,7 @@ void __cdecl FUN_00c90670(const void* objects, int numObjects, int stride)
     {
         for (int i = 0; i < numObjects; ++i)
         {
-            (*(ReferenceIncrementC906**)objects)->FUN_00c903a0();
+            reinterpret_cast<::FUN_00c903a0_class *>(((*(ReferenceIncrementC906**)objects)))->FUN_00c903a0();
             objects = (const char*)objects + stride;
         }
     }

@@ -5,6 +5,9 @@
 // ActorPackageData::CreatePackageData allocates the runtime package-data
 // object matching a package type. Each case news one derived ActorPackageData
 // class through the global allocator; unknown types return NULL.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
 #include "actorpackagedata.h"
 
 #ifndef NULL

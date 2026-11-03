@@ -6,10 +6,21 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <math.h>
+#include "fnv/decl/ArrowDraw__ArrowDrawObject.h"
+#include "fnv/decl/CpuObject.h"
+#include "fnv/decl/DE44C0Object.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cab000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01030000.h"
+#include "fnv/symbols_01267000.h"
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float lanes[4];
 } __m128;
+#include "fnv/symbols_simd.h"
 extern "C"
 {
     __m128 _mm_add_ss(__m128, __m128);
@@ -142,8 +153,6 @@ struct SubC0
     int unk004;
     int unk008;
     int unk00c;
-    void __thiscall FUN_00e10a10(void* p2);
-    void __thiscall FUN_00e10d50(void* target, Vec4* a, Vec4* b, int color, float t, int p3, int p4);
 };
 struct FloatPair
 {
@@ -240,14 +249,6 @@ struct Singleton
     PoolObj* pool;
 };
 Singleton* __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(PoolObj* pool, PtrVec* vec, int count, int elemSize);
-int __cdecl FUN_00cabb00(int a, int b, int c, int d);
-extern int DAT_01267e30;
-extern float DAT_01011d78;
-extern float DAT_01017718;
-extern float DAT_01016248;
-extern double DAT_01030f38;
-extern const __m128 DAT_010c44d0;
 struct P2Vtbl
 {
     virtual void Reserved00();
@@ -313,7 +314,6 @@ struct DrawerBase
     SubC0 mC0;
 
     void __thiscall FUN_00de47e0(P1*, Buf40*, Buf40*);
-    void __thiscall FUN_00de44c0(int, int);
     __forceinline float arrowSize() const
     {
         return f1c * f0c;
@@ -338,15 +338,15 @@ struct This : DrawerBase
 void __thiscall This::FUN_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
 {
     Mat* mat = p1->mat;
-    mC0.FUN_00e10a10(p2);
+    reinterpret_cast<::CpuObject *>(&(mC0))->FUN_00e10a10((int)(p2));
     This& receivers = *this;
     {
         Buf40 bufferA, bufferB;
         FUN_00de47e0(p1, &bufferA, &bufferB);
-        receivers.m50.FUN_00c7f640(&bufferA, &DAT_01267e30);
-        m40.FUN_00c7f640(&bufferB, &DAT_01267e30);
+        receivers.m50.FUN_00c7f640(&bufferA, &(*reinterpret_cast<int *>(&::DAT_01267e30)));
+        m40.FUN_00c7f640(&bufferB, &(*reinterpret_cast<int *>(&::DAT_01267e30)));
     }
-    FUN_00de44c0(p3, p4);
+    reinterpret_cast<::DE44C0Object *>(this)->FUN_00de44c0(p3, p4);
     const RotationColumns& localA = mat->rotationA;
     const RotationColumns& localB = mat->rotationB;
     Vec4 t80;
@@ -377,8 +377,8 @@ void __thiscall This::FUN_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
     Vec4 tc0;
     tc0.FUN_00c7f700(reinterpret_cast<const RotationColumns&>(m60), localA.getColumn(0));
     float prod1 = f1c * f0c;
-    mC0.FUN_00e10d50(&receivers.m50, &t80, &t70, 0xff008000, prod1, p3, p4);
-    mC0.FUN_00e10d50(&m40, &tc0, &t90, FUN_00cabb00(0xff, 0xff, 0, 0xff), f1c * f0c, p3, p4);
+    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>(&(mC0))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(void *)(&receivers.m50), (int)(&t80), (const ::ArrowDraw::ArrowDrawVector *)(::Vec4 *)(&t70), 0xff008000, prod1, p3, p4);
+    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>(&(mC0))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(void *)(&m40), (int)(&tc0), (const ::ArrowDraw::ArrowDrawVector *)(::Vec4 *)(&t90), ((int)(::PackBytesBigEndian(0xff, 0xff, 0, 0xff))), f1c * f0c, p3, p4);
     void* subD0 = &mD0;
     mD0.FUN_00de5370(mat->fa0, f1c * f10, f18, &t80, &receivers.m50);
     Vec4 bufA0;
@@ -411,7 +411,7 @@ void __thiscall This::FUN_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
             int nc = (vec1.cap & 0x3fffffff) * 2;
             if (nc <= 1)
                 nc = 1;
-            FUN_00c908c0(pool, &vec1, nc, 4);
+            ::FUN_00c908c0((::SpawnedObject *)(pool), (::SpawnedArray *)(::PtrVec *)(&vec1), nc, 4);
         }
         vec1.len = 1;
         sing = FUN_00c85750();
@@ -421,7 +421,7 @@ void __thiscall This::FUN_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
             int nc = (vec2.cap & 0x3fffffff) * 2;
             if (nc <= 1)
                 nc = 1;
-            FUN_00c908c0(pool, &vec2, nc, 4);
+            ::FUN_00c908c0((::SpawnedObject *)(pool), (::SpawnedArray *)(::PtrVec *)(&vec2), nc, 4);
         }
         vec2.len = 1;
         sing = FUN_00c85750();
@@ -431,7 +431,7 @@ void __thiscall This::FUN_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
             int nc = (vec3.cap & 0x3fffffff) * 2;
             if (nc <= 2)
                 nc = 2;
-            FUN_00c908c0(pool, &vec3, nc, 4);
+            ::FUN_00c908c0((::SpawnedObject *)(pool), (::SpawnedArray *)(::PtrVec *)(&vec3), nc, 4);
         }
         vec3.len = 2;
         vec1.buf[0] = subD0;
@@ -440,7 +440,7 @@ void __thiscall This::FUN_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
         vec2.buf[0] = sub280;
         p2->DrawVec(&vec1, 0xffffff00, p3, p4);
         p2->DrawVec(&vec3, 0xffff0000, p3, p4);
-        p2->DrawVec(&vec2, FUN_00cabb00(0xff, 0, 0xff, 0xff), p3, p4);
+        p2->DrawVec(&vec2, ((int)(::PackBytesBigEndian(0xff, 0, 0xff, 0xff))), p3, p4);
         sing = FUN_00c85750();
         pool = sing->pool;
         vec2.len = 0;

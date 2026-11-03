@@ -1,5 +1,33 @@
 // gamebryo2.2/corelibs/nimain/nidefaultavobjectpalette.cpp: NiDefaultAVObjectPalette, Map, PaletteOwner, PaletteShell and more (18 functions)
 
+#include <new>
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00a5d3a0.h"
+#include "fnv/decl/FUN_00a5d430_Class.h"
+#include "fnv/decl/FUN_00a5d450_class.h"
+#include "fnv/decl/FUN_00a64160_cls.h"
+#include "fnv/decl/FUN_00a64ce0_shell.h"
+#include "fnv/decl/FUN_00ee8ac0_cls.h"
+#include "fnv/decl/HashTableBase.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a26000.h"
+#include "fnv/symbols_00a6e000.h"
+#include "fnv/symbols_00a72000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a84000.h"
+#include "fnv/symbols_00a88000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
 #include "nidefaultavobjectpalette_types_NiDefaultAVObjectPalette.h"
 #include "nidefaultavobjectpalette_types_NiAVObject.h"
 #include "nidefaultavobjectpalette_types_NiStream.h"
@@ -51,11 +79,11 @@ void NiDefaultAVObjectPalette::BuildPalette()
 // @fnv 0x00a6ea40
 void NiDefaultAVObjectPalette::LoadBinary(NiStream& stream)
 {
-    ((NiInterpolator*)this)->NiInterpolator::LoadBinary(stream);
+    ::FUN_00a88a40();
     m_pkScene = (NiAVObject*)stream.DeserializeObject();
 
     unsigned int count = 0;
-    ReadBinaryValue(stream, count);
+    ::FUN_00a26df0((::MyStream *)&(stream), (void *)&(count));
 
     if (count > 0)
     {
@@ -63,14 +91,14 @@ void NiDefaultAVObjectPalette::LoadBinary(NiStream& stream)
         {
             --count;
             char* string = 0;
-            stream.ReadStreamString(string);
+            reinterpret_cast<::FUN_00a64ce0_shell *>(&(stream))->FUN_00a64ce0((char **)&(string));
             NiAVObject* object = (NiAVObject*)stream.DeserializeObject();
             if (string && object)
             {
                 NiFixedString name;
                 name.m_kHandle = NiGlobalStringTable::AddString(string);
                 AddNamedAVObject(name, object);
-                if (name.m_kHandle != EmptyFS.m_kHandle)
+                if (name.m_kHandle != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
                 {
                     InterlockedDecrement((volatile long*)(name.m_kHandle - 8));
                 }
@@ -99,12 +127,11 @@ struct P03MM
 {
     void* __thiscall Allocate(unsigned int);
 };
-extern P03MM g_memoryManager;
 
 // @fnv 0x00a6ef50
 void* __cdecl FUN_00a6ef50()
 {
-    void* p = g_memoryManager.Allocate(0xC);
+    void* p = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(0xC);
     if (!p)
         p = 0;
     ((int*)p)[1] = 0;
@@ -118,10 +145,10 @@ void __stdcall AssignSharedPtr(void* apTarget, void* apSource, void* apValue)
     void* v = *(void**)apSource;
     if (*(void**)((char*)apTarget + 4) != v)
     {
-        if (v != *(void**)&EmptyFS)
+        if (v != *(void**)&(*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)))
             InterlockedIncrement((long*)((char*)v - 8));
         void* old = *(void**)((char*)apTarget + 4);
-        if (old != *(void**)&EmptyFS)
+        if (old != *(void**)&(*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)))
             InterlockedDecrement((long*)((char*)old - 8));
         *(void**)((char*)apTarget + 4) = v;
         *(void**)((char*)apTarget + 8) = apValue;
@@ -132,7 +159,6 @@ void __stdcall AssignSharedPtr(void* apTarget, void* apSource, void* apValue)
 
 struct MemoryManager
 {
-    void __thiscall Deallocate(void*);
 };
 extern int DAT_0109ca08;
 extern int DAT_0109ca18;
@@ -151,7 +177,7 @@ void* __thiscall FUN_00a6eb20_Holder::DestroyHolder(unsigned int auiFlags)
     p->RemoveAll();
     NiFree(*(void**)((char*)this + 8));
     if (auiFlags & 1)
-        ((MemoryManager*)&g_memoryManager)->Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>((((MemoryManager*)&(*reinterpret_cast<::P03MM *>(&::g_memoryManager)))))->FUN_00aa4060(this);
     return this;
 }
 
@@ -219,7 +245,7 @@ void __cdecl AddObjectToPaletteRecursive(NiAVObject* apObject, NiDefaultAVObject
     {
         do
         {
-            AddObjectToPaletteRecursive(node->m_children[i], apPalette);
+            ::AddObjectToPalette(node->m_children[i], apPalette);
             i++;
         } while (i < node->m_usArraySize);
     }
@@ -295,17 +321,13 @@ void __cdecl FUN_00a6e8e0(S_00a6e8e0_Object* object, S_00a6e8e0_Palette* palette
 extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
 extern "C" void* __cdecl FUN_00aa1070(unsigned int size);
 extern "C" void* __cdecl FUN_00ec61c0(void* buffer, int value, unsigned int size);
-extern "C" unsigned char DAT_01096284;
-extern "C" unsigned char DAT_01096114;
-extern "C" unsigned char DAT_0109618c;
 struct PaletteBase
 {
     void* vtable;
     unsigned int unknown;
-    void __thiscall FUN_00a5d3a0();
     __forceinline PaletteBase() throw()
     {
-        FUN_00a5d3a0();
+        new ((void *)this) struct ::FUN_00a5d3a0();
         vtable = &DAT_01096284;
     }
 };
@@ -317,7 +339,7 @@ struct PaletteHash
     unsigned int count;
     __forceinline PaletteHash() throw()
     {
-        vtable = &DAT_01096114;
+        vtable = &(*reinterpret_cast<unsigned char *>(&::DAT_01096114));
         capacity = 37;
         count = 0;
         buckets = FUN_00aa1070(148);
@@ -357,7 +379,6 @@ struct BC1F550Point3
     float z;
 };
 
-extern const BC1F550Point3 g_kC1F550Zero;
 
 class BC1F550Geometry;
 
@@ -464,7 +485,7 @@ class FUN_00c1f550_cls : public BC1F550Emitter
 // @fnv 0x00c1f550
 FUN_00c1f550_cls::FUN_00c1f550_cls() throw()
     : m_kGeometryEmitters(1, 2), m_kEmitterTypes(0, 1), m_eInitVelocityType(0), m_eEmissionType(0),
-      m_kEmitterPoint(g_kC1F550Zero)
+      m_kEmitterPoint((*reinterpret_cast<const ::BC1F550Point3 *>(&::DAT_011a946c)))
 {}
 
 template <class Alloc, class K, class V> class NiTMapBase
@@ -502,17 +523,17 @@ struct PaletteShell : public NiDefaultAVObjectPalette
 // @fnv 0x00a6e5b0
 void PaletteShell::FUN_00a6e5b0(CloningProcess& kCloning)
 {
-    ((NiObjectCloneBase*)this)->ProcessClone(kCloning);
+    reinterpret_cast<::FUN_00a5d430_Class *>((((NiObjectCloneBase*)this)))->FUN_00a5d430((unsigned int)&(kCloning));
 
     NiFixedString kName;
     NiObject*& pkClone = reinterpret_cast<NiObject*&>(kName.m_kHandle);
     pkClone = 0;
-    kCloning.m_pCloneMap->GetAt(this, pkClone);
+    reinterpret_cast<::A54440Hash *>((void *)(kCloning.m_pCloneMap))->FUN_00a53c30((*(::A54440Manager * *)&(const ::NiObject * &)(this)), (::A54440Manager **)&(pkClone));
     PaletteShell* pkDest = (PaletteShell*)pkClone;
 
     if (m_pkScene)
     {
-        kCloning.m_pCloneMap->GetAt(m_pkScene, pkClone);
+        reinterpret_cast<::A54440Hash *>((void *)(kCloning.m_pCloneMap))->FUN_00a53c30((*(::A54440Manager * *)&(m_pkScene)), (::A54440Manager **)&(pkClone));
         pkDest->m_pkScene = (NiAVObject*)pkClone;
     }
 
@@ -521,22 +542,21 @@ void PaletteShell::FUN_00a6e5b0(CloningProcess& kCloning)
         void* pos = FirstPos(m_kObjectMap);
         while (pos)
         {
-            kName.m_kHandle = EmptyFS.m_kHandle;
+            kName.m_kHandle = (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle;
             NiAVObject* pkObj;
             m_kObjectMap.GetNext(pos, kName, pkObj);
             if (kName.m_kHandle && pkObj)
             {
                 NiObject* pkObjClone;
-                if (kCloning.m_pCloneMap->GetAt(pkObj, pkObjClone))
+                if (reinterpret_cast<::A54440Hash *>((void *)(kCloning.m_pCloneMap))->FUN_00a53c30((*(::A54440Manager * *)&(pkObj)), (::A54440Manager **)&(pkObjClone)))
                     pkDest->AddNamedAVObject(kName, (NiAVObject*)pkObjClone);
             }
-            if (kName.m_kHandle != EmptyFS.m_kHandle)
+            if (kName.m_kHandle != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
                 InterlockedDecrement((volatile long*)(kName.m_kHandle - 8));
         }
     }
 }
 
-bool __stdcall FUN_00a84c70(void*);
 
 // @fnv 0x00a6e540
 bool __stdcall FUN_00a6e540(void* p)
@@ -544,7 +564,6 @@ bool __stdcall FUN_00a6e540(void* p)
     return FUN_00a84c70(p);
 }
 
-extern char* DAT_0109b220;
 extern "C" void(__stdcall* DAT_00fdf1c4)(void*);
 
 struct PaletteMap
@@ -553,7 +572,6 @@ struct PaletteMap
     int unk04;
     void* unk08;
     unsigned int m_uiItemCount;
-    void* FUN_00ee8ac0();
     void FUN_00a8f770(void** iterator, char** key, void** object);
 };
 class FUN_00a6e7b0_class
@@ -597,20 +615,19 @@ class FUN_00a6e7b0_class
     virtual int vf35(char** key);
     int unk04;
     PaletteMap m_map;
-    bool FUN_00a88a50(FUN_00a6e7b0_class* other);
     bool FUN_00a6e7b0(FUN_00a6e7b0_class* other);
 };
 // @fnv 0x00a6e7b0
 bool FUN_00a6e7b0_class::FUN_00a6e7b0(FUN_00a6e7b0_class* other)
 {
-    if (!FUN_00a88a50(other))
+    if (!::FUN_00a88a50((::NiObject *)this))
         return false;
     unsigned int num = m_map.m_uiItemCount;
     if (other->m_map.m_uiItemCount != num)
         return false;
     if (num)
     {
-        void* iterator = m_map.FUN_00ee8ac0();
+        void* iterator = ((void *)(reinterpret_cast<::FUN_00ee8ac0_cls *>(&(m_map))->FUN_00ee8ac0()));
         if (iterator)
         {
             void(__stdcall * deallocate)(void*) = DAT_00fdf1c4;
@@ -639,13 +656,11 @@ struct MapNoAlias : NiTFixedStringMap_NiAVObject___
 };
 struct StreamSaveShell : public NiStream
 {
-    void FUN_00a64160(const char* pcString);
 };
 
 struct PaletteSaveShell : public NiDefaultAVObjectPalette
 {
     void FUN_00a6e6c0(NiStream& kStream);
-    void FUN_00a724d0(NiStream& kStream);
 };
 
 typedef void(__thiscall* NiStreamLinkObject)(NiStream*, NiAVObject*);
@@ -659,7 +674,7 @@ template <class T> void WriteBinaryArray(NiBinaryStream& kOstr, const T* pValue,
 // @fnv 0x00a6e6c0
 void PaletteSaveShell::FUN_00a6e6c0(NiStream& kStream)
 {
-    FUN_00a724d0(kStream);
+    ::FUN_00a724d0();
 
     ((NiStreamLinkObject)kStream.m_ppVirtualMethodTable[12])(&kStream, m_pkScene);
 
@@ -674,23 +689,22 @@ void PaletteSaveShell::FUN_00a6e6c0(NiStream& kStream)
         {
             NiFixedString kKey;
             const char* pcKey;
-            kKey.m_kHandle = EmptyFS.m_kHandle;
+            kKey.m_kHandle = (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle;
             NiAVObject* pkObject;
             ((MapNoAlias&)m_kObjectMap).GetNext(pvPos, kKey, pkObject);
             pcKey = kKey.m_kHandle;
-            ((StreamSaveShell&)kStream).FUN_00a64160(pcKey);
+            reinterpret_cast<::FUN_00a64160_cls *>(&(((StreamSaveShell&)kStream)))->FUN_00a64160(pcKey);
             ((NiStreamLinkObject)kStream.m_ppVirtualMethodTable[12])(&kStream, pkObject);
-            if (pcKey != EmptyFS.m_kHandle)
+            if (pcKey != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
                 InterlockedDecrement((volatile long*)(pcKey - 8));
         }
     }
 }
 
-void __cdecl CreateVertexBufferSet();
 // @fnv 0x00aa1000
 void __cdecl FUN_00aa1000()
 {
-    CreateVertexBufferSet();
+    static_cast<::FUN_00a5d450_class *>(nullptr)->CreateVertexBufferSet({}, {});
 }
 
 // Adapted from another contributor's unverified best attempt; prior model was not supplied.
@@ -699,11 +713,7 @@ struct ViewerMemoryManager
 {
     void* Allocate(unsigned int uiSize) throw();
 };
-extern ViewerMemoryManager g_viewerMemoryManager;
 extern "C" int __cdecl sprintf(char*, const char*, ...);
-char* FUN_00a7d330(const char* pcName);
-extern const char* g_011f4a04;
-extern char* g_nullFixedStringHandle;
 struct ViewerStrings
 {
     void** m_ppVirtualMethodTable;
@@ -741,18 +751,17 @@ struct ViewerStrings
         unsigned int uiIndex = m_usSize;
         if (uiIndex >= m_usMaxSize)
             SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, element);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, element);
         return uiIndex;
     }
 };
 struct PaletteBaseViewer
 {
-    void GetViewerStrings(ViewerStrings* pkStrings);
 };
 struct ViewerFixedString
 {
     char* m_kHandle;
-    ViewerFixedString() : m_kHandle(g_nullFixedStringHandle)
+    ViewerFixedString() : m_kHandle(::DAT_0109b220)
     {}
 };
 struct PaletteHashViewer
@@ -780,10 +789,10 @@ struct NiDefaultAVObjectPaletteViewer : public NiDefaultAVObjectPalette
 // @fnv 0x00a6ed90
 void NiDefaultAVObjectPaletteViewer::FUN_00a6ed90(ViewerStrings* pkStrings)
 {
-    ((PaletteBaseViewer*)this)->GetViewerStrings(pkStrings);
-    char* pcRTTI = FUN_00a7d330(g_011f4a04);
+    reinterpret_cast<::NiAVObjectPalette *>((((PaletteBaseViewer*)this)))->AppendString((::StrArr *)(pkStrings));
+    char* pcRTTI = FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_011f4a04)));
     pkStrings->Add(pcRTTI);
-    char* pcScene = (char*)g_viewerMemoryManager.Allocate(0x60);
+    char* pcScene = (char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::ViewerMemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(0x60);
     sprintf(pcScene, "m_pkScene = %s", m_pkScene->m_kName.m_kHandle ? m_pkScene->m_kName.m_kHandle : "UNKNOWN");
     pkStrings->Add(pcScene);
     if (m_kObjectMap.m_kItemCount.m_uiCount)
@@ -795,11 +804,11 @@ void NiDefaultAVObjectPaletteViewer::FUN_00a6ed90(ViewerStrings* pkStrings)
             ViewerFixedString kName;
             NiAVObject* pkObj;
             pkHash->GetNext(pos, kName, pkObj);
-            char* pcName = (char*)g_viewerMemoryManager.Allocate(0x60);
+            char* pcName = (char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::ViewerMemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(0x60);
             char* pcKey = kName.m_kHandle;
             sprintf(pcName, "%s", pcKey);
             pkStrings->Add(pcName);
-            if (pcKey != g_nullFixedStringHandle)
+            if (pcKey != ::DAT_0109b220)
                 InterlockedDecrement((long*)(pcKey - 8));
         }
     }
@@ -808,7 +817,6 @@ void NiDefaultAVObjectPaletteViewer::FUN_00a6ed90(ViewerStrings* pkStrings)
 #include <string.h>
 extern int DAT_0109ca08;
 extern int DAT_0109ca18;
-extern NiFixedString EmptyFS;
 
 void* __cdecl NiMalloc(unsigned int);
 void __cdecl FUN_00aa10f0(void*);
@@ -821,17 +829,16 @@ struct Key
     __forceinline Key(const char* value);
     __forceinline void Release()
     {
-        if (text != EmptyFS.m_kHandle)
+        if (text != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             DAT_00fdf1c4((long*)text - 2);
     }
 };
 struct StringPool
 {
-    static char* __cdecl AddString(const char*);
 };
 __forceinline Key::Key(const char* value)
 {
-    text = StringPool::AddString(value);
+    text = ::NiGlobalStringTable::AddString(value);
 }
 struct Obj
 {
@@ -907,9 +914,9 @@ __declspec(noinline) void __stdcall AssignEntry(Item* item, const Key& key, cons
     const char* fresh = key.text;
     if (item->key != fresh)
     {
-        if (fresh != EmptyFS.m_kHandle)
+        if (fresh != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             DAT_00fdf1c0((long*)fresh - 2);
-        if (item->key != EmptyFS.m_kHandle)
+        if (item->key != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             DAT_00fdf1c4((long*)item->key - 2);
         item->key = fresh;
     }
@@ -958,20 +965,19 @@ struct Palette
     int vptr;
     int refs;
     Map map;
-    void __thiscall CloneBase(void*);
     void __thiscall FUN_00a6eb60(void*);
 };
 // Clones the base object, then renames palette entries whose key differs from the object name by moving them in the map under the new key.
 // @fnv 0x00a6eb60
 void Palette::FUN_00a6eb60(void* apDest)
 {
-    CloneBase(apDest);
+    ::FUN_00a724d0();
     Map changes;
     apDest = map.First();
     while (apDest)
     {
         Key key;
-        key.text = EmptyFS.m_kHandle;
+        key.text = (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle;
         Obj* object;
         map.FUN_00a8f770(apDest, key, object);
         const char* pcKey;
@@ -979,17 +985,17 @@ void Palette::FUN_00a6eb60(void* apDest)
         if (key.text && object && (pcKey = key.text, (name = object->name) != 0) && strcmp(pcKey, name))
         {
             changes.FUN_00a6e980(key, name);
-            if (pcKey != EmptyFS.m_kHandle)
+            if (pcKey != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
                 DAT_00fdf1c4((long*)pcKey - 2);
         }
-        else if (key.text != EmptyFS.m_kHandle)
+        else if (key.text != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             DAT_00fdf1c4((long*)key.text - 2);
     }
     apDest = changes.First();
     while (apDest)
     {
         Key key;
-        key.text = EmptyFS.m_kHandle;
+        key.text = (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle;
         Obj* name;
         Obj* object = 0;
         changes.FUN_00a8f770(apDest, key, name);
@@ -1002,13 +1008,13 @@ void Palette::FUN_00a6eb60(void* apDest)
             map.GetAt(keyOld, object);
             const char* pcNewKey = keyNew.text;
             map.FUN_00a6e980(keyNew, object);
-            map.RemoveKey(key);
-            if (pcNewKey != EmptyFS.m_kHandle)
+            reinterpret_cast<::HashTableBase *>(&(map))->FUN_00aa0250((const unsigned int *)&(key));
+            if (pcNewKey != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
                 DAT_00fdf1c4((long*)pcNewKey - 2);
-            if (pcKey != EmptyFS.m_kHandle)
+            if (pcKey != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
                 DAT_00fdf1c4((long*)pcKey - 2);
         }
-        else if (key.text != EmptyFS.m_kHandle)
+        else if (key.text != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             DAT_00fdf1c4((long*)key.text - 2);
     }
     changes.Destroy();

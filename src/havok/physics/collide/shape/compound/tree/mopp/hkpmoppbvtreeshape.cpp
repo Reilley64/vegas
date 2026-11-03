@@ -2,6 +2,18 @@
 // src/havok/physics/collide/shape/compound/tree/mopp/hkpmoppbvtreeshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/tree/mopp/hkpmoppbvtreeshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FunctionContext.h"
+#include "fnv/decl/GridCell.h"
+#include "fnv/decl/LongRayVm.h"
+#include "fnv/decl/ObbQueryDetail__ObbMachine.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010c6000.h"
+#include "fnv/symbols_010c9000.h"
+#include "fnv/symbols_010d0000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 #include "havok/hkpMoppBvTreeShape.h"
 
 struct FUN_00d54420_Interface
@@ -35,11 +47,8 @@ void FUN_00d54420_Owner::FUN_00d54420(int a, float b, int c)
 
 struct hkReferencedObject
 {
-    void RetainReference();
 };
 
-extern int DAT_010c6fd0;
-extern int DAT_010d0dac;
 
 struct FUN_00d54490
 {
@@ -58,7 +67,7 @@ FUN_00d544f0::FUN_00d544f0(hkReferencedObject* pReferencedObject, int value) : F
     *reinterpret_cast<int**>(reinterpret_cast<char*>(this) + 0x30) = &DAT_010c6fd0;
     *reinterpret_cast<hkReferencedObject**>(reinterpret_cast<char*>(this) + 0x34) = pReferencedObject;
 
-    pReferencedObject->RetainReference();
+    reinterpret_cast<::FUN_00c90510_class *>((pReferencedObject))->FUN_00c90510();
 }
 
 struct FUN_00d54930MemoryManager
@@ -102,7 +111,6 @@ FUN_00d54930Object* FUN_00d54930Object::Destroy(unsigned char flags)
 
 class hkClassD543;
 
-extern const hkClassD543 DAT_01269c8c;
 
 class hkStatisticsCollectorD543
 {
@@ -116,7 +124,6 @@ class hkStatisticsCollectorD543
 class hkpShapeD543
 {
   public:
-    void FUN_00c90360(hkStatisticsCollectorD543* pkCollector, const hkClassD543* pkClass) const throw();
 };
 
 class hkpSingleShapeContainerD543 : public hkpShapeD543
@@ -146,7 +153,7 @@ void hkpSingleShapeContainerD543::AddShapeChildrenToCollector(hkStatisticsCollec
 {
     pkCollector->addChildObject("Mesh", m_pContainedShape, 0);
     pkCollector->addChildObject("Mopp", m_pMoppCode, 0);
-    FUN_00c90360(pkCollector, &DAT_01269c8c);
+    reinterpret_cast<::FunctionContext *>((void *)this)->FUN_00c90360(pkCollector, (void *)(&(*reinterpret_cast<const ::hkClassD543 *>(&::g_01269c8c))));
 }
 
 struct __declspec(align(16)) FUN_00dd1bf0_Obj
@@ -168,7 +175,6 @@ struct __declspec(align(16)) FUN_00dd1bf0_Obj
     int unk38;
     int unk3C;
 
-    void __thiscall FUN_00dd1bf0(void* target, int a, int b, float c, int d);
 };
 
 struct FUN_00d54350_Obj
@@ -187,13 +193,12 @@ struct FUN_00d54350_Obj
 void __thiscall FUN_00d54350_Obj::ForwardToTarget(int a, int b, float c, int d)
 {
     FUN_00dd1bf0_Obj local;
-    local.FUN_00dd1bf0(unk14, a, b, c, d);
+    reinterpret_cast<::ObbQueryDetail::ObbMachine *>(&(local))->FUN_00dd1bf0((const ::ObbQueryDetail::ObbCodeView *)(unk14), (const ::ObbQueryDetail::ObbTransform *)(a), (const ::ObbQueryDetail::ObbVector *)(b), c, d);
 }
 
 namespace fnv_00d543e0 {
 struct FUN_00c905b0_s
 {
-    void FUN_00c905b0() throw();
 };
 
 class hkReferencedObjectD543
@@ -217,7 +222,7 @@ class hkMoppBvTreeShapeBaseD543 : public hkpShapeD543
   public:
     ~hkMoppBvTreeShapeBaseD543() throw()
     {
-        m_pMoppCode->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_pMoppCode))->FUN_00c905b0();
     }
 
     int m_10;
@@ -245,7 +250,7 @@ class hkpSingleShapeContainerD543 : public hkpShapeContainerD543
     ~hkpSingleShapeContainerD543() throw()
     {
         if (m_pContainedShape)
-            m_pContainedShape->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pContainedShape))->FUN_00c905b0();
     }
 };
 
@@ -286,8 +291,6 @@ extern "C" hkMemoryRouterD548& __cdecl FUN_00c85750();
 
 struct FUN_00d1df70
 {
-    void FUN_00c90510() throw();
-    void removeReference() throw();
 };
 
 class hkReferencedObjectD548
@@ -319,7 +322,7 @@ class hkpSingleChildShapeD548 : public hkpShapeD548
 
     virtual ~hkpSingleChildShapeD548() throw()
     {
-        m_pContainedShape->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_pContainedShape))->FUN_00c905b0();
     }
     hkpSingleChildShapeD548* FUN_00d548f0(unsigned int uiFlags) throw();
 };
@@ -411,10 +414,8 @@ int __thiscall S00d54440_Obj::FUN_00d54440(int a, int aiUnused)
 }
 
 #include <xmmintrin.h>
-extern char DAT_010d0d70;
 struct S00d54490_Ref
 {
-    void FUN_00c90510();
 };
 struct S00d54490_Obj
 {
@@ -442,7 +443,7 @@ S00d54490_Obj* __thiscall S00d54490_Obj::FUN_00d54490(int arg1, const hkpMoppBvT
     this->unk10 = 0;
     this->unk00 = &DAT_010d0d70;
     this->unk14 = const_cast<hkpMoppBvTreeShape*>(src);
-    reinterpret_cast<S00d54490_Ref*>(const_cast<hkpMoppBvTreeShape*>(src))->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((reinterpret_cast<S00d54490_Ref*>(const_cast<hkpMoppBvTreeShape*>(src))))->FUN_00c90510();
     *reinterpret_cast<__m128*>(&this->unk20) =
         *reinterpret_cast<const __m128*>(reinterpret_cast<const char*>(src) + 0x10);
     this->unk18 = *reinterpret_cast<const int*>(reinterpret_cast<const char*>(src) + 0x20);
@@ -459,9 +460,6 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
-extern unsigned long DAT_0126835c;
-extern const char str_010d0de4[];
-extern const char str_010c41f8[];
 struct S54520_Mon
 {
     char* m_kRayStart;
@@ -552,7 +550,7 @@ S54520_Out* S54520_Owner::FUN_00d54520(S54520_Out* out, int p1, S54520_Params* p
 {
     S54520_Frame frame;
     {
-        S54520_Mon* mon = (S54520_Mon*)TlsGetValue(DAT_0126835c);
+        S54520_Mon* mon = (S54520_Mon*)TlsGetValue(::DAT_0126835c);
         char* pos = mon->m_kRayEnd;
         if (pos < mon->m_capMinus16)
         {
@@ -580,13 +578,13 @@ S54520_Out* S54520_Owner::FUN_00d54520(S54520_Out* out, int p1, S54520_Params* p
     if (out->m_flag)
         params->m_slots[params->m_depth] = 0;
     {
-        S54520_Mon* mon = (S54520_Mon*)TlsGetValue(DAT_0126835c);
+        S54520_Mon* mon = (S54520_Mon*)TlsGetValue(::DAT_0126835c);
         char* pos = mon->m_kRayEnd;
         if (pos < mon->m_capMinus16)
         {
             volatile unsigned int ticks;
             S54520_Timer* t = (S54520_Timer*)pos;
-            t->m_name = str_010c41f8;
+            t->m_name = ::DAT_010c41f8;
             _ReadWriteBarrier();
             ticks = (unsigned int)__rdtsc();
             t->m_ticks = ticks;
@@ -599,12 +597,9 @@ S54520_Out* S54520_Owner::FUN_00d54520(S54520_Out* out, int p1, S54520_Params* p
 
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
-extern unsigned long DAT_0126835c;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern const int DAT_010c92e0[4];
 
 extern "C" const char str_010d0df0[];
-extern "C" const char str_010c41f8[];
 
 struct hkTimerCommandD546
 {
@@ -813,20 +808,17 @@ hkVector4ComparisonD546 hkpMoppBvTreeShapeD546::FUN_00d54610(const hkpShapeRayBu
     for (int i = 0; i < 4; i++)
     {
         kResults.m_akRayOutputs[i].changeLevel(-1);
-        if (kRet.anyIsSet(DAT_010c92e0[i]))
+        if (kRet.anyIsSet((*reinterpret_cast<const int (*)[4]>(&::DAT_010c92e0))[i]))
             kResults.m_akRayOutputs[i].setKey(0);
     }
 
-    timerD546(str_010c41f8);
+    timerD546(::DAT_010c41f8);
     return kRet;
 }
 
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
 extern void* DAT_00fdf044;
-extern unsigned long DAT_0126835c;
-extern "C" const char str_010c41f8[];
-extern char str_010d0de4;
 struct S00d54720_Record
 {
     const char* name;
@@ -918,8 +910,6 @@ struct S00d54720_Vm
     void* unk64;
     void* unk68;
     void* unk6c;
-    void FUN_00dd2ed0(const void* code, const S00d54720_Code* info, const void* input, const S00d54720_Body* body,
-                      void* collector);
 };
 struct S00d54720_Frame
 {
@@ -963,7 +953,7 @@ void S00d54720_MoppShape::FUN_00d54720(const void* apInput, const void* cdBody, 
         S00d54720_Record* record = monitor->current;
         if (record < monitor->end)
         {
-            record->name = &str_010d0de4;
+            record->name = &(*reinterpret_cast<char *>((void *)&::fnv_00d54520::str_010d0de4));
             _ReadWriteBarrier();
             volatile unsigned int ticks = (unsigned int)__rdtsc();
             record->ticks = ticks;
@@ -988,14 +978,14 @@ void S00d54720_MoppShape::FUN_00d54720(const void* apInput, const void* cdBody, 
         code->flags = 2;
         frame.body.unk00 = m_pContainedShape;
         frame.body.unk04 = 0;
-        vm.FUN_00dd2ed0(m_pContainedShape ? &m_pContainedShape->container : 0, code, apInput, &frame.body, collector);
+        reinterpret_cast<::LongRayVm *>(&(vm))->FUN_00dd2ed0(m_pContainedShape ? &m_pContainedShape->container : 0, (const ::MoppCode *)(code), (*(const ::RayInput *)(apInput)), &frame.body, (::RayCollector *)(collector));
     }
     {
         S00d54720_Monitor* monitor = getMonitor(DAT_0126835c);
         S00d54720_Record* record = monitor->current;
         if (record < monitor->end)
         {
-            record->name = str_010c41f8;
+            record->name = ::DAT_010c41f8;
             _ReadWriteBarrier();
             volatile unsigned int ticks = (unsigned int)__rdtsc();
             record->ticks = ticks;
@@ -1062,8 +1052,6 @@ class hkpMoppCodeD543;
 
 struct hkMoppObbVirtualMachineD543
 {
-    __declspec(noalias) void FUN_00dd1da0(const hkpMoppCodeD543* pkCode, const hkAabbD543& kAabb,
-                                          hkArrayD543<unsigned int>* pkHits);
 
     unsigned int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24, unk28, unk2C;
     unsigned int unk30, unk34, unk38, unk3C;
@@ -1126,6 +1114,6 @@ void hkpMoppBvTreeShapeD543::FUN_00d54380(const hkAabbD543& kAabbIn, hkArrayD543
     kAabb.m_kMaximumCorner.setMin4(kMaxPoint, kAabbIn.m_kMaximumCorner);
 
     hkMoppObbVirtualMachineD543 kQuery;
-    kQuery.FUN_00dd1da0(m_pMoppCode, kAabb, &kHits);
+    reinterpret_cast<::GridCell *>(&(kQuery))->FUN_00dd1da0((::GridSource *)(m_pMoppCode), (::GridBounds *)&(kAabb), (int)(&kHits));
 }
 }  // namespace fnv_00d54380

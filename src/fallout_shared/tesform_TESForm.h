@@ -3,6 +3,14 @@
 #ifndef FNV_UNIT_TESFORM_TESFORM_H
 #define FNV_UNIT_TESFORM_TESFORM_H
 
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_011c5000.h"
 #include "tesform_layout_support.h"
 #include "tesform_BaseFormComponent.h"
 #include "tesform_containers.h"
@@ -87,19 +95,10 @@ class TESForm : public BaseFormComponent
     virtual char* GetName2(void);
     virtual char* GetName(void) const;
     virtual bool SetEditorID_AtRuntime(const char* edid);
-    bool IsFormInitialized() const;
     TESForm();
-    static TESForm* GetFormByID(unsigned int auiFormID);
     TESFile* GetFile(int fileIndex);
-    BSSimpleList<TESFile*>* GetSourceFiles();
-    bool IsDeleted() const;
-    unsigned int GetFormID();
-    bool IsTemporary() const;
     void NotifySaveLoadGameOfFormChange();
     void SetInitializationState(bool initialized);
-    void SetFormType(ENUM_FORM_ID type);
-    void LoadRecordHeader(TESFile* file);
-    static void RemapFormIDForFile(unsigned int& formID, TESFile* file);
 
     ENUM_FORM_ID GetFormType() const;
     bool GetDisabled() const;
@@ -111,12 +110,9 @@ class TESForm : public BaseFormComponent
     bool IsReservedFormID();
     void SetFormFlags(int flags);
     TESFile* GetOwnerMaster();
-    void UpdateFormChangeFlags();
     bool GetInitialized() const;
     static TESForm* LookupFormByEditorID(const char* editorID);
     void SetFile(TESFile* file);
-    static NiTPointerMap<unsigned int, TESForm*>* ms_pFormIDMap;
-    static BSTCaseInsensitiveStringMap<TESForm*>* ms_pEditorIDMap;
     static NiTLargePrimitiveArray<TESForm*>* ms_pAllForms;
 
   private:

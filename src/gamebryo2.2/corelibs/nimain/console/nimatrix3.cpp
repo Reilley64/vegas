@@ -1,6 +1,9 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a58000.h"
+#include "fnv/symbols_00aa1000.h"
 struct TransformRecord {
     float unk00;
     float unk04;
@@ -11,34 +14,8 @@ struct TransformRecord {
     float unk18;
     float unk1C;
     float unk20;
-    bool __thiscall FUN_00a58990(unsigned int parameter, float* result);
-    void __thiscall FUN_00a58b00(unsigned int parameter, float* result);
     void __thiscall GetMatrix(unsigned int parameter, float* output);
 };
-
-// @fnv 0x00a59980
-void TransformRecord::GetMatrix(unsigned int parameter, float* pafMatrix)
-{
-    TransformRecord recordCopy = *this;
-    float intermediate[2];
-    bool negate = recordCopy.FUN_00a58990(parameter, intermediate);
-    recordCopy.FUN_00a58b00(parameter, intermediate);
-    pafMatrix[0] = recordCopy.unk00;
-    pafMatrix[1] = recordCopy.unk0C;
-    pafMatrix[2] = recordCopy.unk18;
-    pafMatrix[3] = recordCopy.unk04;
-    pafMatrix[4] = recordCopy.unk10;
-    pafMatrix[5] = recordCopy.unk1C;
-    if (negate) {
-        pafMatrix[6] = -recordCopy.unk08;
-        pafMatrix[7] = -recordCopy.unk14;
-        pafMatrix[8] = -recordCopy.unk20;
-    } else {
-        pafMatrix[6] = recordCopy.unk08;
-        pafMatrix[7] = recordCopy.unk14;
-        pafMatrix[8] = recordCopy.unk20;
-    }
-}
 
 struct S_00a59a30_BinaryStream;
 typedef unsigned int (__cdecl *S_00a59a30_ReadFn)(S_00a59a30_BinaryStream* pkThis, void* pvBuffer,
@@ -298,7 +275,6 @@ static __forceinline void S_BinRead(S_00a59a90_Bin* bin, void* v, unsigned int b
 }
 struct FUN_00a59a90_cls {
     float m[9];
-    void ZeroSmallValues();
     void ReadMatrixFromStream(void* pOther);
 };
 // Calls ZeroSmallValues, then reads nine floats from the stream at pOther+0x250 into the 3x3 matrix m.
@@ -306,7 +282,7 @@ struct FUN_00a59a90_cls {
 void FUN_00a59a90_cls::ReadMatrixFromStream(void* pOther)
 {
     char* pObj = (char*)pOther;
-    ZeroSmallValues();
+    reinterpret_cast<::FUN_00a598a0_cls *>(this)->ZeroSmallValues();
     float* p = m;
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
@@ -455,7 +431,7 @@ void FUN_00a58550_cls::GetAxisAngle(float* angle, float* apAxisX, float* apAxisY
 {
     float trace = unk00 + unk10 + unk20;
     float c = (trace - 1.0) * 0.5;
-    *angle = NiACos(c);
+    *angle = ::AcosClamped(c);
 
     *apAxisX = unk14 - unk1C;
     *apAxisY = unk18 - unk08;
@@ -678,6 +654,8 @@ struct ThreeByThreeMatrix {
     }
     ThreeByThreeMatrix FUN_0043f8d0(const ThreeByThreeMatrix& r) const;
     void FUN_00a59780(float fZ, float fY, float fX);
+public:
+    ::ThreeByThreeMatrix operator+(const ::ThreeByThreeMatrix &) const;
 };
 
 // @fnv 0x00a59780
@@ -690,7 +668,7 @@ void ThreeByThreeMatrix::FUN_00a59780(float fZ, float fY, float fX)
     ThreeByThreeMatrix kY(c, 0.0f, -s, 0.0f, 1.0f, 0.0f, s, 0.0f, c);
     fnv_SinCos(fZ,s,c);
     ThreeByThreeMatrix kZ(c, s, 0.0f, -s, c, 0.0f, 0.0f, 0.0f, 1.0f);
-    *this = kZ.FUN_0043f8d0(kY.FUN_0043f8d0(kX));
+    *this = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(kZ))->operator+(reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(kY))->operator+(kX));
 }
 
 
@@ -704,8 +682,6 @@ ThreeByThreeMatrix ThreeByThreeMatrix::FUN_0043f8d0(const ThreeByThreeMatrix& r)
 }
 
 #include <string.h>
-void* NiMalloc(unsigned int);
-int _NiSprintf(char*, unsigned int, const char*, ...);
 struct FloatMatrix3 {
     float m00, m01, m02, m10, m11, m12, m20, m21, m22;
     char* ToString(const char* name);
@@ -714,14 +690,37 @@ struct FloatMatrix3 {
 // @fnv 0x00a598f0
 char* FloatMatrix3::ToString(const char* name) {
     unsigned int size = strlen(name) + 128;
-    char* result = static_cast<char*>(NiMalloc(size));
-    _NiSprintf(result, size, "%s = ((%g,%g,%g),(%g,%g,%g),(%g,%g,%g))", name,
+    char* result = static_cast<char*>(::FUN_00aa1070(size));
+    ::NiSprintf(result, size, "%s = ((%g,%g,%g),(%g,%g,%g),(%g,%g,%g))", name,
         m00,m01,m02,m10,m11,m12,m20,m21,m22);
     return result;
 }
 
 struct EigenMatrixRow { float first, second, third; };
 struct EigenMatrix { float cell[3][3]; bool FUN_00a58b00(float* diagonal, float* subdiagonal); };
+// @fnv 0x00a59980
+void TransformRecord::GetMatrix(unsigned int parameter, float* pafMatrix)
+{
+    TransformRecord recordCopy = *this;
+    float intermediate[2];
+    bool negate = reinterpret_cast<::S_00a58990 *>(&(recordCopy))->FUN_00a58990((float *)(parameter), intermediate);
+    reinterpret_cast<::EigenMatrix *>(&(recordCopy))->FUN_00a58b00((float *)(parameter), intermediate);
+    pafMatrix[0] = recordCopy.unk00;
+    pafMatrix[1] = recordCopy.unk0C;
+    pafMatrix[2] = recordCopy.unk18;
+    pafMatrix[3] = recordCopy.unk04;
+    pafMatrix[4] = recordCopy.unk10;
+    pafMatrix[5] = recordCopy.unk1C;
+    if (negate) {
+        pafMatrix[6] = -recordCopy.unk08;
+        pafMatrix[7] = -recordCopy.unk14;
+        pafMatrix[8] = -recordCopy.unk20;
+    } else {
+        pafMatrix[6] = recordCopy.unk08;
+        pafMatrix[7] = recordCopy.unk14;
+        pafMatrix[8] = recordCopy.unk20;
+    }
+}
 static __forceinline void EigenRotate(float& left, float& right, float cosine, float sine)
 {
     float oldRight = right;

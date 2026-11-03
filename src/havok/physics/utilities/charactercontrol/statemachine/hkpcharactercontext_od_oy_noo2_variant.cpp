@@ -5,11 +5,16 @@
 
 // src/havok/physics/utilities/charactercontrol/statemachine/hkpcharactercontext.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/charactercontrol/statemachine/hkpcharactercontext.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern int DAT_0102e388;
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpCharacterStateView.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00ca9000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_011ac000.h"
 extern int DAT_010c8198;
 struct hkReferencedObject
 {
-    void removeReference();
 };
 struct FUN_00ca95e0_class
 {
@@ -44,7 +49,6 @@ struct FUN_00ca9690_cls
     void FUN_00ca9690(int value);
 };
 extern int DAT_010c8198;
-void __fastcall FUN_00c90510(void*);
 struct hkpCharacterContext
 {
     int* vtbl;
@@ -61,7 +65,6 @@ struct hkpCharacterContext
 
     hkpCharacterContext* Initialize(void* arg0, int arg1);
 };
-int __fastcall FUN_00ca9600(char* object);
 class hkpCharacterContextCA96;
 struct hkpCharacterInputCA96;
 struct hkpCharacterOutputCA96;
@@ -82,7 +85,6 @@ class hkpCharacterStateCA96
 class hkpCharacterStateManagerCA96
 {
   public:
-    hkpCharacterStateCA96* FUN_00cbc510(int iState) const throw();
 };
 class hkpCharacterContextCA96
 {
@@ -109,12 +111,10 @@ struct FnvCpu_FUN_00ca9810_CpuAllocatorHolder
     unsigned int unk0c;
     FnvCpu_FUN_00ca9810_CpuAllocator* allocator;
 };
-FnvCpu_FUN_00ca9810_CpuAllocatorHolder* __cdecl FUN_00c85750();
 struct FnvCpu_FUN_00ca9810_CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void FUN_00ca95e0();
     FnvCpu_FUN_00ca9810_CpuObject* Destroy(unsigned int flags);
 };
 
@@ -135,12 +135,11 @@ struct FnvCpu_FUN_00ca9810_CpuObject
 //
 // The global's name deliberately does NOT contain the tag "FUN_00716440", so that
 // exactly one DEFINED function symbol carries the tag.
-extern float g_fvalue_00716440;
 
 // @fnv 0x00716440
 float __cdecl FUN_00716440()
 {
-    return g_fvalue_00716440;
+    return ::DAT_011ac3a0;
 }
 
 namespace s008e2680 {

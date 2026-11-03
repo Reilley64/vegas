@@ -2,12 +2,21 @@
 // src/gamebryo2.2/corelibs/nimain/nimaterial.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nimaterial.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" char const* const g_011f6048_arg1;
 
 // @fnv 0x00a8f860
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a9ba90_cls.h"
+#include "fnv/decl/HashTableBase.h"
+#include "fnv/decl/Map.h"
+#include "fnv/decl/NiRefObject.h"
+#include "fnv/decl/NiTObjectArrayA47.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f5000.h"
+#include "fnv/symbols_011f6000.h"
 char const* const* __cdecl FUN_00a8f860()
 {
-    return &g_011f6048_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_011f5e38));
 }
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
@@ -48,14 +57,12 @@ struct CallbackState
     void* current;
     char* data;
 };
-extern Registry* DAT_011f5e34;
-extern char* DAT_0109b220;
 // Finds the first non-null registry entry, then repeatedly calls FUN_00a8f770 and runs each returned handler until current becomes null.
 // @fnv 0x00a8f870
 void __cdecl RunRegistryHandlers()
 {
     CallbackState callbackState;
-    Registry* registry = DAT_011f5e34;
+    Registry* registry = (*reinterpret_cast<::Registry * *>(&::DAT_011f5e34));
     unsigned index = 0;
     if (index < registry->count04)
     {
@@ -79,7 +86,7 @@ found:
     {
         do
         {
-            DAT_011f5e34->FUN_00a8f770(&callbackState.current, &callbackState.data, &callbackState.handler);
+            (*reinterpret_cast<::Registry * *>(&::DAT_011f5e34))->FUN_00a8f770(&callbackState.current, &callbackState.data, &callbackState.handler);
             if (callbackState.handler)
             {
                 callbackState.handler->run();
@@ -94,9 +101,7 @@ found:
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* value);
 
-extern long g_liveObjectCount;
 
-extern char* g_emptyStringData;
 
 struct String
 {
@@ -104,7 +109,7 @@ struct String
 
     String(const String& other)
     {
-        if (other.m_pData != g_emptyStringData)
+        if (other.m_pData != ::DAT_0109b220)
             InterlockedIncrement((long volatile*)(other.m_pData - 8));
         m_pData = other.m_pData;
     }
@@ -114,10 +119,8 @@ struct FUN_00a8f950;
 
 struct ObjectRegistry
 {
-    void Register(String* name, FUN_00a8f950* object) throw();
 };
 
-extern ObjectRegistry* g_pObjectRegistry;
 
 struct CountedObject
 {
@@ -127,7 +130,7 @@ struct CountedObject
     CountedObject()
     {
         m_iRefCount = 0;
-        InterlockedIncrement(&g_liveObjectCount);
+        InterlockedIncrement(&(*reinterpret_cast<long *>(&::NiRefObject::ms_lObjectCount)));
     }
 };
 
@@ -142,12 +145,10 @@ struct FUN_00a8f950 : CountedObject
 // @fnv 0x00a8f950
 FUN_00a8f950::FUN_00a8f950(const String& name) : m_name(name)
 {
-    g_pObjectRegistry->Register(&m_name, this);
+    reinterpret_cast<::Map *>(((*reinterpret_cast<::ObjectRegistry * *>(&::DAT_011f5e34))))->FUN_00a6e980((*(const ::Key *)(&m_name)), this);
 }
 
-void __cdecl FUN_00aa1460(void* pvMem, unsigned int uiSize);
 
-extern long DAT_011f4400;
 
 class NiFixedStringA8F9
 {
@@ -163,11 +164,9 @@ class NiFixedStringA8F9
 class RegistryA8F9
 {
   public:
-    void FUN_00aa0250(NiFixedStringA8F9& kName) throw();
 };
 
 namespace a8f9 {
-extern RegistryA8F9* DAT_011f5e34;
 }
 
 class NiRefObjectA8F9
@@ -175,7 +174,7 @@ class NiRefObjectA8F9
   public:
     virtual ~NiRefObjectA8F9()
     {
-        InterlockedDecrement(&DAT_011f4400);
+        InterlockedDecrement(&(*reinterpret_cast<long *>(&::NiRefObject::ms_lObjectCount)));
     }
     long m_uiRefCount;
 };
@@ -185,7 +184,7 @@ class NamedA8F9 : public NiRefObjectA8F9
   public:
     virtual ~NamedA8F9()
     {
-        a8f9::DAT_011f5e34->FUN_00aa0250(m_kName);
+        reinterpret_cast<::HashTableBase *>(((*reinterpret_cast<::RegistryA8F9 * *>(&::DAT_011f5e34))))->FUN_00aa0250((const unsigned int *)&(m_kName));
     }
 
     static void operator delete(void* pvMem, unsigned int uiSize)
@@ -210,11 +209,8 @@ NamedA8F9* NamedA8F9::FUN_00a8f9b0(unsigned int uiFlags)
 
 struct A8F910MemoryManager
 {
-    void Deallocate(void* pvMem);
 };
-extern A8F910MemoryManager g_A8F910MemoryManager;
 
-extern "C" void __cdecl A8F910NiFree(void* pvMem);
 
 struct FUN_00a8f910
 {
@@ -228,7 +224,7 @@ struct FUN_00a8f910
 
     static void operator delete(void* pvMem)
     {
-        g_A8F910MemoryManager.Deallocate(pvMem);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::A8F910MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
     }
 };
 
@@ -240,7 +236,7 @@ FUN_00a8f910::FUN_00a8f910()
 FUN_00a8f910::~FUN_00a8f910()
 {
     RemoveAll();
-    A8F910NiFree(m_ppkHashTable);
+    ::FUN_00aa10f0(m_ppkHashTable);
 }
 
 #include <windows.h>
@@ -257,8 +253,6 @@ struct ArrayStandIn
     unsigned short m_usSize;
     unsigned short unk0c;
 
-    void SetAt(unsigned int idx, const NiPointerStandIn& value);
-    void SetSize(unsigned int size);
 };
 
 extern "C" ArrayStandIn DAT_011ac040;
@@ -275,12 +269,12 @@ void __cdecl FUN_00a9bb60()
         NiPointerStandIn value = {0};
         do
         {
-            DAT_011ac040.SetAt(uiIndex, value);
+            reinterpret_cast<::FUN_00a9ba90_cls *>(&(DAT_011ac040))->FUN_00a9ba90(uiIndex, (::NiRefStubB5542 **)&(value));
             ++uiIndex;
         } while (uiIndex < DAT_011ac040.m_usSize);
     }
 
-    DAT_011ac040.SetSize(0);
+    reinterpret_cast<::NiTObjectArrayA47 *>(&(DAT_011ac040))->FUN_00a47770(0);
 
     LeaveCriticalSection(&DAT_011f600c);
 }

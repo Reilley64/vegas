@@ -2,6 +2,10 @@
 #ifndef FNV_BGSEXPLOSION_H
 #define FNV_BGSEXPLOSION_H
 
+#include "fnv/decl/BGSTalkingActivator.h"
+#include "fnv/decl/FUN_0041fd00_shell.h"
+#include "fnv/decl/FUN_00516bf0_shell.h"
+#include "fnv/symbols_004fa000.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "TESForm.h"
@@ -217,8 +221,6 @@ class TESEnchantableForm : public BaseFormComponent
 {
   public:
     TESEnchantableForm();
-    void FUN_00483170(unsigned short amount);
-    void SetCastingType(MagicSystem__CastingType type);
     void InitItem(TESForm* form);
     // base BaseFormComponent at +0x0, size 4
     EnchantmentItem* m_pEnchantment;       // +0x4, 4 bytes
@@ -237,6 +239,8 @@ class TESEnchantableForm : public BaseFormComponent
     // GetFormEnchantmentAmount
     // void __cdecl TESEnchantableForm::*(unsigned short)
     // TESEnchantableForm& __cdecl TESEnchantableForm::*(const TESEnchantableForm&)
+public:
+    void SetFormEnchantmentAmount(unsigned short);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESEnchantableForm) == 16);
@@ -284,8 +288,6 @@ FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifiableForm, m_pImageSpaceModifier) =
 class ExplosionEffectSettings
 {
   public:
-    void FUN_004faa00();
-    void InitExplosionData();
     float fForce;                        // +0x0, 4 bytes
     float afDamageAmount;                // +0x4, 4 bytes
     float fRadius;                       // +0x8, 4 bytes
@@ -332,9 +334,7 @@ class BGSExplosion : public TESBoundObject,
     ExplosionEffectSettings* FUN_004fadc0();
     void InitItem();
     bool Load(TESFile* file);
-    BGSImpactDataSet* FUN_00516bf0();
     void FUN_004fb0b0(BGSImpactDataSet* value);
-    void FUN_004febf0(TESSound* value);
     // base TESBoundObject at +0x0, size 48
     // base TESFullName at +0x30, size 12
     // base TESModel at +0x3C, size 24

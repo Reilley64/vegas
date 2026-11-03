@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <xmmintrin.h>
+#include "fnv/symbols_00c90000.h"
 struct AllocHolder
 {
     int unk00;
@@ -27,7 +28,6 @@ struct VecList
 };
 
 AllocHolder* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void* allocator, VecList* list, unsigned int elemSize);
 
 struct FUN_00e3afb0_cls
 {
@@ -50,7 +50,7 @@ void FUN_00e3afb0_cls::Push(const __m128* apFirst, const __m128* apSecond, float
     AllocHolder* holder = FUN_00c85750();
     if (list->m_iArrayLength == (int)(list->m_uCapBits & 0x3fffffffu))
     {
-        ResizeAudioStream(holder->m_pAllocator, list, sizeof(VecElem));
+        ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(list), sizeof(VecElem));
     }
     VecElem* slot = &list->m_pData[list->m_iArrayLength];
     list->m_iArrayLength++;

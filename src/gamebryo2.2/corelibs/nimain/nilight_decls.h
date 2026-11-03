@@ -2,6 +2,7 @@
 #ifndef FNV_NILIGHT_DECLS_H
 #define FNV_NILIGHT_DECLS_H
 
+#include "fnv/decl/FUN_00462d80_shell.h"
 #include "NiObjectNET.h"
 #include "NiPoint3.h"
 #include "nilight_types_NiStream.h"
@@ -32,7 +33,7 @@ class NiBinaryStream
 
 template <class T> inline void ReadBinaryValue(NiStream& stream, T& value)
 {
-    stream.m_pUnderlyingStream->Read(&value, sizeof(T));
+    reinterpret_cast<::FUN_00462d80_shell *>((stream.m_pUnderlyingStream))->ReadBytes(&value, sizeof(T));
 }
 
 struct NiLightTransform
@@ -91,11 +92,16 @@ class NiDynamicEffect : public NiAVObject
     NiTListBase<NiTPointerAllocator<unsigned int>, NiNode*> m_kAffectedNodes;
 };
 
+class NiStream;
 class NiColor
 {
   public:
     float r, g, b;
     void LoadBinary(NiStream&);
+public:
+    char *GetFormattedString(const char *) const;
+public:
+    void SaveBinary(::NiStream &);
 };
 
 class NiLight : public NiDynamicEffect

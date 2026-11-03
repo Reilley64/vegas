@@ -2,6 +2,53 @@
 // src/fallout/interface/interface_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/interface/interface.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00706d90_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MagicProjectile.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/Owner.h"
+#include "fnv/decl/QRequest.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/TileListBoxCalls.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
+#include "fnv/decl/fnv_00a03da0__FUN_00a03da0_shell.h"
+#include "fnv/decl/fnv_00a1ddb0__FUN_00a1ddb0_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_004ee000.h"
+#include "fnv/symbols_00702000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_00705000.h"
+#include "fnv/symbols_00706000.h"
+#include "fnv/symbols_00707000.h"
+#include "fnv/symbols_00709000.h"
+#include "fnv/symbols_00715000.h"
+#include "fnv/symbols_00772000.h"
+#include "fnv/symbols_0077f000.h"
+#include "fnv/symbols_00788000.h"
+#include "fnv/symbols_00a01000.h"
+#include "fnv/symbols_00a04000.h"
+#include "fnv/symbols_00a09000.h"
+#include "fnv/symbols_00af4000.h"
+#include "fnv/symbols_011c7000.h"
+#include "fnv/symbols_011d9000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f9000.h"
 #include "interface_rebase_packet.h"
 class TESWorldSpace;
 class Menu;
@@ -98,26 +145,19 @@ class Interface
 #include "interface_rebase_closure.h"
 const char kMeshesFolder[] = "Meshes";
 unsigned int FUN_00702440();
-bool FUN_00705100();
-unsigned int FUN_00706f20();
-bool FUN_00707b50();
 
-extern char* DAT_011f91c8;
-extern unsigned char DAT_011f91d8;
-void __fastcall FUN_00b5fd60(char*);
 // @fnv 0x00b60040
 void FUN_00b60040()
 {
-    char** p = &DAT_011f91c8;
+    char** p = &(*reinterpret_cast<char * *>(&::DAT_011f91c8));
     do
     {
         if (*p)
-            FUN_00b5fd60(*p);
+            reinterpret_cast<::Owner *>((*p))->FUN_00b5fd60();
         p += 1;
-    } while ((int)p < (int)&DAT_011f91d8);
+    } while ((int)p < (int)&(*reinterpret_cast<unsigned char *>(&::fnv_005bf7b0::DAT_011f91d8)));
 }
 
-void __cdecl BuildAssetPath(int, char*, int);
 struct Inner060
 {
     virtual void f00();
@@ -158,7 +198,7 @@ struct Outer060
 void Outer060::FUN_00b60060()
 {
     char buf[0x104];
-    BuildAssetPath(_m28, buf, 0x104);
+    ::BuildAssetPath((const char *)(_m28), buf, 0x104);
     _m30.f24(buf, 0);
 }
 
@@ -166,12 +206,11 @@ extern "C" char DAT_010ade08[];
 
 struct QueuedTreeModel
 {
-    bool FUN_00c3d0e0(char* pBuf, unsigned int uiSize, char const* pszName);
     bool FUN_00b600c0(char* pBuf, unsigned int uiSize);
 };
 
 // @fnv 0x00b600c0
 bool QueuedTreeModel::FUN_00b600c0(char* pBuf, unsigned int uiSize)
 {
-    return FUN_00c3d0e0(pBuf, uiSize, DAT_010ade08);
+    return reinterpret_cast<::QRequest *>(this)->FUN_00c3d0e0(pBuf, uiSize, DAT_010ade08);
 }

@@ -2,12 +2,33 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsyssphericalcollider.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsyssphericalcollider.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" const void* g_012026a0;
 
 // @fnv 0x00c281f0
+#include <new>
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/C326B0Modifier.h"
+#include "fnv/decl/C32900Controller.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00c32450_shell.h"
+#include "fnv/decl/FUN_00c32490_shell.h"
+#include "fnv/decl/FUN_00c32780.h"
+#include "fnv/decl/FUN_00c329c0_object.h"
+#include "fnv/decl/MyPoint439180.h"
+#include "fnv/decl/Transform3D.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_01202000.h"
 const void* __cdecl FUN_00c281f0()
 {
-    return &g_012026a0;
+    return &(*reinterpret_cast<const void * *>(&::g_012026a0));
 }
 
 struct NiBinaryStream
@@ -27,12 +48,14 @@ struct NiStream
     unsigned int m_uiNifVersion;
     char _pad1[0x24C - 0xD8 - 4];
     NiBinaryStream* m_pUnderlyingStream;
-    void ResetStreamState();
 };
+class CloningProcess;
 struct NiPSysCollider
 {
     virtual void LoadBinary(NiStream&);
     char _pad[0x2C];
+public:
+    void ProcessClone(::CloningProcess &);
 };
 struct NiPSysSphericalCollider : NiPSysCollider
 {
@@ -43,14 +66,13 @@ struct NiPSysSphericalCollider : NiPSysCollider
 void NiPSysSphericalCollider::FUN_00c28070(NiStream& kStream)
 {
     NiPSysCollider::LoadBinary(kStream);
-    kStream.ResetStreamState();
+    reinterpret_cast<::FUN_00a645b0_cls *>(&(kStream))->FUN_00a645b0();
     if (kStream.m_uiNifVersion >= 0x0A000113)
         kStream.m_pUnderlyingStream->ReadFloat(m_fBoundRadius);
 }
 
 namespace fnv_00c28200 {
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-void __cdecl _delete(void*, unsigned int);
 struct NiRefObject
 {
     virtual ~NiRefObject();
@@ -75,9 +97,9 @@ void* NiPSysSphericalCollider::FUN_00c28200(unsigned int flags)
 {
     if (m_ptr)
         m_ptr->DecRefCount();
-    NiRefObject::~NiRefObject();
+    reinterpret_cast<class ::FUN_00a5d3d0 *>(this)->FUN_00a5d3d0::~FUN_00a5d3d0();
     if (flags & 1)
-        _delete(this, 0xb0);
+        ::FUN_00aa1460(this, 0xb0);
     return this;
 }
 }  // namespace fnv_00c28200
@@ -130,7 +152,6 @@ struct ShaderBufferRecord;
 
 struct NiTStringPointerMap_SBE
 {
-    bool GetAt(const char*, ShaderBufferRecord*&);
 };
 
 struct NiPSysCollider
@@ -148,14 +169,13 @@ struct NiPSysPlanarCollider : NiPSysCollider
 // @fnv 0x00c29450
 void NiPSysPlanarCollider::FUN_00c29450(CloningProcess& kCloning)
 {
-    NiPSysCollider::ProcessClone(kCloning);
+    reinterpret_cast<::NiPSysCollider *>(this)->ProcessClone((::CloningProcess &)(kCloning));
     ShaderBufferRecord* pkClone = 0;
-    ((NiTStringPointerMap_SBE*)kCloning.m_pCloneMap)->GetAt((const char*)this, pkClone);
+    reinterpret_cast<::A54440Hash *>((((NiTStringPointerMap_SBE*)kCloning.m_pCloneMap)))->FUN_00a53c30((::A54440Manager *)((const char*)this), (::A54440Manager **)&(pkClone));
     NiPSysPlanarCollider* pkDest = (NiPSysPlanarCollider*)pkClone;
     if (*(NiAVObject**)((char*)this + 0x2c))
     {
-        if (((NiTStringPointerMap_SBE*)kCloning.m_pCloneMap)
-                ->GetAt((const char*)*(NiAVObject**)((char*)this + 0x2c), pkClone))
+        if (reinterpret_cast<::A54440Hash *>((((NiTStringPointerMap_SBE*)kCloning.m_pCloneMap)))->FUN_00a53c30((::A54440Manager *)((const char*)*(NiAVObject**)((char*)this + 0x2c)), (::A54440Manager **)&(pkClone)))
             *(NiAVObject**)((char*)pkDest + 0x2c) = (NiAVObject*)pkClone;
         else
             *(NiAVObject**)((char*)pkDest + 0x2c) = *(NiAVObject**)((char*)this + 0x2c);
@@ -194,14 +214,15 @@ struct NiTransform
     float m00, m01, m02, m10, m11, m12, m20, m21, m22;
     ColliderPoint translation;
     float scale;
-    bool FUN_00a86c30(const NiTransform&) const;
     bool operator!=(const NiTransform& other) const
     {
-        return FUN_00a86c30(other);
+        return ((bool)(reinterpret_cast<::Transform3D *>((void *)this)->FUN_00a86c30((const ::Transform3D &)(other))));
     }
-    void FUN_00a86bf0();
-    void FUN_004b4880(NiTransform&) const;
     NiTransform operator*(const NiTransform&) const;
+public:
+    void CalculateInverse(::NiTransform &);
+public:
+    void ResetToIdentity();
 };
 struct ColliderNode
 {
@@ -304,10 +325,10 @@ void UpdateCollider::UpdateColliderTransform()
         if (node)
             nodeTransform = node->world;
         else
-            nodeTransform.FUN_00a86bf0();
+            reinterpret_cast<::NiTransform *>(&(nodeTransform))->ResetToIdentity();
         NiTransform ownerTransform = owner->GetNode()->world;
         NiTransform inverse;
-        ownerTransform.FUN_004b4880(inverse);
+        reinterpret_cast<::NiTransform *>((void *)&(ownerTransform))->CalculateInverse(inverse);
         NiTransform relative = inverse * nodeTransform;
         float newRadius = radius * relative.scale;
         center = relative.translation;
@@ -362,14 +383,13 @@ struct SphericalColliderReader : NiPSysCollider
     {
         return *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x30);
     }
-    void FUN_00c32900(NiStream& stream);
     void ReadSphericalCollider(NiStream& stream);
 };
 // Reads the base collider data, then reads the link id and radius float from the stream.
 // @fnv 0x00c280c0
 void SphericalColliderReader::ReadSphericalCollider(NiStream& stream)
 {
-    FUN_00c32900(stream);
+    reinterpret_cast<::C32900Controller *>(this)->FUN_00c32900((::C32900Stream &)(stream));
     StreamView& reader = reinterpret_cast<StreamView&>(stream);
     reader.ReadObject(linkId());
     reader.Input()->ReadFloat(radius());
@@ -417,6 +437,8 @@ struct NiPoint3
         z *= s;
         return *this;
     }
+public:
+    static const ::NiPoint3 ZERO;
 };
 
 inline NiPoint3 operator*(float s, const NiPoint3& p)
@@ -474,7 +496,6 @@ struct NiPSysColliderBase
     int unk0C;
     int unk10;
     NiPoint3 m_kCollisionPosition;
-    void BaseResolve(float fInitialTime, NiPSysData* pkData, unsigned short usCurrentParticle);
 };
 
 struct NiPSysSphericalColliderX : NiPSysColliderBase
@@ -500,8 +521,8 @@ void NiPSysSphericalColliderX::ResolveSphericalCollision(float fInitialTime, NiP
     float fProjection = kVel * kNormal;
     NiPoint3 kTemp = fProjection * kNormal;
     kVel -= kTemp + kTemp;
-    kVel *= m_fBounceFactor;
-    BaseResolve(fInitialTime, pkData, usCurrentParticle);
+    reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3 &)(kVel))->FUN_00439180(m_fBounceFactor);
+    reinterpret_cast<::FUN_00c32490_shell *>(this)->FUN_00c32490(fInitialTime, pkData, usCurrentParticle);
 }
 
 struct StrArr
@@ -512,22 +533,15 @@ struct StrArr
     unsigned short size;
     unsigned short unk0c;
     unsigned short growth;
-    void SetSize(unsigned int count);
-    void SetAt(unsigned int index, char*& value);
     void Add(char* value)
     {
         unsigned int index = size;
         if (index >= capacity)
-            SetSize(index + growth);
-        SetAt(index, value);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(index + growth);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(index, value);
     }
 };
-char* __cdecl FUN_00a7d330(const void*);
-char* __cdecl FUN_00a7d5e0(const char*, const char*);
-char* __cdecl FUN_00a7d550(const char*, float);
 extern const char DAT_010be8cc[];
-extern const char DAT_01015a9c[];
-extern const char DAT_0102909c[];
 struct InfoName
 {
     int unk00;
@@ -549,16 +563,15 @@ struct ColliderInfo
     int unk28;
     InfoName* info;
     float radius;
-    void AppendProperties(StrArr*);
     void FUN_00c282d0(StrArr* strings);
 };
 // @fnv 0x00c282d0
 void ColliderInfo::FUN_00c282d0(StrArr* strings)
 {
-    AppendProperties(strings);
-    strings->Add(FUN_00a7d330(g_012026a0));
-    strings->Add(FUN_00a7d5e0(DAT_010be8cc, info ? info->name : DAT_0102909c));
-    strings->Add(FUN_00a7d550(DAT_01015a9c, radius));
+    reinterpret_cast<::FUN_00c329c0_object *>(this)->AppendProperties(strings);
+    strings->Add(::FUN_00a7d330((const char *)((*reinterpret_cast<const void * *>(&::g_012026a0)))));
+    strings->Add(::fnv_00a7d5e0::FUN_00a7d5e0(DAT_010be8cc, info ? info->name : (*reinterpret_cast<const char (*)[]>((void *)&::g_011d1f8c_arg1))));
+    strings->Add(FUN_00a7d550((*reinterpret_cast<const char (*)[]>(&::UNK_01015a9c)), radius));
 }
 
 struct FUN_00c27ae0_obj
@@ -591,7 +604,6 @@ struct FUN_00c27ae0_obj
 
 struct FUN_00c27ae0_base
 {
-    bool FUN_00c326b0(FUN_00c27ae0_base* pkObject);
 };
 
 struct FUN_00c27ae0_cls : FUN_00c27ae0_base
@@ -616,7 +628,7 @@ struct FUN_00c27ae0_cls : FUN_00c27ae0_base
 // @fnv 0x00c27ae0
 bool FUN_00c27ae0_cls::FUN_00c27ae0(FUN_00c27ae0_cls* pkObject)
 {
-    if (!FUN_00c326b0(pkObject))
+    if (!reinterpret_cast<::C326B0Modifier *>(this)->FUN_00c326b0((::C326B0Object *)(pkObject)))
         return false;
 
     FUN_00c27ae0_cls* pkDest = pkObject;
@@ -687,7 +699,6 @@ struct SphereCollision
     ColliderNode* node;
     float radius, scaledRadius, squaredRadius;
     CollisionVector center;
-    SphereCollision* FUN_00c32450(float, float&, CollisionParticles*, unsigned short);
     SphereCollision* TestSphereCollision(float, float&, CollisionParticles*, unsigned short);
 };
 // Tests if a particle at the given index hits this sphere, updating earliest and hitPoint if so, then delegates to FUN_00c32450.
@@ -728,7 +739,7 @@ SphereCollision* SphereCollision::TestSphereCollision(float time, float& earlies
             }
         }
     }
-    SphereCollision* result = FUN_00c32450(time, earliest, data, index);
+    SphereCollision* result = ((::SphereCollision *)(reinterpret_cast<::FUN_00c32450_shell *>(this)->FUN_00c32450(time, (unsigned int)&(earliest), (unsigned int)(data), index)));
     return result ? result : (hit ? this : 0);
 }
 
@@ -745,7 +756,6 @@ struct NiPoint3U : NiPoint3
         NiPoint3::operator=(p);
         return *this;
     }
-    void FUN_004a0c10();
     static NiPoint3U Cross(const NiPoint3& a, const NiPoint3& b)
     {
         const float& az = a.z;
@@ -762,6 +772,8 @@ struct NiPlane
     {
         return normal.x == p.normal.x && normal.y == p.normal.y && normal.z == p.normal.z && constant == p.constant;
     }
+public:
+    bool operator==(const ::NiPlane &);
 };
 struct ColliderMatrix
 {
@@ -773,8 +785,6 @@ struct ColliderMatrix
         return NiPoint3(m00 * p.x + m01 * p.y + m02 * p.z, m10 * p.x + y1 + m12 * p.z, m20 * p.x + z1 + m22 * p.z);
     }
 };
-extern const NiPoint3 NiPoint3_ZERO;
-extern const ColliderMatrix DAT_011a9448;
 struct PlanarColliderUpdate
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20;
@@ -794,13 +804,13 @@ struct PlanarColliderUpdate
 // @fnv 0x00c294b0
 void PlanarColliderUpdate::Update()
 {
-    if (plane == NiPlane(NiPoint3_ZERO, 0.0f) ||
+    if (reinterpret_cast<::NiPlane *>((void *)&(const ::NiPlane &)(plane))->operator==(NiPlane(::NiPoint3::ZERO, 0.0f)) ||
         (node && (cachedNode != node->world || cachedOwner != owner->GetNode()->world)))
     {
-        center = NiPoint3_ZERO;
-        rotation = DAT_011a9448;
+        center = ::NiPoint3::ZERO;
+        rotation = (*reinterpret_cast<const ::ColliderMatrix *>(&::DAT_011a9448));
         NiPoint3U normal = NiPoint3U::Cross(axis1, axis2);
-        static_cast<NiPoint3U&>(normal).FUN_004a0c10();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(static_cast<NiPoint3U&>(normal)))->FUN_004a0c10();
         float w = width;
         float h = height;
         if (node)
@@ -808,12 +818,12 @@ void PlanarColliderUpdate::Update()
             NiTransform nodeWorld = node->world;
             NiTransform ownerWorld = owner->GetNode()->world;
             NiTransform inverse;
-            ownerWorld.FUN_004b4880(inverse);
+            reinterpret_cast<::NiTransform *>((void *)&(ownerWorld))->CalculateInverse(inverse);
             NiTransform relative = inverse * nodeWorld;
             center = reinterpret_cast<const NiPoint3&>(relative.translation);
             rotation = reinterpret_cast<const ColliderMatrix&>(relative.m00);
             static_cast<NiPoint3&>(normal) = rotation * normal;
-            static_cast<NiPoint3U&>(normal).FUN_004a0c10();
+            reinterpret_cast<::FUN_004a0c10_s *>(&(static_cast<NiPoint3U&>(normal)))->FUN_004a0c10();
             w *= relative.scale;
             h *= relative.scale;
             cachedNode = nodeWorld;
@@ -829,11 +839,9 @@ void PlanarColliderUpdate::Update()
         next->update();
 }
 
-extern const ColliderMatrix DAT_011f4248;
 extern const char DAT_010be834[];
 struct NiPSysColliderInit
 {
-    void FUN_00c32780(float, int, int, int);
 };
 
 // Initializes collider fields, passes settings to the base initializer, sets a nonnegative radius, and initializes cached transforms.
@@ -842,18 +850,18 @@ Collider* Collider::FUN_00c28110(float fBounce, int bSpawnOnCollide, int bDieOnC
                                  int pkColliderObj, float fRadius)
 {
     UpdateCollider* p = (UpdateCollider*)this;
-    ((NiPSysColliderInit*)this)->FUN_00c32780(fBounce, bSpawnOnCollide, bDieOnCollide, pkSpawnModifier);
+    new ((void *)(((NiPSysColliderInit*)this))) ::FUN_00c32780(fBounce, bSpawnOnCollide, bDieOnCollide, (::NiPSysSpawnModifier *)(pkSpawnModifier));
     p->node = (ColliderNode*)pkColliderObj;
     p->radius = 1.0f;
     p->squaredRadius = 1.0f;
     *(const void**)this = DAT_010be834;
-    p->center = reinterpret_cast<const ColliderPoint&>(NiPoint3_ZERO);
+    p->center = reinterpret_cast<const ColliderPoint&>(::NiPoint3::ZERO);
     if (fRadius >= 0.0f)
         p->radius = fRadius;
     ColliderPoint kMaxPoint = {-3.402823466e+38F, -3.402823466e+38F, -3.402823466e+38F};
     p->cachedNode.translation = p->cachedOwner.translation = kMaxPoint;
     reinterpret_cast<ColliderMatrix&>(p->cachedNode.m00) = reinterpret_cast<ColliderMatrix&>(p->cachedOwner.m00) =
-        DAT_011f4248;
+        (*reinterpret_cast<const ::ColliderMatrix *>(&::DAT_011f4248));
     p->cachedNode.scale = p->cachedOwner.scale = -3.402823466e+38F;
     return this;
 }

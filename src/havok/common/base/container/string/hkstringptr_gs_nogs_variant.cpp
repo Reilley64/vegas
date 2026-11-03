@@ -5,18 +5,17 @@
 
 // src/havok/common/base/container/string/hkstringptr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/container/string/hkstringptr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-int __cdecl FUN_00cb10d0(const char* s);
+#include "fnv/decl/SStringPtr.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_01268000.h"
 char* __cdecl AllocateWithHeader(void* alloc, int size);
-void __cdecl FUN_00cb1090(char* dst, const char* src);
-char* __cdecl FUN_00cb1160(const char* s, void* alloc);
-extern void* g_01268358;
 struct FUN_00cb0a60
 {
     void* unk00;
     FUN_00cb0a60();
 };
 int __cdecl FUN_00c856c0(int, int);
-int __cdecl CallSwappedArgs(unsigned int arg0, unsigned int arg1);
 
 typedef char* hk_va_list;
 
@@ -50,7 +49,6 @@ static __forceinline hkMemoryRouterq& hkGetMemoryRouter()
     return *(hkMemoryRouterq*)FUN_00c85750();
 }
 
-int __cdecl FUN_00c908c0(hkMemoryAllocatorq& alloc, void* array, int numElements, int sizeElement) throw();
 int __cdecl FUN_00cb0f50(char* buf, int n, const char* fmt, hk_va_list args) throw();
 
 template <class T, int N> struct hkInplaceArrayq
@@ -86,7 +84,7 @@ template <class T, int N> struct hkInplaceArrayq
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(alloc, this, newSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
         }
     }
     __forceinline void reserve(int n)
@@ -126,6 +124,6 @@ void hkStringPtr::FUN_00cb0c70(const char* fmt, ...)
             buf.reserve(nchars);
         }
     }
-    *this = buf.begin();
-    *this = buf.begin();
+    reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(*this))->FUN_00cb0c10(buf.begin());
+    reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(*this))->FUN_00cb0c10(buf.begin());
 }

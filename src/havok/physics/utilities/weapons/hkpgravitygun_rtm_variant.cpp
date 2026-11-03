@@ -4,15 +4,24 @@
 
 // src/havok/physics/utilities/weapons/hkpgravitygun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpgravitygun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00c7f690_cls.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00ca88e0_cls.h"
+#include "fnv/decl/MotionMassView.h"
+#include "fnv/decl/SStringPtr.h"
+#include "fnv/decl/World_e45e.h"
+#include "fnv/decl/fnv_00c91f70__RayWorld.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpEntityC9C.h"
+#include "fnv/decl/hkpGravityGunE45.h"
+#include "fnv/symbols_01012000.h"
 #include "havok/hkpGravityGun.h"
 struct FUN_00e45fb0_class
 {
-    void FUN_00e45e60(int);
     void FUN_00e45fb0(int, int, int);
 };
 struct DDCC60World
 {
-    void removeReference();
 };
 struct FUN_00e45fc0_class
 {
@@ -82,7 +91,6 @@ struct GGVector4
     {
         return m_vComponents.m128_f32[i];
     }
-    void SetTransformedPosition(const struct GGTransform& t, const GGVector4& v);
 };
 struct GGMotion
 {
@@ -184,7 +192,7 @@ struct GGRigidBody
     }
     hkReal GetMassValue() const
     {
-        return m_pMotionState.GetMassValue();
+        return reinterpret_cast<::MotionMassView *>((void *)&(m_pMotionState))->FUN_00c86430();
     }
 };
 struct GGEntityArray
@@ -325,7 +333,6 @@ struct GGWorld
     GGIslandArray m_kActiveSimulationIslands;
     GGIslandArray m_kInactiveSimulationIslands;
 
-    void RayCast(const GGWorldRayCastInput& input, GGRayHitCollector& collector) const;
 };
 struct GGTransform
 {
@@ -391,14 +398,15 @@ struct GunListener
     virtual void func4();
     virtual void gunAction(const MyVec& from, const MyVec* to = 0);
 };
+struct hkTransform;
+struct hkpRigidBody;
 struct hkpGravityGunEx : public hkpGravityGun
 {
-    void FUN_00e45ee0(GunTransform* a4, GunArg3* a3, DDCC60World* world);
     void FUN_00e46080(GunTransform* a4, GunArg3* a3, DDCC60World* world);
-    void FUN_00e45fb0(GunTransform* a4, GunArg3* a3, DDCC60World* world);
-    void FUN_00e45c90(hkReal dt, GunTransform* a4, GunArg3* a3);
 
     void FUN_00e46140(hkReal dt, DDCC60World* world, GunArg3* a3, GunTransform* a4, bool b1, bool b2);
+public:
+    void FUN_00e45c90(float, const ::hkTransform &, ::hkpRigidBody *);
 };
 extern "C" __m128 _mm_shuffle_ps(__m128 _A, __m128 _B, unsigned int _Imm8);
 extern "C" void _mm_store_ss(float* _V, __m128 _A);
@@ -471,8 +479,6 @@ class hkEntityE460
     int unk00[104];
     hkVector4E460 m_vec1a0;
 
-    void FUN_00c90510();
-    void FUN_00ca88e0(float f);
 };
 class hkWorldE460
 {
@@ -487,10 +493,9 @@ class hkStringPtrE462
 {
   public:
     char* m_pcText;
-    void FUN_00cb0c10(const char* pcString) throw();
     void operator=(const char* pcString)
     {
-        FUN_00cb0c10(pcString);
+        reinterpret_cast<::SStringPtr *>(this)->FUN_00cb0c10(pcString);
     }
 };
 template <class T> class hkArrayE462
@@ -542,7 +547,6 @@ class FUN_00e46260 : public FUN_00e46660
     virtual ~FUN_00e46260() throw();
 };
 
-extern double DAT_01012070;
 extern "C" void _ReadWriteBarrier();
 extern "C"
 {
@@ -557,7 +561,6 @@ extern "C"
 
 struct UnkCall
 {
-    void FUN_00c9c1d0();
 };
 
 struct TargetBody
@@ -718,8 +721,6 @@ struct GravityGunQ
     hkVector4 unk44;
     hkVector4 unk54;
 
-    Target* FUN_00e45a60(hkVector4*, int, int);
-    void FUN_00e46000(Target*);
 };
 
 struct ImpulseVector : hkVector4
@@ -741,7 +742,7 @@ void hkpGravityGunEx::FUN_00e46080(GunTransform* a4, GunArg3* a3, DDCC60World* w
     int argC = (int)a3;
     int arg10 = (int)world;
     GravityGunQ* gq = (GravityGunQ*)this;
-    Target* target = gq->FUN_00e45a60(direction, argC, arg10);
+    Target* target = ((::Target *)(reinterpret_cast<::GravityGun *>((gq))->FUN_00e45a60((*(const ::GGTransform *)(direction)), (const ::GGRigidBody *)(argC), (const ::GGWorld *)(arg10))));
 
     if (target != 0)
     {
@@ -751,11 +752,11 @@ void hkpGravityGunEx::FUN_00e46080(GunTransform* a4, GunArg3* a3, DDCC60World* w
         float mass;
         _mm_store_ss(&mass, massVector);
 
-        if (!(gq->unk30 * mass < DAT_01012070))
+        if (!(gq->unk30 * mass < ::g_01012070))
         {
             if (gq->unk24 < gq->unk2C)
             {
-                gq->FUN_00e46000(target);
+                reinterpret_cast<::hkWorldE460 *>((gq))->FUN_00e46000((::hkEntityE460 *)(target));
                 return;
             }
         }
@@ -763,7 +764,7 @@ void hkpGravityGunEx::FUN_00e46080(GunTransform* a4, GunArg3* a3, DDCC60World* w
         ImpulseVector impulse;
         _mm_store_ps((float*)&impulse, _mm_load_ps((const float*)direction));
         impulse.mul(-gq->unk38);
-        target->FUN_00c9c1d0();
+        reinterpret_cast<::hkpEntityC9C *>((target))->FUN_00c9c1d0();
         target->body.vf4C(&impulse);
     }
 }

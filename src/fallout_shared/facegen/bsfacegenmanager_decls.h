@@ -1,5 +1,9 @@
 // fallout_shared/facegen/bsfacegenmanager_decls.h: declares FaceGenCoordinates, BSFaceGenManager, BGSTextureModel, TESRace, TESForm and more
 
+#include "fnv/decl/FR2MatrixVTCData.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0119b000.h"
 struct FaceGenCoordinates
 {
     char data[0x60];
@@ -70,10 +74,7 @@ class FaceGenCoordArray
     char data[0x20];
     void resize(unsigned int, bool);
 };
-extern "C" char* __insecure_strcpy(char*, const char*);
 char* FUN_00ec6380(char*, const char*);
-extern const char* DAT_0119b734[2];
-extern float DAT_01016970;
 template <class T> class NiPointer
 {
   public:

@@ -7,6 +7,10 @@
 // to their real unit once identified.
 // src/havok/common/base/container/array/hkarrayutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/container/array/hkarrayutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00db0060_class.h"
+#include "fnv/decl/MapBase_cb1e.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00db0000.h"
 struct CB1BC0Allocator;
 typedef unsigned __int64 CB1BC0Key;
 struct CB1BC0MapOperations
@@ -35,7 +39,6 @@ struct CB1BC0Map
     int m_iCapacityFlags;
     int m_iPairCount;
 
-    void ResizeStorage(CB1BC0Allocator& alloc, int capacity);
     int InsertKeyValue(CB1BC0Allocator& alloc, CB1BC0Key key, CB1BC0Key val);
 };
 struct SpawnedObject
@@ -54,7 +57,6 @@ struct SpawnedArray
     unsigned int m_08;
 };
 void __cdecl FUN_00ec44d0(int a, int b, int c);
-void __cdecl FUN_00c908c0(SpawnedObject* obj, SpawnedArray* arr, int a, int stride);
 // ---------------------------------------------------------------------------
 // ResizeAudioStream - reserve/grow the element buffer of an audio stream.
 //
@@ -78,10 +80,7 @@ struct AudioAllocator
     virtual void* ResizeBlock(void* pData, int size, int* pSize);
 };
 extern "C" void* __cdecl FNV_block_copy(void* dst, const void* src, unsigned int size);
-void ResizeAudioStream(AudioAllocator* pAlloc, AudioStream* pStream, int elemSize);
 typedef unsigned int hkUlong;
-extern void __cdecl FUN_00c908c0(void* alloc, void* arr, int n, int sizeElem);
-extern void __cdecl ResizeAudioStream(void* alloc, void* arr, int sizeElem);
 inline void* operator new(unsigned int, void* p)
 {
     return p;
@@ -111,7 +110,7 @@ struct S_00da2bd0_CallTree
         if (cap < n)
         {
             int cap2 = cap * 2;
-            FUN_00c908c0(alloc, this, n < cap2 ? cap2 : n, sizeof(S_00da2bd0_Node));
+            ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(void *)(this), n < cap2 ? cap2 : n, sizeof(S_00da2bd0_Node));
         }
         int numNew = n - m_iElementCount;
         S_00da2bd0_Node* p = m_data + m_iElementCount;
@@ -126,7 +125,7 @@ struct S_00da2bd0_CallTree
     {
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
         {
-            ResizeAudioStream(m_pThreadAllocator, this, sizeof(S_00da2bd0_Node));
+            ::ResizeAudioStream((::AudioAllocator *)(m_pThreadAllocator), (::AudioStream *)(void *)(this), sizeof(S_00da2bd0_Node));
         }
         new (m_data + m_iElementCount) S_00da2bd0_Node();
         return m_data[m_iElementCount++];
@@ -144,8 +143,6 @@ struct Holder
     void* m_pAllocator;
 };
 Holder* __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(void* pAllocator, void* pBuf, int newCap, int bFlag);
-void __cdecl ResizeAudioStream(void* pAllocator, void* pBuf, int bFlag);
 extern "C" void _ReadWriteBarrier(void);
 struct FUN_00e108b0_cls
 {
@@ -232,13 +229,11 @@ struct __declspec(align(16)) FNVRec_0f10
     unsigned int maxY;
     unsigned int maxZ;
     unsigned int maxExtra;
-    void FUN_00db0060(FNVBounds_0f10* box, int i);
     __forceinline void operator=(const FNVRec_0f10& other)
     {
         copy16_0f10(this, &other, sizeof(FNVRec_0f10));
     }
 };
-void __cdecl SortRecordsByKey(FNVRec_0f10* arr, int n);
 
 // @fnv 0x00da0f10
 void __cdecl FUN_00da0f10(FNVCloud_0f10* cloud, AudioStream* out, AudioStream* idx, float radius)
@@ -250,7 +245,7 @@ void __cdecl FUN_00da0f10(FNVCloud_0f10* cloud, AudioStream* out, AudioStream* i
     if (cap < n)
     {
         int cap2 = cap * 2;
-        FUN_00c908c0(alloc, idx, n < cap2 ? cap2 : n, 4);
+        ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(idx), n < cap2 ? cap2 : n, 4);
     }
     idx->m_iArrayLength = n;
 
@@ -288,7 +283,7 @@ void __cdecl FUN_00da0f10(FNVCloud_0f10* cloud, AudioStream* out, AudioStream* i
             __m128 halfQuad = h.quad;
             box.min.quad = _mm_sub_ps(((FNVVector_0f10*)((char*)cloud->m_pPts + offset))->quad, halfQuad);
             box.max.quad = _mm_add_ps(halfQuad, ((FNVVector_0f10*)((char*)cloud->m_pPts + offset))->quad);
-            sp->FUN_00db0060(&box, i);
+            reinterpret_cast<::FUN_00db0060_class *>((sp))->FUN_00db0060((int *)(::FNVBounds_0f10 *)(&box), i);
             ++i;
             offset += 16;
             ++sp;
@@ -305,7 +300,7 @@ void __cdecl FUN_00da0f10(FNVCloud_0f10* cloud, AudioStream* out, AudioStream* i
         copy16_0f10(end + 3, &sentinel, sizeof(FNVRec_0f10));
     }
 
-    SortRecordsByKey(scratch, n);
+    ::SortRecordsByKey((::S06c0_Rec *)(scratch), n);
     FNVVector_0f10 squaredRadius;
     float rsq = radius * radius;
     squaredRadius.quad = scalar_0f10(rsq);
@@ -325,7 +320,7 @@ void __cdecl FUN_00da0f10(FNVCloud_0f10* cloud, AudioStream* out, AudioStream* i
                 FNVRouter_0f10* router3 = (FNVRouter_0f10*)FUN_00c85750();
                 if (out->m_iArrayLength == (out->m_uCapacity & 0x3fffffff))
                 {
-                    (ResizeAudioStream)((void*)router3->heap, (void*)out, 0x10);
+                    (::ResizeAudioStream)((::AudioAllocator *)(void *)((void*)router3->heap), (::AudioStream *)(void *)((void*)out), 0x10);
                 }
                 ((FNVVector_0f10*)out->m_pData)[out->m_iArrayLength].quad = p.quad;
                 ++out->m_iArrayLength;

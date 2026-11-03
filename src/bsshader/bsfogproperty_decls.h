@@ -2,6 +2,7 @@
 #ifndef BSFOGPROPERTY_DECLS_H
 #define BSFOGPROPERTY_DECLS_H
 
+#include "fnv/symbols_011f4000.h"
 class NiProperty
 {
   public:
@@ -16,7 +17,6 @@ class NiColor
     NiColor() : r(0), g(0), b(0)
     {}
 };
-extern NiColor DAT_011f4998;
 extern const double DAT_010b9e30;
 extern const double DAT_0103a480;
 class NiFogProperty : public NiProperty
@@ -30,7 +30,7 @@ class NiFogProperty : public NiProperty
     {
         m_uiObjectFlags = 0;
         m_fFogDepth = 1.0f;
-        m_kFogTint = DAT_011f4998;
+        m_kFogTint = ::DAT_011f4998;
     }
 };
 class NiPlane

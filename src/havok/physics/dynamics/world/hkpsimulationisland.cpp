@@ -2,6 +2,14 @@
 // src/havok/physics/dynamics/world/hkpsimulationisland.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/hkpsimulationisland.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/D28030UnionFind.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb3000.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_00d97000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010cc000.h"
+#include "fnv/symbols_01268000.h"
 struct S_00d070c0_Inner
 {
     int unk00;
@@ -19,12 +27,11 @@ struct S_00d070c0
     S_00d070c0_Inner* unk14;
 };
 
-void __cdecl FUN_00cb3c80(void* a, S_00d070c0* obj);
 
 // @fnv 0x00d070c0
 void __stdcall FUN_00d070c0(S_00d070c0* obj)
 {
-    FUN_00cb3c80(obj->unk14->unk08, obj);
+    ::FUN_00cb3c80((int)(obj->unk14->unk08), (int)(obj));
 }
 
 struct Holder
@@ -44,12 +51,11 @@ struct Owner
     Holder* m_pHolder;
 };
 
-void __cdecl FUN_00cb3da0(void* apTarget, Owner* apOwner);
 
 // @fnv 0x00d070e0
 void __stdcall FUN_00d070e0(Owner* apOwner)
 {
-    FUN_00cb3da0(apOwner->m_pHolder->m_pFlagTarget, apOwner);
+    ::FUN_00cb3da0((::S_00cb3da0_Ctx *)(apOwner->m_pHolder->m_pFlagTarget), apOwner);
 }
 
 struct FUN_00d07130Arg
@@ -300,29 +306,16 @@ struct D077D0Object
     int unk48;
     int m_iCapacity;
 
-    bool CheckConnectivity(D077D0BitField& bits);
     bool FUN_00d077d0();
 };
-
-// @fnv 0x00d077d0
-bool D077D0Object::FUN_00d077d0()
-{
-    D077D0LocalBuffer buffer;
-    buffer.m_data = FUN_00c85750().stackAllocInts(m_iCapacity);
-    D077D0BitField bits(buffer.m_data, m_iCapacity);
-    bool result = CheckConnectivity(bits);
-    FUN_00c85750().stackFree(buffer.m_data);
-    return result;
-}
 
 struct GlobalObjectO2_00d472a0
 {
 };
-extern GlobalObjectO2_00d472a0 g_012687cc;
 // @fnv 0x00d078d0
 GlobalObjectO2_00d472a0* FUN_00d078d0()
 {
-    return &g_012687cc;
+    return &::g_012687cc;
 }
 
 // FUN_00d07100: OR a flag byte into a sub-object's flags field.
@@ -513,7 +506,6 @@ struct S_00d074c0_UnionFind
 {
     S_00d074c0_FixedArray* m_pParentArray;
     int m_iNodeCount;
-    void Union(int i, int j) throw();
     bool isOneGroup() const
     {
         return m_pParentArray->m_data[0] == -m_iNodeCount;
@@ -541,6 +533,16 @@ struct S_00d074c0_Island
     S_00d074c0_Array<S_00d074c0_Entity*> m_kActorEntries;
     bool CheckConnectivity(S_00d074c0_UnionFind& checkConnectivityOut) throw();
 };
+// @fnv 0x00d077d0
+bool D077D0Object::FUN_00d077d0()
+{
+    D077D0LocalBuffer buffer;
+    buffer.m_data = FUN_00c85750().stackAllocInts(m_iCapacity);
+    D077D0BitField bits(buffer.m_data, m_iCapacity);
+    bool result = reinterpret_cast<::S_00d074c0_Island *>(this)->CheckConnectivity((::S_00d074c0_UnionFind &)(bits));
+    FUN_00c85750().stackFree(buffer.m_data);
+    return result;
+}
 
 // Unions entities linked by collision entries, constraints and actions in checkConnectivityOut and returns whether they form one group.
 // @fnv 0x00d074c0
@@ -557,7 +559,7 @@ bool S_00d074c0_Island::CheckConnectivity(S_00d074c0_UnionFind& aUnionFind) thro
                     static_cast<S_00d074c0_Entity*>(collisionEntries[i].m_pCollidable->getOwner());
                 if (!otherEntity->isFixed())
                 {
-                    aUnionFind.Union(e, otherEntity->m_usStorageIndex);
+                    reinterpret_cast<::D28030UnionFind *>(&(aUnionFind))->Union(e, otherEntity->m_usStorageIndex);
                     if (aUnionFind.isOneGroup())
                     {
                         return true;
@@ -575,7 +577,7 @@ bool S_00d074c0_Island::CheckConnectivity(S_00d074c0_UnionFind& aUnionFind) thro
                 S_00d074c0_ConstraintInternal& ci = entity->m_constraintsData[c];
                 if (!ci.m_kActorEntries[0]->isFixed() && !ci.m_kActorEntries[1]->isFixed())
                 {
-                    aUnionFind.Union(ci.m_kActorEntries[0]->m_usStorageIndex, ci.m_kActorEntries[1]->m_usStorageIndex);
+                    reinterpret_cast<::D28030UnionFind *>(&(aUnionFind))->Union(ci.m_kActorEntries[0]->m_usStorageIndex, ci.m_kActorEntries[1]->m_usStorageIndex);
                     if (aUnionFind.isOneGroup())
                     {
                         return true;
@@ -605,7 +607,7 @@ bool S_00d074c0_Island::CheckConnectivity(S_00d074c0_UnionFind& aUnionFind) thro
                 {
                     if (!entities[j]->isFixed())
                     {
-                        aUnionFind.Union(entities[firstNonFixed]->m_usStorageIndex, entities[j]->m_usStorageIndex);
+                        reinterpret_cast<::D28030UnionFind *>(&(aUnionFind))->Union(entities[firstNonFixed]->m_usStorageIndex, entities[j]->m_usStorageIndex);
                         if (aUnionFind.isOneGroup())
                         {
                             return true;
@@ -639,7 +641,6 @@ struct AudioHolder
 namespace fnvc_adapt {
 AudioHolder* __cdecl FUN_00c85750();
 }
-void __cdecl ResizeAudioStream(AudioAllocator* apAllocator, void* apContainer, unsigned int auiElemSize);
 
 struct PointerList
 {
@@ -687,7 +688,7 @@ void FUN_00d07470_cls::AddItem(ListItem* apItem)
     AudioHolder* pHolder = fnvc_adapt::FUN_00c85750();
     if (pItems->m_uCount == (pItems->m_uCapFlags & 0x3fffffffu))
     {
-        ResizeAudioStream(pHolder->m_pAllocator, pItems, 4);
+        ::ResizeAudioStream(pHolder->m_pAllocator, (::AudioStream *)(pItems), 4);
     }
 
     void** pSlot = (void**)((unsigned int)pItems->m_pData + *(volatile unsigned int*)&pItems->m_uCount * 4);
@@ -719,8 +720,6 @@ struct AudioHolder
 namespace fnvc_adapt {
 AudioHolder* __cdecl FUN_00c85750() throw();
 }
-extern int DAT_010ccf28;
-extern int DAT_0102e388;
 
 struct FUN_00d07720_cls
 {
@@ -792,7 +791,7 @@ void FUN_00d07720_cls::ResetArrays()
     m_pData3 = 0;
     m_uCapBits3 = 0x80000000u;
 
-    *(volatile int*)&m_vptr00 = (int)&DAT_0102e388;
+    *(volatile int*)&m_vptr00 = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 }  // namespace fnv_00d07720
 
@@ -823,7 +822,6 @@ struct FUN_00d078e0_cls
     unsigned short m_uSize;
     unsigned short m_u06;
 
-    void ResetArrays();
 
     FUN_00d078e0_cls* Destroy(unsigned char acFlags);
     static void operator delete(void* apMemory) throw();
@@ -832,7 +830,7 @@ struct FUN_00d078e0_cls
 // @fnv 0x00d078e0
 FUN_00d078e0_cls* FUN_00d078e0_cls::Destroy(unsigned char acFlags)
 {
-    ResetArrays();
+    reinterpret_cast<::fnv_00d07720::FUN_00d07720_cls *>(this)->ResetArrays();
     if (acFlags & 1)
     {
         AudioHolder* pHolder = fnvc_adapt::FUN_00c85750();
@@ -928,9 +926,6 @@ struct FUN_00d07210_Island
     void SaveIsland(FUN_00d07210_Writer* save, int unkArg);
 };
 
-int __cdecl FUN_00d06f80(void* data, int bytes);
-void __cdecl CollectSectors(void* agents, FUN_00d07210_Writer* save);
-void __cdecl FUN_00d97130(void* agents, void* world, FUN_00d07210_Writer* save);
 
 // Serializes the island's entity and action pointer arrays, per-entity constraints, agents and collision agents through the writer.
 // @fnv 0x00d07210
@@ -938,7 +933,7 @@ void FUN_00d07210_Island::SaveIsland(FUN_00d07210_Writer* save, int)
 {
     if ((m_kActorEntries.m_iCapacityState & 0x80000000) == 0 || save->m_force)
     {
-        int alloc = FUN_00d06f80(m_kActorEntries.m_data, m_kActorEntries.getCapacity() * 4);
+        int alloc = ::fnv_00d06f80::FUN_00d06f80((const char *)(m_kActorEntries.m_data), m_kActorEntries.getCapacity() * 4);
         save->Array(3, "EntityPtrs", m_kActorEntries.m_data, m_kActorEntries.GetLogicalSize() * 4, alloc);
     }
 
@@ -973,7 +968,7 @@ void FUN_00d07210_Island::SaveIsland(FUN_00d07210_Writer* save, int)
         {
             int capacity = m_ppActions.getCapacity();
             void* data = m_ppActions.m_data;
-            alloc = FUN_00d06f80(data, capacity * 4);
+            alloc = ::fnv_00d06f80::FUN_00d06f80((const char *)(data), capacity * 4);
         }
         save->Array(3, "ActionPtrs", m_ppActions.m_data, m_ppActions.GetLogicalSize() * 4, alloc);
     }
@@ -984,13 +979,13 @@ void FUN_00d07210_Island::SaveIsland(FUN_00d07210_Writer* save, int)
         save->Begin("Actions", action, 0);
     }
 
-    CollectSectors(&m_pAgents, save);
+    ::CollectSectors((*(::S_00d97360_Track *)(&m_pAgents)), (::S_00d97360_Collector *)(save));
     save->Block("CollAgents");
-    FUN_00d97130(&m_pAgents, unk18->unk78, save);
+    ::fnv_00d97130::FUN_00d97130((*(::fnv_00d97130::S_00d97130_Track *)(&m_pAgents)), (const ::fnv_00d97130::S_00d97130_Input *)(unk18->unk78), (::fnv_00d97130::S_00d97130_Collector *)(save));
     save->End();
 }
 
-extern const void* DAT_010ccf28[];  // hkpSimulationIsland vftable (not in the symbols DB)
+  // hkpSimulationIsland vftable (not in the symbols DB)
 
 struct hkReferencedObjectQ
 {
@@ -1081,7 +1076,7 @@ struct IslandBaseQ : hkpConstraintOwnerQ
     unsigned char m_bActiveMark;
     IslandBaseQ(hkpWorldQ* world) : m_pOwningWorld(world), m_usDirtyListIndex(0xffff)
     {
-        m_vft = DAT_010ccf28;
+        m_vft = (*reinterpret_cast<const void * (*)[]>(&::fnv_00d07720::DAT_010ccf28));
         m_ucMultiThreadCheckFlags = 5;
         m_bSplitCheckRequested = 0;
         m_bActionListCleanupNeeded = 0;
@@ -1133,7 +1128,6 @@ struct GlobalHolder
 };
 
 GlobalHolder* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void* alloc, void* list, unsigned int n);
 
 struct FUN_00d07420_cls
 {
@@ -1202,7 +1196,7 @@ void FUN_00d07420_cls::FUN_00d07420(FUN_00d07420_cls* item)
     GlobalHolder* holder = FUN_00c85750();
     if (list->m_uiItemCount == (int)(list->m_capFlags & 0x3fffffffu))
     {
-        ResizeAudioStream(holder->m_alloc, list, 4);
+        ::ResizeAudioStream((::AudioAllocator *)(holder->m_alloc), (::AudioStream *)(list), 4);
     }
     void** slot = list->m_data + list->m_uiItemCount;
     *slot = item;

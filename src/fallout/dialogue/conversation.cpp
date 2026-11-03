@@ -1,23 +1,49 @@
 // fallout/dialogue/conversation.cpp: ConversationLoad, DialogueItem, ListNode, Conversation and more (11 functions)
 
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/DialogueItemBufferWriter.h"
+#include "fnv/decl/DialogueItemResolver.h"
+#include "fnv/decl/DialogueItem_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_0083c9e0_t.h"
+#include "fnv/decl/FUN_0083ca90_t.h"
+#include "fnv/decl/FUN_0083d0d0_Class.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_008579e0_shell.h"
+#include "fnv/decl/FUN_00862110_cls.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_00865f20_shell.h"
+#include "fnv/decl/FUN_00865ff0_shell.h"
+#include "fnv/decl/FUN_008df040_shell.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_004fd000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_0061b000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_011de000.h"
 #include "conversation_decls.h"
 
 // @fnv 0x0083c7b0
 bool DialogueItem::SelectDefaultResponseList()
 {
     m_pCurrentResponseList = &m_kResponseList;
-    return m_pCurrentResponseList->GetItem() != 0;
+    return ((::DialogueResponse *)(new ((void *)(m_pCurrentResponseList)) ::Vec3())) != 0;
 }
 
 struct ListItem
 {
-    void FUN_0083cdf0();
 };
 struct ListNode
 {
     bool _ref_008256d0() const;
-    ListItem** _ref_006815c0() const;
-    ListNode* _ref_00726070() const;
     void FUN_0083c220();
 };
 // Walks the list from this node, calling FUN_0083cdf0 on each node's item until a node satisfies _ref_008256d0 or the list ends.
@@ -27,9 +53,9 @@ void ListNode::FUN_0083c220()
     ListNode* current = this;
     while (current && !current->_ref_008256d0())
     {
-        ListItem* item = *current->_ref_006815c0();
-        item->FUN_0083cdf0();
-        current = current->_ref_00726070();
+        ListItem* item = *((::ListItem **)(new ((void *)(current)) ::Vec3()));
+        reinterpret_cast<::DialogueItemResolver *>((item))->FUN_0083cdf0();
+        current = ((::ListNode *)(reinterpret_cast<::Callees *>((void *)(current))->FUN_00726070()));
     }
 }
 
@@ -40,7 +66,6 @@ struct Conversation
 };
 struct DialogueItem_Stub
 {
-    void RefreshObjectRef(BGSLoadFormBuffer*);
 };
 // Iterates the dialogue item list and calls each item's load function with the buffer.
 // @fnv 0x0083c420
@@ -49,16 +74,15 @@ void Conversation::FUN_0083c420(BGSLoadFormBuffer* pBuffer)
     BSSimpleList<DialogueItem*>* pCurrentElementNext = reinterpret_cast<BSSimpleList<DialogueItem*>*>(this);
     while (pCurrentElementNext)
     {
-        DialogueItem* pdialogueItem = pCurrentElementNext->GetItem();
+        DialogueItem* pdialogueItem = ((::DialogueItem *)(new ((void *)(pCurrentElementNext)) ::Vec3()));
         if (pdialogueItem)
         {
-            reinterpret_cast<DialogueItem_Stub*>(pdialogueItem)->RefreshObjectRef(pBuffer);
+            reinterpret_cast<::FUN_0083d0d0_Class *>((reinterpret_cast<DialogueItem_Stub*>(pdialogueItem)))->RefreshObjectRef((int)(pBuffer));
         }
-        pCurrentElementNext = pCurrentElementNext->GetNext();
+        pCurrentElementNext = ((::BSSimpleList< ::DialogueItem *> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
     }
 }
 
-void __cdecl _FNV_Warning(const char*);
 
 struct Conversation_Stub
 {
@@ -73,13 +97,13 @@ short Conversation_Stub::FUN_0083ba50(DialogueItem* item)
     ListNode* node = (ListNode*)this;
     while (node && !node->_ref_008256d0())
     {
-        if (item == (DialogueItem*)node->_ref_006815c0()[0])
+        if (item == (DialogueItem*)((::ListItem **)(new ((void *)(node)) ::Vec3()))[0])
             return index;
         ++index;
-        node = node->_ref_00726070();
+        node = ((::ListNode *)(reinterpret_cast<::Callees *>((void *)(node))->FUN_00726070()));
     }
-    _FNV_Warning(
-        "DIALOGUE: When trying to get a dialogue item index, the dialogue item was not found in the dialogue items list.");
+    ::FUN_005b5e40(
+        );
     return 0;
 }
 
@@ -172,29 +196,26 @@ struct TESFormStub
 };
 struct TESSaveLoadGame
 {
-    void ReadTypedData(void*, unsigned int);
-    bool FUN_00862110();
-    unsigned char FUN_008df040();
 };
+class TESSound;
 struct EffectSetting
 {
-    FormRecordMetadata* GetBoltSound();
+public:
+    ::TESSound *GetHitSound();
 };
 struct GameTimerRecord
 {
-    unsigned int GetTime() const;
 };
 struct DialogueItemLoad : DialogueItem
 {
     void FUN_0083cc10();
 };
+class DialogueResponse;
 struct StandIn
 {
-    void FUN_0083c8a0(void*);
+public:
+    void FUN_0083c8a0(::DialogueResponse *);
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
-TESForm* FUN_004839c0(unsigned int);
-void FNV_Warning(const char*, ...);
 struct ConversationLoad : Conversation
 {
     void* m_pConversationLoadContext;
@@ -208,83 +229,64 @@ void ConversationLoad::LoadFromSave()
 {
     unsigned short usBlockSize = 0;
     unsigned int uiStartBufferPosition = 0;
-    if (g_TESSaveLoadGame->FUN_00862110())
+    if (reinterpret_cast<::FUN_00862110_cls *>((g_TESSaveLoadGame))->FUN_00862110())
     {
         unsigned int uiBlockHeader;
-        g_TESSaveLoadGame->ReadTypedData(&uiBlockHeader, 4);
+        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0(&uiBlockHeader, 4);
         if (uiBlockHeader != 0x424c4f4b)
         {
-            FormRecordMetadata* pheader = ((EffectSetting*)g_TESSaveLoadGame)->GetBoltSound();
+            FormRecordMetadata* pheader = ((::FormRecordMetadata *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((EffectSetting*)g_TESSaveLoadGame)))));
             if (pheader)
             {
                 TESForm* pform = FUN_004839c0(pheader->iFormID);
-                FNV_Warning(
-                    "SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
-                    "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Dialogue\\Conversation.cpp", 0xe7,
-                    pheader->iFormID, ((TESFormStub*)pform)->GetFormDisplayName(), pheader->cVersion,
-                    *(unsigned int*)pheader->iFlags);
+                ::FUN_005b5e40(
+                    );
             }
             else
             {
-                FNV_Warning(
-                    "SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Current version is %i",
-                    "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Dialogue\\Conversation.cpp", 0xe7,
-                    g_TESSaveLoadGame->FUN_008df040());
+                ::FUN_005b5e40(
+                    );
             }
         }
-        uiStartBufferPosition = ((GameTimerRecord*)g_TESSaveLoadGame)->GetTime();
-        g_TESSaveLoadGame->ReadTypedData(&usBlockSize, 2);
+        uiStartBufferPosition = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(((GameTimerRecord*)g_TESSaveLoadGame)))->FUN_00825c00();
+        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0(&usBlockSize, 2);
     }
     unsigned short icount;
-    g_TESSaveLoadGame->ReadTypedData(&icount, 2);
+    reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0(&icount, 2);
     for (unsigned int i = 0; i < icount; i++)
     {
         DialogueItem* pdialogueItem = new DialogueItem;
         ((DialogueItemLoad*)pdialogueItem)->FUN_0083cc10();
-        m_kDialogueItems.AddTail(pdialogueItem);
+        reinterpret_cast<::Callees *>(&(m_kDialogueItems))->FUN_00905820((void *)&(pdialogueItem));
     }
     short sCurrentItemIndex;
-    g_TESSaveLoadGame->ReadTypedData(&sCurrentItemIndex, 2);
+    reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0(&sCurrentItemIndex, 2);
     if (sCurrentItemIndex != -1)
-        ((StandIn*)this)->FUN_0083c8a0(FUN_0083bac0(sCurrentItemIndex));
+        ((StandIn*)this)->FUN_0083c8a0((::DialogueResponse *)(void *)(FUN_0083bac0(sCurrentItemIndex)));
     else
         m_pConversationLoadContext = 0;
-    if (g_TESSaveLoadGame->FUN_00862110())
+    if (reinterpret_cast<::FUN_00862110_cls *>((g_TESSaveLoadGame))->FUN_00862110())
     {
-        unsigned int uiCurrentBufferPosition = ((GameTimerRecord*)g_TESSaveLoadGame)->GetTime();
-        FormRecordMetadata* pheader = ((EffectSetting*)g_TESSaveLoadGame)->GetBoltSound();
+        unsigned int uiCurrentBufferPosition = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(((GameTimerRecord*)g_TESSaveLoadGame)))->FUN_00825c00();
+        FormRecordMetadata* pheader = ((::FormRecordMetadata *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((EffectSetting*)g_TESSaveLoadGame)))));
         if (pheader)
         {
             TESForm* pform = FUN_004839c0(pheader->iFormID);
             if (uiCurrentBufferPosition > usBlockSize + uiStartBufferPosition)
-                FNV_Warning(
-                    "SAVELOAD: LoadGame Buffer overrun of %i bytes in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
-                    uiCurrentBufferPosition - (usBlockSize + uiStartBufferPosition),
-                    "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Dialogue\\Conversation.cpp", 0xfd,
-                    pheader->iFormID, ((TESFormStub*)pform)->GetFormDisplayName(), pheader->cVersion,
-                    *(unsigned int*)pheader->iFlags);
+                ::FUN_005b5e40(
+                    );
             else if (uiCurrentBufferPosition < usBlockSize + uiStartBufferPosition)
-                FNV_Warning(
-                    "SAVELOAD: LoadGame Buffer underrun of %i bytes in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
-                    usBlockSize + uiStartBufferPosition - uiCurrentBufferPosition,
-                    "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Dialogue\\Conversation.cpp", 0xfd,
-                    pheader->iFormID, ((TESFormStub*)pform)->GetFormDisplayName(), pheader->cVersion,
-                    *(unsigned int*)pheader->iFlags);
+                ::FUN_005b5e40(
+                    );
         }
         else
         {
             if (uiCurrentBufferPosition > usBlockSize + uiStartBufferPosition)
-                FNV_Warning(
-                    "SAVELOAD: LoadGame Buffer overrun of %i bytes in file %s on line %i.  Current version is %i",
-                    uiCurrentBufferPosition - (usBlockSize + uiStartBufferPosition),
-                    "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Dialogue\\Conversation.cpp", 0xfd,
-                    g_TESSaveLoadGame->FUN_008df040());
+                ::FUN_005b5e40(
+                    );
             else if (uiCurrentBufferPosition < usBlockSize + uiStartBufferPosition)
-                FNV_Warning(
-                    "SAVELOAD: LoadGame Buffer underrun of %i bytes in file %s on line %i.  Current version is %i",
-                    usBlockSize + uiStartBufferPosition - uiCurrentBufferPosition,
-                    "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Dialogue\\Conversation.cpp", 0xfd,
-                    g_TESSaveLoadGame->FUN_008df040());
+                ::FUN_005b5e40(
+                    );
         }
     }
 }
@@ -303,30 +305,26 @@ void* ConversationLoad::FUN_0083bac0(unsigned short aiIndex)
     while (pCurrentElementNext && !((DialogueItemListRef*)pCurrentElementNext)->_ref_008256d0())
     {
         if (iElementIndex == (short)aiIndex)
-            return pCurrentElementNext->GetItem();
+            return ((::DialogueItem *)(new ((void *)(pCurrentElementNext)) ::Vec3()));
         iElementIndex++;
-        pCurrentElementNext = pCurrentElementNext->GetNext();
+        pCurrentElementNext = ((::BSSimpleList< ::DialogueItem *> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
     }
-    FNV_Warning(
-        "DIALOGUE: When trying to get a dialogue item by its index, the index was larger than the size of the dialogue items list.");
+    ::FUN_005b5e40(
+        );
     return 0;
 }
 
 namespace fnv_0083c330 {
 struct BGSLoadFormBuffer
 {
-    int ReadElementCount();
-    void ReadTypedData(void* data, unsigned int size);
 };
 
 struct DialogueItem_shell
 {
-    void LoadDialogueItem(BGSLoadFormBuffer* buffer);
 };
 
 struct SoundListView
 {
-    void AddTail(char* const& item);
 };
 
 struct FUN_0083c330_shell
@@ -338,23 +336,23 @@ struct FUN_0083c330_shell
 void FUN_0083c330_shell::FUN_0083c330(BGSLoadFormBuffer* buffer)
 {
     short count;
-    unsigned int currentItem = buffer->ReadElementCount();
+    unsigned int currentItem = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((buffer))->FUN_00864a60();
     unsigned int index = 0;
 
     for (; index < currentItem; ++index)
     {
         DialogueItem* item = new DialogueItem;
-        reinterpret_cast<DialogueItem_shell*>(item)->LoadDialogueItem(buffer);
-        reinterpret_cast<SoundListView*>(this)->AddTail(*reinterpret_cast<char* const*>(&item));
+        reinterpret_cast<::DialogueItem_shell *>((reinterpret_cast<DialogueItem_shell*>(item)))->LoadDialogueItem((::BGSLoadFormBuffer *)(buffer));
+        reinterpret_cast<::Callees *>((reinterpret_cast<SoundListView*>(this)))->FUN_00905820((void *)&(*reinterpret_cast<char* const*>(&item)));
     }
 
     count = -1;
-    buffer->ReadTypedData(&count, 2);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&count), 2);
 
     if (count != -1)
     {
         reinterpret_cast<StandIn*>(this)->FUN_0083c8a0(
-            reinterpret_cast<ConversationLoad*>(this)->FUN_0083bac0(static_cast<unsigned short>(count)));
+            (::DialogueResponse *)(void *)(reinterpret_cast<ConversationLoad*>(this)->FUN_0083bac0(static_cast<unsigned short>(count))));
     }
 }
 }  // namespace fnv_0083c330
@@ -371,7 +369,6 @@ class StrList
 
 class FUN_0083b850;
 
-void __cdecl GenerateConversation(void* pvA, void* pvB, FUN_0083b850* pkList, void* pvC);
 
 class FUN_0083b850 : public StrList
 {
@@ -385,7 +382,7 @@ class FUN_0083b850 : public StrList
 FUN_0083b850::FUN_0083b850(void* pvA, void* pvB, void* pvC)
 {
     m_iArrayLength = 0;
-    GenerateConversation(pvA, pvB, this, pvC);
+    ::GenerateConversation((::TESObjectREFR *)(pvA), (::TESObjectREFR *)(pvB), (::DialogueList *)(::FUN_0083b850 *)(this), (::FUN_0061b320_shell *)(pvC));
 }
 
 struct FormIDEntry
@@ -400,8 +397,6 @@ struct FormIDEntry
 };
 struct SaveLoadGameStub
 {
-    bool FUN_00862110();
-    FormIDEntry* GetCurrentFormHeader();
 };
 struct SettingStub
 {
@@ -489,22 +484,15 @@ struct FormStub
 };
 struct DialogueItemSave
 {
-    unsigned short GetSaveSize();
 };
 struct DialogueItemNode
 {
     bool IsEmpty() const;
-    DialogueItemSave** GetItem() const;
-    DialogueItemNode* GetNext() const;
 };
 struct DialogueItemList : DialogueItemNode
 {
     unsigned short FUN_0083bb30();
 };
-extern SaveLoadGameStub* g_SaveLoadGameStub;
-extern SettingStub g_011de4e8;
-FormStub* LookupFormByID(unsigned int);
-void SaveWarning(const char*, ...);
 static const char kConversationFile[] = "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Dialogue\\Conversation.cpp";
 static const char kSaveSizeFormFormat[] =
     "GetSaveSize(): %-5i for form %08X %s with flags %08X ending at line %i in file %s";
@@ -515,7 +503,7 @@ unsigned short DialogueItemList::FUN_0083bb30()
 {
     unsigned short size3 = 0;
     unsigned short start = size3;
-    if (g_SaveLoadGameStub->FUN_00862110())
+    if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         size3 += 4;
         size3 += 2;
@@ -524,23 +512,22 @@ unsigned short DialogueItemList::FUN_0083bb30()
     DialogueItemNode* node5 = this;
     while (node5 && !node5->IsEmpty())
     {
-        DialogueItemSave* item8 = *node5->GetItem();
-        size3 += item8->GetSaveSize();
-        node5 = node5->GetNext();
+        DialogueItemSave* item8 = *((::DialogueItemSave **)(new ((void *)(node5)) ::Vec3()));
+        size3 += reinterpret_cast<::FUN_0083c9e0_t *>((item8))->FUN_0083c9e0();
+        node5 = ((::DialogueItemNode *)(reinterpret_cast<::Callees *>((void *)(node5))->FUN_00726070()));
     }
     size3 += 2;
-    if (*g_011de4e8.Bool())
+    if (*(*reinterpret_cast<::SettingStub *>(&::g_011de4e8)).Bool())
     {
-        FormIDEntry* header3 = g_SaveLoadGameStub->GetCurrentFormHeader();
+        FormIDEntry* header3 = ((::FormIDEntry *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
         if (header3)
         {
-            FormStub* form = LookupFormByID(header3->iFormID);
-            SaveWarning(kSaveSizeFormFormat, size3 - start, header3->iFormID, form->GetEditorName(),
-                        *(unsigned int*)&header3->iFlags, 192, kConversationFile);
+            FormStub* form = ((::FormStub *)(::FUN_004839c0(header3->iFormID)));
+            ::FUN_0040fbe0();
         }
         else
         {
-            SaveWarning(kSaveSizeFormat, size3 - start, 192, kConversationFile);
+            ::FUN_0040fbe0();
         }
     }
     return size3;
@@ -549,22 +536,16 @@ unsigned short DialogueItemList::FUN_0083bb30()
 class B83C270Buffer
 {
   public:
-    unsigned int BeginChunk();
-    void EndChunk(int iCount, unsigned int uiChunk);
-    void SaveData(void* pvData, int iSize, int iFlags);
 };
 
 class B83C270Item
 {
   public:
-    void SaveGame(B83C270Buffer* pkBuffer);
 };
 
 class B83C270Node
 {
   public:
-    B83C270Item** GetItem();
-    B83C270Node* GetNext();
 };
 
 class B83C270Conversation
@@ -574,7 +555,6 @@ class B83C270Conversation
     int unk04;
     B83C270Node* m_pkCurrent;
 
-    short GetIndex(B83C270Item* pkItem);
     void FUN_0083c270(B83C270Buffer* pkBuffer);
 };
 
@@ -583,26 +563,25 @@ class B83C270Conversation
 void B83C270Conversation::FUN_0083c270(B83C270Buffer* pkBuffer)
 {
     int iCount7 = 0;
-    unsigned int uiChunk = pkBuffer->BeginChunk();
+    unsigned int uiChunk = reinterpret_cast<::FUN_00865f20_shell *>((pkBuffer))->FUN_00865f20();
     B83C270Node* pkNode4 = &m_kHead;
     while (pkNode4)
     {
-        B83C270Item* pkItem = *pkNode4->GetItem();
+        B83C270Item* pkItem = *((::B83C270Item **)(new ((void *)(pkNode4)) ::Vec3()));
         if (pkItem)
         {
-            pkItem->SaveGame(pkBuffer);
+            reinterpret_cast<::DialogueItemBufferWriter *>((pkItem))->FUN_0083ce40((::BGSSaveGameBuffer *)(pkBuffer));
             iCount7++;
         }
-        pkNode4 = pkNode4->GetNext();
+        pkNode4 = ((::B83C270Node *)(reinterpret_cast<::Callees *>((pkNode4))->FUN_00726070()));
     }
-    pkBuffer->EndChunk(iCount7, uiChunk);
-    short sIndex3 = m_pkCurrent ? GetIndex(*m_pkCurrent->GetItem()) : -1;
-    pkBuffer->SaveData(&sIndex3, 2, 0);
+    reinterpret_cast<::FUN_00865ff0_shell *>((pkBuffer))->FUN_00865ff0(iCount7, uiChunk);
+    short sIndex3 = m_pkCurrent ? reinterpret_cast<::Conversation_Stub *>(this)->FUN_0083ba50((::DialogueItem *)(*((::B83C270Item **)(new ((void *)(m_pkCurrent)) ::Vec3())))) : -1;
+    reinterpret_cast<::FUN_00865e50_shell *>((pkBuffer))->FUN_00865e50(&sIndex3, 2, 0);
 }
 
 struct CVItem
 {
-    void SaveDialogueItem();
 };
 
 struct CVNode
@@ -610,85 +589,71 @@ struct CVNode
     void* m_item;
     CVNode* m_pkNext;
     bool IsEmpty() const;
-    CVItem** GetItem() const;
-    CVNode* GetNext() const;
 };
 
 struct CVConv : CVNode
 {
     CVNode* m_pConversationLoadContext;
-    short FUN_0083ba50(CVItem* item);
     void SaveConversation();
 };
 
 struct CVSaveLoad
 {
-    unsigned int GetTimeStamp();
-    bool FUN_00862110();
-    void FUN_008579b0(void*, int);
-    void* GetHitSound();
 };
 
-extern "C" CVSaveLoad* g_saveLoad;
-extern "C" char DAT_01015318;
-extern "C" char DAT_0101536c;
-extern "C" char DAT_010153a0;
 extern "C" char DAT_0107db20;
-void __cdecl FUN_0040fbe0(const char* fmt, ...);
-void __cdecl FUN_005b5e40(const char* fmt, const char* file, int line);
 
 // @fnv 0x0083bc80
 void CVConv::SaveConversation()
 {
     short sCount_ = 0;                                  // slot -0x10
     short* pSizeTmp = 0;                                // slot -0x04
-    unsigned int pCount7 = g_saveLoad->GetTimeStamp();  // slot -0x14
-    if (*g_011de4e8.Bool())
-        pCount7 = g_saveLoad->GetTimeStamp();
-    if (g_saveLoad->FUN_00862110())
+    unsigned int pCount7 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();  // slot -0x14
+    if (*(*reinterpret_cast<::SettingStub *>(&::g_011de4e8)).Bool())
+        pCount7 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+    if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         unsigned int uiBlok9 = 0x424c4f4b;  // slot -0x20
-        g_saveLoad->FUN_008579b0(&uiBlok9, 4);
-        pSizeTmp = (short*)g_saveLoad->GetTimeStamp();
-        g_saveLoad->FUN_008579b0(&sCount_, 2);
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&uiBlok9, 4);
+        pSizeTmp = (short*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&sCount_, 2);
     }
     short sIndex5 = 0;                                  // slot -0x1c
-    short* sVer7 = (short*)g_saveLoad->GetTimeStamp();  // slot -0x0c
-    g_saveLoad->FUN_008579b0(&sIndex5, 2);
+    short* sVer7 = (short*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();  // slot -0x0c
+    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&sIndex5, 2);
     CVNode* uiStartTime4 = this;  // slot -0x18
     while (uiStartTime4 && !uiStartTime4->IsEmpty())
     {
-        CVItem* pItem = *uiStartTime4->GetItem();  // slot -0x24
-        pItem->SaveDialogueItem();
+        CVItem* pItem = *((::CVItem **)(new ((void *)(uiStartTime4)) ::Vec3()));  // slot -0x24
+        reinterpret_cast<::FUN_0083ca90_t *>((pItem))->SaveDialogueItem();
         sIndex5++;
-        uiStartTime4 = uiStartTime4->GetNext();
+        uiStartTime4 = ((::CVNode *)(reinterpret_cast<::Callees *>((void *)(uiStartTime4))->FUN_00726070()));
     }
     *sVer7 = sIndex5;
     short pNode2 = -1;  // slot -0x08
     if (m_pConversationLoadContext)
-        pNode2 = FUN_0083ba50(*m_pConversationLoadContext->GetItem());
-    g_saveLoad->FUN_008579b0(&pNode2, 2);
-    if (*g_011de4e8.Bool())
+        pNode2 = reinterpret_cast<::Conversation_Stub *>(this)->FUN_0083ba50((::DialogueItem *)(*((::CVItem **)(new ((void *)(m_pConversationLoadContext)) ::Vec3()))));
+    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&pNode2, 2);
+    if (*(*reinterpret_cast<::SettingStub *>(&::g_011de4e8)).Bool())
     {
-        unsigned int uiEndTime4 = g_saveLoad->GetTimeStamp();  // slot -0x2c
-        void* _pWorld = g_saveLoad->GetHitSound();             // slot -0x28
+        unsigned int uiEndTime4 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();  // slot -0x2c
+        void* _pWorld = ((void *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->GetHitSound()));             // slot -0x28
         if (_pWorld)
         {
             TESFormStub* pForm = (TESFormStub*)FUN_004839c0(*(unsigned int*)_pWorld);  // -0x30
-            FUN_0040fbe0(&DAT_010153a0, uiEndTime4 - pCount7, *(unsigned int*)_pWorld, pForm->GetFormDisplayName(),
-                         *(unsigned int*)((char*)_pWorld + 5), 0xe1, &DAT_0107db20);
+            ::FUN_0040fbe0();
         }
         else
         {
-            FUN_0040fbe0(&DAT_0101536c, uiEndTime4 - pCount7, 0xe1, &DAT_0107db20);
+            ::FUN_0040fbe0();
         }
     }
-    if (g_saveLoad->FUN_00862110())
+    if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
-        unsigned int uiEnd7 = g_saveLoad->GetTimeStamp();  // slot -0x34
+        unsigned int uiEnd7 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();  // slot -0x34
         unsigned int uiStart2 = (unsigned int)pSizeTmp;    // slot -0x38
         if (uiEnd7 > uiStart2 + 0xffff)
-            FUN_005b5e40(&DAT_01015318, &DAT_0107db20, 0xe1);
+            ::FUN_005b5e40();
         *pSizeTmp = (short)(uiEnd7 - uiStart2);
     }
 }

@@ -2,6 +2,7 @@
 #ifndef FNV_SHADOWSCENELIGHT_H
 #define FNV_SHADOWSCENELIGHT_H
 
+#include "fnv/decl/FUN_00b9dae0_cls.h"
 #include "layout_support.h"
 #include "NiPoint3.h"
 #include "shadowscenelight_refobject.h"
@@ -363,6 +364,7 @@ FNV_STATIC_ASSERT(sizeof(NiFrustumPlanes) == 100);
 FNV_STATIC_ASSERT(offsetof(NiFrustumPlanes, m_akPlanes) == 0);
 FNV_STATIC_ASSERT(offsetof(NiFrustumPlanes, m_uiActivePlaneMask) == 96);
 #pragma pack(push, 4)
+struct NiSphere;
 class ShadowSceneLight : public NiRefObject
 {
   public:
@@ -372,9 +374,6 @@ class ShadowSceneLight : public NiRefObject
     void AddObject(NiAVObject*);
     void ProcessShadowObject(NiAVObject*);
     void AddShadowObject(NiAVObject*);
-    void AddGeometry(NiTriBasedGeom*);
-    bool TestSphereFrustum(NiPoint3*);
-    bool FUN_00b9dae0(NiPoint3*, NiLight*, float);
     // base NiRefObject at +0x0, size 8
     int m_iShadowLightState;                                       // +0x8, 4 bytes
     float m_fShadowParameter3;                                     // +0xC, 4 bytes
@@ -500,6 +499,8 @@ class ShadowSceneLight : public NiRefObject
     // void __cdecl ShadowSceneLight::*(NiAVObject*)
     // ShadowSceneLight& __cdecl ShadowSceneLight::*(const ShadowSceneLight&)
     // void __cdecl ShadowSceneLight::*()
+public:
+    bool TestSphereFrustum(const ::NiSphere &);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(ShadowSceneLight) == 592);

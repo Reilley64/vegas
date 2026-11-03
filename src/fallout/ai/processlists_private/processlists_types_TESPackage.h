@@ -425,6 +425,8 @@ class TESPackage : public TESForm
     // unsigned int __cdecl TESPackage::*()
     // TESPackage& __cdecl TESPackage::*(const TESPackage&)
     // void __cdecl TESPackage::*()
+public:
+    bool IsMustComplete();
 };
 FNV_STATIC_ASSERT(sizeof(TESPackage) == 128);
 FNV_STATIC_ASSERT(offsetof(TESPackage, m_eProcedureType) == 24);

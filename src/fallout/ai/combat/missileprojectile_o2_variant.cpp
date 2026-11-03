@@ -4,9 +4,20 @@
 
 // src/fallout/ai/combat/missileprojectile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/missileprojectile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern int DAT_011c6278;
-int __cdecl FUN_009b7cb0();
-extern char const* const g_01268310_arg1;
+#include "fnv/decl/FUN_004fd420_shell.h"
+#include "fnv/decl/FUN_00c89c80_obj.h"
+#include "fnv/decl/LoadProjectile52.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/Owner89730.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/symbols_009b7000.h"
+#include "fnv/symbols_00c43000.h"
+#include "fnv/symbols_00c68000.h"
+#include "fnv/symbols_00c87000.h"
+#include "fnv/symbols_011c6000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01272000.h"
 struct FUN_009ba4d0_shell
 {
     char const* const* GetArg1Ptr();
@@ -20,11 +31,9 @@ struct bhkConstraint
 };
 struct BGSLoadFormBuffer
 {
-    void ReadTypedData(void*, unsigned int);
 };
 struct BeamProjectile
 {
-    void LoadProjectile(BGSLoadFormBuffer*);
 };
 struct MissileProjectile : BeamProjectile
 {
@@ -32,7 +41,6 @@ struct MissileProjectile : BeamProjectile
 };
 struct BGSProjectile
 {
-    bool GetFlag(unsigned int) const;
 };
 struct FUN_009b7c90_shell : BGSProjectile
 {
@@ -222,9 +230,6 @@ struct TlsBlock_t
     int m_2b4;
 };
 
-extern __declspec(thread) TlsBlock_t g_tlsBlock;
-extern int g_ctrA;
-extern int g_ctrD;
 
 struct TlsGuard_t
 {
@@ -242,8 +247,6 @@ struct TlsGuard_t
     }
 };
 
-void FUN_00c876f0();
-void FUN_00c87700();
 void* __cdecl FUN_00aa13e0(unsigned int size);
 
 class OwnerBase_t
@@ -269,7 +272,7 @@ class ChainA_t : public OwnerBase_t
     ChainA_t()
     {
         m_0c = 0;
-        g_ctrA += 1;
+        ::DAT_01268188 += 1;
     }
 };
 
@@ -279,7 +282,7 @@ class SpawnedObject_t : public ChainA_t
     virtual void unkD2();
     SpawnedObject_t()
     {
-        g_ctrD += 1;
+        ::DAT_01268434 += 1;
     }
 };
 
@@ -287,7 +290,6 @@ struct FUN_00cbdd60_cls
 {
     int unk00;
     int unk04;
-    void FUN_00c89730(SpawnedObject_t* obj, unsigned int arg);
     SpawnedObject_t* FUN_00cbdd60(unsigned int arg);
 };
 
@@ -298,7 +300,7 @@ SpawnedObject_t* FUN_00cbdd60_cls::FUN_00cbdd60(unsigned int arg)
     SpawnedObject_t* result = 0;
     FUN_00c876f0();
     result = new SpawnedObject_t();
-    FUN_00c89730(result, arg);
+    reinterpret_cast<::Owner89730 *>(this)->FUN_00c89730(result, (::Process89730 *)(arg));
     FUN_00c87700();
     return result;
 }
@@ -486,19 +488,17 @@ struct S_cbde40_Guard
     int saved;
     S_cbde40_Guard()
     {
-        saved = g_tls_cbde40.unk2B4;
-        g_tls_cbde40.unk2B4 = 0x10;
+        saved = (*reinterpret_cast<::S_cbde40_Tls *>(&::g_tlsBlock)).unk2B4;
+        (*reinterpret_cast<::S_cbde40_Tls *>(&::g_tlsBlock)).unk2B4 = 0x10;
     }
     ~S_cbde40_Guard()
     {
-        g_tls_cbde40.unk2B4 = saved;
+        (*reinterpret_cast<::S_cbde40_Tls *>(&::g_tlsBlock)).unk2B4 = saved;
     }
 };
 struct S_cbde40_Pool
 {
-    void* FUN_00aa3e40(unsigned int n);
 };
-extern S_cbde40_Pool DAT_011f6238;
 extern int DAT_0108ff98;
 struct S_cbde40_Base
 {
@@ -513,7 +513,7 @@ struct S_cbde40_Obj
     int unk10;
     static void* operator new(unsigned int n)
     {
-        return DAT_011f6238.FUN_00aa3e40(n);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::S_cbde40_Pool *>(&::g_memoryManager))))->FUN_00aa3e40(n);
     }
 };
 struct S_cbde40
@@ -522,7 +522,6 @@ struct S_cbde40
     int unk04;
     int unk08;
     S_cbde40_Base* unk0c;
-    void CopyFromSource(S_cbde40_Obj* c);
     S_cbde40_Base* FUN_00cbde40(bool* created);
 };
 // @fnv 0x00cbde40
@@ -551,7 +550,7 @@ S_cbde40_Base* S_cbde40::FUN_00cbde40(bool* created)
         }
         unk0c = r;
         if (unk08)
-            CopyFromSource(unk0c ? (S_cbde40_Obj*)((char*)unk0c - 4) : 0);
+            reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((unsigned int)(unk0c ? (S_cbde40_Obj*)((char*)unk0c - 4) : 0));
     }
     return unk0c;
 }
@@ -571,8 +570,6 @@ struct CollisionObjectCountContext
 };
 
 typedef void (*CollisionObjectCountCallback)(NiCollisionObject*, CollisionObjectCountContext*);
-void FUN_00c68900(NiAVObject* pkObject, CollisionObjectCountContext* pkContext,
-                  CollisionObjectCountCallback pfnCallback);
 extern CollisionObjectCountCallback DAT_011afec0;
 
 struct C6A0B0Properties
@@ -582,10 +579,9 @@ struct C6A0B0Properties
     int unk08;
     unsigned int m_uiValue1;
 };
-extern "C" C6A0B0Properties* GetExtraDataChecked(NiAVObject* pkObject);
 static inline unsigned int C6A0B0IsEnabled(NiAVObject* pkObject)
 {
-    C6A0B0Properties* pkProps = GetExtraDataChecked(pkObject);
+    C6A0B0Properties* pkProps = ((::C6A0B0Properties *)(::GetExtraDataChecked((::NiAVObjectX *)(pkObject))));
     return pkProps ? (pkProps->m_uiValue1 & 2) : 0;
 }
 
@@ -602,7 +598,7 @@ bool FUN_00c6a0b0(NiAVObject* pkObject, bool bValue, bool bRecurse, bool bForce)
         kContext.uiTraversalFlags = 0xe;
         kContext.uiValue = bValue;
         if (DAT_011afec0)
-            FUN_00c68900(pkObject, &kContext, DAT_011afec0);
+            ::FUN_00c68900((::S_00c68900_Node *)(pkObject), (::S_00c68900_Context *)(::CollisionObjectCountContext *)(&kContext), (void (*)(void *, S_00c68900_Context *))(DAT_011afec0));
     }
     return bResult;
 }

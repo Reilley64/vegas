@@ -4,12 +4,14 @@
 
 // src/havok/physics/collide/shape/heightfield/sampledheightfield/hkpsampledheightfieldshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/heightfield/sampledheightfield/hkpsampledheightfieldshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_00c98000.h"
+#include "fnv/symbols_00d26000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpSampledHeightFieldShape.h"
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
 extern "C" __m128 _mm_load_ps1(const float*);
-extern float DAT_01012068;
-extern double DAT_01012070;
 struct Cls_00d24670 {
     virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c();
     virtual void v10(); virtual void v14(); virtual void v18(); virtual void v1c();
@@ -43,7 +45,6 @@ public:
     hkInfoD260* m_info;
 };
 struct FUN_00d24b50_Obj {
-    void __thiscall FUN_00d24b50(void* object, int flags, hkBoolD260 flag2, float f, hkCollectorD260* collector);
 };
 class hkShapeD260 : public FUN_00d24b50_Obj {
 public:
@@ -81,7 +82,6 @@ struct Val1 {
     Val1(const Val1& o) : m_00(o.m_00) {}
 };
 struct Host {
-    void FUN_00d24b50(int a1, int a2, Val1 v, float f, Local12* pLocal);
     void FUN_00d260d0(int a1, int a2, const Arg3* a3);
 };
 struct __declspec(align(16)) RayData {
@@ -106,7 +106,6 @@ struct Obj {
     int unk20;
     float unk24;
 
-    void FUN_00d24b50(RayData* data, void* arg2, hkBoolD260 arg3, float arg4, void* arg5);
     void FUN_00d26120(Input* input, void* arg2, void* arg3);
 };
 extern "C" __m128 _mm_mul_ps(__m128, __m128);
@@ -127,7 +126,6 @@ struct SampledHeightField : hkpSampledHeightFieldShape {
     virtual float getHeightAt(int x, int z);
     void FUN_00d249f0(hkUlong transform, float tolerance, hkUlong aabb);
 };
-void __cdecl FUN_00d26230(hkUlong, const hkVector4&, const hkVector4&, float, hkUlong);
 
 typedef signed char hkInt8;
 typedef signed short hkInt16;
@@ -440,8 +438,7 @@ class StringCursor
 public:
 __forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}static StringCursor&GetMonitorStream()
 {
-extern hkThreadLocalData<StringCursor*>g_pMonitorStream;
-return*g_pMonitorStream.getData();
+return*(*reinterpret_cast<::hkThreadLocalData< ::StringCursor *> *>(&::DAT_0126835c)).getData();
 }
 public:
 __forceinline char*__cdecl GetStreamStart(){return m_kRayStart.val();}
@@ -1185,7 +1182,7 @@ goto setAndWalk;
 }
 if(lastHeight<=0.0f)
 {
-hitFraction=MathUtilities::max2(0.0f,distToLastCrossedCell);
+hitFraction=::FUN_00c98210(0.0f,distToLastCrossedCell);
 goto reportHit;
 }
 }

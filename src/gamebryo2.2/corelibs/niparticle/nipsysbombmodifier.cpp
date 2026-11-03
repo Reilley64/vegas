@@ -2,21 +2,41 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysbombmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysbombmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00c319e0_cls.h"
+#include "fnv/decl/MyIsEqual.h"
+#include "fnv/decl/NiColor.h"
+#include "fnv/decl/NiPSysPositionModifier.h"
+#include "fnv/decl/NiPlane.h"
+#include "fnv/decl/ParticleModifierBinary.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_01202000.h"
 struct NiObject
 {
 };
 struct CloningProcess;
 struct NiTStringPointerMap_00e93020
 {
-    bool GetAt(void*, void*&);
 };
 struct CloningProcess
 {
     NiTStringPointerMap_00e93020* m_pCloneMap;
 };
+class CloningProcess;
+class NiStream;
 struct NiPSysModifier
 {
     virtual void ProcessClone(CloningProcess&);
+public:
+    void CopyMemberData(::NiPSysModifier *, ::CloningProcess &);
+public:
+    void LoadBinary(::NiStream &);
 };
 struct NiPSysBombModifier : NiPSysModifier
 {
@@ -32,9 +52,9 @@ void NiPSysBombModifier::FUN_00c2e610(CloningProcess& kCloning)
     NiPSysBombModifier* pkDest;
     NiPSysModifier::ProcessClone(kCloning);
     pkClone = 0;
-    kCloning.m_pCloneMap->GetAt(this, (void*&)pkClone);
+    reinterpret_cast<::A54440Hash *>((kCloning.m_pCloneMap))->FUN_00a53c30((::A54440Manager *)(void *)(this), (::A54440Manager **)&((void*&)pkClone));
     pkDest = (NiPSysBombModifier*)pkClone;
-    bFound = kCloning.m_pCloneMap->GetAt(m_pkBombObject, (void*&)pkClone);
+    bFound = reinterpret_cast<::A54440Hash *>((kCloning.m_pCloneMap))->FUN_00a53c30((::A54440Manager *)(m_pkBombObject), (::A54440Manager **)&((void*&)pkClone));
     if (bFound)
         pkDest->m_pkBombObject = pkClone;
     else
@@ -73,6 +93,10 @@ struct NiPoint3
 {
     float x, y, z;
     bool operator!=(const NiPoint3& pt) const;
+public:
+    char *FUN_00a59af0(const char *);
+public:
+    static const ::NiPoint3 ZERO;
 };
 
 struct BombMod : NiPSysBombModifier
@@ -87,14 +111,13 @@ struct BombMod : NiPSysBombModifier
     {
         return (NiObjVt*)m_pkBombObject;
     }
-    bool FUN_00c31830(NiObject* pkObject);
     bool FUN_00c2eaf0(NiObject* pkObject);
 };
 
 // @fnv 0x00c2eaf0
 bool BombMod::FUN_00c2eaf0(NiObject* pkObject)
 {
-    if (!FUN_00c31830(pkObject))
+    if (!reinterpret_cast<::MyIsEqual *>(this)->FUN_00c31830(pkObject))
         return false;
 
     BombMod* pkDest = (BombMod*)pkObject;
@@ -106,7 +129,7 @@ bool BombMod::FUN_00c2eaf0(NiObject* pkObject)
         return false;
     }
 
-    if (m_kBombDirection != pkDest->m_kBombDirection || m_fDistanceDecay != pkDest->m_fDistanceDecay ||
+    if (reinterpret_cast<::NiPlane *>((void *)&(const ::NiPoint3 &)(m_kBombDirection))->operator==((const ::NiPlane &)(pkDest->m_kBombDirection)) || m_fDistanceDecay != pkDest->m_fDistanceDecay ||
         m_fDeltaVelocity != pkDest->m_fDeltaVelocity || m_eBombDecayType != pkDest->m_eBombDecayType ||
         m_eSymmetryType != pkDest->m_eSymmetryType)
     {
@@ -118,10 +141,6 @@ bool BombMod::FUN_00c2eaf0(NiObject* pkObject)
 
 namespace fnv_00c2ed00 {
 struct GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610* g_01202790;
-char* __cdecl FUN_00a7d330(GlobalObjectO2_00a7b610*);
-char* __cdecl FUN_00a7d5e0(const char*, const char*);
-char* __cdecl FUN_00a7d550(const char*, float);
 
 struct StrArr
 {
@@ -132,15 +151,13 @@ struct StrArr
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
 
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 
     void Add(char* str)
     {
         unsigned int index = m_usSize;
         if (index >= m_usMaxSize)
-            SetSize(index + m_usGrowBy);
-        SetAt(index, str);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(index + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(index, str);
     }
 };
 
@@ -154,14 +171,12 @@ struct BombNamed
 struct BombPoint3
 {
     float x, y, z;
-    char* FUN_00a59af0(const char*) const;
 };
 
 struct BombModBase
 {
     virtual void vfunc00();
     char pad04[0x14];
-    void FUN_00c319e0(StrArr*);
 };
 
 struct BombMod : BombModBase
@@ -209,15 +224,15 @@ struct BombMod : BombModBase
 // @fnv 0x00c2ed00
 void BombMod::AppendToStrings(StrArr* pkStrings)
 {
-    FUN_00c319e0(pkStrings);
+    reinterpret_cast<::FUN_00c319e0_cls *>(this)->FUN_00c319e0((::StrArr *)(pkStrings));
 
-    pkStrings->Add(FUN_00a7d330(g_01202790));
-    pkStrings->Add(FUN_00a7d5e0("Bomb Object", m_pkBombObject ? m_pkBombObject->m_kName : "None"));
-    pkStrings->Add(m_kBombDirection.FUN_00a59af0("Bomb Axis"));
-    pkStrings->Add(FUN_00a7d550("Decay", m_fDistanceDecay));
-    pkStrings->Add(FUN_00a7d550("DeltaV", m_fDeltaVelocity));
-    pkStrings->Add(FUN_00a7d5e0("Decay Type", GetDecayTypeName(m_eBombDecayType)));
-    pkStrings->Add(FUN_00a7d5e0("Symmetry Type", GetSymmTypeName(m_eSymmetryType)));
+    pkStrings->Add(::FUN_00a7d330((const char *)((*reinterpret_cast<::fnv_00c2ed00::GlobalObjectO2_00a7b610 * *>(&::g_01202790)))));
+    pkStrings->Add(::fnv_00a7d5e0::FUN_00a7d5e0("Bomb Object", m_pkBombObject ? m_pkBombObject->m_kName : "None"));
+    pkStrings->Add(reinterpret_cast<::NiPoint3 *>((void *)&(m_kBombDirection))->FUN_00a59af0("Bomb Axis"));
+    pkStrings->Add(::FUN_00a7d550("Decay", m_fDistanceDecay));
+    pkStrings->Add(::FUN_00a7d550("DeltaV", m_fDeltaVelocity));
+    pkStrings->Add(::fnv_00a7d5e0::FUN_00a7d5e0("Decay Type", GetDecayTypeName(m_eBombDecayType)));
+    pkStrings->Add(::fnv_00a7d5e0::FUN_00a7d5e0("Symmetry Type", GetSymmTypeName(m_eSymmetryType)));
 }
 }  // namespace fnv_00c2ed00
 
@@ -389,12 +404,10 @@ struct ParticleStream
     int unk244;
     int unk248;
     BinaryInput* input;
-    void FUN_00a645b0();
 };
 struct PointReader
 {
     float x, y, z;
-    void LoadBinary(ParticleStream&);
 };
 enum DecayType
 {
@@ -410,16 +423,15 @@ struct BombLoader
     float delta;
     DecayType decayType;
     SymmetryType symmetryType;
-    void FUN_00c318b0(ParticleStream&);
     void FUN_00c2eb80(ParticleStream& stream);
 };
 // Loads the base data, then reads axis, decay, delta, decayType and symmetryType from the stream's input.
 // @fnv 0x00c2eb80
 void BombLoader::FUN_00c2eb80(ParticleStream& stream)
 {
-    FUN_00c318b0(stream);
-    stream.FUN_00a645b0();
-    axis.LoadBinary(stream);
+    reinterpret_cast<::NiPSysModifier *>(this)->LoadBinary((::NiStream &)(stream));
+    reinterpret_cast<::FUN_00a645b0_cls *>(&(stream))->FUN_00a645b0();
+    reinterpret_cast<::NiColor *>(&(axis))->LoadBinary((::NiStream &)(stream));
     stream.input->ReadFloat(decay);
     stream.input->ReadFloat(delta);
     stream.input->ReadEnum(decayType);
@@ -635,7 +647,6 @@ template <class T> inline void C2EC40SaveBinary(NiStreamC2E& kStream, const T& v
 class NiColorC2E
 {
   public:
-    void SaveBinary(NiStreamC2E& kStream);
 
     float r;
     float g;
@@ -645,7 +656,6 @@ class NiColorC2E
 class NiPSysModifierC2E
 {
   public:
-    void SaveBinary(NiStreamC2E& kStream);
 
     int unk00, unk04, unk08, unk0C, unk10, unk14;
 };
@@ -667,9 +677,9 @@ class NiPSysEmitterC2E : public NiPSysModifierC2E
 // @fnv 0x00c2ec40
 void NiPSysEmitterC2E::FUN_00c2ec40(NiStreamC2E& kStream)
 {
-    NiPSysModifierC2E::SaveBinary(kStream);
+    reinterpret_cast<::ParticleModifierBinary *>(this)->FUN_00c31950((::OutputStream &)(kStream));
     kStream.SaveLinkID(m_pkTarget);
-    m_kFogTint.SaveBinary(kStream);
+    reinterpret_cast<::NiColor *>(&(m_kFogTint))->SaveBinary((::NiStream &)(kStream));
     C2EC40SaveBinary(kStream, m_fCoefficientA);
     C2EC40SaveBinary(kStream, m_fB);
     C2EC40SaveBinary(kStream, m_fC);
@@ -678,12 +688,8 @@ void NiPSysEmitterC2E::FUN_00c2ec40(NiStreamC2E& kStream)
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
 extern int DAT_010c01ec;
-extern int DAT_011a946c;
-extern int DAT_011a9470;
-extern int DAT_011a9474;
 struct C2E570_Base
 {
-    void FUN_00c31720() throw();
 };
 struct C2E570_Modifier : C2E570_Base
 {
@@ -708,7 +714,7 @@ struct C2E570_Modifier : C2E570_Base
     }
     C2E570_Modifier()
     {
-        FUN_00c31720();
+        new ((void *)this) ::NiPSysPositionModifier();
         m_pVtable = &DAT_010c01ec;
         m_18 = 0;
         m_1C = DAT_011a946c;
@@ -719,7 +725,6 @@ struct C2E570_Modifier : C2E570_Base
         m_30 = 0;
         m_34 = 0;
     }
-    void FUN_00c31780(C2E570_Modifier* clone, int arg);
     C2E570_Modifier* FUN_00c2e570(int arg);
 };
 // Creates a new modifier, calls FUN_00c31780 on it, copies m_1C, m_20, m_24, m_28, m_2C, m_30, and m_34, then returns it.
@@ -727,7 +732,7 @@ struct C2E570_Modifier : C2E570_Base
 C2E570_Modifier* C2E570_Modifier::FUN_00c2e570(int arg)
 {
     C2E570_Modifier* clone = new C2E570_Modifier;
-    FUN_00c31780(clone, arg);
+    reinterpret_cast<::NiPSysModifier *>(this)->CopyMemberData((::NiPSysModifier *)(clone), (*(::CloningProcess *)(arg)));
     clone->m_1C = m_1C;
     clone->m_20 = m_20;
     clone->m_24 = m_24;
@@ -740,7 +745,6 @@ C2E570_Modifier* C2E570_Modifier::FUN_00c2e570(int arg)
 
 #include <string.h>
 #include <math.h>
-extern NiPoint3 NiPoint3_ZERO;
 
 struct BombPoint
 {
@@ -753,7 +757,6 @@ struct BombPoint
     {
         memcpy(this, &p, sizeof(*this));
     }
-    __declspec(noalias) void FUN_004a0c10();
     float Dot(const BombPoint& p) const
     {
         return x * p.x + y * p.y + z * p.z;
@@ -812,8 +815,10 @@ struct NiTransform
     ThreeByThreeMatrix m_kOrientation;
     BombPoint m_kTranslation;
     float m_fScale;
-    void Invert(NiTransform& kDest) const;
-    NiTransform* Multiply(NiTransform* out, const NiTransform* rhs) const;
+public:
+    void CalculateInverse(::NiTransform &);
+public:
+    ::NiTransform operator*(const ::NiTransform &) const;
 };
 struct NiAVObject
 {
@@ -920,7 +925,7 @@ void BombModShell::FUN_00c2e670(float fTime, NiPSysData* pkData)
     (void)pkInfo;
     float fDist;
     (void)fDist;
-    BombPoint kTargetCenter = NiPoint3_ZERO;
+    BombPoint kTargetCenter = ::NiPoint3::ZERO;
     BombPoint kBombAxis = m_kBombDirection;
     BombPoint kDiff;
     float fDeltaT;
@@ -933,12 +938,12 @@ void BombModShell::FUN_00c2e670(float fTime, NiPSysData* pkData)
         NiTransform kBombWorld = ((NiAVObject*)m_pkBombObject)->m_kWorldSpaceTransform;
         NiTransform kBombToTarget = ((NiPSysModifierStandIn*)this)->m_pkTarget->m_kWorldSpaceTransform;
         NiTransform kTargetInv;
-        kBombToTarget.Invert(kTargetInv);
-        kTargetInv.Multiply(&kBombToTarget, &kBombWorld);
+        reinterpret_cast<::NiTransform *>((void *)&(kBombToTarget))->CalculateInverse(kTargetInv);
+        reinterpret_cast<::NiTransform *>((void *)&(kTargetInv))->operator*((*(const ::NiTransform *)(&kBombToTarget)));
 
         kTargetCenter = kBombToTarget.m_kTranslation;
         kBombAxis = kBombToTarget.m_kOrientation.FUN_004b4500(m_kBombDirection);
-        kBombAxis.FUN_004a0c10();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(kBombAxis))->FUN_004a0c10();
     }
 
     for (unsigned short i = 0; i < pkData->m_usNumParticles; ++i)

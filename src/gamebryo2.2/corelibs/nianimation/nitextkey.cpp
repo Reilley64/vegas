@@ -1,5 +1,8 @@
 // gamebryo2.2/corelibs/nianimation/nitextkey.cpp: TimedTextEntry, NiTextKeyFnv (2 functions)
 
+#include "fnv/decl/Cls_a64ea0.h"
+#include "fnv/decl/FUN_00a641f0_cls.h"
+#include "fnv/decl/fnv_00a64df0__FUN_00a64df0_Stream.h"
 #include "nitextkey_decls.h"
 // Reads m_fTime from the stream, then loads m_kText using the version-dependent string reader.
 // @fnv 0x00a578d0
@@ -8,9 +11,9 @@ void TimedTextEntry::LoadBinary(NiStream& stream)
     NiBinaryStream* input = stream.m_pUnderlyingStream;
     input->Read(&m_fTime, 4);
     if (stream.m_uiNifVersion < 0x14010001)
-        stream.ReadFixedString(m_kText);
+        reinterpret_cast<::Cls_a64ea0 *>(&(stream))->FUN_00a64ea0((char **)&(m_kText));
     else
-        stream.ReadStringTableEntry(m_kText);
+        reinterpret_cast<::fnv_00a64df0::FUN_00a64df0_Stream *>(&(stream))->FUN_00a64df0((::fnv_00a64df0::NiFixedString &)(m_kText));
 }
 
 struct FNVBinaryInput
@@ -28,7 +31,6 @@ struct FNVBinaryInput
 
 struct FNVStream
 {
-    void WriteObjectLink(NiFixedString& value);
 
     FNVBinaryInput* GetInput() const
     {
@@ -48,5 +50,5 @@ struct NiTextKeyFnv
 void NiTextKeyFnv::ReadFromStream(FNVStream& stream)
 {
     stream.GetInput()->Read(&m_fTime, sizeof(m_fTime));
-    stream.WriteObjectLink(m_kText);
+    reinterpret_cast<::FUN_00a641f0_cls *>(&(stream))->WriteObjectLink((void *)&(m_kText));
 }

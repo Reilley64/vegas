@@ -7,6 +7,9 @@
 // src/havok/physics/collide/agent/util/linearcast/hkpiterativelinearcastagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/util/linearcast/hkpiterativelinearcastagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/S_00d431b0.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010ce000.h"
 namespace IterativeSweepSimd {
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
@@ -63,7 +66,6 @@ struct __declspec(align(16)) IterativeSweep_hkTransform
     float m_linearLimit;
     float m_fAngularLimit;
     float m_timeFactor;
-    void FUN_00d431b0(const void* src);
 };
 
 struct IterativeSweep_hkpShape
@@ -102,9 +104,7 @@ struct IterativeSweep_hkpCdPointCollector
     float m_fEarlyOutDistance;
 };
 
-extern float DAT_0104da48;
 
-extern char DAT_010cebe0;
 struct __declspec(align(16)) IterativeSweep_hkpSimpleClosestContactCollector
 {
     void* m_ppVirtualMethodTable;
@@ -113,7 +113,7 @@ struct __declspec(align(16)) IterativeSweep_hkpSimpleClosestContactCollector
     IterativeSweep_hkContactPoint m_kHitPoint;
     __forceinline IterativeSweep_hkpSimpleClosestContactCollector()
     {
-        m_fEarlyOutDistance = m_kHitPoint.m_vSeparatingNormal.w = DAT_0104da48;
+        m_fEarlyOutDistance = m_kHitPoint.m_vSeparatingNormal.w = ::DAT_0104da48;
         m_ppVirtualMethodTable = &DAT_010cebe0;
         m_bHit = false;
     }
@@ -351,7 +351,7 @@ void FUN_00daf8e0(const IterativeSweep_hkpCdBody* bodyA, const IterativeSweep_hk
     float localTransform = frac4 / (frac4 - c);
     IterativeSweep_hkpSimpleClosestContactCollector projectedDistance;
     IterativeSweep_hkTransform fraction;
-    fraction.FUN_00d431b0(bodyA->m_kMotionState);
+    reinterpret_cast<::S_00d431b0 *>(&(fraction))->CopyFrom((*(const ::S_00d431b0 *)(bodyA->m_kMotionState)));
 
     IterativeSweep_hkpCdBody tempBodyA;
     tempBodyA.m_parent = bodyA;
@@ -363,9 +363,9 @@ void FUN_00daf8e0(const IterativeSweep_hkpCdBody* bodyA, const IterativeSweep_hk
 
     while (--iterations >= 0)
     {
-        projectedDistance.m_kHitPoint.m_vSeparatingNormal.w = DAT_0104da48;
+        projectedDistance.m_kHitPoint.m_vSeparatingNormal.w = ::DAT_0104da48;
         projectedDistance.m_bHit = false;
-        projectedDistance.m_fEarlyOutDistance = DAT_0104da48;
+        projectedDistance.m_fEarlyOutDistance = ::DAT_0104da48;
 
         IterativeSweep_hkVector4 hitDist;
         hitDist.SetAllComponents(localTransform);

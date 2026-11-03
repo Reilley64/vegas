@@ -5,6 +5,10 @@
 
 // Private PC declarations for this translation unit. Opaque storage represents
 // inherited fields that none of these three routines inspect.
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
@@ -26,8 +30,11 @@ class NiRefObject : public NiMemObject
             DeleteThis();
     }
 };
+class NiRTTI;
 class NiObject : public NiRefObject
 {
+public:
+    ::NiObject *DynamicCast(const ::NiRTTI *);
 };
 class NiObjectNET : public NiObject
 {
@@ -74,9 +81,7 @@ template <class T> class NiPointer
 class MemoryManager
 {
   public:
-    void* Allocate(unsigned int);
 };
-extern MemoryManager g_memoryManager;
 class NiGlobalStringTable
 {
   public:
@@ -89,12 +94,11 @@ class NiFixedString
     NiFixedString(const char* s);
     static void* operator new(unsigned int n)
     {
-        return g_memoryManager.Allocate(n);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
     }
     static void operator delete(void*);
 };
 
-extern NiFixedString EmptyFS;
 
 union SETTING_VALUE
 {
@@ -118,15 +122,27 @@ class INISettingCollection;
 template <class T> class SettingT : public Setting
 {
 };
+class NiExtraData;
+class NiFixedString;
 class NiAVObject : public NiObjectNET
 {
   public:
     unsigned char avObjectData[0x84];
+public:
+    ::NiExtraData *GetExtraData(const ::NiFixedString &);
 };
+class CloningProcess;
+class NiUpdateData;
 class NiNode : public NiAVObject
 {
   public:
     unsigned char childrenData[0x10];
+public:
+    void CopyMemberData(::NiNode *, ::CloningProcess &);
+public:
+    void UpdateDownwardPass(::NiUpdateData &, unsigned int);
+public:
+    void UpdateSelectedDownwardPass(::NiUpdateData &, unsigned int);
 };
 class FadingSceneNode;
 class BSMultiBoundRoom;
@@ -155,7 +171,6 @@ class BSFadeNode : public NiNode
     BSFadeNode();
     static NiObject* CreateObject();
     static void InitializeMultiBounds();
-    static SettingT<INISettingCollection> ms_kMinimumFadeDistanceSetting;
     static NiPointer<NiAlphaProperty> ms_pAlphaProperty;
     static NiFixedString* ms_pFadeNodeAnimationName;
     void SetRange(float, float);
@@ -170,7 +185,6 @@ class ImageSpaceManager
   public:
     BSRenderedTexture* GetDepthRenderedTexture();
 };
-extern ImageSpaceManager* DAT_011f91ac;
 class BSShaderManager
 {
   public:

@@ -1,6 +1,7 @@
 // Self-contained private closure; no public implementation bodies copied.
 #ifndef FNV_STATSMENU_TYPES_H
 #define FNV_STATSMENU_TYPES_H
+#include "fnv/symbols_011de000.h"
 #include "statsmenu_StatsMenu.h"
 #include "statsmenu_PlayerCharacter.h"
 #include "statsmenu_types_ActiveEffect.h"
@@ -24,5 +25,4 @@ FNV_STATIC_ASSERT(sizeof(TileRect) == 0x3C);
 FNV_STATIC_ASSERT(sizeof(TileMenu) == 0x40);
 FNV_STATIC_ASSERT(offsetof(TileRect, unk38) == 0x38);
 FNV_STATIC_ASSERT(offsetof(TileMenu, menu) == 0x3C);
-extern PlayerCharacter* g_thePlayer;
 #endif

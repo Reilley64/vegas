@@ -3,6 +3,13 @@
 #ifndef FNV_TASK_BGSBODYPARTDATA_COPY_H
 #define FNV_TASK_BGSBODYPARTDATA_COPY_H
 
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/Obj5e5300.h"
+#include "fnv/decl/fnv_006838b0__FUN_006838b0_shell.h"
+#include "fnv/symbols_0046e000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_011c3000.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "TESForm.h"
@@ -203,8 +210,6 @@ class BGSBodyPart
     ~BGSBodyPart();
     bool Load(TESFile* file);
     void InitItem(TESForm* parent);
-    int GetLimb();
-    const char* GetPartName();
     virtual void QueueResourceLoad(IO_TASK_PRIORITY priority, QueuedFile* file);
     // BGSBodyPart
     // void __cdecl BGSBodyPart::*()
@@ -340,26 +345,22 @@ FNV_STATIC_ASSERT(offsetof(BGSBodyPartData, m_pRagdoll) == 112);
 // InitializeBodyPartData (the shared header cannot be edited here).
 struct TESFileFormInt : public TESFile
 {
-    int GetTESForm();
 };
 struct TESFormInitFlag : public TESForm
 {
-    bool IsFormInitialized() const;
-    static TESForm* GetFormByID(unsigned int formID);
 };
 class BGSRagdoll : public TESForm
 {
   public:
     virtual ~BGSRagdoll();
 };
+class TESForm;
 class TESDataHandler
 {
+public:
+    bool AddFormToDataHandler(::TESForm *);
 };  // only a base for the stand-in below (the unit-local layout_support.h declares no TESDataHandler)
 struct TESDataHandlerForms : public TESDataHandler
 {
-    void AddFormToDataHandler(TESForm* form);
 };
-extern TESDataHandler* g_dataHandler;
-int Warning();
-int Warning(const char* format, ...);
 #endif

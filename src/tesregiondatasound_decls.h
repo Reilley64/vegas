@@ -2,6 +2,15 @@
 #ifndef TESREGIONDATASOUND_DECLS_H
 #define TESREGIONDATASOUND_DECLS_H
 
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004615d0_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_011c3000.h"
 void* __cdecl operator new(unsigned int);
 void* __cdecl operator new[](unsigned int);
 void __cdecl operator delete(void*);
@@ -9,18 +18,12 @@ void __cdecl operator delete[](void*);
 class TESFile
 {
   public:
-    unsigned int GetChunkID();
-    unsigned int GetChunkSize();
     bool IsEndianConversionRequired();
-    bool GetChunkData(unsigned int*);
-    bool GetChunkData(void*, unsigned int);
 };
 class TESForm
 {
   public:
     virtual void vfn_00();
-    static TESForm* GetFormByID(unsigned int);
-    static void RemapFormIDForFile(unsigned int&, TESFile*);
 };
 class BGSMusicType : public TESForm
 {
@@ -56,8 +59,6 @@ class TESDataHandler
   public:
     unsigned int FUN_004615d0(unsigned int);
 };
-extern TESDataHandler* g_dataHandler;
-int __cdecl Warning(const char*, ...);
 class TESRegionDataSound
 {
   public:

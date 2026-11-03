@@ -7,6 +7,29 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/fallout/magic/bhkcharacterlistenerspell.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/bhkcharacterlistenerspell.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BoundOwner.h"
+#include "fnv/decl/FUN_0043fa80_s.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00458e20_shell.h"
+#include "fnv/decl/FUN_00807730_shell.h"
+#include "fnv/decl/FUN_0089f4e0_shell.h"
+#include "fnv/decl/FUN_008ace90_shell.h"
+#include "fnv/decl/MagicCaster.h"
+#include "fnv/decl/PlayerMover.h"
+#include "fnv/decl/TESTopicInfo.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_004b2000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00624000.h"
+#include "fnv/symbols_011db000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_01268000.h"
 struct NiRTTI
 {
 };
@@ -15,14 +38,12 @@ struct bhkCharacterProxy
     virtual ~bhkCharacterProxy();
     const NiRTTI* GetRTTI();
 };
-extern const NiRTTI g_01268344;
 struct FUN_00806f10_shell
 {
     unsigned int FUN_00806f10();
 };
 struct FUN_00cbe8d0_class
 {
-    void __thiscall FUN_00cbe8d0();
 };
 struct FUN_00c6d4a0_class
 {
@@ -439,8 +460,6 @@ class Line807
     static void* operator new(unsigned int uiSize);
     static void operator delete(void* pvMem);
     Line807(int iType);
-    void SetLocalRotation(Matrix807& kRot);
-    void GetTransformScale(Point807& kPos);
     unsigned int unk00;
     unsigned int unk04;
     unsigned int unk08;
@@ -548,21 +567,16 @@ class DebugNode807
 class Transform807
 {
   public:
-    const hkRotation_807& GetRotation();
-    const hkVector4_807& GetTranslation();
 };
 
 class Body807
 {
   public:
-    Transform807* GetTransform();
-    void* GetOwner();
 };
 
 class Event807
 {
   public:
-    const hkVector4_807& GetPosition();
     hkVector4_807 m_kPathOffset;
     unsigned int unk10;
     unsigned int unk14;
@@ -760,8 +774,6 @@ class Actor807 : public TESObjectREFR
     virtual void v224();
     virtual void v228();
     virtual bool IsInState(int iState);
-    Process807* GetProcess();
-    bool IsStateActive();
 };
 
 class Process807
@@ -1175,7 +1187,6 @@ class MagicProjectile : public TESObjectREFR
     virtual void OnHit(Point807 kPos, void* pvTarget, TESObjectREFR* pkRef, int iFlags);
     virtual void v308();
     virtual bool IsActive();
-    Caster807* GetCaster();
 };
 
 class Unk815
@@ -1187,36 +1198,23 @@ class Unk815
 class Player807
 {
   public:
-    TESObjectREFR* GetRef();
 };
-extern Player807* g_pkPlayer807;
 
 class Setting807
 {
   public:
     bool* GetBool();
 };
-extern Setting807 g_kDebugSetting807;
 
 class Debug807
 {
   public:
-    void AddLine(Line807* pkLine, float fTime);
 };
-extern Debug807* g_pkDebug807;
 
-DebugNode807* __cdecl FUN_004a3a40(void* pvOwner);
-void __cdecl FUN_00624b10(Matrix807& kOut, const hkRotation_807& kIn);
-void __cdecl FUN_00458620(Point807& kOut, const hkVector4_807& kIn);
-void* __cdecl FUN_004b5950(void* pvCollidable);
-void* __cdecl FUN_004b59f0(void* pvCollidable);
-void* __cdecl FUN_004b5a80(void* pvEntry);
-Line807* __cdecl CreateOctahedron(float fSize, const ColorA807& kColor, int iType);
 
 class Listener807
 {
   public:
-    TESObjectREFR* GetRef(void* pvCollidable);
     void FUN_008070d0(Event807* pkEvent);
     unsigned int unk00;
     unsigned int unk04;
@@ -1628,69 +1626,69 @@ class Listener807
 // @fnv 0x008070d0
 void Listener807::FUN_008070d0(Event807* pkEvent)
 {
-    MagicProjectile* pkProjectile = dynamic_cast<MagicProjectile*>(GetRef(pkEvent->m_pvCollidableA));
+    MagicProjectile* pkProjectile = dynamic_cast<MagicProjectile*>(reinterpret_cast<::FUN_00807730_shell *>(this)->FUN_00807730(pkEvent->m_pvCollidableA));
     if (!pkProjectile)
         pkProjectile = m_pkProjectile;
     if (!pkProjectile->IsActive())
         return;
-    TESObjectREFR* pkHit = GetRef(pkEvent->m_pvCollidableB);
+    TESObjectREFR* pkHit = reinterpret_cast<::FUN_00807730_shell *>(this)->FUN_00807730(pkEvent->m_pvCollidableB);
     Actor807* pkActor = pkHit && pkHit->IsActor() ? (Actor807*)pkHit : 0;
-    void* pvEntry = FUN_004b5950(pkEvent->m_pvCollidableB);
+    void* pvEntry = ::FUN_004b5950(pkEvent->m_pvCollidableB);
     if (pvEntry)
     {
         if (!pkActor)
             return;
         else if (pkActor->IsInState(0))
             return;
-        else if (pkActor->GetProcess() && pkActor->GetProcess()->GetState() && pkActor->GetProcess()->GetState() != 6)
+        else if (((::Process807 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture())) && ((::Process807 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture()))->GetState() && ((::Process807 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture()))->GetState() != 6)
             return;
         else if (pkActor->GetLifeState() == 4 || pkActor->GetLifeState() == 9)
             return;
     }
-    if (pkHit && pkHit == g_pkPlayer807->GetRef())
+    if (pkHit && pkHit == reinterpret_cast<::FUN_0089f4e0_shell *>(((*reinterpret_cast<::Player807 * *>(&::_g_thePlayer))))->FUN_0089f4e0())
         return;
-    if (pkActor && pkActor->IsStateActive())
+    if (pkActor && reinterpret_cast<::FUN_008ace90_shell *>((pkActor))->FUN_008ace90())
         return;
-    if (*g_kDebugSetting807.GetBool())
+    if (*(*reinterpret_cast<::Setting807 *>(&::g_011dbaa4)).GetBool())
     {
         Point807 kUnused;
         EventCopy807 kCopy(pkEvent);
-        DebugNode807* pkNodeA = FUN_004a3a40(kCopy.m_pkBodyA->GetOwner());
+        DebugNode807* pkNodeA = ((::DebugNode807 *)(::FUN_004a3a40((::TESObjectREFR *)(void *)(((void *)(::FUN_00559450((int *)(kCopy.m_pkBodyA))))))));
         if (pkNodeA)
         {
             Line807* pkLineA = new Line807(0);
             Color807 kColorA(1.0f, 1.0f, 1.0f);
             pkNodeA->AttachLine(pkLineA, kColorA);
             Matrix807 kRotA;
-            FUN_00624b10(kRotA, kCopy.m_pkBodyA->GetTransform()->GetRotation());
-            pkLineA->SetLocalRotation(kRotA);
+            ::FUN_00624b10((::FUN_004769c0_shell *)&(kRotA), (::FUN_004b4cf0_shell *)&((*(const ::hkRotation_807 *)(new ((void *)(((::Transform807 *)(reinterpret_cast<::Twin_0044ddc0 *>((kCopy.m_pkBodyA))->GetName())))) ::Vec3()))));
+            reinterpret_cast<::FUN_0043fa80_s *>((pkLineA))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(kRotA));
             Point807 kPosA;
-            FUN_00458620(kPosA, kCopy.m_pkBodyA->GetTransform()->GetTranslation());
-            pkLineA->GetTransformScale(kPosA);
+            ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kPosA), (const ::hkVector4 &)((*(const ::hkVector4_807 *)(reinterpret_cast<::TESTopicInfo *>((((::Transform807 *)(reinterpret_cast<::Twin_0044ddc0 *>((kCopy.m_pkBodyA))->GetName()))))->GetAddTopicList()))));
+            reinterpret_cast<::FUN_00440460_S *>((pkLineA))->FUN_00440460((const ::V3 *)&(kPosA));
         }
-        DebugNode807* pkNodeB = FUN_004a3a40(kCopy.m_pkBodyB->GetOwner());
+        DebugNode807* pkNodeB = ((::DebugNode807 *)(::FUN_004a3a40((::TESObjectREFR *)(void *)(((void *)(::FUN_00559450((int *)(kCopy.m_pkBodyB))))))));
         if (pkNodeB)
         {
             Line807* pkLineB = new Line807(0);
             Color807 kColorB(1.0f, 1.0f, 1.0f);
             pkNodeB->AttachLine(pkLineB, kColorB);
             Matrix807 kRotB;
-            FUN_00624b10(kRotB, kCopy.m_pkBodyB->GetTransform()->GetRotation());
-            pkLineB->SetLocalRotation(kRotB);
+            ::FUN_00624b10((::FUN_004769c0_shell *)&(kRotB), (::FUN_004b4cf0_shell *)&((*(const ::hkRotation_807 *)(new ((void *)(((::Transform807 *)(reinterpret_cast<::Twin_0044ddc0 *>((kCopy.m_pkBodyB))->GetName())))) ::Vec3()))));
+            reinterpret_cast<::FUN_0043fa80_s *>((pkLineB))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(kRotB));
             Point807 kPosB;
-            FUN_00458620(kPosB, kCopy.m_pkBodyB->GetTransform()->GetTranslation());
-            pkLineB->GetTransformScale(kPosB);
+            ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kPosB), (const ::hkVector4 &)((*(const ::hkVector4_807 *)(reinterpret_cast<::TESTopicInfo *>((((::Transform807 *)(reinterpret_cast<::Twin_0044ddc0 *>((kCopy.m_pkBodyB))->GetName()))))->GetAddTopicList()))));
+            reinterpret_cast<::FUN_00440460_S *>((pkLineB))->FUN_00440460((const ::V3 *)&(kPosB));
         }
     }
     Point807 kPos;
-    FUN_00458620(kPos, pkEvent->GetPosition());
-    if (*g_kDebugSetting807.GetBool())
+    ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kPos), (const ::hkVector4 &)((*(const ::hkVector4_807 *)(new ((void *)(pkEvent)) ::Vec3()))));
+    if (*(*reinterpret_cast<::Setting807 *>(&::g_011dbaa4)).GetBool())
     {
-        Line807* pkMarker = CreateOctahedron(5.0f, ColorA807(1.0f, 0.0f, 0.0f, 1.0f), 1);
-        pkMarker->GetTransformScale(kPos);
-        g_pkDebug807->AddLine(pkMarker, 50.0f);
+        Line807* pkMarker = ((::Line807 *)(::CreateOctahedron(5.0f, (const struct ::FUN_004a7800 *)&(const ::ColorA807 &)(ColorA807(1.0f, 0.0f, 0.0f, 1.0f)), 1)));
+        reinterpret_cast<::FUN_00440460_S *>((pkMarker))->FUN_00440460((const ::V3 *)&(kPos));
+        reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::Debug807 * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(pkMarker), 50.0f);
     }
-    Caster807* pkCaster = pkProjectile->GetCaster();
+    Caster807* pkCaster = ((::Caster807 *)(reinterpret_cast<::PlayerMover *>((pkProjectile))->GetActorStateFlags()));
     bool bActorHit = false;
     TESObjectREFR* pkHitActor = 0;
     if (pkHit && pkHit->IsActor())
@@ -1698,8 +1696,8 @@ void Listener807::FUN_008070d0(Event807* pkEvent)
         bActorHit = true;
         pkHitActor = pkHit;
     }
-    Unk815* pkEffect = pkCaster ? pkCaster->GetEffect() : 0;
-    void* pvHitEntry = FUN_004b59f0(pkEvent->m_pvCollidableB);
-    void* pvTarget = pvHitEntry ? FUN_004b5a80(pvHitEntry) : 0;
+    Unk815* pkEffect = pkCaster ? ((::Unk815 *)(reinterpret_cast<::MagicCaster *>((pkCaster))->GetCasterActor())) : 0;
+    void* pvHitEntry = ::FUN_004b59f0(pkEvent->m_pvCollidableB);
+    void* pvTarget = pvHitEntry ? ::FUN_004b5a80(pvHitEntry) : 0;
     pkProjectile->OnHit(kPos, pvTarget, pkHit, 0);
 }

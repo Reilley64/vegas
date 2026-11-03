@@ -2,6 +2,119 @@
 #ifndef FNV_HIGHPROCESS_DECLS_H
 #define FNV_HIGHPROCESS_DECLS_H
 
+#include "fnv/decl/Actor897.h"
+#include "fnv/decl/BGSMessageInitAccess.h"
+#include "fnv/decl/C.h"
+#include "fnv/decl/C901C50Object.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/Date.h"
+#include "fnv/decl/DialogueItem_shell.h"
+#include "fnv/decl/FUN_00416870_t.h"
+#include "fnv/decl/FUN_0041ca90.h"
+#include "fnv/decl/FUN_00435e00_t.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FUN_0047d7c0_Class.h"
+#include "fnv/decl/FUN_00497f20_shell.h"
+#include "fnv/decl/FUN_00498d30_t.h"
+#include "fnv/decl/FUN_00544490_Class.h"
+#include "fnv/decl/FUN_0059f610Class.h"
+#include "fnv/decl/FUN_005ac1e0_shell.h"
+#include "fnv/decl/FUN_005be5c0_shell.h"
+#include "fnv/decl/FUN_0061cc40_shell.h"
+#include "fnv/decl/FUN_0067a480_shell.h"
+#include "fnv/decl/FUN_0067a770_shell.h"
+#include "fnv/decl/FUN_0067efd0_shell.h"
+#include "fnv/decl/FUN_0067f1c0_shell.h"
+#include "fnv/decl/FUN_0083d0d0_Class.h"
+#include "fnv/decl/FUN_008ce390_shell.h"
+#include "fnv/decl/FUN_008d72e0_Class.h"
+#include "fnv/decl/FUN_008d7340StandIn.h"
+#include "fnv/decl/FUN_008d7420.h"
+#include "fnv/decl/FUN_008d74a0.h"
+#include "fnv/decl/FUN_008dade0_shell.h"
+#include "fnv/decl/FUN_008ff080_shell.h"
+#include "fnv/decl/FUN_008ffdc0_Class.h"
+#include "fnv/decl/FUN_009003e0_shell.h"
+#include "fnv/decl/FUN_00900400_shell.h"
+#include "fnv/decl/FUN_00903cd0_shell.h"
+#include "fnv/decl/FUN_00905450_StandIn.h"
+#include "fnv/decl/FUN_00915400_shell.h"
+#include "fnv/decl/FUN_0091fe80_shell.h"
+#include "fnv/decl/FUN_009280f0_Class.h"
+#include "fnv/decl/FUN_0092bf20_cls.h"
+#include "fnv/decl/FUN_0092ce00_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_009865b0_shell.h"
+#include "fnv/decl/FUN_00992530_shell.h"
+#include "fnv/decl/FormNode.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/Owner0092cec0.h"
+#include "fnv/decl/Owner8ffe50.h"
+#include "fnv/decl/RefS.h"
+#include "fnv/decl/S_FUN_0045bc00.h"
+#include "fnv/decl/TESCombatStyle.h"
+#include "fnv/decl/TESNPC_Sub.h"
+#include "fnv/decl/Target.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/UpdateOwner.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00496940__FUN_00496940_shell.h"
+#include "fnv/decl/fnv_00498f80__FUN_00498f80_cls.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_0084a810__FUN_0084a810_shell.h"
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/decl/fnv_008ffd10__FUN_008ffdc0_Class.h"
+#include "fnv/decl/fnv_00903de0__FUN_00903de0_shell.h"
+#include "fnv/decl/fnv_00903e00__FUN_00903e00_shell.h"
+#include "fnv/decl/fnv_00903e20__FUN_00903e20_shell.h"
+#include "fnv/decl/fnv_00904160__FUN_00904160_shell.h"
+#include "fnv/decl/fnv_009278d0__Target.h"
+#include "fnv/decl/fnv_00968670__FUN_00968670_shell.h"
+#include "fnv/decl/fnv_00972570__FUN_00972570_shell.h"
+#include "fnv/decl/fnv_00992480__CombatOwner_SV.h"
+#include "fnv/decl/fnv_00ad88f0__FUN_00ad88f0_h.h"
+#include "fnv/decl/xProcess.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_0047e000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_004b6000.h"
+#include "fnv/symbols_00537000.h"
+#include "fnv/symbols_00546000.h"
+#include "fnv/symbols_005a4000.h"
+#include "fnv/symbols_005b9000.h"
+#include "fnv/symbols_005cc000.h"
+#include "fnv/symbols_00642000.h"
+#include "fnv/symbols_00669000.h"
+#include "fnv/symbols_008d7000.h"
+#include "fnv/symbols_00903000.h"
+#include "fnv/symbols_00a6e000.h"
+#include "fnv/symbols_00b5b000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0101a000.h"
+#include "fnv/symbols_01022000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_011a3000.h"
+#include "fnv/symbols_011c5000.h"
+#include "fnv/symbols_011cb000.h"
+#include "fnv/symbols_011cd000.h"
+#include "fnv/symbols_011cf000.h"
+#include "fnv/symbols_011d0000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f1000.h"
+#include "fnv/symbols_011f2000.h"
+#include "fnv/symbols_011f6000.h"
 class NiControllerManager;
 class QuestDialogueInfo;
 class TESIdleForm;
@@ -21,11 +134,11 @@ class NiPoint3
 {
   public:
     NiPoint3 operator-(const NiPoint3&) const;
-    float FUN_004a7290() const;
     float x, y, z;
     NiPoint3();
-    void Set(float, float, float);
     static const NiPoint3 ZERO;
+public:
+    ::NiPoint3 &Subtract(const ::NiPoint3 &);
 };
 struct HighProcessRawPosition
 {
@@ -41,14 +154,16 @@ class SoundPlaybackHandle
     SoundPlaybackHandle();
     ~SoundPlaybackHandle();
     SoundPlaybackHandle& operator=(const SoundPlaybackHandle&);
-    bool IsSoundPlaying();
-    bool IsPlaying();
-    void Stop();
+public:
+    bool IsPlaying() const;
+public:
+    bool IsValid() const;
+public:
+    bool Release();
 };
 class BSAudio
 {
   public:
-    void PausePlayback();
 };
 class Animation;
 class BSAnimGroupSequence;
@@ -83,6 +198,7 @@ class PaddedFloatRecord;
 class TESEffectShader;
 class ArrowProjectile;
 class ActorCombatGroup;
+class ActorPackageContext;
 class BaseProcess
 {
   public:
@@ -572,6 +688,8 @@ class BaseProcess
     virtual void vfn_72c();
     virtual void vfn_730();
     virtual float vfn_734();
+public:
+    ::ActorPackageContext *GetCurrentProcessData();
 };
 class ActorValueStore
 {
@@ -579,9 +697,7 @@ class ActorValueStore
     unsigned char state[0x268];
     ActorValueStore();
     void ResetCacheValues();
-    bool FUN_00900400(ActorValue::Index);
     void FUN_008c6f00(ActorValue::Index, float);
-    float GetFloatAt(ActorValue::Index);
     void InvalidateValue(ActorValue::Index);
 };
 class LipSyncAnimation
@@ -597,8 +713,6 @@ class DialogueItem
     DialogueItem();
     ~DialogueItem();
     static void operator delete(void*);
-    void LoadDialogueItem(BGSLoadFormBuffer*);
-    void RefreshObjectRef(BGSLoadFormBuffer*);
 };
 class GlobalObject_0040e0b0
 {
@@ -611,13 +725,10 @@ union SETTING_VALUE
 template <> class SettingT<GameSettingCollection>
 {
   public:
-    SETTING_VALUE* Float();
 };
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Float();
-    SETTING_VALUE* Int();
 };
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting175;
 class HighProcessDetectionActor
@@ -769,7 +880,6 @@ template <> class BSSimpleList<TESForm*>
   public:
     TESForm* m_item;
     BSSimpleList* m_pkNext;
-    BSSimpleList* GetNext();
     bool IsInList(TESForm*&);
 };
 template <> class BSSimpleList<TESTopicInfo*>
@@ -779,14 +889,11 @@ template <> class BSSimpleList<TESTopicInfo*>
     BSSimpleList* m_pkNext;
     BSSimpleList();
     ~BSSimpleList();
-    TESTopicInfo*& GetItem();
-    BSSimpleList* GetNext();
     bool IsEmpty();
     void AddHead(TESTopicInfo*&);
     void RemoveAll();
     void RemoveHead();
     void SetItem(TESTopicInfo* const&);
-    void Remove(TESTopicInfo* const&);
 };
 class FleePackage;
 #include "highprocess_actor.h"
@@ -798,17 +905,17 @@ class DoorCell
 class TESFaction
 {
   public:
-    bool FUN_0047d7c0();
 };
+class TESSound;
 class EffectSetting
 {
   public:
-    TESSound* GetAreaSound();
+public:
+    ::TESSound *GetCastSound();
 };
 class HighProcessCellView
 {
   public:
-    bool FUN_00544490();
 };
 class HighProcessPlayerAlpha
 {
@@ -829,36 +936,27 @@ class HighProcessDetectionEventView
 class TopicInfoArray
 {
   public:
-    unsigned int FUN_005be5c0(int);
-    Actor* FUN_00968670(unsigned int);
 };
 class QuestDialogueInfo
 {
   public:
-    int FindCrime(Actor*, int, int);
-    TopicInfoArray* GetInfoArray();
 };
 class GlobalObject_0096d020
 {
 };
-extern GlobalObject_0096d020 g_011e0e80;
 extern GlobalObject_0045d260 g_011e0244;
-extern BSSimpleList<TESTopicInfo*> DAT_011e0280;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting87, originalRuntimeFloatSetting103,
-    originalRuntimeFloatSetting922;
 extern SettingT_GameSettingCollection_ DAT_011cf788;
-extern const double DAT_01084d28, runtimeInitializationDouble2;
-int FUN_00642bc0(int, bool, float, int, int, bool, bool, bool, int, bool, bool);
+extern const double DAT_01084d28;
 
 class ActiveEffect
 {
   public:
-    bool FUN_00705cf0();
+public:
+    bool IsDone() const;
 };
 class TESActorBaseData
 {
   public:
-    bool GetGhostFlag();
     unsigned char state[0x60];
 };
 class TESActorBase
@@ -871,28 +969,25 @@ class TESActorBase
 class HighProcessCombatSource
 {
   public:
-    bool FUN_0059f610();
 };
 class AlchemyItem
 {
   public:
     void* FUN_004030b0();
 };
+class TESForm;
+enum DEFAULT_OBJECT;
 class BGSDefaultObjectManager
 {
   public:
     static BGSDefaultObjectManager* Instance();
-    static TESForm* GetDefaultObjectByIndex(int);
+public:
+    static ::TESForm *GetDefaultObjectByIndex(::DEFAULT_OBJECT);
 };
-double FUN_0047eeb0(unsigned char);
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting106;
-extern GlobalObject_0040e0b0 g_011cdf10;
-extern SettingT_GameSettingCollection_ DAT_011cf414;
 
 class NiBound
 {
   public:
-    float FUN_0084d030() const;
 };
 class NiAVObject
 {
@@ -957,23 +1052,17 @@ class NiAVObject
     virtual void vfn_e4();
     virtual void vfn_e8(NiAVObject*);
     NiNode* GetParent();
-    const NiBound& GetBoundingVolume() const;
     void* SetTaskFlag(bool);
 };
 class NiNode : public NiAVObject
 {
   public:
-    NiAVObject* FUN_0045bc00(unsigned int);
 };
 class TimeGlobal
 {
   public:
-    unsigned int GetTimeStamp();
-    double FUN_0084d030();
 };
-extern TimeGlobal g_timeGlobal;
 class PlayerCharacter;
-extern PlayerCharacter* g_thePlayer;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting109;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting108;
 class DetectionEventData
@@ -987,38 +1076,24 @@ class BSPortalGraph;
 class TESWorldSpace
 {
   public:
-    bool FUN_00992530(Actor*, Actor*);
-    void FUN_00992480(Actor*, Actor*);
-    BSPortalGraph* FUN_006698d0();
 };
 class TESRecipe
 {
   public:
-    void SetSkillLevel(int);
 };
-unsigned int DialogueRandom();
-extern const float g_011c72ac_arg1;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting134;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting135;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting136;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting137;
 
 class CombatDamageCalculator
 {
   public:
-    static double GetDamageMultiplier(float, float);
 };
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting148;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting147;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting138;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting139;
 extern unsigned int DAT_011e01e0;
 class Script
 {
   public:
     char* GetData();
-    void Run(TESObjectREFR*, ScriptLocals*, bool, bool);
-    static void MoveReferenceToPosition(TESObjectREFR*, TESObjectREFR*, float, float, float);
 };
 class BGSLoadGameBuffer
 {
@@ -1027,20 +1102,14 @@ class BGSLoadGameBuffer
     virtual void vfn_4();
     virtual void vfn_8();
     virtual Actor* GetActor();
-    unsigned int ReadFormIdentifier();
-    void ReadDataBlock(void*, unsigned int);
 };
 class BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
   public:
-    bool ReadFormIdentifier(void*);
-    void ReadTypedData(void*, unsigned int);
-    int ReadElementCount();
 };
 class CombatTargetTimestamp
 {
   public:
-    float GetElapsedTime();
     CombatTargetTimestamp(float);
     float fTimeStamp;
     void LoadGame(BGSLoadGameBuffer*);
@@ -1064,7 +1133,6 @@ class DetectionViewData
     int m_iDetectionValue;
     DetectionViewData();
     void LoadGame(BGSLoadGameBuffer*);
-    void ResolveActorFormId();
 };
 class DetectionEvent
 {
@@ -1073,23 +1141,17 @@ class DetectionEvent
     CombatTargetTimestamp time;
     unsigned char remainder[8];
     DetectionEvent();
-    void FUN_008d72e0(BGSLoadFormBuffer*);
-    void SetTargetReference(BGSLoadFormBuffer*);
 };
 class TopicInfoRecord
 {
   public:
     unsigned char state[52];
     TopicInfoRecord();
-    void FUN_008d7420(BGSLoadFormBuffer*);
-    void FUN_008d74a0(BGSLoadFormBuffer*);
 };
 class BGSSaveLoadGame
 {
   public:
-    void FUN_0084a810(int, BGSLoadFormBuffer*, int);
 };
-extern BGSSaveLoadGame* g_BGSSaveLoadGame;
 enum FADER_ENUM
 {
     FaderDefault = 1
@@ -1100,11 +1162,9 @@ class FaderManager
     float GetFadeValue(FADER_ENUM);
 };
 class Interface;
-extern Interface* DAT_011d8804;
 class ActorMover
 {
   public:
-    void RefreshMovementState();
 };
 class GlobalObject_0045d260
 {
@@ -1125,63 +1185,47 @@ class Calendar
   public:
     float GetGameTime();
 };
-extern Calendar g_calendar;
-extern int* DAT_011a3ff0[];
-extern const double DAT_010240c0, DAT_0101a6b0;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting246;
-extern SettingT_GameSettingCollection_ DAT_011cdd30;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting1045;
 extern GlobalObject_0040e0b0 g_011d1314;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting1046;
-float FUN_0040ebd0(float, float);
-double FUN_00408820(float);
-double FUN_00408860(float);
 class AIFormulas
 {
   public:
-    double CalculateDetectionValue(TESObjectREFR*, bool, bool);
 };
+class TESObjectREFR;
 class LowProcess
 {
   public:
-    bool CanProcessActor(Actor*, bool);
+public:
+    ::TESObjectREFR *GetTarget();
 };
+class Script;
 class TESPackage
 {
   public:
     virtual ~TESPackage();  // the original class is polymorphic (rtti_variants.py)
   public:
-    bool IsNotFlag8000000();
     bool IsPackageBlockingGreeting();
-    bool IsFlag4Clear();
-    int GetProcedureType();
     unsigned char layout00[0x94];
     MobileObject* dialogActor;
-    bool FUN_0067a480();
-    TESIdleForm* FUN_00546930();
-    TESTopic* FUN_00903bb0();
-    TESTopic* FUN_00903cd0();
-    Script* FUN_00903e20();
-    TESIdleForm* FUN_00903de0();
-    TESTopic* FUN_00903e00();
-    bool FUN_0067efd0();
     bool UsesPackageAnimation();
     NiNode* GetParent();
-    PTYPE GetPackType();
-    bool FUN_008dade0();
+public:
+    ::Script *GetNextScript();
 };
 class PerkEntryConditionSet
 {
   public:
     bool ContainsTrait(TESObjectREFR*, TESObjectREFR*);
 };
+class TESIdleForm;
+class TESObjectREFR;
 class IdleAnimationManager
 {
   public:
-    TESIdleForm* FindIdleFormForObject(MobileObject*, TESObjectREFR*);
+public:
+    ::TESIdleForm *FindIdleFormForObject(::TESObjectREFR *, ::TESObjectREFR *);
 };
-extern IdleAnimationManager* DAT_011cb6a0;
-extern BSSimpleArray<unsigned int, 1024> DAT_011f2250;
 class AnimIdle
 {
   public:
@@ -1193,13 +1237,9 @@ class AnimIdle
 class Animation
 {
   public:
-    NiControllerManager* FUN_00496940();
     void SpecialIdleFree(bool, bool);
-    void PlaySpecialIdle(TESIdleForm*, Actor*, int, AnimIdle::PLAY_TYPE_ENUM);
     bool FUN_00493830();
-    bool IsSpecialIdlePlaying();
     bool IsSpecialIdleReady();
-    bool IsSpecialIdlePlaying(TESIdleForm*);
 };
 class DetectionParameters;
 enum ACTOR_AGGRESSION
@@ -1209,11 +1249,8 @@ enum ACTOR_AGGRESSION
 class MiddleLowProcess
 {
   public:
-    float GetCurrentActorValue(TESActorBase*, ActorValue::Index, Actor*);
-    void AlterActorValue(Actor*, ActorValue::Index, float);
 };
 namespace ActorValue {
-bool GetFlag(Index, unsigned int);
 }
 class NiMemObject
 {
@@ -1225,12 +1262,10 @@ class PathingAvoidNodeArray : public NiMemObject
   public:
     unsigned int state[6];
     PathingAvoidNodeArray();
-    void AppendNode(TopicInfoRecord*);
 };
 class HighProcessVector : public NiPoint3
 {
   public:
-    void Subtract(NiPoint3*);
 };
 class BSFileEntry;
 enum ACTOR_SOUND_HANDLE
@@ -1238,12 +1273,13 @@ enum ACTOR_SOUND_HANDLE
     SoundVoice = 0,
     SoundOther = 1
 };
+class MobileObject;
+class TESObjectREFR;
 class LocationDescriptor
 {
   public:
-    BSFileEntry* SetLocRef();
-    TESObjectREFR* ResolveLocationReference(Actor*);
-    unsigned int FUN_0067f1c0();
+public:
+    ::TESObjectREFR *ResolveLocationReference(::MobileObject *);
 };
 
 class TargetDoorController
@@ -1255,7 +1291,6 @@ class TargetDoorController
 class DecalDataDeleter
 {
   public:
-    void* DeleteThis(int);
 };
 class MuzzleFlash
 {
@@ -1263,16 +1298,13 @@ class MuzzleFlash
     ~MuzzleFlash();
     static void operator delete(void*);
 };
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting185;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting347;
-extern const float runtimeFloatSettingDefault13;
 struct PlayerDetectionCounter
 {
     unsigned int frame;
     unsigned char flags[4];
 };
 extern PlayerDetectionCounter DAT_011a3780[];
-float FUN_00404040(float);
 enum ANIMATION_ACTION
 {
     AnimActionNone = -1
@@ -1339,9 +1371,6 @@ class BSFaceGenAnimationData
 class ActorCombatGroup
 {
   public:
-    int FUN_005a4320();
-    bool ContainsActor(Actor*);
-    Actor* GetIntAt(int);
 };
 class ActorGroupState
 {
@@ -1354,6 +1383,7 @@ class ActorGroupState
     unsigned char padding[2];
     int priority;
 };
+struct TESObjectREFR;
 class FleePackage
 {
   public:
@@ -1361,14 +1391,13 @@ class FleePackage
   public:
     unsigned char state[152];
     FleePackage(Actor*, TESForm*, TESObjectCELL*, int);
-    void AddAvoidedReference(Actor*);
+public:
+    void FUN_009f1310(::TESObjectREFR *);
 };
 class BackUpPackage
 {
   public:
-    void ExecuteBackupPackage(Actor*);
 };
-extern TESWorldSpace* BGSSaveLoadGlobalDataWorldspacePtr;
 class NiTexture;
 template <> class NiPointer<NiTexture>
 {
@@ -1403,7 +1432,6 @@ class NiControllerManager;
 class NiControllerManager
 {
   public:
-    NiControllerManager* GetStringAtOffset();
 };
 class Biped;
 class TESRace
@@ -1411,15 +1439,15 @@ class TESRace
   public:
     void ClearFaceGenUndo();
 };
+class BSFaceGenNiNode;
 class TESNPC
 {
   public:
     unsigned char layout00[0x10c];
     BSSimpleList<TESForm*> race;
     void ResetFaceGen();
-    void GetFaceGenNodes(unsigned int*, unsigned int*);
-    void UpdateActorFaceGen(Actor*, Biped*, unsigned int, unsigned int);
-    void RefreshActorAppearance(Actor*);
+public:
+    void GetFaceGenNodes(::BSFaceGenNiNode *&, ::BSFaceGenNiNode *&);
 };
 class ExtraRefractionProperty
 {
@@ -1430,7 +1458,6 @@ class ExtraRefractionProperty
 class ShadowSceneNode
 {
   public:
-    void FUN_00b5b1c0(NiAVObject*);
     void AddObject(NiAVObject*);
 };
 class NiAdditionalGeometryData
@@ -1443,17 +1470,10 @@ class Interface
   public:
     static bool IsPipBoyOpen();
 };
-bool FUN_005b9b00();
-void AttachControllerManager(NiAVObject*, NiControllerManager*);
-void SetObjectFormID(NiAVObject*, unsigned int);
-extern bool DAT_011c5cb4;
 class MiddleHighProcess
 {
   public:
     ~MiddleHighProcess();
-    void ResetCurrentPackage();
-    void SetAnimation(Animation*);
-    void RefreshActorPackage(Actor*);
     MiddleHighProcess();
     virtual void vfn_0();
     virtual void vfn_4();
@@ -2120,9 +2140,6 @@ class MiddleHighProcess
     NiAVObject* m_pFaceGenObject;                          // +0x250
     BooleanFloatQuery* m_pAdditionalFaceGenData;           // +0x254
     unsigned int m_uiFaceGenDataFlags;                     // +0x258
-    void Revert(BGSLoadFormBuffer*);
-    void LoadGame(BGSLoadFormBuffer*);
-    void InitLoadGame(BGSLoadFormBuffer*);
 };
 class HighProcess : public MiddleHighProcess
 {
@@ -2271,23 +2288,17 @@ class HighProcess : public MiddleHighProcess
     void Revert(BGSLoadFormBuffer*);
     void LoadGame(BGSLoadFormBuffer*);
     void InitLoadGame(BGSLoadFormBuffer*);
-    void ClearAndDeleteList();
     bool ClearProcessState(Actor*);
-    void ProcessActorWithFlag(Actor*, bool);
-    bool FUN_008ff080();
     void FUN_008e5730(Actor*);
     void Update(MobileObject*);
     bool ProcessActivate(Actor*, bool);
     void UpdateActorStateWithOptions(Actor*, bool, bool, int, bool);
     void ProcessDialogueTopic(Actor*, TESTopic*, bool, bool, bool, bool);
     void RunDetection(Actor*, float);
-    bool IsActorFriendlyToActor(Actor*, Actor*);
-    bool CanDetectTarget(Actor*, Actor*);
     bool ShouldProcessActor(Actor*);
     void ProcessEat(Actor*, TESObjectREFR*);
     void ActorEntity(TESObjectREFR*, Actor*, bool&, DetectionParameters*, ACTOR_AGGRESSION, float, float);
     bool HasGroupEntry(ActorCombatGroup*);
-    void ProcessDetectionTarget(Actor*, Actor*);
     HighProcess();
     void RefreshActorState(Actor*);
     bool IsCurrentPackageTarget(Actor*);

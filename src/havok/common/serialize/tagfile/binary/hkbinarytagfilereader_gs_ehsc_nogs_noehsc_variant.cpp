@@ -5,6 +5,12 @@
 
 // src/havok/common/serialize/tagfile/binary/hkbinarytagfilereader.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/tagfile/binary/hkbinarytagfilereader.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/DD8FE0_Stream.h"
+#include "fnv/decl/FUN_00dd90d0_cls.h"
+#include "fnv/decl/S00dc5f30_Obj.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/symbols_00dc5000.h"
+#include "fnv/symbols_01268000.h"
 extern "C" void* DAT_010d6ce8;
 struct FUN_00dc5d30
 {
@@ -111,12 +117,8 @@ class hkBinaryReaderDC5D
     int unk20;
     hkArrayDC5D<char*> m_pStringFunctions;
 
-    int FUN_00dc5bd0() throw();
-    void FUN_00dd90d0(void* pvBuf, int iNumBytes) throw();
     char* ReadString();
 };
-extern "C" char* __fastcall ReadString(void* p);
-extern "C" int __fastcall FUN_00dc5bd0(void* p);
 void __cdecl FUN_00c908c0(void*, void*, int, int);
 void __cdecl ResizeAudioStream(void*, void*, int);
 struct VirtualObject
@@ -214,20 +216,19 @@ struct Locals
 };
 struct ReaderDC5BD0
 {
-    int FUN_00dd8fe0(void* pvBuffer, int iSize, int iCount);
     int FUN_00dc5bd0();
 };
 __forceinline void ReadVarIntDC5BD0(ReaderDC5BD0& kReader, __int64& kValue)
 {
     unsigned char ucByte;
-    kReader.FUN_00dd8fe0(&ucByte, 1, 1);
+    reinterpret_cast<::DD8FE0_Stream *>(&(kReader))->FUN_00dd8fe0(&ucByte, 1, 1);
     unsigned __int64 uiByte = (int)ucByte;
     unsigned __int64 uiValue = (uiByte & ~0x81) >> 1;
     int bNegative = (int)(uiByte & 1);
     int iShift = 6;
     while (uiByte & 0x80)
     {
-        kReader.FUN_00dd8fe0(&ucByte, 1, 1);
+        reinterpret_cast<::DD8FE0_Stream *>(&(kReader))->FUN_00dd8fe0(&ucByte, 1, 1);
         uiByte = (int)ucByte;
         uiValue |= (uiByte & ~0x80) << iShift;
         iShift += 7;
@@ -241,7 +242,6 @@ __forceinline void ReadVarIntDC5BD0(ReaderDC5BD0& kReader, __int64& kValue)
 }
 struct ReaderDC5C80
 {
-    int FUN_00dd8fe0(void* pvBuffer, int iSize, int iCount);
     __int64 ReadVarInt();
 };
 struct FUN_00dc5d50_Local
@@ -262,11 +262,8 @@ struct FUN_00dc5d50_Local
     void* unk34;
     void* unk38;
 
-    void FUN_00dc5f30(unsigned int, unsigned int);
-    void FUN_00dc6e50(unsigned int);
     void FreeAllBlocks();
 };
-unsigned int __stdcall FUN_00dc5d50(unsigned int a, unsigned int b, unsigned int c);
 
 struct hkDataObjectImpl;
 
@@ -294,13 +291,9 @@ struct hkError
     virtual int message(int type, int id, const char* desc, const char* file, int line);
 };
 
-extern hkError* DAT_01268360;
 
 struct hkBinaryTagfileReader
 {
-    void ReadByteArray(void* buf, int size, int count);
-    int ReadTag();
-    int readMetadata();
     DataObjectImplReference readObjectTopLevel(int tag);
 
     DataObjectImplReference FUN_00dc6e50();
@@ -311,22 +304,22 @@ DataObjectImplReference hkBinaryTagfileReader::FUN_00dc6e50()
 {
     char buf[512];
     int magic0;
-    ReadByteArray(&magic0, 4, 1);
+    reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&magic0, 4, 1);
     int magic1;
-    ReadByteArray(&magic1, 4, 1);
+    reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&magic1, 4, 1);
     if (magic0 == 0xcab00d1e && magic1 == 0xd011face)
     {
-        for (int tag = ReadTag(); tag != -1; tag = ReadTag())
+        for (int tag = reinterpret_cast<::ReaderDC5BD0 *>(this)->FUN_00dc5bd0(); tag != -1; tag = reinterpret_cast<::ReaderDC5BD0 *>(this)->FUN_00dc5bd0())
         {
             switch (tag)
             {
             case 1: {
-                if (ReadTag() != 0)
+                if (reinterpret_cast<::ReaderDC5BD0 *>(this)->FUN_00dc5bd0() != 0)
                 {
                     {
                         hkOstream ostr(buf, sizeof(buf));
-                        ostr << "Unrecognised tagfile version.";
-                        DAT_01268360->message(1, 0x2ab6036f, buf, ".\\Tagfile\\Binary\\hkBinaryTagfileReader.cpp",
+                        reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(ostr))->FUN_00cc01c0("Unrecognised tagfile version.");
+                        (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0x2ab6036f, buf, ".\\Tagfile\\Binary\\hkBinaryTagfileReader.cpp",
                                               0x1d9);
                     }
                     return DataObjectImplReference(0);
@@ -334,7 +327,7 @@ DataObjectImplReference hkBinaryTagfileReader::FUN_00dc6e50()
                 break;
             }
             case 2: {
-                if (readMetadata() == 1)
+                if (reinterpret_cast<::TagFileReader *>(this)->ReadTagFileEntry() == 1)
                 {
                     return DataObjectImplReference(0);
                 }
@@ -354,8 +347,8 @@ DataObjectImplReference hkBinaryTagfileReader::FUN_00dc6e50()
     else
     {
         hkOstream ostr(buf, sizeof(buf));
-        ostr << "This does not look like a binary tagfile (magic number mismatch)";
-        DAT_01268360->message(1, 0x2ab6036f, buf, ".\\Tagfile\\Binary\\hkBinaryTagfileReader.cpp", 0x1c5);
+        reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(ostr))->FUN_00cc01c0("This does not look like a binary tagfile (magic number mismatch)");
+        (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0x2ab6036f, buf, ".\\Tagfile\\Binary\\hkBinaryTagfileReader.cpp", 0x1c5);
     }
     return DataObjectImplReference(0);
 }

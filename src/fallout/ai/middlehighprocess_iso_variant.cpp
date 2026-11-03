@@ -1,8 +1,92 @@
 // src/fallout/ai/middlehighprocess_iso_variant.cpp - variant unit created 2026-11-01 by rtm_route.py: community reworks of src/fallout/ai/middlehighprocess.cpp that match byte for byte only
 // with VC9 SP1 and /MT /Od /Oy- /GS /EHsc /Gy (unit lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton.
 
+#include "fnv/decl/ActiveEffect.h"
+#include "fnv/decl/ActorStandIn008a.h"
+#include "fnv/decl/AvoidancePackage.h"
+#include "fnv/decl/AvoidancePackage_1440.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Calendar.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00437bd0_stub.h"
+#include "fnv/decl/FUN_00437bf0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_0049bb50_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00507610_Class.h"
+#include "fnv/decl/FUN_00526ac0_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005e3fc0_shell.h"
+#include "fnv/decl/FUN_00608d80_shell.h"
+#include "fnv/decl/FUN_00644790_class.h"
+#include "fnv/decl/FUN_006e2b50_shell.h"
+#include "fnv/decl/FUN_006e2bb0_shell.h"
+#include "fnv/decl/FUN_00810530_c.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_0087f3d0_shell.h"
+#include "fnv/decl/FUN_00881650_shell.h"
+#include "fnv/decl/FUN_00893530_shell.h"
+#include "fnv/decl/FUN_00898250_Class.h"
+#include "fnv/decl/FUN_008ace90_shell.h"
+#include "fnv/decl/FUN_008b3b90_shell.h"
+#include "fnv/decl/FUN_008bc790_shell.h"
+#include "fnv/decl/FUN_008db4c0_class.h"
+#include "fnv/decl/FUN_008df000_shell.h"
+#include "fnv/decl/FUN_00931fb0_shell.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FUN_009f1140_shell.h"
+#include "fnv/decl/FUN_009f1210_cls.h"
+#include "fnv/decl/FleeActorEntry.h"
+#include "fnv/decl/Handler.h"
+#include "fnv/decl/HostActor.h"
+#include "fnv/decl/MagicItem.h"
+#include "fnv/decl/PackageTargetRecord.h"
+#include "fnv/decl/PlayerCharacter.h"
+#include "fnv/decl/PlayerMover.h"
+#include "fnv/decl/RefS.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/Script.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/TeleportableReference.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/UnloadMagic.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_00675c20__PHost.h"
+#include "fnv/decl/fnv_006e29f0__FUN_006e29f0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_008bb630__Tgt_b.h"
+#include "fnv/decl/fnv_008c0ec0__Target.h"
+#include "fnv/decl/fnv_009334b0__FUN_009334b0_shell.h"
+#include "fnv/decl/s56ae10__Owner.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_004fd000.h"
+#include "fnv/symbols_00574000.h"
+#include "fnv/symbols_006ca000.h"
+#include "fnv/symbols_0092a000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_011cd000.h"
+#include "fnv/symbols_011ce000.h"
+#include "fnv/symbols_011cf000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f6000.h"
 #include "middlehighprocess_decls.h"
-bool IsValidSandboxProcedure(int aiProcedure);
 
 // 0x00918120  /MT /Od /Oy- /GS /EHsc /Gy
 
@@ -20,7 +104,6 @@ struct Setting_S
 class PlayerS
 {
   public:
-    bool IsSleepingOrResting();
 };
 class TESPackage
 {
@@ -31,14 +114,14 @@ class TrespassPackage : public TESPackage
 {
   public:
     virtual void tp_test();
-    int FUN_009185e0();
-    float FUN_00644790();
-    void FUN_008db4c0(float);
 };
+class Actor;
 class HighProcess : public BaseProcess
 {
   public:
     virtual void hp_test();
+public:
+    unsigned int UpdateHighProcessState(::Actor *);
 };
 class Character : public Actor
 {
@@ -47,22 +130,16 @@ class Character : public Actor
 };
 struct EffectSetting
 {
-    TESSound* GetBoltSound();
 };
 struct TimeGlobal
 {
-    float FUN_0084d030();
 };
 struct originalRuntimeFloatSetting1295_t
 {
-    Setting_S* Float();
 };
 struct ActShell
 {
     void FUN_008bb520(NiP3 p, int a);
-    float FUN_005723b0(TESObjectREFR* r, int a, int b);
-    bool FUN_008a61b0();
-    bool FUN_008b3bb0();
 };
 struct ZZ1
 {
@@ -89,7 +166,6 @@ struct ZZ12
 };
 struct TgtShell
 {
-    void UpdateTargetUnits(Actor* a, int b, int c);
 };
 struct Pl20c
 {
@@ -738,10 +814,6 @@ struct V1f4
     virtual NiP3* v1f4();
 };
 
-extern "C" Actor* g_thePlayer;
-extern "C" TimeGlobal DAT_011f6394;
-extern "C" originalRuntimeFloatSetting1295_t DAT_011cd2c4;
-extern "C" double DAT_010179e0;
 
 // @fnv 0x00918120
 void MidProc::FUN_00918120(Actor* pActor, int a2, int a3, int a4)
@@ -749,7 +821,7 @@ void MidProc::FUN_00918120(Actor* pActor, int a2, int a3, int a4)
     if (this->pTarget == 0)
         this->v035(pActor);
 
-    if (this->pTarget == g_thePlayer && ((FUN_005a03f0_obj*)g_thePlayer)->FUN_005a03f0(8))
+    if (this->pTarget == (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)) && ((FUN_005a03f0_obj*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))->FUN_005a03f0(8))
     {
         this->v165(pActor);
         return;
@@ -764,19 +836,19 @@ void MidProc::FUN_00918120(Actor* pActor, int a2, int a3, int a4)
         return;
     }
 
-    if (((ActShell*)pActor)->FUN_005723b0(this->pTarget, 0, 0) > DAT_010179e0)
+    if (reinterpret_cast<::RefS *>((((ActShell*)pActor)))->FUN_005723b0((::RefS *)(this->pTarget), 0, 0) > DAT_010179e0)
     {
         this->v166(pActor, false, a4, true);
         return;
     }
 
-    if (!((ActShell*)pActor)->FUN_008b3bb0())
+    if (!((bool)(reinterpret_cast<::TeleportableReference *>((((ActShell*)pActor)))->GetTeleportDestinationForm())))
         this->v165(pActor);
 
     if (this->pTarget)
     {
-        HighProcess* pHi = dynamic_cast<HighProcess*>(pActor->GetProcess());
-        if (pHi && pActor->GetProcess() && !pActor->GetProcess()->GetSitSleepState())
+        HighProcess* pHi = dynamic_cast<HighProcess*>(((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor))->GetBaseTexture())));
+        if (pHi && ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor))->GetBaseTexture())) && !((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor))->GetBaseTexture()))->GetSitSleepState())
         {
             ((ActShell*)pActor)->FUN_008bb520(*((V1f4*)this->pTarget)->v1f4(), 0);
         }
@@ -790,48 +862,48 @@ void MidProc::FUN_00918120(Actor* pActor, int a2, int a3, int a4)
             this->v162(pActor, 2);
             return;
         }
-        if (!pPkg->FUN_009185e0() ||
-            ((int)((EffectSetting*)pPkg)->GetBoltSound() > pPkg->FUN_009185e0() && pPkg->FUN_00644790() <= 0.0))
+        if (!((int)(reinterpret_cast<::PlayerMover *>((pPkg))->GetActorStateFlags())) ||
+            ((int)((::TESSound *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((EffectSetting*)pPkg))))) > ((int)(reinterpret_cast<::PlayerMover *>((pPkg))->GetActorStateFlags())) && reinterpret_cast<::FUN_00644790_class *>((pPkg))->FUN_00644790() <= 0.0))
         {
             if (pTgt)
             {
-                ((TgtShell*)pTgt)->UpdateTargetUnits(pActor, 0, -1);
+                reinterpret_cast<::fnv_008c0ec0::Target *>((((TgtShell*)pTgt)))->UpdateTargetUnits((int)(pActor), 0, -1);
                 return;
             }
         }
-        if (pPkg->FUN_00644790() <= 0.0)
+        if (reinterpret_cast<::FUN_00644790_class *>((pPkg))->FUN_00644790() <= 0.0)
         {
             this->v162(pActor, 1);
             return;
         }
-        pPkg->FUN_008db4c0((float)(DAT_011f6394.FUN_0084d030() * -1.0));
-        if (pPkg->FUN_00644790() > *(float*)DAT_011cd2c4.Float())
-            pPkg->FUN_008db4c0((float)(pPkg->FUN_00644790() * -1.0));
+        reinterpret_cast<::FUN_008db4c0_class *>((pPkg))->FUN_008db4c0((float)(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue() * -1.0));
+        if (reinterpret_cast<::FUN_00644790_class *>((pPkg))->FUN_00644790() > *(float*)((::Setting_S *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::originalRuntimeFloatSetting1295_t *>(&::originalRuntimeFloatSetting190)))))))
+            reinterpret_cast<::FUN_008db4c0_class *>((pPkg))->FUN_008db4c0((float)(reinterpret_cast<::FUN_00644790_class *>((pPkg))->FUN_00644790() * -1.0));
     }
 
     Character* pChr = dynamic_cast<Character*>(this->pTarget);
     Actor* pA2 = dynamic_cast<Actor*>(this->pTarget);
 
-    if (((ActShell*)pActor)->FUN_008a61b0() && pA2)
+    if (reinterpret_cast<::ActorStandIn008a *>((((ActShell*)pActor)))->FUN_008a61b0() && pA2)
     {
-        if (pChr == g_thePlayer)
+        if (pChr == (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))
         {
-            if (this->pTarget == g_thePlayer && ((PlayerS*)g_thePlayer)->IsSleepingOrResting() &&
-                !((Pl20c*)g_thePlayer)->b)
+            if (this->pTarget == (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)) && reinterpret_cast<::PlayerCharacter *>((((PlayerS*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->IsSleepingOrResting() &&
+                !((Pl20c*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))->b)
             {
-                ((FUN_005c1a00*)g_thePlayer)->Set(0, 1);
+                ((FUN_005c1a00*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))->Set(0, 1);
                 return;
             }
-            if (!this->v182() && !((FUN_008a08c0_Class*)g_thePlayer)->GetByteAt7C4())
+            if (!this->v182() && !((FUN_008a08c0_Class*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))->GetByteAt7C4())
             {
-                if (((TESObjectREFR_acc*)g_thePlayer)->Activate(pActor, 0, 0, 1))
+                if (((TESObjectREFR_acc*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))->Activate(pActor, 0, 0, 1))
                     this->v162(pActor, 1);
             }
             else
             {
-                if (((FUN_008a08c0_Class*)g_thePlayer)->GetByteAt7C4())
+                if (((FUN_008a08c0_Class*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))->GetByteAt7C4())
                 {
-                    bool bCombat = this->v207(pActor, g_thePlayer, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0);
+                    bool bCombat = this->v207(pActor, (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)), 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0);
                 }
             }
             if (0)
@@ -854,7 +926,6 @@ struct FleeVec3
 };
 struct FleeRadius
 {
-    int FUN_0044ddc0();
 };
 __if_not_exists(TESPackage::TESPackage)
 {
@@ -948,15 +1019,14 @@ class FleePackageAccess
     virtual void p_04d();
     virtual void p_04e();
     virtual bool Check13c(Actor* actor, int a, float b, int c);
-    FleeRadius* FUN_00671d10();
-    unsigned int FUN_00676280(Actor* actor);
-    void* FUN_00675c20(Actor* actor);
     void FUN_00675de0(FleeVec3* pos, Actor* actor);
 };
+struct TESObjectREFR;
 class FleePackage : public TESPackage
 {
   public:
-    void FUN_009f1310(Actor* target);
+public:
+    void FUN_009f1310(::TESObjectREFR *);
 };
 struct FleeActorView
 {
@@ -1221,9 +1291,6 @@ struct FleeActorView
     virtual void a_102();
     virtual void a_103();
     virtual void Set410(Actor* actor, int a, int b, int c, int d, int e, float f, float g);
-    float FUN_005723b0(TESObjectREFR* target, int a, int b);
-    bool FUN_008b3bb0();
-    void* FUN_00575d70();
 };
 struct FleeProcedure
 {
@@ -1786,15 +1853,15 @@ void FleeProcedure::FUN_00918600(Actor* actor)
         }
         Begin90(actor, 0);
         fRadius = 0.0f;
-        if (((FleePackageAccess*)pPackage2)->FUN_00671d10())
+        if (((::FleeRadius *)(reinterpret_cast<::Script *>((((FleePackageAccess*)pPackage2)))->GetData())))
         {
-            fRadius = (float)((FleePackageAccess*)pPackage2)->FUN_00671d10()->FUN_0044ddc0();
+            fRadius = (float)((int)(reinterpret_cast<::Twin_0044ddc0 *>((((::FleeRadius *)(reinterpret_cast<::Script *>((((FleePackageAccess*)pPackage2)))->GetData()))))->GetName()));
         }
         else
         {
-            fRadius = (float)((FleePackageAccess*)pPackage2)->FUN_00676280(actor);
+            fRadius = (float)reinterpret_cast<::HighProcess *>((((FleePackageAccess*)pPackage2)))->UpdateHighProcessState(actor);
         }
-        if (pTarget && ((FleeActorView*)actor)->FUN_005723b0(pTarget, 0, 0) > fRadius)
+        if (pTarget && reinterpret_cast<::RefS *>((((FleeActorView*)actor)))->FUN_005723b0((::RefS *)(pTarget), 0, 0) > fRadius)
         {
             ((FleeActorView*)actor)->Set410(actor, 1, 1, 1, 0, 0, -1.0f, -1.0f);
             pFlee2 = 0;
@@ -1802,17 +1869,17 @@ void FleeProcedure::FUN_00918600(Actor* actor)
             pTargetActor = dynamic_cast<Actor*>(pTarget);
             if (pFlee2 && pTargetActor)
             {
-                pFlee2->FUN_009f1310(pTargetActor);
+                pFlee2->FUN_009f1310((::TESObjectREFR *)(pTargetActor));
             }
             return;
         }
         else if (!pTarget && !((FleePackageAccess*)pPackage2)->Check13c(actor, 0, -1.0f, 0))
         {
-            pCell4 = ((FleePackageAccess*)pPackage2)->FUN_00675c20(actor);
+            pCell4 = ((void *)(reinterpret_cast<::fnv_00675c20::PHost *>((((FleePackageAccess*)pPackage2)))->FUN_00675c20((::fnv_00675c20::Ref *)(actor))));
             ((FleePackageAccess*)pPackage2)->FUN_00675de0(&kPos, actor);
-            if (((FleeActorView*)actor)->FUN_008b3bb0())
+            if (((bool)(reinterpret_cast<::TeleportableReference *>((((FleeActorView*)actor)))->GetTeleportDestinationForm())))
             {
-                if (!Move824(actor, kPos, pCell4, ((FleeActorView*)actor)->FUN_00575d70()))
+                if (!Move824(actor, kPos, pCell4, ((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((((FleeActorView*)actor)))->FUN_00575d70()))))
                 {
                     return;
                 }
@@ -1825,7 +1892,7 @@ void FleeProcedure::FUN_00918600(Actor* actor)
         }
         else
         {
-            if (!((FleeActorView*)actor)->FUN_008b3bb0())
+            if (!((bool)(reinterpret_cast<::TeleportableReference *>((((FleeActorView*)actor)))->GetTeleportDestinationForm())))
             {
                 Fail294(actor);
             }
@@ -1855,59 +1922,35 @@ struct Point
 };
 struct Timer
 {
-    float FUN_0084d030();
-    float FUN_00867da0();
 };
 struct Setting
 {
-    float* FUN_00403e20();
 };
-extern Timer DAT_011f6394, DAT_011de7b8;
-extern Setting DAT_011cd348, DAT_011ce570, DAT_011cf998;
 extern char DAT_011846a0, DAT_0118c6f4;
 extern double DAT_0101a6b0, DAT_01012060, DAT_010356d8, DAT_01012640;
 extern float DAT_01013974;
 struct NamedType
 {
-    float FUN_00526ac0();
 };
-NamedType* __cdecl FUN_004839c0(int);
 void* __cdecl FUN_00ec43fb(void*, int, void*, void*, int);
 struct Animation
 {
-    bool FUN_0040b470();
-    bool FUN_0040b6b0();
-    void FUN_0040b800(int);
-    void FUN_0040a420(int);
 };
 struct AnimationOwner
 {
-    void FUN_00815480(Animation*, void*, int);
     int unk00;
     int unk04;
     int unk08;
 };
 struct Weapon
 {
-    bool FUN_00425fd0();
 };
 struct Target
 {
-    Weapon* FUN_00680020();
 };
 struct ActorData;
 struct Package
 {
-    void RemoveInvalidAvoidedReferences(Process*);
-    Target* FUN_00671d10();
-    float GetField90Float();
-    Actor* FindNearestRef(Actor*);
-    void FUN_00810530(int);
-    void FUN_00898250(float);
-    Actor* FUN_005e3fc0();
-    void FUN_009f1140(Actor*, Actor*);
-    unsigned int FUN_00676280(Actor*);
-    void* BuildAvoidNodeArray();
 };
 struct RaceData
 {
@@ -2240,11 +2283,6 @@ struct Actor
     AnimationOwner animations;
     int unk94;
     Weapon* FUN_008d6f30();
-    float FUN_005723b0(Actor*, int, int);
-    bool FUN_008b3bb0();
-    ActorData* FUN_004181e0();
-    void FUN_008bb630(Request*);
-    int FUN_00575d70();
 };
 struct Process
 {
@@ -2811,7 +2849,6 @@ struct Process
     int unk9c;
     int unka0;
     float countdown;
-    float FUN_007df1f0();
     void FUN_00918860(Actor* actor);
 };
 }
@@ -2831,6 +2868,8 @@ class PathingLocation
     PathingLocation(TESObjectREFR*);
     ~PathingLocation();
 };
+class PathingLocation;
+template <class, int> class BSSimpleArray;
 class PathingRequest
 {
   public:
@@ -2881,19 +2920,17 @@ class PathingRequest
     int unkb0;
     int unkb4;
     ~PathingRequest();
+public:
+    void SetDestination(::PathingLocation *);
+public:
+    void SetCenterRadius(float);
+public:
+    void SetAvoidNodeArray(::BSSimpleArray<void *, 1024> *);
 };
 class PathingRequestFlee : public PathingRequest
 {
   public:
     PathingRequestFlee();
-    void InitFromActor(FleeUpdate::Actor*);
-    void SetInitialPathHeading(float);
-    void SetCantOpenDoors(bool);
-    void FUN_006d3b00(float);
-    void FUN_006d61e0(void*);
-    void FUN_00507610(float);
-    void FUN_006d1bc0(const PathingLocation&);
-    void FUN_008df000();
 };
 // @fnv 0x00918860
 void FleeUpdate::Process::FUN_00918860(Actor* actor)
@@ -2904,33 +2941,33 @@ void FleeUpdate::Process::FUN_00918860(Actor* actor)
     bool aArmed = false;
     if (v04c())
     {
-        if (v04c()->FUN_0040b470())
+        if (reinterpret_cast<::MagicItem *>((v04c()))->IsLoaded())
         {
-            actor->animations.FUN_00815480(v04c(), actor ? &actor->unk94 : 0, 0);
-            v04c()->FUN_0040b800(0);
+            reinterpret_cast<::Handler *>(&(actor->animations))->FUN_00815480((::Event *)(::FleeUpdate::Animation *)(v04c()), (int)(actor ? &actor->unk94 : 0), 0);
+            reinterpret_cast<::UnloadMagic *>((v04c()))->FUN_0040b800(0);
             v050(0);
         }
         else
         {
-            if (!v04c()->FUN_0040b6b0())
-                v04c()->FUN_0040a420(0);
+            if (!reinterpret_cast<::MagicItem *>((v04c()))->IsLoading())
+                reinterpret_cast<::MagicItem *>((v04c()))->Preload(0);
             return;
         }
     }
     if (!packageTmp)
         return;
-    packageTmp->RemoveInvalidAvoidedReferences(this);
-    if (packageTmp->FUN_00671d10() && packageTmp->FUN_00671d10()->FUN_00680020())
-        targetTmp = packageTmp->FUN_00671d10()->FUN_00680020();
+    reinterpret_cast<::AvoidancePackage *>((packageTmp))->RemoveInvalidAvoidedReferences((::AvoidanceContext *)(::FleeUpdate::Process *)(this));
+    if (((::FleeUpdate::Target *)(reinterpret_cast<::Script *>((packageTmp))->GetData())) && ((::FleeUpdate::Weapon *)(reinterpret_cast<::PackageTargetRecord *>((((::FleeUpdate::Target *)(reinterpret_cast<::Script *>((packageTmp))->GetData()))))->GetReferenceTarget())))
+        targetTmp = ((::FleeUpdate::Weapon *)(reinterpret_cast<::PackageTargetRecord *>((((::FleeUpdate::Target *)(reinterpret_cast<::Script *>((packageTmp))->GetData()))))->GetReferenceTarget()));
     if (targetTmp)
     {
-        float elapsed4 = packageTmp->GetField90Float();
-        Actor* destinationTmp = packageTmp->FindNearestRef(actor);
+        float elapsed4 = ::GetField90Float((char *)(packageTmp));
+        Actor* destinationTmp = ((::FleeUpdate::Actor *)(reinterpret_cast<::FUN_009f1210_cls *>((packageTmp))->FindNearestRef((::FUN_009f1210_ref *)(actor))));
         if (!destinationTmp)
         {
-            packageTmp->FUN_00810530(1);
-            packageTmp->FUN_00898250(DAT_011f6394.FUN_0084d030());
-            if (elapsed4 >= *DAT_011cd348.FUN_00403e20())
+            reinterpret_cast<::FUN_00810530_c *>((packageTmp))->FUN_00810530(1);
+            reinterpret_cast<::FUN_00898250_Class *>((packageTmp))->FUN_00898250(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::FleeUpdate::Timer *>(&::g_timeGlobal))))->GetStoredFloatValue());
+            if (elapsed4 >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FleeUpdate::Setting *>(&::originalRuntimeFloatSetting234)))))))
                 v288(actor, 1);
             return;
         }
@@ -2942,63 +2979,63 @@ void FleeUpdate::Process::FUN_00918860(Actor* actor)
         Weapon* weapon6 = actor->FUN_008d6f30();
         if (weapon6)
         {
-            packageTmp->FUN_00898250((float)(DAT_011f6394.FUN_0084d030() * -1.0));
-            float distance = actor->FUN_005723b0(destinationTmp, 0, 0);
+            reinterpret_cast<::FUN_00898250_Class *>((packageTmp))->FUN_00898250((float)(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::FleeUpdate::Timer *>(&::g_timeGlobal))))->GetStoredFloatValue() * -1.0));
+            float distance = reinterpret_cast<::RefS *>((actor))->FUN_005723b0((::RefS *)(destinationTmp), 0, 0);
             float threshold = 0;
-            if (weapon6->FUN_00425fd0())
+            if (reinterpret_cast<::TESObjectCELL *>((weapon6))->IsCellInterior())
             {
-                threshold = *DAT_011ce570.FUN_00403e20();
+                threshold = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FleeUpdate::Setting *>(&::originalRuntimeFloatSetting623))))));
                 aArmed = true;
             }
             else
-                threshold = *DAT_011cf998.FUN_00403e20();
-            if (distance < threshold && actor->FUN_008b3bb0())
+                threshold = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FleeUpdate::Setting *>(&::originalRuntimeFloatSetting622))))));
+            if (distance < threshold && ((bool)(reinterpret_cast<::TeleportableReference *>((actor))->GetTeleportDestinationForm())))
             {
-                Actor* reference = packageTmp->FUN_005e3fc0();
+                Actor* reference = ((::FleeUpdate::Actor *)(reinterpret_cast<::FUN_005e3fc0_shell *>((packageTmp))->Get()));
                 bool expired = false;
                 if (countdown <= 0.0)
                     expired = true;
                 else
-                    countdown -= DAT_011f6394.FUN_0084d030();
+                    countdown -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::FleeUpdate::Timer *>(&::g_timeGlobal))))->GetStoredFloatValue();
                 if (!reference)
                 {
-                    packageTmp->FUN_009f1140(actor, destinationTmp);
+                    reinterpret_cast<::FUN_009f1140_shell *>((packageTmp))->FUN_009f1140((::TESObjectREFR *)(actor), (::TESObjectREFR *)(destinationTmp));
                     PathingRequestFlee request;
-                    request.InitFromActor(actor);
-                    request.SetInitialPathHeading(actor->v2bc(0));
+                    reinterpret_cast<::fnv_006e29f0::FUN_006e29f0_shell *>(&(request))->InitFromActor((::Actor *)(actor));
+                    reinterpret_cast<::FUN_006e2bb0_shell *>(&(request))->SetInitialPathHeading(actor->v2bc(0));
                     if (actor->v21c())
-                        request.SetCantOpenDoors(actor->FUN_004181e0()->race.v028());
-                    request.FUN_006d3b00((float)packageTmp->FUN_00676280(actor));
-                    request.FUN_006d61e0(packageTmp->BuildAvoidNodeArray());
-                    request.FUN_00507610(1000.0f);
+                        reinterpret_cast<::FUN_006e2b50_shell *>(&(request))->SetCantOpenDoors(((::FleeUpdate::ActorData *)(reinterpret_cast<::Actor *>((actor))->GetActorBase()))->race.v028());
+                    reinterpret_cast<::PathingRequest *>(&(request))->SetCenterRadius((float)reinterpret_cast<::HighProcess *>((packageTmp))->UpdateHighProcessState((::Actor *)(actor)));
+                    reinterpret_cast<::PathingRequest *>(&(request))->SetAvoidNodeArray((::BSSimpleArray<void *, 1024> *)(void *)(((void *)(reinterpret_cast<::AvoidancePackage_1440 *>((packageTmp))->BuildAvoidNodeArray()))));
+                    reinterpret_cast<::FUN_00507610_Class *>(&(request))->FUN_00507610(1000.0f);
                     if (reference)
-                        request.FUN_006d1bc0(PathingLocation((TESObjectREFR*)reference));
+                        reinterpret_cast<::PathingRequest *>(&(request))->SetDestination((::PathingLocation *)&(const ::PathingLocation &)(PathingLocation((TESObjectREFR*)reference)));
                     else
-                        request.FUN_008df000();
-                    actor->FUN_008bb630((Request*)&request);
+                        reinterpret_cast<::FUN_008df000_shell *>(&(request))->FUN_008df000();
+                    reinterpret_cast<::fnv_008bb630::Tgt_b *>((actor))->FUN_008bb630((::fnv_008bb630::PathingRequest_b *)(::FleeUpdate::Request *)((Request*)&request));
                 }
                 else
                 {
-                    if (!v824(actor, *reference->v1f4(), reference->FUN_008d6f30(), reference->FUN_00575d70()))
+                    if (!v824(actor, *reference->v1f4(), reference->FUN_008d6f30(), ((int)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((reference))->FUN_00575d70()))))
                         return;
                 }
-                packageTmp->FUN_00810530(0);
-                packageTmp->FUN_00898250((float)(packageTmp->GetField90Float() * -1.0));
+                reinterpret_cast<::FUN_00810530_c *>((packageTmp))->FUN_00810530(0);
+                reinterpret_cast<::FUN_00898250_Class *>((packageTmp))->FUN_00898250((float)(::GetField90Float((char *)(packageTmp)) * -1.0));
             }
-            if (!actor->FUN_008b3bb0())
+            if (!((bool)(reinterpret_cast<::TeleportableReference *>((actor))->GetTeleportDestinationForm())))
             {
-                NamedType* type = FUN_004839c0(0x3a);
-                float hour = DAT_011de7b8.FUN_00867da0();
-                if (hour < FUN_007df1f0())
+                NamedType* type = ((::FleeUpdate::NamedType *)(::FUN_004839c0(0x3a)));
+                float hour = reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::FleeUpdate::Timer *>(&::g_011de7b8))))->GetGameTime();
+                if (hour < reinterpret_cast<::ActiveEffect *>(this)->GetDuration())
                     hour += 24.0;
-                float duration = hour - FUN_007df1f0();
-                duration *= 3600.0 / type->FUN_00526ac0();
+                float duration = hour - reinterpret_cast<::ActiveEffect *>(this)->GetDuration();
+                duration *= 3600.0 / reinterpret_cast<::FUN_00526ac0_shell *>((type))->FUN_00526ac0();
             }
             else
             {
-                packageTmp->FUN_00810530(1);
-                packageTmp->FUN_00898250(DAT_011f6394.FUN_0084d030());
-                if (elapsed4 >= *DAT_011cd348.FUN_00403e20())
+                reinterpret_cast<::FUN_00810530_c *>((packageTmp))->FUN_00810530(1);
+                reinterpret_cast<::FUN_00898250_Class *>((packageTmp))->FUN_00898250(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::FleeUpdate::Timer *>(&::g_timeGlobal))))->GetStoredFloatValue());
+                if (elapsed4 >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FleeUpdate::Setting *>(&::originalRuntimeFloatSetting234)))))))
                     v288(actor, 1);
             }
         }

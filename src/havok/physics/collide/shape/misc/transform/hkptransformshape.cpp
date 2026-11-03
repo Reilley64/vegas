@@ -2,6 +2,11 @@
 // src/havok/physics/collide/shape/misc/transform/hkptransformshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/misc/transform/hkptransformshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00cf5950_cls.h"
+#include "fnv/decl/FunctionContext.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_010c6000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpTransformShape.h"
 
 struct FUN_00cf5900
@@ -29,7 +34,6 @@ int FUN_00cf5900::calc(int aiArg, int aiLimit)
 
 class hkClassCF58;
 
-extern const hkClassCF58 DAT_01268910;
 
 class hkStatisticsCollectorCF58
 {
@@ -43,7 +47,6 @@ class hkStatisticsCollectorCF58
 class hkpShapeCF58
 {
   public:
-    void FUN_00c90360(hkStatisticsCollectorCF58* pkCollector, const hkClassCF58* pkClass) const throw();
 };
 
 class hkpSingleShapeContainerCF58 : public hkpShapeCF58
@@ -64,7 +67,7 @@ void hkpSingleShapeContainerCF58::AddChildShapeToCollector(hkStatisticsCollector
                                                            const hkClassCF58* pkClass) const throw()
 {
     pkCollector->addChildObject("ChildShape", m_pContainedShape, 0);
-    FUN_00c90360(pkCollector, &DAT_01268910);
+    reinterpret_cast<::FunctionContext *>((void *)this)->FUN_00c90360(pkCollector, (void *)(&(*reinterpret_cast<const ::hkClassCF58 *>(&::g_01268910))));
 }
 
 struct FnvCpu_FUN_00cf58f0_CpuObject
@@ -101,8 +104,6 @@ extern "C" hkMemoryRouterCF5E& __cdecl FUN_00c85750();
 
 struct FUN_00d1df70
 {
-    void FUN_00c90510() throw();
-    void removeReference() throw();
 };
 
 class hkReferencedObjectCF5E
@@ -141,7 +142,7 @@ class hkpSingleShapeContainerCF5E : public hkpShapeContainerCF5E
     ~hkpSingleShapeContainerCF5E() throw()
     {
         if (m_pContainedShape)
-            m_pContainedShape->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pContainedShape))->FUN_00c905b0();
     }
 };
 
@@ -162,7 +163,6 @@ hkpTransformShapeCF5E* hkpTransformShapeCF5E::DestroyAndMaybeFree(unsigned int u
 }
 
 extern int DAT_010cc41c;
-extern int DAT_010c6fd0;
 
 struct FUN_00c90510_class
 {
@@ -179,7 +179,6 @@ struct cf5990_TransformShape
     void* m_childContainerVtbl;        // 0x10
     hkpShape* m_pContainedShape;       // 0x14
 
-    void CopyBlock(const hkTransform& transform);
     int FUN_00cf5990(hkpShape* child, const hkTransform& transform);
 };
 
@@ -194,7 +193,7 @@ int cf5990_TransformShape::FUN_00cf5990(hkpShape* apContainedShape, const hkTran
     m_childContainerVtbl = &DAT_010c6fd0;
     m_pContainedShape = apContainedShape;
     ((FUN_00c90510_class*)apContainedShape)->FUN_00c90510();
-    CopyBlock(transform);
+    reinterpret_cast<::FUN_00cf5950_cls *>(this)->CopyBlock((::Block64 *)&(transform));
     return (int)this;
 }
 

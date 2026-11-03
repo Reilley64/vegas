@@ -1,5 +1,31 @@
 // fallout_shared/tesspelllist.cpp: TESSpellList, TESAttributes, FloatValueProvider, SpellListTask and more (19 functions)
 
+#include <new>
+#include "fnv/decl/C857A10Buffer.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/EffectSetting.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_004516b0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_008579e0_shell.h"
+#include "fnv/decl/FUN_00857aa0.h"
+#include "fnv/decl/FUN_00862110_cls.h"
+#include "fnv/decl/FUN_008df040_shell.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/RefList.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/xEffOwner.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_0048d000.h"
+#include "fnv/symbols_004fd000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011de000.h"
 #include "tesspelllist.h"
 
 // @fnv 0x0048d0d0
@@ -15,116 +41,25 @@ void TESSpellList::ClearSpells()
     BSSimpleList<InventoryStackRecord*>* pFirstList =
         reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData());
     BSSimpleList<InventoryStackRecord*>* pSecondList;
-    while (pFirstList && pFirstList->GetItem())
+    while (pFirstList && ((::InventoryStackRecord *)(new ((void *)(pFirstList)) ::Vec3())))
         pFirstList->RemoveHead();
 
-    pSecondList = GetOffsetC();
-    while (pSecondList && pSecondList->GetItem())
+    pSecondList = ((::BSSimpleList< ::InventoryStackRecord *> *)(::GetOffsetC((int)this)));
+    while (pSecondList && ((::InventoryStackRecord *)(new ((void *)(pSecondList)) ::Vec3())))
         pSecondList->RemoveHead();
 }
 
 // @fnv 0x0047ffa0
 TESAttributes::~TESAttributes()
 {
-    reinterpret_cast<TESForm*>(this)->IsInCombat();
+    reinterpret_cast<TESForm*>(this)->ClearData();
 }
 
 // Constructs a TESSpellList and calls IsInCombat on the object viewed as a TESForm.
 // @fnv 0x0048cfe0
 TESSpellList::TESSpellList()
 {
-    reinterpret_cast<TESForm*>(this)->IsInCombat();
-}
-
-// @fnv 0x0048d400
-void TESSpellList::InitItem(TESForm* owner)
-{
-    struct SpellCursor
-    {
-        BSSimpleList<InventoryStackRecord*>* current;
-        BSSimpleList<InventoryStackRecord*>* previous;
-        TESFile* file;
-    } listCursor;
-    listCursor.previous = 0;
-    listCursor.current =
-        reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData());
-    listCursor.file = owner ? owner->GetFile(-1) : 0;
-    while (listCursor.current && listCursor.current->GetItem())
-    {
-        struct ResolvedForm
-        {
-            unsigned int id;
-            TESForm* form;
-        } resolvedForm;
-        resolvedForm.id = reinterpret_cast<unsigned int>(listCursor.current->GetItem());
-        TESForm::RemapFormIDForFile(resolvedForm.id, listCursor.file);
-        resolvedForm.form = TESForm::GetFormByID(resolvedForm.id);
-        {
-            struct SpellTypes
-            {
-                SpellItem* spell;
-                TESLevSpell* leveled;
-            } spellTypes;
-            {
-                TESActorBase* actor;
-                if (!resolvedForm.form)
-                {
-                    if (reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(listCursor.current)->GetNext() ||
-                        !listCursor.previous)
-                        listCursor.current->RemoveHead();
-                    else
-                    {
-                        BGSCameraShot* pRemovedEntry = reinterpret_cast<BGSCameraShot*>(resolvedForm.id);
-                        reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(listCursor.previous)->Remove(pRemovedEntry);
-                        listCursor.current = reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(
-                            reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(listCursor.previous)->GetNext());
-                    }
-                    if (owner)
-                    {
-                        if (reinterpret_cast<BGSCameraPath*>(owner)->HasNameForWarning())
-                            Warning("MASTERFILE: Unable to find Actor Effect (%08X) for owner object \"%s\".",
-                                    resolvedForm.id, owner->GetEditorID());
-                        else
-                            Warning("MASTERFILE: Unable to find Actor Effect (%08X) for owner object (%08X).",
-                                    resolvedForm.id, owner->GetFormID());
-                    }
-                    else
-                        Warning("MASTERFILE: Unable to find Actor Effect (%08X) for unknown owner.", resolvedForm.id);
-                }
-                else
-                {
-                    spellTypes.spell = dynamic_cast<SpellItem*>(resolvedForm.form);
-                    spellTypes.leveled = dynamic_cast<TESLevSpell*>(resolvedForm.form);
-                    if (spellTypes.spell)
-                    {
-                        reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(listCursor.current)
-                            ->SetItem(reinterpret_cast<BGSCameraShot* const&>(spellTypes.spell));
-                        actor = dynamic_cast<TESActorBase*>(this);
-                        if (actor && actor == g_thePlayer->GetActorBase())
-                            g_thePlayer->OnSpellRemoved(spellTypes.spell);
-                        listCursor.previous = listCursor.current;
-                        listCursor.current = reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(
-                            reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(listCursor.current)->GetNext());
-                    }
-                    else
-                    {
-                        if (reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(listCursor.current)->GetNext() ||
-                            !listCursor.previous)
-                            listCursor.current->RemoveHead();
-                        else
-                        {
-                            BGSCameraShot* pRemovedEntry = reinterpret_cast<BGSCameraShot*>(resolvedForm.id);
-                            reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(listCursor.previous)->Remove(pRemovedEntry);
-                            listCursor.current = reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(
-                                reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(listCursor.previous)->GetNext());
-                        }
-                        if (spellTypes.leveled)
-                            FUN_0048d210(spellTypes.leveled);
-                    }
-                }
-            }
-        }
-    }
+    reinterpret_cast<TESForm*>(this)->ClearData();
 }
 
 template <> class BSSimpleList<int>
@@ -139,12 +74,11 @@ struct FUN_0048d060 : public BaseFormComponent
     BSSimpleList<int> a;
     BSSimpleList<int> b;
     ~FUN_0048d060();
-    void ClearComponent();
 };
 // @fnv 0x0048d060
 FUN_0048d060::~FUN_0048d060()
 {
-    ClearComponent();
+    reinterpret_cast<::TESSpellList *>(this)->ClearComponent();
 }
 
 // @fnv 0x0048d150
@@ -155,12 +89,9 @@ int __fastcall GetOffsetC(int apBase)
 
 struct TESDataHandler
 {
-    bool FUN_004516b0();
 };
-extern TESDataHandler* g_dataHandler;
 struct LH
 {
-    bool IsInList(SpellItem* const&) const;
     void AddHead(SpellItem*&);
 };
 struct PadX
@@ -179,11 +110,11 @@ bool FloatValueProvider::FUN_0048d170(SpellItem* apSpell)
 {
     if (!apSpell)
         return false;
-    if (((LH*)GetCurrentProcessData())->IsInList(apSpell))
+    if (reinterpret_cast<::RefList *>((void *)(((LH*)GetCurrentProcessData())))->FUN_005f65d0((void **)&(apSpell)))
         return false;
     ((LH*)GetCurrentProcessData())->AddHead(apSpell);
-    if (this == static_cast<FloatValueProvider*>((ZX2*)g_thePlayer->GetActorBase()) && !g_dataHandler->FUN_004516b0())
-        g_thePlayer->OnSpellRemoved(apSpell);
+    if (this == static_cast<FloatValueProvider*>((ZX2*)::_g_thePlayer->GetActorBase()) && !reinterpret_cast<::FUN_004516b0_shell *>(((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))->FUN_004516b0())
+        reinterpret_cast<::xEffOwner *>((::_g_thePlayer))->FUN_0094c6c0((::xEffItem *)(apSpell));
     return true;
 }
 
@@ -194,28 +125,25 @@ struct FUN_0048d290_shell : public TESSpellList
 };
 
 class TESDataHandler;
-extern TESDataHandler* g_dataHandler;
 struct DHX
 {
-    bool FUN_004516b0();
 };
 struct ZX2
 {
-    bool FUN_0048d170(SpellItem*);
     bool FUN_0048d210(TESLevSpell*);
 };
 // @fnv 0x0048d290
 bool FUN_0048d290_shell::FUN_0048d290(TESForm* apSpellIn)
 {
-    if (((DHX*)g_dataHandler)->FUN_004516b0())
+    if (reinterpret_cast<::FUN_004516b0_shell *>((((DHX*)(*reinterpret_cast<::fnv_0048d290::TESDataHandler * *>(&::g_dataHandler)))))->FUN_004516b0())
     {
-        ((ZX2*)this)->FUN_0048d170((SpellItem*)apSpellIn);
+        reinterpret_cast<::FloatValueProvider *>((((ZX2*)this)))->FUN_0048d170((SpellItem*)apSpellIn);
         return true;
     }
     SpellItem* pSpell = dynamic_cast<SpellItem*>(apSpellIn);
     TESLevSpell* pLevSpell = dynamic_cast<TESLevSpell*>(apSpellIn);
     if (pSpell)
-        return ((ZX2*)this)->FUN_0048d170(pSpell);
+        return reinterpret_cast<::FloatValueProvider *>((((ZX2*)this)))->FUN_0048d170(pSpell);
     else if (pLevSpell)
         return ((ZX2*)this)->FUN_0048d210(pLevSpell);
     return false;
@@ -224,8 +152,6 @@ bool FUN_0048d290_shell::FUN_0048d290(TESForm* apSpellIn)
 
 struct ListNode
 {
-    ActorPackageContext*& _ref_006815c0();
-    ListNode* _ref_00726070();
 };
 struct Holder_0048d830 : BaseProcess
 {
@@ -237,17 +163,16 @@ bool Holder_0048d830::ContainsPackage(ActorPackageContext* package)
     ListNode* node = reinterpret_cast<ListNode*>(GetCurrentProcessData());
     while (node)
     {
-        ActorPackageContext* entry = node->_ref_006815c0();
+        ActorPackageContext* entry = ((::ActorPackageContext *)(new ((void *)(node)) ::Vec3()));
         if (entry == package)
             return true;
-        node = node->_ref_00726070();
+        node = ((::ListNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
     return false;
 }
 
 struct FUN_0048d880_shell : public BSSimpleList<void*>
 {
-    BSSimpleList<void*>* GetOffsetC();
     bool FUN_0048d880(void* item);
 };
 
@@ -255,20 +180,19 @@ struct FUN_0048d880_shell : public BSSimpleList<void*>
 // @fnv 0x0048d880
 bool FUN_0048d880_shell::FUN_0048d880(void* item)
 {
-    BSSimpleList<void*>* node = GetOffsetC();
+    BSSimpleList<void*>* node = ((::BSSimpleList<void *> *)(::GetOffsetC((int)this)));
     while (node)
     {
-        void* entry = node->GetItem();
+        void* entry = ((void *)(new ((void *)(node)) ::Vec3()));
         if (entry == item)
             return true;
-        node = node->GetNext();
+        node = ((::BSSimpleList<void *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
     return false;
 }
 
 struct Helper00905330
 {
-    void _ref_00905330(int&);
 };
 struct Host0048d8d0 : BaseProcess
 {
@@ -277,19 +201,105 @@ struct Host0048d8d0 : BaseProcess
 // @fnv 0x0048d8d0
 void Host0048d8d0::ForwardToHelper(int a)
 {
-    ((Helper00905330*)GetCurrentProcessData())->_ref_00905330(a);
+    reinterpret_cast<::ItemChangeListNode *>((((Helper00905330*)GetCurrentProcessData())))->FUN_00905330((::InventoryStackRecord *const &)(a));
 }
 
 struct SpellListHandle
 {
-    bool FUN_005f65d0();
     void FUN_005ae3d0();
 };
 struct SpellListTask
 {
-    SpellListHandle* GetOffsetC(TESLevSpell*& spell);
     bool FUN_0048d210(TESLevSpell* spell);
 };
+// @fnv 0x0048d400
+void TESSpellList::InitItem(TESForm* owner)
+{
+    struct SpellCursor
+    {
+        BSSimpleList<InventoryStackRecord*>* current;
+        BSSimpleList<InventoryStackRecord*>* previous;
+        TESFile* file;
+    } listCursor;
+    listCursor.previous = 0;
+    listCursor.current =
+        reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData());
+    listCursor.file = owner ? owner->GetFile(-1) : 0;
+    while (listCursor.current && ((::InventoryStackRecord *)(new ((void *)(listCursor.current)) ::Vec3())))
+    {
+        struct ResolvedForm
+        {
+            unsigned int id;
+            TESForm* form;
+        } resolvedForm;
+        resolvedForm.id = reinterpret_cast<unsigned int>(((::InventoryStackRecord *)(new ((void *)(listCursor.current)) ::Vec3())));
+        ::ResolveFormID((unsigned int *)&(resolvedForm.id), listCursor.file);
+        resolvedForm.form = ::FUN_004839c0(resolvedForm.id);
+        {
+            struct SpellTypes
+            {
+                SpellItem* spell;
+                TESLevSpell* leveled;
+            } spellTypes;
+            {
+                TESActorBase* actor;
+                if (!resolvedForm.form)
+                {
+                    if (((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(listCursor.current)))->FUN_00726070())) ||
+                        !listCursor.previous)
+                        listCursor.current->RemoveHead();
+                    else
+                    {
+                        BGSCameraShot* pRemovedEntry = reinterpret_cast<BGSCameraShot*>(resolvedForm.id);
+                        reinterpret_cast<::ItemChangeListNode *>((reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(listCursor.previous)))->FUN_00905330((::InventoryStackRecord *const &)(pRemovedEntry));
+                        listCursor.current = reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(
+                            ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(listCursor.previous)))->FUN_00726070())));
+                    }
+                    if (owner)
+                    {
+                        if (reinterpret_cast<BGSCameraPath*>(owner)->HasNameForWarning())
+                            ::FUN_005b5e40();
+                        else
+                            ::FUN_005b5e40();
+                    }
+                    else
+                        ::FUN_005b5e40();
+                }
+                else
+                {
+                    spellTypes.spell = dynamic_cast<SpellItem*>(resolvedForm.form);
+                    spellTypes.leveled = dynamic_cast<TESLevSpell*>(resolvedForm.form);
+                    if (spellTypes.spell)
+                    {
+                        reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(listCursor.current)
+                            ->SetItem(reinterpret_cast<BGSCameraShot* const&>(spellTypes.spell));
+                        actor = dynamic_cast<TESActorBase*>(this);
+                        if (actor && actor == ::_g_thePlayer->GetActorBase())
+                            reinterpret_cast<::xEffOwner *>((::_g_thePlayer))->FUN_0094c6c0((::xEffItem *)(spellTypes.spell));
+                        listCursor.previous = listCursor.current;
+                        listCursor.current = reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(
+                            ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(listCursor.current)))->FUN_00726070())));
+                    }
+                    else
+                    {
+                        if (((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(listCursor.current)))->FUN_00726070())) ||
+                            !listCursor.previous)
+                            listCursor.current->RemoveHead();
+                        else
+                        {
+                            BGSCameraShot* pRemovedEntry = reinterpret_cast<BGSCameraShot*>(resolvedForm.id);
+                            reinterpret_cast<::ItemChangeListNode *>((reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(listCursor.previous)))->FUN_00905330((::InventoryStackRecord *const &)(pRemovedEntry));
+                            listCursor.current = reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(
+                                ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(listCursor.previous)))->FUN_00726070())));
+                        }
+                        if (spellTypes.leveled)
+                            reinterpret_cast<::SpellListTask *>(this)->FUN_0048d210(spellTypes.leveled);
+                    }
+                }
+            }
+        }
+    }
+}
 struct PlayerBaseData
 {
     unsigned int unk00;
@@ -329,34 +339,27 @@ struct PlayerProcess : PlayerBaseData, SpellListTask
 };
 struct PlayerProcessAccessor
 {
-    PlayerProcess* FUN_004181e0();
 };
 // @fnv 0x0048d210
 bool SpellListTask::FUN_0048d210(TESLevSpell* spell)
 {
     if (!spell)
         return false;
-    if (this == static_cast<SpellListTask*>(reinterpret_cast<PlayerProcessAccessor*>(g_thePlayer)->FUN_004181e0()))
+    if (this == static_cast<SpellListTask*>(((::PlayerProcess *)(reinterpret_cast<::Actor *>((reinterpret_cast<PlayerProcessAccessor*>(::_g_thePlayer)))->GetActorBase()))))
         return false;
-    if (GetOffsetC(spell)->FUN_005f65d0())
+    if (reinterpret_cast<::RefList *>((((::SpellListHandle *)(::GetOffsetC((int)this)))))->FUN_005f65d0({}))
         return false;
-    GetOffsetC(spell)->FUN_005ae3d0();
+    ((::SpellListHandle *)(::GetOffsetC((int)this)))->FUN_005ae3d0();
     return true;
 }
 
 struct SpellNode
 {
-    void*& Item();
-    SpellNode* Next();
     int Count();
 };
 
 struct SpellListView
 {
-    SpellNode* SpellsHead();
-    SpellNode* LevSpellsHead();
-    bool ContainsEntryA(void* spell);
-    bool ContainsEntryB(void* lev);
     bool DiffersFrom(BaseFormComponent* apOther);
 };
 
@@ -368,35 +371,35 @@ bool SpellListView::DiffersFrom(BaseFormComponent* apOther)
     if (!pOtherList)
         return true;
     int iSpellCount = 0;
-    SpellNode* pSpellNode = SpellsHead();
+    SpellNode* pSpellNode = ((::SpellNode *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
     while (pSpellNode)
     {
-        void* pSpell = pSpellNode->Item();
+        void* pSpell = ((void *)(new ((void *)(pSpellNode)) ::Vec3()));
         if (pSpell)
         {
-            if (!pOtherList->ContainsEntryA(pSpell))
+            if (!reinterpret_cast<::Holder_0048d830 *>((pOtherList))->ContainsPackage((::ActorPackageContext *)(pSpell)))
                 return true;
             iSpellCount++;
         }
-        pSpellNode = pSpellNode->Next();
+        pSpellNode = ((::SpellNode *)(reinterpret_cast<::Callees *>((pSpellNode))->FUN_00726070()));
     }
-    if (pOtherList->SpellsHead()->Count() != iSpellCount)
+    if (((::SpellNode *)(reinterpret_cast<::BaseProcess *>((pOtherList))->GetCurrentProcessData()))->Count() != iSpellCount)
         return true;
     {
         int iLevSpellCount = 0;
-        SpellNode* pLevSpellNode = LevSpellsHead();
+        SpellNode* pLevSpellNode = ((::SpellNode *)(::GetOffsetC((int)this)));
         while (pLevSpellNode)
         {
-            void* pLevSpell = pLevSpellNode->Item();
+            void* pLevSpell = ((void *)(new ((void *)(pLevSpellNode)) ::Vec3()));
             if (pLevSpell)
             {
-                if (!pOtherList->ContainsEntryB(pLevSpellNode->Item()))
+                if (!reinterpret_cast<::FUN_0048d880_shell *>((pOtherList))->FUN_0048d880(((void *)(new ((void *)(pLevSpellNode)) ::Vec3()))))
                     return true;
                 iLevSpellCount++;
             }
-            pLevSpellNode = pLevSpellNode->Next();
+            pLevSpellNode = ((::SpellNode *)(reinterpret_cast<::Callees *>((pLevSpellNode))->FUN_00726070()));
         }
-        if (pOtherList->LevSpellsHead()->Count() != iLevSpellCount)
+        if (((::SpellNode *)(::GetOffsetC((int)(pOtherList))))->Count() != iLevSpellCount)
             return true;
     }
     return false;
@@ -411,23 +414,13 @@ struct SavedRecord
 };
 struct TESSaveLoadGame
 {
-    bool FUN_00862110();
-    void FUN_008579e0(void*, unsigned int);
-    void FUN_00857aa0(unsigned int*, unsigned int);
-    SavedRecord* CurrentRecord();
-    unsigned int Position();
-    unsigned char FUN_008df040();
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
-TESForm* FUN_004839c0(unsigned int);
 struct LoadedList
 {
     void* item;
     LoadedList* next;
-    void RemoveAll();
     void AddHead(SpellItem*&);
     void AddHead(TESLevSpell*&);
-    bool IsInList(TESLevSpell*&);
 };
 struct LoadedSpells
 {
@@ -445,40 +438,36 @@ void LoadedSpells::LoadSpellList(unsigned int flags, unsigned int unused)
     {
         unsigned short h = 0;
         unsigned int a = 0;
-        if (g_TESSaveLoadGame->FUN_00862110())
+        if (reinterpret_cast<::FUN_00862110_cls *>((g_TESSaveLoadGame))->FUN_00862110())
         {
             unsigned int s;
-            g_TESSaveLoadGame->FUN_008579e0(&s, 4);
+            reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0(&s, 4);
             if (s != 0x424c4f4b)
             {
-                SavedRecord* f = g_TESSaveLoadGame->CurrentRecord();
+                SavedRecord* f = ((::SavedRecord *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(g_TESSaveLoadGame))));
                 if (f)
                 {
                     TESForm* eb = FUN_004839c0(f->id);
-                    Warning(
-                        "SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
-                        "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESSpellList.cpp", 1371, f->id,
-                        eb->GetEditorID(), f->version, *(unsigned int*)f->flags);
+                    ::FUN_005b5e40(
+                        );
                 }
                 else
                 {
-                    Warning(
-                        "SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Current version is %i",
-                        "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESSpellList.cpp", 1371,
-                        g_TESSaveLoadGame->FUN_008df040());
+                    ::FUN_005b5e40(
+                        );
                 }
             }
-            a = g_TESSaveLoadGame->Position();
-            g_TESSaveLoadGame->FUN_008579e0(&h, 2);
+            a = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((g_TESSaveLoadGame))->FUN_00825c00();
+            reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0(&h, 2);
         }
-        spells.RemoveAll();
-        leveledSpells.RemoveAll();
+        reinterpret_cast<::FileMatchList *>(&(spells))->RemoveAll();
+        reinterpret_cast<::FileMatchList *>(&(leveledSpells))->RemoveAll();
         unsigned short i;
-        g_TESSaveLoadGame->FUN_008579e0(&i, 2);
+        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0(&i, 2);
         for (p = 0; p < i; p++)
         {
             unsigned int b;
-            g_TESSaveLoadGame->FUN_00857aa0(&b, 4);
+            reinterpret_cast<::FUN_00857aa0 *>((g_TESSaveLoadGame))->ValidateFormIDArray(&b, 4);
             SpellItem* q = dynamic_cast<SpellItem*>(FUN_004839c0(b));
             TESLevSpell* cf = dynamic_cast<TESLevSpell*>(FUN_004839c0(b));
             if (q)
@@ -488,53 +477,45 @@ void LoadedSpells::LoadSpellList(unsigned int flags, unsigned int unused)
             else if (cf)
             {
                 bool ba = true;
-                if (g_TESSaveLoadGame->FUN_008df040() < 71 && leveledSpells.IsInList(cf))
+                if (reinterpret_cast<::FUN_008df040_shell *>((g_TESSaveLoadGame))->FUN_008df040() < 71 && reinterpret_cast<::RefList *>(&(leveledSpells))->FUN_005f65d0((void **)&(cf)))
                     ba = false;
                 if (ba)
                     leveledSpells.AddHead(cf);
             }
             else
             {
-                Warning("MASTERFILE: Could not find spell %08X", b);
+                ::FUN_005b5e40();
             }
         }
-        if (g_TESSaveLoadGame->FUN_00862110())
+        if (reinterpret_cast<::FUN_00862110_cls *>((g_TESSaveLoadGame))->FUN_00862110())
         {
-            unsigned int l = g_TESSaveLoadGame->Position();
-            SavedRecord* k = g_TESSaveLoadGame->CurrentRecord();
+            unsigned int l = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((g_TESSaveLoadGame))->FUN_00825c00();
+            SavedRecord* k = ((::SavedRecord *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(g_TESSaveLoadGame))));
             if (k)
             {
                 TESForm* c = FUN_004839c0(k->id);
                 if (l > a + h)
                 {
-                    Warning(
-                        "SAVELOAD: LoadGame Buffer overrun of %i bytes in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
-                        l - (a + h), "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESSpellList.cpp", 1407,
-                        k->id, c->GetEditorID(), k->version, *(unsigned int*)k->flags);
+                    ::FUN_005b5e40(
+                        );
                 }
                 else if (l < a + h)
                 {
-                    Warning(
-                        "SAVELOAD: LoadGame Buffer underrun of %i bytes in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
-                        a + h - l, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESSpellList.cpp", 1407,
-                        k->id, c->GetEditorID(), k->version, *(unsigned int*)k->flags);
+                    ::FUN_005b5e40(
+                        );
                 }
             }
             else
             {
                 if (l > a + h)
                 {
-                    Warning(
-                        "SAVELOAD: LoadGame Buffer overrun of %i bytes in file %s on line %i.  Current version is %i",
-                        l - (a + h), "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESSpellList.cpp", 1407,
-                        g_TESSaveLoadGame->FUN_008df040());
+                    ::FUN_005b5e40(
+                        );
                 }
                 else if (l < a + h)
                 {
-                    Warning(
-                        "SAVELOAD: LoadGame Buffer underrun of %i bytes in file %s on line %i.  Current version is %i",
-                        a + h - l, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESSpellList.cpp", 1407,
-                        g_TESSaveLoadGame->FUN_008df040());
+                    ::FUN_005b5e40(
+                        );
                 }
             }
         }
@@ -544,41 +525,37 @@ void LoadedSpells::LoadSpellList(unsigned int flags, unsigned int unused)
 class ActorPackageContext
 {
   public:
-    bool _ref_00440d80();
-    unsigned int _ref_0084e3a0();
 };
 struct TESSpellListShell : TESSpellList
 {
-    ListNode* _ref_00717e50();
     void FUN_0048d330();
 };
-void __cdecl FUN_00485910(unsigned int type, unsigned int formId);
 // @fnv 0x0048d330
 void TESSpellListShell::FUN_0048d330()
 {
-    ListNode* currentLeveledSpell = _ref_00717e50();
+    ListNode* currentLeveledSpell = ((::ListNode *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
     unsigned int currentSpell;
     ActorPackageContext* spell;
-    while (currentLeveledSpell != 0 && (spell = currentLeveledSpell->_ref_006815c0()) != 0)
+    while (currentLeveledSpell != 0 && (spell = ((::ActorPackageContext *)(new ((void *)(currentLeveledSpell)) ::Vec3()))) != 0)
     {
-        if (!spell->_ref_00440d80())
+        if (!reinterpret_cast<::FUN_00440d80_shell *>((spell))->FUN_00440d80())
         {
-            currentSpell = spell->_ref_0084e3a0();
-            FUN_00485910(0x4f4c5053, currentSpell);
+            currentSpell = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((spell))->FUN_0084e3a0()));
+            ::FUN_00485910(0x4f4c5053, currentSpell);
         }
-        currentLeveledSpell = currentLeveledSpell->_ref_00726070();
+        currentLeveledSpell = ((::ListNode *)(reinterpret_cast<::Callees *>((currentLeveledSpell))->FUN_00726070()));
     }
-    ListNode* leveledSpell = (ListNode*)GetOffsetC();
+    ListNode* leveledSpell = (ListNode*)((::BSSimpleList< ::InventoryStackRecord *> *)(::GetOffsetC((int)this)));
     {
         ActorPackageContext* formId;
-        while (leveledSpell != 0 && (formId = leveledSpell->_ref_006815c0()) != 0)
+        while (leveledSpell != 0 && (formId = ((::ActorPackageContext *)(new ((void *)(leveledSpell)) ::Vec3()))) != 0)
         {
-            if (!formId->_ref_00440d80())
+            if (!reinterpret_cast<::FUN_00440d80_shell *>((formId))->FUN_00440d80())
             {
-                unsigned int leveledFormId = formId->_ref_0084e3a0();
-                FUN_00485910(0x4f4c5053, leveledFormId);
+                unsigned int leveledFormId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((formId))->FUN_0084e3a0()));
+                ::FUN_00485910(0x4f4c5053, leveledFormId);
             }
-            leveledSpell = leveledSpell->_ref_00726070();
+            leveledSpell = ((::ListNode *)(reinterpret_cast<::Callees *>((leveledSpell))->FUN_00726070()));
         }
     }
 }
@@ -587,25 +564,19 @@ namespace fnv_0048da20 {
 class TimeGlobal
 {
   public:
-    unsigned int GetTimeStamp();
 };
 
 class TESWorldSpace;
 class TES
 {
   public:
-    TESWorldSpace* GetHitSound();
 };
 
 class TESSaveLoadGame
 {
   public:
-    void FUN_008579b0(void* pData, int size);
-    void FUN_00857a10(void* pData, int size);
-    bool FUN_00862110();
 };
 
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 class GlobalObject_0045cf30
 {
@@ -613,22 +584,17 @@ class GlobalObject_0045cf30
     unsigned char* Bool();
 };
 
-extern GlobalObject_0045cf30 g_011de4e8;
 
 class ActorMagicSpellList
 {
   public:
-    BSSimpleList<SpellItem*>* GetSpells();
 };
 
 class FUN_0048d880_shell
 {
   public:
-    BSSimpleList<void*>* GetOffsetC();
 };
 
-TESForm* FUN_004839c0(unsigned int formID);
-extern "C" void FUN_0040fbe0(const char* fmt, ...);
 
 class TESSpellList_Target : public TESSpellList
 {
@@ -660,78 +626,73 @@ void TESSpellList_Target::SaveSpellList(unsigned int flags)
         unsigned int startBlock;
         unsigned int posNow1;
 
-        startPosData = reinterpret_cast<TimeGlobal*>(g_TESSaveLoadGame)->GetTimeStamp();
-        if (*g_011de4e8.Bool())
-            startPosData = reinterpret_cast<TimeGlobal*>(g_TESSaveLoadGame)->GetTimeStamp();
+        startPosData = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<TimeGlobal*>((*reinterpret_cast<::fnv_0048da20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
+        if (*(*reinterpret_cast<::fnv_0048da20::GlobalObject_0045cf30 *>(&::g_011de4e8)).Bool())
+            startPosData = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<TimeGlobal*>((*reinterpret_cast<::fnv_0048da20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
 
-        if (g_TESSaveLoadGame->FUN_00862110())
+        if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_0048da20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
         {
             blok = 0x424C4F4B;
-            g_TESSaveLoadGame->FUN_008579b0(&blok, 4);
-            pBlockSize3 = (unsigned short*)reinterpret_cast<TimeGlobal*>(g_TESSaveLoadGame)->GetTimeStamp();
-            g_TESSaveLoadGame->FUN_008579b0(&unk0CVal, 2);
+            reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0048da20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&blok, 4);
+            pBlockSize3 = (unsigned short*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<TimeGlobal*>((*reinterpret_cast<::fnv_0048da20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
+            reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0048da20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&unk0CVal, 2);
         }
 
         spellCount1 = 0;
-        pNumSpells = (unsigned short*)reinterpret_cast<TimeGlobal*>(g_TESSaveLoadGame)->GetTimeStamp();
-        g_TESSaveLoadGame->FUN_008579b0(&spellCount1, 2);
+        pNumSpells = (unsigned short*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<TimeGlobal*>((*reinterpret_cast<::fnv_0048da20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0048da20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&spellCount1, 2);
 
-        curNodePtr = reinterpret_cast<ActorMagicSpellList*>(this)->GetSpells();
+        curNodePtr = ((::BSSimpleList< ::SpellItem *> *)(reinterpret_cast<::BaseProcess *>((reinterpret_cast<ActorMagicSpellList*>(this)))->GetCurrentProcessData()));
         while (curNodePtr)
         {
-            spell3 = curNodePtr->GetItem();
+            spell3 = ((::SpellItem *)(new ((void *)(curNodePtr)) ::Vec3()));
             if (spell3)
             {
-                spellID1 = spell3->GetFormID();
-                g_TESSaveLoadGame->FUN_00857a10(&spellID1, 4);
+                spellID1 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((spell3))->FUN_0084e3a0()));
+                reinterpret_cast<::C857A10Buffer *>(((*reinterpret_cast<::fnv_0048da20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00857a10((const unsigned int *)(void *)(&spellID1), 4);
                 spellCount1++;
             }
-            curNodePtr = curNodePtr->GetNext();
+            curNodePtr = ((::BSSimpleList< ::SpellItem *> *)(reinterpret_cast<::Callees *>((curNodePtr))->FUN_00726070()));
         }
 
         levNode2 =
-            reinterpret_cast<BSSimpleList<SpellItem*>*>(reinterpret_cast<FUN_0048d880_shell*>(this)->GetOffsetC());
+            reinterpret_cast<BSSimpleList<SpellItem*>*>(((::BSSimpleList<void *> *)(::GetOffsetC((int)(reinterpret_cast<FUN_0048d880_shell*>(this))))));
         while (levNode2)
         {
-            levSpell2 = levNode2->GetItem();
+            levSpell2 = ((::SpellItem *)(new ((void *)(levNode2)) ::Vec3()));
             if (levSpell2)
             {
-                leveledID = levSpell2->GetFormID();
-                g_TESSaveLoadGame->FUN_00857a10(&leveledID, 4);
+                leveledID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((levSpell2))->FUN_0084e3a0()));
+                reinterpret_cast<::C857A10Buffer *>(((*reinterpret_cast<::fnv_0048da20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00857a10((const unsigned int *)(void *)(&leveledID), 4);
                 spellCount1++;
             }
-            levNode2 = levNode2->GetNext();
+            levNode2 = ((::BSSimpleList< ::SpellItem *> *)(reinterpret_cast<::Callees *>((levNode2))->FUN_00726070()));
         }
 
         *pNumSpells = spellCount1;
 
-        if (*g_011de4e8.Bool())
+        if (*(*reinterpret_cast<::fnv_0048da20::GlobalObject_0045cf30 *>(&::g_011de4e8)).Bool())
         {
-            currentPos1 = reinterpret_cast<TimeGlobal*>(g_TESSaveLoadGame)->GetTimeStamp();
-            createdObj2 = reinterpret_cast<TES*>(g_TESSaveLoadGame)->GetHitSound();
+            currentPos1 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<TimeGlobal*>((*reinterpret_cast<::fnv_0048da20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
+            createdObj2 = ((::fnv_0048da20::TESWorldSpace *)(reinterpret_cast<::EffectSetting *>((reinterpret_cast<TES*>((*reinterpret_cast<::fnv_0048da20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->GetHitSound()));
             if (createdObj2)
             {
-                form = FUN_004839c0(*(unsigned int*)createdObj2);
-                FUN_0040fbe0("SaveGame(): %-5i for form %08X %s with flags %08X ending at line %i in file %s",
-                             currentPos1 - startPosData, *(unsigned int*)createdObj2, form->GetEditorID(),
-                             *(unsigned int*)((char*)createdObj2 + 5), 1359,
-                             "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESSpellList.cpp");
+                form = ::FUN_004839c0(*(unsigned int*)createdObj2);
+                ::FUN_0040fbe0();
             }
             else
             {
-                FUN_0040fbe0("SaveGame(): %-5i ending at line %i in file %s", currentPos1 - startPosData, 1359,
-                             "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESSpellList.cpp");
+                ::FUN_0040fbe0();
             }
         }
 
-        if (g_TESSaveLoadGame->FUN_00862110())
+        if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_0048da20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
         {
-            posNow1 = reinterpret_cast<TimeGlobal*>(g_TESSaveLoadGame)->GetTimeStamp();
+            posNow1 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<TimeGlobal*>((*reinterpret_cast<::fnv_0048da20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
             startBlock = (unsigned int)pBlockSize3;
             if (posNow1 > startBlock + 0xFFFF)
             {
-                Warning("SAVELOAD: Save Game Block in file %s on line %i is greater than maximum short size",
-                        "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESSpellList.cpp", 1359);
+                ::FUN_005b5e40();
             }
             *pBlockSize3 = (unsigned short)(posNow1 - startBlock);
         }
@@ -742,14 +703,11 @@ void TESSpellList_Target::SaveSpellList(unsigned int flags)
 namespace fnv_0048d630 {
 struct SpellNode
 {
-    void*& FUN_006815c0();
-    SpellNode* FUN_00726070();
     void FUN_005ae3d0(void*& spell);
 };
 
 struct SpellListAccess : TESSpellList
 {
-    SpellNode* FUN_00717e50();
     void FUN_0048d630(BaseFormComponent* source);
 };
 
@@ -763,26 +721,26 @@ void SpellListAccess::FUN_0048d630(BaseFormComponent* source)
 
     ClearSpells();
 
-    SpellNode* f = reinterpret_cast<SpellListAccess*>(a)->FUN_00717e50();
-    SpellNode* b = FUN_00717e50();
+    SpellNode* f = ((::fnv_0048d630::SpellNode *)(reinterpret_cast<::BaseProcess *>((reinterpret_cast<SpellListAccess*>(a)))->GetCurrentProcessData()));
+    SpellNode* b = ((::fnv_0048d630::SpellNode *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
     void* d;
     while (f != 0)
     {
-        d = f->FUN_006815c0();
+        d = ((void *)(new ((void *)(f)) ::Vec3()));
         if (d != 0)
             b->FUN_005ae3d0(d);
-        f = f->FUN_00726070();
+        f = ((::fnv_0048d630::SpellNode *)(reinterpret_cast<::Callees *>((f))->FUN_00726070()));
     }
 
-    SpellNode* e = reinterpret_cast<SpellNode*>(a->GetOffsetC());
+    SpellNode* e = reinterpret_cast<SpellNode*>(((::BSSimpleList< ::InventoryStackRecord *> *)(::GetOffsetC((int)(a)))));
     {
-        SpellNode* c = reinterpret_cast<SpellNode*>(GetOffsetC());
+        SpellNode* c = reinterpret_cast<SpellNode*>(((::BSSimpleList< ::InventoryStackRecord *> *)(::GetOffsetC((int)this))));
         while (e != 0)
         {
-            void* g = e->FUN_006815c0();
+            void* g = ((void *)(new ((void *)(e)) ::Vec3()));
             if (g != 0)
                 c->FUN_005ae3d0(g);
-            e = e->FUN_00726070();
+            e = ((::fnv_0048d630::SpellNode *)(reinterpret_cast<::Callees *>((e))->FUN_00726070()));
         }
     }
 }
@@ -796,15 +754,11 @@ struct S0048d8f0_Record
 };
 struct S0048d8f0_SaveGame
 {
-    bool FUN_00862110();
-    S0048d8f0_Record* FUN_004fd3e0();
 };
-extern S0048d8f0_SaveGame* DAT_011de45c;
 struct S0048d8f0_SettingStub
 {
     unsigned char* Bool();
 };
-extern S0048d8f0_SettingStub g_011de4e8;
 struct S0048d8f0_FormStub
 {
     virtual void vfn_0();
@@ -885,8 +839,6 @@ struct S0048d8f0_FormStub
     virtual void vfn_12c();
     virtual const char* GetEditorID();
 };
-S0048d8f0_FormStub* LookupSaveForm(unsigned int formID);
-void SaveSizeDebugPrint(const char* fmt, ...);
 struct S0048d8f0_SizedList
 {
     void* item;
@@ -909,7 +861,7 @@ unsigned short S0048d8f0_SpellListSaveSizer::FUN_0048d8f0(unsigned int saveFlags
     if (saveFlags & 0x10)
     {
         unsigned short start = size;
-        if (DAT_011de45c->FUN_00862110())
+        if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::S0048d8f0_SaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
         {
             size += 4;
             size += 2;
@@ -917,20 +869,17 @@ unsigned short S0048d8f0_SpellListSaveSizer::FUN_0048d8f0(unsigned int saveFlags
         size += 2;
         size += spells.GetSize() * 4;
         size += leveledSpells.GetSize() * 4;
-        if (*g_011de4e8.Bool())
+        if (*(*reinterpret_cast<::S0048d8f0_SettingStub *>(&::g_011de4e8)).Bool())
         {
-            S0048d8f0_Record* record = DAT_011de45c->FUN_004fd3e0();
+            S0048d8f0_Record* record = ((::S0048d8f0_Record *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::S0048d8f0_SaveGame * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
             if (record)
             {
-                S0048d8f0_FormStub* form = LookupSaveForm(record->id);
-                SaveSizeDebugPrint("GetSaveSize(): %-5i for form %08X %s with flags %08X ending at line %i in file %s",
-                                   size - start, record->id, form->GetEditorID(), *(unsigned int*)record->flags, 0x51b,
-                                   "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESSpellList.cpp");
+                S0048d8f0_FormStub* form = ((::S0048d8f0_FormStub *)(::FUN_004839c0(record->id)));
+                ::FUN_0040fbe0();
             }
             else
             {
-                SaveSizeDebugPrint("GetSaveSize(): %-5i ending at line %i in file %s", size - start, 0x51b,
-                                   "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESSpellList.cpp");
+                ::FUN_0040fbe0();
             }
         }
     }

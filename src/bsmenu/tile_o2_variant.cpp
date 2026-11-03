@@ -2,6 +2,19 @@
 // src/bsmenu/tile_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/bsmenu/tile.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Bound88.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a00f30_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/FUN_00a8a670_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a04000.h"
+#include "fnv/symbols_00a1d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f6000.h"
 #include "Tile__FloatAction.h"
 #include "tile_packet_decls.h"
 
@@ -18,9 +31,7 @@ void __thiscall FUN_00bb79d0_class::FUN_00bb79d0(bool value)
 
 struct MemoryManager
 {
-    void Deallocate(void*);
 };
-extern MemoryManager _g_memoryManager;
 void operator delete(void*, unsigned int);
 struct NiPoint3;
 struct NiPoint2;
@@ -29,19 +40,17 @@ struct NiBound
 {
     float m_fCenter[3];
     float m_fBoundRadius;
-    void ComputeFromPoints(int, const NiPoint3*);
 };
 struct SharedData_S
 {
     char pad[0xc];
     int m_uiRefCount;
-    void FUN_00a8a670();
     void DecRefCount()
     {
         if (--m_uiRefCount == 0)
         {
-            FUN_00a8a670();
-            ::operator delete(this, 0x10);
+            reinterpret_cast<::FUN_00a8a670_shell *>(this)->FUN_00a8a670();
+            ::FUN_00aa1460(this, 0x10);
         }
     }
 };
@@ -116,20 +125,20 @@ void GeomData_S::FUN_00a670c0(unsigned short usVertices, NiPoint3* pkVertex, NiP
     else
     {
         if (pkVertex != m_pkVertex)
-            _g_memoryManager.Deallocate(m_pkVertex);
+            reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(m_pkVertex);
         if (pkNormal != m_pkNormal)
-            _g_memoryManager.Deallocate(m_pkNormal);
+            reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(m_pkNormal);
         if (pkColor != m_pkColor)
-            _g_memoryManager.Deallocate(m_pkColor);
+            reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(m_pkColor);
         if (pkTexture != m_pkTexture)
-            _g_memoryManager.Deallocate(m_pkTexture);
+            reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(m_pkTexture);
     }
     m_usVertices = usVertices;
     m_pkVertex = pkVertex;
     m_pkNormal = pkNormal;
     unsigned short usActive = GetActiveVertexQuantity();
     if (usActive && m_pkVertex)
-        m_kBound.ComputeFromPoints(usActive, m_pkVertex);
+        reinterpret_cast<::Bound88 *>(&(m_kBound))->ComputeBoundingSphere(usActive, (const ::Vec88 *)(m_pkVertex));
     m_pkColor = pkColor;
     m_pkTexture = pkTexture;
     m_usTrianglePoints = (m_usTrianglePoints & 0xffe) | (usNumTextureSets & 1) | eNBTMethod;

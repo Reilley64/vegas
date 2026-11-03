@@ -1,5 +1,39 @@
 // gamebryo2.2/corelibs/nimain/nitexturingproperty.cpp: Holder, NiTexturingProperty, Map, MyThis and more (44 functions)
 
+#include "fnv/decl/EqBase.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00462d80_shell.h"
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/FUN_00a5a390_shell.h"
+#include "fnv/decl/FUN_00a5c240_shell.h"
+#include "fnv/decl/FUN_00a5d450_class.h"
+#include "fnv/decl/FUN_00a63460_shell.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00a68e30_shell.h"
+#include "fnv/decl/FUN_00a69b40_Class.h"
+#include "fnv/decl/FUN_00a864d0_Class.h"
+#include "fnv/decl/FUN_00a88c60_Class.h"
+#include "fnv/decl/FUN_00a88f00_Class.h"
+#include "fnv/decl/FUN_00a88f80_cls.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/S_0060ba10.h"
+#include "fnv/decl/SkinGraph.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a26000.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a47000.h"
+#include "fnv/symbols_00a5d000.h"
+#include "fnv/symbols_00a5f000.h"
+#include "fnv/symbols_00a62000.h"
+#include "fnv/symbols_00a69000.h"
+#include "fnv/symbols_00a6a000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_0126f000.h"
 #include "nitexturingproperty_decls.h"
 
 // Loads the texturing property from a stream: apply mode, map array, optional shader maps, then calls UpdateMultiTexture.
@@ -19,11 +53,11 @@ void NiTexturingProperty::LoadBinary(NiStream& stream)
         m_uiObjectFlags &= ~0xff0;
     }
     unsigned int count;
-    ReadBinaryValue(stream, count);
+    ::FUN_00a26df0((::MyStream *)&(stream), (void *)&(count));
     unsigned int size = count;
     if (stream.m_uiNifVersion < 0x14020005 && size > 6)
         size += 2;
-    m_kStringArray.SetSize(size);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_kStringArray))->FUN_00a90180(size);
     if (stream.m_uiNifVersion < 0x0303000d)
         stream.SetLinkIDCount(count + 1);
     else
@@ -42,7 +76,7 @@ void NiTexturingProperty::LoadBinary(NiStream& stream)
         bool exists;
         if (stream.m_uiNifVersion < 0x04010000)
         {
-            ReadBinaryValue(stream, mapEntry.presence);
+            ::FUN_00a26df0((::MyStream *)&(stream), (void *)&(mapEntry.presence));
             exists = (mapEntry.presence != 0);
         }
         else
@@ -87,7 +121,7 @@ void NiTexturingProperty::LoadBinary(NiStream& stream)
     }
     if (stream.m_uiNifVersion >= 0x05000011)
     {
-        ReadBinaryValue(stream, count);
+        ::FUN_00a26df0((::MyStream *)&(stream), (void *)&(count));
         stream.SetLinkIDCount(count);
         if (count)
         {
@@ -131,7 +165,7 @@ void NiTexturingProperty::InitializePoint3()
 // @fnv 0x00a6b640
 void NiTexturingProperty::Map::LoadBinary(NiStream& stream)
 {
-    stream.ResetStreamState();
+    reinterpret_cast<::FUN_00a645b0_cls *>(&(stream))->FUN_00a645b0();
     if (stream.m_uiNifVersion < 0x14010002)
     {
         {
@@ -145,7 +179,7 @@ void NiTexturingProperty::Map::LoadBinary(NiStream& stream)
             SetFilterMode(filter);
         }
         unsigned int index;
-        ReadBinaryValue(stream, index);
+        ::FUN_00a26df0((::MyStream *)&(stream), (void *)&(index));
         SetTextureIndex(index);
     }
     else
@@ -169,13 +203,11 @@ void NiTexturingProperty::Map::LoadBinary(NiStream& stream)
         if (hasTransform == true)
         {
             m_pTextureTransform = new TextureMapTransform;
-            m_pTextureTransform->LoadBinary(stream);
+            reinterpret_cast<::FUN_00a88f00_Class *>((m_pTextureTransform))->FUN_00a88f00(stream);
         }
     }
 }
 
-void __fastcall FUN_00a68e30(void* pThis);
-void __fastcall FUN_00a5a390(void* pThis);
 
 class BSShaderLightingProperty
 {
@@ -189,10 +221,10 @@ class NiDynamicEffect
     virtual void vfn_0();
     __forceinline ~NiDynamicEffect()
     {
-        FUN_00a68e30(this);
+        reinterpret_cast<::FUN_00a68e30_shell *>((this))->FUN_00a68e30();
         reinterpret_cast<BSShaderLightingProperty*>(reinterpret_cast<char*>(this) + 0xb8)->ClearLights();
         reinterpret_cast<BSShaderLightingProperty*>(reinterpret_cast<char*>(this) + 0xac)->ClearLights();
-        FUN_00a5a390(this);
+        reinterpret_cast<::FUN_00a5a390_shell *>((this))->FUN_00a5a390();
     }
 };
 
@@ -202,21 +234,19 @@ void __fastcall DestroyDynamicEffect(NiDynamicEffect* apEffect)
     apEffect->~NiDynamicEffect();
 }
 
-bool __fastcall VisitSkinGraphLinks(void* pThis, int, NiStream& kStream);
 
 // @fnv 0x00a6c680
 bool __fastcall FUN_00a6c680(void* pThis, int edx, NiStream& kStream)
 {
-    if (!VisitSkinGraphLinks(pThis, edx, kStream))
+    if (!reinterpret_cast<::SkinGraph *>((pThis))->VisitSkinGraphLinks((*(::NiStream *)(edx))))
         return false;
     return true;
 }
 
-extern const char* const g_011f4a28_arg1;
 // @fnv 0x00a69060
 const char* const* FUN_00a69060()
 {
-    return &g_011f4a28_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_011f4988));
 }
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
@@ -247,11 +277,10 @@ int FUN_00a6a000()
 }
 
 struct GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_011f49a4;
 // @fnv 0x00a6a140
 GlobalObjectO2_00a7b610* FUN_00a6a140()
 {
-    return &g_011f49a4;
+    return &::g_011f49a4;
 }
 
 struct NiObject;
@@ -273,7 +302,6 @@ struct FUN_00a6c610_shell : public NiTexturingProperty
 
 struct NiObject
 {
-    void CopyMembersStream(NiObject*, CloningProcess*);
 };
 struct FUN_00a6bb00_holder
 {
@@ -288,7 +316,7 @@ NiObject* FUN_00a6c610_shell::CloneTexturingProperty(CloningProcess* pCloningPro
         reinterpret_cast<FUN_00a6bb00_holder*>(this)->CloneTo(p, pCloningProcess);
         return reinterpret_cast<NiObject*>(p);
     }
-    reinterpret_cast<NiObject*>(this)->CopyMembersStream(reinterpret_cast<NiObject*>(this), pCloningProcess);
+    reinterpret_cast<::FUN_00a5d450_class *>((reinterpret_cast<NiObject*>(this)))->CreateVertexBufferSet((unsigned int)(reinterpret_cast<NiObject*>(this)), pCloningProcess);
     return reinterpret_cast<NiObject*>(this);
 }
 
@@ -300,7 +328,6 @@ struct Elem4
 };
 struct EqObj
 {
-    bool FUN_00a864d0(EqObj*);
     unsigned int m_auiShapeKeys[13];
     unsigned int m_uiCount;
     Elem4* m_pElems;
@@ -309,7 +336,7 @@ struct EqObj
 // @fnv 0x00a6c6a0
 bool __fastcall FUN_00a6c6a0(EqObj* self, int, EqObj* other)
 {
-    if (!self->FUN_00a864d0(other))
+    if (!reinterpret_cast<::FUN_00a864d0_Class *>((self))->FUN_00a864d0((::A46BB0Object *)(other)))
         return false;
     if (self->m_uiCount != other->m_uiCount)
         return false;
@@ -323,8 +350,6 @@ bool __fastcall FUN_00a6c6a0(EqObj* self, int, EqObj* other)
     return true;
 }
 
-int NiSprintf(char* dst, int size, const char* fmt, ...);
-void* NiMalloc(unsigned int size);
 extern "C" size_t __cdecl strlen(const char*);
 
 // Allocates a string and formats prefix with a texture address-mode suffix selected by mode, defaulting to UNKNOWN!!!.
@@ -336,36 +361,35 @@ char* BuildTextureAddressModeString(const char* prefix, int mode)
     {
         len = strlen(prefix);
     }
-    result = (char*)NiMalloc(len + 0x14);
+    result = (char*)::FUN_00aa1070(len + 0x14);
     switch (mode)
     {
     case 0:
-        NiSprintf(result, len + 0x14, "%s = CLAMP_S_CLAMP_T", prefix);
+        ::NiSprintf(result, len + 0x14, "%s = CLAMP_S_CLAMP_T", prefix);
         break;
     case 1:
-        NiSprintf(result, len + 0x14, "%s = CLAMP_S_WRAP_T", prefix);
+        ::NiSprintf(result, len + 0x14, "%s = CLAMP_S_WRAP_T", prefix);
         break;
     case 2:
-        NiSprintf(result, len + 0x14, "%s = WRAP_S_CLAMP_T", prefix);
+        ::NiSprintf(result, len + 0x14, "%s = WRAP_S_CLAMP_T", prefix);
         break;
     case 3:
-        NiSprintf(result, len + 0x14, "%s = WRAP_S_WRAP_T", prefix);
+        ::NiSprintf(result, len + 0x14, "%s = WRAP_S_WRAP_T", prefix);
         break;
     default:
-        NiSprintf(result, len + 0x14, "%s = UNKNOWN!!!", prefix);
+        ::NiSprintf(result, len + 0x14, "%s = UNKNOWN!!!", prefix);
         break;
     }
     return result;
 }
 
-int _NiStricmp(const char*, const char*);
 inline bool MapNameEqual(const char* a, const char* b)
 {
     if (a == b)
         return true;
     if (!b || !a)
         return false;
-    return _NiStricmp(a, b) == 0;
+    return ::NiStricmp(a, b) == 0;
 }
 // Searches the ten texture map handles for one matching pkName and, on a match, stores its index in puiID and returns true.
 // @fnv 0x00a69d80
@@ -386,22 +410,10 @@ struct S8
 {
     int _p[4];
     int _v;
-    bool IsEquivalent(S8*);
     unsigned char FUN_00a69f50(S8*);
 };
-// Returns 0 if IsEquivalent fails, otherwise returns whether _v equals o->_v.
-// @fnv 0x00a69f50
-unsigned char S8::FUN_00a69f50(S8* pOther)
-{
-    if (!IsEquivalent(pOther))
-        return 0;
-    return _v == pOther->_v;
-}
-
-void __cdecl _NiFreeAlias(void*);
 struct DeallocHelper
 {
-    void _DeallocateAlias(void*);
 };
 extern int DAT_0109c394;
 struct S00a6a050
@@ -415,17 +427,15 @@ void* S00a6a050::FUN_00a6a050(unsigned int auiFlags)
 {
     void* t = p;
     vf = (void*)&DAT_0109c394;
-    _NiFreeAlias(t);
+    ::FUN_00aa10f0(t);
     if (auiFlags & 1)
-        ((DeallocHelper*)&g_memoryManager)->_DeallocateAlias(this);
+        reinterpret_cast<::FNV_MemoryManager *>((((DeallocHelper*)&::g_memoryManager)))->FUN_00aa4060(this);
     return this;
 }
 
-void _NiFreeAlias(void*);
 extern int DAT_0109c39c;
 struct DeallocHack
 {
-    void _DeallocateAlias(void*);
 };
 struct Holder
 {
@@ -439,25 +449,23 @@ void* Holder::FUN_00a6a080(unsigned int auiFlags)
 {
     void* p = f1;
     f0 = (void*)&DAT_0109c39c;
-    _NiFreeAlias(p);
+    ::FUN_00aa10f0(p);
     if (auiFlags & 1)
-        ((DeallocHack*)&g_memoryManager)->_DeallocateAlias(this);
+        reinterpret_cast<::FNV_MemoryManager *>((((DeallocHack*)&::g_memoryManager)))->FUN_00aa4060(this);
     return this;
 }
 
 namespace fnv_00a6ab90 {
 struct Holder
 {
-    void NiTexturingPropertyDestructor();
     void* DestroyIfFlagged(unsigned int);
 };
-void __cdecl _delete(void*, unsigned int);
 // @fnv 0x00a6ab90
 void* Holder::DestroyIfFlagged(unsigned int flags)
 {
-    NiTexturingPropertyDestructor();
+    ::NiTexturingPropertyDestructor((::NiTexturingProperty *)this);
     if (flags & 1)
-        _delete(this, 0x30);
+        ::FUN_00aa1460(this, 0x30);
     return this;
 }
 }  // namespace fnv_00a6ab90
@@ -482,8 +490,6 @@ void MyThis::LoadMapBinary(NiStream& stream)
     input->pos += input->read(input, (char*)this + 0x10, 4, &size, 1);
 }
 
-extern void* DAT_0126f580[];
-extern int DAT_0126f594;
 struct FakeVT
 {
     void* _p[37];
@@ -506,16 +512,16 @@ bool NiDX92DBufferData::SetTextureSlot(void* pDev, unsigned int auiIndex)
     void* pTexture = m1;
     if (pTexture)
     {
-        if (auiIndex > (unsigned int)DAT_0126f594)
+        if (auiIndex > (unsigned int)::g_dsAE7D6B0)
             return false;
         if (m2)
             pTexture = m2;
-        if (pTexture != DAT_0126f580[auiIndex])
+        if (pTexture != (*reinterpret_cast<void * (*)[]>(&::DAT_0126f580))[auiIndex])
         {
             long hr = ((FakeDev*)pDev)->vt->SetTexture(pDev, auiIndex, pTexture);
             if (hr < 0)
                 return false;
-            DAT_0126f580[auiIndex] = pTexture;
+            (*reinterpret_cast<void * (*)[]>(&::DAT_0126f580))[auiIndex] = pTexture;
         }
         return true;
     }
@@ -526,20 +532,8 @@ struct S_A69F80
 {
     char _pad[16];
     float m_10;
-    bool IsEquivalent(S_A69F80*);
     bool MatchesValue(S_A69F80*);
 };
-// Returns true if IsEquivalent succeeds and m_10 equals pkObject->m_10, otherwise false.
-// @fnv 0x00a69f80
-bool S_A69F80::MatchesValue(S_A69F80* pkObject)
-{
-    if (!IsEquivalent(pkObject))
-        return false;
-    if (m_10 != pkObject->m_10)
-        return false;
-    return true;
-}
-
 namespace fnv_00a6bac0 {
 struct MapBase
 {
@@ -590,8 +584,6 @@ bool S8::FUN_00a69ed0(S8* apOther)
 }
 }  // namespace fnv_00a69ed0
 
-void* _NiMalloc(unsigned int);
-int _NiSprintf(char*, unsigned int, const char*, ...);
 
 // Allocates a string sized to pcPrefix plus 30 and formats it as "<pcPrefix> = FILTER_..." based on eMode, defaulting to UNKNOWN!!!.
 // @fnv 0x00a69c50
@@ -601,44 +593,44 @@ char* BuildFilterModeString(const char* pcPrefix, unsigned int eMode)
     unsigned int uiBufferSize;
 
     uiBufferSize = static_cast<unsigned int>(strlen(pcPrefix)) + 30;
-    pcString = static_cast<char*>(_NiMalloc(uiBufferSize));
+    pcString = static_cast<char*>(::FUN_00aa1070(uiBufferSize));
 
     switch (eMode)
     {
     case 0:
-        _NiSprintf(pcString, uiBufferSize, "%s = FILTER_NEAREST", pcPrefix);
+        ::NiSprintf(pcString, uiBufferSize, "%s = FILTER_NEAREST", pcPrefix);
         break;
 
     case 1:
-        _NiSprintf(pcString, uiBufferSize, "%s = FILTER_BILERP", pcPrefix);
+        ::NiSprintf(pcString, uiBufferSize, "%s = FILTER_BILERP", pcPrefix);
         break;
 
     case 2:
-        _NiSprintf(pcString, uiBufferSize, "%s = FILTER_TRILERP", pcPrefix);
+        ::NiSprintf(pcString, uiBufferSize, "%s = FILTER_TRILERP", pcPrefix);
         break;
 
     case 3:
-        _NiSprintf(pcString, uiBufferSize, "%s = FILTER_NEAREST_MIPNEAREST", pcPrefix);
+        ::NiSprintf(pcString, uiBufferSize, "%s = FILTER_NEAREST_MIPNEAREST", pcPrefix);
         break;
 
     case 4:
-        _NiSprintf(pcString, uiBufferSize, "%s = FILTER_NEAREST_MIPLERP", pcPrefix);
+        ::NiSprintf(pcString, uiBufferSize, "%s = FILTER_NEAREST_MIPLERP", pcPrefix);
         break;
 
     case 5:
-        _NiSprintf(pcString, uiBufferSize, "%s = FILTER_BILERP_MIPNEAREST", pcPrefix);
+        ::NiSprintf(pcString, uiBufferSize, "%s = FILTER_BILERP_MIPNEAREST", pcPrefix);
         break;
 
     case 6:
-        _NiSprintf(pcString, uiBufferSize, "%s = FILTER_ANISO", pcPrefix);
+        ::NiSprintf(pcString, uiBufferSize, "%s = FILTER_ANISO", pcPrefix);
         break;
 
     case 7:
-        _NiSprintf(pcString, uiBufferSize, "%s = FILTER_MAGLERP_MINANISO", pcPrefix);
+        ::NiSprintf(pcString, uiBufferSize, "%s = FILTER_MAGLERP_MINANISO", pcPrefix);
         break;
 
     default:
-        _NiSprintf(pcString, uiBufferSize, "%s = UNKNOWN!!!", pcPrefix);
+        ::NiSprintf(pcString, uiBufferSize, "%s = UNKNOWN!!!", pcPrefix);
         break;
     }
 
@@ -709,14 +701,13 @@ class NiTexture
 
 struct FUN_00a6a560_cls : public NiTexturingProperty
 {
-    bool FUN_00a62130(unsigned int);
     bool ApplyTextures(unsigned int uiArg);
 };
 
 // @fnv 0x00a6a560
 bool FUN_00a6a560_cls::ApplyTextures(unsigned int uiArg)
 {
-    if (!FUN_00a62130(uiArg))
+    if (!::FUN_00a62130((void *)this, uiArg, {}))
     {
         return false;
     }
@@ -750,8 +741,6 @@ bool FUN_00a6a560_cls::ApplyTextures(unsigned int uiArg)
     return true;
 }
 
-void* NiMalloc(unsigned int size);
-NiTexture* FUN_00a5ff10(void* pkPrefs, const char* pcName, void* pkOther);
 
 typedef NiTArray<BGSCameraPath*, NiTMallocInterface<BGSCameraPath*> > CamPathArray;
 
@@ -778,13 +767,13 @@ struct TexMapArrayBase
         m_usSize = 0;
         m_usESize = 0;
         if (m_usMaxSize > 0)
-            m_pBase = (NiTexturingProperty::Map**)NiMalloc(sizeof(NiTexturingProperty::Map*) * m_usMaxSize);
+            m_pBase = (NiTexturingProperty::Map**)::FUN_00aa1070(sizeof(NiTexturingProperty::Map*) * m_usMaxSize);
         else
             m_pBase = 0;
     }
     void SetAt(unsigned int i, NiTexturingProperty::Map* map)
     {
-        reinterpret_cast<CamPathArray*>(this)->SetAt(i, reinterpret_cast<BGSCameraPath*&>(map));
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((reinterpret_cast<CamPathArray*>(this)))->SetAt(i, (char *&)(reinterpret_cast<BGSCameraPath*&>(map)));
     }
 };
 
@@ -805,7 +794,7 @@ struct TexMapStub
                TextureMapTransform* pkXform) throw();
     static void* operator new(unsigned int n)
     {
-        return g_memoryManager.Allocate(n);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
     }
 };
 
@@ -823,7 +812,7 @@ FUN_00a6abb0::FUN_00a6abb0(void* pkPrefs, NiFixedString& kName, void* pkOther) :
 {
     m_pShaderMaps = 0;
     const char* pcName = kName.m_kHandle;
-    NiTexture* pkTexture = FUN_00a5ff10(pkPrefs, pcName, pkOther);
+    NiTexture* pkTexture = ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(pkPrefs), (void *)(pcName), (const ::fnv_00a5ff10::OwnerTriple *)(pkOther))));
     m_kStringArray.SetAt(0, (NiTexturingProperty::Map*)new TexMapStub(pkTexture, 0, 3, 1, 0));
     m_kStringArray.SetAt(1, 0);
     m_kStringArray.SetAt(2, 0);
@@ -881,7 +870,7 @@ struct NiTexturingPropertySave : public NiTexturingProperty
 // @fnv 0x00a6b250
 void NiTexturingPropertySave::FUN_00a6b250(NiStream& kStream)
 {
-    reinterpret_cast<NiPropertySaveStub*>(this)->SaveBinary(kStream);
+    ::FUN_00a5d7b0();
 
     SerializeValue(kStream, m_uiObjectFlags);
 
@@ -1140,7 +1129,7 @@ void A6B830Helper::FUN_00a6b830(A6B830Stream& kStream)
     bool bHasChild = m_pkChild != 0;
     A6B830SaveBinary(kStream, bHasChild);
     if (m_pkChild)
-        m_pkChild->SaveBinary(kStream);
+        reinterpret_cast<::FUN_00a88f80_cls *>((m_pkChild))->FUN_00a88f80((::NiStream &)(kStream));
 }
 
 // NiTexturingProperty::BumpMap::LoadBinary
@@ -1341,14 +1330,13 @@ struct S_00a6b9a0
     unsigned int unk1c;
     unsigned int unk20;
     unsigned int unk24;
-    void FUN_00a6b830(S_00a6b9a0_Stream*);
     void ReadFromStream(S_00a6b9a0_Stream* s);
 };
 // Calls FUN_00a6b830, then reads six 4-byte values from the stream into unk10 through unk24.
 // @fnv 0x00a6b9a0
 void S_00a6b9a0::ReadFromStream(S_00a6b9a0_Stream* pStream)
 {
-    FUN_00a6b830(pStream);
+    reinterpret_cast<::A6B830Helper *>(this)->FUN_00a6b830((*(::A6B830Stream *)(pStream)));
     pStream->unk250->Read(&unk10, 4);
     pStream->unk250->Read(&unk14, 4);
     pStream->unk250->Read(&unk18, 4);
@@ -1406,7 +1394,6 @@ class A9E60Object
 class A9E60Data
 {
   public:
-    bool IsDifferent(A9E60Data* pkOther);
 };
 
 class A9E60Desc
@@ -1420,6 +1407,24 @@ class A9E60Desc
 
     bool IsEquivalent(const A9E60Desc& kOther) const;
 };
+// Returns 0 if IsEquivalent fails, otherwise returns whether _v equals o->_v.
+// @fnv 0x00a69f50
+unsigned char S8::FUN_00a69f50(S8* pOther)
+{
+    if (!reinterpret_cast<::A9E60Desc *>(this)->IsEquivalent((*(const ::A9E60Desc *)(pOther))))
+        return 0;
+    return _v == pOther->_v;
+}
+// Returns true if IsEquivalent succeeds and m_10 equals pkObject->m_10, otherwise false.
+// @fnv 0x00a69f80
+bool S_A69F80::MatchesValue(S_A69F80* pkObject)
+{
+    if (!reinterpret_cast<::A9E60Desc *>(this)->IsEquivalent((*(const ::A9E60Desc *)(pkObject))))
+        return false;
+    if (m_10 != pkObject->m_10)
+        return false;
+    return true;
+}
 
 // @fnv 0x00a69e60
 bool A9E60Desc::IsEquivalent(const A9E60Desc& kOther) const
@@ -1432,7 +1437,7 @@ bool A9E60Desc::IsEquivalent(const A9E60Desc& kOther) const
         return false;
     if (m_spTransformData && kOther.m_spTransformData)
     {
-        if (m_spTransformData->IsDifferent(kOther.m_spTransformData))
+        if (((bool)(reinterpret_cast<::FUN_00a88c60_Class *>(((m_spTransformData).operator->()))->FUN_00a88c60((::FUN_00a88c60_Class *)(::A9E60Data *)(kOther.m_spTransformData)))))
             return false;
     }
     else
@@ -1464,8 +1469,8 @@ void __fastcall NiTexturingPropertyDestructor(NiTexturingProperty* pThis)
         delete pThis->m_pShaderMaps;
     }
     *reinterpret_cast<void**>(&pThis->m_kStringArray) = &DAT_0109c394;
-    _NiFreeAlias(pThis->m_kStringArray.m_pBase);
-    pThis->NiProperty::~NiProperty();
+    ::FUN_00aa10f0(pThis->m_kStringArray.m_pBase);
+    reinterpret_cast<::FUN_00a5c240_shell *>((pThis))->DestroyFogProperty();
 }
 
 struct Sub2c
@@ -1491,14 +1496,13 @@ struct FUN_00a6a5f0_cls
     unsigned short m_26;
     unsigned char unk28[4];
     Sub2c* m_2c;
-    bool FUN_00a62140(FUN_00a6a5f0_cls*);
     bool Equals(FUN_00a6a5f0_cls* other);
 };
 
 // @fnv 0x00a6a5f0
 bool FUN_00a6a5f0_cls::Equals(FUN_00a6a5f0_cls* other)
 {
-    if (!FUN_00a62140(other))
+    if (!reinterpret_cast<::EqBase *>(this)->FUN_00a62140(other))
         return false;
     if (m_18 != other->m_18)
         return false;
@@ -1526,7 +1530,7 @@ bool FUN_00a6a5f0_cls::Equals(FUN_00a6a5f0_cls* other)
             }
             else
             {
-                if (!reinterpret_cast<S8*>(a)->IsEquivalent(reinterpret_cast<S8*>(b)))
+                if (!reinterpret_cast<::A9E60Desc *>((reinterpret_cast<S8*>(a)))->IsEquivalent((*(const ::A9E60Desc *)(reinterpret_cast<S8*>(b)))))
                     goto fail;
             }
         }
@@ -1566,7 +1570,6 @@ fail:
     return false;
 }
 
-void* NiMalloc(unsigned int size);
 
 struct A6A990Base
 {
@@ -1585,7 +1588,7 @@ struct A6A990Base
         if (m_usMaxSize > 0)
         {
             unsigned int uiBytes = m_usMaxSize;
-            m_pBase = NiMalloc(sizeof(void*) * uiBytes);
+            m_pBase = ::FUN_00aa1070(sizeof(void*) * uiBytes);
         }
         else
             m_pBase = 0;
@@ -1620,14 +1623,14 @@ struct StrArr
     {
         unsigned int index = m_usSize;
         if (index >= m_usMaxSize)
-            SetSize(index + m_usGrowBy);
-        SetAt(index, value);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(index + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(index, value);
     }
     __forceinline void AppendInline(char* value)
     {
         unsigned int index = m_usSize;
         if (index >= m_usMaxSize)
-            SetSize(index + m_usGrowBy);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(index + m_usGrowBy);
         if (index >= m_usSize)
         {
             m_usSize = (unsigned short)(index + 1);
@@ -1645,8 +1648,8 @@ struct StrArr
     }
     __forceinline void Add(char*& value)
     {
-        reinterpret_cast<NiTPrimitiveArray_unsigned_int_*>(this)->AddFirstEmpty(
-            reinterpret_cast<const unsigned int&>(value));
+        reinterpret_cast<::S_0060ba10 *>((reinterpret_cast<NiTPrimitiveArray_unsigned_int_*>(this)))->FUN_0096a610(
+            (int)&(reinterpret_cast<const unsigned int&>(value)));
     }
 };
 
@@ -1654,15 +1657,7 @@ struct GlobalObjectO2_00a7b610
 {
     char* m_pcName;
 };
-extern GlobalObjectO2_00a7b610 g_011f49a4;
-int __cdecl NiSprintf(char*, unsigned int, const char*, ...);
 char* BuildTextureAddressModeString(const char*, int);
-char* BuildFilterModeString(const char*, int);
-char* FUN_00a7d330(char*);
-char* FUN_00a7d4d0(const char*, int);
-char* FUN_00a7d510(const char*, unsigned int);
-char* FUN_00a7d550(const char*, float);
-char* FUN_00a7d5a0(const char*, void*);
 struct FUN_00a62a40_this
 {
     void AppendString(StrArr*);
@@ -1710,7 +1705,7 @@ void PropertyViewer::AppendPropertyInfo(StrArr* strings)
 {
     reinterpret_cast<FUN_00a62a40_this*>(this)->AppendString(strings);
     {
-        char* header = FUN_00a7d330(g_011f49a4.m_pcName);
+        char* header = ::FUN_00a7d330(::g_011f49a4.m_pcName);
         strings->Append(header);
     }
     unsigned int count = m_kStringArray.m_usSize;
@@ -1723,7 +1718,7 @@ void PropertyViewer::AppendPropertyInfo(StrArr* strings)
         };
         char acApplyMode[64];
         char acDecalLabel[64];
-        NiSprintf(acApplyMode, 64, "ApplyMode ");
+        ::NiSprintf(acApplyMode, 64, "ApplyMode ");
         int mode = (m_uiObjectFlags >> 1) & 7;
         text = FUN_00a7d4d0(acApplyMode, mode);
         strings->Append(text);
@@ -1791,23 +1786,23 @@ void PropertyViewer::AppendPropertyInfo(StrArr* strings)
                 break;
             }
             default: {
-                NiSprintf(acDecalLabel, 64, "MultiTexture Decal Map %d", i - 8);
+                ::NiSprintf(acDecalLabel, 64, "MultiTexture Decal Map %d", i - 8);
                 text = FUN_00a7d510(acDecalLabel, i);
                 strings->Append(text);
                 break;
             }
             }
-            NiSprintf(prefix, 64, "m_spTexture ");
+            ::NiSprintf(prefix, 64, "m_spTexture ");
             void* tex = map->m_spTexture.m_pObject;
             text = FUN_00a7d5a0(prefix, tex);
             strings->Append(text);
-            NiSprintf(prefix, 64, "Clamp Mode ");
+            ::NiSprintf(prefix, 64, "Clamp Mode ");
             text = BuildTextureAddressModeString(prefix, static_cast<MapEx*>(map)->GetClampMode());
             strings->Append(text);
-            NiSprintf(prefix, 64, "Filter Mode");
-            text = BuildFilterModeString(prefix, static_cast<MapEx*>(map)->GetFilterMode());
+            ::NiSprintf(prefix, 64, "Filter Mode");
+            text = ::BuildFilterModeString(prefix, static_cast<MapEx*>(map)->GetFilterMode());
             strings->Append(text);
-            NiSprintf(prefix, 64, "Texture Coord Index ");
+            ::NiSprintf(prefix, 64, "Texture Coord Index ");
             unsigned int uiTexCoordIndex = static_cast<MapEx*>(map)->GetTextureIndex();
             text = FUN_00a7d510(prefix, uiTexCoordIndex);
             strings->Append(text);
@@ -1824,15 +1819,15 @@ void PropertyViewer::AppendPropertyInfo(StrArr* strings)
             strings->AppendInline(FUN_00a7d510("Shader Map", j));
             unsigned int uiShaderID = map->m_uiID;
             strings->AppendInline(FUN_00a7d510("m_uiID", uiShaderID));
-            NiSprintf(prefix, 64, "m_spTexture ");
+            ::NiSprintf(prefix, 64, "m_spTexture ");
             void* pShaderTexture = map->m_spTexture.m_pObject;
             strings->AppendInline(FUN_00a7d5a0(prefix, pShaderTexture));
-            NiSprintf(prefix, 64, "Clamp Mode ");
+            ::NiSprintf(prefix, 64, "Clamp Mode ");
             strings->AppendInline(
                 BuildTextureAddressModeString(prefix, static_cast<ShaderMapEx*>(map)->GetClampMode()));
-            NiSprintf(prefix, 64, "Filter Mode");
-            strings->AppendInline(BuildFilterModeString(prefix, static_cast<ShaderMapEx*>(map)->GetFilterMode()));
-            NiSprintf(prefix, 64, "Texture Coord Index ");
+            ::NiSprintf(prefix, 64, "Filter Mode");
+            strings->AppendInline(::BuildFilterModeString(prefix, static_cast<ShaderMapEx*>(map)->GetFilterMode()));
+            ::NiSprintf(prefix, 64, "Texture Coord Index ");
             unsigned int uiShaderTexCoordIndex = static_cast<ShaderMapEx*>(map)->GetTextureIndex();
             strings->AppendInline(FUN_00a7d510(prefix, uiShaderTexCoordIndex));
         }
@@ -1895,12 +1890,11 @@ struct LinkArray
     }
     void SetAt(unsigned int i, LinkMap*& value)
     {
-        FUN_0096ae90(i, value);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(i, (char *&)(value));
     }
-    void FUN_00a90180(unsigned int n);
     void SetSize(unsigned int n)
     {
-        FUN_00a90180(n);
+        reinterpret_cast<::FUN_00a41520_cls *>(this)->FUN_00a90180(n);
     }
     void SetAtGrow(unsigned int i, LinkMap*& value)
     {
@@ -1911,8 +1905,6 @@ struct LinkArray
 };
 struct LinkStream : NiStream
 {
-    unsigned int FUN_00a63460();
-    LinkTexture* FUN_00a63430();
 };
 struct LinkProperty
 {
@@ -1925,7 +1917,6 @@ struct LinkProperty
     unsigned short flags;
     LinkArray maps;
     LinkArray* shaderMaps;
-    void FUN_00a47360(LinkStream&);
     void IncrementCount()
     {
         flags = (flags & 0xf00f) | (((((flags >> 4) & 255) + 1) << 4));
@@ -1936,16 +1927,16 @@ struct LinkProperty
 // @fnv 0x00a6a240
 void LinkProperty::LoadFromStream(LinkStream& stream)
 {
-    FUN_00a47360(stream);
-    unsigned int count = stream.FUN_00a63460();
+    ::FUN_00a47360();
+    unsigned int count = reinterpret_cast<::FUN_00a63460_shell *>(&(stream))->FUN_00a63460();
     unsigned int i;
     flags &= 0xf00f;
     for (i = 0; i < count; ++i)
     {
-        if (stream.FUN_00a63460())
+        if (reinterpret_cast<::FUN_00a63460_shell *>(&(stream))->FUN_00a63460())
         {
             LinkMap*& map = maps.data[i];
-            map->texture = stream.FUN_00a63430();
+            map->texture = ((::LinkTexture *)(reinterpret_cast<::NiStream *>(&(stream))->GetLoadedObject()));
             if (i >= 8)
                 IncrementCount();
         }
@@ -1998,22 +1989,25 @@ void LinkProperty::LoadFromStream(LinkStream& stream)
     }
     if (stream.m_uiNifVersion >= 0x5000011)
     {
-        count = stream.FUN_00a63460();
+        count = reinterpret_cast<::FUN_00a63460_shell *>(&(stream))->FUN_00a63460();
         for (i = 0; i < count; ++i)
         {
-            if (stream.FUN_00a63460())
+            if (reinterpret_cast<::FUN_00a63460_shell *>(&(stream))->FUN_00a63460())
             {
                 LinkMap*& map = shaderMaps->data[i];
-                map->texture = stream.FUN_00a63430();
+                map->texture = ((::LinkTexture *)(reinterpret_cast<::NiStream *>(&(stream))->GetLoadedObject()));
             }
         }
     }
 }
 
 struct NiStream;
+class NiStream;
 struct NiSkinInstance
 {
     virtual void FUN_00a6c670(NiStream&);
+public:
+    void LinkObject(::NiStream &);
 };
 struct BSDismemberSkinInstance : NiSkinInstance
 {
@@ -2022,7 +2016,7 @@ struct BSDismemberSkinInstance : NiSkinInstance
 // @fnv 0x00a6c670
 void BSDismemberSkinInstance::FUN_00a6c670(NiStream& stream)
 {
-    NiSkinInstance::FUN_00a6c670(stream);
+    reinterpret_cast<::NiSkinInstance *>(this)->LinkObject(stream);
 }
 
 // @fnv 0x00e7cd40
@@ -2084,13 +2078,10 @@ struct S00a6a150_Arr
     unsigned short unk0a;
     unsigned short unk0c;
     unsigned short unk0e;
-    void FUN_0096ae90(unsigned int index, NiTexturingProperty::Map*& value);
-    void FUN_00a90180(unsigned int size);
 };
 
 struct S00a6a150_Tex : public NiTexturingProperty
 {
-    void FUN_00a69b40(NiTexturingProperty::Map* value);
     void FUN_00a6a150(unsigned int index, NiTexturingProperty::Map* map);
 };
 
@@ -2123,7 +2114,7 @@ void S00a6a150_Tex::FUN_00a6a150(unsigned int index, NiTexturingProperty::Map* m
         }
 
         newMap = map;
-        reinterpret_cast<S00a6a150_Arr*>(&m_kStringArray)->FUN_0096ae90(position, map);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((reinterpret_cast<S00a6a150_Arr*>(&m_kStringArray)))->SetAt(position, (char *&)(map));
 
         if (oldMap != 0)
         {
@@ -2135,10 +2126,10 @@ void S00a6a150_Tex::FUN_00a6a150(unsigned int index, NiTexturingProperty::Map* m
         S00a6a150_Arr* maps = reinterpret_cast<S00a6a150_Arr*>(&m_kStringArray);
         if (position >= m_kStringArray.m_usMaxSize)
         {
-            maps->FUN_00a90180(position + maps->unk0e);
+            reinterpret_cast<::FUN_00a41520_cls *>((maps))->FUN_00a90180(position + maps->unk0e);
         }
 
-        maps->FUN_0096ae90(position, map);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((maps))->SetAt(position, (char *&)(map));
         newMap = map;
 
         if (newMap != 0)
@@ -2150,7 +2141,7 @@ void S00a6a150_Tex::FUN_00a6a150(unsigned int index, NiTexturingProperty::Map* m
         }
     }
 
-    FUN_00a69b40(newMap);
+    reinterpret_cast<::FUN_00a69b40_Class *>(this)->FUN_00a69b40((int)(newMap));
 }
 
 namespace fnv_00a6bb00 {
@@ -2165,7 +2156,7 @@ struct TexMap
     static void operator delete(void*, void*);
     static void* operator new(unsigned int n)
     {
-        return g_memoryManager.Allocate(n);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
     }
 };
 struct TexBumpMap : TexMap
@@ -2194,8 +2185,8 @@ struct TexMapArray
     void SetAtGrow(unsigned int i, TexMap* const& v)
     {
         if (i >= m_usMaxSize)
-            SetSize(i + m_usGrowBy);
-        SetAt(i, v);
+            reinterpret_cast<::FUN_00a41520_cls *>(this)->FUN_00a90180(i + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(i, (char *&)(v));
     }
 };
 struct TexShaderMapArrayBase
@@ -2220,7 +2211,7 @@ struct TexShaderMapArray : TexShaderMapArrayBase
     virtual ~TexShaderMapArray();
     static void* operator new(unsigned int n)
     {
-        return g_memoryManager.Allocate(n);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
     }
     void SetAt(unsigned int i, TexShaderMap*& value)
     {
@@ -2242,7 +2233,7 @@ struct TexShaderMapArray : TexShaderMapArrayBase
     void SetAtGrow(unsigned int i, TexShaderMap*& value)
     {
         if (i >= m_usMaxSize)
-            SetSize(i + m_usGrowBy);
+            reinterpret_cast<::FUN_00a41520_cls *>(this)->FUN_00a90180(i + m_usGrowBy);
         SetAt(i, value);
     }
 };
@@ -2257,7 +2248,6 @@ struct TexProp
     unsigned short m_uiObjectFlags;
     TexMapArray m_kStringArray;
     TexShaderMapArray* m_pShaderMaps;
-    void FUN_00a5d7a0(TexProp* pkDest, CloneProc& kCloning);
     void SetTextureMapAtIndex(unsigned int i, TexMap* pkMap)
     {
         m_kStringArray.SetAtGrow(i, pkMap);
@@ -2284,10 +2274,10 @@ struct TexProp
 // @fnv 0x00a6bb00
 void TexProp::CloneTo(TexProp* pkDest, CloneProc& kCloning)
 {
-    FUN_00a5d7a0(pkDest, kCloning);
+    ::FUN_00a5d7a0();
     pkDest->m_uiObjectFlags = m_uiObjectFlags;
     unsigned int uiSize = m_kStringArray.m_usSize;
-    pkDest->m_kStringArray.SetSize(uiSize);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(pkDest->m_kStringArray))->FUN_00a90180(uiSize);
     unsigned int i;
     for (i = 0; i < uiSize; i++)
     {
@@ -2306,7 +2296,7 @@ void TexProp::CloneTo(TexProp* pkDest, CloneProc& kCloning)
         if (!pkDest->m_pShaderMaps)
             pkDest->m_pShaderMaps = new TexShaderMapArray;
         uiSize = m_pShaderMaps->m_usSize;
-        pkDest->m_pShaderMaps->SetSize(uiSize);
+        reinterpret_cast<::FUN_00a41520_cls *>((pkDest->m_pShaderMaps))->FUN_00a90180(uiSize);
         for (i = 0; i < uiSize; i++)
         {
             if (m_pShaderMaps->m_pBase[i])
@@ -2338,12 +2328,11 @@ class NiTextureRef_a6a9f0
 
 struct DeallocHelper00aa4060
 {
-    void FUN_00aa4060(void* p);
 };
 
 NiTexturingProperty::Map::~Map()
 {
-    reinterpret_cast<DeallocHelper00aa4060*>(&g_memoryManager)->FUN_00aa4060(m_pTextureTransform);
+    reinterpret_cast<::FNV_MemoryManager *>((reinterpret_cast<DeallocHelper00aa4060*>(&::g_memoryManager)))->FUN_00aa4060(m_pTextureTransform);
     if (m_spTexture.m_pObject)
         reinterpret_cast<NiTextureRef_a6a9f0*>(m_spTexture.m_pObject)->DecRefCount();
 }
@@ -2359,6 +2348,6 @@ void* MapScalarDtorCandidate::FUN_00a6a9f0(unsigned int flags)
 {
     this->NiTexturingProperty::Map::~Map();
     if (flags & 1)
-        reinterpret_cast<DeallocHelper00aa4060*>(&g_memoryManager)->FUN_00aa4060(this);
+        reinterpret_cast<::FNV_MemoryManager *>((reinterpret_cast<DeallocHelper00aa4060*>(&::g_memoryManager)))->FUN_00aa4060(this);
     return this;
 }

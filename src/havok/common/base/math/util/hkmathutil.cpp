@@ -2,8 +2,15 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <xmmintrin.h>
-extern float DAT_01011d78;
-extern float DAT_01012068;
+#include "fnv/decl/FUN_00827200_class.h"
+#include "fnv/decl/FUN_00cdf230_cls.h"
+#include "fnv/decl/MalleableGetterStandIn.h"
+#include "fnv/decl/QuatResult.h"
+#include "fnv/decl/RotationRows.h"
+#include "fnv/decl/hkQuaternion.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_simd.h"
 
 struct __declspec(align(16)) S_c7a410_Vec
 {
@@ -11,7 +18,6 @@ struct __declspec(align(16)) S_c7a410_Vec
 };
 struct S_c7a410_A
 {
-    void FUN_00cb26e0(const void* p);
     int unk00;
     int unk04;
     int unk08;
@@ -19,12 +25,10 @@ struct S_c7a410_A
 };
 struct S_c7a410_B
 {
-    void FUN_00cb2d90(const void* p);
     __m128 r[3];
 };
 struct S_c7a410_C
 {
-    void FUN_00c66320(const void* p, S_c7a410_A* a);
     int unk00;
     int unk04;
     int unk08;
@@ -32,8 +36,6 @@ struct S_c7a410_C
 };
 struct S_c7a410_D
 {
-    void FUN_00c74b70(S_c7a410_A* b, S_c7a410_C* c);
-    void FUN_00cb2ca0(const S_c7a410_Vec* v, const void* o, float* out);
     int unk00;
     int unk04;
     int unk08;
@@ -51,8 +53,6 @@ struct S_c7a410_Node
     virtual void v6();
     virtual void v7();
     virtual int GetType();
-    S_c7a410_Node* FUN_00cdf6c0();
-    void FUN_00cdf230(S_c7a410_B* t);
 };
 struct S_c7a410_Item
 {
@@ -103,29 +103,29 @@ void FUN_00c7a410(S_c7a410_Obj* obj, char* apBuffer)
             continue;
         S_c7a410_Node* p = pItem->unk0c;
         if (p->GetType() == 13)
-            p = p->FUN_00cdf6c0();
+            p = ((::S_c7a410_Node *)(reinterpret_cast<::MalleableGetterStandIn *>((p))->FUN_00cdf6c0()));
         switch (p->GetType())
         {
         case 7: {
             S_c7a410_B tTransform;
-            tTransform.FUN_00cb2d90(apBuffer + 0x10 + iIndex * 0x30);
-            p->FUN_00cdf230(&tTransform);
+            reinterpret_cast<::RotationRows *>(&(tTransform))->FUN_00cb2d90((void *)(apBuffer + 0x10 + iIndex * 0x30));
+            reinterpret_cast<::FUN_00cdf230_cls *>((p))->FUN_00cdf230((int)(&tTransform));
             break;
         }
         case 2: {
             S_c7a410_A a;
-            a.FUN_00cb26e0((char*)p + 0x20);
+            reinterpret_cast<::FUN_00827200_class *>(&(a))->FUN_00cb26e0((int)((char*)p + 0x20));
             S_c7a410_A b;
-            b.FUN_00cb26e0((char*)p + 0x60);
+            reinterpret_cast<::FUN_00827200_class *>(&(b))->FUN_00cb26e0((int)((char*)p + 0x60));
             S_c7a410_C c;
-            c.FUN_00c66320(apBuffer + 0x10 + iIndex * 0x30, &a);
+            ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(c), (void *)(apBuffer + 0x10 + iIndex * 0x30), (const ::fnv_00c66320::__m128 *)(::S_c7a410_A *)(&a), {});
             S_c7a410_D d;
-            d.FUN_00c74b70(&b, &c);
+            reinterpret_cast<::QuatResult *>(&(d))->FUN_00c74b70((const float *)(::S_c7a410_A *)(&b), (const float *)(::S_c7a410_C *)(&c));
             S_c7a410_Vec v;
-            _mm_store_ps(&v.x, _mm_setr_ps(DAT_01012068, DAT_01011d78, DAT_01011d78, DAT_01011d78));
+            _mm_store_ps(&v.x, _mm_setr_ps(DAT_01012068, ::DAT_01011d78, ::DAT_01011d78, ::DAT_01011d78));
             float out;
             S_c7a410_A o;
-            d.FUN_00cb2ca0(&v, &o, &out);
+            reinterpret_cast<::hkQuaternion *>(&(d))->FUN_00cb2ca0((*(const ::hkVector4 *)(&v)), (*(::hkQuaternion *)(&o)), (*(float *)(&out)));
             *(float*)((char*)p + 0xac) = out;
             break;
         }

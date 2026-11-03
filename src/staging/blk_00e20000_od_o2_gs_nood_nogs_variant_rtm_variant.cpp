@@ -7,8 +7,13 @@
 // to their real unit once identified.
 // src/staging/blk_00e20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/RotationRows.h"
+#include "fnv/symbols_00450000.h"
 #include "../../include/layout_support.h"
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 struct ConvexShapeStub
 {
     virtual void v00();
@@ -44,7 +49,6 @@ static const __m128 kNegMask = {-0.0f, -0.0f, -0.0f, -0.0f};
 static void FUN_00e2da40(ConvexShapeStub* self, ConvexShapeStub* other, SupportResult* result, const __m128* dir,
                          const TransformStub* xf);
 void CallerOfIt(ConvexShapeStub* s, ConvexShapeStub* o, SupportResult* r, const __m128* d, const TransformStub* x);
-void FUN_00e31180(const float* base, int stride, int count, int mul, int offset, __m128** dst);
 class __declspec(align(16)) hkVector4E3B
 {
   public:
@@ -79,7 +83,6 @@ class hkRotationE3B
 class ChildE3B
 {
   public:
-    void FUN_00cb2d90(const void* pSource);
 };
 class FrameE3B
 {

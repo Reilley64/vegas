@@ -1,5 +1,8 @@
 // bscore/console/bsthread_console.cpp: BSThread (8 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
 #include "bsthread_console_pc.h"
 
 // @fnv 0x00aa6550

@@ -2,6 +2,10 @@
 // src/havok/common/base/math/qstransform/hkqstransform.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/qstransform/hkqstransform.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00827200_class.h"
+#include "fnv/decl/FUN_00cb2050_cls.h"
+#include "fnv/decl/MProduct.h"
+#include "fnv/decl/RotationRows.h"
 struct Matrix
 {
     float values[12];
@@ -34,12 +38,12 @@ bool* Matrix::HasFiniteValues(bool* pbFinite)
 }
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 struct S_00ce5070_Vector4
 {
     __m128 m_vComponents;
 };
 
-extern const S_00ce5070_Vector4 DAT_010c7170;
 
 struct S_00ce5070_Rotation
 {
@@ -57,7 +61,6 @@ struct S_00ce5070_Transform
 struct S_00ce5070_Quaternion
 {
     S_00ce5070_Vector4 m_vec;
-    void FUN_00cb26e0(const S_00ce5070_Rotation& r);
 };
 
 struct S_00ce5070_QsTransform
@@ -73,15 +76,14 @@ struct S_00ce5070_QsTransform
 // @fnv 0x00ce5070
 void S_00ce5070_QsTransform::FUN_00ce5070(const S_00ce5070_Transform& akTransform)
 {
-    m_rotation.FUN_00cb26e0(akTransform.m_rotation);
+    reinterpret_cast<::FUN_00827200_class *>(&(m_rotation))->FUN_00cb26e0((int)&(akTransform.m_rotation));
     m_vTranslation.m_vComponents = akTransform.m_vTranslation.m_vComponents;
-    m_vScale.m_vComponents = DAT_010c7170.m_vComponents;
+    m_vScale.m_vComponents = (*reinterpret_cast<const ::S_00ce5070_Vector4 *>(&::DAT_010c7170)).m_vComponents;
 }
 
 class CB2FC0Object
 {
   public:
-    void FUN_00cb2d90(void* snapshot);
 };
 
 class FUN_00ce50b0_cls
@@ -94,7 +96,7 @@ class FUN_00ce50b0_cls
 void FUN_00ce50b0_cls::FUN_00ce50b0(CB2FC0Object* target)
 {
     Matrix* self = (Matrix*)this;
-    target->FUN_00cb2d90(&self->values[4]);
+    reinterpret_cast<::RotationRows *>((target))->FUN_00cb2d90(&self->values[4]);
     __m128 vMatrix = _mm_load_ps(self->values);
     _mm_store_ps((float*)((char*)target + 0x30), vMatrix);
 }
@@ -106,17 +108,14 @@ struct __declspec(align(16)) Vector
 struct FUN_008cd6a0_Class
 {
     Vector row0, row1, row2;
-    void FUN_00cb2d90(void*);
 };
 struct FUN_00cdf250_class
 {
     Vector row0, row1, row2;
-    void FUN_00cd55b0(int*, int);
 };
 struct TransformMatrix
 {
     Vector row0, row1, row2, row3;
-    void FUN_00cb2050(int);
 };
 struct Transform
 {
@@ -130,7 +129,7 @@ struct Transform
 void Transform::FUN_00ce51f0(int out)
 {
     FUN_008cd6a0_Class rotMatrix;
-    rotMatrix.FUN_00cb2d90(&rotationX);
+    reinterpret_cast<::RotationRows *>(&(rotMatrix))->FUN_00cb2d90(&rotationX);
     FUN_00cdf250_class scaleMatrix;
     *(__m128*)&scaleMatrix.row0 = _mm_setzero_ps();
     scaleMatrix.row0.x = scaleX;
@@ -139,13 +138,13 @@ void Transform::FUN_00ce51f0(int out)
     *(__m128*)&scaleMatrix.row2 = _mm_setzero_ps();
     scaleMatrix.row2.z = scaleZ;
     FUN_00cdf250_class combinedMatrix;
-    combinedMatrix.FUN_00cd55b0((int*)&rotMatrix, (int)&scaleMatrix);
+    reinterpret_cast<::MProduct *>(&(combinedMatrix))->FUN_00cd55b0((*(const ::MProduct *)((int*)&rotMatrix)), (*(const ::MProduct *)((int)&scaleMatrix)));
     TransformMatrix resultMatrix;
     *(__m128*)&resultMatrix.row0 = *(__m128*)&combinedMatrix.row0;
     *(__m128*)&resultMatrix.row1 = *(__m128*)&combinedMatrix.row1;
     *(__m128*)&resultMatrix.row2 = *(__m128*)&combinedMatrix.row2;
     *(__m128*)&resultMatrix.row3 = *(__m128*)&position;
-    resultMatrix.FUN_00cb2050(out);
+    reinterpret_cast<::FUN_00cb2050_cls *>(&(resultMatrix))->FUN_00cb2050((::FUN_00cb2050_cls *)(out));
 }
 
 struct S_00ce5290_Vector4

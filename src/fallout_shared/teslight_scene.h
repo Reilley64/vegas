@@ -3,6 +3,9 @@
 #define FNV_TESLIGHT_SCENE_H
 
 
+#include "fnv/decl/NiObjectNET.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_011f4000.h"
 class NiAVObject;
 class NiNode;
 class NiRTTI;
@@ -25,12 +28,12 @@ class NiAVObject : public NiMemObject
     unsigned char layoutPadding[0x98];
 };
 
+class NiAVObject;
 class NiNode : public NiAVObject
 {
   public:
     unsigned char layoutPadding[0x10];
     unsigned int FUN_0043b480();
-    NiAVObject* FUN_0043b4a0(unsigned int index);
     virtual void vfn_0010();
     virtual void vfn_0014();
     virtual void vfn_0018();
@@ -83,6 +86,8 @@ class NiNode : public NiAVObject
     virtual void vfn_00d4();
     virtual void vfn_00d8();
     virtual void vfn_00dc(NiAVObject* object, bool arg1);
+public:
+    ::NiAVObject *GetAt(unsigned int);
 };
 
 class NiLight : public NiAVObject
@@ -105,7 +110,5 @@ class NiSortAdjustNode : public NiNode
 };
 
 template <class T> unsigned int __cdecl BSStringLength(const T* string);
-bool __cdecl FUN_0043b300(const NiRTTI* type, NiAVObject* object);
-extern NiRTTI DAT_011f4a28;
 
 #endif

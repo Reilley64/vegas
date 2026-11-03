@@ -5,8 +5,15 @@
 
 // src/havok/physics/collide/agent3/predgskagent3/hkppredgskagent3.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/predgskagent3/hkppredgskagent3.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void __cdecl FUN_00d41860(int a, int b, int c, int d);
-void __cdecl ForwardToTarget(int a, int b, int c, int d, int unused);
+#include "fnv/decl/Cls_dafcd0.h"
+#include "fnv/decl/FUN_00cfbd60_cls.h"
+#include "fnv/decl/FUN_00dafe70_cls.h"
+#include "fnv/decl/GapSolver.h"
+#include "fnv/decl/ThisClass.h"
+#include "fnv/symbols_00d40000.h"
+#include "fnv/symbols_00d41000.h"
+#include "fnv/symbols_00dad000.h"
+#include "fnv/symbols_00dae000.h"
 struct InputObject
 {
     void* vtable;
@@ -45,18 +52,9 @@ struct ResultData
     char unk0A;
     unsigned char unk0B;
     int unk0C;
-    void __thiscall FUN_00dafe70(void* a, void* b, void* c);
-    void __thiscall FUN_00dafcd0(void* a, void* b, void* c);
 };
-void* __cdecl DispatchInputRecord(InputData* input, unsigned char* status, ResultData* result);
 // Stand-ins for the script handler functions whose addresses are stored in the
 // handler table (0xd417b0 .. 0xd40d80).  Only declared, never defined.
-extern "C" void __cdecl RemoveEntryById(int a, int b, int c, int d);
-extern "C" void __cdecl InsertSlotId(int a, int b, int c, int d);
-extern "C" void __cdecl FindEntryByKey(int a, int b, int c, int d);
-extern "C" void __cdecl ConvertPairFlags(int a, int b, int c, int d);
-extern "C" void __cdecl FUN_00d41930(int a, int b, int c, int d);
-extern "C" void __cdecl FUN_00d40d80(int a, int b, int c, int d);
 // The handler table that is handed to CScript::RegisterHandler.  It is kept
 // 16 byte aligned, which is what makes the compiler emit the aligned frame
 // prologue of this function.
@@ -86,7 +84,6 @@ struct __declspec(align(16)) HandlerTable
 class CScript
 {
   public:
-    void __thiscall RegisterHandler(HandlerTable* handler, int a, int b);
 };
 void __cdecl RegisterScriptHandlers(void* pScript);
 struct S_00d417b0_Entry
@@ -109,8 +106,6 @@ struct S_00d417b0_Obj
     int unk08;
     S_00d417b0_Sub m_sub;
 };
-void __cdecl FUN_00dae340(S_00d417b0_Sub* sub, int index);
-void __cdecl RemoveEntryById(int a, S_00d417b0_Obj* obj, short id);
 struct Slot
 {
     unsigned short id;
@@ -129,7 +124,6 @@ struct Table
     unsigned short unk10;
     Slot slots[1];
 };
-void __cdecl InsertSlotId(int a, Table* table, unsigned short value);
 struct FUN_00d41830_entry
 {
     unsigned char unk00;
@@ -147,7 +141,6 @@ struct FUN_00d41830_table
     unsigned char unk0F;
     FUN_00d41830_entry entries[8];
 };
-int __cdecl FindEntryByKey(int unused, FUN_00d41830_table* table, unsigned short key);
 // FUN_00d41860 (0x00d41860, 67 bytes)
 //
 // The original routine
@@ -162,13 +155,12 @@ int __cdecl FindEntryByKey(int unused, FUN_00d41830_table* table, unsigned short
 // void return the whole size computation is dead code and MSVC 2008 deletes
 // it, so the value is handed back to the caller from a symbol whose name
 // still contains the required tag "FUN_00d41860".
-extern "C" void __cdecl ReleaseAllEntries(void* p, int obj, int data);
 // @fnv 0x00d41860
 extern "C" int __cdecl FUN_00d41860_impl(int a, int b, int c, int d)
 {
     unsigned char* rec = (unsigned char*)b + 0x0C;
 
-    ReleaseAllEntries(rec, c, d);
+    ::ReleaseAllEntries((::S_00dad640_Set *)(rec), (::S_00dad640_Target *)(c), (void *)(d));
 
     unsigned int count = rec[0] + rec[1] + rec[2] * 4;
 
@@ -323,8 +315,6 @@ struct Gsk_s
     int unk178;
     int unk17C;
 
-    void __thiscall ComputeClosestPoints(hkpConvexShape_s* a, hkpConvexShape_s* b, void* t, void* out);
-    void __thiscall writeToCache(hkpGskCache_s* cache);
 };
 
 struct Input_s
@@ -378,9 +368,9 @@ void __cdecl FUN_00d41930(Input_s* input, int unused, hkpGskCache_s* cache, Outp
     gsk.m_cacheChanged = 0;
     shapeA->GetVerticesForIds(cache->m_kVertices, gsk.m_ucDimensionA, &gsk.unk20);
     shapeB->GetVerticesForIds(&cache->m_kVertices[gsk.m_ucDimensionA], gsk.m_ucDimensionB, &gsk.unkE0);
-    gsk.ComputeClosestPoints(shapeA, shapeB, &input->m_kMotionTransform, &norm);
+    reinterpret_cast<::GapSolver *>(&(gsk))->FUN_00daad40((const ::GapShape *)(shapeA), (const ::GapShape *)(shapeB), (*(const ::GapTransform *)(&input->m_kMotionTransform)), (*(::GapVector *)(&norm)));
     if (gsk.m_cacheChanged)
-        gsk.writeToCache(cache);
+        reinterpret_cast<::ThisClass *>(&(gsk))->FUN_00da9790((::Dest *)(cache));
     const float* rot = (const float*)input->m_pBodyA->m_kMotionState;
     __m128 n = _mm_load_ps(&norm.x);
     __m128 c0 = _mm_load_ps(rot);

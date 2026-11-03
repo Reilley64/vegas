@@ -2,6 +2,11 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <xmmintrin.h>
+#include "fnv/decl/FUN_004b4ab0_Class.h"
+#include "fnv/decl/GapSolver.h"
+#include "fnv/decl/hkTransformCB22.h"
+#include "fnv/symbols_00cf1000.h"
+#include "fnv/symbols_010c9000.h"
 struct S_00db4b50_B
 {
     float unk00;
@@ -127,13 +132,10 @@ struct S_00db4b50_Out
     int unk12c;
 };
 
-void FUN_00cf1710(void* a, float b, float c, void* out);
 struct S_00db4b50_Sub
 {
-    void FUN_00cb22f0(void* p, void* q);
     void FUN_00c7f700(void* p, void* q);
     void FUN_00c7f640(void* p, void* q);
-    void FUN_004b4ab0(void* p, void* q);
 };
 
 __forceinline void S_rotInv(const __m128* r, const __m128* in, int n, __m128* out)
@@ -160,17 +162,17 @@ void FUN_00db4b50(S_00db4b50_A* a, float f, S_00db4b50_Out* out)
 {
     S_00db4b50_B* b = a->unk40;
     float t = b->unk08 * f;
-    FUN_00cf1710(a->unk00 + 0x40, b->unk00, t, out);
-    FUN_00cf1710(a->unk04 + 0x40, b->unk00, t, &out->unk40);
+    ::fnv_00cf1710::FUN_00cf1710((*(const ::fnv_00cf1710::hkSweptTransformL *)(a->unk00 + 0x40)), b->unk00, t, (*(::fnv_00cf1710::hkTransformL *)(out)));
+    ::fnv_00cf1710::FUN_00cf1710((*(const ::fnv_00cf1710::hkSweptTransformL *)(a->unk04 + 0x40)), b->unk00, t, (*(::fnv_00cf1710::hkTransformL *)(&out->unk40)));
     void* m = &out->unk80;
-    ((S_00db4b50_Sub*)m)->FUN_00cb22f0(out, &out->unk40);
+    reinterpret_cast<::hkTransformCB22 *>((((S_00db4b50_Sub*)m)))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(out)), (*(const ::hkTransformCB22 *)(&out->unk40)));
     ((S_00db4b50_Sub*)&out->unkc0)->FUN_00c7f700(m, &a->unk20);
     ((S_00db4b50_Sub*)&out->unkd0)->FUN_00c7f640(m, &a->unk30);
     out->unkcc = -a->unk14;
     *(__m128*)&out->unk110 = *(__m128*)(a->unk00 + 0x80);
     S_rotInv((const __m128*)&out->unk00, (const __m128*)&a->unk60, 2, (__m128*)&out->unkf0);
     ((S_00db4b50_Sub*)&out->unk120)->FUN_00c7f640(m, a->unk04 + 0x80);
-    ((S_00db4b50_Sub*)&out->unke0)->FUN_004b4ab0(out, &a->unk50);
+    reinterpret_cast<::FUN_004b4ab0_Class *>((((S_00db4b50_Sub*)&out->unke0)))->FUN_004b4ab0((int)(out), (int)(&a->unk50));
 }
 
 namespace fnv_00db52c0 {
@@ -201,7 +203,6 @@ union Vec4
 struct Transform
 {
     Vec4 row0, row1, row2, translation;
-    void FUN_00cb22f0(const Transform*, const Transform*);
 };
 struct Shape
 {
@@ -276,7 +277,6 @@ struct Shape
     int unk128;
     int unk12c;
     Vec4 vector130;
-    void FUN_00daad40(void*, void*, Transform*, Vec4*);
 };
 struct Pair
 {
@@ -325,8 +325,8 @@ static __declspec(noinline) void FUN_00db52c0(Shape* obj, const Transform* mat, 
     Vec4* out = a3.p;
     Transform localTransform;
     Vec4 shapeResult;
-    localTransform.FUN_00cb22f0(mat, other);
-    obj->FUN_00daad40(apPairA, apPairB, &localTransform, &shapeResult);
+    reinterpret_cast<::hkTransformCB22 *>(&(localTransform))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(mat)), (*(const ::hkTransformCB22 *)(other)));
+    reinterpret_cast<::GapSolver *>((obj))->FUN_00daad40((const ::GapShape *)(apPairA), (const ::GapShape *)(apPairB), (*(const ::GapTransform *)(&localTransform)), (*(::GapVector *)(&shapeResult)));
 
     __m128 v = shapeResult.v;
     __m128 p = _mm_mul_ps(_mm_shuffle_ps(v, v, 0x55), mat->row1.v);
@@ -370,7 +370,6 @@ void emit_function()
 }
 }  // namespace fnv_00db52c0
 
-extern const double DAT_010c9300;
 void* __cdecl FUN_00c85750();
 struct Table
 {
@@ -582,7 +581,7 @@ static __declspec(noinline) void FUN_00db53f0(In* in, Out* out)
     float t2 = pStatA->fa0 * out->f6c * out->f6c;
     float t = t1 + t2;
     out->f18 = t;
-    out->f1c = (float)(1.0 / ((double)t + DAT_010c9300));
+    out->f1c = (float)(1.0 / ((double)t + ::DAT_010c9300));
 }
 
 extern In* volatile inputIn;

@@ -3,6 +3,46 @@
 // with declarations corrected to what the original code does (activeeffect_local.h: virtual void LoadGame(Actor* apActor); -> virtual void @@LGTMP@@;; activeeffect_local.h: virtual void LoadGame(BGSLoadFormBuffer* apBuf -> virtual void LoadGame(Actor* apActor);; activeeffect_local.h: virtual void @@LGTMP@@; -> virtual void LoadGame(BGSLoadFormBuffer* apBuf). Move the function to its real unit once
 // that unit declares it this way.
 
+#include "fnv/decl/BGSDebris.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00404390_shell.h"
+#include "fnv/decl/FUN_004044d0_shell.h"
+#include "fnv/decl/FUN_00408680_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00470440.h"
+#include "fnv/decl/FUN_0049bb50_shell.h"
+#include "fnv/decl/FUN_00693d50_shell.h"
+#include "fnv/decl/FUN_007df210_shell.h"
+#include "fnv/decl/FUN_00804250_shell.h"
+#include "fnv/decl/FUN_00806420_shell.h"
+#include "fnv/decl/FUN_00833c20_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008579e0_shell.h"
+#include "fnv/decl/FUN_00857aa0.h"
+#include "fnv/decl/FUN_00857bd0.h"
+#include "fnv/decl/FUN_008df040_shell.h"
+#include "fnv/decl/FUN_00973fd0_cls.h"
+#include "fnv/decl/HX.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/Self.h"
+#include "fnv/decl/TimeoutTimer.h"
+#include "fnv/decl/W004702f0.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/decl/fnv_00ad88f0__FUN_00ad88f0_h.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00495000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00804000.h"
+#include "fnv/symbols_00806000.h"
+#include "fnv/symbols_00845000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
 #include "activeeffect_local_decl_activeeffect.h"
 class ActiveEffectLoadDispatch
 {
@@ -28,7 +68,6 @@ class ActiveEffectLoadDispatch
 class MagicCaster
 {
   public:
-    MagicItem* GetSelectedMagicItem();
     static MagicCaster* GetCasterByHandle(unsigned int id);
 };
 class MagicTarget
@@ -145,19 +184,12 @@ class ActiveEffectInitLoadGameDispatch
     virtual void Slot08();
     virtual void InitLoadGame(Actor*);
 };
-void InitLoadGameForEffects(Actor* pActor, BSSimpleList<ActiveEffect*>* pList);
 
 class TESSaveLoadGame
 {
   public:
-    unsigned char FUN_008df040();
-    void FUN_008579e0(void*, unsigned int);
-    void FUN_00857aa0(unsigned int*, unsigned int);
-    void FUN_00857bd0(unsigned int);
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 extern const char DAT_010793e0[];
-void FNV_Warning(const char*, ...);
 // @fnv 0x00805920
 ActiveEffect* FUN_00805920(BGSLoadFormBuffer* buffer)
 {
@@ -165,14 +197,14 @@ ActiveEffect* FUN_00805920(BGSLoadFormBuffer* buffer)
     unsigned int magicItemID;
     unsigned char recordIndex;
     MagicItem* magicItem;
-    if (g_TESSaveLoadGame->FUN_008df040() >= 42)
-        g_TESSaveLoadGame->FUN_008579e0(&effectSize, 2);
-    g_TESSaveLoadGame->FUN_00857aa0(&magicItemID, 4);
-    g_TESSaveLoadGame->FUN_008579e0(&recordIndex, 1);
+    if (reinterpret_cast<::FUN_008df040_shell *>((::g_TESSaveLoadGame))->FUN_008df040() >= 42)
+        reinterpret_cast<::FUN_008579e0_shell *>((::g_TESSaveLoadGame))->FUN_008579e0(&effectSize, 2);
+    reinterpret_cast<::FUN_00857aa0 *>((::g_TESSaveLoadGame))->ValidateFormIDArray(&magicItemID, 4);
+    reinterpret_cast<::FUN_008579e0_shell *>((::g_TESSaveLoadGame))->FUN_008579e0(&recordIndex, 1);
     magicItem = MagicItem::GetMagicItemByID(magicItemID);
     if (magicItem)
     {
-        EffectItem* effect = magicItem->effects.GetEffectItemAtIndex(recordIndex);
+        EffectItem* effect = ((::EffectItem *)(reinterpret_cast<::HX *>(&(magicItem->effects))->FUN_00406ee0(recordIndex)));
         if (effect)
         {
             ActiveEffect* active = MagicEffectSystem::Activate(0, magicItem, effect, 0);
@@ -180,7 +212,7 @@ ActiveEffect* FUN_00805920(BGSLoadFormBuffer* buffer)
             return active;
         }
     }
-    g_TESSaveLoadGame->FUN_00857bd0(effectSize);
-    FNV_Warning(DAT_010793e0, magicItemID, recordIndex);
+    reinterpret_cast<::FUN_00857bd0 *>((::g_TESSaveLoadGame))->Init(effectSize);
+    ::FUN_005b5e40();
     return 0;
 }

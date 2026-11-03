@@ -2,12 +2,15 @@
 // src/havok/physics/utilities/weapons/hkpballgun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpballgun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00c91620_Class.h"
+#include "fnv/decl/SStringPtr.h"
+#include "fnv/decl/UnkHolder.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
 #include "havok/hkpBallGun.h"
 
 struct FUN_00d1df70
 {
-    void FUN_00c90510() throw();
-    void removeReference() throw();
 };
 
 struct hkBoolE46E
@@ -37,7 +40,6 @@ class hkpRigidBodyE46E : public FUN_00d1df70
 class hkpWorldE46E
 {
   public:
-    hkBoolE46E ProcessTarget(hkpRigidBodyE46E* pkEntity) throw();
 };
 
 template <class T> class hkQueueE46E
@@ -129,8 +131,8 @@ void hkpBallGunE46E::FUN_00e46ea0(hkpWorldE46E* pkWorld) throw()
         for (int i = m_kListeners.GetLogicalSize() - 1; i >= 0; i--)
             m_kListeners[i]->bulletDeletedCallback(pkBody);
         if (pkBody->getWorld() == pkWorld)
-            pkWorld->ProcessTarget(pkBody);
-        pkBody->removeReference();
+            reinterpret_cast<::FUN_00c91620_Class *>((pkWorld))->ProcessTarget((unsigned char *)(pkBody), {});
+        reinterpret_cast<::hkReferencedObjectC905 *>((pkBody))->FUN_00c905b0();
     }
 }
 
@@ -240,7 +242,7 @@ FUN_00e46f90::FUN_00e46f90(int iNumBullets) throw()
     m_fBulletSpread = m_fBulletMass = DAT_0101b268;
     m_kBulletDirection.setZero4();
     m_type = 1;
-    m_name = "BallGun";
+    reinterpret_cast<::SStringPtr *>((void *)&(const ::FUN_00cb0c10 &)(m_name))->FUN_00cb0c10("BallGun");
     m_pBulletQueue = new FUN_00e46e80();
     m_pBulletQueue->FUN_00e45460(iNumBullets);
 }
@@ -276,13 +278,11 @@ class JobE470;
 class JobOwnerE470
 {
   public:
-    hkBoolE470 ProcessTarget(JobE470* pkJob) throw();
 };
 
 class JobE470
 {
   public:
-    void FUN_00c905b0() throw();
     int unk00, unk04;
     JobOwnerE470* m_pkOwnerManager;
 };
@@ -350,13 +350,13 @@ FUN_00e47020::~FUN_00e47020() throw()
         for (int i = m_numListeners - 1; i >= 0; i--)
             m_kListeners[i]->OnJobCancelled(pkJob);
         if (pkJob->m_pkOwnerManager)
-            pkJob->m_pkOwnerManager->ProcessTarget(pkJob);
-        pkJob->FUN_00c905b0();
+            reinterpret_cast<::FUN_00c91620_Class *>((pkJob->m_pkOwnerManager))->ProcessTarget((unsigned char *)(pkJob), {});
+        reinterpret_cast<::hkReferencedObjectC905 *>((pkJob))->FUN_00c905b0();
     }
     hkQueueE470<JobE470*>* pkQueue = m_pkQueue;
     if (pkQueue)
     {
-        pkQueue->FUN_00e47390();
+        reinterpret_cast<::UnkHolder *>((pkQueue))->FUN_00e47390();
         FUN_00c85750().heap().ReleaseBlock(pkQueue, sizeof(*pkQueue));
     }
 }

@@ -2,6 +2,10 @@
 // src/havok/common/base/memory/allocator/solver/hksolverallocator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/allocator/solver/hksolverallocator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00cbf1a0_cls.h"
+#include "fnv/decl/SearchObject.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d2c000.h"
 struct hkMemoryStatistics
 {
     int m_iAllocated;
@@ -73,7 +77,7 @@ void FUN_00cd06a0_class::ResetVftableAndDeleteCriticalSection()
     void* criticalSection = &m_CriticalSection;
     m_pVftable = &DAT_010d1110;
     DeleteCriticalSection(criticalSection);
-    FUN_00cbf1a0();
+    reinterpret_cast<::FUN_00cbf1a0_cls *>(this)->FUN_00cbf1a0();
 }
 
 // @fnv 0x00c661c0
@@ -435,8 +439,6 @@ inline void* operator new(unsigned int, void* ptr)
     return ptr;
 }
 
-void __cdecl FUN_00c908c0(void* allocator, void* array, int capacity, int elemSize);
-void __cdecl FUN_00d2cc70(void* dst, const void* src, unsigned int numBytes);
 
 struct Element
 {
@@ -466,10 +468,10 @@ void ArrayClass::Splice(void* allocator, int index, int numToRemove, const Eleme
         iCapacity += iCapacity;
         if (newSize >= iCapacity)
             iCapacity = newSize;
-        FUN_00c908c0(allocator, this, iCapacity, 8);
+        ::FUN_00c908c0((::SpawnedObject *)(allocator), (::SpawnedArray *)(void *)(this), iCapacity, 8);
     }
 
-    FUN_00d2cc70(&m_data[index + numToInsert], &m_data[index + numToRemove], numToMove * 8);
+    ::FUN_00d2cc70(&m_data[index + numToInsert], (void *)(&m_data[index + numToRemove]), numToMove * 8);
 
     Element* dst = &m_data[index];
     for (int i = 0; i < numToInsert; ++i)
@@ -572,10 +574,9 @@ struct S00d5eb10_BlockArray
         }
     }
 
-    void FUN_00d5eda0(int unk0, int index, const S00d5eb10_Block* item);
     void aiRecipeIndex(int index, const S00d5eb10_Block& b)
     {
-        FUN_00d5eda0(0, index, &b);
+        reinterpret_cast<::SearchObject *>(this)->FUN_00d5eda0(0, index, (unsigned int)(&b));
     }
 };
 

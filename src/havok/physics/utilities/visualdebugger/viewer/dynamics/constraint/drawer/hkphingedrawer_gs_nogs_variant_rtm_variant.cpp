@@ -10,6 +10,10 @@
 
 #include <xmmintrin.h>
 
+#include "fnv/decl/CpuObject.h"
+#include "fnv/decl/DE44C0Object.h"
+#include "fnv/decl/FUN_00de4530Owner.h"
+#include "fnv/symbols_00cab000.h"
 class VectorComponentValue
 {
   public:
@@ -97,10 +101,8 @@ struct hkDebugDisplayHandlerD
 
 struct DisplayHolderD
 {
-    void setHandlerD(hkDebugDisplayHandlerD* h);
 };
 
-unsigned int __cdecl hkColorRgbD(float r, float g, float b, float a);
 
 struct Drawer
 {
@@ -128,8 +130,6 @@ struct Drawer
 
     void getConstraintTransformsD(const hkpConstraintInstanceD* constraint, hkTransformD& transformB,
                                   hkTransformD& transformA);
-    void drawFramesD(int id, int tag);
-    void drawPivotsD(int id, int tag);
 
     void FUN_00de7f20(const hkpConstraintInstanceD* constraint, hkDebugDisplayHandlerD* displayHandler, int id,
                       int tag);
@@ -140,7 +140,7 @@ void Drawer::FUN_00de7f20(const hkpConstraintInstanceD* constraint, hkDebugDispl
                           int tag)
 {
     hkpHingeConstraintDataD* data = constraint->m_data;
-    m_pDisplayHandler.setHandlerD(displayHandler);
+    reinterpret_cast<::CpuObject *>(&(m_pDisplayHandler))->FUN_00e10a10((int)(displayHandler));
 
     hkTransformD transformA;
     hkTransformD transformB;
@@ -149,8 +149,8 @@ void Drawer::FUN_00de7f20(const hkpConstraintInstanceD* constraint, hkDebugDispl
     m_posB.setTransformedPosD(transformB, data->m_kBridgeAtoms.m_kBodyBLocalFrame.m_vTranslation);
     m_posA.setTransformedPosD(transformA, data->m_kBridgeAtoms.m_kBodyALocalFrame.m_vTranslation);
 
-    drawFramesD(id, tag);
-    drawPivotsD(id, tag);
+    reinterpret_cast<::FUN_00de4530Owner *>(this)->FUN_00de4530(id, tag);
+    reinterpret_cast<::DE44C0Object *>(this)->FUN_00de44c0(id, tag);
 
     displayHandler->DisplayLine(m_posA, m_posB, 0xffff0000, id, tag);
 
@@ -165,5 +165,5 @@ void Drawer::FUN_00de7f20(const hkpConstraintInstanceD* constraint, hkDebugDispl
     hkVector4D p0;
     p0.setAddMul4(m_posB, axis, (float)(-0.75 * len));
 
-    displayHandler->DisplayLine(p0, p1, hkColorRgbD(0.0f, 0.5f, 1.0f, 1.0f), id, tag);
+    displayHandler->DisplayLine(p0, p1, ::PackColorBigEndian(0.0f, 0.5f, 1.0f, 1.0f), id, tag);
 }

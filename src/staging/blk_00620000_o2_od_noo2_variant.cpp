@@ -5,6 +5,11 @@
 
 // src/staging/blk_00620000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_00458990_Holder.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00622570_Class.h"
+#include "fnv/symbols_00450000.h"
 #include "../../include/layout_support.h"
 
 #include <xmmintrin.h>
@@ -12,7 +17,6 @@ struct Vec16
 {
     __m128 unk00;
     void FUN_00628cc0(Vec16* a, Vec16* b);
-    int FUN_00458990(int flags);
 };
 
 struct Sub16
@@ -32,7 +36,6 @@ struct FUN_00628d10_cls
     unsigned int unk0C;
     Sub16 m_sub;
     void FUN_00458a60(Vec16* out, void* other);
-    void FUN_00622570(bool flag);
     FUN_00628d10_cls* FUN_00628d10(FUN_00628d10_cls* a, FUN_00628d10_cls* b);
 };
 
@@ -45,6 +48,6 @@ FUN_00628d10_cls* FUN_00628d10_cls::FUN_00628d10(FUN_00628d10_cls* a, FUN_00628d
     this->FUN_00458a60(&r0, b);
     ((Sub16*)((char*)b + 0x10))->FUN_00458a60(&r1, (char*)this + 0x10);
     r2.FUN_00628cc0(&r0, &r1);
-    a->FUN_00622570(r2.FUN_00458990(7) != 0);
+    reinterpret_cast<::FUN_00622570_Class *>((a))->FUN_00622570(reinterpret_cast<::FUN_00458990_Holder *>(&(r2))->FUN_00458990(7) != 0);
     return a;
 }

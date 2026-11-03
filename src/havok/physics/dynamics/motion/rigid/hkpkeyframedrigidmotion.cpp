@@ -2,30 +2,29 @@
 // src/havok/physics/dynamics/motion/rigid/hkpkeyframedrigidmotion.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/motion/rigid/hkpkeyframedrigidmotion.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_0102e000.h"
 #include "havok/hkpKeyframedRigidMotion.h"
 
 struct FUN_00d1df70
 {
-    void RetainReference();
-    void removeReference();
     void SetAndAddReference(hkReferencedObject* obj);
 };
 // @fnv 0x00d1df70
 void FUN_00d1df70::SetAndAddReference(hkReferencedObject* apObject)
 {
     if (apObject)
-        ((FUN_00d1df70*)apObject)->RetainReference();
+        reinterpret_cast<::FUN_00c90510_class *>((((FUN_00d1df70*)apObject)))->FUN_00c90510();
     if (*(hkReferencedObject**)((char*)this + 0x118))
-        ((FUN_00d1df70*)*(hkReferencedObject**)((char*)this + 0x118))->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((((FUN_00d1df70*)*(hkReferencedObject**)((char*)this + 0x118))))->FUN_00c905b0();
     *(hkReferencedObject**)((char*)this + 0x118) = apObject;
 }
 
 struct DDCC60World
 {
-    void removeReference();
 };
 extern int DAT_010c6bec;
-extern int _DAT_0102e388;
 struct FUN_00d1dff0
 {
     void setMotion();
@@ -36,9 +35,8 @@ void FUN_00d1dff0::setMotion()
 {
     *reinterpret_cast<void**>(this) = (void*)&DAT_010c6bec;
     if (*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x118))
-        reinterpret_cast<DDCC60World*>(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x118))
-            ->removeReference();
-    *reinterpret_cast<void**>(this) = (void*)&_DAT_0102e388;
+        reinterpret_cast<::hkReferencedObjectC905 *>((reinterpret_cast<DDCC60World*>(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x118))))->FUN_00c905b0();
+    *reinterpret_cast<void**>(this) = (void*)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 // @fnv 0x00d1dec0

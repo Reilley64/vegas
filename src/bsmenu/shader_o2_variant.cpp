@@ -5,8 +5,8 @@
 
 #include <stdio.h>
 #include <stdarg.h>
-extern void* DAT_011f6044;
 
+#include "fnv/symbols_011f6000.h"
 struct LogSink
 {
     int unk00;

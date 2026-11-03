@@ -2,6 +2,11 @@
 // src/havok/physics/collide/shape/compound/collection/hkpshapecollection.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/hkpshapecollection.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FunctionContext.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010c6000.h"
 #include "havok/hkpShapeCollection.h"
 
 class hkPackedNiTriStripsShape;
@@ -26,11 +31,10 @@ int hkpShapeCollection_L::FUN_00d213d0()
 }
 
 extern char const* const DAT_01268910;
-void __cdecl FUN_00c90360(char const* const* first, char const* const* second);
 // @fnv 0x00d213e0
 void __cdecl FUN_00d213e0(char const* const* first, char const* const* ignored)
 {
-    FUN_00c90360(first, &DAT_01268910);
+    reinterpret_cast<::FunctionContext *>((void *)(first))->FUN_00c90360((void *)(&DAT_01268910), {});
 }
 
 // @fnv 0x00d213f0
@@ -55,8 +59,6 @@ struct MemorySystem
     unsigned int field0c;
     Allocator* allocator;
 };
-extern char DAT_010c6fb0;
-extern char DAT_0102e388;
 struct Holder
 {
     void* vtable;
@@ -72,8 +74,8 @@ struct Holder
 // @fnv 0x00cf57e0
 Holder* __thiscall Holder::Destroy(unsigned char flags)
 {
-    shapeVtable = &DAT_010c6fb0;
-    vtable = &DAT_0102e388;
+    shapeVtable = &(*reinterpret_cast<char *>(&::DAT_010c6fb0));
+    vtable = &(*reinterpret_cast<char *>(&::DAT_0102e388));
     if ((flags & 1) != 0)
     {
         MemorySystem* memory = FUN_00c85750();
@@ -254,7 +256,6 @@ extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwInd
 
 extern "C" unsigned int DAT_0126835c;
 extern "C" char str_010ce1f8[];
-extern "C" char str_010c41f8[];
 
 class Arg0_L;
 class Arg1_L;
@@ -419,7 +420,7 @@ void Owner_L::FUN_00d217d0(Arg0_L* arg0, Arg1_L* arg1, Arg2_L* arg2)
     pProfRec = pProfSlot->head;
     if (pProfRec < pProfSlot->end)
     {
-        pProfRec->id = &str_010c41f8;
+        pProfRec->id = &::DAT_010c41f8;
         _ReadWriteBarrier();
         uiTimestamp = (unsigned int)__rdtsc();
         pProfRec->time = uiTimestamp;
@@ -430,9 +431,7 @@ void Owner_L::FUN_00d217d0(Arg0_L* arg0, Arg1_L* arg1, Arg2_L* arg2)
 
 extern unsigned long DAT_0126835c;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern float DAT_0104e148;
 extern const char str_010ce228[];
-extern const char str_010c41f8[];
 
 struct S00d216e0_Rec
 {
@@ -513,7 +512,7 @@ float hkPackedNiTriStripsShape_StandIn::FUN_00d216e0(int arg)
 
     ShapeIterator* iter = reinterpret_cast<ShapeIterator*>(reinterpret_cast<char*>(this) + 0x10);
 
-    maxProj = DAT_0104e148;
+    maxProj = ::DAT_0104e148;
     int idx = iter->First();
 
     while (idx != -1)
@@ -529,7 +528,7 @@ float hkPackedNiTriStripsShape_StandIn::FUN_00d216e0(int arg)
         idx = iter->Next(idx);
     }
 
-    S00d216e0_timer(str_010c41f8);
+    S00d216e0_timer(::DAT_010c41f8);
 
     return maxProj;
 }

@@ -2,8 +2,66 @@
 // src/fallout_shared/distant terrain system/bgsdistantobjectblock.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/distant terrain system/bgsdistantobjectblock.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" int __cdecl _sprintf_s(char*, unsigned int, const char*, ...);
 
+#include <new>
+#include "fnv/decl/AlchemyItem.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/DummyStruct_00631820.h"
+#include "fnv/decl/EffectSetting.h"
+#include "fnv/decl/ExtraOwnerB.h"
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_004410d0_Class.h"
+#include "fnv/decl/FUN_00453470_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_0049ed90_shell.h"
+#include "fnv/decl/FUN_00557d30_class.h"
+#include "fnv/decl/FUN_006f74f0_cls.h"
+#include "fnv/decl/FUN_00874460_cls.h"
+#include "fnv/decl/FUN_0094db80_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00c3a8a0_cls.h"
+#include "fnv/decl/FUN_00c3cee0_shell.h"
+#include "fnv/decl/FUN_00c3cff0_shell.h"
+#include "fnv/decl/FeeNode.h"
+#include "fnv/decl/Flag512Receiver.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MLx.h"
+#include "fnv/decl/MenuValueSource.h"
+#include "fnv/decl/Mgr_e74120.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/NiGeometryData.h"
+#include "fnv/decl/NiObjectNET.h"
+#include "fnv/decl/S_FUN_0045bc00.h"
+#include "fnv/decl/TESCallHelper.h"
+#include "fnv/decl/TaskProcessor.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_004436c0__FUN_004436c0_Class.h"
+#include "fnv/decl/fnv_004ea9c0__GlobalNodeAccessor.h"
+#include "fnv/decl/fnv_00587550__FUN_00587550_shell.h"
+#include "fnv/decl/fnv_00c3cb70__IOTask.h"
+#include "fnv/decl/fnv_00c3cf60__FUN_00c3cf60_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0040d000.h"
+#include "fnv/symbols_00438000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0043c000.h"
+#include "fnv/symbols_00449000.h"
+#include "fnv/symbols_00549000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_006f5000.h"
+#include "fnv/symbols_00b55000.h"
+#include "fnv/symbols_0106d000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_01202000.h"
 struct TESWorldSpace
 {
     virtual ~TESWorldSpace();
@@ -164,7 +222,7 @@ struct TESWorldSpace
 // @fnv 0x006f5730
 void __cdecl FormatStingerBlockPath(char* apOutput, TESWorldSpace* apWorld, int aiLevel, short asCellX, short asCellY)
 {
-    _sprintf_s(apOutput, 0x104, "Data\\Meshes\\Landscape\\LOD\\%s\\Stinger\\%s.Level%i.High.X%i.Y%i.NIF",
+    ::FUN_00406d00(apOutput, 0x104, "Data\\Meshes\\Landscape\\LOD\\%s\\Stinger\\%s.Level%i.High.X%i.Y%i.NIF",
                apWorld->GetStingerBlockFileNameHighPriority(), apWorld->GetStingerBlockFileNameHighPriority(), aiLevel,
                asCellX, asCellY);
 }
@@ -197,22 +255,10 @@ struct BGSDistantObjectBlockLoadTask
     void* __thiscall FUN_006f6fb0(unsigned int flags);
 };
 
-extern void __cdecl _Deallocate(void*);
-
-// Calls FUN_006f6fe0, then deallocates this if flags has bit 0 set, and returns this.
-// @fnv 0x006f6fb0
-void* BGSDistantObjectBlockLoadTask::FUN_006f6fb0(unsigned int flags)
-{
-    FUN_006f6fe0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
 
 namespace fnv_006f71a0 {
 struct BGSDistantObjectBlockLoadTask
 {
-    void __thiscall FUN_00c3cb70(void* pState, void* pOwner);
     void __thiscall RunOnce(void* apTaskState, void* apTaskOwner);
 };
 
@@ -226,7 +272,7 @@ void BGSDistantObjectBlockLoadTask::RunOnce(void* apTaskState, void* apTaskOwner
     else
     {
         *(unsigned char*)((char*)this + 0x50) = 1;
-        this->FUN_00c3cb70(apTaskState, apTaskOwner);
+        reinterpret_cast<::fnv_00c3cb70::IOTask *>((this))->FUN_00c3cb70((int)(apTaskState), (::fnv_00c3cb70::RefObj *)(apTaskOwner));
     }
 }
 }  // namespace fnv_006f71a0
@@ -246,7 +292,7 @@ void FUN_006f73b0_shell::SetFlag()
 // @fnv 0x006f55f0
 void FormatLODBlockFileName(char* apOutput, TESWorldSpace* apWorld, int aiLevel, short asCellX, short asCellY)
 {
-    _sprintf_s(apOutput, 0x104, "Data\\Meshes\\Landscape\\LOD\\%s\\Blocks\\%s.Level%i.X%i.Y%i.NIF",
+    ::FUN_00406d00(apOutput, 0x104, "Data\\Meshes\\Landscape\\LOD\\%s\\Blocks\\%s.Level%i.X%i.Y%i.NIF",
                apWorld->GetStingerBlockFileNameHighPriority(), apWorld->GetStingerBlockFileNameHighPriority(), aiLevel,
                asCellX, asCellY);
 }
@@ -255,7 +301,7 @@ void FormatLODBlockFileName(char* apOutput, TESWorldSpace* apWorld, int aiLevel,
 // @fnv 0x006f5640
 void __cdecl BuildLODBlockFilePath(char* apOutput, TESWorldSpace* apWorld, int aiLevel, short asCellX, short asCellY)
 {
-    _sprintf_s(apOutput, 0x104, "Data\\Meshes\\Landscape\\LOD\\%s\\Blocks\\%s.Level%i.High.X%i.Y%i.NIF",
+    ::FUN_00406d00(apOutput, 0x104, "Data\\Meshes\\Landscape\\LOD\\%s\\Blocks\\%s.Level%i.High.X%i.Y%i.NIF",
                apWorld->GetStingerBlockFileNameHighPriority(), apWorld->GetStingerBlockFileNameHighPriority(), aiLevel,
                asCellX, asCellY);
 }
@@ -264,7 +310,7 @@ void __cdecl BuildLODBlockFilePath(char* apOutput, TESWorldSpace* apWorld, int a
 // @fnv 0x006f5690
 void __cdecl BuildLODBlockFileName(char* apOutput, TESWorldSpace* apWorld, int aiLevel, short asCellX, short asCellY)
 {
-    _sprintf_s(apOutput, 0x104, "Data\\Meshes\\Landscape\\LOD\\%s\\Blocks\\%s.Level%i.X%i.Y%i.PostApocalypse.NIF",
+    ::FUN_00406d00(apOutput, 0x104, "Data\\Meshes\\Landscape\\LOD\\%s\\Blocks\\%s.Level%i.X%i.Y%i.PostApocalypse.NIF",
                apWorld->GetStingerBlockFileNameHighPriority(), apWorld->GetStingerBlockFileNameHighPriority(), aiLevel,
                asCellX, asCellY);
 }
@@ -272,7 +318,7 @@ void __cdecl BuildLODBlockFileName(char* apOutput, TESWorldSpace* apWorld, int a
 // @fnv 0x006f57c0
 void __cdecl FUN_006f57c0(char* apOutput, TESWorldSpace* apWorld)
 {
-    _sprintf_s(apOutput, 0x104, "Data\\Textures\\Landscape\\LOD\\%s\\Blocks\\%s.Buildings_n.dds",
+    ::FUN_00406d00(apOutput, 0x104, "Data\\Textures\\Landscape\\LOD\\%s\\Blocks\\%s.Buildings_n.dds",
                apWorld->GetStingerBlockFileNameHighPriority(), apWorld->GetStingerBlockFileNameHighPriority());
 }
 
@@ -300,7 +346,6 @@ struct NiNode
 };
 struct Model
 {
-    NiNode* GetObject3D(void);
 };
 struct FUN_00528820_shell
 {
@@ -309,7 +354,6 @@ struct FUN_00528820_shell
 struct TESObjectCELL
 {
     unsigned char GetField24(void);
-    NiNode* __thiscall GetSelectedValue(unsigned int);
 };
 struct BSFaceGenNiNode
 {
@@ -317,32 +361,29 @@ struct BSFaceGenNiNode
 };
 struct GlobalObject2_0096a2d0
 {
-    TESObjectCELL** __thiscall _ref_006815c0();
-    GlobalObject2_0096a2d0* __thiscall _ref_00726070();
 };
-extern GlobalObject2_0096a2d0 g_011d8524;
 
 // @fnv 0x006f5840
 void __cdecl FUN_006f5840(void)
 {
-    GlobalObject2_0096a2d0* pEntry = &g_011d8524;
+    GlobalObject2_0096a2d0* pEntry = &::g_011d8524;
     while (pEntry)
     {
-        TESObjectCELL* cell = *pEntry->_ref_006815c0();
+        TESObjectCELL* cell = *((::TESObjectCELL **)(new ((void *)(pEntry)) ::Vec3()));
         if (cell && !cell->GetField24())
         {
-            NiNode* obj = cell->GetSelectedValue(0);
+            NiNode* obj = ((::NiNode *)(reinterpret_cast<::FUN_006f5800_shell *>((cell))->GetSelectedValue(0)));
             if (obj)
             {
-                ((FUN_00528820_shell*)((BSFaceGenNiNode*)obj)->GetAnimationData()->GetObject3D())->ClearField();
+                ((FUN_00528820_shell*)((::NiNode *)(::fnv_0043b230::FUN_0043b230((const char *)(((BSFaceGenNiNode*)obj)->GetAnimationData())))))->ClearField();
             }
-            obj = cell->GetSelectedValue(1);
+            obj = ((::NiNode *)(reinterpret_cast<::FUN_006f5800_shell *>((cell))->GetSelectedValue(1)));
             if (obj)
             {
-                ((FUN_00528820_shell*)((BSFaceGenNiNode*)obj)->GetAnimationData()->GetObject3D())->ClearField();
+                ((FUN_00528820_shell*)((::NiNode *)(::fnv_0043b230::FUN_0043b230((const char *)(((BSFaceGenNiNode*)obj)->GetAnimationData())))))->ClearField();
             }
         }
-        pEntry = pEntry->_ref_00726070();
+        pEntry = ((::GlobalObject2_0096a2d0 *)(reinterpret_cast<::Callees *>((pEntry))->FUN_00726070()));
     }
 }
 
@@ -357,7 +398,6 @@ struct GlobalObject2_0096a2d0
     void __thiscall AddTail(char* const&);
 };
 
-extern GlobalObject2_0096a2d0 g_011d8524;
 
 struct FUN_006f6090_shell
 {
@@ -369,7 +409,7 @@ struct FUN_006f6090_shell
 void FUN_006f6090_shell::AddSelfToGlobalList()
 {
     char* p = (char*)this;
-    g_011d8524.AddTail(p);
+    reinterpret_cast<::Callees *>(&((*reinterpret_cast<::fnv_006f6090::GlobalObject2_0096a2d0 *>(&::g_011d8524))))->FUN_00905820((void *)&(p));
 }
 }  // namespace fnv_006f6090
 
@@ -377,7 +417,7 @@ void FUN_006f6090_shell::AddSelfToGlobalList()
 // @fnv 0x006f56e0
 void BuildStingerNifPath(char* apOutput, TESWorldSpace* apWorld, int aiLevel, short asCellX, short asCellY)
 {
-    _sprintf_s(apOutput, 0x104, "Data\\Meshes\\Landscape\\LOD\\%s\\Stinger\\%s.Level%i.X%i.Y%i.NIF",
+    ::FUN_00406d00(apOutput, 0x104, "Data\\Meshes\\Landscape\\LOD\\%s\\Stinger\\%s.Level%i.X%i.Y%i.NIF",
                apWorld->GetStingerBlockFileNameHighPriority(), apWorld->GetStingerBlockFileNameHighPriority(), aiLevel,
                asCellX, asCellY);
 }
@@ -386,44 +426,41 @@ void BuildStingerNifPath(char* apOutput, TESWorldSpace* apWorld, int aiLevel, sh
 // @fnv 0x006f5780
 void __cdecl FormatBuildingsLODTexturePath(char* apOutput, TESWorldSpace* apWorld)
 {
-    _sprintf_s(apOutput, 0x104, "Data\\Textures\\Landscape\\LOD\\%s\\Blocks\\%s.Buildings.dds",
+    ::FUN_00406d00(apOutput, 0x104, "Data\\Textures\\Landscape\\LOD\\%s\\Blocks\\%s.Buildings.dds",
                apWorld->GetStingerBlockFileNameHighPriority(), apWorld->GetStingerBlockFileNameHighPriority());
 }
 
 struct FUN_006f60c0_shell
 {
-    bool IsInCellList();
     void RunLoop();
 };
 struct _Ref905330_shell
 {
-    void _ref_00905330(FUN_006f60c0_shell* const&);
+};
+struct FUN_006f6100_shell
+{
+    bool __thiscall IsInCellList();
 };
 // Repeatedly calls IsInCellList and, while it returns true, passes this to _ref_00905330 via g_011d8524.
 // @fnv 0x006f60c0
 void FUN_006f60c0_shell::RunLoop()
 {
-    while (IsInCellList())
+    while (reinterpret_cast<::FUN_006f6100_shell *>(this)->IsInCellList())
     {
-        ((_Ref905330_shell*)&g_011d8524)->_ref_00905330(this);
+        reinterpret_cast<::ItemChangeListNode *>((((_Ref905330_shell*)&::g_011d8524)))->FUN_00905330((::InventoryStackRecord *const &)((const ::FUN_006f60c0_shell *const &)(this)));
     }
 }
-
-struct FUN_006f6100_shell
-{
-    bool __thiscall IsInCellList();
-};
 // Walks the g_011d8524 list and returns true if this object is found among the cells it references.
 // @fnv 0x006f6100
 bool __thiscall FUN_006f6100_shell::IsInCellList()
 {
-    GlobalObject2_0096a2d0* iter = &g_011d8524;
+    GlobalObject2_0096a2d0* iter = &::g_011d8524;
     while (iter)
     {
-        TESObjectCELL* cell = *iter->_ref_006815c0();
+        TESObjectCELL* cell = *((::TESObjectCELL **)(new ((void *)(iter)) ::Vec3()));
         if (cell && (FUN_006f6100_shell*)cell == this)
             return true;
-        iter = iter->_ref_00726070();
+        iter = ((::GlobalObject2_0096a2d0 *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
     }
     return false;
 }
@@ -438,13 +475,12 @@ struct BGSDistantObjectBlockLoadTask
     bool __thiscall GetDescription(char*, unsigned int);
 };
 
-int __cdecl _sprintf_s(char*, unsigned int, const char*, ...);
 
 // Formats the block's X, Y and level into apDescription with _sprintf_s and returns true.
 // @fnv 0x006f74b0
 bool BGSDistantObjectBlockLoadTask::GetDescription(char* apDescription, unsigned int aiBufferSize)
 {
-    _sprintf_s(apDescription, aiBufferSize, "Object LOD Task for block ( %i, %i ) at level ( %i )", iX, iY, iLevel);
+    ::FUN_00406d00(apDescription, aiBufferSize, "Object LOD Task for block ( %i, %i ) at level ( %i )", iX, iY, iLevel);
     return true;
 }
 }  // namespace fnv_006f74b0
@@ -453,8 +489,6 @@ struct LodObject;
 
 struct LodNode
 {
-    unsigned int GetArrayCount();
-    LodObject* GetAt(unsigned int i);
 };
 
 struct LodObject
@@ -463,7 +497,6 @@ struct LodObject
     virtual void unk04();
     virtual void unk08();
     virtual LodNode* IsSceneNode();
-    void SetAppCulled(bool bAppCulled);
 };
 
 // Recursively sets the app-culled flag on obj and all child LodObjects to the inverse of bShow.
@@ -471,12 +504,12 @@ struct LodObject
 void __cdecl SetObjectVisible(LodObject* obj, bool bShow)
 {
     if (obj)
-        obj->SetAppCulled(!bShow);
+        reinterpret_cast<::TaskQueueInterface *>((obj))->QueueActorDisarm(!bShow);
     if (obj->IsSceneNode())
     {
         LodNode* node = obj->IsSceneNode();
-        for (unsigned int i = 0; i < node->GetArrayCount(); i++)
-            SetObjectVisible(node->GetAt(i), bShow);
+        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::FUN_00453470_shell *>((node))->FUN_00453470())); i++)
+            SetObjectVisible(((::LodObject *)(reinterpret_cast<::S_FUN_0045bc00 *>((node))->FUN_0045bc00(i))), bShow);
     }
 }
 
@@ -490,27 +523,20 @@ struct LodPoint3
 
 struct LodCell
 {
-    unsigned char FUN_00557d30();
 };
 
 struct LodWorld
 {
-    LodCell* FUN_00587550(const LodPoint3& pos);
 };
 
 struct LodTES
 {
-    LodWorld* FUN_004fd3e0();
-    bool FUN_004511e0(LodCell* cell, int unk);
 };
-extern LodTES* g_LodTES;
 
 struct LodObject;
 
 struct LodNode
 {
-    unsigned int GetArrayCount();
-    LodObject* GetAt(unsigned int i);
 };
 
 struct LodObject
@@ -522,7 +548,6 @@ struct LodObject
     const LodPoint3& GetWorldTranslate();
 };
 
-void __cdecl SetObjectVisible(LodObject* obj, int flag);
 
 struct LodVisitor
 {
@@ -536,9 +561,9 @@ void LodVisitor::UpdateLodVisibility(LodObject* obj, int a, unsigned short b, un
     if (obj->IsSceneNode())
     {
         LodNode* node = obj->IsSceneNode();
-        for (unsigned int i = 0; i < node->GetArrayCount(); i++)
+        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::FUN_00453470_shell *>((node))->FUN_00453470())); i++)
         {
-            LodObject* child = node->GetAt(i);
+            LodObject* child = ((::fnv_006f5970::LodObject *)(reinterpret_cast<::S_FUN_0045bc00 *>((node))->FUN_0045bc00(i)));
             if (child)
                 UpdateLodVisibility(child, a, b, c);
         }
@@ -546,11 +571,11 @@ void LodVisitor::UpdateLodVisibility(LodObject* obj, int a, unsigned short b, un
     else
     {
         LodPoint3 pos = obj->GetWorldTranslate();
-        LodCell* cell = g_LodTES->FUN_004fd3e0()->FUN_00587550(pos);
-        if (g_LodTES->FUN_004511e0(cell, 1) && cell->FUN_00557d30())
-            SetObjectVisible(obj, 0);
+        LodCell* cell = ((::fnv_006f5970::LodCell *)(reinterpret_cast<::fnv_00587550::FUN_00587550_shell *>((((::fnv_006f5970::LodWorld *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::fnv_006f5970::LodTES * *>(&::g_TES))))->GetHitSound()))))->FUN_00587550((const ::fnv_00587550::NiPoint3 &)(pos))));
+        if (reinterpret_cast<::TESCallHelper *>(((*reinterpret_cast<::fnv_006f5970::LodTES * *>(&::g_TES))))->IsCellBuffered((::TESObjectCELL *)(cell), 1) && ((unsigned char)(reinterpret_cast<::FUN_00557d30_class *>((cell))->FUN_00557d30())))
+            ::SetObjectVisible((::LodObject *)(obj), 0);
         else
-            SetObjectVisible(obj, 1);
+            ::SetObjectVisible((::LodObject *)(obj), 1);
     }
 }
 }  // namespace fnv_006f5970
@@ -559,8 +584,6 @@ struct SceneNode;
 
 struct TileWorkList
 {
-    unsigned int FUN_00453470();
-    SceneNode* FUN_0045bc00(unsigned int auiIndex);
 };
 
 struct SceneNode
@@ -570,7 +593,6 @@ struct SceneNode
     virtual void v08();
     virtual TileWorkList* GetChildren();
 
-    void FUN_00450f90(int aiFlag);
 };
 
 struct NodeVisitor
@@ -582,13 +604,13 @@ struct NodeVisitor
 void NodeVisitor::VisitNodeTree(SceneNode* apNode)
 {
     if (apNode != 0)
-        apNode->FUN_00450f90(0);
+        reinterpret_cast<::TaskQueueInterface *>((apNode))->QueueActorDisarm(0);
 
     if (apNode->GetChildren() != 0)
     {
         TileWorkList* pList = apNode->GetChildren();
-        for (unsigned int uiIndex = 0; uiIndex < pList->FUN_00453470(); uiIndex++)
-            VisitNodeTree(pList->FUN_0045bc00(uiIndex));
+        for (unsigned int uiIndex = 0; uiIndex < ((unsigned int)(reinterpret_cast<::FUN_00453470_shell *>((pList))->FUN_00453470())); uiIndex++)
+            VisitNodeTree(((::SceneNode *)(reinterpret_cast<::S_FUN_0045bc00 *>((pList))->FUN_0045bc00(uiIndex))));
     }
 }
 
@@ -659,23 +681,19 @@ struct Node
 };
 struct Parent
 {
-    Node* FUN_004ea9c0();
 };
 struct ParentRef
 {
     Parent* value;
-    Parent* FUN_00559450();
 };
 struct SceneRef
 {
     Scene* value;
-    Scene* FUN_00559450();
     void FUN_0066b0d0(Scene*);
 };
 struct TaskRef
 {
     void* value;
-    void FUN_006f74f0(void*);
 };
 extern int DAT_011d8510;
 struct Block
@@ -685,47 +703,41 @@ struct Block
     TaskRef mainTask, secondaryTask;
     int unk20;
     bool active;
-    void RunLoop();
     void FUN_006f5af0();
 };
 // Calls RunLoop, decrements DAT_011d8510 if scenes are set, detaches them from the parent node, clears the scene and task refs, and sets active to false.
 // @fnv 0x006f5af0
 void Block::FUN_006f5af0()
 {
-    RunLoop();
-    if (second.FUN_00559450() || first.FUN_00559450() || fourth.FUN_00559450())
+    reinterpret_cast<::FUN_006f60c0_shell *>(this)->RunLoop();
+    if (((::Scene *)(::FUN_00559450((int *)&(second)))) || ((::Scene *)(::FUN_00559450((int *)&(first)))) || ((::Scene *)(::FUN_00559450((int *)&(fourth)))))
         --DAT_011d8510;
-    if (second.FUN_00559450() || first.FUN_00559450())
+    if (((::Scene *)(::FUN_00559450((int *)&(second)))) || ((::Scene *)(::FUN_00559450((int *)&(first)))))
     {
-        parent->FUN_00559450()->FUN_004ea9c0()->Detach(second.FUN_00559450());
-        parent->FUN_00559450()->FUN_004ea9c0()->Detach(first.FUN_00559450());
-        parent->FUN_00559450()->FUN_004ea9c0()->Detach(third.FUN_00559450());
+        ((::Node *)(reinterpret_cast<::fnv_004ea9c0::GlobalNodeAccessor *>((((::Parent *)(::FUN_00559450((int *)(parent))))))->FUN_004ea9c0()))->Detach(((::Scene *)(::FUN_00559450((int *)&(second)))));
+        ((::Node *)(reinterpret_cast<::fnv_004ea9c0::GlobalNodeAccessor *>((((::Parent *)(::FUN_00559450((int *)(parent))))))->FUN_004ea9c0()))->Detach(((::Scene *)(::FUN_00559450((int *)&(first)))));
+        ((::Node *)(reinterpret_cast<::fnv_004ea9c0::GlobalNodeAccessor *>((((::Parent *)(::FUN_00559450((int *)(parent))))))->FUN_004ea9c0()))->Detach(((::Scene *)(::FUN_00559450((int *)&(third)))));
         second.FUN_0066b0d0(0);
         first.FUN_0066b0d0(0);
         third.FUN_0066b0d0(0);
-        mainTask.FUN_006f74f0(0);
+        reinterpret_cast<::FUN_006f74f0_cls *>(&(mainTask))->FUN_006f74f0((::ObjA *)(void *)(0));
     }
-    if (fourth.FUN_00559450())
+    if (((::Scene *)(::FUN_00559450((int *)&(fourth)))))
     {
-        parent->FUN_00559450()->FUN_004ea9c0()->Detach(fourth.FUN_00559450());
+        ((::Node *)(reinterpret_cast<::fnv_004ea9c0::GlobalNodeAccessor *>((((::Parent *)(::FUN_00559450((int *)(parent))))))->FUN_004ea9c0()))->Detach(((::Scene *)(::FUN_00559450((int *)&(fourth)))));
         fourth.FUN_0066b0d0(0);
         fifth.FUN_0066b0d0(0);
-        secondaryTask.FUN_006f74f0(0);
+        reinterpret_cast<::FUN_006f74f0_cls *>(&(secondaryTask))->FUN_006f74f0((::ObjA *)(void *)(0));
     }
     active = false;
 }
 
 struct TargetObject
 {
-    bool FUN_00449110();
-    void AssignValue(void* destination);
-    void FUN_006f6250(void* destination);
 };
 struct SmartRef
 {
     void* value;
-    TargetObject* FUN_00559450();
-    void FUN_006f74f0(int value);
 };
 struct Owner
 {
@@ -740,36 +752,6 @@ struct Owner
     bool completed;
     void UpdateReferences(bool update);
 };
-// @fnv 0x006f6150
-void Owner::UpdateReferences(bool update)
-{
-    if (firstReference.FUN_00559450() != 0)
-    {
-        if (firstReference.FUN_00559450()->FUN_00449110())
-        {
-            if (update)
-            {
-                firstReference.FUN_00559450()->AssignValue(&firstDestination);
-                firstReference.FUN_00559450()->FUN_006f6250(&secondDestination);
-            }
-            firstReference.FUN_006f74f0(0);
-            if (secondReference.FUN_00559450() == 0)
-                completed = true;
-        }
-    }
-    if (secondReference.FUN_00559450() != 0)
-    {
-        if (secondReference.FUN_00559450()->FUN_00449110())
-        {
-            if (update)
-                secondReference.FUN_00559450()->FUN_006f6250(&thirdDestination);
-            secondReference.FUN_006f74f0(0);
-            if (firstReference.FUN_00559450() == 0)
-                completed = true;
-        }
-    }
-}
-
 struct S_006f6fe0_Base
 {
     virtual ~S_006f6fe0_Base();
@@ -794,6 +776,15 @@ struct FUN_006f6fe0 : S_006f6fe0_Base
     FUN_006f6fe0();
     virtual ~FUN_006f6fe0();
 };
+// Calls FUN_006f6fe0, then deallocates this if flags has bit 0 set, and returns this.
+// @fnv 0x006f6fb0
+void* BGSDistantObjectBlockLoadTask::FUN_006f6fb0(unsigned int flags)
+{
+    reinterpret_cast<::FUN_006f6fe0 *>(this)->FUN_006f6fe0::~FUN_006f6fe0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Destructor that clears the two smart-pointer members m_spObject48 and m_spObject4c by assigning null.
 // @fnv 0x006f6fe0
@@ -822,13 +813,11 @@ struct Node
     virtual void v04();
     virtual void v08();
     virtual Node* AsNode();
-    Node* FUN_0045bc00(unsigned int);
 };
 struct NodePtr
 {
     Node* pointer;
     NodePtr& FUN_0066b0d0(Node*);
-    Node* FUN_00559450() const;
 };
 class BSStream
 {
@@ -1142,14 +1131,10 @@ class BSStream
     unsigned int unk5c8;
     unsigned int unk5cc;
     BSStream();
-    bool FUN_00c3a8a0(const char*);
-    Node* GetStringAt(unsigned int);
 };
 int __cdecl FUN_00456a20(const char*, int, int, int);
 struct BlockTask
 {
-    unsigned char GetByteAtOffset35();
-    void SetFlag();
 };
 struct DistantBlock
 {
@@ -1172,9 +1157,6 @@ struct DistantBlock
     BlockTask* task;
     unsigned int unk44;
     NodePtr root, scene;
-    int FUN_00c3cff0(int, int);
-    const char* FUN_0045cd60();
-    const char* FUN_0045cd60(int);
     void LoadDistantObjectBlock();
 };
 // @fnv 0x006f71e0
@@ -1184,28 +1166,28 @@ void DistantBlock::LoadDistantObjectBlock()
         MEM_DISTANT_OBJECT, true,
         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Distant Terrain System\\BGSDistantObjectBlock.cpp",
         922);
-    int memory = FUN_00c3cff0(0, 1);
+    int memory = ((int)(reinterpret_cast<::FUN_00c3cff0_shell *>(this)->FUN_00c3cff0(0, 1)));
     int canLoad = 1;
-    if (memory == 0 && !FUN_00456a20(FUN_0045cd60(), 0, 6, 1))
+    if (memory == 0 && !FUN_00456a20(((const char *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())), 0, 6, 1))
         canLoad = 0;
     BSStream stream;
-    if (canLoad && stream.FUN_00c3a8a0(FUN_0045cd60(memory)))
+    if (canLoad && reinterpret_cast<::FUN_00c3a8a0_cls *>(&(stream))->FUN_00c3a8a0((unsigned int)(((const char *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))), {}))
     {
-        Node* node = stream.GetStringAt(0);
+        Node* node = ((::fnv_006f71e0::Node *)(reinterpret_cast<::MLx *>(&(stream))->GetStringAt(0)));
         if (node->AsNode())
         {
-            scene.FUN_0066b0d0(stream.GetStringAt(0));
-            root.FUN_0066b0d0(scene.FUN_00559450()->FUN_0045bc00(0));
+            scene.FUN_0066b0d0(((::fnv_006f71e0::Node *)(reinterpret_cast<::MLx *>(&(stream))->GetStringAt(0))));
+            root.FUN_0066b0d0(((::fnv_006f71e0::Node *)(reinterpret_cast<::S_FUN_0045bc00 *>((((::fnv_006f71e0::Node *)(::FUN_00559450((int *)&(scene))))))->FUN_0045bc00(0))));
         }
         else
         {
-            root.FUN_0066b0d0(stream.GetStringAt(0));
+            root.FUN_0066b0d0(((::fnv_006f71e0::Node *)(reinterpret_cast<::MLx *>(&(stream))->GetStringAt(0))));
         }
     }
     else
     {
-        if (task->GetByteAtOffset35())
-            task->SetFlag();
+        if (reinterpret_cast<::FUN_006f6070_shell *>((task))->GetByteAtOffset35())
+            reinterpret_cast<::FUN_006f73b0_shell *>((task))->SetFlag();
     }
 }
 }  // namespace fnv_006f71e0
@@ -1334,15 +1316,12 @@ struct VObj
 
 struct C_00559450
 {
-    C_00559450* FUN_00559450();
 };
 struct C_004ea9c0
 {
-    VObj* FUN_004ea9c0();
 };
 struct C_009611e0
 {
-    void* FUN_009611e0();
 };
 struct C_0066b0d0
 {
@@ -1350,11 +1329,9 @@ struct C_0066b0d0
 };
 struct C_006f6090
 {
-    void AddSelfToGlobalList();
 };
 struct C_006f66e0
 {
-    void UpdateMenuNodes();
 };
 
 extern int DAT_011d8510;
@@ -1375,90 +1352,6 @@ struct FUN_006f5ca0_cls
     void FUN_006f5ca0();
 };
 
-// @fnv 0x006f5ca0
-void FUN_006f5ca0_cls::FUN_006f5ca0()
-{
-    if (((C_00559450*)&m_04)->FUN_00559450() == 0 && ((C_00559450*)&m_10)->FUN_00559450() == 0)
-        return;
-    if (m_21 == 0)
-    {
-        ((FUN_006f60c0_shell*)this)->RunLoop();
-        if (((C_00559450*)&m_0c)->FUN_00559450() != 0)
-        {
-            if (((C_00559450*)&m_08)->FUN_00559450() != 0)
-            {
-                ((C_004ea9c0*)((C_00559450*)this)->FUN_00559450()->FUN_00559450())
-                    ->FUN_004ea9c0()
-                    ->V58(((C_009611e0*)((C_00559450*)&m_0c)->FUN_00559450())->FUN_009611e0());
-                ((C_004ea9c0*)((C_00559450*)this)->FUN_00559450()->FUN_00559450())
-                    ->FUN_004ea9c0()
-                    ->V55(((C_00559450*)&m_08)->FUN_00559450(), 1);
-            }
-            else
-            {
-                ((C_004ea9c0*)((C_00559450*)this)->FUN_00559450()->FUN_00559450())
-                    ->FUN_004ea9c0()
-                    ->V58(((C_00559450*)&m_0c)->FUN_00559450());
-                ((C_004ea9c0*)((C_00559450*)this)->FUN_00559450()->FUN_00559450())
-                    ->FUN_004ea9c0()
-                    ->V55(((C_00559450*)&m_04)->FUN_00559450(), 1);
-            }
-        }
-        else
-        {
-            if (((C_00559450*)&m_08)->FUN_00559450() != 0)
-                ((C_004ea9c0*)((C_00559450*)this)->FUN_00559450()->FUN_00559450())
-                    ->FUN_004ea9c0()
-                    ->V55(((C_00559450*)&m_08)->FUN_00559450(), 1);
-            else if (((C_00559450*)&m_04)->FUN_00559450() != 0)
-                ((C_004ea9c0*)((C_00559450*)this)->FUN_00559450()->FUN_00559450())
-                    ->FUN_004ea9c0()
-                    ->V55(((C_00559450*)&m_04)->FUN_00559450(), 1);
-        }
-        if (((C_00559450*)&m_14)->FUN_00559450() != 0)
-        {
-            if (((C_00559450*)&m_10)->FUN_00559450() != 0)
-            {
-                ((C_004ea9c0*)((C_00559450*)this)->FUN_00559450()->FUN_00559450())
-                    ->FUN_004ea9c0()
-                    ->V58(((C_00559450*)&m_14)->FUN_00559450());
-                ((C_004ea9c0*)((C_00559450*)this)->FUN_00559450()->FUN_00559450())
-                    ->FUN_004ea9c0()
-                    ->V55(((C_00559450*)&m_10)->FUN_00559450(), 1);
-            }
-        }
-        else if (((C_00559450*)&m_10)->FUN_00559450() != 0)
-        {
-            ((C_004ea9c0*)((C_00559450*)this)->FUN_00559450()->FUN_00559450())
-                ->FUN_004ea9c0()
-                ->V55(((C_00559450*)&m_10)->FUN_00559450(), 1);
-        }
-        if (((FUN_006f6070_shell*)this)->GetByteAtOffset35())
-        {
-            if (((C_00559450*)&m_0c)->FUN_00559450() != 0 || ((C_00559450*)&m_14)->FUN_00559450() != 0)
-                DAT_011d8510 = DAT_011d8510 - 1;
-            if (((C_00559450*)&m_04)->FUN_00559450() != 0 || ((C_00559450*)&m_10)->FUN_00559450() != 0)
-                DAT_011d8514 = DAT_011d8514 + 1;
-        }
-        else
-        {
-            if (((C_00559450*)&m_0c)->FUN_00559450() != 0 || ((C_00559450*)&m_14)->FUN_00559450() != 0)
-                DAT_011d8514 = DAT_011d8514 - 1;
-            if (((C_00559450*)&m_04)->FUN_00559450() != 0 || ((C_00559450*)&m_10)->FUN_00559450() != 0)
-                DAT_011d8510 = DAT_011d8510 + 1;
-        }
-        ((C_006f66e0*)this)->UpdateMenuNodes();
-        if (((C_00559450*)&m_04)->FUN_00559450() != 0 || ((C_00559450*)&m_10)->FUN_00559450() != 0)
-        {
-            if (!((FUN_006f6100_shell*)this)->IsInCellList())
-                ((C_006f6090*)this)->AddSelfToGlobalList();
-        }
-        ((C_0066b0d0*)&m_0c)->FUN_0066b0d0(0);
-        ((C_0066b0d0*)&m_14)->FUN_0066b0d0(0);
-        m_21 = 1;
-    }
-}
-
 // FUN_006f6250: __thiscall (this in ecx), callee pops 4 bytes (1 stack parameter)
 struct FUN_006e5cc0_shell
 {
@@ -1469,6 +1362,35 @@ struct FUN_006f6250_shell
 {
     void FUN_006f6250(FUN_006e5cc0_shell* apObject);
 };
+// @fnv 0x006f6150
+void Owner::UpdateReferences(bool update)
+{
+    if (((::TargetObject *)(::FUN_00559450((int *)&(firstReference)))) != 0)
+    {
+        if (::FUN_00449110((int *)(((::TargetObject *)(::FUN_00559450((int *)&(firstReference)))))))
+        {
+            if (update)
+            {
+                reinterpret_cast<::MenuValueSource *>((((::TargetObject *)(::FUN_00559450((int *)&(firstReference))))))->AssignValue((::MenuValueTarget *)(void *)(&firstDestination));
+                reinterpret_cast<::FUN_006f6250_shell *>((((::TargetObject *)(::FUN_00559450((int *)&(firstReference))))))->FUN_006f6250((::FUN_006e5cc0_shell *)(void *)(&secondDestination));
+            }
+            reinterpret_cast<::FUN_006f74f0_cls *>(&(firstReference))->FUN_006f74f0((::ObjA *)(0));
+            if (((::TargetObject *)(::FUN_00559450((int *)&(secondReference)))) == 0)
+                completed = true;
+        }
+    }
+    if (((::TargetObject *)(::FUN_00559450((int *)&(secondReference)))) != 0)
+    {
+        if (::FUN_00449110((int *)(((::TargetObject *)(::FUN_00559450((int *)&(secondReference)))))))
+        {
+            if (update)
+                reinterpret_cast<::FUN_006f6250_shell *>((((::TargetObject *)(::FUN_00559450((int *)&(secondReference))))))->FUN_006f6250((::FUN_006e5cc0_shell *)(void *)(&thirdDestination));
+            reinterpret_cast<::FUN_006f74f0_cls *>(&(secondReference))->FUN_006f74f0((::ObjA *)(0));
+            if (((::TargetObject *)(::FUN_00559450((int *)&(firstReference)))) == 0)
+                completed = true;
+        }
+    }
+}
 
 // @fnv 0x006f6250
 void FUN_006f6250_shell::FUN_006f6250(FUN_006e5cc0_shell* apObject)
@@ -1477,7 +1399,6 @@ void FUN_006f6250_shell::FUN_006f6250(FUN_006e5cc0_shell* apObject)
 }
 
 namespace fnv_006f6270 {
-extern char str_0106da18[];
 
 struct VObj
 {
@@ -1505,8 +1426,6 @@ struct FUN_00559450_shell
 {
     unsigned int unk00;
     unsigned int unk04;
-    VObj* FUN_00559450();
-    void FUN_006f74f0(NewObj* p);
 };
 
 struct FUN_00404ee0_shell
@@ -1578,8 +1497,8 @@ void BlockLoader::FUN_006f6270(void* apOutput, void* apWorld, short asX, short a
 {
     ScopeLock lock(0x24, 1, str_0106da18, 0x240);
     m_0c.FUN_006e5cc0(&m_04);
-    m_18.FUN_006f74f0(new NewObj(this, apOutput, asX, asY, apWorld, 1, 1, 0));
-    m_18.FUN_00559450()->V8();
+    reinterpret_cast<::FUN_006f74f0_cls *>(&(m_18))->FUN_006f74f0((::ObjA *)(::fnv_006f6270::NewObj *)(new NewObj(this, apOutput, asX, asY, apWorld, 1, 1, 0)));
+    ((::fnv_006f6270::VObj *)(::FUN_00559450((int *)&(m_18))))->V8();
     m_20 = 0;
     m_21 = 0;
 }
@@ -1645,16 +1564,12 @@ struct S_006f6370_Task : S_006f6370_Obj
 
 struct S_006f6370_Streamer
 {
-    void FUN_0044ac40(S_006f6370_Obj* task, int flag);
 };
 
 struct S_006f6370_Player
 {
-    unsigned char GetByteAtOffset();
 };
 
-extern S_006f6370_Streamer* DAT_01202d98;
-extern S_006f6370_Player* DAT_011dea3c;
 
 struct S_006f6370_Mgr
 {
@@ -1686,15 +1601,15 @@ void S_006f6370_Mgr::ResetAndCreateTask(TESWorldSpace* world, int level, short x
     unk14 = unk10;
     if (unk18)
     {
-        DAT_01202d98->FUN_0044ac40(unk18, 0);
-        unk18 = 0;
+        reinterpret_cast<::TaskProcessor *>(((*reinterpret_cast<::S_006f6370_Streamer * *>(&::DAT_01202d98))))->FUN_0044ac40((::QueuedTask *)(::S_006f6370_Obj *)(unk18), 0);
+        reinterpret_cast<::FUN_006f74f0_cls *>((void *)&(const ::S_006f6370_Ptr &)(unk18))->FUN_006f74f0((::ObjA *)(::S_006f6370_Obj *)(0));
     }
     if (unk1c)
     {
-        DAT_01202d98->FUN_0044ac40(unk1c, 0);
-        unk1c = 0;
+        reinterpret_cast<::TaskProcessor *>(((*reinterpret_cast<::S_006f6370_Streamer * *>(&::DAT_01202d98))))->FUN_0044ac40((::QueuedTask *)(::S_006f6370_Obj *)(unk1c), 0);
+        reinterpret_cast<::FUN_006f74f0_cls *>((void *)&(const ::S_006f6370_Ptr &)(unk1c))->FUN_006f74f0((::ObjA *)(::S_006f6370_Obj *)(0));
     }
-    unk18 = new S_006f6370_Task(this, world, x, y, level, DAT_011dea3c->GetByteAtOffset(), 0, 0);
+    reinterpret_cast<::FUN_006f74f0_cls *>((void *)&(const ::S_006f6370_Ptr &)(unk18))->FUN_006f74f0((::ObjA *)(::S_006f6370_Obj *)(new S_006f6370_Task(this, world, x, y, level, ((unsigned char)(reinterpret_cast<::FUN_006f6520_shell *>(((*reinterpret_cast<::S_006f6370_Player * *>(&::_g_thePlayer))))->GetByteAtOffset())), 0, 0)));
     unk28 = 0;
     unk18->vf20();
     unk20 = 0;
@@ -1704,7 +1619,6 @@ void S_006f6370_Mgr::ResetAndCreateTask(TESWorldSpace* world, int level, short x
 }
 
 namespace fnv_006f6540 {
-extern char str_0106da18[];
 
 struct VObj
 {
@@ -1732,8 +1646,6 @@ struct FUN_00559450_shell
 {
     unsigned int unk00;
     unsigned int unk04;
-    VObj* FUN_00559450();
-    void FUN_006f74f0(NewObj* p);
 };
 
 struct FUN_00404ee0_shell
@@ -1790,9 +1702,7 @@ struct FUN_006f6d10_shell
 
 struct FUN_0044ac40_owner
 {
-    void FUN_0044ac40(VObj* a, int b);
 };
-extern FUN_0044ac40_owner* DAT_01202d98;
 
 struct FUN_006f6540_cls
 {
@@ -1817,22 +1727,22 @@ struct FUN_006f6540_cls
 // @fnv 0x006f6540
 void FUN_006f6540_cls::FUN_006f6540(void* apOutput, void* apWorld, short asX, short asY)
 {
-    ScopeLock lock(0x24, 1, str_0106da18, 0x272);
+    ScopeLock lock(0x24, 1, ::fnv_006f6270::str_0106da18, 0x272);
     ((FUN_006e5cc0_shell*)&unk0C)->FUN_006e5cc0(&m_04);
     ((FUN_006e5cc0_shell*)&unk14)->FUN_006e5cc0(&unk10);
-    if (((FUN_00559450_shell*)&unk18)->FUN_00559450())
+    if (((::fnv_006f6540::VObj *)(::FUN_00559450((int *)(((FUN_00559450_shell*)&unk18))))))
     {
-        DAT_01202d98->FUN_0044ac40(((FUN_00559450_shell*)&unk18)->FUN_00559450(), 0);
-        ((FUN_00559450_shell*)&unk18)->FUN_006f74f0(0);
+        reinterpret_cast<::TaskProcessor *>(((*reinterpret_cast<::fnv_006f6540::FUN_0044ac40_owner * *>(&::DAT_01202d98))))->FUN_0044ac40((::QueuedTask *)(::fnv_006f6540::VObj *)(((::fnv_006f6540::VObj *)(::FUN_00559450((int *)(((FUN_00559450_shell*)&unk18)))))), 0);
+        reinterpret_cast<::FUN_006f74f0_cls *>((((FUN_00559450_shell*)&unk18)))->FUN_006f74f0((::ObjA *)(::fnv_006f6540::NewObj *)(0));
     }
-    if (((FUN_00559450_shell*)&unk1C)->FUN_00559450())
+    if (((::fnv_006f6540::VObj *)(::FUN_00559450((int *)(((FUN_00559450_shell*)&unk1C))))))
     {
-        DAT_01202d98->FUN_0044ac40(((FUN_00559450_shell*)&unk1C)->FUN_00559450(), 0);
-        ((FUN_00559450_shell*)&unk1C)->FUN_006f74f0(0);
+        reinterpret_cast<::TaskProcessor *>(((*reinterpret_cast<::fnv_006f6540::FUN_0044ac40_owner * *>(&::DAT_01202d98))))->FUN_0044ac40((::QueuedTask *)(::fnv_006f6540::VObj *)(((::fnv_006f6540::VObj *)(::FUN_00559450((int *)(((FUN_00559450_shell*)&unk1C)))))), 0);
+        reinterpret_cast<::FUN_006f74f0_cls *>((((FUN_00559450_shell*)&unk1C)))->FUN_006f74f0((::ObjA *)(::fnv_006f6540::NewObj *)(0));
     }
-    ((FUN_00559450_shell*)&unk18)->FUN_006f74f0(new NewObj(this, apOutput, asX, asY, apWorld, 0, 1, 0));
+    reinterpret_cast<::FUN_006f74f0_cls *>((((FUN_00559450_shell*)&unk18)))->FUN_006f74f0((::ObjA *)(::fnv_006f6540::NewObj *)(new NewObj(this, apOutput, asX, asY, apWorld, 0, 1, 0)));
     m_28 = 0;
-    ((FUN_00559450_shell*)&unk18)->FUN_00559450()->V8();
+    ((::fnv_006f6540::VObj *)(::FUN_00559450((int *)(((FUN_00559450_shell*)&unk18)))))->V8();
     m_20 = 0;
     m_21 = 0;
     m_23 = 1;
@@ -1895,7 +1805,6 @@ struct MmTexturing
 
     virtual MmTexturing* Clone(MmNode* pkNode, int a2, int a3);
     void FUN_00441130(int iFlag, int iValue);
-    void* FUN_006286d0();
 };
 
 struct MmAlpha
@@ -1910,17 +1819,11 @@ struct MmAlpha
         MmFree(pvMem);
     }
     int unk00[7];
-    void FUN_004393c0(int i);
-    void FUN_0049ed90(int i);
-    void FUN_0094db80(int i);
-    void FUN_004393e0(int i);
 };
 
 struct MmWorldBound
 {
-    void SetByteAtOffset38(int i);
     void FUN_00a67050(int i);
-    void FUN_004410f0(int i);
 };
 
 struct MmUpdater
@@ -2059,12 +1962,7 @@ struct MmScene
     virtual void v057();
     virtual void v058();
     virtual void Add(MmNode* pkNode, int a2, int a3, void* pkData);
-    void FUN_00e74120();
 };
-MmScene* __cdecl FUN_0043c4b0();
-int __cdecl FUN_0040df90();
-void* __cdecl FUN_00438220();
-void* __cdecl FUN_00b55560(void* pkData);
 
 struct MmTransform
 {
@@ -2074,14 +1972,6 @@ struct MmTransform
 
 struct MmNode
 {
-    void FUN_00a5b230(int i);
-    void FUN_00439410(void* pkProperty);
-    MmTexturing* FUN_00a59d30(void* pkType);
-    void FUN_00874460(void* pkData);
-    void FUN_00a5a040();
-    void FUN_00a59c60(MmTransform* pkTransform);
-    MmWorldBound* FUN_005495f0();
-    MmUpdater* FUN_004030b0();
 };
 
 template <class T> struct MmPtr
@@ -2093,7 +1983,6 @@ template <class T> struct MmPtr
 
 struct MmOwner
 {
-    void FUN_006fee90(int i);
 };
 
 struct MenuModelImpl
@@ -2111,51 +2000,125 @@ struct MenuModelImpl
     void ApplyShaderSetup(MmNode* pkNode);
     void UpdateMenuNodes();
 };
+// @fnv 0x006f5ca0
+void FUN_006f5ca0_cls::FUN_006f5ca0()
+{
+    if (((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)&m_04))))) == 0 && ((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)&m_10))))) == 0)
+        return;
+    if (m_21 == 0)
+    {
+        ((FUN_006f60c0_shell*)this)->RunLoop();
+        if (((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)&m_0c))))) != 0)
+        {
+            if (((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)&m_08))))) != 0)
+            {
+                ((::VObj *)(reinterpret_cast<::fnv_004ea9c0::GlobalNodeAccessor *>((((C_004ea9c0*)((::C_00559450 *)(::FUN_00559450((int *)(((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)this))))))))))))->FUN_004ea9c0()))
+                    ->V58(((void *)(reinterpret_cast<::FUN_009611e0_shell *>((((C_009611e0*)((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)&m_0c))))))))->FUN_009611e0())));
+                ((::VObj *)(reinterpret_cast<::fnv_004ea9c0::GlobalNodeAccessor *>((((C_004ea9c0*)((::C_00559450 *)(::FUN_00559450((int *)(((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)this))))))))))))->FUN_004ea9c0()))
+                    ->V55(((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)&m_08))))), 1);
+            }
+            else
+            {
+                ((::VObj *)(reinterpret_cast<::fnv_004ea9c0::GlobalNodeAccessor *>((((C_004ea9c0*)((::C_00559450 *)(::FUN_00559450((int *)(((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)this))))))))))))->FUN_004ea9c0()))
+                    ->V58(((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)&m_0c))))));
+                ((::VObj *)(reinterpret_cast<::fnv_004ea9c0::GlobalNodeAccessor *>((((C_004ea9c0*)((::C_00559450 *)(::FUN_00559450((int *)(((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)this))))))))))))->FUN_004ea9c0()))
+                    ->V55(((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)&m_04))))), 1);
+            }
+        }
+        else
+        {
+            if (((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)&m_08))))) != 0)
+                ((::VObj *)(reinterpret_cast<::fnv_004ea9c0::GlobalNodeAccessor *>((((C_004ea9c0*)((::C_00559450 *)(::FUN_00559450((int *)(((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)this))))))))))))->FUN_004ea9c0()))
+                    ->V55(((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)&m_08))))), 1);
+            else if (((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)&m_04))))) != 0)
+                ((::VObj *)(reinterpret_cast<::fnv_004ea9c0::GlobalNodeAccessor *>((((C_004ea9c0*)((::C_00559450 *)(::FUN_00559450((int *)(((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)this))))))))))))->FUN_004ea9c0()))
+                    ->V55(((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)&m_04))))), 1);
+        }
+        if (((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)&m_14))))) != 0)
+        {
+            if (((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)&m_10))))) != 0)
+            {
+                ((::VObj *)(reinterpret_cast<::fnv_004ea9c0::GlobalNodeAccessor *>((((C_004ea9c0*)((::C_00559450 *)(::FUN_00559450((int *)(((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)this))))))))))))->FUN_004ea9c0()))
+                    ->V58(((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)&m_14))))));
+                ((::VObj *)(reinterpret_cast<::fnv_004ea9c0::GlobalNodeAccessor *>((((C_004ea9c0*)((::C_00559450 *)(::FUN_00559450((int *)(((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)this))))))))))))->FUN_004ea9c0()))
+                    ->V55(((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)&m_10))))), 1);
+            }
+        }
+        else if (((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)&m_10))))) != 0)
+        {
+            ((::VObj *)(reinterpret_cast<::fnv_004ea9c0::GlobalNodeAccessor *>((((C_004ea9c0*)((::C_00559450 *)(::FUN_00559450((int *)(((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)this))))))))))))->FUN_004ea9c0()))
+                ->V55(((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)&m_10))))), 1);
+        }
+        if (((FUN_006f6070_shell*)this)->GetByteAtOffset35())
+        {
+            if (((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)&m_0c))))) != 0 || ((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)&m_14))))) != 0)
+                DAT_011d8510 = DAT_011d8510 - 1;
+            if (((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)&m_04))))) != 0 || ((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)&m_10))))) != 0)
+                DAT_011d8514 = DAT_011d8514 + 1;
+        }
+        else
+        {
+            if (((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)&m_0c))))) != 0 || ((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)&m_14))))) != 0)
+                DAT_011d8514 = DAT_011d8514 - 1;
+            if (((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)&m_04))))) != 0 || ((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)&m_10))))) != 0)
+                DAT_011d8510 = DAT_011d8510 + 1;
+        }
+        reinterpret_cast<::MenuModelImpl *>((((C_006f66e0*)this)))->UpdateMenuNodes();
+        if (((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)&m_04))))) != 0 || ((::C_00559450 *)(::FUN_00559450((int *)(((C_00559450*)&m_10))))) != 0)
+        {
+            if (!((FUN_006f6100_shell*)this)->IsInCellList())
+                reinterpret_cast<::fnv_006f6090::FUN_006f6090_shell *>((((C_006f6090*)this)))->AddSelfToGlobalList();
+        }
+        ((C_0066b0d0*)&m_0c)->FUN_0066b0d0(0);
+        ((C_0066b0d0*)&m_14)->FUN_0066b0d0(0);
+        m_21 = 1;
+    }
+}
 
 // @fnv 0x006f66e0
 void MenuModelImpl::UpdateMenuNodes()
 {
     bool bRebuildNodeA =
-        !m_bValueAt0C || (m_spNodeA.FUN_00559450() && m_spNodeB.FUN_00559450() && m_spNodeA.IsNotEqual(m_spNodeB));
+        !m_bValueAt0C || (((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA)))) && ((::MmNode *)(::FUN_00559450((int *)&(m_spNodeB)))) && reinterpret_cast<::DummyStruct_00631820 *>((void *)&(m_spNodeA))->IsNotEqual((const ::DummyStruct_00631820 &)(m_spNodeB)));
     bool bRebuildNodeC =
-        !m_bValueAt0C || (m_spNodeC.FUN_00559450() && m_spNodeD.FUN_00559450() && m_spNodeC.IsNotEqual(m_spNodeD));
-    if (bRebuildNodeA && m_spNodeA.FUN_00559450())
+        !m_bValueAt0C || (((::MmNode *)(::FUN_00559450((int *)&(m_spNodeC)))) && ((::MmNode *)(::FUN_00559450((int *)&(m_spNodeD)))) && reinterpret_cast<::DummyStruct_00631820 *>((void *)&(m_spNodeC))->IsNotEqual((const ::DummyStruct_00631820 &)(m_spNodeD)));
+    if (bRebuildNodeA && ((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA)))))
     {
-        m_spNodeA.FUN_00559450()->FUN_00a5b230(FUN_0040df90());
+        reinterpret_cast<::ExtraOwnerB *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->FUN_00a5b230(FUN_0040df90());
         MmAlpha* pkAlphaPtr = new MmAlpha;
-        pkAlphaPtr->FUN_004393c0(1);
-        pkAlphaPtr->FUN_0049ed90(0);
-        pkAlphaPtr->FUN_0094db80(0x80);
-        pkAlphaPtr->FUN_004393e0(4);
-        m_spNodeA.FUN_00559450()->FUN_00439410(pkAlphaPtr);
-        MmTexturing* pkTexX = m_spNodeA.FUN_00559450()->FUN_00a59d30(FUN_00438220());
+        reinterpret_cast<::Flag512Receiver *>((pkAlphaPtr))->SetFlag512(1);
+        reinterpret_cast<::FUN_0049ed90_shell *>((pkAlphaPtr))->FUN_0049ed90(0);
+        reinterpret_cast<::FUN_0094db80_shell *>((pkAlphaPtr))->FUN_0094db80(0x80);
+        reinterpret_cast<::NiObjectNET *>((pkAlphaPtr))->SetFlags(4);
+        reinterpret_cast<::FUN_00439410_cls *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->FUN_00439410((::ArgObject *)(pkAlphaPtr));
+        MmTexturing* pkTexX = ((::MmTexturing *)(reinterpret_cast<::FUN_00a59d30_C *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->FUN_00a59d30((int)(((void *)(::FUN_00438220()))))));
         pkTexX->FUN_00441130(0x22, 1);
         pkTexX->FUN_00441130(0x21, 0);
         pkTexX->FUN_00441130(0, 0);
-        MmTexturing* pkCloneTmp2 = pkTexX->Clone(m_spNodeA.FUN_00559450(), 0, 1);
+        MmTexturing* pkCloneTmp2 = pkTexX->Clone(((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA)))), 0, 1);
         if (pkCloneTmp2)
         {
-            m_spNodeA.FUN_00559450()->FUN_00a5b230(3);
+            reinterpret_cast<::ExtraOwnerB *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->FUN_00a5b230(3);
             pkTexX = pkCloneTmp2;
-            m_spNodeA.FUN_00559450()->FUN_00439410(pkTexX);
+            reinterpret_cast<::FUN_00439410_cls *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->FUN_00439410((::ArgObject *)(pkTexX));
         }
-        m_spNodeA.FUN_00559450()->FUN_00874460(FUN_00b55560(pkTexX->FUN_006286d0()));
+        reinterpret_cast<::FUN_00874460_cls *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->set((int)(((void *)(::FUN_00b55560(((void *)(reinterpret_cast<::LowProcess *>((pkTexX))->GetPackageObjectType())))))));
         MmTransform kTransformTmp(0.0f, 0, 0);
-        m_spNodeA.FUN_00559450()->FUN_00a5a040();
-        m_spNodeA.FUN_00559450()->FUN_00a59c60(&kTransformTmp);
-        m_pkOwnerManager->FUN_006fee90(0);
-        m_spNodeA.FUN_00559450()->FUN_005495f0()->SetByteAtOffset38(0);
-        m_spNodeA.FUN_00559450()->FUN_005495f0()->FUN_00a67050(0x4000);
-        m_spNodeA.FUN_00559450()->FUN_005495f0()->FUN_004410f0(1);
-        FUN_0043c4b0()->Add(m_spNodeA.FUN_00559450(), 0, 0,
-                            m_spNodeA.FUN_00559450()->FUN_004030b0()->Register(m_spNodeA.FUN_00559450(), pkTexX));
-        FUN_0043c4b0()->FUN_00e74120();
+        reinterpret_cast<::FUN_00a5a040_Class *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->FUN_00a5a040();
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->FUN_00a59c60((int)(&kTransformTmp));
+        reinterpret_cast<::FeeNode *>((m_pkOwnerManager))->FUN_006fee90(0);
+        reinterpret_cast<::FUN_004410d0_Class *>((((::MmWorldBound *)(::fnv_005495f0::FUN_005495f0((const char *)(((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))))))->SetByteAtOffset38(0);
+        ((::MmWorldBound *)(::fnv_005495f0::FUN_005495f0((const char *)(((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))))->FUN_00a67050(0x4000);
+        reinterpret_cast<::NiGeometryData *>((((::MmWorldBound *)(::fnv_005495f0::FUN_005495f0((const char *)(((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))))))->SetCompressFlags(1);
+        ((::MmScene *)(::FUN_0043c4b0()))->Add(((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA)))), 0, 0,
+                            ((::MmUpdater *)(reinterpret_cast<::AlchemyItem *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->FUN_004030b0()))->Register(((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA)))), pkTexX));
+        reinterpret_cast<::Mgr_e74120 *>((((::MmScene *)(::FUN_0043c4b0()))))->FUN_00e74120();
         m_bValueAt0C = true;
     }
-    if (bRebuildNodeC && m_spNodeC.FUN_00559450())
+    if (bRebuildNodeC && ((::MmNode *)(::FUN_00559450((int *)&(m_spNodeC)))))
     {
-        ApplyShaderSetup(m_spNodeC.FUN_00559450());
-        FUN_0043c4b0()->FUN_00e74120();
+        ApplyShaderSetup(((::MmNode *)(::FUN_00559450((int *)&(m_spNodeC)))));
+        reinterpret_cast<::Mgr_e74120 *>((((::MmScene *)(::FUN_0043c4b0()))))->FUN_00e74120();
         m_bValueAt0C = true;
     }
 }
@@ -2180,14 +2143,10 @@ struct GtAVObject
 };
 struct GtNode : GtAVObject
 {
-    unsigned int FUN_00453470();
-    GtAVObject* FUN_0045bc00(unsigned int uiIndex);
 };
 struct GtFlags
 {
-    void SetByteAtOffset38(int i);
     void FUN_00a67050(int i);
-    void FUN_004410f0(int i);
 };
 struct GtProperty
 {
@@ -2195,10 +2154,6 @@ struct GtProperty
     static void* operator new(unsigned int uiSize);
     static void operator delete(void*, unsigned int);
     GtProperty();
-    void FUN_004393c0(int i);
-    void FUN_0049ed90(int i);
-    void FUN_0094db80(int i);
-    void FUN_004393e0(int i);
 };
 struct GtShaderProp
 {
@@ -2249,18 +2204,9 @@ struct GtShaderProp
 
     virtual GtShaderProp* FUN_vb0(GtGeometry* pkGeomA, int i, int j);
     void FUN_00441130(int iFlag, int iValue);
-    int FUN_006286d0();
 };
 struct GtGeometry : GtAVObject
 {
-    GtShaderProp* FUN_00a59d30(int iType);
-    void FUN_00a5b230(int iType);
-    void FUN_00439410(void* pkPropW);
-    void FUN_00874460(int i);
-    void FUN_00a5a040();
-    void FUN_00a59c60(GtPoint3* pkPt);
-    GtFlags* FUN_005495f0();
-    struct GtShaderMgr* FUN_004030b0();
 };
 struct GtShaderMgr
 {
@@ -2401,12 +2347,7 @@ struct GtAccum
 };
 struct GtOwner
 {
-    void FUN_006fee90(int i);
 };
-int __cdecl FUN_00438220();
-int __cdecl FUN_0040df90();
-int __cdecl FUN_00b55560(int i);
-GtAccum* __cdecl FUN_0043c4b0();
 
 struct FUN_006f6a90_Owner
 {
@@ -2422,39 +2363,39 @@ void FUN_006f6a90_Owner::ApplyShaderSetup(GtAVObject* pkObject)
     if (pkObject->IsSceneNode())
     {
         GtNode* pkNode = pkObject->IsSceneNode();
-        for (unsigned int i = 0; i < pkNode->FUN_00453470(); i++)
-            ApplyShaderSetup(pkNode->FUN_0045bc00(i));
+        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::FUN_00453470_shell *>((pkNode))->FUN_00453470())); i++)
+            ApplyShaderSetup(((::fnv_006f6a90::GtAVObject *)(reinterpret_cast<::S_FUN_0045bc00 *>((pkNode))->FUN_0045bc00(i))));
     }
     else
     {
         GtGeometry* pkGeomA = pkObject->IsGeometry();
-        GtShaderProp* kPkOld = pkGeomA->FUN_00a59d30(FUN_00438220());
-        GtShaderProp* pkShaderZ = pkGeomA->FUN_00a59d30(FUN_00438220());
-        pkGeomA->FUN_00a5b230(FUN_0040df90());
+        GtShaderProp* kPkOld = ((::fnv_006f6a90::GtShaderProp *)(reinterpret_cast<::FUN_00a59d30_C *>((pkGeomA))->FUN_00a59d30(::FUN_00438220())));
+        GtShaderProp* pkShaderZ = ((::fnv_006f6a90::GtShaderProp *)(reinterpret_cast<::FUN_00a59d30_C *>((pkGeomA))->FUN_00a59d30(::FUN_00438220())));
+        reinterpret_cast<::ExtraOwnerB *>((pkGeomA))->FUN_00a5b230(::FUN_0040df90());
         GtProperty* pkPropW = new GtProperty;
-        pkPropW->FUN_004393c0(1);
-        pkPropW->FUN_0049ed90(0);
-        pkPropW->FUN_0094db80(0x80);
-        pkPropW->FUN_004393e0(4);
-        pkGeomA->FUN_00439410(pkPropW);
+        reinterpret_cast<::Flag512Receiver *>((pkPropW))->SetFlag512(1);
+        reinterpret_cast<::FUN_0049ed90_shell *>((pkPropW))->FUN_0049ed90(0);
+        reinterpret_cast<::FUN_0094db80_shell *>((pkPropW))->FUN_0094db80(0x80);
+        reinterpret_cast<::NiObjectNET *>((pkPropW))->SetFlags(4);
+        reinterpret_cast<::FUN_00439410_cls *>((pkGeomA))->FUN_00439410((::ArgObject *)(pkPropW));
         pkShaderZ->FUN_00441130(0x22, 1);
         pkShaderZ->FUN_00441130(0x37, 1);
         GtShaderProp* pkNewVal2 = pkShaderZ->FUN_vb0(pkGeomA, 0, 1);
         if (pkNewVal2)
         {
-            pkGeomA->FUN_00a5b230(3);
+            reinterpret_cast<::ExtraOwnerB *>((pkGeomA))->FUN_00a5b230(3);
             pkShaderZ = pkNewVal2;
-            pkGeomA->FUN_00439410(pkShaderZ);
+            reinterpret_cast<::FUN_00439410_cls *>((pkGeomA))->FUN_00439410((::ArgObject *)(pkShaderZ));
         }
-        pkGeomA->FUN_00874460(FUN_00b55560(pkShaderZ->FUN_006286d0()));
+        reinterpret_cast<::FUN_00874460_cls *>((pkGeomA))->set(((int)(::FUN_00b55560((void *)(reinterpret_cast<::LowProcess *>((pkShaderZ))->GetPackageObjectType())))));
         GtPoint3 kZeroWork(0.0f, 0, 0);
-        pkGeomA->FUN_00a5a040();
-        pkGeomA->FUN_00a59c60(&kZeroWork);
-        m_pkOwnerManager->FUN_006fee90(0);
-        pkGeomA->FUN_005495f0()->SetByteAtOffset38(0);
-        pkGeomA->FUN_005495f0()->FUN_00a67050(0x4000);
-        pkGeomA->FUN_005495f0()->FUN_004410f0(1);
-        FUN_0043c4b0()->FUN_vec(pkGeomA, 0, 0, pkGeomA->FUN_004030b0()->FUN_v118(pkGeomA, pkShaderZ));
+        reinterpret_cast<::FUN_00a5a040_Class *>((pkGeomA))->FUN_00a5a040();
+        reinterpret_cast<::FUN_00a59c60_cls *>((pkGeomA))->FUN_00a59c60((int)(&kZeroWork));
+        reinterpret_cast<::FeeNode *>((m_pkOwnerManager))->FUN_006fee90(0);
+        reinterpret_cast<::FUN_004410d0_Class *>((((::fnv_006f6a90::GtFlags *)(::fnv_005495f0::FUN_005495f0((const char *)(pkGeomA))))))->SetByteAtOffset38(0);
+        ((::fnv_006f6a90::GtFlags *)(::fnv_005495f0::FUN_005495f0((const char *)(pkGeomA))))->FUN_00a67050(0x4000);
+        reinterpret_cast<::NiGeometryData *>((((::fnv_006f6a90::GtFlags *)(::fnv_005495f0::FUN_005495f0((const char *)(pkGeomA))))))->SetCompressFlags(1);
+        ((::fnv_006f6a90::GtAccum *)(::FUN_0043c4b0()))->FUN_vec(pkGeomA, 0, 0, ((::fnv_006f6a90::GtShaderMgr *)(reinterpret_cast<::AlchemyItem *>((pkGeomA))->FUN_004030b0()))->FUN_v118(pkGeomA, pkShaderZ));
     }
 }
 }  // namespace fnv_006f6a90
@@ -2465,8 +2406,6 @@ struct ArchiveFileManager
     int unk04[0x30 / 4 - 1];
     ArchiveFileManager(int iPriority);
     ~ArchiveFileManager();
-    void FUN_00c3cee0(const char* pcName);
-    void LookupFileEntryByArchive(int i);
 };
 
 template <class T> struct TaskPtr
@@ -2479,15 +2418,8 @@ template <class T> struct TaskPtr
 struct TaskNode;
 struct TaskPlayer
 {
-    bool GetByteAtOffset();
 };
-extern TaskPlayer* g_thePlayer_011dea3c;
 
-void __cdecl BuildLODBlockFilePath(char* pcPath, int iWorld, int iLevel, unsigned short usX, unsigned short usY);
-void __cdecl FormatLODBlockFileName(char* pcPath, int iWorld, int iLevel, unsigned short usX, unsigned short usY);
-void __cdecl BuildLODBlockFileName(char* pcPath, int iWorld, int iLevel, unsigned short usX, unsigned short usY);
-void __cdecl FormatStingerBlockPath(char* pcPath, int iWorld, int iLevel, unsigned short usX, unsigned short usY);
-void __cdecl BuildStingerNifPath(char* pcPath, int iWorld, int iLevel, unsigned short usX, unsigned short usY);
 int __cdecl FUN_00456a20(const char* pcPath, int a2, int a3, int a4);
 
 struct FUN_006f6d10 : ArchiveFileManager
@@ -2515,36 +2447,36 @@ FUN_006f6d10::FUN_006f6d10(int iParent, int iWorld, int iX, int iY, int iLevel, 
     char acPath[0x104];
     if (!abLOD)
     {
-        if (!bForce && !g_thePlayer_011dea3c->GetByteAtOffset())
+        if (!bForce && !((bool)(reinterpret_cast<::FUN_006f6520_shell *>(((*reinterpret_cast<::TaskPlayer * *>(&::_g_thePlayer))))->GetByteAtOffset())))
         {
             if (bAlt)
-                BuildLODBlockFilePath(acPath, m_iWorld, iLevel, (unsigned short)iX, (unsigned short)iY);
+                ::BuildLODBlockFilePath(acPath, (::TESWorldSpace *)(m_iWorld), iLevel, (unsigned short)iX, (unsigned short)iY);
             else
-                FormatLODBlockFileName(acPath, m_iWorld, iLevel, (unsigned short)iX, (unsigned short)iY);
+                ::FormatLODBlockFileName(acPath, (::TESWorldSpace *)(m_iWorld), iLevel, (unsigned short)iX, (unsigned short)iY);
         }
         else
         {
             if (bAlt)
             {
-                BuildLODBlockFilePath(acPath, m_iWorld, iLevel, (unsigned short)iX, (unsigned short)iY);
+                ::BuildLODBlockFilePath(acPath, (::TESWorldSpace *)(m_iWorld), iLevel, (unsigned short)iX, (unsigned short)iY);
             }
             else
             {
-                BuildLODBlockFileName(acPath, m_iWorld, iLevel, (unsigned short)iX, (unsigned short)iY);
+                ::BuildLODBlockFileName(acPath, (::TESWorldSpace *)(m_iWorld), iLevel, (unsigned short)iX, (unsigned short)iY);
                 if (!FUN_00456a20(acPath, 0, 0, -1))
-                    FormatLODBlockFileName(acPath, m_iWorld, iLevel, (unsigned short)iX, (unsigned short)iY);
+                    ::FormatLODBlockFileName(acPath, (::TESWorldSpace *)(m_iWorld), iLevel, (unsigned short)iX, (unsigned short)iY);
             }
         }
     }
     else
     {
         if (bAlt)
-            FormatStingerBlockPath(acPath, m_iWorld, iLevel, (unsigned short)iX, (unsigned short)iY);
+            ::FormatStingerBlockPath(acPath, (::TESWorldSpace *)(m_iWorld), iLevel, (unsigned short)iX, (unsigned short)iY);
         else
-            BuildStingerNifPath(acPath, m_iWorld, iLevel, (unsigned short)iX, (unsigned short)iY);
+            ::BuildStingerNifPath(acPath, (::TESWorldSpace *)(m_iWorld), iLevel, (unsigned short)iX, (unsigned short)iY);
     }
-    FUN_00c3cee0(acPath + 5);
-    LookupFileEntryByArchive(0);
+    reinterpret_cast<::FUN_00c3cee0_shell *>(this)->FUN_00c3cee0((char *)(acPath + 5));
+    reinterpret_cast<::fnv_00c3cf60::FUN_00c3cf60_shell *>(this)->LookupFileEntryByArchive(0);
 }
 
 enum F7070Priority
@@ -2554,10 +2486,8 @@ enum F7070Priority
 
 struct F7070ModelLoader
 {
-    void QueueTask(const char* pcPath, F7070Priority ePriority, void* pkTask);
 };
 
-extern F7070ModelLoader* g_pModelLoader;
 
 class F7070IOTask
 {
@@ -2616,9 +2546,9 @@ void F7070LODTask::QueueLODModelLoads()
     if (!bSkipLoad)
     {
         FormatBuildingsLODTexturePath(acFirstPath, m_pContainingWorldspace);
-        g_pModelLoader->QueueTask(acFirstPath, GetPriority(), this);
+        reinterpret_cast<::fnv_004436c0::FUN_004436c0_Class *>(((*reinterpret_cast<::F7070ModelLoader * *>(&::g_modelLoader))))->LoadTexture(acFirstPath, (*(void * *)&(const ::F7070Priority &)(GetPriority())), this);
         FUN_006f57c0(acSecondPath3, m_pContainingWorldspace);
-        g_pModelLoader->QueueTask(acSecondPath3, GetPriority(), this);
+        reinterpret_cast<::fnv_004436c0::FUN_004436c0_Class *>(((*reinterpret_cast<::F7070ModelLoader * *>(&::g_modelLoader))))->LoadTexture(acSecondPath3, (*(void * *)&(const ::F7070Priority &)(GetPriority())), this);
     }
     bFadeQueuedCur = true;
     Finish();
@@ -2669,22 +2599,18 @@ struct FnvDistantSegment
     int unk20;
     int unk24;
     unsigned char unk28;
-    void SetSegmented(bool abFlag);
 };
 
 // One link of the reference chain of a block.
 struct FnvDistantLink
 {
     FnvDistantSegment* unk00;
-    FnvDistantSegment* Get();
 };
 
 // The distant object block of one cell.
 struct FnvDistantBlock
 {
     FnvDistantLink* unk00;
-    FnvDistantLink* Get();
-    void SetLoading(bool abFlag);
 };
 
 // A reference counted pointer to a node.
@@ -2723,22 +2649,20 @@ struct FnvDistantBlockLoadTask
 };
 
 // The game logs a warning with a printf style format string.
-void __cdecl FNV_Warning(const char* apFormat, ...);
 
 // @fnv 0x006f73d0
 void FnvDistantBlockLoadTask::UpdateLoadingState()
 {
-    if (unk48.Get() != 0)
+    if (((::FnvDistantNode *)(::FUN_00559450((int *)&(unk48)))) != 0)
     {
         if (unk50 == 0)
         {
-            unk40->SetLoading(1);
-            unk40->Get()->Get()->SetSegmented(1);
+            reinterpret_cast<::Owner *>((unk40))->UpdateReferences(1);
+            reinterpret_cast<::MiddleHighProcess *>((((::FnvDistantSegment *)(::FUN_00559450((int *)(((::FnvDistantLink *)(::FUN_00559450((int *)(unk40))))))))))->FUN_00929260(1);
 
-            if (unk48.Get()->v10() == 0)
+            if (((::FnvDistantNode *)(::FUN_00559450((int *)&(unk48))))->v10() == 0)
             {
-                FNV_Warning("MODELS: Found a distant object block for %i:%i,%i but it is not segmented.", unk3C, unk34,
-                            unk38);
+                ::FUN_005b5e40();
             }
         }
         else
@@ -2751,7 +2675,7 @@ void FnvDistantBlockLoadTask::UpdateLoadingState()
     {
         if (unk50 == 0 && unk40 != 0)
         {
-            unk40->SetLoading(0);
+            reinterpret_cast<::Owner *>((unk40))->UpdateReferences(0);
         }
     }
 }

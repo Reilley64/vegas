@@ -1,6 +1,7 @@
 // src/gamebryo2.2/corelibs/nicollision/nitrigon.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nicollision/nitrigon.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_004a0c10_s.h"
 struct EB3830Point3
 {
     float x;
@@ -16,7 +17,6 @@ struct EB3830Point3
     {
         return EB3830Point3(y * pt.z - z * pt.y, z * pt.x - x * pt.z, x * pt.y - y * pt.x);
     }
-    void Unitize();
 };
 
 struct EB3830Triangle
@@ -35,6 +35,6 @@ struct EB3830Triangle
 EB3830Point3 EB3830Triangle::FUN_00eb3830() const
 {
     EB3830Point3 kNormal = m_kEdgeA.Cross(m_kEdgeB);
-    kNormal.Unitize();
+    reinterpret_cast<::FUN_004a0c10_s *>(&(kNormal))->FUN_004a0c10();
     return kNormal;
 }

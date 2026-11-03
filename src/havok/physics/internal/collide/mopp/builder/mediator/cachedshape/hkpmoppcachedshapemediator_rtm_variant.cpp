@@ -2,6 +2,8 @@
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
 
 
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d54000.h"
 int __stdcall InitIntToZero(int, int* piValue);
 void __stdcall CopyFivePointers(const void* apSource, void* apUnused1, void* apUnused2, void* apUnused3, void* apDest);
 struct S_00d54cd0_Base
@@ -57,8 +59,6 @@ struct S_00d54cd0_Result
     int unk28;
     bool unk2C;
 };
-S_00d54cd0_Result* FUN_00d54a40(S_00d54cd0_Base* col, void* world, S_00d54cd0_Input* in, void* out) throw();
-S_00d54cd0_Result* FUN_00d54cd0(void* world, S_00d54cd0_Input* pInput, void* out);
 struct AudioAllocator
 {
     virtual void v00();
@@ -167,7 +167,6 @@ class FUN_00dd5cd0_cls
     int unk10;
     Mgr* m_pMgr;
 
-    void ComputeAxisRanges(Item* item, int m, int a, int b);
     void ProcessItems(int a, int b);
 };
 class DD5D50ReferencedObject
@@ -239,7 +238,6 @@ struct Vec4Bits
     unsigned int u2;
     unsigned int u3;
 };
-void __cdecl ResizeAudioStream(AudioAllocator* apAllocator, void* apVector, int aiElemSize);
 struct Src_00dd5b00
 {
     virtual void v00();

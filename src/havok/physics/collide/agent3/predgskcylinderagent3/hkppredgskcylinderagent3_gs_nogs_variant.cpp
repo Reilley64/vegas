@@ -5,6 +5,20 @@
 
 // src/havok/physics/collide/agent3/predgskcylinderagent3/hkppredgskcylinderagent3.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/predgskcylinderagent3/hkppredgskcylinderagent3.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/Cls_dafcd0.h"
+#include "fnv/decl/FUN_00d22590_Class.h"
+#include "fnv/decl/HK_ASSERT_OBJECT_SIZE_OK_FUNC_t.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpCylinderShapeGetCylRadius.h"
+#include "fnv/symbols_00d40000.h"
+#include "fnv/symbols_00d41000.h"
+#include "fnv/symbols_00dad000.h"
+#include "fnv/symbols_00dae000.h"
+#include "fnv/symbols_00db4000.h"
+#include "fnv/symbols_00db6000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010cf000.h"
+#include "fnv/symbols_01268000.h"
 struct FNVTypeRecord
 {
     int unknown0;
@@ -29,8 +43,6 @@ struct FNVFlags
     unsigned char unknownA;
     unsigned char flags;
 };
-extern "C" int __cdecl DispatchInputRecord(FNVPair*, int, FNVFlags*);
-int __cdecl ConvertPairFlags(FNVPair* pair, int mode, FNVFlags* result);
 struct FNVExtendedObject;
 struct ExtendedRecord;
 struct Node;
@@ -48,7 +60,6 @@ struct Manager
     Allocator* allocator;
 };
 extern "C" Manager* __cdecl FUN_00c85750();
-extern "C" void __cdecl FUN_00d41930(void*, void*, void*, void*);
 extern double DAT_010cf218;
 struct Node
 {
@@ -57,7 +68,6 @@ struct Node
     short unk06;
     int unk08;
     int unk0c;
-    Node* Init(void* p1, void* p2, float val);
 };
 struct ExtendedRecord : FNVTypeRecord
 {
@@ -66,8 +76,6 @@ struct ExtendedRecord : FNVTypeRecord
     int unk18;
     int unk1c;
     int unk20;
-    float GetVal();
-    void RemoveRef();
 };
 struct FNVExtendedObject : FNVObject
 {
@@ -84,7 +92,6 @@ struct __declspec(align(16)) FNVResult
 };
 struct ExtendedFlags : FNVFlags
 {
-    void Init(void* p1, void* p2, void* p3);
 };
 struct __declspec(align(16)) LocalSource
 {
@@ -121,7 +128,6 @@ struct __declspec(align(16)) LocalSource
     int unk78;
     int unk7c;
 
-    void CopyBase(LocalSource* src);
 };
 float __cdecl ComputeExtendedResult(LocalSource* source, void* arg2, FNVFlags* flags_in);
 struct D40AF0State
@@ -137,7 +143,6 @@ struct D40AF0Mask
 };
 static void FUN_00d40af0(D40AF0State* s, D40AF0Mask* m);
 void D40AF0Caller(D40AF0State* s, D40AF0Mask* m);
-void __fastcall FUN_00c905b0(void* selfVal);
 static void FUN_00d409d0(void** vals, void** slots);
 void** volatile g_d409d0_vals;
 void** volatile g_d409d0_slots;
@@ -176,7 +181,6 @@ struct D40A10Shape
     float unk34;
     float unk38;
     float unk3c;
-    float FUN_00d571a0();
 };
 struct D40A10Node
 {
@@ -269,8 +273,6 @@ struct Shape : ShapeHeader
 {
     Vec minBound, maxBound;
 
-    float FUN_00d571a0();
-    void FUN_00c905b0();
     Shape* FUN_00d22590(Vec*, Vec*, float);
 };
 
@@ -347,8 +349,6 @@ struct Trace
     unsigned int* end;
 };
 
-extern unsigned long DAT_0126835c;
-extern const char str_010cf220[], str_010c41f8[];
 
 void profile(const char* label)
 {
@@ -3501,7 +3501,7 @@ __forceinline Shape* makeShape(Shape* shape)
     Shape* p = (Shape*)FUN_00c85750()->allocator->allocate(64);
     p->allocationSize = 64;
     float radius = shape->radius;
-    float inflated = (float)(shape->FUN_00d571a0() + radius + 0.0020000000949949026);
+    float inflated = (float)(reinterpret_cast<::hkpCylinderShapeGetCylRadius *>((shape))->FUN_00d571a0() + radius + 0.0020000000949949026);
     return p->FUN_00d22590(&shape->minBound, &shape->maxBound, inflated);
 }
 
@@ -3526,9 +3526,7 @@ struct VectorOps
     void FUN_00c7f700(Transform*, Vec*);
 };
 
-void ReleaseAllEntries(void*, void*, void*);
 
-void FUN_00db60c0(Pair*, float, float, float, Cache*, Vec*, Output*);
 
 struct VertexData
 {
@@ -3537,9 +3535,7 @@ struct VertexData
     float radiusA, radiusB, tolerance, radiusSquared;
 };
 
-void FUN_00dae3a0(unsigned char*, VertexData*, int, Output*, void*);
 
-void ProcessCollision(Pair*, State*, Cache*, Feature*, unsigned char*, Vec*, Output*);
 
 float smaller(float a, float b)
 {
@@ -3591,7 +3587,7 @@ Cache* __cdecl FUN_00d40d80(Pair* pair, State* state, Cache* cache, VecArg norma
     stampCursor = stampTrace->current;
     if (stampCursor < stampTrace->end)
     {
-        stampCursor[0] = (unsigned int)str_010cf220;
+        stampCursor[0] = (unsigned int)::DAT_010cf220;
         _ReadWriteBarrier();
         stampTicks = (unsigned int)__rdtsc();
         stampCursor[1] = stampTicks;
@@ -3662,7 +3658,7 @@ Cache* __cdecl FUN_00d40d80(Pair* pair, State* state, Cache* cache, VecArg norma
 
     Vec direction;
 
-    FUN_00d41930(pair, state, cache, &direction);
+    ::FUN_00d41930((::Input_s *)(pair), (int)(state), (::hkpGskCache_s *)(cache), (::Output_s *)(void *)(&direction));
 
     ContactData* contact = &cache->contactData;
     for (int i = 0; i < 2; ++i)
@@ -3701,7 +3697,7 @@ Cache* __cdecl FUN_00d40d80(Pair* pair, State* state, Cache* cache, VecArg norma
                 {
                     sharedActive.active[i] = 0;
                     cache->feature.flags &= ~(4 << i);
-                    ReleaseAllEntries(&contact->numA, pair->manager, output->stream);
+                    ::ReleaseAllEntries((::S_00dad640_Set *)(void *)(&contact->numA), (::S_00dad640_Target *)(pair->manager), output->stream);
                     state->numContacts = contact->numContacts;
                 }
             }
@@ -3711,7 +3707,7 @@ Cache* __cdecl FUN_00d40d80(Pair* pair, State* state, Cache* cache, VecArg norma
 
                 sharedActive.active[i] = 1;
                 cache->feature.flags |= 4 << i;
-                ReleaseAllEntries(&contact->numA, pair->manager, output->stream);
+                ::ReleaseAllEntries((::S_00dad640_Set *)(void *)(&contact->numA), (::S_00dad640_Target *)(pair->manager), output->stream);
                 state->numContacts = contact->numContacts;
             }
         }
@@ -3750,7 +3746,7 @@ Cache* __cdecl FUN_00d40d80(Pair* pair, State* state, Cache* cache, VecArg norma
             scalarScratch.minArg = settings->otherOffset * radius + depth;
             float other = smaller(leftMin, scalarScratch.minArg);
 
-            FUN_00db60c0(pair, radius, len, other, cache, normal, output);
+            ::FUN_00db60c0((*(const ::AgentSubtypeMarker *)(pair)), radius, len, other, (*(::ConvexFeaturePairCache *)(cache)), (*(::hkVector4 *)(normal)), (*(::WorldOperationEntry *)(output)));
             goto distant;
         }
     }
@@ -3775,9 +3771,9 @@ Cache* __cdecl FUN_00d40d80(Pair* pair, State* state, Cache* cache, VecArg norma
                 scalarScratch.node = mgr->allocator->allocate(0x40);
                 scalarScratch.node->unk04 = 0x40;
                 float v = record->unk10;
-                float val = (v + record->GetVal()) + DAT_010cf218;
+                float val = (v + reinterpret_cast<::hkpCylinderShapeGetCylRadius *>((record))->FUN_00d571a0()) + DAT_010cf218;
                 scalarScratch.node =
-                    scalarScratch.node->Init(&((Shape*)record)->minBound, &((Shape*)record)->maxBound, val);
+                    ((::Node *)(reinterpret_cast<::FUN_00d22590_Class *>((scalarScratch.node))->FUN_00d22590((*(const ::AlignedHKVector4 *)(&((Shape*)record)->minBound)), (*(const ::AlignedHKVector4 *)(&((Shape*)record)->maxBound)), val)));
                 Shape* shape = (Shape*)scalarScratch.node;
 
                 if (&frames[j])
@@ -3873,7 +3869,7 @@ Cache* __cdecl FUN_00d40d80(Pair* pair, State* state, Cache* cache, VecArg norma
                 }
             }
 
-            FUN_00dae3a0(&contact->numA, &tracker, 0, output, pair->manager);
+            ::FUN_00dae3a0((*(::Manifold *)(&contact->numA)), (*(const ::WorkData *)(&tracker)), 0, (*(::ProcessOutput *)(output)), (::Manager *)(pair->manager));
 
             if (contact->numContacts)
             {
@@ -3905,9 +3901,9 @@ distant:
                 Node* node = mgr->allocator->allocate(64);
                 node->unk04 = 64;
                 lateScratch.radius = record->unk10;
-                lateScratch.inflated = (float)(record->GetVal() + lateScratch.radius + DAT_010cf218);
+                lateScratch.inflated = (float)(reinterpret_cast<::hkpCylinderShapeGetCylRadius *>((record))->FUN_00d571a0() + lateScratch.radius + DAT_010cf218);
                 Shape* shape =
-                    (Shape*)node->Init(&((Shape*)record)->minBound, &((Shape*)record)->maxBound, lateScratch.inflated);
+                    (Shape*)((::Node *)(reinterpret_cast<::FUN_00d22590_Class *>((node))->FUN_00d22590((*(const ::AlignedHKVector4 *)(&((Shape*)record)->minBound)), (*(const ::AlignedHKVector4 *)(&((Shape*)record)->maxBound)), lateScratch.inflated)));
                 if (&frames[k])
                 {
                     Body* old = *slot;
@@ -3960,10 +3956,10 @@ distant:
             }
         }
 
-        ProcessCollision(pair, state, cache, feature, &contact->numA, normal, output);
+        ::ProcessCollision((::In *)(pair), state, (::Arg2 *)(cache), (::Arg3 *)(feature), (::Arg4 *)(unsigned char *)(&contact->numA), (::VecS *)(::Vec *)(normal), (::Arg6 *)(output));
     }
     else if (contact->numContacts)
-        ReleaseAllEntries(&contact->numA, pair->manager, output->stream);
+        ::ReleaseAllEntries((::S_00dad640_Set *)(void *)(&contact->numA), (::S_00dad640_Target *)(pair->manager), output->stream);
 
     normal->value = direction.value;
 
@@ -3972,7 +3968,7 @@ cleanup:
     for (int m = 0; m < 2; ++m)
         if (saved[m])
         {
-            (*bodies[m])->shape->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>(((*bodies[m])->shape))->FUN_00c905b0();
             *bodies[m] = saved[m];
         }
 
@@ -3982,7 +3978,7 @@ cleanup:
     stampCursor = stampTrace->current;
     if (stampCursor < stampTrace->end)
     {
-        stampCursor[0] = (unsigned int)str_010c41f8;
+        stampCursor[0] = (unsigned int)::DAT_010c41f8;
         _ReadWriteBarrier();
         stampTicks = (unsigned int)__rdtsc();
         stampCursor[1] = stampTicks;

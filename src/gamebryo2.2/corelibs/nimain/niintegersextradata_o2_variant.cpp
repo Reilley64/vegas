@@ -2,20 +2,32 @@
 // src/gamebryo2.2/corelibs/nimain/niintegersextradata_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/gamebryo2.2/corelibs/nimain/niintegersextradata.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/ExtraDataObject.h"
+#include "fnv/decl/ExtraDataStrings.h"
+#include "fnv/decl/FUN_00a7b330_shell.h"
+#include "fnv/decl/FUN_00a99800_shell.h"
+#include "fnv/decl/FUN_00c545d0_cls.h"
+#include "fnv/decl/FUN_00c54b70_cls.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_010a0000.h"
+#include "fnv/symbols_011f5000.h"
+#include "fnv/symbols_01203000.h"
 #include "niintegersextradata_decls.h"
 struct NiFixedString
 {
 };
 struct NiAVObject
 {
-    void SetName(NiFixedString const& name);
 };
 extern NiFixedString* DAT_012031c0;
 struct FUN_00c543e0_shell : NiAVObject
 {
     void FUN_00c543e0();
 };
-extern int g_012031c4;
 struct FUN_00c54d60_shell
 {
     int* __thiscall FUN_00c54d60();
@@ -25,16 +37,13 @@ struct FUN_00c54030_shell
     int __thiscall FUN_00c54030(int param_1);
 };
 
-extern char const* const g_012043a4_arg1;
 
 // @fnv 0x00a99940
 char const* const* __cdecl FUN_00a99940()
 {
-    return &g_012043a4_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_011f5f24));
 }
 
-extern "C" void __cdecl NiFreeAlias(void* p);
-extern int DAT_010a0c7c;
 struct FUN_00a7b300_shell
 {
     void __thiscall FUN_00a7b300();
@@ -52,21 +61,18 @@ struct FUN_00a99950_shell
 void __thiscall FUN_00a99950_shell::FUN_00a99950()
 {
     void* p = *(void**)((char*)this + 0x10);
-    *(int*)this = (int)&DAT_010a0c7c;
-    NiFreeAlias(p);
+    *(int*)this = (int)&(*reinterpret_cast<int *>(&::fnv_00a99a50::DAT_010a0c7c));
+    ::FUN_00aa10f0(p);
     *(int*)((char*)this + 0x10) = 0;
     ((FUN_00a7b300_shell*)this)->FUN_00a7b300();
 }
 
 struct PB_00a7b2e0
 {
-    void FUN_00a7b2e0();
 };
 struct PB_00a99800
 {
-    void AssignPointerArray(int a, int b);
 };
-extern int DAT_010a0c7c;
 struct ST_00a99980 : NiExtraData
 {
     ST_00a99980* FUN_00a99980(int a, int b);
@@ -74,21 +80,19 @@ struct ST_00a99980 : NiExtraData
 // @fnv 0x00a99980
 ST_00a99980* ST_00a99980::FUN_00a99980(int a, int b)
 {
-    ((PB_00a7b2e0*)this)->FUN_00a7b2e0();
-    *(int*)this = (int)&DAT_010a0c7c;
+    reinterpret_cast<::ExtraDataObject *>((((PB_00a7b2e0*)this)))->FUN_00a7b2e0();
+    *(int*)this = (int)&(*reinterpret_cast<int *>(&::fnv_00a99a50::DAT_010a0c7c));
     *(int*)((char*)this + 0x10) = 0;
-    ((PB_00a99800*)this)->AssignPointerArray(a, b);
+    reinterpret_cast<::FUN_00a99800_shell *>((((PB_00a99800*)this)))->AssignPointerArray(a, (const void *)(b));
     return this;
 }
 
-extern int DAT_010a0c7c;
 struct BSFadeNode
 {
     static void* operator new(unsigned int);
 };
 struct NiExtraDataShell : NiExtraData
 {
-    void FUN_00a7b2e0();
 };
 // @fnv 0x00a99a10
 NiExtraData* FUN_00a99a10()
@@ -96,8 +100,8 @@ NiExtraData* FUN_00a99a10()
     NiExtraData* data = static_cast<NiExtraData*>(BSFadeNode::operator new(0x14));
     if (data)
     {
-        static_cast<NiExtraDataShell*>(data)->FUN_00a7b2e0();
-        data->baseData[0] = reinterpret_cast<unsigned int>(&DAT_010a0c7c);
+        reinterpret_cast<::ExtraDataObject *>((static_cast<NiExtraDataShell*>(data)))->FUN_00a7b2e0();
+        data->baseData[0] = reinterpret_cast<unsigned int>(&(*reinterpret_cast<int *>(&::fnv_00a99a50::DAT_010a0c7c)));
         data->baseData[4] = 0;
         data->baseData[3] = 0;
         return data;
@@ -106,9 +110,7 @@ NiExtraData* FUN_00a99a10()
 }
 
 namespace fnv_00a99a50 {
-extern "C" void NiFreeAlias(void*);
 void __cdecl FUN_00a7b300();
-extern char DAT_010a0c7c;
 struct FUN_00a99a50_shell
 {
     int vtbl;
@@ -124,11 +126,11 @@ struct FUN_00a99a50_shell
 FUN_00a99a50_shell* __thiscall FUN_00a99a50_shell::FUN_00a99a50(int flag)
 {
     vtbl = (int)&DAT_010a0c7c;
-    NiFreeAlias((void*)d);
+    ::FUN_00aa10f0((void*)d);
     d = 0;
-    FUN_00a7b300();
+    reinterpret_cast<::FUN_00a7b300_shell *>(this)->FUN_00a7b300();
     if (flag & 1)
-        operator delete(this, 0x14);
+        ::FUN_00aa1460(this, 0x14);
     return this;
 }
 }  // namespace fnv_00a99a50
@@ -164,22 +166,20 @@ bool Extra_00a998e0::FUN_00a998e0(Extra_00a998e0* pObject)
     return true;
 }
 
-void* __cdecl _NiMalloc(unsigned int);
 struct FUN_00a99870_shell : public NiExtraData
 {
     unsigned int m_uiSize;
     int* m_piValue;
-    void FUN_00a7b330(void* pDest, void* pCloning);
     void __thiscall FUN_00a99870(FUN_00a99870_shell* pDest, void* pCloning);
 };
 // @fnv 0x00a99870
 void __thiscall FUN_00a99870_shell::FUN_00a99870(FUN_00a99870_shell* pDest, void* pCloning)
 {
-    FUN_00a7b330(pDest, pCloning);
+    reinterpret_cast<::FUN_00a7b330_shell *>(this)->FUN_00a7b330((::NiBinaryExtraData *)(pDest), (::CloningProcess *)(pCloning));
     if (m_piValue && m_uiSize > 0)
     {
         pDest->m_uiSize = m_uiSize;
-        pDest->m_piValue = (int*)_NiMalloc(m_uiSize * 4);
+        pDest->m_piValue = (int*)::FUN_00aa1070(m_uiSize * 4);
         for (unsigned int i = 0; i < m_uiSize; ++i)
             pDest->m_piValue[i] = m_piValue[i];
     }
@@ -225,36 +225,31 @@ template <class T> class NiTPrimitiveArray
     {
         unsigned int uiIndex = m_usSize;
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, element);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(element));
         return uiIndex;
     }
 };
 
 typedef NiTPrimitiveArray<char*> NiViewerStringsArray;
 
-char* CreateDebugString(const char* pcText);
-char* CreateDebugString(const char* pcPrefix, unsigned int uiValue);
-char* CreateDebugString(const char* pcPrefix, int iValue);
 
-extern const char* g_011f5f24;
 
 struct NiIntegersExtraDataView : NiExtraData
 {
     unsigned int m_uiSize;
     int* m_piValue;
-    void BaseGetViewerStrings(NiViewerStringsArray* pkStrings);
     void FUN_00a99b20(NiViewerStringsArray* pkStrings);
 };
 
 // @fnv 0x00a99b20
 void NiIntegersExtraDataView::FUN_00a99b20(NiViewerStringsArray* pkStrings)
 {
-    BaseGetViewerStrings(pkStrings);
-    pkStrings->Add(CreateDebugString(g_011f5f24));
-    pkStrings->Add(CreateDebugString("m_uiSize", m_uiSize));
+    reinterpret_cast<::ExtraDataStrings *>(this)->FUN_00a7b580((::StrArr *)(pkStrings));
+    pkStrings->Add(::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_011f5f24))));
+    pkStrings->Add(::FUN_00a7d510("m_uiSize", m_uiSize));
     for (unsigned int i = 0; i < m_uiSize; i++)
-        pkStrings->Add(CreateDebugString("m_piValue[i]", m_piValue[i]));
+        pkStrings->Add(::FUN_00a7d4d0("m_piValue[i]", m_piValue[i]));
 }
 
 class NiPSysBaseA99
@@ -286,7 +281,6 @@ class NiPSysDerivedA99 : public NiPSysBaseA99
 class NiPSysOwnerA99
 {
   public:
-    void CopyMemberData(NiPSysBaseA99* pkDest, void* pvProcess);
     NiPSysBaseA99* FUN_00a999b0(void* pvProcess);
 };
 
@@ -294,6 +288,6 @@ class NiPSysOwnerA99
 NiPSysBaseA99* NiPSysOwnerA99::FUN_00a999b0(void* pvProcess)
 {
     NiPSysDerivedA99* pkClone = new NiPSysDerivedA99;
-    CopyMemberData(pkClone, pvProcess);
+    reinterpret_cast<::FUN_00a99870_shell *>(this)->FUN_00a99870((::FUN_00a99870_shell *)(pkClone), pvProcess);
     return pkClone;
 }

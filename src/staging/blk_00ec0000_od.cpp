@@ -2,25 +2,45 @@
 // src/staging/blk_00ec0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00438af0_Class.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/MoviePlayerA.h"
+#include "fnv/decl/NiRenderer.h"
+#include "fnv/decl/NiTStringMapCopy.h"
+#include "fnv/decl/fnv_00853130__NiTMapBase.h"
+#include "fnv/decl/fnv_00ec15e0__BSMoviePlayer.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00aa2000.h"
+#include "fnv/symbols_00ebf000.h"
+#include "fnv/symbols_00ec0000.h"
+#include "fnv/symbols_00ec1000.h"
+#include "fnv/symbols_010f1000.h"
+#include "fnv/symbols_011ad000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01202000.h"
+#include "fnv/symbols_0126f000.h"
 #include "../../include/layout_support.h"
 
 struct BGSMoviePlayer
 {
-    void __thiscall FUN_00ec2760(int a);
 };
-extern BGSMoviePlayer* DAT_0126fac4;
 // @fnv 0x00ec16b0
 int __stdcall FUN_00ec16b0(int a)
 {
-    DAT_0126fac4->FUN_00ec2760(a);
+    reinterpret_cast<::MoviePlayerA *>((::DAT_0126fac4))->FUN_00ec2760((const char *)(a));
     return 0;
 }
 
 struct P03MM
 {
-    void* Allocate(unsigned int);
 };
-extern P03MM g_memoryManager;
 struct FUN_00ec1a40_Class
 {
     void* FUN_00ec1a40();
@@ -28,11 +48,10 @@ struct FUN_00ec1a40_Class
 // @fnv 0x00ec1a40
 void* FUN_00ec1a40_Class::FUN_00ec1a40()
 {
-    void* result = g_memoryManager.Allocate(0xc);
+    void* result = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(0xc);
     return result;
 }
 
-extern "C" int __cdecl _NiStricmp(const char*, const char*);
 
 struct FUN_00ec1c90_class
 {
@@ -43,7 +62,7 @@ struct FUN_00ec1c90_class
 // @fnv 0x00ec1c90
 int __thiscall FUN_00ec1c90_class::AreStringsEqualIgnoreCase(const char* pcStringA, const char* pcStringB)
 {
-    return !_NiStricmp(pcStringA, pcStringB);
+    return !::NiStricmp(pcStringA, pcStringB);
 }
 
 extern int __cdecl __stricmp(const char*, const char*);
@@ -62,39 +81,29 @@ int __thiscall FUN_00ec1dc0_Class::IsStringEqualIgnoreCase(const char* pcStringA
 
 struct FUN_00ec1f20Class
 {
-    void FUN_00ec1570();
     void* FUN_00ec1f20();
 };
 
 // @fnv 0x00ec1f20
 void* FUN_00ec1f20Class::FUN_00ec1f20()
 {
-    FUN_00ec1570();
+    ::FUN_00ec1570((::FUN_00ec1570_t *)this);
     return this;
 }
 
 struct FUN_00ec1f40Class
 {
-    void __thiscall FUN_00ec1020();
     void __thiscall FUN_00ec1f40();
 };
-
-// @fnv 0x00ec1f40
-void __thiscall FUN_00ec1f40Class::FUN_00ec1f40()
-{
-    FUN_00ec1020();
-}
 
 namespace fnv_00ec20a0 {
 struct MemoryManager
 {
-    void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 // @fnv 0x00ec20a0
 void __stdcall FUN_00ec20a0(void* apMemory)
 {
-    g_memoryManager.Deallocate(apMemory);
+    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00ec20a0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(apMemory);
 }
 }  // namespace fnv_00ec20a0
 
@@ -164,11 +173,9 @@ void __fastcall FUN_00ec1570(FUN_00ec1570_t* p)
 
 struct MemoryManager
 {
-    void __thiscall Deallocate(void*);
 };
 struct FUN_00ec15e0_shell
 {
-    void __thiscall FUN_00ec15e0();
 };
 struct FUN_00ec19d0_class
 {
@@ -177,15 +184,14 @@ struct FUN_00ec19d0_class
 // @fnv 0x00ec19d0
 void* __thiscall FUN_00ec19d0_class::FUN_00ec19d0(unsigned int flags)
 {
-    ((FUN_00ec15e0_shell*)this)->FUN_00ec15e0();
+    reinterpret_cast<::fnv_00ec15e0::BSMoviePlayer *>((((FUN_00ec15e0_shell*)this)))->fnv_00ec15e0::BSMoviePlayer::~BSMoviePlayer();
     if (flags & 1)
-        ((MemoryManager*)&g_memoryManager)->Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>((((MemoryManager*)&(*reinterpret_cast<::P03MM *>(&::g_memoryManager)))))->FUN_00aa4060(this);
     return this;
 }
 
 struct FUN_00ec0cd0_Class
 {
-    unsigned char __thiscall InitPlayback(int a, int b, unsigned char c, int d);
 };
 struct FUN_00ec1f60_Class
 {
@@ -193,21 +199,6 @@ struct FUN_00ec1f60_Class
     unsigned char m_0024;
     unsigned char InitAndCheck(int a, unsigned char b);
 };
-// @fnv 0x00ec1f60
-unsigned char FUN_00ec1f60_Class::InitAndCheck(int aiValue, unsigned char b)
-{
-    *(int*)((char*)this + 0x20) = 2;
-    *(unsigned char*)((char*)this + 0x24) = 1;
-    if (!((FUN_00ec0cd0_Class*)this)->InitPlayback(aiValue, 1, b, 0))
-    {
-        *(unsigned char*)((char*)this + 0x24) = 0;
-        return 0;
-    }
-    *(unsigned char*)((char*)this + 0x24) = 0;
-    return 1;
-}
-
-void __cdecl FNV_Warning(const char*);
 struct FUN_00ec1fb0_class
 {
     void __thiscall DisableThreadPriorityBoost();
@@ -228,8 +219,8 @@ void __thiscall FUN_00ec2a10_class::PauseMovie()
     if (!m_000c)
         return;
     if (m_0010)
-        FNV_Warning(
-            "DEFAULT: Trying to pause a movie while another movie is already paused.  This is not currently supported.");
+        ::FUN_005b5e40(
+            );
     ((FUN_00ec1fb0_class*)m_000c)->DisableThreadPriorityBoost();
     m_0010 = m_000c;
     m_000c = 0;
@@ -426,10 +417,9 @@ void __thiscall FUN_00ec1a60_class::FreeStruct(FUN_00ec1a60_t* pStruct)
 {
     pStruct->c = 0;
     FUN_00ec1a60_t* q = pStruct;
-    ((MemoryManager*)&g_memoryManager)->Deallocate(q);
+    reinterpret_cast<::FNV_MemoryManager *>((((MemoryManager*)&(*reinterpret_cast<::P03MM *>(&::g_memoryManager)))))->FUN_00aa4060(q);
 }
 
-extern "C" void __cdecl _NiFree(void*);
 extern int DAT_010f1ca4;
 struct FUN_00ec1b80_Map
 {
@@ -448,11 +438,10 @@ void __thiscall FUN_00ec1b80_Class::Initialize()
     int pad1;
     int pad2;
     m_0000 = (int)&DAT_010f1ca4;
-    ((FUN_00ec1b80_Map*)this)->RemoveAll();
-    _NiFree((void*)m_0008);
+    reinterpret_cast<::FUN_00438af0_Class *>((((FUN_00ec1b80_Map*)this)))->FUN_00438af0();
+    ::FUN_00aa10f0((void*)m_0008);
 }
 
-void* __cdecl _NiMalloc(unsigned int size);
 unsigned int __cdecl _strlen(const char* s);
 int __cdecl _strcpy_s(char* dest, unsigned int size, const char* src);
 
@@ -468,7 +457,7 @@ void __thiscall FUN_00ec1cc0_Class::AssignString(void* apTarget, const char* apS
     if (*(unsigned char*)((char*)this + 0x10))
     {
         unsigned int uiLen = _strlen(apString) + 1;
-        *(void**)((char*)apTarget + 4) = _NiMalloc(uiLen);
+        *(void**)((char*)apTarget + 4) = ::FUN_00aa1070(uiLen);
         void* dest = *(void**)((char*)apTarget + 4);
         _strcpy_s((char*)dest, uiLen, apString);
     }
@@ -479,11 +468,9 @@ void __thiscall FUN_00ec1cc0_Class::AssignString(void* apTarget, const char* apS
     *(int*)((char*)apTarget + 8) = aiValue;
 }
 
-extern int DAT_010f1c20;
 struct FUN_00ec1a90_Class
 {
     int m_ppVirtualMethodTable;
-    void __thiscall FUN_00ec1a90();
 };
 struct FUN_00ec1d30_Class : FUN_00ec1a90_Class
 {
@@ -500,7 +487,7 @@ void __thiscall FUN_00ec1d30_Class::FUN_00ec1d30()
     int f;
     int g;
     m_ppVirtualMethodTable = (int)&DAT_010f1c20;
-    FUN_00ec1a90();
+    reinterpret_cast<::NiTStringMapCopy *>(this)->NiTStringMapCopy::~NiTStringMapCopy();
 }
 
 struct FUN_00ec0460_cls
@@ -612,7 +599,6 @@ struct GridDesc
     unsigned int cellSize;
 };
 
-void __cdecl FUN_00ec0720(int target, float x, float y, float sx, float sy, unsigned int w, unsigned int h);
 
 // @fnv 0x00ec0550
 void __cdecl FUN_00ec0550(GridDesc* grid, float startX, float startY, float scaleX, float scaleY)
@@ -632,12 +618,12 @@ void __cdecl FUN_00ec0550(GridDesc* grid, float startX, float startY, float scal
         x = startX;
         for (col_2 = 0; col_2 < grid->cols; col_2++)
         {
-            FUN_00ec0720(grid->unk00, x, y_, scaleX, scaleY, grid->cellSize, grid->cellSize);
+            ::FUN_00ec0720((::FUN_00ec0720_Device *)(grid->unk00), x, y_, scaleX, scaleY, grid->cellSize, grid->cellSize);
             x += stepX4;
         }
         if (grid->extraX)
         {
-            FUN_00ec0720(grid->unk00, x, y_, scaleX, scaleY, grid->extraX, grid->cellSize);
+            ::FUN_00ec0720((::FUN_00ec0720_Device *)(grid->unk00), x, y_, scaleX, scaleY, grid->extraX, grid->cellSize);
         }
         y_ += stepY;
     }
@@ -646,12 +632,12 @@ void __cdecl FUN_00ec0550(GridDesc* grid, float startX, float startY, float scal
         x = startX;
         for (col_2 = 0; col_2 < grid->cols; col_2++)
         {
-            FUN_00ec0720(grid->unk00, x, y_, scaleX, scaleY, grid->cellSize, grid->extraY);
+            ::FUN_00ec0720((::FUN_00ec0720_Device *)(grid->unk00), x, y_, scaleX, scaleY, grid->cellSize, grid->extraY);
             x += stepX4;
         }
         if (grid->extraX)
         {
-            FUN_00ec0720(grid->unk00, x, y_, scaleX, scaleY, grid->extraX, grid->extraY);
+            ::FUN_00ec0720((::FUN_00ec0720_Device *)(grid->unk00), x, y_, scaleX, scaleY, grid->extraX, grid->extraY);
         }
     }
 }
@@ -673,14 +659,8 @@ class NiPlaybackManager
     virtual void v05();
     virtual void v06();
     virtual int GetRenderer();
-    float GetFrameRate(unsigned int uiWidth, unsigned int uiHeight, bool bLooping);
-    float GetWidthScale(float fRate, unsigned int uiWidth, bool bLooping);
-    float GetHeightScale(float fRate, unsigned int uiHeight, bool bLooping);
 };
 
-void* __cdecl CreatePlaybackTextures(int iRenderer, unsigned int uiWidth, unsigned int uiHeight, int iCount, int iFlags,
-                                     int iFormat);
-void __cdecl FNV_Warning(const char*, ...);
 
 class NiPlaybackFile
 {
@@ -698,31 +678,21 @@ class NiPlaybackFile
     bool FindString(const char* pcName, bool bQuiet, bool bLoop, bool bFlag);
     bool InitPlayback(const char* pcName, bool bQuiet, bool bLoop, bool bLooping);
 };
-
-// Loads the playback size if needed, queries the manager for renderer, frame rate and scales, allocates textures and warns on failure.
-// @fnv 0x00ec0cd0
-bool NiPlaybackFile::InitPlayback(const char* pcName, bool bQuiet, bool bLoop, bool bLooping)
+// @fnv 0x00ec1f60
+unsigned char FUN_00ec1f60_Class::InitAndCheck(int aiValue, unsigned char b)
 {
-    if (m_pkSize == 0 && !FindString(pcName, bQuiet, bLoop, false))
-        return false;
-
-    m_iRenderer = ((NiPlaybackManager*)DAT_0126fac4)->GetRenderer();
-    m_fTextureScale = ((NiPlaybackManager*)DAT_0126fac4)->GetFrameRate(m_pkSize->uiWidth, m_pkSize->uiHeight, bLooping);
-    m_fWidthScale = ((NiPlaybackManager*)DAT_0126fac4)->GetWidthScale(m_fTextureScale, m_pkSize->uiWidth, bLooping);
-    m_fHeightScale = ((NiPlaybackManager*)DAT_0126fac4)->GetHeightScale(m_fTextureScale, m_pkSize->uiHeight, bLooping);
-    m_pkTextures = CreatePlaybackTextures(m_iRenderer, m_pkSize->uiWidth, m_pkSize->uiHeight, 4, 0x100, 0x16);
-    if (m_pkTextures == 0)
+    *(int*)((char*)this + 0x20) = 2;
+    *(unsigned char*)((char*)this + 0x24) = 1;
+    if (!((unsigned char)(reinterpret_cast<::NiPlaybackFile *>((((FUN_00ec0cd0_Class*)this)))->InitPlayback((const char *)(aiValue), 1, b, 0))))
     {
-        if (!bQuiet)
-            FNV_Warning("Could not allocate textures for %s playback.", pcName);
-        m_iFadeIndex = 0;
-        return false;
+        *(unsigned char*)((char*)this + 0x24) = 0;
+        return 0;
     }
-    return true;
+    *(unsigned char*)((char*)this + 0x24) = 0;
+    return 1;
 }
 
 extern "C" __declspec(dllimport) void __stdcall BinkClose(int handle);
-void __cdecl ReleaseInterfaceArray(int value);
 
 struct FUN_00ec1020_cls
 {
@@ -731,6 +701,11 @@ struct FUN_00ec1020_cls
     int m_08;
     void FUN_00ec1020();
 };
+// @fnv 0x00ec1f40
+void __thiscall FUN_00ec1f40Class::FUN_00ec1f40()
+{
+    reinterpret_cast<::FUN_00ec1020_cls *>(this)->FUN_00ec1020();
+}
 
 // @fnv 0x00ec1020
 void FUN_00ec1020_cls::FUN_00ec1020()
@@ -741,7 +716,7 @@ void FUN_00ec1020_cls::FUN_00ec1020()
     }
     if (m_08 != 0)
     {
-        ReleaseInterfaceArray(m_08);
+        ::ReleaseInterfaceArray((::Struct_00ebfd20 *)(m_08));
     }
     FUN_00ec1570((FUN_00ec1570_t*)this);
 }
@@ -752,8 +727,6 @@ struct FUN_00ec14d0_bink
     unsigned int m_04;
 };
 
-int __cdecl LockNextTile(unsigned int a, int* p1, int* p2, int* p3, int* p4, int* p5, int* p6);
-int __cdecl ApplyLastEffect(unsigned int a);
 
 extern "C" __declspec(dllimport) int __stdcall BinkDoFrame(void* hBink);
 extern "C" __declspec(dllimport) int __stdcall BinkCopyToBufferRect(void* hBink, void* dest, int destPitch,
@@ -774,11 +747,11 @@ unsigned char __cdecl DecodeBinkFrame(FUN_00ec14d0_bink* a1, unsigned int a2, in
     int v7;
 
     BinkDoFrame(a1);
-    while (LockNextTile(a2, &v7, &vB, &v8, &v3, &v2, &v1) != 0)
+    while (::LockNextTile((::TiledTexture *)(a2), (void **)(int *)(&v7), &vB, (unsigned int *)(int *)(&v8), (unsigned int *)(int *)(&v3), (unsigned int *)(int *)(&v2), (unsigned int *)(int *)(&v1)) != 0)
     {
         result2 = BinkCopyToBufferRect(a1, (void*)v7, vB, a1->m_04, 0, 0, v8, v3, v2, v1,
                                        ((a3 != 0 ? -1 : 0) & 0x80000000u) | 3u);
-        ApplyLastEffect(a2);
+        ::ApplyLastEffect((::EffectStackEBF *)(a2));
     }
     return result2 != 0;
 }
@@ -813,7 +786,6 @@ extern "C" __declspec(dllimport) unsigned long __stdcall ResumeThread(void* hThr
 extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void* hHandle,
                                                                              unsigned long ulMilliseconds);
 
-void __cdecl FUN_00aa2740(unsigned long ulThreadId, const char* pcName);
 
 struct BEC16D0Setting
 {
@@ -821,8 +793,6 @@ struct BEC16D0Setting
     int m_iValue;
 };
 
-extern BEC16D0Setting g_kEC16D0PrioritySetting;
-extern int g_iEC16D0DefaultSetting;
 
 struct BEC16D0Semaphore
 {
@@ -849,7 +819,6 @@ class BEC16D0MoviePlayerThread
     int unk2C;
     BEC16D0Semaphore m_kStartSemaphore;
 
-    void SetPriority(int iPriority);
     void FUN_00ec16d0(void* pvParam, bool bFlag22, int iPriority, bool bFlag23, bool bFlag24, float fValue28);
 };
 
@@ -860,20 +829,20 @@ void BEC16D0MoviePlayerThread::FUN_00ec16d0(void* pvParam, bool bFlag22, int iPr
 {
     unsigned long ulThreadId3;
     m_hThread = CreateThread(0, 0, (unsigned long(__stdcall*)(void*))FUN_00ec16b0, pvParam, 4, &ulThreadId3);
-    FUN_00aa2740(ulThreadId3, "MoviePlayer");
+    ::SetDebuggerThreadName(ulThreadId3, "MoviePlayer");
     m_bFlag22 = bFlag22;
     m_bFlag23 = bFlag23;
     m_bFlag24 = bFlag24;
     m_fValue28 = fValue28;
     if (iPriority == -1)
     {
-        int* piPriority = &g_kEC16D0PrioritySetting ? &g_kEC16D0PrioritySetting.m_iValue
-                                                    : (g_iEC16D0DefaultSetting = 0, &g_iEC16D0DefaultSetting);
-        SetPriority(*piPriority);
+        int* piPriority = &(*reinterpret_cast<::BEC16D0Setting *>(&::g_0126fae0)) ? &(*reinterpret_cast<::BEC16D0Setting *>(&::g_0126fae0)).m_iValue
+                                                    : (::DAT_01202800 = 0, &::DAT_01202800);
+        reinterpret_cast<::FUN_00ec2c10 *>(this)->SetThreadPriorityLevel(*piPriority);
     }
     else
     {
-        SetPriority(iPriority);
+        reinterpret_cast<::FUN_00ec2c10 *>(this)->SetThreadPriorityLevel(iPriority);
     }
     ResumeThread(m_hThread);
     ulThreadId3 = 0;
@@ -885,13 +854,10 @@ void BEC16D0MoviePlayerThread::FUN_00ec16d0(void* pvParam, bool bFlag22, int iPr
 }
 
 extern int DAT_010f1ca4;
-void __cdecl FUN_00aa10f0(int aValue);
 
 struct FUN_00ec1df0_pool
 {
-    void FUN_00aa4060(void* apMemory);
 };
-extern FUN_00ec1df0_pool DAT_011f6238;
 
 struct FUN_00ec1df0_cls
 {
@@ -899,7 +865,6 @@ struct FUN_00ec1df0_cls
     int m_04;
     int m_08;
 
-    void BaseCleanup();
 
     FUN_00ec1df0_cls* FUN_00ec1df0(unsigned int acFlags);
 };
@@ -910,24 +875,21 @@ FUN_00ec1df0_cls* FUN_00ec1df0_cls::FUN_00ec1df0(unsigned int acFlags)
     int unk00;
     int unk04;
     m_vptr = (int)&DAT_010f1ca4;
-    BaseCleanup();
-    FUN_00aa10f0(m_08);
+    reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
+    ::FUN_00aa10f0((void *)(m_08));
     if (acFlags & 1)
     {
-        DAT_011f6238.FUN_00aa4060(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00ec1df0_pool *>(&::g_memoryManager))))->FUN_00aa4060(this);
     }
     return this;
 }
 
 namespace fnv_00ec1ee0 {
-extern int DAT_010f1c20;
 
 class FUN_00ec1ee0_pool
 {
   public:
-    void FUN_00aa4060(void* apMemory);
 };
-extern FUN_00ec1ee0_pool DAT_011f6238;
 
 struct FUN_00ec1ee0_frame
 {
@@ -945,7 +907,6 @@ struct FUN_00ec1ee0_cls
     int m_vptr;
     int unk04;
 
-    void BaseCleanup();
 
     FUN_00ec1ee0_cls* FUN_00ec1ee0(unsigned int auiFlags);
 };
@@ -954,11 +915,11 @@ struct FUN_00ec1ee0_cls
 FUN_00ec1ee0_cls* FUN_00ec1ee0_cls::FUN_00ec1ee0(unsigned int auiFlags)
 {
     FUN_00ec1ee0_frame frame;
-    m_vptr = (int)&DAT_010f1c20;
-    BaseCleanup();
+    m_vptr = (int)&::DAT_010f1c20;
+    reinterpret_cast<::NiTStringMapCopy *>(this)->NiTStringMapCopy::~NiTStringMapCopy();
     if (auiFlags & 1)
     {
-        DAT_011f6238.FUN_00aa4060(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00ec1ee0::FUN_00ec1ee0_pool *>(&::g_memoryManager))))->FUN_00aa4060(this);
     }
     return this;
 }
@@ -983,9 +944,7 @@ void __thiscall FUN_00ec1fd0_shell::UnpauseBink()
 namespace fnv_00ec25e0 {
 struct FUN_00aa4060_Obj
 {
-    void __thiscall FUN_00aa4060(FUN_00ec1f40Class* p);
 };
-extern FUN_00aa4060_Obj DAT_011f6238;
 
 struct FUN_00ec25e0_cls
 {
@@ -993,7 +952,6 @@ struct FUN_00ec25e0_cls
     int m_0004;
     int m_0008;
     FUN_00ec1f40Class* m_000c;
-    void __thiscall FUN_00ec2a60();
     void __thiscall FUN_00ec25e0();
 };
 
@@ -1005,10 +963,10 @@ void __thiscall FUN_00ec25e0_cls::FUN_00ec25e0()
     {
         FUN_00ec1f40Class* t2 = m_000c;
         FUN_00ec1f40Class* p = t2;
-        p != 0 ? (p->FUN_00ec1f40(), (((0, 1) & 1) ? DAT_011f6238.FUN_00aa4060(p) : (void)0), p) : 0;
+        p != 0 ? (p->FUN_00ec1f40(), (((0, 1) & 1) ? reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00ec25e0::FUN_00aa4060_Obj *>(&::g_memoryManager))))->FUN_00aa4060(p) : (void)0), p) : 0;
         m_000c = 0;
     }
-    FUN_00ec2a60();
+    reinterpret_cast<::FUN_00ec2a60_class *>(this)->FUN_00ec2a60();
 }
 }  // namespace fnv_00ec25e0
 
@@ -1030,6 +988,27 @@ struct S_00ec2b20
     virtual unsigned int v13();
     float __thiscall ComputeAdjustedValue(float a, unsigned int b, bool c);
 };
+// Loads the playback size if needed, queries the manager for renderer, frame rate and scales, allocates textures and warns on failure.
+// @fnv 0x00ec0cd0
+bool NiPlaybackFile::InitPlayback(const char* pcName, bool bQuiet, bool bLoop, bool bLooping)
+{
+    if (m_pkSize == 0 && !FindString(pcName, bQuiet, bLoop, false))
+        return false;
+
+    m_iRenderer = ((NiPlaybackManager*)::DAT_0126fac4)->GetRenderer();
+    m_fTextureScale = reinterpret_cast<::FUN_00ec2aa0_Class *>((((NiPlaybackManager*)::DAT_0126fac4)))->ComputeRatio(m_pkSize->uiWidth, m_pkSize->uiHeight, bLooping);
+    m_fWidthScale = reinterpret_cast<::S_00ec2b20 *>((((NiPlaybackManager*)::DAT_0126fac4)))->ComputeAdjustedValue(m_fTextureScale, m_pkSize->uiWidth, bLooping);
+    m_fHeightScale = reinterpret_cast<::FUN_00ec2bb0_Class *>((((NiPlaybackManager*)::DAT_0126fac4)))->FUN_00ec2bb0(m_fTextureScale, m_pkSize->uiHeight, bLooping);
+    m_pkTextures = ((void *)(::CreateTiledTexture((void *)(m_iRenderer), m_pkSize->uiWidth, m_pkSize->uiHeight, 4, 0x100, 0x16)));
+    if (m_pkTextures == 0)
+    {
+        if (!bQuiet)
+            ::FUN_005b5e40();
+        m_iFadeIndex = 0;
+        return false;
+    }
+    return true;
+}
 // Returns v13() as a float when c is set, otherwise v13() plus half of (v10() minus b times a).
 // @fnv 0x00ec2b20
 float __thiscall S_00ec2b20::ComputeAdjustedValue(float afScale, unsigned int auiValue, bool abDirect)
@@ -1039,9 +1018,7 @@ float __thiscall S_00ec2b20::ComputeAdjustedValue(float afScale, unsigned int au
     return (float)((double)v13() + ((double)v10() - (double)auiValue * afScale) / 2.0);
 }
 
-extern int DAT_0126fae0;
 extern int DAT_0126fae4;
-extern int DAT_01202800;
 
 struct FUN_00ec2c40_cls
 {
@@ -1057,7 +1034,6 @@ struct FUN_00ec2c40_cls
     int m_0024;
     int m_0028;
     int m_002c;
-    void __thiscall SetThreadPriorityLevel(int);
     void FUN_00ec2c40();
 };
 
@@ -1065,10 +1041,10 @@ struct FUN_00ec2c40_cls
 // @fnv 0x00ec2c40
 void FUN_00ec2c40_cls::FUN_00ec2c40()
 {
-    int* q = (&DAT_0126fae0 != 0) ? &DAT_0126fae4 : (DAT_01202800 = 0, &DAT_01202800);
+    int* q = (&(*reinterpret_cast<int *>(&::g_0126fae0)) != 0) ? &DAT_0126fae4 : (DAT_01202800 = 0, &DAT_01202800);
     if (m_002c > *q)
     {
-        SetThreadPriorityLevel(m_002c - 1);
+        reinterpret_cast<::FUN_00ec2c10 *>(this)->SetThreadPriorityLevel(m_002c - 1);
     }
 }
 
@@ -1080,7 +1056,6 @@ struct S_00ec2f00_Class
 
 struct S_00aa3e40_Class
 {
-    char* __thiscall FUN_00aa3e40(char* a);
 };
 
 struct S_00ec2d80_Class
@@ -1106,7 +1081,6 @@ struct S_00ec2d80_Class
     void __thiscall FUN_00ec2d80(int a, int b);
 };
 
-extern S_00aa3e40_Class DAT_011f6238;
 
 char* __cdecl FUN_00ec6130(int a);
 void __cdecl FUN_00ec65a6(char* a, char* b, int c);
@@ -1123,7 +1097,7 @@ void __thiscall S_00ec2d80_Class::FUN_00ec2d80(int a, int b)
     char* j;
 
     oB = FUN_00ec6130(b);
-    n = DAT_011f6238.FUN_00aa3e40(oB + 1);
+    n = ((char *)(reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00ec2d80::S_00aa3e40_Class *>(&::g_memoryManager))))->FUN_00aa3e40((unsigned int)(oB + 1))));
     p = n;
 
     FUN_00ec65a6(p, oB + 1, b);
@@ -1172,7 +1146,7 @@ bool EC2DF0Registry::GetNameByKey(unsigned int uiKey, char* pcPath)
     const char* pcFile = 0;
     char* pcDest;             // declared but never used in this build
     unsigned int uiDestSize;  // declared but never used in this build
-    if (m_kNames.GetAt(uiKey, pcFile))
+    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(m_kNames))->FUN_00853130(uiKey, (::fnv_00853130::CombatThreatRecord *&)(pcFile)))
     {
         const char* pcSource = pcFile;
         strcpy_s(pcPath, 260, pcSource);
@@ -1886,7 +1860,6 @@ struct EC0280Renderer
     int unk08B4;
     EC0280RenderState* m_pCurrentRenderState;
 };
-extern EC0280Renderer* g_pkEC0280Renderer;
 
 // @fnv 0x00ec0280
 void __cdecl DrawTexturedQuad(EC0280Device* pkDevice, float fX, float fY, float fScaleX, float fScaleY, int iWidth,
@@ -1918,11 +1891,11 @@ void __cdecl DrawTexturedQuad(EC0280Device* pkDevice, float fX, float fY, float 
         akVertsVal[3].v = 1.0f;
 
         {
-            pkRenderer5 = g_pkEC0280Renderer;
+            pkRenderer5 = (*reinterpret_cast<::EC0280Renderer * *>(&::NiRenderer::ms_pRenderer));
             EC0280RenderState* kPkState1 = _pkRet1;
             kPkState1 = pkRenderer5->m_pCurrentRenderState;
             kPkState1->SetStage(0, 1);
-            pkRendererTmp = g_pkEC0280Renderer;
+            pkRendererTmp = (*reinterpret_cast<::EC0280Renderer * *>(&::NiRenderer::ms_pRenderer));
             EC0280RenderState* pkState2 = pkRetVal;
             pkState2 = pkRendererTmp->m_pCurrentRenderState;
             pkState2->SetTexture(0, 0);
@@ -1932,7 +1905,7 @@ void __cdecl DrawTexturedQuad(EC0280Device* pkDevice, float fX, float fY, float 
             pkDevice->DrawPrimitiveUP(5, 2, akVertsVal, sizeof(EC0280Vertex));
             pkDevice->SetFVF(0);
             pkDevice->SetVertexDeclaration(pkDecl_2);
-            pkRenderer4 = g_pkEC0280Renderer;
+            pkRenderer4 = (*reinterpret_cast<::EC0280Renderer * *>(&::NiRenderer::ms_pRenderer));
             EC0280RenderState* pkState5 = pkRet4;
             pkState5 = pkRenderer4->m_pCurrentRenderState;
             pkState5->Commit();
@@ -2167,18 +2140,10 @@ struct EC1060Device
     virtual void __stdcall v46();
     virtual void __stdcall v47(EC1060Rect*);
 };
-extern "C" char DAT_011f4748;
-extern "C" char DAT_011f9426;
-extern "C" char DAT_011ad840;
-extern "C" char DAT_011ad844;
-extern "C" char DAT_011ad848;
-extern "C" char DAT_011ad84c;
 extern "C" char DAT_010f1be4;
 extern "C" __declspec(dllimport) int __stdcall BinkWait(void*);
 extern "C" __declspec(dllimport) void __stdcall BinkNextFrame(void*);
 extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long);
-void __cdecl FUN_0040fbe0(const char*, ...);
-void __cdecl FUN_00ebff30(unsigned int, float, float, float, float);
 struct EC1060Bink
 {
     int a, b;
@@ -2200,9 +2165,9 @@ bool EC1060File::Update(bool arg1, bool abLoop, bool abNoClip)
     EC1060Rect a, s;
     EC1060Size *eb, *cf, *q, *b;
     unsigned char p = false;
-    if (!((EC1060Player*)DAT_0126fac4)->v16(arg1))
+    if (!((EC1060Player*)::DAT_0126fac4)->v16(arg1))
         return false;
-    bool f = ((EC1060Player*)DAT_0126fac4)->paused;
+    bool f = ((EC1060Player*)::DAT_0126fac4)->paused;
     if (!f)
     {
         if (!BinkWait(apDirectSound))
@@ -2211,7 +2176,7 @@ bool EC1060File::Update(bool arg1, bool abLoop, bool abNoClip)
             if (p)
             {
                 decoded++;
-                FUN_0040fbe0(&DAT_010f1be4, frame, decoded);
+                ::FUN_0040fbe0();
             }
             BinkNextFrame(apDirectSound);
             frame++;
@@ -2223,32 +2188,32 @@ bool EC1060File::Update(bool arg1, bool abLoop, bool abNoClip)
         }
     }
     device->v43(0, 0, 1, 0xff000000, 1.0f, 0);
-    if (!abNoClip && *(unsigned char*)&DAT_011f9426)
+    if (!abNoClip && *(unsigned char*)&(*reinterpret_cast<char *>(&::DAT_011f9426)))
     {
-        eb = &(*(EC1060Renderer* volatile*)&DAT_011f4748)->v53();
+        eb = &(*(EC1060Renderer* volatile*)&(*reinterpret_cast<char *>(&::NiRenderer::ms_pRenderer)))->v53();
         h.x = eb->width;
-        cf = &(*(EC1060Renderer* volatile*)&DAT_011f4748)->v53();
+        cf = &(*(EC1060Renderer* volatile*)&(*reinterpret_cast<char *>(&::NiRenderer::ms_pRenderer)))->v53();
         h.y = cf->height;
         h.lo = 0.0f;
         h.hi = 1.0f;
         a.left = (unsigned int)(h.x * *(float*)&DAT_011ad840);
         a.right = (unsigned int)((*(float*)&DAT_011ad844 - *(float*)&DAT_011ad840) * h.x);
-        a.top = (unsigned int)(h.y * *(float*)&DAT_011ad84c);
-        a.bottom = (unsigned int)((*(float*)&DAT_011ad848 - *(float*)&DAT_011ad84c) * h.y);
+        a.top = (unsigned int)(h.y * *(float*)&(*reinterpret_cast<char *>(&::DAT_011ad84c)));
+        a.bottom = (unsigned int)((*(float*)&(*reinterpret_cast<char *>(&::DAT_011ad848)) - *(float*)&(*reinterpret_cast<char *>(&::DAT_011ad84c))) * h.y);
         device->v47(&a);
     }
-    if (!((EC1060Player*)DAT_0126fac4)->v12())
+    if (!((EC1060Player*)::DAT_0126fac4)->v12())
         device->v41();
-    FUN_00ebff30(texture, x, y, scale, scale);
-    if (!((EC1060Player*)DAT_0126fac4)->v12())
+    ::fnv_00ebff30::FUN_00ebff30((::fnv_00ebff30::TileGrid *)(texture), x, y, scale, scale);
+    if (!((EC1060Player*)::DAT_0126fac4)->v12())
         device->v42();
     if (!(unsigned char)(state == 2))
         device->v17(0, 0, 0, 0);
-    if (!abNoClip && *(unsigned char*)&DAT_011f9426)
+    if (!abNoClip && *(unsigned char*)&(*reinterpret_cast<char *>(&::DAT_011f9426)))
     {
-        q = &(*(EC1060Renderer* volatile*)&DAT_011f4748)->v53();
+        q = &(*(EC1060Renderer* volatile*)&(*reinterpret_cast<char *>(&::NiRenderer::ms_pRenderer)))->v53();
         i.x = q->width;
-        b = &(*(EC1060Renderer* volatile*)&DAT_011f4748)->v53();
+        b = &(*(EC1060Renderer* volatile*)&(*reinterpret_cast<char *>(&::NiRenderer::ms_pRenderer)))->v53();
         i.y = b->height;
         i.lo = 0.0f;
         i.hi = 1.0f;
@@ -2362,7 +2327,7 @@ void FUN_00ec2f00_cls::AddOrUpdate(void* apKey, unsigned int uiValue)
         }
         item = item->next;
     }
-    mem = reinterpret_cast<P03MM*>(&DAT_011f6238)->Allocate(12);
+    mem = reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<P03MM*>(&(*reinterpret_cast<::FUN_00ec1df0_pool *>(&::g_memoryManager)))))->FUN_00aa3e40(12);
     item = (FUN_00ec2f00_item*)mem;
     v03(item, apKey, (void*)uiValue);
     item->next = m08[idx];
@@ -2401,7 +2366,6 @@ namespace fnv_00ec1940 {
 #include <windows.h>
 
 DWORD WINAPI FUN_00ec2ca0(LPVOID param);
-void FUN_00aa2740(DWORD threadId, const char* name);
 
 class FUN_00ec1940_cls
 {
@@ -2424,7 +2388,7 @@ void FUN_00ec1940_cls::FUN_00ec1940(void* apThreadArg, int value)
     DWORD threadId;
     m_1c = value;
     m_04 = CreateThread(NULL, 0, FUN_00ec2ca0, apThreadArg, CREATE_SUSPENDED, &threadId);
-    FUN_00aa2740(threadId, "MovieLoader");
+    ::SetDebuggerThreadName(threadId, "MovieLoader");
     ResumeThread(m_04);
     threadId = 0;
 }

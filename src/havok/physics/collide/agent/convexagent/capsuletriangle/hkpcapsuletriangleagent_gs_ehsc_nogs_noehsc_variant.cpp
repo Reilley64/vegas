@@ -5,24 +5,21 @@
 
 // src/havok/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-void CreateObjectFromFactory();
-void FUN_00d3a8c0();
-void FUN_00d3a280();
-void FUN_00daf8e0();
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_00cfbbe0_cls.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00cd6000.h"
+#include "fnv/symbols_00d37000.h"
+#include "fnv/symbols_00d38000.h"
+#include "fnv/symbols_00d39000.h"
+#include "fnv/symbols_00d3a000.h"
+#include "fnv/symbols_00d3b000.h"
+#include "fnv/symbols_00daf000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010ce000.h"
+#include "fnv/symbols_01268000.h"
 void FUN_00d3ab60(void* apObject);
-void __cdecl CreateAllocatedObject();
-void __cdecl FUN_00d3ac80();
-void __cdecl FUN_00d3b1a0();
-void __cdecl FUN_00d3b220();
 void __cdecl FUN_00d3ab90(void** apTable);
-void __cdecl CreateTriAgent2();
-void __cdecl FUN_00d38ac0();
-void __cdecl FUN_00d38ed0();
-void __cdecl FUN_00d3ac80();
-void __cdecl CreateTriAgent();
-void __cdecl FUN_00d38130();
-void __cdecl FUN_00d386c0();
-void __cdecl FUN_00daf8e0();
 typedef void (__cdecl *S_00d389f0_Func)();
 struct S_00d389f0_AgentFuncs
 {
@@ -35,9 +32,7 @@ struct S_00d389f0_AgentFuncs
 };
 struct S_00d389f0_Dispatcher
 {
-    void FUN_00cfbbe0(S_00d389f0_AgentFuncs& f, int typeA, int typeB);
 };
-void __cdecl FUN_00d389f0(S_00d389f0_Dispatcher* dispatcher);
 struct ReceiverBase { virtual void Release(unsigned int value); int unk04; };
 struct NoteDispatcher {
     virtual void Unknown00(unsigned int, void*);
@@ -52,15 +47,11 @@ struct FUN_00d39930_class : ReceiverBase {
     unsigned short receiverIds[3];
     void __thiscall DispatchToReceivers(void* value);
 };
-extern const int DAT_010ce7fc;
 struct CallbackState {
     const int* m_pIntegerValue;
     float m_fFirstLightParameter;
     int m_iValue;
 };
-void __cdecl FUN_00d3a280(void* apFirst, void* apSecond, void* apThird,
-                          CallbackState* apState);
-void __cdecl FUN_00d3b220(void* apOne, void* apTwo, void* apThree, int aiValue);
 struct AllocIface {
     virtual void unk00();
     virtual void* Alloc(unsigned int size);
@@ -72,9 +63,6 @@ struct AllocHolder {
     int unk0c;
     AllocIface* m_pAllocator;
 };
-AllocHolder* __cdecl FUN_00c85750() throw();
-void __cdecl ComputeInverseLengths(void* value, void* self);
-extern char DAT_010ceefc[];
 extern char DAT_010cef38[];
 struct FUN_00d39980_cls {
     void* m_vptr;
@@ -87,7 +75,6 @@ struct FUN_00d39980_cls {
     unsigned short m_w12;
     void* m_sub;
 };
-FUN_00d39980_cls* __cdecl CreateAllocatedObject(int a1, int a2, int a3, int a4);
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128 {
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
@@ -99,7 +86,6 @@ extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern const __m128 DAT_010c4c00;
 struct hkVector4 {
     __m128 m_vComponents;
     void operator=(const hkVector4& o) { m_vComponents = o.m_vComponents; }
@@ -107,8 +93,8 @@ struct hkVector4 {
     void mul4(const hkVector4& a) { m_vComponents = _mm_mul_ps(m_vComponents, a.m_vComponents); }
     void add4(const hkVector4& a) { m_vComponents = _mm_add_ps(m_vComponents, a.m_vComponents); }
     void addMul4(const hkVector4& a, const hkVector4& b) { m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(a.m_vComponents, b.m_vComponents)); }
-    void setNeg4(const hkVector4& v) { m_vComponents = _mm_xor_ps(v.m_vComponents, DAT_010c4c00); }
-    void neg() { m_vComponents = _mm_xor_ps(m_vComponents, DAT_010c4c00); }
+    void setNeg4(const hkVector4& v) { m_vComponents = _mm_xor_ps(v.m_vComponents, ::DAT_010c4c00); }
+    void neg() { m_vComponents = _mm_xor_ps(m_vComponents, ::DAT_010c4c00); }
 };
 struct Elem_d3b260 {
     hkVector4 m_pos;
@@ -140,7 +126,6 @@ struct Buffer_d3b260 {
     unsigned char m_ucHighNibble : 4;
 };
 struct Agent_d3b260 {
-    void FUN_00d3ad70(int b, int a, int c, Buffer_d3b260* buf);
     void FUN_00d3b260(int a, int b, int c, Buffer_d3b260* buf);
 };
 struct __declspec(align(16)) FourWord {
@@ -179,17 +164,8 @@ struct __declspec(align(16)) MotionCallData {
     FourWord direction;
     unsigned int mode;
 };
-extern "C" float DAT_0104da48;
-extern "C" const __m128 DAT_010c44d0;
-extern "C" unsigned char UNK_010ce80c;
-extern "C" void __cdecl FUN_00daf8e0(unsigned int second, unsigned int first,
-                            MotionPacket* packet, MotionCallData* primary,
-                            MotionCallData* secondary);
-void __cdecl FUN_00d3ac80(unsigned int first, unsigned int second, const MotionPacket* apPacket, unsigned int mode, unsigned int optionalMode);
-extern char DAT_010ce81c;
 struct FUN_00d3b160_tmp { const void* vt; unsigned char flag; unsigned int a4; };
 struct CallbackHost_d3b160 {
-    void FUN_00d3a620(void*, void*, void*, void*);
     void FUN_00d3b160(void*, void*, void*, unsigned int);
 };
 struct __declspec(align(16)) Vec4 {
@@ -198,7 +174,6 @@ struct __declspec(align(16)) Vec4 {
 struct Mat4 {
     Vec4 row0, row1, row2, row3;
 };
-void __cdecl FUN_00cd6520(void* a, float b, void* c, float d, void* e, float f, int g, int h, int i);
 static __forceinline void transform(Vec4* out, const char* shape, int count, const Mat4* m)
 {
     Vec4 p0 = m->row0;
@@ -228,8 +203,6 @@ extern "C" void _mm_store_ss(float* p, __m128 a);
 extern "C" __m128 _mm_load_ps(const float* p);
 extern "C" void _mm_store_ps(float* p, __m128 a);
 extern "C" __m128 _mm_rsqrt_ps(__m128 a);
-extern __m128 DAT_010c71c0;
-extern __m128 DAT_010c71d0;
 static __forceinline float SqLenLane(__m128 x)
 {
     __m128 sq = _mm_mul_ps(x, x);
@@ -239,7 +212,6 @@ static __forceinline float SqLenLane(__m128 x)
     _mm_store_ss(&r, zyx);
     return r;
 }
-void __cdecl ComputeInverseLengths(__m128* pts, float* out);
 struct __declspec(align(16)) ScalarVector {
     int x, y, z, w;
     __m128 quad() const { return *(const __m128*)this; }
@@ -326,7 +298,7 @@ static __forceinline void xform(const Xf& m, const __m128* src, __m128* dst, int
 struct CollisionWorkspace { __m128 la[2]; __m128 lb[3]; };
 int __cdecl FUN_00d39bf0(Obj* a, Obj* b, Par* volatile p, void* q, Contact* out);
 #include <windows.h>
-extern DWORD DAT_0126835c;
+#include "fnv/symbols_simd.h"
 extern "C" void _ReadWriteBarrier(void);
 unsigned __int64 __cdecl __rdtsc(void);
 struct ProfRec
@@ -372,7 +344,6 @@ struct Context
     __m128 capsule[2];
     __m128 triangle[3];
 };
-extern "C" void __cdecl FUN_00cd6520(void* out1, float fx, void* out2, float fy, void* p, float afDepth, int zero, HitRec* hit, int zero2);
 struct hkpShape
 {
     int unk00;
@@ -620,8 +591,7 @@ class StringCursor
 public:
 __forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}static StringCursor&GetMonitorStream()
 {
-extern hkThreadLocalData<StringCursor*>g_pMonitorStream;
-return*g_pMonitorStream.getData();
+return*(*reinterpret_cast<::hkThreadLocalData< ::StringCursor *> *>(&::DAT_0126835c)).getData();
 }
 public:
 __forceinline char*__cdecl GetStreamStart(){return m_kRayStart.val();}
@@ -928,7 +898,7 @@ hkReal m_afCacheComponents[3];
 hkReal m_fFirstCacheValue;
 hkReal m_fSecondCacheValue;
 };
-static void __cdecl setupPointTriangleDistanceCache(const hkVector4_S*triangle,PointTriangleCache&cache);protected:
+protected:
 TriangleDistanceUtility();};
 class hkpCapsuleTriangleAgent:public hkpIterativeLinearCastAgent
 {
@@ -1038,8 +1008,7 @@ return&m_kVertexA;
 }
 extern "C"
 {
-void CollideCapsuleWithTriangle(const hkVector4_S*capsAPoints,hkReal capsARadius,const hkVector4_S*triVertices,hkReal triBRadius,
-const TriangleDistanceUtility::PointTriangleCache&cache,hkReal collisionTolerance,int searchManifold,hkContactPoint*points,MaterialIndexedTriangle*featuresOut=0);}
+}
 namespace hkVector4Util_S
 {
 __forceinline void __cdecl TransformPointArray(const hkTransform&t,const hkVector4_S*vectorsIn,int numVectors,hkVector4_S*vectorsOut);}
@@ -1057,7 +1026,7 @@ const hkpCapsuleShape*capsuleA=static_cast<const hkpCapsuleShape*>(bodyA.getShap
 const hkpTriangleShape*triB=static_cast<const hkpTriangleShape*>(bodyB.getShape());
 hkVector4_S endPoints[2];hkVector4Util_S::TransformPointArray(bodyA.getTransform(),capsuleA->GetIndexedVertices(),2,endPoints);
 hkVector4_S triVertices[3];hkVector4Util_S::TransformPointArray(bodyB.getTransform(),triB->GetIndexedVertices(),3,triVertices);
-CollideCapsuleWithTriangle(endPoints,capsuleA->getRadius(),triVertices,triB->getRadius(),cache,input.getTolerance(),searchManifold,points,featureOutput);}
+::FUN_00cd6520((const ::ContactVector *)(endPoints),capsuleA->getRadius(),(const ::ContactVector *)(triVertices),triB->getRadius(),(const float *)&(cache),input.getTolerance(),searchManifold,(::ContactRecord *)(points),(::Feature *)(featureOutput));}
 __forceinline hkpCapsuleTriangleAgent::ClosestPointResult hkpCapsuleTriangleAgent::getClosestPointInternal(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const CollisionAgentContext&input,TriangleDistanceUtility::PointTriangleCache&cache,hkContactPoint&cpoint)
 {
 const hkpCapsuleShape*capsuleA=static_cast<const hkpCapsuleShape*>(bodyA.getShape());
@@ -1105,18 +1074,18 @@ return ST_CP_MISS;}
 // @fnv 0x00d3a280
 void __cdecl hkpCapsuleTriangleAgent::FUN_00d3a280(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const CollisionAgentContext&input,class hkpCdPointCollector&collector)
 {
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "CapsTriangle";h->setTime();mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "CapsTriangle";h->setTime();mStream.setEnd((char*)(h+1));}};
 TriangleDistanceUtility::PointTriangleCache cache;
 {
 const hkpTriangleShape*triB=static_cast<const hkpTriangleShape*>(bodyB.getShape());
-TriangleDistanceUtility::setupPointTriangleDistanceCache(triB->GetIndexedVertices(),cache);
+::ComputeInverseLengths((::__m128 *)(triB->GetIndexedVertices()),(float *)&(cache));
 }
 ContactPointPair event(bodyA,bodyB);
 if(getClosestPointInternal(bodyA,bodyB,input,cache,event.m_kPoint))
 {
 collector.AddCdPoint(event);
 }
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
 }
 
 enum hkResult { HK_SUCCESS=0, HK_FAILURE=1 };
@@ -1223,7 +1192,7 @@ static __forceinline void capsuleTriClosest(const hkpCdBody_S& a,const hkpCdBody
     hkVector4Util_S::TransformPointArray(a.getTransform(),capsule->GetIndexedVertices(),2,ends);
     hkVector4_S vertices[3];
     hkVector4Util_S::TransformPointArray(b.getTransform(),triangle->GetIndexedVertices(),3,vertices);
-    CollideCapsuleWithTriangle(ends,capsule->getRadius(),vertices,triangle->getRadius(),cache,input.getTolerance(),manifold,points,features);
+    ::FUN_00cd6520((const ::ContactVector *)(ends),capsule->getRadius(),(const ::ContactVector *)(vertices),triangle->getRadius(),(const float *)&(cache),input.getTolerance(),manifold,(::ContactRecord *)(points),(::Feature *)(features));
 }
 struct CapsuleTriProcess : hkpCapsuleTriangleAgent {
     void FUN_00d3ad70(const hkpCdBody_S&,const hkpCdBody_S&,const GskAgentInput&,WorldOperationEntry&);
@@ -1232,7 +1201,7 @@ struct CapsuleTriProcess : hkpCapsuleTriangleAgent {
 void CapsuleTriProcess::FUN_00d3ad70(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const GskAgentInput&input,WorldOperationEntry&result)
 {
 ;
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "CapsuleTri";h->setTime();mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "CapsuleTri";h->setTime();mStream.setEnd((char*)(h+1));}};
 const hkpCapsuleShape*capsuleA=static_cast<const hkpCapsuleShape*>(bodyA.getShape());
 const hkpTriangleShape*triB=static_cast<const hkpTriangleShape*>(bodyB.getShape());
 hkContactPoint points[3];
@@ -1283,5 +1252,5 @@ m_usContactPointId[p]=(0xffff);
 }
 }
 }
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
 }

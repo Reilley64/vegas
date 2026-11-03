@@ -9,6 +9,10 @@
 // did.
 //
 // Compiler: MSVC9 SP1 15.00.30729.01, flags /Od /Oy- /GS /EHsc /Gy
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_011d5000.h"
 #include "BSFaceGenMorphData.h"
 
 const NiRTTI BSFaceGenMorphDataHead::ms_kRTTI;
@@ -16,5 +20,5 @@ const NiRTTI BSFaceGenMorphDataHead::ms_kRTTI;
 // @fnv 0x00661d90
 const NiRTTI* BSFaceGenMorphDataHead::GetRTTI() const
 {
-    return &ms_kRTTI;
+    return &(*reinterpret_cast<const ::NiRTTI *>(&::g_011d5bb8));
 }

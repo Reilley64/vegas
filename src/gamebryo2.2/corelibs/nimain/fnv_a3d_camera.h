@@ -3,6 +3,14 @@
 #define FNV_A3D_CAMERA_H
 
 #include <stddef.h>
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00a63460_shell.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/GraphicsRenderer.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/S_00a64670_Foo.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_011f6000.h"
 #define FNV_ASSERT(name, expression) typedef char name[(expression) ? 1 : -1]
 class NiRTTI;
 class NiNode;
@@ -40,6 +48,8 @@ class NiPoint3
     void ComputeMagnitude();
     NiPoint3 CrossProduct(const NiPoint3& vector) const;
     static const NiPoint3 ZERO;
+public:
+    char *FUN_00a59af0(const char *);
 };
 class ThreeByThreeMatrix
 {
@@ -65,6 +75,8 @@ class NiFrustum
   public:
     float m_fLeftBound, m_fRightBound, m_fTopBound, m_fBottomBound, m_fNearPlane, m_fFarPlane;
     bool m_bOrthographic;
+public:
+    char *FUN_00a71bc0(const char *);
 };
 template <class T> class NiRect
 {
@@ -129,6 +141,7 @@ class NiObjectNET : public NiObject
     NiExtraData** m_ppExtraData;
     unsigned short m_usExtraDataCount, m_usMaxSize;
 };
+class CloningProcess;
 class NiAVObject : public NiObjectNET
 {
   public:
@@ -160,6 +173,8 @@ class NiAVObject : public NiObjectNET
     virtual void UpdateUpwardPassParent();
     virtual void OnVisible(NiCullingProcess* culling);
     virtual void PurgeRendererData(NiDX9Renderer* renderer);
+public:
+    void FUN_00a5ac90(::NiAVObject *, ::CloningProcess &);
 };
 class NiNode : public NiAVObject
 {
@@ -210,23 +225,15 @@ class NiStream
     unsigned char outputAndLinkTables[0x34];
     unsigned short m_usAVObjectFlags;
     NiObject* GetLoadedObject();
-    unsigned int GetLinkID();
-    void ResetStreamState();
-    unsigned int ReadUnsignedInteger();
 };
 class MemoryManager
 {
   public:
-    void* Allocate(unsigned int size);
 };
-extern MemoryManager g_memoryManager;
-extern const double runtimeInitializationDouble2;
 class NiRenderer
 {
   public:
     static NiRenderer* ms_pRenderer;
-    bool MapScreenCoordinates(unsigned int x, unsigned int y, float& mappedX, float& mappedY,
-                              const NiRenderTargetGroup* group);
     char _pdbpad_1[7];
     char m_spAccum_pad7_pad7[4];
     void* m_pCamera;

@@ -5,7 +5,51 @@
 
 // src/speedtree/branch.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/branch.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern int DAT_011ad14c;
+#include "fnv/decl/CoordinateWriter.h"
+#include "fnv/decl/FUN_00b0cf90_class.h"
+#include "fnv/decl/FUN_00b12b50_class.h"
+#include "fnv/decl/FUN_00b13040_class.h"
+#include "fnv/decl/FUN_00b15600_cls.h"
+#include "fnv/decl/FUN_00b18320_Class.h"
+#include "fnv/decl/FUN_00b30020_Class.h"
+#include "fnv/decl/FUN_00b300c0_cls.h"
+#include "fnv/decl/FUN_00b30190_shell.h"
+#include "fnv/decl/FUN_00b30560_cls.h"
+#include "fnv/decl/FUN_00b37ad0_class.h"
+#include "fnv/decl/FUN_00b3f130_shell.h"
+#include "fnv/decl/FUN_00b404c0_cls.h"
+#include "fnv/decl/FrondGuideFinalizer.h"
+#include "fnv/decl/FrondPointAppend.h"
+#include "fnv/decl/Mat3Rot.h"
+#include "fnv/decl/MatrixOwner.h"
+#include "fnv/decl/NiD3DHLSLPixelShader.h"
+#include "fnv/decl/RandomNumberGenerator.h"
+#include "fnv/decl/RotationMatrix.h"
+#include "fnv/decl/S00b30660_Obj.h"
+#include "fnv/decl/SBranchOwner.h"
+#include "fnv/decl/SplineSampler.h"
+#include "fnv/decl/Target.h"
+#include "fnv/decl/V3cdd0.h"
+#include "fnv/decl/addb18__GvOwner.h"
+#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
+#include "fnv/decl/fnv_00b13100__Effect.h"
+#include "fnv/decl/fnv_00b1fca0__tidyb1f__T1Vector.h"
+#include "fnv/decl/fnv_00b305f0__FUN_00b305f0_cls.h"
+#include "fnv/decl/fnv_00b30f80__ptb30__PtOwner.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00b15000.h"
+#include "fnv/symbols_00b16000.h"
+#include "fnv/symbols_00b36000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01022000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_01030000.h"
+#include "fnv/symbols_01066000.h"
+#include "fnv/symbols_0108c000.h"
+#include "fnv/symbols_010a4000.h"
+#include "fnv/symbols_010a5000.h"
+#include "fnv/symbols_011ad000.h"
+#include "fnv/symbols_011f8000.h"
 struct FUN_00b14ae0_class
 {
     float FUN_00b14ae0(int id, float a, float b);
@@ -64,12 +108,9 @@ struct State
     float upper;
     int count;
 };
-extern State* DAT_011f8bf4;
 struct GlobalObject_00b3f100
 {
-    float FUN_00b3f130(float, float);
 };
-extern GlobalObject_00b3f100 g_011f8c05;
 struct Link
 {
     Link* next;
@@ -97,7 +138,6 @@ struct FUN_00b14b10_class
 struct b14_sub
 {
     float x, y, z;
-    float FUN_00b04d40(b14_sub* other);
 };
 struct b14_elem
 {
@@ -156,16 +196,15 @@ struct FUN_00b14be0_cls
     int m_24;
     void FindSegment(OutPair* out, float v);
 };
-float __cdecl FUN_00b15110(Link* link);
 // Stand-in for the game's vector type: three floats plus the vector helpers
 // the original calls (difference, normalisation, scaling, sum and dot product).
 struct Vec
 {
     float x, y, z;
-    void FUN_00b12790();                         // normalise in place
-    void FUN_00b13040(Vec* out, const Vec* p);   // *out = *this - *p
-    Vec* ScaleSwizzled(Vec* out, float factor);  // *out = *this * factor
-    void AddVector(Vec* out, const Vec* other);  // *out = *this + *other
+                             // normalise in place
+       // *out = *this - *p
+      // *out = *this * factor
+      // *out = *this + *other
     float Dot(const Vec& p);
 };
 // The class that owns ProjectOntoLine (in the game it derives from the vector
@@ -263,13 +302,10 @@ Pt3 CrossPt::FUN_00b12810(const Pt3& pt) const
     return Pt3(y * pt.z - z * pt.y, z * pt.x - x * pt.z, x * pt.y - y * pt.x);
 }
 
-extern float runtimeInitializationFloat4160;
-extern const double DAT_010a4d90;
 extern int __cdecl FUN_00ecadb8();
-extern const double DAT_01029790;
 inline float __cdecl FUN_00b14e90(float lower, float upper)
 {
-    float fraction = FUN_00ecadb8() / DAT_01029790;
+    float fraction = FUN_00ecadb8() / ::DAT_01029790;
     float range = upper - lower;
     return fraction * range + lower;
 }
@@ -501,7 +537,6 @@ struct FNV_scratch_t
 struct FUN_00b151a0_class
 {
     void* m_p00;
-    void FUN_00b1fca0();
     void FUN_00b151a0();
 };
 
@@ -510,21 +545,20 @@ void FUN_00b151a0_class::FUN_00b151a0()
 {
     {
         FNV_scratch_t tmp;
-        this->FUN_00b1fca0();
+        reinterpret_cast<::fnv_00b1fca0::tidyb1f::T1Vector *>((this))->FUN_00b1fca0();
     }
     {
         void* q = this->m_p00;
-        ::operator delete(q);
+        ::FUN_00401030(q);
     }
 }
 
 extern double __cdecl FUN_00eca060(double);
 extern double __cdecl FUN_00ec9f30(double);
 extern double __cdecl FUN_00eca190(double);
-extern const double DAT_010a4d90;
 extern double __cdecl FUN_00ec9ac0(double, double);
 extern double __cdecl fabs(double);
-extern float DAT_011f8c14, DAT_010a54a0, DAT_010a549c, DAT_010a5498;
+extern float DAT_010a54a0, DAT_010a549c, DAT_010a5498;
 inline float BranchPower(float a, float b)
 {
     return (float)(double)(float)FUN_00ec9ac0(a, b);
@@ -630,8 +664,6 @@ struct BranchMatrix
 };
 struct BranchCurve
 {
-    float FUN_00b37ad0(float);
-    float Sample(float);
 };
 struct BranchCurvePtr
 {
@@ -672,7 +704,6 @@ struct BranchMesh
     {
         start = f;
     }
-    void FUN_00b2fdc0(int, unsigned short*, unsigned short);
 };
 struct FUN_00b130a0
 {
@@ -689,10 +720,7 @@ struct FUN_00b130a0
 };
 struct BranchRandom
 {
-    float FUN_00b3f130(float, float);
-    void FUN_00b3f160(unsigned int);
 };
-extern BranchRandom DAT_011f8c05;
 extern BranchPoint DAT_011f8c08;
 struct BranchTransform
 {
@@ -703,18 +731,9 @@ struct BranchTransform
                            a.m22 * z + (a.m12 * y + a.m02 * x));
     }
 };
-extern BranchTransform DAT_011f8c40;
 struct BranchManager
 {
-    bool GetByteAtOffset4C();
-    int FUN_00b18300();
-    void FUN_00b188d0();
-    void FUN_00b18a60(BranchPoint, BranchMatrix, float, unsigned int);
-    void FUN_00b18b70(float);
 };
-extern BranchManager* DAT_011f8c00;
-extern unsigned int DAT_011f8bfc;
-extern bool DAT_011f8c04, DAT_011ad148;
 extern BranchConfig** DAT_011f8c5c;
 extern BranchConfig** DAT_011f8c60;
 struct BranchConfigList
@@ -730,12 +749,10 @@ struct BranchConfigList
         return begin[index];
     }
 };
-extern BranchConfigList DAT_011f8c50;
-extern float DAT_011f8c14, DAT_010a54a0, DAT_010a549c, DAT_010a5498;
-extern const double DAT_010a4d90, DAT_01066808;
+extern float DAT_010a54a0, DAT_010a549c, DAT_010a5498;
 extern double __cdecl FUN_00ec9ac0(double, double);
 extern double __cdecl fabs(double);
-extern float DAT_011f8c14, DAT_010a54a0, DAT_010a549c, DAT_010a5498;
+extern float DAT_010a54a0, DAT_010a549c, DAT_010a5498;
 struct FUN_00b10dc0;
 struct BranchChild
 {
@@ -817,9 +834,7 @@ inline BranchIterator::BranchIterator(BranchChild* p, BranchChildren* v) : proxy
 }
 struct BranchLeaves
 {
-    void FUN_00b32350();
 };
-extern BranchLeaves DAT_011f8c80;
 inline BranchPoint* __cdecl FUN_00b13000(BranchPoint* out, const BranchPoint* a, const BranchPoint* b, float t)
 {
     float dx = b->x - a->x, dy = b->y - a->y, dz = b->z - a->z;
@@ -843,17 +858,7 @@ struct FUN_00b10dc0
     int unk34, unk38, unk3c, unk40, unk44, unk48, unk4c;
     FUN_00b10dc0(FUN_00b10dc0*);
     ~FUN_00b10dc0();
-    void FUN_00b13a40();
-    void FUN_00b14ca0(BranchConfig*);
-    float FUN_00b14ae0(int, float, float);
-    float FUN_00b14b10(float, float);
-    void FUN_00b14450(FUN_00b130a0*, float, float, unsigned short, BranchMesh*, const BranchPoint&, float, unsigned int,
-                      float, int);
     void FUN_00b14ed0(BranchMesh*, unsigned short);
-    void FindSegment(BranchChild*, float);
-    void FUN_00b13100(FUN_00b10dc0*, float, int, BranchPoint*, float, const BranchMatrix*, FUN_00b130a0*, void*, float,
-                      unsigned int);
-    void FUN_00b14b40();
     void FUN_00b11050(unsigned int, float, int, const BranchPoint&, float, float, const BranchMatrix&,
                       const BranchPoint&, BranchMesh*, void*, float, unsigned int, float);
 };
@@ -923,253 +928,6 @@ inline void BranchMatrix::FUN_00b12c00(float first, float second)
     rotation.m22 = c1;
     *this = rotation.Multiply(*this);
 }
-// @fnv 0x00b11050
-void FUN_00b10dc0::FUN_00b11050(unsigned int seed, float scale, int level, const BranchPoint& origin, float age,
-                                float parentFactor, const BranchMatrix& transform, const BranchPoint& axis,
-                                BranchMesh* mesh, void* context, float weight, unsigned int id, float cap)
-{
-    bool animation = DAT_011f8c00->GetByteAtOffset4C() && level >= DAT_011f8c00->FUN_00b18300();
-    if (level == DAT_011ad14c)
-        id = DAT_011f8bfc++;
-    if (level == 0)
-        FUN_00b13a40();
-    float thickness;
-    BranchConfig* material = DAT_011f8c50.GetElement(level);
-    if (!animation)
-        firstVertex = mesh->GetVertices();
-    time = age;
-    if (!animation)
-        FUN_00b14ca0(material);
-    float angle = material->length->FUN_00b37ad0(age) * scale;
-    float radius = angle / material->segments;
-    float base = DAT_011f8c05.FUN_00b3f130(DAT_010a54a0, 180.0f);
-    float config = material->base->FUN_00b37ad0(age);
-    float managed = material->bend->FUN_00b37ad0(age);
-    float length = material->thickness->FUN_00b37ad0(age) * scale;
-    thickness = material->material->FUN_00b37ad0(age);
-    type = (unsigned short)material->sides;
-    float step = material->animate ? base + 0.5 + age : 0.0;
-    BranchPoint shape(material->fixedWidth ? material->width : material->width * length * DAT_011f8c14,
-                      material->fixedHeight ? material->height : angle / scale * material->height,
-                      (childList.size() + seed) % 2 == 0 ? material->twist : -material->twist);
-    float bend = material->radius->FUN_00b37ad0(0.0f) * length;
-    if (cap > 0.0 && bend > cap * DAT_010a549c)
-    {
-        bend = cap * DAT_010a549c;
-        length = bend;
-    }
-    entryCount = material->segments + 1;
-    if (entryCount >= 2)
-    {
-        entries = new FUN_00b130a0[entryCount];
-        if (!animation)
-        {
-            unsigned short index = (entryCount - 1) * (material->sides * 2 + 4);
-            unsigned short* indices = new unsigned short[index];
-            unsigned short column = mesh->GetVertices();
-            int vertex = 0;
-            int numIndices = 0;
-            for (int row = 0; row < entryCount - 1; row++)
-            {
-                int first = numIndices;
-                for (int side = 0; side < material->sides + 1; side++)
-                {
-                    indices[vertex] = column + (numIndices + (material->sides + 1));
-                    vertex++;
-                    indices[vertex] = column + numIndices;
-                    vertex++;
-                    numIndices++;
-                }
-                indices[vertex] = column + (first + (material->sides + 1));
-                vertex++;
-                indices[vertex] = column + (first + (material->sides + 1));
-                vertex++;
-            }
-            mesh->FUN_00b2fdc0(0, indices, index);
-            mesh->groups++;
-        }
-        FUN_00b130a0* qhxpxJd = entries;
-        qhxpxJd->position = origin;
-        float qSVM = material->orientation->Sample(0.0f);
-        float qrEZrs = material->orientation->Sample(0.0f);
-        qhxpxJd->matrix = transform;
-        BranchPoint qsSDDgz = transform.TransformVector(axis);
-        qhxpxJd->matrix.FUN_00b12d50(base, qsSDDgz);
-        qhxpxJd->matrix.FUN_00b12c00(config + qrEZrs, qSVM);
-        qhxpxJd->direction = DAT_011f8c40.FUN_00b12890(qhxpxJd->matrix);
-        qhxpxJd->radius = material->radius->FUN_00b37ad0(0.0f) * length;
-        float qfTOqo = material->variation->FUN_00b37ad0(0.0f) * thickness;
-        float qbGYp = BranchDegrees(qhxpxJd->direction.FUN_00b12720(DAT_011f8c08));
-        float qSuoDt = BranchFalloff((float)(double)(float)fabs((float)(DAT_01066808 - qbGYp)));
-        BranchPoint qkbsJ = qhxpxJd->direction.FUN_00b12810(DAT_011f8c08);
-        qkbsJ.FUN_00b12790();
-        float qdqWL = (material->noise->FUN_00b37ad0(0.0f) - 0.5) * 2.0 * -1.0;
-        BranchMatrix qnuVZg;
-        qnuVZg.SetRotationAxisAngle(qdqWL * managed * qbGYp * qSuoDt, qkbsJ);
-        qhxpxJd->matrix = qhxpxJd->matrix.Multiply(qnuVZg);
-        qhxpxJd->direction = DAT_011f8c40.FUN_00b12890(qhxpxJd->matrix);
-        if (mesh && level == 0)
-        {
-            mesh->SetDiameter(qhxpxJd->radius * 2.0f);
-            mesh->SetStart(material->lower * angle);
-        }
-        float qHXYKT = weight;
-        if (level <= DAT_011ad14c)
-        {
-            qhxpxJd->weight = FUN_00b14ae0(level, 0.0f, qfTOqo);
-            qHXYKT = qhxpxJd->weight;
-        }
-        else if (DAT_011f8c04)
-        {
-            qhxpxJd->weight = FUN_00b14b10(weight, qfTOqo);
-            qHXYKT = qhxpxJd->weight;
-        }
-        if (!animation)
-        {
-            float factor = 0.0f;
-            if (level != 0)
-                factor = parentFactor;
-            FUN_00b14450(qhxpxJd, 0.0f, factor, type, mesh, shape, qHXYKT, id, step, level);
-        }
-        else
-        {
-            DAT_011f8c00->FUN_00b188d0();
-            DAT_011f8c00->FUN_00b18a60(qhxpxJd->position, qhxpxJd->matrix, qHXYKT, id);
-        }
-        float qvyWyw = 0.0f;
-        entries->distance = 0.0f;
-        FUN_00b130a0* qpqRa = qhxpxJd;
-        for (int segment = 1; segment < entryCount; segment++)
-        {
-            FUN_00b130a0* qGfbX = &entries[segment];
-            float qAhbO = (float)segment / (entryCount - 1);
-            float qZAdkzg = BranchPower(qAhbO, material->exponent);
-            radius = qZAdkzg * angle - qvyWyw;
-            qGfbX->radius = material->radius->FUN_00b37ad0(qZAdkzg) * length;
-            float qrKBG = material->variation->FUN_00b37ad0(qZAdkzg) * thickness;
-            qGfbX->matrix = qpqRa->matrix;
-            qGfbX->direction = DAT_011f8c40.FUN_00b12890(qGfbX->matrix);
-            float qbXcw = BranchDegrees(qGfbX->direction.FUN_00b12720(DAT_011f8c08));
-            float qRqUtp = BranchFalloff((float)(double)(float)fabs((float)(DAT_01066808 - qbXcw)));
-            BranchPoint qArxcFu = qGfbX->direction.FUN_00b12810(DAT_011f8c08);
-            qArxcFu.FUN_00b12790();
-            float qsTDDg = (material->noise->FUN_00b37ad0(qZAdkzg) - 0.5) * 2.0 * -1.0;
-            qnuVZg.SetRotationAxisAngle(qsTDDg * managed * qbXcw * qRqUtp, qArxcFu);
-            qGfbX->matrix = qGfbX->matrix.Multiply(qnuVZg);
-            float qBCzzXA = material->orientation->Sample(qZAdkzg);
-            float qxQHW = material->orientation->Sample(qZAdkzg);
-            qGfbX->matrix.FUN_00b12c00(qxQHW, qBCzzXA);
-            qGfbX->direction = DAT_011f8c40.FUN_00b12890(qGfbX->matrix);
-            qGfbX->position = qpqRa ? qpqRa->position + qpqRa->direction * radius : origin;
-            float qrzAir = weight;
-            if (level <= DAT_011ad14c)
-            {
-                qGfbX->weight = FUN_00b14ae0(level, qZAdkzg, qrKBG);
-                qrzAir = qGfbX->weight;
-            }
-            else if (DAT_011f8c04)
-            {
-                qGfbX->weight = FUN_00b14b10(weight, qrKBG);
-                qrzAir = qGfbX->weight;
-            }
-            if (!animation)
-            {
-                float currentFactor = 0.0f;
-                if (level == 0)
-                {
-                    float position = qZAdkzg;
-                    if (material->lower > position)
-                        currentFactor = 1.0f;
-                    else
-                        currentFactor = material->lower * -1.0 / (1.0 - material->lower);
-                }
-                else
-                    currentFactor = parentFactor;
-                FUN_00b14450(qGfbX, qZAdkzg, currentFactor, type, mesh, shape, qrzAir, id, step, level);
-            }
-            else
-                DAT_011f8c00->FUN_00b18a60(qGfbX->position, qGfbX->matrix, qrzAir, id);
-            qpqRa = qGfbX;
-            qvyWyw += radius;
-            entries[segment].distance = qvyWyw;
-        }
-        if (animation)
-            DAT_011f8c00->FUN_00b18b70(bend);
-        else
-        {
-            mesh->SetVertices((unsigned short)firstVertex);
-            FUN_00b14ed0(mesh, type);
-        }
-        int qpTd = (int)(material->children / scale * angle);
-        level++;
-        bool qzzQr = level >= (int)(DAT_011f8c60 - DAT_011f8c5c) - 1;
-        if (!qzzQr || DAT_011ad148)
-        {
-            for (int child = 0; child < qpTd; child++)
-            {
-                BranchChild qHVMR;
-                qHVMR.idx = 0;
-                qHVMR.t = 0.0f;
-                qHVMR.object = 0;
-                if (!qzzQr)
-                {
-                    seed += 3;
-                    DAT_011f8c05.FUN_00b3f160(seed);
-                }
-                float qDdzMIp = 0.0f;
-                if (!qzzQr && child == 0)
-                {
-                    qDdzMIp = DAT_011f8c05.FUN_00b3f130(BranchInterpolate(material->lower, material->upper, 0.85f),
-                                                        BranchInterpolate(material->lower, material->upper, 0.95f));
-                }
-                else
-                    qDdzMIp = DAT_011f8c05.FUN_00b3f130(material->lower, material->upper);
-                FindSegment(&qHVMR, qDdzMIp * angle);
-                float qQMZREG = weight;
-                if (level - 1 == DAT_011ad14c || DAT_011f8c04)
-                {
-                    qQMZREG = BranchInterpolate(entries[qHVMR.idx].weight, entries[qHVMR.idx + 1].weight, qHVMR.t);
-                }
-                if (!qzzQr)
-                {
-                    DAT_011f8c05.FUN_00b3f160(seed);
-                    DAT_011f8c05.FUN_00b3f130(0.0f, 100.0f);
-                }
-                BranchPoint qJDuOZ;
-                FUN_00b13000(&qJDuOZ, &entries[qHVMR.idx].position, &entries[qHVMR.idx + 1].position, qHVMR.t);
-                float qxWmVch = 1.0f;
-                if (material->upper != material->lower)
-                    qxWmVch = (qDdzMIp - material->lower) / (material->upper - material->lower);
-                if (qzzQr)
-                {
-                    FUN_00b13100(this, scale, level, &qJDuOZ, qxWmVch, &entries[qHVMR.idx].matrix, &entries[qHVMR.idx],
-                                 context, qQMZREG, id);
-                }
-                else
-                {
-                    float qZWI = BranchInterpolate(entries[qHVMR.idx].radius, entries[qHVMR.idx + 1].radius, qHVMR.t);
-                    qHVMR.object = new FUN_00b10dc0(this);
-                    float qpia = parentFactor + (1.0f - parentFactor) * qxWmVch;
-                    if (level <= 1)
-                        qpia *= qpia;
-                    qHVMR.object->FUN_00b11050(seed, scale, level, qJDuOZ, qxWmVch, qpia, entries[qHVMR.idx].matrix,
-                                               entries[qHVMR.idx].direction, mesh, context, qQMZREG, id, qZWI);
-                    if (!DAT_011f8c00->GetByteAtOffset4C() || level < DAT_011f8c00->FUN_00b18300())
-                        childList.FUN_00b1e4c0(qHVMR);
-                    else
-                    {
-                        delete qHVMR.object;
-                        qHVMR.object = 0;
-                    }
-                }
-            }
-        }
-        if (qzzQr)
-            DAT_011f8c80.FUN_00b32350();
-        FUN_00b14b40();
-    }
-}
-
 struct S_00b13a40_Elem
 {
     unsigned char m_flag;
@@ -1471,9 +1229,7 @@ struct Vec54
 };
 struct Obj80
 {
-    void FUN_00b15390(void* p);
 };
-extern Obj80 DAT_011f8c80;
 struct Elem54
 {
     int m_00;
@@ -1533,7 +1289,6 @@ struct ResObj
     {
         m_34 = pT;
     }
-    void FUN_00b404c0(NiPoint3* p, int flag);
 };
 struct FUN_00b40070 : ResObj
 {
@@ -1567,7 +1322,6 @@ struct MathPoint : NiPoint3
     }
     MathPoint FUN_00b13040(const MathPoint& p);
     MathPoint ScaleSwizzled(float f);
-    MathPoint AddVector(const MathPoint& p);
 };
 struct CrossObj
 {
@@ -1584,13 +1338,7 @@ struct CrossObj
 };
 struct G4Obj
 {
-    float FUN_00b3f130(float a, float b, float c, int d);
 };
-extern float DAT_01017130;
-extern float DAT_0108cb00;
-extern float DAT_01022958;
-extern double DAT_01030f28;
-float __cdecl FUN_00b15110(int a);
 struct Host : Owner
 {
     inline bool IsPointClearOfEntries(int a, int b, void* c);
@@ -1672,7 +1420,7 @@ struct LocalPoint : NiPoint3
 };
 inline MathPoint interpolate(MathPoint* a, MathPoint* b, float f)
 {
-    return b->AddVector(a->FUN_00b13040(*b).ScaleSwizzled(f));
+    return (*(::fnv_00b13c10::MathPoint *)(reinterpret_cast<::FUN_00b0cf90_class *>((b))->AddVector((float *)&(const ::fnv_00b13c10::MathPoint &)(a->FUN_00b13040(*b).ScaleSwizzled(f)), {})));
 }
 struct Settings
 {
@@ -1747,7 +1495,7 @@ void Host::FUN_00b13c10(int p0, float p1, Link* p2, MathPoint* p3, MathPoint* p4
             unsigned idx = 0;
             if (sizeA() > 1)
             {
-                idx = (int)((unsigned int)g_011f8c05.FUN_00b3f130(0.0f, DAT_01017130) % sizeA());
+                idx = (int)((unsigned int)reinterpret_cast<::FUN_00b3f130_shell *>(&(::g_011f8c05))->FUN_00b3f130(0.0f, ::DAT_01017130) % sizeA());
             }
             id = DAT_011f8c70[idx];
         }
@@ -1756,7 +1504,7 @@ void Host::FUN_00b13c10(int p0, float p1, Link* p2, MathPoint* p3, MathPoint* p4
             unsigned idx = 0;
             if (sizeB() > 1)
             {
-                float fr = g_011f8c05.FUN_00b3f130(0.0f, DAT_0108cb00);
+                float fr = reinterpret_cast<::FUN_00b3f130_shell *>(&(::g_011f8c05))->FUN_00b3f130(0.0f, ::DAT_0108cb00);
                 idx = (int)((unsigned int)fr % sizeB());
                 id = DAT_011f8c20[idx];
             }
@@ -1777,10 +1525,10 @@ void Host::FUN_00b13c10(int p0, float p1, Link* p2, MathPoint* p3, MathPoint* p4
             break;
             break;
         case 1:
-            ok = IsPointClearOfEntries(p0, id / 2, &DAT_011f8c80);
+            ok = reinterpret_cast<::S_00b14280_This *>(this)->IsPointClearOfEntries((*(const ::NiPoint3x *)(p0)), id / 2, (::S_00b14280_List *)(void *)(&(*reinterpret_cast<::fnv_00b13c10::Obj80 *>(&::DAT_011f8c80))));
             break;
         case 2:
-            ok = IsPointClearOfEntries(p0, id / 2, p7);
+            ok = reinterpret_cast<::S_00b14280_This *>(this)->IsPointClearOfEntries((*(const ::NiPoint3x *)(p0)), id / 2, (::S_00b14280_List *)(p7));
             break;
         }
     switchDone:
@@ -1790,18 +1538,18 @@ void Host::FUN_00b13c10(int p0, float p1, Link* p2, MathPoint* p3, MathPoint* p4
             float vZ = p1;
             if (((Settings*)DAT_011f8bf4)->enabled != 0)
             {
-                vZ = FUN_00b15110((int)p2);
+                vZ = ::FUN_00b15110((::Link *)((int)p2));
                 vZ = vZ + (1.0f - vZ) * p1;
                 vZ = vZ * vZ * vZ;
                 scale7 = (float)(1.0 - ((Settings*)DAT_011f8bf4)->factor) * (1.0f - vZ) + vZ;
             }
             ResObj* res = new FUN_00b40070(p0, (unsigned short)(int)(scale7 * 255.0),
-                                           (int)((G4Obj*)&g_011f8c05)->FUN_00b3f130(0.0f, DAT_01022958, p5, p6) %
+                                           (int)reinterpret_cast<::FUN_00b3f130_shell *>((((G4Obj*)&::g_011f8c05)))->FUN_00b3f130(0.0f, ::DAT_01022958) %
                                                ((Settings*)DAT_011f8bf4)->count);
-            ((Obj80*)p7)->FUN_00b15390(&res);
+            reinterpret_cast<::IndexSet *>((((Obj80*)p7)))->FUN_00b15390((*(const unsigned int *)(&res)));
             if (DAT_011f8bf4->unk0c == 1)
             {
-                DAT_011f8c80.FUN_00b15390(&res);
+                reinterpret_cast<::IndexSet *>(&((*reinterpret_cast<::fnv_00b13c10::Obj80 *>(&::DAT_011f8c80))))->FUN_00b15390((*(const unsigned int *)(&res)));
             }
             Elem54* elem4 = (Elem54*)((Vec54*)&DAT_011f8bf4->unk10)->at(id / 2);
             res->setId(id);
@@ -1809,7 +1557,7 @@ void Host::FUN_00b13c10(int p0, float p1, Link* p2, MathPoint* p3, MathPoint* p4
             pT.z = 0.0f;
             pT.y = 0.0f;
             pT.x = 0.0f;
-            if (p3->FastSqrt() < DAT_01030f28)
+            if (reinterpret_cast<::B4230Point3 *>((p3))->FastSqrt() < ::DAT_01030f28)
             {
                 pT = *p4;
             }
@@ -1817,17 +1565,17 @@ void Host::FUN_00b13c10(int p0, float p1, Link* p2, MathPoint* p3, MathPoint* p4
             {
                 pT = interpolate(p3, p4, elem4->m_10);
             }
-            ((MathPoint*)&pT)->FUN_00b12790();
+            reinterpret_cast<::FUN_00b12790_class *>((((MathPoint*)&pT)))->FUN_00b12790();
             res->setA(pT);
             NiPoint3 varCX = pT;
             res->setB(varCX);
             NiPoint3 cross2;
-            ((CrossObj*)&varCX)->FUN_00b12810(&cross2, &pT);
-            ((MathPoint*)&cross2)->FUN_00b12790();
+            reinterpret_cast<::CrossPt *>((((CrossObj*)&varCX)))->FUN_00b12810((*(const ::Pt3 *)(&cross2)));
+            reinterpret_cast<::FUN_00b12790_class *>((((MathPoint*)&cross2)))->FUN_00b12790();
             res->setC(cross2);
-            float w = g_011f8c05.FUN_00b3f130(-elem4->m_10, elem4->m_10);
+            float w = reinterpret_cast<::FUN_00b3f130_shell *>(&(::g_011f8c05))->FUN_00b3f130(-elem4->m_10, elem4->m_10);
             LocalPoint fp(elem4->m_04 + w, elem4->m_08 + w, elem4->m_0c + w);
-            res->FUN_00b404c0(&fp, 1);
+            reinterpret_cast<::FUN_00b404c0_cls *>((res))->FUN_00b404c0((const ::FUN_00b28440_Class *)(::NiPoint3 *)(&fp), 1);
         }
     }
 }
@@ -1840,13 +1588,10 @@ struct RingSettings
     int unk00, unk04;
     float strength;
 };
-extern float DAT_011f8c14;
-extern float DAT_011f8c30;
 double __cdecl FUN_00ec9f30(double);
 double __cdecl FUN_00ec6054(double);
 double __cdecl FUN_00ec6cde(double);
 double __cdecl FUN_00ec9ac0(double, double);
-extern float DAT_010a5494;
 double __cdecl FUN_00eca060(double);
 inline double ringCos(float a)
 {
@@ -1918,12 +1663,12 @@ struct RingModifier
         float fResult = 0.0f;
         float m_kCenter = fAngleDifference;
         float fTimeSinceScaleStart = (float)FUN_00ec6cde(afAngle - m_kCenter);
-        if (DAT_010a5494 < fTimeSinceScaleStart)
+        if (::runtimeInitializationFloat2066 < fTimeSinceScaleStart)
         {
             if (m_kCenter > afAngle)
-                afAngle += DAT_011f8c14;
+                afAngle += ::runtimeInitializationFloat4160;
             else
-                m_kCenter += DAT_011f8c14;
+                m_kCenter += ::runtimeInitializationFloat4160;
         }
         fTimeSinceScaleStart = (float)FUN_00ec6cde(afAngle - m_kCenter);
         if (fImpulseRadiusSquared > fTimeSinceScaleStart)
@@ -1969,12 +1714,6 @@ struct RingBuilder
     int unk0c, unk10, unk14, unk18, unk1c;
     unsigned short unk20;
     unsigned short count;
-    void FUN_00b301f0(const RingUV* uv, int index);
-    void FUN_00b305f0(const RingPoint* point);
-    void FUN_00b30660(const float* point);
-    void FUN_00b300c0(const PlainPoint* point);
-    void FUN_00b30020(const RingColor* color);
-    void FUN_00b30560(float value, bool flag);
     bool isEnabled() const
     {
         return enabled;
@@ -1988,6 +1727,252 @@ struct RingOwner
     void FUN_00b14450(RingGeometry* geometry, float amount, float fade, int segments, RingBuilder* builder,
                       RingPoint* uvScale, float value, bool flag, float uvOffset, int linear);
 };
+// @fnv 0x00b11050
+void FUN_00b10dc0::FUN_00b11050(unsigned int seed, float scale, int level, const BranchPoint& origin, float age,
+                                float parentFactor, const BranchMatrix& transform, const BranchPoint& axis,
+                                BranchMesh* mesh, void* context, float weight, unsigned int id, float cap)
+{
+    bool animation = ((bool)(reinterpret_cast<::FUN_00b18320_Class *>((DAT_011f8c00))->GetByteAtOffset4C())) && level >= ((int)(reinterpret_cast<::NiD3DHLSLPixelShader *>((DAT_011f8c00))->FUN_00b18300()));
+    if (level == DAT_011ad14c)
+        id = (*reinterpret_cast<unsigned int *>(&::fnv_00b2af80::DAT_011f8bfc))++;
+    if (level == 0)
+        reinterpret_cast<::S_00b13a40_Obj *>(this)->FUN_00b13a40();
+    float thickness;
+    BranchConfig* material = DAT_011f8c50.GetElement(level);
+    if (!animation)
+        firstVertex = mesh->GetVertices();
+    time = age;
+    if (!animation)
+        reinterpret_cast<::ParticleEmitter *>(this)->FUN_00b14ca0((::CreationSettings *)(material));
+    float angle = reinterpret_cast<::FUN_00b37ad0_class *>(((material->length).operator->()))->FUN_00b37ad0(age) * scale;
+    float radius = angle / material->segments;
+    float base = reinterpret_cast<::FUN_00b3f130_shell *>(&((*reinterpret_cast<::BranchRandom *>(&::g_011f8c05))))->FUN_00b3f130(DAT_010a54a0, 180.0f);
+    float config = reinterpret_cast<::FUN_00b37ad0_class *>(((material->base).operator->()))->FUN_00b37ad0(age);
+    float managed = reinterpret_cast<::FUN_00b37ad0_class *>(((material->bend).operator->()))->FUN_00b37ad0(age);
+    float length = reinterpret_cast<::FUN_00b37ad0_class *>(((material->thickness).operator->()))->FUN_00b37ad0(age) * scale;
+    thickness = reinterpret_cast<::FUN_00b37ad0_class *>(((material->material).operator->()))->FUN_00b37ad0(age);
+    type = (unsigned short)material->sides;
+    float step = material->animate ? base + 0.5 + age : 0.0;
+    BranchPoint shape(material->fixedWidth ? material->width : material->width * length * ::runtimeInitializationFloat4160,
+                      material->fixedHeight ? material->height : angle / scale * material->height,
+                      (childList.size() + seed) % 2 == 0 ? material->twist : -material->twist);
+    float bend = reinterpret_cast<::FUN_00b37ad0_class *>(((material->radius).operator->()))->FUN_00b37ad0(0.0f) * length;
+    if (cap > 0.0 && bend > cap * DAT_010a549c)
+    {
+        bend = cap * DAT_010a549c;
+        length = bend;
+    }
+    entryCount = material->segments + 1;
+    if (entryCount >= 2)
+    {
+        entries = new FUN_00b130a0[entryCount];
+        if (!animation)
+        {
+            unsigned short index = (entryCount - 1) * (material->sides * 2 + 4);
+            unsigned short* indices = new unsigned short[index];
+            unsigned short column = mesh->GetVertices();
+            int vertex = 0;
+            int numIndices = 0;
+            for (int row = 0; row < entryCount - 1; row++)
+            {
+                int first = numIndices;
+                for (int side = 0; side < material->sides + 1; side++)
+                {
+                    indices[vertex] = column + (numIndices + (material->sides + 1));
+                    vertex++;
+                    indices[vertex] = column + numIndices;
+                    vertex++;
+                    numIndices++;
+                }
+                indices[vertex] = column + (first + (material->sides + 1));
+                vertex++;
+                indices[vertex] = column + (first + (material->sides + 1));
+                vertex++;
+            }
+            reinterpret_cast<::Target *>((mesh))->FUN_00b2fdc0(0, (unsigned int)(indices), index);
+            mesh->groups++;
+        }
+        FUN_00b130a0* qhxpxJd = entries;
+        qhxpxJd->position = origin;
+        float qSVM = reinterpret_cast<::SplineSampler *>(((material->orientation).operator->()))->Sample(0.0f);
+        float qrEZrs = reinterpret_cast<::SplineSampler *>(((material->orientation).operator->()))->Sample(0.0f);
+        qhxpxJd->matrix = transform;
+        BranchPoint qsSDDgz = (*(::BranchPoint *)(reinterpret_cast<::FUN_00b12b50_class *>((void *)&(transform))->TransformVector((float *)&(axis), {})));
+        reinterpret_cast<::MatrixOwner *>(&(qhxpxJd->matrix))->FUN_00b12d50(base, (*(float *)&(const ::BranchPoint &)(qsSDDgz)), {}, {});
+        reinterpret_cast<::Mat3Rot *>(&(qhxpxJd->matrix))->FUN_00b12c00(config + qrEZrs, qSVM);
+        qhxpxJd->direction = DAT_011f8c40.FUN_00b12890(qhxpxJd->matrix);
+        qhxpxJd->radius = reinterpret_cast<::FUN_00b37ad0_class *>(((material->radius).operator->()))->FUN_00b37ad0(0.0f) * length;
+        float qfTOqo = reinterpret_cast<::FUN_00b37ad0_class *>(((material->variation).operator->()))->FUN_00b37ad0(0.0f) * thickness;
+        float qbGYp = BranchDegrees(reinterpret_cast<::This *>(&(qhxpxJd->direction))->FUN_00b12720((const ::NiPoint3 &)(DAT_011f8c08)));
+        float qSuoDt = BranchFalloff((float)(double)(float)fabs((float)(DAT_01066808 - qbGYp)));
+        BranchPoint qkbsJ = qhxpxJd->direction.FUN_00b12810(DAT_011f8c08);
+        reinterpret_cast<::FUN_00b12790_class *>(&(qkbsJ))->FUN_00b12790();
+        float qdqWL = (reinterpret_cast<::FUN_00b37ad0_class *>(((material->noise).operator->()))->FUN_00b37ad0(0.0f) - 0.5) * 2.0 * -1.0;
+        BranchMatrix qnuVZg;
+        reinterpret_cast<::RotationMatrix *>(&(qnuVZg))->SetRotationAxisAngle(qdqWL * managed * qbGYp * qSuoDt, (*(float *)&(const ::BranchPoint &)(qkbsJ)), {}, {});
+        qhxpxJd->matrix = qhxpxJd->matrix.Multiply(qnuVZg);
+        qhxpxJd->direction = DAT_011f8c40.FUN_00b12890(qhxpxJd->matrix);
+        if (mesh && level == 0)
+        {
+            mesh->SetDiameter(qhxpxJd->radius * 2.0f);
+            mesh->SetStart(material->lower * angle);
+        }
+        float qHXYKT = weight;
+        if (level <= DAT_011ad14c)
+        {
+            qhxpxJd->weight = reinterpret_cast<::FUN_00b14ae0_class *>(this)->FUN_00b14ae0(level, 0.0f, qfTOqo);
+            qHXYKT = qhxpxJd->weight;
+        }
+        else if (DAT_011f8c04)
+        {
+            qhxpxJd->weight = reinterpret_cast<::FUN_00b14b10_class *>(this)->FUN_00b14b10(weight, qfTOqo);
+            qHXYKT = qhxpxJd->weight;
+        }
+        if (!animation)
+        {
+            float factor = 0.0f;
+            if (level != 0)
+                factor = parentFactor;
+            reinterpret_cast<::RingOwner *>(this)->FUN_00b14450((::RingGeometry *)(qhxpxJd), 0.0f, factor, type, (::RingBuilder *)(mesh), (::RingPoint *)&(shape), qHXYKT, id, step, level);
+        }
+        else
+        {
+            reinterpret_cast<::addb18::GvOwner *>((DAT_011f8c00))->FUN_00b188d0();
+            reinterpret_cast<::SBranchOwner *>((DAT_011f8c00))->FUN_00b18a60(qhxpxJd->position);
+        }
+        float qvyWyw = 0.0f;
+        entries->distance = 0.0f;
+        FUN_00b130a0* qpqRa = qhxpxJd;
+        for (int segment = 1; segment < entryCount; segment++)
+        {
+            FUN_00b130a0* qGfbX = &entries[segment];
+            float qAhbO = (float)segment / (entryCount - 1);
+            float qZAdkzg = BranchPower(qAhbO, material->exponent);
+            radius = qZAdkzg * angle - qvyWyw;
+            qGfbX->radius = reinterpret_cast<::FUN_00b37ad0_class *>(((material->radius).operator->()))->FUN_00b37ad0(qZAdkzg) * length;
+            float qrKBG = reinterpret_cast<::FUN_00b37ad0_class *>(((material->variation).operator->()))->FUN_00b37ad0(qZAdkzg) * thickness;
+            qGfbX->matrix = qpqRa->matrix;
+            qGfbX->direction = DAT_011f8c40.FUN_00b12890(qGfbX->matrix);
+            float qbXcw = BranchDegrees(reinterpret_cast<::This *>(&(qGfbX->direction))->FUN_00b12720((const ::NiPoint3 &)(DAT_011f8c08)));
+            float qRqUtp = BranchFalloff((float)(double)(float)fabs((float)(DAT_01066808 - qbXcw)));
+            BranchPoint qArxcFu = qGfbX->direction.FUN_00b12810(DAT_011f8c08);
+            reinterpret_cast<::FUN_00b12790_class *>(&(qArxcFu))->FUN_00b12790();
+            float qsTDDg = (reinterpret_cast<::FUN_00b37ad0_class *>(((material->noise).operator->()))->FUN_00b37ad0(qZAdkzg) - 0.5) * 2.0 * -1.0;
+            reinterpret_cast<::RotationMatrix *>(&(qnuVZg))->SetRotationAxisAngle(qsTDDg * managed * qbXcw * qRqUtp, (*(float *)&(const ::BranchPoint &)(qArxcFu)), {}, {});
+            qGfbX->matrix = qGfbX->matrix.Multiply(qnuVZg);
+            float qBCzzXA = reinterpret_cast<::SplineSampler *>(((material->orientation).operator->()))->Sample(qZAdkzg);
+            float qxQHW = reinterpret_cast<::SplineSampler *>(((material->orientation).operator->()))->Sample(qZAdkzg);
+            reinterpret_cast<::Mat3Rot *>(&(qGfbX->matrix))->FUN_00b12c00(qxQHW, qBCzzXA);
+            qGfbX->direction = DAT_011f8c40.FUN_00b12890(qGfbX->matrix);
+            qGfbX->position = qpqRa ? qpqRa->position + qpqRa->direction * radius : origin;
+            float qrzAir = weight;
+            if (level <= DAT_011ad14c)
+            {
+                qGfbX->weight = reinterpret_cast<::FUN_00b14ae0_class *>(this)->FUN_00b14ae0(level, qZAdkzg, qrKBG);
+                qrzAir = qGfbX->weight;
+            }
+            else if (DAT_011f8c04)
+            {
+                qGfbX->weight = reinterpret_cast<::FUN_00b14b10_class *>(this)->FUN_00b14b10(weight, qrKBG);
+                qrzAir = qGfbX->weight;
+            }
+            if (!animation)
+            {
+                float currentFactor = 0.0f;
+                if (level == 0)
+                {
+                    float position = qZAdkzg;
+                    if (material->lower > position)
+                        currentFactor = 1.0f;
+                    else
+                        currentFactor = material->lower * -1.0 / (1.0 - material->lower);
+                }
+                else
+                    currentFactor = parentFactor;
+                reinterpret_cast<::RingOwner *>(this)->FUN_00b14450((::RingGeometry *)(qGfbX), qZAdkzg, currentFactor, type, (::RingBuilder *)(mesh), (::RingPoint *)&(shape), qrzAir, id, step, level);
+            }
+            else
+                reinterpret_cast<::SBranchOwner *>((DAT_011f8c00))->FUN_00b18a60(qGfbX->position);
+            qpqRa = qGfbX;
+            qvyWyw += radius;
+            entries[segment].distance = qvyWyw;
+        }
+        if (animation)
+            reinterpret_cast<::FrondGuideFinalizer *>((DAT_011f8c00))->FUN_00b18b70(bend);
+        else
+        {
+            mesh->SetVertices((unsigned short)firstVertex);
+            FUN_00b14ed0(mesh, type);
+        }
+        int qpTd = (int)(material->children / scale * angle);
+        level++;
+        bool qzzQr = level >= (int)(DAT_011f8c60 - DAT_011f8c5c) - 1;
+        if (!qzzQr || DAT_011ad148)
+        {
+            for (int child = 0; child < qpTd; child++)
+            {
+                BranchChild qHVMR;
+                qHVMR.idx = 0;
+                qHVMR.t = 0.0f;
+                qHVMR.object = 0;
+                if (!qzzQr)
+                {
+                    seed += 3;
+                    reinterpret_cast<::RandomNumberGenerator *>(&((*reinterpret_cast<::BranchRandom *>(&::g_011f8c05))))->SeedRandomGenerator(seed);
+                }
+                float qDdzMIp = 0.0f;
+                if (!qzzQr && child == 0)
+                {
+                    qDdzMIp = reinterpret_cast<::FUN_00b3f130_shell *>(&((*reinterpret_cast<::BranchRandom *>(&::g_011f8c05))))->FUN_00b3f130(BranchInterpolate(material->lower, material->upper, 0.85f),
+                                                        BranchInterpolate(material->lower, material->upper, 0.95f));
+                }
+                else
+                    qDdzMIp = reinterpret_cast<::FUN_00b3f130_shell *>(&((*reinterpret_cast<::BranchRandom *>(&::g_011f8c05))))->FUN_00b3f130(material->lower, material->upper);
+                reinterpret_cast<::FUN_00b14be0_cls *>(this)->FindSegment((::OutPair *)(::BranchChild *)(&qHVMR), qDdzMIp * angle);
+                float qQMZREG = weight;
+                if (level - 1 == DAT_011ad14c || DAT_011f8c04)
+                {
+                    qQMZREG = BranchInterpolate(entries[qHVMR.idx].weight, entries[qHVMR.idx + 1].weight, qHVMR.t);
+                }
+                if (!qzzQr)
+                {
+                    reinterpret_cast<::RandomNumberGenerator *>(&((*reinterpret_cast<::BranchRandom *>(&::g_011f8c05))))->SeedRandomGenerator(seed);
+                    reinterpret_cast<::FUN_00b3f130_shell *>(&((*reinterpret_cast<::BranchRandom *>(&::g_011f8c05))))->FUN_00b3f130(0.0f, 100.0f);
+                }
+                BranchPoint qJDuOZ;
+                FUN_00b13000(&qJDuOZ, &entries[qHVMR.idx].position, &entries[qHVMR.idx + 1].position, qHVMR.t);
+                float qxWmVch = 1.0f;
+                if (material->upper != material->lower)
+                    qxWmVch = (qDdzMIp - material->lower) / (material->upper - material->lower);
+                if (qzzQr)
+                {
+                    reinterpret_cast<::fnv_00b13100::Effect *>(this)->FUN_00b13100((::fnv_00b13100::ParentNode *)(::FUN_00b10dc0 *)(this), scale, level, (*(const ::fnv_00b13100::Vector3 *)(&qJDuOZ)), qxWmVch, (*(const ::fnv_00b13100::FloatMatrix3 *)(&entries[qHVMR.idx].matrix)), (*(const ::fnv_00b13100::Vector3 *)(&entries[qHVMR.idx])),
+                                 (int)(context), qQMZREG, id);
+                }
+                else
+                {
+                    float qZWI = BranchInterpolate(entries[qHVMR.idx].radius, entries[qHVMR.idx + 1].radius, qHVMR.t);
+                    qHVMR.object = new FUN_00b10dc0(this);
+                    float qpia = parentFactor + (1.0f - parentFactor) * qxWmVch;
+                    if (level <= 1)
+                        qpia *= qpia;
+                    qHVMR.object->FUN_00b11050(seed, scale, level, qJDuOZ, qxWmVch, qpia, entries[qHVMR.idx].matrix,
+                                               entries[qHVMR.idx].direction, mesh, context, qQMZREG, id, qZWI);
+                    if (!((bool)(reinterpret_cast<::FUN_00b18320_Class *>((DAT_011f8c00))->GetByteAtOffset4C())) || level < ((int)(reinterpret_cast<::NiD3DHLSLPixelShader *>((DAT_011f8c00))->FUN_00b18300())))
+                        reinterpret_cast<::FrondPointAppend *>(&(childList))->FUN_00b1e4c0((const ::FrondPoint &)(qHVMR));
+                    else
+                    {
+                        delete qHVMR.object;
+                        qHVMR.object = 0;
+                    }
+                }
+            }
+        }
+        if (qzzQr)
+            reinterpret_cast<::IndexSet *>(&(DAT_011f8c80))->FUN_00b32350();
+        reinterpret_cast<::b14_ctx *>(this)->FUN_00b14b40();
+    }
+}
 
 // @fnv 0x00b14450
 void RingOwner::FUN_00b14450(RingGeometry* geometry, float amount, float fade, int segments, RingBuilder* builder,
@@ -2015,26 +2000,26 @@ void RingOwner::FUN_00b14450(RingGeometry* geometry, float amount, float fade, i
     color.a = 1.0f;
     for (int i = 0; i <= segments; ++i)
     {
-        float angle5 = DAT_011f8c14 * fProgress;
+        float angle5 = ::runtimeInitializationFloat4160 * fProgress;
         RingUV uv_;
         uv_.u = fProgress * uvScale->x;
         uv_.u += uvScale->z * amount;
         uv_.v = (amount + uvOffset) * uvScale->y;
-        builder->FUN_00b301f0(&uv_, -1);
+        reinterpret_cast<::CoordinateWriter *>((builder))->FUN_00b301f0((const float *)(const ::RingUV *)(&uv_), -1);
         float cosine6 = ringCos(angle5);
         float fSin = ringSin(angle5);
         RingPoint direction3;
         direction3[0] = cosine6 * geometry->axisU.x + fSin * geometry->axisV.x;
         direction3[1] = cosine6 * geometry->axisU.y + fSin * geometry->axisV.y;
         direction3[2] = cosine6 * geometry->axisU.z + fSin * geometry->axisV.z;
-        cosine6 = ringCos(angle5 + DAT_011f8c30);
-        fSin = ringSin(angle5 + DAT_011f8c30);
+        cosine6 = ringCos(angle5 + ::runtimeInitializationFloat4161);
+        fSin = ringSin(angle5 + ::runtimeInitializationFloat4161);
         RingPoint tangentTmp;
         tangentTmp[0] = cosine6 * geometry->axisU.x + fSin * geometry->axisV.x;
         tangentTmp[1] = cosine6 * geometry->axisU.y + fSin * geometry->axisV.y;
         tangentTmp[2] = cosine6 * geometry->axisU.z + fSin * geometry->axisV.z;
-        builder->FUN_00b305f0(&tangentTmp);
-        builder->FUN_00b30660(tangentTmp.FUN_00b12810(direction3));
+        reinterpret_cast<::fnv_00b305f0::FUN_00b305f0_cls *>((builder))->FUN_00b305f0((const float *)(const ::RingPoint *)(&tangentTmp));
+        reinterpret_cast<::S00b30660_Obj *>((builder))->FUN_00b30660(tangentTmp.FUN_00b12810(direction3));
         float fScale = 1.0f;
         float displacement = 0.0f;
         for (unsigned int uiModifier = 0; uiModifier < modifiers.size(); ++uiModifier)
@@ -2053,14 +2038,14 @@ void RingOwner::FUN_00b14450(RingGeometry* geometry, float amount, float fade, i
             delta4.y = direction3[1] * geometry->radius * fScale + geometry->center.y;
             delta4.z = direction3[2] * geometry->radius * fScale + geometry->center.z;
             RingPoint kIntersectionOffset(delta4.x - kPosition.x, delta4.y - kPosition.y, delta4.z - kPosition.z);
-            kIntersectionOffset.FUN_00b12790();
+            reinterpret_cast<::FUN_00b12790_class *>(&(kIntersectionOffset))->FUN_00b12790();
             direction3 = kIntersectionOffset;
             FUN_00ec44d0(&kPosition, &delta4, sizeof(kPosition));
         }
-        builder->FUN_00b300c0(&kPosition);
-        builder->FUN_00b30020(&color);
+        reinterpret_cast<::FUN_00b300c0_cls *>((builder))->FUN_00b300c0((const float *)(const ::PlainPoint *)(&kPosition));
+        reinterpret_cast<::FUN_00b30020_Class *>((builder))->FUN_00b30020((float *)(&color));
         if (builder->isEnabled())
-            builder->FUN_00b30560(value, flag);
+            reinterpret_cast<::FUN_00b30560_cls *>((builder))->FUN_00b30560(value, flag);
         ++builder->count;
         fProgress += aIncrement;
     }
@@ -2141,7 +2126,7 @@ class FUN_00b15210 : public VectorValB25210
 // @fnv 0x00b15210
 FUN_00b15210::~FUN_00b15210()
 {
-    Tidy();
+    reinterpret_cast<::FUN_00b15600_cls *>(this)->FUN_00b15600();
 }
 
 struct ElQ_acda90
@@ -2163,11 +2148,9 @@ inline CatQ_acda90 PtrCat_acda90(ElQ_acda90*&, ElQ_acda90*&)
     CatQ_acda90 c;
     return c;
 }
-void __cdecl CopyStructArray(ElQ_acda90* _First, unsigned int _Count, const ElQ_acda90& _Val, AlQ_acda90& _Al,
-                             CatQ_acda90, TagQ_acda90);
 inline void UFillN_acda90(ElQ_acda90* _First, unsigned int _Count, const ElQ_acda90& _Val, AlQ_acda90& _Al)
 {
-    CopyStructArray(_First, _Count, _Val, _Al, PtrCat_acda90(_First, _First), TagQ_acda90());
+    ::CopyStructArray((::S_b16cd0 *)(_First), _Count, (::S_b16cd0 *)&(_Val));
 }
 struct VecQ_acda90;
 struct CItQ_acda90
@@ -2269,11 +2252,10 @@ inline CatQ_acad60 PtrCat_acad60(int*&, int*&)
     CatQ_acad60 c;
     return c;
 }
-void __cdecl FUN_00b36b10(int* _First, unsigned int _Count, const int& _Val);
 inline void UFill2_acad60(int* _First, unsigned int _Count, const int& _Val, AlQ_acad60& _Al, CatQ_acad60, TagQ_acad60)
 {
     Dead8_acad60();
-    FUN_00b36b10(_First, _Count, _Val);
+    ::fnv_00b36b10::FUN_00b36b10((unsigned int *)(_First), _Count, (const unsigned int &)(_Val));
 }
 inline void UFillN_acad60(int* _First, unsigned int _Count, const int& _Val, AlQ_acad60& _Al)
 {
@@ -2694,7 +2676,6 @@ void FUN_00b32350_Vector::FUN_00b32350()
 }
 }  // namespace fnv_00b32350
 
-void* __cdecl FUN_00401000(unsigned int size);
 struct B13970Tmp
 {
     int unk00;
@@ -2704,10 +2685,9 @@ struct B13970Tmp
     int unk10;
     int unk14;
     int unk18;
-    void FUN_0044a730(int a, int b);
     ~B13970Tmp()
     {
-        FUN_0044a730(1, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(1, 0);
     }
 };
 struct FUN_00b37660
@@ -2779,8 +2759,6 @@ inline float difference(float a, float b)
     return a - b;
 }
 extern "C" double __cdecl pow(double, double);
-extern float DAT_010a5494;
-extern float DAT_011f8c14;
 struct ParticleFalloff
 {
     float unk00;
@@ -2797,15 +2775,15 @@ float ParticleFalloff::FUN_00b14980(float a, float b)
     float result2 = 0.0f;
     float loTmp;
     float x = (float)(double)(float)fabs((double)(float)(a - (loTmp = unk00)));
-    if (x > DAT_010a5494)
+    if (x > ::runtimeInitializationFloat2066)
     {
         if (a < loTmp)
         {
-            a = a + DAT_011f8c14;
+            a = a + ::runtimeInitializationFloat4160;
         }
         else
         {
-            loTmp = loTmp + DAT_011f8c14;
+            loTmp = loTmp + ::runtimeInitializationFloat4160;
         }
     }
     x = (float)(double)(float)fabs((double)(float)difference(a, loTmp));
@@ -2869,8 +2847,6 @@ struct StripDataX
     int unk1c;
     short unk20;
     unsigned short m_22;
-    Pt3X* FUN_00b30f80(int index);
-    void FUN_00b30190(const Pt3X& normal);
 };
 
 // @fnv 0x00b14ed0
@@ -2893,10 +2869,10 @@ void FUN_00b10dc0::FUN_00b14ed0(BranchMesh* data, unsigned short cols)
                 right = rowStart2 + j3 + 1;
             left4 += firstVertex;
             right += firstVertex;
-            Pt3X* a5 = ((StripDataX*)data)->FUN_00b30f80(left4);
-            Pt3X* b_ = ((StripDataX*)data)->FUN_00b30f80(right);
+            Pt3X* a5 = ((::Pt3X *)(reinterpret_cast<::fnv_00b30f80::ptb30::PtOwner *>((((StripDataX*)data)))->FUN_00b30f80(left4)));
+            Pt3X* b_ = ((::Pt3X *)(reinterpret_cast<::fnv_00b30f80::ptb30::PtOwner *>((((StripDataX*)data)))->FUN_00b30f80(right)));
             Pt3X dx = *b_ - *a5;
-            dx.FUN_00b12790();
+            reinterpret_cast<::FUN_00b12790_class *>(&(dx))->FUN_00b12790();
             int up3;
             if (i == 0)
                 up3 = rowStart2 + j3;
@@ -2909,12 +2885,12 @@ void FUN_00b10dc0::FUN_00b14ed0(BranchMesh* data, unsigned short cols)
                 down2 = (i + 1) * (cols + 1) + j3;
             up3 += firstVertex;
             down2 += firstVertex;
-            Pt3X* c5 = ((StripDataX*)data)->FUN_00b30f80(up3);
-            Pt3X* d2 = ((StripDataX*)data)->FUN_00b30f80(down2);
+            Pt3X* c5 = ((::Pt3X *)(reinterpret_cast<::fnv_00b30f80::ptb30::PtOwner *>((((StripDataX*)data)))->FUN_00b30f80(up3)));
+            Pt3X* d2 = ((::Pt3X *)(reinterpret_cast<::fnv_00b30f80::ptb30::PtOwner *>((((StripDataX*)data)))->FUN_00b30f80(down2)));
             Pt3X dy3 = *d2 - *c5;
-            dy3.FUN_00b12790();
+            reinterpret_cast<::FUN_00b12790_class *>(&(dy3))->FUN_00b12790();
             Pt3X n3 = dx.FUN_00b12810(dy3);
-            ((StripDataX*)data)->FUN_00b30190(n3);
+            reinterpret_cast<::FUN_00b30190_shell *>((((StripDataX*)data)))->FUN_00b30190((const float *)&(n3));
             ((StripDataX*)data)->m_22++;
         }
     }

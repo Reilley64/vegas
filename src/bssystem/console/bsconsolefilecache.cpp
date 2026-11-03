@@ -1,5 +1,12 @@
 // bssystem/console/bsconsolefilecache.cpp: FaceGenData (13 functions)
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00b00cf0_shell.h"
+#include "fnv/decl/FUN_00b01f00_class.h"
+#include "fnv/decl/JobThread.h"
+#include "fnv/symbols_005e0000.h"
+#include "fnv/symbols_00b00000.h"
+#include "fnv/symbols_011f6000.h"
 #include "bsconsolefilecache_decls.h"
 
 // Initializes the object's fields to zero/default values and clears the three primitive arrays.
@@ -11,9 +18,9 @@ FaceGenData::FaceGenData()
     m_fHairLength = 0.0f;
     pEyes = 0;
     m_eSex = SEX_MALE;
-    reinterpret_cast<NiTPrimitiveArray_unsigned_int_*>(&m_kModelObjectsItem)->RemoveAll();
-    reinterpret_cast<NiTPrimitiveArray_unsigned_int_*>(&pTexture)->RemoveAll();
-    reinterpret_cast<NiTPrimitiveArray_unsigned_int_*>(&m_kTexturePaths)->RemoveAll();
+    ::FUN_005e03d0((::NiTArray_Layout *)(reinterpret_cast<NiTPrimitiveArray_unsigned_int_*>(&m_kModelObjectsItem)));
+    ::FUN_005e03d0((::NiTArray_Layout *)(reinterpret_cast<NiTPrimitiveArray_unsigned_int_*>(&pTexture)));
+    ::FUN_005e03d0((::NiTArray_Layout *)(reinterpret_cast<NiTPrimitiveArray_unsigned_int_*>(&m_kTexturePaths)));
     bFaceGenTexturing = false;
     m_bFaceGenDataValid = false;
     m_eFaceGenLOD = BS_FACEGEN_LOD_NONE;
@@ -94,17 +101,14 @@ void __stdcall WaitAndExitThread(Outer_00b023b0* pOuter)
 extern "C" __declspec(dllimport) void __stdcall ExitThread(unsigned long);
 struct Unk00b023f0
 {
-    void CallVfn1OnAllEntries();
-    void FUN_00b02460();
-    void CallVirtualOnAllEntries();
 };
 // Calls three methods on p in sequence, then terminates the calling thread with ExitThread(0).
 // @fnv 0x00b023f0
 void __stdcall FUN_00b023f0(Unk00b023f0* pTarget)
 {
-    pTarget->CallVfn1OnAllEntries();
-    pTarget->FUN_00b02460();
-    pTarget->CallVirtualOnAllEntries();
+    ::CallVfn1OnAllEntries((int)(pTarget));
+    reinterpret_cast<::JobThread *>((pTarget))->FUN_00b02460();
+    reinterpret_cast<::FUN_00b00cf0_shell *>((pTarget))->CallVirtualOnAllEntries();
     ExitThread(0);
 }
 
@@ -142,21 +146,18 @@ bool FUN_00b02600_shell::ContainsValue(int aiValue)
 
 struct MemoryManager
 {
-    void _DeallocateAlias(void*);
 };
-extern MemoryManager g_memoryManager;
 struct S00b02640
 {
-    void DestroyAndFreeLibraries();
     void* FUN_00b02640(unsigned int);
 };
 // Calls DestroyAndFreeLibraries, then deallocates this via g_memoryManager if flags has bit 1 set, and returns this.
 // @fnv 0x00b02640
 void* S00b02640::FUN_00b02640(unsigned int flags)
 {
-    DestroyAndFreeLibraries();
+    reinterpret_cast<::FUN_00b01f00_class *>(this)->DestroyAndFreeLibraries();
     if (flags & 1)
-        g_memoryManager._DeallocateAlias(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
     return this;
 }
 

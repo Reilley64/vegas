@@ -2,6 +2,10 @@
 #ifndef TESIMAGESPACEMODIFIABLECOUNTFORM_DECLS_H
 #define TESIMAGESPACEMODIFIABLECOUNTFORM_DECLS_H
 
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005b5000.h"
 class TESFile;
 class TESForm
 {
@@ -84,9 +88,6 @@ class TESForm
     virtual void vfn_12c();
     virtual const char* GetEditorID();
     TESFile* GetFile(int);
-    unsigned int GetFormID();
-    static TESForm* GetFormByID(unsigned int);
-    static void RemapFormIDForFile(unsigned int&, TESFile*);
 };
 class BGSCameraPath
 {
@@ -106,5 +107,4 @@ class TESImageSpaceModifiableCountForm_6_
 extern const char DAT_0101cc80[];
 extern const char DAT_0101cc30[];
 extern const char DAT_0101cbe8[];
-int __cdecl Warning(const char*, ...);
 #endif

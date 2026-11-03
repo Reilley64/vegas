@@ -1,38 +1,69 @@
 // bsmenu/tileimage.cpp: TileImage, FileFinder, BGSTextureSet, NiNode and more (7 functions)
 
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_004bc320_shell.h"
+#include "fnv/decl/FUN_009ff600_shell.h"
+#include "fnv/decl/FUN_00a00f30_shell.h"
+#include "fnv/decl/FUN_00a01230_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a074d0_shell.h"
+#include "fnv/decl/FUN_00a07530_shell.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00a5bca0_shell.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiSourceTexture.h"
+#include "fnv/decl/TextureFileEntrySetter.h"
+#include "fnv/decl/TileListBoxCalls.h"
+#include "fnv/decl/TileX.h"
+#include "fnv/decl/UpdateTreeNode.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00706000.h"
+#include "fnv/symbols_00707000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00a61000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00b55000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011d3000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f8000.h"
+#include "fnv/symbols_01272000.h"
 #include "tileimage_private.h"
 
 // @fnv 0x00a20580
 Tile* TileImage::SetTraitValue(int trait, float value, const char* text)
 {
     if ((trait == 0xfa1 || trait == 0xfa2) && !(uiFlags & 1))
-        SetImageFlags(1);
+        reinterpret_cast<::FUN_00a07530_shell *>(this)->FUN_00a07530(1);
     else if ((trait == 0xfb1 || trait == 0xfb0) && !(uiFlags & 16))
-        SetImageFlags(16);
-    else if (trait == 0xfcc && GetValue(0xff9))
-        SetImageFlags(16);
+        reinterpret_cast<::FUN_00a07530_shell *>(this)->FUN_00a07530(16);
+    else if (trait == 0xfcc && ((::Tile::Value *)(reinterpret_cast<::FUN_00a00f30_shell *>(this)->FUN_00a00f30(0xff9))))
+        reinterpret_cast<::FUN_00a07530_shell *>(this)->FUN_00a07530(16);
     return 0;
 }
 
 // @fnv 0x0078cdf0
 void TileImage::UpdateTileImage()
 {
-    ((ExtraDataList*)&g_011ded3c)->GetStartingAngle(0)->FUN_004bc320();
+    reinterpret_cast<::FUN_004bc320_shell *>((((::TextureReceiver *)(::FUN_00559450((int *)(((ExtraDataList*)&g_011ded3c)))))))->FUN_004bc320({});
 }
 
 // @fnv 0x00a1f6e0
 void TileImage::Init(Tile* parent, const char* name, Tile* root)
 {
     int unused[2];
-    Tile::Init(parent, name, root);
-    Set(0xff5, 255.0f, true);
-    Set(0xfb2, 255.0f, true);
-    Set(0xfb3, 255.0f, true);
-    Set(0xfb4, 255.0f, true);
-    Set(0xfa9, 255.0f, true);
-    Set(0xfad, 1.0f, true);
-    Set(0xfa3, 1.0f, true);
-    SetTileType(3);
+    reinterpret_cast<::FUN_009ff600_shell *>(this)->InitTile(parent, (char *)(name), root);
+    reinterpret_cast<::FUN_00a012d0_t *>(this)->FUN_00a012d0(0xff5, 255.0f, true);
+    reinterpret_cast<::FUN_00a012d0_t *>(this)->FUN_00a012d0(0xfb2, 255.0f, true);
+    reinterpret_cast<::FUN_00a012d0_t *>(this)->FUN_00a012d0(0xfb3, 255.0f, true);
+    reinterpret_cast<::FUN_00a012d0_t *>(this)->FUN_00a012d0(0xfb4, 255.0f, true);
+    reinterpret_cast<::FUN_00a012d0_t *>(this)->FUN_00a012d0(0xfa9, 255.0f, true);
+    reinterpret_cast<::FUN_00a012d0_t *>(this)->FUN_00a012d0(0xfad, 1.0f, true);
+    reinterpret_cast<::FUN_00a012d0_t *>(this)->FUN_00a012d0(0xfa3, 1.0f, true);
+    reinterpret_cast<::FUN_00a074d0_shell *>(this)->FUN_00a074d0(3);
     fScale = 1.0f;
     spTexture = (NiTexture*)0;
     m_bTextureLoaded = false;
@@ -57,9 +88,16 @@ BSShaderTextureSet* BGSTextureSet::BuildShaderTextureSet()
     return result;
 }
 
+class NiNode;
 struct Interface
 {
     static float __cdecl GetInterfaceFloat();
+public:
+    static ::NiNode *GetInterfaceNode();
+public:
+    static float GetFirstInterfaceFloat();
+public:
+    static float UpdateInterfaceState();
 };
 struct NiGlobalStringTable
 {
@@ -70,16 +108,14 @@ struct NiGlobalStringTable
     }
 };
 struct FileFinder;
-extern FileFinder* g_fileFinder;
 struct FileFinder
 {
     int GetFileLocation(char*, char*, unsigned int, unsigned int);
     static FileFinder* GetSingleton()
     {
-        return g_fileFinder;
+        return ::g_fileFinder;
     }
 };
-extern char* EmptyFS;
 int _strcpy_s(char*, unsigned int, const char*);
 int _strcat_s(char*, unsigned int, const char*);
 namespace L {
@@ -103,13 +139,13 @@ struct NiFixedString
     NiFixedString(const char* s)
     {
         if (s == 0)
-            m_kHandle = EmptyFS;
+            m_kHandle = ::DAT_0109b220;
         else
             m_kHandle = NiGlobalStringTable::AddString(s);
     }
     ~NiFixedString()
     {
-        if (m_kHandle == EmptyFS)
+        if (m_kHandle == ::DAT_0109b220)
             return;
         NiGlobalStringTable::DecRef((long*)(m_kHandle - 8));
     }
@@ -149,7 +185,6 @@ struct NiTexturePtr
     }
 };
 }
-bool fnv_NiStreamGetTexture(char*, L::NiTexturePtr*);
 
 // Builds a Data\Textures\ path from apFilename, looks up the texture, and falls back to a default setting string if not found.
 // @fnv 0x00a1f7d0
@@ -163,7 +198,7 @@ void ResolveTexturePath(const char* apFilename, float* afScale, float afZoom, ch
     _strcat_s(axOut, 260, apFilename);
     L::NiTexturePtr sptex;
     L::NiFixedString path(axOut);
-    fnv_NiStreamGetTexture(path.m_kHandle, &sptex);
+    ::FindTextureByPath(path.m_kHandle, (::NiTexture **)(::L::NiTexturePtr *)(&sptex));
     if (sptex == 0)
     {
         if (!FileFinder::GetSingleton()->GetFileLocation(axOut, axOut, 6, 0xffffffff))
@@ -218,11 +253,8 @@ struct AutoMemContext
 };
 typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
 
-extern char* EmptyFS;
-extern __declspec(thread) int OM06_tlsMemContext;
 struct NiGlobalStringTable
 {
-    static char* __cdecl AddString(const char*);
     static long* GetRealBufferStart(char* const& h)
     {
         return ((long*)h) - 2;
@@ -233,7 +265,7 @@ struct NiGlobalStringTable
     }
     static void DecRefCount(char*& h)
     {
-        if (h == EmptyFS)
+        if (h == ::DAT_0109b220)
             return;
         NiAtomicSubtract(GetRealBufferStart(h)[0]);
     }
@@ -243,9 +275,9 @@ struct OMFixedString : public NiFixedString
     OMFixedString(const char* pc)
     {
         if (pc == 0)
-            m_kHandle = EmptyFS;
+            m_kHandle = ::DAT_0109b220;
         else
-            m_kHandle = NiGlobalStringTable::AddString(pc);
+            m_kHandle = ::NiGlobalStringTable::AddString(pc);
     }
     ~OMFixedString()
     {
@@ -256,7 +288,7 @@ struct OMFixedString : public NiFixedString
         if (m_kHandle != pc)
         {
             char* kHandle = m_kHandle;
-            m_kHandle = NiGlobalStringTable::AddString(pc);
+            m_kHandle = ::NiGlobalStringTable::AddString(pc);
             NiGlobalStringTable::DecRefCount(kHandle);
         }
         return *this;
@@ -281,16 +313,13 @@ class OMTex
 class NiSourceTexture
 {
   public:
-    static NiSourceTexture* __cdecl Create(const NiFixedString&, NiTexture::TextureFormatPreferences&, bool, bool);
 };
 class BSFileEntry;
 struct TextureFileEntrySetter
 {
-    static void __cdecl SetTexture(NiTexture*, const BSFileEntry*);
 };
 struct Interface
 {
-    static void __cdecl PrintDebugMessage(const char*, ...);
 };
 struct GO
 {
@@ -324,7 +353,6 @@ struct Helper62d0
     }
 };
 class FileFinder;
-extern FileFinder* g_fileFinder;
 class FileFinder
 {
   public:
@@ -335,10 +363,9 @@ class FileFinder
     FILE_LOCATION GetFileLocation(char*, char*, unsigned int, unsigned int);
     static FileFinder* GetSingleton()
     {
-        return g_fileFinder;
+        return (*reinterpret_cast<::fnv_00a1fa20::FileFinder * *>(&::g_fileFinder));
     }
 };
-extern NiTexture::TextureFormatPreferences DAT_011a9598;
 void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
 void __cdecl ResolveTexturePath(const char*, float&, float, char*);
 char* __cdecl FUN_00ec7750(const char*, const char*);
@@ -356,17 +383,16 @@ class OMTexPtr
         return m_pObject;
     }
 };
-void __cdecl fnv_NiStreamGetTexture(const char*, OMTexPtr&);
 struct OMMemContext
 {
     int m_eMemoryContext;
     static int GetCurrent()
     {
-        return OM06_tlsMemContext;
+        return (*reinterpret_cast<int *>(&::currentAllocationContext));
     }
     static void SetCurrent(int i)
     {
-        OM06_tlsMemContext = i;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = i;
     }
     OMMemContext(int iNew)
     {
@@ -391,20 +417,20 @@ void __cdecl LoadTextureForFile(const char* apFilename, float& afScale, OMTexPtr
         if (acTexturePath[0])
         {
             OMFixedString path(acTexturePath);
-            fnv_NiStreamGetTexture(path.m_kHandle, aspTexture);
+            ::FindTextureByPath(path.m_kHandle, (::NiTexture **)&(aspTexture));
             if (!aspTexture && FileFinder::GetSingleton()->GetFileLocation(acTexturePath, 0, 0, 0xffffffff))
             {
                 path = acTexturePath;
                 OMMemContext tempMemContext(0xd);
-                ((GO*)&aspTexture)->operator=(NiSourceTexture::Create(path, DAT_011a9598, true, false));
+                ((GO*)&aspTexture)->operator=(((::fnv_00a1fa20::NiSourceTexture *)(::NiSourceTexture::Create((const ::NiFixedString &)(path), (::NiTexture__FormatPrefs &)((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))), true, false))));
                 if (aspTexture)
                 {
                     if (!FUN_00ec7750(acTexturePath, "oading\\load_"))
-                        TextureFileEntrySetter::SetTexture((NiTexture*)(OMTex*)aspTexture, 0);
+                        ::TextureFileEntrySetter::SetTexture((NiTexture*)(OMTex*)aspTexture, (const ::BSFileEntry *)(const ::fnv_00a1fa20::BSFileEntry *)(0));
                 }
                 else
                 {
-                    Interface::PrintDebugMessage("*** ERROR: Could not create ptexture '%s'!", acTexturePath);
+                    ::FUN_0040fbe0();
                 }
             }
         }
@@ -542,8 +568,6 @@ struct NiNode : NiObject
     virtual void vfn_d8();
     virtual void AttachChildInAvailableSlot(NiNode*, bool);
     void AssignFixedString(const L::NiFixedString&);
-    void SetExtraDataName(void*);
-    void FUN_00a5a040();
     void FUN_00439410(NiNode*);
     GeometryData* GetGeometryData()
     {
@@ -637,14 +661,12 @@ struct StringValue
 };
 struct GameAllocator
 {
-    void* FUN_00aa3e40(unsigned int);
 };
-extern GameAllocator g_GameAllocator;
 struct NiPoint3
 {
     static __forceinline void* operator new[](size_t n)
     {
-        return g_GameAllocator.FUN_00aa3e40((unsigned)n);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::ImageNodeBuild::GameAllocator *>(&::g_memoryManager))))->FUN_00aa3e40((unsigned)n);
     }
     float x, y, z;
     NiPoint3()
@@ -656,7 +678,7 @@ struct NiUV
 {
     static __forceinline void* operator new[](size_t n)
     {
-        return g_GameAllocator.FUN_00aa3e40((unsigned)n);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::ImageNodeBuild::GameAllocator *>(&::g_memoryManager))))->FUN_00aa3e40((unsigned)n);
     }
     float u, v_r;
     NiUV()
@@ -664,14 +686,7 @@ struct NiUV
     NiUV(float x, float y) : u(x), v_r(y)
     {}
 };
-extern void* __cdecl FUN_00aa1070(unsigned int);
 extern void* __cdecl FUN_00aa13e0(unsigned int);
-extern void* __cdecl FUN_00b55560(unsigned int);
-extern void* __cdecl FUN_00706d30();
-extern void* __cdecl FUN_00706df0();
-extern void* __cdecl AttachFaceGenAnimationData(void*);
-extern void __stdcall FUN_00706e00(unsigned int);
-extern void __cdecl FUN_00707930(int);
 extern unsigned int __cdecl FUN_00ec62c0();
 extern void __cdecl FUN_00a5b690_(const char*);
 struct FUN_00c5cf30
@@ -692,8 +707,8 @@ struct FUN_00a74410
 };
 static __forceinline unsigned int GeometryTime()
 {
-    FUN_00706df0();
-    FUN_00706e00(FUN_00ec62c0());
+    ::Interface::GetFirstInterfaceFloat();
+    ::Interface::UpdateInterfaceState();
     return FUN_00ec62c0();
 }
 struct FUN_00bb7c30
@@ -759,11 +774,6 @@ struct TileImageShim
     NiPointer<NiTexture> spTexture;
     NiPointer<TileShaderProperty> m_spShaderProperty;
     bool m_bTextureLoaded;
-    NiNode* GetNiNode();
-    bool IsTraitNonZero(unsigned int);
-    float FUN_00a011b0(unsigned int, int);
-    void FUN_00a037e0(unsigned int, float);
-    void FUN_00a07530(unsigned int);
     NiNode* FUN_00a1fd50();
 };
 // Builds a quad geometry object, attaches it beneath a node returned by FUN_00a089c0() or a fallback, and returns the containing node.
@@ -771,7 +781,7 @@ struct TileImageShim
 NiNode* TileImageShim::FUN_00a1fd50()
 {
     NiNode* cnt_lgft;
-    cnt_lgft = GetNiNode();
+    cnt_lgft = ((::ImageNodeBuild::NiNode *)(reinterpret_cast<::TileX *>(this)->GetNiNode()));
     NiPointer<NiNode> ptr_k;
 
     NiPoint3* vertices_nriq;
@@ -781,7 +791,7 @@ NiNode* TileImageShim::FUN_00a1fd50()
     NiUV* extraBuffer_tjnslw;
     extraBuffer_tjnslw = new NiUV[4];
     unsigned short* indices_tyg;
-    indices_tyg = static_cast<unsigned short*>(FUN_00aa1070(6 * sizeof(unsigned short)));
+    indices_tyg = static_cast<unsigned short*>(::FUN_00aa1070(6 * sizeof(unsigned short)));
     NiPoint3* previous_zphzqj;
     previous_zphzqj = 0;
 
@@ -801,11 +811,11 @@ NiNode* TileImageShim::FUN_00a1fd50()
     extraBuffer_tjnslw[2] = NiUV(1.0f, 0.0f);
     extraBuffer_tjnslw[3] = NiUV(1.0f, 1.0f);
 
-    if (IsTraitNonZero(0xfae))
+    if (reinterpret_cast<::FUN_00a01230_shell *>(this)->IsTraitNonZero(0xfae))
     {
         ptr_k =
             (NiNode*)new FUN_00c5cf30(4, vertices_nriq, previous_zphzqj, 0, extraBuffer_tjnslw, 1, 0, 2, indices_tyg, 0,
-                                      0, (FUN_00706df0(), FUN_00706e00(FUN_00ec62c0()), FUN_00ec62c0()));
+                                      0, (((void *)(::Interface::GetFirstInterfaceFloat())), ::Interface::UpdateInterfaceState(), FUN_00ec62c0()));
         m_bTextureLoaded = true;
     }
     else
@@ -815,35 +825,35 @@ NiNode* TileImageShim::FUN_00a1fd50()
         m_bTextureLoaded = false;
     }
 
-    ptr_k->AssignFixedString(L::NiFixedString(kGeometryName));
+    ::AssignFixedString((char *)((ptr_k).operator->()), (int)&(const ::L::NiFixedString &)(L::NiFixedString(kGeometryName)), {});
     GD(ptr_k);
 
     m_spShaderProperty = (TileShaderProperty*)(new FUN_00bb7c30(0));
-    ptr_k->FUN_00439410((NiNode*)(TileShaderProperty*)m_spShaderProperty);
+    reinterpret_cast<::FUN_00439410_cls *>(((ptr_k).operator->()))->FUN_00439410((::ArgObject *)(::ImageNodeBuild::NiNode *)((NiNode*)(TileShaderProperty*)m_spShaderProperty));
 
     void* v_r;
     void* kIter_bw;
-    kIter_bw = FUN_00b55560(0x20);
+    kIter_bw = ((void *)(::FUN_00b55560((void *)(0x20))));
     v_r = kIter_bw;
     ptr_k->SetExtraBuffer(v_r);
 
     m_pRenderedNodeEntry = (NiNode*)(new FUN_00a5ecb0(0));
     m_pRenderedNodeEntry->AttachChildInAvailableSlot(ptr_k, true);
     if (0 == cnt_lgft)
-        cnt_lgft = (NiNode*)FUN_00706d30();
+        cnt_lgft = (NiNode*)((void *)(::Interface::GetInterfaceNode()));
     cnt_lgft->AttachChildInAvailableSlot(m_pRenderedNodeEntry, true);
 
-    m_pRenderedNodeEntry->AssignFixedString(L::NiFixedString(StringProvider.pString));
-    AttachFaceGenAnimationData(ptr_k);
-    m_pRenderedNodeEntry->FUN_00a5a040();
-    FUN_00707930(1);
+    ::AssignFixedString((char *)((m_pRenderedNodeEntry).operator->()), (int)&(const ::L::NiFixedString &)(L::NiFixedString(StringProvider.pString)), {});
+    ::AttachFaceGenAnimationData((::NiAVObject *)(void *)(ptr_k));
+    reinterpret_cast<::FUN_00a5a040_Class *>(((m_pRenderedNodeEntry).operator->()))->FUN_00a5a040();
+    ::fnv_00707930::FUN_00707930(1);
 
-    m_pRenderedNodeEntry->SetExtraDataName(new FUN_00a1f610(this, (NiNode*)m_pRenderedNodeEntry));
+    reinterpret_cast<::FUN_00a5bca0_shell *>(((m_pRenderedNodeEntry).operator->()))->SetExtraDataName((::NiExtraData *)(void *)(new FUN_00a1f610(this, (NiNode*)m_pRenderedNodeEntry)));
 
-    FUN_00a037e0(0xfad, FUN_00a011b0(0xfad, 0));
-    if (IsTraitNonZero(0xfae))
-        FUN_00a07530(0x100);
-    FUN_00a07530(0x3d);
+    reinterpret_cast<::UpdateTreeNode *>(this)->FUN_00a037e0(0xfad, reinterpret_cast<::TileListBoxCalls *>(this)->GetFloat(0xfad), {});
+    if (reinterpret_cast<::FUN_00a01230_shell *>(this)->IsTraitNonZero(0xfae))
+        reinterpret_cast<::FUN_00a07530_shell *>(this)->FUN_00a07530(0x100);
+    reinterpret_cast<::FUN_00a07530_shell *>(this)->FUN_00a07530(0x3d);
     return (NiNode*)m_pRenderedNodeEntry;
 }
 

@@ -2,12 +2,27 @@
 // src/gamebryo2.2/corelibs/nimain/nipalette.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nipalette.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_011f5c08;
 
 // @fnv 0x00a8b070
+#include <new>
+#include "fnv/decl/A5D6E0This.h"
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a5d3a0.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiRenderer.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f5000.h"
+#include "fnv/symbols_011f6000.h"
 void* __cdecl FUN_00a8b070()
 {
-    return &g_011f5c08;
+    return &(*reinterpret_cast<void * *>(&::g_011f5c08));
 }
 
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
@@ -43,7 +58,6 @@ struct BSFadeNode
     static void* __cdecl operator new(unsigned int);
 };
 extern int DAT_0109f3fc;
-void __fastcall _Call_a5d3a0(void*);
 void __fastcall FUN_00a8afc0(void*);
 struct MyObj
 {
@@ -64,7 +78,7 @@ void* FUN_00a8b220()
     MyObj* p = (MyObj*)BSFadeNode::operator new(0x24);
     if (p)
     {
-        _Call_a5d3a0(p);
+        new ((void *)(p)) struct ::FUN_00a5d3a0();
         p->v0 = (void*)&DAT_0109f3fc;
         p->f08 = 0;
         p->f0C = 0;
@@ -87,15 +101,11 @@ struct NiRefObject
 };
 struct MM
 {
-    void _DeallocateAlias(void*);
 };
-extern MM g_memoryManager;
 struct S_00a8b010
 {
-    void Unlink();
 };
 extern int DAT_0109f3fc;
-void _delete(void*, unsigned int);
 struct NiPalette
 {
     void* vtable;
@@ -108,12 +118,12 @@ struct NiPalette
 void* NiPalette::DestroyPalette(unsigned int auiFlags)
 {
     *(void**)this = (void*)&DAT_0109f3fc;
-    g_memoryManager._DeallocateAlias(m_pColorEntries);
+    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(m_pColorEntries);
     delete m_pTextureRendererData;
-    ((S_00a8b010*)this)->Unlink();
-    ((NiRefObject*)this)->~NiRefObject();
+    reinterpret_cast<::FUN_00a8b010_Node *>((((S_00a8b010*)this)))->Unlink();
+    reinterpret_cast<class ::FUN_00a5d3d0 *>((((NiRefObject*)this)))->FUN_00a5d3d0::~FUN_00a5d3d0();
     if (auiFlags & 1)
-        _delete(this, 0x24);
+        ::FUN_00aa1460(this, 0x24);
     return this;
 }
 
@@ -125,21 +135,19 @@ template <class T, class A> struct NiTPrimitiveArray
     void SetSize(unsigned int);
     void SetAt(unsigned int, T&);
 };
-void __stdcall AppendCameraPathEntries(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*);
-char* __cdecl _FUN_00a7d330(void*);
 // @fnv 0x00a8b460
 void __stdcall FUN_00a8b460(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* pkStrings)
 {
-    AppendCameraPathEntries(pkStrings);
-    char* pszString = _FUN_00a7d330(g_011f5c08);
+    reinterpret_cast<::A5D6E0This *>((pkStrings))->AppendCameraPathEntries({});
+    char* pszString = ::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_011f5c08))));
     unsigned int uiSize = *(unsigned short*)((char*)pkStrings + 10);
     unsigned int uiCapacity = *(unsigned short*)((char*)pkStrings + 8);
     if (uiSize >= uiCapacity)
     {
         unsigned int uiGrow = *(unsigned short*)((char*)pkStrings + 14);
-        pkStrings->SetSize(uiGrow + uiSize);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(uiGrow + uiSize);
     }
-    pkStrings->SetAt(uiSize, pszString);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiSize, pszString);
 }
 
 struct FUN_00a8af40_cls
@@ -151,14 +159,13 @@ struct FUN_00a8af40_cls
     char unk10[4];
     unsigned char* f14;
 
-    char Probe(void* p);
     unsigned char Equals(FUN_00a8af40_cls* o);
 };
 
 // @fnv 0x00a8af40
 unsigned char FUN_00a8af40_cls::Equals(FUN_00a8af40_cls* apOther)
 {
-    if (this->Probe(apOther) == 0)
+    if (((char)(reinterpret_cast<::A5d470Class *>((this))->IsSameAs((::A5d470Object *)(apOther)))) == 0)
     {
         return 0;
     }
@@ -210,15 +217,14 @@ unsigned char FUN_00a8af40_cls::Equals(FUN_00a8af40_cls* apOther)
 
 struct A8b110Allocator
 {
-    void* FUN_00aa3e40(unsigned int size);  // allocates size bytes, callee pops
+      // allocates size bytes, callee pops
 };
-extern A8b110Allocator DAT_011f6238;
 
 struct A8b110Elem
 {
     static void* operator new[](unsigned int bytes)
     {
-        return DAT_011f6238.FUN_00aa3e40(bytes);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::A8b110Allocator *>(&::g_memoryManager))))->FUN_00aa3e40(bytes);
     }
     int m_uiFilterValue;
 };
@@ -311,7 +317,6 @@ struct A8b110Listener
     virtual void v53();
     virtual void v54(void* p);
 };
-extern A8b110Listener* DAT_011f4748;
 void __cdecl FUN_00ec44d0(void* dst, void* src, unsigned int size);
 
 struct A8b110Owner
@@ -331,7 +336,7 @@ struct A8b110Owner
 // @fnv 0x00a8b110
 void* A8b110Owner::FUN_00a8b110(unsigned char a1, unsigned int a2, void* pSrc)
 {
-    _Call_a5d3a0(this);
+    new ((void *)(this)) struct ::FUN_00a5d3a0();
     m_08 = a1;
     m_0C = a2;
     vtable = (void*)&DAT_0109f3fc;
@@ -339,9 +344,9 @@ void* A8b110Owner::FUN_00a8b110(unsigned char a1, unsigned int a2, void* pSrc)
     m_14 = new A8b110Elem[a2];
     FUN_00ec44d0(m_14, pSrc, m_0C * 4);
     m_18 = 0;
-    if (DAT_011f4748)
+    if ((*reinterpret_cast<::A8b110Listener * *>(&::NiRenderer::ms_pRenderer)))
     {
-        DAT_011f4748->v54(this);
+        (*reinterpret_cast<::A8b110Listener * *>(&::NiRenderer::ms_pRenderer))->v54(this);
     }
     FUN_00a8afc0(this);
     return this;
@@ -366,10 +371,8 @@ struct DataSource
         return *reinterpret_cast<BinaryReader* const*>(reinterpret_cast<const char*>(this) + 0x24c);
     }
 };
-void __stdcall ReadGroup(DataSource*);
 struct MMExtra
 {
-    void* _Allocate(unsigned int);
 };
 struct ReadState
 {
@@ -382,14 +385,13 @@ struct MemoryBlock
     {}
     static void* operator new[](unsigned int size)
     {
-        return reinterpret_cast<MMExtra&>(g_memoryManager)._Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(reinterpret_cast<MMExtra&>((*reinterpret_cast<::MM *>(&::g_memoryManager)))))->FUN_00aa3e40(size);
     }
 };
 struct Observer
 {
     void** vtable;
 };
-extern Observer* DAT_011f4748;
 struct DataArray
 {
     unsigned int unk00;
@@ -404,7 +406,7 @@ struct DataArray
 // @fnv 0x00a8b2c0
 void DataArray::ReadFromSource(DataSource* source)
 {
-    ReadGroup(source);
+    reinterpret_cast<::FUN_00a5d610_Object *>((source))->ReadGroup({});
     ReadState readState;
 
     unsigned char enabledByte;
@@ -416,14 +418,14 @@ void DataArray::ReadFromSource(DataSource* source)
     reader->readBlock(&readState.elementCount, 4, 4);
     if (readState.elementCount != count)
     {
-        g_memoryManager._DeallocateAlias(values);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(values);
         count = readState.elementCount;
         values = new MemoryBlock[readState.elementCount];
     }
 
     reader = source->reader();
     reader->readBlock(values, count * sizeof(MemoryBlock), 1);
-    Observer* observer = DAT_011f4748;
+    Observer* observer = (*reinterpret_cast<::fnv_00a8b2c0::Observer * *>(&::NiRenderer::ms_pRenderer));
     if (observer)
     {
         typedef void(__thiscall * OnRead)(Observer*, DataArray*);
@@ -631,7 +633,6 @@ class A8B3C0Base
   public:
     void* m_pVtbl;
     int unk04;
-    void SaveBinary(A8B3C0Stream& kStream);
 };
 
 class A8B3C0Data : public A8B3C0Base
@@ -648,7 +649,7 @@ class A8B3C0Data : public A8B3C0Base
 // @fnv 0x00a8b3c0
 void A8B3C0Data::FUN_00a8b3c0(A8B3C0Stream& kStream)
 {
-    A8B3C0Base::SaveBinary(kStream);
+    ::FUN_00a89af0((int)this);
     A8B3C0SaveBinary<unsigned char>(kStream, m_bFlag);
     A8B3C0SaveBinary(kStream, m_uiCount);
     A8B3C0SaveBinary(kStream, m_pCompressedData, m_uiCount * 4);
@@ -668,7 +669,7 @@ struct A8b080Owner : A8b110Owner
 // @fnv 0x00a8b080
 void* A8b080Owner::FUN_00a8b080(const A8b080Owner& src)
 {
-    _Call_a5d3a0(this);
+    new ((void *)(this)) struct ::FUN_00a5d3a0();
     this->vtable = &DAT_0109f3fc;
     this->m_08 = src.m_08;
     this->m_0C = src.m_0C;
@@ -676,8 +677,8 @@ void* A8b080Owner::FUN_00a8b080(const A8b080Owner& src)
     this->m_14 = new PaletteElement[this->m_0C];
     FUN_00ec44d0(this->m_14, src.m_14, src.m_0C * 4);
     this->m_18 = 0;
-    if (DAT_011f4748)
-        DAT_011f4748->v54(this);
+    if ((*reinterpret_cast<::A8b110Listener * *>(&::NiRenderer::ms_pRenderer)))
+        (*reinterpret_cast<::A8b110Listener * *>(&::NiRenderer::ms_pRenderer))->v54(this);
     FUN_00a8afc0(this);
     return this;
 }
@@ -685,14 +686,13 @@ void* A8b080Owner::FUN_00a8b080(const A8b080Owner& src)
 #include <string.h>
 struct MMAllocInterface
 {
-    void* FUN_00aa3e40(unsigned int);
 };
 struct ArrayElement
 {
     unsigned int value;
     static void* operator new[](unsigned int bytes)
     {
-        return ((MMAllocInterface*)&g_memoryManager)->FUN_00aa3e40(bytes);
+        return reinterpret_cast<::MemoryManagerStandIn *>((((MMAllocInterface*)&(*reinterpret_cast<::MM *>(&::g_memoryManager)))))->FUN_00aa3e40(bytes);
     }
 };
 // Copies the f08 scalar and the f14/f0C integer array from rhs, reallocating the array only when the element count differs.
@@ -710,7 +710,7 @@ MyObj* __fastcall FUN_00a8b190(MyObj* self, void*, const MyObj* rhs)
         self->f10 = 1;
         if (self->f0C != rhs->f0C)
         {
-            g_memoryManager._DeallocateAlias((void*)self->f14);
+            reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060((void*)self->f14);
             unsigned int count = (unsigned int)rhs->f0C;
             self->f0C = (void*)count;
             self->f14 = (int)(new ArrayElement[count]);

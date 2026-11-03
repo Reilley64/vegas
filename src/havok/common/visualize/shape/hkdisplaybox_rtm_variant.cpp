@@ -4,6 +4,8 @@
 
 // src/havok/common/visualize/shape/hkdisplaybox.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplaybox.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_01011000.h"
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
@@ -36,7 +38,6 @@ struct hkTransform
     hkRotation m_rotation;
     hkVector4 m_vTranslation;
 };
-__declspec(nothrow) void __cdecl FUN_00c908c0(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
 struct hkVector4Array
 {
     hkVector4* m_data;
@@ -52,7 +53,7 @@ struct hkVector4Array
         if (getCapacity() < n)
         {
             int cap = 2 * getCapacity();
-            FUN_00c908c0(alloc, this, n < cap ? cap : n, sizeof(hkVector4));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), n < cap ? cap : n, sizeof(hkVector4));
         }
         m_iElementCount = n;
     }
@@ -199,7 +200,7 @@ template <class T> struct BoxBuild2190MatchArray
         {
             int doubled = cap * 2;
             int desired = n < doubled ? doubled : n;
-            FUN_00c908c0(alloc, this, desired, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), desired, sizeof(T));
         }
     }
     __forceinline T* append(hkMemoryAllocator& alloc)

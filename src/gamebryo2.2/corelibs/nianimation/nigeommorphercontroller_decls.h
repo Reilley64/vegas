@@ -2,9 +2,11 @@
 #ifndef FNV_NIGEOMMORPHERCONTROLLER_DECLS_H
 #define FNV_NIGEOMMORPHERCONTROLLER_DECLS_H
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_011f6000.h"
 #include "NiRefObject.h"
 #include "MemoryManager.h"
-extern MemoryManager g_memoryManager;
 class NiGeomMorpherController
 {
   public:
@@ -20,11 +22,11 @@ class NiGeomMorpherController
         }
         static void* operator new[](unsigned int size) throw()
         {
-            return g_memoryManager.Allocate(size);
+            return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
         }
         static void operator delete[](void* p) throw()
         {
-            g_memoryManager.Deallocate(p);
+            reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
         }
     };
     unsigned char padding[0x38];

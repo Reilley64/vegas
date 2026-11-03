@@ -2,15 +2,15 @@
 // src/unmapped/socket.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/remotelog/socket.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_0044a000.h"
 struct MorphName
 {
-    char const* FUN_0044a560();
     char const* __thiscall GetMorphName();
 };
 // @fnv 0x0044a380
 char const* __thiscall MorphName::GetMorphName()
 {
-    return reinterpret_cast<MorphName*>(reinterpret_cast<char*>(this) + 0xc)->FUN_0044a560();
+    return ::FUN_0044a560((::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)(reinterpret_cast<MorphName*>(reinterpret_cast<char*>(this) + 0xc)));
 }
 
 struct FUN_00aca1e0

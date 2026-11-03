@@ -1,15 +1,22 @@
 
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_00e93e00_Obj.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00e92000.h"
+#include "fnv/symbols_00e93000.h"
+#include "fnv/symbols_011c5000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_0126f000.h"
 #include "nid3dshaderprogramfactory_packet.h"
 struct Program;
-extern Program* DAT_0126fa10;
-Program* FUN_00e92eb0();
 struct Program
 {
     virtual void Destroy(int);
 };
-extern Program* DAT_0126fa10;
 void DestroyProgram();
 struct Nd
 {
@@ -23,10 +30,6 @@ struct Lst
     int b;
     Nd* head;
 };
-int __fastcall FUN_00e92fe0(Lst* l, int, Nd** pos);
-void FUN_00e93df0();
-extern "C" void __cdecl __Dummy_00b6fef0(void*, unsigned int);
-void __cdecl FUN_00e93e00();
 struct FUN_00e93f30_shell
 {
     void* __thiscall DestroyShaderProgramFactory(unsigned int flags);
@@ -34,7 +37,6 @@ struct FUN_00e93f30_shell
 struct ShaderBufferRecord;
 struct NiTStringPointerMap_00e93060
 {
-    bool __thiscall GetAt(const char* key, ShaderBufferRecord*& out);
 };
 struct NiD3DShaderProgramFactory_00e93060
 {
@@ -44,21 +46,16 @@ struct NiD3DShaderProgramFactory_00e93060
 };
 struct P03MM
 {
-    void* __thiscall Allocate(unsigned int size);
 };
-extern P03MM g_memoryManager;
-extern "C" void* __cdecl _NiMalloc(unsigned int size);
 extern "C" void* __cdecl _fnv_zlib_memset(void* dst, int value, unsigned int size);
 extern int DAT_010f0eb0;
 extern int DAT_010f0f50;
-void CreateCreatorMap();
 
 struct RecursiveSpinLock
 {
-    void __thiscall Lock(char const*);
-    void __thiscall Unlock();
+public:
+    void FUN_0040fba0();
 };
-extern RecursiveSpinLock g_011c5f80;
 template <class T> struct PoolAllocatorBase
 {
     struct LinkedListEntry
@@ -75,11 +72,11 @@ struct FUN_0045cee0_shell
 // @fnv 0x0045cee0
 void __thiscall FUN_0045cee0_shell::FUN_0045cee0(void* pkItem)
 {
-    g_011c5f80.Lock(0);
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
     PoolAllocatorBase<unsigned int>::LinkedListEntry* pkNode =
         (PoolAllocatorBase<unsigned int>::LinkedListEntry*)pkItem;
     pkNode->m_iData = 0;
-    pkNode->m_pkNext = PoolAllocatorBase<unsigned int>::ms_pFreeList;
-    PoolAllocatorBase<unsigned int>::ms_pFreeList = pkNode;
-    g_011c5f80.Unlock();
+    pkNode->m_pkNext = (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58));
+    (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58)) = pkNode;
+    reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fba0();
 }

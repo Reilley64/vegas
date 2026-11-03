@@ -2,18 +2,21 @@
 // src/havok/unplaced/viewcaster.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/viewcaster.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/C68E30Owner.h"
+#include "fnv/decl/FUN_00632dc0_Host.h"
+#include "fnv/decl/FUN_00c87a40_obj.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00621000.h"
+#include "fnv/symbols_00cab000.h"
 struct Inner62
 {
-    int FUN_00c87a40();
 };
 
-int __cdecl FUN_00621480(int value);
 
 struct FUN_00621440_cls
 {
     int unk00;
 
-    void* FUN_00559450();
     int FUN_00621440();
 };
 
@@ -22,8 +25,8 @@ struct FUN_00621440_cls
 int FUN_00621440_cls::FUN_00621440()
 {
     int result = 0;
-    if (FUN_00559450())
-        result = FUN_00621480(((Inner62*)FUN_00559450())->FUN_00c87a40());
+    if (((void *)(::FUN_00559450((int *)this))))
+        result = ((int)(::FUN_00621480((::HighProcess *)(((int)(reinterpret_cast<::FUN_00c87a40_obj *>((((Inner62*)((void *)(::FUN_00559450((int *)this))))))->FUN_00c87a40()))))));
     return result;
 }
 
@@ -69,7 +72,6 @@ struct SpawnedObject
     virtual void v37();
     virtual void v38();
     virtual void v39(SpawnedObject* obj);
-    void FUN_00c68e30(SpawnedObject* a, unsigned int b);
 };
 
 class ScopeGuard
@@ -80,12 +82,10 @@ class ScopeGuard
     ~ScopeGuard();
 };
 
-unsigned int __cdecl PackBytesBigEndian(unsigned int a, unsigned int b, unsigned int c, unsigned int d);
 
 class FUN_00631ca0_cls
 {
   public:
-    SpawnedObject* FUN_00559450();
     void FUN_00631ca0(SpawnedObject* obj);
 };
 
@@ -94,12 +94,12 @@ class FUN_00631ca0_cls
 void FUN_00631ca0_cls::FUN_00631ca0(SpawnedObject* obj)
 {
     ScopeGuard guard(0x10, 1, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Havok\\ViewCaster.cpp", 0x74);
-    if (this->FUN_00559450() != 0)
+    if (((::SpawnedObject *)(::FUN_00559450((int *)(this)))) != 0)
     {
-        this->FUN_00559450()->v39(obj);
+        ((::SpawnedObject *)(::FUN_00559450((int *)(this))))->v39(obj);
         if (obj != 0)
         {
-            obj->FUN_00c68e30(this->FUN_00559450(), PackBytesBigEndian(0x58, 0xad, 0x56, 0x19));
+            reinterpret_cast<::C68E30Owner *>((obj))->FUN_00c68e30((::C68E30Holder *)(::SpawnedObject *)(((::SpawnedObject *)(::FUN_00559450((int *)(this))))), ::PackBytesBigEndian(0x58, 0xad, 0x56, 0x19));
         }
     }
 }
@@ -146,7 +146,7 @@ struct FUN_00632d40_shell : PathingCopyBase
 // @fnv 0x00632d40
 FUN_00632d40_shell& FUN_00632d40_shell::FUN_00632d40(const FUN_00632d40_shell& other)
 {
-    PathingCopyBase::operator=(other);
+    reinterpret_cast<::FUN_00632dc0_Host *>(this)->CopyFrom((::FUN_00632dc0_Host *)&(other));
     unk20 = other.unk20;
     unk24 = other.unk24;
     unk28 = other.unk28;

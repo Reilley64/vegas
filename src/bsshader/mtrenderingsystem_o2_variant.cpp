@@ -1,6 +1,20 @@
 // src/bsshader/mtrenderingsystem_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/bsshader/mtrenderingsystem.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_004a0f60_cls.h"
+#include "fnv/decl/FUN_00aa63c0.h"
+#include "fnv/decl/FUN_00c47770.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/Obj_c477f0.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00b6b000.h"
+#include "fnv/symbols_00ba3000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01200000.h"
+#include "fnv/symbols_0126f000.h"
 #include "mtrenderingsystem_decls.h"
 #pragma optimize("gty", on)
 #pragma optimize("", off)
@@ -102,10 +116,8 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volati
 
 struct MemoryManager
 {
-    void* Allocate(unsigned int size);
     void Free(void* p);
 };
-extern MemoryManager _g_memoryManager;
 
 namespace AccumTaskDetail {
 
@@ -200,21 +212,19 @@ class Class0xa4
     Class0xa4();
     void* operator new(size_t size)
     {
-        return _g_memoryManager.Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }
     void operator delete(void* p)
     {
-        _g_memoryManager.Free(p);
+        ::g_memoryManager.Free(p);
     }
 };
 
 class TaskArg1
 {
   public:
-    void FUN_00c477f0(Class0xa4* obj);
 };
 
-extern "C" const void* DAT_0101e2ec;
 
 struct NiVisibleArray;
 class FUN_00a69400
@@ -287,7 +297,6 @@ class BSCullingProcess : public FUN_00a69400
         field_c4 = 0;
     }
 
-    void FUN_004a0f60();
 
     void SetAccumulator(NiRefObject* accumulator)
     {
@@ -310,12 +319,10 @@ class BSCullingProcess : public FUN_00a69400
 
     __forceinline ~BSCullingProcess()
     {
-        FUN_004a0f60();
+        reinterpret_cast<::FUN_004a0f60_cls *>(this)->FUN_004a0f60_cls::~FUN_004a0f60_cls();
     }
 };
 
-void __cdecl FUN_00b6bee0(void* arg0, void* arg2, BSCullingProcess* pCulling);
-void __cdecl FUN_00b6bfc0(void* arg0, void* arg, BSCullingProcess* pCulling);
 
 struct TaskItem
 {
@@ -374,7 +381,7 @@ void __fastcall FUN_00ba3390(AccumTaskReceiver* self, void*, NiRefObject* a1, Ta
         {
             Class0xa4* obj = new Class0xa4();
             self->GetTask(a8).p04 = obj;
-            a2->FUN_00c477f0(obj);
+            reinterpret_cast<::Obj_c477f0 *>((a2))->CopyTo((::Obj_c477f0 *)(obj));
         }
     }
     else
@@ -385,15 +392,15 @@ void __fastcall FUN_00ba3390(AccumTaskReceiver* self, void*, NiRefObject* a1, Ta
         culling.SetCompoundFrustum(a2);
         if (a3)
         {
-            FUN_00b6bee0(a1, a3, &culling);
+            ::FUN_00b6bee0(a1, a3, (::BSShaderAccumulator *)(::AccumTaskDetail::BSCullingProcess *)(&culling));
         }
         if (a4)
         {
-            FUN_00b6bfc0(a1, a4, &culling);
+            ::FUN_00b6bfc0(a1, (*(::PointerList6b *)(a4)), (::Accumulator6b *)(::AccumTaskDetail::BSCullingProcess *)(&culling));
         }
         if (a5)
         {
-            FUN_00b6bfc0(a1, a5, &culling);
+            ::FUN_00b6bfc0(a1, (*(::PointerList6b *)(a5)), (::Accumulator6b *)(::AccumTaskDetail::BSCullingProcess *)(&culling));
         }
     }
 }
@@ -468,15 +475,14 @@ void __fastcall FUN_00ba2d80(RenderTaskManager* manager)
 
 }
 
-int sprintf_s(char*, size_t, const char*, ...);
 
-extern MemoryManager g_memoryManager;
 struct BSThread
 {
     void Initialize(int stackSize, const char* name, bool suspended);
-    void FUN_00aa6550(unsigned int);
     void SetThreadPriority(int);
     void SetName(const char*);
+public:
+    void SetSchedulingPriority(unsigned int);
 };
 struct BSLinearTaskThread : BSThread
 {
@@ -512,7 +518,7 @@ struct RenderTaskThread : BSLinearTaskThread
     }
     void* operator new(size_t s)
     {
-        return g_memoryManager.Allocate(s);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(s);
     }
     void operator delete(void*);
 };
@@ -530,12 +536,12 @@ void ThreadOwner::FUN_00ba2e00(int index, unsigned int affinity, void(__cdecl* t
     {
         m_threads[index] = new RenderTaskThread(task);
         m_threads[index]->Initialize(stackSize, name, false);
-        m_threads[index]->FUN_00aa6550(affinity);
+        m_threads[index]->SetSchedulingPriority(affinity);
         m_threads[index]->SetThreadPriority(0);
         if (!name)
         {
             char buf[0x104];
-            sprintf_s(buf, 0x104, "Rendering Task Thread DEF %i", index);
+            ::FUN_00406d00(buf, 0x104, "Rendering Task Thread DEF %i", index);
             m_threads[index]->SetName(buf);
         }
     }
@@ -599,7 +605,6 @@ void ThreadCoordinator_ba2f30::FUN_00ba2f30()
 extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void* hHandle,
                                                                              unsigned long dwMilliseconds);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* lpAddend);
-extern bool DAT_011f94b4;
 
 struct SemaphoreBA2
 {
@@ -659,9 +664,7 @@ namespace fnv_00ba2ff0 {
 extern "C" __declspec(dllimport) int __stdcall CloseHandle(void*);
 struct MemoryManager
 {
-    void __thiscall Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 namespace fnv_ba2ff0_cleanup {
 struct ThreadState
 {
@@ -669,7 +672,6 @@ struct ThreadState
     void* criticalSection;
     unsigned int unk08, unk0c, unk10, unk14, unk18;
     unsigned int unk1c, unk20, unk24, unk28, unk2c;
-    void __thiscall FUN_00aa63c0();
 };
 struct SemaphoreState
 {
@@ -692,9 +694,9 @@ void* __fastcall FUN_00ba2ff0(WorkerThreadState* self, void*, unsigned int flags
 {
     self->finishedProcessing.Release();
     self->startProcessing.Release();
-    self->ThreadState::FUN_00aa63c0();
+    reinterpret_cast<::FUN_00aa63c0 *>((self))->FUN_00aa63c0::~FUN_00aa63c0();
     if (flags & 1)
-        g_memoryManager.Deallocate(self);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00ba2ff0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(self);
     return self;
 }
 }
@@ -807,18 +809,14 @@ struct RefObjMt
 
 struct SubObjMt
 {
-    void FUN_00c47770();
 };
 
 struct MemoryManagerMt
 {
-    void Deallocate(void* p);
 };
-extern MemoryManagerMt g_memoryManager;
 
 struct MTRenderingSystem_Helper
 {
-    void FUN_00ba3130(int a, int b);
 };
 
 struct FUN_00a69400
@@ -827,11 +825,9 @@ struct FUN_00a69400
     void* vtbl;
 };
 
-extern const void* DAT_0101e2ec;
 
 struct BSCullingProcess
 {
-    void FUN_004a0f60();
 };
 
 struct CullProc : FUN_00a69400
@@ -887,7 +883,7 @@ struct CullProc : FUN_00a69400
     RefObjMt* unkC4;
     CullProc() : FUN_00a69400(0)
     {
-        vtbl = &DAT_0101e2ec;
+        vtbl = &::DAT_0101e2ec;
         unk90 = 0;
         unkBC = 0;
         unkC0 = 0;
@@ -895,18 +891,16 @@ struct CullProc : FUN_00a69400
     }
     ~CullProc()
     {
-        ((BSCullingProcess*)this)->FUN_004a0f60();
+        reinterpret_cast<::FUN_004a0f60_cls *>((((BSCullingProcess*)this)))->FUN_004a0f60_cls::~FUN_004a0f60_cls();
     }
 };
-void FUN_00b6bee0(RefObjMt* a, RefObjMt* b, CullProc* c);
-void FUN_00b6bfc0(RefObjMt* a, void* b, CullProc* c);
 static inline void AddB(RefObjMt* a, RefObjMt* b, CullProc* c)
 {
-    FUN_00b6bee0(a, b, c);
+    ::FUN_00b6bee0(a, b, (::BSShaderAccumulator *)(c));
 }
 static inline void AddC(RefObjMt* a, void* b, CullProc* c)
 {
-    FUN_00b6bfc0(a, b, c);
+    ::FUN_00b6bfc0(a, (*(::PointerList6b *)(b)), (::Accumulator6b *)(c));
 }
 
 struct TaskRecordMt
@@ -922,7 +916,6 @@ struct TaskRecordMt
 };
 extern TaskRecordMt DAT_012000e4[23];
 
-extern unsigned int DAT_0126fd98;
 extern volatile long DAT_012000ac;
 extern void* DAT_012000b0;
 
@@ -943,10 +936,10 @@ void FUN_00ba3190()
     for (int i = 1; i < 24; i++)
     {
         TaskRecordMt* rec = &DAT_012000e4[i - 1];
-        ((MTRenderingSystem_Helper*)&DAT_01200088)->FUN_00ba3130(0, i);
+        ::RenderStageWait::FUN_00ba3130((::RenderStageWait::ThreadStages *)(((MTRenderingSystem_Helper*)&(*reinterpret_cast<::TaskThreadManager *>(&::g_01200088)))), (void *)(0), i, {});
         if (rec->unk14)
         {
-            *(int*)(((char**)__readfsdword(0x2c))[DAT_0126fd98] + 0x2bc) = rec->unk1C;
+            *(int*)(((char**)__readfsdword(0x2c))[::DAT_0126fd98] + 0x2bc) = rec->unk1C;
             CullProc cull;
             RefObjMt* p = rec->unk14;
             if (p)
@@ -971,8 +964,8 @@ void FUN_00ba3190()
             SubObjMt* s = rec->unk04;
             if (s)
             {
-                s->FUN_00c47770();
-                g_memoryManager.Deallocate(s);
+                reinterpret_cast<::FUN_00c47770 *>((s))->FUN_00c47770::~FUN_00c47770();
+                reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00ba3190::MemoryManagerMt *>(&::g_memoryManager))))->FUN_00aa4060(s);
                 rec->unk04 = 0;
             }
         }

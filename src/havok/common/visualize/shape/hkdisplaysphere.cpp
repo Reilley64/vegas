@@ -2,6 +2,8 @@
 // src/havok/common/visualize/shape/hkdisplaysphere.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplaysphere.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/RotationRows.h"
+#include "fnv/symbols_01268000.h"
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
@@ -39,7 +41,6 @@ struct __declspec(align(16)) hkVec4f
     float x, y, z, w;
 };
 
-extern float DAT_012683b0;
 
 struct FUN_008cd6a0_Class
 {
@@ -59,7 +60,6 @@ struct FUN_008cd6a0_Class
         d[10] = 1.0f;
         m_vTranslation.setZero4();
     }
-    void FUN_00cb2d90(void* p);
 };
 
 struct hkReferencedObject
@@ -103,7 +103,7 @@ FUN_00e0af50::FUN_00e0af50(const hkVec4f& aVec, int a, int b)
     m_kPointA = a;
     m_kPointB = b;
     FUN_008cd6a0_Class& t = m_kMotionTransform;
-    t.FUN_00cb2d90(&DAT_012683b0);
+    reinterpret_cast<::RotationRows *>(&(t))->FUN_00cb2d90(&DAT_012683b0);
     t.m_vTranslation = *(const hkVector4*)&aVec;
 }
 

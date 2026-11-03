@@ -5,6 +5,18 @@
 
 // src/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_004b4ab0_Class.h"
+#include "fnv/decl/FUN_00d2f980.h"
+#include "fnv/decl/hkTransformCB22.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_00d10000.h"
+#include "fnv/symbols_00d2c000.h"
+#include "fnv/symbols_00d2f000.h"
+#include "fnv/symbols_00d30000.h"
+#include "fnv/symbols_00d31000.h"
+#include "fnv/symbols_00d88000.h"
+#include "fnv/symbols_011b4000.h"
 struct S_d2f5a0_Obj
 {
     virtual void v0();
@@ -90,7 +102,6 @@ struct ValueSource
     int unk04;
     float m_fAmount;
 };
-void __cdecl ApplyTransformToTarget(Holder* apFirst, Holder* apSecond, ValueSource* apValue, void* apContext);
 struct Allocator
 {
     virtual void* release();
@@ -109,21 +120,14 @@ struct Built
     int field00;
     short field04;
     int field08;
-    void __thiscall FUN_00d2f980(int);
 };
 extern "C" Global* __cdecl FUN_00c85750();
-void __cdecl FUN_00d2f9d0(int arg1, int arg2, int arg3, int arg4);
-void __cdecl FUN_00d30f50(void* apFirst, void* apSecond, void* apThird, void* apFourth, void* apFifth);
-void __stdcall FUN_00d315a0(void* apFirst, void* apSecond, void* apThird, void* apFourth, void* apFifth);
-extern "C" void __cdecl FUN_00d31110(void* arg0, void* arg1, void* arg2, void* arg3);
 // @fnv 0x00d315d0
 extern "C" void __stdcall FUN_00d315d0(void* arg0, void* arg1, void* arg2, void* arg3)
 {
     FUN_00d31110(arg0, arg1, arg2, arg3);
 }
 
-void __cdecl FUN_00d312f0(void* apA, void* apB, void* apC, void* apD);
-void __stdcall FUN_00d315f0(void* apA, void* apB, void* apC, void* apD);
 struct D2FA00Allocator
 {
     virtual void unk00();
@@ -188,10 +192,8 @@ class D2FA00ShapeAgent : public D2FA00Agent
     {}
     virtual ~D2FA00ShapeAgent();
 };
-D2FA00Agent* __cdecl FUN_00d2fa00(const void* bodyA, const void* bodyB, const void* input, void* mgr);
 extern char str_010ce9a4[];
 extern char str_010ce9ac[];
-extern "C" void* __cdecl FUN_00d06f80(void* apBuffer, int aiCount);
 struct S_00d2f8f0_Elem
 {
     int unk00;
@@ -323,7 +325,6 @@ __declspec(align(16)) struct SlotTemp
     unsigned int unk34;
     unsigned int unk38;
     unsigned int unk3C;
-    void Init(unsigned int a, unsigned int b);
 };
 
 __declspec(align(16)) struct SlotTemp2
@@ -332,7 +333,6 @@ __declspec(align(16)) struct SlotTemp2
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0C;
-    void Build(unsigned int a, void* b);
 };
 
 struct SlotParam
@@ -371,10 +371,10 @@ void FUN_00d2f690(SlotRef* a, SlotRef* b, SlotParam* p, SlotBox* box)
 {
     SlotTemp t1;
     SlotTemp2 t2;
-    t1.Init(b->m_08, a->m_08);
+    reinterpret_cast<::hkTransformCB22 *>(&(t1))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(b->m_08)), (*(const ::hkTransformCB22 *)(a->m_08)));
     SlotObj* obj = a->m_ent;
     obj->Eval(&t1, p->m_08, box);
-    t2.Build(b->m_08, (char*)p + 0x50);
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t2))->FUN_004b4ab0(b->m_08, (int)((char*)p + 0x50));
     __m128 t = _mm_load_ps((float*)&t2);
     __m128 zero = _mm_setzero_ps();
     __m128 lo = _mm_add_ps(_mm_min_ps(zero, t), box->lo);
@@ -436,10 +436,9 @@ struct SolBox
 struct __declspec(align(16)) SolTransform
 {
     float m00, m04, m08, m0c, m10, m14, m18, m1c, m20, m24, m28, m2c, m30, m34, m38, m3c;
-    void FUN_00cb22f0(const SolTransform&, const SolTransform&);
     inline void SetMulInverse(const SolTransform& a, const SolTransform& b)
     {
-        FUN_00cb22f0(a, b);
+        reinterpret_cast<::hkTransformCB22 *>(this)->FUN_00cb22f0((const ::hkTransformCB22 &)(a), (const ::hkTransformCB22 &)(b));
     }
 };
 template <class T> struct SolArray;
@@ -772,10 +771,7 @@ template <class T> __forceinline void SolFreeStack(T* p)
 {
     SolRouter::GetMonitorStream().stack().deallocate(p);
 }
-extern void __cdecl FUN_00c908c0(SolHeap&, void*, int, int);
-extern void __cdecl FUN_00d2cc70(void*, const void*, int);
-extern void __cdecl FUN_00d88040(int);
-extern char DAT_011b4284, DAT_01268ad4;
+extern char DAT_01268ad4;
 struct SolSortState
 {
 };
@@ -826,7 +822,7 @@ template <class T> __forceinline void constructFrom(T* d, int n, const T* p, Sol
 }
 __forceinline void move(void* d, const void* p, int n)
 {
-    FUN_00d2cc70(d, p, n);
+    ::FUN_00d2cc70(d, (void *)(p), n);
 }
 __forceinline void copyBytes(void* d, const void* p, int n)
 {
@@ -866,7 +862,7 @@ template <class T> struct SolArrayBase
         {
             int twice = 2 * available;
             int target = n < twice ? twice : n;
-            FUN_00c908c0(heap, this, target, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(heap), (::SpawnedArray *)(void *)(this), target, sizeof(T));
         }
     }
     __forceinline void setSizeWith(SolHeap& heap, int n)
@@ -964,12 +960,11 @@ template <class T> struct SolLocalArray : SolArray<T>
         SolFreeStack(localMemory);
     }
 };
-extern D2FA00Agent* __cdecl FUN_00d107a0();
 struct SolNull
 {
     static D2FA00Agent* getNullAgentOriginal()
     {
-        return FUN_00d107a0();
+        return ((::D2FA00Agent *)(::FUN_00d107a0()));
     }
     static SolAgent* GetNullAgent()
     {
@@ -1165,7 +1160,7 @@ void SolUpdater::FUN_00d2fac0(const SolBody& first, const SolBody& second, const
         }
         float extra = value.getTolerance() * 0.5;
         first.getShape()->getAabb(transform, value.getTolerance() + extra, bounds);
-        if (DAT_011b4284)
+        if ((*reinterpret_cast<char *>(&::DAT_011b4284)))
         {
             if (m_kBoundingBox.contains(bounds))
                 return;

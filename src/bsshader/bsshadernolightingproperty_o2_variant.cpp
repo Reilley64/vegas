@@ -5,6 +5,9 @@
 // src/bsshader/bsshadernolightingproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/bsshadernolightingproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00b6f4a0_class.h"
+#include "fnv/symbols_00b6f000.h"
 struct S_00b6fa40_Link
 {
     int unk00, unk04, unk08, unk0c;
@@ -18,7 +21,6 @@ struct S_00b6fa40_Prop
     int unk24, unk28, unk2c, unk30, unk34;
     int unk38;
     S_00b6fa40_Link* unk3c;
-    void CopySourceValues(const float* f);
 };
 struct S_00b6fa40_Obj
 {
@@ -72,7 +74,6 @@ struct S_00b6fa40_Obj
     S_00b6fa40_Obj** unka0;
     short unka4;
     unsigned short unka6;
-    S_00b6fa40_Prop* FUN_00a59d30(int mode);
 };
 
 static inline int IsLighting(S_00b6fa40_Prop* p)
@@ -89,7 +90,7 @@ void __cdecl FUN_00b6fa40(S_00b6fa40_Obj* obj, const float* pf)
         return;
     if (obj->v7())
     {
-        S_00b6fa40_Prop* p = obj->FUN_00a59d30(3);
+        S_00b6fa40_Prop* p = ((::S_00b6fa40_Prop *)(reinterpret_cast<::FUN_00a59d30_C *>((obj))->FUN_00a59d30(3)));
         if (!IsLighting(p))
             return;
         if (*pf != -1.0f)
@@ -99,7 +100,7 @@ void __cdecl FUN_00b6fa40(S_00b6fa40_Obj* obj, const float* pf)
                 p->unk38 = 0;
             }
             p->unk20 |= 0x40;
-            p->CopySourceValues(pf);
+            reinterpret_cast<::FUN_00b6f4a0_class *>((p))->CopySourceValues(pf);
         }
         else
         {

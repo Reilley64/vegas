@@ -2,6 +2,7 @@
 #ifndef PROCESSLISTS_PRIVATE_BGSPROJECTILE_H
 #define PROCESSLISTS_PRIVATE_BGSPROJECTILE_H
 
+#include "fnv/decl/FUN_004fd420_shell.h"
 #include "processlists_TESBoundObject.h"
 #include "processlists_TESFullName.h"
 #include "processlists_TESModel.h"
@@ -70,7 +71,6 @@ class BGSProjectile : public TESBoundObject,
     ProjectileProperties Data;
     TESModel m_kProjectileModel;
     SOUND_LEVEL m_eSoundLevel;
-    bool GetFlag(unsigned int flag) const;
     bool GetHasExplosionAltTrigger() const;
 };
 FNV_STATIC_ASSERT(sizeof(BGSProjectile) == 0xd0);

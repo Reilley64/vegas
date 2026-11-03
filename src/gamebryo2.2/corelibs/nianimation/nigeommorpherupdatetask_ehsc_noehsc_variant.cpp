@@ -5,9 +5,17 @@
 
 // src/gamebryo2.2/corelibs/nianimation/nigeommorpherupdatetask.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nigeommorpherupdatetask.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/ActiveArray.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a311e0_s.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00a56000.h"
+#include "fnv/symbols_00e7f000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
 extern "C"
 {
-    extern const void* g_011f4100;
 }
 const void* __cdecl FUN_00a56c00();
 struct NiGeomMorpherUpdateTask;
@@ -19,9 +27,7 @@ extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 struct FreeStore
 {
-    void FUN_00a56e60(int);
 };
-NiGeomMorpherUpdateTask* __cdecl PopMorpherUpdateTask();
 extern unsigned char DAT_011f5b08;
 struct FakeGeo
 {
@@ -149,7 +155,6 @@ extern "C" void __cdecl FUN_00aa1490(void* apMemory, unsigned int aiSize);
 class NiObject_00a56d40
 {
   public:
-    void FUN_00a5d3d0(void);
 };
 struct FUN_00a56d40_cls
 {
@@ -164,12 +169,10 @@ struct FUN_00a56d40_cls
 class A56DF0Heap
 {
   public:
-    void Deallocate(void* pvMem);
 };
-extern A56DF0Heap g_kA56DF0Heap;
 void operator delete(void* pvMem)
 {
-    g_kA56DF0Heap.Deallocate(pvMem);
+    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::A56DF0Heap *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
 }
 class A56DF0Entry
 {
@@ -179,7 +182,6 @@ class A56DF0Entry
 class A56DF0Cache
 {
   public:
-    void Shutdown(bool bFree);
 };
 struct A56DF0Registry
 {
@@ -187,7 +189,7 @@ struct A56DF0Registry
     {
         delete[] m_pkEntryArray;
         if (m_pkCache)
-            m_pkCache->Shutdown(true);
+            ::fnv_00e7f900::FUN_00e7f900((void *)(m_pkCache), true, {});
     }
 
     A56DF0Entry* m_pkEntryArray;
@@ -202,18 +204,15 @@ void ResetRegistry();
 struct S_00a56f10;
 struct S_00a56f10_List
 {
-    void FindOrAdd(S_00a56f10** pItem);
 };
 struct S_00a56f10 : S_00a56c10
 {
     bool ReleaseReferences();
 };
 class MemoryManager;
-extern MemoryManager g_memoryManager;
 class FUN_00a5e3a0_Helper
 {
   public:
-    void* FUN_00aa3e40(unsigned int uiSize);
 };
 NiGeomMorpherUpdateTask* __cdecl FUN_00a56ce0(unsigned int ItemUpdateArray) throw();
 struct TaskBlock
@@ -236,7 +235,7 @@ struct TaskBlock
 
     static void* operator new(unsigned int uiSize)
     {
-        return ((FUN_00a5e3a0_Helper*)&g_memoryManager)->FUN_00aa3e40(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>((((FUN_00a5e3a0_Helper*)&::g_memoryManager)))->FUN_00aa3e40(uiSize);
     }
     static void operator delete(void*, int, int);
 };
@@ -248,12 +247,11 @@ class NiStreamLinkIDSet
     unsigned int m_uiSize;
     TaskBlock* m_pkBlocks;
 
-    void Realloc(unsigned int uiNewCapacity);
 
     void Add(NiGeomMorpherUpdateTask* pkTask)
     {
         if (m_uiSize == m_uiCapacity)
-            Realloc(m_uiCapacity > 0 ? m_uiCapacity * 2 : 1);
+            reinterpret_cast<::FUN_00a311e0_s *>(this)->FUN_00a311e0(m_uiCapacity > 0 ? m_uiCapacity * 2 : 1);
         m_ppkFree[m_uiSize++] = pkTask;
     }
 
@@ -262,9 +260,7 @@ class NiStreamLinkIDSet
 
 struct S_00a56ce0_HeapX
 {
-    void* FUN_00aa3e40(unsigned int n);
 };
-extern S_00a56ce0_HeapX DAT_011f6238;
 extern "C" void* __cdecl FUN_00aa1420(unsigned int n);
 
 struct MorphTaskArr
@@ -283,7 +279,7 @@ struct MorphTaskArr
 inline void* MorphTaskArr::operator new[](size_t size, unsigned int count)
 {
     if (count == 0)
-        return DAT_011f6238.FUN_00aa3e40(4);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::S_00a56ce0_HeapX *>(&::g_memoryManager))))->FUN_00aa3e40(4);
     return FUN_00aa1420(size);
 }
 

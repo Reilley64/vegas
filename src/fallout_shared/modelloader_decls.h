@@ -2,6 +2,7 @@
 #ifndef MODELLOADER_DECLS_H
 #define MODELLOADER_DECLS_H
 
+#include "fnv/symbols_0044c000.h"
 class QueuedFileLoad
 {
   public:
@@ -47,4 +48,3 @@ template <class T, class Traits, class Alloc> class basic_string
     void _Eos(unsigned int);
 };
 }
-void FUN_0044ccd0(char*, unsigned int, const char*, unsigned int);

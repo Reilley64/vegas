@@ -2,6 +2,10 @@
 #ifndef FNV_IMAGESPACEMANAGER_H
 #define FNV_IMAGESPACEMANAGER_H
 
+#include "fnv/decl/FUN_00ba3770_struct.h"
+#include "fnv/decl/FUN_00ba3780_struct.h"
+#include "fnv/decl/H_00ba3840.h"
+#include "fnv/symbols_011ad000.h"
 #include "layout_support.h"
 #include "NiObject.h"
 #include "layout_support.h"
@@ -252,12 +256,6 @@ class ImageSpaceTexture
     // ImageSpaceTexture& __cdecl ImageSpaceTexture::*(ImageSpaceTexture&)
     // void* __cdecl ImageSpaceTexture::*(unsigned int)
     // declarations for the targets of this unit's covered code
-    NiTexture* GetTexture();
-    NiTexture* GetTexture() const;
-    BSRenderedTexture* GetRenderedTexture() const;
-    void CreateRenderTargetTexture(BSTextureManager::RenderTargetType);
-    BSRenderedTexture* FUN_00ba3770();
-    void FUN_00ba3840(unsigned int textureType);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(ImageSpaceTexture) == 16);
@@ -356,7 +354,6 @@ class ImageSpaceManager
 {
   public:
     void CreateMenuBackgroundGeometry();
-    static bool m_bHasEndOfFrameEffects;
     void BeginParamModifiers();
     void SetupEffects();
     bool IsEffectActive(ImageSpaceManager__ImageSpaceEffectEnum);
@@ -460,7 +457,6 @@ class ImageSpaceManager
     void SetDepthOfFieldParameters(float, unsigned int, float, float, float);
     void __cdecl SetBlurRadiusParamModifier(float);
     // declarations added by this unit for the covered uniform functions
-    void FUN_00b8b130(float, unsigned int, float, float, float);
     void ApplyDepthOfFieldParamModifierWeather(float, unsigned int, float, float, float);
     void FUN_00b8b360();
     bool FUN_00b8b390(unsigned int);
@@ -468,14 +464,11 @@ class ImageSpaceManager
     void FUN_00b8b440(bool);
     void FUN_00b8b540(RgbaColor&);
     void ApplyTintColorParamModifier(RgbaColor&);
-    void FUN_00b8b5c0(RgbaColor&);
     void ApplyTintColorParamModifierWeather(RgbaColor&);
     void FUN_00b8b610(RgbaColor&);
     void SetFadeColorParamModifier(RgbaColor&);
-    void FUN_00b8b690(RgbaColor&);
     void ApplyFadeColorParamModifierWeather(RgbaColor&);
     BSRenderedTexture* GetDepthRenderedTexture();
-    void FUN_00b8b6e0(float, float, float, float, float, const NiPoint2&);
     void ApplyRadialBlurParamModifierWeather(float, float, float, float, float, const NiPoint2&);
     // void __cdecl ImageSpaceManager::*(float)
     // void __cdecl ImageSpaceManager::*()

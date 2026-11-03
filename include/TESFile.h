@@ -1,6 +1,14 @@
 // Source layout: TESFile. PC corrections are in generate_headers.py.
 #ifndef FNV_TESFILE_H
 #define FNV_TESFILE_H
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00462e80_shell.h"
+#include "fnv/decl/FUN_00471870_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/TESOffsetWorker.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00472000.h"
 #include "layout_support.h"
 #include "TESFileHeader.h"
 #include "FormRecordHeader.h"
@@ -66,25 +74,19 @@ class TESFile
     bool IsEndianConversionRequired();
     bool IsCurrentFormCompressed();
     TESFile(const char* path, const char* filename, NiFile::OpenMode openMode);
-    const char* GetFilename();
-    const char* GetPath();
     bool IsMasterFile();
     void SetMasterFile(bool master);
     unsigned char GetFileCompileIndex();
     void SetCompileIndex(unsigned char index);
-    bool CheckMasterFiles(BSSimpleList<TESFile*>* files, bool unknown);
     void SetThreadSafeParent(TESFile* parent);
     bool OpenTESFile(NiFile::OpenMode openMode, bool closeOverride);
     void InitializeComponent();
-    bool SetOffset(unsigned int offset);
     unsigned char GetTESForm();
-    unsigned int GetChunkID();
-    unsigned int GetChunkSize();
-    bool GetChunkData(void* data, unsigned int size);
     bool GetChunkData(unsigned int* value);
     bool NextChunk();
-    bool GetCached();
     unsigned int GetOffset();
+public:
+    bool GetOptimizedFile();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESFile) == 0x42C);

@@ -2,6 +2,8 @@
 #ifndef FNV_BSAUDIO_H
 #define FNV_BSAUDIO_H
 
+#include "fnv/decl/FUN_00ad73b0_t.h"
+#include "fnv/symbols_00453000.h"
 #include "layout_support.h"
 #include "BSAudioSyncTimer.h"
 #pragma pack(push, 4)
@@ -26,7 +28,6 @@ class BSAudio
     void___cdecl___* m_pfnInitializeAudio;                                                  // +0x30
     void___cdecl___* m_pfnShutdownAudio;                                                    // +0x34
     void SetAudioState(unsigned int);
-    static BSAudio* GetSingleton();
     SoundPlaybackHandle GetSoundHandleByFormID(unsigned int formID, unsigned int flags);
 };
 #pragma pack(pop)

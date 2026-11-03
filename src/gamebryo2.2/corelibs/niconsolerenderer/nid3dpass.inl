@@ -1,6 +1,7 @@
 
 #include <stddef.h>
 
+#include "fnv/decl/ActiveArray.h"
 class NiMemObject
 {
 public:
@@ -54,7 +55,7 @@ public:
 
     void FreeObject(T* object)
     {
-        m_kAvailableObjects.Add(object);
+        reinterpret_cast<::ActiveArray *>(&(m_kAvailableObjects))->FindOrAdd((void *const &)(object));
     }
 };
 

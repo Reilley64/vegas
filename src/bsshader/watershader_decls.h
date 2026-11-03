@@ -4,6 +4,13 @@
 #ifndef WATERSHADER_DECLS_H
 #define WATERSHADER_DECLS_H
 
+#include "fnv/decl/FUN_00be1750_shell.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00be0000.h"
+#include "fnv/symbols_00e76000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_011ff000.h"
+#include "fnv/symbols_0126f000.h"
 #define NiPointer FNV_STUB_NiPointer
 #include "layout_support.h"
 #include "NiFixedString.h"
@@ -315,9 +322,6 @@ class BSShader : public NiD3DDefaultShader
     virtual void vfn_118();
     virtual void vfn_11c();
     BSShader();
-    static void GetShaderPath(const char*, char*);
-    NiD3DVertexShader* CompileVertexShader(const char*, const _D3DXMACRO*, const char*, const char*);
-    NiD3DPixelShader* CompilePixelShader(const char*, const _D3DXMACRO*, const char*, const char*);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(BSShader) == 108);
@@ -343,9 +347,7 @@ class WaterShader : public BSShader
     NiPointer<NiTexture> m_spFourthWaterTexture;        // +0x24C, 4 bytes
     WaterShader();
     static BSShader* CreateShader();
-    void InitializeShaderData();
     void UpdateShaderConstants();
-    void InitWaterPasses();
     virtual ~WaterShader();
     // const NiRTTI* __cdecl WaterShader::*()
     // WaterShader
@@ -388,11 +390,18 @@ FNV_STATIC_ASSERT(offsetof(WaterShader, m_spTexture4) == 580);
 FNV_STATIC_ASSERT(offsetof(WaterShader, WaterShaderTextures) == 584);
 FNV_STATIC_ASSERT(offsetof(WaterShader, m_spFourthWaterTexture) == 588);
 
+template <class> class NiPointer;
 class NiD3DPass
 {
   public:
     void IncRefCount();
     void DecRefCount();
+public:
+    void SetAlphaBlendMode(unsigned int, unsigned int, bool);
+public:
+    void DestroyPass();
+public:
+    static void CreateD3DPass(::NiPointer< ::NiD3DPass> &);
 };
 class NiTexture : public NiRefObject
 {
@@ -461,9 +470,7 @@ class NiD3DShaderDeclaration : public NiRefObject
 class NiD3DVertexDeclaration : public NiD3DShaderDeclaration
 {
   public:
-    static NiD3DVertexDeclaration* Create(NiRenderer*, unsigned int, unsigned int);
 };
-extern NiRenderer* DAT_011f9508;
 class NiShaderConstantMapEntry : public NiRefObject
 {
 };
@@ -508,12 +515,11 @@ struct WaterShaderThreadState
     unsigned char precedingThreadState[0x2b4];
     int m_uiMemoryContext;
 };
-extern "C" volatile unsigned int _tls_index;
 extern "C" unsigned long __readfsdword(unsigned long);
 #pragma intrinsic(__readfsdword)
 inline WaterShaderThreadState* WaterShaderGetThreadState()
 {
-    unsigned int index = _tls_index;
+    unsigned int index = ::DAT_0126fd98;
     return reinterpret_cast<WaterShaderThreadState**>(__readfsdword(0x2c))[index];
 }
 class WaterShaderMemContext
@@ -537,18 +543,7 @@ class WaterShaderMemContext
             WaterShaderGetThreadState()->m_uiMemoryContext = previous;
     }
 };
-extern "C" int __cdecl sprintf_s(char*, unsigned int, const char*, ...);
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
-extern "C" int fnv_particle_shader_renderer_level;
-extern NiPointer<NiShaderConstantMapEntry> DAT_011ff4a0;
-extern NiPointer<NiShaderConstantMapEntry> DAT_011ff4a4;
-extern NiPointer<NiShaderConstantMapEntry> DAT_011ff4a8;
-extern NiPointer<NiShaderConstantMapEntry> DAT_011ff4ac;
-extern NiPointer<NiShaderConstantMapEntry> DAT_011ff4b0;
-extern NiPointer<NiShaderConstantMapEntry> DAT_011ff4b4;
-extern NiPointer<NiShaderConstantMapEntry> DAT_011ff4b8;
-extern NiPointer<NiShaderConstantMapEntry> DAT_011ff4bc;
-extern NiPointer<NiShaderConstantMapEntry> DAT_011ff4c0;
 extern float DAT_011ff548[12];
 extern float DAT_011ff588[28];
 extern float DAT_011ff5f8[4];
@@ -562,22 +557,17 @@ struct RgbaColor
     RgbaColor(float red, float green, float blue, float alpha) : r(red), g(green), b(blue), a(alpha)
     {}
 };
-extern WaterShader* DAT_011ff370;
 extern RgbaColor DAT_011ff458;
 extern bool DAT_011ff100;
 extern bool DAT_011ff102;
-extern bool DAT_011ff103;
-extern bool DAT_011ff104;
 struct WaterShaderFrameState
 {
     unsigned int frame;
     short flags;
 };
-extern WaterShaderFrameState DAT_011ff110;
 struct WaterShaderUpdateState
 {
     unsigned short count;
     unsigned char active;
 };
-extern WaterShaderUpdateState DAT_011ff118;
 #endif

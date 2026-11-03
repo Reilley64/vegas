@@ -1,8 +1,13 @@
 // fallout_shared/tesland.cpp: TESPackage (7 functions)
 
+#include "fnv/decl/fnv_0041bb10__FUN_0041bb10_Class.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00538000.h"
+#include "fnv/symbols_00540000.h"
+#include "fnv/symbols_0102e000.h"
 #include "tesland_decls.h"
 #pragma optimize("", off)
-int TruncateFloatToInt(float value);
 // @fnv 0x005394a0
 bool TESPackage::FUN_005394a0()
 {
@@ -36,7 +41,7 @@ class PathingActorData
 // @fnv 0x00534550
 void* __fastcall FUN_00534550(PathingActorData* pThis)
 {
-    pThis->PathingActorData::PathingActorData();
+    ::FUN_00540720((::ExteriorData *)(pThis));
     return pThis;
 }
 
@@ -50,14 +55,13 @@ template <typename T> struct BSSimpleList;
 
 struct TESForm
 {
-    BSSimpleList<TESFile*>* GetSourceFiles();
 };
 
 // Reads a BSStringT at thisPtr+0xb8, treats it as a TESForm and returns that form's source file list.
 // @fnv 0x00537b10
 BSSimpleList<TESFile*>* __fastcall GetSourceFilesFromForm(char* thisPtr)
 {
-    return ((TESForm*)(const char*)(*(BSStringT<char>*)(thisPtr + 0xb8)))->GetSourceFiles();
+    return ((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)(((TESForm*)(const char*)(*(BSStringT<char>*)(thisPtr + 0xb8)))))));
 }
 
 struct Actor;
@@ -123,26 +127,23 @@ struct blob12
     char b[12];
 };
 
-CellMopp* __fastcall FUN_0041bb10(void* pThis);
 
 // @fnv 0x00537b30
 CellMopp* __fastcall GetCellMopp(char* pThis)
 {
-    return FUN_0041bb10(pThis + 0x28);
+    return ((::CellMopp *)(reinterpret_cast<::fnv_0041bb10::FUN_0041bb10_Class *>((pThis + 0x28))->FUN_0041bb10()));
 }
 
-extern int DAT_0102e388;
 
 struct FUN_00538e30_class
 {
     int vtable;
-    void SetVtable();
 };
 
 // @fnv 0x00538e30
 void __fastcall SetVtable(FUN_00538e30_class* this_ptr)
 {
-    this_ptr->vtable = (int)&DAT_0102e388;
+    this_ptr->vtable = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 struct NiPoint3

@@ -3,12 +3,24 @@
 // byte only under /MT /O2 /GS /EHs-c- /Gy (unit src/gamebryo2.2/corelibs/nianimation/bsmultitargettreadtransfcontroller.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/decl/CloneableObj.h"
+#include "fnv/decl/FUN_004f0180_Class.h"
+#include "fnv/decl/FUN_00a42f80_cls.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/S00a35960_Cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00a2d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00aa2000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_011a8000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f6000.h"
 #include "bsmultitargettreadtransfcontroller_decls.h"
 struct FUN_00a35950_shell : public BSMultiTargetTreadTransfController
 {
     void* FUN_00a35950();
 };
-extern int g_011f36e4;
 struct FUN_00a35e90_shell : public BSMultiTargetTreadTransfController
 {
     char* FUN_00a35e90(unsigned short);
@@ -17,9 +29,11 @@ struct FUN_00a35fc0_shell
 {
     void __thiscall SetSlotValue(unsigned short idx, void* val);
 };
+class NiStream;
 struct NiInterpController
 {
-    static unsigned short INVALID_INDEX;
+public:
+    void LoadBinary(::NiStream &);
 };
 struct FUN_00a35910_shell
 {
@@ -55,7 +69,6 @@ struct FUN_00a35f70_struct
 };
 struct S_00a36050
 {
-    void __thiscall FUN_00a35960();
     void* __thiscall DestroyIfFlagged(unsigned int);
 };
 void __cdecl _delete(void*, unsigned int);
@@ -193,7 +206,6 @@ struct FUN_00a35900_cls
     TreadEntry* m_pEntries;
     TreadEntry* FUN_00a35900(unsigned short usIndex, int aParam1, int aParam2, int aParam3, int aParam4);
 };
-extern char DAT_01096694;
 void* __cdecl FUN_00aa13e0(unsigned int size) throw();
 struct FUN_00a2f8c0
 {
@@ -237,12 +249,10 @@ struct TreadInterpolator : FUN_00a2f8c0
 struct TreadController
 {
     TreadInterpolator* __thiscall CreateInterpolator(unsigned int index);
-    void __thiscall FUN_00a2f8a0(TreadInterpolator* interp, unsigned int index);
 };
 struct TreadElem_00a35b90
 {
     char unk00[0x34];
-    void __thiscall Dtor();
 };
 void __cdecl FreeArr_00a35b90(void* apMemory, unsigned int aiSize);
 void __cdecl FreeObj_00a35b90(void* apMemory, unsigned int aiSize);
@@ -296,7 +306,6 @@ struct FUN_00a35fe0_shell
 
     unsigned short __thiscall FUN_00a35fe0(Target_00a35fe0* target, unsigned short id, void* value);
 };
-extern unsigned short DAT_01096320;
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 inline unsigned int NiAtomicIncrement(unsigned int& v)
@@ -377,7 +386,6 @@ void Holder::AssignInterpolatorRef(unsigned int idx, SmartPtr<RefObj>& out) thro
     out = sp;
 }
 struct NiStream;
-extern void __cdecl LoadBinary(NiStream*);
 void __cdecl FUN_00a35840(NiStream* stream);
 struct Vec112
 {
@@ -404,17 +412,13 @@ class NiQuaternion
   public:
     float w, x, y, z;
     void Slerp(float, const NiQuaternion&, const NiQuaternion&);
-    void FUN_004f0180(Mat112*);
 };
-extern Vec112 DAT_011a8400;
-extern NiQuaternion DAT_011f3704;
-extern float DAT_01096b8c;
 struct Transform112
 {
     Vec112 position;
     NiQuaternion rotation;
     float scale;
-    Transform112() : position(DAT_011a8400), rotation(DAT_011f3704), scale(DAT_01096b8c)
+    Transform112() : position((*reinterpret_cast<::Vec112 *>(&::DAT_011a8400))), rotation(DAT_011f3704), scale(DAT_01096b8c)
     {}
 };
 struct Blend112
@@ -509,24 +513,22 @@ struct ArrayCount
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct MemoryManagerAllocHelper
 {
-    void* Allocate(unsigned int);
 };
-extern MemoryManagerAllocHelper DAT_011f6238;
 __forceinline void* __cdecl operator new(unsigned int n)
 {
-    return DAT_011f6238.Allocate(n);
+    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager))))->FUN_00aa3e40(n);
 }
 void* __cdecl FUN_00aa1420(unsigned int);
 struct SNAEntry
 {
     static void* operator new(unsigned int n)
     {
-        return DAT_011f6238.Allocate(n);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager))))->FUN_00aa3e40(n);
     }
     static void* operator new[](unsigned int s, ArrayCount count)
     {
         if (count.value == 0)
-            return ::operator new(4);
+            return ::FUN_00401000(4);
         return FUN_00aa1420(s);
     }
     static void operator delete[](void*, unsigned int);
@@ -552,7 +554,7 @@ struct NodeA35
 {
     static void* operator new(unsigned int n)
     {
-        return DAT_011f6238.Allocate(n);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager))))->FUN_00aa3e40(n);
     }
     int a;
     int b;

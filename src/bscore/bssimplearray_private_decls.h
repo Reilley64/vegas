@@ -3,6 +3,13 @@
 #define FNV_BSSIMPLEARRAY_PRIVATE_DECLS_H
 
 
+#include "fnv/decl/FUN_006e3c90_cls.h"
+#include "fnv/decl/FUN_00761540_cls.h"
+#include "fnv/decl/FUN_007883b0.h"
+#include "fnv/decl/FUN_00afcde0_shell.h"
+#include "fnv/decl/S006d0510.h"
+#include "fnv/decl/SHStub.h"
+#include "fnv/symbols_0106c000.h"
 typedef int(__cdecl* BSSimpleArrayCompare)(const void*, const void*);
 // Canonical placeholder for the runtime copy routine at 0x00ec7230 (_memmove is 0x00ec44d0).
 void* __cdecl FUN_00ec7230(void*, const void*, unsigned int);
@@ -45,19 +52,16 @@ template <class T, unsigned int N> class BSSimpleArray
     void _InitialSetup(unsigned int capacity, unsigned int initialSize);
 };
 
-extern unsigned int DAT_0106c264;
 extern unsigned int DAT_0106f798;
 extern unsigned int DAT_01073e50;
 class BSSimpleArrayPacketEffect
 {
   public:
-    void FUN_007883b0(unsigned int, bool);
 };
 extern unsigned int DAT_0109504c;
 class BSSimpleArrayPacketDebug
 {
   public:
-    void InitArray(unsigned int, bool);
 };
 
 class NiAVObject;
@@ -94,12 +98,10 @@ class PathingGraphNode
 class BSSimpleArrayPacketNode
 {
   public:
-    void FUN_006d0510(unsigned int);
 };
 class BSSimpleArrayPacketReserve
 {
   public:
-    unsigned int FUN_00761540();
 };
 
 #include <stddef.h>
@@ -120,7 +122,6 @@ class OffsetData
 class ScrapHeapBuffer
 {
   public:
-    void Deallocate(void* memory);
 };
 template <class T, unsigned int N> class BSScrapArray : public BSSimpleArray<T, N>
 {
@@ -197,7 +198,6 @@ template <> class BSSimpleArray<PathingAvoidanceNode, 1024>
     unsigned int SimpleArrayStorage;
 
   private:
-    void InitializeItems(PathingAvoidanceNode* items, unsigned int count);
 };
 
 typedef BSSimpleArray<Tile::Value*, 8> BSSimpleArrayTileLayout;

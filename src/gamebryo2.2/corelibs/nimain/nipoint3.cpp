@@ -1,5 +1,7 @@
 // gamebryo2.2/corelibs/nimain/nipoint3.cpp: NiColor, NiPoint3 (4 functions)
 
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00aa1000.h"
 #include "nipoint3_stream.h"
 // Reads the r, g and b components of the color from the stream's input.
 // @fnv 0x00a59be0
@@ -18,8 +20,6 @@ void NiColor::SaveBinary(NiStream& stream)
     stream.output->Write(&b);
 }
 
-extern "C" int __cdecl NiSprintf(char*, unsigned int, char const*, ...);
-extern "C" void* __cdecl _NiMalloc(unsigned int);
 extern "C" unsigned int __cdecl strlen(char const*);
 
 struct NiPoint3
@@ -35,13 +35,12 @@ struct NiPoint3
 char* __thiscall NiPoint3::FUN_00a59af0(const char* pPrefix)
 {
     unsigned int uiLen = strlen(pPrefix) + 0x40;
-    char* pString = (char*)_NiMalloc(uiLen);
-    NiSprintf(pString, uiLen, "%s = (%g,%g,%g)", pPrefix, x, y, z);
+    char* pString = (char*)::FUN_00aa1070(uiLen);
+    ::NiSprintf(pString, uiLen, "%s = (%g,%g,%g)", pPrefix, x, y, z);
     return pString;
 }
 
 #include <math.h>
-void* FUN_00aa1070(unsigned int uiSize);
 
 // Allocates 256 words and stores masked bit patterns from square roots of floats constructed in two ranges.
 // @fnv 0x00a59b50

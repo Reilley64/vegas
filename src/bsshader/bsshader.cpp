@@ -1,5 +1,40 @@
 // bsshader/bsshader.cpp: Zero4, ShaderDerived (27 functions)
 
+#include "fnv/decl/AA4610Allocator.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/E7DE90Owner.h"
+#include "fnv/decl/E7DEF0TextureStage.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00462d80_shell.h"
+#include "fnv/decl/FUN_00aa45a0_Class.h"
+#include "fnv/decl/FUN_00e7ecd0_cls.h"
+#include "fnv/decl/LightSlots.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/S00b7fd90_cls.h"
+#include "fnv/decl/S00e75340_Renderer.h"
+#include "fnv/decl/StageSet.h"
+#include "fnv/decl/fnv_00e7eb50__BlockAllocatedStringArray.h"
+#include "fnv/decl/fnv_00e814b0__UnkShader.h"
+#include "fnv/decl/fnv_00e88fc0__E88FC0StageSet.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00af5000.h"
+#include "fnv/symbols_00afe000.h"
+#include "fnv/symbols_00b97000.h"
+#include "fnv/symbols_00b98000.h"
+#include "fnv/symbols_00be0000.h"
+#include "fnv/symbols_00e7e000.h"
+#include "fnv/symbols_00e7f000.h"
+#include "fnv/symbols_00ee6000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_0106e000.h"
+#include "fnv/symbols_01094000.h"
+#include "fnv/symbols_011c1000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_0126f000.h"
 #include "bsshader_decls.h"
 
 // Initializes the object by zeroing the first element of an array and setting a flag to false.
@@ -12,7 +47,6 @@ BSShader::BSShader()
 
 #include "bsshader_compile_decls.h"
 
-extern char DAT_011f9308[];
 extern void _strcat_s(char*, unsigned, const char*);
 extern void __splitpath_s(const char*, char*, unsigned, char*, unsigned, char*, unsigned, char*, unsigned);
 extern void FUN_00ec825b(char*, unsigned, const char*, const char*, const char*, const char*);
@@ -34,7 +68,6 @@ void FUN_00be0c00(const char* path, char* result)
     }
 }
 
-extern char DAT_011f9308[260];
 
 // Builds a cache path from the default or configured directory, an optional "HDR." prefix, and the cache name, writing it into apCachePath.
 // @fnv 0x00be0dc0
@@ -42,8 +75,8 @@ void __cdecl BuildCachePath(char* apCachePath, const char* apFileName, const cha
 {
     if (apCachePath && apFileName && apCacheName)
     {
-        char* ppath = DAT_011f9200;
-        if (!DAT_011f9200[0])
+        char* ppath = (*reinterpret_cast<char (*)[260]>(&::DAT_011f9200));
+        if (!(*reinterpret_cast<char (*)[260]>(&::DAT_011f9200))[0])
             ppath = DAT_011f9308;
         strcpy_s(apCachePath, 260, ppath);
         if (DAT_011f941e)
@@ -55,7 +88,7 @@ void __cdecl BuildCachePath(char* apCachePath, const char* apFileName, const cha
 // @fnv 0x00be0e30
 int __stdcall FUN_00be0e30(void* apUnused, void* apBlock)
 {
-    g_memoryManager.Deallocate(apBlock);
+    reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(apBlock);
     return 0;
 }
 
@@ -68,7 +101,6 @@ class BSRenderStateManager
     static void __cdecl SetDepthBufferEnabled(bool, BSRENDERSTATE_LOCK);
 };
 
-extern unsigned int DAT_011f91e4;
 void __cdecl FUN_00b97e30(unsigned int, unsigned int);
 void __cdecl FUN_00b97e80(unsigned int, unsigned int);
 
@@ -90,7 +122,6 @@ enum BSRENDERSTATE_LOCK
 class BSRenderStateManager
 {
   public:
-    static void __cdecl SetDepthBufferEnabled(bool, BSRENDERSTATE_LOCK);
 };
 void __cdecl FUN_00b97e30(unsigned int, unsigned int);
 void __cdecl FUN_00b97e80(unsigned int, unsigned int);
@@ -98,7 +129,7 @@ void __cdecl FUN_00b97e80(unsigned int, unsigned int);
 // @fnv 0x00be0e90
 void __cdecl FUN_00be0e90()
 {
-    BSRenderStateManager::SetDepthBufferEnabled(false, (BSRENDERSTATE_LOCK)0);
+    ::BSRenderStateManager::SetDepthBufferEnabled(false, (*(::BSRENDERSTATE_LOCK *)&(const ::fnv_00be0e90::BSRENDERSTATE_LOCK &)((BSRENDERSTATE_LOCK)0)));
     FUN_00b97e30(1, 0);
     FUN_00b97e80(3, 0);
 }
@@ -111,7 +142,6 @@ struct Node_00be0eb0
     Node_00be0eb0* next;
 };
 
-extern int DAT_0126f74c;
 void __cdecl FUN_00b97d90(int, int, int);
 
 // Walks the linked list at DAT_0126f74c+0x30+0x10 and calls FUN_00b97d90 on each node's a and b fields with 0.
@@ -134,7 +164,6 @@ struct Node_00be0ee0
     Node_00be0ee0* m_next;
 };
 
-extern int DAT_0126f74c;
 void __cdecl FUN_00b98610(int, int);
 
 // Walks the linked list at DAT_0126f74c+0x30's +0x10 and calls FUN_00b98610 with each node's m_val and 0.
@@ -187,7 +216,7 @@ long __stdcall ReadFileIntoMemory(void* pThis, int aiUnused, const char* pFileNa
         if (pFile->m_bGood)
         {
             unsigned int size = pFile->GetFileSize();
-            void* pData = g_memoryManager.Allocate(size);
+            void* pData = reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
             *appData = pData;
             unsigned int compSize = 1;
             unsigned int bytesRead = pFile->m_pfnRead(pFile, pData, size, &compSize, 1);
@@ -289,15 +318,14 @@ struct GlobalMgr
 };
 
 extern GlobalMgr* DAT_0126f74c;
-ObjA* __fastcall FUN_00e7f7c0(GlobalMgr*);
 
 // Gets an ObjA from DAT_0126f74c and sets its v35 from p5c->v33_get(0), and if p44 is non-null sets its v31 from p44->v31_get(0).
 // @fnv 0x00be1f90
 void __fastcall SetFromGlobalManager(void* this_ptr, int edx_unused, int aiUnused)
 {
-    ObjA* pObjA = FUN_00e7f7c0(DAT_0126f74c);
-    pObjA->v35_set(DAT_0126f74c->p5c->v33_get(0));
-    ObjB* p44 = DAT_0126f74c->p44;
+    ObjA* pObjA = ((::fnv_00be1f90::ObjA *)(::FUN_00e7f7c0()));
+    pObjA->v35_set((*reinterpret_cast<::fnv_00be1f90::GlobalMgr * *>(&::DAT_0126f74c))->p5c->v33_get(0));
+    ObjB* p44 = (*reinterpret_cast<::fnv_00be1f90::GlobalMgr * *>(&::DAT_0126f74c))->p44;
     if (p44)
     {
         pObjA->v31_set(p44->v31_get(0));
@@ -315,11 +343,9 @@ int __stdcall FUN_00be20b0(unsigned char** apData)
     return FUN_00b97f20((*(unsigned short*)(p + 0x18) >> 10) & 7, p[0x1a], 0);
 }
 
-extern int DAT_0126f74c;
 
 struct NiD3DPass_Ex : NiD3DPass
 {
-    bool ShutdownPools_Ex(bool);
 };
 
 // Iterates the pass list at DAT_0126f74c and calls ShutdownPools_Ex(false) on each non-null pass that is flagged and has a nonzero field at offset 8.
@@ -334,16 +360,14 @@ void __cdecl FUN_00be2170()
         if (!pass)
             break;
         if (*(bool*)((char*)pass + 0x64) && *(int*)((char*)pass + 8))
-            pass->ShutdownPools_Ex(false);
+            reinterpret_cast<::NiD3DPass *>((pass))->ApplyRenderStateChanges(false);
     }
 }
 
 extern int DAT_011ae640[];
-extern int DAT_0126f74c;
 
 struct NiD3DPass_Ext : public NiD3DPass
 {
-    bool ApplyRenderStateChanges(bool);
 };
 
 // @fnv 0x00be21b0
@@ -360,7 +384,7 @@ void __cdecl FUN_00be21b0()
             if (!pass)
                 break;
             if (*(int*)((char*)pass + 8) != 0)
-                pass->ApplyRenderStateChanges(false);
+                reinterpret_cast<::NiD3DPass *>((pass))->ApplyRenderStateChanges(false);
         }
     }
 }
@@ -453,8 +477,6 @@ void __fastcall FUN_00be0ce0(FUN_00be0ce0_obj* p, int unused)
 
 struct BeamTextureState
 {
-    void SetStageValue(unsigned int, unsigned int, bool);
-    void FUN_00e890c0(unsigned int, unsigned int, unsigned int, bool);
 };
 
 struct BeamStage
@@ -466,8 +488,6 @@ struct BeamStage
     char _pad14[0x4a];
     unsigned char m_byte5e;
 
-    void ApplyPairToState(unsigned int);
-    void FUN_00e7def0(unsigned int);
 };
 
 // @fnv 0x00be0cf0
@@ -475,21 +495,21 @@ void __cdecl ConfigureBeamStage(BeamStage* stage, unsigned int uiValue, unsigned
                                 bool bFlag)
 {
     stage->m_arg2 = uiValue;
-    stage->m_pTextureState->SetStageValue(11, uiValue, false);
-    stage->m_pTextureState->SetStageValue(1, 1, false);
-    stage->m_pTextureState->SetStageValue(2, 2, false);
-    stage->m_pTextureState->SetStageValue(4, 1, false);
-    stage->m_pTextureState->SetStageValue(5, 2, false);
+    reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((stage->m_pTextureState))->SetStageValue(11, (void *)(uiValue), false);
+    reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((stage->m_pTextureState))->SetStageValue(1, (void *)(1), false);
+    reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((stage->m_pTextureState))->SetStageValue(2, (void *)(2), false);
+    reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((stage->m_pTextureState))->SetStageValue(4, (void *)(1), false);
+    reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((stage->m_pTextureState))->SetStageValue(5, (void *)(2), false);
     stage->m_byte5e = 0;
-    stage->m_pTextureState->SetStageValue(24, 0, false);
+    reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((stage->m_pTextureState))->SetStageValue(24, (void *)(0), false);
     if (arg3 == 3)
-        stage->ApplyPairToState(0);
+        reinterpret_cast<::E7DE90Owner *>((stage))->ApplyPairToState(0);
     else
-        stage->ApplyPairToState(3);
-    stage->m_pTextureState->FUN_00e890c0(5, arg4, 0, false);
-    stage->m_pTextureState->FUN_00e890c0(6, arg4, 0, false);
-    stage->m_pTextureState->FUN_00e890c0(7, arg4, 0, false);
-    stage->FUN_00e7def0(bFlag ? 6 : 2);
+        reinterpret_cast<::E7DE90Owner *>((stage))->ApplyPairToState(3);
+    reinterpret_cast<::LightSlots *>((stage->m_pTextureState))->FUN_00e890c0(5, arg4, 0, false);
+    reinterpret_cast<::LightSlots *>((stage->m_pTextureState))->FUN_00e890c0(6, arg4, 0, false);
+    reinterpret_cast<::LightSlots *>((stage->m_pTextureState))->FUN_00e890c0(7, arg4, 0, false);
+    reinterpret_cast<::E7DEF0TextureStage *>((stage))->FUN_00e7def0(bFlag ? 6 : 2);
 }
 
 struct M64Inner
@@ -521,9 +541,7 @@ void __stdcall FUN_00be0fb0(M64Outer* pOuter)
     }
 }
 
-void __cdecl FUN_00b984d0(int, int);
 void __cdecl FUN_00b97ed0(bool, int);
-extern unsigned int DAT_011f91e4;
 
 struct Obj
 {
@@ -565,13 +583,12 @@ void __stdcall FUN_00be20e0(StructA* pStruct, bool bCheckProp0)
         }
     }
 
-    FUN_00b984d0(bFlagA ? 3 : 1, 0);
+    ::FUN_00b984d0(bFlagA ? 3 : 1);
     FUN_00b97ed0(bFlagB, 0);
 }
 
 struct StageReturn
 {
-    void ReturnToPool();
 };
 struct StagePool
 {
@@ -580,12 +597,11 @@ struct StagePool
     int m_uiCount;
     int m_pad0c;
     int m_uiCapacity;
-    void AppendBlock(int cap);
     StageReturn* Get()
     {
         if (m_uiCount == 0)
         {
-            AppendBlock(m_uiCapacity);
+            reinterpret_cast<::fnv_00e7eb50::BlockAllocatedStringArray *>(this)->AppendBlock(m_uiCapacity);
             m_uiCapacity *= 2;
         }
         StageReturn* s = m_pStackBuffer[0];
@@ -594,7 +610,6 @@ struct StagePool
         return s;
     }
 };
-extern StagePool* DAT_0126f6cc;
 
 // Gets a StageReturn from DAT_0126f6cc, marks it, and refcount-swaps it into output, releasing the previous one.
 // @fnv 0x00e7edf0
@@ -610,13 +625,13 @@ void AssignStageFromPool(StageReturn*& output)
         if (old)
         {
             if (--*(unsigned int*)((char*)old + 0x60) == 0)
-                old->ReturnToPool();
+                reinterpret_cast<::FUN_00e7ecd0_cls *>((old))->FUN_00e7ecd0();
         }
         output = stage;
         ++*(unsigned int*)((char*)stage + 0x60);
     }
     if (--*(unsigned int*)((char*)stage + 0x60) == 0)
-        stage->ReturnToPool();
+        reinterpret_cast<::FUN_00e7ecd0_cls *>((stage))->FUN_00e7ecd0();
 }
 
 struct BSFadeNode;
@@ -806,7 +821,7 @@ struct ShaderSourceFile_be1750
     virtual unsigned int GetSize();
     unsigned int Read(void* apBuffer, unsigned int auiBytes)
     {
-        return ((NiBinaryStream*)this)->Read(apBuffer, auiBytes);
+        return reinterpret_cast<::FUN_00462d80_shell *>((((NiBinaryStream*)this)))->ReadBytes(apBuffer, auiBytes);
     }
     bool IsGood()
     {
@@ -1015,7 +1030,7 @@ NiD3DPixelShader* FUN_00be1750_shell::FUN_00be1750(char* apFilename, void* apMac
     unsigned int* pshaderbuffer;
     char perror[260];
 
-    BuildShaderCachePath(pcachepath, apFilename, apCacheName, "pso");
+    ::BuildCachePath(pcachepath, apFilename, apCacheName);
     busecache = true;
     bCacheExists = false;
     if (DAT_011f9498)
@@ -1025,21 +1040,21 @@ NiD3DPixelShader* FUN_00be1750_shell::FUN_00be1750(char* apFilename, void* apMac
     {
         _FILETIME ksrcFile = {};
         _FILETIME kcacheFile = {};
-        bSourceExists = FileFinder::GetFileTime(apFilename, ksrcFile, 0x20);
-        bCacheExists = FileFinder::GetFileTime(pcachepath, kcacheFile, 0x20);
+        bSourceExists = ::fnv_00afe7d0::FUN_00afe7d0(apFilename, (::fnv_00afe7d0::_FILETIME &)(ksrcFile), 0x20);
+        bCacheExists = ::fnv_00afe7d0::FUN_00afe7d0(pcachepath, (::fnv_00afe7d0::_FILETIME &)(kcacheFile), 0x20);
         if (!bCacheExists && DAT_011f94a7)
         {
-            const char* ppath = DAT_011f9200;
+            const char* ppath = (*reinterpret_cast<char (*)[260]>(&::DAT_011f9200));
             if (0 == ppath || 0 == *ppath)
             {
-                strcpy_s(DAT_011f9200, 0x104, (const char*)DAT_010bc860);
-                BuildShaderCachePath(pcachepath, apFilename, apCacheName, "pso");
+                strcpy_s((*reinterpret_cast<char (*)[260]>(&::DAT_011f9200)), 0x104, (const char*)DAT_010bc860);
+                ::BuildCachePath(pcachepath, apFilename, apCacheName);
             }
-            bCacheExists = FileFinder::GetFileTime(pcachepath, kcacheFile, 0x20);
+            bCacheExists = ::fnv_00afe7d0::FUN_00afe7d0(pcachepath, (::fnv_00afe7d0::_FILETIME &)(kcacheFile), 0x20);
         }
         if (!bSourceExists)
         {
-            sprintf_s(perror, 0x104, (const char*)DAT_010bc82c, apFilename);
+            ::FUN_00406d00(perror, 0x104, (const char*)DAT_010bc82c, apFilename);
         }
         if (!bCacheExists)
             busecache = false;
@@ -1060,7 +1075,7 @@ NiD3DPixelShader* FUN_00be1750_shell::FUN_00be1750(char* apFilename, void* apMac
             for (int imacro = 1; phdrmacro->Name; imacro++)
                 phdrmacro = &((_D3DXMACRO*)apMacro)[imacro];
             phdrmacro->Name = (const char*)DAT_010bc828;
-            phdrmacro->Definition = (const char*)DAT_01011584;
+            phdrmacro->Definition = (const char*)(*reinterpret_cast<const unsigned char (*)[]>((void *)&::DAT_01011584));
             pMacroDefines = phdrmacro;
         }
         const char* pProfile = apTarget;
@@ -1076,11 +1091,11 @@ NiD3DPixelShader* FUN_00be1750_shell::FUN_00be1750(char* apFilename, void* apMac
         {
             if (pfile)
                 delete pfile;
-            sprintf_s(perror, 0x104, (const char*)DAT_010bc7b8, apFilename);
+            ::FUN_00406d00(perror, 0x104, (const char*)DAT_010bc7b8, apFilename);
             return 0;
         }
         unsigned int uiFileSize = pfile->GetSize();
-        char* pfileData = (char*)g_memoryManager.Allocate(uiFileSize);
+        char* pfileData = (char*)reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(uiFileSize);
         pfile->Read(pfileData, uiFileSize);
         ShaderIncludes_be1750 includes;
         includes.vtbl = DAT_010bc610;
@@ -1109,17 +1124,17 @@ NiD3DPixelShader* FUN_00be1750_shell::FUN_00be1750(char* apFilename, void* apMac
                     {
                         ShaderStrCat_be1750(pMacroDefines, (const char*)DAT_010bc820);
                     }
-                    ShaderStrCat_be1750(pCompileMacros, (const char*)DAT_01012630);
+                    ShaderStrCat_be1750(pCompileMacros, (const char*)(*reinterpret_cast<const unsigned char (*)[]>((void *)&::DAT_01012630)));
                 }
             }
-            sprintf_s(perror, 0x514, (const char*)DAT_010bc808, apFilename, apTarget, pCompileMacros);
+            ::FUN_00406d00(perror, 0x514, (const char*)DAT_010bc808, apFilename, apTarget, pCompileMacros);
             unsigned long uiCompileFlags = 0;
             long hResult =
-                D3DXCompileShader(pfileData, uiFileSize, (_D3DXMACRO*)apMacro, (ID3DXInclude*)&includes,
-                                  (const char*)DAT_01094d90, pProfile, uiCompileFlags, (ID3DXBuffer**)&pCompiledCode,
+                ::FUN_00ee6e0a(pfileData, uiFileSize, (const ::D3DXMACRO *)(const ::_D3DXMACRO *)((_D3DXMACRO*)apMacro), (ID3DXInclude*)&includes,
+                                  (const char*)(*reinterpret_cast<const unsigned char (*)[]>((void *)&::str_01094d90)), pProfile, uiCompileFlags, (ID3DXBuffer**)&pCompiledCode,
                                   (ID3DXBuffer**)&pCompileError, &pConstantTable);
             delete pfile;
-            g_memoryManager.Deallocate(pfileData);
+            reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(pfileData);
             if (pCompileError && !pCompiledCode)
             {
                 pCompileMacros[0] = 0;
@@ -1133,10 +1148,10 @@ NiD3DPixelShader* FUN_00be1750_shell::FUN_00be1750(char* apFilename, void* apMac
                             ShaderStrCat_be1750(pCompileMacros, (const char*)DAT_01063ec8);
                             ShaderStrCat_be1750(pCompileMacros, ((_D3DXMACRO*)apMacro)[i].Definition);
                         }
-                        ShaderStrCat_be1750(pCompileMacros, (const char*)DAT_01012630);
+                        ShaderStrCat_be1750(pCompileMacros, (const char*)(*reinterpret_cast<const unsigned char (*)[]>((void *)&::DAT_01012630)));
                     }
                 }
-                sprintf_s(perror, 0x514, (const char*)DAT_010bc7fc, apFilename, pCompileMacros,
+                ::FUN_00406d00(perror, 0x514, (const char*)DAT_010bc7fc, apFilename, pCompileMacros,
                           pCompileError->GetBufferPointer());
                 pCompileError->Release();
                 pCompileError = 0;
@@ -1148,7 +1163,7 @@ NiD3DPixelShader* FUN_00be1750_shell::FUN_00be1750(char* apFilename, void* apMac
                 fwrite(pCompiledCode->GetBufferPointer(), uiShaderSize, 1, pOutFile);
                 FUN_00ecda70(pOutFile);
                 fclose(pOutFile);
-                HasFileInArchives(pcachepath);
+                ::HasFileInArchives(pcachepath);
                 pshaderbuffer = (unsigned int*)pCompiledCode->GetBufferPointer();
             }
             else
@@ -1161,7 +1176,7 @@ NiD3DPixelShader* FUN_00be1750_shell::FUN_00be1750(char* apFilename, void* apMac
                 if (pfile->IsGood())
                 {
                     uiShaderSize = pfile->GetSize();
-                    pshaderbuffer = (unsigned int*)g_memoryManager.Allocate(uiShaderSize);
+                    pshaderbuffer = (unsigned int*)reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(uiShaderSize);
                     bfreeBuffer = true;
                     pfile->Read(pshaderbuffer, uiShaderSize);
                 }
@@ -1185,7 +1200,7 @@ NiD3DPixelShader* FUN_00be1750_shell::FUN_00be1750(char* apFilename, void* apMac
             if (pfile->IsGood())
             {
                 uiShaderSize = pfile->GetSize();
-                pshaderbuffer = (unsigned int*)g_memoryManager.Allocate(uiShaderSize);
+                pshaderbuffer = (unsigned int*)reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(uiShaderSize);
                 bfreeBuffer = true;
                 pfile->Read(pshaderbuffer, uiShaderSize);
             }
@@ -1194,7 +1209,7 @@ NiD3DPixelShader* FUN_00be1750_shell::FUN_00be1750(char* apFilename, void* apMac
         else
         {
             char perror[260];
-            sprintf_s(perror, 0x104, (const char*)DAT_010bc754, pcachepath);
+            ::FUN_00406d00(perror, 0x104, (const char*)DAT_010bc754, pcachepath);
             return 0;
         }
     }
@@ -1203,23 +1218,23 @@ NiD3DPixelShader* FUN_00be1750_shell::FUN_00be1750(char* apFilename, void* apMac
     {
         if (DAT_011f9494)
         {
-            DAT_011f9494->Add(apCacheName, (char*)pshaderbuffer, uiShaderSize);
+            reinterpret_cast<::S00b7fd90_cls *>((DAT_011f9494))->FUN_00b7fd90((unsigned int)(apCacheName), (unsigned int)((char*)pshaderbuffer), (::Thing_b9704 *)(uiShaderSize));
         }
         else
         {
-            ShaderDevice_be1750* pdevice = *(ShaderDevice_be1750**)((char*)g_pkRenderer + 0x288);
+            ShaderDevice_be1750* pdevice = *(ShaderDevice_be1750**)((char*)(*reinterpret_cast<::GraphicsRenderer * *>(&::DAT_011f9508)) + 0x288);
             if (pdevice->CreatePixelShader(pshaderbuffer, &pd3dShader))
             {
                 char perror[260];
-                sprintf_s(perror, 0x104, "SHADER ERROR : failed to create pixel shader : %s", pcachepath);
+                ::FUN_00406d00(perror, 0x104, "SHADER ERROR : failed to create pixel shader : %s", pcachepath);
                 return 0;
             }
-            pshader = new FUN_00be08f0(g_pkRenderer);
+            pshader = new FUN_00be08f0((*reinterpret_cast<::GraphicsRenderer * *>(&::DAT_011f9508)));
             pshader->SetD3DPixelShader(pd3dShader);
         }
     }
     if (bfreeBuffer)
-        g_memoryManager.Deallocate(pshaderbuffer);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(pshaderbuffer);
     return (NiD3DPixelShader*)pshader;
 }
 
@@ -1374,12 +1389,11 @@ void BBDF6C0Shader::AddPasses(BBDF6C0Geometry* pkGeometry, bool bSkipDefault)
 class StageReturnC06
 {
   public:
-    void ReturnToPool();
     void DecRefCount()
     {
         --m_iRefCount;
         if (m_iRefCount == 0)
-            ReturnToPool();
+            reinterpret_cast<::FUN_00e7ecd0_cls *>(this)->FUN_00e7ecd0();
     }
 
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
@@ -1411,13 +1425,10 @@ class StageReturnPtrC06
     StageReturnC06* m_pPointer;
 };
 
-void __cdecl AssignStageFromPool(StageReturnPtrC06& spStage);
-void __cdecl ConfigureBeamStage(StageReturnC06* pkStage, unsigned int uiIndex, int iA, int iB, int iC);
 
 class PassC06
 {
   public:
-    void SetDestructibleData(int iUnk, StageReturnC06* pkStage);
 
     int unk00;
     int unk04;
@@ -1441,9 +1452,9 @@ void __cdecl SetStageMask(PassC06* pkPass, char cMask)
     {
         for (unsigned int i = 0; i < 7; i++)
         {
-            AssignStageFromPool(spStage);
-            ConfigureBeamStage(spStage, i, 1, 2, 1);
-            pkPass->SetDestructibleData(pkPass->m_iStageParam, spStage);
+            ::AssignStageFromPool((::StageReturn *&)(spStage));
+            ::ConfigureBeamStage((::BeamStage *)(::StageReturnC06 *)(spStage), i, 1, 2, 1);
+            reinterpret_cast<::StageSet *>((pkPass))->FUN_00e802b0(pkPass->m_iStageParam, (::Stage321 *)(::StageReturnC06 *)(spStage));
             spStage->m_bEnableState = (cMask & (1 << i)) != 0;
         }
     }
@@ -1471,7 +1482,6 @@ FUN_00e7ee80_cls::FUN_00e7ee80_cls() : m_bEnableState(false), m_iCount04(0), m_i
 
 struct LodShaderBase
 {
-    void FUN_00e814b0();
 };
 
 struct FUN_00b71b90_class : LodShaderBase
@@ -1482,7 +1492,7 @@ struct FUN_00b71b90_class : LodShaderBase
 // @fnv 0x00be08b0
 void FUN_00b71b90_class::FUN_00be08b0()
 {
-    FUN_00e814b0();
+    reinterpret_cast<::fnv_00e814b0::UnkShader *>(this)->FUN_00e814b0();
 }
 
 struct Alpha818
@@ -1501,7 +1511,6 @@ struct Input818
     int unk04, unk08;
     Data818* data;
 };
-void __cdecl FUN_00b97fa0(int, int);
 void __cdecl AddToTwoCounters(int, int, int);
 // Reads alpha and data from input, checks flags and alpha values, then calls FUN_00b97fa0 and AddToTwoCounters with blend or default counters.
 // @fnv 0x00be1ff0
@@ -1531,10 +1540,10 @@ void __stdcall FUN_00be1ff0(Input818* input)
     }
     if (!(data->alpha1 < 1.0f) && !(data->alpha2 < 1.0f) && !enabled)
     {
-        FUN_00b97fa0(0, 0);
+        ::BSRenderStateManager::SetDepthBufferEnabled(0, (::BSRENDERSTATE_LOCK)(0));
         return;
     }
-    FUN_00b97fa0(1, 0);
+    ::BSRenderStateManager::SetDepthBufferEnabled(1, (::BSRENDERSTATE_LOCK)(0));
     if (blend)
     {
         unsigned int flags = alpha->flags;
@@ -1593,7 +1602,6 @@ struct ShaderPassTarget
     int unk5C;
     int unk60;
     int unk64;
-    void FUN_00e80190();
 };
 struct PassHolder
 {
@@ -1628,9 +1636,7 @@ struct ShaderBase
 };
 struct ShaderManager
 {
-    void FUN_00e75340(void*);
 };
-extern ShaderManager* DAT_011f9508;
 struct ShaderDerived : ShaderBase
 {
     PassHolder m_akPasses[1];
@@ -1644,10 +1650,10 @@ ShaderDerived::~ShaderDerived()
     if (p)
     {
         if (--p->unk64 == 0)
-            p->FUN_00e80190();
+            reinterpret_cast<::NiD3DPass *>((p))->DestroyPass();
         m_akPasses[0].m_pObject = 0;
     }
-    DAT_011f9508->FUN_00e75340(this);
+    reinterpret_cast<::S00e75340_Renderer *>(((*reinterpret_cast<::fnv_00be0f10::ShaderManager * *>(&::DAT_011f9508))))->FUN_00e75340((::S00e75340_Group *volatile)(this));
 }
 }  // namespace fnv_00be0f10
 
@@ -1677,7 +1683,6 @@ class VertexShaderFile
     unsigned int unk24;
     unsigned int unk28;
     bool valid;
-    unsigned int ReadBytes(void*, unsigned int);
 };
 struct CacheEntryView
 {
@@ -2005,9 +2010,7 @@ class FUN_00be0b30 : public NiMemObjectAllocation
     unsigned int unk34;
     unsigned int unk38;
 };
-extern "C" void HasFileInArchives(const char*);
 extern "C" void _ReadWriteBarrier();
-extern "C" void BuildCachePath(char*, const char*, const char*, const char*);
 inline bool IsEmptyDirectory(const char* path)
 {
     const char* empty = 0;
@@ -2017,7 +2020,6 @@ inline void Cat(char* d, unsigned n, const char* s)
 {
     strcat_s(d, n, s);
 }
-extern "C" int FUN_00406d00(char*, int, const char*, ...);
 extern "C" void* memset(void*, int, unsigned int);
 class FileView;
 struct FileViewMethods
@@ -2058,7 +2060,7 @@ FUN_00be0b30* __stdcall FUN_00be0fe0(const char* source, _D3DXMACRO* macros, con
     char errorMessage[260];
     char commandLine[1300];
     char diagnostic[1300];
-    BuildCachePath(cachePath, source, shaderName, (const char*)DAT_010bc868);
+    ::BuildCachePath(cachePath, source, shaderName);
     bool useCache = true;
     bool cacheExists = false;
     if (DAT_011f9498)
@@ -2070,19 +2072,19 @@ FUN_00be0b30* __stdcall FUN_00be0fe0(const char* source, _D3DXMACRO* macros, con
         _FILETIME ftCacheTime;
         memset(&ftSourceTime, 0, sizeof(ftSourceTime));
         memset(&ftCacheTime, 0, sizeof(ftCacheTime));
-        cacheExists = FileFinder::GetFileTime(cachePath, ftCacheTime, 32);
-        bool sourceExists = FileFinder::GetFileTime(source, ftSourceTime, 32);
+        cacheExists = ::fnv_00afe7d0::FUN_00afe7d0(cachePath, (::fnv_00afe7d0::_FILETIME &)(ftCacheTime), 32);
+        bool sourceExists = ::fnv_00afe7d0::FUN_00afe7d0(source, (::fnv_00afe7d0::_FILETIME &)(ftSourceTime), 32);
         if (!cacheExists && DAT_011f94a7)
         {
-            if (IsEmptyDirectory(DAT_011f9200))
+            if (IsEmptyDirectory((*reinterpret_cast<char (*)[260]>(&::DAT_011f9200))))
             {
-                strcpy_s(DAT_011f9200, 260, (const char*)DAT_010bc860);
-                BuildCachePath(cachePath, source, shaderName, (const char*)DAT_010bc868);
+                strcpy_s((*reinterpret_cast<char (*)[260]>(&::DAT_011f9200)), 260, (const char*)DAT_010bc860);
+                ::BuildCachePath(cachePath, source, shaderName);
             }
-            cacheExists = FileFinder::GetFileTime(cachePath, ftCacheTime, 32);
+            cacheExists = ::fnv_00afe7d0::FUN_00afe7d0(cachePath, (::fnv_00afe7d0::_FILETIME &)(ftCacheTime), 32);
         }
         if (!sourceExists)
-            FUN_00406d00(message, 260, (const char*)DAT_010bc82c, source);
+            ::FUN_00406d00(message, 260, (const char*)DAT_010bc82c, source);
         if (!cacheExists)
             useCache = false;
     }
@@ -2107,7 +2109,7 @@ FUN_00be0b30* __stdcall FUN_00be0fe0(const char* source, _D3DXMACRO* macros, con
                 } while (pMacro->Name);
             }
             pMacro->Name = (const char*)DAT_010bc828;
-            pMacro->Definition = (const char*)DAT_01011584;
+            pMacro->Definition = (const char*)(*reinterpret_cast<const unsigned char (*)[]>((void *)&::DAT_01011584));
             addedMacro = pMacro;
         }
         VertexShaderFile* pSourceFile = (VertexShaderFile*)FileFinder::GetFile(source, NiFile::READ_ONLY, 0x4000, 32);
@@ -2115,12 +2117,12 @@ FUN_00be0b30* __stdcall FUN_00be0fe0(const char* source, _D3DXMACRO* macros, con
         {
             if (pSourceFile)
                 delete pSourceFile;
-            FUN_00406d00(message, 260, (const char*)DAT_010bc7b8, source);
+            ::FUN_00406d00(message, 260, (const char*)DAT_010bc7b8, source);
             goto failure;
         }
         unsigned int sourceSize = pSourceFile->GetSize();
-        char* sourceData = (char*)g_memoryManager.Allocate(sourceSize);
-        pSourceFile->ReadBytes(sourceData, sourceSize);
+        char* sourceData = (char*)reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(sourceSize);
+        reinterpret_cast<::FUN_00462d80_shell *>((pSourceFile))->ReadBytes(sourceData, sourceSize);
         struct IncludeHandler
         {
             const unsigned char* methods;
@@ -2148,15 +2150,15 @@ FUN_00be0b30* __stdcall FUN_00be0fe0(const char* source, _D3DXMACRO* macros, con
                 {
                     Cat(commandLine, 1300, (const char*)DAT_010bc820);
                 }
-                Cat(defines, 1300, (const char*)DAT_01012630);
+                Cat(defines, 1300, (const char*)(*reinterpret_cast<const unsigned char (*)[]>((void *)&::DAT_01012630)));
             }
         }
-        FUN_00406d00(diagnostic, 1300, (const char*)DAT_010bc808, source, profile, defines);
+        ::FUN_00406d00(diagnostic, 1300, (const char*)DAT_010bc808, source, profile, defines);
         long lCompileStatus =
-            D3DXCompileShader(sourceData, sourceSize, macros, (ID3DXInclude*)&include, (const char*)DAT_01094d90,
+            ::FUN_00ee6e0a(sourceData, sourceSize, (const ::D3DXMACRO *)(macros), (ID3DXInclude*)&include, (const char*)(*reinterpret_cast<const unsigned char (*)[]>((void *)&::str_01094d90)),
                               profile, 0, (ID3DXBuffer**)&pCompiledShader, (ID3DXBuffer**)&pCompileErrors, &constants);
         delete pSourceFile;
-        g_memoryManager.Deallocate(sourceData);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(sourceData);
         if (pCompileErrors && !pCompiledShader)
         {
             defines[0] = 0;
@@ -2168,9 +2170,9 @@ FUN_00be0b30* __stdcall FUN_00be0fe0(const char* source, _D3DXMACRO* macros, con
                     Cat(defines, 1300, (const char*)DAT_01063ec8);
                     Cat(defines, 1300, macros[i].Definition);
                 }
-                Cat(defines, 1300, (const char*)DAT_01012630);
+                Cat(defines, 1300, (const char*)(*reinterpret_cast<const unsigned char (*)[]>((void *)&::DAT_01012630)));
             }
-            FUN_00406d00(diagnostic, 1300, (const char*)DAT_010bc7fc, source, defines,
+            ::FUN_00406d00(diagnostic, 1300, (const char*)DAT_010bc7fc, source, defines,
                          pCompileErrors->GetBufferPointer());
             pCompileErrors->Release();
             pCompileErrors = 0;
@@ -2183,11 +2185,11 @@ FUN_00be0b30* __stdcall FUN_00be0fe0(const char* source, _D3DXMACRO* macros, con
                 bytecodeSize = pCompiledShader->GetBufferSize();
                 fwrite(pCompiledShader->GetBufferPointer(), bytecodeSize, 1, pOutputFile);
                 fclose(pOutputFile);
-                HasFileInArchives(cachePath);
+                ::HasFileInArchives(cachePath);
             }
             else
             {
-                FUN_00406d00(message, 255, (const char*)DAT_010bc7e4, cachePath);
+                ::FUN_00406d00(message, 255, (const char*)DAT_010bc7e4, cachePath);
             }
             bytecode = (char*)pCompiledShader->GetBufferPointer();
         }
@@ -2202,9 +2204,9 @@ FUN_00be0b30* __stdcall FUN_00be0fe0(const char* source, _D3DXMACRO* macros, con
             if (pCacheFile->valid)
             {
                 bytecodeSize = pCacheFile->GetSize();
-                bytecode = (char*)g_memoryManager.Allocate(bytecodeSize);
+                bytecode = (char*)reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(bytecodeSize);
                 owned = true;
-                pCacheFile->ReadBytes(bytecode, bytecodeSize);
+                reinterpret_cast<::FUN_00462d80_shell *>((pCacheFile))->ReadBytes(bytecode, bytecodeSize);
             }
             delete pCacheFile;
             if (!bytecode)
@@ -2225,36 +2227,36 @@ FUN_00be0b30* __stdcall FUN_00be0fe0(const char* source, _D3DXMACRO* macros, con
             {
                 FileView* pFileView = (FileView*)pCacheFile;
                 bytecodeSize = pFileView->methods->size(pFileView);
-                bytecode = (char*)g_memoryManager.Allocate(bytecodeSize);
+                bytecode = (char*)reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(bytecodeSize);
                 owned = true;
-                pCacheFile->ReadBytes(bytecode, bytecodeSize);
+                reinterpret_cast<::FUN_00462d80_shell *>((pCacheFile))->ReadBytes(bytecode, bytecodeSize);
             }
             delete pCacheFile;
         }
         else
         {
-            FUN_00406d00(errorMessage, 260, (const char*)DAT_010bc754, cachePath);
+            ::FUN_00406d00(errorMessage, 260, (const char*)DAT_010bc754, cachePath);
             goto failure;
         }
     }
     if (bytecode)
     {
         if (DAT_011f9494)
-            DAT_011f9494->Add(shaderName, bytecode, bytecodeSize);
+            reinterpret_cast<::S00b7fd90_cls *>((DAT_011f9494))->FUN_00b7fd90((unsigned int)(shaderName), (unsigned int)(bytecode), (::Thing_b9704 *)(bytecodeSize));
         else
         {
-            VertexDevice* device = ((VertexRendererView*)g_pkRenderer)->GetDevice();
+            VertexDevice* device = ((VertexRendererView*)(*reinterpret_cast<::GraphicsRenderer * *>(&::DAT_011f9508)))->GetDevice();
             if (device->CreateVertexShader(bytecode, &d3dShader))
                 goto deviceError;
-            result = new FUN_00be0b30(g_pkRenderer);
+            result = new FUN_00be0b30((*reinterpret_cast<::GraphicsRenderer * *>(&::DAT_011f9508)));
             result->SetShader(d3dShader);
         }
     }
     if (owned)
-        g_memoryManager.Deallocate(bytecode);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(bytecode);
     return result;
 deviceError:
-    FUN_00406d00(errorMessage, 260, (const char*)DAT_010bc784, cachePath);
+    ::FUN_00406d00(errorMessage, 260, (const char*)DAT_010bc784, cachePath);
 failure:
     _ReadWriteBarrier();
     return result;

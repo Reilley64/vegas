@@ -529,6 +529,8 @@ class TESAIForm : public BaseFormComponent
     // PackageList* __cdecl TESAIForm::*()
     // TESAIForm& __cdecl TESAIForm::*(const TESAIForm&)
     // void* __cdecl TESAIForm::*(unsigned int)
+public:
+    unsigned char GetAssistance();
 };
 FNV_STATIC_ASSERT(sizeof(TESAIForm) == 32);
 FNV_STATIC_ASSERT(offsetof(TESAIForm, m_kAIData) == 4);

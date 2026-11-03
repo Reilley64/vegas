@@ -3,6 +3,90 @@
 // with declarations corrected to what the original code does (inventorymenu_decls.h: InventoryMenu += bool FUN_00782190(int input, int unused);; inventorymenu_decls.h: Tile += float FUN_00a011b0(unsigned int id);). Move the function to its real unit once
 // that unit declares it this way.
 
+#include "fnv/decl/AmmoOwner.h"
+#include "fnv/decl/BGSDefaultObjectManager.h"
+#include "fnv/decl/ButtonDevice.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatProcedureActivateObject.h"
+#include "fnv/decl/DownloadableContentManager.h"
+#include "fnv/decl/FUN_00418770_shell.h"
+#include "fnv/decl/FUN_00418ba0_shell.h"
+#include "fnv/decl/FUN_004bcdb0_shell.h"
+#include "fnv/decl/FUN_004bd820_stand.h"
+#include "fnv/decl/FUN_004bddd0_shell.h"
+#include "fnv/decl/FUN_004be2d0_shell.h"
+#include "fnv/decl/FUN_006317a0_struct.h"
+#include "fnv/decl/FUN_0073ac90_shell.h"
+#include "fnv/decl/FUN_007832a0_class.h"
+#include "fnv/decl/FUN_007e0230.h"
+#include "fnv/decl/FUN_007fa0f0_Class.h"
+#include "fnv/decl/FUN_00877720_shell.h"
+#include "fnv/decl/FUN_0088c650_shell.h"
+#include "fnv/decl/FUN_008a1710_shell.h"
+#include "fnv/decl/FUN_008d8160_Class.h"
+#include "fnv/decl/FUN_008d85e0_Class.h"
+#include "fnv/decl/FUN_00a011f0_shell.h"
+#include "fnv/decl/FUN_00a01230_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/FUN_00a07530_shell.h"
+#include "fnv/decl/FUN_00a1dc70_shell.h"
+#include "fnv/decl/HWShell.h"
+#include "fnv/decl/InventoryChanges.h"
+#include "fnv/decl/ItemChange_004be200.h"
+#include "fnv/decl/LBList_7314c0.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/ThiS.h"
+#include "fnv/decl/TutorialMessageGate718.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_004d4bd0__InventoryChangeFilterHost.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_009614b0__Player.h"
+#include "fnv/decl/fnv_00967b70__Cls.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
+#include "fnv/decl/fnv_00a01b00__TileLoader.h"
+#include "fnv/decl/s88c790__Actor.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00479000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_004be000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_0066e000.h"
+#include "fnv/symbols_00702000.h"
+#include "fnv/symbols_00704000.h"
+#include "fnv/symbols_00705000.h"
+#include "fnv/symbols_00707000.h"
+#include "fnv/symbols_00709000.h"
+#include "fnv/symbols_00717000.h"
+#include "fnv/symbols_00719000.h"
+#include "fnv/symbols_0077f000.h"
+#include "fnv/symbols_00780000.h"
+#include "fnv/symbols_00782000.h"
+#include "fnv/symbols_00867000.h"
+#include "fnv/symbols_00a01000.h"
+#include "fnv/symbols_00a09000.h"
+#include "fnv/symbols_00a1c000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_0101b000.h"
+#include "fnv/symbols_01020000.h"
+#include "fnv/symbols_0102f000.h"
+#include "fnv/symbols_0104f000.h"
+#include "fnv/symbols_01050000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011d2000.h"
+#include "fnv/symbols_011d3000.h"
+#include "fnv/symbols_011d4000.h"
+#include "fnv/symbols_011d9000.h"
+#include "fnv/symbols_011db000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f4000.h"
 #include "inventorymenu_decls_decl_inventorymenu.h"
 static const int kGetClassValue = 1002;
 // m_pTiles holds kNumTiles (23) entries, so out-of-range tile ids are ignored.
@@ -11,9 +95,7 @@ struct StatsMenu
 {
     static StatsMenu* ms_pInventoryMenu;
     unsigned char m_bHealingMode;  // +0x2a0
-    void __thiscall RefreshHealingOptions();
 };
-void __cdecl FUN_00704390();
 struct FUN_00780be0_shell
 {
     unsigned char m_0x00;  // +0x00
@@ -40,17 +122,12 @@ struct FUN_00780be0_shell
 };
 struct FUN_0077fb50_shell
 {
-    void __thiscall FUN_0077fb80();
     void* __thiscall Destroy(unsigned int flags);
 };
-extern double _gModifierZero;
 struct TGF
 {
-    float GetFloat(int) const;
 };
 void __cdecl FUN_00780c00(Tile* pTile);
-bool __cdecl _FUN_004b71d0();
-int __cdecl FUN_007023c0();
 struct FUN_00781b10_shell
 {
     void __thiscall ClearActionPointSource();
@@ -61,32 +138,23 @@ struct FUN_00781620_shell : public InventoryMenu
 };
 struct ProxyPipboy
 {
-    void __thiscall SetValue(int, bool);
 };
 struct ProxyMgr
 {
-    ProxyPipboy* __thiscall GetPipboyManager();
 };
-void FUN_00782470(bool a1);
 unsigned char FUN_007824b0();
-unsigned int __fastcall FUN_0044ddc0(void*);
-unsigned char __cdecl IsNotFormType2E(void* a1);
 struct FUN_007832e0_class
 {
     void FUN_007832e0(float, float);
 };
 struct FUN_00726070_shell
 {
-    Tile* FUN_00726070();
 };
-void __cdecl FUN_007800c0();
 struct FUN_004bddd0_t
 {
-    bool __thiscall FUN_004bddd0(bool);
 };
 struct FUN_00781860_shell
 {
-    bool __thiscall FUN_00781860(InventoryStackRecord*);
 };
 struct FUN_00781680_shell : public InventoryMenu
 {
@@ -96,9 +164,6 @@ struct GlobalObject_0040c150 : public InventoryMenuSetting
 {
 };
 extern InventoryMenuSetting* DAT_011d5178;
-extern GlobalObject_0040c150 g_011d3cdc;
-extern GlobalObject_0040c150 g_011d460c;
-extern GlobalObject_0040c150 g_011d478c;
 struct FUN_007823d0_listbox
 {
     virtual void FUN_007823d0_first() = 0;
@@ -110,7 +175,6 @@ struct FUN_007823d0_shell : public InventoryMenu
 };
 struct XExtra
 {
-    short __thiscall FUN_00418770();
 };
 struct ExtraDataList : XExtra
 {
@@ -121,13 +185,14 @@ struct GO
 };
 struct Ref006815c0
 {
-    void* __thiscall _ref_006815c0();
 };
 struct NiPoint3
 {
     int x;
     int y;
     int z;
+public:
+    static const ::NiPoint3 ZERO;
 };
 struct PlayerCharacterShell
 {
@@ -375,12 +440,7 @@ struct PlayerCharacterShell
     virtual void v241() = 0;
     virtual void v242() = 0;
     virtual void DropInventoryObject(TESBoundObject*, ExtraDataList*, int, NiPoint3*, bool) = 0;
-    void __thiscall FUN_009614b0(TESBoundObject*, NiPoint3*, int, int);
 };
-extern PlayerCharacterShell* _g_thePlayer;
-extern int _NiPoint3_ZERO;
-extern int _DAT_011f4270;
-extern int _DAT_011f4274;
 void __cdecl DropInventoryItem(int aiAmountChosen);
 struct MenuBase_0077fb80
 {
@@ -434,7 +494,6 @@ struct List_0077fb80
     int unk00;
     int unk04;
 };
-extern int DAT_011d9ea4;
 class FUN_0077fb80_cls : public MenuBase_0077fb80
 {
   public:
@@ -479,22 +538,17 @@ class FUN_0077fb80_cls : public MenuBase_0077fb80
     HotKeys_0077fb80 m_e8;
     List_0077fb80 m_11c;
 };
-extern int DAT_011d9eb8;
 class FUN_0077ffd0_menu
 {
   public:
-    Tile* FUN_00726070(int);
 };
 class FUN_0077ffd0_obj
 {
   public:
-    bool IsTraitNonZero();
-    void FUN_00a011b0();
 };
 class FUN_0077ffd0_list
 {
   public:
-    void* FUN_00825c00(void*);
 };
 class FUN_0077ffd0_lbx
 {
@@ -502,9 +556,7 @@ class FUN_0077ffd0_lbx
     virtual void vfn_00();
     virtual Tile* vfn_04(int);
 };
-void* __cdecl FUN_00a01860(const char* s);
 int __cdecl FUN_00ec62c0();
-void __cdecl UpdateCurrentValue();
 struct InputInterface
 {
     virtual int Reserved0();
@@ -516,23 +568,15 @@ struct InputInterface
     virtual int Reserved6();
     virtual int GetSecondValue(int index);
 };
-extern char* DAT_011dea3c;
 bool __cdecl FUN_00780f70();
 namespace InventorySelection {
 struct Item;
 struct Form;
 struct Tile
 {
-    float FUN_00a011b0();
-    void FUN_00a01350(int, const char*, bool);
-    void FUN_00700320(int, bool);
-    const char* FUN_00a011f0(int);
-    void FUN_00a012d0(int, float, bool);
-    void FUN_00a07530(int);
 };
 struct TileRef
 {
-    Tile** FUN_0073ac90();
 };
 struct TileHolder
 {
@@ -547,28 +591,19 @@ struct List
 };
 struct Entry
 {
-    bool FUN_00701740();
 };
 struct Form
 {
     int FUN_00401170();
-    void* GetUnk15C();
-    int GetField1BC();
 };
 struct Item
 {
-    Form* FUN_0044ddc0();
-    float FUN_004bcdb0(int);
-    const char* GetIconFilename(int);
 };
 struct Player
 {
-    bool FUN_00967b70(Item*);
 };
 struct Setting
 {
-    float* FUN_00403e20();
-    const char* FUN_00403df0();
 };
 struct Camera
 {
@@ -576,25 +611,13 @@ struct Camera
 };
 struct Interface
 {
-    Camera* FUN_00704370();
 };
-Interface* FUN_004b7210();
-extern Setting DAT_011db2f0, DAT_011db358, DAT_011d3dcc, DAT_011d1f2c, DAT_011d33f0;
 extern Setting* DAT_011d5168;
-extern int DAT_011d9f34, DAT_011d9ebc;
-extern Item* DAT_011d9ea8;
-extern Player* DAT_011dea3c;
-extern float DAT_0102f0f8, DAT_0101b268, DAT_01050280, DAT_01072e3c, DAT_01073af0, DAT_0104f754;
+extern int DAT_011d9f34;
+extern float DAT_01072e3c, DAT_01073af0;
 extern double DAT_01073ae8, DAT_01073ae0;
-extern const char DAT_01020764[], DAT_0106eb24[], DAT_01073aac[];
-void FUN_00707e30(Item*, Tile*);
-const char* GetWeaponSkillIconPath(void*);
-int FUN_00406d00(char*, unsigned int, const char*, ...);
-int FUN_00408b20(const char*, const char*);
-void FUN_00406d30(char*, unsigned int, const char*);
-unsigned int FUN_0044a670(const char*);
+extern const char DAT_0106eb24[], DAT_01073aac[];
 void* FUN_00479430(Form*);
-const char* GetMenuIconName(void*);
 void FUN_00406d50(char*, unsigned int, const char*);
 struct Menu
 {
@@ -657,9 +680,6 @@ struct Menu
     unsigned int unke0;
     unsigned int unke4;
     Entry entry;
-    Tile* FUN_00726070();
-    void FUN_00781680();
-    void ClearActionPointSource();
     void UpdateItemDisplay(int, Tile*);
 };
 // @fnv 0x00780ff0
@@ -667,107 +687,99 @@ void Menu::UpdateItemDisplay(int action, Tile* changed)
 {
     if (action == 29)
     {
-        DAT_011d9ea8 = list.FUN_007a1910();
-        if (DAT_011d9ea8)
+        (*reinterpret_cast<::InventorySelection::Item * *>(&::InventoryMenu::ms_pActionPointSource)) = list.FUN_007a1910();
+        if ((*reinterpret_cast<::InventorySelection::Item * *>(&::InventoryMenu::ms_pActionPointSource)))
         {
-            int selectedSlot11 = (int)list.Value(0xfac)->FUN_00a011b0();
+            int selectedSlot11 = (int)reinterpret_cast<::TileListBoxCalls *>((list.Value(0xfac)))->GetFloat({});
             if (DAT_011d9f34 != selectedSlot11)
             {
-                FUN_004b7210()->FUN_00704370()->FUN_007f8610(
-                    0, DAT_011d9f34 < selectedSlot11 ? *DAT_011db2f0.FUN_00403e20() : -*DAT_011db2f0.FUN_00403e20(),
-                    *DAT_011db358.FUN_00403e20(), 1);
+                ((::InventorySelection::Camera *)(reinterpret_cast<::Interface *>((((::InventorySelection::Interface *)(::fnv_004b7210::FUN_004b7210()))))->GetPipboyManager()))->FUN_007f8610(
+                    0, DAT_011d9f34 < selectedSlot11 ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::InventorySelection::Setting *>(&::g_011db2f0)))))) : -*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::InventorySelection::Setting *>(&::g_011db2f0)))))),
+                    *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::InventorySelection::Setting *>(&::g_011db358)))))), 1);
                 DAT_011d9f34 = selectedSlot11;
             }
             float threshold = DAT_0102f0f8;
-            if (DAT_011d9ea8->FUN_0044ddc0()->FUN_00401170() == 24)
-                threshold = DAT_0101b268;
-            if (DAT_011d9ea8->FUN_004bcdb0(1) >= threshold)
-                label->FUN_00a01350(0xfc4, DAT_011d3dcc.FUN_00403df0(), 1);
+            if (((::InventorySelection::Form *)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::InventorySelection::Item * *>(&::InventoryMenu::ms_pActionPointSource))))->GetName()))->FUN_00401170() == 24)
+                threshold = ::DAT_0101b268;
+            if (reinterpret_cast<::FUN_004bcdb0_shell *>(((*reinterpret_cast<::InventorySelection::Item * *>(&::InventoryMenu::ms_pActionPointSource))))->FUN_004bcdb0(1) >= threshold)
+                reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((label))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventorySelection::Setting *>(&::g_011d3dcc))))->GetMenuTitle()))), 1);
             else
-                label->FUN_00a01350(0xfc4, DAT_011d1f2c.FUN_00403df0(), 1);
-            FUN_00707e30(DAT_011d9ea8, stats);
-            stats->FUN_00700320(0xfa3, 1);
-            FUN_00726070()->FUN_00700320(DAT_011d9ebc, DAT_011dea3c->FUN_00967b70(DAT_011d9ea8));
-            description->FUN_00a01350(0xfcc, DAT_011d9ea8->GetIconFilename(0), 1);
+                reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((label))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventorySelection::Setting *>(&::g_011d1f2c))))->GetMenuTitle()))), 1);
+            ::FUN_00707e30((::DisplayItem *)((*reinterpret_cast<::InventorySelection::Item * *>(&::InventoryMenu::ms_pActionPointSource))), (::DisplayTile *)(stats));
+            reinterpret_cast<::Tile *>((stats))->Set(0xfa3, 1);
+            reinterpret_cast<::Tile *>((((::InventorySelection::Tile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(DAT_011d9ebc, reinterpret_cast<::fnv_00967b70::Cls *>(((*reinterpret_cast<::InventorySelection::Player * *>(&::_g_thePlayer))))->FUN_00967b70((::fnv_00967b70::ArgObj *)((*reinterpret_cast<::InventorySelection::Item * *>(&::InventoryMenu::ms_pActionPointSource)))));
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((description))->FUN_00a01350(0xfcc, (char *)(reinterpret_cast<::ItemChange_004be200 *>(((*reinterpret_cast<::InventorySelection::Item * *>(&::InventoryMenu::ms_pActionPointSource))))->GetIconFilename((::TESObjectREFR *)(0))), 1);
             Form* ammo = 0;
-            if (DAT_011d9ea8->FUN_0044ddc0()->FUN_00401170() == 40)
+            if (((::InventorySelection::Form *)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::InventorySelection::Item * *>(&::InventoryMenu::ms_pActionPointSource))))->GetName()))->FUN_00401170() == 40)
             {
-                ammo = DAT_011d9ea8->FUN_0044ddc0();
-                ammoLabel->FUN_00a01350(0xfcc, GetWeaponSkillIconPath(ammo->GetUnk15C()), 1);
+                ammo = ((::InventorySelection::Form *)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::InventorySelection::Item * *>(&::InventoryMenu::ms_pActionPointSource))))->GetName()));
+                reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ammoLabel))->FUN_00a01350(0xfcc, (char *)(::GetWeaponSkillIconPath((int)(((void *)(reinterpret_cast<::FUN_008d85e0_Class *>((ammo))->GetUnk15C()))))), 1);
                 char countText[128];
-                FUN_00406d00(countText, 128, DAT_01020764, ammo->GetField1BC());
+                ::FUN_00406d00(countText, 128, DAT_01020764, ((int)(reinterpret_cast<::FUN_008d8160_Class *>((ammo))->GetField1BC())));
                 if (ammoCount)
-                    ammoCount->FUN_00a01350(0xfc4, countText, 1);
+                    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ammoCount))->FUN_00a01350(0xfc4, (char *)(countText), 1);
             }
-            if (!FUN_00408b20(description->FUN_00a011f0(0xfcc), DAT_011d33f0.FUN_00403df0()))
+            if (!::FUN_00408b20(reinterpret_cast<::FUN_00a011f0_shell *>((description))->FUN_00a011f0(0xfcc), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventorySelection::Setting *>(&::g_011d33f0))))->GetMenuTitle()))))
             {
-                description->FUN_00a012d0(0xfa1, DAT_01050280, 1);
-                description->FUN_00a012d0(0xfb1, DAT_01072e3c, 1);
-                description->FUN_00a012d0(0xfb0, DAT_01072e3c, 1);
+                reinterpret_cast<::FUN_00a012d0_t *>((description))->FUN_00a012d0(0xfa1, DAT_01050280, 1);
+                reinterpret_cast<::FUN_00a012d0_t *>((description))->FUN_00a012d0(0xfb1, DAT_01072e3c, 1);
+                reinterpret_cast<::FUN_00a012d0_t *>((description))->FUN_00a012d0(0xfb0, DAT_01072e3c, 1);
             }
-            else if (DAT_011d9ea8->FUN_0044ddc0()->FUN_00401170() == 41)
+            else if (((::InventorySelection::Form *)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::InventorySelection::Item * *>(&::InventoryMenu::ms_pActionPointSource))))->GetName()))->FUN_00401170() == 41)
             {
                 float heightSlot1 = DAT_01073af0;
                 float width = DAT_0104f754;
-                description->FUN_00a012d0(0xfa1, heightSlot1 + DAT_01073ae8, 1);
-                description->FUN_00a012d0(0xfb1, width + DAT_01073ae0, 1);
-                description->FUN_00a012d0(0xfb0, width + DAT_01073ae0, 1);
+                reinterpret_cast<::FUN_00a012d0_t *>((description))->FUN_00a012d0(0xfa1, heightSlot1 + DAT_01073ae8, 1);
+                reinterpret_cast<::FUN_00a012d0_t *>((description))->FUN_00a012d0(0xfb1, width + DAT_01073ae0, 1);
+                reinterpret_cast<::FUN_00a012d0_t *>((description))->FUN_00a012d0(0xfb0, width + DAT_01073ae0, 1);
             }
             else
             {
-                description->FUN_00a012d0(0xfa1, DAT_01050280, 1);
-                description->FUN_00a012d0(0xfb1, DAT_01072e3c, 1);
-                description->FUN_00a012d0(0xfb0, DAT_01072e3c, 1);
+                reinterpret_cast<::FUN_00a012d0_t *>((description))->FUN_00a012d0(0xfa1, DAT_01050280, 1);
+                reinterpret_cast<::FUN_00a012d0_t *>((description))->FUN_00a012d0(0xfb1, DAT_01072e3c, 1);
+                reinterpret_cast<::FUN_00a012d0_t *>((description))->FUN_00a012d0(0xfb0, DAT_01072e3c, 1);
             }
-            description->FUN_00a07530(17);
+            reinterpret_cast<::FUN_00a07530_shell *>((description))->FUN_00a07530(17);
             char path[260];
-            FUN_00406d30(path, 260, DAT_0106eb24);
-            unsigned int prefixLengthSlot0 = FUN_0044a670(path);
-            FUN_00406d50(path, 260, GetMenuIconName(FUN_00479430(DAT_011d9ea8->FUN_0044ddc0())));
-            if (FUN_0044a670(path) > prefixLengthSlot0)
+            ::TaskQueueInterface::CopyStringToBuffer(path, 260, DAT_0106eb24);
+            unsigned int prefixLengthSlot0 = ::FUN_0044a670(path);
+            FUN_00406d50(path, 260, ::fnv_00479540::GetMenuIconName((int)(FUN_00479430(((::InventorySelection::Form *)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::InventorySelection::Item * *>(&::InventoryMenu::ms_pActionPointSource))))->GetName()))))));
+            if (::FUN_0044a670(path) > prefixLengthSlot0)
             {
-                (*icon->tile.FUN_0073ac90())->FUN_00a01350(0xfcc, path, 1);
-                (*icon->tile.FUN_0073ac90())->FUN_00700320(0xfa3, 1);
+                reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*((::InventorySelection::Tile **)(reinterpret_cast<::FUN_0073ac90_shell *>(&(icon->tile))->FUN_0073ac90())))))->FUN_00a01350(0xfcc, (char *)(path), 1);
+                reinterpret_cast<::Tile *>(((*((::InventorySelection::Tile **)(reinterpret_cast<::FUN_0073ac90_shell *>(&(icon->tile))->FUN_0073ac90())))))->Set(0xfa3, 1);
             }
             else
-                (*icon->tile.FUN_0073ac90())->FUN_00700320(0xfa3, 0);
-            if (!entry.FUN_00701740())
-                description->FUN_00700320(0xfa3, 1);
-            FUN_00781680();
+                reinterpret_cast<::Tile *>(((*((::InventorySelection::Tile **)(reinterpret_cast<::FUN_0073ac90_shell *>(&(icon->tile))->FUN_0073ac90())))))->Set(0xfa3, 0);
+            if (!reinterpret_cast<::HotkeyWheelDisplay *>(&(entry))->GetVisible())
+                reinterpret_cast<::Tile *>((description))->Set(0xfa3, 1);
+            reinterpret_cast<::FUN_00781680_shell *>(this)->FUN_00781680();
         }
     }
     else if (action == 30)
     {
-        ClearActionPointSource();
-        description->FUN_00a01350(0xfcc, DAT_01073aac, 1);
-        if (!entry.FUN_00701740())
-            description->FUN_00700320(0xfa3, 1);
-        button->FUN_00a01350(0xfc4, DAT_011d5168->FUN_00403df0(), 1);
-        button->FUN_00700320(0xfaf, 1);
+        reinterpret_cast<::FUN_00781b10_shell *>(this)->ClearActionPointSource();
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((description))->FUN_00a01350(0xfcc, (char *)(DAT_01073aac), 1);
+        if (!reinterpret_cast<::HotkeyWheelDisplay *>(&(entry))->GetVisible())
+            reinterpret_cast<::Tile *>((description))->Set(0xfa3, 1);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((button))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>((DAT_011d5168))->GetMenuTitle()))), 1);
+        reinterpret_cast<::Tile *>((button))->Set(0xfaf, 1);
     }
 }
 }
 
 struct Form
 {
-    int FUN_00401170();
 };
 struct Extra
 {
-    bool FUN_00418ba0();
 };
 struct ExtraNode
 {
-    Extra** FUN_006815c0();
 };
 struct Entry
 {
     ~Entry();
-    Form* FUN_0044ddc0();
-    float FUN_004bcdb0(bool);
-    int FUN_00726070();
-    ExtraNode* FUN_00559450();
-    bool FUN_004bddd0(bool);
     void* FUN_004459e0(int);
 };
 struct EntryListNode
@@ -776,75 +788,48 @@ struct EntryListNode
     EntryListNode* next;
     EntryListNode();
     ~EntryListNode();
-    Entry** FUN_006815c0();
-    EntryListNode* FUN_00726070();
     void FUN_0063f7b0();
 };
 struct Changes
 {
-    void FilterInventoryChanges(Form*, EntryListNode*);
 };
-Changes* __cdecl FUN_004bf220(void*);
-extern void* player;
-float __cdecl FUN_00476b20(float);
 struct InventoryCheck
 {
     bool FUN_00781860(Entry* entry);
 };
 struct ItemLabelSource : InventoryStackRecord
 {
-    int FUN_00726070();
-    unsigned char FUN_004bd820();
-    const char* GetTargetFullName();
-    bool FUN_004bddd0(bool);
 };
 class Actor;
 class TESAmmo;
 struct TESObjectWEAP
 {
-    TESAmmo* GetCurrentAmmo(Actor*);
 };
 struct ItemLabelPlayer
 {
-    bool FUN_00967b70(InventoryStackRecord*);
-    TESObjectWEAP* FUN_008a1710();
 };
 struct ItemLabelChildren
 {
-    Tile** FUN_007b5370();
-    void* FUN_00559450();
-    Tile** AddEight(void*);
 };
 struct ItemLabelTile : Tile
 {
     int tileHeader;
     ItemLabelChildren children;
 };
-int __cdecl _sprintf_s(char*, unsigned int, const char*, ...);
-void __cdecl UpdateItemLabel(ItemLabelTile* tile, ItemLabelSource* item);
 // 0x00780d60  unit_65921382d98c.cpp  /MT /Od /Oy- /GS /EHsc /Gy
 // thiscall, no stack args (ret): menu refresh/close path.
-extern "C" void* DAT_011d9ea8;
-extern "C" int DAT_011d9ebc;
-void* __fastcall FUN_00559450(void* obj);
-void __cdecl FUN_00782a90();
-void __cdecl FUN_007832a0(void* tile, int index);
 struct Sh006815c0
 {
-    void** FUN_006815c0();
 };
 struct Sh00726070
 {
-    void* FUN_00726070();
 };
 struct Sh00a01230
 {
-    bool IsTraitNonZero(int arg);
 };
 struct Sh007314c0
 {
     char pad[0x64];
-    void FUN_007314c0(void (*fn)(void*, int), int a, int b);
 };
 struct Sh005ae3d0
 {
@@ -852,24 +837,17 @@ struct Sh005ae3d0
 };
 struct Sh004bddd0
 {
-    bool FUN_004bddd0(bool arg);
 };
 struct Sh0088c650
 {
-    void FUN_0088c650(void* a, int b, void* c, bool d, bool e, bool f);
 };
 struct Sh0088c790
 {
-    void FUN_0088c790(void* a, int b, void* c, bool d, bool e, bool f);
 };
-unsigned __cdecl FUN_0058db10(int arg);
-unsigned __cdecl FUN_004839c0(int arg);
 class SettingString
 {
   public:
-    const char* GetString();
 };
-extern "C" SettingString DAT_011d2af0;
 struct GpEmb75
 {
     virtual int v0();
@@ -896,17 +874,11 @@ struct Menu75b
 };
 
 bool FUN_00702450(int);
-FOPipboyManager* FUN_00705990();
-bool FUN_00709d40();
-bool FUN_00702140();
-void FUN_00717280(int);
-void ShowStatsMenu(int, int);
-void UpdatePipboyMapVisibility(int, int);
 
 // @fnv 0x00782190
 bool InventoryMenu::FUN_00782190(int input, int unused)
 {
-    if (!FUN_00702450(1002) || !FUN_00705990()->IsUnk28Set())
+    if (!FUN_00702450(1002) || !((::FOPipboyManager *)(::fnv_00705990::FUN_00705990()))->IsUnk28Set())
         return false;
     bool consumed = false;
     if (FUN_00709d40() && m_kMenuData.GetVisible())
@@ -917,7 +889,7 @@ bool InventoryMenu::FUN_00782190(int input, int unused)
         case 2:
         case 3:
         case 4:
-            if (FUN_00702140())
+            if (((bool)(::FUN_00702140())))
                 consumed = true;
             break;
         }
@@ -927,13 +899,13 @@ bool InventoryMenu::FUN_00782190(int input, int unused)
         switch (input)
         {
         case 13:
-            FUN_00717280(36);
-            ShowStatsMenu(1, 0);
+            ::s717280::FUN_00717280(36);
+            ::ShowStatsMenu(1, 0);
             consumed = true;
             break;
         case 14:
-            FUN_00717280(36);
-            UpdatePipboyMapVisibility(1, 0);
+            ::s717280::FUN_00717280(36);
+            ::fnv_00704170::UpdatePipboyMapVisibility(1, 0);
             consumed = true;
             break;
         case 15:
@@ -941,7 +913,7 @@ bool InventoryMenu::FUN_00782190(int input, int unused)
             consumed = true;
             break;
         case 16:
-            if (m_pTiles[9]->FUN_00a011b0(0xfaf) != 0.0)
+            if (reinterpret_cast<::TileListBoxCalls *>((m_pTiles[9]))->GetFloat(0xfaf) != 0.0)
             {
                 m_kMenuData.SetVisible(true);
                 m_pTiles[11]->Set(0xfa3, 0);

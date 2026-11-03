@@ -1,5 +1,53 @@
 // bssystem/archive.cpp: S_af9, NP_afc, ArchiveStand, CompressedArchiveFile and more (114 functions)
 
+#include "fnv/decl/AA1AC0Class.h"
+#include "fnv/decl/DirectoryArchive.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0042fb60_shell.h"
+#include "fnv/decl/FUN_00438690.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_0076b610_Class.h"
+#include "fnv/decl/FUN_00aa16d0_cls.h"
+#include "fnv/decl/FUN_00afb190_shell.h"
+#include "fnv/decl/FUN_00afdc00_cls.h"
+#include "fnv/decl/FUN_00b011b0_shell.h"
+#include "fnv/decl/FUN_00b01510_cls.h"
+#include "fnv/decl/FUN_00b01800_shell.h"
+#include "fnv/decl/FUN_00c6e280_cls.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/MersenneTwister.h"
+#include "fnv/decl/NiLODData.h"
+#include "fnv/decl/NiRefObject.h"
+#include "fnv/decl/RequestQueue.h"
+#include "fnv/decl/fnv_00564db0__FUN_00564db0_cls.h"
+#include "fnv/decl/fnv_006f2290__BSSimpleArrayActor.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005c0000.h"
+#include "fnv/symbols_008a5000.h"
+#include "fnv/symbols_009a3000.h"
+#include "fnv/symbols_009f2000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00af4000.h"
+#include "fnv/symbols_00af5000.h"
+#include "fnv/symbols_00af6000.h"
+#include "fnv/symbols_00af7000.h"
+#include "fnv/symbols_00afb000.h"
+#include "fnv/symbols_00afc000.h"
+#include "fnv/symbols_00afd000.h"
+#include "fnv/symbols_00b01000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_010a2000.h"
+#include "fnv/symbols_010a4000.h"
+#include "fnv/symbols_011ac000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f8000.h"
+#include "fnv/symbols_01272000.h"
 extern "C" int __cdecl _strnicmp(const char*, const char*, unsigned int);
 extern "C" int __cdecl strcat_s(char*, unsigned int, const char*);
 extern "C" int __cdecl _strlwr_s(char*, unsigned int);
@@ -99,6 +147,8 @@ class BSFile : public NiFile
     unsigned int m_uiBufferPosition;                               // +0x14C
     unsigned int m_uiBufferSize;                                   // +0x150
     unsigned int m_uiValueId;                                      // +0x154
+public:
+    bool AttachFileStream(bool, bool);
 };
 
 class ArchiveFile : public BSFile
@@ -305,19 +355,10 @@ struct MobileObject
     virtual void Slot124();
     virtual const NiPoint3& Slot125();
 
-    bhkCharacterController* GetPhysicsCharacterController(void);
-    float GetActorHeight(void) const;
     bool FUN_008b2f90(const NiPoint3& targetPos, float radius, bool addCharRadius, bool check3D);
 };
 
-int __fastcall FUN_005c0880(bhkCharacterController*);
-float __fastcall GetSettingFloat(bhkCharacterController*);
-float __cdecl FUN_004587d0(float);
-bool __fastcall FUN_008a5170(void*);
-int __cdecl FUN_004b5470(const NiPoint3&, float);
 
-extern double gModifierZero;
-extern double DAT_0101db88;
 
 // @fnv 0x008b2f90
 bool MobileObject::FUN_008b2f90(const NiPoint3& targetPos, float radius, bool addCharRadius, bool check3D)
@@ -325,17 +366,17 @@ bool MobileObject::FUN_008b2f90(const NiPoint3& targetPos, float radius, bool ad
     bhkCharacterController* charCtrl;
     {
         NiPoint3 selfPos = Slot125();
-        charCtrl = GetPhysicsCharacterController();
+        charCtrl = ((::bhkCharacterController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()));
         {
             NiPoint3 diff = selfPos - targetPos;
-            if (!check3D && charCtrl && FUN_005c0880(charCtrl))
+            if (!check3D && charCtrl && ::FUN_005c0880((char *)(charCtrl)))
             {
                 diff.z = 0.0f;
             }
             else
             {
-                float height = GetActorHeight();
-                if (height == gModifierZero)
+                float height = reinterpret_cast<::fnv_008853a0::FUN_008853a0_shell *>((void *)this)->GetActorHeight();
+                if (height == ::_DAT_01012060)
                 {
                     height = 128.0f;
                 }
@@ -355,8 +396,8 @@ bool MobileObject::FUN_008b2f90(const NiPoint3& targetPos, float radius, bool ad
                 float charRadius;
                 if (charCtrl)
                 {
-                    charRadius = FUN_004587d0(GetSettingFloat(charCtrl));
-                    if (FUN_008a5170((char*)charCtrl + 0x410))
+                    charRadius = FUN_004587d0(reinterpret_cast<::FUN_00c6e280_cls *>((charCtrl))->GetSettingFloat());
+                    if (::FUN_008a5170((const ::_Dummy_008a5170 *)(void *)((char*)charCtrl + 0x410)))
                     {
                         charRadius *= 2.0f;
                     }
@@ -371,7 +412,7 @@ bool MobileObject::FUN_008b2f90(const NiPoint3& targetPos, float radius, bool ad
                 }
                 radius = radius + charRadius;
             }
-            return FUN_004b5470(diff, radius) <= 0;
+            return ::FUN_004b5470((::TESCombatStyle *)&(diff), radius) <= 0;
         }
     }
 }
@@ -393,49 +434,45 @@ template <class T, unsigned int N = 1024> class BSSimpleArray
 class TESObjectREFRHelper
 {
   public:
-    void SetTargetingState(bool);
 };
 
 class TESObjectREFR
 {
   public:
-    TESObjectREFR* GetLinkedRef();
 };
 
 class PatrolActorPackageData
 {
   public:
-    static TESObjectREFR* __cdecl GetPatrolReference(Actor*, TESPackage*);
     bool IsPatrolling();
 };
 
-bool __cdecl FUN_009a3830(NavMesh* const&, NavMesh* const&);
 
 // @fnv 0x009f2da0
 bool __fastcall BuildLinkedRefChain(char* _this)
 {
     bool bLoop;
     TESObjectREFR* pRef =
-        PatrolActorPackageData::GetPatrolReference(*(Actor**)(_this + 0x10), *(TESPackage**)(_this + 0x14));
+        ::FUN_009f2d40((::TESObjectREFR *)(*(Actor**)(_this + 0x10)), (::BGSMessageInitAccess *)(*(TESPackage**)(_this + 0x14)));
     *(bool*)(_this + 0x2c) = false;
-    ((BSSimpleArray<unsigned int, 1024>*)(_this + 0x1c))->SetSize(0, true);
+    reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>((((BSSimpleArray<unsigned int, 1024>*)(_this + 0x1c))))->FUN_006f2290(0, true);
     bLoop =
         *(PatrolActorPackageData**)(_this + 0x18) ? (*(PatrolActorPackageData**)(_this + 0x18))->IsPatrolling() : false;
 
     while (pRef != 0)
     {
-        ((TESObjectREFRHelper*)pRef)->SetTargetingState(true);
-        ((BSSimpleArray<void*, 1024>*)(_this + 0x1c))->Add(*(void**)&pRef);
-        pRef = pRef->GetLinkedRef();
+        reinterpret_cast<::fnv_00564db0::FUN_00564db0_cls *>((((TESObjectREFRHelper*)pRef)))->FUN_00564db0(true);
+        reinterpret_cast<::FUN_00438690 *>((((BSSimpleArray<void*, 1024>*)(_this + 0x1c))))->FUN_007cb2e0((unsigned int *)&(*(void**)&pRef));
+        pRef = reinterpret_cast<::FUN_00569b80_shell *>((pRef))->FUN_00569b80();
         if (pRef == 0)
             break;
 
-        unsigned int idx = ((BSSimpleArray<NavMesh*, 1024>*)(_this + 0x1c))->Find(*(NavMesh**)&pRef, 0, FUN_009a3830);
+        unsigned int idx = ((BSSimpleArray<NavMesh*, 1024>*)(_this + 0x1c))->Find(*(NavMesh**)&pRef, 0, ((bool (&)(NavMesh *const &, NavMesh *const &))::FUN_009a3830));
         if (idx != (unsigned int)-1)
         {
             if (!bLoop)
             {
-                ((BSSimpleArray<void*, 1024>*)(_this + 0x1c))->Add(*(void**)&pRef);
+                reinterpret_cast<::FUN_00438690 *>((((BSSimpleArray<void*, 1024>*)(_this + 0x1c))))->FUN_007cb2e0((unsigned int *)&(*(void**)&pRef));
             }
             else
             {
@@ -446,7 +483,7 @@ bool __fastcall BuildLinkedRefChain(char* _this)
         }
     }
 
-    return !((BSSimpleArray<NavMeshEdgeSegment, 1024>*)(_this + 0x1c))->FUN_0076b610();
+    return !reinterpret_cast<::FUN_0076b610_Class *>((void *)(((BSSimpleArray<NavMeshEdgeSegment, 1024>*)(_this + 0x1c))))->FUN_0076b610();
 }
 
 extern int DAT_011acdfc;
@@ -509,23 +546,21 @@ void __cdecl ProcessArcList()
     }
 }
 
-int __cdecl FindArchiveForFile(int a1, int a2);
 
 // @fnv 0x00af6320
 bool __cdecl FUN_00af6320(int a1, int a2)
 {
-    return FindArchiveForFile(a1, a2);
+    return ((int)(::fnv_00af6160::FindArchiveForFile((const char *)(a1), a2)));
 }
 
 unsigned int __cdecl _strlen(const char*);
-int __cdecl LookupExtensionType(const char*);
 
 // Computes the string length, then passes a pointer to its last three characters to LookupExtensionType and returns that result.
 // @fnv 0x00af7d80
 int __cdecl FUN_00af7d80(const char* pcString)
 {
     unsigned int len = _strlen(pcString);
-    return LookupExtensionType(pcString + len - 3);
+    return ((int)(::fnv_00af7db0::LookupExtensionType(pcString + len - 3)));
 }
 
 struct S_af9
@@ -545,7 +580,6 @@ bool S_af9::FUN_00af9bf0(int a, int b, int* c, int d, int e)
 
 struct Owner25
 {
-    bool FindHashEntry(int a, int* out, int c);
     bool FUN_00afa120(int a, int b, int* out, int c, int d);
     int FUN_00afa6e0(int a, int b, int c);
 };
@@ -554,7 +588,7 @@ int Owner25::FUN_00afa6e0(int a, int b, int c)
 {
     int index1;
     int index2;
-    if (FindHashEntry(a, &index1, c) && FUN_00afa120(index1, b, &index2, c, 1))
+    if (reinterpret_cast<::S_af9 *>(this)->FindHashEntry(a, &index1, c) && FUN_00afa120(index1, b, &index2, c, 1))
     {
         return *(int*)(*(int*)((char*)this + 0x184) + index1 * 16 + 0xc) + index2 * 16;
     }
@@ -626,7 +660,6 @@ struct S_afbb
     char pad[0x150];
     unsigned int pos;
     unsigned int size;
-    int FUN_00b01800(void*, unsigned int);
     int FUN_00afbbf0(void*, unsigned int);
 };
 // Clamps count to the remaining bytes (size - pos), reads via FUN_00b01800, advances pos by the bytes read and returns that count.
@@ -640,20 +673,19 @@ int S_afbb::FUN_00afbbf0(void* pBuffer, unsigned int count)
         unsigned int sz2 = size;
         count = sz2 - pos;
     }
-    r = FUN_00b01800(pBuffer, count);
+    r = ((int)(reinterpret_cast<::FUN_00b01800_shell *>(this)->FUN_00b01800(pBuffer, count)));
     pos += r;
     return r;
 }
 
 struct Dummy_00afbbf0
 {
-    int FUN_00afbbf0(int, int);
 };
 
 // @fnv 0x00afbf80
 int __cdecl FUN_00afbf80(Dummy_00afbbf0* pTarget, int b, int c)
 {
-    return pTarget->FUN_00afbbf0(b, c);
+    return reinterpret_cast<::S_afbb *>((pTarget))->FUN_00afbbf0((void *)(b), c);
 }
 
 struct ZlibStreamPeer;
@@ -684,32 +716,10 @@ class MemoryManager
 {
   public:
     void _DeallocateAlias(void* ptr);
+public:
+    void *Reallocate(void *, unsigned int);
 };
-extern MemoryManager g_memoryManager;
-extern int DAT_010a464c;
 int __cdecl _inflateEnd(ZlibStream* kReadStream);
-void __fastcall FUN_00afb520(void* pThis);
-
-// Sets the vtable, ends and frees the zlib stream at offset 0x160, frees the buffer at 0x164, then calls FUN_00afb520.
-// @fnv 0x00afbfe0
-void FUN_00afbfe0_shell::DestroyCompressedArchiveFile()
-{
-    ZlibStream* pzstream;
-    *(int**)this = &DAT_010a464c;
-    if (*(ZlibStream**)((char*)this + 0x160) != 0)
-    {
-        pzstream = *(ZlibStream**)((char*)this + 0x160);
-        _inflateEnd(pzstream);
-        void* p1 = pzstream;
-        g_memoryManager._DeallocateAlias(p1);
-    }
-    if (*(void**)((char*)this + 0x164) != 0)
-    {
-        void* p2 = *(void**)((char*)this + 0x164);
-        g_memoryManager._DeallocateAlias(p2);
-    }
-    FUN_00afb520(this);
-}
 
 struct FUN_00afc060_shell2 : public CompressedArchiveFile
 {
@@ -720,7 +730,7 @@ struct FUN_00afc060_shell2 : public CompressedArchiveFile
 // @fnv 0x00afc060
 bool FUN_00afc060_shell2::FUN_00afc060(bool a1, bool a2)
 {
-    return AttachFileStream(a1, a2);
+    return reinterpret_cast<::BSFile *>(this)->AttachFileStream(a1, a2);
 }
 
 struct S
@@ -741,7 +751,6 @@ class MemoryManager
     void _DeallocateAlias(void* ptr);
 };
 
-extern MemoryManager g_memoryManager;
 void __fastcall DestroyCompressedArchiveFile(void* pThis);
 
 struct FUN_00afc6c0_shell2 : public CompressedArchiveFile
@@ -755,7 +764,7 @@ void* FUN_00afc6c0_shell2::FUN_00afc6c0(unsigned int flags)
 {
     DestroyCompressedArchiveFile(this);
     if (flags & 1)
-        g_memoryManager._DeallocateAlias(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00afc6c0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(this);
     return this;
 }
 }  // namespace fnv_00afc6c0
@@ -767,8 +776,6 @@ class MemoryManager
     void _DeallocateAlias(void* ptr);
 };
 
-extern MemoryManager g_memoryManager;
-void __fastcall DestroyCompressedArchiveFile(void* pThis);
 
 struct FUN_00afc6f0_shell2 : public CompressedArchiveFile
 {
@@ -778,9 +785,9 @@ struct FUN_00afc6f0_shell2 : public CompressedArchiveFile
 // @fnv 0x00afc6f0
 void* FUN_00afc6f0_shell2::FUN_00afc6f0(unsigned int flags)
 {
-    DestroyCompressedArchiveFile(this);
+    reinterpret_cast<::FUN_00afbfe0_shell *>((this))->DestroyCompressedArchiveFile();
     if (flags & 1)
-        g_memoryManager._DeallocateAlias(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00afc6f0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(this);
     return this;
 }
 }  // namespace fnv_00afc6f0
@@ -1013,7 +1020,6 @@ void* FUN_00afd390_class::FUN_00afd390(const char* path, int mode)
     return this;
 }
 
-extern bool DAT_011acdf9;
 extern char* DAT_011f8158;
 int __cdecl _strcpy_s(char*, unsigned int, const char*);
 struct MemoryManagerAllocHelper
@@ -1029,7 +1035,7 @@ void __cdecl FUN_00af4490(bool abInvalidate, const char* apInvalidationFile)
     {
         unsigned int ilistSize = _strlen(apInvalidationFile) + 1;
         {
-            char* pBuf = (char*)reinterpret_cast<MemoryManagerAllocHelper*>(&g_memoryManager)->Allocate(ilistSize);
+            char* pBuf = (char*)reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<MemoryManagerAllocHelper*>(&::g_memoryManager)))->FUN_00aa3e40(ilistSize);
             DAT_011f8158 = pBuf;
         }
         {
@@ -1072,14 +1078,11 @@ class MemoryManager
     void* Allocate(unsigned int);
     void _DeallocateAlias(void*);
 };
-extern MemoryManager g_memoryManager;
 int __cdecl _inflateInit_(void*, const char*, int);
 int __cdecl _inflateEnd(void*);
-extern int DAT_010a464c;
 extern unsigned int DAT_011f8164;
 struct S_afbb
 {
-    int FUN_00afbbf0(void*, unsigned int);
 };
 struct P03Z
 {
@@ -1113,12 +1116,12 @@ struct FUN_00afc430 : public FUN_00afb300
 // @fnv 0x00afc430
 FUN_00afc430::FUN_00afc430(int a, int b, int c, int d, int e) : FUN_00afb300(a, b, c, d, e)
 {
-    *(int**)this = &DAT_010a464c;
+    *(int**)this = &::DAT_010a464c;
     ((CompressedArchiveFile*)this)->CompressedArchiveFile::SetEndianSwap(false);
-    ((S_afbb*)this)->FUN_00afbbf0((char*)this + 0x168, 4);
+    reinterpret_cast<::S_afbb *>((((S_afbb*)this)))->FUN_00afbbf0((char*)this + 0x168, 4);
     char* pStream;
     int pTmp;
-    void* err = g_memoryManager.Allocate(0x1be0);
+    void* err = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00afc430::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(0x1be0);
     pStream = (char*)err;
     ((P03CAF*)this)->pStream = (P03Z*)pStream;
     ((P03CAF*)this)->pStream->m_pAllocateCallback = 0;
@@ -1132,14 +1135,14 @@ FUN_00afc430::FUN_00afc430(int a, int b, int c, int d, int e) : FUN_00afb300(a, 
     {
         _inflateEnd(((P03CAF*)this)->pStream);
         void* pFree = ((P03CAF*)this)->pStream;
-        g_memoryManager._DeallocateAlias(pFree);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00afc430::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(pFree);
         ((P03CAF*)this)->pStream = 0;
     }
     else
     {
         ((P03CAF*)this)->uiCap = ((P03CAF*)this)->uiBufSize < DAT_011f8164 ? ((P03CAF*)this)->uiBufSize : DAT_011f8164;
         unsigned int pBuf = ((P03CAF*)this)->uiCap;
-        void* uiSize = g_memoryManager.Allocate(pBuf);
+        void* uiSize = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00afc430::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(pBuf);
         ((P03CAF*)this)->pBuffer = uiSize;
         ((P03CAF*)this)->f170 = 0;
         ((P03CAF*)this)->f174 = 0;
@@ -1196,7 +1199,6 @@ int FUN_00afce90_S::FUN_00afce90(const unsigned __int64& aullValue)
     return 0;
 }
 
-extern bool DAT_011acdf9;
 extern bool DAT_011f8154;
 extern int DAT_011acdfc;
 extern int DAT_011ace00;
@@ -1221,25 +1223,22 @@ bool ArchiveStandIn::FUN_00afd020()
 {
     ArgPair p[5];
     return (DAT_011acdf9 || DAT_011f8154 || (unsigned char)+((uiFlags & 0x80) != 0) ||
-            (p[4].i = DAT_011acdfc, p[4].b = (uiFlags & 8) != 0, FUN_00afb170(p[4].b, p[4].i)) ||
-            (p[3].i = DAT_011ace00, p[3].b = (uiFlags & 0x10) != 0, FUN_00afb170(p[3].b, p[3].i)) ||
-            (p[2].i = DAT_011ace04, p[2].b = (uiFlags & 0x20) != 0, FUN_00afb170(p[2].b, p[2].i))) &&
+            (p[4].i = DAT_011acdfc, p[4].b = (uiFlags & 8) != 0, ::FUN_00afb170((void *)this, (::FUN_00afb170_Args)(p[4].b))) ||
+            (p[3].i = DAT_011ace00, p[3].b = (uiFlags & 0x10) != 0, ::FUN_00afb170((void *)this, (::FUN_00afb170_Args)(p[3].b))) ||
+            (p[2].i = DAT_011ace04, p[2].b = (uiFlags & 0x20) != 0, ::FUN_00afb170((void *)this, (::FUN_00afb170_Args)(p[2].b)))) &&
            (!(unsigned short)(usTypes & 0x10) ||
-            (p[1].i = DAT_011ace00, p[1].b = (uiFlags & 0x10) != 0, FUN_00afb170(p[1].b, p[1].i)) ||
-            (p[0].i = DAT_011ace04, p[0].b = (uiFlags & 0x20) != 0, FUN_00afb170(p[0].b, p[0].i)));
+            (p[1].i = DAT_011ace00, p[1].b = (uiFlags & 0x10) != 0, ::FUN_00afb170((void *)this, (::FUN_00afb170_Args)(p[1].b))) ||
+            (p[0].i = DAT_011ace04, p[0].b = (uiFlags & 0x20) != 0, ::FUN_00afb170((void *)this, (::FUN_00afb170_Args)(p[0].b))));
 }
 
 class MemoryManager;
-extern MemoryManager g_memoryManager;
 struct P03MM
 {
     void* Allocate(unsigned int);
 };
 unsigned int __cdecl _strlen(const char*);
 int __cdecl _strcpy_s(char*, unsigned int, const char*);
-extern bool DAT_011acdf8;
 extern char DAT_011f8050[];
-extern const char DAT_010a433a[];
 extern char* DAT_011f815c;
 extern unsigned int DAT_011f8164;
 // Stores the archive flag, copies the archive list and master file path into globals, and sets the file buffer size.
@@ -1254,7 +1253,7 @@ void __cdecl FUN_00af43a0(bool abUseArchives, char* apMasterFilePath, char* apAr
     if (apArchiveList)
     {
         ilistSize = _strlen(apArchiveList) + 1;
-        pEmpty = (char*)((P03MM*)&g_memoryManager)->Allocate(ilistSize);
+        pEmpty = (char*)reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&::g_memoryManager)))->FUN_00aa3e40(ilistSize);
         DAT_011f815c = pEmpty;
         {
             {
@@ -1265,7 +1264,7 @@ void __cdecl FUN_00af43a0(bool abUseArchives, char* apMasterFilePath, char* apAr
     }
     else
     {
-        pNew = (char*)((P03MM*)&g_memoryManager)->Allocate(0);
+        pNew = (char*)reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&::g_memoryManager)))->FUN_00aa3e40(0);
         DAT_011f815c = pNew;
         *DAT_011f815c = 0;
     }
@@ -1288,7 +1287,6 @@ struct ExtType_00af7db0
     unsigned int uiType;
     char acPad[4];
 };
-extern ExtEntry_00af7db0 str_011ace08[];
 extern ExtType_00af7db0 DAT_011ace0c[];
 // @fnv 0x00af7db0
 unsigned int __cdecl LookupExtensionType(const char* apExt)
@@ -1306,7 +1304,7 @@ unsigned int __cdecl LookupExtensionType(const char* apExt)
     {
         uiMid = (uiStep - iCmp) >> 1;
         uiHigh = iCmp + uiMid;
-        uiLow = _stricmp(apExt, str_011ace08[uiHigh].acExt);
+        uiLow = _stricmp(apExt, (*reinterpret_cast<fnv_00af7db0::ExtEntry_00af7db0 (*)[]>(&::fnv_00af4550::DAT_011ace08))[uiHigh].acExt);
         if (uiLow > 0)
             iCmp = uiHigh;
         else if (uiLow < 0)
@@ -1356,7 +1354,6 @@ struct Archive
 };
 struct ArchiveManager
 {
-    static Archive* __cdecl FindArchiveForFileEntry(BSFileEntry*, ARCHIVE_TYPE);
 };
 struct ArchiveSmartPtr
 {
@@ -1382,7 +1379,7 @@ ArchiveFile* __cdecl FUN_00af6340(int aeArchiveTypeIndex, BSFileEntry* apFileEnt
 {
     ArchiveFile* pfile = 0;
     bool binSecondaryArchive = (apFileEntry->flags & 0x80000000) == 0 ? false : true;
-    ArchiveSmartPtr sparchive(ArchiveManager::FindArchiveForFileEntry(apFileEntry, (ARCHIVE_TYPE)0xffff));
+    ArchiveSmartPtr sparchive(((::fnv_00af6340::Archive *)(::FindArchiveByKey((const ::FileNameHash *)(apFileEntry), (*(unsigned int *)&(const ::fnv_00af6340::ARCHIVE_TYPE &)((ARCHIVE_TYPE)0xffff))))));
     if (sparchive.p)
     {
         pfile = sparchive->CreateArchiveFile(apFileEntry, aiBufferSize, apFileName);
@@ -1407,7 +1404,6 @@ struct MemoryManager
 {
     void __thiscall _DeallocateAlias(void* ptr);
 };
-extern MemoryManager g_memoryManager;
 
 // @fnv 0x00af44f0
 void FUN_00af44f0()
@@ -1417,12 +1413,12 @@ void FUN_00af44f0()
     if (DAT_011f8158)
     {
         ptr0 = DAT_011f8158;
-        g_memoryManager._DeallocateAlias(ptr0);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00af44f0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(ptr0);
     }
     if (DAT_011f815c)
     {
         ptr1 = DAT_011f815c;
-        g_memoryManager._DeallocateAlias(ptr1);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00af44f0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(ptr1);
     }
 }
 }  // namespace fnv_00af44f0
@@ -1436,7 +1432,6 @@ void FUN_00af4540()
 }
 
 namespace fnv_00af56d0 {
-extern "C" int __cdecl RemoveArchiveFile(int);
 extern "C" int DAT_011f8160;
 
 // Returns false if DAT_011f8160 or arg is zero; otherwise calls RemoveArchiveFile with arg and returns true.
@@ -1445,7 +1440,7 @@ bool __cdecl FUN_00af56d0(int aiValue)
 {
     if (DAT_011f8160 == 0 || aiValue == 0)
         return false;
-    RemoveArchiveFile(aiValue);
+    ::fnv_00af5550::RemoveArchiveFile((::fnv_00af5550::MyArchiveFile *)(aiValue));
     return true;
 }
 }  // namespace fnv_00af56d0
@@ -1481,7 +1476,6 @@ unsigned int FUN_00af9b60_shell::FUN_00af9b60(unsigned int index, unsigned int v
 struct FUN_00af9ba0_shell
 {
     int FindEntryIndex(unsigned int key);
-    unsigned int FUN_00af9b60(unsigned int index, unsigned int value);
     int FUN_00af96d0(int index, unsigned int value);
     int FUN_00af9ba0(unsigned int key);
 };
@@ -1491,7 +1485,7 @@ int FUN_00af9ba0_shell::FUN_00af9ba0(unsigned int key)
     int index = FindEntryIndex(key);
     if (index == -1)
         return 0;
-    unsigned int result = FUN_00af9b60(index, key);
+    unsigned int result = reinterpret_cast<::FUN_00af9b60_shell *>(this)->FUN_00af9b60(index, key);
     return FUN_00af96d0(index, result);
 }
 
@@ -1516,7 +1510,6 @@ struct FUN_00afac20_group
 };
 struct S_af9
 {
-    bool FUN_00af9bf0(int, int, int*, int*, int);
     bool FUN_00afac20(int a, int b, int c);
 };
 // Looks up an entry via FUN_00af9bf0 and, if found, sets its size to 0 and returns true; otherwise returns false.
@@ -1525,7 +1518,7 @@ bool S_af9::FUN_00afac20(int a, int b, int c)
 {
     int iGroupIndex;
     int idx;
-    if (FUN_00af9bf0(a, b, &iGroupIndex, &idx, 0))
+    if (reinterpret_cast<::S_af9 *>(this)->FUN_00af9bf0(a, b, &iGroupIndex, (int)(&idx), 0))
     {
         FUN_00afac20_entry* e =
             (FUN_00afac20_entry*)((char*)((FUN_00afac20_group*)*(char**)((char*)this + 0x184) + iGroupIndex)->entries +
@@ -1652,7 +1645,6 @@ class MemoryManager
   public:
     void* Allocate(unsigned int size);
 };
-extern MemoryManager g_memoryManager;
 struct FUN_00afcd10_shell
 {
     void* FUN_00afcd10(unsigned int count);
@@ -1661,7 +1653,7 @@ struct FUN_00afcd10_shell
 // @fnv 0x00afcd10
 void* FUN_00afcd10_shell::FUN_00afcd10(unsigned int count)
 {
-    void* result = g_memoryManager.Allocate(count << 2);
+    void* result = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00afcd10::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(count << 2);
     return result;
 }
 }  // namespace fnv_00afcd10
@@ -1672,7 +1664,6 @@ class MemoryManager
   public:
     void _DeallocateAlias(void* ptr);
 };
-extern MemoryManager g_memoryManager;
 struct FUN_00afcd40_shell
 {
     void FUN_00afcd40(void* ptr);
@@ -1680,7 +1671,7 @@ struct FUN_00afcd40_shell
 // @fnv 0x00afcd40
 void FUN_00afcd40_shell::FUN_00afcd40(void* pMemory)
 {
-    g_memoryManager._DeallocateAlias(pMemory);
+    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00afcd40::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(pMemory);
 }
 }  // namespace fnv_00afcd40
 
@@ -1688,9 +1679,7 @@ namespace fnv_00afcd60 {
 class MemoryManager
 {
   public:
-    void* Reallocate(void* p, unsigned int size);
 };
-extern MemoryManager g_memoryManager;
 struct FUN_00afcd60_shell
 {
     void* FUN_00afcd60(void* p, unsigned int count);
@@ -1698,7 +1687,7 @@ struct FUN_00afcd60_shell
 // @fnv 0x00afcd60
 void* FUN_00afcd60_shell::FUN_00afcd60(void* p, unsigned int count)
 {
-    return g_memoryManager.Reallocate(p, count << 2);
+    return reinterpret_cast<::MemoryManager *>(&((*reinterpret_cast<::fnv_00afcd60::MemoryManager *>(&::g_memoryManager))))->Reallocate(p, count << 2);
 }
 }  // namespace fnv_00afcd60
 
@@ -1729,7 +1718,6 @@ struct ArchiveListNode
     ArchiveListNode* pNext;
 };
 extern ArchiveListNode* DAT_011f8160;
-void __cdecl RemoveArchiveFile(BSFile* apArchive);
 
 // @fnv 0x00af5700
 bool __cdecl FUN_00af5700(char* apFileName)
@@ -1749,7 +1737,7 @@ bool __cdecl FUN_00af5700(char* apFileName)
             const char* pArchiveName = parchive->FileName();
             if (!_stricmp(pArchiveName, acPath))
             {
-                RemoveArchiveFile(parchive);
+                ::fnv_00af5550::RemoveArchiveFile((::fnv_00af5550::MyArchiveFile *)(parchive));
                 return true;
             }
         }
@@ -1762,7 +1750,6 @@ bool __cdecl FUN_00af5700(char* apFileName)
 namespace fnv_00af5fa0 {
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* p);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
-int __cdecl FUN_00af7d80(const char* apFileName);
 const char* __cdecl SkipDataPrefix(const char* apFileName);
 class NiRefObject
 {
@@ -1792,7 +1779,6 @@ struct FileNameHash
 };
 struct S_af9
 {
-    bool FUN_00af9bf0(int arDirHash, int arFileHash, int* apFolderIndex, int apFileIndex, int apFileName);
 };
 struct Archive : public S_af9
 {
@@ -1841,14 +1827,14 @@ void* LoadFileFromArchives(const char* apFileName, unsigned int auiBufferSize, u
     FileNameHash kDirectoryNameHash;
     apFileName = SkipDataPrefix(apFileName);
     if (aeArchiveTypeFlags == 0xffff)
-        aeArchiveTypeFlags = FUN_00af7d80(apFileName);
+        aeArchiveTypeFlags = ::FUN_00af7d80(apFileName);
     FileNameHash::CreateDirectoryAndFileHashes(apFileName, kDirectoryNameHash, kFileNameHash);
     BSSimpleList<NiPointer<Archive> >* pCurrentElementNext = DAT_011f8160;
     while (pCurrentElementNext)
     {
         NiPointer<Archive> sparchive(pCurrentElementNext->m_item);
         if (sparchive && sparchive->HasArchiveTypeFlags(aeArchiveTypeFlags) &&
-            sparchive->FUN_00af9bf0((int)&kDirectoryNameHash, (int)&kFileNameHash, (int*)&uiFolderIndex,
+            reinterpret_cast<::S_af9 *>(((sparchive).operator->()))->FUN_00af9bf0((int)&kDirectoryNameHash, (int)&kFileNameHash, (int*)&uiFolderIndex,
                                     (int)&uiFileIndex, (int)apFileName))
         {
             return sparchive->OpenFile(uiFolderIndex, uiFileIndex, auiBufferSize, apFileName);
@@ -1865,7 +1851,6 @@ extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(_RTL_CRITIC
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(_RTL_CRITICAL_SECTION* p);
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* p);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
-int __cdecl FUN_00af7d80(const char* apFileName);
 const char* __cdecl SkipDataPrefix(const char* apFileName);
 class NiRefObject
 {
@@ -1895,7 +1880,6 @@ struct FileNameHash
 };
 struct S_af9
 {
-    bool FUN_00af9bf0(int arDirHash, int arFileHash, int* apFolderIndex, int apFileIndex, int apFileName);
 };
 struct Archive : public S_af9
 {
@@ -1947,7 +1931,7 @@ Archive* FindArchiveForFile(const char* apFileName, unsigned int aeArchiveTypeFl
     FileNameHash kDirectoryNameHash;
     apFileName = SkipDataPrefix(apFileName);
     if (aeArchiveTypeFlags == 0xffff)
-        aeArchiveTypeFlags = FUN_00af7d80(apFileName);
+        aeArchiveTypeFlags = ::FUN_00af7d80(apFileName);
     FileNameHash::CreateDirectoryAndFileHashes(apFileName, kDirectoryNameHash, kFileNameHash);
     EnterCriticalSection(&DAT_011f8170);
     BSSimpleList<NiPointer<Archive> >* pCurrentElementNext = DAT_011f8160;
@@ -1955,7 +1939,7 @@ Archive* FindArchiveForFile(const char* apFileName, unsigned int aeArchiveTypeFl
     {
         NiPointer<Archive> sparchive(pCurrentElementNext->m_item);
         if (sparchive && sparchive->HasArchiveTypeFlags(aeArchiveTypeFlags) &&
-            sparchive->FUN_00af9bf0((int)&kDirectoryNameHash, (int)&kFileNameHash, (int*)&uiFolderIndex,
+            reinterpret_cast<::S_af9 *>(((sparchive).operator->()))->FUN_00af9bf0((int)&kDirectoryNameHash, (int)&kFileNameHash, (int*)&uiFolderIndex,
                                     (int)&uiFileIndex, (int)apFileName))
         {
             LeaveCriticalSection(&DAT_011f8170);
@@ -1995,7 +1979,7 @@ struct Local28
 bool __cdecl FUN_00af7e80(const char* path, FUN_00afcf00_class* obj)
 {
     Local28 l;
-    l.obj.FUN_00afd390(path, 0);
+    reinterpret_cast<::FUN_00afd390_class *>(&(l.obj))->FUN_00afd390(path, 0);
     if (obj->FUN_00afcf00(&l.obj) == 0)
         return true;
     return false;
@@ -2003,7 +1987,6 @@ bool __cdecl FUN_00af7e80(const char* path, FUN_00afcf00_class* obj)
 }  // namespace fnv_00af7e80
 
 namespace fnv_00afcce0 {
-extern int DAT_010a469c;
 
 struct FUN_00afcde0_shell
 {
@@ -2018,14 +2001,13 @@ void* FUN_00afcde0_shell::FUN_00afcce0()
 {
     int a;
     int b;
-    vptr = &DAT_010a469c;
-    InitArray(0, 0);
+    vptr = &::DAT_010a469c;
+    reinterpret_cast<::FUN_00afcde0_shell *>(this)->InitArray(0, 0);
     return this;
 }
 }  // namespace fnv_00afcce0
 
 namespace fnv_00af8e60 {
-extern long volatile DAT_011f4400;
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(void*);
 struct ArcBase
@@ -2037,7 +2019,7 @@ struct ArcRef
 {
     virtual ~ArcRef()
     {
-        InterlockedDecrement(&DAT_011f4400);
+        InterlockedDecrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
     }
     long refs;
 };
@@ -2073,7 +2055,6 @@ struct MemoryManager
 {
     void _DeallocateAlias(void* ptr);
 };
-extern MemoryManager g_memoryManager;
 struct S_af9
 {
     char pad[0x1b4];
@@ -2103,12 +2084,12 @@ void S_af9::ReleaseOwnedMemory()
         if (names)
         {
             void* p = names;
-            g_memoryManager._DeallocateAlias(p);
+            reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00af9230::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(p);
         }
         if (extra)
         {
             void* pExtra = extra;
-            g_memoryManager._DeallocateAlias(pExtra);
+            reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00af9230::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(pExtra);
         }
         names = 0;
         extra = 0;
@@ -2122,7 +2103,6 @@ struct MemoryManager
 {
     void _DeallocateAlias(void* ptr);
 };
-extern MemoryManager g_memoryManager;
 struct FUN_00af9410_entry
 {
     int a;
@@ -2162,10 +2142,10 @@ void S_af9::FreeEntries()
             for (p = 0; p < GetCount(); p++)
             {
                 i = entries[p].mem;
-                g_memoryManager._DeallocateAlias(i);
+                reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00af9410::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(i);
             }
             pEntries = entries;
-            g_memoryManager._DeallocateAlias(pEntries);
+            reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00af9410::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(pEntries);
         }
         entries = 0;
     }
@@ -2217,11 +2197,9 @@ int S_af9::FindEntryIndex(unsigned int uiAddress)
 }
 }  // namespace fnv_00af9ad0
 
-extern int DAT_010a469c;
 
 struct _BSAHelper
 {
-    void Clear(bool b);
 };
 
 struct FUN_00afcdc0_StandIn
@@ -2236,7 +2214,7 @@ void FUN_00afcdc0_StandIn::FUN_00afcdc0()
 {
     int _t;
     *(void**)this = &DAT_010a469c;
-    ((_BSAHelper*)this)->Clear(true);
+    reinterpret_cast<::RequestQueue *>((((_BSAHelper*)this)))->FUN_00a1bfa0(true);
 }
 
 namespace fnv_00af5320 {
@@ -2358,7 +2336,7 @@ struct FUN_00afb300 : public ArchiveFile
     FUN_00afb300(const char*, ArchiveStand*, unsigned int, unsigned int, int);
     static void* operator new(unsigned int uiSize)
     {
-        return _g_memoryManager.Allocate(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00afa550::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }
     static void operator delete(void* p);
 };
@@ -2367,7 +2345,7 @@ struct FUN_00afc430 : public CompressedArchiveFile
     FUN_00afc430(const char*, ArchiveStand*, unsigned int, unsigned int, int);
     static void* operator new(unsigned int uiSize)
     {
-        return _g_memoryManager.Allocate(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00afa550::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }
     static void operator delete(void* p);
 };
@@ -2381,7 +2359,6 @@ struct ArchiveStand
     {
         return !!(iArchiveFlags & uiFlag);
     }
-    bool IsFileEntryValid(ArchiveFileEntryStand*, bool);
     ArchiveFile* OpenFile(int iFolder, int iFile, int iMode, const char* pName);
 };
 
@@ -2390,7 +2367,7 @@ ArchiveFile* ArchiveStand::OpenFile(int iFolder, int iFile, int iMode, const cha
 {
     ArchiveFile* pArchiveFile = 0;
     ArchiveFileEntryStand* pEntry = &pFolders[iFolder].pFiles[iFile];
-    if (pEntry && IsFileEntryValid(pEntry, false))
+    if (pEntry && reinterpret_cast<::ArchiveStand *>(this)->IsFileEntryValid((::ArchiveFileEntryStand *)(pEntry), false))
     {
         unsigned int iOffset = pEntry->iOffset & 0x7fffffff;
         if (GetArchiveFlag(4) == pEntry->IsCompressed())
@@ -2411,7 +2388,6 @@ struct P03MM
 {
     void* Allocate(unsigned int);
 };
-extern P03MM g_memoryManager;
 struct ArchiveFileEntryStand
 {
     unsigned int hash[2];
@@ -2436,7 +2412,7 @@ struct FUN_00afb300 : ArchiveFile
     FUN_00afb300(unsigned int, ArchiveStand*, unsigned int, unsigned int, unsigned int);
     __forceinline static void* operator new(unsigned int s)
     {
-        return g_memoryManager.Allocate(s);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00afa750::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(s);
     }
 };
 struct FUN_00afc430 : CompressedArchiveFile
@@ -2444,7 +2420,7 @@ struct FUN_00afc430 : CompressedArchiveFile
     FUN_00afc430(unsigned int, ArchiveStand*, unsigned int, unsigned int, unsigned int);
     __forceinline static void* operator new(unsigned int s)
     {
-        return g_memoryManager.Allocate(s);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00afa750::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(s);
     }
 };
 struct ArchiveStand
@@ -2455,7 +2431,6 @@ struct ArchiveStand
     {
         return (flags & 4) != 0;
     }
-    bool IsFileEntryValid(ArchiveFileEntryStand*, bool);
     ArchiveFile* CreateArchiveFile(ArchiveFileEntryStand*, unsigned int, unsigned int);
 };
 // If entry is valid and passes IsFileEntryValid, allocates a compressed or uncompressed archive file matching the archive's compression state and returns it.
@@ -2465,7 +2440,7 @@ ArchiveFile* ArchiveStand::CreateArchiveFile(ArchiveFileEntryStand* entry, unsig
     ArchiveFile* file = 0;
     if (entry)
     {
-        if (IsFileEntryValid(entry, false))
+        if (reinterpret_cast<::ArchiveStand *>(this)->IsFileEntryValid((::ArchiveFileEntryStand *)(entry), false))
         {
             if (IsCompressed() == entry->IsCompressionToggled())
                 file = new FUN_00afb300(auiUnk, this, entry->GetOffset(), entry->GetSize(), a);
@@ -2608,7 +2583,7 @@ struct NP_afc
 
     void* operator new(size_t size)
     {
-        return _g_memoryManager.Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00afc880::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }
 
     NP_afc(NP_afc* other) : m_spArchive(other->m_spArchive), m_pkNext(0)
@@ -2645,11 +2620,11 @@ void NP_afc::PushArchive(NP_afc* other)
         NP_afc* pNode = new NP_afc(this);
         pNode->m_pkNext = m_pkNext;
         m_pkNext = pNode;
-        FUN_00afc770(other);
+        reinterpret_cast<::NP_afc *>(this)->FUN_00afc770((::NP_afc *)(other));
     }
     else
     {
-        FUN_00afc770(other);
+        reinterpret_cast<::NP_afc *>(this)->FUN_00afc770((::NP_afc *)(other));
     }
 }
 }  // namespace fnv_00afc880
@@ -2727,7 +2702,7 @@ struct NP_afc
 
     void* operator new(size_t size)
     {
-        return _g_memoryManager.Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00afcc10::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }
 
     NP_afc(NP_afc* other) : m_spArchive(other->m_spArchive), m_pkNext(0)
@@ -2772,7 +2747,7 @@ void NP_afc::AppendArchive(NP_afc* other)
     }
     else
     {
-        cur->FUN_00afc770(other);
+        reinterpret_cast<::NP_afc *>((cur))->FUN_00afc770((::NP_afc *)(other));
     }
 }
 }  // namespace fnv_00afcc10
@@ -2808,7 +2783,6 @@ struct FileNameHash
 };
 struct Owner25
 {
-    int FUN_00afa6e0(int arDirectoryHash, int arFileNameHash, int apFileName);
 };
 struct Archive : public Owner25
 {
@@ -2858,7 +2832,7 @@ BSFileEntry* FindFileEntryInArchives(int aeArchiveTypeIndex, FileNameHash& arDir
         if (sparchive && sparchive->HasArchiveType(aeArchiveTypeIndex))
         {
             pReturn =
-                (BSFileEntry*)sparchive->FUN_00afa6e0((int)&arDirectoryHash, (int)&arFileNameHash, (int)apFileName);
+                (BSFileEntry*)reinterpret_cast<::Owner25 *>(((sparchive).operator->()))->FUN_00afa6e0((int)&arDirectoryHash, (int)&arFileNameHash, (int)apFileName);
             if (pReturn)
                 return pReturn;
         }
@@ -2877,24 +2851,22 @@ struct DeallocMM_00affd80
     void _DeallocateAlias(void*);
 };
 extern MemMgr_00affd80 _g_memoryManager;
-extern int DAT_010a2480;
 extern unsigned int DAT_011acff8;
-extern __declspec(thread) int DAT_tls_memctx;
 __forceinline void* operator new[](unsigned int auiSize)
 {
-    return _g_memoryManager.Allocate(auiSize);
+    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemMgr_00affd80 *>(&::g_memoryManager))))->FUN_00aa3e40(auiSize);
 }
 __forceinline void operator delete[](void* apMem)
 {
-    ((DeallocMM_00affd80*)&_g_memoryManager)->_DeallocateAlias(apMem);
+    reinterpret_cast<::FNV_MemoryManager *>((((DeallocMM_00affd80*)&(*reinterpret_cast<::MemMgr_00affd80 *>(&::g_memoryManager)))))->FUN_00aa4060(apMem);
 }
 __forceinline int GetMemCtx_00affd80()
 {
-    return DAT_tls_memctx;
+    return (*reinterpret_cast<int *>(&::currentAllocationContext));
 }
 __forceinline void SetMemCtx_00affd80(int aiCtx)
 {
-    DAT_tls_memctx = aiCtx;
+    (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiCtx;
 }
 struct MemCtxScope_00affd80
 {
@@ -2902,7 +2874,7 @@ struct MemCtxScope_00affd80
     __forceinline MemCtxScope_00affd80(int aiCtx)
     {
         iOld = GetMemCtx_00affd80();
-        DAT_tls_memctx = aiCtx;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiCtx;
     }
     __forceinline ~MemCtxScope_00affd80()
     {
@@ -2924,7 +2896,7 @@ bool FUN_00affd80_t::SetBufferSize(unsigned int auiSize)
     if (auiSize == m_uiBufferAllocSize)
         return bResult;
     MemCtxScope_00affd80 kCtx3(0x17);
-    NiFile::Seek(0, DAT_010a2480);
+    reinterpret_cast<::FUN_00aa16d0_cls *>(this)->FUN_00aa16d0(0, DAT_010a2480);
     Flush();
     delete[] m_pBuffer;
     m_uiBufferAllocSize = auiSize;
@@ -2950,7 +2922,6 @@ struct MemMgrStand
 };
 extern MemMgrStand g_arcMemMgr;
 extern int DAT_011ace04;
-extern int DAT_010a2480;
 
 inline void* operator new[](unsigned int auiSize)
 {
@@ -3128,11 +3099,11 @@ struct ArcStand : public ArcStream
     }
     inline bool CheckCache(bool abFlag, int aiVal)
     {
-        return FUN_00afb170(abFlag, aiVal);
+        return ::FUN_00afb170((void *)this, (::FUN_00afb170_Args)(abFlag));
     }
     static inline int GetCacheVal()
     {
-        return DAT_011ace04;
+        return ::DAT_011ace04;
     }
     inline unsigned int GetFolderFileCount(unsigned int auiFolder)
     {
@@ -3164,7 +3135,7 @@ char* ArcStand::FUN_00af96d0(unsigned int auiFolder, unsigned int auiFile)
         if (CheckCache(HasFlag20(), GetCacheVal()))
         {
             unsigned int uiNameOffset = uiNamesOffset + ppFileNameOffsets[auiFolder][auiFile];
-            Seek(uiNameOffset, DAT_010a2480);
+            Seek(uiNameOffset, ::DAT_010a2480);
             ArcLoadChars(*this, pNameBuffer + uiPos, 1);
             while (pNameBuffer[uiPos++])
             {
@@ -3175,7 +3146,7 @@ char* ArcStand::FUN_00af96d0(unsigned int auiFolder, unsigned int auiFile)
         else
         {
             char* pNamesBlock = new char[uiNamesLength + 1];
-            Seek(uiNamesOffset, DAT_010a2480);
+            Seek(uiNamesOffset, ::DAT_010a2480);
             ArcLoadChars(*this, pNamesBlock, uiNamesLength);
             pNamesBlock[uiNamesLength] = 0;
             char* pCurName = pNamesBlock;
@@ -3646,7 +3617,7 @@ struct ArchiveEntryBuf
 {
     static void operator delete(void* p)
     {
-        g_memoryManager._DeallocateAlias(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
     }
 };
 
@@ -3729,7 +3700,7 @@ struct ArchiveList
     ~ArchiveList();
     static void operator delete(void* p)
     {
-        g_memoryManager._DeallocateAlias(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
     }
     void RemoveAll()
     {
@@ -3808,7 +3779,6 @@ struct RefCounted_af5
 
 struct ArchiveRef_af5 : public BSFile, public RefCounted_af5
 {
-    bool HasFile(FileNameHash* apDirHash, FileNameHash* apFileHash, const char* apName);
 };
 
 template <class T> struct ArcPtr_af5
@@ -3854,7 +3824,7 @@ bool __cdecl HasFileInArchives(const char* apName)
     while (pNode)
     {
         ArcPtr_af5<ArchiveRef_af5> spArchive3(pNode->item);
-        if (spArchive3 && spArchive3->HasFile(&kDirHash6, &kFileHash, apName))
+        if (spArchive3 && reinterpret_cast<::fnv_00afac20::S_af9 *>(((spArchive3).operator->()))->FUN_00afac20((int)(&kDirHash6), (int)(&kFileHash), (int)(apName)))
             return true;
         pNode = pNode->next;
     }
@@ -3891,7 +3861,6 @@ struct ArchiveStub : public BSFile, public BSRefCountedStub
     int unk17C;
     unsigned short usTypes;
 
-    int FindEntry(int a, int b, int c);
     unsigned short HasType(unsigned int auiMask) const
     {
         return (unsigned short)(usTypes & auiMask);
@@ -3939,7 +3908,7 @@ int __cdecl FindEntryInArchives(unsigned int auiTypes, int aiArg1, int aiArg2, i
         ArchivePtr<ArchiveStub> m_pArchive(pNode->spItem);
         if (m_pArchive && m_pArchive->HasType(auiTypes))
         {
-            int iResult = m_pArchive->FindEntry(aiArg1, aiArg2, aiArg3);
+            int iResult = reinterpret_cast<::Owner25 *>(((m_pArchive).operator->()))->FUN_00afa6e0(aiArg1, aiArg2, aiArg3);
             if (iResult)
                 return iResult;
         }
@@ -3961,7 +3930,6 @@ struct ArchiveDirectoryIndex
     unsigned int unk18;
     unsigned int unk1c;
     unsigned short types;
-    bool FUN_00afdc00(const FileNameHash* key);
 };
 struct LookupArchive : BSFile
 {
@@ -3974,7 +3942,7 @@ struct LookupArchive : BSFile
     }
     bool Contains(const FileNameHash* key)
     {
-        return index.FUN_00afdc00(key);
+        return reinterpret_cast<::FUN_00afdc00_cls *>(&(index))->FUN_00afdc00((int)(key));
     }
 };
 __forceinline void AddArchiveReference(RefObj* reference)
@@ -4098,7 +4066,6 @@ __forceinline unsigned int CountEntries(LNode* input)
     }
     return node;
 }
-void** __cdecl FUN_00af7060(ArchiveView*, unsigned int, void**, FileNameHash*, FileNameHash*, LNode*, const char*);
 // @fnv 0x00af6ba0
 void __cdecl FUN_00af6ba0(LNode* entries, const char* path, const char* directory, unsigned int types)
 {
@@ -4120,7 +4087,7 @@ void __cdecl FUN_00af6ba0(LNode* entries, const char* path, const char* director
     {
         ArchiveOwner owner(*(const ArchiveOwner*)&archive->item);
         if (owner && (unsigned short)(owner->GetTypes() & types))
-            value = FUN_00af7060(owner, count_2, value, &bound, &n, entries, buffer);
+            value = ((void **)(::fnv_00af7060::FUN_00af7060((::fnv_00af7060::ArchiveSearch *)(::ArchiveView *)(owner), count_2, (::fnv_00af7060::HashKey **)(value), (int)(&bound), (::fnv_00af7060::Filter *)(::FileNameHash *)(&n), (::fnv_00af7060::PathNode *)(entries), buffer)));
         archive = archive->next;
     }
     if (value)
@@ -4313,7 +4280,6 @@ struct Archive_af7
     {
         return usFileTypes & auiType;
     }
-    void ProcessFiles_afac20(int a, int b, int c);
 };
 
 struct ArchivePtr_af7
@@ -4358,7 +4324,7 @@ void __cdecl ProcessFilesByType(int aiArg1, int aiArg2, unsigned int auiType)
     {
         ArchivePtr_af7 m_pArchive(pNode->pItem);
         if (m_pArchive->HasFileType(auiType))
-            m_pArchive->ProcessFiles_afac20(aiArg1, aiArg2, 0);
+            reinterpret_cast<::fnv_00afac20::S_af9 *>(((m_pArchive).operator->()))->FUN_00afac20(aiArg1, aiArg2, 0);
         pNode = pNode->pNext;
     }
     LeaveCriticalSection(&g_ArchiveListLock_af7);
@@ -4476,7 +4442,7 @@ void ArchiveNames::LoadNames()
 namespace fnv_00af92f0 {
 inline void BSFreeMem(void* apMem)
 {
-    g_memoryManager._DeallocateAlias(apMem);
+    reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(apMem);
 }
 
 struct ArchiveNames
@@ -4628,7 +4594,7 @@ void ArchiveNames::FreeNames(bool abKeepFileNames)
         if (pDirectoryStringsBuffer)
         {
             char* pBuf = pDirectoryStringsBuffer;
-            g_memoryManager._DeallocateAlias(pBuf);
+            reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(pBuf);
         }
         pDirectoryStringsBuffer = 0;
         if (pFileNameStrings && !abKeepFileNames)
@@ -4636,11 +4602,11 @@ void ArchiveNames::FreeNames(bool abKeepFileNames)
             for (i = 0; i < GetDirectoryCount(); i++)
             {
                 char* pName = pFileNameStrings[i];
-                g_memoryManager._DeallocateAlias(pName);
+                reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(pName);
             }
             {
                 char** ppNames = pFileNameStrings;
-                g_memoryManager._DeallocateAlias(ppNames);
+                reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(ppNames);
             }
             pFileNameStrings = 0;
         }
@@ -4651,7 +4617,6 @@ void ArchiveNames::FreeNames(bool abKeepFileNames)
 
 extern "C" void __cdecl FUN_00ecbc5b(char*, unsigned int);
 extern int __cdecl _stricmp(const char*, const char*);
-void __cdecl FNV_Warning(const char*, ...);
 extern const char DAT_010a4518[];
 struct MemoryManagerDealloc
 {
@@ -4755,7 +4720,7 @@ bool S_af9::FindHashEntry(int pKey, int* piIndex, int pPath)
                     LowerText(v, _strlen(v) + 1);
                     if (_stricmp(w, v))
                     {
-                        FNV_Warning(DAT_010a4518, y, path);
+                        ::FUN_005b5e40();
                         result = false;
                     }
                     delete[] w;
@@ -4785,7 +4750,6 @@ struct Group97
 };
 struct Hash97
 {
-    int FUN_00afce90(const Entry97&);
 };
 struct MM97
 {
@@ -4809,7 +4773,6 @@ inline unsigned int Length97(const char* s)
 }
 extern "C" char* __cdecl strtok_s(char*, const char*, char**);
 extern "C" int __cdecl _stricmp(const char*, const char*);
-void __cdecl FUN_005b5e40(const char*, ...);
 struct Archive97
 {
     int unk000;
@@ -4923,9 +4886,6 @@ struct Archive97
     int unk1b0;
     unsigned char status;
     unsigned char unk1b5, unk1b6, unk1b7;
-    bool IsFileEntryValid(Entry97*, bool);
-    bool FUN_00afb190(Entry97*, const char*);
-    const char* FUN_00af96d0(unsigned int, unsigned int);
     bool FUN_00afa120(unsigned int, Hash97*, unsigned int*, const char*, bool);
 };
 // Looks up an entry in a group by hash, checking the cached index first then binary-searching, and writes the found index to output.
@@ -4940,9 +4900,9 @@ bool Archive97::FUN_00afa120(unsigned int group, Hash97* hash, unsigned int* pui
     if (last9 < files31->Size())
     {
         Entry97* entry = &files31->entries[last9];
-        if (IsFileEntryValid(entry, ignore) && hash->FUN_00afce90(*entry) == 0)
+        if (reinterpret_cast<::ArchiveStand *>(this)->IsFileEntryValid((::ArchiveFileEntryStand *)(entry), ignore) && reinterpret_cast<::FUN_00afce90_S *>((hash))->FUN_00afce90((const unsigned long long &)(*entry)) == 0)
         {
-            if (!FUN_00afb190(entry, path))
+            if (!reinterpret_cast<::FUN_00afb190_shell *>(this)->FUN_00afb190((::FUN_00afb190_entry *)(entry), path))
             {
                 *puiOutput = last9;
                 found5 = true;
@@ -4964,7 +4924,7 @@ bool Archive97::FUN_00afa120(unsigned int group, Hash97* hash, unsigned int* pui
             step13 = (high27 - low10) >> 1;
             middle91 = low10 + step13;
             candidate26 = &files31->entries[middle91];
-            comparison20 = hash->FUN_00afce90(*candidate26);
+            comparison20 = reinterpret_cast<::FUN_00afce90_S *>((hash))->FUN_00afce90((const unsigned long long &)(*candidate26));
             if (comparison20 > 0)
                 low10 = middle91;
             else if (comparison20 < 0)
@@ -4972,7 +4932,7 @@ bool Archive97::FUN_00afa120(unsigned int group, Hash97* hash, unsigned int* pui
             else
                 break;
         }
-        if (comparison20 == 0 && IsFileEntryValid(candidate26, ignore) && !FUN_00afb190(candidate26, path))
+        if (comparison20 == 0 && reinterpret_cast<::ArchiveStand *>(this)->IsFileEntryValid((::ArchiveFileEntryStand *)(candidate26), ignore) && !reinterpret_cast<::FUN_00afb190_shell *>(this)->FUN_00afb190((::FUN_00afb190_entry *)(candidate26), path))
         {
             *puiOutput = middle91;
             cached = middle91;
@@ -4981,7 +4941,7 @@ bool Archive97::FUN_00afa120(unsigned int group, Hash97* hash, unsigned int* pui
             {
                 char filename4[260];
                 _splitpath_s(path, 0, 0, 0, 0, filename4, 260, 0, 0);
-                const char* original27 = FUN_00af96d0(group, middle91);
+                const char* original27 = reinterpret_cast<::fnv_00af96d0::ArcStand *>(this)->FUN_00af96d0(group, middle91);
                 char* left22 = new char[Length97(original27) + 1];
                 char* right19 = new char[Length97(filename4) + 1];
                 Copy97(left22, Length97(original27) + 1, original27);
@@ -4993,7 +4953,7 @@ bool Archive97::FUN_00afa120(unsigned int group, Hash97* hash, unsigned int* pui
                 Lower97(right19, Length97(right19) + 1);
                 if (_stricmp(left22, right19))
                 {
-                    FUN_005b5e40("DEFAULT: HashMap Collision between %s and %s", original27, filename4);
+                    ::FUN_005b5e40();
                     found5 = false;
                 }
                 delete[] left22;
@@ -5128,8 +5088,6 @@ struct ThisAD
     char pad174[0x10];
     EntryAD* entries;
     const char* GetString(int);
-    void FUN_00b01510(BSHashA*);
-    int FUN_00b01590(char*, const char*, BSHashA*);
     int ClearMatchedEntries();
 };
 // @fnv 0x00afad00
@@ -5210,8 +5168,8 @@ int ThisAD::ClearMatchedEntries()
         else
         {
             BSHashA hash;
-            this->FUN_00b01510(&hash);
-            count = this->FUN_00b01590(DAT_011f8050, DAT_010a4346, &hash);
+            reinterpret_cast<::FUN_00b01510_cls *>((this))->FUN_00b01510((int)(&hash));
+            count = reinterpret_cast<::DirectoryArchive *>((this))->FUN_00b01590(DAT_011f8050, DAT_010a4346, (const ::_FILETIME *)(::fnv_00afad00::BSHashA *)(&hash));
         }
         return count;
     }
@@ -5333,6 +5291,26 @@ class FUN_00afb520_cls : public FUN_00afb520_base
     int unk154;
     int m_spArchive;
 };
+// Sets the vtable, ends and frees the zlib stream at offset 0x160, frees the buffer at 0x164, then calls FUN_00afb520.
+// @fnv 0x00afbfe0
+void FUN_00afbfe0_shell::DestroyCompressedArchiveFile()
+{
+    ZlibStream* pzstream;
+    *(int**)this = &DAT_010a464c;
+    if (*(ZlibStream**)((char*)this + 0x160) != 0)
+    {
+        pzstream = *(ZlibStream**)((char*)this + 0x160);
+        _inflateEnd(pzstream);
+        void* p1 = pzstream;
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p1);
+    }
+    if (*(void**)((char*)this + 0x164) != 0)
+    {
+        void* p2 = *(void**)((char*)this + 0x164);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p2);
+    }
+    reinterpret_cast<::FUN_00afb520_cls *>((this))->FUN_00afb520_cls::~FUN_00afb520_cls();
+}
 
 // @fnv 0x00afb520
 FUN_00afb520_cls::~FUN_00afb520_cls()
@@ -5340,7 +5318,7 @@ FUN_00afb520_cls::~FUN_00afb520_cls()
     if (m_pBuffer != 0)
     {
         void* buf = m_pBuffer;
-        DAT_011f6238.FUN_00aa4060(buf);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00afb520_mm *>(&::g_memoryManager))))->FUN_00aa4060(buf);
     }
     m_pBuffer = 0;
     m_bGood = 0;
@@ -5360,7 +5338,6 @@ FUN_00afb520_cls::~FUN_00afb520_cls()
     }
 }
 
-extern int DAT_010a2484;
 void* __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
 __forceinline void RenderCopyData(void* dest, const void* source, unsigned int size)
 {
@@ -5368,9 +5345,6 @@ __forceinline void RenderCopyData(void* dest, const void* source, unsigned int s
 }
 struct ArchiveRead : ArchiveStub
 {
-    char* FUN_00aa1ac0();
-    void FUN_00aa16d0(int, int);
-    unsigned int FUN_00aa1570(void*, unsigned int);
     int GetCurrentPos()
     {
         int value = unk01c;
@@ -5437,7 +5411,7 @@ unsigned int Reader078::ReadAtOffset(char* output, unsigned int size, unsigned i
         int available = GetArchive()->GetReadSize() - bufferOffset;
         if (available > (int)size)
             available = size;
-        RenderCopyData(output, GetArchive()->FUN_00aa1ac0() + bufferOffset, available);
+        RenderCopyData(output, ((char *)(reinterpret_cast<::AA1AC0Class *>((GetArchive()))->FUN_00aa1ac0())) + bufferOffset, available);
         output += available;
         if (size == available)
         {
@@ -5452,7 +5426,7 @@ unsigned int Reader078::ReadAtOffset(char* output, unsigned int size, unsigned i
     GetArchive()->SetReadSize(0);
     if (end = position - difference)
     {
-        GetArchive()->FUN_00aa16d0(end, DAT_010a2484);
+        reinterpret_cast<::FUN_00aa16d0_cls *>((GetArchive()))->FUN_00aa16d0(end, DAT_010a2484);
         GetArchive()->SetTruePos(position);
     }
     if (m_uiBufferSize + size + offset > m_uiValueId)
@@ -5463,15 +5437,15 @@ unsigned int Reader078::ReadAtOffset(char* output, unsigned int size, unsigned i
     {
         if (size < GetArchive()->GetBufferSize())
         {
-            result = GetArchive()->FUN_00aa1570(GetArchive()->FUN_00aa1ac0(), size);
+            result = reinterpret_cast<::NiLODData *>((GetArchive()))->Write(((char *)(reinterpret_cast<::AA1AC0Class *>((GetArchive()))->FUN_00aa1ac0())), size);
             GetArchive()->SetPos(result);
             GetArchive()->SetReadSize(result);
             copied = result < size ? result : size;
-            RenderCopyData(output, GetArchive()->FUN_00aa1ac0(), copied);
+            RenderCopyData(output, ((char *)(reinterpret_cast<::AA1AC0Class *>((GetArchive()))->FUN_00aa1ac0())), copied);
         }
         else
         {
-            result = GetArchive()->FUN_00aa1570(output, size);
+            result = reinterpret_cast<::NiLODData *>((GetArchive()))->Write(output, size);
             copied = result;
         }
     }
@@ -5566,11 +5540,11 @@ struct BSSimpleList
             delete m_pkNext;
             m_pkNext = pkNext;
         }
-        m_item = ArcPtr(0);
+        reinterpret_cast<::NP_afc *>((void *)&(const ::ArcPtr &)(m_item))->FUN_00afc770((::NP_afc *)&(const ::ArcPtr &)(ArcPtr(0)));
     }
     static void operator delete(void* pvMem)
     {
-        g_memoryManager._DeallocateAlias(pvMem);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(pvMem);
     }
     bool IsEmpty() const
     {
@@ -5600,7 +5574,7 @@ void BSSimpleList::RemoveItem(const ArcPtr& item)
             {
                 pkPrev = m_pkNext;
                 m_pkNext = pkPrev->m_pkNext;
-                m_item = pkPrev->m_item;
+                reinterpret_cast<::NP_afc *>((void *)&(const ::ArcPtr &)(m_item))->FUN_00afc770((::NP_afc *)&(pkPrev->m_item));
                 pkPrev->m_pkNext = 0;
                 delete pkPrev;
             }
@@ -5625,7 +5599,7 @@ struct ListItem
     ~ListItem();
     static void operator delete(void* p)
     {
-        g_memoryManager._DeallocateAlias(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
     }
 };
 
@@ -5691,7 +5665,7 @@ void OwnerList::FUN_00afcaf0()
         delete head;
         head = next;
     }
-    FUN_00afc770(NullRef());
+    reinterpret_cast<::NP_afc *>(this)->FUN_00afc770((::NP_afc *)&(const ::NullRef &)(NullRef()));
 }
 
 namespace fnv_00af5480 {
@@ -6052,10 +6026,8 @@ bool __cdecl RemoveArchiveFile(MyArchiveFile* apFile)
 namespace fnv_00af4550 {
 extern const char DAT_010a4398[];
 extern const char DAT_010a43a8[];
-extern unsigned char DAT_011acdf8;
 extern const char* DAT_011f8158;
 extern const char* DAT_011f815c;
-extern const char DAT_010a433a[];
 extern "C" int __cdecl strcpy_s(char*, unsigned int, const char*);
 extern "C" unsigned int __cdecl strlen(const char*);
 extern "C" __declspec(dllimport) unsigned long __stdcall GetTickCount();
@@ -6068,7 +6040,6 @@ extern "C" char* __cdecl fgets(char*, int, _iobuf*);
 extern "C" char* __cdecl strstr(const char*, const char*);
 extern "C" int __cdecl _access(const char*, int);
 extern "C" char* __cdecl strtok_s(char*, const char*, char**);
-int __cdecl sprintf_s(char*, unsigned int, const char*, ...);
 struct ArchiveRef
 {
     virtual void slot0();
@@ -6105,7 +6076,6 @@ class Archive : public BSFile
     {
         return m_uiBufferAllocSize;
     }
-    bool SetBufferSize(unsigned int);
 };
 template <class T> struct ArchivePointer
 {
@@ -6140,7 +6110,6 @@ struct ArchiveName
 {
     char name[8];
 };
-extern ArchiveName DAT_011ace08[26];
 inline unsigned int MainArchiveGroup()
 {
     return 0;
@@ -6153,15 +6122,13 @@ struct ArchiveMemory
     void Deallocate(void*);
 };
 extern ArchiveMemory DAT_011f6238;
-void __cdecl FUN_00af5ab0(const char*);
-void* __cdecl FUN_00af4be0(const char*, int, int);
 inline char* AllocationResult(char* const& result)
 {
     return result;
 }
 inline void ArchiveFree(void* const& data)
 {
-    DAT_011f6238.Deallocate(data);
+    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00af4550::ArchiveMemory *>(&::g_memoryManager))))->FUN_00aa4060(data);
 }
 inline int CopyPath(char* dest, unsigned int size, const char* source)
 {
@@ -6194,9 +6161,9 @@ bool __cdecl FUN_00af4550()
                     unsigned long zz;
                     {
                         char* zz2;
-                        if (!DAT_011acdf8)
+                        if (!(*reinterpret_cast<unsigned char *>(&::DAT_011acdf8)))
                             return pForm;
-                        FUN_00af5ab0(DAT_011f8158);
+                        ::FUN_00af5ab0(DAT_011f8158);
                         for (unsigned int i = 0; i < 25; i++)
                         {
                             unsigned int minimum = i;
@@ -6214,9 +6181,9 @@ bool __cdecl FUN_00af4550()
                         }
                         zz = GetTickCount();
                         kSound = 32768;
-                        zz2 = AllocationResult((char*)DAT_011f6238.Allocate(kSound));
+                        zz2 = AllocationResult((char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00af4550::ArchiveMemory *>(&::g_memoryManager))))->FUN_00aa3e40(kSound));
                         CopyPath(zz2, kSound, DAT_011f815c);
-                        sprintf_s(pResponse, 260, "%sPlugins.txt", DAT_010a433a + 1);
+                        ::FUN_00406d00(pResponse, 260, "%sPlugins.txt", ::DAT_010a433a + 1);
                         flags = 0;
                         fopen_s(&flags, pResponse, "r");
                         if (flags)
@@ -6252,7 +6219,7 @@ bool __cdecl FUN_00af4550()
                         {
                             while (*time == ' ' || *time == '\t' || *time == '\n')
                                 time++;
-                            ArchivePointer<Archive> archive = (Archive*)FUN_00af4be0(time, 0, 0);
+                            ArchivePointer<Archive> archive = (Archive*)((void *)(::fnv_00af4be0::FUN_00af4be0(time, 0, 0)));
                             if (archive)
                             {
                                 for (unsigned int kind = 0; kind < 9; kind++)
@@ -6264,7 +6231,7 @@ bool __cdecl FUN_00af4550()
                                             DAT_011f8190[MainArchiveGroup()][kind].FUN_00afd1b0(
                                                 archive.GetForAssignment());
                                             if (DAT_011aced8[kind] > archive->BufferSize())
-                                                archive->SetBufferSize(DAT_011aced8[kind]);
+                                                reinterpret_cast<::FUN_00affd80_t *>(((archive).operator->()))->SetBufferSize(DAT_011aced8[kind]);
                                         }
                                     }
                                 }
@@ -6401,7 +6368,6 @@ struct MemoryManagerAllocHelper
 {
     void* Allocate(unsigned int);
 };
-extern MemoryManagerAllocHelper g_memoryManager;
 struct LNode;
 extern LNode* DAT_011f8160;
 static const char emptyPathWarning[] = "Loading a user created or misnamed BSA";
@@ -6411,11 +6377,9 @@ extern const char DAT_010a4444[];
 extern const char DAT_010a443c[];
 extern const char DAT_010a4434[];
 extern const char DAT_010a442c[];
-extern bool DAT_011acdf8;
 int __cdecl strcpy_s(char*, unsigned int, const char*);
 unsigned int __cdecl strlen(const char*);
 const char* __cdecl FUN_00ec7750(const char*, const char*);
-void __cdecl FNV_Warning(const char*);
 __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct OpenRef
@@ -6535,7 +6499,7 @@ struct OpenNode
     OpenNode* next;
     static void* operator new(unsigned int size)
     {
-        return ((MemoryManagerAllocHelper*)&g_memoryManager)->Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>((((MemoryManagerAllocHelper*)&(*reinterpret_cast<::fnv_00af4be0::MemoryManagerAllocHelper *>(&::g_memoryManager)))))->FUN_00aa3e40(size);
     }
     OpenNode() throw() : item(0), next(0)
     {}
@@ -6611,7 +6575,6 @@ struct OpenPaths
     virtual void v4();
     virtual void v5();
     virtual void Resolve(const char*, char*);
-    bool Check(int);
 };
 OpenPaths* __cdecl GetOpenPaths();
 __forceinline void SetOpenNode(OpenNode* const& p)
@@ -6622,14 +6585,14 @@ __forceinline void SetOpenNode(OpenNode* const& p)
 // @fnv 0x00af4be0
 PluginFile* __cdecl FUN_00af4be0(const char* path, unsigned short types, bool option)
 {
-    if (!DAT_011acdf8)
+    if (!::DAT_011acdf8)
         return 0;
     char found3[260];
     char resolved2[260];
     strcpy_s(found3, 260, path);
     if (!(g_fileFinder ? g_fileFinder->Find(path, found3, 1, -1) : 0))
         return 0;
-    if (GetOpenPaths()->Check((int)found3))
+    if (reinterpret_cast<::FUN_00b011b0_shell *>((GetOpenPaths()))->FUN_00b011b0((int)found3))
         GetOpenPaths()->Resolve(found3, resolved2);
     else
         strcpy_s(resolved2, 260, found3);
@@ -6658,13 +6621,13 @@ PluginFile* __cdecl FUN_00af4be0(const char* path, unsigned short types, bool op
             rank4 = 5;
         else
         {
-            FNV_Warning("Loading a user created or misnamed BSA");
+            ::FUN_005b5e40();
             rank4 = 6;
         }
     }
     else
     {
-        FNV_Warning(emptyPathWarning);
+        ::FUN_005b5e40();
         rank4 = 6;
     }
     if (rank4 > 0)
@@ -6775,7 +6738,6 @@ class Archive : public BSFile, public NiRefObject
     {
         LeaveCriticalSection(&m_kCriticalSection);
     }
-    const char* FUN_00af9ba0(ArchiveFileEntry* pkEntry);
     unsigned int unk160;
     unsigned int unk164;
     unsigned int unk168;
@@ -6809,7 +6771,7 @@ bool __cdecl FUN_00af67d0(unsigned int uiIndex, ArchiveFileEntry* pkEntry, char*
     if (spCurrent)
     {
         spCurrent->Lock();
-        const char* pcSource = spCurrent->FUN_00af9ba0(pkEntry);
+        const char* pcSource = ((const char *)(reinterpret_cast<::FUN_00af9ba0_shell *>(((spCurrent).operator->()))->FUN_00af9ba0((unsigned int)(pkEntry))));
         if (pcSource)
         {
             strcpy_s(pcOutput, 260, pcSource);
@@ -6829,7 +6791,7 @@ struct MemoryManager
 extern MemoryManager _g_memoryManager;
 inline void* __cdecl operator new[](unsigned int n)
 {
-    return _g_memoryManager.Allocate(n);
+    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00af7060::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(n);
 }
 extern "C" unsigned int __cdecl strlen(const char*);
 extern "C" int __cdecl strcpy_s(char*, unsigned int, const char*);
@@ -6868,7 +6830,7 @@ struct HashKey
     HashKey(const char*, int);
     void* operator new(unsigned int n)
     {
-        return _g_memoryManager.Allocate(n);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00af7060::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(n);
     }
 };
 inline unsigned int CombinedLength(const char* prefix, const char* name)
@@ -7027,11 +6989,7 @@ struct ArchiveSearch
     DirectoryRecord* dirs;
     int unk188, unk18c, unk190, unk194, unk198;
     ArcCS lock;
-    bool FindHashEntry(int, int*, int);
-    bool IsFileEntryValid(FileRecord*, bool);
-    const char* FUN_00af96d0(int, unsigned int);
 };
-void QuickSortSortKeys(HashKey**, unsigned int, unsigned int);
 // @fnv 0x00af7060
 HashKey** __cdecl FUN_00af7060(ArchiveSearch* archive, unsigned int count, HashKey** keys, int directory,
                                Filter* filter, PathNode* paths, const char* prefix)
@@ -7039,7 +6997,7 @@ HashKey** __cdecl FUN_00af7060(ArchiveSearch* archive, unsigned int count, HashK
     EnterCriticalSection(&archive->lock);
     int directoryIndex;
     DirectoryRecord* dir;
-    if (archive->FindHashEntry(directory, &directoryIndex, 0))
+    if (reinterpret_cast<::S_af9 *>((archive))->FindHashEntry(directory, &directoryIndex, 0))
     {
         if (keys == 0 && count > 0)
         {
@@ -7051,13 +7009,13 @@ HashKey** __cdecl FUN_00af7060(ArchiveSearch* archive, unsigned int count, HashK
                 keys[keyIndex] = new HashKey(path, 0);
                 node = node->next;
             }
-            QuickSortSortKeys(keys, 0, count - 1);
+            ::QuickSortSortKeys((::SortKey **)(keys), 0, count - 1);
         }
         dir = &archive->dirs[directoryIndex];
         for (unsigned int fileIndex = 0; fileIndex < dir->Count(); ++fileIndex)
         {
             FileRecord* file = &dir->files[fileIndex];
-            if (archive->IsFileEntryValid(file, false))
+            if (reinterpret_cast<::ArchiveStand *>((archive))->IsFileEntryValid((::ArchiveFileEntryStand *)(file), false))
             {
                 int result = filter->FUN_00afcf00(file);
                 if (result == 0)
@@ -7088,7 +7046,7 @@ HashKey** __cdecl FUN_00af7060(ArchiveSearch* archive, unsigned int count, HashK
                     }
                     if (!found)
                     {
-                        const char* name = archive->FUN_00af96d0(directoryIndex, fileIndex);
+                        const char* name = reinterpret_cast<::fnv_00af96d0::ArcStand *>((archive))->FUN_00af96d0(directoryIndex, fileIndex);
                         unsigned int length = CombinedLength(prefix, name);
                         char* full = new char[length];
                         CopyPath(full, length, prefix);
@@ -7130,8 +7088,6 @@ inline void __cdecl operator delete(void* p)
     _g_memoryManager.Deallocate(p);
 }
 extern unsigned int DAT_011f81d8;
-extern volatile long DAT_011f4400;
-extern unsigned char DAT_011acdf9;
 extern bool DAT_011f8154;
 extern int DAT_011acdfc, DAT_011ace00, DAT_011ace04;
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
@@ -7218,7 +7174,7 @@ struct NiRefObject077
     NiRefObject077()
     {
         refs = 0;
-        InterlockedIncrement(&DAT_011f4400);
+        InterlockedIncrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
     }
 };
 struct FUN_00b00260 : BSFile
@@ -7256,7 +7212,6 @@ struct FileStat077
     unsigned __int64 atime, mtime, ctime;
 };
 int __cdecl FUN_00ec923c(const char*, FileStat077*);
-void __cdecl ProcessFilesByType(Entry077*, Entry077*, unsigned int);
 struct ArcStream077;
 typedef unsigned int(__cdecl* ArcReadFn077)(ArcStream077*, void*, unsigned int, unsigned int*, unsigned int);
 struct ArcStream077
@@ -7300,8 +7255,6 @@ struct FUN_00af7eb0 : Header077, FUN_00b00260, NiRefObject077
     unsigned int id;
     FUN_00af7eb0(const char*, int, bool, bool);
     virtual ~FUN_00af7eb0();
-    void ClearMatchedEntries();
-    bool SetBufferSize(unsigned int);
     void ReadArray(Entry077* buffer, unsigned int count)
     {
         ArcLoadChars(*this, buffer, count * sizeof(Entry077));
@@ -7328,7 +7281,7 @@ struct FUN_00af7eb0 : Header077, FUN_00b00260, NiRefObject077
 };
 inline bool FUN_00b00260::NeedCache()
 {
-    return (DAT_011acdf9 || DAT_011f8154 || static_cast<FUN_00af7eb0*>(this)->Has(0x80) ||
+    return ((*reinterpret_cast<unsigned char *>(&::DAT_011acdf9)) || DAT_011f8154 || static_cast<FUN_00af7eb0*>(this)->Has(0x80) ||
             FUN_00afb170(static_cast<FUN_00af7eb0*>(this)->Has(8), CacheMode0()) ||
             FUN_00afb170(static_cast<FUN_00af7eb0*>(this)->Has(0x10), CacheMode1()) ||
             FUN_00afb170(static_cast<FUN_00af7eb0*>(this)->Has(0x20), CacheMode2())) &&
@@ -7372,7 +7325,7 @@ FUN_00af7eb0::FUN_00af7eb0(const char* path, int mode, bool headerOnly, bool pre
         delete[] entries;
         entries = new Entry077[Count()];
         ReadArray(entries, Count());
-        if (Has(1) && NeedCache())
+        if (Has(1) && reinterpret_cast<::ArchiveStandIn *>(this)->FUN_00afd020())
         {
             SetStatus<0x10>(true);
             delete[] directoryNames;
@@ -7380,7 +7333,7 @@ FUN_00af7eb0::FUN_00af7eb0(const char* path, int mode, bool headerOnly, bool pre
             directoryNames = new char[DirNamesSize()];
             directoryOffsets = new unsigned int[Count()];
         }
-        if (Has(2) && NeedCache())
+        if (Has(2) && reinterpret_cast<::ArchiveStandIn *>(this)->FUN_00afd020())
         {
             SetStatus<0x20>(true);
             delete[] fileNames;
@@ -7400,7 +7353,7 @@ FUN_00af7eb0::FUN_00af7eb0(const char* path, int mode, bool headerOnly, bool pre
             {
                 unsigned char length;
                 ArcLoadChars(*this, &length, 1);
-                if (NeedCache())
+                if (reinterpret_cast<::ArchiveStandIn *>(this)->FUN_00afd020())
                 {
                     ArcLoadChars(*this, directoryNames + dirOffset, length);
                     directoryOffsets[i] = dirOffset;
@@ -7420,7 +7373,7 @@ FUN_00af7eb0::FUN_00af7eb0(const char* path, int mode, bool headerOnly, bool pre
         if (Has(2))
         {
             namesOffset = TruePos();
-            if (NeedCache())
+            if (reinterpret_cast<::ArchiveStandIn *>(this)->FUN_00afd020())
             {
                 ArcLoadChars(*this, fileNames, FileNamesSize());
                 for (unsigned int i = 0; i < Count(); ++i)
@@ -7441,10 +7394,10 @@ FUN_00af7eb0::FUN_00af7eb0(const char* path, int mode, bool headerOnly, bool pre
     stamp = *(Time077*)&stat.mtime;
     if (!HasStatus(8))
     {
-        if (DAT_011acdf9)
+        if ((*reinterpret_cast<unsigned char *>(&::DAT_011acdf9)))
         {
             unsigned int uiElapsedTime = GetTickCount();
-            ClearMatchedEntries();
+            reinterpret_cast<::fnv_00afad00::ThisAD *>(this)->ClearMatchedEntries();
             uiElapsedTime = GetTickCount() - uiElapsedTime;
         }
         if (prepare)
@@ -7452,18 +7405,16 @@ FUN_00af7eb0::FUN_00af7eb0(const char* path, int mode, bool headerOnly, bool pre
             for (unsigned int i = 0; i < Count(); ++i)
             {
                 for (unsigned int j = 0; j < FileCount(i); ++j)
-                    ProcessFilesByType(entries + i, entries[i].files + j, types);
+                    ::ProcessFilesByType((int)(entries + i), (int)(entries[i].files + j), types);
             }
         }
     }
-    SetBufferSize(0x4000);
+    reinterpret_cast<::FUN_00affd80_t *>(this)->SetBufferSize(0x4000);
     ((BSFile*)this)->GetSize();
 }
 }  // namespace fnv_00af7eb0
 
 namespace fnv_00af94c0 {
-extern int DAT_010a2480;
-extern int DAT_010a2484;
 struct ArcMemMgr
 {
     void FUN_00aa4060(void* p);
@@ -7472,11 +7423,11 @@ struct ArcMemMgr
 extern ArcMemMgr DAT_011f6238;
 inline void ArcFree(void* p)
 {
-    DAT_011f6238.FUN_00aa4060(p);
+    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00af94c0::ArcMemMgr *>(&::g_memoryManager))))->FUN_00aa4060(p);
 }
 inline void* ArcAlloc(unsigned int uiSize)
 {
-    return DAT_011f6238.FUN_00aa3e40(uiSize);
+    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00af94c0::ArcMemMgr *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
 }
 struct ArcEntry
 {
@@ -7549,17 +7500,17 @@ char* ArcStream::GetString(unsigned int uiIndex)
         char* pcOld2;
         char* pcNew2;
         unsigned int ItemUpdateArray = m_uiCount;
-        SeekTo(ItemUpdateArray * 16 + 0x24, DAT_010a2480);
+        SeekTo(ItemUpdateArray * 16 + 0x24, ::DAT_010a2480);
         for (i = 0; i < uiIndex; i++)
         {
             Read(&ucLen, 1);
-            SeekTo(ucLen + LookupSequenceByKey(i) * 16, DAT_010a2484);
+            SeekTo(ucLen + LookupSequenceByKey(i) * 16, ::DAT_010a2484);
         }
         Read(&ucLen, 1);
         if (m_pcData)
         {
             pcOld2 = m_pcData;
-            DAT_011f6238.FUN_00aa4060(pcOld2);
+            reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00af94c0::ArcMemMgr *>(&::g_memoryManager))))->FUN_00aa4060(pcOld2);
             m_pcData = 0;
         }
         pcNew2 = (char*)ArcAlloc(ucLen);
@@ -7587,7 +7538,7 @@ extern "C" int __cdecl FUN_00ecbc5b(char* s, unsigned int sz);
 extern "C" char* __cdecl FUN_00ec68e4(const char* a, const char* b);
 inline void* AllocNY(unsigned int n)
 {
-    return DAT_011f6238.FUN_00aa3e40(n + 1);
+    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00afa8e0::PoolY *>(&::g_memoryManager))))->FUN_00aa3e40(n + 1);
 }
 inline void CopyStrY(char* d, unsigned int n, const char* s)
 {
@@ -7609,9 +7560,6 @@ struct ArcY
     {
         return (m_uiValue1 & 2) != 0;
     }
-    bool FUN_00af9bf0(int a, int b, int* pA, int* pB, int c);
-    const char* GetString(int a);
-    const char* FUN_00af96d0(int a, int b);
     const char* GetPathComponent(int a1, int a2, const char* pPath);
 };
 // Splits pPath into directory and file, resolves a1/a2 via FUN_00af9bf0, and returns the matching directory or file name after case-insensitive comparison.
@@ -7624,7 +7572,7 @@ const char* ArcY::GetPathComponent(int a1, int a2, const char* pPath)
         char szFile7[0x104];
         FUN_00ec7f1e(pPath, 0, 0, szDirX, 0x104, szFile7, 0x104, 0, 0);
         int iA4, iB3;
-        if (FUN_00af9bf0(a1, a2, &iA4, &iB3, 0))
+        if (reinterpret_cast<::S_af9 *>(this)->FUN_00af9bf0(a1, a2, &iA4, (int)(&iB3), 0))
         {
             char* pDirCopyX_lvyahv;
             char* pFileCopyTmp_lun;
@@ -7636,8 +7584,8 @@ const char* ArcY::GetPathComponent(int a1, int a2, const char* pPath)
             void* q_cyqb;
             void* q_u;
             void* q_ewlv;
-            pDirName_mcmb = GetString(iA4);
-            pFileName_zpqwby = FUN_00af96d0(iA4, iB3);
+            pDirName_mcmb = reinterpret_cast<::fnv_00af94c0::ArcStream *>(this)->GetString(iA4);
+            pFileName_zpqwby = reinterpret_cast<::fnv_00af96d0::ArcStand *>(this)->FUN_00af96d0(iA4, iB3);
             t_elydin = (char*)AllocNY(FUN_00ec6130(pDirName_mcmb));
             pDirCopyX_lvyahv = t_elydin;
             t_szknnb = (char*)AllocNY(FUN_00ec6130(pFileName_zpqwby));
@@ -7651,17 +7599,17 @@ const char* ArcY::GetPathComponent(int a1, int a2, const char* pPath)
             if (FUN_00ec68e4(pDirCopyX_lvyahv, szDirX))
             {
                 q_pddrt = pDirCopyX_lvyahv;
-                DAT_011f6238.FUN_00aa4060(q_pddrt);
+                reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00afa8e0::PoolY *>(&::g_memoryManager))))->FUN_00aa4060(q_pddrt);
                 q_cyqb = pFileCopyTmp_lun;
-                DAT_011f6238.FUN_00aa4060(q_cyqb);
+                reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00afa8e0::PoolY *>(&::g_memoryManager))))->FUN_00aa4060(q_cyqb);
                 return pDirName_mcmb;
             }
             if (FUN_00ec68e4(pFileCopyTmp_lun, szFile7))
             {
                 q_u = pDirCopyX_lvyahv;
-                DAT_011f6238.FUN_00aa4060(q_u);
+                reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00afa8e0::PoolY *>(&::g_memoryManager))))->FUN_00aa4060(q_u);
                 q_ewlv = pFileCopyTmp_lun;
-                DAT_011f6238.FUN_00aa4060(q_ewlv);
+                reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00afa8e0::PoolY *>(&::g_memoryManager))))->FUN_00aa4060(q_ewlv);
                 return pFileName_zpqwby;
             }
         }
@@ -7727,9 +7675,6 @@ struct ArchivePtr
 struct FUN_00aff180 : FileBase
 {
     FUN_00aff180();
-    void FUN_00afbfa0(int);
-    void FUN_00afb5f0(int, int);
-    unsigned int ReadAtOffset(char*, unsigned int, int);
     void DebugCheck()
     {
         const char* pName;
@@ -7759,13 +7704,13 @@ FUN_00afb300::FUN_00afb300(const char* name, Archive* arch, unsigned int off, un
     m_pArchive.FUN_00afd1b0(arch);
     m_uiFileIndex = off;
     m_uiValueId = size;
-    FUN_00afbfa0(0);
+    reinterpret_cast<::ArchiveFile *>(this)->SetEndianSwap(0);
     m_uiBufferAllocSize = (size > DAT_011f8164 && mode != -1) ? DAT_011f8164 : size;
-    FUN_00afb5f0(0, 0);
+    reinterpret_cast<::BSFile *>(this)->AttachFileStream(0, 0);
     if (mode == -1 || m_pArchive->IsFlag())
     {
         int x = 0;
-        m_uiBufferReadSize = ReadAtOffset(m_pBuffer, m_uiBufferAllocSize, x);
+        m_uiBufferReadSize = reinterpret_cast<::Reader078 *>(this)->ReadAtOffset(m_pBuffer, m_uiBufferAllocSize, x);
         if (m_pArchive->IsFlag())
         {
             unsigned char len = m_pBuffer[m_uiPos];
@@ -7802,7 +7747,6 @@ int __cdecl _strcpy_s(char*, unsigned int, const char*);
 const char* __cdecl _strrchr(const char*, int);
 
 const char* __cdecl SkipDataPrefix(const char*);
-int __cdecl FUN_00af7d80(const char*);
 
 class FUN_00afd390_class
 {
@@ -7892,13 +7836,11 @@ class Archive : public BSFile, public NiRefObject
 class Owner25
 {
   public:
-    bool FindHashEntry(int, int*, int);
 };
 
 class FUN_00af9ba0_shell
 {
   public:
-    int FUN_00af96d0(int, unsigned int);
 };
 
 struct NP_afc
@@ -7961,15 +7903,14 @@ class FUN_00aa5140
 {
   public:
     FUN_00aa5140();
-    const char* FUN_00aa5230(int);
 };
 
 __forceinline const char* ResolveNameInline(ArchiveEntry& entry, NP_afc& archive, int& index)
 {
     int id = entry.unk08;
     static FUN_00aa5140 s_obj;
-    const char* name = s_obj.FUN_00aa5230(id);
-    return (const char*)((FUN_00af9ba0_shell*)(Archive*)archive)->FUN_00af96d0(index, (unsigned int)name);
+    const char* name = ((const char *)(reinterpret_cast<::MersenneTwister *>(&(s_obj))->GetRandomUInt(id)));
+    return (const char*)((int)(reinterpret_cast<::fnv_00af96d0::ArcStand *>((((FUN_00af9ba0_shell*)(Archive*)archive)))->FUN_00af96d0(index, (unsigned int)name)));
 }
 
 // Resolves a data path to an archive entry name, copying the result into dest and returning success.
@@ -7981,10 +7922,10 @@ bool __cdecl ResolveArchivePath(const char* path, char* dest, unsigned int flags
     unsigned int len5 = strlen(path);
     if (flags == 0xffff && (signed char)path[len5 - 1] != '\\')
     {
-        flags = FUN_00af7d80(path);
+        flags = ::FUN_00af7d80(path);
     }
     FUN_00afd390_class key;
-    key.FUN_00afd390(path, 1);
+    reinterpret_cast<::FUN_00afd390_class *>(&(key))->FUN_00afd390(path, 1);
 
     ArchiveEntry* spFoundArchive2 = 0;
     NP_afc pEntry = 0;
@@ -7996,9 +7937,9 @@ bool __cdecl ResolveArchivePath(const char* path, char* dest, unsigned int flags
         {
             NP_afc spArchiveB = pNode->item;
             if (spArchiveB && (unsigned short)(((Archive*)spArchiveB)->GetFlags() & flags) &&
-                ((Owner25*)(Archive*)spArchiveB)->FindHashEntry((int)&key, &index, 0))
+                reinterpret_cast<::S_af9 *>((((Owner25*)(Archive*)spArchiveB)))->FindHashEntry((int)&key, &index, 0))
             {
-                pEntry.FUN_00afc770(&spArchiveB);
+                reinterpret_cast<::NP_afc *>(&(pEntry))->FUN_00afc770((::NP_afc *)(::fnv_00af7400::NP_afc *)(&spArchiveB));
                 spFoundArchive2 = ((Archive*)pEntry)->GetEntry(index);
                 break;
             }
@@ -8077,11 +8018,10 @@ void S_00afea20_Arr::RemoveRange(unsigned int uiIndex, unsigned int ItemUpdateAr
     for (unsigned int i = 0; i < ItemUpdateArray; i++)
     {
     }
-    FUN_0042fb60(m_pBuffer + uiIndex, m_pBuffer + m_uiSize - uiMove, uiMove);
+    reinterpret_cast<::FUN_0042fb60_shell *>(this)->FUN_0042fb60((char *)(unsigned int *)(m_pBuffer + uiIndex), (char *)(unsigned int *)(m_pBuffer + m_uiSize - uiMove), uiMove);
     m_uiSize -= ItemUpdateArray;
 }
 
-void __cdecl __Dummy_00b6fef0(void* p, unsigned int size);
 struct FUN_00af8e60
 {
     ~FUN_00af8e60();
@@ -8091,7 +8031,7 @@ struct FUN_00afc680 : FUN_00af8e60
     virtual ~FUN_00afc680();
     static void operator delete(void* p)
     {
-        __Dummy_00b6fef0(p, 0x1d0);
+        ::FUN_00aa1460(p, 0x1d0);
     }
 };
 // The destructor body is empty; destruction proceeds to the base class destructor.
@@ -8099,7 +8039,6 @@ struct FUN_00afc680 : FUN_00af8e60
 FUN_00afc680::~FUN_00afc680()
 {}
 
-extern MemoryManager g_memoryManager;
 struct FUN_00afcdc0
 {
     ~FUN_00afcdc0();
@@ -8109,7 +8048,7 @@ struct FUN_00afcd90 : FUN_00afcdc0
     virtual ~FUN_00afcd90();
     static void operator delete(void* p)
     {
-        g_memoryManager._DeallocateAlias(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
     }
 };
 // Empty virtual destructor for FUN_00afcd90, allowing polymorphic deletion through its base class.
@@ -8134,7 +8073,6 @@ struct ArchiveStreamFile : public ArchiveStreamBase, public StreamSecondary
 ArchiveStreamFile::ArchiveStreamFile()
 {}
 
-unsigned char __fastcall FUN_00afcfe0(void*);
 
 struct FUN_00afcf00_t
 {
@@ -8152,7 +8090,7 @@ int FUN_00afcf00_t::FUN_00afcf00(FUN_00afcf00_t* other)
 {
     if ((unsigned char)(field_3 & 0x7f) == 0x2a)
     {
-        if (FUN_00afcfe0(this) == FUN_00afcfe0(other))
+        if (((unsigned char)(::FUN_00afcfe0((unsigned char *)(void *)(this)))) == ((unsigned char)(::FUN_00afcfe0((unsigned char *)(other)))))
         {
             return 0;
         }
@@ -8190,7 +8128,7 @@ int FUN_00afcf00_t::FUN_00afcf00(FUN_00afcf00_t* other)
         }
     }
 
-    if (FUN_00afcfe0(this) != FUN_00afcfe0(other))
+    if (((unsigned char)(::FUN_00afcfe0((unsigned char *)(void *)(this)))) != ((unsigned char)(::FUN_00afcfe0((unsigned char *)(other)))))
     {
         return 1;
     }
@@ -8213,7 +8151,6 @@ extern "C" int __cdecl strcpy_s(char*, unsigned int, const char*);
 extern "C" char* __cdecl strrchr(const char*, int);
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-int __cdecl FUN_00af7d80(const char*);
 struct LNode;
 extern LNode* DAT_011f8160;
 
@@ -8483,7 +8420,6 @@ struct PathArchive
         return types;
     }
 
-    bool FindHashEntry(ArchiveDirectoryKey*, unsigned*, bool);
 
     ArchiveDirectory* Directory(unsigned i)
     {
@@ -8500,7 +8436,6 @@ struct PathArchive
         return &lock;
     }
 
-    const char* FUN_00af96d0(unsigned, unsigned);
 };
 
 struct PathArchivePointer
@@ -8572,7 +8507,7 @@ bool FUN_00af7800(const char* path, char* output, unsigned mask)
     unsigned length2 = strlen(path);
 
     if (mask == 65535 && path[length2 - 1] != '\\')
-        mask = FUN_00af7d80(path);
+        mask = ::FUN_00af7d80(path);
 
     ArchiveDirectoryKey key(path, 1);
 
@@ -8591,10 +8526,10 @@ bool FUN_00af7800(const char* path, char* output, unsigned mask)
             PathArchivePointer entry3(node9->value);
 
             if (entry3 && (unsigned short)(entry3->Types() & mask) &&
-                entry3->FindHashEntry(&key, &directoryIndex, false))
+                reinterpret_cast<::S_af9 *>(((entry3).operator->()))->FindHashEntry((int)(&key), (int *)(unsigned int *)(&directoryIndex), false))
             {
 
-                archiveTmp.FUN_00afc770(entry3);
+                reinterpret_cast<::NP_afc *>(&(archiveTmp))->FUN_00afc770((::NP_afc *)&(entry3));
 
                 directory4 = archiveTmp->Directory(directoryIndex);
 
@@ -8632,7 +8567,7 @@ bool FUN_00af7800(const char* path, char* output, unsigned mask)
             }
         }
 
-        const char* replacementVal = archiveTmp->FUN_00af96d0(directoryIndex, aBestA);
+        const char* replacementVal = reinterpret_cast<::fnv_00af96d0::ArcStand *>(((archiveTmp).operator->()))->FUN_00af96d0(directoryIndex, aBestA);
 
         strcpy_s(output, 260, path);
 
@@ -8678,11 +8613,11 @@ struct FUN_00afd390
     FUN_00afd390(const char*, int);
     inline void* operator new(unsigned int size)
     {
-        return g_arcMemMgr.Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemMgrStand *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }
     inline void operator delete(void* memory)
     {
-        g_arcMemMgr.Deallocate(memory);
+        (*reinterpret_cast<::MemMgrStand *>(&::g_memoryManager)).Deallocate(memory);
     }
 };
 struct FUN_00afcce0
@@ -8695,11 +8630,11 @@ struct FUN_00afcce0
     FUN_00afcce0();
     inline void* operator new(unsigned int size)
     {
-        return g_arcMemMgr.Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemMgrStand *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }
     inline void operator delete(void* memory)
     {
-        g_arcMemMgr.Deallocate(memory);
+        (*reinterpret_cast<::MemMgrStand *>(&::g_memoryManager)).Deallocate(memory);
     }
     void InitArray(unsigned int allocated, unsigned int size)
     {
@@ -8820,8 +8755,6 @@ int __cdecl FUN_00b44000(ArcInflateReadState* state, int flush);
 int __cdecl FUN_00b45db0(ArcInflateReadState* state);
 struct DecompReadFile : public CompressedArchiveFile
 {
-    void FUN_00aa15a0();
-    unsigned int ReadAtOffset(void* buffer, unsigned int size, int mode);
     unsigned int FUN_00afc0e0(char* buffer, unsigned int size);
 };
 // Reads up to size bytes of decompressed data into buffer, refilling the compressed input buffer as needed, and returns the number of bytes read.
@@ -8877,8 +8810,8 @@ unsigned int DecompReadFile::FUN_00afc0e0(char* buffer, unsigned int size)
                 m_uiBufferSize += available - state->m_uiAvailableInputBytes;
                 if (state->m_uiAvailableInputBytes == 0)
                 {
-                    FUN_00aa15a0();
-                    m_uiBufferReadSize = ReadAtOffset(m_pBuffer, m_uiBufferAllocSize, 0);
+                    reinterpret_cast<::NiFile *>(this)->Flush();
+                    m_uiBufferReadSize = reinterpret_cast<::Reader078 *>(this)->ReadAtOffset((char *)(m_pBuffer), m_uiBufferAllocSize, 0);
                 }
             }
 
@@ -8970,7 +8903,7 @@ int __cdecl FUN_00af6430(int aiMasterIndex, int directory, int file, int name)
     int result = 0;
     ArchiveHandle archive(SelectMaster(aiMasterIndex));
     if (archive)
-        result = reinterpret_cast<Owner25*>(archive.operator->())->FUN_00afa6e0(directory, file, name);
+        result = reinterpret_cast<::Owner25 *>((reinterpret_cast<Owner25*>(archive.operator->())))->FUN_00afa6e0(directory, file, name);
     return result;
 }
 }

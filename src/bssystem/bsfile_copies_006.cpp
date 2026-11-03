@@ -1,6 +1,10 @@
 
 // Provisional build file (plan B2): exact copies of the bsfile recipe for other original addresses.
 // Twin_<addr>/FUN_<addr> are placeholder names; the original identities of these functions are unknown.
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FileObject.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_011f6000.h"
 #include "bsfile_decls.h"
 
 struct Twin_009c0070 : public BSFile

@@ -1,5 +1,15 @@
 // fallout/ai/combat/combatgoal.cpp: CombatGoal (22 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/CombatAction.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00984290.h"
+#include "fnv/decl/FUN_00984390_shell.h"
+#include "fnv/decl/TESPackage.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_011f1000.h"
 #include "combatgoal.h"
 
 // Creates and returns a new CombatGoal subclass instance matching eType, or warns and returns 0 for an unknown type.
@@ -41,7 +51,7 @@ CombatGoal* CombatGoal::CreateGoal(CombatGoal::COMBAT_GOAL eType)
     case COMBAT_GOAL_STAY_IN_COMBAT_AREA:
         return new CombatGoalStayInCombatArea(eType);
     default:
-        Warning("COMBAT: Could not create combat goal of type %i", eType);
+        ::FUN_005b5e40();
         return 0;
     }
 }
@@ -52,8 +62,6 @@ struct FUN_00984ba0
     FUN_00984ba0(int);
     ~FUN_00984ba0();
     virtual void vfn_0();
-    void FUN_0097ade0(int, int);
-    void FUN_00984390(int, int);
 };
 struct FUN_00984b20 : public FUN_00984ba0
 {
@@ -63,8 +71,8 @@ struct FUN_00984b20 : public FUN_00984ba0
 // @fnv 0x00984b20
 FUN_00984b20::FUN_00984b20(int aiValue) : FUN_00984ba0(aiValue)
 {
-    FUN_0097ade0(3, 0);
-    FUN_00984390(0, 1);
+    reinterpret_cast<::CombatAction *>(this)->FUN_0097ade0(3, 0);
+    reinterpret_cast<::FUN_00984390_shell *>(this)->FUN_00984390(0, 1);
 }
 
 struct CGBase
@@ -72,8 +80,6 @@ struct CGBase
     CGBase(int);
     ~CGBase();
     virtual void vf();
-    void FUN_0097ade0(int, int);
-    void FUN_00984390(int, int);
 };
 struct FUN_00984e60 : CGBase
 {
@@ -82,8 +88,8 @@ struct FUN_00984e60 : CGBase
 // @fnv 0x00984e60
 FUN_00984e60::FUN_00984e60(int aiValue) : CGBase(aiValue)
 {
-    FUN_0097ade0(0x16, 0xffff0017);
-    FUN_00984390(0x10, 0xffff0017);
+    reinterpret_cast<::CombatAction *>(this)->FUN_0097ade0(0x16, 0xffff0017);
+    reinterpret_cast<::FUN_00984390_shell *>(this)->FUN_00984390(0x10, 0xffff0017);
 }
 
 namespace fnv_00984ee0 {
@@ -92,9 +98,6 @@ struct CGBase
     CGBase(int);
     ~CGBase();
     virtual void vf();
-    void FUN_0097ade0(int, int);
-    void FUN_00984390(int, int);
-    void SetProcedureType(int);
 };
 struct FUN_00984ee0 : CGBase
 {
@@ -103,9 +106,9 @@ struct FUN_00984ee0 : CGBase
 // @fnv 0x00984ee0
 FUN_00984ee0::FUN_00984ee0(int t) : CGBase(t)
 {
-    FUN_0097ade0(0x13, 1);
-    FUN_00984390(1, 4);
-    SetProcedureType(1);
+    reinterpret_cast<::CombatAction *>(this)->FUN_0097ade0(0x13, 1);
+    reinterpret_cast<::FUN_00984390_shell *>(this)->FUN_00984390(1, 4);
+    reinterpret_cast<::TESPackage *>(this)->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(1));
 }
 }  // namespace fnv_00984ee0
 
@@ -115,9 +118,6 @@ struct CGBase
     CGBase(int);
     ~CGBase();
     virtual void vf();
-    void FUN_0097ade0(int, int);
-    void FUN_00984390(int, int);
-    void SetProcedureType(int);
 };
 struct FUN_00984f80 : CGBase
 {
@@ -126,9 +126,9 @@ struct FUN_00984f80 : CGBase
 // @fnv 0x00984f80
 FUN_00984f80::FUN_00984f80(int t) : CGBase(t)
 {
-    FUN_0097ade0(0x13, 2);
-    FUN_00984390(1, 5);
-    SetProcedureType(2);
+    reinterpret_cast<::CombatAction *>(this)->FUN_0097ade0(0x13, 2);
+    reinterpret_cast<::FUN_00984390_shell *>(this)->FUN_00984390(1, 5);
+    reinterpret_cast<::TESPackage *>(this)->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(2));
 }
 }  // namespace fnv_00984f80
 
@@ -139,8 +139,6 @@ struct FUN_00984ba0
     FUN_00984ba0(int);
     ~FUN_00984ba0();
     virtual void vfn_0();
-    void FUN_0097ade0(int, int);
-    void FUN_00984390(int, int);
 };
 struct FUN_00985080 : public FUN_00984ba0
 {
@@ -150,8 +148,8 @@ struct FUN_00985080 : public FUN_00984ba0
 // @fnv 0x00985080
 FUN_00985080::FUN_00985080(int aiValue) : FUN_00984ba0(aiValue)
 {
-    FUN_0097ade0(2, 7);
-    FUN_00984390(1, 7);
+    reinterpret_cast<::CombatAction *>(this)->FUN_0097ade0(2, 7);
+    reinterpret_cast<::FUN_00984390_shell *>(this)->FUN_00984390(1, 7);
 }
 }  // namespace fnv_00985080
 
@@ -162,8 +160,6 @@ struct FUN_00984ba0
     FUN_00984ba0(int);
     ~FUN_00984ba0();
     virtual void vfn_0();
-    void FUN_0097ade0(int, int);
-    void FUN_00984390(int, int);
 };
 struct FUN_00985180 : public FUN_00984ba0
 {
@@ -173,8 +169,8 @@ struct FUN_00985180 : public FUN_00984ba0
 // @fnv 0x00985180
 FUN_00985180::FUN_00985180(int a) : FUN_00984ba0(a)
 {
-    FUN_0097ade0(2, 8);
-    FUN_00984390(1, 8);
+    reinterpret_cast<::CombatAction *>(this)->FUN_0097ade0(2, 8);
+    reinterpret_cast<::FUN_00984390_shell *>(this)->FUN_00984390(1, 8);
 }
 }  // namespace fnv_00985180
 
@@ -184,8 +180,6 @@ struct CGBase
     CGBase(int);
     ~CGBase();
     virtual void vf();
-    void FUN_0097ade0(int, int);
-    void FUN_00984390(int, int);
 };
 struct FUN_00985200 : CGBase
 {
@@ -195,8 +189,8 @@ struct FUN_00985200 : CGBase
 // @fnv 0x00985200
 FUN_00985200::FUN_00985200(int aiValue) : CGBase(aiValue)
 {
-    FUN_0097ade0(2, 9);
-    FUN_00984390(1, 9);
+    reinterpret_cast<::CombatAction *>(this)->FUN_0097ade0(2, 9);
+    reinterpret_cast<::FUN_00984390_shell *>(this)->FUN_00984390(1, 9);
 }
 }  // namespace fnv_00985200
 
@@ -206,8 +200,6 @@ struct CGBase
     CGBase(int);
     ~CGBase();
     virtual void vf();
-    void FUN_0097ade0(int, int);
-    void FUN_00984390(int, int);
 };
 struct FUN_00985280 : CGBase
 {
@@ -217,8 +209,8 @@ struct FUN_00985280 : CGBase
 // @fnv 0x00985280
 FUN_00985280::FUN_00985280(int aiValue) : CGBase(aiValue)
 {
-    FUN_0097ade0(3, 0);
-    FUN_00984390(0x11, 0x3c);
+    reinterpret_cast<::CombatAction *>(this)->FUN_0097ade0(3, 0);
+    reinterpret_cast<::FUN_00984390_shell *>(this)->FUN_00984390(0x11, 0x3c);
 }
 }  // namespace fnv_00985280
 
@@ -228,8 +220,6 @@ struct CGBase
     CGBase(int);
     ~CGBase();
     virtual void vf();
-    void FUN_0097ade0(int, int);
-    void FUN_00984390(int, int);
 };
 struct FUN_00985390 : CGBase
 {
@@ -239,8 +229,8 @@ struct FUN_00985390 : CGBase
 // @fnv 0x00985390
 FUN_00985390::FUN_00985390(int t) : CGBase(t)
 {
-    FUN_0097ade0(2, 0x10);
-    FUN_00984390(1, 0x10);
+    reinterpret_cast<::CombatAction *>(this)->FUN_0097ade0(2, 0x10);
+    reinterpret_cast<::FUN_00984390_shell *>(this)->FUN_00984390(1, 0x10);
 }
 }  // namespace fnv_00985390
 
@@ -250,9 +240,6 @@ struct CGBase
     CGBase(int);
     ~CGBase();
     virtual void vf();
-    void FUN_0097ade0(int, int);
-    void FUN_00984390(int, int);
-    void SetProcedureType(int);
 };
 struct FUN_00985000 : CGBase
 {
@@ -261,9 +248,9 @@ struct FUN_00985000 : CGBase
 // @fnv 0x00985000
 FUN_00985000::FUN_00985000(int t) : CGBase(t)
 {
-    FUN_0097ade0(0x13, 3);
-    FUN_00984390(0x11, 0xf);
-    SetProcedureType(3);
+    reinterpret_cast<::CombatAction *>(this)->FUN_0097ade0(0x13, 3);
+    reinterpret_cast<::FUN_00984390_shell *>(this)->FUN_00984390(0x11, 0xf);
+    reinterpret_cast<::TESPackage *>(this)->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(3));
 }
 }
 
@@ -274,8 +261,6 @@ class CGBase
     CGBase(int);
     ~CGBase();
     virtual void v0();
-    void FUN_0097ade0(int, int);
-    void FUN_00984390(int, int);
 };
 class FUN_00985300 : public CGBase
 {
@@ -286,9 +271,9 @@ class FUN_00985300 : public CGBase
 // @fnv 0x00985300
 FUN_00985300::FUN_00985300(int aeType) : CGBase(aeType)
 {
-    FUN_0097ade0(3, 0);
-    FUN_0097ade0(9, 0);
-    FUN_00984390(9, 1);
+    reinterpret_cast<::CombatAction *>(this)->FUN_0097ade0(3, 0);
+    reinterpret_cast<::CombatAction *>(this)->FUN_0097ade0(9, 0);
+    reinterpret_cast<::FUN_00984390_shell *>(this)->FUN_00984390(9, 1);
 }
 }  // namespace fnv_00985300
 
@@ -300,8 +285,6 @@ class CGBase
     void** m_ppVirtualMethodTable;
     CGBase(int);
     ~CGBase();
-    void FUN_0097ade0(int, int);
-    void FUN_00984390(int, int);
 };
 class FUN_00984c20 : public CGBase
 {
@@ -312,9 +295,9 @@ class FUN_00984c20 : public CGBase
 FUN_00984c20::FUN_00984c20(int aeType) : CGBase(aeType)
 {
     m_ppVirtualMethodTable = (void**)&DAT_0108d488;
-    FUN_0097ade0(0x12, 0x10);
-    FUN_0097ade0(3, 1);
-    FUN_00984390(3, 0);
+    reinterpret_cast<::CombatAction *>(this)->FUN_0097ade0(0x12, 0x10);
+    reinterpret_cast<::CombatAction *>(this)->FUN_0097ade0(3, 1);
+    reinterpret_cast<::FUN_00984390_shell *>(this)->FUN_00984390(3, 0);
 }
 }  // namespace fnv_00984c20
 
@@ -327,8 +310,6 @@ class CGBase
     void** m_ppVirtualMethodTable;
     CGBase(int);
     ~CGBase();
-    void FUN_0097ade0(int, int);
-    void FUN_00984390(int, int);
 };
 class FUN_00984cb0 : public CGBase
 {
@@ -339,9 +320,9 @@ class FUN_00984cb0 : public CGBase
 FUN_00984cb0::FUN_00984cb0(int aeType) : CGBase(aeType)
 {
     m_ppVirtualMethodTable = (void**)&DAT_0108d494;
-    FUN_0097ade0(0xe, 1);
-    FUN_0097ade0(0xf, 0);
-    FUN_00984390(0xe, 0);
+    reinterpret_cast<::CombatAction *>(this)->FUN_0097ade0(0xe, 1);
+    reinterpret_cast<::CombatAction *>(this)->FUN_0097ade0(0xf, 0);
+    reinterpret_cast<::FUN_00984390_shell *>(this)->FUN_00984390(0xe, 0);
 }
 }  // namespace fnv_00984cb0
 
@@ -354,8 +335,6 @@ class CGBase
     void** m_ppVirtualMethodTable;
     CGBase(int);
     ~CGBase();
-    void FUN_0097ade0(int, int);
-    void FUN_00984390(int, int);
 };
 class FUN_00984d40 : public CGBase
 {
@@ -366,10 +345,10 @@ class FUN_00984d40 : public CGBase
 FUN_00984d40::FUN_00984d40(int aeType) : CGBase(aeType)
 {
     m_ppVirtualMethodTable = (void**)&DAT_0108d4a0;
-    FUN_0097ade0(0xf, 1);
-    FUN_0097ade0(1, 8);
-    FUN_0097ade0(1, 7);
-    FUN_00984390(0xf, 0);
+    reinterpret_cast<::CombatAction *>(this)->FUN_0097ade0(0xf, 1);
+    reinterpret_cast<::CombatAction *>(this)->FUN_0097ade0(1, 8);
+    reinterpret_cast<::CombatAction *>(this)->FUN_0097ade0(1, 7);
+    reinterpret_cast<::FUN_00984390_shell *>(this)->FUN_00984390(0xf, 0);
 }
 }  // namespace fnv_00984d40
 
@@ -379,7 +358,6 @@ namespace ol4_00985000 {
 class CGBase
 {
   public:
-    void SetProcedureType(int);
 };
 }
 class CGBase
@@ -388,8 +366,6 @@ class CGBase
     void** m_ppVirtualMethodTable;
     CGBase(int);
     ~CGBase();
-    void FUN_0097ade0(int, int);
-    void FUN_00984390(int, int);
 };
 class FUN_00985100 : public CGBase
 {
@@ -400,13 +376,12 @@ class FUN_00985100 : public CGBase
 FUN_00985100::FUN_00985100(int aeType) : CGBase(aeType)
 {
     m_ppVirtualMethodTable = (void**)&DAT_0108d4f4;
-    FUN_0097ade0(0x13, 4);
-    FUN_00984390(1, 6);
-    ((ol4_00985000::CGBase*)this)->SetProcedureType(4);
+    reinterpret_cast<::CombatAction *>(this)->FUN_0097ade0(0x13, 4);
+    reinterpret_cast<::FUN_00984390_shell *>(this)->FUN_00984390(1, 6);
+    reinterpret_cast<::TESPackage *>((((ol4_00985000::CGBase*)this)))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(4));
 }
 }  // namespace fnv_00985100
 
-extern CombatGoal* DAT_011f17a0[16];
 
 // @fnv 0x00984a50
 void InitCombatGoalTable()
@@ -431,7 +406,6 @@ CombatGoal* FUN_00984470_Class::GetCombatGoal(int index)
     return *reinterpret_cast<CombatGoal**>(reinterpret_cast<char*>(this) + 0x3fff8 + index * 4);
 }
 
-extern CombatGoal* DAT_011f17a0[16];
 struct S
 {
     int DestroyIfFlagged(int);
@@ -463,17 +437,15 @@ void FUN_00984a90()
 
 struct S_984af0
 {
-    void FUN_00984290();
     void* DestroyIfFlagged(unsigned int);
 };
-void _Deallocate(void*);
 // Calls FUN_00984290, then deallocates this if bit 0 of flags is set, and returns this.
 // @fnv 0x00984af0
 void* S_984af0::DestroyIfFlagged(unsigned int flags)
 {
-    FUN_00984290();
+    reinterpret_cast<::FUN_00984290 *>(this)->FUN_00984290::~FUN_00984290();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -513,8 +485,6 @@ struct CombatGoalStub_b4510
     CombatGoalStub_b4510(int eType);
     virtual ~CombatGoalStub_b4510();
     virtual void vfn_0();
-    void FUN_0097ade0(int a1, int a2);
-    void FUN_00984390(int a1, int a2);
 };
 
 struct FUN_00984dd0 : CombatGoalStub_b4510
@@ -526,7 +496,7 @@ struct FUN_00984dd0 : CombatGoalStub_b4510
 // @fnv 0x00984dd0
 FUN_00984dd0::FUN_00984dd0(int eType) : CombatGoalStub_b4510(eType)
 {
-    FUN_0097ade0(0x16, 0xffff0016);
-    FUN_0097ade0(0xf, 0);
-    FUN_00984390(0xd, 0xffff0016);
+    reinterpret_cast<::CombatAction *>(this)->FUN_0097ade0(0x16, 0xffff0016);
+    reinterpret_cast<::CombatAction *>(this)->FUN_0097ade0(0xf, 0);
+    reinterpret_cast<::FUN_00984390_shell *>(this)->FUN_00984390(0xd, 0xffff0016);
 }

@@ -5,6 +5,11 @@
 #ifndef FNV_TESWEATHER_DECLS_H
 #define FNV_TESWEATHER_DECLS_H
 
+#include "fnv/decl/B8AD00Header.h"
+#include "fnv/decl/FUN_00581fb0_Class.h"
+#include "fnv/decl/S_00462230.h"
+#include "fnv/decl/TESFullName.h"
+#include "fnv/symbols_00401000.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "TESForm.h"
@@ -20,13 +25,9 @@ class TESWeather__WeatherSoundList;
 template <int N> struct EndianSizeTag
 {
 };
-void BSEndian(unsigned int*, EndianSizeTag<4>);
-void BSEndian(int*, EndianSizeTag<4>);
-void BSEndian(float*, EndianSizeTag<4>);
 class TESTextureLoader
 {
   public:
-    static void ReadTextureData(TESTexture*, TESFile*);
 };
 class TESWeather__WeatherSound
 {
@@ -34,7 +35,6 @@ class TESWeather__WeatherSound
     unsigned int formID;
     unsigned int type;
     TESWeather__WeatherSound();
-    void FUN_00462230();
 };
 void* __cdecl operator new(unsigned int);
 extern "C" void* memset(void* dst, int val, unsigned int size);
@@ -47,7 +47,6 @@ class TESImageSpaceModifiableCountForm_6_ : public BaseFormComponent
     TESImageSpaceModifier* m_pImageSpaceModifier[6];  // +0x4, 24 bytes
     TESImageSpaceModifiableCountForm_6_();
     void InitItem(TESForm* form);
-    void FUN_00581fb0(unsigned int index, unsigned int formID);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESImageSpaceModifiableCountForm_6_) == 28);
@@ -59,7 +58,6 @@ class TESTexture1024 : public TESTexture
   public:
     TESTexture1024();
     ~TESTexture1024();
-    void SetTexture(const char* texturePath);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESTexture1024) == 12);
@@ -98,7 +96,6 @@ FNV_STATIC_ASSERT(offsetof(TESModel, cFlags) == 20);
 class ImageSpaceModifierParameterData
 {
   public:
-    void Endian();
     float m_afFirstParameterSet[15];        // +0x0, 60 bytes
     float m_afSecondParameterSet[3];        // +0x3C, 12 bytes
     float m_afThirdParameterSet[3];         // +0x48, 12 bytes
@@ -119,7 +116,6 @@ FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierParameterData, ShaderConstantData) 
 // TESForm.h does not declare (cf. TESFormInitFlag in bgsimpactdata.h).
 struct TESFormInitFlag : public TESForm
 {
-    bool IsFormInitialized() const;
 };
 
 #pragma pack(push, 4)

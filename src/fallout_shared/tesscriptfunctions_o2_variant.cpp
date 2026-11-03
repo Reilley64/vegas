@@ -2,6 +2,29 @@
 // src/fallout_shared/tesscriptfunctions_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/tesscriptfunctions.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/F005fd430.h"
+#include "fnv/decl/FUN_00414220_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00572db0_shell.h"
+#include "fnv/decl/FlagSet.h"
+#include "fnv/decl/fnv_00567490__ScaleReference.h"
+#include "fnv/decl/fnv_00572d30__FUN_00572d30_shell.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_0059c000.h"
+#include "fnv/symbols_0059d000.h"
+#include "fnv/symbols_0059e000.h"
+#include "fnv/symbols_0059f000.h"
+#include "fnv/symbols_005a0000.h"
+#include "fnv/symbols_005a1000.h"
+#include "fnv/symbols_005a2000.h"
+#include "fnv/symbols_005a3000.h"
+#include "fnv/symbols_005a4000.h"
+#include "fnv/symbols_005ac000.h"
+#include "fnv/symbols_005ca000.h"
+#include "fnv/symbols_0082f000.h"
+#include "fnv/symbols_00aa1000.h"
 #include "tesscriptfunctions_layout_support.h"
 class ScriptParameter;
 class ScriptHeaderData;
@@ -77,9 +100,6 @@ enum OBJECT_ACTION
 class TESObjectREFR : public TESForm
 {
   public:
-    void SetScale(float);
-    bool GetAction(OBJECT_ACTION);
-    void CloseReference(OBJECT_ACTION);
 };
 class BGSMusicType;
 class FalloutAudioMedia
@@ -87,7 +107,6 @@ class FalloutAudioMedia
   public:
     static void PlayMedia(BGSMusicType*);
     static void EndMediaUpdate();
-    static void Update();
 };
 class ScriptLocals;
 class TESQuest
@@ -102,7 +121,6 @@ class Script
   public:
     static bool OnHitWithFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                   ScriptLocals*, double&, unsigned int&);
-    ScriptHeaderData* GetHeader();
     static bool StopQuestFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                   ScriptLocals*, double&, unsigned int&);
     static bool ScriptEffectUpdateFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*,
@@ -113,38 +131,26 @@ class Script
                                      ScriptLocals*, double&, unsigned int&);
     static bool GetCurrentTimeFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                        ScriptLocals*, double&, unsigned int&);
-    static bool SetScriptCondition(TESObjectREFR*, void*, void*, double&);
     static bool GetSecondsPassedFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                          ScriptLocals*, double&, unsigned int&);
-    static bool EvaluateScriptResult(TESObjectREFR*, void*, void*, double&);
     static bool GetDead(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*,
                         double&, unsigned int&);
-    static bool ResetScript(TESObjectREFR*, void*, void*, double&);
     static bool GetItemCount(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                              ScriptLocals*, double&, unsigned int&);
-    static bool HandleScriptLocals(TESObjectREFR*, void*, void*, double&);
     static bool GetSitting(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*,
                            double&, unsigned int&);
-    static bool ReadScriptArguments(TESObjectREFR*, void*, void*, double&);
     static bool GetTalkedToPC(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                               ScriptLocals*, double&, unsigned int&);
-    static bool FindScriptVariable(TESObjectREFR*, void*, void*, double&);
     static bool GetIsRaining(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                              ScriptLocals*, double&, unsigned int&);
-    static bool EvaluateWeatherCondition(TESObjectREFR*, void*, void*, double&);
     static bool GetInCell(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*,
                           double&, unsigned int&);
-    static bool EvaluateCellMembership(TESObjectREFR*, void*, void*, double&);
     static bool GetInFaction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                              ScriptLocals*, double&, unsigned int&);
-    static bool GetScriptOperand(TESObjectREFR*, void*, void*, double&);
     static bool GetRandomPercent(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                  ScriptLocals*, double&, unsigned int&);
-    static bool EvaluateRandomPercentage(TESObjectREFR*, void*, void*, double&);
     static bool GetLevel(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*,
                          double&, unsigned int&);
-    static bool EvaluateReferenceLevel(TESObjectREFR*, void*, void*, double&);
-    static void CheckFlagFunction(unsigned int, TESObjectREFR*, TESForm*, ScriptLocals*, double&);
     static bool OnAddFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                               ScriptLocals*, double&, unsigned int&);
     static bool OnSellFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
@@ -197,52 +203,23 @@ class Script
     // Insert these declaration-only additions in the existing Script public section.
     static bool IsIdlePlayingFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                       ScriptLocals*, double&, unsigned int&);
-    static bool CheckIdlePlaying(TESObjectREFR*, void*, void*, double&);
     static bool IsTalkingFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                   ScriptLocals*, double&, unsigned int&);
-    static bool CheckTalkingState(TESObjectREFR*, void*, void*, double&);
     static bool GetDayOfWeekFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                      ScriptLocals*, double&, unsigned int&);
-    static bool ParseScript(TESObjectREFR*, void*, void*, double&);
     static bool IsPCSleepingFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                      ScriptLocals*, double&, unsigned int&);
-    static bool IsPlayerAsleep(TESObjectREFR*, void*, void*, double&);
     static bool GetDestroyedFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                      ScriptLocals*, double&, unsigned int&);
-    static bool HandleScriptOperation(TESObjectREFR*, void*, void*, double&);
     static bool HasBeenEatenFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                      ScriptLocals*, double&, unsigned int&);
-    static bool GetScriptObject(TESObjectREFR*, void*, void*, double&);
     static bool GetUnconsciousFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                        ScriptLocals*, double&, unsigned int&);
-    static bool ResolveScriptValue(TESObjectREFR*, void*, void*, double&);
     static bool IsInCombatFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                    ScriptLocals*, double&, unsigned int&);
-    static bool GetScriptFunctionValue(TESObjectREFR*, void*, void*, double&);
     static bool IsInInteriorFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                      ScriptLocals*, double&, unsigned int&);
-    static bool EvaluateReferenceQuery(TESObjectREFR*, void*, void*, double&);
 
-    static bool EvaluateReferenceCondition(TESObjectREFR*, void*, void*, double&);
-    static bool CheckActorCondition(TESObjectREFR*, void*, void*, double&);
-    static bool EvaluateReferenceFlag(TESObjectREFR*, void*, void*, double&);
-    static bool EvaluateFirstReferenceOperand(TESObjectREFR*, void*, void*, double&);
-    static bool EvaluateSecondReferenceOperand(TESObjectREFR*, void*, void*, double&);
-    static bool ReadScriptOperand(TESObjectREFR*, void*, void*, double&);
-    static bool EvaluateReferenceScriptValue(TESObjectREFR*, void*, void*, double&);
-    static bool ResolveScriptReference(TESObjectREFR*, void*, void*, double&);
-    static bool CheckScriptCondition(TESObjectREFR*, void*, void*, double&);
-    static bool EvaluateSeventhReferenceOperand(TESObjectREFR*, void*, void*, double&);
-    static bool GetScriptParameter(TESObjectREFR*, void*, void*, double&);
-    static bool HandleScriptExpression(TESObjectREFR*, void*, void*, double&);
-    static bool GetScriptResult(TESObjectREFR*, void*, void*, double&);
-    static bool AdvanceScriptInstruction(TESObjectREFR*, void*, void*, double&);
-    static bool HandleScriptReference(TESObjectREFR*, void*, void*, double&);
-    static bool ExecuteScriptCommand(TESObjectREFR*, void*, void*, double&);
-    static bool EvaluateReferencePredicate(TESObjectREFR*, void*, void*, double&);
-    static bool HandleScriptEvent(TESObjectREFR*, void*, void*, double&);
-    static bool WriteScriptValue(TESObjectREFR*, void*, void*, double&);
-    static bool EvaluateReferenceProperty(TESObjectREFR*, void*, void*, double&);
     static void SetReferenceScale(TESObjectREFR*, float);
 
     static bool GetQuestCompleted(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
@@ -292,8 +269,6 @@ class Script
     static bool EvaluateScriptCallback(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                        ScriptLocals*, double&, unsigned int&);
 };
-extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*,
-                        ScriptLocals*, ...);
 #include "tesscriptfunctions_TESActorBaseData.h"
 #include "tesscriptfunctions_SCRIPT_HEADER.h"
 struct _FightReaction
@@ -311,15 +286,12 @@ typedef _FightReaction::Type FIGHT_REACTION;
 class TESFaction
 {
   public:
-    void SetFactionFightReaction(TESFaction*, FIGHT_REACTION);
 };
 class BGSListForm : public TESForm
 {
   public:
-    BSSimpleList<TESForm*>* GetList();
 };
 
-void* _NiMalloc(unsigned int);
 struct Map;
 struct NiProperty
 {
@@ -342,11 +314,10 @@ struct StrArr
         m_usSize = 0;
         m_usESize = 0;
         if (m_usMaxSize > 0)
-            m_pBase = (Map**)_NiMalloc(sizeof(Map*) * m_usMaxSize);
+            m_pBase = (Map**)::FUN_00aa1070(sizeof(Map*) * m_usMaxSize);
         else
             m_pBase = 0;
     }
-    void SetAt(unsigned int, Map*&);
 };
 struct StrArrP : StrArr
 {
@@ -367,23 +338,23 @@ FUN_00a6aa40::FUN_00a6aa40() : m_uiObjectFlags(0), m_kStringArray(9, 1), m_iArra
 {
     Map* pkMap;
     pkMap = 0;
-    m_kStringArray.SetAt(0, pkMap);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(m_kStringArray))->SetAt(0, (char *&)(pkMap));
     pkMap = 0;
-    m_kStringArray.SetAt(1, pkMap);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(m_kStringArray))->SetAt(1, (char *&)(pkMap));
     pkMap = 0;
-    m_kStringArray.SetAt(2, pkMap);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(m_kStringArray))->SetAt(2, (char *&)(pkMap));
     pkMap = 0;
-    m_kStringArray.SetAt(3, pkMap);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(m_kStringArray))->SetAt(3, (char *&)(pkMap));
     pkMap = 0;
-    m_kStringArray.SetAt(4, pkMap);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(m_kStringArray))->SetAt(4, (char *&)(pkMap));
     pkMap = 0;
-    m_kStringArray.SetAt(5, pkMap);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(m_kStringArray))->SetAt(5, (char *&)(pkMap));
     pkMap = 0;
-    m_kStringArray.SetAt(6, pkMap);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(m_kStringArray))->SetAt(6, (char *&)(pkMap));
     pkMap = 0;
-    m_kStringArray.SetAt(7, pkMap);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(m_kStringArray))->SetAt(7, (char *&)(pkMap));
     pkMap = 0;
-    m_kStringArray.SetAt(8, pkMap);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(m_kStringArray))->SetAt(8, (char *&)(pkMap));
     m_uiObjectFlags &= 0xf00f;
     bool bMulti = false;
     unsigned int uiSize = m_kStringArray.m_usSize;

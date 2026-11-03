@@ -2,6 +2,44 @@
 // src/gamebryo2.2/corelibs/nimain/niavobject.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/niavobject.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a59a90_cls.h"
+#include "fnv/decl/FUN_00a5a390_shell.h"
+#include "fnv/decl/FUN_00a63460_shell.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FloatMatrix3.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiBound.h"
+#include "fnv/decl/NiColor.h"
+#include "fnv/decl/NiGeometry.h"
+#include "fnv/decl/NiObjectNET.h"
+#include "fnv/decl/NiPlane.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/NiScreenPolygon.h"
+#include "fnv/decl/NiStream.h"
+#include "fnv/decl/NiTexturingProperty.h"
+#include "fnv/decl/NiTransform.h"
+#include "fnv/decl/S.h"
+#include "fnv/decl/S_00a59a30_Matrix3.h"
+#include "fnv/decl/S_00a64670_Foo.h"
+#include "fnv/decl/ScriptPool.h"
+#include "fnv/decl/Transform3D.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a5c820__NetEqual.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a59000.h"
+#include "fnv/symbols_00a5c000.h"
+#include "fnv/symbols_00a5e000.h"
+#include "fnv/symbols_00a63000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f5000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
 struct NiMemObject
 {
     char _pad_0[1];
@@ -35,28 +73,24 @@ void __thiscall FUN_00a5a030_shell::FUN_00a5a030(NiUpdateData& data)
     NiAVObject::UpdateTimeControllers(data, true);
 }
 
-extern char const* const g_011f4428_arg1;
 
 // @fnv 0x00a5a420
 char const* const* __cdecl FUN_00a5a420()
 {
-    return &g_011f4428_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_011f4280));
 }
 
-extern const void* DAT_011f9140;
 
 // @fnv 0x00b4e1d0
 const void* __cdecl FUN_00b4e1d0()
 {
-    return &DAT_011f9140;
+    return &(*reinterpret_cast<const void * *>(&::g_011f9140));
 }
 
 struct MemoryManager
 {
-    void* __thiscall Deallocate(void*);
 };
 
-extern MemoryManager g_memoryManager;
 
 struct FUN_00a59dc0_shell
 {
@@ -69,7 +103,7 @@ void __thiscall FUN_00a59dc0_shell::SetBoundObject(void* apBound)
     unsigned char* pThis = reinterpret_cast<unsigned char*>(this);
     if (*(void**)(pThis + 0x20))
     {
-        g_memoryManager.Deallocate(*(void**)(pThis + 0x20));
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(*(void**)(pThis + 0x20));
     }
     *(void**)(pThis + 0x20) = apBound;
     if (apBound)
@@ -186,18 +220,8 @@ struct NiRenderer
 };
 struct PropHelper
 {
-    Prop* GetProperty(unsigned int);
     void __thiscall FUN_00a59e50(NiRenderer*);
 };
-// Retrieves property 2 and, if present, passes it to the renderer's v61 method.
-// @fnv 0x00a59e50
-void __thiscall PropHelper::FUN_00a59e50(NiRenderer* apkRenderer)
-{
-    Prop* pkProperty = GetProperty(2);
-    if (pkProperty)
-        apkRenderer->v61(pkProperty);
-}
-
 namespace fnv_00a59ec0 {
 struct NiMemObject
 {
@@ -252,15 +276,14 @@ struct S59ec0
     NiObjectNET* m_spCollision;
     char _p1[0x4];
     int m_kNode[3];
-    void __thiscall FUN_00a59e70(void* a, CloningProcess& b);
     void __thiscall FUN_00a59ec0(CloningProcess& b);
 };
 // @fnv 0x00a59ec0
 void __thiscall S59ec0::FUN_00a59ec0(CloningProcess& kCloning)
 {
-    ((NiObjectNET*)(void*)this)->NiObjectNET::ProcessClone(kCloning);
+    reinterpret_cast<::NiObjectNET *>((((NiObjectNET*)(void*)this)))->ProcessClone((::CloningProcess &)(kCloning));
     if (m_kNode[2])
-        FUN_00a59e70(m_kNode, kCloning);
+        ::FUN_00a59e70((::ListOwner *)this, (::Holder *)(m_kNode));
     NiObjectNET* pkCollision = m_spCollision;
     if (pkCollision)
         pkCollision->ProcessClone(kCloning);
@@ -431,8 +454,6 @@ bool __thiscall S_00a5a110::HasNodeWithNonZeroValue()
     return false;
 }
 
-void __fastcall FUN_00a5a390(void*);
-void __cdecl _delete(void*, unsigned int);
 struct FUN_00a5aa90_shell
 {
     void* __thiscall FUN_00a5aa90(unsigned int);
@@ -441,9 +462,9 @@ struct FUN_00a5aa90_shell
 // @fnv 0x00a5aa90
 void* __thiscall FUN_00a5aa90_shell::FUN_00a5aa90(unsigned int auiFlags)
 {
-    FUN_00a5a390(this);
+    reinterpret_cast<::FUN_00a5a390_shell *>((this))->FUN_00a5a390();
     if (auiFlags & 1)
-        _delete(this, 0x9c);
+        ::FUN_00aa1460(this, 0x9c);
     return this;
 }
 
@@ -519,7 +540,6 @@ void __thiscall FUN_00a59db0_shell::FUN_00a59db0(int arg)
 }
 
 namespace fnv_00a59e20 {
-extern int EmptyFS;
 
 struct NiAVObject
 {
@@ -531,7 +551,7 @@ struct NiAVObject
 int NiAVObject::FUN_00a59e20(int param)
 {
     int handle = *reinterpret_cast<int*>(param);
-    if (handle == EmptyFS)
+    if (handle == (*reinterpret_cast<int *>(&::DAT_0109b220)))
         return 0;
     int diff = *reinterpret_cast<int*>(this + 8) != handle;
     return (diff - 1) & reinterpret_cast<int>(this);
@@ -907,7 +927,6 @@ struct FUN_00a59f00_cls
     FUN_00a59f00_obj* m_1c;
     int m_20;
     FUN_00a59f00_node* m_24;
-    bool __thiscall FUN_00a5c180(void* p);
     bool __thiscall FUN_00a59f00(void* p);
 };
 
@@ -915,7 +934,7 @@ struct FUN_00a59f00_cls
 // @fnv 0x00a59f00
 bool FUN_00a59f00_cls::FUN_00a59f00(void* apArg)
 {
-    if (!FUN_00a5c180(apArg))
+    if (!::FUN_00a5c180((void *)this, (int)(apArg), {}))
     {
         return false;
     }
@@ -970,8 +989,6 @@ void __thiscall FUN_00a5a140_cls::FUN_00a5a140(int unused)
 }
 
 namespace fnv_00a5a900 {
-void* __cdecl NiMalloc(unsigned int);
-void __cdecl NiFree(void*);
 
 struct NiBinaryStream
 {
@@ -1164,7 +1181,6 @@ template <class T> inline void SerializeValue(NiStream& kStream, const T& value)
 struct NiColor
 {
     float r, g, b;
-    void SaveBinary(NiStream&);
 };
 
 struct Sub34
@@ -1178,7 +1194,6 @@ struct Sub34
     int unk18;
     int unk1c;
     int unk20;
-    void ReadMatrixFromStream(NiStream&);
 };
 
 struct ListNode
@@ -1202,7 +1217,6 @@ struct Base00a5c5b0
     ListNode* m_pkHead;
     ListNode* m_pkTail;
     int m_uiCount;
-    void SaveNiObjectLinks(NiStream&);
 };
 
 struct Obj00a5a900 : Base00a5c5b0
@@ -1218,16 +1232,16 @@ struct Obj00a5a900 : Base00a5c5b0
 // @fnv 0x00a5a900
 void Obj00a5a900::FUN_00a5a900(NiStream& kStream)
 {
-    SaveNiObjectLinks(kStream);
+    ::fnv_00a5c5b0::SaveNiObjectLinks((char *)this, (int)&(kStream), {});
     SerializeValue(kStream, unk30);
-    unk58.SaveBinary(kStream);
-    unk34.ReadMatrixFromStream(kStream);
+    reinterpret_cast<::NiColor *>(&(unk58))->SaveBinary((::NiStream &)(kStream));
+    reinterpret_cast<::FUN_00a59a90_cls *>(&(unk34))->ReadMatrixFromStream((void *)&(kStream));
     SerializeValue(kStream, unk64);
     long iNumObjects = m_uiCount;
     SerializeValue(kStream, iNumObjects);
     if (0 < iNumObjects)
     {
-        NiObject** ppkObjects = (NiObject**)NiMalloc(iNumObjects * 4);
+        NiObject** ppkObjects = (NiObject**)::FUN_00aa1070(iNumObjects * 4);
         ListNode* pos = m_pkHead;
         NiObject** pp = ppkObjects;
         while (pos)
@@ -1238,7 +1252,7 @@ void Obj00a5a900::FUN_00a5a900(NiStream& kStream)
         }
         for (int i = iNumObjects - 1; i >= 0; i--)
             kStream.SaveLinkID(ppkObjects[i]);
-        NiFree(ppkObjects);
+        ::FUN_00aa10f0(ppkObjects);
     }
     kStream.SaveLinkID(unk1c);
 }
@@ -1262,7 +1276,6 @@ struct Child
 struct Sub34
 {
     int s00, s04, s08, s0c, s10, s14, s18, s1c, s20, s24, s28, s2c, s30;
-    void Reset();
 };
 
 struct FUN_00a5aa20_cls : ObjBase
@@ -1295,8 +1308,8 @@ FUN_00a5aa20_cls::FUN_00a5aa20_cls()
     m_28 = 0;
     m_18 = 0;
     m_30 = 0;
-    sub->Reset();
-    m_68.Reset();
+    reinterpret_cast<::NiTransform *>((sub))->ResetToIdentity();
+    reinterpret_cast<::NiTransform *>(&(m_68))->ResetToIdentity();
     int flags = m_30;
     m_20 = 0;
     *(volatile int*)&m_30 = (flags & 0xffffffef) | 0x8000e;
@@ -1421,7 +1434,6 @@ FUN_00b4e150::FUN_00b4e150() : B4E150SortAdjustNode(0)
 
 struct NiPropertyState
 {
-    void ReleaseAllRefs();
 };
 
 struct FUN_0040fbf0_shell
@@ -1431,14 +1443,9 @@ struct FUN_0040fbf0_shell
 
 struct FUN_00a5e3a0_Helper
 {
-    void FUN_00a5e3a0(NiPropertyState*& ps);
-    NiPropertyState* FUN_00a89ab0();
-    void* FUN_00aa3e40(unsigned int size);
 };
 
-extern unsigned int DAT_011f42a0;
 extern unsigned int DAT_011f42a4;
-extern unsigned int DAT_011f6238;
 
 struct FUN_00a5a040_Class
 {
@@ -1503,14 +1510,14 @@ void FUN_00a5a040_Class::FUN_00a5a040()
     ((FUN_0040fbf0_shell*)&DAT_011f42a0)->FUN_0040fbf0(0);
     if (m18 != 0)
     {
-        m18->FUN_00a5e3a0(ps);
+        ::FUN_00a5e3a0((::NiAVObject *)(m18), (int)&(ps), *(::NiPropertyState * *)nullptr);
     }
     else
     {
-        void* pAlloc = ((FUN_00a5e3a0_Helper*)&DAT_011f6238)->FUN_00aa3e40(28);
+        void* pAlloc = reinterpret_cast<::MemoryManagerStandIn *>((((FUN_00a5e3a0_Helper*)&(*reinterpret_cast<unsigned int *>(&::g_memoryManager)))))->FUN_00aa3e40(28);
         if (pAlloc != 0)
         {
-            ps = ((FUN_00a5e3a0_Helper*)pAlloc)->FUN_00a89ab0();
+            ps = ((::NiPropertyState *)(reinterpret_cast<::NiGeometry *>((((FUN_00a5e3a0_Helper*)pAlloc)))->CopyMemberData()));
         }
         else
         {
@@ -1521,8 +1528,8 @@ void FUN_00a5a040_Class::FUN_00a5a040()
     NiPropertyState* p = ps;
     if (p != 0)
     {
-        p->ReleaseAllRefs();
-        ((MemoryManager*)&DAT_011f6238)->Deallocate(p);
+        ::fnv_00a89890::ReleaseAllRefs((::fnv_00a89890::ArrStub *)(p));
+        reinterpret_cast<::FNV_MemoryManager *>((((MemoryManager*)&(*reinterpret_cast<unsigned int *>(&::g_memoryManager)))))->FUN_00aa4060(p);
     }
     DAT_011f42a4--;
     if (DAT_011f42a4 == 0)
@@ -1591,7 +1598,6 @@ struct LoadedPtr
 struct LoadedArray
 {
     void FUN_00a5a310(const LoadedPtr&) throw();
-    void FUN_00439fd0(const LoadedPtr&) throw();
 };
 struct LoadedStream
 {
@@ -1650,8 +1656,6 @@ struct LoadedStream
     int unkd0;
     int unkd4;
     unsigned int version;
-    unsigned int FUN_00a63460();
-    LoadedRef* FUN_00a63430();
 };
 struct LoadedNode
 {
@@ -1665,21 +1669,20 @@ struct LoadedNode
     LoadedPtr controller;
     int unk20;
     LoadedArray children;
-    void FUN_00a5c0e0(LoadedStream*);
     void ReadFromStream(LoadedStream*);
 };
 // Reads a child count from the stream and loads each child into children, then loads the controller for newer versions.
 // @fnv 0x00a5a7f0
 void LoadedNode::ReadFromStream(LoadedStream* stream)
 {
-    FUN_00a5c0e0(stream);
-    unsigned int count = stream->FUN_00a63460();
+    reinterpret_cast<::NiObjectNET *>(this)->LinkObject((*(::NiStream *)(stream)));
+    unsigned int count = reinterpret_cast<::FUN_00a63460_shell *>((stream))->FUN_00a63460();
     if (stream->version < 0x04010008)
     {
         while (count)
         {
             count--;
-            LoadedRef* raw = stream->FUN_00a63430();
+            LoadedRef* raw = ((::LoadedRef *)(reinterpret_cast<::NiStream *>((stream))->GetLoadedObject()));
             LoadedPtr child = raw;
             children.FUN_00a5a310(child);
             if (raw && !InterlockedDecrement(&raw->count))
@@ -1691,15 +1694,15 @@ void LoadedNode::ReadFromStream(LoadedStream* stream)
         while (count)
         {
             count--;
-            LoadedRef* raw = stream->FUN_00a63430();
+            LoadedRef* raw = ((::LoadedRef *)(reinterpret_cast<::NiStream *>((stream))->GetLoadedObject()));
             LoadedPtr child = raw;
-            children.FUN_00439fd0(child);
+            reinterpret_cast<::ScriptPool *>(&(children))->FUN_00439fd0((const void *)&(child));
             if (raw && !InterlockedDecrement(&raw->count))
                 raw->DeleteThis();
         }
         if (stream->version >= 0x05000013)
         {
-            controller.FUN_0066b0d0(stream->FUN_00a63430());
+            controller.FUN_0066b0d0(((::LoadedRef *)(reinterpret_cast<::NiStream *>((stream))->GetLoadedObject())));
             LoadedRef* pController = controller.pointer;
             if (pController)
                 pController->ReadVersion(stream->version, 0);
@@ -1715,14 +1718,12 @@ struct Stream
     unsigned short length;
     unsigned short active;
     unsigned short growth;
-    void FUN_0096ad30(unsigned int required);
-    void FUN_0096ae90(unsigned int index, unsigned int* value);
     __forceinline void Add(unsigned int value)
     {
         unsigned int index = length;
         if (index >= capacity)
-            FUN_0096ad30(index + growth);
-        FUN_0096ae90(index, &value);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(index + growth);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(index, (*(char * *)(&value)));
     }
 };
 struct SerializedField
@@ -1765,17 +1766,9 @@ inline IndexedElement* const& GetNextIndexed(IndexedNode*& pos)
     pos = pos->next;
     return element;
 }
-void __stdcall FUN_00a5ca80(Stream* stream);
-unsigned int __cdecl FUN_00a7d330(unsigned int source);
-unsigned int __cdecl FUN_00a7d370(const char* name, unsigned int value);
-unsigned int __cdecl FUN_00a7d550(const char* name, float value);
-unsigned int __cdecl FUN_00a7d5a0(unsigned int value, IndexedElement* element);
 struct TextSource
 {
-    unsigned int FUN_00a7fb20(const char* name);
 };
-extern unsigned int DAT_011f4280;
-extern char DAT_011f4288;
 extern char DAT_0109b204, DAT_0109b1f8, DAT_0109b1e4, DAT_0109b1d4, DAT_0109b1c4, DAT_0109b1b0;
 extern char DAT_0109b1a0, DAT_0109b190, DAT_0109b184, DAT_0109b178, DAT_0109b164, DAT_0109b154;
 extern char DAT_0109b138, DAT_0109b124, DAT_0109b118, DAT_0109b10c;
@@ -1799,15 +1792,15 @@ struct FUN_00a5ad00_shell
 // @fnv 0x00a5ad00
 void FUN_00a5ad00_shell::FUN_00a5ad00(Stream* stream)
 {
-    FUN_00a5ca80(stream);
-    stream->Add(FUN_00a7d330(DAT_011f4280));
+    reinterpret_cast<::S *>((stream))->FUN_00a5ca80({});
+    stream->Add(((unsigned int)(::FUN_00a7d330((const char *)((*reinterpret_cast<unsigned int *>(&::g_011f4280)))))));
     union FlagWord
     {
         unsigned int word;
         unsigned char byte;
     } firstFlag;
     firstFlag.byte = static_cast<unsigned char>(flags) & 1;
-    stream->Add(FUN_00a7d370(&DAT_0109b204, firstFlag.word));
+    stream->Add(((unsigned int)(::FUN_00a7d370(&DAT_0109b204, firstFlag.word))));
     unsigned char bFlag11 = static_cast<unsigned char>(flags >> 11) & 1;
     if (bFlag11)
     {
@@ -1817,43 +1810,43 @@ void FUN_00a5ad00_shell::FUN_00a5ad00(Stream* stream)
             unsigned char byte;
         } flag11;
         flag11.byte = bFlag11;
-        stream->Add(FUN_00a7d370(&DAT_0109b1f8, flag11.word));
+        stream->Add(((unsigned int)(::FUN_00a7d370(&DAT_0109b1f8, flag11.word))));
     }
-    stream->Add(field58.FUN_00a59af0(&DAT_0109b1e4));
-    stream->Add(field34.ToString(&DAT_0109b1d4));
-    stream->Add(FUN_00a7d550(&DAT_0109b1c4, field64));
-    stream->Add(field8C.FUN_00a59af0(&DAT_0109b1b0));
-    stream->Add(field68.ToString(&DAT_0109b1a0));
-    stream->Add(FUN_00a7d550(&DAT_0109b190, field98));
-    stream->Add((textSource ? textSource : reinterpret_cast<TextSource*>(&DAT_011f4288))->FUN_00a7fb20(&DAT_0109b184));
+    stream->Add(((unsigned int)(reinterpret_cast<::NiPoint3 *>(&(field58))->FUN_00a59af0(&DAT_0109b1e4))));
+    stream->Add(((unsigned int)(reinterpret_cast<::FloatMatrix3 *>(&(field34))->ToString(&DAT_0109b1d4))));
+    stream->Add(((unsigned int)(::FUN_00a7d550(&DAT_0109b1c4, field64))));
+    stream->Add(((unsigned int)(reinterpret_cast<::NiPoint3 *>(&(field8C))->FUN_00a59af0(&DAT_0109b1b0))));
+    stream->Add(((unsigned int)(reinterpret_cast<::FloatMatrix3 *>(&(field68))->ToString(&DAT_0109b1a0))));
+    stream->Add(((unsigned int)(::FUN_00a7d550(&DAT_0109b190, field98))));
+    stream->Add(((unsigned int)(reinterpret_cast<::NiBound *>(((textSource ? textSource : reinterpret_cast<TextSource*>(&(*reinterpret_cast<char *>(&::g_defaultBound))))))->FUN_00a7fb20(&DAT_0109b184))));
     union FlagWord1
     {
         unsigned int word;
         unsigned char byte;
     } flag1;
     flag1.byte = static_cast<unsigned char>(flags >> 1) & 1;
-    stream->Add(FUN_00a7d370(&DAT_0109b178, flag1.word));
+    stream->Add(((unsigned int)(::FUN_00a7d370(&DAT_0109b178, flag1.word))));
     union FlagWord2
     {
         unsigned int word;
         unsigned char byte;
     } flag2;
     flag2.byte = static_cast<unsigned char>(flags >> 2) & 1;
-    stream->Add(FUN_00a7d370(&DAT_0109b164, flag2.word));
+    stream->Add(((unsigned int)(::FUN_00a7d370(&DAT_0109b164, flag2.word))));
     union FlagWord4
     {
         unsigned int word;
         unsigned char byte;
     } flag4;
     flag4.byte = static_cast<unsigned char>(flags >> 4) & 1;
-    stream->Add(FUN_00a7d370(&DAT_0109b154, flag4.word));
+    stream->Add(((unsigned int)(::FUN_00a7d370(&DAT_0109b154, flag4.word))));
     union FlagWord3
     {
         unsigned int word;
         unsigned char byte;
     } flag3;
     flag3.byte = static_cast<unsigned char>(flags >> 3) & 1;
-    stream->Add(FUN_00a7d370(&DAT_0109b138, flag3.word));
+    stream->Add(((unsigned int)(::FUN_00a7d370(&DAT_0109b138, flag3.word))));
     if (elementCount)
     {
         IndexedNode* node = elements;
@@ -1861,10 +1854,10 @@ void FUN_00a5ad00_shell::FUN_00a5ad00(Stream* stream)
         {
             IndexedElement* element = GetNextIndexed(node);
             unsigned int key = *element->GetValue();
-            unsigned int next = FUN_00a7d5a0(key, element);
+            unsigned int next = ((unsigned int)(::FUN_00a7d5a0((const char *)(key), element)));
             unsigned int index = stream->length;
             if (index >= stream->capacity)
-                stream->FUN_0096ad30(index + stream->growth);
+                reinterpret_cast<::ViewerStrings *>((stream))->SetSize(index + stream->growth);
             if (index >= stream->length)
             {
                 stream->length = index + 1;
@@ -1884,7 +1877,7 @@ void FUN_00a5ad00_shell::FUN_00a5ad00(Stream* stream)
         }
     }
     if (propertyObject)
-        stream->Add(FUN_00a7d5a0((unsigned int)&DAT_0109b124, reinterpret_cast<IndexedElement*>(propertyObject)));
+        stream->Add(((unsigned int)(::FUN_00a7d5a0((const char *)((unsigned int)&DAT_0109b124), reinterpret_cast<IndexedElement*>(propertyObject)))));
     unsigned char bFlag10 = static_cast<unsigned char>(flags >> 10) & 1;
     if (bFlag10)
     {
@@ -1894,7 +1887,7 @@ void FUN_00a5ad00_shell::FUN_00a5ad00(Stream* stream)
             unsigned char byte;
         } flag10;
         flag10.byte = bFlag10;
-        stream->Add(FUN_00a7d370(&DAT_0109b118, flag10.word));
+        stream->Add(((unsigned int)(::FUN_00a7d370(&DAT_0109b118, flag10.word))));
     }
     unsigned char bit13 = static_cast<unsigned char>(flags >> 13) & 1;
     if (bit13)
@@ -1905,7 +1898,7 @@ void FUN_00a5ad00_shell::FUN_00a5ad00(Stream* stream)
             unsigned char byte;
         } flag13;
         flag13.byte = bit13;
-        stream->Add(FUN_00a7d370(&DAT_0109b10c, flag13.word));
+        stream->Add(((unsigned int)(::FUN_00a7d370(&DAT_0109b10c, flag13.word))));
     }
 }
 
@@ -2072,6 +2065,14 @@ class FUN_00a59d30_C
 
     ItemA59D* FUN_00a59d30(int iType);
 };
+// Retrieves property 2 and, if present, passes it to the renderer's v61 method.
+// @fnv 0x00a59e50
+void __thiscall PropHelper::FUN_00a59e50(NiRenderer* apkRenderer)
+{
+    Prop* pkProperty = ((::Prop *)(reinterpret_cast<::FUN_00a59d30_C *>(this)->FUN_00a59d30(2)));
+    if (pkProperty)
+        apkRenderer->v61(pkProperty);
+}
 
 // Iterates m_kList and returns the first item whose GetType matches iType, or null if iType is 7 or greater or no match is found.
 // @fnv 0x00a59d30
@@ -2262,7 +2263,6 @@ struct A5a260CompareBase
 
 struct A5a260CompareField
 {
-    bool __thiscall FUN_00a86c30(A5a260CompareField*);
 };
 
 struct A5a260ListNode;
@@ -2300,7 +2300,6 @@ struct A5a260Object : A5a260CompareBase
     unsigned char unk33;
     A5a260CompareField unk34;
 
-    bool __thiscall FUN_00a5c820(A5a260CompareBase*);
     bool __thiscall FUN_00a5a260(A5a260CompareBase*);
 };
 
@@ -2310,13 +2309,13 @@ bool __thiscall A5a260Object::FUN_00a5a260(A5a260CompareBase* pkObject)
 {
     A5a260Object* other = (A5a260Object*)pkObject;
 
-    if (!FUN_00a5c820(pkObject))
+    if (!reinterpret_cast<::fnv_00a5c820::NetEqual *>(this)->FUN_00a5c820((::NiObjectNET *)(pkObject)))
         return false;
 
     if ((other->unk30 ^ unk30) & 1)
         return false;
 
-    if (unk34.FUN_00a86c30(&other->unk34))
+    if (((bool)(reinterpret_cast<::Transform3D *>(&(unk34))->FUN_00a86c30((*(const ::Transform3D *)(&other->unk34))))))
         return false;
 
     unsigned int count = unk2C;
@@ -2611,24 +2610,17 @@ struct LoadStream
     unsigned int unknown3b4;
     unsigned int unknown3b8;
     char typeName[128];
-    void FUN_00a64670();
-    void FUN_00a645b0();
 };
 struct LoadBase
 {
-    void FUN_00a5c080(LoadStream&);
 };
-extern const float DAT_011f426c;
 struct LoadVector
 {
     float x, y, z;
-    void FUN_00a59be0(LoadStream&);
-    bool _Call_439090(const void*);
 };
 struct Matrix3x3
 {
     float xx, xy, xz, yx, yy, yz, zx, zy, zz;
-    void LoadFromStream(LoadStream&);
 };
 struct LegacyData;
 struct LoadObject;
@@ -2682,7 +2674,6 @@ struct LegacyData
     virtual void LoadLegacy(LoadContext*);
     virtual void Convert(unsigned int, int);
 };
-LegacyData* __cdecl InvokeNamedFunction(const char*);
 struct LoadObject : LoadBase
 {
     unsigned int unknown00, unknown04, unknown08, unknown0c, unknown10, unknown14, unknown18;
@@ -2707,7 +2698,7 @@ struct LoadObject : LoadBase
 // @fnv 0x00a5a510
 void LoadObject::FUN_00a5a510(LoadStream& stream)
 {
-    FUN_00a5c080(stream);
+    reinterpret_cast<::NiObjectNET *>(this)->LoadBinary((::NiStream &)(stream));
     if (stream.format < 28)
     {
         unsigned short oldFlags;
@@ -2739,8 +2730,8 @@ void LoadObject::FUN_00a5a510(LoadStream& stream)
         flags = (flags & ~255u) << 1;
         flags |= (unsigned char)low;
     }
-    translation.FUN_00a59be0(stream);
-    rotation.LoadFromStream(stream);
+    reinterpret_cast<::NiColor *>(&(translation))->LoadBinary((::NiStream &)(stream));
+    reinterpret_cast<::S_00a59a30_Matrix3 *>(&(rotation))->LoadFromStream((::S_00a59a30_Stream &)(stream));
     stream.input->Read(&scale, 4);
     if (stream.version < 0x05000013)
     {
@@ -2749,8 +2740,8 @@ void LoadObject::FUN_00a5a510(LoadStream& stream)
         flags = (flags >> 3) & 0xfffe;
         flags |= low & 1;
         LoadVector oldTranslation = {0.0f, 0.0f, 0.0f};
-        oldTranslation.FUN_00a59be0(stream);
-        stream.FUN_00a64670();
+        reinterpret_cast<::NiColor *>(&(oldTranslation))->LoadBinary((::NiStream &)(stream));
+        reinterpret_cast<::S_00a64670_Foo *>(&(stream))->FUN_00a64670();
         unsigned char enabled;
         unsigned int oldEnabled;
         if (stream.version < 0x04010000)
@@ -2764,9 +2755,9 @@ void LoadObject::FUN_00a5a510(LoadStream& stream)
         }
         if (strcmp(stream.typeName, "NiCollisionSwitch") == 0 && !((unsigned char)(flags >> 3) & 1))
             mode = 4;
-        if (enabled || oldTranslation._Call_439090(&DAT_011f426c) || (unsigned short)mode != 2)
+        if (enabled || reinterpret_cast<::NiPlane *>(&(oldTranslation))->operator==((*(const ::NiPlane *)(&(*reinterpret_cast<const float *>((void *)&::NiPoint3::ZERO))))) || (unsigned short)mode != 2)
         {
-            LegacyData* data = InvokeNamedFunction("NiCollisionData");
+            LegacyData* data = ((::LegacyData *)(::fnv_00a634b0::InvokeNamedFunction("NiCollisionData")));
             if (data)
             {
                 collision = data;
@@ -2781,8 +2772,8 @@ void LoadObject::FUN_00a5a510(LoadStream& stream)
     }
     else
     {
-        stream.FUN_00a64670();
-        stream.FUN_00a645b0();
+        reinterpret_cast<::S_00a64670_Foo *>(&(stream))->FUN_00a64670();
+        reinterpret_cast<::FUN_00a645b0_cls *>(&(stream))->FUN_00a645b0();
     }
     if (stream.version < 0x0a000102)
     {
@@ -2822,12 +2813,6 @@ struct WorkerPointer
         return *this;
     }
 };
-extern WorkerProperty* DAT_011f4410;
-extern WorkerProperty* DAT_011f5d28;
-extern WorkerProperty* DAT_011f4a64;
-extern WorkerProperty* DAT_011f5ae8;
-extern WorkerProperty* DAT_011f4a14;
-extern WorkerProperty* DAT_011f49ac;
 struct WorkerProperties
 {
     WorkerPointer alpha;
@@ -2842,12 +2827,12 @@ struct WorkerProperties
 // @fnv 0x00a89960
 void WorkerProperties::FUN_00a89960()
 {
-    alpha = DAT_011f4410;
-    culling = DAT_011f5d28;
-    material = DAT_011f4a64;
-    shading = DAT_011f5ae8;
-    stencil = DAT_011f4a14;
-    depth = DAT_011f49ac;
+    alpha = (*reinterpret_cast<::fnv_00a89960::WorkerProperty * *>(&::DAT_011f4410));
+    culling = (*reinterpret_cast<::fnv_00a89960::WorkerProperty * *>(&::DAT_011f5d28));
+    material = (*reinterpret_cast<::fnv_00a89960::WorkerProperty * *>(&::DAT_011f4a64));
+    shading = (*reinterpret_cast<::fnv_00a89960::WorkerProperty * *>(&::DAT_011f5ae8));
+    stencil = (*reinterpret_cast<::fnv_00a89960::WorkerProperty * *>(&::DAT_011f4a14));
+    depth = (*reinterpret_cast<::fnv_00a89960::WorkerProperty * *>(&::NiTexturingProperty::ms_pDefaultProperty));
 }
 }  // namespace fnv_00a89960
 
@@ -2941,24 +2926,19 @@ struct A170Lock
 {
     int m_pOwnerObject;
     int m_uiItemCount;
-    void __thiscall FUN_0040fbf0(unsigned int);
     void Unlock()
     {
         if (--m_uiItemCount == 0)
             m_pOwnerObject = 0;
     }
 };
-extern A170Lock DAT_011f42a0;
 
 struct A170Heap
 {
-    void* __thiscall FUN_00aa3e40(unsigned int);
 };
-extern A170Heap DAT_011f6238;
 
 struct A170Set
 {
-    A170Set* __thiscall FUN_00a89810(A170Set* src);
 };
 
 struct FUN_00a5a170_cls
@@ -2979,12 +2959,12 @@ void FUN_00a5a170_cls::FUN_00a5a170(A170Set* apSource, bool abAllocate, A170Set*
         *apResult = apSource;
         return;
     }
-    DAT_011f42a0.FUN_0040fbf0(0);
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::fnv_00a5a170::A170Lock *>(&::DAT_011f42a0))))->FUN_0040fbf0((char *)(0));
     A170Set* result;
     if (abAllocate)
     {
-        void* p = DAT_011f6238.FUN_00aa3e40(0x1c);
-        result = p ? ((A170Set*)p)->FUN_00a89810(apSource) : 0;
+        void* p = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a5a170::A170Heap *>(&::g_memoryManager))))->FUN_00aa3e40(0x1c);
+        result = p ? ((::fnv_00a5a170::A170Set *)(new ((void *)(((A170Set*)p))) ::NiScreenPolygon((*(const ::NiScreenPolygon *)(apSource))))) : 0;
     }
     else
     {
@@ -2998,7 +2978,7 @@ void FUN_00a5a170_cls::FUN_00a5a170(A170Set* apSource, bool abAllocate, A170Set*
         if (pElement && pElement->GetIndex() <= 7)
             slots[pElement->GetIndex()] = pElement;
     }
-    DAT_011f42a0.Unlock();
+    (*reinterpret_cast<::fnv_00a5a170::A170Lock *>(&::DAT_011f42a0)).Unlock();
     *apResult = result;
 }
 }  // namespace fnv_00a5a170

@@ -3,6 +3,39 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /Ob1 (unit src/fallout_shared/settings/xgamesetting.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00439f50_class.h"
+#include "fnv/decl/FUN_0043ba10_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00462e80_shell.h"
+#include "fnv/decl/FUN_00471870_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00476980_S.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004b6190_shell.h"
+#include "fnv/decl/FUN_004f8940_class.h"
+#include "fnv/decl/FUN_004f8960_shell.h"
+#include "fnv/decl/FUN_004f8a30_shell2.h"
+#include "fnv/decl/FUN_004f8a60_class.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/MyHost.h"
+#include "fnv/decl/NiGlobalStringTable.h"
+#include "fnv/decl/NiTransform.h"
+#include "fnv/decl/SettingS.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/TESOffsetWorker.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00464000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00ee6000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f4000.h"
 #include "xgamesetting_decls.h"
 
 class NiRTTI
@@ -12,9 +45,6 @@ class NiRTTI
     NiRTTI* m_pBaseRTTI;
 };
 class GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_011f3fd4;
-extern GlobalObjectO2_00a7b610 g_011f49a4;
-extern GlobalObjectO2_00a7b610 g_011f4428;
 struct StrArr
 {
     unsigned int FUN_00c4c8d0(char*& s);
@@ -52,8 +82,6 @@ class NiAVObject
     virtual void vf28();
     virtual void vf2c();
     virtual int vf30();
-    NiTimeController* GetController(const NiRTTI* rtti);
-    NiProperty* GetProperty(unsigned int type);
 };
 struct NiNodeY
 {
@@ -113,13 +141,13 @@ void __cdecl FUN_00c4bd80(NiAVObject* obj, StrArr* arr)
     unsigned int j;
     if (obj)
     {
-        c7 = (FUN_00a4f300_shell*)obj->GetController((const NiRTTI*)&g_011f3fd4);
+        c7 = (FUN_00a4f300_shell*)((::NiTimeController *)(reinterpret_cast<::MyHost *>((obj))->FUN_00a5c570((const ::MyRTTI *)(const ::NiRTTI *)((const NiRTTI*)&g_011f3fd4))));
         if (!c7 && (obj->vf1c() || obj->vf30()))
         {
             geom2 = obj;
-            propA = CastA((NiAVObject*)geom2->GetProperty(5));
+            propA = CastA((NiAVObject*)((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((geom2))->FUN_00a59d30(5))));
             if (propA)
-                c7 = (FUN_00a4f300_shell*)((NiAVObject*)propA)->GetController((const NiRTTI*)&g_011f3fd4);
+                c7 = (FUN_00a4f300_shell*)((::NiTimeController *)(reinterpret_cast<::MyHost *>((((NiAVObject*)propA)))->FUN_00a5c570((const ::MyRTTI *)(const ::NiRTTI *)((const NiRTTI*)&g_011f3fd4))));
         }
         if (c7)
         {
@@ -165,14 +193,11 @@ struct NiTransform
 };
 struct NiAVObject
 {
-    void FUN_004b4880(NiTransform* p);
 };
 struct Mat4
 {
     float m[4][4];
 };
-extern NiPoint3 DAT_011f474c;
-extern "C" Mat4* __stdcall FUN_00ee6dda(Mat4* pOut, float* pDet, const Mat4* pM);
 inline void Dead21()
 {
     int d0;
@@ -204,7 +229,7 @@ void __cdecl FUN_00c4c2d0(NiAVObject* pObj, int bInverse, Mat4* pOut)
     if (!bInverse)
     {
         NiTransform kXf;
-        pObj->FUN_004b4880(&kXf);
+        reinterpret_cast<::NiTransform *>((pObj))->CalculateInverse((*(::NiTransform *)(&kXf)));
         Dead21();
         pOut->m[0][0] = kXf.m_kOrientation.GetEntry(0, 0) * kXf.m_fScale;
         pOut->m[0][1] = kXf.m_kOrientation.GetEntry(1, 0) * kXf.m_fScale;
@@ -242,11 +267,11 @@ void __cdecl FUN_00c4c2d0(NiAVObject* pObj, int bInverse, Mat4* pOut)
         kM.m[2][2] = 1.0f;
         kM.m[1][1] = 1.0f;
         kM.m[0][0] = 1.0f;
-        const NiPoint3& rPos = DAT_011f474c;
+        const NiPoint3& rPos = (*reinterpret_cast<::fnv_00c4c2d0::NiPoint3 *>(&::DAT_011f474c));
         kM.m[3][0] = rPos.x;
         kM.m[3][1] = rPos.y;
         kM.m[3][2] = rPos.z;
-        FUN_00ee6dda(pOut, 0, &kM);
+        ::FUN_00ee6dda();
     }
 }
 }  // namespace fnv_00c4c2d0
@@ -369,7 +394,6 @@ inline bool IsKindOfC4BB(const NiRTTIC4BB* pkRTTI, const NiObjectC4BB* pkObject)
 class TargetC4BB : public NiObjectC4BB
 {
   public:
-    static const NiRTTIC4BB ms_kRTTI;
     void* GetDataImpl() const
     {
         return m_pResource;
@@ -395,7 +419,7 @@ class TargetC4BB : public NiObjectC4BB
 
 inline TargetC4BB* DynamicCastC4BB(NiObjectC4BB* pkObject)
 {
-    return !pkObject ? 0 : (TargetC4BB*)(IsKindOfC4BB(&TargetC4BB::ms_kRTTI, pkObject) ? pkObject : 0);
+    return !pkObject ? 0 : (TargetC4BB*)(IsKindOfC4BB(&(*reinterpret_cast<const ::NiRTTIC4BB *>(&::g_011f444c)), pkObject) ? pkObject : 0);
 }
 
 // @fnv 0x00c4bb40
@@ -406,15 +430,13 @@ void* __cdecl FUN_00c4bb40(NiObjectC4BB* pkObject)
     if (!pkObject)
         pkTarget = 0;
     else
-        pkTarget = (TargetC4BB*)(IsKindOfC4BB(&TargetC4BB::ms_kRTTI, pkObject) ? pkObject : 0);
+        pkTarget = (TargetC4BB*)(IsKindOfC4BB(&(*reinterpret_cast<const ::NiRTTIC4BB *>(&::g_011f444c)), pkObject) ? pkObject : 0);
     if (pkTarget)
         pvData = pkTarget->GetData();
     return pvData;
 }
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
-extern char* DAT_0109b220;
-char* __cdecl FUN_00a5b690(const char* s);
 int __cdecl FUN_00ec65a6(char* dst, unsigned size, const char* src);
 int __cdecl FUN_00ec6bd2(char* dst, unsigned size, const char* src);
 static __forceinline void DeadQ3()
@@ -437,7 +459,7 @@ struct FixStrQ
         if (s == 0)
             m_kHandle = DAT_0109b220;
         else
-            m_kHandle = FUN_00a5b690(s);
+            m_kHandle = ::NiGlobalStringTable::AddString(s);
     }
     ~FixStrQ()
     {
@@ -446,7 +468,6 @@ struct FixStrQ
         long* pRef = (long*)(m_kHandle - 8);
         InterlockedDecrement(pRef);
     }
-    FixStrQ& FUN_0043ba10(const FixStrQ& o);
     const char* CStr()
     {
         const char* p = m_kHandle;
@@ -464,7 +485,7 @@ struct NamedQ
     void SetName(const FixStrQ& kName)
     {
         DeadQ3();
-        m_kName.FUN_0043ba10(kName);
+        reinterpret_cast<::FUN_0043ba10_shell *>(&(m_kName))->FUN_0043ba10((::FUN_0043ba10_shell *)&(kName));
     }
 };
 struct PathQ
@@ -518,7 +539,6 @@ class NiPoint3R
     {
         return NiPoint3R(x - p.x, y - p.y, z - p.z);
     }
-    float Dot(const NiPoint3R&) const;
     float Length() const;
     void FUN_004a0c10()
     {
@@ -547,14 +567,12 @@ class NiMatrix3R
 {
   public:
     float m00, m01, m02, m10, m11, m12, m20, m21, m22;
-    void FUN_00439f50(unsigned int, NiPoint3R&) const;
     NiPoint3R Column(unsigned int column) const
     {
         NiPoint3R result;
-        FUN_00439f50(column, result);
+        reinterpret_cast<::FUN_00439f50_class *>((void *)this)->FUN_00439f50(column, (::NiPoint3 *)&(result));
         return result;
     }
-    void FUN_00476980(const NiPoint3R&, const NiPoint3R&, const NiPoint3R&);
 };
 struct NiUpdateData
 {
@@ -636,7 +654,6 @@ struct NiCamera
     NiPoint3R position;
     float scale;
     void UpdateViewFrustum(const NiFrustum&);
-    void Update(NiUpdateData&);
 };
 struct Plane
 {
@@ -644,7 +661,7 @@ struct Plane
     float distance;
     float Distance(const NiPoint3R& p) const
     {
-        return normal.Dot(p) - distance;
+        return reinterpret_cast<::FUN_004b6190_shell *>((void *)&(normal))->DotProduct((void *)&(p)) - distance;
     }
 };
 double __cdecl _fabs(double);
@@ -661,20 +678,20 @@ void __cdecl FUN_00c4bf40(Source* source, Plane* plane, NiCamera* dest)
     NiPoint3R thirdB = source->rotation.Column(1);
     NiPoint3R reflected6 = position + (-plane->normal) * (float)(2.0 * plane->Distance(position));
     NiPoint3R direction6 = -first7;
-    direction6.FUN_004a0c10();
-    NiPoint3R axisA = (float)(2.0 * plane->normal.Dot(direction6)) * plane->normal - direction6;
+    reinterpret_cast<::FUN_004a0c10_s *>(&(direction6))->FUN_004a0c10();
+    NiPoint3R axisA = (float)(2.0 * reinterpret_cast<::FUN_004b6190_shell *>((void *)&(plane->normal))->DotProduct((void *)&(direction6))) * plane->normal - direction6;
     direction6 = -second3;
-    direction6.FUN_004a0c10();
-    NiPoint3R axis2 = FUN_004a3760((float)(2.0 * plane->normal.Dot(direction6)), plane->normal) - direction6;
+    reinterpret_cast<::FUN_004a0c10_s *>(&(direction6))->FUN_004a0c10();
+    NiPoint3R axis2 = FUN_004a3760((float)(2.0 * reinterpret_cast<::FUN_004b6190_shell *>((void *)&(plane->normal))->DotProduct((void *)&(direction6))), plane->normal) - direction6;
     direction6 = thirdB;
-    direction6.FUN_004a0c10();
-    NiPoint3R axis7 = FUN_004a3760((float)(2.0 * plane->normal.Dot(direction6)), plane->normal) - direction6;
+    reinterpret_cast<::FUN_004a0c10_s *>(&(direction6))->FUN_004a0c10();
+    NiPoint3R axis7 = FUN_004a3760((float)(2.0 * reinterpret_cast<::FUN_004b6190_shell *>((void *)&(plane->normal))->DotProduct((void *)&(direction6))), plane->normal) - direction6;
     NiMatrix3R matrix;
-    matrix.FUN_00476980(axisA, axis7, axis2);
+    reinterpret_cast<::FUN_00476980_S *>(&(matrix))->FUN_00476980((int)&(axisA), (int)&(axis7), (int)&(axis2));
     dest->position = reflected6;
     dest->rotation = matrix;
     dest->scale = Abs(source->scale);
     dest->UpdateViewFrustum(source->property);
     NiUpdateData update2(0.0f, false, false);
-    dest->Update(update2);
+    reinterpret_cast<::FUN_00a59c60_cls *>((dest))->FUN_00a59c60((int)&(update2));
 }

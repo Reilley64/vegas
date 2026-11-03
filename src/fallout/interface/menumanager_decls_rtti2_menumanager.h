@@ -2,9 +2,10 @@
 #ifndef FNV_MENUMANAGER_DECLS_H
 #define FNV_MENUMANAGER_DECLS_H
 
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_011f3000.h"
 void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
-int __cdecl Warning(const char*, ...);
 class Menu
 {
   public:
@@ -30,7 +31,6 @@ template <class T, class Allocator> class NiTArray
 class MenuClassArray : public NiTArray<ActorCombatGroup*, NiTMallocInterface<ActorCombatGroup*> >
 {
 };
-extern MenuClassArray g_menuByClassArray;
 // Constructor at 0x0075f070; runtime allocation is 0x80 bytes.
 class FUN_0075f070 : public Menu
 {

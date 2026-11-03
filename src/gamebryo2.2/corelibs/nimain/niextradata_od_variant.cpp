@@ -2,10 +2,18 @@
 // src/gamebryo2.2/corelibs/nimain/niextradata_od_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/gamebryo2.2/corelibs/nimain/niextradata.cpp functions whose prologue its flags cannot
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/Cls_a64ea0.h"
+#include "fnv/decl/FUN_0053a070_Class.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/fnv_00a64df0__FUN_00a64df0_Stream.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00c6b000.h"
+#include "fnv/symbols_01030000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_0109d000.h"
+#include "fnv/symbols_011f4000.h"
 #include "niextradata_packet.h"
 
-extern "C" void* __fastcall FUN_00c6b910(void*);
-extern void* DAT_0103046c;
 
 struct FUN_0066b640
 {
@@ -16,8 +24,8 @@ struct FUN_0066b640
 // @fnv 0x0066b640
 FUN_0066b640::FUN_0066b640()
 {
-    FUN_00c6b910(this);
-    m_vft = &DAT_0103046c;
+    ::FUN_00c6b910(this);
+    m_vft = &(*reinterpret_cast<void * *>(&::DAT_0103046c));
 }
 
 class B539F50Base
@@ -32,7 +40,6 @@ class B539F50Base
 class FUN_00539f50 : public B539F50Base
 {
   public:
-    void Init(int iA, int iB);
 
     FUN_00539f50(int iA, int iB);
     virtual ~FUN_00539f50();
@@ -41,5 +48,5 @@ class FUN_00539f50 : public B539F50Base
 // @fnv 0x00539f50
 FUN_00539f50::FUN_00539f50(int iA, int iB)
 {
-    Init(iA, iB);
+    reinterpret_cast<::FUN_0053a070_Class *>(this)->FUN_0053a070(iA, iB);
 }

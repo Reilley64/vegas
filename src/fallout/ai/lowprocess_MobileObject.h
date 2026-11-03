@@ -1,6 +1,7 @@
 // Source layout: MobileObject. PC corrections are in generate_headers.py.
 #ifndef FNV_MOBILEOBJECT_H
 #define FNV_MOBILEOBJECT_H
+#include "fnv/decl/FUN_00935a40_cls.h"
 #include "layout_support.h"
 #include "lowprocess_TESObjectREFR.h"
 #pragma pack(push, 4)
@@ -76,7 +77,6 @@ class MobileObject : public TESObjectREFR
     virtual void Unk_BE(void);
     virtual void Unk_BF(void);
     virtual void Unk_C0(void);
-    bool HasSaidTopicInfo(TESTopicInfo* info);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(MobileObject) == 0x88);

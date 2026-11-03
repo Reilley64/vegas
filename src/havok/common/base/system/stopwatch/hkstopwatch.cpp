@@ -2,6 +2,7 @@
 // src/havok/common/base/system/stopwatch/hkstopwatch.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/stopwatch/hkstopwatch.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_01269000.h"
 struct FUN_00d60570_t
 {
     virtual void v0();
@@ -11,7 +12,6 @@ struct FUN_00d60570_t
     virtual void v4();
     virtual void v5();
 };
-extern FUN_00d60570_t* DAT_01269cc0;
 // @fnv 0x00d60570
 void FUN_00d60570()
 {
@@ -39,11 +39,10 @@ struct FUN_00d60580_vt
     virtual void v15();
     virtual void v16();
 };
-extern FUN_00d60580_vt* DAT_01269cc0;
 // @fnv 0x00d60580
 void __cdecl FUN_00d60580()
 {
-    DAT_01269cc0->v4();
+    (*reinterpret_cast<::fnv_00d60580::FUN_00d60580_vt * *>(&::DAT_01269cc0))->v4();
 }
 }  // namespace fnv_00d60580
 

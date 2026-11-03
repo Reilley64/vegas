@@ -6,6 +6,8 @@
 // Baseline from an unnamed contributor, 2026-10-28, packet score 58 (unverified).
 // The inherited volatile-global caller is replaced by an ordinary argument-forwarding caller.
 // No unverified non-aliasing qualifier is imposed on the result pointer.
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01268000.h"
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     struct
@@ -34,7 +36,6 @@ extern "C"
     float _mm_cvtss_f32(__m128);
 }
 extern "C" __m128 _mm_setr_ps(float, float, float, float);
-extern const __m128 DAT_010c44d0;
 struct Matrix;
 struct Scalar
 {
@@ -142,6 +143,7 @@ void ProjectShapes(const Matrix* matrix, Shape* shape, Shape* other, const Vec* 
 #include <string.h>
 
 #include <math.h>
+#include "fnv/symbols_simd.h"
 
 extern const float DAT_01017d00 = 0.001f;
 
@@ -157,7 +159,6 @@ extern "C" ::__m128(_mm_andnot_ps)(::__m128, ::__m128);
 
 extern "C" ::__m128(_mm_mul_ss)(::__m128, ::__m128);
 
-extern ::Vec DAT_01268370;
 
 struct SamplingOutPair_e62740
 {
@@ -250,7 +251,7 @@ __declspec(noinline) void FUN_00e62740(Shape* shape, Shape* other, const Matrix*
 
     result.plane.w = -3.402820018375656e+38f;
 
-    const ::Vec* axisPtr = &DAT_01268370;
+    const ::Vec* axisPtr = &(*reinterpret_cast<::Vec *>(&::DAT_01268370));
 
     int count = 3;
 
@@ -389,7 +390,7 @@ __declspec(noinline) void FUN_00e62740(Shape* shape, Shape* other, const Matrix*
 
         limit = (float)(limit * 0.5);
 
-    } while (limit > DAT_01017d00);
+    } while (limit > ::AngularDashpotApplyD4DCB0::DAT_01017d00);
 
     *outA = result.pointA;
 

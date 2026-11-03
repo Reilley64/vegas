@@ -2,6 +2,19 @@
 // src/fallout_shared/tescreature_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/tescreature.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/FUN_004516b0_shell.h"
+#include "fnv/decl/FUN_0047d800_shell.h"
+#include "fnv/decl/FUN_00489a60.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_005f75e0.h"
+#include "fnv/decl/FUN_005f77b0.h"
+#include "fnv/decl/FUN_005f7b50_Class.h"
+#include "fnv/decl/FlagSet.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/s428110__Owner.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_011c1000.h"
+#include "fnv/symbols_011c3000.h"
 #include "tescreature_decls.h"
 
 // sub ecx,0x7c; jmp target  ==  MSVC adjustor thunk (multiple inheritance, shared virtual).

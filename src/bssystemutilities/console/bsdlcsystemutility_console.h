@@ -3,6 +3,8 @@
 #define FNV_ASTRA_DLC_H
 
 #include <stddef.h>
+#include "fnv/decl/StartMenu.h"
+#include "fnv/symbols_00af2000.h"
 class ContentMountRecord;
 class DownloadableContentEntry;
 class DownloadableContentInfo;
@@ -24,8 +26,6 @@ class DownloadableContentManager
     BSSimpleList<char*> m_kMountedPackageNames;
     static DownloadableContentManager& GetRandomGenerator();
     bool IsDLCAvailable();
-    bool IsContentAvailable();
-    void UnmountDLC();
     unsigned int MountDownloadableContent(unsigned int userIndex, MOUNT_CALLBACK callback);
 };
 class BSSystemUtility

@@ -5,6 +5,14 @@
 
 // src/havok/physics/collide/agent/convexagent/capsulecapsule/hkpcapsulecapsuleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/capsulecapsule/hkpcapsulecapsuleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00cfbbe0_cls.h"
+#include "fnv/decl/hkpCapsuleCapsuleAgent.h"
+#include "fnv/symbols_00d22000.h"
+#include "fnv/symbols_00d3b000.h"
+#include "fnv/symbols_00d3c000.h"
+#include "fnv/symbols_00daf000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01268000.h"
 struct Callback
 {
     virtual void slot00();
@@ -25,10 +33,6 @@ struct FUN_00d3b3d0_Class
     void InvokeCallbacksAndRelease(int);
 };
 typedef void(__cdecl* HandlerFn)();
-void __cdecl FUN_00d3b380();
-void __cdecl FUN_00d3b420();
-void __cdecl FUN_00d3bd80();
-void __cdecl FUN_00daf8e0();
 struct HandlerSet
 {
     HandlerFn m_pfnFirst;
@@ -40,10 +44,7 @@ struct HandlerSet
 };
 struct Registry
 {
-    void FUN_00cfbbe0(HandlerSet* apHandlers, int aiFirst, int aiSecond);
 };
-void __cdecl RegisterHandlers(Registry* apRegistry);
-void __cdecl FUN_00d3b420(const void* a, const void* b, const void* c, void* d);
 struct D3B6D0Agent
 {
     virtual void ForwardToHandler(const void* a, const void* b, const void* c, void* d);
@@ -123,12 +124,9 @@ struct HitHandler
     virtual void slot04(Capsule*, Capsule*);
 };
 
-extern int DAT_0126835c;
 extern char DAT_010cefcc[];
-extern char DAT_010c41f8[];
 extern "C" void _ReadWriteBarrier();
 
-void __cdecl FUN_00d22e40(void*, void*, void*, void*, void*);
 
 template <class T> struct LazyPtr
 {
@@ -147,7 +145,7 @@ template <class T> struct LazyPtr
 // @fnv 0x00d3b420
 void __cdecl FUN_00d3b420(Capsule* pFirst, Capsule* pSecond, void* pUnused, HitHandler* pHandler)
 {
-    ProfilerTls* pTls = (ProfilerTls*)TlsGetValue(DAT_0126835c);
+    ProfilerTls* pTls = (ProfilerTls*)TlsGetValue((*reinterpret_cast<int *>(&::DAT_0126835c)));
     char* pCur = pTls->unk04;
     if (pCur < pTls->unk0C)
     {
@@ -247,7 +245,7 @@ void __cdecl FUN_00d3b420(Capsule* pFirst, Capsule* pSecond, void* pUnused, HitH
 
     // Intersect the ray with the segment.
     RayHit hit;
-    FUN_00d22e40(&seg.v2, &rays.dir, &seg.v0, &rays.edge, &hit);
+    ::FUN_00d22e40((*(const ::hkVector4 *)(&seg.v2)), (*(const ::hkVector4 *)(&rays.dir)), (*(const ::hkVector4 *)(&seg.v0)), (*(const ::hkVector4 *)(&rays.edge)), (*(::VectorPairResult *)(&hit)));
 
     // The two radii decide whether the capsules overlap.
     float t = pSrc[4] + pSrc2[4];
@@ -257,7 +255,7 @@ void __cdecl FUN_00d3b420(Capsule* pFirst, Capsule* pSecond, void* pUnused, HitH
     }
 
     // --- leave the profiler ---
-    pTls = (ProfilerTls*)TlsGetValue(DAT_0126835c);
+    pTls = (ProfilerTls*)TlsGetValue((*reinterpret_cast<int *>(&::DAT_0126835c)));
     pCur = pTls->unk04;
     if (pCur < pTls->unk0C)
     {
@@ -494,7 +492,7 @@ struct Agent : FUN_00d3b3d0_Class
 // @fnv 0x00d3c060
 void Agent::FUN_00d3c060(const CdBody* bodyA, const CdBody* bodyB, const CollisionInput* input, Collector* collector)
 {
-    ProfilerTls* ms = (ProfilerTls*)TlsGetValue(DAT_0126835c);
+    ProfilerTls* ms = (ProfilerTls*)TlsGetValue((*reinterpret_cast<int *>(&::DAT_0126835c)));
     {
         TimerEntry* cursor = (TimerEntry*)ms->unk04;
         if (cursor < (TimerEntry*)ms->unk0C)
@@ -638,7 +636,7 @@ void Agent::FUN_00d3c060(const CdBody* bodyA, const CdBody* bodyB, const Collisi
         res++;
     }
 
-    ms = (ProfilerTls*)TlsGetValue(DAT_0126835c);
+    ms = (ProfilerTls*)TlsGetValue((*reinterpret_cast<int *>(&::DAT_0126835c)));
     {
         TimerEntry* cursor = (TimerEntry*)ms->unk04;
         if (cursor < (TimerEntry*)ms->unk0C)

@@ -4,6 +4,26 @@
 
 // src/havok/common/internal/convexhull/hkgeometryutility.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/convexhull/hkgeometryutility.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/D76250Shape.h"
+#include "fnv/decl/FUN_00cb21e0_shell.h"
+#include "fnv/decl/FUN_00d74d40_cls.h"
+#include "fnv/decl/FUN_00d76990_Class.h"
+#include "fnv/decl/H77ConvexHull.h"
+#include "fnv/decl/S_00d76410_Builder.h"
+#include "fnv/decl/fnv_00d76940__FUN_00d76940_cls.h"
+#include "fnv/decl/fnv_00d76ca0__FUN_00d76ca0.h"
+#include "fnv/decl/hkMatrix3.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d5a000.h"
+#include "fnv/symbols_00d5c000.h"
+#include "fnv/symbols_00dd6000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01013000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0106e000.h"
+#include "fnv/symbols_01071000.h"
 struct FUN_00d5a5e0_ctxA
 {
     unsigned int unk00;
@@ -12,10 +32,6 @@ struct FUN_00d5a5e0_ctxA
     unsigned int unk0c;
     unsigned int unk10;
 
-    void InitA();
-    int FindB(void* a1, void* b);
-    void SetB(int zero, int a2);
-    void FinishA();
 };
 struct FUN_00d5a5e0_ctxB
 {
@@ -26,9 +42,7 @@ struct FUN_00d5a5e0_ctxB
     unsigned int unk08;
     unsigned int unk0c;
 
-    void InitB();
 };
-void __cdecl InitAndSetB(void* a1, int a2);
 struct FUN_00d5a630_ctxA
 {
     unsigned int unk00;
@@ -37,12 +51,6 @@ struct FUN_00d5a630_ctxA
     unsigned int unk0c;
     unsigned int unk10;
 
-    void InitA();
-    int FindB(void* a1, void* b);
-    void SetB(int zero, int a2);
-    void SetF(float f, int zero);
-    void SetC(int a3);
-    void FinishA();
 };
 struct FUN_00d5a630_ctxB
 {
@@ -53,10 +61,7 @@ struct FUN_00d5a630_ctxB
     unsigned int unk08;
     unsigned int unk0c;
 
-    void InitB();
 };
-extern float DAT_0106ea1c;
-void __cdecl FUN_00d5a630(void* a1, int a2, int a3);
 struct S_00d5a6b0_Elem
 {
     float x;
@@ -131,12 +136,8 @@ struct D5C110Geometry
     int unk0C;
     int m_iTriangleCount;
 };
-void __cdecl ProcessArg(const void* shape, D5C110VertexArray& vertices);
-void __cdecl InitAndSetB(const D5C110StridedVertices& vertices, D5C110Geometry& out);
 void __cdecl BuildGeometryFromShape(const void* shape, D5C110Geometry& aGeometry);
 struct D5C110VertexArray;
-void __cdecl ProcessArg(const void* shape, D5C110VertexArray& vertices);
-void __cdecl FUN_00d5a6a0(const void* shape, D5C110VertexArray& vertices);
 #include <math.h>
 struct S00d5ad60_cls
 {
@@ -154,7 +155,6 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
 #ifndef _INCLUDED_MM2
 extern "C" __m128 _mm_setr_ps(float, float, float, float);
 #endif
-extern float DAT_01011d78;
 static int FUN_00d5ad90(const float* pVec, float fTol);
 int __cdecl S00d5ad90_Wrap(const float* pVec, float fTol);
 struct S00d5c060_Src
@@ -179,8 +179,6 @@ struct __declspec(align(16)) S00d5c060_Result
 };
 char* __cdecl AllocateWithHeader(D5C110Allocator* alloc, int size);
 char* __cdecl FUN_00c856c0(D5C110Allocator* owner, char* data);
-void __cdecl FUN_00d5beb0(S00d5c060_Result* self, char* data, int count, int flags, float scale);
-S00d5c060_Result FUN_00d5c060(const S00d5c060_Src* src, float scale);
 extern "C" __m128 _mm_add_ss(__m128, __m128);
 extern "C" float _mm_cvtss_f32(__m128);
 extern "C" void _mm_store_ss(float*, __m128);
@@ -189,7 +187,6 @@ extern "C" __m128 _mm_setzero_ps(void);
 extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 extern "C" __m128 _mm_sqrt_ss(__m128);
 extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern const float DAT_01012054;
 struct __declspec(align(16)) Vec4
 {
     float x, y, z, w;
@@ -222,7 +219,6 @@ static __declspec(noinline) Vec4* FUN_00d5bce0(Vec4* res, Vec4* p0, Vec4* p1, Ve
     res->w = a.y;
     return res;
 }
-__m128* __cdecl FUN_00d5beb0(__m128* out, MyPoint* pts, int count, int depth, float t);
 extern "C" __m128 _mm_add_ps(__m128, __m128);
 extern "C" __m128 _mm_sub_ps(__m128, __m128);
 extern "C" __m128 _mm_add_ss(__m128, __m128);
@@ -721,6 +717,7 @@ volatile float probeSink;
 void runProbe();
 
 #include <math.h>
+#include "fnv/symbols_simd.h"
 
 namespace BoxGeometrySse {
 extern "C"
@@ -732,19 +729,13 @@ extern "C"
 }
 }
 
-extern const float DAT_010718c0;
 
 extern const double DAT_010d1020;
 
-extern const float DAT_01017718;
 
-extern const float DAT_01016248;
 
-extern float DAT_01013ea4;
 
-extern float DAT_01017d00;
 
-extern const __m128 DAT_01017d10;
 
 struct ObbVec
 {
@@ -776,7 +767,6 @@ struct ObbRot
 
     ObbVec c0, c1, c2;
 
-    void FUN_00cd4f10(float tolerance) throw();
 };
 
 struct ObbXf
@@ -784,7 +774,6 @@ struct ObbXf
 
     ObbVec c0, c1, c2, c3;
 
-    void FUN_00cb21e0(const ObbXf* other) throw();
 };
 
 struct ObbInput
@@ -835,7 +824,6 @@ Router& FUN_00c85750() throw();
 
 }
 
-void __cdecl ResizeAudioStream(void*, void*, int) throw();
 
 ObbVec* __cdecl hlpC(ObbVec* out, const ObbStride*, float) throw();
 
@@ -869,7 +857,7 @@ struct ObbArray
         ObbAllocator& a = FitMemory::FUN_00c85750().heap();
 
         if (size == (cap & 0x3fffffff))
-            ResizeAudioStream(&a, this, 16);
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&a), (::AudioStream *)(void *)(this), 16);
 
         BoxGeometrySse::_mm_store_ps((float*)&data[size], v.q);
 
@@ -941,11 +929,11 @@ static __m128 normalizeScale(__m128 v)
 
     __m128 r = _mm_rsqrt_ss(s);
 
-    __m128 mask = _mm_cmpeq_ss(s, _mm_load_ss(&DAT_01011d78));
+    __m128 mask = _mm_cmpeq_ss(s, _mm_load_ss(&::DAT_01011d78));
 
     __m128 three = _mm_set_ss(DAT_01017718);
 
-    __m128 half = _mm_load_ss(&DAT_01016248);
+    __m128 half = _mm_load_ss(&::fnv_00c88020::DAT_01016248);
 
     return _mm_andnot_ps(mask, _mm_mul_ss(_mm_mul_ss(half, r), _mm_sub_ss(three, _mm_mul_ss(_mm_mul_ss(s, r), r))));
 }
@@ -1089,7 +1077,7 @@ bool __cdecl ObbInput::FUN_00d5c6d0(ObbVec& halfExtents, ObbXf& output, float to
 
     rotation.c2.q = _mm_mul_ps(_mm_shuffle_ps(nc, nc, 0), cross);
 
-    rotation.FUN_00cd4f10(DAT_01013ea4);
+    reinterpret_cast<::hkMatrix3 *>(&(rotation))->FUN_00cd4f10(DAT_01013ea4);
 
     ObbVec* vertex = scratch.data;
 
@@ -1127,17 +1115,17 @@ bool __cdecl ObbInput::FUN_00d5c6d0(ObbVec& halfExtents, ObbXf& output, float to
     for (int i = 0; i < 8; i++)
     {
 
-        if ((!hlpA(&scratch.data[i].q.m128_f32[0], &minX, DAT_01017d00) &&
+        if ((!hlpA(&scratch.data[i].q.m128_f32[0], &minX, ::AngularDashpotApplyD4DCB0::DAT_01017d00) &&
 
-             !hlpA(&scratch.data[i].q.m128_f32[0], &maxX, DAT_01017d00)) ||
+             !hlpA(&scratch.data[i].q.m128_f32[0], &maxX, ::AngularDashpotApplyD4DCB0::DAT_01017d00)) ||
 
-            (!hlpA(&scratch.data[i].q.m128_f32[1], &minY, DAT_01017d00) &&
+            (!hlpA(&scratch.data[i].q.m128_f32[1], &minY, ::AngularDashpotApplyD4DCB0::DAT_01017d00) &&
 
-             !hlpA(&scratch.data[i].q.m128_f32[1], &maxY, DAT_01017d00)) ||
+             !hlpA(&scratch.data[i].q.m128_f32[1], &maxY, ::AngularDashpotApplyD4DCB0::DAT_01017d00)) ||
 
-            (!hlpA(&scratch.data[i].q.m128_f32[2], &minZ, DAT_01017d00) &&
+            (!hlpA(&scratch.data[i].q.m128_f32[2], &minZ, ::AngularDashpotApplyD4DCB0::DAT_01017d00) &&
 
-             !hlpA(&scratch.data[i].q.m128_f32[2], &maxZ, DAT_01017d00)))
+             !hlpA(&scratch.data[i].q.m128_f32[2], &maxZ, ::AngularDashpotApplyD4DCB0::DAT_01017d00)))
             return false;
     }
 
@@ -1147,7 +1135,7 @@ bool __cdecl ObbInput::FUN_00d5c6d0(ObbVec& halfExtents, ObbXf& output, float to
 
     halfExtents.q.m128_f32[2] = maxZ - minZ;
 
-    __m128 h = _mm_load_ss(&DAT_01016248);
+    __m128 h = _mm_load_ss(&::fnv_00c88020::DAT_01016248);
     halfExtents.q = _mm_mul_ps(_mm_shuffle_ps(h, h, 0), halfExtents.q);
 
     float cx = (float)((maxX + minX) * 0.5), cy = (float)((maxY + minY) * 0.5), cz = (float)((maxZ + minZ) * 0.5);
@@ -1167,7 +1155,7 @@ bool __cdecl ObbInput::FUN_00d5c6d0(ObbVec& halfExtents, ObbXf& output, float to
 
     inverse.c3 = center;
 
-    output.FUN_00cb21e0(&inverse);
+    reinterpret_cast<::FUN_00cb21e0_shell *>(&(output))->FUN_00cb21e0((const ::Matrix44 *)(const ::ObbXf *)(&inverse));
 
     if (hlpB(&rotation.c0, tolerance) && hlpB(&rotation.c1, tolerance) && hlpB(&rotation.c2, tolerance))
     {
@@ -1194,7 +1182,7 @@ bool __cdecl ObbInput::FUN_00d5c6d0(ObbVec& halfExtents, ObbXf& output, float to
         output.c2.q = rotation.c2.q;
     }
 
-    inverse.FUN_00cb21e0(&output);
+    reinterpret_cast<::FUN_00cb21e0_shell *>(&(inverse))->FUN_00cb21e0((const ::Matrix44 *)(const ::ObbXf *)(&output));
 
     for (int i = 0; i < input.size; i++)
     {
@@ -1268,11 +1256,8 @@ struct BoundsVector
     };
 };
 
-extern const float DAT_01016248;
 
-extern float DAT_01011d78;
 
-extern const float DAT_01017718;
 
 extern const float DAT_010d1014;
 
@@ -1300,11 +1285,11 @@ static __forceinline void NormalizeThree(BoundsVector& output, __m128 value, __m
     if (Initialize)
     {
 
-        zero = _mm_set_ss(DAT_01011d78);
+        zero = _mm_set_ss(::DAT_01011d78);
 
         three = _mm_set_ss(DAT_01017718);
 
-        half = _mm_set_ss(DAT_01016248);
+        half = _mm_set_ss(::fnv_00c88020::DAT_01016248);
     }
 
     __m128 correction = _mm_sub_ss(three, _mm_mul_ss(_mm_mul_ss(length, reciprocal), reciprocal));
@@ -1323,7 +1308,7 @@ static __forceinline void IncludeBoundsPoint(const BoundsVector* axes, const cha
 
     const float* point = reinterpret_cast<const float*>(vertices);
 
-    __m128 packed = _mm_set_ps(DAT_01011d78, point[2], point[1], point[0]);
+    __m128 packed = _mm_set_ps(::DAT_01011d78, point[2], point[1], point[0]);
 
     vertices += stride;
 
@@ -1369,9 +1354,9 @@ static __declspec(noinline) void FUN_00d5ae60(const BoundsVector* axes, const ch
 
     halfExtents->packed = widths;
 
-    __m128 middle = _mm_mul_ps(_mm_set_ps1(DAT_01016248), _mm_add_ps(maximum.packed, minimum.packed));
+    __m128 middle = _mm_mul_ps(_mm_set_ps1(::fnv_00c88020::DAT_01016248), _mm_add_ps(maximum.packed, minimum.packed));
 
-    halfExtents->packed = _mm_mul_ps(_mm_set_ps1(DAT_01016248), widths);
+    halfExtents->packed = _mm_mul_ps(_mm_set_ps1(::fnv_00c88020::DAT_01016248), widths);
 
     center->packed = _mm_mul_ps(_mm_shuffle_ps(middle, middle, 0), axes[0].packed);
 

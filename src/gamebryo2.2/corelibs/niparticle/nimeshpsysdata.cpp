@@ -2,15 +2,35 @@
 // src/gamebryo2.2/corelibs/niparticle/nimeshpsysdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nimeshpsysdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/FUN_00a5d430_Class.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FnvPSysData.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiPSysDataWriter.h"
+#include "fnv/decl/NiPSysData_View.h"
+#include "fnv/decl/NiTObjectArrayA47.h"
+#include "fnv/decl/PSDataEqStand.h"
+#include "fnv/decl/S00c25340_Data.h"
+#include "fnv/decl/Source08.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a26000.h"
+#include "fnv/symbols_00a7b000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01202000.h"
 extern "C"
 {
-    extern void* g_012027c0;
 }
 
 // @fnv 0x00c30a80
 void* __cdecl FUN_00c30a80()
 {
-    return &g_012027c0;
+    return &(*reinterpret_cast<void * *>(&::g_012027c0));
 }
 
 struct NiPSysData
@@ -24,16 +44,6 @@ struct NiMeshPSysData : NiPSysData
 };
 
 void __cdecl operator delete(void* p, unsigned int size);
-
-// Calls FUN_00c309d0, then deletes this with size 0x98 when bit 0 of flags is set, and returns this.
-// @fnv 0x00c30bd0
-void* __thiscall NiMeshPSysData::FUN_00c30bd0(unsigned int flags)
-{
-    FUN_00c309d0();
-    if (flags & 1)
-        operator delete(this, 0x98);
-    return this;
-}
 
 struct Mesh308
 {
@@ -188,7 +198,6 @@ struct S_00c30a90
 };
 struct BaseCall00c30a90
 {
-    void __thiscall FUN_00c24d20();
 };
 // @fnv 0x00c30a90
 void __thiscall S_00c30a90::FUN_00c30a90()
@@ -201,7 +210,7 @@ void __thiscall S_00c30a90::FUN_00c30a90()
         if (pkMesh)
             pkMesh->m_uiObjectFlags &= ~1;
     }
-    ((BaseCall00c30a90*)this)->FUN_00c24d20();
+    reinterpret_cast<::FnvPSysData *>((((BaseCall00c30a90*)this)))->FUN_00c24d20();
 }
 
 struct NiObject;
@@ -216,25 +225,11 @@ struct Hc00
 };
 struct Hae0
 {
-    void __thiscall CloneTo(NiMeshPSysData*, CloningProcess&);
 };
 struct Holder_00c30c50
 {
     NiObject* __thiscall FUN_00c30c50(CloningProcess&);
 };
-// @fnv 0x00c30c50
-NiObject* __thiscall Holder_00c30c50::FUN_00c30c50(CloningProcess& kCloning)
-{
-    NiMeshPSysData* pkObject;
-    void* pMemory = BSFadeNode::operator new(0x98);
-    if (pMemory)
-        pkObject = ((Hc00*)pMemory)->FUN_00c30c00();
-    else
-        pkObject = 0;
-    ((Hae0*)this)->CloneTo(pkObject, kCloning);
-    return (NiObject*)pkObject;
-}
-
 struct StrArr
 {
     char _pad[8];
@@ -242,21 +237,18 @@ struct StrArr
     unsigned short m_usSize;
     unsigned short _pad2;
     unsigned short m_usGrow;
-    void __thiscall SetSize(unsigned int);
     void __thiscall SetAt(unsigned int, char*&);
 };
-void __stdcall FUN_00c255b0(StrArr*);
-char* __cdecl _FUN_00a7d330(const char*);
 // @fnv 0x00c31210
 void __stdcall FUN_00c31210(StrArr* pkStrings)
 {
-    FUN_00c255b0(pkStrings);
-    char* pszStr = _FUN_00a7d330((const char*)g_012027c0);
+    reinterpret_cast<::Source08 *>((pkStrings))->FUN_00c255b0({});
+    char* pszStr = ::FUN_00a7d330((const char*)(*reinterpret_cast<void * *>(&::g_012027c0)));
     unsigned int uiSize = pkStrings->m_usSize;
     unsigned int uiAlloc = pkStrings->m_usAlloc;
     if (uiSize >= uiAlloc)
-        pkStrings->SetSize(uiSize + pkStrings->m_usGrow);
-    pkStrings->SetAt(uiSize, pszStr);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(uiSize + pkStrings->m_usGrow);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiSize, pszStr);
 }
 
 struct CloningProcess;
@@ -307,7 +299,7 @@ struct NiMeshPSysData_00c30920 : NiObject
 // @fnv 0x00c30920
 void NiMeshPSysData_00c30920::FUN_00c30920(CloningProcess& kCloning)
 {
-    NiObject::ProcessClone(kCloning);
+    reinterpret_cast<::FUN_00a5d430_Class *>(this)->FUN_00a5d430((unsigned int)&(kCloning));
     m_pMeshNode->ProcessClone(kCloning);
 }
 
@@ -321,23 +313,20 @@ struct FUN_00c309a0_shell
 
 struct MemoryManager
 {
-    void __thiscall _DeallocateAlias(void* p);
 };
 
-extern MemoryManager _g_memoryManager;
 extern int DAT_010c07e0;
 
-void __cdecl _NiFree(void* p);
 
 // @fnv 0x00c309a0
 void* __thiscall FUN_00c309a0_shell::Destroy(unsigned char deallocate)
 {
     void* p = data;
     vftable = reinterpret_cast<void*>(&DAT_010c07e0);
-    _NiFree(p);
+    ::FUN_00aa10f0(p);
 
     if (deallocate & 1)
-        _g_memoryManager._DeallocateAlias(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(this);
 
     return this;
 }
@@ -385,13 +374,12 @@ struct Mesh308Compat
 };
 struct DerivedThis308 : This308
 {
-    char __thiscall FUN_00c24de0(This308*);
     char __thiscall FUN_00c30970(This308*);
 };
 // @fnv 0x00c30970
 char __thiscall DerivedThis308::FUN_00c30970(This308* other)
 {
-    if (!FUN_00c24de0(other))
+    if (!((char)(reinterpret_cast<::PSDataEqStand *>(this)->FUN_00c24de0((::PSDataEqStand *)(other)))))
         return 0;
     Mesh308Compat* thisMesh = reinterpret_cast<Mesh308Compat*>(m7c);
     Mesh308* otherMesh = other->m7c;
@@ -461,7 +449,6 @@ class C30AE0ObjectPtr
 class C30AE0Base
 {
   public:
-    void CopyMemberData(C30AE0Base* pkDest, C30AE0CloningProcess& kCloning);
 
     int unk00;
     int unk04;
@@ -508,7 +495,7 @@ class C30AE0Modifier : public C30AE0Base
 // @fnv 0x00c30ae0
 void C30AE0Modifier::CloneTo(C30AE0Modifier* pkDest, C30AE0CloningProcess& kCloning)
 {
-    C30AE0Base::CopyMemberData(pkDest, kCloning);
+    reinterpret_cast<::NiPSysData_View *>(this)->FUN_00c24f20((::NiPSysData_View *)(pkDest), (void *)&(kCloning));
     pkDest->m_spEmitter = m_spEmitter.m_pObject->MakeClone(kCloning);
     pkDest->m_bModifierActive = m_bModifierActive;
 }
@@ -526,7 +513,6 @@ struct NiStreamStandIn
 };
 struct NiPSysDataLinkHelper
 {
-    void LinkObject(NiStream&);
 };
 struct NiMeshPSysData308
 {
@@ -537,7 +523,7 @@ struct NiMeshPSysData308
 // @fnv 0x00c30b70
 void __thiscall NiMeshPSysData308::FUN_00c30b70(NiStream& kStream)
 {
-    ((NiPSysDataLinkHelper*)this)->LinkObject(kStream);
+    ::FUN_00a7b7d0();
     NiObject* pkNode = ((NiStreamStandIn*)&kStream)->GetLoadedObject();
     NiObject* pkOld = m_pMeshNode;
     if (pkOld != pkNode)
@@ -771,14 +757,13 @@ struct MeshSave
     unsigned int unk88;
     SavedElement** elements;
     unsigned short capacity, count, growth, unk96;
-    void FUN_00c25560(SaveStream&);
     void WriteToStream(SaveStream&);
 };
 // Calls FUN_00c25560, then writes value, active, count and each element's id (or zero) to the stream, and saves a link to particleMeshes.
 // @fnv 0x00c30cc0
 void MeshSave::WriteToStream(SaveStream& stream)
 {
-    FUN_00c25560(stream);
+    reinterpret_cast<::NiPSysDataWriter *>(this)->FUN_00c25560((::NiStream &)(stream));
     stream.buffer->Write(&value, 4);
     {
         bool bActive = active;
@@ -864,7 +849,6 @@ void __thiscall FUN_00c30df0_cls::ReleaseSlotRef(unsigned int uiIndex, NiRefBase
 }
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
-extern "C" void __cdecl _NiFreeC30(void* pvMem) throw();
 
 class NiRefObjectC30
 {
@@ -898,7 +882,7 @@ template <class T> class NiTPrimitiveArrayC30
   public:
     virtual ~NiTPrimitiveArrayC30() throw()
     {
-        _NiFreeC30(m_pBase);
+        ::FUN_00aa10f0(m_pBase);
     }
 
     unsigned short GetSize() const
@@ -951,6 +935,15 @@ class FUN_00c309d0 : public BaseC30
     int unk84;
     NiTPrimitiveArrayC30<ElementC30*> m_kElements;
 };
+// Calls FUN_00c309d0, then deletes this with size 0x98 when bit 0 of flags is set, and returns this.
+// @fnv 0x00c30bd0
+void* __thiscall NiMeshPSysData::FUN_00c30bd0(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00c309d0 *>(this)->FUN_00c309d0::~FUN_00c309d0();
+    if (flags & 1)
+        ::FUN_00aa1460(this, 0x98);
+    return this;
+}
 
 // Destructor that repeatedly removes the last element from m_kElements and deletes it until the array is empty.
 // @fnv 0x00c309d0
@@ -1046,6 +1039,18 @@ class FUN_00c30c00_cls : public BC30C00Base
     int unk84;
     BC30C00ObjectArray m_kArray;
 };
+// @fnv 0x00c30c50
+NiObject* __thiscall Holder_00c30c50::FUN_00c30c50(CloningProcess& kCloning)
+{
+    NiMeshPSysData* pkObject;
+    void* pMemory = BSFadeNode::operator new(0x98);
+    if (pMemory)
+        pkObject = ((::NiMeshPSysData *)(new ((void *)(((Hc00*)pMemory))) ::FUN_00c30c00_cls()));
+    else
+        pkObject = 0;
+    reinterpret_cast<::C30AE0Modifier *>((((Hae0*)this)))->CloneTo((::C30AE0Modifier *)(pkObject), (::C30AE0CloningProcess &)(kCloning));
+    return (NiObject*)pkObject;
+}
 
 // Initializes the object with m_pkTarget set to null.
 // @fnv 0x00c30c00
@@ -1219,7 +1224,6 @@ struct NiMeshPSysDataSI : NiPSysData_StandIn
     int unk78;
     NiNodeSI* m_pMeshNode;
 
-    void ReleaseSlotRef(unsigned int uiGeneration, NiAVObjectPtrSI spParticle);
     void FUN_00c30e80(unsigned short usParticle);
 };
 
@@ -1245,7 +1249,7 @@ void NiMeshPSysDataSI::FUN_00c30e80(unsigned short usParticleIndex)
         spFinalParticle.Release();
     }
 
-    ReleaseSlotRef(usParticleGeneration, spParticle);
+    reinterpret_cast<::FUN_00c30df0_cls *>(this)->ReleaseSlotRef(usParticleGeneration, (*(::NiRefBase * *)&(const ::NiPointerSI< ::NiAVObjectSI> &)(spParticle)));
     spParticle.Release();
 }
 
@@ -1256,9 +1260,7 @@ template <class T> struct NiPointer
 };
 struct Heap436
 {
-    void* FUN_00aa3e40(unsigned size);
 };
-extern int DAT_011f6238;
 template <class T> struct NiTArray436
 {
     virtual ~NiTArray436();
@@ -1278,7 +1280,7 @@ template <class T> struct NiTObjectArray : NiTArray436<T>
     virtual ~NiTObjectArray();
     static void* operator new(unsigned size) throw()
     {
-        return reinterpret_cast<Heap436*>(&DAT_011f6238)->FUN_00aa3e40(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<Heap436*>(&(*reinterpret_cast<int *>(&::g_memoryManager)))))->FUN_00aa3e40(size);
     }
     void FUN_0060bef0(unsigned size);
 };
@@ -1298,8 +1300,6 @@ struct OuterArray436
             --valid;
         return result;
     }
-    void FUN_00a90180(unsigned size);
-    void FUN_00ba3aa0(unsigned index, Array436*& value);
 };
 struct Owner436
 {
@@ -1352,12 +1352,12 @@ void Owner436::ResizeChildren(unsigned count)
     }
     else if (count > previous)
     {
-        children.FUN_00a90180(count);
+        reinterpret_cast<::FUN_00a41520_cls *>(&(children))->FUN_00a90180(count);
         for (unsigned i = previous; i < count; ++i)
         {
             Array436* result = new Array436;
-            result->FUN_0060bef0(arraySize);
-            children.FUN_00ba3aa0(i, result);
+            reinterpret_cast<::NiTObjectArrayA47 *>((result))->FUN_0060bef0(arraySize);
+            reinterpret_cast<::FUN_00a41520_cls *>(&(children))->FUN_00ba3aa0(i, (::KeyPair **)&(result));
         }
     }
 }
@@ -1532,7 +1532,6 @@ struct NiStream
     int unk248;
     NiBinaryStream* m_pUnderlyingStream;
 
-    void ReadLinkIDStub();
 };
 
 template <class T> inline unsigned int NiBinaryStreamLoad(NiBinaryStream& kStream, T* pValue, unsigned int uiNumEls)
@@ -1549,13 +1548,12 @@ struct MemMgrStub
 {
     void* Allocate(unsigned int uiSize);
 };
-extern MemMgrStub g_kMemMgrStub;
 
 struct NiMemObjectStub
 {
     static void* operator new(unsigned int uiSize)
     {
-        return g_kMemMgrStub.Allocate(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemMgrStub *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }
     static void operator delete(void* p);
 };
@@ -1577,7 +1575,6 @@ struct PoolArrayBase : NiMemObjectStub
         m_pBase = 0;
     }
     virtual ~PoolArrayBase();
-    void SetSize(unsigned int uiSize);
 };
 
 struct PoolArray : PoolArrayBase
@@ -1595,7 +1592,6 @@ struct PoolArrayArray
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
 
-    void SetSize(unsigned int uiSize);
     void SetAt(unsigned int uiIndex, PoolArray*& pkElement);
 };
 
@@ -1608,7 +1604,6 @@ struct PSysDataBase
 
 struct NiMeshPSysDataStub : PSysDataBase
 {
-    void FillPools(bool bFill);
     void FUN_00c31090(NiStream& kStream);
 };
 
@@ -1650,8 +1645,8 @@ struct NiMeshPSysDataLayout : NiMeshPSysDataStub
 
 inline void S00c31090_AddPool(PoolArrayArray& kPools, unsigned int uiIndex, PoolArray* pkPool, unsigned int uiPoolSize)
 {
-    pkPool->SetSize(uiPoolSize);
-    kPools.SetAt(uiIndex, pkPool);
+    reinterpret_cast<::NiTObjectArrayA47 *>((pkPool))->FUN_0060bef0(uiPoolSize);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(kPools))->FUN_00ba3aa0(uiIndex, (::KeyPair **)&(pkPool));
 }
 
 // Loads base particle data, fills pools for older versions, and otherwise reads pool sizes and creates a pool for each nonzero size.
@@ -1662,24 +1657,24 @@ void NiMeshPSysDataStub::FUN_00c31090(NiStream& kStream)
     unsigned int uiPoolSize;
     unsigned int uiNumGenerations;
 
-    PSysDataBase::LoadBinary(kStream);
+    reinterpret_cast<::S00c25340_Data *>(this)->FUN_00c25340(kStream);
 
     if (kStream.m_uiNifVersion <= 0x0a010000)
     {
         pkThis->m_uiDefaultPoolsSize = m_usVertices;
-        FillPools(true);
+        reinterpret_cast<::Owner436 *>(this)->ResizeChildren(true);
     }
     else
     {
         bool bFillPoolsOnLoad;
-        ReadBinaryValue(kStream, pkThis->m_uiDefaultPoolsSize);
+        ::FUN_00a26df0((::MyStream *)&(kStream), (void *)&(pkThis->m_uiDefaultPoolsSize));
         ReadBinaryValue(kStream, bFillPoolsOnLoad);
         pkThis->m_bUseDefaultPools = (bFillPoolsOnLoad != 0);
-        ReadBinaryValue(kStream, uiNumGenerations);
-        pkThis->m_kPoolArrays.SetSize(uiNumGenerations);
+        ::FUN_00a26df0((::MyStream *)&(kStream), (void *)&(uiNumGenerations));
+        reinterpret_cast<::FUN_00a41520_cls *>(&(pkThis->m_kPoolArrays))->FUN_00a90180(uiNumGenerations);
         for (unsigned int i = 0; i < uiNumGenerations; i++)
         {
-            ReadBinaryValue(kStream, uiPoolSize);
+            ::FUN_00a26df0((::MyStream *)&(kStream), (void *)&(uiPoolSize));
             if (uiPoolSize > 0)
             {
                 S00c31090_AddPool(pkThis->m_kPoolArrays, i, new PoolArray(0, 1), uiPoolSize);
@@ -1687,5 +1682,5 @@ void NiMeshPSysDataStub::FUN_00c31090(NiStream& kStream)
         }
     }
 
-    kStream.ReadLinkIDStub();
+    reinterpret_cast<::FUN_00a645b0_cls *>(&(kStream))->FUN_00a645b0();
 }

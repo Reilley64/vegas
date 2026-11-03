@@ -1,10 +1,34 @@
 // src/fallout/interface/menus/startmenu_rtm_variant.cpp - RTM variant unit created 2026-11-01 by rtm_route.py: community reworks of src/fallout/interface/menus/startmenu.cpp that match byte for byte only
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
 
+#include "fnv/decl/BSAudioManager.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_00450410_Class.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_007d0b90_cls.h"
+#include "fnv/decl/FUN_009698a0_shell.h"
+#include "fnv/decl/FalloutAudioMedia.h"
+#include "fnv/decl/GlobalObject_0045cf30.h"
+#include "fnv/decl/S457d70.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_004a4000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_00706000.h"
+#include "fnv/symbols_00761000.h"
+#include "fnv/symbols_007d1000.h"
+#include "fnv/symbols_007d3000.h"
+#include "fnv/symbols_0082f000.h"
+#include "fnv/symbols_00830000.h"
+#include "fnv/symbols_00a25000.h"
+#include "fnv/symbols_011a0000.h"
+#include "fnv/symbols_011ad000.h"
+#include "fnv/symbols_011c7000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011da000.h"
+#include "fnv/symbols_011de000.h"
 #include "startmenu_packet.h"
 void FUN_007d1b30();
-float FUN_007d1d00(int type);
-void FUN_007d30d0();
 
 #include <string.h>
 #include <stdio.h>
@@ -14,60 +38,43 @@ struct MainMenuDeletable
 };
 struct MainMenuAudioAccess
 {
-    void FUN_00ad84e0(int, bool);
 };
-BSAudio* __cdecl FUN_00453a70();
 struct MainMenuResetAccess
 {
-    void FUN_007d0b90();
 };
 struct MainMenuWorldAccess
 {
-    void FUN_00457d70(int, int, int);
 };
 struct MainMenuPlayerAccess
 {
-    int GetMediaLocationController();
 };
 class TES;
-void __cdecl PlayAudioMedia(int, const char*, unsigned int, bool, bool, float, unsigned int);
-void __cdecl FUN_008304c0();
-void __cdecl FUN_00703610();
-void __cdecl FUN_00706320(int);
-void __cdecl FUN_00761460(bool);
-void __cdecl ResetTaskQueueGlobals();
-BGSSaveLoadUI* __cdecl FUN_00a25920();
-extern StartMenu* DAT_011daac0;
-extern bool DAT_011daacd;
-extern OSGlobals* g_osGlobals;
-extern TES* g_TES;
 struct PC7d;
-extern PC7d* g_thePlayer;
 
 // @fnv 0x007d0a70
 void FUN_007d0a70()
 {
     char acMusicPath[64];
-    delete (MainMenuDeletable*)DAT_011daac0;
-    FUN_00703610();
+    delete (MainMenuDeletable*)(*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0));
+    ::fnv_00703610::FUN_00703610();
     FUN_00706320(0);
-    ((MainMenuAudioAccess*)FUN_00453a70())->FUN_00ad84e0(-1, false);
+    reinterpret_cast<::BSAudioManager *>((((MainMenuAudioAccess*)::FUN_00453a70())))->FUN_00ad84e0((void *)(-1), (void *)(false));
     ResetTaskQueueGlobals();
     {
-        int bIsChild = ((MainMenuPlayerAccess*)g_thePlayer)->GetMediaLocationController();
+        int bIsChild = ((int)(reinterpret_cast<::FUN_009698a0_shell *>((((MainMenuPlayerAccess*)(*reinterpret_cast<::PC7d * *>(&::_g_thePlayer)))))->GetMediaLocationController()));
         bIsChild = 0;
     }
-    if (FUN_00a25920())
+    if (((::BGSSaveLoadUI *)(::FUN_00a25920())))
     {
-        FUN_00a25920()->FUN_007d0bd0(false);
-        FUN_00a25920()->FUN_007d0bb0();
+        ((::BGSSaveLoadUI *)(::FUN_00a25920()))->FUN_007d0bd0(false);
+        ((::BGSSaveLoadUI *)(::FUN_00a25920()))->FUN_007d0bb0();
     }
     DAT_011daacd = true;
-    ((MainMenuResetAccess*)g_osGlobals)->FUN_007d0b90();
-    ((MainMenuWorldAccess*)g_TES)->FUN_00457d70(1, 0, 0);
+    reinterpret_cast<::FUN_007d0b90_cls *>((((MainMenuResetAccess*)g_osGlobals)))->FUN_007d0b90();
+    reinterpret_cast<::S457d70 *>((((MainMenuWorldAccess*)(*reinterpret_cast<::TES * *>(&::g_TES)))))->FUN_00457d70(1, (::Form457 *)(0), 0);
     memset(acMusicPath, 0, 64);
     sprintf_s(acMusicPath, 64, "Data\\Music\\Special\\MainTitle.mp3");
-    FUN_00761460(true);
-    PlayAudioMedia(8, acMusicPath, 5000, true, true, 0.0f, 0);
-    FUN_008304c0();
+    ::FUN_00761460(true);
+    ::fnv_008300c0::PlayAudioMedia(8, acMusicPath, 5000, true, true, 0.0f, 0);
+    ::FalloutAudioMedia::EndMediaUpdate();
 }

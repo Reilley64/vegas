@@ -2,9 +2,9 @@
 // src/havok/physics/vehicle/aerodynamics/default/hkpvehicledefaultaerodynamics.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/aerodynamics/default/hkpvehicledefaultaerodynamics.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_01011000.h"
 #include "havok/hkpVehicleDefaultAerodynamics.h"
 
-extern double DAT_01011588;
 
 struct VehicleAerodynamicsStandIn
 {

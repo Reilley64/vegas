@@ -2,6 +2,30 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpconstraintviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkpconstraintviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/Cls.h"
+#include "fnv/decl/ConstraintVisualizer.h"
+#include "fnv/decl/DrawObject.h"
+#include "fnv/decl/Drawer.h"
+#include "fnv/decl/FUN_00cf3ea0.h"
+#include "fnv/decl/FUN_00da2560.h"
+#include "fnv/decl/FUN_00de4470_class.h"
+#include "fnv/decl/FUN_00de47d0_cls.h"
+#include "fnv/decl/MalleableGetterStandIn.h"
+#include "fnv/decl/Obj.h"
+#include "fnv/decl/S_00dd9380.h"
+#include "fnv/decl/SearchArray.h"
+#include "fnv/decl/Simulation.h"
+#include "fnv/decl/T.h"
+#include "fnv/decl/This_2.h"
+#include "fnv/decl/Viewer.h"
+#include "fnv/decl/fnv_00c93920__hkpWorldXc93920.h"
+#include "fnv/decl/fnv_00cf40b0__FUN_00cf40b0_class.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d69000.h"
+#include "fnv/symbols_00de5000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 struct hkDisplayGeometry
 {
     ~hkDisplayGeometry();
@@ -16,10 +40,10 @@ struct FUN_00d69a80
 // @fnv 0x00d69a80
 FUN_00d69a80::~FUN_00d69a80()
 {
-    ((hkDisplayGeometry*)((char*)this + 0x280))->~hkDisplayGeometry();
-    ((hkDisplayGeometry*)((char*)this + 0x1f0))->~hkDisplayGeometry();
-    ((hkDisplayGeometry*)((char*)this + 0x160))->~hkDisplayGeometry();
-    ((hkDisplayGeometry*)((char*)this + 0xd0))->~hkDisplayGeometry();
+    reinterpret_cast<struct ::FUN_00da2560 *>((((hkDisplayGeometry*)((char*)this + 0x280))))->FUN_00da2560::~FUN_00da2560();
+    reinterpret_cast<struct ::FUN_00da2560 *>((((hkDisplayGeometry*)((char*)this + 0x1f0))))->FUN_00da2560::~FUN_00da2560();
+    reinterpret_cast<struct ::FUN_00da2560 *>((((hkDisplayGeometry*)((char*)this + 0x160))))->FUN_00da2560::~FUN_00da2560();
+    reinterpret_cast<struct ::FUN_00da2560 *>((((hkDisplayGeometry*)((char*)this + 0xd0))))->FUN_00da2560::~FUN_00da2560();
 }
 
 class D698B0Listener
@@ -41,7 +65,6 @@ struct D698B0ListenerArray
 class D698B0Island
 {
   public:
-    void addListener(D698B0Listener* listener);
 };
 
 struct D698B0World
@@ -100,21 +123,17 @@ FUN_00d698b0::FUN_00d698b0(void* info) : D698B0Base(info)
     if (m_pOwningWorld)
     {
         for (int i = 0; i < m_pOwningWorld->m_iIslandCount; i++)
-            m_pOwningWorld->m_islands[i]->addListener(this);
+            reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((m_pOwningWorld->m_islands[i]))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(::D698B0Listener *)(this));
     }
 }
 
 struct hkProcessFactory
 {
-    void* FUN_00dd9380(const char*, void*);
 };
-extern hkProcessFactory* FUN_00dd9380;
-extern void* DAT_0126901c;
-void FUN_00d699c0();
 // @fnv 0x00d69a00
 void RegisterConstraintsProcessFactory()
 {
-    DAT_0126901c = FUN_00dd9380->FUN_00dd9380("Constraints", (void*)&FUN_00d699c0);
+    (*reinterpret_cast<void * *>(&::g_0126901c)) = ((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::hkProcessFactory * *>(&::DAT_01269cd0))))->FUN_00dd9380("Constraints", (int)((void*)&((void (&)())::FUN_00d699c0)))));
 }
 
 struct S_00d69a20_Base
@@ -189,7 +208,6 @@ FUN_00d69a20::FUN_00d69a20()
 
 struct SpawnedTarget
 {
-    void FUN_00c93920(void* p);
 };
 
 struct FUN_00d69200_cls
@@ -210,12 +228,11 @@ struct FUN_00d69200_cls
 // @fnv 0x00d69200
 void FUN_00d69200_cls::FUN_00d69200(SpawnedTarget* target)
 {
-    target->FUN_00c93920(((char*)this - 0x20) != 0 ? (char*)this + 8 : 0);
+    reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((target))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(void *)(((char*)this - 0x20) != 0 ? (char*)this + 8 : 0));
 }
 
 struct Target
 {
-    void ClearValue(void* apArg);
 };
 
 struct FUN_00d69230_cls
@@ -236,7 +253,7 @@ struct FUN_00d69230_cls
 // @fnv 0x00d69230
 void FUN_00d69230_cls::InvokeTargetWithSelfOffset(Target* apTarget)
 {
-    apTarget->ClearValue(((char*)this - 0x20) != 0 ? (char*)this + 8 : 0);
+    reinterpret_cast<::SearchArray *>((apTarget))->ClearValue((int)(((char*)this - 0x20) != 0 ? (char*)this + 8 : 0));
 }
 
 namespace fnv_00d69920 {
@@ -262,7 +279,6 @@ AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct Target
 {
-    void ClearValue(void* apArg);
 };
 
 struct OwnerNode
@@ -343,7 +359,7 @@ FUN_00d69920_cls::~FUN_00d69920_cls() throw()
     {
         for (int i = 0; i < m_pSharedOwner->m_iArrayLength; ++i)
         {
-            m_pSharedOwner->m_ppItems[i]->ClearValue(static_cast<SubObject*>(this));
+            reinterpret_cast<::SearchArray *>((m_pSharedOwner->m_ppItems[i]))->ClearValue((int)(static_cast<SubObject*>(this)));
         }
     }
     AudioHolder* pHolder = FUN_00c85750();
@@ -383,7 +399,6 @@ struct SpawnedObject
     unsigned short m_uSize;
     unsigned short unk06;
 
-    void* InitFrom(void* apSource);
 };
 
 // Allocates a 0x38-byte object from the audio allocator, sets its size, initializes it from apSource, and returns a pointer offset by 8 on success.
@@ -394,7 +409,7 @@ void* __cdecl FUN_00d699c0(void* apSource)
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     SpawnedObject* pObject = (SpawnedObject*)pAllocator->Alloc(0x38);
     pObject->m_uSize = 0x38;
-    void* pResult = pObject->InitFrom(apSource);
+    void* pResult = ((void *)(new ((void *)(pObject)) ::FUN_00d698b0(apSource)));
     if (pResult != 0)
     {
         return (char*)pResult + 8;
@@ -448,7 +463,6 @@ FUN_00d69a40::FUN_00d69a40() : m00(), m0d0(), m160(), m1f0(), m280()
 typedef unsigned long unsigned32;
 extern "C"
 {
-    extern unsigned32 g_0126901c;
 // @fnv 0x00d69ab0
     unsigned32 FUN_00d69ab0(void)
     {
@@ -585,7 +599,6 @@ FUN_00d69af0::FUN_00d69af0()
 #include <windows.h>
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
-extern unsigned int DAT_0126835c;
 
 struct CommandTimingEntry
 {
@@ -609,7 +622,7 @@ struct MonitorStream
 
     static MonitorStream& GetMonitorStream()
     {
-        return *(MonitorStream*)TlsGetValue(DAT_0126835c);
+        return *(MonitorStream*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     }
     bool memoryAvailable() const
     {
@@ -875,8 +888,6 @@ void ConstraintViewer::FUN_00d69730(World* world)
 }
 
 extern float DAT_011b6168;
-void EnterTlsGuard();
-void FUN_00c904e0();
 namespace ConstraintDrawDetail {
 struct TraceEntry
 {
@@ -908,7 +919,6 @@ struct Shape
     int unk10;
     int unk14;
     Shape* child;
-    Shape* FUN_00cdf6c0();
 };
 struct Collidable
 {
@@ -929,8 +939,6 @@ struct LocalCollidable : Collidable
     int unk2c;
     int unk30;
     int unk34;
-    void FUN_00cf3ea0(void*, void*, Shape*, bool);
-    void FUN_00cf40b0();
 };
 struct Transform
 {
@@ -997,17 +1005,7 @@ struct __declspec(align(16)) Renderer
     int unkc4;
     int unkc8;
     int unkcc;
-    void InitializeDefaults();
-    void FUN_00de47d0(float);
-    void FireMotionEvent(Collidable*, void*, void*, void*);
-    void FUN_00de7f20(Collidable*, void*, void*, void*);
-    void FUN_00de7730(Collidable*, void*, void*, void*);
     void FUN_00de7580(Collidable*, void*, void*, void*);
-    void FUN_00de71d0(Collidable*, void*, void*, void*);
-    void FUN_00de7020(Collidable*, void*, void*, void*);
-    void FUN_00de6d80(Collidable*, void*, void*, void*);
-    void FUN_00de6550(Collidable*, void*, void*, void*);
-    void FireChainConstraints(Collidable*, void*, void*, void*);
 };
 struct __declspec(align(16)) Extended : Renderer
 {
@@ -1052,12 +1050,9 @@ struct __declspec(align(16)) Extended : Renderer
     int unk168;
     int unk16c;
     void FUN_00d69a20();
-    void FUN_00de7a70(Collidable*, void*, void*, void*);
-    void FUN_00de5fe0(Collidable*, void*, void*, void*);
 };
 struct Tail
 {
-    void FUN_00da2560();
 };
 struct ComplexCleanup
 {
@@ -1214,8 +1209,6 @@ struct __declspec(align(16)) Complex : Renderer
     int unk318;
     int unk31c;
     void FUN_00d69a40();
-    void FUN_00de6730(Collidable*, void*, void*, void*);
-    void FUN_00de59f0(Collidable*, void*, void*, void*);
     void FUN_00d69a80();
 };
 struct Viewer : ConstraintViewer
@@ -1236,7 +1229,7 @@ void ConstraintDrawDetail::Viewer::FUN_00d69260(int aiCollidable, Entity* entity
     Extended renderer;
     Complex complexRenderer;
     LocalCollidable child;
-    TraceBuffer* trace = (TraceBuffer*)TlsGetValue(DAT_0126835c);
+    TraceBuffer* trace = (TraceBuffer*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     if (trace->current < trace->limit)
     {
         TraceEntry* entry = trace->current;
@@ -1252,107 +1245,107 @@ void ConstraintDrawDetail::Viewer::FUN_00d69260(int aiCollidable, Entity* entity
     switch (uiShapeType)
     {
     case 0: {
-        renderer.InitializeDefaults();
-        renderer.FUN_00de47d0(DAT_011b6168);
-        renderer.FireMotionEvent(object, context, position, DAT_0126901c);
+        reinterpret_cast<::FUN_00de4470_class *>(&(renderer))->InitializeDefaults();
+        reinterpret_cast<::FUN_00de47d0_cls *>(&(renderer))->FUN_00de47d0(DAT_011b6168);
+        reinterpret_cast<::Obj *>(&(renderer))->FireMotionEvent((::Body *)(object), (::Listener *)(context), (int)(position), (int)((*reinterpret_cast<void * *>(&::g_0126901c))));
         break;
     }
     case 1: {
-        renderer.InitializeDefaults();
-        renderer.FUN_00de47d0(DAT_011b6168);
-        renderer.FUN_00de7f20(object, context, position, DAT_0126901c);
+        reinterpret_cast<::FUN_00de4470_class *>(&(renderer))->InitializeDefaults();
+        reinterpret_cast<::FUN_00de47d0_cls *>(&(renderer))->FUN_00de47d0(DAT_011b6168);
+        reinterpret_cast<::Drawer *>(&(renderer))->FUN_00de7f20((const ::hkpConstraintInstanceD *)(object), (::hkDebugDisplayHandlerD *)(context), (int)(position), (int)((*reinterpret_cast<void * *>(&::g_0126901c))));
         break;
     }
     case 2: {
-        renderer.FUN_00d69a20();
-        renderer.FUN_00de47d0(DAT_011b6168);
-        renderer.FUN_00de7a70(object, context, position, DAT_0126901c);
-        ((Tail*)&renderer.unk0d0)->FUN_00da2560();
+        new ((void *)&(renderer)) ::FUN_00d69a20();
+        reinterpret_cast<::FUN_00de47d0_cls *>(&(renderer))->FUN_00de47d0(DAT_011b6168);
+        reinterpret_cast<::Viewer *>(&(renderer))->FUN_00de7a70((::Input *)(object), (::Display *)(context), (int)(position), (int)((*reinterpret_cast<void * *>(&::g_0126901c))));
+        reinterpret_cast<struct ::FUN_00da2560 *>((((Tail*)&renderer.unk0d0)))->FUN_00da2560::~FUN_00da2560();
         break;
     }
     case 6: {
-        renderer.InitializeDefaults();
-        renderer.FUN_00de47d0(DAT_011b6168);
-        renderer.FUN_00de7730(object, context, position, DAT_0126901c);
+        reinterpret_cast<::FUN_00de4470_class *>(&(renderer))->InitializeDefaults();
+        reinterpret_cast<::FUN_00de47d0_cls *>(&(renderer))->FUN_00de47d0(DAT_011b6168);
+        reinterpret_cast<::Simulation *>(&(renderer))->FUN_00de7730((::Input *)(object), (::Draw *)(context), (int)(position), (int)((*reinterpret_cast<void * *>(&::g_0126901c))));
         break;
     }
     case 8: {
-        renderer.InitializeDefaults();
-        renderer.FUN_00de47d0(DAT_011b6168);
-        renderer.FUN_00de7580(object, context, position, DAT_0126901c);
+        reinterpret_cast<::FUN_00de4470_class *>(&(renderer))->InitializeDefaults();
+        reinterpret_cast<::FUN_00de47d0_cls *>(&(renderer))->FUN_00de47d0(DAT_011b6168);
+        renderer.FUN_00de7580(object, context, position, (*reinterpret_cast<void * *>(&::g_0126901c)));
         break;
     }
     case 9: {
-        renderer.InitializeDefaults();
-        renderer.FUN_00de47d0(DAT_011b6168);
-        renderer.FUN_00de71d0(object, context, position, DAT_0126901c);
+        reinterpret_cast<::FUN_00de4470_class *>(&(renderer))->InitializeDefaults();
+        reinterpret_cast<::FUN_00de47d0_cls *>(&(renderer))->FUN_00de47d0(DAT_011b6168);
+        reinterpret_cast<::DrawObject *>(&(renderer))->FUN_00de71d0((::Input *)(object), (::Dbg *)(context), (int)(position), (int)((*reinterpret_cast<void * *>(&::g_0126901c))));
         break;
     }
     case 3: {
-        renderer.InitializeDefaults();
-        renderer.FUN_00de47d0(DAT_011b6168);
-        renderer.FUN_00de7020(object, context, position, DAT_0126901c);
+        reinterpret_cast<::FUN_00de4470_class *>(&(renderer))->InitializeDefaults();
+        reinterpret_cast<::FUN_00de47d0_cls *>(&(renderer))->FUN_00de47d0(DAT_011b6168);
+        reinterpret_cast<::Viewer *>(&(renderer))->FUN_00de7020((::Input *)(object), (::LineDrawer *)(context), (int)(position), (int)((*reinterpret_cast<void * *>(&::g_0126901c))));
         break;
     }
     case 14: {
-        renderer.InitializeDefaults();
-        renderer.FUN_00de47d0(DAT_011b6168);
-        renderer.FUN_00de6d80(object, context, position, DAT_0126901c);
+        reinterpret_cast<::FUN_00de4470_class *>(&(renderer))->InitializeDefaults();
+        reinterpret_cast<::FUN_00de47d0_cls *>(&(renderer))->FUN_00de47d0(DAT_011b6168);
+        reinterpret_cast<::T *>(&(renderer))->FUN_00de6d80((::Src *)(object), (::Visitor *)(context), (int)(position), (int)((*reinterpret_cast<void * *>(&::g_0126901c))));
         break;
     }
     case 7: {
-        complexRenderer.FUN_00d69a40();
-        complexRenderer.FUN_00de47d0(DAT_011b6168);
-        complexRenderer.FUN_00de6730(object, context, position, DAT_0126901c);
-        complexRenderer.FUN_00d69a80();
+        new ((void *)&(complexRenderer)) ::FUN_00d69a40();
+        reinterpret_cast<::FUN_00de47d0_cls *>(&(complexRenderer))->FUN_00de47d0(DAT_011b6168);
+        reinterpret_cast<::Cls *>(&(complexRenderer))->FUN_00de6730((::Input *)(object), (::Renderer *)(context), (int)(position), (int)((*reinterpret_cast<void * *>(&::g_0126901c))));
+        reinterpret_cast<::FUN_00d69a80 *>(&(complexRenderer))->FUN_00d69a80::~FUN_00d69a80();
         break;
     }
     case 12: {
-        child.FUN_00cf3ea0(object->first, object->second, object->shape->child, true);
+        new ((void *)&(child)) ::FUN_00cf3ea0((::ConstraintEntity *)(object->first), (::ConstraintEntity *)(object->second), (::ConstraintData *)(object->shape->child), (::ConstraintPriority)(true));
         owner->FUN_00d69260(reinterpret_cast<int>(&child), entity, tag);
-        child.FUN_00cf40b0();
+        reinterpret_cast<::fnv_00cf40b0::FUN_00cf40b0_class *>(&(child))->FUN_00cf40b0();
         break;
     }
     case 13: {
         Shape* pParentShape = object->shape;
         void* second = object->second;
         void* first = object->first;
-        child.FUN_00cf3ea0(first, second, pParentShape->FUN_00cdf6c0(), true);
+        new ((void *)&(child)) ::FUN_00cf3ea0((::ConstraintEntity *)(first), (::ConstraintEntity *)(second), (::ConstraintData *)(::ConstraintDrawDetail::Shape *)(((::ConstraintDrawDetail::Shape *)(reinterpret_cast<::MalleableGetterStandIn *>((pParentShape))->FUN_00cdf6c0()))), (::ConstraintPriority)(true));
         owner->FUN_00d69260(reinterpret_cast<int>(&child), entity, tag);
-        child.FUN_00cf40b0();
+        reinterpret_cast<::fnv_00cf40b0::FUN_00cf40b0_class *>(&(child))->FUN_00cf40b0();
         break;
     }
     case 15: {
-        renderer.InitializeDefaults();
-        renderer.FUN_00de47d0(DAT_011b6168);
-        renderer.FUN_00de6550(object, context, position, DAT_0126901c);
+        reinterpret_cast<::FUN_00de4470_class *>(&(renderer))->InitializeDefaults();
+        reinterpret_cast<::FUN_00de47d0_cls *>(&(renderer))->FUN_00de47d0(DAT_011b6168);
+        reinterpret_cast<::ConstraintVisualizer *>(&(renderer))->FUN_00de6550((::hkpConstraintInstance *)(object), (::hkDebugDisplayHandler *)(context), (int)(position), (int)((*reinterpret_cast<void * *>(&::g_0126901c))));
         break;
     }
     case 100:
     case 101:
     case 102: {
-        renderer.InitializeDefaults();
-        renderer.FUN_00de47d0(DAT_011b6168);
-        renderer.FireChainConstraints(object, context, position, DAT_0126901c);
+        reinterpret_cast<::FUN_00de4470_class *>(&(renderer))->InitializeDefaults();
+        reinterpret_cast<::FUN_00de47d0_cls *>(&(renderer))->FUN_00de47d0(DAT_011b6168);
+        reinterpret_cast<::Obj *>(&(renderer))->FireChainConstraints((::ChainInstance *)(object), (::Listener *)(context), (int)(position), (int)((*reinterpret_cast<void * *>(&::g_0126901c))));
         break;
     }
     case 18: {
-        renderer.FUN_00d69a20();
-        renderer.FUN_00de47d0(DAT_011b6168);
-        renderer.FUN_00de5fe0(object, context, position, DAT_0126901c);
-        ((Tail*)&renderer.unk0d0)->FUN_00da2560();
+        new ((void *)&(renderer)) ::FUN_00d69a20();
+        reinterpret_cast<::FUN_00de47d0_cls *>(&(renderer))->FUN_00de47d0(DAT_011b6168);
+        ::HingeLimitsDrawing::FUN_00de5fe0((::HingeLimitsDrawing::HingeConstraintDrawer *)&(renderer), object, (::HingeLimitsDrawing::hkpConstraintInstance *)(context), (::HingeLimitsDrawing::hkDebugDisplayHandler *)(position), (int)((*reinterpret_cast<void * *>(&::g_0126901c))), {});
+        reinterpret_cast<struct ::FUN_00da2560 *>((((Tail*)&renderer.unk0d0)))->FUN_00da2560::~FUN_00da2560();
         break;
     }
     case 19: {
-        complexRenderer.FUN_00d69a40();
-        complexRenderer.FUN_00de47d0(DAT_011b6168);
-        complexRenderer.FUN_00de59f0(object, context, position, DAT_0126901c);
-        ((ComplexCleanup*)&complexRenderer)->FUN_00d69a80();
+        new ((void *)&(complexRenderer)) ::FUN_00d69a40();
+        reinterpret_cast<::FUN_00de47d0_cls *>(&(complexRenderer))->FUN_00de47d0(DAT_011b6168);
+        reinterpret_cast<::This *>(&(complexRenderer))->FUN_00de59f0((::P1 *)(object), (::P2Vtbl *)(context), (int)(position), (int)((*reinterpret_cast<void * *>(&::g_0126901c))));
+        reinterpret_cast<::FUN_00d69a80 *>((((ComplexCleanup*)&complexRenderer)))->FUN_00d69a80::~FUN_00d69a80();
         break;
     }
     }
     FUN_00c904e0();
-    trace = (TraceBuffer*)TlsGetValue(DAT_0126835c);
+    trace = (TraceBuffer*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     if (trace->current < trace->limit)
     {
         TraceEntry* entry = trace->current;

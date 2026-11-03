@@ -2,6 +2,25 @@
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
 
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/GridCell.h"
+#include "fnv/decl/MoppFindAllVM.h"
+#include "fnv/decl/MoppFindAllVirtualMachine.h"
+#include "fnv/decl/S_00e647e0.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/hkpMoppFindAllVirtualMachine.h"
+#include "fnv/decl/xSphereMachine.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00e50000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010c6000.h"
+#include "fnv/symbols_010d5000.h"
+#include "fnv/symbols_01268000.h"
 #include "fnv_asm_helpers.h"
 // src/staging/blk_00e40000_od_o2_nood_variant.cpp - flag-variant unit created 2026-10-24 by flag_proofs.py: contributor code for these functions matched byte for
 // byte only under /MT /O2 /GS /EHsc /Gy (unit src/staging/blk_00e40000_od.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
@@ -13,7 +32,6 @@ struct FloatLess
 {
 	bool operator()(const float& a, const float& b) const { return a < b; }
 };
-void __cdecl FUN_00e50f10(float* pArr, int d, int h, FloatLess cmpLess);
 union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
 extern "C" __m128 _mm_sub_ps(__m128, __m128);
 extern "C" __m128 _mm_mul_ps(__m128, __m128);
@@ -54,24 +72,23 @@ struct LocalObj {
     int m_unk17;
     int m_unk18;
     int m_unk19;
-    char* SetupAndProcessShape(char* buf, void* a1, int a2, int a3, int a4);
 };
 int __cdecl FUN_00e5cf00(void* a1, int a2, int a3, int a4);
 struct __declspec(align(16)) Vec4E5 { float x, y, z, w; };
-struct TmpE5CF40 { Vec4E5 a, b; void FUN_00e64f00(int a, int b, int c); };
+struct TmpE5CF40 { Vec4E5 a, b;  };
 void __cdecl FUN_00e5cf40(int a, int b, int c);
 struct __declspec(align(16)) FUN_00e5d010_Block {
     unsigned int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c;
     unsigned int unk20,unk24,unk28,unk2c,unk30,unk34,unk38,unk3c;
-    void __thiscall FUN_00dd1da0(int first,int second,int third);
 };
 // @fnv 0x00e5d010
 extern "C" void __cdecl FUN_00e5d010(int first,int second,int third)
 {
     FUN_00e5d010_Block instance;
-    instance.FUN_00dd1da0(first,second,third);
+    reinterpret_cast<::GridCell *>(&(instance))->FUN_00dd1da0((::GridSource *)(first),(::GridBounds *)(second),third);
 }
 #include <math.h>
+#include "fnv/symbols_simd.h"
 extern "C" __m128 _mm_xor_ps(__m128,__m128);
 extern "C" __m128 _mm_and_ps(__m128,__m128);
 extern "C" __m128 _mm_andnot_ps(__m128,__m128);
@@ -128,21 +145,15 @@ struct BoundsRef { F8* p; F8* operator->() const { return p; } operator F8*() co
 struct Vec { int* base; int count; int cap; };
 struct Resource { int unk00, unk04, unk08, unk0c; void* allocator; };
 extern void* FUN_00c85750();
-extern void ResizeAudioStream(void* a, void* b, int c);
 static const __declspec(align(16)) unsigned int AbsMask[4] = { 0x7fffffff, 0x7fffffff, 0x7fffffff, 0x7fffffff };
 struct Diagnostic {
   int unk00, unk04, unk08;
-  void FUN_00cb1600(char*, int);
-  void FUN_00cc01c0(const char*);
-  void FUN_00cc00e0();
 };
 struct ErrorReporter {
   virtual void ReportDiagnostic(); virtual void unused1(); virtual void unused2();
   virtual int report(int, unsigned int, const char*, const char*, int);
 };
-extern int DAT_01268360;
 struct Query {
-  void FUN_00e65ee0(P1*, unsigned char*);
   __forceinline int classify(P1* state, unsigned char* stream, int offset, F8* bounds) {
     float r2 = center[3] * center[3];
     V4 sum, extent, outside;
@@ -156,7 +167,7 @@ struct Query {
     if(near2>r2) return 0;
     extent.add(sum);
     float far2=extent.lengthSquared3();
-    if(far2<r2){FUN_00e65ee0(state,stream+offset);return 1;}
+    if(far2<r2){reinterpret_cast<::hkpMoppFindAllVirtualMachine *>(this)->FUN_00e65ee0((const ::MoppState *)(state),stream+offset);return 1;}
     return 2;
   }
   __forceinline int classifyLocal(P1* state, unsigned char* stream, int offset, F8* bounds) {
@@ -172,7 +183,7 @@ struct Query {
     if(near2>r2) return 0;
     extent.add(sum);
     float far2=extent.lengthSquared3();
-    if(far2<r2){FUN_00e65ee0(state,stream+offset);return 1;}
+    if(far2<r2){reinterpret_cast<::hkpMoppFindAllVirtualMachine *>(this)->FUN_00e65ee0((const ::MoppState *)(state),stream+offset);return 1;}
     return 2;
   }
   Vec* results; int unk24; int unk28; int unk2c;
@@ -247,22 +258,15 @@ struct __declspec(align(16)) BoundsPair { __m128 minimum; __m128 maximum;
 };
 struct OutputArray { int* data; int size; int capacity; };
 struct AllocatorContext { int unk00; int unk04; int unk08; int unk0C; void* allocator; };
-void ResizeAudioStream(void*, void*, int);
 struct DiagnosticStream {
     void* vtable; int flags; void* writer;
-    void FUN_00cb1600(void*, int);
-    void FUN_00cc01c0(const char*);
-    void FUN_00cc00e0();
 };
-extern const char str_010d5100[];
 extern const char str_010ecd88[];
 struct __declspec(align(16)) PlanePacket { __m128 x,y,z,w; };
 struct CullMachine {
     int unk00; int unk04; int unk08; int unk0C; int count; int unk14; int unk18; int unk1C;
     PlanePacket planes[8];
     PlanePacket absolutePlanes[8];
-    void FUN_00e66600(DecodeState*, const unsigned char*);
-    void FUN_00e66290(DecodeState*, const unsigned char*);
     __forceinline int classify(DecodeState* state, const unsigned char* code, const BoundsPair& bounds) {
         int allInside = 15;
         const PlanePacket* p=planes;
@@ -282,8 +286,8 @@ struct CullMachine {
             allInside &= _mm_movemask_ps(_mm_cmplt_ps(_mm_add_ps(distance,radius),_mm_setzero_ps()));
         }
         if (allInside == 15) {
-            FUN_00e66600(state,code);
-            FUN_00e66290(state,code);
+            reinterpret_cast<::MoppFindAllVirtualMachine *>(this)->FUN_00e66600((const ::MoppState *)(state),code);
+            reinterpret_cast<::MoppFindAllVM *>(this)->FUN_00e66290((const ::MoppQueryState *)(state),code);
             return 1;
         }
         return 2;
@@ -310,8 +314,8 @@ struct CullMachine {
             allInside &= _mm_movemask_ps(_mm_cmplt_ps(_mm_add_ps(distance,radius),_mm_setzero_ps()));
         }
         if (allInside == 15) {
-            FUN_00e66600(state,code);
-            FUN_00e66290(state,code);
+            reinterpret_cast<::MoppFindAllVirtualMachine *>(this)->FUN_00e66600((const ::MoppState *)(state),code);
+            reinterpret_cast<::MoppFindAllVM *>(this)->FUN_00e66290((const ::MoppQueryState *)(state),code);
             return 1;
         }
         return 2;
@@ -325,7 +329,7 @@ struct TreeDecoder {
     __forceinline void emit(int value) {
         OutputArray* a = output;
         AllocatorContext* context = (AllocatorContext*)FUN_00c85750();
-        if (a->size == (a->capacity & 0x3fffffff)) ResizeAudioStream(context->allocator,a,4);
+        if (a->size == (a->capacity & 0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(context->allocator),(::AudioStream *)(a),4);
         int* destination = &a->data[a->size]; ++a->size; *destination = value;
     }
     __forceinline void readBounds(DecodeState* state, const unsigned char* code, int& offset, BoundsPair& bounds, const float& scalar) {
@@ -360,7 +364,6 @@ struct TreeDecoder {
 
 };
 extern "C" __m128 _mm_and_ps(__m128, __m128);
-extern const __m128 DAT_01017d10;
 struct hkQuatStore_e52190 { __m128 m_vec; };
 void __cdecl FUN_00e52190(const hkQuatStore_e52190* q, unsigned char* out);
 
@@ -374,9 +377,6 @@ void _mm_store_ss(float*, __m128);
 __m128 _mm_and_ps(__m128, __m128);
 __m128 _mm_add_ps(__m128, __m128);
 }
-extern float DAT_0104da48;
-extern float DAT_010c6090;
-extern double DAT_010290f8;
 
 class FaceScalar
 {
@@ -518,7 +518,7 @@ int __cdecl FUN_00e4b810(const FaceVector& query, const FaceVector* vertices, fl
         if (distances[0] > distances[1]) exchangeValues(distances[0], distances[1]);
     }
     else best = 2;
-    if (distances[2] < DAT_010c6090) return -1;
+    if (distances[2] < ::fnv_00c8e160::DAT_010c6090) return -1;
     if (distances[1] * DAT_010290f8 < distances[2]) return best;
     struct Four { float x,y,z,w; }; Four active = reinterpret_cast<const Four&>(projected);
     return edgeFallback(query, vertices, reinterpret_cast<FaceVector&>(active), orientation);

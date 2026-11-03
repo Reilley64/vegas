@@ -2,6 +2,17 @@
 // src/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00cfbbe0_cls.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_00d10000.h"
+#include "fnv/symbols_00d2e000.h"
+#include "fnv/symbols_00d2f000.h"
+#include "fnv/symbols_00d30000.h"
+#include "fnv/symbols_00d31000.h"
+#include "fnv/symbols_01076000.h"
+#include "fnv/symbols_010ce000.h"
+#include "fnv/symbols_01268000.h"
 struct S_d2f5a0_Obj
 {
     virtual void v0();
@@ -139,13 +150,12 @@ void __cdecl FUN_00d2f9d0(int aiUnused1, int aiUnused2, int aiUnused3, int arg4)
     pBuilt->FUN_00d2f980(arg4);
 }
 
-void __cdecl FUN_00d30f50(void* apFirst, void* apSecond, void* apThird, void* apFourth, void* apFifth);
 
 // Calls FUN_00d30f50, passing along all five arguments unchanged.
 // @fnv 0x00d315a0
 void __stdcall FUN_00d315a0(void* apFirst, void* apSecond, void* apThird, void* apFourth, void* apFifth)
 {
-    FUN_00d30f50(apFirst, apSecond, apThird, apFourth, apFifth);
+    ::FUN_00d30f50((*(const ::S_00d30f50_CdBody *)(apFirst)), (*(const ::S_00d30f50_CdBody *)(apSecond)), (*(const ::S_00d30f50_LinearCastInput *)(apThird)), (*(::S_00d30f50_CdPointCollector *)(apFourth)), (::S_00d30f50_CdPointCollector *)(apFifth));
 }
 
 extern "C" void __cdecl FUN_00d31110(void* arg0, void* arg1, void* arg2, void* arg3);
@@ -155,7 +165,6 @@ extern "C" void __stdcall FUN_00d315d0(void* arg0, void* arg1, void* arg2, void*
     FUN_00d31110(arg0, arg1, arg2, arg3);
 }
 
-void __cdecl FUN_00d312f0(void* apA, void* apB, void* apC, void* apD);
 
 // @fnv 0x00d315f0
 void __stdcall FUN_00d315f0(void* apA, void* apB, void* apC, void* apD)
@@ -244,7 +253,6 @@ D2FA00Agent* __cdecl FUN_00d2fa00(const void* bodyA, const void* bodyB, const vo
 extern char str_010ce9a4[];
 extern char str_010ce9ac[];
 
-extern "C" void* __cdecl FUN_00d06f80(void* apBuffer, int aiCount);
 
 struct S_00d2f8f0_Elem
 {
@@ -688,7 +696,6 @@ struct CollisionAgent
                                       ConstraintOwner& owner);
 };
 
-CollisionAgent* __cdecl FUN_00d107a0();
 
 struct CollisionAgentMapRecord
 {
@@ -741,7 +748,7 @@ void ShapeCollectionAgent::FUN_00d2f760(const CdBody& bodyA, const CdBody& bodyB
 
         if (input.m_iFilter->IsCollisionEnabled(input, bodyA, bodyB, *shapeContainer, m_pAgents[i].m_key))
         {
-            if (m_pAgents[i].m_pCollisionAgent == FUN_00d107a0())
+            if (m_pAgents[i].m_pCollisionAgent == ((::CollisionAgent *)(::FUN_00d107a0())))
             {
                 m_pAgents[i].m_pCollisionAgent =
                     input.m_pCollisionDispatcher->getNewCollisionAgent(bodyA, newOperandB, input, m_pContactManager);
@@ -753,10 +760,10 @@ void ShapeCollectionAgent::FUN_00d2f760(const CdBody& bodyA, const CdBody& bodyB
         }
         else
         {
-            if (m_pAgents[i].m_pCollisionAgent != FUN_00d107a0())
+            if (m_pAgents[i].m_pCollisionAgent != ((::CollisionAgent *)(::FUN_00d107a0())))
             {
                 m_pAgents[i].m_pCollisionAgent->cleanup(constraintOwner);
-                m_pAgents[i].m_pCollisionAgent = FUN_00d107a0();
+                m_pAgents[i].m_pCollisionAgent = ((::CollisionAgent *)(::FUN_00d107a0()));
             }
         }
     }
@@ -825,7 +832,6 @@ extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 #include <windows.h>
 
-extern DWORD DAT_0126835c;
 
 struct S_00d30f50_TimerCommand
 {
@@ -1172,8 +1178,6 @@ struct S_00d30f50_LinearCastInput
     S_00d30f50_Dispatcher* m_pCollisionDispatcher;
 };
 
-void __cdecl FUN_00d2f690(const S_00d30f50_CdBody& bodyA, const S_00d30f50_CdBody& bodyB,
-                          const S_00d30f50_LinearCastInput& input, S_00d30f50_Aabb& aabbOut);
 
 void __cdecl FUN_00d30f50(const S_00d30f50_CdBody& bodyA, const S_00d30f50_CdBody& bodyB,
                           const S_00d30f50_LinearCastInput& input, S_00d30f50_CdPointCollector& collector,
@@ -1189,7 +1193,7 @@ void __cdecl FUN_00d30f50(const S_00d30f50_CdBody& bodyA, const S_00d30f50_CdBod
     S_00d30f50_TimerBeginList("LtBvTree", "StQueryTree", timerTmp);
 
     S_00d30f50_Aabb aabb;
-    FUN_00d2f690(bodyA, bodyB, input, aabb);
+    ::FUN_00d2f690((::SlotRef *)&(bodyA), (::SlotRef *)&(bodyB), (::SlotParam *)&(input), (::SlotBox *)&(aabb));
 
     const S_00d30f50_BvTreeShape* pBvTreeShapeB = static_cast<const S_00d30f50_BvTreeShape*>(bodyB.getShape());
     S_00d30f50_InplaceArray<unsigned int, 128> hitList;
@@ -1308,13 +1312,13 @@ SpawnedObject* FUN_00d2fa40(FloatOwner* apFirstOwner, FloatOwner* apSecondOwner,
         SlotAllocator* alloc = (SlotAllocator*)holder->m_pAllocator;
         SpawnedObject* obj = (SpawnedObject*)alloc->Alloc(0x40);
         obj->m_04 = 0x40;
-        return obj->FUN_00d2f980(a4);
+        return ((::fnv_00d2fa40::SpawnedObject *)(new ((void *)(obj)) struct ::FUN_00d2f980(a4)));
     }
     AllocHolder* holder = FUN_00c85750();
     SlotAllocator* alloc = (SlotAllocator*)holder->m_pAllocator;
     SpawnedObject* obj = (SpawnedObject*)alloc->Alloc(0x40);
     obj->m_04 = 0x40;
-    obj->FUN_00d2f980(a4);
+    new ((void *)(obj)) struct ::FUN_00d2f980(a4);
     obj->SpawnedObject::~SpawnedObject();
     return obj;
 }
@@ -1335,55 +1339,43 @@ struct DescRecord
 // Stand-in class for the thiscall helper.
 struct SpawnedObject
 {
-    void FUN_00cfbbe0(DescRecord* rec, int a, int b);
 };
 
-extern "C" void FUN_00d2fa00();
-extern "C" void FUN_00d2e970();
-extern "C" void FUN_00d2e9b0();
-extern "C" void FUN_00d2e9f0();
-extern "C" void FUN_00d2f9d0();
-extern "C" void FUN_00d312f0();
 extern "C" void FUN_00d31110();
-extern "C" void FUN_00d30f50();
-extern "C" void FUN_00d2fa40();
 
 // Sets up three DescRecord entries with function pointers and flags, then passes each to self->FUN_00cfbbe0 with different index pairs.
 // @fnv 0x00d314e0
 void FUN_00d314e0(SpawnedObject* self)
 {
     DescRecord desc;
-    desc.fn0 = FUN_00d2fa00;
-    desc.fn1 = FUN_00d2e970;
-    desc.fn2 = FUN_00d2e9b0;
-    desc.fn3 = FUN_00d2e9f0;
+    desc.fn0 = ((void (&)())::FUN_00d2fa00);
+    desc.fn1 = ((void (&)())::FUN_00d2e970);
+    desc.fn2 = ((void (&)())::FUN_00d2e9b0);
+    desc.fn3 = ((void (&)())::FUN_00d2e9f0);
     desc.flagA = 1;
     desc.flagB = 1;
-    self->FUN_00cfbbe0(&desc, 8, -1);
+    reinterpret_cast<::FUN_00cfbbe0_cls *>((self))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)(::fnv_00d314e0::DescRecord *)(&desc), 8, -1);
 
-    desc.fn0 = FUN_00d2f9d0;
-    desc.fn1 = FUN_00d312f0;
+    desc.fn0 = ((void (&)())::FUN_00d2f9d0);
+    desc.fn1 = ((void (&)())::FUN_00d312f0);
     desc.fn2 = FUN_00d31110;
-    desc.fn3 = FUN_00d30f50;
+    desc.fn3 = ((void (&)())::FUN_00d30f50);
     desc.flagA = 0;
     desc.flagB = 1;
-    self->FUN_00cfbbe0(&desc, -1, 8);
+    reinterpret_cast<::FUN_00cfbbe0_cls *>((self))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)(::fnv_00d314e0::DescRecord *)(&desc), -1, 8);
 
-    desc.fn0 = FUN_00d2fa40;
-    desc.fn1 = FUN_00d312f0;
+    desc.fn0 = ((void (&)())::fnv_00d2fa40::FUN_00d2fa40);
+    desc.fn1 = ((void (&)())::FUN_00d312f0);
     desc.fn2 = FUN_00d31110;
-    desc.fn3 = FUN_00d30f50;
+    desc.fn3 = ((void (&)())::FUN_00d30f50);
     desc.flagA = 0;
     desc.flagB = 1;
-    self->FUN_00cfbbe0(&desc, 8, 8);
+    reinterpret_cast<::FUN_00cfbbe0_cls *>((self))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)(::fnv_00d314e0::DescRecord *)(&desc), 8, 8);
 }
 }  // namespace fnv_00d314e0
 
-extern "C" void __cdecl ApplyTransformToTarget(void*, void*, void*, void*);
 extern char str_010cea04[];
-extern char str_010ce7e0[];
 extern char str_010ce9f4[];
-extern char str_01076f38[];
 
 struct S00d31110_Stream
 {
@@ -1512,7 +1504,7 @@ extern "C" void __cdecl FUN_00d31110(void* apBodyA, void* apBodyB, void* apInput
         if (p < pStream->m_kRayEnd)
         {
             p[0] = (unsigned int)str_010cea04;
-            p[3] = (unsigned int)str_010ce7e0;
+            p[3] = (unsigned int)::str_010ce7e0;
             _ReadWriteBarrier();
             tick = (unsigned int)__rdtsc();
             p[1] = tick;
@@ -1522,7 +1514,7 @@ extern "C" void __cdecl FUN_00d31110(void* apBodyA, void* apBodyB, void* apInput
 
     S00d31110_Aabb aabb;
     S00d31110_Body* bodyB = (S00d31110_Body*)apBodyB;
-    ApplyTransformToTarget(apBodyA, bodyB, input, &aabb);
+    ::ApplyTransformToTarget((::Holder *)(apBodyA), (::Holder *)(bodyB), (::ValueSource *)(input), &aabb);
 
     S00d31110_Shape* shape = bodyB->m_pCollisionShape;
     S00d31110_InplaceArray hits;
@@ -1573,7 +1565,7 @@ extern "C" void __cdecl FUN_00d31110(void* apBodyA, void* apBodyB, void* apInput
         unsigned int* p = pStream->m_cur;
         if (p < pStream->m_kRayEnd)
         {
-            p[0] = (unsigned int)str_01076f38;
+            p[0] = (unsigned int)::str_01076f38;
             _ReadWriteBarrier();
             tick = (unsigned int)__rdtsc();
             p[1] = tick;

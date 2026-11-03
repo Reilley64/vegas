@@ -1,6 +1,17 @@
 // fallout_shared/teleportdata_decls.h: declares DoorTeleportLoadData, BaseProcess, DoorTeleportSpaceReceiver, DoorTeleportSpaceOwner, DoorCell and more
 #ifndef FNV_TELEPORTDATA_DECLS_H
 #define FNV_TELEPORTDATA_DECLS_H
+#include "fnv/decl/FUN_00544390_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_009dcd40__Mover.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_0055a000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_01183000.h"
+#include "fnv/symbols_01184000.h"
+#include "fnv/symbols_01187000.h"
 #include "ActorPackageContext.h"
 #include "TESForm.h"
 #include "NiPoint3.h"
@@ -12,8 +23,6 @@ struct DoorTeleportLoadData
     NiPoint3 position;
     NiPoint3 rotation;
     unsigned char flags;
-    void FUN_0055a400();
-    void SwapEndian();
 };
 class BaseProcess
 {
@@ -25,7 +34,6 @@ class BaseProcess
 class DoorTeleportSpaceReceiver
 {
   public:
-    TESForm* FUN_009dcd40(void);
 };
 struct DoorTeleportSpaceOwner
 {
@@ -36,8 +44,6 @@ class DoorCell
 {
   public:
     TESForm* GetOwner(void);
-    TESWorldSpace* GetParentWorldSpace(void);
-    void SetTempPublic(bool set);
 };
 class DoorCellProvider
 {
@@ -52,27 +58,15 @@ class TESFormLookup
 class TESFormTypeView
 {
   public:
-    ENUM_FORM_ID GetFormType(void) const;
 };
 extern "C"
 {
-    void FNV_GetFile(void);
-    void FNV_AddCompileIndex(void);
-    void FNV_GetFormByNumericID(void);
     void FNV_DynamicCast(void);
-    void FNV_GetObjectReference(void);
-    void FNV_GetFormType(void);
-    void FNV_GetFormID(void);
-    void FNV_Warning(void);
     void FNV_Finite(void);
     void FNV_IsNaN(void);
     extern const char FNV_NoDoor[];
     extern const char FNV_InvalidDoor[];
     extern const char FNV_BadLocation[];
     extern const char FNV_BadAngle[];
-    extern const unsigned char FNV_FormTypeNames[];
-    extern const unsigned char FNV_NiPoint3Zero[];
-    extern const unsigned char FNV_RTTI_TESObjectREFR[];
-    extern const unsigned char FNV_RTTI_TESForm[];
 }
 #endif

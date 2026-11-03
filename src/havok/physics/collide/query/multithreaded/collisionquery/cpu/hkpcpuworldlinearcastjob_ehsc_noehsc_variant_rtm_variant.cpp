@@ -7,6 +7,8 @@
 
 // src/havok/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpuworldlinearcastjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpuworldlinearcastjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/symbols_01268000.h"
 struct FUN_00df71c0_Value {
     int unk00;
     float value;
@@ -30,14 +32,14 @@ struct Data {
     int unk1c;
     volatile Data *value;
 };
-struct TargetBase { void CastAgainstCollidable(volatile Data *value); };
+struct TargetBase {  };
 struct FUN_00df72c0_class {
     int unk00;
     int unk04;
     void ForwardToBase(volatile Data *value);
 };
 struct Param { unsigned int unk00; unsigned int unk04; unsigned int unk08; Param* next0c; };
-struct This { int CastAgainstCollidable(Param*); int FUN_00df72e0(Param*); };
+struct This {  int FUN_00df72e0(Param*); };
 struct DF7230Bool {
     char m_cBooleanValue;
 
@@ -230,7 +232,6 @@ struct FUN_00df7320_Shape {
     signed char unk05;  // +0x05
 };
 struct FUN_00df7320_Collector {
-    float CastAgainstCollidable(FUN_00df7320_Shape* value);
     float FUN_00df7320(FUN_00df7320_Shape* shape, FUN_00df7320_Shape* other);
 };
 struct Base1 { virtual void FUN_00df7190(); };
@@ -492,6 +493,7 @@ public:
 __forceinline hkArray&operator=(const HavokElementArray<T>&a);};
 typedef union __declspec(intrin_type)__declspec(align(16))__m128{
 float x;}__m128;
+#include "fnv/symbols_simd.h"
 extern "C"{
 extern __m128 _mm_add_ss(__m128 _A,__m128 _B);
 extern __m128 _mm_add_ps(__m128 _A,__m128 _B);
@@ -609,9 +611,8 @@ m_vComponents=_mm_mul_ps(s.broadcast(),m_vComponents);
 }
 inline void hkVector4::setInterpolate4(const hkVector4&v0,const hkVector4&v1,hkSimdRealParameter _t)
 {
-extern const hkQuadReal DAT_010ec7f0;
 hkQuadReal t=_t.broadcast();
-hkQuadReal s=_mm_sub_ps(DAT_010ec7f0,t);
+hkQuadReal s=_mm_sub_ps(::DAT_010ec7f0,t);
 m_vComponents=_mm_add_ps(
 _mm_mul_ps(s,v0.m_vComponents),
 _mm_mul_ps(t,v1.m_vComponents));}
@@ -633,8 +634,7 @@ class StringCursor
 public:
 __forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}static StringCursor&GetMonitorStream()
 {
-extern hkThreadLocalData<StringCursor*>g_pMonitorStream;
-return*g_pMonitorStream.getData();
+return*(*reinterpret_cast<::hkThreadLocalData< ::StringCursor *> *>(&::DAT_0126835c)).getData();
 }
 public:
 __forceinline char*__cdecl GetStreamStart(){return m_kRayStart.val();}
@@ -1405,7 +1405,7 @@ ShapeSweepParameters m_pRayCastInput;};
 // @fnv 0x00df7340
 int __cdecl FUN_00df7340(JobDispatcher&jobQueue,JobDispatcher::JobQueueSlot&nextJobOut)
 {
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "CollQueryWorldLinearCast";h->setTime();mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "CollQueryWorldLinearCast";h->setTime();mStream.setEnd((char*)(h+1));}};
 const RayCastCommandJob&worldLinearCastJob=reinterpret_cast<RayCastCommandJob&>(nextJobOut);
 hkpFixedBufferCdPointCollector castCollector(0,1);
 hkCpuWorldLinearCastCollector broadPhaseCollector;
@@ -1468,6 +1468,6 @@ worldLinearCastJob.m_pBroadPhaseRecord->CastSweptAabb(castInput,broadPhaseCollec
 }
 command->m_iResultCapacity=castCollector.m_iPointCount;
 }
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
 return jobQueue.GetNextJob(&nextJobOut,nextJobOut);
 }

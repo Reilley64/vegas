@@ -1,5 +1,8 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nigeometrygroup.cpp: NiGeometryGroup, NiGeometryBufferData, StandIn (6 functions)
 
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00fdf000.h"
+#include "fnv/symbols_010f0000.h"
 #include "nigeometrygroup_decls.h"
 // Initializes the NiGeometryGroup vtable pointer, sets m_uiRefCount to 0, and clears the second member.
 // @fnv 0x00e986f0
@@ -57,7 +60,6 @@ void __fastcall FUN_00e98730(int pObject, int, int pArg)
     *(int*)(pArg + 8) = pObject;
 }
 
-void __cdecl _delete(void*, unsigned int);
 struct FakeDevice
 {
     virtual void F0();
@@ -77,7 +79,7 @@ void* StandIn::Destroy(unsigned int auiFlags)
     if (pDevice)
         pDevice->Release();
     if (auiFlags & 1)
-        _delete(this, 12);
+        ::FUN_00aa1460(this, 12);
     return this;
 }
 

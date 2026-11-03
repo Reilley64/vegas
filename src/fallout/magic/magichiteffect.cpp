@@ -1,5 +1,35 @@
 // fallout/magic/magichiteffect.cpp: MagicHitEffect (17 functions)
 
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0041fd00_shell.h"
+#include "fnv/decl/FUN_004534f0_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00545cb0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_008579e0_shell.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00973fd0_cls.h"
+#include "fnv/decl/Holder00682a30.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MagicTarget.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00865df0__FUN_00865df0_holder.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00525000.h"
+#include "fnv/symbols_0081b000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011dc000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011df000.h"
+#include "fnv/symbols_011e0000.h"
 #include "magichiteffect_decls.h"
 // @fnv 0x0081bc50
 void MagicHitEffect::ResetTargetPointer()
@@ -12,7 +42,7 @@ MagicHitEffect::MagicHitEffect(TESObjectREFR* target, ActiveEffect* effect) : BS
 {
     pTarget = target;
     if (pTarget)
-        pCell = pTarget->GetTarget();
+        pCell = ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((pTarget))->GetTarget()));
     pEffect = effect;
     m_fFirstFloatValue = 0.0f;
     m_fParticleParameter5 = 3.402823466e+38f;
@@ -26,7 +56,6 @@ struct Arg_0081b830
 
 struct Sub_00905330
 {
-    void _ref_00905330(Arg_0081b830* arg);
 };
 
 struct Owner_0081b830
@@ -41,7 +70,7 @@ void __fastcall ForwardArgToSubobject(Owner_0081b830* pThis, Arg_0081b830 arg)
 {
     if (pThis->unk40 != 0)
     {
-        pThis->unk40->_ref_00905330(&arg);
+        reinterpret_cast<::ItemChangeListNode *>((pThis->unk40))->FUN_00905330((*(::InventoryStackRecord *const *)(&arg)));
     }
 }
 
@@ -53,7 +82,6 @@ int __fastcall FUN_0081b6c0(int)
     return 4;
 }
 
-extern const char* const g_011dc724_arg1;
 
 struct FUN_0081b6b0_s
 {
@@ -63,13 +91,12 @@ struct FUN_0081b6b0_s
 // @fnv 0x0081b6b0
 const char* const* FUN_0081b6b0_s::GetArg1Ptr() const
 {
-    return &g_011dc724_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_011dc6b4));
 }
 
 struct FUN_0081b6d0_s
 {
     void FUN_0081b7b0();
-    static void __Dummy_00b6fef0(void* p, unsigned int size);
     void* FUN_0081b6d0(unsigned int flags);
 };
 
@@ -78,14 +105,13 @@ void* FUN_0081b6d0_s::FUN_0081b6d0(unsigned int flags)
 {
     FUN_0081b7b0();
     if (flags & 1)
-        __Dummy_00b6fef0(this, 0x28);
+        ::FUN_00aa1460(this, 0x28);
     return this;
 }
 
 namespace fnv_0081b7b0 {
 struct Owner_0081b830
 {
-    void ForwardArgToSubobject(BSTempEffect* apHitEffect);
 };
 
 struct FUN_0081b7b0 : BSTempEffect
@@ -101,7 +127,7 @@ FUN_0081b7b0::~FUN_0081b7b0()
 {
     pTarget = 0;
     if (pEffect)
-        ((Owner_0081b830*)pEffect)->ForwardArgToSubobject(this);
+        ::ForwardArgToSubobject((::Owner_0081b830 *)(((Owner_0081b830*)pEffect)), (::Arg_0081b830)(this));
     pEffect = 0;
 }
 }  // namespace fnv_0081b7b0
@@ -114,7 +140,6 @@ struct FUN_008df040_shell
 };
 typedef FUN_008df040_shell TESSaveLoadGame;
 
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct FUN_0081bd30_s
 {
@@ -128,7 +153,7 @@ unsigned short FUN_0081bd30_s::GetSaveSize(ActiveEffect* apEffect, TESObjectREFR
     unsigned short isize = 0;
     isize += 4;
     isize += 1;
-    if (g_TESSaveLoadGame->FUN_008df040() >= 0x72)
+    if ((*reinterpret_cast<::FUN_008df040_shell * *>(&::g_TESSaveLoadGame))->FUN_008df040() >= 0x72)
         isize += 4;
     return isize;
 }
@@ -138,11 +163,8 @@ struct ActiveEffect;
 
 struct TESSaveLoadGame
 {
-    void FUN_008579b0(void* apData, unsigned int auiSize);
-    unsigned char FUN_008df040();
 };
 
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct FUN_0081bd80_s
 {
@@ -152,10 +174,10 @@ struct FUN_0081bd80_s
 // @fnv 0x0081bd80
 void FUN_0081bd80_s::FUN_0081bd80(ActiveEffect* apEffect, TESObjectREFR* apTarget)
 {
-    g_TESSaveLoadGame->FUN_008579b0((char*)this + 0x20, 4);
-    g_TESSaveLoadGame->FUN_008579b0((char*)this + 0x24, 1);
-    if (g_TESSaveLoadGame->FUN_008df040() >= 0x72)
-        g_TESSaveLoadGame->FUN_008579b0((char*)this + 8, 4);
+    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0081bd80::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)this + 0x20, 4);
+    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0081bd80::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)this + 0x24, 1);
+    if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::fnv_0081bd80::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x72)
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0081bd80::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)this + 8, 4);
 }
 }  // namespace fnv_0081bd80
 
@@ -171,18 +193,15 @@ struct FUN_0081be50_s
 void FUN_0081be50_s::SetTargetCell(ActiveEffect* apEffect, TESObjectREFR* apTarget)
 {
     if (apTarget)
-        *(TESObjectCELL**)((char*)this + 0xc) = apTarget->GetTarget();
+        *(TESObjectCELL**)((char*)this + 0xc) = ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((apTarget))->GetTarget()));
 }
 
 struct BGSSaveFormBuffer
 {
-    void SerializeFormData(void* apForm, int aiFlags);
-    void SaveData(void* apData, int aiSize, int aiFlags);
 };
 
 struct FUN_00682a30_base
 {
-    void FUN_00682a30(BGSSaveFormBuffer* apBuffer);
 };
 
 struct FUN_0081be80_s : FUN_00682a30_base
@@ -194,16 +213,14 @@ struct FUN_0081be80_s : FUN_00682a30_base
 // @fnv 0x0081be80
 void FUN_0081be80_s::FUN_0081be80(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    FUN_00682a30(apSaveGameBuffer);
-    apSaveGameBuffer->SaveData((char*)this + 0x20, 4, 0);
-    apSaveGameBuffer->SaveData((char*)this + 0x24, 1, 0);
-    apSaveGameBuffer->SerializeFormData(*(TESObjectREFR**)((char*)this + 0x1c), 0);
+    reinterpret_cast<::Holder00682a30 *>(this)->FUN_00682a30(apSaveGameBuffer);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)this + 0x20, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)this + 0x24, 1, 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(*(TESObjectREFR**)((char*)this + 0x1c)), 0);
 }
 
 struct BGSLoadFormBuffer
 {
-    bool ReadFormIdentifier(void* apForm);
-    void ReadTypedData(void* apData, unsigned int auiSize);
 };
 
 struct FUN_00682a80_shell
@@ -220,19 +237,16 @@ struct FUN_0081bed0_s : FUN_00682a80_shell
 void FUN_0081bed0_s::LoadFormData(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     FUN_00682a80(apLoadGameBuffer);
-    apLoadGameBuffer->ReadTypedData((char*)this + 0x20, 4);
-    apLoadGameBuffer->ReadTypedData((char*)this + 0x24, 1);
-    apLoadGameBuffer->ReadFormIdentifier((char*)this + 0x1c);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x20), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x24), 1);
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apLoadGameBuffer))->FUN_008648e0((unsigned int *)(void *)((char*)this + 0x1c));
 }
 
 namespace fnv_0081bde0 {
 struct TESSaveLoadGame
 {
-    void ReadTypedData(void* apData, unsigned int aSize);
-    unsigned char FUN_008df040();
 };
 
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct FUN_0081bde0_shell
 {
@@ -250,11 +264,11 @@ struct FUN_0081bde0_shell
 // @fnv 0x0081bde0
 void __thiscall FUN_0081bde0_shell::SaveLoad(ActiveEffect* apActiveEffect, TESObjectREFR* apTarget)
 {
-    g_TESSaveLoadGame->ReadTypedData(reinterpret_cast<char*>(this) + 0x20, 4);
-    g_TESSaveLoadGame->ReadTypedData(reinterpret_cast<char*>(this) + 0x24, 1);
-    if (g_TESSaveLoadGame->FUN_008df040() >= 0x72)
+    reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_0081bde0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(reinterpret_cast<char*>(this) + 0x20, 4);
+    reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_0081bde0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(reinterpret_cast<char*>(this) + 0x24, 1);
+    if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::fnv_0081bde0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x72)
     {
-        g_TESSaveLoadGame->ReadTypedData(reinterpret_cast<char*>(this) + 8, 4);
+        reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_0081bde0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(reinterpret_cast<char*>(this) + 8, 4);
     }
     this->pEffect = apActiveEffect;
     this->pTarget = apTarget;
@@ -472,33 +486,26 @@ struct VObj
 
 struct Node
 {
-    void* FUN_008d6f30();
-    Node* FUN_009611e0();
-    Node* FUN_00545cb0();
-    VObj* FUN_005497a0();
 };
 
 struct FUN_0081bc70_s
 {
-    Node* FUN_00441110();
-    Node* FUN_0084e3a0();
-    void FUN_0041fd00(void* apNode);
     void FUN_0081bc70(Node* apArg);
 };
 
 // @fnv 0x0081bc70
 void FUN_0081bc70_s::FUN_0081bc70(Node* apArg)
 {
-    if (FUN_00441110())
+    if (((::Node *)(reinterpret_cast<::BGSTerrainManager *>(this)->GetMinLevel())))
     {
-        FUN_0041fd00(FUN_00441110()->FUN_008d6f30());
+        reinterpret_cast<::FUN_0041fd00_shell *>(this)->FUN_0041fd00((int)(((void *)(reinterpret_cast<::LowProcess *>((((::Node *)(reinterpret_cast<::BGSTerrainManager *>(this)->GetMinLevel()))))->GetTarget()))));
         if (apArg)
         {
-            if (FUN_0084e3a0() && FUN_0084e3a0()->FUN_00545cb0())
+            if (((::Node *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())) && ((::Node *)(reinterpret_cast<::FUN_00545cb0_shell *>((((::Node *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))->FUN_00545cb0())))
             {
-                if (!apArg->FUN_009611e0() || FUN_0084e3a0()->FUN_00545cb0() != apArg->FUN_009611e0()->FUN_009611e0())
+                if (!((::Node *)(reinterpret_cast<::FUN_009611e0_shell *>((apArg))->FUN_009611e0())) || ((::Node *)(reinterpret_cast<::FUN_00545cb0_shell *>((((::Node *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))->FUN_00545cb0())) != ((::Node *)(reinterpret_cast<::FUN_009611e0_shell *>((((::Node *)(reinterpret_cast<::FUN_009611e0_shell *>((apArg))->FUN_009611e0()))))->FUN_009611e0())))
                 {
-                    VObj* m = FUN_0084e3a0()->FUN_005497a0();
+                    VObj* m = ((::VObj *)(reinterpret_cast<::TESObjectCELL *>((((::Node *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))->GetDynamicNode()));
                     m->v55(apArg, 1);
                 }
             }
@@ -514,7 +521,6 @@ class TESForm
     virtual ~TESForm();
 };
 
-TESForm* BF20ResolveForm(TESObjectREFR* pkRef);
 
 class BF20FormCall
 {
@@ -527,7 +533,6 @@ class BF20FormCall
     int unk14;
     int unk18;
 
-    void Revert(unsigned int uiFlags);
 };
 
 class BF20RefFormCall : public BF20FormCall
@@ -542,8 +547,8 @@ class BF20RefFormCall : public BF20FormCall
 // @fnv 0x0081bf20
 void BF20RefFormCall::FUN_0081bf20(unsigned int uiFlags)
 {
-    BF20FormCall::Revert(uiFlags);
-    m_pkTarget = m_pkTarget ? dynamic_cast<TESObjectREFR*>(BF20ResolveForm(m_pkTarget)) : 0;
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0(uiFlags);
+    m_pkTarget = m_pkTarget ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(m_pkTarget))) : 0;
 }
 
 class TESActorBase
@@ -581,7 +586,6 @@ class ActiveEffect;
 class EffectSetting
 {
   public:
-    bool IsFlagSet(unsigned int uiFlag);
 };
 class TESObjectREFR;
 class CasterX
@@ -589,16 +593,15 @@ class CasterX
   public:
     virtual void v00();
     virtual TESObjectREFR* V04(ActiveEffect* pEffect);
-    Actor* FUN_00822b40();
 };
+class EffectSetting;
 class ActiveEffect
 {
   public:
-    CasterX* FUN_0059bb30();
-    EffectSetting* GetEffectSetting();
     bool HasFlag(unsigned int uiFlag);
+public:
+    ::EffectSetting *GetEffectSetting() const;
 };
-unsigned char FUN_00525420();
 class EffBase
 {
   public:
@@ -638,22 +641,19 @@ class SettingX
   public:
     bool* FUN_00408d60();
 };
-extern SettingX DAT_011df7f8;
 class MgrX
 {
   public:
-    void FUN_00973fd0(EffBase* p);
 };
-extern MgrX DAT_011e0e80;
 
 // Creates effect instances for an ActiveEffect, links successful instances, and may return early based on a setting.
 // @fnv 0x0081b8e0
 FUN_00470440* __cdecl CreateEffectEntries(ActiveEffect* pEffect)
 {
-    if (pEffect->FUN_0059bb30()->FUN_00822b40())
+    if (reinterpret_cast<::MagicTarget *>((((::CasterX *)(reinterpret_cast<::ActorMover *>((pEffect))->GetCurrentMoveModeType()))))->GetOwnerActor())
     {
-        TESCreature* pCreature = dynamic_cast<TESCreature*>(pEffect->FUN_0059bb30()->FUN_00822b40()->GetActorBase());
-        Character* pCharacter = dynamic_cast<Character*>(pEffect->FUN_0059bb30()->FUN_00822b40());
+        TESCreature* pCreature = dynamic_cast<TESCreature*>(reinterpret_cast<::MagicTarget *>((((::CasterX *)(reinterpret_cast<::ActorMover *>((pEffect))->GetCurrentMoveModeType()))))->GetOwnerActor()->GetActorBase());
+        Character* pCharacter = dynamic_cast<Character*>(reinterpret_cast<::MagicTarget *>((((::CasterX *)(reinterpret_cast<::ActorMover *>((pEffect))->GetCurrentMoveModeType()))))->GetOwnerActor());
         if ((!pCreature || !pCreature->FUN_005fbf20()) && pCharacter)
             pCharacter->V218();
     }
@@ -662,15 +662,15 @@ FUN_00470440* __cdecl CreateEffectEntries(ActiveEffect* pEffect)
     if (0)
     {
     }
-    bool bSkip = pEffect->GetEffectSetting()->IsFlagSet(0x1000) && *DAT_011df7f8.FUN_00408d60();
+    bool bSkip = reinterpret_cast<::S3e60 *>((pEffect->GetEffectSetting()))->FUN_00403e60(0x1000) && *(*reinterpret_cast<::SettingX *>(&::g_011df7f8)).FUN_00408d60();
     if (bSkip)
         return c;
     if (!pEffect->HasFlag(4) && !FUN_00525420())
     {
-        a = new FUN_0081c630(pEffect->FUN_0059bb30()->V04(pEffect));
+        a = new FUN_0081c630(((::CasterX *)(reinterpret_cast<::ActorMover *>((pEffect))->GetCurrentMoveModeType()))->V04(pEffect));
         if (a->VC4())
         {
-            DAT_011e0e80.FUN_00973fd0(a);
+            reinterpret_cast<::FUN_00973fd0_cls *>(&((*reinterpret_cast<::MgrX *>(&::g_011e0e80))))->FUN_00973fd0((::FnvArgObj *)(a));
             c = new FUN_00470440(a);
         }
         else
@@ -680,10 +680,10 @@ FUN_00470440* __cdecl CreateEffectEntries(ActiveEffect* pEffect)
     }
     if (!pEffect->HasFlag(2))
     {
-        a = new FUN_0081f350(pEffect->FUN_0059bb30()->V04(pEffect));
+        a = new FUN_0081f350(((::CasterX *)(reinterpret_cast<::ActorMover *>((pEffect))->GetCurrentMoveModeType()))->V04(pEffect));
         if (a->VC4())
         {
-            DAT_011e0e80.FUN_00973fd0(a);
+            reinterpret_cast<::FUN_00973fd0_cls *>(&((*reinterpret_cast<::MgrX *>(&::g_011e0e80))))->FUN_00973fd0((::FnvArgObj *)(a));
             if (c)
                 c->FUN_005ae3d0(a);
             else

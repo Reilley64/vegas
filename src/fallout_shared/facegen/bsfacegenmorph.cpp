@@ -1,5 +1,19 @@
 // fallout_shared/facegen/bsfacegenmorph.cpp: BSFaceGenMorphStatistical, BSFaceGenMorphDifferential, GeometryVertexBuffer (14 functions)
 
+#include "fnv/decl/C6533F0Holder.h"
+#include "fnv/decl/FUN_004534f0_shell.h"
+#include "fnv/decl/FUN_00534570_shell.h"
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/FUN_00656fd0_shell.h"
+#include "fnv/decl/FUN_00657be0_class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00a67410.h"
+#include "fnv/decl/TESActorBaseData.h"
+#include "fnv/decl/Vec_65f0c0.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00549000.h"
+#include "fnv/symbols_00660000.h"
+#include "fnv/symbols_01065000.h"
 #include "bsfacegenmorph_decls.h"
 
 // @fnv 0x00660970
@@ -29,7 +43,7 @@ BSFaceGenMorphDifferential::BSFaceGenMorphDifferential(unsigned int count)
 // @fnv 0x0065b390
 void GeometryVertexBuffer::SetVertex(unsigned int index, const NiPoint3& vertex)
 {
-    ((MagicCaster*)this)->MagicCaster::SetSelectedMagicItem((MagicItem*)index);
+    reinterpret_cast<::FUN_004534f0_shell *>((((MagicCaster*)this)))->FUN_004534f0((unsigned int)((MagicItem*)index));
     char* pVertex = m_pkDeltas + index * stride;
     NiPoint3& result = *(NiPoint3*)pVertex;
     result = vertex;
@@ -42,16 +56,16 @@ void BSFaceGenMorphDifferential::ApplyDifferentialMorph(NiTriBasedGeom* geom, BS
 {
     if (!geom || weight <= 0.0 || weight > 1.0)
         return;
-    NiGeometryData* pData = geom->FUN_005495f0();
+    NiGeometryData* pData = ((::NiGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)(geom))));
     GeometryVertexBuffer localC;
-    pData->FUN_00a67410(localC);
+    reinterpret_cast<::S00a67410 *>((pData))->FUN_00a67410((::BSFaceGenMorphData *)&(localC));
     NiPoint3 localD;
-    unsigned int ItemUpdateArray = MinUnsigned(pData->GetVertexCount(), m_uiVertexCount);
-    for (unsigned int i = 0; i < ItemUpdateArray; ++i, localC.AddToA())
+    unsigned int ItemUpdateArray = ::MinUnsigned(reinterpret_cast<::TESActorBaseData *>((pData))->GetFatigue(), m_uiVertexCount);
+    for (unsigned int i = 0; i < ItemUpdateArray; ++i, reinterpret_cast<::FUN_00657be0_class *>(&(localC))->AddToA())
     {
-        localC.CopyV3(localD);
-        localD += m_pkDeltas[i] * weight;
-        localC.SetPoint(localD);
+        reinterpret_cast<::FUN_00656fd0_shell *>(&(localC))->CopyV3((::V3 *)&(localD));
+        reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3 &)(localD))->FUN_0063c8a0((void *)&(const ::NiPoint3 &)(m_pkDeltas[i] * weight));
+        reinterpret_cast<::C6533F0Holder *>(&(localC))->SetPoint((const ::C6533F0Point3 &)(localD));
     }
 }
 
@@ -59,19 +73,19 @@ void BSFaceGenMorphDifferential::ApplyDifferentialMorph(NiTriBasedGeom* geom, BS
 void BSFaceGenMorphStatistical::ApplyDifferentialMorph(NiTriBasedGeom* geom, BSFaceGenBaseMorphExtraData* extra,
                                                        float weight)
 {
-    if (!geom || weight <= 0.0 || weight > 1.0 || !extra->FUN_0084e3a0())
+    if (!geom || weight <= 0.0 || weight > 1.0 || !((::NiPoint3 *)(reinterpret_cast<::FUN_0084e3a0_Class *>((extra))->FUN_0084e3a0())))
         return;
-    NiPoint3* pData = extra->FUN_0084e3a0();
-    NiGeometryData* pGeomData = geom->FUN_005495f0();
+    NiPoint3* pData = ((::NiPoint3 *)(reinterpret_cast<::FUN_0084e3a0_Class *>((extra))->FUN_0084e3a0()));
+    NiGeometryData* pGeomData = ((::NiGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)(geom))));
     GeometryVertexBuffer localC;
-    pGeomData->FUN_00a67410(localC);
+    reinterpret_cast<::S00a67410 *>((pGeomData))->FUN_00a67410((::BSFaceGenMorphData *)&(localC));
     NiPoint3 localD;
     unsigned int ItemUpdateArray;
     for (unsigned int i = 0; i < m_uiVertexCount; ++i)
     {
         ItemUpdateArray = m_puiVertexIndices[i];
-        localC.FUN_00534570(ItemUpdateArray, localD);
-        localD += (pData[m_uiFirstIndex + i] - pData[ItemUpdateArray]) * weight;
+        reinterpret_cast<::FUN_00534570_shell *>(&(localC))->FUN_00534570(ItemUpdateArray, localD);
+        reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3 &)(localD))->FUN_0063c8a0((void *)&(const ::NiPoint3 &)((pData[m_uiFirstIndex + i] - pData[ItemUpdateArray]) * weight));
         localC.SetVertex(ItemUpdateArray, localD);
     }
 }
@@ -92,24 +106,12 @@ unsigned int __cdecl MinUnsigned(unsigned short ausValue, unsigned int auValue)
     return ausValue < auValue ? ausValue : auValue;
 }
 
-extern "C" void _Deallocate(void*);
 
 struct FUN_006606b0_shell
 {
-    void __thiscall SetVTable();
     void* __thiscall Destroy(unsigned int flags);
 };
 
-// @fnv 0x006606b0
-void* __thiscall FUN_006606b0_shell::Destroy(unsigned int flags)
-{
-    SetVTable();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
-void _Deallocate(void*);
 struct S006607F0
 {
     void FUN_00660820();
@@ -121,13 +123,11 @@ void* S006607F0::DeallocateIfFlagged(unsigned int flags)
 {
     FUN_00660820();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 namespace fnv_00660820 {
-extern int _DAT_01065cc4;
-void __cdecl _Deallocate(void*);
 struct FUN_006606b0_shell
 {
     void SetVTable();
@@ -142,17 +142,16 @@ struct FUN_00660820_shell
 // @fnv 0x00660820
 void FUN_00660820_shell::FUN_00660820()
 {
-    vtable = (void*)&_DAT_01065cc4;
+    vtable = (void*)&(*reinterpret_cast<int *>(&::DAT_01065cc4));
     if (ptr != 0)
     {
         void* tmp = ptr;
-        _Deallocate(tmp);
+        ::FUN_00401030(tmp);
     }
     ((FUN_006606b0_shell*)this)->SetVTable();
 }
 }  // namespace fnv_00660820
 
-void __cdecl _Deallocate(void*);
 struct FUN_00660a20_holder
 {
     void FUN_00660a50();
@@ -164,7 +163,7 @@ void* FUN_00660a20_holder::DestroyIfFlagged(unsigned int flags)
 {
     FUN_00660a50();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -173,8 +172,6 @@ struct FUN_006606b0_shell
 {
     void SetVTable();
 };
-extern int _DAT_01065cd0;
-void __cdecl _Deallocate(void*);
 struct FUN_00660a50_shell
 {
     int field0;
@@ -185,11 +182,11 @@ struct FUN_00660a50_shell
 // @fnv 0x00660a50
 void FUN_00660a50_shell::FUN_00660a50()
 {
-    field0 = (int)&_DAT_01065cd0;
+    field0 = (int)&(*reinterpret_cast<int *>(&::DAT_01065cd0));
     if (field4 != 0)
     {
         void* tmp = field4;
-        _Deallocate(tmp);
+        ::FUN_00401030(tmp);
     }
     ((FUN_006606b0_shell*)this)->SetVTable();
 }
@@ -201,6 +198,14 @@ struct FUN_006606e0_shell
 {
     void SetVTable();
 };
+// @fnv 0x006606b0
+void* __thiscall FUN_006606b0_shell::Destroy(unsigned int flags)
+{
+    reinterpret_cast<::FUN_006606e0_shell *>(this)->SetVTable();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x006606e0
 void FUN_006606e0_shell::SetVTable()
@@ -241,6 +246,6 @@ FUN_0065eb90& FUN_0065eb90::operator=(const FUN_0065eb90& kRight)
     unk08 = kRight.unk08;
     unk0C = kRight.unk0C;
     for (unsigned int i = 0; i < 3; i++)
-        m_akEntries[i] = kRight.m_akEntries[i];
+        reinterpret_cast<::Vec_65f0c0 *>((void *)&(const ::B65EB90Entry &)(m_akEntries[i]))->FUN_0065f0c0((const ::Vec_65f0c0 &)(kRight.m_akEntries[i]));
     return *this;
 }

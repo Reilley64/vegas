@@ -5,17 +5,20 @@
 
 // src/havok/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-void FUN_00d374f0(int a, int b, int c, int d);
+#include "fnv/decl/FUN_00cfbbe0_cls.h"
+#include "fnv/decl/hkTransformCB22.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d37000.h"
+#include "fnv/symbols_00d3a000.h"
+#include "fnv/symbols_00daf000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010ce000.h"
+#include "fnv/symbols_01268000.h"
 struct FUN_00d37690_Class {
     void __thiscall ForwardToFunction(int a, int b, int c, int d);
 };
-void FUN_00d37740(int a, int b, int c, int d);
-void FUN_00d37780(int a, int b, int c, int d);
-void FUN_00d37860(int a, int b, int c, int d);
 void FUN_00d378a0(int a, int b, int c, int d);
-void FUN_00d37280(int a, int b, int c, int d);
-void FUN_00daf8e0();
-void FUN_00d3ac80();
 struct FUN_00cfbbe0_Arg {
     void* f0;
     void* f1;
@@ -25,9 +28,7 @@ struct FUN_00cfbbe0_Arg {
     char f5;
 };
 struct FUN_00cfbbe0_Class {
-    void __thiscall FUN_00cfbbe0(FUN_00cfbbe0_Arg* a, int b, int c);
 };
-void FUN_00d377d0(int a);
 struct Handler {
     virtual void slot0();
     virtual void slot1();
@@ -56,12 +57,7 @@ struct S_00d37860_Collector : S_00d37860_Base {
     S_00d37860_Collector(int filter) : m_iFilter(filter) {}
     virtual void f1();
 };
-void FUN_00d374f0(void* b, void* a, void* c, S_00d37860_Collector* collector);
-void FUN_00d37860(void* a, void* b, void* c, int filter);
 struct Payload { const char* name; float value; int id; };
-extern float DAT_0104da48;
-extern const char DAT_010ce7fc[];
-void FUN_00d37280(int, int, int, Payload*);
 void FUN_00d378a0(int a, int b, int c, int d);
 struct D376B0Allocator;
 struct D376B0MemoryRouter {
@@ -74,7 +70,6 @@ struct D376B0MemoryRouter {
     D376B0Allocator& heap() { return *m_pStreamAllocator; }
 };
 extern "C" D376B0MemoryRouter& __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(D376B0Allocator* alloc, void* array, int numElements, int sizeElem);
 class D376B0ReferencedObject {
 public:
     D376B0ReferencedObject() : m_sReferenceCount(1) {}
@@ -101,7 +96,7 @@ struct D376B0IndexArray {
         if (cap < n) {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, sizeof(unsigned short));
+            ::FUN_00c908c0((::SpawnedObject *)(::D376B0Allocator *)(&alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(unsigned short));
         }
         m_iElementCount = n;
     }
@@ -135,7 +130,7 @@ extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 #include <xmmintrin.h>
 #include <windows.h>
-extern DWORD hkMonitorStreamTls;
+#include "fnv/symbols_simd.h"
 
 struct S_00d374f0_TimerCommand {
     const char* m_pCommandName;
@@ -151,7 +146,7 @@ struct S_00d374f0_MonitorStream {
 };
 
 static inline void S_00d374f0_Timer(const char* name) {
-    S_00d374f0_MonitorStream* s = (S_00d374f0_MonitorStream*)TlsGetValue(hkMonitorStreamTls);
+    S_00d374f0_MonitorStream* s = (S_00d374f0_MonitorStream*)TlsGetValue(::DAT_0126835c);
     if (s->m_kRayEnd < s->m_pCurrentCommand) {
         S_00d374f0_TimerCommand* h = (S_00d374f0_TimerCommand*)s->m_kRayEnd;
         h->m_pCommandName = name;
@@ -174,7 +169,6 @@ struct __declspec(align(16)) S_00d374f0_Transform {
     S_00d374f0_Vector4 m_kColumn1;
     S_00d374f0_Vector4 m_kColumn2;
     S_00d374f0_Vector4 m_vTranslation;
-    void FUN_00cb22f0(const S_00d374f0_Transform& a, const S_00d374f0_Transform& b);
 };
 
 static __forceinline void S_00d374f0_SetTransformedPos(S_00d374f0_Vector4& out, const S_00d374f0_Transform& t, const S_00d374f0_Vector4& b)
@@ -266,7 +260,7 @@ void FUN_00d374f0(const S_00d374f0_CdBody& bodyA, const S_00d374f0_CdBody& bodyB
 
     S_00d374f0_Collector* col = collector;
     S_00d374f0_Transform bTa;
-    bTa.FUN_00cb22f0(*bodyB.m_pMotionState, *bodyA.m_pMotionState);
+    reinterpret_cast<::hkTransformCB22 *>(&(bTa))->FUN_00cb22f0((const ::hkTransformCB22 &)(*bodyB.m_pMotionState), (const ::hkTransformCB22 &)(*bodyA.m_pMotionState));
 
     int nRays = msA->m_iElementCount;
     const S_00d374f0_Ray* rayA = msA->m_data;
@@ -289,14 +283,10 @@ void FUN_00d374f0(const S_00d374f0_CdBody& bodyA, const S_00d374f0_CdBody& bodyB
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern unsigned int DAT_0126835c;
-extern char DAT_010ceda8[];
-extern char DAT_010c41f8[];
-extern __m128 DAT_010ec7f0;
 struct Event378 { const char* tag; unsigned time; unsigned other; };
 struct Timer378 { int unused; Event378* current; int unknown; Event378* end; };
 inline void timer378(const char* tag) {
-    Timer378* timer = (Timer378*)TlsGetValue(DAT_0126835c);
+    Timer378* timer = (Timer378*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     if (timer->current < timer->end) {
         Event378* e = timer->current;
         e->tag = tag;
@@ -312,7 +302,6 @@ inline void timer378(const char* tag) {
 struct V378 { union { __m128 v; struct { float x,y,z,w; }; }; };
 struct Transform378 {
     __m128 x,y,z,t;
-    void __thiscall FUN_00cb22f0(void*, void*);
 };
 struct Segment378 { V378 from,to; };
 struct Ray378 { V378 from,to; unsigned filter; unsigned userData; };
@@ -366,7 +355,7 @@ void Agent378::FUN_00d378e0(Body378* a, Body378* b, void* input, ContactBuffer37
     shapes.source = a->shape;
     shapes.target = b->shape;
     Scratch378 scratch;
-    scratch.relative.FUN_00cb22f0(b->transform,a->transform);
+    reinterpret_cast<::hkTransformCB22 *>(&(scratch.relative))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(b->transform)),(*(const ::hkTransformCB22 *)(a->transform)));
     shapes.count = shapes.source->count;
     scratch.ray.filter = 0;
     scratch.ray.userData = 0;
@@ -389,7 +378,7 @@ void Agent378::FUN_00d378e0(Body378* a, Body378* b, void* input, ContactBuffer37
         } else {
             Contact378* contact = buffer->current;
             __m128 fraction = _mm_set1_ps(hit.fraction);
-            scratch.position.v = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(DAT_010ec7f0,fraction),scratch.ray.from.v),_mm_mul_ps(fraction,scratch.ray.to.v));
+            scratch.position.v = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(::DAT_010ec7f0,fraction),scratch.ray.from.v),_mm_mul_ps(fraction,scratch.ray.to.v));
             contact->FUN_00c7f640(b->transform,&scratch.position);
             ((Normal378*)&contact->normal)->FUN_00c7f700(b->transform,&hit.normal);
             contact->normal.w = (hit.fraction-1.0)*current->from.w+shapes.source->radius;

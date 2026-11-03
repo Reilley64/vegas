@@ -3,6 +3,7 @@
 #ifndef FNV_PROCESSLISTS_PRIVATE_EXPLOSION_H
 #define FNV_PROCESSLISTS_PRIVATE_EXPLOSION_H
 
+#include "fnv/decl/ProjCls.h"
 #include "processlists_MobileObject.h"
 #include "processlists_BSSoundHandle.h"
 #include "processlists_NiPoint3.h"
@@ -47,7 +48,7 @@ class Explosion : public MobileObject
     NiPoint3 kClosestPointNormal;
     float m_fClosestPointScalar;
 
-    void ApplyBlastEffects();  // PC 009AE6E0, supplied candidate identity
+      // PC 009AE6E0, supplied candidate identity
 };
 
 FNV_STATIC_ASSERT(sizeof(Explosion) == 0x104);

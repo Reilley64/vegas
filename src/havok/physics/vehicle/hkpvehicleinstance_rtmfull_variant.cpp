@@ -5,12 +5,35 @@
 // src/havok/physics/vehicle/hkpvehicleinstance.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/hkpvehicleinstance.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/AxleGroundBuild__Vehicle.h"
+#include "fnv/decl/Cb0StringCopy.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00c91620_Class.h"
+#include "fnv/decl/FUN_00ca88c0_Class.h"
+#include "fnv/decl/FUN_00d2b2b0_class.h"
+#include "fnv/decl/FnvVehicle.h"
+#include "fnv/decl/MotionMassView.h"
+#include "fnv/decl/VUBCD_Instance.h"
+#include "fnv/decl/VehInst37.h"
+#include "fnv/decl/WVehicle.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpEntityC9C.h"
+#include "fnv/decl/hkpVehicleInstanceCustom.h"
+#include "fnv/decl/hkpWorldC914.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00ca8000.h"
+#include "fnv/symbols_00e59000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpVehicleInstance.h"
 
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
-extern unsigned long DAT_0126835c;
 void* FUN_00c85750() throw();
 
 struct VUC_Mon
@@ -135,84 +158,14 @@ struct VUC_Instance
     VUC_Data* m_data;
     void FUN_00e37aa0(float dt, void* det) throw();
     void FUN_00e36f60(float dt, VUC_Filtered& f) throw();
-    void UpdateSteering(float dt, const VUC_Filtered& f) throw();
     void FUN_00e36fa0(float dt, VUC_Transmission& t) throw();
-    void FUN_00e37020(float dt, const VUC_Filtered& f, VUC_Transmission& t) throw();
     void UpdateVehicleState(float dt, const VUC_Filtered& f, FUN_00e39400& b) throw();
-    void NotifyListener(float dt, void* det, VUC_RealArray& s) throw();
-    void FUN_00e37080(float dt, void* aero) throw();
     void UpdateVehicleComponents(const VUC_StepInfo& stepInfo, void* det, void* aero,
                                  VUC_RealArray& suspensionForceAtWheel, VUC_RealArray& totalLinearForceAtWheel);
 };
 
-// @fnv 0x00e38e60
-void VUC_Instance::UpdateVehicleComponents(const VUC_StepInfo& stepInfo, void* det, void* aero,
-                                           VUC_RealArray& suspensionForceAtWheel,
-                                           VUC_RealArray& totalLinearForceAtWheel)
-{
-    {
-        VUC_Mon* m = (VUC_Mon*)TlsGetValue(DAT_0126835c);
-        if (m->m_kRayEnd < m->m_capMinus16)
-        {
-            VUC_Timer* pTimer = (VUC_Timer*)m->m_kRayEnd;
-            pTimer->m_name = "TtUpdateComponents";
-            _ReadWriteBarrier();
-            volatile unsigned int ticks = (unsigned int)__rdtsc();
-            pTimer->m_ticks = ticks;
-            m->m_kRayEnd = (char*)(pTimer + 1);
-        }
-    }
-
-    VUC_Filtered filteredInput;
-    VUC_Transmission transmission;
-    FUN_00e39400 breakingInfo;
-    {
-        int n = m_data->m_iWheelCount;
-        char** cur = (char**)FUN_00c85750();
-        char* p = *cur;
-        *cur = p + ((n * 4 + 0x7f) & ~0x7f);
-        transmission.m_pGearRatios = (float*)p;
-    }
-
-    const float deltaTime = stepInfo.m_fTimeStep;
-
-    FUN_00e37aa0(deltaTime, det);
-    FUN_00e36f60(deltaTime, filteredInput);
-    UpdateSteering(deltaTime, filteredInput);
-    FUN_00e36fa0(deltaTime, transmission);
-    FUN_00e37020(deltaTime, filteredInput, transmission);
-    UpdateVehicleState(deltaTime, filteredInput, breakingInfo);
-    NotifyListener(deltaTime, det, suspensionForceAtWheel);
-    FUN_00e37080(deltaTime, aero);
-
-    for (int w = 0; w < m_data->m_iWheelCount; w++)
-    {
-        const float total_torque = breakingInfo.m_kFirstRealArray.m_data[w] + transmission.m_pGearRatios[w];
-        totalLinearForceAtWheel.m_data[w] = total_torque / m_data->m_kWheelParams[w].m_fSphereRadius;
-    }
-
-    {
-        char* p = (char*)transmission.m_pGearRatios;
-        *(char**)FUN_00c85750() = p;
-    }
-
-    {
-        VUC_Mon* m = (VUC_Mon*)TlsGetValue(DAT_0126835c);
-        if (m->m_kRayEnd < m->m_capMinus16)
-        {
-            VUC_Timer* pTimer = (VUC_Timer*)m->m_kRayEnd;
-            pTimer->m_name = "Et";
-            _ReadWriteBarrier();
-            volatile unsigned int ticks = (unsigned int)__rdtsc();
-            pTimer->m_ticks = ticks;
-            m->m_kRayEnd = (char*)(pTimer + 1);
-        }
-    }
-}
-
 struct VUC_World
 {
-    void FUN_00c914d0(void* entity, int flag);
 };
 
 struct VUC_VehicleTarget
@@ -248,7 +201,7 @@ struct VUC_VehicleInstance
 // @fnv 0x00e378e0
 void VUC_VehicleInstance::FUN_00e378e0(void* world)
 {
-    reinterpret_cast<VUC_World*>(world)->FUN_00c914d0(m_pEntity, 1);
+    reinterpret_cast<::hkpWorldC914 *>((reinterpret_cast<VUC_World*>(world)))->FUN_00c914d0((::hkpEntityC914 *)(m_pEntity), 1);
     m_target->FUN_00e378e0(world);
 }
 
@@ -258,7 +211,6 @@ struct VUC_DeltaTime
     float m_fInverseDeltaTime;
 };
 
-void __cdecl FUN_00e59a40(void* a, void* b, void* c, void* d);
 
 struct FUN_00e38080StandIn
 {
@@ -277,12 +229,11 @@ void FUN_00e38080StandIn::FUN_00e38080(const VUC_StepInfo& stepInfo, void* apArg
     deltaTime.m_fTimeStep = stepInfo.m_fTimeStep;
     deltaTime.m_fInverseDeltaTime = stepInfo.m_fInverseDeltaTime;
 
-    FUN_00e59a40(&deltaTime, m_data + 0xa4, apArg, &m_object54);
+    ::VehicleFrictionApply::FUN_00e59a40((*(const ::VehicleFrictionApply::TimeStepInfo *)(&deltaTime)), (*(const ::VehicleFrictionApply::hkpVehicleFrictionDescription *)(m_data + 0xa4)), (*(::VehicleFrictionApply::VehicleSimulationData *)(apArg)), (*(::VehicleFrictionApply::hkpVehicleFrictionStatus *)(&m_object54)));
 }
 
 struct DDCC60World
 {
-    void removeReference();
 };
 
 struct VUC_Allocator
@@ -302,7 +253,6 @@ struct VUC_Router
 
 extern int DAT_010df34c;
 VUC_Router* _D1A0E0GetMemoryRouter();
-void __fastcall FUN_00d2b2b0(void*);
 
 struct FUN_00e38bf0
 {
@@ -349,29 +299,29 @@ FUN_00e38bf0::~FUN_00e38bf0()
     m_vtbl = &DAT_010df34c;
 
     if (m_ref1c)
-        m_ref1c->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_ref1c))->FUN_00c905b0();
     if (m_ref20)
-        m_ref20->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_ref20))->FUN_00c905b0();
     if (m_ref24)
-        m_ref24->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_ref24))->FUN_00c905b0();
     if (m_ref28)
-        m_ref28->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_ref28))->FUN_00c905b0();
     if (m_ref2c)
-        m_ref2c->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_ref2c))->FUN_00c905b0();
     if (m_ref30)
-        m_ref30->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_ref30))->FUN_00c905b0();
     if (m_ref34)
-        m_ref34->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_ref34))->FUN_00c905b0();
     if (m_ref38)
-        m_ref38->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_ref38))->FUN_00c905b0();
     if (m_ref3c)
-        m_ref3c->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_ref3c))->FUN_00c905b0();
     if (m_ref44)
-        m_ref44->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_ref44))->FUN_00c905b0();
     if (m_ref9c)
-        m_ref9c->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_ref9c))->FUN_00c905b0();
     if (m_ref40)
-        m_ref40->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_ref40))->FUN_00c905b0();
 
     VUC_Router* router = _D1A0E0GetMemoryRouter();
     VUC_Allocator* allocator = router->m_pThreadAllocator;
@@ -409,7 +359,7 @@ FUN_00e38bf0::~FUN_00e38bf0()
     m_data48 = 0;
     m_capacity50 = 0x80000000;
 
-    FUN_00d2b2b0(this);
+    reinterpret_cast<::FUN_00d2b2b0_class *>((this))->FUN_00d2b2b0();
 }
 
 struct FnvCpu_FUN_00e36f50_CpuInterface
@@ -615,7 +565,6 @@ class hkpEntityE379
 class hkpWorldE379
 {
   public:
-    hkBoolE379 ProcessTarget(hkpEntityE379* pkEntity);
 };
 
 class hkActionE379
@@ -661,10 +610,9 @@ class FUN_00e37910_cls
 void FUN_00e37910_cls::FUN_00e37910()
 {
     m_pAction->V9();
-    m_pEntity->getWorld()->ProcessTarget(m_pEntity);
+    reinterpret_cast<::FUN_00c91620_Class *>((m_pEntity->getWorld()))->ProcessTarget((unsigned char *)(m_pEntity), {});
 }
 
-void __cdecl FUN_00c908c0(VUC_Allocator* allocator, VUC_RealArray* array, int capacity, int stride);
 struct VUC_BrakingStrategy
 {
     virtual void slot0();
@@ -686,7 +634,7 @@ void VUC_Instance::UpdateVehicleState(float afDeltaTime, const VUC_Filtered& inp
         capacity *= 2;
         if (count >= capacity)
             capacity = count;
-        FUN_00c908c0(alloc, &rFixedArray, capacity, 1);
+        ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(::VUC_RealArray *)(&rFixedArray), capacity, 1);
     }
     rFixedArray.m_iElementCount = count;
     count = vehicle->m_kSecondRealArray.m_iElementCount;
@@ -698,7 +646,7 @@ void VUC_Instance::UpdateVehicleState(float afDeltaTime, const VUC_Filtered& inp
         capacity *= 2;
         if (count >= capacity)
             capacity = count;
-        FUN_00c908c0(alloc, &output.m_kFirstRealArray, capacity, 4);
+        ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(::VUC_RealArray *)(&output.m_kFirstRealArray), capacity, 4);
     }
     output.m_kFirstRealArray.m_iElementCount = count;
     for (int i = 0; i < vehicle->m_kSecondRealArray.m_iElementCount; ++i)
@@ -733,7 +681,6 @@ struct hkMemoryRouterE38D
     }
 };
 
-void __cdecl FUN_00c908c0(hkAllocatorE38D& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
 
 template <typename T> struct hkArrayE38D
 {
@@ -763,7 +710,7 @@ template <typename T> struct hkArrayE38D
         {
             int iCap2 = 2 * iCapacity;
             int iNewSize = (n < iCap2) ? iCap2 : n;
-            FUN_00c908c0(kAlloc, this, iNewSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(kAlloc), (::SpawnedArray *)(void *)(this), iNewSize, sizeof(T));
         }
     }
     void SetSizeAndGrow(int n)
@@ -957,15 +904,13 @@ struct VehicleInstance
     void* m_pSuspension;
     void* m_pAerodynamics;
     VehicleWheelCollide* m_pWheelCollide;
-    void FUN_00e37940();
-    void FUN_00e39030(const VehicleStepInfo* stepInfo, void* scratch);
     void FUN_00e39190(const VehicleStepInfo* stepInfo);
 };
 
 // @fnv 0x00e39190
 void VehicleInstance::FUN_00e39190(const VehicleStepInfo* stepInfo)
 {
-    FUN_00e37940();
+    reinterpret_cast<::VUBCD_Instance *>(this)->FUN_00e37940();
     int wheelCount = m_data->m_iWheelCount;
     VehicleMemoryRouter* router = (VehicleMemoryRouter*)FUN_00c85750();
     char* originalTop = router->m_stackTop;
@@ -974,7 +919,7 @@ void VehicleInstance::FUN_00e39190(const VehicleStepInfo* stepInfo)
     int capacityAndFlags = wheelCount | 0x80000000;
 
     m_pWheelCollide->CollideWheels(deltaTime, this, originalTop);
-    FUN_00e39030(stepInfo, originalTop);
+    reinterpret_cast<::VUC_StepInstance *>(this)->FUN_00e39030((*(const ::VUC_StepInfo *)(stepInfo)), originalTop);
     ((VehicleMemoryRouter*)FUN_00c85750())->m_stackTop = originalTop;
     VehicleScratchAllocator* allocator = ((VehicleMemoryRouter*)FUN_00c85750())->m_pThreadAllocator;
     if (!(capacityAndFlags & 0x80000000))
@@ -1010,7 +955,6 @@ class hkRefObjectE392
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 
-    void FUN_00c90510() throw();
 };
 
 class hkShapeE392;
@@ -1091,7 +1035,6 @@ class FUN_00e38b20
     }
 
     FUN_00e38b20(const hkShapeE392* pkShape) throw();
-    void FUN_00e39480(const hkSourceE392* pkOther) throw();
 };
 
 typedef char fnv_check_e39210[(sizeof(FUN_00e38b20) == 0xd4) ? 1 : -1];
@@ -1108,39 +1051,11 @@ class hkSourceE392
     FUN_00e38b20* FUN_00e39210(const hkInputE392* pkInput, int iFlags) throw();
 };
 
-// Allocates a clone of this source for the given input, copies the shape, creates an agent, clones m_9c and calls FUN_00c90510 on the clone's reference objects.
-// @fnv 0x00e39210
-FUN_00e38b20* hkSourceE392::FUN_00e39210(const hkInputE392* pkInput, int iFlags) throw()
-{
-    const hkShapeE392* pkShape = pkInput->m_info->m_pCollisionShape;
-    FUN_00e38b20* pkClone = new FUN_00e38b20(pkShape);
-    pkClone->FUN_00e39480(this);
-    pkClone->m_08 = 0;
-    pkClone->m_0c = 0;
-    pkClone->m_pCollisionShape = pkShape;
-    pkClone->m_pCollisionAgent = m_factory->createAgent(pkShape, iFlags);
-    pkClone->m_pCollisionAgent->m_sState = 1;
-    pkClone->m_9c = m_9c->clone();
-    pkClone->m_1c->FUN_00c90510();
-    pkClone->m_20->FUN_00c90510();
-    pkClone->m_24->FUN_00c90510();
-    pkClone->m_28->FUN_00c90510();
-    pkClone->m_2c->FUN_00c90510();
-    pkClone->m_30->FUN_00c90510();
-    pkClone->m_34->FUN_00c90510();
-    pkClone->m_38->FUN_00c90510();
-    pkClone->m_44->FUN_00c90510();
-    if (m_40)
-        pkClone->m_40->FUN_00c90510();
-    return pkClone;
-}
-
-void __cdecl FUN_00e39190();
 
 // @fnv 0x00e392f0
 void __cdecl FUN_00e392f0()
 {
-    FUN_00e39190();
+    static_cast<::VehicleInstance *>(nullptr)->FUN_00e39190({});
 }
 
 struct VUC_TransmissionTarget10
@@ -1190,6 +1105,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 extern "C" __m128 _mm_add_ps(__m128, __m128);
 extern "C" __m128 _mm_mul_ps(__m128, __m128);
 extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
@@ -1310,7 +1226,6 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
 extern "C" __m128 _mm_setzero_ps(void);
 
 extern const char str_010eb844[];
-extern const char str_010c41f8[];
 
 struct VehStep_Vector4
 {
@@ -1411,10 +1326,9 @@ struct VehStep_Entity
     int unkD8;
     int unkDC;
     VehStep_Motion m_pMotionState;
-    void FUN_00c9c1d0();
     VehStep_Motion* getMotion()
     {
-        FUN_00c9c1d0();
+        reinterpret_cast<::hkpEntityC9C *>(this)->FUN_00c9c1d0();
         return &m_pMotionState;
     }
 };
@@ -1498,7 +1412,6 @@ struct VehStep_Damper
     virtual void ApplyVelocityDamping(float dt, struct VehStep_Vehicle& vehicle);
 };
 
-void __stdcall FUN_00e38080(const VUC_StepInfo& stepInfo, VehStep_FrictionParams& params);
 
 struct VehStep_Vehicle
 {
@@ -1523,13 +1436,8 @@ struct VehStep_Vehicle
     VehStep_Damper* m_pVelocityDamper;
 
     void FUN_00e375a0(float dt, void* a2, void* a3, VehStep_Ground& ground, VehStep_FrictionParams& params);
-    void FUN_00e37d60(const VUC_StepInfo& stepInfo, VehStep_Ground& ground, VehStep_Accumulator& atLast,
-                      VehStep_Accumulators& accs, VehStep_FrictionParams& params);
-    void FUN_00e37740(const VUC_StepInfo& stepInfo, VehStep_FrictionParams& params);
     void FUN_00e376e0(float dt, VehStep_Accumulator& chassis);
-    void FUN_00e380c0(VehStep_Accumulator& chassis);
     void FUN_00e38140(float dt, VehStep_FrictionParams& params, VehStep_Ground& ground);
-    void FUN_00e38310(float dt, VehStep_Ground& ground, VehStep_FrictionParams& params);
     void FUN_00e385e0(const VUC_StepInfo& stepInfo, VehStep_Output* out, void* a2, void* a3);
 };
 
@@ -1568,13 +1476,13 @@ void VehStep_Vehicle::FUN_00e385e0(const VUC_StepInfo& stepInfo, VehStep_Output*
 
     FUN_00e375a0(dt, a2, a3, ground, frictionParams);
     frictionParams.m_fTorquePitchFactor = m_data->m_fTorquePitchFactor;
-    FUN_00e37d60(stepInfo, ground, frictionParams.m_kSecondAccumulator, accumulators, frictionParams);
-    FUN_00e37740(stepInfo, frictionParams);
+    reinterpret_cast<::AxleGroundBuild::Vehicle *>(this)->FUN_00e37d60((void *)&(stepInfo), (::AxleGroundBuild::GroundBody **)&(ground), (::AxleGroundBuild::Accumulator *)&(frictionParams.m_kSecondAccumulator), (::AxleGroundBuild::Accumulator *)&(accumulators), (::AxleGroundBuild::AxleParams *)&(frictionParams));
+    reinterpret_cast<::VehInst37 *>(this)->FUN_00e37740((const ::TimeInterval &)(stepInfo), (::Out37 &)(frictionParams));
     FUN_00e376e0(dt, frictionParams.m_pChassisCollidable);
-    FUN_00e38080(stepInfo, frictionParams);
-    FUN_00e380c0(frictionParams.m_pChassisCollidable);
+    reinterpret_cast<::FUN_00e38080StandIn *>((void *)(stepInfo))->FUN_00e38080((const ::VUC_StepInfo &)(frictionParams), {});
+    reinterpret_cast<::Q_e380c0_cls *>(this)->FUN_00e380c0((const ::Q_e380c0_Vec *)&(frictionParams.m_pChassisCollidable));
     FUN_00e38140(dt, frictionParams, ground);
-    FUN_00e38310(dt, ground, frictionParams);
+    reinterpret_cast<::WVehicle *>(this)->FUN_00e38310(dt, (const int *)&(ground), (const ::WGround *)&(frictionParams));
 
     {
         VUC_Mon* mon = (VUC_Mon*)TlsGetValue(DAT_0126835c);
@@ -1582,7 +1490,7 @@ void VehStep_Vehicle::FUN_00e385e0(const VUC_StepInfo& stepInfo, VehStep_Output*
         if (pos < mon->m_capMinus16)
         {
             VUC_Timer* t = (VUC_Timer*)pos;
-            t->m_name = str_010c41f8;
+            t->m_name = ::DAT_010c41f8;
             _ReadWriteBarrier();
             ticks = (unsigned int)__rdtsc();
             t->m_ticks = ticks;
@@ -1681,7 +1589,6 @@ struct hkMemoryRouterE39
     }
 };
 hkMemoryRouterE39& __cdecl GetMemoryRouterE39() throw();
-void __cdecl FUN_00c908c0(hkMemoryAllocatorE39& kAlloc, void* pArray, int iNumElements, int iSizeElem);
 
 template <class T> __forceinline void destructE39(T* pArr, int n)
 {
@@ -1691,7 +1598,7 @@ template <class T> __forceinline void destructE39(T* pArr, int n)
 template <class T> __forceinline void copyE39(T* pDst, const T* pSrc, int n)
 {
     for (int i = 0; i < n; i++)
-        pDst[i] = pSrc[i];
+        reinterpret_cast<::FUN_00e39300_class *>((void *)&(const ::WheelE39 &)(pDst[i]))->FUN_00e39300((const ::FUN_00e39300_class *)&(pSrc[i]));
 }
 template <class T> __forceinline void constructWithArrayE39(T* pDst, int n, const T* pSrc)
 {
@@ -1711,7 +1618,7 @@ template <class T> class hkClassArrayE39
         {
             int iCap2 = 2 * getCapacity();
             int iNewSize = (n < iCap2) ? iCap2 : n;
-            FUN_00c908c0(kAlloc, this, iNewSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(kAlloc), (::SpawnedArray *)(void *)(this), iNewSize, sizeof(T));
         }
     }
     __forceinline hkClassArrayE39& operator=(const hkClassArrayE39& a)
@@ -1885,6 +1792,32 @@ class VehicleDataE39 : public hkReferencedObjectE39
     bool m_bCE;
     float m_fD0;
 };
+// Allocates a clone of this source for the given input, copies the shape, creates an agent, clones m_9c and calls FUN_00c90510 on the clone's reference objects.
+// @fnv 0x00e39210
+FUN_00e38b20* hkSourceE392::FUN_00e39210(const hkInputE392* pkInput, int iFlags) throw()
+{
+    const hkShapeE392* pkShape = pkInput->m_info->m_pCollisionShape;
+    FUN_00e38b20* pkClone = new FUN_00e38b20(pkShape);
+    reinterpret_cast<::VehicleDataE39 *>((pkClone))->FUN_00e39480((*(const ::VehicleDataE39 *)(this)));
+    pkClone->m_08 = 0;
+    pkClone->m_0c = 0;
+    pkClone->m_pCollisionShape = pkShape;
+    pkClone->m_pCollisionAgent = m_factory->createAgent(pkShape, iFlags);
+    pkClone->m_pCollisionAgent->m_sState = 1;
+    pkClone->m_9c = m_9c->clone();
+    reinterpret_cast<::FUN_00c90510_class *>((pkClone->m_1c))->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((pkClone->m_20))->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((pkClone->m_24))->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((pkClone->m_28))->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((pkClone->m_2c))->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((pkClone->m_30))->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((pkClone->m_34))->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((pkClone->m_38))->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((pkClone->m_44))->FUN_00c90510();
+    if (m_40)
+        reinterpret_cast<::FUN_00c90510_class *>((pkClone->m_40))->FUN_00c90510();
+    return pkClone;
+}
 
 // @fnv 0x00e39480
 VehicleDataE39& VehicleDataE39::FUN_00e39480(const VehicleDataE39& kOther)
@@ -1894,7 +1827,7 @@ VehicleDataE39& VehicleDataE39::FUN_00e39480(const VehicleDataE39& kOther)
     m_i08 = kOther.m_i08;
     m_i0C = kOther.m_i0C;
     m_i10 = kOther.m_i10;
-    m_kName = kOther.m_kName;
+    reinterpret_cast<::Cb0StringCopy *>((void *)&(const ::hkStringPtrE39 &)(m_kName))->FUN_00cb0c30((const ::CB0StringPtr &)(kOther.m_kName));
     m_i18 = kOther.m_i18;
     m_i1C = kOther.m_i1C;
     m_i20 = kOther.m_i20;
@@ -1925,11 +1858,6 @@ VehicleDataE39& VehicleDataE39::FUN_00e39480(const VehicleDataE39& kOther)
 }
 
 extern "C" void _mm_store_ps(float*, __m128);
-extern const __m128 DAT_01267e30;
-extern const __m128 DAT_010c7190;
-extern const __m128 DAT_010c71b0;
-extern const float DAT_01012068;
-extern const float DAT_01011d78;
 extern "C" __m128 _mm_setr_ps(float, float, float, float);
 extern "C" __m128 _mm_setzero_ps();
 union VecInit
@@ -1962,7 +1890,7 @@ struct WheelInit
 void WheelInit::FUN_00e370b0()
 {
     __m128 normal = DAT_010c7190;
-    m00.v = DAT_01267e30;
+    m00.v = (*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30));
     m10.v = normal;
     float* d = &m10.f.w;
     *d = 1.0f;
@@ -2068,7 +1996,6 @@ extern "C" __m128 _mm_xor_ps(__m128, __m128);
 
 extern "C" __m128 _mm_set_ps1(float);
 
-extern const __m128 DAT_010c44d0;
 
 struct VehFr_Vector4
 {
@@ -2777,8 +2704,6 @@ float S00e37880_Obj::FUN_00e37880()
     return (float)(_mm_cvtss_f32(_mm_sqrt_ss(b)) / 1609.300048828125 * 3600.0);
 }
 
-extern double DAT_01017b70;
-extern double DAT_01012640;
 extern "C" __m128 _mm_add_ss(__m128, __m128);
 extern "C" __m128 _mm_sqrt_ss(__m128);
 extern "C" float _mm_cvtss_f32(__m128);
@@ -3169,9 +3094,6 @@ class S00e375a0_VehicleInstance : public VUC_Instance
     int unk_veh44;
     hkArray<hkpVehicleInstanceWheelInfo> m_kWheelInfoArray;
 
-    void FUN_00e371d0(float deltaTime, int wheelIndex, float suspensionForce) throw();
-    void FUN_00e37350(int wheelIndex, float totalLinearForce, float suspensionForce, float linearVelocity,
-                      S00e375a0_AxleData* axleData) throw();
     void FUN_00e375a0(float deltaTime, VUC_RealArray& suspensionForceAtWheel, VUC_RealArray& totalLinearForceAtWheel,
                       S00e375a0_hkpRigidBody* maxMassBodyPerAxle[2], S00e375a0_AxleData* axleData);
 };
@@ -3191,7 +3113,7 @@ void S00e375a0_VehicleInstance::FUN_00e375a0(float deltaTime, VUC_RealArray& sus
         int axle = m_data->m_kWheelParams[i].m_iAxle;
         hkpVehicleInstanceWheelInfo* wheelInfo = &m_kWheelInfoArray.m_data[i];
 
-        FUN_00e371d0(deltaTime, i, suspensionForceAtWheel.m_data[i]);
+        reinterpret_cast<::hkpVehicleInstanceCustom *>(this)->FUN_00e371d0(deltaTime, i, suspensionForceAtWheel.m_data[i]);
 
         S00e375a0_hkpRigidBody* contactBody = wheelInfo->m_pUserData;
         if (contactBody)
@@ -3203,8 +3125,8 @@ void S00e375a0_VehicleInstance::FUN_00e375a0(float deltaTime, VUC_RealArray& sus
             }
         }
 
-        FUN_00e37350(i, totalLinearForceAtWheel.m_data[i], suspensionForceAtWheel.m_data[i], linearVelocity,
-                     &axleData[axle]);
+        reinterpret_cast<::FnvVehicle *>(this)->FUN_00e37350(i, totalLinearForceAtWheel.m_data[i], suspensionForceAtWheel.m_data[i], linearVelocity,
+                     (*(::FnvAxleParams *)(&axleData[axle])));
     }
 }
 
@@ -3248,6 +3170,70 @@ class VehicleAeroInstance : public hkpVehicleInstance
   public:
     void FUN_00e37080(float deltaTime, void* output) throw();
 };
+// @fnv 0x00e38e60
+void VUC_Instance::UpdateVehicleComponents(const VUC_StepInfo& stepInfo, void* det, void* aero,
+                                           VUC_RealArray& suspensionForceAtWheel,
+                                           VUC_RealArray& totalLinearForceAtWheel)
+{
+    {
+        VUC_Mon* m = (VUC_Mon*)TlsGetValue(DAT_0126835c);
+        if (m->m_kRayEnd < m->m_capMinus16)
+        {
+            VUC_Timer* pTimer = (VUC_Timer*)m->m_kRayEnd;
+            pTimer->m_name = "TtUpdateComponents";
+            _ReadWriteBarrier();
+            volatile unsigned int ticks = (unsigned int)__rdtsc();
+            pTimer->m_ticks = ticks;
+            m->m_kRayEnd = (char*)(pTimer + 1);
+        }
+    }
+
+    VUC_Filtered filteredInput;
+    VUC_Transmission transmission;
+    FUN_00e39400 breakingInfo;
+    {
+        int n = m_data->m_iWheelCount;
+        char** cur = (char**)FUN_00c85750();
+        char* p = *cur;
+        *cur = p + ((n * 4 + 0x7f) & ~0x7f);
+        transmission.m_pGearRatios = (float*)p;
+    }
+
+    const float deltaTime = stepInfo.m_fTimeStep;
+
+    FUN_00e37aa0(deltaTime, det);
+    FUN_00e36f60(deltaTime, filteredInput);
+    reinterpret_cast<::hkpVehicleInstanceE38D *>(this)->UpdateSteering(deltaTime, (const ::hkpFilteredDriverInputOutputE38D &)(filteredInput));
+    FUN_00e36fa0(deltaTime, transmission);
+    reinterpret_cast<::Instance *>(this)->FUN_00e37020(deltaTime, (const ::Filtered &)(filteredInput), (::Transmission &)(transmission));
+    UpdateVehicleState(deltaTime, filteredInput, breakingInfo);
+    reinterpret_cast<::hkObjE371 *>(this)->NotifyListener(deltaTime, det, (void **)&(suspensionForceAtWheel));
+    reinterpret_cast<::VehicleAeroInstance *>(this)->FUN_00e37080(deltaTime, aero);
+
+    for (int w = 0; w < m_data->m_iWheelCount; w++)
+    {
+        const float total_torque = breakingInfo.m_kFirstRealArray.m_data[w] + transmission.m_pGearRatios[w];
+        totalLinearForceAtWheel.m_data[w] = total_torque / m_data->m_kWheelParams[w].m_fSphereRadius;
+    }
+
+    {
+        char* p = (char*)transmission.m_pGearRatios;
+        *(char**)FUN_00c85750() = p;
+    }
+
+    {
+        VUC_Mon* m = (VUC_Mon*)TlsGetValue(DAT_0126835c);
+        if (m->m_kRayEnd < m->m_capMinus16)
+        {
+            VUC_Timer* pTimer = (VUC_Timer*)m->m_kRayEnd;
+            pTimer->m_name = "Et";
+            _ReadWriteBarrier();
+            volatile unsigned int ticks = (unsigned int)__rdtsc();
+            pTimer->m_ticks = ticks;
+            m->m_kRayEnd = (char*)(pTimer + 1);
+        }
+    }
+}
 
 // @fnv 0x00e37080
 void VehicleAeroInstance::FUN_00e37080(float deltaTime, void* output) throw()
@@ -3265,7 +3251,6 @@ extern "C" VehicleInitSimd(_mm_load_ss)(const float*);
 extern "C" VehicleInitSimd(_mm_load_ps)(const float*);
 extern "C" VehicleInitSimd(_mm_and_ps)(VehicleInitSimd, VehicleInitSimd);
 
-extern const __declspec(align(16)) unsigned int DAT_01017d10[4];
 extern "C" void _ReadWriteBarrier(void);
 
 struct Col4InitE387
@@ -3282,7 +3267,6 @@ struct Mat3InitE387
 class hkpMotionInitE387
 {
   public:
-    float FUN_00c86430();
 };
 
 class hkpEntityInitE387
@@ -3345,8 +3329,6 @@ class hkpEntityInitE387
     int unkD8;
     int unkDC;
     hkpMotionInitE387 m_pMotionState;
-    void FUN_00ca88c0(float mass);
-    void FUN_00ca8920(Mat3InitE387* inertia);
 };
 
 class hkpVehicleSuspensionInitE387 : public hkReferencedObject
@@ -3465,7 +3447,7 @@ template <class T> __forceinline void vehicleSetSizeInitE387(hkArray<T>& a, int 
         int neu = cap * 2;
         if (n >= neu)
             neu = n;
-        ::FUN_00c908c0(heap, reinterpret_cast< ::VUC_RealArray*>(&a), neu, (int)sizeof(T));
+        ::FUN_00c908c0((::SpawnedObject *)(heap), (::SpawnedArray *)(::VUC_RealArray *)(reinterpret_cast< ::VUC_RealArray*>(&a)), neu, (int)sizeof(T));
     }
     a.m_iElementCount = n;
 }
@@ -3494,13 +3476,13 @@ void VehicleInitHostInitE387::FUN_00e387e0()
     y = (_mm_load_ss)(&r->m_fTorqueRollFactor);
     rr = (_mm_load_ss)(&r->m_fTorqueYawFactor);
     p = (_mm_load_ss)(&r->m_fExtraTorqueFactor);
-    mask = (_mm_load_ps)((const float*)DAT_01017d10);
+    mask = (_mm_load_ps)((const float*)(*reinterpret_cast<const unsigned int (*)[4]>((void *)&::DAT_01017d10)));
     VehicleInitSimd cnt = (::_mm_mul_ps)((_mm_and_ps)(r->m_orient0.v, mask), (::_mm_shuffle_ps)(y, y, 0));
     cnt = (::_mm_add_ps)(cnt, (::_mm_mul_ps)((_mm_and_ps)(r->m_orient1.v, mask), (::_mm_shuffle_ps)(rr, rr, 0)));
     cnt = (::_mm_add_ps)(cnt, (::_mm_mul_ps)((_mm_and_ps)(r->m_orient2.v, mask), (::_mm_shuffle_ps)(p, p, 0)));
     (::_mm_store_ps)(&diag.x, cnt);
     hkpEntityInitE387* chassis = reinterpret_cast<hkpEntityInitE387*>(m_pEntity);
-    float mass = chassis->m_pMotionState.FUN_00c86430();
+    float mass = reinterpret_cast<::MotionMassView *>(&(chassis->m_pMotionState))->FUN_00c86430();
     VehicleInitSimd massVec;
     massVec = (_mm_load_ss)(&mass);
     (::_mm_store_ps)(&diag.x, (::_mm_mul_ps)((::_mm_shuffle_ps)(massVec, massVec, 0), *(VehicleInitSimd*)&diag));
@@ -3516,9 +3498,9 @@ void VehicleInitHostInitE387::FUN_00e387e0()
     (::_mm_store_ps)(&z.c2.x, inertia);
     z.c2.z = diag.z;
 
-    volatile float roundedMass = nextChassis->m_pMotionState.FUN_00c86430();
-    reinterpret_cast<hkpEntityInitE387*>(m_pEntity)->FUN_00ca88c0(roundedMass);
-    reinterpret_cast<hkpEntityInitE387*>(m_pEntity)->FUN_00ca8920(&z);
+    volatile float roundedMass = reinterpret_cast<::MotionMassView *>(&(nextChassis->m_pMotionState))->FUN_00c86430();
+    reinterpret_cast<::FUN_00ca88c0_Class *>((reinterpret_cast<hkpEntityInitE387*>(m_pEntity)))->FUN_00ca88c0(roundedMass);
+    ::FUN_00ca8920((::FUN_00ca8860_cls *)(reinterpret_cast<hkpEntityInitE387*>(m_pEntity)), &z, {});
 
     vehicleSetSizeInitE387(m_kWheelInfoArray, reinterpret_cast<hkpVehicleDataInitE387*>(m_data)->m_iWheelCount);
     for (int i = 0; i < m_kWheelInfoArray.m_iElementCount; ++i)

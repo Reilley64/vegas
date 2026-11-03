@@ -5,6 +5,21 @@
 
 // src/havok/physics/utilities/constraint/bilateral/hkpconstraintutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/constraint/bilateral/hkpconstraintutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/FUN_005616d0_Owner.h"
+#include "fnv/decl/FUN_00561800_Class.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00ca8800_Class.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00cf3ea0.h"
+#include "fnv/decl/FUN_00d4f2a0.h"
+#include "fnv/decl/FUN_00d52fc0.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/hkPragdollLimitsData.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00e5a000.h"
+#include "fnv/symbols_01268000.h"
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
@@ -17,6 +32,7 @@ typedef union __declspec(intrin_type) __declspec(align(16)) __m128
     unsigned short m128_u16[8];
     unsigned int m128_u32[4];
 } __m128;
+#include "fnv/symbols_simd.h"
 struct hkMemoryAllocator
 {
     virtual ~hkMemoryAllocator();
@@ -64,8 +80,6 @@ struct hkRefObj
     void* m_vtbl;
     unsigned short m_usMemSizeAndFlags;
     unsigned short m_sReferenceCount;
-    void FUN_00c90510();
-    void FUN_00c905b0();
 };
 struct CloneDataBase : hkRefObj
 {
@@ -78,13 +92,10 @@ struct CloneDataA : CloneDataBase
     Block5 unk80;
     Block5b unk94;
     Block5 unka8;
-    CloneDataA* FUN_00d4f2a0();
-    void FUN_00d4f270(hkBool flag);
 };
 struct CloneDataB : CloneDataBase
 {
     Block5 unk80;
-    CloneDataB* FUN_00d52fc0();
 };
 struct SourceDataHeader
 {
@@ -128,7 +139,6 @@ struct Instance : hkRefObj
     void* unk14;
     void* unk18;
     unsigned char unk1c;
-    Instance* FUN_00cf3ea0(void* entityA, void* entityB, CloneDataBase* data, int priority);
 };
 inline void* hkAlloc(int size)
 {
@@ -136,7 +146,6 @@ inline void* hkAlloc(int size)
     p->m_usMemSizeAndFlags = (unsigned short)size;
     return p;
 }
-Instance* __cdecl CloneInstanceFromSource(Instance* src);
 class FnvSink
 {
   public:
@@ -145,13 +154,9 @@ class FnvSink
     virtual void Slot2() throw();
     virtual void Write(int level, unsigned int hash, const char* msg, const char* file, int line) throw();
 };
-extern FnvSink* DAT_01268360;
 class MsgWriter
 {
   public:
-    void Init(char* buf, unsigned int cap) throw();
-    void Append(const char* s) throw();
-    void Finish() throw();
     unsigned int unk00;
     unsigned int unk04;
     unsigned int unk08;
@@ -183,7 +188,6 @@ class FnvHolder
     char unk00[0x0c];
     FnvInner* m_0c;
 };
-int FUN_00e5ad40(FnvHolder* a0, __m128* a1, __m128* a2);
 
 struct Ent
 {
@@ -204,9 +208,6 @@ struct Ent
     int unk190, unk194, unk198, unk19c, unk1a0, unk1a4, unk1a8, unk1ac;
     __m128 unk1b0;
     __m128 unk1c0;
-    void FUN_00ca8800(__m128* v);
-    void OnTrigger(int arg);
-    void FUN_00561800(void* p);
 };
 
 struct FnvHolder2 : FnvHolder
@@ -269,10 +270,10 @@ bool* FUN_00e5af80(bool* out, FnvHolder2* h, float t, float t2)
         {
             char buf[0x200];
             MsgWriter w;
-            w.Init(buf, 0x200);
-            w.Append("Pivot of child rigid body (A) is expected to be aligned with the constraint at setup time.");
-            DAT_01268360->Write(1, 0xabba5dffu, buf, ".\\Constraint\\Bilateral\\hkpConstraintUtils.cpp", 285);
-            w.Finish();
+            new ((void *)&(w)) ::FUN_00cb1600(buf, 0x200);
+            reinterpret_cast<::SinkOwner *>(&(w))->FUN_00cc01c0("Pivot of child rigid body (A) is expected to be aligned with the constraint at setup time.");
+            (*reinterpret_cast<::FnvSink * *>(&::DAT_01268360))->Write(1, 0xabba5dffu, buf, ".\\Constraint\\Bilateral\\hkpConstraintUtils.cpp", 285);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(w))->FUN_00cc00e0::~FUN_00cc00e0();
         }
         b = h->unk18;
         a = h->unk14;
@@ -293,10 +294,10 @@ bool* FUN_00e5af80(bool* out, FnvHolder2* h, float t, float t2)
                 __m128 t2v = _mm_set_ps1(t2);
                 __m128 r = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(DAT_010ec7f0, t2v), v.cb.m),
                                       _mm_mul_ps(_mm_load_ps(b->unk120.m128_f32), t2v));
-                a->FUN_00ca8800(&r);
+                reinterpret_cast<::FUN_00ca8800_Class *>((a))->FUN_00ca8800((int)(&r));
             }
-            a->OnTrigger((int)&b->unk1b0);
-            a->FUN_00561800(&b->unk1c0);
+            reinterpret_cast<::FUN_005616d0_Owner *>((a))->OnTrigger((::TriggerContext *)((int)&b->unk1b0));
+            reinterpret_cast<::FUN_00561800_Class *>((a))->FUN_00561800((::FUN_00561730_Obj *)(void *)(&b->unk1c0));
             *out = true;
             return out;
         }

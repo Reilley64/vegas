@@ -2,14 +2,21 @@
 // src/gamebryo2.2/corelibs/nimain/nirendertargetgroup.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nirendertargetgroup.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/A5D6E0This.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/decl/FUN_00ee8500.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_01270000.h"
 struct NiRTTI;
 
-extern NiRTTI g_012708ec;
 
 // @fnv 0x00ee8530
 NiRTTI* __cdecl FUN_00ee8530()
 {
-    return &g_012708ec;
+    return &(*reinterpret_cast<::NiRTTI *>(&::g_012708ec));
 }
 
 struct NiPixelFormat;
@@ -188,21 +195,17 @@ struct StrArr
     unsigned short m_usSize;
     char _pad1[2];
     unsigned short m_usGrow;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
-void __stdcall AppendCameraPathEntries(StrArr*);
-char* __cdecl FUN_00a7d330(const char*);
 // @fnv 0x00ee8800
 void __stdcall FUN_00ee8800(StrArr* pkStrings)
 {
-    AppendCameraPathEntries(pkStrings);
-    char* pString = FUN_00a7d330(*(const char**)&g_012708ec);
+    reinterpret_cast<::A5D6E0This *>((pkStrings))->AppendCameraPathEntries({});
+    char* pString = FUN_00a7d330(*(const char**)&(*reinterpret_cast<::NiRTTI *>(&::g_012708ec)));
     unsigned int size = pkStrings->m_usSize;
     unsigned int max = pkStrings->m_usMax;
     if (size >= max)
-        pkStrings->SetSize(size + pkStrings->m_usGrow);
-    pkStrings->SetAt(size, pString);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(size + pkStrings->m_usGrow);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(size, pString);
 }
 
 struct EE8490Stage
@@ -293,7 +296,6 @@ struct FUN_00ee8560
     int unk1c;
     RenderBuffer* m_pkDepthBuffer;
     RendererData* m_pTextureRendererData;
-    void __thiscall FUN_00a5d3d0();
 };
 // Releases the renderer data, the depth buffer and the four render buffers via refcount decrement, then calls FUN_00a5d3d0.
 // @fnv 0x00ee8560
@@ -310,7 +312,7 @@ FUN_00ee8560::~FUN_00ee8560()
         if (pBuffer && !InterlockedDecrement(&pBuffer->m_uiRefCount))
             pBuffer->Destroy();
     }
-    FUN_00a5d3d0();
+    reinterpret_cast<class ::FUN_00a5d3d0 *>(this)->FUN_00a5d3d0::~FUN_00a5d3d0();
 }
 
 struct FUN_00ee85e0_Node
@@ -575,7 +577,6 @@ struct SpawnedObject
 };
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
-SpawnedObject* __fastcall FUN_00ee8500(void* mem);
 
 // @fnv 0x00ee8760
 SpawnedObject* __cdecl FUN_00ee8760(void* a1, SourceObject* apSource, void* a3)
@@ -596,7 +597,7 @@ SpawnedObject* __cdecl FUN_00ee8760(void* a1, SourceObject* apSource, void* a3)
     void* mem = FUN_00aa13e0(0x28);
     if (mem != 0)
     {
-        pSpawned = FUN_00ee8500(mem);
+        pSpawned = ((::SpawnedObject *)(new ((void *)(mem)) struct ::FUN_00ee8500()));
     }
     else
     {

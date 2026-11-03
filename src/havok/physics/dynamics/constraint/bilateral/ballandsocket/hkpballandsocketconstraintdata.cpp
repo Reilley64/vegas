@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/bilateral/ballandsocket/hkpballandsocketconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/ballandsocket/hkpballandsocketconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_0104e000.h"
 struct FUN_00d541f0_class
 {
     void __thiscall FUN_00d541f0(int index);
@@ -24,7 +25,6 @@ void* hkpBallAndSocketConstraintData::FUN_00d54210(int a)
     return FUN_00d21a60((void*)((char*)this + 0x10), 0x38, a);
 }
 
-extern double DAT_0104e138;
 struct FUN_00d54230_class
 {
     void __thiscall FUN_00d54230(char a, int* b);

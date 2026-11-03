@@ -1,5 +1,10 @@
 // fallout_shared/tesscriptrunmanager_decls.h: declares ScriptRunner, ScriptExecutor
 
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00464000.h"
+#include "fnv/symbols_005e2000.h"
+#include "fnv/symbols_0118c000.h"
+#include "fnv/symbols_0118e000.h"
 class ScriptRunner
 {
   public:
@@ -47,12 +52,7 @@ class ScriptExecutor
 };
 FNV_STATIC_ASSERT(sizeof(ScriptExecutor) == 8);
 
-extern ScriptFunctionInfo g_scriptBlocks[kScriptBlockCount];
-extern const char* g_expressionErrorStrings[];
 extern void DebugLog(const char* format, ...);
-extern bool IsScriptDebuggingEnabled();
-extern const char* PrepareScriptMessage(const char* message, bool localized);
 extern "C" const char g_nestedScriptRunFormat[];
 extern "C" char g_scriptRunLock;
 extern int __cdecl InitScriptRunLock(void* lock);
-extern void __cdecl FinishScriptRunLock(void* lock);

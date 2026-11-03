@@ -7,6 +7,16 @@
 // to their real unit once identified.
 // src/havok/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00cfbbe0_cls.h"
+#include "fnv/decl/hkpSphereCapsuleAgent.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00d23000.h"
+#include "fnv/symbols_00d3a000.h"
+#include "fnv/symbols_00d3e000.h"
+#include "fnv/symbols_00d3f000.h"
+#include "fnv/symbols_00daf000.h"
+#include "fnv/symbols_010ce000.h"
+#include "fnv/symbols_01268000.h"
 struct S_00d3ef70_CdBody;
 struct S_00d3ef70_Input;
 struct S_00d3ef70_Agent;
@@ -30,19 +40,7 @@ struct S_00d3ef70_AgentFuncs
 };
 struct S_00d3ef70_Dispatcher
 {
-    void registerCollisionAgent(S_00d3ef70_AgentFuncs& f, int typeA, int typeB);
 };
-S_00d3ef70_Agent* FUN_00d3e2f0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, void*);
-void FUN_00d3f040(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
-void FUN_00d3f4c0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
-void FUN_00d3ac80(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&,
-                  S_00d3ef70_Collector*);
-S_00d3ef70_Agent* FUN_00d3e270(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, void*);
-void FUN_00d3e330(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
-void FUN_00d3ebe0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
-void FUN_00daf8e0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&,
-                  S_00d3ef70_Collector*);
-void FUN_00d3ef70(S_00d3ef70_Dispatcher* dispatcher);
 class InnerCls
 {
   public:
@@ -99,19 +97,12 @@ struct SmallRecord
     unsigned short m_w0C;
 };
 extern char DAT_010cf018[];
-AllocHolder* FUN_00c85750();
-void __cdecl FUN_00d3e2f0(int a, int b, int c, int d);
-void __cdecl FUN_00d3e330(int a, int b, int c, int d);
-void __stdcall FUN_00d3e510(int a, int b, int c, int d);
-extern char DAT_010ce81c;
 struct FUN_00d3f040_tmp
 {
     const char* str;
     unsigned char flag;
     unsigned int value;
 };
-void __cdecl FUN_00d3e330(unsigned int a, unsigned int b, unsigned int c, FUN_00d3f040_tmp* p);
-void __cdecl FUN_00d3f040(unsigned int a0, unsigned int a1, unsigned int a2, unsigned int a3);
 
 #include <xmmintrin.h>
 
@@ -121,7 +112,6 @@ extern "C" double __cdecl fabs(double);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 
-extern unsigned long g_hkMonitorStreamTls;
 
 static inline float hkMathSqrt(float r)
 {
@@ -264,11 +254,10 @@ struct Vector4Wrapper
     hkVector4 m_kClosestPoint;
 };
 
-int GetClosestPointOnLineSegment(const hkVector4& A, const hkVector4& B0, const hkVector4& B1, Vector4Wrapper& result);
 
 static inline void timerCommand(const char* name, volatile unsigned int& ticks)
 {
-    StringCursor* s = (StringCursor*)TlsGetValue(g_hkMonitorStreamTls);
+    StringCursor* s = (StringCursor*)TlsGetValue(::DAT_0126835c);
     if (s->m_kRayEnd < s->m_pCurrentCommand)
     {
         hkMonitorTimerCommand* h = (hkMonitorTimerCommand*)s->m_kRayEnd;
@@ -356,7 +345,7 @@ void __stdcall FUN_00d3e850(const hkpCdBody& bodyA, const hkpCdBody& bodyB, cons
         fourth.endpoints[i].m_vComponents = _mm_add_ps(_mm_add_ps(r0, r1), _mm_add_ps(r2, tr));
     } while (--i >= 0);
 
-    GetClosestPointOnLineSegment(posA, fourth.endpoints[0], fourth.endpoints[1], third.result);
+    ::FUN_00d230e0((const ::hkVector4D230 &)(posA), (const ::hkVector4D230 &)(fourth.endpoints[0]), (const ::hkVector4D230 &)(fourth.endpoints[1]), (::hkVector4D230 &)(third.result));
 
     scal2.radiusSum = sphereA->m_fSphereRadius + capsuleB->m_fSphereRadius;
     float refDist = scal2.radiusSum + input.m_fScalar;

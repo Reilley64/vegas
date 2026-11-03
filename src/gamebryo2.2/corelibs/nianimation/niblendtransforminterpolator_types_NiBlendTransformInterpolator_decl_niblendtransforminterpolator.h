@@ -2,6 +2,8 @@
 #ifndef NIBLENDTRANSFORMINTERPOLATOR_H
 #define NIBLENDTRANSFORMINTERPOLATOR_H
 
+#include "fnv/decl/BlendTransformInterpolator.h"
+#include "fnv/decl/FUN_00a37260_shell.h"
 #include "niblendtransforminterpolator_layout_support.h"
 #include "niblendtransforminterpolator_NiObject.h"
 class NiBlendInterpolator;
@@ -63,7 +65,6 @@ class NiBlendInterpolator : public NiInterpolator
     virtual void Unk_38();
     virtual void Unk_39();
     virtual void Unk_3A();
-    void NormalizeWeights();
     // base NiInterpolator at +0x0, size 12
     unsigned char m_uiObjectFlags;         // +0xC, 1 bytes
     unsigned char m_ucArraySize;    // +0xD, 1 bytes
@@ -150,8 +151,6 @@ class NiBlendTransformInterpolator : public NiBlendInterpolator
     virtual bool Update(float fTime, NiObjectNET* pkObject, NiQuatTransform& kTransform);
 
   protected:
-    bool UpdateAccumulatedTransform(float fTime, NiObjectNET* pkObject, NiQuatTransform& kTransform);
-    bool UpdateSingleInterpolator(float fTime, NiObjectNET* pkObject, NiQuatTransform& kTransform);
 
   public:
     // base NiBlendInterpolator at +0x0, size 48

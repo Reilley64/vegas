@@ -7,6 +7,8 @@
 #include "layout_support.h"
 class PackageTargetRecord;
 #pragma pack(push, 4)
+class TESObjectREFR;
+enum PACK_TARG_TYPE;
 class PackageTargetRecord
 {
   public:
@@ -51,6 +53,10 @@ class PackageTargetRecord
     // InitLoadGame
     // TESObjectREFR* __cdecl PackageTargetRecord::*()
     // void* __cdecl PackageTargetRecord::*(unsigned int)
+public:
+    void SetTargetKind(::PACK_TARG_TYPE);
+public:
+    void SetTargetObjectReference(::TESObjectREFR *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(PackageTargetRecord) == 16);

@@ -7,6 +7,7 @@
 #define NID3DPASS_H
 
 
+#include "fnv/decl/StateGroup.h"
 #include "layout_support.h"
 
 class NiD3DPixelShader;
@@ -32,7 +33,6 @@ class D3DRenderStateGroup
     static D3DRenderStateGroup* GetCurrentRenderStateGroup();
 
     // Records (state, value) and applies it when enabled.
-    void SetRenderState(unsigned int state, unsigned int value, bool enable);
 };
 
 // One draw call of the Nivid3D renderer: its texture stages plus the render
@@ -80,10 +80,10 @@ void NiD3DPass::SetAlphaBlendMode(unsigned int uiSrcBlend, unsigned int uiDestBl
 {
     if (!m_pRenderStateGroup)
         m_pRenderStateGroup = D3DRenderStateGroup::GetCurrentRenderStateGroup();
-    m_pRenderStateGroup->SetRenderState(0x13, uiSrcBlend, true);
+    reinterpret_cast<::StateGroup *>((m_pRenderStateGroup))->SetNodeValue(0x13, uiSrcBlend, true);
     if (!m_pRenderStateGroup)
         m_pRenderStateGroup = D3DRenderStateGroup::GetCurrentRenderStateGroup();
-    m_pRenderStateGroup->SetRenderState(0x14, uiDestBlend, true);
+    reinterpret_cast<::StateGroup *>((m_pRenderStateGroup))->SetNodeValue(0x14, uiDestBlend, true);
 }
 FNV_STATIC_ASSERT(sizeof(NiD3DPass) == 104);
 FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_ppVirtualMethodTable) == 0);

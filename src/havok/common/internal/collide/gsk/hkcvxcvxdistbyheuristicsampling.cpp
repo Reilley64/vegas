@@ -11,6 +11,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
         float x, y, z, w;
     };
 };
+#include "fnv/symbols_simd.h"
 extern "C"
 {
     __m128 _mm_xor_ps(__m128, __m128);
@@ -33,7 +34,6 @@ extern "C"
 }
 
 extern "C" __m128 _mm_setr_ps(float, float, float, float);
-extern const __m128 DAT_010c44d0;
 struct Matrix;
 struct Scalar
 {

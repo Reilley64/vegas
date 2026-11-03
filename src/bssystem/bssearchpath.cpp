@@ -2,6 +2,10 @@
 // src/bssystem/bssearchpath.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bssystem/bssearchpath.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00b01c20.h"
+#include "fnv/decl/fnv_00aa24f0__FUN_00aa24f0_cls.h"
+#include "fnv/symbols_011f6000.h"
 struct BSSearchPath
 {
     bool FUN_00b013e0(char* apFile);
@@ -16,14 +20,11 @@ bool BSSearchPath::FUN_00b013e0(char* apFile)
 namespace fnv_00b01480 {
 struct MemoryManager
 {
-    void _DeallocateAlias(void* p);
 };
 
-extern MemoryManager g_memoryManager;
 
 struct BSSearchPath
 {
-    void FUN_00aa24f0();
     void* FUN_00b01480(unsigned int flags);
 };
 
@@ -31,9 +32,9 @@ struct BSSearchPath
 // @fnv 0x00b01480
 void* BSSearchPath::FUN_00b01480(unsigned int flags)
 {
-    this->FUN_00aa24f0();
+    reinterpret_cast<::fnv_00aa24f0::FUN_00aa24f0_cls *>((this))->FUN_00aa24f0();
     if (flags & 1)
-        g_memoryManager._DeallocateAlias(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00b01480::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(this);
     return this;
 }
 }  // namespace fnv_00b01480
@@ -166,9 +167,7 @@ void __thiscall FUN_00b01d00_shell::FUN_00b01d00()
 
 struct S_00b01d20_MemoryManager
 {
-    void Deallocate(void* p);
 };
-extern S_00b01d20_MemoryManager g_00b01d20_MemoryManager;
 struct S_00b01d20_FileCache
 {
     virtual ~S_00b01d20_FileCache();
@@ -178,9 +177,9 @@ struct S_00b01d20_FileCache
 // @fnv 0x00b01d20
 S_00b01d20_FileCache* S_00b01d20_FileCache::DestroyFileCache(unsigned int uiFlags)
 {
-    this->S_00b01d20_FileCache::~S_00b01d20_FileCache();
+    reinterpret_cast<::FUN_00b01c20 *>((this))->FUN_00b01c20::~FUN_00b01c20();
     if (uiFlags & 1)
-        g_00b01d20_MemoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::S_00b01d20_MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(this);
     return this;
 }
 

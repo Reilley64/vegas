@@ -1,5 +1,17 @@
 // fallout/magic/limbconditioneffect.cpp: LimbConditionEffect, MyEffect, LimbConditionEffectShell, ValueModifierEffect (11 functions)
 
+#include "fnv/decl/ActiveEffectSaveShell.h"
+#include "fnv/decl/FUN_00802d90_shell.h"
+#include "fnv/decl/FUN_00806420_shell.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_008579e0_shell.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/ValueModifierEffect_LoadGame_Helper.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011de000.h"
 bool g_bLimbConditionEffectInitialized;
 
 // @fnv 0x005b9210
@@ -11,7 +23,6 @@ bool GetLimbConditionEffectInitialized()
 struct Actor;
 struct LimbConditionEffect
 {
-    unsigned short __thiscall FUN_00802d90(Actor* apActor);
     unsigned short __thiscall FUN_0080f2b0(Actor* apActor);
 };
 
@@ -19,14 +30,24 @@ struct LimbConditionEffect
 unsigned short __thiscall LimbConditionEffect::FUN_0080f2b0(Actor* apActor)
 {
     unsigned short isize = 0;
-    isize += ((LimbConditionEffect*)this)->FUN_00802d90(apActor);
+    isize += reinterpret_cast<::FUN_00802d90_shell *>((((LimbConditionEffect*)this)))->FUN_00802d90(apActor);
     isize += 4;
     return isize;
 }
 
+class ActiveEffect;
+class Actor;
+namespace ActorValue { enum Index; }
+struct Actor;
 struct ValueModifierEffect
 {
     ValueModifierEffect(void*, void*, void*);
+public:
+    void FUN_00802db0(::Actor *);
+public:
+    void CopyData(::ActiveEffect *);
+public:
+    void ApplyActorValueModifier(::Actor *, float, ::ActorValue::Index);
 };
 extern int DAT_0107a3fc;
 struct FUN_0080f060 : ValueModifierEffect
@@ -43,12 +64,9 @@ FUN_0080f060::FUN_0080f060(void* a, void* b, void* c) : ValueModifierEffect(a, b
 
 struct TESSaveLoadGame
 {
-    void ReadTypedData(void*, unsigned int);
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 struct Base00802dd0
 {
-    void FUN_00802dd0(void*);
 };
 struct FUN_0080f2f0_Owner
 {
@@ -59,17 +77,15 @@ struct FUN_0080f2f0_Owner
 // @fnv 0x0080f2f0
 void FUN_0080f2f0_Owner::FUN_0080f2f0(void* a1)
 {
-    ((Base00802dd0*)this)->FUN_00802dd0(a1);
-    g_TESSaveLoadGame->ReadTypedData(&m_4C, 4);
+    reinterpret_cast<::ValueModifierEffect_LoadGame_Helper *>((((Base00802dd0*)this)))->FUN_00802dd0((::Actor *)(a1));
+    reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0(&m_4C, 4);
 }
 
 struct BGSSaveFormBuffer
 {
-    void SaveData(void*, int, int);
 };
 struct Unk0080F320
 {
-    void FUN_00806230(BGSSaveFormBuffer*);
     void SaveToBuffer(BGSSaveFormBuffer*);
     char _pad[0x4C];
     int _m4C;
@@ -77,14 +93,13 @@ struct Unk0080F320
 // @fnv 0x0080f320
 void Unk0080F320::SaveToBuffer(BGSSaveFormBuffer* apBuffer)
 {
-    FUN_00806230(apBuffer);
-    apBuffer->SaveData(&_m4C, 4, 0);
+    reinterpret_cast<::ActiveEffectSaveShell *>(this)->FUN_00806230((::SaveFormBuf *)(apBuffer));
+    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&_m4C, 4, 0);
 }
 
 struct BGSLoadFormBuffer
 {
     virtual unsigned char GetVersion();
-    void __thiscall ReadTypedData(void*, unsigned int);
 };
 struct ActiveEffect
 {
@@ -98,16 +113,15 @@ struct MyEffect : ActiveEffect
 // @fnv 0x0080f350
 void __thiscall MyEffect::FUN_0080f350(BGSLoadFormBuffer* apBuffer)
 {
-    ActiveEffect::LoadGame(apBuffer);
+    reinterpret_cast<::FUN_00806420_shell *>(this)->FUN_00806420(apBuffer);
     if (apBuffer->GetVersion() >= 8)
     {
-        apBuffer->ReadTypedData((char*)this + 0x4c, 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x4c), 4);
     }
 }
 
 struct ValueModifierEffectShell : public ValueModifierEffect
 {
-    void __thiscall CopyData(ActiveEffect* other);
 };
 
 struct LimbConditionEffectShell : public LimbConditionEffect
@@ -121,7 +135,7 @@ struct LimbConditionEffectShell : public LimbConditionEffect
 // @fnv 0x0080f150
 void __thiscall LimbConditionEffectShell::FUN_0080f150(ActiveEffect* other)
 {
-    reinterpret_cast<ValueModifierEffectShell*>(this)->CopyData(other);
+    reinterpret_cast<::ValueModifierEffect *>((reinterpret_cast<ValueModifierEffectShell*>(this)))->CopyData(other);
     LimbConditionEffect* target = dynamic_cast<LimbConditionEffect*>(other);
     if (target)
         reinterpret_cast<LimbConditionEffectShell*>(target)->m_4C = m_4C;
@@ -132,19 +146,16 @@ struct ValueModifierEffect
 {
     char _pad[0x4C];
     int m_4C;
-    void FUN_00802db0(Actor*);
     void FUN_0082ba30(Actor*);
 };
 struct TESSaveLoadGame
 {
-    void FUN_008579b0(int*, int);
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 // @fnv 0x0082ba30
 void ValueModifierEffect::FUN_0082ba30(Actor* apActor)
 {
-    FUN_00802db0(apActor);
-    g_TESSaveLoadGame->FUN_008579b0(&m_4C, 4);
+    reinterpret_cast<::ValueModifierEffect *>(this)->FUN_00802db0(apActor);
+    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0082ba30::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&m_4C, 4);
 }
 }  // namespace fnv_0082ba30
 
@@ -156,8 +167,6 @@ template <class T> struct SettingT
 {
     float* Float();
 };
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting1213;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting1214;
 struct ActorValue
 {
     enum Index
@@ -168,7 +177,6 @@ struct ActorValue
 };
 struct ValueModifierEffectHelper
 {
-    void __thiscall ApplyActorValueModifier(Actor*, float, ActorValue::Index);
 };
 struct LimbConditionEffect_0080f220
 {
@@ -182,15 +190,14 @@ void __thiscall LimbConditionEffect_0080f220::FUN_0080f220(Actor* apActor, float
 {
     if (m_4C != ActorValue::None)
     {
-        float fScaledMagnitude = afModifier * *originalRuntimeFloatSetting1213.Float();
-        ((ValueModifierEffectHelper*)this)->ApplyActorValueModifier(apActor, afModifier, (ActorValue::Index)m_4C);
+        float fScaledMagnitude = afModifier * *((float *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting1213))));
+        reinterpret_cast<::ValueModifierEffect *>((((ValueModifierEffectHelper*)this)))->ApplyActorValueModifier(apActor, afModifier, (ActorValue::Index)m_4C);
     }
     else
     {
-        float fScaledMagnitude = afModifier * *originalRuntimeFloatSetting1214.Float();
+        float fScaledMagnitude = afModifier * *((float *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting1214))));
         for (int i = ActorValue::All; i < 32; ++i)
-            ((ValueModifierEffectHelper*)this)
-                ->ApplyActorValueModifier(apActor, fScaledMagnitude, (ActorValue::Index)i);
+            reinterpret_cast<::ValueModifierEffect *>((((ValueModifierEffectHelper*)this)))->ApplyActorValueModifier(apActor, fScaledMagnitude, (ActorValue::Index)i);
     }
 }
 

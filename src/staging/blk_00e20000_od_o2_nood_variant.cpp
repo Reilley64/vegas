@@ -7,6 +7,24 @@
 
 // src/staging/blk_00e20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/D04B90World.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00e39e50_cls.h"
+#include "fnv/decl/fnv_00e2cfe0__TrianglePlane.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d04000.h"
+#include "fnv/symbols_00d1d000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_010c3000.h"
+#include "fnv/symbols_010cc000.h"
+#include "fnv/symbols_010db000.h"
+#include "fnv/symbols_010ed000.h"
+#include "fnv/symbols_011b3000.h"
+#include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
 
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; } __m128;
@@ -41,9 +59,6 @@ struct Face {
     int unk4c;
     __declspec(noinline) Vertex* ComputePlane();
 };
-extern float DAT_01011d78;
-extern float DAT_01017718;
-extern float DAT_01016248;
 static __forceinline __m128 dot3(__m128 a, __m128 b) {
     __m128 v = _mm_mul_ps(a,b);
     return _mm_add_ss(_mm_shuffle_ps(v,v,0xaa), _mm_add_ss(_mm_shuffle_ps(v,v,0x55),v));
@@ -55,8 +70,8 @@ Vertex* Face::ComputePlane() {
     __m128 n = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(a,a,0xc9),_mm_shuffle_ps(b,b,0xd2)),_mm_mul_ps(_mm_shuffle_ps(a,a,0xd2),_mm_shuffle_ps(b,b,0xc9)));
     __m128 len = dot3(n,n);
     __m128 inv = _mm_rsqrt_ss(len);
-    __m128 scale = _mm_mul_ss(_mm_mul_ss(_mm_set_ss(DAT_01016248),inv), _mm_sub_ss(_mm_set_ss(DAT_01017718), _mm_mul_ss(_mm_mul_ss(len,inv),inv)));
-    scale = _mm_andnot_ps(_mm_cmpeq_ss(len,_mm_set_ss(DAT_01011d78)), scale);
+    __m128 scale = _mm_mul_ss(_mm_mul_ss(_mm_set_ss(::fnv_00c88020::DAT_01016248),inv), _mm_sub_ss(_mm_set_ss(::DAT_01017718), _mm_mul_ss(_mm_mul_ss(len,inv),inv)));
+    scale = _mm_andnot_ps(_mm_cmpeq_ss(len,_mm_set_ss(::DAT_01011d78)), scale);
     normal = n;
     _ReadWriteBarrier();
     normal = _mm_mul_ps(n,_mm_shuffle_ps(scale,scale,0));
@@ -66,7 +81,6 @@ Vertex* Face::ComputePlane() {
     return first;
 }
 struct InitEntry { int vertexOffset; int faceOffset; int edgeOffset; };
-extern InitEntry DAT_010ed0f0[];
 struct Hull {
     int unk00; int unk04; int unk08; int unk0c;
     int faceCount; int unk14; int unk18; int unk1c;
@@ -94,7 +108,7 @@ void Hull::FUN_00e2d440() {
     }
     Face* begin = faces;
     Face* last = &faces[3];
-    last->ComputePlane();
+    reinterpret_cast<::fnv_00e2cfe0::TrianglePlane *>((last))->ComputePlane();
     float d;
     _mm_store_ss(&d,dot3(_mm_sub_ps(vertices[0].position,vertices[1].position),last->normal));
     if (d > 0.0f) {
@@ -107,7 +121,7 @@ void Hull::FUN_00e2d440() {
     }
     Face* face = begin;
     int i = 3;
-    do { face->ComputePlane(); ++face; } while (--i >= 0);
+    do { reinterpret_cast<::fnv_00e2cfe0::TrianglePlane *>((face))->ComputePlane(); ++face; } while (--i >= 0);
 }
 
 struct E29Src { int idx[4]; int n; };
@@ -207,12 +221,10 @@ struct Router_e3a1 {
     void* m_pStreamAllocator;
 };
 Router_e3a1* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void* mem, void* array, int sizeOfElement);
 
 struct __declspec(align(16)) Key_e3a1 {
     float m_ax, m_ay, m_az, m_aw;
     float m_bx, m_by, m_bz, m_bw;
-    Key_e3a1* FUN_00e39e50();
 };
 
 template <class T> struct hkArray_e3a1 {
@@ -223,7 +235,7 @@ template <class T> struct hkArray_e3a1 {
     {
         Router_e3a1* router = FUN_00c85750();
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
-            ResizeAudioStream(router->m_pStreamAllocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router->m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         new (&m_data[m_iElementCount]) T(t);
         m_iElementCount++;
     }
@@ -244,7 +256,7 @@ void Track_e3a1::FUN_00e3a1e0(int numKeys)
     m_numKeys = 0;
     for (int i = 0; i < m_pRayCursor; i++) {
         Key_e3a1 key;
-        key.FUN_00e39e50();
+        reinterpret_cast<::FUN_00e39e50_cls *>(&(key))->FUN_00e39e50();
         m_keys.AddBack(key);
     }
 }
@@ -254,11 +266,7 @@ extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
 extern "C" void _mm_store_ps(float*, __m128);
 extern "C" __m128 _mm_setr_ps(float, float, float, float);
 
-extern int DAT_010dbacc, DAT_010dbad8, DAT_010dbae4, DAT_010dbaf8;
-extern int DAT_010ccfac, DAT_010ccfa0, DAT_010ccf8c, DAT_010c3bb8;
-extern void* DAT_011b3830[];
 void __cdecl FUN_00d1bb50(void*, void*, void*, void*, void*, void*, void*, void*, void*, int) throw();
-void __cdecl FUN_00d1d490(void*, void*, int, void*, void*, void*) throw();
 typedef __m128 FourFloatVector;
 __forceinline FourFloatVector packFractions(float x,float y,float z,float w) { FourFloatVector v; v.m128_f32[0]=x; v.m128_f32[1]=y; v.m128_f32[2]=z; v.m128_f32[3]=w; return v; }
 struct RaySource {
@@ -348,8 +356,8 @@ void __cdecl FUN_00e2b510(Owner* owner, RayBatch* input, int mode, FourFloatVect
         values[i] = fractions.m128_f32[i];
         pointers[i] = &collectors[i].ray;
     }
-    bundle.dispatch = DAT_011b3830[input->type];
-    FUN_00d1d490(owner, owner->context, 0, &bundle, pointers, values);
+    bundle.dispatch = (*reinterpret_cast<void * (*)[]>(&::DAT_011b3830))[input->type];
+    ::FUN_00d1d490();
     for (int i = 0; i < 4; i++) input->hits[i] = rays[i].zero;
     fractions = _mm_setr_ps(values[0], values[1], values[2], values[3]);
     volatile Collector* p = collectors + 4;
@@ -363,7 +371,6 @@ void __cdecl FUN_00e2b510(Owner* owner, RayBatch* input, int mode, FourFloatVect
 
 extern "C" void _ReadWriteBarrier(void);
 
-extern DWORD DAT_0126835c;
 
 unsigned __int64 __cdecl __rdtsc(void);
 
@@ -418,7 +425,6 @@ template <class T> struct ScrapArr
 class JobTarget
 {
 public:
-    void FUN_00d04380();
 };
 
 struct __declspec(align(16)) AutoJob
@@ -493,7 +499,6 @@ struct JobSource
 class JobQueue
 {
 public:
-    void AddObjectCopy(AutoJob* pJob, int iFlag);
 };
 
 class JobWaiter
@@ -628,7 +633,7 @@ void __cdecl FUN_00e2a390(int a, int b, int n, float f1, float f2, JobSource* pS
             job.m_i64 = pSrc->m_i38;
             job.m_i68 = pSrc->m_i3C;
             job.m_i6C = pSrc->m_i40;
-            m_pPrimaryTaskProcessor->AddObjectCopy(&job, 1);
+            reinterpret_cast<::D04B90World *>((m_pPrimaryTaskProcessor))->AddObjectCopy((const ::D04B90Object *)(::AutoJob *)(&job), (void *)(1));
             off1 += n << 6;
             off2 += n << 8;
         }
@@ -636,7 +641,7 @@ void __cdecl FUN_00e2a390(int a, int b, int n, float f1, float f2, JobSource* pS
         ProfMark("StWaitThreads");
         pWaiter->Wait();
         ProfMark("lt");
-        pSrc->m_p10->FUN_00d04380();
+        ::FUN_00d04380((void *)(pSrc->m_p10), {});
         return;
     }
 
@@ -703,7 +708,7 @@ void __cdecl FUN_00e2a390(int a, int b, int n, float f1, float f2, JobSource* pS
             job.m_i64 = pSrc->m_i38;
             job.m_i68 = pSrc->m_i3C;
             job.m_i6C = pSrc->m_i40;
-            m_pPrimaryTaskProcessor->AddObjectCopy(&job, 1);
+            reinterpret_cast<::D04B90World *>((m_pPrimaryTaskProcessor))->AddObjectCopy((const ::D04B90Object *)(::AutoJob *)(&job), (void *)(1));
             off1 += n << 6;
             off2 += n << 8;
         }
@@ -713,7 +718,7 @@ void __cdecl FUN_00e2a390(int a, int b, int n, float f1, float f2, JobSource* pS
     ProfMark("TtAutoBundleJobs");
     pWaiter->Start(m_pPrimaryTaskProcessor, 0xb);
     pWaiter->Wait();
-    pSrc->m_p10->FUN_00d04380();
+    ::FUN_00d04380((void *)(pSrc->m_p10), {});
     ProfMark("Et");
 
     ArrFree(pData5, uiCap5);

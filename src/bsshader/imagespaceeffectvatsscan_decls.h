@@ -3,8 +3,11 @@
 #define FNV_IMAGESPACEEFFECTVATSSCAN_DECLS_H
 
 
+#include "fnv/decl/BA3760Object.h"
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01201000.h"
 #include "MemoryManager.h"
-extern MemoryManager g_memoryManager;
 class ImageSpaceTexture;
 class ImageSpaceEffectParam;
 template <> class NiTArray<ImageSpaceTexture*, NiTMallocInterface<ImageSpaceTexture*> >
@@ -13,8 +16,6 @@ template <> class NiTArray<ImageSpaceTexture*, NiTMallocInterface<ImageSpaceText
     virtual ~NiTArray();
     ImageSpaceTexture** m_pBase;
     unsigned short m_usMaxSize, m_usSize, m_usESize, m_usGrowBy;
-    void SetSize(unsigned int size);
-    void SetAt(unsigned int index, ImageSpaceTexture* const& value);
 };
 template <> class NiTArray<ImageSpaceEffectParam*, NiTMallocInterface<ImageSpaceEffectParam*> >
 {
@@ -22,7 +23,6 @@ template <> class NiTArray<ImageSpaceEffectParam*, NiTMallocInterface<ImageSpace
     virtual ~NiTArray();
     ImageSpaceEffectParam** m_pBase;
     unsigned short m_usMaxSize, m_usSize, m_usESize, m_usGrowBy;
-    void SetAt(unsigned int index, ImageSpaceEffectParam* const& value);
 };
 
 #include "imagespaceeffectvatsscan_types_ImageSpaceTexture.h"
@@ -33,18 +33,11 @@ template <> class NiTArray<ImageSpaceEffectParam*, NiTMallocInterface<ImageSpace
 extern float DAT_011ae614;
 extern float DAT_011ae618;
 extern float DAT_01201f2c;
-extern float DAT_01201f30;
-extern float DAT_01201f34;
-extern float DAT_01201f38;
-extern float DAT_01201f3c;
-extern NiPointer<NiTexture> DAT_01201f40;
-extern NiPointer<NiTexture> DAT_01201f48;
 extern void* DAT_010ba350;
 
 class NonActorMagicCaster
 {
   public:
-    void SetSelectedMagicItem(MagicItem* spell);
 };
 
 #endif

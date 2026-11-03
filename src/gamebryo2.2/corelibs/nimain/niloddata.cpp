@@ -1,4 +1,6 @@
 // gamebryo2.2/corelibs/nimain/niloddata.cpp: NiLODData (5 functions)
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/symbols_011f6000.h"
 #include "niloddata_packet.h"
 // Writes count bytes from buffer to the stream, advances position by the bytes written, and returns that count.
 // @fnv 0x00aa1570
@@ -9,12 +11,11 @@ unsigned int NiLODData::Write(const void* buffer, unsigned int count)
     return written;
 }
 
-extern const char* const g_011f5ee8_arg1;
 
 // @fnv 0x00aa09e0
 const char* __cdecl FUN_00aa09e0()
 {
-    return (const char*)&g_011f5ee8_arg1;
+    return (const char*)&(*reinterpret_cast<const char *const *>(&::g_011f6050));
 }
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
@@ -60,7 +61,7 @@ struct NiLODData_shell : public NiObject
 void* NiLODData_shell::FUN_00aa09f0(int flags)
 {
     *reinterpret_cast<void**>(this) = &DAT_010a2254;
-    NiRefObject::~NiRefObject();
+    reinterpret_cast<class ::FUN_00a5d3d0 *>(this)->FUN_00a5d3d0::~FUN_00a5d3d0();
     if (flags & 1)
         operator delete(this, 8);
     return this;

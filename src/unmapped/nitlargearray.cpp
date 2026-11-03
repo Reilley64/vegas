@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_0109b000.h"
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* lpAddend);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* lpAddend);
 
@@ -8,20 +9,19 @@ typedef char* GlobalStringHandle;
 
 struct NiGlobalStringTable
 {
-    static GlobalStringHandle ms_pcEmptyString;
     static unsigned int* GetRefCount(GlobalStringHandle handle)
     {
         return (unsigned int*)(handle - 8);
     }
     static void IncRefCount(GlobalStringHandle& handle)
     {
-        if (handle == ms_pcEmptyString)
+        if (handle == ::DAT_0109b220)
             return;
         InterlockedIncrement((volatile long*)GetRefCount(handle));
     }
     static void DecRefCount(GlobalStringHandle& handle)
     {
-        if (handle == ms_pcEmptyString)
+        if (handle == ::DAT_0109b220)
             return;
         InterlockedDecrement((volatile long*)GetRefCount(handle));
     }
@@ -35,7 +35,7 @@ class NiFixedString
     NiFixedString(const char* pcString = 0)
     {
         if (pcString == 0)
-            m_kHandle = NiGlobalStringTable::ms_pcEmptyString;
+            m_kHandle = ::DAT_0109b220;
         else
             m_kHandle = AddString(pcString);
     }

@@ -1,6 +1,18 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00470440.h"
+#include "fnv/decl/FUN_00b00260.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00464000.h"
+#include "fnv/symbols_004dc000.h"
+#include "fnv/symbols_0085f000.h"
+#include "fnv/symbols_011c3000.h"
 struct BSFile
 {
     virtual ~BSFile();
@@ -41,13 +53,8 @@ struct StartMenu
 {
     const char* GetMenuTitle();
 };
-extern StartMenu g_011c3f74;
-const char* __cdecl PrepareScriptMessage(const char*, bool);
-char* __cdecl FUN_004dc110();
-int __cdecl _sprintf_s(char*, unsigned int, const char*, ...);
 struct AEList
 {
-    void Insert(DebrisData*, int(__cdecl*)(DebrisData*, DebrisData*));
 };
 struct SL
 {
@@ -148,7 +155,6 @@ struct FUN_0085fb40
     unsigned int unk160;
     FUN_0085fb40(const char* path, int mode, int bufSize);
 };
-int __cdecl CompareFileWriteTimes(DebrisData*, DebrisData*);
 struct SaveLoadList
 {
     unsigned int unk00;
@@ -180,48 +186,8 @@ struct SaveLoadList
     unsigned int unk68;
     unsigned int unk6C;
     SL* list;
-    void DeleteAllItems();
     void LoadSaveFiles();
 };
-// @fnv 0x0085f900
-void SaveLoadList::LoadSaveFiles()
-{
-    char path[260];
-    {
-        char fullPath[260];
-        {
-            FUN_0085fb40* file;
-            {
-                FindData_t findData;
-                {
-                    void* handle;
-                    if (list)
-                        DeleteAllItems();
-                    list = new SL;
-                    lstrcpy(path, FUN_004dc110());
-                    lstrcatA(path, PrepareScriptMessage(g_011c3f74.GetMenuTitle(), false));
-                    lstrcatA(path, "*.ess");
-                    handle = FindFirstFileA(path, (_WIN32_FIND_DATAA*)&findData);
-                    if (handle != (void*)-1)
-                    {
-                        do
-                        {
-                            if (findData.nFileSizeHigh || findData.nFileSizeLow)
-                            {
-                                _sprintf_s(fullPath, 260, "%s%s%s", FUN_004dc110(),
-                                           PrepareScriptMessage(g_011c3f74.GetMenuTitle(), false), findData.cFileName);
-                                file = new FUN_0085fb40(fullPath, 0, 0x20000);
-                                ((AEList*)list)->Insert((DebrisData*)file, CompareFileWriteTimes);
-                            }
-                        } while (FindNextFileA(handle, (_WIN32_FIND_DATAA*)&findData));
-                        FindClose(handle);
-                    }
-                }
-            }
-        }
-    }
-}
-
 extern "C" char DAT_01081a5c;
 
 struct SpawnedObject
@@ -313,14 +279,13 @@ struct SpawnedObject
     unsigned int unk150;
     unsigned int unk154;
     unsigned char m_158;
-    void Init(int a, int b, int c, int d);
     SpawnedObject* FUN_0085fb40(int a1, int a2, int a3);
 };
 
 // @fnv 0x0085fb40
 SpawnedObject* SpawnedObject::FUN_0085fb40(int a1, int a2, int a3)
 {
-    this->Init(a1, a2, a3, 0);
+    new ((void *)(this)) ::FUN_00b00260((const char *)(a1), a2, a3, 0);
     *(void* volatile*)this = &DAT_01081a5c;
     this->m_158 = 0;
     return this;
@@ -333,13 +298,10 @@ struct Item
 
 struct ListNode
 {
-    Item** GetItem();
-    ListNode* GetNext();
 };
 
 struct List
 {
-    void RemoveAll();
     ~List();
 };
 
@@ -350,6 +312,44 @@ struct FUN_0085fbd0_class
 
     void __thiscall DeleteAllItems();
 };
+// @fnv 0x0085f900
+void SaveLoadList::LoadSaveFiles()
+{
+    char path[260];
+    {
+        char fullPath[260];
+        {
+            FUN_0085fb40* file;
+            {
+                FindData_t findData;
+                {
+                    void* handle;
+                    if (list)
+                        reinterpret_cast<::FUN_0085fbd0_class *>(this)->DeleteAllItems();
+                    list = new SL;
+                    lstrcpy(path, ((char *)(::FUN_004dc110())));
+                    lstrcatA(path, ((const char *)(::FUN_00464f30((int)((*reinterpret_cast<::StartMenu *>(&::g_011c3f74)).GetMenuTitle())))));
+                    lstrcatA(path, "*.ess");
+                    handle = FindFirstFileA(path, (_WIN32_FIND_DATAA*)&findData);
+                    if (handle != (void*)-1)
+                    {
+                        do
+                        {
+                            if (findData.nFileSizeHigh || findData.nFileSizeLow)
+                            {
+                                ::FUN_00406d00(fullPath, 260, "%s%s%s", ((char *)(::FUN_004dc110())),
+                                           ((const char *)(::FUN_00464f30((int)((*reinterpret_cast<::StartMenu *>(&::g_011c3f74)).GetMenuTitle())))), findData.cFileName);
+                                file = new FUN_0085fb40(fullPath, 0, 0x20000);
+                                reinterpret_cast<::FUN_00470440 *>((((AEList*)list)))->FUN_007a7eb0((::BGSPerkEntry *)(::DebrisData *)((DebrisData*)file), (int (*)(BGSPerkEntry *, BGSPerkEntry *))(((int (&)(DebrisData *, DebrisData *))::CompareFileWriteTimes)));
+                            }
+                        } while (FindNextFileA(handle, (_WIN32_FIND_DATAA*)&findData));
+                        FindClose(handle);
+                    }
+                }
+            }
+        }
+    }
+}
 
 // Iterates the list, deletes each item, clears the list, deletes the list, and nulls the pointer.
 // @fnv 0x0085fbd0
@@ -360,14 +360,14 @@ void __thiscall FUN_0085fbd0_class::DeleteAllItems()
         ListNode* node = (ListNode*)m_kNode;
         while (node)
         {
-            Item* item = *node->GetItem();
+            Item* item = *((::Item **)(new ((void *)(node)) ::Vec3()));
             if (item)
             {
                 delete item;
             }
-            node = node->GetNext();
+            node = ((::ListNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         }
-        m_kNode->RemoveAll();
+        reinterpret_cast<::FileMatchList *>((m_kNode))->RemoveAll();
         delete m_kNode;
         m_kNode = 0;
     }
@@ -386,6 +386,6 @@ void* __thiscall SaveGameFileDeleteEntry85::FUN_0085fb80(unsigned int flags)
 {
     FUN_0085fbb0::Method_0085fbb0();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }

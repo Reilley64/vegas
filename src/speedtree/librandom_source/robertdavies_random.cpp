@@ -1,12 +1,19 @@
 // speedtree/librandom_source/robertdavies_random.cpp: Random, PosGen, Normal (30 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/BoolIteratorB42.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/S_00b41ae0_Bits.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_011f9000.h"
 #include "robertdavies_random_types_Normal.h"
 #include <stdexcept>
 
 extern "C" double __cdecl fabs(double);
 extern "C" double __cdecl exp(double);
 extern double RandomSeed;
-extern "C" int randomInitCount;
 extern "C" float randomXi;
 extern "C" float* randomSx;
 extern "C" float* randomSfx;
@@ -73,7 +80,6 @@ void Random::Set(double adSeed)
         randomSamples[i] = Raw();
 }
 
-extern const double runtimeInitializationDouble2;
 
 // @fnv 0x00b43710
 void PosGen::Build(bool symmetric)
@@ -98,7 +104,7 @@ void PosGen::Build(bool symmetric)
 complete:
     if (count < 50)
         throw std::runtime_error("Newran: area too small");
-    xi = symmetric ? count * runtimeInitializationDouble2 : count;
+    xi = symmetric ? count * ::DAT_01011590 : count;
 }
 
 struct FUN_00b43390_shell
@@ -138,23 +144,12 @@ float* __thiscall FUN_00b43bc0_shell::FUN_00b43bc0(float* afBuffer)
     return afBuffer;
 }
 
-extern "C" void __cdecl Deallocate(void*);
 
 struct GlobalObject_00b43ae0
 {
     virtual ~GlobalObject_00b43ae0();
     void* FUN_00b43c20(unsigned int flags);
 };
-
-// Runs the destructor, frees this via Deallocate when flags has bit 0 set, and returns this.
-// @fnv 0x00b43c20
-void* GlobalObject_00b43ae0::FUN_00b43c20(unsigned int flags)
-{
-    GlobalObject_00b43ae0::~GlobalObject_00b43ae0();
-    if (flags & 1)
-        Deallocate(this);
-    return this;
-}
 
 struct FUN_00b43bf0_shell
 {
@@ -175,14 +170,13 @@ struct Dummy44a3a0
     void __thiscall FUN_0044a3d0();
     void* __thiscall DestroyIfFlagged(unsigned int);
 };
-void __cdecl _Deallocate(void*);
 // Calls FUN_0044a3d0, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x0044a3a0
 void* __thiscall Dummy44a3a0::DestroyIfFlagged(unsigned int flags)
 {
     this->FUN_0044a3d0();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -243,29 +237,11 @@ struct FUN_00b43c50_shell
     void __thiscall FUN_00b43c50();
 };
 
-// @fnv 0x00b43c50
-void __thiscall FUN_00b43c50_shell::FUN_00b43c50()
-{
-    FUN_00b436b0();
-}
-
-void _Deallocate(void*);
 struct FUN_00b43c70_shell
 {
     void __thiscall FUN_00b436b0();
     void* __thiscall FUN_00b43c70(unsigned int flags);
 };
-// Calls FUN_00b436b0, then deallocates this when flags has bit 0 set, and returns this.
-// @fnv 0x00b43c70
-void* __thiscall FUN_00b43c70_shell::FUN_00b43c70(unsigned int flags)
-{
-    FUN_00b436b0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
-extern "C" void __cdecl Deallocate(void*);
 inline Random::~Random()
 {}
 struct FUN_00b436b0 : Random
@@ -276,21 +252,34 @@ struct FUN_00b436b0 : Random
     bool NotReady;
     virtual ~FUN_00b436b0();
 };
+// @fnv 0x00b43c50
+void __thiscall FUN_00b43c50_shell::FUN_00b43c50()
+{
+    reinterpret_cast<::FUN_00b436b0 *>(this)->FUN_00b436b0::~FUN_00b436b0();
+}
+// Calls FUN_00b436b0, then deallocates this when flags has bit 0 set, and returns this.
+// @fnv 0x00b43c70
+void* __thiscall FUN_00b43c70_shell::FUN_00b43c70(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00b436b0 *>(this)->FUN_00b436b0::~FUN_00b436b0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // @fnv 0x00b436b0
 FUN_00b436b0::~FUN_00b436b0()
 {
     if (!NotReady)
     {
         float* bufferA = sx;
-        Deallocate(bufferA);
+        ::FUN_00401030(bufferA);
         float* bufferB = m_pYValues;
-        Deallocate(bufferB);
+        ::FUN_00401030(bufferB);
     }
 }
 
 struct FUN_00b43910_cls : PosGen
 {
-    float GetRandomSample();
     float FUN_00b43910();
 };
 
@@ -309,18 +298,17 @@ float FUN_00b43910_cls::FUN_00b43910()
     }
     do
     {
-        r = GetRandomSample();
+        r = reinterpret_cast<::FUN_00b433a0_shell *>(this)->GetRandomSample();
         idx3 = (int)(r * xi);
         lo5 = sx[idx3];
-        y3 = (float)((double)(sx[idx3 + 1] - lo5) * GetRandomSample() + lo5);
-        zTmp = m_pYValues[idx3] * GetRandomSample();
+        y3 = (float)((double)(sx[idx3 + 1] - lo5) * reinterpret_cast<::FUN_00b433a0_shell *>(this)->GetRandomSample() + lo5);
+        zTmp = m_pYValues[idx3] * reinterpret_cast<::FUN_00b433a0_shell *>(this)->GetRandomSample();
     } while (zTmp >= m_pYValues[idx3 + 1] && zTmp >= Density(y3));
     return y3;
 }
 
 struct FUN_00b439e0_cls : PosGen
 {
-    float GetRandomSample();
     float FUN_00b439e0();
 };
 
@@ -340,7 +328,7 @@ float FUN_00b439e0_cls::FUN_00b439e0()
     do
     {
         aA = 1.0f;
-        fSample = GetRandomSample();
+        fSample = reinterpret_cast<::FUN_00b433a0_shell *>(this)->GetRandomSample();
         if (fSample > 0.5)
         {
             aA = -1.0f;
@@ -348,13 +336,12 @@ float FUN_00b439e0_cls::FUN_00b439e0()
         }
         idx3 = (int)(fSample * xi);
         float fLow = sx[idx3];
-        y3 = (float)((double)(sx[idx3 + 1] - fLow) * GetRandomSample() + fLow);
-        zTmp = m_pYValues[idx3] * GetRandomSample();
+        y3 = (float)((double)(sx[idx3 + 1] - fLow) * reinterpret_cast<::FUN_00b433a0_shell *>(this)->GetRandomSample() + fLow);
+        zTmp = m_pYValues[idx3] * reinterpret_cast<::FUN_00b433a0_shell *>(this)->GetRandomSample();
     } while (zTmp >= m_pYValues[idx3 + 1] && zTmp >= Density(y3));
     return aA * y3;
 }
 
-extern int g_liveObjectCount;
 
 struct ObjectBase_00b436b0
 {
@@ -370,12 +357,21 @@ struct FUN_00b43ca0_cls : ObjectBase_00b436b0
 
     virtual ~FUN_00b43ca0_cls() throw();
 };
+// Runs the destructor, frees this via Deallocate when flags has bit 0 set, and returns this.
+// @fnv 0x00b43c20
+void* GlobalObject_00b43ae0::FUN_00b43c20(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00b43ca0_cls *>(this)->FUN_00b43ca0_cls::~FUN_00b43ca0_cls();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Decrements g_liveObjectCount and sets m_flag10 when the count does not reach zero.
 // @fnv 0x00b43ca0
 FUN_00b43ca0_cls::~FUN_00b43ca0_cls() throw()
 {
-    if (--g_liveObjectCount != 0)
+    if (--::randomInitCount != 0)
     {
         m_flag10 = 1;
     }
@@ -568,7 +564,7 @@ struct B43VbConstIt : B43VbIterBase
     unsigned int _My_actual_offset() const
     {
         unsigned int _Off = this->_Myoff;
-        _Off += 32 * (this->_Myptr - _My_cont_begin());
+        _Off += 32 * (this->_Myptr - reinterpret_cast<::BoolIteratorB42 *>((void *)this)->_My_cont_begin());
         return (_Off);
     }
     void Increment();
@@ -1531,7 +1527,6 @@ struct S_00b42ed0_Iter
     int unk00;
     int unk04;
     int unk08;
-    void Increment();
     bool operator==(const S_00b42ed0_Iter& r) const
     {
         return unk04 == r.unk04 && unk08 == r.unk08;
@@ -1569,9 +1564,9 @@ inline void S_00b42ed0_Pad()
 // @fnv 0x00b42ed0
 void __cdecl FUN_00b42ed0(S_00b42ed0_Iter first, S_00b42ed0_Iter last, const bool& val)
 {
-    for (; first != last; first.Increment())
+    for (; first != last; reinterpret_cast<::B43VbConstIt *>(&(first))->Increment())
     {
-        *first = val;
+        reinterpret_cast<::S_00b41ae0_Bits *>((void *)&(const ::S_00b42ed0_Ref &)(*first))->SetBit(val);
         S_00b42ed0_Pad();
     }
 }

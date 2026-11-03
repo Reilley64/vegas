@@ -2,6 +2,8 @@
 // src/havok/physics/collide/agent/convexagent/gjk/hkppredgskfagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/gjk/hkppredgskfagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00cfbd60_cls.h"
+#include "fnv/symbols_00d41000.h"
 struct __declspec(align(16)) FUN_00d41f00_Local
 {
     unsigned int unk00;
@@ -22,12 +24,10 @@ struct __declspec(align(16)) FUN_00d41f00_Local
     unsigned char unk33;
 };
 
-void __cdecl FUN_00d41ec0(FUN_00d41f00_Local* p);
 
 class SpawnedObject
 {
   public:
-    void AddEntry(FUN_00d41f00_Local* p, int a, int b);
 };
 
 // @fnv 0x00d41f00
@@ -42,6 +42,6 @@ void __cdecl FUN_00d41f00(SpawnedObject* self, int aiArg1, int aiArg2)
     local.unk20 = 0;
     local.unk24 = 0;
     local.unk28 = 0;
-    FUN_00d41ec0(&local);
-    self->AddEntry(&local, aiArg1, aiArg2);
+    ::FUN_00d41ec0((int *)(::FUN_00d41f00_Local *)(&local));
+    reinterpret_cast<::FUN_00cfbd60_cls *>((self))->AddEntry((::SrcRec *)(::FUN_00d41f00_Local *)(&local), aiArg1, aiArg2);
 }

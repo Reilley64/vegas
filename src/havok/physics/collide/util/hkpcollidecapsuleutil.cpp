@@ -2,10 +2,19 @@
 // src/havok/physics/collide/util/hkpcollidecapsuleutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/util/hkpcollidecapsuleutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00cd5000.h"
+#include "fnv/symbols_00d22000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010c9000.h"
+#include "fnv/symbols_01267000.h"
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
 } __m128;
+#include "fnv/symbols_simd.h"
 
 extern "C"
 {
@@ -37,11 +46,6 @@ inline float fabs(float _X)
     return ((float)fabs((double)(_X)));
 }
 
-extern float DAT_01011d78;
-extern const float DAT_01017718;
-extern float DAT_01016248;
-extern float DAT_0104da4c;
-extern const __m128 DAT_010c44d0;
 
 struct hkVector4
 {
@@ -111,10 +115,10 @@ struct hkVector4
         const __m128 s = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0x55), x2);
         const __m128 lenSq = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0xaa), s);
         const __m128 e = _mm_rsqrt_ss(lenSq);
-        const __m128 equalsZero = _mm_cmpeq_ss(lenSq, _mm_set_ss(DAT_01011d78));
+        const __m128 equalsZero = _mm_cmpeq_ss(lenSq, _mm_set_ss(::DAT_01011d78));
         const __m128 ree = _mm_mul_ss(_mm_mul_ss(lenSq, e), e);
         const __m128 t = _mm_sub_ss(_mm_set_ss(DAT_01017718), ree);
-        const __m128 he = _mm_mul_ss(_mm_set_ss(DAT_01016248), e);
+        const __m128 he = _mm_mul_ss(_mm_set_ss(::fnv_00c88020::DAT_01016248), e);
         const __m128 inv = _mm_andnot_ps(equalsZero, _mm_mul_ss(he, t));
         m_vComponents = _mm_mul_ps(_mm_shuffle_ps(inv, inv, 0), q);
     }
@@ -136,8 +140,6 @@ struct VectorPairResult
     float unk2c;
 };
 
-int FUN_00d22e40(const hkVector4& A, const hkVector4& dA, const hkVector4& B, const hkVector4& dB,
-                 VectorPairResult& result);
 
 static __forceinline void calcPerpendicular(const hkVector4& vectorIn, hkVector4& biVectorOut)
 {
@@ -178,7 +180,7 @@ int FUN_00cd6260(const hkVector4* capsA, float capsARadius, const hkVector4* cap
     dB.setSub4(capsB[1], capsB[0]);
 
     VectorPairResult result;
-    int res = FUN_00d22e40(capsA[0], dA, capsB[0], dB, result);
+    int res = ::FUN_00d22e40(capsA[0], dA, capsB[0], dB, result);
 
     float radiusSum = capsARadius + capsBRadius;
     float refDist = radiusSum + collisionTolerance;
@@ -298,7 +300,6 @@ void dummy_caller()
     FUN_00cd6120((const float*)g_p, (const hkVector4*)g_v, *(hkVector4*)g_n, *(hkMatrix4*)g_m);
 }
 
-extern const double DAT_010c9300;
 extern const double DAT_010cb420;
 extern "C" __m128 _mm_sqrt_ss(__m128);
 
@@ -612,7 +613,7 @@ closestReady:
     if (contactDistance < referenceDistance)
     {
 
-        if (distance < DAT_0104da4c)
+        if (distance < ::DAT_0104da4c)
         {
 
             distance = 0.0f;
@@ -804,7 +805,6 @@ extern "C"
     __m128 _mm_setr_ps(float, float, float, float);
     __m128 _mm_set_ps1(float);
 }
-extern const __m128 DAT_010ec7f0, DAT_01267e30;
 extern const signed char DAT_010cb440[3], DAT_010cb442[3];
 
 class ContactScalar
@@ -929,7 +929,7 @@ class ContactVector
     __forceinline void setInterpolate4(const ContactVector& a, const ContactVector& b, const ContactScalar& scale)
     {
         __m128 factor = scale.splat();
-        __m128 other = _mm_sub_ps(DAT_010ec7f0, factor);
+        __m128 other = _mm_sub_ps(::DAT_010ec7f0, factor);
         values = _mm_add_ps(_mm_mul_ps(other, a.values), _mm_mul_ps(factor, b.values));
     }
     __forceinline ContactCompare compareLessThan4(const ContactVector& b) const
@@ -950,7 +950,7 @@ class ContactVector
     }
     __forceinline static const ContactVector& getZero()
     {
-        return reinterpret_cast<const ContactVector&>(DAT_01267e30);
+        return reinterpret_cast<const ContactVector&>((*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30)));
     }
     __forceinline ContactScalar dot3(const ContactVector& b) const
     {
@@ -1115,9 +1115,6 @@ struct Feature
     unsigned char count;
     unsigned short first, second, third;
 };
-int FUN_00d22e40(const ContactVector&, const ContactVector&, const ContactVector&, const ContactVector&,
-                 ContactClosest&);
-unsigned int FUN_00cd58b0(const ContactVector*, float, const ContactVector*, float, ContactRecord*);
 __forceinline float localAbs(float f)
 {
     return fabs(f);
@@ -1306,7 +1303,7 @@ void __cdecl FUN_00cd6520(const ContactVector* positions, float radius, const Co
                 int left = DAT_010cb442[j], right = DAT_010cb440[j];
                 pair[0] = triangle[left];
                 pair[1] = triangle[right];
-                int kind = FUN_00cd58b0(positions, radius, pair, thickness, contacts);
+                int kind = ((unsigned int)(::FUN_00cd58b0((const ::ManifoldVector *)(positions), (::RadiusInput)(radius), (const ::ManifoldVector *)(pair), (::RadiusInput)(thickness), (::ManifoldContact *)(contacts))));
                 if (feature)
                     for (int k = 0; k < 3; ++k)
                     {
@@ -1378,7 +1375,7 @@ void __cdecl FUN_00cd6520(const ContactVector* positions, float radius, const Co
                 ContactVector edge;
                 edge.setSub4(triangle[left], trianglePoint);
                 ContactClosest closest;
-                int kind = FUN_00d22e40(positions[0], worldDirection, trianglePoint, edge, closest);
+                int kind = ::FUN_00d22e40((const ::hkVector4 &)(positions[0]), (const ::hkVector4 &)(worldDirection), (const ::hkVector4 &)(trianglePoint), (const ::hkVector4 &)(edge), (::VectorPairResult &)(closest));
                 if (feature)
                 {
                     feature[endpoint].first = (unsigned short)right;

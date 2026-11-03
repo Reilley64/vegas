@@ -1,5 +1,12 @@
 // fallout/misc/saveload/bgschangeflags.cpp: BGSChangeFlagsState, FormChangeMask, BGSChangeFlagsEx (6 functions)
 
+#include "fnv/decl/BSFlags.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/fnv_004280f0__FUN_004280f0_shell.h"
+#include "fnv/decl/fnv_0057b790__FUN_0057b790_StandIn.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_011c3000.h"
 #include "bgschangeflags_decls.h"
 // @fnv 0x008c71b0
 GlobalObject_008c71b0::GlobalObject_008c71b0(int initial)
@@ -18,8 +25,8 @@ void BGSChangeFlagsState::CombineFlags(bool enabled)
 // @fnv 0x00841120
 FormChangeMask FormChangeMask::HasFormChanged(FormChangeMask changes, FormChangeMask forced, int type, bool enabled)
 {
-    ((FormChangeRecord*)&changes)->FUN_00562210(forced.FUN_00559450());
-    ((FormChangeRecord*)&changes)->FUN_00562210(0xffff0000);
+    reinterpret_cast<::BSFlags *>((((FormChangeRecord*)&changes)))->Clear(((unsigned int)(::FUN_00559450((int *)&(forced)))));
+    reinterpret_cast<::BSFlags *>((((FormChangeRecord*)&changes)))->Clear(0xffff0000);
     if (enabled)
     {
         int formType = type;
@@ -27,7 +34,7 @@ FormChangeMask FormChangeMask::HasFormChanged(FormChangeMask changes, FormChange
         {
         case 59:
         case 60:
-            ((FormChangeRecord*)&changes)->FUN_00562210(0x400);
+            reinterpret_cast<::BSFlags *>((((FormChangeRecord*)&changes)))->Clear(0x400);
             break;
         }
     }
@@ -466,26 +473,21 @@ class TESForm
 {
   public:
     int GetFormType();
-    unsigned int GetFormID();
 };
 
 class TESObjectREFR : public TESForm
 {
   public:
-    bool FUN_0057b790();
 };
 
 struct TESDataHandler
 {
-    bool FUN_00469860(unsigned int);
 };
 
-extern TESDataHandler* g_dataHandler;
 
 struct BGSChangeFlagsEx : public FUN_00841100_shell
 {
     BGSChangeFlagsEx();
-    bool Test(unsigned int);
     bool TestFormChangeFlags(TESForm* apForm);
 };
 
@@ -509,17 +511,17 @@ bool BGSChangeFlagsEx::TestFormChangeFlags(TESForm* apForm)
     case 0x40:
     case 0x69:
         pRef = (TESObjectREFR*)apForm;
-        if (g_dataHandler->FUN_00469860(apForm->GetFormID()))
+        if (reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))->IsRenderTargetId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((apForm))->FUN_0084e3a0()))))
         {
             bKeep2 = true;
         }
-        if (pRef->FUN_0057b790())
+        if (reinterpret_cast<::fnv_0057b790::FUN_0057b790_StandIn *>((pRef))->FUN_0057b790())
         {
-            if (Test(0x10000000))
+            if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>(this)->FUN_004280f0(0x10000000))
             {
                 kForced.FUN_00841100(0x10000000);
             }
-            if (Test(0x8000000))
+            if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>(this)->FUN_004280f0(0x8000000))
             {
                 kForced.FUN_00841100(0x8000000);
             }
@@ -528,7 +530,7 @@ bool BGSChangeFlagsEx::TestFormChangeFlags(TESForm* apForm)
         {
         case 0x3B:
         case 0x3C:
-            if (Test(0x40000))
+            if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>(this)->FUN_004280f0(0x40000))
             {
                 kForced.FUN_00841100(0x40000);
             }
@@ -536,13 +538,13 @@ bool BGSChangeFlagsEx::TestFormChangeFlags(TESForm* apForm)
         }
         break;
     case 0x47:
-        if (Test(0x40000000))
+        if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>(this)->FUN_004280f0(0x40000000))
         {
             kForced.FUN_00841100(0x40000000);
         }
         break;
     }
 
-    flags = kForced.FUN_00559450();
+    flags = ((unsigned int)(::FUN_00559450((int *)&(kForced))));
     return flags != 0 || bKeep2;
 }

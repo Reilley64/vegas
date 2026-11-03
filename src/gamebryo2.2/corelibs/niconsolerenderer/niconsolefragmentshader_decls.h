@@ -1,10 +1,11 @@
 // gamebryo2.2/corelibs/niconsolerenderer/niconsolefragmentshader_decls.h: declares ShaderData, ShaderEntry, Device, ShaderCache
 
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/symbols_011c5000.h"
 class RecursiveSpinLock
 {
   public:
     unsigned int value;
-    void Lock(const char*);
 };
 template <class T> class PoolAllocatorBase
 {
@@ -18,7 +19,6 @@ template <class T> class PoolAllocatorBase
     static LinkedListEntry* ms_pFreeList;
     static RecursiveSpinLock ms_kPoolState;
 };
-extern unsigned int DAT_011c5f84;
 struct ShaderData
 {
     char pad[108];

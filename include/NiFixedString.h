@@ -8,6 +8,8 @@ class NiFixedString
   public:
     char* m_kHandle;  // +0x0
     operator const char*() const;
+public:
+    ::NiFixedString &operator=(const char *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiFixedString) == 0x4);

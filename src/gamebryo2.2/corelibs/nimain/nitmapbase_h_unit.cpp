@@ -1,5 +1,14 @@
 // gamebryo2.2/corelibs/nimain/nitmapbase_h_unit.cpp: SharedAccumulatorState (1 function)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/InteriorCellLookup.h"
+#include "fnv/decl/ResourceDescriptor.h"
+#include "fnv/decl/fnv_005892c0__FUN_005892c0_t.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00464000.h"
+#include "fnv/symbols_00845000.h"
 #include "nitmapbase.inl"
 
 // 1 Nov: the included file leaves optimization off (#pragma optimize("", off) never closed); functions added below build

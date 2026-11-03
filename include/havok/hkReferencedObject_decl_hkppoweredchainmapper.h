@@ -3,13 +3,14 @@
 #ifndef FNV_HAVOK_HKREFERENCEDOBJECT_H
 #define FNV_HAVOK_HKREFERENCEDOBJECT_H
 
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
 #include "hkBase.h"
 #pragma pack(push, 1)
 class hkReferencedObject : public hkBaseObject
 {
   public:
-    void RetainReference() const;
-    void removeReference() const;  // declared for the original code (decl_variants.py)
+      // declared for the original code (decl_variants.py)
 
   public:
     hkUint16 m_usMemSizeAndFlags;  // +0x4

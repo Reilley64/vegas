@@ -2,16 +2,23 @@
 // src/gamebryo2.2/corelibs/nimain/nisortadjustnode.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nisortadjustnode.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_011f5ed8;
 
 // @fnv 0x00a95310
+#include "fnv/decl/FUN_00a5dbe0_shell.h"
+#include "fnv/decl/FUN_00a5e930.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/NiNodeEq.h"
+#include "fnv/decl/NodeA5E8.h"
+#include "fnv/decl/fnv_00a5dce0__FUN_00a5dce0_shell.h"
+#include "fnv/decl/fnv_00a5dd40__FUN_00a5dd40_shell.h"
+#include "fnv/decl/sa5e9d0__Node.h"
+#include "fnv/symbols_011f5000.h"
 void* __cdecl FUN_00a95310()
 {
-    return &g_011f5ed8;
+    return &(*reinterpret_cast<void * *>(&::g_011f5ed8));
 }
 
 extern int DAT_010a0384;
-void __fastcall FUN_00a5e930(void*);
 void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 
 struct NiSortAdjustNode
@@ -24,15 +31,18 @@ struct NiSortAdjustNode
 void* __thiscall NiSortAdjustNode::Destructor(unsigned int flags)
 {
     m_vftable = &DAT_010a0384;
-    FUN_00a5e930(this);
+    reinterpret_cast<class ::FUN_00a5e930 *>((this))->FUN_00a5e930::~FUN_00a5e930();
     if (flags & 1)
         __Dummy_00b6fef0(this, 0xb0);
     return this;
 }
 
+class CloningProcess;
 struct NiNode
 {
     NiNode(unsigned short) throw();
+public:
+    void CopyMemberData(::NiNode *, ::CloningProcess &);
 };
 struct BSFadeNode
 {
@@ -70,7 +80,6 @@ class NiStream
 class NiNode
 {
   public:
-    void __thiscall ReadChildListFromStream(NiStream&);
 };
 struct TargetCls : public NiNode
 {
@@ -79,7 +88,7 @@ struct TargetCls : public NiNode
 // @fnv 0x00a95410
 void __thiscall TargetCls::FUN_00a95410(NiStream& stream)
 {
-    ReadChildListFromStream(stream);
+    reinterpret_cast<::sa5e9d0::Node *>(this)->ReadChildListFromStream((::sa5e9d0::Stream *)&(stream));
     if (stream.m_uiNifVersion < 0x14000004)
         stream.GetLoadedObject();
 }
@@ -105,7 +114,6 @@ struct NiStream
 };
 struct MyBase
 {
-    void FUN_00a5e880(NiStream&);
 };
 struct MyNode
 {
@@ -117,14 +125,13 @@ struct MyNode
 // @fnv 0x00a954b0
 void MyNode::WriteToStream(NiStream& stream)
 {
-    ((MyBase*)this)->FUN_00a5e880(stream);
+    reinterpret_cast<::NodeA5E8 *>((((MyBase*)this)))->FUN_00a5e880((::NiStreamA5E8 &)(stream));
     stream._250->Write(&_ac);
 }
 
 struct MyOther;
 struct CompareBase
 {
-    bool FUN_00a5e600(MyOther* other);
 };
 struct MyOther : CompareBase
 {
@@ -134,7 +141,7 @@ struct MyOther : CompareBase
 // @fnv 0x00a952e0
 unsigned char MyOther::FUN_00a952e0(MyOther* other)
 {
-    unsigned char result = FUN_00a5e600(other);
+    unsigned char result = reinterpret_cast<::NiNodeEq *>(this)->FUN_00a5e600((::NiAVObject *)(other));
     if (!result)
         return result;
     return (unsigned char)(*(int*)((char*)this + 0xac) == *(int*)((char*)other + 0xac));
@@ -194,7 +201,6 @@ struct S_00a953b0_Node
     }
     void operator delete(void*)
     {}
-    void CopyMemberData(S_00a953b0_Node* dest, void* process);
 };
 
 struct S_00a953b0_Sort : S_00a953b0_Node
@@ -212,7 +218,7 @@ struct S_00a953b0_Sort : S_00a953b0_Node
 S_00a953b0_Node* S_00a953b0_Sort::FUN_00a953b0(void* process)
 {
     S_00a953b0_Sort* p = new S_00a953b0_Sort;
-    CopyMemberData(p, process);
+    reinterpret_cast<::NiNode *>(this)->CopyMemberData((::NiNode *)(p), (*(::CloningProcess *)(process)));
     p->m_ac = m_ac;
     return p;
 }
@@ -382,7 +388,6 @@ struct S_00a95440_Stream
     int unk244;
     int unk248;
     S_00a95440_BinStream* m_pUnderlyingStream;
-    void FUN_00a645b0();
 };
 
 struct S_00a95440_Node
@@ -430,7 +435,6 @@ struct S_00a95440_Node
     int unka0;
     int unka4;
     int unka8;
-    void LoadBinary(S_00a95440_Stream& kStream);
 };
 
 struct S_00a95440_SortAdjustNode : S_00a95440_Node
@@ -442,14 +446,14 @@ struct S_00a95440_SortAdjustNode : S_00a95440_Node
 // @fnv 0x00a95440
 void S_00a95440_SortAdjustNode::FUN_00a95440(S_00a95440_Stream& kStream)
 {
-    S_00a95440_Node::LoadBinary(kStream);
+    reinterpret_cast<::fnv_00a5dd40::FUN_00a5dd40_shell *>(this)->FUN_00a5dd40((::NiStream *)&(kStream));
     int eMode;
     kStream.m_pUnderlyingStream->BinaryRead(&eMode, 4);
     m_iSortAdjust = eMode;
     if (m_iSortAdjust >= 2)
         m_iSortAdjust = 0;
     if (kStream.m_uiNifVersion < 0x14000004)
-        kStream.FUN_00a645b0();
+        reinterpret_cast<::FUN_00a645b0_cls *>(&(kStream))->FUN_00a645b0();
 }
 
 struct FUN_00a95350_Object
@@ -530,7 +534,6 @@ class FUN_00a95350_cls
     int unkA8;
     int m_iAc;
 
-    void FUN_00a5dbe0(FUN_00a95350_Arg* pArg);
     void UpdateItemFlags(FUN_00a95350_Arg* pArg);
 };
 
@@ -540,7 +543,7 @@ void FUN_00a95350_cls::UpdateItemFlags(FUN_00a95350_Arg* pArg)
 {
     bool hide = (m_iAc != 1);
     unsigned int start = pArg->m_pEntries->m_uItemCount;
-    FUN_00a5dbe0(pArg);
+    reinterpret_cast<::FUN_00a5dbe0_shell *>(this)->FUN_00a5dbe0((::NiCullingProcess *)(pArg));
 
     FUN_00a95350_List* pList = pArg->m_pEntries;
     unsigned int end = pList->m_uItemCount;
@@ -559,10 +562,9 @@ void FUN_00a95350_cls::UpdateItemFlags(FUN_00a95350_Arg* pArg)
     }
 }
 
-void __cdecl FUN_00a5dce0();
 // Calls FUN_00a5dce0.
 // @fnv 0x00a95290
 void __cdecl FUN_00a95290()
 {
-    FUN_00a5dce0();
+    static_cast<::fnv_00a5dce0::FUN_00a5dce0_shell *>(nullptr)->FUN_00a5dce0({});
 }

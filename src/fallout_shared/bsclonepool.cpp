@@ -2,27 +2,32 @@
 // src/fallout_shared/bsclonepool.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/bsclonepool.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/A5D2C0Object.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/DecalListManager.h"
+#include "fnv/decl/FUN_004b08e0_Class.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/ListX.h"
+#include "fnv/decl/ObsList.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00631540__TargetClass.h"
+#include "fnv/symbols_00559000.h"
 struct S_004b0aa0_Found;
 struct S_004b0aa0_Cur
 {
     bool FUN_008256d0();
-    S_004b0aa0_Found** FUN_006815c0();
-    S_004b0aa0_Cur* FUN_00726070();
 };
 struct S_004b0aa0_Sub
 {
-    bool FUN_004a4460();
-    void PopHead();
 };
 struct S_004b0aa0_Found
 {
     int key;
     S_004b0aa0_Sub sub;
-    void* FUN_004b08e0(int flag);
 };
 struct S_004b0aa0_Self : S_004b0aa0_Cur
 {
-    void FUN_00905330(S_004b0aa0_Found** pp);
     void ProcessKeyedEntry(int key, unsigned count);
 };
 // @fnv 0x004b0aa0
@@ -35,22 +40,22 @@ void S_004b0aa0_Self::ProcessKeyedEntry(int key, unsigned count)
         S_004b0aa0_Cur* cur = this;
         while (cur && !found && !cur->FUN_008256d0())
         {
-            S_004b0aa0_Found* pEntry = *cur->FUN_006815c0();
+            S_004b0aa0_Found* pEntry = *((::S_004b0aa0_Found **)(new ((void *)(cur)) ::Vec3()));
             if (pEntry && pEntry->key == key)
                 found = pEntry;
-            cur = cur->FUN_00726070();
+            cur = ((::S_004b0aa0_Cur *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070()));
         }
         if (found)
         {
             unsigned uiStep;
-            for (uiStep = 0; uiStep < count && !found->sub.FUN_004a4460(); uiStep++)
-                found->sub.PopHead();
-            if (found->sub.FUN_004a4460())
+            for (uiStep = 0; uiStep < count && !reinterpret_cast<::ObsList *>(&(found->sub))->FUN_004a4460(); uiStep++)
+                reinterpret_cast<::DecalListManager *>(&(found->sub))->PopHead();
+            if (reinterpret_cast<::ObsList *>(&(found->sub))->FUN_004a4460())
             {
-                FUN_00905330(&found);
+                reinterpret_cast<::ItemChangeListNode *>(this)->FUN_00905330((*(::InventoryStackRecord *const *)(&found)));
                 S_004b0aa0_Found* pFoundCopy = found;
                 S_004b0aa0_Found* p3 = pFoundCopy;
-                (void)(p3 ? p3->FUN_004b08e0(1) : 0);
+                (void)(p3 ? reinterpret_cast<::FUN_004b08e0_Class *>((p3))->FUN_004b08e0(1) : 0);
             }
         }
     }
@@ -59,10 +64,6 @@ void S_004b0aa0_Self::ProcessKeyedEntry(int key, unsigned count)
 struct SpawnedObject
 {
     bool FUN_008256d0();
-    unsigned int* FUN_006815c0();
-    unsigned int FUN_00726070();
-    bool FUN_004a4460();
-    unsigned int FUN_00559450();
 };
 
 class FUN_004b0ba0_cls
@@ -79,22 +80,22 @@ unsigned int FUN_004b0ba0_cls::FUN_004b0ba0(unsigned int arg)
     unsigned int cur = (unsigned int)this;
     while (cur != 0 && found8 == 0 && !((SpawnedObject*)cur)->FUN_008256d0())
     {
-        unsigned int tmp = *((SpawnedObject*)cur)->FUN_006815c0();
+        unsigned int tmp = *((unsigned int *)(new ((void *)(((SpawnedObject*)cur))) ::Vec3()));
         if (tmp != 0 && *(unsigned int*)tmp == arg)
             found8 = tmp;
-        cur = ((SpawnedObject*)cur)->FUN_00726070();
+        cur = ((unsigned int)(reinterpret_cast<::Callees *>((((SpawnedObject*)cur)))->FUN_00726070()));
     }
 
     result2 = 0;
     if (found8 != 0)
     {
         unsigned int p3 = found8 + 4;
-        while (result2 == 0 && p3 != 0 && !((SpawnedObject*)p3)->FUN_004a4460())
+        while (result2 == 0 && p3 != 0 && !reinterpret_cast<::ObsList *>((((SpawnedObject*)p3)))->FUN_004a4460())
         {
-            unsigned int r = ((SpawnedObject*)((SpawnedObject*)p3)->FUN_006815c0())->FUN_00559450();
-            if (r != 0 && ((SpawnedObject*)r)->FUN_00726070() == 1)
+            unsigned int r = ((unsigned int)(::FUN_00559450((int *)(((SpawnedObject*)((unsigned int *)(new ((void *)(((SpawnedObject*)p3))) ::Vec3())))))));
+            if (r != 0 && ((unsigned int)(reinterpret_cast<::Callees *>((((SpawnedObject*)r)))->FUN_00726070())) == 1)
                 result2 = r;
-            p3 = ((SpawnedObject*)p3)->FUN_00726070();
+            p3 = ((unsigned int)(reinterpret_cast<::Callees *>((((SpawnedObject*)p3)))->FUN_00726070()));
         }
     }
     return result2;
@@ -105,7 +106,6 @@ struct B0C80List
     B0C80List();
     ~B0C80List();
 
-    void Init();
 
     int unk00;
     int unk04;
@@ -124,7 +124,7 @@ struct FUN_004b0c80
 FUN_004b0c80::FUN_004b0c80()
 {
     m_iArrayLength = 0;
-    m_kList.Init();
+    reinterpret_cast<::ListX *>(&(m_kList))->FUN_004ee920();
 }
 
 extern const char DAT_0101fca0[];
@@ -155,14 +155,12 @@ struct GlobalObject_00633c90
 
 struct List4b0910_Ptrs
 {
-    void FUN_00631540(const GlobalObject_00633c90& kItem);
     int m_pInventoryEntryData;
     List4b0910_Ptrs* m_pNext;
 };
 
 struct Key4b0910
 {
-    int FUN_00a5d2c0(FUN_004ad050* pkArg);
 };
 
 struct Entry4b0910
@@ -174,8 +172,6 @@ struct Entry4b0910
 struct List4b0910
 {
     bool FUN_008256d0();
-    Entry4b0910** FUN_006815c0();
-    List4b0910* FUN_00726070();
     void FUN_005ae3d0(Entry4b0910** ppkEntry);
     Entry4b0910* m_pkItem;
     List4b0910* m_pkNext;
@@ -206,10 +202,10 @@ void FUN_004b0910_cls::AddKeyedItems(Key4b0910* pkKey, unsigned int ItemUpdateAr
     List4b0910* pkIter = this;
     while (pkIter && !pkFound4 && !pkIter->FUN_008256d0())
     {
-        Entry4b0910* pkEntry = *pkIter->FUN_006815c0();
+        Entry4b0910* pkEntry = *((::Entry4b0910 **)(new ((void *)(pkIter)) ::Vec3()));
         if (pkEntry && pkEntry->m_pkKey == pkKey)
             pkFound4 = pkEntry;
-        pkIter = pkIter->FUN_00726070();
+        pkIter = ((::List4b0910 *)(reinterpret_cast<::Callees *>((pkIter))->FUN_00726070()));
     }
 
     if (!pkFound4)
@@ -222,7 +218,7 @@ void FUN_004b0910_cls::AddKeyedItems(Key4b0910* pkKey, unsigned int ItemUpdateAr
     for (unsigned int uiIndex = 0; uiIndex < ItemUpdateArray; uiIndex++)
     {
         FUN_004ad050 kArgTmp(1.0f);
-        int iObject2 = pkKey->FUN_00a5d2c0(&kArgTmp);
-        pkFound4->m_kList.FUN_00631540(iObject2);
+        int iObject2 = ((int)(reinterpret_cast<::A5D2C0Object *>((pkKey))->FUN_00a5d2c0((*(::A5D2C0CloningProcess *)(&kArgTmp)))));
+        reinterpret_cast<::fnv_00631540::TargetClass *>(&(pkFound4->m_kList))->FUN_00631540((const ::NiPointer< ::NiNode> &)((const ::GlobalObject_00633c90 &)(iObject2)));
     }
 }

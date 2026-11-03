@@ -5,6 +5,24 @@
 
 // src/staging/blk_00de0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00c93d10.h"
+#include "fnv/decl/FUN_00cb0a70_Class.h"
+#include "fnv/decl/FUN_00ce5360_This.h"
+#include "fnv/decl/FUN_00dfc850.h"
+#include "fnv/decl/KdTreeBuilder.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00df3000.h"
+#include "fnv/symbols_00df5000.h"
+#include "fnv/symbols_01030000.h"
+#include "fnv/symbols_010c6000.h"
+#include "fnv/symbols_010cc000.h"
+#include "fnv/symbols_010d0000.h"
+#include "fnv/symbols_010e3000.h"
+#include "fnv/symbols_010e6000.h"
+#include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
 
 struct __declspec(align(8)) Entry8
@@ -545,7 +563,6 @@ void __cdecl FUN_00df32d0(MetaEntry* meta, Vector4f* src, __m128* dst, unsigned 
     dst[index] = *(__m128*)&u;
 }
 
-extern __m128 DAT_010cbfc0;
 
 inline __m128 RotateDF5D20(__m128 v, const __m128* rows)
 {
@@ -789,7 +806,6 @@ struct __declspec(align(16)) Holder
     unsigned int unk340;
     unsigned int unk344;
     unsigned int unk348;
-    void FUN_00c93d10(FUN_00c93d10_arg arg);
 };
 
 // @fnv 0x00df6470
@@ -797,7 +813,7 @@ void* FUN_00df6470()
 {
     Holder holder;
     FUN_00c93d10_arg arg = {0};
-    holder.FUN_00c93d10(arg);
+    new ((void *)&(holder)) ::FUN_00c93d10((*(int *)&(const ::FUN_00c93d10_arg &)(arg)));
     return holder.m_pVTable;
 }
 
@@ -834,11 +850,7 @@ const void* __cdecl FUN_00dfb2b0()
 }
 
 namespace fnv_00dfb2d0 {
-extern "C" char DAT_010305a8;
 extern "C" char DAT_010ce3c8;
-extern "C" char DAT_010d0d70;
-extern "C" char DAT_010d0dac;
-extern "C" char DAT_010c6fd0;
 
 struct FinishFlag
 {
@@ -892,15 +904,15 @@ FUN_00dfb2d0::FUN_00dfb2d0(FinishFlag flag)
         this->unk10 = 2;
     }
 
-    this->unk00 = &DAT_010d0d70;
+    this->unk00 = &::DAT_010d0d70;
 
     if (flag.m_bFinishing)
     {
         this->unk10 = 0;
     }
 
-    this->unk00 = &DAT_010d0dac;
-    this->unk30 = &DAT_010c6fd0;
+    this->unk00 = &(*reinterpret_cast<char *>(&::DAT_010d0dac));
+    this->unk30 = &(*reinterpret_cast<char *>(&::DAT_010c6fd0));
 
     if (flag.m_bFinishing == 1)
     {
@@ -1119,7 +1131,6 @@ struct __declspec(align(16)) DFC830Obj
     int unk164;
     int unk168;
     int unk16C;
-    void FUN_00dfc850(DFC830Zero arg);
 };
 
 // @fnv 0x00dfc830
@@ -1127,7 +1138,7 @@ void* FUN_00dfc830()
 {
     DFC830Obj holder;
     DFC830Zero zero = {0};
-    holder.FUN_00dfc850(zero);
+    new ((void *)&(holder)) ::FUN_00dfc850((*(int *)&(const ::DFC830Zero &)(zero)));
     return *(void**)&holder.unk00;
 }
 
@@ -1387,7 +1398,6 @@ struct FUN_00dfd9b0_arg
 struct FUN_00dfd9b0_sub
 {
     int m_00;
-    void FUN_00cb0a70(FUN_00dfd9b0_arg arg);
 };
 
 struct __declspec(align(16)) FUN_00dfd9b0_holder
@@ -1432,7 +1442,7 @@ unsigned int* FUN_00dfd9b0()
     FUN_00dfd9b0_holder holder;
     FUN_00dfd9b0_arg arg = {0};
     holder.m_pTable = &DAT_010e33dc;
-    holder.m_sub.FUN_00cb0a70(arg);
+    reinterpret_cast<::FUN_00cb0a70_Class *>(&(holder.m_sub))->FUN_00cb0a70((*(int *)&(const ::FUN_00dfd9b0_arg &)(arg)));
     return holder.m_pTable;
 }
 
@@ -1498,7 +1508,6 @@ struct ZArgDFE2F0
 struct ZSubDFE2F0
 {
     int m_00;
-    void FUN_00ce5360(ZArgDFE2F0 arg);
 };
 
 struct __declspec(align(16)) ZHolderDFE2F0
@@ -1543,7 +1552,7 @@ int* FUN_00dfe2f0()
     ZHolderDFE2F0 holder;
     ZArgDFE2F0 arg = {0};
     holder.unk00 = (int)&DAT_010cb864;
-    holder.m_sub.FUN_00ce5360(arg);
+    reinterpret_cast<::FUN_00ce5360_This *>(&(holder.m_sub))->FUN_00ce5360((*(unsigned int *)&(const ::ZArgDFE2F0 &)(arg)));
     return *(int**)&holder.unk00;
 }
 
@@ -1611,11 +1620,8 @@ struct Handle_dff130
 };
 struct FUN_00dff130_sub
 {
-    void FUN_00cb0a70(Handle_dff130 kHandle);
     int m_00;
 };
-extern int DAT_010cc2fc;
-extern int DAT_010e6834;
 struct __declspec(align(16)) FUN_00dff130_obj
 {
     int* m_pVtbl;
@@ -1645,7 +1651,7 @@ int* __cdecl FUN_00dff130()
     Handle_dff130 kHandle = {0};
     FUN_00dff130_obj kObj;
     kObj.m_pVtbl = &DAT_010cc2fc;
-    kObj.m_kSub.FUN_00cb0a70(kHandle);
+    reinterpret_cast<::FUN_00cb0a70_Class *>(&(kObj.m_kSub))->FUN_00cb0a70((*(int *)&(const ::Handle_dff130 &)(kHandle)));
     return &DAT_010e6834;
 }
 
@@ -1922,6 +1928,7 @@ struct __declspec(intrin_type) __declspec(align(16)) __m128
 };
 extern "C" __m128 _mm_and_ps(__m128, __m128);
 }
+#include "fnv/symbols_simd.h"
 struct SplitB
 {
     int f0;
@@ -1971,8 +1978,6 @@ struct Pairs56
     SplitB r[2];
 };
 
-extern SIMD56::__m128 DAT_012684d0;
-extern SIMD56::__m128 DAT_01268460[];
 
 struct Output56
 {
@@ -1986,11 +1991,6 @@ struct Output56
     }
 };
 
-int FUN_00df32a0(Output56* a, int b, int c);
-int FUN_00df32d0(Output56* a, int b, int c, int d, int e, int f);
-int FUN_00df3330(Output56* a, int b, int c, int d, int e, int f, int g);
-__declspec(noalias) int FUN_00df4ec0(SplitB* a, int b, int c, SplitA* sa, int* p5, SplitB* sb, SIMD56::__m128* v20,
-                                     SIMD56::__m128* v40);
 
 // @fnv 0x00df56a0
 int FUN_00df56a0(Node56* p, Output56** p2, int p3, int* p4, int* p5)
@@ -1999,17 +1999,17 @@ int FUN_00df56a0(Node56* p, Output56** p2, int p3, int* p4, int* p5)
     i = p->m10 - p->m0c;
     if (0 == i)
     {
-        FUN_00df32a0(*p2, p->m4, p->m30);
+        ::FUN_00df32a0((::Entry8 *)(*p2), p->m4, p->m30);
         return 1 + i;
     }
     if (1 == i)
     {
-        FUN_00df32d0(*p2, p->m0->f0, p3, p->m4, p->m0c, p->m30);
+        ::FUN_00df32d0((::MetaEntry *)(*p2), (::Vector4f *)(p->m0->f0), (::__m128 *)(p3), p->m4, p->m0c);
         return i;
     }
     if (4 >= i)
     {
-        *p5 += FUN_00df3330(*p2, p->m0->f0, p3, p->m4, p->m0c, i, p->m30);
+        *p5 += ::FUN_00df3330((::FNVPair8 *)(*p2), (::FNVVec16 *)(p->m0->f0), (::__m128 *)(p3), p->m4, p->m0c, i);
         return 1;
     }
     int t[3];
@@ -2022,9 +2022,9 @@ int FUN_00df56a0(Node56* p, Output56** p2, int p3, int* p4, int* p5)
     {
         SplitA ptr;
         SplitB j;
-        if (FUN_00df4ec0(p->m0, p->m0c, p->m10, &ptr, p5, &j, &p->m20, &p->m40) == 1)
+        if (::KdTreeBuilder::FUN_00df4ec0((*(const ::KdWorkingSet *)(p->m0)), p->m0c, p->m10, (*(::KdSplitResults *)(&ptr)), (*(int *)(p5)), (*(::KdWorkingSet *)(&j)), (*(const ::KdProjectedEntry *)(&p->m20)), (*(const ::KdVector4Comparison *)(&p->m40))) == 1)
         {
-            *p5 += FUN_00df3330(*p2, p->m0->f0, p3, p->m4, p->m0c, i, p->m30);
+            *p5 += ::FUN_00df3330((::FNVPair8 *)(*p2), (::FNVVec16 *)(p->m0->f0), (::__m128 *)(p3), p->m4, p->m0c, i);
             return 1;
         }
         y.setPlanes(ptr.lo, ptr.hi);
@@ -2037,7 +2037,7 @@ int FUN_00df56a0(Node56* p, Output56** p2, int p3, int* p4, int* p5)
         saved40.r[0] = j;
         saved40.r[1] = j;
         mid = ptr.f4;
-        left.m40 = DAT_012684d0;
+        left.m40 = (*reinterpret_cast<::SIMD56::__m128 *>(&::DAT_012684d0));
         left.m0 = &saved40.r[0];
         left.m0c = p->m0c;
         left.m10 = mid;
@@ -2046,7 +2046,7 @@ int FUN_00df56a0(Node56* p, Output56** p2, int p3, int* p4, int* p5)
         ((short*)&left.m20)[a + 4] = ptr.hi;
         int writer = p->m30;
         left.m8 = p->m8;
-        right.m40 = DAT_012684d0;
+        right.m40 = (*reinterpret_cast<::SIMD56::__m128 *>(&::DAT_012684d0));
         right.m0 = &saved40.r[1];
         right.m4 = pForm + 1;
         right.m0c = mid;
@@ -2067,7 +2067,7 @@ int FUN_00df56a0(Node56* p, Output56** p2, int p3, int* p4, int* p5)
             SIMD56::__m128 table;
             SIMD56::__m128 result;
         } masks;
-        masks.table = DAT_01268460[t[a]];
+        masks.table = (*reinterpret_cast<SIMD56::__m128 (*)[]>(&::DAT_01268460))[t[a]];
         masks.result = SIMD56::_mm_and_ps(masks.table, p->m40);
         left.m40 = masks.result;
         right.m40 = masks.result;
@@ -2131,8 +2131,8 @@ class __declspec(align(16)) S00dfe5e0_Object
     {
         FUN_00dfd9b0_arg arg;
         arg.m_uiFilterValue = flag.m_bFinishing;
-        m_kFirst.FUN_00cb0a70(arg);
-        m_kSecond.FUN_00cb0a70(arg);
+        reinterpret_cast<::FUN_00cb0a70_Class *>(&(m_kFirst))->FUN_00cb0a70((*(int *)&(const ::FUN_00dfd9b0_arg &)(arg)));
+        reinterpret_cast<::FUN_00cb0a70_Class *>(&(m_kSecond))->FUN_00cb0a70((*(int *)&(const ::FUN_00dfd9b0_arg &)(arg)));
     }
     virtual void vf00();
     int unk04;
@@ -2319,7 +2319,7 @@ class __declspec(align(16)) AnimationBindingVtableProbe
     AnimationBindingVtableProbe(FinishingFlag flag)
     {
         FUN_00dfd9b0_arg argument = {flag.m_bFinishing};
-        m_skeletonName.FUN_00cb0a70(argument);
+        reinterpret_cast<::FUN_00cb0a70_Class *>(&(m_skeletonName))->FUN_00cb0a70((*(int *)&(const ::FUN_00dfd9b0_arg &)(argument)));
     }
     virtual void vf00();
     int unk04;
@@ -2381,7 +2381,7 @@ const void* __cdecl FUN_00dfef90()
     Handle_dff130 finish = {0};
     SpringVtableObject object;
     object.m_ppVirtualMethodTable = &DAT_010cc2fc;
-    object.m_name.FUN_00cb0a70(finish);
+    reinterpret_cast<::FUN_00cb0a70_Class *>(&(object.m_name))->FUN_00cb0a70((*(int *)&(const ::Handle_dff130 &)(finish)));
     return &DAT_010d08f4;
 }
 
@@ -2418,7 +2418,7 @@ const void* __cdecl FUN_00dff220()
     FUN_00dfd9b0_arg flag = {0};
     ContactSystemView object;
     object.table = &DAT_010cce28;
-    object.name.FUN_00cb0a70(flag);
+    reinterpret_cast<::FUN_00cb0a70_Class *>(&(object.name))->FUN_00cb0a70((*(int *)&(const ::FUN_00dfd9b0_arg &)(flag)));
     return &DAT_010d07f4;
 }
 
@@ -2458,7 +2458,7 @@ const void* __cdecl FUN_00dff2b0()
     Handle_dff130 flag = {0};
     VtableProbeDff2b0 object;
     object.m_ppVirtualMethodTable = &DAT_010cc2fc;
-    object.m_name.FUN_00cb0a70(flag);
+    reinterpret_cast<::FUN_00cb0a70_Class *>(&(object.m_name))->FUN_00cb0a70((*(int *)&(const ::Handle_dff130 &)(flag)));
     return &DAT_010c8e94;
 }
 
@@ -2506,11 +2506,10 @@ int* __cdecl FUN_00dff9f0()
     Handle_dff130 finishing = {0};
     DashpotTypeInfoObject object;
     object.m_pAction.m_pVtbl = &DAT_010cc2fc;
-    object.m_pAction.m_kSub.FUN_00cb0a70(finishing);
+    reinterpret_cast<::FUN_00cb0a70_Class *>(&(object.m_pAction.m_kSub))->FUN_00cb0a70((*(int *)&(const ::Handle_dff130 &)(finishing)));
     return &DAT_010d0994;
 }
 
-extern int DAT_010d09f4;
 
 struct __declspec(align(16)) AngularActionVtableObject
 {
@@ -2538,6 +2537,6 @@ const void* __cdecl FUN_00dffc20()
     Handle_dff130 flag = {0};
     AngularActionVtableObject object;
     object.m_ppVirtualMethodTable = &DAT_010cc2fc;
-    object.m_name.FUN_00cb0a70(flag);
+    reinterpret_cast<::FUN_00cb0a70_Class *>(&(object.m_name))->FUN_00cb0a70((*(int *)&(const ::Handle_dff130 &)(flag)));
     return &DAT_010d09f4;
 }

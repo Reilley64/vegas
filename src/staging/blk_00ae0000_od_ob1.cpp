@@ -2,9 +2,12 @@
 // src/staging/blk_00ae0000_od_ob1.cpp - STAGING flag-variant unit created 2026-10-17: functions whose bytes need /Od /Ob1 WITHOUT /GF (00afb190 pushes a
 // non-pooled "Data\\" copy, so it is not from archive.cpp, which is /GF). Not a real source path.
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_011ac000.h"
 #include "../../include/layout_support.h"
 
-extern bool DAT_011acdf9;
 int __cdecl _strcpy_s(char*, unsigned int, const char*);
 int __cdecl _strcat_s(char*, unsigned int, const char*);
 int __cdecl FUN_00ecbf05(const char* path, int mode);

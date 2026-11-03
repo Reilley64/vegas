@@ -5,6 +5,29 @@
 
 // src/havok/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/HostC9C6.h"
+#include "fnv/decl/OwnerCD2A.h"
+#include "fnv/decl/PhantomListeners.h"
+#include "fnv/decl/S00cae900_Proxy.h"
+#include "fnv/decl/S_00cad500_This.h"
+#include "fnv/decl/SortableArray.h"
+#include "fnv/decl/WorldQuery.h"
+#include "fnv/decl/fnv_00cacf80__ContactSolver.h"
+#include "fnv/decl/hkOwnerXd07da0.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_00d24000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_0101f000.h"
+#include "fnv/symbols_01020000.h"
+#include "fnv/symbols_0102f000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_01056000.h"
+#include "fnv/symbols_01076000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01272000.h"
 struct FUN_00cad480_Class {
     void __thiscall FUN_00cad480(void* arg);
 };
@@ -107,7 +130,6 @@ struct FUN_00cad6f0_class
 };
 struct FUN_00cade20_Class
 {
-    void __thiscall FUN_00cade20(int, int, int, int, int, int);
 };
 struct FUN_00cafbd0_Class
 {
@@ -136,29 +158,25 @@ struct FNVBuffers {
         return FUN_00c85750()->GetAllocator()->Allocate(bytes);
     }
 };
-void __cdecl FUN_00d06cb0(FNVArray*, unsigned int);
 struct FNVOwner {
     FNVBuffers*& Buffers() {
         return *reinterpret_cast<FNVBuffers**>(reinterpret_cast<char*>(this) + 0x214);
     }
     void FUN_00c9c5b0(int value);
 };
-extern __declspec(thread) int g_tlsMemContext;
 struct S_00cac150_Scope {
     int m_oldContext;
     S_00cac150_Scope(int ctx) {
-        m_oldContext = g_tlsMemContext;
-        g_tlsMemContext = ctx;
+        m_oldContext = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = ctx;
     }
     ~S_00cac150_Scope() {
-        g_tlsMemContext = m_oldContext;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_oldContext;
     }
 };
 struct S_00cac150_Item1 {
-    void FUN_00c9c670(void* arg);
 };
 struct S_00cac150_Item2 {
-    void RemoveListener(void* arg);
 };
 struct S_00cac150 {
     int unk00;
@@ -229,7 +247,6 @@ struct CpuObject {
     CpuScalar* value;
     unsigned int FUN_00cac910();
 };
-extern float DAT_0101e2bc;
 struct FUN_00cacf10_cls {
     int unk00; int unk04; int unk08; int unk0C;
     int unk10; int unk14; int unk18; int unk1C;
@@ -284,7 +301,6 @@ struct BhkElem {
     __int64 q68;
 };
 struct BhkTarget {
-    void FUN_00c9c670(void* v);
 };
 struct BhkProxy {
     int unk00;
@@ -337,7 +353,6 @@ struct FUN_00cad900_arg {
     unsigned int unk0c;
     unsigned char flag10;
 };
-extern "C" int __cdecl FUN_00d06f80(int ptr, int size);
 extern "C" char str_010c8444[];
 extern "C" char str_010c8450[];
 extern "C" char str_010c8460[];
@@ -386,14 +401,11 @@ struct FUN_00cad900_cls {
 
     void FUN_00cad900(FUN_00cad900_arg* a1, int a2);
 };
-extern char str_0102f13c[];
-extern char DAT_0104e3d0[];
 extern char DAT_010c84a4[];
 extern char DAT_010c8488[];
 extern char DAT_010c8470[];
 struct FUN_00cad500_Class
 {
-    void __thiscall FUN_00cad500(void* arg);
 };
 struct FUN_00cada70_cls
 {
@@ -442,7 +454,6 @@ struct FUN_00cada70_cls
 
     FUN_00cada70_cls* Construct(void* a1);
 };
-extern float DAT_0104da48;
 struct __declspec(align(16)) Vec289 {float x,y,z,w;};
 struct RootContact289 {
  Vec289 position,normal;
@@ -456,9 +467,9 @@ class hkpCdPointCollector {
 public:
  __declspec(nothrow) __forceinline virtual ~hkpCdPointCollector() {}
  virtual void AddCdPoint(const void*)=0;
- virtual void reset() {limit=DAT_0104da48;}
+ virtual void reset() {limit=::DAT_0104da48;}
  float limit;
- __declspec(nothrow) hkpCdPointCollector():limit(DAT_0104da48) {}
+ __declspec(nothrow) hkpCdPointCollector():limit(::DAT_0104da48) {}
 };
 struct ContactArray289 {
  RootContact289* data;int count;unsigned capacity;
@@ -477,10 +488,9 @@ public:
  __declspec(nothrow) hkpAllCdPointCollector() {}
  __declspec(nothrow) __forceinline virtual ~hkpAllCdPointCollector() {}
  virtual void AddCdPoint(const void*);
- virtual void reset() {contacts.count=0;limit=DAT_0104da48;}
+ virtual void reset() {contacts.count=0;limit=::DAT_0104da48;}
 };
 struct Query289 {
- __declspec(nothrow) void FUN_00cade20(void*,void*,hkpCdPointCollector*,hkpCdPointCollector*,unsigned,unsigned) throw();
  void CollectAllContactPoints(void*,void*);
 };
 union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
@@ -489,7 +499,6 @@ extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
 extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 extern "C" __m128 _mm_sqrt_ss(__m128 a);
 extern "C" void _mm_store_ss(float* p, __m128 a);
-extern float DAT_0104da4c;
 struct S00cacaa0_Vec {
     __m128 m_vComponents;
 };
@@ -508,7 +517,7 @@ struct S00cacaa0_Input : S00cacaa0_Base {
     float f60;
     float f64;
     unsigned int f68;
-    S00cacaa0_Input() { f04 = 0; f60 = DAT_0104da4c; }
+    S00cacaa0_Input() { f04 = 0; f60 = ::DAT_0104da4c; }
 };
 struct S00cacaa0_Shape {
     unsigned int unk00, unk04, unk08;
@@ -531,7 +540,6 @@ struct S00cacaa0_World {
     S00cacaa0_Src* m_src;
     unsigned int unk7c;
     S00cacaa0_Disp* m_disp;
-    void FUN_00c92430(S00cacaa0_Coll* a, float* b, void* c, void* d);
 };
 struct S00cacaa0_Agent {
     virtual void v00();
@@ -570,18 +578,14 @@ struct S00cacaa0_cls {
     void FUN_00cacaa0(bool flag, float* a2, void* a3, void* a4);
 };
 struct HkEntity289 {
-    void FUN_00c9c670(void* listener) throw();
 };
 struct HkPhantom289 {
-    void RemoveListener(void* listener) throw();
 };
 struct HkWorldLock289 {
     int unk00;
     int unk04;
 };
 struct HkWorld289 {
-    void FUN_00cd2a50(HkWorldLock289* apOut, unsigned int auiFlags) throw();
-    void FUN_00c905b0() throw();
 };
 template <class T> struct HkArray289 {
     T* m_data;
@@ -644,7 +648,6 @@ struct FUN_00cadb00 : HkReferencedObject289, HkEntityListener289, HkPhantomListe
 
     virtual ~FUN_00cadb00();
 };
-extern float DAT_0104da48;
 struct S_Heap {
     virtual void v0();
     virtual void v1();
@@ -665,7 +668,7 @@ struct __declspec(align(16)) S_Contact {
 };
 struct S_CdBase {
     float m_eps;
-    S_CdBase() throw() { m_eps = DAT_0104da48; }
+    S_CdBase() throw() { m_eps = ::DAT_0104da48; }
     virtual ~S_CdBase() throw() {}
     virtual void v1();
 };
@@ -701,7 +704,6 @@ struct S_Collector : S_CdBase {
     virtual ~S_Collector() throw() {}
 };
 struct S00cafbf0_Obj {
-    void FUN_00cade20(int, int, S_Collector*, S_Collector*, int, int) throw();
     void FUN_00cafbf0(int a, int b, int c, int d) throw();
 };
 // fires added/removed notifications and keeps entity/phantom listeners attached to the touched objects.
@@ -732,7 +734,6 @@ struct S_00caf4d0_Router {
     S_00caf4d0_Heap& heap() throw() { return *m_pStreamAllocator; }
 };
 static __forceinline S_00caf4d0_Router* GetRouter37() throw() { return reinterpret_cast<S_00caf4d0_Router*>(FUN_00c85750()); }
-void ResizeAudioStream(S_00caf4d0_Heap& alloc, void* array, int elemSize) throw();
 inline void* __cdecl operator new(unsigned int, void* where) throw() { return where; }
 struct __declspec(align(16)) S_00caf4d0_Vector4 {
     float x, y, z, w;
@@ -845,15 +846,9 @@ struct S_00caf4d0_EntityListener { virtual void elUnk00(); };
 struct S_00caf4d0_PhantomListener { virtual void plUnk00(); };
 struct S_00caf4d0_TrackerBase { virtual void tbUnk00(); int unk04; };
 struct S_00caf4d0_Entity {
-    void FUN_00c9c5b0(S_00caf4d0_EntityListener* l) throw();
-    void FUN_00c9c670(S_00caf4d0_EntityListener* l) throw();
 };
 struct S_00caf4d0_Phantom {
-    void AddItem(S_00caf4d0_PhantomListener* l) throw();
-    void RemoveListener(S_00caf4d0_PhantomListener* l) throw();
 };
-extern float DAT_0104da48;
-extern const float g_011dd8bc_arg1;
 static inline S_00caf4d0_Entity* getRigidBody_caf(const S_00caf4d0_Collidable* c) throw()
 {
     if (c->m_type == 1)
@@ -897,15 +892,10 @@ struct S_00caf4d0_Tracker : S_00caf4d0_TrackerBase, S_00caf4d0_EntityListener, S
     S_00caf4d0_Array<S_00caf4d0_Entity*> m_kActorEntries;  // 0x8c
     S_00caf4d0_Array<S_00caf4d0_Phantom*> m_kPhantoms; // 0x98
 
-    float FUN_00cafd90(const S_00caf4d0_Point* a, const S_00caf4d0_Point* b) throw();
-    void FUN_00cad4c0(const S_00caf4d0_Point* p) throw();
-    void FUN_00cad480(const S_00caf4d0_Point* p) throw();
-    int FUN_00cacf10(const S_00caf4d0_Point* p) throw();
 
     void FUN_00caf4d0(const S_00caf4d0_Collector* input, const S_00caf4d0_Collector* extra, bool keepListeners) throw();
 };
 struct ContactQuery {
-    void FUN_00cae900(void*, unsigned, S_Collector*) throw();
     void FUN_00cafd00(void*, unsigned);
 };
 struct CadColl {
@@ -942,7 +932,6 @@ struct CadPhantomListener {
     virtual void FUN_00cad820(struct CadPhantom* p) throw();
 };
 struct CadPhantom {
-    void RemoveListener(CadPhantomListener* l) throw();
 };
 struct CadPtrArray {
     CadPhantom** m_data;
@@ -1038,8 +1027,6 @@ struct S00cafd90_Body {
     int unk44;
     S00cafd90_Info* unk48;
 };
-extern double DAT_0101ffa0;
-extern double DAT_01020758;
 static __forceinline S00cafd90_Conv* S00cafd90_ConvOf(S00cafd90_Body* b)
 {
     S00cafd90_Info* info = b->unk48;
@@ -1067,6 +1054,7 @@ static __forceinline float S00cafd90_Dot3(__m128 a, __m128 b)
 
 #include <string.h>
 #include <windows.h>
+#include "fnv/symbols_simd.h"
 extern "C" {
 void _ReadWriteBarrier();
 __m128 _mm_set_ss(float);
@@ -1088,9 +1076,7 @@ __m128 _mm_unpacklo_ps(__m128,__m128);
 __m128 _mm_movelh_ps(__m128,__m128);
 int _mm_movemask_ps(__m128);
 }
-extern unsigned DAT_0126835c;
-extern char str_010c8508[],str_010c8500[],str_010c84f0[],str_010c84dc[],str_010c84d0[],str_010c84c4[],str_010c84b8[],str_01076f38[];
-extern __m128 DAT_01017d10;
+extern char str_010c8508[],str_010c8500[],str_010c84f0[],str_010c84dc[],str_010c84d0[],str_010c84c4[],str_010c84b8[];
 __declspec(nothrow) FNVMemoryManager* __cdecl FUN_00c85750();
 template<class T> class PStorage {
     T value;
@@ -1136,7 +1122,7 @@ public:
     }
     __forceinline void normalize() throw(){q=_mm_mul_ps(inverse().broadcast(),q);}
     __forceinline int equal(const PVec& other,float epsilon) const throw(){
-        __m128 d=_mm_sub_ps(q,other.q);d=_mm_and_ps(d,DAT_01017d10);__m128 e=_mm_set_ps1(epsilon);
+        __m128 d=_mm_sub_ps(q,other.q);d=_mm_and_ps(d,::DAT_01017d10);__m128 e=_mm_set_ps1(epsilon);
         int mask=_mm_movemask_ps(_mm_cmple_ps(d,e));return (mask&7)==7;
     }
 };
@@ -1154,8 +1140,6 @@ struct PStack {PStorage<void*> cursor,start,end;int peak;
 };
 struct PRouter {PStack stack;PAllocator* allocator;__forceinline PAllocator& heap() throw(){return *allocator;}__forceinline PStack& local() throw(){return stack;}};
 __forceinline PRouter* route() throw(){return reinterpret_cast<PRouter*>(FUN_00c85750());}
-void ResizeAudioStream(PAllocator&,void*,int) throw();
-void FUN_00c908c0(PAllocator&,void*,int,int) throw();
 struct PContainerAllocator {__forceinline PAllocator& get(const void*) const throw(){return route()->heap();}};
 struct ClassCopy{};struct ScalarCopy{};
 template<class T> struct CopyKind{typedef ClassCopy type;};
@@ -1175,9 +1159,9 @@ template<class T> struct PArrayBase {
     __forceinline void clear() throw(){size=0;}
     __forceinline void clearDeallocate(PAllocator& a) throw(){clear();if(!(capacity&0x80000000))a.freeBuffer<T>(data,room());data=0;capacity=0x80000000;}
     __forceinline void resizeUnchecked(int n) throw(){size=n;}
-    __forceinline void reserveWith(PAllocator& a,int n) throw(){const int c=room();if(c<n){int twice=2*c;int want=n<twice?twice:n;FUN_00c908c0(a,this,want,sizeof(T));}}
-    __forceinline T& expandWith(PAllocator& a) throw(){if(size==room())ResizeAudioStream(a,this,sizeof(T));new (data+size) T;return data[size++];}
-    __forceinline void pushWith(PAllocator& a,const T& x) throw(){if(size==room())ResizeAudioStream(a,this,sizeof(T));copyElements(data+size,1,x,typename CopyKind<T>::type());++size;}
+    __forceinline void reserveWith(PAllocator& a,int n) throw(){const int c=room();if(c<n){int twice=2*c;int want=n<twice?twice:n;::FUN_00c908c0((::SpawnedObject *)&(a),(::SpawnedArray *)(void *)(this),want,sizeof(T));}}
+    __forceinline T& expandWith(PAllocator& a) throw(){if(size==room())::ResizeAudioStream((::AudioAllocator *)&(a),(::AudioStream *)(void *)(this),sizeof(T));new (data+size) T;return data[size++];}
+    __forceinline void pushWith(PAllocator& a,const T& x) throw(){if(size==room())::ResizeAudioStream((::AudioAllocator *)&(a),(::AudioStream *)(void *)(this),sizeof(T));copyElements(data+size,1,x,typename CopyKind<T>::type());++size;}
     __forceinline int indexOf(const T& x,int first=0,int last=-1) const throw(){if(last<0)last=size;for(int i=first;i<last;++i)if(data[i]==x)return i;return -1;}
     __forceinline void remove(int index) throw(){--size;copyByteRange(data+index,data+index+1,(size-index)*sizeof(T));}
 };
@@ -1200,12 +1184,11 @@ struct PSolver {PVec position,velocity,maxVelocity,up;float time,minTime;PPlane*
 struct PResult {PVec position,velocity;float time;PInteraction* interactions;};
 struct PPad {float value;__forceinline operator float() const throw(){return value;}};
 struct PStep {__declspec(align(16)) PStorage<float> start;PStorage<float> end,delta,inverse;};
-struct PCollector {virtual void f0();virtual void f1();virtual void reset();int unk04,unk08,unk0c;PArray<PContact> contacts;__forceinline PArray<PContact>& hits() throw(){return contacts;} PBool hit() const throw(){return contacts.count()>0;}void FUN_00cabad0() throw();PContact& operator[](int i) throw(){return contacts[i];}};
+struct PCollector {virtual void f0();virtual void f1();virtual void reset();int unk04,unk08,unk0c;PArray<PContact> contacts;__forceinline PArray<PContact>& hits() throw(){return contacts;} PBool hit() const throw(){return contacts.count()>0;}PContact& operator[](int i) throw(){return contacts[i];}};
 struct PPose {PVec axis0,axis1,axis2,position;void SetWorldPosition(const PVec& v) throw(){position=v;}};
 struct PPhantom {virtual void f0();virtual void f1();virtual void f2();virtual void f3();virtual PPose* pose();virtual void f5();virtual void f6();virtual void f7();virtual void f8();virtual void f9();virtual void fa();virtual void fb();virtual void fc();virtual void fd();virtual void cast(const PVec&,const PCast&,PCollector&,PCollector*) throw();void FUN_00c9e990(const PVec&,float) throw();};
-struct PBody {void FUN_00c9c5b0(void*) throw();};
-struct POther {void AddItem(void*) throw();};
-void FUN_00d24360(const PSolver&,PResult&) throw();
+struct PBody {};
+struct POther {};
 struct PBase {virtual void f0();virtual void f1();virtual void f2();unsigned short memoryFlags;short references;};
 struct PEntityListener {virtual void callback();};
 struct PPhantomListener {virtual void callback();};
@@ -1213,12 +1196,6 @@ struct POwner:PBase,PEntityListener,PPhantomListener {
     virtual void update(PCollector&,PCollector&,PBool) throw();virtual void convert(const PContact&,PPlane&,float) const throw();
     PVec velocity,oldDisplacement;PPhantom* phantom;float friction,staticFriction;int m3c;PVec up;float extraUp,extraDown,keepDistance,keepTolerance,angle;int userPlanes;float maxSpeed,strength,mass;PArray<PContact> manifold;PArray<void*> listeners;PArray<PBody*> bodies;PArray<POther*> phantoms;float slope,recovery;int maxIterations;bool refresh;
     const PVec& FUN_00cac910() const throw();
-    void FUN_00cacaa0(PBool,const PCast&,PCollector&,PCollector*) throw();
-    void FUN_00cac890(const PContact*,int,const PVec&) const throw();
-    void FUN_00cad440(const PArray<PContact>&,PSolver&) const throw();
-    void FUN_00cacf80(const PStep&,const PVec&,void*,int) throw();
-    int FUN_00cacf10(const PContact&) const throw();
-    void FUN_00cad480(const PContact&) const throw();
     float FUN_00cacc50(const PResult&,const PCollector&,const PCast&,PVec&) throw();
     void FUN_00cade20(const PStep&,const PVec&,PCollector&,PCollector&,void*,int) throw();
 };
@@ -1238,8 +1215,8 @@ struct PStream {
     __forceinline PBool available() throw(){return GetStreamEnd()<getLimit();}
     __forceinline void end(char* p) throw(){current=p;}
 };
-__forceinline void timerPart(const char* tag) throw(){PStream& s=*static_cast<PStream*>(TlsGetValue(DAT_0126835c));if(s.available()){PTimer* p=reinterpret_cast<PTimer*>(s.GetStreamEnd());p->tag=tag;p->stamp();s.end(reinterpret_cast<char*>(p+1));}}
-__forceinline void timerBegin() throw(){PStream& s=*static_cast<PStream*>(TlsGetValue(DAT_0126835c));if(s.available()){PTimerList* p=reinterpret_cast<PTimerList*>(s.GetStreamEnd());p->tag=str_010c8508;p->first=str_010c8500;p->stamp();s.end(reinterpret_cast<char*>(p+1));}}
+__forceinline void timerPart(const char* tag) throw(){PStream& s=*static_cast<PStream*>(TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))));if(s.available()){PTimer* p=reinterpret_cast<PTimer*>(s.GetStreamEnd());p->tag=tag;p->stamp();s.end(reinterpret_cast<char*>(p+1));}}
+__forceinline void timerBegin() throw(){PStream& s=*static_cast<PStream*>(TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))));if(s.available()){PTimerList* p=reinterpret_cast<PTimerList*>(s.GetStreamEnd());p->tag=str_010c8508;p->first=str_010c8500;p->stamp();s.end(reinterpret_cast<char*>(p+1));}}
 static __declspec(noinline) bool FUN_00cadca0(int index,PArray<PPlane>& planes,float limit,const PVec& up) throw(){float d=planes[index].normal.dot(up);if(d>0.01f && d<limit){PPlane& out=planes.expand();out=planes[index];PVec correction;correction.mul(-d,up);out.normal.add(correction);out.normal.normalize();return true;}return false;}
 
 __forceinline PBody* getBody(BhkShape* s) throw(){return s->unk18==1?reinterpret_cast<PBody*>(reinterpret_cast<char*>(s)+s->unk10):0;}
@@ -1247,7 +1224,7 @@ __forceinline POther* getOther(BhkShape* s) throw(){return s->unk18==2?reinterpr
 __forceinline void removeFirst(PCollector& c) throw(){c.hits().remove(0);}
 // @fnv 0x00cade20
 void POwner::FUN_00cade20(const PStep& step,const PVec& gravity,PCollector& cast,PCollector& start,void* command,int maxInteractions) throw() {
-    {PStream& s=*static_cast<PStream*>(TlsGetValue(DAT_0126835c));if(s.available()){PTimerList* p=reinterpret_cast<PTimerList*>(s.GetStreamEnd());p->tag=str_010c8508;p->first=str_010c8500;p->stamp();s.end(reinterpret_cast<char*>(p+1));}}
+    {PStream& s=*static_cast<PStream*>(TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))));if(s.available()){PTimerList* p=reinterpret_cast<PTimerList*>(s.GetStreamEnd());p->tag=str_010c8508;p->first=str_010c8500;p->stamp();s.end(reinterpret_cast<char*>(p+1));}}
     PBool threaded=command!=0;
     PVec position=FUN_00cac910();
     float remaining=step.delta;
@@ -1256,18 +1233,18 @@ void POwner::FUN_00cade20(const PStep& step,const PVec& gravity,PCollector& cast
     query.tolerance=keepTolerance+keepDistance;
     query.penetration=0.01f;
     for(int iter=0;remaining>1.1920928955078125e-7f && iter<maxIterations;++iter) {
-        {PStream& s=*static_cast<PStream*>(TlsGetValue(DAT_0126835c));if(s.available()){PTimer* p=reinterpret_cast<PTimer*>(s.GetStreamEnd());p->tag=str_010c84f0;p->stamp();s.end(reinterpret_cast<char*>(p+1));}}
+        {PStream& s=*static_cast<PStream*>(TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))));if(s.available()){PTimer* p=reinterpret_cast<PTimer*>(s.GetStreamEnd());p->tag=str_010c84f0;p->stamp();s.end(reinterpret_cast<char*>(p+1));}}
         query.target.sum(oldDisplacement,position);
         cast.reset();start.reset();
         if(threaded) {
             phantom->pose()->SetWorldPosition(position);
-            FUN_00cacaa0(iter!=0,query,cast,&start);
+            reinterpret_cast<::S00cacaa0_cls *>(this)->FUN_00cacaa0((*(bool *)&(const ::PBool &)(iter!=0)),(float *)&(query),(void *)&(cast),&start);
         } else phantom->cast(position,query,cast,&start);
         if(cast.hit()) {
-            cast.FUN_00cabad0();
-            FUN_00cac890(cast.hits().begin(),cast.hits().count(),oldDisplacement);
+            reinterpret_cast<::SortableArray *>(&(cast))->FUN_00cabad0();
+            ::FUN_00cac890((::VecNode *)this, (int)(cast.hits().begin()),(const ::__m128 *)(cast.hits().count()));
         }
-        {PStream& s=*static_cast<PStream*>(TlsGetValue(DAT_0126835c));if(s.available()){PTimer* p=reinterpret_cast<PTimer*>(s.GetStreamEnd());p->tag=str_010c84dc;p->stamp();s.end(reinterpret_cast<char*>(p+1));}}
+        {PStream& s=*static_cast<PStream*>(TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))));if(s.available()){PTimer* p=reinterpret_cast<PTimer*>(s.GetStreamEnd());p->tag=str_010c84dc;p->stamp();s.end(reinterpret_cast<char*>(p+1));}}
         update(start,cast,threaded);
         PLocal<PPlane> planes(manifold.count()+userPlanes+10);
         planes.resizeUnchecked(manifold.count());
@@ -1276,7 +1253,7 @@ void POwner::FUN_00cade20(const PStep& step,const PVec& gravity,PCollector& cast
             FUN_00cadca0(i,planes,slope,up);
         }
         int used=planes.count();int extra=userPlanes;if(planes.room()-used<extra) planes.reserve(used+extra);
-        {PStream& s=*static_cast<PStream*>(TlsGetValue(DAT_0126835c));if(s.available()){PTimer* p=reinterpret_cast<PTimer*>(s.GetStreamEnd());p->tag=str_010c84d0;p->stamp();s.end(reinterpret_cast<char*>(p+1));}}
+        {PStream& s=*static_cast<PStream*>(TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))));if(s.available()){PTimer* p=reinterpret_cast<PTimer*>(s.GetStreamEnd());p->tag=str_010c84d0;p->stamp();s.end(reinterpret_cast<char*>(p+1));}}
         PSolver input;
         PLocal<PInteraction> interactions(userPlanes+planes.count());
         interactions.resizeUnchecked(userPlanes+planes.count());
@@ -1289,40 +1266,40 @@ void POwner::FUN_00cade20(const PStep& step,const PVec& gravity,PCollector& cast
         input.position.zero();
         input.up=up;
         input.maxVelocity.all(maxSpeed);
-        FUN_00cad440(manifold,input);
+        reinterpret_cast<::S_00cad440 *>((void *)this)->FUN_00cad440((void *)&(manifold),(void *)&(input));
         solved.interactions=interactions.begin();
-        FUN_00d24360(input,solved);
-        {PStream& s=*static_cast<PStream*>(TlsGetValue(DAT_0126835c));if(s.available()){PTimer* p=reinterpret_cast<PTimer*>(s.GetStreamEnd());p->tag=str_010c84c4;p->stamp();s.end(reinterpret_cast<char*>(p+1));}}
-        FUN_00cacf80(step,gravity,command,maxInteractions);
-        {PStream& s=*static_cast<PStream*>(TlsGetValue(DAT_0126835c));if(s.available()){PTimer* p=reinterpret_cast<PTimer*>(s.GetStreamEnd());p->tag=str_010c84b8;p->stamp();s.end(reinterpret_cast<char*>(p+1));}}
+        ::SolverMotionDetail::FUN_00d24360((const ::SolverMotionDetail::SolverMotionInput &)(input),(::SolverMotionDetail::SolverMotionOutput &)(solved));
+        {PStream& s=*static_cast<PStream*>(TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))));if(s.available()){PTimer* p=reinterpret_cast<PTimer*>(s.GetStreamEnd());p->tag=str_010c84c4;p->stamp();s.end(reinterpret_cast<char*>(p+1));}}
+        reinterpret_cast<::fnv_00cacf80::ContactSolver *>(this)->FUN_00cacf80((const float *)&(step),(const ::fnv_00cacf80::Vec4 *)&(gravity),(::fnv_00cacf80::Output **)(command),maxInteractions);
+        {PStream& s=*static_cast<PStream*>(TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))));if(s.available()){PTimer* p=reinterpret_cast<PTimer*>(s.GetStreamEnd());p->tag=str_010c84b8;p->stamp();s.end(reinterpret_cast<char*>(p+1));}}
         int ok=oldDisplacement.equal(solved.position,0.001f);
         if(!ok) {
             query.target.sum(position,solved.position);
             cast.reset();
             if(threaded) {
                 phantom->pose()->SetWorldPosition(position);
-                FUN_00cacaa0(true,query,cast,0);
+                reinterpret_cast<::S00cacaa0_cls *>(this)->FUN_00cacaa0((*(bool *)&(const ::PBool &)(true)),(float *)&(query),(void *)&(cast),0);
             } else phantom->cast(position,query,cast,0);
             if(cast.hit()) {
-                cast.FUN_00cabad0();
-                FUN_00cac890(cast.hits().begin(),cast.hits().count(),solved.position);
-                while(FUN_00cacf10(cast[0])!=-1) {
+                reinterpret_cast<::SortableArray *>(&(cast))->FUN_00cabad0();
+                ::FUN_00cac890((::VecNode *)this, (int)(cast.hits().begin()),(const ::__m128 *)(cast.hits().count()));
+                while(reinterpret_cast<::FUN_00cacf10_cls *>((void *)this)->FUN_00cacf10((void *)&(cast[0]))!=-1) {
                     removeFirst(cast);
                     if(!cast.hit()) {ok=1;break;}
                 }
                 if(cast.hits().count()>0) {
                     const PContact& hit=cast[0];
-                    FUN_00cad480(hit);
+                    reinterpret_cast<::FUN_00cad480_Class *>((void *)this)->FUN_00cad480((void *)&(hit));
                     manifold.push(hit);
                     if(!refresh) {
                         PBody* body=getBody(hit.rootB);
                         if(body && bodies.indexOf(body)==-1) {
-                            if(!threaded) body->FUN_00c9c5b0(static_cast<PEntityListener*>(this));
+                            if(!threaded) reinterpret_cast<::FNVOwner *>((body))->FUN_00c9c5b0((int)(static_cast<PEntityListener*>(this)));
                             bodies.push(body);
                         }
                         POther* phantom=getOther(hit.rootB);
                         if(phantom && phantoms.indexOf(phantom)==-1) {
-                            if(!threaded) phantom->AddItem(static_cast<PPhantomListener*>(this));
+                            if(!threaded) reinterpret_cast<::hkOwnerXd07da0 *>((phantom))->AddItem(static_cast<PPhantomListener*>(this));
                             phantoms.push(phantom);
                         }
                     }
@@ -1338,5 +1315,5 @@ void POwner::FUN_00cade20(const PStep& step,const PVec& gravity,PCollector& cast
     velocity=solved.velocity;
     if(threaded) phantom->pose()->SetWorldPosition(position);
     else phantom->FUN_00c9e990(position,query.tolerance);
-    {PStream& s=*static_cast<PStream*>(TlsGetValue(DAT_0126835c));if(s.available()){PTimer* p=reinterpret_cast<PTimer*>(s.GetStreamEnd());p->tag=str_01076f38;p->stamp();s.end(reinterpret_cast<char*>(p+1));}}
+    {PStream& s=*static_cast<PStream*>(TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))));if(s.available()){PTimer* p=reinterpret_cast<PTimer*>(s.GetStreamEnd());p->tag=::str_01076f38;p->stamp();s.end(reinterpret_cast<char*>(p+1));}}
 }

@@ -2,6 +2,13 @@
 // src/bsshader/bsshaderdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/bsshaderdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00baff20_Class.h"
+#include "fnv/decl/FUN_00be1750_shell.h"
+#include "fnv/decl/WorkerSource.h"
+#include "fnv/decl/fnv_00bafe10__Src.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00be0000.h"
+#include "fnv/symbols_01200000.h"
 struct BSMaterialEmittanceMultController;
 struct BSRefractionFirePeriodController;
 struct BSRefractionStrengthController;
@@ -20,9 +27,6 @@ struct ShaderPropertyConversionData
 {
     void Convert(NiAVObject*, unsigned int);
     void CheckTextureAlphas();
-    void AddShaderProperty(NiAVObject*);
-    void AddMaterialProperty(NiAVObject*);
-    void AddAlphaProperty(NiAVObject*);
     BSShaderProperty* GetShaderProperty();
     void SetupShaderFlags(BSShaderProperty*, NiAVObject*);
     void SetupTexturesPPLightingShader(BSShaderPPLightingProperty*);
@@ -106,11 +110,11 @@ struct FUN_00bb0180_shell : public ShaderPropertyConversionData
 void FUN_00bb0180_shell::AddProperties(NiAVObject* apTarget, unsigned int auiProperties)
 {
     if (auiProperties & 1)
-        AddAlphaProperty(apTarget);
+        reinterpret_cast<::WorkerSource *>(this)->UpdateWorkerObject((::WorkerTarget *)(apTarget));
     if (auiProperties & 2)
-        AddMaterialProperty(apTarget);
+        reinterpret_cast<::fnv_00bafe10::Src *>(this)->CreateAndAttachMaterialProperty((::fnv_00bafe10::NiAVObject_Attach *)(apTarget));
     if (auiProperties & 4)
-        AddShaderProperty(apTarget);
+        reinterpret_cast<::FUN_00baff20_Class *>(this)->AttachAlphaProperty(apTarget);
 }
 
 extern int DAT_012005e0;
@@ -164,17 +168,15 @@ template <class T> struct ShaderPtr
         return *this;
     }
 };
-extern ShaderPtr<NiD3DPixelShader> DAT_012005c8[2];
 void* _fnv_zlib_memset(void*, int, unsigned int);
-int _sprintf_s(char*, unsigned int, const char*, ...);
 struct NiD3DGPUProgramCache
 {
     static const char* __cdecl GetPixelShaderProfile(bool);
+public:
+    static const char *GetVertexShaderProfile();
 };
 struct BSShader
 {
-    static void __cdecl GetShaderPath(const char*, char*);
-    NiD3DPixelShader* CompilePixelShader(const char*, const _D3DXMACRO*, const char*, const char*);
 };
 struct PrecipShaderDef
 {
@@ -202,10 +204,10 @@ void FUN_00bb0360_t::CreatePrecipitationPixelShaders()
     char acPath[260];
     for (int i = 0; i < 2; i++)
     {
-        BSShader::GetShaderPath(ShaderDefs[i].pFile, acPath);
-        _sprintf_s(acName, 260, "PRECIP%03i.pso", i);
-        DAT_012005c8[i] = CompilePixelShader(acPath, ShaderDefs[i].Macros,
-                                             NiD3DGPUProgramCache::GetPixelShaderProfile(false), acName);
+        ::FUN_00be0c00(ShaderDefs[i].pFile, acPath);
+        ::FUN_00406d00(acName, 260, "PRECIP%03i.pso", i);
+        (*reinterpret_cast<ShaderPtr<NiD3DPixelShader> (*)[2]>(&::g_aspSmall))[i] = reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750((char *)(acPath), (void *)(ShaderDefs[i].Macros),
+                                             (char *)(NiD3DGPUProgramCache::GetPixelShaderProfile(false)), (char *)(acName));
     }
 }
 
@@ -224,15 +226,11 @@ struct NiD3DVertexShader
             DeleteThis();
     }
 };
-extern ShaderPtr<NiD3DVertexShader> DAT_012005d0[4];
 struct VSProfileCache
 {
-    static const char* __cdecl GetVertexShaderProfile();
 };
 struct BSShaderVS
 {
-    static void __cdecl GetShaderPath(const char*, char*);
-    NiD3DVertexShader* CompileVertexShader(const char*, const _D3DXMACRO*, const char*, const char*);
 };
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 struct FUN_00bb01c0_t : BSShaderVS
@@ -272,9 +270,9 @@ void FUN_00bb01c0_t::CreatePrecipitationVertexShaders()
     {
         char shaderName[260];
         char shaderPath[260];
-        GetShaderPath(shaderDefs[i].pFile, shaderPath);
-        _sprintf_s(shaderName, 260, "PRECIP%03i.vso", i);
-        DAT_012005d0[i] =
-            CompileVertexShader(shaderPath, shaderDefs[i].Macros, VSProfileCache::GetVertexShaderProfile(), shaderName);
+        ::FUN_00be0c00(shaderDefs[i].pFile, shaderPath);
+        ::FUN_00406d00(shaderName, 260, "PRECIP%03i.vso", i);
+        (*reinterpret_cast<ShaderPtr<NiD3DVertexShader> (*)[4]>(&::g_aspLarge))[i] =
+            ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(shaderPath), (const char *)(shaderDefs[i].Macros), ::NiD3DGPUProgramCache::GetVertexShaderProfile())));
     }
 }

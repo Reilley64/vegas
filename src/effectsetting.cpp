@@ -1,12 +1,53 @@
 // effectsetting.cpp: EffectSetting, EndianSwappableData, EffectSettingList, EffT (41 functions)
 
+#include <new>
+#include "fnv/decl/B408A80String.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004046b0_cls.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00485c10_shell.h"
+#include "fnv/decl/FUN_004fd380_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_00644930_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008ac890_shell.h"
+#include "fnv/decl/FUN_008cc6d0_class.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/InterfaceManager.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TESObjectACTI.h"
+#include "fnv/decl/TESPackage.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_0057bd60__fnv_anon_tesobjectrefr__Dummy.h"
+#include "fnv/decl/fnv_005f5f80__FUN_005f5f80_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00407000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_004fd000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_006ca000.h"
+#include "fnv/symbols_0070e000.h"
+#include "fnv/symbols_01183000.h"
+#include "fnv/symbols_011c3000.h"
 #include "effectsetting_decls.h"
 
 // Compares the effect name with name case-insensitively and, if they differ, sets the full name to name.
 // @fnv 0x00408570
 void EffectSetting::UpdateEffectName(const char* name)
 {
-    int comparison = GetEffectName().StrCmp(name, true);
+    int comparison = reinterpret_cast<::B408A80String *>((void *)(void *)&(const ::BSStringT<char> &)((*(::BSStringT<char> *)(reinterpret_cast<::FUN_004046b0_cls *>((void *)this)->AssignFromSub({})))))->FUN_00408a80(name, true);
     if (comparison)
         SetFullName(name);
 }
@@ -29,164 +70,6 @@ bool EffectSetting::HasNoAssociatedActorValue()
     return m_iActorValue < 0;
 }
 
-// Loads an EffectSetting record from a TESFile, dispatching on chunk IDs to read editor ID, name, description, texture, model, data and counter effects.
-// @fnv 0x00407ac0
-bool EffectSetting::Load(TESFile* file)
-{
-    if (file->GetTESForm() != 16)
-        return false;
-    LoadRecordHeader(file);
-    int chunk;
-    while ((chunk = file->GetChunkID()) != 0)
-    {
-        switch (chunk)
-        {
-        case 0x44494445:  // EDID
-        {
-            char* editorID = static_cast<char*>(_alloca(file->GetChunkSize()));
-            file->GetChunkData(editorID, 512);
-            SetEditorID_AtRuntime(editorID);
-        }
-        break;
-        case 0x444e424f:  // OBND
-            readOBNDSubRecord(file);
-            break;
-        case 0x4c4c5546:  // FULL
-            TESFullNameLoader::LoadFullNameChunk(this, file);
-            break;
-        case 0x43534544:  // DESC
-            TESDescription::ReadDescriptionFromFile(this, file);
-            break;
-        case 0x4e4f4349:  // ICON
-            TESTexture::ReadTextureData(this, file);
-            break;
-        case 0x4c444f4d:  // MODL
-        case 0x54444f4d:  // MODT
-            TESModel::LoadModelData(this, file);
-            break;
-        case 0x41544144:  // DATA
-            memset(&data, 0, sizeof(data));
-            data.fSpeed = 1.0f;
-            file->GetChunkData(&data, sizeof(data));
-            if (file->IsEndianConversionRequired())
-                data.Endian();
-            SetFlag(PLAYER_KNOWS, false);
-            break;
-        case 0x45435345:  // ESCE
-        {
-            struct CounterEffectReference
-            {
-                unsigned int formID;
-                EffectSetting* effect;
-            } counterRef;
-            file->GetChunkData(&counterRef.formID);
-            if (file->IsEndianConversionRequired())
-                BSEndian(&counterRef.formID, EndianSizeTag<4>());
-            TESForm::RemapFormIDForFile(counterRef.formID, file);
-            counterRef.effect = dynamic_cast<EffectSetting*>(TESForm::GetFormByID(counterRef.formID));
-            if (counterRef.effect)
-            {
-                counterEffects.AddHead(counterRef.effect);
-                data.m_sCounterEffectCount = counterEffects.ItemsInList();
-            }
-            else
-                Warning("FORMS: Invalid form ID (%d) for effect setting found while loading counter effects for %s.",
-                        counterRef.formID, GetName());
-        }
-        break;
-        }
-        if (!file->NextChunk())
-            break;
-    }
-    return true;
-}
-
-// Resolves the effect's associated item, light, sounds and shaders by form ID, warns on missing forms, and marks the item initialized.
-// @fnv 0x00407e50
-void EffectSetting::InitItem()
-{
-    unsigned int formID;
-    if (GetInitialized())
-        return;
-    if (IsAssociatedFormUsed() && !GetFlag(0x180000))
-    {
-        unsigned int associatedID = reinterpret_cast<unsigned int>(data.m_pAssociatedForm);
-        if (associatedID)
-        {
-            TESForm::RemapFormIDForFile(associatedID, GetFile(-1));
-            data.m_pAssociatedForm = TESForm::GetFormByID(associatedID);
-            if (!data.m_pAssociatedForm)
-                Warning("MASTERFILE: Could not find associated item (%08X) for Effect '%s' (%08X).", associatedID,
-                        GetName(), GetFormID());
-        }
-    }
-    else
-        data.m_pAssociatedForm = 0;
-    formID = reinterpret_cast<unsigned int>(GetLight());
-    if (formID)
-    {
-        TESForm::RemapFormIDForFile(formID, GetFile(-1));
-        SetLight(dynamic_cast<TESObjectLIGH*>(TESForm::GetFormByID(formID)));
-        if (!GetLight())
-            Warning("MASTERFILE: Could not find light (%08X) for Effect '%s' (%08X).", formID, GetName(), GetFormID());
-    }
-    formID = reinterpret_cast<unsigned int>(GetCastSound());
-    if (formID)
-    {
-        TESForm::RemapFormIDForFile(formID, GetFile(-1));
-        SetCastSound(dynamic_cast<TESSound*>(TESForm::GetFormByID(formID)));
-        if (!GetCastSound())
-            Warning("MASTERFILE: Could not find cast sound (%08X) for Effect '%s' (%08X).", formID, GetName(),
-                    GetFormID());
-    }
-    formID = reinterpret_cast<unsigned int>(GetBoltSound());
-    if (formID)
-    {
-        TESForm::RemapFormIDForFile(formID, GetFile(-1));
-        SetBoltSound(dynamic_cast<TESSound*>(TESForm::GetFormByID(formID)));
-        if (!GetBoltSound())
-            Warning("MASTERFILE: Could not find bolt sound (%08X) for Effect '%s' (%08X).", formID, GetName(),
-                    GetFormID());
-    }
-    formID = reinterpret_cast<unsigned int>(GetHitSound());
-    if (formID)
-    {
-        TESForm::RemapFormIDForFile(formID, GetFile(-1));
-        SetHitSound(dynamic_cast<TESSound*>(TESForm::GetFormByID(formID)));
-        if (!GetHitSound())
-            Warning("MASTERFILE: Could not find hit sound (%08X) for Effect '%s' (%08X).", formID, GetName(),
-                    GetFormID());
-    }
-    formID = reinterpret_cast<unsigned int>(GetAreaSound());
-    if (formID)
-    {
-        TESForm::RemapFormIDForFile(formID, GetFile(-1));
-        SetAreaSound(dynamic_cast<TESSound*>(TESForm::GetFormByID(formID)));
-        if (!GetAreaSound())
-            Warning("MASTERFILE: Could not find area sound (%08X) for Effect '%s' (%08X).", formID, GetName(),
-                    GetFormID());
-    }
-    formID = reinterpret_cast<unsigned int>(GetEffectShader());
-    if (formID)
-    {
-        TESForm::RemapFormIDForFile(formID, GetFile(-1));
-        SetEffectShader(dynamic_cast<TESEffectShader*>(TESForm::GetFormByID(formID)));
-        if (!GetEffectShader())
-            Warning("MASTERFILE: Could not find effect shader (%08X) for Effect '%s' (%08X).", formID, GetName(),
-                    GetFormID());
-    }
-    formID = reinterpret_cast<unsigned int>(GetEnchantEffectShader());
-    if (formID)
-    {
-        TESForm::RemapFormIDForFile(formID, GetFile(-1));
-        SetEnchantEffectShader(dynamic_cast<TESEffectShader*>(TESForm::GetFormByID(formID)));
-        if (!GetEnchantEffectShader())
-            Warning("MASTERFILE: Could not find enchant effect shader (%08X) for Effect '%s' (%08X).", formID,
-                    GetName(), GetFormID());
-    }
-    SetInitializationState(true);
-}
-
 // @fnv 0x004088c0
 int EffectSetting::FUN_004088c0()
 {
@@ -206,7 +89,7 @@ void EffectSetting::SetFlag(EffectFlag flag, bool value)
 int EffectSetting::QueueAssociatedItem()
 {
     if (m_iActorValue > 0)
-        Warning("GAME EFFECTS: Trying to Queue up an Effect Associated Item which is already loaded");
+        ::FUN_005b5e40();
     else
         --m_iActorValue;
     return m_iActorValue;
@@ -304,7 +187,7 @@ int FUN_00408790_shell::FUN_00408790()
 {
     if (*(int*)((char*)this + 0xac) > 0)
     {
-        Warning("GAME EFFECTS: Trying to Queue up an Effect Associated Item which is already loaded");
+        ::FUN_005b5e40();
     }
     else
     {
@@ -387,6 +270,84 @@ struct FUN_008ce390_shell : public EffectSetting
 {
     TESSound* FUN_008ce390();
 };
+// Resolves the effect's associated item, light, sounds and shaders by form ID, warns on missing forms, and marks the item initialized.
+// @fnv 0x00407e50
+void EffectSetting::InitItem()
+{
+    unsigned int formID;
+    if (GetInitialized())
+        return;
+    if (::IsArchetypeFlagSet((::EffectSetting *)this) && !GetFlag(0x180000))
+    {
+        unsigned int associatedID = reinterpret_cast<unsigned int>(data.m_pAssociatedForm);
+        if (associatedID)
+        {
+            ::ResolveFormID((unsigned int *)&(associatedID), GetFile(-1));
+            data.m_pAssociatedForm = ::FUN_004839c0(associatedID);
+            if (!data.m_pAssociatedForm)
+                ::FUN_005b5e40();
+        }
+    }
+    else
+        data.m_pAssociatedForm = 0;
+    formID = reinterpret_cast<unsigned int>(((::TESObjectLIGH *)(reinterpret_cast<::FUN_004fd380_shell *>(this)->FUN_004fd380())));
+    if (formID)
+    {
+        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
+        reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>(this)->FUN_0057bd60((::fnv_0057bd60::MobileObject *)(::TESObjectLIGH *)(dynamic_cast<TESObjectLIGH*>(::FUN_004839c0(formID))));
+        if (!((::TESObjectLIGH *)(reinterpret_cast<::FUN_004fd380_shell *>(this)->FUN_004fd380())))
+            ::FUN_005b5e40();
+    }
+    formID = reinterpret_cast<unsigned int>(GetCastSound());
+    if (formID)
+    {
+        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
+        reinterpret_cast<::FUN_008ac890_shell *>(this)->SetWaterForm((::TESWaterForm *)(::TESSound *)(dynamic_cast<TESSound*>(::FUN_004839c0(formID))));
+        if (!GetCastSound())
+            ::FUN_005b5e40();
+    }
+    formID = reinterpret_cast<unsigned int>(((::TESSound *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)this))));
+    if (formID)
+    {
+        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
+        SetBoltSound(dynamic_cast<TESSound*>(::FUN_004839c0(formID)));
+        if (!((::TESSound *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)this))))
+            ::FUN_005b5e40();
+    }
+    formID = reinterpret_cast<unsigned int>(GetHitSound());
+    if (formID)
+    {
+        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
+        reinterpret_cast<::FUN_00857230_shell *>(this)->SetSound(dynamic_cast<TESSound*>(::FUN_004839c0(formID)));
+        if (!GetHitSound())
+            ::FUN_005b5e40();
+    }
+    formID = reinterpret_cast<unsigned int>(reinterpret_cast<::FUN_008ce390_shell *>(this)->FUN_008ce390());
+    if (formID)
+    {
+        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
+        reinterpret_cast<::FUN_008cc6d0_class *>(this)->FUN_008cc6d0((int)(dynamic_cast<TESSound*>(::FUN_004839c0(formID))));
+        if (!reinterpret_cast<::FUN_008ce390_shell *>(this)->FUN_008ce390())
+            ::FUN_005b5e40();
+    }
+    formID = reinterpret_cast<unsigned int>(reinterpret_cast<::FUN_00407820_shell *>(this)->FUN_00407820());
+    if (formID)
+    {
+        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
+        reinterpret_cast<::TESObjectACTI *>(this)->SetActivateSound((::TESSound *)(::TESEffectShader *)(dynamic_cast<TESEffectShader*>(::FUN_004839c0(formID))));
+        if (!reinterpret_cast<::FUN_00407820_shell *>(this)->FUN_00407820())
+            ::FUN_005b5e40();
+    }
+    formID = reinterpret_cast<unsigned int>(((::TESEffectShader *)(reinterpret_cast<::TESPackage *>(this)->GetRefCount())));
+    if (formID)
+    {
+        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
+        SetEnchantEffectShader(dynamic_cast<TESEffectShader*>(::FUN_004839c0(formID)));
+        if (!((::TESEffectShader *)(reinterpret_cast<::TESPackage *>(this)->GetRefCount())))
+            ::FUN_005b5e40();
+    }
+    SetInitializationState(true);
+}
 
 // @fnv 0x008ce390
 TESSound* FUN_008ce390_shell::FUN_008ce390()
@@ -400,15 +361,6 @@ struct S
     void FUN_00407230();
     void* DestroyIfFlagged(unsigned int);
 };
-// @fnv 0x00407200
-void* S::DestroyIfFlagged(unsigned int flags)
-{
-    FUN_00407230();
-    if (flags & 1)
-        operator delete(this);
-    return this;
-}
-
 extern "C" short __cdecl FUN_00ec3bda(short);
 
 // Replaces the short value pointed to by p with the result of FUN_00ec3bda applied to it.
@@ -503,28 +455,12 @@ bool FUN_00408a00_Struct::IsPositive()
 
 struct Dummy00501c30
 {
-    bool IsNotOne(const char*);
     bool FUN_00501c30(const char*);
 };
-// Returns the negation of IsNotOne for the given string argument.
-// @fnv 0x00501c30
-bool Dummy00501c30::FUN_00501c30(const char* pcString)
-{
-    return !IsNotOne(pcString);
-}
-
 struct S501c60
 {
-    int CompareString(const char*, int);
     bool IsNotOne(const char*);
 };
-// Returns true when CompareString called with the string and 1 returns zero.
-// @fnv 0x00501c60
-bool S501c60::IsNotOne(const char* a)
-{
-    return !this->CompareString(a, 1);
-}
-
 struct Flt
 {
     operator unsigned int() const;
@@ -533,21 +469,33 @@ struct FUN_00501c90_shell : BSStringT<char>
 {
     int CompareString(BSStringT<char> const* arString, bool abIgnoreCase);
 };
+// Returns the negation of IsNotOne for the given string argument.
+// @fnv 0x00501c30
+bool Dummy00501c30::FUN_00501c30(const char* pcString)
+{
+    return !reinterpret_cast<::S501c60 *>(this)->IsNotOne(pcString);
+}
+// Returns true when CompareString called with the string and 1 returns zero.
+// @fnv 0x00501c60
+bool S501c60::IsNotOne(const char* a)
+{
+    return !reinterpret_cast<::FUN_00501c90_shell *>((this))->CompareString((const ::BSStringT<char> *)(a), 1);
+}
 // @fnv 0x00501c90
 int FUN_00501c90_shell::CompareString(BSStringT<char> const* apString, bool abIgnoreCase)
 {
-    return StrCmp((char const*)((Flt const*)apString)->operator unsigned int(), abIgnoreCase);
+    return reinterpret_cast<::B408A80String *>((void *)this)->FUN_00408a80((char const*)((Flt const*)apString)->operator unsigned int(), abIgnoreCase);
 }
 
 struct TESChallenge
 {
-    int GetThreshold();
-    int GetInterval();
 };
 
 struct LowProcess
 {
     void SetPackageObjectType(int value);
+public:
+    int GetPackageObjectType();
 };
 
 struct TESGrass
@@ -557,16 +505,18 @@ struct TESGrass
 
 struct IMH
 {
-    int FUN_00586150();
 };
 
 struct TargetDoorController
 {
 };
 
+class TargetDoorController;
 struct MiddleHighProcess
 {
     void AddDeferredHideLimb(TargetDoorController* value);
+public:
+    void SetFaceAnimationData(::TargetDoorController *);
 };
 
 struct Date
@@ -575,12 +525,10 @@ struct Date
 
 struct PlayerQuestData
 {
-    void SetLogDate(Date* value);
 };
 
 struct TES
 {
-    void* GetLogDate();
 };
 
 struct FUN_00407860_class
@@ -601,7 +549,6 @@ struct PathingRequest
 
 struct S3c60
 {
-    int GetArchetype();
 };
 
 struct FUN_009e3360_Class
@@ -611,7 +558,6 @@ struct FUN_009e3360_Class
 
 struct TESDataHandler
 {
-    void* GetBGSRecipeList();
     unsigned int GetNextID();
 };
 
@@ -619,24 +565,17 @@ struct DH : public TESDataHandler
 {
 };
 
-extern DH* g_dataHandler;
 
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm* value);
 };
 
 struct EffectSettingAux
 {
-    void FUN_004ee4b0(float value);
-    void SetAssociatedActorValue(int value);
-    void SetEffectID(int value);
-    int GetEffectID();
 };
 
 struct TESEffectShaderAux
 {
-    float FUN_00644930();
 };
 
 struct FUN_00408600_class
@@ -644,7 +583,6 @@ struct FUN_00408600_class
     void CopyValuesFromList(void* value);
 };
 
-float __fastcall GetField90Float(char* value);
 
 struct FUN_00407600_class : public EffectSetting
 {
@@ -659,66 +597,135 @@ void FUN_00407600_class::CopyFromEffectSetting(TESForm* apCopy)
     if (!psetting)
         return;
 
-    reinterpret_cast<FUN_005e78f0_t*>(this)->FUN_004851b0(apCopy);
+    reinterpret_cast<::FormCloneOperation *>((reinterpret_cast<FUN_005e78f0_t*>(this)))->FUN_004851b0(apCopy);
     reinterpret_cast<LowProcess*>(this)->SetPackageObjectType(
-        reinterpret_cast<TESChallenge*>(psetting)->GetThreshold());
-    reinterpret_cast<EffectSettingAux*>(this)->FUN_004ee4b0(reinterpret_cast<TESGrass*>(psetting)->GetLowestAllowedSlope());
-    reinterpret_cast<EffectSettingAux*>(this)->SetAssociatedActorValue(
-        reinterpret_cast<IMH*>(psetting)->FUN_00586150());
+        reinterpret_cast<::LowProcess *>((reinterpret_cast<TESChallenge*>(psetting)))->GetPackageObjectType());
+    reinterpret_cast<::FUN_004ee4b0_shell *>((reinterpret_cast<EffectSettingAux*>(this)))->FUN_004ee4b0(reinterpret_cast<TESGrass*>(psetting)->GetLowestAllowedSlope());
+    reinterpret_cast<::FUN_00810570_shell *>((reinterpret_cast<EffectSettingAux*>(this)))->SetAssociatedActorValue(
+        ((int)(reinterpret_cast<::InterfaceManager *>((reinterpret_cast<IMH*>(psetting)))->FUN_00586150())));
     reinterpret_cast<MiddleHighProcess*>(this)->AddDeferredHideLimb(
-        reinterpret_cast<TargetDoorController*>(reinterpret_cast<EffectSettingAux*>(psetting)->GetEffectID()));
-    reinterpret_cast<PlayerQuestData*>(this)->SetLogDate(
-        reinterpret_cast<Date*>(reinterpret_cast<TES*>(psetting)->GetLogDate()));
+        reinterpret_cast<TargetDoorController*>(((int)(::FUN_0070ec90((char *)(reinterpret_cast<EffectSettingAux*>(psetting)))))));
+    reinterpret_cast<::MiddleHighProcess *>((reinterpret_cast<PlayerQuestData*>(this)))->SetFaceAnimationData(
+        (::TargetDoorController *)(::Date *)(reinterpret_cast<Date*>(((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<TES*>(psetting)))->GetBaseTexture())))));
     reinterpret_cast<FUN_00407860_class*>(this)->FUN_00407860(GetField90Float(reinterpret_cast<char*>(psetting)));
     reinterpret_cast<FUN_00407880_Class*>(this)->FUN_00407880(
-        reinterpret_cast<TESEffectShaderAux*>(psetting)->FUN_00644930());
+        reinterpret_cast<::FUN_00644930_shell *>((reinterpret_cast<TESEffectShaderAux*>(psetting)))->FUN_00644930());
     reinterpret_cast<PathingRequest*>(this)->SetCenterRadius(
         reinterpret_cast<PathingRequest*>(psetting)->GetCenterRadius());
-    reinterpret_cast<EffectSettingAux*>(this)->SetEffectID(reinterpret_cast<S3c60*>(psetting)->GetArchetype());
-    reinterpret_cast<FUN_009e3360_Class*>(this)->SetMode(reinterpret_cast<TESChallenge*>(psetting)->GetInterval());
-    SetLight(psetting->GetLight());
-    SetEffectShader(psetting->GetEffectShader());
-    SetEnchantEffectShader(psetting->GetEnchantEffectShader());
-    SetCastSound(psetting->GetCastSound());
-    SetBoltSound(psetting->GetBoltSound());
-    SetHitSound(psetting->GetHitSound());
-    SetAreaSound(psetting->GetAreaSound());
+    reinterpret_cast<::FUN_004078a0_shell *>((reinterpret_cast<EffectSettingAux*>(this)))->SetEffectID(reinterpret_cast<::EffectSetting *>((reinterpret_cast<S3c60*>(psetting)))->GetArchetype());
+    reinterpret_cast<FUN_009e3360_Class*>(this)->SetMode(((int)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((reinterpret_cast<TESChallenge*>(psetting)))->FUN_005f5f80())));
+    reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>(this)->FUN_0057bd60((::fnv_0057bd60::MobileObject *)(::TESObjectLIGH *)(((::TESObjectLIGH *)(reinterpret_cast<::FUN_004fd380_shell *>((psetting))->FUN_004fd380()))));
+    reinterpret_cast<::TESObjectACTI *>(this)->SetActivateSound((::TESSound *)(::TESEffectShader *)(reinterpret_cast<::FUN_00407820_shell *>((psetting))->FUN_00407820()));
+    SetEnchantEffectShader(((::TESEffectShader *)(reinterpret_cast<::TESPackage *>((psetting))->GetRefCount())));
+    reinterpret_cast<::FUN_008ac890_shell *>(this)->SetWaterForm((::TESWaterForm *)(::TESSound *)(psetting->GetCastSound()));
+    SetBoltSound(((::TESSound *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(psetting)))));
+    reinterpret_cast<::FUN_00857230_shell *>(this)->SetSound(psetting->GetHitSound());
+    reinterpret_cast<::FUN_008cc6d0_class *>(this)->FUN_008cc6d0((int)(reinterpret_cast<::FUN_008ce390_shell *>((psetting))->FUN_008ce390()));
     reinterpret_cast<FUN_00408600_class*>(this)->CopyValuesFromList(
-        reinterpret_cast<TESDataHandler*>(psetting)->GetBGSRecipeList());
+        reinterpret_cast<::FUN_004077e0_shell *>((reinterpret_cast<TESDataHandler*>(psetting)))->FUN_004077e0());
 
-    if (!IsTemporary() && GetFormID() == 0)
+    if (!reinterpret_cast<::FUN_004077c0_shell *>((void *)this)->FUN_004077c0() && ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((void *)this)->FUN_0084e3a0())) == 0)
         SetRefID(g_dataHandler->GetNextID(), true);
 }
 
-void BSEndian(unsigned int*, EndianSizeTag<2>);
 
 struct EndianSwappableData
 {
     void SwapEndianFields();
 };
+// Loads an EffectSetting record from a TESFile, dispatching on chunk IDs to read editor ID, name, description, texture, model, data and counter effects.
+// @fnv 0x00407ac0
+bool EffectSetting::Load(TESFile* file)
+{
+    if (reinterpret_cast<::FUN_00472660_shell *>((file))->FUN_00472660() != 16)
+        return false;
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
+    int chunk;
+    while ((chunk = reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()) != 0)
+    {
+        switch (chunk)
+        {
+        case 0x44494445:  // EDID
+        {
+            char* editorID = static_cast<char*>(_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(editorID), 512);
+            SetEditorID_AtRuntime(editorID);
+        }
+        break;
+        case 0x444e424f:  // OBND
+            readOBNDSubRecord(file);
+            break;
+        case 0x4c4c5546:  // FULL
+            ::ReadFullName(this, file);
+            break;
+        case 0x43534544:  // DESC
+            TESDescription::ReadDescriptionFromFile(this, file);
+            break;
+        case 0x4e4f4349:  // ICON
+            TESTexture::ReadTextureData(this, file);
+            break;
+        case 0x4c444f4d:  // MODL
+        case 0x54444f4d:  // MODT
+            TESModel::LoadModelData(this, file);
+            break;
+        case 0x41544144:  // DATA
+            memset(&data, 0, sizeof(data));
+            data.fSpeed = 1.0f;
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&data), sizeof(data));
+            if (file->IsEndianConversionRequired())
+                reinterpret_cast<::EndianSwappableData *>(&(data))->SwapEndianFields();
+            SetFlag(PLAYER_KNOWS, false);
+            break;
+        case 0x45435345:  // ESCE
+        {
+            struct CounterEffectReference
+            {
+                unsigned int formID;
+                EffectSetting* effect;
+            } counterRef;
+            file->GetChunkData(&counterRef.formID);
+            if (file->IsEndianConversionRequired())
+                ::FUN_00401080((int *)(unsigned int *)(&counterRef.formID));
+            ::ResolveFormID((unsigned int *)&(counterRef.formID), file);
+            counterRef.effect = dynamic_cast<EffectSetting*>(::FUN_004839c0(counterRef.formID));
+            if (counterRef.effect)
+            {
+                counterEffects.AddHead(counterRef.effect);
+                data.m_sCounterEffectCount = counterEffects.ItemsInList();
+            }
+            else
+                ::FUN_005b5e40();
+        }
+        break;
+        }
+        if (!file->NextChunk())
+            break;
+    }
+    return true;
+}
 
 // Byte-swaps the 4-byte fields at offsets 0x00-0x40 and the 2-byte field at 0x14 of this object via BSEndian.
 // @fnv 0x004078c0
 void EndianSwappableData::SwapEndianFields()
 {
-    BSEndian((unsigned int*)((unsigned char*)this + 0x00), EndianSizeTag<4>());
-    BSEndian((unsigned int*)((unsigned char*)this + 0x04), EndianSizeTag<4>());
-    BSEndian((unsigned int*)((unsigned char*)this + 0x44), EndianSizeTag<4>());
-    BSEndian((unsigned int*)((unsigned char*)this + 0x08), EndianSizeTag<4>());
-    BSEndian((unsigned int*)((unsigned char*)this + 0x0C), EndianSizeTag<4>());
-    BSEndian((unsigned int*)((unsigned char*)this + 0x10), EndianSizeTag<4>());
-    BSEndian((unsigned int*)((unsigned char*)this + 0x14), EndianSizeTag<2>());
-    BSEndian((unsigned int*)((unsigned char*)this + 0x18), EndianSizeTag<4>());
-    BSEndian((unsigned int*)((unsigned char*)this + 0x1C), EndianSizeTag<4>());
-    BSEndian((unsigned int*)((unsigned char*)this + 0x20), EndianSizeTag<4>());
-    BSEndian((unsigned int*)((unsigned char*)this + 0x24), EndianSizeTag<4>());
-    BSEndian((unsigned int*)((unsigned char*)this + 0x28), EndianSizeTag<4>());
-    BSEndian((unsigned int*)((unsigned char*)this + 0x2C), EndianSizeTag<4>());
-    BSEndian((unsigned int*)((unsigned char*)this + 0x30), EndianSizeTag<4>());
-    BSEndian((unsigned int*)((unsigned char*)this + 0x34), EndianSizeTag<4>());
-    BSEndian((unsigned int*)((unsigned char*)this + 0x38), EndianSizeTag<4>());
-    BSEndian((unsigned int*)((unsigned char*)this + 0x3C), EndianSizeTag<4>());
-    BSEndian((unsigned int*)((unsigned char*)this + 0x40), EndianSizeTag<4>());
+    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x00)));
+    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x04)));
+    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x44)));
+    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x08)));
+    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x0C)));
+    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x10)));
+    ::FUN_00407a90((short *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x14)));
+    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x18)));
+    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x1C)));
+    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x20)));
+    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x24)));
+    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x28)));
+    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x2C)));
+    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x30)));
+    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x34)));
+    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x38)));
+    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x3C)));
+    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x40)));
 }
 
 struct EffectSettingList : public BSSimpleList<EffectSetting*>
@@ -748,6 +755,14 @@ class FUN_00407230 : public FormBase, public TESModel, public TESDescription, pu
     int m_iEffectID;
     ~FUN_00407230();
 };
+// @fnv 0x00407200
+void* S::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00407230 *>(this)->FUN_00407230::~FUN_00407230();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x00407230
 FUN_00407230::~FUN_00407230()
@@ -761,7 +776,6 @@ EffectSettingList::~EffectSettingList()
 struct SubListA0
 {
     unsigned int unk00;
-    void Reset();
     void AddItem(int* item);
 };
 
@@ -809,8 +823,6 @@ struct TESFormLike
     unsigned int unk98;
     unsigned int unk9C;
     SubListA0 m_a0;
-    int* GetVal();
-    TESFormLike* Next();
 };
 
 // Resets m_a0 and m_6c, then walks the list from arg, adding each non-zero GetVal result to m_a0 and counting them in m_6c.
@@ -818,9 +830,9 @@ struct TESFormLike
 void FUN_00408600_class::CopyValuesFromList(void* pSourceList)
 {
     int val;
-    ((TESFormLike*)this)->m_a0.Reset();
+    reinterpret_cast<::FileMatchList *>(&(((TESFormLike*)this)->m_a0))->RemoveAll();
     ((TESFormLike*)this)->m_6c = 0;
-    for (TESFormLike* cur = (TESFormLike*)pSourceList; cur != 0 && (val = *cur->GetVal()) != 0; cur = cur->Next())
+    for (TESFormLike* cur = (TESFormLike*)pSourceList; cur != 0 && (val = *((int *)(new ((void *)(cur)) ::Vec3()))) != 0; cur = ((::TESFormLike *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070())))
     {
         ((TESFormLike*)this)->m_a0.AddItem(&val);
         ((TESFormLike*)this)->m_6c++;
@@ -829,63 +841,42 @@ void FUN_00408600_class::CopyValuesFromList(void* pSourceList)
 
 struct ListT
 {
-    unsigned int* FUN_006815c0();
-    ListT* FUN_00726070();
 };
 struct EffT
 {
     char pad00[0xa0];
     ListT m_a0;
-    bool FUN_00485270(void* p);
-    int FUN_006286d0();
-    double FUN_00639b20();
-    int FUN_00586150();
-    int FUN_005f5f80();
-    int FUN_0070ec90();
-    int FUN_008d8520();
-    int FUN_004fd380();
-    int FUN_00407820();
-    int FUN_00407840();
-    double FUN_009b0bd0();
-    int FUN_004fb070();
-    int FUN_004fd3c0();
-    int FUN_004fd3e0();
-    int FUN_008ce390();
-    int GetShortValue();
-    int FUN_00810fd0();
     bool IsDifferentFrom(void* param);
 };
-extern int DAT_01183028;
-extern int DAT_011837c4;
 void* __cdecl FUN_00ec43fb(void* a1, int a2, int* a3, int* a4, int a5);
 
 // @fnv 0x004082f0
 bool EffT::IsDifferentFrom(void* pObject)
 {
-    EffT* other = (EffT*)FUN_00ec43fb(pObject, 0, &DAT_01183028, &DAT_011837c4, 0);
+    EffT* other = (EffT*)FUN_00ec43fb(pObject, 0, &DAT_01183028, &(*reinterpret_cast<int *>(&::DAT_011837c4)), 0);
     if (other == 0)
         return 1;
-    if (FUN_00485270(pObject))
+    if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270((::TESForm *)(pObject)))
         return 1;
-    if (FUN_006286d0() != other->FUN_006286d0() || !(FUN_00639b20() == other->FUN_00639b20()) ||
-        FUN_00586150() != other->FUN_00586150() || FUN_005f5f80() != other->FUN_005f5f80() ||
-        FUN_0070ec90() != other->FUN_0070ec90() || FUN_008d8520() != other->FUN_008d8520() ||
-        FUN_004fd380() != other->FUN_004fd380() || FUN_00407820() != other->FUN_00407820() ||
-        FUN_00407840() != other->FUN_00407840() || !(FUN_009b0bd0() == other->FUN_009b0bd0()) ||
-        FUN_004fb070() != other->FUN_004fb070() || FUN_004fd3c0() != other->FUN_004fd3c0() ||
-        FUN_004fd3e0() != other->FUN_004fd3e0() || FUN_008ce390() != other->FUN_008ce390() ||
-        GetShortValue() != other->GetShortValue() || FUN_00810fd0() != other->FUN_00810fd0())
+    if (reinterpret_cast<::LowProcess *>(this)->GetPackageObjectType() != reinterpret_cast<::LowProcess *>((other))->GetPackageObjectType() || !(((double)(reinterpret_cast<::TESGrass *>(this)->GetLowestAllowedSlope())) == ((double)(reinterpret_cast<::TESGrass *>((other))->GetLowestAllowedSlope()))) ||
+        ((int)(reinterpret_cast<::InterfaceManager *>(this)->FUN_00586150())) != ((int)(reinterpret_cast<::InterfaceManager *>((other))->FUN_00586150())) || ((int)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>(this)->FUN_005f5f80())) != ((int)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((other))->FUN_005f5f80())) ||
+        ((int)(::FUN_0070ec90((char *)this))) != ((int)(::FUN_0070ec90((char *)(other)))) || ((int)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())) != ((int)(reinterpret_cast<::BSShaderNoLightingProperty *>((other))->GetBaseTexture())) ||
+        ((int)(reinterpret_cast<::FUN_004fd380_shell *>(this)->FUN_004fd380())) != ((int)(reinterpret_cast<::FUN_004fd380_shell *>((other))->FUN_004fd380())) || ((int)(reinterpret_cast<::FUN_00407820_shell *>(this)->FUN_00407820())) != ((int)(reinterpret_cast<::FUN_00407820_shell *>((other))->FUN_00407820())) ||
+        ((int)(reinterpret_cast<::TESPackage *>(this)->GetRefCount())) != ((int)(reinterpret_cast<::TESPackage *>((other))->GetRefCount())) || !(((double)(reinterpret_cast<::PathingRequest *>(this)->GetCenterRadius())) == ((double)(reinterpret_cast<::PathingRequest *>((other))->GetCenterRadius()))) ||
+        ((int)(reinterpret_cast<::EffectSetting *>(this)->GetCastSound())) != ((int)(reinterpret_cast<::EffectSetting *>((other))->GetCastSound())) || ((int)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)this))) != ((int)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(other)))) ||
+        ((int)(reinterpret_cast<::EffectSetting *>(this)->GetHitSound())) != ((int)(reinterpret_cast<::EffectSetting *>((other))->GetHitSound())) || ((int)(reinterpret_cast<::FUN_008ce390_shell *>(this)->FUN_008ce390())) != ((int)(reinterpret_cast<::FUN_008ce390_shell *>((other))->FUN_008ce390())) ||
+        reinterpret_cast<::FUN_00408550_Cls *>(this)->GetShortValue() != reinterpret_cast<::FUN_00408550_Cls *>((other))->GetShortValue() || reinterpret_cast<::EffectSetting *>(this)->GetArchetype() != reinterpret_cast<::EffectSetting *>((other))->GetArchetype())
         return 1;
     ListT* pa4 = &m_a0;
     ListT* pbX = &other->m_a0;
     while (pa4 && pbX)
     {
-        unsigned int av = *pa4->FUN_006815c0();
-        unsigned int bv5 = *pbX->FUN_006815c0();
+        unsigned int av = *((unsigned int *)(new ((void *)(pa4)) ::Vec3()));
+        unsigned int bv5 = *((unsigned int *)(new ((void *)(pbX)) ::Vec3()));
         if (av != bv5)
             return 1;
-        pa4 = pa4->FUN_00726070();
-        pbX = pbX->FUN_00726070();
+        pa4 = ((::ListT *)(reinterpret_cast<::Callees *>((pa4))->FUN_00726070()));
+        pbX = ((::ListT *)(reinterpret_cast<::Callees *>((pbX))->FUN_00726070()));
     }
     return 0;
 }

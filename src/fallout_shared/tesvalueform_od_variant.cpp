@@ -5,6 +5,19 @@
 // src/fallout_shared/tesvalueform.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/tesvalueform.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_005be5c0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_008579e0_shell.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/fnv_004280f0__FUN_004280f0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00968670__FUN_00968670_shell.h"
+#include "fnv/symbols_00421000.h"
+#include "fnv/symbols_011de000.h"
 struct BaseFormComponent
 {
     virtual ~BaseFormComponent();
@@ -12,7 +25,6 @@ struct BaseFormComponent
 
 struct TESValueForm : BaseFormComponent
 {
-    unsigned int GetValueFromForm();
     void SetFormValue(unsigned int);
     void FUN_0048e7f0(BaseFormComponent*);
 };
@@ -23,7 +35,7 @@ void TESValueForm::FUN_0048e7f0(BaseFormComponent* component)
     TESValueForm* form = dynamic_cast<TESValueForm*>(component);
     if (!form)
         return;
-    SetFormValue(form->GetValueFromForm());
+    SetFormValue(((unsigned int)(reinterpret_cast<::Callees *>((form))->FUN_00726070())));
 }
 
 namespace fnv_0048e9b0 {
@@ -45,9 +57,7 @@ unsigned short TESValueForm::FUN_0048e9b0(unsigned int aiFlags)
 namespace fnv_0048e9e0 {
 struct TESSaveLoadGame
 {
-    void FUN_008579b0(void*, int);
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct TESValueForm
 {
@@ -58,16 +68,14 @@ struct TESValueForm
 void TESValueForm::FUN_0048e9e0(unsigned int flags)
 {
     if (flags & 2)
-        g_TESSaveLoadGame->FUN_008579b0(reinterpret_cast<char*>(this) + 4, 4);
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0048e9e0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(reinterpret_cast<char*>(this) + 4, 4);
 }
 }  // namespace fnv_0048e9e0
 
 namespace fnv_0048ea10 {
 struct TESSaveLoadGame
 {
-    void ReadTypedData(void* p, unsigned int n);
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct TESValueForm
 {
@@ -78,7 +86,7 @@ struct TESValueForm
 void TESValueForm::FUN_0048ea10(unsigned int a, unsigned int b)
 {
     if (a & 2)
-        g_TESSaveLoadGame->ReadTypedData((char*)this + 4, 4);
+        reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_0048ea10::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579e0((char*)this + 4, 4);
 }
 }  // namespace fnv_0048ea10
 
@@ -94,7 +102,6 @@ struct BGSLoadFormBuffer
 };
 struct BGSSaveFormBuffer
 {
-    void SaveData(void*, int, int);
 };
 struct TESValueForm
 {
@@ -103,8 +110,8 @@ struct TESValueForm
 // @fnv 0x0048ea40
 void TESValueForm::FUN_0048ea40(BGSSaveFormBuffer* aBuffer)
 {
-    if (((BGSLoadFormBuffer*)aBuffer)->GetChangeFlags(2))
-        aBuffer->SaveData((char*)this + 4, 4, 0);
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_0048ea40::FormChangeMask &)(((BGSLoadFormBuffer*)aBuffer)->GetChangeFlags(2)))->FUN_004280f0())
+        reinterpret_cast<::FUN_00865e50_shell *>((aBuffer))->FUN_00865e50((char*)this + 4, 4, 0);
 }
 }  // namespace fnv_0048ea40
 
@@ -116,7 +123,6 @@ struct FormChangeMask
 struct BGSLoadFormBuffer
 {
     FormChangeMask GetChangeFlags(unsigned int);
-    void ReadTypedData(void*, unsigned int);
 };
 struct FUN_0048ea80_Class
 {
@@ -125,13 +131,12 @@ struct FUN_0048ea80_Class
 // @fnv 0x0048ea80
 void FUN_0048ea80_Class::FUN_0048ea80(BGSLoadFormBuffer* buffer)
 {
-    if (buffer->GetChangeFlags(2))
-        buffer->ReadTypedData((char*)this + 4, 4);
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(2)))->FUN_004280f0())
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 4), 4);
 }
 
 struct BaseData
 {
-    void* FUN_004216f0();
 };
 struct Item
 {
@@ -270,15 +275,10 @@ struct Item
     virtual void v132();
     virtual void v133();
     virtual bool v134();
-    bool FUN_00576d30();
-    void* FUN_007af430();
-    BaseData* FUN_005d43c0();
 };
 struct Collection
 {
     int unk00;
-    unsigned int FUN_005be5c0(int);
-    Item* FUN_00968670(unsigned int);
 };
 struct Holder
 {
@@ -291,10 +291,10 @@ Item* Holder::FUN_00970a20(void* key, int unused)
 {
     Item* current = 0;
     Item* result = 0;
-    for (unsigned int index = 0; index < items.FUN_005be5c0(0); index++)
+    for (unsigned int index = 0; index < reinterpret_cast<::FUN_005be5c0_shell *>(&(items))->FUN_005be5c0(0); index++)
     {
-        result = items.FUN_00968670(index);
-        if (result && !current && !result->FUN_00576d30())
+        result = ((::Item *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>(&(items))->FUN_00968670(index)));
+        if (result && !current && !reinterpret_cast<::FUN_00576d30_shell *>((result))->FUN_00576d30())
         {
             Item* actor = 0;
             if (result && result->v64())
@@ -303,10 +303,10 @@ Item* Holder::FUN_00970a20(void* key, int unused)
             {
                 void* target = 0;
                 if (actor->v134())
-                    target = actor->FUN_007af430();
+                    target = ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((actor))->FUN_007af430()));
                 if (target && key == target)
                     current = actor;
-                else if (actor->FUN_005d43c0()->FUN_004216f0() == key)
+                else if (((void *)(::FUN_004216f0((::BaseExtraList *)(((::BaseData *)(reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0())))))) == key)
                     current = actor;
             }
         }
@@ -325,7 +325,7 @@ bool FUN_0048e840_shell::FUN_0048e840(BaseFormComponent* other)
     TESValueForm* form = dynamic_cast<TESValueForm*>(other);
     if (!form)
         return true;
-    if (reinterpret_cast<TESValueForm*>(this)->GetValueFromForm() != form->GetValueFromForm())
+    if (((unsigned int)(reinterpret_cast<::Callees *>((reinterpret_cast<TESValueForm*>(this)))->FUN_00726070())) != ((unsigned int)(reinterpret_cast<::Callees *>((form))->FUN_00726070())))
         return true;
     return false;
 }

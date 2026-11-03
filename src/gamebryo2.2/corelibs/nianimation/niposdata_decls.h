@@ -2,6 +2,7 @@
 #ifndef NIPOSDATA_DECLS_H
 #define NIPOSDATA_DECLS_H
 
+#include "fnv/symbols_011f3000.h"
 class NiStream;
 class PositionKeyInterpolator;
 class AnimationKey
@@ -34,8 +35,6 @@ class NiPosData : public NiObject
     void SetColorKeys(PositionKeyInterpolator*, unsigned int, AnimationKey::KeyType);
     virtual void LoadBinary(NiStream&);
 };
-extern unsigned char DAT_011f375e[];
-extern void (*DAT_011f38b8[])(PositionKeyInterpolator*);
 class NiBinaryStream
 {
   public:
@@ -60,7 +59,6 @@ class NiStream
         return (AnimationKey::KeyType)raw;
     }
 };
-extern PositionKeyInterpolator* (*DAT_011f3dc8[])(NiStream&, unsigned int);
 extern void (*DAT_011f3798[])(PositionKeyInterpolator*, unsigned int, unsigned char);
 inline unsigned char GetPosKeySize(AnimationKey::KeyType type)
 {

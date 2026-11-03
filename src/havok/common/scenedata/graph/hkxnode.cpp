@@ -2,6 +2,7 @@
 // src/havok/common/scenedata/graph/hkxnode.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/graph/hkxnode.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/hkReferencedObjectC905.h"
 #include "havok/hkxNode.h"
 
 class hkMemoryAllocatorDFF6
@@ -40,7 +41,6 @@ class hkReferencedObject : public hkBaseObject
   public:
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
-    void FUN_00c905b0() throw();
 };
 
 template <class T> class ReferenceCountedPointer
@@ -49,7 +49,7 @@ template <class T> class ReferenceCountedPointer
     __forceinline ~ReferenceCountedPointer() throw()
     {
         if (m_pRetainedObject)
-            m_pRetainedObject->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pRetainedObject))->FUN_00c905b0();
         m_pRetainedObject = 0;
     }
     T* m_pRetainedObject;

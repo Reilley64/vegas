@@ -1,16 +1,11 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00ee6000.h"
 struct D3DXMACRO;
 struct ID3DXInclude;
 struct ID3DXBuffer;
 struct ID3DXConstantTable;
 
-extern "C" __declspec(dllimport) long __stdcall D3DXCompileShader(const char* pSrcData, unsigned int SrcDataLen,
-                                                                  const D3DXMACRO* pDefines, ID3DXInclude* pInclude,
-                                                                  const char* pFunctionName, const char* pProfile,
-                                                                  unsigned long Flags, ID3DXBuffer** ppShader,
-                                                                  ID3DXBuffer** ppErrorMsgs,
-                                                                  ID3DXConstantTable** ppConstantTable);
 
 // @fnv 0x00ee6e0a
 long __stdcall FUN_00ee6e0a(const char* pSrcData, unsigned int SrcDataLen, const D3DXMACRO* pDefines,
@@ -18,7 +13,7 @@ long __stdcall FUN_00ee6e0a(const char* pSrcData, unsigned int SrcDataLen, const
                             unsigned long Flags, ID3DXBuffer** ppShader, ID3DXBuffer** ppErrorMsgs,
                             ID3DXConstantTable** ppConstantTable)
 {
-    return D3DXCompileShader(pSrcData, SrcDataLen, pDefines, pInclude, pFunctionName, pProfile, Flags, ppShader,
+    return ::FUN_00ee6e0a(pSrcData, SrcDataLen, pDefines, pInclude, pFunctionName, pProfile, Flags, ppShader,
                              ppErrorMsgs, ppConstantTable);
 }
 
@@ -47,13 +42,11 @@ long __stdcall FUN_00ee6e22(const void* source, unsigned int size, D3DXIMAGE_INF
 
 struct EE6E40ConstantTable;
 
-extern "C" __declspec(dllimport) long __stdcall D3DXGetShaderConstantTable(const unsigned long* pFunction,
-                                                                           EE6E40ConstantTable** ppConstantTable);
 
 // @fnv 0x00ee6e40
 long __stdcall FUN_00ee6e40(const unsigned long* pFunction, EE6E40ConstantTable** ppConstantTable)
 {
-    return D3DXGetShaderConstantTable(pFunction, ppConstantTable);
+    return ::FUN_00ee6e40(pFunction, ppConstantTable);
 }
 
 struct D3DXMACRO;
@@ -61,17 +54,13 @@ struct ID3DXInclude;
 struct ID3DXBuffer;
 struct ID3DXConstantTable;
 
-extern "C" __declspec(dllimport) long __stdcall D3DXCompileShaderFromFileA(
-    const char* pSrcFile, const D3DXMACRO* pDefines, ID3DXInclude* pInclude, const char* pFunctionName,
-    const char* pProfile, unsigned long Flags, ID3DXBuffer** ppShader, ID3DXBuffer** ppErrorMsgs,
-    ID3DXConstantTable** ppConstantTable);
 
 // @fnv 0x00ee6e46
 long __stdcall FUN_00ee6e46(const char* pSrcFile, const D3DXMACRO* pDefines, ID3DXInclude* pInclude,
                             const char* pFunctionName, const char* pProfile, unsigned long Flags,
                             ID3DXBuffer** ppShader, ID3DXBuffer** ppErrorMsgs, ID3DXConstantTable** ppConstantTable)
 {
-    return D3DXCompileShaderFromFileA(pSrcFile, pDefines, pInclude, pFunctionName, pProfile, Flags, ppShader,
+    return ::FUN_00ee6e46(pSrcFile, pDefines, pInclude, pFunctionName, pProfile, Flags, ppShader,
                                       ppErrorMsgs, ppConstantTable);
 }
 
@@ -97,15 +86,12 @@ long __stdcall FUN_00ee6e28(void* pDevice, int ShaderType)
 }
 
 // FUN_00ee6e4c: 6-byte 'jmp [IAT]' forwarder to d3dx9_38 D3DXAssembleShaderFromFileA (stdcall, 6 args).
-extern "C" __declspec(dllimport) long __stdcall D3DXAssembleShaderFromFileA(const char* pSrcFile, const void* pDefines,
-                                                                            void* pInclude, unsigned int Flags,
-                                                                            void** ppShader, void** ppErrorMsgs);
 
 // @fnv 0x00ee6e4c
 long __stdcall FUN_00ee6e4c(const char* pSrcFile, const void* pDefines, void* pInclude, unsigned int Flags,
                             void** ppShader, void** ppErrorMsgs)
 {
-    return D3DXAssembleShaderFromFileA(pSrcFile, pDefines, pInclude, Flags, ppShader, ppErrorMsgs);
+    return ::FUN_00ee6e4c(pSrcFile, pDefines, pInclude, Flags, ppShader, ppErrorMsgs);
 }
 
 extern "C" __declspec(dllimport) void __cdecl D3DXAssembleShader();

@@ -4,6 +4,75 @@
 
 // src/fallout/ai/playercharacter_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/ai/playercharacter.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_AnimationOwner.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00409480_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_00491040_shell.h"
+#include "fnv/decl/FUN_00494710_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00508d70_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_0057b0a0_shell.h"
+#include "fnv/decl/FUN_005a2030_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00619a70_shell.h"
+#include "fnv/decl/FUN_0061cdc0_shell.h"
+#include "fnv/decl/FUN_0061cfd0_shell.h"
+#include "fnv/decl/FUN_0061e600_t.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008a1710_shell.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FUN_00c6cbc0_class.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FnvCpu_FUN_00cac950_CpuObject.h"
+#include "fnv/decl/Holder00807080.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/NiObject.h"
+#include "fnv/decl/Owner274.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S00561240_Vector.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/TopicFlagStandIn.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_004518e0__TESObjectCELL.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_00494740__FUN_00494740_t.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_0087ce80__FUN_0087ce80_shell.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_00897910__AnimOwner.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/s56ae10__Owner.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005f2000.h"
+#include "fnv/symbols_00619000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_009e3000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01013000.h"
+#include "fnv/symbols_0101a000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_01020000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_0103c000.h"
+#include "fnv/symbols_01197000.h"
+#include "fnv/symbols_01267000.h"
 #include "PlayerCharacter.h"
 struct FUN_00c6fd20_class
 {
@@ -12,6 +81,7 @@ struct FUN_00c6fd20_class
 };
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 extern "C" double __cdecl sqrt(double);
 struct Point3
 {
@@ -45,10 +115,9 @@ class ScalarValue
         return (_mm_shuffle_ps)(value, value, 0);
     }
 };
-extern const ::__m128 DAT_010c7160;
 inline ScalarValue operator-(const ScalarValue& b)
 {
-    return (_mm_sub_ss)(DAT_010c7160, b.Vector4f());
+    return (_mm_sub_ss)(::DAT_010c7160, b.Vector4f());
 }
 struct __declspec(align(16)) FourFloatVector
 {
@@ -99,7 +168,7 @@ struct __declspec(align(16)) FourFloatVector
     }
     __forceinline void Normalize()
     {
-        ::__m128 scale = InverseLength().Broadcast();
+        ::__m128 scale = (*(::__m128 *)(reinterpret_cast<::S00561240_Vector *>((void *)(void *)&(const ::ScalarValue &)(InverseLength()))->FUN_00561240({})));
         value = (_mm_mul_ps)(scale, value);
     }
     __forceinline bool NormalizeNonzero()
@@ -114,7 +183,7 @@ struct __declspec(align(16)) FourFloatVector
     }
     __forceinline void Mul(const ScalarValue& a)
     {
-        value = (_mm_mul_ps)(a.Broadcast(), value);
+        value = (_mm_mul_ps)((*(::__m128 *)(reinterpret_cast<::S00561240_Vector *>((void *)&(a))->FUN_00561240({}))), value);
     }
     __forceinline void Add(const FourFloatVector& b)
     {
@@ -131,8 +200,7 @@ struct __declspec(align(16)) FourFloatVector
         value = (_mm_sub_ps)(lhs, rhs);
     }
 };
-extern const double DAT_0102fc70, DAT_0109c9e0, DAT_01011588, DAT_0103c7c8, DAT_0101a6b0;
-extern const float DAT_01013ea4, DAT_0101df44;
+extern const double DAT_0102fc70, DAT_0109c9e0;
 struct __declspec(align(16)) Particle
 {
     unsigned int unk_000;
@@ -518,9 +586,7 @@ struct __declspec(align(16)) Particle
         sum.Add(delta);
         ++impulseCount;
     }
-    const FourFloatVector* FUN_00621a40() const;
     void UpdateMaxVelocity(Point3* direction, float timeStep);
-    void FUN_00c6cbc0(float angle, float impactStrength);
 };
 struct Source
 {
@@ -573,13 +639,8 @@ struct Source
     unsigned int unk_0b8;
     unsigned int unk_0bc;
     Particle* particle;
-    void FUN_00c90510();
-    void FUN_00c905b0();
-    const FourFloatVector* FUN_00cac950();
 };
 extern void __cdecl FUN_00458620(Point3* result, const FourFloatVector* value);
-extern float __cdecl FUN_0040ebd0(float fTargetUpperBound, float value);
-extern float __cdecl FUN_00404010(float fTargetUpperBound, float value);
 struct ParticleController
 {
     unsigned int unk_000;
@@ -987,15 +1048,13 @@ struct ControllerPrefix
 };
 struct ControllerOwner : ControllerPrefix, ParticleController
 {
-    const FourFloatVector* FUN_00807080() const;
 };
-extern const float DAT_01267bcc;
 __declspec(noinline) void Particle::UpdateMaxVelocity(Point3* direction, float timeStep)
 {
     FourFloatVector proposed;
-    proposed.At(0) = direction->x * DAT_01267bcc;
-    proposed.At(1) = direction->y * DAT_01267bcc;
-    proposed.At(2) = direction->z * DAT_01267bcc;
+    proposed.At(0) = direction->x * ::DAT_01267bcc;
+    proposed.At(1) = direction->y * ::DAT_01267bcc;
+    proposed.At(2) = direction->z * ::DAT_01267bcc;
     proposed.At(3) = 0.0f;
     proposed.Mul(1.0f / timeStep);
     if (float(proposed.LengthSq()) > float(modifier.LengthSq()))
@@ -1004,7 +1063,6 @@ __declspec(noinline) void Particle::UpdateMaxVelocity(Point3* direction, float t
         modifier = proposed;
     }
 }
-float __cdecl FUN_004587d0(float);
 __declspec(noinline) void __cdecl FUN_00458620(Point3* result, const FourFloatVector* value)
 {
     result->x = FUN_004587d0(float(ScalarValue((_mm_load_ss)(&value->At(0)))));
@@ -1017,9 +1075,9 @@ __declspec(noinline) void __fastcall FUN_00c6f500(ParticleController* self, void
 {
     ControllerOwner* owner;
     Particle* particle = source->particle;
-    source->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((source))->FUN_00c90510();
     if (self->previousParticle)
-        self->previousParticle->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((self->previousParticle))->FUN_00c905b0();
     self->previousParticle = source;
     if (!particle)
         return;
@@ -1029,38 +1087,38 @@ __declspec(noinline) void __fastcall FUN_00c6f500(ParticleController* self, void
         return;
     {
         Point3 adjusted;
-        FourFloatVector ownVelocity = *source->FUN_00cac950();
+        FourFloatVector ownVelocity = *((const ::FourFloatVector *)(reinterpret_cast<::FnvCpu_FUN_00cac950_CpuObject *>((source))->FUN_00cac950()));
         FourFloatVector normal = transform[1];
         normal.At(2) = 0.0f;
         if (float(normal.LengthSq()) > 0.0f)
             normal.Normalize();
         owner = static_cast<ControllerOwner*>(self);
-        ownVelocity = *owner->FUN_00807080();
+        ownVelocity = *((const ::FourFloatVector *)(reinterpret_cast<::Holder00807080 *>((void *)(owner))->FUN_00807080()));
         ownVelocity.At(2) = 0.0f;
         float speed = ownVelocity.Length();
         if (sizeFlag == 2)
             speed += DAT_0102fc70;
         speed *= DAT_0109c9e0;
         normal.Mul(speed);
-        FUN_00458620(&adjusted, &normal);
+        ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&adjusted)), (*(const ::hkVector4 *)(&normal)));
         particle->AddPush(normal);
-        particle->UpdateMaxVelocity(&adjusted, 0.01f);
+        reinterpret_cast<::Owner274 *>((particle))->UpdateMaxVelocity((const float *)(::Point3 *)(&adjusted), 0.01f);
     }
     if (!(particle->flags & 1u))
         return;
     FourFloatVector separation = transform[0];
-    separation.Sub(*particle->FUN_00621a40());
+    separation.Sub(*((const ::FourFloatVector *)(reinterpret_cast<::NiObject *>((void *)(particle))->FUN_00621a40())));
     separation.At(2) = 0.0f;
     FourFloatVector projection = particle->localDirection;
     projection.At(2) = 0.0f;
     projection.Normalize();
     float along = separation.Dot(projection);
     projection.Mul(along);
-    float scale = float(projection.Length()) / (particle->lifetime * DAT_01011588) - DAT_0103c7c8;
+    float scale = float(projection.Length()) / (particle->lifetime * ::DAT_01011588) - DAT_0103c7c8;
     FourFloatVector otherNormal = transform[1];
     otherNormal.At(2) = 0.0f;
     otherNormal.Normalize();
-    FourFloatVector current = *owner->FUN_00807080();
+    FourFloatVector current = *((const ::FourFloatVector *)(reinterpret_cast<::Holder00807080 *>((void *)(owner))->FUN_00807080()));
     current.At(2) = 0.0f;
     float angle = 0.0f;
     if (current.NormalizeNonzero())
@@ -1074,6 +1132,6 @@ __declspec(noinline) void __fastcall FUN_00c6f500(ParticleController* self, void
         if (side.At(2) > 0.0f)
             scale *= DAT_0101a6b0;
         scale *= 2.0f;
-        particle->FUN_00c6cbc0(scale, DAT_0101df44);
+        reinterpret_cast<::FUN_00c6cbc0_class *>((particle))->FUN_00c6cbc0(scale, ::DAT_0101df44);
     }
 }

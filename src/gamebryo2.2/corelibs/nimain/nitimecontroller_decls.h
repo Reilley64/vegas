@@ -1,7 +1,7 @@
 #ifndef NITIMECONTROLLER_DECLS_H
 #define NITIMECONTROLLER_DECLS_H
-extern "C" unsigned int DAT_0126fd98;
-extern "C" double DAT_010241b0;
-extern "C" double DAT_010231b0;
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_0126f000.h"
 double __cdecl fmod(double, double);
 #endif

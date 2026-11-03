@@ -2,6 +2,20 @@
 // src/havok/physics/utilities/constraint/chain/hkppoweredchainmapper.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/constraint/chain/hkppoweredchainmapper.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cb18f0_t.h"
+#include "fnv/decl/FUN_00cb1fe0_t.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/fnv_00cb1870__hkMapBaseCB18.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00e5a000.h"
+#include "fnv/symbols_010e0000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpPoweredChainMapper.h"
 
 class hkMemoryAllocatorE3A5;
@@ -18,7 +32,6 @@ struct hkMemoryRouterE3A5
 namespace hkRouterE3A5 {
 extern "C" hkMemoryRouterE3A5& __cdecl FUN_00c85750() throw();
 }
-void __cdecl ResizeAudioStream(void* alloc, void* arr, int elemSize) throw();
 
 struct hkBoolE3A5
 {
@@ -47,7 +60,7 @@ template <class T> struct hkArrayE3A5
     {
         hkMemoryRouterE3A5& router = hkRouterE3A5::FUN_00c85750();
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
-            ResizeAudioStream(router.m_pStreamAllocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router.m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyE3A5<T>(m_data + m_iElementCount, 1, e);
         m_iElementCount++;
     }
@@ -138,10 +151,6 @@ struct FnMemory
     }
 };
 extern "C" FnMemory* __cdecl FUN_00c85750();
-extern "C" void __cdecl FUN_00c908c0(FnAllocator*, void*, int, int);
-extern "C" void __cdecl ResizeAudioStream(FnAllocator*, void*, int);
-extern "C" void* __cdecl FUN_00cb1280(void*, int, unsigned int);
-extern "C" int DAT_010e0654;
 
 template <class T> struct FnArray
 {
@@ -171,7 +180,7 @@ template <class T> struct FnArray
             cap *= 2;
             if (n >= cap)
                 cap = n;
-            FUN_00c908c0(&heap, this, cap, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(::FnAllocator *)(&heap), (::SpawnedArray *)(void *)(this), cap, sizeof(T));
         }
     }
     __forceinline void SetSizeAndGrow(FnAllocator& allocator, int count)
@@ -191,7 +200,7 @@ template <class T> struct FnArray
     {
         FnAllocator& heap = FUN_00c85750()->getHeap();
         if (size == (capacity & 0x3fffffff))
-            ResizeAudioStream(&heap, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(::FnAllocator *)(&heap), (::AudioStream *)(void *)(this), sizeof(T));
         T* destination = data + size;
         const T* source = &value;
         for (int i = 0; i < 1; ++i)
@@ -202,7 +211,7 @@ template <class T> struct FnArray
     {
         FnAllocator& heap = FUN_00c85750()->getHeap();
         if (size == (capacity & 0x3fffffff))
-            ResizeAudioStream(&heap, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(::FnAllocator *)(&heap), (::AudioStream *)(void *)(this), sizeof(T));
         return data[size++];
     }
 };
@@ -219,18 +228,14 @@ struct FnMap
     FnMap() throw() : data(0), size(0), capacity(-1)
     {
         FnAllocator& heap = FUN_00c85750()->getHeap();
-        EnsureCapacity(&heap, 0);
+        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)(&heap), 0);
     }
     ~FnMap() throw()
     {
         ProcessArgument(FUN_00c85750()->heap);
-        FUN_00a29680();
+        ::FUN_00a29680();
     }
-    void __thiscall EnsureCapacity(FnAllocator*, int) throw();
-    void __thiscall FUN_00cb1870(FnAllocator*, int, int) throw();
-    int __thiscall FindSlot(int) throw();
     void __thiscall ProcessArgument(FnAllocator*) throw();
-    void __thiscall FUN_00a29680() throw();
 };
 struct FnNodePair
 {
@@ -274,7 +279,6 @@ struct FnObject
     int reserved04;
     int reserved08;
     FnConstraint* constraint;
-    void __thiscall FUN_00c905b0() throw();
 };
 struct FnMapper
 {
@@ -291,20 +295,16 @@ struct FnMapper
         p->GetAllocationSize = (unsigned short)size;
         return p;
     }
-    FnMapper() : vtable(&DAT_010e0654), refs(1)
+    FnMapper() : vtable(&::DAT_010e0654), refs(1)
     {}
 };
 extern "C" int __cdecl FUN_00e5ba30(hkArray<int>*, int, int, FnArray<int>*, FnArray<int>*);
 extern "C" FnObject* __cdecl FUN_00e5b510(FnArray<int>*, unsigned char);
-extern "C" int __cdecl CloneInstanceFromSource(int);
 struct FnDiagnostic
 {
     int stream;
     int cursor;
     int capacity;
-    void __thiscall FUN_00cb1600(char*, int) throw();
-    void __thiscall FUN_00cc01c0(const char*) throw();
-    void __thiscall FUN_00cc00e0() throw();
 };
 struct FnLogger
 {
@@ -313,15 +313,14 @@ struct FnLogger
     virtual void reserved08();
     virtual void report(int, unsigned int, char*, const char*, int) throw();
 };
-extern "C" FnLogger* DAT_01268360;
 inline void reportError(const char* message, unsigned int id, int line)
 {
     unsigned int buffer[128];
     FnDiagnostic diagnostic;
-    diagnostic.FUN_00cb1600((char*)buffer, 512);
-    diagnostic.FUN_00cc01c0(message);
-    DAT_01268360->report(1, id, (char*)buffer, ".\\Constraint\\Chain\\hkpPoweredChainMapper.cpp", line);
-    diagnostic.FUN_00cc00e0();
+    new ((void *)&(diagnostic)) ::FUN_00cb1600((char*)buffer, 512);
+    reinterpret_cast<::SinkOwner *>(&(diagnostic))->FUN_00cc01c0(message);
+    (*reinterpret_cast<::FnLogger * *>(&::DAT_01268360))->report(1, id, (char*)buffer, ".\\Constraint\\Chain\\hkpPoweredChainMapper.cpp", line);
+    reinterpret_cast<struct ::FUN_00cc00e0 *>(&(diagnostic))->FUN_00cc00e0::~FUN_00cc00e0();
 }
 __forceinline int buildOffsets(FnMapper* mapper, FnArray<int>& linkCounts)
 {
@@ -351,17 +350,17 @@ FnMapper* __cdecl BuildPoweredChainMapper(FnFlags flags, hkArray<int>* linkIds, 
     int count = linkIds->m_iElementCount;
     linkCounts.reserve(FUN_00c85750()->getHeap(), count);
     linkCounts.size = count;
-    FUN_00cb1280(linkCounts.data, 0, 4 * count);
+    ::FUN_00cb1280(linkCounts.data, 0, 4 * count);
     FnMap table;
     for (int k = 0; k < linkIds->m_iElementCount; ++k)
     {
         int key = linkIds->m_data[k];
         FnAllocator& heap = FUN_00c85750()->getHeap();
-        table.FUN_00cb1870(&heap, key, k);
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(table))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&heap)), key, k);
     }
     count = linkIds->m_iElementCount;
     mapper->links.SetSizeAndGrow(FUN_00c85750()->getHeap(), count);
-    FUN_00cb1280(mapper->links.data, 0, 12 * mapper->links.size);
+    ::FUN_00cb1280(mapper->links.data, 0, 12 * mapper->links.size);
     for (int pairIndex = 0; pairIndex < pairs->m_iElementCount; ++pairIndex)
     {
         FnArray<int> scratch;
@@ -370,26 +369,26 @@ FnMapper* __cdecl BuildPoweredChainMapper(FnFlags flags, hkArray<int>* linkIds, 
         if (FUN_00e5ba30(linkIds, pair.first, pair.second, &scratch, &chainLinks) == 1)
         {
             reportError("Cannot find a chain of constraints linking one of the entity pairs.", 0xabbaaa88, 68);
-            ((FnObject*)mapper)->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((((FnObject*)mapper)))->FUN_00c905b0();
             return 0;
         }
         FnObject* obj = FUN_00e5b510(&chainLinks, flags.includeChains);
         if (!obj)
         {
             reportError("Failed to build a chain.", 0xabbaddaa, 78);
-            ((FnObject*)mapper)->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((((FnObject*)mapper)))->FUN_00c905b0();
             return 0;
         }
         mapper->chains.push(obj);
         for (int j = 0; j < chainLinks.size; ++j)
         {
             int entity = chainLinks.data[j];
-            int index = table.FindSlot(entity);
+            int index = reinterpret_cast<::FUN_00cb18f0_t *>(&(table))->FindSlot(entity);
             if (index > table.capacity)
             {
                 reportError("Internal error.", 0xabba99dd, 93);
-                obj->FUN_00c905b0();
-                ((FnObject*)mapper)->FUN_00c905b0();
+                reinterpret_cast<::hkReferencedObjectC905 *>((obj))->FUN_00c905b0();
+                reinterpret_cast<::hkReferencedObjectC905 *>((((FnObject*)mapper)))->FUN_00c905b0();
                 return 0;
             }
             int linkIndex = table.data[index].value;
@@ -400,14 +399,14 @@ FnMapper* __cdecl BuildPoweredChainMapper(FnFlags flags, hkArray<int>* linkIds, 
             if (obj->constraint->getType() != 0x66)
             {
                 reportError("Internal error; invalid chain type.", 0xabba9d6d, 108);
-                obj->FUN_00c905b0();
-                ((FnObject*)mapper)->FUN_00c905b0();
+                reinterpret_cast<::hkReferencedObjectC905 *>((obj))->FUN_00c905b0();
+                reinterpret_cast<::hkReferencedObjectC905 *>((((FnObject*)mapper)))->FUN_00c905b0();
                 return 0;
             }
             v.constraint = obj->constraint;
             v.localIndex = j;
             if (flags.copyFallbacks && !link->fallback)
-                link->fallback = CloneInstanceFromSource(chainLinks.data[j]);
+                link->fallback = ((int)(::CloneInstanceFromSource((::Instance *)(chainLinks.data[j]))));
         }
     }
     int total = buildOffsets(mapper, linkCounts);
@@ -589,7 +588,6 @@ template <class T> class hkArrayE3A3
 class hkConstraintRefE3A3
 {
   public:
-    void removeReference() throw();
 };
 
 struct hkpConstraintEntryE3A3
@@ -640,7 +638,7 @@ hkpConstraintChainMapperE3A3::~hkpConstraintChainMapperE3A3() throw()
 {
     const int iEntryIndex = m_entries.m_iElementCount;
     for (int i = 0; i < iEntryIndex; i++)
-        m_entries[i].m_pHavokConstraint->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_entries[i].m_pHavokConstraint))->FUN_00c905b0();
 }
 }
 
@@ -713,7 +711,6 @@ class hkReferencedObject : public hkBaseObject
   public:
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
-    void FUN_00c905b0() throw();
 };
 }
 
@@ -749,9 +746,9 @@ hkpPoweredChainMapper::~hkpPoweredChainMapper()
     for (int i = 0; i < m_ppLinks.GetLogicalSize(); i++)
     {
         if (m_ppLinks[i].m_pConstraintInstance)
-            m_ppLinks[i].m_pConstraintInstance->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_ppLinks[i].m_pConstraintInstance))->FUN_00c905b0();
     }
     for (int i = 0; i < m_kChainInstances.m_iElementCount; i++)
-        m_kChainInstances.m_data[i]->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_kChainInstances.m_data[i]))->FUN_00c905b0();
 }
 }

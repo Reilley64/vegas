@@ -2,8 +2,11 @@
 // src/havok/common/base/debugutil/statisticscollector/hkstatisticscollector.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/debugutil/statisticscollector/hkstatisticscollector.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern int DAT_0102e388;
 
+#include "fnv/decl/FnvCpu_FUN_00d470d0_CpuObject.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_0102e000.h"
 struct FUN_00d06f70_s
 {
     int* p;
@@ -16,10 +19,9 @@ struct FUN_00d06f70_s
 void FUN_00d06f70_s::FUN_00d06f70()
 {
     y = 0;
-    p = &DAT_0102e388;
+    p = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
-int __cdecl FUN_00d06f80(void* apBuffer, int aiCount);
 
 struct FUN_00d06fb0_cls
 {
@@ -39,12 +41,11 @@ void FUN_00d06fb0_cls::DispatchWithMode(void* apFirst, void* apSecond, int aiCou
 {
     int iMode = aiMode;
     if (aiCount > 0 && iMode == 0)
-        iMode = FUN_00d06f80(apSecond, aiCount);
+        iMode = ::fnv_00d06f80::FUN_00d06f80((const char *)(apSecond), aiCount);
 
     Dispatch(1, apFirst, apSecond, aiCount, iMode);
 }
 
-extern "C" int __cdecl FUN_00cb10d0(const char* s);
 extern "C" int __cdecl FUN_00d06f80(const char* s, int len);
 
 class Handler
@@ -66,7 +67,7 @@ void Handler::EmitString(int a, unsigned int* str)
     const char* s = (const char*)(*str & ~1u);
     if (s)
     {
-        int len = FUN_00cb10d0(s);
+        int len = ::fnv_00cb10d0::FUN_00cb10d0(s);
         Emit(3, a, s, len, FUN_00d06f80(s, len));
     }
 }
@@ -190,7 +191,6 @@ struct Inner
 
 struct Tail
 {
-    int Process();
 };
 
 struct FUN_00d06d90_cls
@@ -214,7 +214,7 @@ int FUN_00d06d90_cls::GetFlagsOrProcess(Rec* pRec)
         void* r = m_0c->Query(pRec);
         if (r != 0)
         {
-            return ((Tail*)r)->Process();
+            return reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((((Tail*)r)))->FUN_00d470d0();
         }
         flags = 0;
     }
@@ -261,7 +261,6 @@ struct S_00d06dd0_Obj
     virtual void v3();
     virtual void v4();
     virtual void slot14(int a, int b, int c, int d, int e);
-    int GetFlagsOrProcess(int a);
     void DispatchIfNotFlagged(int a, unsigned int flags);
 };
 
@@ -271,7 +270,7 @@ void S_00d06dd0_Obj::DispatchIfNotFlagged(int a, unsigned int flags)
 {
     if ((flags & 1) == 0)
     {
-        int b = GetFlagsOrProcess(a);
+        int b = reinterpret_cast<::FUN_00d06d90_cls *>(this)->GetFlagsOrProcess((::Rec *)(a));
         int r = FUN_00c85750()->heap().vfn2c(a, b);
         slot14(0, 0, a, b, r);
     }
@@ -281,7 +280,6 @@ void S_00d06dd0_Obj::DispatchIfNotFlagged(int a, unsigned int flags)
 namespace fnv_00d06e10 {
 struct FUN_00d06e10_src
 {
-    int Read();
 };
 
 struct FUN_00d06e10_obj
@@ -330,7 +328,7 @@ void FUN_00d06e10_cls::FUN_00d06e10(int pSource, int pData, unsigned char flag)
 {
     if ((flag & 1) == 0)
     {
-        int len = ((FUN_00d06e10_src*)pSource)->Read();
+        int len = reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((((FUN_00d06e10_src*)pSource)))->FUN_00d470d0();
         FUN_00d06e10_holder* holder = FUN_00c85750();
         int hash = holder->m_10->v2c(pData, len);
         Emit(0, 0, (const char*)pData, len, hash);
@@ -406,7 +404,6 @@ extern "C" int __cdecl FUN_00d06f80(const char* pcString, int iLength)
 }
 }  // namespace fnv_00d06f80
 
-int __cdecl FUN_00d06f80(int aiB, int aiC);
 
 struct FUN_00d06ff0_cls
 {
@@ -426,7 +423,7 @@ void FUN_00d06ff0_cls::FUN_00d06ff0(int aiA, int aiB, int aiC, int aiD)
 {
     int iResult = aiD;
     if (aiC > 0 && aiD == 0)
-        iResult = FUN_00d06f80(aiB, aiC);
+        iResult = ::fnv_00d06f80::FUN_00d06f80((const char *)(aiB), aiC);
     V14(0, aiA, aiB, aiC, iResult);
 }
 

@@ -2,9 +2,18 @@
 #ifndef FNV_MOBILEOBJECT_POSITION_DECLS_H
 #define FNV_MOBILEOBJECT_POSITION_DECLS_H
 
+#include "fnv/decl/FUN_0057b0a0_shell.h"
+#include "fnv/decl/FUN_005a2030_shell.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/fnv_004518e0__TESObjectCELL.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_01020000.h"
+#include "fnv/symbols_01024000.h"
 #include "layout_support.h"
 #include "TESObjectREFR.h"
 #pragma pack(push, 4)
+class BGSLoadFormBuffer;
+enum PROCESS_TYPE;
 class MobileObject : public TESObjectREFR
 {
   public:
@@ -74,11 +83,20 @@ class MobileObject : public TESObjectREFR
     virtual void Unk_BE(void);
     virtual void Unk_BF(void);
     virtual void Unk_C0(void);
-    bool HasSaidTopicInfo(TESTopicInfo* info);
     virtual NiPoint3* GetPos() const;
-    bool FUN_005a2030() const;
-    float GetRelevantWaterHeight() const;
     float GetActorHeight() const;
+public:
+    ::PROCESS_TYPE GetCurrentProcessLevel();
+public:
+    void AdvanceMovement(float);
+public:
+    float GetLooking() const;
+public:
+    void Revert(::BGSLoadFormBuffer *);
+public:
+    bool IsCombatStateActive() const;
+public:
+    bool IsInDialogueWithPlayer() const;
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(MobileObject) == 0x88);
@@ -102,7 +120,6 @@ FNV_STATIC_ASSERT(offsetof(MobileObject, m_bThirdActorFlag) == 0x87);
 class MobileObjectCellAccess
 {
   public:
-    bool FUN_004518e0() const;
 };
 
 struct MobileObjectWaterPositionHeight
@@ -111,9 +128,6 @@ struct MobileObjectWaterPositionHeight
     float heightOffset;
 };
 
-extern "C" double DAT_010241b0;
-extern const double DAT_01020998;
-extern const double DAT_0101de30;
 extern int DAT_011df880;
 extern NiPoint3 DAT_011df7a0[5];
 #endif

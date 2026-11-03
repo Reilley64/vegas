@@ -1,4 +1,6 @@
 
+#include "fnv/decl/FUN_0043a010_shell.h"
+#include "fnv/symbols_00aa1000.h"
 #include "nitstringmap_decls.h"
 
 template <>
@@ -21,7 +23,7 @@ void NiTStringTemplateMap<NiTPointerMap<const char*, NiShader*>, NiShader*>::Set
         item = item->m_pkNext;
     }
 
-    item = (NiTMapItem<const char*, NiShader*>*)map->m_kList.AddHead();
+    item = (NiTMapItem<const char*, NiShader*>*)((void *)(reinterpret_cast<::FUN_0043a010_shell *>(&(map->m_kList))->FUN_0043a010()));
     map->SetValue(item, key, value);
     item->m_pkNext = map->m_ppkHashTable[index];
     map->m_ppkHashTable[index] = item;
@@ -48,7 +50,7 @@ void NiTStringTemplateMap<NiTPointerMap<const char*, unsigned short>, unsigned s
         item = item->m_pkNext;
     }
 
-    item = (NiTMapItem<const char*, unsigned short>*)map->m_kList.AddHead();
+    item = (NiTMapItem<const char*, unsigned short>*)((void *)(reinterpret_cast<::FUN_0043a010_shell *>(&(map->m_kList))->FUN_0043a010()));
     map->SetValue(item, key, value);
     item->m_pkNext = map->m_ppkHashTable[index];
     map->m_ppkHashTable[index] = item;
@@ -64,7 +66,7 @@ void NiTStringTemplateMap<NiTPointerMap<const char*, int>, int>::SetValue(NiTMap
     if (m_bCopy)
     {
         unsigned int length = strlen(key) + 1;
-        item->m_key = (char*)_NiMalloc(length);
+        item->m_key = (char*)::FUN_00aa1070(length);
         char* copy = (char*)item->m_key;
         strcpy_s(copy, length, key);
     }
@@ -89,7 +91,7 @@ NiTStringPointerMap<ShaderBufferRecord*>::~NiTStringPointerMap()
             {
                 NiTMapItem<const char*, ShaderBufferRecord*>* old = item;
                 item = item->m_pkNext;
-                NiFree((void*)old->m_key);
+                ::FUN_00aa10f0((void*)old->m_key);
             }
         }
     }

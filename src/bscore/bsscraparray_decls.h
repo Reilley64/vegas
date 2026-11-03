@@ -2,6 +2,7 @@
 #ifndef BSSCRAPARRAY_DECLS_H
 #define BSSCRAPARRAY_DECLS_H
 
+#include "fnv/symbols_00401000.h"
 class NiAVObject;
 class Animation;
 class NavMeshInfo;
@@ -12,7 +13,6 @@ class MemoryManager
   public:
     ScrapHeapBuffer* GetGeneralAllocator();
 };
-MemoryManager* FUN_00401020();
 template <class T, unsigned int N> class BSSimpleArray
 {
   public:

@@ -2,6 +2,10 @@
 // src/havok/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpiecemeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpiecemeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_00d21000.h"
+#include "fnv/symbols_01269000.h"
 #include "havok/hkpConvexPieceMeshShape.h"
 
 struct HkpStandIn;
@@ -24,29 +28,12 @@ struct HkpStandIn
 {
     virtual void v0() = 0;
 
-    void FUN_00e490d0();
     HkpStandIn* FUN_00e01010(int flags);
 
     unsigned short value;
 };
 
 HkpRouter* _D1A0E0GetMemoryRouter();
-
-// Calls FUN_00e490d0, then if flags has bit 0 set, releases this through the memory router's allocator with this->value as size, and returns this.
-// @fnv 0x00e01010
-HkpStandIn* HkpStandIn::FUN_00e01010(int flags)
-{
-    this->FUN_00e490d0();
-
-    if (flags & 1)
-    {
-        HkpRouter* router = _D1A0E0GetMemoryRouter();
-        HkpAllocator* allocator = router->allocator;
-        allocator->release(this, this->value);
-    }
-
-    return this;
-}
 
 struct FUN_00e49100_t
 {
@@ -141,7 +128,6 @@ int FUN_00e49030()
 
 struct Ref
 {
-    void FUN_00c905b0() throw();
 };
 struct P
 {
@@ -160,7 +146,7 @@ struct Ptr
     Ref* p;
     ~Ptr()
     {
-        p->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((p))->FUN_00c905b0();
     }
 };
 struct D : P, S
@@ -171,6 +157,21 @@ struct D : P, S
     {}
     void FUN_00e490d0();
 };
+// Calls FUN_00e490d0, then if flags has bit 0 set, releases this through the memory router's allocator with this->value as size, and returns this.
+// @fnv 0x00e01010
+HkpStandIn* HkpStandIn::FUN_00e01010(int flags)
+{
+    reinterpret_cast<::D *>((this))->FUN_00e490d0();
+
+    if (flags & 1)
+    {
+        HkpRouter* router = _D1A0E0GetMemoryRouter();
+        HkpAllocator* allocator = router->allocator;
+        allocator->release(this, this->value);
+    }
+
+    return this;
+}
 // Destroys the object by invoking its destructor.
 // @fnv 0x00e490d0
 void D::FUN_00e490d0()
@@ -179,9 +180,7 @@ void D::FUN_00e490d0()
 }
 
 class GlobalObjectO2_00d472a0;
-extern GlobalObjectO2_00d472a0 g_01269198;
 
-int __cdecl FUN_00d06f80(const void* pvChunk, int iNumBytes) throw();
 
 template <class T> class hkArrayE494
 {
@@ -221,7 +220,7 @@ class hkStatisticsCollectorE494
         if ((kArray.m_iCapacityState & 0x80000000) == 0 || m_countDontDeallocate)
         {
             const T* pData = kArray.m_data;
-            int iAllocated = FUN_00d06f80(pData, kArray.getCapacity() * sizeof(T));
+            int iAllocated = ::fnv_00d06f80::FUN_00d06f80((const char *)(pData), kArray.getCapacity() * sizeof(T));
             AddMemoryChunk(3, pcName, kArray.m_data, kArray.GetLogicalSize() * sizeof(T), iAllocated);
         }
     }
@@ -250,7 +249,6 @@ class hkReferencedObjectE494
     int unk10;
     int unk14;
 
-    void FUN_00d213e0(hkStatisticsCollectorE494* pkCollector, const GlobalObjectO2_00d472a0* pkClass) const throw();
 };
 
 class hkDisplayGeometryE494 : public hkReferencedObjectE494
@@ -272,7 +270,7 @@ void hkDisplayGeometryE494::AddToStatisticsCollector(hkStatisticsCollectorE494* 
     pkCollector->addArray("Stream", m_kCriticalSection->m_materialStreams);
     pkCollector->addArray("Stream", m_kCriticalSection->m_indexStreams);
     pkCollector->addChildObject("DisplayMesh", m_pDisplayMesh, 0);
-    FUN_00d213e0(pkCollector, &g_01269198);
+    ::FUN_00d213e0((const char *const *)this, (const char *const *)(pkCollector));
 }
 
 // Stores whether bit bitIndex % 31 of word bitIndex / 31, at bits[bits[0] + 1 + word], is set into *found, and returns found.

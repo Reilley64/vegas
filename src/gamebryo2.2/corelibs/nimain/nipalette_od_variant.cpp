@@ -4,7 +4,11 @@
 
 // src/gamebryo2.2/corelibs/nimain/nipalette.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nipalette.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void* g_011f5c08;
+#include "fnv/decl/FUN_00aa42c0_class.h"
+#include "fnv/decl/FUN_00aa45a0_Class.h"
+#include "fnv/decl/FUN_00aa6c70_shell.h"
+#include "fnv/symbols_011f5000.h"
+#include "fnv/symbols_011f6000.h"
 void* __cdecl FUN_00a8b070();
 
 // MemoryManager::FUN_00aa4060 - release a block that was handed out by one
@@ -39,11 +43,9 @@ struct FNV_Pool
     int unk48;
     int unk4C;
     unsigned int m_iElementCount;
-    void FNV_poolRelease(void* block);
 };
 
 // The page table: 256 entries, one per 16 MB page of the address space.
-extern FNV_Pool* g_pageTable[256];
 
 // The heap that owns a block.  The block is handed to the fourth slot.
 struct FNV_Heap
@@ -130,8 +132,6 @@ struct FNV_MemoryManager
     int unk10C;
     void* m_pHeap;
 
-    void FNV_releaseAlias(void* block, int flag);
-    FNV_Heap* FNV_heapForPointer(void* block);
 
     void FUN_00aa4060(void* block);
 };
@@ -144,18 +144,18 @@ void FNV_MemoryManager::FUN_00aa4060(void* block)
 
     if (!this->m_bEnableState)
     {
-        this->FNV_releaseAlias(block, 0);
+        reinterpret_cast<::FUN_00aa42c0_class *>((this))->FreePointer(block, 0);
         return;
     }
 
     void* pHeapMgr = this->m_pHeap;
     if (!pHeapMgr)
     {
-        this->FNV_releaseAlias(block, 0);
+        reinterpret_cast<::FUN_00aa42c0_class *>((this))->FreePointer(block, 0);
         return;
     }
 
-    FNV_Pool* poolObj = g_pageTable[((unsigned int)block) >> 24];
+    FNV_Pool* poolObj = (*reinterpret_cast<FNV_Pool * (*)[256]>(&::ms_pPoolAddressMap))[((unsigned int)block) >> 24];
     if (poolObj)
     {
         if ((unsigned char)(((unsigned int)block >= poolObj->m_base) &&
@@ -163,17 +163,17 @@ void FNV_MemoryManager::FUN_00aa4060(void* block)
                                 ? 1
                                 : 0))
         {
-            poolObj->FNV_poolRelease(block);
+            reinterpret_cast<::FUN_00aa6c70_shell *>((poolObj))->FUN_00aa6c70(block);
             return;
         }
     }
 
-    FNV_Heap* owner = this->FNV_heapForPointer(block);
+    FNV_Heap* owner = ((::FNV_Heap *)(reinterpret_cast<::FUN_00aa45a0_Class *>((this))->FindItemByArg((int)(block))));
     if (owner)
     {
         owner->FNV_heapRelease(block, 0);
         return;
     }
 
-    this->FNV_releaseAlias(block, 0);
+    reinterpret_cast<::FUN_00aa42c0_class *>((this))->FreePointer(block, 0);
 }

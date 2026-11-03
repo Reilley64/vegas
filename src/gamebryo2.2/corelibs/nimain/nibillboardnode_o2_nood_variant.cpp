@@ -3,11 +3,11 @@
 // byte only under /MT /O2 /GS /EHsc /Gy (unit src/gamebryo2.2/corelibs/nimain/nibillboardnode.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/symbols_011f4000.h"
 class NiRTTI;
 class NiBillboardNode
 {
   public:
-    static const NiRTTI ms_kRTTI;
     virtual const NiRTTI* GetRTTI() const;
 };
 

@@ -1,5 +1,12 @@
 // fallout_shared/niformarray.cpp: NiFormArray (3 functions)
 
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00487000.h"
 #include "niformarray_decls.h"
 
 // @fnv 0x0061bc10
@@ -26,7 +33,7 @@ unsigned int NiFormArray::GetIndexOfForm(TESForm* form)
     unsigned int foundIndex = 0xffffffff;
     if (form)
     {
-        unsigned int size = GetSize();
+        unsigned int size = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()));
         if (size)
         {
             for (unsigned int index = 0; index < size; ++index)
@@ -75,7 +82,7 @@ struct FUN_004d6170_shell : public NiFormArray
 TESForm* FUN_004d6170_shell::FUN_004d6170(unsigned int aiIndex)
 {
     TESForm* pretform = 0;
-    if (aiIndex < GetSize())
+    if (aiIndex < ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())))
     {
         pretform = FUN_00877a30(aiIndex);
     }

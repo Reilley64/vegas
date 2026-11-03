@@ -1,6 +1,14 @@
 // src/fallout_shared/tesspelllist_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/tesspelllist.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/SpellListTask.h"
+#include "fnv/decl/xEffOwner.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_0048d000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_011de000.h"
 #include "tesspelllist.h"
 
 // sub ecx,0x7c; jmp FUN_005f18c0

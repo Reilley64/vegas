@@ -2,6 +2,7 @@
 // src/havok/common/base/reflection/hkclassmemberaccessor.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/reflection/hkclassmemberaccessor.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00d87150_class.h"
 struct FUN_00d87210_class
 {
     char* m_p;
@@ -172,7 +173,6 @@ struct D871A0Array
 
 struct D871A0Buffer
 {
-    void append(const void* data, int size, int flags);
     D871A0Buffer& FUN_00d871a0(const D871A0Array& a, int flags);
 };
 
@@ -180,7 +180,7 @@ struct D871A0Buffer
 // @fnv 0x00d871a0
 D871A0Buffer& D871A0Buffer::FUN_00d871a0(const D871A0Array& apArray, int flags)
 {
-    append(apArray.m_data, apArray.m_iElementCount, flags);
+    reinterpret_cast<::FUN_00d87150_class *>(this)->InitBitOffset((int)(apArray.m_data), (::FUN_00d46fe0_class *)(apArray.m_iElementCount), (const char *)(flags));
     return *this;
 }
 

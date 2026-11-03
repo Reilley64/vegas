@@ -7,11 +7,21 @@
 // to their real unit once identified.
 // src/havok/physics/vehicle/hkpvehicleinstance.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/hkpvehicleinstance.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00c91620_Class.h"
+#include "fnv/decl/FUN_00d2b2b0_class.h"
+#include "fnv/decl/VUBCD_Instance.h"
+#include "fnv/decl/VehicleAeroInstance.h"
+#include "fnv/decl/fnv_00e385e0__VehStep_Vehicle.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpWorldC914.h"
+#include "fnv/symbols_00e59000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpVehicleInstance.h"
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
-extern unsigned long DAT_0126835c;
 void* FUN_00c85750() throw();
 struct VUC_Mon
 {
@@ -134,18 +144,13 @@ struct VUC_Instance
     VUC_Data* m_data;
     void FUN_00e37aa0(float dt, void* det) throw();
     void FUN_00e36f60(float dt, VUC_Filtered& f) throw();
-    void UpdateSteering(float dt, const VUC_Filtered& f) throw();
     void FUN_00e36fa0(float dt, VUC_Transmission& t) throw();
-    void FUN_00e37020(float dt, const VUC_Filtered& f, VUC_Transmission& t) throw();
     void UpdateVehicleState(float dt, const VUC_Filtered& f, FUN_00e39400& b) throw();
-    void NotifyListener(float dt, void* det, VUC_RealArray& s) throw();
-    void FUN_00e37080(float dt, void* aero) throw();
     void UpdateVehicleComponents(const VUC_StepInfo& stepInfo, void* det, void* aero,
                                  VUC_RealArray& suspensionForceAtWheel, VUC_RealArray& totalLinearForceAtWheel);
 };
 struct VUC_World
 {
-    void FUN_00c914d0(void* entity, int flag);
 };
 struct VUC_VehicleTarget
 {
@@ -180,7 +185,6 @@ struct VUC_DeltaTime
     float m_fTimeStep;
     float m_fInverseDeltaTime;
 };
-void __cdecl FUN_00e59a40(void* a, void* b, void* c, void* d);
 struct FUN_00e38080StandIn
 {
     unsigned char m_unknown00[0x1c];
@@ -192,7 +196,6 @@ struct FUN_00e38080StandIn
 };
 struct DDCC60World
 {
-    void removeReference();
 };
 struct VUC_Allocator
 {
@@ -209,7 +212,6 @@ struct VUC_Router
 };
 extern int DAT_010df34c;
 VUC_Router* _D1A0E0GetMemoryRouter();
-void __fastcall FUN_00d2b2b0(void*);
 struct FUN_00e38bf0
 {
     void* m_vtbl;
@@ -414,7 +416,6 @@ class hkpEntityE379
 class hkpWorldE379
 {
   public:
-    hkBoolE379 ProcessTarget(hkpEntityE379* pkEntity);
 };
 class hkActionE379
 {
@@ -566,9 +567,6 @@ struct VUC_StepLocals
 };
 struct VUC_StepInstance : VUC_Instance
 {
-    void FUN_00e385e0(const VUC_StepInfo& stepInfo, const VUC_AeroOutput& aero,
-                      const VUC_RealArray& suspensionForceAtWheel,
-                      const VUC_RealArray& totalLinearForceAtWheel) throw();
     void FUN_00e39030(const VUC_StepInfo& stepInfo, void* det);
 };
 void* FUN_00c85750() throw();
@@ -634,8 +632,6 @@ struct VehicleInstance
     void* m_pSuspension;
     void* m_pAerodynamics;
     VehicleWheelCollide* m_pWheelCollide;
-    void FUN_00e37940();
-    void FUN_00e39030(const VehicleStepInfo* stepInfo, void* scratch);
     void FUN_00e39190(const VehicleStepInfo* stepInfo);
 };
 class hkMemoryAllocatorE392
@@ -663,7 +659,6 @@ class hkRefObjectE392
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 
-    void FUN_00c90510() throw();
 };
 class hkShapeE392;
 struct hkInputInfoE392
@@ -736,7 +731,6 @@ class FUN_00e38b20
     }
 
     FUN_00e38b20(const hkShapeE392* pkShape) throw();
-    void FUN_00e39480(const hkSourceE392* pkOther) throw();
 };
 typedef char fnv_check_e39210[(sizeof(FUN_00e38b20) == 0xd4) ? 1 : -1];
 class hkSourceE392
@@ -750,7 +744,6 @@ class hkSourceE392
 
     FUN_00e38b20* FUN_00e39210(const hkInputE392* pkInput, int iFlags) throw();
 };
-void __cdecl FUN_00e39190();
 void __cdecl FUN_00e392f0();
 struct VUC_TransmissionTarget10
 {
@@ -1141,11 +1134,7 @@ extern "C" __m128 _mm_sub_ps(__m128 _A, __m128 _B);
 extern "C" __m128 _mm_unpackhi_ps(__m128 _A, __m128 _B);
 extern "C" __m128 _mm_xor_ps(__m128 _A, __m128 _B);
 #include <math.h>
-extern __m128 DAT_010c71e0;
-extern __m128 DAT_010c7170;
-extern __m128 DAT_010c44d0;
-extern __m128 DAT_010c4c00;
-extern __m128 DAT_010c4c10;
+#include "fnv/symbols_simd.h"
 
 class S00e384e0_hkQuaternionE38;
 
@@ -1182,7 +1171,7 @@ class S00e384e0_hkVector4E38
     }
     __forceinline void setNeg4(const S00e384e0_hkVector4E38& a)
     {
-        m_vComponents = _mm_xor_ps(a.m_vComponents, DAT_010c44d0);
+        m_vComponents = _mm_xor_ps(a.m_vComponents, ::DAT_010c44d0);
     }
     __forceinline void setCross(const S00e384e0_hkVector4E38& v1, const S00e384e0_hkVector4E38& v2)
     {
@@ -1248,7 +1237,7 @@ __forceinline void S00e384e0_hkVector4E38::SetRotatedDirection(const S00e384e0_h
     qreal.m_vComponents = _mm_shuffle_ps(quat.m_vec.m_vComponents, quat.m_vec.m_vComponents, 0xff);
     S00e384e0_hkVector4E38 q2minus1;
     q2minus1.setMul4(qreal, qreal);
-    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, DAT_010c71e0);
+    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, ::DAT_010c71e0);
     S00e384e0_hkVector4E38 ret;
     ret.setMul4(direction, q2minus1);
     __m128 imagDotDir = quat.m_vec.dot3(direction);
@@ -1266,7 +1255,7 @@ __forceinline void S00e384e0_hkVector4E38::setRotatedInverseDir(const S00e384e0_
     qreal.m_vComponents = _mm_shuffle_ps(quat.m_vec.m_vComponents, quat.m_vec.m_vComponents, 0xff);
     S00e384e0_hkVector4E38 q2minus1;
     q2minus1.setMul4(qreal, qreal);
-    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, DAT_010c71e0);
+    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, ::DAT_010c71e0);
     S00e384e0_hkVector4E38 ret;
     ret.setMul4(direction, q2minus1);
     __m128 imagDotDir = quat.m_vec.dot3(direction);
@@ -1277,7 +1266,6 @@ __forceinline void S00e384e0_hkVector4E38::setRotatedInverseDir(const S00e384e0_
     setAdd4(ret, ret);
 }
 
-extern const double DAT_01012060;
 
 struct S00e384e0_hkTransformE38
 {
@@ -1476,11 +1464,11 @@ void S00e384e0_WheelCollectorE38::FUN_00e384e0(const S00e384e0_ChassisE38* pkCha
     S00e384e0_hkQuaternionE38 kSpin;
     kSpin.SetAxisAngle(kWheel.m_spinAxis, -kWheel.m_fSpinAngle);
     S00e384e0_hkQuaternionE38 kSteer;
-    kSteer.SetProduct(pkChassis->m_rotation, kWheel.m_steeringOrientation);
-    kRotOut.SetProduct(kSteer, kSpin);
+    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(kSteer), (void *)&(pkChassis->m_rotation), (const ::fnv_00c66320::__m128 *)&(kWheel.m_steeringOrientation), {});
+    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(kRotOut), (void *)&(kSteer), (const ::fnv_00c66320::__m128 *)&(kSpin), {});
 
     float fLen = kWheel.m_fContactFriction;
-    float fSuspension = (fLen < DAT_01012060) ? 0.0f : fLen;
+    float fSuspension = (fLen < ::_DAT_01012060) ? 0.0f : fLen;
 
     setTransformedPosE38(kPosOut, pkChassis->m_kMotionTransform, pkData->m_kWheelParams[iWheel].m_vContactPosition);
     __m128 s = _mm_load_ss(&fSuspension);

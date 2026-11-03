@@ -7,29 +7,80 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/fallout_shared/havok/teswaterlistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/teswaterlistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/B200Owner.h"
+#include "fnv/decl/B630120Grid.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00438af0_Class.h"
+#include "fnv/decl/FUN_0043b560_shell.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_005471e0_shell.h"
+#include "fnv/decl/FUN_00547770_shell.h"
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_00563200_Struct.h"
+#include "fnv/decl/FUN_0057b0d0_cls.h"
+#include "fnv/decl/FUN_0057c850_cls.h"
+#include "fnv/decl/FUN_00620b80_shell.h"
+#include "fnv/decl/FUN_0062e860_cls.h"
+#include "fnv/decl/FUN_0062f2f0_shell.h"
+#include "fnv/decl/FUN_00630100_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_009d9f40_Class.h"
+#include "fnv/decl/FUN_00c9bff0_Class.h"
+#include "fnv/decl/FUN_00c9c240_holder.h"
+#include "fnv/decl/FakeTaskQueue.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/Holder0087b4f0.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/ObsList.h"
+#include "fnv/decl/OwnerC9Body.h"
+#include "fnv/decl/PhysicsController.h"
+#include "fnv/decl/Ref57b240.h"
+#include "fnv/decl/S004586d0_Obj.h"
+#include "fnv/decl/S00458a10_Vector.h"
+#include "fnv/decl/S00561240_Vector.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/Target5c80.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/WaterZoneManager.h"
+#include "fnv/decl/fnv_00631370__WorkOwner.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_0045b000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_00524000.h"
+#include "fnv/symbols_0062b000.h"
+#include "fnv/symbols_0062f000.h"
+#include "fnv/symbols_00631000.h"
+#include "fnv/symbols_0070e000.h"
+#include "fnv/symbols_008c7000.h"
+#include "fnv/symbols_011c7000.h"
+#include "fnv/symbols_011cc000.h"
+#include "fnv/symbols_011d0000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011de000.h"
 struct FUN_0062e750_shell
 {
     void* __thiscall FUN_0062e750(unsigned int flags);
-    void __thiscall FUN_0062e860();
 };
-void __cdecl _Deallocate(void* p);
 extern int DAT_011c7a3c;
-void FUN_0062f310(int value);
 extern unsigned char DAT_011c7a5a;
 void FUN_0062f8e0(unsigned char value);
-extern float _DAT_011c7a5c;
-void FUN_0062f8f0(float value);
 struct BSOcclusionPlane
 {
-    unsigned int GetCullResult() const;
 };
 struct ExtraDataList
 {
-    unsigned int GetRoomId();
 };
 struct BSThread
 {
-    unsigned int GetThreadID();
 };
 unsigned int __cdecl GetOcclusionPlaneThreadID(BSOcclusionPlane* pPlane);
 extern "C" float __cdecl ExpFloat(float);
@@ -37,13 +88,10 @@ float FUN_00630aa0(float value);
 extern "C" double __cdecl _exp(double);
 float ExpFloat(float value);
 extern float _gModifierZero;
-float __cdecl SignOfFloat(float a);
 struct FUN_005631e0_shell
 {
-    int __thiscall MaskWithField(int a);
     bool __thiscall IsNonZero(int a);
 };
-float __cdecl FUN_004a3e90(float);
 struct FUN_0062e710_shell
 {
     void __thiscall SetValueAt(float f, int a, int b);
@@ -54,7 +102,6 @@ struct BSSimpleList_Ragdoll
 };
 struct TESDataHandler
 {
-    BSSimpleList_Ragdoll* __thiscall GetBGSRagdollList();
 };
 struct FUN_006310c0_shell
 {
@@ -62,11 +109,11 @@ struct FUN_006310c0_shell
 };
 struct FUN_00c9a460_shell
 {
-    void __thiscall AddObject(int a);
     void __thiscall FUN_00c9a600(int a);
 };
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 class S0062b0a0_SimdReal
 {
   public:
@@ -102,65 +149,44 @@ class NiPoint3E
     float x, y, z;
 };
 
-void __cdecl FUN_004a3e00(hkVector4E* pkOut, const NiPoint3E* pkIn);
-float __cdecl FUN_004a3e90(float fValue);
-float __cdecl FUN_004587d0(float fValue);
 
 class SettingE
 {
   public:
-    float& GetValue();
 };
-extern SettingE g_kSpawnRadiusE;
-extern SettingE g_kSpawnHeightE;
 
 class FlagE
 {
   public:
     bool* Get();
 };
-extern FlagE g_kPausedE;
 
 class SoundE;
 class ImpactObjE
 {
   public:
-    bool IsPlaying();
-    void SetPlaying(bool bPlaying);
-    void Attach(void* pvOwner, bool bFlag);
 };
 
 class AudioE
 {
   public:
-    void PlayIn(int a, ImpactObjE* pkObj, float m_fFadeDuration);
-    void PlayOut(int a, ImpactObjE* pkObj, float m_fFadeDuration);
 };
 
 class AudioMgrE
 {
   public:
-    void ProcessActorWithFlag(int a, ImpactObjE* pkObj, float m_fFadeDuration);
-    void SetPlaybackTime(int a, ImpactObjE* pkObj, float m_fFadeDuration);
 };
 
 class InterfaceE
 {
   public:
-    AudioMgrE* GetAudio();
 };
-extern InterfaceE* g_pkInterfaceE;
 
-bool __cdecl FUN_008c7aa0();
-AudioE* __cdecl FUN_004537b0();
-ImpactObjE* __cdecl FUN_0062b4e0(void* pvObj);
 
 class BodyE;
 class RefE
 {
   public:
-    void* GetObject();
-    BodyE* GetBody();
 };
 
 class RefPtrE
@@ -172,31 +198,21 @@ class RefPtrE
 class ListNodeE
 {
   public:
-    RefPtrE* GetItem();
-    bool IsEmpty();
-    ListNodeE* GetNext();
 };
 
 class LockE
 {
   public:
-    void Lock();
-    bool IsBlocked(BodyE* pkBody, bool* pbSkip);
 };
-extern LockE g_kSpawnLockE;
 
 class FormArrayE
 {
   public:
-    unsigned int GetCount();
-    void** GetAt(unsigned int i);
 };
 
 class LinkE
 {
   public:
-    LinkE* GetNext();
-    ImpactObjE* GetOwnerObj();
 };
 
 class SpawnListBaseE
@@ -233,7 +249,6 @@ class SpawnListE : public SpawnListBaseE, public LinkE
 class CellLinkE
 {
   public:
-    CellLinkE* GetNext();
 };
 
 class CellBaseE
@@ -245,16 +260,12 @@ class CellBaseE
 class SpawnCellE : public CellBaseE, public CellLinkE
 {
   public:
-    SpawnListE* GetFirstList();
 };
 
-BodyE* __cdecl FUN_004b59f0(void* pvForm);
 
 class ProcessE
 {
   public:
-    float UpdateTESState();
-    void* GetWaterForm();
 };
 
 class PlayerE
@@ -386,17 +397,13 @@ class PlayerE
     virtual void vp1ec();
     virtual void vp1f0();
     virtual const NiPoint3E* GetPosition();
-    ProcessE* GetProcess();
 };
-extern PlayerE* g_pkPlayerE;
 
 class CameraE
 {
   public:
     const NiPoint3E* GetPosition();
 };
-CameraE* __cdecl FUN_00524c90();
-void __cdecl FUN_0062f310(void* pvWater);
 
 class SpawnManagerE
 {
@@ -410,109 +417,13 @@ class SpawnManagerE
     SpawnCellE* m_pkCells;
     float m_fTimer;
 
-    bool IsEnabled();
-    bool FUN_0062ff10(BodyE* pkBody, const hkVector4E& kTarget, float fRadius, SpawnCellE* pkCell, float* pfHeight);
-    int Update(BodyE* pkBody, float m_fGlyphExtent, float fTimeDelta, int iFlag);
-    void Finish(int a, int b, int c);
     void FUN_0062ee60(float fTimeDelta);
 };
-
-// @fnv 0x0062ee60
-void SpawnManagerE::FUN_0062ee60(float fTimeDelta)
-{
-    if (IsEnabled())
-    {
-        m_fTimer -= fTimeDelta;
-        float fRadius = g_kSpawnRadiusE.GetValue();
-        fRadius = fRadius * fRadius;
-        fRadius = FUN_004a3e90(fRadius);
-        float m_fGlyphExtent = FUN_004a3e90(g_kSpawnHeightE.GetValue());
-        hkVector4E kPlayerPos;
-        FUN_004a3e00(&kPlayerPos, g_pkPlayerE->GetPosition());
-        hkVector4E kUnused;
-        ListNodeE* pkNode = &m_kActive;
-        float fFoundHeight = 0.0f;
-        g_kSpawnLockE.Lock();
-        while (!*g_kPausedE.Get() && pkNode && !pkNode->IsEmpty())
-        {
-            RefE* pkRef = pkNode->GetItem()->operator->();
-            RefE* pkRef2 = pkRef;
-            BodyE* pkBody = pkRef2->GetBody();
-            int iResult = 0;
-            if (FUN_0062ff10(pkBody, kPlayerPos, fRadius, 0, &fFoundHeight))
-                iResult = Update(pkBody, fFoundHeight, fTimeDelta, 0);
-            if (iResult)
-            {
-                ImpactObjE* pkObj = FUN_0062b4e0(pkRef->GetObject());
-                if (pkObj)
-                {
-                    fFoundHeight = FUN_004587d0(fFoundHeight);
-                    if (iResult == 1)
-                    {
-                        if (!pkObj->IsPlaying())
-                        {
-                            if (FUN_008c7aa0() && FUN_004537b0())
-                                FUN_004537b0()->PlayIn(0, pkObj, fFoundHeight);
-                            else
-                                g_pkInterfaceE->GetAudio()->ProcessActorWithFlag(0, pkObj, fFoundHeight);
-                        }
-                        pkObj->SetPlaying(true);
-                    }
-                    else if (iResult == 2)
-                    {
-                        pkObj->SetPlaying(false);
-                        if (!pkObj->IsPlaying())
-                        {
-                            if (FUN_008c7aa0() && FUN_004537b0())
-                                FUN_004537b0()->PlayOut(0, pkObj, fFoundHeight);
-                            else
-                                g_pkInterfaceE->GetAudio()->SetPlaybackTime(0, pkObj, fFoundHeight);
-                        }
-                    }
-                }
-            }
-            pkNode = pkNode->GetNext();
-        }
-
-        SpawnCellE* pkCell = m_pkCells;
-        while (pkCell)
-        {
-            SpawnListE* pkList = pkCell->GetFirstList();
-            while (pkList)
-            {
-                bool bSkip = false;
-                for (unsigned int i = 0; i < pkList->m_kForms.GetCount(); i++)
-                {
-                    void* pvForm = *pkList->m_kForms.GetAt(i);
-                    BodyE* pkBody = FUN_004b59f0(pvForm);
-                    int iResult = 0;
-                    if (!g_kSpawnLockE.IsBlocked(pkBody, &bSkip) &&
-                        FUN_0062ff10(pkBody, kPlayerPos, fRadius, pkCell, &fFoundHeight))
-                        iResult = Update(pkBody, fFoundHeight, fTimeDelta, 1);
-                    if (iResult == 1)
-                    {
-                        pkList->GetOwnerObj()->SetPlaying(true);
-                        pkList->GetOwnerObj()->Attach(pkCell, true);
-                    }
-                }
-                pkList = static_cast<SpawnListE*>(pkList->LinkE::GetNext());
-            }
-            pkCell = static_cast<SpawnCellE*>(pkCell->CellLinkE::GetNext());
-        }
-        Finish(0, 1, 0);
-    }
-    if (FUN_00524c90() && g_pkPlayerE->GetProcess())
-    {
-        if (FUN_00524c90()->GetPosition()->z < g_pkPlayerE->GetProcess()->UpdateTESState())
-            FUN_0062f310(g_pkPlayerE->GetProcess()->GetWaterForm());
-    }
-}
 
 class hkSimdRealW
 {
   public:
     __m128 m_vValue;
-    float getReal() const;
 };
 
 class hkVector4W
@@ -521,9 +432,6 @@ class hkVector4W
     __m128 m_vComponents;
     hkVector4W();
     hkVector4W(const hkVector4W& v);
-    void setSub4(const hkVector4W& a, const hkVector4W& b);
-    hkSimdRealW length3() const;
-    hkSimdRealW getComponent(int i) const;
 };
 
 class hkBoolW
@@ -545,13 +453,11 @@ class TESObjectREFRW
 {
   public:
     const hkVector4W& GetHavokPosition() const;
-    hkBoolW IsInactive() const;
 };
 
 class CharacterW
 {
   public:
-    void Reset();
 };
 
 class HeightSourceW
@@ -569,14 +475,8 @@ class HeightSourceW
 class GameSettingW
 {
   public:
-    float& GetValue();
 };
-extern GameSettingW g_kFloorOffsetW;
 
-void* __cdecl FUN_004b5a80(const void* pvRef);
-NiPoint3W* __cdecl FUN_00458620(NiPoint3W* pkOut, const hkVector4W* pkIn);
-float __cdecl FUN_004a3e90(float fHavok);
-int __cdecl FUN_00406d90(float fValue);
 
 class HeightGridW
 {
@@ -595,10 +495,99 @@ class HeightGridW
     int m_iOriginX;
     int m_iOriginY;
 
-    float GetHeight(int iX, int iY);
     bool FUN_0062ff10(TESObjectREFRW* pkRef, const hkVector4W& kTarget, float fRadius, HeightSourceW* pkSource,
                       float* pfHeight);
 };
+// @fnv 0x0062ee60
+void SpawnManagerE::FUN_0062ee60(float fTimeDelta)
+{
+    if (((bool)(reinterpret_cast<::FUN_0062f2f0_shell *>(this)->FUN_0062f2f0())))
+    {
+        m_fTimer -= fTimeDelta;
+        float fRadius = ::FUN_00403e20((float *)&((*reinterpret_cast<::SettingE *>(&::originalRuntimeFloatSetting976))));
+        fRadius = fRadius * fRadius;
+        fRadius = FUN_004a3e90(fRadius);
+        float m_fGlyphExtent = FUN_004a3e90(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingE *>(&::originalRuntimeFloatSetting977)))));
+        hkVector4E kPlayerPos;
+        ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&kPlayerPos)), (*(const ::fnv_004a3e00::NiPoint3 *)((*reinterpret_cast<::PlayerE * *>(&::_g_thePlayer))->GetPosition())));
+        hkVector4E kUnused;
+        ListNodeE* pkNode = &m_kActive;
+        float fFoundHeight = 0.0f;
+        reinterpret_cast<::FUN_00438af0_Class *>(&((*reinterpret_cast<::LockE *>(&::g_011cc584))))->FUN_00438af0();
+        while (!*(*reinterpret_cast<::FlagE *>(&::g_011cc5a8)).Get() && pkNode && !reinterpret_cast<::ObsList *>((pkNode))->FUN_004a4460())
+        {
+            RefE* pkRef = ((::RefPtrE *)(new ((void *)(pkNode)) ::Vec3()))->operator->();
+            RefE* pkRef2 = pkRef;
+            BodyE* pkBody = ((::BodyE *)(reinterpret_cast<::FUN_00620b80_shell *>((pkRef2))->GetReferenceFlags()));
+            int iResult = 0;
+            if (reinterpret_cast<::HeightGridW *>(this)->FUN_0062ff10((::TESObjectREFRW *)(pkBody), (const ::hkVector4W &)(kPlayerPos), fRadius, (::HeightSourceW *)(::SpawnCellE *)(0), &fFoundHeight))
+                iResult = reinterpret_cast<::PhysicsController *>(this)->FUN_00630170((::PhysicsReference *)(pkBody), fFoundHeight, fTimeDelta, 0);
+            if (iResult)
+            {
+                ImpactObjE* pkObj = ((::ImpactObjE *)(::FUN_0062b4e0(reinterpret_cast<::FUN_0043b560_shell *>((pkRef))->GetSourceFilesFromObject())));
+                if (pkObj)
+                {
+                    fFoundHeight = FUN_004587d0(fFoundHeight);
+                    if (iResult == 1)
+                    {
+                        if (!reinterpret_cast<::B200Owner *>((pkObj))->FUN_0057b200())
+                        {
+                            if (FUN_008c7aa0() && ((::AudioE *)(::TaskQueueInterface::GetSingleton())))
+                                reinterpret_cast<::FakeTaskQueue *>((((::AudioE *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b4a0(0, (int)(pkObj), fFoundHeight);
+                            else
+                                reinterpret_cast<::Target5c80 *>((((::AudioMgrE *)(::FUN_0070ec90((char *)((*reinterpret_cast<::InterfaceE * *>(&::g_TES))))))))->AddObjectToEntry((void *)(0), (::Object5c80 *)(pkObj), fFoundHeight);
+                        }
+                        reinterpret_cast<::Ref57b240 *>((pkObj))->FUN_0057b240(true);
+                    }
+                    else if (iResult == 2)
+                    {
+                        reinterpret_cast<::Ref57b240 *>((pkObj))->FUN_0057b240(false);
+                        if (!reinterpret_cast<::B200Owner *>((pkObj))->FUN_0057b200())
+                        {
+                            if (FUN_008c7aa0() && ((::AudioE *)(::TaskQueueInterface::GetSingleton())))
+                                reinterpret_cast<::Holder0087b4f0 *>((((::AudioE *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b4f0(0, (int)(pkObj), fFoundHeight);
+                            else
+                                reinterpret_cast<::WaterZoneManager *>((((::AudioMgrE *)(::FUN_0070ec90((char *)((*reinterpret_cast<::InterfaceE * *>(&::g_TES))))))))->UpdateWaterZone((::TESObjectREFR *)(0), (::TESObjectREFR *)(pkObj), fFoundHeight);
+                        }
+                    }
+                }
+            }
+            pkNode = ((::ListNodeE *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070()));
+        }
+
+        SpawnCellE* pkCell = m_pkCells;
+        while (pkCell)
+        {
+            SpawnListE* pkList = ((::SpawnListE *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pkCell))->FUN_00825c00()));
+            while (pkList)
+            {
+                bool bSkip = false;
+                for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(pkList->m_kForms))->GetName())); i++)
+                {
+                    void* pvForm = *((void **)(reinterpret_cast<::S3e60 *>(&(pkList->m_kForms))->FUN_006a7ad0(i)));
+                    BodyE* pkBody = ((::BodyE *)(::FUN_004b59f0(pvForm)));
+                    int iResult = 0;
+                    if (!reinterpret_cast<::FUN_0057c850_cls *>(&((*reinterpret_cast<::LockE *>(&::g_011cc584))))->FUN_0057c850(pkBody, &bSkip) &&
+                        reinterpret_cast<::HeightGridW *>(this)->FUN_0062ff10((::TESObjectREFRW *)(pkBody), (const ::hkVector4W &)(kPlayerPos), fRadius, (::HeightSourceW *)(pkCell), &fFoundHeight))
+                        iResult = reinterpret_cast<::PhysicsController *>(this)->FUN_00630170((::PhysicsReference *)(pkBody), fFoundHeight, fTimeDelta, 1);
+                    if (iResult == 1)
+                    {
+                        reinterpret_cast<::Ref57b240 *>((((::ImpactObjE *)(reinterpret_cast<::FUN_0084e3a0_Class *>((pkList))->FUN_0084e3a0()))))->FUN_0057b240(true);
+                        reinterpret_cast<::FUN_0057b0d0_cls *>((((::ImpactObjE *)(reinterpret_cast<::FUN_0084e3a0_Class *>((pkList))->FUN_0084e3a0()))))->FUN_0057b0d0((int)(pkCell), true);
+                    }
+                }
+                pkList = static_cast<SpawnListE*>(((::LinkE *)(reinterpret_cast<::Callees *>((pkList))->FUN_00726070())));
+            }
+            pkCell = static_cast<SpawnCellE*>(((::CellLinkE *)(reinterpret_cast<::Callees *>((pkCell))->FUN_00726070())));
+        }
+        reinterpret_cast<::fnv_00631370::WorkOwner *>(this)->FUN_00631370((::fnv_00631370::WorkActor *)(0), 1, 0);
+    }
+    if (((::CameraE *)(::FUN_00524c90())) && ((::ProcessE *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::PlayerE * *>(&::_g_thePlayer))))->GetTarget())))
+    {
+        if (((const ::NiPoint3E *)(::FUN_0045bb80((int)(((::CameraE *)(::FUN_00524c90()))))))->z < reinterpret_cast<::FUN_005471e0_shell *>((((::ProcessE *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::PlayerE * *>(&::_g_thePlayer))))->GetTarget()))))->FUN_005471e0())
+            ::FUN_0062f310((int)(((void *)(reinterpret_cast<::FUN_00547770_shell *>((((::ProcessE *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::PlayerE * *>(&::_g_thePlayer))))->GetTarget()))))->FUN_00547770()))));
+    }
+}
 
 // @fnv 0x0062ff10
 bool HeightGridW::FUN_0062ff10(TESObjectREFRW* pkRef, const hkVector4W& kTarget, float fRadius, HeightSourceW* pkSource,
@@ -612,13 +601,13 @@ bool HeightGridW::FUN_0062ff10(TESObjectREFRW* pkRef, const hkVector4W& kTarget,
 
         hkVector4W kPos(pkRef->GetHavokPosition());
         hkVector4W kDiff;
-        kDiff.setSub4(kPos, kTarget);
-        if (kDiff.length3().getReal() > fRadius)
+        reinterpret_cast<::S00458a10_Vector *>(&(kDiff))->FUN_00458a10((const ::S00458a10_Vector *)&(kPos), (const ::S00458a10_Vector *)&(kTarget));
+        if (reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::hkSimdRealW &)((*(::hkSimdRealW *)(reinterpret_cast<::FUN_00630100_shell *>((void *)&(kDiff))->FUN_00630100({})))))->FUN_004586d0() > fRadius)
         {
             if (pkCharacter->IsNonZero(0x88))
             {
-                if (pkRef->IsInactive())
-                    ((CharacterW*)pkCharacter)->Reset();
+                if ((*(::hkBoolW *)(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBoolW &)(reinterpret_cast<::FUN_00c9bff0_Class *>((void *)(pkRef))->FUN_00c9bff0({})))->FUN_005609f0())))
+                    reinterpret_cast<::FUN_00c9c240_holder *>((((CharacterW*)pkCharacter)))->FUN_00c9d600();
             }
             return false;
         }
@@ -630,20 +619,20 @@ bool HeightGridW::FUN_0062ff10(TESObjectREFRW* pkRef, const hkVector4W& kTarget,
         else if (m_uiCells > 1)
         {
             NiPoint3W kPoint;
-            FUN_00458620(&kPoint, &kPos);
+            ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&kPoint)), (*(const ::hkVector4 *)(&kPos)));
             int iX = FUN_00406d90(kPoint.x) >> 12;
             int iY = FUN_00406d90(kPoint.y) >> 12;
             iX -= m_iOriginX;
             iY -= m_iOriginY;
-            *pfHeight = GetHeight(iX, iY);
+            *pfHeight = reinterpret_cast<::B630120Grid *>(this)->GetValue(iX, iY);
         }
         else
         {
-            *pfHeight = GetHeight(0, 0);
+            *pfHeight = reinterpret_cast<::B630120Grid *>(this)->GetValue(0, 0);
         }
 
-        float fProjectionAlongAim = FUN_004a3e90(g_kFloorOffsetW.GetValue());
-        if (*pfHeight + fProjectionAlongAim < kPos.getComponent(2).getReal())
+        float fProjectionAlongAim = FUN_004a3e90(::FUN_00403e20((float *)&((*reinterpret_cast<::GameSettingW *>(&::originalRuntimeFloatSetting977)))));
+        if (*pfHeight + fProjectionAlongAim < reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::hkSimdRealW &)((*(::hkSimdRealW *)(reinterpret_cast<::Holder *>((void *)&(kPos))->FUN_00458700((::Holder *)(2), {})))))->FUN_004586d0())
             return pkCharacter->IsNonZero(0x88);
         return true;
     }
@@ -658,7 +647,6 @@ struct S00630ae0_Vector
 class S00630ae0_Source
 {
   public:
-    S00630ae0_Vector FUN_00561240() const;
 };
 
 struct S00630ae0_Result
@@ -670,14 +658,14 @@ struct S00630ae0_Result
 // @fnv 0x00630ae0
 void S00630ae0_Result::FUN_00630ae0(const S00630ae0_Source* a, const S00630ae0_Vector* b)
 {
-    m_vComponents = _mm_mul_ps(a->FUN_00561240().m_vComponents, b->m_vComponents);
+    m_vComponents = _mm_mul_ps((*(::S00630ae0_Vector *)(reinterpret_cast<::S00561240_Vector *>((void *)(a))->FUN_00561240({}))).m_vComponents, b->m_vComponents);
 }
 
 class S00630b40_SimdReal
 {
   public:
     S00630b40_SimdReal(const __m128& q);  // FUN_004a3c90
-    const __m128& getQuad() const;        // FUN_006815c0
+            // FUN_006815c0
     __m128 m_vValue;
 };
 
@@ -692,7 +680,7 @@ class S00630b40_Vector
 // @fnv 0x00630b40
 S00630b40_SimdReal S00630b40_Vector::FUN_00630b40() const
 {
-    return S00630b40_SimdReal(_mm_sqrt_ss(dot3(*this).getQuad()));
+    return S00630b40_SimdReal(_mm_sqrt_ss((*(const ::__m128 *)(new ((void *)&(dot3(*this))) ::Vec3()))));
 }
 
 class FUN_006815c0
@@ -701,14 +689,8 @@ class FUN_006815c0
     __m128 m_vComponents;
 
     FUN_006815c0();
-    __m128& FUN_006815c0_quad();
 
-    void FUN_00630fa0(void* pvSource, int iCount);
-    void FUN_00630d90(FUN_006815c0* pkA, FUN_006815c0* pkB, FUN_006815c0* pkC);
-    void FUN_00630ce0(void* pvParam, FUN_006815c0* pkVector);
-    void FUN_00630ed0(int iParam);
     void FUN_00630d30(FUN_006815c0* pkA, FUN_006815c0* pkB);
-    void FUN_00630df0(FUN_006815c0* pkA, void* pvParam);
 };
 
 struct Transform630
@@ -718,37 +700,14 @@ struct Transform630
 
 struct Source630
 {
-    Transform630* FUN_006815c0_transform();
 };
 
-extern const __m128 DAT_010c71e0;
 
 struct FUN_00630bb0_shell
 {
     void FUN_00458880(FUN_006815c0* pkA, FUN_006815c0* pkB);
     void FUN_00630bb0(Source630* pkSource, void* pvParam);
 };
-
-// @fnv 0x00630bb0
-void FUN_00630bb0_shell::FUN_00630bb0(Source630* pkSource, void* pvParam)
-{
-    FUN_006815c0 kA;
-    kA.FUN_006815c0_quad() = DAT_010c71e0;
-    FUN_006815c0 kB;
-    kB.FUN_00630fa0(pkSource, 3);
-    FUN_006815c0 kC;
-    kC.FUN_00630d90(&kA, &kB, &kB);
-    FUN_006815c0 kD;
-    kD.FUN_00630ce0(pvParam, &kC);
-    FUN_006815c0 kE;
-    kE.FUN_006815c0_quad() = pkSource->FUN_006815c0_transform()->FUN_0062b0a0(pvParam).FUN_006815c0_quad();
-    kE.FUN_00630ed0(0);
-    kD.FUN_00630d30(&kE, (FUN_006815c0*)pkSource->FUN_006815c0_transform());
-    FUN_006815c0 kF;
-    kF.FUN_00630df0((FUN_006815c0*)pkSource->FUN_006815c0_transform(), pvParam);
-    kD.FUN_00630d30(&kB, &kF);
-    FUN_00458880(&kD, &kD);
-}
 
 struct S00630ce0_Vector
 {
@@ -815,6 +774,26 @@ struct VectorStandIn
     __m128 m_vComponents;
     void FUN_00630fa0(const VectorStandIn& v, int i);
 };
+// @fnv 0x00630bb0
+void FUN_00630bb0_shell::FUN_00630bb0(Source630* pkSource, void* pvParam)
+{
+    FUN_006815c0 kA;
+    (*(::__m128 *)(new ((void *)&(kA)) ::Vec3())) = DAT_010c71e0;
+    FUN_006815c0 kB;
+    reinterpret_cast<::VectorStandIn *>(&(kB))->FUN_00630fa0((*(const ::VectorStandIn *)(pkSource)), 3);
+    FUN_006815c0 kC;
+    reinterpret_cast<::S00630d90_Vector *>(&(kC))->FUN_00630d90((const ::S00630d90_Vector *)(class ::FUN_006815c0 *)(&kA), (const ::S00630d90_Vector *)(class ::FUN_006815c0 *)(&kB), (const ::S00630d90_Vector *)(class ::FUN_006815c0 *)(&kB));
+    FUN_006815c0 kD;
+    reinterpret_cast<::S00630ce0_Vector *>(&(kD))->FUN_00630ce0((const ::S00630ce0_Vector *)(pvParam), (const ::S00630ce0_Vector *)(class ::FUN_006815c0 *)(&kC));
+    FUN_006815c0 kE;
+    (*(::__m128 *)(new ((void *)&(kE)) ::Vec3())) = (*(::__m128 *)(new ((void *)&(((::Transform630 *)(new ((void *)(pkSource)) ::Vec3()))->FUN_0062b0a0(pvParam))) ::Vec3()));
+    reinterpret_cast<::S00630ed0_Vector *>(&(kE))->FUN_00630ed0(0);
+    kD.FUN_00630d30(&kE, (FUN_006815c0*)((::Transform630 *)(new ((void *)(pkSource)) ::Vec3())));
+    FUN_006815c0 kF;
+    reinterpret_cast<::hkVector4 *>(&(kF))->FUN_00630df0((*(const ::hkVector4 *)((FUN_006815c0*)((::Transform630 *)(new ((void *)(pkSource)) ::Vec3())))), (*(const ::hkVector4 *)(pvParam)));
+    kD.FUN_00630d30(&kB, &kF);
+    FUN_00458880(&kD, &kD);
+}
 
 // @fnv 0x00630fa0
 void VectorStandIn::FUN_00630fa0(const VectorStandIn& v, int i)

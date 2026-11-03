@@ -2,6 +2,44 @@
 // src/staging/blk_00ae0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <new>
+#include "fnv/decl/AF1430.h"
+#include "fnv/decl/BSGameSound.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00438690.h"
+#include "fnv/decl/FUN_0045cee0_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00aa63c0.h"
+#include "fnv/decl/FUN_00ad6f40.h"
+#include "fnv/decl/FUN_00ae9c50_s.h"
+#include "fnv/decl/FUN_00aeafb0.h"
+#include "fnv/decl/ListenerDestruction__FUN_00aea770.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/O.h"
+#include "fnv/decl/SndStack70.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00a62000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00ae9000.h"
+#include "fnv/symbols_00af0000.h"
+#include "fnv/symbols_00af3000.h"
+#include "fnv/symbols_00ee8000.h"
+#include "fnv/symbols_01000000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_01030000.h"
+#include "fnv/symbols_01047000.h"
+#include "fnv/symbols_01093000.h"
+#include "fnv/symbols_010a2000.h"
+#include "fnv/symbols_010a3000.h"
+#include "fnv/symbols_01100000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f7000.h"
+#include "fnv/symbols_011f8000.h"
+#include "fnv/symbols_01202000.h"
 #include "../../include/layout_support.h"
 
 extern int DAT_010a42b4;
@@ -256,7 +294,6 @@ void __thiscall FUN_00af3b50_Class::SetVTable()
     *reinterpret_cast<void**>(this) = &DAT_010a4328;
 }
 
-void __cdecl SwapByteQuadWords(void* p, int a2);
 
 struct FUN_00afd960_Class
 {
@@ -269,7 +306,7 @@ struct FUN_00afd960_Class
 void FUN_00afd960_Class::FUN_00afd960()
 {
     void* pUnused[6];
-    SwapByteQuadWords((char*)this + 4, 1);
+    ::SwapByteQuadWords((::Vector4f *)(void *)((char*)this + 4), 1);
 }
 
 struct NiFile;
@@ -300,7 +337,7 @@ struct FUN_00aea1b0_Class
 // @fnv 0x00aea1b0
 FUN_00aea1b0_Class::FUN_00aea1b0_Class()
 {
-    FUN_00ad6f40();
+    new ((void *)this) ::FUN_00ad6f40();
     vtbl = (void*)&DAT_010a39d8;
     *(int*)((char*)this + 0x38) = 0;
     *(int*)((char*)this + 0x3c) = 0;
@@ -330,21 +367,18 @@ FUN_00aea730_Class* FUN_00aea730_Class::FUN_00aea730(int aiValue)
 
 struct MemoryManager
 {
-    void __thiscall Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 struct FUN_00aeaa80_Class
 {
-    void __thiscall FUN_00aea770();
     void* __thiscall FUN_00aeaa80(unsigned int flags);
 };
 // Calls FUN_00aea770, deallocates this via g_memoryManager when flags has bit 1 set, and returns this.
 // @fnv 0x00aeaa80
 void* __thiscall FUN_00aeaa80_Class::FUN_00aeaa80(unsigned int flags)
 {
-    FUN_00aea770();
+    reinterpret_cast<::ListenerDestruction::FUN_00aea770 *>(this)->ListenerDestruction::FUN_00aea770::~FUN_00aea770();
     if (flags & 1)
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
     return this;
 }
 
@@ -363,21 +397,18 @@ void __thiscall FUN_00aefcf0_Class::FUN_00aefcf0(float a, float b, float c)
 namespace fnv_00af1cc0 {
 struct MemoryManager
 {
-    void Deallocate(void*);
 };
-extern MemoryManager _g_memoryManager;
 struct FUN_00af1cc0_Class
 {
-    void __thiscall FUN_00aeafb0();
     void* __thiscall FUN_00af1cc0(unsigned int flags);
 };
 // Calls FUN_00aeafb0, deallocates this via _g_memoryManager when flags has bit 1 set, and returns this.
 // @fnv 0x00af1cc0
 void* __thiscall FUN_00af1cc0_Class::FUN_00af1cc0(unsigned int flags)
 {
-    FUN_00aeafb0();
+    reinterpret_cast<::FUN_00aeafb0 *>(this)->FUN_00aeafb0::~FUN_00aeafb0();
     if (flags & 1)
-        _g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00af1cc0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(this);
     return this;
 }
 }  // namespace fnv_00af1cc0
@@ -456,7 +487,6 @@ void* __thiscall FUN_00af3570_Class::FUN_00af3570()
     return this;
 }
 
-void __cdecl _sprintf_s(char* dst, unsigned int size, const char* fmt, ...);
 
 struct FUN_00afd860_Class
 {
@@ -469,7 +499,7 @@ struct FUN_00afd860_Class
 void __thiscall FUN_00afd860_Class::FUN_00afd860(char* dst)
 {
     if (dst)
-        _sprintf_s(dst, 0x20, "%c%02X%c%c%08X", m_acCharacterBuffer[3], m_acCharacterBuffer[2], m_acCharacterBuffer[1],
+        ::FUN_00406d00(dst, 0x20, "%c%02X%c%c%08X", m_acCharacterBuffer[3], m_acCharacterBuffer[2], m_acCharacterBuffer[1],
                    m_acCharacterBuffer[0], iValue);
 }
 
@@ -491,8 +521,6 @@ bool FUN_00afdbc0_Class::IsIndexInRange(int idx)
     return false;
 }
 
-extern int DAT_010a3370;
-void* __cdecl _NiMalloc(unsigned int);
 struct FUN_00ae7b40_Class
 {
     void* vtbl;
@@ -509,14 +537,12 @@ FUN_00ae7b40_Class::FUN_00ae7b40_Class(int aiCount)
     iCount = aiCount;
     iCapacity = 0;
     int size7 = iCount * 4;
-    pItems = _NiMalloc(size7);
+    pItems = ::FUN_00aa1070(size7);
     int size2 = iCount * 4;
     void* tmp = pItems;
     _fnv_zlib_memset(tmp, 0, size2);
 }
 
-extern int DAT_010a3390;
-void* __cdecl _NiMalloc(unsigned int);
 struct FUN_00ae7bc0_Class
 {
     void* vtbl;
@@ -533,14 +559,12 @@ FUN_00ae7bc0_Class::FUN_00ae7bc0_Class(int count)
     m_uiItemCount = count;
     m_auiShapeKeys = 0;
     unsigned int uiAllocSize = m_uiItemCount << 2;
-    m_data = _NiMalloc(uiAllocSize);
+    m_data = ::FUN_00aa1070(uiAllocSize);
     unsigned int size2 = m_uiItemCount << 2;
     void* p2 = m_data;
     _fnv_zlib_memset(p2, 0, size2);
 }
 
-extern int DAT_010a33b0;
-void* __cdecl NiMalloc(unsigned int size);
 struct FUN_00ae7c40_Class
 {
     void* __thiscall InitBuffer(int size);
@@ -553,7 +577,7 @@ void* __thiscall FUN_00ae7c40_Class::InitBuffer(int size)
     ((int*)this)[1] = size;
     ((int*)this)[3] = 0;
     int s3 = ((int*)this)[1] << 2;
-    ((int*)this)[2] = (int)NiMalloc(s3);
+    ((int*)this)[2] = (int)::FUN_00aa1070(s3);
     int s2 = ((int*)this)[1] << 2;
     void* p2 = *(void**)((int*)this + 2);
     _fnv_zlib_memset(p2, 0, s2);
@@ -617,7 +641,6 @@ struct BSAudio
     char pad[0x38];
     void* pAudio;
 };
-extern BSAudio* DAT_011f6d98;
 
 struct FUN_00af1ba0_Class
 {
@@ -648,22 +671,9 @@ struct S00a0d390
     int pad;
     void* p;
 
-    void __thiscall ClearAll();
     void __thiscall FUN_00ae8c30();
 };
 
-void __cdecl _NiFree(void* p);
-
-// @fnv 0x00ae8c30
-void S00a0d390::FUN_00ae8c30()
-{
-    int p;
-    int P;
-
-    this->vtbl = (void*)&DAT_010a3370;
-    ClearAll();
-    _NiFree(this->p);
-}
 
 // Returns -1 if stream is null, otherwise seeks it with _fseek(stream, offset, pad) and returns the result.
 // @fnv 0x00aeabf0
@@ -790,7 +800,7 @@ void* BSFileDelete::FUN_00afff20(unsigned int flags)
 {
     this->BSFile::~BSFile();
     if (flags & 1)
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
     return this;
 }
 
@@ -817,7 +827,6 @@ struct FUN_00ae78a0_cls
     int unk38;
     int unk3C;
     void* m_h40;
-    void FUN_00aa63c0();
     void FUN_00ae78a0();
 };
 
@@ -828,7 +837,7 @@ void FUN_00ae78a0_cls::FUN_00ae78a0()
     m_vtbl = (void*)&DAT_010a33d0;
     CloseHandle(m_h40);
     CloseHandle(m_h34);
-    FUN_00aa63c0();
+    reinterpret_cast<::FUN_00aa63c0 *>(this)->FUN_00aa63c0::~FUN_00aa63c0();
 }
 
 struct FUN_00ae8010_node
@@ -877,7 +886,7 @@ void* FUN_00ae8010_cls::PopFront()
     }
     p = pNode->m_08;
     pNode->m_08 = 0;
-    m_08.FreeNode(pNode);
+    reinterpret_cast<::FUN_0045cee0_shell *>(&(m_08))->FUN_0045cee0(pNode);
     m_08.m_uiCount -= 1;
     return p;
 }
@@ -1118,6 +1127,16 @@ class AE91F0Map
 
     void ClearAll();
 };
+// @fnv 0x00ae8c30
+void S00a0d390::FUN_00ae8c30()
+{
+    int p;
+    int P;
+
+    this->vtbl = (void*)&DAT_010a3370;
+    reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
+    ::FUN_00aa10f0(this->p);
+}
 
 // Walks every hash bucket, unlinking each item, calling ClearValue and DeleteItem on it, then resets m_uiCount to zero.
 // @fnv 0x00ae91f0
@@ -1437,17 +1456,16 @@ void S_00aeaa10_Cls::FUN_00aeaa10(const S_00aeaa10_P3* pPos)
 void* __cdecl _fnv_zlib_memset(void* p, int c, int n);
 struct MMStub
 {
-    void* __thiscall Allocate(unsigned int size);
 };
-extern MMStub g_mmStub;
 class NiPoint3
 {
   public:
     float x;
     float y;
     float z;
+public:
+    static const ::NiPoint3 ZERO;
 };
-extern const NiPoint3 NiPoint3_ZERO;
 
 struct Stub1A4
 {
@@ -1620,9 +1638,9 @@ FUN_00aeae10::FUN_00aeae10()
     unk204 = 0;
     unk208 = 0;
     unk224 = 0;
-    unk218 = NiPoint3_ZERO;
+    unk218 = ::NiPoint3::ZERO;
     _fnv_zlib_memset(&unk1A4, 0, sizeof(Stub1A4));
-    void* p = g_mmStub.Allocate(0x12);
+    void* p = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MMStub *>(&::g_memoryManager))))->FUN_00aa3e40(0x12);
     unk1A4.pBuf = p;
     unk1C8 = 0;
     unk20C = 0;
@@ -1749,8 +1767,6 @@ struct SndStream
 
 struct SndHeap
 {
-    void* Allocate(unsigned int size);
-    void Deallocate(void* p);
 };
 
 struct SndFloatHolder
@@ -1759,22 +1775,13 @@ struct SndFloatHolder
     float fValue;
 };
 
-extern SndHeap g_SndHeap;
-extern SndFloatHolder g_SndFloatHolder;
-extern float g_fSndZeroFallback;
-extern float g_fSndMinDistance;
 extern float g_fSndConeValue;
-extern float g_fSnd150;
-extern float g_fSndReverb1;
 extern float g_fSndReverb2;
-extern const SndGuid g_IID_SndBuffer8;
-extern const SndGuid g_IID_Snd3DBuffer;
 extern const SndGuid g_GUID_SndFX;
 extern const SndGuid g_IID_SndFXParams;
 
 void* __cdecl SndMemCopy(void* dst, const void* src, unsigned int n);
 void* __cdecl SndMemSet(void* dst, int c, unsigned int n);
-void __cdecl SndLog(const char* fmt, ...);
 
 class FUN_00aec530_cls
 {
@@ -1802,10 +1809,6 @@ class FUN_00aec530_cls
     virtual void SetPosition(float x, float y, float z);
 
     void Release(int a);
-    bool IsStreaming();
-    bool IsLooping();
-    void UpdateFlags();
-    void UpdateDistance();
     void FUN_00aec530();
 
     int unk04;
@@ -1913,11 +1916,11 @@ void FUN_00aec530_cls::FUN_00aec530()
 
         if (m_pDirectInputDevice == 0)
         {
-            Release(0);
+            reinterpret_cast<::FUN_00ae9c50_s *>(this)->SetFlagState(0);
             return;
         }
         bytes = m_kDesc.lpwfxFormat->wBitsPerSample / 8;
-        if (IsStreaming() || IsLooping())
+        if (reinterpret_cast<::BSGameSound *>(this)->HasSoundFlagTwo() || reinterpret_cast<::BSGameSound *>(this)->CanStartPlayback())
         {
             m_sFrequency = 10000;
         }
@@ -1926,7 +1929,7 @@ void FUN_00aec530_cls::FUN_00aec530()
             if ((unsigned char)(((m_uiValue1 & 0x4000000) || (m_uiValue1 & 0x2000000)) ? 1 : 0))
             {
                 gap = 0x400;
-                itemB = g_SndHeap.Allocate(0x24);
+                itemB = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::SndHeap *>(&::g_memoryManager))))->FUN_00aa3e40(0x24);
                 m_pBinaryStream = (SndStream*)itemB;
                 m_pBinaryStream->uiHeadSize = m_iLoopStart * bytes;
                 m_pBinaryStream->uiTailSize = m_uiSize - m_iLoopEnd * bytes;
@@ -1937,13 +1940,13 @@ void FUN_00aec530_cls::FUN_00aec530()
                 m_pBinaryStream->iState = 0;
                 m_pBinaryStream->uiPos = 0;
                 f11 = m_pBinaryStream->uiHeadSize;
-                input2 = g_SndHeap.Allocate(f11);
+                input2 = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::SndHeap *>(&::g_memoryManager))))->FUN_00aa3e40(f11);
                 m_pBinaryStream->pHead = (char*)input2;
                 fcList = m_pBinaryStream->uiBodySize;
-                first2 = g_SndHeap.Allocate(fcList);
+                first2 = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::SndHeap *>(&::g_memoryManager))))->FUN_00aa3e40(fcList);
                 m_pBinaryStream->pBody = (char*)first2;
                 flagH = m_pBinaryStream->uiTailSize + gap;
-                chc = g_SndHeap.Allocate(flagH);
+                chc = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::SndHeap *>(&::g_memoryManager))))->FUN_00aa3e40(flagH);
                 m_pBinaryStream->pTail = (char*)chc;
                 data4 = m_pData;
                 bResult = m_pBinaryStream->uiHeadSize;
@@ -1972,20 +1975,19 @@ void FUN_00aec530_cls::FUN_00aec530()
                 fresh4 = m_uiValue1;
                 if ((fresh4 & 2) && m_kDesc.lpwfxFormat->nChannels > 1)
                 {
-                    SndLog("Audio: Attempting to play %i channel sound \"%s\" in 3D (must be mono)",
-                           m_kDesc.lpwfxFormat->nChannels, m_cFileName);
+                    ::FUN_005b5e40();
                 }
                 else if (hr3 == 0x887800b4)
                 {
-                    SndLog("Audio: Wav file too small for DirectSound to process\"%s\" ", m_cFileName);
+                    ::FUN_005b5e40();
                 }
                 if (m_pData != 0)
                 {
                     curVal = m_pData;
-                    g_SndHeap.Deallocate(curVal);
+                    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::SndHeap *>(&::g_memoryManager))))->FUN_00aa4060(curVal);
                     m_pData = 0;
                 }
-                Release(0);
+                reinterpret_cast<::FUN_00ae9c50_s *>(this)->SetFlagState(0);
                 return;
             }
             hr3 = m_pBuffer->QueryInterface(&g_IID_SndBuffer8, &m_pBuffer8);
@@ -1997,7 +1999,7 @@ void FUN_00aec530_cls::FUN_00aec530()
                     hr3 = m_pBuffer8->QueryInterface(&g_IID_Snd3DBuffer, &m_p3DBuffer);
                     m_p3DBuffer->SetMinDistance(g_fSndMinDistance, 1);
                     SetPosition(g_fSndConeValue, g_fSndConeValue, g_fSndConeValue);
-                    m_fUnk150 = g_fSnd150;
+                    m_fUnk150 = ::DAT_01016970;
                     m_pBuffer->SetVolume(-10000);
                 }
             }
@@ -2006,7 +2008,7 @@ void FUN_00aec530_cls::FUN_00aec530()
             hr3 = m_pBuffer8->Lock(0, m_uiSize, &buf, &countB, 0, 0, 0);
             if (hr3 < 0)
             {
-                Release(0);
+                reinterpret_cast<::FUN_00ae9c50_s *>(this)->SetFlagState(0);
                 return;
             }
             head2 = (char*)buf;
@@ -2043,14 +2045,14 @@ void FUN_00aec530_cls::FUN_00aec530()
             if (m_pData != 0)
             {
                 iterVal = m_pData;
-                g_SndHeap.Deallocate(iterVal);
+                reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::SndHeap *>(&::g_memoryManager))))->FUN_00aa4060(iterVal);
                 m_pData = 0;
             }
             SetVolume(m_fPlaybackVolume);
         }
         if (m_iValueAt14 >= 0x96)
         {
-            UpdateDistance();
+            reinterpret_cast<::AF1430 *>(this)->FUN_00af1430();
         }
         if (m_uiValue1 & 0x80000)
         {
@@ -2063,17 +2065,17 @@ void FUN_00aec530_cls::FUN_00aec530()
             hr5 = m_pBuffer8->GetObjectInPath(&g_GUID_SndFX, 0, &g_IID_SndFXParams, &m_pReverb);
             if (hr5 >= 0)
             {
-                entry6 = (&g_SndFloatHolder != 0) ? &g_SndFloatHolder.fValue
-                                                  : (g_fSndZeroFallback = 0.0f, &g_fSndZeroFallback);
+                entry6 = (&(*reinterpret_cast<::SndFloatHolder *>(&::g_011f7154)) != 0) ? &(*reinterpret_cast<::SndFloatHolder *>(&::g_011f7154)).fValue
+                                                  : ((*reinterpret_cast<float *>(&::DAT_01202800)) = 0.0f, &(*reinterpret_cast<float *>(&::DAT_01202800)));
                 m_afReverb[0] = *entry6;
                 m_afReverb[1] = 0.0f;
-                m_afReverb[2] = g_fSndReverb1;
+                m_afReverb[2] = ::runtimeFloatSettingDefault247;
                 m_afReverb[3] = g_fSndReverb2;
-                m_afReverb[4] = g_fSndReverb1;
+                m_afReverb[4] = ::runtimeFloatSettingDefault247;
                 m_pReverb->SetAllParameters(m_afReverb);
             }
         }
-        UpdateFlags();
+        reinterpret_cast<::BSGameSound *>(this)->Prepare();
     }
 }
 
@@ -2577,7 +2579,6 @@ int S_00af01e0_Cls::FUN_00af01e0(float afScale)
 
 extern "C" void* fnv_zlib_memset(void* dst, int c, int n);
 
-void FUN_005b5e40(const char* pcFormat, ...);
 
 struct AF0320WaveFormat
 {
@@ -2726,8 +2727,7 @@ void AF0320Sound::SeekToPosition(unsigned int uiPositionMs)
 {
     if (!m_pCacheEntry || uiPositionMs >= (unsigned int)m_iDurationMs)
     {
-        FUN_005b5e40("Attempted to seek to %.2fs in a sound of only %.2fs duration.", uiPositionMs / 1000.0,
-                     m_iDurationMs / 1000.0);
+        ::FUN_005b5e40();
         return;
     }
     AF0320WaveFormat kFormat;
@@ -3076,7 +3076,6 @@ struct FUN_00af1d80_tgt
     virtual int Tick(int flag);
 };
 
-void __cdecl FUN_00ee81e6(void* self);
 
 struct FUN_00af1d80_cls
 {
@@ -3272,7 +3271,7 @@ struct FUN_00af1d80_cls
 void FUN_00af1d80_cls::UpdateAndReleaseTarget()
 {
     if (m_2dc != 0)
-        FUN_00ee81e6(this);
+        ::FUN_00ee81e6(this);
     if (m_2d0 != 0)
     {
         FUN_00af1d80_tgt* pTarget = m_2d0;
@@ -3287,8 +3286,6 @@ struct FUN_00af2100_cls
     unsigned int FUN_00af2100(unsigned char* p, unsigned int n);
 };
 
-unsigned int __cdecl FUN_00ee8204(FUN_00af2100_cls* self, unsigned char* p, unsigned int n, unsigned int a,
-                                  unsigned int b, unsigned int c, unsigned int* out);
 
 // Repeatedly calls FUN_00ee8204 over p, advancing by the returned byte count until the running total exceeds n, and returns the total.
 // @fnv 0x00af2100
@@ -3300,7 +3297,7 @@ unsigned int FUN_00af2100_cls::FUN_00af2100(unsigned char* pucData, unsigned int
     unsigned char* r3 = pucData;
     while (sum <= uiLength)
     {
-        cur4 = FUN_00ee8204(this, r3, uiLength - sum, 0, 2, 1, &outTmp);
+        cur4 = ((unsigned int)(::FUN_00ee8204(this, (char *)(r3), uiLength - sum, 0, 2, 1, (int *)(unsigned int *)(&outTmp))));
         sum += cur4;
         r3 += cur4;
         if (cur4 == 0)
@@ -3480,7 +3477,6 @@ void FUN_00af2db0_cls::UpdateSteamRunningFlag()
 }
 
 extern "C" int __cdecl toupper(int c);
-extern unsigned int g_uiMatchFlags;
 
 // @fnv 0x00af3c40
 int __cdecl WildcardMatch(const char* pcString, const char* pcPattern)
@@ -3668,7 +3664,6 @@ struct FUN_00afdc00_Item
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0C;
-    bool Test(int idx);
 };
 
 class FUN_00afdc00_cls
@@ -3694,7 +3689,7 @@ bool FUN_00afdc00_cls::FUN_00afdc00(int aiIndex)
     unsigned int i;
     for (i = 0; i < (n = m_uiItemCount); i++)
     {
-        if (m_pItems[i].Test(aiIndex))
+        if (reinterpret_cast<::FUN_00afdbc0_Class *>(&(m_pItems[i]))->IsIndexInRange(aiIndex))
         {
             return true;
         }
@@ -3903,8 +3898,8 @@ FUN_00ae8ce0::~FUN_00ae8ce0()
 {
     unsigned int i;
     Node* node;
-    ClearAll();
-    _NiFree(data);
+    reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
+    ::FUN_00aa10f0(data);
 }
 
 struct FUN_00ae8d90
@@ -3921,8 +3916,8 @@ FUN_00ae8d90::~FUN_00ae8d90()
     unsigned int i;
     void* node;
     m_vtbl = &DAT_010a33b0;
-    ((S00a0d390*)this)->ClearAll();
-    _NiFree(m_data);
+    reinterpret_cast<::AE91F0Map *>((((S00a0d390*)this)))->ClearAll();
+    ::FUN_00aa10f0(m_data);
 }
 
 struct AudioVoice
@@ -4106,7 +4101,6 @@ struct SoundObj
     NiPoint3 position;
     bool is3D;
 
-    bool IsPlaying();
     void FUN_00aefda0(float maxDist, float minDist);
 };
 
@@ -4121,7 +4115,7 @@ void SoundObj::FUN_00aefda0(float maxDist, float minDist)
         if (is3D)
             SetPosition(position);
     }
-    if (IsPlaying() && voice && unk198)
+    if (reinterpret_cast<::BSGameSound *>(this)->HasSoundFlagTwo() && voice && unk198)
     {
         if (maxDist > 0.0)
         {
@@ -4558,10 +4552,6 @@ struct AudioState
     AudioFile* file;
 };
 AudioFile* __cdecl OpenAudioFile(const char*, int, unsigned int, unsigned int);
-void __cdecl AudioWarning(const char*, ...);
-extern int DAT_010a2484;
-extern int DAT_010a2480;
-extern int DAT_010a2488;
 // Handles audio file operations by op code: opens a file, closes it, reads into a buffer, or seeks, updating state->position and returning a status code.
 // @fnv 0x00af0400
 int __stdcall AudioFileOp(AudioState* state, unsigned int op, void* data, int size)
@@ -4612,7 +4602,7 @@ int __stdcall AudioFileOp(AudioState* state, unsigned int op, void* data, int si
                 closeFile6 = state->file;
                 if (!closeFile6)
                 {
-                    AudioWarning("Audio: Could not close file.\n");
+                    ::FUN_005b5e40();
                     return 0x104;
                 }
                 {
@@ -4676,7 +4666,6 @@ struct S_008785e0
     unsigned char m_unk0f;
     void* m_unk10;
 
-    int FUN_00afeef0(int a1, int a2, int a3, int a4);
     int OpenFile(const char* lpFileName);
 };
 
@@ -4771,7 +4760,7 @@ int S_008785e0::OpenFile(const char* lpFileName)
 
         if (iResult == 0 && this->m_unk08 == 1 && !this->m_unk0c)
         {
-            iResult = this->FUN_00afeef0(0, 0, 2, (int)&fileSize);
+            iResult = reinterpret_cast<::O *>((this))->FUN_00afeef0(0, 0, (::_LARGE_INTEGER *)(2));
         }
     }
 
@@ -4963,8 +4952,6 @@ struct FUN_00aee580_cls
     bool UpdateStreamBuffer(int iArg);
 };
 
-extern double DAT_010290f8;
-extern int DAT_01000000;
 
 // @fnv 0x00aee580
 bool FUN_00aee580_cls::UpdateStreamBuffer(int aiUnused)
@@ -5275,7 +5262,6 @@ struct xAudio
 
 struct xMemoryManager
 {
-    void* Allocate(unsigned int uiSize);
 };
 
 extern "C" void*(__stdcall* xmmioOpen)(char* pszFile, xMMIOINFO* pInfo, unsigned int dwFlags);
@@ -5289,16 +5275,10 @@ extern "C" unsigned int(__stdcall* xmmioAdvance)(void* h, xMMIOINFO* pInfo, unsi
 extern "C" char* __cdecl xStrstr(char* s, const char* sub);
 extern "C" int __cdecl strcpy_s(char* dst, unsigned int n, const char* src);
 extern "C" void* __cdecl xMemcpy(void* d, const void* s, unsigned int n);
-void xWarning(const char* fmt, ...);
-long __stdcall xWavIOProc(char* a, unsigned int b, long c, long d);
-extern xGuid xg_kGuid2D;
-extern xGuid xg_kGuid3D;
 struct xAudioPtr
 {
     xAudio* p;
 };
-extern xAudioPtr xg_kAudio;
-extern xMemoryManager xg_kMemoryManager;
 
 struct xFmtPtr
 {
@@ -5344,224 +5324,8 @@ struct xGameSound
     int m_iUnk1cc;
     char _pad1d0[0x1dc - 0x1d0];
     unsigned int m_uiValue5;
-    bool CheckFile();
-    bool Finish(bool bSuccess);
-    bool TryStream();
-    void ResetFile(bool b);
     bool FUN_00aeb270();
 };
-
-// Opens a WAV file via RIFF mmio, reads fmt and data chunks, allocates a buffer, copies audio data, and optionally reads loop points from an smpl chunk.
-// @fnv 0x00aeb270
-bool xGameSound::FUN_00aeb270()
-{
-    unsigned int qfTOqo;
-    xPCMWAVEFORMAT qsSDDgz;
-    unsigned int qrEZrs;
-    unsigned int qpqRa;
-    char* qSVM;
-    void* qdqWL;
-    xMMCKINFO qpTd;
-    unsigned int qvyWyw;
-    xMMIOINFO qHXYKT;
-    xMMCKINFO qbGYp;
-    unsigned int qnuVZg;
-    int qSuoDt;
-    xMMIOINFO qzzQr;
-    unsigned int qkbsJ;
-    xSamplerChunk qhxpxJd;
-    void* qahtre;
-    xAudioSettings qjXCGmG;
-    m_uiFlags2 |= 0x1000;
-    if (!CheckFile())
-        return Finish(false);
-    if ((xFlags(m_kFlags).u & 0x1000) || (xFlags(m_kFlags).u & 0x2000) || (xFlags(m_kFlags).u & 4) ||
-        (xFlags(m_kFlags).u & 0x400000) || (xFlags(m_kFlags).u & 0x100000) || (xFlags(m_kFlags).u & 0x800))
-    {
-        if (TryStream())
-            return Finish(true);
-    }
-    qSVM = xStrstr(m_acInputFilePath, ".mp3");
-    if (!qSVM)
-        qSVM = xStrstr(m_acInputFilePath, ".ogg");
-    if (qSVM)
-    {
-        qSVM[1] = 'w';
-        qSVM[2] = 'a';
-        qSVM[3] = 'v';
-    }
-    m_iUnk1cc = 0;
-    qSuoDt = 0;
-    FUN_00ec61c0(&qzzQr, 0, 0x48);
-    qzzQr.fccIOProc = 0x564157;
-    qzzQr.pIOProc = xWavIOProc;
-    qdqWL = xmmioOpen(m_acInputFilePath, &qzzQr, 0x10000);
-    if (!qdqWL)
-    {
-        xWarning("Audio: Could not open file %s\n", m_acInputFilePath);
-        if ((xFlags(m_kFlags).u & 0x400000) || (xFlags(m_kFlags).u & 0x100000))
-        {
-            strcpy_s(m_acInputFilePath, 0x40, "Data\\Sound\\FX\\UI\\RADIO\\TEMP_radioassetmissing.wav");
-            ResetFile(1);
-            qdqWL = xmmioOpen(m_acInputFilePath, &qzzQr, 0x10000);
-            if (!qdqWL)
-                return Finish(false);
-        }
-        else if (xFlags(m_kFlags).u & 4)
-        {
-            strcpy_s(m_acInputFilePath, 0x40, "Data\\Sound\\FX\\TEMP_Missing_Voice_Asset.wav");
-            ResetFile(1);
-            qdqWL = xmmioOpen(m_acInputFilePath, &qzzQr, 0x10000);
-            if (!qdqWL)
-                return Finish(false);
-        }
-        else if ((unsigned char)(((m_kFlags.u & 0x10) || (m_kFlags.u & 0x4000000) || (m_kFlags.u & 0x2000000)) ? 1 : 0))
-        {
-            m_kFlags.u &= ~0x2000000;
-            m_kFlags.u &= ~0x4000000;
-            strcpy_s(m_acInputFilePath, 0x40, "Data\\Sound\\FX\\silent_lp.wav");
-            ResetFile(1);
-            qdqWL = xmmioOpen(m_acInputFilePath, &qzzQr, 0x10000);
-            if (!qdqWL)
-                return Finish(false);
-        }
-        else
-        {
-            return Finish(false);
-        }
-    }
-    qpqRa = xmmioDescend(qdqWL, &qbGYp, 0, 0);
-    if (qpqRa == 0x109)
-    {
-        xmmioClose(qdqWL, 0);
-        return Finish(false);
-    }
-    qpTd.ckid = 0x20746d66;
-    qpqRa = xmmioDescend(qdqWL, &qpTd, &qbGYp, 0x10);
-    if (qpqRa == 0x109)
-    {
-        xmmioClose(qdqWL, 0);
-        return false;
-    }
-    if (qpTd.cksize < 0x10)
-    {
-        xmmioClose(qdqWL, 0);
-        return false;
-    }
-    xmmioRead(qdqWL, (char*)&qsSDDgz, 0x10);
-    if (qsSDDgz.wFormatTag != 1)
-    {
-        xmmioClose(qdqWL, 0);
-        return false;
-    }
-    xmmioAscend(qdqWL, &qpTd, 0);
-    qpTd.ckid = 0x61746164;
-    xmmioDescend(qdqWL, &qpTd, &qbGYp, 0x10);
-    m_uiValue5 = qpTd.cksize;
-    m_uiSize14c = qpTd.cksize;
-    m_uiDescSize = 0x24;
-    if (qsSDDgz.nChannels > 1 && (!(xFlags(m_kFlags).u & 1) || (xFlags(m_kFlags).u & 2)))
-    {
-        m_kFlags.u = xFlags(m_kFlags).u | 1;
-        m_kFlags.u = xFlags(m_kFlags).u & ~2;
-        if (!(xFlags(m_kFlags).u & 0x8000000))
-            xWarning("Audio: Attempted to play multi-channel sound (%s) in 3D. Forcing 2D playback.",
-                     m_acInputFilePath);
-    }
-    if (xFlags(m_kFlags).u & 1)
-    {
-        m_uiDescFlags = 0x40;
-        m_kAlgorithm = xg_kGuid2D;
-    }
-    else
-    {
-        m_uiDescFlags = 0x30010;
-        qjXCGmG = xAudioPtr(xg_kAudio).p->m_kSettings;
-        if (qjXCGmG.dwHardware)
-            m_kAlgorithm = xg_kGuid3D;
-        else
-            m_kAlgorithm = xg_kGuid2D;
-    }
-    m_uiDescFlags |= 0x2a0;
-    m_uiBufferBytes = m_uiValue5;
-    xMemcpy(xFmtPtr(m_pDataFormat).p, &qsSDDgz, 0x10);
-    m_pDataFormat.p->cbSize = 0;
-    qnuVZg = 0;
-    qvyWyw = 0;
-    m_usFrequency = m_pDataFormat.p->nSamplesPerSec;
-    m_usFrequency2 = m_usFrequency;
-    qnuVZg = m_usFrequency / 1000;
-    qvyWyw = m_pDataFormat.p->wBitsPerSample / 8;
-    m_iDuration = m_uiValue5 / qvyWyw / qnuVZg;
-    qfTOqo = 0;
-    qrEZrs = 0;
-    if (m_iDuration <= 150)
-    {
-        if (!(unsigned char)(((m_kFlags.u & 0x10) || (m_kFlags.u & 0x4000000) || (m_kFlags.u & 0x2000000)) ? 1 : 0))
-        {
-            m_uiDescFlags &= ~0x200;
-            qfTOqo = (250 - m_iDuration) * qvyWyw * qnuVZg;
-        }
-    }
-    if (!(unsigned char)(((m_kFlags.u & 0x10) || (m_kFlags.u & 0x4000000) || (m_kFlags.u & 0x2000000)) ? 1 : 0))
-    {
-        qfTOqo += (unsigned int)((((m_uiValue5 * 0.2f) > (qvyWyw * 500 * qnuVZg))
-                                      ? (m_uiValue5 * 0.2f)
-                                      : (qvyWyw * 500 * qnuVZg)) < (qvyWyw * 1000 * qnuVZg)
-                                     ? (((m_uiValue5 * 0.2f) > (qvyWyw * 500 * qnuVZg)) ? (m_uiValue5 * 0.2f)
-                                                                                        : (qvyWyw * 500 * qnuVZg))
-                                     : (qvyWyw * 1000 * qnuVZg));
-    }
-    {
-        qahtre = xg_kMemoryManager.Allocate(static_cast<const unsigned int&>(qpTd.cksize + qfTOqo + qrEZrs));
-        m_pData.p = (char*)qahtre;
-    }
-    if (!m_pData.p)
-    {
-        xmmioClose(qdqWL, 0);
-        return Finish(false);
-    }
-    ((xMemsetTarget*)xCharPtr(m_pData).p)
-        ->FUN_00ec61c0(0, static_cast<const unsigned int&>(qpTd.cksize + qfTOqo + qrEZrs));
-    xmmioGetInfo(qdqWL, &qHXYKT, 0);
-    for (qkbsJ = qrEZrs; qkbsJ < qpTd.cksize; qkbsJ++)
-    {
-        if (qHXYKT.pchNext == qHXYKT.pchEndRead && xmmioAdvance(qdqWL, &qHXYKT, 0))
-        {
-            xmmioClose(qdqWL, 0);
-            return Finish(false);
-        }
-        m_pData.p[qkbsJ] = *qHXYKT.pchNext;
-        qHXYKT.pchNext++;
-    }
-    m_uiValue5 += qfTOqo + qrEZrs;
-    m_uiBufferBytes = m_uiValue5;
-    m_uiSize14c = m_uiBufferBytes;
-    m_iDuration = m_uiValue5 / qvyWyw / qnuVZg;
-    if ((m_kFlags.u & 0x2000000) || (m_kFlags.u & 0x4000000))
-    {
-        xmmioAscend(qdqWL, &qpTd, 0);
-        qpTd.ckid = 0x6c706d73;
-        qpqRa = xmmioDescend(qdqWL, &qpTd, &qbGYp, 0x10);
-        if (qpqRa == 0x109)
-        {
-            qpTd.ckid = 0x20746d66;
-            xmmioClose(qdqWL, 0);
-            xWarning(
-                "Audio: Loop envelope sound (%s) missing smpl chunk. Use different file or change sound definition",
-                m_acInputFilePath);
-            return Finish(false);
-        }
-        else
-        {
-            xmmioRead(qdqWL, (char*)&qhxpxJd, 0x3c);
-            m_uiLoopStart = qhxpxJd.m_dwLoopStart;
-            m_uiLoopEnd = qhxpxJd.dwLoopEnd;
-        }
-    }
-    xmmioClose(qdqWL, 0);
-    return Finish(true);
-}
 
 int __cdecl FUN_00ec3bad(int value);
 struct Marker
@@ -5590,7 +5354,6 @@ void FUN_00afdb20_Class::FUN_00afdb20()
     *ptr1 = FUN_00ec3bad(*ptr1);
 }
 
-extern "C" int DAT_010472d0;
 
 struct FUN_009b7940_shell
 {
@@ -5623,7 +5386,6 @@ struct FUN_00ae8090_Node
 struct FUN_00ae8090_Allocator
 {
     unsigned int count;
-    void FUN_0045cee0(FUN_00ae8090_Node* node);
 };
 
 struct FUN_00ae8090_Locals
@@ -5650,8 +5412,6 @@ class FUN_00ae8090_Class
     FUN_00ae8090_Node* tail;
     FUN_00ae8090_Allocator allocator;
 
-    unsigned int FUN_00ae7f90();
-    unsigned int PopFront();
     unsigned int FUN_00ae8090(FUN_00ae8090_Node** position);
 };
 
@@ -5665,12 +5425,12 @@ unsigned int FUN_00ae8090_Class::FUN_00ae8090(FUN_00ae8090_Node** position)
     if (node == head)
     {
         *position = node->next;
-        return FUN_00ae7f90();
+        return ((unsigned int)(reinterpret_cast<::SndStack70 *>(this)->FUN_00ae7f90()));
     }
     if (node == tail)
     {
         *position = 0;
-        return PopFront();
+        return ((unsigned int)(reinterpret_cast<::FUN_00ae8010_cls *>(this)->PopFront()));
     }
 
     FUN_00ae8090_Node* prevNode = node->prev;
@@ -5684,7 +5444,7 @@ unsigned int FUN_00ae8090_Class::FUN_00ae8090(FUN_00ae8090_Node** position)
 
     unsigned int value = node->value;
     node->value = 0;
-    allocator.FUN_0045cee0(node);
+    reinterpret_cast<::FUN_0045cee0_shell *>(&(allocator))->FUN_0045cee0(node);
     allocator.count = allocator.count - 1;
     return value;
 }
@@ -5859,8 +5619,6 @@ struct AED080_Cls
     int unk220;
     int unk224;
     ObjC* m_228;
-    bool FUN_00af1c00(int a1, unsigned int a2, unsigned int a3, char* a4);
-    void ClearCallback();
     bool FUN_00aed080(bool p);
 };
 // Calls Play(0, 0, p) on m_19c and m_1a0, first forcing p and adjusting m_19c's position and m_228 under some m_08 flag bits; then clears the callback.
@@ -5894,15 +5652,15 @@ bool AED080_Cls::FUN_00aed080(bool p)
                             this->m_19c->SetCurrentPosition(0);
                             if (this->m_228->m_08 > this->m_1dc)
                             {
-                                this->FUN_00af1c00(0, 0, this->m_1dc, this->m_228->m_18);
+                                reinterpret_cast<::S_00af1c00_cls *>((this))->FUN_00af1c00(0, 0, this->m_1dc, this->m_228->m_18);
                                 this->m_228->m_04 = this->m_1dc;
                                 this->m_228->m_00 = 1;
                             }
                             else
                             {
                                 diff = this->m_1dc - this->m_228->m_08;
-                                this->FUN_00af1c00(0, 0, this->m_228->m_08, this->m_228->m_18);
-                                this->FUN_00af1c00(0, this->m_228->m_08, diff, this->m_228->m_1c);
+                                reinterpret_cast<::S_00af1c00_cls *>((this))->FUN_00af1c00(0, 0, this->m_228->m_08, this->m_228->m_18);
+                                reinterpret_cast<::S_00af1c00_cls *>((this))->FUN_00af1c00(0, this->m_228->m_08, diff, this->m_228->m_1c);
                                 this->m_228->m_04 = this->m_228->m_08 + diff;
                                 this->m_228->m_00 = 2;
                             }
@@ -5924,7 +5682,7 @@ bool AED080_Cls::FUN_00aed080(bool p)
             if (this->m_1a0 != 0)
                 this->m_1a0->Play(0, 0, 0);
         }
-        this->ClearCallback();
+        ::ClearCallback((char *)(this));
     }
     if (result >= 0)
     {
@@ -6072,7 +5830,6 @@ struct AudioConfig
 
 struct AudioMemory
 {
-    void* __thiscall FUN_00aa3e40(U32 size);
 };
 
 struct AudioOptionsSource
@@ -6096,13 +5853,9 @@ struct AudioOptionsSource
     AudioConfig options;
 };
 
-extern AudioMemory DAT_011f6238;
 
-extern GuidValue DAT_01093f04, DAT_01100fe4;
 
-extern GuidValue DAT_01100f94, DAT_01100fb4;
 
-extern const float DAT_010a3dcc;
 
 extern const char DAT_010a4168[], DAT_010a4130[], DAT_010a40f0[], DAT_010a40b0[], DAT_010a4074[], DAT_010a4038[];
 
@@ -6408,9 +6161,7 @@ class AudioBuffer
 
     CopyState* m_copyState;
 
-    void __thiscall FUN_00ae97a0(AudioBuffer*, bool);
 
-    bool __thiscall SetFlagState(bool);
 
     __forceinline bool IsBuffered()
     {
@@ -6421,7 +6172,218 @@ class AudioBuffer
         return (m_flags & 0x4000000) || (m_flags & 0x2000000);
     }
     void __thiscall FUN_00af0630(AudioBuffer*, bool);
+public:
+    bool FUN_00aebff0();
 };
+// Opens a WAV file via RIFF mmio, reads fmt and data chunks, allocates a buffer, copies audio data, and optionally reads loop points from an smpl chunk.
+// @fnv 0x00aeb270
+bool xGameSound::FUN_00aeb270()
+{
+    unsigned int qfTOqo;
+    xPCMWAVEFORMAT qsSDDgz;
+    unsigned int qrEZrs;
+    unsigned int qpqRa;
+    char* qSVM;
+    void* qdqWL;
+    xMMCKINFO qpTd;
+    unsigned int qvyWyw;
+    xMMIOINFO qHXYKT;
+    xMMCKINFO qbGYp;
+    unsigned int qnuVZg;
+    int qSuoDt;
+    xMMIOINFO qzzQr;
+    unsigned int qkbsJ;
+    xSamplerChunk qhxpxJd;
+    void* qahtre;
+    xAudioSettings qjXCGmG;
+    m_uiFlags2 |= 0x1000;
+    if (!reinterpret_cast<::FUN_00af1ba0_Class *>(this)->EnsureAudio())
+        return reinterpret_cast<::FUN_00ae9c50_s *>(this)->SetFlagState(false);
+    if ((xFlags(m_kFlags).u & 0x1000) || (xFlags(m_kFlags).u & 0x2000) || (xFlags(m_kFlags).u & 4) ||
+        (xFlags(m_kFlags).u & 0x400000) || (xFlags(m_kFlags).u & 0x100000) || (xFlags(m_kFlags).u & 0x800))
+    {
+        if (reinterpret_cast<::AudioBuffer *>(this)->FUN_00aebff0())
+            return reinterpret_cast<::FUN_00ae9c50_s *>(this)->SetFlagState(true);
+    }
+    qSVM = xStrstr(m_acInputFilePath, ".mp3");
+    if (!qSVM)
+        qSVM = xStrstr(m_acInputFilePath, ".ogg");
+    if (qSVM)
+    {
+        qSVM[1] = 'w';
+        qSVM[2] = 'a';
+        qSVM[3] = 'v';
+    }
+    m_iUnk1cc = 0;
+    qSuoDt = 0;
+    FUN_00ec61c0(&qzzQr, 0, 0x48);
+    qzzQr.fccIOProc = 0x564157;
+    qzzQr.pIOProc = ((long (&)(char *, unsigned int, long, long))::AudioFileOp);
+    qdqWL = xmmioOpen(m_acInputFilePath, &qzzQr, 0x10000);
+    if (!qdqWL)
+    {
+        ::FUN_005b5e40();
+        if ((xFlags(m_kFlags).u & 0x400000) || (xFlags(m_kFlags).u & 0x100000))
+        {
+            strcpy_s(m_acInputFilePath, 0x40, "Data\\Sound\\FX\\UI\\RADIO\\TEMP_radioassetmissing.wav");
+            reinterpret_cast<::BSGameSound *>(this)->LoadFromFilename(1);
+            qdqWL = xmmioOpen(m_acInputFilePath, &qzzQr, 0x10000);
+            if (!qdqWL)
+                return reinterpret_cast<::FUN_00ae9c50_s *>(this)->SetFlagState(false);
+        }
+        else if (xFlags(m_kFlags).u & 4)
+        {
+            strcpy_s(m_acInputFilePath, 0x40, "Data\\Sound\\FX\\TEMP_Missing_Voice_Asset.wav");
+            reinterpret_cast<::BSGameSound *>(this)->LoadFromFilename(1);
+            qdqWL = xmmioOpen(m_acInputFilePath, &qzzQr, 0x10000);
+            if (!qdqWL)
+                return reinterpret_cast<::FUN_00ae9c50_s *>(this)->SetFlagState(false);
+        }
+        else if ((unsigned char)(((m_kFlags.u & 0x10) || (m_kFlags.u & 0x4000000) || (m_kFlags.u & 0x2000000)) ? 1 : 0))
+        {
+            m_kFlags.u &= ~0x2000000;
+            m_kFlags.u &= ~0x4000000;
+            strcpy_s(m_acInputFilePath, 0x40, "Data\\Sound\\FX\\silent_lp.wav");
+            reinterpret_cast<::BSGameSound *>(this)->LoadFromFilename(1);
+            qdqWL = xmmioOpen(m_acInputFilePath, &qzzQr, 0x10000);
+            if (!qdqWL)
+                return reinterpret_cast<::FUN_00ae9c50_s *>(this)->SetFlagState(false);
+        }
+        else
+        {
+            return reinterpret_cast<::FUN_00ae9c50_s *>(this)->SetFlagState(false);
+        }
+    }
+    qpqRa = xmmioDescend(qdqWL, &qbGYp, 0, 0);
+    if (qpqRa == 0x109)
+    {
+        xmmioClose(qdqWL, 0);
+        return reinterpret_cast<::FUN_00ae9c50_s *>(this)->SetFlagState(false);
+    }
+    qpTd.ckid = 0x20746d66;
+    qpqRa = xmmioDescend(qdqWL, &qpTd, &qbGYp, 0x10);
+    if (qpqRa == 0x109)
+    {
+        xmmioClose(qdqWL, 0);
+        return false;
+    }
+    if (qpTd.cksize < 0x10)
+    {
+        xmmioClose(qdqWL, 0);
+        return false;
+    }
+    xmmioRead(qdqWL, (char*)&qsSDDgz, 0x10);
+    if (qsSDDgz.wFormatTag != 1)
+    {
+        xmmioClose(qdqWL, 0);
+        return false;
+    }
+    xmmioAscend(qdqWL, &qpTd, 0);
+    qpTd.ckid = 0x61746164;
+    xmmioDescend(qdqWL, &qpTd, &qbGYp, 0x10);
+    m_uiValue5 = qpTd.cksize;
+    m_uiSize14c = qpTd.cksize;
+    m_uiDescSize = 0x24;
+    if (qsSDDgz.nChannels > 1 && (!(xFlags(m_kFlags).u & 1) || (xFlags(m_kFlags).u & 2)))
+    {
+        m_kFlags.u = xFlags(m_kFlags).u | 1;
+        m_kFlags.u = xFlags(m_kFlags).u & ~2;
+        if (!(xFlags(m_kFlags).u & 0x8000000))
+            ::FUN_005b5e40();
+    }
+    if (xFlags(m_kFlags).u & 1)
+    {
+        m_uiDescFlags = 0x40;
+        m_kAlgorithm = (*reinterpret_cast<::xGuid *>(&::DAT_01093f04));
+    }
+    else
+    {
+        m_uiDescFlags = 0x30010;
+        qjXCGmG = xAudioPtr((*reinterpret_cast<::xAudioPtr *>(&::DAT_011f6d98))).p->m_kSettings;
+        if (qjXCGmG.dwHardware)
+            m_kAlgorithm = (*reinterpret_cast<::xGuid *>(&::DAT_01100fe4));
+        else
+            m_kAlgorithm = (*reinterpret_cast<::xGuid *>(&::DAT_01093f04));
+    }
+    m_uiDescFlags |= 0x2a0;
+    m_uiBufferBytes = m_uiValue5;
+    xMemcpy(xFmtPtr(m_pDataFormat).p, &qsSDDgz, 0x10);
+    m_pDataFormat.p->cbSize = 0;
+    qnuVZg = 0;
+    qvyWyw = 0;
+    m_usFrequency = m_pDataFormat.p->nSamplesPerSec;
+    m_usFrequency2 = m_usFrequency;
+    qnuVZg = m_usFrequency / 1000;
+    qvyWyw = m_pDataFormat.p->wBitsPerSample / 8;
+    m_iDuration = m_uiValue5 / qvyWyw / qnuVZg;
+    qfTOqo = 0;
+    qrEZrs = 0;
+    if (m_iDuration <= 150)
+    {
+        if (!(unsigned char)(((m_kFlags.u & 0x10) || (m_kFlags.u & 0x4000000) || (m_kFlags.u & 0x2000000)) ? 1 : 0))
+        {
+            m_uiDescFlags &= ~0x200;
+            qfTOqo = (250 - m_iDuration) * qvyWyw * qnuVZg;
+        }
+    }
+    if (!(unsigned char)(((m_kFlags.u & 0x10) || (m_kFlags.u & 0x4000000) || (m_kFlags.u & 0x2000000)) ? 1 : 0))
+    {
+        qfTOqo += (unsigned int)((((m_uiValue5 * 0.2f) > (qvyWyw * 500 * qnuVZg))
+                                      ? (m_uiValue5 * 0.2f)
+                                      : (qvyWyw * 500 * qnuVZg)) < (qvyWyw * 1000 * qnuVZg)
+                                     ? (((m_uiValue5 * 0.2f) > (qvyWyw * 500 * qnuVZg)) ? (m_uiValue5 * 0.2f)
+                                                                                        : (qvyWyw * 500 * qnuVZg))
+                                     : (qvyWyw * 1000 * qnuVZg));
+    }
+    {
+        qahtre = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::xMemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(static_cast<const unsigned int&>(qpTd.cksize + qfTOqo + qrEZrs));
+        m_pData.p = (char*)qahtre;
+    }
+    if (!m_pData.p)
+    {
+        xmmioClose(qdqWL, 0);
+        return reinterpret_cast<::FUN_00ae9c50_s *>(this)->SetFlagState(false);
+    }
+    ((xMemsetTarget*)xCharPtr(m_pData).p)
+        ->FUN_00ec61c0(0, static_cast<const unsigned int&>(qpTd.cksize + qfTOqo + qrEZrs));
+    xmmioGetInfo(qdqWL, &qHXYKT, 0);
+    for (qkbsJ = qrEZrs; qkbsJ < qpTd.cksize; qkbsJ++)
+    {
+        if (qHXYKT.pchNext == qHXYKT.pchEndRead && xmmioAdvance(qdqWL, &qHXYKT, 0))
+        {
+            xmmioClose(qdqWL, 0);
+            return reinterpret_cast<::FUN_00ae9c50_s *>(this)->SetFlagState(false);
+        }
+        m_pData.p[qkbsJ] = *qHXYKT.pchNext;
+        qHXYKT.pchNext++;
+    }
+    m_uiValue5 += qfTOqo + qrEZrs;
+    m_uiBufferBytes = m_uiValue5;
+    m_uiSize14c = m_uiBufferBytes;
+    m_iDuration = m_uiValue5 / qvyWyw / qnuVZg;
+    if ((m_kFlags.u & 0x2000000) || (m_kFlags.u & 0x4000000))
+    {
+        xmmioAscend(qdqWL, &qpTd, 0);
+        qpTd.ckid = 0x6c706d73;
+        qpqRa = xmmioDescend(qdqWL, &qpTd, &qbGYp, 0x10);
+        if (qpqRa == 0x109)
+        {
+            qpTd.ckid = 0x20746d66;
+            xmmioClose(qdqWL, 0);
+            ::FUN_005b5e40(
+                );
+            return reinterpret_cast<::FUN_00ae9c50_s *>(this)->SetFlagState(false);
+        }
+        else
+        {
+            xmmioRead(qdqWL, (char*)&qhxpxJd, 0x3c);
+            m_uiLoopStart = qhxpxJd.m_dwLoopStart;
+            m_uiLoopEnd = qhxpxJd.dwLoopEnd;
+        }
+    }
+    xmmioClose(qdqWL, 0);
+    return reinterpret_cast<::FUN_00ae9c50_s *>(this)->SetFlagState(true);
+}
 
 // Copies audio data and state from a previous AudioBuffer, creates a new device buffer, and optionally triggers OnCopied.
 // @fnv 0x00af0630
@@ -6477,7 +6439,7 @@ void __thiscall AudioBuffer::FUN_00af0630(AudioBuffer* apSource, bool notify)
                 source0 = apSource;
                 if (source0->m_oldBuffer != 0)
                     source0->OnCopied();
-                FUN_00ae97a0(apSource, true);
+                reinterpret_cast<::BSGameSound *>(this)->Copy((::BSGameSound *)(apSource), true);
                 m_ctrl1a0 = 0;
                 m_ctrl1d0 = 0;
                 m_ctrl1d8 = 0;
@@ -6539,7 +6501,7 @@ void __thiscall AudioBuffer::FUN_00af0630(AudioBuffer* apSource, bool notify)
                 m_playLength = m_totalBytes / tempB / rateInKHz_;
                 flags_2 = m_flags;
                 if ((flags_2 & 1) != 0)
-                    m_algo = DAT_01093f04;
+                    m_algo = (*reinterpret_cast<::GuidValue *>(&::DAT_01093f04));
                 else
                 {
                     audioNodeVal = (AudioOptionsSource*)DAT_011f6d98;
@@ -6547,7 +6509,7 @@ void __thiscall AudioBuffer::FUN_00af0630(AudioBuffer* apSource, bool notify)
                     if (options.m_20 != 0)
                         m_algo = DAT_01100fe4;
                     else
-                        m_algo = DAT_01093f04;
+                        m_algo = (*reinterpret_cast<::GuidValue *>(&::DAT_01093f04));
                 }
                 ratio_2 = (float)m_sampleCount / (float)m_sampleRate;
                 m_sampleRate = (U16)m_eVertexFormat->m_uiSamplesPerSecond;
@@ -6597,7 +6559,7 @@ void __thiscall AudioBuffer::FUN_00af0630(AudioBuffer* apSource, bool notify)
                         FUN_00ec65a6(message11, 255, DAT_010a3ed0);
                         break;
                     }
-                    FUN_005b5e40(message11);
+                    ::FUN_005b5e40();
                     return;
                 }
                 if (m_duplicate->Lock(0, 0, &dst44_2, &temp3, &dst32, &dst2Bytes3, 2) < 0)
@@ -6611,21 +6573,21 @@ void __thiscall AudioBuffer::FUN_00af0630(AudioBuffer* apSource, bool notify)
                     source0->m_buffer->Unlock(src7, src1Bytes2, src3, src2Bytes3);
                 }
                 m_duplicate->Unlock(dst44_2, temp3, dst32, dst2Bytes3);
-                m_duplicate->QueryInterface(&DAT_01100f94, (void**)&m_buffer);
+                m_duplicate->QueryInterface(&(*reinterpret_cast<::GuidValue *>((void *)&::g_IID_SndBuffer8)), (void**)&m_buffer);
                 if (m_buffer != 0)
                 {
                     flags2_2 = m_flags;
                     if ((flags2_2 & 2) != 0)
                     {
-                        m_buffer->QueryInterface(&DAT_01100fb4, (void**)&m_iBufferSize);
+                        m_buffer->QueryInterface(&(*reinterpret_cast<::GuidValue *>((void *)&::g_IID_Snd3DBuffer)), (void**)&m_iBufferSize);
                         if (m_iBufferSize != 0)
-                            m_iBufferSize->SetValue(DAT_010a3dcc, 1);
+                            m_iBufferSize->SetValue(::g_fSndMinDistance, 1);
                     }
                 }
                 if (((unsigned char)(((source0->m_flags & 0x4000000) || (source0->m_flags & 0x2000000)) ? 1 : 0)) &&
                     source0->m_copyState != 0)
                 {
-                    allocatedCopy4 = DAT_011f6238.FUN_00aa3e40(36);
+                    allocatedCopy4 = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::AudioMemory *>(&::g_memoryManager))))->FUN_00aa3e40(36);
                     m_copyState = (CopyState*)allocatedCopy4;
                     m_copyState->byteCount = source0->m_copyState->byteCount;
                     m_copyState->thirdSize = source0->m_copyState->thirdSize;
@@ -6634,13 +6596,13 @@ void __thiscall AudioBuffer::FUN_00af0630(AudioBuffer* apSource, bool notify)
                     m_copyState->idle = 0;
                     m_copyState->active = 0;
                     allocSize7 = m_copyState->byteCount;
-                    temp3c = DAT_011f6238.FUN_00aa3e40(allocSize7);
+                    temp3c = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::AudioMemory *>(&::g_memoryManager))))->FUN_00aa3e40(allocSize7);
                     m_copyState->bytes = temp3c;
                     valueX = m_copyState->segmentSize;
-                    allocatedSegments5 = DAT_011f6238.FUN_00aa3e40(valueX);
+                    allocatedSegments5 = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::AudioMemory *>(&::g_memoryManager))))->FUN_00aa3e40(valueX);
                     m_copyState->segments = allocatedSegments5;
                     local14 = m_copyState->thirdSize;
-                    allocatedThird6 = DAT_011f6238.FUN_00aa3e40(local14);
+                    allocatedThird6 = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::AudioMemory *>(&::g_memoryManager))))->FUN_00aa3e40(local14);
                     m_copyState->third = allocatedThird6;
                     {
                         local35 = m_copyState->byteCount;
@@ -6662,7 +6624,7 @@ void __thiscall AudioBuffer::FUN_00af0630(AudioBuffer* apSource, bool notify)
                     }
                 }
                 m_uiContentCount = 0;
-                SetFlagState(true);
+                reinterpret_cast<::FUN_00ae9c50_s *>(this)->SetFlagState(true);
                 if (notify)
                     OnCopied();
             }
@@ -6673,12 +6635,9 @@ void __thiscall AudioBuffer::FUN_00af0630(AudioBuffer* apSource, bool notify)
 namespace fnv_00afdda0 {
 struct MemoryAllocator
 {
-    void* FUN_00aa3e40(unsigned int);
 };
-extern MemoryAllocator DAT_011f6238;
 struct PathList
 {
-    unsigned int FUN_007cb2e0(char*&);
     void FUN_00afdda0(const char* path);
 };
 // Copies path into a new allocated buffer, appending a backslash if it lacks one, and passes the buffer to FUN_007cb2e0.
@@ -6690,7 +6649,7 @@ void PathList::FUN_00afdda0(const char* path)
         size_t length = _strlen(path);
         bool appendSlash = path[length - 1] != 0x5c;
         size_t allocationSize = _strlen(path) + appendSlash + 1;
-        char* buf = (char*)DAT_011f6238.FUN_00aa3e40(allocationSize);
+        char* buf = (char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00afdda0::MemoryAllocator *>(&::g_memoryManager))))->FUN_00aa3e40(allocationSize);
         char* copyBuffer = buf;
         char* buffer = copyBuffer;
         _strcpy_s(buffer, allocationSize, path);
@@ -6699,7 +6658,7 @@ void PathList::FUN_00afdda0(const char* path)
             copyBuffer[length] = 0x5c;
             copyBuffer[length + 1] = 0;
         }
-        FUN_007cb2e0(copyBuffer);
+        reinterpret_cast<::FUN_00438690 *>(this)->FUN_007cb2e0((unsigned int *)&(copyBuffer));
         {
             int ReportDiagnostic, unused1, unused2;
         }
@@ -6714,7 +6673,6 @@ struct FUN_00aea020_cls
     ~FUN_00aea020_cls();
 };
 
-extern BSAudio* DAT_011f6d98;
 
 // Constructs a function-local static object once and stores its address in DAT_011f6d98.
 // @fnv 0x00aea020
@@ -6787,7 +6745,6 @@ struct FUN_00ae9360_Base
 }
 struct Allocate114
 {
-    void* FUN_00aa3e40(unsigned int);
 };
 struct FUN_00aeac20 : Worker114::FUN_00ae9360_Base
 {
@@ -6853,9 +6810,9 @@ FUN_00aeac20::FUN_00aeac20(const char* name)
     unk204 = 0;
     unk208 = 0;
     flag224 = 0;
-    position218 = NiPoint3_ZERO;
+    position218 = ::NiPoint3::ZERO;
     _fnv_zlib_memset(&unk1a4, 0, 0x24);
-    void* allocation = reinterpret_cast<Allocate114*>(&g_memoryManager)->FUN_00aa3e40(0x12);
+    void* allocation = reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<Allocate114*>(&g_memoryManager)))->FUN_00aa3e40(0x12);
     unk1b4 = reinterpret_cast<unsigned int>(allocation);
     unk1c8 = 0;
     unk20c = 0;
@@ -6872,28 +6829,27 @@ extern "C" int __cdecl _splitpath_s(const char* source, char* drive, unsigned in
                                     char* extension, unsigned int extensionSize);
 extern "C" int __cdecl _makepath_s(char* result, unsigned int resultSize, const char* drive, const char* directory,
                                    const char* filename, const char* extension);
-extern unsigned int DAT_011f804c;
 // @fnv 0x00af4070
 void __cdecl FUN_00af4070(char* result, const char* source)
 {
-    if (DAT_011f804c & 8)
+    if (::g_uiMatchFlags & 8)
     {
         while (*source && *source == ' ')
             ++source;
     }
-    if (DAT_011f804c & 6)
+    if (::g_uiMatchFlags & 6)
     {
         char _Drive[3];
         char _Dir[256];
         char _Fname[256];
         char _Ext[256];
         _splitpath_s(source, _Drive, 3, _Dir, 256, _Fname, 256, _Ext, 256);
-        if (!(DAT_011f804c & 2))
+        if (!(::g_uiMatchFlags & 2))
         {
             _Drive[0] = 0;
             _Dir[0] = 0;
         }
-        if (!(DAT_011f804c & 4))
+        if (!(::g_uiMatchFlags & 4))
             _Ext[0] = 0;
         _makepath_s(result, 260, _Drive, _Dir, _Fname, _Ext);
     }

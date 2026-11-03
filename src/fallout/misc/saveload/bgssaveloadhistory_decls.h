@@ -3,8 +3,11 @@
 #define BGSSAVELOADHISTORY_DECLS_H
 
 
+#include "fnv/decl/FUN_00864740_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_008649a0__FUN_008649a0_shell.h"
+#include "fnv/symbols_00407000.h"
 void FUN_0084c2a0(unsigned int first, unsigned int second, unsigned char flags);
-int FUN_00407000(char* buffer, const char* format, char* arguments);
 
 class INISettingCollection;
 template <> class SettingT<INISettingCollection>
@@ -50,15 +53,12 @@ template <> class BSSimpleList<ActorCause*>
 class BGSLoadFormBuffer
 {
   public:
-    void ReadTypedData(void*, unsigned int);
 };
 class BGSLoadGameBuffer : public BGSLoadFormBuffer
 {
   public:
     BGSLoadGameBuffer();
     ~BGSLoadGameBuffer();
-    void ReadAndVerifySize(SaveLoadFile*);
-    char* LoadString(char*);
     void** vtable;
     char* data;
     unsigned int size;

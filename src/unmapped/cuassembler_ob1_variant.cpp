@@ -4,6 +4,11 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_0044a970_Cls.h"
+#include "fnv/decl/StrA.h"
+#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_011f6000.h"
 extern "C" unsigned int __cdecl strlen(const char* pStr);
 
 extern "C" int __cdecl memcpy_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
@@ -84,8 +89,8 @@ template <class _Elem, class _Traits = char_traits<_Elem>, class _Ax = allocator
     _Myt& append(const _Elem* _Ptr, size_type _Count)
     {
         if (_Inside(_Ptr))
-            return (append(*this, _Ptr - _Myptr(), _Count));
-        if (npos - _Mysize <= _Count)
+            return (append(*this, _Ptr - reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970(), _Count));
+        if (::g_010173f0 - _Mysize <= _Count)
             _Xlen();
         if (_Count == 0)
             return (*this);
@@ -93,25 +98,25 @@ template <class _Elem, class _Traits = char_traits<_Elem>, class _Ax = allocator
         size_type _Num;
         if (0 < _Count && _Grow(_Num = _Mysize + _Count))
         {
-            _Traits_helper::copy_s<_Traits>(_Myptr() + _Mysize, _Myres - _Mysize, _Ptr, _Count);
+            _Traits_helper::copy_s<_Traits>(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970() + _Mysize, _Myres - _Mysize, _Ptr, _Count);
             _Eos(_Num);
         }
         return (*this);
     }
     _Myt& append(const _Elem* _Ptr)
     {
-        return (append(_Ptr, _Traits::length(_Ptr)));
+        return ((*(::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)&(reinterpret_cast<::StrA *>(this)->FUN_00a0c430(_Ptr, _Traits::length(_Ptr)))));
     }
 
     _Myt& assign(const _Myt& _Right, size_type _Roff, size_type _Count);
     _Myt& assign(const _Elem* _Ptr, size_type _Count)
     {
         if (_Inside(_Ptr))
-            return (assign(*this, _Ptr - _Myptr(), _Count));
+            return (assign(*this, _Ptr - reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970(), _Count));
 
         if (_Grow(_Count))
         {
-            _Traits_helper::copy_s<_Traits>(_Myptr(), _Myres, _Ptr, _Count);
+            _Traits_helper::copy_s<_Traits>(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970(), _Myres, _Ptr, _Count);
             _Eos(_Count);
         }
         return (*this);
@@ -130,7 +135,7 @@ template <class _Elem, class _Traits = char_traits<_Elem>, class _Ax = allocator
     void _Copy(size_type _Newsize, size_type _Oldlen);
     void _Eos(size_type _Newsize)
     {
-        _Traits::assign(_Myptr()[_Mysize = _Newsize], _Elem());
+        _Traits::assign(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970()[_Mysize = _Newsize], _Elem());
     }
     bool _Grow(size_type _Newsize, bool _Trim = false)
     {
@@ -139,14 +144,14 @@ template <class _Elem, class _Traits = char_traits<_Elem>, class _Ax = allocator
         if (_Myres < _Newsize)
             _Copy(_Newsize, _Mysize);
         else if (_Trim && _Newsize < _BUF_SIZE)
-            _Tidy(true, _Newsize < _Mysize ? _Newsize : _Mysize);
+            reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, _Newsize < _Mysize ? _Newsize : _Mysize);
         else if (_Newsize == 0)
             _Eos(0);
         return (0 < _Newsize);
     }
     bool _Inside(const _Elem* _Ptr)
     {
-        if (_Ptr == 0 || _Ptr < _Myptr() || _Myptr() + _Mysize <= _Ptr)
+        if (_Ptr == 0 || _Ptr < reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970() || reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970() + _Mysize <= _Ptr)
             return (false);
         else
             return (true);
@@ -186,8 +191,6 @@ static const char s_acDimensionOfTheImageIsNotPowerOf2[] = "Dimension of the ima
 static const char s_acUndocumentedError[] = "Undocumented error";
 static const char s_acSeparator[] = " : ";
 
-extern int DAT_011f6c88;
-extern char DAT_011f6c8c[];
 
 // @fnv 0x00ac6540
 bool __cdecl FUN_00ac6540(std::string& kString)
@@ -241,10 +244,10 @@ bool __cdecl FUN_00ac6540(std::string& kString)
         return true;
     else
     {
-        if (strlen(DAT_011f6c8c) > 0)
+        if (strlen((*reinterpret_cast<char (*)[]>(&::DAT_011f6c8c))) > 0)
         {
             kString += s_acSeparator;
-            kString += DAT_011f6c8c;
+            kString += (*reinterpret_cast<char (*)[]>(&::DAT_011f6c8c));
         }
     }
     return false;

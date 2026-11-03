@@ -2,6 +2,34 @@
 // src/havok/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/Controller197.h"
+#include "fnv/decl/FUN_006212c0_shell.h"
+#include "fnv/decl/FUN_00c7f750_shell.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00cac920_Class.h"
+#include "fnv/decl/HostC9C6.h"
+#include "fnv/decl/POwner.h"
+#include "fnv/decl/PhantomListeners.h"
+#include "fnv/decl/WorldQuery.h"
+#include "fnv/decl/hkOwnerXd07da0.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpEntityC9C.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_00d24000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01013000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_0101f000.h"
+#include "fnv/symbols_01020000.h"
+#include "fnv/symbols_0102f000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_01056000.h"
+#include "fnv/symbols_010c8000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01272000.h"
 struct FUN_00cad480_Class {
     void __thiscall FUN_00cad480(void* arg);
 };
@@ -166,7 +194,6 @@ found:
 
 struct FUN_00cade20_Class
 {
-    void __thiscall FUN_00cade20(int, int, int, int, int, int);
 };
 
 struct FUN_00cafbd0_Class
@@ -178,7 +205,7 @@ struct FUN_00cafbd0_Class
 // @fnv 0x00cafbd0
 void __thiscall FUN_00cafbd0_Class::FUN_00cafbd0(int first, int second, int third, int fourth)
 {
-    ((FUN_00cade20_Class*)this)->FUN_00cade20(first, second, third, fourth, 0, 0);
+    reinterpret_cast<::POwner *>((((FUN_00cade20_Class*)this)))->FUN_00cade20((*(const ::PStep *)(first)), (*(const ::PVec *)(second)), (*(::PCollector *)(third)), (*(::PCollector *)(fourth)), (void *)(0), 0);
 }
 
 struct FNVAllocator {
@@ -205,7 +232,6 @@ struct FNVBuffers {
         return FUN_00c85750()->GetAllocator()->Allocate(bytes);
     }
 };
-void __cdecl FUN_00d06cb0(FNVArray*, unsigned int);
 struct FNVOwner {
     FNVBuffers*& Buffers() {
         return *reinterpret_cast<FNVBuffers**>(reinterpret_cast<char*>(this) + 0x214);
@@ -229,7 +255,7 @@ void FNVOwner::FUN_00c9c5b0(int value) {
         }
     }
     if (array.size == (array.flags & 0x3fff)) {
-        FUN_00d06cb0(&array, sizeof(int));
+        ::FUN_00d06cb0((::GrowBuf *)(::FNVArray *)(&array), sizeof(int));
     }
     array.values[array.size] = value;
     ++array.size;
@@ -277,25 +303,22 @@ FUN_00cac120_cls* FUN_00cac120_cls::FUN_00cac120(unsigned char acFlags)
 }
 }  // namespace fnv_00cac120
 
-extern __declspec(thread) int g_tlsMemContext;
 
 struct S_00cac150_Scope {
     int m_oldContext;
     S_00cac150_Scope(int ctx) {
-        m_oldContext = g_tlsMemContext;
-        g_tlsMemContext = ctx;
+        m_oldContext = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = ctx;
     }
     ~S_00cac150_Scope() {
-        g_tlsMemContext = m_oldContext;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_oldContext;
     }
 };
 
 struct S_00cac150_Item1 {
-    void FUN_00c9c670(void* arg);
 };
 
 struct S_00cac150_Item2 {
-    void RemoveListener(void* arg);
 };
 
 struct S_00cac150 {
@@ -348,12 +371,12 @@ struct S_00cac150 {
 void S_00cac150::ClearItems() {
     S_00cac150_Scope scope(16);
     for (int i = 0; i < m_count1; ++i) {
-        m_items1[i]->FUN_00c9c670(&m_arg1);
+        reinterpret_cast<::HostC9C6 *>((m_items1[i]))->FUN_00c9c670(&m_arg1);
     }
     m_count1 = 0;
 
     for (int i = 0; i < m_count2; ++i) {
-        m_items2[i]->RemoveListener(&m_arg2);
+        reinterpret_cast<::PhantomListeners *>((m_items2[i]))->RemoveListener(&m_arg2);
     }
     m_count2 = 0;
 }
@@ -389,7 +412,6 @@ unsigned int CpuObject::FUN_00cac910()
     return value->value + 48u;
 }
 
-extern float DAT_0101e2bc;
 
 struct FUN_00cacf10_cls {
     int unk00; int unk04; int unk08; int unk0C;
@@ -469,7 +491,6 @@ struct BhkElem {
 };
 
 struct BhkTarget {
-    void FUN_00c9c670(void* v);
 };
 
 struct BhkProxy {
@@ -521,7 +542,7 @@ void BhkProxy::RemoveTarget(BhkTarget* pTarget)
         pProxy = (void*)this;
     else
         pProxy = (void*)0;
-    pTarget->FUN_00c9c670(pProxy);
+    reinterpret_cast<::HostC9C6 *>((pTarget))->FUN_00c9c670(pProxy);
 
     for (int i = m_uiItemCount - 1; i >= 0; i--) {
         BhkShape* p = m_elements[i].p;
@@ -571,7 +592,6 @@ struct FUN_00cad900_arg {
     unsigned char flag10;
 };
 
-extern "C" int __cdecl FUN_00d06f80(int ptr, int size);
 extern "C" char str_010c8444[];
 extern "C" char str_010c8450[];
 extern "C" char str_010c8460[];
@@ -688,15 +708,12 @@ void FUN_00cada30_cls::AppendPointer(void* value)
 }
 }  // namespace fnv_00cada30
 
-extern char str_0102f13c[];
-extern char DAT_0104e3d0[];
 extern char DAT_010c84a4[];
 extern char DAT_010c8488[];
 extern char DAT_010c8470[];
 
 struct FUN_00cad500_Class
 {
-    void __thiscall FUN_00cad500(void* arg);
 };
 
 struct FUN_00cada70_cls
@@ -747,35 +764,6 @@ struct FUN_00cada70_cls
     FUN_00cada70_cls* Construct(void* a1);
 };
 
-// Initialises the object's vtable, pointers and numeric fields, then calls FUN_00cad500 with a1 and returns this.
-// @fnv 0x00cada70
-FUN_00cada70_cls* FUN_00cada70_cls::Construct(void* a1)
-{
-    *(unsigned short volatile*)&m_06 = 1;
-    *(void* volatile*)&m_08 = str_0102f13c;
-    *(void* volatile*)&m_0c = DAT_0104e3d0;
-    *(void* volatile*)&m_vtbl = DAT_010c84a4;
-    *(void* volatile*)&m_08 = DAT_010c8488;
-    *(void* volatile*)&m_0c = DAT_010c8470;
-    *(unsigned int volatile*)&m_30 = 0;
-    *(unsigned int volatile*)&m_74 = 0;
-    *(unsigned int volatile*)&m_78 = 0;
-    *(unsigned int volatile*)&m_7c = 0x80000000u;
-    *(unsigned int volatile*)&m_88 = 0x80000000u;
-    *(unsigned int volatile*)&m_80 = 0;
-    *(unsigned int volatile*)&m_84 = 0;
-    *(unsigned int volatile*)&m_94 = 0x80000000u;
-    *(unsigned int volatile*)&m_8c = 0;
-    *(unsigned int volatile*)&m_90 = 0;
-    *(unsigned int volatile*)&m_a0 = 0x80000000u;
-    FUN_00cad500_Class* self = (FUN_00cad500_Class*)this;
-    m_98 = 0;
-    m_9c = 0;
-    self->FUN_00cad500(a1);
-    return this;
-}
-
-extern float DAT_0104da48;
 struct __declspec(align(16)) Vec289 {float x,y,z,w;};
 struct RootContact289 {
  Vec289 position,normal;
@@ -789,9 +777,9 @@ class hkpCdPointCollector {
 public:
  __declspec(nothrow) __forceinline virtual ~hkpCdPointCollector() {}
  virtual void AddCdPoint(const void*)=0;
- virtual void reset() {limit=DAT_0104da48;}
+ virtual void reset() {limit=::DAT_0104da48;}
  float limit;
- __declspec(nothrow) hkpCdPointCollector():limit(DAT_0104da48) {}
+ __declspec(nothrow) hkpCdPointCollector():limit(::DAT_0104da48) {}
 };
 struct ContactArray289 {
  RootContact289* data;int count;unsigned capacity;
@@ -810,17 +798,16 @@ public:
  __declspec(nothrow) hkpAllCdPointCollector() {}
  __declspec(nothrow) __forceinline virtual ~hkpAllCdPointCollector() {}
  virtual void AddCdPoint(const void*);
- virtual void reset() {contacts.count=0;limit=DAT_0104da48;}
+ virtual void reset() {contacts.count=0;limit=::DAT_0104da48;}
 };
 struct Query289 {
- __declspec(nothrow) void FUN_00cade20(void*,void*,hkpCdPointCollector*,hkpCdPointCollector*,unsigned,unsigned) throw();
  void CollectAllContactPoints(void*,void*);
 };
 // Runs a collision query between a and b, gathering all contact points into two hkpAllCdPointCollector instances.
 // @fnv 0x00cafad0
 void Query289::CollectAllContactPoints(void* a,void* b) {
  hkpAllCdPointCollector c2,c1;
- FUN_00cade20(a,b,&c2,&c1,0,0);
+ reinterpret_cast<::POwner *>(this)->FUN_00cade20((*(const ::PStep *)(a)),(*(const ::PVec *)(b)),(*(::PCollector *)(&c2)),(*(::PCollector *)(&c1)),(void *)(0),0);
 }
 
 union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
@@ -830,7 +817,6 @@ extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 extern "C" __m128 _mm_sqrt_ss(__m128 a);
 extern "C" void _mm_store_ss(float* p, __m128 a);
 
-extern float DAT_0104da4c;
 
 struct S00cacaa0_Vec {
     __m128 m_vComponents;
@@ -853,7 +839,7 @@ struct S00cacaa0_Input : S00cacaa0_Base {
     float f60;
     float f64;
     unsigned int f68;
-    S00cacaa0_Input() { f04 = 0; f60 = DAT_0104da4c; }
+    S00cacaa0_Input() { f04 = 0; f60 = ::DAT_0104da4c; }
 };
 
 struct S00cacaa0_Shape {
@@ -882,7 +868,6 @@ struct S00cacaa0_World {
     S00cacaa0_Src* m_src;
     unsigned int unk7c;
     S00cacaa0_Disp* m_disp;
-    void FUN_00c92430(S00cacaa0_Coll* a, float* b, void* c, void* d);
 };
 
 struct S00cacaa0_Agent {
@@ -934,7 +919,7 @@ void S00cacaa0_cls::FUN_00cacaa0(bool flag, float* a2, void* a3, void* a4)
     S00cacaa0_World* world = pPhantom->m_pOwningWorld;
     S00cacaa0_Coll* coll = &pPhantom->m_coll;
     if (flag) {
-        world->FUN_00c92430(coll, a2, a3, a4);
+        reinterpret_cast<::WorldQuery *>((world))->FUN_00c92430(coll, a2, a3, a4);
         return;
     }
 
@@ -1013,7 +998,6 @@ struct __declspec(align(16)) Vec4 {
         __m128 y=_mm_shuffle_ps(t,t,0x55),z=_mm_shuffle_ps(t,t,0xaa);
         float result;_mm_store_ss(&result,_mm_add_ss(z,_mm_add_ss(y,t)));return result;
     }
-    void FUN_00c7f750(const FloatMatrix3*, const Vec4*);
 };
 struct FloatMatrix3 { Vec4 rows[3]; };
 struct ContactShape {
@@ -1141,7 +1125,6 @@ struct ShapeData {
         for (int i=0;i<attrCount;++i) if(attrs[i].kind==k) return attrs[i].value;
         PropertyValue z={0};return z;
     }
-    void FUN_00c9c1d0();
 };
 struct ContactBlock {
     Vec4 position,normalAndDepth;
@@ -1209,7 +1192,6 @@ struct ContactSolver {
     ContactListener*& listenerAt(int i) {return listeners[i];}
     void FUN_00cacf80(const float*,const Vec4*,Output**,int);
 };
-extern float DAT_010c8440;
 static __m128 cross(__m128 a,__m128 b) {
     __m128 ayzx=_mm_shuffle_ps(a,a,0xc9);
     __m128 bzxy=_mm_shuffle_ps(b,b,0xd2);
@@ -1273,7 +1255,7 @@ void ContactSolver::FUN_00cacf80(const float* step,const Vec4* acceleration,Outp
             ((void (__thiscall*)(Motion*,FloatMatrix3*))motion->vtable[10])(motion,&inertia);
             Vec4 torque,transformed;
             torque.set(cross(_mm_sub_ps(work.point.load(),body->motion.reference.load()),work.normal.load()));
-            transformed.FUN_00c7f750(&inertia,&torque);
+            reinterpret_cast<::FUN_00c7f750_shell *>(&(transformed))->FUN_00c7f750((float *)(&inertia),(float *)(&torque));
             float mass=dot(transformed.load(),torque.load());
             work.mass=mass;
             mass+=laneW(body->motion.inertiaAndMass);
@@ -1289,7 +1271,7 @@ void ContactSolver::FUN_00cacf80(const float* step,const Vec4* acceleration,Outp
         }
         float incoming=dot(scaleAccel(acceleration->load(),readStep(step,2)),normal);
         if(work.velocity<0.0f)incoming-=work.velocity;
-        if(DAT_010c8440>incoming)response.impulse.set(_mm_add_ps(scaleExtra(normal,incoming*correctionScale),response.impulse.load()));
+        if(::DAT_010c8440>incoming)response.impulse.set(_mm_add_ps(scaleExtra(normal,incoming*correctionScale),response.impulse.load()));
         for(int c=listenerCount-1;c>=0;--c)
             if(listenerAt(c))listenerAt(c)->Post(this,&work.point,&response.impulse);
         if(collect) {
@@ -1298,7 +1280,7 @@ void ContactSolver::FUN_00cacf80(const float* step,const Vec4* acceleration,Outp
             destination->impulse.set(response.impulse.load());
             ++destination;
         }else {
-            body->FUN_00c9c1d0();
+            reinterpret_cast<::hkpEntityC9C *>((body))->FUN_00c9c1d0();
             ((void (__thiscall*)(Motion*,const Vec4*,const Vec4*))motion->vtable[20])(motion,&response.impulse,&response.location);
         }
     }
@@ -1307,10 +1289,8 @@ void ContactSolver::FUN_00cacf80(const float* step,const Vec4* acceleration,Outp
 }  // namespace fnv_00cacf80
 
 struct HkEntity289 {
-    void FUN_00c9c670(void* listener) throw();
 };
 struct HkPhantom289 {
-    void RemoveListener(void* listener) throw();
 };
 struct HkWorldLock289 {
     int unk00;
@@ -1318,7 +1298,6 @@ struct HkWorldLock289 {
 };
 struct HkWorld289 {
     void FUN_00cd2a50(HkWorldLock289* apOut, unsigned int auiFlags) throw();
-    void FUN_00c905b0() throw();
 };
 
 template <class T> struct HkArray289 {
@@ -1390,21 +1369,20 @@ struct FUN_00cadb00 : HkReferencedObject289, HkEntityListener289, HkPhantomListe
 FUN_00cadb00::~FUN_00cadb00()
 {
     for (int i = 0; i < m_kActorEntries.m_iElementCount; i++) {
-        m_kActorEntries.m_data[i]->FUN_00c9c670(static_cast<HkEntityListener289*>(this));
+        reinterpret_cast<::HostC9C6 *>((m_kActorEntries.m_data[i]))->FUN_00c9c670(static_cast<HkEntityListener289*>(this));
     }
     m_kActorEntries.clear();
 
     for (int i = 0; i < m_kPhantoms.m_iElementCount; i++) {
-        m_kPhantoms.m_data[i]->RemoveListener(static_cast<HkPhantomListener289*>(this));
+        reinterpret_cast<::PhantomListeners *>((m_kPhantoms.m_data[i]))->RemoveListener(static_cast<HkPhantomListener289*>(this));
     }
     m_kPhantoms.clear();
 
     HkWorldLock289 lock;
     m_pOwningWorld->FUN_00cd2a50(&lock, 0x1300);
-    m_pOwningWorld->FUN_00c905b0();
+    reinterpret_cast<::hkReferencedObjectC905 *>((m_pOwningWorld))->FUN_00c905b0();
 }
 
-extern float DAT_0104da48;
 
 struct S_Heap {
     virtual void v0();
@@ -1431,7 +1409,7 @@ struct __declspec(align(16)) S_Contact {
 
 struct S_CdBase {
     float m_eps;
-    S_CdBase() throw() { m_eps = DAT_0104da48; }
+    S_CdBase() throw() { m_eps = ::DAT_0104da48; }
     virtual ~S_CdBase() throw() {}
     virtual void v1();
 };
@@ -1471,7 +1449,6 @@ struct S_Collector : S_CdBase {
 };
 
 struct S00cafbf0_Obj {
-    void FUN_00cade20(int, int, S_Collector*, S_Collector*, int, int) throw();
     void FUN_00cafbf0(int a, int b, int c, int d) throw();
 };
 
@@ -1480,7 +1457,7 @@ struct S00cafbf0_Obj {
 void S00cafbf0_Obj::FUN_00cafbf0(int a, int b, int c, int d) throw() {
     S_Collector first;
     S_Collector second;
-    FUN_00cade20(a, b, &first, &second, c, d);
+    reinterpret_cast<::POwner *>(this)->FUN_00cade20((*(const ::PStep *)(a)), (*(const ::PVec *)(b)), (*(::PCollector *)(&first)), (*(::PCollector *)(&second)), (void *)(c), d);
 }
 
 // fires added/removed notifications and keeps entity/phantom listeners attached to the touched objects.
@@ -1636,16 +1613,10 @@ struct S_00caf4d0_PhantomListener { virtual void plUnk00(); };
 struct S_00caf4d0_TrackerBase { virtual void tbUnk00(); int unk04; };
 
 struct S_00caf4d0_Entity {
-    void FUN_00c9c5b0(S_00caf4d0_EntityListener* l) throw();
-    void FUN_00c9c670(S_00caf4d0_EntityListener* l) throw();
 };
 struct S_00caf4d0_Phantom {
-    void AddItem(S_00caf4d0_PhantomListener* l) throw();
-    void RemoveListener(S_00caf4d0_PhantomListener* l) throw();
 };
 
-extern float DAT_0104da48;
-extern const float g_011dd8bc_arg1;
 
 static inline S_00caf4d0_Entity* getRigidBody_caf(const S_00caf4d0_Collidable* c) throw()
 {
@@ -1691,10 +1662,6 @@ struct S_00caf4d0_Tracker : S_00caf4d0_TrackerBase, S_00caf4d0_EntityListener, S
     S_00caf4d0_Array<S_00caf4d0_Entity*> m_kActorEntries;  // 0x8c
     S_00caf4d0_Array<S_00caf4d0_Phantom*> m_kPhantoms; // 0x98
 
-    float FUN_00cafd90(const S_00caf4d0_Point* a, const S_00caf4d0_Point* b) throw();
-    void FUN_00cad4c0(const S_00caf4d0_Point* p) throw();
-    void FUN_00cad480(const S_00caf4d0_Point* p) throw();
-    int FUN_00cacf10(const S_00caf4d0_Point* p) throw();
 
     void FUN_00caf4d0(const S_00caf4d0_Collector* input, const S_00caf4d0_Collector* extra, bool keepListeners) throw();
 };
@@ -1706,12 +1673,12 @@ void S_00caf4d0_Tracker::FUN_00caf4d0(const S_00caf4d0_Collector* input, const S
     if (!keepListeners)
     {
         for (int i = 0; i < m_kActorEntries.GetLogicalSize(); i++)
-            m_kActorEntries[i]->FUN_00c9c670(this);
+            reinterpret_cast<::HostC9C6 *>((m_kActorEntries[i]))->FUN_00c9c670(this);
         for (int i = 0; i < m_kPhantoms.GetLogicalSize(); i++)
-            m_kPhantoms[i]->RemoveListener(this);
+            reinterpret_cast<::PhantomListeners *>((m_kPhantoms[i]))->RemoveListener(this);
     }
 
-    float minDistance = DAT_0104da48;
+    float minDistance = ::DAT_0104da48;
     m_kActorEntries.clear();
     m_kPhantoms.clear();
 
@@ -1720,7 +1687,7 @@ void S_00caf4d0_Tracker::FUN_00caf4d0(const S_00caf4d0_Collector* input, const S
     for (int i = 0; i < hits.GetLogicalSize(); i++)
     {
         S_00caf4d0_Point& p = hits[i];
-        p = input->m_kHits[i];
+        reinterpret_cast<::FUN_006212c0_shell *>((void *)&(const ::S_00caf4d0_Point &)(p))->FUN_006212c0((void *)&(input->m_kHits[i]));
         if (p.getDistance() < minDistance)
             minDistance = p.getDistance();
     }
@@ -1732,7 +1699,7 @@ void S_00caf4d0_Tracker::FUN_00caf4d0(const S_00caf4d0_Collector* input, const S
         int bestIndex = -1;
         for (int k = 0; k < hits.GetLogicalSize(); k++)
         {
-            float d = FUN_00cafd90(&hits[k], &old);
+            float d = reinterpret_cast<::FUN_00cacf10_cls *>(this)->FUN_00cafd90((void *)(&hits[k]), (void *)(&old));
             if (d < best)
             {
                 best = d;
@@ -1744,15 +1711,15 @@ void S_00caf4d0_Tracker::FUN_00caf4d0(const S_00caf4d0_Collector* input, const S
             S_00caf4d0_Point& hit = hits[bestIndex];
             if (hit.m_pCollidableB != old.m_pCollidableB)
             {
-                FUN_00cad4c0(&old);
-                FUN_00cad480(&hit);
+                reinterpret_cast<::CAD4C0Owner *>(this)->FUN_00cad4c0((void *)(&old));
+                reinterpret_cast<::FUN_00cad480_Class *>(this)->FUN_00cad480((void *)(&hit));
             }
-            old = hit;
+            reinterpret_cast<::FUN_006212c0_shell *>((void *)&(const ::S_00caf4d0_Point &)(old))->FUN_006212c0((void *)&(hit));
             hits.removeAt(bestIndex);
         }
         else
         {
-            FUN_00cad4c0(&m_kPoints[j]);
+            reinterpret_cast<::CAD4C0Owner *>(this)->FUN_00cad4c0((void *)(&m_kPoints[j]));
             m_kPoints.removeAt(j);
         }
     }
@@ -1762,20 +1729,20 @@ void S_00caf4d0_Tracker::FUN_00caf4d0(const S_00caf4d0_Collector* input, const S
         S_00caf4d0_Point& hit = hits[k];
         if (hit.getDistance() == minDistance)
         {
-            int index = FUN_00cacf10(&hit);
+            int index = reinterpret_cast<::FUN_00cacf10_cls *>(this)->FUN_00cacf10((void *)(&hit));
             if (index >= 0)
             {
                 S_00caf4d0_Point& old = m_kPoints[index];
                 if (hit.m_pCollidableB != old.m_pCollidableB)
                 {
-                    FUN_00cad4c0(&old);
-                    FUN_00cad480(&hit);
+                    reinterpret_cast<::CAD4C0Owner *>(this)->FUN_00cad4c0((void *)(&old));
+                    reinterpret_cast<::FUN_00cad480_Class *>(this)->FUN_00cad480((void *)(&hit));
                 }
-                old = hit;
+                reinterpret_cast<::FUN_006212c0_shell *>((void *)&(const ::S_00caf4d0_Point &)(old))->FUN_006212c0((void *)&(hit));
             }
             else
             {
-                FUN_00cad480(&hit);
+                reinterpret_cast<::FUN_00cad480_Class *>(this)->FUN_00cad480((void *)(&hit));
                 m_kPoints.AddBack(hit);
             }
         }
@@ -1784,9 +1751,9 @@ void S_00caf4d0_Tracker::FUN_00caf4d0(const S_00caf4d0_Collector* input, const S
     if (extra->m_kHits.GetLogicalSize() > 0)
     {
         const S_00caf4d0_Point& hit = extra->m_kHits[0];
-        if (FUN_00cacf10(&hit) == -1)
+        if (reinterpret_cast<::FUN_00cacf10_cls *>(this)->FUN_00cacf10((void *)(&hit)) == -1)
         {
-            FUN_00cad480(&hit);
+            reinterpret_cast<::FUN_00cad480_Class *>(this)->FUN_00cad480((void *)(&hit));
             m_kPoints.AddBack(hit);
         }
     }
@@ -1796,9 +1763,9 @@ void S_00caf4d0_Tracker::FUN_00caf4d0(const S_00caf4d0_Collector* input, const S
         for (int j = i - 1; j >= 0; j--)
         {
             S_00caf4d0_Array<S_00caf4d0_Point>& pts = m_kPoints;
-            if (FUN_00cafd90(&pts[i], &pts[j]) < 0.1f)
+            if (reinterpret_cast<::FUN_00cacf10_cls *>(this)->FUN_00cafd90((void *)(&pts[i]), (void *)(&pts[j])) < 0.1f)
             {
-                FUN_00cad4c0(&m_kPoints[i]);
+                reinterpret_cast<::CAD4C0Owner *>(this)->FUN_00cad4c0((void *)(&m_kPoints[i]));
                 m_kPoints.m_iElementCount--;
                 if (m_kPoints.m_iElementCount != i)
                     memCpy8(&m_kPoints[i], &m_kPoints[m_kPoints.m_iElementCount], sizeof(S_00caf4d0_Point) / 8);
@@ -1815,7 +1782,7 @@ void S_00caf4d0_Tracker::FUN_00caf4d0(const S_00caf4d0_Collector* input, const S
             if (entity && m_kActorEntries.indexOf(entity) == -1)
             {
                 if (!keepListeners)
-                    entity->FUN_00c9c5b0(this);
+                    reinterpret_cast<::FNVOwner *>((entity))->FUN_00c9c5b0((int)(this));
                 m_kActorEntries.AddBack(entity);
             }
         }
@@ -1825,7 +1792,7 @@ void S_00caf4d0_Tracker::FUN_00caf4d0(const S_00caf4d0_Collector* input, const S
             if (phantom && m_kPhantoms.indexOf(phantom) == -1)
             {
                 if (!keepListeners)
-                    phantom->AddItem(this);
+                    reinterpret_cast<::hkOwnerXd07da0 *>((phantom))->AddItem(this);
                 m_kPhantoms.AddBack(phantom);
             }
         }
@@ -1833,16 +1800,8 @@ void S_00caf4d0_Tracker::FUN_00caf4d0(const S_00caf4d0_Collector* input, const S
 }
 
 struct ContactQuery {
-    void FUN_00cae900(void*, unsigned, S_Collector*) throw();
     void FUN_00cafd00(void*, unsigned);
 };
-// Creates a local S_Collector and calls FUN_00cae900 with a, b and the collector.
-// @fnv 0x00cafd00
-void ContactQuery::FUN_00cafd00(void* a, unsigned b) {
-    S_Collector collector;
-    FUN_00cae900(a,b,&collector);
-}
-
 struct CadColl {
     int unk00;
     int unk04;
@@ -1878,7 +1837,6 @@ struct CadPhantomListener {
     virtual void FUN_00cad820(struct CadPhantom* p) throw();
 };
 struct CadPhantom {
-    void RemoveListener(CadPhantomListener* l) throw();
 };
 struct CadPtrArray {
     CadPhantom** m_data;
@@ -1939,7 +1897,7 @@ struct Cad820Cls : S_00caf4d0_TrackerBase, S_00caf4d0_EntityListener, CadPhantom
 // @fnv 0x00cad820
 void Cad820Cls::FUN_00cad820(CadPhantom* phantom) throw()
 {
-    phantom->RemoveListener(this);
+    reinterpret_cast<::PhantomListeners *>((phantom))->RemoveListener(this);
     for (int i = m_kPoints.GetLogicalSize() - 1; i >= 0; --i)
     {
         if (getPhantom_cad(m_kPoints[i].m_pCollidableB) == (S_00caf4d0_Phantom*)phantom)
@@ -1993,8 +1951,6 @@ struct S00cafd90_Body {
     S00cafd90_Info* unk48;
 };
 
-extern double DAT_0101ffa0;
-extern double DAT_01020758;
 
 static __forceinline S00cafd90_Conv* S00cafd90_ConvOf(S00cafd90_Body* b)
 {
@@ -2036,7 +1992,7 @@ float FUN_00cacf10_cls::FUN_00cafd90(void* a_, void* b_)
     S00cafd90_Vec vPosA = S00cafd90_Pos(a);
     S00cafd90_Vec vPosB = S00cafd90_Pos(b);
     float e = S00cafd90_Dot3(_mm_sub_ps(vPosA.m_vComponents, vPosB.m_vComponents), _mm_sub_ps(vPosA.m_vComponents, vPosB.m_vComponents));
-    return e * DAT_0101ffa0 + c * DAT_01020758 + dw;
+    return e * ::DAT_0101ffa0 + c * ::DAT_01020758 + dw;
 }
 
 extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
@@ -2334,7 +2290,6 @@ struct ContactBuffer {
     unsigned int capacityFlags;
 };
 
-extern float DAT_01013ea4;
 
 static __forceinline __m128 Set1(float w) { __m128 r = _mm_load_ss(&w); return _mm_shuffle_ps(r, r, 0); }
 
@@ -2449,6 +2404,7 @@ float S_00cacc50::FUN_00cacc50(const S_A& a, S_B* b, S_Pad<S_V4> c, S_Pad<S_V4> 
 }
 
 #include <math.h>
+#include "fnv/symbols_simd.h"
 extern "C" void _ReadWriteBarrier(void);
 
 extern "C" __m128 _mm_rsqrt_ss(__m128);
@@ -2459,9 +2415,6 @@ extern "C" __m128 _mm_sub_ss(__m128, __m128);
 extern "C" __m128 _mm_andnot_ps(__m128, __m128);
 extern "C" __m128 _mm_setzero_ps(void);
 
-extern float DAT_01011d78;
-extern float DAT_01017718;
-extern float DAT_01016248;
 
 struct S_00cad500_V4 {
     float x, y, z, w;
@@ -2516,16 +2469,12 @@ struct S_00cad500_Ref {
     int unk74;
     S_00cad500_Elem16* m_78;
     int m_7c;
-    void FUN_00c90510();
-    void FUN_00c905b0();
     void AddEntry(int id, S_00cad500_Pair p);
 };
 
 struct S_00cad500_E1 {
-    void FUN_00c9c670(void* p);
 };
 struct S_00cad500_E2 {
-    void RemoveListener(void* p);
 };
 
 
@@ -2595,8 +2544,34 @@ struct S_00cad500_This {
     char m_b0;
     int unkB1;
     void FUN_00cad500(S_00cad500_Src* a);
-    void FUN_00cac920(S_00cad500_Src* a);
 };
+// Initialises the object's vtable, pointers and numeric fields, then calls FUN_00cad500 with a1 and returns this.
+// @fnv 0x00cada70
+FUN_00cada70_cls* FUN_00cada70_cls::Construct(void* a1)
+{
+    *(unsigned short volatile*)&m_06 = 1;
+    *(void* volatile*)&m_08 = ::str_0102f13c;
+    *(void* volatile*)&m_0c = DAT_0104e3d0;
+    *(void* volatile*)&m_vtbl = DAT_010c84a4;
+    *(void* volatile*)&m_08 = DAT_010c8488;
+    *(void* volatile*)&m_0c = DAT_010c8470;
+    *(unsigned int volatile*)&m_30 = 0;
+    *(unsigned int volatile*)&m_74 = 0;
+    *(unsigned int volatile*)&m_78 = 0;
+    *(unsigned int volatile*)&m_7c = 0x80000000u;
+    *(unsigned int volatile*)&m_88 = 0x80000000u;
+    *(unsigned int volatile*)&m_80 = 0;
+    *(unsigned int volatile*)&m_84 = 0;
+    *(unsigned int volatile*)&m_94 = 0x80000000u;
+    *(unsigned int volatile*)&m_8c = 0;
+    *(unsigned int volatile*)&m_90 = 0;
+    *(unsigned int volatile*)&m_a0 = 0x80000000u;
+    FUN_00cad500_Class* self = (FUN_00cad500_Class*)this;
+    m_98 = 0;
+    m_9c = 0;
+    reinterpret_cast<::S_00cad500_This *>((self))->FUN_00cad500((::S_00cad500_Src *)(a1));
+    return this;
+}
 
 __forceinline void S_00cad500_Normalize3(S_00cad500_V4& v, float zero, float three, float half)
 {
@@ -2617,9 +2592,9 @@ __forceinline void S_00cad500_Normalize3(S_00cad500_V4& v, float zero, float thr
 // @fnv 0x00cad500
 void S_00cad500_This::FUN_00cad500(S_00cad500_Src* apSrc)
 {
-    apSrc->m_48->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((apSrc->m_48))->FUN_00c90510();
     if (m_30) {
-        m_30->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_30))->FUN_00c905b0();
     }
     reinterpret_cast<__m128&>(m_10) = reinterpret_cast<__m128&>(apSrc->m_10);
     m_34 = apSrc->m_20;
@@ -2640,17 +2615,17 @@ void S_00cad500_This::FUN_00cad500(S_00cad500_Src* apSrc)
     m_ac = apSrc->m_6c;
     m_b0 = apSrc->m_70;
     reinterpret_cast<__m128&>(m_40) = reinterpret_cast<__m128&>(apSrc->m_30);
-    S_00cad500_Normalize3(m_40, 0.0f, 3.0f, DAT_01016248);
+    S_00cad500_Normalize3(m_40, 0.0f, 3.0f, ::fnv_00c88020::DAT_01016248);
     if (m_30->m_08 != 0) {
-        FUN_00cac920(apSrc);
+        reinterpret_cast<::FUN_00cac920_Class *>(this)->FUN_00cac920(apSrc);
     }
     reinterpret_cast<__m128&>(m_20) = _mm_setzero_ps();
     for (int i = 0; i < m_90; i++) {
-        m_8c[i]->FUN_00c9c670(&unk08);
+        reinterpret_cast<::HostC9C6 *>((m_8c[i]))->FUN_00c9c670(&unk08);
     }
     m_90 = 0;
     for (int j = 0; j < m_9c; j++) {
-        m_98[j]->RemoveListener(&unk0C);
+        reinterpret_cast<::PhantomListeners *>((m_98[j]))->RemoveListener(&unk0C);
     }
     m_9c = 0;
     m_78 = 0;
@@ -2825,7 +2800,7 @@ sse_ca0c40::__m128* CharProxy_ca0c40::FUN_00ca0c40(const sse_ca0c40::__m128* a, 
     return out;
 }
 
-struct S00cae900_Listeners { void FUN_00cad440(void*, void*); };
+struct S00cae900_Listeners {  };
 static const float DAT_010c851c = -0.08f;
 extern const __m128 DAT_01017d10;
 typedef unsigned long DWORD;
@@ -2837,7 +2812,6 @@ int _mm_movemask_ps(__m128);
 __m128 _mm_set_ps1(float);
 __m128 _mm_setr_ps(float, float, float, float);
 }
-extern DWORD DAT_0126835c;
 typedef __m128 S00cae900_Quad;
 typedef float S00cae900_Real;
 
@@ -3148,7 +3122,6 @@ struct S00cae900_RootPoint {
     S00cae900_Vec r60;
 };
 
-extern "C" void __cdecl FUN_00d24360(const S00cae900_SolverInput& input, S00cae900_SolverOutput& output);
 
 static bool FUN_00cadca0(float maxSlopeCos, const S00cae900_Vec& up, int index, S00cae900_Array<S00cae900_ConstraintInfo>& surfaceConstraintsInOut)
 {
@@ -3243,9 +3216,14 @@ public:
     int unka8;
     int unkac;
     bool m_bRefreshManifoldInCheckSupport;
-    void FUN_00cae7f0(S00cae900_Collector& collector);
     void FUN_00cae900(const S00cae900_Vec& direction, S00cae900_SurfaceInfo& ground, S00cae900_Collector& startPointCollector);
 };
+// Creates a local S_Collector and calls FUN_00cae900 with a, b and the collector.
+// @fnv 0x00cafd00
+void ContactQuery::FUN_00cafd00(void* a, unsigned b) {
+    S_Collector collector;
+    reinterpret_cast<::S00cae900_Proxy *>(this)->FUN_00cae900((*(const ::S00cae900_Vec *)(a)),(*(::S00cae900_SurfaceInfo *)(b)),(*(::S00cae900_Collector *)(&collector)));
+}
 
 // @fnv 0x00cae900
 void S00cae900_Proxy::FUN_00cae900(const S00cae900_Vec& direction, S00cae900_SurfaceInfo& ground, S00cae900_Collector& startPointCollector)
@@ -3253,7 +3231,7 @@ void S00cae900_Proxy::FUN_00cae900(const S00cae900_Vec& direction, S00cae900_Sur
     S00cae900_timer("TtcheckSupport");
     if (m_bRefreshManifoldInCheckSupport)
     {
-        FUN_00cae7f0(startPointCollector);
+        reinterpret_cast<::Controller197 *>(this)->FUN_00cae7f0((::Context197 *)&(startPointCollector));
     }
     S00cae900_LocalArray<S00cae900_ConstraintInfo> surfaceConstraints(m_kContactManifold.GetLogicalSize() + m_uiUserPlanes + 10);
     surfaceConstraints.setSizeUnchecked(m_kContactManifold.GetLogicalSize());
@@ -3280,7 +3258,7 @@ void S00cae900_Proxy::FUN_00cae900(const S00cae900_Vec& direction, S00cae900_Sur
     input.m_vFourthInputVector = m_vStart;
     input.m_vThirdInputVector.SetAllComponents(m_fMaxCharacterSpeedForSolver);
     output.m_pPlaneStatuses = surfaceConstraintInteractions.begin();
-    reinterpret_cast<S00cae900_Listeners*>(this)->FUN_00cad440(&m_kContactManifold, &input);
+    reinterpret_cast<::S_00cad440 *>((reinterpret_cast<S00cae900_Listeners*>(this)))->FUN_00cad440(&m_kContactManifold, &input);
 
     actualSurfaceVelocities.SetSizeAndGrow(input.m_iConstraintCount);
     surfaceConstraintInteractions.SetSizeAndGrow(input.m_iConstraintCount);
@@ -3351,7 +3329,6 @@ extern "C" {
 __m128 _mm_set_ps1(float);
 __m128 _mm_setr_ps(float, float, float, float);
 }
-extern DWORD DAT_0126835c;
 static const float kInvSixtySV = 1.0f / 60.0f;
 static const float kMinSurfaceDotSV = -0.08f;
 typedef __m128 S00caefd0_Quad;
@@ -3619,7 +3596,6 @@ struct S00caefd0_RootPoint {
     S00caefd0_Vec r60;
 };
 
-void __cdecl FUN_00d24360(const S00caefd0_SolverInput& input, S00caefd0_SolverOutput& output);
 
 static bool FUN_00cadca0(float maxSlopeCos, const S00caefd0_Vec& up, int index, S00caefd0_Array<S00caefd0_ConstraintInfo>& surfaceConstraintsInOut)
 {
@@ -3711,7 +3687,6 @@ public:
     int unk9c;
     int unka0;
     float m_fMaximumSlopeAngle;
-    void FUN_00cad440(void* manifold, void* input);
     void FUN_00caefd0(const S00caefd0_Vec& direction, S00caefd0_SurfaceInfo& ground) const;
 };
 
@@ -3744,8 +3719,8 @@ void S00caefd0_Proxy::FUN_00caefd0(const S00caefd0_Vec& direction, S00caefd0_Sur
     input.m_vFourthInputVector = m_vStart;
     input.m_vThirdInputVector.SetAllComponents(m_fMaxCharacterSpeedForSolver);
     output.m_pPlaneStatuses = surfaceConstraintInteractions.begin();
-    const_cast<S00caefd0_Proxy*>(this)->FUN_00cad440(const_cast<S00caefd0_Array<S00caefd0_RootPoint>*>(&m_kContactManifold), &input);
-    FUN_00d24360(input, output);
+    reinterpret_cast<::S_00cad440 *>((const_cast<S00caefd0_Proxy*>(this)))->FUN_00cad440(const_cast<S00caefd0_Array<S00caefd0_RootPoint>*>(&m_kContactManifold), &input);
+    ::SolverMotionDetail::FUN_00d24360((const ::SolverMotionDetail::SolverMotionInput &)(input), (::SolverMotionDetail::SolverMotionOutput &)(output));
 
     output.m_fVelocity.sub4(m_fVelocity);
     const float projectedVelocity = output.m_fVelocity.dot3(direction);

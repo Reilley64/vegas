@@ -2,6 +2,7 @@
 #ifndef NIQUATTRANSFORM_BINARY_H
 #define NIQUATTRANSFORM_BINARY_H
 
+#include "fnv/symbols_01096000.h"
 class NiBinaryStream;
 typedef unsigned int(__cdecl* NiBinaryStreamRead)(NiBinaryStream*, void*, unsigned int, unsigned int*, unsigned int);
 class NiBinaryStream
@@ -17,6 +18,5 @@ class NiBinaryStream
     }
 };
 
-extern const float kInvalidTransformValue;
 
 #endif

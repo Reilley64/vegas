@@ -4,6 +4,10 @@
 
 // src/havok/animation/animation/animation/interleaved/hkainterleaveduncompressedanimation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/interleaved/hkainterleaveduncompressedanimation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00e2f7c0_Class.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00e3f000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkaInterleavedUncompressedAnimation.h"
 struct FUN_00e3f950_class
 {
@@ -134,13 +138,11 @@ class FUN_00e402e0 : public BaseAnimX
     XformArrayX m_kTransforms;
     FloatArrayX m_kFloats;
 };
-void* FUN_00c85750();
 extern int DAT_010e5474;
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 typedef void*(__stdcall* TlsGetValueFn)(unsigned long);
-extern unsigned long DAT_0126835c;
 struct ProfRec
 {
     const char* m_pName;
@@ -185,16 +187,13 @@ inline SampleRec* S00e3ffc0_zero(SampleRec* recs)
 }
 struct FUN_00e2f7c0_Obj
 {
-    void FUN_00e2f7c0(float a1, int* a2, float* a3);
 };
 __forceinline int S00e3ffc0_getFrame(FUN_00e2f7c0_Obj* o, float t, float* d)
 {
     int f;
-    o->FUN_00e2f7c0(t, &f, d);
+    reinterpret_cast<::FUN_00e2f7c0_Class *>((o))->FUN_00e2f7c0(t, (unsigned int *)(int *)(&f), d);
     return f;
 }
-void __cdecl FUN_00e3fda0(int frame, float delta, unsigned int nT, QsT* tOut, unsigned int nF, float* fOut,
-                          SampleRec* recs, int n);
 struct hkaAnimSlot : hkaInterleavedUncompressedAnimation
 {
     virtual void v1();
@@ -229,6 +228,7 @@ extern "C"
 }
 
 }
+#include "fnv/symbols_simd.h"
 struct DataChunk
 {
     const unsigned char* m_data;
@@ -247,8 +247,6 @@ struct FUN_005611c0_t
     void FUN_005611c0();
 };
 
-extern ::__m128 DAT_010ec7f0;
-extern ::__m128 DAT_010c7160;
 
 inline float scalarValue(E3fda0Simd::__m128 value)
 {
@@ -295,13 +293,13 @@ void FUN_00e3fda0(unsigned int frameIndex, float frameDelta, unsigned int maxNum
 
                 E3fda0Simd::__m128 tss = E3fda0Simd::_mm_load_ss(&frameDelta);
                 E3fda0Simd::__m128 tAll = E3fda0Simd::_mm_shuffle_ps(tss, tss, 0);
-                E3fda0Simd::__m128 ones = (*reinterpret_cast<const E3fda0Simd::__m128*>(&DAT_010ec7f0));
+                E3fda0Simd::__m128 ones = (*reinterpret_cast<const E3fda0Simd::__m128*>(&::DAT_010ec7f0));
                 E3fda0Simd::__m128 inv = E3fda0Simd::_mm_sub_ps(ones, tAll);
                 E3fda0Simd::__m128 scale = E3fda0Simd::_mm_add_ps(E3fda0Simd::_mm_mul_ps(inv, pose0->scale.v),
                                                                   E3fda0Simd::_mm_mul_ps(tAll, pose1->scale.v));
                 transformTracksOut->scale.v = scale;
 
-                ones = (*reinterpret_cast<const E3fda0Simd::__m128*>(&DAT_010ec7f0));
+                ones = (*reinterpret_cast<const E3fda0Simd::__m128*>(&::DAT_010ec7f0));
                 inv = E3fda0Simd::_mm_sub_ps(ones, tAll);
                 E3fda0Simd::__m128 trans = E3fda0Simd::_mm_add_ps(E3fda0Simd::_mm_mul_ps(inv, pose0->translation.v),
                                                                   E3fda0Simd::_mm_mul_ps(tAll, pose1->translation.v));

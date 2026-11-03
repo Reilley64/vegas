@@ -2,6 +2,7 @@
 #ifndef FNV_BGSSAVELOADQUEUEDSUBBUFFERMAP_H
 #define FNV_BGSSAVELOADQUEUEDSUBBUFFERMAP_H
 
+#include "fnv/decl/FUN_00435b20_shell.h"
 #include "layout_support.h"
 #include "TESForm.h"
 #include "layout_support.h"
@@ -22,8 +23,6 @@ class BGSLoadGameSubBuffer
     BGSLoadFormBuffer* CreateFormBuffer(TESForm* form);
     void ReadAnimationState(TESForm* form);
     void RestoreAnimation(TESForm* form);
-    void LoadHavokData(TESForm* form);
-    void FUN_00435b20();
     // BGSLoadGameSubBuffer
     // void __cdecl BGSLoadGameSubBuffer::*(char*)
     // void __cdecl BGSLoadGameSubBuffer::*()

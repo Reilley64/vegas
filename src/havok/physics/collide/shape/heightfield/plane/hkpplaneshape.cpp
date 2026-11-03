@@ -2,9 +2,14 @@
 // src/havok/physics/collide/shape/heightfield/plane/hkpplaneshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/heightfield/plane/hkpplaneshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00c7f750_shell.h"
+#include "fnv/decl/FunctionContext.h"
+#include "fnv/symbols_00d26000.h"
+#include "fnv/symbols_010d0000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 #include "havok/hkpPlaneShape.h"
 
-void __cdecl FUN_00d26230(void*, void*, void*, float, int);
 
 struct FUN_00d552c0_StandIn
 {
@@ -15,11 +20,10 @@ struct FUN_00d552c0_StandIn
 // @fnv 0x00d552c0
 void FUN_00d552c0_StandIn::FUN_00d552c0(void* param1, float param2, int param3)
 {
-    FUN_00d26230(param1, (void*)((char*)this + 0x30), (void*)((char*)this + 0x20), param2, param3);
+    ::FUN_00d26230((*(const ::hkTransformD262 *)(param1)), (*(const ::hkVector4D262 *)((void*)((char*)this + 0x30))), (*(const ::hkVector4D262 *)((void*)((char*)this + 0x20))), param2, (*(::hkAabbD262 *)(param3)));
 }
 
 class GlobalObjectO2_00d472a0;
-extern GlobalObjectO2_00d472a0 g_01269b84;
 
 class hkStatisticsCollectorD54F;
 
@@ -30,7 +34,6 @@ class hkReferencedObjectD54F
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 
-    void FUN_00c90360(hkStatisticsCollectorD54F* pkCollector, const GlobalObjectO2_00d472a0* pkClass) const;
 };
 
 class hkObjectD54F : public hkReferencedObjectD54F
@@ -42,7 +45,7 @@ class hkObjectD54F : public hkReferencedObjectD54F
 // @fnv 0x00d54f80
 void hkObjectD54F::FUN_00d54f80(hkStatisticsCollectorD54F* pkCollector, const GlobalObjectO2_00d472a0* pkClass) const
 {
-    FUN_00c90360(pkCollector, &g_01269b84);
+    reinterpret_cast<::FunctionContext *>((void *)this)->FUN_00c90360(pkCollector, (void *)(&g_01269b84));
 }
 
 struct __declspec(align(16)) Vector4D54F90
@@ -82,7 +85,6 @@ struct CollectorD54F90
     virtual void CollectRayHit(const CdBodyD54F90& kBody, const RayCastOutputD54F90& kOutput);
     float m_fEarlyOutHitFraction;
 };
-void __stdcall FUN_00c7f750(const void* pkTransform, Vector4D54F90& kNormal);
 struct ShapeD54F90
 {
     virtual void v00();
@@ -107,14 +109,12 @@ void ShapeD54F90::FUN_00d54f90(const RayCastInputD54F90& kInput, const CdBodyD54
     BoolD54F90 kHit = RayCast(kInput, kOutput);
     if (kHit.m_cBooleanValue)
     {
-        FUN_00c7f750(kBody.m_pMotionState, kOutput.m_vHitNormal);
+        reinterpret_cast<::FUN_00c7f750_shell *>((void *)(kBody.m_pMotionState))->FUN_00c7f750((float *)&(kOutput.m_vHitNormal), {});
         kCollector.CollectRayHit(kBody, kOutput);
     }
 }
 
 #include <xmmintrin.h>
-extern char DAT_010d0e18;
-extern __m128 DAT_010c71d0;
 
 struct PlaneShape_00d551d0 : hkpPlaneShape
 {
@@ -127,7 +127,7 @@ PlaneShape_00d551d0* PlaneShape_00d551d0::FUN_00d551d0(const hkVector4& p, const
 {
     m_ulUserData = 0;
     m_type = 0x1c;
-    *(void**)this = &DAT_010d0e18;
+    *(void**)this = &(*reinterpret_cast<char *>(&::DAT_010d0e18));
     m_sReferenceCount = 1;
     *(__m128*)&m_kTriangleNormal = *(const __m128*)&p;
     *(__m128*)&m_kAabbCenter = _mm_mul_ps(_mm_add_ps(*(const __m128*)&box[1], *(const __m128*)&box[0]), DAT_010c71d0);
@@ -204,7 +204,6 @@ extern "C" const __m128 DAT_010ec7f0;
 extern "C" const __m128 DAT_01017d10;
 
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
-extern "C" unsigned long DAT_0126835c;
 extern "C" const char DAT_010d1074[];
 extern "C" const char DAT_010c41f8[];
 extern "C" unsigned __int64 __rdtsc();
@@ -225,7 +224,7 @@ struct MonitorStream
     char* m_pCurrentCommand;
     static MonitorStream* GetMonitorStream()
     {
-        return (MonitorStream*)TlsGetValue(DAT_0126835c);
+        return (MonitorStream*)TlsGetValue(::DAT_0126835c);
     }
 };
 
@@ -359,3 +358,4 @@ HkBoolD55 PlaneShapeD55::FUN_00d552f0(const RayInputD55& input, RayOutputD55& re
     return false;
 }
 }  // namespace fnv_00d552f0
+#include "fnv/symbols_simd.h"

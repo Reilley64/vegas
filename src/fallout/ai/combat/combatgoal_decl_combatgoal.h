@@ -2,6 +2,8 @@
 #define FNV_COMBATGOAL_H
 
 
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/symbols_005b5000.h"
 #include "layout_support_decl_combatgoal.h"
 
 // Authored layout header for fallout/ai/combat/combatgoal.cpp.
@@ -13,20 +15,21 @@
 
 // Warning() comes from the original script unit; declared here because the
 // script closure is not part of this unit's header dependency set.
-int Warning(const char* format, ...);
 
 class UnsignedIdHandle;
 
 class CombatWorldStateListNode : public BSSimpleList<UnsignedIdHandle*>
 {
   public:
+public:
+    ::CombatWorldStateListNode *GetNext();
 };
 
 class CombatGoal
 {
   public:
     bool FUN_009843b0(class CombatStateValues* values);
-    BSSimpleList<UnsignedIdHandle*>* FUN_00717e50();  // declared for the original code (decl_variants.py)
+      // declared for the original code (decl_variants.py)
 
   public:
     enum COMBAT_GOAL

@@ -4,6 +4,11 @@
 
 // src/havok/physics/dynamics/constraint/bilateral/pointtopath/hkplinearparametriccurve.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/pointtopath/hkplinearparametriccurve.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/fnv_00e48030__FUN_00e48030.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cbf000.h"
+#include "fnv/symbols_01011000.h"
 #include "havok/hkpLinearParametricCurve.h"
 struct FUN_00e47c20_s
 {
@@ -52,8 +57,6 @@ extern "C" __m128 _mm_load_ps1(const float* p);
 extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern const __m128 DAT_010ec7f0;
-int __cdecl FUN_00cbfef0(float f);
 struct hkSimdRealE474
 {
     __m128 m_vValue;
@@ -73,7 +76,7 @@ struct hkVector4E474
     }
     void setInterpolate4(const hkVector4E474& a, const hkVector4E474& b, const hkSimdRealE474& t)
     {
-        const __m128 kOneMinusT = _mm_sub_ps(DAT_010ec7f0, t.m_vValue);
+        const __m128 kOneMinusT = _mm_sub_ps(::DAT_010ec7f0, t.m_vValue);
         m_vComponents = _mm_add_ps(_mm_mul_ps(kOneMinusT, a.m_vComponents), _mm_mul_ps(b.m_vComponents, t.m_vValue));
     }
 };
@@ -107,7 +110,6 @@ class hkpLinearParametricCurveE474 : public hkBaseObjectE474
     unsigned int unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
     hkArrayE474<hkVector4E474> m_kPoints;
 };
-int __cdecl FUN_00cbfef0(float f);
 class FUN_00e47c30_cls
 {
   public:
@@ -144,7 +146,6 @@ extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
 extern "C" void _mm_store_ss(float*, __m128);
 extern "C" void _ReadWriteBarrier();
 extern "C" __m128 _mm_setr_ps(float, float, float, float);
-extern float DAT_01011d78;
 struct Allocator
 {
     virtual void dummy0();
@@ -161,7 +162,6 @@ struct CurveThreadMemory
     int unk0c;
     Allocator* m_pThreadAllocator;
 };
-extern "C" void* __fastcall FUN_00e48030(void* p);
 class ScalarLane
 {
     __m128 value;
@@ -208,14 +208,13 @@ struct LinearParametricCurve : public hkReferencedObject
     hkArray<hkVector4> m_kPoints;
     hkArray<float> m_fClosestPointDistanceSquared;
     LinearParametricCurve* FUN_00e48090();
-    void FUN_00e47e80(const hkVector4*);
 };
 static __forceinline LinearParametricCurve* createCurve()
 {
     CurveThreadMemory* memory = (CurveThreadMemory*)FUN_00c85750();
     void* chunk = memory->m_pThreadAllocator->allocateChunk(0x40);
     ((hkReferencedObject*)chunk)->m_usMemSizeAndFlags = 0x40;
-    return (LinearParametricCurve*)FUN_00e48030(chunk);
+    return (LinearParametricCurve*)((void *)(new ((void *)(chunk)) ::fnv_00e48030::FUN_00e48030()));
 }
 template <class T> static __forceinline void arrCopy_e48090(T* dst, int start, const T* src, int n)
 {
@@ -241,6 +240,7 @@ static __forceinline void copyFromArray_e48090(hkArray<T>& self, Allocator* allo
     arrCopy_e48090(self.m_data, 0, a.m_data, self.m_iElementCount);
 }
 #include <math.h>
+#include "fnv/symbols_simd.h"
 extern "C" __m128 _mm_andnot_ps(__m128, __m128);
 extern "C" __m128 _mm_setzero_ps(void);
 extern "C" __m128 _mm_add_ss(__m128, __m128);
@@ -263,7 +263,6 @@ union hkVector4q
         return reinterpret_cast<const hkReal*>(&m_vComponents)[i];
     }
 };
-extern hkVector4q DAT_01268380;
 static __forceinline hkReal hkFabs(hkReal r)
 {
     return (hkReal)fabs(r);
@@ -338,7 +337,6 @@ extern "C" __m128 _mm_add_ss(__m128, __m128);
 extern "C" __m128 _mm_sqrt_ss(__m128);
 extern "C" __m128 _mm_load_ss(float const*);
 
-void __cdecl ResizeAudioStream(void* pvAllocator, void* apvArray, int iElemSize);
 
 struct S00e47e80_hkMemoryRouterE47E
 {
@@ -392,7 +390,7 @@ template <class T> struct S00e47e80_hkArrayE47E
     __forceinline T* _pushBack(void* pvAllocator, const T& t)
     {
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(pvAllocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(pvAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         T* p = &m_data[m_iElementCount];
         *p = t;
         m_iElementCount++;

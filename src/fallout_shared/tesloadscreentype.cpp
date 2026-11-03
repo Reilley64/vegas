@@ -1,43 +1,31 @@
 // fallout_shared/tesloadscreentype.cpp: TESLoadScreenType, ScalarStandIn, LoadScreenTypeData_FUN (7 functions)
 
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/SDSaveForm.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
 #include "tesloadscreentype_decls.h"
-// Reads the record header and chunks (EDID, OBND, DATA) from file, applies endian conversion to data, and returns true.
-// @fnv 0x005a72f0
-bool TESLoadScreenType::Load(TESFile* file)
-{
-    LoadRecordHeader(file);
-    SetInitializationState(false);
-    unsigned int chunk;
-    while ((chunk = file->GetChunkID()) != 0)
-    {
-        switch (chunk)
-        {
-        case 0x44494445: {
-            char* editorID = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(editorID, 512);
-            SetEditorID_AtRuntime(editorID);
-        }
-        break;
-        case 0x444e424f:
-            readOBNDSubRecord(file);
-            break;
-        case 0x41544144:
-            ((BGSImpactData*)this)->ReadTypedData(file, &data, 88);
-            break;
-        }
-        if (!file->NextChunk())
-            break;
-    }
-    if (file->IsEndianConversionRequired())
-        data.Endian();
-    return true;
-}
-
-void* __cdecl __memcpy(void* dst, const void* src, unsigned int size);
 
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
 };
 
 struct TESLoadScreenType_Shell
@@ -54,37 +42,21 @@ void __thiscall TESLoadScreenType_Shell::CopyFrom(TESForm* apCopy)
         return;
     }
     __memcpy((char*)this + 0x18, (char*)pmisc + 0x18, 0x58);
-    ((FUN_005e78f0_t*)this)->FUN_004851b0(apCopy);
+    reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0(apCopy);
 }
 
-void __cdecl _Deallocate(void*);
 struct ScalarStandIn
 {
-    void __thiscall FUN_005a72d0();
     void* __thiscall DestroyIfFlagged(unsigned int);
 };
-// Calls FUN_005a72d0, then deallocates this when flags has bit 0 set, and returns this.
-// @fnv 0x005a72a0
-void* __thiscall ScalarStandIn::DestroyIfFlagged(unsigned int flags)
-{
-    FUN_005a72d0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
-bool __cdecl FUN_00401500();
 struct FUN_004855a0
 {
-    void __thiscall M();
 };
 struct FUN_00485680
 {
-    void __thiscall M();
 };
 struct FUN_00485e00_shell
 {
-    void __thiscall FUN_00485e20(int, int);
 };
 struct FUN_005a7630_shell
 {
@@ -92,27 +64,12 @@ struct FUN_005a7630_shell
     LoadScreenTypeData _data;
     void __thiscall SwapEndianAndProcess();
 };
-// Calls M, conditionally byte-swaps _data before and after FUN_00485e20, then calls M again.
-// @fnv 0x005a7630
-void __thiscall FUN_005a7630_shell::SwapEndianAndProcess()
-{
-    ((FUN_004855a0*)this)->M();
-    if (FUN_00401500())
-        _data.Endian();
-    ((FUN_00485e00_shell*)this)->FUN_00485e20((int)&_data, 0x58);
-    if (FUN_00401500())
-        _data.Endian();
-    ((FUN_00485680*)this)->M();
-}
-
 struct ScriptS
 {
-    void* GetHeader();
 };
 int __cdecl _memcmp(const void*, const void*, unsigned int);
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
 };
 struct FUN_005a76f0_shell
 {
@@ -126,9 +83,9 @@ bool __thiscall FUN_005a76f0_shell::FUN_005a76f0(TESForm* apCompare)
     TESLoadScreenType* pcomp = dynamic_cast<TESLoadScreenType*>(apCompare);
     if (!pcomp)
         return true;
-    if (_memcmp(&this->_pad[0x18], ((ScriptS*)pcomp)->GetHeader(), 0x58))
+    if (_memcmp(&this->_pad[0x18], ((void *)(reinterpret_cast<::BGSCameraPath *>((((ScriptS*)pcomp)))->GetConditions())), 0x58))
         return true;
-    if (((FUN_005e79a0_t*)this)->FUN_00485270(pcomp))
+    if (reinterpret_cast<::FUN_00509540_obj *>((((FUN_005e79a0_t*)this)))->FUN_00485270(pcomp))
         return true;
     return false;
 }
@@ -142,6 +99,15 @@ struct FUN_005a72d0_cls : FUN_005a72d0_base
 {
     virtual ~FUN_005a72d0_cls();
 };
+// Calls FUN_005a72d0, then deallocates this when flags has bit 0 set, and returns this.
+// @fnv 0x005a72a0
+void* __thiscall ScalarStandIn::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_005a72d0_cls *>(this)->FUN_005a72d0_cls::~FUN_005a72d0_cls();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x005a72d0
 FUN_005a72d0_cls::~FUN_005a72d0_cls()
@@ -150,7 +116,6 @@ FUN_005a72d0_cls::~FUN_005a72d0_cls()
 struct EndianTag
 {
 };
-void __cdecl FUN_00401080(int* apValue, EndianTag aTag);
 struct LoadScreenTypeData_FUN
 {
     int unk00;
@@ -177,30 +142,73 @@ struct LoadScreenTypeData_FUN
     int unk54;
     void SwapEndianFields();
 };
+// Reads the record header and chunks (EDID, OBND, DATA) from file, applies endian conversion to data, and returns true.
+// @fnv 0x005a72f0
+bool TESLoadScreenType::Load(TESFile* file)
+{
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
+    SetInitializationState(false);
+    unsigned int chunk;
+    while ((chunk = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()))) != 0)
+    {
+        switch (chunk)
+        {
+        case 0x44494445: {
+            char* editorID = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(editorID), 512);
+            SetEditorID_AtRuntime(editorID);
+        }
+        break;
+        case 0x444e424f:
+            readOBNDSubRecord(file);
+            break;
+        case 0x41544144:
+            reinterpret_cast<::fnv_004861f0::Form_004861f0 *>((((BGSImpactData*)this)))->FUN_004861f0(file, &data, 88);
+            break;
+        }
+        if (!file->NextChunk())
+            break;
+    }
+    if (file->IsEndianConversionRequired())
+        reinterpret_cast<::LoadScreenTypeData_FUN *>(&(data))->SwapEndianFields();
+    return true;
+}
+// Calls M, conditionally byte-swaps _data before and after FUN_00485e20, then calls M again.
+// @fnv 0x005a7630
+void __thiscall FUN_005a7630_shell::SwapEndianAndProcess()
+{
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::LoadScreenTypeData_FUN *>(&(_data))->SwapEndianFields();
+    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((int)&_data), 0x58);
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::LoadScreenTypeData_FUN *>(&(_data))->SwapEndianFields();
+    reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
+}
 // Byte-swaps every integer field of the structure by calling FUN_00401080 on each member.
 // @fnv 0x005a7400
 void LoadScreenTypeData_FUN::SwapEndianFields()
 {
-    FUN_00401080(&unk28, EndianTag());
-    FUN_00401080(&unk10, EndianTag());
-    FUN_00401080(&unk04, EndianTag());
-    FUN_00401080(&unk08, EndianTag());
-    FUN_00401080(&unk14, EndianTag());
-    FUN_00401080(&unk0C, EndianTag());
-    FUN_00401080(&unk1C, EndianTag());
-    FUN_00401080(&unk20, EndianTag());
-    FUN_00401080(&unk24, EndianTag());
-    FUN_00401080(&unk38, EndianTag());
-    FUN_00401080(&unk2C, EndianTag());
-    FUN_00401080(&unk30, EndianTag());
-    FUN_00401080(&unk3C, EndianTag());
-    FUN_00401080(&unk34, EndianTag());
-    FUN_00401080(&unk44, EndianTag());
-    FUN_00401080(&unk48, EndianTag());
-    FUN_00401080(&unk4C, EndianTag());
-    FUN_00401080(&unk50, EndianTag());
-    FUN_00401080(&unk00, EndianTag());
-    FUN_00401080(&unk18, EndianTag());
-    FUN_00401080(&unk40, EndianTag());
-    FUN_00401080(&unk54, EndianTag());
+    ::FUN_00401080(&unk28);
+    ::FUN_00401080(&unk10);
+    ::FUN_00401080(&unk04);
+    ::FUN_00401080(&unk08);
+    ::FUN_00401080(&unk14);
+    ::FUN_00401080(&unk0C);
+    ::FUN_00401080(&unk1C);
+    ::FUN_00401080(&unk20);
+    ::FUN_00401080(&unk24);
+    ::FUN_00401080(&unk38);
+    ::FUN_00401080(&unk2C);
+    ::FUN_00401080(&unk30);
+    ::FUN_00401080(&unk3C);
+    ::FUN_00401080(&unk34);
+    ::FUN_00401080(&unk44);
+    ::FUN_00401080(&unk48);
+    ::FUN_00401080(&unk4C);
+    ::FUN_00401080(&unk50);
+    ::FUN_00401080(&unk00);
+    ::FUN_00401080(&unk18);
+    ::FUN_00401080(&unk40);
+    ::FUN_00401080(&unk54);
 }

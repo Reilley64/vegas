@@ -2,6 +2,22 @@
 #ifndef ACTOR_PACKET_H
 #define ACTOR_PACKET_H
 
+#include "fnv/decl/FUN_00416870_t.h"
+#include "fnv/decl/FUN_00453700_shell.h"
+#include "fnv/decl/FUN_00491040_shell.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/FUN_00494710_shell.h"
+#include "fnv/decl/FUN_0049bdc0_shell.h"
+#include "fnv/decl/FUN_00508100_shell.h"
+#include "fnv/decl/FUN_0098adb0_shell.h"
+#include "fnv/decl/FUN_009c8d60_t.h"
+#include "fnv/decl/ThisStub.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/fnv_004955c0__FUN_004955c0_t.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f2000.h"
+#include "fnv/symbols_011f6000.h"
 #include "layout_support.h"
 #define FNV_NIPOINT3_H
 class NiPoint3
@@ -10,7 +26,6 @@ class NiPoint3
     float x, y, z;
     NiPoint3();
     NiPoint3(float, float, float);
-    void Set(float, float, float);
 };
 class ActiveEffect;
 template <class T> class BSSimpleList;
@@ -20,21 +35,20 @@ class MiddleHighProcess
     char padding[0x1b8];
     BSSimpleList<ActiveEffect*>* pActiveEffects;
     BSSimpleList<ActiveEffect*>* GetActiveEffectList();
+public:
+    bool IsActorInCombat();
 };
 class NiCamera
 {
   public:
     const NiPoint3& FUN_0045bb80() const;
 };
-extern NiCamera* DAT_011e07d0;
 
 class Actor;
 class Animation;
 class NiControllerSequence
 {
   public:
-    float FUN_00508100();
-    void FUN_0098adb0(float);
 };
 class NiNode;
 class NiAVObject
@@ -755,13 +769,7 @@ class ActorProcessView
 class Animation
 {
   public:
-    bool IsGroupQueued(unsigned short);
-    float FUN_00453700();
-    void SetAnimationAmount(float);
-    void FUN_004955c0(int, int, int, float, int);
-    NiControllerSequence* GetControllerSequence(int);
     void Update(Actor*, float, float);
-    void UpdateMovement(Actor*);
 };
 template <> class NiPointer<NiNode>
 {
@@ -780,12 +788,10 @@ class TESBoundObject
 class VATS
 {
   public:
-    float GetUpdateTimeScale();
 };
 class TimeGlobal
 {
   public:
-    float FUN_0084d030();
 };
 class GlobalObject_0045d260
 {
@@ -801,16 +807,10 @@ class GameSettingCollection;
 class PlayerCharacter
 {
   public:
-    bool HasCombatState();
 };
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Float();
 };
 extern GlobalObject_0045d260 g_011df69c;
-extern GlobalObject_0044f440 g_011f2ac4, g_011f2ad8, g_011f2b10, g_011f2c10;
-extern VATS DAT_011f2250;
-extern TimeGlobal g_timeGlobal;
-extern Actor* DAT_011f21cc;
 #endif

@@ -1,6 +1,8 @@
 #ifndef FNV_IMAGESPACESHADERBLUR_H
 #define FNV_IMAGESPACESHADERBLUR_H
 
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/symbols_011f9000.h"
 #include "imagespaceshaderblur_blur_reload_support.h"
 
 class ImageSpaceBlurShader : public ImageSpaceEffectShader
@@ -17,7 +19,7 @@ void ImageSpaceBlurShader::SetupShader()
     fnv_zlib_memset(&vertexShader.kMacros[0].Definition, 0, 68);
     BSShaderManager::BSShaderMacro pixelShader;
     const char* shaderName;
-    if (INISettingCollection::Display::bDoTestHDR.uValue.b)
+    if ((*reinterpret_cast<::Setting *>(&::g_011f94f8)).uValue.b)
     {
         BSShaderManager::BSShaderMacro shader;
         shader.pcPath = "imagespace\\2x\\p\\blur2_TEST.p.hlsl";
@@ -56,7 +58,7 @@ class ImageSpaceShaderVariant4 : public ImageSpaceEffectShader
 // @fnv 0x00b8e460
 ImageSpaceShaderVariant4::ImageSpaceShaderVariant4()
 {
-    pTextures.SetSize(3);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(pTextures))->FUN_00a90180(3);
 }
 // @fnv 0x00b8e4d0
 void ImageSpaceShaderVariant4::SetupShader()
@@ -67,7 +69,7 @@ void ImageSpaceShaderVariant4::SetupShader()
     fnv_zlib_memset(&vertexShader.kMacros[0].Definition, 0, 68);
     BSShaderManager::BSShaderMacro pixelShader;
     const char* shaderName;
-    if (INISettingCollection::Display::bDoTestHDR.uValue.b)
+    if ((*reinterpret_cast<::Setting *>(&::g_011f94f8)).uValue.b)
     {
         BSShaderManager::BSShaderMacro shader;
         shader.pcPath = "imagespace\\2x\\p\\blur2_TEST.p.hlsl";
@@ -106,7 +108,7 @@ class ImageSpaceShaderVariant5 : public ImageSpaceEffectShader
 // @fnv 0x00b8e600
 ImageSpaceShaderVariant5::ImageSpaceShaderVariant5()
 {
-    pTextures.SetSize(3);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(pTextures))->FUN_00a90180(3);
 }
 // @fnv 0x00b8e670
 void ImageSpaceShaderVariant5::SetupShader()
@@ -117,7 +119,7 @@ void ImageSpaceShaderVariant5::SetupShader()
     fnv_zlib_memset(&vertexShader.kMacros[0].Definition, 0, 68);
     BSShaderManager::BSShaderMacro pixelShader;
     const char* shaderName;
-    if (INISettingCollection::Display::bDoTestHDR.uValue.b)
+    if ((*reinterpret_cast<::Setting *>(&::g_011f94f8)).uValue.b)
     {
         BSShaderManager::BSShaderMacro shader;
         shader.pcPath = "imagespace\\2x\\p\\blur2_TEST.p.hlsl";
@@ -156,7 +158,7 @@ class ImageSpaceShaderVariant6 : public ImageSpaceEffectShader
 // @fnv 0x00b8e7a0
 ImageSpaceShaderVariant6::ImageSpaceShaderVariant6()
 {
-    pTextures.SetSize(3);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(pTextures))->FUN_00a90180(3);
 }
 // @fnv 0x00b8e810
 void ImageSpaceShaderVariant6::SetupShader()
@@ -167,7 +169,7 @@ void ImageSpaceShaderVariant6::SetupShader()
     fnv_zlib_memset(&vertexShader.kMacros[0].Definition, 0, 68);
     BSShaderManager::BSShaderMacro pixelShader;
     const char* shaderName;
-    if (INISettingCollection::Display::bDoTestHDR.uValue.b)
+    if ((*reinterpret_cast<::Setting *>(&::g_011f94f8)).uValue.b)
     {
         BSShaderManager::BSShaderMacro shader;
         shader.pcPath = "imagespace\\2x\\p\\blur2_TEST.p.hlsl";
@@ -206,7 +208,7 @@ class ImageSpaceShaderVariant1 : public ImageSpaceEffectShader
 // @fnv 0x00b8e940
 ImageSpaceShaderVariant1::ImageSpaceShaderVariant1()
 {
-    pTextures.SetSize(3);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(pTextures))->FUN_00a90180(3);
 }
 // @fnv 0x00b8e9b0
 void ImageSpaceShaderVariant1::SetupShader()
@@ -217,7 +219,7 @@ void ImageSpaceShaderVariant1::SetupShader()
     fnv_zlib_memset(&vertexShader.kMacros[0].Definition, 0, 68);
     BSShaderManager::BSShaderMacro pixelShader;
     const char* shaderName;
-    if (INISettingCollection::Display::bDoTestHDR.uValue.b)
+    if ((*reinterpret_cast<::Setting *>(&::g_011f94f8)).uValue.b)
     {
         BSShaderManager::BSShaderMacro shader;
         shader.pcPath = "imagespace\\2x\\p\\blur2_TEST.p.hlsl";
@@ -256,7 +258,7 @@ class ImageSpaceShaderVariant2 : public ImageSpaceEffectShader
 // @fnv 0x00b8eae0
 ImageSpaceShaderVariant2::ImageSpaceShaderVariant2()
 {
-    pTextures.SetSize(3);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(pTextures))->FUN_00a90180(3);
 }
 // @fnv 0x00b8eb50
 void ImageSpaceShaderVariant2::SetupShader()
@@ -267,7 +269,7 @@ void ImageSpaceShaderVariant2::SetupShader()
     fnv_zlib_memset(&vertexShader.kMacros[0].Definition, 0, 68);
     BSShaderManager::BSShaderMacro pixelShader;
     const char* shaderName;
-    if (INISettingCollection::Display::bDoTestHDR.uValue.b)
+    if ((*reinterpret_cast<::Setting *>(&::g_011f94f8)).uValue.b)
     {
         BSShaderManager::BSShaderMacro shader;
         shader.pcPath = "imagespace\\2x\\p\\blur2_TEST.p.hlsl";
@@ -306,7 +308,7 @@ class ImageSpaceShaderVariant3 : public ImageSpaceEffectShader
 // @fnv 0x00b8ec80
 ImageSpaceShaderVariant3::ImageSpaceShaderVariant3()
 {
-    pTextures.SetSize(3);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(pTextures))->FUN_00a90180(3);
 }
 // @fnv 0x00b8ecf0
 void ImageSpaceShaderVariant3::SetupShader()
@@ -317,7 +319,7 @@ void ImageSpaceShaderVariant3::SetupShader()
     fnv_zlib_memset(&vertexShader.kMacros[0].Definition, 0, 68);
     BSShaderManager::BSShaderMacro pixelShader;
     const char* shaderName;
-    if (INISettingCollection::Display::bDoTestHDR.uValue.b)
+    if ((*reinterpret_cast<::Setting *>(&::g_011f94f8)).uValue.b)
     {
         BSShaderManager::BSShaderMacro shader;
         shader.pcPath = "imagespace\\2x\\p\\blur2_TEST.p.hlsl";

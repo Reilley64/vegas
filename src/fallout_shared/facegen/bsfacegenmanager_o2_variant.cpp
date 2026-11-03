@@ -2,6 +2,12 @@
 // src/fallout_shared/facegen/bsfacegenmanager_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/facegen/bsfacegenmanager.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/FR2MatrixVTCData.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0119b000.h"
+#include "fnv/symbols_011c5000.h"
 #include "bsfacegenmanager_decls.h"
 
 struct BSFaceGenModel
@@ -43,7 +49,6 @@ struct BSFaceGenModel
     virtual void _v88();
     virtual bool HasMorphs();  // 0x8c
 
-    void FUN_00a72720(int a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7);
 };
 
 struct BSFaceGenMorphData
@@ -65,50 +70,11 @@ struct S00a67410
     void FUN_00a67410(BSFaceGenMorphData* outData);
 };
 
-// @fnv 0x00a67410
-void S00a67410::FUN_00a67410(BSFaceGenMorphData* outData)
-{
-    if (!m_bModifierActive)
-        return;
-
-    BSFaceGenModel* model = m_pModel;
-    void* vars[6];
-    vars[1] = 0;
-    vars[3] = 0;
-    vars[0] = 0;
-
-    if (model && model->HasMorphs())
-    {
-        vars[2] = 0;
-        model->FUN_00a72720(0, &vars[0], &vars[5], &vars[3], &vars[4], &vars[2], &vars[1]);
-    }
-
-    void* data;
-    unsigned int size;
-    if (!vars[0])
-    {
-        data = m_pDefaultData;
-        size = 12;
-    }
-    else
-    {
-        data = vars[0];
-        size = (unsigned int)vars[1];
-    }
-
-    outData->m_pData = data;
-    outData->m_uiSize = size;
-    outData->m_bFlag = 0;
-}
-
 struct RecursiveSpinLock
 {
     unsigned int value;
-    void Lock(char const*);
 };
 
-extern RecursiveSpinLock g_011c5f80;
-extern unsigned int DAT_011c5f84;
 
 template <class T> struct PoolAllocatorBase
 {
@@ -145,13 +111,13 @@ void FUN_00a68e30_shell::FUN_00a68e30()
             m_pkTail = 0;
 
         node->data = 0;
-        g_011c5f80.Lock(0);
+        reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
         node->prev = 0;
-        node->next = PoolAllocatorBase<unsigned int>::ms_pFreeList;
+        node->next = (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58));
         --DAT_011c5f84;
-        PoolAllocatorBase<unsigned int>::ms_pFreeList = node;
+        (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58)) = node;
         if (!DAT_011c5f84)
-            g_011c5f80.value = 0;
+            (*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80)).value = 0;
 
         --m_uiCount;
     }
@@ -194,6 +160,41 @@ class A72720StreamSet
     bool FUN_00a72720(unsigned int uiIndex, char** ppcData, void** ppvStream, unsigned short* pusVertexCount,
                       int* piFormat, int* piStride, int* piUsage);
 };
+// @fnv 0x00a67410
+void S00a67410::FUN_00a67410(BSFaceGenMorphData* outData)
+{
+    if (!m_bModifierActive)
+        return;
+
+    BSFaceGenModel* model = m_pModel;
+    void* vars[6];
+    vars[1] = 0;
+    vars[3] = 0;
+    vars[0] = 0;
+
+    if (model && model->HasMorphs())
+    {
+        vars[2] = 0;
+        reinterpret_cast<::A72720StreamSet *>((model))->FUN_00a72720(0, (char **)(void *)(&vars[0]), (void **)(void *)(&vars[5]), (unsigned short *)(void *)(&vars[3]), (int *)(void *)(&vars[4]), (int *)(void *)(&vars[2]), (int *)(void *)(&vars[1]));
+    }
+
+    void* data;
+    unsigned int size;
+    if (!vars[0])
+    {
+        data = m_pDefaultData;
+        size = 12;
+    }
+    else
+    {
+        data = vars[0];
+        size = (unsigned int)vars[1];
+    }
+
+    outData->m_pData = data;
+    outData->m_uiSize = size;
+    outData->m_bFlag = 0;
+}
 
 // @fnv 0x00a72720
 bool A72720StreamSet::FUN_00a72720(unsigned int uiIndex, char** ppcData, void** ppvStream,

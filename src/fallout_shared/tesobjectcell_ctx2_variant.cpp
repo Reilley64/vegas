@@ -1,10 +1,59 @@
 
 // tesobjectcell_ctx2_variant.cpp: context variant of src/fallout_shared/tesobjectcell.cpp: its stripped skeleton, as these functions were checked
 // against, for verified matches whose own declarations clash with the unit's current types.
+#include "fnv/decl/BGSImpactData.h"
+#include "fnv/decl/CollectionView.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_004120b0_shell.h"
+#include "fnv/decl/FUN_00418660_shell.h"
+#include "fnv/decl/FUN_00421c30_shell.h"
+#include "fnv/decl/FUN_00458400_cls.h"
+#include "fnv/decl/FUN_004610d0_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_005445d0_shell.h"
+#include "fnv/decl/FUN_00544600_shell.h"
+#include "fnv/decl/FUN_00544630_shell.h"
+#include "fnv/decl/FUN_00545cb0_shell.h"
+#include "fnv/decl/FUN_00547440_Class.h"
+#include "fnv/decl/FUN_00558b40_shell.h"
+#include "fnv/decl/FUN_00558b80_shell.h"
+#include "fnv/decl/FUN_00658930_class.h"
+#include "fnv/decl/FUN_00759d80_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_009604f0_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S_00462230.h"
+#include "fnv/decl/SwapBlock.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/TESFullName.h"
+#include "fnv/decl/TESTopicInfoData.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_0041c390__ExtraDataList2.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_0054def0__S.h"
+#include "fnv/decl/fnv_00558b60__FUN_00558b60_shell.h"
+#include "fnv/decl/fnv_0058f180__FUN_0058f180.h"
+#include "fnv/decl/loader__List.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0041c000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00464000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_00495000.h"
+#include "fnv/symbols_00541000.h"
+#include "fnv/symbols_0054f000.h"
+#include "fnv/symbols_005e0000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011c9000.h"
+#include "fnv/symbols_011ca000.h"
 #include "tesobjectcell_packet.h"
 void __cdecl operator delete(void* pointer);
 const char kTESObjectCELLCellRefLockEnter[] = "TESObjectCELL::CellRefLockEnter()";
-unsigned int FUN_0054f4c0();
 NiAVObject* FUN_0054f4f0();
 
 // ---- candidate ----
@@ -17,9 +66,6 @@ struct SL
 class AnimGroup
 {
   public:
-    bool FUN_00759d80();
-    bool GetMaxOfTwoBytes();
-    bool GetMaxByte();
 };
 
 class NiControllerSequence
@@ -50,14 +96,13 @@ class NiControllerSequence
     virtual void d22();
     virtual void d23();
     virtual void v24(void* p);
-    int GetType();
-    char* FUN_0084e3a0();
-    SL* GetTESPackageList();
-    AnimGroup* GetAnimGroup();
 };
 
+class TESAnimGroup;
 class BSAnimGroupSequence : public NiControllerSequence
 {
+public:
+    ::TESAnimGroup *GetAnimGroup() const;
 };
 
 class Holder
@@ -65,9 +110,7 @@ class Holder
   public:
     Holder(int, int);
     virtual ~Holder();
-    unsigned int GetSize();
     char** GetFlag(unsigned int i);
-    void RemoveAll();
     int m0, m1, m2;
 };
 
@@ -102,8 +145,6 @@ struct Q4
 };
 
 extern void*(__stdcall* DAT_00fdf28c)(int, int, int, void*);
-int sprintf_s(char*, unsigned int, const char*, ...);
-const char* PrepareScriptMessage(const char*, bool);
 
 class LockCtx
 {
@@ -128,7 +169,7 @@ void LockCtx::FUN_004d8b90(int arg1, NiControllerSequence* arg2)
         k.q1 = 0x27;
         q.ref = arg2;
         s = 0;
-        switch (arg2->GetType())
+        switch (((int)(reinterpret_cast<::LowProcess *>((arg2))->GetActiveCombatTarget())))
         {
         case 0:
             s = "INACTIVE";
@@ -161,26 +202,26 @@ void LockCtx::FUN_004d8b90(int arg1, NiControllerSequence* arg2)
         p = false;
         if (cf)
         {
-            h = cf->GetAnimGroup()->FUN_00759d80();
-            a = cf->GetAnimGroup()->GetMaxOfTwoBytes();
-            p = cf->GetAnimGroup()->GetMaxByte();
+            h = ((bool)(reinterpret_cast<::FUN_00759d80_Class *>((((::AnimGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((cf))->GetAnimGroup()))))->FUN_00759d80()));
+            a = ((bool)(::GetMaxOfTwoBytes((unsigned char *)(((::AnimGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((cf))->GetAnimGroup()))))));
+            p = ((bool)(::GetMaxByte((unsigned char *)(((::AnimGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((cf))->GetAnimGroup()))))));
         }
         char eb[0x100];
         if (h)
         {
-            sprintf_s(eb, 0x100, "%s: %s, Count: %d, Blend: %0.2f", arg2->GetTESPackageList()->item, s,
-                      arg2->FUN_0084e3a0(), (double)h / 30.0);
+            ::FUN_00406d00(eb, 0x100, "%s: %s, Count: %d, Blend: %0.2f", ((::SL *)(reinterpret_cast<::TESTopicInfoData *>((arg2))->GetLinkToList()))->item, s,
+                      ((char *)(reinterpret_cast<::FUN_0084e3a0_Class *>((arg2))->FUN_0084e3a0())), (double)h / 30.0);
         }
         else if (a || p)
         {
-            sprintf_s(eb, 0x100, "%s: %s, Count: %d, BlendIn: %0.2f, BlendOut: %0.2f", arg2->GetTESPackageList()->item,
-                      s, arg2->FUN_0084e3a0(), (double)a / 30.0, (double)p / 30.0);
+            ::FUN_00406d00(eb, 0x100, "%s: %s, Count: %d, BlendIn: %0.2f, BlendOut: %0.2f", ((::SL *)(reinterpret_cast<::TESTopicInfoData *>((arg2))->GetLinkToList()))->item,
+                      s, ((char *)(reinterpret_cast<::FUN_0084e3a0_Class *>((arg2))->FUN_0084e3a0())), (double)a / 30.0, (double)p / 30.0);
         }
         else
         {
-            sprintf_s(eb, 0x100, "%s: %s, Count: %d", arg2->GetTESPackageList()->item, s, arg2->FUN_0084e3a0());
+            ::FUN_00406d00(eb, 0x100, "%s: %s, Count: %d", ((::SL *)(reinterpret_cast<::TESTopicInfoData *>((arg2))->GetLinkToList()))->item, s, ((char *)(reinterpret_cast<::FUN_0084e3a0_Class *>((arg2))->FUN_0084e3a0())));
         }
-        ba.msg = PrepareScriptMessage(eb, false);
+        ba.msg = ((const char *)(::FUN_00464f30((int)(eb))));
         b.kind = 5;
         b.kind2 = b.kind;
         k.v = arg1;
@@ -188,14 +229,14 @@ void LockCtx::FUN_004d8b90(int arg1, NiControllerSequence* arg2)
         arg1 = k.v;
         arg2->v24(f);
         unsigned int i;
-        for (i = 0; i < f->GetSize(); i++)
+        for (i = 0; i < reinterpret_cast<::FUN_00658930_class *>((f))->GetShortAtOffsetA(); i++)
         {
-            ba.msg = PrepareScriptMessage(*f->GetFlag(i), false);
+            ba.msg = ((const char *)(::FUN_00464f30((int)(*f->GetFlag(i)))));
             b.kind = 6;
             b.kind2 = b.kind;
             DAT_00fdf28c(m_iThirdValue, 0x1100, 0, &k.v);
         }
-        f->RemoveAll();
+        ::FUN_005e03d0((::NiTArray_Layout *)(f));
         delete f;
     }
 }
@@ -205,15 +246,7 @@ void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
 struct CellFile
 {
-    unsigned char FUN_00472660();
-    bool FUN_00471c20();
-    void* FUN_00467bb0();
-    int FUN_004726b0();
-    unsigned int GetField25C();
-    void FUN_00472890(void*, unsigned int);
     void ReadChunkInt(void*);
-    bool FUN_00401680();
-    bool FUN_004726f0();
 };
 struct CellForm
 {
@@ -306,7 +339,6 @@ struct CellFullName
     virtual void Slot0();
     unsigned int stringData, stringLength;
 };
-void ReadFullName(CellFullName*, CellFile*);
 struct FUN_0058efd0
 {
     unsigned int unk000;
@@ -397,34 +429,24 @@ struct FUN_0058efd0
     unsigned int unk154;
     unsigned int unk158;
     FUN_0058efd0();
-    void FUN_0058f180(CellFile*);
 };
 struct CellExtra
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
-    void LoadExtraData(CellFile*, CellForm*);
-    FUN_0058efd0* FUN_0041c460();
-    void FUN_0041c390(FUN_0058efd0*);
 };
 struct CellString
 {
     unsigned int data, size;
-    void FUN_00489100(char*);
 };
 struct CellExterior
 {
-    void FUN_00462230();
 };
 struct CellInterior
 {
-    void SwapBytes();
 };
 struct CellEnvironment
 {
-    bool FUN_00542d20();
 };
-extern CellEnvironment* DAT_011c3f2c;
-extern float DAT_01016970;
 struct CellLoader : CellForm, CellFullName
 {
     unsigned char flags;
@@ -463,36 +485,27 @@ struct CellLoader : CellForm, CellFullName
     unsigned int unkd0;
     unsigned int unkd4;
     unsigned int lightingTemplate, lightingInheritance;
-    void CallWithThis(CellFile*);
-    CellExtra* GetExtraDataList();
-    void FUN_00547440(float);
-    void ResetCellData();
-    bool FUN_00425fd0();
-    void SetInteriorDataValue(void*);
-    CellExterior* FUN_005445d0();
-    CellInterior* FUN_00544600();
-    void FUN_00484ab0(bool);
     bool FUN_005422d0(CellFile* file);
 };
 // @fnv 0x005422d0
 bool CellLoader::FUN_005422d0(CellFile* file)
 {
-    unsigned char formTypeSlot15 = file->FUN_00472660();
+    unsigned char formTypeSlot15 = ((unsigned char)(reinterpret_cast<::FUN_00472660_shell *>((file))->FUN_00472660()));
     if (formTypeSlot15 != 0x39)
         return false;
     void* savedSourceSlot15 = 0;
-    if (file->FUN_00471c20())
-        savedSourceSlot15 = file->FUN_00467bb0();
-    CallWithThis(file);
+    if (reinterpret_cast<::TESFile *>((file))->IsMasterFile())
+        savedSourceSlot15 = ((void *)(reinterpret_cast<::TESFile *>((file))->GetOffset()));
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
     do
     {
-        int chunk = file->FUN_004726b0();
+        int chunk = reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0();
         switch (chunk)
         {
         case 0x44494445:  // EDID
         {
-            char* editorId = (char*)_alloca(file->GetField25C());
-            file->FUN_00472890(editorId, 512);
+            char* editorId = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(editorId), 512);
             SetEditorId(editorId);
             break;
         }
@@ -503,7 +516,7 @@ bool CellLoader::FUN_005422d0(CellFile* file)
         }
         case 0x4c4c5546:  // FULL
         {
-            ReadFullName(static_cast<CellFullName*>(this), file);
+            ::ReadFullName((::TESFullName *)(::CellFullName *)(static_cast<CellFullName*>(this)), (::TESFile *)(file));
             break;
         }
         case 0x41505058:  // XPPA
@@ -583,7 +596,7 @@ bool CellLoader::FUN_005422d0(CellFile* file)
         case 0x54574358:  // XCWT
         case 0x57544c58:  // XLTW
         {
-            extra.LoadExtraData(file, this);
+            reinterpret_cast<::loader::List *>(&(extra))->LoadExtraData((::loader::File *)(file), this);
             break;
         }
         case 0x574c4358:  // XCLW
@@ -594,13 +607,13 @@ bool CellLoader::FUN_005422d0(CellFile* file)
         case 0x46504d49:  // IMPF
         case 0x53504d49:  // IMPS
         {
-            ::FUN_0058efd0* imageSpace = GetExtraDataList()->FUN_0041c460();
+            ::FUN_0058efd0* imageSpace = ((::FUN_0058efd0 *)(::FUN_0041c460((::BaseExtraList *)(((::CellExtra *)(reinterpret_cast<::FUN_004610d0_shell *>(this)->GetExtraDataList()))))));
             if (!imageSpace)
             {
                 imageSpace = new ::FUN_0058efd0;
-                GetExtraDataList()->FUN_0041c390(imageSpace);
+                reinterpret_cast<::fnv_0041c390::ExtraDataList2 *>((((::CellExtra *)(reinterpret_cast<::FUN_004610d0_shell *>(this)->GetExtraDataList()))))->FUN_0041c390(imageSpace);
             }
-            imageSpace->FUN_0058f180(file);
+            reinterpret_cast<::fnv_0058f180::FUN_0058f180 *>((imageSpace))->Load((::TESFile *)(file));
             break;
         }
         case 0x504d544c:  // LTMP
@@ -612,12 +625,12 @@ bool CellLoader::FUN_005422d0(CellFile* file)
         }
         case 0x4d414e58:  // XNAM
         {
-            unsigned int textSize = file->GetField25C();
+            unsigned int textSize = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
             if (textSize)
             {
                 char* text = (char*)_alloca(textSize);
-                file->FUN_00472890(text, textSize);
-                name.FUN_00489100(text);
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(text), textSize);
+                reinterpret_cast<::TESFullName *>(&(name))->SetFullName(text);
             }
             break;
         }
@@ -628,53 +641,53 @@ bool CellLoader::FUN_005422d0(CellFile* file)
         }
         case 0x41544144:  // DATA
         {
-            if (file->GetField25C() == 4)
+            if (reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C() == 4)
             {
                 unsigned int oldFlags = 0;
                 file->ReadChunkInt(&oldFlags);
                 flags = (unsigned char)oldFlags;
             }
             else
-                file->FUN_00472890(&flags, 1);
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&flags), 1);
             if (!(flags & 1))
                 flags |= 2;
             if ((flags & 1) && (flags & 0x80))
-                FUN_00547440(DAT_01016970);
-            if (!DAT_011c3f2c->FUN_00542d20())
+                reinterpret_cast<::FUN_00547440_Class *>(this)->FUN_00547440(DAT_01016970);
+            if (!((bool)(reinterpret_cast<::TESObjectCELL *>(((*reinterpret_cast<::CellEnvironment * *>(&::g_dataHandler))))->FUN_00542d20())))
                 flags &= ~0x40;
-            ResetCellData();
-            if (FUN_00425fd0() && savedSourceSlot15)
-                SetInteriorDataValue(savedSourceSlot15);
+            reinterpret_cast<::FUN_00544630_shell *>(this)->ResetCellData();
+            if (reinterpret_cast<::TESObjectCELL *>(this)->IsCellInterior() && savedSourceSlot15)
+                reinterpret_cast<::fnv_0054def0::S *>(this)->SetInteriorDataValue((int)(savedSourceSlot15));
             break;
         }
         case 0x434c4358:  // XCLC
         {
-            CellExterior* exterior = FUN_005445d0();
+            CellExterior* exterior = ((::CellExterior *)(reinterpret_cast<::FUN_005445d0_shell *>(this)->FUN_005445d0()));
             if (exterior)
             {
-                if (file->FUN_00401680() && file->GetField25C() != 12)
-                    exterior->FUN_00462230();
-                file->FUN_00472890(exterior, 12);
-                if (file->FUN_00401680())
-                    exterior->FUN_00462230();
+                if (reinterpret_cast<::TESFile *>((file))->IsEndianConversionRequired() && reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C() != 12)
+                    reinterpret_cast<::S_00462230 *>((exterior))->FUN_00462230();
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(exterior), 12);
+                if (reinterpret_cast<::TESFile *>((file))->IsEndianConversionRequired())
+                    reinterpret_cast<::S_00462230 *>((exterior))->FUN_00462230();
             }
             break;
         }
         case 0x4c4c4358:  // XCLL
         {
-            CellInterior* interior = FUN_00544600();
+            CellInterior* interior = ((::CellInterior *)(reinterpret_cast<::FUN_00544600_shell *>(this)->FUN_00544600()));
             if (interior)
             {
-                if (file->FUN_00401680() && file->GetField25C() != 44)
-                    interior->SwapBytes();
-                file->FUN_00472890(interior, 44);
-                if (file->FUN_00401680())
-                    interior->SwapBytes();
+                if (reinterpret_cast<::TESFile *>((file))->IsEndianConversionRequired() && reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C() != 44)
+                    reinterpret_cast<::SwapBlock *>((interior))->SwapBytes();
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(interior), 44);
+                if (reinterpret_cast<::TESFile *>((file))->IsEndianConversionRequired())
+                    reinterpret_cast<::SwapBlock *>((interior))->SwapBytes();
             }
             break;
         }
         }
-    } while (file->FUN_004726f0());
-    FUN_00484ab0(false);
+    } while (reinterpret_cast<::TESFile *>((file))->NextChunk());
+    reinterpret_cast<::TESForm *>(this)->SetInitializationState(false);
     return true;
 }

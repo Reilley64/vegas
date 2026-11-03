@@ -2,21 +2,34 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysdragfieldmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysdragfieldmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/C32060EmitterModifier.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00c31ff0.h"
+#include "fnv/decl/FUN_00c32120_cls.h"
+#include "fnv/decl/NiColor.h"
+#include "fnv/decl/NiPSysFieldModifierImpl.h"
+#include "fnv/decl/NiPSysParticle.h"
+#include "fnv/decl/NiPlane.h"
+#include "fnv/decl/PositionState.h"
+#include "fnv/decl/S_00c322b0.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01202000.h"
 extern "C"
 {
 }
 
 struct GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_01202770;
 
 // @fnv 0x00c2c800
 GlobalObjectO2_00a7b610* __cdecl FUN_00c2c800()
 {
-    return &g_01202770;
+    return &::g_01202770;
 }
 
-void __cdecl FUN_00c31750(void);
-void __cdecl __Dummy_00b6fef0(void*, int);
 
 struct FUN_00c2c810_shell
 {
@@ -28,17 +41,20 @@ struct FUN_00c2c810_shell
 void* __thiscall FUN_00c2c810_shell::FUN_00c2c810(int arg)
 {
     void* p = this;
-    FUN_00c31750();
+    static_cast<::PositionState *>(nullptr)->FUN_00c31750();
     if (arg & 1)
-        __Dummy_00b6fef0(p, 0x40);
+        ::FUN_00aa1460(p, 0x40);
     return p;
 }
 
 struct NiPoint3
 {
     float x, y, z;
+public:
+    char *FUN_00a59af0(const char *);
+public:
+    static const ::NiPoint3 ZERO;
 };
-extern NiPoint3 _NiPoint3_ZERO;
 extern int DAT_010bff2c;
 struct NiObject
 {
@@ -55,8 +71,6 @@ struct BSFadeNode
 };
 struct NiPSysFieldModifier : BSFadeNode
 {
-    void __thiscall FUN_00c31ff0();
-    void __thiscall FUN_00c32020(NiPSysFieldModifier*, CloningProcess&);
 };
 struct NiPSysDragFieldModifier : NiPSysFieldModifier
 {
@@ -69,16 +83,16 @@ NiPSysFieldModifier* __thiscall NiPSysDragFieldModifier::FUN_00c2c8d0(CloningPro
     NiPSysFieldModifier* clone = static_cast<NiPSysFieldModifier*>(BSFadeNode::operator new(0x40));
     if (clone)
     {
-        clone->FUN_00c31ff0();
+        new ((void *)(clone)) ::FUN_00c31ff0();
         *(void**)clone = &DAT_010bff2c;
         *(unsigned char*)((char*)clone + 0x30) = 0;
-        *(NiPoint3*)((char*)clone + 0x34) = _NiPoint3_ZERO;
+        *(NiPoint3*)((char*)clone + 0x34) = ::NiPoint3::ZERO;
     }
     else
     {
         clone = 0;
     }
-    FUN_00c32020(clone, process);
+    reinterpret_cast<::NiPSysParticle *>(this)->FUN_00c32020((::NiPSysParticle *)(clone), (::CloningProcess *)&(process));
     *(unsigned char*)((char*)clone + 0x30) = *(unsigned char*)((char*)this + 0x30);
     *(NiPoint3*)((char*)clone + 0x34) = *(NiPoint3*)((char*)this + 0x34);
     return clone;
@@ -153,7 +167,7 @@ void __fastcall ApplyDragDamping(DragFieldFields* self, void*, float deltaTime, 
         }
         else
         {
-            p.velocity = _NiPoint3_ZERO;
+            p.velocity = ::NiPoint3::ZERO;
         }
     }
 }
@@ -167,7 +181,6 @@ struct FUN_00c2cae0_cls;
 struct DragFieldData
 {
     int unk00;
-    bool FUN_00439090(DragFieldData* other);
 };
 
 struct FUN_00c2cae0_cls
@@ -186,18 +199,17 @@ struct FUN_00c2cae0_cls
     int unk2C;
     unsigned char m_30;
     DragFieldData m_34;
-    bool FUN_00c32060(FUN_00c2cae0_cls* other);
     bool FUN_00c2cae0(FUN_00c2cae0_cls* other);
 };
 
 // @fnv 0x00c2cae0
 bool FUN_00c2cae0_cls::FUN_00c2cae0(FUN_00c2cae0_cls* other)
 {
-    if (FUN_00c32060(other))
+    if (reinterpret_cast<::C32060EmitterModifier *>(this)->FUN_00c32060((::C32060Object *)(other)))
     {
         if (other->m_30 == this->m_30)
         {
-            if (!other->m_34.FUN_00439090(&this->m_34))
+            if (!reinterpret_cast<::NiPlane *>(&(other->m_34))->operator==((*(const ::NiPlane *)(&this->m_34))))
             {
                 return true;
             }
@@ -218,10 +230,8 @@ struct Callback
     int count;
     int(__cdecl* invoke)(Callback*, void**, int, const State&, int);
 };
-void __stdcall LoadFromStream(void*);
 struct Subobject
 {
-    void __thiscall FUN_00a59be0(void*);
 };
 struct FUN_00c2ce10_owner
 {
@@ -231,13 +241,13 @@ struct FUN_00c2ce10_owner
 void FUN_00c2ce10_owner::InvokeCallbackAndUpdate(void* object)
 {
     void* original = object;
-    LoadFromStream(original);
+    reinterpret_cast<::FUN_00c32120_cls *>((original))->LoadFromStream({});
     Callback* pCallback = *reinterpret_cast<Callback**>(static_cast<char*>(original) + 0x24c);
 
     pCallback->count += pCallback->invoke(pCallback, &object, 1, State(1), 1);
     *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x30) =
         *reinterpret_cast<unsigned char*>(&object) != 0;
-    reinterpret_cast<Subobject*>(reinterpret_cast<char*>(this) + 0x34)->FUN_00a59be0(original);
+    reinterpret_cast<::NiColor *>((reinterpret_cast<Subobject*>(reinterpret_cast<char*>(this) + 0x34)))->LoadBinary((*(::NiStream *)(original)));
 }
 
 struct FNVCallbackOwner
@@ -256,7 +266,6 @@ struct FNVParameter
 };
 struct FNVChild
 {
-    void __thiscall FUN_00a69780(FNVParameter*);
 };
 struct FNVMain
 {
@@ -266,20 +275,19 @@ struct FNVMain
     unsigned char enabled30;
     unsigned char state31, state32, state33;
     FNVChild child34;
-    void __thiscall FUN_00c321f0(FNVParameter*);
     void __thiscall FUN_00c2ce70(FNVParameter*);
 };
 // Calls FUN_00c321f0, invokes the owner's callback0c with the enabled byte and adds its result to total04, then calls child34.FUN_00a69780.
 // @fnv 0x00c2ce70
 void __thiscall FNVMain::FUN_00c2ce70(FNVParameter* pParameter)
 {
-    FUN_00c321f0(pParameter);
+    reinterpret_cast<::NiPSysFieldModifierImpl *>(this)->FUN_00c321f0((*(::NiStream *)(pParameter)));
     unsigned char enabled = enabled30;
     FNVCallbackOwner* owner = pParameter->owner();
     int(__cdecl * pCallback)(FNVCallbackOwner*, unsigned char*, int, int*, int) = owner->callback0c;
     int value = 1;
     owner->total04 += pCallback(owner, &enabled, 1, &value, 1);
-    child34.FUN_00a69780(pParameter);
+    reinterpret_cast<::NiColor *>(&(child34))->SaveBinary((*(::NiStream *)(pParameter)));
 }
 
 struct FNVArray195
@@ -290,23 +298,17 @@ struct FNVArray195
     unsigned short count;
     unsigned short elementSize;
     unsigned short growBy;
-    void __thiscall FUN_0096ad30(unsigned int requiredSize);
-    void __thiscall FUN_0096ae90(unsigned int index, void** value);
 };
 struct FNVSubObject195
 {
     int unk00;
-    void* __thiscall FUN_00a59af0(const void* key);
 };
 struct GlobalObjectO2_00a7b610
 {
     void* object;
 };
-extern GlobalObjectO2_00a7b610 g_01202770;
 extern char UNK_010bffd0;
 extern char UNK_01044b44;
-void* __cdecl FUN_00a7d330(void* object);
-void* __cdecl FUN_00a7d370(const void* key, unsigned int attribute);
 struct FNVObject195
 {
     int unk00, unk04, unk08, unk0c;
@@ -314,35 +316,34 @@ struct FNVObject195
     int unk20, unk24, unk28, unk2c;
     unsigned char attribute30;
     FNVSubObject195 subobject34;
-    void __thiscall FUN_00c322b0(FNVArray195* storage);
     void __thiscall FUN_00c2cec0(FNVArray195* storage);
 };
 // @fnv 0x00c2cec0
 void __thiscall FNVObject195::FUN_00c2cec0(FNVArray195* pArray)
 {
     FNVArray195* const array = pArray;
-    FUN_00c322b0(array);
-    void* value = FUN_00a7d330(g_01202770.object);
+    reinterpret_cast<::S_00c322b0 *>(this)->FUN_00c322b0((::S_00c322b0_Arr *)(array));
+    void* value = ((void *)(::FUN_00a7d330((const char *)(::g_01202770.object))));
     unsigned int uiIndex = array->count;
     if (uiIndex >= array->capacity)
     {
-        array->FUN_0096ad30(uiIndex + array->growBy);
+        reinterpret_cast<::ViewerStrings *>((array))->SetSize(uiIndex + array->growBy);
     }
-    array->FUN_0096ae90(uiIndex, &value);
-    value = FUN_00a7d370(&UNK_010bffd0, attribute30);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((array))->SetAt(uiIndex, (*(char * *)(&value)));
+    value = ((void *)(::FUN_00a7d370((const char *)(const void *)(&UNK_010bffd0), attribute30)));
     uiIndex = array->count;
     if (uiIndex >= array->capacity)
     {
-        array->FUN_0096ad30(uiIndex + array->growBy);
+        reinterpret_cast<::ViewerStrings *>((array))->SetSize(uiIndex + array->growBy);
     }
-    array->FUN_0096ae90(uiIndex, &value);
-    value = subobject34.FUN_00a59af0(&UNK_01044b44);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((array))->SetAt(uiIndex, (*(char * *)(&value)));
+    value = ((void *)(reinterpret_cast<::NiPoint3 *>(&(subobject34))->FUN_00a59af0((const char *)(const void *)(&UNK_01044b44))));
     uiIndex = array->count;
     if (uiIndex >= array->capacity)
     {
-        array->FUN_0096ad30(uiIndex + array->growBy);
+        reinterpret_cast<::ViewerStrings *>((array))->SetSize(uiIndex + array->growBy);
     }
-    array->FUN_0096ae90(uiIndex, &value);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((array))->SetAt(uiIndex, (*(char * *)(&value)));
 }
 
 struct ThreeByThreeMatrix
@@ -354,8 +355,9 @@ struct NiTransform
     ThreeByThreeMatrix m_kOrientation;
     NiPoint3 m_kTranslation;
     float m_fScale;
-    void Invert(NiTransform& kDest) const;
     NiTransform operator*(const NiTransform& xform) const;
+public:
+    void CalculateInverse(::NiTransform &);
 };
 struct AVStandIn
 {
@@ -453,7 +455,7 @@ void FieldModStandIn::ApplyFieldModToParticles(float fTime, PSysDataStandIn* pkD
     NiPoint3 kFieldOrigin;
     {
         NiTransform kSys = m_pkSystem->m_kWorldSpaceTransform;
-        kSys.Invert(kInv);
+        reinterpret_cast<::NiTransform *>((void *)&(kSys))->CalculateInverse(kInv);
     }
     {
         NiTransform kXform = kInv * kField;
@@ -482,7 +484,7 @@ void FieldModStandIn::ApplyFieldModToParticles(float fTime, PSysDataStandIn* pkD
                 }
                 else
                 {
-                    kParticle.velocity = _NiPoint3_ZERO;
+                    kParticle.velocity = ::NiPoint3::ZERO;
                 }
             }
         }
@@ -498,8 +500,6 @@ inline void* operator new(unsigned int, void* p)
 
 struct NiPoint3Helper : NiPoint3
 {
-    bool __thiscall FUN_00439090(const NiPoint3& kPt) const;
-    void __thiscall FUN_004a0c10();
 };
 
 struct NiTransformHelper : NiTransform
@@ -546,7 +546,6 @@ struct DragModifier
     NiPoint3 m_kLightVector;
 
     void __thiscall ApplyDragDamping(float fTime, BoundDataBlock* pkData);
-    void __thiscall ApplyFieldModToParticles(float fTime, BoundDataBlock* pkData);
     void __thiscall FUN_00c2cb20(float fTime, BoundDataBlock* pkData);
 };
 
@@ -563,7 +562,7 @@ void __thiscall DragModifier::FUN_00c2cb20(float fTime, BoundDataBlock* pkData)
     if (!m_bFlagAtOffset30 && m_fFieldAttenuation == 0.0f)
     {
         if (m_bEnableMaxDistance)
-            ApplyFieldModToParticles(fTime, pkData);
+            reinterpret_cast<::FieldModStandIn *>(this)->ApplyFieldModToParticles(fTime, (::PSysDataStandIn *)(pkData));
         else
             ApplyDragDamping(fTime, pkData);
         return;
@@ -572,7 +571,7 @@ void __thiscall DragModifier::FUN_00c2cb20(float fTime, BoundDataBlock* pkData)
     NiTransform r = m_spFieldObject->m_kWorldSpaceTransform;
     NiTransform kInvTargetWorld;
     NiTransform kFieldWorld = m_pkTarget->m_kWorldSpaceTransform;
-    kFieldWorld.Invert(kInvTargetWorld);
+    reinterpret_cast<::NiTransform *>((void *)&(kFieldWorld))->CalculateInverse(kInvTargetWorld);
     new (&kFieldWorld) NiTransform(kInvTargetWorld * r);
 
     NiPoint3 kMotionVelocity;
@@ -581,11 +580,11 @@ void __thiscall DragModifier::FUN_00c2cb20(float fTime, BoundDataBlock* pkData)
     NiPoint3 b;
     if (m_bFlagAtOffset30)
     {
-        if (((NiPoint3Helper*)&m_kLightVector)->FUN_00439090(_NiPoint3_ZERO))
+        if (reinterpret_cast<::NiPlane *>((void *)(((NiPoint3Helper*)&m_kLightVector)))->operator==((const ::NiPlane &)(::NiPoint3::ZERO)))
         {
             kSub = ((NiTransformHelper*)&kFieldWorld)->FUN_004b4500(m_kLightVector);
             CopyPoint(b, kSub);
-            ((NiPoint3Helper*)&b)->FUN_004a0c10();
+            reinterpret_cast<::FUN_004a0c10_s *>((((NiPoint3Helper*)&b)))->FUN_004a0c10();
         }
     }
 
@@ -620,7 +619,7 @@ void __thiscall DragModifier::FUN_00c2cb20(float fTime, BoundDataBlock* pkData)
             const PointWords& srcV = (const PointWords&)y->velocity;
             PointWords words = {srcV.x, srcV.y, srcV.z};
             (PointWords&)kMotionVelocity = words;
-            ((NiPoint3Helper*)&kMotionVelocity)->FUN_004a0c10();
+            reinterpret_cast<::FUN_004a0c10_s *>((((NiPoint3Helper*)&kMotionVelocity)))->FUN_004a0c10();
             fDot = (kMotionVelocity.x * b.x) + (b.y * kMotionVelocity.y) + (b.z * kMotionVelocity.z);
         }
 
@@ -637,7 +636,7 @@ void __thiscall DragModifier::FUN_00c2cb20(float fTime, BoundDataBlock* pkData)
         }
         else
         {
-            y->velocity = _NiPoint3_ZERO;
+            y->velocity = ::NiPoint3::ZERO;
         }
     }
 }

@@ -1,6 +1,9 @@
 // src/havok/physics/utilities/visualdebugger/viewer/hkpshapedisplaybuilder.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/hkpshapedisplaybuilder.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00de1d20.h"
+#include "fnv/symbols_00c90000.h"
 struct S_00ddfcd0_Allocator
 {
     virtual void v0();
@@ -100,10 +103,8 @@ struct HkDisplayConvexObj
     unsigned short m_u04;
     unsigned short unk06;
 
-    HkDisplayConvexObj* FUN_00de1d20(HkArrayPairBlock* a1);
 };
 
-void __cdecl FUN_00c90940(HkAllocator* a1, HkArrayRaw* a2, int a3);
 
 struct FUN_00ddfc30_cls
 {
@@ -142,12 +143,12 @@ HkDisplayConvexObj* FUN_00ddfc30_cls::FUN_00ddfc30(HkArrayRaw* apArray)
         pHolder = (HkAllocHolder*)FUN_00c85750();
         mem = pHolder->m_pAllocator->Alloc(0x60);
         ((HkDisplayConvexObj*)mem)->m_u04 = 0x60;
-        m_pConvex = ((HkDisplayConvexObj*)mem)->FUN_00de1d20(pBlock);
+        m_pConvex = ((::HkDisplayConvexObj *)(new ((void *)(((HkDisplayConvexObj*)mem))) ::FUN_00de1d20((int)(pBlock))));
 
         pHolder = (HkAllocHolder*)FUN_00c85750();
         if (apArray->m_iArrayLength == (int)(apArray->m_uCapFlags & 0x3fffffffu))
         {
-            FUN_00c90940(pHolder->m_pAllocator, apArray, 4);
+            ::ResizeAudioStream((::AudioAllocator *)(pHolder->m_pAllocator), (::AudioStream *)(apArray), 4);
         }
         int idx = apArray->m_iArrayLength;
         HkDisplayConvexObj** pArrayData = (HkDisplayConvexObj**)apArray->m_pData;

@@ -2,6 +2,37 @@
 // src/fallout/audio/falloutradio_decl_variant.cpp - declaration variant unit created 2026-10-26 by decl_variants.py for paused function 0x00835be0: the skeleton of src/fallout/audio/falloutradio.cpp
 // that unit declares it this way.
 
+#include <new>
+#include "fnv/decl/ActorTaskManager.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00832190_shell.h"
+#include "fnv/decl/FUN_00833040_shell.h"
+#include "fnv/decl/FUN_00833100_shell.h"
+#include "fnv/decl/FUN_00833be0_shell.h"
+#include "fnv/decl/FUN_00835690_shell.h"
+#include "fnv/decl/FUN_00835f10_shell.h"
+#include "fnv/decl/FUN_0083b9f0_shell.h"
+#include "fnv/decl/GlobalObject_0044fae0.h"
+#include "fnv/decl/Holder00832160.h"
+#include "fnv/decl/Mid83b9a0.h"
+#include "fnv/decl/StateStandIn.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_0083c470__FUN_0083c470_holder.h"
+#include "fnv/decl/fnv_00ad88f0__FUN_00ad88f0_h.h"
+#include "fnv/decl/s835fe0__RefHandle.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_00830000.h"
+#include "fnv/symbols_00832000.h"
+#include "fnv/symbols_00833000.h"
+#include "fnv/symbols_00837000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f6000.h"
 #include "falloutradio_private_decls_decl_falloutradio.h"
 
 class BGSTalkingActivator : public TESForm
@@ -10,6 +41,7 @@ class BGSTalkingActivator : public TESForm
 class DialogueResponse;
 class TESTopicInfo;
 class TESQuest;
+class DialogueResponse;
 class DialogueItem
 {
   public:
@@ -19,40 +51,30 @@ class DialogueItem
     TESTopic* topic;
     TESQuest* quest;
     TESObjectREFR* speaker;
-    bool FUN_0083c7b0();
+public:
+    bool SelectDefaultResponseList();
+public:
+    ::DialogueResponse *GetActiveResponse();
 };
 class Conversation
 {
   public:
     BSSimpleList<DialogueItem*> items;
     BSSimpleList<DialogueItem*>* current;
-    bool FUN_0083b9f0();
-    void FUN_0083c470();
-    bool FUN_0083b9a0();
-    DialogueItem* FUN_0083c820();
     ~Conversation();
 };
 class TESTopic;
-TESTopic* GetTopicSubTypeName(int, int);
 FalloutRadio::RadioStationState* CreateRadioStationState(BGSTalkingActivator*, bool);
 void FUN_00834260(FalloutRadio::RadioStationState*);
-void AdvanceConversation(FalloutRadio::RadioStationState*, TESTopic*);
-bool FUN_00833ce0();
-void FUN_008304a0();
-void FUN_008304c0();
 class ATM
 {
   public:
-    void FUN_004538a0(const char*);
-    void FUN_004538c0();
 };
-extern ATM g_011dd5e8;
 class BSAudio
 {
   public:
     unsigned int GetSynchTime();
 };
-BSAudio* FUN_00453a70();
 // @fnv 0x00835be0
 void FUN_00835be0(BGSTalkingActivator* form, TESTopic* topic)
 {
@@ -60,58 +82,58 @@ void FUN_00835be0(BGSTalkingActivator* form, TESTopic* topic)
     FalloutRadio::RadioStationState* station = 0;
     if (DAT_011dd436)
         return;
-    BSSimpleList<FalloutRadio::RadioStationState*>* entries = &DAT_011dd554;
-    while (entries && entries->GetItem())
+    BSSimpleList<FalloutRadio::RadioStationState*>* entries = &(*reinterpret_cast<::BSSimpleList< ::FalloutRadio::RadioStationState *> *>(&::g_011dd554));
+    while (entries && ((::FalloutRadio::RadioStationState *)(new ((void *)(entries)) ::Vec3())))
     {
-        if (entries->GetItem()->form == form)
+        if (((::FalloutRadio::RadioStationState *)(new ((void *)(entries)) ::Vec3()))->form == form)
         {
-            station = entries->GetItem();
+            station = ((::FalloutRadio::RadioStationState *)(new ((void *)(entries)) ::Vec3()));
             break;
         }
-        entries = entries->GetNext();
+        entries = ((::BSSimpleList< ::FalloutRadio::RadioStationState *> *)(reinterpret_cast<::Callees *>((entries))->FUN_00726070()));
     }
     if (!station)
         station = CreateRadioStationState(form, false);
-    a = topic ? topic : GetTopicSubTypeName(7, 0);
-    if (!station || station->form->FUN_00440da0())
+    a = topic ? topic : ((::TESTopic *)(::fnv_0061a2d0::GetTopicSubTypeName(7, 0)));
+    if (!station || station->form->GetDisabled())
         return;
-    bool f = station->station.IsFlag20Set();
-    g_011dd5e8.FUN_004538a0("FalloutRadio::StartRadioConversation");
+    bool f = reinterpret_cast<::FUN_00833040_shell *>(&(station->station))->IsFlag20Set();
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::ATM *>(&::g_011dd5e8))))->FUN_004538a0((int)("FalloutRadio::StartRadioConversation"));
     if (station->station.conversation)
-        while (station->station.conversation->FUN_0083b9f0())
+        while (reinterpret_cast<::FUN_0083b9f0_shell *>((station->station.conversation))->FUN_0083b9f0())
         {
         }
-    if (station->station.FUN_00833be0())
+    if (((bool)(reinterpret_cast<::FUN_00833be0_shell *>(&(station->station))->FUN_00833be0())))
     {
-        station->station.FUN_00833100(false);
+        reinterpret_cast<::FUN_00833100_shell *>(&(station->station))->FUN_00833100(false);
         station->station.state = 1;
         FUN_00834260(station);
     }
-    if (DAT_011dd42c == station && DAT_011dd434)
+    if ((*reinterpret_cast<::FalloutRadio::RadioStationState * *>(&::DAT_011dd42c)) == station && DAT_011dd434)
     {
-        DAT_011dd5bc.Stop();
-        DAT_011dd5bc.Release();
-        if (FUN_00833ce0())
+        reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&((*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd5bc))))->FUN_00ad88f0();
+        (*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd5bc)).Release();
+        if (((bool)(::FUN_00833ce0())))
         {
-            FUN_008304a0();
-            FUN_008325a0(true);
-            FalloutAudioMedia::PlayMedia(MEDIATYPE_RADIO, 0, 1000, false, false, 0.0f, 0);
-            FUN_008304c0();
+            ::FalloutAudioMedia::BeginMediaUpdate();
+            ::FUN_008325a0(true);
+            ::fnv_008300c0::PlayAudioMedia((*(int *)&(const ::MEDIATYPE &)(MEDIATYPE_RADIO)), 0, 1000, false, false, 0.0f, 0);
+            ::FalloutAudioMedia::EndMediaUpdate();
         }
     }
     BSSimpleList<FalloutRadio::RadioReceiver*>* b = &station->receivers;
-    while (b && b->GetItem())
+    while (b && ((::FalloutRadio::RadioReceiver *)(new ((void *)(b)) ::Vec3())))
     {
-        FalloutRadio::RadioReceiver* receiver = b->GetItem();
-        receiver->sound.Stop();
+        FalloutRadio::RadioReceiver* receiver = ((::FalloutRadio::RadioReceiver *)(new ((void *)(b)) ::Vec3()));
+        reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&(receiver->sound))->FUN_00ad88f0();
         receiver->sound.Release();
-        b = b->GetNext();
+        b = ((::BSSimpleList< ::FalloutRadio::RadioReceiver *> *)(reinterpret_cast<::Callees *>((b))->FUN_00726070()));
     }
-    AdvanceConversation(station, a);
+    ::AdvanceConversation((::RadioState *)(station), a);
     station->station.state = 0;
-    station->station.conversation->FUN_0083c470();
-    station->station.conversation->FUN_0083b9a0();
-    if (!station->station.conversation->FUN_0083c820())
+    reinterpret_cast<::fnv_0083c470::FUN_0083c470_holder *>((station->station.conversation))->FUN_0083c470();
+    reinterpret_cast<::Mid83b9a0 *>((station->station.conversation))->FUN_0083b9a0();
+    if (!((::DialogueItem *)(reinterpret_cast<::DialogueItem *>((station->station.conversation))->GetActiveResponse())))
     {
         delete station->station.conversation;
         station->station.conversation = 0;
@@ -119,24 +141,24 @@ void FUN_00835be0(BGSTalkingActivator* form, TESTopic* topic)
     }
     else
     {
-        if (DAT_011dd42c == station && DAT_011dd434)
+        if ((*reinterpret_cast<::FalloutRadio::RadioStationState * *>(&::DAT_011dd42c)) == station && DAT_011dd434)
         {
-            DAT_011dd5bc.Stop();
-            DAT_011dd5bc.Release();
-            if (FUN_00833ce0())
+            reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&((*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd5bc))))->FUN_00ad88f0();
+            (*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd5bc)).Release();
+            if (((bool)(::FUN_00833ce0())))
             {
-                FUN_008304a0();
-                FUN_008325a0(true);
-                FalloutAudioMedia::PlayMedia(MEDIATYPE_RADIO, 0, 1000, false, false, 0.0f, 0);
-                FUN_008304c0();
+                ::FalloutAudioMedia::BeginMediaUpdate();
+                ::FUN_008325a0(true);
+                ::fnv_008300c0::PlayAudioMedia((*(int *)&(const ::MEDIATYPE &)(MEDIATYPE_RADIO)), 0, 1000, false, false, 0.0f, 0);
+                ::FalloutAudioMedia::EndMediaUpdate();
             }
         }
-        station->station.conversation->FUN_0083c820()->FUN_0083c7b0();
+        ((::DialogueItem *)(reinterpret_cast<::DialogueItem *>((station->station.conversation))->GetActiveResponse()))->SelectDefaultResponseList();
     }
     if (station->station.state > 1)
         station->station.state = 0;
-    station->station.nextUpdate = FUN_00453a70()->GetSynchTime() + 50;
-    station->station.SetFlag80(true);
-    station->station.FUN_00833100(f);
-    g_011dd5e8.FUN_004538c0();
+    station->station.nextUpdate = ::FUN_00453a70()->GetSynchTime() + 50;
+    reinterpret_cast<::FUN_00835690_shell *>(&(station->station))->SetFlag80(true);
+    reinterpret_cast<::FUN_00833100_shell *>(&(station->station))->FUN_00833100(f);
+    reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::ATM *>(&::g_011dd5e8))))->WaitForTasksDuringRendering();
 }

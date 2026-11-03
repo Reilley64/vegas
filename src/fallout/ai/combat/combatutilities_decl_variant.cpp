@@ -5,12 +5,104 @@
 
 // src/fallout/ai/combat/combatutilities.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatutilities.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/AngleView.h"
+#include "fnv/decl/BGSImpactData.h"
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/BSAnimGroupSequence.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/EffectSetting.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00458e20_shell.h"
+#include "fnv/decl/FUN_0045bb20_cls.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004a0db0_class.h"
+#include "fnv/decl/FUN_004a39f0_shell.h"
+#include "fnv/decl/FUN_004a3eb0_shell.h"
+#include "fnv/decl/FUN_004fd420_shell.h"
+#include "fnv/decl/FUN_00508050_Class.h"
+#include "fnv/decl/FUN_00553ee0_shell.h"
+#include "fnv/decl/FUN_00589850_Class.h"
+#include "fnv/decl/FUN_0059ceb0_shell.h"
+#include "fnv/decl/FUN_005a2030_shell.h"
+#include "fnv/decl/FUN_005be5c0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00646f50_shell.h"
+#include "fnv/decl/FUN_00647790_shell.h"
+#include "fnv/decl/FUN_006b99e0_class.h"
+#include "fnv/decl/FUN_008854d0_.h"
+#include "fnv/decl/FUN_008a1710_shell.h"
+#include "fnv/decl/FUN_008e26a0_C.h"
+#include "fnv/decl/FUN_00950bb0_shell.h"
+#include "fnv/decl/FUN_00963730_cls.h"
+#include "fnv/decl/FUN_00980070_shell.h"
+#include "fnv/decl/FUN_00981920_Class.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MobileObject.h"
+#include "fnv/decl/MyPoint439180.h"
+#include "fnv/decl/NiCamera.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/RefS.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/SightActor.h"
+#include "fnv/decl/TESAnimGroup.h"
+#include "fnv/decl/TESCombatStyle.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/TESTopicInfo.h"
+#include "fnv/decl/Thing.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_004a3da0__FUN_004a3da0_shell.h"
+#include "fnv/decl/fnv_00567400__FUN_00567400_shell.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_008be420__Dd.h"
+#include "fnv/decl/fnv_00965620__AimPlayer.h"
+#include "fnv/decl/fnv_00968670__FUN_00968670_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_00416000.h"
+#include "fnv/symbols_0042f000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00457000.h"
+#include "fnv/symbols_004aa000.h"
+#include "fnv/symbols_004b1000.h"
+#include "fnv/symbols_004b2000.h"
+#include "fnv/symbols_004b3000.h"
+#include "fnv/symbols_004fd000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_00579000.h"
+#include "fnv/symbols_0057d000.h"
+#include "fnv/symbols_005b9000.h"
+#include "fnv/symbols_00645000.h"
+#include "fnv/symbols_00646000.h"
+#include "fnv/symbols_0069e000.h"
+#include "fnv/symbols_0097a000.h"
+#include "fnv/symbols_009a6000.h"
+#include "fnv/symbols_009a7000.h"
+#include "fnv/symbols_009a8000.h"
+#include "fnv/symbols_009a9000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0101a000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_0101f000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_01030000.h"
+#include "fnv/symbols_0103c000.h"
+#include "fnv/symbols_011ce000.h"
+#include "fnv/symbols_011cf000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f1000.h"
+#include "fnv/symbols_011f2000.h"
 #pragma strict_gs_check(on)
-extern "C" float __cdecl FUN_005b9e80(float);
 float __cdecl FUN_009a7dd0(float a, float b, float c);
 extern int DAT_011a558c;
-char FUN_009a97b0(char a1, char a2);
-extern "C" double DAT_0103c348;
 extern "C" int DAT_011a558c;
 float ScaleCharToFloat(char arg);
 struct FUN_009a9f00_shell
@@ -19,19 +111,21 @@ struct FUN_009a9f00_shell
 };
 struct BGSProjectile
 {
-    bool GetFlag(unsigned int) const;
 };
 struct FUN_009a7f80_shell : BGSProjectile
 {
     bool FUN_009a7f80() const;
 };
-extern "C" double _DAT_0103c348;
 long __cdecl ScaleByRatio(float a);
 struct NiPoint3
 {
     float x;
     float y;
     float z;
+public:
+    float ComputeMagnitude() const;
+public:
+    static const ::NiPoint3 ZERO;
 };
 struct TESObjectREFR
 {
@@ -162,29 +256,24 @@ struct TESObjectREFR
     virtual void v124() = 0;
     virtual NiPoint3* v125() = 0;
 };
-float __cdecl GetScaleOrHeightDelta(TESObjectREFR* a, int b);
-NiPoint3 FUN_009a8250(TESObjectREFR* apAttacker);
 struct GameSettingCollection;
 template <typename T> struct SettingT
 {
     float* Float();
 };
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting353;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting354;
 struct PathingRequest
 {
     float GetTargetRadius();
+public:
+    float GetActorRadius();
 };
 struct Standin77900
 {
     float FUN_00477900();
 };
 float __cdecl ComputeExplosionDamageFalloff(float, float, float);
-bool __cdecl IsExplosionRadiusValid(PathingRequest* apExplosion);
 extern int DAT_011a5590;
-char __cdecl IsBitSetOrNeighbor(unsigned int a, char b);
 extern int DAT_011a5590;
-char FUN_009a97b0(char a1, char a2);
 int ExpandFlagBits(int flags, char index);
 struct FUN_00966980_shell
 {
@@ -194,10 +283,7 @@ struct FUN_00966980_shell
 };
 struct A69C0Weapon
 {
-    float GetReachValue();
 };
-bool __fastcall A69C0IsMeleeWeapon(A69C0Weapon* pkWeapon);
-float __cdecl FUN_006463e0(float fValue);
 struct A69C0Actor
 {
     virtual void vfunc000();
@@ -426,27 +512,12 @@ struct A69C0Actor
     virtual void vfunc37C();
     virtual float GetUnarmedReach();
 
-    float GetScale();
 };
-float __cdecl GetActorReach(A69C0Actor* pkActor, A69C0Weapon* pkWeapon);
-float FUN_004579e0(float);
-float FUN_00404010(float, float);
-float FUN_0040ebd0(float, float);
 float FUN_00755660(float);
 extern float runtimeInitializationFloat1935;
-float ComputeLaunchAngle(float distance, float height, float speed, float gravity, bool lowArc);
-extern "C" double DAT_01012060;
-extern "C" float DAT_011f1c00;
 struct FUN_009a7f00_obj
 {
-    float FUN_009a7c40();
-    bool FUN_009a7f80() const;
-    float FUN_00966980();
-    float GetFloatAtOffset68();
 };
-float __cdecl FUN_009a7f00(FUN_009a7f00_obj* obj, float arg);
-unsigned char FUN_009a97b0(unsigned char a1, unsigned char a2);
-bool __cdecl IsBitSetOrNeighbor(unsigned int a, unsigned char b);
 unsigned char FUN_009a98a0(unsigned int a, unsigned char b);
 struct AlchemyItem
 {
@@ -722,7 +793,8 @@ struct Actor
     virtual void vfunc424();
     virtual struct AlchemyItem* GetSlot266();
 
-    int FUN_00931850();
+public:
+    bool IsSneaking();
 };
 struct ExtraFollower
 {
@@ -733,41 +805,25 @@ struct ExtraFollower
 };
 struct FollowerNode
 {
-    Actor** FUN_006815c0();
-    FollowerNode* FUN_00726070();
 };
 struct FUN_00422700_shell
 {
     ExtraFollower* FUN_00422700();
 };
 struct ExtraDataList;
-ExtraDataList* __fastcall FUN_005d43c0(TESObjectREFR* ref);
 struct TopicInfoArray
 {
-    unsigned int FUN_005be5c0(int a);
-    Actor* FUN_00968670(unsigned int index);
 };
 struct ContNode;
-ContNode* __fastcall FUN_00717e50(void* p);
-unsigned int __fastcall FUN_0044ddc0(TESObjectREFR* ref);
 struct PlayerStub
 {
-    bool FUN_0088b880(int a1, Actor* target, int a3, int a4, int a5);
 };
-float __cdecl FUN_009a64d0(Actor* a, Actor* b, int c);
-bool IsTargetInCone(Actor* a, Actor* b, float* outDist);
-extern int DAT_011e0e80;
-extern int DAT_011f2250;
-extern float DAT_01016970;
-extern Actor* g_thePlayer;
-Actor* FUN_009a60e0(Actor* actor, float maxDist);
 struct S_9a64d0_Pt
 {
     float x;
     float y;
     float z;
     S_9a64d0_Pt operator-(const S_9a64d0_Pt& rhs) const;
-    float Length() const;
 };
 struct S_9a64d0_Ref
 {
@@ -897,20 +953,14 @@ struct S_9a64d0_Ref
     virtual void vf1ec();
     virtual void vf1f0();
     virtual S_9a64d0_Pt* GetPos();
-    float GetDistance(S_9a64d0_Ref* other, bool a, bool b);
 };
 struct S_9a64d0_Actor : S_9a64d0_Ref
 {
-    bool FUN_005a2030() const;
 };
 struct S_9a64d0_Setting
 {
     float* Float();
 };
-extern S_9a64d0_Setting DAT_011ce4a0;
-float FUN_00408860(float f);
-float FUN_009a6770(S_9a64d0_Ref* a, S_9a64d0_Ref* b);
-float FUN_009a64d0(S_9a64d0_Ref* a, S_9a64d0_Ref* b, bool checkHeight);
 struct S_009a6770_Pt
 {
     float x;
@@ -1039,16 +1089,10 @@ struct S_009a6770_Ref
     virtual void vfunc1D4();
     virtual void vfunc1D8();
     virtual S_009a6770_Pt* GetPos(S_009a6770_Pt* out);
-    float FUN_008be420();
-    float FUN_00567400();
 };
-float __cdecl FUN_009a6770(S_009a6770_Ref* a, S_009a6770_Ref* b);
 struct A6830Actor : A69C0Actor
 {
-    A69C0Weapon* GetEquippedWeapon();
 };
-float __cdecl FUN_009a6770(A6830Actor* pkActor, int iType);
-float __cdecl FUN_009a6830(A6830Actor* pkActor, int iType, float ActorTypeValueEntry);
 struct S_009a68b0_Pt
 {
     float x, y, z;
@@ -1056,14 +1100,9 @@ struct S_009a68b0_Pt
     {}
     S_009a68b0_Pt(float a, float b, float c) : x(a), y(b), z(c)
     {}
-    S_009a68b0_Pt FUN_00439ef0(S_009a68b0_Pt* other);
-    S_009a68b0_Pt FUN_00439e90(S_009a68b0_Pt* other);
-    S_009a68b0_Pt* FUN_00439180(float f);
-    void FUN_004a0c10();
 };
 struct S_009a68b0_Z
 {
-    float FUN_008e26a0();
 };
 struct S_009a68b0_Obj
 {
@@ -1277,25 +1316,15 @@ struct S_009a68b0_Ref : TESObjectREFR
     virtual void vfn139();
     virtual S_009a68b0_Z* vfn266();
 };
-extern S_009a68b0_Pt DAT_011f426c;
-extern double DAT_01023128;
-bool __cdecl AssignCombatPlanAngles(S_009a68b0_Obj* a, S_009a68b0_Ref* b);
-float __cdecl FUN_009a6830(S_009a68b0_Ref* a, S_009a68b0_Obj* b, float c);
-void __cdecl FUN_004169a0(float a, float* s, float* c);
-S_009a68b0_Pt FUN_009a68b0(S_009a68b0_Ref* ref, S_009a68b0_Obj* obj, S_009a68b0_Pt* pt, float f);
 struct ConePoint
 {
     float x, y, z;
-    ConePoint FUN_00439ef0(const ConePoint& kOther) const;
-    float FUN_00457990() const;
 };
 struct ConeWeaponSkill
 {
-    int FUN_005f2420();
 };
 struct ConeWeapon
 {
-    ConeWeaponSkill* FUN_0048f7f0();
 };
 struct ConeProcess
 {
@@ -1731,29 +1760,17 @@ struct ConeRef
     virtual void v174();
     virtual float GetCurrentTargetDistance(int i);
 
-    ConeProcess* FUN_008d8520();
 };
 struct ConePlayer : ConeRef
 {
-    void* FUN_00950bb0(int i);
-    void UpdateAim(int a1, void* pkNode, float* pfX, float* pfY, int a5, float m_fGridOriginX, float afWorldOriginY);
-    int FUN_00963730();
 };
-extern ConePlayer* g_thePlayer_011dea3c;
 struct ConeSetting
 {
-    float* FUN_00403e20();
 };
-extern ConeSetting g_s_011cfa58;
-extern ConeSetting g_s_011cfda4;
-float __cdecl FUN_004b1550(ConePoint* pkDir);
-void* __cdecl FUN_004aae30(void* pkRoot, const char* pcName);
-float __cdecl FUN_00408860(float f);
 float __cdecl FUN_00408840(float f);
 float __cdecl FUN_009a6a40(int iSkill);
 static const char s_szProjectileNode[] = "ProjectileNode";
 extern const char g_szConeEnd[] = "";
-bool __cdecl IsTargetInCone(ConeRef* pkShooter, ConeRef* pkTarget, float* pfAngleOut);
 struct S_009a6d70_Point
 {
     float x, y, z;
@@ -1764,16 +1781,8 @@ struct S_009a6d70_Point
 };
 struct S_009a6d70_Actor
 {
-    float GetAdjustedAngle();
-    float FUN_00931d70();
 };
-S_009a6d70_Point FUN_009a88e0(S_009a6d70_Actor* actor, NiPoint3 target);
-float FUN_004b1480(float angle);
-float FUN_004b15e0(float from, float to, float* out);
 float FUN_00408840(float value);
-extern "C" double DAT_0101ff48;
-extern "C" double DAT_01011588;
-bool IsWithinAimLimits(S_009a6d70_Actor* actor, NiPoint3* target, float maxZ, float maxX);
 struct S_009a7670_P3
 {
     float x, y, z;
@@ -1782,38 +1791,21 @@ struct S_009a7670_P3
 };
 struct S_009a7670_Setting
 {
-    float* FUN_00403e20();
 };
-extern S_009a7670_Setting DAT_011cf95c;
-extern S_009a7670_Setting DAT_011cfb78;
-extern "C" double DAT_0101a6b0;
-S_009a7670_P3 FUN_009a8f00(S_009a7670_P3 a, S_009a7670_P3 b, S_009a7670_P3 c, float r, float v, unsigned char flag);
-bool FUN_009a6e90(void* a, FUN_009a7f00_obj* obj, float f, S_009a7670_P3 p, S_009a7670_P3 q, int zero, int* found,
-                  float* dist);
-bool FUN_009a7670(void* a, int b, FUN_009a7f00_obj* obj, S_009a7670_P3 p1, S_009a7670_P3 p2, S_009a7670_P3 p3,
-                  unsigned char* flag, S_009a7670_P3* out, float maxDist);
 struct Vec3
 {
     float x;
     float y;
     float z;
-    Vec3 FUN_00439ef0(const Vec3& b) const;
-    float FUN_00589850() const;
-    float FUN_00457990() const;
+public:
+    Vec3();
 };
 struct GlobalSetting
 {
-    float* FUN_00403e20();
 };
-extern GlobalSetting g_011cfb78;
 struct ShotActor
 {
-    float GetFloatAtOffset68();
-    float FUN_00966980();
 };
-float __cdecl ComputeProjectileFlightTime(ShotActor* actor, Vec3 from, Vec3 to, bool flag, float speed);
-extern "C" double DAT_0101de30;
-extern "C" double DAT_01011588;
 struct FUN_009a7fa0_cls
 {
     virtual void v0();
@@ -1936,11 +1928,7 @@ struct FUN_009a7fa0_cls
     virtual void v117();
     virtual NiPoint3* v118(NiPoint3* out);
     virtual NiPoint3* v119(NiPoint3* out);
-    bool IsFlagged();
-    float ScaleZero();
-    float ScaleOne(int flag);
 };
-float __cdecl GetScaleOrHeightDelta(TESObjectREFR* a, int b);
 struct S_009a82b0_Point3
 {
     float x;
@@ -1954,8 +1942,6 @@ struct S_009a82b0_Point2
     float y;
     S_009a82b0_Point2();
     S_009a82b0_Point2(float ax, float ay);
-    float Dot(const S_009a82b0_Point2& o) const;
-    float Length() const;
 };
 struct S_009a82b0_Ref
 {
@@ -2135,12 +2121,7 @@ struct S_009a82b0_Ref
     virtual void vfunc2B4();
     virtual void vfunc2B8();
     virtual float GetCurrentTargetDistance(int a);
-    float FUN_00931d70() const;
 };
-void FUN_004169a0(float angle, float& s, float& c);
-S_009a82b0_Point3 FUN_009a8050(S_009a82b0_Ref* apRef);
-extern "C" double DAT_01030f38;
-S_009a82b0_Point3 GetAdjustedPosition(S_009a82b0_Ref* apRef);
 struct S_009a8460_Actor
 {
     virtual void unk_000();
@@ -2285,26 +2266,13 @@ struct S_009a8460_Actor
     virtual bool vfn_022c(int p);
     virtual bool vfn_0230();
 
-    bool __thiscall FUN_004997b0();
-    float __thiscall FUN_008854d0(int p);
-    float __thiscall GetActorHeight();
-    bool __thiscall FUN_00579670();
-    float __thiscall FUN_00567400();
 };
-float __cdecl FUN_009a8460(S_009a8460_Actor* actor, int type, bool flag);
 extern float DAT_011a5594;
 struct NiVecOps
 {
-    void __thiscall FUN_00439ef0(NiPoint3* tmp, NiPoint3* src);
-    float __thiscall FUN_004a7290();
-    NiPoint3* __thiscall ApplyScaled(NiPoint3* out, float scale);
-    NiPoint3* __thiscall FUN_00439e90(NiPoint3* tmp, NiPoint3* ret);
 };
-void __cdecl GetPitchYaw(NiPoint3* out, NiPoint3 a, NiPoint3 b);
-NiPoint3* __cdecl FUN_009a8970(NiPoint3* out, NiPoint3 a, NiPoint3 b, float unk24, NiPoint3 c);
 struct TrajAux
 {
-    int GetPackageRefCount();
 };
 struct TrajRef
 {
@@ -2585,92 +2553,44 @@ struct TrajVec
 };
 struct TrajWeapon
 {
-    float FUN_00477900();
-    float FUN_006a78f0();
 };
 struct TrajActor
 {
-    float FUN_00966980();
-    bool FUN_009a7f80() const;
-    float GetFloatAtOffset68();
-    TrajWeapon* FUN_004fd3c0();
 };
-void __cdecl GetTargetLocationWithOffset(TrajVec* out, void* a3, int mode);
-void __cdecl GetTriple12(TrajVec* out, void* a3);
-void __cdecl FUN_009a8df0(TrajOut* out, TrajRef* target, TrajVec p, TrajVec q, void* a4, TrajActor* actor, float speed,
-                          bool flag);
-extern "C" double DAT_01012060;
-extern "C" int DAT_011cebd4;
-extern "C" int DAT_011cf270;
-extern "C" int DAT_011ceb5c;
-TrajOut* __cdecl ComputeTrajectory(TrajOut* out, TrajRef* target, void* a3, void* a4, TrajActor* actor, float speed,
-                                   bool flag);
 struct FUN_009a8df0_vec
 {
-    void FUN_006815c0();
     float x;
     float y;
     float z;
 };
-FUN_009a8df0_vec* __cdecl FUN_009a8050(FUN_009a8df0_vec* tmp, int a);
-void __cdecl FUN_009a8f00(FUN_009a8df0_vec* out, FUN_009a8df0_vec c, FUN_009a8df0_vec b, FUN_009a8df0_vec a, float f1,
-                          float f2, unsigned char flag);
-FUN_009a8df0_vec* __cdecl FUN_009a8df0(FUN_009a8df0_vec* out, int a2, FUN_009a8df0_vec vB, FUN_009a8df0_vec vA,
-                                       FUN_009a8df0_vec* p28, FUN_009a7f00_obj* obj, float a30, unsigned char a34);
 struct AimPoint
 {
     float x, y, z;
-    AimPoint FUN_00439ef0(const AimPoint& kOther) const;
-    AimPoint FUN_00439e90(const AimPoint& kOther) const;
-    AimPoint ApplyScaled(float fScale) const;
-    float FUN_00457990() const;
 };
 struct AimIntSetting
 {
-    int* FUN_0043d4d0();
 };
-extern AimIntSetting g_s_011cfc08;
-float __cdecl ComputeLaunchAngle(float fDist, float m_fGlyphExtent, float fSpeed, float afGravity, bool bArc);
 float __cdecl FUN_009a7dd0(float fDist, float fAngleDifference, float fSpeed);
-float __cdecl FUN_0057dd70(float fAngleDifference);
-AimPoint __cdecl FUN_009a8f00(AimPoint kTarget, AimPoint kStart, AimPoint kMotionVelocity, float fSpeed,
-                              float afGravity, bool bArc);
 struct S_009a9180_Weapon
 {
-    float FUN_009a9350();
-    float FUN_00508050();
 };
 struct S_009a9180_Actor
 {
-    S_009a9180_Weapon* FUN_00980070();
-    int GetFieldBC();
 };
 struct S_009a9180_Projectile : FUN_009a7f00_obj
 {
-    Standin77900* FUN_004fd3c0();
 };
 struct S_009a9180_Data
 {
-    float GetFloatAt120();
-    float GetField124Float();
-    bool IsFlag20Set();
-    S_009a9180_Projectile* GetOrFallback(int key);
 };
 struct S_009a9180_Setting
 {
-    float* FUN_00403e20();
 };
-extern S_009a9180_Setting DAT_011ce87c;
-extern S_009a9180_Setting DAT_011ceab0;
-void FUN_009a9180(S_009a9180_Actor* pActor, S_009a9180_Data* pData, float* pfMin, float* pfMax, float* pfOther);
 struct DebugPoint
 {
     float x;
     float y;
     float z;
-    DebugPoint FUN_00439ef0(const DebugPoint& kPt) const;
-    DebugPoint ApplyScaled(float fScale) const;
-    DebugPoint FUN_00439e90(const DebugPoint& kPt) const;
 };
 class RgbaColor
 {
@@ -2683,37 +2603,23 @@ class RgbaColor
 };
 struct NiAVObject
 {
-    void FUN_00a5a040();
-    void FUN_00440460(const DebugPoint& kPt);
 };
 class TES
 {
   public:
-    void FUN_00458e20(NiAVObject* pkObject, float fTime);
 };
-extern TES* g_TES;
 class GlobalObject_0044f440
 {
   public:
     float* Float();
 };
 extern GlobalObject_0044f440 g_011f1c24;
-NiAVObject* __cdecl FUN_004b3890(const DebugPoint& kStart, const RgbaColor& kStartColor, const DebugPoint& kEnd,
-                                 const RgbaColor& kEndColor, bool bArg);
-NiAVObject* __cdecl CreateOctahedron(float fRadius, const RgbaColor& kColor, bool bArg);
-void __cdecl DrawDebugLine(const DebugPoint& kStart, const DebugPoint& kEnd, int bScaled, float fScale,
-                           const RgbaColor* pkLineColor, const RgbaColor* pkTipColor);
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting595;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting604;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting605;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting606;
 float __cdecl FUN_009a6a40(int id);
 struct Pt3
 {
     float x;
     float y;
     float z;
-    Pt3 __thiscall FUN_00439ef0(const Pt3& rhs);
 };
 struct CombatPlanningPosition
 {
@@ -2739,15 +2645,11 @@ struct Effect
 };
 struct CombatPlan
 {
-    Effect* __thiscall FUN_004fd3e0();
     bool __thiscall FUN_00981940(int a);
-    void __thiscall SetFieldE0(float f);
 };
 struct Ref;
 struct Holder
 {
-    Ref** __thiscall FUN_006a7ad0(int i);
-    unsigned int __thiscall FUN_0044ddc0();
 };
 struct Ref
 {
@@ -3018,7 +2920,6 @@ struct Ref
     virtual int v264();
     virtual int v265();
     virtual CombatPlan* GetCombatPlan();
-    Pt3* __thiscall FUN_00436aa0();
 };
 struct Mgr
 {
@@ -3026,7 +2927,6 @@ struct Mgr
 };
 struct Glob
 {
-    Mgr* __thiscall FUN_00441110();
 };
 struct FUN_006d5320
 {
@@ -3037,15 +2937,10 @@ struct FUN_006d5320
     unsigned char flag;
     FUN_006d5320();
 };
-void __cdecl FUN_00403d30(void* p, int v, unsigned int n);
-extern Glob* DAT_011f1958;
-unsigned int __cdecl FUN_0042f5a0(unsigned int a, unsigned int b);
-float __cdecl GetDirectionAngle(const Pt3& p);
 long __cdecl ScaleByRatio(float a);
 float __cdecl ScaleCharToFloat(char a);
 unsigned char FUN_009a98a0(unsigned int a, unsigned char b);
 int ExpandFlagBits(int flags, char index);
-bool AssignCombatPlanAngles(Ref* a1, Ref* a2);
 
 struct __declspec(align(16)) SightVector4
 {
@@ -3055,7 +2950,6 @@ struct SightFilter
 {
     unsigned int bits;
     SightFilter(int bits);
-    void FUN_004a39f0(int layer);
 };
 struct __declspec(align(16)) SightRayInput
 {
@@ -3097,14 +2991,10 @@ struct __declspec(align(16)) BhkPickData
     unsigned int collectorMode;
     bool enabled;
     BhkPickData();
-    void FUN_0059ceb0(hkpClosestRayHitCollector* collector);
     void FUN_004a3f70(SightFilter filter);
-    void FUN_004a3da0(const NiPoint3& start);
-    void FUN_004a3eb0(const NiPoint3& end);
 };
 struct SightCell
 {
-    void* FUN_00553ee0(BhkPickData* ray);
 };
 struct SightReference
 {
@@ -3173,7 +3063,6 @@ struct SightReference
     virtual void unknown62();
     virtual bool IsMobileObject();
     SightFilter FUN_00931ed0();
-    SightCell* FUN_008d6f30();
 };
 struct SightMobileReference : SightReference
 {
@@ -3181,25 +3070,20 @@ struct SightMobileReference : SightReference
 class GlobalObject_0045d260
 {
   public:
-    bool IsInCombat();
 };
-extern GlobalObject_0045d260 g_011f1c7c;
-float __cdecl GetScaleOrHeightDelta(SightReference* source, int mode);
-float __cdecl FUN_009a8460(SightReference* target, int mode, bool flag);
-SightReference* __cdecl FUN_0056f930(void* hit);
 // @fnv 0x009a7940
 bool __cdecl FUN_009a7940(SightReference* source, SightReference* target, const NiPoint3& from, const NiPoint3& to,
                           int unused, int requestedLayer)
 {
-    g_011f1c7c.IsInCombat();
+    reinterpret_cast<::TESForm *>(&(g_011f1c7c))->ClearData();
     int layer = 37;
     if (requestedLayer != -1)
         layer = requestedLayer;
     NiPoint3 start = from;
-    start.z += GetScaleOrHeightDelta(source, 1);
+    start.z += ::GetScaleOrHeightDelta((::TESObjectREFR *)(source), 1);
     NiPoint3 end = to;
     if (target)
-        end.z += FUN_009a8460(target, 2, true);
+        end.z += ::FUN_009a8460((::S_009a8460_Actor *)(target), 2, true);
     BhkPickData ray;
     SightFilter filter = source->FUN_00931ed0();
     if (target && target->IsMobileObject())
@@ -3208,24 +3092,24 @@ bool __cdecl FUN_009a7940(SightReference* source, SightReference* target, const 
         filter = mobile->FUN_00931ed0();
     }
     hkpClosestRayHitCollector collector(layer, &filter);
-    ray.FUN_0059ceb0(&collector);
+    reinterpret_cast<::FUN_0059ceb0_shell *>(&(ray))->FUN_0059ceb0(&collector);
     filter = source->FUN_00931ed0();
-    filter.FUN_004a39f0(layer);
+    reinterpret_cast<::FUN_004a39f0_shell *>(&(filter))->FUN_004a39f0(layer);
     ray.FUN_004a3f70(filter);
-    ray.FUN_004a3da0(start);
-    ray.FUN_004a3eb0(end);
-    void* hit = source->FUN_008d6f30()->FUN_00553ee0(&ray);
+    reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(ray))->FUN_004a3da0((void *)&(start));
+    reinterpret_cast<::FUN_004a3eb0_shell *>(&(ray))->FUN_004a3eb0((void *)&(end));
+    void* hit = reinterpret_cast<::FUN_00553ee0_shell *>((((::SightCell *)(reinterpret_cast<::LowProcess *>((source))->GetTarget()))))->FUN_00553ee0((::TESObjectREFR *)(::BhkPickData *)(&ray));
     if (!hit)
     {
-        g_011f1c7c.IsInCombat();
+        reinterpret_cast<::TESForm *>(&(g_011f1c7c))->ClearData();
         return true;
     }
-    SightReference* hitRef = FUN_0056f930(hit);
+    SightReference* hitRef = ((::SightReference *)(::FUN_0056f930((::NiAVObject *)(hit))));
     if (target && hitRef == target)
     {
-        g_011f1c7c.IsInCombat();
+        reinterpret_cast<::TESForm *>(&(g_011f1c7c))->ClearData();
         return true;
     }
-    g_011f1c7c.IsInCombat();
+    reinterpret_cast<::TESForm *>(&(g_011f1c7c))->ClearData();
     return false;
 }

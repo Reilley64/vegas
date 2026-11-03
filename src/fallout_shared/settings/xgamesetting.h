@@ -1,17 +1,17 @@
 #ifndef XGAMESETTING_H
 #define XGAMESETTING_H
 
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_011c8000.h"
 class GameSettingCollection;
 
-void EnsureGameSettingCollection();
 GameSettingCollection* GetGameSettingCollection();
-extern GameSettingCollection* g_pGameSettingCollection;
 
 // @fnv 0x00404a70
 GameSettingCollection* GetGameSettingCollection()
 {
-    EnsureGameSettingCollection();
-    return g_pGameSettingCollection;
+    ::EnsureSpawnedObj();
+    return (*reinterpret_cast<::GameSettingCollection * *>(&::DAT_011c8048));
 }
 
 #endif

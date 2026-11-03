@@ -1,17 +1,11 @@
 // fallout_shared/region system/tesregiondata.cpp: TESRegionData, RegionSource (8 functions)
 
+#include "fnv/decl/FUN_005bb4d0_shell.h"
+#include "fnv/decl/PatrolActorPackageData.h"
+#include "fnv/decl/fnv_00503210__Unk.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00485000.h"
 #include "tesregiondata_decls.h"
-
-// Copies the override form type and priority from the given data into this region data, returning false if data is null.
-// @fnv 0x004f1560
-bool TESRegionData::ApplyEntry(RegionDataEntry* data)
-{
-    if (!data)
-        return false;
-    reinterpret_cast<TESForm*>(this)->SetFormType(static_cast<ENUM_FORM_ID>(data->bOverride));
-    SetPriority(data->m_ucRegionPriority);
-    return true;
-}
 
 extern int DAT_01023ac4;
 
@@ -44,28 +38,26 @@ bool FUN_004f15c0_shell::FUN_004f15c0(unsigned char acPriority)
 }
 
 void __cdecl operator delete(void*);
-void* __fastcall FUN_004f14a0(void* pThis);
 
 struct FUN_004f1430_shell
 {
     void* __thiscall FUN_004f1430(unsigned int flags);
 };
 
-// Calls FUN_004f14a0 on this, deletes this when flags has bit 0 set, and returns this.
-// @fnv 0x004f1430
-void* __thiscall FUN_004f1430_shell::FUN_004f1430(unsigned int flags)
-{
-    FUN_004f14a0(this);
-    if (flags & 1)
-        operator delete(this);
-    return this;
-}
-
 struct FUN_004f14a0_shell
 {
     int* value;
     void FUN_004f14a0();
 };
+// Calls FUN_004f14a0 on this, deletes this when flags has bit 0 set, and returns this.
+// @fnv 0x004f1430
+void* __thiscall FUN_004f1430_shell::FUN_004f1430(unsigned int flags)
+{
+    reinterpret_cast<::FUN_004f14a0_shell *>((this))->FUN_004f14a0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x004f14a0
 void __thiscall FUN_004f14a0_shell::FUN_004f14a0()
@@ -77,6 +69,16 @@ struct FUN_004f15a0_shell : public TESForm
 {
     void FUN_004f15a0(int);
 };
+// Copies the override form type and priority from the given data into this region data, returning false if data is null.
+// @fnv 0x004f1560
+bool TESRegionData::ApplyEntry(RegionDataEntry* data)
+{
+    if (!data)
+        return false;
+    reinterpret_cast<::FUN_004f15a0_shell *>((reinterpret_cast<TESForm*>(this)))->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)(static_cast<ENUM_FORM_ID>(data->bOverride))));
+    reinterpret_cast<::FUN_004f15c0_shell *>(this)->FUN_004f15c0(data->m_ucRegionPriority);
+    return true;
+}
 
 // @fnv 0x004f15a0
 void FUN_004f15a0_shell::FUN_004f15a0(int aType)
@@ -101,8 +103,6 @@ FUN_004f1460::FUN_004f1460(const FUN_004f1460& other)
 }
 
 #include <string.h>
-bool __cdecl FUN_00401500();
-void __cdecl AppendChunk(unsigned int, const void*, unsigned int);
 
 struct RegionSaveData
 {
@@ -110,7 +110,6 @@ struct RegionSaveData
     bool bOverride;
     unsigned char m_ucRegionPriority;
     unsigned short unk06;
-    void FUN_00503210();
 };
 
 struct RegionSource
@@ -120,8 +119,6 @@ struct RegionSource
     virtual void v02();
     virtual void v03();
     virtual unsigned int GetType();
-    bool FUN_004f1540();
-    unsigned char FUN_005bb4d0();
     void WriteSaveData();
 };
 
@@ -131,11 +128,11 @@ void RegionSource::WriteSaveData()
     RegionSaveData data;
     memset(&data, 0, sizeof(data));
     data.m_eRegionDataId = GetType();
-    data.bOverride = FUN_004f1540();
-    data.m_ucRegionPriority = FUN_005bb4d0();
-    if (FUN_00401500())
-        data.FUN_00503210();
+    data.bOverride = reinterpret_cast<::PatrolActorPackageData *>(this)->IsPatrolling();
+    data.m_ucRegionPriority = ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>(this)->FUN_005bb4d0()));
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::fnv_00503210::Unk *>(&(data))->FUN_00503210();
     AppendChunk(0x54414452, &data, sizeof(data));
-    if (FUN_00401500())
-        data.FUN_00503210();
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::fnv_00503210::Unk *>(&(data))->FUN_00503210();
 }

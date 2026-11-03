@@ -1,5 +1,41 @@
 // fallout_shared/pathfinding/pathmanager.cpp: PathManager, PathingTaskData, Pathing, DelStandIn and more (65 functions)
 
+#include <new>
+#include "fnv/decl/ActorTaskManager.h"
+#include "fnv/decl/B00C20Pool.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/EffectSetting.h"
+#include "fnv/decl/FUN_0040f6e0_class.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_00438690.h"
+#include "fnv/decl/FUN_00633c90.h"
+#include "fnv/decl/FUN_006cb410_cls.h"
+#include "fnv/decl/FUN_006cf8a0_cls.h"
+#include "fnv/decl/FUN_006cf940_cls.h"
+#include "fnv/decl/FUN_006deeb0_cls.h"
+#include "fnv/decl/FUN_006eb6b0_cls.h"
+#include "fnv/decl/FUN_006ebfb0_Class.h"
+#include "fnv/decl/FUN_006ec390_Class.h"
+#include "fnv/decl/Lock00aa62c0.h"
+#include "fnv/decl/PathingLocation.h"
+#include "fnv/decl/PlayerQuestData.h"
+#include "fnv/decl/Queue44c640.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/TSHashTable.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/WaitableObject.h"
+#include "fnv/decl/fnv_006cb4a0__FUN_006cb4a0_shell.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/decl/fnv_00aa6120__Lock00aa6120.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0047d000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005dc000.h"
+#include "fnv/symbols_006c5000.h"
+#include "fnv/symbols_00aa6000.h"
+#include "fnv/symbols_00b00000.h"
+#include "fnv/symbols_0106d000.h"
 #include "pathmanager_decls.h"
 
 // Copies the two fields of source into this object and returns a reference to this object.
@@ -15,16 +51,16 @@ QueuedMessage& QueuedMessage::operator=(const QueuedMessage& source)
 // @fnv 0x006ea490
 bool PathingTaskData::HasPendingMessages()
 {
-    ((RecursiveSpinLock*)((char*)this + 0x20))->Lock(0);
-    for (unsigned int i = 0; i < ((BSSimpleArray<ParentSpaceNode, 1024>*)((char*)this + 0x50))->GetSize(); ++i)
+    reinterpret_cast<::FUN_0040fbf0_shell *>((((RecursiveSpinLock*)((char*)this + 0x20))))->FUN_0040fbf0((char *)(0));
+    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((BSSimpleArray<ParentSpaceNode, 1024>*)((char*)this + 0x50))))->GetName())); ++i)
     {
         if (((NiTArray<TESObjectREFR*, NiTNewInterface<TESObjectREFR*> >*)((char*)this + 0x50))->GetAt(i)->state == 0)
         {
-            ((RecursiveSpinLock*)((char*)this + 0x20))->Unlock();
+            ((RecursiveSpinLock*)((char*)this + 0x20))->FUN_0040fba0();
             return false;
         }
     }
-    ((RecursiveSpinLock*)((char*)this + 0x20))->Unlock();
+    ((RecursiveSpinLock*)((char*)this + 0x20))->FUN_0040fba0();
     return true;
 }
 
@@ -33,15 +69,6 @@ PathManager::PathManager()
 {
     m_kPerformanceTimerManager.Register(DAT_0103a1bc, DAT_0106d624, false, true);
     m_pPathManagerImpl = 0;
-}
-
-// Creates a new PathManagerImpl and returns the result of its Initialize call.
-// @fnv 0x006eb8c0
-bool PathManager::Initialize()
-{
-    AutoMemContext context(static_cast<MEM_CONTEXT>(0x2d), true, DAT_0106d560, 1386);
-    m_pPathManagerImpl = new PathManagerImpl;
-    return m_pPathManagerImpl->Initialize();
 }
 
 // @fnv 0x006eb9d0
@@ -69,68 +96,8 @@ bool PathManager::BuildPath(NiPointer<PathingRequest> m_pPathingRequest, NiPoint
     }
 }
 
-// @fnv 0x006e9fc0
-void PathingTaskData::Process()
-{
-    AutoMemContext context(static_cast<MEM_CONTEXT>(0x2d), true, DAT_0106d560, 355);
-    PathManager::GetRandomGenerator()->FUN_00717e50()->FUN_00483710();
-
-    if (PathManager::GetRandomGenerator()->FUN_00559450()->FUN_006eb790())
-    {
-        if (!HasPendingMessages())
-        {
-            FUN_006ea330();
-        }
-        else
-        {
-            m_pPathingSolution = new PathingSolution();
-            bool bSuccess = Pathing::BuildPath(m_pPathingRequest, m_pPathingSolution);
-            if (FUN_005dc980())
-            {
-                int unk18 = 0;
-            }
-            else
-            {
-                if (bSuccess)
-                {
-                    if (bFlag04)
-                    {
-                        bFlag04 = false;
-                    }
-                    ((ActorPathingMessageQueue*)spQueue)
-                        ->Push(QueuedMessage(PATHING_MESSAGE_TYPE_PMT_OK, m_pPathingSolution));
-                    PathManager::GetRandomGenerator()->FUN_00559450()->DispatchPathingMessage(Struct_004b0680(0, this));
-                }
-                else
-                {
-                    ((ActorPathingMessageQueue*)spQueue)
-                        ->Push(QueuedMessage(PATHING_MESSAGE_TYPE_PMT_ERROR, m_pPathingSolution));
-                    PathManager::GetRandomGenerator()->FUN_00559450()->DispatchPathingMessage(Struct_004b0680(1, this));
-                }
-            }
-        }
-        PathManager::GetRandomGenerator()->FUN_00559450()->FUN_006eb7b0();
-    }
-    else
-    {
-        if (PathManager::GetRandomGenerator()->FUN_00559450()->GetByteAtOffsetC34())
-        {
-            ((ActorPathingMessageQueue*)spQueue)
-                ->Push(QueuedMessage(PATHING_MESSAGE_TYPE_PMT_ERROR, m_pPathingSolution));
-            PathManager::GetRandomGenerator()->FUN_00559450()->DispatchPathingMessage(Struct_004b0680(1, this));
-        }
-        else
-        {
-            FUN_006ea330();
-        }
-    }
-
-    PathManager::GetRandomGenerator()->FUN_00717e50()->FUN_00483710();
-}
-
 struct G00559a40
 {
-    void FUN_0040f6e0();
 };
 struct S00559a40
 {
@@ -143,14 +110,13 @@ S00559a40* S00559a40::FUN_00559a40(S00559a40* apOther)
 {
     p = apOther->p;
     if (p)
-        p->FUN_0040f6e0();
+        reinterpret_cast<::FUN_0040f6e0_class *>((p))->FUN_0040f6e0();
     return this;
 }
 
 struct G006e9bd0
 {
     int v;
-    void FUN_ctor(int);
 };
 struct S006e9bd0
 {
@@ -163,14 +129,13 @@ struct S006e9bd0
 S006e9bd0* S006e9bd0::FUN_006e9bd0()
 {
     a = -1;
-    g.FUN_ctor(0);
+    new ((void *)&(g)) ::FUN_00633c90((::G00559a40 *)(0));
     return this;
 }
 
 struct N006e9c00
 {
     int v;
-    void FUN_nip(const N006e9c00&);
 };
 struct S006e9c00
 {
@@ -182,7 +147,7 @@ struct S006e9c00
 S006e9c00* S006e9c00::FUN_006e9c00(int aiType, N006e9c00* apSource)
 {
     type = aiType;
-    sp.FUN_nip(*apSource);
+    reinterpret_cast<::S00559a40 *>(&(sp))->FUN_00559a40((::S00559a40 *)&(*apSource));
     return this;
 }
 
@@ -212,7 +177,6 @@ struct Arr1_006e9e20
 {
     int pad[4];
     ~Arr1_006e9e20();
-    unsigned int GetSize();
     Elem1_006e9e20*& GetAt(unsigned int);
 };
 
@@ -245,7 +209,7 @@ struct FUN_006e9e20 : public Base_006e9e20
 // @fnv 0x006e9e20
 FUN_006e9e20::~FUN_006e9e20()
 {
-    for (unsigned int i = 0; i < m40.GetSize(); ++i)
+    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m40))->GetName())); ++i)
     {
         delete m40.GetAt(i);
         delete m50.GetAt(i);
@@ -282,6 +246,8 @@ struct GlobalObject_0044fae0
     char pad[0x18];
     GlobalObject_0044fae0();
     ~GlobalObject_0044fae0();
+public:
+    void FUN_004538a0(int);
 };
 struct PM4
 {
@@ -326,18 +292,25 @@ struct FUN_006eabe0_shell : public PathManagerImpl
 {
     bool FUN_006eabe0();
 };
+// Creates a new PathManagerImpl and returns the result of its Initialize call.
+// @fnv 0x006eb8c0
+bool PathManager::Initialize()
+{
+    AutoMemContext context(static_cast<MEM_CONTEXT>(0x2d), true, DAT_0106d560, 1386);
+    m_pPathManagerImpl = new PathManagerImpl;
+    return reinterpret_cast<::FUN_006eabe0_shell *>((m_pPathManagerImpl))->FUN_006eabe0();
+}
 
 struct BSWin32TaskletManager
 {
     bool GetTaskletValue(void*);
 };
-BSWin32TaskletManager& __cdecl GetTaskletManager(void);
 bool __fastcall FUN_006c08e0(void*);
 
 // @fnv 0x006eabe0
 bool FUN_006eabe0_shell::FUN_006eabe0()
 {
-    if (!GetTaskletManager().GetTaskletValue(this))
+    if (!::GetTaskletManager().GetTaskletValue(this))
         return false;
     if (!FUN_006c08e0(this))
         return false;
@@ -352,12 +325,11 @@ struct FUN_006eb790_shell : public PathManagerImpl
     bool FUN_006eb790();
 };
 
-bool __fastcall FUN_00aa6120(void* pThis);
 
 // @fnv 0x006eb790
 bool FUN_006eb790_shell::FUN_006eb790()
 {
-    return FUN_00aa6120((char*)this + 0xc2c);
+    return reinterpret_cast<::fnv_00aa6120::Lock00aa6120 *>(((char*)this + 0xc2c))->FUN_00aa6120();
 }
 
 struct FUN_006eb7b0_shell : public PathManagerImpl
@@ -365,12 +337,11 @@ struct FUN_006eb7b0_shell : public PathManagerImpl
     void FUN_006eb7b0();
 };
 
-void __fastcall FUN_00aa62c0(void* pThis);
 
 // @fnv 0x006eb7b0
 void FUN_006eb7b0_shell::FUN_006eb7b0()
 {
-    FUN_00aa62c0((char*)this + 0xc2c);
+    reinterpret_cast<::Lock00aa62c0 *>(((char*)this + 0xc2c))->FUN_00aa62c0();
 }
 
 struct PathingTaskMessage
@@ -403,43 +374,21 @@ struct FUN_006ebc70_shell : public PathManager
     void FUN_006ebc70();
 };
 
-void __fastcall FUN_006eb310(void*);
-
-// @fnv 0x006ebc70
-void FUN_006ebc70_shell::FUN_006ebc70()
-{
-    FUN_006eb310(*reinterpret_cast<void**>(this));
-}
 
 struct FUN_006ebc90_shell : public PathManager
 {
     bool FUN_006ebc90();
 };
 
-bool __fastcall FUN_006eb390(void*);
-
-// @fnv 0x006ebc90
-bool FUN_006ebc90_shell::FUN_006ebc90()
-{
-    return FUN_006eb390(*reinterpret_cast<void**>(this));
-}
 
 struct FUN_006ebcd0_shell : public PathManager
 {
     void FUN_006ebcd0();
 };
 
-void __fastcall FUN_006eb3b0(void*);
-
-// @fnv 0x006ebcd0
-void FUN_006ebcd0_shell::FUN_006ebcd0()
-{
-    FUN_006eb3b0(*reinterpret_cast<void**>(this));
-}
 
 struct T006ebd10
 {
-    void FUN_006eb6b0(int);
 };
 struct S006ebd10
 {
@@ -449,14 +398,13 @@ struct S006ebd10
 // @fnv 0x006ebd10
 void S006ebd10::FUN_006ebd10(int a)
 {
-    p->FUN_006eb6b0(a);
+    reinterpret_cast<::FUN_006eb6b0_cls *>((p))->FUN_006eb6b0(a);
 }
 
 struct G006ebf30
 {
     char pad[0x14];
     char r;
-    void FUN_0040f6e0();
 };
 struct S006ebf30
 {
@@ -469,14 +417,13 @@ S006ebf30* S006ebf30::FUN_006ebf30(S006ebf30* apSource)
 {
     p = apSource->p;
     if (p)
-        ((G006ebf30*)((char*)p + 0x14))->FUN_0040f6e0();
+        reinterpret_cast<::FUN_0040f6e0_class *>((((G006ebf30*)((char*)p + 0x14))))->FUN_0040f6e0();
     return this;
 }
 
 class NiAVObject
 {
   public:
-    void FUN_00401970();
 };
 
 // If the stored pointer is non-null, calls FUN_00401970 on the NiAVObject at offset 0x14 of it.
@@ -484,14 +431,12 @@ class NiAVObject
 void __fastcall FUN_006ebf90(char** apObjectPtr)
 {
     if (*apObjectPtr)
-        ((NiAVObject*)(*apObjectPtr + 0x14))->FUN_00401970();
+        reinterpret_cast<::WaitableObject *>((((NiAVObject*)(*apObjectPtr + 0x14))))->FUN_00401970();
 }
 
-void __cdecl Deallocate(void*);
 namespace p07 {
 struct DtorStandIn
 {
-    void FUN_0083dec0();
 };
 struct DelStandIn
 {
@@ -501,9 +446,9 @@ struct DelStandIn
 // @fnv 0x006e9c90
 void* DelStandIn::DestroyAndFree(unsigned int flags)
 {
-    ((DtorStandIn*)this)->FUN_0083dec0();
+    reinterpret_cast<::FUN_006e9e20 *>((((DtorStandIn*)this)))->FUN_006e9e20::~FUN_006e9e20();
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 }
@@ -511,16 +456,15 @@ void* DelStandIn::DestroyAndFree(unsigned int flags)
 struct FUN_006e9f60_shell
 {
     void* FUN_006e9f60(unsigned int flags);
-    void FUN_006cb410();
 };
 
 // Calls FUN_006cb410, then deletes this when flags has bit 0 set, and returns this.
 // @fnv 0x006e9f60
 void* FUN_006e9f60_shell::FUN_006e9f60(unsigned int flags)
 {
-    FUN_006cb410();
+    reinterpret_cast<::FUN_006cb410_cls *>(this)->FUN_006cb410_cls::~FUN_006cb410_cls();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -539,6 +483,11 @@ struct FUN_006eb390_shell
 {
     bool __thiscall FUN_006eb390();
 };
+// @fnv 0x006ebc90
+bool FUN_006ebc90_shell::FUN_006ebc90()
+{
+    return reinterpret_cast<::FUN_006eb390_shell *>((*reinterpret_cast<void**>(this)))->FUN_006eb390();
+}
 
 // @fnv 0x006eb390
 bool __thiscall FUN_006eb390_shell::FUN_006eb390()
@@ -561,6 +510,64 @@ struct FUN_006eb7d0_shell
 {
     char GetByteAtOffsetC34();
 };
+// @fnv 0x006e9fc0
+void PathingTaskData::Process()
+{
+    AutoMemContext context(static_cast<MEM_CONTEXT>(0x2d), true, DAT_0106d560, 355);
+    reinterpret_cast<::TESForm *>((((::DummyTimer *)(reinterpret_cast<::BaseProcess *>((::GetPathManager()))->GetCurrentProcessData()))))->ClearData();
+
+    if (reinterpret_cast<::FUN_006eb790_shell *>((((::PathManagerImpl *)(::FUN_00559450((int *)(::GetPathManager()))))))->FUN_006eb790())
+    {
+        if (!HasPendingMessages())
+        {
+            reinterpret_cast<::FUN_006ea330_shell *>(this)->FUN_006ea330();
+        }
+        else
+        {
+            m_pPathingSolution = new PathingSolution();
+            bool bSuccess = Pathing::BuildPath(m_pPathingRequest, m_pPathingSolution);
+            if (((bool)(::FUN_005dc980((const char *)this))))
+            {
+                int unk18 = 0;
+            }
+            else
+            {
+                if (bSuccess)
+                {
+                    if (bFlag04)
+                    {
+                        bFlag04 = false;
+                    }
+                    ((ActorPathingMessageQueue*)spQueue)
+                        ->Push(QueuedMessage(PATHING_MESSAGE_TYPE_PMT_OK, m_pPathingSolution));
+                    reinterpret_cast<::FUN_006eb7f0_shell *>((((::PathManagerImpl *)(::FUN_00559450((int *)(::GetPathManager()))))))->DispatchPathingMessage((void *)&(const ::Struct_004b0680 &)(Struct_004b0680(0, this)));
+                }
+                else
+                {
+                    ((ActorPathingMessageQueue*)spQueue)
+                        ->Push(QueuedMessage(PATHING_MESSAGE_TYPE_PMT_ERROR, m_pPathingSolution));
+                    reinterpret_cast<::FUN_006eb7f0_shell *>((((::PathManagerImpl *)(::FUN_00559450((int *)(::GetPathManager()))))))->DispatchPathingMessage((void *)&(const ::Struct_004b0680 &)(Struct_004b0680(1, this)));
+                }
+            }
+        }
+        reinterpret_cast<::FUN_006eb7b0_shell *>((((::PathManagerImpl *)(::FUN_00559450((int *)(::GetPathManager()))))))->FUN_006eb7b0();
+    }
+    else
+    {
+        if (((bool)(reinterpret_cast<::FUN_006eb7d0_shell *>((((::PathManagerImpl *)(::FUN_00559450((int *)(::GetPathManager()))))))->GetByteAtOffsetC34())))
+        {
+            ((ActorPathingMessageQueue*)spQueue)
+                ->Push(QueuedMessage(PATHING_MESSAGE_TYPE_PMT_ERROR, m_pPathingSolution));
+            reinterpret_cast<::FUN_006eb7f0_shell *>((((::PathManagerImpl *)(::FUN_00559450((int *)(::GetPathManager()))))))->DispatchPathingMessage((void *)&(const ::Struct_004b0680 &)(Struct_004b0680(1, this)));
+        }
+        else
+        {
+            reinterpret_cast<::FUN_006ea330_shell *>(this)->FUN_006ea330();
+        }
+    }
+
+    reinterpret_cast<::TESForm *>((((::DummyTimer *)(reinterpret_cast<::BaseProcess *>((::GetPathManager()))->GetCurrentProcessData()))))->ClearData();
+}
 
 // @fnv 0x006eb7d0
 char FUN_006eb7d0_shell::GetByteAtOffsetC34()
@@ -570,7 +577,6 @@ char FUN_006eb7d0_shell::GetByteAtOffsetC34()
 
 struct FUN_006eb420_t
 {
-    void __thiscall IsFieldZero();
 };
 
 struct FUN_006ebcb0_shell
@@ -582,10 +588,9 @@ struct FUN_006ebcb0_shell
 // @fnv 0x006ebcb0
 void __thiscall FUN_006ebcb0_shell::CallMemberFunction()
 {
-    m0->IsFieldZero();
+    reinterpret_cast<::FUN_006eb420_shell *>((m0))->IsFieldZero();
 }
 
-extern int DAT_0106d644;
 
 struct FUN_006ebdc0_shell
 {
@@ -612,7 +617,6 @@ bool FUN_006ebde0_shell::FUN_006ebde0()
 
 struct GlobalObject_00869f00
 {
-    void Clear(bool);
 };
 
 extern void* DAT_0106d650;
@@ -627,7 +631,7 @@ struct FUN_006ebec0_shell
 void FUN_006ebec0_shell::FUN_006ebec0()
 {
     m_data = &DAT_0106d650;
-    reinterpret_cast<GlobalObject_00869f00*>(this)->Clear(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((reinterpret_cast<GlobalObject_00869f00*>(this)))->Clear(true);
 }
 
 struct AX
@@ -636,7 +640,6 @@ struct AX
     void FUN_006b3eb0(unsigned int, unsigned int);
 };
 
-extern int DAT_0106d664;
 
 struct FUN_006ebee0_shell : AX
 {
@@ -659,7 +662,6 @@ struct GlobalObject_00869f00
     void FUN_006ebf10();
 };
 
-extern int DAT_0106d664;
 
 void GlobalObject_00869f00::Clear(bool)
 {}
@@ -667,13 +669,12 @@ void GlobalObject_00869f00::Clear(bool)
 // @fnv 0x006ebf10
 void GlobalObject_00869f00::FUN_006ebf10()
 {
-    *(int*)this = (int)&DAT_0106d664;
-    Clear(true);
+    *(int*)this = (int)&::DAT_0106d664;
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
 }
 }  // namespace fnv_006ebf10
 
 namespace fnv_006ec970 {
-extern void* DAT_0106d644;
 
 struct FUN_006ec970_shell
 {
@@ -687,7 +688,7 @@ struct FUN_006ec970_shell
 // @fnv 0x006ec970
 FUN_006ec970_shell::FUN_006ec970_shell()
 {
-    m_kPointA = &DAT_0106d644;
+    m_kPointA = &(*reinterpret_cast<void * *>(&::DAT_0106d644));
     m_kPointB = 0;
     m_iThirdValue = 0;
     m_iFourthElementInteger = 0;
@@ -697,10 +698,8 @@ FUN_006ec970_shell::FUN_006ec970_shell()
 namespace fnv_006ebe60 {
 struct FUN_006ebdc0_shell
 {
-    void __thiscall SetVtable();
 };
 
-extern void __cdecl _Deallocate(void*);
 
 struct FUN_006ebe60_shell
 {
@@ -711,9 +710,9 @@ struct FUN_006ebe60_shell
 // @fnv 0x006ebe60
 void* __thiscall FUN_006ebe60_shell::FUN_006ebe60(unsigned int flags)
 {
-    ((FUN_006ebdc0_shell*)this)->SetVtable();
+    reinterpret_cast<::FUN_006ebdc0_shell *>((((FUN_006ebdc0_shell*)this)))->SetVtable();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 }  // namespace fnv_006ebe60
@@ -752,19 +751,17 @@ struct FUN_006e9c30
 FUN_006e9c30::FUN_006e9c30(const FUN_006e9c30& aOther) : m0(aOther.m0), m1((unsigned int*)&aOther.m1)
 {}
 
-void _Deallocate(void*);
 struct Holder006e9f90
 {
-    void ClearLOSArray();
     void* ReleaseIfFlagged(unsigned int);
 };
 // Calls ClearLOSArray, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x006e9f90
 void* Holder006e9f90::ReleaseIfFlagged(unsigned int flags)
 {
-    ClearLOSArray();
+    reinterpret_cast<::fnv_006cb4a0::FUN_006cb4a0_shell *>(this)->ClearLOSArray();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -802,9 +799,7 @@ namespace fnv_006eac40 {
 void __fastcall FUN_006c09d0(void*);
 struct BSWin32TaskletManager
 {
-    void ReleaseItem(void*);
 };
-BSWin32TaskletManager& __cdecl GetTaskletManager(void);
 struct FUN_006eac40_Holder
 {
     void FUN_006eac40();
@@ -814,7 +809,7 @@ struct FUN_006eac40_Holder
 void FUN_006eac40_Holder::FUN_006eac40()
 {
     FUN_006c09d0(this);
-    GetTaskletManager().ReleaseItem(this);
+    reinterpret_cast<::B00C20Pool *>(&((*(::fnv_006eac40::BSWin32TaskletManager *)&(::GetTaskletManager()))))->ReleaseItem((*(::B00C20Item * *)(this)));
 }
 }  // namespace fnv_006eac40
 
@@ -867,12 +862,15 @@ void FUN_006eb670_Holder::FUN_006eb670(bool a1)
 
 struct Obj_6eb890
 {
-    int FUN_006eb890(int);
 };
 struct Holder_6eb850
 {
     Obj_6eb890* ptr;
     void FUN_006eb850();
+};
+struct Tmp_006eb890
+{
+    void* __thiscall FUN_006eb890(unsigned int);
 };
 // If ptr is non-null, calls FUN_006eb890(1) on it.
 // @fnv 0x006eb850
@@ -883,26 +881,9 @@ void Holder_6eb850::FUN_006eb850()
         Obj_6eb890* a;
         a = ptr;
         b = a;
-        b ? b->FUN_006eb890(1) : 0;
+        b ? ((int)(reinterpret_cast<::Tmp_006eb890 *>((b))->FUN_006eb890(1))) : 0;
     }
 }
-
-struct Tmp_006eb890
-{
-    void __thiscall FUN_006eab30();
-    void* __thiscall FUN_006eb890(unsigned int);
-};
-void __cdecl _Deallocate(void*);
-// Calls FUN_006eab30, then deallocates this when flags has bit 0 set, and returns this.
-// @fnv 0x006eb890
-void* __thiscall Tmp_006eb890::FUN_006eb890(unsigned int flags)
-{
-    FUN_006eab30();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 extern int DAT_0106d63c;
 
 struct FUN_006ebda0_shell
@@ -916,40 +897,27 @@ void FUN_006ebda0_shell::FUN_006ebda0()
     *reinterpret_cast<int*>(this) = (int)&DAT_0106d63c;
 }
 
-void __cdecl _Deallocate(void*);
 struct S006ebe00
 {
     void FUN_006ebd30();
     void* FUN_006ebe00(unsigned int);
 };
-// @fnv 0x006ebe00
-void* S006ebe00::FUN_006ebe00(unsigned int flags)
-{
-    FUN_006ebd30();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct Class_006ebe30
 {
-    void FUN_006ebda0();
     void* FUN_006ebe30(unsigned int);
 };
-void __cdecl _Deallocate(void*);
 // @fnv 0x006ebe30
 void* Class_006ebe30::FUN_006ebe30(unsigned int flags)
 {
-    FUN_006ebda0();
+    reinterpret_cast<::FUN_006ebda0_shell *>(this)->FUN_006ebda0();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 namespace fnv_006ebf60 {
 struct G00559a40
 {
-    void FUN_0040f6e0();
 };
 struct S006ebf60
 {
@@ -962,7 +930,7 @@ S006ebf60* S006ebf60::FUN_006ebf60(int aiValue)
 {
     f = aiValue;
     if (f != 0)
-        ((G00559a40*)(f + 0x14))->FUN_0040f6e0();
+        reinterpret_cast<::FUN_0040f6e0_class *>((((G00559a40*)(f + 0x14))))->FUN_0040f6e0();
     return this;
 }
 }  // namespace fnv_006ebf60
@@ -997,12 +965,9 @@ struct FUN_006c5e70
     ~FUN_006c5e70();
     int a, b;
 };
-FUN_006c5e70 __fastcall FUN_006c5e40();
 struct TESRaceForm
 {
-    void Initialize(unsigned int);
 };
-int __fastcall FUN_00559450(int*);
 struct Queue_006eac70
 {
     virtual void v0();
@@ -1026,12 +991,12 @@ struct PathManagerImpl_t
 bool PathManagerImpl_t::QueueTaskletRequest(GO aspRequest, Ptr2_006e9e20 aspMessageQueue)
 {
     BSTaskletData* ptaskData = new FUN_006e9cc0(aspRequest, aspMessageQueue);
-    FUN_006c5e70 task = FUN_006c5e40();
-    ((TESRaceForm*)&task)->Initialize((unsigned int)ptaskData);
-    kQueue.Add(FUN_00559450((int*)&aspRequest), &ptaskData, 1);
+    FUN_006c5e70 task = (*(::fnv_006eac70::FUN_006c5e70 *)(::FUN_006c5e40({})));
+    reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)&task)))->Initialize((::CombatController *)((unsigned int)ptaskData));
+    kQueue.Add(::FUN_00559450((int*)&aspRequest), &ptaskData, 1);
     if (!FUN_006c5ec0(&task, 0))
     {
-        kQueue.Remove(FUN_00559450((int*)&aspRequest));
+        kQueue.Remove(::FUN_00559450((int*)&aspRequest));
         delete ptaskData;
         return false;
     }
@@ -1048,7 +1013,6 @@ struct RequestAssigner
 };
 struct QueueAssigner
 {
-    void AssignPointer(const NiPointer<ActorPathingMessageQueue>&);
 };
 struct PathingTaskShell : PathingTaskData
 {
@@ -1058,7 +1022,7 @@ struct PathingTaskShell : PathingTaskData
 void PathingTaskShell::AssignRequestAndQueue(PathingRequest* request, NiPointer<ActorPathingMessageQueue> queue)
 {
     reinterpret_cast<RequestAssigner*>(&m_pPathingRequest)->FUN_006e5cc0(request);
-    reinterpret_cast<QueueAssigner*>(&spQueue)->AssignPointer(queue);
+    reinterpret_cast<::FUN_006ebfb0_Class *>((reinterpret_cast<QueueAssigner*>(&spQueue)))->AssignPointer((int **)&(queue));
 }
 
 struct SearchItem
@@ -1066,6 +1030,8 @@ struct SearchItem
     int unk00;
     int flags;
 };
+struct PathingSolutionExt;
+struct RayCastParam;
 struct PathingSearchRayCast
 {
     int unk00;
@@ -1108,8 +1074,8 @@ struct PathingSearchRayCast
     int unk94;
     PathingSearchRayCast();
     ~PathingSearchRayCast();
-    void ProcessRayCast(SearchItem*, SearchItem*);
-    int FUN_004fd3e0();
+public:
+    unsigned int ProcessRayCast(::RayCastParam *, ::PathingSolutionExt *);
 };
 struct SearchArray
 {
@@ -1117,7 +1083,6 @@ struct SearchArray
     int unk04;
     int unk08;
     int unk0c;
-    unsigned int FUN_0044ddc0();
     SearchItem*& FUN_00877a30(unsigned int);
 };
 struct SearchLock
@@ -1130,8 +1095,6 @@ struct SearchLock
     int unk14;
     int unk18;
     int unk1c;
-    void FUN_0040fbf0(const char*);
-    void FUN_0040fba0();
 };
 struct ManagerView
 {
@@ -1152,19 +1115,19 @@ struct ManagerView
 int ManagerView::FUN_006ea350()
 {
     int total = 0;
-    lock.FUN_0040fbf0(0);
-    for (unsigned int i = 0; i < first.FUN_0044ddc0(); i++)
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&(lock))->FUN_0040fbf0((char *)(0));
+    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(first))->GetName())); i++)
     {
         if (second.FUN_00877a30(i)->flags == 0)
         {
             PathingSearchRayCast rayCast;
-            rayCast.ProcessRayCast(first.FUN_00877a30(i), second.FUN_00877a30(i));
-            total += rayCast.FUN_004fd3e0();
+            reinterpret_cast<::PathingSearchRayCast *>(&(rayCast))->ProcessRayCast((::RayCastParam *)(first.FUN_00877a30(i)), (::PathingSolutionExt *)(second.FUN_00877a30(i)));
+            total += ((int)(reinterpret_cast<::EffectSetting *>(&(rayCast))->GetHitSound()));
             if (total > 10)
                 break;
         }
     }
-    lock.FUN_0040fba0();
+    reinterpret_cast<::RecursiveSpinLock *>(&(lock))->FUN_0040fba0();
     return total;
 }
 
@@ -2532,6 +2495,15 @@ struct FUN_006eab30_cls : public BGSChangeFlags_6eab30
     PMA_6eab30 m_1480;
     ~FUN_006eab30_cls();
 };
+// Calls FUN_006eab30, then deallocates this when flags has bit 0 set, and returns this.
+// @fnv 0x006eb890
+void* __thiscall Tmp_006eb890::FUN_006eb890(unsigned int flags)
+{
+    reinterpret_cast<::FUN_006eab30_cls *>(this)->FUN_006eab30_cls::~FUN_006eab30_cls();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Destructor of the change-flags object; the body is empty, so member destructors run implicitly.
 // @fnv 0x006eab30
@@ -2576,7 +2548,6 @@ unsigned int __thiscall FUN_006eb250_Class::CallVirtualObjectMethod(int aiValue,
 class EB2B0Item
 {
   public:
-    int Process(int a, int b, int c);
 };
 
 class EB2B0Map
@@ -3907,24 +3878,11 @@ class EB2B0Owner
     int ProcessKeyedItem(unsigned int uiKey, int a, int b, int c);
 };
 
-// Looks up the item for uiKey in the map and forwards a, b, c to its Process; returns 2 if the key is not found.
-// @fnv 0x006eb2b0
-int EB2B0Owner::ProcessKeyedItem(unsigned int uiKey, int aiArg1, int aiArg2, int aiArg3)
-{
-    EB2B0Item* pkItem = 0;
-    if (m_kFormatEntries.GetAt(uiKey, pkItem))
-        return pkItem->Process(aiArg1, aiArg2, aiArg3);
-    else
-        return 2;
-}
-
 extern const char g_acB6EB310Name[];
 
 class B6EB310Lock
 {
   public:
-    void Lock(const char* pcName);
-    void Unlock();
 };
 
 class B6EB310Manager
@@ -4716,11 +4674,16 @@ class B6EB310Manager
     int unkC34;
     B6EB310Lock m_kLock;
 };
+// @fnv 0x006ebc70
+void FUN_006ebc70_shell::FUN_006ebc70()
+{
+    reinterpret_cast<::B6EB310Manager *>((*reinterpret_cast<void**>(this)))->FUN_006eb310();
+}
 
 // @fnv 0x006eb310
 void B6EB310Manager::FUN_006eb310()
 {
-    m_kLock.Lock(g_acB6EB310Name);
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&(m_kLock))->FUN_004538a0((int)(g_acB6EB310Name));
     switch (m_eAnimationState)
     {
     case 0:
@@ -4732,7 +4695,7 @@ void B6EB310Manager::FUN_006eb310()
         m_eAnimationState = 2;
         break;
     }
-    m_kLock.Unlock();
+    reinterpret_cast<::ActorTaskManager *>(&(m_kLock))->WaitForTasksDuringRendering();
 }
 
 extern const char g_acB6EB3B0Name[];
@@ -4740,8 +4703,6 @@ extern const char g_acB6EB3B0Name[];
 class B6EB3B0Lock
 {
   public:
-    void Lock(const char* pcName);
-    void Unlock();
 };
 
 class B6EB3B0Manager
@@ -5533,11 +5494,16 @@ class B6EB3B0Manager
     int unkC34;
     B6EB3B0Lock m_kLock;
 };
+// @fnv 0x006ebcd0
+void FUN_006ebcd0_shell::FUN_006ebcd0()
+{
+    reinterpret_cast<::B6EB3B0Manager *>((*reinterpret_cast<void**>(this)))->FUN_006eb3b0();
+}
 
 // @fnv 0x006eb3b0
 void B6EB3B0Manager::FUN_006eb3b0()
 {
-    m_kLock.Lock(g_acB6EB3B0Name);
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&(m_kLock))->FUN_004538a0((int)(g_acB6EB3B0Name));
     switch (m_eAnimationState)
     {
         break;
@@ -5548,13 +5514,11 @@ void B6EB3B0Manager::FUN_006eb3b0()
         m_eAnimationState = 3;
         break;
     }
-    m_kLock.Unlock();
+    reinterpret_cast<::ActorTaskManager *>(&(m_kLock))->WaitForTasksDuringRendering();
 }
 
 struct Obj_006eb980_obj
 {
-    void FUN_006eac40();
-    int FUN_006eb890(int);
 };
 
 struct Shell_006eb980
@@ -5567,16 +5531,15 @@ struct Shell_006eb980
 // @fnv 0x006eb980
 void Shell_006eb980::FUN_006eb980()
 {
-    m0->FUN_006eac40();
+    reinterpret_cast<::fnv_006eac40::FUN_006eac40_Holder *>((m0))->FUN_006eac40();
     Obj_006eb980_obj* QQ = m0;
     Obj_006eb980_obj* PP2 = QQ;
-    PP2 != 0 ? PP2->FUN_006eb890(1) : 0;
+    PP2 != 0 ? ((int)(reinterpret_cast<::Tmp_006eb890 *>((PP2))->FUN_006eb890(1))) : 0;
     m0 = 0;
 }
 
 struct Inner006eb440
 {
-    void __thiscall Drain();
 };
 
 struct FUN_006ebcf0_cls
@@ -5584,12 +5547,6 @@ struct FUN_006ebcf0_cls
     Inner006eb440* m0;
     void __thiscall CallInner();
 };
-
-// @fnv 0x006ebcf0
-void FUN_006ebcf0_cls::CallInner()
-{
-    m0->Drain();
-}
 
 struct ArrayElement_006ebd30
 {
@@ -5611,6 +5568,14 @@ struct FUN_006ebd30 : Base_006ebd30
     ArrayElement_006ebd30 elements[256];
     virtual ~FUN_006ebd30();
 };
+// @fnv 0x006ebe00
+void* S006ebe00::FUN_006ebe00(unsigned int flags)
+{
+    reinterpret_cast<::FUN_006ebd30 *>(this)->FUN_006ebd30::~FUN_006ebd30();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x006ebd30
 FUN_006ebd30::~FUN_006ebd30()
@@ -5620,12 +5585,10 @@ struct PathingLocation17
 {
     int v[10];
     PathingLocation17& operator=(const PathingLocation17& other);
-    bool Test(const PathingLocation17& other, float f);
 };
 struct Sub17
 {
     int v[4];
-    void Activate(int arg);
 };
 struct Big17
 {
@@ -5646,8 +5609,6 @@ struct Small17
 struct Spin17
 {
     int v[8];
-    void Lock(char* name);
-    void Unlock();
 };
 struct Arr40_17
 {
@@ -5658,7 +5619,6 @@ struct Arr40_17
 struct Arr50_17
 {
     int v[4];
-    unsigned int GetSize();
     Small17*& GetAt(unsigned int idx);
     unsigned int Add(Small17*& elem);
 };
@@ -5675,25 +5635,33 @@ struct Host17
     Spin17 spin;
     Arr40_17 arr40;
     Arr50_17 arr50;
-    void FUN_006ea330();
-    void Notify(int arg);
     int FindOrAddPathingEntry(PathingLocation17& a1, PathingLocation17& a2, int a3);
 };
+// Looks up the item for uiKey in the map and forwards a, b, c to its Process; returns 2 if the key is not found.
+// @fnv 0x006eb2b0
+int EB2B0Owner::ProcessKeyedItem(unsigned int uiKey, int aiArg1, int aiArg2, int aiArg3)
+{
+    EB2B0Item* pkItem = 0;
+    if (m_kFormatEntries.GetAt(uiKey, pkItem))
+        return reinterpret_cast<::Host17 *>((pkItem))->FindOrAddPathingEntry((*(::PathingLocation17 *)(aiArg1)), (*(::PathingLocation17 *)(aiArg2)), aiArg3);
+    else
+        return 2;
+}
 
 // Locks the spin, scans arr50 for a type 2 entry whose loc8/loc30 match a1/a2 within 0.1, acts on its code4, or appends new Big17/Small17 entries and notifies.
 // @fnv 0x006ea510
 int Host17::FindOrAddPathingEntry(PathingLocation17& a1, PathingLocation17& a2, int iActivateArg)
 {
     int result = 0;
-    spin.Lock(0);
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&(spin))->FUN_0040fbf0(0);
     int i2 = 0;
-    for (; i2 < arr50.GetSize(); ++i2)
+    for (; i2 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr50))->GetName())); ++i2)
     {
         if (arr50.GetAt(i2)->type0 == 2)
         {
-            if (arr40.GetAt(i2)->loc8.Test(a1, 0.1f))
+            if (reinterpret_cast<::FUN_006deeb0_cls *>(&(arr40.GetAt(i2)->loc8))->IsWithinDistanceOfSameLocation((const ::PathingLocation *)&(a1), 0.1f))
             {
-                if (arr40.GetAt(i2)->loc30.Test(a2, 0.1f))
+                if (reinterpret_cast<::FUN_006deeb0_cls *>(&(arr40.GetAt(i2)->loc30))->IsWithinDistanceOfSameLocation((const ::PathingLocation *)&(a2), 0.1f))
                 {
                     result = arr50.GetAt(i2)->code4;
                     switch (result)
@@ -5701,16 +5669,16 @@ int Host17::FindOrAddPathingEntry(PathingLocation17& a1, PathingLocation17& a2, 
                     case 2:
                         break;
                     case 1:
-                        arr50.GetAt(i2)->sub8.Activate(iActivateArg);
+                        reinterpret_cast<::FUN_006cf940_cls *>(&(arr50.GetAt(i2)->sub8))->FUN_006cf940((::FUN_006cf940_Owner *)(iActivateArg));
                         break;
                     case 0:
-                        FUN_006ea330();
+                        reinterpret_cast<::FUN_006ea330_shell *>(this)->FUN_006ea330();
                         break;
                     default:
                         result = 2;
                         break;
                     }
-                    spin.Unlock();
+                    reinterpret_cast<::RecursiveSpinLock *>(&(spin))->FUN_0040fba0();
                     return result;
                 }
             }
@@ -5718,16 +5686,16 @@ int Host17::FindOrAddPathingEntry(PathingLocation17& a1, PathingLocation17& a2, 
     }
     Big17* pBigEntry = new Big17;
     pBigEntry->req4 = (PathingRequest*)spReq;
-    pBigEntry->loc8 = a1;
-    pBigEntry->loc30 = a2;
+    reinterpret_cast<::PathingLocation *>((void *)&(const ::PathingLocation17 &)(pBigEntry->loc8))->operator=((const ::PathingLocation &)(a1));
+    reinterpret_cast<::PathingLocation *>((void *)&(const ::PathingLocation17 &)(pBigEntry->loc30))->operator=((const ::PathingLocation &)(a2));
     pBigEntry->type0 = 2;
     Small17* pSmallEntry = new Small17;
     pSmallEntry->type0 = pBigEntry->type0;
     pSmallEntry->code4 = 0;
-    arr40.Add(pBigEntry);
-    arr50.Add(pSmallEntry);
-    spin.Unlock();
-    Notify(1);
+    reinterpret_cast<::FUN_00438690 *>(&(arr40))->FUN_007cb2e0((unsigned int *)&(pBigEntry));
+    reinterpret_cast<::FUN_00438690 *>(&(arr50))->FUN_007cb2e0((unsigned int *)&(pSmallEntry));
+    reinterpret_cast<::RecursiveSpinLock *>(&(spin))->FUN_0040fba0();
+    reinterpret_cast<::PlayerQuestData *>(this)->SetIndex(1);
     return result;
 }
 
@@ -5737,14 +5705,10 @@ void __cdecl operator delete(void*);
 struct RequestLocation
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24;
-    bool IsWithinDistanceOfSameLocation(int location, float tolerance);
-    void FUN_006dcce0(int location);
 };
 struct RequestShape
 {
     int unk00, unk04, unk08, unk0c;
-    void FUN_006cf940(int result);
-    void ProcessItems(RequestShape* result);
 };
 struct FUN_006cb3a0
 {
@@ -5775,19 +5739,17 @@ struct RequestManager
     SearchLock lock;
     RequestArray<FUN_006cb3a0> requests;
     RequestArray<FUN_006cb480> statuses;
-    void FUN_006ea330();
-    void FUN_0060d4b0(int changed);
 };
 // Locks the manager, searches statuses for a matching type and location, updates or creates the request/status entries, unlocks, and returns the status.
 // @fnv 0x006ea780
 unsigned int FUN_006ea780_Obj::RequestLocationStatus(int pShape, int iLocation, int a3, int bTypeFlag)
 {
     unsigned int status = 0;
-    ((RequestManager*)this)->lock.FUN_0040fbf0(0);
-    for (unsigned int i = 0; i < ((RequestManager*)this)->statuses.FUN_0044ddc0(); i++)
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&(((RequestManager*)this)->lock))->FUN_0040fbf0((char *)(0));
+    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((RequestManager*)this)->statuses))->GetName())); i++)
     {
         if (((RequestManager*)this)->statuses.FUN_00877a30(i)->type == !(unsigned char)bTypeFlag &&
-            ((RequestManager*)this)->requests.FUN_00877a30(i)->location.IsWithinDistanceOfSameLocation(iLocation, 0.1f))
+            reinterpret_cast<::FUN_006deeb0_cls *>(&(((RequestManager*)this)->requests.FUN_00877a30(i)->location))->IsWithinDistanceOfSameLocation((const ::PathingLocation *)(iLocation), 0.1f))
         {
             status = ((RequestManager*)this)->statuses.FUN_00877a30(i)->status;
             switch (status)
@@ -5795,37 +5757,36 @@ unsigned int FUN_006ea780_Obj::RequestLocationStatus(int pShape, int iLocation, 
             case 2:
                 break;
             case 1:
-                ((RequestManager*)this)->statuses.FUN_00877a30(i)->shape.FUN_006cf940(a3);
+                reinterpret_cast<::FUN_006cf940_cls *>(&(((RequestManager*)this)->statuses.FUN_00877a30(i)->shape))->FUN_006cf940((::FUN_006cf940_Owner *)(a3));
                 break;
             case 0:
-                ((RequestManager*)this)->FUN_006ea330();
+                reinterpret_cast<::FUN_006ea330_shell *>((((RequestManager*)this)))->FUN_006ea330();
                 break;
             default:
                 status = 2;
             }
-            ((RequestManager*)this)->lock.FUN_0040fba0();
+            reinterpret_cast<::RecursiveSpinLock *>(&(((RequestManager*)this)->lock))->FUN_0040fba0();
             return status;
         }
     }
     FUN_006cb3a0* entry = new FUN_006cb3a0;
-    entry->owner = ((RequestManager*)this)->owner.FUN_00559450();
-    entry->location.FUN_006dcce0(iLocation);
-    ((RequestShape*)pShape)->ProcessItems(&entry->shape);
+    entry->owner = ((::PathManagerImpl *)(::FUN_00559450((int *)&(((RequestManager*)this)->owner))));
+    reinterpret_cast<::PathingLocation *>(&(entry->location))->operator=((*(const ::PathingLocation *)(iLocation)));
+    reinterpret_cast<::FUN_006cf8a0_cls *>((((RequestShape*)pShape)))->ProcessItems((::ParamHost *)(::RequestShape *)(&entry->shape));
     entry->type = !(unsigned char)bTypeFlag;
     FUN_006cb480* request = new FUN_006cb480;
     request->type = entry->type;
     request->status = 0;
-    ((RequestManager*)this)->requests.FUN_007cb2e0(entry);
-    ((RequestManager*)this)->statuses.FUN_007cb2e0(request);
-    ((RequestManager*)this)->lock.FUN_0040fba0();
-    ((RequestManager*)this)->FUN_0060d4b0(1);
+    reinterpret_cast<::FUN_00438690 *>(&(((RequestManager*)this)->requests))->FUN_007cb2e0((unsigned int *)&(entry));
+    reinterpret_cast<::FUN_00438690 *>(&(((RequestManager*)this)->statuses))->FUN_007cb2e0((unsigned int *)&(request));
+    reinterpret_cast<::RecursiveSpinLock *>(&(((RequestManager*)this)->lock))->FUN_0040fba0();
+    reinterpret_cast<::PlayerQuestData *>((((RequestManager*)this)))->SetIndex(1);
     return status;
 }
 
 struct QueueTarget;
 struct RefView
 {
-    QueueTarget* Get() const;
 };
 struct TaskView
 {
@@ -5870,7 +5831,6 @@ struct IteratorView
     int d;
     IteratorView();
     ~IteratorView();
-    bool Empty();
 };
 struct ReplyView
 {
@@ -5892,19 +5852,14 @@ struct QueueView
     virtual void v3();
     virtual bool Pop(MessageView&);
     virtual void Remove(QueueTarget*);
-    bool Next(IteratorView&, int*, TaskView**, bool);
-    void Clear(int);
 };
 struct TimerView
 {
     int a;
-    void Begin(const char*);
-    void End();
 };
 struct LockView
 {
     int a;
-    void Release();
 };
 extern const char taskName[];
 void __fastcall EnterTasks(void*);
@@ -7226,11 +7181,16 @@ struct DrainManager
     QueueView outgoing;
     void Drain();
 };
+// @fnv 0x006ebcf0
+void FUN_006ebcf0_cls::CallInner()
+{
+    reinterpret_cast<::DrainManager *>((m0))->Drain();
+}
 // Starts the timer, enters tasks, drains incoming messages, replies to outgoing tasks, clears the queue, releases the lock and resets state.
 // @fnv 0x006eb440
 void DrainManager::Drain()
 {
-    timer.Begin(taskName);
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&(timer))->FUN_004538a0((int)(taskName));
     EnterTasks(this);
     active = true;
     ((FUN_006eb670_Holder*)this)->FUN_006eb670(false);
@@ -7241,28 +7201,28 @@ void DrainManager::Drain()
         {
         case 0:
         case 1:
-            outgoing.Remove(message.task->request.Get());
+            outgoing.Remove(((::QueueTarget *)(::FUN_00559450((int *)&(message.task->request)))));
             delete message.task;
             break;
         }
     }
     IteratorView iter;
-    while (!iter.Empty())
+    while (!reinterpret_cast<::FUN_006ebde0_shell *>(&(iter))->FUN_006ebde0())
     {
         int key;
         TaskView* pTask;
-        if (outgoing.Next(iter, &key, &pTask, true))
+        if (reinterpret_cast<::Queue44c640 *>(&(outgoing))->TryGetNextEntry((::QueueIter44c640 *)&(iter), (void **)(int *)(&key), (int)(&pTask), true))
         {
-            pTask->queue.Get()->Push(ReplyView(1, &pTask->solution));
+            ((::QueueTarget *)(::FUN_00559450((int *)&(pTask->queue))))->Push(ReplyView(1, &pTask->solution));
             delete pTask;
         }
     }
-    outgoing.Clear(0);
-    lock.Release();
+    reinterpret_cast<::TSHashTable *>(&(outgoing))->FUN_0044c480(0);
+    ::fnv_00aa6060::AcquireLock((::ReadWriteLock *)&(lock));
     state = 2;
     active = false;
     FUN_006c08e0(this);
-    timer.End();
+    reinterpret_cast<::ActorTaskManager *>(&(timer))->WaitForTasksDuringRendering();
 }
 
 // Destructor: pop and discard every queued item before the base queue is destroyed.
@@ -7295,7 +7255,7 @@ class FUN_009055c0 : public F55C0Queue
 FUN_009055c0::~FUN_009055c0()
 {
     F55C0Item kItem;
-    while (Pop(kItem))
+    while (reinterpret_cast<::FUN_006ec390_Class *>(this)->FUN_006ec390((int)&(kItem)))
     {
     }
 }
@@ -7346,11 +7306,10 @@ struct FUN_006e9cc0 : PathTaskBase
     bool enabled;
     FUN_006e9cc0(int, PathHandle);
     virtual ~FUN_006e9cc0();
-    void Initialize(int, PathHandle);
 };
 // Constructs a path task, default-initializes its members, then calls Initialize with the given mode and handle.
 // @fnv 0x006e9cc0
 FUN_006e9cc0::FUN_006e9cc0(int mode, PathHandle value) : first(0), second(0), handle(0), enabled(false)
 {
-    Initialize(mode, value);
+    reinterpret_cast<::PathingTaskShell *>(this)->AssignRequestAndQueue((::PathingRequest *)(mode), (*(::NiPointer< ::ActorPathingMessageQueue> *)&(const ::PathHandle &)(value)));
 }

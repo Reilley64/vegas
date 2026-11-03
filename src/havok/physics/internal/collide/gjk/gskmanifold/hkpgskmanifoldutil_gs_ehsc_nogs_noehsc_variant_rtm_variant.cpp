@@ -7,6 +7,9 @@
 // to their real unit once identified.
 // src/havok/physics/internal/collide/gjk/gskmanifold/hkpgskmanifoldutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/gjk/gskmanifold/hkpgskmanifoldutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_00dad000.h"
+#include "fnv/symbols_00daf000.h"
+#include "fnv/symbols_0104d000.h"
 struct S_00dad640_Entry
 {
     unsigned short unk0;
@@ -30,7 +33,6 @@ struct S_00dad640_Target
     virtual void unk10();
     virtual void Release(unsigned short id, void* arg);
 };
-void ReleaseAllEntries(S_00dad640_Set* set, S_00dad640_Target* target, void* arg);
 struct S_00dad4d0_Key
 {
     unsigned short ids[4];
@@ -63,11 +65,9 @@ struct S_00dad4d0_Set
         return *(unsigned short*)((char*)&entries[count] + (off >> 3));
     }
 };
-bool FindAndPromoteEntry(S_00dad4d0_Set* set, S_00dad4d0_Key* key);
 void __fastcall FUN_00dae220(int unused, S_00dad640_Set* set);
 void __cdecl FUN_00dae340(S_00dad640_Set* set, unsigned int index);
 #include <xmmintrin.h>
-extern float DAT_0104da48;
 struct __declspec(align(16)) S_00daee00_Vec
 {
     float x;
@@ -134,7 +134,6 @@ struct S_00dad720_Rec
     unsigned char m_kPointB;
     unsigned char m_iThirdValue;
 };
-extern const __m128 DAT_010ec7f0;
 static __forceinline __m128 Cross3(const __m128& a, const __m128& b)
 {
     __m128 t0 = _mm_mul_ps(_mm_shuffle_ps(a, a, 0xc9), _mm_shuffle_ps(b, b, 0xd2));
@@ -161,6 +160,7 @@ volatile int g_out;
 volatile int g_res;
 void CallTarget_dad720();
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 struct S_00dae220_Entry
 {
     unsigned char numA;
@@ -199,7 +199,6 @@ struct ContactRecord
 struct ContactCache
 {
     ContactRecord points[4];
-    int FUN_00daee00();
 };
 struct ContactContext
 {
@@ -231,8 +230,6 @@ static inline S_00dad4d0_Entry& ContactEntry(ContactManifold* set, unsigned inde
     return *reinterpret_cast<S_00dad4d0_Entry*>(reinterpret_cast<char*>(set) + 4 + index * 8);
 }
 static void __fastcall FUN_00dae220(int, ContactManifold* set);
-int FUN_00daf1e0(ContactManifold* set, void* a, void* b, void* c, ContactContext* context, S_00dad4d0_Key* key,
-                 ContactRecord* point, ContactCache* cache, ContactManager* manager, int defer);
 static __declspec(noinline) void __fastcall FUN_00dae220(int, ContactManifold* set)
 {
     __declspec(align(16)) unsigned int usedWords[4];
@@ -278,8 +275,6 @@ static __declspec(noinline) void __fastcall FUN_00dae220(int, ContactManifold* s
     }
 }
 
-extern const __m128 DAT_010ec7f0;
-extern const __m128 DAT_010c44d0;
 class Scalar
 {
     __m128 value;
@@ -434,7 +429,7 @@ class Vec
     __forceinline void setInterpolate4(const Vec& a, const Vec& b, const Scalar& fraction)
     {
         __m128 t = fraction.broadcast();
-        __m128 s = _mm_sub_ps(DAT_010ec7f0, t);
+        __m128 s = _mm_sub_ps(::DAT_010ec7f0, t);
         value = _mm_add_ps(_mm_mul_ps(s, a.value), _mm_mul_ps(t, b.value));
     }
     __forceinline void setAddMul4(const Vec& a, const Vec& b, const Scalar& scale)

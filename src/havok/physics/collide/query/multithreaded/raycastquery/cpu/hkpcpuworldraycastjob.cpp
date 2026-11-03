@@ -2,6 +2,10 @@
 // src/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpuworldraycastjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpuworldraycastjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/symbols_00e2b000.h"
+#include "fnv/symbols_010db000.h"
+#include "fnv/symbols_0126e000.h"
 struct ValueHolder
 {
     int unk00;
@@ -22,7 +26,6 @@ unsigned char* ValueHolder::CopyValue(unsigned char* output)
 
 struct S_00df8990_Obj;
 
-extern void(__cdecl* DAT_0126ec04)(void* a, void* b, S_00df8990_Obj* obj);
 
 struct S_00df8990_Obj
 {
@@ -58,16 +61,8 @@ struct S_00df8d60
     int unkC;
     int unk10;
     float unk14;
-    S_00df8d60_Bool FUN_00df8aa0(const void* data);
     float FUN_00df8d60(const S_00df8d60_Data* data, int unused);
 };
-// @fnv 0x00df8d60
-float S_00df8d60::FUN_00df8d60(const S_00df8d60_Data* data, int unused)
-{
-    FUN_00df8aa0((const char*)data + data->unk5);
-    return unk14;
-}
-
 struct ParamBlock
 {
     int unk00;
@@ -83,7 +78,6 @@ struct ParamBlock
 
 struct Container
 {
-    void FUN_00df8aa0(int* apOut, int aiValue);
 };
 
 struct FUN_00df8db0_cls
@@ -95,15 +89,6 @@ struct FUN_00df8db0_cls
 
     float GetResult(ParamBlock* apParam);
 };
-
-// @fnv 0x00df8db0
-float FUN_00df8db0_cls::GetResult(ParamBlock* apParam)
-{
-    int iOut;
-    Container* pContainer = (Container*)((char*)this - 8);
-    pContainer->FUN_00df8aa0(&iOut, apParam->m_iValue);
-    return m_fResult;
-}
 
 extern int DAT_0101e594;
 
@@ -148,20 +133,12 @@ FUN_00df8960_cls* FUN_00df8960_cls::FUN_00df8960(unsigned char acFlags)
 
 struct AdjustedBase
 {
-    void FUN_00df8aa0(void* apFirst, int aiSecond);
 };
 
 struct AdjustOwner
 {
     void* FUN_00df8d90(void* apFirst, int aiSecond);
 };
-
-// @fnv 0x00df8d90
-void* AdjustOwner::FUN_00df8d90(void* apFirst, int aiSecond)
-{
-    ((AdjustedBase*)((char*)this - 4))->FUN_00df8aa0(apFirst, aiSecond);
-    return apFirst;
-}
 
 struct FUN_00df8dd0_Param
 {
@@ -173,7 +150,6 @@ struct FUN_00df8dd0_Param
 
 struct FUN_00df8dd0_helper
 {
-    void FUN_00df8aa0(FUN_00df8dd0_Param** pp, unsigned int value);
 };
 
 struct FUN_00df8dd0_cls
@@ -184,13 +160,6 @@ struct FUN_00df8dd0_cls
 
     float FUN_00df8dd0(FUN_00df8dd0_Param* p);
 };
-
-// @fnv 0x00df8dd0
-float FUN_00df8dd0_cls::FUN_00df8dd0(FUN_00df8dd0_Param* pParam)
-{
-    ((FUN_00df8dd0_helper*)((char*)this - 12))->FUN_00df8aa0(&pParam, pParam->m_i0c);
-    return m_f08;
-}
 
 namespace fnv_00df9470 {
 struct AudioAllocator
@@ -325,10 +294,7 @@ Derived::Derived()
 {}
 
 #include <xmmintrin.h>
-extern char DAT_010dbb04[];
-extern void(__cdecl* DAT_0126ec04)(void* a, void* b, struct S_00df8990_Obj* obj);
 struct S_00df8990_Obj;
-void __cdecl FUN_00e2b9b0(void* a, void* b, S_00df8990_Obj* obj);
 
 struct Source
 {
@@ -478,7 +444,7 @@ void __cdecl FUN_00df89b0(Interface* apInterface, Source* apSource, Output* apOu
     if (apSource->m_3c != 0)
     {
         apOutput->m_60 = new (spawned) Spawned(apSource->m_30, apSource->m_34);
-        DAT_0126ec04 = FUN_00e2b9b0;
+        DAT_0126ec04 = ((void (&)(void *, void *, S_00df8990_Obj *))::FUN_00e2b9b0);
     }
     else
         apOutput->m_60 = 0;
@@ -737,7 +703,7 @@ struct RayCaster_00df8aa0 : S_00df8d60
 
         S_00df8d60_Bool result;
         result.m_cBooleanValue = 0;
-        if (!shape || !self->filter()->m_rayCollidableFilter.IsCollisionEnabled(*self->m_pRayCastInput, *body))
+        if (!shape || !reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(self->filter()->m_rayCollidableFilter.IsCollisionEnabled(*self->m_pRayCastInput, *body)))->FUN_005609f0())
         {
             return result;
         }
@@ -756,7 +722,7 @@ struct RayCaster_00df8aa0 : S_00df8d60
         {
             hkBool hit = shape->RayCast(self->m_kShapeRayInput, output);
             result.m_cBooleanValue = hit.m_cBooleanValue;
-            if (!hit)
+            if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(hit))->FUN_005609f0())
             {
                 return result;
             }
@@ -824,6 +790,32 @@ struct RayCaster_00df8aa0 : S_00df8d60
         return 0;
     }
 };
+// @fnv 0x00df8d60
+float S_00df8d60::FUN_00df8d60(const S_00df8d60_Data* data, int unused)
+{
+    reinterpret_cast<::RayCaster_00df8aa0 *>(this)->FUN_00df8aa0((const char*)data + data->unk5);
+    return unk14;
+}
+// @fnv 0x00df8db0
+float FUN_00df8db0_cls::GetResult(ParamBlock* apParam)
+{
+    int iOut;
+    Container* pContainer = (Container*)((char*)this - 8);
+    reinterpret_cast<::RayCaster_00df8aa0 *>((pContainer))->FUN_00df8aa0(&iOut);
+    return m_fResult;
+}
+// @fnv 0x00df8d90
+void* AdjustOwner::FUN_00df8d90(void* apFirst, int aiSecond)
+{
+    reinterpret_cast<::RayCaster_00df8aa0 *>((((AdjustedBase*)((char*)this - 4))))->FUN_00df8aa0(apFirst);
+    return apFirst;
+}
+// @fnv 0x00df8dd0
+float FUN_00df8dd0_cls::FUN_00df8dd0(FUN_00df8dd0_Param* pParam)
+{
+    reinterpret_cast<::RayCaster_00df8aa0 *>((((FUN_00df8dd0_helper*)((char*)this - 12))))->FUN_00df8aa0(&pParam);
+    return m_f08;
+}
 
 __forceinline void memCpy16NonEmpty(void* dst, const void* src, int numQuads)
 {

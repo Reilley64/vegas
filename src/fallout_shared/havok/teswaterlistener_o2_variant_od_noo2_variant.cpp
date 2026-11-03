@@ -7,29 +7,70 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/fallout_shared/havok/teswaterlistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/teswaterlistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/AlignedVector.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_004a3c90.h"
+#include "fnv/decl/FUN_005532a0_cls.h"
+#include "fnv/decl/FUN_005616d0_Owner.h"
+#include "fnv/decl/FUN_00561800_Class.h"
+#include "fnv/decl/FUN_00563200_Struct.h"
+#include "fnv/decl/FUN_00628f30_shell.h"
+#include "fnv/decl/FUN_0062e860_cls.h"
+#include "fnv/decl/FUN_00630bb0_shell.h"
+#include "fnv/decl/FUN_00631100_shell.h"
+#include "fnv/decl/FUN_00631140_shell.h"
+#include "fnv/decl/FUN_0084d310_class.h"
+#include "fnv/decl/FUN_009d9f40_Class.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/OwnerC9Body.h"
+#include "fnv/decl/S004586d0_Obj.h"
+#include "fnv/decl/S00458a10_Vector.h"
+#include "fnv/decl/S00630ae0_Result.h"
+#include "fnv/decl/S_00627920.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/V.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/WaterSplash_62e970.h"
+#include "fnv/decl/WorldObject_c8d3.h"
+#include "fnv/decl/bhkCharacterController.h"
+#include "fnv/decl/fnv_00437c10__FUN_00437c10.h"
+#include "fnv/decl/fnv_004b4ea0__TESDataHandler.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_00517000.h"
+#include "fnv/symbols_00560000.h"
+#include "fnv/symbols_00624000.h"
+#include "fnv/symbols_0062b000.h"
+#include "fnv/symbols_0062f000.h"
+#include "fnv/symbols_00631000.h"
+#include "fnv/symbols_00c8c000.h"
+#include "fnv/symbols_00c9c000.h"
+#include "fnv/symbols_011c7000.h"
+#include "fnv/symbols_011cc000.h"
+#include "fnv/symbols_011d0000.h"
 struct FUN_0062e750_shell
 {
     void* __thiscall FUN_0062e750(unsigned int flags);
-    void __thiscall FUN_0062e860();
 };
-void __cdecl _Deallocate(void* p);
 extern int DAT_011c7a3c;
-void FUN_0062f310(int value);
 extern unsigned char DAT_011c7a5a;
 void FUN_0062f8e0(unsigned char value);
-extern float _DAT_011c7a5c;
-void FUN_0062f8f0(float value);
 struct BSOcclusionPlane
 {
-    unsigned int GetCullResult() const;
 };
 struct ExtraDataList
 {
-    unsigned int GetRoomId();
 };
 struct BSThread
 {
-    unsigned int GetThreadID();
 };
 unsigned int __cdecl GetOcclusionPlaneThreadID(BSOcclusionPlane* pPlane);
 extern "C" float __cdecl ExpFloat(float);
@@ -37,13 +78,10 @@ float FUN_00630aa0(float value);
 extern "C" double __cdecl _exp(double);
 float ExpFloat(float value);
 extern float _gModifierZero;
-float __cdecl SignOfFloat(float a);
 struct FUN_005631e0_shell
 {
-    int __thiscall MaskWithField(int a);
     bool __thiscall IsNonZero(int a);
 };
-float __cdecl FUN_004a3e90(float);
 struct FUN_0062e710_shell
 {
     void __thiscall SetValueAt(float f, int a, int b);
@@ -54,7 +92,6 @@ struct BSSimpleList_Ragdoll
 };
 struct TESDataHandler
 {
-    BSSimpleList_Ragdoll* __thiscall GetBGSRagdollList();
 };
 struct FUN_006310c0_shell
 {
@@ -62,7 +99,6 @@ struct FUN_006310c0_shell
 };
 struct FUN_00c9a460_shell
 {
-    void __thiscall AddObject(int a);
     void __thiscall FUN_00c9a600(int a);
 };
 
@@ -70,26 +106,12 @@ struct FUN_00c9a460_shell
 struct PhysicsVector
 {
     __m128 m_vComponents;
-    void FUN_006815c0();
-    void FUN_004a3c90(const PhysicsVector*);
     void FUN_005dbf20(float);
-    void FUN_005532a0(float, float, float, float);
-    float& FUN_00560d30(int);
-    PhysicsVector* FUN_00458700(PhysicsVector*, int);
-    float FUN_004586d0();
-    void FUN_00630ae0(const PhysicsVector*, const PhysicsVector*);
-    void FUN_00458a10(const PhysicsVector*, const PhysicsVector*);
-    void FUN_00630bb0(const PhysicsVector*, const PhysicsVector*);
-    void FUN_00553f70(const PhysicsVector*);
-    void FUN_004a3f10(const PhysicsVector*);
     PhysicsVector* FUN_00630b40(PhysicsVector*);
-    void FUN_00627920(const PhysicsVector*);
-    void FUN_006240d0();
 };
 struct PhysicsBounds
 {
     PhysicsVector minimum, maximum;
-    void FUN_00437c10();
 };
 struct FUN_005dbf20 : PhysicsVector
 {
@@ -160,83 +182,60 @@ struct PhysicsBody
     virtual void slot60();
     virtual void slot61();
     virtual void GetBounds(PhysicsBounds*);
-    bool IsNonZero(int);
-    void SetFlag(int, bool);
-    void GetAabb(PhysicsBounds*);
 };
 struct PhysicsReference
 {
     const PhysicsVector* FUN_004b4ec0();
-    int FUN_00517670();
-    PhysicsReference* FUN_0044ddc0();
-    void FUN_00483710();
-    const PhysicsVector* FUN_00460140();
-    const PhysicsVector* FUN_00560dc0();
-    float FUN_004b4ea0();
-    int FUN_00c9c380();
     const PhysicsVector* FUN_006310c0();
-    void FUN_00631140(float, const PhysicsVector*, const PhysicsVector*);
-    void FUN_00631100(float, const PhysicsVector*);
-    void OnTrigger(const PhysicsVector*);
     const PhysicsVector* FUN_00560e50();
-    void FUN_00561800(const PhysicsVector*);
 };
-PhysicsBody* FUN_004b5a80(PhysicsReference*);
-bool FUN_00c8cce0(int*);
-float GetObjectMass(PhysicsBody*);
 float FUN_00408840(float);
-float FUN_004587d0(float);
 extern float DAT_0119af4c, DAT_0119af48, DAT_0119af44;
 extern float DAT_0119af40, DAT_011cc5e4, DAT_011cc5e0, DAT_0119af3c, DAT_0119af38;
 struct RuntimeFloatSetting
 {
-    float* FUN_00403e20();
 };
-extern RuntimeFloatSetting DAT_011d0478, DAT_011d0cf0, DAT_011d0ee8, DAT_011d0580;
 struct ReferenceMap
 {
-    void FUN_0084d310(PhysicsReference*, bool);
 };
-extern ReferenceMap DAT_011cc584;
 struct PhysicsController
 {
     int FUN_00630170(PhysicsReference*, float, float, bool);
-    void SpawnWaterSplash(PhysicsBody*, float);
 };
 // @fnv 0x00630170
 int PhysicsController::FUN_00630170(PhysicsReference* reference, float height, float deltaTime, bool alternate)
 {
     int result = 0;
     PhysicsVector position;
-    position.FUN_004a3c90(reference->FUN_004b4ec0());
-    PhysicsBody* body = FUN_004b5a80(reference);
+    new ((void *)&(position)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(reference->FUN_004b4ec0())));
+    PhysicsBody* body = ((::PhysicsBody *)(::FUN_004b5a80(reference)));
     PhysicsBounds bounds;
-    bounds.FUN_00437c10();
+    new ((void *)&(bounds)) ::fnv_00437c10::FUN_00437c10();
     body->GetBounds(&bounds);
-    if (bounds.minimum.FUN_00560d30(2) <= height)
+    if (reinterpret_cast<::bhkCharacterController *>(&(bounds.minimum))->GetVectorElement(2) <= height)
     {
-        int handle = reference->FUN_00517670();
-        if (FUN_00c8cce0(&handle))
+        int handle = ::FUN_00517670((::TESDataHandler *)(reference));
+        if (((bool)(::FUN_00c8cce0(&handle))))
         {
-            PhysicsReference* state = reference->FUN_0044ddc0();
+            PhysicsReference* state = ((::PhysicsReference *)(reinterpret_cast<::Twin_0044ddc0 *>((reference))->GetName()));
             if (state)
             {
-                state->FUN_00483710();
+                reinterpret_cast<::TESForm *>((state))->ClearData();
                 PhysicsVector direction;
-                direction.FUN_004a3c90(state->FUN_00460140());
+                new ((void *)&(direction)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(((const ::PhysicsVector *)(::FUN_00460140((int)(state)))))));
                 PhysicsVector velocity;
-                velocity.FUN_004a3c90(reference->FUN_00560dc0());
-                float mass = reference->FUN_004b4ea0();
-                float extent = bounds.maximum.FUN_00560d30(2) - bounds.minimum.FUN_00560d30(2);
-                float lower = extent * 0.25 + bounds.minimum.FUN_00560d30(2);
-                float upper = extent * 0.8500000238418579 + bounds.minimum.FUN_00560d30(2);
+                new ((void *)&(velocity)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(((const ::PhysicsVector *)(::FUN_00560dc0((::TESDataHandler *)(reference)))))));
+                float mass = reinterpret_cast<::fnv_004b4ea0::TESDataHandler *>((reference))->FUN_004b4ea0();
+                float extent = reinterpret_cast<::bhkCharacterController *>(&(bounds.maximum))->GetVectorElement(2) - reinterpret_cast<::bhkCharacterController *>(&(bounds.minimum))->GetVectorElement(2);
+                float lower = extent * 0.25 + reinterpret_cast<::bhkCharacterController *>(&(bounds.minimum))->GetVectorElement(2);
+                float upper = extent * 0.8500000238418579 + reinterpret_cast<::bhkCharacterController *>(&(bounds.minimum))->GetVectorElement(2);
                 float amount = (height - lower) / (upper - lower);
                 if (amount <= 0.0)
                 {
-                    state->FUN_00483710();
+                    reinterpret_cast<::TESForm *>((state))->ClearData();
                     return result;
                 }
-                float strength = GetObjectMass(body);
+                float strength = ::GetObjectMass((::WorldObject62b3 *)(body));
                 bool dampVertical = true;
                 if (amount < DAT_0119af4c && strength > 0.0)
                 {
@@ -247,97 +246,97 @@ int PhysicsController::FUN_00630170(PhysicsReference* reference, float height, f
                     else if (amount > DAT_011cc5e0)
                         strength = DAT_0119af3c;
                     PhysicsVector component;
-                    if (DAT_0119af38 > FUN_00408840(velocity.FUN_00458700(&component, 2)->FUN_004586d0()))
+                    if (DAT_0119af38 > FUN_00408840(reinterpret_cast<::S004586d0_Obj *>((((::PhysicsVector *)(reinterpret_cast<::Holder *>(&(velocity))->FUN_00458700((::Holder *)(::PhysicsVector *)(&component), 2)))))->FUN_004586d0()))
                         dampVertical = false;
                 }
                 strength = -strength;
                 PhysicsVector force;
-                force.FUN_006815c0();
+                new ((void *)&(force)) ::Vec3();
                 FUN_005dbf20 multiplier(strength * mass);
-                force.FUN_00630ae0(&multiplier, &direction);
+                reinterpret_cast<::S00630ae0_Result *>(&(force))->FUN_00630ae0((const ::S00630ae0_Source *)(const ::PhysicsVector *)(&multiplier), (const ::S00630ae0_Vector *)(const ::PhysicsVector *)(&direction));
                 PhysicsVector torque;
-                torque.FUN_006815c0();
-                if (!reference->FUN_00c9c380())
+                new ((void *)&(torque)) ::Vec3();
+                if (!::FUN_00c9c380((void *)(reference), {}))
                 {
                     PhysicsBounds inertiaBounds;
-                    inertiaBounds.FUN_00437c10();
-                    body->GetAabb(&inertiaBounds);
+                    new ((void *)&(inertiaBounds)) ::fnv_00437c10::FUN_00437c10();
+                    reinterpret_cast<::WorldObject_c8d3 *>((body))->GetAabb((*(::Aabb_c8d3 *)(&inertiaBounds)));
                     PhysicsVector localTorque;
-                    localTorque.FUN_005532a0(0, 0, 0, 0);
+                    reinterpret_cast<::FUN_005532a0_cls *>(&(localTorque))->FUN_005532a0(0, 0, 0, 0);
                     PhysicsVector sizes;
-                    sizes.FUN_006815c0();
-                    sizes.FUN_00458a10(&inertiaBounds.maximum, &inertiaBounds.minimum);
-                    int smallest = sizes.FUN_00560d30(0) < sizes.FUN_00560d30(1)
-                                       ? (sizes.FUN_00560d30(1) < sizes.FUN_00560d30(2) ? 2 : 1)
-                                       : (sizes.FUN_00560d30(0) < sizes.FUN_00560d30(2) ? 2 : 0);
-                    int largest = sizes.FUN_00560d30(0) > sizes.FUN_00560d30(1)
-                                      ? (sizes.FUN_00560d30(1) > sizes.FUN_00560d30(2) ? 2 : 1)
-                                      : (sizes.FUN_00560d30(0) > sizes.FUN_00560d30(2) ? 2 : 0);
-                    if (sizes.FUN_00560d30(smallest) > sizes.FUN_00560d30(largest) * 1.5f)
+                    new ((void *)&(sizes)) ::Vec3();
+                    reinterpret_cast<::S00458a10_Vector *>(&(sizes))->FUN_00458a10((const ::S00458a10_Vector *)(const ::PhysicsVector *)(&inertiaBounds.maximum), (const ::S00458a10_Vector *)(const ::PhysicsVector *)(&inertiaBounds.minimum));
+                    int smallest = reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(0) < reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(1)
+                                       ? (reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(1) < reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(2) ? 2 : 1)
+                                       : (reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(0) < reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(2) ? 2 : 0);
+                    int largest = reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(0) > reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(1)
+                                      ? (reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(1) > reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(2) ? 2 : 1)
+                                      : (reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(0) > reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(2) ? 2 : 0);
+                    if (reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(smallest) > reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(largest) * 1.5f)
                     {
-                        localTorque.FUN_00560d30(largest) =
-                            sizes.FUN_00560d30(smallest) / sizes.FUN_00560d30(largest) * 0.1f * SignOfFloat(strength);
+                        reinterpret_cast<::bhkCharacterController *>(&(localTorque))->GetVectorElement(largest) =
+                            reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(smallest) / reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(largest) * 0.1f * SignOfFloat(strength);
                         PhysicsVector rotation;
-                        rotation.FUN_006240d0();
+                        ::FUN_006240d0((void *)&(rotation));
                         body->GetRotation(&rotation);
-                        torque.FUN_00630bb0(&rotation, &localTorque);
-                        torque.FUN_00553f70(reference->FUN_006310c0());
+                        reinterpret_cast<::FUN_00630bb0_shell *>(&(torque))->FUN_00630bb0((::Source630 *)(&rotation), (void *)(&localTorque));
+                        reinterpret_cast<::V *>(&(torque))->FUN_00553f70((*(const ::V *)(reference->FUN_006310c0())));
                     }
                     else
-                        torque.FUN_004a3f10(reference->FUN_006310c0());
+                        reinterpret_cast<::AlignedVector *>(&(torque))->FUN_004a3f10((*(const ::AlignedVector *)(reference->FUN_006310c0())));
                 }
                 else
-                    torque.FUN_004a3f10(reference->FUN_006310c0());
-                state->FUN_00483710();
-                reference->FUN_00631140(deltaTime, &force, &torque);
+                    reinterpret_cast<::AlignedVector *>(&(torque))->FUN_004a3f10((*(const ::AlignedVector *)(reference->FUN_006310c0())));
+                reinterpret_cast<::TESForm *>((state))->ClearData();
+                reinterpret_cast<::FUN_00631140_shell *>((reference))->FUN_00631140(deltaTime, (int)(&force), (int)(&torque));
                 PhysicsVector secondForce;
-                secondForce.FUN_006815c0();
+                new ((void *)&(secondForce)) ::Vec3();
                 FUN_005dbf20 secondMultiplier(mass * -1.0);
-                secondForce.FUN_00630ae0(&secondMultiplier, &direction);
-                reference->FUN_00631100(deltaTime, &secondForce);
-                state->FUN_00483710();
+                reinterpret_cast<::S00630ae0_Result *>(&(secondForce))->FUN_00630ae0((const ::S00630ae0_Source *)(const ::PhysicsVector *)(&secondMultiplier), (const ::S00630ae0_Vector *)(const ::PhysicsVector *)(&direction));
+                reinterpret_cast<::FUN_00631100_shell *>((reference))->FUN_00631100(deltaTime, (int)(&secondForce));
+                reinterpret_cast<::TESForm *>((state))->ClearData();
                 PhysicsVector linear;
-                linear.FUN_004a3c90(reference->FUN_00560dc0());
-                float vertical = linear.FUN_00560d30(2);
-                linear.FUN_00560d30(2) = 0;
+                new ((void *)&(linear)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(((const ::PhysicsVector *)(::FUN_00560dc0((::TESDataHandler *)(reference)))))));
+                float vertical = reinterpret_cast<::bhkCharacterController *>(&(linear))->GetVectorElement(2);
+                reinterpret_cast<::bhkCharacterController *>(&(linear))->GetVectorElement(2) = 0;
                 if (dampVertical)
                 {
-                    vertical *= FUN_00630aa0(*DAT_011d0478.FUN_00403e20() * -1.0 * deltaTime);
+                    vertical *= FUN_00630aa0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RuntimeFloatSetting *>(&::originalRuntimeFloatSetting979)))))) * -1.0 * deltaTime);
                 }
                 PhysicsVector magnitude;
-                if (linear.FUN_00630b40(&magnitude)->FUN_004586d0() > *DAT_011d0cf0.FUN_00403e20())
+                if (reinterpret_cast<::S004586d0_Obj *>((linear.FUN_00630b40(&magnitude)))->FUN_004586d0() > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RuntimeFloatSetting *>(&::originalRuntimeFloatSetting975)))))))
                 {
-                    FUN_005dbf20 factor(FUN_00630aa0(*DAT_011d0ee8.FUN_00403e20() * -1.0 * deltaTime));
-                    linear.FUN_00627920(&factor);
+                    FUN_005dbf20 factor(FUN_00630aa0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RuntimeFloatSetting *>(&::originalRuntimeFloatSetting978)))))) * -1.0 * deltaTime));
+                    reinterpret_cast<::S_00627920 *>(&(linear))->FUN_00627920((::S_00561240 *)(&factor));
                 }
-                linear.FUN_00560d30(2) = vertical;
-                reference->OnTrigger(&linear);
+                reinterpret_cast<::bhkCharacterController *>(&(linear))->GetVectorElement(2) = vertical;
+                reinterpret_cast<::FUN_005616d0_Owner *>((reference))->OnTrigger((::TriggerContext *)(&linear));
                 PhysicsVector angular;
-                angular.FUN_004a3c90(reference->FUN_00560e50());
-                FUN_005dbf20 factor(FUN_00630aa0(*DAT_011d0580.FUN_00403e20() * -1.0 * deltaTime));
-                angular.FUN_00627920(&factor);
-                reference->FUN_00561800(&angular);
-                state->FUN_00483710();
+                new ((void *)&(angular)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(reference->FUN_00560e50())));
+                FUN_005dbf20 factor(FUN_00630aa0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RuntimeFloatSetting *>(&::originalRuntimeFloatSetting980)))))) * -1.0 * deltaTime));
+                reinterpret_cast<::S_00627920 *>(&(angular))->FUN_00627920((::S_00561240 *)(&factor));
+                reinterpret_cast<::FUN_00561800_Class *>((reference))->FUN_00561800((::FUN_00561730_Obj *)(&angular));
+                reinterpret_cast<::TESForm *>((state))->ClearData();
             }
         }
         int flag = alternate ? 128 : 8;
-        if (!body->IsNonZero(flag))
+        if (!reinterpret_cast<::FUN_005631e0_shell *>((body))->IsNonZero(flag))
         {
-            body->SetFlag(flag, true);
-            SpawnWaterSplash(body, FUN_004587d0(height));
+            reinterpret_cast<::FUN_00628f30_shell *>((body))->SetFlag(flag, true);
+            reinterpret_cast<::WaterSplash_62e970 *>(this)->SpawnWaterSplash((::Body_62e970 *)(body), FUN_004587d0(height));
             result = 1;
         }
-        DAT_011cc584.FUN_0084d310(reference, true);
+        reinterpret_cast<::FUN_0084d310_class *>(&((*reinterpret_cast<::ReferenceMap *>(&::g_011cc584))))->FUN_0084d310((int)(reference), true);
     }
     else
     {
         int flag = alternate ? 128 : 8;
-        if (body->IsNonZero(flag))
+        if (reinterpret_cast<::FUN_005631e0_shell *>((body))->IsNonZero(flag))
         {
-            SpawnWaterSplash(body, FUN_004587d0(height));
+            reinterpret_cast<::WaterSplash_62e970 *>(this)->SpawnWaterSplash((::Body_62e970 *)(body), FUN_004587d0(height));
             result = 2;
         }
-        body->SetFlag(flag, false);
+        reinterpret_cast<::FUN_00628f30_shell *>((body))->SetFlag(flag, false);
     }
     return result;
 }

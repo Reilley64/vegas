@@ -1,4 +1,10 @@
 
+#include "fnv/decl/InteriorCellLookup.h"
+#include "fnv/decl/ResourceDescriptor.h"
+#include "fnv/decl/fnv_005892c0__FUN_005892c0_t.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00464000.h"
+#include "fnv/symbols_00845000.h"
 #include "nitmapbase_decls.h"
 
 template<>
@@ -129,14 +135,14 @@ bool NiTMapBase<DFALL<NiTMapItem<unsigned int, CombatThreatRecord*> >, unsigned 
 // @fnv 0x00589000
 NiTMapBase<NiTPointerAllocator<unsigned int>,int,TESObjectCELL*>::NiTMapBase(unsigned int size)
 {
- InitArray(size);
+ reinterpret_cast<::fnv_005892c0::FUN_005892c0_t *>(this)->InitArray(size);
  vtable = DAT_01031fec;
 }
 
 // @fnv 0x004701d0
 NiTMapBase<NiTPointerAllocator<unsigned int>,unsigned int,TESForm*>::NiTMapBase(unsigned int size, unsigned int flags)
 {
- FUN_004705e0(size,flags);
+ reinterpret_cast<::ResourceDescriptor *>(this)->FUN_004705e0(size,flags);
  vtable = DAT_01019a3c;
 }
 
@@ -148,19 +154,19 @@ TESFullName::TESFullName() {}
 NiTMapBase<DFALL<NiTMapItem<unsigned int, CombatThreatRecord*> >, unsigned int, CombatThreatRecord*>*
 NiTMapBase<DFALL<NiTMapItem<unsigned int, CombatThreatRecord*> >, unsigned int, CombatThreatRecord*>::Destructor(unsigned int flags)
 {
- FUN_008456c0();
- if (flags & 1) operator delete(this);
+ ::FUN_008456c0((void *)this);
+ if (flags & 1) ::FUN_00401030(this);
  return this;
 }
 
 // @fnv 0x006b7b30
 unsigned int FUN_006b7b30(NavMeshInfo* info)
 {
- TESObjectCELL* cell = info->GetInteriorCell();
+ TESObjectCELL* cell = reinterpret_cast<::InteriorCellLookup *>((info))->FUN_006b77b0();
  if (cell)
-   return reinterpret_cast<unsigned int (__cdecl*)(TESObjectCELL*)>(PrepareScriptMessage)(cell);
+   return reinterpret_cast<unsigned int (__cdecl*)(TESObjectCELL*)>(((const char *(&)(const char *, bool))::FUN_00464f30))(cell);
  else
-   return reinterpret_cast<unsigned int (__cdecl*)(TESObjectCELL*)>(PrepareScriptMessage)(info->cell);
+   return reinterpret_cast<unsigned int (__cdecl*)(TESObjectCELL*)>(((const char *(&)(const char *, bool))::FUN_00464f30))(info->cell);
 }
 
 // @fnv 0x00473210

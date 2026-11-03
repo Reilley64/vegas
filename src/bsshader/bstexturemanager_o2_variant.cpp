@@ -2,6 +2,20 @@
 // src/bsshader/bstexturemanager_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/bsshader/bstexturemanager.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0043a010_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/ImageSpaceManagerHelper.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/RTManager_b6d170.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_004e2000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00b6c000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_011fa000.h"
 #include "NiObject.h"
 // One 16-byte surface-tint record. The water system writes the tint of the
 // surface type it is rendering; the refraction imagespace effect reads the
@@ -13,15 +27,11 @@ struct WaterTintRecord
     float b;
     float a;
 };
-extern WaterTintRecord g_waterTintRecords[];
-void SetWaterTintRecord(int index, WaterTintRecord tint);
 
 struct MemoryManager
 {
-    void Deallocate(void* p);
 };
 
-extern MemoryManager _g_memoryManager;
 
 struct FUN_00b6dd00_Item
 {
@@ -69,7 +79,7 @@ void FUN_00b6dd00_Owner::FUN_00b6dd00(int iArg1, bool bArg2)
             m_kList.RemovePos(pvPos);
             if (pkItem->m_pkRef)
                 pkItem->m_pkRef->DecRefCount();
-            _g_memoryManager.Deallocate(pkItem);
+            reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(pkItem);
         }
     }
 }
@@ -195,12 +205,13 @@ struct Renderer
     virtual void slot49();
     virtual RenderTarget* GetTarget();
 };
-extern Renderer* DAT_011f9508;
-extern Renderer* formatRenderer;
 extern int DAT_011bf400;
+class NiRenderer;
+struct NiPixelFormat;
 struct NiDepthStencilBuffer
 {
-    static Resource* Create(unsigned int, unsigned int, Renderer*, const Format&, unsigned int);
+public:
+    static ::NiDepthStencilBuffer *Create(unsigned int, unsigned int, ::NiRenderer *, const ::NiPixelFormat &, unsigned int);
 };
 struct ResourceList
 {
@@ -234,78 +245,9 @@ struct FUN_00b6dd80
     EmptyList list9c;
     NiPointer<Resource> depth;
     NiPointer<Resource> other;
-    void Query(Renderer*, int, unsigned int*, unsigned int*, unsigned int*, unsigned int*, unsigned int*,
-               unsigned int*);
     FUN_00b6dd80();
 };
-// @fnv 0x00b6dd80
-FUN_00b6dd80::FUN_00b6dd80()
-{
-    Renderer* renderer = DAT_011f9508;
-    unsigned int width, height, unused1, unused2, samples, mode;
-    unsigned int width2, height2;
-    Format* format;
-    Query(renderer, 43, &width, &height, &unused1, &mode, &unused2, &samples);
-    RenderTarget* target = renderer->GetTarget();
-    switch (samples)
-    {
-    case 2:
-        mode = 1;
-        break;
-    case 4:
-        mode = 2;
-        break;
-    case 8:
-        mode = 3;
-        break;
-    default:
-        mode = 0;
-    }
-    if (target->GetDepth())
-        depth = target->GetDepth();
-    else if (mode == 0)
-    {
-        unsigned int targetWidth = target->size35(0);
-        samples = width;
-        if (width <= targetWidth)
-            samples = targetWidth;
-        unsigned int targetHeight = target->size36(0);
-        mode = height;
-        if (height <= targetHeight)
-            mode = targetHeight;
-        Surface* surface = target->GetSurface(0);
-        format = formatRenderer->GetFormat(surface->format ? surface->format->value : 0, 32, 8);
-        DAT_011bf400 = 0;
-        depth = NiDepthStencilBuffer::Create(samples, mode, renderer, *format, 0);
-        DAT_011bf400 = 1;
-        target->SetDepth(depth);
-    }
-    else
-    {
-        Surface* surface = target->GetSurface(0);
-        format = formatRenderer->GetFormat(surface->format ? surface->format->value : 0, 32, 8);
-        DAT_011bf400 = 0;
-        Resource* multisample =
-            NiDepthStencilBuffer::Create(target->size35(0), target->size36(0), renderer, *format, mode);
-        DAT_011bf400 = 1;
-        target->SetDepth(multisample);
-        Query(renderer, 4, &width2, &height2, &unused1, &mode, &unused2, &samples);
-        unsigned int finalWidth = width > width2 ? width : width2;
-        unsigned int finalHeight = height > height2 ? height : height2;
-        DAT_011bf400 = 0;
-        depth = NiDepthStencilBuffer::Create(finalWidth, finalHeight, renderer, *format, 0);
-        DAT_011bf400 = 1;
-    }
-    other = 0;
-    for (unsigned int index = 0; index < 5; ++index)
-    {
-        active[index].Clear();
-        inactive[index].Clear();
-    }
-}
-
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
-void* NiMalloc(unsigned int size);
 
 template <class T> struct BaseArray
 {
@@ -321,7 +263,7 @@ template <class T> struct BaseArray
         m_usSize = 0;
         m_usESize = 0;
         if (m_usMaxSize > 0)
-            m_pBase = (T*)NiMalloc(sizeof(T) * m_usMaxSize);
+            m_pBase = (T*)::FUN_00aa1070(sizeof(T) * m_usMaxSize);
         else
             m_pBase = 0;
     }
@@ -574,7 +516,6 @@ struct FUN_00b97a80
     float m_f314;
 
     FUN_00b97a80();
-    void Reset();
 };
 
 // @fnv 0x00b97a80
@@ -605,7 +546,7 @@ FUN_00b97a80::FUN_00b97a80() : m_kArray(0x74, 1)
     m_f310 = 0.0f;
     m_f314 = 0.0f;
     fnv_zlib_memset(&unk014, 0, 0x98);
-    Reset();
+    reinterpret_cast<::ImageSpaceManagerHelper *>(this)->FUN_00b977d0();
 }
 
 class BSMultiBound : public NiObject
@@ -931,13 +872,78 @@ struct NiRenderer
     virtual void slot48();
     virtual void slot49();
     virtual RenderTargetGroup* GetDefaultRenderTargetGroup();
+public:
+    static ::NiRenderer *ms_pRenderer;
 };
+// @fnv 0x00b6dd80
+FUN_00b6dd80::FUN_00b6dd80()
+{
+    Renderer* renderer = (*reinterpret_cast<::Renderer * *>(&::DAT_011f9508));
+    unsigned int width, height, unused1, unused2, samples, mode;
+    unsigned int width2, height2;
+    Format* format;
+    ::GetRenderTargetDesc((::RenderConfigSurface *)this, (unsigned int)(renderer), (unsigned int *)(43), &width, &height, &unused1, &mode, &unused2);
+    RenderTarget* target = renderer->GetTarget();
+    switch (samples)
+    {
+    case 2:
+        mode = 1;
+        break;
+    case 4:
+        mode = 2;
+        break;
+    case 8:
+        mode = 3;
+        break;
+    default:
+        mode = 0;
+    }
+    if (target->GetDepth())
+        depth = target->GetDepth();
+    else if (mode == 0)
+    {
+        unsigned int targetWidth = target->size35(0);
+        samples = width;
+        if (width <= targetWidth)
+            samples = targetWidth;
+        unsigned int targetHeight = target->size36(0);
+        mode = height;
+        if (height <= targetHeight)
+            mode = targetHeight;
+        Surface* surface = target->GetSurface(0);
+        format = (*reinterpret_cast<::Renderer * *>(&::NiRenderer::ms_pRenderer))->GetFormat(surface->format ? surface->format->value : 0, 32, 8);
+        DAT_011bf400 = 0;
+        depth = ((::Resource *)(::NiDepthStencilBuffer::Create(samples, mode, (::NiRenderer *)(renderer), (const ::NiPixelFormat &)(*format), 0)));
+        DAT_011bf400 = 1;
+        target->SetDepth(depth);
+    }
+    else
+    {
+        Surface* surface = target->GetSurface(0);
+        format = (*reinterpret_cast<::Renderer * *>(&::NiRenderer::ms_pRenderer))->GetFormat(surface->format ? surface->format->value : 0, 32, 8);
+        DAT_011bf400 = 0;
+        Resource* multisample =
+            ((::Resource *)(::NiDepthStencilBuffer::Create(target->size35(0), target->size36(0), (::NiRenderer *)(renderer), (const ::NiPixelFormat &)(*format), mode)));
+        DAT_011bf400 = 1;
+        target->SetDepth(multisample);
+        ::GetRenderTargetDesc((::RenderConfigSurface *)this, (unsigned int)(renderer), (unsigned int *)(4), &width2, &height2, &unused1, &mode, &unused2);
+        unsigned int finalWidth = width > width2 ? width : width2;
+        unsigned int finalHeight = height > height2 ? height : height2;
+        DAT_011bf400 = 0;
+        depth = ((::Resource *)(::NiDepthStencilBuffer::Create(finalWidth, finalHeight, (::NiRenderer *)(renderer), (const ::NiPixelFormat &)(*format), 0)));
+        DAT_011bf400 = 1;
+    }
+    other = 0;
+    for (unsigned int index = 0; index < 5; ++index)
+    {
+        active[index].Clear();
+        inactive[index].Clear();
+    }
+}
 
 struct HeapManager
 {
-    void* Allocate(unsigned int uiSize);
 };
-extern HeapManager DAT_011f6238;
 
 struct RTEntry
 {
@@ -950,7 +956,7 @@ struct RTEntry
 
     static void* operator new(unsigned int uiSize)
     {
-        return DAT_011f6238.Allocate(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::HeapManager *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }
 };
 
@@ -963,7 +969,6 @@ struct RTNode
 
 struct RTAllocator
 {
-    void* Allocate();
     unsigned int m_uiCount;
 };
 
@@ -991,7 +996,7 @@ struct RTList
     void DeleteItem(RTNode*);
     void AddTail(RTEntry* const& pkElement)
     {
-        RTNode* pkNode = (RTNode*)m_kItemCount.Allocate();
+        RTNode* pkNode = (RTNode*)((void *)(reinterpret_cast<::FUN_0043a010_shell *>(&(m_kItemCount))->FUN_0043a010()));
         pkNode->m_element = pkElement;
         pkNode->m_pkNext = 0;
         pkNode->m_pkPrev = m_pkTail;
@@ -1029,7 +1034,6 @@ RTEntry* RTList::FUN_00e7d7f0(RTNode*& position)
     --m_kItemCount.m_uiCount;
     return result;
 }
-extern bool DAT_011f9194;
 extern bool DAT_011f9195;
 extern bool DAT_011f9196;
 extern bool DAT_011f9197;
@@ -1081,8 +1085,6 @@ class RenderTargetManager
     RTList m_kFreeList;
     RTList m_kUsedList;
 
-    RenderTexture* CreateRenderTarget(NiRenderer* pkRenderer, unsigned int uiWidth, unsigned int uiHeight, int eFormat,
-                                      int iUsage, unsigned int uiFlags, int a7, int a8, int a9, int a10);
     RenderTexture* FUN_00b6d5e0(NiRenderer* pkRenderer, unsigned int uiWidth, unsigned int uiHeight,
                                 unsigned int uiFlags, int eFormat, int iUsage, int a7, int a8, int a9, int a10);
 };
@@ -1198,9 +1200,9 @@ RenderTexture* RenderTargetManager::FUN_00b6d5e0(NiRenderer* pkRenderer, unsigne
         pkFound->m_bIsCubeMap = true;
         pkFound->m_spTexture =
             (uiWidth > 0 && uiHeight > 0)
-                ? CreateRenderTarget(pkRenderer, uiWidth, uiHeight, eFormat, iUsage, uiFlags, a7, a8, a9, a10)
-                : CreateRenderTarget(pkRenderer, defaultWidth, defaultHeight, eFormat, iUsage, uiFlags, a7, a8, a9,
-                                     a10);
+                ? ((::RenderTexture *)(reinterpret_cast<::RTManager_b6d170 *>(this)->CreateRenderTarget((int)(pkRenderer), uiWidth, uiHeight, eFormat, iUsage, uiFlags, a7, a8, a9, a10)))
+                : ((::RenderTexture *)(reinterpret_cast<::RTManager_b6d170 *>(this)->CreateRenderTarget((int)(pkRenderer), defaultWidth, defaultHeight, eFormat, iUsage, uiFlags, a7, a8, a9,
+                                     a10)));
     }
     else
     {

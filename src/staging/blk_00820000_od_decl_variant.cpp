@@ -5,6 +5,105 @@
 
 // src/staging/blk_00820000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/B83C270Conversation.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/BasePinStub.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FORenderedMenu.h"
+#include "fnv/decl/FUN_004048e0_cls.h"
+#include "fnv/decl/FUN_004226e0_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004615d0_shell.h"
+#include "fnv/decl/FUN_00462d80_shell.h"
+#include "fnv/decl/FUN_005215a0_shell.h"
+#include "fnv/decl/FUN_00522440_shell.h"
+#include "fnv/decl/FUN_005be5c0_shell.h"
+#include "fnv/decl/FUN_00759450_shell.h"
+#include "fnv/decl/FUN_0082f260_cls.h"
+#include "fnv/decl/FUN_0083c750.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_00865ff0_shell.h"
+#include "fnv/decl/FUN_009fdc10.h"
+#include "fnv/decl/FUN_00ad78e0_cls.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FUN_00ad89b0_shell.h"
+#include "fnv/decl/FUN_00ad89e0_shell.h"
+#include "fnv/decl/FUN_00ad8ad0_s.h"
+#include "fnv/decl/FUN_00ad8b60_h.h"
+#include "fnv/decl/FUN_00ad8be0_shell.h"
+#include "fnv/decl/FUN_00ad8c20_h.h"
+#include "fnv/decl/FUN_00ad8c70_Class.h"
+#include "fnv/decl/FUN_00ad8f20_shell.h"
+#include "fnv/decl/FUN_00ad9030_shell.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/ParticleEmitter.h"
+#include "fnv/decl/PathingRequest.h"
+#include "fnv/decl/Radio652.h"
+#include "fnv/decl/S2f760.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/S_00522470.h"
+#include "fnv/decl/S_0082f1f0_Lock.h"
+#include "fnv/decl/S_8c4f10_Cls.h"
+#include "fnv/decl/SoundPlaybackManager.h"
+#include "fnv/decl/SoundWrapper.h"
+#include "fnv/decl/StandIn.h"
+#include "fnv/decl/TESGrass.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_00454b10__TESObjectCELL.h"
+#include "fnv/decl/fnv_004bda70__FUN_004bda70_shell.h"
+#include "fnv/decl/fnv_005de0f0__FUN_005de0f0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_0083b710__FUN_0083b710_cls.h"
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_008649a0__FUN_008649a0_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/decl/fnv_00865df0__FUN_00865df0_holder.h"
+#include "fnv/decl/fnv_00968670__FUN_00968670_shell.h"
+#include "fnv/decl/fnv_00ad88f0__FUN_00ad88f0_h.h"
+#include "fnv/decl/fnv_00ad8e20__FUN_00ad8e20_h.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00457000.h"
+#include "fnv/symbols_0045b000.h"
+#include "fnv/symbols_00481000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_004fd000.h"
+#include "fnv/symbols_00511000.h"
+#include "fnv/symbols_00524000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005e3000.h"
+#include "fnv/symbols_00647000.h"
+#include "fnv/symbols_0082d000.h"
+#include "fnv/symbols_0082f000.h"
+#include "fnv/symbols_00830000.h"
+#include "fnv/symbols_00831000.h"
+#include "fnv/symbols_00837000.h"
+#include "fnv/symbols_00839000.h"
+#include "fnv/symbols_0083a000.h"
+#include "fnv/symbols_00890000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01032000.h"
+#include "fnv/symbols_0107c000.h"
+#include "fnv/symbols_010a2000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011dc000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
 #include "../../include/layout_support_decl_blk_00820000_od.h"
 struct FUN_00821620_Class
 {
@@ -24,7 +123,6 @@ struct FUN_00824080_Class
 };
 struct FUN_00827200_class
 {
-    void __thiscall _ref_006815c0();
     void __thiscall FUN_00cb26e0(int);
     FUN_00827200_class* __thiscall FUN_00827200(int a);
 };
@@ -40,7 +138,6 @@ struct FUN_0082d6c0_class
 {
     unsigned short __thiscall GetShortAtOffset5A();
 };
-int __fastcall FUN_0082d700(void* self);
 struct FUN_0082d720_Class
 {
     unsigned int __thiscall FUN_0082d720();
@@ -53,25 +150,21 @@ struct FUN_0082ee80_class
     void InitArray(int);
     FUN_0082ee80_class* InitializeWithGlobal(int a);
 };
-extern "C" void* DAT_0107cb6c;
 struct FUN_0082f140_class
 {
     void FUN_0082f140();
 };
-void __fastcall FUN_0082f1b0(void*);
 struct FUN_0082f190_class
 {
     void FUN_0082f190();
 };
 struct RecursiveLock
 {
-    void Leave();
 };
 struct CBSAStream
 {
     void FUN_0082f1d0();
 };
-void __fastcall FUN_0082f1b0(void*);
 struct FUN_0082f520Class
 {
     void* p;
@@ -81,7 +174,6 @@ struct FUN_00831e00_class
 {
     int __thiscall IsFlagSet();
 };
-extern "C" void __stdcall ReceiveConnection(int, int, int);
 struct FUN_00831f40_Class
 {
     void FUN_00831f40(int a, int b);
@@ -92,26 +184,19 @@ struct FUN_008321c0_Class
     int m_kPointB;
     int m_iThirdValue;
     int m_iFourthElementInteger;
-    void FUN_00836030();
     void FUN_008321c0();
 };
 struct BGSLoadFormBuffer
 {
-    bool ReadFormIdentifier(void*);
 };
 struct FUN_00836240
 {
-    void LoadGame(BGSLoadFormBuffer*);
 };
 struct FUN_00836630
 {
     void LoadGame(BGSLoadFormBuffer* buffer);
 };
 extern int DAT_011a1888[];
-extern int DAT_011dd87c[];
-int __cdecl FUN_008374b0(int index);
-extern "C" void __cdecl FalloutAudio_FUN_00839ab0();
-extern unsigned char DAT_011dd85c;
 void FUN_00837500();
 extern "C" void* DAT_0107d9c4;
 struct FUN_0083b5e0_class
@@ -122,13 +207,11 @@ struct FUN_0083b5e0_class
 };
 struct S7010
 {
-    unsigned int Length();
 };
 struct FUN_0083dea0_class
 {
     unsigned int FUN_0083dea0();
 };
-extern "C" void* __cdecl _NiFreeAlias(void*);
 extern void* DAT_0107ca64;
 struct FUN_0082efb0
 {
@@ -154,22 +237,17 @@ struct GO
     ~GO();
     GO* __thiscall FUN_008228f0(unsigned int flags);
 };
-void* __cdecl _NiMalloc(unsigned int);
-void* __cdecl memset(void*, int, unsigned int);
 struct FUN_0082eee0_class
 {
     void* __thiscall InitArray(int size);
 };
-void __cdecl Deallocate(void*);
 struct FUN_00831f80_class
 {
-    void __thiscall FUN_00831fb0();
     void* __thiscall FUN_00831f80(unsigned int flags);
 };
 extern int DAT_0107cd54;
 extern int DAT_0107cd6c;
 extern int DAT_0107cdac;
-extern "C" void __fastcall FUN_009fdc10(void*);
 struct FUN_00831fb0_class
 {
     void* vtbl;
@@ -181,22 +259,18 @@ struct FUN_00831fb0_class
 };
 struct BGSSaveFormBuffer
 {
-    void SerializeFormData(void* id, int a);
 };
 struct FUN_00836600_class
 {
     void __thiscall FUN_00836600(BGSLoadFormBuffer* buffer);
-    void __thiscall FUN_00836110(BGSLoadFormBuffer* buffer);
 };
 struct FUN_00837280_Class
 {
     char FUN_00837280();
 };
-void __cdecl Deallocate(void*);
 struct FUN_0083b740_Class
 {
     void* __thiscall FUN_0083b740(unsigned int flags);
-    void __thiscall FUN_0083b710();
 };
 struct SoundPlaybackHandle
 {
@@ -205,6 +279,12 @@ struct SoundPlaybackHandle
     int z;
     SoundPlaybackHandle();
     ~SoundPlaybackHandle();
+public:
+    ::SoundPlaybackHandle &operator=(const ::SoundPlaybackHandle &);
+public:
+    bool IsValid() const;
+public:
+    bool Release();
 };
 struct FUN_0083b770
 {
@@ -224,21 +304,21 @@ struct FUN_0083b7d0
     Date d;
     ~FUN_0083b7d0();
 };
-void __cdecl Deallocate(void*);
 struct FUN_0083c750_class
 {
-    void __thiscall FUN_0083c750();
     void* __thiscall FUN_0083c720(unsigned int flags);
 };
+enum ENUM_FORM_ID;
 struct TESForm
 {
     virtual ~TESForm();
+public:
+    ::ENUM_FORM_ID GetFormType() const;
 };
 struct TESObjectREFR : TESForm
 {
     virtual ~TESObjectREFR();
 };
-TESForm* __cdecl ref_004839c0(TESForm* p);
 struct FUN_0083d0d0_Class
 {
     void RefreshObjectRef(int a);
@@ -266,27 +346,23 @@ struct SoundDataDummy
 };
 struct TESSound
 {
-    SoundDataDummy CopyBig();
+public:
+    unsigned char GetField45();
 };
 bool FUN_0082d740(TESSound* self, int* outA, int* outB);
 struct BSAudio
 {
-    static BSAudio* __cdecl GetSingleton();
-    unsigned int GetSynchTime();
 };
 struct EffectSetting
 {
-    void* GetBoltSound();
 };
 struct TESObject
 {
-    unsigned int GetNext();
 };
 struct SndX
 {
     int a, b, c;
     void Stop();
-    void PausePlayback();
 };
 struct SndItem
 {
@@ -295,13 +371,10 @@ struct SndItem
     SndX second;
     bool active;
 };
-int __fastcall FNV_GetFormType(TESForm*);
 struct ContNode
 {
-    SndItem** ref_006815c0();
 };
 bool __fastcall FUN_008256d0(ContNode*);
-ContNode* __fastcall FUN_00726070(ContNode*);
 struct Q
 {
     ~Q();
@@ -330,12 +403,8 @@ struct TESQuest : TESForm
 {
     virtual ~TESQuest();
 };
-TESForm* __cdecl GetFormByID(unsigned int formID);
 struct BGSLoadGameBuffer
 {
-    unsigned int ReadFormIdentifier();
-    int ReadElementCount();
-    void ReadTypedData(void* data, unsigned int size);
 };
 struct FUN_0083d1e0
 {
@@ -351,7 +420,6 @@ struct FUN_0083d1e0
     unsigned int unk24;
     unsigned int unk28;
     FUN_0083d1e0();
-    void FUN_0083d740(BGSLoadFormBuffer* buffer);
 };
 struct DialogueResponseList
 {
@@ -367,8 +435,6 @@ struct DialogueItem_shell
     TESTopic* topic;
     TESQuest* quest;
     unsigned int speaker;
-    FUN_0083d1e0* GetResponseByIndex(short id);
-    void FUN_0083c8a0(FUN_0083d1e0* response);
     void LoadDialogueItem(BGSLoadFormBuffer* buffer);
 };
 struct ListX
@@ -478,10 +544,8 @@ struct FUN_0082f160_class : public FUN_0082f140_class
 {
     void* __thiscall FUN_0082f160(unsigned int flags);
 };
-void __cdecl Deallocate(void*);
 struct FUN_0082f260_class
 {
-    void __thiscall FUN_0082f260();
     void* __thiscall FUN_0082f210(unsigned int flags);
 };
 struct FUN_00831de0_Class
@@ -491,13 +555,11 @@ struct FUN_00831de0_Class
     int ForwardToMember();
 };
 typedef void(__stdcall* FUN_00831eb0_callback)(void*, int, int);
-void __stdcall FUN_00831eb0(void* object, int a, int b);
 struct FUN_00831ee0_class
 {
     virtual void FUN_00831ee0_virtual0();
     virtual void __stdcall FUN_00831ee0_virtual1();
 };
-void __stdcall FUN_00831ee0(void* p);
 struct BSSimpleListEx
 {
     virtual ~BSSimpleListEx();
@@ -513,18 +575,15 @@ struct GlobalObject_0083b5e0
 };
 struct BSStr
 {
-    bool Set(char const* value, unsigned int length);
 };
 struct BGSLoadGameBufferHelper
 {
-    char* __thiscall LoadString(char* destination);
 };
 struct TESIdleForm : TESForm
 {
     virtual ~TESIdleForm()
     {}
 };
-TESForm* __cdecl _ref_004839c0(unsigned int formID);
 struct FUN_0083d740_Class
 {
     void __thiscall FUN_0083d740(BGSLoadGameBuffer* buffer);
@@ -535,14 +594,10 @@ struct Str6a70
 };
 struct BGSLoadGameBufferLoadStringHelper
 {
-    char* __thiscall LoadString(char*);
 };
 struct BGSLoadFormBufferHelper
 {
-    unsigned int __thiscall ReadFormIdentifier();
-    void __thiscall ReadTypedData(void*, unsigned int);
 };
-TESForm* __cdecl _ref_004839c0(unsigned int formID);
 extern void* _DAT_01183028;
 struct FUN_0083fbe0_Class
 {
@@ -626,9 +681,7 @@ struct SecondaryBase_b5774
 };
 struct GlobalMgr_b5774
 {
-    bool FUN_004226e0();
 };
-extern GlobalMgr_b5774* DAT_011c3f2c;
 struct Holder_b5774
 {
     void Release();
@@ -638,7 +691,6 @@ class FUN_00825b60 : public PrimaryBase_b5774, public SecondaryBase_b5774
   public:
     Holder_b5774* m_20;
     virtual ~FUN_00825b60();
-    void Cleanup();
 };
 struct S_00825ea0_A
 {
@@ -683,17 +735,11 @@ struct SoundDataEx
 };
 struct TESSoundEx : TESSound
 {
-    const char* GetSoundPath();
-    SoundDataEx GetSoundData();
 };
 struct DataHandler
 {
-    TESSoundEx* LookupSound(unsigned int formID);
 };
-extern DataHandler* g_dataHandler;
 int strcpy_s(char* dest, unsigned int size, const char* src);
-unsigned int __cdecl SoundFlagsToAudioFlags(unsigned int flags);
-bool GetSoundPathAndFlags(unsigned int formID, char* path, unsigned int* flags, TESSoundEx** outSound);
 struct Base_82efb0
 {
     virtual ~Base_82efb0();
@@ -703,12 +749,10 @@ struct FUN_0082ef50 : public Base_82efb0
     void RemoveAll();
     virtual ~FUN_0082ef50();
 };
-extern "C" void __cdecl FUN_00406d30(char*, unsigned int, const char*);
 extern "C" void* __cdecl FUN_00afdf20(const char*, int, int, int);
 struct FNVHandle
 {
     virtual ~FNVHandle();
-    bool FUN_008905f0();
 };
 struct FUN_0082f240
 {
@@ -738,7 +782,6 @@ struct FUN_0082f010 : FUN_0082f240
     FUN_0082f010(const char* pathName);
     virtual ~FUN_0082f010();
 };
-extern int DAT_010a2480;
 struct ProbeTarget
 {
     virtual void v00();
@@ -747,7 +790,6 @@ struct ProbeTarget
     virtual void v0C();
     virtual void v10();
     virtual void v14(int a, int b);
-    bool FUN_008905f0();
 };
 class FUN_0082f310_cls
 {
@@ -839,8 +881,6 @@ struct StreamLock
 };
 struct StreamFile
 {
-    bool IsValid();
-    unsigned int Read(void* buffer, unsigned int size);
 };
 struct ArchiveStream
 {
@@ -927,7 +967,6 @@ struct ArchiveStream
 // signals the object at +0x34, waits for the worker thread to leave, closes its
 // handle, then runs the base class destructor.
 extern "C" __declspec(dllimport) int __stdcall CloseHandle(void* hObject);
-void __cdecl FUN_0040fca0(int milliseconds);
 struct FUN_00aa63c0
 {
     virtual ~FUN_00aa63c0();
@@ -950,39 +989,31 @@ struct FUN_0082f6c0 : FUN_00aa63c0
     int unk38;
     unsigned int unk3C;
 
-    void CopyAndSleep(void* arg);
     virtual ~FUN_0082f6c0();
 };
-extern unsigned int DAT_011dd1f4;
-void __cdecl FUN_00401030(unsigned int p);
 struct FUN_0082f9c0_obj
 {
     virtual int unk00(int a);
 };
-void __cdecl FUN_0082f9c0();
 int __stdcall FUN_00831f70(int unused);
 // PlayWeaponSound v2 (worker11): pack types reused; extra callees via shell classes
 struct NiPoint3
 {
     float x, y, z;
     NiPoint3();
+public:
+    static const ::NiPoint3 ZERO;
 };
 struct Vec3
 {
     float x, y, z;
     NiPoint3 operator-(const NiPoint3& rhs) const;
+public:
+    Vec3();
 };
 struct AudioPlaybackHandle;
 struct SndXShell
 {
-    void __thiscall FUN_00ad89e0(float v);
-    void __thiscall FUN_00ad88f0();
-    void __thiscall FUN_00418900(const AudioPlaybackHandle& src);
-    void __thiscall FUN_00ad8f20(void* obj);
-    void __thiscall FUN_00ad9030(unsigned int v);
-    bool __thiscall FUN_00ad8b60(float x, float y, float z);
-    bool __thiscall FUN_00ad8830(bool v);
-    void __thiscall FUN_00ad8be0(float a, float b);
 };
 struct Entry
 {
@@ -991,7 +1022,6 @@ struct Entry
     void* f18;
     unsigned int f1c;
     float f20;
-    bool __thiscall FUN_00ad8ce0();
 };
 struct GlobalObject_0041a250
 {
@@ -1006,20 +1036,12 @@ struct AudioPlaybackHandle
 };
 struct BSAudioShell
 {
-    NiPoint3 __thiscall FUN_00ad78e0();
-    AudioPlaybackHandle __thiscall FUN_00ad7480(const char* name);
 };
 struct TESSoundShell
 {
-    char __thiscall GetByteAtOffset44();
-    unsigned char __thiscall GetField45();
-    const char* __thiscall FUN_00511840(int a, void* b);
 };
 struct Weap
 {
-    TESSound* __thiscall FUN_005215a0(bool v);
-    void* __thiscall GetPointerByFlag(bool v);
-    TESSound* __thiscall GetValueByFlag(bool v);
 };
 struct VObj1d0
 {
@@ -1229,40 +1251,21 @@ struct VObj148
 };
 struct ProcResult
 {
-    bool __thiscall HasEffect(int v);
 };
 struct Cell
 {
-    bool __thiscall FUN_00425fd0();
-    bool __thiscall FUN_00454b10();
 };
 struct Player
 {
-    Cell* __thiscall FUN_008d6f30();
-    VObj148* __thiscall FUN_008d8520();
 };
 struct ListObj
 {
-    Vec3* __thiscall FUN_0045bb80();
 };
 struct SettingObj
 {
-    float* __thiscall FUN_00403e20();
 };
 bool __cdecl FUN_00839da0();
-bool __fastcall FUN_00524d10(void* p);
-void* __cdecl FUN_00453a70();
-unsigned int __cdecl FUN_00457fe0();
-bool __cdecl FUN_0082eca0(void* snd, Vec3 pos, float v);
-extern Player* DAT_011dea3c;
-extern Vec3 DAT_011f426c;
-extern const float DAT_01016970;
-extern SettingObj DAT_011dd008;
-extern SettingObj DAT_011dd034;
-extern SettingObj DAT_011dd0ac;
-extern SettingObj DAT_011dcff4;
 extern Entry DAT_011dd9e8[20];
-void __cdecl PlayWeaponSound(Weap* a0, VObj1d0* a1, ListObj* a2, bool a3);
 class B3B6B0MapBase
 {
   public:
@@ -1291,24 +1294,17 @@ struct EffectTime
     float time38;
     unsigned int unk3C, unk40, unk44;
     float time48;
-    void AdvanceParticleTimes(float);
 };
 struct EffectHandle
 {
-    EffectTime* FUN_00559450();
 };
 struct SpellTimes
 {
-    float FUN_009a7c40();
-    float FUN_00759450();
 };
 struct EffectCollection
 {
     unsigned int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24, unk28, unk2C;
-    unsigned int FUN_0044ddc0();
-    EffectHandle* FUN_006a7ad0(unsigned int);
 };
-float FUN_00404010(float, float);
 struct FUN_008216c0_shell
 {
     unsigned int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24;
@@ -1466,7 +1462,6 @@ class MobileObject
 class Actor : public MobileObject
 {
   public:
-    void FUN_008c4f10(BCaster_S* caster);
 };
 class MagicProjectile : public MobileObject
 {
@@ -1534,21 +1529,14 @@ class MagicProjectile : public MobileObject
 };
 struct MobileObjectProcessArray
 {
-    unsigned int FUN_005be5c0(int group);
-    unsigned int FUN_005de0f0(int group);
-    MobileObject* FUN_00968670(unsigned int index);
 };
 struct ProcessRegistry
 {
-    MobileObjectProcessArray* FUN_00717e50();
 };
-extern ProcessRegistry DAT_011e0e80;
-extern Actor* g_thePlayer;
 struct CasterUpdate : BE, BCaster_S
 {
     void UpdateCasters();
 };
-unsigned int __cdecl GetFlagMask(unsigned int auiFlags);
 struct SoundFormData
 {
     unsigned char ucMinAtten;
@@ -1566,28 +1554,10 @@ struct SoundFormData
 };
 struct SoundForm
 {
-    unsigned short FUN_0082d680();
-    unsigned char GetByteAtOffset44();
-    unsigned char GetField45();
-    unsigned char GetHighByteOfField4E();
-    unsigned char FUN_0082d700();
-    unsigned short GetShortAt(int aiIndex);
-    unsigned short GetShortAtOffset5A();
-    unsigned char FUN_0082d720();
-    SoundFormData GetData();
 };
 struct GameSound
 {
-    bool SetStaticAttenuation(unsigned short ausValue);
-    void FUN_00ad8e20(unsigned char aucA, unsigned char aucB);
-    void FUN_00ad8be0(float afMin, float afMax);
-    void FUN_00ad8c20(unsigned short aus0, unsigned short aus1, unsigned short aus2, unsigned short aus3,
-                      unsigned short aus4);
-    void FUN_00ad8c70(unsigned short ausValue);
-    void FUN_00ad9030(unsigned int auiValue);
-    bool FUN_00ad8ad0(unsigned char aucValue);
 };
-unsigned int __cdecl ApplySoundFormToGameSound(GameSound* apSound, void* apForm, unsigned int* apFlags);
 class Thread82F
 {
   public:
@@ -1600,7 +1570,6 @@ class Thread82F
     virtual void vfn18();
     virtual unsigned int GetPosition();
 
-    bool IsRunning();
 };
 class Stream82F
 {
@@ -1995,28 +1964,13 @@ struct AudFilter : AudFilterBase, IAudUnk
 };
 struct AudSetting
 {
-    int* Get();
 };
 struct AudTimer
 {
-    unsigned int GetTime();
-    bool IsPaused();
     void Reset();
 };
-AudTimer* __cdecl AudGetTimer();
-unsigned int __cdecl AudMin(unsigned int a, unsigned int b);
-void __cdecl AudLock();
-void __cdecl AudUnlock();
-void __cdecl AudStrCpy(char* dst, unsigned int size, const char* src);
-void __cdecl AudPrint(const char* fmt, ...);
-int __cdecl AudStrStr(char* s, const char* sub);
-float __cdecl AudTargetVolume(int type, float value);
-float __cdecl AudToDecibel(float value);
-extern AudSetting DAT_011dcfd4;
 extern int DAT_011dd370;
-extern double DAT_01032980;
 extern void* DAT_011dd3b0;
-extern unsigned char DAT_011dd312;
 extern AudGuid DAT_0107cae8;
 extern AudGuid DAT_0107caf8;
 extern AudGuid DAT_0107cb18;
@@ -2029,46 +1983,20 @@ extern AudGuid DAT_0107cab8;
 extern float DAT_011dd300;
 extern float DAT_011dd304;
 extern float DAT_011dd308;
-extern float DAT_011dd30c;
 extern char DAT_011dd310;
-extern int DAT_011dd314;
-extern unsigned int DAT_011dd318;
-extern unsigned int DAT_011dd31c;
-extern unsigned int DAT_011dd320;
-extern unsigned int DAT_011dd324;
-extern unsigned int DAT_011dd328;
-extern unsigned int DAT_011dd32c;
-extern unsigned int DAT_011dd330;
-extern int DAT_011dd334;
-extern char DAT_011dd0f0[];
 extern float DAT_011dd338;
 extern float DAT_011dd33c;
 extern float DAT_011dd340;
-extern float DAT_011dd344;
 extern char DAT_011dd311;
-extern int DAT_011dd348;
-extern unsigned int DAT_011dd34c;
-extern unsigned int DAT_011dd350;
-extern unsigned int DAT_011dd354;
-extern unsigned int DAT_011dd358;
-extern unsigned int DAT_011dd35c;
-extern unsigned int DAT_011dd360;
-extern unsigned int DAT_011dd364;
-extern int DAT_011dd368;
-extern char DAT_011dd1f8[];
-int __cdecl RunAudioChannel(int* param);
 struct FUN_00831f10_Target
 {
     virtual void unk00();
     virtual void unk04();
     virtual void __stdcall unk08();
 };
-void __stdcall CallVirtualOnContainedNode(char* a1);
 struct SaveFormBufferEx : BGSSaveFormBuffer
 {
-    void SaveData(void* data, unsigned int size, int flags);
     unsigned int GetPosition();
-    void PatchCount(int count, unsigned int position);
 };
 struct SoundForm;
 struct SoundEntry
@@ -2077,12 +2005,9 @@ struct SoundEntry
 };
 struct SoundListNode
 {
-    SoundEntry** Data();
-    SoundListNode* Next();
 };
 struct SoundQueue
 {
-    void SaveGame(SaveFormBufferEx* buffer);
 };
 struct SoundTimer
 {
@@ -2101,8 +2026,6 @@ struct SoundTimer
 // the supplied class declaration; they add no storage or replacement bodies.
 struct StringAccess530
 {
-    unsigned int FUN_004048e0();
-    char* ApplyMaskedOffset(unsigned int);
 };
 struct BraceString530 : BSStringT<char>
 {
@@ -2115,29 +2038,29 @@ BSStringT<char> BraceString530::FUN_0083d8b0()
     int depth_ = 0;            // nesting depth
     unsigned int index4;       // input character index
     BSStringT<char> result;
-    result.Set(String(), 0);
-    for (index4 = 0; index4 < ((StringAccess530*)this)->FUN_004048e0(); ++index4)
+    reinterpret_cast<::TextString *>(&(result))->FUN_004037f0(((const char *)(::FUN_00559450((int *)this))), 0);
+    for (index4 = 0; index4 < ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((StringAccess530*)this)))->FUN_004048e0())); ++index4)
     {
-        if (String()[index4] == '{')
+        if (((const char *)(::FUN_00559450((int *)this)))[index4] == '{')
         {
             ++depth_;
         }
-        else if (String()[index4] == '}')
+        else if (((const char *)(::FUN_00559450((int *)this)))[index4] == '}')
         {
             depth_ = depth_ == 0 ? 0 : depth_ - 1;
         }
         if (depth_ == 0)
         {
-            if (String()[index4] != '}')
+            if (((const char *)(::FUN_00559450((int *)this)))[index4] != '}')
             {
-                *((StringAccess530*)&result)->ApplyMaskedOffset(output6) = String()[index4];
+                *((char *)(reinterpret_cast<::FUN_0083da30_cls *>((((StringAccess530*)&result)))->ApplyMaskedOffset(output6))) = ((const char *)(::FUN_00559450((int *)this)))[index4];
                 ++output6;
             }
         }
     }
-    if (output6 < ((StringAccess530*)&result)->FUN_004048e0())
+    if (output6 < ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((StringAccess530*)&result)))->FUN_004048e0())))
     {
-        *((StringAccess530*)&result)->ApplyMaskedOffset(output6) = 0;
+        *((char *)(reinterpret_cast<::FUN_0083da30_cls *>((((StringAccess530*)&result)))->ApplyMaskedOffset(output6))) = 0;
     }
     result.SetLength(output6);
     return result;

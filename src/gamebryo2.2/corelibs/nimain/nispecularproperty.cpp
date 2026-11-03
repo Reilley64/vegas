@@ -2,6 +2,12 @@
 // src/gamebryo2.2/corelibs/nimain/nispecularproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nispecularproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00a62a40_this.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a5d000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_011f5000.h"
 extern int DAT_010a02e4;
 struct BSFadeNode
 {
@@ -21,7 +27,6 @@ struct NiProperty : NiObject
 };
 struct NiCullingProperty
 {
-    void FUN_00a5d7a0(void*, CloningProcess&);
 };
 struct NiSpecularProperty : NiProperty
 {
@@ -37,15 +42,12 @@ struct NiSpecularProperty : NiProperty
 NiObject* NiSpecularProperty::FUN_00a95110(CloningProcess& kCloning)
 {
     NiSpecularProperty* pkObject = new NiSpecularProperty;
-    ((NiCullingProperty*)this)->FUN_00a5d7a0(pkObject, kCloning);
+    ::FUN_00a5d7a0();
     pkObject->m_uiObjectFlags = m_uiObjectFlags;
     return pkObject;
 }
 
-extern unsigned int DAT_011f5ecc;
 
-unsigned int __cdecl FUN_00a7d330(unsigned int key);
-unsigned int __cdecl FUN_00a7d370(const char* name, unsigned int value);
 
 struct FUN_00a951f0_list
 {
@@ -55,8 +57,6 @@ struct FUN_00a951f0_list
     unsigned short m_0a;
     unsigned short unk0c;
     unsigned short m_0e;
-    void FUN_0096ad30(unsigned int newCapacity);
-    void FUN_0096ae90(unsigned int index, void* item);
 };
 
 struct FUN_00a951f0_cls
@@ -68,28 +68,27 @@ struct FUN_00a951f0_cls
     int unk10;
     int unk14;
     unsigned char m_18;
-    void AppendString(FUN_00a951f0_list* list);
     void FUN_00a951f0(FUN_00a951f0_list* list);
 };
 
 // @fnv 0x00a951f0
 void FUN_00a951f0_cls::FUN_00a951f0(FUN_00a951f0_list* list)
 {
-    AppendString(list);
-    unsigned int item = FUN_00a7d330(DAT_011f5ecc);
+    reinterpret_cast<::FUN_00a62a40_this *>(this)->AppendString((::StrArr *)(list));
+    unsigned int item = ((unsigned int)(::FUN_00a7d330((const char *)((*reinterpret_cast<unsigned int *>(&::g_011f5ecc))))));
     unsigned int count = list->m_0a;
     if (count >= list->m_08)
-        list->FUN_0096ad30(count + list->m_0e);
-    list->FUN_0096ae90(count, &item);
+        reinterpret_cast<::ViewerStrings *>((list))->SetSize(count + list->m_0e);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((list))->SetAt(count, (*(char * *)(&item)));
 
     unsigned char ucSpecFlag = m_18;
     ucSpecFlag &= 1;
     *(volatile unsigned char*)&item = ucSpecFlag;
-    unsigned int result = FUN_00a7d370("m_bSpec", *(volatile unsigned int*)&item);
+    unsigned int result = ((unsigned int)(::FUN_00a7d370("m_bSpec", *(volatile unsigned int*)&item)));
     *(volatile unsigned int*)&item = result;
 
     count = list->m_0a;
     if (count >= list->m_08)
-        list->FUN_0096ad30(count + list->m_0e);
-    list->FUN_0096ae90(count, &item);
+        reinterpret_cast<::ViewerStrings *>((list))->SetSize(count + list->m_0e);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((list))->SetAt(count, (*(char * *)(&item)));
 }

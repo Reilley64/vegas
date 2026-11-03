@@ -2,6 +2,7 @@
 #ifndef SPEEDTREESHADER_DECLS_H
 #define SPEEDTREESHADER_DECLS_H
 
+#include "fnv/symbols_01200000.h"
 class NiD3DShaderConstantMap
 {
   public:
@@ -15,6 +16,4 @@ class SpeedTreeLeafShaderConstantMapSetup
   public:
     static void ConfigureShaderConstantMap(NiD3DShaderConstantMap*, int);
 };
-extern float DAT_01200678[4];
-extern float DAT_01200688[64];
 #endif

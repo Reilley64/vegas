@@ -5,6 +5,8 @@
 // src/havok/common/visualize/shape/hkdisplaycylinder_gs_ehsc_nogs_noehsc_variant.cpp - flag-variant unit created 2026-10-31 by flag_proofs.py: contributor code for these functions matched byte for
 // byte only under /MT /O2 /GS- /EHs-c- /Gy (unit src/havok/common/visualize/shape/hkdisplaycylinder.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_010c7000.h"
 void __stdcall FUN_00d58500(int, int);
 #include <xmmintrin.h>
 struct DE1F50Vector4
@@ -79,7 +81,7 @@ class FUN_00de1f50 : public DE1F50Shape
 
 extern "C" void _ReadWriteBarrier();
 #include <math.h>
-extern float DAT_010c7180[4], DAT_010c7190[4], DAT_010c71a0[4], DAT_010c71e0[4];
+#include "fnv/symbols_simd.h"
 struct AllocObj
 {
     virtual void v00();
@@ -91,7 +93,6 @@ struct Mgr
     AllocObj* m_10;
 };
 Mgr* FUN_00c85750();
-int FUN_00c908c0(void*, void*, int, int);
 struct Quaternion;
 class LaneScalar
 {
@@ -253,7 +254,7 @@ __forceinline void MathVector::SetRotatedDirection(const Quaternion& rotation, c
     __m128 phase = _mm_mul_ps(_mm_shuffle_ps(q, q, 0xc9), _mm_shuffle_ps(lenSq, lenSq, 0xd2));
     __m128 cols = _mm_shuffle_ps(q, q, 0xff);
     __m128 cb = _mm_mul_ps(_mm_shuffle_ps(q, q, 0xd2), _mm_shuffle_ps(lenSq, lenSq, 0xc9));
-    __m128 xmm5 = _mm_add_ps(_mm_mul_ps(cols, cols), *(const __m128*)DAT_010c71e0);
+    __m128 xmm5 = _mm_add_ps(_mm_mul_ps(cols, cols), *(const __m128*)(*reinterpret_cast<float (*)[4]>((void *)&::DAT_010c71e0)));
     phase = _mm_mul_ps(_mm_sub_ps(phase, cb), cols);
     xmm3 = _mm_add_ss(xmm3, xmm7);
     __m128 xmm2 = _mm_shuffle_ps(xmm3, xmm3, 0);
@@ -290,7 +291,7 @@ template <class T> struct List
         {
             int twice = cap + cap;
             int next = need < twice ? twice : need;
-            FUN_00c908c0(allocator, this, next, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(allocator), (::SpawnedArray *)(void *)(this), next, sizeof(T));
         }
         size += amount;
         return data + old;
@@ -357,7 +358,7 @@ __declspec(noinline) void __fastcall FUN_00d58590(CylinderMeshBuilder* self)
         {
             MathVector basis;
             if (AbsValue(unit.at(0)) > 0.5)
-                basis = *(const __m128*)DAT_010c7190;
+                basis = *(const __m128*)(*reinterpret_cast<float (*)[4]>((void *)&::DAT_010c7190));
             else if (AbsValue(unit.at(1)) > 0.5)
                 basis = *(const __m128*)DAT_010c71a0;
             else
@@ -402,7 +403,7 @@ __declspec(noinline) void __fastcall FUN_00d58590(CylinderMeshBuilder* self)
                     __m128 phase = _mm_mul_ps(_mm_shuffle_ps(q, q, 0xc9), zxy.raw());
                     __m128 cols = _mm_shuffle_ps(q, q, 0xff);
                     __m128 cb = _mm_mul_ps(_mm_shuffle_ps(q, q, 0xd2), yzx.raw());
-                    __m128 xmm5 = _mm_add_ps(_mm_mul_ps(cols, cols), *(const __m128*)DAT_010c71e0);
+                    __m128 xmm5 = _mm_add_ps(_mm_mul_ps(cols, cols), *(const __m128*)(*reinterpret_cast<float (*)[4]>((void *)&::DAT_010c71e0)));
                     phase = _mm_mul_ps(_mm_sub_ps(phase, cb), cols);
                     xmm3 = _mm_add_ss(xmm3, xmm7);
                     __m128 xmm2 = _mm_shuffle_ps(xmm3, xmm3, 0);
@@ -422,7 +423,7 @@ __declspec(noinline) void __fastcall FUN_00d58590(CylinderMeshBuilder* self)
                 _ReadWriteBarrier();
                 Quaternion& previous = axisWork.previous;
                 previous = rotation;
-                rotation.FUN_00c66320(previous, delta);
+                ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(rotation), (void *)&(previous), (const ::fnv_00c66320::__m128 *)&(delta), {});
                 ++a;
             } while (a < sectors);
         }

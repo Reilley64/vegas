@@ -1,12 +1,12 @@
 // Private declarations from supplied PC identities and canonical AutoMemContext.
 #ifndef FNV_FALLOUT_SHARED_SKY_SKY_DEPENDENCIES_H
 #define FNV_FALLOUT_SHARED_SKY_SKY_DEPENDENCIES_H
+#include "fnv/symbols_004ed000.h"
 #include "../../../include/layout_support.h"
 #include "../../../include/AutoMemContext.h"
 class TESWeather
 {
   public:
-    bool IsRainy();
     float GetWeatherData(int data, float maximum, float minimum);
 };
 void* __cdecl operator new(unsigned int size);

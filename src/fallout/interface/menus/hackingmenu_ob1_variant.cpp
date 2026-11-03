@@ -5,6 +5,68 @@
 
 // src/fallout/interface/menus/hackingmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/hackingmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/AudioClass_ae5680.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_004ed8c0_shell.h"
+#include "fnv/decl/FUN_007079f0_shell.h"
+#include "fnv/decl/FUN_007190e0_cls.h"
+#include "fnv/decl/FUN_00759f20_shell.h"
+#include "fnv/decl/FUN_00766a10_shell.h"
+#include "fnv/decl/FUN_0076b560.h"
+#include "fnv/decl/FUN_0076b610_Class.h"
+#include "fnv/decl/FUN_007ffaf0_shell.h"
+#include "fnv/decl/FUN_00a00e90_shell.h"
+#include "fnv/decl/FUN_00a00f30_shell.h"
+#include "fnv/decl/FUN_00a011f0_shell.h"
+#include "fnv/decl/FUN_00a01230_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a013d0_shell.h"
+#include "fnv/decl/FUN_00a01440_shell.h"
+#include "fnv/decl/FUN_00a1d910_shell.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/Flt.h"
+#include "fnv/decl/InventoryStackRecord.h"
+#include "fnv/decl/ItemChangeList.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/ListStandIn.h"
+#include "fnv/decl/NiTPointerListBase.h"
+#include "fnv/decl/SoundPlaybackHandle.h"
+#include "fnv/decl/TileListBoxCalls.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_0056c7f0__Tile.h"
+#include "fnv/decl/fnv_0076b2a0__FUN_0076b2a0_shell.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
+#include "fnv/decl/fnv_00a1ddb0__FUN_00a1ddb0_shell.h"
+#include "fnv/decl/fnv_00ad88f0__FUN_00ad88f0_h.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_0042f000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00457000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_004dc000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005a0000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00718000.h"
+#include "fnv/symbols_0076b000.h"
+#include "fnv/symbols_007ff000.h"
+#include "fnv/symbols_00a00000.h"
+#include "fnv/symbols_00a0a000.h"
+#include "fnv/symbols_00ad9000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_011d0000.h"
+#include "fnv/symbols_011d3000.h"
+#include "fnv/symbols_011d4000.h"
+#include "fnv/symbols_011d9000.h"
+#include "fnv/symbols_01272000.h"
 struct FUN_006ffe80_shell
 {
     int x;
@@ -12,6 +74,8 @@ struct FUN_006ffe80_shell
     int a;
     int b;
     void FUN_006ffe80(int a, int b);
+public:
+    void FUN_006ffe10();
 };
 struct HackingMenu
 {
@@ -21,22 +85,20 @@ int __cdecl FUN_00766a40();
 struct WeatherEntry;
 struct BSSimpleList
 {
-    void __thiscall Sort(int(__cdecl*)(WeatherEntry*, WeatherEntry*));
 };
-int __cdecl FUN_0076b2e0(WeatherEntry*, WeatherEntry*);
 struct FUN_007687b0_shell : BSSimpleList
 {
     void SortWeatherEntries();
 };
 char MaxByte(unsigned char a, unsigned char b);
-extern "C" unsigned int __cdecl FUN_005a00a0(unsigned int);
-unsigned int __cdecl FUN_0076b2e0();
+class FORenderedMenu;
 struct InterfaceManager
 {
     static float __cdecl UpdateInterfaceState();
     int FUN_00747d00();
+public:
+    ::FORenderedMenu *GetActiveRenderedMenu();
 };
-unsigned int __cdecl gm_GetTickCount();
 struct HackingMenu;
 struct FUN_0076a510_shell : HackingMenu
 {
@@ -47,7 +109,6 @@ struct StrMem
 {
     StrMem();
     ~StrMem();
-    void __thiscall FUN_006ffe10();
 };
 struct FUN_00726c90 : StrMem
 {
@@ -59,13 +120,10 @@ struct ListX
 };
 struct FUN_00765810 : ListX
 {
-    void __thiscall FreeAll();
     ~FUN_00765810();
 };
-void __cdecl Deallocate(void* p);
 struct FUN_0076b560_shell
 {
-    void __thiscall FUN_0076b560();
     void* __thiscall FUN_00765b50(unsigned int flags);
 };
 void __cdecl UpdateD766AA0Menu();
@@ -75,21 +133,17 @@ struct FUN_00767b80_shell
 };
 struct T7021b0
 {
-    int __thiscall DestroyOrFree(int);
 };
 struct C7687d0
 {
     void __thiscall FUN_007687d0();
 };
-extern "C" void __cdecl _Deallocate(void*);
 struct FUN_00768920_shell
 {
     void* p;
     void* q;
     void __thiscall FUN_00768920(void* n);
 };
-unsigned int __cdecl FUN_0042f5a0(unsigned int, unsigned int);
-unsigned int __cdecl BSStringLength(const char*);
 struct FUN_00768a10_shell : HackingMenu
 {
     unsigned int __thiscall CountMatchingChars(const char* a, const char* b);
@@ -108,18 +162,14 @@ struct Struct0076ae30
 struct Struct0076b090
 {
     int field0;
-    void __thiscall CopyFrom(int);
     Struct0076b090* __thiscall Construct(int);
 };
-void* __cdecl __memcpy(void*, const void*, unsigned int);
 struct STR_0076b200
 {
     void* f0;
     unsigned int f4;
-    void FUN_00768920(unsigned int);
     STR_0076b200* AssignFrom(STR_0076b200*);
 };
-unsigned int __cdecl BSStringLength(char const*);
 struct TaskQueueInterface
 {
     static void __cdecl CopyStringToBuffer(char*, unsigned int, char const*);
@@ -135,10 +185,13 @@ struct FUN_0076b240_shell
 struct Tile
 {
     void __thiscall Set(int, int);
+public:
+    void SetName(const char *);
+public:
+    void Set(int, unsigned int);
 };
 struct FUN_00759f20_holder
 {
-    void __thiscall AssignString(int);
 };
 struct FUN_00768020_holder
 {
@@ -148,7 +201,6 @@ struct FUN_00768020_holder
     Tile* _tile;
     void __thiscall FUN_00768020();
 };
-int __cdecl FUN_004dc1f0(void);
 struct MyHack
 {
     unsigned char _pad0[0x4AC];
@@ -163,11 +215,9 @@ struct FUN_00768970_shell
 };
 struct TGF
 {
-    float __thiscall GetFloat(int value) const;
 };
 struct TileHelper
 {
-    bool __thiscall ContainsTrait(int value);
 };
 struct FUN_00767bb0_entry
 {
@@ -209,13 +259,10 @@ struct FUN_007021b0_cls
     void* DestroyOrFree(unsigned int flags);
 };
 extern "C" void __stdcall FUN_00ec5fce(void* object, int elementSize, int count, void (FUN_007021b0_cls::*callback)());
-extern "C" void __cdecl FUN_00401030(void* apMemory);
 class NiNode;
 class TileD766
 {
   public:
-    NiNode* FUN_0056c7f0();
-    void SetInt(int m_uiSoundID, int iValue);
 };
 class TileNU
 {
@@ -226,108 +273,69 @@ class FORenderedMenu
 {
   public:
     virtual ~FORenderedMenu();
+public:
+    void GetCurrentTimeMilliseconds();
 };
 class FORenderedTerminal : public FORenderedMenu
 {
   public:
-    void FUN_007ffaf0();
 };
 class BSAudio
 {
   public:
-    NiNode* GetSynchTime();
 };
 class InterfaceManager;
 class FUN_00766aa0_Menu
 {
   public:
-    TileNU* GetTile();
-    void FUN_00a1d910();
 };
-FORenderedMenu* __fastcall FUN_00707af0(InterfaceManager* pkManager);
-void __cdecl FUN_007ffe40();
-unsigned int __cdecl gm_GetTickCount();
-extern const float runtimeFloatSettingDefault987;
-extern FUN_00766aa0_Menu* g_pkD766AA0Menu;
-extern InterfaceManager* g_pkD766AA0InterfaceManager;
-extern unsigned int g_uiD766AA0CloseTime;
 void __cdecl UpdateD766AA0Menu();
 extern int DAT_010729c8;
 struct ValueRow
 {
-    float __thiscall FUN_00a011b0(unsigned int key, unsigned int mode);
-    void __thiscall FUN_00a012d0(unsigned int key, float value);
-    void __thiscall FUN_00715c60(unsigned int key, unsigned int value);
-    void __thiscall FUN_00a01350(unsigned int key, unsigned int value, unsigned int mode);
 };
 struct EntryListNode
 {
-    int __thiscall FUN_00559450();
-    ValueRow** __thiscall FUN_0057cbe0(int* iterator);
-    void __thiscall FUN_004ed8c0(ValueRow** item);
 };
 struct FUN_00767ef0_shell
 {
-    ValueRow* __thiscall FUN_00a1ddb0(void* owner, int* descriptor, unsigned int mode);
     void __thiscall AddValueRows(unsigned int count, const unsigned int* values);
 };
 struct Entry
 {
     unsigned char* data;
     unsigned int count;
-    int FUN_0076ae90();
-    int FindByteIndices(unsigned int index, unsigned char* result);
 };
 struct FUN_007687d0
 {
     Entry* entries;
     unsigned int count;
     ~FUN_007687d0();
-    unsigned int FUN_00726070();
-    Entry* FUN_00559450();
     FUN_007687d0 FUN_0076af90(unsigned char* result, int j);
 };
-unsigned int __cdecl FUN_00403940(unsigned int a, unsigned int b);
-unsigned int __cdecl FUN_0042f5a0(unsigned int a, unsigned int b);
 struct Context
 {
     unsigned int FUN_00769520(FUN_007687d0* input);
 };
-void __cdecl UnkCallA();
-bool __cdecl UnkCallB();
-extern const double g_dConst;
 struct GameCc
 {
-    float __thiscall UnkGetA();
-    float __thiscall UnkGetB(int v);
 };
 struct GameRoot
 {
     unsigned char _pad0[0xcc];
     GameCc* m_cc;
-    bool __thiscall UnkTestA();
-    float __thiscall UnkGetC();
-    int __thiscall UnkGetD();
 };
-extern GameRoot* g_pGame;
 struct FUN_00769700_cls
 {
     unsigned char _pad0[0x1cc];
     int m_1cc;
     int GetScaledValue();
 };
-unsigned int __cdecl gm_GetTickCount();
-extern double _gModifierZero;
 struct TileV
 {
-    float __thiscall GetFloat(int id);
-    float __thiscall GetWidth();
-    void __thiscall SetFloat(int id, float value, bool propagate);
-    void __thiscall SetInt(int id, int value);
 };
 struct SoundHandleV
 {
-    bool __thiscall Play(bool loop);
 };
 struct HackingMenuV
 {
@@ -455,44 +463,30 @@ extern int DAT_011a0104;
 extern char* DAT_011a0100;
 int __cdecl FUN_00ec7690(int, int);
 int __cdecl FUN_00ec86e1(int);
-void __cdecl FUN_00401460(int, const char*, int);
 struct FUN_0076a670_cls
 {
     void FUN_0076a670(int a1, const char* s);
 };
-extern "C" unsigned int __cdecl FUN_00457fe0();
-extern "C" int __cdecl FUN_00a00940(const char*, int);
 extern "C" char str_01072108;
 struct Fade
 {
     int state;
     int flags;
     float amount;
-    void __thiscall FUN_00a0a270(float value, int enabled);
 };
 struct Resources
 {
-    float __thiscall FUN_00a011b0(int id);
-    Fade* __thiscall FindTraitValue(int id);
 };
 struct Widget
 {
-    bool __thiscall IsTraitNonZero();
 };
 struct HackingMenuDecomp : HackingMenu
 {
-    Widget* __thiscall FUN_00726070(int id);
     void __thiscall UpdateFade();
 };
 struct Node
 {
-    bool __thiscall IsTraitNonZero(int property);
-    Node* __thiscall FUN_00a011f0(int property);
-    Node* __thiscall FUN_0045cd60();
-    void __thiscall FUN_00a011b0(int property);
-    void __thiscall FUN_00700320(int property, int value);
 };
-extern int __cdecl FUN_0044a670(Node* node);
 extern int __cdecl FUN_00ec62c0();
 struct Menu0076ab40
 {
@@ -574,19 +568,12 @@ struct Menu0076ab40
 // BuildHackingGuessTemplate - hacking menu guess template formatting
 struct FUN_00a1ddb0_res
 {
-    void __thiscall FUN_00715c60(unsigned int id, int cnt);
-    int __thiscall FUN_00700300();
-    void __thiscall FUN_00707e10(int len);
 };
 struct FUN_00a1ddb0_owner
 {
-    FUN_00a1ddb0_res* __thiscall FUN_00a1ddb0(char* base, char const* name, void* f0);
 };
-extern FUN_00a1ddb0_owner* DAT_011d95b8;
 struct FUN_0044ddc0_sub
 {
-    int __thiscall FUN_0044ddc0();
-    void __thiscall FUN_004ed8c0(FUN_00a1ddb0_res** pp);
 };
 class FUN_004037b0_tmp
 {
@@ -595,9 +582,7 @@ class FUN_004037b0_tmp
     int m_04;
     FUN_004037b0_tmp();
     ~FUN_004037b0_tmp();
-    int __thiscall FUN_00559450();
 };
-void __cdecl FUN_00406f60(void* dest, char const* fmt, ...);
 struct FUN_0076ad50_cls
 {
     unsigned char _pad0[0x110];
@@ -612,7 +597,6 @@ struct FUN_0076ae90_cls
     unsigned int cnt;
     unsigned int __thiscall FUN_0076ae90();
 };
-void* __cdecl FUN_00403d30(void*, int, unsigned int);
 struct FUN_0076ae90_tbl
 {
     unsigned int cap;
@@ -624,7 +608,6 @@ struct ArrElem
     unsigned int f4;
     ArrElem();
     ~ArrElem();
-    ArrElem* AssignFrom(ArrElem* src);
 };
 struct ElemArray
 {
@@ -690,9 +673,7 @@ struct PairState
 struct AudioManager
 {
     static AudioManager* Get();
-    Sound GetSoundByEditorID(const char*, int);
 };
-void* __cdecl FUN_00403d30(void*, int, unsigned int);
 struct FUN_007654f0 : MenuBase
 {
     int unk28;
@@ -789,12 +770,10 @@ struct ListM
     int f04;
     int f08;
     ~ListM();
-    bool FUN_0076b610();
     ScriptObj* RemoveHead();
 };
 struct EntObj
 {
-    void* FUN_00765b50(unsigned int);
 };
 struct ObjE0
 {
@@ -821,8 +800,6 @@ struct ObjE0
 };
 struct SndX
 {
-    void Stop();
-    void FUN_00ad8d10();
 };
 struct BSSoundHandleEx : SndX
 {
@@ -843,7 +820,6 @@ struct SubM
     int f1c;
     int f20;
     int f24;
-    void FUN_004ed900();
     ~SubM();
 };
 struct SettingValue
@@ -852,22 +828,14 @@ struct SettingValue
 };
 struct SettingColl
 {
-    SettingValue* FUN_0043d4d0();
 };
 struct SysColorMgr
 {
-    static SysColorMgr* __stdcall GetSingleton(int, char*);
-    void ApplyToChild();
 };
 struct Menu_007a8b10
 {
     virtual ~Menu_007a8b10();
 };
-unsigned int __cdecl gm_GetTickCount();
-void __cdecl FUN_00401030(void*);
-extern SettingColl DAT_011d0b90;
-extern unsigned int DAT_011d95c0;
-extern char DAT_011d9674;
 struct FUN_007658e0 : Menu_007a8b10
 {
     int f04;
@@ -892,9 +860,7 @@ struct FUN_007658e0 : Menu_007a8b10
 };
 struct HackTile
 {
-    const char* GetString(int);
     void Set(int, const char*, bool);
-    bool ContainsTrait(int);
 };
 struct HackEntry
 {
@@ -915,11 +881,8 @@ struct HackList
 {
     char* data;
     HackList* next;
-    HackList* Next();
     char** Get();
-    void Remove(char**);
 };
-int __cdecl FUN_00408b20(const char*, const char*);
 struct HackMenu
 {
     int unk000;
@@ -1006,22 +969,12 @@ struct FUN_00759eb0
 };
 struct SettingRef
 {
-    unsigned int* __thiscall FUN_0043d4d0();
 };
-extern SettingRef DAT_011d3dc0;
-extern SettingRef DAT_011d4e4c;
-extern SettingRef DAT_011d3510;
-float __cdecl FUN_004bd510(float, float);
 struct TileValue
 {
-    float __thiscall FUN_00a011b0(int);
 };
 struct ConstructorTile : FUN_00a1ddb0_res
 {
-    int __thiscall FindTraitValue(int);
-    int __thiscall FUN_00a00f30(int);
-    void __thiscall FUN_00700320(unsigned int, int);
-    void __thiscall FUN_00a01350(unsigned int, const char*, bool);
 };
 struct ConstructorMenu : FUN_00a1ddb0_owner
 {
@@ -1093,7 +1046,6 @@ struct ConstructorMenu : FUN_00a1ddb0_owner
     unsigned int unk104;
     unsigned int unk108;
     char* root;
-    TileValue* __thiscall FUN_00726070();
 };
 extern const char DAT_0107293c[];
 extern const char DAT_010692d0[];
@@ -1101,22 +1053,14 @@ struct FUN_0076b300 : FUN_00759eb0
 {
     ConstructorTile* tile;
     ConstructorTile* label;
-    void __thiscall SetCapacity(unsigned int);
-    void __thiscall FUN_006ffe80(int, int);
     FUN_0076b300(const char*, char*, const char*, int, unsigned char);
 };
 // Adapted from prior contributor's code (credited in packet.json)
 extern "C" void* __cdecl memset(void*, int, unsigned int);
 extern "C" void* __cdecl FUN_00afdf20(const char*, unsigned int, unsigned int, unsigned int);
-extern "C" void __cdecl FUN_005b5e40(int, const char*, const char*);
-extern "C" unsigned int __cdecl FUN_005a00a0(unsigned int);
-unsigned int __cdecl BSStringCapacityMaximum(unsigned int, unsigned int);
-void __cdecl FUN_0040fbe0(const char*, int);
-unsigned int __cdecl BSStringLength(const char*);
 extern char str_01072a34[];
 extern char str_01072a00[];
 extern char str_010729e8[];
-unsigned int __cdecl gm_GetTickCount();
 void __cdecl UpdateD766AA0Menu();
 struct PathStorage
 {
@@ -1139,8 +1083,6 @@ struct WordsView : FUN_00765810
     void __thiscall FUN_00680890();
     void __thiscall FUN_0076b240(const char*);
     void __thiscall SortWeatherEntries();
-    WordsView* __thiscall FUN_00726070();
-    char** __thiscall FUN_006815c0();
 };
 struct FileObj
 {
@@ -1161,7 +1103,6 @@ struct FileObj
 };
 struct EntryRow
 {
-    unsigned char* __thiscall FUN_00559450();
 };
 struct MatrixWrapper : FUN_007687d0
 {
@@ -1169,7 +1110,6 @@ struct MatrixWrapper : FUN_007687d0
 };
 struct FUN_00768070_shell : FUN_00768a10_shell
 {
-    unsigned int __thiscall FUN_00769520(FUN_007687d0*);
     void __thiscall SelectWordSet(unsigned int);
 };
 
@@ -1183,10 +1123,8 @@ struct SoundHandle00ad7550
 
 struct PlaybackDevice
 {
-    SoundHandle00ad7550 __thiscall Play(unsigned int a, unsigned int b);
 };
 
-extern PlaybackDevice* __cdecl GetPlaybackDevice();
 
 struct TlsBlock00ad7550
 {
@@ -1221,17 +1159,16 @@ struct TlsBlock00ad7550
     unsigned int unk2a0, unk2a4, unk2a8, unk2ac, unk2b0, tag2b4;
     unsigned int unk2b8;
 };
-extern __declspec(thread) TlsBlock00ad7550 g_tls00ad7550;
 
 struct AudioTag
 {
     static int Get()
     {
-        return g_tls00ad7550.tag2b4;
+        return (*reinterpret_cast<::TlsBlock00ad7550 *>(&::g_tlsBlock)).tag2b4;
     }
     static void Set(int value)
     {
-        g_tls00ad7550.tag2b4 = value;
+        (*reinterpret_cast<::TlsBlock00ad7550 *>(&::g_tlsBlock)).tag2b4 = value;
     }
 };
 
@@ -1258,5 +1195,5 @@ struct SoundPlayback
 SoundHandle00ad7550 SoundPlayback::FUN_00ad7550(unsigned int a, unsigned int b)
 {
     TagScope scope;
-    return GetPlaybackDevice()->Play(a, b);
+    return (*(::SoundHandle00ad7550 *)(reinterpret_cast<::AudioClass_ae5680 *>((((::PlaybackDevice *)(::FUN_00ad9060()))))->ResolveAudioHandle((::Handle_ae5680 *)(a), b, {})));
 }

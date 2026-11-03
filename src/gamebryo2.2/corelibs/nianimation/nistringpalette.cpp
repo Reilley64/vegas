@@ -2,13 +2,18 @@
 // src/gamebryo2.2/corelibs/nianimation/nistringpalette.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nistringpalette.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_011f3f30;
 
 // Returns the address of the global g_011f3f30.
 // @fnv 0x00a47140
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f3000.h"
 void* __cdecl FUN_00a47140()
 {
-    return &g_011f3f30;
+    return &(*reinterpret_cast<void * *>(&::g_011f3f30));
 }
 
 struct NiRefObject
@@ -16,8 +21,6 @@ struct NiRefObject
     virtual ~NiRefObject();
     int m_ref;
 };
-void __cdecl _NiFreeAlias(void*);
-void __cdecl _delete(void*, unsigned int);
 extern int DAT_0109832c;
 struct S_00a47190 : NiRefObject
 {
@@ -32,10 +35,10 @@ void* S_00a47190::DestroyAndFree(unsigned int auiFlags)
 {
     void* p = m_08;
     *(void**)this = (void*)&DAT_0109832c;
-    _NiFreeAlias(p);
-    this->NiRefObject::~NiRefObject();
+    ::FUN_00aa10f0(p);
+    reinterpret_cast<class ::FUN_00a5d3d0 *>((this))->FUN_00a5d3d0::~FUN_00a5d3d0();
     if (auiFlags & 1)
-        _delete(this, 0x14);
+        ::FUN_00aa1460(this, 0x14);
     return this;
 }
 
@@ -89,7 +92,6 @@ template <class T> inline void SerializeValue(NiStream& kStream, const T* pkValu
 }
 struct NiObject : NiRefObject
 {
-    void LinkObject(NiStream& kStream);
 };
 struct S_00a47210 : NiObject
 {
@@ -102,7 +104,7 @@ struct S_00a47210 : NiObject
 // @fnv 0x00a47210
 void S_00a47210::WriteToStream(NiStream& kStream)
 {
-    NiObject::LinkObject(kStream);
+    ::FUN_00a89af0((int)this);
     unsigned int uiSize = m_uiSize;
     SerializeValue(kStream, uiSize);
     if (uiSize > 0)
@@ -112,7 +114,6 @@ void S_00a47210::WriteToStream(NiStream& kStream)
 
 struct S_00a470c0 : S_00a47190
 {
-    bool IsSameAs(S_00a470c0* other);
     bool FUN_00a470c0(S_00a470c0* other);
 };
 
@@ -120,7 +121,7 @@ struct S_00a470c0 : S_00a47190
 // @fnv 0x00a470c0
 bool S_00a470c0::FUN_00a470c0(S_00a470c0* other)
 {
-    if (IsSameAs(other) && other->m_0C == m_0C && other->m_10 == m_10)
+    if (reinterpret_cast<::A5d470Class *>(this)->IsSameAs((::A5d470Object *)(other)) && other->m_0C == m_0C && other->m_10 == m_10)
     {
         unsigned int size = (unsigned int)m_0C;
         if (size <= 0)
@@ -181,7 +182,6 @@ S_00a47150_Obj* __cdecl FUN_00a47150()
     return new S_00a47150_Obj;
 }
 
-void* __cdecl FUN_00aa1070(unsigned int size);
 struct A472Input
 {
     int unk00;
@@ -204,14 +204,13 @@ class FUN_00a472b0_cls
     int unk00, unk04;
     void* m_pBuf08;
     unsigned int m_uiCount0C, m_uiExtra10;
-    void ReadGroup(A472Stream* stream);
     void ReadFromStream(A472Stream* stream);
 };
 // Reads a count and extra value from the stream, allocates a buffer of that count and reads it in.
 // @fnv 0x00a472b0
 void FUN_00a472b0_cls::ReadFromStream(A472Stream* stream)
 {
-    ReadGroup(stream);
+    reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup((::NiStream *)(stream));
     stream->input->Read(&m_uiCount0C, 4, 4);
     if (m_uiCount0C > 0)
     {

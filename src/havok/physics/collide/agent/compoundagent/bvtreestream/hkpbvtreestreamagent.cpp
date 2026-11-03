@@ -2,6 +2,22 @@
 // src/havok/physics/collide/agent/compoundagent/bvtreestream/hkpbvtreestreamagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/compoundagent/bvtreestream/hkpbvtreestreamagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/Agent.h"
+#include "fnv/decl/FUN_00cfbbe0_cls.h"
+#include "fnv/decl/FUN_00d43880_cls.h"
+#include "fnv/decl/FUN_00d440f0.h"
+#include "fnv/decl/S_00d43cd0.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_00d2d000.h"
+#include "fnv/symbols_00d2e000.h"
+#include "fnv/symbols_00d30000.h"
+#include "fnv/symbols_00d31000.h"
+#include "fnv/symbols_00d97000.h"
+#include "fnv/symbols_00da3000.h"
+#include "fnv/symbols_00da4000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010ce000.h"
 extern "C" void __cdecl FUN_00d312f0(void*, void*, void*, void*);
 
 struct FUN_00d2dd30_class
@@ -15,7 +31,6 @@ void __thiscall FUN_00d2dd30_class::FUN_00d2dd30(void* apArg1, void* apArg2, voi
     FUN_00d312f0(apArg1, apArg2, apArg3, apArg4);
 }
 
-extern "C" void __cdecl FUN_00da3510(void* a, void* b);
 
 struct FUN_00d2ddd0_class
 {
@@ -25,7 +40,7 @@ struct FUN_00d2ddd0_class
 // @fnv 0x00d2ddd0
 void __thiscall FUN_00d2ddd0_class::FUN_00d2ddd0(int aiValue)
 {
-    FUN_00da3510((char*)this + 0x30, (void*)aiValue);
+    ::FUN_00da3510((*(::AgentSectorPointerArray *)((char*)this + 0x30)), (*(::CollisionAgentContext *)((void*)aiValue)));
 }
 
 extern "C" void __cdecl FUN_00d31110(void*, void*, void*, void*);
@@ -35,7 +50,6 @@ extern "C" void __stdcall FUN_00d2dd50(void* apArg1, void* apArg2, void* apArg3,
     FUN_00d31110(apArg1, apArg2, apArg3, apArg4);
 }
 
-void __cdecl FUN_00d30f50(void*, void*, void*, void*, void*);
 struct OperationAdapter
 {
     void FUN_00d2dd70(void* a, void* b, void* c, void* d, void* e);
@@ -44,7 +58,7 @@ struct OperationAdapter
 // @fnv 0x00d2dd70
 void OperationAdapter::FUN_00d2dd70(void* a, void* b, void* c, void* d, void* e)
 {
-    FUN_00d30f50(a, b, c, d, e);
+    ::FUN_00d30f50((*(const ::S_00d30f50_CdBody *)(a)), (*(const ::S_00d30f50_CdBody *)(b)), (*(const ::S_00d30f50_LinearCastInput *)(c)), (*(::S_00d30f50_CdPointCollector *)(d)), (::S_00d30f50_CdPointCollector *)(e));
 }
 
 struct FUN_00d2dda0_class
@@ -64,16 +78,14 @@ struct FUN_00d2dda0_class
     int unk30;
     void __thiscall FUN_00d2dda0(int value);
 };
-extern void __cdecl FUN_00da42b0(void*, int, int, int);
 // Passes unk0c, unk08 and value to FUN_00da42b0 with &unk30, then calls finish(1).
 // @fnv 0x00d2dda0
 void FUN_00d2dda0_class::FUN_00d2dda0(int value)
 {
-    FUN_00da42b0(&unk30, unk0c, unk08, value);
+    ::FUN_00da42b0((::BlockPoolArray *)(void *)(&unk30), (::S_00da40e0_Dispatcher *)(unk0c), (::S_00da40e0_ContactMgr *)(unk08), (*(::S_00da40e0_ConstraintOwner *)(value)));
     finish(1);
 }
 
-void __cdecl FUN_00da35f0(void* self, float a, float b, void* c);
 struct FUN_00d2ddf0_Class
 {
     void __thiscall FUN_00d2ddf0(float a, float b, void* c);
@@ -82,7 +94,7 @@ struct FUN_00d2ddf0_Class
 // @fnv 0x00d2ddf0
 void __thiscall FUN_00d2ddf0_Class::FUN_00d2ddf0(float a, float b, void* c)
 {
-    FUN_00da35f0((char*)this + 0x30, a, b, c);
+    ::FUN_00da35f0((::Da35Stream ***)(void *)((char*)this + 0x30), a, b, (void **)(c));
 }
 
 struct hkMemoryAllocator
@@ -135,14 +147,8 @@ void* __cdecl FUN_00d2df50(int aiArg0, int aiArg1, int aiArg2, int aiArg3)
     return ((Obj*)hkAlloc(sizeof(Obj)))->FUN_00d2def0(aiArg0, aiArg1, aiArg2, aiArg3);
 }
 
-void FUN_00d2e680();
-void FUN_00d2e970();
-void FUN_00d2e9b0();
-void FUN_00d2e9f0();
-void FUN_00d2df50();
 
 void FUN_00d31110();
-void FUN_00d30f50();
 struct Conversion
 {
     void (*convert)();
@@ -154,26 +160,25 @@ struct Conversion
 };
 struct Registry
 {
-    void FUN_00cfbbe0(Conversion*, int, int);
 };
 // @fnv 0x00d2e760
 void FUN_00d2e760(Registry* registry)
 {
     Conversion conversionEntry;
-    conversionEntry.convert = FUN_00d2e680;
-    conversionEntry.create = FUN_00d2e970;
-    conversionEntry.copy = FUN_00d2e9b0;
-    conversionEntry.destroy = FUN_00d2e9f0;
+    conversionEntry.convert = ((void (&)())::FUN_00d2e680);
+    conversionEntry.create = ((void (&)())::FUN_00d2e970);
+    conversionEntry.copy = ((void (&)())::FUN_00d2e9b0);
+    conversionEntry.destroy = ((void (&)())::FUN_00d2e9f0);
     conversionEntry.enabled = true;
     conversionEntry.supported = true;
-    registry->FUN_00cfbbe0(&conversionEntry, 8, 24);
-    conversionEntry.convert = FUN_00d2df50;
+    reinterpret_cast<::FUN_00cfbbe0_cls *>((registry))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)(::Conversion *)(&conversionEntry), 8, 24);
+    conversionEntry.convert = ((void (&)())::FUN_00d2df50);
     conversionEntry.create = (void (*)())FUN_00d312f0;
     conversionEntry.copy = FUN_00d31110;
-    conversionEntry.destroy = FUN_00d30f50;
+    conversionEntry.destroy = ((void (&)())::FUN_00d30f50);
     conversionEntry.enabled = false;
     conversionEntry.supported = true;
-    registry->FUN_00cfbbe0(&conversionEntry, 24, 8);
+    reinterpret_cast<::FUN_00cfbbe0_cls *>((registry))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)(::Conversion *)(&conversionEntry), 24, 8);
 }
 
 typedef void*(__cdecl* S_00d2e8e0_CreateFunc)(void*, void*, void*, void*);
@@ -181,13 +186,8 @@ typedef void(__cdecl* S_00d2e8e0_GetPenetrationsFunc)(void*, void*, void*, void*
 typedef void(__cdecl* S_00d2e8e0_GetClosestPointsFunc)(void*, void*, void*, void*);
 typedef void(__cdecl* S_00d2e8e0_LinearCastFunc)(void*, void*, void*, void*, void*);
 
-void* FUN_00d2e7f0(void*, void*, void*, void*);
 void FUN_00d2e970(void*, void*, void*, void*);
-void FUN_00d2e9b0(void*, void*, void*, void*);
-void FUN_00d2e9f0(void*, void*, void*, void*, void*);
-void* FUN_00d2e5a0(void*, void*, void*, void*);
 void FUN_00d31110(void*, void*, void*, void*);
-void FUN_00d30f50(void*, void*, void*, void*, void*);
 
 struct S_00d2e8e0_AgentFuncs
 {
@@ -201,7 +201,6 @@ struct S_00d2e8e0_AgentFuncs
 
 struct S_00d2e8e0_Dispatcher
 {
-    void FUN_00cfbbe0(S_00d2e8e0_AgentFuncs& f, int typeA, int typeB);
 };
 
 // Fills an agent function table twice and registers it with the dispatcher for type pairs (8,0x16) and (0x16,8).
@@ -209,24 +208,23 @@ struct S_00d2e8e0_Dispatcher
 void FUN_00d2e8e0(S_00d2e8e0_Dispatcher* dispatcher)
 {
     S_00d2e8e0_AgentFuncs f;
-    f.m_pCreateFunc = FUN_00d2e7f0;
+    f.m_pCreateFunc = ((void *(&)(void *, void *, void *, void *))::FUN_00d2e7f0);
     f.m_pQueryPenetrationsFunc = FUN_00d2e970;
-    f.m_pGetPenetrationsFunc = FUN_00d2e9b0;
-    f.m_pLinearCastFunc = FUN_00d2e9f0;
+    f.m_pGetPenetrationsFunc = ((void (&)(void *, void *, void *, void *))::FUN_00d2e9b0);
+    f.m_pLinearCastFunc = ((void (&)(void *, void *, void *, void *, void *))::FUN_00d2e9f0);
     f.m_bIsFlipped = true;
     f.m_bIsPredictive = true;
-    dispatcher->FUN_00cfbbe0(f, 8, 0x16);
+    reinterpret_cast<::FUN_00cfbbe0_cls *>((dispatcher))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)&(f), 8, 0x16);
 
-    f.m_pCreateFunc = FUN_00d2e5a0;
+    f.m_pCreateFunc = ((void *(&)(void *, void *, void *, void *))::fnv_00d2e5a0::FUN_00d2e5a0);
     f.m_pQueryPenetrationsFunc = (S_00d2e8e0_GetPenetrationsFunc)FUN_00d312f0;
     f.m_pGetPenetrationsFunc = FUN_00d31110;
-    f.m_pLinearCastFunc = FUN_00d30f50;
+    f.m_pLinearCastFunc = ((void (&)(void *, void *, void *, void *, void *))::FUN_00d30f50);
     f.m_bIsFlipped = false;
     f.m_bIsPredictive = true;
-    dispatcher->FUN_00cfbbe0(f, 0x16, 8);
+    reinterpret_cast<::FUN_00cfbbe0_cls *>((dispatcher))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)&(f), 0x16, 8);
 }
 
-extern float g_D2E9B0MaxDistance;
 
 struct D2E9B0CollectorBase
 {
@@ -236,7 +234,7 @@ struct D2E9B0CollectorBase
 
     float m_fEarlyOutDistance;
 
-    D2E9B0CollectorBase() : m_fEarlyOutDistance(g_D2E9B0MaxDistance)
+    D2E9B0CollectorBase() : m_fEarlyOutDistance(::DAT_0104da48)
     {}
 };
 
@@ -261,7 +259,6 @@ void __cdecl FUN_00d2e9b0(int aiArg1, int aiArg2, int aiArg3, int aiData)
     FUN_00d31110(aiArg2, aiArg1, aiArg3, &collector);
 }
 
-extern float DAT_0104da48;
 struct hkpSymmetricAgentFlipCollector
 {
     virtual void dispose();
@@ -272,7 +269,6 @@ struct hkpSymmetricAgentFlipCollector
 };
 struct Context
 {
-    void FUN_00d43880(void* first, void* second, void* third, hkpSymmetricAgentFlipCollector* collector);
     void FUN_00d2edd0(void* first, void* second, void* third, void* fourth);
 };
 // Builds a collector with threshold DAT_0104da48 and object fourth, then calls FUN_00d43880 with second, first, third and the collector.
@@ -280,13 +276,11 @@ struct Context
 void Context::FUN_00d2edd0(void* first, void* second, void* third, void* fourth)
 {
     hkpSymmetricAgentFlipCollector collector;
-    collector.threshold = DAT_0104da48;
+    collector.threshold = ::DAT_0104da48;
     collector.object = fourth;
-    FUN_00d43880(second, first, third, &collector);
+    reinterpret_cast<::FUN_00d43880_cls *>(this)->FUN_00d43880((::ShapeHolder *)(second), (unsigned long)(first), (unsigned long)(third), (unsigned long)(&collector));
 }
 
-extern "C" void* __cdecl FUN_00d06f80(void* ptr, unsigned int size);
-extern "C" void __cdecl FUN_00d97250(void* a, int b, void* c);
 extern "C" const char str_010ce828[];
 
 struct VisitTarget
@@ -346,10 +340,9 @@ void BufOwner::VisitPackedBuffer(VisitTarget* target, int flags)
         void* mem = FUN_00d06f80(p, uiByteSize);
         target->Visit(3, str_010ce828, pBuffer->m_ptr, pBuffer->m_uiItemCount * 4, mem);
     }
-    FUN_00d97250(pBuffer, target->m_08, target);
+    ::FUN_00d97250((::Hdr *)(pBuffer), (char **)(target->m_08), (::Logger *)(target));
 }
 
-extern "C" const void* DAT_010ce81c;
 
 struct Collector
 {
@@ -365,7 +358,7 @@ void __cdecl FUN_00d2e970(void* bodyA, void* bodyB, void* arg3, void* orig_colle
     Collector c;
     c.collector = orig_collector;
     c.flip = 0;
-    c.vtable = &DAT_010ce81c;
+    c.vtable = &(*reinterpret_cast<const void * *>(&::DAT_010ce81c));
     FUN_00d312f0(bodyB, bodyA, arg3, &c);
 }
 
@@ -415,7 +408,6 @@ void FUN_00d2eb50_cls::SwapFields()
 }
 
 namespace fnv_00d2ebb0 {
-extern char DAT_010ce81c;
 
 struct FUN_00d2ebb0_tmp
 {
@@ -426,7 +418,6 @@ struct FUN_00d2ebb0_tmp
 
 struct FUN_00d2dd30_obj
 {
-    void __thiscall FUN_00d2dd30(void* a, void* b, void* c, void* d);
 };
 
 struct FUN_00d2ebb0_cls
@@ -441,8 +432,8 @@ void FUN_00d2ebb0_cls::DispatchWithFlag(void* a1, void* a2, void* a3, unsigned i
     FUN_00d2ebb0_tmp t;
     t.a4 = a4;
     t.flag = 0;
-    t.vt = &DAT_010ce81c;
-    ((FUN_00d2dd30_obj*)this)->FUN_00d2dd30(a2, a1, a3, &t);
+    t.vt = &::DAT_010ce81c;
+    reinterpret_cast<::FUN_00d2dd30_class *>((((FUN_00d2dd30_obj*)this)))->FUN_00d2dd30(a2, a1, a3, &t);
 }
 }  // namespace fnv_00d2ebb0
 
@@ -452,11 +443,8 @@ struct CpuCallData
     float bound;
     unsigned int value;
 };
-extern float DAT_0104da48;
-extern unsigned char DAT_010ce7fc;
 struct CpuObject
 {
-    void FUN_00d2dd50(void*, void*, unsigned int, CpuCallData*);
     void DispatchWithBoundData(void*, void*, unsigned int, unsigned int);
 };
 // Builds a CpuCallData from fourth, DAT_0104da48 and DAT_010ce7fc, then forwards second, first, third and the data to FUN_00d2dd50.
@@ -465,9 +453,9 @@ void CpuObject::DispatchWithBoundData(void* first, void* second, unsigned int th
 {
     CpuCallData data;
     data.value = fourth;
-    data.bound = DAT_0104da48;
+    data.bound = ::DAT_0104da48;
     data.descriptor = &DAT_010ce7fc;
-    FUN_00d2dd50(second, first, third, &data);
+    ::FUN_00d2dd50((void *)this, second, first, (void *)(third));
 }
 
 struct CallTarget_00d2de20
@@ -524,7 +512,6 @@ struct hkpSymmetricAgentFlipBodyCollector : hkpCollectorBase
 // Game side wrapper that fills the collector and hands it to the query routine.
 struct FUN_00d43cd0_class
 {
-    void __thiscall ProcessCollisionEntries(void* a, void* b, void* c, void* d);
     void __thiscall FUN_00d2ed90(void* a1, void* a2, void* a3, void* a4);
 };
 
@@ -534,11 +521,10 @@ void __thiscall FUN_00d43cd0_class::FUN_00d2ed90(void* a1, void* a2, void* a3, v
 {
     hkpSymmetricAgentFlipBodyCollector collector;
     collector.payload = apPayload;
-    this->ProcessCollisionEntries(a2, a1, a3, &collector);
+    reinterpret_cast<::S_00d43cd0 *>((this))->ProcessCollisionEntries((*(const ::S_00d43cd0_CdBody *)(a2)), (*(const ::S_00d43cd0_CdBody *)(a1)), (*(const ::S_00d43cd0_Input *)(a3)), (*(::S_00d43cd0_Collector *)(&collector)));
 }
 
 #include <xmmintrin.h>
-extern "C" void __cdecl FUN_00da48e0(void* a, void* b);
 
 struct FUN_00d2de20_obj
 {
@@ -587,11 +573,10 @@ void FUN_00d2de20_cls::FUN_00d2de20(int a0, FUN_00d2de20_obj** a1, int a2, int a
     args.m_14 = m_08;
     args.m_0C = r;
     args.m_18 = a3;
-    FUN_00da48e0(&m_30, &args);
+    ::FUN_00da48e0((int)(&m_30), (int)(&args));
 }
 
 extern int DAT_010ce838;
-extern "C" void __cdecl InitBlockPool(void* p);
 
 struct FUN_00d2def0_cls
 {
@@ -623,13 +608,10 @@ FUN_00d2def0_cls* FUN_00d2def0_cls::FUN_00d2def0(void* a1, void* apUnused, int* 
     m_0c = *piSource;
     m_10 = _mm_setzero_ps();
     m_20 = _mm_setzero_ps();
-    InitBlockPool(pBlockPool);
+    ::InitBlockPool((::BlockPoolArray *)(pBlockPool));
     return this;
 }
 
-extern float DAT_0104da48;
-extern const __m128 DAT_010c44d0;
-extern unsigned int DAT_010ce80c;
 
 struct __declspec(align(16)) Key_d2e9
 {
@@ -659,7 +641,6 @@ struct Record_d2e9
     int m_uiFilterValue;
 };
 
-void __cdecl FUN_00d30f50(int a1, int a2, Input_d2e9* input, Record_d2e9* rec, Record_d2e9* optRec);
 
 // Copies input, XORs its m_vComponents with DAT_010c44d0, builds a Record_d2e9 with a4, and calls FUN_00d30f50 with an optional second record when a5 is non-zero.
 // @fnv 0x00d2e9f0
@@ -669,23 +650,23 @@ void __cdecl FUN_00d2e9f0(int a2, int a1, const Input_d2e9* input, int aiRecordV
     local.m_vComponents = _mm_xor_ps(input->m_vComponents, DAT_010c44d0);
 
     Record_d2e9 rec;
-    rec.m_vtbl = &DAT_010ce80c;
-    rec.m_fScalar = DAT_0104da48;
+    rec.m_vtbl = &(*reinterpret_cast<unsigned int *>(&::UNK_010ce80c));
+    rec.m_fScalar = ::DAT_0104da48;
     rec.m_key = input->m_key;
     rec.m_uiFilterValue = aiRecordValue;
 
     if (aiOptionalRecordValue != 0)
     {
         Record_d2e9 rec2;
-        rec2.m_vtbl = &DAT_010ce80c;
-        rec2.m_fScalar = DAT_0104da48;
+        rec2.m_vtbl = &(*reinterpret_cast<unsigned int *>(&::UNK_010ce80c));
+        rec2.m_fScalar = ::DAT_0104da48;
         rec2.m_key = input->m_key;
         rec2.m_uiFilterValue = aiOptionalRecordValue;
-        FUN_00d30f50(a1, a2, &local, &rec, &rec2);
+        ::FUN_00d30f50((*(const ::S_00d30f50_CdBody *)(a1)), (*(const ::S_00d30f50_CdBody *)(a2)), (*(const ::S_00d30f50_LinearCastInput *)(&local)), (*(::S_00d30f50_CdPointCollector *)(&rec)), (::S_00d30f50_CdPointCollector *)(::Record_d2e9 *)(&rec2));
     }
     else
     {
-        FUN_00d30f50(a1, a2, &local, &rec, 0);
+        ::FUN_00d30f50((*(const ::S_00d30f50_CdBody *)(a1)), (*(const ::S_00d30f50_CdBody *)(a2)), (*(const ::S_00d30f50_LinearCastInput *)(&local)), (*(::S_00d30f50_CdPointCollector *)(&rec)), (::S_00d30f50_CdPointCollector *)(::Record_d2e9 *)(0));
     }
 }
 
@@ -794,11 +775,9 @@ void Agent::FUN_00d2ec50(int a, int b, int c, Simplex* apSimplex)
     }
 }
 }  // namespace fnv_00d2ec50
+#include "fnv/symbols_simd.h"
 
 namespace fnv_00d2ef30 {
-extern float DAT_0104da48;
-extern unsigned int DAT_010c44d0;
-extern unsigned int DAT_010ce80c;
 
 struct Head50
 {
@@ -839,8 +818,8 @@ __declspec(align(16)) struct QueryObj
     int extra;
     void Init(const Vector4f& v, int e)
     {
-        vtable = &DAT_010ce80c;
-        scale = DAT_0104da48;
+        vtable = &(*reinterpret_cast<unsigned int *>(&::UNK_010ce80c));
+        scale = ::DAT_0104da48;
         vec = v;
         extra = e;
     }
@@ -848,7 +827,6 @@ __declspec(align(16)) struct QueryObj
 
 struct FUN_00d2dd70_class
 {
-    void __thiscall FUN_00d2dd70(Handle a, Handle b, void* c, void* d, void* e);
     void __thiscall FUN_00d2ef30(Handle p1, Handle p2, QueryCtx* ctx, int e1, int e2);
 };
 
@@ -857,30 +835,28 @@ void __thiscall FUN_00d2dd70_class::FUN_00d2ef30(Handle p1, Handle p2, QueryCtx*
 {
     QueryObj q2;
     QueryObj q1;
-    float s = DAT_0104da48;
+    float s = ::DAT_0104da48;
     __m128 v = *(const __m128*)&ctx->vec;
     q1.scale = s;
-    __m128 neg = _mm_xor_ps(v, *(const __m128*)&DAT_010c44d0);
+    __m128 neg = _mm_xor_ps(v, *(const __m128*)&(*reinterpret_cast<unsigned int *>((void *)&::DAT_010c44d0)));
     QueryCtx local = *ctx;
     *(__m128*)&local.vec = neg;
     q1.vec = ctx->vec;
     q1.extra = aiExtra1;
-    q1.vtable = &DAT_010ce80c;
+    q1.vtable = &(*reinterpret_cast<unsigned int *>(&::UNK_010ce80c));
     if (aiExtra2)
     {
         q2.Init(ctx->vec, aiExtra2);
-        FUN_00d2dd70(p2, p1, &local, &q1, &q2);
+        reinterpret_cast<::OperationAdapter *>(this)->FUN_00d2dd70((*(void * *)&(const ::fnv_00d2ef30::Handle &)(p2)), (*(void * *)&(const ::fnv_00d2ef30::Handle &)(p1)), &local, &q1, &q2);
     }
     else
     {
-        FUN_00d2dd70(p2, p1, &local, &q1, 0);
+        reinterpret_cast<::OperationAdapter *>(this)->FUN_00d2dd70((*(void * *)&(const ::fnv_00d2ef30::Handle &)(p2)), (*(void * *)&(const ::fnv_00d2ef30::Handle &)(p1)), &local, &q1, 0);
     }
 }
 }  // namespace fnv_00d2ef30
 
 namespace fnv_00d2f000 {
-extern float DAT_0104da48;
-extern __m128 DAT_010c44d0;
 
 struct S_00d2f000_V4
 {
@@ -928,7 +904,6 @@ struct __declspec(align(16)) S_00d2f000_Flip : public S_00d2f000_Base
 
 struct FUN_00d2f000_class
 {
-    void linearCast(unsigned a, unsigned b, S_00d2f000_Input* c, void* d, void* e);
     void LinearCastFlip(unsigned a1, unsigned a2, S_00d2f000_Input* in, unsigned a4, unsigned a5);
 };
 
@@ -937,24 +912,24 @@ struct FUN_00d2f000_class
 void FUN_00d2f000_class::LinearCastFlip(unsigned a1, unsigned a2, S_00d2f000_Input* in, unsigned a4, unsigned a5)
 {
     __m128 v = in->m_q50;
-    __m128 mask = DAT_010c44d0;
+    __m128 mask = ::DAT_010c44d0;
     S_00d2f000_Input local = *in;
     local.m_q50 = _mm_xor_ps(v, mask);
     S_00d2f000_Flip fr;
-    fr.m_f04 = DAT_0104da48;
+    fr.m_f04 = ::DAT_0104da48;
     fr.m_v10 = in->m_v50;
     fr.m_p20 = a4;
 
     if (a5 != 0)
     {
         S_00d2f000_Flip fl;
-        fl.m_f04 = DAT_0104da48;
+        fl.m_f04 = ::DAT_0104da48;
         fl.m_v10 = in->m_v50;
         fl.m_p20 = a5;
-        this->linearCast(a2, a1, &local, &fr, &fl);
+        reinterpret_cast<::Agent *>((this))->FUN_00d43aa0((::Holder *)(a2), a1, (int)(&local), (int)(&fr), (int)(&fl));
     }
     else
-        this->linearCast(a2, a1, &local, &fr, 0);
+        reinterpret_cast<::Agent *>((this))->FUN_00d43aa0((::Holder *)(a2), a1, (int)(&local), (int)(&fr), (int)(0));
 }
 }  // namespace fnv_00d2f000
 
@@ -995,12 +970,10 @@ struct Arg3Obj
 
 struct FUN_00d2def0_cls
 {
-    void* FUN_00d2def0(void* a, void* b, void* c, void* d);
 };
 
 struct FUN_00d440f0_cls
 {
-    void* FUN_00d440f0(void* a, void* b, void* c, void* d);
 };
 
 struct SpawnedObject
@@ -1026,14 +999,14 @@ void* FUN_00d2e5a0(void* a1, void* a2, void* a3, void* a4)
             Allocator* pAllocator = holder->m_pAllocator;
             SpawnedObject* obj = (SpawnedObject*)pAllocator->Alloc(0x40);
             obj->m_iElementCount = 0x40;
-            return ((FUN_00d2def0_cls*)obj)->FUN_00d2def0(a1, a2, a3, a4);
+            return ((void *)(reinterpret_cast<::FUN_00d2def0_cls *>((((FUN_00d2def0_cls*)obj)))->FUN_00d2def0(a1, a2, (int *)(a3), (int)(a4))));
         }
         case 1: {
             AllocHolder* holder = FUN_00c85750();
             Allocator* pAllocator = holder->m_pAllocator;
             SpawnedObject* obj = (SpawnedObject*)pAllocator->Alloc(0x38);
             obj->m_iElementCount = 0x38;
-            return ((FUN_00d440f0_cls*)obj)->FUN_00d440f0(a1, a2, a3, a4);
+            return ((void *)(new ((void *)(((FUN_00d440f0_cls*)obj))) ::FUN_00d440f0((*(const ::CdBodyS *)(a1)), (*(const ::CdBodyS *)(a2)), (*(const ::CollisionInputS *)(a3)), (::ContactMgrS *)(a4))));
         }
         default:
             return 0;
@@ -1044,7 +1017,7 @@ void* FUN_00d2e5a0(void* a1, void* a2, void* a3, void* a4)
     Allocator* pAllocator = holder->m_pAllocator;
     SpawnedObject* obj = (SpawnedObject*)pAllocator->Alloc(0x40);
     obj->m_iElementCount = 0x40;
-    ((FUN_00d2def0_cls*)obj)->FUN_00d2def0(a2, a1, a3, 0);
+    reinterpret_cast<::FUN_00d2def0_cls *>((((FUN_00d2def0_cls*)obj)))->FUN_00d2def0(a2, a1, (int *)(a3), (int)(0));
     obj->SpawnedObject::~SpawnedObject();
     return obj;
 }
@@ -1107,19 +1080,12 @@ struct RegEntry
 
 struct TargetClass
 {
-    void __thiscall FUN_00cfbbe0(RegEntry* entry, int a, int b);
 };
 
 extern "C"
 {
-    void FUN_00d2e680();
-    void FUN_00d2e970();
-    void FUN_00d2e9b0();
-    void FUN_00d2e9f0();
 
-    void FUN_00d2df50();
     void FUN_00d31110();
-    void FUN_00d30f50();
 }
 
 // Fills a RegEntry with four function pointers and two flags and passes it to obj->FUN_00cfbbe0 with (8, 0x12), then again with different pointers and (0x12, 8).
@@ -1127,21 +1093,21 @@ extern "C"
 void __cdecl FUN_00d2e6d0(TargetClass* obj)
 {
     RegEntry entry;
-    entry.fn0 = (void*)FUN_00d2e680;
-    entry.fn1 = (void*)FUN_00d2e970;
-    entry.fn2 = (void*)FUN_00d2e9b0;
-    entry.fn3 = (void*)FUN_00d2e9f0;
+    entry.fn0 = (void*)((void (&)())::FUN_00d2e680);
+    entry.fn1 = (void*)((void (&)())::FUN_00d2e970);
+    entry.fn2 = (void*)((void (&)())::FUN_00d2e9b0);
+    entry.fn3 = (void*)((void (&)())::FUN_00d2e9f0);
     entry.b0 = true;
     entry.b1 = true;
-    obj->FUN_00cfbbe0(&entry, 8, 0x12);
+    reinterpret_cast<::FUN_00cfbbe0_cls *>((obj))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)(::fnv_00d2e6d0::RegEntry *)(&entry), 8, 0x12);
 
-    entry.fn0 = (void*)FUN_00d2df50;
+    entry.fn0 = (void*)((void (&)())::FUN_00d2df50);
     entry.fn1 = (void*)FUN_00d312f0;
     entry.fn2 = (void*)FUN_00d31110;
-    entry.fn3 = (void*)FUN_00d30f50;
+    entry.fn3 = (void*)((void (&)())::FUN_00d30f50);
     entry.b0 = false;
     entry.b1 = true;
-    obj->FUN_00cfbbe0(&entry, 0x12, 8);
+    reinterpret_cast<::FUN_00cfbbe0_cls *>((obj))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)(::fnv_00d2e6d0::RegEntry *)(&entry), 0x12, 8);
 }
 }  // namespace fnv_00d2e6d0
 
@@ -1265,11 +1231,9 @@ struct Header
 };
 struct Obj56 : Header
 {
-    void FUN_00d440f0(void* second, void* first, StreamDispatchInput* context, unsigned int flags);
 };
 struct Obj64 : Header
 {
-    void FUN_00d2def0(void* second, void* first, StreamDispatchInput* context, unsigned int flags);
 };
 static __forceinline Obj56* Create56(void* second, void* first, StreamDispatchInput* context, unsigned int flags)
 {
@@ -1277,7 +1241,7 @@ static __forceinline Obj56* Create56(void* second, void* first, StreamDispatchIn
     hkMemoryAllocator* allocator = owner->unk10;
     Obj56* obj = static_cast<Obj56*>(allocator->AllocateMemoryBlock(0x38));
     obj->size = 0x38;
-    obj->FUN_00d440f0(second, first, context, flags);
+    new ((void *)(obj)) ::FUN_00d440f0((*(const ::CdBodyS *)(second)), (*(const ::CdBodyS *)(first)), (*(const ::CollisionInputS *)(context)), (::ContactMgrS *)(flags));
     obj->vtable = g_010ce8b0;
     return obj;
 }
@@ -1287,7 +1251,7 @@ static __forceinline Obj64* Create64(void* second, void* first, StreamDispatchIn
     hkMemoryAllocator* allocator = owner->unk10;
     Obj64* obj = static_cast<Obj64*>(allocator->AllocateMemoryBlock(0x40));
     obj->size = 0x40;
-    obj->FUN_00d2def0(second, first, context, flags);
+    reinterpret_cast<::FUN_00d2def0_cls *>((obj))->FUN_00d2def0(second, first, (int *)(context), flags);
     obj->vtable = g_010ce874;
     return obj;
 }

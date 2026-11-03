@@ -1,105 +1,116 @@
 // fallout_shared/bgsdecalmanager.cpp: BGSDecalManager, BSA_, PD_, M3_ and more (61 functions)
 
+#include <new>
+#include "fnv/decl/AlchemyItem.h"
+#include "fnv/decl/AlignedVector.h"
+#include "fnv/decl/BSRenderedTexture.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/ConsoleDisplay.h"
+#include "fnv/decl/DecalCaster.h"
+#include "fnv/decl/DecalSetup.h"
+#include "fnv/decl/DumpConsole.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00416870_t.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FUN_0043fa80_s.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00450410_Class.h"
+#include "fnv/decl/FUN_00453470_shell.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_00456630_Class.h"
+#include "fnv/decl/FUN_00458e20_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004a0c90_shell.h"
+#include "fnv/decl/FUN_004a0d60_Class.h"
+#include "fnv/decl/FUN_004a0d90_Class.h"
+#include "fnv/decl/FUN_004a0db0_class.h"
+#include "fnv/decl/FUN_004a0dd0_cls.h"
+#include "fnv/decl/FUN_004a2cf0.h"
+#include "fnv/decl/FUN_004a3c90.h"
+#include "fnv/decl/FUN_004a47b0.h"
+#include "fnv/decl/FUN_004e3d00_shell.h"
+#include "fnv/decl/FUN_004ed8c0_shell.h"
+#include "fnv/decl/FUN_00507b20Class.h"
+#include "fnv/decl/FUN_0050d100_shell.h"
+#include "fnv/decl/FUN_0057c590_Class.h"
+#include "fnv/decl/FUN_00621c90_Class.h"
+#include "fnv/decl/FUN_0068de30_holder.h"
+#include "fnv/decl/FUN_0068dea0_cls.h"
+#include "fnv/decl/FUN_008d01e0_Class.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00973fd0_cls.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00c4edb0_Class.h"
+#include "fnv/decl/ImpactTask.h"
+#include "fnv/decl/ListStandIn.h"
+#include "fnv/decl/MyPoint439180.h"
+#include "fnv/decl/NiAdditionalGeometryData.h"
+#include "fnv/decl/NiCamera.h"
+#include "fnv/decl/NiNode.h"
+#include "fnv/decl/NiTPointerListBase.h"
+#include "fnv/decl/ObsList.h"
+#include "fnv/decl/Owner623.h"
+#include "fnv/decl/PatrolActorPackageData.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/Pool.h"
+#include "fnv/decl/S004586d0_Obj.h"
+#include "fnv/decl/S_0082f1f0_Lock.h"
+#include "fnv/decl/S_00c4ed70_Class.h"
+#include "fnv/decl/ScreenSplatter.h"
+#include "fnv/decl/ScriptList.h"
+#include "fnv/decl/TESQuest.h"
+#include "fnv/decl/TileSetHelper.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_00631540__TargetClass.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0043c000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_0043f000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_0045b000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_004a0000.h"
+#include "fnv/symbols_004a1000.h"
+#include "fnv/symbols_004a2000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_004b3000.h"
+#include "fnv/symbols_00549000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_0082f000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00b6b000.h"
+#include "fnv/symbols_00c82000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01018000.h"
+#include "fnv/symbols_0101b000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011c5000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_01203000.h"
 #include "bgsdecalmanager_decls.h"
 #include "bgsdecalmanager_types_BGSDecalManager.h"
 #include "bgsdecalmanager_types_BSTempEffectSimpleDecal.h"
-
-// @fnv 0x004a0030
-void BGSDecalManager::RenderDecals()
-{
-    if (reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(&m_kSimpleDecalList)->GetSize() > 0)
-    {
-        FUN_0043c4b0()->StartScene();
-        struct IteratorState
-        {
-            unsigned int previous;
-            unsigned int position;
-        } iterator;
-        iterator.position = reinterpret_cast<unsigned int>(static_cast<BSFaceGenAnimationData*>(
-            *reinterpret_cast<NiPointer<BSFaceGenAnimationData>*>(&m_kSimpleDecalList)));
-        while (iterator.position != 0)
-        {
-            iterator.previous = iterator.position;
-            BSTempEffectSimpleDecal* decal = reinterpret_cast<BSTempEffectSimpleDecal*>(
-                static_cast<BSFaceGenAnimationData*>(reinterpret_cast<NiPointer<BSFaceGenAnimationData>&>(
-                    reinterpret_cast<NiTPointerListBase<NiTPointerAllocator<unsigned int>, NiPointer<NiProperty> >*>(
-                        &m_kSimpleDecalList)
-                        ->GetNext(reinterpret_cast<void*&>(iterator.position)))));
-            if (decal != 0)
-            {
-                if (decal->m_bNeedsManagerUpdate)
-                {
-                    RemoveDecal(decal);
-                    decal->m_bNeedsManagerUpdate = false;
-                }
-
-                if (decal->m_pRenderQuery != 0)
-                {
-                    if (decal->ReleaseTextureObject())
-                    {
-                        if (decal->m_uiTextureReferenceCount > 0)
-                        {
-                            if (*DAT_011c5904.GetLifeStateControlFlag())
-                                Warning(DAT_0101e1c8, decal->FUN_004a0330()->GetLinkToList()->FUN_0043b1b0());
-                            reinterpret_cast<DecalVtableCall*>(decal)->vfn_8c();
-                        }
-                        else
-                        {
-                            if (*DAT_011c5904.GetLifeStateControlFlag())
-                                Warning(DAT_0101e19c, decal->FUN_004a0330()->GetLinkToList()->FUN_0043b1b0());
-                            decal->bWasPlaying = true;
-                        }
-                    }
-                }
-                else
-                {
-                    reinterpret_cast<DecalVtableCall*>(decal)->vfn_8c();
-                }
-
-                if (decal->m_bTextureDirty && !decal->bWasPlaying)
-                    decal->CreateDecalTexture();
-
-                if (decal->bWasPlaying)
-                {
-                    if (decal->GetByteAt2D())
-                    {
-                        ++DAT_011c57ec;
-                        if (*DAT_011c5904.GetLifeStateControlFlag())
-                            Warning(DAT_0101e174, DAT_011c57ec, decal->FUN_004a0330()->GetLinkToList()->FUN_0043b1b0());
-
-                        if (DAT_011c57f4 & 1)
-                        {
-                            ImageSpaceEffectParam color(0.0f, 1.0f, 0.0f, 1.0f);
-                            decal->SetDecalTint(reinterpret_cast<RgbaColor&>(color), true);
-                        }
-                        if (DAT_011c57f4 & 2)
-                        {
-                            ImageSpaceEffectParam color(0.0f, 1.0f, 0.0f, 0.25f);
-                            decal->SetDecalTint(reinterpret_cast<RgbaColor&>(color), false);
-                        }
-                    }
-                    else if (DAT_011c57f4 & 0x10)
-                    {
-                        if (DAT_011c57f4 & 1)
-                        {
-                            ImageSpaceEffectParam color(1.0f, 0.0f, 0.0f, 1.0f);
-                            decal->SetDecalTint(reinterpret_cast<RgbaColor&>(color), true);
-                        }
-                        if (DAT_011c57f4 & 2)
-                        {
-                            ImageSpaceEffectParam color(1.0f, 0.0f, 0.0f, 0.25f);
-                            decal->SetDecalTint(reinterpret_cast<RgbaColor&>(color), false);
-                        }
-                    }
-                    reinterpret_cast<NiTPointerListBase<NiTPointerAllocator<unsigned int>, NiPointer<NiProperty> >*>(
-                        &m_kSimpleDecalList)
-                        ->RemovePos(reinterpret_cast<void*&>(iterator.previous));
-                }
-            }
-        }
-        FUN_0043c4b0()->FinishScene();
-    }
-}
 
 // @fnv 0x00460140
 int __fastcall FUN_00460140(int apBase)
@@ -116,6 +127,7 @@ struct blob64
 {
     char b[64];
 };
+class NiPoint3;
 struct ThreeByThreeMatrix
 {
     void GetRow(unsigned int, float*);
@@ -137,7 +149,6 @@ struct ThreeByThreeMatrix
     void MakeDiagonal(float, float, float);
     void SetXRotation(float);
     void SetYRotation(float);
-    void SetZRotation(float);
     void MakeZRotationQ(float);
     void MakeAxisAngleRotation(float, void*);
     void MakeAxisAngleRotation(float, float, float, float);
@@ -174,6 +185,8 @@ struct ThreeByThreeMatrix
     bool QLAlgorithm(float*, float*);
     float Determinant();
     char m_afEntries[48];
+public:
+    void GetRow(unsigned int, ::NiPoint3 &);
 };
 typedef char _sizecheck_NiMatrix3[sizeof(ThreeByThreeMatrix) == 48 ? 1 : -1];
 struct FUN_004769c0_shell : public ThreeByThreeMatrix
@@ -195,13 +208,12 @@ class Date
     ~Date();
 };
 
-void __fastcall FUN_0082f1b0(void*);
 int __fastcall CallNestedAtOffset80(void*);
 
 // @fnv 0x004a0370
 void __fastcall FUN_004a0370(char* pThis)
 {
-    FUN_0082f1b0(pThis + 0x80);
+    ::fnv_0082f1b0::FUN_0082f1b0(pThis + 0x80);
     if (CallNestedAtOffset80(pThis) == 1)
     {
         ((Date*)pThis)->Date::~Date();
@@ -211,7 +223,6 @@ void __fastcall FUN_004a0370(char* pThis)
 namespace fnv_004a03c0 {
 struct RecursiveLock
 {
-    void Leave();
 };
 struct Date
 {
@@ -227,21 +238,20 @@ void DD::FUN_004a03c0()
 {
     if (CallNestedAtOffset80() == 1)
         Date::~Date();
-    ((RecursiveLock*)((char*)this + 0x80))->Leave();
+    reinterpret_cast<::S_0082f1f0_Lock *>((((RecursiveLock*)((char*)this + 0x80))))->FUN_0082f1f0();
 }
 }  // namespace fnv_004a03c0
 
 struct P3
 {
     float x, y, z;
-    void Set(float, float, float);
     P3* FUN_004a0bd0(P3*);
 };
 // Writes the negated x, y and z components into out and returns out.
 // @fnv 0x004a0bd0
 P3* P3::FUN_004a0bd0(P3* out)
 {
-    out->Set(-x, -y, -z);
+    reinterpret_cast<::FUN_00416870_t *>((out))->FUN_00416870(-x, -y, -z);
     return out;
 }
 
@@ -334,7 +344,6 @@ int __cdecl FUN_004a2c20(BGSTerrainManager* apShaderProp)
 struct __declspec(align(16)) VectorComponentValue
 {
     char pad[16];
-    float FUN_004586d0(void) const;
 };
 
 struct hkVector4
@@ -352,9 +361,9 @@ struct NiPoint3_local
 NiPoint3_local& __cdecl FUN_004a3970(NiPoint3_local& arNiPoint, const hkVector4& arHkVector)
 {
     VectorComponentValue t0, t1, t2;
-    arNiPoint.x = arHkVector.FUN_00458700(t0, 0).FUN_004586d0();
-    arNiPoint.y = arHkVector.FUN_00458700(t1, 1).FUN_004586d0();
-    arNiPoint.z = arHkVector.FUN_00458700(t2, 2).FUN_004586d0();
+    arNiPoint.x = reinterpret_cast<::S004586d0_Obj *>((void *)&(arHkVector.FUN_00458700(t0, 0)))->FUN_004586d0();
+    arNiPoint.y = reinterpret_cast<::S004586d0_Obj *>((void *)&(arHkVector.FUN_00458700(t1, 1)))->FUN_004586d0();
+    arNiPoint.z = reinterpret_cast<::S004586d0_Obj *>((void *)&(arHkVector.FUN_00458700(t2, 2)))->FUN_004586d0();
     return arNiPoint;
 }
 
@@ -433,14 +442,13 @@ unsigned int FUN_004a3a20_shell::FUN_004a3a20()
 class TESObjectREFR
 {
   public:
-    unsigned int GetFlags();
 };
 
 // Returns the flags of apRef, or 0 when apRef is null.
 // @fnv 0x004a3a40
 unsigned int __cdecl FUN_004a3a40(TESObjectREFR* apRef)
 {
-    return apRef ? apRef->GetFlags() : 0;
+    return apRef ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((apRef))->GetName())) : 0;
 }
 
 void __fastcall FUN_004a3b70(void*);
@@ -574,7 +582,6 @@ struct FUN_004a3da0_shell : public BhkPickData
 struct __declspec(align(16)) hkVector4
 {
     char m_vComponents[16];
-    void _ref_006815c0();
 };
 
 struct FUN_0056d340_helper
@@ -582,22 +589,19 @@ struct FUN_0056d340_helper
     void FUN_0056d340(hkVector4&);
 };
 
-hkVector4& __cdecl FUN_004a3e00(hkVector4&, NiPoint3 const&);
 
 // Converts the NiPoint3 at arFrom into a hkVector4 and passes it to FUN_0056d340 on this object.
 // @fnv 0x004a3da0
 void FUN_004a3da0_shell::FUN_004a3da0(void* arFrom)
 {
     hkVector4 hkv;
-    hkv._ref_006815c0();
-    ((FUN_0056d340_helper*)this)->FUN_0056d340(FUN_004a3e00(hkv, *(const NiPoint3*)arFrom));
+    new ((void *)&(hkv)) ::Vec3();
+    ((FUN_0056d340_helper*)this)->FUN_0056d340((*(::fnv_004a3da0::hkVector4 *)&(::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(hkv), (const ::fnv_004a3e00::NiPoint3 &)(*(const NiPoint3*)arFrom)))));
 }
 }  // namespace fnv_004a3da0
 
-void* FUN_00458b20();
 struct T_
 {
-    void FUN_004a3f10(void*);
 };
 struct PD_
 {
@@ -609,7 +613,7 @@ struct PD_
 void PD_::FUN_004a3f40(void* p)
 {
     ForwardToSubObject(FUN_00458b20());
-    ((T_*)((char*)this + 0x10))->FUN_004a3f10(p);
+    reinterpret_cast<::AlignedVector *>((((T_*)((char*)this + 0x10))))->FUN_004a3f10((*(const ::AlignedVector *)(p)));
 }
 
 struct Flt
@@ -727,7 +731,6 @@ struct NiSourceTexture;
 struct ScriptCompiler;
 struct ConsoleManager
 {
-    static ConsoleManager* Instance(bool);
     static void Release();
     ScriptCompiler* QConsoleCompiler();
     void Init();
@@ -736,7 +739,6 @@ struct ConsoleManager
     void PrintFormatted(char*, ...);
     void PrintFormatted(char*, char*);
     void ScrollBy(int);
-    void ResetOutputState();
     bool GetLastMenuMode();
     int GetConsoleLineSpacing();
     void SetOutputFilename(char*);
@@ -746,7 +748,6 @@ struct ConsoleManager
     void SetVisible(char);
     void OnEnterMenuMode();
     void OnLeaveMenuMode();
-    void DumpTextureList();
     bool ShouldDumpTexture(NiSourceTexture*);
     void* __vecDelDtor(unsigned int);
     ScriptCompiler* m_pScriptCompiler;
@@ -969,7 +970,6 @@ class FUN_004a3bc0 : public FUN_004a3ae0
 FUN_004a3bc0::~FUN_004a3bc0()
 {}
 
-extern int g_012030a8;
 
 struct FUN_004a0f50_shell
 {
@@ -979,12 +979,11 @@ struct FUN_004a0f50_shell
 // @fnv 0x004a0f50
 int* FUN_004a0f50_shell::GetGlobalIntPtr()
 {
-    return &g_012030a8;
+    return &(*reinterpret_cast<int *>(&::g_012030a8));
 }
 
 struct GlobalObject_0044f440
 {
-    float FUN_00450410(void);
 };
 
 GlobalObject_0044f440 g_011c77a8;
@@ -992,13 +991,12 @@ GlobalObject_0044f440 g_011c77a8;
 // @fnv 0x004a19f0
 float FUN_004a19f0()
 {
-    return g_011c77a8.FUN_00450410();
+    return reinterpret_cast<::FUN_00450410_Class *>(&(g_011c77a8))->FUN_00450410();
 }
 
 namespace fnv_004a1a00 {
 struct GlobalObject_0044f440
 {
-    void FUN_00450410();
 };
 
 GlobalObject_0044f440 g_011c7588;
@@ -1006,16 +1004,15 @@ GlobalObject_0044f440 g_011c7588;
 // @fnv 0x004a1a00
 void __cdecl FUN_004a1a00()
 {
-    g_011c7588.FUN_00450410();
+    reinterpret_cast<::FUN_00450410_Class *>(&(g_011c7588))->FUN_00450410();
 }
 }  // namespace fnv_004a1a00
 
-void __fastcall FUN_004a47b0(int __this);
 
 // @fnv 0x004a1a30
 void __fastcall FUN_004a1a30(int __this)
 {
-    FUN_004a47b0(__this);
+    reinterpret_cast<class ::FUN_004a47b0 *>((__this))->FUN_004a47b0::~FUN_004a47b0();
 }
 
 // @fnv 0x004a3b50
@@ -1060,14 +1057,13 @@ NiPoint3& FUN_004a0d30_shell::FUN_004a0d30(NiPoint3& akDest)
 
 struct NiPoint3_Set
 {
-    void Set(float x, float y, float z);
 };
 
 // Multiplies pA and pB component-wise, stores the result into pDest via Set, and returns pDest.
 // @fnv 0x004a1f90
 NiPoint3* MultiplyComponents(NiPoint3* pResult, const NiPoint3* pLeft, const NiPoint3* pRight)
 {
-    ((NiPoint3_Set*)pResult)->Set(pLeft->x * pRight->x, pLeft->y * pRight->y, pLeft->z * pRight->z);
+    reinterpret_cast<::FUN_00416870_t *>((((NiPoint3_Set*)pResult)))->FUN_00416870(pLeft->x * pRight->x, pLeft->y * pRight->y, pLeft->z * pRight->z);
     return pResult;
 }
 
@@ -1101,27 +1097,25 @@ void* __thiscall FUN_004a3b30_shell::InitializeVftable()
     return this;
 }
 
-void __fastcall FUN_00626870(void* p);
 void __fastcall FUN_004a3b50(void* p);
 
 // @fnv 0x004a3b70
 void __fastcall FUN_004a3b70(void* p)
 {
-    FUN_00626870((char*)p + 0x10);
+    reinterpret_cast<::FUN_00621c90_Class *>(((char*)p + 0x10))->FUN_00626870();
     FUN_004a3b50(p);
 }
 
 namespace fnv_004a3f90 {
 struct T_
 {
-    void FUN_004a3f10(void*);
     void ForwardToSubObject(void*);
 };
 
 // @fnv 0x004a3f90
 void __thiscall T_::ForwardToSubObject(void* apParam)
 {
-    ((T_*)((char*)this + 0x90))->FUN_004a3f10(apParam);
+    reinterpret_cast<::AlignedVector *>((((T_*)((char*)this + 0x90))))->FUN_004a3f10((*(const ::AlignedVector *)(apParam)));
 }
 }  // namespace fnv_004a3f90
 
@@ -1176,39 +1170,24 @@ void __fastcall FUN_0049fff0(BGSDecalManager* p)
     ((S004a03f0*)p)->CleanupDecalEmitters();
 }
 
-void _Deallocate(void*);
 struct StandIn
 {
-    void FUN_004a2cf0();
     void* FUN_004a0490(unsigned int);
 };
 // Calls FUN_004a2cf0, then if bit 0 of flags is set calls _Deallocate on this, and returns this.
 // @fnv 0x004a0490
 void* StandIn::FUN_004a0490(unsigned int flags)
 {
-    FUN_004a2cf0();
+    reinterpret_cast<::FUN_004a2cf0 *>(this)->FUN_004a2cf0::~FUN_004a2cf0();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct BSCullingProcess
 {
-    void FUN_004a0f60();
     void* FUN_004a0ff0(unsigned int flags);
 };
-void _Deallocate(void*);
-// Calls FUN_004a0f60, then deallocates this when flags has bit 0 set, and returns this.
-// @fnv 0x004a0ff0
-void* BSCullingProcess::FUN_004a0ff0(unsigned int flags)
-{
-    FUN_004a0f60();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
-void __cdecl SetSelectionMask(int, int, int);
 struct Unk
 {
     void __thiscall FUN_004a1a10(int, unsigned char);
@@ -1216,11 +1195,10 @@ struct Unk
 // @fnv 0x004a1a10
 void __thiscall Unk::FUN_004a1a10(int aiArg, unsigned char b)
 {
-    SetSelectionMask(0x27, aiArg, b);
+    ::SetSelectionMask(0x27, aiArg, b);
 }
 
 namespace fnv_004a3b00 {
-void _Deallocate(void*);
 struct FUN_004a3ae0
 {
     virtual ~FUN_004a3ae0();
@@ -1230,15 +1208,14 @@ struct FUN_004a3ae0
 // @fnv 0x004a3b00
 void* FUN_004a3ae0::DestroyAndFree(unsigned int flags)
 {
-    this->FUN_004a3ae0::~FUN_004a3ae0();
+    reinterpret_cast<::FUN_004a3ae0_shell *>((this))->FUN_004a3ae0();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 }  // namespace fnv_004a3b00
 
 namespace fnv_004a3b90 {
-void __cdecl _Deallocate(void*);
 struct FUN_004a3bc0
 {
     virtual ~FUN_004a3bc0();
@@ -1251,9 +1228,9 @@ struct XHolder : FUN_004a3bc0
 // @fnv 0x004a3b90
 void* XHolder::DestroyAndMaybeDeallocate(unsigned int flags)
 {
-    this->FUN_004a3bc0::~FUN_004a3bc0();
+    reinterpret_cast<::FUN_004a3bc0 *>((this))->FUN_004a3bc0::~FUN_004a3bc0();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 }  // namespace fnv_004a3b90
@@ -1263,6 +1240,101 @@ struct FUN_004a0350_shell
     char bUnk2d;
     char GetByteAt2D();
 };
+// @fnv 0x004a0030
+void BGSDecalManager::RenderDecals()
+{
+    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(&m_kSimpleDecalList)))->GetName())) > 0)
+    {
+        ::FUN_004a0370((char *)(FUN_0043c4b0()));
+        struct IteratorState
+        {
+            unsigned int previous;
+            unsigned int position;
+        } iterator;
+        iterator.position = reinterpret_cast<unsigned int>(static_cast<BSFaceGenAnimationData*>(
+            *reinterpret_cast<NiPointer<BSFaceGenAnimationData>*>(&m_kSimpleDecalList)));
+        while (iterator.position != 0)
+        {
+            iterator.previous = iterator.position;
+            BSTempEffectSimpleDecal* decal = reinterpret_cast<BSTempEffectSimpleDecal*>(
+                static_cast<BSFaceGenAnimationData*>(reinterpret_cast<NiPointer<BSFaceGenAnimationData>&>(
+                    (*(::NiPointer< ::NiProperty> *)(reinterpret_cast<::ListStandIn *>((reinterpret_cast<NiTPointerListBase<NiTPointerAllocator<unsigned int>, NiPointer<NiProperty> >*>(
+                        &m_kSimpleDecalList)))->FUN_0057cbe0((int **)&(reinterpret_cast<void*&>(iterator.position))))))));
+            if (decal != 0)
+            {
+                if (decal->m_bNeedsManagerUpdate)
+                {
+                    RemoveDecal(decal);
+                    decal->m_bNeedsManagerUpdate = false;
+                }
+
+                if (decal->m_pRenderQuery != 0)
+                {
+                    if (reinterpret_cast<::FUN_0068de30_holder *>((decal))->ReleaseTextureObject())
+                    {
+                        if (decal->m_uiTextureReferenceCount > 0)
+                        {
+                            if (*(*reinterpret_cast<::ProcessLists *>(&::g_011c5904)).GetLifeStateControlFlag())
+                                ::FUN_005b5e40();
+                            reinterpret_cast<DecalVtableCall*>(decal)->vfn_8c();
+                        }
+                        else
+                        {
+                            if (*(*reinterpret_cast<::ProcessLists *>(&::g_011c5904)).GetLifeStateControlFlag())
+                                ::FUN_005b5e40();
+                            decal->bWasPlaying = true;
+                        }
+                    }
+                }
+                else
+                {
+                    reinterpret_cast<DecalVtableCall*>(decal)->vfn_8c();
+                }
+
+                if (decal->m_bTextureDirty && !decal->bWasPlaying)
+                    reinterpret_cast<::DecalSetup *>((decal))->Initialize();
+
+                if (decal->bWasPlaying)
+                {
+                    if (((bool)(reinterpret_cast<::FUN_004a0350_shell *>((decal))->GetByteAt2D())))
+                    {
+                        ++DAT_011c57ec;
+                        if (*(*reinterpret_cast<::ProcessLists *>(&::g_011c5904)).GetLifeStateControlFlag())
+                            ::FUN_005b5e40();
+
+                        if (DAT_011c57f4 & 1)
+                        {
+                            ImageSpaceEffectParam color(0.0f, 1.0f, 0.0f, 1.0f);
+                            reinterpret_cast<::FUN_0068dea0_cls *>((decal))->UpdateDebugDecalBox((const ::xColorA *)&(reinterpret_cast<RgbaColor&>(color)), true);
+                        }
+                        if (DAT_011c57f4 & 2)
+                        {
+                            ImageSpaceEffectParam color(0.0f, 1.0f, 0.0f, 0.25f);
+                            reinterpret_cast<::FUN_0068dea0_cls *>((decal))->UpdateDebugDecalBox((const ::xColorA *)&(reinterpret_cast<RgbaColor&>(color)), false);
+                        }
+                    }
+                    else if (DAT_011c57f4 & 0x10)
+                    {
+                        if (DAT_011c57f4 & 1)
+                        {
+                            ImageSpaceEffectParam color(1.0f, 0.0f, 0.0f, 1.0f);
+                            reinterpret_cast<::FUN_0068dea0_cls *>((decal))->UpdateDebugDecalBox((const ::xColorA *)&(reinterpret_cast<RgbaColor&>(color)), true);
+                        }
+                        if (DAT_011c57f4 & 2)
+                        {
+                            ImageSpaceEffectParam color(1.0f, 0.0f, 0.0f, 0.25f);
+                            reinterpret_cast<::FUN_0068dea0_cls *>((decal))->UpdateDebugDecalBox((const ::xColorA *)&(reinterpret_cast<RgbaColor&>(color)), false);
+                        }
+                    }
+                    reinterpret_cast<NiTPointerListBase<NiTPointerAllocator<unsigned int>, NiPointer<NiProperty> >*>(
+                        &m_kSimpleDecalList)
+                        ->RemovePos(reinterpret_cast<void*&>(iterator.previous));
+                }
+            }
+        }
+        FUN_0043c4b0()->FinishScene();
+    }
+}
 
 // @fnv 0x004a0350
 char FUN_004a0350_shell::GetByteAt2D()
@@ -1272,7 +1344,8 @@ char FUN_004a0350_shell::GetByteAt2D()
 
 struct FUN_00456630_helper
 {
-    bool FUN_00456630(unsigned int);
+public:
+    bool FUN_00456610();
 };
 
 struct FUN_004a19d0_shell
@@ -1283,13 +1356,12 @@ struct FUN_004a19d0_shell
 // @fnv 0x004a19d0
 void FUN_004a19d0_shell::FUN_004a19d0()
 {
-    reinterpret_cast<FUN_00456630_helper*>(this)->FUN_00456630(0x400);
+    reinterpret_cast<::FUN_00456630_Class *>((reinterpret_cast<FUN_00456630_helper*>(this)))->FUN_00456630(0x400);
 }
 
 namespace fnv_004a1a50 {
 struct M788
 {
-    void FUN_004ed8c0(void*);
 };
 struct bsrandom_singleton
 {
@@ -1302,7 +1374,7 @@ struct bsrandom_singleton
 void __cdecl FUN_004a1a50(void* apEmitter)
 {
     if (apEmitter)
-        ((M788*)((char*)bsrandom_singleton::MersenneTwister::GetRandomGenerator() + 0x14))->FUN_004ed8c0(&apEmitter);
+        reinterpret_cast<::FUN_004ed8c0_shell *>((((M788*)((char*)bsrandom_singleton::MersenneTwister::GetRandomGenerator() + 0x14))))->FUN_004ed8c0((int *)(void *)(&apEmitter));
 }
 }  // namespace fnv_004a1a50
 
@@ -1374,14 +1446,13 @@ struct NiGeometryData
 };
 struct NiGeometry
 {
-    NiGeometryData* FUN_005495f0();
     void FUN_004a1ff0();
 };
 // Calls FUN_005495f0 to get the geometry data and then invokes its v42 method.
 // @fnv 0x004a1ff0
 void NiGeometry::FUN_004a1ff0()
 {
-    FUN_005495f0()->v42();
+    ((::NiGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)this)))->v42();
 }
 
 namespace fnv_004a2c00 {
@@ -1411,11 +1482,8 @@ struct FUN_004a3cc0_Class
 
 struct Holder
 {
-    void FUN_004a3c90(Holder*);
 };
 
-void* __fastcall FUN_004a3d00(void*);
-void* __cdecl FUN_00458b20(void);
 
 struct FUN_004a3c20
 {
@@ -1429,7 +1497,7 @@ FUN_004a3c20::FUN_004a3c20()
 {
     ((FUN_004a3cc0_Class*)((char*)this + 0x00))->FUN_004a3cc0();
     FUN_004a3d00((char*)this + 0x30);
-    ((Holder*)((char*)this + 0x90))->FUN_004a3c90((Holder*)FUN_00458b20());
+    new ((void *)(((Holder*)((char*)this + 0x90)))) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)((Holder*)FUN_00458b20())));
     *(int*)((char*)this + 0xa0) = 0;
     *(int*)((char*)this + 0xa4) = 0;
     *(int*)((char*)this + 0xa8) = 0;
@@ -1438,8 +1506,6 @@ FUN_004a3c20::FUN_004a3c20()
 
 struct StatefulObject
 {
-    void FUN_004a2d50();
-    bool FUN_004f1540();
     ~StatefulObject();
 };
 
@@ -1454,8 +1520,6 @@ struct BGSDecalEmitterList
     DecalEmitterNode* head;
     DecalEmitterNode* tail;
     unsigned int count;
-    DecalEmitterNode* FUN_00559450();
-    StatefulObject** FUN_0057cbe0(DecalEmitterNode** cursor);
     void FUN_0049f590(DecalEmitterNode** cursor);
 };
 
@@ -1479,15 +1543,15 @@ struct DecalCleanupOwner
 // @fnv 0x004a03f0
 void DecalCleanupOwner::CleanupDecalEmitters()
 {
-    DecalEmitterNode* cursor = decalEmitters.FUN_00559450();
+    DecalEmitterNode* cursor = ((::DecalEmitterNode *)(::FUN_00559450((int *)&(decalEmitters))));
     while (cursor != 0)
     {
         DecalEmitterNode* previous = cursor;
-        StatefulObject* emitter = *decalEmitters.FUN_0057cbe0(&cursor);
+        StatefulObject* emitter = *((::StatefulObject **)(reinterpret_cast<::ListStandIn *>(&(decalEmitters))->FUN_0057cbe0((int **)(::DecalEmitterNode **)(&cursor))));
         if (emitter != 0)
         {
-            emitter->FUN_004a2d50();
-            if (emitter->FUN_004f1540())
+            reinterpret_cast<::ImpactTask *>((emitter))->FUN_004a2d50();
+            if (reinterpret_cast<::PatrolActorPackageData *>((emitter))->IsPatrolling())
             {
                 decalEmitters.FUN_0049f590(&previous);
                 delete emitter;
@@ -1564,6 +1628,15 @@ class FUN_004a0f60_cls : public FUN_004a0f60_base
     FUN_004a0f60_sub m_c4;
     virtual ~FUN_004a0f60_cls();
 };
+// Calls FUN_004a0f60, then deallocates this when flags has bit 0 set, and returns this.
+// @fnv 0x004a0ff0
+void* BSCullingProcess::FUN_004a0ff0(unsigned int flags)
+{
+    reinterpret_cast<::FUN_004a0f60_cls *>(this)->FUN_004a0f60_cls::~FUN_004a0f60_cls();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Destructor of the class; destroys the embedded m_c4 sub-object and the base.
 // @fnv 0x004a0f60
@@ -1574,21 +1647,12 @@ namespace CameraPass {
 struct Vec
 {
     float x, y, z;
-    void FUN_006815c0();
-    void FUN_004a0c10();
-    void FUN_00439180(float);
-    Vec FUN_00439e90(const Vec&);
-    Vec FUN_004a0bd0();
     Vec ApplyScaled(float);
 };
 struct Matrix
 {
     float xx, xy, xz, yx, yy, yz, zx, zy, zz;
-    void FUN_006815c0();
-    void FUN_004a0c90(float);
     Matrix FUN_0043f8d0(const Matrix&);
-    void FUN_00476930(int, Vec&);
-    void FUN_004769c0(int, const Vec&);
 };
 void FUN_00c4b600(Matrix*, Vec);
 struct Frustum
@@ -1613,15 +1677,11 @@ struct Name
 };
 struct Ref
 {
-    float FUN_008d01e0();
-    Name* FUN_00413f40();
 };
 struct Query
 {
     unsigned int unk0;
     Query();
-    void FUN_00c4ed70();
-    void FUN_00c4edb0();
 };
 struct Input
 {
@@ -1629,61 +1689,36 @@ struct Input
     char unk18, unk19, unk1a;
     bool alternate;
     Query* query;
-    Vec FUN_004a0d60();
-    Vec FUN_004a0d30();
-    float FUN_004e3d00();
-    float FUN_00507b20();
-    float GetField11C();
-    float GetFloatAt120();
-    Ref* FUN_004a0330();
 };
 struct Scene
 {
-    void FUN_00440460(const Vec&);
-    void FUN_0043fa80(const Matrix&);
-    void FUN_00a6faf0(const Frustum&);
-    void FUN_00a59c60(Update*);
     Vec FUN_0045bba0();
-    void* FUN_004a0d10();
 };
 struct ScenePtr
 {
     Scene* ptr;
-    Scene* FUN_00559450();
 };
 struct Node
 {
-    void FUN_004a1020(void*);
-    void FUN_004a1040(int);
 };
 struct NodePtr
 {
     Node* ptr;
-    Node* FUN_00559450();
 };
 struct Render
 {
-    void* FUN_00b6b260();
 };
 struct RenderPtr
 {
     Render* ptr;
-    Render* FUN_00559450();
     void FUN_0066b0d0(Render*);
 };
 struct Factory
 {
-    Render* FUN_00b6e110();
 };
-int __stdcall FUN_004a0e90(int);
-Factory* __stdcall FUN_004a0ea0(int, int, int, int);
-void FUN_00b6b8d0(int, void*);
 struct Resource
 {
-    void FUN_004a0dd0();
 };
-Resource* __stdcall FUN_0043c4b0(void*);
-void* FUN_00450b80(int);
 struct Cull
 {
     unsigned int unk0;
@@ -1738,27 +1773,15 @@ struct Cull
     unsigned int unkc4;
     Cull(int);
     ~Cull();
-    void FUN_004a0fd0(Node*);
 };
-void FUN_00b6bee0(Scene*, Ref*, Cull*);
-void FUN_00b6c0d0(Scene*, Node*, int);
-void FUN_00b6b790();
 struct Setting
 {
     bool* FUN_00408d60();
 };
-extern Setting DAT_011c5904;
-extern unsigned int DAT_011c57f4;
-extern float DAT_0101b268, DAT_0101e2bc, DAT_01018f5c;
-extern double DAT_01011590, DAT_0101e2c0;
 extern char DAT_0101e298, DAT_0101e274, DAT_0101e24c, DAT_0101e1f8;
-void FUN_005b5e40(const char*, ...);
-void* FUN_004b3890(const Vec&, const Color&, const Vec&, const Color&, int);
 struct World
 {
-    void FUN_00458e20(void*, float);
 };
-extern World* DAT_011dea10;
 struct Camera
 {
     RenderPtr render;
@@ -1770,84 +1793,83 @@ struct Camera
 // @fnv 0x004a04c0
 void Camera::UpdateCamera(Input* input)
 {
-    Vec directionSlot1Slot0 = input->FUN_004a0d60();
-    directionSlot1Slot0.FUN_004a0c10();
-    directionSlot1Slot0.FUN_00439180(DAT_0101b268);
-    Vec originSlot13 = input->FUN_004a0d30().FUN_00439e90(directionSlot1Slot0);
+    Vec directionSlot1Slot0 = (*(::CameraPass::Vec *)&(reinterpret_cast<::FUN_004a0d60_Class *>((input))->FUN_004a0d60(*(::NiPoint3 *)nullptr)));
+    reinterpret_cast<::FUN_004a0c10_s *>(&(directionSlot1Slot0))->FUN_004a0c10();
+    reinterpret_cast<::MyPoint439180 *>(&(directionSlot1Slot0))->FUN_00439180(::DAT_0101b268);
+    Vec originSlot13 = (*(::CameraPass::Vec *)(reinterpret_cast<::Point3Offset *>((void *)&(const ::CameraPass::Vec &)((*(::CameraPass::Vec *)&(reinterpret_cast<::FUN_004a0d30_shell *>((input))->FUN_004a0d30(*(::NiPoint3 *)nullptr)))))->ProjectileLaunched((::NiPoint3 *)&(directionSlot1Slot0), {})));
     Matrix rotationSlot17Slot12;
-    FUN_00c4b600(&rotationSlot17Slot12, directionSlot1Slot0.FUN_004a0bd0());
+    FUN_00c4b600(&rotationSlot17Slot12, (*(::CameraPass::Vec *)(reinterpret_cast<::P3 *>(&(directionSlot1Slot0))->FUN_004a0bd0({}))));
     Matrix scaleSlot22Slot0Slot10;
-    scaleSlot22Slot0Slot10.FUN_006815c0();
-    scaleSlot22Slot0Slot10.FUN_004a0c90(input->FUN_004e3d00());
+    new ((void *)&(scaleSlot22Slot0Slot10)) ::Vec3();
+    reinterpret_cast<::FUN_004a0c90_shell *>(&(scaleSlot22Slot0Slot10))->FUN_004a0c90(reinterpret_cast<::FUN_004e3d00_shell *>((input))->FUN_004e3d00());
     rotationSlot17Slot12 = scaleSlot22Slot0Slot10.FUN_0043f8d0(rotationSlot17Slot12);
     Vec column0Slot30Slot0;
-    column0Slot30Slot0.FUN_006815c0();
+    new ((void *)&(column0Slot30Slot0)) ::Vec3();
     Vec column1Slot41Slot18;
-    column1Slot41Slot18.FUN_006815c0();
-    rotationSlot17Slot12.FUN_00476930(0, column0Slot30Slot0);
-    rotationSlot17Slot12.FUN_00476930(1, column1Slot41Slot18);
-    rotationSlot17Slot12.FUN_00476930(2, directionSlot1Slot0);
+    new ((void *)&(column1Slot41Slot18)) ::Vec3();
+    reinterpret_cast<::ThreeByThreeMatrix *>(&(rotationSlot17Slot12))->GetRow(0, (::NiPoint3 &)(column0Slot30Slot0));
+    reinterpret_cast<::ThreeByThreeMatrix *>(&(rotationSlot17Slot12))->GetRow(1, (::NiPoint3 &)(column1Slot41Slot18));
+    reinterpret_cast<::ThreeByThreeMatrix *>(&(rotationSlot17Slot12))->GetRow(2, (::NiPoint3 &)(directionSlot1Slot0));
     Matrix basisSlot28Slot36;
-    basisSlot28Slot36.FUN_006815c0();
-    basisSlot28Slot36.FUN_004769c0(0, directionSlot1Slot0);
-    basisSlot28Slot36.FUN_004769c0(1, column0Slot30Slot0);
-    basisSlot28Slot36.FUN_004769c0(2, column1Slot41Slot18);
+    new ((void *)&(basisSlot28Slot36)) ::Vec3();
+    reinterpret_cast<::FUN_004769c0_shell *>(&(basisSlot28Slot36))->FUN_004769c0(0, (float *)&(directionSlot1Slot0));
+    reinterpret_cast<::FUN_004769c0_shell *>(&(basisSlot28Slot36))->FUN_004769c0(1, (float *)&(column0Slot30Slot0));
+    reinterpret_cast<::FUN_004769c0_shell *>(&(basisSlot28Slot36))->FUN_004769c0(2, (float *)&(column1Slot41Slot18));
     Vec startSlot14Slot30;
-    startSlot14Slot30.FUN_006815c0();
+    new ((void *)&(startSlot14Slot30)) ::Vec3();
     Vec endSlot11;
-    endSlot11.FUN_006815c0();
-    float widthSlot15Slot25 = (input->FUN_00507b20() / DAT_01011590) * (1.0f / input->FUN_004a0330()->FUN_008d01e0());
-    float heightSlot21 = (input->GetField11C() / DAT_01011590) * (1.0f / input->FUN_004a0330()->FUN_008d01e0());
-    float farPlaneSlot12Slot43 = input->GetFloatAt120() + DAT_0101e2c0;
+    new ((void *)&(endSlot11)) ::Vec3();
+    float widthSlot15Slot25 = (reinterpret_cast<::FUN_00507b20Class *>((input))->FUN_00507b20() / ::DAT_01011590) * (1.0f / reinterpret_cast<::FUN_008d01e0_Class *>((((::CameraPass::Ref *)(reinterpret_cast<::fnv_004a0330::FUN_004a0330_shell *>((input))->FUN_004a0330()))))->FUN_008d01e0());
+    float heightSlot21 = (reinterpret_cast<::FUN_004a0d90_Class *>((input))->GetField11C() / ::DAT_01011590) * (1.0f / reinterpret_cast<::FUN_008d01e0_Class *>((((::CameraPass::Ref *)(reinterpret_cast<::fnv_004a0330::FUN_004a0330_shell *>((input))->FUN_004a0330()))))->FUN_008d01e0());
+    float farPlaneSlot12Slot43 = reinterpret_cast<::FUN_004a0db0_class *>((input))->GetFloatAt120() + DAT_0101e2c0;
     Frustum frustumSlot18Slot39(0);
     frustumSlot18Slot39.ortho = true;
-    frustumSlot18Slot39.nearValue = DAT_0101e2bc;
+    frustumSlot18Slot39.nearValue = ::DAT_0101e2bc;
     frustumSlot18Slot39.left = -widthSlot15Slot25;
     frustumSlot18Slot39.right = widthSlot15Slot25;
     frustumSlot18Slot39.top = heightSlot21;
     frustumSlot18Slot39.bottom = -heightSlot21;
     frustumSlot18Slot39.farValue = farPlaneSlot12Slot43;
-    scene.FUN_00559450()->FUN_00440460(originSlot13);
-    scene.FUN_00559450()->FUN_0043fa80(basisSlot28Slot36);
-    scene.FUN_00559450()->FUN_00a6faf0(frustumSlot18Slot39);
+    reinterpret_cast<::FUN_00440460_S *>((((::CameraPass::Scene *)(::FUN_00559450((int *)&(scene))))))->FUN_00440460((const ::V3 *)&(originSlot13));
+    reinterpret_cast<::FUN_0043fa80_s *>((((::CameraPass::Scene *)(::FUN_00559450((int *)&(scene))))))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(basisSlot28Slot36));
+    reinterpret_cast<::NiCamera *>((((::CameraPass::Scene *)(::FUN_00559450((int *)&(scene))))))->UpdateViewFrustum((const ::NiFrustum &)(frustumSlot18Slot39));
     Update updateSlot12(0.0f, 0, 0);
-    scene.FUN_00559450()->FUN_00a59c60(&updateSlot12);
+    reinterpret_cast<::FUN_00a59c60_cls *>((((::CameraPass::Scene *)(::FUN_00559450((int *)&(scene))))))->FUN_00a59c60((int)(&updateSlot12));
     void* lineSlot0Slot21;
-    if (DAT_011c57f4 & 4)
+    if (::DAT_011c57f4 & 4)
     {
         startSlot14Slot30 = originSlot13;
-        endSlot11 = originSlot13.FUN_00439e90(scene.FUN_00559450()->FUN_0045bba0().ApplyScaled(farPlaneSlot12Slot43));
+        endSlot11 = (*(::CameraPass::Vec *)(reinterpret_cast<::Point3Offset *>(&(originSlot13))->ProjectileLaunched((::NiPoint3 *)&(const ::CameraPass::Vec &)(((::CameraPass::Scene *)(::FUN_00559450((int *)&(scene))))->FUN_0045bba0().ApplyScaled(farPlaneSlot12Slot43)), {})));
         lineSlot0Slot21 =
-            FUN_004b3890(startSlot14Slot30, Color(0.0f, 0.0f, 1.0f, 1.0f), endSlot11, Color(1.0f, 0.0f, 0.0f, 1.0f), 1);
-        DAT_011dea10->FUN_00458e20(lineSlot0Slot21, DAT_01018f5c);
+            ((void *)(::fnv_004b3890::FUN_004b3890((const class ::FUN_006815c0 &)(startSlot14Slot30), (const ::fnv_004b3890::FUN_004a7800 &)((const ::CameraPass::Color &)(Color(0.0f, 0.0f, 1.0f, 1.0f))), (const class ::FUN_006815c0 &)(endSlot11), (const ::fnv_004b3890::FUN_004a7800 &)((const ::CameraPass::Color &)(Color(1.0f, 0.0f, 0.0f, 1.0f))), 1)));
+        reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::CameraPass::World * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(lineSlot0Slot21), ::DAT_01018f5c);
     }
-    if (*DAT_011c5904.FUN_00408d60())
+    if (*(*reinterpret_cast<::CameraPass::Setting *>(&::g_011c5904)).FUN_00408d60())
     {
-        Vec look = scene.FUN_00559450()->FUN_0045bba0();
-        FUN_005b5e40(&DAT_0101e298, input->FUN_004a0330()->FUN_00413f40()->FUN_0043b1b0());
-        FUN_005b5e40(&DAT_0101e274, originSlot13.x, originSlot13.y, originSlot13.z);
-        FUN_005b5e40(&DAT_0101e24c, look.x, look.y, look.z);
-        FUN_005b5e40(&DAT_0101e1f8, farPlaneSlot12Slot43, -widthSlot15Slot25, widthSlot15Slot25, heightSlot21,
-                     -heightSlot21);
+        Vec look = ((::CameraPass::Scene *)(::FUN_00559450((int *)&(scene))))->FUN_0045bba0();
+        ::FUN_005b5e40();
+        ::FUN_005b5e40();
+        ::FUN_005b5e40();
+        ::FUN_005b5e40();
     }
-    if (!render.FUN_00559450())
-        render.FUN_0066b0d0(FUN_004a0ea0(FUN_004a0e90(0x33), 0, 0, 0)->FUN_00b6e110());
+    if (!((::CameraPass::Render *)(::FUN_00559450((int *)&(render)))))
+        render.FUN_0066b0d0(((::CameraPass::Render *)(reinterpret_cast<::Pool *>((((::CameraPass::Factory *)(::FUN_004a0ea0(::FUN_004a0e90(), 0, 0, 0)))))->FUN_00b6e110({}, {}, {}, {}, {}))));
     if (input->alternate)
-        FUN_00b6b8d0(7, render.FUN_00559450()->FUN_00b6b260());
+        ::FUN_00b6b8d0(7, (::NiRenderTargetGroup *)(void *)(((void *)(reinterpret_cast<::BSRenderedTexture *>((((::CameraPass::Render *)(::FUN_00559450((int *)&(render))))))->GetGroup()))));
     else
-        FUN_00b6b8d0(0, render.FUN_00559450()->FUN_00b6b260());
+        ::FUN_00b6b8d0(0, (::NiRenderTargetGroup *)(void *)(((void *)(reinterpret_cast<::BSRenderedTexture *>((((::CameraPass::Render *)(::FUN_00559450((int *)&(render))))))->GetGroup()))));
     input->query = new Query;
-    input->query->FUN_00c4ed70();
-    FUN_0043c4b0(scene.FUN_00559450()->FUN_004a0d10())->FUN_004a0dd0();
+    reinterpret_cast<::S_00c4ed70_Class *>((input->query))->FUN_00c4ed70();
+    reinterpret_cast<::FUN_004a0dd0_cls *>((((::CameraPass::Resource *)(::FUN_0043c4b0()))))->FUN_004a0dd0({});
     Cull cullSlot18Slot33(0);
-    cullSlot18Slot33.FUN_004a0fd0(node.FUN_00559450());
-    node.FUN_00559450()->FUN_004a1020(FUN_00450b80(0));
-    node.FUN_00559450()->FUN_004a1040(15);
-    FUN_00b6bee0(scene.FUN_00559450(), input->FUN_004a0330(), &cullSlot18Slot33);
-    FUN_00b6c0d0(scene.FUN_00559450(), node.FUN_00559450(), 0);
-    cullSlot18Slot33.FUN_004a0fd0(0);
-    input->query->FUN_00c4edb0();
-    FUN_00b6b790();
+    reinterpret_cast<::FUN_004a0fd0_shell *>(&(cullSlot18Slot33))->FUN_004a0fd0((::NiNode *)(::CameraPass::Node *)(((::CameraPass::Node *)(::FUN_00559450((int *)&(node))))));
+    reinterpret_cast<::BSA_ *>((((::CameraPass::Node *)(::FUN_00559450((int *)&(node))))))->FUN_004a1020(((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))));
+    reinterpret_cast<::FUN_004a1040_Helper *>((((::CameraPass::Node *)(::FUN_00559450((int *)&(node))))))->Set(15);
+    ::FUN_00b6bee0(((::CameraPass::Scene *)(::FUN_00559450((int *)&(scene)))), ((::CameraPass::Ref *)(reinterpret_cast<::fnv_004a0330::FUN_004a0330_shell *>((input))->FUN_004a0330())), (::BSShaderAccumulator *)(::CameraPass::Cull *)(&cullSlot18Slot33));
+    ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(::CameraPass::Scene *)(((::CameraPass::Scene *)(::FUN_00559450((int *)&(scene))))), (::BSShaderAccumulator *)(::CameraPass::Node *)(((::CameraPass::Node *)(::FUN_00559450((int *)&(node))))), 0);
+    reinterpret_cast<::FUN_004a0fd0_shell *>(&(cullSlot18Slot33))->FUN_004a0fd0((::NiNode *)(::CameraPass::Node *)(0));
+    reinterpret_cast<::FUN_00c4edb0_Class *>((input->query))->FUN_00c4edb0();
+    ::BSRenderedTexture::EndAllAndResetRendererState();
 }
 }
 
@@ -1858,7 +1880,6 @@ struct TESForm
 class Refr_C
 {
   public:
-    TESForm* GetAcousticSpace();
 };
 
 // Returns false when the reference's acoustic space form type is 35, 42, 43 or 51; otherwise returns true.
@@ -1866,7 +1887,7 @@ class Refr_C
 bool __cdecl IsAcousticSpaceFormTypeAllowed(Refr_C* apRef, int aiArg)
 {
     int iUnused = aiArg;
-    switch (apRef->GetAcousticSpace()->GetFormType())
+    switch (((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apRef))->FUN_007af430()))->GetFormType())
     {
     case 35:
     case 42:
@@ -1885,11 +1906,6 @@ namespace DecalAdd {
 struct DecalPoint
 {
     float x, y, z;
-    void FUN_006815c0();
-    DecalPoint FUN_00439ef0(const DecalPoint& arOther) const;
-    DecalPoint FUN_00439e90(const DecalPoint& arOther) const;
-    float FUN_00457990() const;
-    void FUN_004a0c10();
     DecalPoint ApplyScaled(float afScale) const;
 };
 
@@ -1905,14 +1921,11 @@ union DecalTicks
 
 struct DecalRotation
 {
-    DecalPoint FUN_004a0bd0() const;
 };
 
 struct DecalBound
 {
     float fData[4];
-    DecalPoint* FUN_006815c0();
-    float FUN_0084d030();
 };
 
 struct DecalNode
@@ -1922,8 +1935,6 @@ struct DecalNode
     virtual void v02();
     virtual DecalNode* GetNode();
     bool FUN_004a19d0();
-    DecalBound* FUN_0043d450();
-    void* FUN_004543c0();
 };
 
 struct DecalHolder
@@ -2201,17 +2212,11 @@ struct DecalHitList
     DecalHitList();
     ~DecalHitList();
     int FUN_0049c680(DecalNode** appNode, int aiFlags);
-    void FUN_0076b660(DecalNode** appNode);
-    void FUN_004ed900();
 };
 
 struct DecalEmitter
 {
-    void FUN_004a1a10(int aiFlag, int aiValue);
-    void FUN_006231a0(void* apNode);
     int FUN_00622f80(DecalRequest* apRequest, const DecalPoint& arPos, float afRange);
-    DecalNode* GetCollisionFlags(int aiIndex);
-    void SetTileSetValues(int aiIndex, DecalPoint* apPos, DecalPoint* apNormal);
 };
 
 struct DecalMemContext
@@ -2227,28 +2232,11 @@ struct DecalBoolSetting
 };
 struct DecalIntSetting
 {
-    unsigned int* FUN_0043d4d0();
 };
 
-extern DecalPlayer* DAT_011dea3c;
-extern DecalBoolSetting DAT_011c5834;
-extern DecalBoolSetting DAT_011c5884;
-extern DecalBoolSetting DAT_011c58bc;
-extern DecalBoolSetting DAT_011c5904;
-extern DecalIntSetting DAT_011c58e4;
-extern unsigned int DAT_011c57f0;
 extern DecalEmitter* DAT_011c57e0;
-extern DecalRotation DAT_011a9484;
 
-float __cdecl FUN_004a19f0();
 float __cdecl FUN_004a1a00();
-int __cdecl FUN_005b5e40(const char* apFormat, ...);
-int __cdecl FUN_00406d00(char* apBuffer, unsigned int auiSize, const char* apFormat, ...);
-void __cdecl FUN_0040fbe0(const char* apText, int aiFlags);
-float __cdecl FUN_00404010(float a, float b);
-DecalEmitter* __cdecl FUN_00622a70(float afSize, int aiFlags);
-void* __cdecl FUN_0056f930(DecalNode* apNode);
-bool __cdecl IsAcousticSpaceFormTypeAllowed(void* apGeometry, int aiFlags);
 
 static const char s_szSourceFile[] = "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\BGSDecalManager.cpp";
 static const char s_szSimpleDecal[] = "DECAL: Simple Decal Instantiated";
@@ -2281,88 +2269,88 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
     switch (aiType)
     {
     case 1:
-        if (*DAT_011c5834.FUN_00408d60() && apRequest->pTarget && !apRequest->pTarget->FUN_004a19d0())
+        if (*(*reinterpret_cast<::DecalAdd::DecalBoolSetting *>(&::g_011c5834)).FUN_00408d60() && apRequest->pTarget && !apRequest->pTarget->FUN_004a19d0())
         {
-            kCameraIn = *DAT_011dea3c->GetPos();
-            fDistance = apRequest->kPos.FUN_00439ef0(kCameraIn).FUN_00457990();
+            kCameraIn = *(*reinterpret_cast<::DecalAdd::DecalPlayer * *>(&::_g_thePlayer))->GetPos();
+            fDistance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::DecalAdd::DecalPoint &)((*(::DecalAdd::DecalPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(apRequest->kPos))->FUN_00439ef0((::NiPoint3 *)&(kCameraIn), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude();
             dFrequency = 1000.0;
             iUnused = 0;
             kStartNext.LowPart = 0;
             char acBuffer[256];
             __int64 llTicks;
-            if (*DAT_011c5884.FUN_00408d60())
+            if (*(*reinterpret_cast<::DecalAdd::DecalBoolSetting *>(&::g_011c5884)).FUN_00408d60())
             {
                 QueryPerformanceFrequency(&llFrequencyCount);
                 dFrequency = llFrequencyCount * 1e-06;
                 QueryPerformanceCounter(&kStartNext.QuadPart);
             }
-            if (FUN_004a19f0() >= fDistance || apRequest->bForce || abForce)
+            if (::FUN_004a19f0() >= fDistance || apRequest->bForce || abForce)
             {
-                if (*DAT_011c5904.FUN_00408d60())
-                    FUN_005b5e40(s_szSimpleDecal);
+                if (*(*reinterpret_cast<::DecalAdd::DecalBoolSetting *>(&::g_011c5904)).FUN_00408d60())
+                    ::FUN_005b5e40();
                 FUN_004a1a70(apRequest);
             }
-            if (*DAT_011c5884.FUN_00408d60())
+            if (*(*reinterpret_cast<::DecalAdd::DecalBoolSetting *>(&::g_011c5884)).FUN_00408d60())
             {
                 QueryPerformanceCounter(&llEnd);
                 llTicks = llEnd - kStartNext.QuadPart;
-                FUN_00406d00(acBuffer, 0xff, s_szTiming, llTicks, llTicks / dFrequency);
-                FUN_0040fbe0(acBuffer, 0);
+                ::FUN_00406d00(acBuffer, 0xff, s_szTiming, llTicks, llTicks / dFrequency);
+                ::FUN_0040fbe0();
             }
         }
         break;
     case 4:
-        if (*DAT_011c5834.FUN_00408d60() && apRequest->pTarget && !apRequest->pTarget->FUN_004a19d0())
+        if (*(*reinterpret_cast<::DecalAdd::DecalBoolSetting *>(&::g_011c5834)).FUN_00408d60() && apRequest->pTarget && !apRequest->pTarget->FUN_004a19d0())
         {
             apRequest->bRefresh = 1;
             FUN_004a1a70(apRequest);
         }
         break;
     case 2:
-        if (*DAT_011c58bc.FUN_00408d60() && apRequest->pTarget && !apRequest->pTarget->FUN_004a19d0())
+        if (*(*reinterpret_cast<::DecalAdd::DecalBoolSetting *>(&::g_011c58bc)).FUN_00408d60() && apRequest->pTarget && !apRequest->pTarget->FUN_004a19d0())
         {
-            DecalPoint kEyeOut = *DAT_011dea3c->GetPos();
-            DecalBound kBound = *apRequest->pTarget->FUN_0043d450();
-            float fBoundDistance = kBound.FUN_006815c0()->FUN_00439ef0(kEyeOut).FUN_00457990() - kBound.FUN_0084d030();
-            if ((FUN_004a1a00() >= fBoundDistance && DAT_011c57f0 < *DAT_011c58e4.FUN_0043d4d0()) || abForce)
+            DecalPoint kEyeOut = *(*reinterpret_cast<::DecalAdd::DecalPlayer * *>(&::_g_thePlayer))->GetPos();
+            DecalBound kBound = *((::DecalAdd::DecalBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((apRequest->pTarget))->FUN_0043d450()));
+            float fBoundDistance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::DecalAdd::DecalPoint &)((*(::DecalAdd::DecalPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((::DecalAdd::DecalPoint *)(new ((void *)&(kBound)) ::Vec3()))))->FUN_00439ef0((::NiPoint3 *)&(kEyeOut), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude() - reinterpret_cast<::Twin_0084d030 *>(&(kBound))->GetStoredFloatValue();
+            if ((FUN_004a1a00() >= fBoundDistance && (*reinterpret_cast<unsigned int *>(&::DAT_011c57f0)) < *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::DecalAdd::DecalIntSetting *>(&::g_011c58e4))))))) || abForce)
                 FUN_004a2070(apRequest);
-            else if (DAT_011c57f0 >= *DAT_011c58e4.FUN_0043d4d0() && *DAT_011c5904.FUN_00408d60())
-                FUN_005b5e40(s_szSkinLimit, *DAT_011c58e4.FUN_0043d4d0());
+            else if ((*reinterpret_cast<unsigned int *>(&::DAT_011c57f0)) >= *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::DecalAdd::DecalIntSetting *>(&::g_011c58e4)))))) && *(*reinterpret_cast<::DecalAdd::DecalBoolSetting *>(&::g_011c5904)).FUN_00408d60())
+                ::FUN_005b5e40();
         }
-        else if (*DAT_011c58bc.FUN_00408d60() && apRequest->pHolder)
+        else if (*(*reinterpret_cast<::DecalAdd::DecalBoolSetting *>(&::g_011c58bc)).FUN_00408d60() && apRequest->pHolder)
         {
-            DecalPoint kViewerNew = *DAT_011dea3c->GetPos();
-            DecalBound kHolderBoundCur = *apRequest->pHolder->Get3D()->FUN_0043d450();
-            float fHolderDistance = kHolderBoundCur.FUN_006815c0()->FUN_00439ef0(kViewerNew).FUN_00457990() -
-                                    kHolderBoundCur.FUN_0084d030();
+            DecalPoint kViewerNew = *(*reinterpret_cast<::DecalAdd::DecalPlayer * *>(&::_g_thePlayer))->GetPos();
+            DecalBound kHolderBoundCur = *((::DecalAdd::DecalBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((apRequest->pHolder->Get3D()))->FUN_0043d450()));
+            float fHolderDistance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::DecalAdd::DecalPoint &)((*(::DecalAdd::DecalPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((::DecalAdd::DecalPoint *)(new ((void *)&(kHolderBoundCur)) ::Vec3()))))->FUN_00439ef0((::NiPoint3 *)&(kViewerNew), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude() -
+                                    reinterpret_cast<::Twin_0084d030 *>(&(kHolderBoundCur))->GetStoredFloatValue();
             DecalNode* pObject = apRequest->pHolder->Get3D();
             DecalNode* pNode = pObject ? pObject->GetNode() : 0;
             if (pNode && !pObject->FUN_004a19d0())
             {
                 apRequest->pTarget = pNode;
-                if ((FUN_004a1a00() >= fHolderDistance && DAT_011c57f0 < *DAT_011c58e4.FUN_0043d4d0()) || abForce)
+                if ((FUN_004a1a00() >= fHolderDistance && (*reinterpret_cast<unsigned int *>(&::DAT_011c57f0)) < *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::DecalAdd::DecalIntSetting *>(&::g_011c58e4))))))) || abForce)
                     FUN_004a2070(apRequest);
-                else if (DAT_011c57f0 >= *DAT_011c58e4.FUN_0043d4d0() && *DAT_011c5904.FUN_00408d60())
-                    FUN_005b5e40(s_szSkinLimit, *DAT_011c58e4.FUN_0043d4d0());
+                else if ((*reinterpret_cast<unsigned int *>(&::DAT_011c57f0)) >= *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::DecalAdd::DecalIntSetting *>(&::g_011c58e4)))))) && *(*reinterpret_cast<::DecalAdd::DecalBoolSetting *>(&::g_011c5904)).FUN_00408d60())
+                    ::FUN_005b5e40();
             }
         }
-        else if (*DAT_011c5834.FUN_00408d60())
+        else if (*(*reinterpret_cast<::DecalAdd::DecalBoolSetting *>(&::g_011c5834)).FUN_00408d60())
         {
-            apRequest->kWorldPosition.FUN_004a0c10();
+            reinterpret_cast<::FUN_004a0c10_s *>(&(apRequest->kWorldPosition))->FUN_004a0c10();
             if (!DAT_011c57e0)
-                DAT_011c57e0 = FUN_00622a70(FUN_00404010(apRequest->m_fGlyphExtent, apRequest->m_fGlyphWidthInPixels), 1);
-            DAT_011c57e0->FUN_004a1a10(8, 0);
-            DAT_011c57e0->FUN_004a1a10(0x1d, 0);
-            DAT_011c57e0->FUN_006231a0(apRequest->pParent->FUN_004543c0());
+                DAT_011c57e0 = ((::DecalAdd::DecalEmitter *)(::ScreenSplatter::Activate(::FUN_00404010(apRequest->m_fGlyphExtent, apRequest->m_fGlyphWidthInPixels), 1)));
+            reinterpret_cast<::Unk *>((DAT_011c57e0))->FUN_004a1a10(8, 0);
+            reinterpret_cast<::Unk *>((DAT_011c57e0))->FUN_004a1a10(0x1d, 0);
+            reinterpret_cast<::Owner623 *>((DAT_011c57e0))->FUN_006231a0((::NiNode623 *)(void *)(reinterpret_cast<::FUN_004543c0_cls *>((apRequest->pParent))->FUN_004543c0()));
             int iCount = DAT_011c57e0->FUN_00622f80(
-                apRequest, apRequest->kPos.FUN_00439e90(apRequest->kWorldPosition.ApplyScaled(80.0f)), 32.0f);
+                apRequest, (*(::DecalAdd::DecalPoint *)(reinterpret_cast<::Point3Offset *>((void *)&(apRequest->kPos))->ProjectileLaunched((::NiPoint3 *)&(const ::DecalAdd::DecalPoint &)(apRequest->kWorldPosition.ApplyScaled(80.0f)), {}))), 32.0f);
             if (iCount == 0)
             {
                 DecalPoint kNewDir =
-                    apRequest->kWorldPosition.FUN_00439e90(DAT_011a9484.FUN_004a0bd0().ApplyScaled(2.0f));
-                kNewDir.FUN_004a0c10();
+                    (*(::DecalAdd::DecalPoint *)(reinterpret_cast<::Point3Offset *>((void *)&(apRequest->kWorldPosition))->ProjectileLaunched((::NiPoint3 *)&(const ::DecalAdd::DecalPoint &)((*(::DecalAdd::DecalPoint *)(reinterpret_cast<::P3 *>((void *)&((*reinterpret_cast<::DecalAdd::DecalRotation *>((void *)&::DAT_011a9484))))->FUN_004a0bd0({}))).ApplyScaled(2.0f)), {})));
+                reinterpret_cast<::FUN_004a0c10_s *>(&(kNewDir))->FUN_004a0c10();
                 apRequest->kWorldPosition = kNewDir;
-                iCount = DAT_011c57e0->FUN_00622f80(apRequest, apRequest->kPos.FUN_00439e90(kNewDir.ApplyScaled(80.0f)),
+                iCount = DAT_011c57e0->FUN_00622f80(apRequest, (*(::DecalAdd::DecalPoint *)(reinterpret_cast<::Point3Offset *>((void *)&(apRequest->kPos))->ProjectileLaunched((::NiPoint3 *)&(const ::DecalAdd::DecalPoint &)(kNewDir.ApplyScaled(80.0f)), {}))),
                                                     32.0f);
             }
             DecalHitList kHits;
@@ -2370,16 +2358,16 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
             {
                 DecalPoint kHitPos;
                 DecalPoint kHitNormal;
-                kHitPos.FUN_006815c0();
-                kHitNormal.FUN_006815c0();
-                DecalNode* pHitTmp = DAT_011c57e0->GetCollisionFlags(i);
+                new ((void *)&(kHitPos)) ::Vec3();
+                new ((void *)&(kHitNormal)) ::Vec3();
+                DecalNode* pHitTmp = ((::DecalAdd::DecalNode *)(reinterpret_cast<::DecalCaster *>((DAT_011c57e0))->GetCollisionFlags(i)));
                 if (pHitTmp)
                 {
-                    DAT_011c57e0->SetTileSetValues(i, &kHitPos, &kHitNormal);
-                    kHitNormal.FUN_004a0c10();
-                    void* m_pShaderGeometry = FUN_0056f930(pHitTmp);
+                    reinterpret_cast<::TileSetHelper *>((DAT_011c57e0))->SetTileSetValues(i, (int)(&kHitPos), (int)(&kHitNormal));
+                    reinterpret_cast<::FUN_004a0c10_s *>(&(kHitNormal))->FUN_004a0c10();
+                    void* m_pShaderGeometry = ((void *)(::FUN_0056f930((::NiAVObject *)(pHitTmp))));
                     if (pHitTmp->FUN_004a19d0() || !m_pShaderGeometry ||
-                        !IsAcousticSpaceFormTypeAllowed(m_pShaderGeometry, 1))
+                        !::IsAcousticSpaceFormTypeAllowed((::Refr_C *)(m_pShaderGeometry), 1))
                         continue;
                     if (!kHits.FUN_0049c680(&pHitTmp, 0))
                     {
@@ -2387,11 +2375,11 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
                         apRequest->kWorldPosition = kHitNormal;
                         apRequest->pTarget = pHitTmp;
                         FUN_004a1a70(apRequest);
-                        kHits.FUN_0076b660(&pHitTmp);
+                        reinterpret_cast<::ScriptList *>(&(kHits))->FUN_0076b660((unsigned int *)(::DecalAdd::DecalNode **)(&pHitTmp));
                     }
                 }
             }
-            kHits.FUN_004ed900();
+            reinterpret_cast<::NiTPointerListBase *>(&(kHits))->FUN_004ed900();
         }
         break;
     }
@@ -2401,49 +2389,32 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
 
 // 0x004a1a70   /MT /Od /Oy- /GS /EHsc /Gy /GF
 // thiscall (ret 4), bool return.
-extern "C" int DAT_011c57e4;
-extern "C" char DAT_011c5874;
-extern "C" char DAT_011c5890;
-extern "C" char DAT_011c58a8;
-extern "C" char DAT_011c5904x;
-extern "C" char DAT_011f4a20;
 extern "C" char DAT_011c7d34[];
-extern "C" double DAT_01012060;
 extern "C" char DAT_0101e420[];
 extern "C" char DAT_0101e450[];
-extern "C" char DAT_0101e460[];
 extern "C" char DAT_0101e468[];
 extern "C" char DAT_0101e474[];
 extern "C" char DAT_0101e47c[];
 extern "C" char DAT_0101e484[];
 extern "C" char DAT_0101e490[];
 
-int FUN_005b5e40(const char* fmt, ...);
 int FUN_00ec8a19(const char* text, const char* prefix, int len);
 
 struct XObj
 {
-    NiPoint3& FUN_004a0d30(NiPoint3& out);
-    float FUN_00507b20();
 };
 struct XItem
 {
-    XObj* FUN_00559450();
 };
 struct XList
 {
-    bool IsEmpty();
     void* FUN_0043b1b0();
-    XItem* FUN_006815c0();
-    XList* FUN_00726070();
 };
 struct XObj3D
 {
-    bool GetFlag(unsigned int flag);
 };
 struct XNet
 {
-    XObj3D* GetObject3D();
 };
 struct XNode
 {
@@ -2451,32 +2422,24 @@ struct XNode
     virtual void v1();
     virtual void v2();
     virtual int v3();
-    bool FUN_00456610();
-    XNet* FUN_0050d100();
     unsigned int FUN_0043b480();
-    XNode* GetAt(unsigned int idx);
     unsigned short FUN_004a1ff0();
-    XList* GetTESPackageList();
     char pad4[0xac - 4];
     XList* m_ac;
 };
 struct XTopicInfo
 {
     unsigned int FUN_0043b480();
-    XNode* GetAt(unsigned int idx);
 };
 struct XMenuTopic
 {
-    XTopicInfo* GetTopicInfo();
 };
 struct XSetting
 {
-    int* Int();
     unsigned char* Bool();
 };
 struct XGA
 {
-    float FUN_00450410();
 };
 
 struct XRef
@@ -2494,7 +2457,6 @@ struct XRef
     unsigned char m72;
     char pad73[0x39];
     XList* m_ac;
-    NiPoint3 PtOp(const NiPoint3& p) const;
 };
 
 struct XDoor;
@@ -2516,7 +2478,6 @@ struct XDoor
 };
 struct XNL
 {
-    void FUN_0057c590(const XLoc& o);
 };
 struct XMgr
 {
@@ -2527,12 +2488,9 @@ struct XMgr
     bool FUN_004a1a70(XRef* ref);
 };
 
-bool FUN_0043b300(const void* rtti, XNode* obj);
-bool FUN_0045bad0(const void* name, XNode* obj);
 struct NiPoint3Sq : NiPoint3
 {
 };
-NiPoint3Sq MultiplyComponents(const NiPoint3& a, const NiPoint3& b);
 
 // Checks conditions on ref and related nodes, may construct an XDoor, and calls FUN_0057c590 when ref->m48 is non-null.
 // @fnv 0x004a1a70
@@ -2552,39 +2510,39 @@ bool XMgr::FUN_004a1a70(XRef* ref)
     XNode* hit2;
     bool foundVal;
 
-    if (DAT_011c57e4 >= *((XSetting*)&DAT_011c5890)->Int())
+    if (DAT_011c57e4 >= *((int *)&(::FUN_0043d4d0((int *)(((XSetting*)&(*reinterpret_cast<char *>(&::g_011c5890))))))))
     {
-        if (((XSetting*)&DAT_011c5904x)->Bool()[0])
-            FUN_005b5e40(DAT_0101e490);
+        if (((XSetting*)&(*reinterpret_cast<char *>(&::g_011c5904)))->Bool()[0])
+            ::FUN_005b5e40();
         return false;
     }
     if (ref->m28)
     {
-        pName4 = (const char*)ref->m28->GetTESPackageList()->FUN_0043b1b0();
+        pName4 = (const char*)((::XList *)(reinterpret_cast<::TESTopicInfoData *>((ref->m28))->GetLinkToList()))->FUN_0043b1b0();
         if (pName4 != 0 && (FUN_00ec8a19(pName4, DAT_0101e484, 10) == 0 || FUN_00ec8a19(pName4, DAT_0101e47c, 5) == 0 ||
                             FUN_00ec8a19(pName4, DAT_0101e474, 7) == 0 || FUN_00ec8a19(pName4, DAT_0101e468, 9) == 0 ||
                             FUN_00ec8a19(pName4, DAT_0101e460, 5) == 0 || FUN_00ec8a19(pName4, DAT_0101e450, 15) == 0))
             return true;
-        if (FUN_0043b300(&DAT_011f4a20, ref->m28) && !ref->m28->FUN_00456610())
+        if (::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<char *>(&::g_011f4a20))), (::NiAVObject *)(ref->m28)) && !reinterpret_cast<::FUN_00456630_helper *>((ref->m28))->FUN_00456610())
         {
             p9 = ref->m28;
             if (p9 != 0)
             {
-                objVal = p9->FUN_0050d100()->GetObject3D();
-                if (objVal != 0 && objVal->GetFlag(0x1a))
+                objVal = ((::XObj3D *)(::fnv_0043b230::FUN_0043b230((const char *)(((::XNet *)(reinterpret_cast<::FUN_0050d100_shell *>((p9))->FUN_0050d100()))))));
+                if (objVal != 0 && reinterpret_cast<::Fake_FUN_004a2020 *>((objVal))->GetFlag(0x1a))
                     return true;
             }
-            info2 = ((XMenuTopic*)ref->m28)->GetTopicInfo();
+            info2 = ((::XTopicInfo *)(reinterpret_cast<::FUN_009611e0_shell *>((((XMenuTopic*)ref->m28)))->FUN_009611e0()));
             hit2 = 0;
             foundVal = false;
             if (info2 != 0)
             {
                 for (i5 = 0; i5 < info2->FUN_0043b480(); i5++)
                 {
-                    av_ = info2->GetAt(i5);
+                    av_ = ((::XNode *)(reinterpret_cast<::NiNode *>((info2))->GetAt(i5)));
                     if (av_ != 0)
                     {
-                        if (FUN_0045bad0(&DAT_011c7d34, av_))
+                        if (::fnv_0045bad0::FUN_0045bad0((const ::fnv_0045bad0::NiRTTI *)(const void *)(&DAT_011c7d34), (const ::fnv_0045bad0::NiObject *)(av_)))
                         {
                             foundVal = true;
                             hit2 = av_;
@@ -2597,19 +2555,19 @@ bool XMgr::FUN_004a1a70(XRef* ref)
             {
                 return false;
             }
-            if (foundVal && ref->m5c > DAT_01012060)
+            if (foundVal && ref->m5c > ::_DAT_01012060)
             {
                 list = hit2->m_ac;
-                while (list != 0 && !list->IsEmpty())
+                while (list != 0 && !reinterpret_cast<::ObsList *>((list))->FUN_004a4460())
                 {
-                    a5 = list->FUN_006815c0()->FUN_00559450();
+                    a5 = ((::XObj *)(::FUN_00559450((int *)(((::XItem *)(new ((void *)(list)) ::Vec3()))))));
                     b_ = a5;
-                    list = list->FUN_00726070();
+                    list = ((::XList *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
                     NiPoint3 pt9;
-                    b_->FUN_004a0d30(pt9);
-                    float f9 = b_->FUN_00507b20();
-                    NiPoint3 v7 = ref->PtOp(pt9);
-                    v7 = MultiplyComponents(v7, v7);
+                    reinterpret_cast<::FUN_004a0d30_shell *>((b_))->FUN_004a0d30(pt9);
+                    float f9 = reinterpret_cast<::FUN_00507b20Class *>((b_))->FUN_00507b20();
+                    NiPoint3 v7 = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(ref))->FUN_00439ef0((::NiPoint3 *)&(pt9), *(const ::NiPoint3 *)nullptr)));
+                    v7 = (*(::NiPoint3Sq *)(::MultiplyComponents((::NiPoint3 *)&(v7), (const ::NiPoint3 *)&(v7), {})));
                     float qA;
                     if (ref->m38 > ref->m3c)
                         qA = ref->m38;
@@ -2622,30 +2580,30 @@ bool XMgr::FUN_004a1a70(XRef* ref)
                 }
             }
             DAT_011c57e4++;
-            if (((XSetting*)&DAT_011c5904x)->Bool()[0])
-                FUN_005b5e40(DAT_0101e420, DAT_011c57e4);
-            door3 = new XDoor((XObj*)hit2, ((XGA*)&DAT_011c5874)->FUN_00450410(), ref);
+            if (((XSetting*)&(*reinterpret_cast<char *>(&::g_011c5904)))->Bool()[0])
+                ::FUN_005b5e40();
+            door3 = new XDoor((XObj*)hit2, reinterpret_cast<::FUN_00450410_Class *>((((XGA*)&(*reinterpret_cast<char *>(&::g_011c5874)))))->FUN_00450410(), ref);
             p4 = ref->m28;
-            if (p4->FUN_004a1ff0() > 0x3e8 && ((XSetting*)&DAT_011c58a8)->Bool()[0] && ref->m72)
+            if (p4->FUN_004a1ff0() > 0x3e8 && ((XSetting*)&(*reinterpret_cast<char *>(&::g_011c58a8)))->Bool()[0] && ref->m72)
             {
                 door3->m1a = 1;
                 door3->m1b = m4;
                 m4 = 0;
             }
             if (ref->m48)
-                m8.FUN_0057c590(door3);
+                reinterpret_cast<::FUN_0057c590_Class *>(&(m8))->FUN_0057c590((::Node *)&(const ::XLoc &)(door3));
         }
         else if (ref->m28->v3())
         {
             XNode* n2 = ref->m28;
             unsigned int _i2;
             XNode* child8;
-            if (n2 != 0 && n2->FUN_00456610())
+            if (n2 != 0 && reinterpret_cast<::FUN_00456630_helper *>((n2))->FUN_00456610())
                 return true;
             _i2 = 0;
             while (_i2 < n2->FUN_0043b480())
             {
-                child8 = n2->GetAt(_i2);
+                child8 = ((::XNode *)(reinterpret_cast<::NiNode *>((n2))->GetAt(_i2)));
                 if (child8 != 0)
                 {
                     ref->m28 = child8;
@@ -2669,7 +2627,6 @@ struct CStringProvider;
 struct DVec
 {
     float x, y, z;
-    DVec FUN_004a0bd0() const;
 };
 struct DUpdate
 {
@@ -2736,17 +2693,7 @@ struct DObj
     virtual void Unk35();
     virtual void Unk36();
     virtual void Virtualdc(DObj*, bool);
-    CStringProvider* FUN_00413f40();
-    bool FUN_00456610();
-    DProp* FUN_00a59d30(unsigned);
-    void* FUN_004030b0();
-    void* FUN_0043fad0();
-    DArray* FUN_009611e0();
-    unsigned FUN_00453470();
-    int FUN_0059e300();
-    void AssignGo(DObj*);
     void AssignFixedString(CStringProvider*);
-    void FUN_00a59c60(DUpdate&);
 };
 struct CStringProvider
 {
@@ -2757,20 +2704,17 @@ struct DPtr
     DObj* ptr;
     DPtr(DObj*);
     ~DPtr();
-    DObj* FUN_00559450();
     DPtr& FUN_0066b0d0(DObj*);
 };
 struct DArray
 {
     unsigned FUN_0043b480();
-    DObj* FUN_0043b4a0(unsigned);
 };
 struct DProp
 {
 };
 struct DList
 {
-    void FUN_00631540(const DPtr&);
 };
 struct DNode : DObj
 {
@@ -3022,24 +2966,12 @@ struct DArg
 };
 struct DSetting
 {
-    float* FUN_00403e20();
-    int* FUN_0043d4d0();
     bool* FUN_00408d60();
-    float FUN_00450410();
 };
-extern DSetting DAT_011c5874, DAT_011c5858, DAT_011c589c;
-extern int DAT_011c57e8, DAT_011c57f0;
-extern unsigned DAT_011f444c, DAT_011c7d34;
+extern unsigned DAT_011c7d34;
 struct DManager
 {
-    void FUN_00973fd0(DObj*);
 };
-extern DManager DAT_011e0e80;
-bool FUN_0043b300(const void*, DObj*);
-bool FUN_0045bad0(const void*, DObj*);
-void FUN_005b5e40(const char*, ...);
-CStringProvider* FUN_004a2c60();
-int FUN_004a2c20(DProp*);
 struct DWork
 {
     bool FUN_004a2070(DArg*);
@@ -3048,12 +2980,12 @@ struct DWork
 // @fnv 0x004a2070
 bool DWork::FUN_004a2070(DArg* arg)
 {
-    if (*DAT_011c5874.FUN_00403e20() <= 0.0)
+    if (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_004a2070::DSetting *>(&::g_011c5874)))))) <= 0.0)
         return false;
-    if (DAT_011c57e8 >= *DAT_011c5858.FUN_0043d4d0())
+    if (::DAT_011c57e8 >= *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_004a2070::DSetting *>(&::g_011c5858)))))))
     {
-        if (*DAT_011c5904.GetLifeStateControlFlag())
-            FUN_005b5e40("DECAL: Reached max skinned decals per frame. Ignoring decal.");
+        if (*(*reinterpret_cast<::ProcessLists *>(&::g_011c5904)).GetLifeStateControlFlag())
+            ::FUN_005b5e40();
         return true;
     }
     DPtr original(0);
@@ -3061,41 +2993,41 @@ bool DWork::FUN_004a2070(DArg* arg)
     {
         DPtr p(0);
         arg->parent->interface30.Get(0, p);
-        DObj* parent = p.FUN_00559450();
-        if (FUN_0043b300(&DAT_011f444c, parent))
+        DObj* parent = ((::fnv_004a2070::DObj *)(::FUN_00559450((int *)&(p))));
+        if (::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<unsigned int *>(&::g_011f444c))), (::NiAVObject *)(parent)))
             original.FUN_0066b0d0(parent);
     }
-    if (!original.FUN_00559450())
+    if (!((::fnv_004a2070::DObj *)(::FUN_00559450((int *)&(original)))))
         return false;
     if (arg->object)
     {
-        const char* name = arg->object->FUN_00413f40()->FUN_0043b1b0();
+        const char* name = ((::fnv_004a2070::CStringProvider *)(reinterpret_cast<::TESTopicInfoData *>((arg->object))->GetLinkToList()))->FUN_0043b1b0();
         if (name)
         {
             if (!strncmp(name, "Decal", 5) || !strncmp(name, "FaceGen", 7) || !strncmp(name, "Bip01", 5) ||
                 !strncmp(name, "BSFaceGen", 9) || !strncmp(name, "Hair", 4))
                 return true;
         }
-        if (arg->object->FUN_00456610())
+        if (reinterpret_cast<::FUN_00456630_helper *>((arg->object))->FUN_00456610())
             return true;
         if (arg->object->IsGeometry())
         {
             DObj* geometry = arg->object;
             if (arg->tries <= 0)
             {
-                DProp* data = geometry->FUN_00a59d30(3);
-                void* prop = geometry->FUN_004030b0();
+                DProp* data = ((::fnv_004a2070::DProp *)(reinterpret_cast<::FUN_00a59d30_C *>((geometry))->FUN_00a59d30(3)));
+                void* prop = reinterpret_cast<::AlchemyItem *>((geometry))->FUN_004030b0();
                 if (data && prop)
                 {
                     DPtr effect(0);
-                    if (geometry->FUN_0043fad0())
+                    if (((void *)(::fnv_0043fad0::FUN_0043fad0((const char *)(geometry)))))
                     {
-                        DArray* array = arg->object->FUN_009611e0();
+                        DArray* array = ((::fnv_004a2070::DArray *)(reinterpret_cast<::FUN_009611e0_shell *>((arg->object))->FUN_009611e0()));
                         DNode* selected = 0;
                         for (unsigned i = 0; i < array->FUN_0043b480(); ++i)
                         {
-                            DObj* child = array->FUN_0043b4a0(i);
-                            if (child && FUN_0045bad0(&DAT_011c7d34, child))
+                            DObj* child = ((::fnv_004a2070::DObj *)(reinterpret_cast<::NiNode *>((array))->GetAt(i)));
+                            if (child && ::fnv_0045bad0::FUN_0045bad0((const ::fnv_0045bad0::NiRTTI *)(const void *)(&DAT_011c7d34), (const ::fnv_0045bad0::NiObject *)(child)))
                             {
                                 selected = (DNode*)child;
                                 break;
@@ -3105,34 +3037,34 @@ bool DWork::FUN_004a2070(DArg* arg)
                             selected = new DNode(array, true);
                         else
                         {
-                            if (selected->FUN_00453470() >= (unsigned)*DAT_011c589c.FUN_0043d4d0())
+                            if (((unsigned int)(reinterpret_cast<::FUN_00453470_shell *>((selected))->FUN_00453470())) >= (unsigned)*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_004a2070::DSetting *>(&::g_011c589c)))))))
                                 return true;
                         }
-                        ++DAT_011c57e8;
-                        if (*DAT_011c5904.GetLifeStateControlFlag())
-                            FUN_005b5e40("DECAL: Skinned decal count this frame: #%d", DAT_011c57e8);
-                        DPtr decal(new DEffect(arg->flags, DAT_011c5874.FUN_00450410(), arg, geometry, arg->origin,
+                        ++::DAT_011c57e8;
+                        if (*(*reinterpret_cast<::ProcessLists *>(&::g_011c5904)).GetLifeStateControlFlag())
+                            ::FUN_005b5e40();
+                        DPtr decal(new DEffect(arg->flags, reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::fnv_004a2070::DSetting *>(&::g_011c5874))))->FUN_00450410(), arg, geometry, arg->origin,
                                                arg->normal, arg->scale, arg->rotation, arg->unk6c));
                         bool accepted = false;
-                        decal.FUN_00559450()->Virtual8c();
-                        if (decal.FUN_00559450()->FUN_0059e300() > 0)
+                        ((::fnv_004a2070::DObj *)(::FUN_00559450((int *)&(decal))))->Virtual8c();
+                        if (((int)(reinterpret_cast<::TESQuest *>((((::fnv_004a2070::DObj *)(::FUN_00559450((int *)&(decal))))))->GetScriptLocalData())) > 0)
                         {
                             if (!arg->skin)
                             {
                                 arg->skin = new DSkin(0);
-                                arg->skin->AssignFixedString(FUN_004a2c60());
+                                ::AssignFixedString((char *)(arg->skin), (int)(((::fnv_004a2070::CStringProvider *)(::FUN_004a2c60()))), {});
                                 selected->Virtualdc((DObj*)arg->skin, true);
-                                ++DAT_011c57f0;
-                                if (*DAT_011c5904.GetLifeStateControlFlag())
-                                    FUN_005b5e40("DECAL: Placing Skin Decal #%d", DAT_011c57f0);
+                                ++::DAT_011c57f0;
+                                if (*(*reinterpret_cast<::ProcessLists *>(&::g_011c5904)).GetLifeStateControlFlag())
+                                    ::FUN_005b5e40();
                             }
-                            arg->skin->Virtualdc(decal.FUN_00559450()->Virtual98(true));
-                            decal.FUN_00559450()->AssignGo((DObj*)arg->skin);
-                            selected->effects->FUN_00631540(decal.FUN_00559450());
+                            arg->skin->Virtualdc(((::fnv_004a2070::DObj *)(::FUN_00559450((int *)&(decal))))->Virtual98(true));
+                            reinterpret_cast<::fnv_004a2c00::FUN_004a2c00_shell *>((((::fnv_004a2070::DObj *)(::FUN_00559450((int *)&(decal))))))->AssignGo((DObj*)arg->skin);
+                            reinterpret_cast<::fnv_00631540::TargetClass *>((selected->effects))->FUN_00631540((const ::NiPointer< ::NiNode> &)((const ::fnv_004a2070::DPtr &)(((::fnv_004a2070::DObj *)(::FUN_00559450((int *)&(decal)))))));
                             DUpdate update(0.0f, false, false);
-                            selected->FUN_00a59c60(update);
-                            DAT_011e0e80.FUN_00973fd0(decal.FUN_00559450());
-                            effect.FUN_0066b0d0(decal.FUN_00559450());
+                            reinterpret_cast<::FUN_00a59c60_cls *>((selected))->FUN_00a59c60((int)&(update));
+                            reinterpret_cast<::FUN_00973fd0_cls *>(&((*reinterpret_cast<::fnv_004a2070::DManager *>(&::g_011e0e80))))->FUN_00973fd0((::FnvArgObj *)(::fnv_004a2070::DObj *)(((::fnv_004a2070::DObj *)(::FUN_00559450((int *)&(decal))))));
+                            effect.FUN_0066b0d0(((::fnv_004a2070::DObj *)(::FUN_00559450((int *)&(decal)))));
                         }
                         else
                             return true;
@@ -3143,7 +3075,7 @@ bool DWork::FUN_004a2070(DArg* arg)
                         unsigned found = 0;
                         while (found < arg->children->FUN_0043b480() && !a)
                         {
-                            DObj* child = arg->children->FUN_0043b4a0(found);
+                            DObj* child = ((::fnv_004a2070::DObj *)(reinterpret_cast<::NiNode *>((arg->children))->GetAt(found)));
                             if (child)
                             {
                                 if (child->IsGeometry())
@@ -3154,7 +3086,7 @@ bool DWork::FUN_004a2070(DArg* arg)
                                     unsigned pArray = 0;
                                     while (pArray < uiIndex->FUN_0043b480() && !a)
                                     {
-                                        DObj* candidate = uiIndex->FUN_0043b4a0(pArray);
+                                        DObj* candidate = ((::fnv_004a2070::DObj *)(reinterpret_cast<::NiNode *>((uiIndex))->GetAt(pArray)));
                                         if (candidate && candidate->IsGeometry())
                                             a = candidate;
                                         ++pArray;
@@ -3165,24 +3097,24 @@ bool DWork::FUN_004a2070(DArg* arg)
                         }
                         if (a)
                         {
-                            DProp* data2 = a->FUN_00a59d30(3);
-                            void* prop2 = a->FUN_004030b0();
+                            DProp* data2 = ((::fnv_004a2070::DProp *)(reinterpret_cast<::FUN_00a59d30_C *>((a))->FUN_00a59d30(3)));
+                            void* prop2 = reinterpret_cast<::AlchemyItem *>((a))->FUN_004030b0();
                             if (data2 && prop2)
                             {
-                                DProp* shader = FUN_004a2c20(data2) ? data2 : 0;
+                                DProp* shader = ::FUN_004a2c20((::BGSTerrainManager *)(data2)) ? data2 : 0;
                                 if (shader)
                                 {
                                     DPtr additional(0);
-                                    if (geometry->FUN_0043fad0())
+                                    if (((void *)(::fnv_0043fad0::FUN_0043fad0((const char *)(geometry)))))
                                     {
                                         DEffect* pRawEffect =
-                                            new DEffect(arg->flags, DAT_011c5874.FUN_00450410(), arg, a, arg->origin,
-                                                        arg->normal.FUN_004a0bd0(), 1.0f, arg->rotation, arg->unk6c);
+                                            new DEffect(arg->flags, reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::fnv_004a2070::DSetting *>(&::g_011c5874))))->FUN_00450410(), arg, a, arg->origin,
+                                                        (*(::fnv_004a2070::DVec *)(reinterpret_cast<::P3 *>((void *)&(arg->normal))->FUN_004a0bd0({}))), 1.0f, arg->rotation, arg->unk6c);
                                         additional.FUN_0066b0d0(pRawEffect);
                                         pRawEffect->Virtual8c();
                                     }
-                                    if (additional.FUN_00559450())
-                                        DAT_011e0e80.FUN_00973fd0(additional.FUN_00559450());
+                                    if (((::fnv_004a2070::DObj *)(::FUN_00559450((int *)&(additional)))))
+                                        reinterpret_cast<::FUN_00973fd0_cls *>(&((*reinterpret_cast<::fnv_004a2070::DManager *>(&::g_011e0e80))))->FUN_00973fd0((::FnvArgObj *)(::fnv_004a2070::DObj *)(((::fnv_004a2070::DObj *)(::FUN_00559450((int *)&(additional))))));
                                 }
                             }
                         }
@@ -3205,7 +3137,7 @@ bool DWork::FUN_004a2070(DArg* arg)
             unsigned uiIndex = 0;
             while (uiIndex < pArray->FUN_0043b480())
             {
-                DObj* child = pArray->FUN_0043b4a0(uiIndex);
+                DObj* child = ((::fnv_004a2070::DObj *)(reinterpret_cast<::NiNode *>((pArray))->GetAt(uiIndex)));
                 if (child)
                 {
                     arg->object = child;
@@ -3214,12 +3146,12 @@ bool DWork::FUN_004a2070(DArg* arg)
                     {
                         if (arg->skin)
                         {
-                            DArray* array = arg->object->FUN_009611e0();
+                            DArray* array = ((::fnv_004a2070::DArray *)(reinterpret_cast<::FUN_009611e0_shell *>((arg->object))->FUN_009611e0()));
                             DNode* selected = 0;
                             for (unsigned d = 0; d < array->FUN_0043b480(); ++d)
                             {
-                                DObj* entry = array->FUN_0043b4a0(d);
-                                if (entry && FUN_0045bad0(&DAT_011c7d34, entry))
+                                DObj* entry = ((::fnv_004a2070::DObj *)(reinterpret_cast<::NiNode *>((array))->GetAt(d)));
+                                if (entry && ::fnv_0045bad0::FUN_0045bad0((const ::fnv_0045bad0::NiRTTI *)(const void *)(&DAT_011c7d34), (const ::fnv_0045bad0::NiObject *)(entry)))
                                 {
                                     selected = (DNode*)entry;
                                     break;

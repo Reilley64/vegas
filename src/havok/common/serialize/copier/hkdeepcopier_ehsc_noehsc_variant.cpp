@@ -6,6 +6,15 @@
 // src/havok/common/serialize/copier/hkdeepcopier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/copier/hkdeepcopier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/CB1A90Owner.h"
+#include "fnv/decl/FUN_00cb18f0_t.h"
+#include "fnv/decl/FUN_00cb1930_t.h"
+#include "fnv/decl/FUN_00cb1fe0_t.h"
+#include "fnv/decl/FUN_00e04920_cls.h"
+#include "fnv/decl/FnvClassNameNode.h"
+#include "fnv/decl/fnv_00cb1870__hkMapBaseCB18.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_011b7000.h"
 inline void* operator new(unsigned int, void* p) throw()
 {
     return p;
@@ -36,7 +45,6 @@ struct hkMemRouter
 void* FUN_00c85750();
 void ResizeAudioStream(void* alloc, void* arr, int elemSize);
 void* AllocateWithHeader(hkMemAlloc& alloc, int numBytes);
-void FUN_00cb1260(void* dst, const void* src, int n);
 
 __forceinline hkMemRouter* GetRouter()
 {
@@ -120,7 +128,6 @@ struct hkBoolRet
 
 struct ClassInfo
 {
-    const char* FUN_00d46d40() const;
     hkBoolRet GetLastNodeFlag() const;
 };
 
@@ -150,11 +157,6 @@ struct PtrMapBase
     __forceinline PtrMapBase() : m_kPrimitiveElement(0), m_iCapacityFlags(0), m_iPairCount(-1)
     {}
     ~PtrMapBase();
-    void EnsureCapacity(hkMemAlloc& alloc, int n);
-    void FUN_00cb1870(hkMemAlloc& alloc, const void* key, int val);
-    int FindSlot(const void* key);
-    int LookupHashEntry(const void* key, int def);
-    void ProcessArgument(hkMemAlloc& alloc);
     __forceinline bool isValid(int it) const
     {
         return it <= m_iPairCount;
@@ -166,23 +168,23 @@ struct PtrMap
     PtrMapBase m_map;
     __forceinline PtrMap()
     {
-        m_map.EnsureCapacity(GetRouter()->heap(), 0);
+        reinterpret_cast<::FUN_00cb1fe0_t *>(&(m_map))->EnsureCapacity((int)&(GetRouter()->heap()), 0);
     }
     __forceinline ~PtrMap()
     {
-        m_map.ProcessArgument(GetRouter()->heap());
+        reinterpret_cast<::CB1A90Owner *>(&(m_map))->ProcessArgument((::CB1A90Argument *)&(GetRouter()->heap()));
     }
     __forceinline void insert(const void* key, int val)
     {
-        m_map.FUN_00cb1870(GetRouter()->heap(), key, val);
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_map))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(GetRouter()->heap()), (unsigned int)(key), val);
     }
     __forceinline int FindValueForKey(const void* key, int def)
     {
-        return m_map.LookupHashEntry(key, def);
+        return reinterpret_cast<::FUN_00cb1930_t *>(&(m_map))->LookupHashEntry((int)(key), def);
     }
     __forceinline bool contains(const void* key)
     {
-        return m_map.isValid(m_map.FindSlot(key));
+        return m_map.isValid(reinterpret_cast<::FUN_00cb18f0_t *>(&(m_map))->FindSlot((int)(key)));
     }
 };
 
@@ -193,7 +195,6 @@ struct StructureLayoutRules
     unsigned char m_bReusePaddingOptimization;
     unsigned char m_bEmptyBaseClassOptimization;
 };
-extern const StructureLayoutRules g_hostLayoutRules_e4afe0;
 
 struct StructLayout
 {
@@ -259,8 +260,6 @@ struct ObjCopier
     bool m_bStreamResult;
     ObjCopier(const StructLayout& layoutIn, const StructLayout& layoutOut, int flags);
     ~ObjCopier();
-    int FUN_00e04920(const void* dataIn, const ClassInfo& klassIn, void* dataOut, const ClassInfo& klassOut,
-                     RelocInfo& reloc);
 };
 
 struct PendingCopy
@@ -295,7 +294,7 @@ void* FUN_00e4afe0(const void* dataIn, const ClassInfo& klassIn, PtrMap* previou
     }
     PtrMap doneObjects;
     hkArr<CopyRecord> records;
-    ObjCopier copier(g_hostLayoutRules_e4afe0, g_hostLayoutRules_e4afe0, flags);
+    ObjCopier copier((*reinterpret_cast<const ::StructureLayoutRules *>(&::DAT_011b7b88)), (*reinterpret_cast<const ::StructureLayoutRules *>(&::DAT_011b7b88)), flags);
 
     for (int todoIndex = 0; todoIndex < todo.GetLogicalSize(); ++todoIndex)
     {
@@ -307,10 +306,10 @@ void* FUN_00e4afe0(const void* dataIn, const ClassInfo& klassIn, PtrMap* previou
             pClassInfo = vtableClassRegistry->GetClassFromVirtualInstance(obj);
 
         int offset = buffer.GetLogicalSize();
-        const char* name = pClassInfo->FUN_00d46d40();
+        const char* name = reinterpret_cast<::FnvClassNameNode *>((void *)(pClassInfo))->FUN_00d46d40();
         records.pushBackConstruct(CopyRecord(offset, obj, name));
 
-        copier.FUN_00e04920(obj, *pClassInfo, dataOut.GetStreamWriter(), *pClassInfo, reloc);
+        reinterpret_cast<::FUN_00e04920_cls *>(&(copier))->FUN_00e04920((unsigned int)(obj), (unsigned int)&(*pClassInfo), (unsigned int)(dataOut.GetStreamWriter()), (unsigned int)&(*pClassInfo), (unsigned int)&(reloc));
 
         for (int j = globalStart; j < reloc.m_pGlobal.GetLogicalSize(); ++j)
         {
@@ -342,7 +341,7 @@ void* FUN_00e4afe0(const void* dataIn, const ClassInfo& klassIn, PtrMap* previou
     if (buffer.GetLogicalSize())
     {
         char* versioned = (char*)AllocateWithHeader(GetRouter()->heap(), buffer.GetLogicalSize());
-        FUN_00cb1260(versioned, buffer.m_data, buffer.GetLogicalSize());
+        ::FUN_00cb1260(versioned, buffer.m_data, buffer.GetLogicalSize());
 
         for (int i = 0; i < reloc.m_pTrailingData.GetLogicalSize(); ++i)
             *(char**)(versioned + reloc.m_pTrailingData[i].m_iSourceOffset) =

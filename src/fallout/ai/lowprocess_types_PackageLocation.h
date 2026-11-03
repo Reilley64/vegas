@@ -1,5 +1,8 @@
 // fallout/ai/lowprocess_types_PackageLocation.h: declares LocationDescriptor
 
+#include "fnv/decl/FUN_0067f430_shell.h"
+#include "fnv/decl/FUN_0067f480_shell.h"
+#include "fnv/decl/FUN_0067f970_shell.h"
 enum PACK_LOC_TYPE
 {
     lowprocessLocationNone = 0
@@ -16,8 +19,6 @@ class LocationDescriptor;
 class LocationDescriptor
 {
   public:
-    bool FUN_0067f970();
-    TESBoundObject* FUN_0067f430();
     PACKAGE_OBJECT_TYPE GetObjectType();
     TESObjectREFR* GetLocationReference();
     PACK_LOC_TYPE GetLocType() const;

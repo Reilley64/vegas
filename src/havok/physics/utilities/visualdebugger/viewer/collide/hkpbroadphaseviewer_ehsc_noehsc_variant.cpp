@@ -5,20 +5,26 @@
 
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpbroadphaseviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpbroadphaseviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-struct Container { int ClearValue(void* value); };
+#include <new>
+#include "fnv/decl/FUN_00de1210.h"
+#include "fnv/decl/FnvCpu_FUN_00de1170_CpuObject.h"
+#include "fnv/decl/S_00dd9380.h"
+#include "fnv/decl/SearchArray.h"
+#include "fnv/decl/fnv_00c93920__hkpWorldXc93920.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d6a000.h"
+#include "fnv/symbols_010c6000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
+struct Container {  };
 struct Owner { int FUN_00d6a910(Container* container); };
 struct FUN_00dd9380_StandIn {
-    int FUN_00dd9380(const char* name, void* constructor);
 };
-extern FUN_00dd9380_StandIn* DAT_01269cd0;
 extern int DAT_01269028;
-extern char DAT_010c65b0;
-void FUN_00d6ad00();
 void __cdecl FUN_00d6ad40();
 extern int DAT_01269028;
 int FUN_00d6ad60();
 struct Target {
-    void FUN_00c93920(void* apArg);
 };
 struct FUN_00d6a8e0_cls {
     int unk00;
@@ -82,7 +88,6 @@ struct PostSimListener {
 };
 // one shape of the world; 0xc93920 appends a listener to its list at +0x164
 struct BroadElem {
-    void FUN_00c93920(PostSimListener* p);
 };
 // the primary base at 0x00 (its vptr is the one at 0x00)
 struct PrimBase {
@@ -280,7 +285,6 @@ D6AD90Object::D6AD90Object()
 }
 
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
-extern unsigned long DAT_0126835c;
 
 struct S00d6a9b0_Rec
 {
@@ -337,7 +341,6 @@ static inline S00d6a9b0_Alloc& S00d6a9b0_heap()
 {
     return reinterpret_cast<S00d6a9b0_Holder*>(FUN_00c85750())->heap();
 }
-void __cdecl FUN_00c908c0(S00d6a9b0_Alloc* a, void* arr, int cap, int elemSize);
 
 template <typename T>
 struct S00d6a9b0_Arr
@@ -370,7 +373,7 @@ struct S00d6a9b0_Arr
         {
             int cap2 = 2 * cap;
             int nc = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&a, this, nc, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(::S00d6a9b0_Alloc *)(&a), (::SpawnedArray *)(void *)(this), nc, sizeof(T));
         }
     }
 };
@@ -405,7 +408,7 @@ static inline void S00d6a9b0_construct(T* t, int n)
     {
         T* p = t + i;
         if (p)
-            p->FUN_00de1210();
+            new ((void *)(p)) ::FUN_00de1210();
     }
 }
 
@@ -449,8 +452,6 @@ struct S00d6a9b0_Item
     int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c;
     int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54; int unk58; int unk5c;
     int unk60; int unk64; int unk68; int unk6c; int unk70; int unk74; int unk78; int unk7c;
-    void FUN_00de1210();
-    void FUN_00de1170(void* a, void* b);
 };
 
 struct S00d6a9b0_Sub
@@ -509,7 +510,7 @@ void S00d6a9b0_Obj::FUN_00d6a9b0(S00d6a9b0_Ctx* a1)
     for (int k = req.m_iElementCount - 1; k >= 0; k--)
     {
         S00d6a9b0_Blk* b = req.m_data + k;
-        m_aiIndexedValues.m_data[k].FUN_00de1170(&b->m_kMinimumCorner, &b->m_kMaximumCorner);
+        reinterpret_cast<::FnvCpu_FUN_00de1170_CpuObject *>(&(m_aiIndexedValues.m_data[k]))->FUN_00de1170((::FnvCpu_FUN_00de1170_CpuData0 *)(void *)(&b->m_kMinimumCorner), (::FnvCpu_FUN_00de1170_CpuData1 *)(void *)(&b->m_kMaximumCorner));
         ptrs.m_data[k] = m_aiIndexedValues.m_data + k;
     }
 

@@ -7,7 +7,13 @@
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/gamebryo2.2/corelibs/niparticle/nipsysvortexfieldmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysvortexfieldmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void* g_01202688;
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/MyPoint439180.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/VortexModifier.h"
+#include "fnv/decl/fnv_00c26c00__ForceOwner.h"
+#include "fnv/symbols_01202000.h"
 void* __cdecl FUN_00c26810();
 
 // FUN_00c26de0: NiPSysFieldModifier-style Update with attenuation - per-particle
@@ -27,14 +33,8 @@ struct TPoint3
     {
         return TPoint3(x - kPt.x, y - kPt.y, z - kPt.z);
     }
-    bool FUN_004390c0(const TPoint3& kPt) const;
-    float FUN_00457990() const;
-    void FUN_004a0c10();
-    TPoint3& FUN_00439180(float fScalar);
-    TPoint3& FUN_0063c8a0(const TPoint3& kPt);
 };
 
-extern const TPoint3 DAT_011f426c;
 
 struct TMatrix3
 {
@@ -49,8 +49,10 @@ struct NiTransform
     TPoint3 m_kTranslation;
     float m_fScale;
 
-    void FUN_004b4880(NiTransform& kDest) const;
-    NiTransform FUN_0062c250(const NiTransform& kXform) const;
+public:
+    void CalculateInverse(::NiTransform &);
+public:
+    ::NiTransform operator*(const ::NiTransform &) const;
 };
 
 struct TAVObject
@@ -162,8 +164,6 @@ struct TFieldModifier
     TPoint3 m_kLightVector;
 
     void FUN_00c26de0(float fTime, TPSysData* pkData);
-    void FUN_00c269b0(float fTime, TPSysData* pkData);
-    void FUN_00c26c00(float fTime, TPSysData* pkData);
     __declspec(noalias) TPoint3 FUN_00c26820(const TPoint3& kFieldPos, const TPoint3& kFieldDir, const TPoint3& kPos);
 };
 
@@ -174,7 +174,7 @@ void TFieldModifier::FUN_00c26de0(float fTime, TPSysData* pkData)
         return;
     if (pkData->GetShaderParticleCount() == 0)
         return;
-    if (m_kLightVector.FUN_004390c0(DAT_011f426c))
+    if (reinterpret_cast<::NiPoint3 *>((void *)&(m_kLightVector))->FUN_004390c0((const ::NiPoint3 &)((*reinterpret_cast<const ::TPoint3 *>((void *)&::NiPoint3::ZERO)))))
         return;
     if (!m_pkFieldObject)
         return;
@@ -182,9 +182,9 @@ void TFieldModifier::FUN_00c26de0(float fTime, TPSysData* pkData)
     if (m_fFieldAttenuation == 0.0f)
     {
         if (m_bEnableMaxDistance)
-            FUN_00c269b0(fTime, pkData);
+            reinterpret_cast<::VortexModifier *>(this)->FUN_00c269b0(fTime, (::PSysData *)(pkData));
         else
-            FUN_00c26c00(fTime, pkData);
+            reinterpret_cast<::fnv_00c26c00::ForceOwner *>(this)->FUN_00c26c00(fTime, (::fnv_00c26c00::ParticleList *)(pkData));
         return;
     }
 
@@ -192,14 +192,14 @@ void TFieldModifier::FUN_00c26de0(float fTime, TPSysData* pkData)
     NiTransform kInvPSys;
     {
         NiTransform kPSysXform = m_pkTarget->m_kWorldSpaceTransform;
-        kPSysXform.FUN_004b4880(kInvPSys);
+        reinterpret_cast<::NiTransform *>((void *)&(kPSysXform))->CalculateInverse(kInvPSys);
     }
 
     {
-        NiTransform kFieldToPSys = kInvPSys.FUN_0062c250(kFieldXform);
+        NiTransform kFieldToPSys = reinterpret_cast<::NiTransform *>((void *)&(kInvPSys))->operator*(kFieldXform);
         TPoint3 kFieldPos = kFieldToPSys.m_kTranslation;
         TPoint3 kFieldDir = kFieldToPSys.m_kOrientation.FUN_004b4500(m_kLightVector);
-        kFieldDir.FUN_004a0c10();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(kFieldDir))->FUN_004a0c10();
 
         for (unsigned short i = 0; i < pkData->GetShaderParticleCount(); i++)
         {
@@ -209,17 +209,17 @@ void TFieldModifier::FUN_00c26de0(float fTime, TPSysData* pkData)
             {
                 TPoint3 kPos = pkData->GetVertices()[i];
                 TPoint3 kDiff = kPos - kFieldToPSys.m_kTranslation;
-                float fDist = kDiff.FUN_00457990();
+                float fDist = reinterpret_cast<::NiPoint3 *>((void *)&(kDiff))->ComputeMagnitude();
                 if (fDist != 0.0f)
                 {
                     if (!m_bEnableMaxDistance || fDist <= m_fDistanceLimit)
                     {
                         TPoint3 kForce = FUN_00c26820(kFieldPos, kFieldDir, kPos);
                         if (m_fFieldAttenuation == 0.0f)
-                            kForce.FUN_00439180(fDeltaT * m_fInfluence);
+                            reinterpret_cast<::MyPoint439180 *>(&(kForce))->FUN_00439180(fDeltaT * m_fInfluence);
                         else
-                            kForce.FUN_00439180(fDeltaT * m_fInfluence / NiPow(fDist, m_fFieldAttenuation));
-                        pkInfo->m_kValue.FUN_0063c8a0(kForce);
+                            reinterpret_cast<::MyPoint439180 *>(&(kForce))->FUN_00439180(fDeltaT * m_fInfluence / NiPow(fDist, m_fFieldAttenuation));
+                        reinterpret_cast<::FUN_0063c8a0_shell *>(&(pkInfo->m_kValue))->FUN_0063c8a0((void *)&(kForce));
                     }
                 }
             }

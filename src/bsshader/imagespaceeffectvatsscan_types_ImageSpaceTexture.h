@@ -2,6 +2,9 @@
 #ifndef FNV_IMAGESPACETEXTURE_H
 #define FNV_IMAGESPACETEXTURE_H
 
+#include "fnv/decl/Holder00ba37f0.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_011f6000.h"
 #include "layout_support.h"
 #include "NiObject.h"
 #include "layout_support.h"
@@ -43,7 +46,7 @@ class ImageSpaceTexture
     NiTexturingProperty__ClampMode m_eClampMode;           // +0xC, 4 bytes
     static void* operator new(unsigned int size)
     {
-        return g_memoryManager.Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }
     ImageSpaceTexture()
     {
@@ -54,7 +57,6 @@ class ImageSpaceTexture
         m_eTextureFilterMode = (NiTexturingProperty__FilterMode)0;
         m_eClampMode = (NiTexturingProperty__ClampMode)0;
     }
-    void SetTexture(NiTexture* texture);
     // ImageSpaceTexture
     // void __cdecl ImageSpaceTexture::*()
     // BSRenderedTexture* __cdecl ImageSpaceTexture::*()

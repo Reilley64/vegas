@@ -3,7 +3,7 @@
 
 // recovered from the char Set body and the original unsigned maximum and
 // strlen forwarding bodies. They call the original code during reconstruction.
+#include "fnv/symbols_00403000.h"
 template <class T> unsigned int BSStringLength(const T* text);
-unsigned int BSStringCapacityMaximum(unsigned int length, unsigned int minimum);
 
 #endif

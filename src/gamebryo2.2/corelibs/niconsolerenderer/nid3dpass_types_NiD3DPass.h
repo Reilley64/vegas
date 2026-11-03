@@ -19,7 +19,6 @@ class NiD3DPass
     static void SetActiveRenderer(void* renderer);
     bool ApplyRenderStateChanges(bool force);
     NiD3DPass* SetD3DDevice(unsigned int count);
-    void ApplyPassState();
     void** m_ppVirtualMethodTable;                                                // +0x0, 4 bytes
     char m_szName[16];                                              // +0x4, 16 bytes
     unsigned int m_uiStageMask;                                     // +0x14, 4 bytes

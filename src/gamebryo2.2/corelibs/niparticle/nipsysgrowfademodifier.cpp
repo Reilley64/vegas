@@ -1,5 +1,14 @@
 // gamebryo2.2/corelibs/niparticle/nipsysgrowfademodifier.cpp: NiPSysGrowFadeModifier (8 functions)
 
+#include "fnv/decl/FUN_00c319e0_cls.h"
+#include "fnv/decl/MyIsEqual.h"
+#include "fnv/decl/ParticleModifierBinary.h"
+#include "fnv/decl/PositionState.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_010c0000.h"
+#include "fnv/symbols_01202000.h"
 #include "nipsysgrowfademodifier_decls.h"
 // Loads the modifier's base data, then four fields and, for stream version above 16, one more field from the stream.
 // @fnv 0x00c2a530
@@ -15,15 +24,13 @@ void NiPSysGrowFadeModifier::LoadBinary(NiStream& stream)
 }
 
 struct GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_012026f8;
 
 // @fnv 0x00c2a360
 GlobalObjectO2_00a7b610* __cdecl FUN_00c2a360()
 {
-    return &g_012026f8;
+    return &::g_012026f8;
 }
 
-void __cdecl FUN_00c31750();
 void __cdecl operator delete(void*, unsigned int);
 struct FUN_00c2a370_shell : NiPSysGrowFadeModifier
 {
@@ -33,7 +40,7 @@ struct FUN_00c2a370_shell : NiPSysGrowFadeModifier
 // @fnv 0x00c2a370
 FUN_00c2a370_shell* FUN_00c2a370_shell::FUN_00c2a370(unsigned int flags)
 {
-    FUN_00c31750();
+    static_cast<::PositionState *>(nullptr)->FUN_00c31750();
     if (flags & 1)
         operator delete(this, 0x2c);
     return this;
@@ -41,7 +48,6 @@ FUN_00c2a370_shell* FUN_00c2a370_shell::FUN_00c2a370(unsigned int flags)
 
 struct NiObject
 {
-    bool IsEqual(NiObject*) const;
 };
 
 struct FUN_00c2a2f0_shell : NiPSysGrowFadeModifier
@@ -53,14 +59,13 @@ struct FUN_00c2a2f0_shell : NiPSysGrowFadeModifier
 bool FUN_00c2a2f0_shell::FUN_00c2a2f0(NiObject* pkObject)
 {
     FUN_00c2a2f0_shell* pkDest = (FUN_00c2a2f0_shell*)pkObject;
-    if (((NiObject*)this)->IsEqual(pkObject) && m_fGrowthTime == pkDest->m_fGrowthTime &&
+    if (reinterpret_cast<::MyIsEqual *>((void *)(((NiObject*)this)))->FUN_00c31830(pkObject) && m_fGrowthTime == pkDest->m_fGrowthTime &&
         m_usGrowGenerationLimit == pkDest->m_usGrowGenerationLimit && m_fFadeDuration == pkDest->m_fFadeDuration &&
         m_fInitialScale == pkDest->m_fInitialScale && m_usFadeGenerationLimit == pkDest->m_usFadeGenerationLimit)
         return true;
     return false;
 }
 
-extern float DAT_010c09c0;
 
 struct ParticleInfo_00c2a390
 {
@@ -113,9 +118,9 @@ void FUN_00c2a390_shell::ComputeParticleScales(unsigned int, ParticleData_00c2a3
         }
         float ratio = grow > fade ? fade : grow;
         float scale = ratio * scaleRange + m_fInitialScale;
-        if (scale < DAT_010c09c0)
+        if (scale < ::DAT_010c09c0)
         {
-            scale = DAT_010c09c0;
+            scale = ::DAT_010c09c0;
         }
         data->scales[i] = scale;
     }
@@ -148,7 +153,6 @@ struct NiPSysModifierStand
 {
     void* vtable;
     char unk04[0x14];
-    void LoadStream(NiStream& stream);
 };
 
 struct FUN_00c2a610_cls : NiPSysGrowFadeModifier
@@ -160,7 +164,7 @@ struct FUN_00c2a610_cls : NiPSysGrowFadeModifier
 // @fnv 0x00c2a610
 void FUN_00c2a610_cls::LoadGrowFadeModifier(NiStream& stream)
 {
-    reinterpret_cast<NiPSysModifierStand*>(this)->LoadStream(stream);
+    reinterpret_cast<::ParticleModifierBinary *>((reinterpret_cast<NiPSysModifierStand*>(this)))->FUN_00c31950((::OutputStream &)(stream));
     GrowFadeStreamView* pStreamView = reinterpret_cast<GrowFadeStreamView*>(&stream);
     pStreamView->m_pUnderlyingStream->Load(&m_fGrowthTime);
     pStreamView->m_pUnderlyingStream->Load(&m_usGrowGenerationLimit);
@@ -170,10 +174,6 @@ void FUN_00c2a610_cls::LoadGrowFadeModifier(NiStream& stream)
 }
 
 struct GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_012026f8;
-char* __cdecl FUN_00a7d330(char* pcText);
-char* __cdecl FUN_00a7d550(const char* pcName, float fValue);
-char* __cdecl FUN_00a7d490(const char* pcName, unsigned short usValue);
 struct StrArr
 {
     void* vtable;
@@ -182,19 +182,16 @@ struct StrArr
     unsigned short m_usSize;
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
-    void SetSize(unsigned int uiMaxSize);
-    void SetAt(unsigned int uiIndex, char*& element);
     void Add(char*& element)
     {
         unsigned int uiIndex = m_usSize;
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, element);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, element);
     }
 };
 struct Base00c319e0
 {
-    void FUN_00c319e0(StrArr* pkStrings);
 };
 struct FUN_00c2a6e0_shell : NiPSysGrowFadeModifier
 {
@@ -203,8 +200,8 @@ struct FUN_00c2a6e0_shell : NiPSysGrowFadeModifier
 // @fnv 0x00c2a6e0
 void FUN_00c2a6e0_shell::AppendGrowFadeModifierStrings(StrArr* pkStrings)
 {
-    ((Base00c319e0*)this)->FUN_00c319e0(pkStrings);
-    char* pcString = FUN_00a7d330(*(char**)&g_012026f8);
+    reinterpret_cast<::FUN_00c319e0_cls *>((((Base00c319e0*)this)))->FUN_00c319e0(pkStrings);
+    char* pcString = ::FUN_00a7d330(*(char**)&::g_012026f8);
     pkStrings->Add(pcString);
     pcString = FUN_00a7d550("Grow Time", m_fGrowthTime);
     pkStrings->Add(pcString);
@@ -230,7 +227,6 @@ class FUN_00c31720
     virtual void v00();
     int m_04, m_08, m_0c, m_10, m_14;
     FUN_00c31720();
-    void __thiscall FUN_00c31780(FUN_00c31720* dest, A4b0Clone* cloning);
 };
 class A4b0Cls : public FUN_00c31720
 {
@@ -257,7 +253,7 @@ FUN_00c31720* A4b0Cls::FUN_00c2a4b0(A4b0Clone* cloning)
 {
     void* mem = FUN_00aa13e0(sizeof(A4b0Cls));
     A4b0Cls* p = mem ? new (mem) A4b0Cls : 0;
-    FUN_00c31780(p, cloning);
+    reinterpret_cast<::NiPSysModifier *>(this)->CopyMemberData((::NiPSysModifier *)(p), (*(::CloningProcess *)(cloning)));
     p->m_18 = m_18;
     p->m_1c = m_1c;
     p->m_20 = m_20;

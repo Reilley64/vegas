@@ -2,6 +2,9 @@
 // src/havok/physics/dynamics/constraint/bilateral/pointtopath/hkplinearparametriccurve.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/pointtopath/hkplinearparametriccurve.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/S00e47e80_hkpLinearParametricCurveE47E.h"
+#include "fnv/symbols_00cbf000.h"
 #include "havok/hkpLinearParametricCurve.h"
 
 struct FUN_00e47c20_s
@@ -99,7 +102,6 @@ extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
 
 extern const __m128 DAT_010ec7f0;
 
-int __cdecl FUN_00cbfef0(float f);
 
 struct hkSimdRealE474
 {
@@ -195,7 +197,6 @@ extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 extern "C" __m128 _mm_set_ss(float);
 extern "C" __m128 _mm_set_ps1(float);
 extern "C" void _mm_store_ss(float*, __m128);
-extern int __cdecl FUN_00cbfef0(float f);
 
 extern const __m128 DAT_010ec7f0;
 
@@ -291,7 +292,7 @@ float Curve_e474e0::FindNearestPoint(float t, const Vec_e474e0& nearPoint, Vec_e
     {
         t = 0.0f;
     }
-    int ia = FUN_00cbfef0(t);
+    int ia = ::FUN_00cbfef0(t);
     int ib = ia + 1;
     if (ib >= m_kPoints.GetLogicalSize())
     {
@@ -396,7 +397,6 @@ union hkVector4q
 
 extern __m128 DAT_010ec7f0;
 
-int __cdecl FUN_00cbfef0(hkReal r);
 
 static __forceinline void hkSetSub4(hkVector4q& out, const hkVector4q& a, const hkVector4q& b)
 {
@@ -438,7 +438,7 @@ void LinearCurveT::GetTangent(hkReal t, hkVector4& tangentOut) const
     hkReal smooth = m_fSmoothingValue;
     hkReal invSmooth = 1.0f / smooth;
 
-    int ia = FUN_00cbfef0(t);
+    int ia = ::FUN_00cbfef0(t);
     int ib = ia + 1;
     if (ib >= m_kPoints.m_iElementCount)
     {
@@ -482,7 +482,6 @@ void LinearCurveT::GetTangent(hkReal t, hkVector4& tangentOut) const
 }
 }  // namespace fnv_00e478d0
 
-int __cdecl FUN_00cbfef0(float f);
 
 class FUN_00e47c30_cls
 {
@@ -719,14 +718,13 @@ struct LinearParametricCurve : public hkReferencedObject
     hkArray<hkVector4> m_kPoints;
     hkArray<float> m_fClosestPointDistanceSquared;
     LinearParametricCurve* FUN_00e48090();
-    void FUN_00e47e80(const hkVector4*);
 };
 static __forceinline LinearParametricCurve* createCurve()
 {
     CurveThreadMemory* memory = (CurveThreadMemory*)FUN_00c85750();
     void* chunk = memory->m_pThreadAllocator->allocateChunk(0x40);
     ((hkReferencedObject*)chunk)->m_usMemSizeAndFlags = 0x40;
-    return (LinearParametricCurve*)FUN_00e48030(chunk);
+    return (LinearParametricCurve*)((void *)(new ((void *)(chunk)) ::fnv_00e48030::FUN_00e48030()));
 }
 template <class T> static __forceinline void arrCopy_e48090(T* dst, int start, const T* src, int n)
 {
@@ -760,7 +758,7 @@ LinearParametricCurve* LinearParametricCurve::FUN_00e48090()
     {
         for (int i = 0; i < numPoints; ++i)
         {
-            clone->FUN_00e47e80(&this->m_kPoints.m_data[i]);
+            reinterpret_cast<::S00e47e80_hkpLinearParametricCurveE47E *>((clone))->FUN_00e47e80((*(const ::hkVector4E47E *)(&this->m_kPoints.m_data[i])));
         }
     }
     clone->m_bClosedLoop = this->m_bClosedLoop;

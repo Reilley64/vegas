@@ -7,6 +7,8 @@
 #ifndef FNV_MAGICSYSTEM_SOUND_H
 #define FNV_MAGICSYSTEM_SOUND_H
 
+#include "fnv/decl/Data5E35.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
 #include "layout_support.h"
 #include "TESForm.h"
 // Names of nested/template specializations use the canonical generator identifier mapping.
@@ -29,7 +31,8 @@ class TESSound__SOUND_DATA
     unsigned int iPriority;                   // +0x18, 4 bytes
     unsigned int m_uiTrailingValue1;          // +0x1C, 4 bytes
     unsigned int m_uiTrailingValue2;          // +0x20, 4 bytes
-    void Endian();
+public:
+    void SwapEndian();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESSound__SOUND_DATA) == 36);
@@ -59,7 +62,6 @@ class TESSound__SOUND_DATA2
     unsigned int iFlags;                   // +0x4
     unsigned short m_uiFrequency;          // +0x8
     unsigned short m_aucAttenuationBytes;  // +0xA
-    void Endian();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESSound__SOUND_DATA2) == 12);
@@ -77,7 +79,6 @@ class TESBoundAnimObject : public TESForm
     virtual ~TESBoundAnimObject();
     unsigned char layoutPadding18[0x18];
     TESBoundAnimObject();
-    void ReadTypedData(TESFile* file, void* buffer, unsigned short size);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESBoundAnimObject) == 0x30);

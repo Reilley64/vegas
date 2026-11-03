@@ -3,6 +3,14 @@
 #define FNV_BSBIPNODE_DECLS_H
 
 
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00440490_shell.h"
+#include "fnv/decl/FUN_004942c0_shell.h"
+#include "fnv/decl/FUN_004f0140_class.h"
+#include "fnv/decl/FUN_004f02e0_This.h"
+#include "fnv/decl/FUN_004f0320_class.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/symbols_00495000.h"
 #include "NiObjectNET.h"
 #include "NiPoint3.h"
 
@@ -20,12 +28,7 @@ class NiQuatTransform
     float m_fScale;
 
     NiQuatTransform();
-    bool IsTranslateXNotNegatedConstant();
-    const NiPoint3& GetTranslate();
-    bool FUN_004f02e0();
     const NiQuaternion& GetOffsetC();
-    bool FUN_004f0320();
-    float GetFloatAtOffset1C();
 };
 FNV_STATIC_ASSERT(sizeof(NiQuatTransform) == 32);
 
@@ -33,10 +36,7 @@ FNV_STATIC_ASSERT(sizeof(NiQuatTransform) == 32);
 class NiAVObject : public NiObjectNET
 {
   public:
-    bool FUN_004f0140();
-    void FUN_00440460(const NiPoint3& translate);
     void FUN_004f0160(const NiQuaternion& rotate);
-    void FUN_00440490(float scale);
 };
 
 class NiInterpolator : public NiObject

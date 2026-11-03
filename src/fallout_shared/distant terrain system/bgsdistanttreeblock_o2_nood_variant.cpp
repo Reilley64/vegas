@@ -5,18 +5,75 @@
 
 // src/fallout_shared/distant terrain system/bgsdistanttreeblock.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/distant terrain system/bgsdistanttreeblock.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/A72BB0_DataStreamOwner.h"
+#include "fnv/decl/BB7290Owner.h"
+#include "fnv/decl/BSShaderManager.h"
+#include "fnv/decl/FNVOwner_cls.h"
+#include "fnv/decl/FUN_00438690.h"
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_0043caa0_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_00462d80_shell.h"
+#include "fnv/decl/FUN_0049ed90_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004a51d0_shell.h"
+#include "fnv/decl/FUN_004ea9e0_Class.h"
+#include "fnv/decl/FUN_006b4060_class.h"
+#include "fnv/decl/FUN_006f9740_Class.h"
+#include "fnv/decl/FUN_006f9790_class.h"
+#include "fnv/decl/FUN_00705b10_Dummy.h"
+#include "fnv/decl/FUN_0094db80_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00a726a0_cls.h"
+#include "fnv/decl/FUN_00a72ca0_Class.h"
+#include "fnv/decl/FUN_00c3cee0_shell.h"
+#include "fnv/decl/Flag512Receiver.h"
+#include "fnv/decl/Holder006fa090.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/NiObjectNET.h"
+#include "fnv/decl/ObjectC3.h"
+#include "fnv/decl/Point3_0053d280.h"
+#include "fnv/decl/S_006ac070.h"
+#include "fnv/decl/S_006f9c20.h"
+#include "fnv/decl/TESRegionDataMap.h"
+#include "fnv/decl/TESTexLoader.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/fnv_0049ee30__NiObjectNET.h"
+#include "fnv/decl/fnv_006f7780__FUN_006f7780_Class.h"
+#include "fnv/decl/fnv_006f8830__FUN_006f8830.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/decl/fnv_00853130__NiTMapBase.h"
+#include "fnv/decl/fnv_00a730e0__FUN_00a730e0_cls.h"
+#include "fnv/decl/fnv_00c3cf60__FUN_00c3cf60_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_0042f000.h"
+#include "fnv/symbols_00457000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_006a8000.h"
+#include "fnv/symbols_006f7000.h"
+#include "fnv/symbols_00afd000.h"
+#include "fnv/symbols_00bb6000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_01200000.h"
+#include "fnv/symbols_01202000.h"
 struct NP
 {
     NP& operator=(void*);
 };
-extern NP DAT_012007c4;
 void FUN_006f7a60(void* p);
 struct BGSDistantTreeBlockLoadTask
 {
     void* Destroy(unsigned int flags);
     void FUN_006f94a0();
 };
-void* __cdecl _Deallocate(void*);
 struct GO
 {
     void* p;
@@ -25,7 +82,6 @@ struct GO
 };
 struct Helper8
 {
-    void FUN_006f9740();
 };
 struct FUN_006f8650
 {
@@ -36,15 +92,11 @@ struct FUN_006f8650
 };
 struct FUN_006b3140_shell
 {
-    void AddElement(void*);
-    void* FUN_006b3140();
 };
-extern FUN_006b3140_shell g_011d85d0;
 void BuildNavMeshGeometry(void*);
 void FUN_006f86b0(void* a1);
 struct FUN_006f8800_shell
 {
-    void FUN_006f8830();
     void* FUN_006f8800(unsigned int flags);
 };
 struct Flt
@@ -70,7 +122,6 @@ struct BGSDistantTreeBlockLoadTask_shell : BGSDistantTreeBlockLoadTask
 };
 struct Block88
 {
-    void FUN_006f88e0();
 };
 struct Holder96
 {
@@ -89,24 +140,18 @@ struct FakeArray
 {
     int _0;
     InstanceData* _4;
-    unsigned int __thiscall GetNextIndex();
-    void __thiscall ConstructElements(void*, int);
     unsigned int __thiscall AppendInstance(InstanceData*);
 };
 struct NavMeshSearchLOSArray
 {
-    void FUN_006a8500();
-    void FUN_006ac070(void*, unsigned int);
 };
 struct ShaderProp
 {
-    void __thiscall FUN_006fa090(void* a, void* b);
 };
 struct FUN_006f9c70_shell
 {
     void FUN_006f9c70(bool freeStorage);
 };
-int __cdecl _sprintf_s(char*, unsigned int, const char*, ...);
 struct Fake076
 {
     virtual void v0();
@@ -194,20 +239,15 @@ struct Arr
 };
 struct ArrSI : public Arr
 {
-    unsigned int GetFlags();
 };
 struct BGSDistantTreeBlock
 {
     char _pad[52];
     ArrSI mArray;
-    void MarkTreeInstance(unsigned int);
-    void FUN_006f7780();
     void ProcessAllTrees();
 };
 struct IOTask
 {
-    bool FUN_0043caa0();
-    void NotifyParents();
 };
 class SoundPlaybackHandle;
 template <typename A, typename B> struct NiTPointerMap
@@ -236,7 +276,6 @@ struct IOManager
     virtual void v17();
     virtual void v18(void*);
 };
-extern IOManager* DAT_01202d98;
 struct FUN_006f94e0_shell
 {
     char _pad[52];
@@ -245,11 +284,9 @@ struct FUN_006f94e0_shell
 };
 struct DummyPointerMap
 {
-    bool GetAt(unsigned int, unsigned int&);
 };
 struct BSSimpleArrayStandIn
 {
-    unsigned int Add(void*&);
 };
 struct InstanceDataB
 {
@@ -265,16 +302,10 @@ struct BGSDistantTreeBlock_shell : BGSDistantTreeBlock
 };
 struct FUN_006b3120_helper
 {
-    unsigned char* __thiscall GetElementAt(int);
 };
-extern NP g_011d85bc;
-extern NP g_011d85c4;
-extern NP g_011d85e0;
-extern unsigned char DAT_011d85a0;
 void FUN_006f83f0();
 struct NiBinaryStream
 {
-    unsigned int Read(void* buffer, unsigned int size);
 };
 struct NiFile : public NiBinaryStream
 {
@@ -302,17 +333,15 @@ struct AutoMemHelper
 extern const char str_0106dd30[];
 struct FUN_006f8b40_shell
 {
-    void ClearEntries();
-    void AddTreeInstance(unsigned int type, void* instance);
     void ReadGroups(NiFile* apInputFile);
 };
 struct FUN_00bb7290_shell
 {
-    void SetEntry(unsigned int, float, float, float, float, float);
 };
 struct FUN_006b3120_shell
 {
-    void* GetElementAt(int);
+public:
+    char *GetElementAt(unsigned int);
 };
 struct FUN_006f90a0_instance
 {
@@ -338,15 +367,14 @@ struct FUN_006f90a0_shell
 {
     void UpdateInstances(FUN_006f90a0_params params);
 };
-unsigned int __cdecl FUN_0042f5a0(unsigned int, unsigned int);
-unsigned int __cdecl FUN_00bb6030(void);
 struct NiPoint3
 {
     float x;
     float y;
     float z;
     NiPoint3();
-    void FUN_004a0c10();
+public:
+    float ComputeMagnitude() const;
 };
 struct NiPoint2
 {
@@ -362,10 +390,6 @@ struct Obj44 : NiMemObject
 {
     char _pad[44];
     Obj44(unsigned short);
-    void FUN_00a72ca0(int);
-    void FUN_00a730e0(int);
-    void FUN_00a72bb0(int, void*, int, int);
-    void FUN_00a726a0(int, int, int, int, unsigned short, int, int);
 };
 struct Obj88 : NiMemObject
 {
@@ -389,7 +413,6 @@ struct NiGPUProgramOwner
 {
     void SetProgram(NiGPUProgram*);
 };
-int __fastcall FUN_00559450(int*);
 struct InParam
 {
     int unk0;
@@ -401,10 +424,7 @@ struct InParam
     float f18;
     NavMeshPtr m1c;
 };
-extern const float DAT_01012054;
-float __cdecl FUN_004579e0(float);
 void BuildNavMeshGeometry(void* param);
-void FNV_Warning(const char* fmt, ...);
 struct TreeInstance
 {
     int unk00;
@@ -422,17 +442,10 @@ struct TreeInstanceArray
     TreeInstance* pData;
     unsigned int uiSize;
     unsigned int uiCapacity;
-    unsigned int GetSize();
-    void SetCapacity(unsigned int);
-    unsigned int AddInstance(TreeInstance* apInstance);
-    TreeInstance* GetInstance(int);
 };
 struct TreeTypeArray
 {
-    unsigned int GetSize();
-    void* GetType(unsigned int);
 };
-extern TreeTypeArray g_TreeTypes;
 struct TreeBlock
 {
     void* pType;
@@ -444,12 +457,9 @@ struct TreeBlock
 };
 struct TreeBlockArray
 {
-    unsigned int Add(TreeBlock*& arpBlock);
-    unsigned int GetSize();
 };
 struct TreeBlockMap
 {
-    bool GetAt(unsigned int auiKey, TreeBlock*& arpVal);
     void SetAt(unsigned int auiKey, TreeBlock* apVal);
 };
 struct TreeInstanceMap
@@ -541,14 +551,12 @@ struct NiNodeS
 };
 struct RootHolderS
 {
-    NiNodeS* GetRootNode();
 };
 struct SimpleArrS
 {
     int unk0;
     int unk4;
     int unk8;
-    void Clear(bool abFree);
 };
 struct TreeBlockEntryS
 {
@@ -560,14 +568,11 @@ struct TreeBlockEntryS
 struct EntryArrS
 {
     TreeBlockEntryS*& GetAt(unsigned int auiIndex);
-    unsigned int GetSize();
-    void Clear(bool abFree);
 };
 struct TreeOwnerS
 {
     int unk0;
     EntryArrS kEntries;
-    NiPtrS<RootHolderS>& GetHolder();
     void ClearEntries();
 };
 struct TreeScopeGuard
@@ -595,7 +600,6 @@ struct TreeTemp
 };
 struct TreeHost
 {
-    void ReadBytes(void* buf, unsigned int n);
 };
 void ReadTreeRecords(TreeHost* host);
 struct C6F9060Member
@@ -636,8 +640,6 @@ struct QBase
 {
     QBase(int aPriority);
     virtual ~QBase();
-    void SetTaskName(const char* apName);
-    void SetTaskFlag(int aValue);
 
     int unk04;
     int unk08;
@@ -689,13 +691,10 @@ class B6F9570FileFinder
 class B6F9570TreeBlock
 {
   public:
-    void ReadGroups(B6F9570File* pkFile);
-    void ProcessAllTrees();
 };
 class B6F9570TreeLoader
 {
   public:
-    const char* GetFilename();
     void LoadTreeFile();
 
     int unk00;
@@ -746,17 +745,10 @@ struct Lod77Foo2
 };
 struct Lod77Elem
 {
-    void Step0();
-    void Step1();
-    void Step2();
-    void Step3();
-    void Step4();
 };
 struct Lod77Container
 {
     void Add(void* p);
-    Lod77Elem* Get(int i);
-    void* Get0();
 };
 struct LodFile
 {
@@ -764,31 +756,19 @@ struct LodFile
 };
 struct Lod77Mgr
 {
-    void Load(char* path, Lod77Container* c, int a, int b);
 };
-extern Lod77Container DAT_011d85bc;
-extern Lod77Container DAT_011d85c4;
-extern Lod77Container DAT_011d85e0;
-extern Lod77Mgr* DAT_011dea10;
 int __cdecl FUN_00ec8a19(const char* a, const char* b, int c);
-void* __cdecl FUN_00afdf00(char* path, int mode, unsigned int size);
-void __cdecl FUN_005b5e40(const char* msg);
-void __cdecl LoadTreeLodResources(Fake076* self);
 struct NiPoint3Ex
 {
     float x, y, z;
     NiPoint3Ex(float, float, float);
     NiPoint3Ex operator-(const NiPoint3Ex&) const;
     NiPoint3Ex operator+(const NiPoint3Ex&) const;
-    NiPoint3Ex FUN_0053d280(float) const;
-    float Length() const;
 };
 struct FUN_006240d0
 {
     float x, y, z, radius;
     FUN_006240d0();
-    void FUN_004a51d0(const NiPoint3Ex&, float);
-    float FUN_0084d030();
 };
 struct TreeGeometry
 {
@@ -859,12 +839,9 @@ struct TreeGeometry
 struct TreeGeometryPtr
 {
     TreeGeometry* object;
-    TreeGeometry* FUN_00559450();
 };
 struct TreePositions
 {
-    unsigned int FUN_0044ddc0();
-    NiPoint3Ex* GetElementAt(unsigned int);
 };
 struct BoundTreeBlock
 {
@@ -872,8 +849,6 @@ struct BoundTreeBlock
     TreeGeometryPtr geometry;
     TreePositions instances;
 };
-float __cdecl FUN_0040ebd0(float, float);
-float __cdecl FUN_00404010(float, float);
 struct TreeBoundsOwner
 {
     FUN_006240d0 ComputeTreeBounds(BoundTreeBlock* block);
@@ -953,10 +928,6 @@ struct NodeX : NiMemObject
     virtual void v59();
     virtual void v60();
     virtual void SetObjectBound(BoundsX);
-    void SetSize(unsigned int);
-    void AttachProperty(void*);
-    void Finish();
-    void Update(UpdateDataX&);
 };
 struct NewNodeX : NodeX
 {
@@ -1059,13 +1030,10 @@ struct EntryX
 struct ArrayX
 {
     EntryX*& GetAt(unsigned int);
-    unsigned int GetSize();
     int unk00, unk04, unk08, unk0c;
 };
 struct HolderX
 {
-    NodeX* GetRootNode();
-    NodeX* GetMenuRoot();
 };
 struct OwnerX
 {
@@ -1073,13 +1041,9 @@ struct OwnerX
     ArrayX entries;
     int unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c, unk40, unk44;
     bool loaded, built;
-    NiPtrS<HolderX>& GetHolder();
-    void Configure(PropertyX*, EntryX*);
     BoundsX GetBound(EntryX*);
-    void Refresh();
     void FUN_006f8c40();
 };
-void __cdecl SetupNode(NodeX*, int, int);
 
 struct S_00bb6050
 {

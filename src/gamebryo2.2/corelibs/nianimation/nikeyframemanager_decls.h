@@ -2,10 +2,10 @@
 #ifndef NIKEYFRAMEMANAGER_DECLS_H
 #define NIKEYFRAMEMANAGER_DECLS_H
 
+#include "fnv/decl/Twin_0044ddc0.h"
 class GlobalObject_00869f00
 {
   public:
-    unsigned int GetSize();
 };
 class NiNode;
 template <class T> class NiPointer

@@ -2,9 +2,9 @@
 // src/havok/physics/collide/query/collector/bodypaircollector/hkpallcdbodypaircollector.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/collector/bodypaircollector/hkpallcdbodypaircollector.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c90000.h"
 struct HkHolder;
 HkHolder* FUN_00c85750();
-void ResizeAudioStream(void* allocator, void* list, unsigned int elemSize);
 
 struct HkHolder
 {
@@ -55,7 +55,7 @@ void FUN_00cb7550_cls::AppendTailPair(ListNode* a, ListNode* b)
     HkHolder* holder = reinterpret_cast<HkHolder*>(FUN_00c85750());
     if (list->m_iArrayLength == (int)(list->m_uCapFlags & 0x3fffffffu))
     {
-        ResizeAudioStream(holder->m_pAllocator, list, 0x10);
+        ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(list), 0x10);
     }
     TailPair* slot = list->m_pData + list->m_iArrayLength;
     list->m_iArrayLength++;

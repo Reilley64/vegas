@@ -1,5 +1,12 @@
 // fallout_shared/tesweightform.cpp: TESWeightForm, Modifier, WeightComparison (6 functions)
 
+#include "fnv/decl/FUN_0048ee50_Class.h"
+#include "fnv/decl/FUN_004f5d90_shell.h"
+#include "fnv/decl/TimeoutTimer.h"
+#include "fnv/symbols_00402000.h"
+#include "fnv/symbols_0047a000.h"
+#include "fnv/symbols_00709000.h"
+#include "fnv/symbols_011de000.h"
 #include "tesweightform_decls.h"
 
 // @fnv 0x0048ebc0
@@ -63,7 +70,7 @@ float TESWeightForm::GetWeightForForm(TESForm* form, bool useFormWeight)
         case 0x29: {
             TESForm* form29 = form;
             if (useFormWeight)
-                weight = form29->GetFieldB8Float();
+                weight = reinterpret_cast<::FUN_0048ee50_Class *>((form29))->GetFieldB8Float();
             break;
         }
         }
@@ -72,7 +79,7 @@ float TESWeightForm::GetWeightForForm(TESForm* form, bool useFormWeight)
     if (weight != 0.0)
         return weight;
     else if (weightForm)
-        return ((ActiveEffect*)weightForm)->GetAge();
+        return reinterpret_cast<::TimeoutTimer *>((((ActiveEffect*)weightForm)))->FUN_006b9130();
     else
         return -1.0f;
 }
@@ -83,20 +90,18 @@ struct BaseFormComponent
 };
 struct Modifier
 {
-    void SetValue(float);
     void SetWeight(BaseFormComponent*);
 };
 
 extern int DAT_0101a4c4;
-void __fastcall FUN_008c6060(void* pThis);
 
 // Runs the BaseFormComponent constructor, installs the vtable pointer from DAT_0101a4c4, calls FUN_008c6060, and returns pThis.
 // @fnv 0x0048eac0
 void* __fastcall FUN_0048eac0(void* pThis)
 {
-    ((BaseFormComponent*)pThis)->BaseFormComponent::BaseFormComponent();
+    ::FUN_00402d30((int *)(((BaseFormComponent*)pThis)));
     *(int**)pThis = &DAT_0101a4c4;
-    FUN_008c6060(pThis);
+    reinterpret_cast<::TimeoutTimer *>((pThis))->FUN_00910b10();
     return pThis;
 }
 
@@ -120,9 +125,6 @@ FUN_0048eaf0::~FUN_0048eaf0()
 }
 
 class PC7d;
-extern PC7d* g_thePlayer;
-void __cdecl FUN_00709470(int, int, int, int, int, int);
-void __cdecl FUN_0047a560(int, PC7d*, int);
 struct S00517380
 {
     void FUN_00517380(int, PC7d*);
@@ -131,10 +133,10 @@ struct S00517380
 // @fnv 0x00517380
 void S00517380::FUN_00517380(int a1, PC7d* a2)
 {
-    if (a1 != 0 && a2 == g_thePlayer)
+    if (a1 != 0 && a2 == (*reinterpret_cast<::PC7d * *>(&::_g_thePlayer)))
     {
-        FUN_00709470(1, a1, 0, 0, 1, 0);
-        FUN_0047a560(a1, a2, 0);
+        ::FUN_00709470(1, a1, 0, 0, 1);
+        ::FUN_0047a560((::TESObjectREFR *)(a1), (::TESObjectREFR *)(a2), (::BGSOpenCloseForm *)(0));
     }
 }
 
@@ -145,7 +147,7 @@ void Modifier::SetWeight(BaseFormComponent* component)
     TESWeightForm* weightForm = dynamic_cast<TESWeightForm*>(component);
     if (!weightForm)
         return;
-    SetValue(weightForm->GetWeightForForm());
+    reinterpret_cast<::FUN_004f5d90_shell *>(this)->FUN_004f5d90(reinterpret_cast<::TimeoutTimer *>((void *)(weightForm))->FUN_006b9130());
 }
 
 struct WeightComparison : TESWeightForm
@@ -159,7 +161,7 @@ bool WeightComparison::FUN_0048eb60(BaseFormComponent* component)
     TESWeightForm* other = dynamic_cast<TESWeightForm*>(component);
     if (!other)
         return true;
-    if (GetWeightForForm() != other->GetWeightForForm())
+    if (reinterpret_cast<::TimeoutTimer *>((void *)this)->FUN_006b9130() != reinterpret_cast<::TimeoutTimer *>((void *)(other))->FUN_006b9130())
         return true;
     return false;
 }

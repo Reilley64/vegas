@@ -4,7 +4,15 @@
 
 // src/havok/physics/collide/agent/heightfieldagent/hkpheightfieldagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/heightfieldagent/hkpheightfieldagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern char DAT_010ceaa8[];
+#include "fnv/decl/FUN_00cfbbe0_cls.h"
+#include "fnv/decl/hkTransformCB22.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d31000.h"
+#include "fnv/symbols_00d32000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_01076000.h"
+#include "fnv/symbols_010ce000.h"
+#include "fnv/symbols_01268000.h"
 struct hkMemoryAllocator {
     virtual ~hkMemoryAllocator();
 };
@@ -13,7 +21,6 @@ struct BSAudio {
     hkMemoryAllocator* unk10;
 };
 BSAudio* FUN_00c85750();
-void __cdecl FUN_00c908c0(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
 struct SizeSource {
     virtual void v00(); virtual void v01(); virtual void v02(); virtual void v03();
     virtual void v04(); virtual void v05(); virtual void v06(); virtual void v07();
@@ -37,7 +44,7 @@ struct hkArrayU16 {
         int c = m_iCapacityState & 0x3fffffff;
         if (c < n) {
             c = c * 2;
-            FUN_00c908c0(*alloc, this, n < c ? c : n, 2);
+            ::FUN_00c908c0((::SpawnedObject *)&(*alloc), (::SpawnedArray *)(void *)(this), n < c ? c : n, 2);
         }
     }
     __forceinline void SetSizeAndGrow(int n, const unsigned short& fill)
@@ -60,17 +67,7 @@ struct FUN_00d32060_Class {
 
     FUN_00d32060_Class* Init(const SourceRef& src, int b, int c, int flag);
 };
-extern void __cdecl FUN_00d319e0(void*, void*, void*, void*);
-void __stdcall FUN_00d32170(void* apArg1, void* apArg2, void* apArg3, void* apArg4);
 typedef void (*S_00d321e0_Func)();
-void FUN_00d32190();
-void FUN_00d32370();
-void FUN_00d323b0();
-void FUN_00d323f0();
-void AllocateTargetObj();
-void FUN_00d317d0();
-void FUN_00d319e0();
-void FUN_00d31d30();
 struct S_00d321e0_AgentFuncs {
     S_00d321e0_Func m_pCreateFunc;
     S_00d321e0_Func m_pQueryPenetrationsFunc;
@@ -80,10 +77,7 @@ struct S_00d321e0_AgentFuncs {
     bool m_bIsPredictive;
 };
 struct S_00d321e0_Dispatcher {
-    void FUN_00cfbbe0(S_00d321e0_AgentFuncs& f, int typeA, int typeB);
 };
-void FUN_00d321e0(S_00d321e0_Dispatcher* dispatcher);
-extern float g_D323B0MaxDistance;
 struct D323B0CollectorBase {
     virtual void unk00();
     virtual void unk04();
@@ -91,7 +85,7 @@ struct D323B0CollectorBase {
 
     float m_fEarlyOutDistance;
 
-    D323B0CollectorBase() : m_fEarlyOutDistance(g_D323B0MaxDistance) {}
+    D323B0CollectorBase() : m_fEarlyOutDistance(::DAT_0104da48) {}
 };
 struct D323B0Collector : D323B0CollectorBase {
     int m_iData;
@@ -102,7 +96,6 @@ struct D323B0Collector : D323B0CollectorBase {
     virtual void unk04();
 };
 void __cdecl FUN_00d319e0(int a, int b, int c, D323B0CollectorBase* collector);
-void __cdecl FUN_00d323b0(int aiArg1, int aiArg2, int aiArg3, int aiData);
 struct Handler {
     virtual void v0();
     virtual void v1();
@@ -119,27 +112,22 @@ struct Owner {
     int count;
     void NotifyAndClear(int value);
 };
-extern "C" void __cdecl FUN_00d31d30(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4);
 // Forwards all five arguments unchanged to FUN_00d31d30.
 // @fnv 0x00d32030
 extern "C" void __stdcall FUN_00d32030(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4)
 {
     FUN_00d31d30(arg0, arg1, arg2, arg3, arg4);
 }
-extern "C" void __cdecl FUN_00d317d0(void* arg0, void* arg1, void* arg2, void* arg3);
 // @fnv 0x00d32150
 extern "C" void __stdcall FUN_00d32150(void* arg0, void* arg1, void* arg2, void* arg3)
 {
-    FUN_00d317d0(arg0, arg1, arg2, arg3);
+    ::FUN_00d317d0((int)(arg0), (int)(arg1), (int)(arg2), arg3);
 }
-extern char DAT_010ce81c;
-void __cdecl FUN_00d317d0(int a1, int a2, int a3, void* a4);
 struct FUN_00d32370_cls {
     void* vt;
     unsigned char flag;
     int d;
 };
-void __cdecl FUN_00d32370(int aiArg1, int aiArg2, int aiArg3, int a4);
 #include <xmmintrin.h>
 namespace N {
 union __declspec(intrin_type) __declspec(align(16)) __m128 {float m128_f32[4];};
@@ -149,14 +137,12 @@ __m128 _mm_shuffle_ps(__m128,__m128,int); __m128 _mm_unpackhi_ps(__m128,__m128);
 __m128 _mm_load_ss(const float*);
 }
 }
-extern unsigned long DAT_0126835c;
 extern const char DAT_010cea38[];
 extern const char DAT_010cea7c[];
 extern const char DAT_010cea6c[];
 extern const char DAT_010cea60[];
 extern const char DAT_010cea54[];
 extern const char DAT_010cea48[];
-extern const char DAT_01076f38[];
 extern const char str_010cea1c[];
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 struct MonitorCommand {
@@ -223,7 +209,6 @@ struct hkTransform {
         m_kColumn2.m_vComponents=other.m_kColumn2.m_vComponents;
         m_vTranslation.m_vComponents=other.m_vTranslation.m_vComponents;
     }
-    void FUN_00cb22f0(const void* b, const void* a);
 };
 __forceinline void hkVector4::SetRotatedDirection(const hkTransform& a, const hkVector4& b) {
     N::__m128 y = N::_mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x55);
@@ -324,7 +309,6 @@ struct hkpCdBodyPairCollector {
     virtual void v00();
     virtual void AddCdBodyPair(const hkpCdBody& bodyA, const hkpCdBody& bodyB);
 };
-void __cdecl FUN_00d317d0(int a1, int a2, int a3, void* a4);
 
 // @fnv 0x00d319e0
 void __cdecl FUN_00d319e0(int a, int b, int c, D323B0CollectorBase* collector)
@@ -338,7 +322,7 @@ void __cdecl FUN_00d319e0(int a, int b, int c, D323B0CollectorBase* collector)
     const hkpShape* shapeA = bodyA->m_pCollisionShape;
     hkpHeightFieldShape* shapeB = (hkpHeightFieldShape*)bodyB->m_pCollisionShape;
     CollisionScratch scratch;
-    scratch.transform.FUN_00cb22f0(bodyB->m_pMotionState, bodyA->m_pMotionState);
+    reinterpret_cast<::hkTransformCB22 *>(&(scratch.transform))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(bodyB->m_pMotionState)), (*(const ::hkTransformCB22 *)(bodyA->m_pMotionState)));
 
     int count = ((hkpShape*)shapeA)->getNumCollisionSpheres();
 
@@ -399,7 +383,7 @@ void __cdecl FUN_00d319e0(int a, int b, int c, D323B0CollectorBase* collector)
     FUN_00c85750()->unk00 = (int)hitResults;
     FUN_00c85750()->unk00 = (int)sphereBuffer;
 
-    StringCursor::GetMonitorStream().timerEnd(DAT_01076f38);
+    StringCursor::GetMonitorStream().timerEnd(::str_01076f38);
 }
 
 struct Scale {

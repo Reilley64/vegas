@@ -5,6 +5,15 @@
 
 // src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00c6cd00_cls.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00cef000.h"
+#include "fnv/symbols_00d5a000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01013000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_0104d000.h"
 struct Object
 {
 };
@@ -143,7 +152,6 @@ struct S_00cee1c0_Arr
     unsigned int m_cap;
     unsigned int* m_pTrailingData;
 };
-S_00cee1c0_Router* FUN_00c85750();
 float __cdecl FUN_00cedec0(S_00cee1c0_Arr* arr, int unk, float value);
 void __cdecl ProcessArrayWithValue(unsigned int* source, int count, int unk, float value);
 namespace fnv_anon_00cec3d0 {}
@@ -202,6 +210,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
 };
+#include "fnv/symbols_simd.h"
 extern "C"
 {
     __m128 _mm_setr_ps(float, float, float, float);
@@ -267,7 +276,6 @@ struct Bounds
     Vector lo, hi;
 };
 extern const Vector DAT_01017d10;
-void FUN_00d5ac50(char*, Matrix*, Vector*, Vector*, Vector*);
 struct Shape
 {
     virtual void v0();
@@ -283,8 +291,6 @@ void FUN_00cedae0(Shape* shape, const Matrix* input, Vector* outA, Vector* outB)
 
 extern "C" void _mm_store_ps(float*, __m128);
 
-extern const float DAT_01011d78;
-extern const double DAT_010240b0;
 struct __declspec(align(16)) CE50Vector
 {
     float x, y, z, w;
@@ -292,7 +298,6 @@ struct __declspec(align(16)) CE50Vector
 struct CE50Matrix
 {
     CE50Vector row0, row1, row2;
-    void FUN_00c6cd00(const CE50Matrix* source);
     void Subtract(const CE50Matrix* source);
 };
 struct CE50Body
@@ -349,7 +354,7 @@ int __cdecl FUN_00cece50(float* src, float mass, float thickness, CE50Body* out,
         FUN_00cebaf0(src, outerVolume, &outer);
         FUN_00cebaf0(&inner.x, innerVolume, &inside);
         _mm_store_ps(&out->center.x, _mm_setzero_ps());
-        out->inertia.FUN_00c6cd00(&outer.inertia);
+        reinterpret_cast<::FUN_00c6cd00_cls *>(&(out->inertia))->FUN_00c6cd00((const ::FUN_00c6cd00_cls *)(const ::CE50Matrix *)(&outer.inertia));
         out->inertia.Subtract(&inside.inertia);
         out->mass = outer.mass - inside.mass;
         out->volume = outer.volume - inside.volume;
@@ -372,8 +377,6 @@ extern "C"
     __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 }
 
-extern const float DAT_0104da48;
-extern const float DAT_01016248;
 extern const __m128 DAT_010c44d0;
 extern const __m128 DAT_010ec7f0;
 __declspec(noinline) void __cdecl FUN_00cec7f0(int first, int count, float* b, float* a)
@@ -390,7 +393,7 @@ __declspec(noinline) void __cdecl FUN_00cec7f0(int first, int count, float* b, f
     }
     if (count != 0)
     {
-        __m128 half = _mm_set_ps1(DAT_01016248);
+        __m128 half = _mm_set_ps1(::fnv_00c88020::DAT_01016248);
         _mm_store_ps(b, _mm_add_ps(_mm_mul_ps(_mm_sub_ps(DAT_010ec7f0, half), lo), _mm_mul_ps(half, hi)));
         _mm_store_ps(a, _mm_sub_ps(hi, lo));
     }
@@ -612,7 +615,7 @@ int __cdecl FUN_00ced8e0(State* self, float value, OutBlock* out)
     }
     out->unk00 = r;
     out->unk04 = value;
-    w.solver.FUN_00cec6b0(value, value / r, (float*)&out->vec10, &out->m00);
+    reinterpret_cast<::FUN_00cec6b0_cls *>(&(w.solver))->FUN_00cec6b0(value, value / r, (float*)&out->vec10, &out->m00);
     out->vec10 = _mm_add_ps(out->vec10, bv);
     float* bf = (float*)&b;
     float* u = &w.mat.row0_0;
@@ -657,8 +660,6 @@ struct S00cf0690_Xf
 {
     S00cf0690_Vec row0, row1, row2, translation;
 };
-void __cdecl FUN_00ceff00(void*, const S00cf0690_Xf*, float, S00cf0690_Mass*);
-extern const float DAT_01013ea4;
 static __declspec(noinline) void FUN_00cebfd0(S00cf0690_Mass* p, float density)
 {
     float newMass = density * p->volume;
@@ -686,9 +687,9 @@ void __cdecl FUN_00cf0690(void* shape, float mass, S00cf0690_Mass* result)
     *(__m128*)&t.row2 = _mm_setzero_ps();
     t.row2.z = 1.0f;
     *(__m128*)&t.translation = _mm_setzero_ps();
-    FUN_00ceff00(shape, &t, 0.0f, &props);
+    ::FUN_00ceff00((::HkShape *)(shape), (*(const ::Mat4CE *)(&t)), 0.0f, (*(::MassBody *)(&props)));
     if (props.volume == 0.0f)
-        FUN_00ceff00(shape, &t, DAT_01013ea4, &props);
+        ::FUN_00ceff00((::HkShape *)(shape), (*(const ::Mat4CE *)(&t)), ::DAT_01013ea4, (*(::MassBody *)(&props)));
     if (props.volume != 0.0f)
     {
         FUN_00cebfd0(&props, mass / props.volume);

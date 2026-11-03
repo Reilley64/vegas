@@ -19,6 +19,7 @@ class BGSOpenCloseForm
     BGSOpenCloseForm();
     ~BGSOpenCloseForm();
 };
+class TESSound;
 class TESObjectACTI : public TESBoundAnimObject
 {
   public:
@@ -36,6 +37,8 @@ class TESObjectACTI : public TESBoundAnimObject
     BGSTalkingActivator* radioStation;
     String activationPrompt;
     void SetActivateSound(TESSound* sound);
+public:
+    void SetLoopingSound(::TESSound *);
 };
 typedef char modelloader_acti_base_size[(sizeof(TESBoundAnimObject) == 0x30) ? 1 : -1];
 typedef char modelloader_acti_openclose_size[(sizeof(BGSOpenCloseForm) == 4) ? 1 : -1];

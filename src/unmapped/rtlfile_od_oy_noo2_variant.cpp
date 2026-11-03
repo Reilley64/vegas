@@ -5,9 +5,9 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_0040f000.h"
 unsigned int gm_GetCurrentThreadId();
 int FUN_0043b460(const long* lock, long zero, long owner);
-void FUN_0040fbe0();
 
 struct FUN_0078d200_cls
 {

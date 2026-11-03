@@ -3,6 +3,18 @@
 // byte only under /MT /O2 /GS /EHsc /Gy (unit src/gamebryo2.2/corelibs/nianimation/nitransformcontroller.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004f0180_Class.h"
+#include "fnv/decl/FUN_00a38ef0_Class.h"
+#include "fnv/decl/FUN_00a39030_cls.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/NiTimeControllerA362.h"
+#include "fnv/decl/fnv_00a3fa30__FUN_00a3fa30.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a35000.h"
 #include "nitransformcontroller_nimemobject_decl.h"
 #include "nitransformcontroller_types_NiCloningProcess.h"
 #include "nitransformcontroller_types_NiBoolInterpController.h"
@@ -30,12 +42,11 @@ NiObject* __cdecl FUN_00a36810()
 // FUN_00a360b0 - forwards its single argument to a helper and reports the
 // helper's byte sized result as a bool.
 
-extern "C" unsigned char __stdcall Helper00a39030(void* pObject);
 
 // @fnv 0x00a360b0
 bool __stdcall FUN_00a360b0(void* pObject)
 {
-    return Helper00a39030(pObject);
+    return ((unsigned char)(reinterpret_cast<::FUN_00a39030_cls *>((pObject))->IsCompatibleWith({})));
 }
 
 class NiTransformData;
@@ -43,7 +54,6 @@ class NiTransformData;
 // Constructor NiTransformInterpolator::NiTransformInterpolator(NiTransformData*)
 struct NiTransformInterpolatorMem
 {
-    NiTransformInterpolator* FUN_00a3fa30(NiTransformData* pkData);
 };
 
 // NiInterpolator virtual table up to Collapse (slot 47)
@@ -107,27 +117,26 @@ struct FUN_00a361c0_cls : public NiSingleInterpController
 // @fnv 0x00a361c0
 void FUN_00a361c0_cls::FUN_00a361c0(NiStream& kStream)
 {
-    NiSingleInterpController::LinkObject(kStream);
+    ::FUN_00a35850();
 
     unsigned int uiFileVersion = *(unsigned int*)((char*)&kStream + 0xd8);
     if (uiFileVersion < 0x0a010068)
     {
         NiTransformData* pkData = (NiTransformData*)kStream.GetLoadedObject();
         void* pMem = NiMemObject::operator new(0x48);
-        m_spControllerInterpolator = pMem ? ((NiTransformInterpolatorMem*)pMem)->FUN_00a3fa30(pkData) : 0;
+        m_spControllerInterpolator = pMem ? ((::NiTransformInterpolator *)(new ((void *)(((NiTransformInterpolatorMem*)pMem))) ::fnv_00a3fa30::FUN_00a3fa30(pkData))) : 0;
         ((NiInterpolatorVirtuals*)m_spControllerInterpolator.m_pObject)->Collapse();
     }
 }
 
 struct FUN_00a367c0_helper
 {
-    void FUN_00a38ef0(ObjectA36810* pkClone, CloningProcess& cloning);
 };
 
 // @fnv 0x00a367c0
 ObjectA36810* __fastcall FUN_00a367c0(ObjectA36810* pThis, void*, CloningProcess& cloning)
 {
     ObjectA36810* pNewInstance = new ObjectA36810;
-    ((FUN_00a367c0_helper*)pThis)->FUN_00a38ef0(pNewInstance, cloning);
+    reinterpret_cast<::FUN_00a38ef0_Class *>((((FUN_00a367c0_helper*)pThis)))->FUN_00a38ef0((::FUN_00a38ef0_Class *)(pNewInstance), cloning);
     return pNewInstance;
 }

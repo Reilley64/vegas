@@ -3,6 +3,7 @@
 #define FNV_COMBATGOAL_H
 
 
+#include "fnv/symbols_005b5000.h"
 #include "layout_support.h"
 
 // Authored layout header for fallout/ai/combat/combatgoal.cpp.
@@ -14,7 +15,6 @@
 
 // Warning() comes from the original script unit; declared here because the
 // script closure is not part of this unit's header dependency set.
-int Warning(const char* format, ...);
 
 class UnsignedIdHandle;
 

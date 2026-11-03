@@ -5,6 +5,15 @@
 #ifndef FNV_TILERECT_H
 #define FNV_TILERECT_H
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a01230_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a074d0_shell.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00a5bca0_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_0109b000.h"
 #include "layout_support.h"
 
 class Tile;
@@ -104,7 +113,6 @@ class NiObjectNET : public NiMemObject
     virtual void vfn_35();
     virtual void vfn_36();
     unsigned char layoutPadding4[0x2C];
-    bool AddExtraData(NiExtraData*);
 };
 
 class NiAVObject : public NiObjectNET
@@ -127,7 +135,6 @@ class NiAVObject : public NiObjectNET
         SetBit(1, value);
     }
     void SetName(const NiFixedString&);
-    void UpdateSceneObject();
 };
 
 class NiNode : public NiAVObject
@@ -166,7 +173,6 @@ class TileListBoxCalls
 };
 
 class NiFixedString;
-extern NiFixedString EmptyFS;
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 class NiFixedString
@@ -176,13 +182,13 @@ class NiFixedString
     __forceinline NiFixedString(const char* str)
     {
         if (!str)
-            m_kHandle = EmptyFS.m_kHandle;
+            m_kHandle = (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle;
         else
             m_kHandle = NiGlobalStringTable::AddString(str);
     }
     __forceinline ~NiFixedString()
     {
-        if (m_kHandle == EmptyFS.m_kHandle)
+        if (m_kHandle == (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             return;
         volatile long* refs = (volatile long*)(m_kHandle - 8);
         InterlockedDecrement(refs);
@@ -205,9 +211,6 @@ class Tile
     virtual Tile* SetTraitValue(int, float, const char*);
 
     NiNode* GetUnderlyingNode();
-    bool ContainsTrait(int);
-    void Set(int, float, bool);
-    void SetTileType(int);
     Tile* SetTraitValueAndText(int, float, const char*);
 
   private:

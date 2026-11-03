@@ -2,6 +2,17 @@
 #ifndef FNV_TESOBJECTWEAP_H
 #define FNV_TESOBJECTWEAP_H
 
+#include "fnv/decl/AmmoOwner.h"
+#include "fnv/decl/FUN_004fe160_cls.h"
+#include "fnv/decl/FUN_00524b40_class.h"
+#include "fnv/decl/FUN_00645c20_Class.h"
+#include "fnv/decl/FUN_00645c60_shell.h"
+#include "fnv/decl/FUN_00645c80_Class.h"
+#include "fnv/decl/FUN_00645ca0_Class.h"
+#include "fnv/decl/FUN_00645cc0_class.h"
+#include "fnv/decl/FUN_00645ce0_class.h"
+#include "fnv/decl/Thing.h"
+#include "fnv/symbols_004c0000.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "TESForm.h"
@@ -865,17 +876,6 @@ class TESObjectWEAP : public TESBoundObject,
     // base BGSBipedModelList at +0xE0, size 8
     // base BGSPickupPutdownSounds at +0xE8, size 12
     int FUN_00446390();
-    unsigned short GetShortAtOffset1C0();
-    float GetField14C();
-    float GetField150Float();
-    float GetField154();
-    bool IsRangedWeapon();
-    bool GetIsAutomaticWeapon();
-    bool GetBurstShot();
-    int GetClipRounds(bool extended);
-    TESAmmo* GetCurrentAmmo(Actor* actor);
-    BGSProjectile* GetProjectileData(Actor* actor);
-    float GetProjectileData();
     unsigned char GetDamageForActor(bool split, bool unknown, Actor* actor);
     WeaponProperties data;                         // +0xF4, 204 bytes
     WeaponCriticalData m_kCriticalData;            // +0x1C0, 16 bytes
@@ -1166,6 +1166,8 @@ class TESObjectWEAP : public TESBoundObject,
     // LoadGame
     // TESObjectWEAP& __cdecl TESObjectWEAP::*(const TESObjectWEAP&)
     // void __cdecl TESObjectWEAP::*()
+public:
+    int GetReloadAnim(bool);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESObjectWEAP) == 904);

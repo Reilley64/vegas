@@ -5,6 +5,29 @@
 
 // src/havok/physics/dynamics/entity/hkprigidbody.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/entity/hkprigidbody.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/FUN_005616d0_Owner.h"
+#include "fnv/decl/FUN_00561800_Class.h"
+#include "fnv/decl/FUN_00c86420_Class.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00c9cce0.h"
+#include "fnv/decl/FUN_00ca9360_cls.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FlagState.h"
+#include "fnv/decl/SStringPtr.h"
+#include "fnv/decl/S_00ca8f50_Src.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/WorldWithPending.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpEntityC9C.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00ca8000.h"
+#include "fnv/symbols_00d21000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010c6000.h"
+#include "fnv/symbols_010c7000.h"
+#include "fnv/symbols_01268000.h"
 struct FUN_00ca86c0_class
 {
     unsigned int __thiscall FUN_00ca86c0();
@@ -91,7 +114,6 @@ struct FUN_00ca80b0_cls
 
     int* FUN_00ca80b0();
 };
-extern float DAT_01016248;
 struct Vector3
 {
     float x, y, z;
@@ -192,8 +214,9 @@ struct Owner
     unsigned int unkd8;
     unsigned int unkdc;
     Subobject subobjectE0;
-    void FUN_00ca8150(unsigned int value, Vec4* result);
     void FUN_00ca85f0(unsigned int value);
+public:
+    ::Owner *FUN_00cf5ea0();
 };
 struct CA86E0Object
 {
@@ -412,7 +435,6 @@ struct FUN_00ca8800_Class
     AudioInterface interfaceE0;
     void FUN_00ca8800(int value);
 };
-extern "C" void __cdecl FUN_00ca8700(FUN_00ca8800_Class* self);
 struct CA8830Member
 {
     virtual void unk00();
@@ -431,7 +453,6 @@ struct CA8830Member
     virtual void setValue(int value);
 };
 struct CA8830Object;
-void __cdecl FUN_00ca8700(CA8830Object* obj);
 struct CA8830Object
 {
     char unk000[0xe0];
@@ -463,7 +484,6 @@ struct SubObject
 {
     SubObjectVtbl* m_pVtbl;
 };
-void __cdecl FUN_00ca8700(void* apOwner);
 struct FUN_00ca8860_cls
 {
     int unk00;
@@ -580,7 +600,6 @@ struct CA8B80Queue
     int unk90;
     void* m_bSlotEnabled;
 
-    void Push(CA8B80Command* pkCommand);
 };
 struct CA8B80Handler
 {
@@ -667,7 +686,6 @@ struct CA8B80Object
     int unkDC;
     CA8B80Handler m_handler;
 
-    void Update();
     void FUN_00ca8b80(const CA8B80Point3& kPos);
 };
 struct FUN_00ca9240_Base
@@ -920,11 +938,10 @@ struct S_00ca8630_Sub
     unsigned char unk09;
     unsigned short unk0a;
     unsigned short unk0c;
-    void SetFlagBits(int a, int b, int c);
     __forceinline void Set(unsigned char v, int a, int b, int c)
     {
         unk09 = v;
-        SetFlagBits(a, b, c);
+        reinterpret_cast<::FlagState *>(this)->SetFlagBits(a, b, c);
     }
 };
 struct S_00ca8630_Class
@@ -1011,7 +1028,6 @@ struct CA8890Member
     virtual void setValue(int value);
 };
 struct CA8890Object;
-void __cdecl FUN_00ca8700(CA8890Object* obj);
 struct CA8890Object
 {
     int unk00;
@@ -1159,7 +1175,6 @@ struct CA92A0MemoryRouter
     }
 };
 extern "C" CA92A0MemoryRouter& __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(CA92A0Allocator* alloc, void* array, int numElements, int sizeElem);
 struct CA92A0Element
 {
     int unk00;
@@ -1190,7 +1205,7 @@ struct CA92A0Array
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, sizeof(CA92A0Element));
+            ::FUN_00c908c0((::SpawnedObject *)(::CA92A0Allocator *)(&alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(CA92A0Element));
         }
     }
 
@@ -1258,7 +1273,6 @@ struct CA92A0Allocator
     virtual void v00();
     virtual void* Alloc(unsigned int auiSize);
 };
-extern int DAT_010c6c64;
 static __forceinline void memCpy16NonEmpty(void* dst, const void* src, int numQuads)
 {
     const unsigned int* s = (const unsigned int*)src;
@@ -1323,11 +1337,9 @@ __declspec(align(16)) struct FnvScratch
     int unkB4;
     int unkB8;
     int unkBC;
-    void FUN_00cf5ea0();
 };
 struct FnvSubObj
 {
-    void FUN_00cb0c10(unsigned int auiFlags);
 };
 struct FnvThing
 {
@@ -1344,14 +1356,11 @@ struct FUN_00ca90c0_cls
     int unk0c;
 
     FUN_00ca90c0_cls* Clone();
-    void WriteToInfo(FnvScratch* pScratch);
-    FUN_00ca90c0_cls* FUN_00ca8c90(FnvScratch* pScratch);
     virtual void v00();
     virtual void v04();
     virtual void v08();
     virtual void v0C();
     virtual int v10();
-    void CopyEntriesFrom(FUN_00ca90c0_cls* pSrc);
 };
 class hkBoolCA8B
 {
@@ -1400,7 +1409,6 @@ class HostCA8B
 
 #include <xmmintrin.h>
 #include <math.h>
-extern "C" int DAT_01268370;
 extern "C" double __cdecl sqrt(double);
 static inline float CA8Sqrtf(float x)
 {
@@ -1466,7 +1474,7 @@ struct CA8Owner
 void CA8Owner::FUN_00ca8150(CA8Shape* seg, CA8Vec4* dst)
 {
     CA8Aabb pair;
-    seg->getAabb(&DAT_01268370, 0.0f, &pair);
+    seg->getAabb(&::DAT_01268370, 0.0f, &pair);
     __m128 a = *(const __m128*)&pair.m_kMinimumCorner;
     __m128 b = *(const __m128*)&pair.m_kMaximumCorner;
     _mm_store_ps(&dst->x, _mm_sub_ps(b, a));
@@ -1500,13 +1508,10 @@ struct Transform181
 };
 struct Ref181
 {
-    void FUN_00c90510() throw();
-    void removeReference() throw();
 };
 struct UFloat181
 {
     unsigned char value;
-    void FUN_00ca9360(const float* value) throw();
 };
 struct Motion181
 {
@@ -1568,7 +1573,6 @@ struct Motion181
     int unk118;
     unsigned short unk11c, solverDeactivation;
     int unk120, unk124, unk128, unk12c;
-    void FUN_00c86420(int) throw();
 };
 struct FixedMotion181 : Motion181
 {
@@ -1658,12 +1662,7 @@ struct Entity181 : Root181
     int unkd4, unkd8, unkdc;
     Motion181 motion;
     Ref181* localFrame;
-    void FUN_00c9cce0(void* shape) throw();
 };
-void __cdecl FUN_00ca8240(int type, const V181* position, const V181* rotation, float mass, const Matrix181* inertia,
-                          const V181* center, float maxLinear, float maxAngular, Motion181* motion) throw();
-unsigned char __cdecl GetSubtreeDepth(void* shape) throw();
-extern float DAT_0104da48;
 struct Error181
 {
     virtual void unknown0();
@@ -1671,15 +1670,12 @@ struct Error181
     virtual void unknown8();
     virtual void Report(int severity, unsigned int id, const char* text, const char* file, int line) throw();
 };
-extern Error181* DAT_01268360;
 struct ErrorStream181
 {
     void* vptr;
     char* buffer;
     int length, capacity;
     ErrorStream181(char* buffer, int capacity) throw();
-    void FUN_00cc01c0(const char* text) throw();
-    void FUN_00cc00e0() throw();
 };
 static __declspec(noinline) void ComputeScaledMinimum(Output* coll, const V181& he)
 {
@@ -1687,65 +1683,60 @@ static __declspec(noinline) void ComputeScaledMinimum(Output* coll, const V181& 
     float hi = he.x > he.y ? he.x : he.y;
     if (he.z > hi)
         hi = he.z;
-    coll->value = lowerPairReversed(hi * DAT_01016248, lo);
+    coll->value = lowerPairReversed(hi * ::fnv_00c88020::DAT_01016248, lo);
     coll->unk48 = coll->unk44;
 }
 struct S00ca8c90_Body : Entity181
 {
     virtual void slot0();
     S00ca8c90_Body* FUN_00ca8c90(const CInfo181& info);
-    void OnTrigger(const V181*) throw();
-    void FUN_00561800(const V181*) throw();
-    void FUN_00ca8630(bool enabled) throw();
-    void FUN_00ca8150(void* shape, V181* result) throw();
 };
-extern void* DAT_010c7888;
 // @fnv 0x00ca8c90
 S00ca8c90_Body* S00ca8c90_Body::FUN_00ca8c90(const CInfo181& info)
 {
-    FUN_00c9cce0(info.shape);
-    *(void**)this = &DAT_010c7888;
+    new ((void *)this) ::FUN_00c9cce0((const ::hkpShape *)(info.shape));
+    *(void**)this = &(*reinterpret_cast<void * *>(&::DAT_010c7888));
     response = info.response;
     responseCount = info.responseCount;
     userData = info.userData;
     Ref181* frame = info.localFrame;
     if (frame)
     {
-        frame->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((frame))->FUN_00c90510();
         if (localFrame)
-            localFrame->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((localFrame))->FUN_00c905b0();
         localFrame = frame;
-        frame->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((frame))->FUN_00c90510();
     }
     if (info.motionType == 5)
     {
         FixedMotion181* fixed = new (&motion) FixedMotion181(&info.position, &info.rotation);
-        fixed->maxLinear.FUN_00ca9360(&info.maxLinear);
-        fixed->maxAngular.FUN_00ca9360(&info.maxAngular);
-        fixed->FUN_00c86420(1);
+        reinterpret_cast<::FUN_00ca9360_cls *>(&(fixed->maxLinear))->FUN_00ca9360(&info.maxLinear);
+        reinterpret_cast<::FUN_00ca9360_cls *>(&(fixed->maxAngular))->FUN_00ca9360(&info.maxAngular);
+        reinterpret_cast<::FUN_00c86420_Class *>((fixed))->FUN_00c86420(1);
         transform = &motion.transform;
         if (info.penetrationDepth <= 0.0f)
-            penetrationDepth = DAT_0104da48;
+            penetrationDepth = ::DAT_0104da48;
         else
             penetrationDepth = info.penetrationDepth;
     }
     else
     {
-        FUN_00ca8240(info.motionType, &info.position, &info.rotation, info.mass, &info.inertia, &info.centerOfMass,
-                     info.maxLinear, info.maxAngular, &motion);
-        motion.FUN_00c86420(info.deactivationClass);
-        OnTrigger(&info.linearVelocity);
-        FUN_00561800(&info.angularVelocity);
+        ::FUN_00ca8240(info.motionType, &info.position, &info.rotation, info.mass, (const float *)(const ::Matrix181 *)(&info.inertia), &info.centerOfMass,
+                     info.maxLinear, info.maxAngular, (::MotionStorage *)(::Motion181 *)(&motion));
+        reinterpret_cast<::FUN_00c86420_Class *>(&(motion))->FUN_00c86420(info.deactivationClass);
+        reinterpret_cast<::FUN_005616d0_Owner *>(this)->OnTrigger((::TriggerContext *)(&info.linearVelocity));
+        reinterpret_cast<::FUN_00561800_Class *>(this)->FUN_00561800((::FUN_00561730_Obj *)(&info.angularVelocity));
         transform = &motion.transform;
         penetrationDepth = info.penetrationDepth;
     }
-    FUN_00ca8630(info.enableDeactivation != 0);
+    reinterpret_cast<::S_00ca8630_Class *>(this)->FUN_00ca8630(info.enableDeactivation != 0);
     motion.linearDamping = info.linearDamping;
     motion.angularDamping = info.angularDamping;
     if (shape)
     {
         V181 halfExtents;
-        FUN_00ca8150(shape, &halfExtents);
+        reinterpret_cast<::CA8Owner *>(this)->FUN_00ca8150((::CA8Shape *)(shape), (::CA8Vec4 *)(::V181 *)(&halfExtents));
         if (penetrationDepth <= 0.0f)
             ComputeScaledMinimum(reinterpret_cast<Output*>(&shape), halfExtents);
     }
@@ -1764,18 +1755,18 @@ S00ca8c90_Body* S00ca8c90_Body::FUN_00ca8c90(const CInfo181& info)
     if (info.shapeKeys >= 0)
     {
         shapeKeys = info.shapeKeys;
-        if (shapeKeys > 0 && shapeKeys < GetSubtreeDepth(info.shape))
+        if (shapeKeys > 0 && shapeKeys < ::GetSubtreeDepth((::FUN_00d21960_Node *)(info.shape)))
         {
             char buffer[512];
             ErrorStream181 stream(buffer, 512);
-            stream.FUN_00cc01c0(
+            reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(
                 "Shape key storage insufficient to store all possible branches. This may cause truncation of the shape key information.");
-            DAT_01268360->Report(1, 0x458a1bb2, buffer, ".\\Entity\\hkpRigidBody.cpp", 329);
-            stream.FUN_00cc00e0();
+            (*reinterpret_cast<::Error181 * *>(&::DAT_01268360))->Report(1, 0x458a1bb2, buffer, ".\\Entity\\hkpRigidBody.cpp", 329);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();
         }
     }
     else
-        shapeKeys = GetSubtreeDepth(info.shape);
+        shapeKeys = ::GetSubtreeDepth((::FUN_00d21960_Node *)(info.shape));
     responseModifier = info.responseModifier;
     return this;
 }

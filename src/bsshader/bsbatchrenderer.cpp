@@ -1,5 +1,52 @@
 // bsshader/bsbatchrenderer.cpp: BSBatchRenderer, BSBatchRenderer__GeometryGroup, Thing, BSBatchRenderer_AlphaDepth and more (43 functions)
 
+#include "fnv/decl/AA4610Allocator.h"
+#include "fnv/decl/AlphaList.h"
+#include "fnv/decl/BSShaderLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/BloodDraw_b7dde0.h"
+#include "fnv/decl/E6D310Renderer.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_0043a010_shell.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00844700_Class.h"
+#include "fnv/decl/FUN_00aa45a0_Class.h"
+#include "fnv/decl/FUN_00b63e90_cls.h"
+#include "fnv/decl/FUN_00e72c20_cls.h"
+#include "fnv/decl/FUN_00e879b0_cls.h"
+#include "fnv/decl/Lighting30Shader.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/Renderer.h"
+#include "fnv/decl/S_00b7ac20_Class.h"
+#include "fnv/decl/Shader.h"
+#include "fnv/decl/fnv_00853130__NiTMapBase.h"
+#include "fnv/decl/fnv_00b7dfe0__BSShader.h"
+#include "fnv/decl/rw_b7e1__Shell_b7e1.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_0043a000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00b4f000.h"
+#include "fnv/symbols_00b63000.h"
+#include "fnv/symbols_00b65000.h"
+#include "fnv/symbols_00b97000.h"
+#include "fnv/symbols_00b98000.h"
+#include "fnv/symbols_00b99000.h"
+#include "fnv/symbols_00bb9000.h"
+#include "fnv/symbols_00bd9000.h"
+#include "fnv/symbols_00e88000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_0106c000.h"
+#include "fnv/symbols_011ad000.h"
+#include "fnv/symbols_011c5000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_011ff000.h"
+#include "fnv/symbols_0126f000.h"
+#include "fnv/symbols_01272000.h"
 #include "bsbatchrenderer_types_BSBatchRenderer.h"
 #include "bsbatchrenderer_private.h"
 
@@ -7,13 +54,13 @@
 void BSBatchRenderer__GeometryGroup::ClearPassTextureSlots()
 {
     BSBatchRenderer__PassList* list = &PassTextureSlotCollection;
-    list->ResetPassList();
+    reinterpret_cast<::FUN_00b63e90_cls *>((list))->ReleasePoolNodes();
     list->m_pCachedListItems = list->pHead;
     list->pHead = 0;
     list->pTail = 0;
     list->Allocator.ItemUpdateArray = 0;
     if (m_pGroupRenderer)
-        m_pGroupRenderer->ClearAllGroups(0);
+        ::ClearAllGroups((::BSBatchRenderer_View_00b99bc0 *)(m_pGroupRenderer), 0, {});
     m_usPassCountLocal = 0;
 }
 
@@ -26,32 +73,6 @@ BSBatchRenderer__GeometryGroup::~BSBatchRenderer__GeometryGroup()
         delete m_pGroupRenderer;
         m_pGroupRenderer = 0;
     }
-}
-
-// @fnv 0x00b9a090
-bool BSBatchRenderer::FindPassBucket(unsigned int& uiGroupKey, int& bucketIndex, bool& alpha)
-{
-    bool result = true;
-    unsigned int groupIndex = 0;
-    if (!uiGroupKey)
-        result = FindOrCreateGroupBucket(uiGroupKey, bucketIndex);
-    else
-    {
-        reinterpret_cast<NiTPointerMap<unsigned int, TESObjectREFR*>*>(&m_kGroupIndexMap)
-            ->GetAt(uiGroupKey, reinterpret_cast<TESObjectREFR*&>(groupIndex));
-        if (!FindBucketIndex(groupIndex, bucketIndex))
-            result = FindOrCreateGroupBucket(uiGroupKey, bucketIndex);
-    }
-    if (result)
-    {
-        reinterpret_cast<NiTPointerMap<unsigned int, TESObjectREFR*>*>(&m_kGroupIndexMap)
-            ->GetAt(uiGroupKey, reinterpret_cast<TESObjectREFR*&>(groupIndex));
-        BSBatchRenderer__PassGroup* groups = reinterpret_cast<BSBatchRenderer__PassGroup*>(m_pPassBucketEntries);
-        BSBatchRenderer__RenderPass* pass =
-            reinterpret_cast<BSBatchRenderer__RenderPass*>(groups[groupIndex].buckets[bucketIndex].m_pRenderPass);
-        alpha = pass->pInfo->bAlpha;
-    }
-    return result;
 }
 
 // Scans the five 20-byte bucket slots of a group for a non-null pointer and stores the matching slot index in bucketIndex.
@@ -80,23 +101,23 @@ void BSBatchRenderer::ReleaseGeometryGroups()
     {
         if (!m_pAlphaGeometryGroups[0]->m_usPassCountLocal)
         {
-            reinterpret_cast<BSBatchRenderer__AlphaList*>(&AlphaGeometryList[0])->Remove(m_pAlphaGeometryGroups[0]);
+            reinterpret_cast<::AlphaList *>((reinterpret_cast<BSBatchRenderer__AlphaList*>(&AlphaGeometryList[0])))->FUN_00e7db70((unsigned int *)&(m_pAlphaGeometryGroups[0]));
             BSBatchRenderer__GeometryGroup* group = m_pAlphaGeometryGroups[0];
             if (group)
             {
                 group->~BSBatchRenderer__GeometryGroup();
-                g_memoryManager.Deallocate(group);
+                reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(group);
             }
         }
         m_pAlphaGeometryGroups[0] = 0;
         if (!m_pAlphaGeometryGroups[1]->m_usPassCountLocal)
         {
-            reinterpret_cast<BSBatchRenderer__AlphaList*>(&AlphaGeometryList[1])->Remove(m_pAlphaGeometryGroups[1]);
+            reinterpret_cast<::AlphaList *>((reinterpret_cast<BSBatchRenderer__AlphaList*>(&AlphaGeometryList[1])))->FUN_00e7db70((unsigned int *)&(m_pAlphaGeometryGroups[1]));
             BSBatchRenderer__GeometryGroup* group = m_pAlphaGeometryGroups[1];
             if (group)
             {
                 group->~BSBatchRenderer__GeometryGroup();
-                g_memoryManager.Deallocate(group);
+                reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(group);
             }
         }
         m_pAlphaGeometryGroups[1] = 0;
@@ -114,7 +135,7 @@ template <> void BSSimpleList<unsigned short>::RemoveHead()
         m_item = next->m_item;
         next->m_pkNext = 0;
         next->RemoveAll();
-        g_memoryManager.Deallocate(next);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(next);
     }
     else
     {
@@ -131,7 +152,7 @@ struct Node_00b98e20
     {}
     void* operator new(size_t stSize)
     {
-        return g_memoryManager.Allocate(stSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(stSize);
     }
 };
 
@@ -167,7 +188,7 @@ void __fastcall FUN_00b99840(int* self, int, const int* pElement)
     int* node = (int*)self[3];
     if (!node)
     {
-        node = (int*)((NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*>*)(self + 4))->AddHead();
+        node = (int*)((void *)(reinterpret_cast<::FUN_0043a010_shell *>((((NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*>*)(self + 4))))->FUN_0043a010()));
     }
     else
     {
@@ -193,8 +214,6 @@ void __fastcall FUN_00b99840(int* self, int, const int* pElement)
     }
 }
 
-void __cdecl FUN_00b988e0();
-void __cdecl FUN_00b994f0(void*, unsigned short, int, int, int);
 
 struct PassListElement
 {
@@ -222,7 +241,7 @@ void __cdecl ClearPassList(BSBatchRenderer__PassList* pList, int a2)
 {
     if (pList->Allocator.ItemUpdateArray > 0)
     {
-        FUN_00b988e0();
+        ::fnv_00b988e0::FUN_00b988e0();
 
         PassListNode* pNode = static_cast<PassListNode*>(pList->pHead);
         PassListElement* pElement = pNode ? GetNext(pNode) : 0;
@@ -231,19 +250,19 @@ void __cdecl ClearPassList(BSBatchRenderer__PassList* pList, int a2)
         {
             if (pElement->pPass)
             {
-                FUN_00b994f0(pElement, pElement->m_usPassCountLocal, 1, a2, 1);
+                ::fnv_00b994f0::FUN_00b994f0((::fnv_00b994f0::Pass_b994f0 *)(pElement), pElement->m_usPassCountLocal, 1, a2, 1);
             }
 
             pElement = pNode ? GetNext(pNode) : 0;
         }
 
-        pList->ResetPassList();
+        reinterpret_cast<::FUN_00b63e90_cls *>((pList))->ReleasePoolNodes();
         pList->m_pCachedListItems = pList->pHead;
         pList->pHead = 0;
         pList->pTail = 0;
         pList->Allocator.ItemUpdateArray = 0;
 
-        FUN_00b988e0();
+        ::fnv_00b988e0::FUN_00b988e0();
     }
 }
 
@@ -252,7 +271,6 @@ struct FUN_00b99630_Arg
     void(__cdecl* fn)();
 };
 
-void __cdecl CompareSortPassesByDepth();
 void __fastcall SortList(void*, FUN_00b99630_Arg);
 
 extern char DAT_011ffe35;
@@ -263,7 +281,7 @@ void __fastcall FUN_00b99a10(char* this_ptr, int, int param_1, char param_2)
 {
     DAT_011ffe38 = param_1;
     DAT_011ffe35 = param_2;
-    FUN_00b99630_Arg arg = {CompareSortPassesByDepth};
+    FUN_00b99630_Arg arg = {((void (&)())::CompareSortPassesByDepth)};
     SortList(*(char**)(this_ptr + 0x70) + 0xc, arg);
     SortList(*(char**)(this_ptr + 0x74) + 0xc, arg);
 }
@@ -282,7 +300,7 @@ void __fastcall ClearPassGroups(PassGroup_Layout* pThis, int, bool)
         BSBatchRenderer__PassList& kList = pThis->kPassLists[j];
         if (kList.Allocator.ItemUpdateArray > 0)
         {
-            kList.ResetPassList();
+            reinterpret_cast<::FUN_00b63e90_cls *>(&(kList))->ReleasePoolNodes();
             kList.m_pCachedListItems = kList.pHead;
             kList.pHead = 0;
             kList.pTail = 0;
@@ -374,7 +392,7 @@ void __fastcall ClearAllGroups(BSBatchRenderer_View_00b99bc0* pThis, int, int un
             BSBatchRenderer__PassList* list = &group->passLists[i];
             if (list->Allocator.ItemUpdateArray > 0)
             {
-                list->ResetPassList();
+                reinterpret_cast<::FUN_00b63e90_cls *>((list))->ReleasePoolNodes();
                 list->m_pCachedListItems = list->pHead;
                 list->pHead = 0;
                 list->pTail = 0;
@@ -398,18 +416,18 @@ bool __cdecl FUN_00b630f0(unsigned int v)
 
 struct FUN_00e879b0_holder
 {
-    void CallSlot68WithField(int, int);
 };
 struct NiRenderer
 {
     char pad[0x8b8];
     FUN_00e879b0_holder* sub;
+public:
+    static ::NiRenderer *ms_pRenderer;
 };
-extern NiRenderer* DAT_011f9508;
 // @fnv 0x00b984d0
 void __cdecl FUN_00b984d0(int aiValue)
 {
-    DAT_011f9508->sub->CallSlot68WithField(aiValue, 0);
+    reinterpret_cast<::FUN_00e879b0_cls *>((::DAT_011f9508->sub))->CallSlot68WithField(aiValue, 0);
 }
 
 namespace fnv_00b98540 {
@@ -448,17 +466,14 @@ struct FUN_00b98540_Renderer
     unsigned char pad[0x8b8];
     FUN_00b98540_Dev* device;
 };
-extern FUN_00b98540_Renderer* DAT_011f9508;
-extern int DAT_011f94b8;
-extern int DAT_011ffa28;
 
 // If no pending count, sets a device state (0xb5 or 0x9a) based on flag and renderer mode, then adds count to DAT_011ffa28.
 // @fnv 0x00b98540
 void __cdecl FUN_00b98540(bool flag, int count)
 {
-    if (DAT_011ffa28 == 0)
+    if (::DAT_011ffa28 == 0)
     {
-        if (DAT_011f94b8 == 1)
+        if (::DAT_011f94b8 == 1)
         {
             unsigned int value;
             if (flag)
@@ -468,18 +483,18 @@ void __cdecl FUN_00b98540(bool flag, int count)
                 float zero = 0.0f;
                 value = *(unsigned int*)&zero;
             }
-            DAT_011f9508->device->SetState(0xb5, value, 0, 0);
-            DAT_011ffa28 += count;
+            (*reinterpret_cast<::fnv_00b98540::FUN_00b98540_Renderer * *>(&::DAT_011f9508))->device->SetState(0xb5, value, 0, 0);
+            ::DAT_011ffa28 += count;
             return;
         }
-        if (DAT_011f94b8 == 2)
+        if (::DAT_011f94b8 == 2)
         {
-            DAT_011f9508->device->SetState(0x9a, (flag ? 0x01000000 : 0) + 0x304d3241, 0, 0);
-            DAT_011ffa28 += count;
+            (*reinterpret_cast<::fnv_00b98540::FUN_00b98540_Renderer * *>(&::DAT_011f9508))->device->SetState(0x9a, (flag ? 0x01000000 : 0) + 0x304d3241, 0, 0);
+            ::DAT_011ffa28 += count;
             return;
         }
     }
-    DAT_011ffa28 = DAT_011ffa28 + count;
+    ::DAT_011ffa28 = ::DAT_011ffa28 + count;
 }
 }  // namespace fnv_00b98540
 
@@ -499,7 +514,7 @@ struct FUN_00b99630_shell : public BSBatchRenderer__PassList
 // @fnv 0x00b99630
 void FUN_00b99630_shell::SortList(int(__cdecl* cmp)(const void*, const void*))
 {
-    ResetPassList();
+    reinterpret_cast<::FUN_00b63e90_cls *>(this)->ReleasePoolNodes();
 
     if (!pHead)
         return;
@@ -605,7 +620,7 @@ void __fastcall PushFront(FUN_00b99890_List* list, int, unsigned int* value)
 {
     FUN_00b99890_Node* node = list->freeList;
     if (!node)
-        node = (FUN_00b99890_Node*)list->pool.AddHead();
+        node = (FUN_00b99890_Node*)((void *)(reinterpret_cast<::FUN_0043a010_shell *>(&(list->pool))->FUN_0043a010()));
     else
         list->freeList = node->next;
     node->item = *value;
@@ -643,9 +658,9 @@ FUN_00b998e0::FUN_00b998e0()
 // @fnv 0x00b99b70
 BSBatchRenderer__PassList* __fastcall DestroyPassList(BSBatchRenderer__PassList* p, int, unsigned int flags)
 {
-    p->BSBatchRenderer__PassList::~BSBatchRenderer__PassList();
+    ::FUN_00b656b0((::BSBatchRenderer__PassList *)(p), {});
     if (flags & 1)
-        g_memoryManager.Deallocate(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
     return p;
 }
 
@@ -666,7 +681,6 @@ struct DummyPointerMap
 struct PassGroup_Layout
 {
     int x[26];
-    void ClearPassGroups(bool);
 };
 
 struct FUN_00b9a3c0_shell : public BSBatchRenderer
@@ -678,9 +692,9 @@ struct FUN_00b9a3c0_shell : public BSBatchRenderer
 bool FUN_00b9a3c0_shell::FUN_00b9a3c0(unsigned int& auiPass, int& aiBucket, bool& abFlag, bool)
 {
     unsigned int idx = 0;
-    ((DummyPointerMap*)((char*)this + 0xc))->GetAt(auiPass, idx);
+    reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)((char*)this + 0xc))))->FUN_00853130(auiPass, (::fnv_00853130::CombatThreatRecord *&)(idx));
     PassGroup_Layout* pGroups = *(PassGroup_Layout**)((char*)this + 8);
-    ((PassGroup_Layout*)((char*)pGroups + idx * 0x68))->ClearPassGroups(false);
+    ::ClearPassGroups((::PassGroup_Layout *)(((PassGroup_Layout*)((char*)pGroups + idx * 0x68))), false, {});
     return ((BSBatchRenderer*)this)->FindPassBucket(auiPass, aiBucket, abFlag);
 }
 }  // namespace fnv_00b9a3c0
@@ -774,7 +788,7 @@ struct MyPassList : public BSBatchRenderer__PassList
     }
     void Clear()
     {
-        ResetPassList();
+        reinterpret_cast<::FUN_00b63e90_cls *>(this)->ReleasePoolNodes();
         m_pCachedListItems = pHead;
         pHead = 0;
         pTail = 0;
@@ -809,11 +823,10 @@ struct GlobalObjectO2_00a7b610
 {
     int x;
 };
-extern GlobalObjectO2_00a7b610 g_011ffe3c;
 // @fnv 0x00b9aa70
 GlobalObjectO2_00a7b610* __cdecl FUN_00b9aa70()
 {
-    return &g_011ffe3c;
+    return &::g_011ffe3c;
 }
 
 struct BSFadeNode
@@ -824,8 +837,6 @@ struct BSFadeNode
 
 struct PassListStandin
 {
-    void FUN_00b99840(void*);
-    void PushFront(void*);
 };
 
 struct FUN_00b9a5b0 : public BSFadeNode
@@ -878,11 +889,11 @@ void __fastcall DispatchPass(void* pThis, int dummy, void* pPass, bool bFlag)
     {
         if (bFlag)
         {
-            ((PassListStandin*)(pBytes + 0xc))->PushFront(&pPass);
+            ::PushFront((::FUN_00b99890_List *)(((PassListStandin*)(pBytes + 0xc))), (int)(&pPass), {});
         }
         else
         {
-            ((PassListStandin*)(pBytes + 0xc))->FUN_00b99840(&pPass);
+            ::FUN_00b99840((int *)(((PassListStandin*)(pBytes + 0xc))), (int)(&pPass), {});
         }
     }
     else
@@ -934,7 +945,7 @@ struct SortGeom
     SortBound* pWorldBound;
     const SortBound& GetBoundingVolume() const
     {
-        return pWorldBound ? *pWorldBound : DAT_011f4288;
+        return pWorldBound ? *pWorldBound : (*reinterpret_cast<::SortBound *>(&::g_defaultBound));
     }
 };
 struct SortPass
@@ -1037,46 +1048,38 @@ struct FUN_00b99390_S
 };
 struct FUN_00b7dd50_c
 {
-    void FUN_00b7dd50();
 };
 struct FUN_00b7deb0_c2
 {
-    void FUN_00b7deb0();
 };
 struct FUN_00b7deb0_class
 {
     void FUN_00b7deb0();
 };
-void __cdecl FUN_00b97de0(unsigned int, unsigned int);
-void __cdecl FUN_00b988e0();
 extern short DAT_011ae63c;
-extern unsigned int _DAT_0126f680[16];
-extern unsigned int DAT_011ffe30;
-extern FUN_00b99390_S* DAT_011ffe2c;
-extern bool DAT_011ad8ec;
 // @fnv 0x00b99390
 void __cdecl SetShaderPass(unsigned int pass, FUN_00b99390_S* shader)
 {
-    FUN_00b988e0();
+    ::fnv_00b988e0::FUN_00b988e0();
     DAT_011ae63c = -1;
     shader->vf0(pass);
     for (int i = 0; i < 16; i++)
-        _DAT_0126f680[i] = 0;
+        (*reinterpret_cast<unsigned int (*)[16]>(&::DAT_0126f680))[i] = 0;
     switch (pass)
     {
     case 0xfc:
     case 0xfd:
-        ((FUN_00b7dd50_c*)shader)->FUN_00b7dd50();
-        FUN_00b97de0(1, 0);
+        reinterpret_cast<::Renderer *>((((FUN_00b7dd50_c*)shader)))->FUN_00b7dd50();
+        ::FUN_00b97de0(1, 0);
         break;
     case 0x102:
-        ((FUN_00b7dd50_c*)shader)->FUN_00b7dd50();
+        reinterpret_cast<::Renderer *>((((FUN_00b7dd50_c*)shader)))->FUN_00b7dd50();
         break;
     case 0xca:
         ((FUN_00b7deb0_class*)shader)->FUN_00b7deb0();
         break;
     case 0xd1:
-        ((FUN_00b7deb0_c2*)shader)->FUN_00b7deb0();
+        reinterpret_cast<::FUN_00b7deb0_class *>((((FUN_00b7deb0_c2*)shader)))->FUN_00b7deb0();
         break;
     default:
         shader->vfc(pass);
@@ -1086,14 +1089,13 @@ void __cdecl SetShaderPass(unsigned int pass, FUN_00b99390_S* shader)
     }
     shader->vf4(pass);
     DAT_011ffe30 = pass;
-    DAT_011ffe2c = shader;
-    DAT_011ad8ec = true;
+    (*reinterpret_cast<::FUN_00b99390_S * *>(&::fnv_00b988e0::DAT_011ffe2c)) = shader;
+    (*reinterpret_cast<bool *>(&::fnv_00b988e0::DAT_011ad8ec)) = true;
 }
 
 namespace fnv_00b994f0 {
 struct NiRenderer
 {
-    static NiRenderer* ms_pRenderer;
 };
 struct Shader_b994f0
 {
@@ -1107,8 +1109,6 @@ struct Shader_b994f0
     {
         return iType == 0x11;
     }
-    void FUN_00b7ac20(unsigned int);
-    void FUN_00bb96d0(unsigned int);
 };
 struct Prop_b994f0
 {
@@ -1190,18 +1190,7 @@ struct Pass_b994f0
 
 struct Handler_b994f0
 {
-    bool FUN_00e72c20(Geom_b994f0*, int);
 };
-extern Handler_b994f0* DAT_011f9508;
-extern Pass_b994f0* DAT_011f91e0;
-extern unsigned int DAT_011f91e4;
-extern bool DAT_011f9421;
-extern Shader_b994f0* DAT_011ffe2c;
-extern unsigned int DAT_011ffe30;
-int __cdecl FUN_00b98540(int, int);
-void __cdecl SetShaderPass(unsigned int, Shader_b994f0*);
-void __cdecl FUN_00b99110(Pass_b994f0*, bool, bool, bool);
-void __cdecl DrawGeometryPass(Pass_b994f0*, bool, bool, bool);
 
 // @fnv 0x00b994f0
 void FUN_00b994f0(Pass_b994f0* prenderpass, unsigned int uiPassId, bool balphaTest, bool abAlphaPass,
@@ -1209,51 +1198,50 @@ void FUN_00b994f0(Pass_b994f0* prenderpass, unsigned int uiPassId, bool balphaTe
 {
     if (prenderpass->m_usShaderPassType != uiPassId)
         return;
-    DAT_011f91e4 = uiPassId;
-    DAT_011f91e0 = prenderpass;
+    ::DAT_011f91e4 = uiPassId;
+    (*reinterpret_cast<::fnv_00b994f0::Pass_b994f0 * *>(&::DAT_011f91e0)) = prenderpass;
     Shader_b994f0* pshader = prenderpass->pGeom->pShader;
     bool bfirstpass = false;
-    if (DAT_011ffe30 != uiPassId || uiPassId == 0x2f6 || pshader != DAT_011ffe2c)
+    if (::DAT_011ffe30 != uiPassId || uiPassId == 0x2f6 || pshader != (*reinterpret_cast<::fnv_00b994f0::Shader_b994f0 * *>(&::fnv_00b988e0::DAT_011ffe2c)))
     {
         bfirstpass = true;
-        SetShaderPass(uiPassId, pshader);
+        ::SetShaderPass(uiPassId, (::FUN_00b99390_S *)(pshader));
     }
-    if (DAT_011f9421)
+    if (::DAT_011f9421)
     {
         Prop_b994f0* pProp = prenderpass->pGeom->pProp;
         if (pProp && pProp->GetFlag9())
-            FUN_00b98540(1, 0);
+            ::fnv_00b98540::FUN_00b98540(1, 0);
         else
-            FUN_00b98540(0, 0);
+            ::fnv_00b98540::FUN_00b98540(0, 0);
     }
-    if (DAT_011f9508->FUN_00e72c20(prenderpass->pGeom, 0))
+    if (reinterpret_cast<::FUN_00e72c20_cls *>(((*reinterpret_cast<::fnv_00b994f0::Handler_b994f0 * *>(&::DAT_011f9508))))->FUN_00e72c20((::Arg1 *)(prenderpass->pGeom), (::Ifc *)(0)))
     {
-        FUN_00b99110(prenderpass, balphaTest, abAlphaPass, abGeometryRenderStates);
+        ::fnv_00b99110::FUN_00b99110((::fnv_00b99110::DrawPass *)(prenderpass), balphaTest, abAlphaPass, abGeometryRenderStates);
     }
     else if (prenderpass->pGeom->IsA12())
     {
-        prenderpass->pGeom->RenderImmediate55(NiRenderer::ms_pRenderer);
+        prenderpass->pGeom->RenderImmediate55((*reinterpret_cast<::fnv_00b994f0::NiRenderer * *>(&::NiRenderer::ms_pRenderer)));
     }
     else if (prenderpass->pGeom->IsA13())
     {
-        prenderpass->pGeom->RenderImmediate55(NiRenderer::ms_pRenderer);
+        prenderpass->pGeom->RenderImmediate55((*reinterpret_cast<::fnv_00b994f0::NiRenderer * *>(&::NiRenderer::ms_pRenderer)));
     }
     else
     {
-        DrawGeometryPass(prenderpass, balphaTest, abAlphaPass, abGeometryRenderStates);
+        ::DrawGeometryPass((::ShaderPassEntry *)(prenderpass), balphaTest, abAlphaPass, abGeometryRenderStates);
     }
-    if (bfirstpass && DAT_011ffe2c)
+    if (bfirstpass && (*reinterpret_cast<::fnv_00b994f0::Shader_b994f0 * *>(&::fnv_00b988e0::DAT_011ffe2c)))
     {
-        if (DAT_011ffe2c->IsLit())
-            DAT_011ffe2c->FUN_00b7ac20(uiPassId);
-        else if (DAT_011ffe2c->IsType11())
-            DAT_011ffe2c->FUN_00bb96d0(uiPassId);
+        if ((*reinterpret_cast<::fnv_00b994f0::Shader_b994f0 * *>(&::fnv_00b988e0::DAT_011ffe2c))->IsLit())
+            reinterpret_cast<::S_00b7ac20_Class *>(((*reinterpret_cast<::fnv_00b994f0::Shader_b994f0 * *>(&::fnv_00b988e0::DAT_011ffe2c))))->FUN_00b7ac20(uiPassId);
+        else if ((*reinterpret_cast<::fnv_00b994f0::Shader_b994f0 * *>(&::fnv_00b988e0::DAT_011ffe2c))->IsType11())
+            ::FUN_00bb96d0((unsigned int)((*reinterpret_cast<::fnv_00b994f0::Shader_b994f0 * *>(&::fnv_00b988e0::DAT_011ffe2c))));
     }
 }
 }  // namespace fnv_00b994f0
 
 namespace fnv_00b9aa80 {
-extern MemoryManager _g_memoryManager;
 
 template <> class NiTPointerMap<unsigned int, unsigned int>
 {
@@ -1272,7 +1260,7 @@ class FUN_00b99bb0
     unsigned char data[0x68];
     static void operator delete[](void* p)
     {
-        _g_memoryManager.Deallocate(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
     }
 };
 
@@ -1285,7 +1273,6 @@ class FUN_00b998f0
 
 struct FUN_00bd9150_Inst
 {
-    void FUN_00bd9150();
 };
 
 struct ActivePassList
@@ -1319,14 +1306,14 @@ struct FUN_00b9aa80 : NiObject
 // @fnv 0x00b9aa80
 FUN_00b9aa80::~FUN_00b9aa80()
 {
-    ((BSBatchRenderer*)this)->ClearAllGroups(0);
+    ::ClearAllGroups((::BSBatchRenderer_View_00b99bc0 *)(((BSBatchRenderer*)this)), 0, {});
     delete[] m_pPassBucketEntries;
     FUN_00bd9150_Inst* pInstance = m_pGeometryGroupAllocator;
     m_uiGroupCount = 0;
     if (pInstance)
     {
-        pInstance->FUN_00bd9150();
-        _g_memoryManager.Deallocate(pInstance);
+        ::FUN_00bd9150((void *)(pInstance));
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(pInstance);
         m_pGeometryGroupAllocator = 0;
     }
     for (unsigned int i = 0; i < 13; i++)
@@ -1335,25 +1322,24 @@ FUN_00b9aa80::~FUN_00b9aa80()
         if (group)
         {
             group->~BSBatchRenderer__GeometryGroup();
-            _g_memoryManager.Deallocate(group);
+            reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(group);
         }
     }
     BSBatchRenderer__GeometryGroup* a = m_pSecondaryGeometryGroups[0];
     if (a)
     {
         a->~BSBatchRenderer__GeometryGroup();
-        _g_memoryManager.Deallocate(a);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(a);
     }
     a = m_pSecondaryGeometryGroups[1];
     if (a)
     {
         a->~BSBatchRenderer__GeometryGroup();
-        _g_memoryManager.Deallocate(a);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(a);
     }
 }
 }  // namespace fnv_00b9aa80
 
-extern float DAT_01015f5c;
 struct SortPassNode
 {
     SortPassNode* m_pkNext;
@@ -1367,7 +1353,6 @@ class NiTListItem_BSBatchRenderer__GeometryGroup___
     NiTListItem_BSBatchRenderer__GeometryGroup___* m_pkPrev;
     BSBatchRenderer__GeometryGroup* m_element;
 };
-float __cdecl FUN_00404010(float a, float b);
 struct BSBatchRenderer_AlphaDepth : public BSBatchRenderer
 {
     float ComputeAlphaDepth(int iIndex, SortCamera* pkCamera, bool bUseRadius);
@@ -1454,14 +1439,9 @@ struct RenderShader
     virtual void v34(), v35(), v36(), v37(), v38(), v39(), v3a(), v3b();
     virtual void v3c(), v3d(), v3e(), v3f(), v40(), v41(), v42(), v43();
     virtual void Reset(RenderTransform*);
-    void FUN_00b7dde0(RenderTransform*);
-    void SetupTextureStages(RenderTransform*);
-    void SetupShaderPasses(RenderTransform*);
-    void FUN_00b7e150(RenderTransform*);
 };
 struct RenderSetup
 {
-    void ProcessCollector(void*, RenderData*, void*, bool, unsigned int, unsigned int);
 };
 struct RenderManager
 {
@@ -1539,8 +1519,6 @@ struct RenderManager
     RenderSetup* setup;
     void* group;
 };
-extern RenderManager* DAT_011f4748;
-extern bool DAT_011ad8ec;
 bool __cdecl FUN_00b630f0(unsigned int);
 struct ShaderPassEntry
 {
@@ -1554,34 +1532,34 @@ struct ShaderPassEntry
 void __cdecl DrawGeometryPass(ShaderPassEntry* pass, bool updateB, bool updateA, bool updateAlpha)
 {
     unsigned int id = pass->id;
-    RenderManager* manager = DAT_011f4748;
+    RenderManager* manager = (*reinterpret_cast<::RenderManager * *>(&::NiRenderer::ms_pRenderer));
     RenderGeometry* geometry = pass->geometry;
     RenderShader* shader = geometry->shader;
     RenderData* data = geometry->data;
     RenderTransform* world = &geometry->world;
     manager->current = world;
     manager->unk010 = 0;
-    manager->setup->ProcessCollector(manager->group, data, 0, false, 0, 0);
+    ::ProcessCollector((::HkCollector *)(manager->setup), (::HkBody *)(manager->group), (::HkInput *)(data), (bool)(0), false, 0);
     unsigned int drawData = data->drawData;
     switch (id)
     {
     case 252:
     case 253:
-        shader->FUN_00b7dde0(world);
+        reinterpret_cast<::BloodDraw_b7dde0 *>((shader))->FUN_00b7dde0((::DrawArgument_b7dde0 *)(world));
         if (updateB)
             shader->UpdateB(world);
         if (updateA)
             shader->UpdateA(world);
         break;
     case 258:
-        shader->FUN_00b7e150(world);
+        reinterpret_cast<::rw_b7e1::Shell_b7e1 *>((shader))->FUN_00b7e150((::rw_b7e1::DrawArg *)(world));
         if (updateB)
             shader->UpdateB(world);
         if (updateA)
             shader->UpdateA(world);
         break;
     case 202:
-        shader->SetupTextureStages(world);
+        reinterpret_cast<::Shader *>((shader))->SetupTextureStages((::Arg *)(world));
         if (updateB)
             shader->UpdateB(world);
         if (updateA)
@@ -1590,7 +1568,7 @@ void __cdecl DrawGeometryPass(ShaderPassEntry* pass, bool updateB, bool updateA,
             shader->UpdateActorPresentation(world, pass->alpha);
         break;
     case 209:
-        shader->SetupShaderPasses(world);
+        reinterpret_cast<::fnv_00b7dfe0::BSShader *>((shader))->SetupShaderPasses((::fnv_00b7dfe0::BSShaderParam *)(world));
         if (updateB)
             shader->UpdateB(world);
         if (updateA)
@@ -1608,10 +1586,10 @@ void __cdecl DrawGeometryPass(ShaderPassEntry* pass, bool updateB, bool updateA,
             if (updateB && !(id >= 4 && id <= 5) && !(id >= 14 && id <= 15) && id != 570)
                 shader->UpdateB(world);
         }
-        else if (DAT_011ad8ec && !FUN_00b630f0(id))
+        else if ((*reinterpret_cast<bool *>(&::fnv_00b988e0::DAT_011ad8ec)) && !FUN_00b630f0(id))
         {
             shader->Reset(world);
-            DAT_011ad8ec = false;
+            (*reinterpret_cast<bool *>(&::fnv_00b988e0::DAT_011ad8ec)) = false;
         }
         if (updateAlpha)
             shader->UpdateActorPresentation(world, pass->alpha);
@@ -1622,11 +1600,10 @@ void __cdecl DrawGeometryPass(ShaderPassEntry* pass, bool updateB, bool updateA,
     shader->Finish(world);
 }
 
-void FUN_00b71300();
 // @fnv 0x00b998f0
 void FUN_00b998f0()
 {
-    FUN_00b71300();
+    static_cast<::BSShaderLightingProperty *>(nullptr)->ClearLights();
 }
 
 namespace fnv_00b9ac80 {
@@ -1716,7 +1693,7 @@ struct GroupStandin
 
     void* operator new(size_t size)
     {
-        return g_memoryManager.Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }
 
     GroupStandin()
@@ -1726,7 +1703,7 @@ struct GroupStandin
         m_ucEntryType = 0;
         m_pGroupRenderer = 0;
         auiGroupKey = 0x2f7;
-        pkPL->ResetPassList();
+        reinterpret_cast<::FUN_00b63e90_cls *>((pkPL))->ReleasePoolNodes();
         pkPL->m_pCachedListItems = pkPL->pHead;
         pkPL->pHead = 0;
         pkPL->pTail = 0;
@@ -1755,28 +1732,22 @@ static inline AlphaNode*& ListHead(AlphaListCursor* pkList)
 }
 struct PoolLock
 {
-    void Lock(int);
 };
-extern PoolLock g_011c5f80;
-extern int DAT_011c5f80;
-extern void* DAT_011c5f58;
-extern unsigned int DAT_011c5f84;
-void __cdecl FUN_0043a080();
 static inline AlphaNode* PoolCreateNode()
 {
-    g_011c5f80.Lock(0);
-    AlphaNode* pkNode = (AlphaNode*)DAT_011c5f58;
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::fnv_00b9ac80::PoolLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
+    AlphaNode* pkNode = (AlphaNode*)::DAT_011c5f58;
     if (pkNode == 0)
     {
-        FUN_0043a080();
-        pkNode = (AlphaNode*)DAT_011c5f58;
+        ::FUN_0043a080();
+        pkNode = (AlphaNode*)::DAT_011c5f58;
     }
-    DAT_011c5f58 = pkNode->m_pkNext;
+    ::DAT_011c5f58 = pkNode->m_pkNext;
     pkNode->m_element = 0;
     pkNode->m_pkNext = 0;
     pkNode->m_pkPrev = 0;
-    if (--DAT_011c5f84 == 0)
-        DAT_011c5f80 = 0;
+    if (--::DAT_011c5f84 == 0)
+        (*reinterpret_cast<int *>(&::g_011c5f80)) = 0;
     return pkNode;
 }
 // @fnv 0x00b9ac80
@@ -1793,13 +1764,13 @@ void __fastcall AddSortedGroup(BSBatchRenderer* pRenderer, int dummy, SortBound*
             GroupStandin* c;
             c = new GroupStandin;
             BSBatchRenderer__PassList* j = &c->PassTextureSlotCollection;
-            j->ResetPassList();
+            reinterpret_cast<::FUN_00b63e90_cls *>((j))->ReleasePoolNodes();
             j->m_pCachedListItems = j->pHead;
             j->pHead = 0;
             j->pTail = 0;
             j->Allocator.ItemUpdateArray = 0;
             if (c->m_pGroupRenderer)
-                c->m_pGroupRenderer->ClearAllGroups(0);
+                ::ClearAllGroups((::BSBatchRenderer_View_00b99bc0 *)(c->m_pGroupRenderer), 0, {});
             c->m_usPassCountLocal = 0;
             if (bFlag2)
             {
@@ -1841,7 +1812,7 @@ void __fastcall AddSortedGroup(BSBatchRenderer* pRenderer, int dummy, SortBound*
             }
             if (pkGroup == 0)
             {
-                AlphaNode* val = pkList->m_kItemCount.FUN_0043a010();
+                AlphaNode* val = ((::fnv_00b9ac80::AlphaNode *)(reinterpret_cast<::FUN_0043a010_shell *>(&(pkList->m_kItemCount))->FUN_0043a010()));
                 val->m_element = c;
                 val->m_pkNext = 0;
                 val->m_pkPrev = pkList->m_pkTail;
@@ -1880,9 +1851,31 @@ class B999Renderer
     int unk28;
     BSSimpleList<unsigned short> m_kActivePassIndexList;
 
-    bool FUN_00b98ae0(unsigned int uiValue, int iSubBucketIndex);
     bool FUN_00b99900(unsigned int& ruiPass, int iSubBucketIndex);
 };
+// @fnv 0x00b9a090
+bool BSBatchRenderer::FindPassBucket(unsigned int& uiGroupKey, int& bucketIndex, bool& alpha)
+{
+    bool result = true;
+    unsigned int groupIndex = 0;
+    if (!uiGroupKey)
+        result = reinterpret_cast<::B999Renderer *>(this)->FUN_00b99900(uiGroupKey, bucketIndex);
+    else
+    {
+        reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(reinterpret_cast<NiTPointerMap<unsigned int, TESObjectREFR*>*>(&m_kGroupIndexMap)))->FUN_00853130(uiGroupKey, (::fnv_00853130::CombatThreatRecord *&)(reinterpret_cast<TESObjectREFR*&>(groupIndex)));
+        if (!FindBucketIndex(groupIndex, bucketIndex))
+            result = reinterpret_cast<::B999Renderer *>(this)->FUN_00b99900(uiGroupKey, bucketIndex);
+    }
+    if (result)
+    {
+        reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(reinterpret_cast<NiTPointerMap<unsigned int, TESObjectREFR*>*>(&m_kGroupIndexMap)))->FUN_00853130(uiGroupKey, (::fnv_00853130::CombatThreatRecord *&)(reinterpret_cast<TESObjectREFR*&>(groupIndex)));
+        BSBatchRenderer__PassGroup* groups = reinterpret_cast<BSBatchRenderer__PassGroup*>(m_pPassBucketEntries);
+        BSBatchRenderer__RenderPass* pass =
+            reinterpret_cast<BSBatchRenderer__RenderPass*>(groups[groupIndex].buckets[bucketIndex].m_pRenderPass);
+        alpha = pass->pInfo->bAlpha;
+    }
+    return result;
+}
 
 // When a list value is in range, removes the head, looks up that value, and calls FUN_00b98ae0.
 // @fnv 0x00b99900
@@ -1906,14 +1899,12 @@ bool B999Renderer::FUN_00b99900(unsigned int& ruiPass, int iSubBucketIndex)
     {
         m_kActivePassIndexList.RemoveHead();
         unsigned int uiValue = 0;
-        m_kPassMap.GetAt(ruiPass, uiValue);
-        return FUN_00b98ae0(uiValue, iSubBucketIndex);
+        reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(m_kPassMap))->FUN_00853130(ruiPass, (::fnv_00853130::CombatThreatRecord *&)(uiValue));
+        return reinterpret_cast<::BSBatchRenderer *>(this)->FindBucketIndex(uiValue, iSubBucketIndex);
     }
 }
 
 namespace fnv_00b99110 {
-extern bool __cdecl FUN_00b630f0(unsigned int);
-extern bool DAT_011ad8ec;
 struct DrawPartition
 {
     unsigned int unk00;
@@ -1937,7 +1928,6 @@ struct SkinData
     unsigned int unk0, unk4, count;
     DrawPartition* partitions;
 };
-extern unsigned int DAT_011f49d8;
 struct SkinInstance
 {
     virtual void v0();
@@ -2100,7 +2090,6 @@ struct DrawShader
 };
 struct DrawContext
 {
-    void ProcessCollector(void*, DrawData*, SkinInstance*, unsigned int, unsigned int, unsigned int);
 };
 struct DrawRenderer
 {
@@ -2659,7 +2648,6 @@ struct DrawRenderer
     unsigned int unk8a0;
     unsigned int unk8a4;
     unsigned int unk8a8;
-    void FUN_00e6d310(void*, DrawPartition*, DrawData*);
     DrawContext* context;
     void* driver;
     void SetProperties(void* properties)
@@ -2668,8 +2656,6 @@ struct DrawRenderer
         currentIndex = 0;
     }
 };
-extern DrawRenderer* DAT_011f4748;
-extern unsigned int DAT_011f49d8;
 struct DrawPass
 {
     DrawGeometry* geometry;
@@ -2688,7 +2674,7 @@ inline bool S00b99110_IsExact(void* rtti, SkinInstance* obj)
 void __cdecl FUN_00b99110(DrawPass* pass, bool depth, bool alpha, bool blend)
 {
     unsigned int passId = pass->pass;
-    DrawRenderer* renderer = DAT_011f4748;
+    DrawRenderer* renderer = (*reinterpret_cast<::fnv_00b99110::DrawRenderer * *>(&::NiRenderer::ms_pRenderer));
     DrawGeometry* geometry = pass->geometry;
     SkinInstance* skin = geometry->skin;
     DrawData* data = geometry->data;
@@ -2697,10 +2683,10 @@ void __cdecl FUN_00b99110(DrawPass* pass, bool depth, bool alpha, bool blend)
     unsigned int* properties = &geometry->unk9c;
     DrawPartition* partitions = skinData->partitions;
     renderer->SetProperties(properties);
-    renderer->context->ProcessCollector(renderer->driver, data, skin, 1, 0, 0);
+    ::ProcessCollector((::HkCollector *)(renderer->context), (::HkBody *)(renderer->driver), (::HkInput *)(data), (bool)(skin), 1, 0);
     unsigned int count = skinData->count;
     PartitionFlags* flags = 0;
-    if (S00b99110_IsExact(&DAT_011f49d8, skin))
+    if (S00b99110_IsExact(&(*reinterpret_cast<unsigned int *>(&::g_011f49d8)), skin))
         flags = skin->flags;
     bool first = true;
     unsigned int i = 0;
@@ -2710,30 +2696,30 @@ void __cdecl FUN_00b99110(DrawPass* pass, bool depth, bool alpha, bool blend)
         {
             DrawPartition* partition = &partitions[i];
             unsigned int vertexData = partition->vertexData;
-            const DrawBound& geometryFlags = geometry->FUN_0043d450();
+            const DrawBound& geometryFlags = (*(const ::fnv_00b99110::DrawBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(geometry))->FUN_0043d450()));
             shader->Setup(geometry, skin, partition, vertexData, properties, 0, &geometry->unk68, geometryFlags);
             if (first)
             {
                 shader->Begin(properties);
                 shader->State(properties);
-                if (pass->alpha && !FUN_00b630f0(passId))
+                if (pass->alpha && !::FUN_00b630f0(passId))
                 {
                     if (alpha)
                         shader->Alpha(properties);
                     if (depth && !(passId >= 4 && passId <= 5) && !(passId >= 14 && passId <= 15))
                         shader->Depth(properties);
                 }
-                else if (DAT_011ad8ec)
+                else if ((*reinterpret_cast<bool *>(&::fnv_00b988e0::DAT_011ad8ec)))
                 {
                     shader->Reset(properties);
-                    DAT_011ad8ec = false;
+                    (*reinterpret_cast<bool *>(&::fnv_00b988e0::DAT_011ad8ec)) = false;
                 }
                 if (blend)
                     shader->Blend(properties, pass->alpha);
                 first = false;
             }
             void* draw = shader->Draw(geometry, partition, vertexData, properties);
-            renderer->FUN_00e6d310(draw, partition, data);
+            reinterpret_cast<::E6D310Renderer *>((renderer))->FUN_00e6d310((::E6D310StripSet *)(draw), (::E6D310Geometry *)(partition), (int)(data));
             if (flags)
             {
                 for (unsigned int next = i + 1; next < count && !flags[i + 1].continuation;)
@@ -2747,7 +2733,7 @@ void __cdecl FUN_00b99110(DrawPass* pass, bool depth, bool alpha, bool blend)
                         draw = shader->Draw(geometry, p, uiVertexData, properties);
                         if (!draw)
                             return;
-                        renderer->FUN_00e6d310(draw, p, data);
+                        reinterpret_cast<::E6D310Renderer *>((renderer))->FUN_00e6d310((::E6D310StripSet *)(draw), (::E6D310Geometry *)(p), (int)(data));
                     }
                 }
             }
@@ -2762,9 +2748,7 @@ void __cdecl FUN_00b99110(DrawPass* pass, bool depth, bool alpha, bool blend)
 struct BSBatchRenderer__ActivePassList_b6359Pool
 {
   public:
-    void* FUN_00aa3e40(unsigned int size);
 };
-extern BSBatchRenderer__ActivePassList_b6359Pool DAT_011f6238;
 
 typedef int(__cdecl* ActivePassCompare)(unsigned int, unsigned short);
 
@@ -2776,14 +2760,13 @@ struct ActivePassNode
 {
     static void* operator new(unsigned int n)
     {
-        return DAT_011f6238.FUN_00aa3e40(n);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::BSBatchRenderer__ActivePassList_b6359Pool *>(&::g_memoryManager))))->FUN_00aa3e40(n);
     }
     ActivePassNode(unsigned short x) : item(x), next(0)
     {}
     unsigned short item;
     ActivePassNode* next;
     void InsertItem(ItemValue volatile item, ActivePassCompare cmp);
-    void FUN_00b98e20(const unsigned short* item);
 };
 
 // Inserts item.value into the linked list of ActivePassNode items, using cmp to find the sorted position.
@@ -2814,7 +2797,7 @@ void ActivePassNode::InsertItem(ItemValue volatile item, ActivePassCompare afCom
         {
             if (prev == 0)
             {
-                this->FUN_00b98e20((const unsigned short*)&item);
+                ::FUN_00b98e20((::Node_00b98e20 *)(this), (int)((const unsigned short*)&item), {});
             }
             else
             {
@@ -2872,7 +2855,7 @@ void Thing::AddNode(int index, int value)
     Node* node;
     if (entry->m_free == 0)
     {
-        node = FUN_0043a010(&entry->m_uiItemCount);
+        node = ((::fnv_00b99a90::Node *)(reinterpret_cast<::FUN_0043a010_shell *>((&entry->m_uiItemCount))->FUN_0043a010()));
     }
     else
     {
@@ -3045,9 +3028,6 @@ struct RenderPass99
 };
 struct PassGroup99
 {
-    void ClearPassGroups(bool bFree);
-    void AddNode(int iMode, RenderPass99* pkPass);
-    void AppendNode(int iMode, RenderPass99* pkPass);
     int unk00;
     int unk04;
     int unk08;
@@ -3077,8 +3057,6 @@ struct PassGroup99
 };
 struct PassMap99
 {
-    bool FUN_00853130(unsigned int uiKey, unsigned int& uiValue) const;
-    void FUN_00844700(unsigned int uiKey, unsigned int uiValue);
     void* m_ppVirtualMethodTable;
     unsigned int m_uiHashSize;
     void* m_ppkHashTable;
@@ -3086,7 +3064,6 @@ struct PassMap99
 };
 struct PassList99
 {
-    void InsertItem(unsigned int uiPass, int(__cdecl* pfnCompare)(unsigned short, unsigned short));
 };
 int __cdecl CompareShorts(unsigned short usA, unsigned short usB);
 
@@ -3144,30 +3121,27 @@ void S00b99c90_Shell::AddPassToGroup(RenderPass99* pkPass, unsigned int uiPassEn
 
     unsigned int uiFound;
     unsigned int uiIndex;
-    if (!m_kGroupIndexMap.FUN_00853130(uiPass, uiFound))
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(m_kGroupIndexMap))->FUN_00853130(uiPass, (::fnv_00853130::CombatThreatRecord *&)(uiFound)))
     {
         uiIndex = m_kGroupIndexMap.m_uiCount;
-        m_kGroupIndexMap.FUN_00844700(uiPass, uiIndex);
-        m_pPassBucketEntries[uiIndex].ClearPassGroups(false);
+        reinterpret_cast<::FUN_00844700_Class *>(&(m_kGroupIndexMap))->FUN_00844700(uiPass, uiIndex);
+        ::ClearPassGroups((::PassGroup_Layout *)&(m_pPassBucketEntries[uiIndex]), false, {});
     }
     else
         uiIndex = uiFound;
     if (m_pPassBucketEntries[uiIndex].m_iArrayLength == 0)
-        m_kActivePassList.InsertItem(uiPass, CompareShorts);
+        reinterpret_cast<::ActivePassNode *>(&(m_kActivePassList))->InsertItem((volatile ::ItemValue)(uiPass), (int (*)(unsigned int, unsigned short))(CompareShorts));
 
     if (pkPass->m_bIsAlpha && (uiPass < 0x238 || uiPass > 0x23e))
-        m_pPassBucketEntries[uiIndex].AddNode(iGroup, pkPass);
+        reinterpret_cast<::fnv_00b99a90::Thing *>(&(m_pPassBucketEntries[uiIndex]))->AddNode(iGroup, (int)(pkPass));
     else
-        m_pPassBucketEntries[uiIndex].AppendNode(iGroup, pkPass);
+        reinterpret_cast<::fnv_00b99b00::Thing *>(&(m_pPassBucketEntries[uiIndex]))->AppendNode(iGroup, (int)(pkPass));
 }
 
 namespace fnv_00b9a5b0 {
-extern void* __cdecl NiMalloc(unsigned int);
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 extern "C" void _ReadWriteBarrier();
 extern const void* DAT_010b7dc8[];
-extern const void* DAT_0106cf88[];
-extern const void* DAT_0106cf68[];
 
 class FUN_00a5d3a0
 {
@@ -3183,9 +3157,9 @@ struct MapBase
     unsigned int hashSize;
     void** buckets;
     unsigned int count;
-    MapBase() : vptr(DAT_0106cf88), hashSize(37), count(0)
+    MapBase() : vptr((*reinterpret_cast<const void * (*)[]>(&::DAT_0106cf88))), hashSize(37), count(0)
     {
-        buckets = (void**)NiMalloc(37 * sizeof(void*));
+        buckets = (void**)::FUN_00aa1070(37 * sizeof(void*));
         struct S
         {
             unsigned int s;
@@ -3199,7 +3173,7 @@ struct RenderMap : MapBase
 {
     RenderMap(int)
     {
-        vptr = DAT_0106cf68;
+        vptr = (*reinterpret_cast<const void * (*)[]>(&::DAT_0106cf68));
     }
     ~RenderMap();
 };
@@ -3227,9 +3201,8 @@ struct AlphaList
     }
     __declspec(noinline) ~AlphaList()
     {
-        FUN_00b71300();
+        reinterpret_cast<::BSShaderLightingProperty *>(this)->ClearLights();
     }
-    void FUN_00b71300();
 };
 struct FUN_00bd9120
 {
@@ -3237,11 +3210,11 @@ struct FUN_00bd9120
     FUN_00bd9120();
     static void* operator new(size_t n)
     {
-        return g_memoryManager.Allocate(n);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
     }
     static void operator delete(void* p)
     {
-        g_memoryManager.Deallocate(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
     }
 };
 struct RenderPassListCollection
@@ -3252,11 +3225,11 @@ struct RenderPassListCollection
     ~RenderPassListCollection();
     static void* operator new[](size_t n)
     {
-        return g_memoryManager.Allocate(n);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
     }
     static void operator delete[](void* p)
     {
-        g_memoryManager.Deallocate(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
     }
 };
 struct FUN_00b9a560 : BSBatchRenderer__GeometryGroup
@@ -3264,7 +3237,7 @@ struct FUN_00b9a560 : BSBatchRenderer__GeometryGroup
     FUN_00b9a560(void*) throw();
     static void* operator new(size_t n)
     {
-        return g_memoryManager.Allocate(n);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
     }
 };
 
@@ -3445,18 +3418,17 @@ struct AudioTlsState
     unsigned int unk2B0;
     unsigned int context;
 };
-extern __declspec(thread) AudioTlsState DAT_01272000;
 struct MemGuard
 {
     unsigned int oldContext;
     MemGuard(unsigned int value)
     {
-        oldContext = DAT_01272000.context;
-        DAT_01272000.context = value;
+        oldContext = (*reinterpret_cast<::fnv_00b9a5b0::AudioTlsState *>(&::g_tlsBlock)).context;
+        (*reinterpret_cast<::fnv_00b9a5b0::AudioTlsState *>(&::g_tlsBlock)).context = value;
     }
     ~MemGuard()
     {
-        DAT_01272000.context = oldContext;
+        (*reinterpret_cast<::fnv_00b9a5b0::AudioTlsState *>(&::g_tlsBlock)).context = oldContext;
     }
 };
 
@@ -3477,7 +3449,6 @@ class FUN_00b9a5b0 : public FUN_00a5d3a0
     AlphaList alphaLists[2];
     FUN_00b9a560* currentAlpha[2];
     FUN_00b9a5b0(unsigned int count, int mode);
-    void ClearAllGroups(int);
 };
 
 // Allocates the pass collection and initializes group and alpha entries according to mode; modes 99 and 101 initialize both alpha lists.
@@ -3489,7 +3460,7 @@ FUN_00b9a5b0::FUN_00b9a5b0(unsigned int aiPassCount, int mode) : map((vptr = DAT
     passes = new RenderPassListCollection[aiPassCount];
     passCount = aiPassCount;
     grouping = 0;
-    ClearAllGroups(0);
+    ::ClearAllGroups((::BSBatchRenderer_View_00b99bc0 *)this, 0, {});
     switch (mode)
     {
     case 99:
@@ -3510,8 +3481,8 @@ FUN_00b9a5b0::FUN_00b9a5b0(unsigned int aiPassCount, int mode) : map((vptr = DAT
         alpha[1] = new FUN_00b9a560((void*)0x2f7);
         alpha[0]->m_ucEntryType |= 1;
         alpha[1]->m_ucEntryType |= 1;
-        alphaLists[0].FUN_00b71300();
-        alphaLists[1].FUN_00b71300();
+        reinterpret_cast<::BSShaderLightingProperty *>(&(alphaLists[0]))->ClearLights();
+        reinterpret_cast<::BSShaderLightingProperty *>(&(alphaLists[1]))->ClearLights();
         break;
     case 100:
         groups[0] = 0;
@@ -3548,22 +3519,15 @@ FUN_00b9a5b0::FUN_00b9a5b0(unsigned int aiPassCount, int mode) : map((vptr = DAT
         alpha[1] = new FUN_00b9a560((void*)0x2f7);
         alpha[0]->m_ucEntryType |= 1;
         alpha[1]->m_ucEntryType |= 1;
-        alphaLists[0].FUN_00b71300();
-        alphaLists[1].FUN_00b71300();
+        reinterpret_cast<::BSShaderLightingProperty *>(&(alphaLists[0]))->ClearLights();
+        reinterpret_cast<::BSShaderLightingProperty *>(&(alphaLists[1]))->ClearLights();
         break;
     }
 }
 }  // namespace fnv_00b9a5b0
 
 namespace fnv_00b99e20 {
-extern unsigned char DAT_011f94a6;
-extern unsigned char DAT_011f9421;
-extern int DAT_011ffa28;
-extern int DAT_011ffa24;
-extern int DAT_011ff9e8;
 
-void FUN_00bbb840();
-bool FUN_00b630f0(unsigned int);
 
 struct RendererState
 {
@@ -3659,17 +3623,10 @@ struct RendererState
     bool bFlag164;
     bool bFlag165;
 };
-RendererState* FUN_00b4f5c0();
 
-void FUN_00b984d0(int, int);
-void FUN_00b97ed0(int, int);
-int FUN_00b98540(int, int);
-void FUN_00b994f0(void*, unsigned short, bool, int, int);
-void FUN_00b988e0();
 
 struct BatchPassIndexMap : NiTPointerMap<unsigned int, unsigned int>
 {
-    __declspec(noalias) bool FUN_00853130(unsigned int key, unsigned int& result) const;
 };
 
 struct PassNode
@@ -3706,7 +3663,6 @@ struct RenderPassListCollection
 {
     PassBucket buckets[5];
     int unk64;
-    void ClearPassGroups(bool);
 };
 
 struct ActivePass
@@ -3748,41 +3704,41 @@ class BatchRendererQ
             bool bAlpha = false;
             if (i == 0)
             {
-                FUN_00b984d0(1, 0);
-                FUN_00b97ed0(0, 0);
-                if (DAT_011f9421)
-                    FUN_00b98540(0, 1);
+                ::FUN_00b984d0(1);
+                ::FUN_00b97ed0(0, 0);
+                if ((*reinterpret_cast<unsigned char *>(&::DAT_011f9421)))
+                    ::fnv_00b98540::FUN_00b98540(0, 1);
             }
             else if (i == 1)
             {
-                FUN_00b984d0(3, 1);
-                FUN_00b97ed0(0, 0);
-                if (DAT_011f9421)
-                    FUN_00b98540(0, 1);
+                ::FUN_00b984d0(3);
+                ::FUN_00b97ed0(0, 0);
+                if ((*reinterpret_cast<unsigned char *>(&::DAT_011f9421)))
+                    ::fnv_00b98540::FUN_00b98540(0, 1);
             }
             else if (i == 2)
             {
-                FUN_00b984d0(3, 1);
-                FUN_00b97ed0(1, 1);
+                ::FUN_00b984d0(3);
+                ::FUN_00b97ed0(1, 1);
                 bAlpha = true;
-                if (DAT_011f9421)
-                    FUN_00b98540(1, 1);
+                if ((*reinterpret_cast<unsigned char *>(&::DAT_011f9421)))
+                    ::fnv_00b98540::FUN_00b98540(1, 1);
             }
             else if (i == 3)
             {
-                FUN_00b984d0(1, 1);
-                FUN_00b97ed0(1, 1);
+                ::FUN_00b984d0(1);
+                ::FUN_00b97ed0(1, 1);
                 bAlpha = true;
-                if (DAT_011f9421)
-                    FUN_00b98540(1, 1);
+                if ((*reinterpret_cast<unsigned char *>(&::DAT_011f9421)))
+                    ::fnv_00b98540::FUN_00b98540(1, 1);
             }
             else if (i == 4)
             {
-                FUN_00b984d0(1, 1);
-                FUN_00b97ed0(1, 1);
+                ::FUN_00b984d0(1);
+                ::FUN_00b97ed0(1, 1);
                 bAlpha = true;
-                if (DAT_011f9421)
-                    FUN_00b98540(0, 1);
+                if ((*reinterpret_cast<unsigned char *>(&::DAT_011f9421)))
+                    ::fnv_00b98540::FUN_00b98540(0, 1);
             }
 
             PassBucket& kBucket = m_pPassBucketEntries[uiRenderPassIndex].buckets[i];
@@ -3790,21 +3746,21 @@ class BatchRendererQ
             while (kPos)
             {
                 void* pInfo = kBucket.GetNext(kPos);
-                FUN_00b994f0(pInfo, (unsigned short)uiPass, bAlpha, arg3, 0);
+                ::fnv_00b994f0::FUN_00b994f0((::fnv_00b994f0::Pass_b994f0 *)(pInfo), (unsigned short)uiPass, bAlpha, arg3, 0);
             }
 
-            if (DAT_011f9421)
+            if ((*reinterpret_cast<unsigned char *>(&::DAT_011f9421)))
             {
-                DAT_011ffa28--;
-                FUN_00b98540(0, 0);
+                ::DAT_011ffa28--;
+                ::fnv_00b98540::FUN_00b98540(0, 0);
             }
-            FUN_00b98540(0, 0);
-            if (DAT_011ffa24)
-                DAT_011ffa24--;
-            if (DAT_011ff9e8)
-                DAT_011ff9e8--;
+            ::fnv_00b98540::FUN_00b98540(0, 0);
+            if (::DAT_011ffa24)
+                ::DAT_011ffa24--;
+            if (::DAT_011ff9e8)
+                ::DAT_011ff9e8--;
         }
-        m_pPassBucketEntries[uiRenderPassIndex].ClearPassGroups(false);
+        ::ClearPassGroups((::PassGroup_Layout *)&(m_pPassBucketEntries[uiRenderPassIndex]), false, {});
     }
     void FUN_00b99e20(unsigned int uiMinPass, unsigned int uiMaxPass, int arg3);
 };
@@ -3821,8 +3777,8 @@ void BatchRendererQ::FUN_00b99e20(unsigned int uiMinPass, unsigned int uiMaxPass
         maxPass = 753;
     }
 
-    if (DAT_011f94a6)
-        FUN_00bbb840();
+    if (::DAT_011f94a6)
+        ::Lighting30Shader::InvalidateShaderConstants();
 
     if (!m_kActivePassList.IsEmpty())
     {
@@ -3837,11 +3793,11 @@ void BatchRendererQ::FUN_00b99e20(unsigned int uiMinPass, unsigned int uiMaxPass
             }
             {
                 unsigned int uiValue = 0;
-                m_kGroupIndexMap.FUN_00853130(item, uiValue);
+                reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(m_kGroupIndexMap))->FUN_00853130(item, (::fnv_00853130::CombatThreatRecord *&)(uiValue));
 
-                if (FUN_00b630f0(item) && (FUN_00b4f5c0()->bFlag164 || FUN_00b4f5c0()->bFlag165))
+                if (::FUN_00b630f0(item) && (((::fnv_00b99e20::RendererState *)(::FUN_00b4f5c0()))->bFlag164 || ((::fnv_00b99e20::RendererState *)(::FUN_00b4f5c0()))->bFlag165))
                 {
-                    m_pPassBucketEntries[uiValue].ClearPassGroups(false);
+                    ::ClearPassGroups((::PassGroup_Layout *)&(m_pPassBucketEntries[uiValue]), false, {});
                     pPass = pPass->m_pkNext;
                     continue;
                 }
@@ -3851,9 +3807,9 @@ void BatchRendererQ::FUN_00b99e20(unsigned int uiMinPass, unsigned int uiMaxPass
         }
     }
 
-    FUN_00b984d0(1, 0);
-    FUN_00b97ed0(0, 0);
-    FUN_00b988e0();
+    ::FUN_00b984d0(1);
+    ::FUN_00b97ed0(0, 0);
+    ::fnv_00b988e0::FUN_00b988e0();
 }
 }  // namespace fnv_00b99e20
 
@@ -3943,18 +3899,11 @@ struct BatchGroup
     BatchQueue queues[5];
     unsigned count;
 };
-extern bool DAT_011f9421;
-extern int DAT_011ffa24, DAT_011ff9e8, DAT_011ffa28;
-void FUN_00b984d0(int, int);
-void FUN_00b97ed0(int, int);
-int FUN_00b98540(int, int);
-void FUN_00b994f0(void*, unsigned int, bool, int, int);
 struct BatchRenderer
 {
     int unk00, unk04;
     BatchGroup* groups;
     BatchPassMap<unsigned int, unsigned int> map;
-    bool FUN_00b9a090(unsigned&, int&, bool&);
     bool FUN_00b9a120(unsigned&, int&, bool&, int);
 };
 // Processes a batch queue by applying state, rendering passes, and removing them until a kind change or empty queue is reached.
@@ -3962,45 +3911,45 @@ struct BatchRenderer
 bool BatchRenderer::FUN_00b9a120(unsigned& key, int& bucket, bool& kind, int flags)
 {
     unsigned index = 0;
-    map.GetAt(key, index);
+    reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(map))->FUN_00853130(key, (::fnv_00853130::CombatThreatRecord *&)(index));
     bool first = groups[index].queues[bucket].head->pass->kind;
     bool alpha = false;
 
     if (bucket == 0)
     {
-        FUN_00b984d0(1, 0);
-        FUN_00b97ed0(0, 1);
-        FUN_00b98540(0, 1);
+        ::FUN_00b984d0(1);
+        ::FUN_00b97ed0(0, 1);
+        ::fnv_00b98540::FUN_00b98540(0, 1);
     }
     if (bucket == 1)
     {
-        FUN_00b984d0(3, 1);
-        FUN_00b97ed0(0, 1);
-        FUN_00b98540(0, 1);
+        ::FUN_00b984d0(3);
+        ::FUN_00b97ed0(0, 1);
+        ::fnv_00b98540::FUN_00b98540(0, 1);
     }
     if (bucket == 2)
     {
-        FUN_00b984d0(3, 1);
-        FUN_00b97ed0(1, 1);
+        ::FUN_00b984d0(3);
+        ::FUN_00b97ed0(1, 1);
         alpha = true;
         if (DAT_011f9421)
-            FUN_00b98540(1, 1);
+            ::fnv_00b98540::FUN_00b98540(1, 1);
     }
     if (bucket == 3)
     {
-        FUN_00b984d0(1, 1);
-        FUN_00b97ed0(1, 1);
+        ::FUN_00b984d0(1);
+        ::FUN_00b97ed0(1, 1);
         alpha = true;
         if (DAT_011f9421)
-            FUN_00b98540(1, 1);
+            ::fnv_00b98540::FUN_00b98540(1, 1);
     }
     if (bucket == 4)
     {
-        FUN_00b984d0(1, 1);
-        FUN_00b97ed0(1, 1);
+        ::FUN_00b984d0(1);
+        ::FUN_00b97ed0(1, 1);
         alpha = true;
         if (DAT_011f9421)
-            FUN_00b98540(0, 1);
+            ::fnv_00b98540::FUN_00b98540(0, 1);
     }
 
     BatchPass* pass = groups[index].queues[bucket].GetHead();
@@ -4013,7 +3962,7 @@ bool BatchRenderer::FUN_00b9a120(unsigned& key, int& bucket, bool& kind, int fla
             found = true;
             break;
         }
-        FUN_00b994f0(pass, key, alpha, flags, 0);
+        ::fnv_00b994f0::FUN_00b994f0((::fnv_00b994f0::Pass_b994f0 *)(pass), key, alpha, flags, 0);
         BatchGroup& group = groups[index];
         group.queues[bucket].RemoveHead();
         --group.count;
@@ -4030,11 +3979,11 @@ bool BatchRenderer::FUN_00b9a120(unsigned& key, int& bucket, bool& kind, int fla
     if (DAT_011f9421)
     {
         --DAT_011ffa28;
-        FUN_00b98540(0, 0);
+        ::fnv_00b98540::FUN_00b98540(0, 0);
     }
-    FUN_00b98540(0, 0);
+    ::fnv_00b98540::FUN_00b98540(0, 0);
     bool result = true;
     if (!found)
-        result = FUN_00b9a090(key, bucket, kind);
+        result = reinterpret_cast<::BSBatchRenderer *>(this)->FindPassBucket(key, bucket, kind);
     return result;
 }

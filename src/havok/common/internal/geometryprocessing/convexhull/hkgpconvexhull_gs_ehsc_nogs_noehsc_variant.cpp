@@ -1,4 +1,57 @@
 
+#include <new>
+#include "fnv/decl/CB1A90Owner.h"
+#include "fnv/decl/CC0280Writer.h"
+#include "fnv/decl/D7Owner.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cb1930_t.h"
+#include "fnv/decl/FUN_00cb1fe0_t.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00d7ac40_cls.h"
+#include "fnv/decl/FUN_00d7c970_cls.h"
+#include "fnv/decl/FUN_00d7efc0_cls.h"
+#include "fnv/decl/FUN_00d9ec10_cls.h"
+#include "fnv/decl/FnvCpu_FUN_00d76d80_CpuOwner.h"
+#include "fnv/decl/H77ConvexHull.h"
+#include "fnv/decl/QuantizedHull.h"
+#include "fnv/decl/S76320_Cls.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/fnv_00cb1870__hkMapBaseCB18.h"
+#include "fnv/decl/fnv_00d74f10__FUN_00d74f10_class.h"
+#include "fnv/decl/fnv_00d74fb0__S_00d74fb0_Obj.h"
+#include "fnv/decl/fnv_00d75140__Owner.h"
+#include "fnv/decl/fnv_00d75600__S_00d75600_Obj.h"
+#include "fnv/decl/fnv_00d76ca0__FUN_00d76ca0.h"
+#include "fnv/decl/fnv_00d76cf0__FUN_00d76cf0_cls.h"
+#include "fnv/decl/fnv_00d7c8d0__FUN_00d7c8d0.h"
+#include "fnv/decl/hkMatrix3.h"
+#include "fnv/decl/hkMatrix4.h"
+#include "fnv/decl/hkgpConvexHullImpl.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00d74000.h"
+#include "fnv/symbols_00d75000.h"
+#include "fnv/symbols_00d78000.h"
+#include "fnv/symbols_00d79000.h"
+#include "fnv/symbols_00d7a000.h"
+#include "fnv/symbols_00d7b000.h"
+#include "fnv/symbols_00dea000.h"
+#include "fnv/symbols_00ded000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01014000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_01032000.h"
+#include "fnv/symbols_0103d000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_0106e000.h"
+#include "fnv/symbols_010d3000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_0126a000.h"
 #include "fnv_asm_helpers.h"
 // src/havok/common/internal/geometryprocessing/convexhull/hkgpconvexhull_gs_ehsc_nogs_noehsc_variant.cpp - flag-variant unit created 2026-10-27 by flag_proofs.py: contributor code for these functions matched byte for
 // byte only under /MT /O2 /GS- /EHs-c- /Gy (unit src/havok/common/internal/geometryprocessing/convexhull/hkgpconvexhull.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
@@ -15,7 +68,6 @@ struct FUN_00d74dd0_Class {
     void FUN_00d74dd0();
 };
 struct FUN_00d7ac40_class {
-    void FUN_00d7ac40(int);
 };
 struct FUN_00d75850_class {
     int m0;
@@ -26,7 +78,7 @@ struct FUN_00d75850_class {
     void FUN_00d75850();
 };
 int __stdcall FUN_00d76300(const int* p, int i);
-struct FUN_00d7c200_cls { void __thiscall FreeAll(); };
+struct FUN_00d7c200_cls {  };
 struct FUN_00d7c250_cls { void __thiscall FlushQueuedElements(); };
 struct FUN_00d7c950_cls {
     void __thiscall FUN_00d7c950();
@@ -228,9 +280,7 @@ struct PayloadOwner {
     int unk0c;
     int m_iPayload;
 };
-int* __stdcall FUN_00d74ed0(PayloadOwner* apOwner);
 struct TargetCallee {
-    void FUN_00d7a5a0(void* p1, void* p2, void* p3, void* p4, float p5);
 };
 struct FUN_00d74ee0_Class : FUN_00d74dd0_Class {
     void ForwardToCallee(void* p1, void* p2, void* p3, void* p4, float p5);
@@ -259,11 +309,8 @@ struct TextBuffer {
     int unk04;
     int unk08;
     int storage[128];
-    void FUN_00cb1600(char* buffer, int capacity);
     TextBuffer* FUN_00cc01c0(const char* first, const char* middle, const char* last);
     TextBuffer* FUN_00cc01c0();
-    TextBuffer* FUN_00cc02d0();
-    void FUN_00cc00e0();
 };
 struct ChildData {
     int unk000;
@@ -400,7 +447,6 @@ struct ErrorReporter {
     virtual void unk2();
     virtual int message(int type, int hash, const char* text, const char* file, int line);
 };
-extern ErrorReporter* DAT_01268360;
 void __debugbreak();
 struct Owner {
     int unk00;
@@ -419,7 +465,6 @@ struct Owner {
     int unk34;
     int FUN_00d75070(Request* request);
 };
-int __stdcall FUN_00d75120(int* p);
 struct D75130Inner {
     int unk00;
     int unk04;
@@ -446,7 +491,6 @@ struct D75130Outer {
 
     int FUN_00d75130();
 };
-int __stdcall FUN_00d75200(const int* value);
 struct S_00d75210_ErrStream {
     void* m_vt;
     int unk04;
@@ -462,7 +506,6 @@ struct S_00d75210_Error {
     virtual void v2();
     virtual int message(int type, int id, const char* desc, const char* file, int line) throw();
 };
-extern S_00d75210_Error* g_hkError;
 struct S_00d75210_Data {
     int unk00;
     int unk04;
@@ -600,7 +643,6 @@ struct S_00d75210_Self {
     int FUN_00d75210(const S_00d75210_Data* v) const throw();
 };
 struct D762F0Target {
-    void update();
 };
 struct D762F0Owner {
     int unk00;
@@ -609,7 +651,7 @@ struct D762F0Owner {
 
     void FUN_00d762f0();
 };
-struct D76910Inner { void FUN_00d7cf00(); };
+struct D76910Inner {  };
 struct D76910Owner {
     int unk00;
     int unk04;
@@ -619,7 +661,6 @@ struct D76910Owner {
 struct FUN_00d76990_State {
     int unk00;
     float unk04;
-    void FUN_00d7d2a0();
 };
 struct FUN_00d76990_Class {
     int unk00;
@@ -642,12 +683,10 @@ struct __declspec(align(16)) hkVec4 {
     float x, y, z, w;
 };
 struct Shape {
-    float FUN_00d768b0(const hkVec4& v);
     float FUN_00d76840(const hkVec4& v);
     float FUN_00d769c0(const Vec3& p);
 };
 struct AudioSink {
-    void FUN_00d7df60(void* apFirst, void* apSecond, bool abIsNull, void* apThird);
 };
 struct FUN_00d76c50_cls {
     int unk00;
@@ -691,11 +730,7 @@ struct S_00d79f90_Result
 };
 struct S_00d79f90_World
 {
-    S_00d79f90_Result* FUN_00d76cf0();
 };
-void __cdecl FUN_00d79ab0(S_00d79f90_World* world, int a, void* b, float c);
-void __cdecl FUN_00d79580(S_00d79f90_Result* res, void* b, int n, float eps);
-void __cdecl FUN_00d79f90(S_00d79f90_World* world, int a, void* b, int n, float d);
 struct S_00d7a010_Alloc {
     virtual void unk0();
     virtual void unk4();
@@ -729,7 +764,6 @@ struct S_00d7a010_Obj {
     virtual ~S_00d7a010_Obj() throw();
     void operator delete(void* p) throw();
 };
-void __cdecl FUN_00d79f90(int a, int b, S_00d7a010_Array<S_00d7a010_Obj*>& out, int c, float f) throw();
 void __cdecl DeleteCollectedObjects(int a, int b, int c, float f);
 struct S_00d7c200_Heap {
     virtual void v0();
@@ -811,10 +845,8 @@ struct PoolList {
     void *unk08;
     Node *head;
     int activeCount;
-    NodeBank *FUN_00d7c2a0();
     Node *CloneNode(Node *source);
 };
-extern float DAT_0106ea1c;
 class FUN_00d74d40_cls
 {
 public:
@@ -987,7 +1019,6 @@ struct FUN_00d75050_cls {
     int FUN_00d75050();
 };
 struct FUN_00d7a180_target {
-    void FUN_00d7a180();
 };
 struct FUN_00d752d0_cls {
     void* m_00;
@@ -1000,11 +1031,8 @@ struct DiagStream {
     unsigned int m_04;
     unsigned int m_08;
     unsigned int m_buf[128];
-    void FUN_00cb1600(unsigned int* buf, unsigned int size);
     DiagStream* FUN_00cc01c0(const char* fmt, unsigned int count, const char* tail);
-    DiagStream* FUN_00cc02d0();
     void FUN_00cc01c0();
-    void FUN_00cc00e0();
 };
 struct DiagLogger {
     virtual void v0();
@@ -1012,7 +1040,6 @@ struct DiagLogger {
     virtual void v2();
     virtual int Report(int level, unsigned int hash, char* msg, const char* file, int line);
 };
-extern DiagLogger* g_diagLogger;
 struct DiagState {
     unsigned int unk00;
     unsigned int unk04;
@@ -1135,8 +1162,6 @@ extern "C" double __cdecl pow(double base, double exponent);
 extern const double DAT_010d35e8;
 extern const double DAT_010d35e0;
 struct FUN_00d75440_cls {
-    float FUN_00d752e0();
-    double GetMass();
     float ComputeScaledPowerRatio();
 };
 struct FUN_00d75820_Tmp8 {
@@ -1144,7 +1169,6 @@ struct FUN_00d75820_Tmp8 {
     int m04;
 };
 struct FUN_00d75820_Target {
-    void FUN_00d7a200(int a, float b, FUN_00d75820_Tmp8* c, int d);
 };
 struct FUN_00d75820_cls {
     int m00;
@@ -1154,7 +1178,6 @@ struct FUN_00d75820_cls {
     void CallTargetWithTemp(int a1, float a2, int a3);
 };
 struct FUN_00d7b330_cls {
-    void FUN_00d7b330(int a1, int a2, float a3);
 };
 struct FUN_00d76100_cls {
     void* unk00;
@@ -1163,7 +1186,6 @@ struct FUN_00d76100_cls {
     void FUN_00d76100(int a1, int a2, float a3);
 };
 struct FUN_00d7caa0_class {
-    void __thiscall FUN_00d7caa0(float, int);
 };
 struct FUN_00d76920_class {
     void* m_00;
@@ -1177,7 +1199,6 @@ struct SpawnedObject {
     void* m_08;
 };
 struct TailCallee {
-    void Tail();
 };
 class FUN_00d77bc0_cls {
 public:
@@ -1188,10 +1209,7 @@ struct ArgPair
     int m_kPointA;
     int m_kPointB;
 };
-void __cdecl FUN_00d78ea0(int first, ArgPair* apPairs, int count);
-void __cdecl CallWithPair(int a0, int a1, int a2);
 struct D79090Target {
-    void update();
 };
 struct D79090Owner {
     int unk00;
@@ -1227,14 +1245,10 @@ struct FUN_00d79510_Object {
 };
 struct FUN_00d79510_A;
 struct FUN_00d79510_B;
-void __cdecl FUN_00d79250_helper(FUN_00d79510_A* a, FUN_00d79510_B* b,
-                                 FUN_00d79510_Object** out, void* p, float f);
-bool __cdecl FUN_00d79510(FUN_00d79510_A* a, FUN_00d79510_B* b, FUN_00d79510_Object* c, float f);
 static int SortKeyOf(void* p)
 {
     return ((int*)p)[0xe];
 }
-void __cdecl QuickSortByKey(void** arr, int lo, int hi, int ctx);
 struct RandomGenerator {
     unsigned int stateFlags;
     unsigned int seed;
@@ -1380,7 +1394,6 @@ struct D7C850_Class {
     unsigned int m_08;
     void ClearAndFlush();
 };
-extern char DAT_0103d078;
 struct RetBlock64
 {
 	__m128 m_v0;
@@ -1421,11 +1434,6 @@ public:
 	int unk00;
 	int unk04;
 	int unk08;
-	void Init(char *buf, int size);
-	DbgStr_cls *Append(const char *pszPrefix, int value, const char *pszSuffix);
-	DbgStr_cls *Pad(void);
-	DbgStr_cls *Last(void);
-	void Release(void);
 };
 class AssertMgr_cls
 {
@@ -1487,8 +1495,6 @@ struct D76250VectorArray {
     }
 };
 struct D76250Shape {
-    int getNumVertices() const;
-    const D76250Vector4& getVertex(int i) const;
 
     void CopyVerticesToArray(D76250VectorArray& vertices) const;
 };
@@ -1509,7 +1515,6 @@ struct FnvCpu_FUN_00d74e00_CpuObject {
     int FUN_00d74e00();
 };
 struct S_00cc01c0_Class {
-    S_00cc01c0_Class* FUN_00cc02d0();
     void FUN_00cc01c0();
     S_00cc01c0_Class* FUN_00cc01c0(const char*, int, char*);
 };
@@ -1631,8 +1636,6 @@ struct S_00d752e0_Class {
     S_00d752e0_Entity* unk08;
     float FUN_00d752e0();
 };
-extern const char str_010d3540[];
-extern const char str_010d358c[];
 struct S_00cb1600_Class {
     int unk000;
     int unk004;
@@ -1766,9 +1769,7 @@ struct S_00cb1600_Class {
     int unk204;
     int unk208;
 
-    void FUN_00cb1600(int*, unsigned int);
     S_00cc01c0_Class* FUN_00cc01c0(const char*, int, char*);
-    void FUN_00cc00e0();
 };
 // Recursive quicksort partition over 12-byte records keyed by a float at +8;
 // the key delta is scaled by the double literal -1.0 before testing against 0.0.
@@ -1777,7 +1778,6 @@ struct SortRec12 {
     unsigned int m4;
     float key;
 };
-void __cdecl FUN_00d7b160(SortRec12* base, int lo, int hi, int unkArg);
 extern "C" {
 __m128 __cdecl _mm_sub_ps(__m128, __m128);
 __m128 __cdecl _mm_mul_ps(__m128, __m128);
@@ -1819,7 +1819,6 @@ struct DistanceLess {
         return values.first<values.second;
     }
 };
-void FUN_00d7aaf0(DistanceVector* pa,int lo,int hi,DistanceLess less);
 struct S00d7d1c0_Alloc {
     virtual void s0();
     virtual void s1();
@@ -1839,12 +1838,8 @@ struct S00d7d1c0_M08 {
     int f0c;
     int f10;
     int f14;
-    void FreeAll();
-    void ClearAndFlush();
 };
 struct S00d7d1c0_M20 {
-    void FlushQueuedElements();
-    void FUN_00d7c8d0();
 };
 struct S00d7d1c0_Base {
     virtual void v0();
@@ -1857,10 +1852,10 @@ struct S00d7d1c0_Derived : S00d7d1c0_Base {
     S00d7d1c0_M08 m08;
     S00d7d1c0_M20 m20;
     ~S00d7d1c0_Derived() {
-        m20.FlushQueuedElements();
-        m20.FUN_00d7c8d0();
-        m08.FreeAll();
-        m08.ClearAndFlush();
+        reinterpret_cast<::FUN_00d7c250_cls *>(&(m20))->FlushQueuedElements();
+        reinterpret_cast<::fnv_00d7c8d0::FUN_00d7c8d0 *>(&(m20))->fnv_00d7c8d0::FUN_00d7c8d0::~FUN_00d7c8d0();
+        reinterpret_cast<::S_00d7c200 *>(&(m08))->FreeAll();
+        reinterpret_cast<::D7C850_Class *>(&(m08))->ClearAndFlush();
     }
     S00d7d1c0_Derived* FUN_00d7d1c0(int flags);
 };
@@ -2051,8 +2046,6 @@ void S_00d75cb0::FUN_00d75cb0(int mode, const hkVector4& point, hkVector4& close
     }
 }
 
-int __cdecl Vsnprintf(void* buf, int size, const char* fmt, unsigned int arg);
-int __cdecl FUN_00cb10d0(int x);
 extern const char str_010c1a98[];
 
 struct Cc0080Stream {
@@ -2065,7 +2058,7 @@ static __declspec(noinline) void FUN_00cc0080(Cc0080Stream* out, const char* str
     if (!str)
         out->Write("(null)", 6);
     else
-        out->Write(str, FUN_00cb10d0((int)str));
+        out->Write(str, ::fnv_00cb10d0::FUN_00cb10d0((const char *)((int)str)));
 }
 
 struct FUN_00cc02d0_cls {
@@ -2079,7 +2072,7 @@ struct FUN_00cc02d0_cls {
 // @fnv 0x00cc02d0
 FUN_00cc02d0_cls* FUN_00cc02d0_cls::FUN_00cc02d0(int arg) {
     char buf[0x2728];
-    Vsnprintf(buf, 0x2728, str_010c1a98, arg);
+    ::Vsnprintf((char *)(buf), 0x2728, str_010c1a98, arg);
     FUN_00cc0080(m_08, buf);
     return this;
 }
@@ -2140,12 +2133,9 @@ struct S00d756a0_Ostream {
     int m_00;
     int m_04;
     int m_08;
-    void FUN_00cb1600(char* buf, int size);
     S00d756a0_Ostream* FUN_00cc01c0(const char* s);
-    S00d756a0_Ostream* FUN_00cc02d0(int v);
-    void FUN_00cc00e0();
-    S00d756a0_Ostream(char* buf, int size) { FUN_00cb1600(buf, size); }
-    ~S00d756a0_Ostream() { FUN_00cc00e0(); }
+    S00d756a0_Ostream(char* buf, int size) { new ((void *)this) ::FUN_00cb1600(buf, size); }
+    ~S00d756a0_Ostream() { reinterpret_cast<struct ::FUN_00cc00e0 *>(this)->FUN_00cc00e0::~FUN_00cc00e0(); }
 };
 
 inline __m128 S00d756a0_quadReciprocal(__m128 r)
@@ -2172,7 +2162,6 @@ struct S00d756a0_Shape {
     int m_00;
     int m_04;
     char* m_08;
-    void GetMassProperties(S00d756a0_Vec* axes, S00d756a0_Vec* ext);
     void FUN_00d756a0(S00d756a0_Plain& out);
 };
 
@@ -2183,7 +2172,7 @@ void S00d756a0_Shape::FUN_00d756a0(S00d756a0_Plain& out)
     if (*(bool*)(obj + 0x1b4) == false) {
         char buf[0x200];
         S00d756a0_Ostream os(buf, 0x200);
-        os.FUN_00cc01c0(str_010d358c)->FUN_00cc02d0(*(int*)(obj + 0x1b0))->FUN_00cc01c0(&DAT_0103d078);
+        reinterpret_cast<::SinkOwner *>((((::S00d756a0_Ostream *)(reinterpret_cast<::FUN_00cc02d0_cls *>((((::S00d756a0_Ostream *)(reinterpret_cast<::SinkOwner *>(&(os))->FUN_00cc01c0(str_010d358c)))))->FUN_00cc02d0(*(int*)(obj + 0x1b0))))))->FUN_00cc01c0(&DAT_0103d078);
         if (DAT_01268360->message(3, 0x79f9d887, buf, str_010d3540, 0x14e)) {
             __debugbreak();
         }
@@ -2192,7 +2181,7 @@ void S00d756a0_Shape::FUN_00d756a0(S00d756a0_Plain& out)
     {
     S00d756a0_Vec axes[4];
     S00d756a0_Vec ext;
-    GetMassProperties(axes, &ext);
+    reinterpret_cast<::FUN_00d75490_cls *>(this)->GetMassProperties((::RetBlock64 *)(axes), (::RetBlock16 *)(::S00d756a0_Vec *)(&ext));
 
     S00d756a0_Vec tmp;
     tmp.setXYZ_W(ext, *(const S00d756a0_Vec*)&DAT_010c7170);
@@ -2309,35 +2298,35 @@ Box __thiscall Self::FUN_00d75920(int index, float a2, float a3)
     if ((_mm_movemask_ps(_mm_cmple_ps(box->hi.q,
                                        box->lo.q)) & 7) == 0)
         goto tail;
-    if (((HullAccess*)this)->FUN_00d75050() <= 0)
+    if (reinterpret_cast<::FUN_00d75050_cls *>((((HullAccess*)this)))->FUN_00d75050() <= 0)
         goto tail;
     {
         PointNode* node;
         if (idx == 0) {
-            node = ((HullAccess*)this)->FUN_00d75060();
-            Vec4* p = ((HullAccess*)this)->FUN_00d74ed0(node);
+            node = ((::PointNode *)(reinterpret_cast<::D75060Outer *>((((HullAccess*)this)))->FUN_00d75060()));
+            Vec4* p = ((::Vec4 *)(::FUN_00d74ed0((::PayloadOwner *)(((HullAccess*)this)))));
             box->lo.q = ( p->q);
             box->hi.q = ( p->q);
-            node = ((HullAccess*)this)->FUN_00d75120(node);
+            node = ((::PointNode *)(::FUN_00d75120((int *)(((HullAccess*)this)))));
             if (!node)
                 goto tail;
             for (;;) {
-                Vec4* q = ((HullAccess*)this)->FUN_00d74ed0(node);
+                Vec4* q = ((::Vec4 *)(::FUN_00d74ed0((::PayloadOwner *)(((HullAccess*)this)))));
                 box->lo.q = ( _mm_min_ps(box->lo.q,
                                                           q->q));
                 box->hi.q = ( _mm_max_ps(box->hi.q,
                                                           q->q));
-                node = ((HullAccess*)this)->FUN_00d75120(node);
+                node = ((::PointNode *)(::FUN_00d75120((int *)(((HullAccess*)this)))));
                 if (!node)
                     break;
             }
         } else {
-            node = ((HullAccess*)this)->FUN_00d75060();
+            node = ((::PointNode *)(reinterpret_cast<::D75060Outer *>((((HullAccess*)this)))->FUN_00d75060()));
             box->lo.q = (
                 ((HullAccess*)this)->FUN_00d74e80(&temp.lo, node)->q);
             box->hi.q = (
                 ((HullAccess*)this)->FUN_00d74e80(&temp.lo, node)->q);
-            node = ((HullAccess*)this)->FUN_00d75120(node);
+            node = ((::PointNode *)(::FUN_00d75120((int *)(((HullAccess*)this)))));
             if (!node)
                 goto tail;
             for (;;) {
@@ -2345,7 +2334,7 @@ Box __thiscall Self::FUN_00d75920(int index, float a2, float a3)
                 __m128 rq=r->q; _ReadWriteBarrier();
                 box->lo.q=_mm_min_ps(box->lo.q,rq); _ReadWriteBarrier();
                 box->hi.setMax(box->hi,*r);
-                node = ((HullAccess*)this)->FUN_00d75120(node);
+                node = ((::PointNode *)(::FUN_00d75120((int *)(((HullAccess*)this)))));
                 if (!node)
                     break;
             }
@@ -2637,14 +2626,10 @@ struct S_00d76410_Map {
     S_00d76410_Map() { m_kPrimitiveElement = 0; m_iCapacityFlags = 0; m_iPairCount = -1; }
     ~S_00d76410_Map() throw();
     int GetLogicalSize() const { return m_iCapacityFlags & 0x7fffffff; }
-    void EnsureCapacity(S_00d76410_Alloc& alloc, int numElements);
-    void FUN_00cb1870(S_00d76410_Alloc& alloc, S_00d76410_Vertex* key, int val);
-    int LookupHashEntry(S_00d76410_Vertex* key, int def);
-    void ProcessArgument(S_00d76410_Alloc& alloc);
-    __forceinline void writeIndex(S_00d76410_Vertex* v,int& out) { out=LookupHashEntry(v,-1); }
-    __forceinline void reserve(int n) { EnsureCapacity(getRouter().heap(), n); }
-    __forceinline void insert(S_00d76410_Vertex* key, int value) { FUN_00cb1870(getRouter().heap(), key, value); }
-    __forceinline void clear() { ProcessArgument(getRouter().heap()); }
+    __forceinline void writeIndex(S_00d76410_Vertex* v,int& out) { out=reinterpret_cast<::FUN_00cb1930_t *>(this)->LookupHashEntry((int)(v),-1); }
+    __forceinline void reserve(int n) { reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)&(getRouter().heap()), n); }
+    __forceinline void insert(S_00d76410_Vertex* key, int value) { reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(getRouter().heap()), (unsigned int)(key), value); }
+    __forceinline void clear() { reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)&(getRouter().heap())); }
 };
 struct S_00d76410_Hull {
     int unk00;
@@ -2919,8 +2904,6 @@ int S_00d77380::FUN_00d77380(S_00d77380_Strided* s, int a, int b)
     return CopyAndDispatch(arr.begin(), arr.GetLogicalSize(), a, b);
 }
 
-extern const char str_010d3574[];
-extern const float s_faderClearedAlpha;
 void __cdecl FUN_00c908c0(void*,void*,int,int);
 extern "C" __m128 _mm_mul_ps(__m128, __m128);
 extern "C" __m128 _mm_sub_ps(__m128, __m128);
@@ -2933,11 +2916,8 @@ extern "C" void _mm_store_ss(float*, __m128);
 
 struct ExportStream {
     int unk00,unk04,unk08;
-    void FUN_00cb1600(char*,int);
     ExportStream* FUN_00cc01c0(const char*,int,char*);
-    ExportStream* FUN_00cc02d0();
     void FUN_00cc01c0();
-    void FUN_00cc00e0();
 };
 struct OffsetVector { int x,y,z,w; };
 struct OffsetView { __m128* data; int size; int stride; };
@@ -2967,113 +2947,18 @@ union OffsetWorkspace { ExportStream stream; OffsetArray array; };
 struct OffsetOwner {
     int unk00,unk04;
     ChildData* state;
-    OffsetVector* FUN_00d75600();
     OffsetVector* FUN_00d752d0();
-    int FUN_00d74f10();
-    OffsetVector* FUN_00d74fb0(int);
     __declspec(noinline) int FUN_00d74e10();
     __declspec(noinline) void* FUN_00d74e00();
-    ValueBlock GetValueBlock();
-    int FUN_00d75050();
-    PayloadOwner* FUN_00d75060();
     __declspec(noinline) __m128* FUN_00d74ed0(PayloadOwner* n);
     __declspec(noinline) PayloadOwner* FUN_00d75120(PayloadOwner* n);
-    void FUN_00d77840(__m128*,int,const ValueBlock&,void*);
     void FUN_00d774a0(__m128*,int,void*);
-    void FUN_00d77380(const OffsetView&,const ValueBlock&,void*);
-    void FUN_00d77200(const OffsetView&,void*);
-    void FUN_00d762f0();
-    void SetValue(float,bool);
 };
 int OffsetOwner::FUN_00d74e10() { return state->unk1a8; }
 void* OffsetOwner::FUN_00d74e00() { return state; }
 __m128* OffsetOwner::FUN_00d74ed0(PayloadOwner* n) { return (__m128*)&n->m_iPayload; }
 PayloadOwner* OffsetOwner::FUN_00d75120(PayloadOwner* n) { return *(PayloadOwner**)n; }
 static __forceinline float OffsetMaximum(float a,float b) { return a>b?a:b; }
-// @fnv 0x00d78720
-void S_00d79f90_Result::FUN_00d78720(float f,const S_00d79f90_Opts& opts)
-{
-    OffsetOwner* owner=(OffsetOwner*)this;
-    ChildData* state=owner->state;
-    OffsetWorkspace work;
-    if(!state->flag1b5) {
-        char buffer[512];
-        ExportStream& stream=work.stream;
-        stream.FUN_00cb1600(buffer,512);
-        stream.FUN_00cc01c0(str_010d3574,state->unk1b0,&DAT_0103d078)->FUN_00cc02d0()->FUN_00cc01c0();
-        if(DAT_01268360->message(3,0x79f9d886,buffer,str_010d3540,0x148)) __debugbreak();
-        stream.FUN_00cc00e0();
-    }
-    OffsetVector centerCopy=*(owner->state->unk1b4?owner->FUN_00d75600():owner->FUN_00d752d0());
-    __m128 center=(__m128&)centerCopy;
-    OffsetArray& array=work.array;
-    switch(opts.mode) {
-    case 1: {
-        array.init();
-        array.reserve(owner->FUN_00d74f10());
-        for(int i=0;i<owner->FUN_00d74f10();++i) {
-            OffsetVector plane=*owner->FUN_00d74fb0(i);
-            __m128 v=(__m128&)plane;
-            __m128 m=_mm_mul_ps(v,center);
-            __m128 z=_mm_add_ss(_mm_shuffle_ps(m,m,0xaa),_mm_shuffle_ps(v,v,0xff));
-            __m128 y=_mm_add_ss(_mm_shuffle_ps(m,m,0x55),m);
-            float dot;
-            _mm_store_ss(&dot,_mm_add_ps(z,y));
-            float displacement=OffsetMaximum(opts.value+dot,f);
-            ((hkVec4&)plane).w-=displacement;
-            array.AddBack((__m128&)plane);
-        }
-        if(owner->FUN_00d74e10()==2) owner->FUN_00d77840(array.data,array.size,owner->GetValueBlock(),owner->FUN_00d74e00());
-        else owner->FUN_00d774a0(array.data,array.size,owner->FUN_00d74e00());
-        array.clearAndFree();
-        break;
-    }
-    case 0: {
-        array.init();
-        array.reserve(owner->FUN_00d75050());
-        for(PayloadOwner* node=owner->FUN_00d75060();node;node=owner->FUN_00d75120(node)) {
-            __m128* point=owner->FUN_00d74ed0(node);
-            __m128 c=center;
-            __m128 delta=_mm_sub_ps(*point,c);
-            __m128 q=_mm_mul_ps(delta,delta);
-            __m128 y=_mm_shuffle_ps(q,q,0x55);
-            __m128 z=_mm_shuffle_ps(q,q,0xaa);
-            __m128 sum=_mm_add_ss(z,_mm_add_ss(y,q));
-            float length;
-            _mm_store_ss(&length,_mm_sqrt_ss(sum));
-            if(length>opts.value) {
-                float radius=length+f;
-                if(radius<opts.value) radius=opts.value;
-                radius/=length;
-                __m128 value=_mm_add_ps(_mm_mul_ps(_mm_load_ps1(&radius),delta),c);
-                S_00d7a010_Router& router=S_00d7a010_Router::FUN_00c85750();
-                if(array.size==(array.capacity&0x3fffffff)) ResizeAudioStream(router.m_pStreamAllocator,&array,16);
-                __m128* dest=array.data+array.size;
-                for(int j=0;j<1;++j) dest[j]=value;
-                ++array.size;
-            } else {
-                S_00d7a010_Router& router=S_00d7a010_Router::FUN_00c85750();
-                if(array.size==(array.capacity&0x3fffffff)) ResizeAudioStream(router.m_pStreamAllocator,&array,16);
-                __m128* dest=array.data+array.size;
-                for(int j=0;j<1;++j) dest[j]=*point;
-                ++array.size;
-            }
-        }
-        if(owner->FUN_00d74e10()==2) {
-            OffsetView view={array.data,array.size,16};
-            owner->FUN_00d77380(view,owner->GetValueBlock(),owner->FUN_00d74e00());
-        } else {
-            OffsetView view={array.data,array.size,16};
-            owner->FUN_00d77200(view,owner->FUN_00d74e00());
-        }
-        array.clearAndFree();
-        break;
-    }
-    }
-    owner->FUN_00d762f0();
-    owner->SetValue(s_faderClearedAlpha,false);
-}
-
 extern "C" __m128 _mm_mul_ps(__m128,__m128);
 extern "C" __m128 _mm_add_ps(__m128,__m128);
 extern "C" __m128 _mm_shuffle_ps(__m128,__m128,unsigned int);
@@ -3082,14 +2967,12 @@ struct BlendOptions {
     unsigned char m_00;
     float m_04;
     unsigned char m_08,m_09,m_0a,m_0b,m_0c,m_0d;
-    void FUN_00d74d40();
 };
 struct BlendObject {
     virtual ~BlendObject();
     unsigned short size;
     int unk08,unk0c,unk10;
     BlendObject* FUN_00d76ca0();
-    int FUN_00d77200(void* vertices,BlendOptions* options);
 };
 struct BlendFactory {
     virtual void v0();
@@ -3151,17 +3034,17 @@ BlendObject* __cdecl FUN_00d78ca0(const BlendInput* a,const BlendInput* b,const 
     BlendObject* result;
     {
     BlendOptions options;
-    options.FUN_00d74d40();
+    reinterpret_cast<::FUN_00d74d40_cls *>(&(options))->FUN_00d74d40();
     options.m_00=1;
     h=router();
     BlendObject* obj=(BlendObject*)h->factory->alloc(20);
     obj->size=20;
-    result=obj->FUN_00d76ca0();
+    result=((::BlendObject *)(new ((void *)(obj)) ::fnv_00d76ca0::FUN_00d76ca0()));
     BlendSpan span;
     span.data=out.data;
     span.count=out.count;
     span.stride=16;
-    if(result->FUN_00d77200(&span,&options)==-1) {
+    if(reinterpret_cast<::H77ConvexHull *>((result))->FUN_00d77200((*(const ::H77StridedVertices *)(&span)),(int)(&options))==-1) {
         if(result) delete result;
         result=0;
     }
@@ -3181,15 +3064,13 @@ extern "C" __m128 _mm_load_ps1(const float*);
 extern "C" __m128 _mm_add_ps(__m128, __m128);
 
 extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern __m128 DAT_01267e30;
-extern double DAT_0104e138;
 struct Scalar352 {
     __m128 value;
     Scalar352(const float& scalar) { value = _mm_load_ps1(&scalar); }
 };
 struct Vector352 {
     __m128 value;
-    void SetZero() { value = DAT_01267e30; }
+    void SetZero() { value = (*reinterpret_cast<::__m128 *>(&::DAT_01267e30)); }
     void Add(const Vector352& other) { value = _mm_add_ps(other.value, value); }
     void Multiply(const Scalar352& factor) { value = _mm_mul_ps(factor.value, value); }
 };
@@ -3298,17 +3179,13 @@ int S_00d7a200_Owner::FUN_00d7a200(const S_00d7a200_V4& plane, float tol, int* c
     return pos != 0;
 }
 
-extern const char str_010d365c[];
-extern const char str_010d35f0[];
 
 struct CharBuffer
 {
     char* begin;
     char* end;
     unsigned int capacity;
-    void FUN_00cb1600(char*, unsigned int);
     CharBuffer* FUN_00cc01c0(const char*);
-    void FUN_00cc00e0();
 };
 
 struct BlockAllocAB
@@ -3383,26 +3260,22 @@ void PoolAllocator40::FUN_00d7adb0(PoolItem40* item)
         }
         char buf[512];
         CharBuffer ostr;
-        ostr.FUN_00cb1600(buf, 0x200);
-        ostr.FUN_00cc01c0(str_010d365c);
+        new ((void *)&(ostr)) ::FUN_00cb1600(buf, 0x200);
+        reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0(str_010d365c);
         if (DAT_01268360->message(3, 0x90355365, buf, str_010d35f0, 0xaf))
             __debugbreak();
-        ostr.FUN_00cc00e0();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(ostr))->FUN_00cc00e0::~FUN_00cc00e0();
     }
 }
 
 namespace fnv_00d7aea0 {
-extern const char str_010d365c[];
-extern const char str_010d35f0[];
 
 struct CharBuffer
 {
     char* begin;
     char* end;
     unsigned int capacity;
-    void FUN_00cb1600(char*, unsigned int);
     CharBuffer* FUN_00cc01c0(const char*);
-    void FUN_00cc00e0();
 };
 
 struct BlockAllocAB
@@ -3478,11 +3351,11 @@ void PoolAllocator48::FUN_00d7aea0(PoolItem48* item)
         }
         char buf[512];
         CharBuffer ostr;
-        ostr.FUN_00cb1600(buf, 0x200);
-        ostr.FUN_00cc01c0(str_010d365c);
-        if (DAT_01268360->message(3, 0x90355365, buf, str_010d35f0, 0xaf))
+        new ((void *)&(ostr)) ::FUN_00cb1600(buf, 0x200);
+        reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0(::str_010d365c);
+        if (DAT_01268360->message(3, 0x90355365, buf, ::str_010d35f0, 0xaf))
             __debugbreak();
-        ostr.FUN_00cc00e0();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(ostr))->FUN_00cc00e0::~FUN_00cc00e0();
     }
 }
 }  // namespace fnv_00d7aea0
@@ -3521,8 +3394,6 @@ struct ProjectionVertex {
     int unk04,unk08,unk0c;
     D76250Vector4 value;
 };
-void __cdecl FUN_00dedcf0(D76250VectorArray*,D76250VectorArray*);
-void __cdecl FUN_00dea810(D76250VectorArray*,const D76250Vector4*,D76250Vector4*);
 struct ProjectionHull {
     int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20;
     ProjectionVertex* vertices; int numVertices;
@@ -3532,12 +3403,12 @@ struct ProjectionHull {
         ProjectionArray temp;
         D76250Vector4* out=temp.expandBy(numVertices);
         for(ProjectionVertex* v=vertices;v;v=v->next) *out++=v->value;
-        FUN_00dedcf0(&temp,&cached);
+        ::FUN_00dedcf0((*(const ::VertexArray *)(&temp)),(*(::FourPointArray *)(&cached)));
 
     }
     __forceinline void support(const D76250Vector4& dir,D76250Vector4& out) {
         if(cached.m_iElementCount==0) build();
-        FUN_00dea810(&cached,&dir,&out);
+        ::fnv_00dea810::FUN_00dea810((*(const ::fnv_00dea810::FourPointsArray *)(&cached)),(*(const ::fnv_00dea810::hkVector4q *)(&dir)),(*(::fnv_00dea810::hkVector4q *)(&out)));
     }
     float FUN_00d7c610(const D76250Vector4& direction,float& lower,float& upper);
 };
@@ -3560,14 +3431,10 @@ float ProjectionHull::FUN_00d7c610(const D76250Vector4& direction,float& lower,f
 }
 
 namespace fnv_00d7e740 {
-extern const char str_010d3574[];
 struct ExportStream {
     int unk00,unk04,unk08;
-    void FUN_00cb1600(char*,int);
     ExportStream* FUN_00cc01c0(const char*,int,char*);
-    ExportStream* FUN_00cc02d0();
     void FUN_00cc01c0();
-    void FUN_00cc00e0();
 };
 
 struct ExportAllocator {
@@ -3647,7 +3514,6 @@ static __forceinline int NextCorner(int i) { return (9>>(i*2))&3; }
 
 union ExportWorkspace { ExportStream stream; ExportArray<ExportFace*> sorted; ExportArray<ExportVertex*> map; };
 struct ExportCompare { unsigned char dummy; };
-void __cdecl QuickSortByKey(void**,int,int,ExportCompare);
 
 struct ExportShape {
     int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20;
@@ -3681,10 +3547,10 @@ int ExportShape::FUN_00d7e740(ExportArray<unsigned char>& sizes,ExportArray<unsi
     if(!indexed) {
         char buffer[512];
         ExportStream& stream=workspace.stream;
-        stream.FUN_00cb1600(buffer,512);
-        stream.FUN_00cc01c0(str_010d3574,index,&DAT_0103d078)->FUN_00cc02d0()->FUN_00cc01c0();
+        new ((void *)&(stream)) ::FUN_00cb1600(buffer,512);
+        reinterpret_cast<::SinkOwner *>((((::fnv_00d7e740::ExportStream *)(reinterpret_cast<::FUN_00cc02d0_cls *>((((::fnv_00d7e740::ExportStream *)(reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(::str_010d3574)))))->FUN_00cc02d0({})))))->FUN_00cc01c0({});
         if(DAT_01268360->message(3,0x79f9d886,buffer,str_010d3540,0x148)) __debugbreak();
-        stream.FUN_00cc00e0();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();
     }
     sizes.size=0;
     sizes.reserve(numPolygons);
@@ -3696,7 +3562,7 @@ int ExportShape::FUN_00d7e740(ExportArray<unsigned char>& sizes,ExportArray<unsi
         for(ExportFace* f=faces;f;f=f->next) { ExportFace** p=sorted.data+sorted.size; for(int j=0;j<1;++j) p[j]=f; ++sorted.size; }
         ExportCompare compare;
         compare.dummy=0;
-        if(sorted.size>1) QuickSortByKey((void**)sorted.data,0,sorted.size-1,compare);
+        if(sorted.size>1) ::QuickSortByKey((void**)sorted.data,0,sorted.size-1,(*(int *)&(const ::fnv_00d7e740::ExportCompare &)(compare)));
         for(int i=0,n=sorted.size;i<n;++i) {
             ExportFace* f=sorted.data[i];
             if(f->mark==count) {
@@ -3841,7 +3707,6 @@ __m128 __cdecl _mm_load_ss(float const*);
 void __cdecl _mm_store_ps(float*, __m128);
 }
 
-extern float DAT_01011d78;
 
 struct SpatialNode {
     SpatialNode* m_next;
@@ -3881,7 +3746,7 @@ static __forceinline __m128 SpatialDist4(__m128 diff)
 SpatialSimd FUN_00d7a350_cls::FUN_00d7a350(const __m128& p)
 {
     SpatialVec4 bestS;
-    _mm_store_ps(&bestS.x, _mm_load_ss(&DAT_01011d78));
+    _mm_store_ps(&bestS.x, _mm_load_ss(&::DAT_01011d78));
     __m128 bestPt = p;
     for (SpatialNode* node = m_24; node != 0; node = node->m_next) {
         __m128 t = SpatialDist4(_mm_sub_ps(p, node->m_pos));
@@ -3901,15 +3766,11 @@ SpatialSimd FUN_00d7a350_cls::FUN_00d7a350(const __m128& p)
     return r;
 }
 
-extern const char str_010d3574[];
 struct D76250Allocator : S_00d7a010_Alloc {};
 
 struct PolygonStream {
     int unk00, unk04, unk08;
-    void FUN_00cb1600(char*, int) throw();
     PolygonStream& FUN_00cc01c0(const char*) throw();
-    PolygonStream& FUN_00cc02d0(unsigned int) throw();
-    void FUN_00cc00e0() throw();
 };
 
 template<class T> struct PolygonArray {
@@ -4007,7 +3868,6 @@ struct PolygonLess {
     bool flag;
     __forceinline PolygonLess() : flag(false) {}
 };
-void __cdecl QuickSortByKey(PolygonTriangle**, int, int, PolygonLess);
 struct PolygonEdge {
     PolygonTriangle* triangle;
     int edge;
@@ -4076,10 +3936,10 @@ int PolygonMesh::FUN_00d7df60(PolygonArray<int>& counts, PolygonArray<int>& indi
     if (!hasIndices) {
         char buffer[512];
         PolygonStream& stream = *(PolygonStream*)&scratch;
-        stream.FUN_00cb1600(buffer, sizeof(buffer));
-        stream.FUN_00cc01c0(str_010d3574).FUN_00cc02d0((unsigned int)errorValue).FUN_00cc01c0((const char*)&DAT_0103d078);
+        new ((void *)&(stream)) ::FUN_00cb1600(buffer, sizeof(buffer));
+        reinterpret_cast<::SinkOwner *>(&((*(::PolygonStream *)(reinterpret_cast<::FUN_00cc02d0_cls *>(&((*(::PolygonStream *)(reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(str_010d3574)))))->FUN_00cc02d0((unsigned int)errorValue)))))->FUN_00cc01c0((const char*)&DAT_0103d078);
         if (DAT_01268360->message(3, 0x79f9d886, buffer, str_010d3540, 0x148)) __debugbreak();
-        stream.FUN_00cc00e0();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();
     }
     counts.size = 0;
     counts.reserve(polygonCount);
@@ -4091,7 +3951,7 @@ int PolygonMesh::FUN_00d7df60(PolygonArray<int>& counts, PolygonArray<int>& indi
         triangles.reserve(triangleCount);
         for (PolygonTriangle* t = triangleHead; t; t = t->next) triangles.pushBackUnchecked((void*)t);
         PolygonLess comparator = PolygonLess();
-        if (triangles.size > 1) QuickSortByKey((PolygonTriangle**)triangles.data, 0, triangles.size - 1, comparator);
+        if (triangles.size > 1) ::QuickSortByKey((void **)(::PolygonTriangle **)((PolygonTriangle**)triangles.data), 0, triangles.size - 1, (*(int *)&(const ::PolygonLess &)(comparator)));
         int i = 0;
         int numTriangles = triangles.size;
         for (; i < numTriangles; ++i) {
@@ -4164,9 +4024,6 @@ extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 extern "C" __m128 _mm_mul_ps(__m128, __m128);
 extern "C" __m128 _mm_add_ps(__m128, __m128);
 
-extern const double DAT_01011588;
-extern const char str_010d3574[];
-extern const char str_010d3540[];
 
 union D81340Vec4 {
     __m128 q;
@@ -4177,11 +4034,8 @@ struct D81340Dbg {
     void* unk00;
     int unk04;
     int unk08;
-    void __thiscall FUN_00cb1600(char* buf, unsigned int n);
     D81340Dbg* __thiscall FUN_00cc01c0(const char* fmt, int a, const char* b);
-    D81340Dbg* __thiscall FUN_00cc02d0();
     void __thiscall FUN_00cc01c0();
-    void __thiscall FUN_00cc00e0();
 };
 
 struct D81340Workspace {
@@ -4317,61 +4171,8 @@ struct D81340Cls {
     void __thiscall FUN_00d81340(D81340Vec4& a0, D81340Transform& a1);
 };
 
-// @fnv 0x00d81340
-void D81340Cls::FUN_00d81340(D81340Vec4& a0, D81340Transform& a1) {
-    D81340Workspace workspace;
-    if (m_1a8 < 3) {
-        FUN_00d7f090((int)&m_e0, &a0, &a1);
-        return;
-    }
-    if (!m_1b5) {
-        char buffer[0x200];
-        D81340Dbg& stream = workspace.stream;
-        stream.FUN_00cb1600(buffer, 0x200);
-        stream.FUN_00cc01c0(str_010d3574, (int)m_1b0, &DAT_0103d078)->FUN_00cc02d0()->FUN_00cc01c0();
-        if (DAT_01268360->message(3, 0x79f9d886, buffer, str_010d3540, 0x148)) __debugbreak();
-        stream.FUN_00cc00e0();
-    }
-    float& u18 = workspace.bounds.lower;
-    float& u1c = workspace.bounds.upper;
-    float t14;
-    float& t24 = workspace.bestR;
-    float& r = workspace.result;
-    float& t2c = workspace.bestD;
-    t24 = DAT_0104da48;
-    t2c = DAT_0104da48;
-    D81340Vec4 v30;
-    D81340Transform v40;
-    float s;
-    for (int i = 0; i < m_58; ++i) {
-        int elem = (int)m_54 + i * 16;
-        r = FUN_00d7c610(elem, &u18, &u1c);
-        if (r < t24) {
-            int elem2 = (int)m_54 + i * 16;
-            t14 = FUN_00d7f090(elem2, &v30, &v40) * (u1c - u18);
-            if (t14 < t2c) {
-                t24 = r;
-                t2c = t14;
-                a0.q = v30.q;
-                a0.q.m128_f32[2] = r;
-                a1.c0.q = v40.c0.q;
-                a1.c1.q = v40.c1.q;
-                a1.c2.q = v40.c2.q;
-                a1.c3.q = v40.c3.q;
-            }
-        }
-    }
-    volatile float& distance = a0.z;
-    distance *= DAT_01011588;
-    s = -distance;
-    __m128 sv = _mm_load_ss(&s);
-    __m128 sb = _mm_shuffle_ps(sv, sv, 0);
-    a1.c3.q = _mm_add_ps(_mm_mul_ps(sb, a1.c2.q), a1.c3.q);
-}
-
 struct SupportVector { __m128 q; };
 struct SupportShape {
-    void FUN_00d76320(const SupportVector& input, SupportVector& output);
     float FUN_00d768b0(const SupportVector& input);
 };
 
@@ -4379,7 +4180,7 @@ struct SupportShape {
 float SupportShape::FUN_00d768b0(const SupportVector& input)
 {
     SupportVector normal;
-    FUN_00d76320(input, normal);
+    reinterpret_cast<::S76320_Cls *>(this)->FUN_00d76320((int)&(input), (int)&(normal));
     __m128 c = normal.q;
     __m128 a = input.q;
     __m128 offset = _mm_shuffle_ps(a, a, 0xff);
@@ -4392,7 +4193,6 @@ float SupportShape::FUN_00d768b0(const SupportVector& input)
     return result;
 }
 
-extern float DAT_0104e148;
 class PlaneScalar {
     __m128 value;
 public:
@@ -4425,21 +4225,19 @@ struct PlaneArgument {
     PlaneArgument(const PlaneVector* v):p(v) {}
 };
 struct PlaneHull {
-    int FUN_00d74f10();
-    const PlaneVector& FUN_00d74fb0(int i);
     float FUN_00d75880(PlaneArgument point);
 };
 static __forceinline float greaterValue(float a,float b) { return a>b?a:b; }
 // @fnv 0x00d75880
 float PlaneHull::FUN_00d75880(PlaneArgument point) {
-    float best=DAT_0104e148;
+    float best=::DAT_0104e148;
     int i=0;
-    if(i<FUN_00d74f10()) {
+    if(i<reinterpret_cast<::fnv_00d74f10::FUN_00d74f10_class *>(this)->FUN_00d74f10()) {
       const PlaneVector* query=point.p;
       do {
-        const PlaneVector& plane=FUN_00d74fb0(i);
+        const PlaneVector& plane=(*(const ::PlaneVector *)(reinterpret_cast<::fnv_00d74fb0::S_00d74fb0_Obj *>(this)->FUN_00d74fb0(i)));
         best=greaterValue(best,plane.dot(*query)+plane.offset(3));
-      } while(++i<FUN_00d74f10());
+      } while(++i<reinterpret_cast<::fnv_00d74f10::FUN_00d74f10_class *>(this)->FUN_00d74f10());
     }
     return best;
 }
@@ -4457,8 +4255,6 @@ extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
 extern "C" __m128 _mm_load_ps(const float* p);
 extern "C" void _mm_store_ps(float* p, __m128 a);
 
-extern unsigned long DAT_0126835c;
-extern float DAT_01011d78;
 extern const __m128 DAT_010c7160;
 
 struct Tt_ProfRec {
@@ -4533,9 +4329,91 @@ static __forceinline void Tt_setMul3(Tt_V4& out, const Tt_M3& a, const Tt_V4& b)
 
 struct S_00d77840 {
     int unk00;
-    int FUN_00d77380(D76250VectorArray* view, const D76250Vector4* sph, int a4);
     int FUN_00d77840(const D76250Vector4* pts, int n, const D76250Vector4* sph, int a4);
 };
+// @fnv 0x00d78720
+void S_00d79f90_Result::FUN_00d78720(float f,const S_00d79f90_Opts& opts)
+{
+    OffsetOwner* owner=(OffsetOwner*)this;
+    ChildData* state=owner->state;
+    OffsetWorkspace work;
+    if(!state->flag1b5) {
+        char buffer[512];
+        ExportStream& stream=work.stream;
+        new ((void *)&(stream)) ::FUN_00cb1600(buffer,512);
+        reinterpret_cast<::SinkOwner *>((((::ExportStream *)(reinterpret_cast<::FUN_00cc02d0_cls *>((((::ExportStream *)(reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(str_010d3574)))))->FUN_00cc02d0({})))))->FUN_00cc01c0({});
+        if(DAT_01268360->message(3,0x79f9d886,buffer,str_010d3540,0x148)) __debugbreak();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();
+    }
+    OffsetVector centerCopy=*(owner->state->unk1b4?((::OffsetVector *)(reinterpret_cast<::fnv_00d75600::S_00d75600_Obj *>((owner))->FUN_00d75600())):owner->FUN_00d752d0());
+    __m128 center=(__m128&)centerCopy;
+    OffsetArray& array=work.array;
+    switch(opts.mode) {
+    case 1: {
+        array.init();
+        array.reserve(reinterpret_cast<::fnv_00d74f10::FUN_00d74f10_class *>((owner))->FUN_00d74f10());
+        for(int i=0;i<reinterpret_cast<::fnv_00d74f10::FUN_00d74f10_class *>((owner))->FUN_00d74f10();++i) {
+            OffsetVector plane=*((::OffsetVector *)(reinterpret_cast<::fnv_00d74fb0::S_00d74fb0_Obj *>((owner))->FUN_00d74fb0(i)));
+            __m128 v=(__m128&)plane;
+            __m128 m=_mm_mul_ps(v,center);
+            __m128 z=_mm_add_ss(_mm_shuffle_ps(m,m,0xaa),_mm_shuffle_ps(v,v,0xff));
+            __m128 y=_mm_add_ss(_mm_shuffle_ps(m,m,0x55),m);
+            float dot;
+            _mm_store_ss(&dot,_mm_add_ps(z,y));
+            float displacement=OffsetMaximum(opts.value+dot,f);
+            ((hkVec4&)plane).w-=displacement;
+            array.AddBack((__m128&)plane);
+        }
+        if(reinterpret_cast<::FUN_00d74e10_cls *>((owner))->FUN_00d74e10()==2) reinterpret_cast<::S_00d77840 *>((owner))->FUN_00d77840((const ::D76250Vector4 *)(array.data),array.size,(const ::D76250Vector4 *)&(const ::ValueBlock &)(reinterpret_cast<::FUN_00d74e50_cls *>((owner))->GetValueBlock()),(int)(((void *)(reinterpret_cast<::FnvCpu_FUN_00d74e00_CpuObject *>((owner))->FUN_00d74e00()))));
+        else owner->FUN_00d774a0(array.data,array.size,((void *)(reinterpret_cast<::FnvCpu_FUN_00d74e00_CpuObject *>((owner))->FUN_00d74e00())));
+        array.clearAndFree();
+        break;
+    }
+    case 0: {
+        array.init();
+        array.reserve(reinterpret_cast<::FUN_00d75050_cls *>((owner))->FUN_00d75050());
+        for(PayloadOwner* node=((::PayloadOwner *)(reinterpret_cast<::D75060Outer *>((owner))->FUN_00d75060()));node;node=((::PayloadOwner *)(::FUN_00d75120((int *)(owner))))) {
+            __m128* point=((::__m128 *)(::FUN_00d74ed0((::PayloadOwner *)(owner))));
+            __m128 c=center;
+            __m128 delta=_mm_sub_ps(*point,c);
+            __m128 q=_mm_mul_ps(delta,delta);
+            __m128 y=_mm_shuffle_ps(q,q,0x55);
+            __m128 z=_mm_shuffle_ps(q,q,0xaa);
+            __m128 sum=_mm_add_ss(z,_mm_add_ss(y,q));
+            float length;
+            _mm_store_ss(&length,_mm_sqrt_ss(sum));
+            if(length>opts.value) {
+                float radius=length+f;
+                if(radius<opts.value) radius=opts.value;
+                radius/=length;
+                __m128 value=_mm_add_ps(_mm_mul_ps(_mm_load_ps1(&radius),delta),c);
+                S_00d7a010_Router& router=S_00d7a010_Router::FUN_00c85750();
+                if(array.size==(array.capacity&0x3fffffff)) ResizeAudioStream(router.m_pStreamAllocator,&array,16);
+                __m128* dest=array.data+array.size;
+                for(int j=0;j<1;++j) dest[j]=value;
+                ++array.size;
+            } else {
+                S_00d7a010_Router& router=S_00d7a010_Router::FUN_00c85750();
+                if(array.size==(array.capacity&0x3fffffff)) ResizeAudioStream(router.m_pStreamAllocator,&array,16);
+                __m128* dest=array.data+array.size;
+                for(int j=0;j<1;++j) dest[j]=*point;
+                ++array.size;
+            }
+        }
+        if(reinterpret_cast<::FUN_00d74e10_cls *>((owner))->FUN_00d74e10()==2) {
+            OffsetView view={array.data,array.size,16};
+            reinterpret_cast<::S_00d77380 *>((owner))->FUN_00d77380((::S_00d77380_Strided *)&(view),(int)&(const ::ValueBlock &)(reinterpret_cast<::FUN_00d74e50_cls *>((owner))->GetValueBlock()),(int)(((void *)(reinterpret_cast<::FnvCpu_FUN_00d74e00_CpuObject *>((owner))->FUN_00d74e00()))));
+        } else {
+            OffsetView view={array.data,array.size,16};
+            reinterpret_cast<::H77ConvexHull *>((owner))->FUN_00d77200((const ::H77StridedVertices &)(view),(int)(((void *)(reinterpret_cast<::FnvCpu_FUN_00d74e00_CpuObject *>((owner))->FUN_00d74e00()))));
+        }
+        array.clearAndFree();
+        break;
+    }
+    }
+    reinterpret_cast<::D762F0Owner *>((owner))->FUN_00d762f0();
+    reinterpret_cast<::FUN_00d76990_Class *>((owner))->SetValue(::DAT_0106ea1c,false);
+}
 
 static __forceinline void release_out(D76250VectorArray& out)
 {
@@ -4584,7 +4462,7 @@ int S_00d77840::FUN_00d77840(const D76250Vector4* pts, int n, const D76250Vector
             Tt_M3 A;
             A.setRows(planes[i], planes[j], projectionPlane);
             b(2) = -projectionPlane.getW();
-            if (A.FUN_00cd4f10(1.1920929e-7f) == 0) {
+            if (reinterpret_cast<::hkMatrix3 *>(&(A))->FUN_00cd4f10(1.1920929e-7f) == 0) {
                 Tt_V4 x;
                 Tt_setMul3(x, A, b);
                 bool ok = true;
@@ -4620,7 +4498,7 @@ int S_00d77840::FUN_00d77840(const D76250Vector4* pts, int n, const D76250Vector
         view->m_data = out.m_data;
         view->m_iElementCount = out.m_iElementCount;
         view->m_iCapacityState = 0x10;
-        int result = FUN_00d77380(view, sph, a4);
+        int result = reinterpret_cast<::S_00d77380 *>(this)->FUN_00d77380((::S_00d77380_Strided *)(view), (int)(sph), a4);
         release_out(out);
         return result;
     }
@@ -4774,14 +4652,13 @@ struct S00d79ab0_RadialSort {
     __forceinline S00d79ab0_RadialSort(const S00d79ab0_Vector4& c) : m_kCenterPosition(c) {}
     const S00d79ab0_Vector4& m_kCenterPosition;
 };
-void __cdecl FUN_00d7aaf0(S00d79ab0_Vector4* pArr, int d, int h, S00d79ab0_RadialSort cmpLess);
 template <typename T, typename L>
 __forceinline void __cdecl S00d79ab0_quickSort(T* pArr, int iSize, L cmpLess)
 {
     if (iSize > 1) {
         int low = 0;
         int high = iSize - 1;
-        FUN_00d7aaf0(pArr, low, high, cmpLess);
+        ::FUN_00d7aaf0((::DistanceVector *)(pArr), low, high, (*(::DistanceLess *)&(const ::S00d79ab0_RadialSort &)(cmpLess)));
     }
 }
 
@@ -4813,10 +4690,7 @@ class S00d79ab0_Hull {
 public:
     virtual ~S00d79ab0_Hull();
     void operator delete(void* p);
-    S00d79ab0_Hull* FUN_00d76cf0() const;
     int FUN_00d790a0(const S00d79ab0_Vector4& plane, S00d79ab0_Hull** posOut, S00d79ab0_Hull** negOut, float thickness) const;
-    void SetValue(float minCosAngle, bool keepPlanes);
-    int FUN_00d762f0();
     int unk04;
     S00d79ab0_Impl* m_data;
     __forceinline bool hasIndexing() const { return reinterpret_cast<const S00d79ab0_ImplFlags*>(reinterpret_cast<const char*>(m_data) + 0x1b0)->m_bSecondImplementationFlag; }
@@ -4858,7 +4732,7 @@ void __cdecl FUN_00d79ab0(const S00d79ab0_Hull* domain, const S00d79ab0_Array<S0
     }
     float maxDistance = -1.0f;
     for (int i = 0; i < unique.GetLogicalSize(); ++i) {
-        S00d79ab0_Hull* cell = domain->FUN_00d76cf0();
+        S00d79ab0_Hull* cell = ((::S00d79ab0_Hull *)(reinterpret_cast<::fnv_00d76cf0::FUN_00d76cf0_cls *>((void *)(domain))->FUN_00d76cf0()));
         S00d79ab0_Vector4 center = unique[i];
         S00d79ab0_quickSort(&sorted[0], sorted.GetLogicalSize(), S00d79ab0_RadialSort(center));
         cell->m_data->m_flag09 = false;
@@ -4895,9 +4769,9 @@ void __cdecl FUN_00d79ab0(const S00d79ab0_Hull* domain, const S00d79ab0_Array<S0
         }
         if (cell) {
             if (domain->hasIndexing())
-                cell->SetValue(0.9999f, false);
+                reinterpret_cast<::FUN_00d76990_Class *>((cell))->SetValue(0.9999f, false);
             if (domain->hasMassProperties())
-                cell->FUN_00d762f0();
+                reinterpret_cast<::D762F0Owner *>((cell))->FUN_00d762f0();
             cells.AddBack(cell);
         }
     }
@@ -5215,8 +5089,6 @@ extern "C" void __cdecl _mm_store_ss(float* p, __m128 a);
 extern "C" void* __cdecl memcpy(void* d, const void* s, unsigned int n);
 
 extern double DAT_01032980;
-extern double DAT_0101dae8;
-extern unsigned int DAT_0126a3e0;
 
 struct __declspec(align(16)) S_00d827b0_Sign {
     unsigned int a, b, c, d;
@@ -5232,7 +5104,6 @@ struct __declspec(align(16)) S_00d827b0_Xf {
     float c1x, c1y, c1z, c1w;
     float c2x, c2y, c2z, c2w;
     float c3x, c3y, c3z, c3w;
-    void FUN_00de8e50(const S_00d827b0_Xf* other);
 };
 
 static __forceinline __m128 S_00d827b0_load(const void* p) { return *(const __m128*)p; }
@@ -5299,8 +5170,6 @@ struct S_00d827b0_Owner {
     float FUN_00d7a810(S_00d827b0_Param* p, S_00d827b0_Xf* xf, S_00d827b0_V4* out);
     void FUN_00d7a0b0(S_00d827b0_Xf* xf, S_00d827b0_V4* dir, S_00d827b0_V4* out);
     void FUN_00d81510(D76250Vector4* data, int n, int a, int b);
-    void FUN_00d7d2a0();
-    void FUN_00d7b600();
     void FUN_00d827b0(S_00d827b0_Param* param);
 };
 
@@ -5312,9 +5181,6 @@ extern "C" __m128 _mm_mul_ss(__m128, __m128);
 extern "C" __m128 _mm_rsqrt_ss(__m128);
 extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
 extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern float DAT_01017718;
-extern float DAT_01016248;
-extern float DAT_01011d78;
 
 static __forceinline __m128 dotThree(__m128 a, __m128 b)
 {
@@ -5343,9 +5209,9 @@ __declspec(noinline) float S_00d827b0_Owner::FUN_00d7a810(S_00d827b0_Param* p, S
                 _mm_mul_ps(_mm_shuffle_ps(b,b,0xc9),_mm_shuffle_ps(a,a,0xd2)));
             __m128 lengthSquared=dotThree(n,n);
             __m128 r=_mm_rsqrt_ss(lengthSquared);
-            __m128 inv=_mm_mul_ss(_mm_mul_ss(_mm_load_ss(&DAT_01016248),r),
-                _mm_sub_ss(_mm_load_ss(&DAT_01017718),_mm_mul_ss(_mm_mul_ss(lengthSquared,r),r)));
-            inv=_mm_andnot_ps(_mm_cmpeq_ss(lengthSquared,_mm_load_ss(&DAT_01011d78)),inv);
+            __m128 inv=_mm_mul_ss(_mm_mul_ss(_mm_load_ss(&::fnv_00c88020::DAT_01016248),r),
+                _mm_sub_ss(_mm_load_ss(&::DAT_01017718),_mm_mul_ss(_mm_mul_ss(lengthSquared,r),r)));
+            inv=_mm_andnot_ps(_mm_cmpeq_ss(lengthSquared,_mm_load_ss(&::DAT_01011d78)),inv);
             S_00d827b0_V4 plane;
             plane.quad=_mm_mul_ps(_mm_shuffle_ps(inv,inv,0),n);
             float offset;
@@ -5382,109 +5248,6 @@ extern "C" __declspec(noinline) void __cdecl FUN_00d74c70(S_00d827b0_V4* v, floa
     out->c3w=1.0f;
 }
 
-
-// @fnv 0x00d827b0
-void S_00d827b0_Owner::FUN_00d827b0(S_00d827b0_Param* param)
-{
-    FixBool b5 = m_b1b5;
-    FixBool b4 = m_b1b4;
-    int limit = param->count + 0x40;
-    S_00d827b0_Xf xf;
-    memcpy(&xf, &DAT_0126a3e0, 0x40);
-    int iter = 0;
-    unsigned char ok = 0;
-    if (limit > 0) {
-        do {
-            __m128 plane;
-            S_00d827b0_V4& vec = *(S_00d827b0_V4*)&plane;
-            float result = FUN_00d7a810(param, &xf, &vec);
-            if (!(result > DAT_01032980))
-                break;
-
-            S_00d827b0_V4 neg;
-            __m128 nq = _mm_xor_ps(DAT_010c44d0, plane);
-            S_00d827b0_V4 support;
-            const unsigned int* g = (const unsigned int*)&DAT_01267e30;
-            unsigned int gx = g[0];
-            unsigned int gy = g[1];
-            unsigned int gz = g[2];
-            unsigned int gw = g[3];
-            S_00d827b0_store(&neg.quad.m128_f32[0], nq);
-            S_00d827b0_uput(&support.quad.m128_f32[0], gx);
-            S_00d827b0_uput(&support.quad.m128_f32[1], gy);
-            S_00d827b0_uput(&support.quad.m128_f32[2], gz);
-            S_00d827b0_uput(&support.quad.m128_f32[3], gw);
-            FUN_00d7a0b0(&xf, &neg, &support);
-
-            const float& wkeep = plane.m128_f32[3];
-            __m128 prod = _mm_mul_ps(support.quad, plane);
-            float dot;
-            _mm_store_ss(&dot, _mm_add_ss(_mm_shuffle_ps(prod,prod,0xaa),_mm_add_ss(_mm_shuffle_ps(prod,prod,0x55),prod)));
-            float negSum=-(wkeep+dot);
-            if (!(negSum * negSum > DAT_0101dae8))
-                break;
-
-            vec.quad.m128_f32[3] = -dot;
-            S_00d827b0_Xf backup;
-            memcpy(&backup, &xf, 0x40);
-            float t = (negSum + result) / negSum;
-            FUN_00d74c70(&vec, t, &xf);
-            xf.FUN_00de8e50(&backup);
-            ok = 1;
-            ++iter;
-        } while (iter < limit);
-
-        if (ok) {
-            D76250VectorArray arr;
-            int extra = m_uiItemCount;
-            arr.m_data = 0;
-            arr.m_iElementCount = 0;
-            arr.m_iCapacityState = 0x80000000;
-            D76250Allocator& alloc = fnvc_adapt::FUN_00c85750().heap();
-            int oldSize = arr.m_iElementCount;
-            int need = oldSize + extra;
-            int cap = arr.m_iCapacityState & 0x3fffffff;
-            if (cap < need) {
-                int cap2 = cap + cap;
-                int newSize = (need < cap2) ? cap2 : need;
-                FUN_00c908c0(&alloc, &arr, newSize, (int)sizeof(D76250Vector4));
-            }
-            arr.m_iElementCount = arr.m_iElementCount + extra;
-            D76250Vector4* dst = arr.m_data + oldSize;
-            for (S_00d827b0_Node* n = m_pFirstNode; n; n = n->next)
-                *dst++ = n->pos;
-
-            for (int i = 0; i < arr.m_iElementCount; ++i) {
-                unsigned int* s = (unsigned int*)&arr.m_data[i].m_vComponents;
-                S_00d827b0_V4 v;
-                S_00d827b0_uput(&v.quad.m128_f32[0], s[0]);
-                S_00d827b0_uput(&v.quad.m128_f32[1], s[1]);
-                S_00d827b0_uput(&v.quad.m128_f32[2], s[2]);
-                S_00d827b0_uput(&v.quad.m128_f32[3], s[3]);
-                __m128 q = S_00d827b0_load(&v.quad.m128_f32[0]);
-                __m128 yy = _mm_shuffle_ps(q, q, 0x55);
-                __m128 xx = _mm_shuffle_ps(q, q, 0x00);
-                __m128 zz = _mm_shuffle_ps(q, q, 0xaa);
-                arr.m_data[i].m_vComponents = _mm_add_ps(
-                    _mm_add_ps(
-                        _mm_add_ps(_mm_mul_ps(yy, S_00d827b0_load(&xf.c1x)), _mm_mul_ps(xx, S_00d827b0_load(&xf.c0x))),
-                        _mm_mul_ps(zz, S_00d827b0_load(&xf.c2x))),
-                    S_00d827b0_load(&xf.c3x));
-            }
-
-            FUN_00d81510(arr.m_data, arr.m_iElementCount, 0, 0);
-            if (b5.value)
-                FUN_00d7d2a0();
-            if (b4.value)
-                FUN_00d7b600();
-
-            S_00d7a010_Alloc& heap = (S_00d7a010_Alloc&)fnvc_adapt::FUN_00c85750().heap();
-            arr.m_iElementCount = 0;
-            if ((arr.m_iCapacityState & 0x80000000) == 0)
-                heap.ReturnMemory(arr.m_data, (arr.m_iCapacityState & 0x3fffffff) * sizeof(D76250Vector4));
-        }
-    }
-}
 
 extern "C" __m128 __cdecl _mm_add_ps(__m128, __m128);
 
@@ -5563,7 +5326,6 @@ struct S00d82ad0_Less {
 };
 
 void __cdecl FUN_00c908c0(void* alloc, void* arr, int n, int elemSize);
-void __cdecl FUN_00d7b160(S00d82ad0_Edge* data, int lo, int hi, S00d82ad0_Less cmp);
 
 struct S00d82ad0_Alloc {
     virtual void v00();
@@ -5649,10 +5411,7 @@ struct S00d82ad0_Stream {
     int unk00;
     int unk04;
     int unk08;
-    void FUN_00cb1600(char* buf, int size);
     S00d82ad0_Stream& FUN_00cc01c0(const char* s);
-    S00d82ad0_Stream& WriteInt(int v);
-    void FUN_00cc00e0();
 };
 
 struct S00d82ad0_Err {
@@ -5662,7 +5421,6 @@ struct S00d82ad0_Err {
     virtual int message(int type, int id, const char* text, const char* file, int line);
 };
 
-extern S00d82ad0_Err* g_01268360;
 extern const float g_01011d78;
 
 struct S00d82ad0_Tri3 {
@@ -5678,7 +5436,6 @@ struct S00d82ad0_VtxList {
     int unk08;
     S00d82ad0_Vtx* m_pHeadNode;
     int m_iElementCount;
-    void FUN_00d7adb0(S00d82ad0_Vtx* v);
     void remove(S00d82ad0_Vtx* v)
     {
         S00d82ad0_Vtx* n = v->next;
@@ -5687,7 +5444,7 @@ struct S00d82ad0_VtxList {
         if (p) p->next = n;
         else m_pHeadNode = n;
         --m_iElementCount;
-        FUN_00d7adb0(v);
+        reinterpret_cast<::PoolAllocator40 *>(this)->FUN_00d7adb0((::PoolItem40 *)(v));
     }
 };
 
@@ -5811,9 +5568,6 @@ struct S00d82ad0_Hull {
     }
 
     bool FUN_00d82ad0(int numVerticesToKeep, bool abOptionalVertexReduction);
-    void FUN_00d827b0(S00d82ad0_VecArr& v);
-    void FUN_00d7d2a0();
-    void FUN_00d7b600();
     int FUN_00d81510(S00d82ad0_Vec* p, int n, int a, int b);
 };
 
@@ -5877,90 +5631,11 @@ struct S00d82ad0_CountFn {
 template <class T, class L>
 static __forceinline void S00d82ad0_sort(T* p, int size, L cmp = L())
 {
-    if (size > 1) FUN_00d7b160(p, 0, size - 1, cmp);
-}
-
-// @fnv 0x00d82ad0
-bool S00d82ad0_Hull::FUN_00d82ad0(int numVerticesToKeep, bool abOptionalVertexReduction)
-{
-    if (numVerticesToKeep < 4) numVerticesToKeep = 4;
-    if (m_kVertices.m_iElementCount > numVerticesToKeep) {
-        char hasPlanes = m_bSecondImplementationFlag;
-        char hasIndexing = m_hasPlanes;
-        S00d82ad0_VecArr originalVertices;
-        S00d82ad0_EdgeArr edges;
-        if (m_eVertexFloatDimensions != 3) {
-            char buf[0x200];
-            S00d82ad0_Stream s;
-            s.FUN_00cb1600(buf, 0x200);
-            s.FUN_00cc01c0("Invalid dimension for this operation (").WriteInt(3).FUN_00cc01c0(" required)");
-            if (g_01268360->message(3, 0x79f9d888, buf, ".\\GeometryProcessing\\ConvexHull\\hkgpConvexHull.cpp", 0x154)) {
-                __debugbreak();
-            }
-            s.FUN_00cc00e0();
-        }
-        if (abOptionalVertexReduction) {
-            S00d82ad0_Vec* dst = originalVertices.expandBy(m_kVertices.m_iElementCount);
-            for (S00d82ad0_Vtx* v = m_kVertices.m_pHeadNode; v; v = v->next) {
-                *dst++ = v->m_pObservedSource;
-            }
-        }
-        edges.reserve(m_kVertices.m_iElementCount);
-        while (m_kVertices.m_iElementCount > numVerticesToKeep) {
-                        edges.m_iElementCount = 0;
-            for (S00d82ad0_Vtx* v = m_kVertices.m_pHeadNode; v; v = v->next) v->m_data = 0.0f;
-            for (S00d82ad0_Tri* t = m_firstTriangle; t; t = t->next) {
-                for (int i = 0; i < 3; ++i) {
-                    if (t->m_kVertices[i]->m_data == 0.0f) {
-                        S00d82ad0_AreaFn fn(this);
-                        S00d82ad0_E(t, i).applyFan(fn);
-                        float area = fn.m_area;
-                        S00d82ad0_Edge& ne = edges.AllocatePair();
-                        ne.m_uiFilterValue = area;
-                        ne.m_pkTriangle = t;
-                        ne.m_uiEdgeIndex = i;
-                        t->m_kVertices[i]->m_data = 1.0f;
-                    }
-                }
-            }
-            for (S00d82ad0_Vtx* v = m_kVertices.m_pHeadNode; v; v = v->next) v->m_data = 0.0f;
-            S00d82ad0_sort<S00d82ad0_Edge, S00d82ad0_Less>(edges.m_data, edges.m_iElementCount);
-            int numToRemove = m_kVertices.m_iElementCount - numVerticesToKeep;
-            int numRemoved = 0;
-            if (numToRemove > 0) {
-                for (; numRemoved < numToRemove; ++numRemoved) {
-                    edges.m_data[numRemoved].vertex()->m_data += 1.0f;
-                    S00d82ad0_CountFn fn;
-                    S00d82ad0_E(edges.m_data[numRemoved].m_pkTriangle, edges.m_data[numRemoved].m_uiEdgeIndex).applyFan(fn);
-                    if (fn.m_changed) break;
-                }
-                for (int j = 0; j < numRemoved; ++j) {
-                    m_kVertices.remove(edges.m_data[j].vertex());
-                }
-            }
-            S00d82ad0_VecArr positions;
-            S00d82ad0_Vec* dst = positions.expandBy(m_kVertices.m_iElementCount);
-            for (S00d82ad0_Vtx* v = m_kVertices.m_pHeadNode; v; v = v->next) {
-                *dst++ = v->m_pObservedSource;
-            }
-            if (FUN_00d81510(positions.m_data, positions.m_iElementCount, 0, 0) == -1) {
-                positions.destroy();
-                edges.destroy();
-                originalVertices.destroy();
-                return false;
-            }
-            positions.destroy();
-        }
-        if (abOptionalVertexReduction) FUN_00d827b0(originalVertices);
-        if (hasPlanes) FUN_00d7d2a0();
-        if (hasIndexing) FUN_00d7b600();
-        edges.destroy();
-        originalVertices.destroy();
-    }
-    return true;
+    if (size > 1) ::FUN_00d7b160((::SortRec12 *)(p), 0, size - 1, (*(int *)&(const ::S00d82ad0_Less &)(cmp)));
 }
 
 #include <math.h>
+#include "fnv/symbols_simd.h"
 extern "C" __m128 _mm_mul_ps(__m128, __m128);
 extern "C" __m128 _mm_add_ps(__m128, __m128);
 extern "C" __m128 _mm_sub_ps(__m128, __m128);
@@ -6003,8 +5678,6 @@ struct ErrStream {
     __declspec(nothrow) ~ErrStream() throw();
     __declspec(nothrow) ErrStream& operator<<(const char* s) throw();
 };
-extern const double DAT_01012060;
-extern const double DAT_01011588;
 extern const __m128 DAT_010ec7f0;
 class HullVec {
     __m128 q;
@@ -6101,9 +5774,7 @@ struct VecArray : VecArrayBase {
 };
 struct ErrorWork {
     int unk00, unk04, unk08;
-    void FUN_00cb1600(void* buf, int size) throw();
     ErrorWork& FUN_00cc01c0(const char* text) throw();
-    void FUN_00cc00e0() throw();
 };
 struct __declspec(align(16)) SplitRawVec { unsigned int x,y,z,w; };
 struct SplitWork {
@@ -6170,203 +5841,6 @@ __declspec(noinline) int HullImpl::FUN_00d7a200(const HullVec& plane,float eps,i
  if(counts[0]) return 1;
  return 0;
 }
-// @fnv 0x00d83430
-int HullImpl::FUN_00d83430(const HullVec& plane, FUN_00d76ca0** ppFront, FUN_00d76ca0** ppBack, float fEps) const
-{
-    SplitWork workspace;
-    {
-        FUN_00d76ca0** pp0 = ppFront;
-        if (pp0 != 0) {
-            *pp0 = 0;
-        }
-        FUN_00d76ca0** pp1 = ppBack;
-        if (pp1 != 0) {
-            *pp1 = 0;
-        }
-    }
-    switch (m_iDimension) {
-    case 3: {
-        int counts[2]={0,0};
-        float range[2];
-        if (FUN_00d7a200(plane,fEps,counts,range)==3) {
-        VecArrayBase& front=workspace.current.front; front.m_pData=0; front.m_uiLogicalSize=0; front.m_iCapAndFlags=0x80000000;
-VecArrayBase& back=workspace.back; back.m_pData=0; back.m_uiLogicalSize=0; back.m_iCapAndFlags=0x80000000;
-        float rMin=range[0],rMax=range[1];
-        {
-            float ext = rMax - rMin;
-            workspace.scratch.rounded=HullMin<double>(StageLow(rMin,workspace.scratch.rounded),StageHigh(rMax,workspace.scratch.rounded)); _ReadWriteBarrier();
-            if (ext <= fEps || workspace.scratch.rounded <= fEps) {
-                if ((rMin + rMax) * DAT_01011588 >= DAT_01012060) {
-                    back.Clear(); front.Clear(); return 1;
-                }
-                back.Clear(); front.Clear(); return 2;
-            }
-        }
-        front.Reserve(m_iNumVertices / 4 + counts[0]);
-        back.Reserve(m_iNumVertices / 4 + counts[1]);
-            SplitVertex* v;
-            for (v = m_pVertexData; v != 0; v = v->m_pNext) {
-                float d = v->m_fDist;
-                if (d == 0.0f) {
-                    front.PushBack(v->m_pos);
-                    back.PushBack(v->m_pos);
-                } else if (d > 0.0f) {
-                    front.PushBack(v->m_pos);
-                } else {
-                    back.PushBack(v->m_pos);
-                }
-            }
-            SplitTriangle* tri;
-            for (tri = m_pTriangles; tri != 0; tri = tri->m_pNext) {
-                int i = 0;
-
-                workspace.scratch.edge=tri->m_pVerts;
-                for (; i < 3; i++,workspace.scratch.edge++) {
-                    SplitVertex* v0=*workspace.scratch.edge;
-                    float d0 = v0->m_fDist;
-                    if (d0 > 0.0f) {
-                        SplitVertex* v1 = tri->m_pVerts[(9 >> (i << 1)) & 3];
-                        float d1 = v1->m_fDist;
-                        if (d1 * d0 < DAT_01012060) {
-                            HullVec first=v0->m_pos;
-                            HullVec second=v1->m_pos;
-                            HullVec intersection;
-                            float t=d0/(d0-d1);
-                            intersection.setInterpolate4(first,second,t);
-                            front.PushBack(intersection);
-                            back.PushBack(intersection);
-                        }
-                    }
-                }
-            }
-            if (ppFront != 0) {
-                FUN_00d76ca0* o = new FUN_00d76ca0();
-                *ppFront = o;
-                o->m_pImpl->m_pConfiguration = m_pConfiguration;
-            }
-            if (ppBack != 0) {
-                FUN_00d76ca0* o = new FUN_00d76ca0();
-                *ppBack = o;
-                o->m_pImpl->m_pConfiguration = m_pConfiguration;
-            }
-            bool bFront = ppFront != 0 && (*ppFront)->m_pImpl->FUN_00d81510(&front[0],front.GetSize(), 0, this) == m_iDimension;
-            FUN_00d76ca0** pBack = ppBack;
-            bool bBack = pBack != 0 && (*pBack)->m_pImpl->FUN_00d81510(&back[0],back.GetSize(), 0, this) == m_iDimension;
-            FUN_00d76ca0** pF;
-            if (!bFront && (pF = ppFront) != 0) {
-                delete *pF;
-                *pF = 0;
-            }
-            if (!bBack && pBack != 0) {
-                delete *pBack;
-                *pBack = 0;
-            }
-            back.Clear(); front.Clear(); return 3;
-        }
-        if(counts[1]>counts[0]) return 2;
-        if(counts[0]) return 1;
-        return 0;
-
-    }
-    case 2: {
-        int iNeg = 0;
-        int iPos = 0;
-        SplitVertex* v;
-        for (v = m_pVertexData; v != 0; v = v->m_pNext) {
-            HullVec p = plane;
-            float d = plane.dot4xyz1(v->m_pos);
-            v->m_fDist = d;
-            if (HullFabsf(d) <= fEps) {
-                v->m_fDist = 0.0f;
-            } else if (d < 0.0f) {
-                iNeg++;
-            } else {
-                iPos++;
-            }
-        }
-        if (iNeg == 0) {
-            if (iPos != 0) {
-                return 1;
-            }
-            return 0;
-        }
-        if (iPos == 0) {
-            return 2;
-        }
-        VecArrayBase parts[2];
-        parts[0].m_pData=0; parts[0].m_uiLogicalSize=0; parts[0].m_iCapAndFlags=0x80000000;
-        parts[1].m_pData=0; parts[1].m_uiLogicalSize=0; parts[1].m_iCapAndFlags=0x80000000;
-        SplitVertex* prev = m_pVertexData;
-        if (prev != 0) {
-            while (prev->m_pNext != 0) {
-                prev = prev->m_pNext;
-            }
-        }
-        SplitVertex* cur = m_pVertexData;
-        while (cur != 0) {
-const SplitRawVec* __restrict src=(const SplitRawVec*)&cur->m_pos;
-unsigned int wordY=src->y;
-double prod=cur->m_fDist*prev->m_fDist;
-workspace.current.position.x=src->x;
-workspace.current.position.y=wordY;
-workspace.current.position.z=src->z;
-workspace.current.position.w=src->w;
-const HullVec& position=*(const HullVec*)&workspace.current.position;
-            if (prod < DAT_01012060) {
-                float t = prev->m_fDist / (prev->m_fDist - cur->m_fDist);
-                HullVec intersection;
-                intersection.setInterpolate4(prev->m_pos,position,t);
-                parts[0].PushBack(intersection);
-                parts[1].PushBack(intersection);
-            }
-            if (cur->m_fDist <= 0.0f) {
-                parts[0].PushBack(position);
-            }
-            if (cur->m_fDist >= 0.0f) {
-                parts[1].PushBack(position);
-            }
-            prev = cur;
-            cur = cur->m_pNext;
-        }
-        FUN_00d76ca0** pp = ppBack;
-        if (pp != 0) {
-            *pp = new FUN_00d76ca0();
-            (*pp)->m_pImpl->m_pConfiguration = m_pConfiguration;
-            (*pp)->m_pImpl->m_vE0 = m_vE0;
-            if ((*pp)->m_pImpl->FUN_00d81510(parts[0].m_pData,parts[0].m_uiLogicalSize, 1, this) != m_iDimension) {
-                delete *pp;
-                *pp = 0;
-            }
-        }
-        pp = ppFront;
-        if (pp != 0) {
-            *pp = new FUN_00d76ca0();
-            (*pp)->m_pImpl->m_pConfiguration = m_pConfiguration;
-            (*pp)->m_pImpl->m_vE0 = m_vE0;
-            if ((*pp)->m_pImpl->FUN_00d81510(parts[1].m_pData,parts[1].m_uiLogicalSize, 1, this) != m_iDimension) {
-                delete *pp;
-                *pp = 0;
-            }
-        }
-        VecArrayBase* last=parts+2;
-        int remaining=2;
-        while(--remaining>=0) { --last; last->Clear(); }
-        return 3;
-    }
-    default: {
-        unsigned int buf[128];
-        ErrorWork& stream=workspace.current.stream;
-        stream.FUN_00cb1600(buf, 0x200);
-        stream.FUN_00cc01c0("Current dimension not implemented for that operation");
-        if (((ErrReporter*)DAT_01268360)->Message(3, 0x3a86e3ef, (const char*)buf, ".\\GeometryProcessing\\ConvexHull\\hkgpConvexHull.cpp", 0x854)) {
-            __debugbreak();
-        }
-        stream.FUN_00cc00e0();
-        return 4;
-    }
-    }
-}
-
 extern "C" void _ReadWriteBarrier();
 extern "C" __m128 _mm_load_ps(const float*);
 extern "C" __m128 _mm_add_ps(__m128, __m128);
@@ -6375,7 +5849,6 @@ extern "C" __m128 _mm_set_ps1(float);
 extern "C" __m128 _mm_load_ss(const float*);
 
 extern "C" __m128 _mm_setr_ps(float, float, float, float);
-extern double DAT_0104e138;
 
 struct VecNode {
     VecNode* m_next;
@@ -6421,7 +5894,7 @@ void* CentroidHull::FUN_00d7aa30()
 {
     __m128* out = &m_80;
     if ((double)((float*)out)[3] == DAT_0104e138) {
-        m_80 = _mm_load_ps((const float*)&DAT_01267e30);
+        m_80 = _mm_load_ps((const float*)&(*reinterpret_cast<::__m128 *>(&::DAT_01267e30)));
         _ReadWriteBarrier();
         VecNode* node = m_24;
         if (node != 0) {
@@ -6456,16 +5929,11 @@ extern "C" __m128 _mm_load_ps1(const float*);
 extern "C" void _mm_store_ss(float*,__m128);
 extern "C" float _mm_cvtss_f32(__m128);
 extern "C" double __cdecl sqrt(double);
-extern const char str_010d358c[];
-extern const char str_010d3540[];
 extern const __m128 DAT_010c7160;
 struct MessageStream {
     int unk00, unk04, unk08;
-    void FUN_00cb1600(void*, int);
     MessageStream* FUN_00cc01c0(const char*, int, const char*);
-    MessageStream* FUN_00cc02d0();
     void FUN_00cc01c0();
-    void FUN_00cc00e0();
 };
 struct BasisTransform {
     PlaneVector axes[3];
@@ -6474,8 +5942,6 @@ struct BasisTransform {
 struct PlaneShape {
     int unk00, unk04;
     ChildData* state;
-    void GetMassProperties(BasisTransform*, void*);
-    float FUN_00d769c0(const PlaneVector&);
     void FUN_00d76a20(PlaneVector* planes);
 };
 static __forceinline __m128 dot3(const __m128& a, const __m128& b) {
@@ -6513,22 +5979,22 @@ void PlaneShape::FUN_00d76a20(PlaneVector* planes) {
     if (!data->unk1b4) {
         char message[512];
         MessageStream stream;
-        stream.FUN_00cb1600(message,512);
-        stream.FUN_00cc01c0(str_010d358c,data->unk1b0,&DAT_0103d078)->FUN_00cc02d0()->FUN_00cc01c0();
+        new ((void *)&(stream)) ::FUN_00cb1600(message,512);
+        reinterpret_cast<::SinkOwner *>((((::MessageStream *)(reinterpret_cast<::FUN_00cc02d0_cls *>((((::MessageStream *)(reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(str_010d358c)))))->FUN_00cc02d0({})))))->FUN_00cc01c0({});
         if (DAT_01268360->message(3,0x79f9d887,(char*)message,str_010d3540,334)) __debugbreak();
-        stream.FUN_00cc00e0();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();
     }
     BasisTransform transform;
     {
         float other[3];
-        GetMassProperties(&transform,other);
+        reinterpret_cast<::FUN_00d75490_cls *>(this)->GetMassProperties((::RetBlock64 *)(::BasisTransform *)(&transform),(::RetBlock16 *)(other));
     }
     float scores[3];
     __declspec(align(8)) int indices[3];
     indices[0]=0; indices[1]=1; indices[2]=2;
-    scores[0]=FUN_00d769c0(transform.axes[0]);
-    scores[1]=FUN_00d769c0(transform.axes[1]);
-    scores[2]=FUN_00d769c0(transform.axes[2]);
+    scores[0]=reinterpret_cast<::Shape *>(this)->FUN_00d769c0((const ::Vec3 &)(transform.axes[0]));
+    scores[1]=reinterpret_cast<::Shape *>(this)->FUN_00d769c0((const ::Vec3 &)(transform.axes[1]));
+    scores[2]=reinterpret_cast<::Shape *>(this)->FUN_00d769c0((const ::Vec3 &)(transform.axes[2]));
     for (int i=0;i<2;++i) {
         if (scores[i]<scores[i+1]) {
             swapValues(scores[i],scores[i+1]);
@@ -6544,10 +6010,8 @@ void PlaneShape::FUN_00d76a20(PlaneVector* planes) {
     }
 }
 
-extern __m128 DAT_01268370;
 extern __m128 DAT_01268380;
 extern __m128 DAT_01268390;
-extern __m128 DAT_012683a0;
 __forceinline __m128 sampleRead(const D76250Vector4& v) { __m128 value=v.m_vComponents; _ReadWriteBarrier();return value;}
 struct SampleTransform {
     D76250Vector4 x,y,z,w;
@@ -6562,14 +6026,11 @@ struct SamplePoint: D76250Vector4 {
 struct SampleBuilder {
     int unk00,unk04;
     ChildData* hull;
-    void FUN_00d76d80(D76250Vector4&,SampleTransform&);
     bool FUN_00d76100(const D76250Vector4&,unsigned char,float);
 };
 struct SampleStream {
     int unk00,unk04,unk08;
-    void FUN_00cb1600(char*,int);
     void FUN_00cc01c0(const char*);
-    void FUN_00cc00e0();
 };
 struct SampleTrivialVector { __m128 m_vComponents; };
 union SampleWorkspace { SampleTrivialVector extents; SampleStream stream; __forceinline SampleWorkspace(const D76250Vector4& v):extents((const SampleTrivialVector&)v) {} };
@@ -6584,13 +6045,13 @@ struct SampleBuilderRef { SampleBuilder* value; };
 struct SampleRandomRef { RandomGenerator* value; };
 // @fnv 0x00d76fa0
 void __cdecl FUN_00d76fa0(SampleBuilderRef builder,SampleRandomRef random,int count,D76250VectorArray& out) {
-    SampleWorkspace workspace(*(const D76250Vector4*)&DAT_01267e30);
-    D76250Vector4 a=*(D76250Vector4*)&DAT_01268370;
+    SampleWorkspace workspace(*(const D76250Vector4*)&(*reinterpret_cast<::__m128 *>(&::DAT_01267e30)));
+    D76250Vector4 a=*(D76250Vector4*)&(*reinterpret_cast<::__m128 *>(&::DAT_01268370));
     D76250Vector4 b=*(D76250Vector4*)&DAT_01268380;
     D76250Vector4 c=*(D76250Vector4*)&DAT_01268390;
-    D76250Vector4 d=*(D76250Vector4*)&DAT_012683a0;
+    D76250Vector4 d=*(D76250Vector4*)&(*reinterpret_cast<::__m128 *>(&::DAT_012683a0));
     SampleTransform transform(a,b,c,d);
-    builder.value->FUN_00d76d80((D76250Vector4&)workspace.extents,transform);
+    reinterpret_cast<::FnvCpu_FUN_00d76d80_CpuOwner *>((builder.value))->FUN_00d76d80();
     for(int i=0;i<count;++i) {
         SamplePoint point;
         int trial=0;
@@ -6607,10 +6068,10 @@ void __cdecl FUN_00d76fa0(SampleBuilderRef builder,SampleRandomRef random,int co
         {
             char buffer[512];
             SampleStream& stream=workspace.stream;
-            stream.FUN_00cb1600(buffer,512);
-            stream.FUN_00cc01c0(str_010d36fc);
+            new ((void *)&(stream)) ::FUN_00cb1600(buffer,512);
+            reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(str_010d36fc);
             DAT_01268360->message(1,0x1559e,buffer,str_010d3540,0xe22);
-            stream.FUN_00cc00e0();
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();
             return;
         }
 accepted:
@@ -6751,7 +6212,7 @@ int PlaneHull::FUN_00d774a0(const PlaneVector* planes,int count,int config)
             for(int c=b+1;c<count;++c) {
                 matrix.rows(planes[a],planes[b],planes[c]);
                 rhs.lane(2)=-planes[c].scalar(3);
-                if(matrix.FUN_00cd4f10(1.1920928955078125e-7f)==0) {
+                if(reinterpret_cast<::hkMatrix3 *>(&(matrix))->FUN_00cd4f10(1.1920928955078125e-7f)==0) {
                     bool accepted=true;
                     PlaneVector vertex;
                     matrix.transform(rhs,vertex);
@@ -6797,7 +6258,6 @@ double sqrt(double);
 
 
 
-extern float DAT_01012054;
 
 struct AllocHolder {
     int unk00;
@@ -6861,7 +6321,6 @@ struct FaceArea {
     float m_area;
 };
 struct FaceLess { unsigned char context; FaceLess() : context(0) {} };
-void __cdecl FUN_00d7b270(FaceArea* arr, int lo, int hi, FaceLess cmp);
 struct HullBool {
     unsigned char m_cBooleanValue;
 };
@@ -6893,23 +6352,18 @@ struct FacePtrMap {
     int m_num;
     int m_iPairCount;
     FacePtrMap() : m_kPrimitiveElement(0), m_num(0), m_iPairCount(-1) { Reserve(0); }
-    void EnsureCapacity(HullAllocator* alloc, int n);
     void Reserve(int n)
     {
         AllocHolder* h = Holder();
         HullAllocator* a = h->m_pTemp;
-        EnsureCapacity(a, n);
+        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)(a), n);
     }
-    void FUN_00cb1870(HullAllocator* alloc, HullFace* key, int val);
     void Insert(HullFace* key, int val)
     {
         AllocHolder* h = Holder();
         HullAllocator* a = h->m_pTemp;
-        FUN_00cb1870(a, key, val);
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(a)), (unsigned int)(key), val);
     }
-    int LookupHashEntry(HullFace* key, int def);
-    void ProcessArgument(HullAllocator* alloc);
-    void FUN_00a29680();
 };
 inline void PushEdge(HullArray<IndexEdge>& a, const IndexEdge& e)
 {
@@ -7082,7 +6536,6 @@ struct HullBuilder {
     int unk1b0;
     unsigned char unk1b4;
     unsigned char m_bPlanesBuilt;
-    HullFloat4* FUN_00d7aa30();
     void FUN_00d7d2a0();
 };
 inline __m128 Xform(const HullBuilder* h, const IndexVertex* v)
@@ -7119,7 +6572,7 @@ void HullBuilder::FUN_00d7d2a0()
         }
         FaceLess cmp;
         if (areas.m_iElementCount > 1) {
-            FUN_00d7b270(areas.m_data, 0, areas.m_iElementCount - 1, cmp);
+            ::FUN_00d7b270((::Record *)(areas.m_data), 0, areas.m_iElementCount - 1, (*(int *)&(const ::FaceLess &)(cmp)));
         }
         int idx = 0;
         map.Reserve(m_numFaces);
@@ -7170,7 +6623,7 @@ void HullBuilder::FUN_00d7d2a0()
             if (f->m_planeIndex != -1) {
                 continue;
             }
-            int pi = map.LookupHashEntry(f, -1);
+            int pi = reinterpret_cast<::FUN_00cb1930_t *>(&(map))->LookupHashEntry((int)(f), -1);
             __m128* ref = &facePlanes.m_data[pi];
             f->m_planeIndex = m_kPlaneArray.m_iElementCount;
             PushPlane(&m_kPlaneArray, *ref);
@@ -7185,7 +6638,7 @@ void HullBuilder::FUN_00d7d2a0()
                 if (nf->m_planeIndex != -1) {
                     continue;
                 }
-                int ni = map.LookupHashEntry(nf, -1);
+                int ni = reinterpret_cast<::FUN_00cb1930_t *>(&(map))->LookupHashEntry((int)(nf), -1);
                 HullVec4* other = (HullVec4*)&facePlanes.m_data[ni];
                 HullBool res;
                 if (other->FUN_00c7f520(&res, 1e-4f)->m_cBooleanValue != 0) {
@@ -7208,7 +6661,7 @@ void HullBuilder::FUN_00d7d2a0()
             heap->BufFree(stack.m_data, (scap & 0x3fffffff) * 8);
         }
     } else if (m_dimension == 2) {
-        HullFloat4 centroid = *FUN_00d7aa30();
+        HullFloat4 centroid = *((::HullFloat4 *)(reinterpret_cast<::CentroidHull *>(this)->FUN_00d7aa30()));
         IndexVertex* prev = m_kVertices;
         if (prev != 0) {
             while (prev->m_pNext != 0) {
@@ -7263,7 +6716,7 @@ void HullBuilder::FUN_00d7d2a0()
         p.m_fields.w = Real(_mm_sub_ss(DAT_010c7160, Dot3(b, p.m_vComponents)));
         HullArray<__m128>* pl = &m_kPlaneArray;
         PushPlane(pl, p.m_vComponents);
-        p.m_vComponents = _mm_mul_ps(Splat(DAT_01012054), p.m_vComponents);
+        p.m_vComponents = _mm_mul_ps(Splat(::DAT_01012054), p.m_vComponents);
         p.m_fields.w = Real(_mm_sub_ss(DAT_010c7160, Dot3(va, p.m_vComponents)));
         PushPlane(pl, p.m_vComponents);
     }
@@ -7296,8 +6749,8 @@ void HullBuilder::FUN_00d7d2a0()
         facePlanes.m_data = 0;
         facePlanes.m_capAndFlags = 0x80000000;
     }
-    map.ProcessArgument(Holder()->m_pTemp);
-    map.FUN_00a29680();
+    reinterpret_cast<::CB1A90Owner *>(&(map))->ProcessArgument((::CB1A90Argument *)(Holder()->m_pTemp));
+    ::FUN_00a29680();
     {
         AllocHolder* hh = Holder();
         HullAllocator* heap = hh->m_pHeap;
@@ -7321,7 +6774,6 @@ extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
 extern "C" __m128 _mm_move_ss(__m128, __m128);
 
-extern float DAT_01011d78;
 
 
 class MatchScalar {
@@ -7398,7 +6850,6 @@ void ProbeObj::FUN_00d75e30(int mode,const MatchVector& input,MatchVector& outpu
     else probeScan<ProbeTransform>(hull,input,output);
 }
 
-extern const char str_010d3574[];
 extern float DAT_0104da4c;
 extern const __m128 DAT_010ec7f0;
 extern "C" {
@@ -7413,11 +6864,8 @@ double fabs(double);
 }
 struct ClipStream {
     int unk00,unk04,unk08;
-    void FUN_00cb1600(char*,int);
     ClipStream* FUN_00cc01c0(const char*,int,char*);
-    ClipStream* FUN_00cc02d0();
     void FUN_00cc01c0();
-    void FUN_00cc00e0();
 };
 class ClipSimdReal {
 public:
@@ -7567,10 +7015,10 @@ __forceinline void ClipHull::mustHaveIndex() const
     if(!indexed) {
         char buffer[512];
         ClipStream stream;
-        stream.FUN_00cb1600(buffer,512);
-        stream.FUN_00cc01c0(str_010d3574,index,&DAT_0103d078)->FUN_00cc02d0()->FUN_00cc01c0();
+        new ((void *)&(stream)) ::FUN_00cb1600(buffer,512);
+        reinterpret_cast<::SinkOwner *>((((::ClipStream *)(reinterpret_cast<::FUN_00cc02d0_cls *>((((::ClipStream *)(reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(str_010d3574)))))->FUN_00cc02d0({})))))->FUN_00cc01c0({});
         if(DAT_01268360->message(3,0x79f9d886,buffer,str_010d3540,0x148)) __debugbreak();
-        stream.FUN_00cc00e0();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();
     }
 }
 // @fnv 0x00d7a5a0
@@ -7612,8 +7060,6 @@ extern "C" __m128 _mm_load_ps(const float* p);
 extern "C" __m128 _mm_load_ps1(const float* p);
 extern "C" __m128 _mm_load_ss(const float*);
 
-extern const char str_010d3574[];
-extern float DAT_01011d78;
 
 
 class BevelScalar {
@@ -7775,7 +7221,7 @@ struct BevelHull {
     void FUN_00d7caa0(float maxCos, BevelArray& out) const;
     __forceinline BevelVector position(const BevelVertex* v) const {
         BevelVector point;
-        point.set((float)v->m_pos[0],(float)v->m_pos[1],(float)v->m_pos[2],DAT_01011d78);
+        point.set((float)v->m_pos[0],(float)v->m_pos[1],(float)v->m_pos[2],::DAT_01011d78);
         point.mul(m_vScale); point.add(m_offset); return point;
     }
 };
@@ -7783,19 +7229,16 @@ struct BevelHull {
 
 struct BevelStream {
     void* vtable; int unk04,unk08;
-    void FUN_00cb1600(char*,int) throw();
     BevelStream& FUN_00cc01c0(const char*) throw();
-    BevelStream& FUN_00cc02d0(unsigned int) throw();
-    void FUN_00cc00e0() throw();
 };
 // @fnv 0x00d7caa0
 void BevelHull::FUN_00d7caa0(float maxCos, BevelArray& out) const {
     if(!m_hasIndices) {
         char msg[512];
         BevelStream stream;
-        stream.FUN_00cb1600(msg,512);
-        stream.FUN_00cc01c0(str_010d3574).FUN_00cc02d0(m_uiUniqueId).FUN_00cc01c0((const char*)&DAT_0103d078);
-        if(((S_00d75210_Error*)DAT_01268360)->message(3,0x79f9d886,msg,str_010d3540,328)) { __debugbreak(); stream.FUN_00cc00e0(); } else stream.FUN_00cc00e0();
+        new ((void *)&(stream)) ::FUN_00cb1600(msg,512);
+        reinterpret_cast<::SinkOwner *>(&((*(::BevelStream *)(reinterpret_cast<::FUN_00cc02d0_cls *>(&((*(::BevelStream *)(reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(str_010d3574)))))->FUN_00cc02d0(m_uiUniqueId)))))->FUN_00cc01c0((const char*)&DAT_0103d078);
+        if(((S_00d75210_Error*)DAT_01268360)->message(3,0x79f9d886,msg,str_010d3540,328)) { __debugbreak(); reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0(); } else reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();
     }
     if(m_eVertexFloatDimensions!=3) return;
     for(BevelTri* tri=m_firstTri;tri;tri=tri->m_next) {
@@ -7829,18 +7272,13 @@ extern "C" __m128 __cdecl _mm_mul_ss(__m128, __m128);
 extern "C" __m128 __cdecl _mm_add_ps(__m128, __m128);
 
 
-extern const char str_010d3574[];
-extern const char str_010d3540[];
 
 struct BoxStream {
     int unk00;
     int unk04;
     int unk08;
-    BoxStream* FUN_00cb1600(void* buf, int size);
     BoxStream* FUN_00cc01c0(const char*,int,char*);
-    BoxStream* FUN_00cc02d0();
     void FUN_00cc01c0();
-    void FUN_00cc00e0();
 };
 struct BoxScalar;
 class __declspec(align(16)) BoxVector {
@@ -7951,7 +7389,6 @@ struct BoxIterator {
     BoxFace* m_tri;
     int m_uiEdgeIndex;
     void FUN_00d7d220(BoxEdge e);
-    void FUN_00d7c970();
     operator const void*() const { return m_tri ? this : 0; }
 };
 
@@ -8070,6 +7507,57 @@ struct BoxHull {
     float FUN_00d7c610(const BoxVector& axis, float& mn, float& mx) const;
     float FUN_00d7f090(BoxPointer<const BoxVector*> plane, BoxVector& halfExtents, BoxTransform& transform) const;
 };
+// @fnv 0x00d81340
+void D81340Cls::FUN_00d81340(D81340Vec4& a0, D81340Transform& a1) {
+    D81340Workspace workspace;
+    if (m_1a8 < 3) {
+        reinterpret_cast<::BoxHull *>(this)->FUN_00d7f090((::BoxPointer<const ::BoxVector *>)((int)&m_e0), (*(::BoxVector *)(&a0)), (*(::BoxTransform *)(&a1)));
+        return;
+    }
+    if (!m_1b5) {
+        char buffer[0x200];
+        D81340Dbg& stream = workspace.stream;
+        new ((void *)&(stream)) ::FUN_00cb1600(buffer, 0x200);
+        reinterpret_cast<::SinkOwner *>((((::D81340Dbg *)(reinterpret_cast<::FUN_00cc02d0_cls *>((((::D81340Dbg *)(reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(str_010d3574)))))->FUN_00cc02d0({})))))->FUN_00cc01c0({});
+        if (DAT_01268360->message(3, 0x79f9d886, buffer, str_010d3540, 0x148)) __debugbreak();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();
+    }
+    float& u18 = workspace.bounds.lower;
+    float& u1c = workspace.bounds.upper;
+    float t14;
+    float& t24 = workspace.bestR;
+    float& r = workspace.result;
+    float& t2c = workspace.bestD;
+    t24 = DAT_0104da48;
+    t2c = DAT_0104da48;
+    D81340Vec4 v30;
+    D81340Transform v40;
+    float s;
+    for (int i = 0; i < m_58; ++i) {
+        int elem = (int)m_54 + i * 16;
+        r = reinterpret_cast<::ProjectionHull *>(this)->FUN_00d7c610((*(const ::D76250Vector4 *)(elem)), (*(float *)(&u18)), (*(float *)(&u1c)));
+        if (r < t24) {
+            int elem2 = (int)m_54 + i * 16;
+            t14 = reinterpret_cast<::BoxHull *>(this)->FUN_00d7f090((::BoxPointer<const ::BoxVector *>)(elem2), (*(::BoxVector *)(&v30)), (*(::BoxTransform *)(&v40))) * (u1c - u18);
+            if (t14 < t2c) {
+                t24 = r;
+                t2c = t14;
+                a0.q = v30.q;
+                a0.q.m128_f32[2] = r;
+                a1.c0.q = v40.c0.q;
+                a1.c1.q = v40.c1.q;
+                a1.c2.q = v40.c2.q;
+                a1.c3.q = v40.c3.q;
+            }
+        }
+    }
+    volatile float& distance = a0.z;
+    distance *= ::DAT_01011588;
+    s = -distance;
+    __m128 sv = _mm_load_ss(&s);
+    __m128 sb = _mm_shuffle_ps(sv, sv, 0);
+    a1.c3.q = _mm_add_ps(_mm_mul_ps(sb, a1.c2.q), a1.c3.q);
+}
 
 // @fnv 0x00d7f090
 float BoxHull::FUN_00d7f090(BoxPointer<const BoxVector*> plane, BoxVector& halfExtents, BoxTransform& transform) const
@@ -8077,28 +7565,28 @@ float BoxHull::FUN_00d7f090(BoxPointer<const BoxVector*> plane, BoxVector& halfE
     if (!m_hasIndex) {
         unsigned int buf[128];
         BoxStream s;
-        s.FUN_00cb1600(buf, 0x200);
-        s.FUN_00cc01c0(str_010d3574,m_uiEdgeIndex,&DAT_0103d078)->FUN_00cc02d0()->FUN_00cc01c0();
+        new ((void *)&(s)) ::FUN_00cb1600(buf, 0x200);
+        reinterpret_cast<::SinkOwner *>((((::BoxStream *)(reinterpret_cast<::FUN_00cc02d0_cls *>((((::BoxStream *)(reinterpret_cast<::SinkOwner *>(&(s))->FUN_00cc01c0(str_010d3574)))))->FUN_00cc02d0({})))))->FUN_00cc01c0({});
 int result=DAT_01268360->message(3, 0x79f9d886, (const char*)buf, str_010d3540, 0x148);
         if (result == 0) {
-            s.FUN_00cc00e0();
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(s))->FUN_00cc00e0::~FUN_00cc00e0();
         } else if (result > 0) {
             __debugbreak();
-            s.FUN_00cc00e0();
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(s))->FUN_00cc00e0::~FUN_00cc00e0();
         } else {
             __debugbreak();
-            s.FUN_00cc00e0();
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(s))->FUN_00cc00e0::~FUN_00cc00e0();
         }
     }
     float centers[2] = { DAT_0104da48, DAT_0104da48 };
     float extents[2] = { DAT_0104da48, DAT_0104da48 };
     float bestArea = DAT_0104da48;
-    BoxVector axes[2]; for(int k=0;k<8;++k) reinterpret_cast<unsigned int*>(axes)[k]=reinterpret_cast<const unsigned int*>(&DAT_01267e30)[k%4];
+    BoxVector axes[2]; for(int k=0;k<8;++k) reinterpret_cast<unsigned int*>(axes)[k]=reinterpret_cast<const unsigned int*>(&(*reinterpret_cast<::__m128 *>(&::DAT_01267e30)))[k%4];
     if (m_eVertexFloatDimensions == 3) {
         BoxIterator it;
         BoxVector e;
         BoxVector n;
-        for (it.FUN_00d7d220(BoxEdge(m_firstTri, 0)); it; it.FUN_00d7c970()) {
+        for (it.FUN_00d7d220(BoxEdge(m_firstTri, 0)); it; reinterpret_cast<::FUN_00d7c970_cls *>(&(it))->FUN_00d7c970()) {
             BoxFace* o = (BoxFace*)(it.m_tri->m_ppLinks[it.m_uiEdgeIndex] & ~3);
             int pb = o->m_kTriangleNormal;
             int pa = it.m_tri->m_kTriangleNormal;
@@ -8122,8 +7610,8 @@ int result=DAT_01268360->message(3, 0x79f9d886, (const char*)buf, str_010d3540, 
                         _mm_mul_ps(_mm_shuffle_ps(n.q(), n.q(), 0xd2), dir_yzx));
                     if(e.normalize()==0) {
                         float r0[2], r1[2];
-                        float f0 = FUN_00d7c610(n, r0[0], r0[1]);
-                        float f1 = FUN_00d7c610(e, r1[0], r1[1]);
+                        float f0 = reinterpret_cast<::ProjectionHull *>((void *)this)->FUN_00d7c610((const ::D76250Vector4 &)(n), r0[0], r0[1]);
+                        float f1 = reinterpret_cast<::ProjectionHull *>((void *)this)->FUN_00d7c610((const ::D76250Vector4 &)(e), r1[0], r1[1]);
                         float area = f0 * f1;
                         if (area < bestArea) {
                             bestArea = area;
@@ -8147,8 +7635,8 @@ int result=DAT_01268360->message(3, 0x79f9d886, (const char*)buf, str_010d3540, 
             n.q() = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(v.q(), v.q(), 0xd2), _mm_shuffle_ps(dir.q(), dir.q(), 0xc9)), _mm_mul_ps(_mm_shuffle_ps(v.q(), v.q(), 0xc9), _mm_shuffle_ps(dir.q(), dir.q(), 0xd2)));
             if(n.normalize()==0) {
                 float r0[2], r1[2];
-                float f0 = FUN_00d7c610(v, r0[0], r0[1]);
-                float f1 = FUN_00d7c610(n, r1[0], r1[1]);
+                float f0 = reinterpret_cast<::ProjectionHull *>((void *)this)->FUN_00d7c610((const ::D76250Vector4 &)(v), r0[0], r0[1]);
+                float f1 = reinterpret_cast<::ProjectionHull *>((void *)this)->FUN_00d7c610((const ::D76250Vector4 &)(n), r1[0], r1[1]);
                 float area = f0 * f1;
                 if (area < bestArea) {
                     bestArea = area;
@@ -8192,7 +7680,6 @@ void _mm_store_ss(float*,__m128);
 }
 }
 extern const char str_010d3718[];
-extern const char str_010d3540[];
 extern const __m128 DAT_010c7160;
 extern const __m128 DAT_010c7170;
 extern const __m128 DAT_01017d10;
@@ -8204,9 +7691,7 @@ struct S00d81510_Stream {
     int unk00;
     int unk04;
     int unk08;
-    S00d81510_Stream* FUN_00cb1600(void* buf, int size);
     S00d81510_Stream& FUN_00cc01c0(const char* s);
-    void FUN_00cc00e0();
 };
 class S00d81510_SimdReal {
 public:
@@ -8290,7 +7775,7 @@ public:
         tmp.setAbs4(*this);
         return tmp(0) < tmp(1) ? (tmp(1) < tmp(2) ? 2 : 1) : (tmp(0) < tmp(2) ? 2 : 0);
     }
-    __forceinline static const S00d81510_Vector4& getZero() { return *reinterpret_cast<const S00d81510_Vector4*>(&DAT_01267e30); }
+    __forceinline static const S00d81510_Vector4& getZero() { return *reinterpret_cast<const S00d81510_Vector4*>(&(*reinterpret_cast<::__m128 *>(&::DAT_01267e30))); }
     __m128 m_vComponents;
 };
 
@@ -8411,13 +7896,12 @@ __forceinline bool operator!=(const S00d81510_Vertex& a, const S00d81510_Vertex&
 __forceinline int S00d81510_round(float x) { return (int)(x + (x < 0 ? -0.5f : 0.5f)); }
 
 struct S00d81510_Less {};
-void __cdecl FUN_00d7af90(S00d81510_Vertex* pArr, int d, int h, S00d81510_Less cmpLess);
 template <typename T, typename L> __forceinline void S00d81510_quickSort(T* pArr, int iSize, L cmpLess)
 {
     if (iSize > 1) {
         int low = 0;
         int high = iSize - 1;
-        FUN_00d7af90(pArr, low, high, cmpLess);
+        ::FUN_00d7af90((::Record333 *)(pArr), low, high, (*(int *)&(const ::S00d81510_Less &)(cmpLess)));
     }
 }
 template <typename T> __forceinline void S00d81510_quickSort(T* pArr, int iSize) { S00d81510_quickSort(pArr, iSize, S00d81510_Less()); }
@@ -8425,8 +7909,7 @@ template <typename T> __forceinline void S00d81510_quickSort(T* pArr, int iSize)
 struct S00d81510_VertexList {
     int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14;
     int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c;
-    S00d81510_Vertex* CloneNode(const S00d81510_Vertex& v);
-    __forceinline S00d81510_Vertex* allocate(const S00d81510_Vertex& v = S00d81510_Vertex()) { return CloneNode(v); }
+    __forceinline S00d81510_Vertex* allocate(const S00d81510_Vertex& v = S00d81510_Vertex()) { return ((::S00d81510_Vertex *)(reinterpret_cast<::PoolList *>(this)->CloneNode((::Node *)&(v)))); }
 };
 struct S00d81510_Bool {
     char m_cBooleanValue;
@@ -8467,10 +7950,6 @@ public:
     int unk1a0; int unk1a4;
     int m_eVertexFloatDimensions;
 
-    void FUN_00d7ac40(bool planar);
-    bool FUN_00d7fb80();
-    void FUN_00d7d2a0();
-    void FUN_00d7b600();
     int FUN_00d81510(const S00d81510_Vector4* points, int numPoints, bool planar, const S00d81510_Hull* domainSource);
 
     __forceinline S00d81510_Vertex transformChecked(const S00d81510_Vector4& x, bool& outOfRange) const
@@ -8516,190 +7995,382 @@ public:
         }
     }
 };
-
-// @fnv 0x00d81510
-int S00d81510_Hull::FUN_00d81510(const S00d81510_Vector4* points, int numPoints, bool planar, const S00d81510_Hull* domainSource)
+// @fnv 0x00d827b0
+void S_00d827b0_Owner::FUN_00d827b0(S_00d827b0_Param* param)
 {
-    if (numPoints && (((unsigned long)points) & 15)) {
-        S00d81510_VecArray aligned;
-        aligned.SetSizeAndGrow(numPoints);
-        for (int i = 0; i < numPoints; ++i) {
-            aligned[i].set(points[i](0), points[i](1), points[i](2), points[i](3));
+    FixBool b5 = m_b1b5;
+    FixBool b4 = m_b1b4;
+    int limit = param->count + 0x40;
+    S_00d827b0_Xf xf;
+    memcpy(&xf, &(*reinterpret_cast<unsigned int *>(&::DAT_0126a3e0)), 0x40);
+    int iter = 0;
+    unsigned char ok = 0;
+    if (limit > 0) {
+        do {
+            __m128 plane;
+            S_00d827b0_V4& vec = *(S_00d827b0_V4*)&plane;
+            float result = FUN_00d7a810(param, &xf, &vec);
+            if (!(result > DAT_01032980))
+                break;
+
+            S_00d827b0_V4 neg;
+            __m128 nq = _mm_xor_ps(DAT_010c44d0, plane);
+            S_00d827b0_V4 support;
+            const unsigned int* g = (const unsigned int*)&(*reinterpret_cast<::__m128 *>(&::DAT_01267e30));
+            unsigned int gx = g[0];
+            unsigned int gy = g[1];
+            unsigned int gz = g[2];
+            unsigned int gw = g[3];
+            S_00d827b0_store(&neg.quad.m128_f32[0], nq);
+            S_00d827b0_uput(&support.quad.m128_f32[0], gx);
+            S_00d827b0_uput(&support.quad.m128_f32[1], gy);
+            S_00d827b0_uput(&support.quad.m128_f32[2], gz);
+            S_00d827b0_uput(&support.quad.m128_f32[3], gw);
+            FUN_00d7a0b0(&xf, &neg, &support);
+
+            const float& wkeep = plane.m128_f32[3];
+            __m128 prod = _mm_mul_ps(support.quad, plane);
+            float dot;
+            _mm_store_ss(&dot, _mm_add_ss(_mm_shuffle_ps(prod,prod,0xaa),_mm_add_ss(_mm_shuffle_ps(prod,prod,0x55),prod)));
+            float negSum=-(wkeep+dot);
+            if (!(negSum * negSum > DAT_0101dae8))
+                break;
+
+            vec.quad.m128_f32[3] = -dot;
+            S_00d827b0_Xf backup;
+            memcpy(&backup, &xf, 0x40);
+            float t = (negSum + result) / negSum;
+            FUN_00d74c70(&vec, t, &xf);
+            reinterpret_cast<::hkMatrix4 *>(&(xf))->FUN_00de8e50((*(const ::hkMatrix4 *)(&backup)));
+            ok = 1;
+            ++iter;
+        } while (iter < limit);
+
+        if (ok) {
+            D76250VectorArray arr;
+            int extra = m_uiItemCount;
+            arr.m_data = 0;
+            arr.m_iElementCount = 0;
+            arr.m_iCapacityState = 0x80000000;
+            D76250Allocator& alloc = fnvc_adapt::FUN_00c85750().heap();
+            int oldSize = arr.m_iElementCount;
+            int need = oldSize + extra;
+            int cap = arr.m_iCapacityState & 0x3fffffff;
+            if (cap < need) {
+                int cap2 = cap + cap;
+                int newSize = (need < cap2) ? cap2 : need;
+                FUN_00c908c0(&alloc, &arr, newSize, (int)sizeof(D76250Vector4));
+            }
+            arr.m_iElementCount = arr.m_iElementCount + extra;
+            D76250Vector4* dst = arr.m_data + oldSize;
+            for (S_00d827b0_Node* n = m_pFirstNode; n; n = n->next)
+                *dst++ = n->pos;
+
+            for (int i = 0; i < arr.m_iElementCount; ++i) {
+                unsigned int* s = (unsigned int*)&arr.m_data[i].m_vComponents;
+                S_00d827b0_V4 v;
+                S_00d827b0_uput(&v.quad.m128_f32[0], s[0]);
+                S_00d827b0_uput(&v.quad.m128_f32[1], s[1]);
+                S_00d827b0_uput(&v.quad.m128_f32[2], s[2]);
+                S_00d827b0_uput(&v.quad.m128_f32[3], s[3]);
+                __m128 q = S_00d827b0_load(&v.quad.m128_f32[0]);
+                __m128 yy = _mm_shuffle_ps(q, q, 0x55);
+                __m128 xx = _mm_shuffle_ps(q, q, 0x00);
+                __m128 zz = _mm_shuffle_ps(q, q, 0xaa);
+                arr.m_data[i].m_vComponents = _mm_add_ps(
+                    _mm_add_ps(
+                        _mm_add_ps(_mm_mul_ps(yy, S_00d827b0_load(&xf.c1x)), _mm_mul_ps(xx, S_00d827b0_load(&xf.c0x))),
+                        _mm_mul_ps(zz, S_00d827b0_load(&xf.c2x))),
+                    S_00d827b0_load(&xf.c3x));
+            }
+
+            reinterpret_cast<::S00d81510_Hull *>(this)->FUN_00d81510((const ::S00d81510_Vector4 *)(arr.m_data), arr.m_iElementCount, 0, (const ::S00d81510_Hull *)(0));
+            if (b5.value)
+                reinterpret_cast<::HullBuilder *>(this)->FUN_00d7d2a0();
+            if (b4.value)
+                reinterpret_cast<::hkgpConvexHullImpl *>(this)->FUN_00d7b600();
+
+            S_00d7a010_Alloc& heap = (S_00d7a010_Alloc&)fnvc_adapt::FUN_00c85750().heap();
+            arr.m_iElementCount = 0;
+            if ((arr.m_iCapacityState & 0x80000000) == 0)
+                heap.ReturnMemory(arr.m_data, (arr.m_iCapacityState & 0x3fffffff) * sizeof(D76250Vector4));
         }
-        return FUN_00d81510(&aligned[0], numPoints, planar, domainSource);
     }
-    FUN_00d7ac40(planar);
-    if (numPoints > 0) {
-        if (domainSource) {
-            m_domainCenter = domainSource->m_domainCenter;
-            m_domainScale = domainSource->m_domainScale;
-            m_domainScaleInv = domainSource->m_domainScaleInv;
-        } else if (m_bFlagAtOffset0C) {
-            m_domainCenter.set(0, 0, 0, 0);
-            m_domainScale.set(1, 1, 1, 0);
-            m_domainScaleInv.set(1, 1, 1, 0);
-        } else {
-            S00d81510_Vector4 auiLowerBounds = points[0];
-            S00d81510_Vector4 auiUpperBounds = points[0];
-            for (int i = 1; i < numPoints; ++i) {
-                auiLowerBounds.setMin4(auiLowerBounds, points[i]);
-                auiUpperBounds.setMax4(auiUpperBounds, points[i]);
+}
+// @fnv 0x00d82ad0
+bool S00d82ad0_Hull::FUN_00d82ad0(int numVerticesToKeep, bool abOptionalVertexReduction)
+{
+    if (numVerticesToKeep < 4) numVerticesToKeep = 4;
+    if (m_kVertices.m_iElementCount > numVerticesToKeep) {
+        char hasPlanes = m_bSecondImplementationFlag;
+        char hasIndexing = m_hasPlanes;
+        S00d82ad0_VecArr originalVertices;
+        S00d82ad0_EdgeArr edges;
+        if (m_eVertexFloatDimensions != 3) {
+            char buf[0x200];
+            S00d82ad0_Stream s;
+            new ((void *)&(s)) ::FUN_00cb1600(buf, 0x200);
+            reinterpret_cast<::SinkOwner *>(&((*(::S00d82ad0_Stream *)&(reinterpret_cast<::CC0280Writer *>(&((*(::S00d82ad0_Stream *)(reinterpret_cast<::SinkOwner *>(&(s))->FUN_00cc01c0("Invalid dimension for this operation (")))))->WriteInt(3)))))->FUN_00cc01c0(" required)");
+            if ((*reinterpret_cast<::S00d82ad0_Err * *>(&::DAT_01268360))->message(3, 0x79f9d888, buf, ".\\GeometryProcessing\\ConvexHull\\hkgpConvexHull.cpp", 0x154)) {
+                __debugbreak();
             }
-            for (int i = 0; i < 3; ++i) {
-                if (auiLowerBounds(i) < -3.40282e38f || auiUpperBounds(i) > 3.40282e38f) {
-                    char buffer[512];
-                    S00d81510_Stream ostr;
-                    ostr.FUN_00cb1600(buffer, 512);
-                    ostr.FUN_00cc01c0(str_010d3718);
-                    if (DAT_01268360->message(3, 0x405a2174, buffer, str_010d3540, 0x228))
-                        __debugbreak();
-                    ostr.FUN_00cc00e0();
-                }
-                if ((auiUpperBounds(i) - auiLowerBounds(i)) < 1e-5f) {
-                    const float c = (auiUpperBounds(i) + auiLowerBounds(i)) / 2;
-                    auiLowerBounds(i) = S00d81510_min2(auiLowerBounds(i), c - 1e-5f);
-                    auiUpperBounds(i) = S00d81510_max2(auiUpperBounds(i), c + 1e-5f);
-                }
-            }
-            S00d81510_Vector4 ext;
-            ext.setSub4(auiUpperBounds, auiLowerBounds);
-            ext.mul4(0.5f);
-            S00d81510_Vector4 center;
-            center.setAdd4(auiLowerBounds, ext);
-            ext.setReciprocal3(ext);
-            m_domainCenter = center;
-            m_domainScale = ext;
-            m_domainCenter(3) = 0;
-            m_domainScale(3) = 0;
-            m_domainScale.mul4(8191.0f);
-            m_domainScaleInv.setReciprocal3(m_domainScale);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(s))->FUN_00cc00e0::~FUN_00cc00e0();
         }
-        m_eVertexFloatDimensions = S00d81510_min2(numPoints - 1, 3);
-        m_kVectorAtOffsetD0 = S00d81510_Vector4::getZero();
-        if (planar) {
-            m_eVertexFloatDimensions = 2;
-        } else {
-            m_kVectorAtOffsetE0 = S00d81510_Vector4::getZero();
-            if (numPoints > 1) {
-                m_kVectorAtOffsetD0.setSub4(points[1], points[0]);
+        if (abOptionalVertexReduction) {
+            S00d82ad0_Vec* dst = originalVertices.expandBy(m_kVertices.m_iElementCount);
+            for (S00d82ad0_Vtx* v = m_kVertices.m_pHeadNode; v; v = v->next) {
+                *dst++ = v->m_pObservedSource;
             }
-            if (numPoints > 2) {
-                for (int i = 0; i < numPoints; ++i) {
-                    const S00d81510_Vector4 o = points[i];
-                    for (int j = i + 1; j < numPoints; ++j) {
-                        S00d81510_Vector4 e0;
-                        e0.setSub4(points[j], o);
-                        for (int k = j + 1; k < numPoints; ++k) {
-                            S00d81510_Vector4 e1;
-                            e1.setSub4(points[k], o);
-                            S00d81510_Vector4 cross;
-                            cross.setCross(e0, e1);
-                            const S00d81510_SimdReal len = cross.lengthSquared3();
-                            if (len > m_kVectorAtOffsetE0.lengthSquared3()) {
-                                m_kVectorAtOffsetE0 = cross;
-                                if (len > float(S00d81510_Constants::DAT_01032980)) {
-                                    i = j = k = numPoints;
-                                }
-                            }
+        }
+        edges.reserve(m_kVertices.m_iElementCount);
+        while (m_kVertices.m_iElementCount > numVerticesToKeep) {
+                        edges.m_iElementCount = 0;
+            for (S00d82ad0_Vtx* v = m_kVertices.m_pHeadNode; v; v = v->next) v->m_data = 0.0f;
+            for (S00d82ad0_Tri* t = m_firstTriangle; t; t = t->next) {
+                for (int i = 0; i < 3; ++i) {
+                    if (t->m_kVertices[i]->m_data == 0.0f) {
+                        S00d82ad0_AreaFn fn(this);
+                        S00d82ad0_E(t, i).applyFan(fn);
+                        float area = fn.m_area;
+                        S00d82ad0_Edge& ne = edges.AllocatePair();
+                        ne.m_uiFilterValue = area;
+                        ne.m_pkTriangle = t;
+                        ne.m_uiEdgeIndex = i;
+                        t->m_kVertices[i]->m_data = 1.0f;
+                    }
+                }
+            }
+            for (S00d82ad0_Vtx* v = m_kVertices.m_pHeadNode; v; v = v->next) v->m_data = 0.0f;
+            S00d82ad0_sort<S00d82ad0_Edge, S00d82ad0_Less>(edges.m_data, edges.m_iElementCount);
+            int numToRemove = m_kVertices.m_iElementCount - numVerticesToKeep;
+            int numRemoved = 0;
+            if (numToRemove > 0) {
+                for (; numRemoved < numToRemove; ++numRemoved) {
+                    edges.m_data[numRemoved].vertex()->m_data += 1.0f;
+                    S00d82ad0_CountFn fn;
+                    S00d82ad0_E(edges.m_data[numRemoved].m_pkTriangle, edges.m_data[numRemoved].m_uiEdgeIndex).applyFan(fn);
+                    if (fn.m_changed) break;
+                }
+                for (int j = 0; j < numRemoved; ++j) {
+                    m_kVertices.remove(edges.m_data[j].vertex());
+                }
+            }
+            S00d82ad0_VecArr positions;
+            S00d82ad0_Vec* dst = positions.expandBy(m_kVertices.m_iElementCount);
+            for (S00d82ad0_Vtx* v = m_kVertices.m_pHeadNode; v; v = v->next) {
+                *dst++ = v->m_pObservedSource;
+            }
+            if (reinterpret_cast<::S00d81510_Hull *>(this)->FUN_00d81510((const ::S00d81510_Vector4 *)(positions.m_data), positions.m_iElementCount, 0, (const ::S00d81510_Hull *)(0)) == -1) {
+                positions.destroy();
+                edges.destroy();
+                originalVertices.destroy();
+                return false;
+            }
+            positions.destroy();
+        }
+        if (abOptionalVertexReduction) reinterpret_cast<::S_00d827b0_Owner *>(this)->FUN_00d827b0((::S_00d827b0_Param *)&(originalVertices));
+        if (hasPlanes) reinterpret_cast<::HullBuilder *>(this)->FUN_00d7d2a0();
+        if (hasIndexing) reinterpret_cast<::hkgpConvexHullImpl *>(this)->FUN_00d7b600();
+        edges.destroy();
+        originalVertices.destroy();
+    }
+    return true;
+}
+// @fnv 0x00d83430
+int HullImpl::FUN_00d83430(const HullVec& plane, FUN_00d76ca0** ppFront, FUN_00d76ca0** ppBack, float fEps) const
+{
+    SplitWork workspace;
+    {
+        FUN_00d76ca0** pp0 = ppFront;
+        if (pp0 != 0) {
+            *pp0 = 0;
+        }
+        FUN_00d76ca0** pp1 = ppBack;
+        if (pp1 != 0) {
+            *pp1 = 0;
+        }
+    }
+    switch (m_iDimension) {
+    case 3: {
+        int counts[2]={0,0};
+        float range[2];
+        if (reinterpret_cast<::S_00d7a200_Owner *>((void *)this)->FUN_00d7a200((const ::S_00d7a200_V4 &)(plane),fEps,counts,range)==3) {
+        VecArrayBase& front=workspace.current.front; front.m_pData=0; front.m_uiLogicalSize=0; front.m_iCapAndFlags=0x80000000;
+VecArrayBase& back=workspace.back; back.m_pData=0; back.m_uiLogicalSize=0; back.m_iCapAndFlags=0x80000000;
+        float rMin=range[0],rMax=range[1];
+        {
+            float ext = rMax - rMin;
+            workspace.scratch.rounded=HullMin<double>(StageLow(rMin,workspace.scratch.rounded),StageHigh(rMax,workspace.scratch.rounded)); _ReadWriteBarrier();
+            if (ext <= fEps || workspace.scratch.rounded <= fEps) {
+                if ((rMin + rMax) * ::DAT_01011588 >= ::_DAT_01012060) {
+                    back.Clear(); front.Clear(); return 1;
+                }
+                back.Clear(); front.Clear(); return 2;
+            }
+        }
+        front.Reserve(m_iNumVertices / 4 + counts[0]);
+        back.Reserve(m_iNumVertices / 4 + counts[1]);
+            SplitVertex* v;
+            for (v = m_pVertexData; v != 0; v = v->m_pNext) {
+                float d = v->m_fDist;
+                if (d == 0.0f) {
+                    front.PushBack(v->m_pos);
+                    back.PushBack(v->m_pos);
+                } else if (d > 0.0f) {
+                    front.PushBack(v->m_pos);
+                } else {
+                    back.PushBack(v->m_pos);
+                }
+            }
+            SplitTriangle* tri;
+            for (tri = m_pTriangles; tri != 0; tri = tri->m_pNext) {
+                int i = 0;
+
+                workspace.scratch.edge=tri->m_pVerts;
+                for (; i < 3; i++,workspace.scratch.edge++) {
+                    SplitVertex* v0=*workspace.scratch.edge;
+                    float d0 = v0->m_fDist;
+                    if (d0 > 0.0f) {
+                        SplitVertex* v1 = tri->m_pVerts[(9 >> (i << 1)) & 3];
+                        float d1 = v1->m_fDist;
+                        if (d1 * d0 < ::_DAT_01012060) {
+                            HullVec first=v0->m_pos;
+                            HullVec second=v1->m_pos;
+                            HullVec intersection;
+                            float t=d0/(d0-d1);
+                            intersection.setInterpolate4(first,second,t);
+                            front.PushBack(intersection);
+                            back.PushBack(intersection);
                         }
                     }
                 }
-                if (m_kVectorAtOffsetE0.normalize3IfNotZero() != 0) {
-                    m_kVectorAtOffsetE0.set(1, 0, 0, 0);
-                }
-                m_kVectorAtOffsetE0(3) = -m_kVectorAtOffsetE0.dot3(points[0]);
             }
+            if (ppFront != 0) {
+                FUN_00d76ca0* o = new FUN_00d76ca0();
+                *ppFront = o;
+                o->m_pImpl->m_pConfiguration = m_pConfiguration;
+            }
+            if (ppBack != 0) {
+                FUN_00d76ca0* o = new FUN_00d76ca0();
+                *ppBack = o;
+                o->m_pImpl->m_pConfiguration = m_pConfiguration;
+            }
+            bool bFront = ppFront != 0 && reinterpret_cast<::S00d81510_Hull *>(((*ppFront)->m_pImpl))->FUN_00d81510((const ::S00d81510_Vector4 *)(const ::HullVec *)(&front[0]),front.GetSize(), 0, (const ::S00d81510_Hull *)(const ::HullImpl *)(this)) == m_iDimension;
+            FUN_00d76ca0** pBack = ppBack;
+            bool bBack = pBack != 0 && reinterpret_cast<::S00d81510_Hull *>(((*pBack)->m_pImpl))->FUN_00d81510((const ::S00d81510_Vector4 *)(const ::HullVec *)(&back[0]),back.GetSize(), 0, (const ::S00d81510_Hull *)(const ::HullImpl *)(this)) == m_iDimension;
+            FUN_00d76ca0** pF;
+            if (!bFront && (pF = ppFront) != 0) {
+                delete *pF;
+                *pF = 0;
+            }
+            if (!bBack && pBack != 0) {
+                delete *pBack;
+                *pBack = 0;
+            }
+            back.Clear(); front.Clear(); return 3;
         }
-        m_kVertices.clear();
-        m_kVertices.SetSizeAndGrow(numPoints);
-        for (int i = 0; i < numPoints; ++i) {
-            m_kVertices[i] = transform(points[i]);
-            if (m_bFlagAtOffset08) {
-                m_kVertices[i].m_pObservedSource.setInt24W(i);
-            }
-        }
-        if (!planar && m_bFlagAtOffset0B) {
-            S00d81510_quickSort(&m_kVertices[0], m_kVertices.GetLogicalSize());
-        }
-        bool redo;
-        do {
-            redo = false;
-            switch (m_eVertexFloatDimensions) {
-            case 0:
-                makeVertex(m_kVertices[0], m_meshVertices.allocate());
-                break;
-            case 1: {
-                int iMin = 0;
-                int iMax = 0;
-                for (int i = 1; i < numPoints; ++i) {
-                    const S00d81510_SimdReal d = m_kVectorAtOffsetD0.dot3(m_kVertices[i].m_pObservedSource);
-                    if (d < m_kVectorAtOffsetD0.dot3(m_kVertices[iMin].m_pObservedSource)) iMin = i;
-                    if (d > m_kVectorAtOffsetD0.dot3(m_kVertices[iMax].m_pObservedSource)) iMax = i;
-                }
-                S00d81510_Vertex a = m_kVertices[iMin];
-                S00d81510_Vertex b = m_kVertices[iMax];
-                if (a != b) {
-                    S00d81510_Vertex* va = m_meshVertices.allocate();
-                    S00d81510_Vertex* vb = m_meshVertices.allocate();
-                    makeVertex(a, va);
-                    makeVertex(b, vb);
-                } else {
-                    m_eVertexFloatDimensions = 0;
-                    redo = true;
-                }
-                break;
-            }
-            case 2: {
-                S00d81510_VertexArray hull;
-                int numHull = 0;
-                projectOnMajorAxis(m_kVectorAtOffsetE0);
-                S00d81510_quickSort(&m_kVertices[0], m_kVertices.GetLogicalSize());
-                hull.SetSizeAndGrow(numPoints * 2);
-                for (int i = 0; i < numPoints; ++i) {
-                    while (numHull >= 2 && orientation(hull[numHull - 2], hull[numHull - 1], m_kVertices[i]) <= 0) {
-                        --numHull;
-                    }
-                    hull[numHull++] = m_kVertices[i];
-                }
-                for (int i = numPoints - 2, t = numHull + 1; i >= 0; --i) {
-                    while (numHull >= t && orientation(hull[numHull - 2], hull[numHull - 1], m_kVertices[i]) <= 0) {
-                        --numHull;
-                    }
-                    hull[numHull++] = m_kVertices[i];
-                }
-                if (numHull > 3) {
-                    m_kVertices.SwapThreeInts(hull);
-                    m_kVertices.SetSizeAndGrow(numHull - 1);
-                    projectOnMajorAxis(m_kVectorAtOffsetE0);
-                    for (int i = 0; i < m_kVertices.GetLogicalSize(); ++i) {
-                        makeVertex(m_kVertices[i], m_meshVertices.allocate());
-                    }
-                    m_kVertices.clear();
-                } else {
-                    projectOnMajorAxis(m_kVectorAtOffsetE0);
-                    m_eVertexFloatDimensions = 1;
-                    redo = true;
-                }
-                break;
-            }
-            case 3:
-                if (!FUN_00d7fb80()) {
-                    if (m_bFlagAtOffset00) {
-                        m_eVertexFloatDimensions = 2;
-                        redo = true;
-                    } else {
-                        m_eVertexFloatDimensions = -1;
-                    }
-                }
-                break;
-            }
-        } while (redo);
+        if(counts[1]>counts[0]) return 2;
+        if(counts[0]) return 1;
+        return 0;
+
     }
-    if (m_eVertexFloatDimensions != -1) {
-        if (m_bFlagAtOffset09) FUN_00d7d2a0();
-        if (m_bFlagAtOffset0A) FUN_00d7b600();
+    case 2: {
+        int iNeg = 0;
+        int iPos = 0;
+        SplitVertex* v;
+        for (v = m_pVertexData; v != 0; v = v->m_pNext) {
+            HullVec p = plane;
+            float d = plane.dot4xyz1(v->m_pos);
+            v->m_fDist = d;
+            if (HullFabsf(d) <= fEps) {
+                v->m_fDist = 0.0f;
+            } else if (d < 0.0f) {
+                iNeg++;
+            } else {
+                iPos++;
+            }
+        }
+        if (iNeg == 0) {
+            if (iPos != 0) {
+                return 1;
+            }
+            return 0;
+        }
+        if (iPos == 0) {
+            return 2;
+        }
+        VecArrayBase parts[2];
+        parts[0].m_pData=0; parts[0].m_uiLogicalSize=0; parts[0].m_iCapAndFlags=0x80000000;
+        parts[1].m_pData=0; parts[1].m_uiLogicalSize=0; parts[1].m_iCapAndFlags=0x80000000;
+        SplitVertex* prev = m_pVertexData;
+        if (prev != 0) {
+            while (prev->m_pNext != 0) {
+                prev = prev->m_pNext;
+            }
+        }
+        SplitVertex* cur = m_pVertexData;
+        while (cur != 0) {
+const SplitRawVec* __restrict src=(const SplitRawVec*)&cur->m_pos;
+unsigned int wordY=src->y;
+double prod=cur->m_fDist*prev->m_fDist;
+workspace.current.position.x=src->x;
+workspace.current.position.y=wordY;
+workspace.current.position.z=src->z;
+workspace.current.position.w=src->w;
+const HullVec& position=*(const HullVec*)&workspace.current.position;
+            if (prod < ::_DAT_01012060) {
+                float t = prev->m_fDist / (prev->m_fDist - cur->m_fDist);
+                HullVec intersection;
+                intersection.setInterpolate4(prev->m_pos,position,t);
+                parts[0].PushBack(intersection);
+                parts[1].PushBack(intersection);
+            }
+            if (cur->m_fDist <= 0.0f) {
+                parts[0].PushBack(position);
+            }
+            if (cur->m_fDist >= 0.0f) {
+                parts[1].PushBack(position);
+            }
+            prev = cur;
+            cur = cur->m_pNext;
+        }
+        FUN_00d76ca0** pp = ppBack;
+        if (pp != 0) {
+            *pp = new FUN_00d76ca0();
+            (*pp)->m_pImpl->m_pConfiguration = m_pConfiguration;
+            (*pp)->m_pImpl->m_vE0 = m_vE0;
+            if (reinterpret_cast<::S00d81510_Hull *>(((*pp)->m_pImpl))->FUN_00d81510((const ::S00d81510_Vector4 *)(parts[0].m_pData),parts[0].m_uiLogicalSize, 1, (const ::S00d81510_Hull *)(const ::HullImpl *)(this)) != m_iDimension) {
+                delete *pp;
+                *pp = 0;
+            }
+        }
+        pp = ppFront;
+        if (pp != 0) {
+            *pp = new FUN_00d76ca0();
+            (*pp)->m_pImpl->m_pConfiguration = m_pConfiguration;
+            (*pp)->m_pImpl->m_vE0 = m_vE0;
+            if (reinterpret_cast<::S00d81510_Hull *>(((*pp)->m_pImpl))->FUN_00d81510((const ::S00d81510_Vector4 *)(parts[1].m_pData),parts[1].m_uiLogicalSize, 1, (const ::S00d81510_Hull *)(const ::HullImpl *)(this)) != m_iDimension) {
+                delete *pp;
+                *pp = 0;
+            }
+        }
+        VecArrayBase* last=parts+2;
+        int remaining=2;
+        while(--remaining>=0) { --last; last->Clear(); }
+        return 3;
     }
-    return m_eVertexFloatDimensions;
+    default: {
+        unsigned int buf[128];
+        ErrorWork& stream=workspace.current.stream;
+        new ((void *)&(stream)) ::FUN_00cb1600(buf, 0x200);
+        reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0("Current dimension not implemented for that operation");
+        if (((ErrReporter*)DAT_01268360)->Message(3, 0x3a86e3ef, (const char*)buf, ".\\GeometryProcessing\\ConvexHull\\hkgpConvexHull.cpp", 0x854)) {
+            __debugbreak();
+        }
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();
+        return 4;
+    }
+    }
 }
 
 __declspec(noinline) int __stdcall FUN_00d752c0(int* arr, int idx) { return arr[idx + 2]; }
@@ -8710,10 +8381,10 @@ struct HullPlaneOwner {
 void __thiscall HullPlaneOwner::FUN_00d75b80(__m128& out, const int* triangle)
 {
     OffsetOwner* owner = (OffsetOwner*)this;
-    __m128 p0 = *owner->FUN_00d74ed0((PayloadOwner*)FUN_00d752c0((int*)triangle, 0));
-    __m128 p1 = *owner->FUN_00d74ed0((PayloadOwner*)FUN_00d752c0((int*)triangle, 1));
+    __m128 p0 = *((::__m128 *)(::FUN_00d74ed0((::PayloadOwner *)(owner))));
+    __m128 p1 = *((::__m128 *)(::FUN_00d74ed0((::PayloadOwner *)(owner))));
     __m128 e1 = _mm_sub_ps(p1, p0);
-    __m128 p2 = *owner->FUN_00d74ed0((PayloadOwner*)FUN_00d752c0((int*)triangle, 2));
+    __m128 p2 = *((::__m128 *)(::FUN_00d74ed0((::PayloadOwner *)(owner))));
     __m128 e2 = _mm_sub_ps(p2, p0);
 
     __m128 a = _mm_mul_ps(_mm_shuffle_ps(e2, e2, 0xc9), _mm_shuffle_ps(e1, e1, 0xd2));
@@ -8845,7 +8516,6 @@ __m128 _mm_sub_ps(__m128 a, __m128 b);
 }
 }
 extern const char str_010d37a8[];
-extern const char str_010d3574[];
 struct S83_Vec4 {
     N::__m128 q;
     __forceinline void operator=(const S83_Vec4& v) { q = v.q; }
@@ -8960,12 +8630,9 @@ struct S83_Fmt {
     int unk00;
     int unk04;
     int unk08;
-    void FUN_00cb1600(char* buffer, int capacity);
     S83_Fmt* FUN_00cc01c0(const char* text);
     S83_Fmt* FUN_00cc01c0(const char* text, int code, const char* tail);
-    S83_Fmt* FUN_00cc02d0();
     void FUN_00cc01c0();
-    void FUN_00cc00e0();
 };
 static __forceinline float S83_lenSq(const S83_Vertex* a, const S83_Vertex* b) {
     N::__m128 d = N::_mm_sub_ps(a->point.q, b->point.q);
@@ -9102,11 +8769,7 @@ struct S83_Mesh {
     unsigned char flag1b4;
     unsigned char flag1b5;
     void FUN_00d83f30(S83_Options* options);
-    void FUN_00d82ad0(int limit, bool reseat);
     int FUN_00d81510(const S83_Vec4* points, int numPoints, int a, int b);
-    void FUN_00d7d2a0();
-    void FUN_00d7b600();
-    void FUN_00d7df60(S83_Array<int>* a, S83_Array<int>* b, int c, int d);
 };
 // @fnv 0x00d83f30
 void S83_Mesh::FUN_00d83f30(S83_Options* options)
@@ -9124,17 +8787,17 @@ void S83_Mesh::FUN_00d83f30(S83_Options* options)
     default: {
         int text[128];
         S83_Fmt fmt;
-        fmt.FUN_00cb1600((char*)text, 0x200);
-        fmt.FUN_00cc01c0(str_010d37a8);
+        new ((void *)&(fmt)) ::FUN_00cb1600((char*)text, 0x200);
+        reinterpret_cast<::SinkOwner *>(&(fmt))->FUN_00cc01c0(str_010d37a8);
         if (DAT_01268360->message(3, 0x3e0abbab, (char*)text, str_010d3540, 0x57b))
             fnv_Breakpoint();
-        fmt.FUN_00cc00e0();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(fmt))->FUN_00cc00e0::~FUN_00cc00e0();
         return;
     }
     }
     if (options->vertexLimit >= 4) {
         int before = vertexCount;
-        FUN_00d82ad0(options->vertexLimit, options->reseat != 0);
+        reinterpret_cast<::S00d82ad0_Hull *>(this)->FUN_00d82ad0(options->vertexLimit, options->reseat != 0);
         changed = vertexCount != before;
     }
     if (options->tolerance > 0.0f) {
@@ -9170,8 +8833,8 @@ void S83_Mesh::FUN_00d83f30(S83_Options* options)
                 if (v->removalFlag != -1)
                     pts.AddBack(v->point);
             }
-            if (FUN_00d81510(pts.m_data, pts.m_iElementCount, 0, 0) == 3)
-                FUN_00d7d2a0();
+            if (reinterpret_cast<::S00d81510_Hull *>(this)->FUN_00d81510((const ::S00d81510_Vector4 *)(pts.m_data), pts.m_iElementCount, 0, (const ::S00d81510_Hull *)(0)) == 3)
+                reinterpret_cast<::HullBuilder *>(this)->FUN_00d7d2a0();
             changed = true;
             again = true;
 
@@ -9182,11 +8845,11 @@ void S83_Mesh::FUN_00d83f30(S83_Options* options)
         if (!flag1b5) {
             int text[128];
             S83_Fmt fmt;
-            fmt.FUN_00cb1600((char*)text, 0x200);
-            fmt.FUN_00cc01c0(str_010d3574, diagnosticCode, &DAT_0103d078)->FUN_00cc02d0()->FUN_00cc01c0();
+            new ((void *)&(fmt)) ::FUN_00cb1600((char*)text, 0x200);
+            reinterpret_cast<::SinkOwner *>((((::S83_Fmt *)(reinterpret_cast<::FUN_00cc02d0_cls *>((((::S83_Fmt *)(reinterpret_cast<::SinkOwner *>(&(fmt))->FUN_00cc01c0(str_010d3574)))))->FUN_00cc02d0({})))))->FUN_00cc01c0({});
             if (DAT_01268360->message(3, 0x79f9d886, (char*)text, str_010d3540, 0x148))
                 fnv_Breakpoint();
-            fmt.FUN_00cc00e0();
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(fmt))->FUN_00cc00e0::~FUN_00cc00e0();
         }
         S83_Array<int> a;
         S83_Array<int> b;
@@ -9195,7 +8858,7 @@ void S83_Mesh::FUN_00d83f30(S83_Options* options)
             a.m_iElementCount = 0;
             b.m_iElementCount = 0;
             used.m_iElementCount = 0;
-            FUN_00d7df60(&a, &b, 0, 0);
+            reinterpret_cast<::PolygonMesh *>(this)->FUN_00d7df60((*(::PolygonArray<int> *)(&a)), (*(::PolygonArray<int> *)(&b)), 0, 0);
             for (int k = 0; k < b.m_iElementCount; k++) {
                 if (used.indexOf(b.m_data[k]) == -1)
                     used.AddBack(b.m_data[k]);
@@ -9213,8 +8876,8 @@ void S83_Mesh::FUN_00d83f30(S83_Options* options)
             sub.SetSizeAndGrow(used.m_iElementCount);
             for (int i = 0; i < used.m_iElementCount; i++)
                 sub.m_data[i] = all.m_data[used.m_data[i]];
-            if (FUN_00d81510(sub.m_data, sub.m_iElementCount, 0, 0) == 3)
-                FUN_00d7d2a0();
+            if (reinterpret_cast<::S00d81510_Hull *>(this)->FUN_00d81510((const ::S00d81510_Vector4 *)(sub.m_data), sub.m_iElementCount, 0, (const ::S00d81510_Hull *)(0)) == 3)
+                reinterpret_cast<::HullBuilder *>(this)->FUN_00d7d2a0();
 
 
         } while (state == 3);
@@ -9227,9 +8890,9 @@ void S83_Mesh::FUN_00d83f30(S83_Options* options)
         S83_Vec4* dst = all.expandBy(vertexCount);
         for (S83_Vertex* v = vertices; v; v = v->next)
             *dst++ = v->point;
-        FUN_00d81510(all.m_data, all.m_iElementCount, 0, 0);
-        if (oldFlagB) FUN_00d7d2a0();
-        if (oldFlagA) FUN_00d7b600();
+        reinterpret_cast<::S00d81510_Hull *>(this)->FUN_00d81510((const ::S00d81510_Vector4 *)(all.m_data), all.m_iElementCount, 0, (const ::S00d81510_Hull *)(0));
+        if (oldFlagB) reinterpret_cast<::HullBuilder *>(this)->FUN_00d7d2a0();
+        if (oldFlagA) reinterpret_cast<::hkgpConvexHullImpl *>(this)->FUN_00d7b600();
 
     }
 }
@@ -9248,16 +8911,13 @@ __m128 _mm_set_ss(float);
 void _mm_store_ss(float*,__m128);
 }
 extern const char str_010d36ec[];
-extern const char str_010d3540[];
 extern const __m128 DAT_010c7160;
 
 struct S00d7fb80_Stream {
     int unk00;
     int unk04;
     int unk08;
-    S00d7fb80_Stream* FUN_00cb1600(void* buf, int size);
     S00d7fb80_Stream& FUN_00cc01c0(const char* s);
-    void FUN_00cc00e0();
 };
 class S00d7fb80_SimdReal {
 public:
@@ -9315,7 +8975,7 @@ public:
         __m128 lenInv = lengthInverse3().broadcast();
         m_vComponents = _mm_mul_ps(lenInv, m_vComponents);
     }
-    __forceinline static const S00d7fb80_Vector4& getZero() { return *reinterpret_cast<const S00d7fb80_Vector4*>(&DAT_01267e30); }
+    __forceinline static const S00d7fb80_Vector4& getZero() { return *reinterpret_cast<const S00d7fb80_Vector4*>(&(*reinterpret_cast<::__m128 *>(&::DAT_01267e30))); }
     __m128 m_vComponents;
 };
 __forceinline S00d7fb80_Vector4 S00d7fb80_crossOffset(const S00d7fb80_Vector4& a, const S00d7fb80_Vector4& b, const S00d7fb80_Vector4& c)
@@ -9503,7 +9163,7 @@ struct S00d7fb80_VertexList {
     int m_iAllocatedCount; int unk14;
     S00d7fb80_Vertex* allocateItem();
     S00d7fb80_Vertex* CloneNode(const S00d7fb80_Vertex& v);
-    __forceinline S00d7fb80_Vertex* allocate(const S00d7fb80_Vertex& v = S00d7fb80_Vertex()) { return CloneNode(v); }
+    __forceinline S00d7fb80_Vertex* allocate(const S00d7fb80_Vertex& v = S00d7fb80_Vertex()) { return ((::S00d7fb80_Vertex *)(reinterpret_cast<::PoolList *>(this)->CloneNode((::Node *)&(v)))); }
 };
 struct S00d7fb80_TriangleList {
     int unk00; int unk04; int unk08;
@@ -9511,7 +9171,7 @@ struct S00d7fb80_TriangleList {
     int m_iAllocatedCount; int unk14;
     S00d7fb80_Triangle* allocateItem();
     S00d7fb80_Triangle* FUN_00d7efc0(const S00d7fb80_Triangle& t);
-    __forceinline S00d7fb80_Triangle* allocate(const S00d7fb80_Triangle& t = S00d7fb80_Triangle()) { return FUN_00d7efc0(t); }
+    __forceinline S00d7fb80_Triangle* allocate(const S00d7fb80_Triangle& t = S00d7fb80_Triangle()) { return ((::S00d7fb80_Triangle *)(reinterpret_cast<::FUN_00d7efc0_cls *>(this)->FUN_00d7efc0((const ::PoolEntry *)&(t)))); }
     __forceinline S00d7fb80_Triangle* getFirst() const { return m_uiBufferCapacity; }
 };
 __forceinline void* operator new(unsigned int, S00d7fb80_Vertex* p) throw() { return p; }
@@ -9569,7 +9229,6 @@ public:
     int m_uiUniqueId;
 
     bool FUN_00d7fb80();
-    void FUN_00d7c3e0(const S00d7fb80_Vertex& v, const S00d7fb80_Edge& edge, S00d7fb80_Edge& out);
 
     template <typename T> static __forceinline T mul_32x32(int a, int b) { return (T)a * (T)b; }
     static __forceinline __int64 distanceToPlane(const S00d7fb80_Vertex& v, const S00d7fb80_Plane& p)
@@ -9641,7 +9300,7 @@ public:
             S00d7fb80_Edge edge(0, 0);
             makeVertex(x, newVertex);
             m_uiUniqueId++;
-            FUN_00d7c3e0(*newVertex, S00d7fb80_Edge(root, 0), edge);
+            reinterpret_cast<::D7Owner *>(this)->FUN_00d7c3e0((::D7Node *)&(*newVertex), (::D7Pair *)&(const ::S00d7fb80_Edge &)(S00d7fb80_Edge(root, 0)), (::D7Pair *)&(edge));
             while (!edge.isNaked()) {
                 edge = edge.next();
             }
@@ -9671,6 +9330,190 @@ public:
         return false;
     }
 };
+// @fnv 0x00d81510
+int S00d81510_Hull::FUN_00d81510(const S00d81510_Vector4* points, int numPoints, bool planar, const S00d81510_Hull* domainSource)
+{
+    if (numPoints && (((unsigned long)points) & 15)) {
+        S00d81510_VecArray aligned;
+        aligned.SetSizeAndGrow(numPoints);
+        for (int i = 0; i < numPoints; ++i) {
+            aligned[i].set(points[i](0), points[i](1), points[i](2), points[i](3));
+        }
+        return FUN_00d81510(&aligned[0], numPoints, planar, domainSource);
+    }
+    reinterpret_cast<::FUN_00d7ac40_cls *>(this)->FUN_00d7ac40(planar);
+    if (numPoints > 0) {
+        if (domainSource) {
+            m_domainCenter = domainSource->m_domainCenter;
+            m_domainScale = domainSource->m_domainScale;
+            m_domainScaleInv = domainSource->m_domainScaleInv;
+        } else if (m_bFlagAtOffset0C) {
+            m_domainCenter.set(0, 0, 0, 0);
+            m_domainScale.set(1, 1, 1, 0);
+            m_domainScaleInv.set(1, 1, 1, 0);
+        } else {
+            S00d81510_Vector4 auiLowerBounds = points[0];
+            S00d81510_Vector4 auiUpperBounds = points[0];
+            for (int i = 1; i < numPoints; ++i) {
+                auiLowerBounds.setMin4(auiLowerBounds, points[i]);
+                auiUpperBounds.setMax4(auiUpperBounds, points[i]);
+            }
+            for (int i = 0; i < 3; ++i) {
+                if (auiLowerBounds(i) < -3.40282e38f || auiUpperBounds(i) > 3.40282e38f) {
+                    char buffer[512];
+                    S00d81510_Stream ostr;
+                    new ((void *)&(ostr)) ::FUN_00cb1600(buffer, 512);
+                    reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0(str_010d3718);
+                    if (DAT_01268360->message(3, 0x405a2174, buffer, str_010d3540, 0x228))
+                        __debugbreak();
+                    reinterpret_cast<struct ::FUN_00cc00e0 *>(&(ostr))->FUN_00cc00e0::~FUN_00cc00e0();
+                }
+                if ((auiUpperBounds(i) - auiLowerBounds(i)) < 1e-5f) {
+                    const float c = (auiUpperBounds(i) + auiLowerBounds(i)) / 2;
+                    auiLowerBounds(i) = S00d81510_min2(auiLowerBounds(i), c - 1e-5f);
+                    auiUpperBounds(i) = S00d81510_max2(auiUpperBounds(i), c + 1e-5f);
+                }
+            }
+            S00d81510_Vector4 ext;
+            ext.setSub4(auiUpperBounds, auiLowerBounds);
+            ext.mul4(0.5f);
+            S00d81510_Vector4 center;
+            center.setAdd4(auiLowerBounds, ext);
+            ext.setReciprocal3(ext);
+            m_domainCenter = center;
+            m_domainScale = ext;
+            m_domainCenter(3) = 0;
+            m_domainScale(3) = 0;
+            m_domainScale.mul4(8191.0f);
+            m_domainScaleInv.setReciprocal3(m_domainScale);
+        }
+        m_eVertexFloatDimensions = S00d81510_min2(numPoints - 1, 3);
+        m_kVectorAtOffsetD0 = S00d81510_Vector4::getZero();
+        if (planar) {
+            m_eVertexFloatDimensions = 2;
+        } else {
+            m_kVectorAtOffsetE0 = S00d81510_Vector4::getZero();
+            if (numPoints > 1) {
+                m_kVectorAtOffsetD0.setSub4(points[1], points[0]);
+            }
+            if (numPoints > 2) {
+                for (int i = 0; i < numPoints; ++i) {
+                    const S00d81510_Vector4 o = points[i];
+                    for (int j = i + 1; j < numPoints; ++j) {
+                        S00d81510_Vector4 e0;
+                        e0.setSub4(points[j], o);
+                        for (int k = j + 1; k < numPoints; ++k) {
+                            S00d81510_Vector4 e1;
+                            e1.setSub4(points[k], o);
+                            S00d81510_Vector4 cross;
+                            cross.setCross(e0, e1);
+                            const S00d81510_SimdReal len = cross.lengthSquared3();
+                            if (len > m_kVectorAtOffsetE0.lengthSquared3()) {
+                                m_kVectorAtOffsetE0 = cross;
+                                if (len > float(S00d81510_Constants::DAT_01032980)) {
+                                    i = j = k = numPoints;
+                                }
+                            }
+                        }
+                    }
+                }
+                if (m_kVectorAtOffsetE0.normalize3IfNotZero() != 0) {
+                    m_kVectorAtOffsetE0.set(1, 0, 0, 0);
+                }
+                m_kVectorAtOffsetE0(3) = -m_kVectorAtOffsetE0.dot3(points[0]);
+            }
+        }
+        m_kVertices.clear();
+        m_kVertices.SetSizeAndGrow(numPoints);
+        for (int i = 0; i < numPoints; ++i) {
+            m_kVertices[i] = transform(points[i]);
+            if (m_bFlagAtOffset08) {
+                m_kVertices[i].m_pObservedSource.setInt24W(i);
+            }
+        }
+        if (!planar && m_bFlagAtOffset0B) {
+            S00d81510_quickSort(&m_kVertices[0], m_kVertices.GetLogicalSize());
+        }
+        bool redo;
+        do {
+            redo = false;
+            switch (m_eVertexFloatDimensions) {
+            case 0:
+                makeVertex(m_kVertices[0], m_meshVertices.allocate());
+                break;
+            case 1: {
+                int iMin = 0;
+                int iMax = 0;
+                for (int i = 1; i < numPoints; ++i) {
+                    const S00d81510_SimdReal d = m_kVectorAtOffsetD0.dot3(m_kVertices[i].m_pObservedSource);
+                    if (d < m_kVectorAtOffsetD0.dot3(m_kVertices[iMin].m_pObservedSource)) iMin = i;
+                    if (d > m_kVectorAtOffsetD0.dot3(m_kVertices[iMax].m_pObservedSource)) iMax = i;
+                }
+                S00d81510_Vertex a = m_kVertices[iMin];
+                S00d81510_Vertex b = m_kVertices[iMax];
+                if (a != b) {
+                    S00d81510_Vertex* va = m_meshVertices.allocate();
+                    S00d81510_Vertex* vb = m_meshVertices.allocate();
+                    makeVertex(a, va);
+                    makeVertex(b, vb);
+                } else {
+                    m_eVertexFloatDimensions = 0;
+                    redo = true;
+                }
+                break;
+            }
+            case 2: {
+                S00d81510_VertexArray hull;
+                int numHull = 0;
+                projectOnMajorAxis(m_kVectorAtOffsetE0);
+                S00d81510_quickSort(&m_kVertices[0], m_kVertices.GetLogicalSize());
+                hull.SetSizeAndGrow(numPoints * 2);
+                for (int i = 0; i < numPoints; ++i) {
+                    while (numHull >= 2 && orientation(hull[numHull - 2], hull[numHull - 1], m_kVertices[i]) <= 0) {
+                        --numHull;
+                    }
+                    hull[numHull++] = m_kVertices[i];
+                }
+                for (int i = numPoints - 2, t = numHull + 1; i >= 0; --i) {
+                    while (numHull >= t && orientation(hull[numHull - 2], hull[numHull - 1], m_kVertices[i]) <= 0) {
+                        --numHull;
+                    }
+                    hull[numHull++] = m_kVertices[i];
+                }
+                if (numHull > 3) {
+                    reinterpret_cast<::FUN_00d9ec10_cls *>(&(m_kVertices))->SwapThreeInts((int *)&(hull));
+                    m_kVertices.SetSizeAndGrow(numHull - 1);
+                    projectOnMajorAxis(m_kVectorAtOffsetE0);
+                    for (int i = 0; i < m_kVertices.GetLogicalSize(); ++i) {
+                        makeVertex(m_kVertices[i], m_meshVertices.allocate());
+                    }
+                    m_kVertices.clear();
+                } else {
+                    projectOnMajorAxis(m_kVectorAtOffsetE0);
+                    m_eVertexFloatDimensions = 1;
+                    redo = true;
+                }
+                break;
+            }
+            case 3:
+                if (!reinterpret_cast<::S00d7fb80_Hull *>(this)->FUN_00d7fb80()) {
+                    if (m_bFlagAtOffset00) {
+                        m_eVertexFloatDimensions = 2;
+                        redo = true;
+                    } else {
+                        m_eVertexFloatDimensions = -1;
+                    }
+                }
+                break;
+            }
+        } while (redo);
+    }
+    if (m_eVertexFloatDimensions != -1) {
+        if (m_bFlagAtOffset09) reinterpret_cast<::HullBuilder *>(this)->FUN_00d7d2a0();
+        if (m_bFlagAtOffset0A) reinterpret_cast<::hkgpConvexHullImpl *>(this)->FUN_00d7b600();
+    }
+    return m_eVertexFloatDimensions;
+}
 
 // @fnv 0x00d7fb80
 bool S00d7fb80_Hull::FUN_00d7fb80()
@@ -9680,11 +9523,11 @@ bool S00d7fb80_Hull::FUN_00d7fb80()
     if (numVertices < 4) {
         char buffer[512];
         S00d7fb80_Stream ostr;
-        ostr.FUN_00cb1600(buffer, 512);
-        ostr.FUN_00cc01c0(str_010d36ec);
+        new ((void *)&(ostr)) ::FUN_00cb1600(buffer, 512);
+        reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0(str_010d36ec);
         if (DAT_01268360->message(3, 0x642cf968, buffer, str_010d3540, 0x2f4))
             fnv_Breakpoint();
-        ostr.FUN_00cc00e0();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(ostr))->FUN_00cc00e0::~FUN_00cc00e0();
     }
     m_kVectorAtOffsetE0 = S00d7fb80_Vector4::getZero();
     for (int i = 0; i < numVertices; ++i) {
@@ -9768,10 +9611,7 @@ void _mm_store_ss(float*, __m128);
 double fabs(double);
 void* memcpy(void*,const void*,unsigned int);
 }
-extern const float DAT_010141cc;
-extern const float s_faderClearedAlpha;
 extern const char str_010d3748[];
-extern const char str_010d3540[];
 
 static __forceinline float expandAbs(float f) { return fabs(f); }
 class ExpandTruth {
@@ -9810,9 +9650,9 @@ struct __declspec(align(16)) ExpandVector {
         __m128 sq=_mm_mul_ps(q,q);
         __m128 len=_mm_add_ss(_mm_shuffle_ps(sq,sq,0xaa),_mm_add_ss(_mm_shuffle_ps(sq,sq,0x55),sq));
         __m128 r=_mm_rsqrt_ss(len);
-        __m128 zero=_mm_set_ss(DAT_01011d78);
-        __m128 three=_mm_set_ss(DAT_01017718);
-        __m128 half=_mm_set_ss(DAT_01016248);
+        __m128 zero=_mm_set_ss(::DAT_01011d78);
+        __m128 three=_mm_set_ss(::DAT_01017718);
+        __m128 half=_mm_set_ss(::fnv_00c88020::DAT_01016248);
         __m128 rr=_mm_mul_ss(len,r); rr=_mm_mul_ss(rr,r);
         __m128 nr=_mm_mul_ss(_mm_mul_ss(half,r),_mm_sub_ss(three,rr));
         __m128 inv=_mm_andnot_ps(_mm_cmpeq_ss(len,zero),nr);
@@ -9998,9 +9838,7 @@ struct ExpandView {
 };
 struct ExpandStream {
     int unk00,unk04,unk08;
-    void FUN_00cb1600(char*,int);
     void FUN_00cc01c0(const char*);
-    void FUN_00cc00e0();
 };
 struct ExpandValidity { int unk00,unk04,unk08; unsigned char unk0c,unk0d,unk0e,valid; };
 union ExpandAV { ExpandArray points; ExpandStream stream; ExpandValidity validity; };
@@ -10010,20 +9848,10 @@ struct ExpandShape {
     __declspec(noinline) int FUN_00d74e10();
     const ExpandVector& FUN_00d752d0() const;
     __declspec(noinline) void GetValueBlock(ExpandVector*) const;
-    int FUN_00d75050() const;
-    int FUN_00d75060() const;
-    const ExpandVector& FUN_00d74ed0(int) const;
     __declspec(noinline) int FUN_00d75120(int) const;
-    int FUN_00d75130() const;
-    int FUN_00d75140() const;
-    int FUN_00d75200(int) const;
     void FUN_00d75b80(ExpandVector*,int) const;
-    int FUN_00d752c0(int,int) const;
-    void FUN_00d76120(int,ExpandArray&) const;
     __declspec(noinline) int FUN_00d771c0(const ExpandVector*,int,const ExpandHeader&);
     __declspec(noinline) int FUN_00d77200(const ExpandView&,const ExpandHeader&);
-    void SetValue(float,bool);
-    void FUN_00d762f0();
     bool FUN_00d77be0(float radius);
 };
 __declspec(noinline) int ExpandShape::FUN_00d74e10() { return state->dimension; }
@@ -10058,7 +9886,7 @@ bool ExpandShape::FUN_00d77be0(float radius)
     struct __declspec(align(2)) { ExpandTruth flagB, flagA; } flags; flags.flagB=state->flagB;
     flags.flagA=state->flagA;
     __declspec(align(8)) ExpandAV av;
-    switch (FUN_00d74e10()) {
+    switch (reinterpret_cast<::FUN_00d74e10_cls *>(this)->FUN_00d74e10()) {
     case 0: {
         ExpandArray& points=av.points; points.init();
         ExpandVector seed;
@@ -10074,14 +9902,14 @@ seed.bits.w=source->first->point.bits.w;
         points.data[4][2]+=halfRadius;
         points.data[5][2]-=halfRadius;
         ExpandView view; view.set(points);
-        FUN_00d77200(view,saved);
+        reinterpret_cast<::H77ConvexHull *>(this)->FUN_00d77200((const ::H77StridedVertices &)(view),(int)&(saved));
         points.clearAndFree();
         break;
     }
     case 1: {
         ExpandArray& points=av.points; points.init();
         points.reserve(10);
-        FUN_00d76120(0,points);
+        reinterpret_cast<::S00d76120_cls *>((void *)this)->FUN_00d76120(0,(::S00d76120_Arr &)(points));
         {
         ExpandVector a=points.data[0];
         ExpandVector b=points.data[1];
@@ -10105,7 +9933,7 @@ seed.bits.w=source->first->point.bits.w;
         points.AllocatePair().setSub(b,cross);
         }
         ExpandView view; view.set(points);
-        FUN_00d77200(view,saved);
+        reinterpret_cast<::H77ConvexHull *>(this)->FUN_00d77200((const ::H77StridedVertices &)(view),(int)&(saved));
         points.clearAndFree();
         break;
     }
@@ -10113,21 +9941,21 @@ seed.bits.w=source->first->point.bits.w;
         ExpandArray& points=av.points; points.init();
         ExpandVector seed=FUN_00d752d0();
         ExpandVector normal;
-        GetValueBlock(&normal);
-        points.reserve(3*FUN_00d75050());
-        FUN_00d76120(0,points);
-        for (int v=FUN_00d75060();v;v=FUN_00d75120(v)) {
-            const ExpandVector* position=&FUN_00d74ed0(v);
+        reinterpret_cast<::FUN_00d74e50_cls *>((void *)this)->GetValueBlock();
+        points.reserve(3*reinterpret_cast<::FUN_00d75050_cls *>((void *)this)->FUN_00d75050());
+        reinterpret_cast<::S00d76120_cls *>((void *)this)->FUN_00d76120(0,(::S00d76120_Arr &)(points));
+        for (int v=reinterpret_cast<::D75060Outer *>((void *)this)->FUN_00d75060();v;v=::FUN_00d75120((int *)this)) {
+            const ExpandVector* position=&(*(const ::ExpandVector *)(::FUN_00d74ed0((::PayloadOwner *)this)));
             const ExpandVector& pos=*position;
             points.AllocatePair().setAddMul(pos,normal,ExpandScalar(radius));
             points.AllocatePair().setAddMul(pos,normal,ExpandScalar(-radius));
         }
         ExpandView view; view.set(points);
-        if (FUN_00d77200(view,saved)!=3) {
+        if (reinterpret_cast<::H77ConvexHull *>(this)->FUN_00d77200((const ::H77StridedVertices &)(view),(int)&(saved))!=3) {
             points.size=0;
             points.AddBack(seed);
             view.set(points);
-            FUN_00d77200(view,saved);
+            reinterpret_cast<::H77ConvexHull *>(this)->FUN_00d77200((const ::H77StridedVertices &)(view),(int)&(saved));
             bool result=FUN_00d77be0(radius); points.clearAndFree(); return result;
         }
         points.clearAndFree();
@@ -10135,21 +9963,21 @@ seed.bits.w=source->first->point.bits.w;
     }
     case 3: {
         ExpandArray& points=av.points; points.init();
-        points.reserve(6*FUN_00d75130());
-        FUN_00d76120(0,points);
-        for (int f=FUN_00d75140();f;f=FUN_00d75200(f)) {
+        points.reserve(6*reinterpret_cast<::D75130Outer *>((void *)this)->FUN_00d75130());
+        reinterpret_cast<::S00d76120_cls *>((void *)this)->FUN_00d76120(0,(::S00d76120_Arr &)(points));
+        for (int f=((int)(reinterpret_cast<::fnv_00d75140::Owner *>((void *)this)->FUN_00d75140()));f;f=::FUN_00d75200((const int *)this)) {
             ExpandVector plane;
             FUN_00d75b80(&plane,f);
             
             if (*(unsigned char*)plane.FUN_00c7f520(&av.validity.valid,DAT_010141cc)) {
                 for (int i=0;i<3;++i) {
-                    const ExpandVector& pos=FUN_00d74ed0(FUN_00d752c0(f,i));
+                    const ExpandVector& pos=(*(const ::ExpandVector *)(::FUN_00d74ed0((::PayloadOwner *)this::FUN_00d752c0((int *)this, f))));
                     points.AllocatePair().setAddMul(pos,plane,ExpandScalar(radius));
                 }
             }
         }
         ExpandView view; view.set(points);
-        FUN_00d77200(view,saved);
+        reinterpret_cast<::H77ConvexHull *>(this)->FUN_00d77200((const ::H77StridedVertices &)(view),(int)&(saved));
         points.clearAndFree();
         break;
     }
@@ -10157,17 +9985,17 @@ seed.bits.w=source->first->point.bits.w;
         do {
         char buffer[512];
         ExpandStream& stream=av.stream;
-        stream.FUN_00cb1600(buffer,512);
-        stream.FUN_00cc01c0("Invalid dimemsions for that operation");
+        new ((void *)&(stream)) ::FUN_00cb1600(buffer,512);
+        reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0("Invalid dimemsions for that operation");
         if (DAT_01268360->message(3,0x172cdf48,buffer,".\\GeometryProcessing\\ConvexHull\\hkgpConvexHull.cpp",0xa77)) __debugbreak();
-        stream.FUN_00cc00e0();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();
         } while(0);
         break;
     }
     }
-    if (FUN_00d74e10()==3) {
-        if (flags.flagB) SetValue(s_faderClearedAlpha,false);
-        if (flags.flagA) FUN_00d762f0();
+    if (reinterpret_cast<::FUN_00d74e10_cls *>(this)->FUN_00d74e10()==3) {
+        if (flags.flagB) reinterpret_cast<::FUN_00d76990_Class *>(this)->SetValue(::DAT_0106ea1c,false);
+        if (flags.flagA) reinterpret_cast<::D762F0Owner *>(this)->FUN_00d762f0();
         return true;
     }
     return false;

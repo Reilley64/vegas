@@ -2,6 +2,12 @@
 #define FNV_BGSRECONSTRUCTFORMSINALLFILESMAP_DECLS_H
 
 
+#include "fnv/decl/FUN_004516b0_shell.h"
+#include "fnv/decl/FUN_00550890_shell.h"
+#include "fnv/decl/FUN_00845610_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011dd000.h"
 class TESBoundObject;
 class BGSReconstructFormsInFileMap;
 class FormChangeMap;
@@ -16,7 +22,6 @@ class BGSSaveLoadChangesMapBase
 class BGSSaveLoadChangesMap : public BGSSaveLoadChangesMapBase
 {
   public:
-    void Clear();
     virtual ~BGSSaveLoadChangesMap();
 };
 
@@ -30,12 +35,26 @@ class BGSReconstructFormsInAllFilesMapBase
     unsigned int m_uiCount;
 };
 
+struct TESRecordHeader;
 class TESFile
 {
   public:
     TESFile* GetParentTESFile();
+public:
+    bool IsEndianConversionRequired();
+public:
+    ::TESRecordHeader *GetRecordHeader();
+public:
+    unsigned int GetOffset();
+public:
+    bool GetOptimizedFile();
+public:
+    bool NextChunk();
+public:
+    bool IsGroupOpen();
 };
 
+class TESFile;
 class TESForm
 {
   public:
@@ -61,12 +80,21 @@ class TESForm
                     FNV_VIRTUAL_SLOT(57) FNV_VIRTUAL_SLOT(58) FNV_VIRTUAL_SLOT(59)
 #undef FNV_VIRTUAL_SLOT
                         virtual bool GetIsReference() const;
+public:
+    bool GetInitialized() const;
+public:
+    bool GetDisabled() const;
+public:
+    ::TESFile *GetFile(int);
+public:
+    void SetCollisionDisabled(bool);
 };
 
 class TESObjectREFR
 {
   public:
-    TESBoundObject* GetObjectReference();
+public:
+    float GetScale();
 };
 
 struct ChangedFormRecord
@@ -91,18 +119,13 @@ class FormChangeMap
     BSSimpleArray<ChangedFormRecord, 1024> m_kSpecialFormChanges;
     FormChangeMap();
     ~FormChangeMap();
-    void FUN_00843240();
-    void FUN_00843be0(unsigned int count);
-    unsigned int GetCombinedFlags();
     ChangedFormRecord* FUN_008432e0(unsigned int index);
-    bool RemoveForm(unsigned int index);
 };
 
 class BGSReconstructFormsInFileMap
 {
   public:
     virtual ~BGSReconstructFormsInFileMap();
-    void BuildMap(TESFile* file, FormChangeMap* forms);
 };
 
 template <class T_Key, class T_Data> class NiTPointerMap
@@ -130,23 +153,23 @@ class BGSReconstructFormsInAllFilesMap : public BGSReconstructFormsInAllFilesMap
 class BGSSaveLoadGame
 {
   public:
-    void SetFlag4(bool enable);
 };
 
+class TESFile;
+class TESForm;
 class TESDataHandler
 {
   public:
-    bool FUN_004516b0();
-    void SetBoolAt61a(bool enable);
+public:
+    ::TESFile *GetCompiledFileByIndex(int);
+public:
+    bool ConstructObject(::TESFile *, bool, ::TESForm *, bool);
 };
 
 class TESFormInitFlag
 {
   public:
-    bool IsFormInitialized() const;
 };
 
-extern BGSSaveLoadGame* g_BGSSaveLoadGame;
-extern TESDataHandler* g_dataHandler;
 
 #endif

@@ -2,6 +2,8 @@
 #ifndef FNV_TESEFFECTSHADER_H
 #define FNV_TESEFFECTSHADER_H
 
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/MiddleHighProcess.h"
 #include "layout_support.h"
 #include "effectshader_NiPoint3.h"
 #include "effectshader_TESForm.h"
@@ -53,7 +55,6 @@ class EffectShaderData
 {
   public:
     void Initialize();
-    void Endian();
     unsigned char cFlags;  // +0x0, 1 bytes
     unsigned char layoutPadding1[3];
     _D3DBLEND m_eDestinationBlend;                // +0x4, 4 bytes
@@ -209,9 +210,7 @@ class TESEffectShader : public TESForm
     virtual void ResetFormData();
     virtual bool Load(TESFile* file);
     virtual void InitItem();
-    EffectShaderData* GetData();
     BGSDebris* GetAddonModels();
-    void SetAddonModels(BGSDebris* models);
     EffectShaderData Data;                // +0x18, 308 bytes
     TESTexture m_kFillTexture;            // +0x14C, 12 bytes
     TESTexture m_kParticleShaderTexture;  // +0x158, 12 bytes
@@ -230,7 +229,6 @@ class BGSDebris : public TESForm
 class TESTextureLoader
 {
   public:
-    static void ReadTextureData(TESTexture* texture, TESFile* file);
 };
 class ParticleShader
 {

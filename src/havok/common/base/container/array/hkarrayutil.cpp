@@ -2,6 +2,13 @@
 // src/havok/common/base/container/array/hkarrayutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/container/array/hkarrayutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/MapBase_cb1e.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cd7000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_0101f000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01272000.h"
 struct CB1BC0Allocator;
 
 typedef unsigned __int64 CB1BC0Key;
@@ -34,7 +41,6 @@ struct CB1BC0Map
     int m_iCapacityFlags;
     int m_iPairCount;
 
-    void ResizeStorage(CB1BC0Allocator& alloc, int capacity);
     int InsertKeyValue(CB1BC0Allocator& alloc, CB1BC0Key key, CB1BC0Key val);
 };
 
@@ -45,7 +51,7 @@ int CB1BC0Map::InsertKeyValue(CB1BC0Allocator& alloc, CB1BC0Key key, CB1BC0Key v
     {
         int iCount = m_iCapacityFlags & 0x7fffffff;
         if ((iCount + iCount) > m_iPairCount)
-            ResizeStorage(alloc, m_iPairCount + m_iPairCount + 2);
+            reinterpret_cast<::MapBase_cb1e *>(this)->FUN_00cb1e70((::Allocator_cb1e &)(alloc), m_iPairCount + m_iPairCount + 2);
     }
 
     unsigned i;
@@ -152,8 +158,6 @@ void ResizeAudioStream(AudioAllocator* pAlloc, AudioStream* pStream, int elemSiz
 
 typedef unsigned int hkUlong;
 
-extern void __cdecl FUN_00c908c0(void* alloc, void* arr, int n, int sizeElem);
-extern void __cdecl ResizeAudioStream(void* alloc, void* arr, int sizeElem);
 
 inline void* operator new(unsigned int, void* p)
 {
@@ -186,7 +190,7 @@ struct S_00da2bd0_CallTree
         if (cap < n)
         {
             int cap2 = cap * 2;
-            FUN_00c908c0(alloc, this, n < cap2 ? cap2 : n, sizeof(S_00da2bd0_Node));
+            ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(void *)(this), n < cap2 ? cap2 : n, sizeof(S_00da2bd0_Node));
         }
         int numNew = n - m_iElementCount;
         S_00da2bd0_Node* p = m_data + m_iElementCount;
@@ -201,7 +205,7 @@ struct S_00da2bd0_CallTree
     {
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
         {
-            ResizeAudioStream(m_pThreadAllocator, this, sizeof(S_00da2bd0_Node));
+            ::ResizeAudioStream((::AudioAllocator *)(m_pThreadAllocator), (::AudioStream *)(void *)(this), sizeof(S_00da2bd0_Node));
         }
         new (m_data + m_iElementCount) S_00da2bd0_Node();
         return m_data[m_iElementCount++];
@@ -257,8 +261,6 @@ struct Holder
 };
 
 Holder* __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(void* pAllocator, void* pBuf, int newCap, int bFlag);
-void __cdecl ResizeAudioStream(void* pAllocator, void* pBuf, int bFlag);
 extern "C" void _ReadWriteBarrier(void);
 
 struct FUN_00e108b0_cls
@@ -288,13 +290,13 @@ FUN_00e108b0_cls* FUN_00e108b0_cls::FUN_00e108b0()
         {
             newCap = 0x40;
         }
-        FUN_00c908c0(alloc, this, newCap, 1);
+        ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(void *)(this), newCap, 1);
     }
 
     h = FUN_00c85750();
     if ((unsigned int)m_len == (m_cap & 0x3fffffffu))
     {
-        ResizeAudioStream(h->m_pAllocator, this, 1);
+        ::ResizeAudioStream((::AudioAllocator *)(h->m_pAllocator), (::AudioStream *)(void *)(this), 1);
     }
 
     char* pEnd = m_pData + m_len;
@@ -305,7 +307,6 @@ FUN_00e108b0_cls* FUN_00e108b0_cls::FUN_00e108b0()
 }
 
 #include <xmmintrin.h>
-extern __declspec(thread) int g_tlsMemContext;
 
 struct __declspec(align(16)) hkVector4
 {
@@ -345,11 +346,7 @@ struct S00c70de0_Router
 
 S00c70de0_Router* __cdecl S00c70de0_getInstance();
 
-int __cdecl CreateFromSource(void* arr);
 
-extern "C" float DAT_01267bcc;
-extern "C" double DAT_0101ffa0;
-extern "C" double DAT_01011588;
 extern "C" float DAT_011b0154[];
 extern "C" float DAT_011b0174[];
 
@@ -358,12 +355,12 @@ struct S00c70de0_Guard
     int m_oldContext;
     __forceinline S00c70de0_Guard(int newContext)
     {
-        m_oldContext = g_tlsMemContext;
-        g_tlsMemContext = newContext;
+        m_oldContext = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = newContext;
     }
     __forceinline ~S00c70de0_Guard()
     {
-        g_tlsMemContext = m_oldContext;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_oldContext;
     }
 };
 
@@ -391,7 +388,7 @@ struct S00c70de0_Array
         {
             int cap2 = cap * 2;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&a, this, newSize, sizeof(hkVector4));
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(&a), (::SpawnedArray *)(void *)(this), newSize, sizeof(hkVector4));
         }
     }
     __forceinline void reserve(int n)
@@ -403,7 +400,7 @@ struct S00c70de0_Array
     {
         if (m_iElementCount == getCapacity())
         {
-            ResizeAudioStream(&a, this, sizeof(hkVector4));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&a), (::AudioStream *)(void *)(this), sizeof(hkVector4));
         }
         m_data[m_iElementCount] = val;
         m_iElementCount++;
@@ -432,24 +429,24 @@ struct S00c70de0_Array
 int __cdecl FUN_00c70de0(float* end, float* start, float radius, float height)
 {
     S00c70de0_Guard memGuard(16);
-    float fScaledRadius = radius * DAT_01267bcc;
+    float fScaledRadius = radius * ::DAT_01267bcc;
     S00c70de0_Array mesh;
     mesh.reserve(18);
 
     hkVector4 vertex;
     hkVector4 ringVertex;
-    vertex.component(0) = start[0] * DAT_01267bcc;
-    vertex.component(1) = start[1] * DAT_01267bcc;
-    vertex.component(2) = start[2] * DAT_01267bcc;
+    vertex.component(0) = start[0] * ::DAT_01267bcc;
+    vertex.component(1) = start[1] * ::DAT_01267bcc;
+    vertex.component(2) = start[2] * ::DAT_01267bcc;
     vertex.component(3) = 0.0f;
     vertex.component(2) -= fScaledRadius;
     {
         hkMemoryAllocator& a = S00c70de0_getInstance()->heap();
         if (mesh.m_iElementCount == mesh.getCapacity())
         {
-            ResizeAudioStream(&a, &mesh, sizeof(hkVector4));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&a), (::AudioStream *)(void *)(&mesh), sizeof(hkVector4));
         }
-        double fTopZ = height + DAT_0101ffa0 + vertex.component(2);
+        double fTopZ = height + ::DAT_0101ffa0 + vertex.component(2);
         mesh.m_data[mesh.m_iElementCount] = vertex;
         mesh.m_iElementCount++;
         vertex.component(2) = (float)fTopZ;
@@ -462,12 +459,12 @@ int __cdecl FUN_00c70de0(float* end, float* start, float radius, float height)
         mesh.AddBack(ringVertex);
     }
 
-    vertex.component(0) = end[0] * DAT_01267bcc;
-    vertex.component(1) = end[1] * DAT_01267bcc;
-    vertex.component(2) = end[2] * DAT_01267bcc;
+    vertex.component(0) = end[0] * ::DAT_01267bcc;
+    vertex.component(1) = end[1] * ::DAT_01267bcc;
+    vertex.component(2) = end[2] * ::DAT_01267bcc;
     vertex.component(3) = 0.0f;
 
-    double halfRadius = fScaledRadius * DAT_01011588;
+    double halfRadius = fScaledRadius * ::DAT_01011588;
     vertex.component(2) += halfRadius;
 
     for (unsigned int i = 0; i < 8; ++i)
@@ -480,7 +477,7 @@ int __cdecl FUN_00c70de0(float* end, float* start, float radius, float height)
     vertex.component(2) += halfRadius;
     mesh.AddBack(vertex);
 
-    return CreateFromSource(&mesh);
+    return ((int)(::CreateFromSource((::SrcD *)(void *)(&mesh))));
 }
 
 namespace fnv_00c909d0 {
@@ -588,7 +585,7 @@ template <class T> struct MeshArray
         int old = cap & 0x3fffffff;
 
         if (old < n)
-            FUN_00c908c0(a, this, n < old * 2 ? old * 2 : n, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(a), (::SpawnedArray *)(void *)(this), n < old * 2 ? old * 2 : n, sizeof(T));
     }
 
     __forceinline void SetSizeAndGrow(int n)
@@ -715,7 +712,7 @@ void __cdecl FUN_00da12b0(ScriptProgram* mesh, float tolerance, bool unique, Mes
                 MeshAllocator* a = getMeshAllocator();
 
                 if (compact.size == (compact.cap & 0x3fffffff))
-                    ResizeAudioStream(a, &compact, sizeof(MeshVertex));
+                    ::ResizeAudioStream((::AudioAllocator *)(a), (::AudioStream *)(void *)(&compact), sizeof(MeshVertex));
 
                 _mm_store_ps(reinterpret_cast<float*>(&compact.data[compact.size]), v.quad);
                 ++compact.size;

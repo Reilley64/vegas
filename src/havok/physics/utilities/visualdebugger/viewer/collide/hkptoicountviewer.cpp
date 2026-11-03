@@ -3,28 +3,43 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00d60b90
+#include <new>
+#include "fnv/decl/CB1A90Owner.h"
+#include "fnv/decl/FNVOwner.h"
+#include "fnv/decl/FUN_00cb18f0_t.h"
+#include "fnv/decl/FUN_00cb1a60_t.h"
+#include "fnv/decl/FUN_00cb1fe0_t.h"
+#include "fnv/decl/HostC9C6.h"
+#include "fnv/decl/S_00dd9380.h"
+#include "fnv/decl/SearchArray.h"
+#include "fnv/decl/StringBuf.h"
+#include "fnv/decl/fnv_00c93920__hkpWorldXc93920.h"
+#include "fnv/decl/fnv_00c93a20__hkpWorldXc93a20.h"
+#include "fnv/decl/fnv_00cb1870__hkMapBaseCB18.h"
+#include "fnv/decl/hkWorldXc91a20.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d67000.h"
+#include "fnv/symbols_00fff000.h"
+#include "fnv/symbols_01269000.h"
 void __stdcall ClearTwoInts(int* piFirst, int* piSecond)
 {
     *piFirst = 0;
     *piSecond = 0;
 }
 
-extern int g_D67960Value;
 
 // @fnv 0x00d67960
 int __cdecl FUN_00d67960()
 {
-    return g_D67960Value;
+    return ::g_00d67e10_toiCounterId;
 }
 
 struct Item;
 struct Sink
 {
-    void FUN_00c9c670(Item*);
 };
 struct Link
 {
-    void FUN_00cb1fb0(Sink*);
 };
 struct Item
 {
@@ -44,8 +59,8 @@ struct Derived : Prefix, Item
 // @fnv 0x00d67bc0
 void Item::FUN_00d67bc0(Sink* sink)
 {
-    sink->FUN_00c9c670(static_cast<Item*>(reinterpret_cast<Derived*>(reinterpret_cast<char*>(this) - sizeof(Prefix))));
-    link.FUN_00cb1fb0(sink);
+    reinterpret_cast<::HostC9C6 *>((sink))->FUN_00c9c670(static_cast<Item*>(reinterpret_cast<Derived*>(reinterpret_cast<char*>(this) - sizeof(Prefix))));
+    reinterpret_cast<::FUN_00cb18f0_t *>(&(link))->FUN_00cb1fb0((int)(sink));
 }
 
 class PrimaryBase
@@ -110,7 +125,6 @@ struct CountArray
     int capacity;
     CountArray() : data(0), size(0), capacity(-1)
     {}
-    void EnsureCapacity(void*, int);
 };
 struct BSAudio
 {
@@ -158,7 +172,7 @@ class FUN_00d67ce0 : public FUN_00ddccb0,
 FUN_00d67ce0::FUN_00d67ce0(int context) : FUN_00ddccb0(context)
 {
     BSAudio* audio = FUN_00c85750();
-    counts.EnsureCapacity(audio->allocator, 0);
+    reinterpret_cast<::FUN_00cb1fe0_t *>(&(counts))->EnsureCapacity((int)(audio->allocator), 0);
 }
 
 namespace fnv_00d67d60 {
@@ -190,27 +204,23 @@ void* __cdecl AllocateToiCountViewer(unsigned int arg)
     Global* global = (Global*)FUN_00c85750();
     hkpToiCountViewer* pViewer = (hkpToiCountViewer*)global->heap10->Allocate(0x40);
     pViewer->size = 0x40;
-    pViewer = pViewer->FUN_00d67ce0(arg);
+    pViewer = ((::fnv_00d67d60::hkpToiCountViewer *)(new ((void *)(pViewer)) ::FUN_00d67ce0(arg)));
     if (pViewer)
         return (char*)pViewer + 8;
     return 0;
 }
 }  // namespace fnv_00d67d60
 
-void* AllocateToiCountViewer();
 
 struct S_00d67e10_Registry
 {
-    int Register(const char* name, void* (*create)());
 };
 
-extern S_00d67e10_Registry* g_00d67e10_registry;
-extern int g_00d67e10_toiCounterId;
 
 // @fnv 0x00d67e10
 void RegisterToiCounter()
 {
-    g_00d67e10_toiCounterId = g_00d67e10_registry->Register("TOI counter", AllocateToiCountViewer);
+    g_00d67e10_toiCounterId = reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::S_00d67e10_Registry * *>(&::DAT_01269cd0))))->FUN_00dd9380("TOI counter", (int)(((void *(&)())::fnv_00d67d60::AllocateToiCountViewer)));
 }
 
 struct BSAudio;
@@ -243,7 +253,6 @@ struct BaseC
 {
     virtual void c0();
     ItemList* list;
-    __declspec(nothrow) void Remove(void* item);
 };
 
 struct Base0 : BaseP, BaseQ, BaseC
@@ -280,7 +289,7 @@ struct Member : MemberBase
     __declspec(nothrow) void Release(void* heap);
     ~Member()
     {
-        Release(((AudioHeap*)FUN_00c85750())->heap);
+        reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)(((AudioHeap*)FUN_00c85750())->heap));
     }
 };
 
@@ -290,14 +299,6 @@ struct FUN_00d67fa0 : Base0, Iface1, Iface2, Iface3
     ~FUN_00d67fa0();
     virtual void p0();
 };
-
-// Destructor that removes every item in the list from the owning container before base destruction.
-// @fnv 0x00d67fa0
-FUN_00d67fa0::~FUN_00d67fa0()
-{
-    for (int i = 0; list && i < list->count; ++i)
-        Remove(list->items[i]);
-}
 
 struct Point3
 {
@@ -347,33 +348,13 @@ struct Query
 };
 struct BaseHelper
 {
-    void FUN_00d68030(void* entry, int mode);
 };
-int __cdecl FUN_00d679c0(float* direction);
 struct Context
 {
     void ProcessQuery(Query* query);
 };
-// Computes a mode from the query direction, then dispatches each group entry and each direct entry to FUN_00d68030 with that mode.
-// @fnv 0x00d68130
-void Context::ProcessQuery(Query* query)
-{
-    int mode = FUN_00d679c0(&query->direction.x);
-    for (int groupIndex = 0; groupIndex < query->groupCount; ++groupIndex)
-    {
-        EntryListNode* list = &query->groups[groupIndex]->entries;
-        for (int entryIndex = 0; entryIndex < list->count; ++entryIndex)
-            ((BaseHelper*)((char*)this - 0x2c))->FUN_00d68030(list->entries[entryIndex], mode);
-    }
-    EntryListNode* list = &query->direct->entries;
-    for (int entryIndex = 0; entryIndex < list->count; ++entryIndex)
-        ((BaseHelper*)((char*)this - 0x2c))->FUN_00d68030(list->entries[entryIndex], mode);
-}
-
 struct FUN_00d67970_helper
 {
-    void __thiscall c93920(void* value);
-    void __thiscall c93a20(void* value);
 };
 
 struct FUN_00d67970_class
@@ -398,25 +379,23 @@ void __thiscall FUN_00d67970_class::FUN_00d67970(FUN_00d67970_helper* helper)
     else
         value = 0;
 
-    helper->c93920(value);
+    reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((helper))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(value));
 
     if (base)
         value = &unk08;
     else
         value = 0;
 
-    helper->c93a20(value);
+    reinterpret_cast<::fnv_00c93a20::hkpWorldXc93a20 *>((helper))->FUN_00c93a20((::fnv_00c93a20::hkpEntityListenerXc93a20 *)(value));
 }
 
 struct OwnerBinding
 {
-    void Bind(void* owner);
 };
 
 struct SubLink
 {
     int unk00;
-    void Attach(int* p);
 };
 
 struct FUN_00d67b90_cls
@@ -441,8 +420,8 @@ struct FUN_00d67b90_cls
 void FUN_00d67b90_cls::BindAndAttach(int* arg)
 {
     FUN_00d67b90_cls* owner = ((char*)this - 0x30) != 0 ? this : 0;
-    ((OwnerBinding*)arg)->Bind(owner);
-    m_sub.Attach(arg);
+    reinterpret_cast<::HostC9C6 *>((((OwnerBinding*)arg)))->FUN_00c9c670(owner);
+    reinterpret_cast<::FUN_00cb18f0_t *>(&(m_sub))->FUN_00cb1fb0((int)(arg));
 }
 
 struct ListItem;
@@ -503,9 +482,6 @@ struct SpawnedObject
     unsigned int unk00;
     unsigned int unk04;
     SpawnedObject* m_08;
-    void FUN_00c9c670(void* listener) throw();
-    void FUN_00c91a20(void* listener) throw();
-    void ClearValue(void* listener) throw();
 };
 
 struct Alloc
@@ -520,7 +496,6 @@ struct Alloc
 struct BSAudio;
 BSAudio* FUN_00c85750() throw();
 
-void __cdecl ResizeAudioStream(void* a, void* arr, unsigned int size) throw();
 
 struct Map
 {
@@ -555,7 +530,6 @@ struct Map
         return it <= m_hashModMask;
     }
 
-    void FUN_00cb1fb0(SpawnedObject* o) throw();
 };
 
 struct Array
@@ -589,6 +563,13 @@ class FUN_00d67e30_cls
 
     void RemoveEntriesForObject(SpawnedObject* a1);
 };
+// Destructor that removes every item in the list from the owning container before base destruction.
+// @fnv 0x00d67fa0
+FUN_00d67fa0::~FUN_00d67fa0()
+{
+    for (int i = 0; list && i < list->count; ++i)
+        reinterpret_cast<::FUN_00d67e30_cls *>(this)->RemoveEntriesForObject((::SpawnedObject *)(list->items[i]));
+}
 
 // @fnv 0x00d67e30
 void FUN_00d67e30_cls::RemoveEntriesForObject(SpawnedObject* a1)
@@ -606,7 +587,7 @@ void FUN_00d67e30_cls::RemoveEntriesForObject(SpawnedObject* a1)
             BSAudio* h = FUN_00c85750();
             if (out.m_iElementCount == (int)(out.m_iCapacityState & 0x3fffffffu))
             {
-                ResizeAudioStream(h->allocator, &out, 4);
+                ::ResizeAudioStream((::AudioAllocator *)(h->allocator), (::AudioStream *)(void *)(&out), 4);
             }
             out.m_data[out.m_iElementCount] = obj;
             out.m_iElementCount++;
@@ -617,18 +598,18 @@ void FUN_00d67e30_cls::RemoveEntriesForObject(SpawnedObject* a1)
     for (int iMatch = 0; iMatch < size; iMatch++)
     {
         SpawnedObject** it = &out.m_data[iMatch];
-        (*it)->FUN_00c9c670((char*)this - 0x20 != 0 ? (void*)((char*)this + 0x10) : 0);
-        m_14.FUN_00cb1fb0(*it);
+        reinterpret_cast<::HostC9C6 *>(((*it)))->FUN_00c9c670((char*)this - 0x20 != 0 ? (void*)((char*)this + 0x10) : 0);
+        reinterpret_cast<::FUN_00cb18f0_t *>(&(m_14))->FUN_00cb1fb0((int)(*it));
     }
 
     out.clear();
 
-    a1->FUN_00c91a20((char*)this - 0x20 != 0 ? (void*)((char*)this + 8) : 0);
-    a1->ClearValue((char*)this - 0x20 != 0 ? (void*)((char*)this + 0xc) : 0);
+    reinterpret_cast<::hkWorldXc91a20 *>((a1))->FUN_00c91a20((char*)this - 0x20 != 0 ? (void*)((char*)this + 8) : 0);
+    reinterpret_cast<::SearchArray *>((a1))->ClearValue((int)((char*)this - 0x20 != 0 ? (void*)((char*)this + 0xc) : 0));
 }
 
 #include <xmmintrin.h>
-extern const __m128 DAT_01017d10;
+#include "fnv/symbols_simd.h"
 
 __declspec(align(16)) struct SquaredLanes
 {
@@ -662,7 +643,6 @@ int __cdecl FUN_00d679c0(const __m128* apVector)
 
 struct PtrMapEntryObj
 {
-    void FUN_00c9c670(void* arg);
 };
 
 struct PtrMapEntry
@@ -724,7 +704,7 @@ void FUN_00d67da0_cls::FUN_00d67da0()
     {
         do
         {
-            st->m_pEntries[i].m_pKey->FUN_00c9c670(&m_i30);
+            reinterpret_cast<::HostC9C6 *>((st->m_pEntries[i].m_pKey))->FUN_00c9c670(&m_i30);
             int j = i + 1;
             int n = st->m_iArrayLength;
             if (j <= n)
@@ -743,7 +723,7 @@ void FUN_00d67da0_cls::FUN_00d67da0()
             i = (j <= n) ? j : j;
         } while (i <= m_kStorage.m_iArrayLength);
     }
-    st->clear();
+    reinterpret_cast<::FUN_00cb1a60_t *>((st))->ResetEntries();
 }
 
 struct AudioAllocator
@@ -778,7 +758,6 @@ struct BSAudioString
     int buffer70, buffer74, buffer78, buffer7c;
 
     BSAudioString();
-    void Format(const char* format, ...);
 
     void Release()
     {
@@ -815,7 +794,6 @@ struct ContactTable
     ContactEntry* m_entries;
     int m_iElementCount;
     int m_pRayCursor;
-    int Find(const void* key);
 };
 
 struct ContactViewer
@@ -837,24 +815,37 @@ struct ContactViewer
 
     void FUN_00d68030(void* entry, int mode);
 };
+// Computes a mode from the query direction, then dispatches each group entry and each direct entry to FUN_00d68030 with that mode.
+// @fnv 0x00d68130
+void Context::ProcessQuery(Query* query)
+{
+    int mode = ::FUN_00d679c0((const ::__m128 *)(float *)(&query->direction.x));
+    for (int groupIndex = 0; groupIndex < query->groupCount; ++groupIndex)
+    {
+        EntryListNode* list = &query->groups[groupIndex]->entries;
+        for (int entryIndex = 0; entryIndex < list->count; ++entryIndex)
+            reinterpret_cast<::ContactViewer *>((((BaseHelper*)((char*)this - 0x2c))))->FUN_00d68030(list->entries[entryIndex], mode);
+    }
+    EntryListNode* list = &query->direct->entries;
+    for (int entryIndex = 0; entryIndex < list->count; ++entryIndex)
+        reinterpret_cast<::ContactViewer *>((((BaseHelper*)((char*)this - 0x2c))))->FUN_00d68030(list->entries[entryIndex], mode);
+}
 
-extern void __cdecl FUN_00d67a50(int owner, int id, void* entry, int mode, const char* name, unsigned int info,
-                                 float value, BSAudioValue flags);
 
 // @fnv 0x00d68030
 void ContactViewer::FUN_00d68030(void* entry, int mode)
 {
-    unsigned int index = m_table.Find(entry);
+    unsigned int index = reinterpret_cast<::FUN_00cb18f0_t *>(&(m_table))->FindSlot((int)(entry));
     if ((int)index > m_table.m_pRayCursor)
         return;
     unsigned int flags = m_table.m_entries[index].m_flags;
     unsigned int tag = flags >> 0x18;
     BSAudioString name;
     if (tag != 0)
-        name.Format("%d(%d)", flags & 0xffffff, tag);
+        reinterpret_cast<::StringBuf *>(&(name))->FUN_00d61d00("%d(%d)", flags & 0xffffff, tag);
     else
-        name.Format("%d", flags & 0xffffff);
-    FUN_00d67a50(m_18, m_notifier.v1(), entry, mode, name.m_data, 0xff800000u, 0.1f, BSAudioValue());
+        reinterpret_cast<::StringBuf *>(&(name))->FUN_00d61d00("%d", flags & 0xffffff);
+    ::FUN_00d67a50((::S00d67a50_Owner377 *)(m_18), m_notifier.v1(), (::S00d67a50_Context377 *)(entry), mode, (int)(name.m_data), 0xff800000u, 0.1f, (*(unsigned char *)&(const ::BSAudioValue &)(BSAudioValue())));
     m_table.m_entries[index].m_flags = flags & 0xffffff;
     name.Release();
 }
@@ -969,7 +960,6 @@ struct Holder;
 
 extern "C" Holder* __cdecl FUN_00c85750();
 extern "C" char DAT_01000001;
-extern "C" char DAT_00ffffff;
 
 struct Entry
 {
@@ -982,13 +972,10 @@ struct Table
     Entry* m_entries;
     int unk04;
 
-    int FindIndex(int aKey);
-    void Attach(int aOwner, int aKey, int aTag);
 };
 
 struct Item
 {
-    void Apply(int aValue);
 };
 
 struct ArgBlock
@@ -1033,7 +1020,7 @@ void FUN_00d67c30_cls::FUN_00d67c30(ArgBlock* apBlock)
     do
     {
         Item* item = (Item*)*p;
-        int idx = t->FindIndex((int)item);
+        int idx = reinterpret_cast<::FUN_00cb18f0_t *>((t))->FindSlot((int)item);
         if (idx <= m_14)
         {
             unsigned int* pFlags = &t->m_entries[idx].m_flags;
@@ -1043,19 +1030,19 @@ void FUN_00d67c30_cls::FUN_00d67c30(ArgBlock* apBlock)
             {
                 uiHigh = 0xff;
             }
-            unsigned int uiLow = (uiFlags & (unsigned int)&DAT_00ffffff) + 1;
-            if (uiLow >= (unsigned int)&DAT_00ffffff)
+            unsigned int uiLow = (uiFlags & (unsigned int)&(*reinterpret_cast<char *>(&::DAT_00ffffff))) + 1;
+            if (uiLow >= (unsigned int)&(*reinterpret_cast<char *>(&::DAT_00ffffff)))
             {
-                uiLow = (unsigned int)&DAT_00ffffff;
+                uiLow = (unsigned int)&(*reinterpret_cast<char *>(&::DAT_00ffffff));
             }
             *pFlags = (uiHigh << 0x18) | uiLow;
         }
         else
         {
             Holder* h = FUN_00c85750();
-            t->Attach(h->m_10, (int)item, (int)&DAT_01000001);
+            reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((t))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(h->m_10)), (int)item, (int)&DAT_01000001);
             char* owner = ((char*)this - 0x28) != 0 ? (char*)this + 8 : 0;
-            item->Apply((int)owner);
+            reinterpret_cast<::FNVOwner *>((item))->FUN_00c9c5b0((int)owner);
         }
         p++;
     } while (--n != 0);

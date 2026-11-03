@@ -6,24 +6,12 @@
 
 struct FUN_00e455f0_Class
 {
-    void FUN_00e455f0(void*, int, int);
 };
 
 struct FUN_00e45990_Class
 {
     void* FUN_00e45990(void*, void*, void*);
 };
-
-// Calls FUN_00e455f0 on the object at this-0x14 with arg1 and the ints at arg2+0x24 and arg3+0x1c, then returns arg1.
-// @fnv 0x00e45990
-void* FUN_00e45990_Class::FUN_00e45990(void* arg1, void* arg2, void* arg3)
-{
-    reinterpret_cast<FUN_00e455f0_Class*>(reinterpret_cast<int>(this) - 0x14)
-        ->FUN_00e455f0(arg1, *reinterpret_cast<int*>(reinterpret_cast<char*>(arg2) + 0x24),
-                       *reinterpret_cast<int*>(reinterpret_cast<char*>(arg3) + 0x1c));
-
-    return arg1;
-}
 
 struct FUN_00e45890_Object
 {
@@ -42,16 +30,6 @@ class FUN_00e45890_Class : public hkBaseObject
   public:
     virtual void* FUN_00e45890(void* param1, void* param2, void* param3);
 };
-
-// Calls the base object's FUN_00e455f0 with param1 and the unk1C fields of param2 and param3, then returns param1.
-// @fnv 0x00e45890
-void* FUN_00e45890_Class::FUN_00e45890(void* param1, void* pObjectA, void* pObjectB)
-{
-    FUN_00e455f0_Class* base = (FUN_00e455f0_Class*)((char*)this - 8);
-    base->FUN_00e455f0(param1, static_cast<FUN_00e45890_Object*>(pObjectA)->unk1C,
-                       static_cast<FUN_00e45890_Object*>(pObjectB)->unk1C);
-    return param1;
-}
 
 struct FUN_00e458c0_Node
 {
@@ -82,20 +60,6 @@ struct FUN_00e458c0_class
     void* FUN_00e458c0(void* p1, void* p2, FUN_00e458c0_Node* p3, int p4, FUN_00e458c0_Vt* p5, int p6);
 };
 
-// @fnv 0x00e458c0
-void* FUN_00e458c0_class::FUN_00e458c0(void* p1, void* apUnused, FUN_00e458c0_Node* apNode, int aiUnused,
-                                       FUN_00e458c0_Vt* apVt, int aiArg)
-{
-    int iResult = apVt->s10(aiArg);
-    FUN_00e458c0_Node* pLast = apNode;
-    while (pLast->m_0c)
-    {
-        pLast = pLast->m_0c;
-    }
-    reinterpret_cast<FUN_00e455f0_Class*>(reinterpret_cast<char*>(this) - 0xc)->FUN_00e455f0(p1, pLast->m_1c, iResult);
-    return p1;
-}
-
 class hkBoolC
 {
   public:
@@ -116,6 +80,35 @@ struct hkLayerFilter
 
     hkBoolC FUN_00e455f0(int mask, int value);
 };
+// Calls FUN_00e455f0 on the object at this-0x14 with arg1 and the ints at arg2+0x24 and arg3+0x1c, then returns arg1.
+// @fnv 0x00e45990
+void* FUN_00e45990_Class::FUN_00e45990(void* arg1, void* arg2, void* arg3)
+{
+    reinterpret_cast<::hkLayerFilter *>((reinterpret_cast<FUN_00e455f0_Class*>(reinterpret_cast<int>(this) - 0x14)))->FUN_00e455f0((int)(arg1), *reinterpret_cast<int*>(reinterpret_cast<char*>(arg2) + 0x24));
+
+    return arg1;
+}
+// Calls the base object's FUN_00e455f0 with param1 and the unk1C fields of param2 and param3, then returns param1.
+// @fnv 0x00e45890
+void* FUN_00e45890_Class::FUN_00e45890(void* param1, void* pObjectA, void* pObjectB)
+{
+    FUN_00e455f0_Class* base = (FUN_00e455f0_Class*)((char*)this - 8);
+    reinterpret_cast<::hkLayerFilter *>((base))->FUN_00e455f0((int)(param1), static_cast<FUN_00e45890_Object*>(pObjectA)->unk1C);
+    return param1;
+}
+// @fnv 0x00e458c0
+void* FUN_00e458c0_class::FUN_00e458c0(void* p1, void* apUnused, FUN_00e458c0_Node* apNode, int aiUnused,
+                                       FUN_00e458c0_Vt* apVt, int aiArg)
+{
+    int iResult = apVt->s10(aiArg);
+    FUN_00e458c0_Node* pLast = apNode;
+    while (pLast->m_0c)
+    {
+        pLast = pLast->m_0c;
+    }
+    reinterpret_cast<::hkLayerFilter *>((reinterpret_cast<FUN_00e455f0_Class*>(reinterpret_cast<char*>(this) - 0xc)))->FUN_00e455f0((int)(p1), pLast->m_1c);
+    return p1;
+}
 
 // Returns m_defaultResult if mask or value is zero, otherwise ORs selected m_layerMasks entries per mask bits and returns whether value overlaps the result.
 // @fnv 0x00e455f0

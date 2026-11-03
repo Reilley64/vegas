@@ -1,6 +1,7 @@
 // Source layout: Actor. PC corrections are in generate_headers.py.
 #ifndef FNV_INTERFACE_REBASE_FNV_INTERFACE_PLAYER_ACTOR_H
 #define FNV_INTERFACE_REBASE_FNV_INTERFACE_PLAYER_ACTOR_H
+#include "fnv/decl/MiddleHighProcess.h"
 #include "interface_rebase_layout_support.h"
 #include "interface_rebase_ActorValueOwner.h"
 #include "interface_rebase_CachedValuesOwner.h"
@@ -9,6 +10,7 @@
 #include "interface_rebase_MobileObject.h"
 #include "interface_rebase_ModifierList.h"
 #include "interface_rebase_NiPoint3.h"
+enum SEX;
 class Actor : public MobileObject,
               public MagicCaster,
               public MagicTarget,
@@ -218,7 +220,8 @@ class Actor : public MobileObject,
     virtual void Unk_135(void);
     virtual void Unk_136(void);
     TESActorBase* GetActorBase();
-    bool IsPlayerTeammate();
+public:
+    ::SEX GetSex();
 };
 FNV_STATIC_ASSERT(sizeof(Actor) == 0x1B4);
 FNV_STATIC_ASSERT(offsetof(Actor, m_pRagdollController) == 0xAC);

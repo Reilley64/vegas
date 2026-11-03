@@ -2,9 +2,9 @@
 // src/speedtree/projectedshadow.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/projectedshadow.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
 struct Sub
 {
-    void FUN_0044a730(int a, int b);
 };
 struct V3
 {
@@ -48,7 +48,7 @@ FUN_00b3e6c0_cls* FUN_00b3e6c0_cls::ClearVectors()
     {
         Sub* t = &s;
         r = &flag;
-        t->FUN_0044a730(0, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>((t))->FUN_0044a730(0, 0);
     }
     return this;
 }

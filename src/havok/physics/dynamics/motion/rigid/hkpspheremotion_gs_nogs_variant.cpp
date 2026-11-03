@@ -5,6 +5,8 @@
 
 // src/havok/physics/dynamics/motion/rigid/hkpspheremotion.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/motion/rigid/hkpspheremotion.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010c9000.h"
 #include "havok/hkpSphereMotion.h"
 struct hkVector4D12
 {
@@ -181,8 +183,6 @@ class hkpSphereMotionD1E4
 
 extern "C" __m128 _mm_setzero_ps();
 extern "C" void _mm_store_ps(float* p, __m128 v);
-extern const double DAT_010c9300;
-extern float DAT_0104da4c;
 struct C
 {
     char pad[0xc0];
@@ -194,8 +194,8 @@ void C::FUN_00d1e230(float* out)
 {
     float t = m_vScale;
     float s;
-    if (DAT_010c9300 > t)
-        s = DAT_0104da4c;
+    if (::DAT_010c9300 > t)
+        s = ::DAT_0104da4c;
     else
         s = t;
     float inv = 1.0f / s;

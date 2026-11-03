@@ -7,6 +7,40 @@
 // to their real unit once identified.
 // src/staging/blk_00b20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0044a450.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00ac1000_It.h"
+#include "fnv/decl/FUN_00b02d40_class.h"
+#include "fnv/decl/FUN_00b16830_Iterator.h"
+#include "fnv/decl/FUN_00b16890_It.h"
+#include "fnv/decl/FUN_00b3b090_Iterator.h"
+#include "fnv/decl/IntVector.h"
+#include "fnv/decl/K.h"
+#include "fnv/decl/S_00b3db50.h"
+#include "fnv/decl/Tree.h"
+#include "fnv/decl/VectorStorage.h"
+#include "fnv/decl/Vector_b17f50.h"
+#include "fnv/decl/WordInsert__Vector.h"
+#include "fnv/decl/buyElement24__BxVector.h"
+#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
+#include "fnv/decl/fnv_00b0a9a0__FUN_00b0a9a0_Tree.h"
+#include "fnv/decl/fnv_00b277b0__FUN_00b277b0_cls.h"
+#include "fnv/decl/fnv_00b319e0__vecb319__VcVector.h"
+#include "fnv/decl/xlenb0f__BxVecBase.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0044d000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00ac3000.h"
+#include "fnv/symbols_00b2e000.h"
+#include "fnv/symbols_00b35000.h"
+#include "fnv/symbols_00b36000.h"
+#include "fnv/symbols_00b42000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_010a3000.h"
+#include "fnv/symbols_01140000.h"
 #include "../../include/layout_support.h"
 extern "C" void __cdecl FUN_00b02c90();
 struct FUN_00b274a0_class
@@ -14,14 +48,12 @@ struct FUN_00b274a0_class
     void __thiscall FUN_00b02c90();
     FUN_00b274a0_class* __thiscall ResetState();
 };
-extern "C" void FUN_0044a450(int);
 extern int DAT_010a57fc;
 struct FUN_00b3c440_class
 {
     int* vtbl;
     int FUN_00b3c440(int a);
 };
-extern int DAT_010a31fc;
 struct FUN_00b3c910_class
 {
     void InitVTable();
@@ -59,7 +91,6 @@ struct FUN_00b3c600_class
 {
     float* pData;
     int* pCount;
-    double __thiscall FUN_00b3c5a0();
     void NormalizeData();
 };
 struct FUN_00b27660_class
@@ -119,8 +150,6 @@ struct FUN_00b2e1b0_class
 
     void __thiscall FreeBuffer();
 };
-void _Deallocate(void*);
-void _Deallocate(void*);
 struct FUN_00b34d90_class
 {
     unsigned char padding[0x0c];
@@ -151,7 +180,6 @@ struct Random
     void* __thiscall DestroyRandom(unsigned int flags);
 };
 extern const int vftable_Random[];
-void _Deallocate(void*);
 struct FUN_00b27060_cls
 {
     int unk00;
@@ -189,13 +217,11 @@ struct ResourceBufferOwner
     int unk3c;
     unsigned char* buffer40;
 
-    void ClearFields();
     void FreeBuffers();
 };
 class FUN_00b276f0_sub
 {
   public:
-    void* Destroy(int kind);
 };
 class FUN_00b276f0_cls
 {
@@ -215,10 +241,7 @@ class FUN_00b276f0_cls
 
     void Reset();
 };
-extern void __cdecl FUN_00401030(void* p);
 // InitBuffer
-extern "C" int __cdecl FUN_00b2e4a0(unsigned int count, int flag);
-extern "C" void __cdecl FUN_00b0fb80();
 struct FnvB2e080
 {
     int f00;
@@ -233,7 +256,6 @@ struct SpanPair
 {
     int a;
     int b;
-    bool Compare(SpanPair& other);
 };
 struct FUN_00b2e250_cls
 {
@@ -242,10 +264,8 @@ struct FUN_00b2e250_cls
     unsigned int m_08;
     unsigned int m_0c;
     unsigned int m_10;
-    void Update(int newValue, int oldValue);
     SpanPair* FUN_00b2e250(SpanPair* out, int unk04, unsigned int idx1, int unk14, unsigned int idx2);
 };
-extern "C" int __cdecl FUN_00b2e3f0(int, int, int);
 struct ProbePair
 {
     unsigned int m_00;
@@ -268,7 +288,6 @@ struct FUN_00b335c0_tmp
     unsigned int unk28;
     unsigned int unk2C;
 };
-unsigned int __cdecl FUN_00b42e50(unsigned int a, unsigned int b, unsigned int c);
 struct FUN_00b335c0_cls
 {
     unsigned int unk00;
@@ -282,7 +301,6 @@ struct FUN_00b33af0_pair
 {
     unsigned int a;
     unsigned int b;
-    bool CompareTo(FUN_00b33af0_pair* other);
 };
 struct FUN_00b33af0_iter
 {
@@ -312,7 +330,6 @@ struct FUN_00b33af0_cls
     FUN_00b33af0_pair* FUN_00b33af0(FUN_00b33af0_pair* out, unsigned int unk0c, unsigned int a, unsigned int unk14,
                                     unsigned int b);
 };
-extern "C" unsigned int __cdecl FUN_00b35c30(unsigned int, unsigned int, unsigned int);
 struct Hldr0044
 {
     int m_iWordAt00;
@@ -321,9 +338,6 @@ struct Hldr0044
     void Init(unsigned int* p);
 };
 extern "C" void __stdcall FUN_00ec7894(Hldr0044* p, void* dat);
-extern "C" void __cdecl FUN_00401000(unsigned int scaled);
-extern "C" int DAT_01140ef8;
-extern "C" int DAT_010176f8;
 // @fnv 0x00b35f00
 extern "C" void __cdecl FUN_00b35f00(unsigned int n)
 {
@@ -345,7 +359,7 @@ extern "C" void __cdecl FUN_00b35f00(unsigned int n)
         }
     }
 
-    FUN_00401000(n * 2);
+    ::FUN_00401000(n * 2);
 }
 struct FUN_00b31270
 {
@@ -555,7 +569,6 @@ struct FUN_00b3c930_Obj
 {
     FNV_00b3c930_Member m00;  // +0x00
     FNV_00b3c930_Member m18;  // +0x18
-    void FNV_00b3cc30();
     FUN_00b3c930_Obj();
     ~FUN_00b3c930_Obj();
 };
@@ -627,7 +640,6 @@ struct FNV_00b3efe0_Obj
     FNV_00b3efe0_Buffer unk04;
     unsigned int GetElementAtOffset();
 };
-void __cdecl _Deallocate(void*);
 struct FUN_00b37880_class
 {
     void __thiscall FUN_00b37880();
@@ -663,7 +675,6 @@ struct FUN_00b3fdd0_class
 extern int DAT_010173e8;
 struct FUN_00b3c3b0_Sub
 {
-    void __thiscall FUN_0044a730(int a, int b);
 };
 struct FUN_00b3c3b0_Class
 {
@@ -861,7 +872,6 @@ struct LengthErrorB9718 : LengthErrorBaseB9718
     {}
     ~LengthErrorB9718() throw();
 };
-void* __cdecl FUN_00b2e4a0(unsigned int count);
 template <class T> struct B30Vec
 {
     int m_iWordAt00;
@@ -881,7 +891,6 @@ struct B30Owner
 {
     char pad00[0x58];
     B30Vec<B30Vec<void*> > m_kLists;
-    unsigned short FUN_00b0a9a0(unsigned short usType);
     void FUN_00b30c80(unsigned short usType);
 };
 unsigned int __cdecl FUN_00ec7c56();
@@ -927,7 +936,7 @@ template <class T> struct Alloc
 {
     void deallocate(T* p, unsigned n)
     {
-        operator delete(p);
+        ::FUN_00401030 delete(p);
     }
     void destroy(T* p)
     {
@@ -979,7 +988,7 @@ struct Value : ValueBase
     }
     ~Value()
     {
-        FUN_00b17f50();
+        reinterpret_cast<::Vector_b17f50 *>(this)->FUN_00b17f50();
     }
 };
 struct ObjFields
@@ -1031,7 +1040,6 @@ struct ConstIter : Ranit
     {
         return !equal(b);
     }
-    ConstIter& FUN_00b16890(int n);
 };
 struct Iter : ConstIter
 {
@@ -1039,7 +1047,7 @@ struct Iter : ConstIter
     {}
     __forceinline Iter& operator+=(int n)
     {
-        ((ConstIter*)this)->FUN_00b16890(n);
+        reinterpret_cast<::FUN_00b16890_It *>((((ConstIter*)this)))->FUN_00b16890(n);
         return *this;
     }
     __forceinline Iter operator+(int n) const
@@ -1239,7 +1247,7 @@ struct Iterator342 : ConstIterator342
     {}
     Iterator342& operator+=(int offset)
     {
-        ConstIterator342::FUN_00ac1000(offset);
+        reinterpret_cast<::FUN_00ac1000_It *>(this)->FUN_00ac1000(offset);
         return *this;
     }
     Iterator342 operator+(int offset) const
@@ -1263,7 +1271,6 @@ struct Vector342
     {
         return Iterator342(first, this);
     }
-    void FUN_00abc320(ConstIterator342 where, unsigned int count, const int& value);
     Iterator342 FUN_00b33240(ConstIterator342 where, const int& value);
 };
 inline ConstIterator342::ConstIterator342(int* value, const Vector342* vector)
@@ -1595,7 +1602,6 @@ class FUN_00b2e330_It : public IteratorBaseAuxXC1000
 };
 // Supplied other-agent string helper model reused with credit; new record copy below.
 namespace record_model {
-extern const unsigned int DAT_010173f0;
 extern "C" unsigned int __cdecl strlen(const char* _Str);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
@@ -1666,7 +1672,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 template <class T> struct BxAllocT
 {
@@ -1685,7 +1691,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -1727,7 +1733,7 @@ struct BxString : public BxStringVal
     }
     BxString& assign(const BxString& other)
     {
-        return AssignSubstring(other, 0, DAT_010173f0);
+        return AssignSubstring(other, 0, ::g_010173f0);
     }
     BxString& operator=(const BxString& other)
     {
@@ -1975,7 +1981,6 @@ template <class I, class O, class C> inline O copyLoop(I _First, I _Last, O _Des
     return _Dest;
 }
 }
-void FUN_00401030(void* p);
 inline void* operator new(unsigned int, void* p)
 {
     return p;
@@ -1985,7 +1990,6 @@ inline void operator delete(void*, void*)
 struct StrY
 {
     char b[0x1c];
-    void FUN_0044a730(bool b, unsigned n);
 };
 struct FUN_00b2e740
 {
@@ -1997,7 +2001,7 @@ struct FUN_00b2e740
 inline void Del(FUN_00b2e740* p, unsigned int f)
 {
     StrY* q = &p->s;
-    q->FUN_0044a730(true, 0);
+    reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>((q))->FUN_0044a730(true, 0);
     if (f & 1)
         FUN_00401030(p);
 }
@@ -2011,7 +2015,6 @@ inline void Construct(FUN_00b2e740* p, const FUN_00b2e740& v)
     ::new (vp) FUN_00b2e740(v);
     DeadX();
 }
-FUN_00b2e740* FUN_00b2e570(FUN_00b2e740* first, FUN_00b2e740* last, FUN_00b2e740* dest);
 namespace vecdb314 {
 struct VdNonscalarTag
 {
@@ -2038,7 +2041,7 @@ template <class T> struct VdAlloc
     typedef T* pointer;
     void deallocate(T* _Ptr, unsigned int)
     {
-        operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     void destroy(T* _Ptr)
     {
@@ -2131,7 +2134,6 @@ struct FUN_00b31480 : public VdVectorImpl<VdElemV>
 {
     ~FUN_00b31480();
 };
-void __cdecl FUN_00401030(void* p);
 struct BufferPtr
 {
     void* m_pData;
@@ -2144,7 +2146,6 @@ struct BufferPtr
 struct FUN_00b31c00
 {
     BufferPtr m_buf;
-    void FUN_00b331c0();
     ~FUN_00b31c00();
 };
 inline void DA()
@@ -2168,7 +2169,6 @@ struct AlQ
 {
     int x;
 };
-void __cdecl FUN_00ac3450(T* f, unsigned n, const T& v);
 inline ScalarTagQ Ptr_cat(T*&, T*&)
 {
     ScalarTagQ c;
@@ -2176,7 +2176,7 @@ inline ScalarTagQ Ptr_cat(T*&, T*&)
 }
 inline void Uninit_fill_n(T* f, unsigned n, const T& v, AlQ& al, ScalarTagQ, RangeTagQ)
 {
-    FUN_00ac3450(f, n, v);
+    ::fnv_00ac3450::FUN_00ac3450(f, n, (int *)&(v));
     DA();
 }
 inline void Unchecked_uninitialized_fill_n(T* f, unsigned n, const T& v, AlQ& al)
@@ -2225,7 +2225,6 @@ struct PbContainer
         Unchecked_uninitialized_fill_n(p, n, v, al);
         return p + n;
     }
-    PbIterator FUN_00b33240(PbCIterator where, const T& v);
     void FUN_00b32210(const T& v);
 };
 inline PbCIterator::PbCIterator(T* p, const PbContainer* c)
@@ -2610,7 +2609,6 @@ struct VecIter18 : VecConstIter18
     VecIter18(Elem18* p, const Vec18* v) : VecConstIter18(p, v)
     {}
 };
-extern "C" Elem18* __cdecl FUN_00b35a90(Elem18* first, Elem18* last, Elem18* dest);
 struct Vec18
 {
     void* m_proxy;
@@ -2624,7 +2622,6 @@ struct Vec18
         Dead12();
         return VecIter18(where.m_ptr, this);
     }
-    VecIter18 FUN_00b32ad0(VecConstIter18 firstArg, VecConstIter18 lastArg);
 };
 inline void VecIterBase::SetContainer(const Vec18* cont)
 {
@@ -2680,7 +2677,6 @@ struct CItQ_aceeb0
     {
         return _Myaux == r._Myaux;
     }
-    CItQ_aceeb0& FUN_00b359d0(int _Off);
     int operator-(const CItQ_aceeb0& _Right) const
     {
         if (!(_Has() && _Same(_Right)))
@@ -2696,7 +2692,7 @@ struct ItQ_aceeb0 : CItQ_aceeb0
     {}
     ItQ_aceeb0& operator+=(int _Off)
     {
-        FUN_00b359d0(_Off);
+        reinterpret_cast<::Iterator445 *>(this)->FUN_00b359d0(_Off);
         return *this;
     }
     ItQ_aceeb0 operator+(int _Off) const
@@ -2817,7 +2813,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 template <class T> struct BxAllocT
 {
@@ -2836,7 +2832,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -3179,7 +3175,6 @@ template <class I, class O, class C, class M> inline O moveBack(I first, I last,
     return copyForward(first, last, end, order, pointers(first, end), CheckedRange());
 }
 }
-unsigned short* __cdecl FUN_00b35c30(unsigned short* first, unsigned short* last, unsigned short* end);
 namespace fill_model {
 struct RangeTag
 {
@@ -3241,15 +3236,12 @@ inline void initFill(I first, N count, const V& value, A&, ScalarTag, RangeTag)
     FUN_00b36b10(first, count, value);
 }
 }
-void __cdecl FUN_00b35ca0(unsigned int* first, unsigned count, const unsigned int& value, void* allocator);
 struct BoundsB3
 {
     FUN_00aa7830_cls lower;
     FUN_00aa7830_cls upper;
     BoundsB3 FUN_00b3c9a0(const BoundsB3& other);
 };
-extern const float DAT_01016970;
-extern const float DAT_01015f5c;
 struct Vector3
 {
     float values[3];
@@ -3282,9 +3274,8 @@ struct ListB3CE30
 {
     ~ListB3CE30()
     {
-        FUN_00b3db50();
+        reinterpret_cast<::S_00b3db50 *>(this)->FUN_00b3db50();
     }
-    void FUN_00b3db50();
     BufferB3CE30 m_kBuffer;
     int unk04;
     int unk08;
@@ -3401,7 +3392,6 @@ struct SxOwner
 };
 }
 using namespace setb3f;
-void __cdecl FUN_00401030(void* p);
 struct FUN_00b3f0a0
 {
     int m_base[8];
@@ -3421,12 +3411,11 @@ struct B2AE90_NameBase
 struct B2AE90_Name : B2AE90_NameBase
 {
     int m_data[14];
-    void FUN_0044a730(bool a, bool b) throw();
     ~B2AE90_Name()
     {
         int unused[5];
         (void)unused;
-        FUN_0044a730(true, false);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, false);
     }
 };
 struct B2AE90_Allocator
@@ -3450,12 +3439,11 @@ struct B2AE90_ArrayBase
 struct B2AE90_Array : B2AE90_ArrayBase
 {
     int m_extra[2];
-    void FUN_00b17f50();
     ~B2AE90_Array()
     {
         int unused[7];
         (void)unused;
-        FUN_00b17f50();
+        reinterpret_cast<::Vector_b17f50 *>(this)->FUN_00b17f50();
     }
 };
 struct FUN_00b3ce30
@@ -3473,7 +3461,6 @@ struct B2AE90_Object : FUN_00b3f0a0
     FUN_00b3ce30 m_94;
     ~B2AE90_Object();
 };
-extern void __cdecl FUN_00401030(void* p);
 template <class T> inline void swapq(T& l, T& r)
 {
     if (&l != &r)
@@ -3519,10 +3506,8 @@ struct FUN_00b357d0 : ValQ
     FUN_00b357d0(const FUN_00b357d0& other);
     ~FUN_00b357d0()
     {
-        FUN_00b34d90();
+        reinterpret_cast<::Vector_b17f50 *>(this)->FUN_00b17f50();
     }
-    FUN_00b357d0& __thiscall FUN_00b36600(const FUN_00b357d0& o);
-    void __thiscall FUN_00b34d90();
     void __thiscall FUN_00b36f60(FUN_00b357d0& o);
 };
 inline void PadQ()
@@ -3566,7 +3551,6 @@ struct FUN_00b326e0
 };
 struct FUN_00b311b0 : FUN_00b326e0
 {
-    void FUN_00b32600(unsigned int n, void* const& v);
     explicit FUN_00b311b0(unsigned int n);
 };
 void __cdecl operator delete(void*) throw();
@@ -3637,18 +3621,17 @@ struct Proxy31
     explicit Proxy31(const Container31* p) : owner(p)
     {}
 };
-Proxy31* __cdecl FUN_0044d670(unsigned count, Proxy31* hint);
 template <class T> inline T* allocate_storage(unsigned count, T* hint)
 {
     if (count <= 0)
         count = 0;
     else if (0xffffffffU / count < sizeof(T))
         throw BadAlloc(0);
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 inline Proxy31* allocate_storage(unsigned count, Proxy31* hint)
 {
-    return FUN_0044d670(count, hint);
+    return ((::Proxy31 *)(::FUN_0044d670(count)));
 }
 template <class T> struct Alloc31
 {
@@ -3664,7 +3647,7 @@ template <class T> struct Alloc31
     }
     void deallocate(T* p, unsigned n)
     {
-        operator delete(p);
+        ::FUN_00401030 delete(p);
     }
     unsigned max_size() const throw()
     {
@@ -3750,7 +3733,7 @@ struct Value31 : VectorVal31<int>
     }
     ~Value31()
     {
-        FUN_00b17f50();
+        reinterpret_cast<::Vector_b17f50 *>(this)->FUN_00b17f50();
     }
 };
 struct FUN_00b31ad0 : VectorVal31<Value31>
@@ -3758,7 +3741,6 @@ struct FUN_00b31ad0 : VectorVal31<Value31>
     Value31* unk0c;
     Value31* unk10;
     Value31* unk14;
-    void FUN_00b32ce0(unsigned count, const Value31& value);
     explicit FUN_00b31ad0(unsigned count);
 };
 struct Elem24Q
@@ -3798,8 +3780,6 @@ struct Vec134Q
     Elem24Q* first;
     Elem24Q* last;
     Elem24Q* end;
-    bool FUN_00b1f590(unsigned int n);
-    void FUN_00b331c0();
     Elem24Q* UfillQ(Elem24Q* p, unsigned int n, const Elem24Q& v)
     {
         PadAQ();
@@ -3811,10 +3791,9 @@ struct Vec134Q
 struct V24
 {
     int m00, m04, m08, m0c, m10, m14;
-    V24& FUN_00b36330(const V24& r);
     V24& operator=(const V24& r)
     {
-        return FUN_00b36330(r);
+        return (*(::V24 *)&(reinterpret_cast<::VectorStorage *>(this)->FUN_00b36330((const ::VectorStorage &)(r))));
     }
 };
 static __forceinline void Dead75Q()
@@ -3839,14 +3818,12 @@ __forceinline _OutIt CopyOptF(_InIt _First, _InIt _Last, _OutIt _Dest, random_ac
              _Range_checked_iterator_tagS());
     return _Result;
 }
-V24* FUN_00b35b60(V24* _First, V24* _Last, V24* _Dest);
 struct CopyValue
 {
     char m_data[0x18];
-    CopyValue& FUN_00b36330(const CopyValue& other);
     CopyValue& operator=(const CopyValue& other)
     {
-        return FUN_00b36330(other);
+        return (*(::CopyValue *)&(reinterpret_cast<::VectorStorage *>(this)->FUN_00b36330((const ::VectorStorage &)(other))));
     }
 };
 static __forceinline void Dead82()
@@ -3900,7 +3877,7 @@ template <class T> inline T* allocateStorage(unsigned int count, T*)
         count = 0;
     else if ((unsigned int)(-1) / count < sizeof(T))
         throw BadAlloc(0);
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 template <class T> struct CopyAllocator : record_model::BxAllocT<T>
 {
@@ -4059,7 +4036,7 @@ struct FUN_00b357d0 : Vector<unsigned short>
 // @fnv 0x00b357d0
 FUN_00b357d0::FUN_00b357d0(const FUN_00b357d0& other) : Vector<unsigned short>(other.allocator)
 {
-    if (FUN_00b34cd0(other.size()))
+    if (reinterpret_cast<::buyUShort::BxVector *>(this)->FUN_00b34cd0(other.size()))
     {
         try
         {
@@ -4067,7 +4044,7 @@ FUN_00b357d0::FUN_00b357d0(const FUN_00b357d0& other) : Vector<unsigned short>(o
         }
         catch (...)
         {
-            FUN_00b34d90();
+            reinterpret_cast<::FUN_00b34d90_class *>(this)->FUN_00b34d90();
             throw;
         }
     }
@@ -4078,7 +4055,7 @@ struct Allocator
 {
     void deallocate(char* p, unsigned)
     {
-        operator delete(p);
+        ::FUN_00401030(p);
     }
 };
 template <class C, class Traits, class A> class basic_string
@@ -4094,12 +4071,12 @@ template <class C, class Traits, class A> class basic_string
   public:
     basic_string(const basic_string& rhs)
     {
-        FUN_0044a730(false, 0);
-        AssignSubstring(rhs, 0, record_model::DAT_010173f0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
+        AssignSubstring(rhs, 0, ::g_010173f0);
     }
     ~basic_string()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
 
   protected:
@@ -4220,7 +4197,7 @@ struct LookupIter : LookupConstIter
     {}
     MapValue& dereference() const
     {
-        return const_cast<MapValue&>(LookupConstIter::FUN_00b3b090());
+        return const_cast<MapValue&>((*(const ::MapLookupDetail::MapValue *)&(reinterpret_cast<::FUN_00b3b090_Iterator *>((void *)this)->FUN_00b3b090())));
     }
 };
 struct LookupCompare
@@ -4237,11 +4214,10 @@ struct LookupMap : ContainerBase
     int nodeAllocator, pointerAllocator, valueAllocator;
     LookupNode* head;
     unsigned size;
-    LookupNode* FUN_00b3afe0(const MapKey&);
     LookupIter FUN_00b398c0(LookupConstIter, const MapValue&);
     LookupIter lower(const MapKey& key)
     {
-        return LookupIter(FUN_00b3afe0(key), this);
+        return LookupIter(((::MapLookupDetail::LookupNode *)(reinterpret_cast<::Tree *>(this)->FUN_00b3afe0((const ::Key &)(key)))), this);
     }
     LookupIter end()
     {

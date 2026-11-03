@@ -2,6 +2,7 @@
 #ifndef FNV_BSAUDIODEFINES_DECLS_H
 #define FNV_BSAUDIODEFINES_DECLS_H
 
+#include "fnv/symbols_00c45000.h"
 #include "layout_support.h"
 class NiAVObject
 {
@@ -29,7 +30,6 @@ template <> class NiPointer<NiAVObject>
             m_pObject->DecRefCount();
     }
 };
-void __cdecl FUN_00c45830(NiAVObject*);
 class SoundMessageRecord
 {
   public:

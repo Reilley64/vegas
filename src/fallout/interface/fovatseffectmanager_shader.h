@@ -163,6 +163,8 @@ class ImageSpaceEffectParam
     // ImageSpaceEffectParam
     // ImageSpaceEffectParam& __cdecl ImageSpaceEffectParam::*(const ImageSpaceEffectParam&)
     // void __cdecl ImageSpaceEffectParam::*()
+public:
+    ImageSpaceEffectParam(float, float, float, float);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(ImageSpaceEffectParam) == 36);

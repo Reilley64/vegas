@@ -2,6 +2,17 @@
 // src/gamebryo2.2/corelibs/nicollision/niobbleaf.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nicollision/niobbleaf.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004b6190_shell.h"
+#include "fnv/decl/NiTransform.h"
+#include "fnv/decl/OBBLeaf.h"
+#include "fnv/decl/RayTriangleIntersector.h"
+#include "fnv/decl/S_00eba480.h"
+#include "fnv/decl/S_00ebf4a0_Class.h"
+#include "fnv/decl/TexturePoolE993.h"
+#include "fnv/symbols_00eb7000.h"
+#include "fnv/symbols_00eb8000.h"
+#include "fnv/symbols_00eb9000.h"
 struct S_00eb8250_Pt
 {
     float x, y, z;
@@ -84,7 +95,6 @@ struct FNV_Vec3
 struct FNV_Body
 {
     int unk00;
-    void ProjectOntoAxes(FNV_Vec3* in, FNV_Vec3* out);
 };
 
 struct FNV_Node
@@ -124,11 +134,9 @@ struct FNV_PhysObj
     int unk88;
     FNV_Shape m_8c;
 
-    int RunSwapTests(FNV_Node* node);
     int FUN_00eb85d0(FNV_PhysObj* pObj, FNV_Shape* a2, FNV_Shape* a3, FNV_Shape* a4, FNV_Shape* a5, unsigned char* a6);
 };
 
-extern int ComputeContactTime(FNV_PhysObj* a, FNV_PhysObj* b, int* c, FNV_Vec3* d);
 
 // @fnv 0x00eb85d0
 int FNV_PhysObj::FUN_00eb85d0(FNV_PhysObj* pObj, FNV_Shape* pShape0, FNV_Shape* pShape1, FNV_Shape* pShape2,
@@ -142,14 +150,14 @@ int FNV_PhysObj::FUN_00eb85d0(FNV_PhysObj* pObj, FNV_Shape* pShape0, FNV_Shape* 
     node.m_08 = pShape2;
     node.m_0c = pShape3;
 
-    if (ComputeContactTime(this, pObj, &node.m_10, &node.m_14))
+    if (::ComputeContactTime((::PhysObj_eb83b0 *)(::FNV_PhysObj *)(this), (::PhysObj_eb83b0 *)(pObj), (float *)(int *)(&node.m_10), (::Point3 *)(::FNV_Vec3 *)(&node.m_14)))
     {
         *pbResult = 1;
         node.m_38 = &this->m_8c;
         node.m_3c = &pObj->m_8c;
-        this->m_04.ProjectOntoAxes(&node.m_14, &node.m_20);
-        pObj->m_04.ProjectOntoAxes(&node.m_14, &node.m_2c);
-        return this->RunSwapTests(&node);
+        reinterpret_cast<::S_00ebf4a0_Class *>(&(this->m_04))->ProjectOntoAxes((const ::S_00ebf4a0_Vec3 *)(::FNV_Vec3 *)(&node.m_14), (::S_00ebf4a0_Vec3 *)(::FNV_Vec3 *)(&node.m_20));
+        reinterpret_cast<::S_00ebf4a0_Class *>(&(pObj->m_04))->ProjectOntoAxes((const ::S_00ebf4a0_Vec3 *)(::FNV_Vec3 *)(&node.m_14), (::S_00ebf4a0_Vec3 *)(::FNV_Vec3 *)(&node.m_2c));
+        return ::RunSwapTests((::SwapNode *)(this));
     }
     return 0;
 }
@@ -188,7 +196,6 @@ struct S_00eb8680_Sub
     int unk74;
     int unk78;
     int FUN_00eba680(S_00eb8680_Sub* other);
-    void UpdateWorldBounds(void* p);
 };
 
 struct S_00eb8680_Obj
@@ -214,12 +221,12 @@ bool S_00eb8680_Obj::FUN_00eb8680(S_00eb8680_Obj* other, unsigned char* pDataA, 
 {
     if (k1 != unk88)
     {
-        sub.UpdateWorldBounds(pDataA + 0x68);
+        reinterpret_cast<::S_00eba480 *>(&(sub))->UpdateWorldBounds((*(const ::NiTransform *)(pDataA + 0x68)));
         unk88 = k1;
     }
     if (k2 != other->unk88)
     {
-        other->sub.UpdateWorldBounds(pDataB + 0x68);
+        reinterpret_cast<::S_00eba480 *>(&(other->sub))->UpdateWorldBounds((*(const ::NiTransform *)(pDataB + 0x68)));
         other->unk88 = k2;
     }
     if (!sub.FUN_00eba680(&other->sub))
@@ -297,7 +304,6 @@ struct S_00eb8790_Volume
     int unk70;
     int unk74;
     int unk78;
-    void UpdateWorldBounds(const S_00eb8790_Transform& transform);
     int FUN_00eba680(const S_00eb8790_Volume& other);
 };
 
@@ -309,8 +315,6 @@ struct S_00eb8790_Node
     virtual int FUN_00eb8790(S_00eb8790_Node* other, int a1, int a2, S_00eb8790_Body* bodyA, S_00eb8790_Body* bodyB,
                              int a5, int depth, int stampA, int stampB, int a9);
 
-    int FUN_00eb85d0(S_00eb8790_Node* other, int a1, int a2, S_00eb8790_Body* bodyA, S_00eb8790_Body* bodyB, int a9);
-    int FUN_00eb9b00(S_00eb8790_Node* other, int a1, int a2, S_00eb8790_Body* bodyA, S_00eb8790_Body* bodyB, int a9);
 
     S_00eb8790_Volume m_iBufferSize;  // 04
     S_00eb8790_Node* m_childA;        // 80
@@ -324,12 +328,12 @@ int S_00eb8790_Node::FUN_00eb8790(S_00eb8790_Node* other, int a1, int a2, S_00eb
 {
     if (stampA != m_stamp)
     {
-        m_iBufferSize.UpdateWorldBounds(bodyA->m_kMotionTransform);
+        reinterpret_cast<::S_00eba480 *>(&(m_iBufferSize))->UpdateWorldBounds((const ::NiTransform &)(bodyA->m_kMotionTransform));
         m_stamp = stampA;
     }
     if (stampB != other->m_stamp)
     {
-        other->m_iBufferSize.UpdateWorldBounds(bodyB->m_kMotionTransform);
+        reinterpret_cast<::S_00eba480 *>(&(other->m_iBufferSize))->UpdateWorldBounds((const ::NiTransform &)(bodyB->m_kMotionTransform));
         other->m_stamp = stampB;
     }
     if (!m_iBufferSize.FUN_00eba680(other->m_iBufferSize))
@@ -347,11 +351,11 @@ int S_00eb8790_Node::FUN_00eb8790(S_00eb8790_Node* other, int a1, int a2, S_00eb
                 return result;
             return 0;
         }
-        return FUN_00eb9b00(other, a1, a2, bodyA, bodyB, a9);
+        return reinterpret_cast<::OBBLeaf *>(this)->FUN_00eb9b00((::OBBLeaf *)(other), a1, a2, (int)(bodyA), (int)(bodyB), (bool *)(a9));
     }
     if (a5 < 0 && depth < 0)
-        return FUN_00eb85d0(other, a1, a2, bodyA, bodyB, a9);
-    return FUN_00eb9b00(other, a1, a2, bodyA, bodyB, a9);
+        return reinterpret_cast<::FNV_PhysObj *>(this)->FUN_00eb85d0((::FNV_PhysObj *)(other), (::FNV_Shape *)(a1), (::FNV_Shape *)(a2), (::FNV_Shape *)(bodyA), (::FNV_Shape *)(bodyB), (unsigned char *)(a9));
+    return reinterpret_cast<::OBBLeaf *>(this)->FUN_00eb9b00((::OBBLeaf *)(other), a1, a2, (int)(bodyA), (int)(bodyB), (bool *)(a9));
 }
 
 // ComputeBarycentric: barycentric-style solve over three edge vectors from a base point.
@@ -417,13 +421,11 @@ struct Vec3
     {
         return Vec3(y * pt.z - z * pt.y, z * pt.x - x * pt.z, x * pt.y - y * pt.x);
     }
-    void FUN_004a0c10();
 };
 
 struct SubA
 {
     int unk00;
-    void UpdateWorldBounds(void* p);
 };
 
 struct Node
@@ -442,7 +444,6 @@ struct Node
 struct Helper
 {
     int unk00;
-    Node* GetTexture(void* p);
 };
 
 struct Rec
@@ -505,8 +506,6 @@ struct Owner
     Vec3* m_94;
 };
 
-extern "C" unsigned char __cdecl FUN_00eadb90(Vec3* a, Vec3* b, Vec3* c, Vec3* d, Vec3* e, unsigned char f, Vec3* g,
-                                              float* h, float* i, int* j);
 
 struct Obj5
 {
@@ -550,7 +549,7 @@ int FUN_00eb8930_cls::FUN_00eb8930(Vec3* a1, Vec3* a2, Rec* apRec, unsigned char
 {
     if (a6 != m_88)
     {
-        m_04.UpdateWorldBounds(&apObj5->m_68);
+        reinterpret_cast<::S_00eba480 *>(&(m_04))->UpdateWorldBounds((*(const ::NiTransform *)(&apObj5->m_68)));
         m_88 = a6;
     }
     unsigned char flag = apRec->m_10;
@@ -558,11 +557,11 @@ int FUN_00eb8930_cls::FUN_00eb8930(Vec3* a1, Vec3* a2, Rec* apRec, unsigned char
     float u;
     float t;
     Vec3 point;
-    unsigned char ok = FUN_00eadb90(a1, a2, m_8c, m_90, m_94, flag, &point, &t, &u, &index);
+    unsigned char ok = ((unsigned char)(::RayTriangleIntersector::IntersectRayTriangle((*(const ::NiPoint3 *)(a1)), (*(const ::NiPoint3 *)(a2)), (*(const ::NiPoint3 *)(m_8c)), (*(const ::NiPoint3 *)(m_90)), (*(const ::NiPoint3 *)(m_94)), flag, (*(::NiPoint3 *)(&point)), (*(float *)(&t)), (*(float *)(&u)), (*(float *)(&index)))));
     *pOutHit = ok;
     if (ok == 0)
         return 0;
-    Node* n = apRec->m_18.GetTexture(apObj5);
+    Node* n = ((::Node *)(reinterpret_cast<::TexturePoolE993 *>(&(apRec->m_18))->GetTexture((int)(apObj5))));
     n->m_08 = point;
     n->m_14 = t;
     if (apRec->m_31 != 0)
@@ -570,7 +569,7 @@ int FUN_00eb8930_cls::FUN_00eb8930(Vec3* a1, Vec3* a2, Rec* apRec, unsigned char
         Vec3 ub = *m_90 - *m_8c;
         Vec3 wa = *m_94 - *m_8c;
         Vec3 cross = ub.Cross(wa);
-        cross.FUN_004a0c10();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(cross))->FUN_004a0c10();
         n->m_28 = cross;
     }
     return 0;
@@ -620,10 +619,10 @@ int __cdecl IntersectPlane(float duration, const Vec& normal, float plane, const
                            const Vec& end, float& time0, Vec& point0, float& time1, Vec& point1)
 {
     float delta = duration - 0.0f;
-    float d00 = (start + 0.0f * velocity).Dot(normal) - plane;
-    float d01 = (end + 0.0f * velocity).Dot(normal) - plane;
-    float d10 = (start + duration * velocity).Dot(normal) - plane;
-    float d11 = (end + duration * velocity).Dot(normal) - plane;
+    float d00 = reinterpret_cast<::FUN_004b6190_shell *>((void *)(void *)&(const ::Vec &)((start + 0.0f * velocity)))->DotProduct((void *)&(normal)) - plane;
+    float d01 = reinterpret_cast<::FUN_004b6190_shell *>((void *)(void *)&(const ::Vec &)((end + 0.0f * velocity)))->DotProduct((void *)&(normal)) - plane;
+    float d10 = reinterpret_cast<::FUN_004b6190_shell *>((void *)(void *)&(const ::Vec &)((start + duration * velocity)))->DotProduct((void *)&(normal)) - plane;
+    float d11 = reinterpret_cast<::FUN_004b6190_shell *>((void *)(void *)&(const ::Vec &)((end + duration * velocity)))->DotProduct((void *)&(normal)) - plane;
     int found = 0;
     if (d00 * d01 <= 0.0f)
     {
@@ -812,7 +811,7 @@ struct S_eb6b90_Point
         return S_eb6b90_Point(y * pt.z - z * pt.y, z * pt.x - x * pt.z, x * pt.y - y * pt.x);
     }
 
-    void FUN_004a0c10();  // Unitize
+      // Unitize
 };
 
 inline S_eb6b90_Point operator*(float k, const S_eb6b90_Point& p)
@@ -838,7 +837,6 @@ struct S_eb6b90_Transform
 
     S_eb6b90_Transform()
     {}
-    void FUN_00a86bf0();
 };
 
 struct S_eb6b90_Root;
@@ -864,7 +862,7 @@ struct S_eb6b90_Box
     {
         m_pkTreeNode = 0;
     }
-    void UpdateWorldBounds(const S_eb6b90_Transform& kXform);  // Transform
+      // Transform
 };
 
 struct S_eb6b90_Root;
@@ -925,11 +923,11 @@ FUN_00eb6b90::FUN_00eb6b90(S_eb6b90_Root* pkRoot, unsigned short* pusTriList, S_
     kTargetCenter = (kP0 + kP1 + kMid) / 3.0f;
 
     akAxis[0] = kP1 - kP0;
-    akAxis[0].FUN_004a0c10();
+    reinterpret_cast<::FUN_004a0c10_s *>(&(akAxis[0]))->FUN_004a0c10();
     akAxis[1] = kMid - kP0;
     float projection = akAxis[0] * akAxis[1];
     akAxis[1] -= projection * akAxis[0];
-    akAxis[1].FUN_004a0c10();
+    reinterpret_cast<::FUN_004a0c10_s *>(&(akAxis[1]))->FUN_004a0c10();
     akAxis[2] = akAxis[0].Cross(akAxis[1]);
 
     S_eb6b90_Point minCoord(0.0f, 0.0f, 0.0f);
@@ -1003,14 +1001,12 @@ FUN_00eb6b90::FUN_00eb6b90(S_eb6b90_Root* pkRoot, unsigned short* pusTriList, S_
     kTargetCenter += akAxis[0] * kP2.x + akAxis[1] * kP2.y + akAxis[2] * kP2.z;
 
     S_eb6b90_Transform usIndex;
-    usIndex.FUN_00a86bf0();
-    payload.m_kBoundsBox.UpdateWorldBounds(usIndex);
+    reinterpret_cast<::NiTransform *>(&(usIndex))->ResetToIdentity();
+    reinterpret_cast<::S_00eba480 *>(&(payload.m_kBoundsBox))->UpdateWorldBounds((const ::NiTransform &)(usIndex));
 
     payload.m_kBoundsBox.m_pkTreeNode = pkRoot;
 }
 
-int __cdecl IntersectPlane(float, S_00eb8250_Pt*, float, int, void*, void*, float*, S_00eb8250_Pt*, float*,
-                           S_00eb8250_Pt*);
 // Clips barycentric coordinates to the positive octant and updates the bound and point when a nearer candidate is found.
 // @fnv 0x00eb7dc0
 int __cdecl FUN_00eb7dc0(void* a, void* b, S_00eb8250_Tri* apTriangle, S_00eb8250_Pt* apNormal, float d, int p3,
@@ -1023,7 +1019,7 @@ int __cdecl FUN_00eb7dc0(void* a, void* b, S_00eb8250_Tri* apTriangle, S_00eb825
         S_00eb8250_Pt coordA, distance, pointB, pointA;
     } g;
     (void)g.distanceB;
-    if (!IntersectPlane(p4, apNormal, d, p3, a, b, &g.distanceA, &g.coordA, &g.distanceB, &g.distance))
+    if (!::IntersectPlane(p4, (*(const ::Vec *)(apNormal)), d, (*(const ::Vec *)(p3)), (*(const ::Vec *)(a)), (*(const ::Vec *)(b)), (*(float *)(&g.distanceA)), (*(::Vec *)(&g.coordA)), (*(float *)(&g.distanceB)), (*(::Vec *)(&g.distance))))
         goto noHit;
     ComputeBarycentric((const Vec3f*)apTriangle->m_kPointA, (const Vec3f*)apTriangle->m_kPointB, (const Vec3f*)apTriangle->m_iThirdValue,
                        (const Vec3f*)&g.coordA, (Vec3f*)&g.pointA);
@@ -1158,8 +1154,6 @@ struct Point3
     }
 };
 
-extern "C" __declspec(noalias) int __cdecl FUN_00eb8250(S_00eb8250_Edges*, S_00eb8250_Tri*, const Point3&, float,
-                                                        float*, Point3*);
 struct PhysObjInfo
 {
     int unk00;
@@ -1209,12 +1203,12 @@ int ComputeContactTime(PhysObj_eb83b0* apObjA, PhysObj_eb83b0* apObjB, float* pf
     Point3 vContactA, vContactB;
     Point3 relativeVelocity;
     relativeVelocity = pInfoA->velocity - *velocityB;
-    int hitA = FUN_00eb8250((S_00eb8250_Edges*)&apObjA->m_8c, (S_00eb8250_Tri*)&apObjB->m_8c, relativeVelocity,
-                            duration, &timeA, &vContactA);
+    int hitA = ::FUN_00eb8250((S_00eb8250_Edges*)&apObjA->m_8c, (S_00eb8250_Tri*)&apObjB->m_8c, (int)&(relativeVelocity),
+                            duration, (int)(&timeA), (int)(&vContactA));
     float timeB = 3.402823466e+38F;
     relativeVelocity = *velocityB - pInfoA->velocity;
-    int hitB = FUN_00eb8250((S_00eb8250_Edges*)&apObjB->m_8c, (S_00eb8250_Tri*)&apObjA->m_8c, relativeVelocity,
-                            duration, &timeB, &vContactB);
+    int hitB = ::FUN_00eb8250((S_00eb8250_Edges*)&apObjB->m_8c, (S_00eb8250_Tri*)&apObjA->m_8c, (int)&(relativeVelocity),
+                            duration, (int)(&timeB), (int)(&vContactB));
     if (hitA)
     {
         if (hitB)

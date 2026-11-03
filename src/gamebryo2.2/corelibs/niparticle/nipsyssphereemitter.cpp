@@ -1,5 +1,19 @@
 // gamebryo2.2/corelibs/niparticle/nipsyssphereemitter.cpp: NiPSysSphereEmitter, PSysSphereEmitter (10 functions)
 
+#include <new>
+#include "fnv/decl/FUN_00c31b80_This.h"
+#include "fnv/decl/FUN_00c31db0_cls.h"
+#include "fnv/decl/NiPSysBoxEmitterWrapper.h"
+#include "fnv/decl/PositionState.h"
+#include "fnv/decl/Stub_00c31b60.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f5000.h"
+#include "fnv/symbols_01202000.h"
 #include "nipsyssphereemitter_decls.h"
 // Calls the base LoadBinary, then reads a 4-byte value from the stream into a member and advances the stream position.
 // @fnv 0x00c20040
@@ -12,12 +26,11 @@ void NiPSysSphereEmitter::LoadBinary(NiStream& stream)
 }
 
 struct GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_01202510;
 
 // @fnv 0x00c1fe10
 GlobalObjectO2_00a7b610* __cdecl FUN_00c1fe10()
 {
-    return &g_01202510;
+    return &::g_01202510;
 }
 
 extern int DAT_010bd974;
@@ -45,9 +58,7 @@ BSFadeNode* __cdecl FUN_00c1fff0()
 
 struct Holder31750
 {
-    void FUN_00c31750();
 };
-void __cdecl _delete(void*, unsigned int);
 struct Holder20020
 {
     void* FUN_00c20020(unsigned int);
@@ -56,16 +67,15 @@ struct Holder20020
 // @fnv 0x00c20020
 void* Holder20020::FUN_00c20020(unsigned int auiFlags)
 {
-    ((Holder31750*)this)->FUN_00c31750();
+    reinterpret_cast<::PositionState *>((((Holder31750*)this)))->FUN_00c31750();
     if (auiFlags & 1)
-        _delete(this, 0x5c);
+        ::FUN_00aa1460(this, 0x5c);
     return this;
 }
 
 struct Base00c1fde0
 {
     char _pad[0x58];
-    bool __thiscall FUN_00c31b80(void* pkObject);
 };
 struct Holder00c1fde0 : Base00c1fde0
 {
@@ -76,7 +86,7 @@ struct Holder00c1fde0 : Base00c1fde0
 bool __thiscall Holder00c1fde0::FUN_00c1fde0(void* pkObject)
 {
     Holder00c1fde0* pkDest = (Holder00c1fde0*)pkObject;
-    if (!FUN_00c31b80(pkObject))
+    if (!reinterpret_cast<::FUN_00c31b80_This *>(this)->FUN_00c31b80(pkObject))
         return false;
     if (m_fCylinderRadius != pkDest->m_fCylinderRadius)
         return false;
@@ -86,28 +96,8 @@ bool __thiscall Holder00c1fde0::FUN_00c1fde0(void* pkObject)
 struct FUN_00c1ffa0_s
 {
     float m_f58;
-    void* FUN_00c31b10(BSFadeNode* pkObject, void* pkCloningProcess);
     BSFadeNode* CreateFadeNode(void* pkCloningProcess);
 };
-
-// @fnv 0x00c1ffa0
-BSFadeNode* FUN_00c1ffa0_s::CreateFadeNode(void* pkCloningProcess)
-{
-    BSFadeNode* pkObject = new BSFadeNode;
-    if (pkObject)
-    {
-        pkObject->FUN_00c31af0();
-        pkObject->m_f58 = 0.0f;
-        pkObject->m_pvt = &DAT_010bd974;
-    }
-    else
-    {
-        pkObject = 0;
-    }
-    FUN_00c31b10(pkObject, pkCloningProcess);
-    pkObject->m_f58 = ((float*)((char*)this + 0x58))[0];
-    return pkObject;
-}
 
 // FUN_00c20080 - the sphere emitter's stream loader.
 //
@@ -149,7 +139,6 @@ struct PSysVolumeEmitter
 {
     void* vtable;  // +0x00
     char padding[0x54];
-    void LoadBinary(GameStream& stream);
 };
 
 struct PSysSphereEmitter : PSysVolumeEmitter
@@ -161,7 +150,7 @@ struct PSysSphereEmitter : PSysVolumeEmitter
 // @fnv 0x00c20080
 void PSysSphereEmitter::FUN_00c20080(GameStream& stream)
 {
-    PSysVolumeEmitter::LoadBinary(stream);
+    reinterpret_cast<::Stub_00c31b60 *>(this)->FUN_00c31b60((void *)&(stream));
     BinaryStream* input = stream.input;
     {
         unsigned int size = 4;
@@ -177,15 +166,8 @@ struct FUN_00c200c0_Arr
     unsigned short m_usSize;
     unsigned short unk0c;
     unsigned short m_usGrow;
-    void __thiscall FUN_0096ad30(unsigned int n);
-    void __thiscall FUN_0096ae90(unsigned int n, unsigned int* p);
 };
 
-extern "C" void __stdcall FUN_00c31db0(FUN_00c200c0_Arr* p);
-extern "C" unsigned int __cdecl FUN_00a7d330(unsigned int v);
-extern "C" unsigned int __cdecl FUN_00a7d550(const void* p, float f);
-extern "C" unsigned int DAT_01202510;
-extern "C" int UNK_01015a9c;
 
 struct Emitter00c200c0
 {
@@ -198,21 +180,21 @@ struct Emitter00c200c0
 // @fnv 0x00c200c0
 void __thiscall Emitter00c200c0::AppendTwoValues(FUN_00c200c0_Arr* p)
 {
-    FUN_00c31db0(p);
-    unsigned int uiValue = FUN_00a7d330(DAT_01202510);
+    reinterpret_cast<::FUN_00c31db0_cls *>((p))->FUN_00c31db0({});
+    unsigned int uiValue = ((unsigned int)(::FUN_00a7d330((const char *)((*reinterpret_cast<unsigned int *>(&::g_01202510))))));
     unsigned int n = p->m_usSize;
     if (n >= p->m_usMax)
     {
-        p->FUN_0096ad30(p->m_usGrow + n);
+        reinterpret_cast<::ViewerStrings *>((p))->SetSize(p->m_usGrow + n);
     }
-    p->FUN_0096ae90(n, &uiValue);
-    uiValue = FUN_00a7d550(&UNK_01015a9c, m_f58);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((p))->SetAt(n, (*(char * *)(&uiValue)));
+    uiValue = ((unsigned int)(::FUN_00a7d550((const char *)(const void *)(&UNK_01015a9c), m_f58)));
     n = p->m_usSize;
     if (n >= p->m_usMax)
     {
-        p->FUN_0096ad30(p->m_usGrow + n);
+        reinterpret_cast<::ViewerStrings *>((p))->SetSize(p->m_usGrow + n);
     }
-    p->FUN_0096ae90(n, &uiValue);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((p))->SetAt(n, (*(char * *)(&uiValue)));
 }
 
 struct S_00c31af0_Base
@@ -245,6 +227,24 @@ struct FUN_00c31af0 : S_00c31af0_Base
     int unk54;
     FUN_00c31af0();
 };
+// @fnv 0x00c1ffa0
+BSFadeNode* FUN_00c1ffa0_s::CreateFadeNode(void* pkCloningProcess)
+{
+    BSFadeNode* pkObject = new BSFadeNode;
+    if (pkObject)
+    {
+        new ((void *)(pkObject)) ::FUN_00c31af0();
+        pkObject->m_f58 = 0.0f;
+        pkObject->m_pvt = &DAT_010bd974;
+    }
+    else
+    {
+        pkObject = 0;
+    }
+    reinterpret_cast<::NiPSysBoxEmitterWrapper *>(this)->FUN_00c31b10((::NiPSysModifier *)(pkObject), (*(::CloningProcess *)(pkCloningProcess)));
+    pkObject->m_f58 = ((float*)((char*)this + 0x58))[0];
+    return pkObject;
+}
 // @fnv 0x00c31af0
 FUN_00c31af0::FUN_00c31af0() : S_00c31af0_Base()
 {
@@ -252,8 +252,8 @@ FUN_00c31af0::FUN_00c31af0() : S_00c31af0_Base()
 }
 
 extern "C" int __cdecl rand();
-extern float DAT_011f4ae0[];  // sin table, 512 entries
-extern float DAT_011f52e0[];  // cos table, 512 entries
+  // sin table, 512 entries
+  // cos table, 512 entries
 extern float g_fTwoPi;
 
 struct SpherePoint3

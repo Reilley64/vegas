@@ -2,20 +2,31 @@
 // src/bsshader/precipitationshader.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/precipitationshader.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_012005c0;
 
 // @fnv 0x00bb0540
+#include "fnv/decl/BSShader.h"
+#include "fnv/decl/D3DRenderStateGroup.h"
+#include "fnv/decl/E7DEF0TextureStage.h"
+#include "fnv/decl/FUN_00e7ecd0_cls.h"
+#include "fnv/decl/NiD3DPass.h"
+#include "fnv/decl/StageSet.h"
+#include "fnv/decl/StateGroup.h"
+#include "fnv/symbols_00be0000.h"
+#include "fnv/symbols_00e76000.h"
+#include "fnv/symbols_00e7e000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01200000.h"
 void* __cdecl FUN_00bb0540()
 {
-    return &g_012005c0;
+    return &(*reinterpret_cast<void * *>(&::g_012005c0));
 }
 
-extern void* g_012005fc;
 
 // @fnv 0x00bb0d10
 void* __cdecl FUN_00bb0d10()
 {
-    return &g_012005fc;
+    return &(*reinterpret_cast<void * *>(&::g_012005fc));
 }
 
 struct FUN_00bb0d20_shell
@@ -68,7 +79,6 @@ struct V3
     {}
 };
 
-extern V3 g_011a9b7c;
 
 struct FUN_00bb04b0_Base
 {
@@ -127,7 +137,7 @@ FUN_00bb04b0::FUN_00bb04b0() : m_9c(0), m_a0(0.0f, 0.0f, 0.0f)
 {
     m_68 = 0x12;
     m_90 = V3(0.0f, 0.0f, 0.0f);
-    m_a0 = g_011a9b7c;
+    m_a0 = (*reinterpret_cast<::V3 *>(&::DAT_011a9b7c));
     m_24 = 1;
 }
 
@@ -267,14 +277,12 @@ struct SpawnedObject : SpawnedBase
     unsigned int unkA8;
 };
 
-extern "C" void* g_011f9508;
 void* __cdecl FUN_00aa13e0(unsigned int aiSize);
-void* __cdecl FUN_00e76700(void* apTag, int a1, int a2);
 
 // @fnv 0x00bb0660
 void* __cdecl FUN_00bb0660()
 {
-    SpawnedBase* pHost = (SpawnedBase*)FUN_00e76700(g_011f9508, 3, 2);
+    SpawnedBase* pHost = (SpawnedBase*)((void *)(::FUN_00e76700((::NiRenderer *)((*reinterpret_cast<void * *>(&::DAT_011f9508))), 3, 2)));
     pHost->v8c(0, 0, 0, 2, 0);
     pHost->v8c(1, 7, 5, 1, 0);
     pHost->v94(1, 0, 6, 0x80000000, 2, 5, 1, 0);
@@ -327,9 +335,7 @@ template <class T> struct ProgramPtr
 
 struct RenderStateBlock
 {
-    void SetNodeValue(unsigned int uiState, unsigned int uiValue, bool bSave);
 };
-RenderStateBlock* __cdecl FUN_00e7f5d0();
 
 struct RenderStateHolder
 {
@@ -337,7 +343,7 @@ struct RenderStateHolder
     RenderStateBlock*& Get()
     {
         if (!m_pCurrentRenderState)
-            m_pCurrentRenderState = FUN_00e7f5d0();
+            m_pCurrentRenderState = ((::RenderStateBlock *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
         return m_pCurrentRenderState;
     }
 };
@@ -358,13 +364,10 @@ struct ShaderPass
     ProgramPtr<ShaderProgram> m_spVertexShaderObject;
     unsigned int m_uiRefCount;
 
-    void FUN_00e7def0(int iFlag);
-    void FUN_00e802b0(int iIndex, ShaderPass* pkPass);
-    void FUN_00e7ecd0();
     void DecRefCount()
     {
         if (--m_uiRefCount == 0)
-            FUN_00e7ecd0();
+            reinterpret_cast<::FUN_00e7ecd0_cls *>(this)->FUN_00e7ecd0();
     }
 };
 
@@ -389,33 +392,28 @@ template <class T> struct PassPtr
 };
 
 extern ShaderPass* g_pkPass_012005e0;
-extern ShaderProgram* g_pkPixelShader_012005d0;
-extern ShaderProgram* g_pkVertexShader_012005c8;
 
-void __cdecl FUN_00e804d0(ShaderPass** ppkPass);
-void __cdecl AssignStageFromPool(PassPtr<ShaderPass>* pspPass);
-void __cdecl ConfigureBeamStage(ShaderPass* pkPass, int a1, int a2, int a3, int a4);
 
 // @fnv 0x00bb0770
 bool __cdecl FUN_00bb0770()
 {
     PassPtr<ShaderPass> spRenderPass;
-    FUN_00e804d0(&g_pkPass_012005e0);
-    AssignStageFromPool(&spRenderPass);
-    ConfigureBeamStage(spRenderPass, 0, 3, 2, 1);
-    spRenderPass->FUN_00e7def0(1);
-    g_pkPass_012005e0->FUN_00e802b0(g_pkPass_012005e0->unk14, spRenderPass);
-    g_pkPass_012005e0->m_spVertexShaderObject = g_pkPixelShader_012005d0;
-    g_pkPass_012005e0->m_spPixelShaderObject = g_pkVertexShader_012005c8;
-    g_pkPass_012005e0->m_kRenderState.Get()->SetNodeValue(7, 1, true);
-    g_pkPass_012005e0->m_kRenderState.Get()->SetNodeValue(0xe, 0, true);
-    g_pkPass_012005e0->m_kRenderState.Get()->SetNodeValue(0x17, 4, true);
-    g_pkPass_012005e0->m_kRenderState.Get()->SetNodeValue(0x1b, 1, true);
+    ::NiD3DPass::CreateD3DPass((*(::NiPointer< ::NiD3DPass> *)(&g_pkPass_012005e0)));
+    ::AssignStageFromPool((*(::StageReturn * *)(&spRenderPass)));
+    ::ConfigureBeamStage((::BeamStage *)(::ShaderPass *)(spRenderPass), 0, 3, 2, 1);
+    reinterpret_cast<::E7DEF0TextureStage *>(((spRenderPass).operator->()))->FUN_00e7def0(1);
+    reinterpret_cast<::StageSet *>((g_pkPass_012005e0))->FUN_00e802b0(g_pkPass_012005e0->unk14, (::Stage321 *)(::ShaderPass *)(spRenderPass));
+    g_pkPass_012005e0->m_spVertexShaderObject = (*reinterpret_cast<::ShaderProgram * *>(&::g_aspLarge));
+    g_pkPass_012005e0->m_spPixelShaderObject = (*reinterpret_cast<::ShaderProgram * *>(&::g_aspSmall));
+    reinterpret_cast<::StateGroup *>((g_pkPass_012005e0->m_kRenderState.Get()))->SetNodeValue(7, 1, true);
+    reinterpret_cast<::StateGroup *>((g_pkPass_012005e0->m_kRenderState.Get()))->SetNodeValue(0xe, 0, true);
+    reinterpret_cast<::StateGroup *>((g_pkPass_012005e0->m_kRenderState.Get()))->SetNodeValue(0x17, 4, true);
+    reinterpret_cast<::StateGroup *>((g_pkPass_012005e0->m_kRenderState.Get()))->SetNodeValue(0x1b, 1, true);
     RenderStateHolder& kRS = g_pkPass_012005e0->m_kRenderState;
-    kRS.Get()->SetNodeValue(0x13, 5, true);
-    kRS.Get()->SetNodeValue(0x14, 6, true);
-    g_pkPass_012005e0->m_kRenderState.Get()->SetNodeValue(0xf, 0, true);
-    g_pkPass_012005e0->m_kRenderState.Get()->SetNodeValue(0xa8, 7, true);
+    reinterpret_cast<::StateGroup *>((kRS.Get()))->SetNodeValue(0x13, 5, true);
+    reinterpret_cast<::StateGroup *>((kRS.Get()))->SetNodeValue(0x14, 6, true);
+    reinterpret_cast<::StateGroup *>((g_pkPass_012005e0->m_kRenderState.Get()))->SetNodeValue(0xf, 0, true);
+    reinterpret_cast<::StateGroup *>((g_pkPass_012005e0->m_kRenderState.Get()))->SetNodeValue(0xa8, 7, true);
     return true;
 }
 
@@ -634,12 +632,11 @@ struct SharedResource
     int unk5C;
     int unk60;
     int m_iRefCount;
-    void Release();
     void DecRefCount()
     {
         int* p = &m_iRefCount;
         if (--*p == 0)
-            Release();
+            reinterpret_cast<::NiD3DPass *>(this)->DestroyPass();
     }
 };
 
@@ -659,8 +656,6 @@ template <class T> class RefPtr
     }
 };
 
-extern NiPointer<NiRefObject> g_aspSmall[2];
-extern NiPointer<NiRefObject> g_aspLarge[4];
 extern RefPtr<SharedResource> g_spSharedResource;
 
 class ResourceOwnerBase
@@ -730,7 +725,6 @@ FUN_00bb0550::~FUN_00bb0550()
 class ShaderManager_bb09
 {
   public:
-    bool FUN_00be0870();
     bool ResetSharedResources();
 };
 
@@ -738,7 +732,7 @@ class ShaderManager_bb09
 // @fnv 0x00bb09b0
 bool ShaderManager_bb09::ResetSharedResources()
 {
-    bool bResult = FUN_00be0870();
+    bool bResult = reinterpret_cast<::BSShader *>(this)->Initialize();
     for (int i = 0; i < 4; i++)
         g_aspLarge[i] = 0;
     for (int i = 0; i < 2; i++)

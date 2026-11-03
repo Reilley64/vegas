@@ -2,6 +2,9 @@
 #ifndef FNV_TILEMENU_H
 #define FNV_TILEMENU_H
 
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a074d0_shell.h"
+#include "fnv/decl/fnv_009ff690__ReleaseTile.h"
 #include "layout_support.h"
 
 class TileShaderProperty;
@@ -20,10 +23,6 @@ class Tile
     virtual void ClearTextures();
     virtual TileShaderProperty* GetShaderProperty();
     virtual void SetAlphaAndOverlayColor(NiNode* node, float alpha, NiColorAlpha* color);
-    void Set(int trait, float value, bool clearActions);
-    void SetTileType(int flags);
-    float GetFloat(int trait);
-    void Release();
     __forceinline bool IsSpecial()
     {
         return (uiFlags & 0x2000) != 0;

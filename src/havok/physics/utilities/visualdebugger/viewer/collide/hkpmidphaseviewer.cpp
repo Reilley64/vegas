@@ -2,6 +2,11 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpmidphaseviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpmidphaseviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/S_00dd9380.h"
+#include "fnv/decl/SearchArray.h"
+#include "fnv/decl/fnv_00c93920__hkpWorldXc93920.h"
+#include "fnv/symbols_00d6a000.h"
+#include "fnv/symbols_01269000.h"
 struct FullObject;
 struct Receiver;
 
@@ -37,14 +42,13 @@ typedef char _check_offsets[sizeof(FullObject) == 0x2c ? 1 : -1];
 
 struct Receiver
 {
-    void ClearValue(SecondBase* apObject);
 };
 
 // Passes the enclosing FullObject (this minus 0x20) to the receiver's ClearValue.
 // @fnv 0x00d6a250
 void FirstBase::FUN_00d6a250(Receiver* apReceiver)
 {
-    apReceiver->ClearValue((FullObject*)((char*)this - 0x20));
+    reinterpret_cast<::SearchArray *>((apReceiver))->ClearValue((int)((FullObject*)((char*)this - 0x20)));
 }
 
 struct hkMemoryAllocator
@@ -148,7 +152,6 @@ struct S_00d6a750_Base1
 struct S_00d6a750_Listener;
 struct S_00d6a750_Source
 {
-    void ClearValue(S_00d6a750_Listener* m_pAudioListener) throw();
 };
 struct S_00d6a750_Owner
 {
@@ -203,7 +206,7 @@ FUN_00d6a750::~FUN_00d6a750()
     if (m_pSharedOwner)
     {
         for (int i = 0; i < m_pSharedOwner->m_iNumSources; i++)
-            m_pSharedOwner->m_ppSources[i]->ClearValue(this);
+            reinterpret_cast<::SearchArray *>((m_pSharedOwner->m_ppSources[i]))->ClearValue((int)(this));
     }
 }
 
@@ -261,18 +264,14 @@ void* __cdecl FUN_00d6a810(int a)
 
 struct Registry_00dd9380
 {
-    void* Register(const char* name, void (*fn)());
 };
 
-extern Registry_00dd9380* DAT_01269cd0;
 extern char DAT_010d22e0[];
-extern void* DAT_01269024;
-void FUN_00d6a810();
 
 // @fnv 0x00d6a850
 void FUN_00d6a850()
 {
-    DAT_01269024 = DAT_01269cd0->Register(DAT_010d22e0, FUN_00d6a810);
+    DAT_01269024 = ((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::Registry_00dd9380 * *>(&::DAT_01269cd0))))->FUN_00dd9380(DAT_010d22e0, (int)(((void (&)())::fnv_00d6a810::FUN_00d6a810)))));
 }
 
 struct Target
@@ -380,7 +379,6 @@ struct S_d6a280_Mx
 
 struct S_d6a280_Elem
 {
-    void FUN_00c93920(S_d6a280_Mx* m);
 };
 
 struct FUN_00d6a280 : FUN_00ddccb0, S_d6a280_Mx
@@ -400,7 +398,7 @@ FUN_00d6a280::FUN_00d6a280(int a) : FUN_00ddccb0(a)
     if (m_24 != 0)
     {
         for (int i = 0; i < m_24->m_uiItemCount; i++)
-            m_24->m_items[i]->FUN_00c93920((S_d6a280_Mx*)this);
+            reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((m_24->m_items[i]))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(::S_d6a280_Mx *)((S_d6a280_Mx*)this));
     }
 }
 
@@ -529,12 +527,11 @@ hkpMidphaseViewer::hkpMidphaseViewer() : hkpShape(), hkpMidphaseViewerBase()
 {}
 
 namespace fnv_00d6a870 {
-extern int DAT_01269024;
 
 // @fnv 0x00d6a870
 int __cdecl FUN_00d6a870()
 {
-    return DAT_01269024;
+    return (*reinterpret_cast<int *>(&::DAT_01269024));
 }
 }  // namespace fnv_00d6a870
 
@@ -571,7 +568,7 @@ struct hkpMidphaseViewer
 // @fnv 0x00d6a8b0
 void* hkpMidphaseViewer::FUN_00d6a8b0(int flags)
 {
-    FUN_00d6a750();
+    reinterpret_cast<::FUN_00d6a750 *>(this)->FUN_00d6a750::~FUN_00d6a750();
     if (flags & 1)
     {
         hkpPhysicsWorld* world = FUN_00c85750();

@@ -2,35 +2,41 @@
 // src/gamebryo2.2/corelibs/nimain/nisingleshadermateriallibrary.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nisingleshadermateriallibrary.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FNVObj.h"
+#include "fnv/decl/MaterialLibraryView.h"
+#include "fnv/decl/MyDesc.h"
+#include "fnv/symbols_00aa0000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f5000.h"
 struct NiFixedString
 {
     char* m_kHandle;
 };
 struct NiMaterial;
 
-extern NiMaterial* __cdecl FindOrCreateShaderEntry(NiMaterial*, int);
 
 // @fnv 0x00a8fd60
 NiMaterial* __stdcall FUN_00a8fd60(const NiFixedString* kName)
 {
     char* p = kName->m_kHandle;
-    return FindOrCreateShaderEntry((NiMaterial*)p, 1);
+    return ((::NiMaterial *)(::FindOrCreateShaderEntry((const char *)(::NiMaterial *)((NiMaterial*)p), 1)));
 }
 
-extern NiMaterial* DAT_011f5e40;
 
 // @fnv 0x00a8fcc0
 void __cdecl FUN_00a8fcc0()
 {
-    NiMaterial* material = DAT_011f5e40;
+    NiMaterial* material = (*reinterpret_cast<::NiMaterial * *>(&::DAT_011f5e40));
     if (material)
         ((void(__thiscall*)(NiMaterial*, int))(*reinterpret_cast<void***>(material))[0])(material, 1);
-    DAT_011f5e40 = 0;
+    (*reinterpret_cast<::NiMaterial * *>(&::DAT_011f5e40)) = 0;
 }
 
 struct IndexedObjectCollection
 {
-    unsigned int FUN_00a9ffd0();
+public:
+    void *FUN_00a9ffe0(int);
 };
 struct RefCountedNamedObject
 {
@@ -77,7 +83,7 @@ unsigned int FUN_00a8fc70()
     {
         IndexedObjectCollection* pkDesc = pkLib->w5();
         if (pkDesc)
-            uiTotalMaterials += pkDesc->FUN_00a9ffd0();
+            uiTotalMaterials += reinterpret_cast<::MyDesc *>((pkDesc))->FUN_00a9ffd0();
         pkLib = pkFactory->v15();
     }
     return uiTotalMaterials;
@@ -87,11 +93,9 @@ struct NiGlobalStringTable
 {
     static char* __cdecl AddString(const char*);
 };
-extern char* _EmptyFS;
 extern int DAT_0109f7b4;
 struct BaseStub
 {
-    void __thiscall FUN_00a8fe70(char**);
 };
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct NiSingleShaderMaterialLibrary
@@ -107,8 +111,8 @@ struct NiSingleShaderMaterialLibrary
 NiSingleShaderMaterialLibrary* NiSingleShaderMaterialLibrary::FUN_00a8fce0()
 {
     char* tmp = NiGlobalStringTable::AddString("NiSingleShaderMaterialLibrary");
-    ((BaseStub*)this)->FUN_00a8fe70(&tmp);
-    if (tmp != _EmptyFS)
+    reinterpret_cast<::FNVObj *>((((BaseStub*)this)))->FUN_00a8fe70((*(const ::ReferenceHandle *)(&tmp)));
+    if (tmp != ::DAT_0109b220)
         InterlockedDecrement((long volatile*)(tmp - 8));
     _c = 0;
     _d = 0;
@@ -118,10 +122,8 @@ NiSingleShaderMaterialLibrary* NiSingleShaderMaterialLibrary::FUN_00a8fce0()
 
 struct FUN_00a8fdb0_shell
 {
-    void FUN_00a8fdb0();
 };
 extern int DAT_0109f7b4;
-void __cdecl _delete(void*, unsigned int);
 struct FUN_00a8fd30_shell
 {
     void* vfptr;
@@ -138,15 +140,14 @@ void* FUN_00a8fd30_shell::Destroy(unsigned int auiFlags)
     vfptr = (void*)&DAT_0109f7b4;
     m1 = 0;
     m2 = 0;
-    ((FUN_00a8fdb0_shell*)this)->FUN_00a8fdb0();
+    reinterpret_cast<::MaterialLibraryView *>((((FUN_00a8fdb0_shell*)this)))->FUN_00a8fdb0();
     if (auiFlags & 1)
-        _delete(this, 0x14);
+        ::FUN_00aa1460(this, 0x14);
     return this;
 }
 
 struct NiShaderLibraryDescHelper
 {
-    void* FUN_00a9ffe0(int);
 };
 struct FUN_00a8fac0_shell : NiSingleShaderMaterialLibrary
 {
@@ -162,7 +163,7 @@ void* FUN_00a8fac0_shell::FUN_00a8fac0()
     if (library)
     {
         IndexedObjectCollection* desc = library->w5();
-        while (!desc->FUN_00a9ffd0())
+        while (!reinterpret_cast<::MyDesc *>((desc))->FUN_00a9ffd0())
         {
             *(RefCountedNamedObject**)((char*)this + 0xc) = pkFactory->v15();
             *(unsigned int*)((char*)this + 0x10) = 0;
@@ -170,8 +171,8 @@ void* FUN_00a8fac0_shell::FUN_00a8fac0()
         }
         if (desc)
         {
-            if (desc->FUN_00a9ffd0())
-                return ((NiShaderLibraryDescHelper*)desc)->FUN_00a9ffe0(*(unsigned int*)((char*)this + 0x10));
+            if (reinterpret_cast<::MyDesc *>((desc))->FUN_00a9ffd0())
+                return reinterpret_cast<::IndexedObjectCollection *>((((NiShaderLibraryDescHelper*)desc)))->FUN_00a9ffe0(*(unsigned int*)((char*)this + 0x10));
         }
     }
     return 0;
@@ -188,7 +189,6 @@ struct NameProvider
 // Stand-in for IndexedObjectCollection::FUN_00a9ffe0 (not visible in this unit)
 struct NiShaderLibraryDescStub
 {
-    void* FUN_00a9ffe0(int);
 };
 
 // @fnv 0x00a8fbf0
@@ -210,13 +210,13 @@ const char* __stdcall GetShaderNameByIndex(unsigned int uiShaderIndex)
             pkDesc = pkLib->w5();
             if (pkDesc)
             {
-                if (pkDesc->FUN_00a9ffd0() + uiBaseIndex > uiShaderIndex)
+                if (reinterpret_cast<::MyDesc *>((pkDesc))->FUN_00a9ffd0() + uiBaseIndex > uiShaderIndex)
                 {
                     pkShaderDesc =
-                        (NameProvider*)((NiShaderLibraryDescStub*)pkDesc)->FUN_00a9ffe0(uiShaderIndex - uiBaseIndex);
+                        (NameProvider*)reinterpret_cast<::IndexedObjectCollection *>((((NiShaderLibraryDescStub*)pkDesc)))->FUN_00a9ffe0(uiShaderIndex - uiBaseIndex);
                     return pkShaderDesc->GetName();
                 }
-                uiBaseIndex += pkDesc->FUN_00a9ffd0();
+                uiBaseIndex += reinterpret_cast<::MyDesc *>((pkDesc))->FUN_00a9ffd0();
             }
             pkLib = pkFactory->v15();
         } while (pkLib);
@@ -258,7 +258,7 @@ L_0035:
     desc = lib->w5();
     if (desc != 0)
     {
-        if (desc->FUN_00a9ffd0() > m_uiPosition)
+        if (reinterpret_cast<::MyDesc *>((desc))->FUN_00a9ffd0() > m_uiPosition)
         {
             goto L_0067;
         }
@@ -281,9 +281,9 @@ L_0067:
     }
     {
         unsigned int idx = m_uiPosition;
-        if (desc->FUN_00a9ffd0() > idx)
+        if (reinterpret_cast<::MyDesc *>((desc))->FUN_00a9ffd0() > idx)
         {
-            return reinterpret_cast<NiShaderLibraryDescHelper*>(desc)->FUN_00a9ffe0(idx);
+            return reinterpret_cast<::IndexedObjectCollection *>((reinterpret_cast<NiShaderLibraryDescHelper*>(desc)))->FUN_00a9ffe0(idx);
         }
     }
 L_008b:

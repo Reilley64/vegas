@@ -3,6 +3,7 @@
 #define FNV_NIMATERIALPROPERTY_DECLS_H
 
 
+#include "fnv/decl/FUN_00462d80_shell.h"
 #include "NiObjectNET.h"
 
 class NiStream;
@@ -18,6 +19,7 @@ class NiProperty : public NiObjectNET
 FNV_STATIC_ASSERT(sizeof(NiProperty) == 0x18);
 #endif
 
+class NiStream;
 class NiColor
 {
   public:
@@ -25,6 +27,10 @@ class NiColor
     NiColor() : r(0.0f), g(0.0f), b(0.0f)
     {}
     void LoadBinary(NiStream& stream);
+public:
+    char *GetFormattedString(const char *) const;
+public:
+    void SaveBinary(::NiStream &);
 };
 FNV_STATIC_ASSERT(sizeof(NiColor) == 12);
 
@@ -64,7 +70,7 @@ FNV_STATIC_ASSERT(offsetof(NiStream, m_pUnderlyingStream) == 0x24c);
 
 template <class T> inline void ReadBinaryValue(NiStream& stream, T& value)
 {
-    stream.m_pUnderlyingStream->Read(&value, sizeof(T));
+    reinterpret_cast<::FUN_00462d80_shell *>((stream.m_pUnderlyingStream))->ReadBytes(&value, sizeof(T));
 }
 
 class NiMaterialProperty : public NiProperty

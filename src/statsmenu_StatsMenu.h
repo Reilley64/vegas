@@ -3,6 +3,7 @@
 #ifndef FNV_STATSMENU_H
 #define FNV_STATSMENU_H
 
+#include "fnv/symbols_007df000.h"
 #include "statsmenu_layout_support.h"
 #include "statsmenu_types_MiscStatManager__MiscStatID.h"
 #include "statsmenu_ListBox_PerkRankData___.h"
@@ -14,6 +15,7 @@
 #include "statsmenu_StatsMenu__HealingOption.h"
 #include "statsmenu_StatsMenu__NamedEffectsList.h"
 #include "statsmenu_StatsMenu__StatusEffectList.h"
+class Tile;
 class StatsMenu : public Menu
 {
   public:
@@ -55,11 +57,11 @@ class StatsMenu : public Menu
     void UpdateActorValueTiles();
     void RefreshActorValueTile(ActorValue::Index value);
     static void UpdatePrimaryActorValueTile(Tile* tile, ActorValue::Index value);
-    static void UpdateSecondaryActorValueTile(Tile* tile, ActorValue::Index value);
-    static void UpdateMiscStatTile(Tile* tile, MiscStatManager__MiscStatID value);
     void RefreshMiscStat(MiscStatManager__MiscStatID value);
     static void UpdateStatusEffects();
     static void ClearPerks();
+public:
+    static bool SetTileFlashing(::Tile *, unsigned int);
 };
 FNV_STATIC_ASSERT(sizeof(StatsMenu) == 0x2A4);
 FNV_STATIC_ASSERT(offsetof(StatsMenu, m_kHealingOptions) == 0x28);

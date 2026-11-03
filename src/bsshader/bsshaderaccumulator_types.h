@@ -417,7 +417,6 @@ class BSShaderAccumulator : public NiAlphaAccumulator
   public:
     void ClearActivePasses();
     void SetupDepth(NiCamera* camera, NiCamera* firstPersonCamera, BSRenderedTexture* texture);
-    void SetupDepthCameras(NiCamera* camera, NiCamera* firstPersonCamera);
     // base NiAlphaAccumulator at +0x0, size 52
     BSShaderAccumulator__etAccumulationMode m_eAccumulationMode;  // +0x34, 4 bytes
     bool m_bUseFirstPersonCamera;                                 // +0x38, 1 bytes

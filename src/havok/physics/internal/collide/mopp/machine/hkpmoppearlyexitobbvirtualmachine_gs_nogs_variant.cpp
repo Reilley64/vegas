@@ -5,6 +5,14 @@
 
 // src/havok/physics/internal/collide/mopp/machine/hkpmoppearlyexitobbvirtualmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/machine/hkpmoppearlyexitobbvirtualmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/BoundsWorker.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/symbols_00df2000.h"
+#include "fnv/symbols_010d5000.h"
+#include "fnv/symbols_01268000.h"
 class hkBool {
 public:
     hkBool() {}
@@ -12,7 +20,6 @@ public:
     char m_cBooleanValue;
 };
 extern char DAT_0126efba;
-void ValidateHavokKeyCode(char* pKey);
 struct S_00e647e0_Shape;
 struct S_00e647e0_Input { int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; S_00e647e0_Shape* m_pCollisionShape; };
 struct S_00e647e0_Local { int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; };
@@ -21,8 +28,6 @@ struct S_00e647e0 {
     int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C;
     hkBool m_bHasHit; char unk41; char unk42; char unk43;
     S_00e647e0_Input* m_pRayCastInput;
-    void FUN_00e645b0(const void* a, const void* b, const void* c, S_00e647e0_Local* out);
-    void FUN_00e63f10(S_00e647e0_Local* l, S_00e647e0_Shape* shape);
     hkBool SetupAndProcessShape(S_00e647e0_Input* input, const void* b, const void* c, const void* d);
 };
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
@@ -51,14 +56,11 @@ public:
     void* m_ppVirtualMethodTable;
     int m_usMemSizeAndFlags;
     void* m_pStreamWriter;
-    hkOstream& FUN_00cc01c0(const char* s);
 };
 
 class hkErrStream : public hkOstream
 {
 public:
-    void FUN_00cb1600(void* buf, int bufSize);
-    void FUN_00cc00e0();
 };
 
 class hkError
@@ -72,8 +74,6 @@ public:
 
 }
 
-extern S00e63f10::hkError* DAT_01268360;
-extern char DAT_010d5100[];
 extern char DAT_010ecfbc[];
 
 namespace S00e63f10 {
@@ -427,11 +427,11 @@ void S00e63f10::hkpMoppEarlyExitObbVirtualMachine::FUN_00e63f10(const CollisionS
             {
                 char buf[512];
                 hkErrStream ostr;
-                ostr.FUN_00cb1600(buf, sizeof(buf));
-                ostr.FUN_00cc01c0(DAT_010d5100);
-                if (DAT_01268360->message(3, 0x1298fedd, buf, DAT_010ecfbc, 0x156))
+                new ((void *)&(ostr)) ::FUN_00cb1600(buf, sizeof(buf));
+                reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0(::str_010d5100);
+                if ((*reinterpret_cast<::S00e63f10::hkError * *>(&::DAT_01268360))->message(3, 0x1298fedd, buf, DAT_010ecfbc, 0x156))
                     __debugbreak();
-                ostr.FUN_00cc00e0();
+                reinterpret_cast<struct ::FUN_00cc00e0 *>(&(ostr))->FUN_00cc00e0::~FUN_00cc00e0();
             }
             continue;
         }

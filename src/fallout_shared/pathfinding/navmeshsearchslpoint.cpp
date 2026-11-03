@@ -2,23 +2,29 @@
 // src/fallout_shared/pathfinding/navmeshsearchslpoint.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/pathfinding/navmeshsearchslpoint.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void __cdecl Deallocate(void*);
 
+#include "fnv/decl/FUN_004b6190_shell.h"
+#include "fnv/decl/FUN_005582d0_shell.h"
+#include "fnv/decl/FUN_00595c80_shell.h"
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/FUN_0068f0a0_shell.h"
+#include "fnv/decl/FUN_00697440_t.h"
+#include "fnv/decl/FUN_006d2c20_Class.h"
+#include "fnv/decl/GetCenterX_006a6eb0.h"
+#include "fnv/decl/NavMesh.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/fnv_0068f160__NH.h"
+#include "fnv/decl/fnv_006ac8b0__Host.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_004e4000.h"
+#include "fnv/symbols_0069e000.h"
+#include "fnv/symbols_006a9000.h"
+#include "fnv/symbols_006d2000.h"
 struct FUN_006ac1b0_shell
 {
-    void __thiscall FUN_006ac1b0();
     void* __thiscall Destroy(unsigned int flags);
 };
-
-// Calls FUN_006ac1b0, frees this with Deallocate when flags has bit 0 set, and returns this.
-// @fnv 0x006ac180
-void* __thiscall FUN_006ac1b0_shell::Destroy(unsigned int flags)
-{
-    FUN_006ac1b0();
-    if (flags & 1)
-        Deallocate(this);
-    return this;
-}
 
 struct PathingLocation
 {
@@ -31,11 +37,7 @@ template <typename T, int N> struct BSSimpleArray;
 struct ThreeByThreeMatrix;
 struct PathingRequest
 {
-    ThreeByThreeMatrix const& GetRotate();
     float GetCenterRadius();
-    float __fastcall GetFieldB4Float();
-    float __fastcall GetFloatAtOffsetB0();
-    float __fastcall GetFloatAtOffset68();
 };
 struct NavMeshSearch
 {
@@ -58,11 +60,11 @@ bool FUN_006ac340_shell::BuildPathingLocationAndSearch(PathingRequest* request, 
                                                        BSSimpleArray<NavMeshTriangleReference, 1024>* nodes,
                                                        BSSimpleArray<NavMeshTriangleEdgeReference, 1024>* links)
 {
-    *(PathingLocation*)((char*)&pLocation + 0x20a4) = *(PathingLocation const*)((char*)&request->GetRotate());
+    *(PathingLocation*)((char*)&pLocation + 0x20a4) = *(PathingLocation const*)((char*)&(*(const ::ThreeByThreeMatrix *)(::FUN_006a9540((char *)(request)))));
     *(float*)((char*)&pLocation + 0x20f8) = request->GetCenterRadius();
-    *(float*)((char*)&pLocation + 0x20f4) = request->GetFieldB4Float() + request->GetCenterRadius();
-    *(float*)((char*)&pLocation + 0x20f0) = request->GetFloatAtOffsetB0() + request->GetCenterRadius();
-    *(float*)((char*)&pLocation + 0x20fc) = request->GetFloatAtOffset68();
+    *(float*)((char*)&pLocation + 0x20f4) = ::GetFieldB4Float((char *)(request)) + request->GetCenterRadius();
+    *(float*)((char*)&pLocation + 0x20f0) = reinterpret_cast<::FUN_006d2c20_Class *>((request))->GetFloatAtOffsetB0() + request->GetCenterRadius();
+    *(float*)((char*)&pLocation + 0x20fc) = ::GetFloatAtOffset68((const char *)(request));
     return ComputePath(request, start, end, nodes, links, 0);
 }
 
@@ -78,7 +80,6 @@ template <typename T, int N> struct BSSimpleArray
 };
 struct PathingRequestS : PathingRequest
 {
-    PathingLocation* GetLocation();
 };
 struct FUN_006ac220_shell : NavMeshSearch
 {
@@ -359,11 +360,11 @@ struct FUN_006ac220_shell : NavMeshSearch
 bool FUN_006ac220_shell::SearchPath(PathingRequestS* request, NavMeshTriangleReference const& start,
                                     NavMeshTriangleReference const& end)
 {
-    pLocation = *request->GetLocation();
+    pLocation = *((::PathingLocation *)(::FUN_006a9540((char *)(request))));
     m_fCenterRadius = request->GetCenterRadius();
-    fLowerBound = request->GetFieldB4Float() + request->GetCenterRadius();
-    fUpperBound = request->GetFloatAtOffsetB0() + request->GetCenterRadius();
-    fUnk20FC = request->GetFloatAtOffset68();
+    fLowerBound = ::GetFieldB4Float((char *)(request)) + request->GetCenterRadius();
+    fUpperBound = reinterpret_cast<::FUN_006d2c20_Class *>((request))->GetFloatAtOffsetB0() + request->GetCenterRadius();
+    fUnk20FC = ::GetFloatAtOffset68((const char *)(request));
     BSSimpleArray<NavMeshTriangleReference, 1024> nodes(0x20, 0, 0);
     BSSimpleArray<NavMeshTriangleEdgeReference, 1024> links(0x20, 0, 0);
     return ComputePath(request, start, end, &nodes, &links, 0);
@@ -375,40 +376,28 @@ struct Vec
     Vec();
     Vec& operator-=(const Vec&);
     Vec& operator+=(const Vec&);
-    float Squared() const;
-    float Length() const;
-    float Normalize();
-    float Dot(const Vec&) const;
     Vec operator*(float) const;
     Vec operator+(const Vec&) const;
 };
 struct Tri
 {
-    unsigned short Vertex(int);
 };
 struct Mesh
 {
-    void Center(unsigned short, Vec*);
-    Tri* Triangle(unsigned short);
-    const Vec& Vertex(unsigned short);
-    void Vertices(unsigned short, const Vec*&, const Vec*&, const Vec*&);
 };
 struct Loc
 {
-    Vec Location() const;
 };
 struct Ref
 {
     Mesh* mesh;
     unsigned short triangle;
-    Vec Center();
 };
 struct Node
 {
     int unk00, unk04;
     Ref ref;
 };
-float FUN_004e4450(float);
 struct Search
 {
     int unk0000;
@@ -2504,7 +2493,6 @@ struct Search
     int unk20a8, unk20ac, unk20b0, unk20b4, unk20b8, unk20bc, unk20c0, unk20c4, unk20c8;
     Vec result, direction, origin;
     float lower, upper, radius, step;
-    bool Test(const Vec&, const Vec&, Mesh*, Vec&);
     bool TestNode(Node*);
 };
 // Tests whether a node's mesh triangle intersects the search volume, sampling along the direction when the triangle is large enough, and stores the hit in result.
@@ -2513,15 +2501,15 @@ bool Search::TestNode(Node* node)
 {
     Mesh* mesh7 = node->ref.mesh;
     unsigned short triangle = node->ref.triangle;
-    Vec position3 = location.Location();
+    Vec position3 = (*(::Vec *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(location))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
     Vec delta = position3;
     Vec center5;
-    mesh7->Center(triangle, &center5);
-    delta -= center5;
-    float distanceSquared3 = delta.Squared();
-    Vec vertex = mesh7->Vertex(mesh7->Triangle(triangle)->Vertex(0));
-    vertex -= center5;
-    float triangleRadius = vertex.Length();
+    reinterpret_cast<::FUN_00697440_t *>((mesh7))->FUN_00697440(triangle, (::NiPoint3 *)(::Vec *)(&center5));
+    reinterpret_cast<::NiPoint3 *>((void *)&(const ::Vec &)(delta))->Subtract((const ::NiPoint3 &)(center5));
+    float distanceSquared3 = reinterpret_cast<::FUN_00595c80_shell *>((void *)&(delta))->GetSquaredXYLength();
+    Vec vertex = (*(const ::Vec *)(reinterpret_cast<::FUN_0068f0a0_shell *>((mesh7))->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((((::Tri *)(reinterpret_cast<::NavMesh *>((mesh7))->GetTriangle(triangle)))))->FUN_005582d0(0))));
+    reinterpret_cast<::NiPoint3 *>((void *)&(const ::Vec &)(vertex))->Subtract((const ::NiPoint3 &)(center5));
+    float triangleRadius = reinterpret_cast<::NiPoint3 *>((void *)&(vertex))->ComputeMagnitude();
     float outer5 = upper + triangleRadius;
     float outerSquared5 = outer5 * outer5;
     if (distanceSquared3 <= outerSquared5)
@@ -2529,9 +2517,9 @@ bool Search::TestNode(Node* node)
         float inner = lower - triangleRadius;
         if (inner > 0.0 && distanceSquared3 < inner * inner)
             return false;
-        Vec target = node->ref.Center();
+        Vec target = (*(::Vec *)(reinterpret_cast<::GetCenterX_006a6eb0 *>(&(node->ref))->FUN_006a6eb0({})));
         Vec hit_2;
-        if (Test(target, position3, mesh7, hit_2))
+        if (reinterpret_cast<::fnv_006ac8b0::Host *>(this)->FUN_006ac8b0((::NiPoint3 *)&(target), (::NiPoint3 *)&(position3), (::NavMesh *)(mesh7), (::NiPoint3 *)&(hit_2)))
         {
             result = hit_2;
             return true;
@@ -2539,16 +2527,16 @@ bool Search::TestNode(Node* node)
         if (triangleRadius > step)
         {
             const Vec* vertices5[3];
-            mesh7->Vertices(triangle, vertices5[0], vertices5[1], vertices5[2]);
+            reinterpret_cast<::fnv_0068f160::NH *>((mesh7))->GetTriangleVertexPositions(triangle, (unsigned int *)&(vertices5[0]), (unsigned int *)&(vertices5[1]), (unsigned int *)&(vertices5[2]));
             Vec difference6 = *vertices5[0];
-            difference6 -= position3;
-            float minProjection3 = difference6.Dot(direction);
+            reinterpret_cast<::NiPoint3 *>((void *)&(const ::Vec &)(difference6))->Subtract((const ::NiPoint3 &)(position3));
+            float minProjection3 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(difference6))->DotProduct((void *)&(direction));
             float maxProjection = minProjection3;
             for (int index = 1; index < 3; index++)
             {
                 difference6 = *vertices5[index];
-                difference6 -= position3;
-                float projection = difference6.Dot(direction);
+                reinterpret_cast<::NiPoint3 *>((void *)&(const ::Vec &)(difference6))->Subtract((const ::NiPoint3 &)(position3));
+                float projection = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(difference6))->DotProduct((void *)&(direction));
                 if (projection > minProjection3)
                     minProjection3 = projection;
                 else if (projection < maxProjection)
@@ -2557,8 +2545,8 @@ bool Search::TestNode(Node* node)
             Vec start2 = origin + direction * maxProjection;
             Vec end3 = origin + direction * minProjection3;
             Vec segment = end3;
-            segment -= start2;
-            float length4 = segment.Normalize();
+            reinterpret_cast<::NiPoint3 *>((void *)&(const ::Vec &)(segment))->Subtract((const ::NiPoint3 &)(start2));
+            float length4 = reinterpret_cast<::NiPoint3 *>(&(segment))->GetLengthSquared();
             float countFloat = length4 / step;
             float countRounded9 = FUN_004e4450(countFloat);
             int count0 = (int)countRounded9;
@@ -2568,8 +2556,8 @@ bool Search::TestNode(Node* node)
             for (int sampleIndex = 0; sampleIndex < count0; sampleIndex++)
             {
                 sampleX = segment * offset8;
-                sampleX += start2;
-                if (Test(sampleX, position3, mesh7, hit_2))
+                reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::Vec &)(sampleX))->FUN_0063c8a0((void *)&(start2));
+                if (reinterpret_cast<::fnv_006ac8b0::Host *>(this)->FUN_006ac8b0((::NiPoint3 *)&(sampleX), (::NiPoint3 *)&(position3), (::NavMesh *)(mesh7), (::NiPoint3 *)&(hit_2)))
                 {
                     result = hit_2;
                     return true;
@@ -4684,6 +4672,15 @@ struct FUN_006ac1b0_cls : FUN_006ac1b0_base
     FUN_006ac1b0_sub m_20a4;
     virtual ~FUN_006ac1b0_cls();
 };
+// Calls FUN_006ac1b0, frees this with Deallocate when flags has bit 0 set, and returns this.
+// @fnv 0x006ac180
+void* __thiscall FUN_006ac1b0_shell::Destroy(unsigned int flags)
+{
+    reinterpret_cast<::FUN_006ac1b0_cls *>(this)->FUN_006ac1b0_cls::~FUN_006ac1b0_cls();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // The destructor body is empty.
 // @fnv 0x006ac1b0

@@ -2,6 +2,11 @@
 // src/havok/physics/dynamics/constraint/chain/ballsocket/hkpballsocketchaindata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/chain/ballsocket/hkpballsocketchaindata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d6f000.h"
+#include "fnv/symbols_00dce000.h"
+#include "fnv/symbols_00dcf000.h"
+#include "fnv/symbols_00dd1000.h"
 #include "havok/hkpBallSocketChainData.h"
 
 struct S_00d53cf0
@@ -149,9 +154,8 @@ struct FUN_00d21ce0_cls
     FUN_00d21ce0_cls(hkFinishLoadedObjectFlagD53D flag)
     {
         if (flag.m_bFinishing)
-            FUN_00d21ce0(m_pConstraintData);
+            reinterpret_cast<::FUN_00d21ce0_cls *>(this)->FUN_00d21ce0(m_pConstraintData);
     }
-    void FUN_00d21ce0(void* pvConstraintData) throw();
 };
 
 struct hkpBridgeAtomsD53D
@@ -193,7 +197,7 @@ class FUN_00d53df0 : public hkpConstraintDataD53D
 FUN_00d53df0::FUN_00d53df0(hkFinishLoadedObjectFlagD53D flag) : hkpConstraintDataD53D(flag), m_kBridgeAtoms(flag)
 {
     if (flag.m_bFinishing)
-        m_kBridgeAtoms.m_kBridgeAtom.FUN_00d21ce0(this);
+        reinterpret_cast<::FUN_00d21ce0_cls *>(&(m_kBridgeAtoms.m_kBridgeAtom))->FUN_00d21ce0(this);
 }
 }  // namespace fnv_00d53df0
 
@@ -321,7 +325,7 @@ class FUN_00d53e30
 // @fnv 0x00d54150
 FUN_00d53e30* FUN_00d53e30::DestroyAndFree(unsigned int uiFlags) throw()
 {
-    this->FUN_00d53e30::~FUN_00d53e30();
+    reinterpret_cast<::fnv_00d53e30::FUN_00d53e30 *>((this))->fnv_00d53e30::FUN_00d53e30::~FUN_00d53e30();
     if (uiFlags & 1)
         FUN_00d53e30::operator delete(this);
     return this;
@@ -417,7 +421,6 @@ struct Pair_00d53d30
 namespace fnvc_adapt {
 Router_00d53d30* FUN_00c85750();
 }
-void ResizeAudioStream(void* alloc, void* arr, int elemSize);
 
 struct Chain_00d53d30
 {
@@ -438,7 +441,7 @@ void Chain_00d53d30::Push(const __m128& a, const __m128& b)
     hkArray<Pair_00d53d30>& arr = m_aiIndexedValues;
     Router_00d53d30* r = fnvc_adapt::FUN_00c85750();
     if (arr.m_iElementCount == (arr.m_iCapacityState & 0x3fffffff))
-        ResizeAudioStream(r->m_10, &arr, 0x20);
+        ::ResizeAudioStream((::AudioAllocator *)(r->m_10), (::AudioStream *)(void *)(&arr), 0x20);
     Pair_00d53d30& e = arr.m_data[arr.m_iElementCount++];
     e.a = a;
     e.b = b;
@@ -551,7 +554,6 @@ inline PortRouter& chainRouter()
 {
     return reinterpret_cast<PortRouter&>(FUN_00c85750());
 }
-extern "C" void ResizeAudioStream(PortMemory&, void*, int);
 struct PortAllocator
 {
     PortMemory& get(const void*)
@@ -607,7 +609,7 @@ template <class T> struct PortArrayBase
     __forceinline void append(PortMemory& memory, const T& item)
     {
         if (m_iElementCount == capacity())
-            ResizeAudioStream(memory, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)&(memory), (::AudioStream *)(void *)(this), sizeof(T));
         PortArrayOps::copyConstruct(m_data + m_iElementCount, 1, item);
         ++m_iElementCount;
     }
@@ -711,10 +713,6 @@ struct OffsetForChain
 };
 extern "C"
 {
-    void AppendEventRecord(const PortQuery*, QueryResultSchema*, void*, int);
-    char* FUN_00dd13c0(void*);
-    void FUN_00dcee70(PortQuery*);
-    void FUN_00dcfc00(const PortVector*, const PortVector*, float, PortQuery*, char*);
     void FUN_00dd0ad0(int, float, float, float, OffsetForChain*, const QuantizedBoundsData*, char*, const PortQuery*,
                       QueryResultSchema*);
 }
@@ -727,7 +725,7 @@ struct ProbeRoot : public hkpBallSocketChainData
 void ProbeRoot::FUN_00d53e80(const PortQuery& input, QueryResultSchema& output)
 {
     void* solver = input.m_pByteBuffer.val();
-    AppendEventRecord(&input, &output, solver, 8);
+    ::fnv_00d6f2b0::AppendEventRecord((const ::fnv_00d6f2b0::RecordSource *)(const ::PortQuery *)(&input), (::fnv_00d6f2b0::EventRecord **)(::QueryResultSchema *)(&output), (volatile unsigned int)(solver), 8);
     PortQuery localQuery = input;
     localQuery.m_pConstraintChainInstance = 0;
     localQuery.m_pByteBuffer = 0;
@@ -745,7 +743,7 @@ void ProbeRoot::FUN_00d53e80(const PortQuery& input, QueryResultSchema& output)
     localQuery.m_kBodyBLocalFrame = &motion->getTransform();
     localQuery.m_fFourthQueryValue = 1.0f;
     localQuery.m_fThirdQueryValue = localQuery.m_kThirdChainValue;
-    char* schema = FUN_00dd13c0(output.m_pQueryResultSchema);
+    char* schema = ((char *)(::FUN_00dd13c0((::DD13C0Object *)(void *)(output.m_pQueryResultSchema))));
     for (int index = 0; index < count; ++index)
     {
         localQuery.m_pBodyA = localQuery.m_pBodyB;
@@ -759,8 +757,8 @@ void ProbeRoot::FUN_00d53e80(const PortQuery& input, QueryResultSchema& output)
         PortVector a, b;
         a._setTransformedPos(*localQuery.m_kBodyALocalFrame, m_pConstraintInfo.m_data[index].m_kPivotInA);
         b._setTransformedPos(*localQuery.m_kBodyBLocalFrame, m_pConstraintInfo.m_data[index].m_kPivotInB);
-        FUN_00dcee70(&localQuery);
-        FUN_00dcfc00(&a, &b, m_fMaximumAngularImpulse, &localQuery, schema);
+        ::FUN_00dcee70();
+        ::FUN_00dcfc00((const ::hkVector4 *)(const ::PortVector *)(&a), (const ::hkVector4 *)(const ::PortVector *)(&b), m_fMaximumAngularImpulse, (const ::Input102 *)(::PortQuery *)(&localQuery), (::Row102 *)(schema));
         schema += 0x90;
     }
     FUN_00dd0ad0(count, m_fTau, m_fMotorDamping, m_fMaxErrorDistance, offsets.begin(), base, schema, &input, &output);

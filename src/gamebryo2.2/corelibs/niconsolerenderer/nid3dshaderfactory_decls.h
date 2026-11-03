@@ -2,6 +2,11 @@
 #ifndef FNV_NID3DSHADERFACTORY_DECLS_H
 #define FNV_NID3DSHADERFACTORY_DECLS_H
 
+#include "fnv/decl/FUN_00aa0390.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_010f0000.h"
+#include "fnv/symbols_011f6000.h"
 class IMemoryHeap;
 #include "MemoryManager.h"
 class NiShaderFactory
@@ -23,7 +28,6 @@ class NiD3DShaderFactory : public NiShaderFactory
     void ShutdownPoint3();
     void InitializePoint3();
     void UpdateShaderMaterialCache(void*);
-    void FUN_00aa0390();
     NiShaderFactory* Create();
 };
 class NiMemObject
@@ -34,7 +38,6 @@ class NiMemObject
 class NiD3DDefaultShader
 {
   public:
-    static void __cdecl SetShaderName(const char*);
 };
 struct NiStringMapStorage
 {
@@ -46,14 +49,9 @@ struct NiStringMapStorage
 };
 extern void* DAT_011f4a64;
 extern void* DAT_0126fa0c;
-extern void* DAT_011f6044;
-extern void* DAT_010f0bc0;
-extern void* DAT_010f0c20;
 extern void* DAT_010f0c80;
 extern void* DAT_010f0ca0;
 extern void(__stdcall* DAT_00fdf054)(void*);
 extern unsigned char kVtbl_NiD3DShaderFactory;
-extern MemoryManager g_memoryManager;
-extern "C" void* __cdecl NiMalloc(unsigned int);
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned long);
 #endif

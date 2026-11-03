@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00dd51f0
+#include "fnv/decl/FUN_00dd51d0_class.h"
 int __stdcall ReadIntField(const void* a, int* piValue)
 {
     *piValue = *(const int*)((const char*)a + 4);
@@ -123,13 +124,12 @@ struct CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void FUN_00dd51d0();
     CpuObject* FUN_00dd55a0(unsigned int flags);
 };
 // @fnv 0x00dd55a0
 CpuObject* CpuObject::FUN_00dd55a0(unsigned int flags)
 {
-    FUN_00dd51d0();
+    reinterpret_cast<::FUN_00dd51d0_class *>(this)->FUN_00dd51d0();
     if (flags & 1)
     {
         CpuAllocatorHolder* holder = FUN_00c85750();
@@ -161,12 +161,12 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 extern "C"
 {
     __m128 _mm_xor_ps(__m128, __m128);
 }
 
-extern __m128 DAT_010c44d0;
 
 typedef float hkReal;
 typedef unsigned int hkpShapeKey;
@@ -180,7 +180,7 @@ struct __declspec(align(16)) hkVector4
     }
     __forceinline void setNeg4(const hkVector4& v)
     {
-        m_vComponents = _mm_xor_ps(v.m_vComponents, DAT_010c44d0);
+        m_vComponents = _mm_xor_ps(v.m_vComponents, ::DAT_010c44d0);
     }
 };
 

@@ -2,6 +2,13 @@
 // src/havok/physics/dynamics/constraint/bilateral/limitedhinge/hkplimitedhingeconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/limitedhinge/hkplimitedhingeconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_004b4ab0_Class.h"
+#include "fnv/decl/FUN_00c7f690_cls.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00cb9000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010c8000.h"
 #include "havok/hkpLimitedHingeConstraintData.h"
 
 struct FUN_00cb8a90_class
@@ -52,8 +59,6 @@ void __thiscall FUN_00cb8a70_class::FUN_00cb8a70(float v)
 
 struct RefObj
 {
-    void __thiscall RetainReference();
-    void __thiscall removeReference();
 };
 struct FUN_00cb8ac0_class
 {
@@ -63,19 +68,16 @@ struct FUN_00cb8ac0_class
 void __thiscall FUN_00cb8ac0_class::SetReferencedObject(RefObj* pObject)
 {
     if (pObject)
-        pObject->RetainReference();
+        reinterpret_cast<::FUN_00c90510_class *>((pObject))->FUN_00c90510();
     RefObj* pOldObject = *(RefObj**)((char*)this + 0xb0);
     if (pOldObject)
-        pOldObject->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((pOldObject))->FUN_00c905b0();
     *(RefObj**)((char*)this + 0xb0) = pObject;
 }
 
 struct DDCC60World
 {
-    void removeReference();
 };
-extern int DAT_010c89e4;
-extern int DAT_0102e388;
 struct FUN_00cb8b40_class
 {
     int m_000;
@@ -134,8 +136,8 @@ void __thiscall FUN_00cb8b40_class::DestroyWorldReference()
     DDCC60World* p = (DDCC60World*)*((int*)this + 44);
     *((int*)this) = (int)&DAT_010c89e4;
     if (p)
-        p->removeReference();
-    *((int*)this) = (int)&DAT_0102e388;
+        reinterpret_cast<::hkReferencedObjectC905 *>((p))->FUN_00c905b0();
+    *((int*)this) = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 // Stores b at self+0xa2 and its negation at self+0xb6; if a is non-null, zeroes four floats at a->0x30->0x1c.
@@ -256,14 +258,13 @@ struct FnvCpu_FUN_00cb9220_CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void DestroyWorldReference();
     FnvCpu_FUN_00cb9220_CpuObject* Destroy(unsigned int flags);
 };
 // Calls DestroyWorldReference, then if flags has bit 0 set, invokes the allocator from FUN_00c85750 on this with size, and returns this.
 // @fnv 0x00cb9220
 FnvCpu_FUN_00cb9220_CpuObject* FnvCpu_FUN_00cb9220_CpuObject::Destroy(unsigned int flags)
 {
-    DestroyWorldReference();
+    reinterpret_cast<::FUN_00cb8b40_class *>(this)->DestroyWorldReference();
     if (flags & 1)
     {
         FnvCpu_FUN_00cb9220_CpuAllocatorHolder* pAllocatorHolder = FUN_00c85750();
@@ -274,7 +275,6 @@ FnvCpu_FUN_00cb9220_CpuObject* FnvCpu_FUN_00cb9220_CpuObject::Destroy(unsigned i
 
 struct FUN_00b5aea0_self
 {
-    void FUN_00cb9930(int* a, int* b, unsigned int c);
 };
 
 struct FUN_00cb9ce0_cls
@@ -302,8 +302,8 @@ void FUN_00cb9ce0_cls::FUN_00cb9ce0(int a, int b)
         else
         {
             int r = reinterpret_cast<int>(v1(a));
-            reinterpret_cast<FUN_00b5aea0_self*>(this)->FUN_00cb9930(reinterpret_cast<int*>(r),
-                                                                     reinterpret_cast<int*>(m_004), b);
+            ::FUN_00cb9930((void *)(reinterpret_cast<FUN_00b5aea0_self*>(this)), (int)(reinterpret_cast<int*>(r)),
+                                                                     (unsigned int *)(int *)(reinterpret_cast<int*>(m_004)), (unsigned int *)(b), {});
             v2(m_004);
             m_004 = r;
         }
@@ -493,8 +493,6 @@ union hkVector4q
 
 struct hkVector4Out : public hkVector4
 {
-    void setRotatedInverseDir(const hkRotation& r, const hkVector4& v);
-    void SetTransformedPosition(const hkTransform& t, const hkVector4& v);
 };
 
 struct hkpSetupStabilizationAtom
@@ -591,21 +589,15 @@ void hkpLimitedHingeConstraintDataEx::FUN_00cb8b60(const hkTransform& bodyATrans
 
     hkpLimitedHingeTransforms& t = *reinterpret_cast<hkpLimitedHingeTransforms*>(&m_kBridgeAtoms);
 
-    static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_rotation.m_kColumn0)
-        .setRotatedInverseDir(bodyATransform.m_rotation, axisN.m_vec);
-    static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_rotation.m_kColumn1)
-        .setRotatedInverseDir(bodyATransform.m_rotation, perpToAxle1.m_vec);
-    static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_rotation.m_kColumn2)
-        .setRotatedInverseDir(bodyATransform.m_rotation, perpToAxle2.m_vec);
-    static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_vTranslation).SetTransformedPosition(bodyATransform, pivot);
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_rotation.m_kColumn0)))->FUN_004b4ab0((int)&(bodyATransform.m_rotation), (int)&(axisN.m_vec));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_rotation.m_kColumn1)))->FUN_004b4ab0((int)&(bodyATransform.m_rotation), (int)&(perpToAxle1.m_vec));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_rotation.m_kColumn2)))->FUN_004b4ab0((int)&(bodyATransform.m_rotation), (int)&(perpToAxle2.m_vec));
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_vTranslation)))->FUN_00c7f690((const ::S_00c7f690_M *)&(bodyATransform), (const ::S_00c7f690_V *)&(pivot));
 
-    static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_rotation.m_kColumn0)
-        .setRotatedInverseDir(bodyBTransform.m_rotation, axisN.m_vec);
-    static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_rotation.m_kColumn1)
-        .setRotatedInverseDir(bodyBTransform.m_rotation, perpToAxle1.m_vec);
-    static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_rotation.m_kColumn2)
-        .setRotatedInverseDir(bodyBTransform.m_rotation, perpToAxle2.m_vec);
-    static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_vTranslation).SetTransformedPosition(bodyBTransform, pivot);
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_rotation.m_kColumn0)))->FUN_004b4ab0((int)&(bodyBTransform.m_rotation), (int)&(axisN.m_vec));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_rotation.m_kColumn1)))->FUN_004b4ab0((int)&(bodyBTransform.m_rotation), (int)&(perpToAxle1.m_vec));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_rotation.m_kColumn2)))->FUN_004b4ab0((int)&(bodyBTransform.m_rotation), (int)&(perpToAxle2.m_vec));
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_vTranslation)))->FUN_00c7f690((const ::S_00c7f690_M *)&(bodyBTransform), (const ::S_00c7f690_V *)&(pivot));
 }
 
 extern "C"

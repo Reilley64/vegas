@@ -2,6 +2,9 @@
 #ifndef FNV_ACTOR_H
 #define FNV_ACTOR_H
 
+#include "fnv/decl/FUN_00881650_shell.h"
+#include "fnv/decl/FUN_00893530_shell.h"
+#include "fnv/decl/FUN_008bc790_shell.h"
 #include "processlists_layout_support.h"
 #include "processlists_ActorValueOwner.h"
 #include "processlists_CachedValuesOwner.h"
@@ -10,6 +13,7 @@
 #include "processlists_MobileObject.h"
 #include "processlists_ModifierList.h"
 #include "processlists_NiPoint3.h"
+enum ACTOR_LIFE_STATE;
 class Actor : public MobileObject,
               public MagicCaster,
               public MagicTarget,
@@ -17,8 +21,8 @@ class Actor : public MobileObject,
               public CachedValuesOwner
 {
   public:
-    TESObjectREFR* GetCombatOpponent();    // genuine pack PC00881650 and original names list
-    void SetCombatOpponent(Actor* actor);  // genuine pack PC008BC790 and original names list
+        // genuine pack PC00881650 and original names list
+      // genuine pack PC008BC790 and original names list
 
     bhkRagdollController* m_pRagdollController;            // +0xAC
     bhkRagdollPenetrationUtil* m_pRagdollPenetrationUtil;  // +0xB0
@@ -221,9 +225,12 @@ class Actor : public MobileObject,
     virtual void Unk_135(void);
     virtual void Unk_136(void);
     TESActorBase* GetActorBase();
-    float GetFatiguePercentage();
     bool IsPlayerTeammate();
     bool FUN_0096c950();
+public:
+    void SetActorLifeState(::ACTOR_LIFE_STATE);
+public:
+    void ConfigureActorState(bool, bool);
 };
 FNV_STATIC_ASSERT(sizeof(Actor) == 0x1B4);
 FNV_STATIC_ASSERT(offsetof(Actor, m_pRagdollController) == 0xAC);

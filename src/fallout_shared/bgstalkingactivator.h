@@ -21,6 +21,13 @@
 #ifndef FNV_BGSTALKINGACTIVATOR_UNIT_H
 #define FNV_BGSTALKINGACTIVATOR_UNIT_H
 
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/symbols_00478000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_011c8000.h"
 #include "layout_support.h"
 #include "bgstalkingactivator_form.h"
 #include "TESFullName.h"
@@ -35,8 +42,6 @@ class BGSTalkingActivator;
 // it is declared on this shim, following the accepted tessound.cpp precedent.
 struct TESFormInitFlag : public TESForm
 {
-    bool IsFormInitialized() const;
-    static TESForm* GetFormByID(unsigned int auiFormID);
 };
 
 // TESFile::GetFormVersion is not declared in the bundled TESFile.h; its
@@ -45,7 +50,6 @@ struct TESFormInitFlag : public TESForm
 // accepted tescasinochips.h precedent.
 struct TESFileFormVersion : public TESFile
 {
-    unsigned short GetFormVersion();
 };
 
 // TESFullName::LoadFullNameChunk is not declared in the bundled TESFullName.h;
@@ -74,7 +78,6 @@ class TESModelTextureSwap : public TESModel
 {
   public:
     unsigned char swapData[8];
-    bool ParseTextureSwapData(void* apBuffer, unsigned int auSize, unsigned int auVersion);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESModelTextureSwap) == 0x20);
@@ -87,7 +90,6 @@ class TESScriptableForm : public BaseFormComponent
     bool m_bHasScript;      // +0x8
     unsigned char layoutPadding9[3];
     void InitItem(TESForm* apForm);
-    void SetScript(Script* apScript);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESScriptableForm) == 0xC);
@@ -98,7 +100,6 @@ class BGSDestructibleObjectForm : public BaseFormComponent
 {
   public:
     void* pData;
-    static void LoadDestructibleData(BGSDestructibleObjectForm* apForm, TESFile* apFile);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(BGSDestructibleObjectForm) == 8);
@@ -165,7 +166,6 @@ FNV_STATIC_ASSERT(offsetof(TESObjectACTI, m_pSoundEffect) == 116);
 FNV_STATIC_ASSERT(offsetof(TESObjectACTI, pRadioTemplate) == 124);
 FNV_STATIC_ASSERT(offsetof(TESObjectACTI, cActivateTextOverride) == 136);
 
-int Warning(const char* apFormat, ...);
 
 #pragma pack(push, 4)
 class BGSTalkingActivator : public TESObjectACTI
@@ -181,7 +181,6 @@ class BGSTalkingActivator : public TESObjectACTI
     bool IsRadioStation();
     static bool IsRadioStation(TESForm*, unsigned int);
     static void AddRadioStation(TESObjectREFR*);
-    static BSSimpleList<TESObjectREFR*> ms_kRadioStations;
     static void FindRadioStations(TESObjectREFR*, BSSimpleList<TESObjectREFR*>*, BSSimpleList<float>*);
 };
 #pragma pack(pop)

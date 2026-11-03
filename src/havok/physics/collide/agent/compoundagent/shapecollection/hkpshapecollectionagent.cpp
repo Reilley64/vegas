@@ -2,6 +2,10 @@
 // src/havok/physics/collide/agent/compoundagent/shapecollection/hkpshapecollectionagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/compoundagent/shapecollection/hkpshapecollectionagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d34000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01268000.h"
 struct hkpShapeCollectionAgent
 {
     const void* vtbl;
@@ -123,7 +127,6 @@ extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 
-extern "C" unsigned long DAT_0126835c;
 
 struct StringCursor
 {
@@ -262,7 +265,7 @@ struct hkpCollisionDispatcher
 
 __forceinline void hkTimerBegin(const char* tag)
 {
-    StringCursor* stream = (StringCursor*)TlsGetValue(DAT_0126835c);
+    StringCursor* stream = (StringCursor*)TlsGetValue(::DAT_0126835c);
     char* cur = stream->m_cur;
     if (cur < stream->m_kRayEnd)
     {
@@ -277,7 +280,7 @@ __forceinline void hkTimerBegin(const char* tag)
 
 __forceinline void hkTimerEnd()
 {
-    StringCursor* stream = (StringCursor*)TlsGetValue(DAT_0126835c);
+    StringCursor* stream = (StringCursor*)TlsGetValue(::DAT_0126835c);
     char* cur = stream->m_cur;
     if (cur < stream->m_kRayEnd)
     {
@@ -330,19 +333,17 @@ void __cdecl GetClosestPointsShapeCollection(const hkpCdBody* bodyA, const hkpCd
     hkTimerEnd();
 }
 
-extern "C" void __cdecl QueryClosestPoints();
 
 // @fnv 0x00d36920
 void __cdecl FUN_00d36920()
 {
-    QueryClosestPoints();
+    ::QueryClosestPoints({}, {}, {}, {});
 }
 
-void FUN_00d34790();
 // @fnv 0x00d36990
 void FUN_00d36990()
 {
-    FUN_00d34790();
+    ::FUN_00d34790({}, {}, {}, {});
 }
 
 extern char DAT_010cf318[];
@@ -471,7 +472,6 @@ struct RouterS
     void* m_pStreamAllocator;
 };
 RouterS* FUN_00c85750();
-void FUN_00c908c0(void* alloc, void* arr, int n, int size);
 
 struct CollisionAgentMapRecord
 {
@@ -497,7 +497,7 @@ struct AgentArray
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(alloc, this, newSize, sizeof(CollisionAgentMapRecord));
+            ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(CollisionAgentMapRecord));
         }
     }
     void reserve(int n)
@@ -854,7 +854,6 @@ struct MemRouter
     }
 };
 
-void __cdecl ResizeAudioStream(void* alloc, void* arr, int elemSize);
 
 __forceinline MemRouter* getRouter()
 {
@@ -899,7 +898,7 @@ struct AgentPairArray
     {
         MemAllocator& a = getRouter()->heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&a, this, sizeof(KeyAgentPairA));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&a), (::AudioStream *)(void *)(this), sizeof(KeyAgentPairA));
         return m_data[m_iElementCount++];
     }
 
@@ -972,7 +971,6 @@ void ShapeCollectionAgentA::FUN_00d43f10(const CdBody& bodyA, const CdBody& body
 }
 
 #include <windows.h>
-extern DWORD g_tlsIndex;
 
 struct Rec
 {
@@ -1076,7 +1074,7 @@ struct Agent : hkpShapeCollectionAgent
 // @fnv 0x00d43aa0
 void Agent::FUN_00d43aa0(Holder* holder, int a, int b, int c, int d)
 {
-    ProfilerBuf* pb = (ProfilerBuf*)TlsGetValue(g_tlsIndex);
+    ProfilerBuf* pb = (ProfilerBuf*)TlsGetValue(::DAT_0126835c);
     Rec* cur = pb->cur;
     if (cur < pb->end)
     {
@@ -1102,7 +1100,7 @@ void Agent::FUN_00d43aa0(Holder* holder, int a, int b, int c, int d)
         p->handler->v14(&packet, a, b, c, d);
         p++;
     }
-    pb = (ProfilerBuf*)TlsGetValue(g_tlsIndex);
+    pb = (ProfilerBuf*)TlsGetValue(::DAT_0126835c);
     cur = pb->cur;
     if (cur < pb->end)
     {
@@ -1115,7 +1113,6 @@ void Agent::FUN_00d43aa0(Holder* holder, int a, int b, int c, int d)
     }
 }
 
-extern DWORD DAT_0126835c;
 
 struct S_00d43cd0_TimerCommand
 {
@@ -1134,7 +1131,7 @@ struct S_00d43cd0_MonitorStream
 
 static inline void S_00d43cd0_Timer(const char* name)
 {
-    S_00d43cd0_MonitorStream* s = (S_00d43cd0_MonitorStream*)TlsGetValue(DAT_0126835c);
+    S_00d43cd0_MonitorStream* s = (S_00d43cd0_MonitorStream*)TlsGetValue(::DAT_0126835c);
     if (s->m_kRayEnd < s->m_pCurrentCommand)
     {
         S_00d43cd0_TimerCommand* h = (S_00d43cd0_TimerCommand*)s->m_kRayEnd;
@@ -1256,7 +1253,6 @@ void S_00d43cd0::ProcessCollisionEntries(const S_00d43cd0_CdBody& bodyA, const S
     S_00d43cd0_Timer("Et");
 }
 
-extern DWORD hkMonitorStreamTls;
 
 struct S_00d43dc0_TimerCommand
 {
@@ -1275,7 +1271,7 @@ struct S_00d43dc0_MonitorStream
 
 static inline void S_00d43dc0_Timer(const char* name)
 {
-    S_00d43dc0_MonitorStream* s = (S_00d43dc0_MonitorStream*)TlsGetValue(hkMonitorStreamTls);
+    S_00d43dc0_MonitorStream* s = (S_00d43dc0_MonitorStream*)TlsGetValue(::DAT_0126835c);
     if (s->m_kRayEnd < s->m_pCurrentCommand)
     {
         S_00d43dc0_TimerCommand* h = (S_00d43dc0_TimerCommand*)s->m_kRayEnd;
@@ -1564,7 +1560,6 @@ void __cdecl FUN_00d43dc0(const S_00d43dc0_CdBody& bodyA, const S_00d43dc0_CdBod
 
 extern "C" void _ReadWriteBarrier(void);
 
-extern DWORD DAT_0126835c;
 
 unsigned __int64 __cdecl __rdtsc(void);
 
@@ -1658,7 +1653,7 @@ struct FUN_00d43880_cls : public hkpShapeCollectionAgent
 // @fnv 0x00d43880
 void FUN_00d43880_cls::FUN_00d43880(ShapeHolder* pHolder, DWORD a1, DWORD a2, DWORD a3)
 {
-    ProfBuf* pBuf = (ProfBuf*)TlsGetValue(DAT_0126835c);
+    ProfBuf* pBuf = (ProfBuf*)TlsGetValue(::DAT_0126835c);
     if (pBuf->m_pCur < pBuf->m_pRecordEnd)
     {
         ProfRec* pRec = pBuf->m_pCur;
@@ -1690,7 +1685,7 @@ void FUN_00d43880_cls::FUN_00d43880(ShapeHolder* pHolder, DWORD a1, DWORD a2, DW
         } while (i >= 0);
     }
 
-    pBuf = (ProfBuf*)TlsGetValue(DAT_0126835c);
+    pBuf = (ProfBuf*)TlsGetValue(::DAT_0126835c);
     if (pBuf->m_pCur < pBuf->m_pRecordEnd)
     {
         ProfRec* pRec = pBuf->m_pCur;
@@ -1703,7 +1698,6 @@ void FUN_00d43880_cls::FUN_00d43880(ShapeHolder* pHolder, DWORD a1, DWORD a2, DW
 }
 
 extern const char str_010cf300[];
-extern const char str_010c41f8[];
 
 __declspec(align(16)) struct hkpShapeBuffer
 {
@@ -1749,12 +1743,11 @@ void __cdecl FUN_00d43b90(const hkpCdBody* bodyA, const hkpCdBody* bodyB, const 
         } while (key != -1);
     }
 
-    hkTimerBegin(str_010c41f8);
+    hkTimerBegin(::DAT_010c41f8);
 }
 
 extern "C" void _ReadWriteBarrier(void);
 
-extern DWORD DAT_0126835c;
 
 unsigned __int64 __cdecl __rdtsc(void);
 
@@ -1799,7 +1792,7 @@ struct CollectionProcessAgent : hkpShapeCollectionAgent
 // @fnv 0x00d437a0
 void CollectionProcessAgent::FUN_00d437a0(ShapeArg* arg, unsigned int a0, unsigned int a1, unsigned int a2)
 {
-    ProfBuf* pBuf = (ProfBuf*)TlsGetValue(DAT_0126835c);
+    ProfBuf* pBuf = (ProfBuf*)TlsGetValue(::DAT_0126835c);
     if (pBuf->m_pCur < pBuf->m_pRecordEnd)
     {
         ProfRec* pRec = pBuf->m_pCur;
@@ -1826,7 +1819,7 @@ void CollectionProcessAgent::FUN_00d437a0(ShapeArg* arg, unsigned int a0, unsign
         pEntry++;
     }
 
-    pBuf = (ProfBuf*)TlsGetValue(DAT_0126835c);
+    pBuf = (ProfBuf*)TlsGetValue(::DAT_0126835c);
     if (pBuf->m_pCur < pBuf->m_pRecordEnd)
     {
         ProfRec* pRec = pBuf->m_pCur;

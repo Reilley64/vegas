@@ -7,6 +7,16 @@
 // to their real unit once identified.
 // src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00c6cd00_cls.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00cef000.h"
+#include "fnv/symbols_00cf0000.h"
+#include "fnv/symbols_00d5a000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01013000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_0104d000.h"
 struct Object
 {
 };
@@ -145,7 +155,6 @@ struct S_00cee1c0_Arr
     unsigned int m_cap;
     unsigned int* m_pTrailingData;
 };
-S_00cee1c0_Router* FUN_00c85750();
 float __cdecl FUN_00cedec0(S_00cee1c0_Arr* arr, int unk, float value);
 void __cdecl ProcessArrayWithValue(unsigned int* source, int count, int unk, float value);
 namespace fnv_anon_00cec3d0 {}
@@ -268,7 +277,6 @@ struct Bounds
     Vector lo, hi;
 };
 extern const Vector DAT_01017d10;
-void FUN_00d5ac50(char*, Matrix*, Vector*, Vector*, Vector*);
 struct Shape
 {
     virtual void v0();
@@ -282,8 +290,6 @@ struct Shape
 };
 void FUN_00cedae0(Shape* shape, const Matrix* input, Vector* outA, Vector* outB);
 extern "C" void _mm_store_ps(float*, __m128);
-extern const float DAT_01011d78;
-extern const double DAT_010240b0;
 struct __declspec(align(16)) CE50Vector
 {
     float x, y, z, w;
@@ -291,7 +297,6 @@ struct __declspec(align(16)) CE50Vector
 struct CE50Matrix
 {
     CE50Vector row0, row1, row2;
-    void FUN_00c6cd00(const CE50Matrix* source);
     void Subtract(const CE50Matrix* source);
 };
 struct CE50Body
@@ -343,8 +348,6 @@ extern "C"
     __m128 _mm_mul_ps(__m128, __m128);
     __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 }
-extern const float DAT_0104da48;
-extern const float DAT_01016248;
 extern const __m128 DAT_010c44d0;
 extern const __m128 DAT_010ec7f0;
 __declspec(noinline) void __cdecl FUN_00cec7f0(int first, int count, float* b, float* a)
@@ -361,7 +364,7 @@ __declspec(noinline) void __cdecl FUN_00cec7f0(int first, int count, float* b, f
     }
     if (count != 0)
     {
-        __m128 half = _mm_set_ps1(DAT_01016248);
+        __m128 half = _mm_set_ps1(::fnv_00c88020::DAT_01016248);
         _mm_store_ps(b, _mm_add_ps(_mm_mul_ps(_mm_sub_ps(DAT_010ec7f0, half), lo), _mm_mul_ps(half, hi)));
         _mm_store_ps(a, _mm_sub_ps(hi, lo));
     }
@@ -561,8 +564,6 @@ struct S00cf0690_Xf
 {
     S00cf0690_Vec row0, row1, row2, translation;
 };
-void __cdecl FUN_00ceff00(void*, const S00cf0690_Xf*, float, S00cf0690_Mass*);
-extern const float DAT_01013ea4;
 static __declspec(noinline) void FUN_00cebfd0(S00cf0690_Mass* p, float density)
 {
     float newMass = density * p->volume;
@@ -573,9 +574,9 @@ static __declspec(noinline) void FUN_00cebfd0(S00cf0690_Mass* p, float density)
     *(__m128*)&p->row1 = _mm_mul_ps(*(__m128*)&p->row1, f);
     *(__m128*)&p->row2 = _mm_mul_ps(*(__m128*)&p->row2, f);
 }
-void __cdecl FUN_00cf0690(void* shape, float mass, S00cf0690_Mass* result);
 
 #include <math.h>
+#include "fnv/symbols_simd.h"
 extern "C"
 {
     __m128 _mm_add_ps(__m128, __m128);
@@ -740,7 +741,7 @@ void Integrals159::FUN_00ced390(Mesh159* mesh, const IntegralVector159* offset)
                     axisC = (ny > nz) ? 1 : 2;
                 axisA = (axisC + 1) % 3;
                 axisB = (axisA + 1) % 3;
-                FUN_00cec3d0(points, &normal);
+                reinterpret_cast<::S00cec3d0_Face *>(this)->FUN_00cec3d0((const float *)(points), (const float *)(const ::IntegralVector159 *)(&normal));
                 int a = axisA;
                 float projected = (a == 0) ? face[0] : ((axisB == 0) ? face[1] : face[2]);
                 volume += static_cast<volatile float&>(normal.x) * projected;

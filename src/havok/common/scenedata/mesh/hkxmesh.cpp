@@ -2,6 +2,11 @@
 // src/havok/common/scenedata/mesh/hkxmesh.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/mesh/hkxmesh.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/SearchObject.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkxMeshSectionImpl.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_0102e000.h"
 #include "havok/hkxMesh.h"
 
 struct FUN_00e4ae20_MemoryManager
@@ -106,10 +111,8 @@ FUN_00cce530::~FUN_00cce530()
 {}
 
 extern "C" int DAT_010ec1dc;
-extern "C" int DAT_0102e388;
 struct FNV_00e4ad10_Ref
 {
-    void FUN_00c905b0();
 };
 struct FNV_00e4ad10_Array
 {
@@ -145,7 +148,7 @@ void FUN_00e4ae20_Object::ClearArrays()
     {
         FNV_00e4ad10_Ref* entry = ppItems[index];
         if (entry)
-            entry->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((entry))->FUN_00c905b0();
         ppItems[index] = 0;
     }
     object->second.length = 0;
@@ -161,7 +164,7 @@ void FUN_00e4ae20_Object::ClearArrays()
     {
         FNV_00e4ad10_Ref* entry = ppItems[index];
         if (entry)
-            entry->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((entry))->FUN_00c905b0();
         ppItems[index] = 0;
     }
     object->first.length = 0;
@@ -170,7 +173,7 @@ void FUN_00e4ae20_Object::ClearArrays()
         heap->Free(object->first.objects, (size & 0x3fffffff) * 4);
     object->first.objects = 0;
     object->first.capacity = 0x80000000;
-    object->vtable = &DAT_0102e388;
+    object->vtable = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 class hkObjectE4AE
@@ -190,7 +193,6 @@ struct GeoOutputE4AB80
 {
     hkArray<hkVector4> vertices;
     hkArray<ArrayElement_CCE530> triangles;
-    void FUN_00d5a4c0(void* allocator, int start, const void* values, int count);
 };
 struct GeomArraysE4AB80
 {
@@ -207,16 +209,13 @@ struct GeomPairE4AB80
 class TriangleInsertE4AB80
 {
   public:
-    int FUN_00e4ae00(int allocator, int start, int values, int count);
 };
 class MeshSectionE4AB80
 {
   public:
     int unk00, unk04, unk08, unk0C, unk10, unk14;
     void* material;
-    void FUN_00e61530(GeomPairE4AB80* geometry, int materialIndex);
 };
-void ResizeAudioStream(void* allocator, void* array, int elementSize);
 template <class T> __forceinline void constructWithCopyRange(T* p, int n, T v)
 {
     for (int i = 0; i < n; ++i)
@@ -255,7 +254,7 @@ void MeshE4AB80::FUN_00e4ab80(GeoOutputE4AB80* output, hkArray<void*>* materials
                 FUN_00e4ae20_Router* router = FUN_00c85750();
                 if (materials->m_iElementCount == (materials->m_iCapacityState & 0x3fffffff))
                 {
-                    ResizeAudioStream(router->m_pMemoryManager, materials, 4);
+                    ::ResizeAudioStream((::AudioAllocator *)(router->m_pMemoryManager), (::AudioStream *)(materials), 4);
                 }
                 constructWithCopyRange(&materials->m_data[materials->m_iElementCount], 1, material);
                 materials->m_iElementCount++;
@@ -268,7 +267,7 @@ void MeshE4AB80::FUN_00e4ab80(GeoOutputE4AB80* output, hkArray<void*>* materials
         data.first.size = 0;
         data.second.data = 0;
         data.second.size = 0;
-        ((MeshSectionE4AB80*)m_sections.m_data[iSectionIndex])->FUN_00e61530(&data, materialIndex);
+        reinterpret_cast<::hkxMeshSectionImpl *>((((MeshSectionE4AB80*)m_sections.m_data[iSectionIndex])))->FUN_00e61530((*(::hkGeometryData *)(&data)), materialIndex);
         for (int i = 0; i < data.second.size; ++i)
         {
             data.second.data[i].unk00 += baseVertex;
@@ -280,7 +279,7 @@ void MeshE4AB80::FUN_00e4ab80(GeoOutputE4AB80* output, hkArray<void*>* materials
             ArrayElement_CCE530* pVertices = data.first.data;
             FUN_00e4ae20_Router* pRouter = FUN_00c85750();
             void* pAllocator = pRouter->m_pMemoryManager;
-            output->FUN_00d5a4c0(pAllocator, baseVertex, pVertices, vn);
+            reinterpret_cast<::SearchObject *>((output))->FUN_00d5a4c0((unsigned int)(pAllocator), baseVertex, (unsigned int)(pVertices), vn);
         }
         {
             int tn = data.second.size;
@@ -288,8 +287,8 @@ void MeshE4AB80::FUN_00e4ab80(GeoOutputE4AB80* output, hkArray<void*>* materials
             ArrayElement_CCE530* pTriangles = data.second.data;
             FUN_00e4ae20_Router* r2 = FUN_00c85750();
             void* al2 = r2->m_pMemoryManager;
-            ((TriangleInsertE4AB80*)&output->triangles)->FUN_00e4ae00((int)al2, iTriangleStart, (int)pTriangles, tn);
+            reinterpret_cast<::hkObjectE4AE *>((((TriangleInsertE4AB80*)&output->triangles)))->FUN_00e4ae00((int)al2, iTriangleStart, (int)pTriangles, tn);
         }
-        data.FUN_00cce530();
+        reinterpret_cast<::FUN_00cce530 *>(&(data))->FUN_00cce530::~FUN_00cce530();
     }
 }

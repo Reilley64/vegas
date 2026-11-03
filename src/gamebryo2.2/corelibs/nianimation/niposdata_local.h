@@ -8,6 +8,7 @@
 #ifndef FNV_NIPOSDATA_LOCAL_H
 #define FNV_NIPOSDATA_LOCAL_H
 
+#include "fnv/decl/FUN_00416870_t.h"
 #include "layout_support.h"
 #include "NiObject.h"
 class PositionKeyInterpolator;
@@ -28,7 +29,6 @@ class NiPoint3
     float x;  // +0x0
     float y;  // +0x4
     float z;  // +0x8
-    void Set(float x, float y, float z);
 };
 class NiPosData : public NiObject
 {

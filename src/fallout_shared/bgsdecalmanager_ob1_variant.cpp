@@ -3,6 +3,33 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /GF /Ob1 (unit src/fallout_shared/bgsdecalmanager.cpp lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/decl/CameraPass__Camera.h"
+#include "fnv/decl/DecalSetup.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004a0350_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_0068de30_holder.h"
+#include "fnv/decl/FUN_0068dea0_cls.h"
+#include "fnv/decl/FUN_00c46270_Class.h"
+#include "fnv/decl/NavEntryOwner.h"
+#include "fnv/decl/S694a0.h"
+#include "fnv/decl/S_00a59e00.h"
+#include "fnv/decl/TreeEvaluator.h"
+#include "fnv/decl/WorkerS694a0.h"
+#include "fnv/decl/fnv_0043b1b0__FUN_0043b1b0_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004a0330__FUN_004a0330_shell.h"
+#include "fnv/decl/fnv_004a03c0__DD.h"
+#include "fnv/decl/fnv_00c49100__ActorTable.h"
+#include "fnv/symbols_0043c000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_004a0000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_011c5000.h"
 #include "bgsdecalmanager_decls.h"
 #include "bgsdecalmanager_types_BGSDecalManager.h"
 #include "bgsdecalmanager_types_BSTempEffectSimpleDecal.h"
@@ -31,9 +58,6 @@ struct CtrlV
     {
         return m_i28 == 0;
     }
-    int BuildEntryValueArray();
-    bool FUN_00c491a0(ObjV* pkObj);
-    void SetActorList(int iState);
 };
 struct HostV
 {
@@ -46,7 +70,6 @@ struct HostV
     {
         return (bool)m_pv8c;
     }
-    void FUN_00a694e0(ObjV* pkObj);
     void FUN_00c4ee90(ObjV* pkObj);
 };
 // @fnv 0x00c4ee90
@@ -65,7 +88,7 @@ void HostV::FUN_00c4ee90(ObjV* pkObj)
             if (pkObj->TestFlag(0x800) || !HasX())
                 pkObj->Attach(this);
             else
-                FUN_00a694e0(pkObj);
+                reinterpret_cast<::WorkerS694a0 *>(this)->FUN_00a694e0((::NiAVObject *)(pkObj));
         }
         else if (pkObj->TestFlag(0x800) || ((!m_pkCtrl || m_pkCtrl->IsEmpty()) && !HasX()))
         {
@@ -73,10 +96,10 @@ void HostV::FUN_00c4ee90(ObjV* pkObj)
         }
         else
         {
-            int iState = m_pkCtrl->BuildEntryValueArray();
-            if (m_pkCtrl->FUN_00c491a0(pkObj))
+            int iState = ((int)(reinterpret_cast<::NavEntryOwner *>((m_pkCtrl))->BuildEntryValueArray()));
+            if (reinterpret_cast<::TreeEvaluator *>((m_pkCtrl))->FUN_00c491a0((::TreeQuery *)(pkObj)))
                 pkObj->Attach(this);
-            m_pkCtrl->SetActorList(iState);
+            reinterpret_cast<::fnv_00c49100::ActorTable *>((m_pkCtrl))->SetActorList((int *)(iState));
         }
     }
     else if (m_iFadeIndex == 1)
@@ -146,10 +169,8 @@ class NiNodeX : public NiObj
 class NiAVObject
 {
   public:
-    void Cull(NiCullingProcess& p);
 };
 class SceneMgr;
-extern SceneMgr* DAT_011f4748;
 class SceneMgr
 {
   public:
@@ -159,7 +180,7 @@ class SceneMgr
 };
 inline NiNodeX* GetRoot()
 {
-    SceneMgr* m = DAT_011f4748;
+    SceneMgr* m = (*reinterpret_cast<::SceneMgr * *>(&::NiRenderer::ms_pRenderer));
     int u1;
     int u2;
     return m->unk08;
@@ -192,7 +213,6 @@ class AccPtr
     {
         return m_pObject;
     }
-    void AssignRefCounted(void* src);
     AccPtr& FUN_0066b0d0(NiNodeX* p);
 };
 class NiCullingProcess
@@ -202,7 +222,6 @@ class NiCullingProcess
     int unk04;
     int unk08;
     NiNodeX* unk0c;
-    void FUN_00a694a0(void* p);
     void FUN_00c4f070(NiNodeX* a, NiAVObject* b, int c);
 };
 
@@ -212,7 +231,7 @@ void NiCullingProcess::FUN_00c4f070(NiNodeX* a, NiAVObject* b, int c)
     if (!a || !b)
         return;
     unk0c = a;
-    FUN_00a694a0((char*)unk0c + 0xdc);
+    reinterpret_cast<::S694a0 *>(this)->FUN_00a694a0((char*)unk0c + 0xdc);
     int saved = 0;
     if (c)
     {
@@ -222,18 +241,17 @@ void NiCullingProcess::FUN_00c4f070(NiNodeX* a, NiAVObject* b, int c)
     AccPtr sp;
     if (!unk08)
     {
-        sp.AssignRefCounted((char*)this + 0xc4);
+        reinterpret_cast<::FUN_00c46270_Class *>(&(sp))->AssignRefCounted((*(const ::FUN_00c46270_Class *)((char*)this + 0xc4)));
         if (!sp)
             sp.FUN_0066b0d0(GetRoot());
         if (sp)
             sp->vf8c(a);
     }
-    b->Cull(*this);
+    reinterpret_cast<::S_00a59e00 *>((b))->FUN_00a59e00((::S_00a59e00_Arg *)&(*this));
     if (c)
         unk08 = saved;
 }
 
-void __cdecl FUN_00a29680(const char* pcFormat, ...);
 
 class NiFixedString
 {
@@ -341,7 +359,6 @@ void BSCullingProcess::FUN_00c4f1d0(NiGeometry& kVisible)
     }
     if (!bRegistered)
     {
-        FUN_00a29680("NiCullingProcess::Append> Geometry failed RegisterObject, not rendering: %s\n",
-                     kVisible.GetName() ? kVisible.GetName() : "NULL");
+        ::FUN_00a29680();
     }
 }

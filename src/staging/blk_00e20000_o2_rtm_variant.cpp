@@ -4,8 +4,40 @@
 
 // src/staging/blk_00e20000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/CompressedChunk.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00cb0a70_Class.h"
+#include "fnv/decl/FUN_00d21ce0_cls.h"
+#include "fnv/decl/FUN_00d47770.h"
+#include "fnv/decl/FUN_00d9a4d0_Class.h"
+#include "fnv/decl/FUN_00e3eaa0.h"
+#include "fnv/decl/FnvClassNameNode.h"
+#include "fnv/decl/Invert6Matrix.h"
+#include "fnv/decl/RotationRows.h"
+#include "fnv/decl/TrackCompressionParams.h"
+#include "fnv/decl/Track_e3a1.h"
+#include "fnv/decl/UnaryActionHelper.h"
+#include "fnv/decl/fnv_00e3e840__FUN_00e3e840_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkSetE3A5.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00e29000.h"
+#include "fnv/symbols_00e2a000.h"
+#include "fnv/symbols_00e2b000.h"
+#include "fnv/symbols_00e2c000.h"
+#include "fnv/symbols_00e30000.h"
+#include "fnv/symbols_00e31000.h"
+#include "fnv/symbols_00e32000.h"
+#include "fnv/symbols_00e3e000.h"
+#include "fnv/symbols_00e4e000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010db000.h"
+#include "fnv/symbols_010df000.h"
+#include "fnv/symbols_010eb000.h"
+#include "fnv/symbols_0126e000.h"
 #include "../../include/layout_support.h"
-int __cdecl PackBitFields(int a, int aiMiddleBits, int aiHighBits);
 extern void* DAT_011be488[];
 void __cdecl CallHandlerByIndex(int iHandlerIndex, int b, int c);
 struct FUN_00e39e60_class
@@ -14,23 +46,14 @@ struct FUN_00e39e60_class
 };
 struct FUN_00e3f340_Class
 {
-    int __thiscall FindEntryByKey(int arg);
     void* __thiscall GetEntryByArg(int arg);
 };
 struct FUN_00e3f900_class
 {
-    int __thiscall FUN_00cb0a70(int a);
     int __thiscall FUN_00e3f900(int a);
 };
-int __cdecl FUN_00e30f40(int a, int b);
 struct S_00df8990_Obj;
-extern void(__cdecl* DAT_0126ec04)(void*, void*, S_00df8990_Obj*);
-void __cdecl FUN_00e2b9b0(void*, void*, S_00df8990_Obj*);
 void __cdecl FUN_00e2ba90();
-extern int DAT_010eb3b8[];
-extern int DAT_010eb3d0[];
-int __cdecl FUN_00e30ff0(int a, int b);
-void __cdecl AlignAndAdvance(char flags, int aiCount, int aiIndex, int* p);
 extern int DAT_010eb770;
 struct FUN_00e34800
 {
@@ -43,20 +66,17 @@ struct FUN_00e34800
 };
 struct CB2FC0Object
 {
-    void __thiscall FUN_00cb2d90(void*);
 };
 struct FUN_00e3b4d0_Class
 {
     void __thiscall ApplyToBothObjects(void* a, void* b);
 };
-int __cdecl CompareStringsCaseInsensitive(int, int);
 struct FUN_00e3ec30_Class
 {
     int __thiscall FUN_00e3ec30(int arg);
 };
 struct D481D0RefVariant
 {
-    void set(void*, const void*);
 };
 struct FUN_00e3f8d0_class
 {
@@ -64,9 +84,7 @@ struct FUN_00e3f8d0_class
 };
 struct FUN_00e29620_class
 {
-    void __thiscall FUN_00e29620(int param);
 };
-void __cdecl FUN_00e298f0(FUN_00e29620_class* object, int param);
 struct SplitChunk
 {
     int unk00;
@@ -98,7 +116,6 @@ struct SplitChunk
     int unk68;
     int unk6c;
 };
-void __cdecl InitSplitChunks(int a1, int aiTotal, int a3, int a4, int a5, SplitChunk* out);
 struct E2baaSrc
 {
     int unk00;
@@ -146,11 +163,9 @@ struct E2baaDst
     int unk50;
     int unk54;
 };
-E2baaDst* __cdecl FUN_00e2baa0(E2baaDst* out, E2baaSrc* src, int flag);
 struct FUN_00e2d0d0_cls;
 struct E2d0Ref;
 struct E2d0Node;
-extern float DAT_0104da48;
 struct E2d0Owner
 {
     unsigned int unk00;
@@ -1196,17 +1211,6 @@ class FUN_00e30f10
     unsigned char m_kPointB;
     FUN_00e30f10();
 };
-unsigned short NormalizeToUShort(float fMin, float fScaledValue, float fValue);
-void __cdecl SwapBytesAndAdvance(int iByteCount, unsigned char** ppBuffer);
-void __cdecl FillInterpolatedValues(int count, float** array, float first, float last);
-unsigned int __cdecl FUN_00e31570(unsigned char a1, unsigned int* a2);
-int __cdecl FUN_00e315a0(unsigned char a1, unsigned int a2, unsigned int a3, unsigned int* a4);
-void __cdecl FUN_00e31740(unsigned char flag, unsigned int uiValue, unsigned int* puiOut);
-int __cdecl FUN_00e31570(int a, int* c);
-void __cdecl AlignAndAdvance(int a, int result, int b, int* c);
-void __cdecl FUN_00e31780(int a, int b, int* c);
-int __cdecl FindKeyInterval(int aiLowIndex, int aiHighIndex, unsigned char key, unsigned char* aucTable);
-unsigned char* StoreBoolFlag(unsigned char* pDest, int value);
 struct FUN_00e33910_item
 {
     int unk00;
@@ -1216,7 +1220,6 @@ struct FUN_00e33910_item
     int unk10;
     int unk14;
     int unk18;
-    bool* Test(bool* result);
 };
 class FUN_00e33910_cls
 {
@@ -1270,7 +1273,6 @@ struct S_00e34950_Foo
 
     S_00e34950_Foo* Init();
 };
-extern int DAT_010df9f4;
 class FUN_00e39a80
 {
   public:
@@ -1336,10 +1338,8 @@ struct S_00e3ae70_Array
 };
 struct S_00e3ae70_cls
 {
-    void CollectSlotValues(unsigned int a1, unsigned int a2, S_00e3ae70_Array* pOut);
     void SetItemValues(unsigned int a1, unsigned int a2, float a3, float a4);
 };
-extern void* DAT_010eb98c;
 union ReleaseFlags
 {
     int releaseHandle;
@@ -1350,7 +1350,6 @@ struct LinkOwner
     void* unk00;
     void* unk04;
     void* unk08;
-    void __thiscall FUN_00d21ce0(void*);
 };
 struct FUN_00e3b060_Class
 {
@@ -1516,7 +1515,6 @@ struct NineIntegerRecord
 NineIntegerRecord& GetMemoryRouter();
 struct hkReferencedObj
 {
-    void removeReference();
 };
 struct hkStringPtr
 {
@@ -1529,7 +1527,7 @@ struct hkRefPtrE
     ~hkRefPtrE()
     {
         if (m_pRetainedObject)
-            m_pRetainedObject->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pRetainedObject))->FUN_00c905b0();
         m_pRetainedObject = 0;
     }
 };
@@ -1539,7 +1537,7 @@ struct ReferenceCountedPointer
     void release()
     {
         if (m_pRetainedObject)
-            m_pRetainedObject->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pRetainedObject))->FUN_00c905b0();
         m_pRetainedObject = 0;
     }
 };
@@ -1622,7 +1620,6 @@ struct BaseE3EAA0
     int unk0C;
     int unk10;
     virtual void vf0();
-    void Shutdown();
 };
 struct FUN_00e3ed80 : BaseE3EAA0
 {
@@ -1637,7 +1634,6 @@ struct FUN_00e3ed80 : BaseE3EAA0
 struct E3F0F0Less
 {
 };
-void __cdecl HeapSort(int* piFirst, int* piLast, E3F0F0Less kPred);
 struct E3F0F0Owner
 {
     int unk00;
@@ -1656,7 +1652,6 @@ struct FUN_00e3f210_cls
     char m_buf[2];
     unsigned char HasDelimiter();
 };
-int __cdecl CompareStringsCaseInsensitive(unsigned int a, int b);
 struct FUN_00e3f230_Entry
 {
     unsigned int m_flagged;
@@ -1670,7 +1665,6 @@ struct FUN_00e3f230_cls
     int m_uiItemCount;
     int FindEntryByKey(int arg);
 };
-int __cdecl CompareStringsCaseInsensitive(const char* pcA, const char* pcB);
 struct BE3E7E0Entry
 {
     unsigned int m_uiTaggedName;
@@ -1693,7 +1687,6 @@ class BE3E7E0Table
 
     BE3E7E0Entry* FindEntryByName(const char* pcName);
 };
-void __cdecl SetEntity();
 void __cdecl FUN_00e36f40();
 struct FUN_00e39e80_class
 {
@@ -1711,8 +1704,6 @@ struct FUN_00e3df50_Class
 {
     FUN_00e3df50_Class* __thiscall FUN_00e3df50(int param);
 };
-int __cdecl FUN_00e3dfb0(int param_1, int* param_2);
-int __cdecl FUN_00e3e020(int param_1, int* param_2);
 struct FNVTreeNode
 {
     int unk00;
@@ -1755,7 +1746,6 @@ struct FUN_00e31080
     unsigned char b1b;
     FUN_00e31080();
 };
-bool* IsValidMode(bool* out, unsigned int mode);
 struct E3F290Entry
 {
     int unk00;
@@ -1771,7 +1761,6 @@ struct E3F290Class
 struct FUN_00e3f370_handle
 {
     int unk00;
-    void Release();
 };
 struct FUN_00e3f370_pair
 {
@@ -1812,7 +1801,6 @@ extern "C" unsigned int be_arg_src_e2f9(void);
 volatile unsigned int g_be_sink_e2f9;
 static unsigned int SwapByteOrder(unsigned int x);
 void call_byteswap_e2f9(void);
-unsigned char __cdecl ScaleToByte(float fMin, float fScaledValue, float fValue);
 extern "C" double __cdecl fabs(double);
 inline float S00e311f0_abs(float x)
 {
@@ -1847,8 +1835,6 @@ struct S00e311f0_T
         return value;
     }
 };
-unsigned char __cdecl FUN_00e311f0(S00e311f0_PA a, S00e311f0_PB b, const S00e311f0_V* c, S00e311f0_T eps,
-                                   const S00e311f0_V* d);
 namespace se34af0 {
 
 // @fnv 0x00e34af0
@@ -1974,7 +1960,6 @@ struct S3b010Links
     int unk04;
     int unk08;
 
-    void FUN_00d21ce0(void* arg);
 };
 struct S3b010Obj
 {
@@ -2118,24 +2103,21 @@ struct Mesh
     int unk018;
     unsigned short* m_pusIndices;
 
-    void FUN_00e3cd50(int iV0, int iV1, int iV2, float fValue, int iArg0, int iArg1, int iArg2);
     void FUN_00e3d200(int iTri, float fValue, int iArg0, int iArg1, int iArg2);
 };
 
 // @fnv 0x00e3d200
 void Mesh::FUN_00e3d200(int iTri, float fValue, int iArg0, int iArg1, int iArg2)
 {
-    FUN_00e3cd50(m_pusIndices[iTri] * 3, m_pusIndices[iTri + 1] * 3, m_pusIndices[iTri + 2] * 3, fValue, iArg0, iArg1,
-                 iArg2);
+    reinterpret_cast<::CompressedChunk *>(this)->FUN_00e3cd50(m_pusIndices[iTri] * 3, m_pusIndices[iTri + 1] * 3, m_pusIndices[iTri + 2] * 3, fValue, (*(::hkVector4q *)(iArg0)), (*(::hkVector4q *)(iArg1)),
+                 (*(::hkVector4q *)(iArg2)));
 }
 
 }
 namespace ns_e3e8 {
-int __cdecl CompareStringsCaseInsensitive(const char* a, const char* b) throw();
 }
 struct Resource_e3e8
 {
-    const char* FUN_00d46d40() throw();
     void FUN_00c905b0() throw();
 };
 template <class T> struct hkRefPtr_e3e8
@@ -2152,7 +2134,6 @@ template <class T> struct hkRefPtr_e3e8
         return m_pRetainedObject;
     }
 };
-hkRefPtr_e3e8<Resource_e3e8> __stdcall FindWorldByKey(const char* name) throw();
 Resource_e3e8* __stdcall FUN_00e3e8e0(const char* name, Resource_e3e8* expected);
 struct S_00e3f280_Entry
 {
@@ -2247,7 +2228,7 @@ class hkpTyremarksInfo : public hkE3A3::hkReferencedObject
 hkpTyremarksInfo::~hkpTyremarksInfo()
 {
     for (int i = 0; i < m_kTyremarksWheels.m_iElementCount; i++)
-        m_kTyremarksWheels.m_data[i]->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_kTyremarksWheels.m_data[i]))->FUN_00c905b0();
 }
 }
 struct RefObject_e3f4e0
@@ -2339,9 +2320,7 @@ struct __declspec(align(16)) CastCollector
     int unk78;
     int unk7c;
 };
-extern int DAT_010dbaf8, DAT_010dbae4, DAT_010dbad8, DAT_010dbacc, DAT_010dbb04;
 void __cdecl FUN_00d98ca0(void*, void*, S_00df8990_Obj*, void*, void*);
-void __cdecl FUN_00e2abf0(void* caster, S_00df8990_Obj* source, int value, CastOutput* output);
 void __cdecl FUN_00e2cfc0();
 void FUN_00e2cfd0();
 #include <xmmintrin.h>
@@ -2351,8 +2330,6 @@ float __cdecl FUN_00e52f60();
 float __cdecl FUN_00e52f70();
 float __cdecl FUN_00e52f80();
 float __cdecl FUN_00e52f90();
-float __cdecl FUN_00e32e50(int type);
-float __cdecl FUN_00e32ea0(int type);
 extern "C" void _ReadWriteBarrier(void);
 struct Chain
 {
@@ -2412,7 +2389,6 @@ struct Manager
     Cell<int> used;
     Cell<Chain*> tail;
 };
-void __cdecl FUN_00e2b9b0(Chain* chain, Node* source, Manager* manager);
 extern "C" void _ReadWriteBarrier();
 struct PlaneIndex
 {
@@ -2447,7 +2423,6 @@ struct WorkItem
 struct PlaneList
 {
     PackedPlane* data;
-    PackedPlane* GetEntryOffset(PlaneIndex index) throw();
 };
 struct SplitInput
 {
@@ -2456,9 +2431,6 @@ struct SplitInput
     int unk14, unk18;
     PlaneList nodes;
 };
-S_00e3ae70_Holder* FUN_00e4e3f0() throw();
-void FUN_00e2c100(SplitInput*, PackedPlane*, PackedPlane*, int, int, int, int, int, float*, int*, int, int, int, int,
-                  int*, int*, int*, int*, PackedPlane*, PackedPlane*) throw();
 struct WorkStack
 {
     WorkItem* data;
@@ -2492,7 +2464,6 @@ struct WorkArray : hkArr<WorkItem>
         return m_data + old;
     }
 };
-void FUN_00e2cc30(SplitInput* input, int a2, int a3, int a4, int a5, int a6, int count);
 #include <xmmintrin.h>
 namespace FanSpace {
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -2747,7 +2718,6 @@ template <class T> struct TyremarkArray
 struct TyremarkWheelView : FUN_00e3a270
 {
     TyremarkWheelView* FUN_00e3a270();
-    void FUN_00e3a1e0(int pointCount);
 };
 inline TyremarkWheelView* allocateTyremarkWheel();
 struct TyremarkVehicleView

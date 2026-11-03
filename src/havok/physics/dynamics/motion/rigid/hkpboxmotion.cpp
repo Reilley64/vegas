@@ -2,6 +2,9 @@
 // src/havok/physics/dynamics/motion/rigid/hkpboxmotion.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/motion/rigid/hkpboxmotion.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00cd5880_cls.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010c6000.h"
 #include "havok/hkpBoxMotion.h"
 
 struct FUN_00d1e670_StandIn
@@ -26,6 +29,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 extern "C" __m128 _mm_setzero_ps(void);
 
 struct Cls_00d1e7b0
@@ -306,7 +310,6 @@ void Cls_00d1eba0::GetVelocityAndInvVirtualMass(const hkVector4& p, const hkVect
 }  // namespace fnv_00d1eba0
 
 extern "C" __m128 _mm_max_ps(__m128, __m128);
-extern __m128 DAT_010c7200;
 struct V4
 {
     __m128 q;
@@ -326,7 +329,6 @@ struct V4
 struct Mat3
 {
     V4 c0, c1, c2;
-    void FUN_00cd5880(const void* rot);
     float& operator()(int r, int c)
     {
         return (&c0)[c].q.m128_f32[r];
@@ -395,7 +397,7 @@ void BoxMotion::FUN_00d1e8c0(Mat3& out)
     V4 inv;
     inv.q = _mm_max_ps(m_kInertiaAndMassInv.q, DAT_010c7200);
     out.setDiagonal(1.0f / inv(0), 1.0f / inv(1), 1.0f / inv(2));
-    out.FUN_00cd5880(&m_kMotionTransform);
+    reinterpret_cast<::FUN_00cd5880_cls *>(&(out))->FUN_00cd5880((unsigned int)(&m_kMotionTransform));
 }
 
 extern "C"
@@ -578,7 +580,6 @@ inline void* operator new(unsigned int, void* p)
     return p;
 }
 
-extern const char DAT_010c6dc4[];
 extern const float DAT_01012068;
 
 struct FUN_00c86530_Obj
@@ -599,7 +600,7 @@ S00d1e690_cls* S00d1e690_cls::FUN_00d1e690(int a1, int a2)
     __assume(this != 0);
     new (this) FUN_00c86530_Obj(a1, a2, 0);
     *(__m128*)&m_kInertiaAndMassInv = _mm_setr_ps(DAT_01012068, DAT_01012068, DAT_01012068, DAT_01012068);
-    *(const char**)this = DAT_010c6dc4;
+    *(const char**)this = (*reinterpret_cast<const char (*)[]>(&::DAT_010c6dc4));
     m_type = 3;
     return this;
 }
@@ -629,7 +630,6 @@ extern "C" void _ReadWriteBarrier(void);
 extern "C" __m128 _mm_load_ps1(const float* p);
 extern "C" void _mm_store_ps(float* p, __m128 a);
 
-extern const float DAT_0104da4c;
 
 struct hkVector4D1E6F
 {

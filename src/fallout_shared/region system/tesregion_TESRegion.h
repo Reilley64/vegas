@@ -2,6 +2,9 @@
 #ifndef FNV_TESREGION_DECLS_H
 #define FNV_TESREGION_DECLS_H
 
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
 #include "layout_support.h"
 #include "tesregion_TESForm.h"
 #include "layout_support.h"
@@ -52,9 +55,6 @@ class TESRegion : public TESForm
     virtual void ClearData();
     virtual void InitItem();
     virtual bool Load(TESFile* file);
-    RegionDataList* GetRegionDataList() const;
-    BSSimpleList<RegionPointList*>* GetRegionPointLists() const;
-    TESWorldSpace* GetParentWorldSpace() const;
     void AssignWorldSpace(TESWorldSpace* world);
     // TESRegion
     // void __cdecl TESRegion::*()

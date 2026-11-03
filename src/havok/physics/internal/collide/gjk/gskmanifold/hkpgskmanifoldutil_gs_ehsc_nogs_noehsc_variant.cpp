@@ -5,6 +5,8 @@
 
 // src/havok/physics/internal/collide/gjk/gskmanifold/hkpgskmanifoldutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/gjk/gskmanifold/hkpgskmanifoldutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_00dad000.h"
+#include "fnv/symbols_0104d000.h"
 struct S_00dad640_Entry
 {
     unsigned short unk0;
@@ -28,7 +30,6 @@ struct S_00dad640_Target
     virtual void unk10();
     virtual void Release(unsigned short id, void* arg);
 };
-void ReleaseAllEntries(S_00dad640_Set* set, S_00dad640_Target* target, void* arg);
 struct S_00dad4d0_Key
 {
     unsigned short ids[4];
@@ -61,12 +62,10 @@ struct S_00dad4d0_Set
         return *(unsigned short*)((char*)&entries[count] + (off >> 3));
     }
 };
-bool FindAndPromoteEntry(S_00dad4d0_Set* set, S_00dad4d0_Key* key);
 void __fastcall FUN_00dae220(int unused, S_00dad640_Set* set);
 void __cdecl FUN_00dae340(S_00dad640_Set* set, unsigned int index);
 
 #include <xmmintrin.h>
-extern float DAT_0104da48;
 
 struct __declspec(align(16)) S_00daee00_Vec
 {
@@ -120,7 +119,7 @@ int S_00daee00::FUN_00daee00()
 {
     // The fallback phase reuses the completed geometric reduction scratch.
     float maxDist = 0.0f;
-    float minDist = DAT_0104da48;
+    float minDist = ::DAT_0104da48;
     float distance;
     float dr;
     struct PointSelection
@@ -273,7 +272,6 @@ struct S_00dad720_Rec
     unsigned char m_iThirdValue;
 };
 
-extern const __m128 DAT_010ec7f0;
 
 static __forceinline __m128 Cross3(const __m128& a, const __m128& b)
 {
@@ -322,7 +320,7 @@ static __declspec(noinline) int FUN_00dad720(S_00dad720_Rec* rec, S_00dad720_Vec
         __m128 sum = _mm_add_ss(dots, _mm_shuffle_ps(dots, dots, 0x55));
         __m128 t = _mm_div_ss(dots, sum);
         t = _mm_shuffle_ps(t, t, 0);
-        __m128 p = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(DAT_010ec7f0, t), b), _mm_mul_ps(c, t));
+        __m128 p = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(::DAT_010ec7f0, t), b), _mm_mul_ps(c, t));
         out->m_v10 = _mm_sub_ps(a, p);
         return 0;
     }
@@ -339,6 +337,7 @@ void CallTarget_dad720()
 }
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 namespace fnv_00dad860 {
 #include <xmmintrin.h>
 
@@ -655,7 +654,6 @@ struct ContactRecord
 struct ContactCache
 {
     ContactRecord points[4];
-    int FUN_00daee00();
 };
 struct ContactContext
 {
@@ -701,7 +699,7 @@ int FUN_00daf1e0(ContactManifold* set, void* a, void* b, void* c, ContactContext
     unsigned short id;
     if (set->count == 4)
     {
-        int index = cache->FUN_00daee00();
+        int index = reinterpret_cast<::S_00daee00 *>((cache))->FUN_00daee00();
         if (index == 4)
             return 5;
         manager->remove(set->entries[index].id, context->userData);

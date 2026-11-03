@@ -2,6 +2,13 @@
 #ifndef FNV_SCRIPT_H
 #define FNV_SCRIPT_H
 
+#include "fnv/decl/FUN_005aa420_shell.h"
+#include "fnv/decl/FUN_005aae70_shell.h"
+#include "fnv/decl/FUN_005abed0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005d43e0_shell.h"
+#include "fnv/decl/fnv_005ac4f0__FUN_005ac4f0_shell.h"
+#include "fnv/symbols_005ac000.h"
 #include "layout_support.h"
 #include "ScriptHeaderData.h"
 #include "TESForm.h"
@@ -22,15 +29,8 @@ class Script : public TESForm
     virtual ~Script();
     virtual void InitializeComponent();
     char* GetData();
-    ScriptReferencedObject* GetReferencedForm(unsigned int index, ScriptLocals* locals);
-    ScriptHeaderData* GetHeader();
-    const char* GetVariableName(unsigned int index);
     static bool GetValue(double& value, const char* data, unsigned int& offset, TESObjectREFR* reference,
                          TESObjectREFR* container, Script* script, ScriptLocals* locals, bool skip);
-    void CopyScriptContents(Script* script);
-    void SetScriptData(unsigned int size, char* data);
-    BSSimpleList<ScriptReferencedObject*>* GetReferencedObjectList();
-    BSSimpleList<ScriptVariableInfo*>* GetVariableList();
     void InitItem(TESForm* form);
 };
 #pragma pack(pop)

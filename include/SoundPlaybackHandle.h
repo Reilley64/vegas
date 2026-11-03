@@ -1,6 +1,11 @@
 #ifndef FNV_BSSOUNDHANDLE_H
 #define FNV_BSSOUNDHANDLE_H
 
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FUN_00ad89e0_shell.h"
+#include "fnv/decl/FUN_00ad8b60_h.h"
+#include "fnv/decl/FUN_00ad8f20_shell.h"
+#include "fnv/decl/fnv_00ad88f0__FUN_00ad88f0_h.h"
 #include "layout_support.h"
 class NiAVObject;
 #pragma pack(push, 4)
@@ -14,13 +19,14 @@ class SoundPlaybackHandle
     SoundPlaybackHandle(const SoundPlaybackHandle& other);
     ~SoundPlaybackHandle();
     SoundPlaybackHandle& operator=(const SoundPlaybackHandle& other);
-    bool SetPosition(float x, float y, float z);
-    void SetObjectToFollow(NiAVObject* object);
-    bool SetVolume(float volume);
-    bool Play(bool loop);
-    bool Stop();
-    bool IsSoundPlaying();
-    bool PausePlayback();
+public:
+    bool SchedulePlayback(unsigned int, int);
+public:
+    bool IsValid() const;
+public:
+    bool Release();
+public:
+    void SetCompletionCallback(void (*)(void *, bool), void *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(SoundPlaybackHandle) == 0xC);

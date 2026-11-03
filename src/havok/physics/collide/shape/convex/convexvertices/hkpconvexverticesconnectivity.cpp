@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/convex/convexvertices/hkpconvexverticesconnectivity.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/convexvertices/hkpconvexverticesconnectivity.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c90000.h"
 #include "havok/hkpConvexVerticesConnectivity.h"
 
 // FUN_00e48de0  (hkpConvexVerticesConnectivity, vftable slot 2)
@@ -42,7 +43,6 @@ struct Router_e48d
     Mem_e48d* m_pStreamAllocator;
 };
 Router_e48d* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(Mem_e48d* mem, void* array, int sizeOfElement);
 
 template <class T> struct hkArray_e48d
 {
@@ -53,7 +53,7 @@ template <class T> struct hkArray_e48d
     {
         Router_e48d* router = FUN_00c85750();
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
-            ResizeAudioStream(router->m_pStreamAllocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router->m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         T* p = &m_data[m_iElementCount];
         __assume(p != 0);
         new (p) T(t);

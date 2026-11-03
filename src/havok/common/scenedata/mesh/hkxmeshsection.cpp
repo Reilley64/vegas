@@ -2,6 +2,13 @@
 // src/havok/common/scenedata/mesh/hkxmeshsection.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/mesh/hkxmeshsection.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/E673F0Geometry.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00e3dfb0_cls.h"
+#include "fnv/decl/IndexSource_e67420.h"
+#include "fnv/decl/ScriptRecordList.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c90000.h"
 #include "havok/hkxMeshSection.h"
 
 extern int DAT_010e9b7c;
@@ -23,23 +30,13 @@ struct FUN_00e61720
     void* m_iMaterialIndex;
     IndexArray m_kUserChannels;
     FUN_00e61720(void* arg);
-    void FUN_00e61770(void* arg);
 };
-// @fnv 0x00e61720
-FUN_00e61720::FUN_00e61720(void* arg)
-    : m_vptr(&DAT_010e9b7c), m_sReferenceCount(1), m_pMeshVertexBuffer(0), m_kIndexBuffers(), m_iMaterialIndex(0),
-      m_kUserChannels()
-{
-    FUN_00e61770(arg);
-}
-
 inline void* operator new(unsigned int, void* p)
 {
     return p;
 }
 
 class hkMemoryAllocatorE6;
-void __cdecl FUN_00c908c0(hkMemoryAllocatorE6& alloc, void* pArray, int iReqElem, int iElemSize);
 
 class hkMemoryRouterE6
 {
@@ -60,8 +57,6 @@ class hkReferencedObjectE6
 {
   public:
     virtual ~hkReferencedObjectE6();
-    void RetainReference() const;
-    void removeReference() const;
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 };
@@ -72,21 +67,21 @@ template <class T> class hkRefPtrE6
     hkRefPtrE6(const hkRefPtrE6& rp)
     {
         if (rp.m_pRetainedObject)
-            rp.m_pRetainedObject->RetainReference();
+            reinterpret_cast<::FUN_00c90510_class *>((void *)(rp.m_pRetainedObject))->FUN_00c90510();
         m_pRetainedObject = rp.m_pRetainedObject;
     }
     ~hkRefPtrE6()
     {
         if (m_pRetainedObject)
-            m_pRetainedObject->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((void *)(m_pRetainedObject))->FUN_00c905b0();
         m_pRetainedObject = 0;
     }
     __forceinline hkRefPtrE6& operator=(const hkRefPtrE6& rp)
     {
         if (rp.m_pRetainedObject)
-            rp.m_pRetainedObject->RetainReference();
+            reinterpret_cast<::FUN_00c90510_class *>((void *)(rp.m_pRetainedObject))->FUN_00c90510();
         if (m_pRetainedObject)
-            m_pRetainedObject->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((void *)(m_pRetainedObject))->FUN_00c905b0();
         m_pRetainedObject = rp.m_pRetainedObject;
         return *this;
     }
@@ -104,9 +99,9 @@ class hkRefVariantE6 : public hkRefPtrE6<hkReferencedObjectE6>
         {
             hkReferencedObjectE6* p = o.m_pRetainedObject;
             if (p)
-                p->RetainReference();
+                reinterpret_cast<::FUN_00c90510_class *>((void *)(p))->FUN_00c90510();
             if (m_pRetainedObject)
-                m_pRetainedObject->removeReference();
+                reinterpret_cast<::hkReferencedObjectC905 *>((void *)(m_pRetainedObject))->FUN_00c905b0();
             m_pRetainedObject = p;
         }
         return *this;
@@ -130,7 +125,7 @@ template <class T> class hkArrayE6
         {
             int cap2 = 2 * getCapacity();
             int newCap = newSize < cap2 ? cap2 : newSize;
-            FUN_00c908c0(alloc, this, newCap, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newCap, sizeof(T));
         }
         T* pDestroy = m_data + newSize;
         for (int i = 0; i < oldSize - newSize; i++)
@@ -164,6 +159,13 @@ class hkxMeshSectionE6 : public hkReferencedObjectE6
     hkRefPtrE6<hkReferencedObjectE6> m_iMaterialIndex;
     hkArrayE6<hkRefVariantE6> m_kUserChannels;
 };
+// @fnv 0x00e61720
+FUN_00e61720::FUN_00e61720(void* arg)
+    : m_vptr(&DAT_010e9b7c), m_sReferenceCount(1), m_pMeshVertexBuffer(0), m_kIndexBuffers(), m_iMaterialIndex(0),
+      m_kUserChannels()
+{
+    reinterpret_cast<::hkxMeshSectionE6 *>(this)->FUN_00e61770((*(const ::hkxMeshSectionE6 *)(arg)));
+}
 
 // @fnv 0x00e61770
 hkxMeshSectionE6& hkxMeshSectionE6::FUN_00e61770(const hkxMeshSectionE6& o)
@@ -180,8 +182,6 @@ hkxMeshSectionE6& hkxMeshSectionE6::FUN_00e61770(const hkxMeshSectionE6& o)
 class hkxIndexBuffer
 {
   public:
-    int GetPrimitiveCount() const;
-    bool FUN_00e67420(unsigned int offset, unsigned int& a, unsigned int& b, unsigned int& c) const;
 };
 struct MeshSection : public hkxMeshSection
 {
@@ -196,10 +196,10 @@ void MeshSection::FUN_00e61420(unsigned int aiPrimitiveIndex, unsigned int& aiVe
     for (int i = 0; i < m_kIndexBuffers.m_iElementCount; i++)
     {
         hkxIndexBuffer* pIndexBuffer = m_kIndexBuffers.m_data[i];
-        int iPrimitiveCount = pIndexBuffer->GetPrimitiveCount();
+        int iPrimitiveCount = reinterpret_cast<::E673F0Geometry *>((void *)(pIndexBuffer))->GetPrimitiveCount();
         if (aiPrimitiveIndex < (unsigned)(start + iPrimitiveCount))
         {
-            pIndexBuffer->FUN_00e67420(aiPrimitiveIndex - start, aiVertexA, aiVertexB, aiVertexC);
+            reinterpret_cast<::IndexSource_e67420 *>((void *)(pIndexBuffer))->FUN_00e67420(aiPrimitiveIndex - start, (unsigned int *)&(aiVertexA), (unsigned int *)&(aiVertexB), (unsigned int *)&(aiVertexC));
             return;
         }
         start += iPrimitiveCount;
@@ -219,7 +219,7 @@ template <class T> struct hkArray_e614
         if (cap < n)
         {
             int cap2 = 2 * cap;
-            FUN_00c908c0(alloc, this, n < cap2 ? cap2 : n, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), n < cap2 ? cap2 : n, sizeof(T));
         }
         m_iElementCount = n;
     }
@@ -233,7 +233,6 @@ struct VertexDesc_e614
 
 struct VertexFormat_e614
 {
-    VertexDesc_e614* FindByTypeAndOccurrence(int usage, int index);
 };
 
 struct VertexBuffer_e614
@@ -258,7 +257,6 @@ struct VertexBuffer_e614
     int m_iStridedVertexCount;
     int unk48, unk4C, unk50, unk54, unk58;
     VertexFormat_e614 m_eVertexFormat;
-    const char* FUN_00e3dfb0(VertexDesc_e614* desc);
 };
 
 struct Mesh_e614
@@ -275,11 +273,11 @@ void Mesh_e614::FUN_00e61480(hkArray_e614<__m128>& positions)
     VertexBuffer_e614* pVertexBuffer = m_pMeshVertexBuffer;
     if (!pVertexBuffer)
         return;
-    VertexDesc_e614* desc = pVertexBuffer->m_eVertexFormat.FindByTypeAndOccurrence(1, 0);
+    VertexDesc_e614* desc = ((::VertexDesc_e614 *)(reinterpret_cast<::ScriptRecordList *>(&(pVertexBuffer->m_eVertexFormat))->FindByTypeAndOccurrence(1, 0)));
     int numVertices = pVertexBuffer->m_iStridedVertexCount;
     if (!desc || numVertices <= 0)
         return;
-    const char* src = pVertexBuffer->FUN_00e3dfb0(desc);
+    const char* src = ((const char *)(reinterpret_cast<::FUN_00e3dfb0_cls *>((pVertexBuffer))->FUN_00e3dfb0((::FUN_00e3dfb0_arg *)(desc))));
     int stride = desc->m_iElementIndex;
     int base = positions.m_iElementCount;
     positions.SetSizeAndGrow(base + numVertices);

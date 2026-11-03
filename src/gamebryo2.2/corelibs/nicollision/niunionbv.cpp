@@ -14,6 +14,8 @@
 // bytes, with m_uiProgramCodeSize at offset 20.
 //
 
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_011f6000.h"
 typedef unsigned int NiUInt32;
 
 class NiMemObject
@@ -86,10 +88,8 @@ NiUInt32 NiD3DShaderProgram::GetCodeSize() const
 
 struct P03MM
 {
-    void* Allocate(unsigned int);
 };
 typedef P03MM MemoryManager;
-extern MemoryManager g_memoryManager;
 struct S
 {
     S* FUN_00e9ee60(void*);
@@ -97,7 +97,7 @@ struct S
 // @fnv 0x00e9efb0
 S* __fastcall FUN_00e9efb0(void* self)
 {
-    S* p = (S*)g_memoryManager.Allocate(0x18);
+    S* p = (S*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(0x18);
     if (p)
         return p->FUN_00e9ee60(self);
     return 0;

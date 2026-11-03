@@ -5,8 +5,10 @@
 
 // src/havok/physics/collide/shape/convex/convextransform/hkpconvextransformshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/convextransform/hkpconvextransformshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FunctionContext.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpConvexTransformShape.h"
-extern const char* const g_01268970_arg1;
 struct FUN_00d5d730_class
 {
     virtual void v0();
@@ -23,7 +25,6 @@ struct FUN_00d5d730_class
 };
 struct FUN_00c90360_helper
 {
-    void FUN_00c90360(FUN_00d5d730_class* pChild, const char* const* name);
 };
 struct FUN_00d5e020_standin
 {
@@ -106,12 +107,10 @@ extern "C"
     __m128 _mm_movehl_ps(__m128, __m128);
     __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 }
-extern "C" unsigned long DAT_0126835c;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern const char str_010d1074[];
-extern const char str_010c41f8[];
 struct StringCursor
 {
     int unk0;
@@ -202,7 +201,7 @@ struct RtStandin : public hkpConvexTransformShape
 };
 static __forceinline void timer_begin(const char* name)
 {
-    StringCursor* stream = (StringCursor*)TlsGetValue(DAT_0126835c);
+    StringCursor* stream = (StringCursor*)TlsGetValue(::DAT_0126835c);
     char* ptr = stream->m_ptr;
     if (ptr < stream->m_kRayEnd)
     {

@@ -2,22 +2,17 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpswepttransformdisplayviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkpswepttransformdisplayviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00d641f0_cls.h"
+#include "fnv/decl/FUN_00ddcc60.h"
+#include "fnv/decl/RotationRows.h"
+#include "fnv/decl/SearchArray.h"
+#include "fnv/decl/hkWorldC917.h"
+#include "fnv/symbols_010cc000.h"
+#include "fnv/symbols_01268000.h"
 struct hkpSweptTransformDisplayViewer
 {
-    int FindEntryIndex(int);
-    void RemoveWorldData(int);
     void FUN_00d64950(int a);
 };
-
-// Calls FindEntryIndex on the viewer at this-0x20 with a; if the returned index is non-negative, calls RemoveWorldData with it.
-// @fnv 0x00d64950
-void hkpSweptTransformDisplayViewer::FUN_00d64950(int a)
-{
-    hkpSweptTransformDisplayViewer* p = (hkpSweptTransformDisplayViewer*)((char*)this - 0x20);
-    int r = p->FindEntryIndex(a);
-    if (r >= 0)
-        p->RemoveWorldData(r);
-}
 
 extern "C" void FUN_00d64650();
 // @fnv 0x00d647f0
@@ -26,7 +21,6 @@ void __fastcall FUN_00d647f0(void* self)
     ((void(__thiscall*)(void*))FUN_00d64650)((char*)self - 0x20);
 }
 
-extern "C" int g_ptr_0x1268fd0;
 
 // @fnv 0x00d64970
 int __cdecl FUN_00d64970()
@@ -110,7 +104,6 @@ class SweptTransformItem
     void FUN_00d64120(SweptArg* a1);
 };
 
-extern "C" int g_ptr_0x1268fd0;
 
 // @fnv 0x00d64120
 void SweptTransformItem::FUN_00d64120(SweptArg* a1)
@@ -120,7 +113,7 @@ void SweptTransformItem::FUN_00d64120(SweptArg* a1)
         return;
     }
     hkpSweptTransformDisplayViewer* viewer = (hkpSweptTransformDisplayViewer*)((char*)this - 0x28);
-    int iIndex = viewer->FindEntryIndex(a1->m_08);
+    int iIndex = reinterpret_cast<::D63FF0Container *>((viewer))->FindEntryIndex((void *)(a1->m_08));
     if (iIndex < 0)
     {
         return;
@@ -334,8 +327,6 @@ struct SweptPostSimListener
 
 struct SweptWorld
 {
-    void AddEntityListener(SweptEntityListener* listener);
-    void AddPostSimulationListener(SweptPostSimListener* listener);
 };
 
 struct SweptWorldData
@@ -359,17 +350,25 @@ struct SweptViewer : SweptViewerBase, SweptEntityListener, SweptPostSimListener
 {
     SweptArray<SweptWorldData*> m_kWorldDataList;
 
-    void ClearSweptEntry(int index);
     void RemoveWorldData(int index);
 };
+// Calls FindEntryIndex on the viewer at this-0x20 with a; if the returned index is non-negative, calls RemoveWorldData with it.
+// @fnv 0x00d64950
+void hkpSweptTransformDisplayViewer::FUN_00d64950(int a)
+{
+    hkpSweptTransformDisplayViewer* p = (hkpSweptTransformDisplayViewer*)((char*)this - 0x20);
+    int r = reinterpret_cast<::D63FF0Container *>((p))->FindEntryIndex((void *)(a));
+    if (r >= 0)
+        reinterpret_cast<::SweptViewer *>((p))->RemoveWorldData(r);
+}
 
 // Unregisters this viewer from the world at index, calls ClearSweptEntry, deletes the world data and removes it from the array.
 // @fnv 0x00d64800
 void SweptViewer::RemoveWorldData(int index)
 {
-    m_kWorldDataList[index]->m_pOwningWorld->AddEntityListener(this);
-    m_kWorldDataList[index]->m_pOwningWorld->AddPostSimulationListener(this);
-    ClearSweptEntry(index);
+    reinterpret_cast<::hkWorldC917 *>((m_kWorldDataList[index]->m_pOwningWorld))->FUN_00c917a0(this);
+    reinterpret_cast<::SearchArray *>((m_kWorldDataList[index]->m_pOwningWorld))->ClearValue((int)(this));
+    reinterpret_cast<::FUN_00d641f0_cls *>(this)->ClearSweptEntry(index);
     delete m_kWorldDataList[index];
     m_kWorldDataList.removeAt(index);
 }
@@ -390,7 +389,7 @@ struct AudioHolder
 };
 struct BSAudio;
 BSAudio* __cdecl FUN_00c85750();
-extern int DAT_010d1918, DAT_010d18f8, DAT_010d18e8, DAT_010d18cc, DAT_010d18bc, DAT_010ccf7c;
+extern int DAT_010d1918, DAT_010d18f8, DAT_010d18e8, DAT_010d18cc, DAT_010d18bc;
 struct AudioArray
 {
     void* m_pData;
@@ -406,8 +405,6 @@ struct SweptViewer
 {
     int m_vptr00, unk04, m_vptr08, unk0c, unk10, unk14, unk18, unk1c, m_vptr20, m_vptr24, m_vptr28, m_vptr2c;
     AudioArray m_ppData;
-    void RemoveWorldData(int);
-    void FUN_00ddcc60_tail();
     void Destroy();
 };
 // @fnv 0x00d648c0
@@ -423,7 +420,7 @@ void SweptViewer::Destroy()
     {
         do
         {
-            RemoveWorldData(i);
+            reinterpret_cast<::SweptViewer *>(this)->RemoveWorldData(i);
             --i;
         } while (i >= 0);
     }
@@ -434,9 +431,9 @@ void SweptViewer::Destroy()
     if ((uiCapBits & 0x80000000u) == 0)
         a->FreeArray(m_ppData.m_pData, (uiCapBits & 0x3fffffffu) * 4);
     m_ppData.Reset();
-    m_vptr2c = (int)&DAT_010ccf7c;
+    m_vptr2c = (int)&(*reinterpret_cast<int *>(&::DAT_010ccf7c));
     m_vptr28 = (int)"pFU";
-    return FUN_00ddcc60_tail();
+    return reinterpret_cast<struct ::FUN_00ddcc60 *>(this)->FUN_00ddcc60::~FUN_00ddcc60();
 }
 }  // namespace fnv_00d648c0
 
@@ -452,7 +449,6 @@ struct __declspec(align(16)) D64020Rotation
     D64020Vector4 m_kColumn1;
     D64020Vector4 m_kColumn2;
 
-    void set(const D64020Vector4& quat);
 };
 
 struct __declspec(align(16)) D64020Transform
@@ -473,7 +469,6 @@ inline __m128 D64020RotateDir(const D64020Rotation& m, const D64020Vector4& v)
     return _mm_add_ps(_mm_add_ps(r0, r1), r2);
 }
 
-extern int g_D64020Color;
 
 struct D64020DisplayHandler
 {
@@ -599,15 +594,15 @@ void D64020Viewer::DisplayConstraintPivots(D64020Constraint* constraint)
 {
     D64020Transform frame;
 
-    frame.m_rotation.set(constraint->m_kRotationA);
+    reinterpret_cast<::RotationRows *>(&(frame.m_rotation))->FUN_00cb2d90((void *)&(constraint->m_kRotationA));
     *(__m128*)frame.m_vTranslation.m_f = _mm_sub_ps(*(const __m128*)constraint->m_kPivotA.m_f,
                                                     D64020RotateDir(frame.m_rotation, constraint->m_localPivot));
-    m_pDisplayHandler->displayFrame(frame, (unsigned long)constraint + 0x11, g_D64020Color);
+    m_pDisplayHandler->displayFrame(frame, (unsigned long)constraint + 0x11, ::g_ptr_0x1268fd0);
 
-    frame.m_rotation.set(constraint->m_kRotationB);
+    reinterpret_cast<::RotationRows *>(&(frame.m_rotation))->FUN_00cb2d90((void *)&(constraint->m_kRotationB));
     *(__m128*)frame.m_vTranslation.m_f = _mm_sub_ps(*(const __m128*)constraint->m_kPivotB.m_f,
                                                     D64020RotateDir(frame.m_rotation, constraint->m_localPivot));
-    m_pDisplayHandler->displayFrame(frame, (unsigned long)constraint + 0x12, g_D64020Color);
+    m_pDisplayHandler->displayFrame(frame, (unsigned long)constraint + 0x12, ::g_ptr_0x1268fd0);
 }
 
 // sub ecx,8; jmp FUN_00d649c0 == MSVC adjustor thunk for the secondary base's override.

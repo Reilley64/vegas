@@ -2,6 +2,11 @@
 #ifndef FNV_TESOBJECTREFR_H
 #define FNV_TESOBJECTREFR_H
 
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/fnv_0043fcd0__FUN_0043fcd0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
 #include "layout_support.h"
 #include "ExtraDataList_decl_actor_rtti_variant.h"
 #include "PlacedObjectInfo.h"
@@ -90,11 +95,6 @@ class TESObjectREFR : public TESForm
     {
         CHANGE_SCRIPT_VARIABLES = 0x80000000u
     };
-    ScriptLocals* GetReferenceLocals();
-    TESObjectCELL* GetParentCell();
-    TESBoundObject* GetObjectReference();
-    NiAVObject* Get3DSimple();
-    ExtraDataList* GetExtraData();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESObjectREFR) == 0x68);

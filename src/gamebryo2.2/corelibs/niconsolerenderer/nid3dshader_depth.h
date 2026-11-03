@@ -2,6 +2,11 @@
 #define FNV_NID3DSHADER_DEPTH_H
 
 
+#include "fnv/decl/FUN_00a8f140_cls.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00e7c000.h"
+#include "fnv/symbols_00e89000.h"
+#include "fnv/symbols_0126f000.h"
 #include "NiMemObject.h"
 enum D3DFORMAT
 {
@@ -145,21 +150,16 @@ class Ni2DBuffer
 {
   public:
     unsigned int vtable, refs, width, height;
-    void SetRefObject(NiDX9AdditionalDepthStencilBufferData*);
 };
 class NiD3DTextureData
 {
   public:
     static D3DFORMAT ConvertPixelFormatToD3DFormat(const NiPixelFormat*);
 };
-NiPixelFormat* CreatePixelFormat(unsigned int);
-char* GetHRESULTText(unsigned int);
 class NiD3DDefaultShader
 {
   public:
-    static void __cdecl SetShaderName(const char*);
 };
-extern DepthDevice* DAT_0126f0d8;
 extern int DAT_011bf400;
 extern char DAT_010ef1f0;
 

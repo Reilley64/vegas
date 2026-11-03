@@ -1,7 +1,35 @@
 // fallout_shared/magic/effectsettingcollection.cpp: EffectSettingCollection (3 functions)
 
+#include <new>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_004078a0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00485c10_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_004ee4b0_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_00810570_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00862110_cls.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/symbols_00409000.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011de000.h"
 #include "TESForm.h"
 
+class TESSound;
 class EffectSetting : public TESForm
 {
     unsigned char layoutPadding18[0x98];
@@ -9,9 +37,8 @@ class EffectSetting : public TESForm
   public:
     EffectSetting();
     void UpdateEffectName(const char* name);
-    void FUN_004ee4b0(float value);
-    void SetAssociatedActorValue(int value);
-    void SetEffectID(int value);
+public:
+    ::TESSound *GetHitSound();
 };
 
 class TargetDoorController;
@@ -23,20 +50,20 @@ class LowProcess
     void SetPackageObjectType(int value);
 };
 
+class TargetDoorController;
 class MiddleHighProcess
 {
   public:
     void AddDeferredHideLimb(TargetDoorController* value);
+public:
+    void SetFaceAnimationData(::TargetDoorController *);
 };
 
 class PlayerQuestData
 {
   public:
-    void SetLogDate(Date* value);
 };
 
-TESForm* GetFormByID(unsigned int formID);
-void RegisterEffectSetting(EffectSetting* effect);
 
 typedef int ActorValueIndex;
 
@@ -53,7 +80,6 @@ class EffectSettingCollection
                                               ActorValueIndex resist, int flags);
 };
 
-extern "C" EffectSetting* DAT_011c33f4;
 
 // @fnv 0x00471D00
 void EffectSettingCollection::InitializeCollection(bool initialize)
@@ -72,7 +98,7 @@ EffectSetting* EffectSettingCollection::CreateEffectSetting(unsigned int formID,
                                                             ActorValueIndex item, float cost, ActorValueIndex skill,
                                                             unsigned int count, ActorValueIndex resist, int flags)
 {
-    if (GetFormByID(formID))
+    if (::FUN_004839c0(formID))
         return 0;
 
     EffectSetting* effect = new EffectSetting();
@@ -80,12 +106,12 @@ EffectSetting* EffectSettingCollection::CreateEffectSetting(unsigned int formID,
     effect->SetEditorID_AtRuntime(editorID);
     ((LowProcess*)effect)->SetPackageObjectType(count);
     effect->UpdateEffectName(fullName);
-    effect->FUN_004ee4b0(cost);
-    effect->SetAssociatedActorValue(skill);
+    reinterpret_cast<::FUN_004ee4b0_shell *>((effect))->FUN_004ee4b0(cost);
+    reinterpret_cast<::FUN_00810570_shell *>((effect))->SetAssociatedActorValue(skill);
     ((MiddleHighProcess*)effect)->AddDeferredHideLimb((TargetDoorController*)item);
-    ((PlayerQuestData*)effect)->SetLogDate((Date*)resist);
-    effect->SetEffectID(flags);
-    RegisterEffectSetting(effect);
+    reinterpret_cast<::MiddleHighProcess *>((((PlayerQuestData*)effect)))->SetFaceAnimationData((::TargetDoorController *)(::Date *)((Date*)resist));
+    reinterpret_cast<::FUN_004078a0_shell *>((effect))->SetEffectID(flags);
+    ::RegisterEffectSetting((int *)(effect));
     return effect;
 }
 
@@ -107,12 +133,11 @@ struct G2
 struct GlobalObject_00680890 : public G2
 {
 };
-extern GlobalObject_00680890 g_011c3400;
 // @fnv 0x00409060
 void RegisterEffectSetting(int* pEffect)
 {
     if (pEffect)
-        g_011c3400.AddHead(&pEffect);
+        ::g_011c3400.AddHead(&pEffect);
 }
 
 struct FUN_00408b60
@@ -123,7 +148,7 @@ struct FUN_00408b60
 // @fnv 0x00408de0
 void __cdecl FUN_00408de0()
 {
-    ((FUN_00408b60*)&g_011c3400)->DestroyAllItems();
+    ((FUN_00408b60*)&::g_011c3400)->DestroyAllItems();
 }
 
 // Save-game header of the form being sized: formID, change type byte, then (packed) change flags.
@@ -135,24 +160,17 @@ struct ChangedForm
 
 struct EffectSettingFlags
 {
-    bool IsFlagSet(unsigned int flag);
 };
 
 struct TESSaveLoadGame
 {
-    bool FUN_00862110();
-    ChangedForm* GetCurrentChangedForm();
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct GlobalObject_0045cf30
 {
     unsigned char* Bool();
 };
-extern GlobalObject_0045cf30 g_011de4e8;
 
-TESForm* FUN_004839c0(unsigned int formID);
-void FUN_0040fbe0(const char* format, ...);
 
 // Computes the save size of the effect setting collection, adding 4/2 bytes for save-load state and 4 bytes per flagged EffectSetting, then logs the result.
 // @fnv 0x00408c30
@@ -161,33 +179,29 @@ unsigned int FUN_00408c30()
     unsigned int size = 0;
     EffectSetting* mgef;
     unsigned short uiStart = (unsigned short)size;
-    if (g_TESSaveLoadGame->FUN_00862110())
+    if (reinterpret_cast<::FUN_00862110_cls *>((g_TESSaveLoadGame))->FUN_00862110())
     {
         size += 4;
         size += 2;
     }
     size += 4;
-    for (BSSimpleList<EffectSetting*>* node = (BSSimpleList<EffectSetting*>*)&g_011c3400;
-         node && (mgef = node->GetItem()) != 0; node = node->GetNext())
+    for (BSSimpleList<EffectSetting*>* node = (BSSimpleList<EffectSetting*>*)&::g_011c3400;
+         node && (mgef = ((::EffectSetting *)(new ((void *)(node)) ::Vec3()))) != 0; node = ((::BSSimpleList< ::EffectSetting *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
     {
-        if (((EffectSettingFlags*)mgef)->IsFlagSet(0x200000))
+        if (reinterpret_cast<::S3e60 *>((((EffectSettingFlags*)mgef)))->FUN_00403e60(0x200000))
             size += 4;
     }
-    if (*g_011de4e8.Bool())
+    if (*::g_011de4e8.Bool())
     {
-        ChangedForm* changed = g_TESSaveLoadGame->GetCurrentChangedForm();
+        ChangedForm* changed = ((::ChangedForm *)(reinterpret_cast<::EffectSetting *>((g_TESSaveLoadGame))->GetHitSound()));
         if (changed)
         {
             TESForm* form = FUN_004839c0(changed->formID);
-            FUN_0040fbe0("GetSaveSize(): %-5i for form %08X %s with flags %08X ending at line %i in file %s",
-                         size - uiStart, changed->formID, form->GetName(), *(unsigned int*)(&changed->changeType + 1),
-                         0x77,
-                         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Magic\\EffectSettingCollection.cpp");
+            ::FUN_0040fbe0();
         }
         else
         {
-            FUN_0040fbe0("GetSaveSize(): %-5i ending at line %i in file %s", size - uiStart, 0x77,
-                         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Magic\\EffectSettingCollection.cpp");
+            ::FUN_0040fbe0();
         }
     }
     return size;

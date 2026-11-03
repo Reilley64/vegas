@@ -1,6 +1,7 @@
 // src/havok/common/scenedata/skin/hkxskinbindingclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/skin/hkxskinbindingclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/fnv_00e01b30__FUN_00e01b30.h"
 struct CpuAllocator
 {
     virtual void slot00();
@@ -20,14 +21,13 @@ struct CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void FUN_00e01b30();
     CpuObject* FUN_00e01be0(unsigned int flags);
 };
 // Calls FUN_00e01b30, then if bit 0 of flags is set, invokes the allocator's virtual method on this with size, and returns this.
 // @fnv 0x00e01be0
 CpuObject* CpuObject::FUN_00e01be0(unsigned int flags)
 {
-    FUN_00e01b30();
+    reinterpret_cast<::fnv_00e01b30::FUN_00e01b30 *>(this)->fnv_00e01b30::FUN_00e01b30::~FUN_00e01b30();
     if (flags & 1)
     {
         CpuAllocatorHolder* holder = FUN_00c85750();

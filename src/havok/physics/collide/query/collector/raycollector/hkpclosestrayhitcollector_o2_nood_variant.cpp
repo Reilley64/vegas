@@ -5,15 +5,15 @@
 
 // src/havok/physics/collide/query/collector/raycollector/hkpclosestrayhitcollector.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/collector/raycollector/hkpclosestrayhitcollector.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_0059c000.h"
+#include "fnv/symbols_00cf0000.h"
 extern void __cdecl operator delete(void*);
-void __fastcall FUN_0059cf00(void*);
 struct HKPCloseStrayHitCollector
 {
     void* __thiscall Destroy(unsigned int flags);
 };
 
 #include <xmmintrin.h>
-void __cdecl CollectValuesReversed(void* dst, unsigned int size, void* src);
 
 struct HKPCloseNode
 {
@@ -68,7 +68,7 @@ void FUN_00ca9440_cls::FUN_00ca9440(HKPCloseNode* node, FUN_00ca9440_src* src)
         m_24 = src->m_14;
         m_28 = src->m_18;
         m_2c = src->m_1c;
-        CollectValuesReversed(&m_30, 8, node);
+        ::CollectValuesReversed((int *)(void *)(&m_30), 8, (::LinkedEntry *)(node));
         HKPCloseNode* last = node;
         while (last->m_0c)
             last = last->m_0c;

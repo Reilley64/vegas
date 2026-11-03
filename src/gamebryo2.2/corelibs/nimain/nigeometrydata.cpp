@@ -1,5 +1,37 @@
 // gamebryo2.2/corelibs/nimain/nigeometrydata.cpp: NiGeometryData, NiGeometryDataRecovered, NiGeometryDataCmp, GeomData and more (36 functions)
 
+#include "fnv/decl/A5D6E0This.h"
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/A72720StreamSet.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Bound88.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00a72590_Class.h"
+#include "fnv/decl/FUN_00a8a670_shell.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiPlane.h"
+#include "fnv/decl/NiPoint2_shell.h"
+#include "fnv/decl/NiRenderer.h"
+#include "fnv/decl/NiSphere.h"
+#include "fnv/decl/PivotGeometry.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_004a4c90__FUN_004a4c90_shell.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00a63000.h"
+#include "fnv/symbols_00a67000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00e7c000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
 #include "nigeometrydata_decls.h"
 
 // If additional geometry data is absent or not packed, updates the consistency bits of m_usDirtyFlags to eConsistency.
@@ -42,7 +74,7 @@ bool NiGeometryData::RegisterStreamables(NiStream& kStream)
 // @fnv 0x00a677e0
 void NiGeometryData::LinkObject(NiStream& kStream)
 {
-    NiObject::LinkObject(kStream);
+    ::FUN_00a89af0((int)this);
 
     if (kStream.GetFileVersion() >= 0x0A030007)
     {
@@ -58,27 +90,6 @@ void NiGeometryData::LinkObject(NiStream& kStream)
     }
 }
 
-// @fnv 0x00a67360
-bool NiGeometryData::IsGeometryDataStreamable(bool bWrite)
-{
-    if (m_bIsDynamic)
-        return false;
-    NiAdditionalGeometryData* pkAdditional = m_spAdditionalGeomData.m_pObject;
-    if (pkAdditional && pkAdditional->IsPacked())
-    {
-        if (bWrite)
-            pkAdditional->FUN_00a725d0(0);
-        else
-        {
-            unsigned int uiSize = 0;
-            pkAdditional->FUN_00a72590(0, &uiSize);
-        }
-    }
-    m_bBoundDirty = bWrite;
-    m_bIsDynamic = true;
-    return true;
-}
-
 #pragma optimize("", off)
 // @fnv 0x004410f0
 void NiGeometryData::SetCompressFlags(unsigned char ucCompressFlags)
@@ -92,29 +103,12 @@ struct FUN_00a673d0_shell : public NiGeometryData
     void FUN_00a673d0();
 };
 
-// @fnv 0x00a673d0
-void FUN_00a673d0_shell::FUN_00a673d0()
-{
-    if (*reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 0x3a))
-    {
-        NiAdditionalGeometryData* pkAGD =
-            *reinterpret_cast<NiAdditionalGeometryData**>(reinterpret_cast<char*>(this) + 0x30);
-        if (pkAGD && pkAGD->IsPacked() && !*reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 0x3b))
-        {
-            pkAGD->FUN_00a725d0(0);
-        }
-        *reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 0x3a) = false;
-    }
-}
-
-extern NiObjectGroup* DAT_011f4880;
 // @fnv 0x00a669c0
 NiObjectGroup* __cdecl FUN_00a669c0()
 {
     return DAT_011f4880;
 }
 
-extern NiObjectGroup* DAT_011f4880;
 // @fnv 0x00a669d0
 void __stdcall FUN_00a669d0(NiObjectGroup* pkGroup)
 {
@@ -123,9 +117,7 @@ void __stdcall FUN_00a669d0(NiObjectGroup* pkGroup)
 
 struct MemoryManager
 {
-    void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 struct FUN_00a67000_shell
 {
     char pad[0x24];
@@ -137,7 +129,7 @@ void FUN_00a67000_shell::FreeBuffer()
 {
     if (m_pvBuf)
     {
-        g_memoryManager.Deallocate(m_pvBuf);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(m_pvBuf);
         m_pvBuf = 0;
     }
 }
@@ -159,11 +151,10 @@ void FUN_00a67020_shell::FUN_00a67020(NiBound* kBound)
     }
 }
 
-extern const char* const g_011f5b88_arg1;
 // @fnv 0x00a67bf0
 const char* const* __cdecl FUN_00a67bf0()
 {
-    return &g_011f5b88_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_011f4884));
 }
 
 struct NiAdd
@@ -269,7 +260,6 @@ FUN_00a67c00::FUN_00a67c00()
         m_usDirtyFlags &= 0x8fff;
 }
 
-void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 struct FUN_00a68800_shell
 {
     void DestroyGeometryData();
@@ -280,7 +270,7 @@ void* FUN_00a68800_shell::FUN_00a68800(unsigned int flags)
 {
     DestroyGeometryData();
     if (flags & 1)
-        __Dummy_00b6fef0(this, 0x40);
+        ::FUN_00aa1460(this, 0x40);
     return this;
 }
 
@@ -311,6 +301,40 @@ struct FUN_00a725d0_shell2
     unsigned short m_us;
     void FUN_00a725d0(unsigned int idx);
 };
+// @fnv 0x00a67360
+bool NiGeometryData::IsGeometryDataStreamable(bool bWrite)
+{
+    if (m_bIsDynamic)
+        return false;
+    NiAdditionalGeometryData* pkAdditional = m_spAdditionalGeomData.m_pObject;
+    if (pkAdditional && pkAdditional->IsPacked())
+    {
+        if (bWrite)
+            reinterpret_cast<::FUN_00a725d0_shell2 *>((pkAdditional))->FUN_00a725d0(0);
+        else
+        {
+            unsigned int uiSize = 0;
+            reinterpret_cast<::FUN_00a72590_Class *>((pkAdditional))->FUN_00a72590(0, (int *)(unsigned int *)(&uiSize));
+        }
+    }
+    m_bBoundDirty = bWrite;
+    m_bIsDynamic = true;
+    return true;
+}
+// @fnv 0x00a673d0
+void FUN_00a673d0_shell::FUN_00a673d0()
+{
+    if (*reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 0x3a))
+    {
+        NiAdditionalGeometryData* pkAGD =
+            *reinterpret_cast<NiAdditionalGeometryData**>(reinterpret_cast<char*>(this) + 0x30);
+        if (pkAGD && pkAGD->IsPacked() && !*reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 0x3b))
+        {
+            reinterpret_cast<::FUN_00a725d0_shell2 *>((pkAGD))->FUN_00a725d0(0);
+        }
+        *reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 0x3a) = false;
+    }
+}
 // @fnv 0x00a725d0
 void FUN_00a725d0_shell2::FUN_00a725d0(unsigned int uiIndex)
 {
@@ -424,29 +448,23 @@ struct NiRenderer
     virtual void v58();
     virtual void v59();
     virtual void PurgeGeometryData(void* pkData);
-    static NiRenderer* ms_pRenderer;
 };
 struct MemoryManager
 {
-    void Deallocate(void* p);
 };
-extern MemoryManager g_memoryManager;
-void __cdecl _delete(void* p, unsigned int size);
 struct NiObjectGroup
 {
     unsigned char pad[0xc];
     unsigned int m_uiRefCount;
-    void FUN_00a8a670();
     void DecRefCount()
     {
         if (--m_uiRefCount == 0)
         {
-            FUN_00a8a670();
-            _delete(this, 0x10);
+            reinterpret_cast<::FUN_00a8a670_shell *>(this)->FUN_00a8a670();
+            ::FUN_00aa1460(this, 0x10);
         }
     }
 };
-extern NiObjectGroup* DAT_011f4880;
 
 struct RefStub_a67c70
 {
@@ -465,35 +483,35 @@ struct FUN_00a67c00
     virtual __forceinline ~FUN_00a67c00()
     {
         char* self = (char*)this;
-        if (NiRenderer::ms_pRenderer)
-            NiRenderer::ms_pRenderer->PurgeGeometryData(this);
+        if ((*reinterpret_cast<::fnv_00a67c70::NiRenderer * *>(&::NiRenderer::ms_pRenderer)))
+            (*reinterpret_cast<::fnv_00a67c70::NiRenderer * *>(&::NiRenderer::ms_pRenderer))->PurgeGeometryData(this);
         RefStub_a67c70*& spAdditional = *(RefStub_a67c70**)(self + 0x30);
         if (spAdditional != 0)
         {
             ReleaseRef_a67c70(spAdditional);
             spAdditional = 0;
         }
-        if (DAT_011f4880)
+        if ((*reinterpret_cast<::fnv_00a67c70::NiObjectGroup * *>(&::DAT_011f4880)))
         {
             if (*(void**)(self + 0x20))
-                DAT_011f4880->DecRefCount();
+                (*reinterpret_cast<::fnv_00a67c70::NiObjectGroup * *>(&::DAT_011f4880))->DecRefCount();
             if (*(void**)(self + 0x24))
-                DAT_011f4880->DecRefCount();
+                (*reinterpret_cast<::fnv_00a67c70::NiObjectGroup * *>(&::DAT_011f4880))->DecRefCount();
             if (*(void**)(self + 0x28))
-                DAT_011f4880->DecRefCount();
+                (*reinterpret_cast<::fnv_00a67c70::NiObjectGroup * *>(&::DAT_011f4880))->DecRefCount();
             if (*(void**)(self + 0x2c))
-                DAT_011f4880->DecRefCount();
+                (*reinterpret_cast<::fnv_00a67c70::NiObjectGroup * *>(&::DAT_011f4880))->DecRefCount();
         }
         else
         {
-            g_memoryManager.Deallocate(*(void**)(self + 0x20));
-            g_memoryManager.Deallocate(*(void**)(self + 0x24));
-            g_memoryManager.Deallocate(*(void**)(self + 0x28));
-            g_memoryManager.Deallocate(*(void**)(self + 0x2c));
+            reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a67c70::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(*(void**)(self + 0x20));
+            reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a67c70::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(*(void**)(self + 0x24));
+            reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a67c70::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(*(void**)(self + 0x28));
+            reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a67c70::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(*(void**)(self + 0x2c));
         }
         if (spAdditional)
             ReleaseRef_a67c70(spAdditional);
-        ((NiRefObject*)this)->NiRefObject::~NiRefObject();
+        reinterpret_cast<class ::FUN_00a5d3d0 *>((((NiRefObject*)this)))->FUN_00a5d3d0::~FUN_00a5d3d0();
     }
 };
 
@@ -507,7 +525,6 @@ void FUN_00a67c70_shell::DestroyGeometryData()
 
 struct NiBoundProxy
 {
-    void ComputeBoundingSphere(unsigned int vertexCount, NiPoint3* vertices);
 };
 struct NiGeometryDataRecovered : NiGeometryData
 {
@@ -534,7 +551,7 @@ void NiGeometryDataRecovered::FUN_00a66b30(unsigned short vertexCount, NiPoint3*
     m_pkNormal = normals;
     unsigned short actualCount = GetActualVertexCount();
     if (actualCount != 0 && m_pkVertex != 0)
-        reinterpret_cast<NiBoundProxy*>(&m_kBound)->ComputeBoundingSphere(actualCount, m_pkVertex);
+        reinterpret_cast<::Bound88 *>((reinterpret_cast<NiBoundProxy*>(&m_kBound)))->ComputeBoundingSphere(actualCount, (const ::Vec88 *)(m_pkVertex));
     m_pkColor = colors;
     m_pkTexture = textureCoords;
     m_usTrianglePoints = (m_usTrianglePoints & 0x0ffe) | (textureSetCount & 1) | normalBinormalMethod;
@@ -633,7 +650,6 @@ int NiGeometryDataCmp::CompareVertices(unsigned short usVertexA, unsigned short 
 struct FUN_00a66f90_cls : public NiGeometryData
 {
     unsigned int FUN_00a66f90();
-    unsigned int FUN_00e7cd40_base();
 };
 
 // Computes the total geometry data size from vertex, normal, color and texture buffers and adds the base size.
@@ -666,10 +682,9 @@ unsigned int FUN_00a66f90_cls::FUN_00a66f90()
     {
         total += (m_usTrianglePoints & 1) * m_usVertices * 8;
     }
-    return FUN_00e7cd40_base() + total;
+    return ((unsigned int)(::FUN_00e7cd40())) + total;
 }
 
-void* FUN_00aa1070(unsigned int uiSize);
 
 class FUN_00a68820_cls
 {
@@ -678,31 +693,8 @@ class FUN_00a68820_cls
     unsigned int unk04;
     unsigned short m_08;
 
-    void FUN_00a67dd0(unsigned short* pusIndices, unsigned int uiBase, unsigned int uiZero, int iLast);
     void BuildIndexMappings(unsigned short** ppusA, unsigned short** ppusB, unsigned int uiValue);
 };
-
-// @fnv 0x00a68820
-void FUN_00a68820_cls::BuildIndexMappings(unsigned short** ppusForward, unsigned short** ppusInverse,
-                                          unsigned int uiValue)
-{
-    unsigned short m_usPassCountLocal = m_08;
-    unsigned int uiBytes = (unsigned int)m_usPassCountLocal * 2;
-    *ppusForward = (unsigned short*)FUN_00aa1070(uiBytes);
-    *ppusInverse = (unsigned short*)FUN_00aa1070(uiBytes);
-
-    for (unsigned short i = 0; i < m_usPassCountLocal; i++)
-    {
-        (*ppusForward)[i] = i;
-    }
-
-    FUN_00a67dd0(*ppusForward, uiValue, 0, (int)m_usPassCountLocal - 1);
-
-    for (unsigned short j = 0; j < m_usPassCountLocal; j++)
-    {
-        (*ppusInverse)[(*ppusForward)[j]] = j;
-    }
-}
 
 struct StrArr
 {
@@ -712,16 +704,8 @@ struct StrArr
     unsigned short m_usSize;
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
-    void SetSize(unsigned int uiNewSize);
-    void SetAt(unsigned int uiIndex, char*& pValue);
 };
 
-extern char* DAT_011f4884;
-char* __cdecl FUN_00a7d330(char* pName);
-char* __cdecl FUN_00a7d490(const char* pName, unsigned short usValue);
-char* __cdecl FUN_00a7d5a0(const char* pName, void* pValue);
-char* __cdecl FUN_00a7d4d0(const char* pName, int iValue);
-char* __cdecl FUN_00a7d410(const char* pName, unsigned char ucValue);
 
 struct BoundVal
 {
@@ -729,7 +713,6 @@ struct BoundVal
     float m_fCenterY;
     float m_fCenterZ;
     float m_fBoundRadius;
-    char* FUN_00a7fb20(const char* pName);
 };
 
 struct AddObj
@@ -765,13 +748,12 @@ static __forceinline void AppendValue(StrArr* arr, char*& pValue)
 {
     unsigned int uiSize = arr->m_usSize;
     if (uiSize >= arr->m_usMaxSize)
-        arr->SetSize(uiSize + arr->m_usGrowBy);
-    arr->SetAt(uiSize, pValue);
+        reinterpret_cast<::ViewerStrings *>((arr))->SetSize(uiSize + arr->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((arr))->SetAt(uiSize, pValue);
 }
 
 struct Base380
 {
-    void AppendCameraPathEntries(StrArr* arr);
 };
 
 struct GeomData : Base380
@@ -801,9 +783,9 @@ struct GeomData : Base380
 // @fnv 0x00a688b0
 void GeomData::RegisterFields(StrArr* arr)
 {
-    AppendCameraPathEntries(arr);
+    reinterpret_cast<::A5D6E0This *>(this)->AppendCameraPathEntries((::NiTArray< ::BGSCameraPath *, ::NiTMallocInterface< ::BGSCameraPath *>> *)(arr));
     char* pValue;
-    pValue = FUN_00a7d330(DAT_011f4884);
+    pValue = ::FUN_00a7d330((*reinterpret_cast<char * *>(&::g_011f4884)));
     AppendValue(arr, pValue);
     pValue = FUN_00a7d490("m_usVertices", m_usVertices);
     AppendValue(arr, pValue);
@@ -814,7 +796,7 @@ void GeomData::RegisterFields(StrArr* arr)
     int iNBTMethod = m_usTrianglePoints & 0xf000;
     pValue = FUN_00a7d4d0("NormalBinormalTangent", iNBTMethod);
     AppendValue(arr, pValue);
-    pValue = m_kBound.FUN_00a7fb20("m_kBound");
+    pValue = reinterpret_cast<::NiBound *>(&(m_kBound))->FUN_00a7fb20("m_kBound");
     AppendValue(arr, pValue);
     pValue = FUN_00a7d5a0("m_pkColor", m_pkColor);
     AppendValue(arr, pValue);
@@ -853,7 +835,6 @@ struct Bound302
 {
     NiPoint3 center;
     float radius;
-    void ComputeBoundingSphere(int vertices, const NiPoint3* data);
 };
 struct FUN_00a67b20 : Base302
 {
@@ -881,7 +862,7 @@ FUN_00a67b20::FUN_00a67b20(unsigned short count, NiPoint3* apVertex, NiPoint3* a
 {
     dataFlags = (dataFlags & 0x0ffe) | (textureSets & 1) | nbt;
     if (vertices > 0 && vertex)
-        bound.ComputeBoundingSphere(vertices, vertex);
+        reinterpret_cast<::Bound88 *>(&(bound))->ComputeBoundingSphere(vertices, (const ::Vec88 *)(vertex));
     id = DAT_011a9b14++;
     if (!additional || !additional->IsPacked())
         dirtyFlags &= 0x8fff;
@@ -902,9 +883,7 @@ unsigned short GeomView::FUN_00a669e0() const
 
 struct MemoryHeap
 {
-    void* FUN_00aa3e40(unsigned int size);
 };
-extern MemoryHeap DAT_011f6238;
 
 void __cdecl FUN_00ec61c0(void* dst, int value, unsigned int size);
 
@@ -917,7 +896,7 @@ struct NormalVec
     {}
     static void* operator new[](unsigned int bytes)
     {
-        return DAT_011f6238.FUN_00aa3e40(bytes);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryHeap *>(&::g_memoryManager))))->FUN_00aa3e40(bytes);
     }
 };
 
@@ -991,8 +970,6 @@ struct FUN_00a67720_obj
     virtual bool v35();
     unsigned int m_i04, m_i08, m_i0c, m_i10, m_i14, m_i18, m_i1c, m_i20, m_i24, m_i28;
     unsigned int m_uiKey2c;
-    void FUN_00a72720(unsigned int uiFlags, unsigned int* pA, unsigned int* pW, unsigned int* pC, unsigned int* pV,
-                      unsigned int* pU, unsigned int* pB);
 };
 
 class FUN_00a67720_cls
@@ -1030,7 +1007,7 @@ void FUN_00a67720_cls::GetKeyAndMode(unsigned int uiArg, FUN_00a67720_res* pOut)
         unsigned int bit1 = (key >> 1) & 1;
         unsigned int uiMode = ((key & 1) != 0) ? 4 : 2;
         u = 0;
-        obj->FUN_00a72720(uiMode + bit1, &a, &w, &c, &v, &u, &b);
+        reinterpret_cast<::A72720StreamSet *>((obj))->FUN_00a72720(uiMode + bit1, (char **)(unsigned int *)(&a), (void **)(unsigned int *)(&w), (unsigned short *)(unsigned int *)(&c), (int *)(unsigned int *)(&v), (int *)(unsigned int *)(&u), (int *)(unsigned int *)(&b));
     }
     unsigned int x, y;
     if (a == 0)
@@ -1236,14 +1213,11 @@ extern "C" void* __cdecl memset(void* pvDst, int iValue, unsigned int uiSize);
 class MemoryManager
 {
   public:
-    void DeallocateAlias(void* pvMem);
 };
-extern MemoryManager g_memoryManager;
 
 class FUN_00a5e3a0_Helper
 {
   public:
-    void* FUN_00aa3e40(unsigned int uiSize);
 };
 
 class NormalA66A
@@ -1256,11 +1230,11 @@ class NormalA66A
 
     static void* operator new[](unsigned int uiSize)
     {
-        return ((FUN_00a5e3a0_Helper*)&g_memoryManager)->FUN_00aa3e40(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>((((FUN_00a5e3a0_Helper*)&(*reinterpret_cast<::fnv_00a66a60::MemoryManager *>(&::g_memoryManager)))))->FUN_00aa3e40(uiSize);
     }
     static void operator delete[](void* pvMem)
     {
-        g_memoryManager.DeallocateAlias(pvMem);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a66a60::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
     }
 };
 
@@ -1362,8 +1336,6 @@ struct NiRenderObj30
     unsigned int unk24;
     unsigned int unk28;
     unsigned int m_uiFlags2c;
-    void FUN_00a72720(unsigned int uiFlags, unsigned int* pA, unsigned int* pB, unsigned int* pC, unsigned int* pD,
-                      unsigned int* pE, unsigned int* pF);
 };
 
 struct BoundOut
@@ -1403,7 +1375,7 @@ void RenderOwner::GetBounds(BoundOut* pOut)
         {
             unsigned int uiFlags = (pObj30->m_uiFlags2c & 1) * 2 | 1;
             unsigned int uiB = 0;
-            pObj30->FUN_00a72720(uiFlags, &uiC, &pObj, &uiD, &uiE, &uiB, &uiA);
+            reinterpret_cast<::A72720StreamSet *>((pObj30))->FUN_00a72720(uiFlags, (char **)(unsigned int *)(&uiC), (void **)(unsigned int *)(&pObj), (unsigned short *)(unsigned int *)(&uiD), (int *)(unsigned int *)(&uiE), (int *)(unsigned int *)(&uiB), (int *)(unsigned int *)(&uiA));
         }
         unsigned int uiPtr;
         unsigned int ItemUpdateArray;
@@ -1477,10 +1449,29 @@ void __cdecl FUN_00a67aa0(NiStreamA67& kStream, const NiPoint2A67* pkValue, unsi
 class FUN_00a67dd0_cls
 {
   public:
-    unsigned int MedianOfThree(unsigned short* pBase, unsigned int uiKey, int iLo, int iHi);
-    int CompareVertices(unsigned int uiA, unsigned int uiB, unsigned int uiKey);
     void FUN_00a67dd0(unsigned short* pArr, unsigned int uiKey, int iLo, int iHi);
 };
+// @fnv 0x00a68820
+void FUN_00a68820_cls::BuildIndexMappings(unsigned short** ppusForward, unsigned short** ppusInverse,
+                                          unsigned int uiValue)
+{
+    unsigned short m_usPassCountLocal = m_08;
+    unsigned int uiBytes = (unsigned int)m_usPassCountLocal * 2;
+    *ppusForward = (unsigned short*)FUN_00aa1070(uiBytes);
+    *ppusInverse = (unsigned short*)FUN_00aa1070(uiBytes);
+
+    for (unsigned short i = 0; i < m_usPassCountLocal; i++)
+    {
+        (*ppusForward)[i] = i;
+    }
+
+    reinterpret_cast<::FUN_00a67dd0_cls *>(this)->FUN_00a67dd0(*ppusForward, uiValue, 0, (int)m_usPassCountLocal - 1);
+
+    for (unsigned short j = 0; j < m_usPassCountLocal; j++)
+    {
+        (*ppusInverse)[(*ppusForward)[j]] = j;
+    }
+}
 
 // Reorders the unsigned-short entries in pArr between iLo and iHi using pivot selection and CompareVertices.
 // @fnv 0x00a67dd0
@@ -1494,17 +1485,17 @@ void FUN_00a67dd0_cls::FUN_00a67dd0(unsigned short* pArr, unsigned int uiKey, in
     {
         int j = iHi + 1;
         int i = iLo - 1;
-        unsigned int pivot = MedianOfThree(pBase, uiKey, iLo, iHi);
+        unsigned int pivot = ((unsigned int)(reinterpret_cast<::PivotGeometry *>(this)->MedianOfThree(pBase, uiKey, iLo, iHi)));
         for (;;)
         {
             do
             {
                 --j;
-            } while (CompareVertices(pivot, pBase[j], uiKey) < 0);
+            } while (reinterpret_cast<::NiGeometryDataCmp *>(this)->CompareVertices(pivot, pBase[j], uiKey) < 0);
             do
             {
                 ++i;
-            } while (CompareVertices(pBase[i], pivot, uiKey) < 0);
+            } while (reinterpret_cast<::NiGeometryDataCmp *>(this)->CompareVertices(pBase[i], pivot, uiKey) < 0);
             if (i >= j)
                 break;
             unsigned short t = pBase[i];
@@ -1651,10 +1642,8 @@ struct SaveStream : NiStream
     unsigned int unk24C;
     NiBinaryStream* m_pBackingStream;
 
-    unsigned int FUN_00a634f0(NiObjectGroup* pkGroup);
 };
 
-void FUN_00a67ae0(SaveStream& kStream, NiPoint2* pkTexture, unsigned int ItemUpdateArray);
 
 // The bounding volume's saving entry point (declared on the real class).
 struct NiBoundSave : NiBound
@@ -1703,7 +1692,6 @@ template <class T> FNV_FORCEINLINE void SerializeValue(SaveStream& kStream, cons
     WriteBinaryArray(*kStream.m_pBackingStream, &value, 1);
 }
 
-extern NiObjectGroup* DAT_011f4880;
 
 struct NiGeometryDataSave : NiGeometryData
 {
@@ -1714,9 +1702,9 @@ struct NiGeometryDataSave : NiGeometryData
 // @fnv 0x00a68520
 void NiGeometryDataSave::FUN_00a68520(SaveStream& kStream)
 {
-    NiObject::SaveBinary(kStream);
+    ::FUN_00a89af0((int)this);
 
-    unsigned int uiObjectGroup = kStream.FUN_00a634f0(DAT_011f4880);
+    unsigned int uiObjectGroup = ::FUN_00a634f0((char *)&(kStream), (int)((*reinterpret_cast<::fnv_00a68520::NiObjectGroup * *>(&::DAT_011f4880))), {});
     SerializeValue(kStream, uiObjectGroup);
 
     SerializeValue(kStream, m_usVertices);
@@ -1743,7 +1731,7 @@ void NiGeometryDataSave::FUN_00a68520(SaveStream& kStream)
     if (bHasNormalData && m_bVerticesDirty)
         WriteBinaryArray(*kStream.m_pBackingStream, (float*)m_pkNormal, uiNormalEls * 3);
 
-    (*(NiBoundSave*)&m_kBound).SaveBinary(kStream);
+    reinterpret_cast<::NiSphere *>(&((*(NiBoundSave*)&m_kBound)))->SaveBinary((::NiStream &)(kStream));
 
     bool bHasColorData = (m_pkColor != 0);
     SerializeValue(kStream, bHasColorData);
@@ -1752,7 +1740,7 @@ void NiGeometryDataSave::FUN_00a68520(SaveStream& kStream)
 
     unsigned int uiTextureCount = m_usVertices * (m_usTrianglePoints & NiGeometryData::TEXTURE_SET_MASK);
     if (uiTextureCount && m_pkTexture && m_bVerticesDirty)
-        FUN_00a67ae0(kStream, m_pkTexture, uiTextureCount);
+        ::FUN_00a67ae0((::Owner *)&(kStream), (unsigned int)(m_pkTexture), uiTextureCount);
 
     SerializeValue(kStream, (unsigned short)(m_usDirtyFlags & 0x7000));
 
@@ -1866,8 +1854,6 @@ struct FUN_00a67660_obj
     virtual void v33();
     virtual void v34();
     virtual bool v35();
-    void FUN_00a72720(unsigned int uiFlags, unsigned int* pA, unsigned int* pB, unsigned int* pC, unsigned int* pD,
-                      unsigned int* pE, unsigned int* pF);
     int unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24, unk28;
     unsigned int m_uiValue1;
 };
@@ -1910,7 +1896,7 @@ void FUN_00a67660_cls::FUN_00a67660(StreamOut_a676* apStreamOut)
         unsigned int uiZ = 0;
         unsigned int uiU;
         unsigned int uiV;
-        obj->FUN_00a72720((fl & 1) ? 4 : 2, &uiData, &uiV, &uiW, &uiU, &uiZ, &uiStride);
+        reinterpret_cast<::A72720StreamSet *>((obj))->FUN_00a72720((fl & 1) ? 4 : 2, (char **)(unsigned int *)(&uiData), (void **)(unsigned int *)(&uiV), (unsigned short *)(unsigned int *)(&uiW), (int *)(unsigned int *)(&uiU), (int *)(unsigned int *)(&uiZ), (int *)(unsigned int *)(&uiStride));
         if (fl & 0x20)
             bFlag = true;
     }
@@ -1986,7 +1972,7 @@ struct GeometryEquality : NiGeometryData
 // @fnv 0x00a67840
 bool GeometryEquality::FUN_00a67840(NiObject* pkObject)
 {
-    if (!NiObject::IsEqual(pkObject))
+    if (!reinterpret_cast<::A5d470Class *>(this)->IsSameAs((::A5d470Object *)(pkObject)))
         return false;
 
     NiGeometryData* pkData = static_cast<NiGeometryData*>(pkObject);
@@ -2009,7 +1995,7 @@ bool GeometryEquality::FUN_00a67840(NiObject* pkObject)
     {
         for (i = 0; i < m_usVertices; i++)
         {
-            if (static_cast<Point3Equality*>(&m_pkVertex[i])->FUN_00439090(pkData->m_pkVertex[i]))
+            if (reinterpret_cast<::NiPlane *>((void *)(static_cast<Point3Equality*>(&m_pkVertex[i])))->operator==((const ::NiPlane &)(pkData->m_pkVertex[i])))
                 return false;
         }
     }
@@ -2026,12 +2012,12 @@ bool GeometryEquality::FUN_00a67840(NiObject* pkObject)
             ((m_usTrianglePoints & NBT_METHOD_MASK) == NBT_METHOD_NONE) ? m_usVertices : 3 * m_usVertices;
         for (i = 0; i < ItemUpdateArray; i++)
         {
-            if (static_cast<Point3Equality*>(&m_pkNormal[i])->FUN_00439090(pkData->m_pkNormal[i]))
+            if (reinterpret_cast<::NiPlane *>((void *)(static_cast<Point3Equality*>(&m_pkNormal[i])))->operator==((const ::NiPlane &)(pkData->m_pkNormal[i])))
                 return false;
         }
     }
 
-    if (static_cast<BoundEquality*>(&m_kBound)->FUN_00a926b0(pkData->m_kBound))
+    if (reinterpret_cast<::NiBound *>((void *)(static_cast<BoundEquality*>(&m_kBound)))->FUN_00a926b0(pkData->m_kBound))
         return false;
 
     if ((m_pkColor && !pkData->m_pkColor) || (!m_pkTexture && pkData->m_pkTexture))
@@ -2041,7 +2027,7 @@ bool GeometryEquality::FUN_00a67840(NiObject* pkObject)
     {
         for (i = 0; i < m_usVertices; i++)
         {
-            if (m_pkColor[i].FUN_004a4c90(pkData->m_pkColor[i]))
+            if (reinterpret_cast<::fnv_004a4c90::FUN_004a4c90_shell *>((void *)&(m_pkColor[i]))->FUN_004a4c90((void *)&(pkData->m_pkColor[i])))
                 return false;
         }
     }
@@ -2057,7 +2043,7 @@ bool GeometryEquality::FUN_00a67840(NiObject* pkObject)
         unsigned int ItemUpdateArray = (m_usTrianglePoints & TEXTURE_SET_MASK) * m_usVertices;
         for (i = 0; i < ItemUpdateArray; i++)
         {
-            if (m_pkTexture[i].FUN_0051c330(pkData->m_pkTexture[i]))
+            if (reinterpret_cast<::NiPoint2_shell *>((void *)&(m_pkTexture[i]))->FUN_0051c330(pkData->m_pkTexture[i]))
                 return false;
         }
     }
@@ -2114,11 +2100,7 @@ struct ReaderEA0
 class MemoryManager
 {
   public:
-    void* Allocate(unsigned int uiSize);
-    void Deallocate(void* pvMem);
 };
-extern MemoryManager g_memoryManager;
-extern void* DAT_011f4880;
 extern char UNK_0109c040;
 extern char UNK_004a7800;
 
@@ -2277,15 +2259,13 @@ class StreamEA0
     int m_iField248;
     ReaderEA0* m_pkReader;
 
-    void* FUN_00a634e0(unsigned int uiID);
-    void FUN_00a645b0();
 };
 
 struct AllocEA0
 {
     static void* operator new[](unsigned int uiSize)
     {
-        return g_memoryManager.Allocate(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a67ea0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }
 };
 
@@ -2320,7 +2300,6 @@ class SphereEA0
   public:
     Point3EA0 m_kCenter;
     float m_fBoundRadius;
-    void FUN_00a69ac0(StreamEA0& kStream);
 };
 
 struct BuffEA0
@@ -2387,8 +2366,6 @@ void* FUN_00ec61c0(void* pvDest, int iValue, unsigned int uiSize);
 typedef void*(__thiscall* CtorStubEA0)(void*);
 extern "C" void __stdcall _vector_constructor_iterator(void* apvArray, unsigned int uiElemSize, int iCount,
                                                        CtorStubEA0 pfnCtor);
-void FUN_00a67aa0(StreamEA0& kStream, void* pvDest, int iCount);
-void FUN_00a29680(const char* pcFmt, const char* pcName, int iKBytes);
 
 class GeomEA0 : public ObjEA0
 {
@@ -2426,12 +2403,12 @@ class GeomEA0 : public ObjEA0
 void GeomEA0::ReadBinary(StreamEA0& kStream)
 {
     void* pvCur;
-    ObjEA0::ReadGroup(kStream);
+    reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup((::NiStream *)&(kStream));
     if (kStream.m_uiFileVersion >= 0x0a010072)
     {
         int pkBuff;
         ReadEA0(kStream, &pkBuff, 4, 4);
-        DAT_011f4880 = kStream.FUN_00a634e0(pkBuff);
+        (*reinterpret_cast<void * *>(&::DAT_011f4880)) = ((void *)(reinterpret_cast<::NiStream *>(&(kStream))->GetObjectGroup(pkBuff)));
     }
     ReadEA0(kStream, &m_usVertices, 2, 2);
     if (kStream.m_uiFileVersion >= 0x0a000110)
@@ -2505,7 +2482,7 @@ void GeomEA0::ReadBinary(StreamEA0& kStream)
         if (kStream.m_uiUserVersion < 0x13 || m_bVerticesDirty)
             ReadNormalEA0(kStream, m_pkNormal, iNormalCount);
     }
-    m_kBound.FUN_00a69ac0(kStream);
+    reinterpret_cast<::NiSphere *>(&(m_kBound))->LoadBinary((::NiStream &)(kStream));
     bool bHasColor;
     if (kStream.m_uiFileVersion < 0x04010000)
     {
@@ -2587,15 +2564,15 @@ void GeomEA0::ReadBinary(StreamEA0& kStream)
             {
                 unsigned int uiExtraCount = ((unsigned short)uiTextureFlags - 1) * m_usVertices;
                 Point2EA0* pkTemp = new Point2EA0[uiExtraCount];
-                FUN_00a67aa0(kStream, pkTemp, uiExtraCount);
-                g_memoryManager.Deallocate(pkTemp);
-                FUN_00a29680(&UNK_0109c040, &kStream.m_cName, (uiExtraCount * 8) >> 10);
+                ::FUN_00a67aa0((::NiStreamA67 &)(kStream), (const ::NiPoint2A67 *)(pkTemp), uiExtraCount);
+                reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a67ea0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(pkTemp);
+                ::FUN_00a29680();
             }
         }
     }
     if (kStream.m_uiFileVersion >= 0x0500000a)
         ReadEA0(kStream, &m_usDirtyFlags, 2, 2);
     if (kStream.m_uiFileVersion >= 0x0a030007)
-        kStream.FUN_00a645b0();
+        reinterpret_cast<::FUN_00a645b0_cls *>(&(kStream))->FUN_00a645b0();
 }
 }  // namespace fnv_00a67ea0

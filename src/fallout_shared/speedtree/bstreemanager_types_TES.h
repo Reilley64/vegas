@@ -2,6 +2,7 @@
 #ifndef FNV_TES_H
 #define FNV_TES_H
 
+#include "fnv/decl/LookupHandler.h"
 #include "layout_support.h"
 #include "TESObjectREFR.h"
 #include "layout_support.h"
@@ -77,7 +78,6 @@ class TES
     unsigned int m_uiNavMeshStateValue;              // +0xB8, 4 bytes
     NavMeshInfoMap* m_pNavMeshInfoMap;               // +0xBC, 4 bytes
     NiPointer<LoadedAreaBound> m_spLoadedAreaBound;  // +0xC0, 4 bytes
-    bool LoadCanopyShadowTexture(const char*, unsigned int);
     // TES
     // void __cdecl TES::*()
     // void __cdecl TES::*()

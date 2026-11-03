@@ -1,20 +1,20 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern void* DAT_010173f0;
+#include "fnv/decl/Unk65.h"
+#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
+#include "fnv/symbols_01017000.h"
 struct FUN_0044a500_s
 {
-    FUN_0044a500_s* CallAndReturnSelf(int);
-    void FUN_0044a730(char, int);
     int AssignSubstring(int, int, void*);
     FUN_0044a500_s* FUN_0044a500(int);
 };
 // @fnv 0x0044a500
 FUN_0044a500_s* FUN_0044a500_s::FUN_0044a500(int a)
 {
-    CallAndReturnSelf(a);
-    FUN_0044a730(0, 0);
-    AssignSubstring(a, 0, DAT_010173f0);
+    reinterpret_cast<::Unk65 *>(this)->CallAndReturnSelf(a);
+    reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(0, 0);
+    AssignSubstring(a, 0, (*reinterpret_cast<void * *>(&::g_010173f0)));
     return this;
 }
 

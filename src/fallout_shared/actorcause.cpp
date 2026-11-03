@@ -1,11 +1,29 @@
 // fallout_shared/actorcause.cpp: ActorCause (5 functions)
 
+#include <new>
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/E640Cls.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_0044bbc0_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/S_0066e2b0_Class.h"
+#include "fnv/decl/TESTopicInfo.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_011d6000.h"
 #include "actorcause.h"
 
 // @fnv 0x0066e910
 void ActorCause::ClearActorCauseList(BGSLoadGameBuffer* buffer)
 {
-    ms_kActorCauseList.RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&((*reinterpret_cast<::BSSimpleList< ::ActorCause *> *>(&::g_011d6124))))->RemoveAll();
 }
 
 struct FUN_0047d3d0_shell : public ActorCause
@@ -21,9 +39,7 @@ unsigned short FUN_0047d3d0_shell::FUN_0047d3d0()
 
 struct AC_0042f730
 {
-    void FUN_0044bbc0();
 };
-void __fastcall FUN_0066e2b0(AC_0042f730*);
 struct Holder0042f780
 {
     AC_0042f730* m_pObject;
@@ -35,10 +51,10 @@ Holder0042f780* Holder0042f780::FUN_0042f780(AC_0042f730* pObject)
     if (m_pObject != pObject)
     {
         if (m_pObject)
-            FUN_0066e2b0(m_pObject);
+            reinterpret_cast<::S_0066e2b0_Class *>((m_pObject))->FUN_0066e2b0();
         m_pObject = pObject;
         if (m_pObject)
-            m_pObject->FUN_0044bbc0();
+            reinterpret_cast<::FUN_0044bbc0_Class *>((m_pObject))->FUN_0044bbc0();
     }
     return this;
 }
@@ -51,14 +67,11 @@ struct Pair12
     unsigned int a;
     unsigned int b;
     unsigned int c;
-    void Reset();
 };
 
 class CauseRef
 {
   public:
-    Pair12* GetBase();
-    VirtObjPlaceholder* GetVirt();
 };
 
 struct VirtObjPlaceholder
@@ -127,9 +140,6 @@ struct VirtObjPlaceholder
     virtual int v61(CauseRef* apRef);
 };
 
-extern Pair12 DAT_011f426c;
-extern unsigned int DAT_011d60cc;
-extern BSSimpleList<FUN_0066e010_cls*> DAT_011d6124;
 
 struct FUN_0066e010_cls
 {
@@ -145,21 +155,21 @@ struct FUN_0066e010_cls
 // @fnv 0x0066e010
 FUN_0066e010_cls* FUN_0066e010_cls::FUN_0066e010(CauseRef* apCauseRef)
 {
-    m_08.Reset();
+    new ((void *)&(m_08)) ::Vec3();
     m_00 = apCauseRef;
-    Pair12* src2 = (m_00 != 0) ? m_00->GetBase() : &DAT_011f426c;
+    Pair12* src2 = (m_00 != 0) ? ((::Pair12 *)(reinterpret_cast<::TESTopicInfo *>((m_00))->GetAddTopicList())) : &(*reinterpret_cast<::Pair12 *>((void *)&::NiPoint3::ZERO));
     m_08 = *src2;
     m_04 = 0;
-    VirtObjPlaceholder* v = (m_00 != 0) ? apCauseRef->GetVirt() : 0;
+    VirtObjPlaceholder* v = (m_00 != 0) ? ((::VirtObjPlaceholder *)(reinterpret_cast<::BSShaderNoLightingProperty *>((apCauseRef))->GetBaseTexture())) : 0;
     if (v != 0)
     {
         m_04 = v->v61(m_00);
     }
     m_18 = 0;
-    m_14 = DAT_011d60cc;
-    DAT_011d60cc = DAT_011d60cc + 1;
+    m_14 = (*reinterpret_cast<unsigned int *>(&::DAT_011d60cc));
+    (*reinterpret_cast<unsigned int *>(&::DAT_011d60cc)) = (*reinterpret_cast<unsigned int *>(&::DAT_011d60cc)) + 1;
     FUN_0066e010_cls* self = this;
-    DAT_011d6124.AddHead(self);
+    (*reinterpret_cast<::BSSimpleList< ::FUN_0066e010_cls *> *>(&::g_011d6124)).AddHead(self);
     return this;
 }
 
@@ -168,8 +178,6 @@ class B66E810Item
   public:
     ~B66E810Item();
 
-    unsigned short GetCount();
-    void Update(int iArg);
 
     int unk00;
     int unk04;
@@ -183,29 +191,25 @@ class B66E810Node
 {
   public:
     bool IsEmpty();
-    B66E810Item** GetItem();
-    B66E810Node* GetNext();
-    void RemoveNext(B66E810Item** ppkItem);
     void RemoveHead();
 };
 
-extern B66E810Node g_kB66E810List;
 
 // Walks g_kB66E810List, updating items with a positive count and deleting/removing items whose count is zero or that are null.
 // @fnv 0x0066e810
 void __cdecl UpdateOrRemoveItems(int iArg)
 {
-    B66E810Node* pkNode = &g_kB66E810List;
+    B66E810Node* pkNode = &(*reinterpret_cast<::B66E810Node *>(&::g_011d6124));
     B66E810Node* pkPrev = 0;
     while (pkNode && !pkNode->IsEmpty())
     {
-        B66E810Item* pkItem = *pkNode->GetItem();
+        B66E810Item* pkItem = *((::B66E810Item **)(new ((void *)(pkNode)) ::Vec3()));
         bool bRemove = false;
         if (pkItem)
         {
-            if (pkItem->GetCount() > 0)
+            if (reinterpret_cast<::FUN_0047d3d0_shell *>((pkItem))->FUN_0047d3d0() > 0)
             {
-                pkItem->Update(iArg);
+                reinterpret_cast<::E640Cls *>((pkItem))->FUN_0066e640((::SaveBufCls *)(iArg));
             }
             else
             {
@@ -222,8 +226,8 @@ void __cdecl UpdateOrRemoveItems(int iArg)
         {
             if (pkPrev)
             {
-                pkPrev->RemoveNext(pkNode->GetItem());
-                pkNode = pkPrev->GetNext();
+                reinterpret_cast<::ItemChangeListNode *>((pkPrev))->FUN_00905330((*(::InventoryStackRecord *const *)(((::B66E810Item **)(new ((void *)(pkNode)) ::Vec3())))));
+                pkNode = ((::B66E810Node *)(reinterpret_cast<::Callees *>((pkPrev))->FUN_00726070()));
             }
             else
             {
@@ -233,7 +237,7 @@ void __cdecl UpdateOrRemoveItems(int iArg)
         else
         {
             pkPrev = pkNode;
-            pkNode = pkNode->GetNext();
+            pkNode = ((::B66E810Node *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070()));
         }
     }
 }

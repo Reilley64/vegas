@@ -2,6 +2,11 @@
 // src/havok/common/internal/kdtree/build/hkkdtreebuildingutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/kdtree/build/hkkdtreebuildingutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00df3110.h"
+#include "fnv/symbols_00df3000.h"
+#include "fnv/symbols_00df5000.h"
+#include "fnv/symbols_01268000.h"
 struct AudioAllocator
 {
     virtual void v00();
@@ -88,15 +93,11 @@ struct __declspec(align(16)) SoundObject
     int unk104;
     int unk108;
     int unk10c;
-    void Start();
-    void Stop();
 };
 
 // The constant mask table the mixer ANDs the channel settings with.
-extern __declspec(align(16)) __m128 g_mixMask;
 
 // The mixer itself.
-int __cdecl Mix(MixDesc* desc, int** p2, int count, int* p4, int** p5);
 
 // Initializes a MixDesc and SoundObject, calls Mix with count, and stores its return value in out.
 // @fnv 0x00d9d880
@@ -110,7 +111,7 @@ void __cdecl MixChannels(void* p1, int* p2, int count, void* p4, int channels, i
     SoundObject soundObj;
 
     // The mask is a plain sixteen byte block; copy it over as a vector.
-    *(__m128*)&desc.mask40 = g_mixMask;
+    *(__m128*)&desc.mask40 = (*reinterpret_cast<::__m128 *>(&::DAT_012684d0));
 
     // Mute the first three channels, keep the next three at full scale.
     mix.w00 = mix.w02 = mix.w04 = 0;
@@ -132,13 +133,13 @@ void __cdecl MixChannels(void* p1, int* p2, int count, void* p4, int channels, i
     desc.p08 = p4;
 
     // Bring the sound object up, let the mixer know about it and run it.
-    soundObj.Start();
+    new ((void *)&(soundObj)) ::FUN_00df3110();
     desc.p30 = &soundObj;
     p6Copy = p6;
-    *apResult = Mix(&desc, &p2Copy, count, &one, &p6Copy);
+    *apResult = ::FUN_00df56a0((::Node56 *)(::MixDesc *)(&desc), (::Output56 **)(int **)(&p2Copy), count, &one, (int *)(int **)(&p6Copy));
 
     // And shut it down again.
-    soundObj.Stop();
+    ::FUN_00df3160();
 }
 
 struct __declspec(align(16)) S_00d9dab0_Aabb16

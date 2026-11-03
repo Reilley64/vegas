@@ -2,6 +2,7 @@
 // src/havok/common/scenedata/material/hkxtextureinplaceclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/material/hkxtextureinplaceclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/fnv_00e01750__FUN_00e01750.h"
 struct CpuAllocator
 {
     virtual void slot00();
@@ -21,13 +22,12 @@ struct CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void FUN_00e01750();
     CpuObject* DestroyIfFlagged(unsigned int flags);
 };
 // @fnv 0x00e017a0
 CpuObject* CpuObject::DestroyIfFlagged(unsigned int flags)
 {
-    FUN_00e01750();
+    reinterpret_cast<::fnv_00e01750::FUN_00e01750 *>(this)->fnv_00e01750::FUN_00e01750::~FUN_00e01750();
     if (flags & 1)
     {
         CpuAllocatorHolder* holder = FUN_00c85750();

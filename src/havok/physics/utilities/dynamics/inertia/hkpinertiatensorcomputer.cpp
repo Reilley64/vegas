@@ -2,6 +2,44 @@
 // src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/ConvexVertsQ_d59200.h"
+#include "fnv/decl/D762F0Owner.h"
+#include "fnv/decl/ExpandShape.h"
+#include "fnv/decl/FUN_00cd5880_cls.h"
+#include "fnv/decl/FUN_00cd8160.h"
+#include "fnv/decl/FUN_00cf0820.h"
+#include "fnv/decl/FUN_00d74d40_cls.h"
+#include "fnv/decl/FUN_00d74e10_cls.h"
+#include "fnv/decl/FUN_00d75390_cls.h"
+#include "fnv/decl/H77ConvexHull.h"
+#include "fnv/decl/MProduct.h"
+#include "fnv/decl/S_00cd4c70.h"
+#include "fnv/decl/S_00d752e0_Class.h"
+#include "fnv/decl/Solver.h"
+#include "fnv/decl/fnv_00d75560__FUN_00d75560_cls.h"
+#include "fnv/decl/fnv_00d75600__S_00d75600_Obj.h"
+#include "fnv/decl/fnv_00d76940__FUN_00d76940_cls.h"
+#include "fnv/decl/fnv_00d76ca0__FUN_00d76ca0.h"
+#include "fnv/decl/hkpCylinderShapeGetCylRadius.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00c98000.h"
+#include "fnv/symbols_00ca8000.h"
+#include "fnv/symbols_00ceb000.h"
+#include "fnv/symbols_00ced000.h"
+#include "fnv/symbols_00cee000.h"
+#include "fnv/symbols_00cef000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01020000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010cb000.h"
+#include "fnv/symbols_011b1000.h"
+#include "fnv/symbols_01272000.h"
 struct Object
 {
 };
@@ -189,7 +227,7 @@ struct CECCD0Value
 // @fnv 0x00ceccd0
 void CECCD0Value::ScaleValue(float scale)
 {
-    set(m_uiFilterValue * scale);
+    reinterpret_cast<::Receiver *>(this)->FUN_00cecc90(m_uiFilterValue * scale);
 }
 
 struct S_00ced230_T
@@ -414,6 +452,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
 };
+#include "fnv/symbols_simd.h"
 extern "C"
 {
     __m128 _mm_setr_ps(float, float, float, float);
@@ -563,7 +602,7 @@ static __declspec(noinline) void FUN_00cebfd0(Owner* self, float afScale)
     self->m04 *= afScale;
     Vector tmp;
     tmp.q = _mm_load_ss(&afScale);
-    self->m20.Multiply(&tmp);
+    reinterpret_cast<::S_00cd4c70 *>(&(self->m20))->Multiply((*(const ::S_V4 *)(&tmp)));
 }
 Owner* volatile g_owner;
 volatile float g_value;
@@ -616,7 +655,6 @@ struct S00ceccf0_Out
     S00ceccf0_Mat m_20;
 };
 
-extern const double DAT_010cbf40;
 
 static __declspec(noinline) void __cdecl FUN_00ceba60(float a, float b, S00ceccf0_Out* out)
 {
@@ -651,8 +689,8 @@ int __cdecl FUN_00ceccf0(float start, float span, float t, S00ceccf0_Out* out)
     }
 
     float d = start - t;
-    float a = (float)(DAT_010cbf40 * start * start * start);
-    float b = (float)(DAT_010cbf40 * d * d * d);
+    float a = (float)(::CapsuleMassSimd::DAT_010cbf40 * start * start * start);
+    float b = (float)(::CapsuleMassSimd::DAT_010cbf40 * d * d * d);
 
     S00ceccf0_Out x;
     S00ceccf0_Out y;
@@ -735,7 +773,6 @@ struct Node
     {
         return &shape;
     }
-    void FUN_00ca8920(Mat3* m);
 };
 
 struct LocalArr
@@ -746,7 +783,6 @@ struct LocalArr
     Edge* storage[16];
 };
 
-void __cdecl ResizeAudioStream(void* heap, void* array, int elemSize);
 
 __forceinline void releaseArr(LocalArr* a)
 {
@@ -796,7 +832,7 @@ float __cdecl FUN_00cedec0(S_00cee1c0_Arr* arr, int aiNode, float value)
 
         S_00cee1c0_Router* router = FUN_00c85750();
         if (local.m_iElementCount == (local.m_cap & 0x3fffffff))
-            ResizeAudioStream(router->heap, &local, 4);
+            ::ResizeAudioStream((::AudioAllocator *)(router->heap), (::AudioStream *)(void *)(&local), 4);
         local.m_data[local.m_iElementCount++] = e;
     }
 
@@ -844,7 +880,7 @@ float __cdecl FUN_00cedec0(S_00cee1c0_Arr* arr, int aiNode, float value)
     if (!(fClamped < fIzz))
         m.m22 = fClamped;
 
-    body->FUN_00ca8920(&m);
+    ::FUN_00ca8920((::FUN_00ca8860_cls *)(body), &m, {});
 
     float result = fMinimumInputValue(fTargetUpperBound(maxDiag * value, maxDiag + sum), fClamped);
     releaseArr(&local);
@@ -880,16 +916,6 @@ struct Track
     int sequence;
     int timer;
     int interpolation;
-    void FUN_00d76ca0();
-    void FUN_00d77200(void* state, Probe* probe);
-    int FUN_00d74e10();
-    void FUN_00d762f0();
-    float GetMass();
-    double FUN_00d752e0();
-    __m128* FUN_00d75600();
-    __m128* FUN_00d75560();
-    void FUN_00d77be0(float scale);
-    void FUN_00d76940();
 };
 struct RowMatrix
 {
@@ -907,10 +933,7 @@ struct Receiver2
 };
 struct Status
 {
-    void FUN_00d74d40();
 };
-extern float DAT_011b153c;
-extern double DAT_01020998;
 extern double DAT_010cbf50;
 extern double DAT_010cbf48;
 inline __m128 scalarVector(float x)
@@ -926,40 +949,40 @@ int __cdecl FUN_00cebbb0(void* state, float value, Receiver2* receiver)
 {
     Track track;
     Probe probe;
-    track.FUN_00d76ca0();
-    ((Status*)&probe)->FUN_00d74d40();
+    new ((void *)&(track)) ::fnv_00d76ca0::FUN_00d76ca0();
+    reinterpret_cast<::FUN_00d74d40_cls *>((((Status*)&probe)))->FUN_00d74d40();
     probe.flag = 1;
-    track.FUN_00d77200(state, &probe);
-    if (track.FUN_00d74e10() != -1)
+    reinterpret_cast<::H77ConvexHull *>(&(track))->FUN_00d77200((*(const ::H77StridedVertices *)(state)), (int)(&probe));
+    if (reinterpret_cast<::FUN_00d74e10_cls *>(&(track))->FUN_00d74e10() != -1)
     {
-        float step = (float)(DAT_011b153c / DAT_01020998);
+        float step = (float)(DAT_011b153c / ::DAT_01020998);
         float current = 0.0f;
-        if (track.FUN_00d74e10() == 3)
+        if (reinterpret_cast<::FUN_00d74e10_cls *>(&(track))->FUN_00d74e10() == 3)
         {
-            track.FUN_00d762f0();
+            reinterpret_cast<::D762F0Owner *>(&(track))->FUN_00d762f0();
             if (value > 0.0f)
             {
-                float pulse = track.GetMass() * value;
+                float pulse = reinterpret_cast<::FUN_00d75390_cls *>(&(track))->GetMass() * value;
                 double p = pulse;
                 _ReadWriteBarrier();
                 current = p + value * DAT_010cbf50 * value * value / 3.0;
             }
         }
-        while (track.FUN_00d74e10() != 3 || track.FUN_00d752e0() < DAT_010cbf48)
+        while (reinterpret_cast<::FUN_00d74e10_cls *>(&(track))->FUN_00d74e10() != 3 || ((double)(reinterpret_cast<::S_00d752e0_Class *>(&(track))->FUN_00d752e0())) < DAT_010cbf48)
         {
-            track.FUN_00d77200(state, &probe);
-            track.FUN_00d77be0(step);
-            if (track.FUN_00d74e10() == 3)
-                track.FUN_00d762f0();
+            reinterpret_cast<::H77ConvexHull *>(&(track))->FUN_00d77200((*(const ::H77StridedVertices *)(state)), (int)(&probe));
+            reinterpret_cast<::ExpandShape *>(&(track))->FUN_00d77be0(step);
+            if (reinterpret_cast<::FUN_00d74e10_cls *>(&(track))->FUN_00d74e10() == 3)
+                reinterpret_cast<::D762F0Owner *>(&(track))->FUN_00d762f0();
             step += step;
         }
-        receiver->translation = *track.FUN_00d75600();
-        __m128* rows = track.FUN_00d75560();
+        receiver->translation = *((::__m128 *)(reinterpret_cast<::fnv_00d75600::S_00d75600_Obj *>(&(track))->FUN_00d75600()));
+        __m128* rows = ((::__m128 *)(reinterpret_cast<::fnv_00d75560::FUN_00d75560_cls *>(&(track))->FUN_00d75560()));
         RowMatrix* m = &receiver->matrix;
         m->row0 = rows[0];
         m->row1 = rows[1];
         m->row2 = rows[2];
-        float total = (float)(current + track.FUN_00d752e0());
+        float total = (float)(current + ((double)(reinterpret_cast<::S_00d752e0_Class *>(&(track))->FUN_00d752e0())));
         receiver->time = total;
         receiver->enabled = 1.0f;
         if (total > 0.0f && current > 0.0f)
@@ -968,12 +991,12 @@ int __cdecl FUN_00cebbb0(void* state, float value, Receiver2* receiver)
             Vec4 ratio;
             __m128 scalar = _mm_load_ss(&fRatio);
             *(__m128*)&ratio = scalar;
-            m->Multiply(&ratio);
+            reinterpret_cast<::S_00cd4c70 *>((m))->Multiply((*(const ::S_V4 *)(&ratio)));
         }
-        track.FUN_00d76940();
+        reinterpret_cast<::fnv_00d76940::FUN_00d76940_cls *>(&(track))->FUN_00d76940();
         return 0;
     }
-    track.FUN_00d76940();
+    reinterpret_cast<::fnv_00d76940::FUN_00d76940_cls *>(&(track))->FUN_00d76940();
     return 1;
 }
 
@@ -1069,7 +1092,6 @@ struct CEFBAreas
     unsigned m_iCapacity;
 };
 
-void __cdecl FUN_00c908c0(S_00cee1c0_Heap* heap, CEFBAreas* arr, int count, int elemSize);
 int __cdecl FUN_00cee290(const CE50Vector* v0, const CE50Vector* v1, const CE50Vector* v2, float triMass,
                          float thickness, CE50Body* out);
 extern "C" void _ReadWriteBarrier(void);
@@ -1197,7 +1219,7 @@ int __cdecl FUN_00cefb90(const CEFBGeom* geom, float surfaceThickness, BoolFlag 
         int iNewCapacity = cap + cap;
         if (count >= iNewCapacity)
             iNewCapacity = count;
-        FUN_00c908c0(heap, &triAreas, iNewCapacity, 4);
+        ::FUN_00c908c0((::SpawnedObject *)(heap), (::SpawnedArray *)(::fnv_00cefb90::CEFBAreas *)(&triAreas), iNewCapacity, 4);
     }
 
     float total = 0.0f;
@@ -1256,7 +1278,7 @@ int __cdecl FUN_00cefb90(const CEFBGeom* geom, float surfaceThickness, BoolFlag 
         triBody.inertia.row0.quad = zero;
         triBody.inertia.row1.quad = zero;
         triBody.inertia.row2.quad = zero;
-        FUN_00cee290(&v0, &v1, &v2, triMass, surfaceThickness, &triBody);
+        ::FUN_00cee290((*(const ::hkVector4 *)(&v0)), (*(const ::hkVector4 *)(&v1)), (*(const ::hkVector4 *)(&v2)), triMass, surfaceThickness, (*(::hkpMassProperties *)(&triBody)));
 
         CE50Matrix shiftedInertia;
         shiftedInertia.row0.quad = triBody.inertia.row0.quad;
@@ -1378,7 +1400,6 @@ struct __declspec(align(16)) S_00ced090_V4
 struct S_00ced090_Mat
 {
     S_00ced090_V4 r0, r1, r2;
-    void FUN_00cd5880(void* xf);
 };
 struct S_00ced090_Vec
 {
@@ -1426,7 +1447,7 @@ int __cdecl FUN_00ced090(S_00ced090_State* apState, S_00ced090_Out* out)
         *(__m128*)&m.r0 = *(__m128*)&apState->first[i].unk20;
         *(__m128*)&m.r1 = *(__m128*)&apState->first[i].unk30;
         *(__m128*)&m.r2 = *(__m128*)&apState->first[i].unk40;
-        m.FUN_00cd5880(&apState->first[i].unk50);
+        reinterpret_cast<::FUN_00cd5880_cls *>(&(m))->FUN_00cd5880((unsigned int)(&apState->first[i].unk50));
         S_00ced090_Vec v;
         v.FUN_00c7f640(&apState->first[i].unk50, &apState->first[i].unk10);
         *(__m128*)&v.v = _mm_sub_ps(*(__m128*)&v.v, vAccum);
@@ -1437,19 +1458,18 @@ int __cdecl FUN_00ced090(S_00ced090_State* apState, S_00ced090_Out* out)
 }
 
 extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
-extern __declspec(thread) int DAT_012722b4;
 
 struct S00cf0f40_Guard
 {
     int m_saved;
     S00cf0f40_Guard()
     {
-        m_saved = DAT_012722b4;
-        DAT_012722b4 = 0x10;
+        m_saved = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 0x10;
     }
     ~S00cf0f40_Guard()
     {
-        DAT_012722b4 = m_saved;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_saved;
     }
 };
 
@@ -1638,7 +1658,6 @@ inline S_00cee1c0_Heap& S00cf0f40_heap(S_00cee1c0_Router* r)
 {
     return *r->heap;
 }
-void __cdecl FUN_00c908c0(S_00cee1c0_Heap* heap, void* arr, int cap, int elemSize);
 
 struct S00cf0f40_Arr
 {
@@ -1666,7 +1685,7 @@ struct S00cf0f40_Arr
         if (cap < n)
         {
             int nc = cap * 2;
-            FUN_00c908c0(&heap, this, n < nc ? nc : n, sizeof(S00cf0f40_Vec));
+            ::FUN_00c908c0((::SpawnedObject *)(::S_00cee1c0_Heap *)(&heap), (::SpawnedArray *)(void *)(this), n < nc ? nc : n, sizeof(S00cf0f40_Vec));
         }
     }
     void SetSizeAndGrow(int n)
@@ -1711,8 +1730,6 @@ unsigned int __cdecl FUN_00cf0f40(S00cf0f40_Owner* owner, S00cf0f40_Arr* arr)
 
 extern "C" void _ReadWriteBarrier();
 
-extern const double DAT_010290c0;
-extern const double DAT_010cbf40;
 
 struct Target
 {
@@ -1768,7 +1785,7 @@ int __cdecl FUN_00ceba60(float a, float b, Target* t)
     o->m_v20 = _mm_setzero_ps();
     o->m_v30 = _mm_setzero_ps();
     o->m_v40 = _mm_setzero_ps();
-    float x = (float)(a * b * a * DAT_010290c0);
+    float x = (float)(a * b * a * ::DAT_010290c0);
     *(volatile float*)&o->m_f20 = 1.0f;
     *(volatile float*)&o->m_f34 = 1.0f;
     *(volatile float*)&o->m_f48 = 1.0f;
@@ -1777,13 +1794,12 @@ int __cdecl FUN_00ceba60(float a, float b, Target* t)
     *(volatile float*)&o->m_f20 = x;
     o->m_f34 = x;
     o->m_f48 = x;
-    float y = (float)(a * ((a * DAT_010cbf40) * a));
+    float y = (float)(a * ((a * ::CapsuleMassSimd::DAT_010cbf40) * a));
     o->m_f00 = y;
     o->m_f04 = b;
     return 0;
 }
 
-extern double DAT_01012638;
 
 struct VertexComponentData
 {
@@ -1896,9 +1912,6 @@ inline void* operator new(unsigned int, void* p)
 {
     return p;
 }
-extern const float DAT_01011d78;
-extern const float DAT_01017718;
-extern const float DAT_01016248;
 struct Mat4CE;
 struct __declspec(align(16)) Vec4CE
 {
@@ -1993,8 +2006,6 @@ struct HkShape
     {
         return tag;
     }
-    float FUN_00d571a0();
-    void FUN_00d59200(Handle*);
 };
 struct TreeShape : HkShape
 {
@@ -2004,15 +2015,8 @@ struct ScaledShape
 {
     int m00, m04, m08, m0c, m10, m14, m18, m1c;
     Vec4CE m20, m30;
-    void FUN_00cd8160(float);
 };
-void __cdecl ResizeAudioStream(void*, void*, int);
 void __cdecl FUN_00cebaf0(Vec4CE*, float, MassBody*);
-void __cdecl FUN_00ceeca0(Vec4CE*, Vec4CE*, float, float, MassBody*);
-void __cdecl FUN_00cef6d0(Vec4CE*, Vec4CE*, float, float, MassBody*);
-float __cdecl FUN_00c98210(float, float);
-void __cdecl FUN_00cee290(Vec4CE*, Vec4CE*, Vec4CE*, float, float, MassBody*);
-void __cdecl FUN_00ced090(void*, MassBody*);
 struct RawBody
 {
     float volume, mass;
@@ -2039,7 +2043,6 @@ struct Element
         transform.row2.z = 1.0f;
         _mm_store_ps(&transform.translation.x, _mm_setzero_ps());
     }
-    void FUN_00cf0820(const MassBody*);
 };
 union PrimitiveTemporary
 {
@@ -2110,7 +2113,7 @@ void __cdecl FUN_00ceff00(HkShape* apShape, const Mat4CE& transform, float limit
         h.data = 0;
         h.count = 0;
         h.capacity = 0x80000000;
-        apShape->FUN_00d59200(&h);
+        reinterpret_cast<::ConvexVertsQ_d59200 *>((apShape))->FUN_00d59200((*(::VertArray96Q *)(&h)));
         View view;
         view.data = h.data;
         view.count = h.count;
@@ -2127,7 +2130,7 @@ void __cdecl FUN_00ceff00(HkShape* apShape, const Mat4CE& transform, float limit
         _mm_store_ps(&a.x, _mm_load_ps(&apShape->v20.x));
         _mm_store_ps(&b.x, _mm_load_ps(&apShape->v30.x));
         _mm_store_ps(&c.x, _mm_load_ps(&apShape->v40.x));
-        FUN_00cee290(&a, &b, &c, 1.0f, FUN_00c98210(apShape->radius, limit), &body);
+        ::FUN_00cee290((*(const ::hkVector4 *)(&a)), (*(const ::hkVector4 *)(&b)), (*(const ::hkVector4 *)(&c)), 1.0f, FUN_00c98210(apShape->radius, limit), (*(::hkpMassProperties *)(&body)));
         break;
     }
     case 27:
@@ -2162,7 +2165,7 @@ void __cdecl FUN_00ceff00(HkShape* apShape, const Mat4CE& transform, float limit
                 _mm_store_ps(&combined.translation.x, _mm_load_ps(&transform.translation.x));
                 combined.translation.FUN_00c7f640(&combined, walk);
                 ScaledShape& scaled = workspace.temp.scaled;
-                scaled.FUN_00cd8160(walk->w);
+                new ((void *)&(scaled)) ::FUN_00cd8160(walk->w);
                 FUN_00ceff00((HkShape*)&scaled, combined, limit, output);
                 ++i;
                 ++walk;
@@ -2203,7 +2206,7 @@ void __cdecl FUN_00ceff00(HkShape* apShape, const Mat4CE& transform, float limit
         return;
     }
     case 5:
-        FUN_00ceeca0((Vec4CE*)&apShape->v20, (Vec4CE*)&apShape->v30, apShape->radius, 1.0f, &body);
+        ::CapsuleMassSimd::FUN_00ceeca0((const ::CapsuleMassSimd::CapsuleMassVector *)(::Vec4CE *)((Vec4CE*)&apShape->v20), (const ::CapsuleMassSimd::CapsuleMassVector *)(::Vec4CE *)((Vec4CE*)&apShape->v30), apShape->radius, 1.0f, (::Receiver *)(::MassBody *)(&body));
         break;
     case 2: {
         __m128 v5 = _mm_load_ps(&apShape->v30.x), v3 = _mm_load_ps(&apShape->v20.x);
@@ -2217,7 +2220,7 @@ void __cdecl FUN_00ceff00(HkShape* apShape, const Mat4CE& transform, float limit
         __m128 r = _mm_rsqrt_ss(v0);
         __m128 mask = _mm_cmpeq_ss(v0, _mm_set_ss(DAT_01011d78));
         __m128 rr = _mm_mul_ss(_mm_mul_ss(v0, r), r);
-        __m128 fac = _mm_mul_ss(_mm_set_ss(DAT_01016248), r);
+        __m128 fac = _mm_mul_ss(_mm_set_ss(::fnv_00c88020::DAT_01016248), r);
         fac = _mm_mul_ss(fac, _mm_sub_ss(_mm_set_ss(DAT_01017718), rr));
         fac = _mm_andnot_ps(mask, fac);
         __m128 n = _mm_mul_ps(_mm_shuffle_ps(fac, fac, 0), v1);
@@ -2227,8 +2230,8 @@ void __cdecl FUN_00ceff00(HkShape* apShape, const Mat4CE& transform, float limit
         __m128 ts2 = _mm_load_ss(&t);
         _mm_store_ps(&start.x, _mm_sub_ps(v3, _mm_mul_ps(_mm_shuffle_ps(ts, ts2, 0), n)));
         _mm_store_ps(&end.x, _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(ts2, ts, 0), n), v5));
-        float radius = apShape->FUN_00d571a0() + t;
-        FUN_00cef6d0(&start, &end, radius, 1.0f, &body);
+        float radius = reinterpret_cast<::hkpCylinderShapeGetCylRadius *>((apShape))->FUN_00d571a0() + t;
+        ::FUN_00cef6d0((*(const ::hkVector4 *)(&start)), (*(const ::hkVector4 *)(&end)), radius, 1.0f, (*(::hkpMassProperties *)(&body)));
         break;
     }
     case 28:
@@ -2245,12 +2248,12 @@ void __cdecl FUN_00ceff00(HkShape* apShape, const Mat4CE& transform, float limit
         arr.capacity = 0x80000002;
         Router* router = (Router*)FUN_00c85750();
         if (arr.count == (arr.capacity & 0x3fffffff))
-            ResizeAudioStream(router->heap, &arr, 0x90);
+            ::ResizeAudioStream((::AudioAllocator *)(router->heap), (::AudioStream *)(void *)(&arr), 0x90);
         Element* slot = arr.data + arr.count;
         if (slot)
             slot->Initialize();
         Element* e0 = arr.data + arr.count++;
-        e0->FUN_00cf0820(&output);
+        new ((void *)(e0)) ::FUN_00cf0820((*(const ::FUN_00cf0820 *)(&output)));
         _mm_store_ps(&e0->transform.row0.x, zero);
         _mm_store_ps(&e0->transform.row1.x, zero);
         _mm_store_ps(&e0->transform.row2.x, zero);
@@ -2260,17 +2263,17 @@ void __cdecl FUN_00ceff00(HkShape* apShape, const Mat4CE& transform, float limit
         _mm_store_ps(&e0->transform.translation.x, zero);
         router = (Router*)FUN_00c85750();
         if (arr.count == (arr.capacity & 0x3fffffff))
-            ResizeAudioStream(router->heap, &arr, 0x90);
+            ::ResizeAudioStream((::AudioAllocator *)(router->heap), (::AudioStream *)(void *)(&arr), 0x90);
         slot = arr.data + arr.count;
         if (slot)
             slot->Initialize();
         Element* e1 = arr.data + arr.count++;
-        e1->FUN_00cf0820(&body);
+        new ((void *)(e1)) ::FUN_00cf0820((*(const ::FUN_00cf0820 *)(&body)));
         e1->transform.row0.Assign(transform.row0);
         e1->transform.row1.Assign(transform.row1);
         e1->transform.row2.Assign(transform.row2);
         e1->transform.translation.Assign(transform.translation);
-        FUN_00ced090(&arr, &output);
+        ::FUN_00ced090((::S_00ced090_State *)(void *)(&arr), (::S_00ced090_Out *)(::MassBody *)(&output));
         Router* cleanupRouter = (Router*)FUN_00c85750();
         arr.release(cleanupRouter->heap);
     }
@@ -2292,7 +2295,7 @@ __declspec(noinline) void Receiver::FUN_00cecc90(float value)
     *p = value;
     Vector v;
     v.q = _mm_load_ss(&quotient);
-    ((S_00cecc90_Sub*)((char*)this + 0x20))->Multiply(&v);
+    reinterpret_cast<::S_00cd4c70 *>((((S_00cecc90_Sub*)((char*)this + 0x20))))->Multiply((*(const ::S_V4 *)(&v)));
 }
 
 extern "C"
@@ -2303,8 +2306,6 @@ extern "C"
     __m128 _mm_max_ps(__m128, __m128);
 }
 
-extern const float DAT_0104da48;
-extern const float DAT_01016248;
 extern const __m128 DAT_010c44d0;
 extern const __m128 DAT_010ec7f0;
 
@@ -2329,7 +2330,7 @@ void __cdecl FUN_00cec7f0(const __m128* apPoints, int volatile aiCount, __m128* 
 
     if (iCount != 0)
     {
-        __m128 kT = _mm_set_ps1(DAT_01016248);
+        __m128 kT = _mm_set_ps1(::fnv_00c88020::DAT_01016248);
         __m128 kOneMinusT = _mm_sub_ps(DAT_010ec7f0, kT);
         *apCenter = _mm_add_ps(_mm_mul_ps(kOneMinusT, kMinPoint), _mm_mul_ps(kT, kMaxPoint));
         *apExtent = _mm_sub_ps(kMaxPoint, kMinPoint);
@@ -2337,7 +2338,6 @@ void __cdecl FUN_00cec7f0(const __m128* apPoints, int volatile aiCount, __m128* 
 }
 
 extern "C" const double DAT_01099ee0;
-extern "C" const double DAT_010240b0;
 
 struct V4
 {
@@ -2406,7 +2406,7 @@ int __cdecl FUN_00cebaf0(const V4& halfExtents, float mass, MassProperties& resu
     result.m_kInertiaTensor(1, 1) = (x * x + z * z) * k;
     result.m_kInertiaTensor(2, 2) = (x * x + y * y) * k;
 
-    result.m_iBufferSize = (float)(x * y * z * DAT_010240b0);
+    result.m_iBufferSize = (float)(x * y * z * ::DAT_010240b0);
     result.m_fViscosityFriction = mass;
     return 0;
 }
@@ -2456,7 +2456,7 @@ void __cdecl FUN_00cebdf0(float* source, float value, Object* destination)
     dst->m20 = src->d40;
     Vec4Q tmp;
     _mm_store_ps((float*)&tmp, _mm_load_ss(qp));
-    dst->Multiply(&tmp);
+    reinterpret_cast<::S_00cd4c70 *>((dst))->Multiply((*(const ::S_V4 *)(&tmp)));
 }
 
 extern "C"
@@ -2491,7 +2491,6 @@ static __forceinline float Abs(float x)
 struct EigenMatrix
 {
     __m128 row0, row1, row2;
-    void FUN_00cd55b0(const EigenMatrix& a, const EigenMatrix& b);
 };
 
 struct EigenVector
@@ -2637,11 +2636,11 @@ void __cdecl FUN_00cec880(EigenMatrix* src, EigenMatrix* dst)
         r[q + p * 4] = s;
 
         EigenMatrix temp;
-        temp.FUN_00cd55b0(R, *src);
+        reinterpret_cast<::MProduct *>(&(temp))->FUN_00cd55b0((const ::MProduct &)(R), (const ::MProduct &)(*src));
         r[p + q * 4] = s;
         r[q + p * 4] = ns;
-        src->FUN_00cd55b0(temp, R);
-        temp.FUN_00cd55b0(*dst, R);
+        reinterpret_cast<::MProduct *>((src))->FUN_00cd55b0((const ::MProduct &)(temp), (const ::MProduct &)(R));
+        reinterpret_cast<::MProduct *>(&(temp))->FUN_00cd55b0((const ::MProduct &)(*dst), (const ::MProduct &)(R));
         dst->row0 = temp.row0;
         dst->row1 = temp.row1;
         dst->row2 = temp.row2;
@@ -2651,7 +2650,6 @@ void __cdecl FUN_00cec880(EigenMatrix* src, EigenMatrix* dst)
     B->Orthonormalize();
 }
 
-void FUN_00c908c0(S_00cee1c0_Heap* a, void* arr, int n, int sz);
 struct OutObj
 {
     float unk00;
@@ -2720,7 +2718,7 @@ int __cdecl FUN_00cedcb0(char* apVertices, int stride, int count, float mass, Ou
         int n = (a.cap & 0x3fffffff) * 2;
         if (count >= n)
             n = count;
-        FUN_00c908c0(heap, &a, n, 16);
+        ::FUN_00c908c0((::SpawnedObject *)(heap), (::SpawnedArray *)(void *)(&a), n, 16);
     }
     a.size = count;
     char* p = apVertices;
@@ -2862,7 +2860,7 @@ void __cdecl FUN_00ced6b0(Geometry* geometry, float mass, MassPropertiesSV* resu
     {
         Vec4 shift;
         *(__m128*)&shift = _mm_xor_ps(DAT_010c44d0, centerValue);
-        integrator.FUN_00ced390(geometry, &shift);
+        reinterpret_cast<::Solver *>(&(integrator))->FUN_00ced390((::State *)(geometry), (float *)(::Vec4 *)(&shift));
     }
     if (integrator.m_64 <= 0.0f)
     {
@@ -2872,7 +2870,7 @@ void __cdecl FUN_00ced6b0(Geometry* geometry, float mass, MassPropertiesSV* resu
     result->volume = integrator.m_64;
     result->mass = mass;
     float density = mass / integrator.m_64;
-    integrator.FUN_00cec6b0(mass, density, (float*)&result->center, (float*)&result->inertia.c0);
+    reinterpret_cast<::FUN_00cec6b0_cls *>(&(integrator))->FUN_00cec6b0(mass, density, (float*)&result->center, (float*)&result->inertia.c0);
     *(__m128*)&result->center = _mm_add_ps(*(__m128*)&result->center, *(__m128*)&boxProperties.center);
     float* inertia = (float*)&result->inertia.c0;
     float* boxInertia = (float*)&boxProperties.inertia.c0;

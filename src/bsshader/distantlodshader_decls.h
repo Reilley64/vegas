@@ -2,6 +2,7 @@
 #ifndef DISTANTLODSHADER_DECLS_H
 #define DISTANTLODSHADER_DECLS_H
 
+#include "fnv/symbols_011fa000.h"
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
@@ -30,8 +31,6 @@ class NiRefObject : public NiMemObject
 
 class GraphicsRenderer;
 extern const float DAT_011ad860;
-extern const float DAT_011fa280[];
-extern const float DAT_011fa290[];
 class NiD3DShaderConstantMap : public NiRefObject
 {
   public:

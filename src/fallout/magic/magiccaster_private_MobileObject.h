@@ -2,6 +2,7 @@
 #ifndef FNV_MAGICCASTER_PRIVATE_MOBILEOBJECT_H
 #define FNV_MAGICCASTER_PRIVATE_MOBILEOBJECT_H
 
+#include "fnv/decl/FUN_00935a40_cls.h"
 #include "magiccaster_private_layout_support.h"
 #include "magiccaster_private_TESObjectREFR.h"
 class MobileObject : public TESObjectREFR
@@ -73,7 +74,8 @@ class MobileObject : public TESObjectREFR
     virtual void Unk_BE(void);
     virtual void Unk_BF(void);
     virtual void Unk_C0(void);
-    bool HasSaidTopicInfo(TESTopicInfo* info);
+public:
+    float GetLooking() const;
 };
 FNV_STATIC_ASSERT(sizeof(MobileObject) == 0x88);
 FNV_STATIC_ASSERT(offsetof(MobileObject, m_pBaseProcess) == 0x68);

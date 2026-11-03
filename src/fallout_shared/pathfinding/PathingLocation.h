@@ -26,6 +26,10 @@ class PathingLocation
     bool ResolveNavMesh(NavMeshPtr&);
     bool FindNavMeshTriangle(NavMeshPtr&, unsigned short&);
     PathingLocation& operator=(const PathingLocation&);
+public:
+    bool HasValidTriangle_006dd6a0();
+public:
+    bool HasPathingLocation();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(PathingLocation) == 0x28);

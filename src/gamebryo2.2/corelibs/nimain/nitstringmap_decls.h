@@ -2,9 +2,9 @@
 #define FNV_NITSTRINGMAP_DECLS_H
 
 
+#include "fnv/symbols_00aa1000.h"
 extern "C" unsigned int __cdecl strlen(const char*);
 extern "C" int __cdecl strcpy_s(char*, unsigned int, const char*);
-void* __cdecl _NiMalloc(unsigned int);
 class NiShader;
 
 template <class T_Key, class T_Value> class NiTMapItem
@@ -48,8 +48,6 @@ template <class T_Map, class T_Value> class NiTStringTemplateMap : public T_Map
 };
 
 class ShaderBufferRecord;
-void __cdecl NiFree(void*);
-int NiStricmp(const char* a, const char* b);
 bool __stdcall FUN_00b7fce0(const char* left, const char* right);
 template <> class NiTPointerMap<const char*, ShaderBufferRecord*>
 {

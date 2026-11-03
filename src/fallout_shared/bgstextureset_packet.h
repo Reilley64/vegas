@@ -6,6 +6,16 @@
 #ifndef FNV_BGSTEXTURESET_UNIT_H
 #define FNV_BGSTEXTURESET_UNIT_H
 
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_00472840_impl.h"
+#include "fnv/decl/TESDataHandler.h"
+#include "fnv/decl/TextureLoader.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00593000.h"
+#include "fnv/symbols_00af4000.h"
+#include "fnv/symbols_00af6000.h"
+#include "fnv/symbols_00afd000.h"
+#include "fnv/symbols_011c3000.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "TESForm.h"
@@ -108,7 +118,6 @@ struct BGSTESTexture : public TESTexture
 {
     BGSTESTexture();
     ~BGSTESTexture();
-    const char* GetTextureResourceName();
 };
 
 // Texture slots on PC (see note above).
@@ -130,7 +139,6 @@ class BGSTextureSet : public TESBoundObject, public BSTextureSet
     virtual void ClearData();
     virtual const char* GetTextureFilePath(int aeTextureType);
     void LoadTextures(int aePriority, QueuedFile* apQueuedFile, bool abLoad);
-    static BGSTextureSet* GetEmptyTextureSet();
     static void InitializeNullTextureSet();
 
     static BGSTextureSet* s_pNullTextureSet;
@@ -178,6 +186,8 @@ class DecalData
     DecalData();
     bool Load(TESFile*);
     ImpactDecalData Data;  // +0x0, 36 bytes
+public:
+    void Copy(::DecalData *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(DecalData) == 36);
@@ -190,36 +200,28 @@ struct DecalDataDeleter : public DecalData
 // ModelLoader queue call (0x00443af0) on the global at 0x011c3b3c.
 struct ModelLoader
 {
-    void QueueTextureFile(BSFileEntry* apEntry, int aePriority, QueuedFile* apQueuedFile);
 };
-extern ModelLoader* g_pModelLoader;
 
 // Bethesda memset (0x00403d30).
-void* FillBytes(void* apDst, int aiValue, unsigned int auSize);
 
 struct TESDataHandlerForms
 {
-    void AddFormToDataHandler(TESForm*);
 };
 class TESDataHandler;
-extern TESDataHandler* g_dataHandler;
 
 void* operator new(unsigned int);
 void operator delete(void*);
 struct TESFileChunkData16
 {
-    bool GetChunkData(unsigned short*);
 };
 struct TESTextureLoader
 {
-    static void ReadTextureData(TESTexture*, TESFile*);
 };
 struct TaskQueueInterface
 {
     static void CopyStringToBuffer(char*, unsigned int, const char*);
 };
 int strcat_s(char*, unsigned int, const char*);
-bool CleanPath(const char*, char*, unsigned int);
 class FileNameHash;
 class NiPoint2
 {
@@ -231,7 +233,6 @@ class NiPoint2
 class FileNameHash
 {
   public:
-    static void CreateDirectoryAndFileHashes(const char*, FileNameHash&, FileNameHash&);
 };
 enum ArchiveType
 {
@@ -239,6 +240,5 @@ enum ArchiveType
 };
 struct ArchiveManager
 {
-    static BSFileEntry* FindFileEntry(ArchiveType, FileNameHash&, FileNameHash&, const char*);
 };
 #endif

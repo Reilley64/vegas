@@ -7,6 +7,19 @@
 // to their real unit once identified.
 // src/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_004b4ab0_Class.h"
+#include "fnv/decl/FUN_00d2f980.h"
+#include "fnv/decl/hkTransformCB22.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_00d10000.h"
+#include "fnv/symbols_00d2c000.h"
+#include "fnv/symbols_00d2f000.h"
+#include "fnv/symbols_00d30000.h"
+#include "fnv/symbols_00d31000.h"
+#include "fnv/symbols_00d88000.h"
+#include "fnv/symbols_011b4000.h"
+#include "fnv/symbols_01268000.h"
 struct S_d2f5a0_Obj {
     virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3();
     virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7();
@@ -68,26 +81,18 @@ struct ValueSource {
     int unk04;
     float m_fAmount;
 };
-void __cdecl ApplyTransformToTarget(Holder* apFirst, Holder* apSecond, ValueSource* apValue, void* apContext);
 struct Allocator {
     virtual void* release();
     virtual void* allocate(int size);
 };
 struct Global { int unk00; int unk04; int unk08; int unk0c; Allocator* allocator; };
-struct Built { int field00; short field04; int field08; void __thiscall FUN_00d2f980(int); };
+struct Built { int field00; short field04; int field08;  };
 extern "C" Global* __cdecl FUN_00c85750();
-void __cdecl FUN_00d2f9d0(int arg1, int arg2, int arg3, int arg4);
-void __cdecl FUN_00d30f50(void* apFirst, void* apSecond, void* apThird,
-                          void* apFourth, void* apFifth);
-void __stdcall FUN_00d315a0(void* apFirst, void* apSecond, void* apThird, void* apFourth, void* apFifth);
-extern "C" void __cdecl FUN_00d31110(void* arg0, void* arg1, void* arg2, void* arg3);
 // @fnv 0x00d315d0
 extern "C" void __stdcall FUN_00d315d0(void* arg0, void* arg1, void* arg2, void* arg3)
 {
     FUN_00d31110(arg0, arg1, arg2, arg3);
 }
-void __cdecl FUN_00d312f0(void* apA, void* apB, void* apC, void* apD);
-void __stdcall FUN_00d315f0(void* apA, void* apB, void* apC, void* apD);
 struct D2FA00Allocator {
     virtual void unk00();
     virtual void* AllocateMemoryBlock(int numBytes);
@@ -139,10 +144,8 @@ public:
     D2FA00ShapeAgent(void* mgr) : D2FA00Agent(mgr) {}
     virtual ~D2FA00ShapeAgent();
 };
-D2FA00Agent* __cdecl FUN_00d2fa00(const void* bodyA, const void* bodyB, const void* input, void* mgr);
 extern char str_010ce9a4[];
 extern char str_010ce9ac[];
-extern "C" void* __cdecl FUN_00d06f80(void* apBuffer, int aiCount);
 struct S_00d2f8f0_Elem {
     int unk00;
     int unk04;
@@ -243,14 +246,12 @@ __declspec(align(16)) struct SlotTemp {
     unsigned int unk34;
     unsigned int unk38;
     unsigned int unk3C;
-    void Init(unsigned int a, unsigned int b);
 };
 __declspec(align(16)) struct SlotTemp2 {
     unsigned int unk00;
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0C;
-    void Build(unsigned int a, void* b);
 };
 struct SlotParam {
     unsigned int unk00;
@@ -279,7 +280,6 @@ struct SlotBox {
     __m128 lo;
     __m128 hi;
 };
-void FUN_00d2f690(SlotRef* a, SlotRef* b, SlotParam* p, SlotBox* box);
 class SolBool {
     char state;
 public:
@@ -308,8 +308,7 @@ struct SolBox {
 };
 struct __declspec(align(16)) SolTransform {
     float m00,m04,m08,m0c,m10,m14,m18,m1c,m20,m24,m28,m2c,m30,m34,m38,m3c;
-    void FUN_00cb22f0(const SolTransform&,const SolTransform&);
-    inline void SetMulInverse(const SolTransform& a,const SolTransform& b) {FUN_00cb22f0(a,b);}
+    inline void SetMulInverse(const SolTransform& a,const SolTransform& b) {reinterpret_cast<::hkTransformCB22 *>(this)->FUN_00cb22f0((const ::hkTransformCB22 &)(a),(const ::hkTransformCB22 &)(b));}
 };
 template<class T> struct SolArray;
 struct SolContainer;
@@ -528,10 +527,7 @@ struct SolRouter {
 };
 struct SolHeapSource {SolHeap& get(const void*) {return SolRouter::GetMonitorStream().heap();}};
 template<class T> __forceinline void SolFreeStack(T* p) {SolRouter::GetMonitorStream().stack().deallocate(p);}
-extern void __cdecl FUN_00c908c0(SolHeap&,void*,int,int);
-extern void __cdecl FUN_00d2cc70(void*,const void*,int);
-extern void __cdecl FUN_00d88040(int);
-extern char DAT_011b4284,DAT_01268ad4;
+extern char DAT_01268ad4;
 struct SolSortState {};
 extern void __cdecl QuickSortRange(unsigned*,int,int,SolSortState);
 struct SolPlace;
@@ -549,7 +545,7 @@ namespace SolArrayOps {
     template<class T> __forceinline void constructFrom(T* d,int n,const T* p,SolClassTag) {
         for(int i=0;i<n;++i) ::new(reinterpret_cast<SolPlace*>(d+i)) T(p[i]);
     }
-    __forceinline void move(void* d,const void* p,int n) {FUN_00d2cc70(d,p,n);}
+    __forceinline void move(void* d,const void* p,int n) {::FUN_00d2cc70(d,(void *)(p),n);}
     __forceinline void copyBytes(void* d,const void* p,int n) {
         for(int i=0;i<n;i+=4) *reinterpret_cast<unsigned*>((char*)d+i)=*reinterpret_cast<const unsigned*>((const char*)p+i);
     }
@@ -633,9 +629,8 @@ template<class T> struct SolLocalArray:SolArray<T> {
         SolFreeStack(localMemory);
     }
 };
-extern D2FA00Agent* __cdecl FUN_00d107a0();
 struct SolNull {
-    static D2FA00Agent* getNullAgentOriginal() {return FUN_00d107a0();}
+    static D2FA00Agent* getNullAgentOriginal() {return ((::D2FA00Agent *)(::FUN_00d107a0()));}
     static SolAgent* GetNullAgent() {return reinterpret_cast<SolAgent*>(getNullAgentOriginal());}
 };
 namespace SolAlgorithm {
@@ -755,6 +750,7 @@ found:;
 };
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 
 extern "C" {
 __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
@@ -822,7 +818,6 @@ class VCompD3
 		__m128 m_uiMask;
 };
 
-extern const __declspec(align(16)) UInt32D3 DAT_010c44d0[4];
 
 class Mat3D3;
 class RotD3;
@@ -879,7 +874,6 @@ class XformD3
 		__forceinline XformD3() {}
 		__forceinline const RotD3& getRotation() const { return m_rotation; }
 		__forceinline const Vec4D3& getTranslation() const { return m_vTranslation; }
-		void FUN_00cb22f0( const XformD3& a, const XformD3& b );
 	protected:
 		RotD3 m_rotation;
 		Vec4D3 m_vTranslation;
@@ -907,7 +901,7 @@ inline void Vec4D3::setCross( const Vec4D3& a, const Vec4D3& b )
 	m_vComponents = _mm_sub_ps( c0, c1 );
 }
 inline VCompD3 Vec4D3::compareLessThanEqual4( const Vec4D3& a ) const { VCompD3 m; m.m_uiMask = _mm_cmple_ps( m_vComponents, a.m_vComponents ); return m; }
-inline void Vec4D3::setNeg4( const Vec4D3& v ) { m_vComponents = _mm_xor_ps( v.m_vComponents, *(const __m128*)&DAT_010c44d0 ); }
+inline void Vec4D3::setNeg4( const Vec4D3& v ) { m_vComponents = _mm_xor_ps( v.m_vComponents, *(const __m128*)&(*reinterpret_cast<const unsigned int (*)[4]>((void *)&::DAT_010c44d0)) ); }
 inline void Vec4D3::setMin4( const Vec4D3& a, const Vec4D3& b ) { m_vComponents = _mm_min_ps( a.getQuad(), b.getQuad() ); }
 inline void Vec4D3::setMax4( const Vec4D3& a, const Vec4D3& b ) { m_vComponents = _mm_max_ps( a.getQuad(), b.getQuad() ); }
 inline void Vec4D3::rotInvDir( const RotD3& r, const Vec4D3& b )
@@ -1151,7 +1145,6 @@ template <> struct PodTraitD3<unsigned int> { typedef IsPodTagD3 type; };
 class ArrayUtilD3
 {
 	public:
-		static void __cdecl FUN_00c908c0( AllocatorD3& a, void* arr, int reqElem, int sizeElem );
 		template <typename T>
 		static __forceinline void __cdecl construct( T* t, int n, IsPodTagD3 ) {}
 		template <typename T>
@@ -1182,7 +1175,6 @@ class ArrayUtilD3
 		}
 };
 
-void __cdecl FUN_00d2cc70( void* dst, const void* src, int nbytes );
 
 template <unsigned int A> struct AlignTypeD3 { typedef UInt32D3 type; };
 
@@ -1270,7 +1262,7 @@ inline void ArrayBaseD3<T>::GrowArrayCapacity( AllocatorD3& alloc, int n )
 	{
 		int cap2 = 2 * capacity;
 		int newSize = ( n < cap2 ) ? cap2 : n;
-		ArrayUtilD3::FUN_00c908c0( alloc, this, newSize, sizeof( T ) );
+		::FUN_00c908c0( (::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof( T ) );
 	}
 }
 
@@ -1292,7 +1284,7 @@ inline T* ArrayBaseD3<T>::_expandAt( AllocatorD3& alloc, int index, int numtoins
 	{
 		GrowArrayCapacity( alloc, newsize );
 	}
-	FUN_00d2cc70( m_data + index + numtoinsert, m_data + index, numtomove * sizeof( T ) );
+	::FUN_00d2cc70( m_data + index + numtoinsert, (void *)(m_data + index), numtomove * sizeof( T ) );
 	ArrayUtilD3::construct( m_data + index, numtoinsert, typename PodTraitD3<T>::type() );
 	m_iElementCount = newsize;
 	return m_data + index;
@@ -1419,12 +1411,11 @@ struct TlsSlotD3
 	unsigned long m_slotID;
 };
 
-extern TlsSlotD3<MonitorD3*> DAT_0126835c;
 
 class MonitorD3
 {
 	public:
-		static MonitorD3& GetMonitorStream() { return *DAT_0126835c.getData(); }
+		static MonitorD3& GetMonitorStream() { return *(*reinterpret_cast<::TlsSlotD3< ::MonitorD3 *> *>(&::DAT_0126835c)).getData(); }
 		__forceinline char* __cdecl GetStreamEnd() { return m_kRayEnd.val(); }
 		__forceinline char* __cdecl getCapacityMinus16() { return m_pCurrentCommand.val(); }
 		__forceinline BoolD3 __cdecl memoryAvailable() { return GetStreamEnd() < getCapacityMinus16(); }
@@ -1758,7 +1749,6 @@ class AgentD3 : public RefObjectD3
 class NullAgentD3 : public AgentD3
 {
 	public:
-		static NullAgentD3* __cdecl FUN_00d107a0();
 };
 
 class DispatchHelperD3
@@ -1829,7 +1819,7 @@ void __cdecl DispatchUtilD3<KEYD3, ENTRYD3, HELPERD3>::update( ArrayD3<ENTRYD3>&
 			}
 			else
 			{
-				newEntriesItr->m_pCollisionAgent = NullAgentD3::FUN_00d107a0();
+				newEntriesItr->m_pCollisionAgent = ((::NullAgentD3 *)(::FUN_00d107a0()));
 			}
 			newEntriesItr->setKey( *newKeysItr );
 			newEntriesItr++;
@@ -1863,7 +1853,7 @@ void __cdecl DispatchUtilD3<KEYD3, ENTRYD3, HELPERD3>::update( ArrayD3<ENTRYD3>&
 		}
 		else
 		{
-			newEntriesItr->m_pCollisionAgent = NullAgentD3::FUN_00d107a0();
+			newEntriesItr->m_pCollisionAgent = ((::NullAgentD3 *)(::FUN_00d107a0()));
 		}
 		newEntriesItr->setKey( *newKeysItr );
 		newEntriesItr++;
@@ -1935,7 +1925,7 @@ hitFound:
 			}
 			else
 			{
-				lastHit->m_pCollisionAgent = NullAgentD3::FUN_00d107a0();
+				lastHit->m_pCollisionAgent = ((::NullAgentD3 *)(::FUN_00d107a0()));
 			}
 			lastHit->m_key = *hitItr;
 			end = entries.end();
@@ -2060,7 +2050,7 @@ inline void BvTreeAgentD3::prepareCollisionPartnersProcess( const CdBodyD3& body
 		{
 			const XformD3& wTb = bodyB.getTransform();
 			const XformD3& wTa = bodyA.getTransform();
-			bTa.FUN_00cb22f0( wTb, wTa );
+			reinterpret_cast<::hkTransformCB22 *>(&(bTa))->FUN_00cb22f0( (const ::hkTransformCB22 &)(wTb), (const ::hkTransformCB22 &)(wTa) );
 		}
 		Vec4D3 linearTimInfo;
 		{
@@ -2068,7 +2058,7 @@ inline void BvTreeAgentD3::prepareCollisionPartnersProcess( const CdBodyD3& body
 			const MotionStateD3* msB = bodyB.GetMotionState();
 			SweptUtilD3::calcTimInfo( *msA, *msB, input.m_pStepInfo.m_fTimeStep, linearTimInfo );
 		}
-		AabbD3* cachedAabb = ( reinterpret_cast<const BoolD3&>(DAT_011b4284) ) ? &m_kBoundingBox : 0;
+		AabbD3* cachedAabb = ( reinterpret_cast<const BoolD3&>((*reinterpret_cast<char *>(&::DAT_011b4284))) ) ? &m_kBoundingBox : 0;
 		prepareSuccessfull = BuildCollisionHitList( bodyA, bodyB, bTa, linearTimInfo, input, cachedAabb, hitList );
 	}
 

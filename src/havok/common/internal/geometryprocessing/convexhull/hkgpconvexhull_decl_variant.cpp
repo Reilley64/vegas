@@ -5,6 +5,41 @@
 
 // src/havok/common/internal/geometryprocessing/convexhull/hkgpconvexhull.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/geometryprocessing/convexhull/hkgpconvexhull.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/BevelHull.h"
+#include "fnv/decl/Centroid352.h"
+#include "fnv/decl/ClipHull.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00cc02d0_cls.h"
+#include "fnv/decl/FUN_00d7ac40_cls.h"
+#include "fnv/decl/FnvCpu_FUN_00d74e00_CpuObject.h"
+#include "fnv/decl/HullBuilder.h"
+#include "fnv/decl/HullImpl.h"
+#include "fnv/decl/PolygonMesh.h"
+#include "fnv/decl/S00d76120_cls.h"
+#include "fnv/decl/S00d7cf00_Hull.h"
+#include "fnv/decl/S00d81510_Hull.h"
+#include "fnv/decl/S83_Mesh.h"
+#include "fnv/decl/S_00d752e0_Class.h"
+#include "fnv/decl/S_00d7a200_Owner.h"
+#include "fnv/decl/S_00d827b0_Owner.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/SupportShape.h"
+#include "fnv/decl/fnv_00d74f10__FUN_00d74f10_class.h"
+#include "fnv/decl/fnv_00d74fb0__S_00d74fb0_Obj.h"
+#include "fnv/decl/fnv_00d76cf0__FUN_00d76cf0_cls.h"
+#include "fnv/decl/hkgpConvexHullImpl.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d74000.h"
+#include "fnv/symbols_00d75000.h"
+#include "fnv/symbols_00d79000.h"
+#include "fnv/symbols_00d7a000.h"
+#include "fnv/symbols_00d7b000.h"
+#include "fnv/symbols_0103d000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_0106e000.h"
+#include "fnv/symbols_01268000.h"
 struct FUN_00d74dd0_Class
 {
     void* m_00;
@@ -16,7 +51,6 @@ struct FUN_00d74dd0_Class
 };
 struct FUN_00d7ac40_class
 {
-    void FUN_00d7ac40(int);
 };
 struct FUN_00d75850_class
 {
@@ -30,7 +64,6 @@ struct FUN_00d75850_class
 int __stdcall FUN_00d76300(const int* p, int i);
 struct FUN_00d7c200_cls
 {
-    void __thiscall FreeAll();
 };
 struct FUN_00d7c250_cls
 {
@@ -40,7 +73,6 @@ struct FUN_00d7c950_cls
 {
     void __thiscall FUN_00d7c950();
 };
-int __stdcall FUN_00d752c0(int* arr, int idx);
 struct CpuScalar
 {
     unsigned int unk00;
@@ -243,10 +275,8 @@ struct PayloadOwner
     int unk0c;
     int m_iPayload;
 };
-int* __stdcall FUN_00d74ed0(PayloadOwner* apOwner);
 struct TargetCallee
 {
-    void FUN_00d7a5a0(void* p1, void* p2, void* p3, void* p4, float p5);
 };
 struct FUN_00d74ee0_Class : FUN_00d74dd0_Class
 {
@@ -279,11 +309,6 @@ struct TextBuffer
     int unk04;
     int unk08;
     int storage[128];
-    void FUN_00cb1600(char* buffer, int capacity);
-    TextBuffer* FUN_00cc01c0(const char* first, const char* middle, const char* last);
-    TextBuffer* FUN_00cc01c0();
-    TextBuffer* FUN_00cc02d0();
-    void FUN_00cc00e0();
 };
 struct ChildData
 {
@@ -423,7 +448,6 @@ struct ErrorReporter
     virtual void unk2();
     virtual int message(int type, int hash, const char* text, const char* file, int line);
 };
-extern ErrorReporter* DAT_01268360;
 void __debugbreak();
 struct Owner
 {
@@ -443,7 +467,6 @@ struct Owner
     int unk34;
     int FUN_00d75070(Request* request);
 };
-int __stdcall FUN_00d75120(int* p);
 struct D75130Inner
 {
     int unk00;
@@ -472,7 +495,6 @@ struct D75130Outer
 
     int FUN_00d75130();
 };
-int __stdcall FUN_00d75200(const int* value);
 struct S_00d75210_ErrStream
 {
     void* m_vt;
@@ -490,7 +512,6 @@ struct S_00d75210_Error
     virtual void v2();
     virtual int message(int type, int id, const char* desc, const char* file, int line) throw();
 };
-extern S_00d75210_Error* g_hkError;
 struct S_00d75210_Data
 {
     int unk00;
@@ -632,7 +653,6 @@ struct S_00d75210_Self
 };
 struct D762F0Target
 {
-    void update();
 };
 struct D762F0Owner
 {
@@ -644,7 +664,6 @@ struct D762F0Owner
 };
 struct D76910Inner
 {
-    void FUN_00d7cf00();
 };
 struct D76910Owner
 {
@@ -657,7 +676,6 @@ struct FUN_00d76990_State
 {
     int unk00;
     float unk04;
-    void FUN_00d7d2a0();
 };
 struct FUN_00d76990_Class
 {
@@ -687,13 +705,11 @@ struct __declspec(align(16)) hkVec4
 };
 struct Shape
 {
-    float FUN_00d768b0(const hkVec4& v);
     float FUN_00d76840(const hkVec4& v);
     float FUN_00d769c0(const Vec3& p);
 };
 struct AudioSink
 {
-    void FUN_00d7df60(void* apFirst, void* apSecond, bool abIsNull, void* apThird);
 };
 struct FUN_00d76c50_cls
 {
@@ -710,7 +726,6 @@ struct Vec4i
 struct FUN_00d81510_Class
 {
     Vec4i m_00;
-    void FUN_00d81510(int a, int b, int c, int d);
 };
 struct FUN_00d771c0_Owner
 {
@@ -721,7 +736,6 @@ struct FUN_00d771c0_Owner
 };
 struct FUN_00d83430_class
 {
-    void FUN_00d83430(int, int, int, float);
 };
 struct FUN_00d790a0_class
 {
@@ -743,11 +757,7 @@ struct S_00d79f90_Result
 };
 struct S_00d79f90_World
 {
-    S_00d79f90_Result* FUN_00d76cf0();
 };
-void __cdecl FUN_00d79ab0(S_00d79f90_World* world, int a, void* b, float c);
-void __cdecl FUN_00d79580(S_00d79f90_Result* res, void* b, int n, float eps);
-void __cdecl FUN_00d79f90(S_00d79f90_World* world, int a, void* b, int n, float d);
 struct S_00d7a010_Alloc
 {
     virtual void unk0();
@@ -763,7 +773,6 @@ struct S_00d7a010_Router
     int unk8;
     int unkc;
     S_00d7a010_Alloc* m_pStreamAllocator;
-    static S_00d7a010_Router& FUN_00c85750() throw();
     S_00d7a010_Alloc& heap() throw()
     {
         return *m_pStreamAllocator;
@@ -798,7 +807,6 @@ struct S_00d7a010_Obj
     virtual ~S_00d7a010_Obj() throw();
     void operator delete(void* p) throw();
 };
-void __cdecl FUN_00d79f90(int a, int b, S_00d7a010_Array<S_00d7a010_Obj*>& out, int c, float f) throw();
 void __cdecl DeleteCollectedObjects(int a, int b, int c, float f);
 struct S_00d7c200_Heap
 {
@@ -813,7 +821,6 @@ struct S_00d7c200_Router
     int unk8;
     int unkC;
     S_00d7c200_Heap* m_pStreamAllocator;
-    static S_00d7c200_Router& GetMonitorStream();
     S_00d7c200_Heap& heap()
     {
         return *m_pStreamAllocator;
@@ -845,8 +852,6 @@ struct S_00d7c340_Router
         return unk10;
     }
 };
-S_00d7c340_Router* FUN_00c85750();
-int ResizeAudioStream(S_00d7c340_Allocator* alloc, void* array, int elemSize);
 struct S_00d7c340_Elem
 {
     S_00d7c340_Elem* next;
@@ -912,10 +917,8 @@ struct PoolList
     void* unk08;
     Node* head;
     int activeCount;
-    NodeBank* FUN_00d7c2a0();
     Node* CloneNode(Node* source);
 };
-extern float DAT_0106ea1c;
 class FUN_00d74d40_cls
 {
   public:
@@ -940,7 +943,6 @@ struct FUN_00d74d70_cls
     unsigned char m_11;
     FUN_00d74d70_cls* FUN_00d74d70();
 };
-extern float DAT_0104da4c;
 struct FUN_00d74d90_cls
 {
     int m_i00;
@@ -1101,7 +1103,6 @@ struct FUN_00d75050_cls
 };
 struct FUN_00d7a180_target
 {
-    void FUN_00d7a180();
 };
 struct FUN_00d752d0_cls
 {
@@ -1116,11 +1117,6 @@ struct DiagStream
     unsigned int m_04;
     unsigned int m_08;
     unsigned int m_buf[128];
-    void FUN_00cb1600(unsigned int* buf, unsigned int size);
-    DiagStream* FUN_00cc01c0(const char* fmt, unsigned int count, const char* tail);
-    DiagStream* FUN_00cc02d0();
-    void FUN_00cc01c0();
-    void FUN_00cc00e0();
 };
 struct DiagLogger
 {
@@ -1129,7 +1125,6 @@ struct DiagLogger
     virtual void v2();
     virtual int Report(int level, unsigned int hash, char* msg, const char* file, int line);
 };
-extern DiagLogger* g_diagLogger;
 struct DiagState
 {
     unsigned int unk00;
@@ -1255,8 +1250,6 @@ extern const double DAT_010d35e8;
 extern const double DAT_010d35e0;
 struct FUN_00d75440_cls
 {
-    float FUN_00d752e0();
-    double GetMass();
     float ComputeScaledPowerRatio();
 };
 struct FUN_00d75820_Tmp8
@@ -1266,7 +1259,6 @@ struct FUN_00d75820_Tmp8
 };
 struct FUN_00d75820_Target
 {
-    void FUN_00d7a200(int a, float b, FUN_00d75820_Tmp8* c, int d);
 };
 struct FUN_00d75820_cls
 {
@@ -1289,7 +1281,6 @@ struct FUN_00d76100_cls
 };
 struct FUN_00d7caa0_class
 {
-    void __thiscall FUN_00d7caa0(float, int);
 };
 struct FUN_00d76920_class
 {
@@ -1306,7 +1297,6 @@ struct SpawnedObject
 };
 struct TailCallee
 {
-    void Tail();
 };
 class FUN_00d77bc0_cls
 {
@@ -1319,10 +1309,8 @@ struct ArgPair
     int m_kPointB;
 };
 void* __cdecl FUN_00d78ea0(int first, ArgPair* apPairs, int count);
-void __cdecl CallWithPair(int a0, int a1, int a2);
 struct D79090Target
 {
-    void update();
 };
 struct D79090Owner
 {
@@ -1362,13 +1350,10 @@ struct FUN_00d79510_Object
 };
 struct FUN_00d79510_A;
 struct FUN_00d79510_B;
-void __cdecl FUN_00d79250_helper(FUN_00d79510_A* a, FUN_00d79510_B* b, FUN_00d79510_Object** out, void* p, float f);
-bool __cdecl FUN_00d79510(FUN_00d79510_A* a, FUN_00d79510_B* b, FUN_00d79510_Object* c, float f);
 static int SortKeyOf(void* p)
 {
     return ((int*)p)[0xe];
 }
-void __cdecl QuickSortByKey(void** arr, int lo, int hi, int ctx);
 struct RandomGenerator
 {
     unsigned int stateFlags;
@@ -1483,7 +1468,6 @@ struct CreateIface
     virtual void* v0();
     virtual void* v1(int);
 };
-void __cdecl ResizeAudioStream(void*, void*, int);
 // A writable handle for one slot of the item array.
 struct SlotRef
 {
@@ -1545,7 +1529,6 @@ struct D7C850_Class
     unsigned int m_08;
     void ClearAndFlush();
 };
-extern char DAT_0103d078;
 struct RetBlock64
 {
     __m128 m_v0;
@@ -1586,11 +1569,6 @@ class DbgStr_cls
     int unk00;
     int unk04;
     int unk08;
-    void Init(char* buf, int size);
-    DbgStr_cls* Append(const char* pszPrefix, int value, const char* pszSuffix);
-    DbgStr_cls* Pad(void);
-    DbgStr_cls* Last(void);
-    void Release(void);
 };
 class AssertMgr_cls
 {
@@ -1625,7 +1603,6 @@ struct D76250MemoryRouter
 namespace fnvc_adapt {
 extern "C" D76250MemoryRouter& __cdecl FUN_00c85750();
 }
-void __cdecl FUN_00c908c0(D76250Allocator* alloc, void* array, int numElements, int sizeElem);
 struct D76250Vector4
 {
     __m128 m_vComponents;
@@ -1653,7 +1630,7 @@ struct D76250VectorArray
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, sizeof(D76250Vector4));
+            ::FUN_00c908c0((::SpawnedObject *)(::D76250Allocator *)(&alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(D76250Vector4));
         }
     }
 
@@ -1668,14 +1645,11 @@ struct D76250VectorArray
 };
 struct D76250Shape
 {
-    int getNumVertices() const;
-    const D76250Vector4& getVertex(int i) const;
 
     void CopyVerticesToArray(D76250VectorArray& vertices) const;
 };
 struct FUN_00d81510_cls
 {
-    void FUN_00d81510(int a1, int a2, int a3, int a4);
 };
 struct FUN_00d77320_cls
 {
@@ -1749,7 +1723,6 @@ struct D78ea0Item
     __declspec(noinline) D78ea0Key* FUN_00d74e00();
     __declspec(noinline) int FUN_00d75050();
 
-    void FUN_00d76120(int a1, D78ea0Arr* arr);
 };
 
 __declspec(noinline) D78ea0Key* D78ea0Item::FUN_00d74e00()
@@ -1777,8 +1750,6 @@ struct FUN_00d76ca0
         return p;
     }
 
-    int FUN_00d74e10();
-    void FUN_00d771c0(int a, int b, const D78ea0Key& v);
 };
 
 // @fnv 0x00d78ea0
@@ -1794,7 +1765,7 @@ void* __cdecl FUN_00d78ea0(int first, ArgPair* apPairs, int count)
         arr.m_pRayCursor = 0x80000000;
 
         D78ea0Key key;
-        const volatile D78ea0Key* src = items[0]->FUN_00d74e00();
+        const volatile D78ea0Key* src = ((::D78ea0Key *)(reinterpret_cast<::FnvCpu_FUN_00d74e00_CpuObject *>((items[0]))->FUN_00d74e00()));
         key.a = src->a;
         key.b = src->b;
         int keyC = src->c;
@@ -1809,7 +1780,7 @@ void* __cdecl FUN_00d78ea0(int first, ArgPair* apPairs, int count)
 
         for (int i = 0; i < count; ++i)
         {
-            sum += items[i]->FUN_00d75050();
+            sum += reinterpret_cast<::FUN_00d75050_cls *>((items[i]))->FUN_00d75050();
             if (firstChild == 0)
             {
                 D78ea0Child* c = items[i]->m10;
@@ -1833,7 +1804,7 @@ void* __cdecl FUN_00d78ea0(int first, ArgPair* apPairs, int count)
             {
                 newcap = sum;
             }
-            FUN_00c908c0(&alloc, &arr, newcap, 16);
+            ::FUN_00c908c0((::SpawnedObject *)(::D76250Allocator *)(&alloc), (::SpawnedArray *)(void *)(&arr), newcap, 16);
         }
 
         for (int i = 0; i < count; ++i)
@@ -1846,14 +1817,14 @@ void* __cdecl FUN_00d78ea0(int first, ArgPair* apPairs, int count)
                     listener->v08(c);
                 }
             }
-            items[i]->FUN_00d76120(first, &arr);
+            reinterpret_cast<::S00d76120_cls *>((items[i]))->FUN_00d76120(first, (*(::S00d76120_Arr *)(&arr)));
         }
 
         FUN_00d76ca0* obj = new FUN_00d76ca0;
         obj->m10 = listener;
-        obj->FUN_00d771c0((int)arr.m_data, arr.m_iElementCount, key);
+        reinterpret_cast<::FUN_00d771c0_Owner *>((obj))->FUN_00d771c0((int)arr.m_data, arr.m_iElementCount, (const ::Vec4i &)(key));
 
-        if (obj->FUN_00d74e10() != -1)
+        if (reinterpret_cast<::FUN_00d74e10_cls *>((obj))->FUN_00d74e10() != -1)
         {
             arr.clear();
             return obj;

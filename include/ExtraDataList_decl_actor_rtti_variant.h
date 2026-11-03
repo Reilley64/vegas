@@ -2,6 +2,7 @@
 #ifndef FNV_EXTRADATALIST_H
 #define FNV_EXTRADATALIST_H
 
+#include "fnv/decl/BaseExtraList_shell.h"
 #include "layout_support.h"
 #include "BaseExtraList.h"
 class ExtraDismemberedLimbs;
@@ -9,7 +10,7 @@ class ExtraDismemberedLimbs;
 class ExtraDataList : public BaseExtraList
 {
   public:
-    void AddOrCreateExtraItem(void* crime, float stamp);  // declared for the original code (decl_variants.py)
+      // declared for the original code (decl_variants.py)
 
   public:
     InventoryChanges* GetContainerChangeData();

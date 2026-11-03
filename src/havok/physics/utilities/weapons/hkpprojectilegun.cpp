@@ -2,6 +2,19 @@
 // src/havok/physics/utilities/weapons/hkpprojectilegun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpprojectilegun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/CA8890Object.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00c91620_Class.h"
+#include "fnv/decl/FUN_00cb2e30_cls.h"
+#include "fnv/decl/MProduct.h"
+#include "fnv/decl/hkOwnerC9C1.h"
+#include "fnv/decl/hkOwnerC9C5.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpWorldC914.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_0104d000.h"
 #include "havok/hkpProjectileGun.h"
 
 struct FUN_00e44c70_cls
@@ -38,8 +51,6 @@ void FUN_00e44c70_cls::InitOnce()
 
 struct hkpEntity
 {
-    void AddContactListener(void*);
-    void RemoveContactListener(void*);
 };
 struct FUN_00e44d50_cls
 {
@@ -55,9 +66,9 @@ void FUN_00e44d50_cls::FUN_00e44d50(bool on)
         {
             void* arg = (void*)((char*)this + 8);
             if (on)
-                ((hkpEntity*)e)->AddContactListener(arg);
+                reinterpret_cast<::hkOwnerC9C5 *>((((hkpEntity*)e)))->AddSlot(arg);
             else
-                ((hkpEntity*)e)->RemoveContactListener(arg);
+                reinterpret_cast<::hkOwnerC9C1 *>((((hkpEntity*)e)))->FUN_00c9c140(arg);
         }
         if (on)
             ((unsigned char*)this)[0xc] |= 4;
@@ -98,29 +109,13 @@ void FUN_00e44be0_cls::UpdateValue(float afDelta, int b, int c, int d, int e, in
 
 struct DDCC60World
 {
-    void removeReference();
 };
 struct hkpGunProjectile
 {
-    void FUN_00e44cc0();
     void ReleaseWorld();
 };
-// If the world pointer at offset 0x10 is set, calls FUN_00e44cc0 when its field at +8 is nonzero, then calls removeReference and clears the pointer.
-// @fnv 0x00e44cf0
-void hkpGunProjectile::ReleaseWorld()
-{
-    if (*(DDCC60World**)((char*)this + 0x10))
-    {
-        if (*(int*)((char*)*(void**)((char*)this + 0x10) + 8))
-            FUN_00e44cc0();
-        (*(DDCC60World**)((char*)this + 0x10))->removeReference();
-        *(void**)((char*)this + 0x10) = 0;
-    }
-}
-
 struct FUN_00e44d20_cls
 {
-    void FUN_00e44d20(float);
 };
 
 struct FUN_00e44de0_cls
@@ -131,14 +126,6 @@ struct FUN_00e44de0_cls
 
     void ApplyToAll(float);
 };
-
-// @fnv 0x00e44de0
-void FUN_00e44de0_cls::ApplyToAll(float value)
-{
-    int count = m_uiItemCount;
-    for (int i = 0; i < count; ++i)
-        m_kTrackedObjects[i]->FUN_00e44d20(value);
-}
 
 struct FUN_00e44e40_object
 {
@@ -176,12 +163,9 @@ struct Iface1
 
 extern int DAT_010ebf74;
 extern int DAT_010ebf94;
-extern int _DAT_0102e388;
-extern const Iface1 vftable_Iface1;
 
 struct FUN_00e44e70_cls
 {
-    void ReleaseWorld();
     void ResetVtables();
 };
 
@@ -191,30 +175,19 @@ void FUN_00e44e70_cls::ResetVtables()
     *reinterpret_cast<void**>(this) = reinterpret_cast<void*>(&DAT_010ebf94);
     *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 8) = reinterpret_cast<void*>(&DAT_010ebf74);
 
-    ReleaseWorld();
+    reinterpret_cast<::hkpGunProjectile *>(this)->ReleaseWorld();
 
     *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 8) =
-        const_cast<void*>(static_cast<const void*>(&vftable_Iface1));
-    *reinterpret_cast<void**>(this) = reinterpret_cast<void*>(&_DAT_0102e388);
+        const_cast<void*>(static_cast<const void*>(&(*reinterpret_cast<const ::Iface1 *>(&::DAT_0104dd7c))));
+    *reinterpret_cast<void**>(this) = reinterpret_cast<void*>(&(*reinterpret_cast<int *>(&::DAT_0102e388)));
 }
 
 struct FUN_00e44f30_cls
 {
-    void ApplyToAll(float);
-    void ClearProjectileFlags();
     void FUN_00e44f30(float, int, int, int, int, int);
 };
 
 void __cdecl FUN_00e44ef0();
-
-// Calls ApplyToAll with a, then ClearProjectileFlags, then FUN_00e44ef0; b through f are unused.
-// @fnv 0x00e44f30
-void FUN_00e44f30_cls::FUN_00e44f30(float a, int b, int c, int d, int e, int f)
-{
-    ApplyToAll(a);
-    ClearProjectileFlags();
-    FUN_00e44ef0();
-}
 
 extern void __cdecl FUN_00e45040();
 
@@ -356,7 +329,6 @@ struct hkpEntityListenerE44C;
 
 struct hkpWorldE44C
 {
-    hkBoolE44C ProcessTarget(hkpEntityE44C* entity);
 };
 
 struct hkpEntityE44C
@@ -364,7 +336,6 @@ struct hkpEntityE44C
     int unk00;
     int unk04;
     hkpWorldE44C* m_pOwningWorld;
-    void FUN_00c9c140(hkpEntityListenerE44C* listener);
 };
 
 struct hkBaseAE44C
@@ -388,15 +359,27 @@ struct hkObjE44C : public hkBaseAE44C, public hkpEntityListenerE44C
 
     void FUN_00e44cc0();
 };
+// If the world pointer at offset 0x10 is set, calls FUN_00e44cc0 when its field at +8 is nonzero, then calls removeReference and clears the pointer.
+// @fnv 0x00e44cf0
+void hkpGunProjectile::ReleaseWorld()
+{
+    if (*(DDCC60World**)((char*)this + 0x10))
+    {
+        if (*(int*)((char*)*(void**)((char*)this + 0x10) + 8))
+            reinterpret_cast<::hkObjE44C *>(this)->FUN_00e44cc0();
+        reinterpret_cast<::hkReferencedObjectC905 *>(((*(DDCC60World**)((char*)this + 0x10))))->FUN_00c905b0();
+        *(void**)((char*)this + 0x10) = 0;
+    }
+}
 
 // @fnv 0x00e44cc0
 void hkObjE44C::FUN_00e44cc0()
 {
     if (m_pEntity)
     {
-        m_pEntity->m_pOwningWorld->ProcessTarget(m_pEntity);
+        reinterpret_cast<::FUN_00c91620_Class *>((m_pEntity->m_pOwningWorld))->ProcessTarget((unsigned char *)(m_pEntity), {});
         if (m_flags & 4)
-            m_pEntity->FUN_00c9c140(this);
+            reinterpret_cast<::hkOwnerC9C1 *>((m_pEntity))->FUN_00c9c140(this);
     }
 }
 
@@ -461,15 +444,13 @@ void hkpProjectileGunE44E::ClearProjectileFlags()
         m_kRigidBodies[i]->m_flags.clear(2);
 }
 
-void __cdecl ReleaseWorld();
 
 // @fnv 0x00e44ea0
 void __cdecl FUN_00e44ea0()
 {
-    ReleaseWorld();
+    static_cast<::hkpGunProjectile *>(nullptr)->ReleaseWorld();
 }
 
-extern float DAT_01017870;
 
 class FUN_00e46660
 {
@@ -545,13 +526,12 @@ struct FnvCpu_FUN_00e450c0_CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void ResetVtables();
     FnvCpu_FUN_00e450c0_CpuObject* FUN_00e450c0(unsigned int flags);
 };
 // @fnv 0x00e450c0
 FnvCpu_FUN_00e450c0_CpuObject* FnvCpu_FUN_00e450c0_CpuObject::FUN_00e450c0(unsigned int flags)
 {
-    ResetVtables();
+    reinterpret_cast<::FUN_00e44e70_cls *>(this)->ResetVtables();
     if (flags & 1)
     {
         FnvCpu_FUN_00e450c0_CpuAllocatorHolder* pAllocatorHolder = FUN_00c85750();
@@ -637,8 +617,6 @@ struct hkRotationq
         m_kColumn2 = r.m_kColumn2;
     }
 
-    void SetAxisAngle(const hkVector4q& axis, hkReal angle);
-    void SetProduct(const hkRotationq& a, const hkRotationq& b);
 };
 
 struct hkTransformq
@@ -660,7 +638,6 @@ class hkpRigidBodyq
         return *reinterpret_cast<const hkVector4q*>(reinterpret_cast<const char*>(this) + 0x1b0);
     }
 
-    void SetGeometryTransform(const hkTransformq& transform);
 };
 
 // If speed exceeds minSpeed, rotates the body's transform about the cross of its normalized velocity and rotation column 0, by an angle scaled by turnRate.
@@ -691,13 +668,13 @@ void __cdecl ApplyTurnRate(hkpRigidBodyq* body, hkReal minSpeed, hkReal turnRate
             axis.normalize3();
 
             hkRotationq rot;
-            rot.SetAxisAngle(axis, angle);
+            reinterpret_cast<::FUN_00cb2e30_cls *>(&(rot))->SpawnSnap((int)&(axis), angle);
 
             hkRotationq newRot;
-            newRot.SetProduct(rot, t.m_rotation);
+            reinterpret_cast<::MProduct *>(&(newRot))->FUN_00cd55b0((const ::MProduct &)(rot), (const ::MProduct &)(t.m_rotation));
             t.m_rotation = newRot;
 
-            body->SetGeometryTransform(t);
+            reinterpret_cast<::CA8890Object *>((body))->FUN_00ca8890((int)&(t));
         }
     }
 }
@@ -713,7 +690,6 @@ class hkRefObjE44
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 
-    void FUN_00c90510() const throw();
 };
 
 class hkpContactListenerE44
@@ -762,7 +738,7 @@ class FUN_00e44c20 : public hkRefObjE44, public hkpContactListenerE44
 FUN_00e44c20::FUN_00e44c20(void* gun, hkRefObjE44* apCollisionBody)
     : m_flags(0), m_fDamage(0.0f), m_kCollisionBody(apCollisionBody), m_pGun(gun)
 {
-    m_kCollisionBody->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((void *)(m_kCollisionBody))->FUN_00c90510();
 }
 
 namespace fnv_00e44f60 {
@@ -789,7 +765,6 @@ struct hkMemoryRouterE44F
 namespace hkRouterE44F {
 extern "C" hkMemoryRouterE44F& __cdecl FUN_00c85750() throw();
 }
-void __cdecl ResizeAudioStream(void* m_pPoolBase, void* pArray, int iSizeElem);
 
 template <class T> class hkArrayE44F
 {
@@ -806,7 +781,7 @@ template <class T> class hkArrayE44F
     {
         hkMemoryRouterE44F& router = hkRouterE44F::FUN_00c85750();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(router.m_pStreamAllocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router.m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         memCpyOneAlignedE44F<sizeof(T)>(m_data + m_iElementCount, &e);
         m_iElementCount++;
     }
@@ -815,7 +790,6 @@ template <class T> class hkArrayE44F
 class hkEntityE44F
 {
   public:
-    void FUN_00c90510();
     void FUN_00e44c90(int id);
 };
 
@@ -833,7 +807,7 @@ class hkIslandE44F
 // @fnv 0x00e44f60
 void hkIslandE44F::FUN_00e44f60(hkEntityE44F* entity)
 {
-    entity->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((entity))->FUN_00c90510();
     m_kActorEntries.AddBack(entity);
     entity->FUN_00e44c90(m_iOwnerObjectOffset);
 }
@@ -895,15 +869,8 @@ class FUN_00e45040 : public FUN_00e466e0
   public:
     hkArrayE450<void*> m_items;
 
-    void FUN_00e44eb0() throw();
     virtual ~FUN_00e45040() throw();
 };
-
-// @fnv 0x00e45040
-FUN_00e45040::~FUN_00e45040() throw()
-{
-    FUN_00e44eb0();
-}
 
 struct hkFinishLoadedObjectFlagE46F
 {
@@ -1045,12 +1012,10 @@ Derived::Derived()
 
 struct ProjectileBodyE44C : hkpEntityE44C
 {
-    void AddSlot(hkpEntityListenerE44C* listener) throw();
 };
 
 struct ProjectileWorldE44C
 {
-    hkpEntityE44C* FUN_00c914d0(hkpEntityE44C* body, int activation) throw();
 };
 
 struct ProjectileAddE44C : hkObjE44C
@@ -1063,13 +1028,12 @@ struct ProjectileAddE44C : hkObjE44C
 void ProjectileAddE44C::FUN_00e44c90(ProjectileWorldE44C* scene) throw()
 {
     if (m_flags & 4)
-        static_cast<ProjectileBodyE44C*>(m_pEntity)->AddSlot(this);
-    scene->FUN_00c914d0(m_pEntity, 1);
+        reinterpret_cast<::hkOwnerC9C5 *>((static_cast<ProjectileBodyE44C*>(m_pEntity)))->AddSlot(this);
+    reinterpret_cast<::hkpWorldC914 *>((scene))->FUN_00c914d0((::hkpEntityC914 *)(m_pEntity), 1);
 }
 
 struct FUN_00e44c70_V
 {
-    void __thiscall InitOnce();
 };
 
 class FUN_00e44da0_cls : public hkpProjectileGun
@@ -1092,7 +1056,7 @@ void __thiscall FUN_00e44da0_cls::FUN_00e44da0(float value)
 
         if (itemValue > value)
         {
-            item->InitOnce();
+            reinterpret_cast<::FUN_00e44c70_cls *>((item))->InitOnce();
         }
 
         ++index;
@@ -1127,6 +1091,13 @@ struct FUN_00e44d20_object
     float unk14;
     void FUN_00e44d20(float value);
 };
+// @fnv 0x00e44de0
+void FUN_00e44de0_cls::ApplyToAll(float value)
+{
+    int count = m_uiItemCount;
+    for (int i = 0; i < count; ++i)
+        reinterpret_cast<::FUN_00e44d20_object *>((m_kTrackedObjects[i]))->FUN_00e44d20(value);
+}
 
 // Adds value to unk14 and calls vf14 when the low bit of unk0C is clear.
 // @fnv 0x00e44d20
@@ -1141,7 +1112,6 @@ void FUN_00e44d20_object::FUN_00e44d20(float value)
 
 struct ProjQ
 {
-    void InitOnce();
 };
 struct FUN_00e44eb0_cls
 {
@@ -1150,6 +1120,11 @@ struct FUN_00e44eb0_cls
     int m_iProjectileCount;
     void FUN_00e44eb0();
 };
+// @fnv 0x00e45040
+FUN_00e45040::~FUN_00e45040() throw()
+{
+    reinterpret_cast<::FUN_00e44eb0_cls *>(this)->FUN_00e44eb0();
+}
 
 // Calls FUN_00e44c70 and removeReference on each projectile in m_pProjectiles, then resets m_iProjectileCount to 0.
 // @fnv 0x00e44eb0
@@ -1159,8 +1134,8 @@ void FUN_00e44eb0_cls::FUN_00e44eb0()
     for (int i = 0; i < count; ++i)
     {
         ProjQ* p = (ProjQ*)((char**)m_pProjectiles)[i];
-        p->InitOnce();
-        ((DDCC60World*)p)->removeReference();
+        reinterpret_cast<::FUN_00e44c70_cls *>((p))->InitOnce();
+        reinterpret_cast<::hkReferencedObjectC905 *>((((DDCC60World*)p)))->FUN_00c905b0();
     }
     m_iProjectileCount = 0;
 }
@@ -1171,7 +1146,6 @@ struct ProjectileRelease
     int m_04;
     int m_08;
     unsigned char m_flags;
-    void FUN_00c905b0();
     __forceinline bool destroyed() const
     {
         return (m_flags & 1) != 0;
@@ -1198,6 +1172,14 @@ class ProjectileCleanupEntry : public hkpProjectileGun
   public:
     void FUN_00e44ef0();
 };
+// Calls ApplyToAll with a, then ClearProjectileFlags, then FUN_00e44ef0; b through f are unused.
+// @fnv 0x00e44f30
+void FUN_00e44f30_cls::FUN_00e44f30(float a, int b, int c, int d, int e, int f)
+{
+    reinterpret_cast<::FUN_00e44de0_cls *>(this)->ApplyToAll(a);
+    reinterpret_cast<::hkpProjectileGunE44E *>(this)->ClearProjectileFlags();
+    static_cast<::ProjectileCleanupEntry *>(nullptr)->FUN_00e44ef0();
+}
 
 // For each item in m_kRigidBodies whose flags bit 0 is set, calls FUN_00c905b0 on it and removes it from the array.
 // @fnv 0x00e44ef0
@@ -1209,7 +1191,7 @@ void ProjectileCleanupEntry::FUN_00e44ef0()
         ProjectileRelease* item = (ProjectileRelease*)m_kRigidBodies.m_data[i];
         if (item->destroyed())
         {
-            item->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((item))->FUN_00c905b0();
             eraseProjectile(m_kRigidBodies, i);
             --count;
             --i;

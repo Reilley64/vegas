@@ -1,4 +1,7 @@
 
+#include "fnv/decl/FUN_00a311e0_s.h"
+#include "fnv/decl/FUN_00a7f810.h"
+#include "fnv/symbols_00e95000.h"
 class NiMemObject
 {
   public:
@@ -24,13 +27,11 @@ class NiUnsharedGeometryGroup
     static NiGeometryGroup* Create();
 };
 NiGeometryGroup* FUN_00e94c00();
-NiGeometryGroup* GetNiGeometryGroup();
 class NiStreamLinkIDSet
 {
   public:
     unsigned int* data;
     unsigned int capacity, count;
-    void Realloc(unsigned int);
     int Find(unsigned int value)
     {
         for (unsigned int i = 0; i < count; ++i)
@@ -52,7 +53,6 @@ class NiGeometryGroupManager
 class NiD3DGeometryGroupManager : public NiMemObject
 {
   public:
-    void FUN_00a7f810();
     void** vtable;
     NiStreamLinkIDSet groups;
     Direct3DDeviceInterface* device;

@@ -2,6 +2,11 @@
 #ifndef FNV_PATHINGSOLUTION_H
 #define FNV_PATHINGSOLUTION_H
 
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_00589850_Class.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/symbols_005a4000.h"
 #include "layout_support.h"
 #include "NiPoint3.h"
 #include "NiRefObject.h"
@@ -32,13 +37,10 @@ class PacketNodeRecord;
 class PathingPoint
 {
   public:
-    float GetDistance();
 };
 class PathingDoorRef
 {
   public:
-    PathingDoorRef* GetLocation();
-    PathingPoint* GetDoorPathingPoint();
 };
 enum PATHING_INFO_TYPE
 {
@@ -428,9 +430,6 @@ class PacketNodeRecord
     PathingLocation Location;  // +0x4, 40 bytes
     TESObjectREFR* m_pDoorRef;   // +0x2C, 4 bytes
     void LoadGame(BGSLoadFormBuffer*);
-    bool IsDoor();
-    class PathingDoorRef* GetPosition(NiPoint3&);
-    class PathingDoorRef* GetPosition(NiPoint3&, NiPoint3&, class PathingDoorRef*);
     // PacketNodeRecord
     // void __cdecl PacketNodeRecord::*()
     // PacketNodeRecord* __cdecl PacketNodeRecord::*()
@@ -481,6 +480,8 @@ class PathingGraphNode
     // void __cdecl PathingGraphNode::*(BGSLoadFormBuffer*)
     // PathingGraphNode& __cdecl PathingGraphNode::*(const PathingGraphNode&)
     // void* __cdecl PathingGraphNode::*(unsigned int)
+public:
+    bool IsTransitionNode();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(PathingGraphNode) == 60);
@@ -556,8 +557,6 @@ class PathingSolution : public PathingSolutionBase
     PathingSolution();
     void LoadGame(BGSLoadFormBuffer*);
     float CalculatePathLength();
-    unsigned int GetVirtualNodeCount();
-    PacketNodeRecord* GetVirtualNode(unsigned int);
     PathingSolutionMember1 member1;  // +0x8
     PathingSolutionMember2 member2;  // +0x20
     PathingSolutionMember3 member3;  // +0x30

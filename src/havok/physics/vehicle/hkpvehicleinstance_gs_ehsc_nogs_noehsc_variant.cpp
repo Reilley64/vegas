@@ -5,11 +5,20 @@
 
 // src/havok/physics/vehicle/hkpvehicleinstance.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/hkpvehicleinstance.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00c91620_Class.h"
+#include "fnv/decl/FUN_00d2b2b0_class.h"
+#include "fnv/decl/VUBCD_Instance.h"
+#include "fnv/decl/VehicleAeroInstance.h"
+#include "fnv/decl/fnv_00e385e0__VehStep_Vehicle.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpWorldC914.h"
+#include "fnv/symbols_00e59000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpVehicleInstance.h"
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
-extern unsigned long DAT_0126835c;
 void* FUN_00c85750() throw();
 struct VUC_Mon
 {
@@ -132,18 +141,13 @@ struct VUC_Instance
     VUC_Data* m_data;
     void FUN_00e37aa0(float dt, void* det) throw();
     void FUN_00e36f60(float dt, VUC_Filtered& f) throw();
-    void UpdateSteering(float dt, const VUC_Filtered& f) throw();
     void FUN_00e36fa0(float dt, VUC_Transmission& t) throw();
-    void FUN_00e37020(float dt, const VUC_Filtered& f, VUC_Transmission& t) throw();
     void UpdateVehicleState(float dt, const VUC_Filtered& f, FUN_00e39400& b) throw();
-    void NotifyListener(float dt, void* det, VUC_RealArray& s) throw();
-    void FUN_00e37080(float dt, void* aero) throw();
     void UpdateVehicleComponents(const VUC_StepInfo& stepInfo, void* det, void* aero,
                                  VUC_RealArray& suspensionForceAtWheel, VUC_RealArray& totalLinearForceAtWheel);
 };
 struct VUC_World
 {
-    void FUN_00c914d0(void* entity, int flag);
 };
 struct VUC_VehicleTarget
 {
@@ -178,7 +182,6 @@ struct VUC_DeltaTime
     float m_fTimeStep;
     float m_fInverseDeltaTime;
 };
-void __cdecl FUN_00e59a40(void* a, void* b, void* c, void* d);
 struct FUN_00e38080StandIn
 {
     unsigned char m_unknown00[0x1c];
@@ -190,7 +193,6 @@ struct FUN_00e38080StandIn
 };
 struct DDCC60World
 {
-    void removeReference();
 };
 struct VUC_Allocator
 {
@@ -207,7 +209,6 @@ struct VUC_Router
 };
 extern int DAT_010df34c;
 VUC_Router* _D1A0E0GetMemoryRouter();
-void __fastcall FUN_00d2b2b0(void*);
 struct FUN_00e38bf0
 {
     void* m_vtbl;
@@ -412,7 +413,6 @@ class hkpEntityE379
 class hkpWorldE379
 {
   public:
-    hkBoolE379 ProcessTarget(hkpEntityE379* pkEntity);
 };
 class hkActionE379
 {
@@ -564,9 +564,6 @@ struct VUC_StepLocals
 };
 struct VUC_StepInstance : VUC_Instance
 {
-    void FUN_00e385e0(const VUC_StepInfo& stepInfo, const VUC_AeroOutput& aero,
-                      const VUC_RealArray& suspensionForceAtWheel,
-                      const VUC_RealArray& totalLinearForceAtWheel) throw();
     void FUN_00e39030(const VUC_StepInfo& stepInfo, void* det);
 };
 void* FUN_00c85750() throw();
@@ -632,8 +629,6 @@ struct VehicleInstance
     void* m_pSuspension;
     void* m_pAerodynamics;
     VehicleWheelCollide* m_pWheelCollide;
-    void FUN_00e37940();
-    void FUN_00e39030(const VehicleStepInfo* stepInfo, void* scratch);
     void FUN_00e39190(const VehicleStepInfo* stepInfo);
 };
 class hkMemoryAllocatorE392
@@ -661,7 +656,6 @@ class hkRefObjectE392
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 
-    void FUN_00c90510() throw();
 };
 class hkShapeE392;
 struct hkInputInfoE392
@@ -734,7 +728,6 @@ class FUN_00e38b20
     }
 
     FUN_00e38b20(const hkShapeE392* pkShape) throw();
-    void FUN_00e39480(const hkSourceE392* pkOther) throw();
 };
 typedef char fnv_check_e39210[(sizeof(FUN_00e38b20) == 0xd4) ? 1 : -1];
 class hkSourceE392
@@ -748,7 +741,6 @@ class hkSourceE392
 
     FUN_00e38b20* FUN_00e39210(const hkInputE392* pkInput, int iFlags) throw();
 };
-void __cdecl FUN_00e39190();
 void __cdecl FUN_00e392f0();
 struct VUC_TransmissionTarget10
 {

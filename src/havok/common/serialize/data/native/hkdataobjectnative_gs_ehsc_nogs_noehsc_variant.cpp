@@ -3,11 +3,36 @@
 // byte only under /MT /O2 /GS- /EHs-c- /Gy (unit src/havok/common/serialize/data/native/hkdataobjectnative.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/decl/D871A0Buffer.h"
+#include "fnv/decl/D87250Array.h"
+#include "fnv/decl/D87370Obj.h"
+#include "fnv/decl/DataObjectHandle.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00d46f00_s.h"
+#include "fnv/decl/FUN_00d46f70_cls.h"
+#include "fnv/decl/FUN_00d46f80_class.h"
+#include "fnv/decl/FUN_00d87200_cls.h"
+#include "fnv/decl/FUN_00d87260_cls.h"
+#include "fnv/decl/FUN_00d87790.h"
+#include "fnv/decl/FUN_00dbb3f0__hkDataWorldNative.h"
+#include "fnv/decl/FnvClassNameNode.h"
+#include "fnv/decl/HkClassNode.h"
+#include "fnv/decl/Pair.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/StringMemberAccessor.h"
+#include "fnv/decl/TargetClass.h"
+#include "fnv/decl/fnv_00d47080__Container.h"
+#include "fnv/decl/fnv_00dbbe80__hkDataClassNativeDBBE.h"
+#include "fnv/decl/hkClassEnumD470.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00d86000.h"
+#include "fnv/symbols_00d87000.h"
+#include "fnv/symbols_01268000.h"
 void __stdcall FUN_00dbb610(int* p);
 struct hkReferencedObject
 {
-    void RetainReference();
-    void removeReference();
 };
 struct FUN_00dbb490_class
 {
@@ -27,7 +52,6 @@ struct FUN_00dbbb20_Class
 };
 struct FUN_00d46f00_Class
 {
-    int __thiscall FUN_00d46f00();
 };
 struct FUN_00dbbc50_Class
 {
@@ -64,7 +88,6 @@ struct FUN_00dbb920_Class
 };
 struct TypeNode
 {
-    int FUN_00d46f70();
 };
 struct FUN_00dbb9d0_Class
 {
@@ -102,7 +125,6 @@ struct Shape
 };
 struct Container
 {
-    Shape const* __thiscall FUN_00d46f80(int) const;
 };
 struct FUN_00dbbfa0_Class
 {
@@ -111,12 +133,10 @@ struct FUN_00dbbfa0_Class
     int m_08;
     Container* m_0c;
 
-    void __thiscall GetMemberInfo(Shape const*, int);
     void __thiscall FUN_00dbbfa0(int, int);
 };
 struct FUN_00d46f20_Class
 {
-    int __thiscall FUN_00d46f20(int a, int b);
 };
 struct hkDataClassNative
 {
@@ -125,7 +145,6 @@ struct hkDataClassNative
     int m_08;
     FUN_00d46f20_Class* m_0c;
 
-    void SetInvocationResult(int result);
     void InvokeMemberFunction(int a, int b);
 };
 struct FUN_00dbc640_class;
@@ -152,13 +171,12 @@ struct FUN_00dbc640_class
     int m_00;
     unsigned short m_04;
 
-    void __thiscall FUN_00dbb3f0();
 
     FUN_00dbc640_class* __thiscall FUN_00dbc640(int flags);
 };
 FUN_00dbc640_class* FUN_00dbc640_class::FUN_00dbc640(int flags)
 {
-    this->FUN_00dbb3f0();
+    reinterpret_cast<::FUN_00dbb3f0::hkDataWorldNative *>((this))->FUN_00dbb3f0::hkDataWorldNative::~hkDataWorldNative();
 
     if (flags & 1)
     {
@@ -182,7 +200,6 @@ struct FUN_00dbb930_cls
 };
 struct FUN_00d47080_Class
 {
-    void __thiscall FindIndexByName();
 };
 struct FUN_00dbb9e0_Class
 {
@@ -207,7 +224,6 @@ struct FUN_00dbba00_Class
     int m_04;
     int m_08;
     int m_0C;
-    int __thiscall FUN_00d47030(int param_1);
     int __thiscall FUN_00dbba00(int param_1);
 };
 __int64 __stdcall FUN_00dbba40(int);
@@ -216,7 +232,6 @@ int __stdcall FUN_00dbb120(int arg0);
 int __stdcall FUN_00dbb130(int a, int b);
 struct FUN_00c90510_Obj : hkReferencedObject
 {
-    void FUN_00c90510();
 };
 struct FUN_00d87790_Result
 {
@@ -224,7 +239,6 @@ struct FUN_00d87790_Result
 };
 struct FUN_00d87790_Obj
 {
-    void __thiscall FUN_00d87790(FUN_00d87790_Result);
 };
 struct FUN_00dbb360_Global
 {
@@ -235,7 +249,6 @@ struct FUN_00dbb360_Global
     virtual FUN_00c90510_Obj* vf10();
     virtual FUN_00c90510_Obj* vf14();
 };
-extern FUN_00dbb360_Global* DAT_01268b08;
 extern int DAT_010d6518[];
 struct FUN_00dbb360_Class
 {
@@ -291,7 +304,6 @@ class hkRefObjDBB5
 class hkStringDBB5
 {
   public:
-    void FUN_00d873b0(const char* name, int len) throw();
     int unk00;
     int unk04;
 };
@@ -332,7 +344,6 @@ class hkNodeDBB5 : public hkResourceDBB5
 class hkNodeRefDBB5
 {
   public:
-    void FUN_00dba760(hkNodeDBB5* node) throw();
     hkNodeDBB5* m_node;
 };
 class hkLibDBB5
@@ -352,14 +363,11 @@ struct hkErrorDBB7
     virtual void V2() throw();
     virtual int message(int iType, int aiSoundId, const char* pcDescription, const char* pcFile, int iLine) throw();
 };
-extern hkErrorDBB7* DAT_01268360;
 struct hkOstreamDBB7
 {
     int m_iUnk00;
     char* m_pString;
     int m_uiLogicalSize;
-    void FUN_00cc00e0() throw();
-    hkOstreamDBB7& FUN_00cc01c0(const char* pcString) throw();
     hkOstreamDBB7& FUN_00cc0120(const void* pvPointer) throw();
 };
 struct FUN_00cb1600 : hkOstreamDBB7
@@ -374,7 +382,6 @@ struct hkBoolDBB7
 };
 struct FUN_00d46d40_s
 {
-    const char* FUN_00d46d40() throw();
 };
 struct hkClassDBB7 : FUN_00d46d40_s
 {
@@ -415,7 +422,6 @@ class hkDataObjectNativeDBB7
     }
     void SetContents(void* pvObject, hkClassDBB7& kClass);
 };
-int __cdecl FUN_00cb0fa0(int, int);
 struct hkBoolDBB9
 {
     char m_cBooleanValue;
@@ -453,7 +459,6 @@ struct FUN_00d871a0_Data
     int memberData;
     int key;
     void FUN_00d871a0(void* value, int argument);
-    const char* FUN_00d871e0(const int* argument);
 };
 struct FUN_00dbbae0_Class
 {
@@ -519,7 +524,6 @@ struct hkClassMemberTypeDBBD
     int unk04;
     short m_iElementCount;
 };
-hkClassMemberTypeDBBD* __cdecl FUN_00d868a0(int iType);
 struct hkArrayBaseDBBD
 {
     void* m_data;
@@ -570,7 +574,6 @@ class hkDataObjectNativeDBBD
 };
 struct FUN_00d46f20_Map
 {
-    int* FUN_00d46f20(int iKey);
 };
 struct FUN_00dbbe30_cls
 {
@@ -606,12 +609,9 @@ class hkVariantDBC3
 
     hkVariantDBC3(void* obj, void* name) throw()
     {
-        FUN_00d871a0(obj, name);
+        reinterpret_cast<::D871A0Buffer *>(this)->FUN_00d871a0((*(const ::D871A0Array *)(obj)), (int)(name));
     }
     void FUN_00d871a0(void* obj, void* name) throw();
-    hkClassMemberDBC3* FUN_00d87370() throw();
-    unsigned int* FUN_00d87220(int i) throw();
-    unsigned int* FUN_00d87230(int i) throw();
 };
 class hkObjDBC3
 {
@@ -740,7 +740,6 @@ class hkNodeDBB6 : public hkResourceDBB6
 class hkNodeRefDBB6
 {
   public:
-    void FUN_00dba760(hkNodeDBB6* node) throw();
     hkNodeDBB6* m_node;
 };
 class hkLibDBB6
@@ -781,7 +780,6 @@ struct FUN_00d871a0
     int m_00;
     int m_04;
     FUN_00d871a0(void* pair, int x);
-    void* FUN_00d87200();
 };
 struct FUN_00dbbb60_cls
 {
@@ -803,9 +801,6 @@ struct StreamDBC5C0;
 struct AccessorDBC5C0
 {
     AccessorDBC5C0(StreamDBC5C0* pkStream, int iIndex);
-    const ComponentDescDBC5C0* GetDesc();
-    const float* FUN_00d87250(int iComponent);
-    const short* FUN_00d87260(int iComponent);
     int m_iA;
     int m_iB;
 };
@@ -880,9 +875,6 @@ struct S00dbb260_W : FUN_00cb1600
 {
     S00dbb260_W(char* b, int s) : FUN_00cb1600(b, s)
     {}
-    S00dbb260_W& FUN_00cc01c0(const char* a, int b, const char* c, const char* d, const char* e);
-    S00dbb260_W& FUN_00cc01c0();
-    S00dbb260_W& FUN_00cc0120();
 };
 
 // @fnv 0x00dbb260
@@ -891,7 +883,7 @@ static __declspec(noinline) S00dbb260_Result* FUN_00dbb260(S00dbb260_Args* args,
     if (!!args->cls)
     {
         S00dbb260_Rec* a;
-        a = world->vf24(args->cls->FUN_00d46d40());
+        a = world->vf24(reinterpret_cast<::FnvClassNameNode *>((args->cls))->FUN_00d46d40());
         if ((bool)a)
         {
             args->cls = a->unk0C;
@@ -900,13 +892,9 @@ static __declspec(noinline) S00dbb260_Result* FUN_00dbb260(S00dbb260_Args* args,
         {
             char j[0x200];
             S00dbb260_W writer(j, 0x200);
-            writer.FUN_00cc01c0(str_010d64bc, args->objId, str_010d64d0, args->cls->FUN_00d46d40(), str_010d64dc)
-                .FUN_00cc0120()
-                .FUN_00cc01c0()
-                .FUN_00cc01c0()
-                .FUN_00cc01c0();
-            DAT_01268360->message(1, 0x1800473A, j, str_010d6394, 0x2C7);
-            writer.FUN_00cc00e0();
+            reinterpret_cast<::SinkOwner *>(&((*(::S00dbb260_W *)(reinterpret_cast<::SinkOwner *>(&((*(::S00dbb260_W *)(reinterpret_cast<::SinkOwner *>(&((*(::S00dbb260_W *)&(reinterpret_cast<::hkOstreamDBB7 *>(&((*(::S00dbb260_W *)(reinterpret_cast<::SinkOwner *>(&(writer))->FUN_00cc01c0(str_010d64bc)))))->FUN_00cc0120({})))))->FUN_00cc01c0({})))))->FUN_00cc01c0({})))))->FUN_00cc01c0({});
+            (*reinterpret_cast<::hkErrorDBB7 * *>(&::DAT_01268360))->message(1, 0x1800473A, j, str_010d6394, 0x2C7);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(writer))->FUN_00cc00e0::~FUN_00cc00e0();
             args->objId = 0;
             args->cls = 0;
         }
@@ -917,7 +905,7 @@ static __declspec(noinline) S00dbb260_Result* FUN_00dbb260(S00dbb260_Args* args,
     rec->unk06 = 0;
     rec->unk08 = 0;
     rec->vt = (int)DAT_010d6334;
-    rec->sub.FUN_00d873d0(args);
+    reinterpret_cast<::Pair *>(&(rec->sub))->FUN_00d873d0((*(const ::Pair *)(args)));
     rec->world = world;
     return rec;
 }
@@ -979,20 +967,17 @@ static __declspec(noinline) ResultDBC FUN_00dbb140(TypeDBC* type, void* object, 
         if (type->GetLastNodeFlag().m_bValue)
         {
             TypeDBC* actual = lookup->lookup(object);
-            TypeDBC* found = actual ? world->find(actual->FUN_00d46d40()) : 0;
+            TypeDBC* found = actual ? world->find(reinterpret_cast<::FnvClassNameNode *>((actual))->FUN_00d46d40()) : 0;
             result.type = found;
             result.object = found ? object : 0;
             if (!found)
             {
                 char buffer[512];
                 FUN_00cb1600 stream(buffer, 512);
-                stream.FUN_00cc01c0(DAT_010d63bc)
-                    .FUN_00cc01c0(type->FUN_00d46d40())
-                    .FUN_00cc01c0(DAT_010d63f8)
-                    .FUN_00cc0120(object)
-                    .FUN_00cc01c0(DAT_010d6400);
-                DAT_01268360->message(1, 0x3476d70f, buffer, DAT_010d6394, 0x37);
-                stream.FUN_00cc00e0();
+                reinterpret_cast<::SinkOwner *>(&((*(::hkOstreamDBB7 *)(reinterpret_cast<::SinkOwner *>(&((*(::hkOstreamDBB7 *)(reinterpret_cast<::SinkOwner *>(&((*(::hkOstreamDBB7 *)(reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(DAT_010d63bc)))))->FUN_00cc01c0(reinterpret_cast<::FnvClassNameNode *>((type))->FUN_00d46d40())))))->FUN_00cc01c0(DAT_010d63f8)))
+                    .FUN_00cc0120(object)))->FUN_00cc01c0(DAT_010d6400);
+                (*reinterpret_cast<::hkErrorDBB7 * *>(&::DAT_01268360))->message(1, 0x3476d70f, buffer, DAT_010d6394, 0x37);
+                reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();
             }
         }
         else
@@ -1018,20 +1003,17 @@ static __declspec(noinline) NativeDBC* FUN_00dbb260(WorldDBC* world, PairDBC* va
 {
     if (value->type)
     {
-        WorldDBC* found = world->findObjectType(value->type->FUN_00d46d40());
+        WorldDBC* found = world->findObjectType(reinterpret_cast<::FnvClassNameNode *>((value->type))->FUN_00d46d40());
         if (found)
             value->type = found->type;
         else
         {
             char buffer[512];
             FUN_00cb1600 stream(buffer, 512);
-            stream.FUN_00cc01c0(DAT_010d64bc)
-                .FUN_00cc0120(value->object)
-                .FUN_00cc01c0(DAT_010d64d0)
-                .FUN_00cc01c0(value->type->FUN_00d46d40())
-                .FUN_00cc01c0(DAT_010d64dc);
-            DAT_01268360->message(1, 0x1800473a, buffer, DAT_010d6394, 0x2c7);
-            stream.FUN_00cc00e0();
+            reinterpret_cast<::SinkOwner *>(&((*(::hkOstreamDBB7 *)(reinterpret_cast<::SinkOwner *>(&((*(::hkOstreamDBB7 *)(reinterpret_cast<::SinkOwner *>(&((*(::hkOstreamDBB7 *)(reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(DAT_010d64bc)))
+                .FUN_00cc0120(value->object)))->FUN_00cc01c0(DAT_010d64d0)))))->FUN_00cc01c0(reinterpret_cast<::FnvClassNameNode *>((value->type))->FUN_00d46d40())))))->FUN_00cc01c0(DAT_010d64dc);
+            (*reinterpret_cast<::hkErrorDBB7 * *>(&::DAT_01268360))->message(1, 0x1800473a, buffer, DAT_010d6394, 0x2c7);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();
             value->object = 0;
             value->type = 0;
         }

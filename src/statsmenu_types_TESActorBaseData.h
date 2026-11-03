@@ -2,6 +2,7 @@
 #ifndef FNV_TESACTORBASEDATA_DECLS_H
 #define FNV_TESACTORBASEDATA_DECLS_H
 
+#include "fnv/symbols_0047e000.h"
 #include "statsmenu_layout_support.h"
 #include "statsmenu_BaseFormComponent.h"
 #include "statsmenu_TESForm.h"
@@ -39,7 +40,6 @@ FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_usField16) == 22);
 class TESActorBaseData : public BaseFormComponent
 {
   public:
-    static const char* GetActorDisplayName(Actor* actor);
     // base BaseFormComponent at +0x0, size 4
     ActorBaseAttributes actorData;             // +0x4, 24 bytes
     TESLevItem* m_pBaseTemplateForm;           // +0x1C, 4 bytes

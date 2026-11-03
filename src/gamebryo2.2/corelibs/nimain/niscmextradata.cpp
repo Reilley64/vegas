@@ -2,16 +2,18 @@
 // src/gamebryo2.2/corelibs/nimain/niscmextradata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/niscmextradata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern int g_01270908;
 
 // @fnv 0x00ee89a0
+#include "fnv/decl/ExtraDataObject.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01270000.h"
 int* __cdecl FUN_00ee89a0()
 {
-    return &g_01270908;
+    return &(*reinterpret_cast<int *>(&::g_01270908));
 }
 
 extern int DAT_0110129c;
-void __cdecl NiFreeAlias(void*);
 struct FUN_00a7b300_shell
 {
     void FUN_00a7b300();
@@ -30,23 +32,20 @@ void* NiSCMExtraData::Destroy(unsigned int auiFlags)
 {
     void* tmp = m_24;
     *(int*)this = (int)&DAT_0110129c;
-    NiFreeAlias(tmp);
-    NiFreeAlias(m_2c);
+    ::FUN_00aa10f0(tmp);
+    ::FUN_00aa10f0(m_2c);
     ((FUN_00a7b300_shell*)this)->FUN_00a7b300();
     if (auiFlags & 1)
-        ::operator delete(this, 0x30);
+        ::FUN_00aa1460(this, 0x30);
     return this;
 }
 
 struct FUN_00a7b2e0_shell
 {
-    void FUN_00a7b2e0();
 };
 struct FUN_00a5b950_shell
 {
-    void AssignFixedString(int);
 };
-void* __cdecl FUN_00aa1070(int);
 
 struct FUN_00ee8910_obj
 {
@@ -68,14 +67,14 @@ struct FUN_00ee8910_obj
 // @fnv 0x00ee8910
 FUN_00ee8910_obj* FUN_00ee8910_obj::FUN_00ee8910(int a, int aiCountA, int aiCountB)
 {
-    ((FUN_00a7b2e0_shell*)this)->FUN_00a7b2e0();
+    reinterpret_cast<::ExtraDataObject *>((((FUN_00a7b2e0_shell*)this)))->FUN_00a7b2e0();
     vfptr = &DAT_0110129c;
-    ((FUN_00a5b950_shell*)this)->AssignFixedString(a);
+    ::AssignFixedString((char *)(((FUN_00a5b950_shell*)this)), a, {});
     m_countA = aiCountA;
     m_zero18 = 0;
     if (aiCountA != 0)
     {
-        m_arrA = FUN_00aa1070(aiCountA * 8);
+        m_arrA = ::FUN_00aa1070(aiCountA * 8);
     }
     else
     {
@@ -85,7 +84,7 @@ FUN_00ee8910_obj* FUN_00ee8910_obj::FUN_00ee8910(int a, int aiCountA, int aiCoun
     m_zero20 = 0;
     if (aiCountB != 0)
     {
-        m_arrB = FUN_00aa1070(aiCountB * 8);
+        m_arrB = ::FUN_00aa1070(aiCountB * 8);
     }
     else
     {

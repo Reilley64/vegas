@@ -2,6 +2,8 @@
 #ifndef FNV_PATHINGREQUEST_H
 #define FNV_PATHINGREQUEST_H
 
+#include "fnv/decl/FUN_008e7c50_cls.h"
+#include "fnv/symbols_008e7000.h"
 #include "lowprocess_support.h"
 #include "lowprocess_Actor.h"
 #include "InventoryChanges.h"
@@ -33,8 +35,6 @@ class PathingRequest : public NiRefObject
   public:
     PathingRequest();
     ~PathingRequest();
-    void SetUseSoft(bool);
-    void SetTargetAngle(float);
     // base NiRefObject at +0x0, size 8
     Actor* pActor;                                              // +0x8, 4 bytes
     PathingLocation Origin;                                     // +0xC, 40 bytes

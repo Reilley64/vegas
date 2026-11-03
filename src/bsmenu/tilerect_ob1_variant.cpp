@@ -3,6 +3,21 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /Ob1 (unit src/bsmenu/tilerect.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a01230_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a074d0_shell.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00a5bca0_shell.h"
+#include "fnv/decl/Interface.h"
+#include "fnv/decl/NiGlobalStringTable.h"
+#include "fnv/decl/TileListBoxCalls.h"
+#include "fnv/decl/UpdateTreeNode.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00707000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_0109b000.h"
 #include "tilerect.h"
 
 // Reconstruction of FUN_00a1f3b0 (0x00a1f3b0, 581 bytes) - a TileX method that
@@ -10,8 +25,8 @@
 // Tile__Extra.  Class/field names the pack does not declare are stand-ins,
 // named after their offsets.
 
-extern const char* DAT_0109b220;                 // the interned empty string shared by NiFixedString
-const char* FUN_00a5b690(const char* pcString);  // interns a string, returns the shared copy
+                 // the interned empty string shared by NiFixedString
+  // interns a string, returns the shared copy
 
 class NiFixedString
 {
@@ -20,13 +35,13 @@ class NiFixedString
     NiFixedString(const char* pcString)
     {
         if (!pcString)
-            m_pString = DAT_0109b220;
+            m_pString = ::DAT_0109b220;
         else
-            m_pString = FUN_00a5b690(pcString);
+            m_pString = ::NiGlobalStringTable::AddString(pcString);
     }
     ~NiFixedString()
     {
-        if (m_pString == DAT_0109b220)
+        if (m_pString == ::DAT_0109b220)
             return;
         volatile long* refCount = (volatile long*)m_pString - 2;
         InterlockedDecrement(refCount);
@@ -77,8 +92,6 @@ class NiNode : public NiMemObject
             unknown_vtable_04();
     }
     void SetName(const NiFixedString& kName);
-    void FUN_00a5a040();
-    bool AddExtraData(Tile__Extra* pkExtra);
     static const unsigned int APP_CULLED_MASK = 1;
     void SetHidden(bool hidden, unsigned int mask)
     {
@@ -149,14 +162,9 @@ class TileX
     unsigned int unknown_30, unknown_34;
 
     NiNode* GetNiNode();
-    bool IsTraitNonZero(int iParent);
-    float FUN_00a011b0(int iWhich, int iUnknown);
-    void FUN_00a037e0(int iWhich, float fValue);
     NiNode* FUN_00a1f3b0();
 };
 
-NiNode* FUN_00706d30();
-void FUN_00707930(int iValue);
 
 // @fnv 0x00a1f3b0
 NiNode* TileX::FUN_00a1f3b0()
@@ -164,14 +172,14 @@ NiNode* TileX::FUN_00a1f3b0()
     NiNode* pkParent = GetNiNode();
     unknown_2c = new NiNode(0);
     if (pkParent == 0)
-        pkParent = FUN_00706d30();
+        pkParent = ::Interface::GetInterfaceNode();
     pkParent->unknown_vtable_dc(unknown_2c, 1);
-    unknown_2c->SetName(NiFixedString(unknown_20));
-    unknown_2c->SetHidden(!IsTraitNonZero(0xfa3), 1);
-    unknown_2c->FUN_00a5a040();
-    FUN_00707930(1);
-    unknown_2c->AddExtraData(new Tile__Extra(this, unknown_2c));
-    FUN_00a037e0(0xfa1, FUN_00a011b0(0xfa1, 0));
-    FUN_00a037e0(0xfa2, FUN_00a011b0(0xfa2, 0));
+    ::AssignFixedString((char *)((unknown_2c).operator->()), (int)&(const ::NiFixedString &)(NiFixedString(unknown_20)), {});
+    unknown_2c->SetHidden(!reinterpret_cast<::FUN_00a01230_shell *>(this)->IsTraitNonZero(0xfa3), 1);
+    reinterpret_cast<::FUN_00a5a040_Class *>(((unknown_2c).operator->()))->FUN_00a5a040();
+    ::fnv_00707930::FUN_00707930(1);
+    reinterpret_cast<::FUN_00a5bca0_shell *>(((unknown_2c).operator->()))->SetExtraDataName((::NiExtraData *)(::Tile__Extra *)(new Tile__Extra(this, unknown_2c)));
+    reinterpret_cast<::UpdateTreeNode *>(this)->FUN_00a037e0(0xfa1, reinterpret_cast<::TileListBoxCalls *>(this)->GetFloat(0xfa1), {});
+    reinterpret_cast<::UpdateTreeNode *>(this)->FUN_00a037e0(0xfa2, reinterpret_cast<::TileListBoxCalls *>(this)->GetFloat(0xfa2), {});
     return unknown_2c;
 }

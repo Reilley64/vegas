@@ -4,21 +4,23 @@
 
 // src/fallout_shared/tempeffects/bstempeffectgeometrydecal.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/tempeffects/bstempeffectgeometrydecal.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/NiRenderer.h"
+#include "fnv/symbols_00683000.h"
+#include "fnv/symbols_00685000.h"
+#include "fnv/symbols_00688000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109e000.h"
+#include "fnv/symbols_011c6000.h"
+#include "fnv/symbols_011d6000.h"
 struct NiRTTI
 {
 };
-extern const NiRTTI g_011d6b04;
 struct BSTempEffectGeometryDecal
 {
     const NiRTTI* FUN_006838a0() const;
 };
 extern unsigned char* DAT_011f5b04;
-unsigned char* FUN_00683a60();
-extern "C" void __cdecl PowFloat(float, int);
-void __cdecl ForwardFloatAndInt(float f, int i);
 struct NiFixedString;
-extern NiFixedString* DAT_011c6228;
-NiFixedString* __cdecl FUN_00688460();
 struct GlobalObjectO2_00a7b610
 {
     int dummy;
@@ -33,7 +35,6 @@ struct BSDismemberSkinInstance
     void* __thiscall FUN_006885e0(unsigned int);
     void __thiscall FUN_00688610();
 };
-void* __cdecl __Dummy_00b6fef0(void* p, unsigned int size);
 struct FUN_00685e60_shell
 {
     void __thiscall FUN_00685e60(unsigned int, unsigned int);
@@ -43,10 +44,8 @@ struct NiSkinInstance
     void __thiscall FUN_00a85580();
     void* __thiscall FUN_006885a0(unsigned int flags);
 };
-extern "C" void __cdecl _delete(void* p, unsigned int size);
 
 extern "C" void __cdecl _Call_a5d3a0();
-extern int DAT_0109e47c;
 struct FUN_00a81f90_class
 {
     void* __thiscall FUN_00a81f90();
@@ -61,7 +60,6 @@ void* __thiscall FUN_00a81f90_class::FUN_00a81f90()
 }
 
 #include <windows.h>
-void __cdecl FUN_00aa10f0(void* p) throw();
 struct S_00a85580_RefObject
 {
     virtual ~S_00a85580_RefObject() throw();
@@ -88,7 +86,6 @@ struct S_00a85580_Object
     int m_uiRefCount;
 };
 struct S_00a85580_Renderer;
-extern S_00a85580_Renderer* DAT_011f4748;
 struct FUN_00a85580;
 struct S_00a85580_Renderer
 {
@@ -171,6 +168,6 @@ struct FUN_00a85580 : S_00a85580_Object
 FUN_00a85580::~FUN_00a85580() throw()
 {
     FUN_00aa10f0(unk14);
-    if (DAT_011f4748)
-        DAT_011f4748->PurgeSkinInstance(this);
+    if ((*reinterpret_cast<::S_00a85580_Renderer * *>(&::NiRenderer::ms_pRenderer)))
+        (*reinterpret_cast<::S_00a85580_Renderer * *>(&::NiRenderer::ms_pRenderer))->PurgeSkinInstance(this);
 }

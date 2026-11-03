@@ -11,6 +11,8 @@ class ExtraDataList : public BaseExtraList
     InventoryChanges* GetContainerChangeData();
     void SetContainerChanges(InventoryChanges* changes);
     ExtraDismemberedLimbs* GetDismemberedLimbs();
+public:
+    void RemoveExtraDataType0x15();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(ExtraDataList) == 0x20);

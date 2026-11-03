@@ -2,6 +2,12 @@
 #ifndef FNV_PLAYERCHARACTER_UNIT_DECLS_H
 #define FNV_PLAYERCHARACTER_UNIT_DECLS_H
 
+#include "fnv/decl/FNV_AnimationOwner.h"
+#include "fnv/decl/FUN_00491040_shell.h"
+#include "fnv/decl/FUN_00494710_shell.h"
+#include "fnv/decl/fnv_00494740__FUN_00494740_t.h"
+#include "fnv/symbols_005f2000.h"
+#include "fnv/symbols_01197000.h"
 #include "layout_support.h"
 class TESObjectWEAP;
 class ActorCombatGroup;
@@ -15,20 +21,32 @@ enum ANIM_GROUP_SECTION
 {
     ANIM_GROUP_SECTION_NONE = -1
 };
+class NiNode;
+class TESObjectREFR;
+template <class> class BSSimpleList;
 class Animation
 {
   public:
-    BSAnimGroupSequence* FUN_00491040(ANIM_GROUP_SECTION section);
-    BSAnimGroupSequence* GetSequenceForKey(BSAnimGroupSequence* sequence, unsigned short group);
-    bool IsGroupQueued(unsigned short group);
-    BSAnimGroupSequence* PlayGroup(unsigned short group, ACTION_FLAGS flags, int loops, ANIM_GROUP_SECTION section);
+public:
+    bool Init(::BSSimpleList<const char *> *, ::NiNode *, ::TESObjectREFR *, bool);
+public:
+    float FUN_009442a0() const;
 };
+enum ANIM_GROUP_ENUM;
+enum ANIM_GROUP_MOVE_ENUM;
+enum ANIM_GROUP_WEAPON_ENUM;
 class TESAnimGroup
 {
   public:
     static ANIM_GROUP_ENUM GetType(unsigned short group);
-    static bool IsIronSightsAction(unsigned short group);
-    static bool IsIronSightsAction(ANIM_GROUP_ENUM group);
+public:
+    static unsigned short AnimGroup(::ANIM_GROUP_MOVE_ENUM, ::ANIM_GROUP_WEAPON_ENUM, ::ANIM_GROUP_ENUM, bool);
+public:
+    ::ANIM_GROUP_ENUM GetType() const;
+public:
+    static bool IsActionTypeValid(unsigned short);
+public:
+    static bool IsValidAnimationGroup(unsigned short);
 };
 struct PlayerCharacterAnimGroupInfo
 {
@@ -37,7 +55,6 @@ struct PlayerCharacterAnimGroupInfo
     ANIM_GROUP_SECTION section;
     unsigned char layoutPadding8[28];
 };
-extern PlayerCharacterAnimGroupInfo DAT_011977dc[];
 FNV_STATIC_ASSERT(sizeof(PlayerCharacterAnimGroupInfo) == 0x24);
 FNV_STATIC_ASSERT(offsetof(PlayerCharacterAnimGroupInfo, section) == 4);
 // Source layout: PlayerCharacter. PC corrections are in generate_headers.py.
@@ -47,6 +64,9 @@ FNV_STATIC_ASSERT(offsetof(PlayerCharacterAnimGroupInfo, section) == 4);
 #include "playercharacter_actor_decls.h"
 #include "../../../include/Character.h"
 #pragma pack(push, 4)
+class Animation;
+class BGSNote;
+struct Biped;
 class PlayerCharacter : public Character
 {
   public:
@@ -85,6 +105,16 @@ class PlayerCharacter : public Character
     Animation* GetAnimation(bool firstPerson);
     float GetActorValueModifierAmount(ModifierGroup modifier, ActorValue::Index actorValue);
     virtual int GetActorValue(ActorValue::Index actorValue);
+public:
+    void SetUnderAIControl(bool);
+public:
+    void UpdateCameraMode();
+public:
+    ::Animation *GetAnimation(bool) const;
+public:
+    ::Biped *FUN_00950b00(bool);
+public:
+    bool HasNote(::BGSNote *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(PlayerCharacter) == 0xE50);

@@ -7,10 +7,20 @@
 // to their real unit once identified.
 // src/staging/blk_00d60000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00d6a000.h"
+#include "fnv/symbols_00d6b000.h"
+#include "fnv/symbols_00dcf000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010cc000.h"
+#include "fnv/symbols_011c1000.h"
+#include "fnv/symbols_01267000.h"
 #include "../../include/layout_support.h"
 namespace sd6ae50 {
 
-extern "C" const char DAT_010cc040[];
 
 struct FinishLoadedObjectFlag
 {
@@ -128,11 +138,8 @@ __declspec(align(16)) class FUN_00d6aec0_obj
     int unkE8;
     int unkEC;
 };
-int FUN_00d6aec0() throw();
 #include <xmmintrin.h>
 #include <math.h>
-extern float DAT_0104da4c;
-extern const float DAT_01011d78;
 union Basis
 {
     struct
@@ -197,7 +204,6 @@ static __forceinline void buildBasis(const MotionInput* input, __m128 normal, Ba
     basis.y = up;
     basis.z = input->axis;
 }
-void __cdecl FUN_00d6aef0(const MotionInput* input, float outputBits);
 struct Vec4
 {
     __m128 m_vComponents;
@@ -229,7 +235,6 @@ struct BodyOut
     Vec4 m_20;
     Vec4 m_30;
 };
-void FUN_00d6b4b0(BodyList* list, BodyOut* out);
 struct __declspec(align(16)) V16
 {
     float x, y, z, w;
@@ -262,7 +267,6 @@ struct D6Idx
     unsigned char unk01;
     unsigned char idx02;
 };
-extern "C" void __cdecl FUN_00dcf280(D6Vec3* s, void* d, void* e);
 extern "C" V16* __cdecl D6GetArray(void);
 void FUN_00d6c030(D6Owner* a, V16* b, D6Idx* c, void* d, void* e);
 volatile D6Owner* g_d6Owner;
@@ -302,10 +306,8 @@ extern "C"
 }
 
 }
+#include "fnv/symbols_simd.h"
 extern "C" void _ReadWriteBarrier();
-extern SimdC::__m128 DAT_010c71e0;
-extern SimdC::__m128 DAT_010ec7f0;
-extern float DAT_01267e30;
 
 struct hkQuaternion;
 struct Vec
@@ -384,7 +386,7 @@ __forceinline SimdC::__m128 rotate(SimdC::__m128 q, SimdC::__m128 v)
                           SimdC::_mm_mul_ps(SimdC::_mm_shuffle_ps(v, v, 0xc9), SimdC::_mm_shuffle_ps(q, q, 0xd2)));
     SimdC::__m128 r = SimdC::_mm_add_ps(
         SimdC::_mm_mul_ps(cross, w),
-        SimdC::_mm_add_ps(SimdC::_mm_mul_ps(SimdC::_mm_add_ps(SimdC::_mm_mul_ps(w, w), DAT_010c71e0), v),
+        SimdC::_mm_add_ps(SimdC::_mm_mul_ps(SimdC::_mm_add_ps(SimdC::_mm_mul_ps(w, w), (*reinterpret_cast<::SimdC::__m128 *>((void *)&::DAT_010c71e0))), v),
                           SimdC::_mm_mul_ps(SimdC::_mm_shuffle_ps(d, d, 0), q)));
     return SimdC::_mm_add_ps(r, r);
 }
@@ -401,7 +403,7 @@ __forceinline void Vec::SetRotatedDirection(const hkQuaternion& quat, const Vec&
                           SimdC::_mm_shuffle_ps(direction.m_vComponents, direction.m_vComponents, 0xc9)));
     SimdC::__m128 r = SimdC::_mm_add_ps(
         SimdC::_mm_mul_ps(cross, qreal),
-        SimdC::_mm_add_ps(SimdC::_mm_mul_ps(SimdC::_mm_add_ps(SimdC::_mm_mul_ps(qreal, qreal), DAT_010c71e0),
+        SimdC::_mm_add_ps(SimdC::_mm_mul_ps(SimdC::_mm_add_ps(SimdC::_mm_mul_ps(qreal, qreal), (*reinterpret_cast<::SimdC::__m128 *>((void *)&::DAT_010c71e0))),
                                             direction.m_vComponents),
                           SimdC::_mm_mul_ps(SimdC::_mm_shuffle_ps(d, d, 0), quat.m_vComponents)));
     m_vComponents = SimdC::_mm_add_ps(r, r);
@@ -419,7 +421,7 @@ __forceinline void Vec::setRotatedTranslation(const hkQuaternion& quat, const Ve
                           SimdC::_mm_shuffle_ps(direction.m_vComponents, direction.m_vComponents, 0xc9)));
     SimdC::__m128 r = SimdC::_mm_add_ps(
         SimdC::_mm_mul_ps(cross, qreal),
-        SimdC::_mm_add_ps(SimdC::_mm_mul_ps(SimdC::_mm_add_ps(SimdC::_mm_mul_ps(qreal, qreal), DAT_010c71e0),
+        SimdC::_mm_add_ps(SimdC::_mm_mul_ps(SimdC::_mm_add_ps(SimdC::_mm_mul_ps(qreal, qreal), (*reinterpret_cast<::SimdC::__m128 *>((void *)&::DAT_010c71e0))),
                                             direction.m_vComponents),
                           SimdC::_mm_mul_ps(SimdC::_mm_shuffle_ps(d, d, 0), quat.m_vComponents)));
     m_vComponents = SimdC::_mm_add_ps(r, r);
@@ -429,18 +431,17 @@ __forceinline void Transform::SetProduct(const Transform& a, const Transform& b)
     Vec extra;
     extra.setRotatedTranslation(a.rotation, b.position);
     position.setAdd4(extra, a.position);
-    rotation.FUN_00c66320(a.rotation, b.rotation);
+    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(rotation), (void *)&(a.rotation), (const ::fnv_00c66320::__m128 *)&(b.rotation), {});
     scale.setMul4(a.scale, b.scale);
 }
 __forceinline SimdC::__m128 blendPosition(const Vec& position, const Vec& target, float weight)
 {
     SimdC::__m128 scalar = SimdC::_mm_load_ss(&weight);
     SimdC::__m128 t = SimdC::_mm_shuffle_ps(scalar, scalar, 0);
-    return SimdC::_mm_add_ps(SimdC::_mm_mul_ps(SimdC::_mm_sub_ps(DAT_010ec7f0, t), position.quad()),
+    return SimdC::_mm_add_ps(SimdC::_mm_mul_ps(SimdC::_mm_sub_ps((*reinterpret_cast<::SimdC::__m128 *>((void *)&::DAT_010ec7f0)), t), position.quad()),
                              SimdC::_mm_mul_ps(t, target.quad()));
 }
 
-extern "C" unsigned int __security_cookie;
 extern "C" void __fastcall __security_check_cookie(unsigned int);
 __declspec(noinline) void hkQuaternion::FUN_00c66320(const hkQuaternion& a, const hkQuaternion& b)
 {

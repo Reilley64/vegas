@@ -1,6 +1,24 @@
 
 // moon_ctx_variant.cpp: context variant of src/fallout_shared/sky/moon.cpp: its stripped skeleton, as these functions were checked
 // against, for verified matches whose own declarations clash with the unit's current types.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/F940Owner.h"
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_0043fa80_s.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00476c90_Class.h"
+#include "fnv/decl/FUN_0049ed90_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004bc1f0_S.h"
+#include "fnv/decl/FUN_00524ac0_shell.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00bb0180_shell.h"
+#include "fnv/decl/Flag512Receiver.h"
+#include "fnv/decl/NiObjectNET.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/fnv_00439390__NiObjectNET.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00aa1000.h"
 #include "moon_types.h"
 
 void* __cdecl operator new(unsigned int);
@@ -58,12 +76,6 @@ class NiTriShape : public NiObject
   public:
     NiTriShape(unsigned short, NiPoint3*, NiPoint3*, void*, NiPoint2*, unsigned short, unsigned int, unsigned short,
                unsigned short*);
-    void FUN_004902f0(bool);
-    void AttachProperty(NiObject*);
-    SkyShaderProperty* GetProperty(unsigned int);
-    void FUN_00635fe0(bool);
-    void FUN_004bc1f0(float, float, float);
-    void FUN_0043fa80(const void*);
     unsigned int unk08;
     unsigned int unk0c;
     unsigned int unk10;
@@ -172,7 +184,6 @@ class NiNode : public NiMemObject
     virtual void VfnD8();
     virtual void AttachChildInAvailableSlot(NiObject*, bool);
     NiNode(unsigned short);
-    void FUN_004902f0(bool);
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
@@ -221,10 +232,6 @@ class NiAlphaProperty : public NiObject
   public:
     NiAlphaProperty();
     unsigned int unk08, unk0c, unk10, unk14, unk18;
-    void FUN_0049ed90(bool);
-    void FUN_00439340(int);
-    void FUN_00439390(int);
-    void FUN_00636000(bool);
 };
 class FUN_00baf3c0
 {
@@ -274,28 +281,26 @@ class FUN_00baf3c0
     unsigned int unkac;
     unsigned char unkb0, unkb1, unkb2, unkb3;
     unsigned int unkb4;
-    void AddProperties(NiTriShape*, unsigned int);
 };
 class B006815c0
 {
   public:
     float m[3][3];
     B006815c0();
-    void FUN_00524ac0(float);
 };
 class Sky
 {
   public:
     static Sky* GetInstance();
-    int FUN_00476c90();
 };
+class NiAVObject;
 class BSShaderManager
 {
   public:
     static void GetTexture(const char*, bool, NiPointer<NiTexture>&, bool, bool);
+public:
+    static void UpdateObjectTypeRecurse(::NiAVObject *, bool, bool);
 };
-extern void* __cdecl NiMalloc(unsigned int);
-extern "C" void __cdecl FUN_00b57e30(NiNode*, int, int);
 class MoonInit : public Moon
 {
   public:
@@ -316,7 +321,7 @@ void MoonInit::FUN_00634e20(NiNode* root, const char* name)
     ImageSpaceEffectParam* shadowColors_ = 0;
     unsigned short* moonIndices4 = 0;
     unsigned short* shadowIndicesA = 0;
-    SkyObject::Initialize(root);
+    reinterpret_cast<::F940Owner *>(this)->CreateSortAdjustNode((::F940Parent *)(root));
     aMoonNormals = new stand::NiPoint3[4];
     moonVertices4 = new stand::NiPoint3[4];
     shadowNormals9 = new stand::NiPoint3[4];
@@ -350,8 +355,8 @@ void MoonInit::FUN_00634e20(NiNode* root, const char* name)
     shadowColors_[1] = iRed;
     shadowColors_[2] = iRed;
     shadowColors_[3] = iRed;
-    moonIndices4 = (unsigned short*)NiMalloc(12);
-    shadowIndicesA = (unsigned short*)NiMalloc(12);
+    moonIndices4 = (unsigned short*)::FUN_00aa1070(12);
+    shadowIndicesA = (unsigned short*)::FUN_00aa1070(12);
     moonIndices4[0] = 0;
     moonIndices4[1] = 1;
     moonIndices4[2] = 2;
@@ -366,51 +371,51 @@ void MoonInit::FUN_00634e20(NiNode* root, const char* name)
     shadowIndicesA[5] = 3;
     m_pMoonShape = new NiTriShape(4, (NiPoint3*)moonVertices4, (NiPoint3*)aMoonNormals, moonColors4, moonUVX, 1, 0, 2,
                                   moonIndices4);
-    ((NiTriShape*)m_pMoonShape)->FUN_004902f0(true);
+    reinterpret_cast<::TaskQueueInterface *>((((NiTriShape*)m_pMoonShape)))->FUN_004902f0(true);
     m_pMoonShadowShape =
         new NiTriShape(4, (NiPoint3*)k, (NiPoint3*)shadowNormals9, shadowColors_, kc, 1, 0, 2, shadowIndicesA);
-    ((NiTriShape*)m_pMoonShadowShape)->FUN_004902f0(true);
+    reinterpret_cast<::TaskQueueInterface *>((((NiTriShape*)m_pMoonShadowShape)))->FUN_004902f0(true);
     {
         NiPointer<NiAlphaProperty> alpha(new NiAlphaProperty);
-        ((NiAlphaProperty*)alpha)->FUN_0049ed90(true);
-        ((NiAlphaProperty*)alpha)->FUN_00439340(6);
-        ((NiAlphaProperty*)alpha)->FUN_00439390(0);
-        ((NiAlphaProperty*)alpha)->FUN_00636000(true);
-        ((NiTriShape*)m_pMoonShape)->AttachProperty(alpha);
+        reinterpret_cast<::FUN_0049ed90_shell *>((((NiAlphaProperty*)alpha)))->FUN_0049ed90(true);
+        reinterpret_cast<::NiObjectNET *>((((NiAlphaProperty*)alpha)))->FUN_00439340(6);
+        reinterpret_cast<::fnv_00439390::NiObjectNET *>((((NiAlphaProperty*)alpha)))->FUN_00439390(0);
+        reinterpret_cast<::Flag512Receiver *>((((NiAlphaProperty*)alpha)))->FUN_00636000(true);
+        reinterpret_cast<::FUN_00439410_cls *>((((NiTriShape*)m_pMoonShape)))->FUN_00439410((::ArgObject *)(::NiObject *)(alpha));
         alpha = 0;
     }
     FUN_00baf3c0 kB;
     kB.shaderType = 6;
     kB.shadowType = 6;
-    kB.AddProperties(m_pMoonShape, 1);
+    reinterpret_cast<::FUN_00bb0180_shell *>(&(kB))->AddProperties((::NiAVObject *)(::NiTriShape *)(m_pMoonShape), 1);
     kB.shadowType = 7;
-    kB.AddProperties(m_pMoonShadowShape, 1);
-    if (Sky::GetInstance()->FUN_00476c90() == 3 || Sky::GetInstance()->FUN_00476c90() == 2)
+    reinterpret_cast<::FUN_00bb0180_shell *>(&(kB))->AddProperties((::NiAVObject *)(::NiTriShape *)(m_pMoonShadowShape), 1);
+    if (((int)(reinterpret_cast<::FUN_00476c90_Class *>((Sky::GetInstance()))->FUN_00476c90())) == 3 || ((int)(reinterpret_cast<::FUN_00476c90_Class *>((Sky::GetInstance()))->FUN_00476c90())) == 2)
     {
-        SkyShaderProperty* texture = ((NiTriShape*)m_pMoonShadowShape)->GetProperty(3);
+        SkyShaderProperty* texture = ((::SkyShaderProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((((NiTriShape*)m_pMoonShadowShape)))->FUN_00a59d30(3)));
         NiPointer<NiTexture> loaded(0);
         BSShaderManager::GetTexture("Textures\\Sky\\MoonShadow.dds", true, loaded, true, false);
         NiTexture* shader = loaded;
         if (shader)
             texture->SetTexture(shader);
-        ((NiTriShape*)m_pMoonShadowShape)->FUN_00635fe0(shader != 0);
+        reinterpret_cast<::TaskQueueInterface *>((((NiTriShape*)m_pMoonShadowShape)))->FUN_00635fe0(shader != 0);
         m_eUpdateStatus = US_INITIALIZE;
     }
     m_pMoonNode = new NiNode(0);
     m_pMoonShadowNode = new NiNode(0);
-    ((NiNode*)m_pMoonNode)->FUN_004902f0(true);
-    ((NiNode*)m_pMoonShadowNode)->FUN_004902f0(true);
+    reinterpret_cast<::TaskQueueInterface *>((((NiNode*)m_pMoonNode)))->FUN_004902f0(true);
+    reinterpret_cast<::TaskQueueInterface *>((((NiNode*)m_pMoonShadowNode)))->FUN_004902f0(true);
     ((NiNode*)m_pMoonNode)->AttachChildInAvailableSlot(m_pMoonShape, true);
     ((NiNode*)m_pMoonShadowNode)->AttachChildInAvailableSlot(m_pMoonShadowShape, true);
     ((NiNode*)m_pRootNode)->AttachChildInAvailableSlot((NiObject*)(NiNode*)m_pMoonShadowNode, true);
     ((NiNode*)m_pRootNode)->AttachChildInAvailableSlot((NiObject*)(NiNode*)m_pMoonNode, true);
     {
         B006815c0 rotation;
-        rotation.FUN_00524ac0(-1.5707963705062866f);
-        ((NiTriShape*)m_pMoonShape)->FUN_004bc1f0(0, 512, 0);
-        ((NiTriShape*)m_pMoonShape)->FUN_0043fa80(&rotation);
-        ((NiTriShape*)m_pMoonShadowShape)->FUN_004bc1f0(0, 512, 0);
-        ((NiTriShape*)m_pMoonShadowShape)->FUN_0043fa80(&rotation);
-        FUN_00b57e30(m_pRootNode, 0, 0);
+        reinterpret_cast<::FUN_00524ac0_shell *>(&(rotation))->FUN_00524ac0(-1.5707963705062866f);
+        reinterpret_cast<::FUN_004bc1f0_S *>((((NiTriShape*)m_pMoonShape)))->FUN_004bc1f0(0, 512, 0);
+        reinterpret_cast<::FUN_0043fa80_s *>((((NiTriShape*)m_pMoonShape)))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&rotation)));
+        reinterpret_cast<::FUN_004bc1f0_S *>((((NiTriShape*)m_pMoonShadowShape)))->FUN_004bc1f0(0, 512, 0);
+        reinterpret_cast<::FUN_0043fa80_s *>((((NiTriShape*)m_pMoonShadowShape)))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&rotation)));
+        ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(::NiNode *)(m_pRootNode), 0, 0);
     }
 }

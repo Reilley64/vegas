@@ -3,11 +3,40 @@
 // byte only under /MT /O2 /GS /Gy (unit src/havok/common/serialize/data/native/hkdataobjectnative.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/decl/D871A0Buffer.h"
+#include "fnv/decl/D87250Array.h"
+#include "fnv/decl/D87370Obj.h"
+#include "fnv/decl/DataObjectHandle.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00d46f00_s.h"
+#include "fnv/decl/FUN_00d46f70_cls.h"
+#include "fnv/decl/FUN_00d46f80_class.h"
+#include "fnv/decl/FUN_00d87200_cls.h"
+#include "fnv/decl/FUN_00d87260_cls.h"
+#include "fnv/decl/FUN_00d87440_Class.h"
+#include "fnv/decl/FUN_00d874b0_class.h"
+#include "fnv/decl/FUN_00d87790.h"
+#include "fnv/decl/FUN_00d877d0_class.h"
+#include "fnv/decl/FnvClassNameNode.h"
+#include "fnv/decl/HkClassNode.h"
+#include "fnv/decl/Pair.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/SlotBitmap.h"
+#include "fnv/decl/StringMemberAccessor.h"
+#include "fnv/decl/TargetClass.h"
+#include "fnv/decl/fnv_00d47080__Container.h"
+#include "fnv/decl/fnv_00dbbe80__hkDataClassNativeDBBE.h"
+#include "fnv/decl/hkClassEnumD470.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkSetD874.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00d86000.h"
+#include "fnv/symbols_00d87000.h"
+#include "fnv/symbols_01268000.h"
 void __stdcall FUN_00dbb610(int* p);
 struct hkReferencedObject
 {
-    void RetainReference();
-    void removeReference();
 };
 struct FUN_00dbb490_class
 {
@@ -27,7 +56,6 @@ struct FUN_00dbbb20_Class
 };
 struct FUN_00d46f00_Class
 {
-    int __thiscall FUN_00d46f00();
 };
 struct FUN_00dbbc50_Class
 {
@@ -64,7 +92,6 @@ struct FUN_00dbb920_Class
 };
 struct TypeNode
 {
-    int FUN_00d46f70();
 };
 struct FUN_00dbb9d0_Class
 {
@@ -102,7 +129,6 @@ struct Shape
 };
 struct Container
 {
-    Shape const* __thiscall FUN_00d46f80(int) const;
 };
 struct FUN_00dbbfa0_Class
 {
@@ -111,12 +137,10 @@ struct FUN_00dbbfa0_Class
     int m_08;
     Container* m_0c;
 
-    void __thiscall GetMemberInfo(Shape const*, int);
     void __thiscall FUN_00dbbfa0(int, int);
 };
 struct FUN_00d46f20_Class
 {
-    int __thiscall FUN_00d46f20(int a, int b);
 };
 struct hkDataClassNative
 {
@@ -125,7 +149,6 @@ struct hkDataClassNative
     int m_08;
     FUN_00d46f20_Class* m_0c;
 
-    void SetInvocationResult(int result);
     void InvokeMemberFunction(int a, int b);
 };
 struct FUN_00dbc640_class;
@@ -182,7 +205,6 @@ struct FUN_00dbb930_cls
 };
 struct FUN_00d47080_Class
 {
-    void __thiscall FindIndexByName();
 };
 struct FUN_00dbb9e0_Class
 {
@@ -207,7 +229,6 @@ struct FUN_00dbba00_Class
     int m_04;
     int m_08;
     int m_0C;
-    int __thiscall FUN_00d47030(int param_1);
     int __thiscall FUN_00dbba00(int param_1);
 };
 __int64 __stdcall FUN_00dbba40(int);
@@ -216,7 +237,6 @@ int __stdcall FUN_00dbb120(int arg0);
 int __stdcall FUN_00dbb130(int a, int b);
 struct FUN_00c90510_Obj : hkReferencedObject
 {
-    void FUN_00c90510();
 };
 struct FUN_00d87790_Result
 {
@@ -224,7 +244,6 @@ struct FUN_00d87790_Result
 };
 struct FUN_00d87790_Obj
 {
-    void __thiscall FUN_00d87790(FUN_00d87790_Result);
 };
 struct FUN_00dbb360_Global
 {
@@ -235,7 +254,6 @@ struct FUN_00dbb360_Global
     virtual FUN_00c90510_Obj* vf10();
     virtual FUN_00c90510_Obj* vf14();
 };
-extern FUN_00dbb360_Global* DAT_01268b08;
 extern int DAT_010d6518[];
 struct FUN_00dbb360_Class
 {
@@ -292,7 +310,6 @@ class hkRefObjDBB5
 class hkStringDBB5
 {
   public:
-    void FUN_00d873b0(const char* name, int len) throw();
     int unk00;
     int unk04;
 };
@@ -333,7 +350,6 @@ class hkNodeDBB5 : public hkResourceDBB5
 class hkNodeRefDBB5
 {
   public:
-    void FUN_00dba760(hkNodeDBB5* node) throw();
     hkNodeDBB5* m_node;
 };
 class hkLibDBB5
@@ -353,14 +369,11 @@ struct hkErrorDBB7
     virtual void V2() throw();
     virtual int message(int iType, int aiSoundId, const char* pcDescription, const char* pcFile, int iLine) throw();
 };
-extern hkErrorDBB7* DAT_01268360;
 struct hkOstreamDBB7
 {
     int m_iUnk00;
     char* m_pString;
     int m_uiLogicalSize;
-    void FUN_00cc00e0() throw();
-    hkOstreamDBB7& FUN_00cc01c0(const char* pcString) throw();
     hkOstreamDBB7& FUN_00cc0120(const void* pvPointer) throw();
 };
 struct FUN_00cb1600 : hkOstreamDBB7
@@ -375,7 +388,6 @@ struct hkBoolDBB7
 };
 struct FUN_00d46d40_s
 {
-    const char* FUN_00d46d40() throw();
 };
 struct hkClassDBB7 : FUN_00d46d40_s
 {
@@ -416,7 +428,6 @@ class hkDataObjectNativeDBB7
     }
     void SetContents(void* pvObject, hkClassDBB7& kClass);
 };
-int __cdecl FUN_00cb0fa0(int, int);
 struct hkBoolDBB9
 {
     char m_cBooleanValue;
@@ -454,7 +465,6 @@ struct FUN_00d871a0_Data
     int memberData;
     int key;
     void FUN_00d871a0(void* value, int argument);
-    const char* FUN_00d871e0(const int* argument);
 };
 struct FUN_00dbbae0_Class
 {
@@ -520,7 +530,6 @@ struct hkClassMemberTypeDBBD
     int unk04;
     short m_iElementCount;
 };
-hkClassMemberTypeDBBD* __cdecl FUN_00d868a0(int iType);
 struct hkArrayBaseDBBD
 {
     void* m_data;
@@ -571,7 +580,6 @@ class hkDataObjectNativeDBBD
 };
 struct FUN_00d46f20_Map
 {
-    int* FUN_00d46f20(int iKey);
 };
 struct FUN_00dbbe30_cls
 {
@@ -607,12 +615,9 @@ class hkVariantDBC3
 
     hkVariantDBC3(void* obj, void* name) throw()
     {
-        FUN_00d871a0(obj, name);
+        reinterpret_cast<::D871A0Buffer *>(this)->FUN_00d871a0((*(const ::D871A0Array *)(obj)), (int)(name));
     }
     void FUN_00d871a0(void* obj, void* name) throw();
-    hkClassMemberDBC3* FUN_00d87370() throw();
-    unsigned int* FUN_00d87220(int i) throw();
-    unsigned int* FUN_00d87230(int i) throw();
 };
 class hkObjDBC3
 {
@@ -701,7 +706,6 @@ class hkRefObjDBB6
 class hkStringDBB6
 {
   public:
-    void FUN_00d873d0(const hkStringDBB6& other) throw();
     int unk00;
     int unk04;
 };
@@ -742,7 +746,6 @@ class hkNodeDBB6 : public hkResourceDBB6
 class hkNodeRefDBB6
 {
   public:
-    void FUN_00dba760(hkNodeDBB6* node) throw();
     hkNodeDBB6* m_node;
 };
 class hkLibDBB6
@@ -783,7 +786,6 @@ struct FUN_00d871a0
     int m_00;
     int m_04;
     FUN_00d871a0(void* pair, int x);
-    void* FUN_00d87200();
 };
 struct FUN_00dbbb60_cls
 {
@@ -805,9 +807,6 @@ struct StreamDBC5C0;
 struct AccessorDBC5C0
 {
     AccessorDBC5C0(StreamDBC5C0* pkStream, int iIndex);
-    const ComponentDescDBC5C0* GetDesc();
-    const float* FUN_00d87250(int iComponent);
-    const short* FUN_00d87260(int iComponent);
     int m_iA;
     int m_iB;
 };
@@ -846,7 +845,6 @@ class hkReferencedObject : public hkBaseObject
   public:
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
-    void FUN_00c905b0() throw();
 };
 
 template <class T> class ReferenceCountedPointer
@@ -855,7 +853,7 @@ template <class T> class ReferenceCountedPointer
     ~ReferenceCountedPointer() throw()
     {
         if (m_pRetainedObject)
-            m_pRetainedObject->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pRetainedObject))->FUN_00c905b0();
         m_pRetainedObject = 0;
     }
     T* m_pRetainedObject;
@@ -872,13 +870,8 @@ class hkPointerMapDBB3
   public:
     ~hkPointerMapDBB3() throw()
     {
-        FreeBuffer();
+        reinterpret_cast<::FUN_00d877d0_class *>(this)->FreeBuffer();
     }
-    int FUN_00d87410() throw();
-    char* SetBoolFromThreshold(char* result, int it) throw();
-    hkDataClassNative* FUN_00d87440(int it) throw();
-    int FindNextUsedSlot(int it) throw();
-    void FreeBuffer() throw();
 
     void* m_kPrimitiveElement;
     int m_iCapacityFlags;
@@ -901,13 +894,13 @@ class hkDataWorldNative : public hkDBB3::hkReferencedObject
 hkDataWorldNative::~hkDataWorldNative()
 {
     char valid;
-    int it = m_kLookupMap.FUN_00d87410();
-    m_kLookupMap.SetBoolFromThreshold(&valid, it);
+    int it = reinterpret_cast<::hkSetD874 *>(&(m_kLookupMap))->FUN_00d87410();
+    reinterpret_cast<::FUN_00d874b0_class *>(&(m_kLookupMap))->SetBoolFromThreshold(&valid, it);
     while (valid)
     {
-        delete m_kLookupMap.FUN_00d87440(it);
-        it = m_kLookupMap.FindNextUsedSlot(it);
-        m_kLookupMap.SetBoolFromThreshold(&valid, it);
+        delete ((::hkDBB3::hkDataClassNative *)(reinterpret_cast<::FUN_00d87440_Class *>(&(m_kLookupMap))->FUN_00d87440(it)));
+        it = reinterpret_cast<::SlotBitmap *>(&(m_kLookupMap))->FindNextUsedSlot(it);
+        reinterpret_cast<::FUN_00d874b0_class *>(&(m_kLookupMap))->SetBoolFromThreshold(&valid, it);
     }
 }
 }

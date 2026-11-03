@@ -2,11 +2,13 @@
 // src/havok/common/base/system/io/writer/array/hkarraystreamwriter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/writer/array/hkarraystreamwriter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00d06000.h"
 #include "havok/hkArrayStreamWriter.h"
 
 struct FUN_00d467c0
 {
-    void write(const char* a, unsigned int b);
 };
 struct FUN_00d468a0_obj
 {
@@ -14,13 +16,6 @@ struct FUN_00d468a0_obj
     FUN_00d467c0* p;
     unsigned int WriteToStream(unsigned int arg, unsigned int b);
 };
-// @fnv 0x00d468a0
-unsigned int FUN_00d468a0_obj::WriteToStream(unsigned int apData, unsigned int auiSize)
-{
-    p->write((const char*)apData, auiSize);
-    return auiSize;
-}
-
 struct FUN_00d469c0
 {
     int m0;
@@ -42,7 +37,6 @@ FUN_00d469c0::FUN_00d469c0(int v)
 
 struct FUN_00d46b20_inner
 {
-    void Run();
 };
 
 struct FUN_00d46b20_cls
@@ -52,12 +46,6 @@ struct FUN_00d46b20_cls
     FUN_00d46b20_inner* m_08;
     void FUN_00d46b20();
 };
-
-// @fnv 0x00d46b20
-void FUN_00d46b20_cls::FUN_00d46b20()
-{
-    m_08->Run();
-}
 
 struct FUN_00d46c80_cls
 {
@@ -117,7 +105,6 @@ struct FNVWriter
     unsigned char allowRestricted;
 };
 extern int DAT_010cc460;
-extern unsigned int __cdecl FUN_00d06f80(void*, unsigned int);
 struct FUN_00d46770_cls
 {
     int unk00;
@@ -136,7 +123,7 @@ void FUN_00d46770_cls::WriteBufferToWriter(FNVWriter* writer, int unused)
         if ((flags & 0x80000000u) == 0 || writer->allowRestricted)
         {
             void* data = b->data;
-            unsigned int limit = FUN_00d06f80(data, flags & 0x3fffffff);
+            unsigned int limit = ((unsigned int)(::fnv_00d06f80::FUN_00d06f80((const char *)(data), flags & 0x3fffffff)));
             writer->method14(3, &DAT_010cc460, b->data, b->used, limit);
         }
     }
@@ -200,6 +187,11 @@ class hkBlockPoolD469
 
     void FreeAllChunks();
 };
+// @fnv 0x00d46b20
+void FUN_00d46b20_cls::FUN_00d46b20()
+{
+    reinterpret_cast<::hkBlockPoolD469 *>((m_08))->FreeAllChunks();
+}
 
 // @fnv 0x00d469e0
 void hkBlockPoolD469::FreeAllChunks()
@@ -212,7 +204,6 @@ void hkBlockPoolD469::FreeAllChunks()
 
 struct FUN_00d469e0_Obj
 {
-    void FreeAllChunks();
 };
 struct FUN_00d46be0_Inner
 {
@@ -243,7 +234,7 @@ struct FUN_00d46be0_Cls
 // @fnv 0x00d46be0
 void FUN_00d46be0_Cls::FUN_00d46be0()
 {
-    reinterpret_cast<FUN_00d469e0_Obj*>(this)->FreeAllChunks();
+    reinterpret_cast<::hkBlockPoolD469 *>((reinterpret_cast<FUN_00d469e0_Obj*>(this)))->FreeAllChunks();
     FUN_00d46be0_Res* res = reinterpret_cast<FUN_00d46be0_Res*>(FUN_00c85750());
     FUN_00d46be0_Inner* pInner = res->inner;
     int v = m10;
@@ -289,10 +280,9 @@ class FUN_00d46be0_class
     int m_0c;
     int m_10;
 
-    void FUN_00d46be0() throw();
     ~FUN_00d46be0_class() throw()
     {
-        FUN_00d46be0();
+        reinterpret_cast<::FUN_00d46be0_Cls *>(this)->FUN_00d46be0();
     }
     static void operator delete(void* p) throw()
     {
@@ -302,8 +292,6 @@ class FUN_00d46be0_class
 
 struct FUN_00d1df70
 {
-    void FUN_00c90510() throw();
-    void removeReference() throw();
 };
 
 class hkReferencedObjectD46C
@@ -393,7 +381,7 @@ struct FnvCpu_FUN_00d46cc0_CpuObject
 // @fnv 0x00d46cc0
 FnvCpu_FUN_00d46cc0_CpuObject* FnvCpu_FUN_00d46cc0_CpuObject::Destroy(unsigned int flags)
 {
-    FUN_00d46c30();
+    reinterpret_cast<::FUN_00d46c30 *>(this)->FUN_00d46c30::~FUN_00d46c30();
     if (flags & 1)
     {
         FnvCpu_FUN_00d46cc0_CpuAllocatorHolder* holder = FUN_00c85750();
@@ -462,7 +450,6 @@ class hkBufferD467
     int unk08;
     int m_iCapacity;
 
-    void Read(void* dst, int n, int offset) throw();
 };
 
 class hkStreamD467
@@ -488,7 +475,7 @@ int hkStreamD467::FUN_00d46710(void* apBuffer, int aiCount)
     {
         int avail = (m_buffer->m_iCapacity - 1) * m_buffer->m_iFirstIndex + m_buffer->m_last - m_offset;
         int k = aiCount < avail ? aiCount : avail;
-        m_buffer->Read(apBuffer, k, m_offset);
+        reinterpret_cast<::hkBlockStreamD466 *>((m_buffer))->Read(apBuffer, k, m_offset);
         m_offset += aiCount;
         return k;
     }
@@ -708,6 +695,12 @@ class Stream_d467
 
     void FUN_00d467c0(const char* pcData, int iSize);
 };
+// @fnv 0x00d468a0
+unsigned int FUN_00d468a0_obj::WriteToStream(unsigned int apData, unsigned int auiSize)
+{
+    reinterpret_cast<::Stream_d467 *>((p))->FUN_00d467c0((const char*)apData, auiSize);
+    return auiSize;
+}
 
 void __cdecl ResizeAudioStream(void*, void*, int);
 void __cdecl FUN_00cb1260(void* dst, const void* src, int count);
@@ -855,7 +848,6 @@ struct V46a50Elem
 };
 struct V46a50Owner
 {
-    void doElem(V46a50Elem* e, int n);
     void FUN_00d46a50(struct V46a50List* l);
 };
 struct V46a50List
@@ -865,7 +857,6 @@ struct V46a50List
     V46a50Elem** m_data;
     int m_iElementCount;
     int m_capFlags;
-    void FreeAllChunks();
 };
 
 // Processes each stored element with doElem and heap v08, then releases the array buffer and resets the list.
@@ -876,14 +867,14 @@ void V46a50Owner::FUN_00d46a50(V46a50List* apList)
     for (int i = 0; i < n - 1; i++)
     {
         V46a50Elem* e = apList->m_data[i];
-        doElem(e, apList->m0);
+        reinterpret_cast<::Stream_d467 *>(this)->FUN_00d467c0((const char *)(e), apList->m0);
         int k = apList->m0;
         FUN_00c85750()->heap().v08(e, k);
     }
     if (n != 0)
     {
         V46a50Elem* e = apList->m_data[n - 1];
-        doElem(e, apList->m4);
+        reinterpret_cast<::Stream_d467 *>(this)->FUN_00d467c0((const char *)(e), apList->m4);
         int k = apList->m0;
         FUN_00c85750()->heap().v08(e, k);
     }
@@ -893,6 +884,6 @@ void V46a50Owner::FUN_00d46a50(V46a50List* apList)
         a.ReturnMemory(apList->m_data, (apList->m_capFlags & 0x3fffffff) * sizeof(V46a50Elem*));
     apList->m_data = 0;
     apList->m_capFlags = 0x80000000;
-    apList->FreeAllChunks();
+    reinterpret_cast<::hkBlockPoolD469 *>((apList))->FreeAllChunks();
 }
 }  // namespace fnv_00d46a50

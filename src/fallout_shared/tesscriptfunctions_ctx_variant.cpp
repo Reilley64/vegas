@@ -1,6 +1,43 @@
 
 // tesscriptfunctions_ctx_variant.cpp: context variant of src/fallout_shared/tesscriptfunctions.cpp: its stripped skeleton, as these functions were checked
 // against, for verified matches whose own declarations clash with the unit's current types.
+#include <new>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/F005fd430.h"
+#include "fnv/decl/FUN_00414220_shell.h"
+#include "fnv/decl/FUN_0041ab70_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00572db0_shell.h"
+#include "fnv/decl/FUN_00950030_shell.h"
+#include "fnv/decl/FlagSet.h"
+#include "fnv/decl/Rebuild004d0650__Inventory.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_004bfda0__FUN_004bfda0_shell.h"
+#include "fnv/decl/fnv_00567490__ScaleReference.h"
+#include "fnv/decl/fnv_00572d30__FUN_00572d30_shell.h"
+#include "fnv/decl/s88c790__Actor.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00482000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_0059c000.h"
+#include "fnv/symbols_0059d000.h"
+#include "fnv/symbols_0059e000.h"
+#include "fnv/symbols_0059f000.h"
+#include "fnv/symbols_005a0000.h"
+#include "fnv/symbols_005a1000.h"
+#include "fnv/symbols_005a2000.h"
+#include "fnv/symbols_005a3000.h"
+#include "fnv/symbols_005a4000.h"
+#include "fnv/symbols_005ac000.h"
+#include "fnv/symbols_005ca000.h"
+#include "fnv/symbols_00704000.h"
+#include "fnv/symbols_00705000.h"
+#include "fnv/symbols_0082f000.h"
+#include "fnv/symbols_011d4000.h"
+#include "fnv/symbols_011de000.h"
 #include "tesscriptfunctions_layout_support.h"
 class ScriptParameter;
 class ScriptHeaderData;
@@ -76,9 +113,6 @@ enum OBJECT_ACTION
 class TESObjectREFR : public TESForm
 {
   public:
-    void SetScale(float);
-    bool GetAction(OBJECT_ACTION);
-    void CloseReference(OBJECT_ACTION);
 };
 class BGSMusicType;
 class FalloutAudioMedia
@@ -86,7 +120,6 @@ class FalloutAudioMedia
   public:
     static void PlayMedia(BGSMusicType*);
     static void EndMediaUpdate();
-    static void Update();
 };
 class ScriptLocals;
 class TESQuest
@@ -101,7 +134,6 @@ class Script
   public:
     static bool OnHitWithFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                   ScriptLocals*, double&, unsigned int&);
-    ScriptHeaderData* GetHeader();
     static bool StopQuestFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                   ScriptLocals*, double&, unsigned int&);
     static bool ScriptEffectUpdateFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*,
@@ -112,38 +144,26 @@ class Script
                                      ScriptLocals*, double&, unsigned int&);
     static bool GetCurrentTimeFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                        ScriptLocals*, double&, unsigned int&);
-    static bool SetScriptCondition(TESObjectREFR*, void*, void*, double&);
     static bool GetSecondsPassedFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                          ScriptLocals*, double&, unsigned int&);
-    static bool EvaluateScriptResult(TESObjectREFR*, void*, void*, double&);
     static bool GetDead(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*,
                         double&, unsigned int&);
-    static bool ResetScript(TESObjectREFR*, void*, void*, double&);
     static bool GetItemCount(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                              ScriptLocals*, double&, unsigned int&);
-    static bool HandleScriptLocals(TESObjectREFR*, void*, void*, double&);
     static bool GetSitting(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*,
                            double&, unsigned int&);
-    static bool ReadScriptArguments(TESObjectREFR*, void*, void*, double&);
     static bool GetTalkedToPC(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                               ScriptLocals*, double&, unsigned int&);
-    static bool FindScriptVariable(TESObjectREFR*, void*, void*, double&);
     static bool GetIsRaining(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                              ScriptLocals*, double&, unsigned int&);
-    static bool EvaluateWeatherCondition(TESObjectREFR*, void*, void*, double&);
     static bool GetInCell(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*,
                           double&, unsigned int&);
-    static bool EvaluateCellMembership(TESObjectREFR*, void*, void*, double&);
     static bool GetInFaction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                              ScriptLocals*, double&, unsigned int&);
-    static bool GetScriptOperand(TESObjectREFR*, void*, void*, double&);
     static bool GetRandomPercent(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                  ScriptLocals*, double&, unsigned int&);
-    static bool EvaluateRandomPercentage(TESObjectREFR*, void*, void*, double&);
     static bool GetLevel(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*,
                          double&, unsigned int&);
-    static bool EvaluateReferenceLevel(TESObjectREFR*, void*, void*, double&);
-    static void CheckFlagFunction(unsigned int, TESObjectREFR*, TESForm*, ScriptLocals*, double&);
     static bool OnAddFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                               ScriptLocals*, double&, unsigned int&);
     static bool OnSellFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
@@ -196,52 +216,23 @@ class Script
     // Insert these declaration-only additions in the existing Script public section.
     static bool IsIdlePlayingFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                       ScriptLocals*, double&, unsigned int&);
-    static bool CheckIdlePlaying(TESObjectREFR*, void*, void*, double&);
     static bool IsTalkingFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                   ScriptLocals*, double&, unsigned int&);
-    static bool CheckTalkingState(TESObjectREFR*, void*, void*, double&);
     static bool GetDayOfWeekFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                      ScriptLocals*, double&, unsigned int&);
-    static bool ParseScript(TESObjectREFR*, void*, void*, double&);
     static bool IsPCSleepingFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                      ScriptLocals*, double&, unsigned int&);
-    static bool IsPlayerAsleep(TESObjectREFR*, void*, void*, double&);
     static bool GetDestroyedFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                      ScriptLocals*, double&, unsigned int&);
-    static bool HandleScriptOperation(TESObjectREFR*, void*, void*, double&);
     static bool HasBeenEatenFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                      ScriptLocals*, double&, unsigned int&);
-    static bool GetScriptObject(TESObjectREFR*, void*, void*, double&);
     static bool GetUnconsciousFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                        ScriptLocals*, double&, unsigned int&);
-    static bool ResolveScriptValue(TESObjectREFR*, void*, void*, double&);
     static bool IsInCombatFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                    ScriptLocals*, double&, unsigned int&);
-    static bool GetScriptFunctionValue(TESObjectREFR*, void*, void*, double&);
     static bool IsInInteriorFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                      ScriptLocals*, double&, unsigned int&);
-    static bool EvaluateReferenceQuery(TESObjectREFR*, void*, void*, double&);
 
-    static bool EvaluateReferenceCondition(TESObjectREFR*, void*, void*, double&);
-    static bool CheckActorCondition(TESObjectREFR*, void*, void*, double&);
-    static bool EvaluateReferenceFlag(TESObjectREFR*, void*, void*, double&);
-    static bool EvaluateFirstReferenceOperand(TESObjectREFR*, void*, void*, double&);
-    static bool EvaluateSecondReferenceOperand(TESObjectREFR*, void*, void*, double&);
-    static bool ReadScriptOperand(TESObjectREFR*, void*, void*, double&);
-    static bool EvaluateReferenceScriptValue(TESObjectREFR*, void*, void*, double&);
-    static bool ResolveScriptReference(TESObjectREFR*, void*, void*, double&);
-    static bool CheckScriptCondition(TESObjectREFR*, void*, void*, double&);
-    static bool EvaluateSeventhReferenceOperand(TESObjectREFR*, void*, void*, double&);
-    static bool GetScriptParameter(TESObjectREFR*, void*, void*, double&);
-    static bool HandleScriptExpression(TESObjectREFR*, void*, void*, double&);
-    static bool GetScriptResult(TESObjectREFR*, void*, void*, double&);
-    static bool AdvanceScriptInstruction(TESObjectREFR*, void*, void*, double&);
-    static bool HandleScriptReference(TESObjectREFR*, void*, void*, double&);
-    static bool ExecuteScriptCommand(TESObjectREFR*, void*, void*, double&);
-    static bool EvaluateReferencePredicate(TESObjectREFR*, void*, void*, double&);
-    static bool HandleScriptEvent(TESObjectREFR*, void*, void*, double&);
-    static bool WriteScriptValue(TESObjectREFR*, void*, void*, double&);
-    static bool EvaluateReferenceProperty(TESObjectREFR*, void*, void*, double&);
     static void SetReferenceScale(TESObjectREFR*, float);
 
     static bool GetQuestCompleted(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
@@ -291,8 +282,6 @@ class Script
     static bool EvaluateScriptCallback(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                        ScriptLocals*, double&, unsigned int&);
 };
-extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*,
-                        ScriptLocals*, ...);
 #include "tesscriptfunctions_TESActorBaseData.h"
 #include "tesscriptfunctions_SCRIPT_HEADER.h"
 struct _FightReaction
@@ -310,12 +299,10 @@ typedef _FightReaction::Type FIGHT_REACTION;
 class TESFaction
 {
   public:
-    void SetFactionFightReaction(TESFaction*, FIGHT_REACTION);
 };
 class BGSListForm : public TESForm
 {
   public:
-    BSSimpleList<TESForm*>* GetList();
 };
 
 class TESForm;
@@ -690,9 +677,6 @@ struct BaseProcess
 class Actor : public TESObjectREFR
 {
   public:
-    void FUN_00950030();
-    BaseProcess* GetProcess();
-    void FUN_0088c790(TESForm*, int, int, int, bool, int);
 };
 
 class ExtraDataList
@@ -700,7 +684,6 @@ class ExtraDataList
   public:
     ExtraDataList();
     ~ExtraDataList();
-    void FUN_0041ab70(bool);
     int m_auiShapeKeys[8];
 };
 
@@ -708,39 +691,31 @@ class YHolder
 {
   public:
     BSSimpleList<const char*>* m_pEntries;
-    BSSimpleList<ExtraDataList*>* FUN_00559450();
     ~YHolder();
 };
 
+class TESObjectREFR;
 class InventoryChanges
 {
   public:
-    static InventoryChanges* GetOrAddInventoryChanges(TESObjectREFR*);
-    ExtraDataList* FUN_004bfda0(TESForm*, int);
-    YHolder* FUN_004d0650(TESForm*, int);
+public:
+    static ::InventoryChanges *CreateForReference(::TESObjectREFR *);
 };
 
 class TESFullName
 {
   public:
-    static const char* GetFullName(TESForm*);
 };
 
 struct SettingObj
 {
-    const char* String();
 };
 
 struct Interface
 {
-    static bool ShowMessage(const char*, int, const char*, const char*, float, bool);
 };
 
-extern char DAT_011d424c;
-extern Actor* g_thePlayer;
 
-int FUN_00406f60(BSStringT<char>* str, const char* fmt, ...);
-void FUN_00704af0();
 
 // @fnv 0x005d0300
 bool FUN_005d0300(const ScriptParameter* param, const char* desc, TESObjectREFR* obj, TESObjectREFR* obj2,
@@ -750,7 +725,7 @@ bool FUN_005d0300(const ScriptParameter* param, const char* desc, TESObjectREFR*
     int iCount = 0;
     int iFlag = 0;
 
-    if (!ExtractArgs(param, desc, &opcode, obj, obj2, script, locals, &pForm, &iCount, &iFlag))
+    if (!::FUN_005accb0((const ::ExtractParameter *)(param), desc, &opcode, obj, obj2, (::ExtractScript *)(script), locals, &pForm, &iCount, &iFlag))
         return false;
 
     if (obj)
@@ -764,26 +739,26 @@ bool FUN_005d0300(const ScriptParameter* param, const char* desc, TESObjectREFR*
         {
             if (pActor)
             {
-                InventoryChanges* pChanges = InventoryChanges::GetOrAddInventoryChanges(obj);
+                InventoryChanges* pChanges = ::InventoryChanges::CreateForReference(obj);
                 if (pChanges)
                 {
                     ExtraDataList* pExtra = 0;
-                    pExtra = pChanges->FUN_004bfda0(pForm, 0);
+                    pExtra = reinterpret_cast<::fnv_004bfda0::FUN_004bfda0_shell *>((pChanges))->FUN_004bfda0((::fnv_004bfda0::TESBoundObject *)(pForm), 0);
                     if (pExtra)
                     {
-                        pExtra->FUN_0041ab70(false);
-                        pActor->FUN_0088c790(pForm, 1, 0, 1, bSet, 1);
-                        if (pActor == g_thePlayer && iFlag == 0)
+                        reinterpret_cast<::FUN_0041ab70_shell *>((pExtra))->FUN_0041ab70(false);
+                        reinterpret_cast<::s88c790::Actor *>((pActor))->FUN_0088c790((int)(pForm), 1, 0, 1, bSet, 1);
+                        if (pActor == (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)) && iFlag == 0)
                         {
                             BSStringT<char> str;
-                            FUN_00406f60(&str, "%s %s.", TESFullName::GetFullName(pForm),
-                                         ((SettingObj*)&DAT_011d424c)->String());
-                            Interface::ShowMessage(str.String(), 0,
-                                                   "Interface\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds",
-                                                   0, 2.0f, false);
-                            g_thePlayer->FUN_00950030();
-                            g_thePlayer->GetProcess()->v352(1, 0, 0);
-                            FUN_00704af0();
+                            ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT<char> *)(&str), "%s %s.", ::FUN_00482720(pForm),
+                                         ((const char *)(reinterpret_cast<::StartMenu *>((((SettingObj*)&(*reinterpret_cast<char *>(&::g_011d424c)))))->GetMenuTitle())));
+                            ::DispatchMessageToSink((int)(((const char *)(::FUN_00559450((int *)&(str))))), 0,
+                                                   (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds"),
+                                                   (int)(0), 2.0f, false);
+                            reinterpret_cast<::FUN_00950030_shell *>(((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))->FUN_00950030();
+                            ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))->GetBaseTexture()))->v352(1, 0, 0);
+                            ::fnv_00704af0::FUN_00704af0();
                         }
                     }
                 }
@@ -791,31 +766,31 @@ bool FUN_005d0300(const ScriptParameter* param, const char* desc, TESObjectREFR*
         }
         else
         {
-            InventoryChanges* pChanges2 = InventoryChanges::GetOrAddInventoryChanges(obj);
+            InventoryChanges* pChanges2 = ::InventoryChanges::CreateForReference(obj);
             if (pChanges2)
             {
-                YHolder* pHolder = pChanges2->FUN_004d0650(pForm, 0);
+                YHolder* pHolder = ((::YHolder *)(reinterpret_cast<::Rebuild004d0650::Inventory *>((pChanges2))->FUN_004d0650((::Rebuild004d0650::Object *)(pForm), 0)));
                 if (pHolder)
                 {
-                    if (pHolder->FUN_00559450())
+                    if (((::BSSimpleList< ::ExtraDataList *> *)(::FUN_00559450((int *)(pHolder)))))
                     {
-                        if (pHolder->FUN_00559450()->GetItem())
+                        if (((::ExtraDataList *)(new ((void *)(((::BSSimpleList< ::ExtraDataList *> *)(::FUN_00559450((int *)(pHolder)))))) ::Vec3())))
                         {
-                            pHolder->FUN_00559450()->GetItem()->FUN_0041ab70(bSet);
+                            reinterpret_cast<::FUN_0041ab70_shell *>((((::ExtraDataList *)(new ((void *)(((::BSSimpleList< ::ExtraDataList *> *)(::FUN_00559450((int *)(pHolder)))))) ::Vec3()))))->FUN_0041ab70(bSet);
                         }
                         else
                         {
                             ExtraDataList* pNew = new ExtraDataList();
-                            pNew->FUN_0041ab70(bSet);
-                            pHolder->FUN_00559450()->AddHead(pNew);
+                            reinterpret_cast<::FUN_0041ab70_shell *>((pNew))->FUN_0041ab70(bSet);
+                            ((::BSSimpleList< ::ExtraDataList *> *)(::FUN_00559450((int *)(pHolder))))->AddHead(pNew);
                         }
                     }
                     else
                     {
                         pHolder->m_pEntries = new BSSimpleList<const char*>();
                         ExtraDataList* pNew2 = new ExtraDataList();
-                        pNew2->FUN_0041ab70(bSet);
-                        pHolder->FUN_00559450()->AddHead(pNew2);
+                        reinterpret_cast<::FUN_0041ab70_shell *>((pNew2))->FUN_0041ab70(bSet);
+                        ((::BSSimpleList< ::ExtraDataList *> *)(::FUN_00559450((int *)(pHolder))))->AddHead(pNew2);
                     }
                     delete pHolder;
                 }

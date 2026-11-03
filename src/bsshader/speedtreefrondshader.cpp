@@ -2,6 +2,17 @@
 // src/bsshader/speedtreefrondshader.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/speedtreefrondshader.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/BSShaderPass.h"
+#include "fnv/decl/FUN_00be1750_shell.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00be0000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_010a1000.h"
+#include "fnv/symbols_010af000.h"
+#include "fnv/symbols_010b9000.h"
+#include "fnv/symbols_011ad000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_011fa000.h"
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
@@ -66,21 +77,6 @@ struct SpeedTreeLeafShaderConstantMapSetup
     static void __cdecl ConfigureShaderConstantMap(NiD3DShaderConstantMap*, int);
 };
 
-extern const char _DAT_010A1E50[];
-extern const char _DAT_010AF568[];
-extern const char _DAT_010B92F8[];
-extern const char _DAT_010B92E8[];
-extern const char _DAT_010AF60C[];
-extern const char _DAT_010AF5E4[];
-extern const char _DAT_010B92DC[];
-extern float _DAT_011FA0C0[4];
-extern float _DAT_011FA0D0[4];
-extern float _DAT_011FA0E0[4];
-extern float DAT_011fa1f0[4];
-extern float _DAT_011FA280[4];
-extern float _DAT_011FA290[4];
-extern float _DAT_011F918C;
-extern bool _DAT_011F941E;
 
 struct SpeedTreeFrondShader_s
 {
@@ -105,26 +101,25 @@ void SpeedTreeFrondShader_s::CreateConstantMap()
     unsigned int uiPoint1Flags = 0x10000004;
 
     m_spConstantMap = new NiD3DShaderConstantMap(m_pOwnerShader, 0);
-    m_spConstantMap->AddEntry(_DAT_010A1E50, idefinedMatrix4Flags, 0, 0, 4, 0, 0, 0, 0, false);
-    m_spConstantMap->AddEntry(_DAT_010AF568, uiPoint4Flags, 0, 5, 1, "", 0x10, 4, _DAT_011FA0C0, false);
-    m_spConstantMap->AddEntry(_DAT_010B92F8, uiPoint4Flags, 0, 6, 1, "", 0x10, 4, _DAT_011FA0D0, false);
-    m_spConstantMap->AddEntry(_DAT_010B92E8, uiPoint4Flags, 0, 7, 1, "", 0x10, 4, _DAT_011FA0E0, false);
+    m_spConstantMap->AddEntry(::DAT_010A1E50, idefinedMatrix4Flags, 0, 0, 4, 0, 0, 0, 0, false);
+    m_spConstantMap->AddEntry(::DAT_010AF568, uiPoint4Flags, 0, 5, 1, "", 0x10, 4, (*reinterpret_cast<float (*)[4]>((void *)&::DAT_011FA0C0)), false);
+    m_spConstantMap->AddEntry(::DAT_010B92F8, uiPoint4Flags, 0, 6, 1, "", 0x10, 4, (*reinterpret_cast<float (*)[4]>((void *)&::DAT_011FA0D0)), false);
+    m_spConstantMap->AddEntry(::DAT_010B92E8, uiPoint4Flags, 0, 7, 1, "", 0x10, 4, (*reinterpret_cast<float (*)[4]>((void *)&::DAT_011FA0E0)), false);
     m_spConstantMap->AddEntry("DirectronalLightDir", uiPoint4Flags, 0, 8, 1, "", 0x10, 4, m_kDirectionalLightDir,
                               false);
     m_spConstantMap->AddEntry("PointLightPos", uiPoint4Flags, 0, 9, 1, "", 0x10, 4, m_kPointLightPos, false);
     m_spConstantMap->AddEntry("LightRadius", uiPoint4Flags, 0, 10, 1, "", 0x10, 4, DAT_011fa1f0, false);
-    m_spConstantMap->AddEntry(_DAT_010AF60C, uiPoint4Flags, 0, 14, 1, "", 0x10, 4, _DAT_011FA280, false);
-    m_spConstantMap->AddEntry(_DAT_010AF5E4, uiPoint4Flags, 0, 15, 1, "", 0x10, 4, _DAT_011FA290, false);
-    if (_DAT_011F941E)
-        m_spConstantMap->AddEntry(_DAT_010B92DC, uiPoint1Flags, 0, 16, 1, "", 4, 4, &_DAT_011F918C, false);
+    m_spConstantMap->AddEntry(::DAT_010AF60C, uiPoint4Flags, 0, 14, 1, "", 0x10, 4, (*reinterpret_cast<float (*)[4]>((void *)&::DAT_011FA280)), false);
+    m_spConstantMap->AddEntry(::DAT_010AF5E4, uiPoint4Flags, 0, 15, 1, "", 0x10, 4, (*reinterpret_cast<float (*)[4]>((void *)&::DAT_011FA290)), false);
+    if (::DAT_011f941e)
+        m_spConstantMap->AddEntry(::DAT_010B92DC, uiPoint1Flags, 0, 16, 1, "", 4, 4, &::DAT_011f918c, false);
     SpeedTreeLeafShaderConstantMapSetup::ConfigureShaderConstantMap(m_spConstantMap, 0x11);
 }
 
-extern "C" void __cdecl FUN_00b7b450();
 // @fnv 0x00bd3270
 void FUN_00bd3270()
 {
-    FUN_00b7b450();
+    static_cast<::BSShaderPass *>(nullptr)->FUN_00b7b450({});
 }
 
 struct ShaderProgram
@@ -132,9 +127,6 @@ struct ShaderProgram
     const char* file;
     const char* defines[18];
 };
-void __cdecl FUN_00be0c00(const char*, char*);
-int __cdecl FUN_00406d00(char*, int, const char*, ...);
-extern int DAT_011f91c0;
 struct BranchShader
 {
     unsigned int unk00, unk04, unk08, unk0c;
@@ -148,7 +140,6 @@ struct BranchShader
     unsigned int unk80, unk84, unk88;
     NiPointer_s<NiRefObject_s> vertexShaders1[10];
     NiPointer_s<NiRefObject_s> vertexShaders2[20];
-    NiRefObject_s* FUN_00be0fe0(const char*, const char* const*, const char*, const char*);
     void FUN_00bd3280();
 };
 // @fnv 0x00bd3280
@@ -193,7 +184,7 @@ void BranchShader::FUN_00bd3280()
         {
             FUN_00be0c00(shaderPrograms1x[i].file, shaderPath);
             FUN_00406d00(name, 260, "STB1%03i.vso", i);
-            vertexShaders1[i] = FUN_00be0fe0(shaderPath, shaderPrograms1x[i].defines, "vs_1_1", name);
+            vertexShaders1[i] = ((::NiRefObject_s *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(shaderPath), (const char *)(shaderPrograms1x[i].defines), "vs_1_1")));
         }
         else
         {
@@ -206,17 +197,13 @@ void BranchShader::FUN_00bd3280()
         {
             FUN_00be0c00(shaderPrograms2x[i].file, shaderPath);
             FUN_00406d00(name, 260, "STB2%03i.vso", i);
-            vertexShaders2[i] = FUN_00be0fe0(shaderPath, shaderPrograms2x[i].defines, "vs_2_0", name);
+            vertexShaders2[i] = ((::NiRefObject_s *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(shaderPath), (const char *)(shaderPrograms2x[i].defines), "vs_2_0")));
         }
     }
 }
 
-extern "C" float DAT_01011584[];
 char* __cdecl FUN_00ecdd16(double value, int digits, char* buffer);
-extern float DAT_011adbcc;
-void __cdecl FUN_00be0c00(const char* name, char* outBuf);
 extern "C" void* __cdecl _fnv_zlib_memset(void* dst, int val, unsigned int size);
-int _sprintf_s(char* buf, unsigned int size, const char* fmt, ...);
 class NiD3DGPUProgramCache
 {
   public:
@@ -255,7 +242,6 @@ struct Frond
     float m_kDirectionalLightDir[4];
     char pad3[0x104 - 0xa8];
     NiPointer_s<NiD3DShaderConstantMap> m_slots[10];
-    NiD3DShaderConstantMap* FUN_00be1750(char* buf, void* entryPart, const char* profile, char* psoName);
     void CreateShaderConstantMaps();
 };
 // Builds ten shader entry descriptors, then for each one formats its name and creates a shader constant map stored in m_slots.
@@ -270,12 +256,12 @@ void Frond::CreateShaderConstantMaps()
     _fnv_zlib_memset(&shaderEntries[0].f08, 0, 0x44);
     shaderEntries[1].f00 = "lighting\\1x\\p\\ambDiffDirTexture.p.hlsl";
     shaderEntries[1].f04 = "VC";
-    shaderEntries[1].f08 = DAT_01011584;
+    shaderEntries[1].f08 = (*reinterpret_cast<float (*)[]>((void *)&::DAT_01011584));
     shaderEntries[1].f0c = 0;
     _fnv_zlib_memset(&shaderEntries[1].t10, 0, 0x3c);
     shaderEntries[2].f00 = "lighting\\1x\\p\\ambDiffDirTexture.p.hlsl";
     shaderEntries[2].f04 = "VC";
-    shaderEntries[2].f08 = DAT_01011584;
+    shaderEntries[2].f08 = (*reinterpret_cast<float (*)[]>((void *)&::DAT_01011584));
     shaderEntries[2].f0c = 0;
     _fnv_zlib_memset(&shaderEntries[2].t10, 0, 0x3c);
     shaderEntries[3].f00 = "lighting\\1x\\p\\ambDiffDirAndPt.p.hlsl";
@@ -289,9 +275,9 @@ void Frond::CreateShaderConstantMaps()
     _fnv_zlib_memset(&shaderEntries[5].f08, 0, 0x44);
     shaderEntries[6].f00 = "lighting\\1x\\p\\base.p.hlsl";
     shaderEntries[6].f04 = "TEX";
-    shaderEntries[6].f08 = DAT_01011584;
+    shaderEntries[6].f08 = (*reinterpret_cast<float (*)[]>((void *)&::DAT_01011584));
     shaderEntries[6].f0c = (int)"VC";
-    shaderEntries[6].t10 = (int)DAT_01011584;
+    shaderEntries[6].t10 = (int)(*reinterpret_cast<float (*)[]>((void *)&::DAT_01011584));
     shaderEntries[6].t14 = 0;
     _fnv_zlib_memset(&shaderEntries[6].t18, 0, 0x34);
     shaderEntries[7].f00 = "lighting\\1x\\p\\specularDir.p.hlsl";
@@ -306,7 +292,7 @@ void Frond::CreateShaderConstantMaps()
     _fnv_zlib_memset(&shaderEntries[8].t10, 0, 0x3c);
     shaderEntries[9].f00 = "lighting\\1x\\p\\base.p.hlsl";
     shaderEntries[9].f04 = "FOG";
-    shaderEntries[9].f08 = DAT_01011584;
+    shaderEntries[9].f08 = (*reinterpret_cast<float (*)[]>((void *)&::DAT_01011584));
     shaderEntries[9].f0c = 0;
     _fnv_zlib_memset(&shaderEntries[9].t10, 0, 0x3c);
     const char* profile = NiD3DGPUProgramCache::GetPixelShaderProfile(true);
@@ -320,8 +306,8 @@ void Frond::CreateShaderConstantMaps()
         if (pEntry->f00)
         {
             FUN_00be0c00(pEntry->f00, shaderPathBuf);
-            _sprintf_s(psoNameBuf, 0x104, "STB1%03i.pso", i);
-            NiD3DShaderConstantMap* pConstantMap = FUN_00be1750(shaderPathBuf, &pEntry->f04, profile, psoNameBuf);
+            ::FUN_00406d00(psoNameBuf, 0x104, "STB1%03i.pso", i);
+            NiD3DShaderConstantMap* pConstantMap = ((::NiD3DShaderConstantMap *)(reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750(shaderPathBuf, &pEntry->f04, (char *)(profile), psoNameBuf)));
             *slot = pConstantMap;
         }
         else

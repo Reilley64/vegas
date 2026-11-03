@@ -2,6 +2,8 @@
 #ifndef BSRENDERSTATE_PACKET_DECLS_H
 #define BSRENDERSTATE_PACKET_DECLS_H
 
+#include "fnv/symbols_00b6b000.h"
+#include "fnv/symbols_011ff000.h"
 class NiRenderer
 {
   public:
@@ -109,7 +111,6 @@ class NiRenderer
 class BSRenderedTexture
 {
   public:
-    static void EndAll();
     static void EndAllAndResetRendererState();
 };
 
@@ -151,7 +152,6 @@ class GraphicsRenderer
     BSRenderStateDevice* device;
 };
 extern GraphicsRenderer* g_pkRenderer;
-extern int DAT_011ff9d8[];
 extern unsigned int DAT_011ffa9c;
 extern unsigned int DAT_011ffcd0;
 enum BSRENDERSTATE_LOCK

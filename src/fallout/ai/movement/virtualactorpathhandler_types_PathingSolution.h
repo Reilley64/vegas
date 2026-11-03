@@ -2,6 +2,7 @@
 #ifndef FNV_PATHINGSOLUTION_H
 #define FNV_PATHINGSOLUTION_H
 
+#include "fnv/symbols_005a4000.h"
 #include "layout_support.h"
 #include "NiPoint3.h"
 #include "NiRefObject.h"
@@ -466,6 +467,8 @@ class PathingGraphNode
     // void __cdecl PathingGraphNode::*(BGSLoadFormBuffer*)
     // PathingGraphNode& __cdecl PathingGraphNode::*(const PathingGraphNode&)
     // void* __cdecl PathingGraphNode::*(unsigned int)
+public:
+    bool IsTransitionNode();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(PathingGraphNode) == 60);
@@ -479,7 +482,6 @@ class PathingSolution : public NiRefObject
   public:
     LocationDescriptor* FUN_006e78b0(unsigned int);
     BaseProcess* FUN_006e78b0(unsigned int, NiPoint3&);
-    unsigned int FUN_005a4320();
     float CalculatePathLength();
     // base NiRefObject at +0x0, size 8
     PathingInfo Info;                                               // +0x8, 108 bytes

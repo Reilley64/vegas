@@ -17,7 +17,6 @@ class DecalData
     DecalData();
     void Copy(DecalData* source);
     void Load(TESFile* file);
-    void SwapEndianFields();
 };
 extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 #endif

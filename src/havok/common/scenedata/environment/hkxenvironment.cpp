@@ -2,6 +2,13 @@
 // src/havok/common/scenedata/environment/hkxenvironment.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/environment/hkxenvironment.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/CB0StringPtr.h"
+#include "fnv/decl/FUN_00cb0a60.h"
+#include "fnv/decl/FUN_00e3f230_cls.h"
+#include "fnv/decl/SStringPtr.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
 #include "havok/hkxEnvironment.h"
 
 struct HKXMemoryManager
@@ -78,7 +85,6 @@ struct HavokAllocator
     virtual void ReturnMemory(void*, int);
 };
 HKXMemoryRouter* __cdecl FUN_00c85750();
-void __fastcall FUN_00cb0c00(HavokString* string);
 struct EnvironmentArray
 {
     EnvironmentVariable* data;
@@ -94,8 +100,8 @@ struct EnvironmentArray
             int remaining = size;
             do
             {
-                FUN_00cb0c00(&entry->value);
-                FUN_00cb0c00(&entry->name);
+                ::FUN_00cb0c00((int)(&entry->value));
+                ::FUN_00cb0c00((int)(&entry->name));
                 ++entry;
             } while (--remaining != 0);
         }
@@ -124,7 +130,6 @@ void HKXEnvironmentStandIn::DestroyEnvironment()
     reinterpret_cast<hkBaseObject*>(environment)->hkBaseObject::~hkBaseObject();
 }
 
-void ResizeAudioStream(void* pvAlloc, void* apvArray, int iSizeElem);
 
 struct PlaceTagE3F3
 {
@@ -141,26 +146,22 @@ class hkStringPtrE3F3
   public:
     const char* m_pcText;
 
-    void FUN_00cb0a60() throw();
-    void FUN_00cb0bd0(const hkStringPtrE3F3& kOther) throw();
-    void FUN_00cb0c00() throw();
-    void FUN_00cb0c10(const char* pcString) throw();
 
     hkStringPtrE3F3()
     {
-        FUN_00cb0a60();
+        new ((void *)this) struct ::FUN_00cb0a60();
     }
     hkStringPtrE3F3(const hkStringPtrE3F3& kOther)
     {
-        FUN_00cb0bd0(kOther);
+        new ((void *)this) ::CB0StringPtr((const ::CB0StringPtr &)(kOther));
     }
     ~hkStringPtrE3F3()
     {
-        FUN_00cb0c00();
+        ::FUN_00cb0c00((int)this);
     }
     void operator=(const char* pcString)
     {
-        FUN_00cb0c10(pcString);
+        reinterpret_cast<::SStringPtr *>(this)->FUN_00cb0c10(pcString);
     }
 };
 
@@ -208,7 +209,7 @@ template <typename T> struct hkArrayE3F3
         HKXMemoryRouter* pRouter = FUN_00c85750();
         HavokAllocator* pAlloc = reinterpret_cast<HavokAllocator*>(pRouter->manager);
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(pAlloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(pAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         new (&m_data[m_iElementCount], PlaceTagE3F3()) T(kElem);
         m_iElementCount++;
     }
@@ -222,7 +223,6 @@ class hkxAttributeMapE3F3
     short m_sReferenceCount;
     hkArrayE3F3<hkxAttributePairE3F3> m_pCustomAttributes;
 
-    int FindEntryByKey(const char* pcName) throw();
     int FUN_00e3f3b0(const char* pcName, const char* pcValue) throw();
 };
 
@@ -230,7 +230,7 @@ class hkxAttributeMapE3F3
 // @fnv 0x00e3f3b0
 int hkxAttributeMapE3F3::FUN_00e3f3b0(const char* pcName, const char* pcValue) throw()
 {
-    int iIndex = FindEntryByKey(pcName);
+    int iIndex = reinterpret_cast<::FUN_00e3f230_cls *>(this)->FindEntryByKey((int)(pcName));
     if (pcValue == 0)
     {
         if (iIndex == -1)

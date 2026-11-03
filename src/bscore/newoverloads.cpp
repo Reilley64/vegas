@@ -2,10 +2,10 @@
 // MemoryManager allocator while carrying the caller's file, line and
 // function text for the allocation trackers.
 
+#include "fnv/decl/MemoryManagerStandIn.h"
 class MemoryManager
 {
   public:
-    void* __thiscall Allocate(unsigned int size);
     void* __thiscall Allocate(unsigned int size, const char* file, const int line, const char* function);
 };
 
@@ -13,6 +13,6 @@ class MemoryManager
 // @fnv 0x00aa4030
 void* MemoryManager::Allocate(unsigned int size, const char* file, const int line, const char* function)
 {
-    void* result = Allocate(size);
+    void* result = reinterpret_cast<::MemoryManagerStandIn *>(this)->FUN_00aa3e40(size);
     return result;
 }

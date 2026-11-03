@@ -4,6 +4,12 @@
 
 // src/havok/physics/dynamics/constraint/atom/hkpconstraintatom.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/atom/hkpconstraintatom.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/MProduct.h"
+#include "fnv/decl/MatrixProduct.h"
+#include "fnv/decl/S_00cd4c70.h"
+#include "fnv/decl/hkMatrix3CD4B.h"
+#include "fnv/symbols_00d21000.h"
+#include "fnv/symbols_00d22000.h"
 #include "havok/hkpConstraintAtom.h"
 struct FUN_00d21ce0_cls
 {
@@ -14,10 +20,7 @@ struct FUN_00d21ce0_cls
 };
 struct FUN_00d22090_cls
 {
-    int FUN_00d22090(void* a, void* b);
 };
-int __cdecl FUN_00d22120(void* pNode, void* a, void* b);
-void __stdcall FUN_00d21d00(int, int, int, int, int, int);
 struct FUN_00d21de0_cls
 {
     int unk00;
@@ -49,12 +52,12 @@ struct ConstraintAtom
     ConstraintAtom* next;
     int FUN_00d22030(ConstraintInfo* info);
 };
-void __cdecl FUN_00d21a60(ConstraintAtom* atom, unsigned int count, ConstraintInfo* result);
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
 struct hkVector4q
 {
@@ -97,10 +100,6 @@ struct hkMatrix3q
         return (&m_kColumn0)[c](r);
     }
 
-    void setTransposeMul(const hkMatrix3q& a, const hkMatrix3q& b);
-    void SetProduct(const hkMatrix3q& a, const hkMatrix3q& b);
-    void SetInverseProduct(const hkMatrix3q& a, const hkMatrix3q& b);
-    void mul(const hkSimdRealq& scale);
 };
 struct hkpSimpleConstraintInfoInitInputq
 {
@@ -141,7 +140,6 @@ class hkpModifierConstraintAtomD220
   public:
     unsigned short m_type;
 
-    int FUN_00d22030(hkpConstraintInfoD220& kInfo) const;
     int FUN_00d22090(hkpConstraintInfoD220& kInfo, unsigned char& ucUsedFlagsOut) const;
 };
 extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, int c);
@@ -223,7 +221,6 @@ extern __m128 DAT_012689a0;
 extern __m128 DAT_012689b0;
 extern __m128 DAT_012689c0;
 extern __m128 DAT_012689d0;
-void __stdcall SetGlobalVectors(int, int, const __m128* source1, int, const __m128* source2);
 extern "C" __m128 _mm_load_ps(float const* p);
 extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
 struct FUN_00d21fc0_n
@@ -249,7 +246,6 @@ extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_load_ss(float const* a);
 extern "C" __m128 _mm_set1_ps(float a);
 extern "C" __m128 _mm_move_ss(__m128 a, __m128 b);
-extern __m128 DAT_010ec7f0;
 extern __m128 DAT_012689a0;
 extern __m128 DAT_012689b0;
 extern __m128 DAT_012689c0;
@@ -258,7 +254,7 @@ static inline __m128 Blend_d21d10(const __m128& v, const __m128& kRef, const flo
 {
     __m128 s = _mm_load_ss(&t);
     s = _mm_shuffle_ps(s, s, 0);
-    return _mm_add_ps(_mm_mul_ps(_mm_sub_ps(DAT_010ec7f0, s), kRef), _mm_mul_ps(v, s));
+    return _mm_add_ps(_mm_mul_ps(_mm_sub_ps(::DAT_010ec7f0, s), kRef), _mm_mul_ps(v, s));
 }
 struct SoftContactVelocityBlend
 {

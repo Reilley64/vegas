@@ -1,12 +1,28 @@
 // gamebryo2.2/corelibs/nianimation/nibsplinebasisdata.cpp: NiBSplineBasisData, SplineOwner (10 functions)
 
+#include "fnv/decl/A5D6E0This.h"
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a57f20_cls.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/decl/FUN_00a5d450_class.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_011f4000.h"
 #include "nibsplinebasisdata_decls.h"
 
 // Calls the base NiObject::LoadBinary, then reads a scalar from the stream into the basis data's field.
 // @fnv 0x00a52c10
 void NiBSplineBasisData::LoadBinary(NiStream& stream)
 {
-    NiObject::LoadBinary(stream);
+    reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup((::NiStream *)&(stream));
     stream.m_pUnderlyingStream->ReadScalar(m_kBSplineBasis.m_iNumControlPoints);
 }
 
@@ -15,26 +31,24 @@ struct FUN_00a52bb0_shell : public NiBSplineBasisData
     bool FUN_00a52bb0(NiObject*);
 };
 
-bool __stdcall IsSameAs(NiObject* pkObject);
 
 // @fnv 0x00a52bb0
 bool FUN_00a52bb0_shell::FUN_00a52bb0(NiObject* pkObject)
 {
-    if (!IsSameAs(pkObject))
+    if (!reinterpret_cast<::A5d470Class *>((pkObject))->IsSameAs({}))
         return false;
 
     return *(int*)((char*)pkObject + 8) == *(int*)((char*)this + 8);
 }
 
 extern int DAT_01099f24;
-void __fastcall FUN_00a5d3d0(void* pThis);
 void __cdecl FUN_00aa1460(void* pMem, unsigned int uiSize);
 
 // @fnv 0x00a52be0
 void* __fastcall FUN_00a52be0(void* pThis, int, unsigned char flags)
 {
     *reinterpret_cast<int**>(pThis) = &DAT_01099f24;
-    FUN_00a5d3d0(pThis);
+    reinterpret_cast<class ::FUN_00a5d3d0 *>((pThis))->FUN_00a5d3d0::~FUN_00a5d3d0();
     if (flags & 1)
     {
         FUN_00aa1460(pThis, 0x28);
@@ -46,22 +60,16 @@ struct GlobalObjectO2_00a7b610
 {
     int x;
 };
-extern GlobalObjectO2_00a7b610 g_011f403c;
 // @fnv 0x00a52af0
 GlobalObjectO2_00a7b610* FUN_00a52af0()
 {
-    return &g_011f403c;
+    return &::g_011f403c;
 }
 
 namespace fnv_00a52c90 {
 struct ActorCombatGroup;
-extern int g_011f403c;
-void __stdcall AppendCameraPathEntries(void*);
-ActorCombatGroup* __cdecl FUN_00a7d330(int);
 struct ArrX
 {
-    void SetSize(unsigned);
-    void SetAt(unsigned, ActorCombatGroup*&);
     unsigned char pad[8];
     unsigned short m_usMaxSize;
     unsigned short m_usSize;
@@ -71,12 +79,12 @@ struct ArrX
 // @fnv 0x00a52c90
 void __stdcall FUN_00a52c90(ArrX* pArray)
 {
-    AppendCameraPathEntries(pArray);
-    ActorCombatGroup* pObject = FUN_00a7d330(g_011f403c);
+    reinterpret_cast<::A5D6E0This *>((pArray))->AppendCameraPathEntries({});
+    ActorCombatGroup* pObject = ((::fnv_00a52c90::ActorCombatGroup *)(::FUN_00a7d330((const char *)((*reinterpret_cast<int *>(&::g_011f403c))))));
     unsigned n = pArray->m_usSize;
     if (n >= pArray->m_usMaxSize)
-        pArray->SetSize(n + pArray->m_usGrowBy);
-    pArray->SetAt(n, pObject);
+        reinterpret_cast<::ViewerStrings *>((pArray))->SetSize(n + pArray->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pArray))->SetAt(n, (char *&)(pObject));
 }
 }  // namespace fnv_00a52c90
 
@@ -84,7 +92,6 @@ extern int DAT_01099d3c;
 
 struct FUN_00a51ab0_base
 {
-    void InitBase(int a1, int a3);
 };
 
 struct FUN_00a51ab0_cls : FUN_00a51ab0_base
@@ -109,7 +116,7 @@ struct FUN_00a51ab0_cls : FUN_00a51ab0_base
 // @fnv 0x00a51ab0
 FUN_00a51ab0_cls* FUN_00a51ab0_cls::FUN_00a51ab0(int a1, int a2, int a3)
 {
-    InitBase(a1, a3);
+    reinterpret_cast<::FUN_00a57f20_cls *>(this)->FUN_00a57f20((void *)(a1), (void *)(a3));
     m_vptr00 = (int)&DAT_01099d3c;
     *(volatile float*)&m_1c = 0.0f;
     m_20 = 0.0f;
@@ -119,7 +126,6 @@ FUN_00a51ab0_cls* FUN_00a51ab0_cls::FUN_00a51ab0(int a1, int a2, int a3)
     return this;
 }
 
-extern float DAT_01012054;
 void* __cdecl FUN_00aa13e0(unsigned int uiSize);
 
 class SplineBase
@@ -165,7 +171,6 @@ struct SplineOwner
     unsigned int unk00;
     unsigned int unk04;
     SplineBlock m_08;
-    void CreateVertexBufferSet(SplineObj* pObj, unsigned char flags);
     SplineObj* CreateSplineObj(unsigned char flags);
 };
 
@@ -173,7 +178,7 @@ struct SplineOwner
 SplineObj* SplineOwner::CreateSplineObj(unsigned char flags)
 {
     SplineObj* pResult = new SplineObj;
-    CreateVertexBufferSet(pResult, flags);
+    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((unsigned int)(pResult), (void *)(flags));
     pResult->m_08 = m_08;
     return pResult;
 }
@@ -237,7 +242,6 @@ class FUN_00a52c50_BasisData : public NiObject
 {
   public:
     BSplineBasis<float, 3> m_kBSplineBasis;
-    void SaveBinaryBase(NiStream& stream);
     void FUN_00a52c50(NiStream& stream);
 };
 
@@ -245,7 +249,7 @@ class FUN_00a52c50_BasisData : public NiObject
 // @fnv 0x00a52c50
 void FUN_00a52c50_BasisData::FUN_00a52c50(NiStream& stream)
 {
-    SaveBinaryBase(stream);
+    ::FUN_00a89af0((int)this);
     WriteScalar(static_cast<NiStreamSave&>(stream).m_pBackingStream, m_kBSplineBasis.m_iNumControlPoints);
 }
 

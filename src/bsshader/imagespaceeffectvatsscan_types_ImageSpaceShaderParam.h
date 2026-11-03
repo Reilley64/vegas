@@ -2,6 +2,8 @@
 #ifndef FNV_IMAGESPACESHADERPARAM_H
 #define FNV_IMAGESPACESHADERPARAM_H
 
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_011f6000.h"
 #include "layout_support.h"
 #include "layout_support.h"
 class DFALL_NiTMapItem_unsigned_int_unsigned_int___;
@@ -299,7 +301,7 @@ class ImageSpaceShaderParam : public ImageSpaceEffectParam
     NiTMap_unsigned_int_unsigned_int_ m_kRenderStateMap;                            // +0x78, 16 bytes
     static void* operator new(unsigned int size)
     {
-        return g_memoryManager.Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }
     ImageSpaceShaderParam();
     void AllocateShaderConstants(int vertexSize, int pixelSize);

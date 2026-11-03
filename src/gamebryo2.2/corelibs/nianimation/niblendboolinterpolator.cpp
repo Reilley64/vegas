@@ -1,25 +1,28 @@
 // gamebryo2.2/corelibs/nianimation/niblendboolinterpolator.cpp: NiBlendBoolInterpolator, BlendBoolShell (13 functions)
 
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/BlendCopy.h"
+#include "fnv/decl/BlendSerializer.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a36890.h"
+#include "fnv/decl/FUN_00a37260_shell.h"
+#include "fnv/decl/SBObject.h"
+#include "fnv/decl/S_00a370b0_Class.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a37980__Blend100.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a36000.h"
+#include "fnv/symbols_00a37000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_0109a000.h"
+#include "fnv/symbols_011f4000.h"
 #include "niblendboolinterpolator_types_NiBlendBoolInterpolator.h"
 #include "niblendboolinterpolator_types_NiStream.h"
 #include "niblendboolinterpolator_NiBinaryStream.h"
-
-// @fnv 0x00a56880
-bool NiBlendBoolInterpolator::Update(float time, NiObjectNET* target, bool& value)
-{
-    bool updated = false;
-    if (m_ucInterpCount == 1)
-    {
-        updated = UpdateAccumulatedTransform(time, target, value);
-    }
-    else if (m_ucInterpCount > 0)
-    {
-        NiBlendInterpolator::NormalizeWeights();
-        updated = UpdateSingleInterpolator(time, target, value);
-    }
-    m_fLastTime = time;
-    return updated;
-}
 
 struct FUN_00a565a0_shell : public NiBlendBoolInterpolator
 {
@@ -39,8 +42,6 @@ class BSFadeNode
     static void* __cdecl operator new(unsigned int);
 };
 
-void __fastcall FUN_00a36890(void* pThis);
-extern int DAT_0109a67c;
 
 // @fnv 0x00a565c0
 void* __cdecl FUN_00a565c0()
@@ -48,7 +49,7 @@ void* __cdecl FUN_00a565c0()
     void* p = BSFadeNode::operator new(0x34);
     if (p)
     {
-        FUN_00a36890(p);
+        new ((void *)(p)) class ::FUN_00a36890();
         *reinterpret_cast<void**>(p) = &DAT_0109a67c;
         reinterpret_cast<unsigned char*>(p)[0x30] = DAT_0109a914;
         return p;
@@ -65,7 +66,7 @@ struct FUN_00a568e0_shell : public NiBlendBoolInterpolator
 // @fnv 0x00a568e0
 void FUN_00a568e0_shell::FUN_00a568e0(NiStream* kStream)
 {
-    NiBlendInterpolator::LoadBinary(*kStream);
+    reinterpret_cast<::fnv_00a37980::Blend100 *>(this)->FUN_00a37980((::fnv_00a37980::Stream100 &)(*kStream));
     NiBinaryStream* __restrict input = *(NiBinaryStream**)((char*)kStream + 0x24c);
     unsigned int size = 1;
     *(unsigned int*)((char*)input + 4) +=
@@ -73,13 +74,12 @@ void FUN_00a568e0_shell::FUN_00a568e0(NiStream* kStream)
             (char*)input + 8))(input, (char*)this + 0x30, 1, &size, 1);
 }
 
-extern int DAT_0109a67c;
 // Constructs a NiBlendInterpolator with the given arguments, installs the vtable at DAT_0109a67c and sets byte 0x30 from DAT_0109a914.
 // @fnv 0x00a56560
 NiBlendInterpolator* __fastcall ConstructBlendInterpolator(NiBlendInterpolator* self, int unused, bool a, float b,
                                                            unsigned char c)
 {
-    self->NiBlendInterpolator::NiBlendInterpolator(a, b, c);
+    reinterpret_cast<::S_00a370b0_Class *>((self))->FUN_00a370b0(a, b, c);
     *(int**)self = &DAT_0109a67c;
     *((unsigned char*)self + 0x30) = DAT_0109a914;
     return self;
@@ -89,14 +89,13 @@ struct M76Obj
 {
     char pad[0x30];
     bool m_bBoolValue;
-    bool FUN_00a36fd0(M76Obj*);
     bool IsBoolValueEqual(M76Obj*);
 };
 // Returns true if FUN_00a36fd0 succeeds and this object's m_bBoolValue equals the passed object's m_bBoolValue.
 // @fnv 0x00a565f0
 bool M76Obj::IsBoolValueEqual(M76Obj* pkObject)
 {
-    if (!FUN_00a36fd0(pkObject))
+    if (!::fnv_00a36fd0::FUN_00a36fd0((::fnv_00a36fd0::BlendS *)this, (int)(pkObject), {}))
         return false;
     M76Obj* pkDest = pkObject;
     return m_bBoolValue == pkDest->m_bBoolValue ? true : false;
@@ -106,36 +105,29 @@ struct GlobalObjectO2_00a7b610
 {
     int pad;
 };
-extern GlobalObjectO2_00a7b610 g_011f407c;
 // @fnv 0x00a56620
 void* __cdecl FUN_00a56620()
 {
-    return &g_011f407c;
+    return &::g_011f407c;
 }
 
-void __fastcall DestroyInterpolatorArray(void*);
-void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 // Calls DestroyInterpolatorArray on self, then if flags has bit 0 set calls __Dummy_00b6fef0 with self and 0x34, and returns self.
 // @fnv 0x00a56630
 void* __fastcall FUN_00a56630(void* self, int, unsigned int flags)
 {
-    DestroyInterpolatorArray(self);
+    ::DestroyInterpolatorArray((::NiBlendInterpolator *)(self), {});
     if (flags & 1)
-        __Dummy_00b6fef0(self, 0x34);
+        ::FUN_00aa1460(self, 0x34);
     return self;
 }
 
 namespace fnv_00a56650 {
-extern int DAT_0109a67c;
-extern unsigned char DAT_0109a914;
-void __fastcall FUN_00a36890(void*);
 struct M76Obj
 {
     void* vtbl;
     char pad[0x2c];
     unsigned char m_bBoolValue;
     static void* __cdecl operator new(unsigned int);
-    void FUN_00a37510(M76Obj*, void*);
 };
 // Allocates and initialises an M76Obj, passes it to self's FUN_00a37510 with cloning, copies self's m_bBoolValue into it and returns it.
 // @fnv 0x00a56650
@@ -144,23 +136,21 @@ M76Obj* __fastcall FUN_00a56650(M76Obj* self, int, void* cloning)
     M76Obj* pkObject = new M76Obj;
     if (pkObject)
     {
-        FUN_00a36890(pkObject);
-        pkObject->vtbl = &DAT_0109a67c;
-        pkObject->m_bBoolValue = DAT_0109a914;
+        new ((void *)(pkObject)) class ::FUN_00a36890();
+        pkObject->vtbl = &::DAT_0109a67c;
+        pkObject->m_bBoolValue = ::DAT_0109a914;
     }
     else
     {
         pkObject = 0;
     }
-    self->FUN_00a37510(pkObject, cloning);
+    reinterpret_cast<::BlendCopy *>((self))->FUN_00a37510((::NiBlendInterpolator *)(pkObject), (::CloningProcess *)(cloning));
     pkObject->m_bBoolValue = self->m_bBoolValue;
     return pkObject;
 }
 }  // namespace fnv_00a56650
 
 namespace fnv_00a566a0 {
-extern float DAT_0109696c;
-extern unsigned char DAT_0109a914;
 struct M76Ctrl
 {
     virtual void v0();
@@ -223,7 +213,7 @@ bool M76Obj::UpdateInterpBool(float fTime, void* pkInterpTarget, bool* bValue)
 {
     if (m_uiValue1 & 1)
         fTime = m_fLastTime;
-    if (fTime == DAT_0109696c)
+    if (fTime == ::DAT_0109696c)
         return false;
     if (m_pkInterp->Update(fTime, pkInterpTarget, bValue))
     {
@@ -231,7 +221,7 @@ bool M76Obj::UpdateInterpBool(float fTime, void* pkInterpTarget, bool* bValue)
         return true;
     }
     *bValue = false;
-    m_bBoolValue = DAT_0109a914;
+    m_bBoolValue = ::DAT_0109a914;
     return false;
 }
 }  // namespace fnv_00a566a0
@@ -251,7 +241,6 @@ struct M76Stream
 };
 struct M76Obj
 {
-    void FUN_00a37ec0(M76Stream*);
     char pad[0x30 - 0];
     void FUN_00a56920(M76Stream*);
 };
@@ -259,7 +248,7 @@ struct M76Obj
 // @fnv 0x00a56920
 void __fastcall FUN_00a56920(M76Obj* self, int, M76Stream* stream)
 {
-    self->FUN_00a37ec0(stream);
+    reinterpret_cast<::SBObject *>((self))->FUN_00a37ec0((*(::SBStream *)(stream)));
     M76Bin* __restrict out = stream->output;
     unsigned int size = 1;
     out->position += out->write(out, reinterpret_cast<char*>(self) + 0x30, 1, &size, 1);
@@ -275,36 +264,30 @@ struct M76Arr
     unsigned short m_usESize;
     unsigned short pad0c;
     unsigned short m_usGrowBy;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
     void Add(char* item)
     {
         unsigned int index = m_usESize;
         if (index >= m_usMaxSize)
-            SetSize(index + m_usGrowBy);
-        SetAt(index, item);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(index + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(index, item);
     }
 };
 struct M76Obj
 {
     char pad[0x30];
     unsigned char m_bBoolValue;
-    void FUN_00a38080(M76Arr*);
 };
 struct M76Glob
 {
     int pad;
 };
-extern M76Glob* g_011f407c;
-char* __cdecl FUN_00a7d330(M76Glob*);
-char* __cdecl FUN_00a7d410(const char*, unsigned int);
 // Calls FUN_00a38080, then appends the result of FUN_00a7d330 and the formatted "m_bBoolValue" string to pkStrings.
 // @fnv 0x00a56960
 void __fastcall AddBoolValueStrings(M76Obj* self, int, M76Arr* pkStrings)
 {
-    self->FUN_00a38080(pkStrings);
-    pkStrings->Add(FUN_00a7d330(g_011f407c));
-    pkStrings->Add(FUN_00a7d410("m_bBoolValue", self->m_bBoolValue));
+    reinterpret_cast<::BlendSerializer *>((self))->FUN_00a38080((::NiStream *)(pkStrings));
+    pkStrings->Add(::FUN_00a7d330((const char *)((*reinterpret_cast<::fnv_00a56960::M76Glob * *>(&::g_011f407c)))));
+    pkStrings->Add(::FUN_00a7d410("m_bBoolValue", self->m_bBoolValue));
 }
 }  // namespace fnv_00a56960
 
@@ -395,6 +378,22 @@ struct BlendBoolShell : public NiBlendBoolInterpolator
     }
     bool FUN_00a56710(float, NiObjectNET*, bool&);
 };
+// @fnv 0x00a56880
+bool NiBlendBoolInterpolator::Update(float time, NiObjectNET* target, bool& value)
+{
+    bool updated = false;
+    if (m_ucInterpCount == 1)
+    {
+        updated = UpdateAccumulatedTransform(time, target, value);
+    }
+    else if (m_ucInterpCount > 0)
+    {
+        reinterpret_cast<::FUN_00a37260_shell *>(this)->UpdateNormalizedWeights();
+        updated = reinterpret_cast<::BlendBoolShell *>(this)->FUN_00a56710(time, target, value);
+    }
+    m_fLastTime = time;
+    return updated;
+}
 
 // Accumulates successful interpolator updates by normalized weight; when any update succeeds, sets both boolean values using a 0.5 threshold.
 // @fnv 0x00a56710

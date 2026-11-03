@@ -2,9 +2,13 @@
 // src/havok/physics/collide/shape/convex/convextransform/hkpconvextransformshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/convextransform/hkpconvextransformshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00c9e340.h"
+#include "fnv/decl/FunctionContext.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpConvexTransformShape.h"
 
-extern const char* const g_01268970_arg1;
 
 struct FUN_00d5d730_class
 {
@@ -23,7 +27,6 @@ struct FUN_00d5d730_class
 
 struct FUN_00c90360_helper
 {
-    void FUN_00c90360(FUN_00d5d730_class* pChild, const char* const* name);
 };
 
 // Calls pChild->v3 with "Child" and this+0x18, then FUN_00c90360 with pChild and g_01268970_arg1.
@@ -31,7 +34,7 @@ struct FUN_00c90360_helper
 void FUN_00d5d730_class::FUN_00d5d730(FUN_00d5d730_class* pChild, const char* name)
 {
     pChild->v3("Child", *(const char**)((char*)this + 0x18), 0);
-    ((FUN_00c90360_helper*)this)->FUN_00c90360(pChild, &g_01268970_arg1);
+    reinterpret_cast<::FunctionContext *>((((FUN_00c90360_helper*)this)))->FUN_00c90360(pChild, (void *)(&(*reinterpret_cast<const char *const *>(&::g_01268940))));
 }
 
 struct FUN_00d5e020_standin
@@ -165,12 +168,10 @@ extern "C"
     __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 }
 
-extern "C" unsigned long DAT_0126835c;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern const char str_010d1074[];
-extern const char str_010c41f8[];
 
 struct StringCursor
 {
@@ -272,7 +273,7 @@ struct RtStandin : public hkpConvexTransformShape
 
 static __forceinline void timer_begin(const char* name)
 {
-    StringCursor* stream = (StringCursor*)TlsGetValue(DAT_0126835c);
+    StringCursor* stream = (StringCursor*)TlsGetValue(::DAT_0126835c);
     char* ptr = stream->m_ptr;
     if (ptr < stream->m_kRayEnd)
     {
@@ -308,7 +309,7 @@ hkBoolResult RtStandin::FUN_00d5d940(const ShapeRayCastQuery& input, ShapeRayCas
         output.m_uiShapeKeys[output.m_uiShapeKeyIndex] = 0;
     }
 
-    timer_begin(str_010c41f8);
+    timer_begin(::DAT_010c41f8);
     return res;
 }
 
@@ -328,9 +329,7 @@ extern "C" __m128 _mm_movelh_ps(__m128, __m128);
 extern "C" __m128 _mm_movehl_ps(__m128, __m128);
 extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 
-extern "C" unsigned long DAT_0126835c;
 extern "C" const char str_010d1084[];
-extern "C" const char str_010c41f8[];
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" unsigned __int64 __rdtsc(void);
 
@@ -435,7 +434,7 @@ class hkpConvexTransformShapeWrapper : public hkpConvexTransformShape
 void hkpConvexTransformShapeWrapper::FUN_00d5dae0(const ShapeRayCastQuery& input, const hkpCdBody& cdBody,
                                                   hkpRayHitCollector& collector) const
 {
-    MonitorStream* stream = (MonitorStream*)TlsGetValue(DAT_0126835c);
+    MonitorStream* stream = (MonitorStream*)TlsGetValue(::DAT_0126835c);
     MonitorEntry* pMonitorEntry = stream->m_stream;
     if (pMonitorEntry < stream->m_kRayEnd)
     {
@@ -462,11 +461,11 @@ void hkpConvexTransformShapeWrapper::FUN_00d5dae0(const ShapeRayCastQuery& input
 
     ((MyShape*)m_pContainedShape.m_pContainedShape)->castRayWithCollector(localInput, childCdBody, collector);
 
-    MonitorStream* endStream = (MonitorStream*)TlsGetValue(DAT_0126835c);
+    MonitorStream* endStream = (MonitorStream*)TlsGetValue(::DAT_0126835c);
     MonitorEntry* endEntry = endStream->m_stream;
     if (endEntry < endStream->m_kRayEnd)
     {
-        endEntry->m_name = str_010c41f8;
+        endEntry->m_name = ::DAT_010c41f8;
         _ReadWriteBarrier();
         volatile unsigned int uiEndTimestamp = (unsigned int)__rdtsc();
         endEntry->m_uiCommandId = uiEndTimestamp;
@@ -679,7 +678,6 @@ extern int DAT_010d102c;
 
 struct BaseHelper
 {
-    void* FUN_00c9e340(int a, float r, const hkpConvexShape* child, int refPolicy);
 };
 
 struct AlignedTransform
@@ -709,7 +707,7 @@ struct Standin
 // @fnv 0x00d5d7a0
 Standin* Standin::FUN_00d5d7a0(const hkpConvexShape* childShape, const AlignedTransform& transform, int refPolicy)
 {
-    ((BaseHelper*)this)->FUN_00c9e340(0xc, childShape->m_fSphereRadius, childShape, refPolicy);
+    new ((void *)(((BaseHelper*)this))) ::FUN_00c9e340(0xc, childShape->m_fSphereRadius, (::FUN_00d1df70 *)(childShape), refPolicy);
     this->vtable = &DAT_010d102c;
     this->m_kMotionTransform.r0 = transform.r0;
     this->m_kMotionTransform.r1 = transform.r1;

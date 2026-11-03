@@ -83,6 +83,9 @@ class NiUpdateData
 };
 class NiObjectNET;
 class NiControllerManager;
+class CloningProcess;
+class NiObjectNET;
+class NiStream;
 class NiTimeController : public NiObject
 {
   public:
@@ -99,6 +102,12 @@ class NiTimeController : public NiObject
     NiObjectNET* m_pkTarget;
     NiPointer<NiTimeController> m_spNextController;
     virtual void Update(NiUpdateData&);
+public:
+    void ProcessClone(::CloningProcess &);
+public:
+    void SetTarget(::NiObjectNET *);
+public:
+    void LinkObject(::NiStream &);
 };
 class NiFixedString
 {

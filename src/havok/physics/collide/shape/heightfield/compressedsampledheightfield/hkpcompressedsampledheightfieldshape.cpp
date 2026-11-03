@@ -2,6 +2,8 @@
 // src/havok/physics/collide/shape/heightfield/compressedsampledheightfield/hkpcompressedsampledheightfieldshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/heightfield/compressedsampledheightfield/hkpcompressedsampledheightfieldshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_011b1000.h"
 #include "havok/hkpCompressedSampledHeightFieldShape.h"
 
 // @fnv 0x00e49510
@@ -89,7 +91,6 @@ struct HfVec_e49530
     }
 };
 
-extern const HfVec_e49530 DAT_011b1bd0;
 
 struct HfInput_e49530
 {
@@ -151,7 +152,7 @@ static __forceinline void HfCollide_e49530(const HfShape_e49530& hf, const HfInp
         } fc;
         fc.v.setAdd4(pos, HfQ_e49530(hf.m_kOffset));
         fc.v.mul4(sc);
-        fc.v.add4(DAT_011b1bd0);
+        fc.v.add4((*reinterpret_cast<const ::HfVec_e49530 *>((void *)&::DAT_011b1bd0)));
         struct
         {
             unsigned short a, b, c, d;
@@ -256,7 +257,6 @@ void HfShape_e49530::Collide(const HfInput_e49530& input, HfVec_e49530* outputAr
 }
 
 extern "C" void* __cdecl FUN_00c85750();
-extern "C" void __cdecl FUN_00c908c0(void* alloc, void* array, int capacity, int elemSize);
 extern int DAT_010e901c;
 
 struct hkBoolR_e499
@@ -312,7 +312,7 @@ struct Arr16_e499
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&a, this, newSize, sizeof(hkUint16));
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(&a), (::SpawnedArray *)(void *)(this), newSize, sizeof(hkUint16));
         }
     }
     void _setSize(Alloc_e499& a, int n)
@@ -328,7 +328,7 @@ struct Arr16_e499
         if (c < n)
         {
             c = c * 2;
-            FUN_00c908c0(alloc, this, n < c ? c : n, 2);
+            ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(void *)(this), n < c ? c : n, 2);
         }
     }
     __forceinline void SetSizeAndGrow(int n)

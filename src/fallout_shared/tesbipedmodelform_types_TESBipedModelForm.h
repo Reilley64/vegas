@@ -1,6 +1,7 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef FNV_TESBIPEDMODELFORM_H
 #define FNV_TESBIPEDMODELFORM_H
+#include "fnv/decl/TESActorBase.h"
 #include "layout_support.h"
 #include "tesbipedmodelform_types_BIPED_OBJECT.h"
 #include "tesbipedmodelform_types_SEX.h"
@@ -196,6 +197,7 @@ class TESBipedModelFormBase
 };
 #pragma pack(pop)
 #pragma pack(push, 4)
+class TESForm;
 class TESBipedModelForm : public TESBipedModelFormBase
 {
   public:
@@ -248,10 +250,11 @@ class TESBipedModelForm : public TESBipedModelFormBase
     bool IsPowerArmor();
     void InitItem(TESForm*);
     bool HasBipedModel(BIPED_OBJECT, bool, BGSBipedModelList*);
-    static TESBipedModelForm* GetFormAsBipedModel(TESForm*);
     void SetBipedModel(BipedAnim*, SEX, BIPED_OBJECT);
     void InitializeComponent();
     BSFaceGenModel* FUN_00480ce0();
+public:
+    static ::TESBipedModelForm *GetFormAsBipedModel(const ::TESForm *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESBipedModelForm) == 220);

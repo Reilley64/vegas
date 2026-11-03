@@ -16,7 +16,6 @@ class MagicItemObject
     virtual void ClearData();
     virtual void InitItem();
 
-    bool IsFormInitialized() const;
 
     char pad04[0x48];
 };

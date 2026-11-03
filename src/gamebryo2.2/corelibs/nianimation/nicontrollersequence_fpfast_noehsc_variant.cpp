@@ -5,7 +5,43 @@
 
 // src/gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern const char* const g_011c7d74_arg1;
+#include "fnv/decl/A31500Item.h"
+#include "fnv/decl/A5D6E0This.h"
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/ActiveArray.h"
+#include "fnv/decl/CloneSequence.h"
+#include "fnv/decl/Cls_a64ea0.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a30540_cls.h"
+#include "fnv/decl/FUN_00a31260_StandIn.h"
+#include "fnv/decl/FUN_00a32290_Cls.h"
+#include "fnv/decl/FUN_00a41410_cls.h"
+#include "fnv/decl/FUN_00a5d2f0_class.h"
+#include "fnv/decl/FUN_00a641f0_cls.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiControllerSequenceT.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a30640__NiControllerSequence.h"
+#include "fnv/decl/fnv_00a32330__SequenceArrays.h"
+#include "fnv/decl/fnv_00a64df0__FUN_00a64df0_Stream.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a32000.h"
+#include "fnv/symbols_00a47000.h"
+#include "fnv/symbols_00a6d000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01014000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_01044000.h"
+#include "fnv/symbols_01047000.h"
+#include "fnv/symbols_0105a000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f6000.h"
 const char* const* __cdecl FUN_00a31730();
 struct BaseH
 {
@@ -14,18 +50,16 @@ struct BaseH
 struct NiControllerSequence : BaseH
 {
     void* FUN_00a35820(unsigned int);
+public:
+    NiControllerSequence();
 };
-extern "C" void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 struct FUN_00a30580_shell
 {
     bool __thiscall IsNotInChain(void* arg);
 };
-void __cdecl ReleaseObjectArray(void*);
 struct MM_00a34450
 {
-    void __thiscall _DeallocateAlias(void*);
 };
-extern MM_00a34450 g_memoryManager;
 extern int DAT_01096620;
 struct FUN_00a34450_shell
 {
@@ -43,6 +77,7 @@ struct NiBinaryStream
         m_uiStreamFlags += m_pfnWrite(this, pv, uiBytes, &uiComponentSize, 1);
     }
 };
+class NiObject;
 struct NiStream
 {
     virtual void V00();
@@ -58,15 +93,17 @@ struct NiStream
     virtual void V10();
     virtual void V11();
     virtual void SaveLinkID(const void* pkObject);
-    void SerializeString(char const*);
     unsigned char m_auiShapeKeys[0x24c];
     NiBinaryStream* m_pBackingStream;
+public:
+    ::NiObject *GetLoadedObject();
+public:
+    ::NiObject *DeserializeObject();
 };
 struct NiObject
 {
     void* m_vtbl;
     unsigned int m_uiRefCount;
-    void LinkObject(NiStream&);
 };
 struct SeqInterpArrayItem
 {
@@ -113,10 +150,7 @@ struct FUN_00a2e420_shell
 };
 struct FUN_00a30540_shell
 {
-    void FUN_00a30540();
 };
-extern float DAT_01015f5c;
-extern double DAT_010241b0;
 struct FUN_00a35030_shell : NiControllerSequence
 {
     unsigned char SetEaseOut(float fEaseOutTime, bool bTransition);
@@ -131,11 +165,8 @@ struct A51BF0Base
 };
 struct FUN_00a316a0_shell
 {
-    void* __thiscall FUN_00a316a0();
 };
-void* __cdecl FUN_00a326c0();
 extern char DAT_01096584;
-extern void* _EmptyFS;
 extern int(__stdcall* DAT_00fdf1c4)(void*);
 struct NiRefObject
 {
@@ -143,15 +174,12 @@ struct NiRefObject
 };
 struct FUN_00a31500_shell
 {
-    void __thiscall FUN_00a31500(int);
 };
 struct FUN_00a315b0_shell
 {
-    void __thiscall FUN_00a315b0(int);
 };
 struct FUN_00a31740_shell
 {
-    void __thiscall FUN_00a31740(int);
 };
 struct FUN_00a35640_shell
 {
@@ -165,7 +193,6 @@ struct RefBase
     {}
 };
 extern "C" unsigned int __cdecl strlen(const char* s);
-void __cdecl FUN_00a305b0(char* out, unsigned int size, const char* fmt, const char* a, const char* b, const char* c);
 void __cdecl FUN_00ec65a6(char* c, unsigned int b, const char* a);
 struct FUN_00a307c0_entry
 {
@@ -331,10 +358,8 @@ struct SequenceA30970 : NiObject
 };
 struct FUN_00a30c80_shell
 {
-    unsigned __int64 __thiscall IsNotInChain(void* arg);
     bool __thiscall FUN_00a30c80(void* arg);
 };
-bool __stdcall MatchesTextKeys(void* arg);
 struct FUN_00a30cc0_target
 {
     virtual void V00();
@@ -416,7 +441,6 @@ struct ObjectView
 {
     int vtable;
     int refs;
-    bool FUN_00a5d2f0(StreamView&);
 };
 struct ItemView
 {
@@ -466,20 +490,19 @@ struct SequenceView : ObjectView
 };
 __declspec(dllimport) long __stdcall InterlockedIncrement(long* p);
 __declspec(dllimport) long __stdcall InterlockedDecrement(long* p);
-extern void* _EmptyFS;
 struct FixedStr
 {
     char* m_handle;
-    FixedStr() : m_handle((char*)_EmptyFS)
+    FixedStr() : m_handle((char*)(*reinterpret_cast<void * *>(&::DAT_0109b220)))
     {}
     static void AcquireReference(char* h)
     {
-        if (h != _EmptyFS)
+        if (h != (*reinterpret_cast<void * *>(&::DAT_0109b220)))
             InterlockedIncrement((long*)(h - 8));
     }
     static void DecRef(char* h)
     {
-        if (h != _EmptyFS)
+        if (h != (*reinterpret_cast<void * *>(&::DAT_0109b220)))
             InterlockedDecrement((long*)(h - 8));
     }
     FixedStr& operator=(const FixedStr& o)
@@ -501,16 +524,12 @@ struct FUN_00a312d0
     FixedStr m_kCtlrType;
     FixedStr m_kCtlrID;
     FixedStr m_kInterpolatorID;
-    void ClearIdentifiers();
     FUN_00a312d0(const FixedStr& a, const FixedStr& b, const FixedStr& c, const FixedStr& d, const FixedStr& e);
 };
-extern int DAT_0109b220;
 extern int(__stdcall* DAT_00fdf1c4)(void*);
 struct S_00aa4060_Class
 {
-    void FUN_00aa4060(void* apMemory);
 };
-extern S_00aa4060_Class DAT_011f6238;
 struct FUN_00a315b0_Elem
 {
     char* m_00;
@@ -522,7 +541,6 @@ struct FUN_00a315b0_Elem
 class FUN_00a315b0_Base
 {
   public:
-    void FUN_00a30750();
 };
 class FUN_00a315b0_cls
 {
@@ -543,9 +561,7 @@ struct a31740_Ref
 };
 struct a31740_Mem
 {
-    void __thiscall _DeallocateAlias(void*);
 };
-extern a31740_Mem g_memMgr31740;
 struct FUN_00a31740_cls
 {
     a31740_Ref* m_pReference;
@@ -566,7 +582,6 @@ struct FUN_00a317e0_interp
     void* unk04;
     void* unk08;
     void* unk0C;
-    void __thiscall FUN_00a31260();
 };
 struct FUN_00a317e0_tag
 {
@@ -575,7 +590,6 @@ struct FUN_00a317e0_tag
     void* unk08;
     void* unk0C;
     void* unk10;
-    void __thiscall ResetStrings();
 };
 struct FUN_00a317e0_t
 {
@@ -614,7 +628,6 @@ struct SlotInfo
     unsigned int m_unk08;
     unsigned int m_unk0c;
     unsigned int m_unk10;
-    void FUN_00a31400(unsigned int value);
 };
 struct FUN_00a32bc0_cls
 {
@@ -626,7 +639,6 @@ struct FUN_00a32bc0_cls
     SlotEntry* m_pSlots;
     SlotInfo* m_pInfos;
 
-    bool FUN_00a32330();
     int AssignSlot(RefObj* p1, unsigned int p2, unsigned char p3);
 };
 struct FUN_00a34480_obj
@@ -639,7 +651,6 @@ struct FUN_00a34480_obj
     unsigned short unk0a;
     float m_f0c;
 };
-extern int DAT_011f36b4;
 struct FUN_00a34480_cls
 {
     unsigned int unk00;
@@ -658,10 +669,9 @@ struct FUN_00a34480_cls
     bool AssignControllers(void* a1, FUN_00a34480_obj* a2);
     bool FUN_00a34480(void* a1, FUN_00a34480_obj* a2);
 };
-extern void* DAT_011f36dc;
-extern char DAT_01044a7c, DAT_01096678, DAT_0105ac84, DAT_0109666c;
+extern char DAT_01096678, DAT_0109666c;
 extern char DAT_01096664, DAT_01044c94, DAT_01044c90, DAT_0109665c;
-extern char DAT_01096654, DAT_010477f4, DAT_01096648, DAT_0109663c;
+extern char DAT_01096654, DAT_01096648, DAT_0109663c;
 extern char DAT_01096630, DAT_01096624;
 struct OutputArray
 {
@@ -671,14 +681,12 @@ struct OutputArray
     unsigned short length;
     unsigned short populated;
     unsigned short growth;
-    void FUN_0096ad30(unsigned int capacity);
-    void FUN_0096ae90(unsigned int index, void** value);
     void Append(void* value)
     {
         unsigned int index = length;
         if (index >= capacity)
-            FUN_0096ad30(index + growth);
-        FUN_0096ae90(index, &value);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(index + growth);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(index, (*(char * *)(&value)));
     }
 };
 struct ControlItem
@@ -698,13 +706,7 @@ struct TagItem
     const char* fourth;
     const char* fifth;
 };
-void* __cdecl FUN_00a7d330(void*);
 void* __cdecl FormatStringWithType(const char*, void*);
-void* __cdecl FUN_00a7d510(const char*, unsigned int);
-void* __cdecl FUN_00a7d550(const char*, float);
-void* __cdecl FUN_00a6d190(const char*, void*);
-int __cdecl FUN_00a305b0(char*, unsigned int, const char*, ...);
-void* __cdecl FUN_00a7d5e0(const char*, const char*);
 struct Position
 {
     unsigned int i;
@@ -733,14 +735,12 @@ struct Sequence
     float start;
     float end;
     float total;
-    void AppendCameraPathEntries(OutputArray*);
     void FUN_00a34540(OutputArray* output);
 };
 static const float g_fSeqNegInfinity = -3.402823466e+38f;
 struct SeqA34f20;
 struct SeqPtrArray
 {
-    unsigned int AddSeq(SeqA34f20* const& pkSeq);
 };
 struct SeqOwner
 {
@@ -789,9 +789,6 @@ struct SeqA34f20
     float m_fDestinationFrame;
     SeqA34f20* m_pkTimeSyncSequence;
 
-    bool CanSyncWithSequence(SeqA34f20* pkSequence);
-    bool SetTimeSyncSequence(SeqA34f20* pkTimeSyncSeq);
-    void SetAnimationCycleType(char m_ucRegionPriority);
 
     __forceinline bool SetState(int eState)
     {
@@ -799,7 +796,7 @@ struct SeqA34f20
         m_eAnimationState = eState;
         if (bWasInactive)
         {
-            m_pkOwnerManager->m_kPlayingSequences.AddSeq(this);
+            reinterpret_cast<::ActiveArray *>(&(m_pkOwnerManager->m_kPlayingSequences))->FindOrAdd((void *const &)((const ::SeqA34f20 *const &)(this)));
         }
         return bWasInactive;
     }
@@ -817,14 +814,11 @@ struct HolderB3718
 {
     SomeObjectB3718* m_pEntryObject;
 };
-extern HolderB3718* DAT_011f6080;
-void __cdecl FUN_00aa10f0(void* pv);
 struct FUN_00a30750_shell
 {
     char* m_kPointA[5];
     void FUN_00a30750();
 };
-extern int EmptyFS;
 struct EqObj
 {
     virtual void v0();
@@ -854,7 +848,6 @@ struct EqObj
 };
 struct TCEq
 {
-    bool IsSameAs(NiObject* other);
 };
 struct SeqTagCmp
 {
@@ -868,7 +861,6 @@ struct SeqTagCmp
         return a == x.a && b == x.b && c == x.c && d == x.d && e == x.e;
     }
 };
-extern "C" int __cdecl FUN_00aa1360(const char* a, const char* b);
 struct SeqTK
 {
     EqObj* p;
@@ -907,14 +899,12 @@ extern const char str_01020f94[];
 extern const char str_0109655c[];
 struct S_00a31140_Allocator
 {
-    void* __thiscall FUN_00aa3e40(unsigned int);
 };
 extern "C" void __cdecl FUN_00ec623a(void*, const char*, const char*, const char*);
 void* __cdecl FormatStringWithType(const char* arg1, void* arg2);
 // Copy a group of five ref-counted fixed strings (the ref count sits 8 bytes before the text).
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
-extern char* g_pcA1400NullString;
 class A1400FixedString
 {
   public:
@@ -923,9 +913,9 @@ class A1400FixedString
         if (m_pcHandle != kOther.m_pcHandle)
         {
             char* pcNew = kOther.m_pcHandle;
-            if (pcNew != g_pcA1400NullString)
+            if (pcNew != ::DAT_0109b220)
                 InterlockedIncrement((long volatile*)(pcNew - 8));
-            if (m_pcHandle != g_pcA1400NullString)
+            if (m_pcHandle != ::DAT_0109b220)
                 InterlockedDecrement((long volatile*)(m_pcHandle - 8));
             m_pcHandle = pcNew;
         }
@@ -1106,9 +1096,6 @@ struct StreamA33a50
     int unk244;
     int unk248;
     IStreamA33a50* m_pUnderlyingStream;
-    void ReadFixedString(char*& kString);
-    unsigned int ReadLinkIDA33a50();
-    void ReadStringTableEntry(char*& kString);
 };
 struct IDTagA33a50
 {
@@ -1122,7 +1109,6 @@ struct IDTagA33a50
 struct AnimationSequence;
 struct UpdateActiveArray
 {
-    void FindOrAdd(AnimationSequence* const& sequence);
 };
 struct UpdateNote
 {
@@ -1133,7 +1119,6 @@ struct UpdateNote
 };
 struct UpdateNoteManager
 {
-    void DispatchByKey(UpdateNote* note);
 };
 struct UpdateOwner
 {
@@ -1196,8 +1181,6 @@ struct AnimationSequence : S_00a30880_Base
     UpdateNote** notes;
     unsigned short noteCount;
     float GetMorphedTime(AnimationSequence*, float);
-    float FUN_00a30970(float, bool);
-    void FUN_00a32290(float, float, float);
     void FUN_00a34ba0(float time, bool update);
     __forceinline bool SetState(int value)
     {
@@ -1206,7 +1189,7 @@ struct AnimationSequence : S_00a30880_Base
         if (inactive)
         {
             AnimationSequence* self = this;
-            owner->active.FindOrAdd(self);
+            reinterpret_cast<::ActiveArray *>(&(owner->active))->FindOrAdd((void *const &)(self));
         }
         return inactive;
     }
@@ -1309,7 +1292,6 @@ struct NiSequenceSource
     unsigned int unkd0;
     unsigned int unkd4;
     unsigned int versionD8;
-    RefObject* __thiscall FUN_00a63430();
 };
 struct SequenceLink : NiObject
 {
@@ -1363,7 +1345,6 @@ struct A33950BinaryInput
 };
 struct A33950Stream
 {
-    A33950RefObject* FUN_00a64620();
     unsigned int& Version()
     {
         return *(unsigned int*)((char*)this + 0xd8);
@@ -1389,13 +1370,10 @@ struct A33950Object
     unsigned char flag0d;
     void LoadFromStream(A33950Stream* stream);
 };
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
 struct FUN_00a344f0_cls
 {
-    void __thiscall FUN_00a33570(void* obj, unsigned int param);
     void* FUN_00a344f0(unsigned int param);
 };
-extern const float DAT_010141cc;
 struct FUN_00a350d0_seq : SeqA34f20
 {
     bool FUN_00a350d0(SeqA34f20* pkTarget, float fTime, float m_fTimeout, int iPriority, float fSeqWeight,
@@ -1407,28 +1385,23 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volati
 
 struct MemoryManager
 {
-    void* Allocate(unsigned int uiSize);
 };
-extern MemoryManager _g_memoryManager;
 
-extern int DAT_0109b220;
-extern float DAT_01096548;
-extern float DAT_01015f5c;
 
 struct SeqFixedString
 {
     char* m_kHandle;
 
-    SeqFixedString() : m_kHandle((char*)DAT_0109b220)
+    SeqFixedString() : m_kHandle((char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
     {}
     SeqFixedString& operator=(const SeqFixedString& kString)
     {
         if (m_kHandle != kString.m_kHandle)
         {
             char* kHandle = kString.m_kHandle;
-            if (kHandle != (char*)DAT_0109b220)
+            if (kHandle != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
                 InterlockedIncrement((long volatile*)(kHandle - 8));
-            if (m_kHandle != (char*)DAT_0109b220)
+            if (m_kHandle != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
                 InterlockedDecrement((long volatile*)(m_kHandle - 8));
             m_kHandle = kHandle;
         }
@@ -1461,7 +1434,7 @@ struct SeqInterpItem
     ~SeqInterpItem();
     static void* operator new[](unsigned int uiSize)
     {
-        return _g_memoryManager.Allocate(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(uiSize);
     }
 };
 
@@ -1477,7 +1450,7 @@ struct SeqTag
     ~SeqTag();
     static void* operator new[](unsigned int uiSize)
     {
-        return _g_memoryManager.Allocate(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(uiSize);
     }
 };
 
@@ -1549,7 +1522,7 @@ ControllerSequence::ControllerSequence(const SeqFixedString& kName, unsigned int
     m_fEndTime = fInvalid;
     m_fDestinationFrame = fInvalid;
     m_pkTimeSyncSequence = 0;
-    m_kAccumulationRootName.m_kHandle = (char*)DAT_0109b220;
+    m_kAccumulationRootName.m_kHandle = (char*)(*reinterpret_cast<int *>(&::DAT_0109b220));
     m_pkAccumulationRoot = 0;
     m_spStringPalette = 0;
     m_sCurAnimNIdx = -1;

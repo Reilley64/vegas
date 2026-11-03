@@ -1,5 +1,18 @@
 // bssystemutilities/console/bsawardssystemutility_console.cpp: IdleSystem, DownloadableContentManager (12 functions)
 
+#include "fnv/decl/AA4610Allocator.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00aa45a0_Class.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/Node185.h"
+#include "fnv/decl/TemplateList_00a0ae70.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f7000.h"
 #include "bsawardssystemutility_console_decls.h"
 
 // @fnv 0x00af26c0
@@ -41,13 +54,13 @@ void IdleSystem::Idle()
                 delete pAwardData;
                 if (iAwardId > 100)
                 {
-                    Warning("Achievement %d is out of range and will not be awarded!", iAwardId);
+                    ::FUN_005b5e40();
                     continue;
                 }
                 if (SteamUserStatsAccessor())
                 {
                     char name[4];
-                    sprintf_s(name, 4, "A%02d", iAwardId);
+                    ::FUN_00406d00(name, 4, "A%02d", iAwardId);
                     name[3] = 0;
                     SteamUserStatsAccessor()->SetAchievement(name);
                 }
@@ -56,7 +69,7 @@ void IdleSystem::Idle()
         }
         if (SteamUserStatsAccessor())
             SteamUserStatsAccessor()->StoreStats();
-        m_kNode.RemoveAll();
+        reinterpret_cast<::Node185 *>(&(m_kNode))->FUN_00ae83e0();
     }
 }
 
@@ -109,17 +122,16 @@ bool FUN_00af2470_class::FUN_00af2470()
 
 struct FUN_00af2420_class
 {
-    void FUN_00af25b0(void** p);
     bool FUN_00af2420(int value);
 };
 
 // @fnv 0x00af2420
 bool FUN_00af2420_class::FUN_00af2420(int value)
 {
-    void* q = g_memoryManager.Allocate(4);
+    void* q = reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(4);
     void *p = q ? *(void**)q = (void*)value, q : 0;
     char buf[8];
-    FUN_00af25b0(&p);
+    reinterpret_cast<::TemplateList_00a0ae70 *>(this)->AddTail((::TileTemplate_00a0ae70 **)(void **)(&p));
     return true;
 }
 

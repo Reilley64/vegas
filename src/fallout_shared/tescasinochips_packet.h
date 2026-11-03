@@ -5,6 +5,13 @@
 #ifndef FNV_TESCASINOCHIPS_PACKET_H
 #define FNV_TESCASINOCHIPS_PACKET_H
 
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/TESRegionGrassObject.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/symbols_00478000.h"
+#include "fnv/symbols_0047a000.h"
+#include "fnv/symbols_00489000.h"
 class TESFile;
 class BGSImpactData
 {
@@ -25,14 +32,12 @@ class BGSImpactData
 // precedent in tessound.cpp.
 struct TESFormInitFlag : public TESForm
 {
-    bool IsFormInitialized() const;
 };
 // TESFile::GetFormVersion is not declared in the bundled TESFile.h; its
 // mangled name (TESFileFormVersion::GetFormVersion, 0x00403570) shows the
 // canonical declaration site, so it is declared on this shim.
 struct TESFileFormVersion : public TESFile
 {
-    unsigned short GetFormVersion();
 };
 // TESFullName::LoadFullNameChunk is not declared in the bundled TESFullName.h;
 // declared here on a shim following the accepted TESRecipe precedent.
@@ -41,7 +46,6 @@ struct TESFileFormVersion : public TESFile
 // declared here on a shim following the TESFullNameLoader precedent.
 struct TESTextureLoader : public TESTexture
 {
-    static void ReadTextureData(TESTexture* apTexture, TESFile* apFile);
 };
 class BGSDestructibleObjectForm;
 class BGSMessageIcon;
@@ -212,7 +216,6 @@ class TESModel : public BaseFormComponent
     virtual void SetModelFilePath(const char* apPath);
     virtual TESModelTextureSwap* GetAsModelMaterialSwap() const;
     static void LoadModelData(TESModel* apModel, TESFile* apFile);
-    static void LoadTextureSwapData(TESModel* apModel, TESFile* apFile);
     // TESModel
     // void __cdecl TESModel::*()
     // void __cdecl TESModel::*()
@@ -251,7 +254,6 @@ class TESModelTextureSwap : public TESModel
     TESModelTextureSwap();
     void InitItem(TESForm* apForm);
     void LoadTextureSwapChunk(char* apBuffer, unsigned int auiSize, unsigned short ausVersion);
-    bool ParseTextureSwapData(void*, unsigned int, unsigned int);
     // TESModelTextureSwap
     // void __cdecl TESModelTextureSwap::*()
     // void __cdecl TESModelTextureSwap::*()
@@ -286,7 +288,6 @@ class BGSMessageIcon : public BaseFormComponent
     // base BaseFormComponent at +0x0, size 4
     TESIcon Icon;  // +0x4, 12 bytes
     BGSMessageIcon();
-    static void LoadMessageIconChunk(BGSMessageIcon* apIcon, TESFile* apFile);
     // BGSMessageIcon
     // void __cdecl BGSMessageIcon::*()
     // void __cdecl BGSMessageIcon::*()
@@ -338,7 +339,6 @@ class BGSDestructibleObjectForm : public BaseFormComponent
     BGSDestructibleObjectForm();
     virtual ~BGSDestructibleObjectForm();
     void InitItem(TESForm* apForm);
-    static void LoadDestructibleData(BGSDestructibleObjectForm* apForm, TESFile* apFile);
     // BGSDestructibleObjectForm
     // void __cdecl BGSDestructibleObjectForm::*()
     // void __cdecl BGSDestructibleObjectForm::*()
@@ -408,8 +408,6 @@ class BGSPickupPutdownSounds : public BaseFormComponent
     BGSPickupPutdownSounds();
     virtual ~BGSPickupPutdownSounds();
     void InitItem(TESForm* apForm);
-    void SetPickupSound(TESSound* apSound);
-    void SetPutdownSound(TESSound* apSound);
     // BGSPickupPutdownSounds
     // void __cdecl BGSPickupPutdownSounds::*()
     // void __cdecl BGSPickupPutdownSounds::*()

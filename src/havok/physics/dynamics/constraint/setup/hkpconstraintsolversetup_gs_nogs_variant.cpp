@@ -5,6 +5,10 @@
 
 // src/havok/physics/dynamics/constraint/setup/hkpconstraintsolversetup.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/setup/hkpconstraintsolversetup.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_00d1a000.h"
+#include "fnv/symbols_00d29000.h"
+#include "fnv/symbols_00d88000.h"
+#include "fnv/symbols_00d8a000.h"
 struct State
 {
     int unk00;
@@ -28,8 +32,6 @@ struct State
     volatile float* end;
     volatile float* current;
 };
-void __cdecl FUN_00d8aac0(void* owner, void* current, int eventCode, int flags);
-void __cdecl FUN_00d88340(State* state, int reset);
 struct D88310Bool
 {
     char m_cBooleanValue;
@@ -48,8 +50,6 @@ struct D88310Stream
     char* m_kRayEnd;
     char* m_pTileTemplate;
 };
-D88310Bool __cdecl FUN_00d88310(const D88310Stream* stream, const void* unused, int numBlocks);
-void __cdecl FUN_00d88300();
 struct D88470Sub
 {
     int unk00;
@@ -103,7 +103,6 @@ struct D88470Obj
     unsigned int limitSum;
     unsigned int initSum;
 };
-D88310Bool __cdecl CheckTotalsWithinLimits(D88470Obj* obj, D88470Elem** begin, int count);
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
@@ -178,11 +177,6 @@ struct hkpConstraintSolverResourcesD886
     hkpVelocityAccumulatorD886* m_pVelocityAccumulatorC;
     hkpSolverSumVelocitiesD886* m_sumVelocities;
 };
-hkpVelocityAccumulatorD886* __cdecl FUN_00d29830(const hkStepInfoD886* pkInfo, hkpEntityD886* const* ppkEntities,
-                                                 unsigned int uiNumEntities, int iMotionOffset,
-                                                 hkpVelocityAccumulatorD886* pkAccumulatorsOut);
-void __cdecl FUN_00d88670(hkpConstraintSolverResourcesD886& kResources, hkpEntityD886* const* ppkEntities,
-                          unsigned int uiNumEntities);
 
 typedef hkVector4D886 hkVec4;
 
@@ -304,8 +298,6 @@ struct D88580Entity
     D88580Sub m_e0;
 };
 
-void __cdecl FUN_00d29bf0(void* a0, void* a1, hkAccum* acc, D88580Sub** sub, int a4, int a5);
-void __cdecl FUN_00d1a330(void* world78, D88580Entity** ent, int count);
 
 // @fnv 0x00d88580
 void __cdecl FUN_00d88580(void* a0, void* a1, int offset, D88580Entity** entities, int count)
@@ -319,8 +311,8 @@ void __cdecl FUN_00d88580(void* a0, void* a1, int offset, D88580Entity** entitie
         acc.m_scratch1 = acc.m_vAngularVelocity;
         unsigned char saved = sub->m09;
         sub->m09 = 0xff;
-        FUN_00d29bf0(a0, a1, &acc, &sub, 1, 0);
-        FUN_00d1a330(entity->m08->m78, &entity, 1);
+        ::ApplyAccumulatorsPrivate::FUN_00d29bf0((*(const ::ApplyAccumulatorsPrivate::ConstraintSolverInfo *)(a0)), (*(const ::ApplyAccumulatorsPrivate::hkStepInfo *)(a1)), (const ::ApplyAccumulatorsPrivate::QuantizedBoundsData *)(::hkAccum *)(&acc), (::ApplyAccumulatorsPrivate::hkpMotion *const *)(::D88580Sub **)(&sub), 1, 0);
+        ::FUN_00d1a330((const ::CollisionContext *)(entity->m08->m78), (::EntityNode *const *)(::D88580Entity **)(&entity), 1);
         sub->m09 = saved;
     }
 }

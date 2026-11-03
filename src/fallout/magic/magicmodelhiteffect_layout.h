@@ -14,6 +14,9 @@ class MagicModelHitEffect;
 class NiAVObject;
 // BSTempEffect and MagicHitEffect: magichiteffect_classes.h (shared by the magic hit-effect units).
 #pragma pack(push, 4)
+class BGSLoadFormBuffer;
+class BGSLoadGameBuffer;
+class TESForm;
 class BGSLoadGameSubBuffer
 {
   public:
@@ -31,6 +34,10 @@ class BGSLoadGameSubBuffer
     // char* __cdecl BGSLoadGameSubBuffer::*()
     // BGSLoadFormBuffer* __cdecl BGSLoadGameSubBuffer::*(TESForm*)
     // void __cdecl BGSLoadGameSubBuffer::*(BGSSaveFormBuffer*)
+public:
+    ::BGSLoadFormBuffer *CreateFormBuffer(::TESForm *);
+public:
+    void LoadGame(::BGSLoadGameBuffer *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(BGSLoadGameSubBuffer) == 4);

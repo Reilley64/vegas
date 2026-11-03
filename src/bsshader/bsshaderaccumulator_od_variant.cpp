@@ -2,6 +2,17 @@
 // src/bsshader/bsshaderaccumulator_od_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/bsshader/bsshaderaccumulator.cpp functions whose prologue its flags cannot
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/AA4610Allocator.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00aa45a0_Class.h"
+#include "fnv/decl/FUN_00b64a00_Pass.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/RenderAccumulator.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00b9a000.h"
+#include "fnv/symbols_011f6000.h"
 #include "bsshaderaccumulator_types.h"
 // offset-exact local views to dodge the task headers' mutually conflicting
 // into the unit header and declare the methods on the real classes
@@ -9,7 +20,6 @@
 struct GroupView
 {
     unsigned char m_ucEntryType;
-    void RenderGroup(bool bFlag);
 };
 struct BRView
 {
@@ -20,11 +30,9 @@ class AccumWIP : public BSShaderAccumulator
 {
   public:
     void SetShaderPassEnabled(unsigned int uiRenderPassIndex, bool bFlag);
-    void RenderPassGroup(int eFirst, int eLast, bool bFlag, int iGroup);
 };
 #include "bsshaderaccumulator_batchrenderer.h"
 #include "MemoryManager.h"
-extern MemoryManager g_memoryManager;
 typedef BSSimpleList<unsigned short> BSShaderAccumulatorPassIndexList;
 FNV_STATIC_ASSERT(sizeof(BSShaderAccumulatorPassIndexList) == 8);
 FNV_STATIC_ASSERT(offsetof(BSShaderAccumulatorPassIndexList, m_item) == 0);

@@ -8,6 +8,19 @@
 // that unit declares it this way.
 // src/havok/common/visualize/hkvisualdebugger.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/hkvisualdebugger.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/CC0280Writer.h"
+#include "fnv/decl/FUN_00cb0a60.h"
+#include "fnv/decl/FUN_00cd1970.h"
+#include "fnv/decl/FUN_00d605d0_class.h"
+#include "fnv/decl/FUN_00d60800_class.h"
+#include "fnv/decl/Owner_cd0e.h"
+#include "fnv/decl/SStringPtr.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00ccf000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_01268000.h"
 struct FUN_00cd12b0_cls
 {
     int m_iWordAt00;
@@ -16,7 +29,6 @@ struct FUN_00cd12b0_cls
     int m_iThirdValue;
     unsigned int* m_10;
     int m_14;
-    void RemovePair(int);
     void FUN_00cd12b0();
 };
 struct BSFadeNode
@@ -35,7 +47,6 @@ struct FUN_00ccf890_t : BSFadeNode
     FUN_00ccf890_t();
     ~FUN_00ccf890_t();
 };
-BSFadeNode* FUN_00ccf890();
 class hkVisualDebugger;
 struct FUN_00cd1e40_target
 {
@@ -51,13 +62,11 @@ struct FUN_00cd1e40_router
     unsigned int m_iThirdValue;
     FUN_00cd1e40_target* m_10;
 };
-FUN_00cd1e40_router* _D1A0E0GetMemoryRouter();
 struct hkVisualDebugger
 {
     unsigned int m_iWordAt00;
     unsigned short m_iWordAt04;
 
-    void FUN_00cd1970();
     hkVisualDebugger* FUN_00cd1e40(unsigned int flags);
 };
 struct hkErrorCD0D
@@ -91,8 +100,6 @@ struct hkOstreamCD0D
     char* m_pString;
     int m_uiLogicalSize;
     void FUN_00cc00e0() throw();
-    hkOstreamCD0D& FUN_00cc01c0(const char* pcString) throw();
-    hkOstreamCD0D& WriteInt(int iValue) throw();
 };
 struct hkVisualDebuggerCD0D : hkVisualDebugger
 {
@@ -122,9 +129,7 @@ class hkControllerCD0E
 {
   public:
     void FUN_00d60960(int mode);
-    void FUN_00d605d0(unsigned int flags);
     void HashUInt(float t);
-    hkTargetCD0E* FUN_00d60800();
 };
 class hkItemCD0E
 {
@@ -201,8 +206,6 @@ class hkpEntityTrackerCD11
 struct FUN_00cd12e0_element
 {
     unsigned int value;
-    void FUN_00cb0a60();
-    void FUN_00cb0c10();
 };
 struct FUN_00cd12e0_array
 {
@@ -218,8 +221,6 @@ struct FUN_00cd12e0_router
     unsigned int m_iThirdValue;
     void* heap;
 };
-FUN_00cd12e0_router* FUN_00c85750();
-void __cdecl ResizeAudioStream(void*, FUN_00cd12e0_array*, int);
 struct FUN_00cd12e0_owner
 {
     void FUN_00cd12e0();
@@ -230,7 +231,6 @@ typedef unsigned __int64 TickCount;
 TickCount __cdecl FUN_00d60570();
 TickCount __cdecl FUN_00d60580();
 double __cdecl DivideInt64ToFloat(TickCount, TickCount);
-extern float DAT_0104da4c;
 extern const char DAT_010caf8c[];
 extern const char DAT_010caf48[];
 extern const char DAT_010cae1c[];
@@ -246,7 +246,6 @@ struct DebugReport
     virtual void begin(unsigned int, const char*);
     virtual void end();
 };
-extern DebugReport* DAT_01268360;
 // ABI aliases: hkOstream has a nontrivial virtual destructor; hkErrStream
 // constructs its buffer writer and inherits that destruction contract.
 struct FUN_00cc00e0
@@ -258,7 +257,6 @@ struct FUN_00cc00e0
 struct FUN_00cb1600 : FUN_00cc00e0
 {
     FUN_00cb1600(void*, int);
-    void FUN_00cc01c0(const char*);
 };
 struct ClientProcess
 {
@@ -302,8 +300,6 @@ struct VisualDebugger523 : DebuggerReference523
     bool running;
     unsigned char unk81, unk82, unk83;
     int numFrames;
-    void ActivateEntry(int, float);
-    void RemovePair(int);
     void FUN_00cd0ec0(float timeStep);
 };
 // @fnv 0x00cd0ec0
@@ -333,20 +329,20 @@ void VisualDebugger523::FUN_00cd0ec0(float timeStep)
         if (client->handler->process.alive())
         {
             client->handler->process.step(stepTime);
-            ActivateEntry(index, stepTime);
+            reinterpret_cast<::hkOwnerCD0E *>(this)->ActivateEntry(index, stepTime);
         }
         ClientHandler* handler = client->handler;
         if (!handler->process.alive())
         {
-            DAT_01268360->begin(0x76e3a642, DAT_010caf8c);
+            (*reinterpret_cast<::DebugReport * *>(&::DAT_01268360))->begin(0x76e3a642, DAT_010caf8c);
             {
                 char buffer[512];
                 FUN_00cb1600 stream(buffer, 512);
-                stream.FUN_00cc01c0(DAT_010caf48);
-                DAT_01268360->report(0, -1, buffer, DAT_010cae1c, 0x120);
+                reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(DAT_010caf48);
+                (*reinterpret_cast<::DebugReport * *>(&::DAT_01268360))->report(0, -1, buffer, DAT_010cae1c, 0x120);
             }
-            DAT_01268360->end();
-            RemovePair(index);
+            (*reinterpret_cast<::DebugReport * *>(&::DAT_01268360))->end();
+            reinterpret_cast<::Owner_cd0e *>(this)->RemovePair(index);
         }
     }
     if (timingEnabled)

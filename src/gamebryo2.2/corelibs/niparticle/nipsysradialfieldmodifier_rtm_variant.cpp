@@ -4,7 +4,14 @@
 
 // src/gamebryo2.2/corelibs/niparticle/nipsysradialfieldmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysradialfieldmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void* g_012026b0;
+#include "fnv/decl/C32060EmitterModifier.h"
+#include "fnv/decl/NiPSysFieldModifierImpl.h"
+#include "fnv/decl/NiPSysParticle.h"
+#include "fnv/decl/S_00c322b0.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_01202000.h"
 void* __cdecl FUN_00c285c0();
 struct NiBinaryStream
 {
@@ -21,7 +28,6 @@ struct NiStream
 struct NiPSysFieldModifier
 {
     char _0[0x30];
-    void SaveBinary(NiStream&);
 };
 struct NiPSysRadialFieldModifier : NiPSysFieldModifier
 {
@@ -44,7 +50,6 @@ struct FUN_00c31ff0 : NiPSysPositionModifier
     float _m2c;
     FUN_00c31ff0();
 };
-extern "C" char __stdcall FUN_00c32060(void*);
 unsigned char __stdcall FUN_00c285a0(void* p);
 struct S_00c28a90_Arr
 {
@@ -54,8 +59,6 @@ struct S_00c28a90_Arr
     unsigned short esize;
     unsigned short unk0c;
     unsigned short growBy;
-    void FUN_0096ad30(unsigned int);
-    void FUN_0096ae90(unsigned int, char*&);
 };
 struct S_00c28a90_Base
 {
@@ -71,11 +74,7 @@ struct S_00c28a90_Base
     int unk24;
     int unk28;
     int unk2c;
-    void FUN_00c322b0(S_00c28a90_Arr* a);
 };
-extern const char* DAT_012026b0;
-char* __cdecl FUN_00a7d330(const char* s);
-char* __cdecl FUN_00a7d550(const char* name, float value);
 struct S_00c28a90 : S_00c28a90_Base
 {
     float m30;
@@ -85,8 +84,8 @@ __forceinline void S_00c28a90_Add(S_00c28a90_Arr* a, char* s)
 {
     unsigned int i = a->esize;
     if (i >= a->size)
-        a->FUN_0096ad30(i + a->growBy);
-    a->FUN_0096ae90(i, s);
+        reinterpret_cast<::ViewerStrings *>((a))->SetSize(i + a->growBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((a))->SetAt(i, s);
 }
 struct NiPoint3
 {
@@ -124,8 +123,10 @@ struct NiTransform
     ThreeByThreeMatrix m_kOrientation;
     NiPoint3 m_kTranslation;
     float m_fScale;
-    void FUN_004b4880(NiTransform& kDest) const;
-    __declspec(noalias) NiTransform FUN_0062c250(const NiTransform& xform) const;
+public:
+    void CalculateInverse(::NiTransform &);
+public:
+    ::NiTransform operator*(const ::NiTransform &) const;
 };
 struct NiAVObjectStandIn
 {
@@ -232,7 +233,6 @@ struct RadialFieldObject_00c285d0 : FUN_00c31ff0
 struct FUN_00c285d0_cls
 {
     int unk0;
-    void FUN_00c32020(void* obj, unsigned int a1);
     void* FUN_00c285d0(unsigned int a1);
 };
 
@@ -240,6 +240,6 @@ struct FUN_00c285d0_cls
 void* FUN_00c285d0_cls::FUN_00c285d0(unsigned int a1)
 {
     RadialFieldObject_00c285d0* p = new (FUN_00aa13e0(0x34)) RadialFieldObject_00c285d0;
-    FUN_00c32020(p, a1);
+    reinterpret_cast<::NiPSysParticle *>(this)->FUN_00c32020((::NiPSysParticle *)(p), (::CloningProcess *)(a1));
     return p;
 }

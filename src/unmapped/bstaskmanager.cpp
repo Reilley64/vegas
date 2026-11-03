@@ -1,6 +1,8 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_0044e0d0_Class.h"
+#include "fnv/symbols_00401000.h"
 struct InputValues
 {
     unsigned int unk00;
@@ -9,7 +11,6 @@ struct InputValues
     unsigned int unk0c;
     unsigned int first;
     unsigned int second;
-    unsigned long long __thiscall GetValue64();
 };
 struct Controller
 {
@@ -51,15 +52,14 @@ struct FUN_00c3fca0_Class
     volatile long unk58;
     bool __thiscall FUN_0044e050(InputValues* input);
 };
-extern long __cdecl FUN_004019a0(volatile long*);
 // @fnv 0x0044e050
 bool __thiscall FUN_00c3fca0_Class::FUN_0044e050(InputValues* input)
 {
-    int item = ((Controller*)this)->index(input->GetValue64());
-    if (((Controller*)this)->valid(input->GetValue64()))
+    int item = ((Controller*)this)->index(reinterpret_cast<::FUN_0044e0d0_Class *>((input))->GetValue64());
+    if (((Controller*)this)->valid(reinterpret_cast<::FUN_0044e0d0_Class *>((input))->GetValue64()))
     {
-        FUN_004019a0(unk54 + item);
-        FUN_004019a0(&unk58);
+        ::WaitForSingleObjectEx(unk54 + item);
+        ::WaitForSingleObjectEx(&unk58);
         return true;
     }
     return false;

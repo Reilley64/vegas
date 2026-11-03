@@ -3,6 +3,14 @@
 #ifndef FNV_TASK_BGSIMPACTDATA_COPY_H
 #define FNV_TASK_BGSIMPACTDATA_COPY_H
 
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_00589f50_shell.h"
+#include "fnv/decl/ValueModifierEffect.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_005b5000.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "TESForm.h"
@@ -101,7 +109,6 @@ class BGSImpactData__IMPACT_DATA_DATA
     SOUND_LEVEL m_eSoundLevel;                  // +0x10, 4 bytes
     unsigned char cFlags;                       // +0x14, 1 bytes
     unsigned char layoutPadding15[3];
-    void Endian();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(BGSImpactData__IMPACT_DATA_DATA) == 24);
@@ -147,7 +154,6 @@ class DecalData
     ImpactDecalData Data;  // +0x0, 36 bytes
     DecalData();
     ~DecalData();
-    ImpactDecalData* GetData();
     bool Load(TESFile* file);
     // void __cdecl DecalData::*()
     // void __cdecl DecalData::*(DecalData*)
@@ -180,6 +186,8 @@ class DecalData
     // unsigned int __cdecl DecalData::*()
     // void __cdecl DecalData::*(unsigned int)
     // void* __cdecl DecalData::*(unsigned int)
+public:
+    void Copy(::DecalData *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(DecalData) == 36);
@@ -215,7 +223,6 @@ class BGSImpactData__OLD_IMPACT_DATA_DATA
         };
         unsigned int rawChunkData[14];  // +0x0, 56 bytes
     };
-    void Endian();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(BGSImpactData__OLD_IMPACT_DATA_DATA) == 56);
@@ -255,11 +262,7 @@ class BGSImpactData : public TESForm, public TESModel
     BGSImpactData();
     void ResetFormData();
     void InitItem();
-    void ReadTypedData(TESFile* file, void* buffer, unsigned short size);
-    void SetDecalTextureSet(BGSTextureSet* textureSet);
-    void SetSound1(TESSound* sound);
     void SetSound2(TESSound* sound);
-    void CopyDecalDataFromTextureSet();
     bool Load(TESFile* file);
     // void __cdecl BGSImpactData::*()
     // void __cdecl BGSImpactData::*(TESForm*)
@@ -332,16 +335,12 @@ FNV_STATIC_ASSERT(offsetof(BGSImpactData, ImpactDecalInfo) == 84);
 // their names matter for codegen and manifest RTTI bindings.
 struct TESFileFormInt : public TESFile
 {
-    int GetTESForm();
 };
 struct TESFileFormVersion : public TESFile
 {
-    unsigned short GetFormVersion();
 };
 struct TESFormInitFlag : public TESForm
 {
-    bool IsFormInitialized() const;
-    static TESForm* GetFormByID(unsigned int formID);
 };
 class BGSTextureSet : public TESForm
 {
@@ -353,5 +352,4 @@ class TESSound : public TESForm
   public:
     virtual ~TESSound();
 };
-int Warning(const char* format, ...);
 #endif

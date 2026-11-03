@@ -3,6 +3,9 @@
 #define FNV_MAGICTARGET_H
 #include "layout_support.h"
 #pragma pack(push, 4)
+class ActiveEffect;
+class MagicCaster;
+class MagicItem;
 class MagicTarget
 {
   public:
@@ -12,6 +15,14 @@ class MagicTarget
     unsigned char layoutPadding6[2];
     BSSimpleList<MagicEffectContext*> m_kActiveEffectList;  // +0x8
     virtual bool AddEffectToTarget(MagicCaster* caster, MagicItem* spell, ActiveEffect* effect, bool immediate);
+public:
+    bool HasSpell(::MagicItem *, bool);
+public:
+    void UpdateActiveEffects(float);
+public:
+    void Dispel(::MagicItem *, ::MagicCaster *, ::ActiveEffect *);
+public:
+    static ::MagicTarget *GetMagicTargetByID(unsigned int);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(MagicTarget) == 0x10);

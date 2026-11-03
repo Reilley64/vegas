@@ -4,6 +4,14 @@
 #ifndef DEBUGSHADER_LOCAL_H
 #define DEBUGSHADER_LOCAL_H
 
+#include "fnv/decl/E7DEF0TextureStage.h"
+#include "fnv/decl/FUN_00e7ecd0_cls.h"
+#include "fnv/decl/StageSet.h"
+#include "fnv/decl/StateGroup.h"
+#include "fnv/symbols_00be0000.h"
+#include "fnv/symbols_00e76000.h"
+#include "fnv/symbols_00e7e000.h"
+#include "fnv/symbols_011f9000.h"
 #define NiPointer FNV_STUB_NiPointer
 #include "layout_support.h"
 #include "NiFixedString.h"
@@ -1064,6 +1072,8 @@ class BSShader : public NiD3DDefaultShader
     unsigned char layoutPadding65[3];
     int m_iPassId;  // +0x68, 4 bytes
     BSShader();
+public:
+    bool Initialize();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(BSShader) == 108);
@@ -1081,8 +1091,7 @@ class BloodSplatterBeamShader : public BSShader
     NiPointer<NiD3DPixelShader> m_spPixelShaderVariants[2];       // +0xB4, 8 bytes
     unsigned int m_uiShaderState;                                 // +0xBC, 4 bytes
     BloodSplatterBeamShader();
-    static BSShader* CreateShader();
-    void InitializeShaderData();
+    static BSShader* CreateShader_00bd23f0();
     bool ConfigureShaderPass();
     // BloodSplatterBeamShader
     // void __cdecl BloodSplatterBeamShader::*()
@@ -1189,9 +1198,7 @@ class NiD3DShaderDeclaration : public NiRefObject
 class NiD3DVertexDeclaration : public NiD3DShaderDeclaration
 {
   public:
-    static NiD3DVertexDeclaration* Create(NiRenderer*, unsigned int, unsigned int);
 };
-extern NiRenderer* DAT_011f9508;
 
 class NiD3DShaderConstantMap : public NiRefObject
 {
@@ -1201,9 +1208,6 @@ class BeamStage
   public:
     unsigned char layoutPadding0[0x60];
     unsigned int m_uiRefCount;
-    static void CreateNewStage(NiPointer<BeamStage>&);
-    void FUN_00e7def0(unsigned int);
-    void ReturnToPool();
     void IncRefCount()
     {
         ++m_uiRefCount;
@@ -1211,7 +1215,7 @@ class BeamStage
     void DecRefCount()
     {
         if (--m_uiRefCount == 0)
-            ReturnToPool();
+            reinterpret_cast<::FUN_00e7ecd0_cls *>(this)->FUN_00e7ecd0();
     }
 };
 class D3DRenderStateGroup
@@ -1234,7 +1238,6 @@ class NiD3DPass
     NiPointer<NiD3DVertexShader> m_spVertexShaderObject;
     unsigned int m_uiRefCount;
     static void CreateD3DPass(NiPointer<NiD3DPass>&);
-    void FUN_00e802b0(unsigned int, BeamStage*);
     void DecRefCount();
     void IncRefCount();
     void SetVertexShader(NiD3DVertexShader* shader)
@@ -1249,9 +1252,8 @@ class NiD3DPass
     {
         if (!m_pRenderStateGroup)
             m_pRenderStateGroup = D3DRenderStateGroup::GetCurrentRenderStateGroup();
-        m_pRenderStateGroup->SetRenderState(state, value, save);
+        reinterpret_cast<::StateGroup *>((m_pRenderStateGroup))->SetNodeValue(state, value, save);
     }
 };
-void ConfigureBeamStage(BeamStage*, unsigned int, unsigned int, unsigned int, bool);
 
 #endif

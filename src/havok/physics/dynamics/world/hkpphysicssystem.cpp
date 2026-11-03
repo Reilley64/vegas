@@ -2,11 +2,22 @@
 // src/havok/physics/dynamics/world/hkpphysicssystem.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/hkpphysicssystem.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/CA8890Object.h"
+#include "fnv/decl/CInstance.h"
+#include "fnv/decl/Cb0StringCopy.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/Obj.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpConstraintInstanceCF3F.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00d05000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_011b1000.h"
 #include "havok/hkpPhysicsSystem.h"
 
 struct DDCC60World
 {
-    void removeReference();
 };
 
 struct FUN_00d06090_Class
@@ -37,7 +48,7 @@ void FUN_00d06090_Class::ReleaseAllReferences()
     {
         if (refs0[i])
         {
-            refs0[i]->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((refs0[i]))->FUN_00c905b0();
         }
     }
     count0 = 0;
@@ -47,7 +58,7 @@ void FUN_00d06090_Class::ReleaseAllReferences()
     {
         if (refs3[i])
         {
-            refs3[i]->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((refs3[i]))->FUN_00c905b0();
         }
     }
     count3 = 0;
@@ -57,7 +68,7 @@ void FUN_00d06090_Class::ReleaseAllReferences()
     {
         if (refs1[i])
         {
-            refs1[i]->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((refs1[i]))->FUN_00c905b0();
         }
     }
     count1 = 0;
@@ -67,14 +78,13 @@ void FUN_00d06090_Class::ReleaseAllReferences()
     {
         if (refs2[i])
         {
-            refs2[i]->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((refs2[i]))->FUN_00c905b0();
         }
     }
     count2 = 0;
 }
 
 extern int DAT_010cce28;
-extern int _DAT_0102e388;
 
 struct MemoryAllocator
 {
@@ -115,7 +125,6 @@ struct FUN_00d06640_class
     Buffer m_pWorkingSet[4];
     S_00d49310_Lock m_lock;
 
-    void ReleaseAllReferences();
     void Destroy();
 };
 
@@ -125,8 +134,8 @@ void FUN_00d06640_class::Destroy()
     unsigned int highBit = 0x80000000u;
 
     m_pVtable = &DAT_010cce28;
-    ReleaseAllReferences();
-    m_lock.~S_00d49310_Lock();
+    reinterpret_cast<::FUN_00d06090_Class *>(this)->ReleaseAllReferences();
+    ::FUN_00cb0c00((int)&(m_lock));
 
     MemoryRouter* router = _D1A0E0GetMemoryRouter();
     MemoryAllocator* allocator = router->m_p10;
@@ -164,7 +173,7 @@ void FUN_00d06640_class::Destroy()
     m_pWorkingSet[0].m_pData = 0;
     m_pWorkingSet[0].m_uCapacity = highBit;
 
-    m_pVtable = &_DAT_0102e388;
+    m_pVtable = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 // @fnv 0x00cb0020
@@ -227,7 +236,6 @@ inline void* __cdecl operator new(Size64, void* p)
 }
 struct Shape64
 {
-    void __thiscall FUN_00c90510();
 };
 typedef Shape64* ShapePtr64;
 struct Array64
@@ -259,7 +267,7 @@ void Container64::AddShape(Shape64* pShape)
 {
     if (pShape)
     {
-        pShape->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((pShape))->FUN_00c90510();
         Array64* pArray = &array;
         Router64* router = FUN_00c85750();
         if (pArray->size == (pArray->capacityAndFlags & 0x3fffffff))
@@ -340,13 +348,12 @@ struct FnvCpu_FUN_00d06c00_CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void Destroy();
     FnvCpu_FUN_00d06c00_CpuObject* FUN_00d06c00(unsigned int flags);
 };
 // @fnv 0x00d06c00
 FnvCpu_FUN_00d06c00_CpuObject* FnvCpu_FUN_00d06c00_CpuObject::FUN_00d06c00(unsigned int flags)
 {
-    Destroy();
+    reinterpret_cast<::FUN_00d06640_class *>(this)->Destroy();
     if (flags & 1)
     {
         FnvCpu_FUN_00d06c00_CpuAllocatorHolder* holder = FUN_00c85750();
@@ -448,7 +455,7 @@ void hkpPhysicsSystemD29::FUN_00d06290(const hkpPhysicsSystemD29& kOther)
     m_kPhantoms = kOther.m_kPhantoms;
     m_ppConstraints = kOther.m_ppConstraints;
     m_ppActions = kOther.m_ppActions;
-    m_name = kOther.m_name;
+    reinterpret_cast<::Cb0StringCopy *>((void *)&(const ::hkStringPtrD29 &)(m_name))->FUN_00cb0c30((const ::CB0StringPtr &)(kOther.m_name));
     m_ulUserData = kOther.m_ulUserData;
     m_bSlotEnabled = kOther.m_bSlotEnabled;
 }
@@ -502,7 +509,6 @@ template <class T> class hkArrayD064
 class hkShapeD064
 {
   public:
-    void FUN_00c90510();
 };
 
 class hkOwnerD064
@@ -520,7 +526,7 @@ void hkOwnerD064::FUN_00d064f0(hkShapeD064* shape)
 {
     if (shape)
     {
-        shape->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((shape))->FUN_00c90510();
         m_shapes.AddBack(shape);
     }
 }
@@ -574,7 +580,6 @@ template <class T> class hkArrayXd06540
 class hkShapeXd06540
 {
   public:
-    void FUN_00c90510();
 };
 
 class hkOwnerXd06540
@@ -592,7 +597,7 @@ void hkOwnerXd06540::FUN_00d06540(hkShapeXd06540* shape)
 {
     if (shape)
     {
-        shape->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((shape))->FUN_00c90510();
         m_shapes.AddBack(shape);
     }
 }
@@ -646,7 +651,6 @@ template <class T> class hkArrayXd06590
 class hkShapeXd06590
 {
   public:
-    void FUN_00c90510();
 };
 
 class hkOwnerXd06590
@@ -664,7 +668,7 @@ void hkOwnerXd06590::FUN_00d06590(hkShapeXd06590* shape)
 {
     if (shape)
     {
-        shape->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((shape))->FUN_00c90510();
         m_shapes.AddBack(shape);
     }
 }
@@ -697,7 +701,6 @@ __declspec(align(16)) struct AlignedTransform
         m_vTranslation = o.m_vTranslation;
     }
 
-    void FUN_00cb23e0(const hkTransform* other);
 };
 
 struct FUN_00ca8890_Class
@@ -719,15 +722,12 @@ struct FUN_00ca8890_Class
     int unkE0, unkE4, unkE8, unkEC;
     hkTransform m_kMotionTransform;
 
-    void FUN_00ca8890(const AlignedTransform* t);
 };
 
 struct FUN_00cf30f0_Class
 {
-    void FUN_00cf30f0(const hkTransform* t);
 };
 
-void FUN_00d05df0(void* phantom, const hkTransform* t);
 
 struct PhysicsSystemWrapper : public hkpPhysicsSystem
 {
@@ -748,22 +748,21 @@ void PhysicsSystemWrapper::ApplyMotionTransform(const hkTransform* a2)
 
         AlignedTransform t2 = t1;
 
-        t2.FUN_00cb23e0(&((FUN_00ca8890_Class*)m_ppRigidBodies.m_data[i])->m_kMotionTransform);
-        ((FUN_00ca8890_Class*)m_ppRigidBodies.m_data[i])->FUN_00ca8890(&t2);
+        reinterpret_cast<::Obj *>(&(t2))->FUN_00cb23e0((int)(&((FUN_00ca8890_Class*)m_ppRigidBodies.m_data[i])->m_kMotionTransform));
+        reinterpret_cast<::CA8890Object *>((((FUN_00ca8890_Class*)m_ppRigidBodies.m_data[i])))->FUN_00ca8890((int)(&t2));
     }
     for (int i = 0; i < m_ppConstraints.m_iElementCount; ++i)
     {
-        ((FUN_00cf30f0_Class*)m_ppConstraints.m_data[i])->FUN_00cf30f0(a2);
+        reinterpret_cast<::CInstance *>((((FUN_00cf30f0_Class*)m_ppConstraints.m_data[i])))->FUN_00cf30f0((::Matrix4f *)(a2));
     }
     for (int i = 0; i < m_kPhantoms.m_iElementCount; ++i)
     {
-        FUN_00d05df0(m_kPhantoms.m_data[i], a2);
+        ::FUN_00d05df0((::hkpPhantom *)(m_kPhantoms.m_data[i]), (*(const ::hkTransform *)(a2)));
     }
 }
 
 struct ReferenceBody
 {
-    void FUN_00c905b0();
 };
 struct BodyCollection
 {
@@ -777,7 +776,7 @@ struct BodyCollection
 // @fnv 0x00d06130
 void BodyCollection::FUN_00d06130(unsigned int index)
 {
-    data[index]->FUN_00c905b0();
+    reinterpret_cast<::hkReferencedObjectC905 *>((data[index]))->FUN_00c905b0();
     --count;
     if (count != index)
     {
@@ -790,7 +789,6 @@ void BodyCollection::FUN_00d06130(unsigned int index)
 
 struct hkRefD061
 {
-    void FUN_00c905b0();
 };
 struct OwnerD061
 {
@@ -804,7 +802,7 @@ struct OwnerD061
 // @fnv 0x00d06170
 void OwnerD061::FUN_00d06170(int index)
 {
-    refs3[index]->FUN_00c905b0();
+    reinterpret_cast<::hkReferencedObjectC905 *>((refs3[index]))->FUN_00c905b0();
     --count3;
     if (count3 != index)
     {
@@ -817,7 +815,6 @@ void OwnerD061::FUN_00d06170(int index)
 
 struct RefObj
 {
-    void __thiscall FUN_00c905b0();
 };
 
 inline void memCpy4_d061(void* dst, const void* src, int nbytes)
@@ -855,14 +852,13 @@ struct FUN_00d061b0_Class
 // @fnv 0x00d061b0
 void FUN_00d061b0_Class::FUN_00d061b0(int index)
 {
-    m_refs[index]->FUN_00c905b0();
+    reinterpret_cast<::hkReferencedObjectC905 *>((m_refs[index]))->FUN_00c905b0();
     m_refs.removeAt(index);
 }
 
 namespace fnv_00d061f0 {
 struct RefObj
 {
-    void __thiscall FUN_00c905b0();
 };
 
 inline void memCpy4_d061(void* dst, const void* src, int nbytes)
@@ -900,13 +896,11 @@ struct FUN_00d061f0_Class
 // @fnv 0x00d061f0
 void FUN_00d061f0_Class::FUN_00d061f0(int index)
 {
-    m_refs[index]->FUN_00c905b0();
+    reinterpret_cast<::hkReferencedObjectC905 *>((m_refs[index]))->FUN_00c905b0();
     m_refs.removeAt(index);
 }
 }  // namespace fnv_00d061f0
 
-extern float DAT_0104da48;
-extern __m128 DAT_011b1bd0;
 
 struct __declspec(align(16)) TerrainVec
 {
@@ -977,7 +971,7 @@ __forceinline void encodePoint(const TerrainVec& point, const TerrainVec& offset
     value.add(point, offset);
     value.q = _mm_mul_ps(value.q, _mm_load_ps((const float*)&scale));
     TerrainVec bias;
-    bias.q = DAT_011b1bd0;
+    bias.q = (*reinterpret_cast<::__m128 *>((void *)&::DAT_011b1bd0));
     value.add(bias);
     union Packed
     {
@@ -1041,7 +1035,7 @@ void TerrainShape::EvaluateSpheres(const TerrainInput& input, TerrainVec* output
 {
     const TerrainVec* sphere = input.spheres;
     TerrainVec fallback;
-    fallback.set(0.0f, 1.0f, 0.0f, DAT_0104da48);
+    fallback.set(0.0f, 1.0f, 0.0f, ::DAT_0104da48);
     for (int remaining = input.count - 1; remaining >= 0; ++output, ++sphere, --remaining)
     {
         *output = fallback;
@@ -1330,7 +1324,6 @@ class hkpConstraintInstanceD : public hkReferencedObjectD
         return m_pEntityB;
     }
     hkBoolD FUN_00cf2fb0() const throw();
-    hkpConstraintInstanceD* FUN_00cf3fa0(hkpRigidBodyD* pk, hkpRigidBodyD* pkB, int eMode) const throw();
 
     void* m_pOwnerObject;
     void* m_data;
@@ -1379,7 +1372,7 @@ FUN_00d065e0* FUN_00d065e0::FUN_00d06720() const throw()
 {
     FUN_00d065e0* newSystem = new FUN_00d065e0();
 
-    newSystem->m_name = m_name;
+    reinterpret_cast<::Cb0StringCopy *>((void *)&(const ::fnv_00d06720::FUN_00cb0c30 &)(newSystem->m_name))->FUN_00cb0c30((const ::CB0StringPtr &)(m_name));
     newSystem->m_ulUserData = m_ulUserData;
     newSystem->m_bSlotEnabled = m_bSlotEnabled;
 
@@ -1407,7 +1400,7 @@ FUN_00d065e0* FUN_00d065e0::FUN_00d06720() const throw()
             constraint->FUN_00cf2fb0()
                 ? 0
                 : newSystem->m_ppRigidBodies[m_ppRigidBodies.indexOf(constraint->getRigidBodyB())];
-        newSystem->m_ppConstraints[i] = constraint->FUN_00cf3fa0(pNewRigidBodyA, pNewRigidBodyB, 0);
+        newSystem->m_ppConstraints[i] = ((::fnv_00d06720::hkpConstraintInstanceD *)(reinterpret_cast<::hkpConstraintInstanceCF3F *>((void *)(constraint))->FUN_00cf3fa0((::hkpEntity *)(pNewRigidBodyA), (::hkpEntity *)(pNewRigidBodyB), 0)));
     }
 
     for (i = 0; i < m_ppActions.GetLogicalSize(); i++)

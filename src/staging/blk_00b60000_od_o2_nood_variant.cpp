@@ -5,6 +5,21 @@
 
 // src/staging/blk_00b60000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/NiRenderer.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00b55000.h"
+#include "fnv/symbols_00b79000.h"
+#include "fnv/symbols_00ee6000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_011fa000.h"
+#include "fnv/symbols_011fc000.h"
+#include "fnv/symbols_011fd000.h"
+#include "fnv/symbols_011fe000.h"
+#include "fnv/symbols_0126f000.h"
 #include "../../include/layout_support.h"
 
 #include <string.h>
@@ -17,7 +32,6 @@ struct Entry132
     unsigned int unk00, unk04;
     unsigned char enabled;
 };
-extern Entry132* DAT_011febdc;
 struct Object132
 {
     unsigned int unk00, unk04, unk08, unk0c;
@@ -37,13 +51,10 @@ struct Group132
     unsigned short unk0a;
     Object132** objects;
 };
-extern Group132* DAT_011f91e0;
 struct Vector132
 {
     float x, y, z;
 };
-extern Vector132 DAT_011f474c;
-extern Matrix132 DAT_011fecc8;
 struct Context132
 {
     unsigned int unk000, unk004, unk008, unk00c, unk010, unk014, unk018, unk01c;
@@ -128,23 +139,20 @@ struct Owner132
     Context132* context;
     void FUN_00b7b730(Group132*, unsigned int, int, const char*);
 };
-void __cdecl FUN_00b799a0(Matrix132*, const char*);
-Matrix132* __stdcall FUN_00ee6de0(Matrix132*, const Matrix132*, const Matrix132*);
-Matrix132* __stdcall FUN_00ee6dd4(Matrix132*, const Matrix132*);
 // @fnv 0x00b7b730
 void Owner132::FUN_00b7b730(Group132* group, unsigned int slot, int skipLoad, const char* name)
 {
     Matrix132 matrix, result, temporary;
-    if (!DAT_011febdc->enabled)
+    if (!(*reinterpret_cast<::Entry132 * *>(&::DAT_011febdc))->enabled)
         return;
     if (!group->objects || (group->count > 0u && group->objects[0] && group->objects[0]->special) ||
         (slot >= 0x244 && slot <= 0x24b) || (slot >= 0x2d8 && slot <= 0x2ef) || slot == 0xfe || slot == 0x10b)
     {
         temporary = context->transform;
-        FUN_00ee6dd4(&DAT_011fecc8, &temporary);
+        ::FUN_00ee6dd4();
         return;
     }
-    Group132* geometry = DAT_011f91e0;
+    Group132* geometry = (*reinterpret_cast<::Group132 * *>(&::DAT_011f91e0));
     if (!geometry->objects || group->count <= 0u)
         return;
     matrix.m12 = matrix.m13 = matrix.m14 = matrix.m21 = matrix.m23 = matrix.m24 = matrix.m31 = matrix.m32 = matrix.m34 =
@@ -154,14 +162,14 @@ void Owner132::FUN_00b7b730(Group132* group, unsigned int slot, int skipLoad, co
     result.m12 = result.m13 = result.m14 = result.m21 = result.m23 = result.m24 = result.m31 = result.m32 = result.m34 =
         result.m41 = result.m42 = result.m43 = 0.0f;
     if (!skipLoad)
-        FUN_00b799a0(&matrix, name);
-    matrix.m41 += DAT_011f474c.x;
-    matrix.m42 += DAT_011f474c.y;
-    matrix.m43 += DAT_011f474c.z;
-    FUN_00ee6de0(&temporary, &matrix, &geometry->objects[0]->transform);
+        ::FUN_00b799a0((float *)(::Matrix132 *)(&matrix), name);
+    matrix.m41 += (*reinterpret_cast<::Vector132 *>(&::DAT_011f474c)).x;
+    matrix.m42 += (*reinterpret_cast<::Vector132 *>(&::DAT_011f474c)).y;
+    matrix.m43 += (*reinterpret_cast<::Vector132 *>(&::DAT_011f474c)).z;
+    ::FUN_00ee6de0(&temporary, &matrix, &geometry->objects[0]->transform);
     result = temporary;
-    FUN_00ee6dd4(&result, &result);
-    memmove(&DAT_011fecc8, &result, sizeof(result));
+    ::FUN_00ee6dd4();
+    memmove(&(*reinterpret_cast<::Matrix132 *>((void *)&::DAT_011fecc8)), &result, sizeof(result));
 }
 
 struct IDirect3DDevice9;
@@ -249,7 +257,6 @@ struct ClipRenderer
         }
     } wrap;
 };
-extern ClipRenderer* DAT_011f4748;
 struct ClipRenderData
 {
     unsigned int unk000, unk004, unk008, unk00c, unk010, unk014, unk018, unk01c;
@@ -337,9 +344,6 @@ struct ClipManager
     ClipRenderData* renderer;
     void FUN_00b7be00(unsigned int state);
 };
-extern ClipMatrix* __stdcall FUN_00ee6dda(ClipMatrix*, float*, const ClipMatrix*);
-extern ClipPlane16* __stdcall FUN_00ee6dce(ClipPlane16*, const ClipPlane16*);
-extern ClipPlane16* __stdcall FUN_00ee6dc8(ClipPlane16*, const ClipPlane16*, const ClipMatrix*);
 extern "C" void* __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
 
 // @fnv 0x00b7be00
@@ -347,24 +351,24 @@ void ClipManager::FUN_00b7be00(unsigned int state)
 {
     if (state >= 0x231 && state <= 0x234)
     {
-        ClipState* clip = (ClipState*)DAT_011f91e0->objects[0];
+        ClipState* clip = (ClipState*)(*reinterpret_cast<::Group132 * *>(&::DAT_011f91e0))->objects[0];
         if (!clip->cacheValid)
         {
             ClipMatrix view = renderer->view;
             ClipPlane* pSrc = clip->planes;
-            float d1 = view._11 * DAT_011f474c.x + view._21 * DAT_011f474c.y + view._31 * DAT_011f474c.z;
+            float d1 = view._11 * (*reinterpret_cast<::Vector132 *>(&::DAT_011f474c)).x + view._21 * (*reinterpret_cast<::Vector132 *>(&::DAT_011f474c)).y + view._31 * (*reinterpret_cast<::Vector132 *>(&::DAT_011f474c)).z;
             view._41 = -d1;
-            float d2 = view._12 * DAT_011f474c.x + view._22 * DAT_011f474c.y + view._32 * DAT_011f474c.z;
+            float d2 = view._12 * (*reinterpret_cast<::Vector132 *>(&::DAT_011f474c)).x + view._22 * (*reinterpret_cast<::Vector132 *>(&::DAT_011f474c)).y + view._32 * (*reinterpret_cast<::Vector132 *>(&::DAT_011f474c)).z;
             view._42 = -d2;
-            float d3 = view._13 * DAT_011f474c.x + view._23 * DAT_011f474c.y + view._33 * DAT_011f474c.z;
+            float d3 = view._13 * (*reinterpret_cast<::Vector132 *>(&::DAT_011f474c)).x + view._23 * (*reinterpret_cast<::Vector132 *>(&::DAT_011f474c)).y + view._33 * (*reinterpret_cast<::Vector132 *>(&::DAT_011f474c)).z;
             view._43 = -d3;
             ClipMatrix projection = renderer->projection;
             ClipMatrix transform;
             ClipMatrix inverse;
             ClipPlane16 transformed[6];
-            FUN_00ee6de0((Matrix132*)&transform, (const Matrix132*)&view, (const Matrix132*)&projection);
-            FUN_00ee6dda(&inverse, 0, &transform);
-            FUN_00ee6dd4((Matrix132*)&transform, (const Matrix132*)&inverse);
+            ::FUN_00ee6de0((Matrix132*)&transform, (const Matrix132*)&view, (const Matrix132*)&projection);
+            ::FUN_00ee6dda();
+            ::FUN_00ee6dd4();
 
             for (int i = 0; i < 6; ++i)
             {
@@ -375,14 +379,14 @@ void ClipManager::FUN_00b7be00(unsigned int state)
                 plane.z = n.z;
                 plane.d = -pSrc[i].d;
                 ClipPlane16 outPlane;
-                FUN_00ee6dce(&plane, &plane);
-                FUN_00ee6dc8(&outPlane, &plane, &transform);
+                ::FUN_00ee6dce(&plane, &plane);
+                ::FUN_00ee6dc8((::D3DXPLANE *)(::ClipPlane16 *)(&outPlane), (const ::D3DXPLANE *)(const ::ClipPlane16 *)(&plane), (const ::D3DXMATRIX *)(const ::ClipMatrix *)(&transform));
                 transformed[i].x = outPlane.x;
                 transformed[i].y = outPlane.y;
                 transformed[i].z = outPlane.z;
                 transformed[i].d = outPlane.d;
             }
-            ClipRenderer* r1 = DAT_011f4748;
+            ClipRenderer* r1 = (*reinterpret_cast<::ClipRenderer * *>(&::NiRenderer::ms_pRenderer));
             int i = 0;
             ClipRenderer::DevWrap* w1 = &r1->wrap;
             for (; i < 6; ++i)
@@ -393,7 +397,7 @@ void ClipManager::FUN_00b7be00(unsigned int state)
         else
         {
             ClipPlane* pCached = clip->cachedPlanes;
-            ClipRenderer* r2 = DAT_011f4748;
+            ClipRenderer* r2 = (*reinterpret_cast<::ClipRenderer * *>(&::NiRenderer::ms_pRenderer));
             int i = 0;
             ClipRenderer::DevWrap* w2 = &r2->wrap;
             for (; i < 6; ++i)
@@ -669,25 +673,11 @@ struct RendererData
     DeviceHolder* m_pDeviceHolder;
 };
 
-extern NiShaderConstantMapEntry* DAT_011febd8[22];
-extern NiShaderConstantMapEntry* DAT_011fec30[22];
-extern NiShaderConstantMapEntry* DAT_011febf8;
-extern unsigned int DAT_011fcc80[];
-extern unsigned int DAT_011fc0a0[];
-extern unsigned char DAT_011f91c4;
 struct ShaderGeometryGroup
 {
     GeometryState* current;
 };
-extern RendererData* DAT_0126f74c;
-extern D3DXVECTOR4 DAT_011fa280;
-extern D3DXVECTOR4 DAT_011fa290;
-extern D3DXVECTOR4 DAT_011a9bd0;
-extern D3DXVECTOR4 DAT_011fd9b8;
-extern D3DXVECTOR4 DAT_011fd9c8;
-extern D3DXVECTOR4 DAT_011fd9d8;
 
-BSFogProperty* FUN_00b55520(int iType);
 
 class BSShaderPass
 {
@@ -719,23 +709,23 @@ void BSShaderPass::FUN_00b7b450(unsigned int uiPass)
     int i;
     for (i = 0; i < 22; i++)
     {
-        NiShaderConstantMapEntry* pkEntry = DAT_011febd8[i];
+        NiShaderConstantMapEntry* pkEntry = (*reinterpret_cast<NiShaderConstantMapEntry * (*)[22]>(&::DAT_011febd8))[i];
         if (pkEntry)
-            pkEntry->m_bEnableState = (DAT_011fcc80[uiPass] & (1 << (i + 1))) != 0;
+            pkEntry->m_bEnableState = ((*reinterpret_cast<unsigned int (*)[]>(&::DAT_011fcc80))[uiPass] & (1 << (i + 1))) != 0;
     }
     for (i = 0; i < 22; i++)
     {
-        NiShaderConstantMapEntry* pkEntry = DAT_011fec30[i];
+        NiShaderConstantMapEntry* pkEntry = (*reinterpret_cast<NiShaderConstantMapEntry * (*)[22]>(&::DAT_011fec30))[i];
         if (pkEntry)
-            pkEntry->m_bEnableState = (DAT_011fc0a0[uiPass] & (1 << (i + 1))) != 0;
+            pkEntry->m_bEnableState = ((*reinterpret_cast<unsigned int (*)[]>(&::DAT_011fc0a0))[uiPass] & (1 << (i + 1))) != 0;
     }
 
     m_pkVertexConstantMap->Update();
     m_pkPixelConstantMap->Update();
 
-    if (DAT_011febf8->m_bEnableState)
+    if ((*reinterpret_cast<::NiShaderConstantMapEntry * *>(&::DAT_011febf8))->m_bEnableState)
     {
-        BSFogProperty* pkFog = FUN_00b55520(DAT_011f91c4);
+        BSFogProperty* pkFog = ::FUN_00b55520(DAT_011f91c4);
         if (pkFog)
         {
             float fNear = pkFog->m_fNearPlane;
@@ -743,30 +733,30 @@ void BSShaderPass::FUN_00b7b450(unsigned int uiPass)
             float m_fAlpha = pkFog->m_fPower;
             if (fFar == 0.0f && fNear == 0.0f)
             {
-                DAT_011fa280 = D3DXVECTOR4(500000.0f, 0.0f, 0.0f, 0.0f);
-                DAT_011fa290 = DAT_011a9bd0;
+                (*reinterpret_cast<::D3DXVECTOR4 *>((void *)&::DAT_011FA280)) = D3DXVECTOR4(500000.0f, 0.0f, 0.0f, 0.0f);
+                (*reinterpret_cast<::D3DXVECTOR4 *>((void *)&::DAT_011FA290)) = (*reinterpret_cast<::D3DXVECTOR4 *>(&::DAT_011a9bd0));
             }
             else
             {
                 NiColor kColor = pkFog->m_kFogTint;
-                DAT_011fa280 = D3DXVECTOR4(fFar, fFar - fNear, m_fAlpha, 0.0f);
-                DAT_011fa290 = D3DXVECTOR4(kColor.r, kColor.g, kColor.b, 0.0f);
+                (*reinterpret_cast<::D3DXVECTOR4 *>((void *)&::DAT_011FA280)) = D3DXVECTOR4(fFar, fFar - fNear, m_fAlpha, 0.0f);
+                (*reinterpret_cast<::D3DXVECTOR4 *>((void *)&::DAT_011FA290)) = D3DXVECTOR4(kColor.r, kColor.g, kColor.b, 0.0f);
             }
         }
     }
 
-    if (((ShaderGeometryGroup*)DAT_011f91e0)->current->m_iShaderConstants)
+    if (((ShaderGeometryGroup*)(*reinterpret_cast<::Group132 * *>(&::DAT_011f91e0)))->current->m_iShaderConstants)
     {
         Matrix132 kWorld;
-        FUN_00ee6dd4(&kWorld, (Matrix132*)(m_pfConstants + 640));
-        ShaderConstantDevice* pkDevice = DAT_0126f74c->m_pDeviceHolder->m_pDirectInputDevice;
+        ::FUN_00ee6dd4();
+        ShaderConstantDevice* pkDevice = (*reinterpret_cast<::RendererData * *>(&::DAT_0126f74c))->m_pDeviceHolder->m_pDirectInputDevice;
         pkDevice->SetVertexShaderConstantF(1, &kWorld.m11, 4);
     }
 
-    if (DAT_011febf8->m_bEnableState)
+    if ((*reinterpret_cast<::NiShaderConstantMapEntry * *>(&::DAT_011febf8))->m_bEnableState)
     {
-        DAT_011fd9b8 = DAT_011a9bd0;
-        DAT_011fd9c8 = DAT_011a9bd0;
-        DAT_011fd9d8 = DAT_011a9bd0;
+        (*reinterpret_cast<::D3DXVECTOR4 *>((void *)&::DAT_011fd9b8)) = (*reinterpret_cast<::D3DXVECTOR4 *>(&::DAT_011a9bd0));
+        (*reinterpret_cast<::D3DXVECTOR4 *>((void *)&::DAT_011fd9c8)) = (*reinterpret_cast<::D3DXVECTOR4 *>(&::DAT_011a9bd0));
+        (*reinterpret_cast<::D3DXVECTOR4 *>((void *)&::DAT_011fd9d8)) = (*reinterpret_cast<::D3DXVECTOR4 *>(&::DAT_011a9bd0));
     }
 }

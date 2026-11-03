@@ -7,7 +7,7 @@
 class PlayerCharacter : public Character
 {
   public:
-    bool IsSleepingOrResting() const;  // exact public PC0094DF60
+      // exact public PC0094DF60
     enum ModifierGroup
     {
         TEMPORARY = 0,
@@ -37,6 +37,8 @@ class PlayerCharacter : public Character
     unsigned char layoutPaddingADC[884];
     float GetActorValueModifierAmount(ModifierGroup modifier, ActorValue::Index actorValue);
     virtual int GetActorValue(ActorValue::Index actorValue);
+public:
+    bool IsSleepingOrResting();
 };
 FNV_STATIC_ASSERT(sizeof(PlayerCharacter) == 0xE50);
 FNV_STATIC_ASSERT(offsetof(PlayerCharacter, ActorValueModifierData) == 0x244);

@@ -2,6 +2,9 @@
 #ifndef FNV_NICONSOLERENDERER_H
 #define FNV_NICONSOLERENDERER_H
 
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/symbols_00a29000.h"
 #include "niconsolerenderer_types_NiConsoleRenderer.h"
 #include "niconsolerenderer_vtable.h"
 #include "niconsolerenderer_packet.h"
@@ -21,7 +24,7 @@ unsigned int GraphicsRenderer::GetRenderTargetWidth()
     local.array = ((NiConsoleRendererGroupVTable*)local.group)->slot44(0);
     if (local.array == 0)
         return 0;
-    return local.array->GetSize();
+    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((local.array))->GetName()));
 }
 
 // @fnv 0x004dee70
@@ -38,7 +41,7 @@ unsigned int GraphicsRenderer::GetRenderTargetHeight()
     local.caster = ((NiConsoleRendererWidthGroupVTable*)local.group)->slot44(0);
     if (local.caster == 0)
         return 0;
-    return (unsigned int)local.caster->GetSelectedMagicItem();
+    return (unsigned int)((::MagicItem *)(reinterpret_cast<::FUN_0084e3a0_Class *>((local.caster))->FUN_0084e3a0()));
 }
 
 #pragma optimize("", on)
@@ -49,7 +52,7 @@ bool GraphicsRenderer::BeginUsingRenderTargetGroup(NiRenderTargetGroup* group, u
         return false;
     if (!group)
     {
-        NiD3DDefaultShader::SetShaderName(DAT_010ae590);
+        ::FUN_00a29680();
         return false;
     }
     fnv_EnterCriticalSection(&m_acRendererDataC);

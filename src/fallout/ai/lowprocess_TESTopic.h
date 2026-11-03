@@ -1,6 +1,12 @@
 // Source layout: TESTopic. PC corrections are in generate_headers.py.
 #ifndef FNV_TESTOPIC_H
 #define FNV_TESTOPIC_H
+#include "fnv/decl/FUN_00619df0_shell.h"
+#include "fnv/decl/FUN_0061b320_shell.h"
+#include "fnv/decl/TESRegion.h"
+#include "fnv/decl/TopicMethods.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_0061b000.h"
 #include "lowprocess_support.h"
 #include "DialogueTopicData.h"
 #include "lowprocess_TESForm.h"
@@ -10,7 +16,6 @@ class TESTopic : public TESForm
 {
   public:
     bool FUN_00508d70();
-    DialogueItem* CreateDialogueItem(TESObjectREFR*, TESObjectREFR*, TESTopic*, void*, bool);
     TESFullName tESFullNameComponent;  // +0x18
     DialogueTopicData m_Data;              // +0x24
     unsigned char layoutPadding26[2];
@@ -23,12 +28,6 @@ class TESTopic : public TESForm
     static TESTopicInfo* FindMatchingTopicInfo(const TESTopic* topic, bool& deferred, TESObjectREFR* speaker,
                                                TESObjectREFR* listener, bool filter, TESTopic* previousTopic,
                                                BSSimpleList<DialogueItem*>* history);
-    bool IsRemappedRumors() const;
-    static TESTopic* GetAudioBackendData(DIALOGUE_TYPE type, int subtype);
-    BSSimpleList<QuestDialogueInfo*>* GetQuestInfoList() const;
-    DIALOGUE_TYPE GetDialogueType();
-    static TESTopic* GetTopicFromInfo(TESTopicInfo* info);
-    bool InsertInfoAfter(TESQuest* quest, TESTopicInfo* info, unsigned int previousInfoID);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESTopic) == 0x40);

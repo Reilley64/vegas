@@ -41,6 +41,8 @@ class NiTriBasedGeom : public NiGeometry
 {
   public:
     NiTriBasedGeom(NiTriBasedGeomData*) throw();
+public:
+    void SetBitfield(unsigned short, unsigned short, unsigned short);
 };
 
 class NiTriShape : public NiTriBasedGeom

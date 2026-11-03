@@ -1,10 +1,31 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/ActiveArray.h"
+#include "fnv/decl/C89AC0_Owner.h"
+#include "fnv/decl/DummyStruct_00631820.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a413d0_cls.h"
+#include "fnv/decl/FUN_00e891f0_Class.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiRefObject.h"
+#include "fnv/decl/Obj_00c89b60.h"
+#include "fnv/decl/Owner_9bf0.h"
+#include "fnv/decl/S_00e86f40_Arr.h"
+#include "fnv/decl/This00e7de30.h"
+#include "fnv/symbols_00a47000.h"
+#include "fnv/symbols_00aa0000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00b79000.h"
+#include "fnv/symbols_00b7c000.h"
+#include "fnv/symbols_00c1d000.h"
+#include "fnv/symbols_00e89000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_0126f000.h"
 struct NiD3DShaderFactory
 {
     void UpdateShaderMaterialCache(void*);
-    void FUN_00e94050(void*);
 };
 
 struct NiD3DRenderState
@@ -12,17 +33,8 @@ struct NiD3DRenderState
     void FUN_00e87980(void*);
 };
 
-// Forwards p to the shader factory at offset 0xf8, then passes the pointer at 0x10f8 to its second method.
-// @fnv 0x00e87980
-void NiD3DRenderState::FUN_00e87980(void* apData)
-{
-    ((NiD3DShaderFactory*)((char*)this + 0xf8))->UpdateShaderMaterialCache(apData);
-    ((NiD3DShaderFactory*)((char*)this + 0xf8))->FUN_00e94050(*(void**)((char*)this + 0x10f8));
-}
-
 struct FUN_009ba5f0_shell
 {
-    void SetChildObject(int);
 };
 
 struct FUN_00c89c80_obj
@@ -36,14 +48,14 @@ void FUN_00c89c80_obj::CopyFromSource(unsigned int pDest)
     if (this && *(void**)((char*)this + 8))
     {
         void* p = *(void**)((char*)this + 8);
-        ((FUN_009ba5f0_shell*)pDest)->SetChildObject(*(int*)((char*)p + 0xc));
+        reinterpret_cast<::C89AC0_Owner *>((((FUN_009ba5f0_shell*)pDest)))->SetChildObject((::C89AC0_Child *)(*(int*)((char*)p + 0xc)));
         *(int*)((char*)pDest + 0xc) = *(int*)((char*)p + 0x14);
         *(int*)((char*)pDest + 0x10) = *(int*)((char*)p + 0x18);
         *(unsigned int*)((char*)pDest + 8) = *(unsigned char*)((char*)p + 0x1c);
     }
     else
     {
-        ((FUN_009ba5f0_shell*)pDest)->SetChildObject(0);
+        reinterpret_cast<::C89AC0_Owner *>((((FUN_009ba5f0_shell*)pDest)))->SetChildObject((::C89AC0_Child *)(0));
         *(int*)((char*)pDest + 0xc) = 0;
         *(int*)((char*)pDest + 0x10) = 0;
     }
@@ -54,7 +66,6 @@ struct MemoryManager
     void* Allocate(unsigned int auiSize) throw();
 };
 
-extern MemoryManager DAT_011f6238;
 
 struct KeyPair
 {
@@ -63,7 +74,7 @@ struct KeyPair
 
     static void* operator new(unsigned int auiSize) throw()
     {
-        return DAT_011f6238.Allocate(auiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(auiSize);
     }
 
     KeyPair(void* apFirst, void* apSecond) throw() : m_pFirst(apFirst), m_pSecond(apSecond)
@@ -79,7 +90,6 @@ struct FUN_00a41520_cls
     unsigned short m_u0c;
     unsigned short m_uGrowStep;
 
-    int FindPairIndex(void* apFirst, void* apSecond);
     void FUN_00a90180(unsigned int auiNewSize);
     void FUN_00ba3aa0(unsigned int auiIndex, KeyPair** appEntry);
 
@@ -89,7 +99,7 @@ struct FUN_00a41520_cls
 // @fnv 0x00a41520
 bool FUN_00a41520_cls::FUN_00a41520(void* apFirst, void* apSecond)
 {
-    if (FindPairIndex(apFirst, apSecond) == -1)
+    if (reinterpret_cast<::FUN_00a413d0_cls *>(this)->FindPairIndex((unsigned int)(apFirst), (unsigned int)(apSecond)) == -1)
     {
         KeyPair* pEntry = new KeyPair(apFirst, apSecond);
 
@@ -104,9 +114,7 @@ bool FUN_00a41520_cls::FUN_00a41520(void* apFirst, void* apSecond)
 
 struct MM
 {
-    void __thiscall Deallocate(void*);
 };
-extern MM g_memoryManager;
 class NiNode;
 template <class T> struct NiPointer
 {
@@ -114,7 +122,7 @@ template <class T> struct NiPointer
     ~NiPointer();
     static void __cdecl operator delete[](void* memory)
     {
-        g_memoryManager.Deallocate(memory);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(memory);
     }
 };
 // Deletes the array of NiPointer<NiNode> objects pointed to by buffer when buffer is non-null.
@@ -125,8 +133,6 @@ void __cdecl DeleteNiNodePointerArray(NiPointer<NiNode>* pNodePointerArray)
         delete[] pNodePointerArray;
 }
 
-void* __cdecl FUN_00aa1070(unsigned int auiSize);
-void __cdecl FUN_00aa10f0(void* apMemory);
 
 struct S_Interface
 {
@@ -215,7 +221,6 @@ void FUN_00a41520_cls::FUN_00ba3aa0(unsigned int auiIndex, KeyPair** appEntry)
 
 struct C89CD0Target
 {
-    void process(void* arg);
 };
 
 struct C89CD0Holder
@@ -235,13 +240,12 @@ void C89CD0Holder::ProcessTarget(void* arg)
     {
         C89CD0Target* pkTarget = pkHolder->m_pkTarget;
         if (pkTarget)
-            pkTarget->process(arg);
+            reinterpret_cast<::Obj_00c89b60 *>((pkTarget))->FUN_00c89b60((::Ref_00c89b60 *)(arg));
     }
 }
 
 struct Target
 {
-    void FUN_00c89bf0(void* apArg);
 };
 
 struct FUN_00c89cf0_cls
@@ -259,7 +263,7 @@ void FUN_00c89cf0_cls::DispatchToTarget(void* apArg)
     if (this != 0)
     {
         if (m_pFlagTarget != 0)
-            m_pFlagTarget->FUN_00c89bf0(apArg);
+            reinterpret_cast<::Owner_9bf0 *>((m_pFlagTarget))->FUN_00c89bf0((::Object_9bf0 *)(apArg));
     }
 }
 
@@ -333,8 +337,6 @@ template <class T> class NiPointerA47
 
 typedef NiPointerA47<NiRefObjectA47> NiObjectPtrA47;
 
-NiObjectPtrA47* __cdecl FUN_00c1d790(unsigned int auiCount);
-void __cdecl ReleaseObjectArray(NiObjectPtrA47* pkArray);
 
 class NiTObjectArrayA47
 {
@@ -362,7 +364,7 @@ void NiTObjectArrayA47::FUN_00a47770(unsigned int uiMaxSize)
     {
         for (i = (unsigned short)uiMaxSize; i < m_usSize; i++)
         {
-            if (m_pBase[i] != NiObjectPtrA47(0))
+            if (reinterpret_cast<::DummyStruct_00631820 *>((void *)&(const ::NiPointerA47< ::NiRefObjectA47> &)(m_pBase[i]))->IsNotEqual((const ::DummyStruct_00631820 &)((const ::NiPointerA47< ::NiRefObjectA47> &)(NiObjectPtrA47(0)))))
             {
                 m_pBase[i] = 0;
                 m_usESize--;
@@ -375,7 +377,7 @@ void NiTObjectArrayA47::FUN_00a47770(unsigned int uiMaxSize)
     m_usMaxSize = (unsigned short)uiMaxSize;
     if (uiMaxSize > 0)
     {
-        m_pBase = FUN_00c1d790(m_usMaxSize);
+        m_pBase = ((::NiPointerA47< ::NiRefObjectA47> *)(::sc1d790::FUN_00c1d790(m_usMaxSize)));
         for (i = 0; i < m_usSize; i++)
             m_pBase[i] = pSaveBase[i];
         for (i = m_usSize; i < m_usMaxSize; i++)
@@ -385,12 +387,9 @@ void NiTObjectArrayA47::FUN_00a47770(unsigned int uiMaxSize)
     {
         m_pBase = 0;
     }
-    ReleaseObjectArray(pSaveBase);
+    ::ReleaseObjectArray((::Obj00a47600 **)(pSaveBase));
 }
 
-extern char* DAT_0109b220;
-extern long DAT_011f4400;
-void __cdecl RemoveGlobalConstant(char** name);
 
 struct S_00e87690_Str
 {
@@ -426,7 +425,6 @@ struct S_00e87690_Com
     virtual long __stdcall Release() throw();
 };
 
-void __cdecl DeleteNiNodePointerArray(void* buffer) throw();
 
 struct S_00e87690_Arr
 {
@@ -439,7 +437,7 @@ struct S_00e87690_Arr
     void FUN_00b799c0() throw();
     ~S_00e87690_Arr() throw()
     {
-        DeleteNiNodePointerArray(data);
+        ::DeleteNiNodePointerArray((::NiPointer< ::NiNode> *)(data));
     }
 };
 
@@ -447,7 +445,7 @@ struct S_00e87690_Base
 {
     virtual ~S_00e87690_Base() throw()
     {
-        InterlockedDecrement(&DAT_011f4400);
+        InterlockedDecrement(&(*reinterpret_cast<long *>(&::NiRefObject::ms_lObjectCount)));
     }
     long refs;
     int unk08;
@@ -479,7 +477,7 @@ FUN_00e87690::~FUN_00e87690() throw()
             if ((p->flags & 0xf0000000) == 0x40000000)
             {
                 S_00e87690_Str k(p->name);
-                RemoveGlobalConstant(&k.h);
+                ::RemoveGlobalConstant((const ::NiFixedString *)(char **)(&k.h));
             }
             if (!InterlockedDecrement(&p->refs))
                 p->v1();
@@ -493,7 +491,7 @@ FUN_00e87690::~FUN_00e87690() throw()
         {
             InterlockedIncrement(&p->refs);
             if ((p->flags & 0xf0000000) == 0x40000000)
-                RemoveGlobalConstant(&p->name.h);
+                ::RemoveGlobalConstant((const ::NiFixedString *)(char **)(&p->name.h));
             if (!InterlockedDecrement(&p->refs))
                 p->v1();
         }
@@ -515,7 +513,6 @@ struct NiRefObj
 
 struct FUN_00e87800_obj
 {
-    int FUN_00e87800(NiRefObj** appObj);
 };
 
 struct FUN_00e878c0_cls
@@ -537,29 +534,6 @@ struct FUN_00e878c0_cls
 
     int FUN_00e878c0(NiRefObj* apObj);
 };
-
-// Holds a reference on apObj while calling FUN_00e87800 on the sub-object at unk0c; sets m_34 to 0x30 if it returns -1, and returns m_34.
-// @fnv 0x00e878c0
-int FUN_00e878c0_cls::FUN_00e878c0(NiRefObj* apObj)
-{
-    NiRefObj* pObj = apObj;
-    *(NiRefObj* volatile*)&apObj = pObj;
-    if (pObj != 0)
-    {
-        InterlockedIncrement(&pObj->m_iObjectReferenceCount);
-    }
-    FUN_00e87800_obj* sub = (FUN_00e87800_obj*)&unk0c;
-    bool failed = sub->FUN_00e87800(&apObj) == -1;
-    if (pObj != 0 && InterlockedDecrement(&pObj->m_iObjectReferenceCount) == 0)
-    {
-        pObj->v04();
-    }
-    if (failed)
-    {
-        m_34 = 0x30;
-    }
-    return m_34;
-}
 
 namespace fnv_00e87920 {
 struct NiRefObj
@@ -649,7 +623,7 @@ struct TextureMapTransform
 
     static void* operator new(size_t size) throw()
     {
-        return DAT_011f6238.Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }
     TextureMapTransform(const NiPoint2& kTranslate, float m_fRotation, const NiPoint2& kScale,
                        const NiPoint2& kTargetCenter, int eMethod) throw();
@@ -899,7 +873,6 @@ template <class T> struct S_00c1e9a0_Ptr
 typedef S_00c1e9a0_Ptr<S_00c1e9a0_RefObject> S_00c1e9a0_RefPtr;
 
 S_00c1e9a0_RefPtr* FUN_00c1d740(unsigned int ItemUpdateArray);
-void ReleaseObjectArray(S_00c1e9a0_RefPtr* pBase);
 
 struct S_00c1e9a0_Array
 {
@@ -948,28 +921,21 @@ void S_00c1e9a0_Array::FUN_00c1e9a0(unsigned int uiMaxSize)
     {
         m_pBase = 0;
     }
-    ReleaseObjectArray(pSaveBase);
+    ::ReleaseObjectArray((::Obj00a47600 **)(pSaveBase));
 }
 
-void __cdecl FUN_00aa1460(void* apSelf, unsigned int auiSize);
-void __cdecl RemoveGlobalConstant(void** appRef);
 
 struct FUN_00e7de30_cls
 {
-    void FUN_00e7de30();
 };
 
 struct FUN_00e891f0_cls
 {
-    void FUN_00e891f0();
-    void ClearFields();
 };
 
 struct GlobalRefOwner
 {
-    void FindOrAdd(void* apRef);
 };
-extern GlobalRefOwner* DAT_0126f6cc;
 
 struct RefHolder
 {
@@ -1018,15 +984,15 @@ void FUN_00e7ecd0_cls::FUN_00e7ecd0()
 
     if (m_5f == 0)
     {
-        ((FUN_00e7de30_cls*)this)->FUN_00e7de30();
+        reinterpret_cast<::This00e7de30 *>((((FUN_00e7de30_cls*)this)))->FUN_00e7de30();
         FUN_00aa1460(this, 0x68);
         return;
     }
 
     FUN_00e891f0_cls* obj = m_10;
     m_08 = 0;
-    obj->FUN_00e891f0();
-    m_10->ClearFields();
+    reinterpret_cast<::FUN_00e891f0_Class *>((obj))->FUN_00e891f0();
+    ::ClearFields((void *)(m_10));
 
     RefHolder* holder = m_18;
     if (holder != 0)
@@ -1036,7 +1002,7 @@ void FUN_00e7ecd0_cls::FUN_00e7ecd0()
             InterlockedIncrement((LONG*)((char*)holder->m_08 - 8));
         }
         ref = holder->m_08;
-        RemoveGlobalConstant(&ref);
+        ::RemoveGlobalConstant((const ::NiFixedString *)(void **)(&ref));
         if (ref != DAT_0109b220)
         {
             InterlockedDecrement((LONG*)((char*)ref - 8));
@@ -1051,7 +1017,7 @@ void FUN_00e7ecd0_cls::FUN_00e7ecd0()
     m_5e = 0;
 
     ref = this;
-    DAT_0126f6cc->FindOrAdd(&ref);
+    reinterpret_cast<::ActiveArray *>(((*reinterpret_cast<::GlobalRefOwner * *>(&::DAT_0126f6cc))))->FindOrAdd((*(void *const *)(&ref)));
 }
 
 struct S_00e87510_RefObject
@@ -1104,8 +1070,6 @@ struct S_00e87510_Ptr
     }
 };
 
-S_00e87510_Ptr* AllocateGOArray(unsigned int auiCount);
-void __cdecl DeleteNiNodePointerArray(S_00e87510_Ptr* pArray);
 
 struct S_00e87510_Array
 {
@@ -1144,7 +1108,7 @@ void S_00e87510_Array::Resize(unsigned int uiMaxSize)
     m_usMaxSize = (unsigned short)uiMaxSize;
     if (uiMaxSize > 0)
     {
-        m_pBase = AllocateGOArray(m_usMaxSize);
+        m_pBase = ((::S_00e87510_Ptr *)(::AllocateGOArray(m_usMaxSize)));
         for (i = 0; i < m_usSize; i++)
             m_pBase[i] = pSaveBase[i];
         for (i = m_usSize; i < m_usMaxSize; i++)
@@ -1155,7 +1119,7 @@ void S_00e87510_Array::Resize(unsigned int uiMaxSize)
         m_pBase = 0;
     }
 
-    DeleteNiNodePointerArray(pSaveBase);
+    ::DeleteNiNodePointerArray((::NiPointer< ::NiNode> *)(pSaveBase));
 }
 
 struct S_00e98aa0_RefObj
@@ -1277,13 +1241,12 @@ class NiTArrayX
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
 
-    void FUN_00c1e9a0(unsigned int uiMaxSize);
     void Set(unsigned int uiIndex, const ElemPtr& element);
 
     unsigned int SetAtGrow(unsigned int uiIndex, const ElemPtr& element)
     {
         if (uiIndex >= m_usMaxSize)
-            FUN_00c1e9a0(uiIndex + m_usGrowBy);
+            reinterpret_cast<::S_00c1e9a0_Array *>(this)->FUN_00c1e9a0(uiIndex + m_usGrowBy);
         Set(uiIndex, element);
         return uiIndex;
     }
@@ -1377,6 +1340,13 @@ struct MaterialUploadState
     bool dirty;
     void FUN_00e94050(MaterialDeviceView* device);
 };
+// Forwards p to the shader factory at offset 0xf8, then passes the pointer at 0x10f8 to its second method.
+// @fnv 0x00e87980
+void NiD3DRenderState::FUN_00e87980(void* apData)
+{
+    ((NiD3DShaderFactory*)((char*)this + 0xf8))->UpdateShaderMaterialCache(apData);
+    reinterpret_cast<::MaterialUploadState *>((((NiD3DShaderFactory*)((char*)this + 0xf8))))->FUN_00e94050((::MaterialDeviceView *)(*(void**)((char*)this + 0x10f8)));
+}
 
 // @fnv 0x00e94050
 void MaterialUploadState::FUN_00e94050(MaterialDeviceView* device)
@@ -1397,10 +1367,30 @@ struct ShaderConstantEntryArray
     unsigned short effective;
     unsigned short grow;
 
-    void Resize(unsigned int newCapacity);
-    void FUN_00e86f40(unsigned int index, void* element);
     unsigned int FUN_00e87800(const ElemPtr& element);
 };
+// Holds a reference on apObj while calling FUN_00e87800 on the sub-object at unk0c; sets m_34 to 0x30 if it returns -1, and returns m_34.
+// @fnv 0x00e878c0
+int FUN_00e878c0_cls::FUN_00e878c0(NiRefObj* apObj)
+{
+    NiRefObj* pObj = apObj;
+    *(NiRefObj* volatile*)&apObj = pObj;
+    if (pObj != 0)
+    {
+        InterlockedIncrement(&pObj->m_iObjectReferenceCount);
+    }
+    FUN_00e87800_obj* sub = (FUN_00e87800_obj*)&unk0c;
+    bool failed = ((int)(reinterpret_cast<::ShaderConstantEntryArray *>((sub))->FUN_00e87800((*(const ::NiPtrX< ::NiRefObjectX> *)(&apObj))))) == -1;
+    if (pObj != 0 && InterlockedDecrement(&pObj->m_iObjectReferenceCount) == 0)
+    {
+        pObj->v04();
+    }
+    if (failed)
+    {
+        m_34 = 0x30;
+    }
+    return m_34;
+}
 
 // Stores element in the first null slot, else grows the array if full and appends it, returning its index; returns -1 for a null element.
 // @fnv 0x00e87800
@@ -1419,7 +1409,7 @@ unsigned int ShaderConstantEntryArray::FUN_00e87800(const ElemPtr& element)
     }
     unsigned int oldCount = count;
     if (oldCount >= capacity)
-        Resize(grow + oldCount);
-    FUN_00e86f40(oldCount, (void*)&element);
+        reinterpret_cast<::S_00e87510_Array *>(this)->Resize(grow + oldCount);
+    reinterpret_cast<::S_00e86f40_Arr *>(this)->FUN_00e86f40(oldCount, (*(const ::NiPointer< ::NiShaderConstantMapEntry> *)((void*)&element)));
     return oldCount;
 }

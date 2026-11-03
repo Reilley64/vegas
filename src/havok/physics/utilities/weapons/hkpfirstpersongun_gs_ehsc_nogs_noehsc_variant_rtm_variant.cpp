@@ -7,6 +7,9 @@
 // to their real unit once identified.
 // src/havok/physics/utilities/weapons/hkpfirstpersongun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpfirstpersongun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_0104d000.h"
 #include "havok/hkpFirstPersonGun.h"
 struct FUN_00e463b0_cls
 {
@@ -85,7 +88,6 @@ struct FUN_00c85750_Obj
     int unk0C;
     VirtualObj* unk10;
 };
-FUN_00c85750_Obj* __cdecl FUN_00c85750();
 class FUN_00e46750_Obj : public hkpFirstPersonGun
 {
   public:
@@ -95,8 +97,6 @@ class FUN_00e46750_Obj : public hkpFirstPersonGun
 
 #include <xmmintrin.h>
 
-extern float DAT_0104da4c;
-extern double DAT_01011598;
 
 static __inline __m128 splat(const float* p)
 {
@@ -107,7 +107,7 @@ static __inline __m128 splat(const float* p)
 // @fnv 0x00e463d0
 void __cdecl FUN_00e463d0(const hkVector4& from, const hkVector4& to, const hkVector4& dir, float t, hkVector4& out)
 {
-    float eps = DAT_0104da4c;
+    float eps = ::DAT_0104da4c;
     float temp;
 
     __m128 a = *(const __m128*)&from;

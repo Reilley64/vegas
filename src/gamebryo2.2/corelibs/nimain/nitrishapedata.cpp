@@ -1,5 +1,23 @@
 // gamebryo2.2/corelibs/nimain/nitrishapedata.cpp: Obj, Blk, HolderA, HolderB and more (17 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/FUN_00a8a990_shell.h"
+#include "fnv/decl/FUN_00a8aa30_shell.h"
+#include "fnv/decl/FUN_00a8aa70_shell.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/S_00a8a9c0.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109d000.h"
+#include "fnv/symbols_010b9000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
 #include "nitrishapedata_decls.h"
 
 void __fastcall FUN_00a7b8c0(void*);
@@ -16,11 +34,10 @@ void* __fastcall FUN_00a7b920(void* pThis, int, unsigned int flags)
 {
     FUN_00a7b8c0(pThis);
     if (flags & 1)
-        NiMemObject::operator delete(pThis, 0x58);
+        ::FUN_00aa1460(pThis, 0x58);
     return pThis;
 }
 
-void __cdecl _NiFreeAlias(void*);
 
 struct FUN_00a7b6c0_T
 {
@@ -35,7 +52,7 @@ struct FUN_00a7b6c0_T
 void __fastcall FUN_00a7b6c0(FUN_00a7b6c0_T* self, int, unsigned short ausValue, unsigned short* apusBuffer)
 {
     if (apusBuffer != self->c && self->c)
-        _NiFreeAlias(self->c);
+        ::FUN_00aa10f0(self->c);
     self->a = ausValue;
     self->c = apusBuffer;
     self->b = ausValue * 3;
@@ -92,12 +109,11 @@ void __fastcall FUN_00a7b760(FUN_00a7b760_T* self, int, unsigned short* p1, unsi
     *p4 = self->a * 3;
 }
 
-extern const char* const g_011f5af4_arg1;
 
 // @fnv 0x00a7b860
 const char* const* __fastcall FUN_00a7b860(void* self, int)
 {
-    return &g_011f5af4_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_011f4a88));
 }
 
 struct FUN_00a7b870_T
@@ -114,11 +130,8 @@ FUN_00a7b870_T* __fastcall FUN_00a7b870(FUN_00a7b870_T* self, int)
     return self;
 }
 
-void __cdecl _NiFreeAlias(void*);
-extern MemoryManager g_memoryManager;
 struct MemoryManagerDealloc
 {
-    void Deallocate(void*);
 };
 
 struct Blk
@@ -129,7 +142,7 @@ struct Blk
     Blk* FreeBlock(unsigned int flags);
     static void operator delete(void* p)
     {
-        reinterpret_cast<MemoryManagerDealloc&>(g_memoryManager).Deallocate(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&(reinterpret_cast<MemoryManagerDealloc&>(::g_memoryManager)))->FUN_00aa4060(p);
     }
 };
 
@@ -137,7 +150,7 @@ struct Blk
 // @fnv 0x00a7b880
 Blk* Blk::FreeBlock(unsigned int flags)
 {
-    _NiFreeAlias(data);
+    ::FUN_00aa10f0(data);
     if (next)
         next->FreeBlock(1);
     if (flags & 1)
@@ -146,12 +159,8 @@ Blk* Blk::FreeBlock(unsigned int flags)
 }
 
 namespace fnv_00a7b8c0 {
-void __cdecl _NiFreeAlias(void*);
-extern MemoryManager g_memoryManager;
-extern void* DAT_0109dac4[];
 struct MemoryManagerDealloc
 {
-    void Deallocate(void*);
 };
 
 struct Blk
@@ -159,22 +168,20 @@ struct Blk
     void* data;
     char pad[0xc];
     Blk* next;
-    Blk* FreeBlock(unsigned int flags);
     ~Blk()
     {
-        _NiFreeAlias(data);
+        ::FUN_00aa10f0(data);
         if (next)
-            next->FreeBlock(1);
+            reinterpret_cast<::Blk *>((next))->FreeBlock(1);
     }
     static void operator delete(void* p)
     {
-        reinterpret_cast<MemoryManagerDealloc&>(g_memoryManager).Deallocate(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&(reinterpret_cast<MemoryManagerDealloc&>(::g_memoryManager)))->FUN_00aa4060(p);
     }
 };
 
 struct FUN_00a8a990_S
 {
-    void FUN_00a8a990();
 };
 
 struct Obj : FUN_00a8a990_S
@@ -192,20 +199,16 @@ struct Obj : FUN_00a8a990_S
 // @fnv 0x00a7b8c0
 void Obj::FUN_00a7b8c0()
 {
-    vtbl = DAT_0109dac4;
+    vtbl = (*reinterpret_cast<void * (*)[]>(&::DAT_0109dac4));
     if (list)
-        _NiFreeAlias(list);
+        ::FUN_00aa10f0(list);
     if (shared)
         delete shared;
-    reinterpret_cast<MemoryManagerDealloc&>(g_memoryManager).Deallocate(tail);
-    FUN_00a8a990();
+    reinterpret_cast<::FNV_MemoryManager *>(&(reinterpret_cast<MemoryManagerDealloc&>(::g_memoryManager)))->FUN_00aa4060(tail);
+    reinterpret_cast<::FUN_00a8a990_shell *>(this)->FUN_00a8a990();
 }
 }  // namespace fnv_00a7b8c0
 
-extern const char* const g_011f5af4_arg1;
-char* __cdecl FUN_00a7d330(const char*);
-char* __cdecl FUN_00a7d510(const char*, unsigned int);
-char* __cdecl FUN_00a7d5a0(const char*, void*);
 
 struct StrArr
 {
@@ -214,14 +217,12 @@ struct StrArr
     unsigned short count;
     unsigned short pad2;
     unsigned short growBy;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
     void Add(char* e)
     {
         unsigned int i = count;
         if (i >= size)
-            SetSize(i + growBy);
-        SetAt(i, e);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(i + growBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(i, e);
     }
 };
 
@@ -243,7 +244,7 @@ struct Obj : Base1
 void Obj::AppendTriListInfo(StrArr* pStrArr)
 {
     AppendTrianglesInfo(pStrArr);
-    pStrArr->Add(FUN_00a7d330(g_011f5af4_arg1));
+    pStrArr->Add(FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f4a88))));
     pStrArr->Add(FUN_00a7d510("m_uiTriListLength", len));
     pStrArr->Add(FUN_00a7d5a0("m_pusTriList", list));
 }
@@ -302,7 +303,7 @@ struct SharedNormalArrayS
 void FUN_00a7bbe0_shell::FUN_00a7bbe0(NiStream* kStream)
 {
     char* p = (char*)this;
-    NiTriBasedGeomData::SaveBinary(*kStream);
+    reinterpret_cast<::FUN_00a8aa70_shell *>(this)->FUN_00a8aa70((::NiStream *)&(*kStream));
     unsigned int& uiTriListLength = *(unsigned int*)(p + 0x44);
     unsigned short*& pusTriList = *(unsigned short**)(p + 0x48);
     SharedNormalArrayS*& pkSharedNormals = *(SharedNormalArrayS**)(p + 0x4c);
@@ -338,8 +339,6 @@ struct FUN_00a7b940_shell : public NiTriShapeData
     void FUN_00a7b940(NiStream*);
 };
 
-void* NiMalloc(unsigned int) throw();
-extern MemoryManager g_memoryManager;
 
 struct NiBinaryStreamView
 {
@@ -355,7 +354,7 @@ struct FUN_00a7b870
     FUN_00a7b870() throw();
     static void* operator new[](unsigned int uiSize)
     {
-        return g_memoryManager.Allocate(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(uiSize);
     }
     void SetArray(unsigned short m_usPassCountLocal, unsigned short* pusArray)
     {
@@ -381,11 +380,11 @@ struct IndexBufferBlock
     IndexBufferBlock* m_pkNext;
     static void* operator new(unsigned int uiSize)
     {
-        return g_memoryManager.Allocate(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(uiSize);
     }
     IndexBufferBlock(unsigned int uiSize)
     {
-        m_pIndices = (unsigned short*)NiMalloc(uiSize * 2);
+        m_pIndices = (unsigned short*)::FUN_00aa1070(uiSize * 2);
         m_pCurrentIndex = m_pIndices;
         m_uiIndexCapacity = uiSize;
         m_uiUsedIndexCount = uiSize;
@@ -423,7 +422,7 @@ template <class T> inline void ReadBinaryValue(NiBinaryStreamView& kStream, T* p
 void FUN_00a7b940_shell::FUN_00a7b940(NiStream* kStream)
 {
 
-    ((NiTriBasedGeomData*)this)->LoadBinary(*(::NiStream*)kStream);
+    reinterpret_cast<::FUN_00a8aa30_shell *>((((NiTriBasedGeomData*)this)))->FUN_00a8aa30((::NiStream *)&(*(::NiStream*)kStream));
 
     ReadBinaryValue(*GetIstr(kStream), (*(unsigned int*)((char*)this + 0x44)));
 
@@ -436,7 +435,7 @@ void FUN_00a7b940_shell::FUN_00a7b940(NiStream* kStream)
     if (bHasList && (*(unsigned int*)((char*)this + 0x44)) > 0)
     {
         (*(unsigned short**)((char*)this + 0x48)) =
-            (unsigned short*)NiMalloc((*(unsigned int*)((char*)this + 0x44)) * 2);
+            (unsigned short*)::FUN_00aa1070((*(unsigned int*)((char*)this + 0x44)) * 2);
         ReadBinaryValue(*GetIstr(kStream), (*(unsigned short**)((char*)this + 0x48)),
                         (*(unsigned int*)((char*)this + 0x44)));
     }
@@ -565,7 +564,6 @@ FUN_00a7b690::FUN_00a7b690() : m_p44(0), m_p48(0), m_p4c(0), m_us50(0), m_p54(0)
 
 struct BaseA7b7e0
 {
-    bool MatchesTriangleCount(const void* pkOther);
 };
 struct NameA7b7e0 : BaseA7b7e0
 {
@@ -579,7 +577,7 @@ struct NameA7b7e0 : BaseA7b7e0
 // @fnv 0x00a7b7e0
 bool NameA7b7e0::FUN_00a7b7e0(const NameA7b7e0* pkOther)
 {
-    if (!BaseA7b7e0::MatchesTriangleCount(pkOther))
+    if (!((bool)(reinterpret_cast<::S_00a8a9c0 *>(this)->MatchesTriangleCount((const ::S_00a8a9c0_Base *)(pkOther)))))
         return false;
     if (m_uiNameHash != pkOther->m_uiNameHash)
         return false;
@@ -614,15 +612,12 @@ bool NameA7b7e0::FUN_00a7b7e0(const NameA7b7e0* pkOther)
 namespace fnv_00ba3d30 {
 extern "C" char DAT_010b7fe4;
 
-void __cdecl FUN_00aa10f0(void*);
 
 class MemoryManagerDealloc
 {
   public:
-    void __thiscall FUN_00aa4060(void* object);
 };
 
-extern "C" MemoryManagerDealloc DAT_011f6238;
 
 class HolderA
 {
@@ -639,7 +634,7 @@ class HolderA
 HolderA::~HolderA()
 {
     void* memory = m_pData;
-    FUN_00aa10f0(memory);
+    ::FUN_00aa10f0(memory);
 }
 
 class HolderB
@@ -657,7 +652,7 @@ class HolderB
 HolderB::~HolderB()
 {
     void* memory = m_pData;
-    FUN_00aa10f0(memory);
+    ::FUN_00aa10f0(memory);
 }
 
 class HolderC
@@ -675,7 +670,7 @@ class HolderC
 HolderC::~HolderC()
 {
     void* memory = m_pData;
-    FUN_00aa10f0(memory);
+    ::FUN_00aa10f0(memory);
 }
 
 class HolderArray
@@ -687,7 +682,6 @@ class HolderArray
     unsigned short m_usUnknown0C;
     unsigned short m_usUnknown0E;
 
-    void __thiscall FUN_00ba3aa0(unsigned int index, void*& value);
 
     virtual ~HolderArray();
 };
@@ -695,10 +689,9 @@ class HolderArray
 HolderArray::~HolderArray()
 {
     void* memory = m_pData;
-    FUN_00aa10f0(memory);
+    ::FUN_00aa10f0(memory);
 }
 
-extern int DAT_010b9d24;
 struct PlainHolder
 {
     void* vtable;
@@ -707,8 +700,8 @@ struct PlainHolder
     void Release()
     {
         void* memory = m_pData;
-        vtable = &DAT_010b9d24;
-        FUN_00aa10f0(memory);
+        vtable = &::DAT_010b9d24;
+        ::FUN_00aa10f0(memory);
     }
 };
 
@@ -735,9 +728,9 @@ FUN_00ba3d30::~FUN_00ba3d30()
         if (((void**)m_holder38.m_pData)[index])
         {
             void* element = ((void**)m_holder38.m_pData)[index];
-            DAT_011f6238.FUN_00aa4060(element);
+            reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00ba3d30::MemoryManagerDealloc *>(&::g_memoryManager))))->FUN_00aa4060(element);
             void* cleared = 0;
-            m_holder38.FUN_00ba3aa0(index, cleared);
+            reinterpret_cast<::FUN_00a41520_cls *>(&(m_holder38))->FUN_00ba3aa0(index, (::KeyPair **)&(cleared));
         }
     }
     m_holder48.Release();

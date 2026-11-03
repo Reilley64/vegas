@@ -2,6 +2,16 @@
 // src/havok/physics/collide/dispatch/hkpcollisiondispatcher.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/dispatch/hkpcollisiondispatcher.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00cfb000.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_00d10000.h"
+#include "fnv/symbols_00d92000.h"
+#include "fnv/symbols_0102e000.h"
 struct FUN_00cfb1e0
 {
     void Set(bool b);
@@ -65,8 +75,6 @@ void Owner::FreeBuffers()
 
 struct S_00cfb1f0_Ref
 {
-    void FUN_00c90510();
-    void FUN_00c905b0();
 };
 
 struct S_00cfb1f0_Obj
@@ -81,18 +89,16 @@ struct S_00cfb1f0_Obj
 // @fnv 0x00cfb1f0
 void S_00cfb1f0_Obj::SetSlotPair(S_00cfb1f0_Ref* pRef, int iIndexA, int iIndexB)
 {
-    pRef->FUN_00c90510();
-    m_slot[iIndexA + iIndexB * 8]->FUN_00c905b0();
+    reinterpret_cast<::FUN_00c90510_class *>((pRef))->FUN_00c90510();
+    reinterpret_cast<::hkReferencedObjectC905 *>((m_slot[iIndexA + iIndexB * 8]))->FUN_00c905b0();
     m_slot[iIndexA + iIndexB * 8] = pRef;
-    pRef->FUN_00c90510();
-    m_slot[iIndexB + iIndexA * 8]->FUN_00c905b0();
+    reinterpret_cast<::FUN_00c90510_class *>((pRef))->FUN_00c90510();
+    reinterpret_cast<::hkReferencedObjectC905 *>((m_slot[iIndexB + iIndexA * 8]))->FUN_00c905b0();
     m_slot[iIndexB + iIndexA * 8] = pRef;
 }
 
 struct CFB240ContactMgrFactory
 {
-    void RetainReference() const;
-    void removeReference() const;
 };
 
 struct CFB240Dispatcher
@@ -111,18 +117,17 @@ void CFB240Dispatcher::SetContactMgrFactory(CFB240ContactMgrFactory* apFactory, 
 {
     for (int i = 0; i < 8; i++)
     {
-        apFactory->RetainReference();
-        m_apContactMgrFactoriesByResponsePair[i][aiResponseIndex]->removeReference();
+        reinterpret_cast<::FUN_00c90510_class *>((void *)(apFactory))->FUN_00c90510();
+        reinterpret_cast<::hkReferencedObjectC905 *>((void *)(m_apContactMgrFactoriesByResponsePair[i][aiResponseIndex]))->FUN_00c905b0();
         m_apContactMgrFactoriesByResponsePair[i][aiResponseIndex] = apFactory;
 
-        apFactory->RetainReference();
-        m_apContactMgrFactoriesByResponsePair[aiResponseIndex][i]->removeReference();
+        reinterpret_cast<::FUN_00c90510_class *>((void *)(apFactory))->FUN_00c90510();
+        reinterpret_cast<::hkReferencedObjectC905 *>((void *)(m_apContactMgrFactoriesByResponsePair[aiResponseIndex][i]))->FUN_00c905b0();
         m_apContactMgrFactoriesByResponsePair[aiResponseIndex][i] = apFactory;
     }
 }
 
 const char* GetHavokShapeTypeName(int type);
-int Vsnprintf(char* buf, int size, const char* fmt, ...);
 
 struct IntegerPair
 {
@@ -211,7 +216,7 @@ void hkpCollisionDispatcher::RegisterAgentType(signed char (*table)[32], signed 
             if (entries)
             {
                 CollisionAgentEntry& e = entries[a][b];
-                if (m_debugWarnings && priority > e.m_priority)
+                if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(m_debugWarnings))->FUN_005609f0() && priority > e.m_priority)
                 {
                     const char* entryNameA = GetHavokShapeTypeName(e.m_iAgentTypeA);
                     const char* entryNameB = GetHavokShapeTypeName(e.m_iAgentTypeB);
@@ -272,7 +277,6 @@ struct FUN_00cfbbe0_rec
 class FUN_00cfbbe0_cls
 {
   public:
-    void __thiscall RegisterAgentType(void* p, int flag, int a2, int a3, int a4, int a5, int h, int g);
     void __thiscall FUN_00cfbbe0(FUN_00cfbbe0_rec* a1, int a2, int a3);
 };
 
@@ -291,12 +295,12 @@ void FUN_00cfbbe0_cls::FUN_00cfbbe0(FUN_00cfbbe0_rec* pRecord, int a2, int a3)
     slot->unk0c = pRecord->unk0c;
     slot->unk10 = pRecord->unk10;
 
-    RegisterAgentType(base + 0xeb0, 1, a2, a3, a2, a3, (int)o->unk1e38, 0);
-    RegisterAgentType(base + 0x1a0, *(int*)(base + 0x190), a2, a3, a2, a3, (int)o->unk1e30, 0);
+    reinterpret_cast<::hkpCollisionDispatcher *>(this)->RegisterAgentType((signed char (*)[32])(void *)(base + 0xeb0), 1, a2, a3, a2, a3, (CollisionAgentEntry (*)[32])((int)o->unk1e38), 0);
+    reinterpret_cast<::hkpCollisionDispatcher *>(this)->RegisterAgentType((signed char (*)[32])(void *)(base + 0x1a0), *(int*)(base + 0x190), a2, a3, a2, a3, (CollisionAgentEntry (*)[32])((int)o->unk1e30), 0);
     if (((unsigned char*)pRecord)[0x11] != 0)
     {
-        RegisterAgentType(base + 0x12b0, 1, a2, a3, a2, a3, (int)o->unk1e3c, 0);
-        RegisterAgentType(base + 0x5a0, *(int*)(base + 0x190), a2, a3, a2, a3, (int)o->unk1e34, 0);
+        reinterpret_cast<::hkpCollisionDispatcher *>(this)->RegisterAgentType((signed char (*)[32])(void *)(base + 0x12b0), 1, a2, a3, a2, a3, (CollisionAgentEntry (*)[32])((int)o->unk1e3c), 0);
+        reinterpret_cast<::hkpCollisionDispatcher *>(this)->RegisterAgentType((signed char (*)[32])(void *)(base + 0x5a0), *(int*)(base + 0x190), a2, a3, a2, a3, (CollisionAgentEntry (*)[32])((int)o->unk1e34), 0);
     }
     (*(int*)(base + 0x190))++;
 }
@@ -332,7 +336,6 @@ struct SpawnEntry
 struct FUN_00cfbcc0_cls
 {
     void AddSpawnEntry(SpawnRequest* req, int a, int b);
-    void RegisterAgentType(char* p, int idx, int a, int b, int c, int d, int e, int f);
 };
 
 // @fnv 0x00cfbcc0
@@ -348,12 +351,12 @@ void FUN_00cfbcc0_cls::AddSpawnEntry(SpawnRequest* pRequest, int a, int b)
     entry->unk10 = pRequest->unk10;
 
     int tail = *(int*)(self + 0x1e30);
-    RegisterAgentType(self + 0x1a0, *(int*)(self + 0x190), a, b, a, b, tail, 0);
+    reinterpret_cast<::hkpCollisionDispatcher *>(this)->RegisterAgentType((signed char (*)[32])(char *)(self + 0x1a0), *(int*)(self + 0x190), a, b, a, b, (CollisionAgentEntry (*)[32])(tail), 0);
 
     if (pRequest->unk10b1 != 0)
     {
         int tail2 = *(int*)(self + 0x1e34);
-        RegisterAgentType(self + 0x5a0, *(int*)(self + 0x190), a, b, a, b, tail2, 0);
+        reinterpret_cast<::hkpCollisionDispatcher *>(this)->RegisterAgentType((signed char (*)[32])(char *)(self + 0x5a0), *(int*)(self + 0x190), a, b, a, b, (CollisionAgentEntry (*)[32])(tail2), 0);
     }
 
     ++*(int*)(self + 0x190);
@@ -395,7 +398,6 @@ struct Ent
 
 struct FUN_00cfbd60_cls
 {
-    void RegisterAgentType(void* p, int i, int a, int b, int c, int d, int e, int f);
     int AddEntry(SrcRec* a1, int a2, int a3);
 };
 
@@ -410,12 +412,12 @@ int FUN_00cfbd60_cls::AddEntry(SrcRec* pSrc, int a2, int a3)
     {
         e.u40 = 2;
         ((Ent*)((char*)this + 0x16b0))[(*(int*)((char*)this + 0xea0))] = e;
-        RegisterAgentType(((char*)this + 0xeb0), (*(int*)((char*)this + 0xea0)), a3, a2, a3, a2,
-                          (*(int*)((char*)this + 0x1e38)), 0);
+        reinterpret_cast<::hkpCollisionDispatcher *>(this)->RegisterAgentType((signed char (*)[32])(void *)(((char*)this + 0xeb0)), (*(int*)((char*)this + 0xea0)), a3, a2, a3, a2,
+                          (CollisionAgentEntry (*)[32])((*(int*)((char*)this + 0x1e38))), 0);
         if (e.src.b30 != 0)
         {
-            RegisterAgentType(((char*)this + 0x12b0), (*(int*)((char*)this + 0xea0)), a3, a2, a3, a2,
-                              (*(int*)((char*)this + 0x1e3c)), 0);
+            reinterpret_cast<::hkpCollisionDispatcher *>(this)->RegisterAgentType((signed char (*)[32])(void *)(((char*)this + 0x12b0)), (*(int*)((char*)this + 0xea0)), a3, a2, a3, a2,
+                              (CollisionAgentEntry (*)[32])((*(int*)((char*)this + 0x1e3c))), 0);
         }
         (*(int*)((char*)this + 0xea0))++;
         e.u40 = 1;
@@ -431,15 +433,14 @@ int FUN_00cfbd60_cls::AddEntry(SrcRec* pSrc, int a2, int a3)
     {
         idx = (*(int*)((char*)this + 0xea0)) - 1;
     }
-    RegisterAgentType(((char*)this + 0xeb0), idx, a2, a3, a2, a3, (*(int*)((char*)this + 0x1e38)), 0);
+    reinterpret_cast<::hkpCollisionDispatcher *>(this)->RegisterAgentType((signed char (*)[32])(void *)(((char*)this + 0xeb0)), idx, a2, a3, a2, a3, (CollisionAgentEntry (*)[32])((*(int*)((char*)this + 0x1e38))), 0);
     if (e.src.b30 != 0)
     {
-        RegisterAgentType(((char*)this + 0x12b0), idx, a2, a3, a2, a3, (*(int*)((char*)this + 0x1e3c)), 0);
+        reinterpret_cast<::hkpCollisionDispatcher *>(this)->RegisterAgentType((signed char (*)[32])(void *)(((char*)this + 0x12b0)), idx, a2, a3, a2, a3, (CollisionAgentEntry (*)[32])((*(int*)((char*)this + 0x1e3c))), 0);
     }
     return idx;
 }
 
-int __cdecl FUN_00d06f80(const void* p, int numBytes);
 
 struct CFBED0ShapeInheritance
 {
@@ -479,7 +480,7 @@ struct CFBED0StatisticsCollector
     {
         if ((array.m_iCapacityState & 0x80000000) == 0 || m_countDontDeallocate)
         {
-            int allocated = FUN_00d06f80(array.m_data, array.getCapacity() * sizeof(CFBED0ShapeInheritance));
+            int allocated = ::fnv_00d06f80::FUN_00d06f80((const char *)(array.m_data), array.getCapacity() * sizeof(CFBED0ShapeInheritance));
             AddMemoryChunk(3, fieldName, array.m_data, array.m_iElementCount * sizeof(CFBED0ShapeInheritance), allocated);
         }
     }
@@ -2387,7 +2388,6 @@ struct CFBF60MemoryRouter
 };
 
 extern "C" CFBF60MemoryRouter& __cdecl CFBF60GetMemoryRouter();
-void __cdecl ResizeAudioStream(void* alloc, void* array, int sizeElem);
 
 struct CFBF60ShapeInheritance
 {
@@ -2420,7 +2420,7 @@ struct CFBF60InheritanceArray
     {
         CFBF60Allocator& alloc = CFBF60GetMemoryRouter().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&alloc, this, sizeof(CFBF60ShapeInheritance));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(CFBF60ShapeInheritance));
         return m_data[m_iElementCount++];
     }
 };
@@ -4358,7 +4358,6 @@ struct CFBF60Dispatcher
     int unk1E20;
     CFBF60InheritanceArray m_pShapeInheritance;
 
-    void updateShapeInheritance(int primaryType, int alternateType, bool recurse);
     void FUN_00cfbf60(int primaryType, int alternateType);
 };
 
@@ -4375,17 +4374,15 @@ void CFBF60Dispatcher::FUN_00cfbf60(int primaryType, int alternateType)
             i--;
         }
     }
-    updateShapeInheritance(primaryType, alternateType, false);
+    reinterpret_cast<::FUN_00cfb510_cls *>(this)->MergeBitsRecursive(primaryType, alternateType, false);
     CFBF60ShapeInheritance& si = m_pShapeInheritance.AllocatePair();
     si.m_iFirst = alternateType;
     si.m_iSecond = primaryType;
 }
 
 extern "C" int DAT_010cc7c0;
-extern "C" int DAT_0102e388;
 struct hkReferencedObject
 {
-    void removeReference();
 };
 struct CleanupAllocator
 {
@@ -4422,7 +4419,7 @@ void Cleanup::Destroy()
         for (int c = 0; c < 8; ++c)
         {
             if (grid[r][c])
-                grid[r][c]->removeReference();
+                reinterpret_cast<::hkReferencedObjectC905 *>((grid[r][c]))->FUN_00c905b0();
         }
     CleanupBuffer& buffer = *reinterpret_cast<CleanupBuffer*>(reinterpret_cast<char*>(this) + 0x1e24);
     Holder* audio = _FUN_00c85750();
@@ -4433,14 +4430,13 @@ void Cleanup::Destroy()
         allocator->Free(buffer.data, (flags & 0x3fffffffu) * 8u);
     buffer.data = 0;
     buffer.capacityFlags = 0x80000000u;
-    *reinterpret_cast<int**>(this) = &DAT_0102e388;
+    *reinterpret_cast<int**>(this) = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 extern "C" int DAT_010cc7c0;
 
 struct RefCounted
 {
-    void AddRef();
 };
 
 template <class T> static inline volatile T& At(void* base, unsigned int off)
@@ -4454,92 +4450,12 @@ struct FUN_00cfc030_cls
     unsigned short unk04;
     unsigned short unk06;
     unsigned int unk08;
-    void Reset_cfb080();
     FUN_00cfc030_cls* FUN_00cfc030(unsigned int a1, unsigned int v);
 };
 
-// Initializes the object by zeroing arrays, setting up a reference-counted pointer array from v, and initializing a bit rotation sequence.
-// @fnv 0x00cfc030
-FUN_00cfc030_cls* FUN_00cfc030_cls::FUN_00cfc030(unsigned int a1, unsigned int v)
-{
-    *(volatile unsigned short*)&unk06 = 1;
-
-    unk08 = a1;
-    unsigned int one = 1;
-    int n = one + 0x3e;
-    unk00 = (void*)&DAT_010cc7c0;
-
-    char* p = (char*)this + 0x9b1;
-    for (; n >= 0; --n)
-    {
-        p[-1] = 0;
-        p[0] = 0;
-        p += 0x14;
-    }
-
-    int m = 0xf;
-    p = (char*)this + 0x16e1;
-    for (; m >= 0; --m)
-    {
-        p[-1] = 0;
-        p[0] = 0;
-        p[1] = 0;
-        At<unsigned int>(p, (unsigned int)-0x19) = 0;
-        At<unsigned int>(p, (unsigned int)-0x15) = 0;
-        At<unsigned int>(p, (unsigned int)-0x11) = 0;
-        At<unsigned int>(p, (unsigned int)-0xd) = 0;
-        At<unsigned int>(p, (unsigned int)-9) = 0;
-        p += 0x50;
-    }
-
-    At<unsigned int>(this, 0x1e24) = 0;
-    At<unsigned int>(this, 0x1e28) = 0;
-    At<unsigned int>(this, 0x1e2c) = 0x80000000;
-    At<unsigned int>(this, 0x1e30) = 0;
-    At<unsigned int>(this, 0x1e34) = 0;
-    At<unsigned int>(this, 0x1e38) = 0;
-    At<unsigned int>(this, 0x1e3c) = 0;
-    At<unsigned char>(this, 0x1e20) = 0;
-    *(volatile unsigned char*)((char*)this + 0x1e23) = 1;
-    At<unsigned int>(this, 0xea0) = 0;
-    At<unsigned char>(this, 0x1e22) = 0;
-
-    unsigned int* dst = (unsigned int*)((char*)this + 0xc);
-    a1 = 8;
-    do
-    {
-        int j = 8;
-        do
-        {
-            unsigned int cur = *(volatile unsigned int*)&v;
-            *dst = cur;
-            if (cur != 0)
-            {
-                ((RefCounted*)cur)->AddRef();
-            }
-            ++dst;
-        } while (--j != 0);
-    } while (--a1 != 0);
-
-    unsigned int bit = 1;
-    unsigned int* bits = (unsigned int*)((char*)this + 0x110);
-    for (int k = 0x20; k != 0; --k)
-    {
-        *bits++ = bit;
-        bit = (bit << 1) | (bit >> 31);
-    }
-
-    Reset_cfb080();
-    At<unsigned char>(this, 0x1e21) = 0;
-    return this;
-}
-
 typedef void (*Callback)();
 
-void FUN_00cfb050();
 void FUN_00cfb060();
-void FUN_00cfb070();
-void FUN_00d10790();
 void FUN_00d10770();
 void FUN_00d10760();
 void FUN_00d10780();
@@ -4555,7 +4471,7 @@ struct S00cfb080_IO
 
     void Init()
     {
-        m_pfnRead = FUN_00d10790;
+        m_pfnRead = ((void (&)())::FUN_00d10790);
         m_pfnWrite = FUN_00d10770;
         m_pfnSeek = FUN_00d10760;
         m_pfnClose = FUN_00d10780;
@@ -5481,8 +5397,82 @@ struct S00cfb080_State
 
     void FUN_00cfb080();
 };
+// Initializes the object by zeroing arrays, setting up a reference-counted pointer array from v, and initializing a bit rotation sequence.
+// @fnv 0x00cfc030
+FUN_00cfc030_cls* FUN_00cfc030_cls::FUN_00cfc030(unsigned int a1, unsigned int v)
+{
+    *(volatile unsigned short*)&unk06 = 1;
 
-void __cdecl FUN_00d923b0(S00cfb080_State* pkState);
+    unk08 = a1;
+    unsigned int one = 1;
+    int n = one + 0x3e;
+    unk00 = (void*)&DAT_010cc7c0;
+
+    char* p = (char*)this + 0x9b1;
+    for (; n >= 0; --n)
+    {
+        p[-1] = 0;
+        p[0] = 0;
+        p += 0x14;
+    }
+
+    int m = 0xf;
+    p = (char*)this + 0x16e1;
+    for (; m >= 0; --m)
+    {
+        p[-1] = 0;
+        p[0] = 0;
+        p[1] = 0;
+        At<unsigned int>(p, (unsigned int)-0x19) = 0;
+        At<unsigned int>(p, (unsigned int)-0x15) = 0;
+        At<unsigned int>(p, (unsigned int)-0x11) = 0;
+        At<unsigned int>(p, (unsigned int)-0xd) = 0;
+        At<unsigned int>(p, (unsigned int)-9) = 0;
+        p += 0x50;
+    }
+
+    At<unsigned int>(this, 0x1e24) = 0;
+    At<unsigned int>(this, 0x1e28) = 0;
+    At<unsigned int>(this, 0x1e2c) = 0x80000000;
+    At<unsigned int>(this, 0x1e30) = 0;
+    At<unsigned int>(this, 0x1e34) = 0;
+    At<unsigned int>(this, 0x1e38) = 0;
+    At<unsigned int>(this, 0x1e3c) = 0;
+    At<unsigned char>(this, 0x1e20) = 0;
+    *(volatile unsigned char*)((char*)this + 0x1e23) = 1;
+    At<unsigned int>(this, 0xea0) = 0;
+    At<unsigned char>(this, 0x1e22) = 0;
+
+    unsigned int* dst = (unsigned int*)((char*)this + 0xc);
+    a1 = 8;
+    do
+    {
+        int j = 8;
+        do
+        {
+            unsigned int cur = *(volatile unsigned int*)&v;
+            *dst = cur;
+            if (cur != 0)
+            {
+                reinterpret_cast<::FUN_00c90510_class *>((((RefCounted*)cur)))->FUN_00c90510();
+            }
+            ++dst;
+        } while (--j != 0);
+    } while (--a1 != 0);
+
+    unsigned int bit = 1;
+    unsigned int* bits = (unsigned int*)((char*)this + 0x110);
+    for (int k = 0x20; k != 0; --k)
+    {
+        *bits++ = bit;
+        bit = (bit << 1) | (bit >> 31);
+    }
+
+    reinterpret_cast<::S00cfb080_State *>(this)->FUN_00cfb080();
+    At<unsigned char>(this, 0x1e21) = 0;
+    return this;
+}
+
 
 // Initializes the state by zeroing map arrays, setting color buffers to 100, assigning allocation and notification callbacks, and calling FUN_00d923b0.
 // @fnv 0x00cfb080
@@ -5511,7 +5501,7 @@ void S00cfb080_State::FUN_00cfb080()
 
     m_kIO.Init();
 
-    m_pfnAlloc = FUN_00cfb050;
+    m_pfnAlloc = ((void (&)())::FUN_00cfb050);
     m_pfnFree = FUN_00cfb060;
     m_i16B8 = 0;
     m_i16BC = 0;
@@ -5522,9 +5512,9 @@ void S00cfb080_State::FUN_00cfb080()
     m_i16D8 = 0;
     m_i16D0 = 0;
     m_i16D4 = 0;
-    m_pfnNotify = FUN_00cfb070;
+    m_pfnNotify = ((void (&)())::FUN_00cfb070);
     m_i16F0 = 0;
-    FUN_00d923b0(this);
+    ::FUN_00d923b0(this);
     m_bPending = false;
 
     if (m_apucColor[2])

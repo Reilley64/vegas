@@ -2,6 +2,13 @@
 #define VIRTUALACTORPATHHANDLER_DECLS_H
 
 
+#include "fnv/decl/FUN_0087b190_shell.h"
+#include "fnv/decl/FUN_0087b650_shell.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_0102f000.h"
+#include "fnv/symbols_011de000.h"
 template <class T> class PathingRef
 {
   public:
@@ -38,16 +45,12 @@ class AIThreadManager
 class UseDoorCalls
 {
   public:
-    void QueueActorLocationTask();
-    void QueueActorTask();
     void SetLocationOnReference(NiPoint3&);
     void* FUN_005c3420();
     void* FUN_00439ef0(void*, void*);
     float GetSquaredXYLength();
 };
 
-void* __stdcall FUN_004537b0(Actor*);
-void* __stdcall FUN_004537b0(Actor*, NiPoint3&);
 
 class EditorIDDispatch
 {
@@ -166,12 +169,8 @@ class PlayerCall
 class BGSLoadFormBuffer
 {
   public:
-    void ReadTypedData(void*, unsigned int);
 };
 
-extern const double DAT_0102f078;
-extern PlayerCharacter* g_thePlayer;
-int Warning(const char*, ...);
 extern unsigned int VirtualActorPathHandler_vtbl;
 
 #endif

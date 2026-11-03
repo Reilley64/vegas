@@ -5,6 +5,64 @@
 
 // src/staging/blk_004a0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BGSImpactData.h"
+#include "fnv/decl/BSFaceGenKeyframe.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/ConsoleManager.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_00458e20_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004a39f0_shell.h"
+#include "fnv/decl/FUN_004a3eb0_shell.h"
+#include "fnv/decl/FUN_004a3fb0_shell.h"
+#include "fnv/decl/FUN_004a3fe0_shell.h"
+#include "fnv/decl/FUN_004a4020_shell.h"
+#include "fnv/decl/FUN_004a40a0_Class.h"
+#include "fnv/decl/FUN_004a40c0_Class.h"
+#include "fnv/decl/FUN_004a41c0.h"
+#include "fnv/decl/FUN_004a46b0_class.h"
+#include "fnv/decl/FUN_00621b00_shell.h"
+#include "fnv/decl/FUN_006233c0.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00c84f10_cls.h"
+#include "fnv/decl/FnCls.h"
+#include "fnv/decl/NiAVObject.h"
+#include "fnv/decl/Owner623.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/ScreenSplatter.h"
+#include "fnv/decl/TESObjectREFR.h"
+#include "fnv/decl/ThreeByThreeMatrix.h"
+#include "fnv/decl/Unk.h"
+#include "fnv/decl/fnv_00457620__FUN_00457620_cls.h"
+#include "fnv/decl/fnv_00490e40__FUN_00490e40_shell.h"
+#include "fnv/decl/fnv_004a3a20__FUN_004a3a20_shell.h"
+#include "fnv/decl/fnv_004a3da0__FUN_004a3da0_shell.h"
+#include "fnv/decl/fnv_004a40e0__FUN_004a40e0.h"
+#include "fnv/decl/fnv_004a4220__FUN_004a4220Class.h"
+#include "fnv/decl/fnv_008cdd90__FUN_008cdd90_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00476000.h"
+#include "fnv/symbols_004a1000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_004a4000.h"
+#include "fnv/symbols_004b3000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_006a9000.h"
+#include "fnv/symbols_00c7f000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01018000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_011c5000.h"
+#include "fnv/symbols_011de000.h"
 #include "../../include/layout_support.h"
 
 class NiPoint3
@@ -21,9 +79,6 @@ class NiPoint3
     NiPoint3();
     NiPoint3(float, float, float);
     NiPoint3 ApplyScaled(float) const;
-    NiPoint3 FUN_00439e90(const NiPoint3&) const;
-    NiPoint3 FUN_00439ef0(const NiPoint3&) const;
-    void FUN_004a0c10();
 };
 struct __declspec(align(16)) ImpactVector4
 {
@@ -49,12 +104,9 @@ struct ImpactHit
 };
 struct HitArray
 {
-    ImpactHit* GetEntryAt(int);
-    int FUN_00726070();
 };
 struct HitHolder
 {
-    HitArray* FUN_00460140();
 };
 struct FUN_004a3c20
 {
@@ -72,10 +124,6 @@ struct FUN_004a3c20
     bool flag;
     FUN_004a3c20();
     void FUN_004a3f70(unsigned int);
-    void FUN_004a3da0(const NiPoint3&);
-    void FUN_004a3eb0(const NiPoint3&);
-    void FUN_004a3fb0(void*);
-    HitHolder* FUN_008cdd90();
 };
 struct FUN_004a3a70
 {
@@ -92,8 +140,6 @@ struct FUN_008c71b0
 {
     unsigned int value;
     FUN_008c71b0(unsigned int);
-    void FUN_004a39f0(int);
-    unsigned int FUN_004a3a20();
 };
 struct FUN_004a37b0
 {
@@ -120,100 +166,55 @@ struct World
 };
 struct Cell
 {
-    World* FUN_004543c0();
 };
 struct Prompt
 {
-    void FUN_00476930(int, NiPoint3&);
 };
 struct Scene
 {
-    Prompt* FUN_006a9540();
-    NiPoint3& FUN_0043c490();
 };
 struct Ref
 {
-    Cell* FUN_0084e3a0();
-    Scene* FUN_00490e40();
-    float FUN_00621b00();
-    float FUN_00488d50();
-    Ref* FUN_009611e0();
-    void FUN_004a3fe0(FUN_004a37b0*, int, char);
 };
 struct RefHandle
 {
-    Ref* FUN_00559450();
 };
 struct HitBody
 {
     RefHandle shape;
-    unsigned int FUN_0043b540();
 };
 struct Shape
 {
-    unsigned int FUN_00c84f10(unsigned int);
 };
 struct ImpactData
 {
-    float GetModifierValue();
-    float FUN_004a40a0();
     void* FUN_006733e0();
     bool FUN_004a4100();
-    float FUN_004a41c0();
     bool FUN_004a41e0();
     bool CallMemberAtOffset54();
     bool FUN_004a4140();
-    float FUN_004a40e0();
-    float FUN_009a9350();
-    float FUN_00598040();
-    unsigned int GetNextFromSubobject();
 };
 struct Gate
 {
-    bool FUN_004a4020();
 };
-Gate* __cdecl FUN_0071b160(int);
-bool __cdecl IsStartMenuFlag1Set();
-float __cdecl FUN_00476b70(float, float);
 struct Splatter
 {
-    void FUN_006233c0(int);
-    void FUN_004a1a10(int, unsigned char);
-    void FUN_006231a0(World*);
 };
-Splatter* __cdecl FUN_00622a70(float, bool);
 struct FloatSetting
 {
-    float* FUN_00403e20();
 };
 struct IntSetting
 {
-    int* FUN_0043d4d0();
 };
-extern FloatSetting DAT_011c5818, DAT_011c584c;
-extern IntSetting DAT_011c5868;
-extern const float DAT_01017868, DAT_0101e578, DAT_01018f5c, DAT_0101e574, DAT_0101e570;
 struct ImageSpaceEffectParam
 {
     float r, g, b, a;
     ImageSpaceEffectParam(float, float, float, float);
 };
-void* __cdecl FUN_004b3890(const NiPoint3&, const ImageSpaceEffectParam&, const NiPoint3&, const ImageSpaceEffectParam&,
-                           bool);
 struct TESView
 {
-    void FUN_00458e20(void*, float);
-    Ref* FUN_00457620(const NiPoint3&);
-    Ref* FUN_004519d0(NiPoint3);
 };
-extern TESView* g_TES;
-Shape* __cdecl FUN_004a3a40(Ref*);
 NiPoint3 __cdecl FUN_004a3760(float, const NiPoint3&);
-NiPoint3& __cdecl FUN_004a3970(NiPoint3&, const ImpactVector4&);
-Ref* __cdecl FUN_00c7fa90(HitBody*);
-void* __cdecl FUN_0056f930(Ref*);
-bool __cdecl IsAcousticSpaceFormTypeAllowed(void*, bool);
-float __cdecl FUN_004a4240();
 float __cdecl FUN_00406cc0(float);
 struct ImpactTask
 {
@@ -228,114 +229,114 @@ struct ImpactTask
 // @fnv 0x004a2d50
 void ImpactTask::FUN_004a2d50()
 {
-    if (FUN_0071b160(1)->FUN_004a4020() || IsStartMenuFlag1Set())
+    if (reinterpret_cast<::FUN_004a4020_shell *>((((::Gate *)(::ConsoleManager::Instance(1)))))->FUN_004a4020() || ((bool)(::IsStartMenuFlag1Set())))
         return;
-    if (!reference.FUN_00559450()->FUN_0084e3a0() || !reference.FUN_00559450()->FUN_00490e40())
+    if (!((::Cell *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::Ref *)(::FUN_00559450((int *)&(reference))))))->FUN_0084e3a0())) || !((::Scene *)(reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((((::Ref *)(::FUN_00559450((int *)&(reference))))))->FUN_00490e40())))
     {
         finished = true;
         return;
     }
-    if (remaining > 0 && impact && reference.FUN_00559450()->FUN_00621b00() <= reference.FUN_00559450()->FUN_00488d50())
+    if (remaining > 0 && impact && reinterpret_cast<::FUN_00621b00_shell *>((((::Ref *)(::FUN_00559450((int *)&(reference))))))->FUN_00621b00() <= reinterpret_cast<::BSFaceGenKeyframe *>((((::Ref *)(::FUN_00559450((int *)&(reference))))))->GetTime())
     {
         NiPoint3 direction;
-        reference.FUN_00559450()->FUN_00490e40()->FUN_006a9540()->FUN_00476930(2, direction);
-        direction.FUN_004a0c10();
-        NiPoint3 origin = reference.FUN_00559450()->FUN_00490e40()->FUN_0043c490();
-        float radius = FUN_00476b70(impact->FUN_004a40a0(), impact->GetModifierValue());
-        Splatter* splatter = FUN_00622a70(radius, true);
-        splatter->FUN_006233c0(0);
-        splatter->FUN_004a1a10(8, 0);
-        splatter->FUN_004a1a10(29, 0);
-        Cell* cell = reference.FUN_00559450()->FUN_0084e3a0();
-        World* world = cell ? cell->FUN_004543c0() : 0;
+        reinterpret_cast<::ThreeByThreeMatrix *>((((::Prompt *)(::FUN_006a9540((char *)(((::Scene *)(reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((((::Ref *)(::FUN_00559450((int *)&(reference))))))->FUN_00490e40()))))))))->GetRow(2, direction);
+        reinterpret_cast<::FUN_004a0c10_s *>(&(direction))->FUN_004a0c10();
+        NiPoint3 origin = reinterpret_cast<::NiAVObject *>((((::Scene *)(reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((((::Ref *)(::FUN_00559450((int *)&(reference))))))->FUN_00490e40()))))->FUN_0043c490();
+        float radius = ::RandomFloat(reinterpret_cast<::FUN_004a40a0_Class *>((impact))->FUN_004a40a0(), reinterpret_cast<::FUN_004a40c0_Class *>((impact))->GetModifierValue());
+        Splatter* splatter = ((::Splatter *)(::ScreenSplatter::Activate(radius, true)));
+        reinterpret_cast<::FUN_006233c0 *>((splatter))->GetImpactDataForMaterial(0);
+        reinterpret_cast<::Unk *>((splatter))->FUN_004a1a10(8, 0);
+        reinterpret_cast<::Unk *>((splatter))->FUN_004a1a10(29, 0);
+        Cell* cell = ((::Cell *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::Ref *)(::FUN_00559450((int *)&(reference))))))->FUN_0084e3a0()));
+        World* world = cell ? ((::World *)(reinterpret_cast<::FUN_004543c0_cls *>((cell))->FUN_004543c0())) : 0;
         FUN_004a3c20 ray;
         if (world)
         {
-            splatter->FUN_006231a0(world);
-            float distance = *DAT_011c5818.FUN_00403e20();
-            NiPoint3 end = origin.FUN_00439e90(direction.ApplyScaled(distance));
-            end.x += FUN_00476b70(DAT_0101e578, DAT_01017868);
-            end.y += FUN_00476b70(DAT_0101e578, DAT_01017868);
-            end.z += FUN_00476b70(DAT_0101e578, DAT_01017868);
-            float drop = -*DAT_011c584c.FUN_00403e20() *
-                         (reference.FUN_00559450()->FUN_00621b00() / reference.FUN_00559450()->FUN_00488d50());
+            reinterpret_cast<::Owner623 *>((splatter))->FUN_006231a0((::NiNode623 *)(world));
+            float distance = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting29))))));
+            NiPoint3 end = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)&(origin))->ProjectileLaunched((::NiPoint3 *)&(const ::NiPoint3 &)(direction.ApplyScaled(distance)), {})));
+            end.x += ::RandomFloat(DAT_0101e578, DAT_01017868);
+            end.y += ::RandomFloat(DAT_0101e578, DAT_01017868);
+            end.z += ::RandomFloat(DAT_0101e578, DAT_01017868);
+            float drop = -*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting30)))))) *
+                         (reinterpret_cast<::FUN_00621b00_shell *>((((::Ref *)(::FUN_00559450((int *)&(reference))))))->FUN_00621b00() / reinterpret_cast<::BSFaceGenKeyframe *>((((::Ref *)(::FUN_00559450((int *)&(reference))))))->GetTime());
             end.z += drop;
-            if (*DAT_011c5868.FUN_0043d4d0() > 0)
+            if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting *>(&::g_011c5868)))))) > 0)
             {
-                void* line = FUN_004b3890(origin, ImageSpaceEffectParam(0, 1, 0, 1), end,
-                                          ImageSpaceEffectParam(0, 1, 1, 1), true);
-                g_TES->FUN_00458e20(line, DAT_01018f5c);
+                void* line = ((void *)(::fnv_004b3890::FUN_004b3890((const class ::FUN_006815c0 &)(origin), (const ::fnv_004b3890::FUN_004a7800 &)((const ::ImageSpaceEffectParam &)(ImageSpaceEffectParam(0, 1, 0, 1))), (const class ::FUN_006815c0 &)(end),
+                                          (const ::fnv_004b3890::FUN_004a7800 &)((const ::ImageSpaceEffectParam &)(ImageSpaceEffectParam(0, 1, 1, 1))), true)));
+                reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::TESView * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(line), ::DAT_01018f5c);
             }
             FUN_008c71b0 filter(0);
-            filter.FUN_004a39f0(39);
+            reinterpret_cast<::FUN_004a39f0_shell *>(&(filter))->FUN_004a39f0(39);
             ray.FUN_004a3f70(filter.value);
-            ray.FUN_004a3da0(origin);
-            ray.FUN_004a3eb0(end);
+            reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(ray))->FUN_004a3da0((void *)&(origin));
+            reinterpret_cast<::FUN_004a3eb0_shell *>(&(ray))->FUN_004a3eb0((void *)&(end));
             FUN_004a3a70 collector;
-            ray.FUN_004a3fb0(&collector);
+            reinterpret_cast<::FUN_004a3fb0_shell *>(&(ray))->FUN_004a3fb0((::hkpAllRayHitCollector *)(void *)(&collector));
             bool rayHit = ((bool(__thiscall*)(World*, FUN_004a3c20*))world->vtable[50])(world, &ray);
-            int count = ray.FUN_008cdd90()->FUN_00460140()->FUN_00726070();
+            int count = ((int)(reinterpret_cast<::Callees *>((((::HitArray *)(::FUN_00460140((int)(((::HitHolder *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->FUN_00726070()));
             bool placed = false;
             for (int hit = 0; !placed && hit < count; ++hit)
             {
-                HitBody* body = ray.FUN_008cdd90()->FUN_00460140()->GetEntryAt(hit)->body;
+                HitBody* body = ((::ImpactHit *)(reinterpret_cast<::FUN_004a46b0_class *>((((::HitArray *)(::FUN_00460140((int)(((::HitHolder *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->GetEntryAt(hit)))->body;
                 if (body)
                 {
                     unsigned int key = -1;
                     for (int keyIndex = 0;
-                         keyIndex < 8 && ray.FUN_008cdd90()->FUN_00460140()->GetEntryAt(hit)->keys[keyIndex] != -1;
+                         keyIndex < 8 && ((::ImpactHit *)(reinterpret_cast<::FUN_004a46b0_class *>((((::HitArray *)(::FUN_00460140((int)(((::HitHolder *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->GetEntryAt(hit)))->keys[keyIndex] != -1;
                          ++keyIndex)
                     {
-                        key = ray.FUN_008cdd90()->FUN_00460140()->GetEntryAt(hit)->keys[keyIndex];
+                        key = ((::ImpactHit *)(reinterpret_cast<::FUN_004a46b0_class *>((((::HitArray *)(::FUN_00460140((int)(((::HitHolder *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->GetEntryAt(hit)))->keys[keyIndex];
                     }
-                    Shape* shape = FUN_004a3a40(body->shape.FUN_00559450());
+                    Shape* shape = ((::Shape *)(::FUN_004a3a40((::TESObjectREFR *)(::Ref *)(((::Ref *)(::FUN_00559450((int *)&(body->shape))))))));
                     if (!shape)
                         continue;
-                    unsigned int material = shape->FUN_00c84f10(key);
+                    unsigned int material = ((unsigned int)(reinterpret_cast<::FUN_00c84f10_cls *>((shape))->FUN_00c84f10(key)));
                     void* texture = impact ? impact->FUN_006733e0() : 0;
                     if (!texture)
                         continue;
-                    NiPoint3 position = origin.FUN_00439e90(FUN_004a3760(
-                        ray.FUN_008cdd90()->FUN_00460140()->GetEntryAt(hit)->fraction, end.FUN_00439ef0(origin)));
+                    NiPoint3 position = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)&(origin))->ProjectileLaunched((::NiPoint3 *)&(const ::NiPoint3 &)(FUN_004a3760(
+                        ((::ImpactHit *)(reinterpret_cast<::FUN_004a46b0_class *>((((::HitArray *)(::FUN_00460140((int)(((::HitHolder *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->GetEntryAt(hit)))->fraction, (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(end))->FUN_00439ef0((::NiPoint3 *)&(origin), *(const ::NiPoint3 *)nullptr))))), {})));
                     NiPoint3 normal;
-                    FUN_004a3970(normal, ray.FUN_008cdd90()->FUN_00460140()->GetEntryAt(hit)->normal);
-                    bool landscape = FUN_008c71b0(body->FUN_0043b540()).FUN_004a3a20() == 1;
+                    ::FUN_004a3970((::NiPoint3_local &)(normal), (const ::hkVector4 &)(((::ImpactHit *)(reinterpret_cast<::FUN_004a46b0_class *>((((::HitArray *)(::FUN_00460140((int)(((::HitHolder *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->GetEntryAt(hit)))->normal));
+                    bool landscape = reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::FUN_008c71b0 &)(FUN_008c71b0(::FUN_0043b540((char *)(body)))))->FUN_004a3a20() == 1;
                     Ref* target = 0;
                     if (landscape)
                     {
-                        target = g_TES->FUN_00457620(position);
-                        if (target && target->FUN_009611e0())
-                            target = target->FUN_009611e0();
+                        target = ((::Ref *)(reinterpret_cast<::fnv_00457620::FUN_00457620_cls *>(((*reinterpret_cast<::TESView * *>(&::g_TES))))->FUN_00457620((const float *)&(position))));
+                        if (target && ((::Ref *)(reinterpret_cast<::FUN_009611e0_shell *>((target))->FUN_009611e0())))
+                            target = ((::Ref *)(reinterpret_cast<::FUN_009611e0_shell *>((target))->FUN_009611e0()));
                     }
                     else
-                        target = FUN_00c7fa90(body);
-                    void* object = FUN_0056f930(target);
-                    if (!landscape && (!object || !IsAcousticSpaceFormTypeAllowed(object, true)))
+                        target = ((::Ref *)(::FUN_00c7fa90((::S_Obj *)(body))));
+                    void* object = ((void *)(::FUN_0056f930((::NiAVObject *)(target))));
+                    if (!landscape && (!object || !::IsAcousticSpaceFormTypeAllowed((::Refr_C *)(object), true)))
                         continue;
-                    Ref* owner = g_TES->FUN_004519d0(position);
+                    Ref* owner = ((::Ref *)(reinterpret_cast<::FnCls *>(((*reinterpret_cast<::TESView * *>(&::g_TES))))->FUN_004519d0((*(float *)&(const ::NiPoint3 &)(position)), {}, {})));
                     FUN_004a37b0 decal;
                     decal.position = position;
                     decal.normal = normal;
                     decal.width = radius;
                     decal.height = radius;
                     decal.depth = DAT_0101e574;
-                    decal.lifetime = FUN_004a4240();
-                    decal.rotation = (unsigned char)(int)FUN_00406cc0(FUN_00476b70(0, DAT_0101e570));
+                    decal.lifetime = ((float)(::FUN_004a4240()));
+                    decal.rotation = (unsigned char)(int)FUN_00406cc0(::RandomFloat(0, DAT_0101e570));
                     decal.reference = target;
                     decal.texture = texture;
                     decal.flag73 = impact->FUN_004a4100();
-                    decal.radius = impact->FUN_004a41c0();
+                    decal.radius = reinterpret_cast<::FUN_004a41c0 *>((impact))->GetRadius();
                     decal.flag76 = impact->FUN_004a41e0();
                     decal.flag74 = impact->CallMemberAtOffset54();
                     decal.flag75 = impact->FUN_004a4140();
-                    decal.parallax = impact->FUN_004a40e0();
-                    decal.shininess = impact->FUN_009a9350();
-                    decal.scale = impact->FUN_00598040();
+                    decal.parallax = reinterpret_cast<::fnv_004a40e0::FUN_004a40e0 *>((impact))->GetHealthRegeneration();
+                    decal.shininess = reinterpret_cast<::BGSImpactData *>((impact))->FUN_009a9350();
+                    decal.scale = reinterpret_cast<::TESObjectREFR *>((impact))->GetScale();
                     decal.color =
-                        NiPoint3((unsigned char)(impact->GetNextFromSubobject() & 255) / 255.0,
-                                 (unsigned char)(((unsigned short)impact->GetNextFromSubobject() >> 8) & 255) / 255.0,
-                                 (unsigned char)((impact->GetNextFromSubobject() >> 16) & 255) / 255.0);
-                    owner->FUN_004a3fe0(&decal, 1, 0);
+                        NiPoint3((unsigned char)(reinterpret_cast<::fnv_004a4220::FUN_004a4220Class *>((impact))->GetNextFromSubobject() & 255) / 255.0,
+                                 (unsigned char)(((unsigned short)reinterpret_cast<::fnv_004a4220::FUN_004a4220Class *>((impact))->GetNextFromSubobject() >> 8) & 255) / 255.0,
+                                 (unsigned char)((reinterpret_cast<::fnv_004a4220::FUN_004a4220Class *>((impact))->GetNextFromSubobject() >> 16) & 255) / 255.0);
+                    reinterpret_cast<::FUN_004a3fe0_shell *>((owner))->FUN_004a3fe0(&decal, 1, 0);
                     placed = true;
                 }
             }

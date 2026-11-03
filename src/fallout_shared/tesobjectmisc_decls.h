@@ -3,6 +3,20 @@
 #define TESOBJECTMISC_DECLS_H
 
 
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00478000.h"
+#include "fnv/symbols_0047a000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
 class CombatController;
 class CombatProcedure
 {
@@ -13,16 +27,12 @@ class TESFile;
 class TESFileFormVersion
 {
   public:
-    unsigned short GetFormVersion();
 };
 class TESFile : public TESFileFormVersion
 {
   public:
-    unsigned int GetChunkID();
     bool NextChunk();
-    unsigned int GetChunkSize();
     bool GetChunkData(unsigned int* value);
-    bool GetChunkData(void* buffer, unsigned int size);
 };
 enum ENUM_FORM_ID
 {
@@ -121,12 +131,10 @@ class TESForm
     virtual bool SetEditorID(const char* editorID);
     unsigned char formData[20];
     bool GetInitialized() const;
-    void LoadRecordHeader(TESFile* file);
     TESFile* GetFile(int fileIndex);
-    unsigned int GetFormID();
     void SetInitializationState(bool initialized);
-    void SetFormType(ENUM_FORM_ID type);
-    static void RemapFormIDForFile(unsigned int& formID, TESFile* file);
+public:
+    void LoadGame(void *);
 };
 
 class TESSound : public TESForm
@@ -137,7 +145,6 @@ class TESScriptableForm : public BaseFormComponent
 {
   public:
     unsigned char data[8];
-    void SetScript(Script* script);
     void InitItem(TESForm* form);
 };
 class BGSDestructibleObjectForm : public BaseFormComponent
@@ -145,7 +152,6 @@ class BGSDestructibleObjectForm : public BaseFormComponent
   public:
     unsigned char data[4];
     void InitItem(TESForm* form);
-    static void LoadDestructibleData(BGSDestructibleObjectForm* form, TESFile* file);
 };
 class TESModel : public BaseFormComponent
 {
@@ -160,12 +166,14 @@ class TESModelTextureSwap : public TESModel
     TESModelTextureSwap();
     ~TESModelTextureSwap();
     void InitItem(TESForm* form);
-    bool ParseTextureSwapData(void* data, unsigned int size, unsigned int version);
 };
+class TESFile;
 class TESTexture : public BaseFormComponent
 {
   public:
     unsigned char data[8];
+public:
+    static void ReadTextureData(::TESTexture *, ::TESFile *);
 };
 class TESIcon : public TESTexture
 {
@@ -185,12 +193,10 @@ class TESFullName : public BaseFormComponent
 class TESFullNameLoader
 {
   public:
-    static void LoadFullNameChunk(TESFullName* fullName, TESFile* file);
 };
 class TESTextureLoader
 {
   public:
-    static void ReadTextureData(TESTexture* texture, TESFile* file);
 };
 class BGSMessageIcon : public BaseFormComponent
 {
@@ -198,7 +204,6 @@ class BGSMessageIcon : public BaseFormComponent
     unsigned char data[12];
     BGSMessageIcon();
     ~BGSMessageIcon();
-    static void LoadMessageIconChunk(BGSMessageIcon* icon, TESFile* file);
 };
 class TESWeightForm : public BaseFormComponent
 {
@@ -219,7 +224,6 @@ class BGSPickupPutdownSounds : public BaseFormComponent
     BGSPickupPutdownSounds();
     ~BGSPickupPutdownSounds();
     void InitItem(TESForm* form);
-    void SetPickupSound(TESSound* sound);
 };
 class TESBoundObject : public TESForm
 {
@@ -246,7 +250,6 @@ class TESCaravanMoney : public TESBoundObject,
 class BGSImpactData
 {
   public:
-    void ReadTypedData(TESFile* file, void* data, unsigned short version);
     char _pdbpad_1[47];
     char Data_pad2f_pad2f_pad2f[24];
     void* m_pDecalTextureSet;
@@ -261,6 +264,7 @@ class TESRegionGrassObject
     void AssignLandTexture(TESLandTexture* texture);
 };
 
+class TESSound;
 class TESObjectMISC : public TESBoundObject,
                       public TESFullName,
                       public TESModelTextureSwap,
@@ -277,7 +281,8 @@ class TESObjectMISC : public TESBoundObject,
     void ResetFormData();
     void InitItem();
     bool Load(TESFile* file);
-    void FUN_009db930(unsigned int value);
+public:
+    void SetLoopingSound(::TESSound *);
 };
 
 #endif

@@ -1,11 +1,14 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/fnv_0044b010__FUN_0044b010_shell.h"
+#include "fnv/decl/fnv_0044b050__FUN_0044b050_shell.h"
+#include "fnv/decl/fnv_0044b0f0__FUN_0044b0f0_shell.h"
+#include "fnv/decl/fnv_0044b180__FUN_0044b180_shell.h"
+#include "fnv/symbols_01272000.h"
 struct KFModel
 {
     unsigned int m_uiObjectRefCount;
-    void FUN_0044b050();
-    void FUN_0044b010();
 };
 
 struct NiPointer_KFModel
@@ -20,10 +23,10 @@ NiPointer_KFModel& NiPointer_KFModel::FUN_0044b070(KFModel* pObject)
     if (m_pObject != pObject)
     {
         if (m_pObject)
-            m_pObject->FUN_0044b050();
+            reinterpret_cast<::fnv_0044b050::FUN_0044b050_shell *>((m_pObject))->FUN_0044b050();
         m_pObject = pObject;
         if (m_pObject)
-            m_pObject->FUN_0044b010();
+            reinterpret_cast<::fnv_0044b010::FUN_0044b010_shell *>((m_pObject))->FUN_0044b010();
     }
     return *this;
 }
@@ -31,8 +34,6 @@ NiPointer_KFModel& NiPointer_KFModel::FUN_0044b070(KFModel* pObject)
 struct LoadedFile
 {
     int BackgroundTask;
-    void FUN_0044b180();
-    void IncRefCount();
 };
 struct NiPointer_LoadedFile
 {
@@ -45,10 +46,10 @@ NiPointer_LoadedFile& NiPointer_LoadedFile::FUN_0044b220(LoadedFile* pObject)
     if (m_pObject != pObject)
     {
         if (m_pObject)
-            m_pObject->FUN_0044b180();
+            reinterpret_cast<::fnv_0044b180::FUN_0044b180_shell *>((m_pObject))->FUN_0044b180();
         m_pObject = pObject;
         if (m_pObject)
-            m_pObject->IncRefCount();
+            reinterpret_cast<::fnv_0044b0f0::FUN_0044b0f0_shell *>((m_pObject))->FUN_0044b0f0();
     }
     return *this;
 }
@@ -233,7 +234,6 @@ struct TlsBlock_t
     int m_2b4;
 };
 
-extern __declspec(thread) TlsBlock_t g_tlsBlock;
 
 struct RefObj
 {

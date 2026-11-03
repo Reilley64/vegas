@@ -2,6 +2,8 @@
 // src/havok/physics/dynamics/world/memory/default/hkpdefaultworldmemorywatchdog.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/memory/default/hkpdefaultworldmemorywatchdog.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00c91620_Class.h"
+#include "fnv/symbols_00e48000.h"
 #include "havok/hkpDefaultWorldMemoryWatchDog.h"
 
 struct FnvCpu_FUN_00e48260_CpuObject
@@ -19,7 +21,6 @@ int FnvCpu_FUN_00e48260_CpuObject::FUN_00e48260()
 
 struct WatchdogCallback
 {
-    void ProcessTarget(void** source, int value);
 };
 
 struct WatchdogState
@@ -48,7 +49,7 @@ struct WatchdogState
 // @fnv 0x00e48270
 void __stdcall NotifyWatchdogCallback(WatchdogState* pState, int unused)
 {
-    pState->callback18->ProcessTarget(reinterpret_cast<void**>(&pState), *pState->value48);
+    reinterpret_cast<::FUN_00c91620_Class *>((pState->callback18))->ProcessTarget((unsigned char *)(void **)(reinterpret_cast<void**>(&pState)), (::FUN_00c91620_Target *)(*pState->value48));
 }
 
 class hkMemoryAllocatorE482
@@ -100,7 +101,6 @@ struct hkResultE482
 class hkQueueE482
 {
   public:
-    hkResultE482 ProcessTarget(hkJobE482* job);
 };
 
 struct hkSchedulerE482
@@ -121,7 +121,7 @@ void __cdecl FUN_00e48290(hkSchedulerE482* pScheduler, int level, void* param, i
         int iPriority = job->m_priority;
         if (iPriority >= level)
         {
-            pScheduler->m_queue->ProcessTarget(job);
+            reinterpret_cast<::FUN_00c91620_Class *>((pScheduler->m_queue))->ProcessTarget((unsigned char *)(job), {});
             if (!hkRouterE482::FUN_00c85750().heap().IsStreamValid(param))
                 return;
         }
@@ -158,7 +158,6 @@ struct hkMemoryRouterE483
 };
 
 extern "C" hkMemoryRouterE483& __cdecl FUN_00c85750();
-void __cdecl FUN_00e48290(void* pvItem, int iFlags, void* pvCtx, int* piOut);
 
 struct ListE483
 {
@@ -202,7 +201,7 @@ void HostE483::ProcessList(ListE483* pkList)
                 pvItem = pkList->m_ppPos[i];
             else
                 pvItem = *(void**)(pkList->m_pcNeg - (i * 4 + 4));
-            FUN_00e48290(pvItem, iFlags, pvCtx, &iOut);
+            ::FUN_00e48290((::hkSchedulerE482 *)(pvItem), iFlags, pvCtx, &iOut);
             if (FUN_00c85750().heap().unk24(pvCtx))
                 return;
             i--;

@@ -2,19 +2,26 @@
 // src/gamebryo2.2/corelibs/nimain/nilinesdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nilinesdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_011f5b88;
 
 // @fnv 0x00a8a7b0
+#include "fnv/decl/GeomData.h"
+#include "fnv/decl/GeometryEquality.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a67c70__FUN_00a67c70_shell.h"
+#include "fnv/decl/fnv_00a67ea0__GeomEA0.h"
+#include "fnv/decl/fnv_00a68520__NiGeometryDataSave.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f5000.h"
 void* __cdecl FUN_00a8a7b0()
 {
-    return &g_011f5b88;
+    return &(*reinterpret_cast<void * *>(&::g_011f5b88));
 }
 
-void* __cdecl NiFreeAlias(void*);
 
 struct FUN_00a68800_shell
 {
-    void __thiscall DestroyGeometryData();
 };
 
 extern int DAT_0109f23c;
@@ -31,10 +38,10 @@ void* __thiscall FUN_00a8a7c0_shell::FUN_00a8a7c0(unsigned int flags)
 {
     void* pkFlags = *(void**)((char*)this + 0x40);
     *(void**)this = (void*)&DAT_0109f23c;
-    NiFreeAlias(pkFlags);
-    DestroyGeometryData();
+    ::FUN_00aa10f0(pkFlags);
+    reinterpret_cast<::fnv_00a67c70::FUN_00a67c70_shell *>(this)->DestroyGeometryData();
     if (flags & 1)
-        operator delete(this, 0x44);
+        ::FUN_00aa1460(this, 0x44);
     return this;
 }
 
@@ -58,14 +65,13 @@ struct NiLinesDataStandIn
     int unk38;
     int unk3c;
     char* m_pName40;
-    bool FUN_00a67840(NiLinesDataStandIn* other);
     bool IsEqual(NiLinesDataStandIn* other);
 };
 
 // @fnv 0x00a8a730
 bool NiLinesDataStandIn::IsEqual(NiLinesDataStandIn* other)
 {
-    if (!FUN_00a67840(other))
+    if (!reinterpret_cast<::GeometryEquality *>(this)->FUN_00a67840((::NiObject *)(other)))
     {
         return false;
     }
@@ -278,14 +284,13 @@ struct NiLinesDataStandIn
     int unk38;
     int unk3c;
     char* m_pName40;
-    void FUN_00a68520(NiStreamStandIn& stream);
     void FUN_00a8a850(NiStreamStandIn& stream);
 };
 
 // @fnv 0x00a8a850
 void NiLinesDataStandIn::FUN_00a8a850(NiStreamStandIn& stream)
 {
-    this->FUN_00a68520(stream);
+    reinterpret_cast<::fnv_00a68520::NiGeometryDataSave *>((this))->FUN_00a68520((::fnv_00a68520::SaveStream &)(stream));
     NiStreamIOStandIn* io = stream.unk250;
     char* buf = this->m_pName40;
     unsigned int len = this->m_nameLen08;
@@ -305,22 +310,17 @@ struct S_00a8a890_Arr
     unsigned short m_iElementCount;
     unsigned short unk0c;
     unsigned short m_growBy;
-    void FUN_0096ad30(unsigned int n);
-    void FUN_0096ae90(unsigned int i, const char** p);
     void Add(const char* s)
     {
         unsigned int i = m_iElementCount;
         const char* t = s;
         if (i >= m_maxSize)
-            FUN_0096ad30(i + m_growBy);
-        FUN_0096ae90(i, &t);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(i + m_growBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(i, (*(char * *)(&t)));
     }
 };
 
-extern int DAT_011f5b88;
 void RegisterFields(S_00a8a890_Arr* arr);
-const char* FUN_00a7d330(int g);
-const char* FUN_00a7d5a0(const char* fmt, int v);
 
 struct S_00a8a890_Obj
 {
@@ -333,9 +333,9 @@ struct S_00a8a890_Obj
 // @fnv 0x00a8a890
 void S_00a8a890_Obj::FUN_00a8a890(S_00a8a890_Arr* arr)
 {
-    RegisterFields(arr);
-    arr->Add(FUN_00a7d330(DAT_011f5b88));
-    arr->Add(FUN_00a7d5a0("m_pkFlags", unk40));
+    reinterpret_cast<::GeomData *>(this)->RegisterFields((::StrArr *)(arr));
+    arr->Add(::FUN_00a7d330((const char *)((*reinterpret_cast<int *>(&::g_011f5b88)))));
+    arr->Add(::FUN_00a7d5a0("m_pkFlags", (void *)(unk40)));
 }
 
 class NiBinaryStreamA8A8
@@ -380,12 +380,10 @@ template <class T> inline void ReadBinaryValue(NiStreamA8A8& kStream, T* pValue,
     NiBinaryStreamLoad(*kStream.m_pUnderlyingStream, pValue, uiNumEls);
 }
 
-void* NiMalloc(unsigned int stSize);
 
 class FUN_00a67ea0_helper
 {
   public:
-    void ReadBinary(NiStreamA8A8& kStream);
 };
 
 class GeomDataA8A8 : public FUN_00a67ea0_helper
@@ -404,7 +402,7 @@ class GeomDataA8A8 : public FUN_00a67ea0_helper
 // @fnv 0x00a8a800
 void GeomDataA8A8::FUN_00a8a800(NiStreamA8A8& kStream)
 {
-    ReadBinary(kStream);
-    m_pucFlags = (unsigned char*)NiMalloc(m_usVertices);
+    reinterpret_cast<::fnv_00a67ea0::GeomEA0 *>(this)->ReadBinary((::fnv_00a67ea0::StreamEA0 &)(kStream));
+    m_pucFlags = (unsigned char*)::FUN_00aa1070(m_usVertices);
     ReadBinaryValue(kStream, m_pucFlags, m_usVertices);
 }

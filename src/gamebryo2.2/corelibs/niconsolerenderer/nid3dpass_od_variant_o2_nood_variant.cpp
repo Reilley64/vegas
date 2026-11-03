@@ -2,6 +2,17 @@
 // to their real unit once identified.
 
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/ElemPtrArray.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00e7ecd0_cls.h"
+#include "fnv/decl/FUN_00e89410_Class.h"
+#include "fnv/decl/PassState.h"
+#include "fnv/decl/XRenderer.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00ee6000.h"
+#include "fnv/symbols_0126f000.h"
 #include "nid3dpass_types_NiD3DPass.h"
 #include "nid3dpass_types_NiTArray_NiPointer_NiD3DTextureStage__NiTNewInterface_NiPointer_NiD3DTextureStage_____.h"
 #include "nid3dpass_decls.h"
@@ -11,8 +22,7 @@ struct __declspec(align(16)) S00b7c750_Matrix
     float m[4][4];
 };
 
-extern "C" S00b7c750_Matrix* __stdcall FUN_00ee6dfe(S00b7c750_Matrix* pOut, const S00b7c750_Matrix* pM1,
-                                                    const S00b7c750_Matrix* pM2);  // D3DXMatrixMultiply
+  // D3DXMatrixMultiply
 
 class S00b7c750_Device
 {
@@ -154,12 +164,10 @@ struct S00b7c750_Globals
     unsigned int unk58;
     S00b7c750_Renderer* m_pOwnerShader;
 };
-extern S00b7c750_Globals* DAT_0126f74c;
 
 class S00b7c750_Camera
 {
   public:
-    void FUN_00e6fbb0(unsigned int auiCameraValue, unsigned int uiFlags);
     unsigned int unk000;
     unsigned int unk004;
     unsigned int unk008;
@@ -805,9 +813,9 @@ class FUN_00b7c750_cls
 // @fnv 0x00b7c750
 long FUN_00b7c750_cls::FUN_00b7c750(unsigned int uiUnused, unsigned int auiCameraValue)
 {
-    m_pkAccumulationCamera->FUN_00e6fbb0(auiCameraValue, 0);
+    reinterpret_cast<::XRenderer *>((m_pkAccumulationCamera))->FUN_00e6fbb0((*(const ::XTransform *)(auiCameraValue)), 0);
     S00b7c750_Matrix kViewProj;
-    FUN_00ee6dfe(&kViewProj, &m_pkAccumulationCamera->m_kView, &m_pkAccumulationCamera->m_kProj);
-    S00b7c750_Renderer* pkRenderer = DAT_0126f74c->m_pOwnerShader;
+    ::FUN_00ee6dfe((::D3DXMATRIX *)(::S00b7c750_Matrix *)(&kViewProj), (const ::D3DXMATRIX *)(const ::S00b7c750_Matrix *)(&m_pkAccumulationCamera->m_kView), (const ::D3DXMATRIX *)(const ::S00b7c750_Matrix *)(&m_pkAccumulationCamera->m_kProj));
+    S00b7c750_Renderer* pkRenderer = (*reinterpret_cast<::S00b7c750_Globals * *>(&::DAT_0126f74c))->m_pOwnerShader;
     return pkRenderer->m_pkDevice->SetVertexShaderConstantF(0, &kViewProj.m[0][0], 4);
 }

@@ -1,19 +1,20 @@
 
-extern "C" const double DAT_010231b0;
+#include "fnv/decl/FUN_00a6e1f0_shell.h"
+#include "fnv/decl/KFShell.h"
+#include "fnv/decl/Sd4e0.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_01064000.h"
 extern const double DAT_01064f58;
-extern const double DAT_01064f50;
 class NiQuaternion
 {
   public:
     float q[4];
-    void SetRotationFromEulerXYZ(float, float, float);
     bool operator!=(const NiQuaternion&) const;
     static const NiQuaternion IDENTITY;
 };
 class RotationValues
 {
   public:
-    float FUN_005dd4e0(unsigned);
 };
 void* __cdecl operator new(unsigned);
 enum BS_FACEGEN_MORPH_TYPE
@@ -54,7 +55,6 @@ class BSFaceGenKeyframeMultiple : public BSFaceGenKeyframe
     BSFaceGenKeyframeMultiple(BS_FACEGEN_MORPH_TYPE, unsigned);
     virtual ~BSFaceGenKeyframeMultiple();
     bool FUN_0064a4d0(unsigned, float);
-    bool InsertIntoKeyframeList(NiTPointerList<BSFaceGenKeyframe*>*);
 };
 
 class BSFaceGenAnimationData

@@ -3,11 +3,41 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /GF /Ob1 (unit src/speedtree/libspline_source/idvspline.cpp lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/decl/FNVTokenParser.h"
+#include "fnv/decl/FUN_00594c80_cls.h"
+#include "fnv/decl/FUN_00594cd0_Class.h"
+#include "fnv/decl/FUN_00594d20_Class.h"
+#include "fnv/decl/FUN_00594d40_class.h"
+#include "fnv/decl/FUN_0065f240.h"
+#include "fnv/decl/FUN_00ad1800_cls.h"
+#include "fnv/decl/FUN_00ad18b0_cls.h"
+#include "fnv/decl/FUN_00b16830_Iterator.h"
+#include "fnv/decl/FUN_00b1c7a0_cls.h"
+#include "fnv/decl/FUN_00b2ac30_t.h"
+#include "fnv/decl/FUN_00b3c600_class.h"
+#include "fnv/decl/FUN_00b3f130_shell.h"
+#include "fnv/decl/FloatVec.h"
+#include "fnv/decl/Holder5934d0.h"
+#include "fnv/decl/MapLookupDetail__LookupMap.h"
+#include "fnv/decl/Owner.h"
+#include "fnv/decl/ScaledVec6.h"
+#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
+#include "fnv/decl/fnv_00b1e750__vecb1e__VcVector.h"
+#include "fnv/decl/fnv_00b39100__vecb391__VcVector.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0044d000.h"
+#include "fnv/symbols_004b1000.h"
+#include "fnv/symbols_005ac000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00b25000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01019000.h"
+#include "fnv/symbols_01140000.h"
+#include "fnv/symbols_011f8000.h"
 #include "idvspline_decls.h"
 extern "C" int __cdecl _strlen(const char*);
 extern "C" int __cdecl _sscanf(const char*, const char*, ...);
 int __cdecl FUN_00ec8965(int);
-extern const char* const DAT_01019f08;
 const char* __cdecl FUN_00b37f50(const char* pInput, char* pToken);
 unsigned int __cdecl FUN_00ec7c56(void);
 struct Host00b3b050
@@ -52,7 +82,6 @@ struct FUN_00b3b810_shell
     char _pad[0x18];
     NodeB* f18;
     int f1c;
-    NodeB* FUN_00b3b880();
     void InitNode();
 };
 struct FUN_00b3b1d0_shell
@@ -92,7 +121,6 @@ struct VecB37
 struct HostB37
 {
     float x, y, z;
-    void FUN_00b380e0(VecB37*, VecB37*, float);
     void FUN_00b37cc0(InputB37*);
 };
 
@@ -374,7 +402,7 @@ TreeIterB3B TreeB3B::FUN_00b3bb90(TreeConstIterB3B first, TreeConstIterB3B last)
 {
     if (first == begin() && last == end())
     {
-        ResetList();
+        reinterpret_cast<::Holder0394 *>(this)->ResetList();
         return begin();
     }
     else
@@ -398,16 +426,13 @@ inline void Dead3()
 }
 unsigned int __cdecl FUN_00ec7c56();
 void __stdcall FUN_00ec7894(void* p, void* t);
-extern int DAT_010173dc;
-extern int DAT_01140cb0;
 struct FUN_0044a4c0
 {
     int m[7];
     FUN_0044a4c0(const char* s);
-    void FUN_0044a730(bool b, unsigned int n);
     ~FUN_0044a4c0()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
 };
 struct FUN_0044a310
@@ -488,9 +513,6 @@ struct TreeQ
         int _Pad;
         return (0 < _Count ? _Count : 1);
     }
-    NodeQ* FUN_00ad1960(NodeQ* _Larg, NodeQ* _Parg, NodeQ* _Rarg, const ValQ& _Val, char _Carg);
-    void FUN_00ad1800(NodeQ* _Wherenode);
-    void FUN_00ad18b0(NodeQ* _Wherenode);
     IterQ FUN_00acf120(bool _Addleft, NodeQ* _Wherenode, const ValQ& _Val);
 };
 inline IterQ::IterQ(NodeQ* p, const TreeQ* t) : _Myaux(0), _Ptr(p)
@@ -506,7 +528,7 @@ IterQ TreeQ::FUN_00acf120(bool _Addleft, NodeQ* _Wherenode, const ValQ& _Val)
     {
         ThrowLen(LenErrQ("map/set<T> too long"));
     }
-    NodeQ* _Newnode = FUN_00ad1960(_Myhead, _Wherenode, _Myhead, _Val, 0);
+    NodeQ* _Newnode = ((::NodeQ *)(reinterpret_cast<::Owner *>(this)->FUN_00ad1960((int)(_Myhead), (int)(_Wherenode), (int)(_Myhead), (int)&(_Val), 0)));
     ++_Mysize;
     if (_Wherenode == _Myhead)
     {
@@ -542,12 +564,12 @@ IterQ TreeQ::FUN_00acf120(bool _Addleft, NodeQ* _Wherenode, const ValQ& _Val)
                 if (_Pnode == _Right(_Parent(_Pnode)))
                 {
                     _Pnode = _Parent(_Pnode);
-                    FUN_00ad1800(_Pnode);
+                    reinterpret_cast<::FUN_00ad1800_cls *>(this)->FUN_00ad1800((::Ad1800Node *)(_Pnode));
                 }
                 _Color(_Parent(_Pnode)) = 1;
                 Dead3();
                 _Color(_Parent(_Parent(_Pnode))) = 0;
-                FUN_00ad18b0(_Parent(_Parent(_Pnode)));
+                reinterpret_cast<::FUN_00ad18b0_cls *>(this)->FUN_00ad18b0((::LinkNodeB4589 *)(_Parent(_Parent(_Pnode))));
             }
         }
         else
@@ -566,12 +588,12 @@ IterQ TreeQ::FUN_00acf120(bool _Addleft, NodeQ* _Wherenode, const ValQ& _Val)
                 if (_Pnode == _Left(_Parent(_Pnode)))
                 {
                     _Pnode = _Parent(_Pnode);
-                    FUN_00ad18b0(_Pnode);
+                    reinterpret_cast<::FUN_00ad18b0_cls *>(this)->FUN_00ad18b0((::LinkNodeB4589 *)(_Pnode));
                 }
                 _Color(_Parent(_Pnode)) = 1;
                 Dead2();
                 _Color(_Parent(_Parent(_Pnode))) = 0;
-                FUN_00ad1800(_Parent(_Parent(_Pnode)));
+                reinterpret_cast<::FUN_00ad1800_cls *>(this)->FUN_00ad1800((::Ad1800Node *)(_Parent(_Parent(_Pnode))));
             }
         }
     Dead3();
@@ -579,7 +601,6 @@ IterQ TreeQ::FUN_00acf120(bool _Addleft, NodeQ* _Wherenode, const ValQ& _Val)
     return (IterQ(_Newnode, this));
 }
 
-void* __cdecl FUN_00401000(unsigned int size);
 struct FUN_00b31270
 {
     FUN_00b31270();
@@ -621,9 +642,7 @@ struct FUN_00b377c0
 };
 struct S00b37660_Cache
 {
-    FUN_00b377c0*& FUN_00b39210(InputB37* key);
 };
-extern S00b37660_Cache DAT_011f8e2c;
 struct FUN_00b37660
 {
     float x, y, z;
@@ -633,9 +652,7 @@ struct FUN_00b37660
     FUN_00b31270 unk54;
     FUN_00b31270 unk6c;
     FUN_00b37660(InputB37* name);
-    void FUN_00b37cc0(InputB37* name);
     void FUN_00b38430(int n);
-    void FUN_00b1c7a0(FUN_00b377c0* src);
 };
 inline void S00b37660_Pad()
 {
@@ -644,18 +661,18 @@ inline void S00b37660_Pad()
 // @fnv 0x00b37660
 FUN_00b37660::FUN_00b37660(InputB37* name)
 {
-    FUN_00b377c0* pCached = DAT_011f8e2c.FUN_00b39210(name);
+    FUN_00b377c0* pCached = ((::FUN_00b377c0 *)&(reinterpret_cast<::MapLookupDetail::LookupMap *>(&(DAT_011f8e2c))->FUN_00b39210((*(const ::MapLookupDetail::basic_string<char, ::record_model::BxStrTraits, ::MapLookupDetail::Allocator> *)(name)))));
     if (!pCached)
     {
-        FUN_00b37cc0(name);
+        reinterpret_cast<::HostB37 *>(this)->FUN_00b37cc0(name);
         FUN_00b38430(500);
         FUN_00b377c0* pNew = new FUN_00b377c0(this);
-        DAT_011f8e2c.FUN_00b39210(name) = pNew;
+        ((::FUN_00b377c0 *)&(reinterpret_cast<::MapLookupDetail::LookupMap *>(&(DAT_011f8e2c))->FUN_00b39210((*(const ::MapLookupDetail::basic_string<char, ::record_model::BxStrTraits, ::MapLookupDetail::Allocator> *)(name))))) = pNew;
         S00b37660_Pad();
     }
     else
     {
-        FUN_00b1c7a0(pCached);
+        reinterpret_cast<::FUN_00b1c7a0_cls *>(this)->FUN_00b1c7a0((*(const ::FUN_00b1c7a0_cls *)(pCached)));
     }
 }
 
@@ -685,7 +702,7 @@ template <class T> struct Alloc
     typedef T* pointer;
     void deallocate(T* ptr, unsigned int count)
     {
-        ::operator delete(ptr);
+        ::FUN_00401030 delete(ptr);
     }
     void destroy(T* ptr)
     {
@@ -763,7 +780,7 @@ class ScalarVector : public ContainerBase
     }
     ~ScalarVector()
     {
-        FUN_0065f240();
+        reinterpret_cast<::FUN_0065f240 *>(this)->Clear();
     }
 };
 class FUN_00b37880_class
@@ -782,18 +799,16 @@ FUN_00b37880_class::~FUN_00b37880_class()
 {}
 
 namespace fnv_00b37a00 {
-extern "C" void __cdecl FUN_00401030(void* p);
 
 struct Sound_b37a
 {
-    void FUN_00b37880();
     ~Sound_b37a()
     {
-        FUN_00b37880();
+        reinterpret_cast<::FUN_00b37880_class *>(this)->FUN_00b37880_class::~FUN_00b37880_class();
     }
     static void operator delete(void* p)
     {
-        FUN_00401030(p);
+        ::FUN_00401030(p);
     }
 };
 
@@ -833,7 +848,6 @@ struct MapIter_b37a
     MapIter_b37a() : _Mycont(0), _Ptr(0)
     {}
     inline MapIter_b37a(Node_b37a* _Pnode, const Map_b37a* _Plist);
-    bool FUN_00b16830(const MapIter_b37a& _Right) const;
     Pair_b37a* FUN_00b3b090() const;
     MapIter_b37a& FUN_00b3b100()
     {
@@ -900,17 +914,16 @@ inline MapIter_b37a::MapIter_b37a(Node_b37a* _Pnode, const Map_b37a* _Plist) : _
     _Mycont = _Plist->_Myownedproxy;
 }
 
-extern Map_b37a DAT_011f8e2c;
 
 // @fnv 0x00b37a00
 void __cdecl FUN_00b37a00()
 {
-    for (MapIter_b37a it = DAT_011f8e2c.GetVtblAndValue(); it.FUN_00b16830(DAT_011f8e2c.end()); it.FUN_00b3b100())
+    for (MapIter_b37a it = (*reinterpret_cast<::fnv_00b37a00::Map_b37a *>(&::DAT_011f8e2c)).GetVtblAndValue(); reinterpret_cast<::FUN_00b16830_Iterator *>((void *)&(it))->FUN_00b16830((const ::_Vector_const_iteratorS< ::Elem6830> &)((const ::fnv_00b37a00::MapIter_b37a &)((*reinterpret_cast<::fnv_00b37a00::Map_b37a *>(&::DAT_011f8e2c)).end()))); it.FUN_00b3b100())
     {
         delete it.FUN_00b3b090()->second;
         it.FUN_00b3b090()->second = 0;
     }
-    DAT_011f8e2c.ResetList();
+    reinterpret_cast<::Holder0394 *>(&((*reinterpret_cast<::fnv_00b37a00::Map_b37a *>(&::DAT_011f8e2c))))->ResetList();
 }
 }  // namespace fnv_00b37a00
 
@@ -920,7 +933,6 @@ struct ValueB380
     int m14;
     ValueB380(float, float);
     ~ValueB380();
-    void NormalizeData();
     ValueB380 ScaleData(float) const;
     ValueB380 FUN_00b3c660(const ValueB380&) const;
     ValueB380 Subtract(const ValueB380&) const;
@@ -967,17 +979,17 @@ void OwnerB380::FUN_00b380e0(VecB37* first, VecB37* second, float scale)
 {
     ValueB380 a(first->x, first->y);
     ValueB380 direction(second->x, second->y);
-    direction.NormalizeData();
+    reinterpret_cast<::FUN_00b3c600_class *>(&(direction))->NormalizeData();
     if (!m0c.empty())
     {
         unsigned index = m0c.size() - 1;
-        m6c.FUN_00b39100(m0c.at(index).FUN_00b3c660(m24.at(index).ScaleData(m3c.at(index))));
-        m6c.FUN_00b39100(a.Subtract(direction.ScaleData(scale)));
+        reinterpret_cast<::fnv_00b39100::vecb391::VcVector *>(&(m6c))->FUN_00b39100((const ::fnv_00b39100::vecb391::VcElem &)((const ::ValueB380 &)(m0c.at(index).FUN_00b3c660(m24.at(index).ScaleData(m3c.at(index))))));
+        reinterpret_cast<::fnv_00b39100::vecb391::VcVector *>(&(m6c))->FUN_00b39100((const ::fnv_00b39100::vecb391::VcElem &)((const ::ValueB380 &)(a.Subtract(direction.ScaleData(scale)))));
     }
-    m0c.FUN_00b39100(a);
-    m6c.FUN_00b39100(a);
-    m24.FUN_00b39100(direction);
-    m3c.PushBack(scale);
+    reinterpret_cast<::fnv_00b39100::vecb391::VcVector *>(&(m0c))->FUN_00b39100((const ::fnv_00b39100::vecb391::VcElem &)(a));
+    reinterpret_cast<::fnv_00b39100::vecb391::VcVector *>(&(m6c))->FUN_00b39100((const ::fnv_00b39100::vecb391::VcElem &)(a));
+    reinterpret_cast<::fnv_00b39100::vecb391::VcVector *>(&(m24))->FUN_00b39100((const ::fnv_00b39100::vecb391::VcElem &)(direction));
+    reinterpret_cast<::FloatVec *>(&(m3c))->PushBack(scale);
     FrameB380();
 }
 
@@ -1095,7 +1107,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 template <class T> struct BxAllocT
 {
@@ -1114,7 +1126,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -1435,7 +1447,6 @@ struct TreeIterator : FUN_00b3b050
 {
     TreeIterator()
     {}
-    bool FUN_00b2ac30(const TreeIterator&) const;
     TreeIterator& FUN_00b3b440()
     {
         FUN_00b3b050::FUN_00b3b440();
@@ -1572,12 +1583,12 @@ TreeIterator HintTree::FUN_00b398c0(TreeIterator where, const TreeValue& value)
     }
     else
     {
-        if (where.FUN_00b2ac30(begin()))
+        if (reinterpret_cast<::FUN_00b2ac30_t *>((void *)&(where))->FUN_00b2ac30((::FUN_00b2ac30_t *)&(const ::TreeIterator &)(begin())))
         {
             if (compare(_Kfn(value), _Key(where._Mynode())))
                 return FUN_00b3ac00(true, where._Mynode(), value);
         }
-        else if (where.FUN_00b2ac30(end()))
+        else if (reinterpret_cast<::FUN_00b2ac30_t *>((void *)&(where))->FUN_00b2ac30((::FUN_00b2ac30_t *)&(const ::TreeIterator &)(end())))
         {
             if (compare(_Key(_Rmost()), _Kfn(value)))
                 return FUN_00b3ac00(false, _Rmost(), value);
@@ -1591,7 +1602,7 @@ TreeIterator HintTree::FUN_00b398c0(TreeIterator where, const TreeValue& value)
                 return FUN_00b3ac00(true, where._Mynode(), value);
         }
         else if (compare(_Key(where._Mynode()), _Kfn(value)) &&
-                 ((next = where).FUN_00b3b100().FUN_00b2ac30(end()) || compare(_Kfn(value), _Key(next._Mynode()))))
+                 (reinterpret_cast<::FUN_00b2ac30_t *>((void *)&((next = where).FUN_00b3b100()))->FUN_00b2ac30((::FUN_00b2ac30_t *)&(const ::TreeIterator &)(end())) || compare(_Kfn(value), _Key(next._Mynode()))))
         {
             if (_Isnil(_Right(where._Mynode())))
                 return FUN_00b3ac00(false, where._Mynode(), value);
@@ -3187,12 +3198,10 @@ _FwdIt _Uninit_copyS(_InIt _First, _InIt _Last, _FwdIt _Dest, _Alloc& _Al, _Nons
 // @fnv 0x00b3b5a0
 ElemB5A0* __cdecl FUN_00b3b5a0(ElemB5A0* _First, ElemB5A0* _Last, ElemB5A0* _Dest, allocatorS<ElemB5A0>& _Al)
 {
-    return (_Uninit_copyS(_Checked_baseS(_First), _Checked_baseS(_Last), _Dest, _Al, _Ptr_catS(_First, _Dest),
-                          _Range_checked_iterator_tagS()));
+    return (((::fnv_00b3b5a0::ElemB5A0 *)(::FUN_00b25a90((::GlobalObject_00b3f100 *)(::fnv_00b3b5a0::ElemB5A0 *)(_Checked_baseS(_First)), (::GlobalObject_00b3f100 *)(::fnv_00b3b5a0::ElemB5A0 *)(_Checked_baseS(_Last)), (::GlobalObject_00b3f100 *)(_Dest)))));
 }
 }  // namespace fnv_00b3b5a0
 
-void FUN_00401030(void* p);
 inline void* operator new(unsigned int, void* p)
 {
     return p;
@@ -3206,7 +3215,7 @@ struct ElQ
 };
 __forceinline void Del(ElQ* p, unsigned int f)
 {
-    p->~ElQ();
+    reinterpret_cast<::ScaledVec6 *>((p))->ScaledVec6::~ScaledVec6();
 }
 inline void Construct(ElQ* p, const ElQ& v)
 {
@@ -3582,8 +3591,7 @@ _FwdIt _Uninit_copyS(_InIt _First, _InIt _Last, _FwdIt _Dest, _Alloc& _Al, _Nons
 template <class _InIt, class _FwdIt, class _Alloc>
 inline _FwdIt unchecked_uninitialized_copyS(_InIt _First, _InIt _Last, _FwdIt _Dest, _Alloc& _Al)
 {
-    return (_Uninit_copyS(_Checked_baseS(_First), _Checked_baseS(_Last), _Dest, _Al, _Ptr_catS(_First, _Dest),
-                          _Range_checked_iterator_tagS()));
+    return (((::fnv_00b3b6f0::ElemMOVE *)(::FUN_00b25a90((::GlobalObject_00b3f100 *)(::fnv_00b3b6f0::ElemMOVE *)(_Checked_baseS(_First)), (::GlobalObject_00b3f100 *)(::fnv_00b3b6f0::ElemMOVE *)(_Checked_baseS(_Last)), (::GlobalObject_00b3f100 *)(_Dest)))));
 }
 struct _Undefined_move_tagS
 {
@@ -3647,7 +3655,7 @@ template <class _Ty> inline _Ty* _Allocate(unsigned int _Count, _Ty*)
         _Count = 0;
     else if (((unsigned int)(-1) / _Count) < sizeof(_Ty))
         throw bad_alloc(0);
-    return (_Ty*)::operator new(_Count * sizeof(_Ty));
+    return (_Ty*)::FUN_00401000(_Count * sizeof(_Ty));
 }
 
 template <class _T1, class _T2> inline void _Construct(_T1* _Ptr, const _T2& _Val)
@@ -3726,7 +3734,7 @@ template <class _Ty> class allocator
     }
     void deallocate(pointer _Ptr, size_type)
     {
-        ::operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     void construct(pointer _Ptr, const _Ty& _Val)
     {
@@ -3820,7 +3828,7 @@ template <class T> class allocator
     unsigned int state;
     void deallocate(T* _Ptr, unsigned int)
     {
-        ::operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
 };
 template <class C, class T, class A> class basic_string;
@@ -3838,7 +3846,7 @@ template <> class basic_string<char, char_traits<char>, allocator<char> >
     basic_string(const basic_string&);
     ~basic_string()
     {
-        _Tidy(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
 
   protected:
@@ -3934,7 +3942,7 @@ template <class V> struct NodeAllocatorT
     }
     void deallocate(V* _Ptr, unsigned int)
     {
-        ::operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
 };
 template <class T> inline void SwapValue(T& _Left, T& _Right)
@@ -4187,7 +4195,7 @@ template <class Value> typename EraseTree<Value>::iterator EraseTree<Value>::FUN
                 {  // rotate red up from right subtree
                     _Color(_Pnode) = _Black;
                     _Color(_Fixnodeparent) = _Red;
-                    _Lrotate(_Fixnodeparent);
+                    reinterpret_cast<::FUN_00b3b1d0_shell *>(this)->FUN_00b3b1d0((::NodeB *)(_Fixnodeparent));
                     _Pnode = _Right(_Fixnodeparent);
                 }
 
@@ -4204,14 +4212,14 @@ template <class Value> typename EraseTree<Value>::iterator EraseTree<Value>::FUN
                     {  // rotate red up from left sub-subtree
                         _Color(_Left(_Pnode)) = _Black;
                         _Color(_Pnode) = _Red;
-                        _Rrotate(_Pnode);
+                        reinterpret_cast<::FUN_00b3b280_owner *>(this)->FUN_00b3b280((::NodeB *)(_Pnode));
                         _Pnode = _Right(_Fixnodeparent);
                     }
 
                     _Color(_Pnode) = _Color(_Fixnodeparent);
                     _Color(_Fixnodeparent) = _Black;
                     _Color(_Right(_Pnode)) = _Black;
-                    _Lrotate(_Fixnodeparent);
+                    reinterpret_cast<::FUN_00b3b1d0_shell *>(this)->FUN_00b3b1d0((::NodeB *)(_Fixnodeparent));
                     break;  // tree now recolored/rebalanced
                 }
             }
@@ -4222,7 +4230,7 @@ template <class Value> typename EraseTree<Value>::iterator EraseTree<Value>::FUN
                 {  // rotate red up from left subtree
                     _Color(_Pnode) = _Black;
                     _Color(_Fixnodeparent) = _Red;
-                    _Rrotate(_Fixnodeparent);
+                    reinterpret_cast<::FUN_00b3b280_owner *>(this)->FUN_00b3b280((::NodeB *)(_Fixnodeparent));
                     _Pnode = _Left(_Fixnodeparent);
                 }
                 if (_Isnil(_Pnode))
@@ -4238,14 +4246,14 @@ template <class Value> typename EraseTree<Value>::iterator EraseTree<Value>::FUN
                     {  // rotate red up from right sub-subtree
                         _Color(_Right(_Pnode)) = _Black;
                         _Color(_Pnode) = _Red;
-                        _Lrotate(_Pnode);
+                        reinterpret_cast<::FUN_00b3b1d0_shell *>(this)->FUN_00b3b1d0((::NodeB *)(_Pnode));
                         _Pnode = _Left(_Fixnodeparent);
                     }
 
                     _Color(_Pnode) = _Color(_Fixnodeparent);
                     _Color(_Fixnodeparent) = _Black;
                     _Color(_Left(_Pnode)) = _Black;
-                    _Rrotate(_Fixnodeparent);
+                    reinterpret_cast<::FUN_00b3b280_owner *>(this)->FUN_00b3b280((::NodeB *)(_Fixnodeparent));
                     break;  // tree now recolored/rebalanced
                 }
             }
@@ -4282,7 +4290,6 @@ struct GlobalObject_00b3f100
 {
     GlobalObject_00b3f100();
     ~GlobalObject_00b3f100();
-    float FUN_00b3f130(float, float);
 };
 
 inline float LerpF(float a, float b, float t)
@@ -4358,7 +4365,7 @@ float FUN_00b37ad0_class::FUN_00b37ad0(float a2)
             }
             pItem = (m_kMaximumCorner - m_kMinimumCorner) * pItem + m_kMinimumCorner;
             static GlobalObject_00b3f100 s_noise;
-            pItem += s_noise.FUN_00b3f130(-m_noise, m_noise);
+            pItem += reinterpret_cast<::FUN_00b3f130_shell *>(&(s_noise))->FUN_00b3f130(-m_noise, m_noise);
         }
     }
     return pItem;
@@ -4406,7 +4413,7 @@ void Cont_00b397f0::FUN_00b397f0()
         GlobalObject_00b3f100* it3 = first4;
         for (; it3 != lastIt2; it3 = it3 + 1)
         {
-            it3->~GlobalObject_00b3f100();
+            reinterpret_cast<::ScaledVec6 *>((it3))->ScaledVec6::~ScaledVec6();
         }
         int kCount = this->myEnd - this->myFirst;
         GlobalObject_00b3f100* delPtr4 = this->myFirst;
@@ -4432,16 +4439,13 @@ inline void Dead3()
 }
 unsigned int __cdecl FUN_00ec7c56();
 void __stdcall FUN_00ec7894(void* p, void* t);
-extern int DAT_010173dc;
-extern int DAT_01140cb0;
 struct FUN_0044a4c0
 {
     int m[7];
     FUN_0044a4c0(const char* s);
-    void FUN_0044a730(bool b, unsigned int n);
     ~FUN_0044a4c0()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
 };
 struct FUN_0044a310
@@ -4454,12 +4458,12 @@ struct LenErrQ : FUN_0044a310
 {
     LenErrQ(const FUN_0044a4c0& s) : FUN_0044a310(s)
     {
-        vt = &DAT_010173dc;
+        vt = &::DAT_010173dc;
     }
 };
 inline void ThrowLen(const LenErrQ& _Ex)
 {
-    FUN_00ec7894((void*)&_Ex, &DAT_01140cb0);
+    FUN_00ec7894((void*)&_Ex, &::DAT_01140cb0);
 }
 struct ValQ
 {
@@ -4523,8 +4527,6 @@ struct TreeQ
         return (0 < _Count ? _Count : 1);
     }
     NodeQ* FUN_00ad1960(NodeQ* _Larg, NodeQ* _Parg, NodeQ* _Rarg, const ValQ& _Val, char _Carg);
-    void FUN_00ad1800(NodeQ* _Wherenode);
-    void FUN_00ad18b0(NodeQ* _Wherenode);
     IterQ FUN_00b3ac00(bool _Addleft, NodeQ* _Wherenode, const ValQ& _Val);
 };
 inline IterQ::IterQ(NodeQ* p, const TreeQ* t) : _Myaux(0), _Ptr(p)
@@ -4576,12 +4578,12 @@ IterQ TreeQ::FUN_00b3ac00(bool _Addleft, NodeQ* _Wherenode, const ValQ& _Val)
                 if (_Pnode == _Right(_Parent(_Pnode)))
                 {
                     _Pnode = _Parent(_Pnode);
-                    FUN_00ad1800(_Pnode);
+                    reinterpret_cast<::FUN_00b3b1d0_shell *>(this)->FUN_00b3b1d0((::NodeB *)(_Pnode));
                 }
                 _Color(_Parent(_Pnode)) = 1;
                 Dead3();
                 _Color(_Parent(_Parent(_Pnode))) = 0;
-                FUN_00ad18b0(_Parent(_Parent(_Pnode)));
+                reinterpret_cast<::FUN_00b3b280_owner *>(this)->FUN_00b3b280((::NodeB *)(_Parent(_Parent(_Pnode))));
             }
         }
         else
@@ -4600,12 +4602,12 @@ IterQ TreeQ::FUN_00b3ac00(bool _Addleft, NodeQ* _Wherenode, const ValQ& _Val)
                 if (_Pnode == _Left(_Parent(_Pnode)))
                 {
                     _Pnode = _Parent(_Pnode);
-                    FUN_00ad18b0(_Pnode);
+                    reinterpret_cast<::FUN_00b3b280_owner *>(this)->FUN_00b3b280((::NodeB *)(_Pnode));
                 }
                 _Color(_Parent(_Pnode)) = 1;
                 Dead2();
                 _Color(_Parent(_Parent(_Pnode))) = 0;
-                FUN_00ad1800(_Parent(_Parent(_Pnode)));
+                reinterpret_cast<::FUN_00b3b1d0_shell *>(this)->FUN_00b3b1d0((::NodeB *)(_Parent(_Parent(_Pnode))));
             }
         }
     Dead3();
@@ -5052,7 +5054,6 @@ void FUN_00b3b100_Iterator::FUN_00b3b100()
 }  // namespace fnv_00b3b100
 
 namespace fnv_00b3b330 {
-extern const unsigned int DAT_010173f0;
 extern void __cdecl operator delete(void*) throw();
 void __cdecl CopyChars(char*, unsigned int, const char*, unsigned int);
 void __cdecl MoveChars(char*, unsigned int, const char*, unsigned int);
@@ -5118,7 +5119,7 @@ struct string
     {
         return _Mysize;
     }
-    string& erase(unsigned int _Off, unsigned int _Count = DAT_010173f0)
+    string& erase(unsigned int _Off, unsigned int _Count = ::g_010173f0)
     {
         if (_Mysize < _Off)
             RangeError();
@@ -5145,7 +5146,7 @@ struct string
         if (_Myres < _Newsize)
             _Copy(_Newsize, _Mysize);
         else if (_Trim && _Newsize < 16)
-            FUN_0044a730(true, _Newsize < _Mysize ? _Newsize : _Mysize);
+            reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, _Newsize < _Mysize ? _Newsize : _Mysize);
         else if (_Newsize == 0)
             _Eos(0);
         return 0 < _Newsize;
@@ -5169,7 +5170,7 @@ struct string
     string(const string& _Right)
     {
         FUN_0044a730();
-        AssignSubstring(_Right, 0, DAT_010173f0);
+        AssignSubstring(_Right, 0, ::g_010173f0);
     }
 };
 template <class T1, class T2> struct pair
@@ -5291,9 +5292,8 @@ struct SplinePointVector : SplineVecBase
     SplinePointVector();
     __forceinline ~SplinePointVector()
     {
-        FUN_00b397f0();
+        reinterpret_cast<::ComplexVector *>(this)->FUN_00b397f0();
     }
-    void FUN_00b397f0();
     void FUN_00b39490(unsigned int, SplinePoint);
     __forceinline void resizeA(unsigned int n)
     {
@@ -5317,7 +5317,6 @@ struct SplinePointVector : SplineVecBase
         int hb11;
         FUN_00b39490(n, SplinePoint());
     }
-    void FUN_00b1e750();
     __forceinline unsigned int size() const
     {
         return last - first;
@@ -5371,7 +5370,7 @@ void SplinePath::FUN_00b38430(unsigned int count)
     sampled.resizeA(count);
     for (unsigned int i = 0; i < count; ++i)
         sampled[i] = FUN_00b38b50(float(i) / count);
-    samples.FUN_00b1e750();
+    reinterpret_cast<::fnv_00b1e750::vecb1e::VcVector *>(&(samples))->FUN_00b1e750();
     samples.resizeB(count);
     unsigned int segment = 0;
     samples[0] = controlPoints[0];
@@ -5402,7 +5401,7 @@ inline NodeB*& TreeLeftmost(FUN_00b3b810_shell* tree)
 }
 inline void FUN_00b3b810_shell::InitNode()
 {
-    f18 = FUN_00b3b880();
+    f18 = ((::NodeB *)(reinterpret_cast<::fnv_00b3b880::Tree *>(this)->FUN_00b3b880()));
     reinterpret_cast<NodeT*>(f18)->isnil = true;
     f18->f4 = f18;
     TreeLeftmost(this) = f18, f18->f8 = f18;
@@ -5485,7 +5484,7 @@ template <class T> struct AllocQ
     {}
     T* allocate(unsigned int n)
     {
-        return asgnb36::BxAllocate(n, (T*)0);
+        return ((::fnv_00b3b9f0::AuxContQ *)(::FUN_0044d670(n)));
     }
     void deallocate(T*, unsigned int)
     {}
@@ -5545,7 +5544,7 @@ inline TreeIterB3B TreeCleanup::FUN_00b3bb90(TreeConstIterB3B first, TreeConstIt
     TreeConstIterB3B& cursor = first;
     if (cursor == begin() && last == end())
     {
-        ResetList();
+        reinterpret_cast<::Holder0394 *>(this)->ResetList();
         return begin();
     }
     else
@@ -5559,7 +5558,7 @@ inline TreeIterB3B TreeCleanup::FUN_00b3bb90(TreeConstIterB3B first, TreeConstIt
 // @fnv 0x00b3ba90
 void TreeCleanup::FUN_00b3ba90()
 {
-    FUN_00b3bb90(begin(), end());
+    reinterpret_cast<::TreeB3B *>(this)->FUN_00b3bb90(begin(), end());
     ((allocatorS<NodeT*>*)&unk10)->destroy(&Left(head));
     ((allocatorS<NodeT*>*)&unk10)->destroy(&Parent(head));
     ((allocatorS<NodeT*>*)&unk10)->destroy(&Right(head));

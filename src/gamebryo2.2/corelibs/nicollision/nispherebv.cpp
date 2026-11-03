@@ -2,6 +2,33 @@
 // src/gamebryo2.2/corelibs/nicollision/nispherebv.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nicollision/nispherebv.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004b6190_shell.h"
+#include "fnv/decl/FUN_00eb5e30.h"
+#include "fnv/decl/FnvCpu_FUN_00be0aa0_CpuObject.h"
+#include "fnv/decl/FnvCpu_FUN_00eae6f0_CpuObject.h"
+#include "fnv/decl/FnvCpu_FUN_00eae700_CpuObject.h"
+#include "fnv/decl/FnvCpu_FUN_00eae710_CpuObject.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/S_00e9cb10_Obj.h"
+#include "fnv/decl/S_00eae7a0_Solver.h"
+#include "fnv/decl/TESCombatStyle.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/fnv_00eae6d0__Isect.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00a92000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00eb1000.h"
+#include "fnv/symbols_00eb5000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_010f1000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
 struct NiStream
 {
     void GetLoadedObject();
@@ -12,9 +39,12 @@ struct NiObject
     virtual void LinkObject(NiStream&);
 };
 
+class NiStream;
 struct NiSphere
 {
     void LoadBinary(NiStream&);
+public:
+    void SaveBinary(::NiStream &);
 };
 
 struct NiSphereBV : NiObject
@@ -26,7 +56,7 @@ struct NiSphereBV : NiObject
 // @fnv 0x00eab860
 void NiSphereBV::FUN_00eab860(NiStream& kStream)
 {
-    NiObject::LinkObject(kStream);
+    ::FUN_00a89af0((int)this);
     m_kBoundingSphere.LoadBinary(kStream);
 }
 
@@ -34,11 +64,9 @@ namespace fnv_00eab880 {
 struct NiStream;
 struct NiBoundingVolume
 {
-    void SaveBinary(NiStream&);
 };
 struct NiSphere
 {
-    void SaveBinary(NiStream&);
 };
 struct NiSphereBV : NiBoundingVolume
 {
@@ -49,8 +77,8 @@ struct NiSphereBV : NiBoundingVolume
 // @fnv 0x00eab880
 void NiSphereBV::FUN_00eab880(NiStream& kStream)
 {
-    NiBoundingVolume::SaveBinary(kStream);
-    ((NiSphere*)((char*)this + 4))->SaveBinary(kStream);
+    reinterpret_cast<::S_00e9cb10_Obj *>(this)->SaveValueToStream((::S_00e9cb10_Stream *)&(kStream));
+    reinterpret_cast<::NiSphere *>((((NiSphere*)((char*)this + 4))))->SaveBinary((::NiStream &)(kStream));
 }
 }  // namespace fnv_00eab880
 
@@ -95,7 +123,6 @@ struct NiBoundingVolume
 };
 struct Q
 {
-    bool FUN_00a92660(Q const&) const;
 };
 struct MyBV
 {
@@ -106,10 +133,9 @@ struct MyBV
 // @fnv 0x00eab820
 int MyBV::FUN_00eab820(const NiBoundingVolume& kABV)
 {
-    return kABV.f3() == 0 && ((Q const*)((char const*)&kABV + 4))->FUN_00a92660(m_kBoundingSphere);
+    return kABV.f3() == 0 && ((bool)(::FUN_00a92660((const float *)(((Q const*)((char const*)&kABV + 4))), (int)&(m_kBoundingSphere), {})));
 }
 
-extern int DAT_010f1854;
 struct Proxy00eab8a0
 {
     Proxy00eab8a0* InitFromParams(float, int const*);
@@ -129,14 +155,14 @@ Proxy00eab8a0* Proxy00eab8a0::InitFromParams(float afValue, int const* paiParams
 struct NiPoint3
 {
     float x, y, z;
+public:
+    char *FUN_00a59af0(const char *);
+public:
+    static const ::NiPoint3 ZERO;
 };
-extern NiPoint3 _NiPoint3_ZERO;
-extern int DAT_010f1854;
 struct P03MM
 {
-    void* Allocate(unsigned int);
 };
-extern P03MM g_memoryManager;
 struct FUN_00eac170_Ret
 {
     virtual void F(NiStream&);
@@ -146,12 +172,12 @@ struct FUN_00eac170_Ret
 // @fnv 0x00eac170
 FUN_00eac170_Ret* FUN_00eac170(NiStream& kStream)
 {
-    void* mem = g_memoryManager.Allocate(20);
+    void* mem = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(20);
     FUN_00eac170_Ret* p;
     if (mem)
     {
         *(void**)mem = (void*)&DAT_010f1854;
-        ((FUN_00eac170_Ret*)mem)->c = _NiPoint3_ZERO;
+        ((FUN_00eac170_Ret*)mem)->c = ::NiPoint3::ZERO;
         ((FUN_00eac170_Ret*)mem)->r = 1.0f;
         p = (FUN_00eac170_Ret*)mem;
     }
@@ -167,9 +193,7 @@ namespace fnv_00eac1d0 {
 extern int DAT_010f16f4;
 struct P03MM
 {
-    void __thiscall Deallocate(void*);
 };
-extern P03MM g_memoryManager;
 struct FUN_00eac1d0_shell
 {
     void* m_p;
@@ -181,7 +205,7 @@ void* FUN_00eac1d0_shell::InitAndMaybeFree(bool abFree)
 {
     m_p = &DAT_010f16f4;
     if (abFree & 1)
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00eac1d0::P03MM *>(&::g_memoryManager))))->FUN_00aa4060(this);
     return this;
 }
 }  // namespace fnv_00eac1d0
@@ -189,25 +213,19 @@ void* FUN_00eac1d0_shell::InitAndMaybeFree(bool abFree)
 namespace fnv_00eac200 {
 struct P03MM
 {
-    void* Allocate(unsigned int);
 };
-extern P03MM g_memoryManager;
-extern int DAT_010f1854;
-extern int _NiPoint3_ZERO;
-extern int DAT_011f4270;
-extern int DAT_011f4274;
 struct NiBoundingVolume;
 // Allocates 0x14 bytes, initialises a vtable pointer and four fields (including a float set to 1.0), and returns the new NiBoundingVolume or null.
 // @fnv 0x00eac200
 NiBoundingVolume* CreateNiBoundingVolume()
 {
-    void* p = g_memoryManager.Allocate(0x14);
+    void* p = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00eac200::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(0x14);
     if (p)
     {
-        *(void**)p = (void*)&DAT_010f1854;
-        *(int*)((char*)p + 4) = _NiPoint3_ZERO;
-        *(int*)((char*)p + 8) = DAT_011f4270;
-        int k = DAT_011f4274;
+        *(void**)p = (void*)&::DAT_010f1854;
+        *(int*)((char*)p + 4) = (*reinterpret_cast<int *>((void *)&::NiPoint3::ZERO));
+        *(int*)((char*)p + 8) = ::_DAT_011f4270;
+        int k = ::_DAT_011f4274;
         *(float*)((char*)p + 16) = 1.0;
         *(int*)((char*)p + 12) = k;
         return (NiBoundingVolume*)p;
@@ -219,10 +237,7 @@ NiBoundingVolume* CreateNiBoundingVolume()
 namespace fnv_00eacac0 {
 struct P03MM
 {
-    void* Allocate(unsigned int);
 };
-extern P03MM g_memoryManager;
-extern int DAT_010f1854;
 struct S16
 {
     int i0;
@@ -240,10 +255,10 @@ struct BVClone
 // @fnv 0x00eacac0
 BVClone* BVClone::Clone()
 {
-    BVClone* pkClone = (BVClone*)g_memoryManager.Allocate(20);
+    BVClone* pkClone = (BVClone*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00eacac0::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(20);
     if (pkClone)
     {
-        *(int*)pkClone = (int)&DAT_010f1854;
+        *(int*)pkClone = (int)&::DAT_010f1854;
         *(S16*)((char*)pkClone + 4) = *(S16*)((char*)this + 4);
         return pkClone;
     }
@@ -374,12 +389,9 @@ bool SphereBVLite::CheckSweptSphereOverlap(float fTime, const BoundVolLite& kBV0
 }
 
 extern "C" unsigned int __cdecl strlen(const char*);
-extern "C" void* __cdecl FUN_00aa1070(unsigned int);
-extern "C" int __cdecl FUN_00a305b0(char*, unsigned int, const char*, ...);
 extern const char str_010f18a4[];
 extern const char str_010f1898[];
 extern const char str_010f1884[];
-extern const double DAT_01017a40;
 struct Stream0
 {
     int unk00;
@@ -388,12 +400,9 @@ struct Stream0
     unsigned short size0a;
     unsigned short unk0c;
     unsigned short grow0e;
-    void FUN_0096ad30(unsigned int);
-    void FUN_0096ae90(unsigned int, char**);
 };
 struct StringPart0
 {
-    char* FUN_00a59af0(const char*);
 };
 struct Display0
 {
@@ -410,25 +419,25 @@ void Display0::AppendFormattedText(char* text, Stream0* out)
     char* original;
     unsigned int bytes = strlen(text) + 13;
     original = text;
-    text = (char*)FUN_00aa1070(bytes);
-    FUN_00a305b0(text, bytes, str_010f18a4, original);
+    text = (char*)::FUN_00aa1070(bytes);
+    ::NiSprintf(text, bytes, str_010f18a4, original);
     unsigned int size = out->size0a;
     if (size >= out->capacity08)
-        out->FUN_0096ad30(size + out->grow0e);
-    out->FUN_0096ae90(size, &text);
-    text = child04.FUN_00a59af0(str_010f1898);
+        reinterpret_cast<::ViewerStrings *>((out))->SetSize(size + out->grow0e);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((out))->SetAt(size, (*(char * *)(&text)));
+    text = reinterpret_cast<::NiPoint3 *>(&(child04))->FUN_00a59af0(str_010f1898);
     size = out->size0a;
     if (size >= out->capacity08)
-        out->FUN_0096ad30(size + out->grow0e);
-    out->FUN_0096ae90(size, &text);
+        reinterpret_cast<::ViewerStrings *>((out))->SetSize(size + out->grow0e);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((out))->SetAt(size, (*(char * *)(&text)));
     bytes = strlen(original) + 30;
-    text = (char*)FUN_00aa1070(bytes);
-    int scaled = (int)(rate10 * DAT_01017a40);
-    FUN_00a305b0(text, bytes, str_010f1884, (float)scaled / DAT_01017a40);
+    text = (char*)::FUN_00aa1070(bytes);
+    int scaled = (int)(rate10 * ::g_d100);
+    ::NiSprintf(text, bytes, str_010f1884, (float)scaled / ::g_d100);
     size = out->size0a;
     if (size >= out->capacity08)
-        out->FUN_0096ad30(size + out->grow0e);
-    out->FUN_0096ae90(size, &text);
+        reinterpret_cast<::ViewerStrings *>((out))->SetSize(size + out->grow0e);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((out))->SetAt(size, (*(char * *)(&text)));
 }
 
 struct Triangle3
@@ -463,7 +472,6 @@ inline bool operator!=(const Point3Lite& a, const NiPoint3& b)
     return !(a == b);
 }
 
-float FUN_00eb1d20(const Segment3&, const Triangle3&, float*, float*, float*);
 float GetSquaredDistanceToTriangle(const Point3Lite&, const Triangle3&, float*, float*);
 
 // Builds a triangle from three points and tests whether the sphere's center swept along kV0-kV1 over fTime comes within the sphere radius of the triangle.
@@ -482,14 +490,14 @@ bool SphereTriangleSweepTest(float fTime, const SphereBVLite& kBV0, const Point3
     float fTriP0;
     float fTriP1;
 
-    if (kDelta != _NiPoint3_ZERO)
+    if (kDelta != ::NiPoint3::ZERO)
     {
         Segment3 seg;
         seg.m_kStartPoint = kBV0.m_kBoundingSphere.m_kCenter;
         seg.m_kLightVector = kDelta * fTime;
 
         float fSegP;
-        fSqrDistance = FUN_00eb1d20(seg, kTriangle, &fSegP, &fTriP0, &fTriP1);
+        fSqrDistance = ::fnv_00eb1d20::FUN_00eb1d20((const ::fnv_00eb1d20::OriginDirectionPair &)(seg), (const ::fnv_00eb1d20::Triangle3D &)(kTriangle), (*(float *)(&fSegP)), (*(float *)(&fTriP0)), (*(float *)(&fTriP1)));
     }
     else
     {
@@ -678,7 +686,7 @@ struct ObjB0
     float m_r;
     static void* operator new(unsigned int n)
     {
-        return g_memoryManager.Allocate(n);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(n);
     }
     ObjB0(const NiPoint3& c, float r) : vf(&DAT_010f1854), m_iThirdValue(c), m_r(r)
     {}
@@ -744,7 +752,6 @@ struct V3
     {
         return x * x + y * y + z * z;
     }
-    void FUN_004a0c10();
 };
 inline V3 operator*(float f, const V3& v)
 {
@@ -755,7 +762,6 @@ struct Sphere0 : BoundVolLite
     V3 c;
     float r;
 };
-extern V3 DAT_011a946c;
 inline V3 ScaleLife(const float& f, const V3& v)
 {
     return V3(f * v.x, f * v.y, f * v.z);
@@ -807,10 +813,10 @@ bool IntersectSpheres(float afDuration, const Sphere0& A, const V3& B, const Sph
                         if (fDistSq > 1.1920928955078125e-7f)
                         {
                             normal0 = vCenterDiff;
-                            normal0.FUN_004a0c10();
+                            reinterpret_cast<::FUN_004a0c10_s *>(&(normal0))->FUN_004a0c10();
                         }
                         else
-                            normal0 = DAT_011a946c;
+                            normal0 = (*reinterpret_cast<::V3 *>(&::DAT_011a946c));
                         normal1 = -normal0;
                     }
                     return true;
@@ -831,7 +837,7 @@ bool IntersectSpheres(float afDuration, const Sphere0& A, const V3& B, const Sph
                 if (flag)
                 {
                     normal0 = a;
-                    normal0.FUN_004a0c10();
+                    reinterpret_cast<::FUN_004a0c10_s *>(&(normal0))->FUN_004a0c10();
                     V3 n;
                     n = V3(-normal0.x, -normal0.y, -normal0.z);
                     normal1 = n;
@@ -851,14 +857,14 @@ bool IntersectSpheres(float afDuration, const Sphere0& A, const V3& B, const Sph
     if (fDistBSq > dotBB)
     {
         normal0 = C.c - A.c;
-        normal0.FUN_004a0c10();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(normal0))->FUN_004a0c10();
         float radius = A.r;
         local_point = A.c + radius * normal0;
         normal1 = -normal0;
         return true;
     }
     normal1 = A.c - C.c;
-    normal1.FUN_004a0c10();
+    reinterpret_cast<::FUN_004a0c10_s *>(&(normal1))->FUN_004a0c10();
     local_point = C.c + C.r * normal1;
     normal0 = -normal1;
     return true;
@@ -933,8 +939,6 @@ struct Pt3
     {
         return Pt3(y * p.z - z * p.y, z * p.x - x * p.z, x * p.y - y * p.x);
     }
-    void FUN_004a0c10();
-    float DotProduct(Pt3 const&) const;
 };
 struct Sphere : BoundVolLite
 {
@@ -978,13 +982,6 @@ struct Isect
     float unk60;
     float unk64;
     float unk68;
-    void FUN_00eb5e30(Sphere const&, Pt3 const&, Pt3 const&, Pt3 const&, float, float, float, int);
-    void Solve(Pt3 const&, Pt3 const&);
-    float FUN_00eae6f0();
-    int FUN_00be0aa0();
-    void FUN_00eae6d0();
-    Pt3 const& FUN_00eae700();
-    Pt3 const& FUN_00eae710();
 };
 struct Query
 {
@@ -1018,59 +1015,59 @@ bool __cdecl SphereTriangleCollision(float time, Sphere const& sphere, Pt3 const
     }
     Pt3 vRelativeVelocity = sphereVelocity - triangleVelocity;
     query.l = vRelativeVelocity;
-    float speedSquared = vRelativeVelocity.SqrLength();
+    float speedSquared = reinterpret_cast<::TESCombatStyle *>((void *)&(vRelativeVelocity))->UpdateCombatStyle();
     if (speedSquared * time <= double(0.00001f))
         return false;
     {
         Pt3 normal = -query.k.edge0.Cross(query.k.edge1);
-        float centerProjection = normal.Dot(query.c);
+        float centerProjection = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(normal))->DotProduct((void *)&(query.c));
         float planeProjection = normal.DotAccumulated(v0);
         float difference = centerProjection - planeProjection;
-        float normalSquared = normal.SqrLength();
+        float normalSquared = reinterpret_cast<::TESCombatStyle *>((void *)&(normal))->UpdateCombatStyle();
         float extentSquared = query.k.radiusSquared * normalSquared;
         if (difference * difference > extentSquared)
         {
-            normal.FUN_004a0c10();
+            reinterpret_cast<::FUN_004a0c10_s *>(&(normal))->FUN_004a0c10();
             Pt3 vSupport;
             if (centerProjection > planeProjection)
             {
-                float direction = normal.Dot(vRelativeVelocity);
+                float direction = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(normal))->DotProduct((void *)&(vRelativeVelocity));
                 if (direction >= 0.0f)
                     return false;
                 vSupport = query.c - FUN_004a3760(sphere.radius, normal);
             }
             else
             {
-                float direction = normal.Dot(vRelativeVelocity);
+                float direction = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(normal))->DotProduct((void *)&(vRelativeVelocity));
                 if (direction <= 0.0f)
                     return false;
                 vSupport = FUN_004a3760(sphere.radius, normal) + query.c;
             }
             planeProjection = v0.DotPlane(normal);
-            float supportProjection = normal.Dot(vSupport);
+            float supportProjection = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(normal))->DotProduct((void *)&(vSupport));
             if (supportProjection > planeProjection + double(0.001f))
             {
-                if (normal.DotProduct(vSupport + FUN_004a3760(time, query.l)) > planeProjection + double(0.001f))
+                if (reinterpret_cast<::FUN_004b6190_shell *>((void *)&(normal))->DotProduct((void *)&(const ::Pt3 &)(vSupport + FUN_004a3760(time, query.l))) > planeProjection + double(0.001f))
                     return false;
             }
         }
     }
     Isect intersection;
-    intersection.FUN_00eb5e30(sphere, v0, v1, v2, time, 0.001f, 0.0001f, 32);
-    intersection.Solve(sphereVelocity, triangleVelocity);
-    contactTime = intersection.FUN_00eae6f0();
-    if (intersection.FUN_00be0aa0() != 3 && intersection.FUN_00be0aa0() != 2)
+    new ((void *)&(intersection)) ::FUN_00eb5e30((::S_00eb5e30_Obj *)&(sphere), (const ::S_00eb5e30_V3 *)&(v0), (const ::S_00eb5e30_V3 *)&(v1), (const ::S_00eb5e30_V3 *)&(v2), time, 0.001f, 0.0001f, 32);
+    reinterpret_cast<::S_00eae7a0_Solver *>(&(intersection))->Solve((const ::S_00eae7a0_Point &)(sphereVelocity), (const ::S_00eae7a0_Point &)(triangleVelocity));
+    contactTime = reinterpret_cast<::FnvCpu_FUN_00eae6f0_CpuObject *>(&(intersection))->FUN_00eae6f0();
+    if (reinterpret_cast<::FnvCpu_FUN_00be0aa0_CpuObject *>(&(intersection))->FUN_00be0aa0() != 3 && reinterpret_cast<::FnvCpu_FUN_00be0aa0_CpuObject *>(&(intersection))->FUN_00be0aa0() != 2)
     {
-        intersection.FUN_00eae6d0();
+        reinterpret_cast<::fnv_00eae6d0::Isect *>(&(intersection))->FUN_00eae6d0();
         return false;
     }
-    contactPoint = intersection.FUN_00eae700();
+    contactPoint = (*(const ::Pt3 *)(reinterpret_cast<::FnvCpu_FUN_00eae700_CpuObject *>(&(intersection))->FUN_00eae700()));
     if (calcNormals)
     {
-        sphereNormal = intersection.FUN_00eae710();
+        sphereNormal = (*(const ::Pt3 *)(reinterpret_cast<::FnvCpu_FUN_00eae710_CpuObject *>(&(intersection))->FUN_00eae710()));
         triangleNormal = -sphereNormal;
     }
-    intersection.FUN_00eae6d0();
+    reinterpret_cast<::fnv_00eae6d0::Isect *>(&(intersection))->FUN_00eae6d0();
     return true;
 }
 

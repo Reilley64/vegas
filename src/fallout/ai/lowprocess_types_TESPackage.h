@@ -1,5 +1,33 @@
 // fallout/ai/lowprocess_types_TESPackage.h: declares PackageRuntimeData, PackedByteIntRecord, DurationData, PackageEventActionData, TESPackage
 
+#include "fnv/decl/FUN_0041ca90.h"
+#include "fnv/decl/FUN_0041d8a0_shell.h"
+#include "fnv/decl/FUN_00672930_cls.h"
+#include "fnv/decl/FUN_00672dd0_shell.h"
+#include "fnv/decl/FUN_00672f20_cls.h"
+#include "fnv/decl/FUN_00674e70_Shell.h"
+#include "fnv/decl/FUN_006757e0_shell.h"
+#include "fnv/decl/FUN_00675830_shell.h"
+#include "fnv/decl/FUN_00678ec0_shell.h"
+#include "fnv/decl/FUN_0067a480_shell.h"
+#include "fnv/decl/FUN_0067efd0_shell.h"
+#include "fnv/decl/FUN_00903cd0_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/Proxy758a0.h"
+#include "fnv/decl/fnv_00674f30__FUN_00674f30_shell.h"
+#include "fnv/decl/fnv_00675a50__FUN_00675a50_shell.h"
+#include "fnv/decl/fnv_00675c20__PHost.h"
+#include "fnv/decl/fnv_00676140__FUN_00676140_shell.h"
+#include "fnv/decl/fnv_006780e0__TESPackageExt.h"
+#include "fnv/decl/fnv_00678670__FUN_00678670_shell.h"
+#include "fnv/decl/fnv_006787e0__Package.h"
+#include "fnv/decl/fnv_00903e00__FUN_00903e00_shell.h"
+#include "fnv/decl/fnv_00903e20__FUN_00903e20_shell.h"
+#include "fnv/decl/xPkg.h"
+#include "fnv/symbols_00884000.h"
+#include "fnv/symbols_008a6000.h"
+#include "fnv/symbols_008b1000.h"
+#include "fnv/symbols_00903000.h"
 class Script;
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef FNV_TESPACKAGE_H
@@ -109,6 +137,8 @@ class PackedByteIntRecord
     char m_cLastByteBeforePayloadItem;     // +0x3, 1 bytes
     int m_iPayloadInteger;  // +0x4, 4 bytes
     // void __cdecl PackedByteIntRecord::*()
+public:
+    void *Endian();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(PackedByteIntRecord) == 8);
@@ -143,6 +173,8 @@ class DurationData
     // const char* __cdecl DurationData::*()
     // const char* __cdecl DurationData::*()
     // void* __cdecl DurationData::*(unsigned int)
+public:
+    int FUN_00678ca0();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(DurationData) == 8);
@@ -185,61 +217,32 @@ FNV_STATIC_ASSERT(offsetof(PackageEventActionData, m_pScript) == 4);
 FNV_STATIC_ASSERT(offsetof(PackageEventActionData, pTopic) == 8);
 FNV_STATIC_ASSERT(offsetof(PackageEventActionData, eType) == 12);
 #pragma pack(push, 4)
+enum PACKAGE_PROCEDURE_TYPE;
 class TESPackage : public TESForm
 {
   public:
     unsigned int FUN_00441110();
     Script* GetNextScript();
-    TESTopic* FUN_00903cd0();
     Script* FUN_00903bd0();
     TESTopic* FUN_00903bb0();
-    Script* FUN_00903e20();
-    TESTopic* FUN_00903e00();
     TESObjectREFR* GetResolvedTargetReference(MobileObject*);
-    unsigned int FUN_00676280(MobileObject*);
-    void SetWaiting(bool);
-    float GetPackageLocationRadius(MobileObject*, bool);
-    bool FUN_0067a480();
-    float GetActorMovementSpeed(MobileObject*, bool);
 
-    void AssignTargetReference(TESObjectREFR*, bool);
-    LocationDescriptor* HasSecondLocation();
-    unsigned int FUN_006758a0(MobileObject*);
-    TESObjectCELL* GetPackageSecondLocationCell(MobileObject*);
-    const NiPoint3 GetPackageSecondLocationPosition(MobileObject*);
     bool GetPackageSearchRadius(MobileObject*, float&);
-    TESObjectREFR* FUN_00676140(MobileObject*);
-    float GetPackageResult(Actor*, bool);
 
     bool IsFlag10Set();
     bool IsFlag80Set();
     bool FUN_00670ed0();
     bool FUN_005394a0();
-    bool FUN_0067efd0();
-    bool FUN_008b1ff0();
-    bool FUN_008840f0();
-    DurationData* FUN_0041d8a0();
 
     virtual void vfn_138();
     virtual bool IsPackageRunningForActor(Actor*, int, float, bool);
     virtual bool IsSecondLocationDone(TESObjectREFR*, Actor*, int, float, bool);
     virtual bool vfn_144(Actor*, bool);
-    bool HasEssentialStatus();
-    PerkEntryConditionSet* GetConditions();
-    int GetPackType();
-    int GetProcedureType();
     bool IsMustReachLocation();
     bool IsMustComplete();
     bool UsesPackageAnimation();
     bool IsPackageBlockingGreeting();
-    bool HasTargetForActor(MobileObject*);
-    int GetPackageTargetType();
-    PackageTargetRecord* GetTarget();
     LocationDescriptor* GetLocation();
-    LocationDescriptor* GetPackageSecondLocation();
-    TESObjectREFR* GetTargetForActor(Actor*, bool);
-    TESWorldSpace* GetPackageWorldSpace(MobileObject*);
-    TESObjectCELL* GetPackageLocationCell(MobileObject*);
     const NiPoint3 GetPackageLocationPosition(MobileObject*);
     bool FUN_00670f40();
     bool FUN_00670f60();
@@ -480,6 +483,16 @@ class TESPackage : public TESForm
     // unsigned int __cdecl TESPackage::*()
     // TESPackage& __cdecl TESPackage::*(const TESPackage&)
     // void __cdecl TESPackage::*()
+public:
+    bool GetForceUnequipWeapon() const;
+public:
+    static float GetPackageDefaultFloat();
+public:
+    void SetMustReachLocation(bool);
+public:
+    void SetMustComplete(bool);
+public:
+    void SetProcedureType(::PACKAGE_PROCEDURE_TYPE);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESPackage) == 128);

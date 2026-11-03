@@ -2,21 +2,38 @@
 // src/fallout/ai/combat/combatcovermap.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatcovermap.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
+#include "fnv/decl/C6b7f20_Map.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/EventRegistry.h"
+#include "fnv/decl/FUN_00438af0_Class.h"
+#include "fnv/decl/FUN_004fe160_cls.h"
+#include "fnv/decl/FUN_005dc960_shell.h"
+#include "fnv/decl/FUN_00678ce0_shell.h"
+#include "fnv/decl/FUN_0067fdb0_shell.h"
+#include "fnv/decl/FUN_00844700_Class.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00982d10.h"
+#include "fnv/decl/FUN_00982df0_class.h"
+#include "fnv/decl/FUN_00982e70_Class.h"
+#include "fnv/decl/FUN_00982ff0_cls.h"
+#include "fnv/decl/FUN_00aa5ff0_Class.h"
+#include "fnv/decl/FUN_00aa62e0_shell.h"
+#include "fnv/decl/Lock00aa62c0.h"
+#include "fnv/decl/NiTMap_S.h"
+#include "fnv/decl/Slot_009827c0_This.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_004bda70__FUN_004bda70_shell.h"
+#include "fnv/decl/fnv_00853130__NiTMapBase.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00aa6000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_011f1000.h"
 struct CombatCoverMap
 {
     void* __thiscall FUN_00983100(unsigned int flags);
     void __thiscall FUN_00983130();
 };
-
-// Calls FUN_00983130, then deletes this if flags has bit 0 set, and returns this.
-// @fnv 0x00983100
-void* CombatCoverMap::FUN_00983100(unsigned int flags)
-{
-    FUN_00983130();
-    if (flags & 1)
-        operator delete(this);
-    return this;
-}
 
 struct FUN_00983400_shell
 {
@@ -30,31 +47,26 @@ void FUN_00983400_shell::SetByteAtOffset(unsigned char param)
     m_auc_16[0x16] = param;
 }
 
-extern "C" void __cdecl Deallocate(void*);
 struct FUN_00983250_shell
 {
-    void __thiscall FUN_00982d10();
     void* __thiscall DestroyIfFlagged(unsigned int flags);
 };
 // @fnv 0x00983250
 void* __thiscall FUN_00983250_shell::DestroyIfFlagged(unsigned int flags)
 {
-    FUN_00982d10();
+    reinterpret_cast<::FUN_00982d10 *>(this)->FUN_00982d10::~FUN_00982d10();
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct StageHolder
 {
-    bool __thiscall GetDone();
 };
 struct Calendar
 {
-    unsigned int __thiscall GetDaysPassed();
 };
 struct TESWorldSpace;
-extern TESWorldSpace* BGSSaveLoadGlobalDataWorldspacePtr;
 struct FUN_00983280_holder
 {
     void __thiscall FUN_00983280(int, StageHolder*);
@@ -69,26 +81,23 @@ struct FUN_009a0510_shell
 // @fnv 0x009a0510
 void __thiscall FUN_009a0510_shell::FUN_009a0510(StageHolder* pStage)
 {
-    if (pStage && !pStage->GetDone())
-        ((FUN_00983280_holder*)((Calendar*)BGSSaveLoadGlobalDataWorldspacePtr)->GetDaysPassed())
+    if (pStage && !reinterpret_cast<::FUN_005dc960_shell *>((pStage))->FUN_005dc960())
+        ((FUN_00983280_holder*)((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)::BGSSaveLoadGlobalDataWorldspacePtr)))->FUN_009611e0())))
             ->FUN_00983280(m_1c4, pStage);
 }
 
 namespace fnv_009a0560 {
 struct StageHolder
 {
-    bool __thiscall GetDone();
 };
 struct Calendar
 {
-    unsigned int __thiscall GetDaysPassed();
 };
 struct FUN_00983420_shell
 {
     bool __thiscall GetOrCreateCoverItem(int, StageHolder*);
 };
 struct TESWorldSpace;
-extern TESWorldSpace* BGSSaveLoadGlobalDataWorldspacePtr;
 struct FUN_009a0560_shell
 {
     bool __thiscall FUN_009a0560(StageHolder*);
@@ -97,8 +106,8 @@ struct FUN_009a0560_shell
 // @fnv 0x009a0560
 bool __thiscall FUN_009a0560_shell::FUN_009a0560(StageHolder* pStageHolder)
 {
-    if (pStageHolder && !pStageHolder->GetDone())
-        return ((FUN_00983420_shell*)((Calendar*)BGSSaveLoadGlobalDataWorldspacePtr)->GetDaysPassed())
+    if (pStageHolder && !reinterpret_cast<::FUN_005dc960_shell *>((pStageHolder))->FUN_005dc960())
+        return ((FUN_00983420_shell*)((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)(*reinterpret_cast<::fnv_009a0560::TESWorldSpace * *>(&::BGSSaveLoadGlobalDataWorldspacePtr)))))->FUN_009611e0())))
             ->GetOrCreateCoverItem(*(int*)((char*)this + 0x1C4), pStageHolder);
     return true;
 }
@@ -107,7 +116,6 @@ bool __thiscall FUN_009a0560_shell::FUN_009a0560(StageHolder* pStageHolder)
 namespace fnv_009a05b0 {
 struct StageHolder
 {
-    bool GetDone();
 };
 struct FUN_00983520_obj
 {
@@ -115,9 +123,7 @@ struct FUN_00983520_obj
 };
 struct Calendar
 {
-    FUN_00983520_obj* GetDaysPassed();
 };
-extern Calendar* BGSSaveLoadGlobalDataWorldspacePtr;
 struct FUN_009a05b0_shell
 {
     unsigned char pad[0x1c4];
@@ -128,9 +134,9 @@ struct FUN_009a05b0_shell
 // @fnv 0x009a05b0
 void __thiscall FUN_009a05b0_shell::FUN_009a05b0(StageHolder* pStage)
 {
-    if (pStage && pStage->GetDone())
+    if (pStage && reinterpret_cast<::FUN_005dc960_shell *>((pStage))->FUN_005dc960())
     {
-        BGSSaveLoadGlobalDataWorldspacePtr->GetDaysPassed()->FUN_00983520(fld1c4, pStage);
+        ((::fnv_009a05b0::FUN_00983520_obj *)(reinterpret_cast<::FUN_009611e0_shell *>(((*reinterpret_cast<::fnv_009a05b0::Calendar * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_009611e0()))->FUN_00983520(fld1c4, pStage);
     }
 }
 }  // namespace fnv_009a05b0
@@ -138,13 +144,9 @@ void __thiscall FUN_009a05b0_shell::FUN_009a05b0(StageHolder* pStage)
 struct StageHolder;
 struct MapMember
 {
-    void AcquireLock();
-    void FUN_00aa62e0();
 };
 struct HolderLookup
 {
-    bool FUN_00853130(unsigned int key, void** value);
-    void FUN_00844700(unsigned int key, void* value);
 };
 struct CreatedShell
 {
@@ -156,28 +158,24 @@ struct CreatedShell
     unsigned int unk14;
     unsigned int unk18;
     CreatedShell();
-    void SetByteAtOffset(unsigned char value);
-    void AddItem(int value, StageHolder* holder);
 };
 struct HolderStatus
 {
-    bool GetDone();
-    void FUN_0067fdb0(unsigned char value);
 };
 // @fnv 0x00983280
 void FUN_00983280_holder::FUN_00983280(int value, StageHolder* pStageHolder)
 {
-    ((MapMember*)((char*)this + 0x14))->AcquireLock();
+    ::fnv_00aa6060::AcquireLock((::ReadWriteLock *)(((MapMember*)((char*)this + 0x14))));
     void* pCreatedShell = 0;
-    if (!((HolderLookup*)this)->FUN_00853130(*(unsigned int*)((char*)pStageHolder + 0x68), &pCreatedShell))
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((((HolderLookup*)this)))->FUN_00853130(*(unsigned int*)((char*)pStageHolder + 0x68), (*(::fnv_00853130::CombatThreatRecord * *)(&pCreatedShell))))
     {
         pCreatedShell = new CreatedShell();
-        ((CreatedShell*)pCreatedShell)->SetByteAtOffset(((HolderStatus*)pStageHolder)->GetDone());
-        ((HolderLookup*)this)->FUN_00844700(*(unsigned int*)((char*)pStageHolder + 0x68), pCreatedShell);
+        reinterpret_cast<::FUN_00983400_shell *>((((CreatedShell*)pCreatedShell)))->SetByteAtOffset(((bool)(reinterpret_cast<::FUN_00678ce0_shell *>((((HolderStatus*)pStageHolder)))->FUN_00678ce0())));
+        reinterpret_cast<::FUN_00844700_Class *>((((HolderLookup*)this)))->FUN_00844700(*(unsigned int*)((char*)pStageHolder + 0x68), (unsigned int)(pCreatedShell));
     }
-    ((CreatedShell*)pCreatedShell)->AddItem(value, pStageHolder);
-    ((HolderStatus*)pStageHolder)->FUN_0067fdb0(1);
-    ((MapMember*)((char*)this + 0x14))->FUN_00aa62e0();
+    reinterpret_cast<::FUN_00982e70_Class *>((((CreatedShell*)pCreatedShell)))->AddItem(value, pStageHolder);
+    reinterpret_cast<::FUN_0067fdb0_shell *>((((HolderStatus*)pStageHolder)))->FUN_0067fdb0(1);
+    reinterpret_cast<::FUN_00aa62e0_shell *>((((MapMember*)((char*)this + 0x14))))->FUN_00aa62e0();
 }
 
 struct FUN_009836d0_class
@@ -223,21 +221,16 @@ struct Arg2
     char pad[0x68];
     void* unk68;
 
-    bool FUN_00678ce0();
-    void FUN_0067fdb0(bool);
 };
 
 struct Lock
 {
-    void Enter();
-    void Leave();
 };
 
 struct CoverItem : FUN_00983400_shell
 {
     char unk17[5];
     CoverItem();
-    bool RegisterEvent(void* arg1, Arg2* arg2);
 };
 
 struct FUN_00983420_class
@@ -245,8 +238,6 @@ struct FUN_00983420_class
     char pad[0x14];
     Lock lock;
 
-    bool FUN_00853130(void* key, CoverItem** out);
-    void FUN_00844700(void* key, CoverItem* val);
 
     bool GetOrCreateCoverItem(void* arg1, Arg2* arg2);
 };
@@ -255,32 +246,28 @@ struct FUN_00983420_class
 // @fnv 0x00983420
 bool FUN_00983420_class::GetOrCreateCoverItem(void* arg1, Arg2* arg2)
 {
-    lock.Enter();
+    ::fnv_00aa6060::AcquireLock((::ReadWriteLock *)&(lock));
     CoverItem* pItem = 0;
-    if (!FUN_00853130(arg2->unk68, &pItem))
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>(this)->FUN_00853130((unsigned int)(arg2->unk68), (*(::fnv_00853130::CombatThreatRecord * *)(&pItem))))
     {
         pItem = new CoverItem();
-        pItem->SetByteAtOffset(arg2->FUN_00678ce0());
-        FUN_00844700(arg2->unk68, pItem);
+        pItem->SetByteAtOffset(((bool)(reinterpret_cast<::FUN_00678ce0_shell *>((arg2))->FUN_00678ce0())));
+        reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700((unsigned int)(arg2->unk68), (unsigned int)(pItem));
     }
-    bool kRet = pItem->RegisterEvent(arg1, arg2);
-    arg2->FUN_0067fdb0(kRet);
-    lock.Leave();
+    bool kRet = reinterpret_cast<::EventRegistry *>((pItem))->RegisterEvent((int)(arg1), (::EventData *)(arg2));
+    reinterpret_cast<::FUN_0067fdb0_shell *>((arg2))->FUN_0067fdb0(kRet);
+    reinterpret_cast<::FUN_00aa62e0_shell *>(&(lock))->FUN_00aa62e0();
     return kRet;
 }
 
 struct Chain
 {
-    int GetFlaggedValue(bool flag);
 };
 struct Pair3Pool
 {
-    int FUN_00726070();
 };
 struct SrcNode
 {
-    Chain* FUN_0044ddc0();
-    bool HasEffect(int which);
 };
 struct MemberVt
 {
@@ -400,7 +387,6 @@ struct FUN_008a88f0_cls
     MemberVt* m68;
     float FUN_008a88f0();
 };
-extern const double DAT_01012060;
 // Gets two values from m68's members and returns their ratio, or 1.0 when either member is null or the divisor equals DAT_01012060.
 // @fnv 0x008a88f0
 float FUN_008a88f0_cls::FUN_008a88f0()
@@ -411,10 +397,10 @@ float FUN_008a88f0_cls::FUN_008a88f0()
         SrcNode* qzxVal = (SrcNode*)m68->GetB();
         if (qzxVal != 0)
         {
-            Chain* ccq4 = qzxVal->FUN_0044ddc0();
-            float ofq = (float)ccq4->GetFlaggedValue(qzxVal->HasEffect(2));
-            float fc = (float)ywqVal->FUN_00726070();
-            if ((double)ofq == DAT_01012060)
+            Chain* ccq4 = ((::Chain *)(reinterpret_cast<::Twin_0044ddc0 *>((qzxVal))->GetName()));
+            float ofq = (float)reinterpret_cast<::FUN_004fe160_cls *>((ccq4))->GetFlaggedValue(reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((qzxVal))->HasEffect(2));
+            float fc = (float)((int)(reinterpret_cast<::Callees *>((ywqVal))->FUN_00726070()));
+            if ((double)ofq == ::_DAT_01012060)
             {
                 return 1.0f;
             }
@@ -453,9 +439,6 @@ struct CoverMapBase
     void** m_ppkHashTable;
     unsigned int m_uiCount;
     ~CoverMapBase();
-    void* GetFirstPos();
-    void GetNext(void*& pos, unsigned int& uiKey, CoverMapValue*& pValue);
-    void RemoveAll();
 };
 
 struct CoverMapVirtualTarget
@@ -532,40 +515,45 @@ struct FUN_00983130 : CoverMapBase
     virtual void Unk00();
     ~FUN_00983130();
 };
+// Calls FUN_00983130, then deletes this if flags has bit 0 set, and returns this.
+// @fnv 0x00983100
+void* CombatCoverMap::FUN_00983100(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00983130 *>(this)->FUN_00983130::~FUN_00983130();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Deletes every value in the hash table, clears it, then detaches the owner's target if one is set.
 // @fnv 0x00983130
 FUN_00983130::~FUN_00983130()
 {
-    void* pos = GetFirstPos();
+    void* pos = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(this)->GetFirstPos();
     while (pos)
     {
         unsigned int uiKey = 0;
         CoverMapValue* pValue = 0;
-        GetNext(pos, uiKey, pValue);
+        reinterpret_cast<::C6b7f20_Map *>(this)->FUN_006b7f20((::C6b7f20_Node **)&(pos), (unsigned int *)&(uiKey), (void **)&(pValue));
         delete pValue;
     }
-    RemoveAll();
-    if (m_spOwner && ((CoverMapOwnerEx*)m_spOwner)->GetTarget())
+    reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
+    if (m_spOwner && ((::CoverMapVirtualTarget *)(reinterpret_cast<::FUN_009611e0_shell *>((((CoverMapOwnerEx*)m_spOwner)))->FUN_009611e0())))
     {
-        ((CoverMapOwnerEx*)m_spOwner)->GetTarget()->Detach((CoverMapOwner*)(CoverMapOwnerEx*)m_spOwner);
+        ((::CoverMapVirtualTarget *)(reinterpret_cast<::FUN_009611e0_shell *>((((CoverMapOwnerEx*)m_spOwner)))->FUN_009611e0()))->Detach((CoverMapOwner*)(CoverMapOwnerEx*)m_spOwner);
     }
 }
 
 struct CoverItemCalls
 {
-    bool FUN_00982df0(unsigned int value);
 };
 
 struct CoverTargetCalls
 {
-    bool FUN_009827c0(unsigned int a, unsigned int b, float c, CoverItem* item, unsigned char d, unsigned char e);
 };
 
 struct CoverLockCalls
 {
-    void FUN_00aa5ff0();
-    void FUN_00aa62c0();
 };
 
 struct FUN_009835d0_cls
@@ -577,7 +565,6 @@ struct FUN_009835d0_cls
     int unk10;
     CoverLockCalls lock;
 
-    bool FUN_00853130(void* key, CoverItem** out);
     bool TryUseCoverItem(unsigned int key, unsigned int p2, unsigned int p3, float x, void* target, unsigned char d,
                          unsigned char e);
 };
@@ -589,31 +576,29 @@ bool FUN_009835d0_cls::TryUseCoverItem(unsigned int key, unsigned int p2, unsign
     bool ok = true;
     CoverItem* item;
 
-    lock.FUN_00aa5ff0();
+    reinterpret_cast<::FUN_00aa5ff0_Class *>(&(lock))->FUN_00aa5ff0();
     item = 0;
-    if (FUN_00853130((void*)key, &item))
+    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>(this)->FUN_00853130((unsigned int)((void*)key), (*(::fnv_00853130::CombatThreatRecord * *)(&item))))
     {
-        if (!((CoverItemCalls*)item)->FUN_00982df0(p3))
+        if (!reinterpret_cast<::FUN_00982df0_class *>((((CoverItemCalls*)item)))->FUN_00982df0(p3))
         {
             ok = false;
         }
     }
     if (ok)
     {
-        ok = ((CoverTargetCalls*)target)->FUN_009827c0(p2, p3, fValue, item, d, e);
+        ok = reinterpret_cast<::Slot_009827c0_This *>((((CoverTargetCalls*)target)))->FUN_009827c0((::Slot_009827c0_Arg *)(p2), p3, fValue, (::Slot_009827c0_Src *)(item), d, e);
     }
-    lock.FUN_00aa62c0();
+    reinterpret_cast<::Lock00aa62c0 *>(&(lock))->FUN_00aa62c0();
     return ok;
 }
 
 struct CoverReservationUnreserveCalls
 {
-    bool FUN_00982ff0(void* owner, Arg2* location);
 };
 
 struct CoverMapUnreserveReceiver : FUN_00983420_class
 {
-    void RemoveKey(void* value);
     void FUN_00983520(void* arg1, Arg2* arg2);
 };
 
@@ -626,19 +611,19 @@ void CoverMapUnreserveReceiver::FUN_00983520(void* apOwner, Arg2* apLocation)
     }
     else
     {
-        this->lock.Enter();
+        ::fnv_00aa6060::AcquireLock((::ReadWriteLock *)&(this->lock));
         CoverItem* item = 0;
-        if (this->FUN_00853130(apLocation->unk68, &item))
+        if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((this))->FUN_00853130((unsigned int)(apLocation->unk68), (*(::fnv_00853130::CombatThreatRecord * *)(&item))))
         {
-            if (((CoverReservationUnreserveCalls*)item)->FUN_00982ff0(apOwner, apLocation))
+            if (reinterpret_cast<::FUN_00982ff0_cls *>((((CoverReservationUnreserveCalls*)item)))->FUN_00982ff0((unsigned int)(apOwner), apLocation))
             {
                 CoverItem* b = item;
                 CoverItem* a = b;
                 a != 0 ? ((FUN_00983250_shell*)a)->DestroyIfFlagged(1) : 0;
-                this->RemoveKey(apLocation->unk68);
+                reinterpret_cast<::NiTMap_S *>((this))->RemoveKey((unsigned int)(apLocation->unk68));
             }
-            apLocation->FUN_0067fdb0(false);
+            reinterpret_cast<::FUN_0067fdb0_shell *>((apLocation))->FUN_0067fdb0(false);
         }
-        this->lock.Leave();
+        reinterpret_cast<::FUN_00aa62e0_shell *>(&(this->lock))->FUN_00aa62e0();
     }
 }

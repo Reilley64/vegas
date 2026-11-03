@@ -2,6 +2,9 @@
 #ifndef TESLEVITEM_DECLS_H
 #define TESLEVITEM_DECLS_H
 
+#include "fnv/decl/Owner487a60.h"
+#include "fnv/decl/TmpEndian.h"
+#include "fnv/symbols_0043d000.h"
 union SETTING_VALUE
 {
     int i;
@@ -9,7 +12,6 @@ union SETTING_VALUE
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Int();
 };
 class GlobalObject2_0040c150 : public SettingT_GameSettingCollection_
 {
@@ -33,7 +35,6 @@ class LeveledObject
     TESForm* form;
     unsigned short count;
     unsigned short pad2;
-    void SwapEndian();
 };
 class TESLeveledList
 {
@@ -42,7 +43,6 @@ class TESLeveledList
     unsigned char flags;
     unsigned char pad[2];
     unsigned int global;
-    LeveledObject* CreateLeveledObject(unsigned short, unsigned short, TESForm*, ContainerItemExtra*);
     void FUN_0042e680(unsigned char);
     void InitItem(TESForm* owner);
 };

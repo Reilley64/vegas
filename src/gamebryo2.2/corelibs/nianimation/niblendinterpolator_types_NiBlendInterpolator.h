@@ -2,6 +2,7 @@
 #ifndef FNV_NIBLENDINTERPOLATOR_PRIVATE_FNV_NIBLENDINTERPOLATOR_H
 #define FNV_NIBLENDINTERPOLATOR_PRIVATE_FNV_NIBLENDINTERPOLATOR_H
 
+#include "fnv/symbols_01096000.h"
 #include "niblendinterpolator_layout_support.h"
 #include "niblendinterpolator_NiObject.h"
 class NiBlendInterpolator;
@@ -54,6 +55,8 @@ class NiInterpolator : public NiObject
     // bool __cdecl NiInterpolator::*(float)
     // NiInterpolator& __cdecl NiInterpolator::*(const NiInterpolator&)
     // void __cdecl NiInterpolator::*()
+public:
+    NiInterpolator();
 };
 FNV_STATIC_ASSERT(sizeof(NiInterpolator) == 12);
 FNV_STATIC_ASSERT(offsetof(NiInterpolator, m_fLastTime) == 8);
@@ -69,7 +72,6 @@ class NiBlendInterpolator : public NiInterpolator
     virtual bool GrowInterpolatorArray();
 
   public:
-    static const float INVALID_TIME;
     virtual void ProcessClone(CloningProcess& process);
     // base NiInterpolator at +0x0, size 12
     unsigned char m_uiObjectFlags;         // +0xC, 1 bytes
@@ -86,7 +88,6 @@ class NiBlendInterpolator : public NiInterpolator
     float m_fHighSumOfWeights;                             // +0x24, 4 bytes
     float m_fNextHighSumOfWeights;                         // +0x28, 4 bytes
     float m_fTrailingValue;                                // +0x2C, 4 bytes
-    void NormalizeWeights();
 
   protected:
     void UpdatePriorityData();

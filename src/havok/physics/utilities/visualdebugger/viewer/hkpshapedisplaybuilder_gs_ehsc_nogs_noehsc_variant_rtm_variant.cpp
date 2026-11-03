@@ -6,6 +6,13 @@
 // to their real unit once identified.
 // src/havok/physics/utilities/visualdebugger/viewer/hkpshapedisplaybuilder.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/hkpshapedisplaybuilder.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00ddfc30_cls.h"
+#include "fnv/decl/hkMatrix4CD60.h"
+#include "fnv/decl/hkpCylinderShapeGetCylRadius.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d5a000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
 struct S_00ddfcd0_Allocator
 {
     virtual void v0();
@@ -61,6 +68,7 @@ struct S_00ddfcd0_Obj : S_00ddfcd0_RefObj
 S_00ddfcd0_RefObj* FUN_00ddfcd0();
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 class Scalar
 {
     __m128 value;
@@ -163,16 +171,15 @@ class Vector
     }
     static __forceinline const Vector& getZero();
 };
-extern Vector DAT_01267e30, DAT_01017d10;
 __forceinline int Vector::getMajorAxis() const
 {
     Vector v;
-    v = _mm_and_ps(q, (__m128)DAT_01017d10);
+    v = _mm_and_ps(q, (__m128)(*reinterpret_cast<::Vector *>((void *)&::DAT_01017d10)));
     return v(0) < v(1) ? (v(1) < v(2) ? 2 : 1) : (v(0) < v(2) ? 2 : 0);
 }
 __forceinline const Vector& Vector::getZero()
 {
-    return DAT_01267e30;
+    return (*reinterpret_cast<::Vector *>(&::DAT_01267e30));
 }
 struct Basis
 {
@@ -207,10 +214,9 @@ struct Transform
 {
     Rotation rotation;
     Vector translation;
-    void FUN_00c6cd60(const Transform&);
     __forceinline Transform& operator=(const Transform& m)
     {
-        FUN_00c6cd60(m);
+        reinterpret_cast<::hkMatrix4CD60 *>(this)->FUN_00c6cd60((const ::hkMatrix4CD60 &)(m));
         return *this;
     }
     void FUN_00cb2240(const Transform&, const Transform&);
@@ -229,10 +235,9 @@ struct Transform
     }
     static __forceinline const Transform& GetIdentityTransform();
 };
-extern Transform DAT_01268370;
 __forceinline const Transform& Transform::GetIdentityTransform()
 {
-    return DAT_01268370;
+    return (*reinterpret_cast<struct ::Transform *>(&::DAT_01268370));
 }
 class SphereRec
 {
@@ -267,8 +272,6 @@ struct HeapView
     virtual void fc();
     virtual void ReleaseBlock(void*, int);
 };
-void FUN_00c908c0(S_00ddfcd0_Allocator*, void*, int, int);
-void FUN_00c90940(S_00ddfcd0_Allocator*, void*, int);
 template <class T> __forceinline void copyRange(T* p, int n, const T& v)
 {
     for (int i = 0; i < n; ++i)
@@ -316,7 +319,7 @@ template <class T> class ArrayBase
         {
             int twice = 2 * cap;
             int next = n < twice ? twice : n;
-            FUN_00c908c0(&heap, this, next, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(::S_00ddfcd0_Allocator *)(&heap), (::SpawnedArray *)(void *)(this), next, sizeof(T));
         }
     }
     __forceinline T* expandBy(S_00ddfcd0_Allocator& heap, int n)
@@ -334,7 +337,7 @@ template <class T> class ArrayBase
     __forceinline void AddBack(S_00ddfcd0_Allocator& heap, const T& v)
     {
         if (size == (capacity & 0x3fffffff))
-            FUN_00c90940(&heap, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(::S_00ddfcd0_Allocator *)(&heap), (::AudioStream *)(void *)(this), sizeof(T));
         copyRange(data + size, 1, v);
         ++size;
     }
@@ -432,10 +435,9 @@ struct MeshUtility
 {
     static __forceinline void ConvertStridedToMesh(const Strided& s, Mesh& m);
 };
-void FUN_00d5a5e0(const Strided&, Mesh&);
 __forceinline void MeshUtility::ConvertStridedToMesh(const Strided& s, Mesh& m)
 {
-    FUN_00d5a5e0(s, m);
+    ::InitAndSetB((void *)&(s), (int)&(m));
 }
 struct RefObject
 {
@@ -586,10 +588,9 @@ struct CylinderShape : Convex
     {
         return endpoints[i];
     }
-    float FUN_00d571a0() const;
     __forceinline float GetCylinderRadius() const
     {
-        return FUN_00d571a0();
+        return reinterpret_cast<::hkpCylinderShapeGetCylRadius *>((void *)this)->FUN_00d571a0();
     }
 };
 struct RayShape : BaseShape
@@ -727,10 +728,9 @@ struct Node
         int m_iFirstValue, m_iSecondValue;
     } m_kEnvironment;
     Display* current;
-    Display* FUN_00ddfc30(Array<Display*>&);
     __forceinline Display* GetCurrentDisplay(Array<Display*>& a)
     {
-        return FUN_00ddfc30(a);
+        return ((::Display *)(reinterpret_cast<::FUN_00ddfc30_cls *>(this)->FUN_00ddfc30((::HkArrayRaw *)&(a))));
     }
     void FUN_00ddfd10(const BaseShape*, const Transform&, Array<Display*>&);
 };
@@ -810,7 +810,7 @@ void Node::FUN_00ddfd10(const BaseShape* shape, const Transform& mat, Array<Disp
         a.SetTransformedPoint(mat, s->getVertex(1));
         Vector b;
         b.SetTransformedPoint(mat, s->getVertex(0));
-        FUN_00d58510* g = new FUN_00d58510(a, b, s->FUN_00d571a0(), 9, 1);
+        FUN_00d58510* g = new FUN_00d58510(a, b, reinterpret_cast<::hkpCylinderShapeGetCylRadius *>((void *)(s))->FUN_00d571a0(), 9, 1);
         g->getTransform() = mat;
         out.AddBack(g);
         break;

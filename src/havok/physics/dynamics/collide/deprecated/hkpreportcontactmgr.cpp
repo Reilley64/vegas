@@ -2,6 +2,12 @@
 // src/havok/physics/dynamics/collide/deprecated/hkpreportcontactmgr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/collide/deprecated/hkpreportcontactmgr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00cfc590_class.h"
+#include "fnv/decl/FUN_00cfc5a0.h"
+#include "fnv/symbols_00cff000.h"
+#include "fnv/symbols_00d00000.h"
+#include "fnv/symbols_00d01000.h"
 extern "C" void* DAT_010cc8bc;
 
 struct FUN_00cfca20
@@ -28,7 +34,6 @@ struct FUN_00cfcc30_class
     void* m_ppVirtualMethodTable;
     unsigned short m_flag;
 
-    void FUN_00cfc590();
     FUN_00cfcc30_class* FUN_00cfcc30(unsigned char flags);
 };
 
@@ -50,7 +55,7 @@ FUN_00cfcc30_router* _D1A0E0GetMemoryRouter();
 // @fnv 0x00cfcc30
 FUN_00cfcc30_class* FUN_00cfcc30_class::FUN_00cfcc30(unsigned char flags)
 {
-    FUN_00cfc590();
+    reinterpret_cast<::FUN_00cfc590_class *>(this)->FUN_00cfc590();
 
     if (flags & 1)
     {
@@ -115,8 +120,6 @@ struct Descriptor
     int result1;
 };
 
-void __cdecl FUN_00d00ca0(void* payload, Descriptor* descriptor);
-void __cdecl FUN_00cfff00(GameNode* node, int* index);
 
 // @fnv 0x00cfc960
 void __stdcall ProcessInputRecord(InputRecord* record, void* output, unsigned int unused)
@@ -138,15 +141,15 @@ void __stdcall ProcessInputRecord(InputRecord* record, void* output, unsigned in
     descriptor.result0 = 0;
     descriptor.result1 = 0;
 
-    FUN_00d00ca0(record->primary->payload, &descriptor);
+    ::FUN_00d00ca0((::D00CA0World *)(record->primary->payload), &descriptor);
 
     descriptor.type = 0;
     if (record->primary->activityFlag() != 0)
-        FUN_00cfff00(record->primary, &descriptor.type);
+        ::FUN_00cfff00((::World833 *)(record->primary), (::ContactPointEvent *)(int *)(&descriptor.type));
 
     descriptor.type = 1;
     if (record->secondary->activityFlag() != 0)
-        FUN_00cfff00(record->secondary, &descriptor.type);
+        ::FUN_00cfff00((::World833 *)(record->secondary), (::ContactPointEvent *)(int *)(&descriptor.type));
 }
 
 struct CFCA90Shape
@@ -168,8 +171,6 @@ struct CFCA90Work
     int m_scratchIndices[256];
     CFCA90Object* m_pOwnerObject;
 };
-void __cdecl NotifyShapeSetListeners(void*, void*);
-void __cdecl FUN_00d00270(void*, void*);
 struct CFCA90Object
 {
     int m_type, m_uiContentCount, m_flags;
@@ -197,11 +198,11 @@ void CFCA90Object::ProcessShapePair(CFCA90Shape* shapeA, CFCA90Shape* shapeB, vo
     work.m_pOwnerObject = this;
     for (int iIndex = entries - 1; iIndex >= 0; --iIndex)
         work.m_scratchIndices[iIndex] = 0;
-    NotifyShapeSetListeners(m_controller, &work);
+    ::NotifyShapeSetListeners((::D019B0World *)(m_controller), (::D019B0Event *)(void *)(&work));
     if (*(unsigned short*)(partA + 0x204))
-        FUN_00d00270(partA, &work);
+        ::FUN_00d00270(partA, (::TaskContext *)(void *)(&work));
     if (*(unsigned short*)(partB + 0x204))
-        FUN_00d00270(partB, &work);
+        ::FUN_00d00270(partB, (::TaskContext *)(void *)(&work));
 }
 
 // Contact-dispatch reconstruction; incorporates earlier contributor's event-callback analysis (2026-10-25).
@@ -212,8 +213,6 @@ struct ContactRecord
     void* m_kCollidable;
 };
 struct ContactEvent;
-void __cdecl FUN_00d01900(void* collidable, ContactEvent* eventData);
-void __cdecl FUN_00d001c0(ContactRecord* record, ContactEvent* eventData);
 
 struct ContactDispatcher
 {
@@ -250,11 +249,11 @@ void ContactDispatcher::DispatchContact(void* arg1, void* arg2)
     data.m_pHeadNode = first;
     data.m_iSecondInteger = second;
     data.m_arg1 = arg1;
-    FUN_00d01900(collidable, &data);
+    ::FUN_00d01900((::WorldD *)(collidable), (*(::RemovedEvent *)(&data)));
     if (*(unsigned short*)((char*)first + 0x204) != 0)
-        FUN_00d001c0(first, &data);
+        ::FUN_00d001c0((::CManager *)(first), (::CEvent *)(::ContactEvent *)(&data));
     if (*(unsigned short*)((char*)second + 0x204) != 0)
-        FUN_00d001c0(second, &data);
+        ::FUN_00d001c0((::CManager *)(second), (::CEvent *)(::ContactEvent *)(&data));
 }
 
 struct Entity
@@ -403,8 +402,6 @@ struct Contact
     Owner* owner;
     unsigned int state;
 };
-void __cdecl FUN_00d01900(World*, Contact*);
-void __cdecl FUN_00d001c0(Entity*, Contact*);
 struct Owner
 {
     unsigned unk000;
@@ -428,11 +425,11 @@ void Owner::NotifyContact(unsigned short flags, unsigned int state)
     contact.entityB = entityB;
     contact.owner = this;
     contact.state = state;
-    FUN_00d01900(world, &contact);
+    ::FUN_00d01900((::WorldD *)(world), (*(::RemovedEvent *)(&contact)));
     if (entityA->active != 0)
-        FUN_00d001c0(entityA, &contact);
+        ::FUN_00d001c0((::CManager *)(entityA), (::CEvent *)(::Contact *)(&contact));
     if (entityB->active != 0)
-        FUN_00d001c0(entityB, &contact);
+        ::FUN_00d001c0((::CManager *)(entityB), (::CEvent *)(::Contact *)(&contact));
 }
 
 struct S_Cfca40_AdjustedSource
@@ -469,7 +466,6 @@ struct S_Cfca40_Element
 {
     void* m_ppVirtualMethodTable;
     unsigned short m_allocatedBytes;
-    void FUN_00cfc5a0(void* context, void* first, void* second);
 };
 struct S_Cfca40_Factory
 {
@@ -488,7 +484,7 @@ void S_Cfca40_Factory::CreateElement(S_Cfca40_AdjustedSource* apFirstSource, S_C
     void* secondData = apSecondSource->GetAdjustedData();
     S_Cfca40_Element* pElement = static_cast<S_Cfca40_Element*>(FUN_00c85750()->heap().Allocate(28));
     pElement->m_allocatedBytes = 28;
-    pElement->FUN_00cfc5a0(m_iValueAtOffset0C, firstData, secondData);
+    new ((void *)(pElement)) ::FUN_00cfc5a0((int)(m_iValueAtOffset0C), (::S_00cfc5a0 *)(firstData), (::S_00cfc5a0 *)(secondData));
 }
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -651,8 +647,6 @@ struct ContactPointProcessingData
 };
 
 struct hkpWorld;
-void FUN_00d01850(hkpWorld* world, ContactPointProcessingData& event);
-void FUN_00d00110(hkpRigidBody* entity, ContactPointProcessingData& event);
 
 struct hkpSimpleConstraintContactMgr
 {
@@ -714,15 +708,15 @@ unsigned int hkpSimpleConstraintContactMgr::FUN_00cfc5f0(const hkpCdBody& a, con
     }
 
     ContactPointProcessingData event(0, this, &input, &output, &a, &b, &cp, contactCache, 0, fProjectedVelocity);
-    FUN_00d01850(m_pOwningWorld, event);
+    ::FUN_00d01850((::S00d01850_Owner *)(m_pOwningWorld), (::S00d01850_Out *)&(event));
 
     if (rbA->m_contactListenersSize != 0)
     {
-        FUN_00d00110(rbA, event);
+        ::FUN_00d00110((::ListenerOwner *)(rbA), (::ListenerEvent *)&(event));
     }
     if (rbB->m_contactListenersSize != 0)
     {
-        FUN_00d00110(rbB, event);
+        ::FUN_00d00110((::ListenerOwner *)(rbB), (::ListenerEvent *)&(event));
     }
     if (event.m_iResultCode == 1)
     {
@@ -906,8 +900,6 @@ struct CollisionPoint
     }
 };
 
-void FUN_00d01850(int a, void* b);
-void FUN_00d00110(void* a, void* b);
 
 struct CollisionOwner
 {
@@ -943,13 +935,13 @@ int CollisionOwner::FUN_00cfc760(Word a1, int a2, int a3, CollisionStateData* ap
     CollisionPoint pObj(a1.value, a2, a3, apStateData, a5, a6, a7, apBody, apOutState, this);
     CollisionBody* y = this->unk010;
     CollisionBody* pBodyB = this->unk014;
-    FUN_00d01850(this->unk00C, &pObj);
+    ::FUN_00d01850((::S00d01850_Owner *)(this->unk00C), (::S00d01850_Out *)(void *)(&pObj));
 
     if ((bool)y->unk204)
-        FUN_00d00110(y, &pObj);
+        ::FUN_00d00110((::ListenerOwner *)(y), (::ListenerEvent *)(void *)(&pObj));
 
     if (!!pBodyB->unk204)
-        FUN_00d00110(pBodyB, &pObj);
+        ::FUN_00d00110((::ListenerOwner *)(pBodyB), (::ListenerEvent *)(void *)(&pObj));
 
     if (1 == pObj.unk020)
     {

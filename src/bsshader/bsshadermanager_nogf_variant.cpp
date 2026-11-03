@@ -3,10 +3,52 @@
 // say /MT /O2 /GS /EHsc /Gy (unit src/bsshader/bsshadermanager.cpp lists /MT /O2 /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton; move the functions to their real
 // unit once identified.
 
+#include "fnv/decl/ExtraOwnerB.h"
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00ba3780_struct.h"
+#include "fnv/decl/FUN_00bb7300_Class.h"
+#include "fnv/decl/Host.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiRenderer.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00a5f000.h"
+#include "fnv/symbols_00a60000.h"
+#include "fnv/symbols_00a61000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00b4f000.h"
+#include "fnv/symbols_00b54000.h"
+#include "fnv/symbols_00b55000.h"
+#include "fnv/symbols_00b57000.h"
+#include "fnv/symbols_00b60000.h"
+#include "fnv/symbols_00b68000.h"
+#include "fnv/symbols_00b6a000.h"
+#include "fnv/symbols_00b6f000.h"
+#include "fnv/symbols_00b71000.h"
+#include "fnv/symbols_00ba8000.h"
+#include "fnv/symbols_00ba9000.h"
+#include "fnv/symbols_00bae000.h"
+#include "fnv/symbols_00bb4000.h"
+#include "fnv/symbols_00bb7000.h"
+#include "fnv/symbols_00bc2000.h"
+#include "fnv/symbols_00bc3000.h"
+#include "fnv/symbols_00bc4000.h"
+#include "fnv/symbols_00c5e000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011aa000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f8000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01200000.h"
+#include "fnv/symbols_01202000.h"
+#include "fnv/symbols_0126f000.h"
 #include "bsshadermanager_decls.h"
 #include <stddef.h>
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" int __cdecl sprintf_s(char*, size_t, const char*, ...);
 extern "C" int __cdecl strcpy_s(char*, size_t, const char*);
 extern "C" char* __cdecl strrchr(const char*, int);
 extern "C" int __cdecl _strnicmp(const char*, const char*, size_t);
@@ -112,12 +154,15 @@ template <> class NiPointer<NiTexture>
         }
     }
 };
+class NiFixedString;
+class NiTexture__FormatPrefs;
 class NiSourceTexture : public NiTexture
 {
   public:
     void* m_spPixelData;
     const char* m_pcFileName;
-    static NiSourceTexture* Create(const NiFixedString&, NiTexture::TextureFormatPreferences&, bool, bool);
+public:
+    static ::NiSourceTexture *Create(const ::NiFixedString &, ::NiTexture__FormatPrefs &, bool, bool);
 };
 class FileFinder
 {
@@ -136,7 +181,6 @@ class TextureFileEntrySetter
 class NiAVObject
 {
   public:
-    void UpdateSceneObject();
 };
 class ShadowSceneNode
 {
@@ -160,19 +204,9 @@ class BSShaderManager
     static void SetObjectTypeRecursively(NiAVObject*, eObjectType, bool, bool);
     static void SetFogPropertyForIndex(int, BSFogProperty*);
 };
-extern "C" FileFinder* g_fileFinder;
-extern "C" bool fnv_NiStreamGetTexture(const char*, NiPointer<NiTexture>&);
-NiTexture* CreateSpawnedCubeShell(const NiFixedString&, NiRenderer*, NiTexture::TextureFormatPreferences&);
-extern NiRenderer* DAT_011f9508;
-extern NiTexture::TextureFormatPreferences DAT_011a9598;
-extern NiRTTI DAT_011f444c;
-extern const double DAT_01023128, DAT_010ad6d8;
+extern const double DAT_010ad6d8;
 extern float DAT_011adcc8;
-extern unsigned int DAT_011f91b8;
 extern void (*DAT_011f9f38)(), (*DAT_011f9f3c)();
-extern void (*DAT_011f9f40[16])(), (*DAT_011f9f80[16])();
-extern unsigned int (*DAT_011f91ec)(NiAVObject*);
-extern ShadowSceneNode* DAT_011f91c8[4];
 class SkyShaderProperty
 {
   public:
@@ -184,21 +218,15 @@ class SkyShaderProperty
 // The shipped setter was built without optimization.
 #pragma optimize("", off)
 #pragma optimize("", on)
-void __cdecl FUN_00b4f2f0(int idx, ShadowSceneNode* p);
 struct ImageSpaceTexture
 {
-    NiTexture* GetTexture();
 };
 struct ImageSpaceManager
 {
     char data[0x204];
     ImageSpaceTexture m_texture;
 };
-extern ImageSpaceManager* DAT_011f91ac;
-NiTexture* GetImageSpaceTexture();
-extern "C" NiTexture* DAT_011f95ec;
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-void __cdecl FUN_00b54ac0(NiTexture* pkTexture);
 struct PropHelper
 {
     virtual void vfn_0();
@@ -208,17 +236,11 @@ struct PropHelper
     virtual void vfn_10();
     virtual void vfn_14();
     virtual void* vfn_18();
-    void* GetProperty(unsigned int);
     char _pad[0x9C];
     void** m_children;
     unsigned short _pad2;
     unsigned short m_uiItemCount;
 };
-void __cdecl ProcessPropertyTree(PropHelper*, int);
-void __cdecl ProcessPropertyTree(PropHelper* obj, int param2);
-BSFogProperty* __cdecl FUN_00b55520(int aiShadowSceneNode);
-void ProcessPropertyTree(NiAVObject*, unsigned int);
-void FUN_00b55b80(NiAVObject* obj);
 struct tagRECT
 {
     long left;
@@ -239,24 +261,6 @@ struct BSFadeNode
 {
     static NiObject* __cdecl CreateObject();
 };
-NiObject* __cdecl FUN_00b60f50();
-NiObject* __cdecl CreateNewObj();
-NiObject* __cdecl CreateB6AE60Obj();
-NiObject* __cdecl CreateShaderLightingProperty();
-NiObject* __cdecl CreateBlobObj();
-NiObject* __cdecl FUN_00ba8a00();
-NiObject* __cdecl FUN_00ba9250();
-NiObject* __cdecl CreateSpawnedObject90();
-NiObject* __cdecl CreateObjectDerived();
-NiObject* __cdecl CreateInstance();
-NiObject* __cdecl FUN_00bb7ef0();
-NiObject* __cdecl FUN_00bc2cb0();
-NiObject* __cdecl FUN_00bc3190();
-NiObject* __cdecl CreateDerived();
-NiObject* __cdecl CreateInterpDerivedBc36();
-NiObject* __cdecl FUN_00bc38c0();
-NiObject* __cdecl CreateSpawnedObj9441();
-NiObject* __cdecl CreateShaderAccumulator();
 extern const char g_011f9140_arg0[];
 extern const char g_011f9f00_arg0[];
 extern const char g_011fa010_arg0[];
@@ -358,12 +362,9 @@ class B4F9A0Shader
 class B4F9A0ShaderManager
 {
   public:
-    static B4F9A0Shader* ms_apShaders[35];
 
     static void ClearAllCachedStates();
 };
-int sprintf_s(char* apBuffer, unsigned int auiSize, const char* apFormat, ...);
-const char* FUN_00b4f9d0(int aiShader);
 struct ShaderListNode
 {
     void* m_data;
@@ -446,14 +447,9 @@ class ShaderEntryBase
     virtual void vfn_11c();
     virtual void vfn_120();
 };
-extern ShaderEntryBase* DAT_011f9548;
-extern char DAT_011f95d4;
-extern char DAT_0126f554;
 struct ImageSpaceTail
 {
-    void Tail();
 };
-void __cdecl FUN_00b557d0();
 struct FUN_00b55b00_prop
 {
     char unk00[0x1c];
@@ -461,15 +457,10 @@ struct FUN_00b55b00_prop
     char unk20[0x6c - 0x20];
     float m_fValue;
 };
-void __cdecl FUN_00b55b00(PropHelper* obj, float fValue);
-extern "C" int __cdecl sprintf_s(char*, size_t, const char*, ...);
 struct RTTIStub
 {
     int unk00;
 };
-extern RTTIStub g_012021b8;
-extern RTTIStub g_01200508;
-extern RTTIStub g_01202040;
 struct ShProp;
 struct PropPtr
 {
@@ -532,9 +523,6 @@ struct AVObj
     PropPtr m_props[8];
     int unkbc;
     struct Shader* m_shaderC0;
-    void* GetProperty(unsigned int);
-    void RemoveProperty(unsigned int);
-    void AttachProperty(ShProp*);
 };
 struct ShProp
 {
@@ -745,22 +733,16 @@ struct Renderer
     virtual void ve8();
     virtual void vfn_ec(AVObj*, int, int, int);
 };
-extern Renderer* DAT_011f4748;
 inline bool IsExactB(Shader* s, RTTIStub* r)
 {
     bool b = s->vfn_8() == r;
     return b;
 }
-Shader* __cdecl FUN_00b55560(void*);
-void __cdecl UpdateShaderProperty(AVObj* obj, bool a1, bool a2, bool a3);
-void* __cdecl NiMalloc(unsigned int);
 extern "C" unsigned int __cdecl strlen(const char*);
 void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
 struct MemoryManager
 {
-    void* Allocate(unsigned int);
 };
-extern MemoryManager _g_memoryManager;
 struct StringHashMapBase
 {
     virtual void vfn_0();
@@ -776,7 +758,7 @@ StringHashMapBase::StringHashMapBase()
 {
     m_uiCount = 0x25;
     m_iUnk14 = 0;
-    m_apBuckets = (void**)NiMalloc(0x94);
+    m_apBuckets = (void**)::FUN_00aa1070(0x94);
     unsigned int uiBytes = m_uiCount;
     uiBytes += uiBytes;
     uiBytes += uiBytes;
@@ -897,24 +879,14 @@ class PixelOwner
     }
 };
 
-extern const NiPixelFormat DAT_011aaac8;
 
-extern const NiPixelFormat gNiPoint3StartupSrc;
 
-extern const NiPixelFormat DAT_011aa2e8;
 
-extern NiPointer<NiTexture> DAT_011f9514, DAT_011f9510, DAT_011f9518, DAT_011f951c;
 
-extern NiPointer<NiTexture> DAT_011f9520, DAT_011f9524, DAT_011f9528, DAT_011f952c;
 
-extern NiPointer<NiTexture> DAT_011f9544, DAT_011f9530, DAT_011f953c;
 
-extern NiPointer<NiTexture> DAT_011f9540, DAT_011f9534, DAT_011f9538;
 
-NiTexture* FUN_00a5ff10(NiPixelData*, const char*, NiTexture::TextureFormatPreferences&);
 
-NiTexture* CreateCubeMap(const char*, const char*, const char*, const char*, const char*, const char*, NiRenderer*,
-                        const NiFixedString&, NiTexture::TextureFormatPreferences&);
 
 int FUN_004dc060(int);
 
@@ -929,7 +901,6 @@ class NiGlobalStringTable
     static char* AddString(const char*);
 };
 
-extern char* DAT_0109b220;
 
 struct InternedStringHeader
 {
@@ -1016,7 +987,7 @@ void FUN_00b55bb0()
 
     NiPixelFormat cubePixelFormat;
 
-    cubePixelFormat = DAT_011aaac8;
+    cubePixelFormat = (*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aaac8));
 
     PixelOwner cube(new NiPixelData(128, 128, cubePixelFormat, 1, 6));
 
@@ -1310,7 +1281,7 @@ void FUN_00b55bb0()
     prefs.m_eMipFlag = 0;
     prefs.m_eAlphaFormat = 0;
 
-    PixelOwner error(new NiPixelData(16, 16, gNiPoint3StartupSrc, 1, 1));
+    PixelOwner error(new NiPixelData(16, 16, (*reinterpret_cast<const ::NiPixelFormat *>(&::gNiPoint3StartupSrc)), 1, 1));
 
     pixel = error.object->pixels + error.object->offsets[0];
 
@@ -1332,7 +1303,7 @@ void FUN_00b55bb0()
 
     {
         NiFixedString name("BSShader_DefErrorMap");
-        DAT_011f9514 = FUN_00a5ff10(error.object, name.m_kHandle, DAT_011a9598);
+        (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::g_pkC0BC90DefaultTexture)) = ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(error.object), (void *)(name.m_kHandle), (const ::fnv_00a5ff10::OwnerTriple *)&((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))))));
     }
 
     PixelOwner normal(new NiPixelData(16, 16, DAT_011aa2e8, 1, 1));
@@ -1355,10 +1326,10 @@ void FUN_00b55bb0()
 
     {
         NiFixedString name("BSShader_DefNormalMap");
-        DAT_011f9510 = FUN_00a5ff10(normal.object, name.m_kHandle, DAT_011a9598);
+        (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f9510)) = ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(normal.object), (void *)(name.m_kHandle), (const ::fnv_00a5ff10::OwnerTriple *)&((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))))));
     }
 
-    PixelOwner gloss(new NiPixelData(16, 16, gNiPoint3StartupSrc, 1, 1));
+    PixelOwner gloss(new NiPixelData(16, 16, (*reinterpret_cast<const ::NiPixelFormat *>(&::gNiPoint3StartupSrc)), 1, 1));
 
     pixel = gloss.object->pixels + gloss.object->offsets[0];
 
@@ -1380,7 +1351,7 @@ void FUN_00b55bb0()
 
     {
         NiFixedString name("BSShader_DefNormalGlossMap");
-        DAT_011f9518 = FUN_00a5ff10(gloss.object, name.m_kHandle, DAT_011a9598);
+        (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f9518)) = ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(gloss.object), (void *)(name.m_kHandle), (const ::fnv_00a5ff10::OwnerTriple *)&((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))))));
     }
 
     normal.Assign(new NiPixelData(16, 16, DAT_011aa2e8, 1, 1));
@@ -1401,14 +1372,14 @@ void FUN_00b55bb0()
 
     {
         NiFixedString name("BSShader_DefHeightMap");
-        DAT_011f951c = FUN_00a5ff10(normal.object, name.m_kHandle, DAT_011a9598);
+        (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f951c)) = ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(normal.object), (void *)(name.m_kHandle), (const ::fnv_00a5ff10::OwnerTriple *)&((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))))));
     }
 
-    BSShaderManager::GetTexture("Data\\Textures\\Effects\\WindowEnvironmentMap01.dds", true, DAT_011f9520, true, false);
+    BSShaderManager::GetTexture("Data\\Textures\\Effects\\WindowEnvironmentMap01.dds", true, (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f9520)), true, false);
 
-    BSShaderManager::GetTexture("Data\\Textures\\Effects\\WindowEnvironmentMap02.dds", true, DAT_011f9524, true, false);
+    BSShaderManager::GetTexture("Data\\Textures\\Effects\\WindowEnvironmentMap02.dds", true, (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f9524)), true, false);
 
-    PixelOwner secret(new NiPixelData(4, 4, gNiPoint3StartupSrc, 1, 1));
+    PixelOwner secret(new NiPixelData(4, 4, (*reinterpret_cast<const ::NiPixelFormat *>(&::gNiPoint3StartupSrc)), 1, 1));
 
     pixel = secret.object->pixels + secret.object->offsets[0];
 
@@ -1430,10 +1401,10 @@ void FUN_00b55bb0()
 
     {
         NiFixedString name("BSShader_HideSecretMap");
-        DAT_011f9528 = FUN_00a5ff10(secret.object, name.m_kHandle, DAT_011a9598);
+        (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f9528)) = ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(secret.object), (void *)(name.m_kHandle), (const ::fnv_00a5ff10::OwnerTriple *)&((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))))));
     }
 
-    PixelOwner effect(new NiPixelData(4, 4, gNiPoint3StartupSrc, 1, 1));
+    PixelOwner effect(new NiPixelData(4, 4, (*reinterpret_cast<const ::NiPixelFormat *>(&::gNiPoint3StartupSrc)), 1, 1));
 
     pixel = effect.object->pixels + effect.object->offsets[0];
 
@@ -1455,43 +1426,43 @@ void FUN_00b55bb0()
 
     {
         NiFixedString name("BSShader_DefTexEffectMap");
-        DAT_011f952c = FUN_00a5ff10(effect.object, name.m_kHandle, DAT_011a9598);
+        (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f952c)) = ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(effect.object), (void *)(name.m_kHandle), (const ::fnv_00a5ff10::OwnerTriple *)&((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))))));
     }
 
     char texturePath[260];
 
-    sprintf_s(texturePath, 260, "%seyereflection.dds", "Data\\Textures\\Effects\\");
+    ::FUN_00406d00(texturePath, 260, "%seyereflection.dds", "Data\\Textures\\Effects\\");
 
     {
         NiFixedString name("EyeReflectionCubeMap");
-        DAT_011f9544 = CreateCubeMap(texturePath, texturePath, texturePath, texturePath, texturePath, texturePath,
-                                    DAT_011f9508, name, DAT_011a9598);
+        (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f9544)) = ((::NiTexture *)(::CreateCubeMap((void *)(texturePath), (void *)(texturePath), (void *)(texturePath), (void *)(texturePath), (void *)(texturePath), (void *)(texturePath),
+                                    (::CubeRenderer *)(DAT_011f9508), (int)&(name), (const ::TextureFormatPreferences *)&((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))))));
     }
 
-    sprintf_s(texturePath, 260, "%sreflection.dds", "Data\\Textures\\Effects\\");
+    ::FUN_00406d00(texturePath, 260, "%sreflection.dds", "Data\\Textures\\Effects\\");
 
     {
         NiFixedString name("ArmorReflectionCubeMap");
         reinterpret_cast<NiPointer<NiTexture>&>(DAT_011f95d4) =
-            CreateCubeMap(texturePath, texturePath, texturePath, texturePath, texturePath, texturePath, DAT_011f9508,
-                         name, DAT_011a9598);
+            ((::NiTexture *)(::CreateCubeMap((void *)(texturePath), (void *)(texturePath), (void *)(texturePath), (void *)(texturePath), (void *)(texturePath), (void *)(texturePath), (::CubeRenderer *)(DAT_011f9508),
+                         (int)&(name), (const ::TextureFormatPreferences *)&((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))))));
     }
 
-    sprintf_s(texturePath, 260, "%saniso.dds", "Data\\Textures\\Effects\\");
+    ::FUN_00406d00(texturePath, 260, "%saniso.dds", "Data\\Textures\\Effects\\");
 
     {
         NiFixedString name(texturePath);
-        DAT_011f9530 = NiSourceTexture::Create(name, DAT_011a9598, true, false);
+        (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f9530)) = ::NiSourceTexture::Create(name, (::NiTexture__FormatPrefs &)((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))), true, false);
     }
 
-    sprintf_s(texturePath, 260, "%sNoiseMap.dds", "Data\\Textures\\Effects\\");
+    ::FUN_00406d00(texturePath, 260, "%sNoiseMap.dds", "Data\\Textures\\Effects\\");
 
     {
         NiFixedString name(texturePath);
-        DAT_011f953c = NiSourceTexture::Create(name, DAT_011a9598, true, false);
+        (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f953c)) = ::NiSourceTexture::Create(name, (::NiTexture__FormatPrefs &)((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))), true, false);
     }
 
-    PixelOwner noise(new NiPixelData(4, 4, gNiPoint3StartupSrc, 1, 1));
+    PixelOwner noise(new NiPixelData(4, 4, (*reinterpret_cast<const ::NiPixelFormat *>(&::gNiPoint3StartupSrc)), 1, 1));
 
     pixel = noise.object->pixels + noise.object->offsets[0];
 
@@ -1510,7 +1481,7 @@ void FUN_00b55bb0()
 
     {
         NiFixedString name("BSShader_EmptyNoiseMap");
-        DAT_011f9540 = FUN_00a5ff10(noise.object, name.m_kHandle, DAT_011a9598);
+        (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f9540)) = ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(noise.object), (void *)(name.m_kHandle), (const ::fnv_00a5ff10::OwnerTriple *)&((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))))));
     }
 
     PixelOwner attenuation(new NiPixelData(128, 128, DAT_011aa2e8, 1, 1));
@@ -1549,8 +1520,8 @@ void FUN_00b55bb0()
 
     {
         NiFixedString name("BSShader_AttenuationXYZ");
-        DAT_011f9534 = FUN_00a5ff10(attenuation.object, name.m_kHandle, prefs);
+        (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f9534)) = ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(attenuation.object), (void *)(name.m_kHandle), (const ::fnv_00a5ff10::OwnerTriple *)&(prefs))));
     }
 
-    CopyTextureReference(DAT_011f9538, DAT_011f9534);
+    CopyTextureReference((*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f9538)), (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f9534)));
 }

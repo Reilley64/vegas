@@ -5,6 +5,7 @@
 #include <stddef.h>
 
 // Enumerators are unused by this unit.
+#include "fnv/decl/FUN_004405b0_S.h"
 enum IO_TASK_PRIORITY
 {
 };
@@ -42,7 +43,6 @@ class IOTask : public BSTask<__int64>
     virtual void ProcessLoadedAnimIdle();
     virtual void GenerateKey();
     virtual void ChangePriority(IO_TASK_PRIORITY priority);
-    void SetIOTaskPriority(IO_TASK_PRIORITY priority);
 };
 
 typedef char IOTaskPriority_size[(sizeof(IO_TASK_PRIORITY) == 4) ? 1 : -1];

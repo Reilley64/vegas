@@ -5,6 +5,16 @@
 
 // src/staging/blk_00ce0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/S_00cfab30_this.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cf8000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
 
 struct __declspec(align(16)) SortElem16
@@ -62,6 +72,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 extern "C" __m128 _mm_add_ps(__m128, __m128);
 extern "C" __m128 _mm_sub_ps(__m128, __m128);
 extern "C" __m128 _mm_mul_ps(__m128, __m128);
@@ -92,7 +103,6 @@ struct Transform
     QuaternionVector rotation;
     __m128 scale;
 };
-extern const __m128 DAT_010c71e0;
 struct Par_00ce2d10
 {
     __m128 translation;
@@ -141,7 +151,7 @@ void __cdecl FUN_00ce2d10(const Transform* parents, PointerParam<const Transform
                 _mm_add_ps(_mm_mul_ps(cross, w), _mm_add_ps(_mm_mul_ps(_mm_add_ps(_mm_mul_ps(w, w), DAT_010c71e0), v),
                                                             _mm_mul_ps(_mm_shuffle_ps(dot, dot, 0), q)));
             output[i].translation = _mm_add_ps(_mm_add_ps(rotated, rotated), p.translation);
-            output[i].rotation.FUN_00c66320(&p.rotation, &l.rotation);
+            ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(output[i].rotation), (void *)(&p.rotation), (const ::fnv_00c66320::__m128 *)(const ::QuaternionVector *)(&l.rotation), {});
             output[i].scale = _mm_mul_ps(l.scale, p.scale);
         }
     }
@@ -173,7 +183,7 @@ void __cdecl FUN_00ce2d10(const Transform* parents, PointerParam<const Transform
                                             _mm_add_ps(_mm_mul_ps(_mm_add_ps(_mm_mul_ps(w, w), DAT_010c71e0), v),
                                                        _mm_mul_ps(_mm_shuffle_ps(dot, dot, 0), q)));
                 output[index].translation = _mm_add_ps(_mm_add_ps(rotated, rotated), parent.translation);
-                output[index].rotation.FUN_00c66320(&parent.rotation, &source->rotation);
+                ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(output[index].rotation), (void *)(&parent.rotation), (const ::fnv_00c66320::__m128 *)(const ::QuaternionVector *)(&source->rotation), {});
                 output[index].scale = _mm_mul_ps(source->scale, parent.scale);
                 ++source;
             }
@@ -220,7 +230,6 @@ struct SortRec
 
 typedef char*(__cdecl* SortCmp)(void* tag, const SortRec* lhs, const SortRec* rhs);
 
-void __cdecl FUN_00ce245a(SortRec* a, int low, int high, SortCmp cmp);
 
 // @fnv 0x00cf8510
 void __cdecl FUN_00cf8510(SortRec* a, int low, int high, SortCmp cmp)
@@ -253,7 +262,7 @@ void __cdecl FUN_00cf8510(SortRec* a, int low, int high, SortCmp cmp)
             ++i;
         } while (i <= j);
         if (low < j)
-            FUN_00ce245a(a, low, j, cmp);
+            ::FUN_00cf8510(a, low, j, cmp);
         if (i >= high)
             return;
         low = i;
@@ -270,9 +279,7 @@ extern "C" __m128 _mm_max_ps(__m128 a, __m128 b);
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
-extern unsigned int DAT_0126835c;
 extern char DAT_010cc678[];
-extern char DAT_010c41f8[];
 void* __cdecl FUN_00c85750(void);
 struct S00cfac20_Vec
 {
@@ -355,12 +362,11 @@ struct S00cfac20_Stack
 };
 struct S00cfac20_Grp
 {
-    void RecordAndDispatch(S00cfac20_Builder* b, S00cfac20_Ray* ray, void* ctx, void* mem, char* out);
     void FUN_00cfac20(S00cfac20_Builder* b, S00cfac20_Ray* rays, int count, void* ctx, char* out);
 };
 static inline void S00cfac20_timer(const char* name)
 {
-    S00cfac20_Mon* mon = (S00cfac20_Mon*)TlsGetValue(DAT_0126835c);
+    S00cfac20_Mon* mon = (S00cfac20_Mon*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     char* p = mon->cur;
     if (p < mon->end)
     {
@@ -399,7 +405,7 @@ void S00cfac20_Grp::FUN_00cfac20(S00cfac20_Builder* b, S00cfac20_Ray* rays, int 
     char* dst;
     int j;
     {
-        S00cfac20_Mon* mon = (S00cfac20_Mon*)TlsGetValue(DAT_0126835c);
+        S00cfac20_Mon* mon = (S00cfac20_Mon*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
         char* p = mon->cur;
         if (p < mon->end)
         {
@@ -419,16 +425,16 @@ void S00cfac20_Grp::FUN_00cfac20(S00cfac20_Builder* b, S00cfac20_Ray* rays, int 
     dst = out;
     for (j = count - 1; j >= 0; --j)
     {
-        RecordAndDispatch(b, r++, ctx, mem, dst);
+        reinterpret_cast<::S_00cfab30_this *>(this)->RecordAndDispatch((::S_00cfab30_object *)(b), (::S_00cfab30_arg *)(::fnv_00cfac20::S00cfac20_Ray *)(r++), ctx, mem, dst);
         dst += 0x60;
     }
     ((S00cfac20_Stack*)FUN_00c85750())->release(mem);
     {
-        S00cfac20_Mon* mon = (S00cfac20_Mon*)TlsGetValue(DAT_0126835c);
+        S00cfac20_Mon* mon = (S00cfac20_Mon*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
         char* p = mon->cur;
         if (p < mon->end)
         {
-            *(const char**)p = DAT_010c41f8;
+            *(const char**)p = ::DAT_010c41f8;
             _ReadWriteBarrier();
             *(volatile unsigned*)&j = (unsigned)__rdtsc();
             *(unsigned int*)(p + 4) = *(volatile unsigned*)&j;
@@ -464,8 +470,6 @@ struct hkVector4
 
 struct hkReferencedObject
 {
-    void FUN_00c90510();
-    void FUN_00c905b0();
 };
 
 template <class T> struct ReferenceCountedPointer
@@ -475,9 +479,9 @@ template <class T> struct ReferenceCountedPointer
     __forceinline void operator=(const ReferenceCountedPointer& rp)
     {
         if (rp.m_pRetainedObject)
-            rp.m_pRetainedObject->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((rp.m_pRetainedObject))->FUN_00c90510();
         if (m_pRetainedObject)
-            m_pRetainedObject->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pRetainedObject))->FUN_00c905b0();
         m_pRetainedObject = rp.m_pRetainedObject;
     }
 };
@@ -525,7 +529,6 @@ __forceinline hkMemoryAllocator& containerHeap()
     return static_cast<NineIntegerRecord*>(FUN_00c85750())->heap();
 }
 
-void __cdecl FUN_00c908c0(hkMemoryAllocator& alloc, void* array, int reqCapacity, int sizeElem);
 
 template <typename T> __forceinline void hkConstructWithArray(T* t, int n, const T* tcopy)
 {
@@ -591,7 +594,7 @@ template <typename T> struct hkArray
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(alloc, this, newSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
         }
     }
 

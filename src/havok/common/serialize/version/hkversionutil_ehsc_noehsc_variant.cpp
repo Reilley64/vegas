@@ -5,6 +5,41 @@
 
 // src/havok/common/serialize/version/hkversionutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/version/hkversionutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/CB1A90Owner.h"
+#include "fnv/decl/ClassMember_d869.h"
+#include "fnv/decl/D87370Obj.h"
+#include "fnv/decl/FUN_00cb1fe0_t.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00cc0630.h"
+#include "fnv/decl/FUN_00d46f00_s.h"
+#include "fnv/decl/FUN_00d46fe0_Class.h"
+#include "fnv/decl/FUN_00d47130_class.h"
+#include "fnv/decl/FUN_00dc1040__PackfileObjectCopier.h"
+#include "fnv/decl/FUN_00dc1670_cls.h"
+#include "fnv/decl/FUN_00dc1680.h"
+#include "fnv/decl/FUN_00dc1bb0_Class.h"
+#include "fnv/decl/FUN_00e028e0.h"
+#include "fnv/decl/FUN_00e04920_cls.h"
+#include "fnv/decl/FnvClassNameNode.h"
+#include "fnv/decl/FnvCpu_FUN_00d470d0_CpuObject.h"
+#include "fnv/decl/FnvCpu_FUN_00d871f0_CpuObject.h"
+#include "fnv/decl/HkClassNode.h"
+#include "fnv/decl/Struct_d86920.h"
+#include "fnv/decl/TargetClass.h"
+#include "fnv/decl/TestClass.h"
+#include "fnv/decl/fnv_00cb1870__hkMapBaseCB18.h"
+#include "fnv/decl/hkBufferedStreamD273.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00dc0000.h"
+#include "fnv/symbols_00e03000.h"
+#include "fnv/symbols_00e04000.h"
+#include "fnv/symbols_010cf000.h"
+#include "fnv/symbols_011b7000.h"
+#include "fnv/symbols_01268000.h"
 extern "C" void __cdecl VisitObjectList(int, int);
 struct FUN_00db7a80_Class
 {
@@ -42,11 +77,8 @@ struct FUN_00e049d0_Class : Object
 
     FUN_00e049d0_Class* FUN_00e049d0(int flags);
 };
-extern "C" char str_010cf830[];
-void* __cdecl FUN_00dc0fb0();
 struct FUN_00d86980_Class
 {
-    int FUN_00d86980();
 };
 struct FUN_00d871a0
 {
@@ -54,23 +86,16 @@ struct FUN_00d871a0
     int m_04;
 
     FUN_00d871a0(void*, int);
-    bool& FUN_00d871e0(bool&);
-    void* FUN_00d871f0();
-    FUN_00d86980_Class* FUN_00d87370();
 };
-extern "C" void* __cdecl FUN_00cb1260(void*, const void*, unsigned int);
 void __cdecl FUN_00dc0fc0(void* a1, int a2, void* a3, int a4);
 struct FUN_00d46d40_s
 {
-    const char* FUN_00d46d40() const throw();
 };
 class GlobalObjectO2_00d472a0 : public FUN_00d46d40_s
 {
   public:
     int m_00;
 };
-extern GlobalObjectO2_00d472a0 g_01268748;
-int __cdecl FUN_00cb0fa0(const char* pcA, const char* pcB) throw();
 class hkClassMemberDC11
 {
   public:
@@ -91,13 +116,10 @@ class hkClassMemberDC11
     unsigned char m_type;
     unsigned char m_eSubtype;
 
-    int FUN_00d86920() const throw();
-    const FUN_00d46d40_s& FUN_00d86910() const throw();
 };
 class hkVersionCheckDC11
 {
   public:
-    int FUN_00e032d0(const hkClassMemberDC11* pkOld, const hkClassMemberDC11* pkNew) throw();
     int IsMemberCompatible(const hkClassMemberDC11* pkOld, const hkClassMemberDC11* pkNew) throw();
 };
 class hkMemoryAllocatorDC12;
@@ -114,7 +136,6 @@ struct hkMemoryRouterDC12
     }
 };
 extern "C" hkMemoryRouterDC12& __cdecl FUN_00c85750();
-void __cdecl ProcessObjectArray(void* const* ppvList, int iFlags) throw();
 class hkPointerMapDC12
 {
   public:
@@ -126,12 +147,9 @@ class hkPointerMapDC12
     {}
     ~hkPointerMapDC12() throw()
     {
-        FUN_00a29680();
+        ::FUN_00a29680();
     }
 
-    void EnsureCapacity(hkMemoryAllocatorDC12& kAlloc, int iNumElems) throw();
-    void ProcessArgument(hkMemoryAllocatorDC12& kAlloc) throw();
-    void FUN_00a29680() throw();
 };
 class hkVisitorDC12
 {
@@ -140,22 +158,20 @@ class hkVisitorDC12
 
     hkVisitorDC12() throw()
     {
-        FUN_00dc1670();
+        reinterpret_cast<::FUN_00dc1670_cls *>(this)->FUN_00dc1670();
     }
-    void FUN_00dc1670() throw();
-    void FUN_00dc1bb0(void* pvObject, hkPointerMapDC12& kDone, int iFlags) throw();
 };
 // @fnv 0x00dc1230
 extern "C" void __cdecl VisitObjectList(int iList, int iFlags)
 {
     void* const* ppvList = reinterpret_cast<void* const*>(iList);
-    ProcessObjectArray(ppvList, iFlags);
+    ::ProcessObjectArray((::BE04D90Object **)(ppvList), iFlags);
     hkVisitorDC12 kVisitor;
     hkPointerMapDC12 kDone;
-    kDone.EnsureCapacity(FUN_00c85750().heap(), 0);
+    reinterpret_cast<::FUN_00cb1fe0_t *>(&(kDone))->EnsureCapacity((int)&(FUN_00c85750().heap()), 0);
     for (int i = 0; ppvList[i]; i++)
-        kVisitor.FUN_00dc1bb0(ppvList[i], kDone, 1);
-    kDone.ProcessArgument(FUN_00c85750().heap());
+        reinterpret_cast<::FUN_00dc1bb0_Class *>(&(kVisitor))->FUN_00dc1bb0((unsigned int)(ppvList[i]), (unsigned int)&(kDone), 1);
+    reinterpret_cast<::CB1A90Owner *>(&(kDone))->ProcessArgument((::CB1A90Argument *)&(FUN_00c85750().heap()));
 }
 class hkBoolDC10
 {
@@ -169,7 +185,6 @@ class hkBoolDC10
 class FUN_00d27520
 {
   public:
-    void FUN_00d27520_dtor() throw();
     int unk00;
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
@@ -178,12 +193,13 @@ class FUN_00d27520
     int m_curSize;
     int m_iCapacity;
     char m_overflowed;
+public:
+    ~FUN_00d27520();
 };
 class FUN_00d274c0 : public FUN_00d27520
 {
   public:
     FUN_00d274c0(void* pvMem, int m_uiSizeAndFlags, hkBoolDC10 bMemoryIsString) throw();
-    int FUN_00d27380(int offset, int whence) throw();
 };
 struct EntryDC10
 {
@@ -197,15 +213,10 @@ struct EntryDC10
 class SetDC10
 {
   public:
-    int FUN_00d46fe0(int key) throw();
 };
 class SectionsDC10
 {
   public:
-    int FUN_00d470d0() throw();
-    int FUN_00d46f00() throw();
-    EntryDC10* FUN_00d46f20(int i) throw();
-    void InvokeTarget(int i, FUN_00d27520* pkWriter) throw();
 };
 void __cdecl FUN_00dc1070(void* pvBuf, SetDC10* pkSet, SectionsDC10* pkSections);
 struct S00dc15a0_Buffer
@@ -237,7 +248,6 @@ struct S00dc15a0_Array
 namespace fnvc_adapt {
 extern "C" S00dc15a0_AudioSystem* __cdecl FUN_00c85750();
 }
-extern "C" void __cdecl FUN_00c908c0(S00dc15a0_Buffer* buffer, int** indices, int size, int elementSize);
 static __declspec(noinline) int FUN_00dc12c0(S00dc15a0_Params* params, int value, int flags, S00dc15a0_Array* arr)
 {
     arr->m_iElementCount = (int)&params + (int)&value + (int)&flags;
@@ -308,14 +318,10 @@ struct OffsetMap
     void* entries;
     int size;
     int capacity;
-    void EnsureCapacity(CopyAllocator*, int);
-    void FUN_00cb1870(CopyAllocator*, void*, int);
-    void ProcessArgument(CopyAllocator*);
-    void FUN_00a29680();
     ~OffsetMap()
     {
-        ProcessArgument(((CopyRouter*)&FUN_00c85750())->allocator);
-        FUN_00a29680();
+        reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)(((CopyRouter*)&FUN_00c85750())->allocator));
+        ::FUN_00a29680();
     }
 };
 struct ByteBufferWriter
@@ -324,19 +330,15 @@ struct ByteBufferWriter
     unsigned short flags;
     unsigned short references;
     void* writer;
-    void FUN_00cc0630(ByteBuffer*);
-    void FUN_00cc00e0();
     ~ByteBufferWriter()
     {
-        FUN_00cc00e0();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(this)->FUN_00cc00e0::~FUN_00cc00e0();
     }
 };
 struct CopyOption
 {
     int value;
-    void FUN_00dc1680(const int*);
 };
-extern int DAT_011b7b88;
 struct Relocation
 {
     int offset;
@@ -364,10 +366,9 @@ struct Relocations
     int globalCount;
     int globalCapacity;
     void* extra;
-    void FUN_00e028e0();
     ~Relocations()
     {
-        FUN_00e028e0();
+        reinterpret_cast<::FUN_00e028e0 *>(this)->FUN_00e028e0::~FUN_00e028e0();
     }
 };
 struct CopyWriter : Object
@@ -378,8 +379,6 @@ struct CopyWriter : Object
     int field0c;
     int position;
     int options;
-    void FUN_00dc1040(CopyOption*, CopyOption*);
-    int FUN_00e04920(void*, int, int, int, Relocations*);
     ~CopyWriter()
     {
         FUN_00e03160();
@@ -422,7 +421,7 @@ static __declspec(noinline) char* FUN_00dc12c0(IndexArray* indices, ObjectInput 
     buffer.size = 0;
     buffer.capacity = (int)0x80000000u;
     ByteBufferWriter stream;
-    stream.FUN_00cc0630(&buffer);
+    new ((void *)&(stream)) ::FUN_00cc0630(&buffer);
     Relocations fixups;
     fixups.local = 0;
     fixups.localCount = 0;
@@ -443,26 +442,26 @@ static __declspec(noinline) char* FUN_00dc12c0(IndexArray* indices, ObjectInput 
     map.capacity = -1;
     CopyRouter* mapRouter = (CopyRouter*)&FUN_00c85750();
     _ReadWriteBarrier();
-    map.EnsureCapacity(mapRouter->allocator, 0);
+    reinterpret_cast<::FUN_00cb1fe0_t *>(&(map))->EnsureCapacity((int)(mapRouter->allocator), 0);
     int i;
     for (i = 0; i < indices->size; ++i)
     {
         int index = indices->data[i];
         ObjectEntry* object = &objectInput.p->data[index];
         CopyOption first;
-        first.FUN_00dc1680(&DAT_011b7b88);
+        new ((void *)&(first)) ::FUN_00dc1680((*(const ::FUN_00dc1680 *)(&DAT_011b7b88)));
         CopyOption second;
-        second.FUN_00dc1680(&DAT_011b7b88);
+        new ((void *)&(second)) ::FUN_00dc1680((*(const ::FUN_00dc1680 *)(&DAT_011b7b88)));
         CopyWriter writer;
-        writer.FUN_00dc1040(&second, &first);
+        new ((void *)&(writer)) ::FUN_00dc1040::PackfileObjectCopier((*(const ::hkStructureLayoutDC10 *)(&second)), (*(const ::hkStructureLayoutDC10 *)(&first)));
         int type = offsetInput.p->data[index].type;
         offsetInput.p->data[index].offset = buffer.size;
         int entryOffset = buffer.size;
         void* entryObject = object->object;
         CopyRouter* entryRouter = (CopyRouter*)&FUN_00c85750();
         _ReadWriteBarrier();
-        map.FUN_00cb1870(entryRouter->allocator, entryObject, entryOffset);
-        writer.FUN_00e04920(object->object, object->type, (int)stream.writer, type, &fixups);
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(map))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(entryRouter->allocator)), (unsigned int)(entryObject), entryOffset);
+        reinterpret_cast<::FUN_00e04920_cls *>(&(writer))->FUN_00e04920((unsigned int)(object->object), object->type, (int)stream.writer, type, (unsigned int)(&fixups));
     }
     int size = buffer.size;
     if (size)
@@ -471,7 +470,7 @@ static __declspec(noinline) char* FUN_00dc12c0(IndexArray* indices, ObjectInput 
         _ReadWriteBarrier();
         char* result = allocationRouter->allocator->allocate(size);
         listener->AddMemoryChunk(result, buffer.size, 5);
-        FUN_00cb1260(result, buffer.data, buffer.size);
+        ::FUN_00cb1260(result, buffer.data, buffer.size);
         for (i = 0; i < indices->size; ++i)
         {
             offsetInput.p->data[indices->data[i]].offset += (int)result;

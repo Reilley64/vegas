@@ -4,6 +4,13 @@
 
 // src/gamebryo2.2/corelibs/nimain/niavobject.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/niavobject.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/DummyStruct_00631820.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/symbols_004b0000.h"
+#include "fnv/symbols_005e0000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
 struct NiMemObject
 {
     char _pad_0[1];
@@ -22,21 +29,16 @@ struct NiUpdateData
 typedef char _sizecheck_NiUpdateData[sizeof(NiUpdateData) == 12 ? 1 : -1];
 struct NiAVObject
 {
-    void __thiscall UpdateTimeControllers(NiUpdateData&, bool);
 };
 struct FUN_00a5a030_shell : NiAVObject
 {
     void __thiscall FUN_00a5a030(NiUpdateData& data);
 };
-extern char const* const g_011f4428_arg1;
 char const* const* __cdecl FUN_00a5a420();
-extern const void* DAT_011f9140;
 const void* __cdecl FUN_00b4e1d0();
 struct MemoryManager
 {
-    void* __thiscall Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 struct FUN_00a59dc0_shell
 {
     void __thiscall SetBoundObject(void* apBound);
@@ -99,8 +101,6 @@ struct ObjPtr
     ObjPtr& operator=(const ObjPtr& ptr);
 };
 
-ObjPtr* __cdecl FUN_005e0ba0(unsigned int auiCount);
-void __cdecl FUN_004b0220(ObjPtr* pArray);
 
 struct ObjPtrArray
 {
@@ -124,9 +124,9 @@ void ObjPtrArray::FUN_004afc80()
     {
         for (unsigned short i = 0, j = 0; i < m_usSize; i++)
         {
-            if (m_pBase[i] != ObjPtr(0))
+            if (reinterpret_cast<::DummyStruct_00631820 *>((void *)&(const ::ObjPtr &)(m_pBase[i]))->IsNotEqual((const ::DummyStruct_00631820 &)((const ::ObjPtr &)(ObjPtr(0)))))
             {
-                if (m_pBase[j] != m_pBase[i])
+                if (reinterpret_cast<::DummyStruct_00631820 *>((void *)&(const ::ObjPtr &)(m_pBase[j]))->IsNotEqual((const ::DummyStruct_00631820 &)(m_pBase[i])))
                     m_pBase[j] = m_pBase[i];
                 j++;
             }
@@ -137,7 +137,7 @@ void ObjPtrArray::FUN_004afc80()
     m_usMaxSize = m_usSize = m_usESize;
     if (m_usMaxSize > 0)
     {
-        m_pBase = FUN_005e0ba0(m_usMaxSize);
+        m_pBase = ((::ObjPtr *)(::FUN_005e0ba0(m_usMaxSize)));
         for (unsigned short i = 0; i < m_usSize; i++)
             m_pBase[i] = pSaveBase[i];
     }
@@ -145,5 +145,5 @@ void ObjPtrArray::FUN_004afc80()
     {
         m_pBase = 0;
     }
-    FUN_004b0220(pSaveBase);
+    ::FUN_004b0220((int)(pSaveBase));
 }

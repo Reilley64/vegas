@@ -2,8 +2,14 @@
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
 
 
-unsigned int FUN_00ddcdd0(unsigned int auiValue, unsigned int auiIndex, unsigned int auiFieldValue);
-int __cdecl ExtractBitField(unsigned short ausValue, char acShiftIndex);
+#include "fnv/decl/CD2210World.h"
+#include "fnv/decl/Candidate.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00ddc000.h"
+#include "fnv/symbols_0101f000.h"
 struct DDCC60BaseObject
 {
     virtual ~DDCC60BaseObject()
@@ -32,8 +38,6 @@ struct DDCC60Listener
 };
 struct DDCC60World
 {
-    __declspec(nothrow) void removeListener(DDCC60Listener* listener);
-    __declspec(nothrow) void removeReference();
 };
 struct FUN_00ddcc60 : DDCC60ReferencedObject, DDCC60Action, DDCC60Listener
 {
@@ -55,7 +59,6 @@ struct CpuAllocatorHolder
     unsigned int unk0c;
     CpuAllocator* allocator;
 };
-CpuAllocatorHolder* __cdecl FUN_00c85750();
 struct CpuObject
 {
     unsigned int unk00;
@@ -64,9 +67,7 @@ struct CpuObject
     CpuObject* DestroyOrFree(unsigned int flags);
 };
 extern double DAT_010cd5a8;
-extern double DAT_0101ff40;
 int FindAngleIndex(float angle);
-int __cdecl FUN_00cb0fa0(const char* pcA, const char* pcB);
 class __declspec(novtable) BDDCCB0ReferencedObject
 {
   public:
@@ -87,8 +88,6 @@ class BDDCCB0WorldAddedListener;
 class BDDCCB0PhysicsContext : public BDDCCB0ReferencedObject, public BDDCCB0ProcessContext
 {
   public:
-    void AddWorldAddedListener(BDDCCB0WorldAddedListener* pkListener);
-    void RetainReference();
 };
 template <class T> class BDDCCB0Array
 {
@@ -144,7 +143,6 @@ struct Flag
     Flag(bool v) : value(v)
     {}
 };
-Flag __cdecl FUN_00ddcda0(Item* apLeft, Item* apRight);
 #include <math.h>
 struct DDCE80Point
 {
@@ -171,7 +169,6 @@ inline bool DDCE80IsNearlyEqual(float d)
         return true;
     return false;
 }
-DDCE80Bool __cdecl AreZDiffering(const DDCE80Point& a, const DDCE80Point& b);
 #include <xmmintrin.h>
 #include <math.h>
 struct FUN_00ddcc40
@@ -247,6 +244,7 @@ extern "C"
     void _mm_store_ss(float*, __m128);
 }
 }
+#include "fnv/symbols_simd.h"
 
 struct __declspec(align(16)) hkVector4
 {
@@ -263,7 +261,6 @@ struct __declspec(align(16)) hkVector4
         return (&x)[i];
     }
 };
-extern const ClipSimd::__m128 g_kQuadRealConstant;
 static __forceinline float dot3(ClipSimd::__m128 a, ClipSimd::__m128 b)
 {
     ClipSimd::__m128 product = ClipSimd::_mm_mul_ps(a, b);
@@ -284,7 +281,7 @@ Hit __cdecl FUN_00ddd0b0(const hkVector4& start, const hkVector4& end, int plane
 {
     hkVector4 a = start;
     hkVector4 b = end;
-    const ClipSimd::__m128& ONE = g_kQuadRealConstant;
+    const ClipSimd::__m128& ONE = (*reinterpret_cast<const ::ClipSimd::__m128 *>((void *)&::DAT_010ec7f0));
     for (int i = 0; i < planeCount; ++i)
     {
         hkVector4 plane = planes[i];

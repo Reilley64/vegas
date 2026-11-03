@@ -2,6 +2,11 @@
 // src/havok/physics/dynamics/constraint/atom/hkpconstraintatom.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/atom/hkpconstraintatom.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/MProduct.h"
+#include "fnv/decl/MatrixProduct.h"
+#include "fnv/decl/S_00cd4c70.h"
+#include "fnv/decl/hkMatrix3CD4B.h"
+#include "fnv/symbols_00d21000.h"
 #include "havok/hkpConstraintAtom.h"
 
 struct FUN_00d21ce0_cls
@@ -87,7 +92,6 @@ struct ConstraintAtom
     ConstraintAtom* next;
     int FUN_00d22030(ConstraintInfo* info);
 };
-void __cdecl FUN_00d21a60(ConstraintAtom* atom, unsigned int count, ConstraintInfo* result);
 
 // Walks the atom chain while type >= 23, then subtracts the partial solver temps, results and schema size from info unless the atom type is 22 or 1.
 // @fnv 0x00d22030
@@ -103,7 +107,7 @@ int ConstraintAtom::FUN_00d22030(ConstraintInfo* info)
     if (atom->type != 22 && atom->type != 1)
     {
         ConstraintInfo partialInfo;
-        FUN_00d21a60(atom, count, &partialInfo);
+        ::FUN_00d21a60((const ::hkpConstraintAtom *)(atom), count, (::GenericConstraintAtomScheme *)(::ConstraintInfo *)(&partialInfo));
         info->numSolverElemTemps -= partialInfo.numSolverElemTemps;
         info->numSolverResults -= partialInfo.numSolverResults;
         info->sizeOfSchemas -= partialInfo.sizeOfSchemas;
@@ -161,10 +165,6 @@ struct hkMatrix3q
         return (&m_kColumn0)[c](r);
     }
 
-    void setTransposeMul(const hkMatrix3q& a, const hkMatrix3q& b);
-    void SetProduct(const hkMatrix3q& a, const hkMatrix3q& b);
-    void SetInverseProduct(const hkMatrix3q& a, const hkMatrix3q& b);
-    void mul(const hkSimdRealq& scale);
 };
 
 struct hkpSimpleConstraintInfoInitInputq
@@ -209,20 +209,20 @@ void hkpMassChangerModifierConstraintAtomq::ScaleInverseInertia(const void* cp, 
         in->m_vInverseInertiaAndMass.mul4(factor);
         if (factor(0) == factor(1) && factor(1) == factor(2))
         {
-            in->m_kInverseInertiaMatrix.mul(factor.m_vComponents);
+            reinterpret_cast<::S_00cd4c70 *>(&(in->m_kInverseInertiaMatrix))->Multiply((const ::S_V4 &)((const ::hkSimdRealq &)(factor.m_vComponents)));
         }
         else
         {
             const hkMatrix3q& rot = *in->m_rotation;
             hkMatrix3q local;
-            local.setTransposeMul(rot, in->m_kInverseInertiaMatrix);
+            reinterpret_cast<::hkMatrix3CD4B *>(&(local))->FUN_00cd4bf0((const ::hkMatrix3CD4B &)(rot), (const ::hkMatrix3CD4B &)(in->m_kInverseInertiaMatrix));
             hkMatrix3q scaled;
-            scaled.SetProduct(local, rot);
+            reinterpret_cast<::MProduct *>(&(scaled))->FUN_00cd55b0((const ::MProduct &)(local), (const ::MProduct &)(rot));
             scaled(0, 0) *= factor(0);
             scaled(1, 1) *= factor(1);
             scaled(2, 2) *= factor(2);
-            local.SetInverseProduct(scaled, rot);
-            in->m_kInverseInertiaMatrix.SetProduct(rot, local);
+            reinterpret_cast<::MatrixProduct *>(&(local))->FUN_00cd5610((const ::hkMatrix3CD4B &)(scaled), (const ::CD4BA0Matrix3 &)(rot));
+            reinterpret_cast<::MProduct *>(&(in->m_kInverseInertiaMatrix))->FUN_00cd55b0((const ::MProduct &)(rot), (const ::MProduct &)(local));
         }
         factor = m_kFactorB;
         in = &inB;
@@ -312,7 +312,6 @@ class hkpModifierConstraintAtomD220
   public:
     unsigned short m_type;
 
-    int FUN_00d22030(hkpConstraintInfoD220& kInfo) const;
     int FUN_00d22090(hkpConstraintInfoD220& kInfo, unsigned char& ucUsedFlagsOut) const;
 };
 
@@ -337,7 +336,7 @@ int hkpModifierConstraintAtomD220::FUN_00d22090(hkpConstraintInfoD220& kInfo, un
         ucUsedFlagsOut |= 4;
         break;
     case 0x1b:
-        iCallbackRequest = FUN_00d22030(kInfo);
+        iCallbackRequest = reinterpret_cast<::ConstraintAtom *>((void *)this)->FUN_00d22030((::ConstraintInfo *)&(kInfo));
         break;
     case 0x1c:
         kInfo.m_iSchemaByteSize += 0xd0;

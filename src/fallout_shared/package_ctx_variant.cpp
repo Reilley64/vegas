@@ -1,6 +1,31 @@
 
 // package_ctx_variant.cpp: context variant of src/fallout_shared/package.cpp: its stripped skeleton, as these functions were checked
 // against, for verified matches whose own declarations clash with the unit's current types.
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSIdleCollection.h"
+#include "fnv/decl/BGSMessageInitAccess.h"
+#include "fnv/decl/FUN_0041ca90.h"
+#include "fnv/decl/FUN_0041fd00_shell.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_00672dd0_shell.h"
+#include "fnv/decl/FUN_00672fc0_shell.h"
+#include "fnv/decl/FUN_00674d70_shell.h"
+#include "fnv/decl/FUN_0067f140_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/HighProcess.h"
+#include "fnv/decl/LocationDescriptor.h"
+#include "fnv/decl/PackageEventActionData.h"
+#include "fnv/decl/PackedByteIntRecord.h"
+#include "fnv/decl/PerkEntryConditionSet.h"
+#include "fnv/decl/Script.h"
+#include "fnv/decl/ValueModifierEffect.h"
+#include "fnv/decl/fnv_00671d30__FUN_00671d30_shell.h"
+#include "fnv/decl/fnv_0067fd40__FUN_0067fd40_shell.h"
+#include "fnv/symbols_0046e000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_01183000.h"
 #include "package_decls.h"
 
 void* __cdecl operator new(unsigned int);
@@ -18,8 +43,6 @@ class FUN_0067f030 : public FUN_00670b30
     float radius;
     FUN_0067f030();
     ~FUN_0067f030();
-    void FUN_0067f760(PackageInit*);
-    void FUN_0067f140(int);
 };
 class FUN_0067ff70
 {
@@ -27,22 +50,16 @@ class FUN_0067ff70
     unsigned int type, target, count, unknown;
     FUN_0067ff70();
     ~FUN_0067ff70();
-    void FUN_006803b0(PackageInit*);
-    void FUN_006800b0(int);
 };
 struct ConditionInit
 {
-    void FUN_00680a20(PackageInit*);
 };
 struct IdleInit
 {
-    void FUN_00479b00(PackageInit*);
 };
 struct ProcedureInit
 {
     unsigned int unk00, unk04, unk08, unk0c;
-    void FUN_0041fd00(int);
-    void FUN_0067e190(PackageInit*);
 };
 struct PackageDataInit
 {
@@ -53,20 +70,23 @@ struct PackageDataInit
     virtual void Init(PackageInit*);
     unsigned char unk04, flag05;
 };
-int __cdecl FUN_0046e8a0();
-void __cdecl ResolveFormID(unsigned int*, void*);
+class TESFile;
 class TESForm
 {
   public:
     virtual void unused();
+public:
+    bool GetInitialized() const;
+public:
+    void SetInitializationState(bool);
+public:
+    ::TESFile *GetFile(int);
 };
 class TESCombatStyle : public TESForm
 {
 };
-TESForm* __cdecl FUN_004839c0(unsigned int);
 void* __cdecl FUN_00ec43fb(void*, int, void*, void*, int);
-extern int DAT_0118627c, DAT_01183028;
-void __cdecl FNV_Warning(const char*, ...);
+extern int DAT_0118627c;
 class PackageInit
 {
   public:
@@ -155,95 +175,78 @@ class PackageInit
     PackageDataInit* data;
     unsigned int unk2c, unk30, unk34, unk38, unk3c, unk40, unk44, unk48;
     ProcedureInit begin, end, change;
-    bool FUN_004013e0();
-    FUN_0067f030* FUN_0055b980();
-    FUN_0067f030* FUN_00672dd0();
-    FUN_0067ff70* FUN_00671d10();
-    ConditionInit* FUN_0087eaa0();
-    IdleInit* FUN_005f36f0();
     unsigned int FUN_006733e0();
-    void FUN_00673400(void*);
-    void* FUN_00484e60(int);
-    unsigned int FUN_0084e3a0();
-    int GetPackType();
-    bool FUN_00674d20();
-    bool FUN_00673890();
-    void FUN_00672fc0(FUN_0067ff70*);
-    void FUN_00671d30(FUN_0067f030*);
-    void FUN_00484ab0(int);
     void FUN_00674930();
 };
 // @fnv 0x00674930
 void PackageInit::FUN_00674930()
 {
-    if (FUN_004013e0())
+    if (reinterpret_cast<::TESForm *>(this)->GetInitialized())
         return;
     int warningsA = FUN_0046e8a0();
-    if (FUN_0055b980())
-        FUN_0055b980()->FUN_0067f760(this);
-    if (FUN_00672dd0())
-        FUN_00672dd0()->FUN_0067f760(this);
-    if (FUN_00671d10())
-        FUN_00671d10()->FUN_006803b0(this);
-    if (FUN_0087eaa0())
-        FUN_0087eaa0()->FUN_00680a20(this);
-    if (FUN_005f36f0())
-        FUN_005f36f0()->FUN_00479b00(this);
+    if (((struct ::FUN_0067f030 *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID())))
+        reinterpret_cast<::LocationDescriptor *>((((struct ::FUN_0067f030 *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID()))))->InitItem((::TESForm *)(::PackageInit *)(this));
+    if (((struct ::FUN_0067f030 *)(reinterpret_cast<::FUN_00672dd0_shell *>(this)->FUN_00672dd0())))
+        reinterpret_cast<::LocationDescriptor *>((((struct ::FUN_0067f030 *)(reinterpret_cast<::FUN_00672dd0_shell *>(this)->FUN_00672dd0()))))->InitItem((::TESForm *)(::PackageInit *)(this));
+    if (((class ::FUN_0067ff70 *)(reinterpret_cast<::Script *>(this)->GetData())))
+        reinterpret_cast<::PackageTargetRecord *>((((class ::FUN_0067ff70 *)(reinterpret_cast<::Script *>(this)->GetData()))))->InitItem((::TESForm *)(::PackageInit *)(this));
+    if (((::ConditionInit *)(reinterpret_cast<::PackedByteIntRecord *>(this)->Endian())))
+        reinterpret_cast<::PerkEntryConditionSet *>((((::ConditionInit *)(reinterpret_cast<::PackedByteIntRecord *>(this)->Endian()))))->InitItem((::TESForm *)(::PackageInit *)(this));
+    if (((::IdleInit *)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())))
+        reinterpret_cast<::BGSIdleCollection *>((((::IdleInit *)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath()))))->InitItem((::TESForm *)(::PackageInit *)(this));
     if (data)
         data->Init(this);
     unsigned int kCombatStyle = FUN_006733e0();
     if (kCombatStyle)
     {
-        ResolveFormID(&kCombatStyle, FUN_00484e60(-1));
-        FUN_00673400(dynamic_cast<TESCombatStyle*>(FUN_004839c0(kCombatStyle)));
+        ::ResolveFormID(&kCombatStyle, (::TESFile *)(void *)(((void *)(reinterpret_cast<::TESForm *>(this)->GetFile(-1)))));
+        reinterpret_cast<::ValueModifierEffect *>(this)->SetActorValue((::ActorValue::Index)(dynamic_cast<TESCombatStyle*>(FUN_004839c0(kCombatStyle))));
         if (!FUN_006733e0())
-            FNV_Warning("FORMS: Could not find combat style (%08X) on package '%s' (%08X).", kCombatStyle,
-                        GetDebugName(), FUN_0084e3a0());
+            ::FUN_005b5e40();
     }
-    begin.FUN_0041fd00(0);
-    end.FUN_0041fd00(1);
-    change.FUN_0041fd00(2);
-    begin.FUN_0067e190(this);
-    end.FUN_0067e190(this);
-    change.FUN_0067e190(this);
+    reinterpret_cast<::FUN_0041fd00_shell *>(&(begin))->FUN_0041fd00(0);
+    reinterpret_cast<::FUN_0041fd00_shell *>(&(end))->FUN_0041fd00(1);
+    reinterpret_cast<::FUN_0041fd00_shell *>(&(change))->FUN_0041fd00(2);
+    reinterpret_cast<::PackageEventActionData *>(&(begin))->InitItem((::TESForm *)(::PackageInit *)(this));
+    reinterpret_cast<::PackageEventActionData *>(&(end))->InitItem((::TESForm *)(::PackageInit *)(this));
+    reinterpret_cast<::PackageEventActionData *>(&(change))->InitItem((::TESForm *)(::PackageInit *)(this));
     if (warningsA != FUN_0046e8a0())
     {
-        FNV_Warning(
-            "MASTERFILE: Warnings were generated for package '%s' (%08). This package will be disabled in game.",
-            GetDebugName(), FUN_0084e3a0());
+        ::FUN_005b5e40(
+            );
         packageFlags |= 0x8000;
     }
-    switch (GetPackType())
+    switch (reinterpret_cast<struct ::FUN_0041ca90 *>(this)->get())
     {
     case 9:
-        if (FUN_00674d20())
-            FUN_0055b980()->FUN_0067f140(6);
+        if (reinterpret_cast<::TESPackage *>(this)->FUN_00674d20())
+            reinterpret_cast<::FUN_0067f140_shell *>((((struct ::FUN_0067f030 *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID()))))->FUN_0067f140(6);
         break;
     case 14:
-        if (FUN_00674d20())
+        if (reinterpret_cast<::TESPackage *>(this)->FUN_00674d20())
         {
-            if (!FUN_00671d10())
-                FUN_00672fc0(new FUN_0067ff70);
-            FUN_00671d10()->FUN_006800b0(3);
+            if (!((class ::FUN_0067ff70 *)(reinterpret_cast<::Script *>(this)->GetData())))
+                reinterpret_cast<::FUN_00672fc0_shell *>(this)->FUN_00672fc0((::PackageTargetRecord *)(class ::FUN_0067ff70 *)(new FUN_0067ff70));
+            reinterpret_cast<::PackageTargetRecord *>((((class ::FUN_0067ff70 *)(reinterpret_cast<::Script *>(this)->GetData()))))->SetTargetKind((::PACK_TARG_TYPE)(3));
         }
         break;
     case 13: {
         PackageDataInit* packageData_2 = data;
         if (packageData_2->flag05)
-            FUN_0055b980()->FUN_0067f140(6);
-        if (!FUN_0055b980())
+            reinterpret_cast<::FUN_0067f140_shell *>((((struct ::FUN_0067f030 *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID()))))->FUN_0067f140(6);
+        if (!((struct ::FUN_0067f030 *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID())))
         {
             FUN_0067f030* location = new FUN_0067f030;
-            location->FUN_0067f140(6);
-            FUN_00671d30(location);
+            reinterpret_cast<::FUN_0067f140_shell *>((location))->FUN_0067f140(6);
+            reinterpret_cast<::fnv_00671d30::FUN_00671d30_shell *>(this)->FUN_00671d30((::fnv_00671d30::LocationDescriptor *)(location));
             delete static_cast<FUN_00670b30*>(location);
         }
         break;
     }
     case 12:
-        if (FUN_00673890())
-            FUN_0055b980()->FUN_0067f140(6);
+        if (reinterpret_cast<::TESPackage *>(this)->FUN_00673890())
+            reinterpret_cast<::FUN_0067f140_shell *>((((struct ::FUN_0067f030 *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID()))))->FUN_0067f140(6);
         break;
     }
-    FUN_00484ab0(1);
+    reinterpret_cast<::TESForm *>(this)->SetInitializationState(1);
 }

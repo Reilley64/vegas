@@ -7,6 +7,31 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/fallout_shared/havok/cameracaster.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/cameracaster.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/DummyFlagsShell.h"
+#include "fnv/decl/FUN_0043b4d0_shell.h"
+#include "fnv/decl/FUN_00456630_helper.h"
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_006212c0_shell.h"
+#include "fnv/decl/FUN_00807770_Class.h"
+#include "fnv/decl/Hld621210.h"
+#include "fnv/decl/ListHolder.h"
+#include "fnv/decl/ScriptX.h"
+#include "fnv/decl/SortableArray.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_00c7f000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f2000.h"
 extern int DAT_0104da3c;
 struct FUN_00621100_shell
 {
@@ -16,11 +41,9 @@ struct bhkCharacterListener
 {
     unsigned int FUN_00621270(unsigned int aiFlags);
 };
-extern float DAT_0104da4c;
 struct FUN_00621290_shell
 {
     void* InitFloats();
-    void _ref_006815c0();
 };
 
 struct xP3
@@ -43,7 +66,6 @@ struct __declspec(align(16)) xVec4b
     int m_auiShapeKeys[4];
     xVec4b();
 };
-void xFUN_004a3e00(void*, const xP3&);
 struct xHit
 {
     int m_iWordAt00[18];
@@ -51,43 +73,31 @@ struct xHit
 };
 struct xHitList
 {
-    int FUN_00726070();
-    xHit* FUN_00807770(int);
 };
 struct xTag
 {
     xTag();
-    bool FUN_005609f0();
     char m_iThirdValue;
 };
 struct __declspec(align(16)) xCollector
 {
     xCollector();
     ~xCollector();
-    xTag FUN_00621210();
-    void FUN_00cabad0();
-    xHitList* FUN_00460140();
     int m_q[0xe8];
 };
 struct xPhantom
 {
-    void InvokeInterfaceCall(xVec4*, xVec4b*, xCollector*, int);
 };
 struct xFilter
 {
     xFilter(unsigned int);
-    int FUN_0043b4d0();
     unsigned int m_uiFilterValue;
 };
-unsigned int __fastcall xFUN_0043b540(void*);
 struct xNode
 {
-    bool FUN_00456610();
 };
-xNode* xFUN_00c7fa90(void*);
 struct xOwnerP
 {
-    bool FUN_00621240();
 };
 struct xActor
 {
@@ -155,10 +165,8 @@ struct xActor
     virtual void v61();
     virtual void v62();
     virtual bool FUN_fc();
-    xOwnerP* FUN_009306d0();
 };
 
-xActor* xFUN_0056f930(xNode*);
 struct xMenuItem
 {
     int m_iWordAt00[3];
@@ -166,21 +174,12 @@ struct xMenuItem
 };
 struct MenuItemCollection
 {
-    unsigned int FUN_0044ddc0();
-    xMenuItem* FUN_009c71c0();
 };
-extern MenuItemCollection xg_11f2250;
-extern xActor* xg_11f21cc;
-extern xActor* xg_player_11dea3c;
 struct xOutHit
 {
-    void FUN_006212c0(xHit*);
-    xVec4* FUN_006815c0();
 };
-void xFUN_00458620(xP3&, xVec4*);
 struct xPtr
 {
-    xPhantom* FUN_00559450();
     void* m_p;
 };
 struct xCaster
@@ -192,39 +191,39 @@ struct xCaster
 bool xCaster::FUN_00620bc0(const xP3& akFrom, xP3& akTo, xOutHit* apOut)
 {
     bool RESULT = false;
-    if (m_iWordAt00.FUN_00559450())
+    if (((::xPhantom *)(::FUN_00559450((int *)&(m_iWordAt00)))))
     {
         xVec4 FROM;
         xCollector COL;
         xVec4b TO;
-        xFUN_004a3e00(&FROM, akFrom);
-        xFUN_004a3e00(&TO, akTo);
-        m_iWordAt00.FUN_00559450()->InvokeInterfaceCall(&FROM, &TO, &COL, 0);
-        RESULT = COL.FUN_00621210().FUN_005609f0();
+        ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&FROM)), (const ::fnv_004a3e00::NiPoint3 &)(akFrom));
+        ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&TO)), (const ::fnv_004a3e00::NiPoint3 &)(akTo));
+        reinterpret_cast<::ScriptX *>((((::xPhantom *)(::FUN_00559450((int *)&(m_iWordAt00))))))->InvokeInterfaceCall((int)(&FROM), (int)(&TO), (int)(&COL), 0);
+        RESULT = reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::xTag &)((*(::xTag *)(reinterpret_cast<::Hld621210 *>(&(COL))->FUN_00621210({})))))->FUN_005609f0();
         if (RESULT)
         {
-            COL.FUN_00cabad0();
+            reinterpret_cast<::SortableArray *>(&(COL))->FUN_00cabad0();
             int I = 0;
             bool FOUND = false;
-            bool ISX = xg_11f2250.FUN_0044ddc0() == 4;
+            bool ISX = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::MenuItemCollection *>(&::g_011f2250))))->GetName())) == 4;
             xActor* TARGET = 0;
             if (ISX)
             {
-                xMenuItem* ITEM = xg_11f2250.FUN_009c71c0();
+                xMenuItem* ITEM = ((::xMenuItem *)(reinterpret_cast<::ListHolder *>(&((*reinterpret_cast<::MenuItemCollection *>(&::g_011f2250))))->FUN_009c71c0()));
                 if (ITEM)
                     TARGET = ITEM->m_iThirdValue;
                 else
-                    TARGET = xg_11f21cc;
+                    TARGET = (*reinterpret_cast<::xActor * *>(&::DAT_011f21cc));
                 if (!TARGET)
-                    TARGET = xg_player_11dea3c;
+                    TARGET = (*reinterpret_cast<::xActor * *>(&::_g_thePlayer));
             }
-            while (!FOUND && I < COL.FUN_00460140()->FUN_00726070())
+            while (!FOUND && I < ((int)(reinterpret_cast<::Callees *>((((::xHitList *)(::FUN_00460140((int)&(COL))))))->FUN_00726070())))
             {
-                void* SHAPE = COL.FUN_00460140()->FUN_00807770(I)->m_48;
-                xFilter FILTER(xFUN_0043b540(SHAPE));
-                int TYPE = FILTER.FUN_0043b4d0();
-                xNode* NODE = xFUN_00c7fa90(SHAPE);
-                if (TYPE != 0x11 && (!NODE || NODE->FUN_00456610()))
+                void* SHAPE = ((::xHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::xHitList *)(::FUN_00460140((int)&(COL))))))->FUN_00807770(I)))->m_48;
+                xFilter FILTER(::FUN_0043b540((char *)(SHAPE)));
+                int TYPE = reinterpret_cast<::FUN_0043b4d0_shell *>(&(FILTER))->FUN_0043b4d0();
+                xNode* NODE = ((::xNode *)(::FUN_00c7fa90((::S_Obj *)(SHAPE))));
+                if (TYPE != 0x11 && (!NODE || reinterpret_cast<::FUN_00456630_helper *>((NODE))->FUN_00456610()))
                 {
                     I++;
                     continue;
@@ -244,7 +243,7 @@ bool xCaster::FUN_00620bc0(const xP3& akFrom, xP3& akTo, xOutHit* apOut)
                 case 32:
                     if (NODE)
                     {
-                        xActor* ACTOR = xFUN_0056f930(NODE);
+                        xActor* ACTOR = ((::xActor *)(::FUN_0056f930((::NiAVObject *)(NODE))));
                         if (ACTOR)
                         {
                             if (ISX && ACTOR == TARGET)
@@ -252,8 +251,8 @@ bool xCaster::FUN_00620bc0(const xP3& akFrom, xP3& akTo, xOutHit* apOut)
                             else if (ACTOR->FUN_fc())
                             {
                                 xActor* PACTOR = ACTOR;
-                                xOwnerP* OWNER = PACTOR->FUN_009306d0();
-                                if (OWNER && OWNER->FUN_00621240())
+                                xOwnerP* OWNER = ((::xOwnerP *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((PACTOR))->FUN_009306d0()));
+                                if (OWNER && reinterpret_cast<::DummyFlagsShell *>((OWNER))->FUN_00621240())
                                     FOUND = false;
                             }
                         }
@@ -263,12 +262,12 @@ bool xCaster::FUN_00620bc0(const xP3& akFrom, xP3& akTo, xOutHit* apOut)
                 if (!FOUND)
                     I++;
                 else if (ISX)
-                    void* LAST = COL.FUN_00460140()->FUN_00807770(I)->m_48;
+                    void* LAST = ((::xHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::xHitList *)(::FUN_00460140((int)&(COL))))))->FUN_00807770(I)))->m_48;
             }
             if (FOUND)
             {
-                apOut->FUN_006212c0(COL.FUN_00460140()->FUN_00807770(I));
-                xFUN_00458620(akTo, apOut->FUN_006815c0());
+                reinterpret_cast<::FUN_006212c0_shell *>((apOut))->FUN_006212c0(((::xHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::xHitList *)(::FUN_00460140((int)&(COL))))))->FUN_00807770(I))));
+                ::SetNiPoint3FromHkVector4((::NiPoint3 &)(akTo), (*(const ::hkVector4 *)(((::xVec4 *)(new ((void *)(apOut)) ::Vec3())))));
             }
             else
                 RESULT = false;

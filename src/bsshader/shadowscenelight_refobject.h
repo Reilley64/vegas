@@ -25,6 +25,8 @@ class NiRefObject : public NiMemObject
         if (InterlockedDecrement(reinterpret_cast<volatile long*>(&m_uiRefCount)) == 0)
             DeleteThis();
     }
+public:
+    static unsigned int ms_lObjectCount;
 };
 template <class T> class ShadowScenePointer
 {

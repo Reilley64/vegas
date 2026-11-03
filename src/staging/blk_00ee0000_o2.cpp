@@ -2,6 +2,15 @@
 // src/staging/blk_00ee0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/NiRefObject.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00ee6000.h"
+#include "fnv/symbols_00ee8000.h"
+#include "fnv/symbols_00eea000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_0109b000.h"
 #include "../../include/layout_support.h"
 
 extern "C" void __cdecl _Call_a5d3a0();
@@ -20,7 +29,6 @@ FUN_00ee88b0::FUN_00ee88b0()
     m_vftable = (int)&DAT_011011ec;
 }
 
-extern const char* _EmptyFS;
 struct FUN_00ee8a10
 {
     const char* m_pString;
@@ -38,9 +46,9 @@ FUN_00ee8a10::FUN_00ee8a10(const FUN_00ee8a10& src)
     const char* newStr = src.m_pString;
     if (m_pString != newStr)
     {
-        if (newStr != _EmptyFS)
+        if (newStr != ::DAT_0109b220)
             InterlockedIncrement((volatile long*)(newStr - 8));
-        if (m_pString != _EmptyFS)
+        if (m_pString != ::DAT_0109b220)
             InterlockedDecrement((volatile long*)(m_pString - 8));
         m_pString = newStr;
     }
@@ -51,7 +59,6 @@ FUN_00ee8a10::FUN_00ee8a10(const FUN_00ee8a10& src)
 }
 
 namespace fnv_00eea710 {
-extern "C" void* _EmptyFS;
 
 struct FUN_00eea710_class
 {
@@ -72,9 +79,9 @@ void FUN_00eea710_class::AssignRefCounted(void** apSource)
     void* src = *apSource;
     if (m_field_18 != src)
     {
-        if (src != _EmptyFS)
+        if (src != (*reinterpret_cast<void * *>(&::DAT_0109b220)))
             InterlockedIncrement((volatile long*)((char*)src - 8));
-        if (m_field_18 != _EmptyFS)
+        if (m_field_18 != (*reinterpret_cast<void * *>(&::DAT_0109b220)))
             InterlockedDecrement((volatile long*)((char*)m_field_18 - 8));
         m_field_18 = src;
     }
@@ -94,7 +101,7 @@ struct FUN_00ee89f0
 // @fnv 0x00ee89f0
 FUN_00ee89f0::FUN_00ee89f0()
 {
-    m_pString = _EmptyFS;
+    m_pString = ::DAT_0109b220;
     m_uiCharacterCount = 0;
     m_uiMaxLength = 0;
     m_uiValue1 = 0;
@@ -118,10 +125,10 @@ void FUN_00eea650_stand_in::FUN_00eea650(const FUN_00ee8a10& aSource)
     const char* pcSourceString = aSource.m_pString;
     if (m_pString != pcSourceString)
     {
-        if (pcSourceString != _EmptyFS)
+        if (pcSourceString != ::DAT_0109b220)
             InterlockedIncrement(reinterpret_cast<volatile long*>(const_cast<char*>(pcSourceString) - 8));
 
-        if (m_pString != _EmptyFS)
+        if (m_pString != ::DAT_0109b220)
             InterlockedDecrement(reinterpret_cast<volatile long*>(const_cast<char*>(m_pString) - 8));
 
         m_pString = pcSourceString;
@@ -219,21 +226,18 @@ void __cdecl FUN_00ee6dc2()
 struct D3DXPLANE;
 struct D3DXMATRIX;
 
-extern "C" __declspec(dllimport) D3DXPLANE* __stdcall D3DXPlaneTransform(D3DXPLANE* output, const D3DXPLANE* plane,
-                                                                         const D3DXMATRIX* matrix);
 
 // @fnv 0x00ee6dc8
 D3DXPLANE* __stdcall FUN_00ee6dc8(D3DXPLANE* output, const D3DXPLANE* plane, const D3DXMATRIX* matrix)
 {
-    return D3DXPlaneTransform(output, plane, matrix);
+    return ::FUN_00ee6dc8(output, plane, matrix);
 }
 
-extern "C" __declspec(dllimport) void* __stdcall D3DXPlaneNormalize(void* pout, const void* pp);
 
 // @fnv 0x00ee6dce
 void* __stdcall FUN_00ee6dce(void* pout, const void* pp)
 {
-    return D3DXPlaneNormalize(pout, pp);
+    return ::FUN_00ee6dce(pout, pp);
 }
 
 typedef void(__cdecl* PFN_D3DXMatrixInverse)(void);
@@ -350,30 +354,27 @@ int __cdecl FUN_00ee81e6(void* vf)
 }
 
 // FUN_00ee81ec: forwards to libvorbisfile ov_pcm_total (2 args, cdecl, 64-bit return), tail-jumped through the IAT.
-extern "C" __declspec(dllimport) __int64 __cdecl ov_pcm_total(void* vf, int i);
 
 // @fnv 0x00ee81ec
 __int64 __cdecl FUN_00ee81ec(void* vf, int i)
 {
-    return ov_pcm_total(vf, i);
+    return ::FUN_00ee81ec(vf, i);
 }
 
 // FUN_00ee81f2: forwards to libvorbisfile ov_seekable (1 arg, cdecl), tail-jumped through the IAT.
-extern "C" __declspec(dllimport) int __cdecl ov_seekable(void* vf);
 
 // @fnv 0x00ee81f2
 int __cdecl FUN_00ee81f2(void* vf)
 {
-    return ov_seekable(vf);
+    return ::FUN_00ee81f2(vf);
 }
 
 // FUN_00ee81f8: forwards to libvorbisfile ov_info (2 args, tail-jumped through the IAT).
-extern "C" __declspec(dllimport) void* __cdecl ov_info(void* vf, int link);
 
 // @fnv 0x00ee81f8
 void* __cdecl FUN_00ee81f8(void* vf, int link)
 {
-    return ov_info(vf, link);
+    return ::FUN_00ee81f8(vf, link);
 }
 
 extern "C" void(__cdecl* const FUN_00fdf438)();
@@ -493,9 +494,6 @@ void CpuObject::FUN_00eea570(int value)
 }  // namespace fnv_00eea570
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
-extern const char* _EmptyFS;
-extern volatile long DAT_011f4400;
-extern unsigned int UNK_0101dce4;
 
 struct FixedStringOwner
 {
@@ -514,24 +512,23 @@ struct FixedStringOwner
 // @fnv 0x00eea5e0
 void FixedStringOwner::ReleaseStrings()
 {
-    if (m_fifthString != _EmptyFS)
+    if (m_fifthString != ::DAT_0109b220)
         InterlockedDecrement(reinterpret_cast<volatile long*>(const_cast<char*>(m_fifthString) - 8));
-    if (m_fourthString != _EmptyFS)
+    if (m_fourthString != ::DAT_0109b220)
         InterlockedDecrement(reinterpret_cast<volatile long*>(const_cast<char*>(m_fourthString) - 8));
-    if (m_thirdString != _EmptyFS)
+    if (m_thirdString != ::DAT_0109b220)
         InterlockedDecrement(reinterpret_cast<volatile long*>(const_cast<char*>(m_thirdString) - 8));
-    if (m_secondString != _EmptyFS)
+    if (m_secondString != ::DAT_0109b220)
         InterlockedDecrement(reinterpret_cast<volatile long*>(const_cast<char*>(m_secondString) - 8));
-    if (m_firstString != _EmptyFS)
+    if (m_firstString != ::DAT_0109b220)
         InterlockedDecrement(reinterpret_cast<volatile long*>(const_cast<char*>(m_firstString) - 8));
 
-    m_vftable = &UNK_0101dce4;
-    InterlockedDecrement(&DAT_011f4400);
+    m_vftable = &(*reinterpret_cast<unsigned int *>(&::DAT_0101dce4));
+    InterlockedDecrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
 }
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
-extern const char* _EmptyFS;
 
 struct FixedStringHolder
 {
@@ -551,11 +548,11 @@ void FixedStringHolder::FUN_00eea690(const char** source)
     const char* newString = *source;
     if (m_pString != newString)
     {
-        if (newString != _EmptyFS)
+        if (newString != ::DAT_0109b220)
         {
             InterlockedIncrement(reinterpret_cast<volatile long*>(const_cast<char*>(newString) - 8));
         }
-        if (m_pString != _EmptyFS)
+        if (m_pString != ::DAT_0109b220)
         {
             InterlockedDecrement(reinterpret_cast<volatile long*>(const_cast<char*>(m_pString) - 8));
         }
@@ -606,8 +603,6 @@ char* FnvCpu_FUN_00eea520_CpuObject::FUN_00eea520()
     return reinterpret_cast<char*>(this) + 24;
 }
 
-extern volatile long DAT_011f4400;
-extern const char* _EmptyFS;
 struct FixedStringBase
 {
     virtual void Release();
@@ -616,12 +611,12 @@ struct FixedStringBase
 };
 FixedStringBase::FixedStringBase() : m_unknown04(0)
 {
-    InterlockedIncrement(&DAT_011f4400);
+    InterlockedIncrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
 }
 struct StringValue
 {
     const char* value;
-    StringValue() : value(_EmptyFS)
+    StringValue() : value(::DAT_0109b220)
     {}
 };
 struct MemberCount
@@ -649,7 +644,6 @@ FUN_00eea580::FUN_00eea580()
 class ItemEE88
 {
   public:
-    unsigned short FUN_00eea4e0();
 };
 
 class FUN_00ee8850_C
@@ -686,7 +680,7 @@ unsigned int FUN_00ee8850_C::GetTotalValue(int iType)
     {
         ItemEE88* pkItem = m_ppItems[i];
         if (pkItem)
-            uiResult += pkItem->FUN_00eea4e0();
+            uiResult += ::FUN_00eea4e0((char *)(pkItem), {});
     }
     return uiResult;
 }

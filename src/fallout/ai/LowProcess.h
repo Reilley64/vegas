@@ -5,6 +5,8 @@
 // header is regenerated and this file retires.
 #ifndef FNV_LOWPROCESS_H
 #define FNV_LOWPROCESS_H
+#include "fnv/decl/FUN_008d7e00_shell.h"
+#include "fnv/decl/FUN_008d7e60_shell.h"
 #include "layout_support.h"
 #include "BaseProcess.h"
 #include "TimeoutTimer.h"
@@ -48,8 +50,6 @@ class LowProcess : public BaseProcess
     int GetPackageObjectType();
     TESObjectREFR* GetActiveCombatTarget();
     // Canonical additions requested:
-    void SetFlag(bool, unsigned char);
-    bool GetFlag(unsigned char);
     void SetAnimationComplete(bool);
     bool IsMovementComplete();
     bool IsCurrentProcessComplete();

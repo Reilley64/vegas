@@ -2,6 +2,12 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkplimitedhingedrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkplimitedhingedrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/CpuObject.h"
+#include "fnv/decl/DE44C0Object.h"
+#include "fnv/decl/FUN_00de4530Owner.h"
+#include "fnv/decl/SetupTarget.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cab000.h"
 extern const double DAT_01097800;
 struct __declspec(intrin_type) __declspec(align(16)) __m128
 {
@@ -39,7 +45,6 @@ struct Matrix
 };
 struct Shape
 {
-    void FUN_00de4950(float, float, float, int, const Vector*, const Vector*, const Vector*);
 };
 struct Array
 {
@@ -70,8 +75,6 @@ struct Router
     Allocator* allocator;
 };
 Router* __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(Allocator*, Array*, int, int);
-unsigned __cdecl PackColorBigEndian(float, float, float, float);
 struct Display
 {
     virtual void v0();
@@ -93,7 +96,6 @@ struct Display
 struct DisplayContext
 {
     int a, b, c, d;
-    void FUN_00e10a10(Display*);
 };
 struct Data
 {
@@ -117,8 +119,6 @@ struct Viewer
     DisplayContext context;
     Shape shape;
     void FUN_00de47e0(Input*, Matrix*, Matrix*);
-    void FUN_00de4530(int, int);
-    void FUN_00de44c0(int, int);
     void FUN_00de7a70(Input*, Display*, int, int);
 };
 __forceinline __m128 broadcast(float value)
@@ -137,13 +137,13 @@ __forceinline __m128 broadcastScalar(float value)
 void Viewer::FUN_00de7a70(Input* input, Display* display, int id, int tag)
 {
     Data* data = input->data;
-    context.FUN_00e10a10(display);
+    reinterpret_cast<::CpuObject *>(&(context))->FUN_00e10a10((int)(display));
     Matrix first, second;
     FUN_00de47e0(input, &first, &second);
     origin.FUN_00c7f640(&first, &data->v90);
     pivot.FUN_00c7f640(&second, &data->v50);
-    FUN_00de4530(id, tag);
-    FUN_00de44c0(id, tag);
+    reinterpret_cast<::FUN_00de4530Owner *>(this)->FUN_00de4530(id, tag);
+    reinterpret_cast<::DE44C0Object *>(this)->FUN_00de44c0(id, tag);
     AxisPair axes;
     DrawWork scratch;
     axes.axis.FUN_00c7f700(&m90, &data->v60);
@@ -171,7 +171,7 @@ void Viewer::FUN_00de7a70(Input* input, Display* display, int id, int tag)
         float high = data->maximum, low = data->minimum;
         if (high - low < 100000000376832.0)
         {
-            shape.FUN_00de4950(scale * multiplier, low, high, flags, &origin, &axes.axis, &axes.other);
+            reinterpret_cast<::SetupTarget *>(&(shape))->FUN_00de4950(scale * multiplier, low, high, flags, (*(const ::Vec4 *)(&origin)), (*(const ::Vec4 *)(&axes.axis)), (*(const ::Vec4 *)(&axes.other)));
             scratch.shapes.data = 0;
             scratch.shapes.size = 0;
             scratch.shapes.capacity = 0x80000000;
@@ -183,7 +183,7 @@ void Viewer::FUN_00de7a70(Input* input, Display* display, int id, int tag)
                 capacity *= 2;
                 if (capacity <= 1)
                     capacity = 1;
-                FUN_00c908c0(allocator, &scratch.shapes, capacity, 4);
+                ::FUN_00c908c0((::SpawnedObject *)(allocator), (::SpawnedArray *)(::Array *)(&scratch.shapes), capacity, 4);
             }
             scratch.shapes.size = 1;
             scratch.shapes.data[0] = &shape;

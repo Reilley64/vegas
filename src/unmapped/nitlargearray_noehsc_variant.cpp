@@ -4,25 +4,28 @@
 // to their real unit once identified.
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/symbols_00a63000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f6000.h"
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* lpAddend);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* lpAddend);
 typedef char* GlobalStringHandle;
 struct NiGlobalStringTable
 {
-    static GlobalStringHandle ms_pcEmptyString;
     static unsigned int* GetRefCount(GlobalStringHandle handle)
     {
         return (unsigned int*)(handle - 8);
     }
     static void IncRefCount(GlobalStringHandle& handle)
     {
-        if (handle == ms_pcEmptyString)
+        if (handle == ::DAT_0109b220)
             return;
         InterlockedIncrement((volatile long*)GetRefCount(handle));
     }
     static void DecRefCount(GlobalStringHandle& handle)
     {
-        if (handle == ms_pcEmptyString)
+        if (handle == ::DAT_0109b220)
             return;
         InterlockedDecrement((volatile long*)GetRefCount(handle));
     }
@@ -34,7 +37,7 @@ class NiFixedString
     NiFixedString(const char* pcString = 0)
     {
         if (pcString == 0)
-            m_kHandle = NiGlobalStringTable::ms_pcEmptyString;
+            m_kHandle = ::DAT_0109b220;
         else
             m_kHandle = AddString(pcString);
     }
@@ -68,13 +71,11 @@ struct NiFixedStringArray
 
 struct MemoryManager
 {
-    void Deallocate(void* pvMem);
 };
-extern MemoryManager _g_memoryManager;
 
 void operator delete[](void* p)
 {
-    _g_memoryManager.Deallocate(p);
+    reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
 }
 
 bool operator!=(const NiFixedString& a, const NiFixedString& b)
@@ -82,7 +83,6 @@ bool operator!=(const NiFixedString& a, const NiFixedString& b)
     return a.m_kHandle != b.m_kHandle;
 }
 
-NiFixedString* __cdecl FUN_00a63ae0(unsigned int auiCount);
 
 struct MyNiFixedStringArray : public NiFixedStringArray
 {
@@ -116,7 +116,7 @@ void MyNiFixedStringArray::FUN_00a65140(unsigned int uiMaxSize)
     m_uiMaxSize = uiMaxSize;
     if (uiMaxSize > 0)
     {
-        m_pBase = FUN_00a63ae0(m_uiMaxSize);
+        m_pBase = ((::NiFixedString *)(::FUN_00a63ae0(m_uiMaxSize)));
 
         for (i = 0; i < m_uiSize; i++)
         {

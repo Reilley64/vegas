@@ -2,10 +2,19 @@
 // src/gamebryo2.2/corelibs/nimain/nitribasedgeom_iso_variant.cpp - variant unit created 2026-11-01 by rtm_route.py: community reworks of src/gamebryo2.2/corelibs/nimain/nitribasedgeom.cpp that match byte for byte only
 // with VC9 SP1 and /MT /O2 /GS /EHsc /Gy (unit lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton.
 
+#include "fnv/decl/FUN_00a80580_cls.h"
+#include "fnv/decl/FUN_00a80bf0_shell.h"
+#include "fnv/decl/ViewerGeometry.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109e000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f5000.h"
 #include "nitribasedgeom_decls.h"
 
 class GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_011f4a48;
 
 // @fnv 0x00a74790
 const GlobalObjectO2_00a7b610* FUN_00a74790()
@@ -13,17 +22,14 @@ const GlobalObjectO2_00a7b610* FUN_00a74790()
     return &g_011f4a48;
 }
 
-extern "C" unsigned int DAT_0109ed94;
-extern "C" void __fastcall FUN_00a80580(::NiGeometry*);
-extern "C" void __cdecl FUN_00aa1460(void*, unsigned int);
 
 // @fnv 0x00a89790
 extern "C" ::NiGeometry* __fastcall FUN_00a89790(::NiGeometry* geometry, void*, unsigned int flags)
 {
     *reinterpret_cast<void**>(geometry) = &DAT_0109ed94;
-    FUN_00a80580(geometry);
+    reinterpret_cast<::FUN_00a80580_cls *>((geometry))->FUN_00a80580();
     if (flags & 1u)
-        FUN_00aa1460(geometry, sizeof(*geometry));
+        ::FUN_00aa1460(geometry, sizeof(*geometry));
     return geometry;
 }
 
@@ -106,18 +112,16 @@ class NiStream;
 class ParticleLinkEndpoint : public NiGeometry
 {
   public:
-    void FUN_00a80b50(NiStream&);
 // @fnv 0x00a74780
     void FUN_00a74780(NiStream& input)
     {
-        FUN_00a80b50(input);
+        reinterpret_cast<::NiGeometry *>(this)->LinkObject(input);
     }
 };
 
 void (ParticleLinkEndpoint::*linkEndpoint)(NiStream&) = &ParticleLinkEndpoint::FUN_00a74780;
 
 class GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_011f5b70;
 
 // @fnv 0x00a89780
 extern "C" GlobalObjectO2_00a7b610* __cdecl FUN_00a89780()
@@ -136,28 +140,23 @@ struct EntryArray
     unsigned short occupied;
     unsigned short growBy;
 
-    void FUN_0096ad30(unsigned int size);
-    void FUN_0096ae90(unsigned int position, char* const& entry);
 
     void Append(char* const& entry)
     {
         const unsigned int position = end;
         if (position >= capacity)
-            FUN_0096ad30(position + growBy);
-        FUN_0096ae90(position, entry);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(position + growBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(position, (char *&)(entry));
     }
 };
 
-extern const char* const g_011f4a20_arg1;
-void __stdcall FUN_00a80e70(EntryArray*);
-char* __cdecl FUN_00a7d330(const char*);
 }
 
 // @fnv 0x00a897c0
 void __stdcall FUN_00a897c0(TriGeomViewerDetail::EntryArray* entries)
 {
-    TriGeomViewerDetail::FUN_00a80e70(entries);
-    char* label = TriGeomViewerDetail::FUN_00a7d330(TriGeomViewerDetail::g_011f4a20_arg1);
+    reinterpret_cast<::ViewerGeometry *>((entries))->FUN_00a80e70({});
+    char* label = ::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f5b70)));
     entries->Append(label);
 }
 
@@ -166,14 +165,13 @@ class BinaryDataRecord;
 class LineReceiver : public ::NiGeometry
 {
   public:
-    void FUN_00a80bf0(BinaryDataRecord& stream);
     void FUN_00a9b180(BinaryDataRecord& stream);
 };
 
 // @fnv 0x00a9b180
 void LineReceiver::FUN_00a9b180(BinaryDataRecord& stream)
 {
-    FUN_00a80bf0(stream);
+    reinterpret_cast<::FUN_00a80bf0_shell *>(this)->FUN_00a80bf0((::GeomStream &)(stream));
 }
 }
 
@@ -182,12 +180,11 @@ class NiGeometryData;
 class ParticleDataEndpoint : public ::NiGeometry
 {
   public:
-    void FUN_00a80680(NiGeometryData*);
     virtual void FUN_00c1ad80(NiGeometryData*);
 };
 
 // @fnv 0x00c1ad80
 void ParticleDataEndpoint::FUN_00c1ad80(NiGeometryData* replacement)
 {
-    FUN_00a80680(replacement);
+    reinterpret_cast<::NiGeometry *>(this)->ReplaceModelData(replacement);
 }

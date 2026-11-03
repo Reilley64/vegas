@@ -2,6 +2,17 @@
 // src/havok/physics/dynamics/constraint/setup/hkpconstraintsolversetup.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/setup/hkpconstraintsolversetup.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d01000.h"
+#include "fnv/symbols_00d1a000.h"
+#include "fnv/symbols_00d29000.h"
+#include "fnv/symbols_00d6f000.h"
+#include "fnv/symbols_00d72000.h"
+#include "fnv/symbols_00d8a000.h"
+#include "fnv/symbols_00d8d000.h"
+#include "fnv/symbols_00d92000.h"
+#include "fnv/symbols_00df0000.h"
+#include "fnv/symbols_01268000.h"
 struct State
 {
     int unk00;
@@ -25,7 +36,6 @@ struct State
     volatile float* end;
     volatile float* current;
 };
-void __cdecl FUN_00d8aac0(void* owner, void* current, int eventCode, int flags);
 // Optionally resets currentA/currentB to their reset values, zeroes the float range up to end, and notifies callbacks when current differs from desired.
 // @fnv 0x00d88340
 void __cdecl FUN_00d88340(State* state, int reset)
@@ -43,9 +53,9 @@ void __cdecl FUN_00d88340(State* state, int reset)
     }
     state->current = state->end;
     if (state->currentA != state->desiredA)
-        FUN_00d8aac0(state->owner, state->currentA, state->eventCode, state->callbackFlags);
+        ::FUN_00d8aac0((*(const ::ConstraintSolverInfo *)(state->owner)), (const ::SolverSchemaHeader *)(state->currentA), (::QuantizedBoundsData *)(state->eventCode), (::FloatRecord *)(state->callbackFlags));
     if (state->currentB != state->desiredB)
-        FUN_00d8aac0(state->owner, state->currentB, state->eventCode, state->callbackFlags);
+        ::FUN_00d8aac0((*(const ::ConstraintSolverInfo *)(state->owner)), (const ::SolverSchemaHeader *)(state->currentB), (::QuantizedBoundsData *)(state->eventCode), (::FloatRecord *)(state->callbackFlags));
     state->currentA = state->desiredA;
     state->currentB = state->desiredB;
 }
@@ -268,9 +278,6 @@ struct hkpConstraintSolverResourcesD886
     hkpSolverSumVelocitiesD886* m_sumVelocities;
 };
 
-hkpVelocityAccumulatorD886* __cdecl FUN_00d29830(const hkStepInfoD886* pkInfo, hkpEntityD886* const* ppkEntities,
-                                                 unsigned int uiNumEntities, int iMotionOffset,
-                                                 hkpVelocityAccumulatorD886* pkAccumulatorsOut);
 
 // @fnv 0x00d88670
 void __cdecl FUN_00d88670(hkpConstraintSolverResourcesD886& kResources, hkpEntityD886* const* ppkEntities,
@@ -301,7 +308,7 @@ void __cdecl FUN_00d88670(hkpConstraintSolverResourcesD886& kResources, hkpEntit
     hkpSolverSumVelocitiesD886* pkSumVel =
         kResources.m_sumVelocities + ppkEntities[0]->m_uiFilterInfo / sizeof(hkpVelocityAccumulatorD886);
     kResources.m_pVelocityAccumulatorC =
-        FUN_00d29830(kResources.m_pStepInfo, ppkEntities, uiNumEntities, 0xe0, pkAccumulator);
+        ((::hkpVelocityAccumulatorD886 *)(::FUN_00d29830((::ContextA0 *)(kResources.m_pStepInfo), (::SourceItem **)(ppkEntities), uiNumEntities, 0xe0, (::TargetItem *)(pkAccumulator))));
 
     for (unsigned int i = 0; i < uiNumEntities; i++)
     {
@@ -332,7 +339,6 @@ struct S88_Router
 };
 
 S88_Router* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(S88_Allocator& a, void* array, int sizeElem);
 
 template <typename T> struct S88_PadSpu
 {
@@ -643,7 +649,7 @@ struct S88_Array
         S88_Allocator& alloc = FUN_00c85750()->heap();
         if (m_iElementCount == getCapacity())
         {
-            ResizeAudioStream(alloc, this, sizeof(S88_SchemaInfo));
+            ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(S88_SchemaInfo));
         }
         return m_data[m_iElementCount++];
     }
@@ -659,19 +665,16 @@ template <typename T> inline T S88_min2(T x, T y)
     return x < y ? x : y;
 }
 
-void __cdecl FUN_00d92900(S88_ConstraintData* data, const S88_QueryIn* in, S88_Atom* atom, int type);
-void __cdecl FUN_00d72190(S88_Atom* atom, const S88_QueryIn& in, D88310Bool writeHeader, S88_QueryOut& out);
-void __cdecl FUN_00d6f460(const S88_Atom* atoms, int atomsSize, const S88_QueryIn& in, S88_QueryOut& out);
 
 inline void S88_buildJacobianFromAtoms(S88_Atom* atoms, int atomsSize, const S88_QueryIn& in, S88_QueryOut& out)
 {
     if (atoms->m_type == 0x16)
     {
-        FUN_00d72190(atoms, in, D88310Bool(true), out);
+        ::FUN_00d72190((::Node *)(atoms), (::Buffer *)&(in), (*(int *)&(const ::D88310Bool &)(D88310Bool(true))), (int *)&(out));
     }
     else
     {
-        FUN_00d6f460(atoms, atomsSize, in, out);
+        ::FUN_00d6f460((const ::Atom *)(atoms), atomsSize, (const ::QueryIn *)&(in), (::QueryOut *)&(out));
     }
 }
 
@@ -724,7 +727,7 @@ void __cdecl FUN_00d88760(S88_Resources& s, S88_Instance** constraints, int numC
         if (instance->getData()->getType() == 11)
         {
             S88_ConstraintData* data = instance->getDataRw();
-            FUN_00d92900(data, &in, data->m_pAtom, 1);
+            ::FUN_00d92900((::S00d92900_Data *)(data), (const ::S00d92900_QueryIn *)(const ::S88_QueryIn *)(&in), (::S00d92900_Atom *)(data->m_pAtom), 1);
         }
 
         if (instance->m_pConstraintInternal->m_ucCallbackRequest & 4)
@@ -919,7 +922,6 @@ int __cdecl FUN_00d883c0(const S883_Island& island, char* buffer, int bufferSize
 
 extern "C" void _mm_prefetch(char const*, int);
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern unsigned long DAT_0126835c;
 extern const char str_010d3d70[];
 extern const char str_010d3d60[];
 
@@ -1211,7 +1213,7 @@ struct S88b50_InplaceArray
         S88b50_Allocator& alloc = S88b50_Router::GetMonitorStream().heap();
         if (m_iElementCount == getCapacity())
         {
-            ResizeAudioStream(*(S88_Allocator*)&alloc, this, sizeof(t));
+            ::ResizeAudioStream((::AudioAllocator *)&(*(S88_Allocator*)&alloc), (::AudioStream *)(void *)(this), sizeof(t));
         }
         m_data[m_iElementCount] = t;
         m_iElementCount++;
@@ -1289,13 +1291,6 @@ template <typename T> inline T S88b50_max2(T x, T y)
     return x > y ? x : y;
 }
 
-int __cdecl FUN_00d8d030(const void* solverInfo, char* schemas, hkpVelocityAccumulatorD886* accum, char* elemTemps);
-void __cdecl FUN_00df0680(const void* solverInfo, char* elemTemps, char* schemas, hkpVelocityAccumulatorD886* accum);
-int __cdecl FUN_00d29bf0(const void* solverInfo, const hkStepInfoD886* stepInfo,
-                         const hkpVelocityAccumulatorD886* accums, S88b50_Entity* const* bodies, int numBodies,
-                         int offset);
-void __cdecl FUN_00d1a330(const void* input, S88b50_Entity* const* bodies, int numBodies);
-void __cdecl FUN_00d01700(void* world, void* elems, int n);
 
 // hkMatrix3
 struct S88b50_Matrix3
@@ -1340,7 +1335,7 @@ static __forceinline void S88b50_buildAccumulators(const hkStepInfoD886& info, S
         }
     }
     hkpVelocityAccumulatorD886* accumEnd =
-        FUN_00d29830(&info, (hkpEntityD886* const*)bodies, numBodies, 0xe0, accumulators + 1);
+        ((::hkpVelocityAccumulatorD886 *)(::FUN_00d29830((::ContextA0 *)(&info), (::SourceItem **)(::hkpEntityD886 *const *)((hkpEntityD886* const*)bodies), numBodies, 0xe0, (::TargetItem *)(::hkpVelocityAccumulatorD886 *)(accumulators + 1))));
     accumEnd->m_type = 3;
 }
 
@@ -1420,7 +1415,7 @@ static __forceinline void S88b50_buildJacobianElements(S88_QueryIn& in, S88b50_E
                 {
                     S88_ConstraintData* data = c->m_pHavokConstraint->getDataRw();
                     S88_Atom* atom = data->m_pAtom;
-                    FUN_00d92900(data, &in, atom, 2);
+                    ::FUN_00d92900((::S00d92900_Data *)(data), (const ::S00d92900_QueryIn *)(const ::S88_QueryIn *)(&in), (::S00d92900_Atom *)(atom), 2);
                 }
                 if (c->m_ucCallbackRequest & 4)
                 {
@@ -1463,8 +1458,8 @@ static __forceinline int S88b50_integrate2(const void* solverInfo, const hkStepI
                                            const hkpVelocityAccumulatorD886* accumulators, S88b50_Entity* const* bodies,
                                            int numBodies)
 {
-    int numInactiveFrames = FUN_00d29bf0(solverInfo, &stepInfo, accumulators + 1, bodies, numBodies, 0xe0);
-    FUN_00d1a330(bodies[0]->getWorld()->getCollisionInput(), bodies, numBodies);
+    int numInactiveFrames = ::ApplyAccumulatorsPrivate::FUN_00d29bf0((*(const ::ApplyAccumulatorsPrivate::ConstraintSolverInfo *)(solverInfo)), (*(const ::ApplyAccumulatorsPrivate::hkStepInfo *)(&stepInfo)), (const ::ApplyAccumulatorsPrivate::QuantizedBoundsData *)(const ::hkpVelocityAccumulatorD886 *)(accumulators + 1), (::ApplyAccumulatorsPrivate::hkpMotion *const *)(bodies), numBodies, 0xe0);
+    ::FUN_00d1a330((const ::CollisionContext *)(const void *)(bodies[0]->getWorld()->getCollisionInput()), (::EntityNode *const *)(bodies), numBodies);
     return numInactiveFrames;
 }
 
@@ -1524,7 +1519,7 @@ redoElemTemp:
         S88b50_buildJacobianElements(constraintQueryIn, bodies, numBodies, accumulators, (S88_Schema*)schemas,
                                      (S88_Schema*)schemasEnd, (S88_Schema*)schemasB);
 
-        int solveResult = FUN_00d8d030(solverInfo, schemas, accumulators, elemTemp);
+        int solveResult = ::FUN_00d8d030((*(const ::SInfo *)(solverInfo)), (::JSchema *)(schemas), (::SAccum *)(accumulators), (::SElem *)(elemTemp));
         {
             S88b50_MonitorStream& mStream = S88b50_MonitorStream::GetMonitorStream();
             if (mStream.memoryAvailable())
@@ -1547,12 +1542,12 @@ redoElemTemp:
         }
         if (solveResult == 1)
         {
-            FUN_00df0680(solverInfo, elemTemp, schemas, accumulators);
+            ::FUN_00df0680();
             result = S88b50_integrate2(solverInfo, stepInfo, accumulators, bodies, numBodies);
             S88b50_BreachedHeader* h = (S88b50_BreachedHeader*)schemas;
             if (h->m_iBreachCount != 0)
             {
-                FUN_00d01700(island.m_pOwningWorld, h->getElem(0), h->m_iBreachCount);
+                ::FUN_00d01700((::hkpWorld *)(island.m_pOwningWorld), h->getElem(0), (void *)(h->m_iBreachCount));
             }
         }
         if (scratch2 != 0)

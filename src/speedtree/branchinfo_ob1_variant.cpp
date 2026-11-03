@@ -5,6 +5,24 @@
 
 // src/speedtree/branchinfo.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/branchinfo.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/B13970Self.h"
+#include "fnv/decl/ClsB3FCF0.h"
+#include "fnv/decl/FUN_00b15170.h"
+#include "fnv/decl/FUN_00b3ed20_cls.h"
+#include "fnv/decl/FUN_00b3fdd0_class.h"
+#include "fnv/decl/FUN_00b3ff20_Class.h"
+#include "fnv/decl/FUN_00b40000_class.h"
+#include "fnv/decl/OwnerB3ff90.h"
+#include "fnv/decl/S_00b3ed80.h"
+#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
+#include "fnv/decl/fnv_00b3fd60__set00b3fd60__SxOwner.h"
+#include "fnv/decl/fnv_00b3fe40__set00b3fe40__SxOwner.h"
+#include "fnv/decl/fnv_00b3feb0__set00b3feb0__SxOwner.h"
+#include "fnv/decl/setb3f__SxOwner.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01018000.h"
+#include "fnv/symbols_0101e000.h"
 struct S_00b3f310_Item
 {
     int unk00;
@@ -42,12 +60,6 @@ struct S_00b3f310_Item
     int unk80;
     S_00b3f310_Item();
 };
-extern float DAT_01017870;
-extern float DAT_01018f5c;
-extern float DAT_01017b78;
-extern float DAT_01016248;
-extern float DAT_0101622c;
-extern float DAT_0101e2bc;
 struct FUN_00b3f310
 {
     int unk00;
@@ -128,9 +140,8 @@ struct FUN_0044a4c0
     FUN_0044a4c0(const FUN_0044a4c0& r);
     ~FUN_0044a4c0()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
-    void FUN_0044a730(bool b, unsigned n);
 };
 struct FUN_00b096a0
 {
@@ -150,15 +161,11 @@ struct ByteVec
     int i8;
     char* pFirst;
     char* pLast;
-    unsigned char& FUN_00b15170(unsigned n);
 };
 struct Parser
 {
     unsigned uiPos;
     ByteVec kData;
-    int GetNextElement();
-    float FUN_00b3ed20();
-    int FUN_00b13970();
 };
 inline void DeadTop()
 {
@@ -174,87 +181,78 @@ struct BranchQ
     bool bB;
     char acPad[0x56];
     BranchQ();
-    void FUN_00b3fc80(int);
-    void FUN_00b3fcf0(int);
-    void FUN_00b3fd60(int);
-    void FUN_00b3fdd0(int);
-    void FUN_00b3fe40(int);
-    void FUN_00b3feb0(int);
-    void FUN_00b3ff20(int);
-    void FUN_00b3ff90(int);
-    void FUN_00b40000(int);
 };
 // @fnv 0x00b3f8e0
 BranchQ* FUN_00b3f8e0(Parser* p)
 {
     DeadTop();
     BranchQ* pBranch = new BranchQ;
-    int iToken = p->GetNextElement();
+    int iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
     if (iToken != 0x3f8)
         throw FUN_00b09480("malformed branch data", false);
-    iToken = p->GetNextElement();
+    iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
     do
     {
         switch (iToken)
         {
         case 0x1770:
-            pBranch->FUN_00b3fc80(p->FUN_00b13970());
+            reinterpret_cast<::setb3f::SxOwner *>((pBranch))->FUN_00b3fc80((::setb3f::SxObj *)(((int)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()))));
             break;
         case 0x1771:
-            pBranch->FUN_00b3fcf0(p->FUN_00b13970());
+            reinterpret_cast<::ClsB3FCF0 *>((pBranch))->FUN_00b3fcf0((::SubObj_b3f *)(((int)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()))));
             break;
         case 0x1772:
-            pBranch->FUN_00b3fd60(p->FUN_00b13970());
+            reinterpret_cast<::fnv_00b3fd60::set00b3fd60::SxOwner *>((pBranch))->FUN_00b3fd60((::fnv_00b3fd60::set00b3fd60::SxObj *)(((int)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()))));
             break;
         case 0x1773:
-            pBranch->FUN_00b3fdd0(p->FUN_00b13970());
+            reinterpret_cast<::FUN_00b3fdd0_class *>((pBranch))->FUN_00b3fdd0((::FUN_00b37880_class *)(((int)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()))));
             break;
         case 0x1781:
-            pBranch->FUN_00b40000(p->FUN_00b13970());
+            reinterpret_cast<::FUN_00b40000_class *>((pBranch))->FUN_00b40000((::Sub_b40000 *)(((int)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()))));
             break;
         case 0x1774:
-            pBranch->FUN_00b3fe40(p->FUN_00b13970());
+            reinterpret_cast<::fnv_00b3fe40::set00b3fe40::SxOwner *>((pBranch))->FUN_00b3fe40((::fnv_00b3fe40::set00b3fe40::SxObj *)(((int)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()))));
             break;
         case 0x1775:
-            pBranch->FUN_00b3feb0(p->FUN_00b13970());
+            reinterpret_cast<::fnv_00b3feb0::set00b3feb0::SxOwner *>((pBranch))->FUN_00b3feb0((::fnv_00b3feb0::set00b3feb0::SxObj *)(((int)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()))));
             break;
         case 0x1776:
-            pBranch->FUN_00b3ff20(p->FUN_00b13970());
+            reinterpret_cast<::FUN_00b3ff20_Class *>((pBranch))->FUN_00b3ff20((::FUN_00b37880 *)(((int)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()))));
             break;
         case 0x1777:
-            pBranch->FUN_00b3ff90(p->FUN_00b13970());
+            reinterpret_cast<::OwnerB3ff90 *>((pBranch))->FUN_00b3ff90((::FUN_00b37880_class *)(((int)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()))));
             break;
         case 0x1778:
-            pBranch->iA = p->GetNextElement();
+            pBranch->iA = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
             break;
         case 0x1779:
-            pBranch->iB = p->GetNextElement();
+            pBranch->iB = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
             break;
         case 0x177a:
-            pBranch->afF[0] = p->FUN_00b3ed20();
+            pBranch->afF[0] = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
             break;
         case 0x177b:
-            pBranch->afF[1] = p->FUN_00b3ed20();
+            pBranch->afF[1] = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
             break;
         case 0x177c:
-            pBranch->afF[2] = p->FUN_00b3ed20();
+            pBranch->afF[2] = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
             break;
         case 0x177d:
-            pBranch->afF[3] = p->FUN_00b3ed20();
+            pBranch->afF[3] = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
             break;
         case 0x177e:
-            pBranch->afF[4] = p->FUN_00b3ed20();
+            pBranch->afF[4] = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
             break;
         case 0x177f:
-            pBranch->bA = p->kData.FUN_00b15170(p->uiPos++) != 0;
+            pBranch->bA = ((unsigned char)(reinterpret_cast<::FUN_00b15170 *>(&(p->kData))->GetElement(p->uiPos++))) != 0;
             break;
         case 0x1780:
-            pBranch->bB = p->kData.FUN_00b15170(p->uiPos++) != 0;
+            pBranch->bB = ((unsigned char)(reinterpret_cast<::FUN_00b15170 *>(&(p->kData))->GetElement(p->uiPos++))) != 0;
             break;
         default:
             throw FUN_00b09480("malformed general branch information", false);
         }
-        iToken = p->GetNextElement();
+        iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
     } while (iToken != 0x3f9);
     return pBranch;
 }

@@ -8,13 +8,18 @@
 
 #include <xmmintrin.h>
 #include <math.h>
+#include "fnv/decl/ArrowDraw__ArrowDrawObject.h"
+#include "fnv/decl/CpuObject.h"
+#include "fnv/decl/DE44C0Object.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cab000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01030000.h"
+#include "fnv/symbols_simd.h"
 struct Renderer;
 
-extern float DAT_01011d78;
-extern const float DAT_01017718;
-extern float DAT_01016248;
-extern double DAT_01030f38;
-extern float DAT_010c44d0;
 struct Vec4
 {
     union
@@ -90,8 +95,6 @@ struct Input
 };
 struct SubC0
 {
-    void FUN_00e10a10(Renderer* a);
-    void FUN_00e10d50(void* a, void* b, void* c, int d, float e, int a2, int a3);
 };
 struct Arr
 {
@@ -105,8 +108,6 @@ struct CharacterBufferState
     void* owner;
 };
 extern CharacterBufferState* FUN_00c85750();
-extern void FUN_00c908c0(void* owner, Arr* arr, int newCap, int stride);
-extern int PackBytesBigEndian(int a, int b, int c, int d);
 struct Obj50
 {
     void FUN_00c7f640(void* a, void* b);
@@ -299,7 +300,6 @@ struct Cls
     int unk280;
     void FUN_00de6730(Input* a0, Renderer* a1, int a2, int a3);
     void FUN_00de47e0(void* a0, void* b, void* c);
-    void FUN_00de44c0(int a2, int a3);
     void FUN_00de5370(float angle, float scale, int flags, void* point, void* source);
     void SetFromVectors(void* a, void* b, void* c, void* d);
 };
@@ -337,7 +337,7 @@ __forceinline void prepareAxes(Cls* self, SourceView* src, Geometry& geometry)
             rsq = _mm_rsqrt_ss(ds);
             zeroRaw = _mm_set_ss(0.0f);
             threeRaw = _mm_set_ss(DAT_01017718);
-            halfRaw = _mm_set_ss(DAT_01016248);
+            halfRaw = _mm_set_ss(::fnv_00c88020::DAT_01016248);
             __m128 isZero = _mm_cmpeq_ss(ds, zeroRaw);
             __m128 prod5 = _mm_mul_ss(_mm_mul_ss(ds, rsq), rsq);
             prod5 = _mm_sub_ss(threeRaw, prod5);
@@ -396,7 +396,7 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
             nc = cap * 2;
             if (nc <= 1)
                 nc = 1;
-            FUN_00c908c0(owner, &zeroArray, nc, 4);
+            ::FUN_00c908c0((::SpawnedObject *)(owner), (::SpawnedArray *)(::Arr *)(&zeroArray), nc, 4);
         }
         zeroArray.size = 1;
     }
@@ -413,7 +413,7 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
             nc = cap * 2;
             if (nc <= 1)
                 nc = 1;
-            FUN_00c908c0(owner, &threeArray, nc, 4);
+            ::FUN_00c908c0((::SpawnedObject *)(owner), (::SpawnedArray *)(::Arr *)(&threeArray), nc, 4);
         }
         threeArray.size = 1;
     }
@@ -430,7 +430,7 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
             nc = cap * 2;
             if (nc <= 2)
                 nc = 2;
-            FUN_00c908c0(owner, &halfArray, nc, 4);
+            ::FUN_00c908c0((::SpawnedObject *)(owner), (::SpawnedArray *)(::Arr *)(&halfArray), nc, 4);
         }
         halfArray.size = 2;
     }
@@ -440,7 +440,7 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
     ((void**)threeArray.data)[0] = object280;
     a1->draw(&zeroArray, 0xffffff00, a2, a3);
     a1->draw(&halfArray, 0xffff0000, a2, a3);
-    a1->draw(&threeArray, PackBytesBigEndian(0xff, 0, 0xff, 0xff), a2, a3);
+    a1->draw(&threeArray, ((int)(::PackBytesBigEndian(0xff, 0, 0xff, 0xff))), a2, a3);
 
     {
         CharacterBufferState* ar = FUN_00c85750();
@@ -490,20 +490,19 @@ void Cls::FUN_00de6730(Input* a0, Renderer* a1, int a2, int a3)
     Source* srcHome = a0->source;
     Geometry geometry;  // Normalization constants and draw groups have disjoint lifetimes.
 
-    ((SubC0*)&unkc0)->FUN_00e10a10(a1);
+    reinterpret_cast<::CpuObject *>((((SubC0*)&unkc0)))->FUN_00e10a10((int)(a1));
     FUN_00de47e0(a0, &geometry.tD0, &geometry.t110);
     Obj50* object50 = (Obj50*)(&unk50);
     object50->FUN_00c7f640(&geometry.tD0, &srcHome->body.rows50[3]);
     ((Obj50*)(&unk40))->FUN_00c7f640(&geometry.t110, &srcHome->body.rows10[3]);
-    FUN_00de44c0(a2, a3);
+    reinterpret_cast<::DE44C0Object *>(this)->FUN_00de44c0(a2, a3);
 
     SourceView* src = &srcHome->body;
     prepareAxes(this, src, geometry);
     float prod1 = f1c * f0c;
-    ((SubC0*)&unkc0)->FUN_00e10d50(object50, &geometry.v80, &geometry.out70, 0xff008000, prod1, a2, a3);
+    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>((((SubC0*)&unkc0)))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(object50), (int)(&geometry.v80), (const ::ArrowDraw::ArrowDrawVector *)(void *)(&geometry.out70), 0xff008000, prod1, a2, a3);
     float prod2 = f0c * f1c;
-    ((SubC0*)&unkc0)
-        ->FUN_00e10d50(&unk40, &geometry.v30, &geometry.v48, PackBytesBigEndian(0xff, 0xff, 0, 0xff), prod2, a2, a3);
+    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>((((SubC0*)&unkc0)))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(void *)(&unk40), (int)(&geometry.v30), (const ::ArrowDraw::ArrowDrawVector *)(void *)(&geometry.v48), ((int)(::PackBytesBigEndian(0xff, 0xff, 0, 0xff))), prod2, a2, a3);
 
     arcs.objectD0 = (Cls*)&unkd0;
     float prod3 = f1c;
@@ -521,7 +520,7 @@ void Cls::FUN_00de6730(Input* a0, Renderer* a1, int a2, int a3)
     ((Cls*)arcs.object160)
         ->FUN_00de5370((float)(DAT_01030f38 - fabs(src->angle120)), scale, p18, &geometry.v60, object50);
     float prod6 = f1c * f10;
-    _mm_store_ps((float*)&geometry.v60.v, _mm_xor_ps(_mm_load_ps((float*)&geometry.v60.v), _mm_load_ps(&DAT_010c44d0)));
+    _mm_store_ps((float*)&geometry.v60.v, _mm_xor_ps(_mm_load_ps((float*)&geometry.v60.v), _mm_load_ps(&(*reinterpret_cast<float *>((void *)&::DAT_010c44d0)))));
     ((Cls*)(&unk1f0))->FUN_00de5370((float)(DAT_01030f38 - fabs(savedAngle)), prod6, p18, &geometry.v60, object50);
     drawGroups(this, a1, a2, a3, arcs.objectD0, arcs.object160, object280);
 }

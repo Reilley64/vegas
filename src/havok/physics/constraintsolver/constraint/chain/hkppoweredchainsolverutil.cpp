@@ -2,6 +2,7 @@
 // src/havok/physics/constraintsolver/constraint/chain/hkppoweredchainsolverutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/constraintsolver/constraint/chain/hkppoweredchainsolverutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_0104d000.h"
 struct FUN_00df0810_Channel
 {
     float value1;
@@ -42,6 +43,7 @@ void __cdecl CopyChannelValue(int index, int channel, FUN_00df0810_Source* sourc
 }
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 static __forceinline void CopyHelper(__m128* d, const void* s)
 {
     d[0] = ((__m128*)s)[0];
@@ -502,9 +504,7 @@ extern void __cdecl ResetJacobianRows(int a, int b, void* c, void* d);
 extern void __cdecl FUN_00df07c0(int a, void* b);
 extern void __cdecl FUN_00e29250(void* a, void* b);
 extern void __cdecl FUN_00e29470(void* a, void* b, int c);
-extern void __cdecl FUN_00e29380(void* a, void* b);
 extern void __cdecl FUN_00e298f0(void* a, void* b);
-extern float DAT_0104da4c;
 
 // @fnv 0x00df0870
 void __cdecl FUN_00df0870(int arg0, ObjF* __restrict obj, int arg2, __m128* arg3, int* arg4)
@@ -561,25 +561,25 @@ void __cdecl FUN_00df0870(int arg0, ObjF* __restrict obj, int arg2, __m128* arg3
     dst[10] = *(__m128*)&A.f0a0;
     dst[11] = *(__m128*)&A.f0b0;
 
-    FUN_00e29380(dst, &C);
+    ::FUN_00e29380((::__m128 *)(dst), (const ::__m128 *)(void *)(&C));
 
     input = obj->f0c0;
-    fClamped = (DAT_0104da4c < input) ? input : DAT_0104da4c;
+    fClamped = (::DAT_0104da4c < input) ? input : ::DAT_0104da4c;
     obj->f0c0 = fClamped;
     input = obj->f150;
-    fClamped = (DAT_0104da4c < input) ? input : DAT_0104da4c;
+    fClamped = (::DAT_0104da4c < input) ? input : ::DAT_0104da4c;
     obj->f150 = fClamped;
     input = obj->f0d4;
-    fClamped = (DAT_0104da4c < input) ? input : DAT_0104da4c;
+    fClamped = (::DAT_0104da4c < input) ? input : ::DAT_0104da4c;
     obj->f0d4 = fClamped;
     input = obj->f164;
-    fClamped = (DAT_0104da4c < input) ? input : DAT_0104da4c;
+    fClamped = (::DAT_0104da4c < input) ? input : ::DAT_0104da4c;
     obj->f164 = fClamped;
     input = obj->f0e8;
-    fClamped = (DAT_0104da4c < input) ? input : DAT_0104da4c;
+    fClamped = (::DAT_0104da4c < input) ? input : ::DAT_0104da4c;
     obj->f0e8 = fClamped;
     input = obj->f178;
-    fClamped = (DAT_0104da4c < input) ? input : DAT_0104da4c;
+    fClamped = (::DAT_0104da4c < input) ? input : ::DAT_0104da4c;
     obj->f178 = fClamped;
 
     *(__m128*)&B.f000 = dst[0];
@@ -646,7 +646,6 @@ struct InputStruct
     hkAabb* aabbs;
 };
 
-extern "C" void __cdecl FUN_00e29510(void* out, const void* matrix, const void* in);
 
 // @fnv 0x00df11a0
 void __cdecl FUN_00df11a0(InputStruct* apInput, hkAabb* out)
@@ -664,12 +663,12 @@ void __cdecl FUN_00df11a0(InputStruct* apInput, hkAabb* out)
     {
         const hkAabb* aabb = (const hkAabb*)((const char*)apInput->aabbs + offset);
         hkAabb tempAabb;
-        FUN_00e29510(&tempAabb, &apInput->matrices[i].data0, &out[i - 1]);
+        ::FUN_00e29510((::__m128 *)(void *)(&tempAabb), (const ::__m128 *)(const void *)(&apInput->matrices[i].data0), (const ::__m128 *)(const void *)(&out[i - 1]));
         tempAabb.m_kMinimumCorner.m_vComponents =
             _mm_sub_ps(_mm_load_ps(&aabb->m_kMinimumCorner.x), tempAabb.m_kMinimumCorner.m_vComponents);
         tempAabb.m_kMaximumCorner.m_vComponents =
             _mm_sub_ps(_mm_load_ps(&aabb->m_kMaximumCorner.x), tempAabb.m_kMaximumCorner.m_vComponents);
-        FUN_00e29510(&out[i], &apInput->matrices[i].data1, &tempAabb);
+        ::FUN_00e29510((::__m128 *)(void *)(&out[i]), (const ::__m128 *)(const void *)(&apInput->matrices[i].data1), (const ::__m128 *)(const void *)(&tempAabb));
         ++i;
         offset += sizeof(hkAabb);
     } while (i < apInput->count);

@@ -2,6 +2,7 @@
 // src/fallout_shared/bgscliproundsform.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/bgscliproundsform.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_004f15a0_shell.h"
 struct TESForm;
 struct BaseFormComponent
 {
@@ -39,7 +40,6 @@ void FUN_00475100_shell::SetClipRounds()
 
 struct SFTX
 {
-    void SetFormType(int);
 };
 struct FUN_00475120_shell : public BGSClipRoundsForm
 {
@@ -53,7 +53,7 @@ void FUN_00475120_shell::CopyFormTypeFromComponent(BaseFormComponent* component)
     BGSClipRoundsForm* clipRounds = dynamic_cast<BGSClipRoundsForm*>(component);
     if (!clipRounds)
         return;
-    ((SFTX*)this)->SetFormType(((FUN_00475120_shell*)clipRounds)->GetFormType());
+    reinterpret_cast<::FUN_004f15a0_shell *>((((SFTX*)this)))->FUN_004f15a0(((FUN_00475120_shell*)clipRounds)->GetFormType());
 }
 
 struct TESForm

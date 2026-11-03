@@ -3,6 +3,13 @@
 //
 // Translation unit that emits the bsrandom.inl helper bodies as out-of-line
 // /Gy comdats, exactly as the original consumer translation units did.
+#include "fnv/decl/FUN_00476b90_shell.h"
+#include "fnv/decl/FUN_00476be0_Class.h"
+#include "fnv/symbols_00476000.h"
+#include "fnv/symbols_004df000.h"
+#include "fnv/symbols_005c5000.h"
+#include "fnv/symbols_011c5000.h"
+#include "fnv/symbols_011c7000.h"
 #include "bsrandom.h"
 #include "bsrandom_decls.h"
 #include "bsrandom.inl"
@@ -91,12 +98,11 @@ struct ProcessLists
     unsigned char* __thiscall GetLifeStateControlFlag(void);
 };
 
-extern ProcessLists g_011c77b4;
 
 // @fnv 0x00446e10
 unsigned char FUN_00446e10()
 {
-    return *g_011c77b4.GetLifeStateControlFlag();
+    return *(*reinterpret_cast<::ProcessLists *>(&::g_011c77b4)).GetLifeStateControlFlag();
 }
 
 struct FUN_00aa5220_Class

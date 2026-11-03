@@ -1,12 +1,32 @@
 // src/fallout_shared/tesland_iso_variant.cpp - variant unit created 2026-11-01 by rtm_route.py: community reworks of src/fallout_shared/tesland.cpp that match byte for byte only
 // with VC9 SP1 and /MT /O2 /GS /EHsc /Gy (unit lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton.
 
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_00bd8f90.h"
+#include "fnv/decl/IndexBufferManager.h"
+#include "fnv/decl/Owner_bd8670.h"
+#include "fnv/decl/Owner_e8bff0.h"
+#include "fnv/decl/PackingRenderer.h"
+#include "fnv/decl/Renderer.h"
+#include "fnv/decl/Renderer108.h"
+#include "fnv/decl/S_00b601a0_Map.h"
+#include "fnv/decl/Tbl00b57f20.h"
+#include "fnv/decl/VertexRenderer.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00b61000.h"
+#include "fnv/symbols_00e6f000.h"
+#include "fnv/symbols_011c5000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_0126f000.h"
+#include "fnv/symbols_01272000.h"
 #include "tesland_decls.h"
-int TruncateFloatToInt(float value);
 
 struct CacheLookup
 {
-    bool FUN_00a53c30(const char*, void*&);
 };
 
 struct CacheEntry
@@ -26,16 +46,15 @@ struct CacheEntry
     CacheLookup lookup;
 };
 
-CacheLookup* GetArrayHolder();
 
 // @fnv 0x00b61940
 bool FUN_00b61940(void* entry, const char* key)
 {
     const char* groupName = static_cast<CacheEntry*>(entry)->name;
     entry = 0;
-    if (!GetArrayHolder()->FUN_00a53c30(groupName, entry))
+    if (!reinterpret_cast<::A54440Hash *>((((::CacheLookup *)(::fnv_00b61170::GetArrayHolder()))))->FUN_00a53c30((::A54440Manager *)(groupName), (::A54440Manager **)&(entry)))
         return false;
-    return static_cast<CacheEntry*>(entry)->lookup.FUN_00a53c30(key, entry);
+    return reinterpret_cast<::A54440Hash *>(&(static_cast<CacheEntry*>(entry)->lookup))->FUN_00a53c30((::A54440Manager *)(key), (::A54440Manager **)&(entry));
 }
 
 struct LandscapeSpecularView
@@ -85,9 +104,7 @@ void LandscapeSpecularView::FUN_00b66640(unsigned char a, unsigned char b, unsig
 
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* lpCriticalSection);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* lpCriticalSection);
-extern bool DAT_0126f0d0;
 
-void __cdecl FUN_00aa1460(void* p, unsigned int s);
 
 struct UploadBatchHeader
 {
@@ -241,7 +258,6 @@ class Mgr_e74120_Map
     Mgr_e74120_MapItem** m_ppkHashTable;
     unsigned int m_uiCount;
 
-    void RemoveAll();
 
     __forceinline void* GetFirstPos() const
     {
@@ -280,16 +296,13 @@ class Mgr_e74120_Map
 class S_00e8c0d0
 {
   public:
-    unsigned int FUN_00e8bff0(void* p1, unsigned int p2, unsigned int p3, int p4);
-    bool FUN_00e8c820(void* p1, void* p2, void* p3, int p4, UploadBatchPart* p5, unsigned int p6);
-    bool FUN_00e8c1e0(void* p1, void* p2, int p3, UploadBatchPart* p4, unsigned int p5);
-    bool FUN_00e8c0d0(void* p1);
+public:
+    bool CopyAndRelease(void *);
 };
 
 class Helper_00e8f200
 {
   public:
-    unsigned int FUN_00e8f200(void* p1, int p2, int p3, unsigned int p4, int* p5, int p6, int p7);
 };
 
 class Mgr_e74120
@@ -844,9 +857,6 @@ class Mgr_e74120
     S_00e8c0d0* helper8bc;
     Helper_00e8f200* helper8c0;
 
-    void FUN_00e6d780(void* p1, void* p2, void* p3, void* p4, void* p5, int p6);
-    void FUN_00e71fe0(void* p1, void* p2, void* p3, void* p4, int p5);
-    void FUN_00e6fa90(UploadBatchHeader* p1, void* p2, void* p3);
 
     void FUN_00e74120();
 };
@@ -889,7 +899,7 @@ void Mgr_e74120::FUN_00e74120()
             {
                 unsigned int fl = sub->allocationFlags;
                 void* vb = sub->buffer;
-                unsigned int base = helper8bc->FUN_00e8bff0(vb, lo, hi - lo, fl);
+                unsigned int base = ((unsigned int)(reinterpret_cast<::Owner_e8bff0 *>((helper8bc))->FUN_00e8bff0((::Holder_e8bff0 *)(vb), lo, hi - lo, fl)));
                 UploadBatchItem* it = val;
                 do
                 {
@@ -902,9 +912,9 @@ void Mgr_e74120::FUN_00e74120()
                         !it->unk0c->FUN_00e74288(it->unk00, it->unk04, it->unk08, 0xfff, sub, index, offset, 0, 0))
                     {
                         if (it->unk08)
-                            helper8bc->FUN_00e8c820(it->unk00, it->unk04, it->unk08, 0xfff, sub, offset);
+                            reinterpret_cast<::VertexRenderer *>((helper8bc))->FUN_00e8c820((::VertexSource *)(it->unk00), (unsigned int)(it->unk04), (::VertexData *)(it->unk08), 0xfff, (::VertexBufferLockInfo *)(sub), (char *)(offset));
                         else
-                            helper8bc->FUN_00e8c1e0(it->unk00, it->unk04, 0xfff, sub, offset);
+                            reinterpret_cast<::Renderer *>((helper8bc))->FUN_00e8c1e0((::NiGeometryData *)(it->unk00), (::Class87d40 *)(it->unk04), 0xfff, (::VertexRecord *)(sub), (char *)(offset));
                     }
                     if (it->unk1c == 0)
                     {
@@ -938,7 +948,7 @@ void Mgr_e74120::FUN_00e74120()
                             bool fl2 = arr->unk14;
                             unsigned int prev = arr->unk34;
                             arr->unk34 =
-                                helper8c0->FUN_00e8f200(data, a, b, prev, &tmp, DAT_0126f0d0 == 0, fl2 ? 0x10 : 0);
+                                ((unsigned int)(reinterpret_cast<::IndexBufferManager *>((helper8c0))->PackBuffer((const unsigned short *)(data), a, b, (::COMBaseInterface *)(prev), (*(unsigned int *)(&tmp)), DAT_0126f0d0 == 0, fl2 ? 0x10 : 0)));
                             arr->unk2c = a;
                             arr->unk30 = tmp;
                         }
@@ -947,7 +957,7 @@ void Mgr_e74120::FUN_00e74120()
                     delList = it;
                     it = nx;
                 } while (it);
-                helper8bc->FUN_00e8c0d0(sub->buffer);
+                helper8bc->CopyAndRelease(sub->buffer);
             }
         }
         else
@@ -959,9 +969,9 @@ void Mgr_e74120::FUN_00e74120()
                 if (cur->unk1c == 0)
                 {
                     if (cur->unk08)
-                        FUN_00e6d780(cur->unk18, cur->unk00, cur->unk04, cur->unk08, cur->unk0c, 1);
+                        reinterpret_cast<::PackingRenderer *>(this)->UpdatePackingPacket((::PackingPacket *)(cur->unk18), (::Model_e6da60 *)(cur->unk00), cur->unk04, (::PackingData *)(cur->unk08), (::PackingGeometry *)(cur->unk0c), 1);
                     else
-                        FUN_00e71fe0(cur->unk18, cur->unk00, cur->unk04, cur->unk0c, 1);
+                        reinterpret_cast<::Renderer108 *>(this)->PrepareGeometryPacket((::Packet108 *)(cur->unk18), (::NiAVObject *)(cur->unk00), (::Geo108 *)(cur->unk04), (::NiAVObject *)(cur->unk0c), 1);
                 }
                 cur->next = delList;
                 delList = cur;
@@ -970,7 +980,7 @@ void Mgr_e74120::FUN_00e74120()
         }
     }
 
-    map.RemoveAll();
+    reinterpret_cast<::S_00b601a0_Map *>(&(map))->FUN_00b601a0();
 
     while (delList)
     {
@@ -980,7 +990,7 @@ void Mgr_e74120::FUN_00e74120()
         {
             UploadBatchHeader* h2 = delList->unk00;
             h2->ClearOwnership();
-            FUN_00e6fa90(h, delList->unk04, delList->unk08);
+            ::ApplyPacketUpdate((::PacketObj *)this, (::PacketTarget *)(h), (int)(delList->unk04));
         }
         FUN_00aa1460(delList, sizeof(UploadBatchItem));
         delList = nx;
@@ -991,23 +1001,20 @@ void Mgr_e74120::FUN_00e74120()
 }
 
 namespace fnv_00b61370 {
-extern __declspec(thread) int g_iC8AD40AllocTag;
 struct CacheAllocationScope
 {
     int savedTag;
-    CacheAllocationScope(int tag) : savedTag(g_iC8AD40AllocTag)
+    CacheAllocationScope(int tag) : savedTag((*reinterpret_cast<int *>(&::currentAllocationContext)))
     {
-        g_iC8AD40AllocTag = tag;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = tag;
     }
     ~CacheAllocationScope()
     {
-        g_iC8AD40AllocTag = savedTag;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = savedTag;
     }
 };
 struct CacheItem
 {
-    int FUN_00bd8670(const char*);
-    void FUN_00bd8f90();
 };
 struct CacheListNode
 {
@@ -1019,16 +1026,10 @@ struct CacheLock
 {
     int state;
     unsigned int live;
-    void FUN_0040fbf0(const char*);
 };
-extern CacheLock DAT_011c5f80;
-extern CacheListNode* DAT_011c5f58;
-extern unsigned int DAT_011f9ef4;
 struct CacheMemory
 {
-    void FUN_00aa4060(void*);
 };
-extern CacheMemory DAT_011f6238;
 struct CacheList
 {
     CacheListNode* head;
@@ -1062,13 +1063,13 @@ struct CacheList
             if (next)
                 next->previous = previous;
             slot = 0;
-            DAT_011c5f80.FUN_0040fbf0(0);
+            reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::fnv_00b61370::CacheLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
             node->previous = 0;
-            node->next = DAT_011c5f58;
-            DAT_011c5f80.live--;
-            DAT_011c5f58 = node;
-            if (!DAT_011c5f80.live)
-                DAT_011c5f80.state = 0;
+            node->next = (*reinterpret_cast<::fnv_00b61370::CacheListNode * *>(&::DAT_011c5f58));
+            (*reinterpret_cast<::fnv_00b61370::CacheLock *>(&::g_011c5f80)).live--;
+            (*reinterpret_cast<::fnv_00b61370::CacheListNode * *>(&::DAT_011c5f58)) = node;
+            if (!(*reinterpret_cast<::fnv_00b61370::CacheLock *>(&::g_011c5f80)).live)
+                (*reinterpret_cast<::fnv_00b61370::CacheLock *>(&::g_011c5f80)).state = 0;
             count--;
             return item;
         }
@@ -1076,7 +1077,6 @@ struct CacheList
 };
 struct CacheLookup
 {
-    bool FUN_00a53c30(const char*, void*&);
     bool FUN_00e91fd0(const char*);
 };
 struct CacheBucket
@@ -1117,14 +1117,13 @@ struct CacheMap
     }
     void FUN_00b57f20(void*&, unsigned int&, CacheBucket*&);
 };
-CacheMap* GetArrayHolder();
 // @fnv 0x00b61370
 void FUN_00b61370(const char* key)
 {
     CacheAllocationScope scope(0x1c);
-    void* position = GetArrayHolder()->First();
+    void* position = ((::fnv_00b61370::CacheMap *)(::fnv_00b61170::GetArrayHolder()))->First();
     CacheBucket* removed = 0;
-    if (GetArrayHolder()->count > 0 && position)
+    if (((::fnv_00b61370::CacheMap *)(::fnv_00b61170::GetArrayHolder()))->count > 0 && position)
     {
         do
         {
@@ -1133,9 +1132,9 @@ void FUN_00b61370(const char* key)
                 unsigned int key;
                 void* value;
             } kv;
-            GetArrayHolder()->FUN_00b57f20(position, kv.key, removed);
+            reinterpret_cast<::Tbl00b57f20 *>((((::fnv_00b61370::CacheMap *)(::fnv_00b61170::GetArrayHolder()))))->AdvanceToNextEntry((::Ent00b57f20 **)&(position), (int *)&(kv.key), (int *)&(removed));
             CacheLookup* lookup = removed ? &removed->lookup : 0;
-            if (removed && lookup->FUN_00a53c30(key, kv.value))
+            if (removed && reinterpret_cast<::A54440Hash *>((lookup))->FUN_00a53c30((::A54440Manager *)(key), (::A54440Manager **)&(kv.value)))
             {
                 CacheList* entries;
                 entries = &removed->entries;
@@ -1145,12 +1144,12 @@ void FUN_00b61370(const char* key)
                     CacheListNode* bucket = node;
                     CacheItem*& slot = entries->GetNext(node);
                     CacheItem* item = slot;
-                    if (item && !item->FUN_00bd8670(key))
+                    if (item && !reinterpret_cast<::Owner_bd8670 *>((item))->FUN_00bd8670((unsigned int)(key)))
                     {
                         entries->Remove(bucket, slot);
-                        item->FUN_00bd8f90();
-                        DAT_011f6238.FUN_00aa4060(item);
-                        DAT_011f9ef4--;
+                        reinterpret_cast<::FUN_00bd8f90 *>((item))->FUN_00bd8f90::~FUN_00bd8f90();
+                        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00b61370::CacheMemory *>(&::g_memoryManager))))->FUN_00aa4060(item);
+                        ::DAT_011f9ef4--;
                     }
                 }
                 lookup->FUN_00e91fd0(key);

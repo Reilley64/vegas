@@ -5,6 +5,10 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprismaticdrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprismaticdrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/CpuObject.h"
+#include "fnv/decl/DE44C0Object.h"
+#include "fnv/decl/FUN_00de4530Owner.h"
+#include "fnv/symbols_00cab000.h"
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     struct
@@ -64,7 +68,6 @@ struct Draw
 };
 struct Member
 {
-    void FUN_00e10a10(Draw*);
 };
 struct Simulation
 {
@@ -75,23 +78,20 @@ struct Simulation
     Vec unk040, unk050, unk060, unk070, unk080, unk090, unk0a0, unk0b0;
     Member unk0c0;
     void FUN_00de47e0(Input*, Matrix*, Matrix*);
-    void FUN_00de44c0(int, int);
-    void FUN_00de4530(int, int);
     void FUN_00de7730(Input*, Draw*, int, int);
 };
-extern "C" unsigned int __cdecl PackColorBigEndian(float, float, float, float);
 
 // @fnv 0x00de7730
 void Simulation::FUN_00de7730(Input* input, Draw* draw, int a, int b)
 {
     Shape* shape = input->unk00c;
-    unk0c0.FUN_00e10a10(draw);
+    reinterpret_cast<::CpuObject *>(&(unk0c0))->FUN_00e10a10((int)(draw));
     Matrix transform0, transform1;
     FUN_00de47e0(input, &transform0, &transform1);
     unk050.FUN_00c7f640(&transform0, &shape->unk090);
     unk040.FUN_00c7f640(&transform1, &shape->unk050);
-    FUN_00de44c0(a, b);
-    FUN_00de4530(a, b);
+    reinterpret_cast<::DE44C0Object *>(this)->FUN_00de44c0(a, b);
+    reinterpret_cast<::FUN_00de4530Owner *>(this)->FUN_00de4530(a, b);
     Vec dir0, dir1;
     dir0.FUN_00c7f700(&unk090, &shape->unk060);
     dir1.FUN_00c7f700(&unk090, &shape->unk070);
@@ -105,14 +105,14 @@ void Simulation::FUN_00de7730(Input* input, Draw* draw, int a, int b)
         from.value = _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(s0, s0, 0), dir0.value), unk050.value);
         __m128 s1 = _mm_load_ss(&x1);
         to.value = _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(s1, s1, 0), dir0.value), unk050.value);
-        draw->line(&to, &from, PackColorBigEndian(0.0f, 0.5f, 1.0f, 1.0f), a, b);
+        draw->line(&to, &from, ::PackColorBigEndian(0.0f, 0.5f, 1.0f, 1.0f), a, b);
     }
     else
     {
         float limit = unk01c * unk000;
         from.value = addScaled(unk050.value, dir0.value, limit);
         to.value = addScaled(unk050.value, dir0.value, -limit);
-        draw->line(&to, &from, PackColorBigEndian(0.0f, 0.5f, 1.0f, 1.0f), a, b);
+        draw->line(&to, &from, ::PackColorBigEndian(0.0f, 0.5f, 1.0f, 1.0f), a, b);
     }
     __m128 centre = addScaled(unk050.value, dir0.value, shape->unk0c8);
     float other = shape->unk0cc;

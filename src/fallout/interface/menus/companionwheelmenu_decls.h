@@ -1,12 +1,15 @@
 // fallout/interface/menus/companionwheelmenu_decls.h: declares Menu, InterfaceManager, CompanionWheelMenu
 #ifndef COMPANIONWHEELMENU_DECLS_H
 #define COMPANIONWHEELMENU_DECLS_H
+#include "fnv/symbols_004b7000.h"
 class Menu
 {
   public:
     Menu();
     virtual ~Menu();
     char storage[60];
+public:
+    void SetMenuVisibility(bool);
 };
 class FUN_007642f0
 {
@@ -21,13 +24,15 @@ class FUN_0076bda0
     FUN_0076bda0();
     char storage[32];
 };
+class Tile;
 class InterfaceManager
 {
   public:
     char storage[228];
     unsigned char menuState;
+public:
+    ::Tile *FUN_00586150();
 };
-InterfaceManager* FUN_004b7210();
 class CompanionWheelMenu : public Menu
 {
   public:

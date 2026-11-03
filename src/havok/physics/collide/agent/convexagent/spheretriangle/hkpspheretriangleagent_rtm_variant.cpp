@@ -4,6 +4,15 @@
 
 // src/havok/physics/collide/agent/convexagent/spheretriangle/hkpspheretriangleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/spheretriangle/hkpspheretriangleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/Triangle.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00cd7000.h"
+#include "fnv/symbols_00d3d000.h"
+#include "fnv/symbols_00d3e000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010ce000.h"
+#include "fnv/symbols_010cf000.h"
+#include "fnv/symbols_01268000.h"
 struct D3DD50CollectorBase {
     virtual void unk00();
     virtual void unk04();
@@ -21,16 +30,11 @@ struct D3DD50Collector : D3DD50CollectorBase {
     virtual void unk00();
     virtual void unk04();
 };
-void __cdecl D3DD50Query(int a, int b, int c, D3DD50CollectorBase* collector);
-void __cdecl QueryD3DCollector(int aiArg1, int aiArg2, int aiArg3, int aiData);
-extern char DAT_010ce7fc[];
 struct Functor_d3e110 {
     void* m_vtbl;
     float m_fHitFraction;
     int m_uiFilterValue;
 };
-void __cdecl FUN_00d3d8c0(int a, int b, int c, Functor_d3e110* f);
-void __cdecl FUN_00d3e110(int a, int b, int aiArg3, int d);
 struct SpawnedInner
 {
     virtual void unk00();
@@ -62,9 +66,7 @@ struct hkThreadMemory {
         return m_pMemoryAllocator->allocateChunk(size);
     }
 };
-extern "C" hkThreadMemory* __cdecl FUN_00c85750();
 extern "C" void __cdecl FUN_00cd7160(void* src, void* dst);
-extern "C" const void* DAT_010cf060;
 extern "C" const void* DAT_010cf09c;
 struct TargetAgent {
     const void* vtable;
@@ -81,14 +83,12 @@ struct TargetAgent {
           m_pContactManager(mgr),
           m_padC(0xffff)
     {
-        vtable = &DAT_010cf060;
+        vtable = &(*reinterpret_cast<const void * *>(&::DAT_010cf060));
         void* triangle = *(void**)bodyA;
         FUN_00cd7160((char*)triangle + 0x20, m_pAccessManager);
         vtable = &DAT_010cf09c;
     }
 };
-void* __cdecl CreateTargetAgent(void* bodyA, void* bodyB, void* input, void* mgr);
-extern char DAT_010ce81c[];
 struct D3DD10Data
 {
     void* vt;
@@ -97,13 +97,12 @@ struct D3DD10Data
 };
 struct D3DD10Object
 {
-    void __thiscall FUN_00d3d2a0(unsigned int a1, unsigned int a2,
-                                 unsigned int a3, D3DD10Data* data);
 
     void __thiscall FUN_00d3dd10(unsigned int p0, unsigned int p1,
                                  unsigned int p2, unsigned int p3);
 };
 union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
+#include "fnv/symbols_simd.h"
 extern "C" {
 __m128 _mm_add_ps(__m128, __m128);
 __m128 _mm_mul_ps(__m128, __m128);
@@ -165,11 +164,9 @@ struct ParticleSystemState
         unsigned char unk304b;
     } m_info;
 };
-extern hkVector4q DAT_010c4c00;
 class ParticleSystemOps
 {
 public:
-    void FUN_00d3dd90(int a, int b, int c, ParticleSystemState* state);
     void FUN_00d3e150(int a1, int a2, int a3, ParticleSystemState* s);
 };
 typedef unsigned long DWORD;
@@ -184,7 +181,6 @@ __m128 _mm_movelh_ps(__m128, __m128);
 __m128 _mm_movehl_ps(__m128, __m128);
 void _mm_store_ps(float*, __m128);
 }
-extern "C" DWORD DAT_0126835c;
 struct __declspec(align(16)) Vec4 {
     float x, y, z, w;
 };
@@ -236,7 +232,6 @@ struct Sink {
     virtual void unk00();
     virtual void unk04(BodyHolderB& a, BodyHolderB& b);
 };
-extern void __cdecl FUN_00cd7850(Vec4* v, void* tri, float* f, Res* out, void* flag);
 // non-POD 1-dword wrapper params: block the entry-enregister pass so the
 // params are read lazily from their incoming arg slots (see e2fbc0)
 struct BHWrap {
@@ -255,10 +250,8 @@ public:
 };
 // rotate the translation difference by the inverse of B's rotation (HK_TRANSPOSE3), compute the
 // closest point, and report a contact when the distance is below the summed radii.
-extern DWORD DAT_0126835c;
 extern char DAT_010cf0d4[];
 // "TtSphereTri"
-extern char DAT_010c41f8[];
 // "Et"
 struct S_00d3d3e0_Entry {
     const char* name;
@@ -305,12 +298,9 @@ struct __declspec(align(16)) S_00d3d3e0_Out {
     int unk00, unk04, unk08, unk0c;
     float f10;
 };
-void __cdecl FUN_00cd7160(void* a, S_00d3d3e0_V4* out);
-void __cdecl FUN_00cd7850(S_00d3d3e0_V4* a, void* b, S_00d3d3e0_V4* c, S_00d3d3e0_Out* d, bool* e);
 struct S_00d3d3e0_P1P { S_00d3d3e0_P1* p; S_00d3d3e0_P1* val() const { return p; } };
 struct S_00d3d3e0_P2P { S_00d3d3e0_P2* p; S_00d3d3e0_P2* val() const { return p; } };
 struct S_00d3d3e0_P3P { S_00d3d3e0_P3* p; S_00d3d3e0_P3* val() const { return p; } };
-void FUN_00d3d3e0(S_00d3d3e0_P1P a1, S_00d3d3e0_P2P a2, int unused, S_00d3d3e0_P3P a3);
 
 extern "C" __m128 _mm_load_ss(float const*_A);
 typedef unsigned long DWORD;
@@ -335,7 +325,6 @@ struct S00d3d6b0_BodyHolderB { S00d3d6b0_BodyB* obj; int unk04; S00d3d6b0_XForm*
 struct S00d3d6b0_HitInfo { S00d3d6b0_Vec4 pt,nrm; S00d3d6b0_BodyHolderB* a; S00d3d6b0_BodyHolderB* b; };
 struct S00d3d6b0_Sink { virtual void unk00(); virtual void unk04(S00d3d6b0_HitInfo*); };
 struct S00d3d6b0_Input { int unk00,unk04; float tolerance; };
-extern void __cdecl FUN_00cd7850(S00d3d6b0_Vec4* v, void* tri, float* f, S00d3d6b0_Res* out, void* flag);
 class S00d3d6b0_SphereTriAgent {
 public:
     int unk00,unk04,unk08,unk0C;
@@ -346,7 +335,7 @@ public:
 void S00d3d6b0_SphereTriAgent::FUN_00d3d6b0(S00d3d6b0_BodyHolderB* a, S00d3d6b0_BodyHolderB* b, S00d3d6b0_Input* input, S00d3d6b0_Sink* sink) {
     volatile unsigned int lo;
     {
-        S00d3d6b0_ProfBuf* buf = (S00d3d6b0_ProfBuf*)TlsGetValue(DAT_0126835c);
+        S00d3d6b0_ProfBuf* buf = (S00d3d6b0_ProfBuf*)TlsGetValue(::DAT_0126835c);
         S00d3d6b0_ProfRec* r = buf->cur;
         if (r < buf->end) {
             r->name = "TtSphereTri";
@@ -382,7 +371,7 @@ void S00d3d6b0_SphereTriAgent::FUN_00d3d6b0(S00d3d6b0_BodyHolderB* a, S00d3d6b0_
             *(__m128*)&tri[i] = _mm_add_ps(_mm_add_ps(py,px),_mm_add_ps(pz,*(__m128*)&out.pt));
         }
     }
-    FUN_00cd7850(center,tri,&unk10,&out,0);
+    ::FUN_00cd7850((*(const ::S_00cd7850_Vec *)(center)),(const ::S_00cd7850_Vec *)(tri),(*(const ::S_00cd7850_Cache *)(&unk10)),(*(::S_00cd7850_Result *)(&out)),(::S_00cd7850_Features *)(void *)(0));
     float sum = shapeA->radius+shapeB->radius;
     float distance = out.d;
     float threshold = input->tolerance+sum;
@@ -399,7 +388,7 @@ void S00d3d6b0_SphereTriAgent::FUN_00d3d6b0(S00d3d6b0_BodyHolderB* a, S00d3d6b0_
         sink->unk04(&hit);
     }
     {
-        S00d3d6b0_ProfBuf* buf = (S00d3d6b0_ProfBuf*)TlsGetValue(DAT_0126835c);
+        S00d3d6b0_ProfBuf* buf = (S00d3d6b0_ProfBuf*)TlsGetValue(::DAT_0126835c);
         S00d3d6b0_ProfRec* r = buf->cur;
         if (r < buf->end) {
             r->name = "Et";
@@ -533,15 +522,7 @@ struct MonitorStream {
 };
 
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
-extern "C" unsigned long DAT_0126835c;
 
-extern "C" int __cdecl FUN_00cd7850(
-    const void* spherePos,
-    const void* vertices,
-    void* cache,
-    void* output,
-    void* weldFlag
-);
 
 union FeatureInfo {
     struct { unsigned char count; unsigned short indices[3]; };
@@ -566,7 +547,7 @@ static __forceinline int queryContact(const CdBody* bodyA, const CdBody* bodyB, 
         }
 
     __declspec(align(16)) ClosestPointOutput cpOutput;
-    int featureKind = FUN_00cd7850(spherePos, vTransformed, cache, &cpOutput, feature);
+    int featureKind = ::FUN_00cd7850((*(const ::S_00cd7850_Vec *)(spherePos)), (const ::S_00cd7850_Vec *)(vTransformed), (*(const ::S_00cd7850_Cache *)(cache)), (*(::S_00cd7850_Result *)(&cpOutput)), (::S_00cd7850_Features *)(feature));
 
     float sumRadius = shapeA->m_fSphereRadius + shapeB->m_fSphereRadius;
     float maxDist = sumRadius + input->m_fCollisionTolerance;
@@ -587,7 +568,7 @@ struct TargetAgent_Cand : TargetAgent {
 
 // @fnv 0x00d3dd90
 void TargetAgent_Cand::FUN_00d3dd90(const CdBody* bodyA, const CdBody* bodyB, const ProcessCollisionInput* input, ProcessCollisionOutput* result) {
-    MonitorStream* stream = (MonitorStream*)TlsGetValue(DAT_0126835c);
+    MonitorStream* stream = (MonitorStream*)TlsGetValue(::DAT_0126835c);
     MonitorRecord* cur = stream->m_pTileTemplate;
     if (cur < stream->m_pRayCursor) {
         cur->name = DAT_010cf0d4;
@@ -639,7 +620,7 @@ void TargetAgent_Cand::FUN_00d3dd90(const CdBody* bodyA, const CdBody* bodyB, co
         }
     }
 
-    MonitorStream* streamEnd = (MonitorStream*)TlsGetValue(DAT_0126835c);
+    MonitorStream* streamEnd = (MonitorStream*)TlsGetValue(::DAT_0126835c);
     MonitorRecord* curEnd = streamEnd->m_pTileTemplate;
     if (curEnd < streamEnd->m_pRayCursor) {
         curEnd->name = DAT_010c41f8;
@@ -732,7 +713,6 @@ struct __declspec(align(16)) S_00d3d520_Res {
 
 struct S_00d3d520_Out { S_00d3d520_V4 point; union { S_00d3d520_V4 normal; struct {float nx,ny,nz; volatile float distance;}; }; };
 
-int __cdecl FUN_00cd7850(const S_00d3d520_V4* pos, const S_00d3d520_V4* tri, int a4, S_00d3d520_Res* out, char* flag);
 
 // @fnv 0x00d3d520
 int __cdecl FUN_00d3d520(S_00d3d520_A* a, S_00d3d520_Body* b, S_00d3d520_Info* info, int a4, S_00d3d520_Out* outp)
@@ -743,7 +723,7 @@ int __cdecl FUN_00d3d520(S_00d3d520_A* a, S_00d3d520_Body* b, S_00d3d520_Info* i
     
     S_00d3d520_TransformPoints(*b->motion, tri->verts, v);
     S_00d3d520_Res pen;
-    int r = FUN_00cd7850(count, v, a4, &pen, 0);
+    int r = ::FUN_00cd7850((*(const ::S_00cd7850_Vec *)(count)), (const ::S_00cd7850_Vec *)(v), (*(const ::S_00cd7850_Cache *)(a4)), (*(::S_00cd7850_Result *)(&pen)), (::S_00cd7850_Features *)(char *)(0));
     float k = sphere->radius + tri->radius;
     
     float thr = info->distance + k;

@@ -5,6 +5,116 @@
 
 // src/fallout/ai/actor_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/ai/actor.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/BlendController.h"
+#include "fnv/decl/Controller.h"
+#include "fnv/decl/ControllerLocal.h"
+#include "fnv/decl/ControllerOwner.h"
+#include "fnv/decl/Dispatch_00c89dd0.h"
+#include "fnv/decl/FNVAnimationController.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00409480_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00508100_shell.h"
+#include "fnv/decl/FUN_00508d70_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_0057b0a0_shell.h"
+#include "fnv/decl/FUN_005a2030_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00619a70_shell.h"
+#include "fnv/decl/FUN_0061cdc0_shell.h"
+#include "fnv/decl/FUN_0061cfd0_shell.h"
+#include "fnv/decl/FUN_0061e600_t.h"
+#include "fnv/decl/FUN_0062d4b0.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008846e0_shell.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FUN_0098adb0_shell.h"
+#include "fnv/decl/FUN_009c8d60_t.h"
+#include "fnv/decl/FUN_00a305e0_cls.h"
+#include "fnv/decl/FUN_00c6b320_Class.h"
+#include "fnv/decl/FUN_00c6e0b0_Class.h"
+#include "fnv/decl/FUN_00c7dc40.h"
+#include "fnv/decl/FUN_00cb7550_cls.h"
+#include "fnv/decl/FUN_00cc58c0.h"
+#include "fnv/decl/FUN_00cd9fe0_cls.h"
+#include "fnv/decl/FootIKDetail__Controller.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MyHost.h"
+#include "fnv/decl/NiObject.h"
+#include "fnv/decl/P103Controller.h"
+#include "fnv/decl/PoseMatcher.h"
+#include "fnv/decl/PoseOwner.h"
+#include "fnv/decl/PropertyOwner.h"
+#include "fnv/decl/Q1420Helper.h"
+#include "fnv/decl/RagdollMapperC18.h"
+#include "fnv/decl/RagdollUpdateController.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S_c7a730.h"
+#include "fnv/decl/SkeletonPoseData.h"
+#include "fnv/decl/TopicFlagStandIn.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_0043fcd0__FUN_0043fcd0_shell.h"
+#include "fnv/decl/fnv_004518e0__TESObjectCELL.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_005617c0__FUN_005617c0_.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_0087ce80__FUN_0087ce80_shell.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_00895110__PickActor.h"
+#include "fnv/decl/fnv_0089f580__ActorStub.h"
+#include "fnv/decl/fnv_00c79a50__PoseControllerLocal.h"
+#include "fnv/decl/fnv_00cda340__SkeletonPoseData.h"
+#include "fnv/decl/fnv_00cdb6f0__FUN_00cdb6f0_cls.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkaSkeletonMapper.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00619000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_009e3000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00aa4000.h"
+#include "fnv/symbols_00c43000.h"
+#include "fnv/symbols_00c4b000.h"
+#include "fnv/symbols_00c68000.h"
+#include "fnv/symbols_00c6a000.h"
+#include "fnv/symbols_00c74000.h"
+#include "fnv/symbols_00c76000.h"
+#include "fnv/symbols_00c7b000.h"
+#include "fnv/symbols_00c7d000.h"
+#include "fnv/symbols_00c7f000.h"
+#include "fnv/symbols_00c80000.h"
+#include "fnv/symbols_00c9b000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00cb9000.h"
+#include "fnv/symbols_00ce4000.h"
+#include "fnv/symbols_00d6b000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_01020000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_01084000.h"
+#include "fnv/symbols_0108f000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_010c5000.h"
+#include "fnv/symbols_011ac000.h"
+#include "fnv/symbols_011b0000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f2000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_01204000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01272000.h"
 #include "Actor.h"
 struct MemoryManager
 {
@@ -16,35 +126,29 @@ struct bhkRagdollController
     void FUN_00c7d900();
     void* FUN_00c7de30(unsigned int);
 };
-extern "C" void* g_012685f8;
 void* __cdecl FUN_00c7fa60();
-extern "C" void __cdecl _delete(void*, int);
-void __cdecl FUN_00cc58c0();
 struct FUN_00c7fa70_Class
 {
     void* __thiscall FUN_00c7fa70(int);
 };
-extern "C" void __cdecl FUN_0062d4b0();
-extern int DAT_01084e54;
 struct FUN_00cb9900_cls
 {
     void __thiscall FUN_00cb9900();
 };
-void __cdecl FUN_00cda340();
-void __cdecl FUN_00cd9fe0();
 struct FUN_00cda4b0_cls
 {
     void __thiscall FUN_00cda4b0();
 };
 struct FUN_00cda8d0_class
 {
-    void FUN_00cda340();
     void* FUN_00cda8d0();
 };
+struct StateResetPart;
 struct FUN_00cdb290
 {
-    void __thiscall FUN_00cda690();
     void* __thiscall GetPlus4();
+public:
+    ::StateResetPart *FUN_00cdb0a0();
 };
 struct VObj
 {
@@ -62,7 +166,6 @@ struct Outer
 {
     int _0;
     unsigned short _4;
-    void __thiscall FUN_00c7dc40();
     Outer* __thiscall FUN_00c7e970(unsigned int);
 };
 struct MyNode
@@ -78,7 +181,6 @@ struct MyNode
     char _pad2[2];
     unsigned short count;
 };
-MyNode* __cdecl FUN_00c802d0(MyNode* p);
 struct MyRef
 {
     virtual ~MyRef();
@@ -165,27 +267,24 @@ struct Target
 };
 struct FUN_00c6ffc0_Class
 {
-    Target* FUN_00c6e0b0();
     void FUN_00c6ffc0();
 };
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern char* EmptyFS;
 struct FixedStr
 {
     char* h;
     FixedStr(const FixedStr& o)
     {
-        if (o.h != EmptyFS)
+        if (o.h != ::DAT_0109b220)
             InterlockedIncrement((long volatile*)(o.h - 8));
         h = o.h;
     }
     ~FixedStr()
     {
-        if (h != EmptyFS)
+        if (h != ::DAT_0109b220)
             InterlockedDecrement((long volatile*)(h - 8));
     }
-    bool Equals(const char*) const;
 };
 struct Mat3
 {
@@ -238,12 +337,8 @@ struct RArr
 {
     int _0;
     RElem* data;
-    int AppendSlot();
-    void ConstructElementArray(RElem*, int);
 };
 struct RCtx;
-RObj* __cdecl FUN_00c4b470(RCtx*, RKey*, int);
-void __cdecl FUN_00c7bcb0(RCtx* ctx, RObj* obj, RArr* arr);
 struct NiUpdateData
 {
     float m_fTime;
@@ -259,15 +354,11 @@ struct NiNode : NiAVObject
 };
 struct Creature
 {
-    static void __cdecl SetNodeFlagsRecursive(NiAVObject*, int, bool, bool, bool);
 };
-void __cdecl SetFlagRecursive(int, void*);
-void __cdecl FUN_00c7bcb0(void*, void*, void*);
 inline unsigned char GetFlag6(unsigned short w)
 {
     return (unsigned char)(w >> 6) & 1;
 }
-void __cdecl FUN_00c7d3b0(NiNode* param_1, void* param_2, void* param_3, char* param_4, unsigned int* param_5);
 struct ThreeByThreeMatrix
 {
     float m[9];
@@ -280,7 +371,6 @@ struct NiTransform
     float m_fScale;
     NiTransform operator*(const NiTransform&) const;
 };
-void FUN_00c74dd0(void*, NiTransform*);
 extern bool DAT_01267c28;
 extern bool DAT_01267c34;
 extern bool DAT_01267c40;
@@ -343,19 +433,9 @@ struct FUN_00c7d630_t
     char pad5c[4];
     ThreeByThreeMatrix m_kRot;
     void FUN_00c7d630(float);
-    void FUN_00c79680();
-    void FUN_00c7cb50(int);
-    void FUN_00c76350(void*);
-    void FUN_00c751f0(void*);
-    void FUN_00c7aa60(void*);
-    void FUN_00c7ba50(void*, void*, bool*);
-    void FUN_00c7d030(void*);
-    void FUN_00c7c870();
-    void FUN_00c79a50();
 };
 struct FUN_00cb0c00_class
 {
-    void FUN_00cb0c00();
 };
 struct VObjExt : VObj
 {
@@ -370,8 +450,6 @@ struct FUN_00c7d890_cls
     void FUN_00c7d890();
 };
 void* __cdecl FUN_00ec7230(char*, char const*, unsigned int);
-void __stdcall FUN_00c7f900(char* dst, char* src, unsigned int count);
-void __cdecl FUN_00d6b4b0(void*, unsigned int);
 struct FUN_00cdb3e0_cls
 {
     char pad[0x2c];
@@ -390,12 +468,8 @@ struct S_c6a200_Ev
     int unk10, unk14, unk18;
 };
 extern void* DAT_011afecc;
-S_c6a200_Info* __cdecl GetExtraDataChecked(void* obj);
-void __cdecl FUN_00c68900(void* obj, S_c6a200_Ev* ev, void* extra);
-bool __cdecl FUN_00c6a200(void* obj, unsigned char a1, unsigned char a2, unsigned char a3);
 struct FlagController
 {
-    void FUN_00c7b6a0(int);
     void FUN_00c7ba10(bool);
 };
 struct HkAllocator
@@ -530,7 +604,6 @@ AudioHolder* __cdecl FUN_00c85750() throw();
 struct FUN_00c7d5c0_elem
 {
     int unk00;
-    void Release();
 };
 struct FUN_00c7d5c0_cls
 {
@@ -540,10 +613,6 @@ struct FUN_00c7d5c0_cls
 
     void FUN_00c7d5c0();
 };
-extern unsigned int g_01268188;
-extern unsigned int g_012685f4;
-extern const char DAT_0108febc[];
-extern const char DAT_010c52bc[];
 struct BaseObject
 {
     const char* classTable;
@@ -556,29 +625,27 @@ struct MiddleObject : BaseObject
     unsigned int initialized0c;
     MiddleObject() : initialized0c(0)
     {
-        classTable = DAT_0108febc;
-        ++g_01268188;
+        classTable = (*reinterpret_cast<const char (*)[]>(&::DAT_0108febc));
+        ++(*reinterpret_cast<unsigned int *>(&::DAT_01268188));
     }
     ~MiddleObject();
 };
 struct FUN_00c7f9e0 : MiddleObject
 {
     FUN_00c7f9e0(void* context);
-    void SpawnAndAttach(void* context);
 };
-extern __declspec(thread) int g_iCB9810AllocTag;
 struct BCB9810AllocTagScope
 {
     int m_iSaved;
 
     BCB9810AllocTagScope(int aiAllocationTag)
     {
-        m_iSaved = g_iCB9810AllocTag;
-        g_iCB9810AllocTag = aiAllocationTag;
+        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
     }
     ~BCB9810AllocTagScope()
     {
-        g_iCB9810AllocTag = m_iSaved;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
     }
 };
 struct BCB9810Node
@@ -598,7 +665,6 @@ struct BCB9810Entry
 class BCB9810Registry
 {
   public:
-    void AppendTailPair(void* pvOwner, BCB9810Node* pkNode);
     void FUN_00cb9810(void* pvOwner, BCB9810Node* pkNode);
 
     int unk00;
@@ -608,10 +674,6 @@ class BCB9810Registry
 };
 struct CE4360Iter
 {
-    int* GetFirst();
-    int* GetSecond();
-    int* GetThird();
-    int* GetFourth();
 };
 struct CE4360Context
 {
@@ -646,18 +708,13 @@ struct CE4360Context
     int unk70;
     int m_iMode;
 };
-void __cdecl FUN_00ce3a00(CE4360Context* pkContext, int a, int b, int c, int d);
-void __cdecl FUN_00ce4330(CE4360Context* pkContext, int a, int b, int c);
 void __cdecl FUN_00ce4360(CE4360Context* pkContext, CE4360Iter* pkFrom, CE4360Iter* pkTo, int iValue);
 struct RTTI_c9b
 {
     const char* m_pcName;
     RTTI_c9b* m_pBaseRTTI;
 };
-extern unsigned char DAT_011f4428;
 class GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_012043f8;
-extern float DAT_01267e30;
 struct S
 {
     virtual void v00();
@@ -719,7 +776,6 @@ struct S
     virtual void v38();
     virtual void SetMode(int iMode);
     void FUN_00561690(int);
-    void FUN_005617c0(float* pf);
 };
 struct Cast_c9b
 {
@@ -728,7 +784,6 @@ struct Cast_c9b
 };
 struct Ctrl_c9b
 {
-    Cast_c9b* FUN_00653290(GlobalObjectO2_00a7b610* pkType);
 };
 class Obj_c9b
 {
@@ -743,20 +798,17 @@ class Obj_c9b
     unsigned short m_usMax;
     unsigned short m_usElementCount;
 };
-void __cdecl ApplyCollisionEffect(Obj_c9b* pkObj, float f);
 __forceinline bool IsNode_c9b(Obj_c9b* pkObj)
 {
     RTTI_c9b* pkRTTI = pkObj->GetRTTI();
     while (pkRTTI)
     {
-        if (pkRTTI == (RTTI_c9b*)&DAT_011f4428)
+        if (pkRTTI == (RTTI_c9b*)&(*reinterpret_cast<unsigned char *>(&::g_011f4428)))
             return true;
         pkRTTI = pkRTTI->m_pBaseRTTI;
     }
     return false;
 }
-void __cdecl FUN_00c9bdf0(Obj_c9b* pkObj, float f);
-void __stdcall FUN_00c7f900(char* dst, char* src, unsigned int count);
 class FUN_00c7f970_cls
 {
   public:
@@ -859,13 +911,9 @@ struct FUN_00cb9650_Object
     virtual void vf08();
     virtual FUN_00cb9650_Node* vf0C();
 
-    void* FUN_00a5c570(const void* typeInfo);
-    void FUN_00a5c480(int value);
 };
-extern const char DAT_012683f4[];
-void __cdecl FUN_00cb9650(FUN_00cb9650_Object* object);
 #include <xmmintrin.h>
-extern "C" __declspec(align(16)) __m128 DAT_010c71b0;
+#include "fnv/symbols_simd.h"
 struct RagController
 {
     unsigned char& controlFlag()
@@ -899,9 +947,7 @@ struct RagController
     void FUN_00c75580(unsigned char enabled);
 };
 extern "C" double __cdecl sqrt(double x);
-__int64 __cdecl FUN_00aa4d80();
 extern float DAT_011b02e4;
-extern float DAT_011ac39c;
 struct NodeC
 {
     int n000;
@@ -945,15 +991,12 @@ struct MidC
     int m024;
     int m028;
     InnerC* inner;
-    void FUN_00ce18f0(void*, void*);
 };
 struct Obj248
 {
-    int FUN_00ce11f0(void*, float*);
 };
 struct Obj250
 {
-    void FUN_00cc1420(void*, void*, int);
 };
 struct ScrapMarker
 {
@@ -1136,7 +1179,6 @@ struct Cls
 
     void FUN_00c7ba50(void* a1, void* a2, bool* a3);
 };
-extern __m128 g_hkQuadZero;
 struct RagMotion
 {
     int unk00;
@@ -1202,7 +1244,6 @@ struct RagEntry
 };
 struct RagSystem
 {
-    void FUN_00c6b320(RagEntry* entry);
 };
 struct RagWorld
 {
@@ -1457,7 +1498,7 @@ struct RagCtrl48
         {
             RagEntry* e = entries[i];
             if (!e->owner)
-                sys->FUN_00c6b320(e);
+                reinterpret_cast<::FUN_00c6b320_Class *>((sys))->FUN_00c6b320((::hkReferencedObject *)(e));
         }
     }
 };
@@ -1656,7 +1697,6 @@ struct RagdollCtl
     RagSkel* skel;
     int unk2a8;
     int unk2ac;
-    void FUN_00c7b6a0(bool);
     void FUN_00c7c150(bool);
 };
 static unsigned char* FUN_00c7f4a0(unsigned char* out, const float* src, int count);
@@ -1680,7 +1720,6 @@ static __declspec(noinline) bool* CheckFloatsValid(const float* pData, int iCoun
     *pOut = true;
     return pOut;
 }
-extern int DAT_01267b70;
 struct S_Out
 {
     int unk00;
@@ -1688,7 +1727,6 @@ struct S_Out
 };
 struct S_Inner
 {
-    int FUN_00c85c80(int arg);
 };
 struct S_Val
 {
@@ -1732,8 +1770,6 @@ inline S_Elem* GetPhantom(S_Obj* c)
 {
     return c->unk18 == 2 ? (S_Elem*)GetOwner(c) : 0;
 }
-int __cdecl FUN_00c7fa90(S_Obj* p);
-extern const __m128 DAT_010c71e0;
 struct __declspec(align(16)) MVec4
 {
     __m128 q;
@@ -1804,7 +1840,6 @@ struct PoseState
     int count;
     int unk24;
     bool ready;
-    void FUN_00cda340();
     void FUN_00cda4c0();
 };
 struct C7C2B0_Heap
@@ -1885,7 +1920,6 @@ template <class T> struct HkArrX
 };
 struct HkRef
 {
-    void removeReference();
 };
 struct RefObj
 {
@@ -1916,7 +1950,6 @@ struct RefPtr
         }
     }
 };
-extern int DAT_0109b220;
 struct FixedStr9
 {
     char* m_h;
@@ -1926,7 +1959,7 @@ struct FixedStr9
     }
     ~FixedStr9()
     {
-        if (m_h != (char*)DAT_0109b220)
+        if (m_h != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
             InterlockedDecrement((long volatile*)(m_h - 8));
     }
 };
@@ -2024,15 +2057,12 @@ struct Arr32
 };
 struct X48
 {
-    void ClearArrays();
 };
 struct MapStd
 {
     void FUN_00e92760(char* key, void** out);
     void FUN_00e91fd0(char* key);
 };
-extern MapStd DAT_011b02f0;
-extern MapStd DAT_011b0300;
 struct BaseC7
 {
     virtual void vf0();
@@ -2208,10 +2238,6 @@ struct FUN_00c7d900 : BaseC7
     ~FUN_00c7d900();
 };
 
-extern __m128 DAT_010c7170;
-extern __m128 DAT_010c44d0;
-extern __m128 DAT_010c4c00;
-extern __m128 DAT_010c4c10;
 
 class hkQuaternionCDA;
 
@@ -2255,7 +2281,7 @@ class hkVector4CDA
     }
     __forceinline void setNeg4(const hkVector4CDA& a)
     {
-        m_vComponents = _mm_xor_ps(a.m_vComponents, DAT_010c44d0);
+        m_vComponents = _mm_xor_ps(a.m_vComponents, ::DAT_010c44d0);
     }
     static __forceinline __m128 crossValue(__m128 a, __m128 b)
     {
@@ -2368,7 +2394,7 @@ class hkQsTransformCDA
         hkVector4CDA temp;
         temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-        m_rotation.SetProduct(t1.m_rotation, t2.m_rotation);
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
         m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
     }
     __forceinline void SetMulInverse(const hkQsTransformCDA& a, const hkQsTransformCDA& b)
@@ -2412,7 +2438,6 @@ class hkaPoseCDA
     bool m_bPoseFlag;
     bool m_bPoseInitialized;
 
-    const hkQsTransformCDA& GetBoneModelSpace(int boneIdx);
     void FUN_00cda690();
 };
 
@@ -2432,7 +2457,7 @@ void hkaPoseCDA::FUN_00cda690()
             {
                 const hkQsTransformCDA& modelFromParent = (m_pBoneFlags[parentIdx] & F_DIRTY_MODEL) == 0
                                                               ? m_pModelPose[parentIdx]
-                                                              : GetBoneModelSpace(parentIdx);
+                                                              : (*(const ::hkQsTransformCDA *)&(reinterpret_cast<::SkeletonPoseData *>(this)->FUN_00cda180(parentIdx)));
                 m_pLocalPose[boneIdx].SetMulInverse(modelFromParent, modelFromBone);
             }
             else

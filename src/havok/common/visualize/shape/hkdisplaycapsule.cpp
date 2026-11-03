@@ -2,9 +2,14 @@
 // src/havok/common/visualize/shape/hkdisplaycapsule.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplaycapsule.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/symbols_00d23000.h"
+#include "fnv/symbols_00da1000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0104d000.h"
 struct StaticHelper
 {
-    static void HandleObjectEvent(void* a, void* b, float c, void* d, void* e, void* f, void* g);
 };
 
 struct hkDisplayCapsule
@@ -15,9 +20,9 @@ struct hkDisplayCapsule
 // @fnv 0x00d22d70
 void hkDisplayCapsule::FUN_00d22d70()
 {
-    StaticHelper::HandleObjectEvent(this + 0x60, this + 0x70, *(float*)((char*)this + 0x80),
-                                    *(void**)((char*)this + 0x88), *(void**)((char*)this + 0x84), this + 0x10,
-                                    this + 0x8);
+    ::FUN_00da16d0((*(const ::hkVector4 *)(this + 0x60)), (*(const ::hkVector4 *)(this + 0x70)), *(float*)((char*)this + 0x80),
+                                    (int)(*(void**)((char*)this + 0x88)), (int)(*(void**)((char*)this + 0x84)), (*(const ::hkTransform *)(this + 0x10)),
+                                    (*(::hkGeometry * *)(this + 0x8)));
 }
 
 // @fnv 0x00d22db0
@@ -29,6 +34,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 extern "C"
 {
     __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
@@ -42,8 +48,6 @@ extern "C"
     double sqrt(double);
     void _ReadWriteBarrier();
 }
-extern float DAT_0104da4c;
-extern double DAT_01016978;
 struct Vector
 {
     union
@@ -132,7 +136,7 @@ static __declspec(noinline) void FUN_00d234e0(Limit* apLimit, const Vector* poin
         crossProduct(cross, transform->c3, axis);
         float cross2;
         _mm_store_ss(&cross2, dot3(cross, cross));
-        if (DAT_0104da4c < cross2)
+        if (::DAT_0104da4c < cross2)
         {
             float len = (float)sqrt(cross2);
             float inv = 1.0f / len;
@@ -171,7 +175,7 @@ static __declspec(noinline) void FUN_00d234e0(Limit* apLimit, const Vector* poin
     {
         float projected2;
         _mm_store_ss(&projected2, dot3(offset, offset));
-        if (DAT_0104da4c <= projected2 && distance2 * DAT_01016978 < projected2)
+        if (::DAT_0104da4c <= projected2 && distance2 * ::DAT_01016978 < projected2)
         {
             float ratio = distance2 / projected2;
             float root = (float)sqrt(ratio);
@@ -209,8 +213,6 @@ static __forceinline float absoluteValue(float f)
 {
     return (float)fabs(f);
 }
-extern float DAT_0104da4c;
-extern const __m128 DAT_01017d10;
 extern const float DAT_01011d78;
 
 static __forceinline __m128 scalarParam(float f)
@@ -281,7 +283,7 @@ static __forceinline __m128 prefixColumns(Context* context, Record* a, Record* b
 // @fnv 0x00d23850
 static __declspec(noinline) void FUN_00d23850(Context* context, Record* a, Record* b, VecArg point, Vector* out)
 {
-    float threshold = DAT_0104da4c;
+    float threshold = ::DAT_0104da4c;
     Vector raw;
     crossProduct(raw, a->axis, b->axis);
     float fLengthSq = scalar(dot3(raw, raw));
@@ -325,7 +327,7 @@ static __declspec(noinline) void FUN_00d23850(Context* context, Record* a, Recor
             out->quad = base.quad;
             return;
         }
-        if (blend < 1.0f && distance2 * DAT_01016978 < axial * axial)
+        if (blend < 1.0f && distance2 * ::DAT_01016978 < axial * axial)
         {
             float invAxial = 1.0f / axial;
             invAxial = absoluteValue(invAxial);
@@ -493,7 +495,6 @@ struct IntersectionContext
     PlaneStatusStore* status;
 };
 
-extern void __cdecl FUN_00d23380(IntersectionContext* context);
 
 inline void V::cross(const V& a, const V& b)
 {
@@ -559,7 +560,7 @@ static __declspec(noinline) void FUN_00d23850(IntersectionContext* ctx, PairPlan
 
     float squaredLength = dot(direction.v, direction.v);
 
-    if (!(squaredLength < DAT_0104da4c))
+    if (!(squaredLength < ::DAT_0104da4c))
     {
 
         float inverse = 1.0f / root(squaredLength);
@@ -708,7 +709,7 @@ static __declspec(noinline) void FUN_00d23ca0(IntersectionContext* ctx, PlaneRec
 sequential:
     if (reorder.p)
     {
-        FUN_00d23380(ctx);
+        ::fnv_00d23380::FUN_00d23380((::fnv_00d23380::SortList *)(ctx));
         apPlaneA = ctx->first;
         apPlaneB = ctx->second;
         apPlaneC = ctx->third;
@@ -865,7 +866,7 @@ static __declspec(noinline) void FUN_00d234e0(const SimplexInfo& other_, const P
         crossProduct(cross, transform->c3, axis);
         float cross2;
         _mm_store_ss(&cross2, dot3(cross, cross));
-        if (DAT_0104da4c < cross2)
+        if (::DAT_0104da4c < cross2)
         {
             float len = (float)sqrt(cross2);
             float inv = 1.0f / len;
@@ -904,7 +905,7 @@ static __declspec(noinline) void FUN_00d234e0(const SimplexInfo& other_, const P
     {
         float projected2;
         _mm_store_ss(&projected2, dot3(offset, offset));
-        if (DAT_0104da4c <= projected2 && distance2 * DAT_01016978 < projected2)
+        if (::DAT_0104da4c <= projected2 && distance2 * ::DAT_01016978 < projected2)
         {
             float ratio = distance2 / projected2;
             float root = (float)sqrt(ratio);
@@ -943,7 +944,7 @@ static __declspec(noinline) void FUN_00d23850(SimplexInfo& ctx_, const PlaneReco
     V direction;
     direction.cross(na, nb);
     float squaredLength = dot(direction.v, direction.v);
-    if (!(squaredLength < DAT_0104da4c))
+    if (!(squaredLength < ::DAT_0104da4c))
     {
         float inverse = 1.0f / root(squaredLength);
         direction.v = _mm_mul_ps(direction.v, scalar(inverse));
@@ -1014,7 +1015,7 @@ static __declspec(noinline) void FUN_00d23ca0(SimplexInfo& ctx_, const PlaneReco
     r1.cross(c->normal, a->normal);
     r2.cross(a->normal, b->normal);
     float det = dot(r0.v, a->normal.v);
-    if (!(absoluteValue(det) < DAT_0104da4c))
+    if (!(absoluteValue(det) < ::DAT_0104da4c))
     {
         float dc = dot(c->point.v, c->normal.v);
         float db = dot(b->point.v, b->normal.v);
@@ -1033,7 +1034,7 @@ static __declspec(noinline) void FUN_00d23ca0(SimplexInfo& ctx_, const PlaneReco
     }
     if (allowResort)
     {
-        FUN_00d23380(ctx);
+        ::fnv_00d23380::FUN_00d23380((::fnv_00d23380::SortList *)(ctx));
         a = ctx->first;
         b = ctx->second;
         c = ctx->third;
@@ -1076,7 +1077,7 @@ static __declspec(noinline) void FUN_00d23f50(SimplexInfo& info)
             FUN_00d234e0(info, *info.m_kActivePlanes[1].m_pHavokConstraint, info.m_pRayCastInput->m_fVelocity,
                          velocity);
             hkBool plane0Used = FUN_00d23480(*info.m_kActivePlanes[0].m_pHavokConstraint, velocity);
-            if (!plane0Used)
+            if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(plane0Used))->FUN_005609f0())
             {
                 info.m_pRayCastOutput->m_fVelocity = velocity;
                 info.m_kActivePlanes[0] = info.m_kActivePlanes[1];
@@ -1093,10 +1094,10 @@ static __declspec(noinline) void FUN_00d23f50(SimplexInfo& info)
                 FUN_00d234e0(info, *info.m_kActivePlanes[2].m_pHavokConstraint, info.m_pRayCastInput->m_fVelocity,
                              velocity);
                 hkBool plane0Used = FUN_00d23480(*info.m_kActivePlanes[0].m_pHavokConstraint, velocity);
-                if (!plane0Used)
+                if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(plane0Used))->FUN_005609f0())
                 {
                     hkBool plane1Used = FUN_00d23480(*info.m_kActivePlanes[1].m_pHavokConstraint, velocity);
-                    if (!plane1Used)
+                    if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(plane1Used))->FUN_005609f0())
                     {
                         info.m_pRayCastOutput->m_fVelocity = velocity;
                         info.m_kActivePlanes[0] = info.m_kActivePlanes[2];
@@ -1113,7 +1114,7 @@ static __declspec(noinline) void FUN_00d23f50(SimplexInfo& info)
                     FUN_00d23850(info, info.m_kActivePlanes[testPlane].m_pHavokConstraint,
                                  info.m_kActivePlanes[2].m_pHavokConstraint, &info.m_pRayCastInput->m_fVelocity,
                                  &velocity);
-                    bool planeUsed = FUN_00d23480(*info.m_kActivePlanes[1 - testPlane].m_pHavokConstraint, velocity);
+                    bool planeUsed = reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(FUN_00d23480(*info.m_kActivePlanes[1 - testPlane].m_pHavokConstraint, velocity)))->FUN_005609f0();
                     if (!planeUsed)
                     {
                         info.m_kActivePlanes[0] = info.m_kActivePlanes[testPlane];
@@ -1134,7 +1135,7 @@ static __declspec(noinline) void FUN_00d23f50(SimplexInfo& info)
             return;
         }
         case 4: {
-            FUN_00d23380((IntersectionContext*)&info);
+            ::fnv_00d23380::FUN_00d23380((::fnv_00d23380::SortList *)(::IntersectionContext *)((IntersectionContext*)&info));
             bool dropped_a_plane = false;
             for (int i = 0; i < 3; i++)
             {
@@ -1144,7 +1145,7 @@ static __declspec(noinline) void FUN_00d23f50(SimplexInfo& info)
                              info.m_kActivePlanes[3].m_pHavokConstraint, false, info.m_pRayCastInput->m_fVelocity,
                              velocity);
                 hkBool planeUsed = FUN_00d23480(*info.m_kActivePlanes[i].m_pHavokConstraint, velocity);
-                if (!planeUsed)
+                if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(planeUsed))->FUN_005609f0())
                 {
                     info.m_kActivePlanes[i] = info.m_kActivePlanes[2];
                     info.m_kActivePlanes[2] = info.m_kActivePlanes[3];

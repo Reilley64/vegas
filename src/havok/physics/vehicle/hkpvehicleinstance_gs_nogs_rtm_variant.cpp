@@ -4,11 +4,28 @@
 
 // src/havok/physics/vehicle/hkpvehicleinstance.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/hkpvehicleinstance.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00c91620_Class.h"
+#include "fnv/decl/FUN_00d2b2b0_class.h"
+#include "fnv/decl/FUN_00d72030_cls.h"
+#include "fnv/decl/FnvVehicle.h"
+#include "fnv/decl/VUBCD_Instance.h"
+#include "fnv/decl/fnv_00e385e0__VehStep_Vehicle.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpVehicleInstanceCustom.h"
+#include "fnv/decl/hkpWorldC914.h"
+#include "fnv/symbols_00d29000.h"
+#include "fnv/symbols_00e59000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpVehicleInstance.h"
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
-extern unsigned long DAT_0126835c;
 void* FUN_00c85750() throw();
 struct VUC_Mon
 {
@@ -131,18 +148,13 @@ struct VUC_Instance
     VUC_Data* m_data;
     void FUN_00e37aa0(float dt, void* det) throw();
     void FUN_00e36f60(float dt, VUC_Filtered& f) throw();
-    void UpdateSteering(float dt, const VUC_Filtered& f) throw();
     void FUN_00e36fa0(float dt, VUC_Transmission& t) throw();
-    void FUN_00e37020(float dt, const VUC_Filtered& f, VUC_Transmission& t) throw();
     void UpdateVehicleState(float dt, const VUC_Filtered& f, FUN_00e39400& b) throw();
-    void NotifyListener(float dt, void* det, VUC_RealArray& s) throw();
-    void FUN_00e37080(float dt, void* aero) throw();
     void UpdateVehicleComponents(const VUC_StepInfo& stepInfo, void* det, void* aero,
                                  VUC_RealArray& suspensionForceAtWheel, VUC_RealArray& totalLinearForceAtWheel);
 };
 struct VUC_World
 {
-    void FUN_00c914d0(void* entity, int flag);
 };
 struct VUC_VehicleTarget
 {
@@ -177,7 +189,6 @@ struct VUC_DeltaTime
     float m_fTimeStep;
     float m_fInverseDeltaTime;
 };
-void __cdecl FUN_00e59a40(void* a, void* b, void* c, void* d);
 struct FUN_00e38080StandIn
 {
     unsigned char m_unknown00[0x1c];
@@ -189,7 +200,6 @@ struct FUN_00e38080StandIn
 };
 struct DDCC60World
 {
-    void removeReference();
 };
 struct VUC_Allocator
 {
@@ -206,7 +216,6 @@ struct VUC_Router
 };
 extern int DAT_010df34c;
 VUC_Router* _D1A0E0GetMemoryRouter();
-void __fastcall FUN_00d2b2b0(void*);
 struct FUN_00e38bf0
 {
     void* m_vtbl;
@@ -411,7 +420,6 @@ class hkpEntityE379
 class hkpWorldE379
 {
   public:
-    hkBoolE379 ProcessTarget(hkpEntityE379* pkEntity);
 };
 class hkActionE379
 {
@@ -563,9 +571,6 @@ struct VUC_StepLocals
 };
 struct VUC_StepInstance : VUC_Instance
 {
-    void FUN_00e385e0(const VUC_StepInfo& stepInfo, const VUC_AeroOutput& aero,
-                      const VUC_RealArray& suspensionForceAtWheel,
-                      const VUC_RealArray& totalLinearForceAtWheel) throw();
     void FUN_00e39030(const VUC_StepInfo& stepInfo, void* det);
 };
 void* FUN_00c85750() throw();
@@ -631,8 +636,6 @@ struct VehicleInstance
     void* m_pSuspension;
     void* m_pAerodynamics;
     VehicleWheelCollide* m_pWheelCollide;
-    void FUN_00e37940();
-    void FUN_00e39030(const VehicleStepInfo* stepInfo, void* scratch);
     void FUN_00e39190(const VehicleStepInfo* stepInfo);
 };
 class hkMemoryAllocatorE392
@@ -660,7 +663,6 @@ class hkRefObjectE392
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 
-    void FUN_00c90510() throw();
 };
 class hkShapeE392;
 struct hkInputInfoE392
@@ -733,7 +735,6 @@ class FUN_00e38b20
     }
 
     FUN_00e38b20(const hkShapeE392* pkShape) throw();
-    void FUN_00e39480(const hkSourceE392* pkOther) throw();
 };
 typedef char fnv_check_e39210[(sizeof(FUN_00e38b20) == 0xd4) ? 1 : -1];
 class hkSourceE392
@@ -747,7 +748,6 @@ class hkSourceE392
 
     FUN_00e38b20* FUN_00e39210(const hkInputE392* pkInput, int iFlags) throw();
 };
-void __cdecl FUN_00e39190();
 void __cdecl FUN_00e392f0();
 struct VUC_TransmissionTarget10
 {
@@ -772,6 +772,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 extern "C" __m128 _mm_add_ps(__m128, __m128);
 extern "C" __m128 _mm_mul_ps(__m128, __m128);
 extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
@@ -1130,10 +1131,6 @@ class VehicleDataE39 : public hkReferencedObjectE39
     float m_fD0;
 };
 extern "C" void _mm_store_ps(float*, __m128);
-extern const __m128 DAT_01267e30;
-extern const __m128 DAT_010c7190;
-extern const __m128 DAT_010c71b0;
-extern const float DAT_01012068;
 extern const float DAT_01011d78;
 extern "C" __m128 _mm_setr_ps(float, float, float, float);
 extern "C" __m128 _mm_setzero_ps();
@@ -1198,7 +1195,6 @@ extern "C" __m128 _mm_min_ps(__m128, __m128);
 extern "C" __m128 _mm_max_ps(__m128, __m128);
 extern "C" __m128 _mm_xor_ps(__m128, __m128);
 extern "C" __m128 _mm_set_ps1(float);
-extern const __m128 DAT_010c44d0;
 struct VehFr_Vector4
 {
 
@@ -1665,8 +1661,6 @@ struct S00e37880_Obj
 
     float FUN_00e37880();
 };
-extern double DAT_01017b70;
-extern double DAT_01012640;
 extern "C" __m128 _mm_add_ss(__m128, __m128);
 extern "C" __m128 _mm_sqrt_ss(__m128);
 extern "C" float _mm_cvtss_f32(__m128);
@@ -2043,9 +2037,6 @@ class S00e375a0_VehicleInstance : public VUC_Instance
     int unk_veh44;
     hkArray<hkpVehicleInstanceWheelInfo> m_kWheelInfoArray;
 
-    void FUN_00e371d0(float deltaTime, int wheelIndex, float suspensionForce) throw();
-    void FUN_00e37350(int wheelIndex, float totalLinearForce, float suspensionForce, float linearVelocity,
-                      S00e375a0_AxleData* axleData) throw();
     void FUN_00e375a0(float deltaTime, VUC_RealArray& suspensionForceAtWheel, VUC_RealArray& totalLinearForceAtWheel,
                       S00e375a0_hkpRigidBody* maxMassBodyPerAxle[2], S00e375a0_AxleData* axleData);
 };
@@ -2184,9 +2175,6 @@ class WheelUpdateWheel
     float m_fForwardForce;
 };
 
-extern float DAT_01017718;
-extern float DAT_01016248;
-extern VUC_Vector4 DAT_010c71e0;
 
 }
 
@@ -2200,8 +2188,8 @@ void VUC_Instance::FUN_00e37aa0(float dt, void* det) throw()
     if (i < ((VUC_Data*)self->m_data)->m_iWheelCount)
     {
         WheelUpdateSimd zero128 = _mm_set_ss(DAT_01011d78);
-        WheelUpdateSimd three128 = _mm_set_ss(DAT_01017718);
-        WheelUpdateSimd half128 = _mm_set_ss(DAT_01016248);
+        WheelUpdateSimd three128 = _mm_set_ss(::DAT_01017718);
+        WheelUpdateSimd half128 = _mm_set_ss(::fnv_00c88020::DAT_01016248);
         WheelUpdateCdWheel* cdInfo = (WheelUpdateCdWheel*)det;
         int ci = 0;
         do
@@ -2255,7 +2243,7 @@ void VUC_Instance::FUN_00e37aa0(float dt, void* det) throw()
                              ::_mm_mul_ps(::_mm_shuffle_ps(v, v, 0xc9), ::_mm_shuffle_ps(qq, qq, 0xd2)));
             cross = ::_mm_mul_ps(cross, w);
             WheelUpdateSimd ww = ::_mm_mul_ps(w, w);
-            ww = ::_mm_add_ps(ww, *(WheelUpdateSimd*)&DAT_010c71e0);
+            ww = ::_mm_add_ps(ww, *(WheelUpdateSimd*)&(*reinterpret_cast<::VUC_Vector4 *>((void *)&::DAT_010c71e0)));
             ww = ::_mm_mul_ps(ww, v);
             WheelUpdateSimd term = ::_mm_add_ps(ww, ::_mm_mul_ps(::_mm_shuffle_ps(dot, dot, 0), qq));
             WheelUpdateSimd result = ::_mm_add_ps(cross, term);
@@ -2307,7 +2295,6 @@ struct Accumulator
     hkVector4 m_vec40;
     hkRotation m_rotation;
 
-    void FUN_00d72030(const Accumulator& other);
 };
 
 class AxleParams
@@ -2511,8 +2498,6 @@ class AxleDataView
     int m_iWheelCount;
 };
 
-extern "C" void __cdecl FUN_00d29830(void* arg1, GroundMotion** motions, int numMotions, int offset,
-                                     Accumulator* accumOut);
 
 class Vehicle : public hkpVehicleInstance
 {
@@ -2615,7 +2600,7 @@ void Vehicle::FUN_00e37d60(void* arg1, GroundBody** arg2, Accumulator* arg3, Acc
         else
         {
             GroundMotion* motion = &body->m_pMotionState;
-            FUN_00d29830(arg1, &motion, 1, 0, out1);
+            ::FUN_00d29830((::ContextA0 *)(arg1), (::SourceItem **)(::AxleGroundBuild::GroundMotion **)(&motion), 1, 0, (::TargetItem *)(out1));
 
             float invMass1 = inverseMass(reinterpret_cast<GroundBody*>(m_pEntity)->m_pMotionState.unkC0);
             float invMass2 = inverseMass(motion->unkC0);
@@ -2634,7 +2619,7 @@ void Vehicle::FUN_00e37d60(void* arg1, GroundBody** arg2, Accumulator* arg3, Acc
             VelocityVector angVel;
             angVel.setMul4(motion->getInvDeltaTime(), motion->unkA0);
 
-            out2->FUN_00d72030(*out1);
+            reinterpret_cast<::FUN_00d72030_cls *>((out2))->FUN_00d72030((const ::FUN_00d72030_cls *)&(*out1));
             wheelInfo->m_contactBody2 = out2;
 
             rotateDirection(out2->m_contactNormal, out1->m_rotation, angVel.q);

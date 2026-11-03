@@ -2,6 +2,27 @@
 #ifndef FNV_TESRACE_TYPES_H
 #define FNV_TESRACE_TYPES_H
 
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_006044c0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S9fb0.h"
+#include "fnv/decl/fnv_00650780__BSFaceGenModelMap_t.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0040a000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00615000.h"
+#include "fnv/symbols_00652000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_011cb000.h"
+#include "fnv/symbols_011de000.h"
 #define TESRACE_JOIN_INNER(a, b) a##b
 #define TESRACE_JOIN(a, b) TESRACE_JOIN_INNER(a, b)
 #define TESRACE_ASSERT(c) typedef char TESRACE_JOIN(tesrace_assert_, __LINE__)[(c) ? 1 : -1]
@@ -28,6 +49,7 @@ class SpellItem;
 class TESLevSpell;
 class BSFileEntry;
 class FaceGenUndo;
+class TESFile;
 class TESForm : public BaseFormComponent
 {
   public:
@@ -111,18 +133,12 @@ class TESForm : public BaseFormComponent
     virtual bool SetEditorID_AtRuntime(const char* edid);
     TESForm();
     TESFile* GetFile(int fileIndex);
-    BSSimpleList<TESFile*>* GetSourceFiles();
-    bool IsDeleted() const;
-    unsigned int GetFormID() const;
     bool GetInitialized() const;
-    static TESForm* GetFormByID(unsigned int formID);
-    bool IsTemporary() const;
     void NotifySaveLoadGameOfFormChange();
     void SetInitializationState(bool initialized);
-    void SetFormType(enum ENUM_FORM_ID);
 
-    void LoadRecordHeader(TESFile* file);
-    static void RemapFormIDForFile(unsigned int& formID, TESFile* file);
+public:
+    ::TESFile *GetOwnerMaster();
 };
 
 TESRACE_ASSERT(sizeof(TESForm) == 0x18);
@@ -131,14 +147,18 @@ class TESFullName : public BaseFormComponent
   public:
     TESFullName();
     virtual ~TESFullName();
-    const char* GetFullName();
     BSStringT<char> m_kName;
+public:
+    void SetFullName(const char *);
 };
+class TESFile;
 class TESDescription : public BaseFormComponent
 {
   public:
     TESDescription();
     unsigned long m_uiDescriptionFileOffset;
+public:
+    static void ReadDescriptionFromFile(::TESDescription *, ::TESFile *);
 };
 class TESSpellList : public BaseFormComponent
 {
@@ -185,6 +205,7 @@ class FileEntryList
     unsigned char m_ucFileEntryCount;
     BSFileEntry** m_ppFileEntries;
 };
+class TESFile;
 class TESModel : public BaseFormComponent
 {
   public:
@@ -196,13 +217,18 @@ class TESModel : public BaseFormComponent
     virtual ~TESModel();
     virtual const char* GetModelFilePath() const;
     virtual void SetModelFilePath(const char*);
+public:
+    static void LoadModelData(::TESModel *, ::TESFile *);
 };
+class TESFile;
 class TESTexture : public BaseFormComponent
 {
   public:
     TESTexture();
     virtual ~TESTexture();
     BSStringT<char> FullNameComponent;
+public:
+    static void ReadTextureData(::TESTexture *, ::TESFile *);
 };
 class BGSTextureModel : public TESModel
 {
@@ -268,18 +294,13 @@ class TESRace : public TESForm, public TESFullName, public TESDescription, publi
     BSStringT<char> strEditorID;
     NiTPrimitiveArray<FaceGenUndo*> m_kFaceGenUndoList;
     TESRace();
-    void ResetFormData();
     void ClearFaceGenUndo();
-    TESModel* GetHeadPartModel(SEX, int);
     bool GetBipedObjectModelPath(TESNPC*, BIPED_OBJECT, char*);
     TESModel* GetBipedObjectModel(SEX, BIPED_OBJECT);
-    TESModel* GetBodyPartModel(SEX, int);
     void BuildBodyTexturePath(TESNPC*, char*);
     void SetDefaultHairColor(SEX, unsigned char);
     void SetDefaultVoiceType(SEX, BGSVoiceType*);
     BGSTextureModel* GetBodyTextureModel(int);
-    FaceGenMatrix<float> (*GetMeanFaceCoord(SEX))[2];
-    bool BuildBodyModTexturePath(TESNPC*, char*, char*);
     virtual void InitItem();
 };
 class CharacterFlagByte
@@ -297,9 +318,6 @@ class TESHair : public TESForm, public TESFullName, public TESModel, public TEST
   public:
     char cFlags;
 };
-extern BGSVoiceType* g_pDefaultMaleVoiceType;
-extern BGSVoiceType* g_pDefaultFemaleVoiceType;
-int __cdecl Warning(const char*, ...);
 TESRACE_ASSERT(sizeof(RaceDefinitionData) == 0x24);
 TESRACE_ASSERT(sizeof(TESModel) == 0x18);
 TESRACE_ASSERT(sizeof(FaceGenMatrix<float>) == 0x20);
@@ -331,34 +349,34 @@ class TESActorBase : public TESForm
   public:
     SEX GetSex() const;
 };
+class TESHair;
+template <class> class FaceGenMatrix;
 class TESNPC : public TESActorBase
 {
   public:
     char pad18[0x18];
     TESNPCModelComponent model;
-    TESNPC* FUN_006044c0();
     FaceGenMatrix<float> (*GetOffsetFaceCoord())[2];
+public:
+    void GetFaceGenCoords(FaceGenMatrix<float> (&)[2][2]);
+public:
+    ::TESHair *GetHair();
 };
 extern "C" int __cdecl sprintf(char*, const char*, ...);
-extern "C" int __cdecl sprintf_s(char*, unsigned int, const char*, ...);
-int __cdecl NormalizePartIndex(BIPED_OBJECT);
 class TESBoundObject;
 class TESObjectREFR
 {
   public:
-    TESBoundObject* GetObjectReference();
 };
 class PlayerCharacter : public TESObjectREFR
 {
 };
-extern PlayerCharacter* g_thePlayer;
 class TaskQueueInterface
 {
   public:
     static void CopyStringToBuffer(char*, unsigned int, const char*);
 };
 int __cdecl strcat_s(char*, unsigned int, const char*);
-char* __cdecl FUN_0040ab30(char*, int);
 extern "C" const char* __cdecl strrchr(const char*, int);
 class NiAVObject;
 class GarbageCollectorObjectPtr
@@ -369,17 +387,17 @@ class GarbageCollectorObjectPtr
 class BSFaceGenModelMap
 {
   public:
-    bool HasFaceGenData(const char*);
 };
+struct FaceGenCoordinates;
 struct FaceGenCoordinates;
 class BSFaceGenManager
 {
   public:
     static BSFaceGenModelMap* GetModelMap();
-    static const char* BuildFaceGenModelPath(BSStringT<char>&, const char*);
     static FaceGenCoordinates* GetFaceGenCoordinates();
-    static void CopyFaceGenCoordinates(FaceGenMatrix<float> (*)[2], FaceGenMatrix<float> (*)[2], bool, bool);
     static void BlendFaceGenCoordinates(FaceGenMatrix<float> (*)[2], FaceGenMatrix<float> (*)[2],
                                         FaceGenMatrix<float> (*)[2], bool, float);
+public:
+    static void InitializeFaceGenCoordinates(::FaceGenCoordinates *);
 };
 #endif

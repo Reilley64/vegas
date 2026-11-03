@@ -2,6 +2,13 @@
 // src/fallout_shared/magic/alchemyitem_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/magic/alchemyitem.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00874460_cls.h"
+#include "fnv/decl/FUN_009acce0_shell.h"
+#include "fnv/decl/fnv_00406340__EffectItemList.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005b5000.h"
 #include "alchemyitem_decls.h"
 
 // sub ecx,0x30; jmp FUN_004029b0

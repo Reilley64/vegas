@@ -17,13 +17,12 @@ float hkpAabbTreeCollidableRaycaster::FUN_00d9a220(int a)
 namespace fnv_00d9a240 {
 struct hkpAabbTreeCollidableRaycaster
 {
-    void __thiscall CollectRayHit(void*);
     float __thiscall FUN_00d9a240(void* arg);
 };
 // @fnv 0x00d9a240
 float __thiscall hkpAabbTreeCollidableRaycaster::FUN_00d9a240(void* arg)
 {
-    ((hkpAabbTreeCollidableRaycaster*)((char*)this - 4))->CollectRayHit(*(void**)((char*)arg + 12));
+    reinterpret_cast<::hkpAabbTreeCollidableRaycaster *>((((hkpAabbTreeCollidableRaycaster*)((char*)this - 4))))->CollectRayHit((int)(*(void**)((char*)arg + 12)));
     return *(float*)((char*)this + 0x18);
 }
 }  // namespace fnv_00d9a240

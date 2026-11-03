@@ -2,19 +2,26 @@
 // src/gamebryo2.2/corelibs/nimain/niambientlight.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/niambientlight.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00a72010_owner.h"
+#include "fnv/decl/FUN_00a721e0_shell.h"
+#include "fnv/decl/NiDirectionalLight.h"
+#include "fnv/decl/NiLight.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f5000.h"
 struct S00
 {
-    void _FUN_00a72010();
     void* DestroyIfFlagged(unsigned int);
 };
-void __cdecl _delete(void*, unsigned int);
 // Calls _FUN_00a72010, then if flags has bit 1 set deletes this with size 0xF0, and returns this.
 // @fnv 0x00a9b3a0
 void* S00::DestroyIfFlagged(unsigned int flags)
 {
-    _FUN_00a72010();
+    reinterpret_cast<::FUN_00a72010_owner *>(this)->FUN_00a72010();
     if (flags & 1)
-        _delete(this, 0xF0);
+        ::FUN_00aa1460(this, 0xF0);
     return this;
 }
 
@@ -25,32 +32,26 @@ struct StrArr
     unsigned short m_usSize;
     char _c[2];
     unsigned short m_usGrow;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
-void __stdcall AppendEffectProperties(StrArr*);
-char* __cdecl _FUN_00a7d330(void const*);
-extern void const* const g_011f5f6c;
 // Appends the string returned by _FUN_00a7d330(g_011f5f6c) to the StrArr, growing it via SetSize when the size reaches the max.
 // @fnv 0x00a9b430
 void __stdcall FUN_00a9b430(StrArr* pStrArr)
 {
-    AppendEffectProperties(pStrArr);
-    char* pkString = _FUN_00a7d330(g_011f5f6c);
+    reinterpret_cast<::FUN_00a721e0_shell *>((pStrArr))->AppendEffectProperties({});
+    char* pkString = ::FUN_00a7d330((const char *)((*reinterpret_cast<const void *const *>(&::g_011f5f6c))));
     unsigned int uiIndex = pStrArr->m_usSize;
     if (uiIndex >= pStrArr->m_usMax)
     {
-        pStrArr->SetSize(uiIndex + pStrArr->m_usGrow);
+        reinterpret_cast<::ViewerStrings *>((pStrArr))->SetSize(uiIndex + pStrArr->m_usGrow);
     }
-    pStrArr->SetAt(uiIndex, pkString);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pStrArr))->SetAt(uiIndex, pkString);
 }
 
-void __cdecl FUN_00a72080();
 
 // @fnv 0x00a75c00
 void __cdecl FUN_00a75c00()
 {
-    FUN_00a72080();
+    static_cast<::NiLight *>(nullptr)->LoadBinary(*(::NiStream *)nullptr);
 }
 
 void FUN_00a90010();
@@ -93,7 +94,6 @@ class CloneA9B3 : public FUN_00a71f60
         return TESObjectDoorController::operator new(n);
     }
 
-    void FUN_00a71ec0(CloneA9B3* dest, CloningProcessA9B3& cloning);
     CloneA9B3* FUN_00a9b3d0(CloningProcessA9B3& cloning);
 };
 
@@ -102,6 +102,6 @@ class CloneA9B3 : public FUN_00a71f60
 CloneA9B3* CloneA9B3::FUN_00a9b3d0(CloningProcessA9B3& cloning)
 {
     CloneA9B3* p = new CloneA9B3;
-    FUN_00a71ec0(p, cloning);
+    reinterpret_cast<::NiDirectionalLight *>(this)->CopyMemberData((::NiDirectionalLight *)(p), (::CloningProcess &)(cloning));
     return p;
 }

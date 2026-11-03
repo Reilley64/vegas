@@ -1,5 +1,9 @@
 // staging/blk_00a60000_od.cpp: free functions (4 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a74000.h"
 #include "fnv_asm_helpers.h"
 // src/staging/blk_00a60000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
@@ -9,28 +13,23 @@
 extern unsigned char DAT_011f4a54;
 extern int DAT_011f4a50;
 
-int __cdecl FUN_00a74880();
-int __cdecl FUN_00a74900();
 void __cdecl FUN_00a74a10();
-int __cdecl FUN_00a74bc0();
-int __cdecl FUN_00a74cb0();
 void __cdecl FUN_00a74d80(int);
-void __cdecl FUN_00a74d90(int);
 
 // @fnv 0x00a74da0
 void __cdecl FUN_00a74da0()
 {
     if (DAT_011f4a54 == 0)
         FUN_00a74a10();
-    FUN_00a74d90((int)FUN_00a74bc0);
-    FUN_00a74d80((int)FUN_00a74cb0);
+    ::FUN_00a74d90((void *)((int)((int (&)())::FUN_00a74bc0)));
+    FUN_00a74d80((int)((int (&)())::FUN_00a74cb0));
     int count = DAT_011f4a50;
     if (count > 0)
     {
         if (count > 6)
             goto done;
-        FUN_00a74d90((int)FUN_00a74900);
-        FUN_00a74d80((int)FUN_00a74880);
+        ::FUN_00a74d90((void *)((int)((int (&)())::FUN_00a74900)));
+        FUN_00a74d80((int)((int (&)())::FUN_00a74880));
     }
 done:
     ;

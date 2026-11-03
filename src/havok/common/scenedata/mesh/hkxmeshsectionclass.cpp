@@ -2,6 +2,8 @@
 // src/havok/common/scenedata/mesh/hkxmeshsectionclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/mesh/hkxmeshsectionclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_0102e000.h"
 struct AudioAllocator
 {
     virtual void v00();
@@ -22,11 +24,9 @@ struct AudioHolder
 
 AudioHolder* __cdecl FUN_00c85750() throw();
 
-extern int DAT_0102e388;
 
 struct FreeableItem
 {
-    void FUN_00c905b0();
 };
 
 struct FUN_00e01f70_cls
@@ -56,7 +56,7 @@ void FUN_00e01f70_cls::Destroy()
     {
         if (ppItems[i] != 0)
         {
-            ppItems[i]->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((ppItems[i]))->FUN_00c905b0();
         }
         ppItems[i] = 0;
     }
@@ -72,7 +72,7 @@ void FUN_00e01f70_cls::Destroy()
     FreeableItem* pItem18 = *(FreeableItem* volatile*)&m_pObj18;
     if (pItem18 != 0)
     {
-        pItem18->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((pItem18))->FUN_00c905b0();
     }
     m_pObj18 = 0;
 
@@ -84,7 +84,7 @@ void FUN_00e01f70_cls::Destroy()
     {
         if (ppItems[j] != 0)
         {
-            ppItems[j]->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((ppItems[j]))->FUN_00c905b0();
         }
         ppItems[j] = 0;
     }
@@ -100,10 +100,10 @@ void FUN_00e01f70_cls::Destroy()
     FreeableItem* pItem08 = *(FreeableItem* volatile*)&m_pObj08;
     if (pItem08 != 0)
     {
-        pItem08->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((pItem08))->FUN_00c905b0();
     }
     m_pObj08 = 0;
-    m_vptr = (int)&DAT_0102e388;
+    m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 namespace fnv_00e02090 {

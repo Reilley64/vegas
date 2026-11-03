@@ -5,6 +5,11 @@
 
 // src/havok/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpiecemeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpiecemeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00d21000.h"
+#include "fnv/symbols_00e49000.h"
+#include "fnv/symbols_01269000.h"
 #include "havok/hkpConvexPieceMeshShape.h"
 struct HkpStandIn;
 struct HkpAllocator
@@ -23,12 +28,10 @@ struct HkpStandIn
 {
     virtual void v0() = 0;
 
-    void FUN_00e490d0();
     HkpStandIn* FUN_00e01010(int flags);
 
     unsigned short value;
 };
-HkpRouter* _D1A0E0GetMemoryRouter();
 struct FUN_00e49100_t
 {
     int GetNextKey(int key);
@@ -99,7 +102,6 @@ int FUN_00e49290_Class::FUN_00e49290(unsigned int index)
 int FUN_00e49030();
 struct Ref
 {
-    void FUN_00c905b0() throw();
 };
 struct P
 {
@@ -118,7 +120,7 @@ struct Ptr
     Ref* p;
     ~Ptr()
     {
-        p->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((p))->FUN_00c905b0();
     }
 };
 struct D : P, S
@@ -130,7 +132,6 @@ struct D : P, S
     void FUN_00e490d0();
 };
 class GlobalObjectO2_00d472a0;
-extern GlobalObjectO2_00d472a0 g_01269198;
 int __cdecl FUN_00d06f80(const void* pvChunk, int iNumBytes) throw();
 template <class T> class hkArrayE494
 {
@@ -195,7 +196,6 @@ class hkReferencedObjectE494
     int unk10;
     int unk14;
 
-    void FUN_00d213e0(hkStatisticsCollectorE494* pkCollector, const GlobalObjectO2_00d472a0* pkClass) const throw();
 };
 class hkDisplayGeometryE494 : public hkReferencedObjectE494
 {
@@ -363,7 +363,7 @@ FUN_00e607c0* PieceAgentE49::FUN_00e49120(unsigned int uiIndex, void* pvMemory)
             int piFace = 0;
             do
             {
-                if (static_cast<PieceSourceE49*>(this)->FUN_00e49040(j, i * 3 + piFace))
+                if ((*(::hkBoolE49 *)(::FUN_00e49040((unsigned char *)(static_cast<PieceSourceE49*>(this)), j, i * 3 + piFace))))
                 {
                     *pkOut = pkTriangle->m_kVertices[piFace];
                     pkOut++;

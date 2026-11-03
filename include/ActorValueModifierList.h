@@ -9,6 +9,14 @@ class ActorValueModifierList : public BSSimpleList<Modifier*>
     unsigned char layoutPadding9;
     unsigned short layoutPaddingA;
     ModifierPointerList* m_ppModifiedActorValues;  // +0xC
+public:
+    void RemoveAllModifiers();
+public:
+    float GetActorValueModifierAmount(char, bool &);
+public:
+    float GetActorValueModifierAmount(char);
+public:
+    void FUN_00937d50(int);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(ActorValueModifierList) == 0x10);

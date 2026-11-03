@@ -9,13 +9,13 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 
 struct hkQuaternionD4DB
 {
     __m128 m_vec;
 };
 
-extern const __m128 DAT_010c71b0;
 
 class FUN_00cf4d80
 {

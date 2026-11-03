@@ -3,10 +3,10 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <math.h>
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f5000.h"
 namespace fnv_00a813c0 {
 // 512-entry sine/cosine lookup tables (filled at start-up).
-extern float g_fSinTable[512];
-extern float g_fCosTable[512];
 
 // 2*pi and the angular step of one table slot.
 extern float g_fTwoPi;
@@ -21,8 +21,8 @@ void InitTrigTables()
 
     for (unsigned int i = 0; i < 512; i++)
     {
-        g_fSinTable[i] = sinf(fAngleDifference);
-        g_fCosTable[i] = cosf(fAngleDifference);
+        ::DAT_011f52e0[i] = sinf(fAngleDifference);
+        (*reinterpret_cast<float (*)[512]>(&::DAT_011f4ae0))[i] = cosf(fAngleDifference);
         fAngleDifference = (float)(fAngleDifference + fStep);
     }
 }

@@ -2,12 +2,25 @@
 // src/gamebryo2.2/corelibs/nimain/nilodnode.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nilodnode.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" const void* g_011f5f1c;
 
 // @fnv 0x00a994c0
+#include <new>
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00a93ef0_cls.h"
+#include "fnv/decl/FUN_00a94360.h"
+#include "fnv/decl/FUN_00a94570_Node.h"
+#include "fnv/decl/FUN_00a94680_shell.h"
+#include "fnv/decl/NiColor.h"
+#include "fnv/decl/NiSwitchNodeA946.h"
+#include "fnv/decl/StandIn.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a9a000.h"
+#include "fnv/symbols_011f5000.h"
 const void* __cdecl FUN_00a994c0()
 {
-    return &g_011f5f1c;
+    return &(*reinterpret_cast<const void * *>(&::g_011f5f1c));
 }
 
 struct BSFadeNode
@@ -15,9 +28,11 @@ struct BSFadeNode
     static void* __cdecl operator new(unsigned int);
 };
 
+struct NiObject;
 struct NiSwitchNode
 {
-    void __thiscall FUN_00a94360();
+public:
+    bool FUN_00a94000(::NiObject *);
 };
 
 extern int DAT_010a0b64;
@@ -30,7 +45,7 @@ void* __cdecl FUN_00a99710()
     if (p)
     {
         NiSwitchNode* n = (NiSwitchNode*)p;
-        n->FUN_00a94360();
+        new ((void *)(n)) ::FUN_00a94360();
         *(void**)p = &DAT_010a0b64;
         *(int*)((char*)p + 0xcc) = 0;
         *(int*)((char*)p + 0xb0) = 0;
@@ -136,6 +151,7 @@ void __thiscall LODNodeStandIn::FUN_00a99110(class NiUpdateData& UpdateData)
         p->Sel(this);
 }
 
+class NiObject;
 struct NiStream
 {
     virtual void f0();
@@ -151,10 +167,11 @@ struct NiStream
     virtual void f10();
     virtual void f11();
     virtual void f12(int);
+public:
+    ::NiObject *GetLoadedObject();
 };
 struct Unk94610
 {
-    void __thiscall FUN_00a94610(NiStream&);
 };
 struct NodeStandIn
 {
@@ -163,7 +180,7 @@ struct NodeStandIn
 // @fnv 0x00a99310
 void NodeStandIn::FUN_00a99310(NiStream& kStream)
 {
-    ((Unk94610*)this)->FUN_00a94610(kStream);
+    reinterpret_cast<::NiSwitchNodeA946 *>((((Unk94610*)this)))->FUN_00a94610((::NiStreamA946 &)(kStream));
     kStream.f12(*(int*)((char*)this + 0xCC));
 }
 
@@ -207,7 +224,6 @@ void Holder::AssignRefCounted(Obj* apObj)
 
 struct StrArr
 {
-    void __thiscall SetAt(unsigned int index, char*& value);
 };
 
 struct FUN_00a991d0_UpdateData
@@ -297,7 +313,7 @@ void FUN_00a991d0_shell::UpdateChildrenWorldData()
 
             if (name != currentName)
             {
-                reinterpret_cast<StrArr*>(base + 0xBC)->SetAt(static_cast<unsigned int>(iIndex), currentName);
+                reinterpret_cast<::fnv_00b5c7d0::StrArr *>((reinterpret_cast<StrArr*>(base + 0xBC)))->SetAt(static_cast<unsigned int>(iIndex), currentName);
 
                 pkChild->UpdateWorldData(&UpdateData, 0);
             }
@@ -454,7 +470,6 @@ struct FUN_00a99140_cls
     Dispatch99* m_pkTarget;
     bool m_bModifierActive;
 
-    void UpdateSwitchChild(Arg99* arg);
     void UpdateTargetIndex(Arg99* arg);
 };
 
@@ -476,7 +491,7 @@ void FUN_00a99140_cls::UpdateTargetIndex(Arg99* arg)
                 m_iIndex--;
         }
     }
-    UpdateSwitchChild(arg);
+    reinterpret_cast<::FUN_00a93ef0_cls *>(this)->UpdateSwitchChild((unsigned int)(arg));
 }
 
 void __cdecl NiFree(void* pvMem);
@@ -624,21 +639,17 @@ CloneLODNode* FUN_00a996a0_shell::CreateCloneLODNode(CloningProcess& process)
     return clone;
 }
 
-extern "C" const void* g_011f5f1c;
-extern "C" char* __cdecl FUN_00a7d330(const void* pvName);
 
 class A99760StrArray
 {
   public:
-    void SetSize(unsigned int uiSize);
-    void SetAt(unsigned int uiIndex, const char* const& pcValue);
 
     unsigned int Add(const char* const& pcValue)
     {
         unsigned int uiIndex = m_usSize;
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, pcValue);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pcValue));
         return uiIndex;
     }
 
@@ -683,7 +694,6 @@ class A99760Data
 class A99760Node
 {
   public:
-    void GetViewerStringsBase(A99760StrArray* pkStrings);
     void FUN_00a99760(A99760StrArray* pkStrings);
 
     void* m_ppVirtualMethodTable;
@@ -743,8 +753,8 @@ class A99760Node
 // @fnv 0x00a99760
 void A99760Node::FUN_00a99760(A99760StrArray* pkStrings)
 {
-    GetViewerStringsBase(pkStrings);
-    pkStrings->Add(FUN_00a7d330(g_011f5f1c));
+    reinterpret_cast<::FUN_00a94680_shell *>(this)->AppendDebugStrings((::StrArr *)(pkStrings));
+    pkStrings->Add(::FUN_00a7d330((const char *)((*reinterpret_cast<const void * *>(&::g_011f5f1c)))));
     A99760Data* pkLODData = m_pkLODData;
     if (pkLODData)
     {
@@ -813,9 +823,7 @@ struct Stream_A99270
     unsigned int unk0d0;
     unsigned int unk0d4;
     unsigned int m_version;
-    Obj* FUN_00a63430();
 };
-void __stdcall FUN_00a9a730(Stream_A99270* stream);
 struct Owner_A99270
 {
     unsigned int unk000;
@@ -875,10 +883,10 @@ struct Owner_A99270
 // @fnv 0x00a99270
 void Owner_A99270::LoadRefFromStream(Stream_A99270* stream)
 {
-    FUN_00a9a730(stream);
+    ::FUN_00a9a730();
     if (stream->m_version >= 0x0a00010cu)
     {
-        Obj* replacement = stream->FUN_00a63430();
+        Obj* replacement = ((::Obj *)(reinterpret_cast<::NiStream *>((stream))->GetLoadedObject()));
         Obj* previous = m_ref;
         if (previous != replacement)
         {
@@ -920,14 +928,13 @@ struct PropObj
 };
 struct Cls : Holder
 {
-    bool FUN_00a94000(Holder* other);
     bool FUN_00a99400(Holder* other);
 };
 // Calls FUN_00a94000, checks m_sp nullness, then compares v02 results and calls v23 when they match.
 // @fnv 0x00a99400
 bool Cls::FUN_00a99400(Holder* other)
 {
-    if (!FUN_00a94000(other))
+    if (!reinterpret_cast<::NiSwitchNode *>(this)->FUN_00a94000((::NiObject *)(other)))
         return false;
     PropObj* pOtherProp = (PropObj*)other->m_sp;
     if ((m_sp && !pOtherProp) || (!m_sp && pOtherProp))
@@ -958,7 +965,6 @@ struct LODBinStream
 struct LODPoint
 {
     float x, y, z;
-    void __thiscall FUN_00a59be0(NiStream*);
 };
 struct LODStreamEx : NiStream
 {
@@ -970,7 +976,6 @@ struct LODStreamEx : NiStream
     {
         return *(unsigned*)((char*)this + 0xd8);
     }
-    void __thiscall FUN_00a645b0();
 };
 template <class T> inline unsigned LODBinaryStreamLoad(LODBinStream& binstream, T* pValue, unsigned uiNumEls)
 {
@@ -994,7 +999,6 @@ struct NiRangeLODData : public Obj
         unsigned unusedA, unusedB;
     };
     Range* m_pRanges;
-    NiRangeLODData* __thiscall InitializeRangeLODData();
     void __thiscall SetRangeCount(unsigned count);
     void SetGridPosition(const LODPoint& c)
     {
@@ -1010,7 +1014,6 @@ struct NiRangeLODData : public Obj
 };
 struct LODLoader : Holder
 {
-    void __thiscall FUN_00a94570(NiStream*);
     void __thiscall FUN_00a994d0(NiStream*);
     void SetLODData(NiRangeLODData* data)
     {
@@ -1027,18 +1030,18 @@ struct LODLoader : Holder
 void __thiscall LODLoader::FUN_00a994d0(NiStream* pStream)
 {
     LODStreamEx* stream = (LODStreamEx*)pStream;
-    FUN_00a94570(stream);
+    reinterpret_cast<::FUN_00a94570_Node *>(this)->FUN_00a94570((*(::BA94570Stream *)(stream)));
     if (stream->GetFileVersion() <= 0xa00010b)
     {
         void* memory = FUN_00aa13e0(sizeof(NiRangeLODData));
         NiRangeLODData* data;
         if (memory)
-            data = ((NiRangeLODData*)memory)->InitializeRangeLODData();
+            data = ((::NiRangeLODData *)(reinterpret_cast<::StandIn *>((((NiRangeLODData*)memory)))->InitializeRangeLODData()));
         else
             data = 0;
 
         LODPoint kTargetCenter;
-        kTargetCenter.FUN_00a59be0(stream);
+        reinterpret_cast<::NiColor *>(&(kTargetCenter))->LoadBinary((*(::NiStream *)(stream)));
         data->SetGridPosition(kTargetCenter);
 
         unsigned uiNumRanges;
@@ -1058,6 +1061,6 @@ void __thiscall LODLoader::FUN_00a994d0(NiStream* pStream)
     }
     else
     {
-        stream->FUN_00a645b0();
+        reinterpret_cast<::FUN_00a645b0_cls *>((stream))->FUN_00a645b0();
     }
 }

@@ -5,6 +5,23 @@
 
 // src/staging/blk_009c0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/Actor.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Class_007f68a0.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a39f0_shell.h"
+#include "fnv/decl/FUN_004a3fb0_shell.h"
+#include "fnv/decl/FUN_009795c0_shell.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/fnv_004a3da0__FUN_004a3da0_shell.h"
+#include "fnv/decl/fnv_00567400__FUN_00567400_shell.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/decl/fnv_009c5af0__FUN_009c5af0_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_0070c000.h"
+#include "fnv/symbols_009c0000.h"
+#include "fnv/symbols_011de000.h"
 #include "../../include/layout_support.h"
 
 struct xP3
@@ -16,7 +33,6 @@ struct xP3
 struct xFilter
 {
     xFilter(int);
-    void FUN_004a39f0(int);
     unsigned int m_uiFilterValue;
 };
 struct xAllHits
@@ -28,10 +44,7 @@ struct xAllHits
 struct __declspec(align(16)) xPick
 {
     xPick();
-    void FUN_004a3da0(xP3*);
-    void FUN_007f68a0(xP3*);
     void FUN_004a3f70(xFilter);
-    void FUN_004a3fb0(xAllHits*);
     char m_buf[0xb0];
 };
 struct xWorld
@@ -90,14 +103,11 @@ struct xWorld
 };
 
 struct xCell;
-xWorld* __fastcall xFUN_004543c0(xCell*);
 struct xOwner
 {
     xFilter FUN_0070c440();
 };
 struct xActor;
-float __fastcall xFUN_0070c3b0(xActor*);
-int xFUN_009c0d80(xPick*, xActor*, void*, int, int, float);
 struct xActor
 {
     virtual void v0();
@@ -228,49 +238,42 @@ struct xActor
     virtual xP3* FUN_1f4();
     char m_pad04[0xf8];
     xActor* m_fc;
-    xCell* FUN_008d6f30();
-    float FUN_00567400();
     xFilter FUN_00931ed0();
-    xOwner* FUN_009306d0();
-    void* FUN_004181e0();
-    bool GetWaterPlaneIntersection(xPick*, float*);
-    void FUN_009795c0(float);
     bool FUN_009c40c0();
 };
 
-extern xActor* xg_player_11dea3c;
 // @fnv 0x009c40c0
 bool xActor::FUN_009c40c0()
 {
-    if (m_fc != xg_player_11dea3c)
+    if (m_fc != (*reinterpret_cast<::xActor * *>(&::_g_thePlayer)))
         return false;
     xPick PICK;
     xP3 PLPOS;
     xP3 MYPOS;
     xP3 DIR;
     MYPOS = *FUN_1f4();
-    PLPOS = *xg_player_11dea3c->FUN_1f4();
-    PLPOS.z = PLPOS.z + xFUN_0070c3b0(xg_player_11dea3c) * xg_player_11dea3c->FUN_00567400();
+    PLPOS = *(*reinterpret_cast<::xActor * *>(&::_g_thePlayer))->FUN_1f4();
+    PLPOS.z = PLPOS.z + ::FUN_0070c3b0((::FUN_0070c3b0_Dummy *)((*reinterpret_cast<::xActor * *>(&::_g_thePlayer)))) * reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>(((*reinterpret_cast<::xActor * *>(&::_g_thePlayer))))->FUN_00567400();
     DIR = MYPOS - PLPOS;
-    xOwner* OWNER = FUN_009306d0();
+    xOwner* OWNER = ((::xOwner *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()));
     xFilter FILTER(0);
     if (OWNER)
         FILTER = OWNER->FUN_0070c440();
     else
-        FILTER = xg_player_11dea3c->FUN_00931ed0();
-    FILTER.FUN_004a39f0(6);
+        FILTER = (*reinterpret_cast<::xActor * *>(&::_g_thePlayer))->FUN_00931ed0();
+    reinterpret_cast<::FUN_004a39f0_shell *>(&(FILTER))->FUN_004a39f0(6);
     PICK.FUN_004a3f70(FILTER);
-    PICK.FUN_004a3da0(&PLPOS);
-    PICK.FUN_007f68a0(&DIR);
+    reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(PICK))->FUN_004a3da0(&PLPOS);
+    reinterpret_cast<::Class_007f68a0 *>(&(PICK))->FUN_007f68a0((*(const ::NiPoint3 *)(&DIR)));
     xAllHits HITS;
-    PICK.FUN_004a3fb0(&HITS);
-    xWorld* WORLD = xFUN_004543c0(xg_player_11dea3c->FUN_008d6f30());
+    reinterpret_cast<::FUN_004a3fb0_shell *>(&(PICK))->FUN_004a3fb0((::hkpAllRayHitCollector *)(::xAllHits *)(&HITS));
+    xWorld* WORLD = ((::xWorld *)(reinterpret_cast<::FUN_004543c0_cls *>((((::xCell *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::xActor * *>(&::_g_thePlayer))))->GetTarget()))))->FUN_004543c0()));
     bool RES = WORLD->FUN_c8(&PICK);
     float DIST = 3.402823466e+38F;
-    RES = RES | GetWaterPlaneIntersection(&PICK, &DIST);
+    RES = RES | reinterpret_cast<::fnv_009c5af0::FUN_009c5af0_shell *>(this)->GetWaterPlaneIntersection((::fnv_009c5af0::Proxy *)(::xPick *)(&PICK), &DIST);
     if (RES)
-        RES = xFUN_009c0d80(&PICK, this, FUN_004181e0(), 0, 1, DIST) != 0;
+        RES = ::FUN_009c0d80((::Scene *)(::xPick *)(&PICK), (::Controller *)(::xActor *)(this), (int)(((void *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))), (float *)(0), 1, DIST) != 0;
     if (RES)
-        FUN_009795c0(0.0f);
+        reinterpret_cast<::FUN_009795c0_shell *>(this)->FUN_009795c0(0.0f);
     return RES;
 }

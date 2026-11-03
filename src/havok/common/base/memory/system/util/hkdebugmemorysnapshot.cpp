@@ -2,6 +2,8 @@
 // src/havok/common/base/memory/system/util/hkdebugmemorysnapshot.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/system/util/hkdebugmemorysnapshot.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00dd6000.h"
+#include "fnv/symbols_00dd7000.h"
 struct hkMemoryBlock
 {
     unsigned int m_uiSize;
@@ -11,33 +13,8 @@ struct MemoryBlockList
     hkMemoryBlock* m_pBlocks;
     unsigned int m_uiBlockCount;
     unsigned int m_uiBlockCapacity;
-    void Sort();
     void FUN_00dd7090(MemoryBlockList& other);
 };
-// @fnv 0x00dd7090
-void MemoryBlockList::FUN_00dd7090(MemoryBlockList& other)
-{
-    Sort();
-    other.Sort();
-    hkMemoryBlock* a = m_pBlocks;
-    hkMemoryBlock* aEnd = a + m_uiBlockCapacity;
-    hkMemoryBlock* b = other.m_pBlocks;
-    hkMemoryBlock* pBlockBEnd = b + other.m_uiBlockCapacity;
-    while (a < aEnd && b < pBlockBEnd)
-    {
-        if (a->m_uiSize == b->m_uiSize)
-        {
-            a->m_uiSize = 0;
-            ++a;
-            ++b;
-        }
-        else if (a->m_uiSize < b->m_uiSize)
-            ++a;
-        else
-            ++b;
-    }
-}
-
 class hkMemoryAllocatorDD6E
 {
   public:
@@ -133,16 +110,13 @@ template <typename T> inline void hkDeallocateDebug(T* p, int n)
 
 typedef unsigned int hkSnapshotAddress;
 
-bool __cdecl LessThan(const hkSnapshotAddress* a, const hkSnapshotAddress* b);
-void __cdecl FUN_00dd7d00(const hkSnapshotAddress** p, int lo, int hi,
-                          bool(__cdecl* cmp)(const hkSnapshotAddress*, const hkSnapshotAddress*));
 
 inline void hkQuickSortQ(const hkSnapshotAddress** p, int size,
                          bool(__cdecl* cmp)(const hkSnapshotAddress*, const hkSnapshotAddress*))
 {
     if (size > 1)
     {
-        FUN_00dd7d00(p, 0, size - 1, cmp);
+        ::FUN_00dd7d00((::S_00dd7d00_Item **)(p), 0, size - 1, (S_00dd7d00_Bool (*)(S_00dd7d00_Item *, S_00dd7d00_Item *))(cmp));
     }
 }
 
@@ -176,6 +150,29 @@ struct hkDebugMemorySnapshotQ
 
     void Sort();
 };
+// @fnv 0x00dd7090
+void MemoryBlockList::FUN_00dd7090(MemoryBlockList& other)
+{
+    reinterpret_cast<::hkDebugMemorySnapshotQ *>(this)->Sort();
+    reinterpret_cast<::hkDebugMemorySnapshotQ *>(&(other))->Sort();
+    hkMemoryBlock* a = m_pBlocks;
+    hkMemoryBlock* aEnd = a + m_uiBlockCapacity;
+    hkMemoryBlock* b = other.m_pBlocks;
+    hkMemoryBlock* pBlockBEnd = b + other.m_uiBlockCapacity;
+    while (a < aEnd && b < pBlockBEnd)
+    {
+        if (a->m_uiSize == b->m_uiSize)
+        {
+            a->m_uiSize = 0;
+            ++a;
+            ++b;
+        }
+        else if (a->m_uiSize < b->m_uiSize)
+            ++a;
+        else
+            ++b;
+    }
+}
 
 // @fnv 0x00dd6f20
 void hkDebugMemorySnapshotQ::Sort()
@@ -187,7 +184,7 @@ void hkDebugMemorySnapshotQ::Sort()
         {
             sorted[i] = &m_pAddressList[i];
         }
-        hkQuickSortQ(sorted, m_iElementCount, LessThan);
+        hkQuickSortQ(sorted, m_iElementCount, ((bool (&)(const unsigned int *, const unsigned int *))::LessThan));
 
         hkSnapshotAddress* pointers = hkAllocateDebug<hkSnapshotAddress>(m_iElementCount);
         hkSnapshotInfo* info = hkAllocateDebug<hkSnapshotInfo>(m_iElementCount);

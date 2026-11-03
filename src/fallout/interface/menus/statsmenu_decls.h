@@ -2,6 +2,8 @@
 #ifndef FNV_PRIVATE_STATSMENU_DECLS_H
 #define FNV_PRIVATE_STATSMENU_DECLS_H
 
+#include "fnv/decl/fnv_00a07c60__FUN_00a07c60_shell.h"
+#include "fnv/decl/fnv_00a07dc0__FUN_00a07dc0_shell.h"
 #include "layout_support.h"
 class Tile
 {
@@ -10,8 +12,6 @@ class Tile
     {
         FADE = 1
     };
-    void SetTraitFade(int, float, float, float, TILE_FADE_CONTROL_TYPE);
-    void UpdateTrait(int);
     void Set(int, int);
 };
 #include "ListBox_PerkRankData___.h"

@@ -4,12 +4,16 @@
 
 // src/havok/physics/utilities/actions/dashpot/hkpdashpotaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/dashpot/hkpdashpotaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00cf4d80.h"
+#include "fnv/decl/hkpEntityC9C.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01013000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpDashpotAction.h"
 #include <xmmintrin.h>
-extern float DAT_0101e2bc;
-extern float DAT_01013ea4;
 extern int DAT_010d0994;
-struct FUN_00cf4d80_shell { void FUN_00cf4d80(int entityA, int entityB, int name); };
+struct FUN_00cf4d80_shell {  };
 struct FUN_00d4d980_Class : hkpDashpotAction { FUN_00d4d980_Class* FUN_00d4d980(int entityA, int entityB, int name); };
 // FUN_00d4d9d0 - hkpDashpotAction clone-style factory (Havok)
 __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
@@ -44,9 +48,7 @@ public:
 
 #include <xmmintrin.h>
 extern "C" void _ReadWriteBarrier(void);
-extern unsigned long DAT_0126835c;
 extern double DAT_010d09b8;
-extern float DAT_01012054;
 
 namespace DashpotApplyDetail {
 
@@ -205,7 +207,6 @@ struct S00d4da60_Entity
     void* unk1A8;
     void* unk1AC;
     DashpotApplyVector m_kTranslationalVelocity;
-    void FUN_00c9c1d0();
 };
 
 struct S00d4da60_StepInfo
@@ -284,10 +285,10 @@ void S00d4da60_DashpotAction::FUN_00d4da60(S00d4da60_StepRef stepInfo)
     __m128 dampingVec = _mm_shuffle_ps(damping,damping,0);
     _mm_store_ps(&impulse->x, _mm_add_ps(_mm_mul_ps(dampingVec, relVel), ((const __m128&)*impulse)));
     _ReadWriteBarrier();
-    _mm_store_ps(&scratch.opposite.x, _mm_mul_ps(dashpotApplyBroadcast(DAT_01012054), ((const __m128&)*impulse)));
-    entityA->FUN_00c9c1d0();
+    _mm_store_ps(&scratch.opposite.x, _mm_mul_ps(dashpotApplyBroadcast(::DAT_01012054), ((const __m128&)*impulse)));
+    reinterpret_cast<::hkpEntityC9C *>((entityA))->FUN_00c9c1d0();
     entityA->m_kCollisionBody.ApplyImpulseAtPoint(&scratch.opposite, &scratch.points[1]);
-    entityB->FUN_00c9c1d0();
+    reinterpret_cast<::hkpEntityC9C *>((entityB))->FUN_00c9c1d0();
     entityB->m_kCollisionBody.ApplyImpulseAtPoint(impulse, &scratch.points[0]);
 
     {

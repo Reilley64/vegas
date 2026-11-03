@@ -2,6 +2,8 @@
 #ifndef FNV_MUSIC_LOCAL_H
 #define FNV_MUSIC_LOCAL_H
 
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/TESActorBase.h"
 #include "TESForm.h"
 #include "TESFile.h"
 class TESSoundFile : public BaseFormComponent
@@ -10,7 +12,6 @@ class TESSoundFile : public BaseFormComponent
     BSStringT<char> m_kSoundFile;
     virtual void SetSoundFile(const char* name);
     unsigned int GetSoundFileLength() const;
-    const char* GetSoundFile() const;
 };
 class BGSMusicType : public TESForm, public TESSoundFile
 {
@@ -26,7 +27,6 @@ class BGSMusicType : public TESForm, public TESSoundFile
     unsigned int m_uiSelectedSoundIndex;
     virtual bool Load(TESFile* file);
     virtual void InitItem();
-    void UpdateLoadingStatusCallback();
 };
 FNV_STATIC_ASSERT(sizeof(TESSoundFile) == 12);
 FNV_STATIC_ASSERT(sizeof(BGSMusicType) == 52);

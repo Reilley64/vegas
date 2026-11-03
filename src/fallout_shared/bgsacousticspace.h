@@ -9,6 +9,13 @@
 #ifndef FNV_BGSACOUSTICSPACE_UNIT_H
 #define FNV_BGSACOUSTICSPACE_UNIT_H
 
+#include "fnv/decl/FUN_00409480_shell.h"
+#include "fnv/decl/FUN_0040e500_shell.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/ValueModifierEffect.h"
+#include "fnv/decl/fnv_0087ce80__FUN_0087ce80_shell.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_005b5000.h"
 #include "layout_support.h"
 #include "TESForm.h"
 
@@ -18,8 +25,6 @@
 // precedent in tessound.cpp.
 struct TESFormInitFlag : public TESForm
 {
-    bool IsFormInitialized() const;
-    static TESForm* GetFormByID(unsigned int auiFormID);
 };
 
 #pragma pack(push, 4)
@@ -90,7 +95,6 @@ enum CELL_ENVIRO_TYPE
     CELL_ENVIRO_TYPE_CET_COUNT = 31
 };
 
-int Warning(const char* apFormat, ...);
 
 #pragma pack(push, 4)
 class BGSAcousticSpace : public TESBoundObject
@@ -109,13 +113,6 @@ class BGSAcousticSpace : public TESBoundObject
     virtual void ResetFormData();
     virtual void InitItem();
     virtual bool Load(TESFile* file);
-    void SetDawnSound(TESSound* apSound);
-    void SetNoonSound(TESSound* apSound);
-    void SetDuskSound(TESSound* apSound);
-    void SetNightSound(TESSound* apSound);
-    void SetWallaSound(TESSound* apSound);
-    void SetRegion(TESRegion* apRegion);
-    void SetListenerID(CELL_ENVIRO_TYPE aeType);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(BGSAcousticSpace) == 84);

@@ -5,6 +5,32 @@
 
 // src/fallout/magic/lighteffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/lighteffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/B5Owner.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_004534f0_shell.h"
+#include "fnv/decl/FUN_004fd380_shell.h"
+#include "fnv/decl/FUN_00950bb0_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_004bc2e0__NiDynamicEffect.h"
+#include "fnv/decl/fnv_00567400__FUN_00567400_shell.h"
+#include "fnv/decl/fnv_00572750__XActor.h"
+#include "fnv/decl/fnv_00572770__XActor.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_00b5c940__SSNode.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00495000.h"
+#include "fnv/symbols_0050d000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00572000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_006d2000.h"
+#include "fnv/symbols_0080e000.h"
+#include "fnv/symbols_00b5b000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011de000.h"
 struct FUN_0080ed20_shell
 {
     float f0;
@@ -17,20 +43,16 @@ struct Actor
 };
 struct TESForm
 {
-    void Revert(Actor* apActor);
 };
 struct LightEffect : TESForm
 {
     void FUN_0080f030(Actor* apActor);
     void FUN_0080ed60();
-    float GetFloatAtOffset1C();
-    void AttachLightEffect();
 };
 struct FUN_0080e6d0_shell
 {
     void FUN_0080e6d0();
 };
-void* __cdecl Deallocate(void* p);
 struct FUN_0080e6a0_shell : LightEffect
 {
     void* DestroyLightEffect(unsigned int flags);
@@ -58,15 +80,12 @@ struct NiLight;
 struct ShadowSceneLight;
 struct ShadowSceneNode
 {
-    ShadowSceneLight* GetShadowSceneLight(NiLight*, bool);
 };
 struct NiAdditionalGeometryData
 {
-    static ShadowSceneNode* __cdecl GetShadowSceneNodeForIndex(int);
 };
 struct FUN_00b5b4a0_holder
 {
-    int __thiscall FUN_00b5b4a0(unsigned int);
 };
 struct FUN_0080e8a0_holder
 {
@@ -74,7 +93,6 @@ struct FUN_0080e8a0_holder
 };
 struct FUN_00805760_shell
 {
-    void FUN_00805760(Actor*);
 };
 struct FUN_0080efd0_shell
 {
@@ -103,6 +121,7 @@ struct FUN_0080efd0_shell
 };
 class BGSLoadFormBuffer;
 struct EffectSetting;
+class EffectSetting;
 struct ActiveEffect
 {
     virtual void ApplyLoadBuffer(BGSLoadFormBuffer*);
@@ -126,8 +145,12 @@ struct ActiveEffect
     virtual void vf18();
     virtual void vf19();
     virtual void vf20();
-    EffectSetting* GetEffectSetting();
-    bool IsDone();
+public:
+    bool IsDone() const;
+public:
+    ::EffectSetting *GetEffectSetting() const;
+public:
+    void CopyData(::ActiveEffect *);
 };
 struct LightEffectStandIn : ActiveEffect
 {
@@ -185,7 +208,6 @@ struct FUN_0080e7e0_Class : ActiveEffect
     void* unk40;
     void* unk44;
     CopiedState state48;
-    void FUN_00804090(ActiveEffect* other);
     void FUN_0080e7e0(ActiveEffect* other);
 };
 struct Effect
@@ -231,37 +253,26 @@ struct Effect
 };
 struct Source
 {
-    Effect* FUN_00822b40();
 };
 struct Host
 {
     Source* FUN_0059bb30();
     void FUN_0080e830();
 };
-void __cdecl FUN_0080ee50(int* value);
 struct FUN_0080e900_inner
 {
-    void* FUN_00822b40();
 };
 struct FUN_0080e900_cls
 {
-    void FUN_0080ed60();
     FUN_0080e900_inner* FUN_0059bb30();
     void FUN_0080e900();
 };
-void __cdecl FUN_0080ee50(char* p);
 extern int DAT_011dc304;
 struct EdCallee
 {
     void* FUN_0059bb30();
-    void* FUN_00822b40();
-    void* FUN_00559450();
-    void* FUN_009611e0();
-    void FUN_00b5eed0(void* apArg);
-    void FUN_00572a50(int aiArg);
     void FUN_0066b0d0(int aiArg);
 };
-void* __cdecl FUN_00450b80(int aiArg);
 typedef void(__thiscall* EdVirtual)(void* self, void* apArg);
 struct NiPointLight;
 class NiNode;
@@ -359,8 +370,6 @@ class NiPointLight : public FUN_004bc1f0_S
     static void* operator new(unsigned int size);
     static void operator delete(void* p);
     NiPointLight();
-    void SetEffectColor(const NiPoint3&);
-    void FUN_0050dd50(const NiPoint3&);
     void FUN_0050dd20(float);
 };
 class NiNode
@@ -548,24 +557,17 @@ struct ActorStandIn
 };
 struct ActorV_S
 {
-    float GetScale();
-    float GetActorHeight() const;
 };
 struct ActorCalls
 {
-    int FUN_00572750();
-    void FUN_00572770(NiPointLight*);
 };
 class PlayerCharacter
 {
   public:
-    NiNode* GetNode(bool);
 };
-extern PlayerCharacter* _g_thePlayer;
 class GlobalObject2_0040c150
 {
   public:
-    int* Int();
 };
 extern GlobalObject2_0040c150 g_011d1d18;
 class GlobalObject_0040e0b0
@@ -587,10 +589,8 @@ template <class T> class SettingT
   public:
     SETTING_VALUE* Float();
 };
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting1112;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting1166;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting1167;
-void FNV_Warning(const char* fmt, ...);
 class TESObjectLIGH
 {
 };
@@ -600,16 +600,13 @@ struct FUN_005e3fc0_shell
 };
 struct PathingRequest
 {
-    float GetFieldB4Float();
 };
 struct EffectSetting
 {
-    TESObjectLIGH* GetLight();
     int GetArchetype();
 };
 struct FUN_0082ccb0_Cls
 {
-    EffectSetting* GetEffectSetting();
 };
 struct MagicTarget;
 struct LightEffectDerived : ActiveEffect
@@ -634,7 +631,6 @@ struct LightEffectDerived : ActiveEffect
     NiPointer<NiPointLight> m_spLight;  // offset 0x48
 
     MagicTarget* FUN_0059bb30();
-    float GetFloatAtOffset1C();
 
     void AttachLightEffect();
 };
@@ -649,12 +645,15 @@ template <class T> class BSSimpleList
     BSSimpleList* GetNext();
 };
 class TESObjectREFR;
+class Actor;
 class MagicTarget
 {
   public:
     virtual ~MagicTarget();
     virtual TESObjectREFR* GetMagicTargetReference();
     virtual BSSimpleList<ActiveEffect*>* GetActiveEffectList();
+public:
+    ::Actor *GetOwnerActor() const;
 };
 // @fnv 0x0080ee50
 void FUN_0080ee50(MagicTarget* target)
@@ -665,11 +664,11 @@ void FUN_0080ee50(MagicTarget* target)
     BSSimpleList<ActiveEffect*>* node = target->GetActiveEffectList();
     while (node && !node->IsEmpty())
     {
-        ActiveEffect* effect = node->GetItem();
+        ActiveEffect* effect = ((::ActiveEffect *)(new ((void *)(node)) ::Vec3()));
         if (effect && effect->GetEffectSetting()->GetArchetype() == 13 && !effect->IsDone())
         {
             LightEffect* light = dynamic_cast<LightEffect*>(effect);
-            if (!strongest || strongest->GetFloatAtOffset1C() < light->GetFloatAtOffset1C())
+            if (!strongest || ::GetFloatAtOffset1C((char *)(strongest)) < ::GetFloatAtOffset1C((char *)(light)))
             {
                 if (strongest)
                     strongest->FUN_0080ed60();
@@ -680,8 +679,8 @@ void FUN_0080ee50(MagicTarget* target)
                 light->FUN_0080ed60();
             }
         }
-        node = node->GetNext();
+        node = ((::BSSimpleList< ::ActiveEffect *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
     if (strongest)
-        strongest->AttachLightEffect();
+        reinterpret_cast<::LightEffectDerived *>((strongest))->AttachLightEffect();
 }

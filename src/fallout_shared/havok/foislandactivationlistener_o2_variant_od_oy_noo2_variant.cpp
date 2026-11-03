@@ -7,13 +7,39 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/fallout_shared/havok/foislandactivationlistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/foislandactivationlistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_0042e250_shell.h"
+#include "fnv/decl/FUN_0043b4d0_shell.h"
+#include "fnv/decl/FUN_00573eb0_Class.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00624700_shell.h"
+#include "fnv/decl/FUN_00629ab0_shell.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/NiAdditionalGeometryData.h"
+#include "fnv/decl/NiShader.h"
+#include "fnv/decl/S00b5d9f0_Owner.h"
+#include "fnv/decl/TESTopicInfo.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/_dummy_476a80.h"
+#include "fnv/decl/_dummy_4d9fa0.h"
+#include "fnv/decl/fnv_00548880__FNV_Cell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_00624000.h"
+#include "fnv/symbols_00c6a000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_01268000.h"
 struct hkpIslandActivationListener
 {
-    void InitPtr();
     void* FUN_006241e0(unsigned int);
 };
-extern "C" void __cdecl _Deallocate(void*);
-extern int DAT_0104de10;
 struct FUN_00624210_shell
 {
     int* m_ptr;
@@ -29,12 +55,7 @@ struct hkVector4;
 struct NiTransform;
 struct TopicH
 {
-    NiPoint3* GetAddTopicList();
-    NiPoint3& _ref_006815c0();
 };
-void FUN_00624b10(NiTransform*, NiPoint3*);
-NiPoint3& SetNiPoint3FromHkVector4(NiPoint3&, const hkVector4&);
-NiTransform* FUN_00624ad0(NiTransform* arNiTran, TopicH* arTopicH);
 
 #include <xmmintrin.h>
 struct Node96;
@@ -43,20 +64,15 @@ struct Physics96;
 struct Geometry96;
 struct Input96
 {
-    struct Array96* FUN_00624700();
 };
 struct Array96
 {
-    int FUN_00726070();
-    Node96*& FUN_00629ab0(int);
 };
 struct Extra96
 {
-    void* FUN_0042e250();
 };
 struct Cell96
 {
-    void FUN_00548880(Ref96*, int);
 };
 struct Ref96
 {
@@ -260,9 +276,6 @@ struct Ref96
     virtual void slot197();
     virtual void slot198();
     virtual void Reset();
-    Extra96* FUN_005d43c0();
-    Cell96* FUN_008d6f30();
-    void* FUN_007af430();
 };
 struct FUN_0056ded0
 {
@@ -274,7 +287,6 @@ struct NiTransform
     float a00, a01, a02, a10, a11, a12, a20, a21, a22;
     NiPoint3 translation;
     float scale;
-    NiTransform* FUN_00476a80();
 };
 struct Geometry96
 {
@@ -390,38 +402,21 @@ struct Physics96
     virtual void slot044();
     virtual void slot045();
     virtual void SetTransform(NiTransform*);
-    Node96* FUN_0044ddc0();
-    bool FUN_00624bb0();
-    void FUN_00573f00(bool);
 };
 struct Descriptor96
 {
-    int FUN_0043b540();
 };
 struct Node96
 {
-    Descriptor96* FUN_00460140();
 };
 struct Filter96
 {
     int value;
     Filter96(int);
-    int FUN_0043b4d0();
 };
-Physics96* FUN_004b5a50(Node96*);
-Ref96* FUN_0056f930(Node96*);
-Geometry96* FUN_004b5a80(const void*);
-unsigned int GetBSXFlags(unsigned int, unsigned int);
 struct Shadow96
 {
-    void FUN_00b5d9f0(unsigned int, int);
 };
-Shadow96* FUN_00450b80(unsigned int);
-extern void* DAT_011ca27c;
-extern void* DAT_011ca280;
-extern char DAT_012681c0;
-bool FUN_0043b300(const void*, Geometry96*);
-void FUN_00c6a350(Node96*, int, bool, bool, bool);
 struct Manager96
 {
     void FUN_00624720(Input96*);
@@ -432,15 +427,15 @@ void Manager96::FUN_00624720(Input96* input)
 {
     if (!input)
         return;
-    Array96* items = input->FUN_00624700();
-    int count = items->FUN_00726070();
+    Array96* items = ((::Array96 *)(reinterpret_cast<::FUN_00624700_shell *>((input))->FUN_00624700()));
+    int count = ((int)(reinterpret_cast<::Callees *>((items))->FUN_00726070()));
     for (int i = 0; i < count; i++)
     {
-        Node96* node = items->FUN_00629ab0(i);
-        Physics96* physics = FUN_004b5a50(node);
-        Node96* linked = physics ? physics->FUN_0044ddc0() : 0;
-        Ref96* ref = linked ? FUN_0056f930(linked) : 0;
-        void* model = ref ? ref->FUN_005d43c0()->FUN_0042e250() : 0;
+        Node96* node = ((::Node96 *)&(reinterpret_cast<::FUN_00629ab0_shell *>((items))->FUN_00629ab0(i)));
+        Physics96* physics = ((::Physics96 *)(::NiShader::DynamicCast((::NiAVObject *)(node))));
+        Node96* linked = physics ? ((::Node96 *)(reinterpret_cast<::Twin_0044ddc0 *>((physics))->GetName())) : 0;
+        Ref96* ref = linked ? ((::Ref96 *)(::FUN_0056f930((::NiAVObject *)(linked)))) : 0;
+        void* model = ref ? ((void *)(reinterpret_cast<::FUN_0042e250_shell *>((((::Extra96 *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->FUN_0042e250())) : 0;
         bool flag8 = ref && GetBSXFlags(ref->GetNode(), 8) ? true : false;
         bool flag128 = ref && GetBSXFlags(ref->GetNode(), 128) ? true : false;
         if (ref)
@@ -449,38 +444,38 @@ void Manager96::FUN_00624720(Input96* input)
                 ref->Reset();
             if (!ref->IsDisabled() && !model && ((flag8 && flag128) || !flag8))
             {
-                Cell96* cell = ref->FUN_008d6f30();
+                Cell96* cell = ((::Cell96 *)(reinterpret_cast<::LowProcess *>((ref))->GetTarget()));
                 if (cell)
-                    cell->FUN_00548880(ref, 0);
+                    reinterpret_cast<::fnv_00548880::FNV_Cell *>((cell))->FUN_00548880((::fnv_00548880::FNV_Ref *)(ref), 0);
                 if (ref->NeedsUpdate())
                     FUN_00624bd0();
             }
             else
             {
                 if (!ref->IsDisabled())
-                    FUN_00450b80(0)->FUN_00b5d9f0(ref->GetNode(), 0);
+                    reinterpret_cast<::S00b5d9f0_Owner *>((((::Shadow96 *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00b5d9f0((::S00b5d9f0_Obj *)(ref->GetNode()), 0);
             }
-            if (ref->FUN_007af430() == DAT_011ca27c || ref->FUN_007af430() == DAT_011ca280)
-                FUN_00c6a350(linked, 5, true, false, true);
+            if (((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430())) == (*reinterpret_cast<void * *>(&::DAT_011ca27c)) || ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430())) == (*reinterpret_cast<void * *>(&::DAT_011ca280)))
+                ::FUN_00c6a350((::NiAVObject *)(linked), 5, true, false, true);
         }
-        if (Filter96(node->FUN_00460140()->FUN_0043b540()).FUN_0043b4d0() == 20 && ref && !ref->IsDisabled())
+        if (reinterpret_cast<::FUN_0043b4d0_shell *>((void *)&(const ::Filter96 &)(Filter96(((int)(::FUN_0043b540((char *)(((::Descriptor96 *)(::FUN_00460140((int)(node)))))))))))->FUN_0043b4d0() == 20 && ref && !ref->IsDisabled())
         {
-            Geometry96* geometry = FUN_004b5a80(node);
-            if (geometry && FUN_0043b300(&DAT_012681c0, geometry))
+            Geometry96* geometry = ((::Geometry96 *)(::FUN_004b5a80(node)));
+            if (geometry && ::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<char *>(&::g_012681c0))), (::NiAVObject *)(geometry)))
             {
                 Geometry96* target = geometry;
                 target->SetFlags(4);
-                Physics96* body = FUN_004b5a50(node);
-                if (body && !body->FUN_00624bb0())
+                Physics96* body = ((::Physics96 *)(::NiShader::DynamicCast((::NiAVObject *)(node))));
+                if (body && !((bool)(reinterpret_cast<::FUN_00573eb0_Class *>((body))->FUN_00624bb0())))
                 {
-                    body->FUN_00573f00(true);
+                    reinterpret_cast<::_dummy_4d9fa0 *>((body))->FUN_00573f00(true);
                     FUN_0056ded0 transform;
                     NiTransform niTransform;
-                    niTransform.FUN_00476a80();
+                    reinterpret_cast<::_dummy_476a80 *>(&(niTransform))->FUN_00476a80();
                     target->GetTransform(&transform);
                     FUN_00624ad0(&niTransform, (TopicH*)&transform);
                     body->SetTransform(&niTransform);
-                    body->FUN_00573f00(false);
+                    reinterpret_cast<::_dummy_4d9fa0 *>((body))->FUN_00573f00(false);
                 }
             }
         }

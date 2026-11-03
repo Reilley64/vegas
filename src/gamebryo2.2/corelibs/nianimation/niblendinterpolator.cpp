@@ -1,5 +1,25 @@
 // gamebryo2.2/corelibs/nianimation/niblendinterpolator.cpp: NiBlendInterpolator, InterpItem, LoadInterpItem, BlendSerializer and more (19 functions)
 
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a5d430_Class.h"
+#include "fnv/decl/FUN_00ba87d0_Class.h"
+#include "fnv/decl/NiKeyBasedInterpolator.h"
+#include "fnv/decl/Registry.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a57000.h"
+#include "fnv/symbols_00a72000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_01095000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_011a8000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f6000.h"
 #include "niblendinterpolator_types_NiBlendInterpolator.h"
 #include "niblendinterpolator_types_NiBlendInterpolator__InterpArrayItem.h"
 #include "niblendinterpolator_types_NiCloningProcess.h"
@@ -142,7 +162,7 @@ unsigned char NiBlendInterpolator::AddInterpolatorItem(NiInterpolator* interpola
     item.m_cPriority = priority;
     item.m_fNormalizedWeight = 0.0f;
     item.m_fEaseSpinner = easeSpinner;
-    item.m_fLastEvaluationTime = INVALID_TIME;
+    item.m_fLastEvaluationTime = ::DAT_0109696c;
 
     if (priority > m_cNextHighPriority)
     {
@@ -162,14 +182,14 @@ unsigned char NiBlendInterpolator::AddInterpolatorItem(NiInterpolator* interpola
     }
     else
     {
-        m_fSingleInterpolatorTime = INVALID_TIME;
+        m_fSingleInterpolatorTime = ::DAT_0109696c;
         m_ucSingleIdx = 0xff;
         m_pSingleInterpolator = 0;
     }
-    m_fHighSumOfWeights = INVALID_TIME;
+    m_fHighSumOfWeights = ::DAT_0109696c;
     m_uiObjectFlags |= 4;
-    m_fNextHighSumOfWeights = INVALID_TIME;
-    m_fTrailingValue = INVALID_TIME;
+    m_fNextHighSumOfWeights = ::DAT_0109696c;
+    m_fTrailingValue = ::DAT_0109696c;
     return index;
 }
 
@@ -225,24 +245,24 @@ void NiBlendInterpolator::RemoveInterpolatorAt(unsigned char index)
     }
     else if (m_ucInterpCount == 0)
     {
-        m_fSingleInterpolatorTime = INVALID_TIME;
+        m_fSingleInterpolatorTime = ::DAT_0109696c;
         m_cNextHighPriority = -128;
         m_cHighPriority = -128;
         m_ucSingleIdx = 0xff;
         m_pSingleInterpolator = 0;
     }
-    m_fHighSumOfWeights = INVALID_TIME;
+    m_fHighSumOfWeights = ::DAT_0109696c;
     m_uiObjectFlags |= 4;
-    m_fNextHighSumOfWeights = INVALID_TIME;
-    m_fTrailingValue = INVALID_TIME;
+    m_fNextHighSumOfWeights = ::DAT_0109696c;
+    m_fTrailingValue = ::DAT_0109696c;
 }
 
 // @fnv 0x00a36e80
 void NiBlendInterpolator::ProcessClone(CloningProcess& aCloneProcess)
 {
-    NiObject::ProcessClone(aCloneProcess);
+    reinterpret_cast<::FUN_00a5d430_Class *>(this)->FUN_00a5d430((unsigned int)&(aCloneProcess));
     NiObject* cloneObject = 0;
-    aCloneProcess.m_pCloneMap->GetAt(this, cloneObject);
+    reinterpret_cast<::A54440Hash *>((void *)(aCloneProcess.m_pCloneMap))->FUN_00a53c30((*(::A54440Manager * *)&(const ::NiObject * &)(this)), (::A54440Manager **)&(cloneObject));
     NiBlendInterpolator* clone = static_cast<NiBlendInterpolator*>(cloneObject);
     for (unsigned char index = 0; index < m_ucArraySize; ++index)
     {
@@ -253,7 +273,7 @@ void NiBlendInterpolator::ProcessClone(CloningProcess& aCloneProcess)
     if (m_pSingleInterpolator)
     {
         NiInterpolator* singleClone;
-        if (aCloneProcess.m_pCloneMap->GetAt(m_pSingleInterpolator, cloneObject))
+        if (reinterpret_cast<::A54440Hash *>((void *)(aCloneProcess.m_pCloneMap))->FUN_00a53c30((*(::A54440Manager * *)&(m_pSingleInterpolator)), (::A54440Manager **)&(cloneObject)))
             singleClone = static_cast<NiInterpolator*>(cloneObject);
         else
             singleClone = m_pSingleInterpolator;
@@ -266,11 +286,8 @@ extern int DAT_0109697c;
 class MemoryManager
 {
   public:
-    void Deallocate(void* p);
 };
-extern MemoryManager g_memoryManager;
 
-void __fastcall FUN_00a57010(void* pThis);
 
 struct InterpArrayItem_Temp
 {
@@ -298,9 +315,9 @@ void __fastcall DestroyInterpolatorArray(NiBlendInterpolator* pThis, int)
             --pCur;
             pCur->~InterpArrayItem_Temp();
         }
-        g_memoryManager.Deallocate(pAlloc);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(pAlloc);
     }
-    FUN_00a57010(pThis);
+    reinterpret_cast<::NiKeyBasedInterpolator *>((pThis))->FUN_00a57010();
 }
 
 struct FUN_00a37260_shell : public NiBlendInterpolator
@@ -308,7 +325,6 @@ struct FUN_00a37260_shell : public NiBlendInterpolator
     void UpdateNormalizedWeights();
 };
 
-extern double _DAT_010241b0;
 
 struct InterpArrayItem_Layout
 {
@@ -366,7 +382,7 @@ void FUN_00a37260_shell::UpdateNormalizedWeights()
 
     unsigned char uc;
 
-    if (pThis->m_fHighSumOfWeights == _DAT_010241b0)
+    if (pThis->m_fHighSumOfWeights == ::DAT_010241b0)
     {
         pThis->m_fHighSumOfWeights = 0.0f;
         pThis->m_fNextHighSumOfWeights = 0.0f;
@@ -470,11 +486,10 @@ void FUN_00a37260_shell::UpdateNormalizedWeights()
     }
 }
 
-extern const char* const g_011f371c_arg1;
 // @fnv 0x00a36960
 const char* const* __cdecl FUN_00a36960()
 {
-    return &g_011f371c_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_011f36fc));
 }
 
 struct StreamS;
@@ -793,12 +808,11 @@ struct BlendS
     InterpS* m_pSingleInterpolator;
     float m_fWeightThreshold;
     float m_fSingleInterpolatorTime;
-    bool FUN_00ba87d0(ObjS* o);
 };
 // @fnv 0x00a36fd0
 bool __fastcall FUN_00a36fd0(BlendS* self, int, ObjS* pkObject)
 {
-    if (!self->FUN_00ba87d0(pkObject))
+    if (!reinterpret_cast<::FUN_00ba87d0_Class *>((self))->FUN_00ba87d0((::NiObj_s *)(pkObject)))
         return false;
     BlendS* pkDest = (BlendS*)pkObject;
     if (self->m_ucArraySize != pkDest->m_ucArraySize)
@@ -982,7 +996,6 @@ struct LoadBinStream
 
 struct LoadStream
 {
-    NiObject* GetLoadedObject();
     int unk00;
     int unk04;
     int unk08;
@@ -1151,10 +1164,32 @@ struct LoadInterpItem
     void LoadFromStream(LoadStream* stream);
 };
 
+struct InterpolatorRegistry;
+class NiObject;
+class NiStream
+{
+  public:
+    unsigned int m_header0;
+    unsigned int m_header4;
+    unsigned short m_pRayCursor;
+    unsigned short m_uiBufferCapacity;
+    unsigned short m_unusedC;
+    unsigned short m_growth;
+    void AppendValue(const unsigned int& value)
+    {
+        unsigned int index = m_uiBufferCapacity;
+        unsigned int capacity = m_pRayCursor;
+        if (index >= capacity)
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(index + m_growth);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(index, (*(char * *)(&value)));
+    }
+public:
+    ::NiObject *DeserializeObject();
+};
 // @fnv 0x00a377b0
 void LoadInterpItem::LoadFromStream(LoadStream* stream)
 {
-    NiInterpolator* pInterpolator = (NiInterpolator*)stream->GetLoadedObject();
+    NiInterpolator* pInterpolator = (NiInterpolator*)reinterpret_cast<::NiStream *>((stream))->DeserializeObject();
     if (m_spControllerInterpolator != pInterpolator)
     {
         if (m_spControllerInterpolator)
@@ -1180,46 +1215,18 @@ void LoadInterpItem::LoadFromStream(LoadStream* stream)
     }
     LoadStreamBinary(stream->m_pUnderlyingStream, m_fEaseSpinner);
 }
-
-struct InterpolatorRegistry;
-class NiStream
-{
-  public:
-    unsigned int m_header0;
-    unsigned int m_header4;
-    unsigned short m_pRayCursor;
-    unsigned short m_uiBufferCapacity;
-    unsigned short m_unusedC;
-    unsigned short m_growth;
-    void func_0x0096ad30(unsigned int required);
-    void func_0x0096ae90(unsigned int index, const unsigned int* value);
-    void AppendValue(const unsigned int& value)
-    {
-        unsigned int index = m_uiBufferCapacity;
-        unsigned int capacity = m_pRayCursor;
-        if (index >= capacity)
-            func_0x0096ad30(index + m_growth);
-        func_0x0096ae90(index, &value);
-    }
-};
 struct LinkedInterpolator
 {
     unsigned int m_pHeadNode;
     unsigned int m_iSecondInteger;
     void* m_object;
 };
-extern "C" void* DAT_011f36fc;
-extern "C" InterpolatorRegistry* DAT_011f36f4;
-extern "C" InterpolatorRegistry* DAT_011f36f8;
-extern "C" unsigned char DAT_011a83ff;
 extern "C" char UNK_01096b68, UNK_01096b54, UNK_01096b40;
 extern "C" char UNK_01096b2c, UNK_01096b1c, UNK_01096b08;
 extern "C" char UNK_01096af4, UNK_01096adc, UNK_01096ac4;
 extern "C" char UNK_01096ab4, UNK_01096aa4;
-extern "C" char UNK_01095dbc, UNK_01096a98, UNK_01096a8c;
+extern "C" char UNK_01096a98, UNK_01096a8c;
 extern "C" char UNK_01096a78, UNK_01096a68;
-extern "C" unsigned int __cdecl FUN_00a7d330(void*);
-extern "C" unsigned int __cdecl FUN_00a7d410(const void*, unsigned int);
 struct ViewerBool
 {
     bool flag;
@@ -1229,13 +1236,8 @@ union ViewerValue
     unsigned int value;
     ViewerBool boolean;
 };
-extern "C" unsigned int __cdecl FUN_00a7d370(const void*, ViewerBool);
-extern "C" unsigned int __cdecl FUN_00a7d4d0(const void*, int);
-extern "C" unsigned int __cdecl FUN_00a7d550(const void*, float);
-extern "C" unsigned int __cdecl FUN_00a7d5e0(const void*, void*);
 struct InterpolatorRegistry
 {
-    LinkedInterpolator* func_0x00a2e570(NiInterpolator*, unsigned int);
 };
 class BlendSerializer : public NiBlendInterpolator
 {
@@ -1246,63 +1248,63 @@ class BlendSerializer : public NiBlendInterpolator
 // @fnv 0x00a38080
 void BlendSerializer::FUN_00a38080(NiStream* stream)
 {
-    this->NiInterpolator::GetViewerStrings((NiViewerStringsArray*)stream);
+    ::FUN_00a570b0((::NiTPrimitiveArray<char *, ::NiTMallocInterface<char *>> *)(this));
     unsigned int uiValue;
     {
         ViewerValue temp;
-        temp.value = FUN_00a7d330(DAT_011f36fc);
+        temp.value = ((unsigned int)(::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_011f36fc))))));
         stream->AppendValue(temp.value);
-        temp.value = FUN_00a7d410(&UNK_01096b68, this->m_ucArraySize);
+        temp.value = ((unsigned int)(::FUN_00a7d410((const char *)(const void *)(&UNK_01096b68), this->m_ucArraySize)));
         stream->AppendValue(temp.value);
-        temp.value = FUN_00a7d410(&UNK_01096b54, DAT_011a83ff);
+        temp.value = ((unsigned int)(::FUN_00a7d410((const char *)(const void *)(&UNK_01096b54), DAT_011a83ff)));
         stream->AppendValue(temp.value);
         temp.boolean.flag = (this->m_uiObjectFlags & 1) != 0;
-        temp.value = FUN_00a7d370(&UNK_01096b40, temp.boolean);
+        temp.value = ((unsigned int)(::FUN_00a7d370((const char *)(const void *)(&UNK_01096b40), (*(bool *)&(const ::ViewerBool &)(temp.boolean)))));
         stream->AppendValue(temp.value);
-        temp.value = FUN_00a7d550(&UNK_01096b2c, this->m_fWeightThreshold);
+        temp.value = ((unsigned int)(::FUN_00a7d550((const char *)(const void *)(&UNK_01096b2c), this->m_fWeightThreshold)));
         stream->AppendValue(temp.value);
-        temp.value = FUN_00a7d4d0(&UNK_01096b1c, this->m_cHighPriority);
+        temp.value = ((unsigned int)(::FUN_00a7d4d0((const char *)(const void *)(&UNK_01096b1c), this->m_cHighPriority)));
         stream->AppendValue(temp.value);
-        temp.value = FUN_00a7d4d0(&UNK_01096b08, this->m_cNextHighPriority);
+        temp.value = ((unsigned int)(::FUN_00a7d4d0((const char *)(const void *)(&UNK_01096b08), this->m_cNextHighPriority)));
         stream->AppendValue(temp.value);
-        temp.value = FUN_00a7d550(&UNK_01096af4, this->m_fHighSumOfWeights);
+        temp.value = ((unsigned int)(::FUN_00a7d550((const char *)(const void *)(&UNK_01096af4), this->m_fHighSumOfWeights)));
         stream->AppendValue(temp.value);
-        temp.value = FUN_00a7d550(&UNK_01096adc, this->m_fNextHighSumOfWeights);
+        temp.value = ((unsigned int)(::FUN_00a7d550((const char *)(const void *)(&UNK_01096adc), this->m_fNextHighSumOfWeights)));
         stream->AppendValue(temp.value);
         temp.boolean.flag = ((this->m_uiObjectFlags >> 1) & 1) != 0;
-        temp.value = FUN_00a7d370(&UNK_01096ac4, temp.boolean);
+        temp.value = ((unsigned int)(::FUN_00a7d370((const char *)(const void *)(&UNK_01096ac4), (*(bool *)&(const ::ViewerBool &)(temp.boolean)))));
         stream->AppendValue(temp.value);
-        temp.value = FUN_00a7d410(&UNK_01096ab4, this->m_ucInterpCount);
+        temp.value = ((unsigned int)(::FUN_00a7d410((const char *)(const void *)(&UNK_01096ab4), this->m_ucInterpCount)));
         stream->AppendValue(temp.value);
-        temp.value = FUN_00a7d410(&UNK_01096aa4, this->m_ucSingleIdx);
+        temp.value = ((unsigned int)(::FUN_00a7d410((const char *)(const void *)(&UNK_01096aa4), this->m_ucSingleIdx)));
         stream->AppendValue(temp.value);
     }
     for (unsigned int index = 0; index < this->m_ucArraySize; ++index)
     {
-        if (this->m_pInterpArray[index].m_spControllerInterpolator.m_pObject && DAT_011f36f4)
+        if (this->m_pInterpArray[index].m_spControllerInterpolator.m_pObject && (*reinterpret_cast<::InterpolatorRegistry * *>(&::DAT_011f36f4)))
         {
             LinkedInterpolator* linked =
-                DAT_011f36f4->func_0x00a2e570(this->m_pInterpArray[index].m_spControllerInterpolator.m_pObject, 1);
-            if (!linked && DAT_011f36f8)
+                ((::LinkedInterpolator *)(reinterpret_cast<::Registry *>(((*reinterpret_cast<::InterpolatorRegistry * *>(&::DAT_011f36f4))))->FindItemByBindingId((int)(this->m_pInterpArray[index].m_spControllerInterpolator.m_pObject), 1)));
+            if (!linked && (*reinterpret_cast<::InterpolatorRegistry * *>(&::DAT_011f36f8)))
             {
                 NiInterpolator* retryInterpolator = this->m_pInterpArray[index].m_spControllerInterpolator.m_pObject;
-                linked = DAT_011f36f8->func_0x00a2e570(retryInterpolator, 1);
+                linked = ((::LinkedInterpolator *)(reinterpret_cast<::Registry *>(((*reinterpret_cast<::InterpolatorRegistry * *>(&::DAT_011f36f8))))->FindItemByBindingId((int)(retryInterpolator), 1)));
             }
             if (linked)
             {
                 void* linkedObject = linked->m_object;
-                uiValue = FUN_00a7d5e0(&UNK_01095dbc, linkedObject);
+                uiValue = ((unsigned int)(::fnv_00a7d5e0::FUN_00a7d5e0((const char *)(const void *)(&(*reinterpret_cast<char *>((void *)&::g_011f36dc_arg0))), (const char *)(linkedObject))));
                 stream->AppendValue(uiValue);
-                uiValue = FUN_00a7d410(&UNK_01096a98, (unsigned char)this->m_pInterpArray[index].m_cPriority);
+                uiValue = ((unsigned int)(::FUN_00a7d410((const char *)(const void *)(&UNK_01096a98), (unsigned char)this->m_pInterpArray[index].m_cPriority)));
                 stream->AppendValue(uiValue);
-                uiValue = FUN_00a7d550(&UNK_01096a8c, this->m_pInterpArray[index].m_fWeight);
+                uiValue = ((unsigned int)(::FUN_00a7d550((const char *)(const void *)(&UNK_01096a8c), this->m_pInterpArray[index].m_fWeight)));
                 stream->AppendValue(uiValue);
-                uiValue = FUN_00a7d550(&UNK_01096a78, this->m_pInterpArray[index].m_fNormalizedWeight);
+                uiValue = ((unsigned int)(::FUN_00a7d550((const char *)(const void *)(&UNK_01096a78), this->m_pInterpArray[index].m_fNormalizedWeight)));
                 stream->AppendValue(uiValue);
-                uiValue = FUN_00a7d550(&UNK_01096a68, this->m_pInterpArray[index].m_fEaseSpinner);
+                uiValue = ((unsigned int)(::FUN_00a7d550((const char *)(const void *)(&UNK_01096a68), this->m_pInterpArray[index].m_fEaseSpinner)));
                 stream->AppendValue(uiValue);
                 NiInterpolator* finalInterpolator = this->m_pInterpArray[index].m_spControllerInterpolator.m_pObject;
-                finalInterpolator->GetViewerStrings((NiViewerStringsArray*)stream);
+                ::FUN_00a570b0((::NiTPrimitiveArray<char *, ::NiTMallocInterface<char *>> *)(finalInterpolator));
             }
         }
     }
@@ -1504,7 +1506,6 @@ struct SBEntry
     int unk10;
     int unk14;
 
-    void SaveBinary(SBStream& arStream);
 };
 
 struct SBBase
@@ -1513,7 +1514,6 @@ struct SBBase
     int unk04;
     int unk08;
 
-    void SaveBinary(SBStream& arStream);
 };
 
 struct SBObject : SBBase
@@ -1539,7 +1539,7 @@ struct SBObject : SBBase
 // @fnv 0x00a37ec0
 void SBObject::FUN_00a37ec0(SBStream& arStream)
 {
-    SBBase::SaveBinary(arStream);
+    ::FUN_00a724d0();
     SBStreamSaveBinary(arStream, m_ucFlags);
     SBStreamSaveBinary(arStream, m_ucEntryCount);
     SBStreamSaveBinary(arStream, m_iValue1C);
@@ -1555,7 +1555,7 @@ void SBObject::FUN_00a37ec0(SBStream& arStream)
     SBStreamSaveBinary(arStream, m_iValue28);
     SBStreamSaveBinary(arStream, m_iValue2C);
     for (unsigned char i = 0; i < m_ucEntryCount; i++)
-        m_pkEntryArray[i].SaveBinary(arStream);
+        reinterpret_cast<::InterpItem *>(&(m_pkEntryArray[i]))->WriteToStream((::StreamS *)&(arStream));
     arStream.SaveLinkID(m_pkLinked);
 }
 
@@ -1604,5 +1604,5 @@ FUN_00a37670_NiBlendInterpolator::~FUN_00a37670_NiBlendInterpolator()
 
 void FUN_00a37670_NiBlendInterpolator::operator delete(void* p, unsigned int n)
 {
-    ::operator delete(p, n);
+    ::FUN_00aa1460(p, n);
 }

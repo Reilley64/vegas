@@ -1,25 +1,47 @@
 // bshavok/bhkrigidbody_h_unit.cpp: WorldObject (4 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/CA8830Object.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_005d3d10_This.h"
+#include "fnv/decl/FUN_00c87a50_t.h"
+#include "fnv/decl/FUN_00c9d530_cls.h"
+#include "fnv/decl/FUN_00ca8800_Class.h"
+#include "fnv/decl/FUN_00ca8860_cls.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/MotionMassView.h"
+#include "fnv/decl/SwapBlock_c8ce70.h"
+#include "fnv/decl/Wrapper482.h"
+#include "fnv/decl/bhkWorldObjectX.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00c59000.h"
+#include "fnv/symbols_01022000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01272000.h"
 #include "bhkrigidbody.h"
 
-extern __declspec(thread) unsigned int g_ThreadMemoryContext;
 struct MemoryContextGuard
 {
     unsigned int previous;
-    __forceinline MemoryContextGuard() : previous(g_ThreadMemoryContext)
+    __forceinline MemoryContextGuard() : previous(::currentAllocationContext)
     {
-        g_ThreadMemoryContext = 16;
+        ::currentAllocationContext = 16;
     }
     __forceinline ~MemoryContextGuard()
     {
-        g_ThreadMemoryContext = previous;
+        ::currentAllocationContext = previous;
     }
 };
 struct AllocationManager
 {
-    void* FUN_00aa3e40(unsigned int size);
 };
-extern AllocationManager DAT_011f6238;
 struct FUN_00c8f510
 {
     unsigned int value;
@@ -28,7 +50,7 @@ struct FUN_00c8f510
 };
 __forceinline void* __cdecl operator new(unsigned int size, AllocationManager& allocator)
 {
-    unsigned char* storage = static_cast<unsigned char*>(allocator.FUN_00aa3e40(0xf0));
+    unsigned char* storage = static_cast<unsigned char*>(reinterpret_cast<::MemoryManagerStandIn *>(&(allocator))->FUN_00aa3e40(0xf0));
     unsigned char adjustment = static_cast<unsigned char>(16 - (reinterpret_cast<unsigned int>(storage) & 15));
     storage += adjustment;
     storage[-1] = adjustment;
@@ -41,7 +63,6 @@ struct FUN_00c8f5a0_Class
     unsigned int referenceCount;
     void* havokObject;
     FUN_00c8f510* rigidBodyInfo;
-    void FUN_00c8cfd0(FUN_00c8f510* info);
     FUN_00c8f510* GetOrCreateRigidBodyInfo(unsigned char* wasCreated);
 };
 // @fnv 0x00c8f5a0
@@ -52,9 +73,9 @@ FUN_00c8f510* FUN_00c8f5a0_Class::GetOrCreateRigidBodyInfo(unsigned char* wasCre
     *wasCreated = needsCreation;
     if (needsCreation)
     {
-        rigidBodyInfo = new (DAT_011f6238) FUN_00c8f510();
+        rigidBodyInfo = new ((*reinterpret_cast<::AllocationManager *>(&::g_memoryManager))) FUN_00c8f510();
         if (havokObject)
-            FUN_00c8cfd0(rigidBodyInfo);
+            reinterpret_cast<::Wrapper482 *>(this)->FUN_00c8cfd0((::Info482 *)(rigidBodyInfo));
     }
     return rigidBodyInfo;
 }
@@ -62,10 +83,8 @@ FUN_00c8f510* FUN_00c8f5a0_Class::GetOrCreateRigidBodyInfo(unsigned char* wasCre
 class C8F670Heap
 {
   public:
-    void Deallocate(void* pvMem);
 };
 
-extern C8F670Heap g_memoryManager;
 
 struct C8F670Allocator
 {
@@ -131,7 +150,7 @@ class __declspec(novtable) C8F670Object
         if (pvMem)
         {
             unsigned char ucOffset = static_cast<unsigned char*>(pvMem)[-1];
-            g_memoryManager.Deallocate(static_cast<char*>(pvMem) - ucOffset);
+            reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::C8F670Heap *>(&::g_memoryManager))))->FUN_00aa4060(static_cast<char*>(pvMem) - ucOffset);
         }
     }
 
@@ -179,7 +198,6 @@ class C8D9BinaryStream
 class C8D9HavokData
 {
   public:
-    void SwapEndian();
 };
 
 class C8D9Stream
@@ -284,7 +302,6 @@ class FUN_00c8d960_cls
     unsigned int m_uiValue1;
     C8D9List m_kList;
 
-    void FUN_00c9d530(C8D9Stream* pkStream);
     void FUN_00c8d960(C8D9Stream* pkStream);
 };
 
@@ -295,9 +312,9 @@ void FUN_00c8d960_cls::FUN_00c8d960(C8D9Stream* pkStream)
     bool bCreated;
     C8D9HavokData* pkData = CreateHavokData(&bCreated);
     if (pkStream->m_ucMode != 1)
-        pkData->SwapEndian();
+        reinterpret_cast<::SwapBlock_c8ce70 *>((pkData))->SwapEndian();
 
-    FUN_00c9d530(pkStream);
+    reinterpret_cast<::FUN_00c9d530_cls *>(this)->FUN_00c9d530((::FUN_00c9d530_arg *)(pkStream));
 
     C8D9SaveBinary(pkStream, m_kList.ItemsInList());
 
@@ -307,7 +324,7 @@ void FUN_00c8d960_cls::FUN_00c8d960(C8D9Stream* pkStream)
     C8D9SaveBinary(pkStream, m_uiValue1);
 
     if (pkStream->m_ucMode != 1)
-        pkData->SwapEndian();
+        reinterpret_cast<::SwapBlock_c8ce70 *>((pkData))->SwapEndian();
 }
 
 struct DebugShape
@@ -337,8 +354,6 @@ struct DebugShape
     NiPoint3 pos;
 };
 
-extern void FUN_00458620(NiPoint3* dst, NiPoint3* src);
-extern void* FUN_00c59200(float r);
 
 struct WorldObject
 {
@@ -402,7 +417,6 @@ struct WorldObject
     virtual void v57();
     virtual void v58();
     virtual void v59(void* out);
-    void* AddDebugNodeToWorld(void* a1);
     void* FUN_00c8d2f0(void* a1);
 };
 
@@ -410,14 +424,14 @@ struct WorldObject
 // @fnv 0x00c8d2f0
 void* WorldObject::FUN_00c8d2f0(void* a1)
 {
-    WorldObject* pDebugNode = (WorldObject*)AddDebugNodeToWorld(a1);
+    WorldObject* pDebugNode = (WorldObject*)((void *)(reinterpret_cast<::bhkWorldObjectX *>(this)->AddDebugNodeToWorld((::NiNodeX *)(a1))));
     if (pDebugNode != 0)
     {
         __m128 src;
         v59(&src);
         NiPoint3 p;
-        FUN_00458620(&p, (NiPoint3*)&src);
-        DebugShape* __restrict pDebugShape = (DebugShape*)FUN_00c59200(6.0f);
+        ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&p)), (*(const ::hkVector4 *)((NiPoint3*)&src)));
+        DebugShape* __restrict pDebugShape = (DebugShape*)((void *)(::FUN_00c59200(6.0f)));
         if (pDebugShape != 0)
         {
             pDebugShape->pos = p;

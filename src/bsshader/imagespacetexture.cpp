@@ -1,5 +1,10 @@
 // bsshader/imagespacetexture.cpp: free functions (1 function)
 
+#include "fnv/decl/BA3760Object.h"
+#include "fnv/decl/H_00ba39a0.h"
+#include "fnv/decl/Holder00ba37f0.h"
+#include "fnv/decl/Manager.h"
+#include "fnv/symbols_011f9000.h"
 #include "imagespacetexture_decls.h"
 
 struct EnchantmentItem;

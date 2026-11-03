@@ -2,19 +2,33 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkprigidbodyinertiaviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkprigidbodyinertiaviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-void __cdecl FUN_00d67880();
 
+#include <new>
+#include "fnv/decl/FUN_00ddcc60.h"
+#include "fnv/decl/FUN_00de1fc0.h"
+#include "fnv/decl/MotionMassView.h"
+#include "fnv/decl/S_00dd9380.h"
+#include "fnv/decl/SearchArray.h"
+#include "fnv/decl/fnv_00c93820__hkpWorldC938.h"
+#include "fnv/decl/fnv_00c93920__hkpWorldXc93920.h"
+#include "fnv/decl/hkWorldC917.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d67000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_0102f000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010cc000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 extern int DAT_01268ffc;
-extern int DAT_01269cd0;
 
 struct FUN_00dd9380_StandIn {
-    int __thiscall FUN_00dd9380(const char* name, void* factory);
 };
 
 // @fnv 0x00d678c0
 void __cdecl RegisterInertiaTensors()
 {
-    DAT_01268ffc = ((FUN_00dd9380_StandIn*)DAT_01269cd0)->FUN_00dd9380("Inertia Tensors", &FUN_00d67880);
+    DAT_01268ffc = reinterpret_cast<::S_00dd9380 *>((((FUN_00dd9380_StandIn*)(*reinterpret_cast<int *>(&::DAT_01269cd0)))))->FUN_00dd9380("Inertia Tensors", (int)(&((void (&)())::FUN_00d67880)));
 }
 
 struct InnerArray {
@@ -37,8 +51,6 @@ struct Arg {
     SubObject** m_34;
     int m_38;
 
-    void FUN_00c93820(void* p);
-    void FUN_00c93920(void* p);
 };
 
 struct Field28 {
@@ -56,8 +68,8 @@ struct FUN_00d67020_class {
 
 // @fnv 0x00d67020
 void FUN_00d67020_class::VisitSubObjects(Arg* arg) {
-    arg->FUN_00c93820(this ? &field28 : 0);
-    arg->FUN_00c93920(this ? &field2c : 0);
+    reinterpret_cast<::fnv_00c93820::hkpWorldC938 *>((arg))->FUN_00c93820((::fnv_00c93820::hkpEntityListenerC938 *)(void *)(this ? &field28 : 0));
+    reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((arg))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(void *)(this ? &field2c : 0));
 
     for (int i = 0; i < arg->m_2c; ++i) {
         InnerArray* arr = &arg->m_28[i]->arr;
@@ -82,7 +94,7 @@ void FUN_00d67020_class::VisitSubObjects(Arg* arg) {
     }
 }
 
-struct Handler { void VisitSubObjects(int); };
+struct Handler {  };
 struct Collection {
     int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C;
     int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C;
@@ -104,7 +116,7 @@ void __thiscall Owner::ProcessCollectionItems() {
         int i = 0;
         if (0 < n) {
             do {
-                ((Handler*)((char*)this - 8))->VisitSubObjects(collection->items[i]);
+                reinterpret_cast<::FUN_00d67020_class *>((((Handler*)((char*)this - 8))))->VisitSubObjects((::Arg *)(collection->items[i]));
                 i = i + 1;
             } while (i < n);
         }
@@ -119,13 +131,12 @@ struct SecondaryBase {
     void FUN_00d67160();
 };
 struct CompleteObject : Prefix32, SecondaryBase {
-    void VisitSubObjects();
 };
 // Adjusts this to the enclosing CompleteObject and calls its VisitSubObjects method.
 // @fnv 0x00d67160
 void SecondaryBase::FUN_00d67160() {
     CompleteObject* pCompleteObject = reinterpret_cast<CompleteObject*>(reinterpret_cast<char*>(this) - sizeof(Prefix32));
-    pCompleteObject->VisitSubObjects();
+    reinterpret_cast<::FUN_00d67020_class *>((pCompleteObject))->VisitSubObjects({});
 }
 
 struct S_00d67170_Array {
@@ -229,8 +240,6 @@ struct FUN_00d66f30_params {
     int unk48;
     int unk4c;
 
-    void FUN_00c917a0(void* apTarget);
-    void ClearValue(void* apTarget);
 };
 
 struct FUN_00d66f30_cls {
@@ -253,8 +262,8 @@ struct FUN_00d66f30_cls {
 // @fnv 0x00d66f30
 void FUN_00d66f30_cls::FUN_00d66f30(FUN_00d66f30_params* apParams)
 {
-    apParams->FUN_00c917a0(this != 0 ? &m_kInner : 0);
-    apParams->ClearValue(this != 0 ? &m_iN : 0);
+    reinterpret_cast<::hkWorldC917 *>((apParams))->FUN_00c917a0(this != 0 ? &m_kInner : 0);
+    reinterpret_cast<::SearchArray *>((apParams))->ClearValue((int)(this != 0 ? &m_iN : 0));
 
     for (int i = 0; i < apParams->m_iItemCount; i++) {
         FUN_00d66f30_list* pList = &apParams->m_ppItems[i]->m_kList;
@@ -279,7 +288,6 @@ void FUN_00d66f30_cls::FUN_00d66f30(FUN_00d66f30_params* apParams)
 }
 
 struct Outer {
-    void __thiscall FUN_00d66f30(void* arg);
 };
 
 struct TargetClass {
@@ -288,7 +296,7 @@ struct TargetClass {
 
 // @fnv 0x00d67150
 void TargetClass::FUN_00d67150(void* arg) {
-    ((Outer*)((char*)this - 0x20))->FUN_00d66f30(arg);
+    reinterpret_cast<::FUN_00d66f30_cls *>((((Outer*)((char*)this - 0x20))))->FUN_00d66f30((::FUN_00d66f30_params *)(arg));
 }
 
 class D671F0ListenerA {
@@ -456,7 +464,6 @@ D67880Interface* __cdecl FUN_00d67880(const void* info)
     return new D67880Object(info);
 }
 
-void __cdecl ResizeAudioStream(void* allocator, void* array, int elementSize);
 template <typename T> inline void D671B0ConstructWithCopy(T* p, int n, const T& t) { for (int i = 0; i < n; i++) p[i] = t; }
 
 template <typename T>
@@ -469,7 +476,7 @@ struct D671B0Array {
     {
         D67880MemoryRouter& router = FUN_00c85750();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(router.m_pStreamAllocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router.m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         D671B0ConstructWithCopy<T>(m_data + m_iElementCount, 1, val);
         m_iElementCount++;
     }
@@ -492,8 +499,6 @@ extern int DAT_010d1d60;
 extern int DAT_010d1d50;
 extern int DAT_010d1d34;
 extern int DAT_010d1d24;
-extern int DAT_010ccf7c;
-extern int DAT_0102f13c;
 
 struct Heap_d672 {
     virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0C();
@@ -618,8 +623,6 @@ struct Viewer_d672 {
     int* m_vtbl2C;
     hkPodArray_d672<int> m_ids;
     hkArray_d672<DisplayGeometry_d672> m_geometries;
-    void FUN_00d66f30(Entity_d672* entity);
-    void FUN_00ddcc60();
     void FUN_00d67250();
 };
 
@@ -635,13 +638,13 @@ void Viewer_d672::FUN_00d67250()
     if (m_pOwningWorld) {
         int n = m_pOwningWorld->m_iActorEntryCount;
         for (int i = 0; i < n; i++)
-            FUN_00d66f30(m_pOwningWorld->m_kActorEntries[i]);
+            reinterpret_cast<::FUN_00d66f30_cls *>(this)->FUN_00d66f30((::FUN_00d66f30_params *)(m_pOwningWorld->m_kActorEntries[i]));
     }
     m_geometries.ClearAndRelease();
     m_ids.ClearAndRelease();
-    m_vtbl2C = &DAT_010ccf7c;
-    m_vtbl28 = &DAT_0102f13c;
-    FUN_00ddcc60();
+    m_vtbl2C = &(*reinterpret_cast<int *>(&::DAT_010ccf7c));
+    m_vtbl28 = &(*reinterpret_cast<int *>(&::str_0102f13c));
+    reinterpret_cast<struct ::FUN_00ddcc60 *>(this)->FUN_00ddcc60::~FUN_00ddcc60();
 }
 
 struct D678F0Primary {
@@ -780,10 +783,8 @@ FUN_00d67930::FUN_00d67930() {}
 #include <math.h>
 #include <xmmintrin.h>
 #include <windows.h>
-extern unsigned long DAT_0126835c;
 extern double DAT_010d0f68;
-extern float DAT_01011d78;
-extern char DAT_010c41f8[], DAT_010d1d8c[];
+extern char DAT_010d1d8c[];
 struct ProfileEvent {
     const char* name;
     unsigned int timestamp;
@@ -862,7 +863,6 @@ struct Motion : MotionHeader {
     int unk88;
     int unk8c;
     Vec centerOfMass;
-    float FUN_00c86430();
 };
 struct Body {
     int unk00;
@@ -924,7 +924,7 @@ struct Body {
     Motion motion;
     __forceinline Motion* getRigidMotion() { return &motion; }
     __forceinline const Motion* getRigidMotionC() const { return &motion; }
-    __forceinline float GetMassValue() { return getRigidMotion()->FUN_00c86430(); }
+    __forceinline float GetMassValue() { return reinterpret_cast<::MotionMassView *>((getRigidMotion()))->FUN_00c86430(); }
     __forceinline void GetInverseScaleMatrix(Inertia& m) { getRigidMotion()->getInertia(&m); }
     __forceinline const Transform& getTransform() const { return motion.transform; }
     __forceinline const Vec& getCenterOfMassLocal() const { return motion.centerOfMass; }
@@ -941,10 +941,8 @@ struct Shape {
     int type;
     int unk54, unk58, unk5c;
     ShapeVec4 halfExtents;
-    void FUN_00de1fc0();
     void FUN_00de2010(const Vec* dimensions, const Transform* transform);
 };
-void __cdecl FUN_00c908c0(void* allocator, void* array, int capacity, int elementSize);
 struct FreeAllocator {
     virtual void v00();
     virtual void v04();
@@ -964,7 +962,7 @@ template<class T> struct LocalArray {
         if (capacity < n) {
             int twice = capacity * 2;
             int next = n < twice ? twice : n;
-            FUN_00c908c0(&allocator, this, next, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(&allocator), (::SpawnedArray *)(void *)(this), next, sizeof(T));
         }
     }
 };
@@ -974,7 +972,7 @@ inline void destroyShapes(Shape* begin, int count) {
 inline void createShapes(Shape* begin, int count) {
     for (int k=0; k<count; ++k) {
         Shape* at = begin+k;
-        if (at) at->FUN_00de1fc0();
+        if (at) new ((void *)(at)) ::FUN_00de1fc0();
     }
 }
 struct ShapeArray : LocalArray<Shape> {
@@ -1034,7 +1032,7 @@ void ViewerPart::FUN_00d67340(float unused) {
             float alphaSqrd = float(inertia.zz / mass * 12.0 - betaSqrd);
             float alpha; if (alphaSqrd < 0.0f) alpha=0.0f; else alpha=sqrtf(alphaSqrd);
             Vec dimensions;
-            dimensions.set(alpha * DAT_010d0f68 * 0.5, beta * DAT_010d0f68 * 0.5, gamma * DAT_010d0f68 * 0.5, DAT_01011d78);
+            dimensions.set(alpha * DAT_010d0f68 * 0.5, beta * DAT_010d0f68 * 0.5, gamma * DAT_010d0f68 * 0.5, ::DAT_01011d78);
             Transform transform = bodies[i]->motion.transform;
             Vec rotated;
             {

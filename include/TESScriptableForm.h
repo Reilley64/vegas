@@ -5,6 +5,7 @@
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #pragma pack(push, 4)
+class TESForm;
 class TESScriptableForm : public BaseFormComponent
 {
   public:
@@ -12,6 +13,8 @@ class TESScriptableForm : public BaseFormComponent
     bool m_bHasScript;      // +0x8
     unsigned char layoutPadding9;
     unsigned short layoutPaddingA;
+public:
+    void InitItem(::TESForm *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESScriptableForm) == 0xC);

@@ -1,5 +1,25 @@
 // bsshader/tallgrassshaderproperty.cpp: TallGrassShaderProperty, Holder, PointerMap (9 functions)
 
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0043a010_shell.h"
+#include "fnv/decl/FUN_00a64ce0_shell.h"
+#include "fnv/decl/FUN_00b61250.h"
+#include "fnv/decl/FUN_00bd8550_Class.h"
+#include "fnv/decl/FUN_00e6e630_cls.h"
+#include "fnv/decl/GeometryBounds.h"
+#include "fnv/decl/HashTableBase.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/Owner383.h"
+#include "fnv/decl/S_00b601a0_Map.h"
+#include "fnv/decl/Tbl00b57f20.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00b61000.h"
+#include "fnv/symbols_00b70000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01272000.h"
 #include "tallgrassshaderproperty_decls.h"
 #pragma optimize("", off)
 // @fnv 0x0057ce60
@@ -18,18 +38,18 @@ void TallGrassShaderProperty::ClearCacheData()
         void* pos;
         unsigned long key;
     } traversal;
-    void* initial = GetCacheDataMap()->GetFirstPos();
+    void* initial = ((::NiTMapBase< ::NiTPointerAllocator<unsigned int>, unsigned long, ::TallGrassShaderProperty::TallGrassCacheData *> *)(::fnv_00b61170::GetArrayHolder()))->GetFirstPos();
     traversal.pos = initial;
     traversal.value = 0;
-    if (GetCacheDataMap()->GetCount() > 0 && initial)
+    if (((::NiTMapBase< ::NiTPointerAllocator<unsigned int>, unsigned long, ::TallGrassShaderProperty::TallGrassCacheData *> *)(::fnv_00b61170::GetArrayHolder()))->GetCount() > 0 && initial)
     {
         do
         {
-            GetCacheDataMap()->GetNext(traversal.pos, traversal.key, const_cast<TallGrassCacheData*&>(traversal.value));
+            reinterpret_cast<::Tbl00b57f20 *>((((::NiTMapBase< ::NiTPointerAllocator<unsigned int>, unsigned long, ::TallGrassShaderProperty::TallGrassCacheData *> *)(::fnv_00b61170::GetArrayHolder()))))->AdvanceToNextEntry((::Ent00b57f20 **)&(traversal.pos), (int *)&(traversal.key), (int *)&(const_cast<TallGrassCacheData*&>(traversal.value)));
             DestroyGrass(traversal.value);
         } while (traversal.pos);
     }
-    reinterpret_cast<GrassMap*>(GetCacheDataMap())->RemoveAll();
+    reinterpret_cast<::S_00b601a0_Map *>((void *)(reinterpret_cast<GrassMap*>(((::NiTMapBase< ::NiTPointerAllocator<unsigned int>, unsigned long, ::TallGrassShaderProperty::TallGrassCacheData *> *)(::fnv_00b61170::GetArrayHolder())))))->FUN_00b601a0();
     DAT_011f9ef4 = 0;
     DAT_011f9ef8 = 0;
 }
@@ -39,17 +59,17 @@ void TallGrassShaderProperty::ClearCacheData()
 void TallGrassShaderProperty::ClearCaches()
 {
     ClearCacheData();
-    void* initial = GetGeometryCacheMap()->GetFirstPos();
+    void* initial = ((::NiTMapBase< ::NiTPointerAllocator<unsigned int>, const char *, ::NiPointerCachedGeometry> *)(::FUN_00b61890()))->GetFirstPos();
     void* pos = initial;
     NiPointerCachedGeometry value;
     const char* key;
-    if (GetGeometryCacheMap()->GetCount() > 0)
+    if (((::NiTMapBase< ::NiTPointerAllocator<unsigned int>, const char *, ::NiPointerCachedGeometry> *)(::FUN_00b61890()))->GetCount() > 0)
     {
         if (initial)
         {
             do
             {
-                GetGeometryCacheMap()->GetNext(pos, key, value);
+                reinterpret_cast<::FUN_00e6e630_cls *>((void *)(((::NiTMapBase< ::NiTPointerAllocator<unsigned int>, const char *, ::NiPointerCachedGeometry> *)(::FUN_00b61890()))))->AdvanceIterator((::MapItemNode **)&(pos), (unsigned int *)&(key), (::MapValueObject **)&(value));
                 GeometryCacheEntry* geometry = value;
                 if (geometry && !geometry->owned)
                 {
@@ -63,23 +83,19 @@ void TallGrassShaderProperty::ClearCaches()
                 }
             } while (pos);
         }
-        reinterpret_cast<GrassMap*>(GetGeometryCacheMap())->RemoveAll();
+        reinterpret_cast<::S_00b601a0_Map *>((void *)(reinterpret_cast<GrassMap*>(((::NiTMapBase< ::NiTPointerAllocator<unsigned int>, const char *, ::NiPointerCachedGeometry> *)(::FUN_00b61890())))))->FUN_00b601a0();
     }
 }
 
 struct BSStr
 {
-    bool Set(char const*, unsigned int);
 };
 struct NiStream
 {
-    void ReadStreamString(char*&);
 };
 struct Helper
 {
-    void FUN_00b70260(NiStream&);
 };
-void _NiFreeAlias(void*);
 struct Holder
 {
     char _pad[0x88];
@@ -90,31 +106,28 @@ struct Holder
 // @fnv 0x00b60fc0
 void Holder::ReadStringFromStream(NiStream& stream)
 {
-    ((Helper*)this)->FUN_00b70260(stream);
+    ::FUN_00b70260();
     char* pBuffer = 0;
-    stream.ReadStreamString(pBuffer);
-    mStr.Set(pBuffer, 0);
-    _NiFreeAlias(pBuffer);
+    reinterpret_cast<::FUN_00a64ce0_shell *>(&(stream))->FUN_00a64ce0((char **)&(pBuffer));
+    reinterpret_cast<::TextString *>(&(mStr))->FUN_004037f0(pBuffer, 0);
+    ::FUN_00aa10f0(pBuffer);
 }
 
 struct P03MM
 {
-    void* Allocate(unsigned int);
 };
-extern unsigned int DAT_011f9ef4;
-extern __declspec(thread) int g_tlsMemContext;
 
 struct AutoMemContext
 {
     int iPrevContext;
     AutoMemContext(int aiContext)
     {
-        iPrevContext = g_tlsMemContext;
-        g_tlsMemContext = aiContext;
+        iPrevContext = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiContext;
     }
     ~AutoMemContext()
     {
-        g_tlsMemContext = iPrevContext;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = iPrevContext;
     }
 };
 
@@ -171,11 +184,11 @@ struct FUN_00b617f0
     FUN_00b617f0();
     static void* operator new(unsigned int s)
     {
-        return ((P03MM*)&g_memoryManager)->Allocate(s);
+        return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&::g_memoryManager)))->FUN_00aa3e40(s);
     }
     static void operator delete(void* p)
     {
-        g_memoryManager.Deallocate(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
     }
 };
 
@@ -260,18 +273,17 @@ struct FUN_00bd8f90
     int m_aiIntegerPair[2];
     int m_44;
     ~FUN_00bd8f90();
-    void CopySettings(IntegerDataBlock* p);
     unsigned short GetRemaining() const
     {
         return m_usFirstValue - m_usSecondValue;
     }
     static void* operator new(unsigned int s)
     {
-        return ((P03MM*)&g_memoryManager)->Allocate(s);
+        return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&::g_memoryManager)))->FUN_00aa3e40(s);
     }
     static void operator delete(void* p)
     {
-        g_memoryManager.Deallocate(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
     }
 };
 struct FUN_00bd8ae0 : FUN_00bd8f90
@@ -281,13 +293,10 @@ struct FUN_00bd8ae0 : FUN_00bd8f90
 
 struct NiTStringPointerMap_00e93020
 {
-    __declspec(noalias) bool GetAt(void* key, void*& val);
 };
 struct NiVBSet
 {
-    void Create(unsigned int key, void* val);
 };
-GeometryCacheEntry* __cdecl FUN_00b61980(IntegerDataBlock* p);
 void* __cdecl _memmove(void*, const void*, unsigned int);
 
 // Looks up a cached grass group for the cell, creating and attaching a new one to the node when none has remaining capacity, and returns its remaining count.
@@ -302,17 +311,16 @@ unsigned short __cdecl GetOrCreateGrassGroup(IntegerDataBlock* apGrassParam, int
     GeometryCacheEntry* pcachedGeom;
     FUN_00bd8f90* pgrassgroup;
     *apGrassGroup = 0;
-    pcachedGeom = FUN_00b61980(apGrassParam);
+    pcachedGeom = ((::GeometryCacheEntry *)(::FUN_00b61980((const char **)(apGrassParam))));
     if (!pcachedGeom)
         return 0;
     pGrassCache = 0;
-    if (!((NiTStringPointerMap_00e93020*)TallGrassShaderProperty::GetCacheDataMap())
-             ->GetAt((void*)apGrassParam->m_iWordAt04, (void*&)pGrassCache))
+    if (!reinterpret_cast<::A54440Hash *>((((NiTStringPointerMap_00e93020*)((::NiTMapBase< ::NiTPointerAllocator<unsigned int>, unsigned long, ::TallGrassShaderProperty::TallGrassCacheData *> *)(::fnv_00b61170::GetArrayHolder())))))->FUN_00a53c30((::A54440Manager *)(void *)((void*)apGrassParam->m_iWordAt04), (::A54440Manager **)&((void*&)pGrassCache)))
     {
         pGrassCache = new FUN_00b617f0();
         pGrassCache->m_spCachedGeometry = (NiGPUProgram*)pcachedGeom;
         _memmove(pGrassCache, apGrassParam, 0x20);
-        ((NiVBSet*)TallGrassShaderProperty::GetCacheDataMap())->Create(apGrassParam->m_iWordAt04, pGrassCache);
+        reinterpret_cast<::HashTableBase *>((((NiVBSet*)((::NiTMapBase< ::NiTPointerAllocator<unsigned int>, unsigned long, ::TallGrassShaderProperty::TallGrassCacheData *> *)(::fnv_00b61170::GetArrayHolder())))))->InsertOrUpdate(apGrassParam->m_iWordAt04, (unsigned int)(pGrassCache));
     }
     pCurrentElementNext = &pGrassCache->m_kNode;
     piter = pCurrentElementNext->m_pkHead;
@@ -331,7 +339,7 @@ unsigned short __cdecl GetOrCreateGrassGroup(IntegerDataBlock* apGrassParam, int
         delete *apGrassGroup;
         *apGrassGroup = new FUN_00bd8ae0(pcachedGeom, aiCellX, aiCellY, 0);
         ++DAT_011f9ef4;
-        (*apGrassGroup)->CopySettings(apGrassParam);
+        reinterpret_cast<::Owner383 *>(((*apGrassGroup)))->CopySettings((const ::Settings383 *)(apGrassParam));
         pCurrentElementNext->FUN_00b58570(apGrassGroup);
         apGrassNode->AttachChildInAvailableSlot((*apGrassGroup)->m_pSecondObject, true);
     }
@@ -440,7 +448,6 @@ struct MapEntry
 struct MapPool
 {
     unsigned int count;
-    MapEntry* FUN_0043a010();
 };
 struct PointerMap
 {
@@ -470,7 +477,7 @@ void PointerMap::FUN_00b61010(const char* key, MapPointer value)
         }
         entry = entry->next;
     }
-    entry = allocator.FUN_0043a010();
+    entry = ((::MapEntry *)(reinterpret_cast<::FUN_0043a010_shell *>(&(allocator))->FUN_0043a010()));
     SetValue(entry, key, value);
     entry->next = buckets[hash];
     buckets[hash] = entry;
@@ -504,14 +511,11 @@ struct GrassGroupStub
     int unk28;
     int unk2c;
     NiVBSet kVBSet;
-    void PushEntry(float* apInstance, void* apKey);
-    void UpdateBounds();
 };
 
 int __cdecl PackFloatPairToInt(float* apPos);
 void __cdecl FUN_00ecada6(int aiSeed);
 int __cdecl FUN_00ecadb8();
-NiTStringPointerMap_00e93020* __cdecl GetArrayHolder();
 
 inline float FloorF(float f)
 {
@@ -557,22 +561,21 @@ void __cdecl PopulateGrassInstances(void* apKey, int aiCellX, int aiCellY, NiNod
             float fRand2 = FUN_00ecadb8() / 32767.0 * 2.0 - 1.0;
             float fValue = apParam->m_iThirdValue * fRand2 * 100.0;
             afInstance[3] = FloorF(fValue) + afInstance[3];
-            pGroup->PushEntry(afInstance, apKey);
+            reinterpret_cast<::FUN_00bd8550_Class *>((pGroup))->PushEntry(afInstance, (int)(apKey));
             auiCount--;
             iIndex++;
         }
-        pGroup->UpdateBounds();
+        reinterpret_cast<::GeometryBounds *>((pGroup))->UpdateBounds();
     }
 
     apGrassNode->v47();
 
     GrassGroupStub* pGroup = 0;
-    GetArrayHolder()->GetAt((void*)apParam->m_iWordAt04, (void*&)pGroup);
-    pGroup->kVBSet.Create((unsigned int)apKey, apKey);
+    reinterpret_cast<::A54440Hash *>((((::NiTStringPointerMap_00e93020 *)(::fnv_00b61170::GetArrayHolder()))))->FUN_00a53c30((::A54440Manager *)(void *)((void*)apParam->m_iWordAt04), (::A54440Manager **)&((void*&)pGroup));
+    reinterpret_cast<::HashTableBase *>(&(pGroup->kVBSet))->InsertOrUpdate((unsigned int)apKey, (unsigned int)(apKey));
 }
 
 namespace fnv_00b61170 {
-void* __cdecl FUN_00aa1070(unsigned int size);
 void __cdecl FUN_00ec61c0(void* p, int fill, unsigned int size);
 int __cdecl FUN_00ec658f(void(__cdecl* fn)());
 
@@ -586,7 +589,7 @@ struct ArrayHolderBase
     {
         m_04 = 0x25;
         m_0C = 0;
-        m_08 = FUN_00aa1070(m_04 * 4);
+        m_08 = ::FUN_00aa1070(m_04 * 4);
         FUN_00ec61c0(m_08, 0, m_04 * 4);
     }
 };

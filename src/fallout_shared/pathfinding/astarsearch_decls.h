@@ -10,6 +10,7 @@
 #define FNV_ASTARSEARCH_DECLS_H
 
 
+#include "fnv/symbols_0040f000.h"
 #include "layout_support.h"
 
 enum CREATE_ASTARNODE_RESULT
@@ -191,5 +192,4 @@ class NavMeshSearch
     int CreateOrUpdateNode(unsigned int, float, NavMeshAStarNode*&);
 };
 
-void FUN_0040fca0(unsigned long);
 #endif

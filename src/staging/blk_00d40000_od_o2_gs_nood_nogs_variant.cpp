@@ -5,10 +5,17 @@
 
 // src/staging/blk_00d40000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
 #include "../../include/layout_support.h"
 
 #include <xmmintrin.h>
-extern float DAT_01017718, DAT_01011d78, DAT_01016248;
 
 struct FloatMatrix3
 {
@@ -28,9 +35,9 @@ static __forceinline __m128 NormalizeAxis(__m128 value)
     __m128 dot =
         _mm_add_ss(_mm_shuffle_ps(square, square, 0xaa), _mm_add_ss(_mm_shuffle_ps(square, square, 0x55), square));
     __m128 reciprocal = _mm_rsqrt_ss(dot);
-    __m128 correction = _mm_sub_ss(_mm_set_ss(DAT_01017718), _mm_mul_ss(_mm_mul_ss(dot, reciprocal), reciprocal));
-    __m128 factor = _mm_mul_ss(_mm_mul_ss(_mm_set_ss(DAT_01016248), reciprocal), correction);
-    factor = _mm_andnot_ps(_mm_cmpeq_ss(dot, _mm_set_ss(DAT_01011d78)), factor);
+    __m128 correction = _mm_sub_ss(_mm_set_ss(::DAT_01017718), _mm_mul_ss(_mm_mul_ss(dot, reciprocal), reciprocal));
+    __m128 factor = _mm_mul_ss(_mm_mul_ss(_mm_set_ss(::fnv_00c88020::DAT_01016248), reciprocal), correction);
+    factor = _mm_andnot_ps(_mm_cmpeq_ss(dot, _mm_set_ss(::DAT_01011d78)), factor);
     return _mm_mul_ps(_mm_shuffle_ps(factor, factor, 0), value);
 }
 
@@ -76,7 +83,6 @@ struct StubHeapHolder
     void* heap;
 };
 StubHeapHolder* FUN_00c85750();
-void ResizeAudioStream(void* heap, void* arr, int elemSize);
 
 template <class T> struct StubArray
 {
@@ -96,7 +102,7 @@ template <class T> struct StubArray
     {
         StubHeapHolder* h = FUN_00c85750();
         if (count == (int)(capacity & 0x3fffffff))
-            ResizeAudioStream(h->heap, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(h->heap), (::AudioStream *)(void *)(this), sizeof(T));
         Construct(data + count, 1, v);
         count++;
     }
@@ -110,7 +116,7 @@ struct StubVecArray
     {
         StubHeapHolder* h = FUN_00c85750();
         if (count == (int)(capacity & 0x3fffffff))
-            ResizeAudioStream(h->heap, this, sizeof(__m128));
+            ::ResizeAudioStream((::AudioAllocator *)(h->heap), (::AudioStream *)(void *)(this), sizeof(__m128));
         data[count] = v;
         count++;
     }
@@ -131,7 +137,6 @@ struct StubBuilder
 };
 struct StubObj
 {
-    void Touch();
 };
 struct StubOwner
 {
@@ -147,7 +152,7 @@ int StubOwner::FUN_00d52790(unsigned char flag, StubObj* obj)
     builder->ops.Add(flag);
     int r = builder->vecs.count;
     __m128 v = _mm_setr_ps((float)builder->refs.count, 0.0f, 0.0f, 0.0f);
-    obj->Touch();
+    reinterpret_cast<::FUN_00c90510_class *>((obj))->FUN_00c90510();
     builder->vecs.Add(v);
     builder->refs.Add(obj);
     StubBuilder* b = builder;

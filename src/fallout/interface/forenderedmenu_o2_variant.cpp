@@ -2,6 +2,46 @@
 // src/fallout/interface/forenderedmenu_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/interface/forenderedmenu.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/B5Owner.h"
+#include "fnv/decl/FUN_00438230_Class.h"
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_0049ed90_shell.h"
+#include "fnv/decl/FUN_004a1040_Helper.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/NiAdditionalGeometryData.h"
+#include "fnv/decl/NiObjectNET.h"
+#include "fnv/decl/SoundPlayback.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TESRegionDataMap.h"
+#include "fnv/decl/TESTopicInfoData.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/fnv_00439390__NiObjectNET.h"
+#include "fnv/decl/fnv_004bc450__FUN_004bc450_S.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_00b5c940__SSNode.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00438000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_004af000.h"
+#include "fnv/symbols_004df000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_006d2000.h"
+#include "fnv/symbols_007f8000.h"
+#include "fnv/symbols_007fa000.h"
+#include "fnv/symbols_007fd000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_0118a000.h"
+#include "fnv/symbols_011db000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
 #include "forenderedmenu_decls.h"
 const char kRenderedMenuBurstSound[] = "UIPipBoyStatic";
 struct NP
@@ -25,7 +65,6 @@ struct FUN_007fad10
     NP npbc;
     char pad_c0[0x14];
     NP npd4;
-    void FUN_007fadf0();
 };
 struct FUN_007fc6f0_shell : public FORenderedMenu
 {
@@ -41,7 +80,6 @@ struct NP_0081c630
 };
 struct ExtraDataList
 {
-    void Set3DObject(NiAVObject*);
 };
 struct LightNodeV
 {
@@ -105,26 +143,18 @@ struct LightNodeV
     virtual void v39();
     virtual void AttachLight(unsigned int);
 };
-extern char DAT_0118abb1;
-void FUN_007f8160(char value);
 struct FUN_007fadf0_shell : public FORenderedMenu
 {
     void FUN_007fadf0();
 };
-unsigned char __fastcall GetByteAtOffsetB9(void* thisPtr);
-extern char* DAT_011f35cc;
-char* FUN_007fdf30();
 struct FUN_0087d6c0_shell
 {
     float __thiscall FUN_0087d6c0();
 };
-extern Flt g_011db63c;
-float __fastcall GetFieldB4Float(char*);
 struct FUN_00706060_shell
 {
     float FUN_00706060();
 };
-void __cdecl _Deallocate(void*);
 struct HOLDER
 {
     void* __thiscall DestroyHolder(unsigned int);
@@ -157,7 +187,6 @@ struct FUN_007fb250_owner
 };
 struct HackLight
 {
-    NiAVObject* FUN_007fc6f0();
 };
 struct MyMenu : public FORenderedMenu
 {

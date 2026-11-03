@@ -1,5 +1,38 @@
 // fallout_shared/sky/moon.cpp: Moon, TaskQueueInterface (11 functions)
 
+#include <new>
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/BSShaderManager.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0043b370_cls.h"
+#include "fnv/decl/FUN_0043fa80_s.h"
+#include "fnv/decl/FUN_00456630_Class.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00476c90_Class.h"
+#include "fnv/decl/FUN_0047c850.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004a0c90_shell.h"
+#include "fnv/decl/FUN_00524ac0_shell.h"
+#include "fnv/decl/FUN_005a8080.h"
+#include "fnv/decl/FUN_00633ba0_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008d0600_s.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/SkyShaderProperty.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00966000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_0103c000.h"
+#include "fnv/symbols_011de000.h"
 #include "moon_types.h"
 
 // @fnv 0x006366d0
@@ -49,45 +82,43 @@ float Moon::GetMoonShadowVisibility()
 class TaskQueueInterface
 {
   public:
-    void SetTaskFlagDWord(bool, unsigned int);
     void FUN_00635fe0(bool bDisplay);
+public:
+    void QueueActorDisarm(bool);
 };
 
 // @fnv 0x00635fe0
 void TaskQueueInterface::FUN_00635fe0(bool bDisplay)
 {
-    SetTaskFlagDWord(bDisplay, 0x20);
+    reinterpret_cast<::FUN_0043b370_cls *>(this)->FUN_0043b370(bDisplay, 0x20);
 }
 
 class Flag512Receiver
 {
   public:
-    void FUN_00633ba0(bool, unsigned int);
     void FUN_00636000(bool enabled);
 };
 
 // @fnv 0x00636000
 void Flag512Receiver::FUN_00636000(bool enabled)
 {
-    FUN_00633ba0(enabled, 0x2000);
+    reinterpret_cast<::FUN_00633ba0_Class *>(this)->FUN_00633ba0(enabled, 0x2000);
 }
 
 struct Calendar
 {
     unsigned int GetGameDaysPassed(void);
 };
-extern Calendar g_calendar;
 extern unsigned int DAT_011cca80;
-void* __fastcall _ref_0084e3a0(const Sky*);
 unsigned int __fastcall FUN_00636980(void*);
 
 // @fnv 0x006368f0
 bool __cdecl FUN_006368f0(const Sky* apSky)
 {
-    if (_ref_0084e3a0(apSky) && FUN_00636980(_ref_0084e3a0(apSky)))
+    if (((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((void *)(apSky))->FUN_0084e3a0())) && FUN_00636980(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((void *)(apSky))->FUN_0084e3a0()))))
     {
-        unsigned int eNewPhase = (g_calendar.GetGameDaysPassed() % (FUN_00636980(_ref_0084e3a0(apSky)) * 8)) /
-                                 FUN_00636980(_ref_0084e3a0(apSky));
+        unsigned int eNewPhase = ((*reinterpret_cast<::Calendar *>(&::g_011de7b8)).GetGameDaysPassed() % (FUN_00636980(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((void *)(apSky))->FUN_0084e3a0()))) * 8)) /
+                                 FUN_00636980(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((void *)(apSky))->FUN_0084e3a0())));
         if (eNewPhase != DAT_011cca80)
         {
             DAT_011cca80 = eNewPhase;
@@ -112,7 +143,6 @@ unsigned char FUN_00636980_Helper::FUN_00636980()
 
 struct FUN_00456630_helper
 {
-    bool FUN_00456630(unsigned int);
 };
 
 struct FUN_006366b0_shell
@@ -123,25 +153,14 @@ struct FUN_006366b0_shell
 // @fnv 0x006366b0
 bool FUN_006366b0_shell::FUN_006366b0()
 {
-    return ((FUN_00456630_helper*)this)->FUN_00456630(0x20);
+    return ((bool)(reinterpret_cast<::FUN_00456630_Class *>((((FUN_00456630_helper*)this)))->FUN_00456630(0x20)));
 }
 
-void _Deallocate(void*);
 struct S00634cb0
 {
     void FUN_00634ce0();
     void* DestroyIfFlagged(unsigned int);
 };
-// Calls FUN_00634ce0, then deallocates this if bit 0 of flags is set, and returns this.
-// @fnv 0x00634cb0
-void* S00634cb0::DestroyIfFlagged(unsigned int flags)
-{
-    FUN_00634ce0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 class NiNode
 {
   public:
@@ -204,7 +223,6 @@ class NiNode
     virtual void VfnE0();
     virtual void VfnE4();
     virtual void DetachChildAlt(NiNode* child);
-    NiNode* GetParent();
 };
 
 class FUN_00634ce0 : public SkyObject
@@ -226,6 +244,15 @@ class FUN_00634ce0 : public SkyObject
     float fPos;
     float m_fValue;
 };
+// Calls FUN_00634ce0, then deallocates this if bit 0 of flags is set, and returns this.
+// @fnv 0x00634cb0
+void* S00634cb0::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00634ce0 *>(this)->FUN_00634ce0::~FUN_00634ce0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Clears the four NiPointer members, detaches the node from its parent if it has one, then clears the node pointer.
 // @fnv 0x00634ce0
@@ -235,9 +262,9 @@ FUN_00634ce0::~FUN_00634ce0()
     m_pMoonShape = 0;
     m_pMoonShadowNode = 0;
     m_pMoonNode = 0;
-    if (m_pRootNode->GetParent())
+    if (((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>(((m_pRootNode).operator->()))->FUN_009611e0())))
     {
-        m_pRootNode->GetParent()->DetachChildAlt(m_pRootNode);
+        ((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>(((m_pRootNode).operator->()))->FUN_009611e0()))->DetachChildAlt(m_pRootNode);
     }
     m_pRootNode = 0;
 }
@@ -246,7 +273,6 @@ FUN_00634ce0::~FUN_00634ce0()
 // Moon::Moon(name, fadeStart, fadeEnd, shadowEarlyFade, speed, zOffset, size)
 
 struct FUN_00406f90_this;
-int __cdecl FUN_00406f60(FUN_00406f90_this*, const char*, ...);
 
 class FUN_00634a70 : public SkyObject
 {
@@ -305,16 +331,7 @@ FUN_00634a70::FUN_00634a70(const char* name, float fadeStart, float fadeEnd, flo
 struct NiTexture;
 struct TESSaveLoadGame;
 
-extern TESSaveLoadGame* g_TESSaveLoadGame;
-extern double _gModifierZero;
-extern double _DAT_010231b0;
-extern double DAT_01012638;
-extern double DAT_0103c348;
-extern const double DAT_01023128;
-extern float DAT_010249d8;
 
-float __cdecl FUN_0040ebd0(float, float);
-float __fastcall GetFieldEC(const char*);
 
 namespace MoonUpdateDetail {
 
@@ -326,7 +343,6 @@ struct Flt
 struct Mtx
 {
     float m0, m1, m2, m3, m4, m5, m6, m7, m8;
-    void _ref_006815c0();
     Mtx operator*(const Mtx&) const;
 };
 
@@ -338,18 +354,14 @@ struct RgbaColor
 
 struct NiAVObject
 {
-    void SetLocalRotation(const Mtx&);
-    void SetAppCulled(bool);
 };
 
 struct PropHelper
 {
-    void* GetProperty(unsigned int);
 };
 
 struct BGSTerrainManager
 {
-    unsigned int GetMinLevel();
 };
 
 struct SkyShaderProperty
@@ -380,47 +392,38 @@ struct SkyShaderProperty
     unsigned int unk5C;
     RgbaColor kColor;
 
-    void SetTexture(::NiTexture*);
 };
 
 struct BSShaderManager
 {
-    static void __cdecl GetTexture(const char*, bool, ::NiPointer< ::NiTexture>&, bool, bool);
 };
 
 struct SkyView
 {
-    int FUN_00476c90();
 };
 
 struct BSThread
 {
-    unsigned int GetThreadID();
 };
 
 struct Twin_0084d030
 {
-    float GetStoredFloatValue();
 };
 
 struct TESSaveLoadGame
 {
-    bool GetLoading();
 };
 
 struct TESFaction_RankDataView
 {
-    unsigned char* GetRankDataList();
 };
 
 struct FUN_00524ac0_shell
 {
-    void FUN_00524ac0(float);
 };
 
 struct FUN_004a0c90_shell
 {
-    void FUN_004a0c90(float);
 };
 
 struct FUN_00636020_shell : public ::Moon
@@ -439,114 +442,108 @@ void FUN_00636020_shell::FUN_00636020(::Sky* apSky, float afSecondsPassed)
     ::AutoMemContext tempMemContext(MEM_CONTEXT_MEM_CONTEXT_SKY, true,
                                     "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Sky\\Moon.cpp", 0x124);
 
-    ::SkyObject::Update(apSky, afSecondsPassed);
+    reinterpret_cast<::FUN_008d0600_s *>(this)->FUN_008d0600((int)(apSky), afSecondsPassed);
 
     if (m_fValue == _DAT_010231b0)
     {
         m_fValue = 0;
         fPos = DAT_010249d8;
     }
-    if (((TESSaveLoadGame*)::g_TESSaveLoadGame)->GetLoading())
+    if (reinterpret_cast<::FUN_0047c850 *>((((TESSaveLoadGame*)::g_TESSaveLoadGame)))->EvaluateCondition())
     {
-        m_fValue = -((double)(g_calendar.GetGameDaysPassed() - 1) * 24.0);
+        m_fValue = -((double)((*reinterpret_cast<::Calendar *>(&::g_011de7b8)).GetGameDaysPassed() - 1) * 24.0);
         fPos = DAT_010249d8;
     }
     fTimePassed = GetFieldEC((const char*)apSky) - m_fValue;
-    if (fTimePassed < _gModifierZero)
+    if (fTimePassed < ::_DAT_01012060)
         fTimePassed = fTimePassed + 24.0;
     fPos = fSpeed * DAT_01012638 * fTimePassed + fPos;
-    while (fPos < _gModifierZero)
-        fPos = fPos + DAT_0103c348;
-    while (fPos >= DAT_0103c348)
-        fPos = fPos - DAT_0103c348;
+    while (fPos < ::_DAT_01012060)
+        fPos = fPos + ::DAT_0103c348;
+    while (fPos >= ::DAT_0103c348)
+        fPos = fPos - ::DAT_0103c348;
     m_fValue = GetFieldEC((const char*)apSky);
 
     fvisMoon = GetMoonVisibility();
     fvisShadow = GetMoonShadowVisibility();
-    fvisStars = ((Twin_0084d030*)((BSThread*)apSky)->GetThreadID())->GetStoredFloatValue();
+    fvisStars = reinterpret_cast<::Twin_0084d030 *>((((Twin_0084d030*)reinterpret_cast<::ActorMover *>((((BSThread*)apSky)))->GetCurrentMoveModeType())))->GetStoredFloatValue();
     fvisShadow = FUN_0040ebd0(fvisShadow, fvisStars);
 
     if (m_eUpdateStatus == US_INITIALIZE ||
-        (m_eUpdateStatus == US_WHEN_CULLED && fvisMoon <= _gModifierZero && fvisShadow <= _gModifierZero))
+        (m_eUpdateStatus == US_WHEN_CULLED && fvisMoon <= ::_DAT_01012060 && fvisShadow <= ::_DAT_01012060))
     {
         SkyShaderProperty* pprop =
-            (SkyShaderProperty*)((PropHelper*)((const Flt*)&m_pMoonShape)->operator unsigned int())->GetProperty(3);
+            (SkyShaderProperty*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)((const Flt*)&m_pMoonShape)->operator unsigned int())))->FUN_00a59d30(3)));
         ::NiPointer< ::NiTexture> spTex(0);
-        BSShaderManager::GetTexture(
+        ::BSShaderManager::GetTexture(
             (const char*)((const Flt*)&m_kMoonTexturePaths[DAT_011cca80])->operator unsigned int(), true, spTex, true,
             false);
         ::NiTexture* ptex = (::NiTexture*)((const Flt*)&spTex)->operator unsigned int();
         if (ptex)
-            pprop->SetTexture(ptex);
+            reinterpret_cast<::SkyShaderProperty *>((pprop))->SetTexture(ptex);
         ((::TaskQueueInterface*)((const Flt*)&m_pMoonShape)->operator unsigned int())->FUN_00635fe0(ptex != 0);
         m_eUpdateStatus = US_NOT_REQUIRED;
     }
 
-    if (((SkyView*)apSky)->FUN_00476c90() == 3 || ((SkyView*)apSky)->FUN_00476c90() == 2)
+    if (((int)(reinterpret_cast<::FUN_00476c90_Class *>((((SkyView*)apSky)))->FUN_00476c90())) == 3 || ((int)(reinterpret_cast<::FUN_00476c90_Class *>((((SkyView*)apSky)))->FUN_00476c90())) == 2)
     {
         if (!((::FUN_006366b0_shell*)((const Flt*)&m_pRootNode)->operator unsigned int())->FUN_006366b0())
         {
-            ((NiAVObject*)((const Flt*)&m_pRootNode)->operator unsigned int())->SetAppCulled(true);
+            reinterpret_cast<::TaskQueueInterface *>((((NiAVObject*)((const Flt*)&m_pRootNode)->operator unsigned int())))->QueueActorDisarm(true);
             return;
         }
         Mtx matrixMoonZ;
         Mtx matrixMoonX;
-        matrixMoonX._ref_006815c0();
-        matrixMoonZ._ref_006815c0();
-        ((FUN_00524ac0_shell*)&matrixMoonX)->FUN_00524ac0(-fPos * DAT_01023128);
-        ((FUN_004a0c90_shell*)&matrixMoonZ)->FUN_004a0c90(m_fGlyphVerticalOffset * DAT_01023128);
-        ((NiAVObject*)((const Flt*)&m_pRootNode)->operator unsigned int())->SetLocalRotation(matrixMoonX * matrixMoonZ);
-        if (fvisMoon <= _gModifierZero && fvisShadow <= _gModifierZero)
+        new ((void *)&(matrixMoonX)) ::Vec3();
+        new ((void *)&(matrixMoonZ)) ::Vec3();
+        reinterpret_cast<::FUN_00524ac0_shell *>((((FUN_00524ac0_shell*)&matrixMoonX)))->FUN_00524ac0(-fPos * DAT_01023128);
+        reinterpret_cast<::FUN_004a0c90_shell *>((((FUN_004a0c90_shell*)&matrixMoonZ)))->FUN_004a0c90(m_fGlyphVerticalOffset * DAT_01023128);
+        reinterpret_cast<::FUN_0043fa80_s *>((((NiAVObject*)((const Flt*)&m_pRootNode)->operator unsigned int())))->FUN_0043fa80((const ::ThreeByThreeMatrix &)((const ::MoonUpdateDetail::Mtx &)(matrixMoonX * matrixMoonZ)));
+        if (fvisMoon <= ::_DAT_01012060 && fvisShadow <= ::_DAT_01012060)
         {
-            ((NiAVObject*)((const Flt*)&m_pRootNode)->operator unsigned int())->SetAppCulled(true);
+            reinterpret_cast<::TaskQueueInterface *>((((NiAVObject*)((const Flt*)&m_pRootNode)->operator unsigned int())))->QueueActorDisarm(true);
         }
         else
         {
-            ((NiAVObject*)((const Flt*)&m_pRootNode)->operator unsigned int())->SetAppCulled(false);
-            if (fvisMoon <= _gModifierZero ||
+            reinterpret_cast<::TaskQueueInterface *>((((NiAVObject*)((const Flt*)&m_pRootNode)->operator unsigned int())))->QueueActorDisarm(false);
+            if (fvisMoon <= ::_DAT_01012060 ||
                 !((::FUN_006366b0_shell*)((const Flt*)&m_pMoonShape)->operator unsigned int())->FUN_006366b0())
             {
-                ((NiAVObject*)((const Flt*)&m_pMoonNode)->operator unsigned int())->SetAppCulled(true);
+                reinterpret_cast<::TaskQueueInterface *>((((NiAVObject*)((const Flt*)&m_pMoonNode)->operator unsigned int())))->QueueActorDisarm(true);
             }
             else
             {
-                ((NiAVObject*)((const Flt*)&m_pMoonNode)->operator unsigned int())->SetAppCulled(false);
+                reinterpret_cast<::TaskQueueInterface *>((((NiAVObject*)((const Flt*)&m_pMoonNode)->operator unsigned int())))->QueueActorDisarm(false);
                 SkyShaderProperty* pshadeProperty =
-                    (((PropHelper*)((const Flt*)&m_pMoonShape)->operator unsigned int())->GetProperty(3) == 0
+                    (((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)((const Flt*)&m_pMoonShape)->operator unsigned int())))->FUN_00a59d30(3))) == 0
                          ? 0
-                         : ((BGSTerrainManager*)((PropHelper*)((const Flt*)&m_pMoonShape)->operator unsigned int())
-                                ->GetProperty(3))
-                                   ->GetMinLevel() == 0xd)
-                        ? (SkyShaderProperty*)((PropHelper*)((const Flt*)&m_pMoonShape)->operator unsigned int())
-                              ->GetProperty(3)
+                         : reinterpret_cast<::BGSTerrainManager *>((((BGSTerrainManager*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)((const Flt*)&m_pMoonShape)->operator unsigned int())))->FUN_00a59d30(3))))))->GetMinLevel() == 0xd)
+                        ? (SkyShaderProperty*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)((const Flt*)&m_pMoonShape)->operator unsigned int())))->FUN_00a59d30(3)))
                         : 0;
                 if (pshadeProperty)
                     pshadeProperty->kColor.a = fvisMoon;
             }
-            if (fvisShadow <= _gModifierZero ||
+            if (fvisShadow <= ::_DAT_01012060 ||
                 !((::FUN_006366b0_shell*)((const Flt*)&m_pMoonShadowShape)->operator unsigned int())->FUN_006366b0())
             {
-                ((NiAVObject*)((const Flt*)&m_pMoonShadowNode)->operator unsigned int())->SetAppCulled(true);
+                reinterpret_cast<::TaskQueueInterface *>((((NiAVObject*)((const Flt*)&m_pMoonShadowNode)->operator unsigned int())))->QueueActorDisarm(true);
             }
             else
             {
-                ((NiAVObject*)((const Flt*)&m_pMoonShadowNode)->operator unsigned int())->SetAppCulled(false);
+                reinterpret_cast<::TaskQueueInterface *>((((NiAVObject*)((const Flt*)&m_pMoonShadowNode)->operator unsigned int())))->QueueActorDisarm(false);
                 SkyShaderProperty* pshadeProperty =
-                    (((PropHelper*)((const Flt*)&m_pMoonShadowShape)->operator unsigned int())->GetProperty(3) == 0
+                    (((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)((const Flt*)&m_pMoonShadowShape)->operator unsigned int())))->FUN_00a59d30(3))) == 0
                          ? 0
-                         : ((BGSTerrainManager*)((PropHelper*)((const Flt*)&m_pMoonShadowShape)
+                         : reinterpret_cast<::BGSTerrainManager *>((((BGSTerrainManager*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)((const Flt*)&m_pMoonShadowShape)
                                                      ->
-                                                     operator unsigned int())
-                                ->GetProperty(3))
-                                   ->GetMinLevel() == 0xd)
-                        ? (SkyShaderProperty*)((PropHelper*)((const Flt*)&m_pMoonShadowShape)->operator unsigned int())
-                              ->GetProperty(3)
+                                                     operator unsigned int())))->FUN_00a59d30(3))))))->GetMinLevel() == 0xd)
+                        ? (SkyShaderProperty*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)((const Flt*)&m_pMoonShadowShape)->operator unsigned int())))->FUN_00a59d30(3)))
                         : 0;
                 if (pshadeProperty)
                     pshadeProperty->kColor =
-                        RgbaColor(((float*)((TESFaction_RankDataView*)apSky)->GetRankDataList())[0],
-                                  ((float*)((TESFaction_RankDataView*)apSky)->GetRankDataList())[1],
-                                  ((float*)((TESFaction_RankDataView*)apSky)->GetRankDataList())[2], fvisShadow);
+                        RgbaColor(((float*)((unsigned char *)(reinterpret_cast<struct ::FUN_005a8080 *>((((TESFaction_RankDataView*)apSky)))->GetField())))[0],
+                                  ((float*)((unsigned char *)(reinterpret_cast<struct ::FUN_005a8080 *>((((TESFaction_RankDataView*)apSky)))->GetField())))[1],
+                                  ((float*)((unsigned char *)(reinterpret_cast<struct ::FUN_005a8080 *>((((TESFaction_RankDataView*)apSky)))->GetField())))[2], fvisShadow);
             }
         }
     }

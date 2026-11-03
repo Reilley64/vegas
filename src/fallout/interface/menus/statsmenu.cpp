@@ -1,5 +1,180 @@
 // fallout/interface/menus/statsmenu.cpp: StatsMenu, BodyPartDisplay, ClickMenu, BGSPerk and more (87 functions)
 
+#include <new>
+#include "fnv/decl/AGOwner.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSDebris.h"
+#include "fnv/decl/BGSMessageInitAccess.h"
+#include "fnv/decl/BGSQuestObjective.h"
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatState.h"
+#include "fnv/decl/EffectItem_shell.h"
+#include "fnv/decl/FUN_00403ee0_shell.h"
+#include "fnv/decl/FUN_00404390_shell.h"
+#include "fnv/decl/FUN_00404420_shell.h"
+#include "fnv/decl/FUN_004044d0_shell.h"
+#include "fnv/decl/FUN_004046b0_cls.h"
+#include "fnv/decl/FUN_00404760_shell.h"
+#include "fnv/decl/FUN_004048e0_cls.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00470440.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_006166e0_shell.h"
+#include "fnv/decl/FUN_0070ec70_class.h"
+#include "fnv/decl/FUN_0071f9f0.h"
+#include "fnv/decl/FUN_007242c0_shell.h"
+#include "fnv/decl/FUN_007254d0_t.h"
+#include "fnv/decl/FUN_00725aa0_cls.h"
+#include "fnv/decl/FUN_00725f40_shell.h"
+#include "fnv/decl/FUN_0073ac90_shell.h"
+#include "fnv/decl/FUN_0075f6f0_shell.h"
+#include "fnv/decl/FUN_007b52a0_class.h"
+#include "fnv/decl/FUN_007d86c0_shell.h"
+#include "fnv/decl/FUN_007df120_Class.h"
+#include "fnv/decl/FUN_007e0d80_shell.h"
+#include "fnv/decl/FUN_007e0e30_Class.h"
+#include "fnv/decl/FUN_007f86f0_shell.h"
+#include "fnv/decl/FUN_007fa0f0_Class.h"
+#include "fnv/decl/FUN_00833c20_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00877720_shell.h"
+#include "fnv/decl/FUN_0088c650_shell.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_009c1a50_shell.h"
+#include "fnv/decl/FUN_00a00e90_shell.h"
+#include "fnv/decl/FUN_00a00f30_shell.h"
+#include "fnv/decl/FUN_00a011f0_shell.h"
+#include "fnv/decl/FUN_00a01230_shell.h"
+#include "fnv/decl/FUN_00a01290_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a013d0_shell.h"
+#include "fnv/decl/FUN_00a01440_shell.h"
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/FUN_00a0b110_shell.h"
+#include "fnv/decl/FUN_00a1dc70_shell.h"
+#include "fnv/decl/FUN_00a23390_t.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/LBList.h"
+#include "fnv/decl/LBList_7314c0.h"
+#include "fnv/decl/ListOwner.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/Owner.h"
+#include "fnv/decl/Owner050.h"
+#include "fnv/decl/P03Value.h"
+#include "fnv/decl/RefList.h"
+#include "fnv/decl/RenderTile.h"
+#include "fnv/decl/S00404510.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/S725970.h"
+#include "fnv/decl/S_00a04150_Class.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/TileListBoxCalls.h"
+#include "fnv/decl/TutorialMessageGate718.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Unk004043d0.h"
+#include "fnv/decl/VATSMenuView.h"
+#include "fnv/decl/VLList.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00404560__FUN_00404210_t.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_00576260__FUN_00576260_shell.h"
+#include "fnv/decl/fnv_0070bc20__FUN_0070bc20_shell.h"
+#include "fnv/decl/fnv_00714fd0__FUN_00714fd0_shell.h"
+#include "fnv/decl/fnv_007157b0__FUN_007157b0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_007d61e0__FUN_007d61e0_shell.h"
+#include "fnv/decl/fnv_007d6ff0__FUN_007d6ff0_shell.h"
+#include "fnv/decl/fnv_007d74f0__FUN_007d74f0_shell.h"
+#include "fnv/decl/fnv_007e1190__LBH.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_0087f9f0__FUN_0087f9f0_shell.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
+#include "fnv/decl/fnv_00a01b00__TileLoader.h"
+#include "fnv/decl/fnv_00a03da0__FUN_00a03da0_shell.h"
+#include "fnv/decl/fnv_00a09200__Value_00a09200.h"
+#include "fnv/decl/fnv_00a09410__EvalValue.h"
+#include "fnv/decl/fnv_00a1ddb0__FUN_00a1ddb0_shell.h"
+#include "fnv/decl/sa040a0__Owner.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00402000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_0042f000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00457000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_0047e000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00495000.h"
+#include "fnv/symbols_004a8000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_004d1000.h"
+#include "fnv/symbols_004e4000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005a3000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005c5000.h"
+#include "fnv/symbols_00643000.h"
+#include "fnv/symbols_0066e000.h"
+#include "fnv/symbols_00704000.h"
+#include "fnv/symbols_00705000.h"
+#include "fnv/symbols_00709000.h"
+#include "fnv/symbols_0070e000.h"
+#include "fnv/symbols_00717000.h"
+#include "fnv/symbols_00719000.h"
+#include "fnv/symbols_00726000.h"
+#include "fnv/symbols_007da000.h"
+#include "fnv/symbols_007db000.h"
+#include "fnv/symbols_007dc000.h"
+#include "fnv/symbols_007dd000.h"
+#include "fnv/symbols_007df000.h"
+#include "fnv/symbols_007e0000.h"
+#include "fnv/symbols_00867000.h"
+#include "fnv/symbols_00a00000.h"
+#include "fnv/symbols_00a01000.h"
+#include "fnv/symbols_00a09000.h"
+#include "fnv/symbols_00a1c000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01018000.h"
+#include "fnv/symbols_01019000.h"
+#include "fnv/symbols_0101f000.h"
+#include "fnv/symbols_01020000.h"
+#include "fnv/symbols_01064000.h"
+#include "fnv/symbols_0106e000.h"
+#include "fnv/symbols_0106f000.h"
+#include "fnv/symbols_01070000.h"
+#include "fnv/symbols_01078000.h"
+#include "fnv/symbols_01183000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011d0000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011d2000.h"
+#include "fnv/symbols_011d3000.h"
+#include "fnv/symbols_011d4000.h"
+#include "fnv/symbols_011d5000.h"
+#include "fnv/symbols_011da000.h"
+#include "fnv/symbols_011db000.h"
+#include "fnv/symbols_011de000.h"
 #include "../../../statsmenu_types.h"
 
 static const int kGetClassValue = 1003;
@@ -18,7 +193,7 @@ float ActiveEffect::GetDuration() const
 // @fnv 0x007df1d0
 EffectSetting* ActiveEffect::GetEffectSetting() const
 {
-    return pEffect->GetEffectSetting();
+    return ((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(pEffect))->FUN_00825c00()));
 }
 // @fnv 0x007dd8a0
 bool BGSPerk::IsPerkHidden() const
@@ -40,7 +215,7 @@ void StatsMenu::SetStatsPage(unsigned char page)
 // @fnv 0x007dcc00
 StatsMenu::Page StatsMenu::GetCurrentPage()
 {
-    return static_cast<Page>(static_cast<unsigned int>(pMenu->GetFloat(0x1004)));
+    return static_cast<Page>(static_cast<unsigned int>(reinterpret_cast<::TileListBoxCalls *>((void *)(pMenu))->GetFloat(0x1004)));
 }
 // Maps HEALTH, ACTION_POINTS and EXPERIENCE_POINTS actor values to trait IDs 0x1009-0x100B, returning INT_MIN otherwise.
 // @fnv 0x007dfdf0
@@ -62,7 +237,7 @@ int StatsMenu::GetTraitForValue(ActorValue::Index value)
 void StatsMenu::UpdateStatusEffects()
 {
     if (ms_pInventoryMenu && ms_pInventoryMenu->m_pTiles[37])
-        ms_pInventoryMenu->m_pTiles[37]->Set(0xFC4, TESActorBaseData::GetActorDisplayName(g_thePlayer), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ms_pInventoryMenu->m_pTiles[37]))->FUN_00a01350(0xFC4, (char *)(::FUN_0047e0e0(::_g_thePlayer)), true);
 }
 // @fnv 0x007dda60
 void StatsMenu::ClearPerks()
@@ -73,7 +248,7 @@ void StatsMenu::ClearPerks()
 // @fnv 0x007ddad0
 void StatsMenu::RefreshMiscStat(MiscStatManager__MiscStatID value)
 {
-    UpdateMiscStatTile(m_kMiscStatList.GetTileForData(value), value);
+    ::FUN_007dfc60(((::Tile *)(reinterpret_cast<::Owner *>(&(m_kMiscStatList))->FindItemData((int *)&(value)))), (*(int *)&(value)));
 }
 // @fnv 0x007dcfc0
 void StatsMenu::UpdateActorValueTiles()
@@ -86,9 +261,9 @@ void StatsMenu::UpdateActorValueTiles()
     for (int value = 25; value < 32; ++value)
         RefreshActorValueTile(static_cast<ActorValue::Index>(value));
     m_pTiles[6]->Set(0x1004, 0);
-    m_kPrimaryActorValueList.Traverse(UpdatePrimaryActorValueTile, 0, 2147483647);
+    reinterpret_cast<::LBList_7314c0 *>(&(m_kPrimaryActorValueList))->FUN_007314c0((void (*)(LBTile_7314c0 *, void *))(UpdatePrimaryActorValueTile), 0, 2147483647);
     m_pTiles[7]->Set(0x1004, 0);
-    m_kSecondaryActorValueList.Traverse(UpdateSecondaryActorValueTile, 0, 2147483647);
+    reinterpret_cast<::LBList_7314c0 *>(&(m_kSecondaryActorValueList))->FUN_007314c0((void (*)(LBTile_7314c0 *, void *))(::UpdateActorValueTile), 0, 2147483647);
     RefreshActorValueTile(ActorValue::ActorValue__Index_KARMA);
 }
 // Sets a tile's current actor value and, if it differs from the permanent value, marks it with a (+)/(-) indicator and flags the parent.
@@ -102,16 +277,16 @@ void StatsMenu::UpdatePrimaryActorValueTile(Tile* tile, ActorValue::Index value)
             int current;
             int permanent;
         } values;
-        values.current = g_thePlayer->GetActorValueAsInteger(value);
-        values.permanent = g_thePlayer->GetPermanentActorValue(value);
+        values.current = ::_g_thePlayer->GetActorValueAsInteger(value);
+        values.permanent = ::_g_thePlayer->GetPermanentActorValue(value);
         tile->Set(0x1005, values.current);
         if (values.permanent == values.current)
             tile->Set(0x1004, 0);
         else
         {
             tile->Set(0x1004, 1);
-            tile->Set(0x1006, values.current > values.permanent ? "(+)" : "(-)", true);
-            tile->GetParent()->Set(0x1004, 1);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tile))->FUN_00a01350(0x1006, (char *)(values.current > values.permanent ? "(+)" : "(-)"), true);
+            ((::Tile *)(reinterpret_cast<::FUN_0045cd60_shell *>((void *)(tile))->FUN_0045cd60()))->Set(0x1004, 1);
         }
     }
 }
@@ -119,19 +294,14 @@ void StatsMenu::UpdatePrimaryActorValueTile(Tile* tile, ActorValue::Index value)
 // @fnv 0x007df1b0
 bool EffectSetting::IsScriptEffect()
 {
-    return MagicEffectSystem::IsFlagSet(GetEffectArchetype(), 0x40);
+    return ::HasEffectArchetypeFlag((*(int *)&(const ::MagicEffectSystem::_Type::Type &)(GetEffectArchetype())), 0x40);
 }
 
 struct TileF
 {
-    void Set(int, float, bool);
-    void Set(int, unsigned int);
-    void SetName(const char*);
 };
 struct ParSI
 {
-    float GetTotalFloat();
-    float GetAccumulatedFloat();
 };
 struct OptSI
 {
@@ -148,8 +318,6 @@ struct VObj
     virtual void v5();
     virtual void v6();
     virtual void v7();
-    void FUN_007d74f0(int);
-    Tile* CreateListItem(OptSI*, int, int, int);
 };
 struct MenuSI
 {
@@ -159,7 +327,6 @@ struct MenuSI
     Tile* t78;
     char pad2[0x68];
     VObj e4;
-    void FadeTile(int, int, unsigned int, float);
     void PopulateListBoxTiles(void*, int, int, int, bool);
 };
 struct ListBoxSI
@@ -168,29 +335,27 @@ struct ListBoxSI
 };
 struct ArrSI
 {
-    unsigned int GetFlags();
     OptSI*& GetAt(unsigned int);
 };
-extern ArrSI g_011dab88;
 // Resets the menu, sets tile values from a, b, c and d, then adds each entry of g_011dab88 to lb and creates a named tile for it.
 // @fnv 0x007d49a0
 void MenuSI::PopulateListBoxTiles(void* apListBox, int aiValueA, int aiValueB, int auiValueC, bool abFlag)
 {
     unsigned int i;
     this->e4.v7();
-    this->e4.FUN_007d74f0(1);
-    this->FadeTile(7, 1, 0x80000000, -1.0f);
-    ((TileF*)this->t44)->Set(0xfa1, (float)(aiValueA - ((ParSI*)this->t44->GetParent())->GetTotalFloat()), true);
-    ((TileF*)this->t44)->Set(0xfa2, (float)(aiValueB - ((ParSI*)this->t44->GetParent())->GetAccumulatedFloat()), true);
-    ((TileF*)this->t44)->Set(0xfb1, (unsigned int)auiValueC);
+    reinterpret_cast<::fnv_007d74f0::FUN_007d74f0_shell *>(&(this->e4))->FUN_007d74f0(1);
+    reinterpret_cast<::fnv_007d61e0::FUN_007d61e0_shell *>((this))->FadeTile(7, 1, 0x80000000, -1.0f);
+    reinterpret_cast<::FUN_00a012d0_t *>((((TileF*)this->t44)))->FUN_00a012d0(0xfa1, (float)(aiValueA - reinterpret_cast<::FUN_00a013d0_shell *>((((ParSI*)((::Tile *)(reinterpret_cast<::FUN_0045cd60_shell *>((void *)(this->t44))->FUN_0045cd60())))))->GetTotalFloat()), true);
+    reinterpret_cast<::FUN_00a012d0_t *>((((TileF*)this->t44)))->FUN_00a012d0(0xfa2, (float)(aiValueB - reinterpret_cast<::FUN_00a01440_shell *>((((ParSI*)((::Tile *)(reinterpret_cast<::FUN_0045cd60_shell *>((void *)(this->t44))->FUN_0045cd60())))))->GetAccumulatedFloat()), true);
+    reinterpret_cast<::Tile *>((((TileF*)this->t44)))->Set(0xfb1, (unsigned int)auiValueC);
     this->t78->Set(0xfa3, (int)abFlag);
-    for (i = 0; i < g_011dab88.GetFlags(); i++)
+    for (i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ArrSI *>(&::g_011dab88))))->GetName())); i++)
     {
-        if (((ListBoxSI*)g_011dab88.GetAt(i))->AddItem(apListBox))
+        if (((ListBoxSI*)(*reinterpret_cast<::ArrSI *>(&::g_011dab88)).GetAt(i))->AddItem(apListBox))
         {
-            Tile* ptile = this->e4.CreateListItem(g_011dab88.GetAt(i), 0, 0, 0);
-            ptile->Set(0xfc4, g_011dab88.GetAt(i)->name, true);
-            ((TileF*)ptile)->SetName(g_011dab88.GetAt(i)->name);
+            Tile* ptile = ((::Tile *)(reinterpret_cast<::fnv_007d6ff0::FUN_007d6ff0_shell *>(&(this->e4))->CreateListItem((int)((*reinterpret_cast<::ArrSI *>(&::g_011dab88)).GetAt(i)), (const char *)(0), (int (*)(fnv_007d6ff0::DebrisData *, fnv_007d6ff0::DebrisData *))(0), (const char *)(0))));
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::ArrSI *>(&::g_011dab88)).GetAt(i)->name), true);
+            reinterpret_cast<::Tile *>((((TileF*)ptile)))->SetName((*reinterpret_cast<::ArrSI *>(&::g_011dab88)).GetAt(i)->name);
         }
     }
 }
@@ -203,7 +368,7 @@ struct FUN_007dcc40_shell : public StatsMenu
 // @fnv 0x007dcc40
 int FUN_007dcc40_shell::FUN_007dcc40()
 {
-    return (unsigned int)m_pTiles[5]->GetFloat(0x1004);
+    return (unsigned int)reinterpret_cast<::TileListBoxCalls *>((void *)(m_pTiles[5]))->GetFloat(0x1004);
 }
 
 struct FUN_007df210_shell : public ActiveEffect
@@ -217,26 +382,24 @@ bool FUN_007df210_shell::FUN_007df210()
     return (*(int*)((char*)this + 0x18) & 0x80) != 0;
 }
 
-int __cdecl TruncateFloatToInt(float);
-float __cdecl GetSkillValue(void*, int, bool);
 
 // @fnv 0x007dfb00
 void __cdecl UpdateActorValueTile(Tile* apTile, ActorValue::Index aeIndex)
 {
     if (apTile)
     {
-        int ival = g_thePlayer->GetActorValueAsInteger(aeIndex);
-        int ibase = g_thePlayer->GetPermanentActorValue(aeIndex);
-        float fderivedVal = GetSkillValue((ActorValueOwner*)g_thePlayer, aeIndex, false);
-        float fderivedBase = GetSkillValue((ActorValueOwner*)g_thePlayer, aeIndex, true);
-        int idelta = (ival - ibase) + TruncateFloatToInt(fderivedVal - fderivedBase);
+        int ival = ::_g_thePlayer->GetActorValueAsInteger(aeIndex);
+        int ibase = ::_g_thePlayer->GetPermanentActorValue(aeIndex);
+        float fderivedVal = ::GetSkillValue((::ActorStub *)(void *)((ActorValueOwner*)::_g_thePlayer), aeIndex, false);
+        float fderivedBase = ::GetSkillValue((::ActorStub *)(void *)((ActorValueOwner*)::_g_thePlayer), aeIndex, true);
+        int idelta = (ival - ibase) + ::FUN_00406d90(fderivedVal - fderivedBase);
 
         apTile->Set(0x1005, ival);
         if (idelta != 0)
         {
             apTile->Set(0x1004, 1);
-            apTile->Set(0x1006, idelta > 0 ? "(+)" : "(-)", true);
-            apTile->GetParent()->Set(0x1004, 1);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((apTile))->FUN_00a01350(0x1006, (char *)(idelta > 0 ? "(+)" : "(-)"), true);
+            ((::Tile *)(reinterpret_cast<::FUN_0045cd60_shell *>((void *)(apTile))->FUN_0045cd60()))->Set(0x1004, 1);
         }
         else
         {
@@ -245,7 +408,6 @@ void __cdecl UpdateActorValueTile(Tile* apTile, ActorValue::Index aeIndex)
     }
 }
 
-int __cdecl FUN_005a3370(int);
 
 // If apTile is non-null, calls Set with 0x1005 and the result of FUN_005a3370(aeID).
 // @fnv 0x007dfc60
@@ -257,8 +419,6 @@ void __cdecl FUN_007dfc60(Tile* apTile, int aeID)
     }
 }
 
-bool __fastcall FUN_004d1360(PlayerCharacter* pPlayer);
-bool __cdecl FUN_004b71d0(void);
 int __cdecl GetStatusResult(void);
 
 struct DummyAVOwner
@@ -277,7 +437,7 @@ struct DummyAVOwner
 // @fnv 0x007e05f0
 bool __cdecl IsActorValueBelowPermanent(int* aHO)
 {
-    bool bIsHardcore = FUN_004d1360(g_thePlayer);
+    bool bIsHardcore = ::FUN_004d1360((char *)(::_g_thePlayer));
     if (aHO[2] != 0)
     {
         int etargetAV = GetStatusResult();
@@ -292,8 +452,8 @@ bool __cdecl IsActorValueBelowPermanent(int* aHO)
                 etargetAV = 0x10;
             }
         }
-        return ((DummyAVOwner*)((char*)g_thePlayer + 0xa4))->GetActorValueI(etargetAV) <
-               ((DummyAVOwner*)((char*)g_thePlayer + 0xa4))->GetPermanentActorValueI(etargetAV);
+        return ((DummyAVOwner*)((char*)::_g_thePlayer + 0xa4))->GetActorValueI(etargetAV) <
+               ((DummyAVOwner*)((char*)::_g_thePlayer + 0xa4))->GetPermanentActorValueI(etargetAV);
     }
     else
     {
@@ -307,7 +467,6 @@ struct Dummy_0071f9c0
 };
 
 bool __fastcall _ref_008256d0(void*);
-Dummy_0071f9c0** __fastcall _ref_006815c0(void*);
 void* __fastcall FUN_0071f9c0(Dummy_0071f9c0*, int, unsigned int);
 void __fastcall _ref_0063f7b0(void*);
 
@@ -325,7 +484,7 @@ void __fastcall FUN_007e07f0(char* this_ptr)
     while (!_ref_008256d0(this_ptr + 4))
     {
         Dummy_0071f9c0* p1;
-        Dummy_0071f9c0* p2 = (p1 = *_ref_006815c0(this_ptr + 4));
+        Dummy_0071f9c0* p2 = (p1 = *((::Dummy_0071f9c0 **)(new ((void *)(this_ptr + 4)) ::Vec3())));
         (p2 != 0) ? ((void*(__thiscall*)(Dummy_0071f9c0*, unsigned int))FUN_0071f9c0)(p2, 1) : 0;
         _ref_0063f7b0(this_ptr + 4);
     }
@@ -356,11 +515,10 @@ struct blob12
 {
     char b[12];
 };
+class Tile;
 struct InterfaceManager
 {
-    static InterfaceManager* Instance();
     static void Free();
-    static void Initialize(unsigned int, bool);
     void Init(bool);
     void RefreshInterfaceState();
     SceneGraph* GetOrCreateSceneGraph(SceneGraph*, char*, bool);
@@ -380,7 +538,6 @@ struct InterfaceManager
     void SetStatsPageNumber(char);
     void SetInventoryPageNumber(char);
     void SetMapPageNumber(char);
-    static bool IsPipboyMenuActive();
     static bool IsInterfaceMenuActive();
     static bool IsCurrentRenderedMenuTopmost();
     int GetCurrentMainMenu();
@@ -401,9 +558,7 @@ struct InterfaceManager
     void InternalSetMenuMode(int);
     void CalculateConsolePickRefs();
     void ClearMenuInput();
-    int GetPickCursorX();
     int GetCursorY();
-    int GetMouseWheel();
     int GetRealCursorX();
     int GetRealCursorY();
     float GetRawCursorX();
@@ -445,7 +600,6 @@ struct InterfaceManager
     BSShaderAccumulator* GetAccumulator();
     BSShaderAccumulator* Get3dAccumulator();
     TESImageSpaceModifier* GetImageSpaceModifier();
-    void SetMenuFocusEnabled(bool);
     Tile* GetCurrentFocusTarget();
     void ClearInterfaceState(Tile*, int, bool);
     void ClearCurrentFocusTarget();
@@ -494,12 +648,10 @@ struct InterfaceManager
     TESObjectREFR* GetCurrentPickedREFR();
     struct blob12 GetActivatePickLocation();
     bool IsActivatePickFuzzy();
-    void ClearActivatePickResults();
     void SetActivatePickReference(TESObjectREFR*);
     int GetActivatePickResult(int);
     int GetTopEnterStackEntry();
     int GetMenuStackEntry(int);
-    int AddMenuStackEntry(int, bool);
     bool IsMenuInStack(unsigned int);
     void Test();
     NiAlphaProperty* GetAlphaProp();
@@ -533,7 +685,6 @@ struct InterfaceManager
     void UpdatePipboyState();
     void SetCurrentRenderedMenu(FORenderedMenu*);
     bool IsPipboyMenuOpen();
-    FORenderedMenu* GetActiveRenderedMenu();
     void DumpMenuPackingInfo();
     float GetPipboyMouseX();
     float GetPipboyMouseY();
@@ -557,7 +708,6 @@ struct InterfaceManager
     void SetLockpickControlsDisable(bool);
     static void SetContainerMenuQueued(bool);
     static bool GetContainerMenuQueued();
-    static void UpdateContainerMenu(Tile*, Tile*, Tile*, InventoryStackRecord*, bool);
     void* __vecDelDtor(unsigned int);
     bool m_bFirstStateEnabled;
     bool m_bSecondStateEnabled;
@@ -679,6 +829,10 @@ struct InterfaceManager
     bool m_bDebugOverlayVisible;
     char _pad_3c9[3];
     char m_kInterfaceStateData[172];
+public:
+    ::Tile *FUN_00586150();
+public:
+    int FUN_00747d00();
 };
 typedef char _sizecheck_InterfaceManager[sizeof(InterfaceManager) == 1144 ? 1 : -1];
 
@@ -721,30 +875,27 @@ struct StartMenu
 };
 struct P09AV
 {
-    static bool __cdecl GetFlag(int, unsigned int);
 };
 struct FNStub
 {
-    const char* GetFullName();
 };
 struct GlobalObject2_0040c150
 {
-    int* Int();
 };
 struct IMH
 {
-    Tile* FUN_00586150();
 };
+class TESForm;
+enum DEFAULT_OBJECT;
 struct BGSDefaultObjectManager
 {
-    static TESForm* __cdecl GetDefaultObjectByIndex(int);
+public:
+    static ::TESForm *GetDefaultObjectByIndex(::DEFAULT_OBJECT);
 };
 struct BSStringTChar : public BSStringT<char>
 {
     using BSStringT<char>::operator=;
     BSStringTChar& operator+=(const char* text);
-    BSStringTChar& AppendString(const BSStringT<char>& other);
-    unsigned int GetLength() const;
     operator const char*() const;
 };
 class MagicItem : public TESFullName
@@ -759,20 +910,16 @@ class AlchemyItem : public TESForm
 struct BGSRadiationStage
 {
     static BGSRadiationStage* __cdecl GetStageForLevel(float level);
-    SpellItem* GetSpell();
 };
 struct BGSDehydrationStage
 {
     static BGSDehydrationStage* __cdecl FindStage(float level);
-    SpellItem* GetSpell();
 };
 struct BGSSleepDeprevationStage
 {
-    SpellItem* GetSpell();
 };
 struct BGSHungerStage
 {
-    SpellItem* GetSpell();
 };
 struct GameSettingString
 {
@@ -780,7 +927,6 @@ struct GameSettingString
 };
 struct EquipTypeComponent
 {
-    int GetEquipType();
 };
 template <class T> class BSSimpleListEx : public BSSimpleList<T>
 {
@@ -794,7 +940,6 @@ class StatsMenu__StatusEffect
     {
       public:
         virtual ~EffectDataList();
-        void ApplyParamToEntry(ActiveEffect* effect);
     };
     class NamedEffectsList : public BSSimpleListEx<EffectSetting*>
     {
@@ -812,13 +957,10 @@ class StatusEffectListOps : public BSSimpleList<StatsMenu__StatusEffect*>
   public:
     virtual ~StatusEffectListOps();
     void FUN_007e07f0();
-    void AddEffectToGroup(ActiveEffect* effect);
 };
 struct StatusEffectListBox : public ListBox_StatsMenu__StatusEffect___
 {
     Tile* AddItem(StatsMenu__StatusEffect* item, int a, int b, int c);
-    int GetNumItems();
-    void Synchronize();
 };
 struct MagicTargetVT : public MagicTarget
 {
@@ -830,36 +972,21 @@ struct ActorMagicTargetView : public MobileObject, public MagicCaster, public Ma
 };
 struct ActiveEffectOps : public ActiveEffect
 {
-    bool FUN_00833c20();
-    EffectItem* GetEffectItem();
-    MagicItem* GetMagicItem();
-    int GetSpellType();
-    bool FUN_007df210();
 };
 struct EffectItemOps : public EffectItem
 {
-    bool IsScriptBasedEffect();
-    bool FUN_00403ee0();
-    int GetAffectedActorValue();
 };
 struct EffectSettingOps : public EffectSetting
 {
-    bool IsFlagSet(unsigned int flag);
-    BSStringTChar GetEffectName() const;
 };
 struct TileOps : public Tile
 {
-    void ResetImage();
-    void FUN_007df120(BSStringT<char>& name);
-    void Set(int trait, float value, bool clearActions);
 };
 struct MenuOps : public Menu
 {
-    Tile* CreateTileFromTemplate(Tile* parent, const char* templateName, Tile* insertBefore);
 };
 struct TESFullNameOps : public TESFullName
 {
-    const char* GetFullName();
 };
 struct StatsMenuActiveEffects : public StatsMenu
 {
@@ -872,50 +999,36 @@ struct ActorValueUtility
 };
 struct AVH
 {
-    static const char* __cdecl GetActorValueName(ActorValue::Index);
-    static ActorValue::Index __cdecl GetActorValueForSectionIndex(int, unsigned char);
-    static unsigned int __cdecl GetCountForSection(int);
 };
 struct TutorialState
 {
-    bool ShowMessage(int, int, unsigned int);
 };
 struct LBH
 {
     void Initialize(Tile*, const char*);
-    Tile* AddListEntry(int, int, int, int);
-    Tile* FUN_007e1190(int, int, int, int);
 };
+enum ReputationType;
 struct TESReputation
 {
     static unsigned int* __cdecl GetUnsignedIntegerPointer(unsigned int*);
+public:
+    float GetUnsignedIntegerPointer(::ReputationType);
+public:
+    const char *FUN_00616710();
 };
 struct MenuH
 {
-    void FUN_00867a20();
-    static bool __cdecl ReadMenuDefinition(const char*, Menu*);
-    void SetMenuVisibility(bool);
-    void SetTileMenu(TileMenu*, bool);
-    int _ref_00726070();
     bool HasAllSlots();
     void UpdateXboxButtonState();
 };
 struct ActorH
 {
-    unsigned short GetLevel();
 };
 struct Calendar
 {
-    unsigned int GetDaysPassed();
 };
 struct TileH
 {
-    void SetName(const char*);
-    Tile* ReadFile(const char*);
-    Menu* GetMenu();
-    static float __cdecl GetInterfaceScale();
-    void Set(int, float, bool);
-    void Set(int, unsigned int);
 };
 struct StatusH
 {
@@ -924,131 +1037,95 @@ struct StatusH
 };
 struct StrH
 {
-    void FUN_007b52a0();
 };
 
 struct Flt
 {
     operator unsigned int() const;
 };
-int __cdecl FUN_005a3370(int);
 
-void* __cdecl FUN_004b7210();
 int __cdecl FUN_004d5e00();
-void __cdecl _FNV_Warning(const char*, ...);
 const char* __cdecl GetGameSettingString(int);
-void __cdecl CompareActorValueNames();
-StatusH* __stdcall FUN_007db1c0(int);
-void __cdecl FUN_007dd710();
-void __cdecl UpdateStatsMenuLevelText();
 bool __cdecl IsActorValueBelowPermanent(int*);
 bool __cdecl IsHealingOptionAvailable(int*);
 bool __cdecl IsPlayerSubObjectValueAboveThreshold(int*);
-int __cdecl GetTileValueID(const char*, int);
-Menu* __cdecl FindMenuById(int);
-extern double _DAT_010704f0;
-extern double _DAT_010704e8;
-extern const char DAT_01019f08[];
-extern const char _DAT_0106ed20[];
-extern GlobalObject2_0040c150 g_011d0c60;
-extern StartMenu g_011d1f08;
-extern StartMenu g_011d1f5c;
-extern StartMenu g_011d246c;
-extern StartMenu g_011d2994;
-extern StartMenu g_011d2e80;
-extern StartMenu g_011d2ebc;
-extern StartMenu g_011d2f88;
-extern StartMenu g_011d30c0;
-extern StartMenu g_011d37c8;
-extern StartMenu g_011d3b08;
-extern StartMenu g_011d3bd4;
-extern StartMenu g_011d3e74;
-extern StartMenu g_011d3fdc;
-extern StartMenu g_011d41bc;
-extern StartMenu g_011d44a4;
-extern StartMenu g_011d472c;
-extern StartMenu g_011d47ec;
-extern StartMenu g_011d48d0;
-extern StartMenu g_011d4bd0;
-extern StartMenu g_011d4ef4;
-extern StartMenu g_011d50b0;
 
 // @fnv 0x007da2c0
 Tile* FUN_007da2c0()
 {
-    Menu* pold_menu_tile = FindMenuById(FUN_004d5e00());
+    Menu* pold_menu_tile = ((::Menu *)(::FUN_00a09030(FUN_004d5e00())));
     if (pold_menu_tile)
         delete (VDtor*)pold_menu_tile;
-    InterfaceManager* pin = (InterfaceManager*)FUN_004b7210();
-    float ftop_depth = TileH::GetInterfaceScale();
-    Tile* ptile = ((TileH*)((IMH*)pin)->FUN_00586150())->ReadFile("Data\\Menus\\Main\\stats_menu.xml");
-    StatsMenu::ms_pInventoryMenu = (StatsMenu*)((TileH*)ptile)->GetMenu();
-    MenuH::ReadMenuDefinition("Data\\Menus\\Main\\stats_menu.xml", StatsMenu::ms_pInventoryMenu);
-    ((MenuH*)StatsMenu::ms_pInventoryMenu)->FUN_00867a20();
+    InterfaceManager* pin = (InterfaceManager*)((void *)(::fnv_004b7210::FUN_004b7210()));
+    float ftop_depth = ::Tile::GetInterfaceScale();
+    Tile* ptile = reinterpret_cast<::fnv_00a01b00::TileLoader *>((((TileH*)reinterpret_cast<::InterfaceManager *>((((IMH*)pin)))->FUN_00586150())))->FUN_00a01b00((void *)("Data\\Menus\\Main\\stats_menu.xml"));
+    StatsMenu::ms_pInventoryMenu = (StatsMenu*)reinterpret_cast<::FUN_00a03c90_shell *>((((TileH*)ptile)))->FUN_00a03c90();
+    ::fnv_00a1ca20::RemoveMenuEntries("Data\\Menus\\Main\\stats_menu.xml", StatsMenu::ms_pInventoryMenu);
+    ::FUN_00867a20((void *)(((MenuH*)StatsMenu::ms_pInventoryMenu)));
     if (StatsMenu::ms_pInventoryMenu && ((MenuV*)StatsMenu::ms_pInventoryMenu)->v0d() == FUN_004d5e00())
     {
-        ((MenuH*)StatsMenu::ms_pInventoryMenu)->SetTileMenu((TileMenu*)ptile, false);
+        reinterpret_cast<::FUN_00a1dc70_shell *>((((MenuH*)StatsMenu::ms_pInventoryMenu)))->FUN_00a1dc70((TileMenu*)ptile, false);
         if (!((MenuH*)StatsMenu::ms_pInventoryMenu)->HasAllSlots())
         {
-            _FNV_Warning("MENUS: Stats Menu Creation Failed... Are your menu and art resources up to date?");
+            ::FUN_005b5e40();
             return 0;
         }
-        if (ptile->GetFloat(0xfa7) == _DAT_010704f0 || ptile->GetFloat(0xfa7) == _DAT_010704e8)
-            ((TileH*)ptile)->Set(0xfad, ftop_depth, true);
-        ((TutorialState*)((char*)FUN_004b7210() + 0x4d4))->ShowMessage(0x19, FUN_004d5e00(), 0x200);
-        UpdateStatsMenuLevelText();
+        if (reinterpret_cast<::TileListBoxCalls *>((void *)(ptile))->GetFloat(0xfa7) == ::DAT_010704f0 || reinterpret_cast<::TileListBoxCalls *>((void *)(ptile))->GetFloat(0xfa7) == ::DAT_010704e8)
+            reinterpret_cast<::FUN_00a012d0_t *>((((TileH*)ptile)))->FUN_00a012d0(0xfad, ftop_depth, true);
+        reinterpret_cast<::TutorialMessageGate718 *>((((TutorialState*)((char*)((void *)(::fnv_004b7210::FUN_004b7210())) + 0x4d4))))->FUN_00718630(0x19, FUN_004d5e00(), 0x200);
+        ::fnv_007df4e0::UpdateStatsMenuLevelText();
         BGSRadiationStage* pstage = BGSRadiationStage::GetStageForLevel(3.402823466e+38F);
-        ((TileH*)ptile)->Set(0x1006, pstage ? ((Calendar*)pstage)->GetDaysPassed() : 1000);
+        reinterpret_cast<::Tile *>((((TileH*)ptile)))->Set(0x1006, pstage ? ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)pstage)))->FUN_009611e0())) : 1000);
         BSStringT<char> strtmp;
         const char* pformat = "%d/%d";
-        strtmp.PrintfString(pformat, g_thePlayer->GetActorValue((ActorValue::Index)0x10),
-                       g_thePlayer->GetPermanentActorValue((ActorValue::Index)0x10));
-        ptile->Set(0x1009, (const char*)(unsigned int)*(Flt*)&strtmp, true);
-        strtmp.PrintfString(pformat, g_thePlayer->GetActorValue((ActorValue::Index)0xc),
-                       g_thePlayer->GetPermanentActorValue((ActorValue::Index)0xc));
-        ptile->Set(0x100a, (const char*)(unsigned int)*(Flt*)&strtmp, true);
-        if (((ActorH*)g_thePlayer)->GetLevel() >= *g_011d0c60.Int())
+        ::FUN_00406f60((::FUN_00406f90_this *)&(strtmp), pformat, ::_g_thePlayer->GetActorValue((ActorValue::Index)0x10),
+                       ::_g_thePlayer->GetPermanentActorValue((ActorValue::Index)0x10));
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0x1009, (char *)((const char*)(unsigned int)*(Flt*)&strtmp), true);
+        ::FUN_00406f60((::FUN_00406f90_this *)&(strtmp), pformat, ::_g_thePlayer->GetActorValue((ActorValue::Index)0xc),
+                       ::_g_thePlayer->GetPermanentActorValue((ActorValue::Index)0xc));
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0x100a, (char *)((const char*)(unsigned int)*(Flt*)&strtmp), true);
+        if (reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>((((ActorH*)::_g_thePlayer)))->FUN_0087f9f0() >= *((int *)&(::FUN_0043d4d0((int *)&(::g_011d0c60)))))
         {
-            strtmp.PrintfString(DAT_01019f08, g_011d472c.GetMenuTitle());
+            ::FUN_00406f60((::FUN_00406f90_this *)&(strtmp), DAT_01019f08, (*reinterpret_cast<::StartMenu *>(&::g_011d472c)).GetMenuTitle());
         }
         else
         {
-            strtmp.PrintfString(pformat, g_thePlayer->GetActorValue((ActorValue::Index)0x18),
-                           ActorValueUtility::ConvertActorValue(((ActorH*)g_thePlayer)->GetLevel() + 1));
+            ::FUN_00406f60((::FUN_00406f90_this *)&(strtmp), pformat, ::_g_thePlayer->GetActorValue((ActorValue::Index)0x18),
+                           ActorValueUtility::ConvertActorValue(reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>((((ActorH*)::_g_thePlayer)))->FUN_0087f9f0() + 1));
         }
-        ptile->Set(0x100b, (const char*)(unsigned int)*(Flt*)&strtmp, true);
-        ptile->Set(0x100c, ((ActorH*)g_thePlayer)->GetLevel());
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0x100b, (char *)((const char*)(unsigned int)*(Flt*)&strtmp), true);
+        ptile->Set(0x100c, reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>((((ActorH*)::_g_thePlayer)))->FUN_0087f9f0());
         strtmp = "stats_list_template";
         ((LBH*)&StatsMenu::ms_pInventoryMenu->m_kPrimaryActorValueList)
             ->Initialize(StatsMenu::ms_pInventoryMenu->m_pTiles[6], (const char*)(unsigned int)*(Flt*)&strtmp);
-        for (int i = 0; i < AVH::GetCountForSection(0); i++)
+        for (int i = 0; i < ::ActorValue::GetCountForSection((::ActorValue::Section)(0)); i++)
         {
-            ActorValue::Index eindex = AVH::GetActorValueForSectionIndex(0, (unsigned char)i);
-            if (!P09AV::GetFlag(eindex, 0x2000) && eindex != 0x1f)
+            ActorValue::Index eindex = ::ActorValue::GetActorValueForSectionIndex((::ActorValue::Section)(0), (unsigned char)i);
+            if (!::FUN_00406d70(eindex, 0x2000) && eindex != 0x1f)
             {
                 Tile* ptmp =
-                    ((LBH*)&StatsMenu::ms_pInventoryMenu->m_kPrimaryActorValueList)->AddListEntry(eindex, 0, 0, 0);
-                ptmp->Set(0xfc4, AVH::GetActorValueName(eindex), true);
-                ((TileH*)ptmp)->SetName(AVH::GetActorValueName(eindex));
+                    ((::Tile *)(reinterpret_cast<::Owner050 *>((((LBH*)&StatsMenu::ms_pInventoryMenu->m_kPrimaryActorValueList)))->AddListEntry(eindex, (const char *)(0), 0, (const char *)(0))));
+                reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptmp))->FUN_00a01350(0xfc4, (char *)(::ActorValue::GetActorValueName(eindex)), true);
+                reinterpret_cast<::Tile *>((((TileH*)ptmp)))->SetName(::ActorValue::GetActorValueName(eindex));
             }
         }
         ((LBH*)&StatsMenu::ms_pInventoryMenu->m_kSecondaryActorValueList)
             ->Initialize(StatsMenu::ms_pInventoryMenu->m_pTiles[7], (const char*)(unsigned int)*(Flt*)&strtmp);
-        for (int i = 0; i < AVH::GetCountForSection(2); i++)
+        for (int i = 0; i < ::ActorValue::GetCountForSection((::ActorValue::Section)(2)); i++)
         {
-            ActorValue::Index eindex = AVH::GetActorValueForSectionIndex(2, (unsigned char)i);
-            if (!P09AV::GetFlag(eindex, 0x2000) && eindex != 0x1f)
+            ActorValue::Index eindex = ::ActorValue::GetActorValueForSectionIndex((::ActorValue::Section)(2), (unsigned char)i);
+            if (!::FUN_00406d70(eindex, 0x2000) && eindex != 0x1f)
             {
                 Tile* ptmp =
-                    ((LBH*)&StatsMenu::ms_pInventoryMenu->m_kSecondaryActorValueList)->AddListEntry(eindex, 0, 0, 0);
-                ptmp->Set(0xfc4, AVH::GetActorValueName(eindex), true);
-                ((TileH*)ptmp)->SetName(AVH::GetActorValueName(eindex));
+                    ((::Tile *)(reinterpret_cast<::Owner050 *>((((LBH*)&StatsMenu::ms_pInventoryMenu->m_kSecondaryActorValueList)))->AddListEntry(eindex, (const char *)(0), 0, (const char *)(0))));
+                reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptmp))->FUN_00a01350(0xfc4, (char *)(::ActorValue::GetActorValueName(eindex)), true);
+                reinterpret_cast<::Tile *>((((TileH*)ptmp)))->SetName(::ActorValue::GetActorValueName(eindex));
             }
         }
-        ((LBV*)&StatsMenu::ms_pInventoryMenu->m_kSecondaryActorValueList)->v08((void*)CompareActorValueNames);
+        ((LBV*)&StatsMenu::ms_pInventoryMenu->m_kSecondaryActorValueList)->v08((void*)((void (&)())::CompareActorValueNames));
         ((LBH*)&StatsMenu::ms_pInventoryMenu->m_kPerkRankList)
             ->Initialize(StatsMenu::ms_pInventoryMenu->m_pTiles[34], (const char*)(unsigned int)*(Flt*)&strtmp);
-        FUN_007dd710();
+        ::fnv_007dd710::FUN_007dd710();
         ((LBH*)&StatsMenu::ms_pInventoryMenu->m_kReputationList)
             ->Initialize(StatsMenu::ms_pInventoryMenu->m_pTiles[46], (const char*)(unsigned int)*(Flt*)&strtmp);
         ((LBH*)&StatsMenu::ms_pInventoryMenu->m_kMiscStatList)
@@ -1057,131 +1134,127 @@ Tile* FUN_007da2c0()
              eMiscStat < MiscStatManager__MiscStatID_MS_COUNT;
              TESReputation::GetUnsignedIntegerPointer((unsigned int*)&eMiscStat))
         {
-            Tile* ptile = ((LBH*)&StatsMenu::ms_pInventoryMenu->m_kMiscStatList)->FUN_007e1190(eMiscStat, 0, 0, 0);
+            Tile* ptile = ((::Tile *)(reinterpret_cast<::fnv_007e1190::LBH *>((((LBH*)&StatsMenu::ms_pInventoryMenu->m_kMiscStatList)))->FUN_007e1190(eMiscStat, (const char *)(0), 0, (const char *)(0))));
             const char* ptext = GetGameSettingString(eMiscStat);
-            ptile->Set(0xfc4, ptext, true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0xfc4, (char *)(ptext), true);
             ptile->Set(0x1005, FUN_005a3370(eMiscStat));
-            ((TileH*)ptile)->SetName(ptext);
+            reinterpret_cast<::Tile *>((((TileH*)ptile)))->SetName(ptext);
         }
-        StatsMenu::ms_pInventoryMenu->m_pTiles[47]->Set(0xfcc, "Interface\\shared\\solid_black.dds", true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((StatsMenu::ms_pInventoryMenu->m_pTiles[47]))->FUN_00a01350(0xfcc, (char *)("Interface\\shared\\solid_black.dds"), true);
         StatsMenu::ms_pInventoryMenu->m_pTiles[47]->Set(0xfa3, 0);
-        TESForm* pform = BGSDefaultObjectManager::GetDefaultObjectByIndex(0);
+        TESForm* pform = ::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(0));
         StatsMenu::ms_pInventoryMenu->m_kHealingOptions[0].m_pHealingItem = dynamic_cast<AlchemyItem*>(pform);
         StatsMenu::ms_pInventoryMenu->m_kHealingOptions[0].pTile = StatsMenu::ms_pInventoryMenu->m_pTiles[10];
-        StatsMenu::ms_pInventoryMenu->m_kHealingOptions[0].pTile->Set(
-            0x1004, ((FNStub*)dynamic_cast<TESFullName*>(pform))->GetFullName(), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((StatsMenu::ms_pInventoryMenu->m_kHealingOptions[0].pTile))->FUN_00a01350(
+            0x1004, (char *)(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)dynamic_cast<TESFullName*>(pform))))->FUN_00408da0()))), true);
         StatsMenu::ms_pInventoryMenu->m_kHealingOptions[0].m_pfnIsAvailable =
             (bool___cdecl__StatsMenu__HealingOption__*)IsActorValueBelowPermanent;
-        pform = BGSDefaultObjectManager::GetDefaultObjectByIndex(0x15);
+        pform = ::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(0x15));
         StatsMenu::ms_pInventoryMenu->m_kHealingOptions[3].m_pHealingItem = dynamic_cast<AlchemyItem*>(pform);
         StatsMenu::ms_pInventoryMenu->m_kHealingOptions[3].pTile = StatsMenu::ms_pInventoryMenu->m_pTiles[59];
-        StatsMenu::ms_pInventoryMenu->m_kHealingOptions[3].pTile->Set(
-            0x1004, ((FNStub*)dynamic_cast<TESFullName*>(pform))->GetFullName(), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((StatsMenu::ms_pInventoryMenu->m_kHealingOptions[3].pTile))->FUN_00a01350(
+            0x1004, (char *)(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)dynamic_cast<TESFullName*>(pform))))->FUN_00408da0()))), true);
         StatsMenu::ms_pInventoryMenu->m_kHealingOptions[3].m_pfnIsAvailable =
             (bool___cdecl__StatsMenu__HealingOption__*)IsHealingOptionAvailable;
-        pform = BGSDefaultObjectManager::GetDefaultObjectByIndex(2);
+        pform = ::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(2));
         StatsMenu::ms_pInventoryMenu->m_kHealingOptions[1].m_pHealingItem = dynamic_cast<AlchemyItem*>(pform);
         StatsMenu::ms_pInventoryMenu->m_kHealingOptions[1].pTile = StatsMenu::ms_pInventoryMenu->m_pTiles[31];
-        StatsMenu::ms_pInventoryMenu->m_kHealingOptions[1].pTile->Set(
-            0x1004, ((FNStub*)dynamic_cast<TESFullName*>(pform))->GetFullName(), true);
-        pform = BGSDefaultObjectManager::GetDefaultObjectByIndex(3);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((StatsMenu::ms_pInventoryMenu->m_kHealingOptions[1].pTile))->FUN_00a01350(
+            0x1004, (char *)(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)dynamic_cast<TESFullName*>(pform))))->FUN_00408da0()))), true);
+        pform = ::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(3));
         StatsMenu::ms_pInventoryMenu->m_kHealingOptions[2].m_pHealingItem = dynamic_cast<AlchemyItem*>(pform);
         StatsMenu::ms_pInventoryMenu->m_kHealingOptions[2].pTile = StatsMenu::ms_pInventoryMenu->m_pTiles[11];
-        StatsMenu::ms_pInventoryMenu->m_kHealingOptions[2].pTile->Set(
-            0x1004, ((FNStub*)dynamic_cast<TESFullName*>(pform))->GetFullName(), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((StatsMenu::ms_pInventoryMenu->m_kHealingOptions[2].pTile))->FUN_00a01350(
+            0x1004, (char *)(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)dynamic_cast<TESFullName*>(pform))))->FUN_00408da0()))), true);
         StatsMenu::ms_pInventoryMenu->m_kHealingOptions[2].m_pfnIsAvailable =
             (bool___cdecl__StatsMenu__HealingOption__*)IsPlayerSubObjectValueAboveThreshold;
         ((LBH*)&StatsMenu::ms_pInventoryMenu->m_kStatusEffectList)
             ->Initialize(StatsMenu::ms_pInventoryMenu->m_pTiles[33], "stats_effects_template");
-        FUN_007db1c0(0)->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[12]);
-        FUN_007db1c0(0)->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[13]);
-        FUN_007db1c0(0)->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[24]);
-        FUN_007db1c0(1)->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[18]);
-        FUN_007db1c0(1)->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[19]);
-        FUN_007db1c0(2)->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[14]);
-        FUN_007db1c0(2)->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[15]);
-        FUN_007db1c0(3)->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[16]);
-        FUN_007db1c0(3)->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[17]);
-        FUN_007db1c0(4)->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[22]);
-        FUN_007db1c0(4)->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[23]);
-        FUN_007db1c0(5)->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[20]);
-        FUN_007db1c0(5)->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[21]);
-        FUN_007db1c0(0)->SetFieldBits(1, 2);
-        FUN_007db1c0(0)->SetFieldBits(2, 1);
-        FUN_007db1c0(0)->SetFieldBits(3, 3);
-        FUN_007db1c0(2)->SetFieldBits(0, 0);
-        FUN_007db1c0(2)->SetFieldBits(1, 4);
-        FUN_007db1c0(2)->SetFieldBits(2, 1);
-        FUN_007db1c0(2)->SetFieldBits(3, 3);
-        FUN_007db1c0(1)->SetFieldBits(0, 0);
-        FUN_007db1c0(1)->SetFieldBits(1, 4);
-        FUN_007db1c0(1)->SetFieldBits(3, 2);
-        FUN_007db1c0(3)->SetFieldBits(0, 0);
-        FUN_007db1c0(3)->SetFieldBits(1, 5);
-        FUN_007db1c0(3)->SetFieldBits(2, 2);
-        FUN_007db1c0(4)->SetFieldBits(0, 2);
-        FUN_007db1c0(4)->SetFieldBits(3, 5);
-        FUN_007db1c0(5)->SetFieldBits(0, 2);
-        FUN_007db1c0(5)->SetFieldBits(2, 4);
+        ((::StatusH *)(::FUN_007db1c0()))->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[12]);
+        ((::StatusH *)(::FUN_007db1c0()))->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[13]);
+        ((::StatusH *)(::FUN_007db1c0()))->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[24]);
+        ((::StatusH *)(::FUN_007db1c0()))->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[18]);
+        ((::StatusH *)(::FUN_007db1c0()))->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[19]);
+        ((::StatusH *)(::FUN_007db1c0()))->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[14]);
+        ((::StatusH *)(::FUN_007db1c0()))->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[15]);
+        ((::StatusH *)(::FUN_007db1c0()))->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[16]);
+        ((::StatusH *)(::FUN_007db1c0()))->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[17]);
+        ((::StatusH *)(::FUN_007db1c0()))->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[22]);
+        ((::StatusH *)(::FUN_007db1c0()))->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[23]);
+        ((::StatusH *)(::FUN_007db1c0()))->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[20]);
+        ((::StatusH *)(::FUN_007db1c0()))->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[21]);
+        ((::StatusH *)(::FUN_007db1c0()))->SetFieldBits(1, 2);
+        ((::StatusH *)(::FUN_007db1c0()))->SetFieldBits(2, 1);
+        ((::StatusH *)(::FUN_007db1c0()))->SetFieldBits(3, 3);
+        ((::StatusH *)(::FUN_007db1c0()))->SetFieldBits(0, 0);
+        ((::StatusH *)(::FUN_007db1c0()))->SetFieldBits(1, 4);
+        ((::StatusH *)(::FUN_007db1c0()))->SetFieldBits(2, 1);
+        ((::StatusH *)(::FUN_007db1c0()))->SetFieldBits(3, 3);
+        ((::StatusH *)(::FUN_007db1c0()))->SetFieldBits(0, 0);
+        ((::StatusH *)(::FUN_007db1c0()))->SetFieldBits(1, 4);
+        ((::StatusH *)(::FUN_007db1c0()))->SetFieldBits(3, 2);
+        ((::StatusH *)(::FUN_007db1c0()))->SetFieldBits(0, 0);
+        ((::StatusH *)(::FUN_007db1c0()))->SetFieldBits(1, 5);
+        ((::StatusH *)(::FUN_007db1c0()))->SetFieldBits(2, 2);
+        ((::StatusH *)(::FUN_007db1c0()))->SetFieldBits(0, 2);
+        ((::StatusH *)(::FUN_007db1c0()))->SetFieldBits(3, 5);
+        ((::StatusH *)(::FUN_007db1c0()))->SetFieldBits(0, 2);
+        ((::StatusH *)(::FUN_007db1c0()))->SetFieldBits(2, 4);
         StatsMenu::ms_pInventoryMenu->UpdateActorValueTiles();
         ((MenuH*)StatsMenu::ms_pInventoryMenu)->UpdateXboxButtonState();
-        strtmp = g_011d30c0.GetMenuTitle();
-        ((StrH*)&strtmp)->FUN_007b52a0();
-        ptile->Set(GetTileValueID("_rads", -1), (const char*)(unsigned int)*(Flt*)&strtmp, true);
-        strtmp = g_011d1f08.GetMenuTitle();
-        ((StrH*)&strtmp)->FUN_007b52a0();
-        ptile->Set(GetTileValueID("_h20", -1), (const char*)(unsigned int)*(Flt*)&strtmp, true);
-        strtmp = g_011d37c8.GetMenuTitle();
-        ((StrH*)&strtmp)->FUN_007b52a0();
-        ptile->Set(GetTileValueID("_hunger", -1), (const char*)(unsigned int)*(Flt*)&strtmp, true);
-        strtmp = g_011d246c.GetMenuTitle();
-        ((StrH*)&strtmp)->FUN_007b52a0();
-        ptile->Set(GetTileValueID("_sleep", -1), (const char*)(unsigned int)*(Flt*)&strtmp, true);
-        StatsMenu::ms_pInventoryMenu->m_pTiles[39]->Set(0xfc4, g_011d3fdc.GetMenuTitle(), true);
-        StatsMenu::ms_pInventoryMenu->m_pTiles[40]->Set(GetTileValueID(_DAT_0106ed20, -1), g_011d1f5c.GetMenuTitle(),
+        strtmp = (*reinterpret_cast<::StartMenu *>(&::g_011d30c0)).GetMenuTitle();
+        reinterpret_cast<::FUN_007b52a0_class *>((((StrH*)&strtmp)))->FUN_007b52a0();
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(::FUN_00a00940("_rads", -1), (char *)((const char*)(unsigned int)*(Flt*)&strtmp), true);
+        strtmp = (*reinterpret_cast<::StartMenu *>(&::g_011d1f08)).GetMenuTitle();
+        reinterpret_cast<::FUN_007b52a0_class *>((((StrH*)&strtmp)))->FUN_007b52a0();
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(::FUN_00a00940("_h20", -1), (char *)((const char*)(unsigned int)*(Flt*)&strtmp), true);
+        strtmp = (*reinterpret_cast<::StartMenu *>(&::g_011d37c8)).GetMenuTitle();
+        reinterpret_cast<::FUN_007b52a0_class *>((((StrH*)&strtmp)))->FUN_007b52a0();
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(::FUN_00a00940("_hunger", -1), (char *)((const char*)(unsigned int)*(Flt*)&strtmp), true);
+        strtmp = (*reinterpret_cast<::StartMenu *>(&::g_011d246c)).GetMenuTitle();
+        reinterpret_cast<::FUN_007b52a0_class *>((((StrH*)&strtmp)))->FUN_007b52a0();
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(::FUN_00a00940("_sleep", -1), (char *)((const char*)(unsigned int)*(Flt*)&strtmp), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((StatsMenu::ms_pInventoryMenu->m_pTiles[39]))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::StartMenu *>(&::g_011d3fdc)).GetMenuTitle()), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((StatsMenu::ms_pInventoryMenu->m_pTiles[40]))->FUN_00a01350(::FUN_00a00940(::DAT_0106ed20, -1), (char *)((*reinterpret_cast<::StartMenu *>(&::g_011d1f5c)).GetMenuTitle()),
                                                         true);
-        StatsMenu::ms_pInventoryMenu->m_pTiles[41]->Set(GetTileValueID(_DAT_0106ed20, -1), g_011d50b0.GetMenuTitle(),
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((StatsMenu::ms_pInventoryMenu->m_pTiles[41]))->FUN_00a01350(::FUN_00a00940(::DAT_0106ed20, -1), (char *)((*reinterpret_cast<::StartMenu *>(&::g_011d50b0)).GetMenuTitle()),
                                                         true);
-        StatsMenu::ms_pInventoryMenu->m_pTiles[42]->Set(GetTileValueID(_DAT_0106ed20, -1), g_011d44a4.GetMenuTitle(),
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((StatsMenu::ms_pInventoryMenu->m_pTiles[42]))->FUN_00a01350(::FUN_00a00940(::DAT_0106ed20, -1), (char *)((*reinterpret_cast<::StartMenu *>(&::g_011d44a4)).GetMenuTitle()),
                                                         true);
-        StatsMenu::ms_pInventoryMenu->m_pTiles[43]->Set(GetTileValueID(_DAT_0106ed20, -1), g_011d3bd4.GetMenuTitle(),
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((StatsMenu::ms_pInventoryMenu->m_pTiles[43]))->FUN_00a01350(::FUN_00a00940(::DAT_0106ed20, -1), (char *)((*reinterpret_cast<::StartMenu *>(&::g_011d3bd4)).GetMenuTitle()),
                                                         true);
-        StatsMenu::ms_pInventoryMenu->m_pTiles[28]->Set(0xfc4, g_011d48d0.GetMenuTitle(), true);
-        StatsMenu::ms_pInventoryMenu->m_pTiles[29]->Set(0xfc4, g_011d3e74.GetMenuTitle(), true);
-        ptile->Set(0x100d, g_011d2e80.GetMenuTitle(), true);
-        ptile->Set(0x100e, g_011d41bc.GetMenuTitle(), true);
-        StatsMenu::ms_pInventoryMenu->m_pTiles[44]->Set(0xfc4, g_011d47ec.GetMenuTitle(), true);
-        StatsMenu::ms_pInventoryMenu->m_pTiles[45]->Set(0xfc4, g_011d2ebc.GetMenuTitle(), true);
-        StatsMenu::ms_pInventoryMenu->m_pTiles[0]->Set(0xfc4, g_011d2f88.GetMenuTitle(), true);
-        StatsMenu::ms_pInventoryMenu->m_pTiles[1]->Set(0xfc4, g_011d2994.GetMenuTitle(), true);
-        StatsMenu::ms_pInventoryMenu->m_pTiles[2]->Set(0xfc4, g_011d3b08.GetMenuTitle(), true);
-        StatsMenu::ms_pInventoryMenu->m_pTiles[3]->Set(0xfc4, g_011d4bd0.GetMenuTitle(), true);
-        StatsMenu::ms_pInventoryMenu->m_pTiles[4]->Set(0xfc4, g_011d4ef4.GetMenuTitle(), true);
-        ((MenuH*)StatsMenu::ms_pInventoryMenu)->SetMenuVisibility(true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((StatsMenu::ms_pInventoryMenu->m_pTiles[28]))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::StartMenu *>(&::g_011d48d0)).GetMenuTitle()), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((StatsMenu::ms_pInventoryMenu->m_pTiles[29]))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::StartMenu *>(&::g_011d3e74)).GetMenuTitle()), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0x100d, (char *)((*reinterpret_cast<::StartMenu *>(&::g_011d2e80)).GetMenuTitle()), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0x100e, (char *)((*reinterpret_cast<::StartMenu *>(&::g_011d41bc)).GetMenuTitle()), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((StatsMenu::ms_pInventoryMenu->m_pTiles[44]))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::StartMenu *>(&::g_011d47ec)).GetMenuTitle()), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((StatsMenu::ms_pInventoryMenu->m_pTiles[45]))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::StartMenu *>(&::g_011d2ebc)).GetMenuTitle()), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((StatsMenu::ms_pInventoryMenu->m_pTiles[0]))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::StartMenu *>(&::g_011d2f88)).GetMenuTitle()), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((StatsMenu::ms_pInventoryMenu->m_pTiles[1]))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::StartMenu *>(&::g_011d2994)).GetMenuTitle()), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((StatsMenu::ms_pInventoryMenu->m_pTiles[2]))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::StartMenu *>(&::g_011d3b08)).GetMenuTitle()), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((StatsMenu::ms_pInventoryMenu->m_pTiles[3]))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::StartMenu *>(&::g_011d4bd0)).GetMenuTitle()), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((StatsMenu::ms_pInventoryMenu->m_pTiles[4]))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::StartMenu *>(&::g_011d4ef4)).GetMenuTitle()), true);
+        reinterpret_cast<::Menu *>((((MenuH*)StatsMenu::ms_pInventoryMenu)))->SetMenuVisibility(true);
         return ptile;
     }
     else
     {
-        if (StatsMenu::ms_pInventoryMenu && ((MenuH*)StatsMenu::ms_pInventoryMenu)->_ref_00726070())
+        if (StatsMenu::ms_pInventoryMenu && ((int)(reinterpret_cast<::Callees *>((((MenuH*)StatsMenu::ms_pInventoryMenu)))->FUN_00726070())))
             delete (VDtor*)StatsMenu::ms_pInventoryMenu;
     }
     return 0;
 }
 
 namespace fnv_00404820 {
-unsigned int __cdecl BSStringLength(const char*);
-void* __cdecl memcpy(void*, const void*, unsigned int);
 struct Flt
 {
     operator unsigned int() const;
 };
 struct S7010
 {
-    unsigned int Length();
 };
 struct StrMem
 {
-    bool Set(const char*, unsigned int);
 };
 struct StrArg
 {
@@ -1197,16 +1270,16 @@ BSStringT<char>* __fastcall FUN_00404820(BSStringT<char>* self, StrArg aStrArg)
     {
         if ((unsigned int)*(Flt*)self)
         {
-            uiSrcLen = aStrArg.p ? BSStringLength(aStrArg.p) : 0;
-            uiTotalLen = ((S7010*)self)->Length() + uiSrcLen;
+            uiSrcLen = aStrArg.p ? ::FUN_0044a670(aStrArg.p) : 0;
+            uiTotalLen = ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((S7010*)self)))->FUN_004048e0())) + uiSrcLen;
             if (uiTotalLen > self->MaxLength())
-                ((StrMem*)self)->Set((const char*)(unsigned int)*(Flt*)self, uiTotalLen);
-            memcpy(*(char**)self + ((S7010*)self)->Length(), aStrArg.p, uiSrcLen + 1);
+                reinterpret_cast<::TextString *>((((StrMem*)self)))->FUN_004037f0((const char*)(unsigned int)*(Flt*)self, uiTotalLen);
+            ::__memcpy(*(char**)self + ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((S7010*)self)))->FUN_004048e0())), aStrArg.p, uiSrcLen + 1);
             self->SetLength(uiTotalLen);
         }
         else
         {
-            ((StrMem*)self)->Set(aStrArg.p, 0);
+            reinterpret_cast<::TextString *>((((StrMem*)self)))->FUN_004037f0(aStrArg.p, 0);
         }
     }
     return self;
@@ -1216,16 +1289,13 @@ BSStringT<char>* __fastcall FUN_00404820(BSStringT<char>* self, StrArg aStrArg)
 namespace fnv_007dd090 {
 struct Setting_S
 {
-    float* Float();
     const char* String();
 };
 struct Setting_I
 {
-    int* Int();
 };
 struct ActorValueUtility
 {
-    static int __cdecl ConvertActorValue(int level);
 };
 struct StatsMenuImpl : public StatsMenu
 {
@@ -1233,31 +1303,16 @@ struct StatsMenuImpl : public StatsMenu
 };
 struct TileF
 {
-    void Set(int trait, float value, bool propagate);
 };
 struct ActorLevelHelper
 {
-    unsigned short GetLevel();
 };
 struct StatsMenuHelper
 {
-    Tile* FUN_00726070();
     void UpdatePipboyNeedle();
-    void FUN_007ddf00();
     void UpdateOption(int mode);
     int FUN_007dfe40();
 };
-unsigned int __cdecl FUN_0047e040(float);
-int __cdecl MinInt(int, int);
-int __cdecl GetTileValueID(const char* name, int index);
-extern Setting_S originalRuntimeFloatSetting1017;
-extern Setting_I g_011d0c60;
-extern Setting_S g_011d472c;
-extern Setting_S g_011d31d4;
-extern Setting_S g_011d3204;
-extern Setting_S g_011d41b0;
-extern Setting_S g_011d457c;
-extern Setting_S g_011d4ffc;
 extern const char* DAT_011a0a80[];
 
 // Updates the stats menu tile for the given actor value: formats value text, sets image/bar tiles, and handles special cases like level, resistances, and karma.
@@ -1272,37 +1327,37 @@ void StatsMenuImpl::UpdateStatEntry(int aeWhich)
     switch (aeWhich)
     {
     case 16:
-        strtmp.PrintfString("Interface\\Stats\\face_%02d.dds", ((StatsMenuHelper*)this)->FUN_007dfe40());
-        m_pTiles[24]->Set(0xfcc, strtmp.String(), true);
-        strtmp.PrintfString(pformat, g_thePlayer->GetActorValue((ActorValue::Index)16),
-                       g_thePlayer->GetPermanentActorValue((ActorValue::Index)16));
-        ((StatsMenuHelper*)this)->FUN_00726070()->Set(GetTraitForValue((ActorValue::Index)16), strtmp.String(), true);
+        ::FUN_00406f60((::FUN_00406f90_this *)&(strtmp), "Interface\\Stats\\face_%02d.dds", ((StatsMenuHelper*)this)->FUN_007dfe40());
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[24]))->FUN_00a01350(0xfcc, (char *)(((const char *)(::FUN_00559450((int *)&(strtmp))))), true);
+        ::FUN_00406f60((::FUN_00406f90_this *)&(strtmp), pformat, ::_g_thePlayer->GetActorValue((ActorValue::Index)16),
+                       ::_g_thePlayer->GetPermanentActorValue((ActorValue::Index)16));
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((::Tile *)(reinterpret_cast<::Callees *>((((StatsMenuHelper*)this)))->FUN_00726070()))))->FUN_00a01350(GetTraitForValue((ActorValue::Index)16), (char *)(((const char *)(::FUN_00559450((int *)&(strtmp))))), true);
         ((StatsMenuHelper*)this)->UpdateOption(0);
         break;
     case 12:
-        strtmp.PrintfString(pformat, g_thePlayer->GetActorValue((ActorValue::Index)12),
-                       g_thePlayer->GetPermanentActorValue((ActorValue::Index)12));
-        ((StatsMenuHelper*)this)->FUN_00726070()->Set(GetTraitForValue((ActorValue::Index)12), strtmp.String(), true);
+        ::FUN_00406f60((::FUN_00406f90_this *)&(strtmp), pformat, ::_g_thePlayer->GetActorValue((ActorValue::Index)12),
+                       ::_g_thePlayer->GetPermanentActorValue((ActorValue::Index)12));
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((::Tile *)(reinterpret_cast<::Callees *>((((StatsMenuHelper*)this)))->FUN_00726070()))))->FUN_00a01350(GetTraitForValue((ActorValue::Index)12), (char *)(((const char *)(::FUN_00559450((int *)&(strtmp))))), true);
         break;
     case 24:
-        if (((ActorLevelHelper*)g_thePlayer)->GetLevel() >= *g_011d0c60.Int())
-            strtmp.PrintfString("%s", g_011d472c.String());
+        if (reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>((((ActorLevelHelper*)::_g_thePlayer)))->FUN_0087f9f0() >= *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_007dd090::Setting_I *>(&::g_011d0c60)))))))
+            ::FUN_00406f60((::FUN_00406f90_this *)&(strtmp), "%s", (*reinterpret_cast<::fnv_007dd090::Setting_S *>(&::g_011d472c)).String());
         else
-            strtmp.PrintfString(pformat, g_thePlayer->GetActorValue((ActorValue::Index)24),
-                           ActorValueUtility::ConvertActorValue(((ActorLevelHelper*)g_thePlayer)->GetLevel() + 1));
-        ((StatsMenuHelper*)this)->FUN_00726070()->Set(GetTraitForValue((ActorValue::Index)24), strtmp.String(), true);
+            ::FUN_00406f60((::FUN_00406f90_this *)&(strtmp), pformat, ::_g_thePlayer->GetActorValue((ActorValue::Index)24),
+                           ::ActorValueUtility::ConvertActorValue(reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>((((ActorLevelHelper*)::_g_thePlayer)))->FUN_0087f9f0() + 1));
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((::Tile *)(reinterpret_cast<::Callees *>((((StatsMenuHelper*)this)))->FUN_00726070()))))->FUN_00a01350(GetTraitForValue((ActorValue::Index)24), (char *)(((const char *)(::FUN_00559450((int *)&(strtmp))))), true);
         break;
     case 54:
         ((StatsMenuHelper*)this)->UpdatePipboyNeedle();
         ((StatsMenuHelper*)this)->UpdateOption(2);
-        ((StatsMenuHelper*)this)->FUN_007ddf00();
+        reinterpret_cast<::StatsMenuActiveEffects *>((((StatsMenuHelper*)this)))->FUN_007ddf00();
         break;
     case 20: {
-        int iresist = MinInt((int)*originalRuntimeFloatSetting1017.Float(),
-                             g_thePlayer->GetActorValueAsInteger((ActorValue::Index)20));
-        strtmp.PrintfString("%d%%", iresist);
-        m_pTiles[38]->Set(0xfc4, strtmp.String(), true);
-        ((StatsMenuHelper*)this)->FUN_007ddf00();
+        int iresist = ::MinInt((int)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007dd090::Setting_S *>(&::originalRuntimeFloatSetting1017)))))),
+                             ::_g_thePlayer->GetActorValueAsInteger((ActorValue::Index)20));
+        ::FUN_00406f60((::FUN_00406f90_this *)&(strtmp), "%d%%", iresist);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[38]))->FUN_00a01350(0xfc4, (char *)(((const char *)(::FUN_00559450((int *)&(strtmp))))), true);
+        reinterpret_cast<::StatsMenuActiveEffects *>((((StatsMenuHelper*)this)))->FUN_007ddf00();
         break;
     }
     case 25:
@@ -1339,48 +1394,46 @@ void StatsMenuImpl::UpdateStatEntry(int aeWhich)
             ebar = 23;
         }
         {
-            float fval = g_thePlayer->GetCurrentActorValue((ActorValue::Index)aeWhich) / 100.0;
-            strtmp.PrintfString(fval > 0.0 ? "Interface\\Stats\\%s.dds" : "Interface\\Stats\\%s_broken.dds",
+            float fval = ::_g_thePlayer->GetCurrentActorValue((ActorValue::Index)aeWhich) / 100.0;
+            ::FUN_00406f60((::FUN_00406f90_this *)&(strtmp), fval > 0.0 ? "Interface\\Stats\\%s.dds" : "Interface\\Stats\\%s_broken.dds",
                            DAT_011a0a80[aeWhich]);
-            m_pTiles[eimage]->Set(0xfcc, strtmp.String(), true);
-            ((TileF*)m_pTiles[ebar])->Set(GetTileValueID("_Value", -1), fval, true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[eimage]))->FUN_00a01350(0xfcc, (char *)(((const char *)(::FUN_00559450((int *)&(strtmp))))), true);
+            reinterpret_cast<::FUN_00a012d0_t *>((((TileF*)m_pTiles[ebar])))->FUN_00a012d0(::FUN_00a00940("_Value", -1), fval, true);
             if (m_bUpdateOption)
                 ((StatsMenuHelper*)this)->UpdateOption(0);
             break;
         }
     case 23:
-        switch (FUN_0047e040(g_thePlayer->GetCurrentActorValue((ActorValue::Index)23)))
+        switch (((unsigned int)(::fnv_0047e040::FUN_0047e040(::_g_thePlayer->GetCurrentActorValue((ActorValue::Index)23)))))
         {
         case 1:
-            m_pTiles[36]->Set(0xfcc, "Interface\\Icons\\PipboyImages\\Karma icons\\karma_neutral.dds", true);
-            m_pTiles[35]->Set(0xfc4, g_011d3204.String(), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[36]))->FUN_00a01350(0xfcc, (char *)("Interface\\Icons\\PipboyImages\\Karma icons\\karma_neutral.dds"), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[35]))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::fnv_007dd090::Setting_S *>(&::g_011d3204)).String()), true);
             break;
         case 0:
-            m_pTiles[36]->Set(0xfcc, "Interface\\Icons\\PipboyImages\\Karma icons\\karma_good.dds", true);
-            m_pTiles[35]->Set(0xfc4, g_011d41b0.String(), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[36]))->FUN_00a01350(0xfcc, (char *)("Interface\\Icons\\PipboyImages\\Karma icons\\karma_good.dds"), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[35]))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::fnv_007dd090::Setting_S *>(&::g_011d41b0)).String()), true);
             break;
         case 2:
-            m_pTiles[36]->Set(0xfcc, "Interface\\Icons\\PipboyImages\\Karma icons\\karma_bad.dds", true);
-            m_pTiles[35]->Set(0xfc4, g_011d457c.String(), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[36]))->FUN_00a01350(0xfcc, (char *)("Interface\\Icons\\PipboyImages\\Karma icons\\karma_bad.dds"), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[35]))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::fnv_007dd090::Setting_S *>(&::g_011d457c)).String()), true);
             break;
         case 3:
-            m_pTiles[36]->Set(0xfcc, "Interface\\Icons\\PipboyImages\\Karma icons\\karma_saintly.dds", true);
-            m_pTiles[35]->Set(0xfc4, g_011d4ffc.String(), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[36]))->FUN_00a01350(0xfcc, (char *)("Interface\\Icons\\PipboyImages\\Karma icons\\karma_saintly.dds"), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[35]))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::fnv_007dd090::Setting_S *>(&::g_011d4ffc)).String()), true);
             break;
         case 4:
-            m_pTiles[36]->Set(0xfcc, "Interface\\Icons\\PipboyImages\\Karma icons\\karma_evil.dds", true);
-            m_pTiles[35]->Set(0xfc4, g_011d31d4.String(), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[36]))->FUN_00a01350(0xfcc, (char *)("Interface\\Icons\\PipboyImages\\Karma icons\\karma_evil.dds"), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[35]))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::fnv_007dd090::Setting_S *>(&::g_011d31d4)).String()), true);
             break;
         }
         StatsMenu::UpdateStatusEffects();
         break;
     default:
-        StatsMenu::UpdatePrimaryActorValueTile(((ListBox_enum_MiscStatManager__MiscStatID_*)&m_kPrimaryActorValueList)
-                                                   ->GetTileForData(*(MiscStatManager__MiscStatID*)&aeWhich),
+        StatsMenu::UpdatePrimaryActorValueTile(((::Tile *)(reinterpret_cast<::Owner *>((((ListBox_enum_MiscStatManager__MiscStatID_*)&m_kPrimaryActorValueList)))->FindItemData((int *)&(*(MiscStatManager__MiscStatID*)&aeWhich)))),
                                                (ActorValue::Index)aeWhich);
-        StatsMenu::UpdateSecondaryActorValueTile(
-            ((ListBox_enum_MiscStatManager__MiscStatID_*)&m_kSecondaryActorValueList)
-                ->GetTileForData(*(MiscStatManager__MiscStatID*)&aeWhich),
+        ::UpdateActorValueTile(
+            ((::Tile *)(reinterpret_cast<::Owner *>((((ListBox_enum_MiscStatManager__MiscStatID_*)&m_kSecondaryActorValueList)))->FindItemData((int *)&(*(MiscStatManager__MiscStatID*)&aeWhich)))),
             (ActorValue::Index)aeWhich);
         break;
     }
@@ -1390,8 +1443,6 @@ void StatsMenuImpl::UpdateStatEntry(int aeWhich)
 namespace fnv_007df4e0 {
 struct LevelS
 {
-    unsigned short GetLevel();
-    const char* GetFullName();
 };
 struct MenuActiveS
 {
@@ -1399,7 +1450,6 @@ struct MenuActiveS
 };
 struct MenuTileS
 {
-    Tile* _ref_00726070();
 };
 struct GlobalObject_0040c150
 {
@@ -1409,18 +1459,17 @@ struct Flt
 {
     operator unsigned int() const;
 };
-extern GlobalObject_0040c150 g_011d2028;
 
 // @fnv 0x007df4e0
 void UpdateStatsMenuLevelText()
 {
-    if (StatsMenu::ms_pInventoryMenu && g_thePlayer)
+    if (StatsMenu::ms_pInventoryMenu && ::_g_thePlayer)
     {
         BSStringT<char> strtmp;
-        strtmp.PrintfString("%s - %s %hd", ((LevelS*)g_thePlayer)->GetFullName(),
-                       ((MenuActiveS*)&g_011d2028)->GetMenuTitle(), ((LevelS*)g_thePlayer)->GetLevel());
-        StatsMenu::ms_pInventoryMenu->m_pTiles[27]->Set(0xfc4, (const char*)(unsigned int)*(Flt*)&strtmp, true);
-        ((MenuTileS*)StatsMenu::ms_pInventoryMenu)->_ref_00726070()->Set(0x100c, ((LevelS*)g_thePlayer)->GetLevel());
+        ::FUN_00406f60((::FUN_00406f90_this *)&(strtmp), "%s - %s %hd", reinterpret_cast<::FUN_0055d520_shell *>((((LevelS*)::_g_thePlayer)))->FUN_0055d520(),
+                       ((MenuActiveS*)&(*reinterpret_cast<::fnv_007df4e0::GlobalObject_0040c150 *>(&::g_011d2028)))->GetMenuTitle(), reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>((((LevelS*)::_g_thePlayer)))->FUN_0087f9f0());
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((StatsMenu::ms_pInventoryMenu->m_pTiles[27]))->FUN_00a01350(0xfc4, (char *)((const char*)(unsigned int)*(Flt*)&strtmp), true);
+        ((::Tile *)(reinterpret_cast<::Callees *>((((MenuTileS*)StatsMenu::ms_pInventoryMenu)))->FUN_00726070()))->Set(0x100c, reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>((((LevelS*)::_g_thePlayer)))->FUN_0087f9f0());
     }
 }
 }  // namespace fnv_007df4e0
@@ -1436,12 +1485,9 @@ struct Script
 };
 struct AEHelper
 {
-    bool FUN_00833c20();
 };
 struct NodeHelper
 {
-    NodeHelper* FUN_00726070();
-    Script** FUN_006815c0();
 };
 struct EffectList
 {
@@ -1460,7 +1506,6 @@ struct ValueSrc
     virtual void v6();
     virtual int GetCur(int);
 };
-extern const double DAT_01020998;
 
 // @fnv 0x007dfe40
 int FUN_007dfe40_shell::FUN_007dfe40()
@@ -1469,14 +1514,14 @@ int FUN_007dfe40_shell::FUN_007dfe40()
     float fdmg;
     float fmax;
     int iLevel;
-    for (node = ((EffectList*)((char*)g_thePlayer + 0x94))->GetFirst(); node && *node->FUN_006815c0();
-         node = node->FUN_00726070())
+    for (node = ((EffectList*)((char*)::_g_thePlayer + 0x94))->GetFirst(); node && *((::Script **)(new ((void *)(node)) ::Vec3()));
+         node = ((::NodeHelper *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
     {
-        if ((*node->FUN_006815c0())->GetText() == 10 && ((AEHelper*)*node->FUN_006815c0())->FUN_00833c20())
+        if (((int)(reinterpret_cast<::BGSMessageInitAccess *>(((*((::Script **)(new ((void *)(node)) ::Vec3())))))->GetIconFormID())) == 10 && ((bool)(reinterpret_cast<::FUN_00833c20_shell *>((((AEHelper*)*((::Script **)(new ((void *)(node)) ::Vec3())))))->FUN_00833c20())))
             return 10;
     }
-    fmax = (float)((ValueSrc*)((char*)g_thePlayer + 0xa4))->GetCur(0x10);
-    fdmg = fmax - ((ValueSrc*)((char*)g_thePlayer + 0xa4))->GetMax(0x10);
+    fmax = (float)((ValueSrc*)((char*)::_g_thePlayer + 0xa4))->GetCur(0x10);
+    fdmg = fmax - ((ValueSrc*)((char*)::_g_thePlayer + 0xa4))->GetMax(0x10);
     iLevel = (int)(fdmg / fmax * 5.0);
     if (iLevel < 0)
         iLevel = 0;
@@ -1490,18 +1535,6 @@ struct FUN_00404210_t
     MagicEffectEntry data;
     EffectSetting* m_pEffectSetting;
     float m_fCost;
-    unsigned int GetFormID();
-    int FUN_00404390();
-    int FUN_00404420();
-    int FUN_004044d0();
-    int GetAffectedActorValue();
-    PerkEntryConditionSet* GetConditions();
-    void FUN_00404560(unsigned int range);
-    void FUN_004043d0(int magnitude);
-    void FUN_00404470(int area);
-    void FUN_00404510(int duration);
-    void SetOwner(int actorValue);
-    void FUN_00404760(PerkEntryConditionSet* conditions);
     void CopyFrom(FUN_00404210_t* apSource);
 };
 
@@ -1509,12 +1542,12 @@ struct FUN_00404210_t
 void FUN_00404210_t::CopyFrom(FUN_00404210_t* apSource)
 {
     m_pEffectSetting = apSource->m_pEffectSetting;
-    FUN_00404560(apSource->GetFormID());
-    FUN_004043d0(apSource->FUN_00404390());
-    FUN_00404470(apSource->FUN_00404420());
-    FUN_00404510(apSource->FUN_004044d0());
-    SetOwner(apSource->GetAffectedActorValue());
-    FUN_00404760(apSource->GetConditions());
+    reinterpret_cast<::fnv_00404560::FUN_00404210_t *>(this)->FUN_00404560(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((apSource))->FUN_0084e3a0())));
+    reinterpret_cast<::Unk004043d0 *>(this)->FUN_004043d0(reinterpret_cast<::FUN_00404390_shell *>((apSource))->FUN_00404390());
+    reinterpret_cast<::EffectItem_shell *>(this)->FUN_00404470(reinterpret_cast<::FUN_00404420_shell *>((apSource))->FUN_00404420());
+    reinterpret_cast<::S00404510 *>(this)->FUN_00404510(reinterpret_cast<::FUN_004044d0_shell *>((apSource))->FUN_004044d0());
+    reinterpret_cast<::BGSQuestObjective *>(this)->SetOwner((::TESQuest *)(reinterpret_cast<::EffectItem *>((apSource))->GetAffectedActorValue()));
+    reinterpret_cast<::FUN_00404760_shell *>(this)->FUN_00404760(((::PerkEntryConditionSet *)(reinterpret_cast<::BGSDebris *>((apSource))->GetDataList())));
     m_fCost = -1.0f;
 }
 
@@ -1542,12 +1575,9 @@ void BodyPartDisplay::SetBodyPart(int aeBodyPart, bool abFlash)
 namespace fnv_007dcb40 {
 struct FNStub
 {
-    const char* GetFullName();
 };
 struct TESReputation
 {
-    const char* GetReputationName();
-    const char* FUN_00616710();
 };
 struct FUN_007dcb40_t : public StatsMenu
 {
@@ -1559,34 +1589,33 @@ void FUN_007dcb40_t::SetReputationEntry(TESReputation* pRep)
 {
     if (!pRep)
         return;
-    m_pTiles[47]->Set(0xfcc, pRep->GetReputationName(), true);
+    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[47]))->FUN_00a01350(0xfcc, (char *)(reinterpret_cast<::FUN_006166e0_shell *>((pRep))->GetReputationName()), true);
     m_pTiles[47]->Set(0xfa3, 1);
     m_pTiles[48]->Set(0xfa3, 1);
     m_pTiles[51]->Set(0xfa3, 1);
-    m_pTiles[51]->Set(0xfc4, ((FNStub*)((char*)pRep + 0x18))->GetFullName(), true);
-    m_pTiles[48]->Set(0xfc4, pRep->FUN_00616710(), true);
+    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[51]))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)((char*)pRep + 0x18))))->FUN_00408da0()))), true);
+    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[48]))->FUN_00a01350(0xfc4, (char *)(reinterpret_cast<::TESReputation *>((pRep))->FUN_00616710()), true);
 }
 }  // namespace fnv_007dcb40
 
 struct FOPipboyManager
 {
-    void SetValue(int page, bool abPlaySounds);
+public:
+    bool IsUnk28Set();
 };
 struct Interface
 {
     FOPipboyManager* GetPipboyManager();
 };
 
-void* __cdecl FUN_004b7210(void);
 
 // If a stats menu exists, gets the pipboy manager and plays sounds for the menu's current page.
 // @fnv 0x007dfc90
 void PlayPipboyPageSound(bool abPlaySounds)
 {
     if (StatsMenu::ms_pInventoryMenu)
-        reinterpret_cast<Interface*>(FUN_004b7210())
-            ->GetPipboyManager()
-            ->SetValue(StatsMenu::ms_pInventoryMenu->GetCurrentPage(), abPlaySounds);
+        reinterpret_cast<::FUN_007fa0f0_Class *>((reinterpret_cast<Interface*>(((void *)(::fnv_004b7210::FUN_004b7210())))
+            ->GetPipboyManager()))->SetValue(StatsMenu::ms_pInventoryMenu->GetCurrentPage(), abPlaySounds);
 }
 
 namespace fnv_007dff40 {
@@ -1595,12 +1624,10 @@ struct FUN_007dff40_shell : public StatsMenu
     void SetPage(int);
 };
 
-void* __cdecl FUN_004b7210();
 class FORenderedMenu
 {
   public:
     void StartBurst(float, float, float);
-    bool GetInitialized();
 };
 class FOPipboyManager : public FORenderedMenu
 {
@@ -1612,8 +1639,6 @@ class Interface
 };
 struct VATSMenuView
 {
-    unsigned int FUN_00726710();
-    void* FUN_007d86c0(int, int);
 };
 struct FUN_007dc7e0_t
 {
@@ -1621,13 +1646,9 @@ struct FUN_007dc7e0_t
     void UpdateScrollBar(void*);
     void RefreshHealingOptions();
 };
-void __cdecl PlayPipboyPageSound(int);
 struct Setting_S
 {
-    float* Float();
 };
-extern Setting_S g_011db37c;
-extern Setting_S g_011db458;
 
 // Validates aePage (0-4), updates the Pipboy menu, sets menu value 0x1004 to aePage, and applies page-specific actions.
 // @fnv 0x007dff40
@@ -1635,18 +1656,18 @@ void FUN_007dff40_shell::SetPage(int aePage)
 {
     if (aePage < 0 || aePage > 4)
         return;
-    ((Interface*)FUN_004b7210())->GetPipboyManager()->StartBurst(*g_011db458.Float(), *g_011db37c.Float(), 0.5f);
+    ((Interface*)((void *)(::fnv_004b7210::FUN_004b7210())))->GetPipboyManager()->StartBurst(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007dff40::Setting_S *>(&::g_011db458)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007dff40::Setting_S *>(&::g_011db37c)))))), 0.5f);
     pMenu->Set(0x1004, aePage);
-    if (((Interface*)FUN_004b7210())->GetPipboyManager()->GetInitialized())
-        PlayPipboyPageSound(1);
+    if (reinterpret_cast<::FOPipboyManager *>((((Interface*)((void *)(::fnv_004b7210::FUN_004b7210())))->GetPipboyManager()))->IsUnk28Set())
+        ::PlayPipboyPageSound(1);
     if (m_bUpdateOption)
         ((FUN_007dc7e0_t*)this)->RefreshHealingOptions();
     if (aePage == 1)
         ((FUN_007dc7e0_t*)this)->UpdateStatsDisplay(5);
     else if (aePage == 2)
         ((FUN_007dc7e0_t*)this)->UpdateStatsDisplay(0x20);
-    else if (aePage == 3 && ((VATSMenuView*)&m_kPerkRankList)->FUN_00726710())
-        ((FUN_007dc7e0_t*)this)->UpdateScrollBar(((VATSMenuView*)&m_kPerkRankList)->FUN_007d86c0(0, 0));
+    else if (aePage == 3 && reinterpret_cast<::VATSMenuView *>((((VATSMenuView*)&m_kPerkRankList)))->FUN_00726710())
+        ((FUN_007dc7e0_t*)this)->UpdateScrollBar(((void *)(reinterpret_cast<::FUN_007d86c0_shell *>((((VATSMenuView*)&m_kPerkRankList)))->FUN_007d86c0((int *)(0), 0))));
     else
         m_pTiles[25]->Set(0xfa3, 0);
 }
@@ -1689,40 +1710,35 @@ namespace fnv_007e0510 {
 class FNStub
 {
   public:
-    char const* GetFullName(void);
 };
 
-int __cdecl _stricmp(const char*, const char*);
 
 // Compares the full names of the FNStub objects referenced at offset 4 of a and b using _stricmp and returns the result.
 // @fnv 0x007e0510
 int __cdecl CompareEntryNames(void* pEntryA, void* pEntryB)
 {
-    return _stricmp(((FNStub*)((char*)*(void**)((char*)pEntryA + 4) + 0x18))->GetFullName(),
-                    ((FNStub*)((char*)*(void**)((char*)pEntryB + 4) + 0x18))->GetFullName());
+    return ::FUN_00404dc0(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)((char*)*(void**)((char*)pEntryA + 4) + 0x18))))->FUN_00408da0())),
+                    ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)((char*)*(void**)((char*)pEntryB + 4) + 0x18))))->FUN_00408da0())));
 }
 }  // namespace fnv_007e0510
 
-int __cdecl _stricmp(const char* str1, const char* str2);
 
 struct FUN_007e0540_effect
 {
-    BSStringTChar GetEffectName() const;
 };
 
 // Compares the effect names of two effects case-insensitively via _stricmp and returns the result.
 // @fnv 0x007e0540
 int __cdecl CompareEffectNames(FUN_007e0540_effect* apEffectA, FUN_007e0540_effect* apEffectB)
 {
-    return _stricmp(apEffectA->GetEffectName(), apEffectB->GetEffectName());
+    return ::FUN_00404dc0((*(::BSStringTChar *)(reinterpret_cast<::FUN_004046b0_cls *>((void *)(apEffectA))->AssignFromSub({}))), (*(::BSStringTChar *)(reinterpret_cast<::FUN_004046b0_cls *>((void *)(apEffectB))->AssignFromSub({}))));
 }
 
-bool __fastcall FUN_004d1360(PlayerCharacter* pPlayer);
 int __cdecl GetStatusResult();
 // @fnv 0x007e06f0
 bool __cdecl IsHealingOptionAvailable(StatsMenu__HealingOption* apOption)
 {
-    bool bResult = FUN_004d1360(g_thePlayer);
+    bool bResult = ::FUN_004d1360((char *)(::_g_thePlayer));
     if (apOption->m_pStatusEffect)
     {
         int iIndex = GetStatusResult();
@@ -1730,8 +1746,8 @@ bool __cdecl IsHealingOptionAvailable(StatsMenu__HealingOption* apOption)
             return false;
         for (int i = 0x19; i < 0x1f; i++)
         {
-            if (g_thePlayer->GetActorValue((ActorValue::Index)i) <
-                g_thePlayer->GetPermanentActorValue((ActorValue::Index)i))
+            if (::_g_thePlayer->GetActorValue((ActorValue::Index)i) <
+                ::_g_thePlayer->GetPermanentActorValue((ActorValue::Index)i))
                 return true;
         }
     }
@@ -1740,9 +1756,7 @@ bool __cdecl IsHealingOptionAvailable(StatsMenu__HealingOption* apOption)
 
 namespace fnv_007e0850 {
 void __fastcall _ref_0063f7b0(void*);
-void** __fastcall _ref_006815c0(void*);
 bool __fastcall _ref_008256d0(void*);
-void __cdecl _Deallocate(void*);
 
 // @fnv 0x007e0850
 void __fastcall FUN_007e0850(void* thisPtr)
@@ -1750,8 +1764,8 @@ void __fastcall FUN_007e0850(void* thisPtr)
     void* p;
     while (!_ref_008256d0((char*)thisPtr + 4))
     {
-        p = *(_ref_006815c0((char*)thisPtr + 4));
-        _Deallocate(p);
+        p = *(((void **)(new ((void *)((char*)thisPtr + 4)) ::Vec3())));
+        ::FUN_00401030(p);
         _ref_0063f7b0((char*)thisPtr + 4);
     }
 }
@@ -1763,8 +1777,6 @@ struct FUN_007e0c50_item
 };
 struct FUN_007e0c50_node
 {
-    FUN_007e0c50_node* FUN_00726070();
-    FUN_007e0c50_item*& FUN_006815c0();
 };
 struct FUN_007e0c50_list
 {
@@ -1779,10 +1791,10 @@ FUN_007e0c50_item* FUN_007e0c50_list::FUN_007e0c50(unsigned int formID)
 {
     FUN_007e0c50_node* pNode;
     FUN_007e0c50_item* pEffect = 0;
-    for (pNode = this ? &xList : 0; !pEffect && pNode && pNode->FUN_006815c0(); pNode = pNode->FUN_00726070())
+    for (pNode = this ? &xList : 0; !pEffect && pNode && ((::FUN_007e0c50_item *)(new ((void *)(pNode)) ::Vec3())); pNode = ((::FUN_007e0c50_node *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070())))
     {
-        if (pNode->FUN_006815c0()->pForm->GetFormID() == formID)
-            pEffect = pNode->FUN_006815c0();
+        if (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::FUN_007e0c50_item *)(new ((void *)(pNode)) ::Vec3()))->pForm))->FUN_0084e3a0())) == formID)
+            pEffect = ((::FUN_007e0c50_item *)(new ((void *)(pNode)) ::Vec3()));
     }
     return pEffect;
 }
@@ -1850,14 +1862,12 @@ struct FUN_007e09b0_class
 // @fnv 0x007e09b0
 void FUN_007e09b0_class::FUN_007e09b0()
 {
-    ((List_009e03e0*)((char*)this + 4))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>((((List_009e03e0*)((char*)this + 4))))->RemoveAll();
 }
 
-void _Deallocate(void*);
 
 struct FUN_0071f9c0_class
 {
-    void FUN_0071f9f0();
     void* FUN_0071f9c0(unsigned int flags);
 };
 
@@ -1865,9 +1875,9 @@ struct FUN_0071f9c0_class
 // @fnv 0x0071f9c0
 void* FUN_0071f9c0_class::FUN_0071f9c0(unsigned int flags)
 {
-    FUN_0071f9f0();
+    reinterpret_cast<::FUN_0071f9f0 *>(this)->FUN_0071f9f0::~FUN_0071f9f0();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -1890,12 +1900,10 @@ void S::FUN_007db250(int aiIndex, int* apValue)
 }
 
 namespace fnv_007dbfe0 {
-bool __cdecl FUN_007dc040(Tile*, unsigned int);
 struct Elem8
 {
     int x0;
     int x1;
-    void __thiscall FUN_007e0e30(bool(__cdecl*)(Tile*, unsigned int), unsigned int);
 };
 struct BodyPartDisplay
 {
@@ -1907,7 +1915,7 @@ struct BodyPartDisplay
 // @fnv 0x007dbfe0
 void BodyPartDisplay::FUN_007dbfe0(unsigned int aiOn)
 {
-    mElems[mIndex].FUN_007e0e30(&FUN_007dc040, aiOn);
+    reinterpret_cast<::FUN_007e0e30_Class *>(&(mElems[mIndex]))->FUN_007e0e30((bool (*)(void *, unsigned int))(bool (*)(Tile *, unsigned int))(&::StatsMenu::SetTileFlashing), aiOn);
 }
 }  // namespace fnv_007dbfe0
 
@@ -1936,7 +1944,7 @@ void Struct007ddaa0::TraverseListBox()
     int unused1;
     int unused2;
     int FlushUsageData;
-    lb.Traverse((void(__cdecl*)(Tile*, ActorValue::Index))StatsMenu::UpdateMiscStatTile, 0, 0x7fffffff);
+    reinterpret_cast<::LBList_7314c0 *>(&(lb))->FUN_007314c0((void (*)(LBTile_7314c0 *, void *))(void (*)(Tile *, ActorValue::Index))((void(__cdecl*)(Tile*, ActorValue::Index))((void (&)(Tile *, MiscStatManager__MiscStatID))::FUN_007dfc60)), 0, 0x7fffffff);
 }
 
 namespace fnv_007e0b20 {
@@ -1951,13 +1959,9 @@ struct FUN_00403ba0
 };
 struct FUN_00404210_t
 {
-    int GetAffectedActorValue();
-    int FUN_00404390();
-    int FUN_004044d0();
 };
 struct S3e60
 {
-    bool FUN_00403e60(unsigned int);
 };
 struct G2
 {
@@ -1976,20 +1980,20 @@ void FUN_007e0b20_shell::AddEffectItem(EffectItem* apEffect)
 {
     if (apEffect)
     {
-        FUN_00403ba0* pEntry = FindEntryByFormID(reinterpret_cast<FUN_00404210_t*>(apEffect)->GetAffectedActorValue());
+        FUN_00403ba0* pEntry = FindEntryByFormID(reinterpret_cast<::EffectItem *>((reinterpret_cast<FUN_00404210_t*>(apEffect)))->GetAffectedActorValue());
         if (pEntry)
         {
-            pEntry->m_iMagnitude += reinterpret_cast<FUN_00404210_t*>(apEffect)->FUN_00404390();
+            pEntry->m_iMagnitude += reinterpret_cast<::FUN_00404390_shell *>((reinterpret_cast<FUN_00404210_t*>(apEffect)))->FUN_00404390();
         }
         else
         {
             pEntry = new FUN_00403ba0;
-            pEntry->m_eAssociatedActorValue = reinterpret_cast<FUN_00404210_t*>(apEffect)->GetAffectedActorValue();
-            pEntry->m_iMagnitude = reinterpret_cast<FUN_00404210_t*>(apEffect)->FUN_00404390();
-            if (reinterpret_cast<S3e60*>(apEffect->GetEffectSetting())->FUN_00403e60(4))
+            pEntry->m_eAssociatedActorValue = reinterpret_cast<::EffectItem *>((reinterpret_cast<FUN_00404210_t*>(apEffect)))->GetAffectedActorValue();
+            pEntry->m_iMagnitude = reinterpret_cast<::FUN_00404390_shell *>((reinterpret_cast<FUN_00404210_t*>(apEffect)))->FUN_00404390();
+            if (reinterpret_cast<::S3e60 *>((reinterpret_cast<S3e60*>(((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(apEffect))->FUN_00825c00())))))->FUN_00403e60(4))
                 pEntry->m_iMagnitude *= -1;
-            if (!reinterpret_cast<S3e60*>(apEffect->GetEffectSetting())->FUN_00403e60(2))
-                pEntry->m_iPayloadInteger = reinterpret_cast<FUN_00404210_t*>(apEffect)->FUN_004044d0();
+            if (!reinterpret_cast<::S3e60 *>((reinterpret_cast<S3e60*>(((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(apEffect))->FUN_00825c00())))))->FUN_00403e60(2))
+                pEntry->m_iPayloadInteger = reinterpret_cast<::FUN_004044d0_shell *>((reinterpret_cast<FUN_00404210_t*>(apEffect)))->FUN_004044d0();
             kList.AddHead(reinterpret_cast<int*>(&pEntry));
         }
     }
@@ -2062,7 +2066,6 @@ struct GlobalObject2_0045cfe0 : public StartMenu
 
 struct Struct007ddaa0
 {
-    void TraverseListBox();
 };
 
 struct FUN_007dd8c0_StandIn
@@ -2082,14 +2085,9 @@ struct FUN_007df920_StandIn
 
 struct Tile_helper
 {
-    Tile* GetNamedChild(char const* name);
 };
 
-int __cdecl FUN_00408b20(char const*, char const*);
-int __cdecl FUN_00a01860(char const*);
 
-extern char const* const ENGLISH;
-extern const char _DAT_0106ed20[];
 extern const char str_0107732c[];
 extern const char str_01077340[];
 extern const char str_01077358[];
@@ -2098,26 +2096,6 @@ extern const char str_01077378[];
 extern const char str_01077388[];
 extern const char str_01077398[];
 
-extern GlobalObject2_0045cfe0 g_011c3cb4;
-extern StartMenu g_011d1f08;
-extern StartMenu g_011d1f5c;
-extern StartMenu g_011d246c;
-extern StartMenu g_011d2994;
-extern StartMenu g_011d2e80;
-extern StartMenu g_011d2ebc;
-extern StartMenu g_011d2f88;
-extern StartMenu g_011d37c8;
-extern StartMenu g_011d3b08;
-extern StartMenu g_011d3bd4;
-extern StartMenu g_011d3e74;
-extern StartMenu g_011d3fdc;
-extern StartMenu g_011d41bc;
-extern StartMenu g_011d44a4;
-extern StartMenu g_011d47ec;
-extern StartMenu g_011d48d0;
-extern StartMenu g_011d4bd0;
-extern StartMenu g_011d4ef4;
-extern StartMenu g_011d50b0;
 
 struct FUN_007dcc80_StandIn : public StatsMenu
 {
@@ -2129,57 +2107,41 @@ struct FUN_007dcc80_StandIn : public StatsMenu
 void FUN_007dcc80_StandIn::InitializeStatsMenu()
 {
     this->UpdateActorValueTiles();
-    reinterpret_cast<Struct007ddaa0*>(this)->TraverseListBox();
+    reinterpret_cast<::Struct007ddaa0 *>((reinterpret_cast<Struct007ddaa0*>(this)))->TraverseListBox();
     reinterpret_cast<FUN_007dd8c0_StandIn*>(this)->UpdateReputationList();
     reinterpret_cast<FUN_007df230_StandIn*>(this)->UpdateOption(4);
     reinterpret_cast<FUN_007df920_StandIn*>(this)->ShowWorstLimbStatus();
 
-    if (FUN_00408b20(g_011c3cb4.GetMenuTitle(), reinterpret_cast<char const*>(&ENGLISH)))
+    if (::FUN_00408b20((*reinterpret_cast<::fnv_007dcc80::GlobalObject2_0045cfe0 *>(&::g_011c3cb4)).GetMenuTitle(), reinterpret_cast<char const*>(&(*reinterpret_cast<const char *const *>(&::DAT_01018348)))))
     {
-        this->m_pTiles[0]->Set(0xfc4, g_011d2f88.GetMenuTitle(), true);
-        this->m_pTiles[1]->Set(0xfc4, g_011d2994.GetMenuTitle(), true);
-        this->m_pTiles[2]->Set(0xfc4, g_011d3b08.GetMenuTitle(), true);
-        this->m_pTiles[3]->Set(0xfc4, g_011d4bd0.GetMenuTitle(), true);
-        this->m_pTiles[4]->Set(0xfc4, g_011d4ef4.GetMenuTitle(), true);
-        this->m_pTiles[28]->Set(0xfc4, g_011d48d0.GetMenuTitle(), true);
-        this->m_pTiles[29]->Set(0xfc4, g_011d3e74.GetMenuTitle(), true);
-        this->m_pTiles[53]->Set(0xfc4, g_011d1f08.GetMenuTitle(), true);
-        this->m_pTiles[57]->Set(0xfc4, g_011d246c.GetMenuTitle(), true);
-        this->m_pTiles[55]->Set(0xfc4, g_011d37c8.GetMenuTitle(), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((this->m_pTiles[0]))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::fnv_007dcc80::StartMenu *>(&::g_011d2f88)).GetMenuTitle()), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((this->m_pTiles[1]))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::fnv_007dcc80::StartMenu *>(&::g_011d2994)).GetMenuTitle()), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((this->m_pTiles[2]))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::fnv_007dcc80::StartMenu *>(&::g_011d3b08)).GetMenuTitle()), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((this->m_pTiles[3]))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::fnv_007dcc80::StartMenu *>(&::g_011d4bd0)).GetMenuTitle()), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((this->m_pTiles[4]))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::fnv_007dcc80::StartMenu *>(&::g_011d4ef4)).GetMenuTitle()), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((this->m_pTiles[28]))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::fnv_007dcc80::StartMenu *>(&::g_011d48d0)).GetMenuTitle()), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((this->m_pTiles[29]))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::fnv_007dcc80::StartMenu *>(&::g_011d3e74)).GetMenuTitle()), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((this->m_pTiles[53]))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::fnv_007dcc80::StartMenu *>(&::g_011d1f08)).GetMenuTitle()), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((this->m_pTiles[57]))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::fnv_007dcc80::StartMenu *>(&::g_011d246c)).GetMenuTitle()), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((this->m_pTiles[55]))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::fnv_007dcc80::StartMenu *>(&::g_011d37c8)).GetMenuTitle()), true);
 
-        reinterpret_cast<Tile*>(reinterpret_cast<BSSimpleList<Tile*>*>(this)->GetNext())
-            ->Set(0x100d, g_011d2e80.GetMenuTitle(), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((reinterpret_cast<Tile*>(((::BSSimpleList< ::Tile *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<Tile*>*>(this)))->FUN_00726070())))))->FUN_00a01350(0x100d, (char *)((*reinterpret_cast<::fnv_007dcc80::StartMenu *>(&::g_011d2e80)).GetMenuTitle()), true);
 
-        reinterpret_cast<Tile*>(reinterpret_cast<BSSimpleList<Tile*>*>(this)->GetNext())
-            ->Set(0x100e, g_011d41bc.GetMenuTitle(), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((reinterpret_cast<Tile*>(((::BSSimpleList< ::Tile *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<Tile*>*>(this)))->FUN_00726070())))))->FUN_00a01350(0x100e, (char *)((*reinterpret_cast<::fnv_007dcc80::StartMenu *>(&::g_011d41bc)).GetMenuTitle()), true);
 
-        reinterpret_cast<Tile_helper*>(reinterpret_cast<Tile*>(reinterpret_cast<BSSimpleList<Tile*>*>(this)->GetNext()))
-            ->GetNamedChild(str_01077398)
-            ->Set(0xfc4, g_011d3fdc.GetMenuTitle(), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((reinterpret_cast<Tile_helper*>(reinterpret_cast<Tile*>(((::BSSimpleList< ::Tile *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<Tile*>*>(this)))->FUN_00726070()))))))->FUN_00a03da0((char *)(str_01077398))))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::fnv_007dcc80::StartMenu *>(&::g_011d3fdc)).GetMenuTitle()), true);
 
-        reinterpret_cast<Tile_helper*>(reinterpret_cast<Tile*>(reinterpret_cast<BSSimpleList<Tile*>*>(this)->GetNext()))
-            ->GetNamedChild(str_01077388)
-            ->Set(FUN_00a01860(_DAT_0106ed20), g_011d1f5c.GetMenuTitle(), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((reinterpret_cast<Tile_helper*>(reinterpret_cast<Tile*>(((::BSSimpleList< ::Tile *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<Tile*>*>(this)))->FUN_00726070()))))))->FUN_00a03da0((char *)(str_01077388))))->FUN_00a01350(::FUN_00a01860(::DAT_0106ed20), (char *)((*reinterpret_cast<::fnv_007dcc80::StartMenu *>(&::g_011d1f5c)).GetMenuTitle()), true);
 
-        reinterpret_cast<Tile_helper*>(reinterpret_cast<Tile*>(reinterpret_cast<BSSimpleList<Tile*>*>(this)->GetNext()))
-            ->GetNamedChild(str_01077378)
-            ->Set(FUN_00a01860(_DAT_0106ed20), g_011d50b0.GetMenuTitle(), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((reinterpret_cast<Tile_helper*>(reinterpret_cast<Tile*>(((::BSSimpleList< ::Tile *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<Tile*>*>(this)))->FUN_00726070()))))))->FUN_00a03da0((char *)(str_01077378))))->FUN_00a01350(::FUN_00a01860(::DAT_0106ed20), (char *)((*reinterpret_cast<::fnv_007dcc80::StartMenu *>(&::g_011d50b0)).GetMenuTitle()), true);
 
-        reinterpret_cast<Tile_helper*>(reinterpret_cast<Tile*>(reinterpret_cast<BSSimpleList<Tile*>*>(this)->GetNext()))
-            ->GetNamedChild(str_01077368)
-            ->Set(FUN_00a01860(_DAT_0106ed20), g_011d44a4.GetMenuTitle(), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((reinterpret_cast<Tile_helper*>(reinterpret_cast<Tile*>(((::BSSimpleList< ::Tile *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<Tile*>*>(this)))->FUN_00726070()))))))->FUN_00a03da0((char *)(str_01077368))))->FUN_00a01350(::FUN_00a01860(::DAT_0106ed20), (char *)((*reinterpret_cast<::fnv_007dcc80::StartMenu *>(&::g_011d44a4)).GetMenuTitle()), true);
 
-        reinterpret_cast<Tile_helper*>(reinterpret_cast<Tile*>(reinterpret_cast<BSSimpleList<Tile*>*>(this)->GetNext()))
-            ->GetNamedChild(str_01077358)
-            ->Set(FUN_00a01860(_DAT_0106ed20), g_011d3bd4.GetMenuTitle(), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((reinterpret_cast<Tile_helper*>(reinterpret_cast<Tile*>(((::BSSimpleList< ::Tile *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<Tile*>*>(this)))->FUN_00726070()))))))->FUN_00a03da0((char *)(str_01077358))))->FUN_00a01350(::FUN_00a01860(::DAT_0106ed20), (char *)((*reinterpret_cast<::fnv_007dcc80::StartMenu *>(&::g_011d3bd4)).GetMenuTitle()), true);
 
-        reinterpret_cast<Tile_helper*>(reinterpret_cast<Tile*>(reinterpret_cast<BSSimpleList<Tile*>*>(this)->GetNext()))
-            ->GetNamedChild(str_01077340)
-            ->Set(0xfc4, g_011d47ec.GetMenuTitle(), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((reinterpret_cast<Tile_helper*>(reinterpret_cast<Tile*>(((::BSSimpleList< ::Tile *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<Tile*>*>(this)))->FUN_00726070()))))))->FUN_00a03da0((char *)(str_01077340))))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::fnv_007dcc80::StartMenu *>(&::g_011d47ec)).GetMenuTitle()), true);
 
-        reinterpret_cast<Tile_helper*>(reinterpret_cast<Tile*>(reinterpret_cast<BSSimpleList<Tile*>*>(this)->GetNext()))
-            ->GetNamedChild(str_0107732c)
-            ->Set(0xfc4, g_011d2ebc.GetMenuTitle(), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((reinterpret_cast<Tile_helper*>(reinterpret_cast<Tile*>(((::BSSimpleList< ::Tile *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<Tile*>*>(this)))->FUN_00726070()))))))->FUN_00a03da0((char *)(str_0107732c))))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::fnv_007dcc80::StartMenu *>(&::g_011d2ebc)).GetMenuTitle()), true);
     }
 }
 }  // namespace fnv_007dcc80
@@ -2192,17 +2154,14 @@ struct GO
 
 typedef GO StatusH;
 
-bool __cdecl IsStatsMenuActive();
-StatusH* __stdcall FUN_007db1c0();
-int __cdecl MapIndexToCode(int);
 
 // @fnv 0x007e06b0
 int __cdecl GetStatusResult()
 {
     int result;
 
-    if (IsStatsMenuActive())
-        result = MapIndexToCode(static_cast<unsigned int>(*FUN_007db1c0()));
+    if (::fnv_0070ed80::IsStatsMenuActive())
+        result = ::MapIndexToCode(static_cast<unsigned int>(*((::fnv_007e06b0::GO *)(::FUN_007db1c0()))));
     else
         result = -1;
 
@@ -2211,7 +2170,6 @@ int __cdecl GetStatusResult()
 }  // namespace fnv_007e06b0
 
 namespace fnv_007e02b0 {
-extern int __cdecl GetTileValueID(char const*, int);
 extern char const $SG2844[];
 
 class StartMenu
@@ -2224,8 +2182,6 @@ class GlobalObject_0040c150 : public StartMenu
 {
 };
 
-extern StartMenu g_011d4ef4;
-extern GlobalObject_0040c150 g_011d4144;
 
 struct FUN_007e02b0_StandIn
 {
@@ -2235,8 +2191,8 @@ struct FUN_007e02b0_StandIn
 // @fnv 0x007e02b0
 void FUN_007e02b0_StandIn::FUN_007e02b0()
 {
-    static int DAT_011dad88 = GetTileValueID($SG2844, -1);
-    static int DAT_011dad84 = GetTileValueID("_user0", -1);
+    static int DAT_011dad88 = ::FUN_00a00940($SG2844, -1);
+    static int DAT_011dad84 = ::FUN_00a00940("_user0", -1);
     static bool DAT_011a0ae0 = false;
 
     DAT_011a0ae0 = !DAT_011a0ae0;
@@ -2248,12 +2204,12 @@ void FUN_007e02b0_StandIn::FUN_007e02b0()
 
     if (DAT_011a0ae0)
     {
-        StatsMenu::ms_pInventoryMenu->m_pTiles[49]->Set(0xFC4, g_011d4ef4.GetMenuTitle(), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((StatsMenu::ms_pInventoryMenu->m_pTiles[49]))->FUN_00a01350(0xFC4, (char *)((*reinterpret_cast<::fnv_007e02b0::StartMenu *>(&::g_011d4ef4)).GetMenuTitle()), true);
         StatsMenu::ms_pInventoryMenu->m_pTiles[50]->Set(0x1004, 1);
     }
     else
     {
-        StatsMenu::ms_pInventoryMenu->m_pTiles[49]->Set(0xFC4, g_011d4144.GetMenuTitle(), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((StatsMenu::ms_pInventoryMenu->m_pTiles[49]))->FUN_00a01350(0xFC4, (char *)((*reinterpret_cast<::fnv_007e02b0::GlobalObject_0040c150 *>(&::g_011d4144)).GetMenuTitle()), true);
         StatsMenu::ms_pInventoryMenu->m_pTiles[50]->Set(0x1004, 0);
     }
 }
@@ -2261,7 +2217,6 @@ void FUN_007e02b0_StandIn::FUN_007e02b0()
 
 struct FUN_007d35c0_Tile
 {
-    void Set(int, const char*, bool);
 };
 struct FUN_007d35c0_Obj
 {
@@ -2334,23 +2289,20 @@ struct SM7d6
     int unkDC;
     int unkE0;
     FUN_007d35c0_Obj e4;
-    void FUN_0075f6f0(int, bool);
 };
 struct GameSettingCollection_stub
 {
     const char* String();
 };
-extern GameSettingCollection_stub g_011d4930;
-extern SM7d6* DAT_011daac0;
 // If DAT_011daac0 is set, calls its e4.v7, sets tile 0xfc4 text from g_011d4930.String(), and calls FUN_0075f6f0(0x4000, true).
 // @fnv 0x007d35c0
 void __cdecl FUN_007d35c0()
 {
-    if (DAT_011daac0)
+    if ((*reinterpret_cast<::SM7d6 * *>(&::fnv_007d0700::DAT_011daac0)))
     {
-        DAT_011daac0->e4.v7();
-        DAT_011daac0->t48->Set(0xfc4, g_011d4930.String(), true);
-        DAT_011daac0->FUN_0075f6f0(0x4000, true);
+        (*reinterpret_cast<::SM7d6 * *>(&::fnv_007d0700::DAT_011daac0))->e4.v7();
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::SM7d6 * *>(&::fnv_007d0700::DAT_011daac0))->t48))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::GameSettingCollection_stub *>(&::g_011d4930)).String()), true);
+        reinterpret_cast<::FUN_0075f6f0_shell *>(((*reinterpret_cast<::SM7d6 * *>(&::fnv_007d0700::DAT_011daac0))))->FUN_0075f6f0(0x4000, true);
     }
 }
 
@@ -2415,7 +2367,6 @@ struct FUN_007db630_Entry
 {
     int unk00;
     int unk04;
-    bool FUN_005f65d0(int* value);
 };
 struct FUN_007db630_Owner
 {
@@ -2423,90 +2374,37 @@ struct FUN_007db630_Owner
     FUN_007db630_Entry entries[6];
     int FindEntryIndex(int value);
 };
-void __cdecl FUN_007dc0a0(int* value);
 // Scans up to 6 entries, returning the index of the first whose FUN_005f65d0 accepts value, otherwise 6.
 // @fnv 0x007db630
 int FUN_007db630_Owner::FindEntryIndex(int value)
 {
     int index = 0;
-    for (; index < 6; FUN_007dc0a0(&index))
+    for (; index < 6; ::TESReputation::GetUnsignedIntegerPointer((unsigned int *)(int *)(&index)))
     {
-        if (entries[index].FUN_005f65d0(&value))
+        if (reinterpret_cast<::RefList *>(&(entries[index]))->FUN_005f65d0((void **)(int *)(&value)))
             return index;
     }
     return 6;
 }
 
 extern const char UNK_01074eb8;
-extern const char UNK_0106f8f8;
-extern const char UNK_010702d8;
-extern const char UNK_01070250;
-extern double DAT_01012070;
 
-int __cdecl FUN_00a01860(const char* name);
-int __cdecl FUN_0066e9f0(void* value);
-int __cdecl GetActorValueDescription(void* value);
-unsigned int __cdecl GetWeaponSkillIconPath(void* value);
-float __cdecl FUN_00404010(float low, float high);
-float __cdecl FUN_004e4430(float value);
 
 struct ChildList007dc7e0
 {
-    Tile** FUN_0073ac90();
-    Tile** FUN_007b5370();
 };
 struct TileAdapter007dc7e0
 {
-    void FUN_00700320(int trait, int value);
-    void FUN_00a01350(int trait, int value, bool update);
-    float FUN_00a011b0(int trait);
-    TileAdapter007dc7e0* FUN_0045cd60();
-    void FUN_00a04640(int value);
-    void FUN_00a012d0(int trait, float value, bool update);
-    void SetTraitAndReset(int trait, float value);
 };
 struct StatsMenuFunction007dc7e0 : StatsMenu
 {
     void UpdateStatsDisplay(void* actor);
 };
-// @fnv 0x007dc7e0
-void StatsMenuFunction007dc7e0::UpdateStatsDisplay(void* actor)
-{
-    TileAdapter007dc7e0* pMain = *(reinterpret_cast<TileAdapter007dc7e0**>(
-        reinterpret_cast<ChildList007dc7e0*>((char*)m_pTiles[26] + 4)->FUN_0073ac90()));
-    TileAdapter007dc7e0* second = *(reinterpret_cast<TileAdapter007dc7e0**>(
-        reinterpret_cast<ChildList007dc7e0*>((char*)m_pTiles[26] + 4)->FUN_007b5370()));
-    float fMinimumInputValue = second->FUN_00a011b0(FUN_00a01860(&UNK_01074eb8));
-    float diff = 0.0f;
-    reinterpret_cast<TileAdapter007dc7e0*>(m_pTiles[25])->FUN_00700320(0xfa3, 1);
-    reinterpret_cast<TileAdapter007dc7e0*>(m_pTiles[25])->FUN_00a01350(0xfcc, FUN_0066e9f0(actor), true);
-    pMain->FUN_00a01350(0xfc4, GetActorValueDescription(actor), true);
-    unsigned int amount = GetWeaponSkillIconPath(actor);
-    if (amount > 0)
-    {
-        reinterpret_cast<TileAdapter007dc7e0*>(m_pTiles[52])->FUN_00700320(0xfa3, 1);
-        reinterpret_cast<TileAdapter007dc7e0*>(m_pTiles[52])->FUN_00a01350(0xfcc, amount, true);
-    }
-    else
-    {
-        reinterpret_cast<TileAdapter007dc7e0*>(m_pTiles[52])->FUN_00700320(0xfa3, 0);
-    }
-    pMain->FUN_00a04640(0);
-    diff = pMain->FUN_00a011b0(0xfb0) - pMain->FUN_0045cd60()->FUN_00a011b0(0xfb0);
-    diff = FUN_00404010(0.0f, diff);
-    second->FUN_00a012d0(FUN_00a01860(&UNK_0106f8f8), FUN_004e4430(diff / fMinimumInputValue) + DAT_01012070, true);
-    second->FUN_00a012d0(FUN_00a01860(&UNK_010702d8), 0.0f, false);
-    second->SetTraitAndReset(FUN_00a01860(&UNK_01070250), 1.0f);
-}
-
 struct TileValue
 {
-    float FUN_00a011b0();
-    void FUN_00a012d0(unsigned int, float, bool);
 };
 struct MenuItem
 {
-    TileValue* FUN_00726070(unsigned int);
     unsigned int menuId;
     TileValue* value;
     void FUN_007ddc20();
@@ -2518,33 +2416,12 @@ struct TraitValues
     virtual void Unused2();
     virtual float GetValue(unsigned int);
 };
-extern void* g_011dea3c;
-extern double g_01017b70, g_01011590, g_0101ff40, g_01064f50, g_01012060, g_01012070;
-float __cdecl FUN_005c5420();
-float __cdecl FUN_00404010(float, float);
-float __cdecl FUN_004bd510(float, float);
-// @fnv 0x007ddc20
-void MenuItem::FUN_007ddc20()
-{
-    float a = FUN_00726070(0x1008)->FUN_00a011b0() * g_01017b70;
-    float c = (-a / g_01011590) + FUN_005c5420() * a;
-    float d = FUN_00404010(0.0f, ((TraitValues*)((char*)g_011dea3c + 0xa4))->GetValue(0x49));
-    float e = g_01064f50 - (d + c) / g_01017b70 * g_0101ff40;
-    if (d > g_01012060 && d < g_01012070)
-        d = 1.0f;
-    else
-        d = FUN_004bd510(d, 1.0f);
-    value->FUN_00a012d0(0x100f, d, true);
-}
-
 namespace fnv_007ddd10 {
 struct TraitSI
 {
-    float FUN_00a011b0();
 };
 struct DisplaySI
 {
-    void FUN_00a012d0(int, float, bool);
 };
 struct ActivitySI
 {
@@ -2553,16 +2430,11 @@ struct ActivitySI
     virtual void v2();
     virtual float v3(int);
 };
-extern ActivitySI* g_011dea3c;
-extern double g_01017b70, g_01011590, g_0101ff40, g_01064f50, g_01012060, g_01012070;
-extern double __cdecl FUN_005c5420();
-extern float __cdecl FUN_00404010(float, float);
 extern float __cdecl FUN_004bd510(float, float);
 struct StatsMenuSI
 {
     void* unk00;
     DisplaySI* unk04;
-    TraitSI* FUN_00726070(int);
     void FUN_007ddd10();
 };
 // @fnv 0x007ddd10
@@ -2573,24 +2445,22 @@ void StatsMenuSI::FUN_007ddd10()
     float adjustment;
     float currentValue;
     float unusedResult;
-    scale = FUN_00726070(0x1008)->FUN_00a011b0() * g_01017b70;
-    adjustment = (-scale / g_01011590) + (FUN_005c5420() * scale);
+    scale = reinterpret_cast<::TileListBoxCalls *>((((::fnv_007ddd10::TraitSI *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat({}) * ::DAT_01017b70;
+    adjustment = (-scale / ::DAT_01011590) + (((double)(::RandomFloat0To1())) * scale);
     currentValue =
-        FUN_00404010(0.0f, (reinterpret_cast<ActivitySI*>(reinterpret_cast<char*>(g_011dea3c) + 0xa4))->v3(0x4a));
-    unusedResult = g_01064f50 - (currentValue + adjustment) / g_01017b70 * g_0101ff40;
-    if (currentValue > g_01012060 && currentValue < g_01012070)
+        ::FUN_00404010(0.0f, (reinterpret_cast<ActivitySI*>(reinterpret_cast<char*>((*reinterpret_cast<::fnv_007ddd10::ActivitySI * *>(&::_g_thePlayer))) + 0xa4))->v3(0x4a));
+    unusedResult = ::DAT_01064f50 - (currentValue + adjustment) / ::DAT_01017b70 * ::DAT_0101ff40;
+    if (currentValue > ::_DAT_01012060 && currentValue < ::g_01012070)
         currentValue = 1.0f;
     else
         currentValue = FUN_004bd510(currentValue, 1.0f);
-    unk04->FUN_00a012d0(0x1010, currentValue, true);
+    reinterpret_cast<::FUN_00a012d0_t *>((unk04))->FUN_00a012d0(0x1010, currentValue, true);
 }
 }  // namespace fnv_007ddd10
 
 class B7DDE00Tile
 {
   public:
-    float GetFloat(int m_iValueId);
-    void Set(int m_iValueId, float fValue, bool bPropagate);
 };
 
 class B7DDE00ValueOwner
@@ -2649,35 +2519,16 @@ class B7DDE00Player
     B7DDE00ValueOwner m_kAVOwner;
 };
 
-extern const double gModifierZero;
 
-float __cdecl FUN_005c5420();
-float __cdecl FUN_00404010(float fA, float fB);
-float __cdecl FUN_004bd510(float fA, float fB);
 
 class B7DDE00Menu
 {
   public:
-    B7DDE00Tile* GetTile();
     void UpdateModifierTile();
 
     int unk00;
     B7DDE00Tile* m_pkTile;
 };
-
-// @fnv 0x007dde00
-void B7DDE00Menu::UpdateModifierTile()
-{
-    float fRange5 = GetTile()->GetFloat(0x1008) * 1000.0;
-    float fOffset5 = -fRange5 / 2.0 + FUN_005c5420() * fRange5;
-    float fValue = FUN_00404010(0.0f, reinterpret_cast<B7DDE00Player*>(g_thePlayer)->m_kAVOwner.GetActorValue(0x4b));
-    float fAngle2 = 1.5707963267948966 - (fValue + fOffset5) / 1000.0 * 3.1415927410125732;
-    if (fValue > gModifierZero && fValue < 1.0)
-        fValue = 1.0f;
-    else
-        fValue = FUN_004bd510(fValue, 1.0f);
-    m_pkTile->Set(0x1011, fValue, true);
-}
 
 // Show the status for the player's most damaged limb.
 
@@ -2688,7 +2539,6 @@ enum DF920Limb
 };
 
 DF920Limb& __cdecl operator++(DF920Limb& reLimb);
-int __cdecl DF920LimbToActorValue(int m_iLimbIndex);
 
 class DF920ActorValueOwner
 {
@@ -2745,14 +2595,11 @@ class DF920Player
     int unkA0;
     DF920ActorValueOwner m_kAVOwner;
 };
-extern DF920Player* g_pkDF920Player;
 
 class DF920Status
 {
   public:
-    void Show();
 };
-DF920Status* __stdcall DF920GetLimbStatus(int m_iLimbIndex, int iMode);
 
 class DF920Menu
 {
@@ -2938,31 +2785,26 @@ void DF920Menu::ShowWorstLimbStatus()
     float fMinValue = 3.402823466e+38f;
     for (DF920Limb m_iActionValue = DF920_LIMB_HEAD; m_iActionValue < DF920_LIMB_COUNT; ++m_iActionValue)
     {
-        float fValue = g_pkDF920Player->m_kAVOwner.GetActorValue(DF920LimbToActorValue(m_iActionValue));
+        float fValue = (*reinterpret_cast<::DF920Player * *>(&::_g_thePlayer))->m_kAVOwner.GetActorValue(::MapIndexToCode(m_iActionValue));
         if (fValue < fMinValue)
         {
             fMinValue = fValue;
             iWorstLimb = m_iActionValue;
         }
     }
-    DF920GetLimbStatus(iWorstLimb, m_ucMode)->Show();
+    reinterpret_cast<::BodyPartDisplay *>((((::DF920Status *)(::FUN_007db1c0()))))->SetBodyPart({}, {});
 }
 
 struct Dummy007_obj
 {
-    float FUN_00a011b0(int);
 };
 
 struct GlobA_007dfd20
 {
-    float* Get(int);
 };
 struct GlobB_007dfd20
 {
-    float* Get();
 };
-extern GlobA_007dfd20 DAT_011db358;
-extern GlobB_007dfd20 DAT_011db2f0;
 
 struct Obj2_007dfd20
 {
@@ -2970,7 +2812,6 @@ struct Obj2_007dfd20
     void FUN_007f8610();
 };
 
-Obj2_007dfd20* __stdcall FUN_004b7210(int, float, float);
 
 struct FUN_007dfd20_cls
 {
@@ -2981,38 +2822,33 @@ struct FUN_007dfd20_cls
 // @fnv 0x007dfd20
 void FUN_007dfd20_cls::FUN_007dfd20(Dummy007_obj* apObj, unsigned int* apOut)
 {
-    unsigned int v = (unsigned int)apObj->FUN_00a011b0(0xfac);
+    unsigned int v = (unsigned int)reinterpret_cast<::TileListBoxCalls *>((apObj))->GetFloat(0xfac);
     if (*apOut < v)
     {
-        FUN_004b7210(0, *DAT_011db2f0.Get(), *DAT_011db358.Get(1))->FUN_00704370()->FUN_007f8610();
+        ((::Obj2_007dfd20 *)(::fnv_004b7210::FUN_004b7210()))->FUN_00704370()->FUN_007f8610();
     }
     else if (*apOut > v)
     {
-        FUN_004b7210(0, -*DAT_011db2f0.Get(), *DAT_011db358.Get(1))->FUN_00704370()->FUN_007f8610();
+        ((::Obj2_007dfd20 *)(::fnv_004b7210::FUN_004b7210()))->FUN_00704370()->FUN_007f8610();
     }
     *apOut = v;
 }
 
 struct FUN_00408da0_obj
 {
-    void* FUN_00408da0();
 };
-extern char DAT_01183028[];
-extern char DAT_01183158[];
 FUN_00408da0_obj* __cdecl FUN_00ec43fb(int a, int b, const char* c, const char* d, int e);
-void __cdecl FUN_00404dc0(void* a, void* b);
 
 // Resolves the objects referenced by *pA and *pB via FUN_00ec43fb and passes their FUN_00408da0 results to FUN_00404dc0.
 // @fnv 0x007e0480
 void __cdecl FUN_007e0480(int* pA, int* pB)
 {
-    FUN_00404dc0(FUN_00ec43fb(*pA, 0, DAT_01183028, DAT_01183158, 0)->FUN_00408da0(),
-                 FUN_00ec43fb(*pB, 0, DAT_01183028, DAT_01183158, 0)->FUN_00408da0());
+    ::FUN_00404dc0((const char *)(void *)(((void *)(reinterpret_cast<::FUN_00408da0_Class *>((FUN_00ec43fb(*pA, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), DAT_01183158, 0)))->FUN_00408da0()))),
+                 (const char *)(void *)(((void *)(reinterpret_cast<::FUN_00408da0_Class *>((FUN_00ec43fb(*pB, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), DAT_01183158, 0)))->FUN_00408da0()))));
 }
 
 struct Text
 {
-    const char* __thiscall FUN_00408da0();
 };
 struct Item
 {
@@ -3028,15 +2864,13 @@ struct Entry
     unsigned int unk00;
     Holder* holder;
 };
-int __cdecl FUN_00404dc0(const char*, const char*);
 // Compares the text strings of the items referenced by two entries via FUN_00404dc0 and returns its result.
 // @fnv 0x007e04e0
 int __cdecl CompareEntryText(const Entry* pLeftEntry, const Entry* pRightEntry)
 {
-    return FUN_00404dc0(pLeftEntry->holder->item->text.FUN_00408da0(), pRightEntry->holder->item->text.FUN_00408da0());
+    return FUN_00404dc0(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(pLeftEntry->holder->item->text))->FUN_00408da0())), ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(pRightEntry->holder->item->text))->FUN_00408da0())));
 }
 
-extern const double DAT_01012060;
 
 struct SubObject_b5367
 {
@@ -3051,7 +2885,7 @@ struct SubObject_b5367
 bool __cdecl IsPlayerSubObjectValueAboveThreshold(int* apArg)
 {
     int iResult;
-    if (apArg[2] != 0 && ((SubObject_b5367*)((char*)g_thePlayer + 0xa4))->Unk_0C(0x36) > DAT_01012060)
+    if (apArg[2] != 0 && ((SubObject_b5367*)((char*)::_g_thePlayer + 0xa4))->Unk_0C(0x36) > ::_DAT_01012060)
     {
         iResult = 1;
     }
@@ -3064,13 +2898,10 @@ bool __cdecl IsPlayerSubObjectValueAboveThreshold(int* apArg)
 
 struct S_007e0a20_Obj
 {
-    int FUN_00403ea0();
 };
 
 struct S_007e0a20_Param
 {
-    S_007e0a20_Obj* FUN_0084e3a0();
-    float GetFloatAtOffset1C();
 };
 
 struct S_007e0a20_Entry
@@ -3087,30 +2918,8 @@ struct S_007e0a20_Owner
 {
     int unk00;
     BSSimpleList<S_007e0a20_Entry*> m_kNode;
-    S_007e0a20_Entry* FindEntryByFormID(int);
     void ApplyParamToEntry(S_007e0a20_Param* apParam);
 };
-
-// Looks up an entry by the param's object id; adds the param's float to its unk00, or creates a new entry with that id and value and adds it to the list.
-// @fnv 0x007e0a20
-void S_007e0a20_Owner::ApplyParamToEntry(S_007e0a20_Param* apParam)
-{
-    if (apParam)
-    {
-        S_007e0a20_Entry* pEntry = FindEntryByFormID(apParam->FUN_0084e3a0()->FUN_00403ea0());
-        if (pEntry)
-        {
-            pEntry->unk00 += (int)apParam->GetFloatAtOffset1C();
-        }
-        else
-        {
-            pEntry = new S_007e0a20_Entry;
-            pEntry->unk10 = apParam->FUN_0084e3a0()->FUN_00403ea0();
-            pEntry->unk00 = (int)apParam->GetFloatAtOffset1C();
-            m_kNode.AddHead(pEntry);
-        }
-    }
-}
 
 struct ItemListNode;
 
@@ -3122,7 +2931,6 @@ struct ItemListEntry
 
 struct ItemListNode
 {
-    ItemListNode* Next();
     ItemListEntry** Data();
 };
 
@@ -3133,6 +2941,26 @@ class ItemListOwner
     ItemListNode xList;
     ItemListEntry* FindEntryByFormID(int formID);
 };
+// Looks up an entry by the param's object id; adds the param's float to its unk00, or creates a new entry with that id and value and adds it to the list.
+// @fnv 0x007e0a20
+void S_007e0a20_Owner::ApplyParamToEntry(S_007e0a20_Param* apParam)
+{
+    if (apParam)
+    {
+        S_007e0a20_Entry* pEntry = ((::S_007e0a20_Entry *)(reinterpret_cast<::ItemListOwner *>(this)->FindEntryByFormID(reinterpret_cast<::EffectItem *>((((::S_007e0a20_Obj *)(reinterpret_cast<::FUN_0084e3a0_Class *>((apParam))->FUN_0084e3a0()))))->GetAffectedActorValue())));
+        if (pEntry)
+        {
+            pEntry->unk00 += (int)::GetFloatAtOffset1C((char *)(apParam));
+        }
+        else
+        {
+            pEntry = new S_007e0a20_Entry;
+            pEntry->unk10 = reinterpret_cast<::EffectItem *>((((::S_007e0a20_Obj *)(reinterpret_cast<::FUN_0084e3a0_Class *>((apParam))->FUN_0084e3a0()))))->GetAffectedActorValue();
+            pEntry->unk00 = (int)::GetFloatAtOffset1C((char *)(apParam));
+            m_kNode.AddHead(pEntry);
+        }
+    }
+}
 
 // Walks the linked list and returns the first entry whose formID matches the given formID, or null if none is found.
 // @fnv 0x007e0ce0
@@ -3140,11 +2968,11 @@ ItemListEntry* ItemListOwner::FindEntryByFormID(int formID)
 {
     ItemListEntry* found = 0;
     ItemListNode* cur = this != 0 ? &xList : 0;
-    for (; found == 0 && cur != 0 && *cur->Data() != 0; cur = cur->Next())
+    for (; found == 0 && cur != 0 && *((::ItemListEntry **)(new ((void *)(cur)) ::Vec3())) != 0; cur = ((::ItemListNode *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070())))
     {
-        if ((*cur->Data())->formID == formID)
+        if ((*((::ItemListEntry **)(new ((void *)(cur)) ::Vec3())))->formID == formID)
         {
-            found = *cur->Data();
+            found = *((::ItemListEntry **)(new ((void *)(cur)) ::Vec3()));
         }
     }
     return found;
@@ -3174,15 +3002,14 @@ struct FUN_007db2c0
     int unk48;
 };
 
-extern FUN_007db2c0* DAT_011dace4;
 
 // Returns the global FUN_007db2c0 instance, allocating it with new if it does not exist yet.
 // @fnv 0x007db1c0
 FUN_007db2c0* FUN_007db1c0()
 {
-    if (!DAT_011dace4)
-        DAT_011dace4 = new FUN_007db2c0();
-    return DAT_011dace4;
+    if (!(*reinterpret_cast<::FUN_007db2c0 * *>(&::DAT_011dace4)))
+        (*reinterpret_cast<::FUN_007db2c0 * *>(&::DAT_011dace4)) = new FUN_007db2c0();
+    return (*reinterpret_cast<::FUN_007db2c0 * *>(&::DAT_011dace4));
 }
 
 class TESBoundObject
@@ -3192,31 +3019,81 @@ class TESBoundObject
 };
 struct ClickNode
 {
-    AlchemyItem*& FUN_006815c0();
-    ClickNode* FUN_00726070();
 };
 class InventoryStackRecord
 {
   public:
-    ClickNode* FUN_00559450();
-    void* FUN_00726070();
-    TESBoundObject* FUN_0044ddc0();
+public:
+    static float RoundToNearestStep(float, float);
+public:
+    void *GetPayloadAddress();
 };
+// @fnv 0x007dc7e0
+void StatsMenuFunction007dc7e0::UpdateStatsDisplay(void* actor)
+{
+    TileAdapter007dc7e0* pMain = *(reinterpret_cast<TileAdapter007dc7e0**>(
+        ((::Tile **)(reinterpret_cast<::FUN_0073ac90_shell *>((reinterpret_cast<ChildList007dc7e0*>((char*)m_pTiles[26] + 4)))->FUN_0073ac90()))));
+    TileAdapter007dc7e0* second = *(reinterpret_cast<TileAdapter007dc7e0**>(
+        ((::Tile **)(reinterpret_cast<::InventoryStackRecord *>((reinterpret_cast<ChildList007dc7e0*>((char*)m_pTiles[26] + 4)))->GetPayloadAddress()))));
+    float fMinimumInputValue = reinterpret_cast<::TileListBoxCalls *>((second))->GetFloat(FUN_00a01860(&UNK_01074eb8));
+    float diff = 0.0f;
+    reinterpret_cast<::Tile *>((reinterpret_cast<TileAdapter007dc7e0*>(m_pTiles[25])))->Set(0xfa3, 1);
+    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((reinterpret_cast<TileAdapter007dc7e0*>(m_pTiles[25])))->FUN_00a01350(0xfcc, (char *)(((int)(::FUN_0066e9f0((::ActorValue::Index)(actor))))), true);
+    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((pMain))->FUN_00a01350(0xfc4, (char *)(((int)(::GetActorValueDescription((::ActorValue::Index)(actor))))), true);
+    unsigned int amount = ((unsigned int)(::GetWeaponSkillIconPath((int)(actor))));
+    if (amount > 0)
+    {
+        reinterpret_cast<::Tile *>((reinterpret_cast<TileAdapter007dc7e0*>(m_pTiles[52])))->Set(0xfa3, 1);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((reinterpret_cast<TileAdapter007dc7e0*>(m_pTiles[52])))->FUN_00a01350(0xfcc, (char *)(amount), true);
+    }
+    else
+    {
+        reinterpret_cast<::Tile *>((reinterpret_cast<TileAdapter007dc7e0*>(m_pTiles[52])))->Set(0xfa3, 0);
+    }
+    reinterpret_cast<::RenderTile *>((pMain))->FUN_00a04640(0);
+    diff = reinterpret_cast<::TileListBoxCalls *>((pMain))->GetFloat(0xfb0) - reinterpret_cast<::TileListBoxCalls *>((((::TileAdapter007dc7e0 *)(reinterpret_cast<::FUN_0045cd60_shell *>((pMain))->FUN_0045cd60()))))->GetFloat(0xfb0);
+    diff = FUN_00404010(0.0f, diff);
+    reinterpret_cast<::FUN_00a012d0_t *>((second))->FUN_00a012d0(FUN_00a01860(&(*reinterpret_cast<const char *>(&::str_0106f8f8))), FUN_004e4430(diff / fMinimumInputValue) + ::g_01012070, true);
+    reinterpret_cast<::FUN_00a012d0_t *>((second))->FUN_00a012d0(FUN_00a01860(&(*reinterpret_cast<const char *>(&::str_010702d8))), 0.0f, false);
+    reinterpret_cast<::FUN_00a01290_shell *>((second))->SetTraitAndReset(FUN_00a01860(&(*reinterpret_cast<const char *>(&::DAT_01070250))), 1.0f);
+}
+// @fnv 0x007ddc20
+void MenuItem::FUN_007ddc20()
+{
+    float a = reinterpret_cast<::TileListBoxCalls *>((((::TileValue *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat({}) * ::DAT_01017b70;
+    float c = (-a / ::DAT_01011590) + ::RandomFloat0To1() * a;
+    float d = FUN_00404010(0.0f, ((TraitValues*)((char*)(*reinterpret_cast<void * *>(&::_g_thePlayer)) + 0xa4))->GetValue(0x49));
+    float e = ::DAT_01064f50 - (d + c) / ::DAT_01017b70 * ::DAT_0101ff40;
+    if (d > ::_DAT_01012060 && d < g_01012070)
+        d = 1.0f;
+    else
+        d = ::InventoryStackRecord::RoundToNearestStep(d, 1.0f);
+    reinterpret_cast<::FUN_00a012d0_t *>((value))->FUN_00a012d0(0x100f, d, true);
+}
+// @fnv 0x007dde00
+void B7DDE00Menu::UpdateModifierTile()
+{
+    float fRange5 = reinterpret_cast<::TileListBoxCalls *>((((::B7DDE00Tile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(0x1008) * 1000.0;
+    float fOffset5 = -fRange5 / 2.0 + ::RandomFloat0To1() * fRange5;
+    float fValue = FUN_00404010(0.0f, reinterpret_cast<B7DDE00Player*>(::_g_thePlayer)->m_kAVOwner.GetActorValue(0x4b));
+    float fAngle2 = 1.5707963267948966 - (fValue + fOffset5) / 1000.0 * 3.1415927410125732;
+    if (fValue > ::_DAT_01012060 && fValue < 1.0)
+        fValue = 1.0f;
+    else
+        fValue = ::InventoryStackRecord::RoundToNearestStep(fValue, 1.0f);
+    reinterpret_cast<::FUN_00a012d0_t *>((m_pkTile))->FUN_00a012d0(0x1011, fValue, true);
+}
 struct ClickAlchemy
 {
-    int FUN_00403ea0();
 };
 struct ClickPlayer
 {
-    void FUN_0088c650(TESBoundObject*, void*, AlchemyItem*, bool, bool, bool);
 };
 struct ClickTile
 {
-    bool IsTraitNonZero(int);
 };
 struct ClickStatus
 {
-    int FindEntryIndex();
 };
 struct ClickVirtual
 {
@@ -3229,82 +3106,15 @@ struct ClickMenu : StatsMenu
 {
     void FUN_007db380(int id, Tile* tile);
     bool SetIndexFromType(int, int*);
-    bool GetTileIndex(int, int*);
-    void SetPage(int);
     void FUN_007e0060(int);
     void FUN_007e0230();
-    void FUN_007e02b0();
-    void UpdateStatEntry(int);
-    void UpdateOption(int);
-    void FUN_007ddf00();
 };
-// @fnv 0x007db380
-void ClickMenu::FUN_007db380(int id, Tile* tile)
-{
-    if (!tile && id >= 0 && id < 60)
-        tile = m_pTiles[id];
-    if (FUN_004b71d0() && !((ClickTile*)tile)->IsTraitNonZero(4015))
-        return;
-    int skill;
-    if (SetIndexFromType(id, &skill))
-    {
-        SetPage(skill);
-        return;
-    }
-    int special;
-    if (GetTileIndex(id, &special))
-    {
-        FUN_007e0060(special);
-        return;
-    }
-    if (id == 9 || (m_bUpdateOption && id == 5))
-    {
-        FUN_007e0230();
-        return;
-    }
-    if (id == 49)
-    {
-        FUN_007e02b0();
-        return;
-    }
-    for (int i = 0; i < 4; i++)
-    {
-        if (tile == m_kHealingOptions[i].pTile && m_kHealingOptions[i].m_pStatusEffect)
-        {
-            ((ClickPlayer*)g_thePlayer)
-                ->FUN_0088c650(m_kHealingOptions[i].m_pStatusEffect->FUN_0044ddc0(),
-                               m_kHealingOptions[i].m_pStatusEffect->FUN_00726070(),
-                               m_kHealingOptions[i].m_pStatusEffect->FUN_00559450()
-                                   ? m_kHealingOptions[i].m_pStatusEffect->FUN_00559450()->FUN_006815c0()
-                                   : 0,
-                               false, false, true);
-            TESBoundObject* object = m_kHealingOptions[i].m_pStatusEffect->FUN_0044ddc0();
-            for (ClickNode* node = (ClickNode*)dynamic_cast<BSSimpleList<EffectItem*>*>(object);
-                 node && node->FUN_006815c0(); node = node->FUN_00726070())
-            {
-                UpdateStatEntry(((ClickAlchemy*)node->FUN_006815c0())->FUN_00403ea0());
-            }
-            UpdateOption(i);
-            m_bStatUpdatePending = false;
-            FUN_007ddf00();
-            i = 4;
-        }
-    }
-    if (m_bUpdateOption && !FUN_004b71d0())
-    {
-        int part = ((ClickStatus*)FUN_007db1c0((int)tile))->FindEntryIndex();
-        if (part != 6)
-            FUN_004d1360(g_thePlayer) ? ((ClickVirtual*)this)->OnClick(59, 0) : ((ClickVirtual*)this)->OnClick(10, 0);
-    }
-}
-
 // Menu input: on the accept key with the button enabled, trigger the default action and play the OK sound.
 
 class C0E0SoundHandle
 {
   public:
     ~C0E0SoundHandle();
-    bool Play();
 
     int m_iID;
     int unk04;
@@ -3314,14 +3124,12 @@ class C0E0SoundHandle
 class C0E0Audio
 {
   public:
-    static C0E0Audio* GetSingleton();
     C0E0SoundHandle GetSoundHandleByEditorID(const char* pcEditorID, unsigned int uiFlags, int iUnused);
 };
 
 class C0E0Tile
 {
   public:
-    bool GetBool(int m_iValueId);
 };
 
 class C0E0Menu
@@ -3507,10 +3315,10 @@ class C0E0Menu
 // @fnv 0x007dc0e0
 bool C0E0Menu::FUN_007dc0e0(int iKey, int iUnused)
 {
-    if (m_bAcceptsInput && iKey == 10 && m_pkButton->GetBool(0xfaf))
+    if (m_bAcceptsInput && iKey == 10 && reinterpret_cast<::FUN_00a01230_shell *>((m_pkButton))->IsTraitNonZero(0xfaf))
     {
         HandleClick(9, 0);
-        C0E0Audio::GetSingleton()->GetSoundHandleByEditorID("UIMenuOK", 0x121, 0).Play();
+        reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::C0E0SoundHandle &)(((::C0E0Audio *)(::FUN_00453a70()))->GetSoundHandleByEditorID("UIMenuOK", 0x121, 0)))->FUN_00ad8830({});
         return true;
     }
     return false;
@@ -3518,16 +3326,9 @@ bool C0E0Menu::FUN_007dc0e0(int iKey, int iUnused)
 
 struct FORenderedMenu
 {
-    bool IsUnk28Set();
 };
-FORenderedMenu* __cdecl FUN_00705990();
-void* __cdecl FUN_004b7210();
-bool __cdecl FUN_007178a0();
-unsigned int __cdecl FUN_00457fe0();
 bool __cdecl FUN_00702450(int);
-bool __fastcall FUN_004d1360(void*);
 extern unsigned int DAT_011dad74;
-extern void* DAT_011dea3c;
 extern unsigned char DAT_011a0ae1;
 struct AceObj
 {
@@ -3537,80 +3338,17 @@ extern AceObj* DAT_011dace0;
 
 struct TileF15
 {
-    float FUN_00a011b0(int);
 };
 struct Host15 : StatsMenu
 {
-    void UpdatePipboyNeedle();
-    void FUN_007ddc20();
-    void FUN_007ddd10();
-    void UpdateModifierTile();
-    TileF15* FUN_00726070();
     void FUN_007e0230();
-    int FUN_007dcc40();
     void FUN_007e0060(int);
     void UpdateStatsMenu();
 };
 
-// @fnv 0x007dc4f0
-void Host15::UpdateStatsMenu()
-{
-    m_bStatUpdatePending = 0;
-    if (FUN_00705990()->IsUnk28Set())
-    {
-        FUN_004b7210();
-        if (FUN_007178a0())
-        {
-            if (FUN_00457fe0() >= DAT_011dad74)
-            {
-                UpdatePipboyNeedle();
-                if (DAT_011dea3c && FUN_004d1360(DAT_011dea3c))
-                {
-                    FUN_007ddc20();
-                    FUN_007ddd10();
-                    UpdateModifierTile();
-                }
-                DAT_011dad74 = (unsigned int)((double)FUN_00457fe0() + FUN_00726070()->FUN_00a011b0(0x1007) * 1000.0);
-            }
-        }
-        if (m_bUpdateOption)
-        {
-            if (!FUN_00702450(0x3eb))
-                FUN_007e0230();
-        }
-    }
-    if (GetCurrentPage() == 0)
-    {
-        if (FUN_007dcc40() > (FUN_004d1360(DAT_011dea3c) ? 5 : 2))
-            FUN_007e0060(0);
-    }
-    if (DAT_011dea3c && !FUN_004d1360(DAT_011dea3c) && DAT_011a0ae1)
-    {
-        DAT_011dace0->m_tiles[0x59]->Set(0xfaf, 0);
-        DAT_011dace0->m_tiles[0x59]->Set(0xfa3, 0);
-        DAT_011dace0->m_tiles[0x5d]->Set(0xfaf, 0);
-        DAT_011dace0->m_tiles[0x5d]->Set(0xfa3, 0);
-        DAT_011dace0->m_tiles[0x5b]->Set(0xfaf, 0);
-        DAT_011dace0->m_tiles[0x5b]->Set(0xfa3, 0);
-        DAT_011a0ae1 = 0;
-    }
-    else if (DAT_011dea3c && FUN_004d1360(DAT_011dea3c) && !DAT_011a0ae1)
-    {
-        DAT_011dace0->m_tiles[0x59]->Set(0xfaf, 1);
-        DAT_011dace0->m_tiles[0x59]->Set(0xfa3, 1);
-        DAT_011dace0->m_tiles[0x5d]->Set(0xfaf, 1);
-        DAT_011dace0->m_tiles[0x5d]->Set(0xfa3, 1);
-        DAT_011dace0->m_tiles[0x5b]->Set(0xfaf, 1);
-        DAT_011dace0->m_tiles[0x5b]->Set(0xfa3, 1);
-    }
-    DAT_011a0ae1 = FUN_004d1360(DAT_011dea3c);
-}
-
 namespace fnv_007dc9b0 {
 struct ChildListSI
 {
-    Tile*& FUN_0073ac90();
-    Tile*& FUN_007b5370();
 };
 struct DescSI
 {
@@ -3623,7 +3361,6 @@ struct DescSI
 };
 struct FNStub
 {
-    const char* GetFullName();
 };
 struct EntrySI
 {
@@ -3641,14 +3378,7 @@ struct EntrySI
 };
 struct TileSI : public Tile
 {
-    float FUN_00a011b0(int);
-    void FUN_00a04640(int);
-    void FUN_00a012d0(int, float, bool);
-    void SetTraitAndReset(int, float);
 };
-int __cdecl FUN_00a01860(const char*);
-float __cdecl FUN_00404010(float, float);
-float __cdecl FUN_004e4430(float);
 
 struct FUN_007dc9b0_shell : public StatsMenu
 {
@@ -3658,22 +3388,22 @@ struct FUN_007dc9b0_shell : public StatsMenu
 // @fnv 0x007dc9b0
 void FUN_007dc9b0_shell::UpdateScrollBar(EntrySI** apEntry)
 {
-    TileSI* pHeadTile = (TileSI*)((ChildListSI*)((char*)m_pTiles[26] + 4))->FUN_0073ac90();
-    TileSI* pTailTile = (TileSI*)((ChildListSI*)((char*)m_pTiles[26] + 4))->FUN_007b5370();
-    float fTailScrollDelta = pTailTile->FUN_00a011b0(FUN_00a01860("_ScrollDelta"));
+    TileSI* pHeadTile = (TileSI*)((::Tile *)(reinterpret_cast<::FUN_0073ac90_shell *>((((ChildListSI*)((char*)m_pTiles[26] + 4))))->FUN_0073ac90()));
+    TileSI* pTailTile = (TileSI*)((::Tile *)(reinterpret_cast<::InventoryStackRecord *>((((ChildListSI*)((char*)m_pTiles[26] + 4))))->GetPayloadAddress()));
+    float fTailScrollDelta = reinterpret_cast<::TileListBoxCalls *>((pTailTile))->GetFloat(::FUN_00a01860("_ScrollDelta"));
     {
         float fPos = 0.0f;
         m_pTiles[25]->Set(0xfa3, 1);
-        m_pTiles[25]->Set(0xfcc, (*apEntry)->StringProvider.GetFullName(), true);
-        pHeadTile->Set(0xfc4, (*apEntry)->xDesc.GetText(0, 0x43534544), true);
-        pHeadTile->FUN_00a04640(0);
-        fPos = pHeadTile->FUN_00a011b0(0xfb0) - ((TileSI*)pHeadTile->GetParent())->FUN_00a011b0(0xfb0);
-        fPos = FUN_00404010(0.0f, fPos);
-        pTailTile->FUN_00a012d0(FUN_00a01860("_number_of_items"), (float)(FUN_004e4430(fPos / fTailScrollDelta) + 1.0),
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[25]))->FUN_00a01350(0xfcc, (char *)(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&((*apEntry)->StringProvider))->FUN_00408da0()))), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((pHeadTile))->FUN_00a01350(0xfc4, (char *)((*apEntry)->xDesc.GetText(0, 0x43534544)), true);
+        reinterpret_cast<::RenderTile *>((pHeadTile))->FUN_00a04640(0);
+        fPos = reinterpret_cast<::TileListBoxCalls *>((pHeadTile))->GetFloat(0xfb0) - reinterpret_cast<::TileListBoxCalls *>((((TileSI*)((::Tile *)(reinterpret_cast<::FUN_0045cd60_shell *>((void *)(pHeadTile))->FUN_0045cd60())))))->GetFloat(0xfb0);
+        fPos = ::FUN_00404010(0.0f, fPos);
+        reinterpret_cast<::FUN_00a012d0_t *>((pTailTile))->FUN_00a012d0(::FUN_00a01860("_number_of_items"), (float)(::FUN_004e4430(fPos / fTailScrollDelta) + 1.0),
                                 true);
     }
-    pTailTile->FUN_00a012d0(FUN_00a01860("_current_value"), 0.0f, false);
-    pTailTile->SetTraitAndReset(FUN_00a01860("_SetInCode"), 1.0f);
+    reinterpret_cast<::FUN_00a012d0_t *>((pTailTile))->FUN_00a012d0(::FUN_00a01860("_current_value"), 0.0f, false);
+    reinterpret_cast<::FUN_00a01290_shell *>((pTailTile))->SetTraitAndReset(::FUN_00a01860("_SetInCode"), 1.0f);
 }
 }  // namespace fnv_007dc9b0
 
@@ -3686,13 +3416,11 @@ class FUN_007dd710_str
     unsigned short sMaxLen;
     FUN_007dd710_str();
     ~FUN_007dd710_str();
-    int FUN_00559450(int(__cdecl* compare)(const void*, const void*), int flags);
 };
 
 class FUN_007dd710_text
 {
   public:
-    const char* FUN_00408da0();
 };
 
 class FUN_007dd710_form
@@ -3700,7 +3428,6 @@ class FUN_007dd710_form
   public:
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14;
     FUN_007dd710_text m18;
-    bool FUN_007dd8a0();
 };
 
 class FUN_007dd710_item
@@ -3713,8 +3440,6 @@ class FUN_007dd710_item
 class FUN_007dd710_node
 {
   public:
-    FUN_007dd710_node* FUN_00726070();
-    FUN_007dd710_item*& FUN_006815c0();
 };
 
 class FUN_007dd710_sub
@@ -3728,7 +3453,6 @@ class FUN_007dd710_sub
     virtual void v5();
     virtual void v6();
     virtual void v7();
-    void FUN_007e0e70(FUN_007dd710_item* item, int value);
 };
 
 class FUN_007dd710_list
@@ -4130,10 +3854,8 @@ class FUN_007dd710_ctx
 };
 
 int __cdecl CompareEntryText(const void* left, const void* right);
-void __cdecl FUN_00406f60(FUN_007dd710_str* out, const char* fmt, ...);
 
 extern FUN_007dd710_ctx* DAT_011dace0;
-extern FUN_007dd710_list* DAT_011dea3c;
 
 // @fnv 0x007dd710
 void __cdecl FUN_007dd710()
@@ -4141,22 +3863,22 @@ void __cdecl FUN_007dd710()
     if (DAT_011dace0 && DAT_011dace0->m118)
     {
         DAT_011dace0->m1e0.v7();
-        for (FUN_007dd710_node* node = DAT_011dea3c->GetFirst(0); node != 0 && node->FUN_006815c0() != 0;
-             node = node->FUN_00726070())
+        for (FUN_007dd710_node* node = (*reinterpret_cast<::fnv_007dd710::FUN_007dd710_list * *>(&::_g_thePlayer))->GetFirst(0); node != 0 && ((::fnv_007dd710::FUN_007dd710_item *)(new ((void *)(node)) ::Vec3())) != 0;
+             node = ((::fnv_007dd710::FUN_007dd710_node *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
         {
-            if (!node->FUN_006815c0()->pForm->FUN_007dd8a0())
+            if (!reinterpret_cast<::BGSPerk *>((((::fnv_007dd710::FUN_007dd710_item *)(new ((void *)(node)) ::Vec3()))->pForm))->IsPerkHidden())
             {
                 FUN_007dd710_str strEntry;
-                if (node->FUN_006815c0()->count > 1)
+                if (((::fnv_007dd710::FUN_007dd710_item *)(new ((void *)(node)) ::Vec3()))->count > 1)
                 {
-                    FUN_00406f60(&strEntry, "%s (%d)", node->FUN_006815c0()->pForm->m18.FUN_00408da0(),
-                                 (int)node->FUN_006815c0()->count);
+                    ::FUN_00406f60((::FUN_00406f90_this *)(::fnv_007dd710::FUN_007dd710_str *)(&strEntry), "%s (%d)", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(((::fnv_007dd710::FUN_007dd710_item *)(new ((void *)(node)) ::Vec3()))->pForm->m18))->FUN_00408da0())),
+                                 (int)((::fnv_007dd710::FUN_007dd710_item *)(new ((void *)(node)) ::Vec3()))->count);
                 }
                 else
                 {
-                    FUN_00406f60(&strEntry, "%s", node->FUN_006815c0()->pForm->m18.FUN_00408da0());
+                    ::FUN_00406f60((::FUN_00406f90_this *)(::fnv_007dd710::FUN_007dd710_str *)(&strEntry), "%s", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(((::fnv_007dd710::FUN_007dd710_item *)(new ((void *)(node)) ::Vec3()))->pForm->m18))->FUN_00408da0())));
                 }
-                DAT_011dace0->m1e0.FUN_007e0e70(node->FUN_006815c0(), strEntry.FUN_00559450(CompareEntryText, 0));
+                reinterpret_cast<::ListOwner *>(&(DAT_011dace0->m1e0))->FUN_007e0e70((int)(((::fnv_007dd710::FUN_007dd710_item *)(new ((void *)(node)) ::Vec3()))), (const char *)(::FUN_00559450((int *)&(strEntry))), {}, {});
             }
         }
     }
@@ -4166,28 +3888,20 @@ void __cdecl FUN_007dd710()
 namespace fnv_007dd8c0 {
 struct ReputationName
 {
-    const char* GetName();
 };
 class ReputationView : public TESForm
 {
   public:
     ReputationName name;
-    float GetReputation(bool fame);
 };
 struct ReputationNode
 {
-    ReputationView*& Get();
-    ReputationNode* Next();
 };
 struct ReputationDataHandler : TESDataHandler
 {
-    ReputationNode* GetReputations();
 };
-extern ReputationDataHandler* DAT_011c3f2c;
 extern StatsMenu* DAT_011dace0;
-extern const double DAT_01012060;
 void __cdecl CompareEntryNames(void* item);
-int __cdecl FUN_00406f60(BSStringT<char>* output, const char* format, ...);
 
 struct ReputationMenuList : ListBox_TESReputation___
 {
@@ -4208,16 +3922,16 @@ void ReputationMenuUpdater::UpdateReputationList()
         m_pTiles[51]->Set(4003, 0);
         m_pTiles[48]->Set(4003, 0);
         DAT_011dace0->m_kReputationList.ClearList();
-        for (ReputationNode* node = DAT_011c3f2c->GetReputations(); node && node->Get(); node = node->Next())
+        for (ReputationNode* node = ((::fnv_007dd8c0::ReputationNode *)(reinterpret_cast<::FUN_009c1a50_shell *>(((*reinterpret_cast<::fnv_007dd8c0::ReputationDataHandler * *>(&::g_dataHandler))))->FUN_009c1a50())); node && ((::fnv_007dd8c0::ReputationView *)(new ((void *)(node)) ::Vec3())); node = ((::fnv_007dd8c0::ReputationNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
         {
-            ReputationView* reputation = node->Get();
+            ReputationView* reputation = ((::fnv_007dd8c0::ReputationView *)(new ((void *)(node)) ::Vec3()));
             if (reputation &&
-                (reputation->GetReputation(true) > DAT_01012060 || reputation->GetReputation(false) > DAT_01012060))
+                (reinterpret_cast<::TESReputation *>((reputation))->GetUnsignedIntegerPointer((::ReputationType)(true)) > ::_DAT_01012060 || reinterpret_cast<::TESReputation *>((reputation))->GetUnsignedIntegerPointer((::ReputationType)(false)) > ::_DAT_01012060))
             {
                 BSStringT<char> label;
-                FUN_00406f60(&label, DAT_01019f08, reputation->name.GetName());
+                ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT<char> *)(&label), DAT_01019f08, ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(reputation->name))->FUN_00408da0())));
                 reinterpret_cast<ReputationMenuList*>(&DAT_011dace0->m_kReputationList)
-                    ->Insert(reputation, label.String(), CompareEntryNames, false);
+                    ->Insert(reputation, ((const char *)(::FUN_00559450((int *)&(label)))), CompareEntryNames, false);
             }
         }
     }
@@ -4226,42 +3940,87 @@ void ReputationMenuUpdater::UpdateReputationList()
 
 struct TileFloatSetter
 {
-    void Set(int trait, float value, bool propagate);
 };
 struct PipboyScreenStub
 {
-    void SetKnobTargetAndRate(int aiMode, float afAngle, float afSpeed);
 };
 struct PipboyInterfaceStub
 {
     PipboyScreenStub* GetPipboyManager();
 };
-float __cdecl FUN_005c5420();
-float __cdecl FUN_00404010(float a, float b);
-float __cdecl FUN_004bd510(float a, float b);
-extern float g_fPipboyNeedleSpeed;
 
 struct FUN_007ddb00_shell : public Menu
 {
-    Tile* GetMenuTile();
     void UpdatePipboyNeedle();
 };
+// @fnv 0x007dc4f0
+void Host15::UpdateStatsMenu()
+{
+    m_bStatUpdatePending = 0;
+    if (reinterpret_cast<::FOPipboyManager *>((((::FORenderedMenu *)(::fnv_00705990::FUN_00705990()))))->IsUnk28Set())
+    {
+        ::fnv_004b7210::FUN_004b7210();
+        if (FUN_007178a0())
+        {
+            if (((unsigned int)(::FUN_00457fe0())) >= DAT_011dad74)
+            {
+                reinterpret_cast<::FUN_007ddb00_shell *>(this)->UpdatePipboyNeedle();
+                if ((*reinterpret_cast<void * *>(&::_g_thePlayer)) && ::FUN_004d1360((char *)((*reinterpret_cast<void * *>(&::_g_thePlayer)))))
+                {
+                    reinterpret_cast<::MenuItem *>(this)->FUN_007ddc20();
+                    reinterpret_cast<::fnv_007ddd10::StatsMenuSI *>(this)->FUN_007ddd10();
+                    reinterpret_cast<::B7DDE00Menu *>(this)->UpdateModifierTile();
+                }
+                DAT_011dad74 = (unsigned int)((double)((unsigned int)(::FUN_00457fe0())) + reinterpret_cast<::TileListBoxCalls *>((((::TileF15 *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(0x1007) * 1000.0);
+            }
+        }
+        if (m_bUpdateOption)
+        {
+            if (!FUN_00702450(0x3eb))
+                reinterpret_cast<::FUN_007e0230 *>(this)->RefreshHealingOptions();
+        }
+    }
+    if (GetCurrentPage() == 0)
+    {
+        if (reinterpret_cast<::FUN_007dcc40_shell *>(this)->FUN_007dcc40() > (::FUN_004d1360((char *)((*reinterpret_cast<void * *>(&::_g_thePlayer)))) ? 5 : 2))
+            FUN_007e0060(0);
+    }
+    if ((*reinterpret_cast<void * *>(&::_g_thePlayer)) && !::FUN_004d1360((char *)((*reinterpret_cast<void * *>(&::_g_thePlayer)))) && DAT_011a0ae1)
+    {
+        DAT_011dace0->m_tiles[0x59]->Set(0xfaf, 0);
+        DAT_011dace0->m_tiles[0x59]->Set(0xfa3, 0);
+        DAT_011dace0->m_tiles[0x5d]->Set(0xfaf, 0);
+        DAT_011dace0->m_tiles[0x5d]->Set(0xfa3, 0);
+        DAT_011dace0->m_tiles[0x5b]->Set(0xfaf, 0);
+        DAT_011dace0->m_tiles[0x5b]->Set(0xfa3, 0);
+        DAT_011a0ae1 = 0;
+    }
+    else if ((*reinterpret_cast<void * *>(&::_g_thePlayer)) && ::FUN_004d1360((char *)((*reinterpret_cast<void * *>(&::_g_thePlayer)))) && !DAT_011a0ae1)
+    {
+        DAT_011dace0->m_tiles[0x59]->Set(0xfaf, 1);
+        DAT_011dace0->m_tiles[0x59]->Set(0xfa3, 1);
+        DAT_011dace0->m_tiles[0x5d]->Set(0xfaf, 1);
+        DAT_011dace0->m_tiles[0x5d]->Set(0xfa3, 1);
+        DAT_011dace0->m_tiles[0x5b]->Set(0xfaf, 1);
+        DAT_011dace0->m_tiles[0x5b]->Set(0xfa3, 1);
+    }
+    DAT_011a0ae1 = ::FUN_004d1360((char *)((*reinterpret_cast<void * *>(&::_g_thePlayer))));
+}
 
 // @fnv 0x007ddb00
 void FUN_007ddb00_shell::UpdatePipboyNeedle()
 {
-    float fRange5 = GetMenuTile()->GetFloat(0x1008) * 1000.0;
-    float fBase2 = -fRange5 / 2.0 + FUN_005c5420() * fRange5;
-    float fValue = FUN_00404010(0.0f, g_thePlayer->GetCurrentActorValue((ActorValue::Index)0x36));
+    float fRange5 = reinterpret_cast<::TileListBoxCalls *>((void *)(((::Tile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(0x1008) * 1000.0;
+    float fBase2 = -fRange5 / 2.0 + ::RandomFloat0To1() * fRange5;
+    float fValue = FUN_00404010(0.0f, ::_g_thePlayer->GetCurrentActorValue((ActorValue::Index)0x36));
     float fAngleDifference = 1.5707963267948966 - (fValue + fBase2) / 1000.0 * 3.1415927f;
     if (fValue > 0.0 && fValue < 1.0)
         fValue = 1.0f;
     else
-        fValue = FUN_004bd510(fValue, 1.0f);
-    ((TileFloatSetter*)pMenu)->Set(0x1005, fValue, true);
-    ((PipboyInterfaceStub*)FUN_004b7210())
-        ->GetPipboyManager()
-        ->SetKnobTargetAndRate(1, fAngleDifference, g_fPipboyNeedleSpeed);
+        fValue = ::InventoryStackRecord::RoundToNearestStep(fValue, 1.0f);
+    reinterpret_cast<::FUN_00a012d0_t *>((((TileFloatSetter*)pMenu)))->FUN_00a012d0(0x1005, fValue, true);
+    reinterpret_cast<::FUN_007f86f0_shell *>((((PipboyInterfaceStub*)((void *)(::fnv_004b7210::FUN_004b7210())))
+        ->GetPipboyManager()))->SetKnobTargetAndRate(1, fAngleDifference, ::g_fB5BB800Duration);
 }
 
 struct HealText
@@ -4275,14 +4034,10 @@ struct HealText
 };
 struct HealTile
 {
-    void Set(int, int);
-    const char* GetString(int);
-    void Set(int, const char*, bool);
 };
 struct HealItem
 {
     ~HealItem();
-    int Count();
 };
 struct HealOption
 {
@@ -4293,12 +4048,7 @@ struct HealOption
 };
 struct HealPlayer
 {
-    HealItem* Find(void*, int);
-    int Count(void*);
-    bool Check();
 };
-extern HealPlayer* g_healPlayer;
-int __cdecl HealFormat(HealText*, const char*, ...);
 struct HealMenu
 {
     int unk000;
@@ -4455,14 +4205,71 @@ struct HealMenu
     int unk298;
     int unk29c;
     bool mode;
-    void Toggle();
     void UpdateOption(int which);
 };
+// @fnv 0x007db380
+void ClickMenu::FUN_007db380(int id, Tile* tile)
+{
+    if (!tile && id >= 0 && id < 60)
+        tile = m_pTiles[id];
+    if (FUN_004b71d0() && !reinterpret_cast<::FUN_00a01230_shell *>((((ClickTile*)tile)))->IsTraitNonZero(4015))
+        return;
+    int skill;
+    if (SetIndexFromType(id, &skill))
+    {
+        reinterpret_cast<::fnv_007dff40::FUN_007dff40_shell *>(this)->SetPage(skill);
+        return;
+    }
+    int special;
+    if (reinterpret_cast<::FUN_007e0160_t *>(this)->GetTileIndex(id, &special))
+    {
+        FUN_007e0060(special);
+        return;
+    }
+    if (id == 9 || (m_bUpdateOption && id == 5))
+    {
+        reinterpret_cast<::FUN_007e0230 *>(this)->RefreshHealingOptions();
+        return;
+    }
+    if (id == 49)
+    {
+        reinterpret_cast<::fnv_007e02b0::FUN_007e02b0_StandIn *>(this)->FUN_007e02b0();
+        return;
+    }
+    for (int i = 0; i < 4; i++)
+    {
+        if (tile == m_kHealingOptions[i].pTile && m_kHealingOptions[i].m_pStatusEffect)
+        {
+            reinterpret_cast<::FUN_0088c650_shell *>((((ClickPlayer*)::_g_thePlayer)))->FUN_0088c650(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((m_kHealingOptions[i].m_pStatusEffect))->GetName())),
+                               (int)(reinterpret_cast<::Callees *>((m_kHealingOptions[i].m_pStatusEffect))->FUN_00726070()),
+                               (::ExtraDataList *)(::AlchemyItem *)(((::ClickNode *)(::FUN_00559450((int *)(m_kHealingOptions[i].m_pStatusEffect))))
+                                   ? ((::AlchemyItem *)(new ((void *)(((::ClickNode *)(::FUN_00559450((int *)(m_kHealingOptions[i].m_pStatusEffect)))))) ::Vec3()))
+                                   : 0),
+                               false, false, true);
+            TESBoundObject* object = ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((m_kHealingOptions[i].m_pStatusEffect))->GetName()));
+            for (ClickNode* node = (ClickNode*)dynamic_cast<BSSimpleList<EffectItem*>*>(object);
+                 node && ((::AlchemyItem *)(new ((void *)(node)) ::Vec3())); node = ((::ClickNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
+            {
+                reinterpret_cast<::fnv_007dd090::StatsMenuImpl *>(this)->UpdateStatEntry(reinterpret_cast<::EffectItem *>((((ClickAlchemy*)((::AlchemyItem *)(new ((void *)(node)) ::Vec3())))))->GetAffectedActorValue());
+            }
+            reinterpret_cast<::HealMenu *>(this)->UpdateOption(i);
+            m_bStatUpdatePending = false;
+            reinterpret_cast<::StatsMenuActiveEffects *>(this)->FUN_007ddf00();
+            i = 4;
+        }
+    }
+    if (m_bUpdateOption && !FUN_004b71d0())
+    {
+        int part = reinterpret_cast<::FUN_007db630_Owner *>((((ClickStatus*)((::StatusH *)(::FUN_007db1c0())))))->FindEntryIndex({});
+        if (part != 6)
+            ::FUN_004d1360((char *)(::_g_thePlayer)) ? ((ClickVirtual*)this)->OnClick(59, 0) : ((ClickVirtual*)this)->OnClick(10, 0);
+    }
+}
 
 // @fnv 0x007df230
 void HealMenu::UpdateOption(int aiOptionIndex)
 {
-    if (!g_healPlayer)
+    if (!(*reinterpret_cast<::HealPlayer * *>(&::_g_thePlayer)))
         return;
     for (int indexB = 0; indexB < 4; indexB++)
     {
@@ -4470,49 +4277,44 @@ void HealMenu::UpdateOption(int aiOptionIndex)
         {
             HealText text;
             delete options[indexB].inventory;
-            options[indexB].inventory = g_healPlayer->Find(options[indexB].item, 0);
-            options[indexB].tile->Set(0xfaf, options[indexB].condition(&options[indexB]));
+            options[indexB].inventory = ((::HealItem *)(reinterpret_cast<::fnv_00576260::FUN_00576260_shell *>(((*reinterpret_cast<::HealPlayer * *>(&::_g_thePlayer))))->FUN_00576260((::fnv_00576260::TESBoundObject *)(options[indexB].item), 0)));
+            reinterpret_cast<::Tile *>((options[indexB].tile))->Set(0xfaf, options[indexB].condition(&options[indexB]));
             if (options[indexB].inventory)
             {
-                HealFormat(&text, "(%d) %s", options[indexB].inventory->Count(),
-                           options[indexB].tile->GetString(0x1004));
-                if ((indexB == 0 && !g_healPlayer->Check()) || indexB == 3)
-                    button->Set(0xfaf, 1);
+                ::FUN_00406f60((::FUN_00406f90_this *)(::HealText *)(&text), "(%d) %s", ((int)(reinterpret_cast<::Callees *>((options[indexB].inventory))->FUN_00726070())),
+                           reinterpret_cast<::FUN_00a011f0_shell *>((options[indexB].tile))->FUN_00a011f0(0x1004));
+                if ((indexB == 0 && !::FUN_004d1360((char *)((*reinterpret_cast<::HealPlayer * *>(&::_g_thePlayer))))) || indexB == 3)
+                    reinterpret_cast<::Tile *>((button))->Set(0xfaf, 1);
             }
             else
-                text = options[indexB].tile->GetString(0x1004);
-            options[indexB].tile->Set(0xfc4, (const char*)text, true);
+                text = reinterpret_cast<::FUN_00a011f0_shell *>((options[indexB].tile))->FUN_00a011f0(0x1004);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((options[indexB].tile))->FUN_00a01350(0xfc4, (char *)((const char*)text), true);
         }
     }
     if (aiOptionIndex == 0 || aiOptionIndex == 3 || aiOptionIndex == 4)
     {
-        int first2 = g_healPlayer->Count(options[0].item);
-        int last = g_healPlayer->Count(options[3].item);
+        int first2 = reinterpret_cast<::CombatState *>(((*reinterpret_cast<::HealPlayer * *>(&::_g_thePlayer))))->GetInventoryItemCount((::TESForm *)(options[0].item));
+        int last = reinterpret_cast<::CombatState *>(((*reinterpret_cast<::HealPlayer * *>(&::_g_thePlayer))))->GetInventoryItemCount((::TESForm *)(options[3].item));
         bool enabled3 = true;
-        if (g_healPlayer->Check() && last == 0)
+        if (::FUN_004d1360((char *)((*reinterpret_cast<::HealPlayer * *>(&::_g_thePlayer)))) && last == 0)
             enabled3 = false;
-        else if (!g_healPlayer->Check() && last == 0 && first2 == 0)
+        else if (!::FUN_004d1360((char *)((*reinterpret_cast<::HealPlayer * *>(&::_g_thePlayer)))) && last == 0 && first2 == 0)
             enabled3 = false;
         if (!enabled3)
         {
             if (mode)
-                Toggle();
-            button->Set(0xfaf, 0);
+                reinterpret_cast<::FUN_007e0230 *>(this)->RefreshHealingOptions();
+            reinterpret_cast<::Tile *>((button))->Set(0xfaf, 0);
         }
     }
 }
 
 namespace fnv_007df620 {
-int __cdecl FUN_00a00940(const char* name, int index);
-bool __cdecl FUN_004b71d0();
-BodyPartDisplay* __cdecl FUN_007db1c0();
 
 struct GSString_00403df0
 {
     const char* FUN_00403df0();
 };
-extern GSString_00403df0 DAT_011d4708;
-extern GSString_00403df0 DAT_011d2658;
 
 struct StatsMenuH_007df620
 {
@@ -4542,12 +4344,12 @@ struct StatsMenuH_007df620
 // @fnv 0x007df620
 void StatsMenuH_007df620::UpdateXboxButtonState()
 {
-    static int iConsoleButtonTrait = FUN_00a00940("_xbox_button", -1);
-    static int iEnabledTrait = FUN_00a00940("_enabled", -1);
-    if (unkb4 && FUN_004b71d0())
+    static int iConsoleButtonTrait = ::FUN_00a00940("_xbox_button", -1);
+    static int iEnabledTrait = ::FUN_00a00940("_enabled", -1);
+    if (unkb4 && ::FUN_004b71d0())
     {
         unkb4->Set(iConsoleButtonTrait, !m_bUpdateOption + 10);
-        unkb4->Set(0xfc4, m_bUpdateOption ? DAT_011d4708.FUN_00403df0() : DAT_011d2658.FUN_00403df0(), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((unkb4))->FUN_00a01350(0xfc4, (char *)(m_bUpdateOption ? (*reinterpret_cast<::fnv_007df620::GSString_00403df0 *>(&::g_011d4708)).FUN_00403df0() : (*reinterpret_cast<::fnv_007df620::GSString_00403df0 *>(&::g_011d2658)).FUN_00403df0()), true);
         unk90->Set(iEnabledTrait, !m_bUpdateOption);
         unk94->Set(iEnabledTrait, !m_bUpdateOption);
         unk98->Set(iEnabledTrait, !m_bUpdateOption);
@@ -4560,7 +4362,7 @@ void StatsMenuH_007df620::UpdateXboxButtonState()
         unk16c->Set(iEnabledTrait, !m_bUpdateOption);
         unk108->Set(iEnabledTrait, !m_bUpdateOption);
     }
-    FUN_007db1c0()->FUN_007dbfe0(m_bUpdateOption);
+    reinterpret_cast<::fnv_007dbfe0::BodyPartDisplay *>((((::BodyPartDisplay *)(::FUN_007db1c0()))))->FUN_007dbfe0(m_bUpdateOption);
 }
 }  // namespace fnv_007df620
 
@@ -4568,11 +4370,9 @@ namespace fnv_007e0060 {
 // FUN_007e0060: /MT /Od /GS /EHsc, 114 bytes, __thiscall with one stack argument.
 // Validates an index against a computed limit, then notifies the owner.
 
-extern PlayerCharacter* g_011dea3c;
 
 struct FUN_007e0060_owner
 {
-    void FUN_00700320(unsigned int flags, int id);
 };
 
 struct FUN_007e0060_cls
@@ -4747,20 +4547,19 @@ struct FUN_007e0060_cls
     int unk29C;
     bool m_bUpdateOption;
     void FUN_007e0230();
-    int FUN_007dcc40();
     bool FUN_007e0060(int id);
 };
 
 // @fnv 0x007e0060
 bool FUN_007e0060_cls::FUN_007e0060(int id)
 {
-    if (id >= 0 && id <= (FUN_004d1360(g_011dea3c) ? 5 : 2) && FUN_007dcc40() != id)
+    if (id >= 0 && id <= (::FUN_004d1360((char *)(::_g_thePlayer)) ? 5 : 2) && reinterpret_cast<::FUN_007dcc40_shell *>(this)->FUN_007dcc40() != id)
     {
         if (m_bUpdateOption)
         {
-            FUN_007e0230();
+            reinterpret_cast<::FUN_007e0230 *>(this)->RefreshHealingOptions();
         }
-        m_pSharedOwner->FUN_00700320(0x1004, id);
+        reinterpret_cast<::Tile *>((m_pSharedOwner))->Set(0x1004, id);
         return true;
     }
     else
@@ -4772,13 +4571,10 @@ bool FUN_007e0060_cls::FUN_007e0060(int id)
 
 struct ActiveCalls : ActiveEffect
 {
-    MagicItem* FUN_0044ddc0();
 };
 struct EntryEffects
 {
     unsigned int unk00, unk04, unk08;
-    void FUN_007e09d0(ActiveCalls*);
-    void ApplyParamToEntry(ActiveCalls*);
 };
 struct EffectGroup
 {
@@ -4790,45 +4586,22 @@ struct EffectGroup
 int FUN_007e0480(EffectGroup*, EffectGroup*);
 struct EffectGroupList
 {
-    void FUN_007a7eb0(EffectGroup*, int (*)(EffectGroup*, EffectGroup*));
 };
 struct SettingCalls
 {
-    bool FUN_00403e60(unsigned int);
 };
 struct FUN_007e08a0_shell
 {
     unsigned int unk00;
     EffectGroupList forms;
-    EffectGroup* FUN_007e0c50(unsigned int);
     void AddEffectToGroup(ActiveCalls*);
 };
-// Looks up or creates an EffectGroup for the effect's form, then adds the effect to its special or normal list based on a setting flag.
-// @fnv 0x007e08a0
-void FUN_007e08a0_shell::AddEffectToGroup(ActiveCalls* effect)
-{
-    TESForm* group = dynamic_cast<TESForm*>(effect->FUN_0044ddc0());
-    EffectGroup* pGroup = FUN_007e0c50(group->GetFormID());
-    if (!pGroup)
-    {
-        pGroup = new EffectGroup(group);
-        forms.FUN_007a7eb0(pGroup, FUN_007e0480);
-    }
-    if (((SettingCalls*)effect->GetEffectSetting())->FUN_00403e60(0x2000))
-        pGroup->special.FUN_007e09d0(effect);
-    else
-        pGroup->normal.ApplyParamToEntry(effect);
-}
-
 struct FUN_007e09d0_arg
 {
-    int FUN_007df1d0();
 };
 
 struct FUN_007e09d0_sub
 {
-    bool FUN_005f65d0(int* apValue);
-    void FUN_007a7eb0(int aValue, int(__cdecl* apCallback)(FUN_007e0540_effect*, FUN_007e0540_effect*));
 };
 
 class FUN_007e09d0_cls
@@ -4838,14 +4611,30 @@ class FUN_007e09d0_cls
     FUN_007e09d0_sub unk04;
     void FUN_007e09d0(FUN_007e09d0_arg* arg);
 };
+// Looks up or creates an EffectGroup for the effect's form, then adds the effect to its special or normal list based on a setting flag.
+// @fnv 0x007e08a0
+void FUN_007e08a0_shell::AddEffectToGroup(ActiveCalls* effect)
+{
+    TESForm* group = dynamic_cast<TESForm*>(((::MagicItem *)(reinterpret_cast<::Twin_0044ddc0 *>((effect))->GetName())));
+    EffectGroup* pGroup = ((::EffectGroup *)(reinterpret_cast<::FUN_007e0c50_list *>(this)->FUN_007e0c50(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((group))->FUN_0084e3a0())))));
+    if (!pGroup)
+    {
+        pGroup = new EffectGroup(group);
+        reinterpret_cast<::FUN_00470440 *>(&(forms))->FUN_007a7eb0((::BGSPerkEntry *)(pGroup), (int (*)(BGSPerkEntry *, BGSPerkEntry *))(FUN_007e0480));
+    }
+    if (reinterpret_cast<::S3e60 *>((((SettingCalls*)effect->GetEffectSetting())))->FUN_00403e60(0x2000))
+        reinterpret_cast<::FUN_007e09d0_cls *>(&(pGroup->special))->FUN_007e09d0((::FUN_007e09d0_arg *)(effect));
+    else
+        reinterpret_cast<::S_007e0a20_Owner *>(&(pGroup->normal))->ApplyParamToEntry((::S_007e0a20_Param *)(effect));
+}
 
 // @fnv 0x007e09d0
 void FUN_007e09d0_cls::FUN_007e09d0(FUN_007e09d0_arg* arg)
 {
-    int value = arg->FUN_007df1d0();
-    if (!unk04.FUN_005f65d0(&value))
+    int value = ((int)(reinterpret_cast<::ActiveEffect *>((arg))->GetEffectSetting()));
+    if (!reinterpret_cast<::RefList *>(&(unk04))->FUN_005f65d0((void **)(int *)(&value)))
     {
-        unk04.FUN_007a7eb0(arg->FUN_007df1d0(), CompareEffectNames);
+        reinterpret_cast<::FUN_00470440 *>(&(unk04))->FUN_007a7eb0((::BGSPerkEntry *)(((int)(reinterpret_cast<::ActiveEffect *>((arg))->GetEffectSetting()))), (int (*)(BGSPerkEntry *, BGSPerkEntry *))(CompareEffectNames));
     }
 }
 
@@ -4859,33 +4648,18 @@ struct FUN_007a62e0
 typedef int(__cdecl* ItemCompare)(FUN_007a62e0*, FUN_007a62e0*);
 struct ItemListMethods
 {
-    void FUN_007a7eb0(FUN_007a62e0*, ItemCompare);
-    void AddTail(FUN_007a62e0* const&);
 };
 struct TraitAction
 {
-    void RemoveFromReactions();
-    void FUN_00a09130(int, Tile*, int);
-    void AppendFloatAction(int, float);
-    void FUN_00a09410(bool);
 };
 struct ItemTileMethods
 {
-    void* FUN_00a00f30(int);
-    TraitAction* FindTraitValue(int);
 };
 struct MenuTemplateMethods
 {
-    Tile* FUN_00a1ddb0(Tile*, const char*, int);
 };
-int __cdecl FUN_00a00940(const char*, int);
 struct ItemBox : ListBox_enum_ActorValue__Index_
 {
-    bool FUN_007242c0(unsigned int);
-    void FUN_007254d0();
-    void AccumulateTileHeight(Tile*);
-    void FUN_00725970();
-    int GetRaceCount();
     Tile* FUN_007e1430(ActorValue::Index, const char*, ItemCompare, const char*);
 };
 // @fnv 0x007e1430
@@ -4893,39 +4667,36 @@ Tile* ItemBox::FUN_007e1430(ActorValue::Index value, const char* text, ItemCompa
 {
     if (m_pListTile && (pTemplateName || templateName))
     {
-        Tile* tile = ((MenuTemplateMethods*)((TileH*)m_pListTile)->GetMenu())
-                         ->FUN_00a1ddb0(m_pListTile, templateName ? templateName : pTemplateName, 0);
-        if (!((ItemTileMethods*)tile)->FUN_00a00f30(4010))
+        Tile* tile = reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((MenuTemplateMethods*)reinterpret_cast<::FUN_00a03c90_shell *>((((TileH*)m_pListTile)))->FUN_00a03c90())))->FUN_00a1ddb0(m_pListTile, (char *)(templateName ? templateName : pTemplateName), (::Tile *)(0));
+        if (!reinterpret_cast<::FUN_00a00f30_shell *>((((ItemTileMethods*)tile)))->FUN_00a00f30(4010))
             tile->Set(4010, -1);
         if (text)
-            tile->Set(4036, text, true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tile))->FUN_00a01350(4036, (char *)(text), true);
         if (compare)
         {
-            ((ItemListMethods*)&bSSimpleList_ListBoxItem_enum_ActorValue__Index____Component)
-                ->FUN_007a7eb0(new FUN_007a62e0(tile, &value), compare);
-            if (FUN_007242c0(0))
-                FUN_007254d0();
+            reinterpret_cast<::FUN_00470440 *>((((ItemListMethods*)&bSSimpleList_ListBoxItem_enum_ActorValue__Index____Component)))->FUN_007a7eb0((::BGSPerkEntry *)(::FUN_007a62e0 *)(new FUN_007a62e0(tile, &value)), (int (*)(BGSPerkEntry *, BGSPerkEntry *))(compare));
+            if (reinterpret_cast<::FUN_007242c0_shell *>(this)->FUN_007242c0(0))
+                reinterpret_cast<::FUN_007254d0_t *>(this)->FUN_007254d0();
         }
         else
         {
-            ((ItemListMethods*)&bSSimpleList_ListBoxItem_enum_ActorValue__Index____Component)
-                ->AddTail(new FUN_007a62e0(tile, &value));
-            if (FUN_007242c0(0))
+            reinterpret_cast<::Callees *>((((ItemListMethods*)&bSSimpleList_ListBoxItem_enum_ActorValue__Index____Component)))->FUN_00905820((void *)&(const ::FUN_007a62e0 *const &)(new FUN_007a62e0(tile, &value)));
+            if (reinterpret_cast<::FUN_007242c0_shell *>(this)->FUN_007242c0(0))
             {
-                AccumulateTileHeight(tile);
-                FUN_00725970();
+                reinterpret_cast<::VLList *>(this)->AccumulateTileHeight((::VLTile *)(tile));
+                reinterpret_cast<::S725970 *>(this)->FUN_00725970();
             }
             tile->Set(4012, m_usSelectedIndex++);
         }
-        if (GetRaceCount() == 1 &&
-            ((Dummy007_obj*)m_pListTile)->FUN_00a011b0(FUN_00a00940("_number_of_visible_items", -1)) > 0.0)
+        if (::GetRaceCount((char *)this) == 1 &&
+            reinterpret_cast<::TileListBoxCalls *>((((Dummy007_obj*)m_pListTile)))->GetFloat(FUN_00a00940("_number_of_visible_items", -1)) > 0.0)
         {
-            TraitAction* action = ((ItemTileMethods*)m_pListTile)->FindTraitValue(4016);
-            action->RemoveFromReactions();
-            action->FUN_00a09130(2000, tile, 4016);
-            action->AppendFloatAction(
-                2003, ((Dummy007_obj*)m_pListTile)->FUN_00a011b0(FUN_00a00940("_number_of_visible_items", -1)));
-            action->FUN_00a09410(false);
+            TraitAction* action = ((::TraitAction *)(reinterpret_cast<::FUN_00a00e90_shell *>((((ItemTileMethods*)m_pListTile)))->FindTraitValue(4016)));
+            reinterpret_cast<::fnv_00a09200::Value_00a09200 *>((action))->RemoveFromReactions();
+            reinterpret_cast<::AGOwner *>((action))->FUN_00a09130(2000, tile, 4016);
+            reinterpret_cast<::P03Value *>((action))->AppendFloatAction(
+                2003, reinterpret_cast<::TileListBoxCalls *>((((Dummy007_obj*)m_pListTile)))->GetFloat(FUN_00a00940("_number_of_visible_items", -1)));
+            reinterpret_cast<::fnv_00a09410::EvalValue *>((action))->FUN_00a09410(false);
         }
         return tile;
     }
@@ -4945,36 +4716,18 @@ struct FUN_007a62e0
 };
 struct ListOperations
 {
-    void FUN_007a7eb0(FUN_007a62e0*, int(__cdecl*)(FUN_007a62e0*, FUN_007a62e0*));
-    void FUN_00905820(FUN_007a62e0* const&);
 };
 struct TemplateMenu
 {
-    Tile* FUN_00a1ddb0(Tile*, const char*, int);
 };
 struct TileValueOperations
 {
-    void RemoveFromReactions();
-    void FUN_00a09130(int, Tile*, int);
-    void AppendFloatAction(int, float);
-    void FUN_00a09410(int);
 };
 struct TileOperations
 {
-    TemplateMenu* FUN_00a03c90();
-    void* FUN_00a00f30(int);
-    float FUN_00a011b0(int);
-    TileValueOperations* FindTraitValue(int);
 };
-int __cdecl FUN_00a00940(const char*, int);
-extern "C" const char kListBoxNumFiltered[];
 struct ListBoxInsert : ListBox_enum_ActorValue__Index_
 {
-    bool FUN_007242c0(unsigned int);
-    void ProcessSlots();
-    void AccumulateTileHeight(Tile*);
-    void FUN_00725f40();
-    int GetRaceCount();
     Tile* FUN_007e16d0(ActorValue::Index value, const char* text,
                        int(__cdecl* comparator)(FUN_007a62e0*, FUN_007a62e0*), const char* templateName);
 };
@@ -4984,40 +4737,36 @@ Tile* ListBoxInsert::FUN_007e16d0(ActorValue::Index value, const char* text,
 {
     if (m_pListTile && (pTemplateName || templateName))
     {
-        Tile* tile = ((TileOperations*)m_pListTile)
-                         ->FUN_00a03c90()
-                         ->FUN_00a1ddb0(m_pListTile, templateName ? templateName : pTemplateName, 0);
-        if (!((TileOperations*)tile)->FUN_00a00f30(0xFAA))
+        Tile* tile = reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((::fnv_007e16d0::TemplateMenu *)(reinterpret_cast<::FUN_00a03c90_shell *>((((TileOperations*)m_pListTile)))->FUN_00a03c90()))))->FUN_00a1ddb0(m_pListTile, (char *)(templateName ? templateName : pTemplateName), (::Tile *)(0));
+        if (!reinterpret_cast<::FUN_00a00f30_shell *>((((TileOperations*)tile)))->FUN_00a00f30(0xFAA))
             tile->Set(0xFAA, -1);
         if (text)
-            tile->Set(0xFC4, text, true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tile))->FUN_00a01350(0xFC4, (char *)(text), true);
         if (comparator)
         {
-            ((ListOperations*)&bSSimpleList_ListBoxItem_enum_ActorValue__Index____Component)
-                ->FUN_007a7eb0(new FUN_007a62e0(tile, &value), comparator);
-            if (FUN_007242c0(0))
-                ProcessSlots();
+            reinterpret_cast<::FUN_00470440 *>((((ListOperations*)&bSSimpleList_ListBoxItem_enum_ActorValue__Index____Component)))->FUN_007a7eb0((::BGSPerkEntry *)(::fnv_007e16d0::FUN_007a62e0 *)(new FUN_007a62e0(tile, &value)), (int (*)(BGSPerkEntry *, BGSPerkEntry *))(comparator));
+            if (reinterpret_cast<::FUN_007242c0_shell *>(this)->FUN_007242c0(0))
+                reinterpret_cast<::FUN_00725aa0_cls *>(this)->ProcessSlots();
         }
         else
         {
-            ((ListOperations*)&bSSimpleList_ListBoxItem_enum_ActorValue__Index____Component)
-                ->FUN_00905820(new FUN_007a62e0(tile, &value));
-            if (FUN_007242c0(0))
+            reinterpret_cast<::Callees *>((((ListOperations*)&bSSimpleList_ListBoxItem_enum_ActorValue__Index____Component)))->FUN_00905820((void *)&(const ::fnv_007e16d0::FUN_007a62e0 *const &)(new FUN_007a62e0(tile, &value)));
+            if (reinterpret_cast<::FUN_007242c0_shell *>(this)->FUN_007242c0(0))
             {
-                AccumulateTileHeight(tile);
-                FUN_00725f40();
+                reinterpret_cast<::VLList *>(this)->AccumulateTileHeight((::VLTile *)(tile));
+                reinterpret_cast<::FUN_00725f40_shell *>(this)->FUN_00725f40();
             }
             tile->Set(0xFAC, m_usSelectedIndex++);
         }
-        if (GetRaceCount() == 1 &&
-            ((TileOperations*)m_pListTile)->FUN_00a011b0(FUN_00a00940(kListBoxNumFiltered, -1)) > 0.0)
+        if (::GetRaceCount((char *)this) == 1 &&
+            reinterpret_cast<::TileListBoxCalls *>((((TileOperations*)m_pListTile)))->GetFloat(::FUN_00a00940(kListBoxNumFiltered, -1)) > 0.0)
         {
-            TileValueOperations* height = ((TileOperations*)m_pListTile)->FindTraitValue(0xFB0);
-            height->RemoveFromReactions();
-            height->FUN_00a09130(0x7D0, tile, 0xFB0);
-            height->AppendFloatAction(
-                0x7D3, ((TileOperations*)m_pListTile)->FUN_00a011b0(FUN_00a00940(kListBoxNumFiltered, -1)));
-            height->FUN_00a09410(0);
+            TileValueOperations* height = ((::fnv_007e16d0::TileValueOperations *)(reinterpret_cast<::FUN_00a00e90_shell *>((((TileOperations*)m_pListTile)))->FindTraitValue(0xFB0)));
+            reinterpret_cast<::fnv_00a09200::Value_00a09200 *>((height))->RemoveFromReactions();
+            reinterpret_cast<::AGOwner *>((height))->FUN_00a09130(0x7D0, tile, 0xFB0);
+            reinterpret_cast<::P03Value *>((height))->AppendFloatAction(
+                0x7D3, reinterpret_cast<::TileListBoxCalls *>((((TileOperations*)m_pListTile)))->GetFloat(::FUN_00a00940(kListBoxNumFiltered, -1)));
+            reinterpret_cast<::fnv_00a09410::EvalValue *>((height))->FUN_00a09410(0);
         }
         return tile;
     }
@@ -5029,14 +4778,11 @@ Tile* ListBoxInsert::FUN_007e16d0(ActorValue::Index value, const char* text,
 }  // namespace fnv_007e16d0
 
 namespace fnv_007dc490 {
-bool FUN_004b71d0();
 
 class StatusEntry
 {
   public:
-    int FindEntryIndex();
 };
-StatusEntry* __stdcall FUN_007db1c0(int iIndex);
 
 class StatusMenuOwner
 {
@@ -5053,11 +4799,11 @@ class StatusMenuOwner
 // @fnv 0x007dc490
 void StatusMenuOwner::FUN_007dc490(int iUnused, int iIndex)
 {
-    if (m_bModifierActive && !FUN_004b71d0())
+    if (m_bModifierActive && !::FUN_004b71d0())
     {
-        int iType = FUN_007db1c0(iIndex)->FindEntryIndex();
+        int iType = reinterpret_cast<::FUN_007db630_Owner *>((((::fnv_007dc490::StatusEntry *)(::FUN_007db1c0()))))->FindEntryIndex({});
         if (iType != 6)
-            FUN_007e0230();
+            reinterpret_cast<::FUN_007e0230 *>(this)->RefreshHealingOptions();
     }
     m_pkTile->Set(0xfa3, 0);
 }
@@ -5066,25 +4812,16 @@ void StatusMenuOwner::FUN_007dc490(int iUnused, int iIndex)
 namespace fnv_007dc1b0 {
 struct TileSI : public Tile
 {
-    float FUN_00a011b0(int);
 };
 struct PlayerClick
 {
-    bool FUN_004d1360();
 };
 struct ListClick
 {
-    bool ContainsKey(Tile*);
-    void* FindItemData(Tile*);
 };
 struct StatusH
 {
-    int FindEntryIndex();
-    void SetBodyPart(bool);
 };
-StatusH* __stdcall FUN_007db1c0(Tile*);
-StatusH* __stdcall FUN_007db1c0(int);
-bool __cdecl FUN_004b71d0();
 class BSSoundHandleEx
 {
   public:
@@ -5092,22 +4829,16 @@ class BSSoundHandleEx
     bool m_bLooping;
     int eState;
     ~BSSoundHandleEx();
-    bool Play(bool);
 };
 class BSAudio
 {
   public:
-    static BSAudio* GetSingleton();
     BSSoundHandleEx GetSoundHandleByEditorID(const char*, unsigned int);
 };
 extern char DAT_01074f40[];
 extern int DAT_011dad60, DAT_011dad64, DAT_011dad68, DAT_011dad6c, DAT_011dad70;
 struct ClickMenu : public StatsMenu
 {
-    void FUN_007dfd20(Tile*, int*);
-    void UpdateStatsDisplay(void*);
-    void UpdateScrollBar(void*);
-    void SetReputationEntry(void*);
     void FUN_007e0230();
     void OnTileClick(int id, Tile* tile);
 };
@@ -5120,52 +4851,52 @@ void ClickMenu::OnTileClick(int aiTileIndex, Tile* tile)
     switch (GetCurrentPage())
     {
     case SM_STATUS:
-        if (((TileSI*)tile)->FUN_00a011b0(0xfac) > 0.0)
-            FUN_007dfd20(tile, &DAT_011dad60);
-        if (!FUN_004b71d0())
+        if (reinterpret_cast<::TileListBoxCalls *>((((TileSI*)tile)))->GetFloat(0xfac) > 0.0)
+            reinterpret_cast<::FUN_007dfd20_cls *>(this)->FUN_007dfd20((::Dummy007_obj *)(tile), (unsigned int *)(int *)(&DAT_011dad60));
+        if (!::FUN_004b71d0())
         {
-            if ((g_thePlayer && ((PlayerClick*)g_thePlayer)->FUN_004d1360()) ? m_kHealingOptions[3].m_pStatusEffect
+            if ((::_g_thePlayer && ::FUN_004d1360((char *)(((PlayerClick*)::_g_thePlayer)))) ? m_kHealingOptions[3].m_pStatusEffect
                                                                              : m_kHealingOptions[0].m_pStatusEffect)
             {
-                int status = FUN_007db1c0(tile)->FindEntryIndex();
+                int status = reinterpret_cast<::FUN_007db630_Owner *>((((::fnv_007dc1b0::StatusH *)(::FUN_007db1c0()))))->FindEntryIndex({});
                 if (status != 6)
                 {
-                    FUN_007db1c0(status)->SetBodyPart(true);
-                    BSAudio::GetSingleton()->GetSoundHandleByEditorID(DAT_01074f40, 0x121).Play(false);
+                    reinterpret_cast<::BodyPartDisplay *>((((::fnv_007dc1b0::StatusH *)(::FUN_007db1c0()))))->SetBodyPart(true, {});
+                    reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_007dc1b0::BSSoundHandleEx &)(((::fnv_007dc1b0::BSAudio *)(::FUN_00453a70()))->GetSoundHandleByEditorID(DAT_01074f40, 0x121)))->FUN_00ad8830(false);
                     if (!m_bUpdateOption)
-                        FUN_007e0230();
+                        reinterpret_cast<::FUN_007e0230 *>(this)->RefreshHealingOptions();
                 }
             }
         }
         break;
     case SM_SPECIAL:
-        if (((ListClick*)&m_kPrimaryActorValueList)->ContainsKey(tile))
+        if (reinterpret_cast<::ListOwner *>((((ListClick*)&m_kPrimaryActorValueList)))->ContainsKey((int)(tile)))
         {
-            FUN_007dfd20(tile, &DAT_011dad64);
-            UpdateStatsDisplay(((ListClick*)&m_kPrimaryActorValueList)->FindItemData(tile));
+            reinterpret_cast<::FUN_007dfd20_cls *>(this)->FUN_007dfd20((::Dummy007_obj *)(tile), (unsigned int *)(int *)(&DAT_011dad64));
+            reinterpret_cast<::StatsMenuFunction007dc7e0 *>(this)->UpdateStatsDisplay(reinterpret_cast<::LBList *>((((ListClick*)&m_kPrimaryActorValueList)))->FindItemData(tile));
         }
         break;
     case SM_SKILLS:
-        if (((ListClick*)&m_kSecondaryActorValueList)->ContainsKey(tile))
+        if (reinterpret_cast<::ListOwner *>((((ListClick*)&m_kSecondaryActorValueList)))->ContainsKey((int)(tile)))
         {
-            FUN_007dfd20(tile, &DAT_011dad68);
-            UpdateStatsDisplay(((ListClick*)&m_kSecondaryActorValueList)->FindItemData(tile));
+            reinterpret_cast<::FUN_007dfd20_cls *>(this)->FUN_007dfd20((::Dummy007_obj *)(tile), (unsigned int *)(int *)(&DAT_011dad68));
+            reinterpret_cast<::StatsMenuFunction007dc7e0 *>(this)->UpdateStatsDisplay(reinterpret_cast<::LBList *>((((ListClick*)&m_kSecondaryActorValueList)))->FindItemData(tile));
         }
         break;
     case SM_PERKS:
-        if (((ListClick*)&m_kPerkRankList)->ContainsKey(tile))
+        if (reinterpret_cast<::ListOwner *>((((ListClick*)&m_kPerkRankList)))->ContainsKey((int)(tile)))
         {
-            FUN_007dfd20(tile, &DAT_011dad6c);
-            UpdateScrollBar(((ListClick*)&m_kPerkRankList)->FindItemData(tile));
+            reinterpret_cast<::FUN_007dfd20_cls *>(this)->FUN_007dfd20((::Dummy007_obj *)(tile), (unsigned int *)(int *)(&DAT_011dad6c));
+            reinterpret_cast<::fnv_007dc9b0::FUN_007dc9b0_shell *>(this)->UpdateScrollBar((::fnv_007dc9b0::EntrySI **)(void *)(reinterpret_cast<::LBList *>((((ListClick*)&m_kPerkRankList)))->FindItemData(tile)));
         }
         break;
     case SM_GENERAL:
-        if (((ListClick*)&m_kMiscStatList)->ContainsKey(tile))
-            FUN_007dfd20(tile, &DAT_011dad70);
-        if (((ListClick*)&m_kReputationList)->ContainsKey(tile))
+        if (reinterpret_cast<::ListOwner *>((((ListClick*)&m_kMiscStatList)))->ContainsKey((int)(tile)))
+            reinterpret_cast<::FUN_007dfd20_cls *>(this)->FUN_007dfd20((::Dummy007_obj *)(tile), (unsigned int *)(int *)(&DAT_011dad70));
+        if (reinterpret_cast<::ListOwner *>((((ListClick*)&m_kReputationList)))->ContainsKey((int)(tile)))
         {
-            SetReputationEntry(((ListClick*)&m_kReputationList)->FindItemData(tile));
-            FUN_007dfd20(tile, &DAT_011dad70);
+            reinterpret_cast<::fnv_007dcb40::FUN_007dcb40_t *>(this)->SetReputationEntry((::fnv_007dcb40::TESReputation *)(void *)(reinterpret_cast<::LBList *>((((ListClick*)&m_kReputationList)))->FindItemData(tile)));
+            reinterpret_cast<::FUN_007dfd20_cls *>(this)->FUN_007dfd20((::Dummy007_obj *)(tile), (unsigned int *)(int *)(&DAT_011dad70));
         }
         break;
     }
@@ -5208,14 +4939,7 @@ bool Owner::SetIndexFromType(unsigned int uiType, int* piIndex)
 
 void* __cdecl operator new(unsigned int size);
 
-BGSHungerStage* __cdecl FindHungerStage(float level);
-BGSSleepDeprevationStage* __cdecl GetSleepDeprivationStage(float level);
-const char* __cdecl FUN_0066eb00(int av);
-unsigned int __cdecl FUN_0042f5a0(unsigned int a, unsigned int b);
-extern const char DAT_01012630[];
-extern const char DAT_01019f08[];
 
-extern GameSettingString g_011d1ef0;
 
 // Rebuilds the stats menu status-effect tiles and list from the player's active effects and survival stage spells.
 // @fnv 0x007ddf00
@@ -5242,81 +4966,81 @@ void StatsMenuActiveEffects::FUN_007ddf00()
     delete m_pStatusEffectAtIndex2;
     m_pStatusEffectAtIndex2 = 0;
 
-    pradstage = BGSRadiationStage::GetStageForLevel(g_thePlayer->GetCurrentActorValue((ActorValue::Index)54));
-    ph20stage = BGSDehydrationStage::FindStage(g_thePlayer->GetCurrentActorValue((ActorValue::Index)73));
-    psleepstage = GetSleepDeprivationStage(g_thePlayer->GetCurrentActorValue((ActorValue::Index)75));
-    phungerstage = FindHungerStage(g_thePlayer->GetCurrentActorValue((ActorValue::Index)74));
+    pradstage = BGSRadiationStage::GetStageForLevel(::_g_thePlayer->GetCurrentActorValue((ActorValue::Index)54));
+    ph20stage = BGSDehydrationStage::FindStage(::_g_thePlayer->GetCurrentActorValue((ActorValue::Index)73));
+    psleepstage = ::GetSleepDeprivationStage(::_g_thePlayer->GetCurrentActorValue((ActorValue::Index)75));
+    phungerstage = ::FindHungerStage(::_g_thePlayer->GetCurrentActorValue((ActorValue::Index)74));
 
-    for (BSSimpleList<ActiveEffect*>* pnode = ((ActorMagicTargetView*)g_thePlayer)->GetActiveEffectList();
-         pnode && (pactiveEffect = pnode->GetItem()); pnode = pnode->GetNext())
+    for (BSSimpleList<ActiveEffect*>* pnode = ((ActorMagicTargetView*)::_g_thePlayer)->GetActiveEffectList();
+         pnode && (pactiveEffect = ((::ActiveEffect *)(new ((void *)(pnode)) ::Vec3()))); pnode = ((::BSSimpleList< ::ActiveEffect *> *)(reinterpret_cast<::Callees *>((pnode))->FUN_00726070())))
     {
-        if (((ActiveEffectOps*)pactiveEffect)->FUN_00833c20() &&
-            !((EffectItemOps*)((ActiveEffectOps*)pactiveEffect)->GetEffectItem())->IsScriptBasedEffect() &&
+        if (((bool)(reinterpret_cast<::FUN_00833c20_shell *>((((ActiveEffectOps*)pactiveEffect)))->FUN_00833c20())) &&
+            !reinterpret_cast<::EffectItem *>((((EffectItemOps*)((::EffectItem *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((ActiveEffectOps*)pactiveEffect)))->FUN_0084e3a0())))))->IsScriptBasedEffect() &&
             (!pactiveEffect->GetEffectSetting()->IsScriptEffect() ||
-             ((EffectSettingOps*)pactiveEffect->GetEffectSetting())->IsFlagSet(0x2000)))
+             reinterpret_cast<::S3e60 *>((((EffectSettingOps*)pactiveEffect->GetEffectSetting())))->FUN_00403e60(0x2000)))
         {
-            SpellItem* pspell = dynamic_cast<SpellItem*>(((ActiveEffectOps*)pactiveEffect)->GetMagicItem());
-            if (pspell && pradstage && pspell == pradstage->GetSpell())
+            SpellItem* pspell = dynamic_cast<SpellItem*>(((::MagicItem *)(reinterpret_cast<::Twin_0044ddc0 *>((((ActiveEffectOps*)pactiveEffect)))->GetName())));
+            if (pspell && pradstage && pspell == ((::SpellItem *)(reinterpret_cast<::BGSTerrainManager *>((pradstage))->GetMinLevel())))
             {
                 if (!m_pStatusEffectAtIndex0)
                     m_pStatusEffectAtIndex0 = new StatsMenu__StatusEffect(pspell);
                 if (m_pStatusEffectAtIndex0->pForm == pspell)
-                    m_pStatusEffectAtIndex0->xEffectData.ApplyParamToEntry(pactiveEffect);
+                    reinterpret_cast<::S_007e0a20_Owner *>(&(m_pStatusEffectAtIndex0->xEffectData))->ApplyParamToEntry((::S_007e0a20_Param *)(pactiveEffect));
             }
-            if (pspell && ph20stage && pspell == ph20stage->GetSpell())
+            if (pspell && ph20stage && pspell == ((::SpellItem *)(reinterpret_cast<::BGSTerrainManager *>((ph20stage))->GetMinLevel())))
             {
                 if (!m_pStatusEffectAtIndex1)
                     m_pStatusEffectAtIndex1 = new StatsMenu__StatusEffect(pspell);
                 if (m_pStatusEffectAtIndex1->pForm == pspell)
-                    m_pStatusEffectAtIndex1->xEffectData.ApplyParamToEntry(pactiveEffect);
+                    reinterpret_cast<::S_007e0a20_Owner *>(&(m_pStatusEffectAtIndex1->xEffectData))->ApplyParamToEntry((::S_007e0a20_Param *)(pactiveEffect));
             }
-            if (pspell && phungerstage && pspell == phungerstage->GetSpell())
+            if (pspell && phungerstage && pspell == ((::SpellItem *)(reinterpret_cast<::BGSTerrainManager *>((phungerstage))->GetMinLevel())))
             {
                 if (!m_pStatusEffectAtIndex2)
                     m_pStatusEffectAtIndex2 = new StatsMenu__StatusEffect(pspell);
                 if (m_pStatusEffectAtIndex2->pForm == pspell)
-                    m_pStatusEffectAtIndex2->xEffectData.ApplyParamToEntry(pactiveEffect);
+                    reinterpret_cast<::S_007e0a20_Owner *>(&(m_pStatusEffectAtIndex2->xEffectData))->ApplyParamToEntry((::S_007e0a20_Param *)(pactiveEffect));
             }
-            if (pspell && psleepstage && pspell == psleepstage->GetSpell())
+            if (pspell && psleepstage && pspell == ((::SpellItem *)(reinterpret_cast<::BGSTerrainManager *>((psleepstage))->GetMinLevel())))
             {
                 if (!m_pStatusEffectAtIndex3)
                     m_pStatusEffectAtIndex3 = new StatsMenu__StatusEffect(pspell);
                 if (m_pStatusEffectAtIndex3->pForm == pspell)
-                    m_pStatusEffectAtIndex3->xEffectData.ApplyParamToEntry(pactiveEffect);
+                    reinterpret_cast<::S_007e0a20_Owner *>(&(m_pStatusEffectAtIndex3->xEffectData))->ApplyParamToEntry((::S_007e0a20_Param *)(pactiveEffect));
             }
-            if (((EffectItemOps*)((ActiveEffectOps*)pactiveEffect)->GetEffectItem())->FUN_00403ee0() &&
-                FUN_0066eb00(
-                    ((EffectItemOps*)((ActiveEffectOps*)pactiveEffect)->GetEffectItem())->GetAffectedActorValue()) &&
-                (pactiveEffect->GetDuration() != 0.0 || ((ActiveEffectOps*)pactiveEffect)->GetSpellType() == 1 ||
-                 ((ActiveEffectOps*)pactiveEffect)->GetSpellType() == 6 ||
-                 ((ActiveEffectOps*)pactiveEffect)->GetSpellType() == 10 ||
-                 (((ActiveEffectOps*)pactiveEffect)->GetSpellType() == 4 &&
-                  ((ActiveEffectOps*)pactiveEffect)->FUN_007df210())))
+            if (reinterpret_cast<::FUN_00403ee0_shell *>((((EffectItemOps*)((::EffectItem *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((ActiveEffectOps*)pactiveEffect)))->FUN_0084e3a0())))))->FUN_00403ee0() &&
+                ::FUN_0066eb00(
+                    (::ActorValue::Index)(reinterpret_cast<::EffectItem *>((((EffectItemOps*)((::EffectItem *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((ActiveEffectOps*)pactiveEffect)))->FUN_0084e3a0())))))->GetAffectedActorValue())) &&
+                (pactiveEffect->GetDuration() != 0.0 || ((int)(reinterpret_cast<::BGSMessageInitAccess *>((((ActiveEffectOps*)pactiveEffect)))->GetIconFormID())) == 1 ||
+                 ((int)(reinterpret_cast<::BGSMessageInitAccess *>((((ActiveEffectOps*)pactiveEffect)))->GetIconFormID())) == 6 ||
+                 ((int)(reinterpret_cast<::BGSMessageInitAccess *>((((ActiveEffectOps*)pactiveEffect)))->GetIconFormID())) == 10 ||
+                 (((int)(reinterpret_cast<::BGSMessageInitAccess *>((((ActiveEffectOps*)pactiveEffect)))->GetIconFormID())) == 4 &&
+                  reinterpret_cast<::FUN_007df210_shell *>((((ActiveEffectOps*)pactiveEffect)))->FUN_007df210())))
             {
-                ((StatusEffectListOps*)&m_kStatusEffectEntries)->AddEffectToGroup(pactiveEffect);
+                reinterpret_cast<::FUN_007e08a0_shell *>((((StatusEffectListOps*)&m_kStatusEffectEntries)))->AddEffectToGroup((::ActiveCalls *)(pactiveEffect));
             }
-            else if (((EffectSettingOps*)pactiveEffect->GetEffectSetting())->IsFlagSet(0x2000))
+            else if (reinterpret_cast<::S3e60 *>((((EffectSettingOps*)pactiveEffect->GetEffectSetting())))->FUN_00403e60(0x2000))
             {
-                ((StatusEffectListOps*)&m_kStatusEffectEntries)->AddEffectToGroup(pactiveEffect);
+                reinterpret_cast<::FUN_007e08a0_shell *>((((StatusEffectListOps*)&m_kStatusEffectEntries)))->AddEffectToGroup((::ActiveCalls *)(pactiveEffect));
             }
         }
     }
 
     if (m_pStatusEffectAtIndex0)
     {
-        ((TileOps*)m_pTiles[32])->ResetImage();
+        reinterpret_cast<::S_00a04150_Class *>((((TileOps*)m_pTiles[32])))->FUN_00a04150();
         int i = 0;
-        for (BSSimpleList<MagicEffectEntry*>* pnode = &m_pStatusEffectAtIndex0->xEffectData; pnode && pnode->GetItem();
-             pnode = pnode->GetNext())
+        for (BSSimpleList<MagicEffectEntry*>* pnode = &m_pStatusEffectAtIndex0->xEffectData; pnode && ((::MagicEffectEntry *)(new ((void *)(pnode)) ::Vec3()));
+             pnode = ((::BSSimpleList< ::MagicEffectEntry *> *)(reinterpret_cast<::Callees *>((pnode))->FUN_00726070())))
         {
-            Tile* ptile = ((MenuOps*)this)->CreateTileFromTemplate(m_pTiles[32], "stats_rad_effects_template", 0);
+            Tile* ptile = reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((MenuOps*)this)))->FUN_00a1ddb0(m_pTiles[32], (char *)("stats_rad_effects_template"), 0);
             ptile->Set(0xfac, i++);
             strtmp = "stats_rad_effect_";
-            strtmp += FUN_0066eb00(pnode->GetItem()->m_eAssociatedActorValue);
-            ((TileOps*)ptile)->FUN_007df120(strtmp);
-            strtmp.PrintfString("%+d", pnode->GetItem()->m_iMagnitude);
-            ptile->Set(0xfc4, strtmp, true);
-            ptile->Set(0x1005, FUN_0066eb00(pnode->GetItem()->m_eAssociatedActorValue), true);
+            (*(::BSStringT<char> * *)&(::fnv_00404820::FUN_00404820(strtmp)), (::fnv_00404820::StrArg)(::FUN_0066eb00((::ActorValue::Index)(((::MagicEffectEntry *)(new ((void *)(pnode)) ::Vec3()))->m_eAssociatedActorValue))));
+            reinterpret_cast<::FUN_007df120_Class *>((((TileOps*)ptile)))->FUN_007df120((int)&(strtmp));
+            ::FUN_00406f60((::FUN_00406f90_this *)&(strtmp), "%+d", ((::MagicEffectEntry *)(new ((void *)(pnode)) ::Vec3()))->m_iMagnitude);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0xfc4, (char *)(strtmp), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0x1005, (char *)(::FUN_0066eb00((::ActorValue::Index)(((::MagicEffectEntry *)(new ((void *)(pnode)) ::Vec3()))->m_eAssociatedActorValue))), true);
         }
         m_pTiles[32]->Set(0xfa3, 1);
     }
@@ -5327,19 +5051,19 @@ void StatsMenuActiveEffects::FUN_007ddf00()
 
     if (m_pStatusEffectAtIndex1)
     {
-        ((TileOps*)m_pTiles[54])->ResetImage();
+        reinterpret_cast<::S_00a04150_Class *>((((TileOps*)m_pTiles[54])))->FUN_00a04150();
         int i = 0;
-        for (BSSimpleList<MagicEffectEntry*>* pnode = &m_pStatusEffectAtIndex1->xEffectData; pnode && pnode->GetItem();
-             pnode = pnode->GetNext())
+        for (BSSimpleList<MagicEffectEntry*>* pnode = &m_pStatusEffectAtIndex1->xEffectData; pnode && ((::MagicEffectEntry *)(new ((void *)(pnode)) ::Vec3()));
+             pnode = ((::BSSimpleList< ::MagicEffectEntry *> *)(reinterpret_cast<::Callees *>((pnode))->FUN_00726070())))
         {
-            Tile* ptile = ((MenuOps*)this)->CreateTileFromTemplate(m_pTiles[54], "stats_rad_effects_template", 0);
+            Tile* ptile = reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((MenuOps*)this)))->FUN_00a1ddb0(m_pTiles[54], (char *)("stats_rad_effects_template"), 0);
             ptile->Set(0xfac, i++);
             strtmp = "stats_h20_effect_";
-            strtmp += FUN_0066eb00(pnode->GetItem()->m_eAssociatedActorValue);
-            ((TileOps*)ptile)->FUN_007df120(strtmp);
-            strtmp.PrintfString("%+d", pnode->GetItem()->m_iMagnitude);
-            ptile->Set(0xfc4, strtmp, true);
-            ptile->Set(0x1005, FUN_0066eb00(pnode->GetItem()->m_eAssociatedActorValue), true);
+            (*(::BSStringT<char> * *)&(::fnv_00404820::FUN_00404820(strtmp)), (::fnv_00404820::StrArg)(::FUN_0066eb00((::ActorValue::Index)(((::MagicEffectEntry *)(new ((void *)(pnode)) ::Vec3()))->m_eAssociatedActorValue))));
+            reinterpret_cast<::FUN_007df120_Class *>((((TileOps*)ptile)))->FUN_007df120((int)&(strtmp));
+            ::FUN_00406f60((::FUN_00406f90_this *)&(strtmp), "%+d", ((::MagicEffectEntry *)(new ((void *)(pnode)) ::Vec3()))->m_iMagnitude);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0xfc4, (char *)(strtmp), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0x1005, (char *)(::FUN_0066eb00((::ActorValue::Index)(((::MagicEffectEntry *)(new ((void *)(pnode)) ::Vec3()))->m_eAssociatedActorValue))), true);
         }
         m_pTiles[54]->Set(0xfa3, 1);
     }
@@ -5350,19 +5074,19 @@ void StatsMenuActiveEffects::FUN_007ddf00()
 
     if (m_pStatusEffectAtIndex2)
     {
-        ((TileOps*)m_pTiles[56])->ResetImage();
+        reinterpret_cast<::S_00a04150_Class *>((((TileOps*)m_pTiles[56])))->FUN_00a04150();
         int i = 0;
-        for (BSSimpleList<MagicEffectEntry*>* pnode = &m_pStatusEffectAtIndex2->xEffectData; pnode && pnode->GetItem();
-             pnode = pnode->GetNext())
+        for (BSSimpleList<MagicEffectEntry*>* pnode = &m_pStatusEffectAtIndex2->xEffectData; pnode && ((::MagicEffectEntry *)(new ((void *)(pnode)) ::Vec3()));
+             pnode = ((::BSSimpleList< ::MagicEffectEntry *> *)(reinterpret_cast<::Callees *>((pnode))->FUN_00726070())))
         {
-            Tile* ptile = ((MenuOps*)this)->CreateTileFromTemplate(m_pTiles[56], "stats_rad_effects_template", 0);
+            Tile* ptile = reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((MenuOps*)this)))->FUN_00a1ddb0(m_pTiles[56], (char *)("stats_rad_effects_template"), 0);
             ptile->Set(0xfac, i++);
             strtmp = "stats_hunger_effect_";
-            strtmp += FUN_0066eb00(pnode->GetItem()->m_eAssociatedActorValue);
-            ((TileOps*)ptile)->FUN_007df120(strtmp);
-            strtmp.PrintfString("%+d", pnode->GetItem()->m_iMagnitude);
-            ptile->Set(0xfc4, strtmp, true);
-            ptile->Set(0x1005, FUN_0066eb00(pnode->GetItem()->m_eAssociatedActorValue), true);
+            (*(::BSStringT<char> * *)&(::fnv_00404820::FUN_00404820(strtmp)), (::fnv_00404820::StrArg)(::FUN_0066eb00((::ActorValue::Index)(((::MagicEffectEntry *)(new ((void *)(pnode)) ::Vec3()))->m_eAssociatedActorValue))));
+            reinterpret_cast<::FUN_007df120_Class *>((((TileOps*)ptile)))->FUN_007df120((int)&(strtmp));
+            ::FUN_00406f60((::FUN_00406f90_this *)&(strtmp), "%+d", ((::MagicEffectEntry *)(new ((void *)(pnode)) ::Vec3()))->m_iMagnitude);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0xfc4, (char *)(strtmp), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0x1005, (char *)(::FUN_0066eb00((::ActorValue::Index)(((::MagicEffectEntry *)(new ((void *)(pnode)) ::Vec3()))->m_eAssociatedActorValue))), true);
         }
         m_pTiles[56]->Set(0xfa3, 1);
     }
@@ -5373,19 +5097,19 @@ void StatsMenuActiveEffects::FUN_007ddf00()
 
     if (m_pStatusEffectAtIndex3)
     {
-        ((TileOps*)m_pTiles[58])->ResetImage();
+        reinterpret_cast<::S_00a04150_Class *>((((TileOps*)m_pTiles[58])))->FUN_00a04150();
         int i = 0;
-        for (BSSimpleList<MagicEffectEntry*>* pnode = &m_pStatusEffectAtIndex3->xEffectData; pnode && pnode->GetItem();
-             pnode = pnode->GetNext())
+        for (BSSimpleList<MagicEffectEntry*>* pnode = &m_pStatusEffectAtIndex3->xEffectData; pnode && ((::MagicEffectEntry *)(new ((void *)(pnode)) ::Vec3()));
+             pnode = ((::BSSimpleList< ::MagicEffectEntry *> *)(reinterpret_cast<::Callees *>((pnode))->FUN_00726070())))
         {
-            Tile* ptile = ((MenuOps*)this)->CreateTileFromTemplate(m_pTiles[58], "stats_rad_effects_template", 0);
+            Tile* ptile = reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((MenuOps*)this)))->FUN_00a1ddb0(m_pTiles[58], (char *)("stats_rad_effects_template"), 0);
             ptile->Set(0xfac, i++);
             strtmp = "stats_sleep_effect_";
-            strtmp += FUN_0066eb00(pnode->GetItem()->m_eAssociatedActorValue);
-            ((TileOps*)ptile)->FUN_007df120(strtmp);
-            strtmp.PrintfString("%+d", pnode->GetItem()->m_iMagnitude);
-            ptile->Set(0xfc4, strtmp, true);
-            ptile->Set(0x1005, FUN_0066eb00(pnode->GetItem()->m_eAssociatedActorValue), true);
+            (*(::BSStringT<char> * *)&(::fnv_00404820::FUN_00404820(strtmp)), (::fnv_00404820::StrArg)(::FUN_0066eb00((::ActorValue::Index)(((::MagicEffectEntry *)(new ((void *)(pnode)) ::Vec3()))->m_eAssociatedActorValue))));
+            reinterpret_cast<::FUN_007df120_Class *>((((TileOps*)ptile)))->FUN_007df120((int)&(strtmp));
+            ::FUN_00406f60((::FUN_00406f90_this *)&(strtmp), "%+d", ((::MagicEffectEntry *)(new ((void *)(pnode)) ::Vec3()))->m_iMagnitude);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0xfc4, (char *)(strtmp), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0x1005, (char *)(::FUN_0066eb00((::ActorValue::Index)(((::MagicEffectEntry *)(new ((void *)(pnode)) ::Vec3()))->m_eAssociatedActorValue))), true);
         }
         m_pTiles[58]->Set(0xfa3, 1);
     }
@@ -5397,61 +5121,60 @@ void StatsMenuActiveEffects::FUN_007ddf00()
     ptile = 0;
     m_kStatusEffectList.ClearList();
     for (BSSimpleList<StatsMenu__StatusEffect*>* peffectlistnode = (StatusEffectListOps*)&m_kStatusEffectEntries;
-         peffectlistnode && peffectlistnode->GetItem(); peffectlistnode = peffectlistnode->GetNext())
+         peffectlistnode && ((::StatsMenu__StatusEffect *)(new ((void *)(peffectlistnode)) ::Vec3())); peffectlistnode = ((::BSSimpleList< ::StatsMenu__StatusEffect *> *)(reinterpret_cast<::Callees *>((peffectlistnode))->FUN_00726070())))
     {
-        ptile = ((StatusEffectListBox*)&m_kStatusEffectList)->AddItem(peffectlistnode->GetItem(), 0, 0, 0);
-        AlchemyItem* ppotion = dynamic_cast<AlchemyItem*>(peffectlistnode->GetItem()->pForm);
-        if (ppotion && ((EquipTypeComponent*)((char*)ppotion + 0x9c))->GetEquipType() == 13)
+        ptile = reinterpret_cast<::ItemBox *>((((StatusEffectListBox*)&m_kStatusEffectList)))->FUN_007e1430((::ActorValue::Index)(((::StatsMenu__StatusEffect *)(new ((void *)(peffectlistnode)) ::Vec3()))), (const char *)(0), (int (*)(FUN_007a62e0 *, FUN_007a62e0 *))(0), (const char *)(0));
+        AlchemyItem* ppotion = dynamic_cast<AlchemyItem*>(((::StatsMenu__StatusEffect *)(new ((void *)(peffectlistnode)) ::Vec3()))->pForm);
+        if (ppotion && ((int)(reinterpret_cast<::Callees *>((((EquipTypeComponent*)((char*)ppotion + 0x9c))))->FUN_00726070())) == 13)
         {
-            ptile->Set(0x1004, g_011d1ef0.GetString(), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0x1004, (char *)((*reinterpret_cast<::GameSettingString *>(&::g_011d1ef0)).GetString()), true);
         }
         else
         {
-            TESFullName* pname = dynamic_cast<TESFullName*>(peffectlistnode->GetItem()->pForm);
+            TESFullName* pname = dynamic_cast<TESFullName*>(((::StatsMenu__StatusEffect *)(new ((void *)(peffectlistnode)) ::Vec3()))->pForm);
             if (pname)
             {
-                ptile->Set(0x1004, ((TESFullNameOps*)pname)->GetFullName(), true);
+                reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0x1004, (char *)(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((TESFullNameOps*)pname)))->FUN_00408da0()))), true);
             }
             else
             {
-                ptile->Set(0x1004, peffectlistnode->GetItem()->pForm->GetName(), true);
+                reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0x1004, (char *)(((::StatsMenu__StatusEffect *)(new ((void *)(peffectlistnode)) ::Vec3()))->pForm->GetName()), true);
             }
         }
         BSStringTChar streffects;
-        for (BSSimpleList<EffectSetting*>* pnamelistnode = &peffectlistnode->GetItem()->m_kNamedEffectsList;
-             pnamelistnode && pnamelistnode->GetItem(); pnamelistnode = pnamelistnode->GetNext())
+        for (BSSimpleList<EffectSetting*>* pnamelistnode = &((::StatsMenu__StatusEffect *)(new ((void *)(peffectlistnode)) ::Vec3()))->m_kNamedEffectsList;
+             pnamelistnode && ((::EffectSetting *)(new ((void *)(pnamelistnode)) ::Vec3())); pnamelistnode = ((::BSSimpleList< ::EffectSetting *> *)(reinterpret_cast<::Callees *>((pnamelistnode))->FUN_00726070())))
         {
-            if (((EffectSettingOps*)pnamelistnode->GetItem())->GetEffectName())
+            if ((*(::BSStringTChar *)(reinterpret_cast<::FUN_004046b0_cls *>((void *)(((EffectSettingOps*)((::EffectSetting *)(new ((void *)(pnamelistnode)) ::Vec3())))))->AssignFromSub({}))))
             {
-                strtmp.PrintfString(DAT_01019f08,
-                               (const char*)((EffectSettingOps*)pnamelistnode->GetItem())->GetEffectName());
-                streffects.AppendString(strtmp);
-                if (pnamelistnode->GetNext())
-                    streffects += DAT_01012630;
+                ::FUN_00406f60((::FUN_00406f90_this *)&(strtmp), DAT_01019f08,
+                               (const char*)(*(::BSStringTChar *)(reinterpret_cast<::FUN_004046b0_cls *>((void *)(((EffectSettingOps*)((::EffectSetting *)(new ((void *)(pnamelistnode)) ::Vec3())))))->AssignFromSub({}))));
+                reinterpret_cast<::FUN_007e0d80_shell *>(&(streffects))->AppendString((::FUN_007e0d80_shell *)&(strtmp));
+                if (((::BSSimpleList< ::EffectSetting *> *)(reinterpret_cast<::Callees *>((pnamelistnode))->FUN_00726070())))
+                    (*(::BSStringT<char> * *)&(::fnv_00404820::FUN_00404820(streffects)), (::fnv_00404820::StrArg)(DAT_01012630));
             }
         }
-        if (streffects.GetLength() > 0 && peffectlistnode->GetItem()->xEffectData.GetSize())
-            streffects += DAT_01012630;
-        for (BSSimpleList<MagicEffectEntry*>* pdatalistnode = &peffectlistnode->GetItem()->xEffectData;
-             pdatalistnode && pdatalistnode->GetItem(); pdatalistnode = pdatalistnode->GetNext())
+        if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((void *)&(streffects))->FUN_004048e0())) > 0 && ((::StatsMenu__StatusEffect *)(new ((void *)(peffectlistnode)) ::Vec3()))->xEffectData.GetSize())
+            (*(::BSStringT<char> * *)&(::fnv_00404820::FUN_00404820(streffects)), (::fnv_00404820::StrArg)(DAT_01012630));
+        for (BSSimpleList<MagicEffectEntry*>* pdatalistnode = &((::StatsMenu__StatusEffect *)(new ((void *)(peffectlistnode)) ::Vec3()))->xEffectData;
+             pdatalistnode && ((::MagicEffectEntry *)(new ((void *)(pdatalistnode)) ::Vec3())); pdatalistnode = ((::BSSimpleList< ::MagicEffectEntry *> *)(reinterpret_cast<::Callees *>((pdatalistnode))->FUN_00726070())))
         {
-            if (pdatalistnode->GetItem()->m_iMagnitude)
+            if (((::MagicEffectEntry *)(new ((void *)(pdatalistnode)) ::Vec3()))->m_iMagnitude)
             {
-                strtmp.PrintfString("%s %+d", FUN_0066eb00(pdatalistnode->GetItem()->m_eAssociatedActorValue),
-                               pdatalistnode->GetItem()->m_iMagnitude);
-                streffects.AppendString(strtmp);
-                if (pdatalistnode->GetNext())
-                    streffects += DAT_01012630;
+                ::FUN_00406f60((::FUN_00406f90_this *)&(strtmp), "%s %+d", ::FUN_0066eb00((::ActorValue::Index)(((::MagicEffectEntry *)(new ((void *)(pdatalistnode)) ::Vec3()))->m_eAssociatedActorValue)),
+                               ((::MagicEffectEntry *)(new ((void *)(pdatalistnode)) ::Vec3()))->m_iMagnitude);
+                reinterpret_cast<::FUN_007e0d80_shell *>(&(streffects))->AppendString((::FUN_007e0d80_shell *)&(strtmp));
+                if (((::BSSimpleList< ::MagicEffectEntry *> *)(reinterpret_cast<::Callees *>((pdatalistnode))->FUN_00726070())))
+                    (*(::BSStringT<char> * *)&(::fnv_00404820::FUN_00404820(streffects)), (::fnv_00404820::StrArg)(DAT_01012630));
             }
         }
-        ptile->Set(0x1005, streffects, true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0x1005, (char *)(streffects), true);
     }
 
     if (ptile)
     {
-        ((TileOps*)m_pTiles[33])
-            ->Set(0xfb0,
-                  FUN_0042f5a0(8, ((StatusEffectListBox*)&m_kStatusEffectList)->GetNumItems()) * ptile->GetFloat(0xfb0),
+        reinterpret_cast<::FUN_00a012d0_t *>((((TileOps*)m_pTiles[33])))->FUN_00a012d0(0xfb0,
+                  FUN_0042f5a0(8, ::GetRaceCount((char *)(((StatusEffectListBox*)&m_kStatusEffectList)))) * reinterpret_cast<::TileListBoxCalls *>((void *)(ptile))->GetFloat(0xfb0),
                   true);
         ptile->Set(0x1006, 0);
     }
@@ -5459,26 +5182,18 @@ void StatsMenuActiveEffects::FUN_007ddf00()
     {
         m_pTiles[33]->Set(0xfb0, 0);
     }
-    ((StatusEffectListBox*)&m_kStatusEffectList)->Synchronize();
+    reinterpret_cast<::FUN_007254d0_t *>((((StatusEffectListBox*)&m_kStatusEffectList)))->FUN_007254d0();
 }
 
 namespace fnv_007db680 {
 struct InputTile : public Tile
 {
-    void FUN_00a0b110(int);
-    bool IsTraitNonZero(int);
-    bool IsAllChildrenFlag0();
-    float FUN_00a011b0(int);
-    void FUN_00a012d0(int, float, bool);
-    void SetTraitAndReset(int, float);
 };
 struct InputChildren
 {
-    Tile*& FUN_007b5370();
 };
 struct InputList
 {
-    InputTile* FUN_00825c00();
 };
 struct InputVirtualMenu
 {
@@ -5489,18 +5204,12 @@ struct InputVirtualMenu
 };
 struct InputStatus
 {
-    unsigned int FUN_00559450() const;
-    int GetByte(unsigned int, int);
-    void SetBodyPart(int, bool);
 };
 class FUN_007db2c0;
-FUN_007db2c0* __cdecl FUN_007db1c0();
 bool __cdecl FUN_00702450(int);
 struct InputRendered
 {
-    bool IsUnk28Set();
 };
-InputRendered* __cdecl FUN_00705990();
 bool __cdecl IsActorValueBelowPermanent(StatsMenu__HealingOption*);
 bool __cdecl IsHealingOptionAvailable(const StatsMenu__HealingOption*);
 class BSSoundHandleEx
@@ -5510,25 +5219,15 @@ class BSSoundHandleEx
     bool assume;
     unsigned int state;
     ~BSSoundHandleEx();
-    bool Play(bool);
 };
 class BSAudio
 {
   public:
     BSSoundHandleEx GetSoundHandleByEditorID(const char*, unsigned int);
 };
-BSAudio* __cdecl FUN_00453a70();
-void __cdecl FUN_00717280(int);
-void __cdecl UpdatePipboyMapVisibility(int, bool);
-void __cdecl FUN_007048f0(int, bool, bool);
-StatsMenu::Page* __cdecl DecrementInt(StatsMenu::Page*);
-StatsMenu::Page* __cdecl FUN_007dc0a0(StatsMenu::Page*);
 struct InputSetting
 {
-    float* FUN_00403e20();
 };
-extern InputSetting g_011db358;
-extern InputSetting g_011db2f0;
 struct InputPipboy
 {
     void FUN_007f8610(int, float, float, bool);
@@ -5537,27 +5236,16 @@ struct InputInterface
 {
     InputPipboy* FUN_00704370();
 };
-InputInterface* __cdecl FUN_004b7210();
-bool __cdecl FUN_00709d40();
 struct InputControls
 {
-    int GetAxisState(int, int);
 };
 struct InputOS
 {
-    InputControls* FUN_00877720();
 };
-extern InputOS* g_osGlobals;
-double __cdecl FUN_00408820(float);
-unsigned int __cdecl gm_GetTickCount();
 extern unsigned int DAT_011dad5c;
-int __cdecl FUN_00a01860(const char*);
 
 struct InputStats : public StatsMenu
 {
-    int FUN_007dcc40();
-    bool FUN_007e0060(int);
-    bool GetTileIndex(int, int*);
     bool FUN_007db680(int code, float amount);
 };
 
@@ -5565,7 +5253,7 @@ struct InputStats : public StatsMenu
 // @fnv 0x007db680
 bool InputStats::FUN_007db680(int code, float amount)
 {
-    if (!FUN_00702450(1003) || !FUN_00705990()->IsUnk28Set())
+    if (!FUN_00702450(1003) || !reinterpret_cast<::FOPipboyManager *>((((::fnv_007db680::InputRendered *)(::fnv_00705990::FUN_00705990()))))->IsUnk28Set())
         return false;
     if (FUN_00702450(1003))
     {
@@ -5590,37 +5278,37 @@ bool InputStats::FUN_007db680(int code, float amount)
                 return false;
             }
             int selected3 =
-                ((InputStatus*)FUN_007db1c0())->GetByte(((InputStatus*)FUN_007db1c0())->FUN_00559450(), direction);
+                ((int)(reinterpret_cast<::S_007dc010 *>((((InputStatus*)((::fnv_007db680::FUN_007db2c0 *)(::FUN_007db1c0())))))->GetByte(((unsigned int)(::FUN_00559450((int *)(((InputStatus*)((::fnv_007db680::FUN_007db2c0 *)(::FUN_007db1c0()))))))), direction)));
             if (selected3 < 6)
             {
-                ((InputStatus*)FUN_007db1c0())->SetBodyPart(selected3, true);
+                reinterpret_cast<::BodyPartDisplay *>((((InputStatus*)((::fnv_007db680::FUN_007db2c0 *)(::FUN_007db1c0())))))->SetBodyPart(selected3, true);
                 m_kHealingOptions[0].pTile->Set(0xfaf, IsActorValueBelowPermanent(&m_kHealingOptions[0]));
                 m_kHealingOptions[3].pTile->Set(0xfaf, IsHealingOptionAvailable(&m_kHealingOptions[3]));
-                FUN_00453a70()->GetSoundHandleByEditorID("UIPipBoyHighlight", 0x121).Play(false);
+                reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_007db680::BSSoundHandleEx &)(((::fnv_007db680::BSAudio *)(::FUN_00453a70()))->GetSoundHandleByEditorID("UIPipBoyHighlight", 0x121)))->FUN_00ad8830(false);
             }
             return true;
         }
         else if ((code == 13 || code == 14) && amount >= 1.0)
         {
-            FUN_00717280(0x24);
+            ::s717280::FUN_00717280(0x24);
             if (code == 13)
-                UpdatePipboyMapVisibility(1, false);
+                ::fnv_00704170::UpdatePipboyMapVisibility(1, false);
             else
-                FUN_007048f0(1, false, true);
+                ::sleep704::FUN_007048f0(1, false, true);
             return true;
         }
         else if (code == 4)
         {
             Page _previousPage = GetCurrentPage();
-            SetCurrentPage(_previousPage == 0 ? SM_LAST_PAGE : *DecrementInt(&_previousPage));
-            ((InputTile*)m_pTiles[0])->FUN_00a0b110(0xfcb);
+            reinterpret_cast<::fnv_007dff40::FUN_007dff40_shell *>(this)->SetPage((*(int *)&(const ::StatsMenu::Page &)(_previousPage == 0 ? SM_LAST_PAGE : *((::StatsMenu::Page *)(::DecrementInt((int *)(::StatsMenu::Page *)(&_previousPage)))))));
+            reinterpret_cast<::FUN_00a0b110_shell *>((((InputTile*)m_pTiles[0])))->FUN_00a0b110(0xfcb);
             return true;
         }
         else if (code == 3)
         {
             Page nextPage = GetCurrentPage();
-            SetCurrentPage(nextPage == 4 ? SM_FIRST_PAGE : *FUN_007dc0a0(&nextPage));
-            ((InputTile*)m_pTiles[0])->FUN_00a0b110(0xfcb);
+            reinterpret_cast<::fnv_007dff40::FUN_007dff40_shell *>(this)->SetPage((*(int *)&(const ::StatsMenu::Page &)(nextPage == 4 ? SM_FIRST_PAGE : *((::StatsMenu::Page *)(::TESReputation::GetUnsignedIntegerPointer((unsigned int *)(::StatsMenu::Page *)(&nextPage)))))));
+            reinterpret_cast<::FUN_00a0b110_shell *>((((InputTile*)m_pTiles[0])))->FUN_00a0b110(0xfcb);
             return true;
         }
         else if (GetCurrentPage() == SM_GENERAL)
@@ -5636,30 +5324,30 @@ bool InputStats::FUN_007db680(int code, float amount)
             if (code == 1 || code == 2)
             {
                 int statusStep6 = code == 1 ? -1 : 1;
-                int newStatusVal = FUN_007dcc40() + statusStep6;
-                if (FUN_007e0060(newStatusVal))
+                int newStatusVal = reinterpret_cast<::FUN_007dcc40_shell *>(this)->FUN_007dcc40() + statusStep6;
+                if (reinterpret_cast<::fnv_007e0060::FUN_007e0060_cls *>(this)->FUN_007e0060(newStatusVal))
                 {
                     int limbVal = 6;
-                    if (GetTileIndex(0x1c, &limbVal) && limbVal == newStatusVal)
-                        ((InputTile*)m_pTiles[28])->FUN_00a0b110(0xfcb);
-                    else if (GetTileIndex(0x1d, &limbVal) && limbVal == newStatusVal)
-                        ((InputTile*)m_pTiles[29])->FUN_00a0b110(0xfcb);
-                    else if (GetTileIndex(0x1e, &limbVal) && limbVal == newStatusVal)
-                        ((InputTile*)m_pTiles[30])->FUN_00a0b110(0xfcb);
-                    else if (GetTileIndex(0x35, &limbVal) && limbVal == newStatusVal)
-                        ((InputTile*)m_pTiles[53])->FUN_00a0b110(0xfcb);
-                    else if (GetTileIndex(0x37, &limbVal) && limbVal == newStatusVal)
-                        ((InputTile*)m_pTiles[55])->FUN_00a0b110(0xfcb);
-                    else if (GetTileIndex(0x39, &limbVal) && limbVal == newStatusVal)
-                        ((InputTile*)m_pTiles[57])->FUN_00a0b110(0xfcb);
-                    FUN_004b7210()->FUN_00704370()->FUN_007f8610(0, *g_011db2f0.FUN_00403e20() * statusStep6,
-                                                                 *g_011db358.FUN_00403e20(), true);
+                    if (reinterpret_cast<::FUN_007e0160_t *>(this)->GetTileIndex(0x1c, &limbVal) && limbVal == newStatusVal)
+                        reinterpret_cast<::FUN_00a0b110_shell *>((((InputTile*)m_pTiles[28])))->FUN_00a0b110(0xfcb);
+                    else if (reinterpret_cast<::FUN_007e0160_t *>(this)->GetTileIndex(0x1d, &limbVal) && limbVal == newStatusVal)
+                        reinterpret_cast<::FUN_00a0b110_shell *>((((InputTile*)m_pTiles[29])))->FUN_00a0b110(0xfcb);
+                    else if (reinterpret_cast<::FUN_007e0160_t *>(this)->GetTileIndex(0x1e, &limbVal) && limbVal == newStatusVal)
+                        reinterpret_cast<::FUN_00a0b110_shell *>((((InputTile*)m_pTiles[30])))->FUN_00a0b110(0xfcb);
+                    else if (reinterpret_cast<::FUN_007e0160_t *>(this)->GetTileIndex(0x35, &limbVal) && limbVal == newStatusVal)
+                        reinterpret_cast<::FUN_00a0b110_shell *>((((InputTile*)m_pTiles[53])))->FUN_00a0b110(0xfcb);
+                    else if (reinterpret_cast<::FUN_007e0160_t *>(this)->GetTileIndex(0x37, &limbVal) && limbVal == newStatusVal)
+                        reinterpret_cast<::FUN_00a0b110_shell *>((((InputTile*)m_pTiles[55])))->FUN_00a0b110(0xfcb);
+                    else if (reinterpret_cast<::FUN_007e0160_t *>(this)->GetTileIndex(0x39, &limbVal) && limbVal == newStatusVal)
+                        reinterpret_cast<::FUN_00a0b110_shell *>((((InputTile*)m_pTiles[57])))->FUN_00a0b110(0xfcb);
+                    ((::fnv_007db680::InputInterface *)(::fnv_004b7210::FUN_004b7210()))->FUN_00704370()->FUN_007f8610(0, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007db680::InputSetting *>(&::g_011db2f0)))))) * statusStep6,
+                                                                 *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007db680::InputSetting *>(&::g_011db358)))))), true);
                     return true;
                 }
             }
             else if (code == 9)
             {
-                switch (FUN_007dcc40())
+                switch (reinterpret_cast<::FUN_007dcc40_shell *>(this)->FUN_007dcc40())
                 {
                 case 0:
                     ((InputVirtualMenu*)this)->Click(10, 0);
@@ -5673,13 +5361,13 @@ bool InputStats::FUN_007db680(int code, float amount)
             }
             else if (code == 11)
             {
-                switch (FUN_007dcc40())
+                switch (reinterpret_cast<::FUN_007dcc40_shell *>(this)->FUN_007dcc40())
                 {
                 case 0:
-                    if (!m_bUpdateOption && ((InputTile*)m_pTiles[9])->IsTraitNonZero(0xfaf))
+                    if (!m_bUpdateOption && reinterpret_cast<::FUN_00a01230_shell *>((((InputTile*)m_pTiles[9])))->IsTraitNonZero(0xfaf))
                     {
                         ((InputVirtualMenu*)this)->Click(9, 0);
-                        FUN_00453a70()->GetSoundHandleByEditorID("UIMenuOK", 0x121).Play(false);
+                        reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_007db680::BSSoundHandleEx &)(((::fnv_007db680::BSAudio *)(::FUN_00453a70()))->GetSoundHandleByEditorID("UIMenuOK", 0x121)))->FUN_00ad8830(false);
                         return true;
                     }
                     return false;
@@ -5692,13 +5380,13 @@ bool InputStats::FUN_007db680(int code, float amount)
             }
             else if (code == 12)
             {
-                switch (FUN_007dcc40())
+                switch (reinterpret_cast<::FUN_007dcc40_shell *>(this)->FUN_007dcc40())
                 {
                 case 0:
-                    if (((InputTile*)m_pTiles[9])->IsTraitNonZero(0xfaf))
+                    if (reinterpret_cast<::FUN_00a01230_shell *>((((InputTile*)m_pTiles[9])))->IsTraitNonZero(0xfaf))
                     {
                         ((InputVirtualMenu*)this)->Click(59, 0);
-                        FUN_00453a70()->GetSoundHandleByEditorID("UIMenuOK", 0x121).Play(false);
+                        reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_007db680::BSSoundHandleEx &)(((::fnv_007db680::BSAudio *)(::FUN_00453a70()))->GetSoundHandleByEditorID("UIMenuOK", 0x121)))->FUN_00ad8830(false);
                         return true;
                     }
                     return false;
@@ -5710,31 +5398,31 @@ bool InputStats::FUN_007db680(int code, float amount)
                 }
             }
         }
-        if (FUN_00709d40() &&
-            (((InputList*)&m_kStatusEffectList)->FUN_00825c00()->IsAllChildrenFlag0() ||
-             ((InputTile*)((InputChildren*)&m_pTiles[26]->m_kChildTileList)->FUN_007b5370())->IsTraitNonZero(0xfa3)))
+        if (::FUN_00709d40() &&
+            (reinterpret_cast<::sa040a0::Owner *>((((::fnv_007db680::InputTile *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((InputList*)&m_kStatusEffectList)))->FUN_00825c00()))))->IsAllChildrenFlag0() ||
+             reinterpret_cast<::FUN_00a01230_shell *>((((InputTile*)((::Tile *)(reinterpret_cast<::InventoryStackRecord *>((((InputChildren*)&m_pTiles[26]->m_kChildTileList)))->GetPayloadAddress())))))->IsTraitNonZero(0xfa3)))
         {
             int axisB = 0;
             int scrollStepVal4 = 0;
-            axisB = g_osGlobals->FUN_00877720()->GetAxisState(0, 10);
-            if (FUN_00408820((float)axisB) <= 8689.0)
+            axisB = reinterpret_cast<::FUN_00a23390_t *>((((::fnv_007db680::InputControls *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::fnv_007db680::InputOS * *>(&::g_osGlobals))))->FUN_00877720()))))->GetAxisState(0, 10);
+            if (::FUN_00408820((float)axisB) <= 8689.0)
                 axisB = 0;
             if (axisB != 0)
                 scrollStepVal4 = axisB >= 0 ? -1 : 1;
-            if (scrollStepVal4 != 0 && gm_GetTickCount() > DAT_011dad5c)
+            if (scrollStepVal4 != 0 && ((unsigned int)(::FUN_00457fe0())) > DAT_011dad5c)
             {
                 InputTile* scrollTile =
                     GetCurrentPage() == SM_STATUS
-                        ? ((InputList*)&m_kStatusEffectList)->FUN_00825c00()
-                        : (InputTile*)((InputChildren*)&m_pTiles[26]->m_kChildTileList)->FUN_007b5370();
-                int trait3 = FUN_00a01860("_current_value");
-                int oldValue4 = (int)scrollTile->FUN_00a011b0(trait3);
-                scrollTile->FUN_00a012d0(trait3, (float)(oldValue4 + scrollStepVal4), false);
-                if (oldValue4 != scrollTile->FUN_00a011b0(trait3))
-                    scrollTile->SetTraitAndReset(FUN_00a01860("_SetInCode"), 1.0f);
+                        ? ((::fnv_007db680::InputTile *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((InputList*)&m_kStatusEffectList)))->FUN_00825c00()))
+                        : (InputTile*)((::Tile *)(reinterpret_cast<::InventoryStackRecord *>((((InputChildren*)&m_pTiles[26]->m_kChildTileList)))->GetPayloadAddress()));
+                int trait3 = ::FUN_00a01860("_current_value");
+                int oldValue4 = (int)reinterpret_cast<::TileListBoxCalls *>((scrollTile))->GetFloat(trait3);
+                reinterpret_cast<::FUN_00a012d0_t *>((scrollTile))->FUN_00a012d0(trait3, (float)(oldValue4 + scrollStepVal4), false);
+                if (oldValue4 != reinterpret_cast<::TileListBoxCalls *>((scrollTile))->GetFloat(trait3))
+                    reinterpret_cast<::FUN_00a01290_shell *>((scrollTile))->SetTraitAndReset(::FUN_00a01860("_SetInCode"), 1.0f);
                 DAT_011dad5c =
-                    gm_GetTickCount() + (DAT_011dad5c ? (int)((InputTile*)m_pTiles[33])->FUN_00a011b0(0x1004)
-                                                      : (int)((InputTile*)m_pTiles[33])->FUN_00a011b0(0x1005));
+                    ((unsigned int)(::FUN_00457fe0())) + (DAT_011dad5c ? (int)reinterpret_cast<::TileListBoxCalls *>((((InputTile*)m_pTiles[33])))->GetFloat(0x1004)
+                                                      : (int)reinterpret_cast<::TileListBoxCalls *>((((InputTile*)m_pTiles[33])))->GetFloat(0x1005));
             }
             else if (scrollStepVal4 == 0)
                 DAT_011dad5c = 0;

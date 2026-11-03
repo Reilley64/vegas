@@ -4,6 +4,8 @@
 #ifndef FNV_TESOBJECTWEAP_PRIVATE_TYPES_H
 #define FNV_TESOBJECTWEAP_PRIVATE_TYPES_H
 
+#include "fnv/decl/FUN_004bcf60_shell.h"
+#include "fnv/decl/TimeoutTimer.h"
 class Script;
 class TESFile;
 class TESSound;
@@ -357,7 +359,6 @@ class TESWeightForm : public BaseFormComponent
 {
   public:
     // JohnnyGuitarNVSE TESWeightForm.hpp and PC address annotation at 0x006b9130.
-    float GetWeightForForm() const;
     // base BaseFormComponent at +0x0, size 4
     float fWeight;  // +0x4, 4 bytes
     // TESWeightForm
@@ -808,7 +809,6 @@ class TESObjectWEAP : public TESBoundObject,
   public:
     void SetMeleeBlockSound(TESSound* sound);
     float GetWeightForForm(bool modded);
-    float GetModdedWeaponValue(WEAPON_MOD_EFFECT effect, unsigned char value) const;
     // base TESBoundObject at +0x0, size 48
     // base TESFullName at +0x30, size 12
     // base TESModelTextureSwap at +0x3C, size 32

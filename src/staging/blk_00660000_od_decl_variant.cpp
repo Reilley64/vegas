@@ -5,27 +5,85 @@
 
 // src/staging/blk_00660000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <new>
+#include "fnv/decl/AlignedVector.h"
+#include "fnv/decl/ArrD9E0.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Calendar.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/DurationData.h"
+#include "fnv/decl/FUN_0041ca90.h"
+#include "fnv/decl/FUN_0041d8a0_shell.h"
+#include "fnv/decl/FUN_0044ed80_Class.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a4840_class.h"
+#include "fnv/decl/FUN_005ca4f0_shell.h"
+#include "fnv/decl/FUN_0065cc30_class.h"
+#include "fnv/decl/FUN_0065ea40_class.h"
+#include "fnv/decl/FUN_0065ea60_cls.h"
+#include "fnv/decl/FUN_006661e0.h"
+#include "fnv/decl/FUN_00678cc0_shell.h"
+#include "fnv/decl/FUN_00678ce0_shell.h"
+#include "fnv/decl/FUN_0067fb60_shell.h"
+#include "fnv/decl/FUN_00821660_shell.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_00865f20_shell.h"
+#include "fnv/decl/FUN_00865ff0_shell.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/Range62A.h"
+#include "fnv/decl/SpawnedSourceOwner.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/Worker.h"
+#include "fnv/decl/fnv_0062a100__FUN_0062a100_shell.h"
+#include "fnv/decl/fnv_0066df40__B6DF40Owner.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/decl/fnv_00865df0__FUN_00865df0_holder.h"
+#include "fnv/decl/fnv_008d7070__DetectionStateProxy.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00407000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_0044e000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005e5000.h"
+#include "fnv/symbols_0065e000.h"
+#include "fnv/symbols_0065f000.h"
+#include "fnv/symbols_00660000.h"
+#include "fnv/symbols_00661000.h"
+#include "fnv/symbols_00664000.h"
+#include "fnv/symbols_0066b000.h"
+#include "fnv/symbols_0066d000.h"
+#include "fnv/symbols_0066e000.h"
+#include "fnv/symbols_00670000.h"
+#include "fnv/symbols_008d7000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00aaf000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011d5000.h"
+#include "fnv/symbols_011d6000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
-void __cdecl CopyConstructEntry(int a, int b);
 struct FUN_006601f0_Class
 {
     void __thiscall FUN_006601f0(int a, int b);
 };
-extern "C" void __cdecl FUN_00660340(void*, void*, void*, void*);
-void __cdecl FUN_00660210(void* a1, void* a2, void* a3, void* a4);
 extern "C" void __cdecl FUN_006603a0(void* a, void* b, void* c, void* d);
-void __cdecl FUN_00660230(void* a, void* b, void* c, void* d);
-extern "C" int __cdecl ConstructInPlace(int, int);
 struct FUN_00660300_Class
 {
     int __thiscall FUN_00660300(int a, int b);
 };
-extern "C" void __cdecl CopyConstructElement(int, int);
 struct FUN_00660320_Class
 {
     void __thiscall FUN_00660320(int a, int b);
 };
-extern const char* const g_011d5ba8_arg1;
 struct FUN_00661d30_cls
 {
     const char* const* GetArg1Ptr();
@@ -48,21 +106,15 @@ struct BGSSaveLoadChangesMap
 };
 struct Setting_S
 {
-    float* Float();
 };
-extern Setting_S originalRuntimeFloatSetting1297;
-float FUN_0066b0b0();
-extern "C" void* __cdecl FUN_00664840(int);
 struct Flt
 {
     operator unsigned int();
 };
-unsigned int __cdecl GetFltValueAtOffset16();
 struct FUN_0066dd80_Class
 {
     bool IsFlag8Set() const;
 };
-bool FUN_0066de80(int type);
 extern int DAT_01068884;
 struct FUN_0067ad20_Class
 {
@@ -78,7 +130,6 @@ extern int DAT_01068aa4;
 struct ActorPackageData
 {
     ActorPackageData();
-    ActorPackageData* FUN_0067d920();
 };
 ActorPackageData::ActorPackageData()
 {}
@@ -103,27 +154,22 @@ struct FUN_00666020
     void RemoveAll();
     void Init();
 };
-extern "C" void _NiFreeAlias(void*);
 struct S6
 {
     short a;
     short b;
     short c;
 };
-S6* __cdecl CopyTripleShorts(S6* a1, S6* a2, S6* a3);
 struct FUN_00661d40_shell
 {
     void __thiscall SetVTableAndDestroy();
     void* __thiscall FUN_00661d60(unsigned int);
 };
-void __cdecl _delete(void*, unsigned int);
 extern const char* DAT_0119b49c[];
-const char* FUN_00661da0(int i);
 struct StatisticalArray
 {
     int _pad[3];
     int m_base;
-    unsigned int __thiscall FUN_0065cc30();
     int __thiscall FUN_00662890(unsigned int);
 };
 unsigned int __cdecl FUN_00ec7c56();
@@ -149,11 +195,8 @@ struct Inner0080
 struct FUN_00665f20_Holder
 {
     Inner0080* p;
-    void __thiscall AdvanceState(int a);
     void __thiscall CallInnerFuncAndForward(int a);
 };
-void* __cdecl _NiMalloc(unsigned int);
-void* __cdecl memset(void* dest, int value, unsigned int count);
 extern int $SG6086;
 struct FUN_00665f50_Class
 {
@@ -165,10 +208,8 @@ struct FUN_00665f50_Class
 };
 struct FUN_006661b0_Class
 {
-    void __thiscall FUN_006661e0();
     void* __thiscall FUN_006661b0(unsigned int flags);
 };
-void __cdecl _Deallocate(void*);
 struct FUN_00666270_Holder
 {
     void* __thiscall InitAndMaybeDeallocate(unsigned int);
@@ -182,7 +223,6 @@ struct FUN_00666570_Class
 };
 struct T_
 {
-    void FUN_004a3f10(void*);
 };
 struct bhkCharacterController
 {
@@ -205,18 +245,15 @@ struct FUN_0066da50 : Date
 };
 struct H_A100
 {
-    void* GetSizeMasked();
 };
 struct H_6db70
 {
-    void FUN_0066db70(void* a, void* b);
 };
 struct FUN_0066dae0_Class
 {
     void* p;
     unsigned int pad;
     unsigned int state;
-    void __thiscall DestroyRange();
     void __thiscall FUN_0066dae0(void* a);
 };
 struct FUN_0066db70_Class
@@ -236,7 +273,6 @@ struct FUN_0066db70_Class
 void __cdecl Deallocate(void* p);
 struct FUN_0066df40_Class
 {
-    void __thiscall FUN_0066df40();
     void* __thiscall FUN_0066e300(unsigned int flags);
 };
 struct FUN_00671a70_Class
@@ -279,14 +315,11 @@ struct FUN_0067ad70_cls
     virtual ~FUN_0067ad70_cls();
     void* __thiscall DestroyAndFree(unsigned int);
 };
-void __cdecl _Deallocate(void*);
 struct BGSSaveFormBuffer
 {
-    void __thiscall SaveData(void*, unsigned int, int);
 };
 struct FUNObj
 {
-    void __thiscall FUN_0067fb60(void*);
 };
 struct Holder
 {
@@ -304,8 +337,6 @@ struct FUN_0067c3f0_Class : public FUN_0067ad20_Class
 template <int N> struct EndianSizeTag
 {
 };
-void __cdecl BSEndian(unsigned char* p, EndianSizeTag<1>);
-void __cdecl BSEndian(unsigned char* p, EndianSizeTag<2>);
 struct FUN_0067eff0_Class
 {
     void __thiscall FUN_0067eff0();
@@ -319,7 +350,6 @@ struct FUN_0067b170
 };
 struct TESPackage
 {
-    int GetPackType();
     void* p;
     void* q;
     void* r;
@@ -333,7 +363,6 @@ struct TESPackage
     FUN_0067b170* e;
     void SetPackageFlag(bool b);
 };
-void __cdecl BSEndian(unsigned char* p, EndianSizeTag<1>);
 struct FUN_0067b100_Class
 {
     unsigned char b0;
@@ -346,10 +375,8 @@ struct bhkConvexShape
 {
     bhkConvexShape();
     ~bhkConvexShape();
-    void FUN_00cab820(int a);
 };
 extern int DAT_01066e2c;
-extern int DAT_01268324;
 struct FUN_0066d6a0 : bhkConvexShape
 {
     int* vtbl;
@@ -357,17 +384,14 @@ struct FUN_0066d6a0 : bhkConvexShape
 };
 struct GlobalObject_0045cfe0
 {
-    int* Int();
 };
 struct Pair8
 {
     GlobalObject_0045cfe0* a;
     GlobalObject_0045cfe0* b;
 };
-int FindPairValue(int a, Pair8* b, int c);
 struct FUN_00672c40_Class
 {
-    int GetPackType();
     void SetExtraValue(float value);
 };
 struct ListX
@@ -387,7 +411,7 @@ struct FUN_0067e3a0_Class : PackageList
 template <class T> struct BSSimpleList;
 BSSimpleList<int>* FUN_00660400(BSSimpleList<int>* a)
 {
-    return a->GetNext();
+    return ((::BSSimpleList<int> *)(reinterpret_cast<::Callees *>((a))->FUN_00726070()));
 }
 void* __cdecl operator new(unsigned int);
 struct AutoMemHelper
@@ -419,8 +443,6 @@ struct G2 : public List_009e03e0
 {
     void AddHead(DetectionViewData** value);
     bool IsEmpty();
-    struct DetectionGroup*& FUN_006815c0();
-    G2* FUN_00726070();
 };
 struct SL : public G2
 {
@@ -428,9 +450,6 @@ struct SL : public G2
 };
 struct BGSLoadFormBuffer
 {
-    void ReadTypedData(void* data, unsigned int size);
-    bool ReadFormIdentifier(void* formId);
-    int ReadElementCount();
 };
 struct BGSLoadGameBuffer : public BGSLoadFormBuffer
 {
@@ -444,11 +463,9 @@ struct DetectionViewData
     int padding[3];
 
     DetectionViewData();
-    void LoadGame(BGSLoadGameBuffer* buffer);
     void FUN_0066e440(BGSLoadGameBuffer* buffer);
 };
 void* __cdecl operator new(unsigned int);
-void __cdecl ReportAssertionViolation(char const*, int);
 struct FUN_0067caa0
 {
     int m_auiShapeKeys[9];
@@ -473,11 +490,6 @@ struct C0130ScalarPtrTag
 struct C0130RangeCheckedTag
 {
 };
-C0130ScalarPtrTag __cdecl C0130PtrCat(C0130Iterator& first, C0130Iterator& dest);
-char* __cdecl C0130CheckedBase(C0130Iterator& iter);
-char* __cdecl C0130CopyOpt(char* first, char* last, C0130Iterator dest, C0130ScalarPtrTag ptrCat,
-                           C0130RangeCheckedTag checked);
-char* __cdecl FUN_00660130(C0130Iterator first, C0130Iterator last, C0130Iterator dest);
 struct C0190Iterator
 {
     void* m_pkContainer;
@@ -489,13 +501,6 @@ struct C0190ScalarPtrTag
 struct C0190RangeCheckedTag
 {
 };
-C0190ScalarPtrTag __cdecl C0190PtrCat(C0190Iterator& first, C0190Iterator& dest);
-char* __cdecl C0190CheckedBase(C0190Iterator& iter);
-char* __cdecl C0190CopyOpt(char* first, char* last, C0190Iterator dest, C0190ScalarPtrTag ptrCat,
-                           C0190RangeCheckedTag checked);
-char* __cdecl FUN_00660190(C0190Iterator first, C0190Iterator last, C0190Iterator dest);
-void __cdecl FUN_00660400(void* a1, unsigned char flag);
-void __cdecl CallWithUninitializedFlag(void* a1);
 void* operator new(unsigned int uiSize, void* pvWhere);
 struct C6602B0Entry
 {
@@ -503,10 +508,6 @@ struct C6602B0Entry
     short m_sB;
     short m_sC;
 };
-void CopyConstructEntry(C6602B0Entry* pkDest, const C6602B0Entry& kValue);
-extern "C" bool __cdecl FUN_0065e750(void* a, void* b);
-extern "C" void* __cdecl CallWithFlag(void* a);
-extern "C" void __cdecl CopyConstructRange(void* a1, void* a2, void* a3, void* a4, bool a5, bool a6);
 struct SpawnedFlagBox
 {
     bool v;
@@ -516,8 +517,8 @@ extern "C" void __cdecl FUN_006603a0(void* a, void* b, void* c, void* d)
 {
     SpawnedFlagBox flagA3 = {};
     bool flagB;
-    flagB = FUN_0065e750(&a, &c);
-    CopyConstructRange(CallWithFlag(&a), CallWithFlag(&b), c, d, flagB, flagA3.v);
+    flagB = ((bool)(::FUN_0065e750(&a, &c)));
+    ::std6605::CopyConstructRange((::Elem6605 *)(void *)(((void *)(::CallWithFlag((int *)(void *)(&a))))), (::Elem6605 *)(void *)(((void *)(::CallWithFlag((int *)(void *)(&b))))), (::Elem6605 *)(c), (*(::Alloc6605 *)(d)), (::NonscalarTag6605)(flagB), (::CheckedTag6605)(flagA3.v));
 }
 
 // std::_Construct for a 0x58-byte element: copy-construct in place.
@@ -551,35 +552,25 @@ struct C60490Element
 
     C60490Element(const C60490Element& kOther);
 };
-void __cdecl CopyConstructElement(C60490Element* pkPtr, const C60490Element& kVal);
 struct FUN_006665c0_Item
 {
     int unk00;
     int unk04;
-    int Dispose(int flags);
 };
 struct FUN_006665c0_Entry
 {
     int unk00;
     FUN_006665c0_Item* m_item;
 };
-void __cdecl FUN_00401030(void* p);
-void __cdecl FUN_0044e360(void* p);
 struct FUN_006665c0_cls
 {
     int unk00;
     void* m_04;
     FUN_006665c0_Entry* m_08;
 
-    unsigned int GetCount();
     void FUN_006665c0();
 };
-extern const double g_dblConst;
-extern int g_timerA;
-extern int g_timerB;
 extern unsigned char g_counter;
-float* __fastcall FUN_00403e20(void* obj);
-int* __fastcall FUN_0043d4d0(void* obj);
 struct FUN_0066ca50_cls
 {
     int unk00;
@@ -650,38 +641,21 @@ struct FUN_0066ca50_cls
 struct SpawnedObject
 {
     int GetRefPtr();
-    bool IsReady() const;
-    float GetValue();
 };
-extern int DAT_011ca278;
-extern int DAT_011dea3c;
-int __cdecl FUN_0066dba0(int a);
 float __cdecl FUN_0066dc70(int a);
-void __cdecl FUN_005e58f0(int a, int b, int c, float* d);
-float __cdecl GetObjectValue(SpawnedObject* obj);
-extern "C" int __cdecl FUN_004019a0(void*);
 struct S_0066e2b0_Class : public FUN_0066df40_Class
 {
     void __thiscall FUN_0066e2b0();
 };
 struct G2;
-extern G2 g_011d6124;
-DetectionViewData* __cdecl FindStateByValue(int value);
 struct SaveBufCls
 {
-    void __thiscall FUN_00865e50(void* data, unsigned int size, int z);
-    void __thiscall FUN_00865df0(void* data, unsigned int size);
-    unsigned int __thiscall FUN_00865f20();
-    void __thiscall FUN_00865ff0(unsigned int count, unsigned int pos);
 };
 struct SaveItemCls
 {
-    void __thiscall SaveDetectionState(SaveBufCls* buffer);
 };
 struct SaveNodeCls
 {
-    SaveItemCls** __thiscall FUN_006815c0();
-    SaveNodeCls* __thiscall FUN_00726070();
 };
 struct DetClassCls
 {
@@ -691,17 +665,10 @@ struct DetClassCls
     unsigned int m_14;
     void __thiscall WriteToSaveBuffer(SaveBufCls* buffer);
 };
-extern double DAT_01012060;
-extern double DAT_01017a40;
 class StatsGetterCls
 {
   public:
-    int* GetValuePtr();
 };
-extern StatsGetterCls DAT_011d6458;
-bool __cdecl IsScaledValueAboveThreshold(float a, float b);
-void __cdecl FUN_00407a90(void* p, bool flag);
-void __cdecl FUN_00401080(void* p, bool flag);
 struct SpawnedFlag
 {
     bool m_bValue;
@@ -730,12 +697,10 @@ class FUN_00665fc0 : public F5FC0MapBase
 class D9B0Container;
 struct D9B0Locate
 {
-    void* Find(D9B0Container* pkContainer, int iKey);
 };
 class D9B0Container
 {
   public:
-    void EraseAt(void* pvPosition);
     void EraseByKey(int iKey);
 };
 // Save: write the header value, every queued item, then patch the item count in at the reserved position.
@@ -743,34 +708,20 @@ class E6D0SaveBuffer;
 class E6D0Item
 {
   public:
-    void Save(E6D0SaveBuffer* pkBuffer);
 };
 class E6D0Node
 {
   public:
-    E6D0Item** GetItem();
-    E6D0Node* GetNext();
 };
 class E6D0SaveBuffer
 {
   public:
-    void SaveData(void* pvData, int iSize, int iFlags);
-    unsigned int GetPosition();
-    void WriteCountAt(int aiCountValue, unsigned int uiPosition);
 };
-extern int g_iE6D0Header;
-extern E6D0Node g_kE6D0Items;
-void SaveE6D0Items(E6D0SaveBuffer* pkBuffer);
 struct ComparisonEntry
 {
-    int FUN_00678ca0();
-    int GetSecondByte();
-    signed char FUN_00678ce0();
-    signed char FUN_0086a460();
 };
 struct ComparisonOwner
 {
-    ComparisonEntry* FUN_0041d8a0();
     int CompareTo(ComparisonEntry* other);
 };
 class TESForm
@@ -781,10 +732,8 @@ class TESForm
 class Actor : public TESForm
 {
 };
-TESForm* __cdecl FUN_004839c0(void* p);
 struct E640Item
 {
-    void __thiscall ResolveActorFormId();
 };
 struct E640Cls : DetClassCls
 {
@@ -792,18 +741,13 @@ struct E640Cls : DetClassCls
 };
 struct S_00660510_Context
 {
-    void __thiscall FUN_00660300(int dest, int src);
-    void __thiscall FUN_0065ea40(int element);
 };
-int __cdecl FUN_00660510(int first, int last, int dest, S_00660510_Context* context);
 struct Elem6605
 {
     char m_data[0x58];
 };
 struct Alloc6605
 {
-    void FUN_00660320(Elem6605* pDest, const Elem6605& kSrc);
-    void FUN_0065ea60(Elem6605* pElem);
 };
 struct NonscalarTag6605
 {
@@ -820,12 +764,12 @@ Elem6605* __cdecl CopyConstructRange(Elem6605* _First, Elem6605* _Last, Elem6605
     try
     {
         for (; _First != _Last; ++_Dest, ++_First)
-            _Al.FUN_00660320(_Dest, *_First);
+            reinterpret_cast<::FUN_00660320_Class *>(&(_Al))->FUN_00660320((int)(_Dest), (int)&(*_First));
     }
     catch (...)
     {
         for (; _Next != _Dest; ++_Next)
-            _Al.FUN_0065ea60(_Next);
+            reinterpret_cast<::FUN_0065ea60_cls *>(&(_Al))->FUN_0065ea60(_Next);
         throw;
     }
     return _Dest;
@@ -833,16 +777,12 @@ Elem6605* __cdecl CopyConstructRange(Elem6605* _First, Elem6605* _Last, Elem6605
 }
 
 float __cdecl FUN_0066dc70(int value);
-float* __fastcall FUN_00403e20(void* object);
-extern unsigned char DAT_011d5f88;
-float __cdecl FUN_0066dca0(int value, bool unscaled);
 struct Vector3
 {
     float x;
     float y;
     float z;
 };
-extern Vector3 DAT_011f426c;
 struct SaveNodeExtended : SaveNodeCls
 {
     bool FUN_008256d0();
@@ -862,40 +802,33 @@ struct DetectionEntryList
 {
     DetectionEntry* item;
     DetectionEntryList* next;
-    DetectionEntry*& FUN_006815c0();
-    DetectionEntryList* FUN_00726070();
-    void FUN_00905330(DetectionEntry* const& entry);
 };
 struct DetectionGroup
 {
     unsigned int owner;
     DetectionEntryList* entries;
-    bool FUN_005ca4f0();
-    unsigned int FUN_00559450();
-    DetectionEntryList* FUN_00726070();
-    void ClearAndReset();
 };
 // @fnv 0x0066e100
 void __cdecl FUN_0066e100(unsigned int key)
 {
-    G2* node = &g_011d6124;
+    G2* node = &(*reinterpret_cast<::G2 *>(&::g_011d6124));
     while (node && !node->IsEmpty())
     {
-        DetectionGroup* group = node->FUN_006815c0();
-        node = node->FUN_00726070();
-        if (group && group->FUN_005ca4f0())
+        DetectionGroup* group = ((::DetectionGroup *)(new ((void *)(node)) ::Vec3()));
+        node = ((::G2 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+        if (group && reinterpret_cast<::FUN_005ca4f0_shell *>((group))->FUN_005ca4f0())
         {
-            if (group->FUN_00559450() == key)
-                group->ClearAndReset();
-            DetectionEntryList* child = group->FUN_00726070();
+            if (((unsigned int)(::FUN_00559450((int *)(group)))) == key)
+                reinterpret_cast<::DetClassExtended *>((group))->ClearAndReset();
+            DetectionEntryList* child = ((::DetectionEntryList *)(reinterpret_cast<::Callees *>((group))->FUN_00726070()));
             bool removed = false;
-            while (!removed && child && child->FUN_006815c0())
+            while (!removed && child && ((::DetectionEntry *)(new ((void *)(child)) ::Vec3())))
             {
-                DetectionEntry* entry = child->FUN_006815c0();
-                child = child->FUN_00726070();
+                DetectionEntry* entry = ((::DetectionEntry *)(new ((void *)(child)) ::Vec3()));
+                child = ((::DetectionEntryList *)(reinterpret_cast<::Callees *>((child))->FUN_00726070()));
                 if (entry->key == key)
                 {
-                    group->FUN_00726070()->FUN_00905330(entry);
+                    reinterpret_cast<::ItemChangeListNode *>((((::DetectionEntryList *)(reinterpret_cast<::Callees *>((group))->FUN_00726070()))))->FUN_00905330((::InventoryStackRecord *const &)(entry));
                     delete entry;
                     removed = true;
                 }

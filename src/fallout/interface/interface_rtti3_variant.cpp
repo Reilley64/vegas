@@ -2,6 +2,229 @@
 // Menu, VATSMenu polymorphic, so dynamic_cast on them compiles next to the file's own names (0x00705780).
 
 
+#include "fnv/decl/A5D2C0Object.h"
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/AlphaInterface.h"
+#include "fnv/decl/AmmoOwner.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderManager.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CellHandleProvider.h"
+#include "fnv/decl/CombatDamageCalculator.h"
+#include "fnv/decl/Description.h"
+#include "fnv/decl/DownloadableContentManager.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_00409480_shell.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_0041ca90.h"
+#include "fnv/decl/FUN_00437bd0_stub.h"
+#include "fnv/decl/FUN_00437bf0_shell.h"
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00456630_helper.h"
+#include "fnv/decl/FUN_00457ba0_class.h"
+#include "fnv/decl/FUN_0045a5e0_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00460fb0_class.h"
+#include "fnv/decl/FUN_0049ed90_shell.h"
+#include "fnv/decl/FUN_004bc1f0_S.h"
+#include "fnv/decl/FUN_004bcdb0_shell.h"
+#include "fnv/decl/FUN_004bd570_this.h"
+#include "fnv/decl/FUN_004bd740_stand.h"
+#include "fnv/decl/FUN_004bd820_stand.h"
+#include "fnv/decl/FUN_004c8f30_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_004fe160_cls.h"
+#include "fnv/decl/FUN_00514450_shell.h"
+#include "fnv/decl/FUN_00526ac0_shell.h"
+#include "fnv/decl/FUN_00529ea0_shell.h"
+#include "fnv/decl/FUN_0054dcf0_shell.h"
+#include "fnv/decl/FUN_00555bc0_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00717600_shell.h"
+#include "fnv/decl/FUN_007a1400_class.h"
+#include "fnv/decl/FUN_007a1430_Class.h"
+#include "fnv/decl/FUN_007a1450_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_00877720_shell.h"
+#include "fnv/decl/FUN_0087f6c0_Class.h"
+#include "fnv/decl/FUN_008cc6d0_class.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/FUN_00a07530_shell.h"
+#include "fnv/decl/FUN_00a087d0_shell.h"
+#include "fnv/decl/FUN_00a1d910_shell.h"
+#include "fnv/decl/FUN_00a1db20_shell.h"
+#include "fnv/decl/FUN_00a1dc70_shell.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00c3a8a0_cls.h"
+#include "fnv/decl/FaderManager.h"
+#include "fnv/decl/FocusManager.h"
+#include "fnv/decl/Holder007ab9a0.h"
+#include "fnv/decl/InputPoller.h"
+#include "fnv/decl/InventoryChanges.h"
+#include "fnv/decl/InventoryStackRecord.h"
+#include "fnv/decl/ItemChangeValueShell.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MagicProjectile.h"
+#include "fnv/decl/MapView.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/NiPick.h"
+#include "fnv/decl/NiUpdateData.h"
+#include "fnv/decl/OwnerLookupView.h"
+#include "fnv/decl/OwnershipReferenceView.h"
+#include "fnv/decl/PackageEx.h"
+#include "fnv/decl/RecursiveSpinLock.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/StatsMenu.h"
+#include "fnv/decl/SubtitleHUD.h"
+#include "fnv/decl/SystemColorManager.h"
+#include "fnv/decl/TESBipedModelForm.h"
+#include "fnv/decl/TESEnchantableForm.h"
+#include "fnv/decl/TESObjectCELL_Ext.h"
+#include "fnv/decl/TESObjectWEAP.h"
+#include "fnv/decl/TESPackage.h"
+#include "fnv/decl/TESWeightForm.h"
+#include "fnv/decl/TESWorldSpace.h"
+#include "fnv/decl/Target556ef0.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/TileFloatList.h"
+#include "fnv/decl/TileListBoxCalls.h"
+#include "fnv/decl/TileShaderProperty.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_00439390__NiObjectNET.h"
+#include "fnv/decl/fnv_004431f0__p07__DelStandIn.h"
+#include "fnv/decl/fnv_00447080__FUN_00447080_shell.h"
+#include "fnv/decl/fnv_004a03c0__DD.h"
+#include "fnv/decl/fnv_004bda70__FUN_004bda70_shell.h"
+#include "fnv/decl/fnv_00503a70__AmmoEffectList503.h"
+#include "fnv/decl/fnv_0054e750__FUN_0054e750Class.h"
+#include "fnv/decl/fnv_0056c7f0__Tile.h"
+#include "fnv/decl/fnv_00575d10__FUN_00575d10_shell.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_00714d90__FUN_00714d90_shell.h"
+#include "fnv/decl/fnv_00714fd0__FUN_00714fd0_shell.h"
+#include "fnv/decl/fnv_00716320__FUN_00716320_shell.h"
+#include "fnv/decl/fnv_007181d0__FUN_007181d0_shell.h"
+#include "fnv/decl/fnv_007187a0__TutorialState.h"
+#include "fnv/decl/fnv_0075c280__InventoryMenu.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_007dcc80__FUN_007dcc80_StandIn.h"
+#include "fnv/decl/fnv_007f8a80__FOPipboyManagerPC.h"
+#include "fnv/decl/fnv_009ed0d0__SelfQ.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
+#include "fnv/decl/fnv_00a03da0__FUN_00a03da0_shell.h"
+#include "fnv/decl/fnv_00a1ddb0__FUN_00a1ddb0_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0043c000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_004a0000.h"
+#include "fnv/symbols_004a8000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_004be000.h"
+#include "fnv/symbols_004d1000.h"
+#include "fnv/symbols_004dc000.h"
+#include "fnv/symbols_004de000.h"
+#include "fnv/symbols_004ee000.h"
+#include "fnv/symbols_00556000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005e5000.h"
+#include "fnv/symbols_00645000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_00663000.h"
+#include "fnv/symbols_00670000.h"
+#include "fnv/symbols_00702000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_00704000.h"
+#include "fnv/symbols_00705000.h"
+#include "fnv/symbols_00706000.h"
+#include "fnv/symbols_00707000.h"
+#include "fnv/symbols_00709000.h"
+#include "fnv/symbols_00715000.h"
+#include "fnv/symbols_00716000.h"
+#include "fnv/symbols_00717000.h"
+#include "fnv/symbols_00718000.h"
+#include "fnv/symbols_00726000.h"
+#include "fnv/symbols_00754000.h"
+#include "fnv/symbols_00757000.h"
+#include "fnv/symbols_0075b000.h"
+#include "fnv/symbols_00771000.h"
+#include "fnv/symbols_00772000.h"
+#include "fnv/symbols_00773000.h"
+#include "fnv/symbols_0077f000.h"
+#include "fnv/symbols_00782000.h"
+#include "fnv/symbols_00784000.h"
+#include "fnv/symbols_00788000.h"
+#include "fnv/symbols_0078e000.h"
+#include "fnv/symbols_0079b000.h"
+#include "fnv/symbols_0079f000.h"
+#include "fnv/symbols_007a1000.h"
+#include "fnv/symbols_007a8000.h"
+#include "fnv/symbols_007aa000.h"
+#include "fnv/symbols_007ab000.h"
+#include "fnv/symbols_007ac000.h"
+#include "fnv/symbols_007b6000.h"
+#include "fnv/symbols_007cb000.h"
+#include "fnv/symbols_007df000.h"
+#include "fnv/symbols_007e6000.h"
+#include "fnv/symbols_007eb000.h"
+#include "fnv/symbols_007f6000.h"
+#include "fnv/symbols_00879000.h"
+#include "fnv/symbols_008c7000.h"
+#include "fnv/symbols_0097a000.h"
+#include "fnv/symbols_00a01000.h"
+#include "fnv/symbols_00a04000.h"
+#include "fnv/symbols_00a08000.h"
+#include "fnv/symbols_00a09000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00ee6000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01018000.h"
+#include "fnv/symbols_01019000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_01020000.h"
+#include "fnv/symbols_01047000.h"
+#include "fnv/symbols_0106e000.h"
+#include "fnv/symbols_01184000.h"
+#include "fnv/symbols_011a3000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011c6000.h"
+#include "fnv/symbols_011c7000.h"
+#include "fnv/symbols_011d2000.h"
+#include "fnv/symbols_011d3000.h"
+#include "fnv/symbols_011d4000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011d9000.h"
+#include "fnv/symbols_011da000.h"
+#include "fnv/symbols_011db000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011ff000.h"
 #include "interface_rebase_packet.h"
 class TESWorldSpace;
 class Menu;
@@ -13,6 +236,7 @@ class BSSystemUtility
   public:
     static int s_iUpdateEnabled;
 };
+class FOPipboyManager;
 class Interface
 {
   public:
@@ -94,20 +318,18 @@ class Interface
     static Menu* GetMenuById(int);
     static void SetHUDVisible(bool);
     static void SetTileFormattedText(Tile*, int, const char*, ...);
+public:
+    ::FOPipboyManager *GetPipboyManager();
 };
 #include "interface_rebase_closure_rtti3_interface.h"
 const char kMeshesFolder[] = "Meshes";
 unsigned int FUN_00702440();
-bool FUN_00705100();
-unsigned int FUN_00706f20();
-bool FUN_00707b50();
 struct FUN_00424940_shell : public InterfaceManager
 {
     char FUN_00424940();
 };
 extern bool DAT_011c70ed;
 extern bool DAT_011c70ee;
-bool __cdecl FUN_004de080();
 struct ListStandIn
 {
     int* FUN_0057cbe0(int** pos);
@@ -119,16 +341,11 @@ struct FUN_00644640_shell : public InterfaceManager
 class Modifier
 {
   public:
-    char GetKey(void);
 };
-bool __fastcall FUN_00644640(void*);
-bool FUN_00702360();
 struct FUN_007023a0_shell : public InterfaceManager
 {
     bool FUN_007023a0();
 };
-extern bool DAT_011f308f[];
-bool __cdecl FUN_007027b0(int aiMenuID);
 struct FUN_00702940_cls
 {
     char pad[0x148];
@@ -139,26 +356,22 @@ struct FUN_00703060_shell : public InterfaceManager
 {
     void FUN_00703060(bool);
 };
-char ConsumeByteAtE4();
 struct FUN_00705b10_Dummy
 {
     char pad[0xc4];
     int val;
     void Set(int a);
 };
-int FUN_00705c40(int aiValue1, char aiValue2);
 struct DummyVtable_00705e30
 {
     virtual ~DummyVtable_00705e30();
 };
-void FUN_00705e30();
 class MapMenu
 {
   public:
-    void FUN_007069f0(unsigned char);
+public:
+    static void StopMapMenuSounds();
 };
-extern MapMenu* DAT_011da368;
-void FUN_007069d0(unsigned char acPage);
 struct Dummy_007069f0
 {
     virtual void v0() = 0;
@@ -167,9 +380,6 @@ struct Dummy_007069f0
     virtual void v3(int, int) = 0;
     void FUN_007069f0(int a1);
 };
-void __cdecl SetInventoryTab(unsigned char);
-void __cdecl FUN_00706a20(unsigned char acPage);
-int __cdecl MinInt(int, int);
 class InventoryMenu
 {
   public:
@@ -182,9 +392,7 @@ class InventoryMenu
 };
 struct Tile_Set_Helper : public Tile
 {
-    void Set(int, int);
 };
-void __cdecl SetInventoryTab(int aiTab);
 struct BGSNote;
 struct BGSQuestObjective;
 struct TESChallenge;
@@ -197,8 +405,6 @@ struct blob12
     char b[12];
 };
 class MapMenu;
-extern MapMenu* DAT_011da368;
-void ClearMapMenuNote();
 struct TutorialManagerLayout
 {
     struct Entry
@@ -212,7 +418,6 @@ struct TutorialManagerLayout
     unsigned int unkA4;
     unsigned int unkA8;
 };
-void __fastcall ResetEntries(TutorialManagerLayout* pThis);
 struct FUN_00706cb0_shell : public InterfaceManager
 {
     void ResetFieldBC();
@@ -221,25 +426,15 @@ class BSFaceGenAnimationData;
 class BSFaceGenNiNode
 {
   public:
-    BSFaceGenAnimationData* GetAnimationData();
 };
 class NiAVObject_Attach : public NiAVObject
 {
   public:
-    void AttachProperty(NiObject*);
 };
-void AttachFaceGenAnimationData(NiAVObject* apObject);
 struct FUN_00706d90_shell : public InterfaceManager
 {
     bool FUN_00706d90();
 };
-void __cdecl SetFlagAtOffsetDC(bool abValue);
-int __cdecl FUN_004dc200();
-float FUN_00706e20();
-int __cdecl FUN_004dc1f0();
-float __cdecl FUN_00706e50();
-NiRenderer* __cdecl FUN_0043c4b0();
-float __cdecl FUN_00706e80();
 struct DummyRTG_00706e90
 {
     virtual void v0();
@@ -334,90 +529,52 @@ struct DummyRenderer_00706e90
     virtual void v49();
     virtual DummyRTG_00706e90* GetDefaultRenderTargetGroup();
 };
-float __cdecl FUN_00706e90();
-void __cdecl FUN_007164c0(void*, float);
-void __cdecl FUN_00706f50(void* apPointer, float afLength);
-void __fastcall UpdateNodeTimers(InterfaceManager*);
 void FUN_00706f70();
 struct FUN_00714d90_struct
 {
-    void PushMenuStackEntry(int);
 };
-void FUN_00706fb0(int aiID);
 struct InterfaceManager_PopFromEnterStack_helper
 {
-    int AddMenuStackEntry(int, bool);
 };
-int __cdecl FUN_00706fd0(int aiID, bool abForceRemoval);
 struct IMStandIn
 {
-    void FUN_00715860(int a, int b, int c);
 };
-void __cdecl FUN_00706ff0(int a);
 Tile* FUN_00707040();
 void FUN_00707050(Tile* apTile);
-int __cdecl GetFieldD0();
 void FUN_00707080(Menu* apMenu);
 class TESResponse
 {
   public:
-    TESResponse* GetNext();
 };
 Tile* GetNextTile();
 class ModelLoader
 {
   public:
-    void FUN_0045a5e0(const char*);
 };
-extern ModelLoader* g_modelLoader;
-void FUN_00707640(const char* apPath);
 struct S_004431f0
 {
-    void* FUN_004431f0(unsigned int);
 };
 extern S_004431f0* DAT_011d890c;
-void FUN_00707820();
 struct FUN_00707950_shell : public InterfaceManager
 {
     void SetNeed(bool);
 };
-bool __cdecl FUN_00705a00();
-FORenderedMenu* __cdecl FUN_00705990();
-bool __fastcall FUN_007079f0(InterfaceManager*);
-bool FUN_007079b0();
 struct FUN_007079f0_shell : public InterfaceManager
 {
     bool FUN_007079f0();
 };
-bool __cdecl FUN_007178a0();
 class FORenderedMenu;
-FORenderedMenu* __fastcall FUN_00707af0(InterfaceManager*);
-FORenderedMenu* FUN_00707ad0();
-int __cdecl FUN_004dc200();
 float FUN_00707b60();
-extern int g_011d8950;
-extern int DAT_011d8954;
-extern int DAT_011d8958;
-extern int DAT_011d895c;
-extern int DAT_011d8964;
-extern int g_011d8998;
-extern int DAT_011d899c;
 extern int DAT_011d89a0;
 extern int DAT_011d89a4;
 extern int DAT_011d89ac;
-bool __cdecl IsConditionMet();
-void __cdecl FUN_007094f0();
 void __cdecl FUN_00709a90();
-void __cdecl FUN_00709470(int param_1, int param_2, int param_3, int param_4, int param_5);
-bool FUN_00709bc0();
-bool __cdecl FUN_00709c00();
 class TESRace;
 template <> class BSSimpleList<TESRace*>
 {
   public:
     int GetSize();
 };
-int __fastcall GetRaceCount(char* pThis);
 struct StrHelper
 {
     operator const char*() const;
@@ -437,19 +594,15 @@ class PlayerCharacter;
 struct MobileObject;
 struct DialogH
 {
-    static bool IsInDialog();
 };
 struct MapMenuH
 {
-    static void StopMapMenuSounds();
 };
 struct StatsMenuH
 {
-    static void ClearPerks();
 };
 struct fnv_007aa480
 {
-    static void ClearAllElements();
 };
 struct FocusH
 {
@@ -457,97 +610,50 @@ struct FocusH
 };
 struct Im7181
 {
-    void SetRenderedMenu(int);
 };
-extern PlayerCharacter* g_thePlayer;
-extern unsigned char DAT_011d8a85;
-InterfaceManager* FUN_004b7210();
-MobileObject* GetDialogCastSound();
-void FUN_007053b0();
 void FUN_00705780();
-void FUN_00706320(int);
-void ClearMapMenuNote();
-void __fastcall ResetEntries(void*);
-void FUN_00706fd0(int, int);
-void FUN_007f6920();
 void FUN_0083e510();
-void ResetHUDMainMenu();
-MobileObject* GetDialogCastSound();
-void ResetInterfaceState();
 struct InterfaceManager;
 struct NavMesh;
 struct S3de0
 {
-    void FUN_00713de0(NavMesh*);
 };
 struct TESAmmoInitCalls
 {
-    unsigned int GetFieldBC();
 };
 struct FUN_00706cb0_shell2
 {
-    void ResetFieldBC();
 };
-InterfaceManager* FUN_004b7210();
-void ClearInterfaceRefs(unsigned int a);
 struct QuantityData
 {
-    Tile* GetItem();
 };
-bool FUN_00707a30(QuantityData* apComponent);
 class MenuFade : public Menu
 {
   public:
-    unsigned int GetCurrentFadeState();
 };
-Tile* __cdecl FindMenuById(int);
-bool __cdecl FUN_00709c00();
 class InterfaceManagerPC
 {
   public:
-    bool GetKey();
 };
 bool __cdecl FUN_00702680(Interface::enumMenus aeMenuID, unsigned int abFadeStatesThatCountAsVisible);
-char __cdecl ConsumeByteAtE4();
 extern char DAT_0119f349;
 void __cdecl FUN_00704130();
 class MapMenu;
-extern MapMenu* DAT_011da368;
-void FUN_00704450(char bShow);
-extern "C" void __cdecl FUN_0079b430(int);
 void __cdecl FUN_00704470(int arg);
 class ContainerMenu
 {
   public:
-    void FUN_0075c280(int);
 };
-extern ContainerMenu* DAT_011d93f8;
-void FUN_00704bc0();
-void FUN_00705050();
-void FUN_00705040();
-unsigned int FUN_00705770();
 struct GlobalObject_0045cfe0
 {
-    int* Int();
 };
-extern GlobalObject_0045cfe0 g_011c3ea4;
-extern int g_011d8950;
-extern int DAT_011d8960;
 void FUN_00763ff0();
-void GetOrCreateMenuTile(int);
-void FUN_00705870(int arg);
 class MapMenu;
-extern MapMenu* DAT_011da368;
 char FUN_00706830();
 struct FUN_005e3fc0_shell
 {
     unsigned int Get();
 };
-unsigned int FUN_00706d10();
-void __cdecl FUN_00717280(int aiSoundIndex);
-void FUN_00706f30(int aiSoundIndex);
-void __cdecl RemoveNodeById(int);
-void __cdecl FUN_00706f90(int aiValue);
 struct FUN_00709920_Class
 {
     const char* FUN_00709920();
@@ -564,28 +670,14 @@ class TileMenu
     const char* FUN_00709a50();
 };
 bool IsSomethingZero();
-void FUN_0077f2f0(int a1);
-void FUN_00709c20(int a1);
-extern int DAT_011da204;
-void FUN_0078e0d0();
-extern int _DAT_011da368;
-char __cdecl FUN_00704400();
 extern "C" char __cdecl GetInterfaceManagerResult();
-extern "C" char __cdecl FUN_00705cb0();
-extern "C" char __cdecl FUN_00705d10();
-extern "C" char __cdecl FUN_00705d50();
-extern "C" int __cdecl FUN_00705d90();
 struct TESSaveLoadGame
 {
-    void FUN_008579b0(void*, int);
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
-void __cdecl SaveMenuTabStates();
 struct FUN_00406f90_this
 {
     int FUN_00406f90(char const*, char*);
 };
-int __cdecl FUN_00406f60(FUN_00406f90_this* p, char const* apFormat, ...);
 struct UnnamedClass_00705dd0
 {
     char _pad[0x9c];
@@ -594,58 +686,33 @@ struct UnnamedClass_00705dd0
 };
 struct FORenderedTerminal
 {
-    void FUN_007060d0();
     void* DestroyIfFlagged(unsigned int);
 };
-int __cdecl MinInt(int, int);
 struct FUN_00706810_Class
 {
     int __thiscall FUN_00706810();
 };
 struct Dummy00712450
 {
-    int SetNodeAlpha();
 };
-Dummy00712450* __stdcall _FUN_004b7210(int, float, float);
-int FUN_00707010(int aiArg, float afArg1, float afArg2);
 class FUN_004b7210_class;
-extern FUN_004b7210_class* __cdecl _FUN_004b7210();
 class FUN_004b7210_class
 {
   public:
-    unsigned char GetKey();
-    BSSimpleList<BGSPerk*>* GetBGSPerkList();
 };
-BSSimpleList<BGSPerk*>* FUN_00705950();
 struct StubMenu
 {
-    void CloseA();
-    void CloseB();
 };
 struct StubTile
 {
-    StubMenu* GetMenuX();
-    void SetX(int trait, int value);
 };
 struct StubPipboy
 {
-    void DoA();
-    void ActivateBtn(unsigned int button);
-    bool IsInit();
 };
 struct StubIM
 {
-    bool KeyX();
-    StubTile* RootX();
-    StubPipboy* PipboyX();
 };
-StubIM* GetIM();
-StubTile* __cdecl MenuByClass(int aiClass);
 bool __cdecl MenuVisible(int aiID, unsigned int auFade);
-StubTile* __cdecl CreateMenuX();
-void __cdecl AfterCloseX();
-void __cdecl SetPipboyX(bool ab);
-void FUN_007044c0(bool abShow, bool abInstant, bool abActivate);
 struct TerminalBase
 {
     int unk00;
@@ -720,7 +787,6 @@ class B706130Node;
 class B706130Tile
 {
   public:
-    B706130Node* FUN_0056c7f0();
 };
 class B706130Pick
 {
@@ -730,8 +796,6 @@ class B706130Pick
 
     B706130Pick();
 
-    void SetTile(B706130Tile* pkTile);
-    void FUN_00705fc0(B706130Node* pkNode);
 
     int unk00;
     int unk04;
@@ -797,19 +861,12 @@ class B706130Pick
 class B706130Manager
 {
   public:
-    bool GetKey();
-    void SetRenderedMenu(B706130Pick* pkPick);
 };
 class B706130Setting
 {
   public:
     unsigned char* Bool();
 };
-B706130Manager* __cdecl B706130GetManager();
-B706130Tile* __cdecl CreateComputerMenu(int m_uiSoundID);
-void __cdecl B706130UpdateAllTiles(bool bForce);
-extern B706130Setting g_kB706130Setting;
-bool __cdecl FUN_00706130(int m_uiSoundID);
 class FUN_00707870_Temp
 {
   public:
@@ -819,27 +876,19 @@ class FUN_00707870_Temp
 };
 struct FUN_00707870_Owner
 {
-    int FUN_00457ba0(unsigned int a, FUN_00707870_Temp* b);
 };
 struct FUN_00707870_Target
 {
-    int FUN_00a5d2c0(FUN_00707870_Temp* b);
 };
-extern FUN_00707870_Owner* DAT_011dea10;
-bool __cdecl FUN_004b5bf0(unsigned int a);
-unsigned int __cdecl FUN_00707870(unsigned int a1);
 extern "C" __declspec(dllimport) int __stdcall IsDebuggerPresent();
 extern "C" __declspec(dllimport) __declspec(noreturn) void __stdcall ExitProcess(unsigned int uExitCode);
 extern "C" void __debugbreak();
-char ConsumeByteAtE4();
 void FUN_00703fd0();
-void FUN_0040fbe0(const char* pcMessage);
 void FUN_0086a530();
 struct Player;
 struct Helper;
 struct ActiveObject
 {
-    int FUN_0041ca90();
 };
 struct InterfaceObject
 {
@@ -1006,20 +1055,11 @@ struct InterfaceObject
 };
 struct DialogObject
 {
-    void FUN_009ed0d0(Player*, int);
 };
 struct Helper
 {
-    void SetPackageType(int);
-    void FUN_00826b40(int);
-    void FUN_00826b90(int);
-    void FUN_00984f60(int);
 };
-extern Helper* __cdecl CreatePackageByType(int);
 extern DialogObject* __cdecl FUN_00ec43fb(Helper*, int, void*, void*, int);
-extern int DAT_011846a0;
-extern int DAT_011a32e0;
-extern int DAT_011dea3c;
 struct Player
 {
     virtual void Unknown000();
@@ -1212,21 +1252,13 @@ struct Player
     virtual void Unknown187();
     virtual void Unknown188();
     virtual void ActivateInterface(Helper*, int, int);
-    InterfaceObject* FUN_008d8520();
-    bool FUN_00437bf0();
-    bool FUN_00437bd0();
-    int FUN_008d6f30(int);
     void OpenDialogMenu();
 };
 struct TileListAccess
 {
-    void* GetHeadPos() const;
-    Tile*& GetNext(void*& _n);
 };
 struct VisibilityTile : Tile
 {
-    float FUN_00a011b0(int trait);
-    NiNode* FUN_0056c7f0();
 };
 struct VisibilityManager
 {
@@ -1537,35 +1569,19 @@ struct VisibilityManager
     unsigned int unk4C0;
     BSSimpleList<Tile*> visibilityQueue;
 };
-void UpdateVisibility(VisibilityTile* tile, bool show, bool alternate, bool queue);
 struct NiNodeCull
 {
-    void SetAppCulled(bool abCulled);
 };
 struct TileChildList : NiTPointerList_Tile___
 {
-    void* GetHeadPos();
-    Tile*& GetNext(void*& rkPos);
 };
 struct TileEx : Tile
 {
-    Tile* GetChildById(int aiID);
-    NiNodeCull* GetNode();
 };
 struct IMMenuOpen : InterfaceManager
 {
-    bool FUN_009373f0();
 };
-void UpdateMenuTileVisibility();
 void __cdecl FUN_00703100();
-extern "C" void __fastcall FUN_00717600(InterfaceManager*);
-extern "C" void __cdecl UpdatePipboyMapVisibility(int, int);
-extern "C" void __cdecl FUN_007048f0(int, int, int);
-extern "C" void __cdecl ShowStatsMenu(int, int);
-void __cdecl HandleMenuKeyInput(void);
-bool __cdecl QueueMessage(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a10, va_list* args, int enabled,
-                          int left, int right, float zero, float x, float y);
-bool __cdecl FUN_00703f10(int a1, int a2, int a3, int a4, int a5, int a6, int a7, float x, float y, int a10, ...);
 #include <stdarg.h>
 struct HWND__;
 struct WinPoint
@@ -1586,55 +1602,27 @@ extern "C" __declspec(dllimport) int __stdcall TranslateMessage(const WinMessage
 extern "C" __declspec(dllimport) long __stdcall DispatchMessageA(const WinMessage*);
 struct InterfaceControl
 {
-    void FUN_007010e0(bool, bool);
 };
-extern Interface* DAT_011d8804;
-bool __cdecl QueueMessage(const char*, int, int, int, void (*)(), int, int, int, va_list*, bool, int, int, float, float,
-                          float);
-void __cdecl FUN_00403d30(void*, int, unsigned int);
 class InputManager
 {
   public:
-    void FUN_00a23010();
 };
 class OSGlobals
 {
   public:
-    InputManager* FUN_00877720();
 };
-extern OSGlobals* g_osGlobals;
-void FUN_007027e0();
-void FUN_00702810();
-void FUN_00702840();
-void RenderOrFallback(int, int);
-void FUN_00702960();
-char __cdecl FUN_00704010(const char* text, int aiArg1, int aiArg2, int aiArg3, ...);
 struct MenuProxy
 {
-    void FUN_00a1d910();
-    void InitializeStatsMenu();
-    void FUN_00a1db20();
 };
 struct TileProxy
 {
-    MenuProxy* FUN_00a03c90();
 };
-TileProxy* FUN_00a09030(int);
-TileProxy* FUN_00704be0();
-void ResetRepairMenu();
-void ResetItemModMenu();
-void PlayPipboyPageSound(bool);
 struct PipProxy
 {
-    void FUN_007f8a80();
-    void FUN_007fa010(unsigned int);
-    bool IsUnk28Set();
 };
 struct InterfaceProxy
 {
-    PipProxy* FUN_00704370();
 };
-void ShowStatsMenu(bool show, bool fades);
 struct DecompScopeGuard
 {
     int m_00;
@@ -1657,88 +1645,63 @@ struct DecompVec3
 };
 struct DecompTarget
 {
-    void FUN_00774fd0(int a1, DecompArg12 a2, DecompVec3 a3, int a4, bool a5);
 };
-extern unsigned int DAT_011d96c0;
-bool __cdecl FUN_00705210(int aiArg1, DecompArg12 aArg12, DecompVec3 aVec3, int aiArg4, bool a5);
 struct FUN_0047ee30_shell : public InterfaceManager
 {
-    char GetAssistance();
 };
 // If FUN_004b7210 returns a non-null object whose FUN_009373f0 is true, returns its GetAssistance result; otherwise returns -1.
 // @fnv 0x00705c70
 extern "C" char __cdecl GetInterfaceManagerResult()
 {
-    if (FUN_004b7210() && reinterpret_cast<FUN_009373f0_shell*>(FUN_004b7210())->FUN_009373f0())
+    if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<FUN_009373f0_shell*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->FUN_009373f0())
     {
-        return reinterpret_cast<FUN_0047ee30_shell*>(FUN_004b7210())->GetAssistance();
+        return ((char)(reinterpret_cast<::TESAIForm *>((reinterpret_cast<FUN_0047ee30_shell*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->GetAssistance()));
     }
     return -1;
 }
 struct FloatValue
 {
-    float GetFloat();
 };
 struct Data
 {
-    int GetLength();
-    void GetData(char*);
 };
 struct Root : InterfaceManager
 {
     Data data;
-    FloatValue* GetValue(int);
 };
 struct Buffer
 {
-    void SaveData(void*, unsigned, int);
 };
 char GetStatsMenuPage();
 unsigned char FUN_007824b0();
 float GetMapMenuFloatSetting();
-float GetTileFloatOrDefault();
-void FUN_00403d30(void*, int, unsigned);
-void FUN_007066d0(Buffer* buffer);
 struct FUN_00703960_Class
 {
     void __thiscall SetByteAtOffsetEC(char param);
 };
-void FUN_00706db0(unsigned char ucValue);
 class TESForm;
 class TESGlobal;
 class Setting;
 struct FUN_00401170_s
 {
-    int FUN_00401170();
 };
 class TESGlobal : public TESForm
 {
   public:
-    char FUN_00529ea0();
-    float GetValue();
 };
 class Setting
 {
   public:
-    const char* String();
 };
 extern Setting* DAT_0119b354[];
 extern Setting* DAT_0119b35c[];
 extern Setting* DAT_0119b364[];
 struct Player_StandIn : public PlayerCharacter
 {
-    const char* GetFullName();
-    const char* FUN_0087f6c0();
-    int GetSex();
 };
-int __cdecl FindSettingIndex(const char* apName);
 void __cdecl GetControlLabel(int a1, char* a2, bool a3);
-bool __cdecl ResolveSettingString(const char* a1, char* a2);
-TESForm* __cdecl FUN_00483a00(const char* apName);
-int __cdecl sprintf_s(char* apBuffer, unsigned int auiBufferSize, const char* apFormat, ...);
 int __cdecl strcpy_s(char* apDest, unsigned int auiDestSize, const char* apSrc);
 int __cdecl _stricmp(const char* apStr1, const char* apStr2);
-bool __cdecl FUN_007070c0(const char* apName, char* apBuffer, unsigned int auiBufferSize, bool abArg4);
 class NiStream
 {
   public:
@@ -2049,7 +2012,6 @@ class NiStream
     unsigned int unk5C0;
     unsigned int unk5C4;
     unsigned int unk5C8;
-    bool FUN_00c3a8a0(const char*, bool);
 };
 class BSStream : public NiStream
 {
@@ -2062,13 +2024,10 @@ class Model
   public:
     unsigned int unk00, unk04, unk08, unk0C;
     Model(const char*, BSStream*, bool, bool);
-    NiNode* GetObject3D();
 };
 struct Loader_S
 {
-    NiNode* FUN_00447080(const char*, int, bool, bool, bool, bool);
 };
-extern bool DAT_011d8908;
 class FileFinder
 {
   public:
@@ -2078,11 +2037,9 @@ class FileFinder
     };
     static FILE_LOCATION Exist(const char*, char*, unsigned int, unsigned int);
 };
-NiNode* FUN_00707660(const char* path, bool* flag);
 class B7AB690FullName
 {
   public:
-    const char* GetName() const;
 };
 class TESNPC : public TESBoundObject
 {
@@ -2132,18 +2089,12 @@ class TESNPC : public TESBoundObject
 class B7AB690Player
 {
   public:
-    TESBoundObject* GetObjectReference();
 };
 class B7AB690SettingString
 {
   public:
-    const char* GetString();
 };
-extern B7AB690Player* g_pkB7AB690Player;
-extern B7AB690SettingString g_kB7AB690NamePrompt;
 void __cdecl FUN_007ab7c0();
-void __cdecl B7AB690ShowTextEntry(const char* pcPrompt, const char* pcDefault, void(__cdecl* pfnCallback)(const char*));
-void __cdecl B7AB690OnNameEntered(const char* pcName);
 class B7AB690Menu
 {
   public:
@@ -2166,64 +2117,35 @@ class FUN_007ab690_cls : public B7AB690Menu
     FUN_007ab690_cls();
     virtual ~FUN_007ab690_cls();
 
-    void Finish(const char* pcName);
 
     TESNPC* m_pkNPC;
 };
 struct InterfaceManagerPCMine : InterfaceManager
 {
-    bool GetKey();
 };
 struct TESObjectREFRMine : TESObjectREFR
 {
-    TESForm* GetOwner();
-    bool CanBeUsed(Actor* apActor, bool abUnk);
 };
-int FUN_0075b310(TESObjectREFR* apRef, int aType);
-int FUN_00704ed0(TESObjectREFR* apRef, int aType);
-void __cdecl FUN_0040fbe0();
 struct MgrQ
 {
-    bool FUN_009373f0();
-    bool FUN_00644640();
 };
-bool FUN_00702fc0();
 namespace sleep704 {
 struct M70Tile
 {
-    void FUN_00a1d910();
-    void FUN_00a1db20();
 };
 struct M70Menu
 {
-    M70Tile* FUN_00a03c90();
 };
 struct M70Trait
 {
-    void FUN_00700320(int id, int value);
 };
 struct M70Hud
 {
-    void FUN_007f8a80();
-    void FUN_007fa010(int a);
-    bool IsUnk28Set();
 };
 struct M70Player
 {
-    bool FUN_009373f0();
-    M70Trait* FUN_00586150();
-    M70Hud* FUN_00704370();
 };
-M70Player* FUN_004b7210();
-M70Menu* FUN_00a09030(int id);
 bool FUN_00702680(int id, int a);
-M70Menu* CreateInventoryMenuIfModifierKey();
-void FUN_00704390();
-void ResetRepairMenu();
-void ResetItemModMenu();
-void FUN_00782a90();
-void FUN_00782470(int a);
-void UpdateCurrentValue();
 
 // @fnv 0x007048f0
 void FUN_007048f0(bool show, bool fade, bool reset)
@@ -2235,65 +2157,65 @@ void FUN_007048f0(bool show, bool fade, bool reset)
     M70Menu* pMenu3ff8;
     bool bOpen;
 
-    if (FUN_004b7210() && FUN_004b7210()->FUN_009373f0())
+    if (((::sleep704::M70Player *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<::FUN_009373f0_shell *>((((::sleep704::M70Player *)(::fnv_004b7210::FUN_004b7210()))))->FUN_009373f0())
     {
-        pMenu3eb = FUN_00a09030(0x3eb);
-        pMenu3ea = FUN_00a09030(0x3ea);
-        pMenu40bB = FUN_00a09030(0x40b);
-        aPMenu425 = FUN_00a09030(0x425);
-        pMenu3ff8 = FUN_00a09030(0x3ff);
+        pMenu3eb = ((::sleep704::M70Menu *)(::FUN_00a09030(0x3eb)));
+        pMenu3ea = ((::sleep704::M70Menu *)(::FUN_00a09030(0x3ea)));
+        pMenu40bB = ((::sleep704::M70Menu *)(::FUN_00a09030(0x40b)));
+        aPMenu425 = ((::sleep704::M70Menu *)(::FUN_00a09030(0x425)));
+        pMenu3ff8 = ((::sleep704::M70Menu *)(::FUN_00a09030(0x3ff)));
         bOpen = FUN_00702680(0x3ea, fade ? 0xb : 0);
         if (show)
         {
             if (!pMenu3ea)
             {
-                pMenu3ea = CreateInventoryMenuIfModifierKey();
+                pMenu3ea = ((::sleep704::M70Menu *)(::fnv_007048c0::CreateInventoryMenuIfModifierKey()));
             }
             if (!bOpen)
             {
                 if (pMenu3eb)
                 {
-                    pMenu3eb->FUN_00a03c90()->FUN_00a1d910();
-                    FUN_00704390();
+                    reinterpret_cast<::FUN_00a1d910_shell *>((((::sleep704::M70Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu3eb))->FUN_00a03c90()))))->FUN_00a1d910();
+                    ::FUN_00704390();
                 }
                 if (pMenu3ff8)
                 {
-                    pMenu3ff8->FUN_00a03c90()->FUN_00a1d910();
+                    reinterpret_cast<::FUN_00a1d910_shell *>((((::sleep704::M70Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu3ff8))->FUN_00a03c90()))))->FUN_00a1d910();
                 }
                 if (pMenu40bB)
                 {
-                    pMenu40bB->FUN_00a03c90()->FUN_00a1d910();
-                    ResetRepairMenu();
+                    reinterpret_cast<::FUN_00a1d910_shell *>((((::sleep704::M70Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu40bB))->FUN_00a03c90()))))->FUN_00a1d910();
+                    ::fnv_007b6fb0::ResetRepairMenu();
                 }
                 if (aPMenu425)
                 {
-                    aPMenu425->FUN_00a03c90()->FUN_00a1d910();
-                    ResetItemModMenu();
+                    reinterpret_cast<::FUN_00a1d910_shell *>((((::sleep704::M70Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((aPMenu425))->FUN_00a03c90()))))->FUN_00a1d910();
+                    ::fnv_007846a0::ResetItemModMenu();
                 }
                 if (pMenu3ea)
                 {
-                    pMenu3ea->FUN_00a03c90()->FUN_00a1db20();
+                    reinterpret_cast<::FUN_00a1db20_shell *>((((::sleep704::M70Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu3ea))->FUN_00a03c90()))))->FUN_00a1db20();
                 }
             }
             if (pMenu3ea)
             {
-                FUN_00782a90();
-                FUN_004b7210()->FUN_00586150()->FUN_00700320(0x1771, 0x3ea);
+                ::FUN_00782a90();
+                reinterpret_cast<::Tile *>((((::sleep704::M70Trait *)(reinterpret_cast<::InterfaceManager *>((((::sleep704::M70Player *)(::fnv_004b7210::FUN_004b7210()))))->FUN_00586150()))))->Set(0x1771, 0x3ea);
             }
             if (reset)
             {
-                FUN_004b7210()->FUN_00704370()->FUN_007f8a80();
-                FUN_004b7210()->FUN_00704370()->FUN_007fa010(2);
+                reinterpret_cast<::fnv_007f8a80::FOPipboyManagerPC *>((((::sleep704::M70Hud *)(reinterpret_cast<::Interface *>((((::sleep704::M70Player *)(::fnv_004b7210::FUN_004b7210()))))->GetPipboyManager()))))->FUN_007f8a80();
+                reinterpret_cast<::FOPipboyManager *>((((::sleep704::M70Hud *)(reinterpret_cast<::Interface *>((((::sleep704::M70Player *)(::fnv_004b7210::FUN_004b7210()))))->GetPipboyManager()))))->ActivateButton(2);
             }
-            if (FUN_004b7210()->FUN_00704370()->IsUnk28Set())
+            if (reinterpret_cast<::FOPipboyManager *>((((::sleep704::M70Hud *)(reinterpret_cast<::Interface *>((((::sleep704::M70Player *)(::fnv_004b7210::FUN_004b7210()))))->GetPipboyManager()))))->IsUnk28Set())
             {
-                FUN_00782470(0);
+                ::FUN_00782470(0);
             }
         }
         else if (!show && bOpen && pMenu3ea)
         {
-            pMenu3ea->FUN_00a03c90()->FUN_00a1d910();
-            UpdateCurrentValue();
+            reinterpret_cast<::FUN_00a1d910_shell *>((((::sleep704::M70Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu3ea))->FUN_00a03c90()))))->FUN_00a1d910();
+            ::UpdateCurrentValue();
         }
     }
 }
@@ -2892,47 +2814,20 @@ struct V3Maker;
 struct ChainObj
 {
     void FUN_00a59c60(V3Maker*);
-    ChainObj* FUN_00586170();
-    ChainObj* FUN_0043b230();
-    bool FUN_00456610();
-    void FUN_00450f90(bool);
-    void* FUN_005875a0(int, int);
-    void FUN_00555bc0();
-    void FUN_004a0370();
-    void FUN_004a03c0();
-    void FUN_00555b10(NiPt3*, NiPt3*, int);
-    void FUN_00556ef0(int, int, int);
-    void FUN_0054e640(Local12*);
-    void FUN_0054e750(int, int, Local12*);
-    void CollectCellReferences(unsigned int*);
-    unsigned int FUN_0059bb30();
 };
 struct Mesh34
 {
-    void FUN_00439410(void*);
-    void FUN_00a5a040();
-    void FUN_004bc1f0(float, float, float);
 };
 struct ObjD_11dea3c
 {
-    bool FUN_00575d10();
-    void* FUN_00575d70();
-    void* FUN_008d6f30();
 };
 // path-name providers on the object at DAT_011dea10
 struct PathSrc
 {
-    void* FUN_005f36f0();
-    void* FUN_004fd3e0();
 };
 // object at [[DAT_011da368]+0x30]
 struct Tile30
 {
-    unsigned int FUN_0056c7f0();
-    void FUN_007a1400(int);
-    void FUN_00a07530(int);
-    void FUN_00700320(int, int);
-    void FUN_00a012d0(int, float, int);
 };
 // small local-object stand-ins (methods invoked with ecx = local)
 struct V3Maker
@@ -2941,7 +2836,6 @@ struct V3Maker
     NiPt3& FUN_00416870(float x, float y, float z);
     NiPt2& FUN_00452dc0(float u, float v);
     NiCol& FUN_00414430(float a, float b, float c, float d);
-    void FUN_0043d410(float a, int b, int c);
     void FUN_0063c8a0(NiPt3* p);
 };
 struct ColorMaker
@@ -2967,7 +2861,6 @@ struct Local12
     unsigned int value;
     Local12(int);
     ~Local12();
-    unsigned int FUN_00559450();
     void FUN_0066b0d0(int);
 };
 // mesh/material stand-ins
@@ -3079,10 +2972,6 @@ struct ObjB0
     static void* operator new(unsigned int);
     static void operator delete(void*, unsigned int);
     ObjB0(bool);
-    void FUN_00bb7a10(unsigned int);
-    void FUN_008cc6d0(int);
-    void SetNavMeshInfo(Obj16*);
-    void SetFlag(int);
 };
 struct Obj1C
 {
@@ -3096,9 +2985,6 @@ struct Obj1C
     static void* operator new(unsigned int);
     static void operator delete(void*, unsigned int);
     Obj1C();
-    void FUN_00439340(int);
-    void FUN_00439390(int);
-    void FUN_0049ed90(int);
 };
 // map-menu state global, fields at their offsets
 struct MapMenuR6
@@ -3179,60 +3065,32 @@ struct MapMenuR6
     unsigned int unk124;
     unsigned int field_128;
     unsigned char field_12c;
-    void UpdateLocalMap();
 };
-int __cdecl FUN_00556870(V3Maker*);
 // free helpers; conventions read from add esp evidence
-extern "C" void* __cdecl FUN_00401000(unsigned int);
 extern "C" void __stdcall FUN_00401050(void*, unsigned int, unsigned int, void*);
-extern "C" void* __cdecl FUN_00aa1070(unsigned int);
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
 extern "C" void __cdecl FUN_006815c0();
 extern "C" void __cdecl FUN_004a7800();
-extern "C" int __cdecl FUN_00406d90(float);
-extern "C" void __cdecl FUN_00406d00(char*, unsigned int, const char*, ...);
-extern "C" void __stdcall FUN_00ee6dc2(char*, int, unsigned int);
-extern "C" bool __cdecl FUN_007a1750();
-extern "C" void* __cdecl FUN_007a1480();
-extern "C" void* __cdecl FUN_00653270(unsigned int, unsigned int);
-extern "C" void __cdecl FUN_00b57e30(void*, int, int);
-extern "C" float __cdecl ScreenWidth();
-extern "C" float __cdecl ScreenHeight();
 extern "C" void* __cdecl FUN_00ec62c0();
-extern "C" float __cdecl FUN_00879d90();
 struct ColorSource
 {
-    void ReadColor(int, Obj16*);
 };
-extern "C" ColorSource* __cdecl ColorSingleton();
 extern "C" void __fastcall FUN_00719060(void*);
 /* ecx = FUN_00718b60 result */
 extern "C" void __fastcall FUN_00a59c60(void*);
 /* ecx = FUN_0056c7f0 result */
 struct GObj
 {
-    int* FUN_0043d4d0();
 };
-extern GObj DAT_011c63cc;
 /* object at 0x11c63cc */
 // globals read/written here
 struct Position
 {
     float x, y, z;
 };
-extern Position DAT_011f426c;
 struct RenderColor
 {
     unsigned int r, g, b, a;
 };
-extern RenderColor DAT_011ff3a8;
-extern RenderColor DAT_011a9bd0;
-extern unsigned char DAT_011ff103;
-extern double DBL_01020758;
-extern double DBL_01011590;
-extern double DBL_0101db80;
-extern double DBL_0101e568;
-extern float FLT_0101e570;
 extern char DAT_01075520[];
 extern char DAT_01075508[];
 extern char DAT_010754f0[];
@@ -3240,14 +3098,10 @@ extern char DAT_010754d4[];
 extern char DAT_010754ac[];
 extern char DAT_01075490[];
 extern char DAT_01075468[];
-extern unsigned int DAT_011f4418;
-void __cdecl FUN_0079ffb0(char param_1);
 namespace s7094f0 {
 
 struct Lock
 {
-    void FUN_0040fbf0(int iArg);
-    void FUN_0040fba0();
 };
 
 struct InterfaceManagerView
@@ -3557,17 +3411,12 @@ struct InterfaceManagerView
     int unk4b8;
     int m_iModalCount;
 
-    bool FUN_007023a0();
-    int FUN_00586150(int iArg);
 };
 
 struct NameMenu
 {
     NameMenu(int iArg0, int iArg1);
 
-    void FUN_00a087d0(int iTile);
-    void FUN_00707e10(const char* pcName);
-    void FUN_00409480(struct NameTile* pkTile);
 
     int unk000;
     int unk004;
@@ -3591,7 +3440,6 @@ struct NameTile
 {
     NameTile();
 
-    void FUN_00a1dc70(NameMenu* pkNameMenu, int iArg);
 
     int unk000;
     int unk004;
@@ -3606,96 +3454,77 @@ struct NameTile
     int unk28;
 };
 
-extern Lock DAT_011d89c0;
-extern int DAT_011d8950;
-extern TESObjectREFR* DAT_011d8954;
-extern int DAT_011d8958;
-extern int DAT_011d895c;
-extern int DAT_011d8960;
-extern int DAT_011d8964;
-extern int DAT_011d8998;
-extern int DAT_011d899c;
 
-InterfaceManagerView* FUN_004b7210();
-int FUN_00704ed0(TESObjectREFR* pkRef, int iArg);
-bool FUN_00705ec0(TESObjectREFR* pkRef);
-bool FUN_00706130(TESObjectREFR* pkRef);
-int FUN_00705070(TESObjectREFR* pkRef, int iArg0, int iArg1);
-int GetOrCreateMenuTile(int iArg);
-bool InitStartMenu(int iArg0, int iArg1);
-void FUN_00771700(int iArg);
-bool FUN_007a8ba0();
-bool DestroyCompanionWheelMenu(Actor* pkActor);
 
 static const char s_szPlayerNameEntryMenu[] = "Player Name Entry Menu";
 
 // @fnv 0x007094f0
 void FUN_007094f0()
 {
-    DAT_011d89c0.FUN_0040fbf0(0);
-    if (DAT_011d8950 && (!FUN_004b7210()->m_iModalCount || DAT_011d8950 == 6 || DAT_011d8950 == 7))
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::s7094f0::Lock *>(&::g_011d89c0))))->FUN_0040fbf0((char *)(0));
+    if ((*reinterpret_cast<int *>(&::g_011d8950)) && (!((::s7094f0::InterfaceManagerView *)(::fnv_004b7210::FUN_004b7210()))->m_iModalCount || (*reinterpret_cast<int *>(&::g_011d8950)) == 6 || (*reinterpret_cast<int *>(&::g_011d8950)) == 7))
     {
         bool bPickResultFound = false;
-        switch (DAT_011d8950)
+        switch ((*reinterpret_cast<int *>(&::g_011d8950)))
         {
         case 1:
-            bPickResultFound = s7094f0::FUN_00704ed0(DAT_011d8954, DAT_011d8964) ? 1 : 0;
+            bPickResultFound = ::FUN_00704ed0((*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011d8954)), ::DAT_011d8964) ? 1 : 0;
             break;
         case 2:
-            bPickResultFound = FUN_00705ec0(DAT_011d8954);
+            bPickResultFound = ::fnv_00705ec0::FUN_00705ec0((*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011d8954)));
             break;
         case 3:
-            bPickResultFound = FUN_00706130(DAT_011d8954);
+            bPickResultFound = ::FUN_00706130((int)((*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011d8954))));
             break;
         case 4:
-            if (!FUN_004b7210()->FUN_007023a0())
-                bPickResultFound = FUN_00705070(DAT_011d8954, DAT_011d8958, DAT_011d895c) ? 1 : 0;
+            if (!reinterpret_cast<::FUN_007023a0_shell *>((((::s7094f0::InterfaceManagerView *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007023a0())
+                bPickResultFound = ((int)(::fnv_00705070::FUN_00705070((*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011d8954)), (void *)(::DAT_011d8958), (void *)(::DAT_011d895c)))) ? 1 : 0;
             break;
         case 5:
-            bPickResultFound = GetOrCreateMenuTile(DAT_011d8960) ? 1 : 0;
+            bPickResultFound = ((int)(::GetOrCreateMenuTile(::DAT_011d8960))) ? 1 : 0;
             break;
         case 6:
-            bPickResultFound = InitStartMenu(1, 0);
+            bPickResultFound = ::InitStartMenu(1, 0);
             if (bPickResultFound)
-                FUN_00771700(4);
+                ::fnv_00771700::FUN_00771700(4);
             break;
         case 7:
-            bPickResultFound = FUN_007a8ba0();
+            bPickResultFound = ::fnv_007a8ba0::FUN_007a8ba0();
             break;
         case 8:
-            bPickResultFound = DestroyCompanionWheelMenu(dynamic_cast<Actor*>(DAT_011d8954));
+            bPickResultFound = ::DestroyCompanionWheelMenu((int)(dynamic_cast<Actor*>((*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011d8954)))));
             break;
         case 9: {
             NameMenu* pkNameMenu = new NameMenu(0, 0);
             NameTile* pkTile = new NameTile;
-            pkNameMenu->FUN_00a087d0(FUN_004b7210()->FUN_00586150(0));
-            pkNameMenu->FUN_00707e10(s_szPlayerNameEntryMenu);
-            pkTile->FUN_00a1dc70(pkNameMenu, 1);
-            pkNameMenu->FUN_00409480(pkTile);
+            reinterpret_cast<::FUN_00a087d0_shell *>((pkNameMenu))->FUN_00a087d0((::Tile *)(((int)(reinterpret_cast<::InterfaceManager *>((((::s7094f0::InterfaceManagerView *)(::fnv_004b7210::FUN_004b7210()))))->FUN_00586150()))), {});
+            reinterpret_cast<::Tile *>((pkNameMenu))->SetName(s_szPlayerNameEntryMenu);
+            reinterpret_cast<::FUN_00a1dc70_shell *>((pkTile))->FUN_00a1dc70((::TileMenu *)(pkNameMenu), 1);
+            reinterpret_cast<::FUN_00409480_shell *>((pkNameMenu))->FUN_00409480((::TESActorBase *)(pkTile));
             bPickResultFound = true;
         }
         }
         if (bPickResultFound)
         {
-            DAT_011d8950 = 0;
-            DAT_011d8954 = 0;
+            (*reinterpret_cast<int *>(&::g_011d8950)) = 0;
+            (*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011d8954)) = 0;
         }
     }
-    if (DAT_011d8998 && (!FUN_004b7210()->m_iModalCount || DAT_011d8998 == 6 || DAT_011d8998 == 7))
+    if ((*reinterpret_cast<int *>(&::g_011d8998)) && (!((::s7094f0::InterfaceManagerView *)(::fnv_004b7210::FUN_004b7210()))->m_iModalCount || (*reinterpret_cast<int *>(&::g_011d8998)) == 6 || (*reinterpret_cast<int *>(&::g_011d8998)) == 7))
     {
         bool bDone2 = false;
-        switch (DAT_011d8998)
+        switch ((*reinterpret_cast<int *>(&::g_011d8998)))
         {
         case 7:
-            bDone2 = FUN_007a8ba0();
+            bDone2 = ::fnv_007a8ba0::FUN_007a8ba0();
         }
         if (bDone2)
         {
-            DAT_011d8998 = 0;
-            DAT_011d899c = 0;
+            (*reinterpret_cast<int *>(&::g_011d8998)) = 0;
+            ::DAT_011d899c = 0;
         }
     }
-    DAT_011d89c0.FUN_0040fba0();
+    reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::s7094f0::Lock *>(&::g_011d89c0))))->FUN_0040fba0();
 }
 
 }
@@ -3705,39 +3534,24 @@ struct DisplayForm;
 struct DisplayPlayer;
 struct DisplayList
 {
-    void* FUN_00726070();
     DisplayTile** FUN_00683520(void**);
     void** FUN_006815c0();
 };
 struct DisplayName
 {
-    const char* FUN_00408da0();
 };
 struct DisplayTile
 {
     int unk00;
     DisplayList children;
-    float FUN_00a011b0(int);
-    void FUN_00a012d0(int, float, bool);
-    void FUN_00a01350(int, const char*, bool);
-    void FUN_00700320(int, int);
 };
 struct DisplayEffects
 {
     int unk00;
     DisplayList effects;
-    void BuildDescription(char*, int);
 };
 struct DisplayItem
 {
-    DisplayForm* FUN_0044ddc0();
-    DisplayForm* GetExtraForm();
-    float FUN_004bd400();
-    unsigned char FUN_004bd820();
-    bool HasEffect(int);
-    float FUN_004bcdb0(bool);
-    DisplayList* FUN_00559450();
-    int FUN_00726070();
 };
 struct DisplayForm
 {
@@ -3767,18 +3581,6 @@ struct DisplayForm
     int unk2c;
 
     DisplayName name;
-    int FUN_00401170();
-    void FUN_00503a70(char*, int);
-    float FUN_004be380(bool);
-    int GetField19C();
-    unsigned char FUN_00525b20(bool, int, DisplayPlayer*);
-    DisplayForm* FUN_00525980(DisplayPlayer*);
-    const char* GetStringAtOffsetC4();
-    int GetFlaggedValue(bool);
-    float FUN_00709430(int);
-    float FUN_004be060();
-    float FUN_004be180();
-    DisplayForm* FUN_004bd570(int);
     bool FUN_0040e210(int);
 };
 struct DisplayProcess
@@ -4042,22 +3844,15 @@ struct DisplayPlayerPrefix
 };
 struct DisplayPlayer : DisplayPlayerPrefix, ActorValues
 {
-    bool FUN_004d1360();
-    DisplayProcess* FUN_008d8520();
 };
 struct DisplayInventory
 {
-    int FUN_004c8f30(DisplayForm*);
 };
 struct DisplaySetting
 {
-    const char* FUN_00403df0();
-    float* FUN_00403e20();
 };
 struct ArmorFlags
 {
-    bool FUN_004c0bd0();
-    bool FUN_00514450();
 };
 class TESObjectARMO : public TESBoundObject
 {
@@ -4206,42 +4001,18 @@ struct EnchantForm : EnchantPrefix, DisplayEffects
     bool FUN_0040e210(int);
 };
 extern DisplaySetting *DAT_0118a644, *DAT_0118a648, *DAT_0118a640;
-extern DisplaySetting DAT_011d4024, DAT_011c6478, DAT_011c64a8, DAT_011c3cb4, DAT_011d20c4, DAT_011d412c, DAT_011d2c7c,
-    DAT_011d2aa8, DAT_011d26a0, DAT_011d4da4, DAT_011d4edc, DAT_011d330c;
-extern char DAT_0106ed20[], DAT_0106ed18[], DAT_0106ed0c[], DAT_0106ecfc[], DAT_01020764[], DAT_0106ecf4[],
-    DAT_01019f08[], DAT_0106ece8[], DAT_01047008[], DAT_0106ece0[], DAT_0106ecd8[], DAT_0106ecd0[], DAT_0106ecc8[],
-    DAT_01020768[], DAT_01030018[], DAT_01018348[];
-int FUN_00a01860(const char*);
-float FUN_0048ebc0(DisplayForm*, bool);
-DisplayTile* FUN_00a08b20(DisplayTile*, const char*);
-unsigned int FUN_0044a670(const char*);
-void FUN_005e58f0(int, DisplayPlayer*, ...);
-float FUN_00645380(ActorValues*, DisplayForm*, float, bool, DisplayItem*, int, int, int, float, float, int, int,
-                   DisplayForm*);
-float GetWeaponDamage(DisplayForm*, float, DisplayItem*, DisplayForm*);
-void FUN_00406d30(char*, unsigned int, const char*);
-float FUN_004bd510(float, float);
-float FUN_0040ebd0(float, float);
-DisplayInventory* FUN_004bf220(DisplayPlayer*);
-int MinInt(int, int);
-float FUN_00646360(int, float);
-float FUN_00476b20(float);
-unsigned int FUN_004873d0(DisplayForm*);
-EnchantForm* FUN_004be330(DisplayForm*);
-int FUN_00408b20(const char*, const char*);
-void FUN_00707e30(DisplayItem* item, DisplayTile* root);
+extern char DAT_0106ed0c[], DAT_0106ecfc[], DAT_0106ece0[], DAT_0106ecd8[], DAT_0106ecd0[], DAT_01030018[];
 
 class VATSMenu : public Menu
 {
 };
-void ShutdownVats();
 // @fnv 0x00705780
 void __cdecl FUN_00705780()
 {
-    if (FUN_004b7210() && reinterpret_cast<FUN_009373f0_shell*>(FUN_004b7210())->FUN_009373f0())
+    if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<FUN_009373f0_shell*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->FUN_009373f0())
     {
-        Tile* pTile = (Tile*)FUN_00a09030(Interface::eVATSMenu);
-        VATSMenu* pVATSMenuInstance = pTile ? dynamic_cast<VATSMenu*>(pTile->GetMenu()) : 0;
+        Tile* pTile = (Tile*)((::TileProxy *)(::FUN_00a09030(Interface::eVATSMenu)));
+        VATSMenu* pVATSMenuInstance = pTile ? dynamic_cast<VATSMenu*>(reinterpret_cast<::FUN_00a03c90_shell *>((void *)(pTile))->FUN_00a03c90()) : 0;
         if (pVATSMenuInstance)
             ShutdownVats();
     }

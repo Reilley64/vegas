@@ -4,11 +4,15 @@
 
 // src/havok/physics/utilities/weapons/hkpballgun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpballgun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00c91620_Class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpWorldC914.h"
+#include "fnv/symbols_00cf0000.h"
+#include "fnv/symbols_00e46000.h"
 #include "havok/hkpBallGun.h"
 struct FUN_00d1df70
 {
-    void FUN_00c90510() throw();
-    void removeReference() throw();
 };
 struct hkBoolE46E
 {
@@ -34,7 +38,6 @@ class hkpRigidBodyE46E : public FUN_00d1df70
 class hkpWorldE46E
 {
   public:
-    hkBoolE46E ProcessTarget(hkpRigidBodyE46E* pkEntity) throw();
 };
 template <class T> class hkQueueE46E
 {
@@ -265,7 +268,6 @@ class hkBoolResult
 
 struct hkpShapeBase : public hkReferencedObject
 {
-    void FUN_00c905b0();
 
     __forceinline void* operator new(unsigned int nbytes)
     {
@@ -470,8 +472,6 @@ struct hkpWorld
     hkUint32 unk00, unk04, unk08, unk0C;
     hkQuadVector4 m_kGravity;
 
-    void* FUN_00c914d0(FUN_00ca8c90* entity, int activation);
-    hkBoolResult ProcessTarget(FUN_00ca8c90* entity);
 };
 
 template <typename T> struct CapacityGrowingArray
@@ -526,11 +526,8 @@ template <typename T> struct CapacityGrowingArray
     }
 };
 
-void FUN_00cf07a0(const hkpShapeBase* shape, hkReal mass, FUN_00cf5ea0& out);
 int FUN_00e464e0(hkpWorld* world, const hkQuadVector4& start, hkReal radius, const hkQuadVector4& end,
                  hkpBallGunSweepOutput& output);
-void FUN_00e463d0(const hkQuadVector4& position, const hkQuadVector4& target, const hkQuadVector4& gravity,
-                  hkReal speed, hkQuadVector4& velocityOut);
 
 struct hkpBallGunEx : public hkpBallGun
 {
@@ -555,7 +552,7 @@ void hkpBallGunEx::FUN_00e470d0(hkpWorld* world, const hkQuadTransform& viewTran
     ci.m_iAutoRemoveLevel = 6;
     ci.m_bFlag = 2;
     ci.m_fElasticity = 1.0f;
-    FUN_00cf07a0(ci.m_pCollisionShape, m_fBulletMass * 2.0f, ci);
+    ::FUN_00cf07a0((void *)(ci.m_pCollisionShape), m_fBulletMass * 2.0f, (::Dest *)&(ci));
     ci.m_fViscosityFriction = m_fBulletMass;
     ci.m_fLinearDamping = 0.0f;
     ci.m_fAngularDamping = 0.4f;
@@ -564,8 +561,8 @@ void hkpBallGunEx::FUN_00e470d0(hkpWorld* world, const hkQuadTransform& viewTran
     hkpBallGunSweepOutput output;
     if (!FUN_00e464e0(world, start, m_fBulletRadius, end, output))
     {
-        FUN_00e463d0(ci.m_vContactPosition, output.m_vContactPosition, world->m_kGravity, m_fBulletVelocity,
-                     ci.m_kTranslationalVelocity);
+        ::FUN_00e463d0((const ::hkVector4 &)(ci.m_vContactPosition), (const ::hkVector4 &)(output.m_vContactPosition), (const ::hkVector4 &)(world->m_kGravity), m_fBulletVelocity,
+                     (::hkVector4 &)(ci.m_kTranslationalVelocity));
     }
     else
     {
@@ -580,7 +577,7 @@ void hkpBallGunEx::FUN_00e470d0(hkpWorld* world, const hkQuadTransform& viewTran
     }
 
     FUN_00ca8c90* bullet = new FUN_00ca8c90(ci);
-    ci.m_pCollisionShape->FUN_00c905b0();
+    reinterpret_cast<::hkReferencedObjectC905 *>((ci.m_pCollisionShape))->FUN_00c905b0();
     bullet->m_fBulletSpread = m_fBulletSpread;
 
     for (i = 0; i < m_kListeners.m_iElementCount; i++)
@@ -588,7 +585,7 @@ void hkpBallGunEx::FUN_00e470d0(hkpWorld* world, const hkQuadTransform& viewTran
         static_cast<hkpBallGunListener*>(m_kListeners.m_data[i])->bulletCreatedCallback(bullet);
     }
 
-    world->FUN_00c914d0(bullet, 1);
+    reinterpret_cast<::hkpWorldC914 *>((world))->FUN_00c914d0((::hkpEntityC914 *)(bullet), 1);
 
     CapacityGrowingArray<FUN_00ca8c90*>* addedBodies =
         static_cast<CapacityGrowingArray<FUN_00ca8c90*>*>(m_pBulletQueue);
@@ -604,8 +601,8 @@ void hkpBallGunEx::FUN_00e470d0(hkpWorld* world, const hkQuadTransform& viewTran
         }
         if (rb->m_pOwningWorld)
         {
-            world->ProcessTarget(rb);
+            reinterpret_cast<::FUN_00c91620_Class *>((world))->ProcessTarget((unsigned char *)(rb), {});
         }
-        rb->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((rb))->FUN_00c905b0();
     }
 }

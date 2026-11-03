@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/havok/physics/utilities/actions/reorient/hkpreorientaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/reorient/hkpreorientaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/hkpEntityC9C.h"
 #include "havok/hkpReorientAction.h"
 class hkMemoryAllocatorE445
 {
@@ -108,8 +109,7 @@ class hkpReorientActionE445
 #include <xmmintrin.h>
 
 #include <math.h>
-extern const __m128 DAT_010c71e0;
-extern const __m128 DAT_01017d10;
+#include "fnv/symbols_simd.h"
 
 class ReorientApplyScalar
 {
@@ -411,7 +411,6 @@ class ReorientApplyBodyView
     unsigned int unk1b8;
     unsigned int unk1bc;
     ReorientApplyVector m_kAngularVelocity;
-    void FUN_00c9c1d0();
 };
 
 struct ReorientApplyStepInfo
@@ -463,6 +462,6 @@ __declspec(noinline) void ReorientApplyActionView::FUN_00e445b0(const ReorientAp
     ReorientApplyVector impulse;
     impulse.mul(m_fSpringStrength * angle * info.inverse, axis);
     impulse.sub(drag);
-    body->FUN_00c9c1d0();
+    reinterpret_cast<::hkpEntityC9C *>((body))->FUN_00c9c1d0();
     body->m_pMotionState.ApplyAngularImpulseToBodies(impulse);
 }

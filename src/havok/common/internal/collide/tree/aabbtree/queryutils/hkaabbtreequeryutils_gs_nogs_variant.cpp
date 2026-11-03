@@ -5,6 +5,11 @@
 
 // src/havok/common/internal/collide/tree/aabbtree/queryutils/hkaabbtreequeryutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/collide/tree/aabbtree/queryutils/hkaabbtreequeryutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d1c000.h"
+#include "fnv/symbols_00d1d000.h"
+#include "fnv/symbols_010c9000.h"
+#include "fnv/symbols_01267000.h"
 struct FUN_00d1bb40_Class
 {
     int* FUN_00d1bb40(unsigned short index);
@@ -30,7 +35,6 @@ struct S_00d1bcb0_Router
     }
 };
 S_00d1bcb0_Router* FUN_00c85750();
-void ResizeAudioStream(S_00d1bcb0_Allocator& alloc, void* array, int sizeElem);
 struct S_00d1bcb0_Entry
 {
     int m_kPointA;
@@ -49,7 +53,7 @@ struct S_00d1bcb0_Array
     void _pushBack(S_00d1bcb0_Allocator& alloc, const S_00d1bcb0_Entry& e)
     {
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(alloc, this, sizeof(S_00d1bcb0_Entry));
+            ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(S_00d1bcb0_Entry));
         new (m_data + m_iElementCount) S_00d1bcb0_Entry(e);
         m_iElementCount++;
     }
@@ -64,19 +68,12 @@ struct S_00d1bcb0
     S_00d1bcb0_Array* m_ppData;
     bool FUN_00d1bcb0(int a, int b);
 };
-extern int __cdecl FUN_00d1c560(void*, int, int, int, int, int);
-int __cdecl CallWithDefaults(void* arg0, int arg1, int arg2);
-int __cdecl FUN_00d1c560(void* a, void* b, int c, int d, void* e, void* f);
-int __cdecl FUN_00d1d4d0(void* a, void* b, void* e, void* f);
-extern int __cdecl FUN_00d1c560(void*, int, int, int, int, int);
-int __cdecl FUN_00d1d500(void* arg0, int arg1, int arg2);
-extern "C" void* __cdecl FUN_00d1ce50(void* p, int a, int b, int c, int d, int e);
 // @fnv 0x00d1d540
 extern "C" void* __cdecl FUN_00d1d540(void* p, int a, int d, int e)
 {
     if (!p)
         return 0;
-    return FUN_00d1ce50(p, a, 0, 0, d, e);
+    return ((void *)(::FUN_00d1ce50((::TreeD1C *)(p), (*(const ::hkAabbD1C *)(a)), (::CollectorD1C *)(0), (::hkArrayIntD1C *)(0), (int **)(d), e)));
 }
 
 extern "C" void* __cdecl FUN_00d1d240(void* p, int a, int b, int c, int d, int e);
@@ -88,14 +85,14 @@ extern "C" void* __cdecl FUN_00d1d570(void* p, int a, int b)
     return FUN_00d1d240(p, a, b, 0, 0, 0);
 }
 
-extern "C" void __cdecl FUN_00d1ca00();
 // @fnv 0x00d1d530
 extern "C" void __cdecl FUN_00d1d530()
 {
-    FUN_00d1ca00();
+    ::FUN_00d1ca00({}, {}, {}, {}, {}, {});
 }
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 struct BoundVector
 {
     __m128 value;
@@ -138,9 +135,6 @@ struct RayCollector
     virtual float GetHitDistance(const Node* node);
 };
 
-extern const __m128 kZero;
-extern const __m128 kActiveMasks[];
-extern const int kBitMasks[];
 
 // @fnv 0x00d1ca00
 void FUN_00d1ca00(RayTree* tree, Node* node, Node* endNode, const RayQuerySet* rayBundle, RayCollector** collectors,
@@ -183,13 +177,13 @@ void FUN_00d1ca00(RayTree* tree, Node* node, Node* endNode, const RayQuerySet* r
         }
 
         int activeRays = rayBundle->m_activeRays;
-        __m128 tEnter = _mm_max_ps(_mm_max_ps(_mm_max_ps(fNearT[0], fNearT[1]), fNearT[2]), kZero);
+        __m128 tEnter = _mm_max_ps(_mm_max_ps(_mm_max_ps(fNearT[0], fNearT[1]), fNearT[2]), (*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30)));
         __m128 tExit = fFarT[0];
         tExit = _mm_min_ps(tExit, fFarT[1]);
         tExit = _mm_min_ps(tExit, fFarT[2]);
         tExit = _mm_min_ps(tExit, maxT);
 
-        __m128 mask = kActiveMasks[activeRays];
+        __m128 mask = ::DAT_01268460[activeRays];
         __m128 cmp = _mm_and_ps(_mm_cmplt_ps(tEnter, tExit), mask);
         int hitMask = _mm_movemask_ps(cmp);
 
@@ -203,7 +197,7 @@ void FUN_00d1ca00(RayTree* tree, Node* node, Node* endNode, const RayQuerySet* r
 
             for (int r = 0; r < 4; ++r)
             {
-                if (kBitMasks[r] & hitMask)
+                if ((*reinterpret_cast<const int (*)[]>(&::DAT_010c92e0))[r] & hitMask)
                 {
                     ((float*)&maxT)[r] = collectors[r]->GetHitDistance(node);
                 }

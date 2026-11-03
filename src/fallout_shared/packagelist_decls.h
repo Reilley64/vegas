@@ -2,6 +2,33 @@
 #ifndef FNV_PACKAGELIST_DECLS_H
 #define FNV_PACKAGELIST_DECLS_H
 
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/ComparisonOwner.h"
+#include "fnv/decl/FUN_0041ca90.h"
+#include "fnv/decl/FUN_0041d8a0_shell.h"
+#include "fnv/decl/FUN_0041d8c0_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00677760_shell.h"
+#include "fnv/decl/FUN_00678cc0_shell.h"
+#include "fnv/decl/FUN_00678ce0_shell.h"
+#include "fnv/decl/FUN_009344a0_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/PackedByteIntRecord.h"
+#include "fnv/decl/fnv_00422690__FUN_00422690_shell.h"
+#include "fnv/decl/fnv_006777b0__FUN_006777b0_shell.h"
+#include "fnv/decl/fnv_00678d40__FUN_00678d40_shell.h"
+#include "fnv/symbols_00464000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_004b1000.h"
+#include "fnv/symbols_005ac000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_0119b000.h"
+#include "fnv/symbols_011de000.h"
 class TESPackage;
 class TESFile;
 class Actor;
@@ -18,15 +45,11 @@ template <class T> class BSStringT
     bool Set(const T*, unsigned int);
     const T* String();
 };
-int Warning(const char*, ...);
 class DurationData
 {
   public:
     int FUN_00678ca0();
-    int GetSecondByte();
-    char FUN_00678ce0();
     char FUN_0086a460();
-    int FUN_00726070();
 };
 class PackageTargetRecord
 {
@@ -120,21 +143,14 @@ class TESForm
     virtual const char* GetName();
     virtual void vfn_134();
     TESFile* GetFile(int);
-    static void RemapFormIDForFile(unsigned int&, TESFile*);
-    static TESForm* GetFormByID(unsigned int);
 };
 class TESObjectREFR : public TESForm
 {
   public:
-    TESObjectREFR* GetLinkedRef();
-    class ExtraDataList* GetExtraData();
-    const char* GetFullName();
 };
 class Actor : public TESObjectREFR
 {
   public:
-    TESPackage* GetCurrentPackage();
-    BaseProcess* GetProcess();
 };
 class TESPackage : public TESForm
 {
@@ -142,22 +158,10 @@ class TESPackage : public TESForm
     virtual bool vfn_138(Actor*);
     bool IsFlag10000Set();
     bool IsMustReachLocation();
-    DurationData* FUN_0041d8a0();
-    bool IsScheduledForDay(bool);
-    PackageTargetRecord* GetTarget();
-    PerkEntryConditionSet* GetConditions();
-    int GetProcedureType();
-    void SetTargetFromReference(TESObjectREFR*);
-    bool FUN_0067efd0();
-    bool FUN_00677760(Actor*);
-    int CompareTo(DurationData*);
-    int GetPackType();
 };
 class ExtraDataList
 {
   public:
-    bool CanReachPackageLocation(TESPackage*);
-    void AddFollowerActor(Actor*);
 };
 class BaseProcess
 {
@@ -530,21 +534,17 @@ class Calendar
 {
   public:
     int GetCurrentMonth();
-    char GetGameHour();
     float GetGameTime();
     int GetGameDayOfWeek();
+public:
+    int GetDayOfMonth();
 };
-extern Calendar g_calendar;
-extern const char* g_packageTypeNames[];
-Actor* FUN_00703180();
 bool IsHourInRange(int, int, float);
-unsigned short GetShortFromTable(int);
-const char* PrepareScriptMessage(const char*, bool);
-void DebugLog(const char*, ...);
 extern "C" int __cdecl sprintf(char*, const char*, ...);
 class Script
 {
   public:
-    static bool GetLocalData(TESForm*, ExtraDataList*, unsigned int);
+public:
+    char *GetData();
 };
 #endif

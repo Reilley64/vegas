@@ -1,10 +1,17 @@
 // gamebryo2.2/corelibs/nianimation/niinterpcontroller.cpp: NiInterpController, NiInterpControllerTriple, NiInterpControllerFlagCheck, BaseWrap (5 functions)
 
+#include "fnv/decl/NiTimeController_Luna.h"
+#include "fnv/decl/TCController.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_011f3000.h"
 #include "niinterpcontroller_decls.h"
 // @fnv 0x00a2f910
 void NiInterpController::LoadBinary(NiStream& stream)
 {
-    NiTimeController::LoadBinary(stream);
+    reinterpret_cast<::NiTimeController_Luna *>(this)->FUN_00a6d5e0(stream);
     if (stream.version >= 0x0a010068 && stream.version < 0x0a01006d)
     {
         bool value;
@@ -56,18 +63,12 @@ struct StrArr
     unsigned short unk0a;
     unsigned short unk0c;
     unsigned short unk0e;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char**);
 };
 struct BaseCall
 {
     unsigned int unk00;
     unsigned int unk04;
-    void FUN_00a6d830(StrArr*);
 };
-extern const char* g_011f36bc_arg1;
-extern char* __cdecl FUN_00a7d330(const char*);
-extern "C" char* __cdecl FUN_00a7d370(const char*, int);
 struct BaseWrap : BaseCall
 {
     unsigned char flags;
@@ -77,20 +78,20 @@ struct BaseWrap : BaseCall
 // @fnv 0x00a2f980
 void BaseWrap::WriteManagerControlledFlag(StrArr* stream)
 {
-    FUN_00a6d830(stream);
-    char* value = FUN_00a7d330(g_011f36bc_arg1);
+    reinterpret_cast<::TCController *>(this)->FUN_00a6d830((::NiViewerStringsArray *)(stream));
+    char* value = FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_011f36b4)));
     unsigned int index = stream->unk0a;
     if (index >= stream->unk08)
     {
-        stream->SetSize(stream->unk0e + index);
+        reinterpret_cast<::ViewerStrings *>((stream))->SetSize(stream->unk0e + index);
     }
-    stream->SetAt(index, &value);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((stream))->SetAt(index, (*(char * *)(&value)));
     *(unsigned char*)&value = (flags >> 5) & 1;
-    value = FUN_00a7d370("IsManagerControlled", *(int*)&value);
+    value = ::FUN_00a7d370("IsManagerControlled", *(int*)&value);
     index = stream->unk0a;
     if (index >= stream->unk08)
     {
-        stream->SetSize(stream->unk0e + index);
+        reinterpret_cast<::ViewerStrings *>((stream))->SetSize(stream->unk0e + index);
     }
-    stream->SetAt(index, &value);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((stream))->SetAt(index, (*(char * *)(&value)));
 }

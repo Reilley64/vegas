@@ -2,6 +2,15 @@
 #ifndef FNV_TESRESPONSE_H
 #define FNV_TESRESPONSE_H
 
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00616c70_cls.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_011cb000.h"
 #include "tesresponse_support.h"
 #include "tesresponse_forms.h"
 #include "tesresponse_support.h"
@@ -12,7 +21,6 @@ class DialogueResponseData
 {
   public:
     DialogueResponseData();
-    void Endian();
     DIALOGUE_EMOTION eEmotion;          // +0x0, 4 bytes
     unsigned int ActorProjectileState;  // +0x4, 4 bytes
     TESTopic* m_pTopic;                 // +0x8, 4 bytes
@@ -47,11 +55,9 @@ class TESResponse
     void Load(TESFile* file);
     const char* GetDialogueText();
     DIALOGUE_EMOTION GetEmotion();
-    void SetEmotionValue(unsigned int value);
     static void BuildQuestTopicName(TESQuest*, TESTopic*, char*, unsigned int);
     void BuildResponseFileName(TESQuest*, TESTopic*, TESTopicInfo*, BSStringT<char>&);
     unsigned int GetResponseID();
-    TESResponse* GetNext();
     // TESResponse
     // void __cdecl TESResponse::*()
     // void __cdecl TESResponse::*()
@@ -111,10 +117,7 @@ union SETTING_VALUE
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Int();
 };
-extern SettingT_GameSettingCollection_ g_responseEmotionValue;
-int Warning(const char*, ...);
 
 class TESResponseList
 {
@@ -122,12 +125,9 @@ class TESResponseList
     TESResponse* pHead;
     void ClearResponses();
 };
-extern "C" char* __cdecl __insecure_strcpy(char*, const char*);
 
 class TESFile
 {
   public:
-    unsigned int GetChunkID();
-    bool GetChunkData(void*, unsigned int);
     bool IsEndianConversionRequired();
 };

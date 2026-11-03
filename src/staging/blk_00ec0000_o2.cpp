@@ -2,6 +2,9 @@
 // src/staging/blk_00ec0000_o2.cpp - STAGING unit created by stage_release.py for functions with no attributed unit
 // (128 KB address window, flags from the matched neighbours). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
 #include "../../include/layout_support.h"
 
 extern int DAT_010f20a8;

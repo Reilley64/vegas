@@ -2,6 +2,21 @@
 // src/fallout/interface/interfacemanager_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/interface/interfacemanager.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/FUN_0041fd00_shell.h"
+#include "fnv/decl/FUN_004a4020_shell.h"
+#include "fnv/decl/FUN_00877720_shell.h"
+#include "fnv/decl/FUN_00a25560_Class.h"
+#include "fnv/decl/StrOwner.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_004dc000.h"
+#include "fnv/symbols_004eb000.h"
+#include "fnv/symbols_004ec000.h"
+#include "fnv/symbols_00714000.h"
+#include "fnv/symbols_00718000.h"
+#include "fnv/symbols_00a01000.h"
+#include "fnv/symbols_0106e000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f9000.h"
 #include "interfacemanager_packet.h"
 
 extern "C" __declspec(dllimport) unsigned int __stdcall XInputGetState(unsigned int dwUserIndex, void* pState);
@@ -12,21 +27,7 @@ unsigned int __stdcall FUN_009f996e(unsigned int dwUserIndex, void* pState)
     return XInputGetState(dwUserIndex, pState);
 }
 
-void FUN_00714a40(int);
-void FUN_00714a60(int);
-void FUN_00714a80(int);
-void FUN_00714aa0(int);
-void FUN_00714ac0(int);
-void FUN_00714ae0(int);
-void FUN_00714b00(int);
-void FUN_00714b20(int);
-void FUN_00714b50(int);
-void FUN_00714b80(int);
-void FUN_00714bf0(int);
 void FUN_00b985f0(int);
-void FUN_004eb510(int);
-void FUN_004ecb40(unsigned int);
-void FUN_004eced0(unsigned int);
 
 struct RenderStateEntry
 {
@@ -700,7 +701,6 @@ class NiRenderer
     unsigned int unk8b4;
     RenderStateManager* stateManager;
 };
-extern NiRenderer* DAT_011f9508;
 
 // @fnv 0x00b98610
 void FUN_00b98610(int state, int value)

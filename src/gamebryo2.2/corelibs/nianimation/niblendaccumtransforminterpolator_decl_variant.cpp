@@ -2,11 +2,28 @@
 // src/gamebryo2.2/corelibs/nianimation/niblendaccumtransforminterpolator_decl_variant.cpp - declaration variant unit created 2026-10-26 by decl_variants.py for paused function 0x00a393c0: the skeleton of src/gamebryo2.2/corelibs/nianimation/niblendaccumtransforminterpolator.cpp
 // that unit declares it this way.
 
+#include "fnv/decl/DataA38.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a36890.h"
+#include "fnv/decl/FUN_00a386a0_shell.h"
+#include "fnv/decl/FUN_00a59a90_cls.h"
+#include "fnv/decl/NiBlendInterpolator.h"
+#include "fnv/decl/QXform2.h"
+#include "fnv/decl/SBObject.h"
+#include "fnv/symbols_00a36000.h"
+#include "fnv/symbols_00a37000.h"
+#include "fnv/symbols_00a39000.h"
+#include "fnv/symbols_00a92000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_011a8000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f6000.h"
 #include "niblendaccumtransforminterpolator_decls_decl_niblendaccumtransforminterpolator.h"
 struct Q
 {
     float w, x, y, z;
-    bool FUN_00a92660(const Q&) const;
 };
 struct T
 {
@@ -15,9 +32,6 @@ struct T
     float scale;
     bool Equals(const T& o) const;
 };
-extern int DAT_01096784;
-extern int DAT_011a8404, DAT_011a8408, DAT_011f3708, DAT_011f370c, DAT_011f3710;
-void __fastcall FUN_00a36890(void*);
 struct Obj
 {
     void* vt;
@@ -27,21 +41,14 @@ struct Obj
     int i;
     char j;
 };
-Obj* __fastcall FUN_00a39230(Obj* o);
 struct MemoryManager
 {
-    void Deallocate(void* p);
 };
-extern MemoryManager g_memoryManager;
-extern int DAT_01096784;
-void __fastcall DestroyInterpolatorArray(void*);
-void __fastcall FUN_00a39290(void* p, int unused);
 struct QT
 {
     float t[3];
     float r[4];
     float s;
-    QT CombineTransforms(const QT&) const;
 };
 struct Item
 {
@@ -59,7 +66,6 @@ struct Self
     Item* items;
     bool FUN_00a394b0(QT* kValue);
 };
-extern double _DAT_010241b0;
 struct NiAVObject;
 struct NiBinaryStream;
 struct NiFixedString;
@@ -75,15 +81,12 @@ struct FUN_00a39720_shell : public NiBlendAccumTransformInterpolator
 };
 struct FUN_00a37ec0_tgt
 {
-    void FUN_00a37ec0(NiStream*);
 };
 struct FUN_00a38b60_tgt
 {
-    void FUN_00a38b60(NiStream*);
 };
 struct FUN_00a59a90_tgt
 {
-    void ReadMatrixFromStream(NiStream*);
 };
 struct NiObject;
 struct NiMemObject
@@ -97,11 +100,9 @@ struct FUN_00a39780_shell : public NiBlendAccumTransformInterpolator
 };
 struct STUB_6FD0
 {
-    bool FUN_00a36fd0(NiObject*);
 };
 struct STUB_91C0
 {
-    char Equals(void*);
 };
 void _fnv_CopyFilePath(char*, unsigned int, const char*, unsigned int);
 char* CopyFilePath(char* dst, unsigned int a, const char* b, unsigned int c);
@@ -109,8 +110,6 @@ struct Transform395
 {
     float tx, ty, tz, qw, qx, qy, qz, scale;
     Transform395();
-    void TransformBy(Transform395&);
-    Transform395 CombineTransforms(const Transform395&) const;
     bool IsInvalid() const
     {
         return scale == -3.4028234663852886e38 && qx == -3.4028234663852886e38 && tx == -3.4028234663852886e38;
@@ -191,23 +190,21 @@ struct Target395
     void UpdateInterpolator(float, void*);
 };
 
-extern const AccumRotationMatrix DAT_011a9448;
 struct FUN_00a393c0_cls : NiBlendAccumTransformInterpolator
 {
-    void FUN_00a36a90(unsigned char);
     void FUN_00a393c0(unsigned char idx);
 };
 // @fnv 0x00a393c0
 void FUN_00a393c0_cls::FUN_00a393c0(unsigned char idx)
 {
-    if (m_ucInterpCount == 1 && idx == m_ucSingleIdx && !m_kAccumulatedTransform.IsMarkedInvalid())
+    if (m_ucInterpCount == 1 && idx == m_ucSingleIdx && !reinterpret_cast<::NiQuatTransform *>((void *)&(m_kAccumulatedTransform))->IsInvalid())
     {
         NiQuatTransform* value = &m_pAccumulationData[m_ucSingleIdx].value;
         if (!value->IsInvalid())
             m_kAccumulatedTransform = m_kAccumulatedTransform.CombineTransforms(*value);
     }
     bool active = m_pInterpArray[idx].interpolator != 0;
-    FUN_00a36a90(idx);
+    reinterpret_cast<::NiBlendInterpolator *>(this)->RemoveInterpolatorAt(idx);
     if (m_ucInterpCount == 1 && active)
     {
         AccumItem* item = &m_pAccumulationData[m_ucSingleIdx];
@@ -219,6 +216,6 @@ void FUN_00a393c0_cls::FUN_00a393c0(unsigned char idx)
         item->accum.m_kTranslate.x = -3.4028234663852886e38f;
         item->accum.m_kRotate.x = -3.4028234663852886e38f;
         item->accum.m_fScale = -3.4028234663852886e38f;
-        item->rotation = DAT_011a9448;
+        item->rotation = (*reinterpret_cast<const ::AccumRotationMatrix *>(&::DAT_011a9448));
     }
 }

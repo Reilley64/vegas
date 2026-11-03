@@ -4,7 +4,6 @@
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* value);
 
-extern long DAT_011f4400;
 
 // Base of the object: a NiRefObject-like polymorphic base whose constructor is
 struct NiRefObject
@@ -14,6 +13,8 @@ struct NiRefObject
     int m_kPointA;
 
     NiRefObject();
+public:
+    static unsigned int ms_lObjectCount;
 };
 
 struct FUN_00bb33c0 : NiRefObject
@@ -28,7 +29,7 @@ struct FUN_00bb33c0 : NiRefObject
 NiRefObject::NiRefObject()
 {
     m_kPointA = 0;
-    InterlockedIncrement(&DAT_011f4400);
+    InterlockedIncrement(&(*reinterpret_cast<long *>(&::NiRefObject::ms_lObjectCount)));
 }
 
 // @fnv 0x00bb33c0

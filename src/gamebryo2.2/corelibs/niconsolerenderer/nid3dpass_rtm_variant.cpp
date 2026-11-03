@@ -1,5 +1,20 @@
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/E7DE90Owner.h"
+#include "fnv/decl/ElemPtrArray.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00b7c750_cls.h"
+#include "fnv/decl/FUN_00e7ecd0_cls.h"
+#include "fnv/decl/FUN_00e89410_Class.h"
+#include "fnv/decl/PassState.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00b7c000.h"
+#include "fnv/symbols_00c03000.h"
+#include "fnv/symbols_00c4c000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_0126f000.h"
 #include "nid3dpass_types_NiD3DPass.h"
 #include "nid3dpass_types_NiTArray_NiPointer_NiD3DTextureStage__NiTNewInterface_NiPointer_NiD3DTextureStage_____.h"
 #include "nid3dpass_decls.h"
@@ -176,7 +191,6 @@ struct TextureStageView_b7dde0
     unsigned int unk00;
     unsigned int unk04;
     unsigned int texture;
-    void ApplyPairToState(unsigned int);
 };
 
 struct StagePair_b7dde0
@@ -199,17 +213,11 @@ struct BloodShaderView_b7dde0
     StagePair_b7dde0* passes;
 };
 
-extern int DAT_0126f74c;
 class NiGeometry;
-extern NiGeometry** DAT_011f91e0;
 
-void __cdecl FUN_00c4c2d0(unsigned char*, int, Matrix4_b7dde0*);
 
 struct BloodDraw_b7dde0
 {
-    void FUN_00b7c750(GeometryView_b7dde0*, unsigned char*);
-    void FUN_00b7c7b0(Matrix4_b7dde0*);
-    void* GetTextureByIndex(char*, int);
 
     void FUN_00b7dde0(DrawArgument_b7dde0*);
 };
@@ -224,16 +232,16 @@ void BloodDraw_b7dde0::FUN_00b7dde0(DrawArgument_b7dde0* argument)
 
     reinterpret_cast<TextureStageView_b7dde0*>(pass)->texture = *source->handle;
 
-    reinterpret_cast<TextureStageView_b7dde0*>(pass)->ApplyPairToState(source->GetValue());
+    reinterpret_cast<::E7DE90Owner *>((reinterpret_cast<TextureStageView_b7dde0*>(pass)))->ApplyPairToState(source->GetValue());
 
     global = reinterpret_cast<BloodShaderView_b7dde0*>(DAT_0126f74c);
     passes = global->passes;
     pass = passes->second;
 
     reinterpret_cast<TextureStageView_b7dde0*>(pass)->texture =
-        reinterpret_cast<unsigned int>(GetTextureByIndex(reinterpret_cast<char*>(source), 0));
+        reinterpret_cast<unsigned int>(((void *)(::GetTextureByIndex((char *)this, (int)(reinterpret_cast<char*>(source))))));
 
-    reinterpret_cast<TextureStageView_b7dde0*>(pass)->ApplyPairToState(source->GetValue());
+    reinterpret_cast<::E7DE90Owner *>((reinterpret_cast<TextureStageView_b7dde0*>(pass)))->ApplyPairToState(source->GetValue());
 
     global = reinterpret_cast<BloodShaderView_b7dde0*>(DAT_0126f74c);
     passes = global->passes;
@@ -247,7 +255,7 @@ void BloodDraw_b7dde0::FUN_00b7dde0(DrawArgument_b7dde0* argument)
     unsigned char* field = &geom->transform;
     Matrix4_b7dde0 local;
 
-    FUN_00c4c2d0(field, 0, &local);
-    FUN_00b7c750(geom, field);
-    FUN_00b7c7b0(&local);
+    ::fnv_00c4c2d0::FUN_00c4c2d0((::fnv_00c4c2d0::NiAVObject *)(field), 0, (::fnv_00c4c2d0::Mat4 *)(::Matrix4_b7dde0 *)(&local));
+    reinterpret_cast<::FUN_00b7c750_cls *>(this)->FUN_00b7c750((unsigned int)(geom), (unsigned int)(field));
+    ::fnv_00b7c7b0::FUN_00b7c7b0((unsigned int)this);
 }

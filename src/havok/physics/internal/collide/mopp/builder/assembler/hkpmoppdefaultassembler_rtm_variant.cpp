@@ -4,7 +4,24 @@
 
 // src/havok/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void __cdecl GrowBuffer();
+#include <new>
+#include "fnv/decl/E06490Stack.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00e06d70_Class.h"
+#include "fnv/decl/SearchObject.h"
+#include "fnv/decl/SomeClass.h"
+#include "fnv/decl/fnv_00e06db0__FUN_00e06db0_class.h"
+#include "fnv/decl/fnv_00e08040__TreeOptimizer.h"
+#include "fnv/decl/fnv_00e08240__FUN_00e08240_cls.h"
+#include "fnv/decl/fnv_00e08470__S_00e08470_Class.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00cbf000.h"
+#include "fnv/symbols_00e06000.h"
+#include "fnv/symbols_00e07000.h"
+#include "fnv/symbols_01000000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_0101f000.h"
+#include "fnv/symbols_0102e000.h"
 struct FUN_00e06780_class
 {
     void __thiscall AppendChar(char b);
@@ -79,14 +96,13 @@ struct ByteSink
     int m_iUsed;
     char* m_pBuffer;
 
-    void GrowBuffer();
 
     void PutByte(char acValue)
     {
         m_pBuffer[m_uiLogicalSize - m_iUsed - 1] = acValue;
         m_iUsed++;
         if (m_iUsed >= m_uiLogicalSize)
-            GrowBuffer();
+            reinterpret_cast<::E06490Stack *>(this)->GrowBuffer();
     }
 
     void PutBytePair(char acFirst, char acSecond);
@@ -197,7 +213,6 @@ struct Node
     char unk38;
     char unk39;
 };
-void __stdcall FUN_00e06b20(Node* node);
 struct Limits
 {
     unsigned int unk00;
@@ -216,10 +231,8 @@ struct Limits
     unsigned int unk34;
     unsigned int unk38;
 };
-void __stdcall AdjustLimits(Limits* first, Limits* second, Limits* third);
 struct E06C20Writer
 {
-    void FUN_00e069a0(int size, void* data);
 };
 struct E06C20Object
 {
@@ -286,8 +299,6 @@ struct E07510Input
 };
 struct E07510Solver
 {
-    void FUN_00e07070(void* b, void* c, void* d);
-    void AdjustLimits(E07510Input* a, void* b, void* c);
     void FUN_00e07510(E07510Input* a, void* b, void* c, void* d);
 };
 struct S_e07c50_Buf
@@ -311,9 +322,6 @@ struct S_e07c50
     int unk20;
     int unk24;
     int m_uiItemCount;
-    void FUN_00e06b20(S_e07c50_Item* item);
-    void FUN_00e06e00(S_e07c50_Item* item, int b, int c);
-    void FUN_00e07550(S_e07c50_Item* item, int c);
     int FUN_00e07c50(S_e07c50_Item* item, int b, int c);
 };
 struct S_e07c50_Item
@@ -365,7 +373,6 @@ struct FUN_00e09640_class
 {
     virtual void unknownVirtual();
     unsigned short unk04;
-    void __thiscall DestroyAudioBuffer();
     FUN_00e09640_class* __thiscall FUN_00e09640(int flags);
 };
 struct FUN_00e06800_cls
@@ -376,7 +383,6 @@ struct FUN_00e06800_cls
     int m_uiItemCount;
     char* m_buf;
 
-    void __thiscall Flush();
     void __thiscall FUN_00e06800(char a, int v);
 };
 struct FUN_00e06880_cls
@@ -387,7 +393,6 @@ struct FUN_00e06880_cls
     int m_uiItemCount;
     char* m_buf;
 
-    void __thiscall Flush();
     void __thiscall FUN_00e06880(char a, int v);
 };
 struct FUN_00e069a0_cls
@@ -398,12 +403,10 @@ struct FUN_00e069a0_cls
     int m_uiItemCount;
     char* m_buf;
 
-    void __thiscall Flush();
     void __thiscall FUN_00e069a0(char a, unsigned int v);
 };
 struct FUN_00e06490_cls
 {
-    void __thiscall GrowBuffer();
 };
 struct FUN_00e06a60_cls
 {
@@ -472,7 +475,6 @@ struct Stream
     int unk0c;
     char* unk10;
 
-    void GrowBuffer();
 
     void AppendChar(char b)
     {
@@ -480,11 +482,10 @@ struct Stream
         unk0c++;
         if (unk0c >= unk08)
         {
-            GrowBuffer();
+            reinterpret_cast<::E06490Stack *>(this)->GrowBuffer();
         }
     }
 
-    void FUN_00e06800(int a, int b);
 };
 struct FUN_00e06c40_class
 {
@@ -493,7 +494,6 @@ struct FUN_00e06c40_class
 
     int __thiscall FUN_00e06c40(int a1, int a2);
 };
-extern "C" void __cdecl GrowBuffer();
 struct Sink
 {
     int unk00;
@@ -501,7 +501,6 @@ struct Sink
     int m_iCap;
     int m_iArrayLength;
     int m_iEnd;
-    void __thiscall Flush();
 };
 struct Pkt
 {
@@ -531,7 +530,6 @@ class FUN_00e06cb0_cls
 
     void __thiscall WritePacket(const Pkt* p);
 };
-extern char DAT_01000000;
 struct S_00e06e00_Item
 {
     int unk0;
@@ -543,10 +541,6 @@ struct S_00e06e00_Buf
     int unk8;
     int unkC;
     int unk10;
-    void PutBytePair(int tag, unsigned int v);
-    void FUN_00e06800(int tag, unsigned int v);
-    void FUN_00e06880(int tag, unsigned int v);
-    void FUN_00e069a0(int tag, unsigned int v);
 };
 struct S_00e06e00_A0
 {
@@ -611,7 +605,6 @@ struct S_00e06e00_Cls
     int unkC;
     S_00e06e00_Buf* unk10;
     int FUN_00e06e00(S_00e06e00_A0* a, S_00e06e00_A1* b, S_00e06e00_A2* c);
-    void WriteOp(int idx, S_00e06e00_Item* item);
 };
 struct Vec3
 {
@@ -619,9 +612,7 @@ struct Vec3
     float y;
     float z;
 };
-extern const double g_thresholdA;
 extern const double g_thresholdB;
-int __stdcall ClassifyVec3Region(const Vec3* pVec);
 struct S_00e07070_Pair
 {
     int unk00;
@@ -642,8 +633,6 @@ struct S_00e07070_Result
     int count;
     int q[3];
 };
-extern "C" int __stdcall FUN_00e07040(S_00e07070_Object* a, S_00e07070_Object* b);
-void __stdcall FUN_00e07070(S_00e07070_Object* a, S_00e07070_Object* b, S_00e07070_Result* out);
 struct S_00e07680_Writer
 {
     int unk0;
@@ -652,13 +641,12 @@ struct S_00e07680_Writer
     int m_pos;
     unsigned char* m_buf;
     void AppendChar(int b);
-    void GrowBuffer();
     __forceinline void put(unsigned char b)
     {
         m_buf[m_cap - m_pos - 1] = b;
         m_pos++;
         if (m_pos >= m_cap)
-            GrowBuffer();
+            reinterpret_cast<::E06490Stack *>(this)->GrowBuffer();
     }
 };
 struct S_00e07680
@@ -668,7 +656,6 @@ struct S_00e07680
     int unk8;
     int unkc;
     S_00e07680_Writer* w;
-    void WriteOffsetDelta(int);
     void FUN_00e07680(int a1, int a2, int a3, int a4, int a5);
 };
 struct Entry
@@ -708,17 +695,8 @@ struct Handler
 {
     int unk00, unk04, unk08, unk0c;
     Entry* unk10;
-    void __thiscall FUN_00e06b20(Entry*);
-    int __thiscall ClassifyVec3Region(int);
-    void __thiscall FUN_00e07880(Entry*, Entry*, Entry**, Entry**);
-    void __thiscall FUN_00e07680(Entry*, Entry*, int, int, int);
-    void __thiscall WriteSize(int);
-    void __thiscall FUN_00e06db0(Entry*, Entry*, Entry*);
-    void __thiscall FUN_00e07550(Entry*, Entry*);
-    void __thiscall WritePacket(char*);
     int __thiscall FUN_00e07ca0(Entry*, Entry*, Entry*, char*);
 };
-extern int __cdecl FUN_00cbfef0(float f);
 struct S_00e07da0_Bounds
 {
     int unk0;
@@ -739,15 +717,12 @@ struct S_00e07da0_Bounds
     int unk40[1];
     int unk44[1];
 
-    void AlignRanges();
 };
 struct S_00e07da0_Region : S_00e07da0_Bounds
 {
     int lo48[3];
     int hi54[3];
 
-    void BuildScaledRanges(struct S_00e07da0_Node* node, void* p);
-    void FUN_00e09540();
 };
 struct S_00e07da0_Result
 {
@@ -819,10 +794,6 @@ struct S_00e07da0_Tree
     float unk54;
 
     void BuildRegion(S_00e07da0_Node* node, S_00e07da0_Region* parent, S_00e07da0_Region* region);
-    void ComputeNodeBounds(S_00e07da0_Node* node, S_00e07da0_Region* region);
-    void FUN_00e07070(S_00e07da0_Region* parent, S_00e07da0_Region* region, S_00e07da0_Result* out);
-    int ClassifyVec3Region(void* p);
-    void FUN_00e07880(S_00e07da0_Node* node, S_00e07da0_Region* region, int* lo, int* hi);
 };
 struct AudioAllocator
 {
@@ -842,7 +813,6 @@ struct AudioHolder
 };
 struct BSAudio;
 extern int DAT_010ea5dc;
-extern int DAT_0102e388;
 struct FUN_00e09450_cls
 {
     int m_vptr00;
@@ -942,17 +912,11 @@ class FUN_00e095d0_cls
     unsigned int unk44;
 
     FUN_00e095d0_cls* __thiscall FUN_00e095d0(FUN_00e095d0_cls* src, unsigned int a2, unsigned int a3);
-    void __thiscall CopyOffsets(unsigned int a);
-    void __thiscall BuildScaledRanges(unsigned int a, unsigned int b);
-    void __thiscall FUN_00e09540();
 };
 // Emit an opcode with an immediate, choosing the byte, short or int form (and its opcode offset) by value range.
 class E6BC0Writer
 {
   public:
-    void WriteByteOp(int iOpcode, int iValue);
-    void WriteShortOp(int iOpcode, int iValue);
-    void WriteIntOp(int iOpcode, int iValue);
 };
 class E6BC0Encoder
 {
@@ -974,7 +938,6 @@ struct FUN_00e06ed0_Class
     S_00e06e00_Buf* m_pStreamWriter;
     void WriteOffsetDelta(int iTarget);
 };
-extern int __cdecl FUN_00cbfef0(float f);
 struct Node07400
 {
     int unk00;
@@ -1053,8 +1016,6 @@ struct BufWriter
     int m_08;
     int m_0c;
     int m_10;
-    void __thiscall Flush();
-    void __thiscall WriteInt24(int v);
 };
 inline void EmitByte(BufWriter* w, unsigned char v)
 {
@@ -1062,7 +1023,7 @@ inline void EmitByte(BufWriter* w, unsigned char v)
     w->m_0c++;
     if (w->m_0c >= w->m_08)
     {
-        w->Flush();
+        reinterpret_cast<::E06490Stack *>((w))->GrowBuffer();
     }
 }
 struct FUN_00e07550_cls
@@ -1101,9 +1062,6 @@ struct KdCtx
     int unk40;
     int unk44;
 
-    void __thiscall CopyOffsets(KdNode* k);
-    void __thiscall BuildScaledRanges(KdNode* k, float* p);
-    void __thiscall FUN_00e09540();
 };
 struct KdNode
 {
@@ -1167,12 +1125,9 @@ struct MyTree
     int unk5c;
     float f60[3];
 
-    int __thiscall FUN_00e07040(KdCtx* a, KdCtx* c);
-    void __thiscall FUN_00e07070(KdCtx* a, KdCtx* c, S_00e07070_Result* o);
     int __thiscall Recurse(KdNode* n, KdCtx* a, KdCtx* c);
 };
 #include <xmmintrin.h>
-extern double _gModifierZero;
 struct FUN_00e07b90_bounds
 {
     float unk00, unk04, unk08, minimumX, maximumX, minimumY, maximumY, minimumZ, maximumZ;
@@ -1324,16 +1279,15 @@ struct FUN_00e065f0
     unsigned char* m_data;
     BvArray<BvFixup> m_buffer;
 
-    void FillWithPattern(int);
-    void FUN_00e06480();
     FUN_00e065f0(unsigned int id) throw();
-    void Destroy();
     void* operator new(unsigned int n)
     {
         FUN_00e065f0* p = static_cast<FUN_00e065f0*>(GetBvRouter()->allocator->AllocateMemoryBlock(n));
         p->m_usMemSizeAndFlags = (unsigned short)n;
         return p;
     }
+public:
+    FUN_00e065f0(int);
 };
 struct WriterEntry
 {
@@ -1407,8 +1361,6 @@ struct BvRange
     int unk0c;
     int unk10;
 };
-void __stdcall FUN_00e07c50(struct BvNode* node, FUN_00e095d0_cls* parent, FUN_00e095d0_cls* stack);
-void* __cdecl FUN_00cb1260(void*, const void*, int);
 static void FUN_00e08320(BvArray<BvFixup>* destination, BvArray<BvFixup>* source, int adjustment)
 {
     for (int i = 0; i < source->m_iElementCount; ++i)
@@ -1439,10 +1391,6 @@ struct BvBuilder
     int unk2c;
     int m_info30;
 
-    void FUN_00e06c40(int offset, int count);
-    void FUN_00e08470(BvNode* node);
-    void FUN_00e07510(BvNode* node, FUN_00e095d0_cls* parent, FUN_00e095d0_cls* stack, BvRange* range);
-    void FUN_00e07ca0(BvNode* node, FUN_00e095d0_cls* parent, FUN_00e095d0_cls* stack, BvRange* range);
     void FUN_00e08a60(BvNode* node, FUN_00e095d0_cls* parent, FUN_00e095d0_cls* stack, int depth, BvArray<int>* refs);
 };
 inline void* operator new(unsigned int, void* p)
@@ -1479,7 +1427,6 @@ struct P154Array
     unsigned capacity;
     P154Array() : data(0), count(0), capacity(0x80000000)
     {}
-    void Search(P154Allocator*, int, int*, int);
     void append(const int& v)
     {
         P154System* s = P154Memory::FUN_00c85750();
@@ -1492,7 +1439,7 @@ struct P154Array
     {
         P154System* r = P154Memory::FUN_00c85750();
         P154Allocator* a = r->allocator;
-        Search(a, pos, src, n);
+        reinterpret_cast<::SearchObject *>(this)->Search((unsigned int)(a), pos, (unsigned int)(src), n);
     }
     void clear()
     {
@@ -1547,9 +1494,6 @@ struct P154Region
     int unk08;
     int unk0c, unk10, unk14, unk18, unk1c, unk20;
     int unk24, unk28, unk2c, unk30, context, unk38, unk3c, unk40, unk44;
-    void CopyOffsets(struct P154Node*);
-    void BuildScaledRanges(struct P154Node*, float*);
-    void FUN_00e09540();
 };
 struct P154Node
 {
@@ -1585,9 +1529,6 @@ struct P154Tree
     P154Settings* settings;
     int unk18, unk1c, unk20, unk24, unk28, unk2c;
     int scale30, scale34, scale38;
-    void FUN_00e07c50(P154Node*, P154Region*, P154Region*);
-    void FUN_00e07510(P154Node*, P154Region*, P154Region*, P154Result*);
-    void FUN_00e07ca0(P154Node*, P154Region*, P154Region*, P154Result*);
     __forceinline int getCost(P154Array& a, int size)
     {
         int result = size;
@@ -1617,14 +1558,12 @@ struct ObjectWriter
     void FUN_00e065f0(int size) throw();
     ObjectWriter(int size) throw()
     {
-        FUN_00e065f0(size);
+        new ((void *)this) ::FUN_00e065f0(size);
     }
-    void Destroy() throw();
     ~ObjectWriter() throw()
     {
-        Destroy();
+        reinterpret_cast<::SomeClass *>(this)->Destroy();
     }
-    void FUN_00c90510() throw();
 };
 struct HelperEntry
 {
@@ -1703,9 +1642,6 @@ struct __declspec(align(8)) MyBounds
     int unk40;
     int unk44;
 
-    void BuildScaledRanges(S_00e07da0_Node* node, void* p) throw();
-    void CopyOffsets(S_00e07da0_Node* node) throw();
-    void FUN_00e09540() throw();
 };
 struct __declspec(align(8)) MyRegion : public MyBounds
 {
@@ -1716,10 +1652,6 @@ struct __declspec(align(8)) MyRegion : public MyBounds
     int hi54_1;
     int hi54_2;
 
-    void CopyOffsets(S_00e07da0_Node* node) throw();
-    void BuildScaledRanges(S_00e07da0_Node* node, void* p) throw();
-    void FUN_00e09540() throw();
-    void FUN_00e095d0(MyBounds* src, S_00e07da0_Node* node, void* p) throw();
 };
 extern "C" void __cdecl FUN_00e08380(AssemblerHelper*, ObjectWriter*, void*) throw();
 struct Tree : public FUN_00e09640_class
@@ -1759,13 +1691,6 @@ struct Tree : public FUN_00e09640_class
     int unk6c;
     int unk70;
 
-    void Recurse(S_00e07da0_Node* node, MyBounds* b, MyRegion* r) throw();
-    void BuildRegion(S_00e07da0_Node* node, MyRegion* r1, MyRegion* r2) throw();
-    void OptimizeTree(S_00e07da0_Node* node, MyBounds* b1, MyBounds* b2) throw();
-    void FUN_00e084f0(S_00e07da0_Node* node, MyBounds* b, MyRegion* r, void* arr) throw();
-    void FUN_00e08240(S_00e07da0_Node* node, int a, int b) throw();
-    void FUN_00e08a60(S_00e07da0_Node* node, MyBounds* b1, MyBounds* b2, int a, void* arr) throw();
-    void FUN_00e06c40(int a, int b) throw();
 };
 typedef void(__thiscall* Vf18Fn)(Tree*, S_00e07da0_Node*, void*) throw();
 
@@ -1852,7 +1777,6 @@ union hkVector4Copy
 };
 
 hkReal FUN_00cbfd80(hkReal f);
-int FUN_00cbfef0(hkReal f);
 int FUN_00cbfe20(hkReal f);
 extern "C" const double DAT_010ea5c0;
 

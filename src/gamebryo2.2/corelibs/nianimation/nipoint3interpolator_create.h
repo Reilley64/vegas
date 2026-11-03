@@ -1,6 +1,31 @@
 #ifndef FNV_NIPOINT3INTERPOLATOR_CREATE_H
 #define FNV_NIPOINT3INTERPOLATOR_CREATE_H
 
+#include "fnv/decl/B5Owner.h"
+#include "fnv/decl/CameraState.h"
+#include "fnv/decl/FUN_005d8710_shell.h"
+#include "fnv/decl/FUN_008009d0_cls.h"
+#include "fnv/decl/FUN_00877720_shell.h"
+#include "fnv/decl/FUN_0088d7d0_shell.h"
+#include "fnv/decl/FUN_00894cc0_shell.h"
+#include "fnv/decl/FUN_009c9a50_shell.h"
+#include "fnv/decl/FUN_00aa4db0_shell.h"
+#include "fnv/decl/NiAdditionalGeometryData.h"
+#include "fnv/decl/fnv_008bb650__PlayerView.h"
+#include "fnv/decl/fnv_009c9ae0__VATS9c9.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_004e6000.h"
+#include "fnv/symbols_00529000.h"
+#include "fnv/symbols_0052a000.h"
+#include "fnv/symbols_00705000.h"
+#include "fnv/symbols_00771000.h"
+#include "fnv/symbols_009c7000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_011ce000.h"
+#include "fnv/symbols_011cf000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f2000.h"
+#include "fnv/symbols_011f6000.h"
 class NiPointLight
 {
   public:
@@ -12,14 +37,12 @@ class NiPointLight
 class StateNode
 {
   public:
-    void ResetCameraState();
 };
 class ImageSpaceModifierInstanceDOF
 {
   public:
     void FUN_005bbd60(bool);
 };
-void FUN_005293f0(ImageSpaceModifierInstanceDOF*);
 class NiPoint2
 {
   public:
@@ -34,62 +57,48 @@ union SETTING_VALUE
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Float();
 };
-extern SettingT_GameSettingCollection_ DAT_011ce424, DAT_011ce564, DAT_011ce6d8, DAT_011cf1f8;
-ImageSpaceModifierInstanceDOF* FUN_0052a440(float, float, float, float, float, NiPoint2*, float);
 class VATS
 {
   public:
-    class LightTarget* FUN_005d8710();
-    void SetLight(NiPointLight*, bool);
-    void SetCurrentTarget(class TESObjectREFR*);
 };
 class LightTarget
 {
   public:
-    class NiAVObject* FUN_004e6540();
 };
 class Interface
 {
   public:
-    static class ShadowLightData* GetVATSEffect();
 };
 class ShadowLightData
 {
   public:
-    void FUN_008009d0();
 };
 class HUDMainMenu
 {
   public:
-    static void UpdateVisibilityState(int);
 };
 class Actor
 {
   public:
-    bool UnEquipObject(class TESBoundObject*, int, class ExtraDataList*, bool, bool, bool);
-    bool CanStartCombat(bool);
 };
 class PlayerCharacter : public Actor
 {
   public:
-    void SetAimingWeapon(bool, bool, bool);
 };
 class InputManager
 {
   public:
-    void FUN_00a25410();
+public:
+    void FUN_00a25410(int);
 };
 class OSGlobals
 {
   public:
-    InputManager* FUN_00877720(int);
 };
 class GameTimerRecord
 {
   public:
-    void SetGlobalTimeMultiplier(float, bool);
 };
 class GlobalObject_009c6a30
 {
@@ -97,10 +106,6 @@ class GlobalObject_009c6a30
 class TimeGlobal
 {
 };
-extern GlobalObject_009c6a30 g_011f2250;
-extern TimeGlobal g_timeGlobal;
-extern PlayerCharacter* g_thePlayer;
-extern OSGlobals* g_osGlobals;
 class ShadowSceneNode
 {
   public:
@@ -166,11 +171,9 @@ class ShadowSceneNode
     virtual void vfn_e8(class NiAVObject*);
     void AttachLight(class NiAVObject*);
 };
-ShadowSceneNode* FUN_00450b80(int);
 class ExtraDataList
 {
   public:
-    void Set3DObject(class NiAVObject*);
 };
 class TemporaryEffect
 {
@@ -181,13 +184,4 @@ class TemporaryEffect
     virtual void vfn_c();
     virtual ~TemporaryEffect();
 };
-extern TemporaryEffect* DAT_011f21e8;
-extern TemporaryEffect* DAT_011f21ec;
-extern TESObjectREFR* DAT_011f21cc;
-extern PlayerCharacter* DAT_011f21f0;
-extern int DAT_011f21b8, DAT_011f21c0, DAT_011f21c4, DAT_011f21c8, DAT_011f21dc;
-extern bool DAT_011f21d0, DAT_011f21d2, DAT_011f21d3, DAT_011f21e4;
-extern float DAT_011f21d4, DAT_011f21d8;
-extern const float DAT_01016248;
-void FUN_009c7190(bool);
 #endif

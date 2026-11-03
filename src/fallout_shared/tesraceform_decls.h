@@ -3,6 +3,12 @@
 #define FNV_TESRACEFORM_DECLS_H
 
 
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/symbols_0047f000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_0066e000.h"
 namespace ActorValue {
 enum Index
 {
@@ -129,28 +135,26 @@ class TESRaceForm : public BaseFormComponent
     TESRace* m_pRace;
     void InitItem(TESForm* owner);
     void BaseFormRecord(BaseFormComponent* component);
-    TESRace* GetFormRace() const;
-    void SetFormRace(TESRace* race);
 };
 FNV_STATIC_ASSERT(sizeof(TESRaceForm) == 8);
 FNV_STATIC_ASSERT(offsetof(TESRaceForm, m_pRace) == 4);
 
 // This shared name predicate is already bound under BGSCameraPath in
 // canonical source. Its receiver is the TESForm prefix.
+class BGSCameraShot;
+template <class> class BSSimpleList;
 class BGSCameraPath
 {
   public:
     int HasNameForWarning();
+public:
+    ::BSSimpleList< ::BGSCameraShot *> *GetShotList();
 };
 
-TESForm* __cdecl GetFormByID(unsigned int formID);
-int __cdecl Warning(const char* format, ...);
 
 #include "tesraceform_actorbase.h"
 
 namespace ActorValue {
-bool IsSkill(Index actorValue);
-unsigned char ToArrayIndex(int section, Index actorValue);
 }
 
 // TESNPC prefix through the two arrays used by GetActorValue.

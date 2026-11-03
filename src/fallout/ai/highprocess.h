@@ -3,6 +3,7 @@
 #define FNV_LUNA_HIGH_PROCESS_H
 
 
+#include "fnv/symbols_00403000.h"
 #include "highprocess_packet_decls.h"
 
 class MobileObject;
@@ -484,7 +485,7 @@ void HighProcess::SetCombatAlerted(bool value)
 // @fnv 0x008d9570
 void HighProcess::StopAllActorSounds()
 {
-    m_fSecondLipSyncParameter = originalRuntimeFloatSetting244.Float()->f;
+    m_fSecondLipSyncParameter = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting244))))->f;
 }
 
 // @fnv 0x008d8e60

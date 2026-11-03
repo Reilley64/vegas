@@ -1,12 +1,12 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00aaf000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01016000.h"
 int FUN_00ec75b1(double value);
 int FUN_00ec7595(double value);
 double FUN_00ec6cde(double value);
-void ReportAssertionViolation(const char* file, int line);
-extern float DAT_01016970;
-extern float DAT_01015f5c;
 // @fnv 0x00ac79e0
 float FUN_00ac79e0(float a, float b)
 {

@@ -2,17 +2,20 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpweldingviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpweldingviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/S_00dd9380.h"
+#include "fnv/decl/SearchArray.h"
+#include "fnv/decl/fnv_00c93920__hkpWorldXc93920.h"
+#include "fnv/symbols_00d62000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 struct FUN_00dd9380_class
 {
-    void* FUN_00dd9380(const char* name, void* factory);
 };
-extern int DAT_01269cd0;
-extern int DAT_01268fbc;
-void* __cdecl FUN_00d62e20();
 // @fnv 0x00d62e60
 void __cdecl RegisterWeldingViewer()
 {
-    void* result = ((FUN_00dd9380_class*)DAT_01269cd0)->FUN_00dd9380("WeldingViewer", (void*)&FUN_00d62e20);
+    void* result = ((void *)(reinterpret_cast<::S_00dd9380 *>((((FUN_00dd9380_class*)(*reinterpret_cast<int *>(&::DAT_01269cd0)))))->FUN_00dd9380("WeldingViewer", (int)((void*)&((void *(&)())::FUN_00d62e20_impl)))));
     DAT_01268fbc = (int)result;
 }
 
@@ -27,7 +30,6 @@ struct S_00d62650_B3
 };
 struct S_00d62650_Arg
 {
-    void __thiscall FUN_00c93920(S_00d62650_B3* p);
 };
 struct S_00d62650_B2
 {
@@ -43,7 +45,7 @@ struct S_00d62650_D : S_00d62650_B1, S_00d62650_B2, S_00d62650_B3
 // @fnv 0x00d62650
 void S_00d62650_D::DispatchToArg(S_00d62650_Arg* arg)
 {
-    arg->FUN_00c93920(this);
+    reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((arg))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(::S_00d62650_B3 *)(this));
 }
 
 // hkpWeldingViewer - virtual slot 2 of the base subobject at +0x20.
@@ -54,7 +56,6 @@ void S_00d62650_D::DispatchToArg(S_00d62650_Arg* arg)
 
 struct HKWorldList
 {
-    void IsEntityAdded(void* entity);
 };
 
 struct HKConstraint
@@ -69,12 +70,11 @@ struct HKConstraint
 // @fnv 0x00d62680
 void HKConstraint::FUN_00d62680(HKWorldList* pWorldList)
 {
-    pWorldList->IsEntityAdded(((char*)this - 0x20) ? (void*)&unk08 : (void*)0);
+    reinterpret_cast<::SearchArray *>((pWorldList))->ClearValue((int)(((char*)this - 0x20) ? (void*)&unk08 : (void*)0));
 }
 
 struct S_00d626b0_Item
 {
-    void FUN_00c93920(void* apSub);
 };
 
 struct S_00d626b0_Owner
@@ -156,7 +156,7 @@ FUN_00d626b0::FUN_00d626b0(int aiArg) throw() : S_00d626b0_R(aiArg)
     if (m_24)
     {
         for (int i = 0; i < m_24->m_70; i++)
-            m_24->m_6c[i]->FUN_00c93920((S_00d626b0_S*)this);
+            reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((m_24->m_6c[i]))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(void *)((S_00d626b0_S*)this));
     }
 }
 
@@ -170,7 +170,6 @@ class D62720Listener
 class D62720Island
 {
   public:
-    void removeListener(D62720Listener* listener);
 };
 
 struct D62720World
@@ -253,7 +252,7 @@ FUN_00d62720::~FUN_00d62720() throw()
     if (m_pOwningWorld)
     {
         for (int i = 0; i < m_pOwningWorld->m_iIslandCount; i++)
-            m_pOwningWorld->m_islands[i]->removeListener(this);
+            reinterpret_cast<::SearchArray *>((m_pOwningWorld->m_islands[i]))->ClearValue((int)(this));
     }
 }
 
@@ -281,7 +280,6 @@ struct Viewer
 {
     int unk00;
     unsigned short unk04;
-    void* ctor0d626b0(void* arg);
 };
 
 extern "C" void* __cdecl FUN_00c85750();
@@ -293,18 +291,17 @@ void* __cdecl FUN_00d62e20_impl(void* arg)
     Manager* pManager = (Manager*)FUN_00c85750();
     Viewer* pViewer = pManager->unk10->alloc0x2c(0x2c);
     pViewer->unk04 = 0x2c;
-    void* pResult = pViewer->ctor0d626b0(arg);
+    void* pResult = ((void *)(new ((void *)(pViewer)) ::FUN_00d626b0((int)(arg))));
     if (pResult)
         return (char*)pResult + 8;
     return 0;
 }
 
-extern int g_D62E80Value;
 
 // @fnv 0x00d62e80
 int __cdecl FUN_00d62e80()
 {
-    return g_D62E80Value;
+    return ::DAT_01268fbc;
 }
 
 namespace fnv_00d62ec0 {
@@ -342,7 +339,7 @@ struct FUN_00d62ec0_cls
 // @fnv 0x00d62ec0
 FUN_00d62ec0_cls* FUN_00d62ec0_cls::Destroy(unsigned char acFlags)
 {
-    FUN_00d62720();
+    reinterpret_cast<::FUN_00d62720 *>(this)->FUN_00d62720::~FUN_00d62720();
     if (acFlags & 1)
     {
         AudioHolder* pHolder = FUN_00c85750();

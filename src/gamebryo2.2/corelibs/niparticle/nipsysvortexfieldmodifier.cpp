@@ -2,12 +2,25 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysvortexfieldmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysvortexfieldmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_01202688;
 
 // @fnv 0x00c26810
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00589850_Class.h"
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/FUN_00c32120_cls.h"
+#include "fnv/decl/NiPSysParticle.h"
+#include "fnv/decl/PositionState.h"
+#include "fnv/decl/S_00c322b0.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00c26000.h"
+#include "fnv/symbols_01202000.h"
 void* __cdecl FUN_00c26810()
 {
-    return &g_01202688;
+    return &(*reinterpret_cast<void * *>(&::g_01202688));
 }
 
 struct NiStream;
@@ -17,7 +30,6 @@ struct NiColor
 };
 struct NiPSysFieldModifier
 {
-    void LoadBinary(NiStream&);
 };
 struct NiPSysVortexFieldModifier : NiPSysFieldModifier
 {
@@ -27,11 +39,10 @@ struct NiPSysVortexFieldModifier : NiPSysFieldModifier
 // @fnv 0x00c267d0
 void NiPSysVortexFieldModifier::FUN_00c267d0(NiStream& stream)
 {
-    NiPSysFieldModifier::LoadBinary(stream);
+    reinterpret_cast<::FUN_00c32120_cls *>(this)->LoadFromStream((::StreamOwner *)&(stream));
     ((NiColor*)((char*)this + 0x30))->LoadBinary(stream);
 }
 
-void __cdecl FUN_00c31750();
 void __cdecl operator delete(void*, unsigned int);
 
 struct FUN_00c26920_shell
@@ -43,9 +54,9 @@ struct FUN_00c26920_shell
 // @fnv 0x00c26920
 FUN_00c26920_shell* __thiscall FUN_00c26920_shell::DestroyIfFlagged(int a)
 {
-    FUN_00c31750();
+    static_cast<::PositionState *>(nullptr)->FUN_00c31750();
     if (a & 1)
-        operator delete(this, 0x3c);
+        ::FUN_00aa1460(this, 0x3c);
     return this;
 }
 
@@ -70,7 +81,6 @@ struct NiObject;
 struct ShaderBufferRecord;
 struct NiTStringPointerMap_00e93060
 {
-    bool GetAt(const char*, ShaderBufferRecord*&);
 };
 struct CloningProcess;
 struct NiPSysModifier
@@ -87,12 +97,11 @@ void NiPSysAirFieldModifier_00c2c110::FUN_00c2c110(CloningProcess& aCloneProcess
 {
     NiPSysModifier::ProcessClone(aCloneProcess);
     ShaderBufferRecord* pMappedObject = 0;
-    ((NiTStringPointerMap_00e93060*)aCloneProcess.m_pCloneMap)->GetAt((const char*)this, pMappedObject);
+    reinterpret_cast<::A54440Hash *>((((NiTStringPointerMap_00e93060*)aCloneProcess.m_pCloneMap)))->FUN_00a53c30((::A54440Manager *)((const char*)this), (::A54440Manager **)&(pMappedObject));
     ShaderBufferRecord* destination = pMappedObject;
     if (*(NiObject**)((char*)this + 0x18))
     {
-        if (((NiTStringPointerMap_00e93060*)aCloneProcess.m_pCloneMap)
-                ->GetAt((const char*)*(NiObject**)((char*)this + 0x18), pMappedObject))
+        if (reinterpret_cast<::A54440Hash *>((((NiTStringPointerMap_00e93060*)aCloneProcess.m_pCloneMap)))->FUN_00a53c30((::A54440Manager *)((const char*)*(NiObject**)((char*)this + 0x18)), (::A54440Manager **)&(pMappedObject)))
         {
             *(NiObject**)((char*)destination + 0x18) = (NiObject*)pMappedObject;
             return;
@@ -108,22 +117,19 @@ struct StrArr
     unsigned short m_usSize;      // +0x0a
     char _pad_c[2];
     unsigned short m_usGrowBy;  // +0x0e
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 
 struct NiPoint3
 {
     char* FUN_00a59af0(char const*);
+public:
+    static const ::NiPoint3 ZERO;
 };
 
-char* __cdecl _FUN_00a7d330(void*);
 
-extern void* _g_01202688;
 
 struct C27A30Base
 {
-    void FUN_00c322b0(StrArr*);
 };
 
 struct FUN_00c27060_shell : C27A30Base
@@ -134,17 +140,17 @@ struct FUN_00c27060_shell : C27A30Base
 // @fnv 0x00c27060
 void FUN_00c27060_shell::AppendNameAndDirection(StrArr* pkStrings)
 {
-    FUN_00c322b0(pkStrings);
-    char* pcStr = _FUN_00a7d330(_g_01202688);
+    reinterpret_cast<::S_00c322b0 *>(this)->FUN_00c322b0((::S_00c322b0_Arr *)(pkStrings));
+    char* pcStr = ::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_01202688))));
     unsigned int uiIdx = pkStrings->m_usSize;
     if (uiIdx >= pkStrings->m_usCapacity)
-        pkStrings->SetSize(pkStrings->m_usGrowBy + uiIdx);
-    pkStrings->SetAt(uiIdx, pcStr);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(pkStrings->m_usGrowBy + uiIdx);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiIdx, pcStr);
     pcStr = ((NiPoint3*)((char*)this + 0x30))->FUN_00a59af0("Direction");
     uiIdx = pkStrings->m_usSize;
     if (uiIdx >= pkStrings->m_usCapacity)
-        pkStrings->SetSize(pkStrings->m_usGrowBy + uiIdx);
-    pkStrings->SetAt(uiIdx, pcStr);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(pkStrings->m_usGrowBy + uiIdx);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiIdx, pcStr);
 }
 
 struct CloneVec3
@@ -154,7 +160,6 @@ struct CloneVec3
     int z;
 };
 
-extern "C" CloneVec3 DAT_011f426c;
 
 struct CloneItemBase
 {
@@ -168,7 +173,7 @@ struct CloneItem : CloneItemBase
     void* operator new(unsigned int) throw();
     CloneItem() throw()
     {
-        m_30 = DAT_011f426c;
+        m_30 = (*reinterpret_cast<::CloneVec3 *>((void *)&::NiPoint3::ZERO));
     }
     virtual void Vfn0();
     CloneVec3 m_30;
@@ -178,7 +183,6 @@ struct CloneHost
 {
     char _pad_0[0x30];
     CloneVec3 m_30;
-    void FUN_00c32020(CloneItem* pItem, int a);
     CloneItem* FUN_00c26940(int a);
 };
 
@@ -187,7 +191,7 @@ struct CloneHost
 CloneItem* CloneHost::FUN_00c26940(int a)
 {
     CloneItem* pItem = new CloneItem;
-    this->FUN_00c32020(pItem, a);
+    reinterpret_cast<::NiPSysParticle *>((this))->FUN_00c32020((::NiPSysParticle *)(pItem), (::CloningProcess *)(a));
     pItem->m_30 = m_30;
     return pItem;
 }
@@ -227,7 +231,6 @@ struct Pt_c268
         return *this;
     }
 };
-extern const Pt_c268 _NiPoint3_ZERO;
 
 // @fnv 0x00c26820
 Pt_c268 __stdcall FUN_00c26820(const Pt_c268& origin, const Pt_c268& direction, const Pt_c268& point)
@@ -235,7 +238,7 @@ Pt_c268 __stdcall FUN_00c26820(const Pt_c268& origin, const Pt_c268& direction, 
     Pt_c268 vDifference = point - origin;
     float dot = vDifference * direction;
     vDifference -= direction * dot;
-    if (vDifference.x == _NiPoint3_ZERO.x && vDifference.y == _NiPoint3_ZERO.y && vDifference.z == _NiPoint3_ZERO.z)
+    if (vDifference.x == (*reinterpret_cast<const ::Pt_c268 *>((void *)&::NiPoint3::ZERO)).x && vDifference.y == (*reinterpret_cast<const ::Pt_c268 *>((void *)&::NiPoint3::ZERO)).y && vDifference.z == (*reinterpret_cast<const ::Pt_c268 *>((void *)&::NiPoint3::ZERO)).z)
         return vDifference;
     return direction.FUN_0053d1a0(vDifference);
 }
@@ -260,7 +263,6 @@ struct Vec3
         y = fY;
         z = fZ;
     }
-    void FUN_004a0c10();
 
     Vec3 operator-(const Vec3& pt) const
     {
@@ -313,8 +315,9 @@ class NiTransform
     Vec3 m_kTranslation;
     float m_fScale;
 
-    void FUN_004b4880(NiTransform& kDest) const;
     NiTransform operator*(const NiTransform& xform) const;
+public:
+    void CalculateInverse(::NiTransform &);
 };
 
 struct AVObj
@@ -381,13 +384,13 @@ void VortexModifier::FUN_00c269b0(float fTime, PSysData* pkData)
     NiTransform kInvPSys;
     {
         NiTransform kPSys = m_pkTarget->m_kWorldSpaceTransform;
-        kPSys.FUN_004b4880(kInvPSys);
+        reinterpret_cast<::NiTransform *>((void *)&(kPSys))->CalculateInverse(kInvPSys);
     }
     {
         NiTransform kFieldToPSys = kInvPSys * kField;
         Vec3 kPosition = kFieldToPSys.m_kTranslation;
         Vec3 kDirection = kFieldToPSys.m_kOrientation * m_kLightVector;
-        kDirection.FUN_004a0c10();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(kDirection))->FUN_004a0c10();
         float fMaxDistanceSqr = m_fDistanceLimit * m_fDistanceLimit;
         for (unsigned short us = 0; us < pkData->m_usActiveVertices; us++)
         {
@@ -397,12 +400,12 @@ void VortexModifier::FUN_00c269b0(float fTime, PSysData* pkData)
             {
                 Vec3* __restrict pkVertex = pkData->m_pkVertex;
                 Vec3 kParticlePosition = pkVertex[us];
-                float fDistance = (kParticlePosition - kFieldToPSys.m_kTranslation).Length();
+                float fDistance = reinterpret_cast<::FUN_00589850_Class *>((void *)(void *)&(const ::Vec3 &)((kParticlePosition - kFieldToPSys.m_kTranslation)))->FUN_00589850();
                 if (fDistance != 0.0f && fDistance <= fMaxDistanceSqr)
                 {
                     Vec3 kDeltaV = FUN_00c26820(kPosition, kDirection, kParticlePosition);
                     kDeltaV *= m_fInfluence * fDeltaT;
-                    pkCurrentParticle->m_kValue += kDeltaV;
+                    reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::Vec3 &)(pkCurrentParticle->m_kValue))->FUN_0063c8a0((void *)&(kDeltaV));
                 }
             }
         }
@@ -423,15 +426,12 @@ struct NormVec3
     float x;
     float y;
     float z;
-    void FUN_004a0c10();
 };
 struct NiTransform
 {
     float rotation[9];
     Vec3 translation;
     float scale;
-    void FUN_004b4880(NiTransform&);
-    void FUN_0062c250(NiTransform&, NiTransform&);
 };
 typedef char _sizecheck_NiTransform[sizeof(NiTransform) == 52 ? 1 : -1];
 struct TransformNode
@@ -531,11 +531,10 @@ struct ForceOwner
     int unk2c;
     Vec3 m_dir;
     void FUN_00c26c00(float, ParticleList*);
-    Vec3 ComputeForce(const Vec3& origin, const Vec3& axis, const Vec3& point);
     Vec3 Force(const Vec3& origin, const Vec3& axis, Vec3 point)
     {
         const Vec3 kPoint = point;
-        return ComputeForce(origin, axis, kPoint);
+        return ::FUN_00c26820((const ::Pt_c268 &)this, origin, axis);
     }
 };
 // Computes the force on each particle in list from node10's transform and m_dir, scaled by age, and adds it to each particle's velocity.
@@ -548,11 +547,11 @@ void ForceOwner::FUN_00c26c00(float delta, ParticleList* list)
     transformA = node10->transform;
     NiTransform combined;
     NiTransform* pA = &transformA;
-    pA->FUN_004b4880(combined);
-    combined.FUN_0062c250(*pA, transformB);
+    reinterpret_cast<::NiTransform *>((pA))->CalculateInverse((::NiTransform &)(combined));
+    reinterpret_cast<::NiTransform *>(&(combined))->operator*((const ::NiTransform &)(*pA));
     Vec3 axis = RotMul(transformA.rotation, m_dir);
     Vec3 origin = transformA.translation;
-    ((NormVec3*)&axis)->FUN_004a0c10();
+    reinterpret_cast<::FUN_004a0c10_s *>((((NormVec3*)&axis)))->FUN_004a0c10();
     for (unsigned short i = 0; i < list->count; ++i)
     {
         Particle* pParticle = list->particles + i;
@@ -576,7 +575,6 @@ namespace fnv_00c2c170 {
 struct AirVector
 {
     float x, y, z;
-    __declspec(noalias) void FUN_004a0c10();
     float SquaredLength() const
     {
         return x * x + y * y + z * z;
@@ -608,8 +606,6 @@ struct NiTransform
     float r00, r01, r02, r10, r11, r12, r20, r21, r22;
     AirVector translate;
     float scale;
-    void FUN_004b4880(NiTransform& result);
-    void FUN_0062c250(NiTransform& result, const NiTransform& right) const;
     AirVector FUN_004b4500(const AirVector&);
 };
 struct AirNode
@@ -669,11 +665,11 @@ void AirField::FUN_00c2c170(float time, const AirParticles* apParticles)
     NiTransform fieldWorld = field->world;
     NiTransform transform = owner->world;
     NiTransform inverse;
-    transform.FUN_004b4880(inverse);
-    inverse.FUN_0062c250(transform, fieldWorld);
+    reinterpret_cast<::NiTransform *>(&(transform))->CalculateInverse((::NiTransform &)(inverse));
+    reinterpret_cast<::NiTransform *>((void *)&(inverse))->operator*((const ::NiTransform &)(transform));
     AirVector axis;
     axis = transform.FUN_004b4500(direction);
-    axis.FUN_004a0c10();
+    reinterpret_cast<::FUN_004a0c10_s *>(&(axis))->FUN_004a0c10();
     float axisSquared = axis.SquaredLength();
     float range = farDistance - nearDistance;
     for (unsigned short i = 0; i < apParticles->count; ++i)

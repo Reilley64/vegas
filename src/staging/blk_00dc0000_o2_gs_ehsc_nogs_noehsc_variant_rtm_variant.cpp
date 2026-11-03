@@ -7,6 +7,37 @@
 // to their real unit once identified.
 // src/staging/blk_00dc0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/DD8FE0_Stream.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00cb1fe0_t.h"
+#include "fnv/decl/FUN_00d4dfc0.h"
+#include "fnv/decl/FUN_00d60b40.h"
+#include "fnv/decl/FUN_00dd83a0_cls.h"
+#include "fnv/decl/FUN_00dd9270_cls.h"
+#include "fnv/decl/FUN_00dd92f0_cls.h"
+#include "fnv/decl/Stream.h"
+#include "fnv/decl/hkOArchive_2.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00d51000.h"
+#include "fnv/symbols_00dc5000.h"
+#include "fnv/symbols_00dce000.h"
+#include "fnv/symbols_00dd4000.h"
+#include "fnv/symbols_00dd6000.h"
+#include "fnv/symbols_00dd7000.h"
+#include "fnv/symbols_00ddf000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01018000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010d7000.h"
+#include "fnv/symbols_011b7000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 #include "../../include/layout_support.h"
 struct FUN_00dd4b10_struct
 {
@@ -61,7 +92,6 @@ struct FUN_00ddf050_cls
 {
     void ClearContainer();
 };
-extern "C" void __cdecl FUN_00d51760(int* p1, int* p2);
 struct FUN_00dd0420_Class
 {
     int m_00;
@@ -78,7 +108,6 @@ struct FUN_00dd4b70_class
 {
     void __thiscall FUN_00dd4b70(unsigned char value);
 };
-extern int DAT_0102e388;
 struct FUN_00dd51d0_class
 {
     int m_00;
@@ -101,7 +130,6 @@ struct CountArray
     int m_00;
     int m_04;
     int m_08;
-    void __thiscall EnsureCapacity(void* p, int n);
 };
 void* __cdecl _D1A0E0GetMemoryRouter();
 struct FUN_00dc9e70_Class
@@ -141,7 +169,6 @@ struct S_00d49310_Lock
 };
 void __cdecl FUN_00dccb10(char* p);
 extern int DAT_010d77b4[];
-extern void __cdecl _Deallocate(void* p);
 struct FUN_00dcd4b0_Class
 {
     void* m_ppVirtualMethodTable;
@@ -149,7 +176,6 @@ struct FUN_00dcd4b0_Class
 };
 struct DDA7C0OStream
 {
-    void __thiscall writeInt32(unsigned int);
 };
 struct FUN_00dda6b0_Class
 {
@@ -174,16 +200,12 @@ struct FUN_00ddfb80_s
     void* m_0c;
     void* m_10;
 };
-FUN_00ddfb80_s* __fastcall FUN_00ddfb80(FUN_00ddfb80_s* self, int, const void* src);
 int __stdcall FUN_00dc1660(int a1);
-extern int DAT_011b7b88;
 struct FUN_00dc1670_cls
 {
     int m_00;
     FUN_00dc1670_cls* FUN_00dc1670();
 };
-void __stdcall FUN_00dd8fe0(float* out, int a, int b);
-float FUN_00dc5bb0();
 struct ArrayBlock
 {
     unsigned int* values;
@@ -253,24 +275,16 @@ struct FUN_00dcc670_Class
 
     int* __thiscall InitFromValue(int* value);
 };
-extern int DAT_010d7540;
-extern FUN_00dcc670_Manager* DAT_01268364;
-extern int g_unk01269bb4;
 int* __cdecl FUN_00dccb00();
-extern int DAT_01269be4;
 int* __cdecl FUN_00dccb30();
 struct FUN_00dced30_cls
 {
     virtual void m_v00(int arg);
 };
-void __cdecl FUN_00dced30(FUN_00dced30_cls* pObject);
-extern int DAT_01269c44;
 int __cdecl FUN_00dced40();
 struct FUN_00d4dfc0_class
 {
-    void __thiscall FUN_00d4dfc0(unsigned int value);
 };
-void __cdecl FUN_00dced50(FUN_00d4dfc0_class* object, unsigned int value);
 struct S_00dd4bb0_Class
 {
     unsigned char unk00;
@@ -280,9 +294,6 @@ struct S_00dd4bb0_Class
     unsigned char unk04;
     unsigned int GetPackedValue();
 };
-extern float DAT_0101e2bc;
-extern float DAT_010181bc;
-extern float DAT_0101df44;
 struct FUN_00dd50f0_cls
 {
     float m_00;
@@ -296,7 +307,6 @@ struct FUN_00dd50f0_cls
 // FUN_00dd5150: initialises six float members of the object: five of them to
 // 1.0 and the last one to the global float constant DAT_01016248; returns the
 // object pointer.
-extern float DAT_01016248;
 struct FUN_00dd5150_cls
 {
     float m_f00;
@@ -310,7 +320,6 @@ struct FUN_00dd5150_cls
 extern void* DAT_010d7ba8;
 struct FUN_00dd5150_component
 {
-    void FUN_00dd5150(int value);
 };
 struct FUN_00dd51a0
 {
@@ -320,10 +329,7 @@ struct FUN_00dd51a0
     FUN_00dd5150_component component08;
 
     FUN_00dd51a0(const int* data);
-    void CopySixInts(const int* data);
 };
-unsigned char* __cdecl LessThan(unsigned char* output, const unsigned int* left, const unsigned int* right);
-unsigned char* __cdecl CompareLessThan(unsigned char* outValue, unsigned int left, unsigned int right);
 // Constructor for the object handled by FUN_00dd7110.
 //
 // The class holds a run of scalar members; every one of them is zeroed by the
@@ -401,7 +407,6 @@ struct FUN_00dd8bc0_cls
     int unk9C;
     int unkA0;
     FUN_00dd8bc0_Node m_kNode;
-    void FUN_00dd83a0();
     unsigned int GetUsedMemory();
 };
 struct S_00dd8cf0_Ret
@@ -412,7 +417,6 @@ struct S_00dd8cf0_Ret
 };
 struct S_00dd8cf0
 {
-    bool __thiscall IsValidChunk(int v);
     S_00dd8cf0_Ret __thiscall AllMatch(const int* arr, int n);
 };
 extern int DAT_010d7c34;
@@ -526,7 +530,6 @@ struct FUN_00ddfbb0_cls
     int m_10;
     void FUN_00ddfbb0();
 };
-void __cdecl FUN_00c90510();
 struct FUN_00dcc130_Class
 {
     int* m_vtbl;
@@ -564,11 +567,8 @@ struct Lock_dd9
     int uNewnk;
     int uTmpnk;
     int* m_pkCriticalSection;
-    int FindEntry(int iKey);
-    int InvokeRecord(int iIndex, int iArg);
     int FUN_00dd9330(int iKey, int iArg);
 };
-extern int DAT_010d7db8;
 struct Bool1
 {
     char v;
@@ -578,7 +578,6 @@ struct Bool1
 struct Base_00d60b40
 {
     void* vft;
-    void __thiscall FUN_00d60b40(int a, Bool1 b);
 };
 struct FUN_00dda690 : Base_00d60b40
 {
@@ -665,17 +664,16 @@ class hkOwnerDCB1
 };
 struct S_00dcc600_Inner
 {
-    int __thiscall ReadChar();
 };
 static __declspec(noinline) int S_00dcc600_Reset(S_00dcc600_Inner* stream)
 {
     int count = 0;
-    int c = stream->ReadChar();
+    int c = reinterpret_cast<::Stream *>((stream))->ReadChar();
 
     while (c != -1 && count < 4)
     {
         ++count;
-        c = stream->ReadChar();
+        c = reinterpret_cast<::Stream *>((stream))->ReadChar();
     }
 
     return count;
@@ -690,7 +688,6 @@ struct S_00dcc600_Class
 };
 void __cdecl FUN_00dccb20();
 void __cdecl FUN_00dccb40();
-void __cdecl FUN_00dd4b00();
 struct Bool388
 {
     unsigned char value;
@@ -927,7 +924,6 @@ struct S00dcd270_Arr
     int m_cap;
 };
 extern "C" void __cdecl ResizeAudioStream(void*, S00dcd270_Arr*, int);
-extern char DAT_01267e30;
 struct S00dcd270_cls
 {
     int unk00;
@@ -1005,7 +1001,6 @@ class hkLargeBlockAllocatorDD8
     bool IsValidChunk(const void* in) const;
 };
 #include <xmmintrin.h>
-extern __m128 DAT_010ce1c0;
 static bool FUN_00dd2fb0(const __m128* a, const __m128* b);
 volatile int g_in0, g_in1;
 volatile int g_out;
@@ -1020,6 +1015,7 @@ extern const __m128 g_a, g_b;
 void hcaller(const __m128* ca, const __m128* cb, __m128* cd);
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 extern "C" void _ReadWriteBarrier(void);
 extern "C" void _WriteBarrier(void);
 extern "C" void _ReadBarrier(void);
@@ -1135,6 +1131,8 @@ struct RayCollector
     int unk00;
     float m_fEarlyOutHitFraction;
 };
+struct LongRayQueryFloat;
+struct LongRayQueryInt;
 struct LongRayVm
 {
     int m_00, m_04, m_08, m_0c;
@@ -1153,6 +1151,8 @@ struct LongRayVm
                                            Vector4Pair* fq, int level);
     void FUN_00dd2ed0(const void* collection, const MoppCode* code, const RayInput& input, const void* body,
                       RayCollector* collector);
+public:
+    void FUN_00dd1f30(const ::LongRayQueryInt *, const unsigned char *, ::LongRayQueryFloat *, int);
 };
 
 // @fnv 0x00dd2ed0
@@ -1187,7 +1187,7 @@ void LongRayVm::FUN_00dd2ed0(const void* collection, const MoppCode* code, const
         query.m_iIndex = 0;
         query.m_kProperties[0] = 0;
         m_iCurrentChunkId = (*PC == 0xd) ? -1 : 0;
-        FUN_00dd1f30(&query, PC, &fq, 0);
+        reinterpret_cast<::LongRayVm *>(this)->FUN_00dd1f30((const ::LongRayQueryInt *)(const ::MachineVectorIndexRecord *)(&query), PC, (::LongRayQueryFloat *)(::Vector4Pair *)(&fq), 0);
     }
 }
 

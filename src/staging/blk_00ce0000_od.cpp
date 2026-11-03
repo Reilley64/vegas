@@ -2,6 +2,10 @@
 // src/staging/blk_00ce0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_01012000.h"
 #include "../../include/layout_support.h"
 
 #pragma optimize("gty", on)
@@ -13,7 +17,6 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     } lanes;
 };
 extern "C" __m128 _mm_setzero_ps();
-extern float DAT_01012054;
 
 namespace InvalidateTimDetail {
 struct Node;
@@ -63,7 +66,7 @@ void __cdecl FUN_00cfdbe0(InvalidateTimDetail::Node* node, const InvalidateTimDe
     case 4:
     case 12: {
         TimNode* pTimNode = static_cast<TimNode*>(node);
-        pTimNode->time = DAT_01012054;
+        pTimNode->time = ::DAT_01012054;
         pTimNode->normal = _mm_setzero_ps();
         Invalidate action = input.methods[node->agentType + 0x49].invalidate;
         if (action)

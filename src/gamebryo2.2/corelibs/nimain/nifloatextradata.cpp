@@ -2,16 +2,25 @@
 // src/gamebryo2.2/corelibs/nimain/nifloatextradata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nifloatextradata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/ExtraDataObject.h"
+#include "fnv/decl/ExtraDataStrings.h"
+#include "fnv/decl/FUN_00a7b2c0_shell.h"
+#include "fnv/decl/FUN_00a7b300_shell.h"
+#include "fnv/decl/FUN_00a7b330_shell.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f5000.h"
 struct GlobalObjectO2_00a7b610
 {
 };
 
-extern GlobalObjectO2_00a7b610 g_011f5f40;
 
 // @fnv 0x00a9a420
 GlobalObjectO2_00a7b610* __cdecl FUN_00a9a420()
 {
-    return &g_011f5f40;
+    return &::g_011f5f40;
 }
 
 struct NiFloatExtraData
@@ -21,16 +30,15 @@ struct NiFloatExtraData
 };
 
 extern void* DAT_010a0ec4;
-extern void __cdecl FUN_00a7b300();
 extern void __cdecl operator delete(void*, unsigned int);
 
 // @fnv 0x00a9a4b0
 void* NiFloatExtraData::Destroy(unsigned int flags)
 {
     this->m_ppVirtualMethodTable = &DAT_010a0ec4;
-    FUN_00a7b300();
+    static_cast<::FUN_00a7b300_shell *>(nullptr)->FUN_00a7b300();
     if (flags & 1)
-        operator delete(this, 0x10);
+        ::FUN_00aa1460(this, 0x10);
     return this;
 }
 
@@ -61,8 +69,6 @@ struct BSFadeNode
 };
 struct NiExtraData
 {
-    void FUN_00a7b2e0();
-    void FUN_00a7b330(void*, void*);
     void* CloneFloatExtraData(void*);
 };
 // @fnv 0x00a9a430
@@ -72,7 +78,7 @@ void* NiExtraData::CloneFloatExtraData(void* kCloning)
     pkObject = (NiFloatExtraData*)BSFadeNode::operator new(0x10);
     if (pkObject)
     {
-        ((NiExtraData*)pkObject)->FUN_00a7b2e0();
+        reinterpret_cast<::ExtraDataObject *>((((NiExtraData*)pkObject)))->FUN_00a7b2e0();
         *(float*)((char*)pkObject + 0xc) = 0.0f;
         pkObject->m_ppVirtualMethodTable = &DAT_010a0ec4;
     }
@@ -80,7 +86,7 @@ void* NiExtraData::CloneFloatExtraData(void* kCloning)
     {
         pkObject = 0;
     }
-    this->FUN_00a7b330(pkObject, kCloning);
+    reinterpret_cast<::FUN_00a7b330_shell *>((this))->FUN_00a7b330((::NiBinaryExtraData *)(pkObject), (::CloningProcess *)(kCloning));
     *(float*)((char*)pkObject + 0xc) = *(float*)((char*)this + 0xc);
     return pkObject;
 }
@@ -88,7 +94,6 @@ void* NiExtraData::CloneFloatExtraData(void* kCloning)
 namespace fnv_00a9a480 {
 struct NiExtraData
 {
-    void FUN_00a7b2e0();
 };
 
 struct BSFadeNode
@@ -102,7 +107,7 @@ void* __cdecl FUN_00a9a480()
     void* p = BSFadeNode::operator new(0x10);
     if (p)
     {
-        reinterpret_cast<NiExtraData*>(p)->FUN_00a7b2e0();
+        reinterpret_cast<::ExtraDataObject *>((reinterpret_cast<NiExtraData*>(p)))->FUN_00a7b2e0();
         *reinterpret_cast<float*>(reinterpret_cast<char*>(p) + 0xc) = 0.0f;
         *reinterpret_cast<void**>(p) = &DAT_010a0ec4;
         return p;
@@ -128,7 +133,6 @@ struct NiStream
 struct NiExtraData
 {
     char _pad[0xc];
-    void SaveBinary(NiStream&);
 };
 struct Cls_00a9a4e0 : NiExtraData
 {
@@ -139,7 +143,7 @@ struct Cls_00a9a4e0 : NiExtraData
 // @fnv 0x00a9a4e0
 void Cls_00a9a4e0::FUN_00a9a4e0(NiStream& stream)
 {
-    NiExtraData::SaveBinary(stream);
+    reinterpret_cast<::FUN_00a7b2c0_shell *>(this)->FUN_00a7b2c0((::NiStream &)(stream));
     NiBinaryStream* __restrict output = stream.m_pBackingStream;
     unsigned int size = 4;
     output->m_pos += output->write(output, &m_fValue, 4, &size, 1);
@@ -154,8 +158,6 @@ struct StrArr
     unsigned short _pad0c;
     unsigned short m_growSize;
 
-    void SetSize(unsigned int size);
-    void SetAt(unsigned int index, char*& value);
 };
 
 struct A89C70StringArray : StrArr
@@ -167,11 +169,8 @@ struct A89C70Base
     void* m_ppVirtualMethodTable;
     char _pad04[8];
 
-    void GetViewerStrings(A89C70StringArray* strings);
 };
 
-char* __cdecl _FUN_00a7d330(GlobalObjectO2_00a7b610* object);
-char* __cdecl FUN_00a7d550(char const* name, float value);
 
 struct FUN_00a9a520_shell : A89C70Base
 {
@@ -183,24 +182,24 @@ struct FUN_00a9a520_shell : A89C70Base
 // @fnv 0x00a9a520
 void FUN_00a9a520_shell::AppendViewerStrings(A89C70StringArray* strings)
 {
-    GetViewerStrings(strings);
+    reinterpret_cast<::ExtraDataStrings *>(this)->FUN_00a7b580((::StrArr *)(strings));
 
     char* value =
-        _FUN_00a7d330(reinterpret_cast<GlobalObjectO2_00a7b610*>(*reinterpret_cast<unsigned int*>(&g_011f5f40)));
+        ::FUN_00a7d330((const char *)(::GlobalObjectO2_00a7b610 *)(reinterpret_cast<GlobalObjectO2_00a7b610*>(*reinterpret_cast<unsigned int*>(&::g_011f5f40))));
 
     unsigned int index = strings->m_nextIndex;
 
     if (index >= strings->m_pRayCursor)
-        strings->SetSize(index + strings->m_growSize);
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_growSize);
 
-    strings->SetAt(index, value);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 
     value = FUN_00a7d550("m_fValue", m_fValue);
 
     index = strings->m_nextIndex;
 
     if (index >= strings->m_pRayCursor)
-        strings->SetSize(index + strings->m_growSize);
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_growSize);
 
-    strings->SetAt(index, value);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 }

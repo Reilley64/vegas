@@ -7,10 +7,13 @@
 
 #include <xmmintrin.h>
 #include <math.h>
-extern const float DAT_01011d78;
-extern const float DAT_01017718;
-extern float DAT_01016248;
 
+#include "fnv/decl/MProduct.h"
+#include "fnv/decl/S_00cd4b60.h"
+#include "fnv/symbols_00df5000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
 class D9Scalar
 {
     __m128 value;
@@ -98,7 +101,7 @@ struct __declspec(align(16)) D9Vector
     }
     __forceinline D9Scalar inverseLength() const
     {
-        const __m128 half = _mm_set_ss(DAT_01016248);
+        const __m128 half = _mm_set_ss(::fnv_00c88020::DAT_01016248);
         const __m128 three = _mm_set_ss(DAT_01017718);
         const __m128 zero = _mm_set_ss(DAT_01011d78);
         const __m128 square = dot(*this).quad();
@@ -142,8 +145,6 @@ struct D9Matrix
     {
         return (&unk00)[i];
     }
-    void FUN_00cd4b60();
-    void FUN_00cd55b0(const D9Matrix&, const D9Matrix&);
 };
 struct __declspec(align(16)) D9Rotation : D9Matrix
 {
@@ -492,7 +493,6 @@ struct Basis
     }
 };
 extern void __cdecl FUN_00df5950(const D9Row&, const D9Row&, const Basis&, D9Equation&);
-extern float __cdecl FUN_00df5f80(const D9Equation&, void*, D9Pair&, D9Pair&);
 // @fnv 0x00d9ee50
 void __cdecl FUN_00d9ee50(D9Solver* solver, const D9Contact& contact, void* parameters, D9Body* ownerA, D9Body* ownerB,
                           D9Shape* accumulatorA, D9Shape* accumulatorB, float& result)
@@ -514,7 +514,7 @@ void __cdecl FUN_00d9ee50(D9Solver* solver, const D9Contact& contact, void* para
             {
                 D9Rotation rotation(accumulator->rotation());
                 velocity.unk10.inverseRotate(rotation, accumulator->unk20);
-                rotation.FUN_00cd4b60();
+                reinterpret_cast<::S_00cd4b60 *>(&(rotation))->FUN_00cd4b60();
                 D9Matrix scaled;
                 D9Vector sx, sy, sz;
                 sx.broadcast(inverseMasses, 0);
@@ -523,7 +523,7 @@ void __cdecl FUN_00d9ee50(D9Solver* solver, const D9Contact& contact, void* para
                 scaled.column(0).multiply(sx, rotation.column(0));
                 scaled.column(1).multiply(sy, rotation.column(1));
                 scaled.column(2).multiply(sz, rotation.column(2));
-                input.unk10.FUN_00cd55b0(scaled, accumulator->rotation());
+                reinterpret_cast<::MProduct *>(&(input.unk10))->FUN_00cd55b0((const ::MProduct &)(scaled), (const ::MProduct &)(accumulator->rotation()));
             }
             input.unk50 = &owner->unkf0;
             accumulator = accumulatorB;
@@ -535,7 +535,7 @@ void __cdecl FUN_00d9ee50(D9Solver* solver, const D9Contact& contact, void* para
     basis.setNormalBasis(contact.normal());
     solver->f40(contact, inputs[0], velocities[0], inputs[1], velocities[1]);
     FUN_00df5950(inputs[0], inputs[1], basis, equation);
-    result = FUN_00df5f80(equation, parameters, velocities[0], velocities[1]);
+    result = ::FUN_00df5f80((::ContactConstraint *)&(equation), (::ContactParams *)(parameters), (void *)&(velocities[0]), (void *)&(velocities[1]));
     solver->f44(contact, result, inputs[0], velocities[0], inputs[1], velocities[1]);
     accumulatorA->unk10 = velocities[0].unk00;
     if (ownerA->unke8 != 5)

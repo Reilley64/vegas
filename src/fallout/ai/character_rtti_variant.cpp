@@ -3,6 +3,142 @@
 // polymorphic classes (TESBoundObject). The skeleton of src/fallout/ai/character.cpp with those classes made polymorphic; move the functions to
 // their real unit once its classes are.
 
+#include "fnv/decl/ActorLinkDetail__FUN_008d3380_shell.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/DialogueItem.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00409480_shell.h"
+#include "fnv/decl/FUN_00416870_t.h"
+#include "fnv/decl/FUN_0042e060_class.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00453700_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_00491040_shell.h"
+#include "fnv/decl/FUN_00491180_shell.h"
+#include "fnv/decl/FUN_00494710_shell.h"
+#include "fnv/decl/FUN_0049bdc0_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00508100_shell.h"
+#include "fnv/decl/FUN_00508d70_shell.h"
+#include "fnv/decl/FUN_00516bf0_shell.h"
+#include "fnv/decl/FUN_0055f5b0_Class.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_0057b0a0_shell.h"
+#include "fnv/decl/FUN_005a2030_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00619a70_shell.h"
+#include "fnv/decl/FUN_0061b320_shell.h"
+#include "fnv/decl/FUN_0061cdc0_shell.h"
+#include "fnv/decl/FUN_0061cfd0_shell.h"
+#include "fnv/decl/FUN_0061e600_t.h"
+#include "fnv/decl/FUN_0061f170_cls.h"
+#include "fnv/decl/FUN_00672fc0_shell.h"
+#include "fnv/decl/FUN_0067f140_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_008808f0_shell.h"
+#include "fnv/decl/FUN_008846e0_shell.h"
+#include "fnv/decl/FUN_008ac890_shell.h"
+#include "fnv/decl/FUN_008d2060.h"
+#include "fnv/decl/FUN_00933150_shell.h"
+#include "fnv/decl/FUN_00934250_shell.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FUN_00950340_Class.h"
+#include "fnv/decl/FUN_0098adb0_shell.h"
+#include "fnv/decl/FUN_009c8d60_t.h"
+#include "fnv/decl/FUN_009dcc80_cls.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FUN_00ad89b0_shell.h"
+#include "fnv/decl/FUN_00ad8b60_h.h"
+#include "fnv/decl/FUN_00ad8f20_shell.h"
+#include "fnv/decl/InventoryStackRecord.h"
+#include "fnv/decl/ItemChangeValueShell.h"
+#include "fnv/decl/LocationDescriptor.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/P164Actor.h"
+#include "fnv/decl/PackageTargetRecord.h"
+#include "fnv/decl/PlayerNearbyRefs.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/SaveActor.h"
+#include "fnv/decl/Script.h"
+#include "fnv/decl/SoundWrapper.h"
+#include "fnv/decl/TESPackage.h"
+#include "fnv/decl/TESRace.h"
+#include "fnv/decl/TESRegionGrassObject.h"
+#include "fnv/decl/Target.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/ThisStub.h"
+#include "fnv/decl/TopicFlagStandIn.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/UAMActor.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_0042e110__FUN_0042e110.h"
+#include "fnv/decl/fnv_0043fcd0__FUN_0043fcd0_shell.h"
+#include "fnv/decl/fnv_004518e0__TESObjectCELL.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_004955c0__FUN_004955c0_t.h"
+#include "fnv/decl/fnv_00567050__FUN_00567050_shell.h"
+#include "fnv/decl/fnv_0057ace0__FUN_0057ace0_shell.h"
+#include "fnv/decl/fnv_0057ad20__FUN_0057ad20_shell.h"
+#include "fnv/decl/fnv_00671d30__FUN_00671d30_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_0087ce80__FUN_0087ce80_shell.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_00895110__PickActor.h"
+#include "fnv/decl/fnv_0089f580__ActorStub.h"
+#include "fnv/decl/fnv_008a9020__FUN_008d32b0_shell.h"
+#include "fnv/decl/fnv_008a9380__ActorSave.h"
+#include "fnv/decl/fnv_008a9940__FUN_008d3310_shell.h"
+#include "fnv/decl/fnv_008aa210__ActorResetView.h"
+#include "fnv/decl/fnv_008b28c0__This8b.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/s5cc7a0__Owner.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00524000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00619000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_00646000.h"
+#include "fnv/symbols_0066e000.h"
+#include "fnv/symbols_00670000.h"
+#include "fnv/symbols_00704000.h"
+#include "fnv/symbols_00705000.h"
+#include "fnv/symbols_008a8000.h"
+#include "fnv/symbols_008c1000.h"
+#include "fnv/symbols_00935000.h"
+#include "fnv/symbols_00936000.h"
+#include "fnv/symbols_009e3000.h"
+#include "fnv/symbols_00ad8000.h"
+#include "fnv/symbols_00ad9000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_01020000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_011d0000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f2000.h"
+#include "fnv/symbols_011f6000.h"
 #include "character_decls_rtti_character.h"
 bool __fastcall Character_GetTrespassing(Character* self);
 void __fastcall FUN_008d1e90(Character* this_ptr, float value);
@@ -18,39 +154,31 @@ struct FUN_008d34f0_shell : public Character
 {
     void RevertAndResetFields(BGSLoadFormBuffer*);
 };
-extern double _gModifierZero;
 struct FUN_009dcc80_target
 {
-    NiPoint3 GetVec(float);
 };
 struct FUN_008b3b30_shell
 {
-    NiPoint3* GetAddTopicList();
     NiPoint3 FUN_008b3b30(float f);
 };
 struct FUN_008d1e70_t
 {
     unsigned char GetByteAtOffset1C0();
 };
-void __cdecl _Deallocate(void*);
 struct FUN_008d1f10_shell : public Character
 {
-    void FUN_008d2060();
     FUN_008d1f10_shell* FUN_008d1f10(unsigned int aiFlags);
 };
-int __cdecl FUN_00646310(void*, int, float*, float*);
 struct FUN_008d24a0_shell : public Character
 {
     int FUN_008d24a0();
 };
 struct FUN_008d32b0_shell : public Character
 {
-    unsigned short FUN_008a9020(unsigned int);
     unsigned short FUN_008d32b0(unsigned int aiFlags);
 };
 struct FUN_008a9380_target
 {
-    void SaveActorData(unsigned int);
 };
 struct FUN_008d32f0_shell
 {
@@ -58,41 +186,32 @@ struct FUN_008d32f0_shell
 };
 struct FUN_008d3310_shell : public Character
 {
-    void FUN_008a9940(unsigned int, unsigned int);
     void FUN_008d3310(unsigned int aiFlags, unsigned int aiCurrentFlags);
 };
 struct TESSaveLoadGame
 {
-    bool FUN_0055f5b0();
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 struct FUN_008d3330_shell : public Character
 {
-    void FUN_008aa210(unsigned int);
     void FUN_008d3330(unsigned int aiFlags);
 };
 struct FUN_008d3380_shell : public Character
 {
-    void FUN_008aa4c0(unsigned int, unsigned int);
     void FUN_008d3380(unsigned int, unsigned int);
 };
 struct BGSSaveFormBuffer
 {
-    void SaveData(void*, int, int);
 };
 struct FUN_008d33a0_shell : public Character
 {
-    void FUN_008aaf40(BGSSaveFormBuffer*);
     void SaveFormData(BGSSaveFormBuffer*);
 };
 struct FUN_009396f0_shell
 {
     void SetFieldD64(int value);
 };
-bool __fastcall FUN_00524d10(bool*);
 struct FUN_00950ad0_shell : public PlayerCharacter
 {
-    BipedAnim* GetBipedAnimation(bool);
     BipedAnim* FUN_00950ad0();
 };
 struct MediaLocation;
@@ -109,16 +228,12 @@ struct FUN_009698a0_shell : public PlayerCharacter
 };
 struct BGSTalkingActivator
 {
-    TESObjectREFR* GetTempRef() const;
 };
 struct TESObject
 {
-    BGSTalkingActivator* GetNext();
 };
 struct ExtraDataList_Accessor
 {
-    void FUN_0042e060(BGSTalkingActivator*, TESObjectREFR*);
-    void* FUN_0042e110();
 };
 struct Slot12cHolder
 {
@@ -205,15 +320,12 @@ struct FUN_008b1910_shell
 };
 struct TopicH
 {
-    NiPoint3* GetAddTopicList();
 };
 struct bhkCharacterController
 {
-    void FUN_0066ca00(void*);
 };
 struct MobileObject_Standin
 {
-    bhkCharacterController* GetPhysicsCharacterController();
 };
 struct HolderFUN
 {
@@ -230,7 +342,8 @@ struct FUN_00968690_shell : public Character
 };
 struct SoundPlaybackHandle
 {
-    void SetFormType(int formType);
+public:
+    void SetCompletionCallback(void (*)(void *, bool), void *);
 };
 struct FUN_0087d4a0
 {
@@ -243,7 +356,6 @@ struct FUN_008d1f40_t : public FUN_0087d4a0
 };
 struct CharacterCallStandin
 {
-    void FUN_008d4e80();
 };
 extern int DAT_0108695c;
 extern int DAT_010869a4;
@@ -511,72 +623,43 @@ struct Str
     Str(const Str&);
     ~Str();
     Str& operator=(const Str&);
-    const char* CStr();
     Str& Fn7480();
-    void SetPos(float, float, float);
-    void SetRate(int);
-    void SetObj(void*);
-    void Set8830(int);
-    void Set8e60(void(__cdecl*)(unsigned int, int), unsigned int);
-    int Get8b30();
 };
 struct Named
 {
-    const char* CStr();
 };
 struct Obj
 {
     unsigned int GetID();
-    void Fn150();
-    void Fn170(int, void*);
     Named* GetName();
 };
 struct Obj2
 {
-    Obj* GetObj2();
 };
 struct Sub
 {
-    Obj2* GetObj();
-    Named* GetNamed();
-    Named* GetNamed2();
 };
 struct Proc
 {
     ~Proc();
-    Obj* GetObj();
-    void Fn7b0();
-    Sub* GetSub();
 };
 struct Arg
 {
-    Proc* Create(void*, int, int, int, int);
 };
 struct Mgr
 {
     void Add(const char*, void (*)(), unsigned int);
 };
-Mgr* GetMgr();
 struct Audio
 {
-    Str GetHandle(const char*, int, int);
 };
-Audio* GetAudio();
 struct Setting
 {
-    float* Get();
 };
 struct BoolSetting
 {
     bool* Get();
 };
-extern Setting DAT_011e060c;
-extern BoolSetting DAT_011d8928;
-extern const double DAT_01017a40;
-void Callback();
-void __cdecl CB3(unsigned int, int);
-void __cdecl FmtStr(char*, int, const char*);
-void __cdecl Spawn(const char*, Str, NiPoint3, int, int);
 struct Inner
 {
     virtual void v0();
@@ -1006,17 +1089,11 @@ struct Self
     char pad6c[0x13];
     bool flag7f;
     bool flag80;
-    void Fn4250();
-    void Fn7ad20(Arg*);
-    void Fn7ace0(Obj*);
     unsigned int GetID();
-    Str MakeStr(Obj*, int, int, int);
-    bool Check();
     Str PlaySoundOnObject(Arg* arg, int p2, bool p3, bool p4, int p5, bool p6);
 };
 struct FUN_008ac850_object
 {
-    void __thiscall SetWaterForm(void* value);
 };
 struct FUN_008ac850_owner
 {
@@ -1304,8 +1381,6 @@ class PoolEntryArray
 
     PoolEntryArray(unsigned int uiMaxSize, unsigned int uiGrowBy);
     ~PoolEntryArray();
-    void SetSize(unsigned int uiMaxSize);
-    void SetAt(unsigned int uiIndex, PoolEntry* const& rpEntry);
 };
 class FUN_0096a850 : public PoolEntryArray
 {
@@ -1719,37 +1794,23 @@ struct ActorBaseAVVtbl
     virtual void b066();
     virtual void ModBaseAV(int aiAV, int aiAmount);
 };
-bool __cdecl IsAVModifiable(int aiAV);
-void __cdecl OnAVChanged(int aiAV);
-void __cdecl NotifyAVChange(ActorValueOwner* apOwner, int aiAV, float afOld, float afDelta, int aiFlag);
 struct ActorAVUpdater
 {
-    void UpdateAV(int aiAV, bool abFlag);
 };
 struct FUN_0093a8f0_shell : public Actor
 {
     void FUN_0093a8f0(int aiAV, int aiAmount);
 };
-extern "C" void* __cdecl CreatePackageByType(int);
 struct XA8a
 {
-    unsigned char GetExtraDataVersion();
 };
 struct XAObj
 {
-    void FUN_00826b40(int);
-    void FUN_00826b90(int);
-    void FUN_00671d30(void*);
-    void FUN_00984f60(int);
-    void* FUN_00671d10(int);
-    void FUN_00672fc0(void*);
 };
 struct XPObj
 {
     XPObj();
     ~XPObj();
-    void FUN_0067f140(int);
-    void FUN_0067f3c0(void*);
     void* unk00;
     void* unk04;
     void* unk08;
@@ -1765,9 +1826,6 @@ struct XVObj
 };
 struct XTmpObj
 {
-    void FUN_006800b0();
-    void FUN_00680110();
-    void FUN_00403550();
 };
 struct XMember
 {
@@ -2381,9 +2439,6 @@ struct XObj
     virtual void v2f0();
     virtual void Finish(XAObj*, int, int);
     void FUN_009694d0(void* arg0);
-    void FUN_005cc7a0(int);
-    void FUN_00950340(int);
-    XUpdatable* FUN_008d8520();
     void* unk04[25];
     XMember* member68;
 };
@@ -2397,20 +2452,15 @@ struct FUN_004bc5f0
     int count;
     TESBoundObject* object;
     ~FUN_004bc5f0();
-    TESBoundObject* FUN_0044ddc0();
-    float FUN_004be0b0(ActorValueOwner*);
 };
 struct EquipmentList536
 {
-    FUN_004bc5f0* FUN_004c8c10(int, bool);
 };
 struct ExtraList536
 {
-    EquipmentList536* FUN_00418520();
 };
 struct Character536 : Character
 {
-    ExtraList536* FUN_005d43c0();
     float FUN_008d2110();
 };
 // @fnv 0x008d2110
@@ -2419,19 +2469,19 @@ float Character536::FUN_008d2110()
     int count = 0;
     TESObjectARMO* forms3[20];
     forms3[0] = 0;
-    if (m_fSecondValue < _gModifierZero)
+    if (m_fSecondValue < ::_DAT_01012060)
     {
         m_fSecondValue = 0.0f;
-        EquipmentList536* list6 = FUN_005d43c0()->FUN_00418520();
+        EquipmentList536* list6 = ((::EquipmentList536 *)(reinterpret_cast<::ExtraDataList *>((((::ExtraList536 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->GetContainerChangeData()));
         FUN_004bc5f0* item7 = 0;
         if (list6)
         {
             for (int index = 0; index < 20; ++index)
             {
-                item7 = list6->FUN_004c8c10(index, false);
+                item7 = ((::FUN_004bc5f0 *)(reinterpret_cast<::Target *>((list6))->FUN_004c8c10(index, false)));
                 if (item7)
                 {
-                    TESObjectARMO* armor = dynamic_cast<TESObjectARMO*>(item7->FUN_0044ddc0());
+                    TESObjectARMO* armor = dynamic_cast<TESObjectARMO*>(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item7))->GetName())));
                     if (armor)
                     {
                         bool found4 = false;
@@ -2442,7 +2492,7 @@ float Character536::FUN_008d2110()
                         }
                         if (!found4)
                         {
-                            m_fSecondValue += item7->FUN_004be0b0(static_cast<ActorValueOwner*>(this));
+                            m_fSecondValue += reinterpret_cast<::InventoryStackRecord *>((item7))->GetArmorDamageThreshold((::Actor *)(::ActorValueOwner *)(static_cast<ActorValueOwner*>(this)));
                             forms3[count] = armor;
                             ++count;
                         }
@@ -2456,23 +2506,19 @@ float Character536::FUN_008d2110()
     return m_fSecondValue;
 }
 
-float __cdecl FUN_0040ebd0(float a, float b);
 
 // Adapted from an unverified 2026-10-23 contribution by another contributor.
 
 struct InventoryEntry_8d22b0
 {
     ~InventoryEntry_8d22b0();
-    TESBoundObject* GetBaseObject();
     float GetEntryWeight(ActorValueOwner* owner);
 };
 struct InventoryData_8d22b0
 {
-    InventoryEntry_8d22b0* GetEquippedEntry(int index, int flags);
 };
 struct ContainerChanges_8d22b0
 {
-    InventoryData_8d22b0* GetData();
 };
 
 union SETTING_VALUE
@@ -2485,15 +2531,12 @@ union SETTING_VALUE
 template <> class SettingT<GameSettingCollection>
 {
   public:
-    SETTING_VALUE* Float();
 };
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting1016;
 
 struct FUN_008d22b0_shell : public Actor
 {
     int unk1b4;
     float m_kEighthUnshownMember;
-    ContainerChanges_8d22b0* GetContainerChanges_();
     float FUN_008d22b0();
 };
 
@@ -2506,16 +2549,16 @@ float FUN_008d22b0_shell::FUN_008d22b0()
     if (m_kEighthUnshownMember < 0.0)
     {
         m_kEighthUnshownMember = 0.0f;
-        InventoryData_8d22b0* items = GetContainerChanges_()->GetData();
+        InventoryData_8d22b0* items = ((::InventoryData_8d22b0 *)(reinterpret_cast<::ExtraDataList *>((((::ContainerChanges_8d22b0 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->GetContainerChangeData()));
         InventoryEntry_8d22b0* entry = 0;
         if (items)
         {
             for (int i = 0; i < 20; i++)
             {
-                entry = items->GetEquippedEntry(i, 0);
+                entry = ((::InventoryEntry_8d22b0 *)(reinterpret_cast<::Target *>((items))->FUN_004c8c10(i, 0)));
                 if (entry)
                 {
-                    TESObjectARMO* armor = dynamic_cast<TESObjectARMO*>(entry->GetBaseObject());
+                    TESObjectARMO* armor = dynamic_cast<TESObjectARMO*>(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())));
                     if (armor)
                     {
                         bool found = false;
@@ -2538,8 +2581,8 @@ float FUN_008d22b0_shell::FUN_008d22b0()
             }
         }
     }
-    return originalRuntimeFloatSetting1016.Float()->f > 0.0
-               ? FUN_0040ebd0(m_kEighthUnshownMember, originalRuntimeFloatSetting1016.Float()->f)
+    return ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1016))))->f > 0.0
+               ? FUN_0040ebd0(m_kEighthUnshownMember, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1016))))->f)
                : m_kEighthUnshownMember;
 }
 
@@ -2548,27 +2591,22 @@ class TESObjectCLOT : public TESBoundObject
 };
 struct InventoryEntryWeight534
 {
-    double FUN_004bd400();
 };
 struct EquipmentList534
 {
-    FUN_004bc5f0* FUN_004c8c10(int, bool);
 };
 struct ExtraList534
 {
-    EquipmentList534* FUN_00418520();
 };
-extern Setting DAT_011d0ca8, DAT_011d1104, DAT_011d0d14, DAT_011d043c;
 struct Character534 : Character
 {
-    ExtraList534* FUN_005d43c0();
     float FUN_008d3110();
 };
 // @fnv 0x008d3110
 float Character534::FUN_008d3110()
 {
     float weight = 0.0f;
-    EquipmentList534* list = FUN_005d43c0()->FUN_00418520();
+    EquipmentList534* list = ((::EquipmentList534 *)(reinterpret_cast<::ExtraDataList *>((((::ExtraList534 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->GetContainerChangeData()));
     FUN_004bc5f0* item9 = 0;
     int index2;
     TESObjectARMO* armor7;
@@ -2577,17 +2615,17 @@ float Character534::FUN_008d3110()
     {
         for (index2 = 0; index2 < 20; ++index2)
         {
-            item9 = list->FUN_004c8c10(index2, false);
+            item9 = ((::FUN_004bc5f0 *)(reinterpret_cast<::Target *>((list))->FUN_004c8c10(index2, false)));
             if (item9)
             {
-                armor7 = dynamic_cast<TESObjectARMO*>(item9->FUN_0044ddc0());
-                clothing = dynamic_cast<TESObjectCLOT*>(item9->FUN_0044ddc0());
+                armor7 = dynamic_cast<TESObjectARMO*>(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item9))->GetName())));
+                clothing = dynamic_cast<TESObjectCLOT*>(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item9))->GetName())));
                 if (armor7)
                     weight +=
-                        ((InventoryEntryWeight534*)item9)->FUN_004bd400() * *DAT_011d0ca8.Get() + *DAT_011d1104.Get();
+                        ((double)(reinterpret_cast<::ItemChangeValueShell *>((((InventoryEntryWeight534*)item9)))->FUN_004bd400())) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting999)))))) + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::g_011d1104))))));
                 else if (clothing)
                     weight +=
-                        ((InventoryEntryWeight534*)item9)->FUN_004bd400() * *DAT_011d0d14.Get() + *DAT_011d043c.Get();
+                        ((double)(reinterpret_cast<::ItemChangeValueShell *>((((InventoryEntryWeight534*)item9)))->FUN_004bd400())) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting998)))))) + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::g_011d043c))))));
                 // GetEquippedItem returns an owned temporary inventory entry.
                 delete item9;
                 item9 = 0;

@@ -2,6 +2,8 @@
 // src/havok/physics/constraintsolver/constraint/contact/hkpsimplecontactconstraintinfo.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/constraintsolver/constraint/contact/hkpsimplecontactconstraintinfo.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00d6f000.h"
+#include "fnv/symbols_00d72000.h"
 struct StateD72090
 {
     float unk00;
@@ -71,9 +73,6 @@ struct __declspec(align(16)) Buffer
     int unk7c;
 };
 
-extern "C" void __cdecl FUN_00d72090(void*);
-extern "C" void __cdecl FUN_00d72190(Node*, Buffer*, int, int*);
-extern "C" void __cdecl FUN_00d6f460(Node*, unsigned short, Buffer*, int*);
 extern "C" Buffer* __cdecl GetSharedBuffer();
 
 // Copies source to a local buffer, follows unk14 links while unk00 >= 0x17, then calls FUN_00d72190 if that node's unk00 is 0x16, else FUN_00d6f460.
@@ -98,7 +97,7 @@ static void __cdecl FUN_00d6c5a0(Node* self, int* counter, Buffer* source)
         node = node->unk14;
     } while (node->unk00 >= 0x17);
 
-    FUN_00d72090(&node->unk10);
+    ::FUN_00d72090((::StateD72090 *)(void *)(&node->unk10));
 
     node = self->unk14;
     if (node->unk00 == 0x16)
@@ -108,7 +107,7 @@ static void __cdecl FUN_00d6c5a0(Node* self, int* counter, Buffer* source)
     }
     else
     {
-        FUN_00d6f460(node, (unsigned short)value, &buffer, counter);
+        ::FUN_00d6f460((const ::Atom *)(node), (unsigned short)value, (const ::QueryIn *)(::Buffer *)(&buffer), (::QueryOut *)(counter));
     }
 }
 

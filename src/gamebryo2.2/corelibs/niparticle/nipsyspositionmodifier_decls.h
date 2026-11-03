@@ -2,6 +2,7 @@
 #ifndef NIPSYSPOSITIONMODIFIER_DECLS_H
 #define NIPSYSPOSITIONMODIFIER_DECLS_H
 
+#include "fnv/symbols_0109b000.h"
 class NiObject
 {
   public:
@@ -14,7 +15,6 @@ class NiFixedString
   public:
     char* m_kHandle;
 };
-extern NiFixedString EmptyFS;
 class NiParticleSystem;
 class NiPSysPositionModifier : public NiObject
 {

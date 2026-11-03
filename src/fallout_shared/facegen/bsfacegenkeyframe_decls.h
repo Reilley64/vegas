@@ -3,6 +3,7 @@
 #define FNV_BSFACEGENKEYFRAME_DECLS_H
 
 
+#include "fnv/decl/MagicCaster_shell.h"
 #include "layout_support.h"
 
 #pragma pack(push, 4)
@@ -28,7 +29,6 @@ FNV_STATIC_ASSERT(sizeof(BSFaceGenKeyframe) == 0xC);
 class OSGlobals
 {
   public:
-    unsigned int GetUptimeMilliseconds();
 };
 
 class BSFaceGenManager
@@ -62,6 +62,8 @@ class BSFaceGenKeyframeMultiple : public BSFaceGenKeyframe
     virtual void UnknownSlot18() = 0;
     virtual bool IsQuantityInRange(unsigned int quantity);
     virtual void ApplyFaceGenValues(unsigned int count, bool initialize);
+public:
+    bool FUN_0064a4d0(unsigned int, float);
 };
 
 FNV_STATIC_ASSERT(sizeof(BSFaceGenKeyframeMultiple) == 0x14);

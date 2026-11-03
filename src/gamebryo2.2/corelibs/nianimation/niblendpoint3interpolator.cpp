@@ -1,5 +1,29 @@
 // gamebryo2.2/corelibs/nianimation/niblendpoint3interpolator.cpp: NiBlendPoint3Interpolator, BlendPointShell (13 functions)
 
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/BlendCopy.h"
+#include "fnv/decl/BlendSerializer.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00a36890.h"
+#include "fnv/decl/FUN_00a37260_shell.h"
+#include "fnv/decl/MyPoint439180.h"
+#include "fnv/decl/NiColor.h"
+#include "fnv/decl/NiPlane.h"
+#include "fnv/decl/SBObject.h"
+#include "fnv/decl/S_00a370b0_Class.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a37980__Blend100.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a36000.h"
+#include "fnv/symbols_00a37000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f4000.h"
 #include "niblendpoint3interpolator_decls.h"
 
 // @fnv 0x00a55b90
@@ -8,7 +32,7 @@ bool NiBlendPoint3Interpolator::UpdateAccumulatedTransform(float fTime, NiObject
     if (m_uiObjectFlags & 1)
         fTime = m_fSingleInterpolatorTime;
 
-    if (fTime == DAT_0109696c)
+    if (fTime == ::DAT_0109696c)
         return false;
 
     if (m_pSingleInterpolator->Update(fTime, pkTarget, m_kPoint3Value))
@@ -22,31 +46,14 @@ bool NiBlendPoint3Interpolator::UpdateAccumulatedTransform(float fTime, NiObject
     return false;
 }
 
-// Updates the interpolator: delegates to single or multi-interpolation update based on m_ucInterpCount, stores fTime in m_fLastTime, and returns success.
-// @fnv 0x00a55e00
-bool NiBlendPoint3Interpolator::Update(float fTime, NiObjectNET* pkTarget, NiPoint3& kValue)
-{
-    bool bSuccess = false;
-    if (m_ucInterpCount == 1)
-        bSuccess = UpdateAccumulatedTransform(fTime, pkTarget, kValue);
-    else if (m_ucInterpCount > 0)
-    {
-        NormalizeWeights();
-        bSuccess = UpdateSingleInterpolator(fTime, pkTarget, kValue);
-    }
-    m_fLastTime = fTime;
-    return bSuccess;
-}
-
 struct GlobalObjectO2_00a7b610
 {
     int x;
 };
-extern GlobalObjectO2_00a7b610 g_011f406c;
 // @fnv 0x00a55af0
 GlobalObjectO2_00a7b610* __cdecl FUN_00a55af0()
 {
-    return &g_011f406c;
+    return &::g_011f406c;
 }
 
 struct FUN_00a55ec0_shell : public NiBlendPoint3Interpolator
@@ -56,21 +63,19 @@ struct FUN_00a55ec0_shell : public NiBlendPoint3Interpolator
 
 struct FUN_00a36fd0_tgt
 {
-    bool FUN_00a36fd0(NiObject*);
 };
 struct Call_439090_tgt
 {
-    bool _Call_439090(const void*);
 };
 
 // Calls FUN_00a36fd0 on pkObject; if that succeeds, calls _Call_439090 on pkObject+0x30 and returns its negation.
 // @fnv 0x00a55ec0
 bool FUN_00a55ec0_shell::FUN_00a55ec0(NiObject* pkObject)
 {
-    bool r = ((FUN_00a36fd0_tgt*)this)->FUN_00a36fd0(pkObject);
+    bool r = ::fnv_00a36fd0::FUN_00a36fd0((::fnv_00a36fd0::BlendS *)(((FUN_00a36fd0_tgt*)this)), (int)(pkObject), {});
     if (!r)
         return r;
-    r = ((Call_439090_tgt*)((char*)this + 0x30))->_Call_439090((char*)pkObject + 0x30);
+    r = reinterpret_cast<::NiPlane *>((((Call_439090_tgt*)((char*)this + 0x30))))->operator==((*(const ::NiPlane *)((char*)pkObject + 0x30)));
     r = !r;
     return r;
 }
@@ -86,20 +91,14 @@ struct GlobalObjectO2_00a7b610
 {
     void* p;
 };
-extern GlobalObjectO2_00a7b610 g_011f406c;
-char* FUN_00a7d330(GlobalObjectO2_00a7b610);
 struct ViewerBase
 {
-    void FUN_00a38080(void*);
 };
 struct ViewerPoint3
 {
-    char* FUN_00a59af0(const char*);
 };
 struct ArrSizeHelper
 {
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, ActorCombatGroup*&);
 };
 struct StrArrView
 {
@@ -113,19 +112,19 @@ typedef NiTArray<ActorCombatGroup*, NiTMallocInterface<ActorCombatGroup*> > StrA
 // @fnv 0x00a55ef0
 void FUN_00a55ef0_shell::AppendPoint3Value(void* pkStrings)
 {
-    ((ViewerBase*)this)->FUN_00a38080(pkStrings);
+    reinterpret_cast<::BlendSerializer *>((((ViewerBase*)this)))->FUN_00a38080((::NiStream *)(pkStrings));
     StrArray* arr = (StrArray*)pkStrings;
     StrArrView* pArrayView = (StrArrView*)pkStrings;
-    ActorCombatGroup* pElement = (ActorCombatGroup*)FUN_00a7d330(g_011f406c);
+    ActorCombatGroup* pElement = (ActorCombatGroup*)::FUN_00a7d330((*(const char * *)&(const ::fnv_00a55ef0::GlobalObjectO2_00a7b610 &)((*reinterpret_cast<::fnv_00a55ef0::GlobalObjectO2_00a7b610 *>(&::g_011f406c)))));
     unsigned int i = pArrayView->count;
     if (i >= pArrayView->maxSize)
-        ((ArrSizeHelper*)arr)->SetSize(pArrayView->growBy + i);
-    ((ArrSizeHelper*)arr)->SetAt(i, pElement);
-    pElement = (ActorCombatGroup*)((ViewerPoint3*)((char*)this + 0x30))->FUN_00a59af0("m_kPoint3Value");
+        reinterpret_cast<::ViewerStrings *>((((ArrSizeHelper*)arr)))->SetSize(pArrayView->growBy + i);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((((ArrSizeHelper*)arr)))->SetAt(i, (char *&)(pElement));
+    pElement = (ActorCombatGroup*)reinterpret_cast<::NiPoint3 *>((((ViewerPoint3*)((char*)this + 0x30))))->FUN_00a59af0("m_kPoint3Value");
     i = pArrayView->count;
     if (i >= pArrayView->maxSize)
-        ((ArrSizeHelper*)arr)->SetSize(pArrayView->growBy + i);
-    ((ArrSizeHelper*)arr)->SetAt(i, pElement);
+        reinterpret_cast<::ViewerStrings *>((((ArrSizeHelper*)arr)))->SetSize(pArrayView->growBy + i);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((((ArrSizeHelper*)arr)))->SetAt(i, (char *&)(pElement));
 }
 }  // namespace fnv_00a55ef0
 
@@ -141,22 +140,18 @@ struct BSFadeNode
 {
     static void* __cdecl operator new(unsigned int);
 };
-void __fastcall FUN_00a36890(void*);
 extern int DAT_0109a49c;
-extern int _DAT_011a9424;
-extern int _DAT_011a9428;
-extern int _DAT_011a942c;
 // @fnv 0x00a55a80
 void* FUN_00a55a80()
 {
     void* p = BSFadeNode::operator new(64);
     if (p)
     {
-        FUN_00a36890(p);
+        new ((void *)(p)) class ::FUN_00a36890();
         *(void**)p = (void*)&DAT_0109a49c;
-        *(int*)((char*)p + 0x30) = _DAT_011a9424;
-        *(int*)((char*)p + 0x34) = _DAT_011a9428;
-        *(int*)((char*)p + 0x38) = _DAT_011a942c;
+        *(int*)((char*)p + 0x30) = (*reinterpret_cast<int *>((void *)&::DAT_011a9424));
+        *(int*)((char*)p + 0x34) = (*reinterpret_cast<int *>(&::DAT_011a9428));
+        *(int*)((char*)p + 0x38) = (*reinterpret_cast<int *>(&::DAT_011a942c));
         *(unsigned char*)((char*)p + 0x3c) = 0;
         return p;
     }
@@ -165,7 +160,6 @@ void* FUN_00a55a80()
 
 struct FUN_00a37ec0_tgt
 {
-    void FUN_00a37ec0(NiStream&);
 };
 struct NiColorSaveHelper
 {
@@ -178,12 +172,10 @@ struct FUN_00a37ec0_shell : public NiBlendPoint3Interpolator
 // @fnv 0x00a55ad0
 void FUN_00a37ec0_shell::FUN_00a55ad0(NiStream& stream)
 {
-    ((FUN_00a37ec0_tgt*)this)->FUN_00a37ec0(stream);
-    ((NiColorSaveHelper*)((char*)this + 0x30))->SaveBinary(stream);
+    reinterpret_cast<::SBObject *>((((FUN_00a37ec0_tgt*)this)))->FUN_00a37ec0((::SBStream &)(stream));
+    reinterpret_cast<::NiColor *>((((NiColorSaveHelper*)((char*)this + 0x30))))->SaveBinary(stream);
 }
 
-void __fastcall DestroyInterpolatorArray(void*);
-void __cdecl _delete(void*, unsigned int);
 struct Cls_00a55b00
 {
     void* DestroyIfFlagged(unsigned int);
@@ -192,16 +184,15 @@ struct Cls_00a55b00
 // @fnv 0x00a55b00
 void* Cls_00a55b00::DestroyIfFlagged(unsigned int auiFlags)
 {
-    DestroyInterpolatorArray(this);
+    ::DestroyInterpolatorArray((::NiBlendInterpolator *)(void *)(this), {});
     if (auiFlags & 1)
-        _delete(this, 0x40);
+        ::FUN_00aa1460(this, 0x40);
     return this;
 }
 
 struct CloningProcess;
 struct CloneOwner
 {
-    void FUN_00a37510(void*, void*);
 };
 struct FUN_00a55b20_shell : public NiBlendPoint3Interpolator
 {
@@ -214,18 +205,18 @@ void* FUN_00a55b20_shell::FUN_00a55b20(CloningProcess* kCloning)
     NiBlendPoint3Interpolator* pkObject = static_cast<NiBlendPoint3Interpolator*>(BSFadeNode::operator new(0x40));
     if (pkObject)
     {
-        FUN_00a36890(pkObject);
+        new ((void *)(pkObject)) class ::FUN_00a36890();
         *reinterpret_cast<void**>(pkObject) = &DAT_0109a49c;
-        *reinterpret_cast<int*>(reinterpret_cast<char*>(pkObject) + 0x30) = _DAT_011a9424;
-        *reinterpret_cast<int*>(reinterpret_cast<char*>(pkObject) + 0x34) = _DAT_011a9428;
-        *reinterpret_cast<int*>(reinterpret_cast<char*>(pkObject) + 0x38) = _DAT_011a942c;
+        *reinterpret_cast<int*>(reinterpret_cast<char*>(pkObject) + 0x30) = (*reinterpret_cast<int *>((void *)&::DAT_011a9424));
+        *reinterpret_cast<int*>(reinterpret_cast<char*>(pkObject) + 0x34) = (*reinterpret_cast<int *>(&::DAT_011a9428));
+        *reinterpret_cast<int*>(reinterpret_cast<char*>(pkObject) + 0x38) = (*reinterpret_cast<int *>(&::DAT_011a942c));
         *reinterpret_cast<char*>(reinterpret_cast<char*>(pkObject) + 0x3c) = 0;
     }
     else
     {
         pkObject = 0;
     }
-    reinterpret_cast<CloneOwner*>(this)->FUN_00a37510(pkObject, kCloning);
+    reinterpret_cast<::BlendCopy *>((reinterpret_cast<CloneOwner*>(this)))->FUN_00a37510((::NiBlendInterpolator *)(pkObject), (::CloningProcess *)(kCloning));
     *reinterpret_cast<int*>(reinterpret_cast<char*>(pkObject) + 0x30) =
         *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x30);
     *reinterpret_cast<int*>(reinterpret_cast<char*>(pkObject) + 0x34) =
@@ -241,7 +232,6 @@ extern int DAT_0109a49c;
 
 struct FUN_00a370b0_tgt
 {
-    void Init(void* a, float f, void* c);
 };
 
 struct FUN_00a55a10
@@ -267,7 +257,7 @@ struct FUN_00a55a10
 // @fnv 0x00a55a10
 FUN_00a55a10::FUN_00a55a10(void* apArg, float f, void* c)
 {
-    ((FUN_00a370b0_tgt*)this)->Init(apArg, f, c);
+    reinterpret_cast<::S_00a370b0_Class *>((((FUN_00a370b0_tgt*)this)))->FUN_00a370b0((bool)(apArg), f, (volatile unsigned char)(c));
     m_vptr = reinterpret_cast<int>(&DAT_0109a49c);
     m_kPoint3Value = DAT_011a9424;
     m_bValueValid = false;
@@ -275,11 +265,9 @@ FUN_00a55a10::FUN_00a55a10(void* apArg, float f, void* c)
 
 struct FUN_00a37980_tgt
 {
-    void FUN_00a37980(NiObjectNET* p);
 };
 struct FUN_00a59be0_tgt
 {
-    void FUN_00a59be0(NiObjectNET* p);
 };
 struct FUN_00a55e60_cls : public NiBlendPoint3Interpolator
 {
@@ -288,9 +276,9 @@ struct FUN_00a55e60_cls : public NiBlendPoint3Interpolator
 // @fnv 0x00a55e60
 void FUN_00a55e60_cls::FUN_00a55e60(NiObjectNET* apObject)
 {
-    ((FUN_00a37980_tgt*)this)->FUN_00a37980(apObject);
+    reinterpret_cast<::fnv_00a37980::Blend100 *>((((FUN_00a37980_tgt*)this)))->FUN_00a37980((*(::fnv_00a37980::Stream100 *)(apObject)));
     NiPoint3* pt = &m_kPoint3Value;
-    ((FUN_00a59be0_tgt*)pt)->FUN_00a59be0(apObject);
+    reinterpret_cast<::NiColor *>((((FUN_00a59be0_tgt*)pt)))->LoadBinary((*(::NiStream *)(apObject)));
     if (pt->x != DAT_011a9424.x || pt->y != DAT_011a9424.y || pt->z != DAT_011a9424.z)
     {
         m_bValueValid = true;
@@ -307,7 +295,6 @@ class NiBlendInterpolator__InterpArrayItem
     float m_fEaseSpinner;
     float m_fLastEvaluationTime;
 };
-extern const NiPoint3 DAT_011f426c;
 struct BlendPointShell : NiBlendPoint3Interpolator
 {
     static NiPoint3& Add(NiPoint3& a, const NiPoint3& b)
@@ -325,17 +312,32 @@ struct BlendPointShell : NiBlendPoint3Interpolator
             return false;
         if (m_uiObjectFlags & 1)
             time = item.m_fLastEvaluationTime;
-        return time != DAT_0109696c;
+        return time != ::DAT_0109696c;
     }
     bool FUN_00a55c30(float time, NiObjectNET* target, NiPoint3& value);
 };
+// Updates the interpolator: delegates to single or multi-interpolation update based on m_ucInterpCount, stores fTime in m_fLastTime, and returns success.
+// @fnv 0x00a55e00
+bool NiBlendPoint3Interpolator::Update(float fTime, NiObjectNET* pkTarget, NiPoint3& kValue)
+{
+    bool bSuccess = false;
+    if (m_ucInterpCount == 1)
+        bSuccess = UpdateAccumulatedTransform(fTime, pkTarget, kValue);
+    else if (m_ucInterpCount > 0)
+    {
+        reinterpret_cast<::FUN_00a37260_shell *>(this)->UpdateNormalizedWeights();
+        bSuccess = reinterpret_cast<::BlendPointShell *>(this)->FUN_00a55c30(fTime, pkTarget, kValue);
+    }
+    m_fLastTime = fTime;
+    return bSuccess;
+}
 // Blends successful controller values using normalized weights, adjusts for skipped weights, and writes the result to value.
 // @fnv 0x00a55c30
 bool BlendPointShell::FUN_00a55c30(float time, NiObjectNET* target, NiPoint3& value)
 {
     float weight = 1.0f;
     m_bValueValid = false;
-    m_kPoint3Value = DAT_011f426c;
+    m_kPoint3Value = ::NiPoint3::ZERO;
     for (unsigned char i = 0; i < m_ucArraySize; ++i)
     {
         NiBlendInterpolator__InterpArrayItem& item = m_pInterpArray[i];
@@ -369,7 +371,7 @@ bool BlendPointShell::FUN_00a55c30(float time, NiObjectNET* target, NiPoint3& va
         return false;
     }
     float inverseWeight = 1.0f / weight;
-    m_kPoint3Value *= inverseWeight;
+    reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3 &)(m_kPoint3Value))->FUN_00439180(inverseWeight);
     value = m_kPoint3Value;
     return true;
 }

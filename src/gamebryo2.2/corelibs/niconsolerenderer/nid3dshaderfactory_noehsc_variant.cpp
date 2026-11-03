@@ -1,6 +1,19 @@
 
 // to their real unit once identified.
 
+#include "fnv/decl/AA4610Allocator.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0043a010_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00aa0390.h"
+#include "fnv/decl/FUN_00aa45a0_Class.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_010f0000.h"
+#include "fnv/symbols_011f6000.h"
 #include "nid3dshaderfactory_decls.h"
 const char kFailedShaderFactoryMessage[] = "Failed to create shader factory!";
 
@@ -31,7 +44,6 @@ struct ShaderMapItem
 struct ShaderMapAllocator
 {
     unsigned int m_uiCount;
-    void* Allocate();
 };
 
 class ShaderStringPointerMap
@@ -67,7 +79,7 @@ void ShaderStringPointerMap::FUN_00e927f0(const char* key, NiPointer<ShaderRefOb
         pkItem = pkItem->m_pkNext;
     }
 
-    pkItem = (ShaderMapItem*)m_kItemCount.Allocate();
+    pkItem = (ShaderMapItem*)((void *)(reinterpret_cast<::FUN_0043a010_shell *>(&(m_kItemCount))->FUN_0043a010()));
     SetValue(pkItem, key, val);
     pkItem->m_pkNext = m_ppkHashTable[uiIndex];
     m_ppkHashTable[uiIndex] = pkItem;

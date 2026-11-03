@@ -2,6 +2,26 @@
 // src/havok/animation/ragdoll/utils/hkaragdollutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/ragdoll/utils/hkaragdollutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/CA8890Object.h"
+#include "fnv/decl/CC0280Writer.h"
+#include "fnv/decl/FUN_00c7f690_cls.h"
+#include "fnv/decl/FUN_00ce2510.h"
+#include "fnv/decl/FUN_00ce50b0_cls.h"
+#include "fnv/decl/FUN_00d733e0.h"
+#include "fnv/decl/FUN_00d73410.h"
+#include "fnv/decl/Owner.h"
+#include "fnv/decl/S_00ce5070_QsTransform.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/cf5990_TransformShape.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cdd000.h"
+#include "fnv/symbols_00cea000.h"
+#include "fnv/symbols_00d74000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_010cb000.h"
+#include "fnv/symbols_01268000.h"
 extern "C"
 {
     int __cdecl FUN_00cea030(void*, void*);
@@ -40,7 +60,6 @@ struct Counter
     int unk00[12];
     int unk30;
 };
-extern "C" void __cdecl AssignNodeFlags(int, int, int);
 // Sets unk2c of every item in the container to value, increments counter->unk30 and passes the new count to AssignNodeFlags with c->unk14 and c->unk18.
 // @fnv 0x00ce9fa0
 void __cdecl FUN_00ce9fa0(Container* pContainer, int value, Counter* counter)
@@ -48,7 +67,7 @@ void __cdecl FUN_00ce9fa0(Container* pContainer, int value, Counter* counter)
     for (int i = 0; i < pContainer->unk0c; ++i)
         pContainer->items[i]->unk2c = value;
     int count = ++counter->unk30;
-    AssignNodeFlags(pContainer->unk14, pContainer->unk18, count);
+    ::AssignNodeFlags((::Node **)(pContainer->unk14), pContainer->unk18, count);
 }
 
 struct Inner
@@ -88,7 +107,6 @@ struct hkError
     virtual int message(int type, int id, const char* desc, const char* file, int line) throw();
 };
 
-extern hkError* DAT_01268360;
 
 // Returns true if obj->inner->getSomething() is one of 0,1,2,6,7,8; otherwise optionally reports an unsupported-constraint error and returns false.
 // @fnv 0x00ce9ba0
@@ -111,8 +129,8 @@ static bool IsSupportedRagdollConstraint(Obj* obj, bool reportError) throw()
     {
         unsigned int buf[128];
         hkErrStream stream(buf, 512);
-        stream << "Unsupported type of constraint in rag doll";
-        DAT_01268360->message(1, 0xabbabf3b, (char*)buf, ".\\Utils\\hkaRagdollUtils.cpp", 129);
+        reinterpret_cast<::SinkOwner *>((void *)&(const ::hkErrStream &)(stream))->FUN_00cc01c0("Unsupported type of constraint in rag doll");
+        (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabbabf3b, (char*)buf, ".\\Utils\\hkaRagdollUtils.cpp", 129);
     }
     return false;
 }
@@ -143,7 +161,6 @@ struct SpawnedObject
 {
     int unk00;
     unsigned short m_size04;
-    int Init(void* a, void* b, int c, void* d);
 };
 
 struct SourceRecord
@@ -171,7 +188,7 @@ int __cdecl SpawnObjectFromRecord(SourceRecord* pSourceRecord)
     SpawnedObject* obj = (SpawnedObject*)pAllocator->allocate(0x30);
     obj->m_size04 = 0x30;
     int iValue = pSourceRecord->m_i2c;
-    return obj->Init(&pSourceRecord->unk08, &pSourceRecord->unk14, iValue, &pSourceRecord->unk20);
+    return ((int)(new ((void *)(obj)) ::FUN_00ce2510((int)(&pSourceRecord->unk08), (int)(&pSourceRecord->unk14), iValue, (::ObjectArray<int> *)(void *)(&pSourceRecord->unk20))));
 }
 
 struct Node
@@ -226,15 +243,11 @@ struct LogText
     {
         FUN_00cc00e0();
     }
-    LogText* FUN_00cc01c0(const char* value) throw();
-    LogText* WriteInt(int value) throw();
     void FUN_00cc00e0() throw();
 };
-extern "C" void __cdecl FUN_00c908c0(HeapAllocator* allocator, ScratchArray* array, int capacity, int itemSize);
 extern "C" const char DAT_010cbde0[];
 extern "C" const char DAT_010cbdec[];
 extern "C" const char DAT_010cbe00[];
-extern "C" const char DAT_010cbd34[];
 struct BSAudio;
 BSAudio* __cdecl _FUN_00c85750() throw();
 static ScratchAllocator* scratchState() throw()
@@ -255,7 +268,7 @@ static __forceinline void reserveArray(HeapAllocator* allocator, ScratchArray* a
     {
         int doubled = capacity * 2;
         int newCapacity = size < doubled ? doubled : size;
-        FUN_00c908c0(allocator, array, newCapacity, 4);
+        ::FUN_00c908c0((::SpawnedObject *)(allocator), (::SpawnedArray *)(array), newCapacity, 4);
     }
 }
 static __forceinline void fillWords(int* destination, int value, int count) throw()
@@ -383,13 +396,8 @@ extern "C" int __cdecl FUN_00cea030(void* apNodes, void* apLinks)
     {
         int messageStorage[128];
         hkErrStream message(messageStorage, 512);
-        reinterpret_cast<LogText*>(&message)
-            ->FUN_00cc01c0(DAT_010cbde0)
-            ->WriteInt(nodeCount - 1)
-            ->FUN_00cc01c0(DAT_010cbdec)
-            ->WriteInt(linkCount)
-            ->FUN_00cc01c0(DAT_010cbe00);
-        DAT_01268360->message(1, 0xabba54bb, reinterpret_cast<const char*>(messageStorage), DAT_010cbd34, 0x144);
+        reinterpret_cast<::SinkOwner *>((((::LogText *)&(reinterpret_cast<::CC0280Writer *>((((::LogText *)(reinterpret_cast<::SinkOwner *>((((::LogText *)&(reinterpret_cast<::CC0280Writer *>((((::LogText *)(reinterpret_cast<::SinkOwner *>((reinterpret_cast<LogText*>(&message)))->FUN_00cc01c0(DAT_010cbde0)))))->WriteInt(nodeCount - 1)))))->FUN_00cc01c0(DAT_010cbdec)))))->WriteInt(linkCount)))))->FUN_00cc01c0(DAT_010cbe00);
+        (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabba54bb, reinterpret_cast<const char*>(messageStorage), DAT_010cbd34, 0x144);
         return 1;
     }
     int nodeBytes;
@@ -473,7 +481,6 @@ static ScratchAllocator* scratchState() throw()
 {
     return reinterpret_cast<ScratchAllocator*>(FUN_00c85750());
 }
-extern "C" void __cdecl ResizeAudioStream(HeapAllocator*, void*, int);
 template <class T> static __forceinline T* allocateBuffer(HeapAllocator* allocator, int& count) throw()
 {
     if (count)
@@ -527,7 +534,7 @@ template <class T> struct ArrayBase
     __forceinline void AddBack(HeapAllocator* allocator, const T& value) throw()
     {
         if (size == (capacity & 0x3fffffff))
-            ResizeAudioStream(allocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(allocator), (::AudioStream *)(void *)(this), sizeof(T));
         data[size] = value;
         ++size;
     }
@@ -570,8 +577,6 @@ struct Ragdoll
     ArrayBase<Constraint*> constraints;
     ArrayBase<int> boneMap;
     Skeleton* skeleton;
-    Ragdoll* FUN_00ce2510(const ArrayBase<RigidBody*>&, const ArrayBase<Constraint*>&, Skeleton*,
-                          const ArrayBase<int>&) throw();
     __forceinline Skeleton* getSkeleton() const throw()
     {
         return skeleton;
@@ -587,7 +592,6 @@ struct Ragdoll
         return --mapped < 0 ? 0 : constraints[mapped];
     }
 };
-extern "C" void __cdecl MarkHierarchyDescendants(Skeleton*, int, char*, int) throw();
 // Splits a Ragdoll into two output Ragdolls by partitioning bones into hierarchy descendants of source and the rest.
 // @fnv 0x00ceaf60
 void __cdecl FUN_00ceaf60(Ragdoll* original, int aiSourceBone, Ragdoll** first, Ragdoll** second)
@@ -599,7 +603,7 @@ void __cdecl FUN_00ceaf60(Ragdoll* original, int aiSourceBone, Ragdoll** first, 
     int maskCount = original->skeleton->boneCount;
     char* mask = allocateBuffer<char>(scratchState()->heap, maskCount);
     int maskCapacity = maskCount ? maskCount : 0x80000000;
-    MarkHierarchyDescendants(original->skeleton, aiSourceBone, mask, 1);
+    ::MarkHierarchyDescendants((::Hierarchy *)(original->skeleton), aiSourceBone, (unsigned char *)(mask), 1);
     for (int partition = 0; partition < 2; ++partition)
     {
         Array<RigidBody*> bodies;
@@ -626,7 +630,7 @@ void __cdecl FUN_00ceaf60(Ragdoll* original, int aiSourceBone, Ragdoll** first, 
         }
         Ragdoll* result = (Ragdoll*)scratchState()->heap->AllocateMemoryBlock(0x30);
         result->memorySizeAndFlags = 0x30;
-        result = result->FUN_00ce2510(bodies, constraints, original->getSkeleton(), remap);
+        result = ((::fnv_00ceaf60::Ragdoll *)(new ((void *)(result)) ::FUN_00ce2510((int)&(bodies), (int)&(constraints), (int)(original->getSkeleton()), (::ObjectArray<int> *)&(remap))));
         *outputs[partition] = result;
         HeapAllocator* allocator = scratchState()->heap;
         remap.size = 0;
@@ -647,6 +651,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 extern "C" __m128 _mm_load_ps(const float*);
 
 extern "C"
@@ -662,11 +667,6 @@ extern "C"
     __m128 _mm_rcp_ps(__m128);
 }
 
-extern __m128 DAT_010c71e0;
-extern __m128 DAT_010c7170;
-extern __m128 DAT_010c44d0;
-extern __m128 DAT_010c4c00;
-extern __m128 DAT_010c4c10;
 
 struct hkBoolR
 {
@@ -732,7 +732,6 @@ class hkVec4
     void setXYZ0(const hkVec4& a);
     void SetRotatedDirection(const hkQuaternion& a, const hkVec4& b);
     void setRotatedInverseDir(const hkQuaternion& a, const hkVec4& b);
-    void FUN_00c7f690(const hkXform& t, const hkVec4& p);
 };
 struct hkQuaternion
 {
@@ -787,7 +786,7 @@ inline void hkVec4::addMul4(const ScalarValue& a, const hkVec4& b)
 }
 inline void hkVec4::setNeg4(const hkVec4& a)
 {
-    m_vComponents = _mm_xor_ps(a.m_vComponents, DAT_010c44d0);
+    m_vComponents = _mm_xor_ps(a.m_vComponents, ::DAT_010c44d0);
 }
 inline void hkVec4::setNeg3(const hkVec4& a)
 {
@@ -834,7 +833,7 @@ inline void hkVec4::setReciprocal4(const hkVec4& a)
 __forceinline void hkVec4::SetRotatedDirection(const hkQuaternion& a, const hkVec4& b)
 {
     hkVec4 half;
-    half.getQuad() = DAT_010c71e0;
+    half.getQuad() = ::DAT_010c71e0;
     hkVec4 real;
     real.setBroadcast(a.m_vec, 3);
     hkVec4 factor;
@@ -853,7 +852,7 @@ __forceinline void hkVec4::SetRotatedDirection(const hkQuaternion& a, const hkVe
 __forceinline void hkVec4::setRotatedInverseDir(const hkQuaternion& a, const hkVec4& b)
 {
     hkVec4 half;
-    half.getQuad() = DAT_010c71e0;
+    half.getQuad() = ::DAT_010c71e0;
     hkVec4 real;
     real.setBroadcast(a.m_vec, 3);
     hkVec4 factor;
@@ -929,15 +928,13 @@ struct hkQsXform
     hkVec4 m_vScale;
 
     hkBoolR FUN_00ce5120(const hkQsXform& other, float eps) const;
-    void FUN_00ce5070(const void* transform);
-    void FUN_00ce50b0(void* transformOut) const;
 
     __forceinline void SetProduct(const hkQsXform& t1, const hkQsXform& t2)
     {
         hkVec4 extra;
         extra.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(t1.m_vTranslation, extra);
-        m_rotation.FUN_00c66320(t1.m_rotation, t2.m_rotation);
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
         m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
     }
     __forceinline void SetConjugate(const hkQsXform& t)
@@ -965,12 +962,10 @@ struct MassA
     void* unk00;
     void* unk04;
     unsigned char unk08, unk09, unk0a, unk0b;
-    void FUN_00d733e0();
 };
 struct MassB
 {
     hkVec4 unk00;
-    void FUN_00d73410();
 };
 struct ErrorIface
 {
@@ -985,8 +980,6 @@ struct ShapeObj
 {
     int unk00;
     unsigned short m_usMemSizeAndFlags;
-    ShapeObj* FUN_00cf5990(void* shape, const hkXform& t);
-    void FUN_00c905b0();
 };
 struct Body
 {
@@ -1053,13 +1046,8 @@ struct Body
     hkXform m_kMotionTransform;
     hkVec4 m_vCenterOfMass0;
     hkVec4 m_vCenterOfMass1;
-    void FUN_00ca8890(const hkXform& t);
-    void FUN_00ca85f0(const hkVec4& com);
 };
-void __cdecl FUN_00d748d0(Body* body, MassA* a, MassB* b);
 
-extern hkQsXform DAT_01268700;
-extern float DAT_01017d00;
 
 struct MemoryRouter : SpawnedGlobal
 {
@@ -1071,16 +1059,16 @@ struct MemoryRouter : SpawnedGlobal
 
 static __forceinline ErrorIface* GetError()
 {
-    return (ErrorIface*)DAT_01268360;
+    return (ErrorIface*)(*reinterpret_cast<::hkError * *>(&::DAT_01268360));
 }
 
 // @fnv 0x00ce9880
 static __declspec(noinline) int FUN_00ce9880(const hkQsXform& t, Body* body)
 {
-    if (t.FUN_00ce5120(DAT_01268700, DAT_01017d00).m_cBooleanValue == 0)
+    if (t.FUN_00ce5120((*reinterpret_cast<::hkQsXform *>(&::DAT_01268700)), ::AngularDashpotApplyD4DCB0::DAT_01017d00).m_cBooleanValue == 0)
     {
         hkQsXform bodyQs;
-        bodyQs.FUN_00ce5070(&body->m_kMotionTransform);
+        reinterpret_cast<::S_00ce5070_QsTransform *>(&(bodyQs))->FUN_00ce5070((*(const ::S_00ce5070_Transform *)(&body->m_kMotionTransform)));
 
         hkQsXform combined;
         combined.SetProduct(bodyQs, t);
@@ -1092,28 +1080,28 @@ static __declspec(noinline) int FUN_00ce9880(const hkQsXform& t, Body* body)
         hkXform kXform;
         {
             void* shape = body->m_pCollisionShape;
-            inv.FUN_00ce50b0(&kXform);
+            reinterpret_cast<::FUN_00ce50b0_cls *>((void *)&(inv))->FUN_00ce50b0((::CB2FC0Object *)(void *)(&kXform));
             ShapeObj* pShapeObj = (ShapeObj*)((MemoryRouter*)FUN_00c85750())->heap().allocate(0x70);
             pShapeObj->m_usMemSizeAndFlags = 0x70;
-            ShapeObj* pTransformedShape = pShapeObj->FUN_00cf5990(shape, kXform);
+            ShapeObj* pTransformedShape = ((::ShapeObj *)(reinterpret_cast<::cf5990_TransformShape *>((pShapeObj))->FUN_00cf5990((::hkpShape *)(shape), (const ::hkTransform &)(kXform))));
             body->SetCollisionShapeAndKey(pTransformedShape);
-            pTransformedShape->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((pTransformedShape))->FUN_00c905b0();
         }
         {
             MassA a;
-            a.FUN_00d733e0();
+            new ((void *)&(a)) ::FUN_00d733e0();
             MassB b;
-            b.FUN_00d73410();
-            FUN_00d748d0(body, &a, &b);
+            new ((void *)&(b)) ::FUN_00d73410();
+            ::FUN_00d748d0((::hkpEntityD748 *)(body), (int)(&a), (int)(&b));
         }
         GetError()->SetErrorCodeEnabled(0x2ff8c16f, bErrorEnabled);
-        combined.FUN_00ce50b0(&kXform);
-        body->FUN_00ca8890(kXform);
+        reinterpret_cast<::FUN_00ce50b0_cls *>((void *)&(combined))->FUN_00ce50b0((::CB2FC0Object *)(void *)(&kXform));
+        reinterpret_cast<::CA8890Object *>((body))->FUN_00ca8890((int)&(kXform));
         if (body->m_bFlag != 5)
         {
             hkVec4 lc;
-            lc.FUN_00c7f690(kXform, com);
-            body->FUN_00ca85f0(lc);
+            reinterpret_cast<::FUN_00c7f690_cls *>(&(lc))->FUN_00c7f690((const ::S_00c7f690_M *)&(kXform), (const ::S_00c7f690_V *)&(com));
+            reinterpret_cast<::Owner *>((body))->FUN_00ca85f0((unsigned int)&(lc));
         }
     }
     return 0;

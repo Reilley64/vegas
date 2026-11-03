@@ -2,16 +2,85 @@
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
 
 
+#include <new>
+#include "fnv/decl/AttributeFormatter.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/E426F0Container.h"
+#include "fnv/decl/E5C4Foo.h"
+#include "fnv/decl/FNVOwner.h"
+#include "fnv/decl/FNVTreeNode.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_005611c0_t.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00cb0a60.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cb8ac0_class.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00cdf290_cls.h"
+#include "fnv/decl/FUN_00d21410.h"
+#include "fnv/decl/FUN_00d2b260.h"
+#include "fnv/decl/FUN_00d9ec10_cls.h"
+#include "fnv/decl/FUN_00e46f20.h"
+#include "fnv/decl/FUN_00e587a0_Class.h"
+#include "fnv/decl/FnvClassNameNode.h"
+#include "fnv/decl/HostC9C6.h"
+#include "fnv/decl/RefPtrArray.h"
+#include "fnv/decl/SStringPtr.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/TreeDecoder.h"
+#include "fnv/decl/fnv_00dcd310__FUN_00dcd310.h"
+#include "fnv/decl/fnv_00e47020__FUN_00e47020.h"
+#include "fnv/decl/hkArrayE5CD.h"
+#include "fnv/decl/hkMapE63E.h"
+#include "fnv/decl/hkpMoppFindAllVirtualMachine.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00cb8000.h"
+#include "fnv/symbols_00cde000.h"
+#include "fnv/symbols_00d2c000.h"
+#include "fnv/symbols_00e42000.h"
+#include "fnv/symbols_00e4e000.h"
+#include "fnv/symbols_00e50000.h"
+#include "fnv/symbols_00e51000.h"
+#include "fnv/symbols_00e53000.h"
+#include "fnv/symbols_00e54000.h"
+#include "fnv/symbols_00e55000.h"
+#include "fnv/symbols_00e59000.h"
+#include "fnv/symbols_00e5b000.h"
+#include "fnv/symbols_00e5c000.h"
+#include "fnv/symbols_00e5d000.h"
+#include "fnv/symbols_00e60000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01014000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0101f000.h"
+#include "fnv/symbols_01022000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_01055000.h"
+#include "fnv/symbols_01056000.h"
+#include "fnv/symbols_01071000.h"
+#include "fnv/symbols_0108c000.h"
+#include "fnv/symbols_01091000.h"
+#include "fnv/symbols_01095000.h"
+#include "fnv/symbols_010af000.h"
+#include "fnv/symbols_010c3000.h"
+#include "fnv/symbols_010e5000.h"
+#include "fnv/symbols_010e6000.h"
+#include "fnv/symbols_010e8000.h"
+#include "fnv/symbols_010ec000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_0126c000.h"
+#include "fnv/symbols_0126e000.h"
 #include "fnv_asm_helpers.h"
 // src/staging/blk_00e40000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 #include "../../include/layout_support.h"
 struct FUN_00e428f0_class {
-    void Remove(void*);
     void FUN_00e428f0(void* p);
 };
-int __cdecl FUN_00e42940(int pObject);
-extern "C" void __cdecl FUN_00cb0a60();
 struct FUN_00e4e400_class {
     FUN_00e4e400_class* __thiscall FUN_00e4e400();
 };
@@ -30,12 +99,7 @@ struct FUN_00e587c0_Class {
 };
 struct GlobalObjectO2_00d472a0 { int x; };
 GlobalObjectO2_00d472a0 g_0126e600;
-void __stdcall FUN_00e5c540(int, GlobalObjectO2_00d472a0*);
-void __stdcall FUN_00e5c5b0(int a);
-extern "C" void __stdcall FUN_00e5c540(int, int);
 struct GlobalObjectO2_00d472a0;
-extern GlobalObjectO2_00d472a0 g_0126c5f0;
-void __stdcall FUN_00e5c5f0(int aiValue);
 struct FUN_00e459c0_class {
     void SetBitMaskFlags(int a, int b);
 };
@@ -51,7 +115,6 @@ struct FUN_00e58880_Class {
 int __cdecl Factorial(int count);
 extern const float runtimeFloatSettingDefault132;
 extern const float runtimeFloatSettingDefault255;
-extern const float g_011c7344_arg1;
 extern int DAT_010e62a4;
 struct FUN_00e44280_struct {
     int* m_00;
@@ -83,7 +146,6 @@ struct FUN_00e426f0_class {
     unsigned short m_10;
     unsigned short m_12;
     unsigned short m_14;
-    void AddObject(void* p);
     void AddByteFromObject(void* p);
 };
 struct FUN_00e61480_class {
@@ -109,21 +171,10 @@ struct FUN_00e4af80 {
     FUN_00e4af80* Set(int arg);
 };
 struct FUN_00e58b10_class {
-    void FillWithValue(float* out);
-    void FUN_00e58a20(int a, int b, int c);
     void FUN_00e58b10(int a, int b, int c);
 };
-extern const char* const g_0126c5f0_arg1;
-void __stdcall FUN_00e5c540(int, int);
-void __stdcall FUN_00e5c5d0(int aiValue);
 struct GlobalObjectO2_00d472a0;
-extern GlobalObjectO2_00d472a0 g_0126eb10;
-void __stdcall FUN_00e5c540(int a, GlobalObjectO2_00d472a0* b);
-void __stdcall FUN_00e5c630(int aiValue);
 struct GlobalObjectO2_00d472a0;
-extern GlobalObjectO2_00d472a0 g_0126eac8;
-void __stdcall FUN_00e5c540(int, GlobalObjectO2_00d472a0*);
-void __stdcall CallWithGlobalObject(int aiValue);
 struct FUN_00e406d0_cls
 {
     int unk00;
@@ -234,7 +285,6 @@ struct FUN_00e42680_cls {
 
     void CallItemsVirtual();
 };
-extern "C" int DAT_010e5e9c;
 struct FUN_00e43ac0_cls {
     void* m_00;
     unsigned short m_04;
@@ -246,10 +296,7 @@ struct FUN_00e43ac0_cls {
 };
 extern double DAT_010ebf20;
 extern double DAT_010ebf18;
-extern double DAT_01012638;
-extern double DAT_0101ff48;
 float __cdecl ComputeScaledRatio(float param_1, float afDivisor, float afValue, float afScale);
-extern "C" int DAT_010e5ff4;
 struct FUN_00e43f30_cls {
     void* volatile m_00;
     unsigned short m_04;
@@ -358,7 +405,6 @@ struct FUN_00e49fe0 : FUN_00cbfba0 {
 };
 struct E4AAA0Allocator;
 void __cdecl FUN_00c908c0(E4AAA0Allocator* alloc, void* array, int numElements, int sizeElem);
-void __cdecl FUN_00d2cc70(void* dst, const void* src, unsigned int nbytes);
 struct E4AAA0Element {
     int m_kPointA;
     int m_kPointB;
@@ -452,7 +498,6 @@ ThunkDerived::ThunkDerived()
 {
 }
 struct S_00e4af60_helper {
-    void FUN_00cb0a60();
 };
 struct S_00e4af60_class {
     void* unk00;
@@ -466,12 +511,6 @@ struct S_00e4af60_class {
     S_00e4af60_class* FUN_00e4af60();
 };
 extern int DAT_010ec1fc;
-void __cdecl AccumulateNeighborSum(float k, const float* src, float* dst, int n);
-extern float DAT_0102295c;
-extern float DAT_0101622c;
-void __cdecl DeinterleaveFloats(float* a, float* b, unsigned int n);
-void __cdecl AccumulateNeighborSum(float c, float* a, float* b, unsigned int n);
-void __cdecl FUN_00e50e50(float c, float* a, float* b, unsigned int n);
 void __cdecl FUN_00e51330(float* afValues, unsigned int n);
 struct PackedFormat {
     unsigned char bits;
@@ -482,17 +521,14 @@ struct PackedFormat {
 };
 void FUN_00e51f60(const float* afSource, unsigned int count, const PackedFormat* format, unsigned char* pucDest);
 void __cdecl PackFourFloatsToNibbles(const float* afValues, unsigned char* aucPacked);
-extern const float g_x;
 float __cdecl FUN_00e52f40();
 extern const float g_010ec960;
 float __cdecl FUN_00e52f50();
-extern const float g_010af2f0;
 float __cdecl FUN_00e52f60();
 extern const float g_010ec964;
 float __cdecl FUN_00e52f70();
 extern const float DAT_010ec968;
 float __cdecl FUN_00e52f80();
-extern float DAT_0104da4c;
 float __cdecl FUN_00e52f90(void);
 void __cdecl SwapBytes(void* pData);
 inline void SwapByte(unsigned char& left, unsigned char& right)
@@ -558,7 +594,6 @@ struct FourFloatVector {
     float z;
     float w;
 
-    FourFloatVector& FUN_00e531a0(int parameter);
     FourFloatVector FUN_00e53260(int parameter);
 };
 struct S_e53300_Vec;
@@ -575,7 +610,6 @@ struct Quad4 {
     unsigned int m_04;
     unsigned int m_08;
     unsigned int m_0c;
-    Quad4* Eval(float t);
 };
 class FUN_00e53350_cls : public Quad4 {
 public:
@@ -589,7 +623,6 @@ float* __cdecl FUN_00e533a0(float* pOut, float fValue, SpawnedObject* pObj);
 // thiscall method of the object given as the third argument, then hands
 // the first argument back to the caller.
 struct FUN_00e533c0_cls {
-    void SetValue(float* pOut, float fValue);
 };
 float* __cdecl SetValueAndReturn(float* pOut, float fValue, FUN_00e533c0_cls* pObj);
 double __cdecl FUN_00ec6940(double value);
@@ -644,14 +677,12 @@ struct FUN_00e54ad0_cls
     void FUN_00e54ad0();
 };
 // The two callees below are unnamed in the binary's symbol table; they bind by position.
-extern void __cdecl helper_before();
 extern double __cdecl helper_value();
 float __cdecl GetHelperValueAsFloat();
 class FUN_00e54b00_cls
 {
 public:
     float GetHelperValueAsFloat();
-    void EvalCopy(int a, float b);
     int FUN_00e54b00(int p);
 };
 struct FUN_00e54b20_out
@@ -663,7 +694,6 @@ struct FUN_00e54b20_out
 };
 struct FUN_00e54b20_src
 {
-    void* Lookup(FUN_00e54b20_out* out, unsigned int key);
 };
 struct FUN_00e54b20_sink
 {
@@ -687,7 +717,6 @@ struct FUN_00e54ae0_class
 };
 struct FUN_00e532b0_class
 {
-    FUN_00e54ae0_class* __thiscall FUN_00e532b0(void* buffer, void* value);
 };
 void __cdecl FUN_00e54ba0(void* value, FUN_00e532b0_class* object);
 char* __cdecl IsSampleBoundary(int* base, int idx, int b, int c);
@@ -704,7 +733,6 @@ inline void E54C50MemCpy4(void* dst, const void* src, int nbytes)
 }
 void RemoveAndDecrement(int index, E54C50IntArray& array, int end);
 struct Float4 { float x, y, z, w; };
-extern const double DAT_01016978;
 void __cdecl FUN_00e54630(Float4* out, int a, int b, int c, int d, float input);
 float __cdecl LookupAndConsume(const Float4* left, const Float4* right);
 unsigned char* __cdecl CheckVerticesAboveThresholds(unsigned char* result, int a, int b, int c, int d, int last, Float4** verticesPtr, float** valuesPtr, float** thresholdsPtr);
@@ -753,7 +781,6 @@ struct FUN_00e5c490_entry
     unsigned int m_ptr;
     unsigned int m_unk04;
 };
-int CompareStringsCaseInsensitive(unsigned int item, unsigned int ctx);
 class FUN_00e5c490_cls
 {
 public:
@@ -788,12 +815,7 @@ public:
     int m_unk00;
     int m_unk04;
     int m_unk08;
-    AttrWriter_b5103& Write5(const char* a, const char* name, const char* b, const void* self, const char* c) throw();
-    AttrWriter_b5103& Step1() throw();
-    AttrWriter_b5103& Step2() throw();
     AttrWriter_b5103& Step3() throw();
-    AttrWriter_b5103& Step4() throw();
-    AttrWriter_b5103& Step5();
     void Release() throw();
     unsigned int* GetBuf() throw();
 };
@@ -802,32 +824,21 @@ public:
     AttrStream_b5103(unsigned int* buf, unsigned int size) throw();
     AttrWriter_b5103 m_w;
 };
-extern AttrLog_b5103* DAT_01268360_b5103;
 class FUN_00e5c6b0_cls {
 public:
-    AttrEntry_b5103* FindPrimary(const char* name) throw();
-    AttrEntry_b5103* FindSecondary(const char* name) throw();
     int GetBoolAttribute(const char* name, bool required, unsigned char* out);
 };
 struct ConfigValue { unsigned type, identifier; const void* data; };
 struct CharBuffer {
     char* destination;
     unsigned capacity, length;
-    void FUN_00cb1600(char*, unsigned);
-    CharBuffer* FUN_00cc01c0(const char*);
-    CharBuffer* WriteName(const void*);
-    void FUN_00cc00e0();
 };
 struct DiagnosticLogger {
     virtual void open(); virtual void close(); virtual void flush();
     virtual void report(int, unsigned, const char*, const char*, int);
 };
-extern DiagnosticLogger* DAT_01268360;
-extern const char str_010ecd20[],str_010eccfc[],str_010ecd0c[],str_010eccc8[];
+extern const char str_010ecd20[];
 struct ConfigTable {
-    ConfigValue* FUN_00e5c5d0(const char*);
-    ConfigValue* FUN_00e5c5b0(const char*);
-    ConfigValue* FUN_00e5c5f0(const char*);
     int GetUnsignedValue(const char*, bool, unsigned*);
 };
 struct FUN_00e5c8b0_Node
@@ -836,7 +847,6 @@ struct FUN_00e5c8b0_Node
 };
 struct FUN_00e5c8b0_Target
 {
-    void FindValue(unsigned int a, unsigned int* b);
 };
 struct FUN_00e5c8b0_Rec
 {
@@ -855,11 +865,6 @@ struct FUN_00e5c8b0_Str
     int m_00;
     int m_04;
     int m_08;
-    void Set(char* buf, unsigned int len);
-    FUN_00e5c8b0_Str* Chain5(const char* s0, int a1, const char* s2, int a3, const char* s4);
-    FUN_00e5c8b0_Str* Chain0();
-    FUN_00e5c8b0_Str* ChainB();
-    FUN_00e5c8b0_Str* ChainC();
     void Release();
 };
 struct FUN_00e5c8b0_cls
@@ -868,8 +873,6 @@ struct FUN_00e5c8b0_cls
     int unk04;
     int unk08;
     int unk0C;
-    FUN_00e5c8b0_Rec* FUN_00e5c610(int a);
-    FUN_00e5c8b0_Rec* FUN_00e5c5f0(int a);
     int GetAttributeValue(int a, bool flag, unsigned int* out);
 };
 struct FUN_00e5c8b0_Logger
@@ -879,7 +882,6 @@ struct FUN_00e5c8b0_Logger
     virtual void v2();
     virtual void Report(int level, unsigned int code, const char* msg, const char* file, int line);
 };
-extern FUN_00e5c8b0_Logger* g_01268360;
 struct AttrLogBuf {
     unsigned int m_00;
     unsigned int m_04;
@@ -1021,10 +1023,6 @@ public:
     unsigned short m_sLen;
     unsigned short m_sMaxLen;
     unsigned int m_08;
-    void Init(AttrLogBuf* buf, unsigned int size);
-    AttrLogBuilder* Build(const char* a, const char* name, const char* b, void* self, const char* c);
-    AttrLogBuilder* Chain();
-    AttrLogBuilder* Other();
     void Free();
 };
 class LogSink {
@@ -1034,16 +1032,13 @@ public:
     virtual void v2();
     virtual void Log(int level, unsigned int tag, const char* msg, const char* file, int line);
 };
-extern LogSink* g_pAttrLogger;
 class FUN_00e5c9b0_cls {
 public:
-    AttrEntry* FindAttr(const char* name);
     int GetFloatAttribute(const char* name, bool log, float* out);
 };
 // FUN_00e5cec0 - forwards this + four stack arguments to SpliceArray,
 // with a literal zero inserted as the third argument.
 struct FUN_00e5cdb0_class {
-    void __thiscall SpliceArray(int a, int b, int c, int d, int e);
     void __thiscall FUN_00e5cec0(int a, int b, int c, int d);
 };
 struct S_00e5cfb0_Object {
@@ -1063,17 +1058,14 @@ struct S_00e65ee0_Class {
     int unk08;
     int unk0c;
 
-    void __thiscall FUN_00e65ee0(int* buffer, int value);
 };
 void __cdecl FUN_00e5cfb0(S_00e5cfb0_Object* object, int value);
-extern float DAT_0104e148;
 struct FloatArray_e404b0 {
     float* data;
     int count;
 };
 template <class T> inline T MaxOf(T a, T b) { return a > b ? a : b; }
 float __cdecl FUN_00e404b0(FloatArray_e404b0* arr);
-extern float _DAT_0104da48;
 float __cdecl FindMinFloat(int *param_1);
 extern int DAT_010e60c4;
 struct FUN_00e44070 {
@@ -1270,7 +1262,6 @@ struct ActorEntry {
         return m_pExtendedListeners;
     }
 
-    void __thiscall FUN_00c9c670(CListener* el);
 };
 template <typename T>
 struct HkArray {
@@ -1321,14 +1312,11 @@ struct FUN_00e46900 : CShape, CListener {
     virtual ~FUN_00e46900() throw();
 };
 struct Ref { void FUN_00c90510(); };
-int FUN_00e60cb0(unsigned char,int);
-struct Entry { Ref* name; Ref* pClassInfo; unsigned char type; unsigned char flags; unsigned short reserved; int count; unsigned char storage; unsigned char ReplaceImpactData; unsigned short reserved12; void* data; int unk18; int unk1c; int length() const { int t=type; return FUN_00e60cb0(t,count); } };
+struct Entry { Ref* name; Ref* pClassInfo; unsigned char type; unsigned char flags; unsigned short reserved; int count; unsigned char storage; unsigned char ReplaceImpactData; unsigned short reserved12; void* data; int unk18; int unk1c; int length() const { int t=type; return ::FUN_00e60cb0(t,count); } };
 struct Allocator {};
 struct Router { int a,b,c,d; Allocator* heap; Allocator& getHeap() {return *heap;} };
 Router* getRouter();
-int FUN_00e60cb0(unsigned char type,int count);
 extern "C" void FUN_00c908c0(Allocator*,void*,int,int);
-void FUN_00cb1260(void*,const void*,int);
 struct String { void* value; void init() throw(); void assign(const char*) throw(); };
 struct ArrayBase {
  void* data; int size; int capacity;
@@ -1439,7 +1427,6 @@ public:
 };
 class CE588A0Vector {
 public:
-    double Get(int iIndex);
     int GetSize();
 };
 float __cdecl DotProduct(CE588A0Vector* pkA, CE588A0Vector* pkB);
@@ -1498,11 +1485,6 @@ extern int DAT_010e7848;
 extern int DAT_010e783c;
 extern int DAT_010e781c;
 extern int DAT_010cb1e4;
-extern int DAT_010c3b8c;
-extern int DAT_010c3bac;
-extern int DAT_010c3b98;
-extern int DAT_010c3b80;
-extern int DAT_0102e388;
 struct FUN_00e46b80_class {
     int* unk00;
     int* unk04;
@@ -1539,7 +1521,6 @@ struct E473C0Owner {
     int unk00;
     unsigned short unk04;
 
-    void __thiscall FUN_00e47020();
     E473C0Owner* __thiscall FUN_00e473c0(unsigned char flags);
 };
 struct FnvCpu_FUN_00e473f0_CpuObject {
@@ -1615,10 +1596,7 @@ struct FUN_00e484e0_class {
     int m_10;
     void ScatterBytes(FUN_00e484e0_dst* dst);
 };
-extern "C" int DAT_010e8ab0;
-extern "C" int DAT_010e8a90;
 struct FUN_00e48db0_holder {
-    void FUN_00dcd310(float f, void* p);
 };
 struct FUN_00e48db0_class {
     void* m_00;
@@ -1628,7 +1606,6 @@ struct FUN_00e48db0_class {
     int m_10;
     FUN_00e48db0_class* __thiscall InitFromFloatAndPointer(float f, void* p);
 };
-int CompareStringsCaseInsensitive(const char* a, const char* b);
 struct Node4a5
 {
     char pad[0x14];
@@ -1636,7 +1613,6 @@ struct Node4a5
 
     const char* GetName() const { return (const char*)(m_uiName & ~1); }
 
-    Node4a5* FindChildByName(const char* pcName);
 };
 struct Owner4a5
 {
@@ -1656,7 +1632,6 @@ struct GtrStand_ {
 };
 struct HolderStub;
 HolderStub* __cdecl FUN_00c85750();
-HolderStub* __cdecl FUN_00e4e3f0();
 void FUN_00e52f10();
 void __cdecl FUN_00e52f20();
 void FUN_00e52f30();
@@ -1665,21 +1640,18 @@ struct FUN_00e53180_Obj {
     float y;
     float z;
     float w;
-    void FUN_00e53180(const Float4* source);
 };
 void __cdecl FUN_00e546e0(int a, int b, int c, int d, int count, float** inputs, FUN_00e53180_Obj** outputs);
 struct E58E80Object {
     void CopyFrom(int setting);
 };
 E87E0Matrix* __fastcall FUN_00e58e80(int setting, int unused, E58E80Object* object, const E87E0Matrix& right);
-void __cdecl PrefixSum(float* afValues, unsigned int n);
 class hkBool
 {
 public:
     hkBool(bool b) { m_cBooleanValue = (char)b; }
     char m_cBooleanValue;
 };
-hkBool __cdecl InvertMatrix2x2(const float* afMatrix, float* afInverse, float fEps);
 struct E5B110Ref { void FUN_00c90510(); };
 struct E5B110Obj {
     void CopyStateFrom(void* p);
@@ -1692,7 +1664,6 @@ struct E5B110Obj {
 };
 static void FUN_00e5b110(E5B110Obj* obj, void* p);
 void E5B110Caller(char* q, int a, int b, int c);
-int GetUnsignedValue(const char*, bool, unsigned*);
 int FUN_00e5c8a0(const char* p, bool b, unsigned* u);
 struct UnkRet;
 struct FUN_00e47390_obj {
@@ -1713,7 +1684,6 @@ struct UnkHolder {
     UnkRet* FUN_00c85750();
     void FUN_00e47390();
 };
-extern float DAT_0108cb00;
 class RefObjectE483 {
 public:
     RefObjectE483() { m_sReferenceCount = 1; }
@@ -1763,10 +1733,6 @@ extern "C" const float* mm_vals(void);
 extern "C" int mm_count(void);
 void mm_caller(void);
 struct SampleField {
-    int FUN_00e587a0();
-    float* GetElementPtr(int index, int component);
-    void FillWithValue(float* value);
-    float GetFloatAt(int index, int component);
 };
 struct FUN_00e58a20_cls {
     float* m_00;
@@ -1852,7 +1818,6 @@ public:
     void UpdateMinMax(int index, float value);
 };
 #include <xmmintrin.h>
-extern int DAT_010e6834;
 struct MotorObject {
     int* vtable;
     unsigned short flags;
@@ -1867,21 +1832,17 @@ struct MotorObject {
     __m128 vector30;
     float value40;
     float value44;
-    void FUN_00d2b260(void*, int);
     MotorObject* FUN_00e444c0();
 };
 struct LoadedFlag { int finishing; };
-extern "C" int DAT_010ec004;
 struct LoadedObject {
     void* vtable;
     int unk04;
     unsigned char type;
-    void FUN_00e46f20(LoadedFlag flag);
     LoadedObject* Initialize(LoadedFlag flag);
 };
 void* operator new(size_t, void* p) { return p; }
 struct Actor : ActorEntry {
-    void FUN_00c9c5b0(CListener* listener);
     __forceinline ExtendedListeners* listeners() {
         if (!m_pExtendedListeners) m_pExtendedListeners = new ExtendedListeners;
         return m_pExtendedListeners;
@@ -1933,8 +1894,6 @@ struct BitLinks {
 };
 namespace se49080 {
 
-extern "C" const char DAT_010e8e94[];
-extern "C" const char DAT_010e8e74[];
 
 void __fastcall FUN_00c90510(void* pvObject);
 
@@ -1947,7 +1906,6 @@ struct ShapeBase {
     int unk00c;
     const char* m_pVtbl2;
 
-    void FUN_00d21410(int iType, int iFlags);
 };
 
 struct KeyedPointerEntry : ShapeBase {
@@ -1962,14 +1920,14 @@ struct KeyedPointerEntry : ShapeBase {
 // @fnv 0x00e49080
 KeyedPointerEntry* KeyedPointerEntry::FUN_00e49080(Shape* pkShapeA, Shape* pkShapeB, float fRadius)
 {
-    FUN_00d21410(7, 3);
+    new ((void *)this) class ::FUN_00d21410(7, 3);
     m_fBoundRadius = fRadius;
     m_pVtbl = DAT_010e8e94;
     m_pVtbl2 = DAT_010e8e74;
     m_pkShapeB = pkShapeB;
     m_pkShapeA = pkShapeA;
-    FUN_00c90510(pkShapeA);
-    FUN_00c90510(m_pkShapeB);
+    reinterpret_cast<::FUN_00c90510_class *>((pkShapeA))->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((m_pkShapeB))->FUN_00c90510();
     return this;
 }
 
@@ -2085,7 +2043,6 @@ struct Count { int n; };
 extern "C" void __movsd(unsigned long* destination,
                         const unsigned long* source,
                         unsigned int count);
-void __cdecl DeinterleaveFloats(const float* src, float* dst, Count value);
 struct ThresholdAllocator {
     virtual void slot0();
     virtual void slot1();
@@ -2094,7 +2051,6 @@ struct ThresholdAllocator {
     virtual void ReleaseBlock(void*, int);
 };
 struct ThresholdCompare { bool descending; };
-void __cdecl FUN_00e50f10(float*, int, int, ThresholdCompare);
 struct ThresholdArray {
     float* data;
     int size;
@@ -2129,7 +2085,7 @@ struct ThresholdArray {
 inline float ThresholdFloat(unsigned int value) { return (float)value; }
 inline float ThresholdAbs(float value) { return (float)fabs(value); }
 void __cdecl ThresholdValues(float* values, unsigned int count, float threshold, ThresholdCompare relative);
-struct Q { __m128 m_vComponents; void FUN_005611c0(); };
+struct Q { __m128 m_vComponents;  };
 struct QRef { Q* p; Q* operator->() const { return p; } };
 void FUN_00e52880(const unsigned char* src, QRef out);
 class Quat4
@@ -2157,13 +2113,11 @@ struct V4 { float x, y, z, w; };
 float __cdecl FUN_00e54cb0(int a3, int a4, int a5, int a6, float* p, int a9, int a10, float a11, float a12);
 void __cdecl FUN_00e54630(V4* out, int a3, int a4, int a5, int a6, float v);
 struct CurvePointOps {
-    float* FUN_00e532b0(V4* p1, V4* p2);
 };
 struct CurveLengthOps {
     float GetHelperValueAsFloat();
 };
 void __cdecl FUN_00e54fa0(int n, CurveArg<float**> a2, CurveArg<int> a3, CurveArg<int> a4, CurveArg<int> a5, CurveArg<int> a6, CurveArg<float**> a7, CurveArg<float**> a8, CurveArg<int> a9, CurveArg<int> a10, float a11, float a12, bool a13);
-extern const float runtimeFloatSettingDefault726;
 __declspec(noalias) float __cdecl LookupAndConsume(const Float4* left, const Float4* right);
 extern "C" float __cdecl FUN_00e54cb0(int a, int b, int c, int d, Float4* p, int e, int f, float g, float h);
 unsigned char* __cdecl CheckAllSamplesBelowThreshold(unsigned char* result, int a, int b, int c, int d, int last, Float4** samples, float threshold);
@@ -2197,10 +2151,8 @@ struct ChainArray {
     }
 };
 void __cdecl ResizeAudioStream(void* pAllocator, void* pArray, int auiNewSize);
-void __cdecl CollectConnectedNodesAndEdges(ChainArray<void*>* src, void* node, ChainArray<void*>* outNodes, ChainArray<void*>* outEdges);
-namespace ns_e5c5 { int __cdecl CompareStringsCaseInsensitive(const char* a, const char* b) throw(); }
+namespace ns_e5c5 {  }
 struct Resource_e5c5 {
-    const char* FUN_00d46d40() throw();
     void FUN_00c905b0() throw();
 };
 template <class T> struct hkRefPtr_e5c5 {
@@ -2214,7 +2166,6 @@ template <class T> struct hkRefPtr_e5c5 {
     T* val() const { return m_pRetainedObject; }
 };
 struct Registry_e5c5 {
-    hkRefPtr_e5c5<Resource_e5c5> FUN_00e5c4d0(const char* name) throw();
     Resource_e5c5* FUN_00e5c540(const char* name, Resource_e5c5* expected);
 };
 extern float DAT_010ea628;
@@ -2239,7 +2190,6 @@ struct CollectorBase {
     virtual void Dummy0() throw();
     CollectorBase() throw() {}
 };
-void __cdecl ConstructTemporaryObject(int a, const Aabb* aabb, CollectorBase* collector);
 struct Mid : RefObject, CollectorBase {
     HkArr m_ppData;
     int m_18;
@@ -2274,7 +2224,7 @@ struct KnotVector {
     float x,y,z,w;
     KnotVector(float a=0,float b=0,float c=0,float d=0);
     KnotVector& FUN_00e53180(const KnotVector&);
-    KnotVector& operator=(const KnotVector& v) { return FUN_00e53180(v); }
+    KnotVector& operator=(const KnotVector& v) { return (*(::KnotVector *)(new ((void *)this) ::FUN_00e53180_cls((const float *)&(v)))); }
     KnotVector& FUN_00e531a0(const KnotVector&);
     KnotVector& FUN_00e531d0(const KnotVector&);
     KnotVector& FUN_00e53200(float);
@@ -2282,7 +2232,6 @@ struct KnotVector {
     KnotVector ScaleCopy(float) const;
     KnotVector FUN_00e532b0(const KnotVector&) const;
     KnotVector FUN_00e53260(const KnotVector&) const;
-    KnotVector EvalCopy(float) const;
 };
 __declspec(noinline) KnotVector::KnotVector(float a,float b,float c,float d) : x(a),y(b),z(c),w(d) {}
 __declspec(noinline) KnotVector& KnotVector::FUN_00e53180(const KnotVector& v) { x=v.x;y=v.y;z=v.z;w=v.w;return *this; }
@@ -2421,7 +2370,6 @@ extern void __cdecl FUN_00e55cf0(int*, int, FloatVector*, VertexVector*, int);
 extern void __cdecl FUN_00e54fa0(int, const InputVertices*, int, int, FloatVector*, VertexVector*,
 
     ScratchIndices*, const InputFloats*, int, int, float, float, void*);
-extern const float DAT_010718c0, DAT_010959f4;
 __forceinline void FloatVector::reserve(MemoryAllocator& heap, int wanted) {
     MemoryAllocator* alloc = &heap;
     FloatVector* vec = this;
@@ -2560,8 +2508,6 @@ struct BoundaryTable {
     float scale;
     float initialScale;
 };
-extern double _gModifierZero;
-extern float DAT_0104da4c;
 extern const float runtimeFloatSettingDefault1085 = 1.1f;
 inline void ApplyBound(float& out, float value) {
     out = value;
@@ -2639,22 +2585,15 @@ struct FUN_00cb9090 : Se5b160_Data {
     Se5b160_HingeAtoms m_kBridgeAtoms;
     int unkb4; int unkb8; int unkbc; int unkc0; int unkc4; int unkc8; int unkcc; int unkd0; int unkd4; int unkd8; int unkdc; 
     FUN_00cb9090() throw();
-    void SetReferencedObject(Se5b160_Motor* motor);
-    void FUN_00cb8fe0(void* info, bool enabled);
 };
 struct FUN_00cdf2f0 : Se5b160_Data {
     Se5b160_RagdollAtoms m_kBridgeAtoms;
     int unkec; int unkf0; int unkf4; int unkf8; int unkfc; int unk100; int unk104; int unk108; int unk10c; int unk110; int unk114; int unk118; int unk11c; int unk120; int unk124; int unk128; int unk12c; int unk130; int unk134; int unk138; int unk13c; 
     FUN_00cdf2f0() throw();
-    void FUN_00cdea70(Se5b160_Motor* motor);
-    void FUN_00cdeab0(Se5b160_Motor* motor);
-    void FUN_00cdea90(Se5b160_Motor* motor);
-    void SetFlagAndClearFloats(void* info, bool enabled);
 };
 struct Se5b160_StrPtr {
     const char* m_pcText;
     const char* cString() const { return reinterpret_cast<const char*>(reinterpret_cast<unsigned int>(m_pcText) & ~1u); }
-    void FUN_00cb0c10(const char* s);
 };
 struct Se5b160_Entity;
 enum Se5b160_Prio { S5b160_PRIO_INVALID, S5b160_PRIO_PSI, S5b160_PRIO_TOI };
@@ -2687,7 +2626,6 @@ struct S00e51a60_BlockDesc {
     unsigned int m_uiBlockOffset;
     unsigned int m_ucSecondQuantizationParameter;
 };
-unsigned int __cdecl DecodeBlock(const unsigned char* encodedData, S00e51a60_BlockDesc& desc, unsigned char* rawData, unsigned int rawDataSizeBytes);
 struct E5B130Object {
     int unk00;
     int unk04;
@@ -2927,19 +2865,15 @@ __declspec(noinline) void __cdecl FUN_00e58310(int count,const FitOwnedArray<Cur
 }
 void __cdecl FUN_00e58440(int count,const float* values,const Float4* points,int degree,float tolerance,int* knotCount,float* knots,int* pointCount,Float4* resultPoints);
 struct E589Destination { float* data; int unknown04; int unknown08; int rows; int columns;
-    float* FUN_00e587b0(int index);
 };
 struct E589Values { float* data; int unknown04; int unknown08; int rows; int columns;
     __declspec(noinline) float FUN_00e58880(int index) { return data[index]; }
-    int FUN_00e58890();
 };
 struct E589ScaledValues { float* data; int unknown04; int unknown08; int rows; int columns;
     __declspec(noinline) float FUN_00e58880(int index) { return data[index]; }
 };
 void __cdecl FUN_00e58900(E589Destination* destination,E589Values* values,const float* scale,E589ScaledValues* scaleValues);
 extern "C" void _ReadWriteBarrier();
-extern __m128 DAT_01017d10;
-extern const double DAT_01091c00;
 struct __declspec(align(16)) PlaneVector {
 
     float f[4];
@@ -2960,7 +2894,7 @@ struct __declspec(align(16)) PlaneVector {
 
     __forceinline void setBroadcast(const PlaneVector& v, int i) { assign(_mm_shuffle_ps(v.quad(), v.quad(), 0)); }
 
-    __forceinline void setAbs4(const PlaneVector& a) { assign(_mm_and_ps(a.quad(),DAT_01017d10)); }
+    __forceinline void setAbs4(const PlaneVector& a) { assign(_mm_and_ps(a.quad(),::DAT_01017d10)); }
     __forceinline void add4(const PlaneVector& a) { assign(_mm_add_ps(quad(),a.quad())); }
     __forceinline void setAll3(float f) { assign(_mm_set_ps1(f)); }
 
@@ -3001,7 +2935,6 @@ struct QueryMachine {
     __declspec(align(16)) int complete;
     __declspec(align(16)) int count;
     PlaneGroup groups[8], magnitudes[8];
-    void __thiscall FUN_00e5e430(QueryState*,const unsigned char*,QueryBounds*);
     __forceinline void prepare(const PlaneView& view, unsigned codeBits) {
         const QueryCode* code=reinterpret_cast<const QueryCode*>(codeBits);
         __assume(view.count>=0 && view.count<=32); int end=view.count & ~3;
@@ -3030,7 +2963,7 @@ struct QueryMachine {
             PlaneGroup* g=dest; PlaneVector PlaneGroup::* yfield=&PlaneGroup::y; PlaneVector PlaneGroup::* zfield=&PlaneGroup::z;
             _ReadWriteBarrier(); absolute->x.setAbs4(g->x); _ReadWriteBarrier();
             absolute->y.setAbs4((g->*yfield)); _ReadWriteBarrier();
-            absolute->z.assign(_mm_and_ps(DAT_01017d10,(g->*zfield).quad())); _ReadWriteBarrier();
+            absolute->z.assign(_mm_and_ps(::DAT_01017d10,(g->*zfield).quad())); _ReadWriteBarrier();
             absolute->w.setZero4(); _ReadWriteBarrier();
 
         const PlaneVector& offset = code->origin;
@@ -3066,12 +2999,13 @@ struct QueryMachine {
         bounds.scale.setAll3(float(inverseScale*DAT_01091c00));
         prepare(view,codeBits);
         complete=properties;
-        FUN_00e5e430(&state,pc,&bounds);
+        reinterpret_cast<::TreeDecoder *>(this)->FUN_00e5e430((::DecodeState *)(::QueryState *)(&state),pc,(::BoundsPair *)(::QueryBounds *)(&bounds));
     }
 };
 void __cdecl FUN_00e5d360(unsigned codeBits,const PlaneView& input,int output,int properties);
 #include <xmmintrin.h>
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 struct V4Init_00e53160 {
     float x;
     float y;
@@ -3149,7 +3083,7 @@ struct Container {
 // @fnv 0x00e49e00
 void Container::FUN_00e49e00(Child* pkChild)
 {
-    FUN_00c90510(pkChild);
+    reinterpret_cast<::FUN_00c90510_class *>((pkChild))->FUN_00c90510();
     m_kChildList.PushBack(pkChild);
 }
 
@@ -3167,7 +3101,7 @@ KnotVector FUN_00e54630(int a, int degree, float** knots, KnotVector** points, f
     KnotVector result = ::FUN_00e533a0(basis[0], (*points)[span - degree]);
     for (int i = 1; i <= degree; i++)
     {
-        result.FUN_00e531a0(::FUN_00e533a0(basis[i], (*points)[span - degree + i]));
+        reinterpret_cast<::FUN_00e531a0_struct *>(&(result))->FUN_00e531a0((const ::FUN_00e531a0_struct *)&(const ::KnotVector &)(::FUN_00e533a0(basis[i], (*points)[span - degree + i])));
     }
     return result;
 }
@@ -3298,9 +3232,9 @@ void __cdecl FUN_00e55cf0(int* degreeAndLast, int p, FloatVector* knotVector, Ve
     }
     int mh=ph, kind=ph+1, r=-1, a=p, b=p+1, cind=1;
     float ua=knots->data[0];
-    QwData[0].FUN_00e53180(points->data[0]);
+    new ((void *)&(QwData[0])) ::FUN_00e53180_cls((const float *)&(points->data[0]));
     for(int i=0;i<=ph;++i) UhData[i]=ua;
-    for(int i=0;i<=p;++i) bpts[i].FUN_00e53180(points->data[i]);
+    for(int i=0;i<=p;++i) new ((void *)&(bpts[i])) ::FUN_00e53180_cls((const float *)&(points->data[i]));
     while(b<m) {
         int i=b;
         while(b<m && knots->data[b]==knots->data[b+1]) ++b;
@@ -3316,16 +3250,16 @@ void __cdecl FUN_00e55cf0(int* degreeAndLast, int p, FloatVector* knotVector, Ve
             for(int j=1;j<=r;++j) {
                 int save=r-j, s=mul+j;
                 for(int k=p;k>=s;--k) {
-                    bpts[k].FUN_00e53180(FUN_00e533a0(alfs[k-s],bpts[k]).FUN_00e53260(FUN_00e533a0(1.0f-alfs[k-s],bpts[k-1])));
+                    new ((void *)&(bpts[k])) ::FUN_00e53180_cls((const float *)&(const ::KnotVector &)(FUN_00e533a0(alfs[k-s],bpts[k]).FUN_00e53260(FUN_00e533a0(1.0f-alfs[k-s],bpts[k-1]))));
                 }
-                nextbpts[save].FUN_00e53180(bpts[p]);
+                new ((void *)&(nextbpts[save])) ::FUN_00e53180_cls((const float *)&(bpts[p]));
             }
         }
         for(int i=lbz;i<=ph;++i) {
-            ebpts[i].FUN_00e53180(ElevationPoint());
+            new ((void *)&(ebpts[i])) ::FUN_00e53180_cls((const float *)&(const ::KnotVector &)(ElevationPoint()));
             int mpi=p<i?p:i;
             for(int j=(i-t)<0?0:i-t;j<=mpi;++j) {
-                ebpts[i].FUN_00e53180(ebpts[i].FUN_00e53260(FUN_00e533a0(bezalfs[i][j],bpts[j])));
+                new ((void *)&(ebpts[i])) ::FUN_00e53180_cls((const float *)&(const ::KnotVector &)(ebpts[i].FUN_00e53260(FUN_00e533a0(bezalfs[i][j],bpts[j]))));
             }
         }
         if(oldr>1) {
@@ -3337,14 +3271,14 @@ void __cdecl FUN_00e55cf0(int* degreeAndLast, int p, FloatVector* knotVector, Ve
                 while(j-i>tr) {
                     if(i<cind) {
                         float alf=(ub-UhData[i])/(ua-UhData[i]);
-                        QwData[i].FUN_00e53180(FUN_00e533a0(alf,QwData[i]).FUN_00e53260(FUN_00e533a0(1.0f-alf,QwData[i-1])));
+                        new ((void *)&(QwData[i])) ::FUN_00e53180_cls((const float *)&(const ::KnotVector &)(FUN_00e533a0(alf,QwData[i]).FUN_00e53260(FUN_00e533a0(1.0f-alf,QwData[i-1]))));
                     }
                     if(j>=lbz) {
                         if(j-tr<=kind-ph+oldr) {
                             float gam=(ub-UhData[j-tr])/den;
-                            ebpts[kj].FUN_00e53180(FUN_00e533a0(gam,ebpts[kj]).FUN_00e53260(FUN_00e533a0(1.0f-gam,ebpts[kj+1])));
+                            new ((void *)&(ebpts[kj])) ::FUN_00e53180_cls((const float *)&(const ::KnotVector &)(FUN_00e533a0(gam,ebpts[kj]).FUN_00e53260(FUN_00e533a0(1.0f-gam,ebpts[kj+1]))));
                         } else {
-                            ebpts[kj].FUN_00e53180(FUN_00e533a0(bet,ebpts[kj]).FUN_00e53260(FUN_00e533a0(1.0f-bet,ebpts[kj+1])));
+                            new ((void *)&(ebpts[kj])) ::FUN_00e53180_cls((const float *)&(const ::KnotVector &)(FUN_00e533a0(bet,ebpts[kj]).FUN_00e53260(FUN_00e533a0(1.0f-bet,ebpts[kj+1]))));
                         }
                     }
                     ++i;--j;--kj;
@@ -3353,15 +3287,15 @@ void __cdecl FUN_00e55cf0(int* degreeAndLast, int p, FloatVector* knotVector, Ve
             }
         }
         if(a!=p) for(int i=0;i<ph-oldr;++i) UhData[kind++]=ua;
-        for(int j=lbz;j<=rbz;++j) {QwData[cind].FUN_00e53180(ebpts[j]);++cind;}
+        for(int j=lbz;j<=rbz;++j) {new ((void *)&(QwData[cind])) ::FUN_00e53180_cls((const float *)&(ebpts[j]));++cind;}
         if(b<m) {
-            for(int j=0;j<r;++j) bpts[j].FUN_00e53180(nextbpts[j]);
-            for(int j=r;j<=p;++j) bpts[j].FUN_00e53180(points->data[b-p+j]);
+            for(int j=0;j<r;++j) new ((void *)&(bpts[j])) ::FUN_00e53180_cls((const float *)&(nextbpts[j]));
+            for(int j=r;j<=p;++j) new ((void *)&(bpts[j])) ::FUN_00e53180_cls((const float *)&(points->data[b-p+j]));
             a=b;++b;ua=ub;
         } else for(int i=0;i<=ph;++i) UhData[kind+i]=ub;
     }
-    points->SwapThreeInts(&Qw);
-    Uh.SwapThreeInts(knots);
+    reinterpret_cast<::FUN_00d9ec10_cls *>((points))->SwapThreeInts((int *)(::ElevationArray< ::KnotVector> *)(&Qw));
+    reinterpret_cast<::FUN_00d9ec10_cls *>(&(Uh))->SwapThreeInts((int *)(knots));
     *degreeAndLast=nh;
     Qw.free();Uh.free();
 }
@@ -3500,7 +3434,6 @@ template<class T> struct TypedTemporary : ArrayStorage<T> {
 };
 typedef TypedTemporary<float> FNVTemporaryFloats;
 typedef TypedTemporary<float> FNVFloatValues;
-extern const double DAT_0104e138;
 extern const float DAT_010ec990;
 __declspec(nothrow) float __cdecl EvaluateBasisFunction(int degree, int total, float** knots, int index, float value);
 __declspec(nothrow) int __cdecl GetRunLength(int index, int end, float** knots);
@@ -3548,7 +3481,7 @@ int __cdecl FUN_00e56a00(int* count, int degree, FloatVector* knots, VertexVecto
     int knot = FUN_00e54930(&knotErrors.data, m+1);
     int removalCount = GetRunLength(knot, m, ((float**)knots));
     float* currentError = errorValues + knot;
-    if (*currentError != DAT_0104e138) { for(;;) {
+    if (*currentError != ::DAT_0104e138) { for(;;) {
         float blend;
         int first = knot;
         if (((removalCount + degree) % 2) == 0) {
@@ -3597,7 +3530,7 @@ int __cdecl FUN_00e56a00(int* count, int degree, FloatVector* knots, VertexVecto
         knot = FUN_00e54930(&knotErrors.data, (m+1));
         removalCount = GetRunLength(knot, m, ((float**)knots));
         currentError = knotErrors.data + knot;
-    if (*currentError == DAT_0104e138) break;
+    if (*currentError == ::DAT_0104e138) break;
     } }
     int removedTotal=getDifference(initialCount,count);
     return removedTotal;
@@ -3617,12 +3550,11 @@ void __cdecl FUN_00e58960(
     }
 }
 
-int __fastcall FUN_00e58890(FUN_00e587b0_Class*);
 
 // @fnv 0x00e589a0
 void __cdecl FUN_00e589a0(FUN_00e587b0_Class* p, FUN_00e58880_Class* q)
 {
-    int count = FUN_00e58890(p);
+    int count = reinterpret_cast<::FUN_00e58890_Class *>((p))->FUN_00e58890();
     for (int i = 0; i < count; ++i)
     {
         float* dst = reinterpret_cast<float*>(p->FUN_00e587b0(i));
@@ -3634,7 +3566,7 @@ void __cdecl FUN_00e589a0(FUN_00e587b0_Class* p, FUN_00e58880_Class* q)
 KnotVector KnotVector::FUN_00e532b0(const KnotVector& other) const
 {
     KnotVector result = *this;
-    return result.FUN_00e531d0(other);
+    return (*(::KnotVector *)(reinterpret_cast<::FUN_00e531d0_cls *>(&(result))->FUN_00e531d0((const float *)&(other))));
 }
 
 extern const float DAT_010ec990 = 3.40282e38f;
@@ -3751,15 +3683,15 @@ template<class T> struct KnotArray {
         while(j-i>t) {
             float alfi=(u-U.data[i])/(U.data[i+ord+t]-U.data[i]);
             float alfj=(u-U.data[j-t])/(U.data[j+ord]-U.data[j-t]);
-            temp[ii]=(Pw.data[i]-(1.0f-alfi)*temp[ii-1])/alfi;
-            temp[jj]=(Pw.data[j]-alfj*temp[jj+1])/(1.0f-alfj);
+            temp[ii]=reinterpret_cast<::FUN_00e53350_cls *>((void *)&(const ::RemovalVector &)((reinterpret_cast<::KnotVector *>((void *)&(const ::RemovalVector &)(Pw.data[i]))->FUN_00e532b0((const ::KnotVector &)((const ::RemovalVector &)((1.0f-alfi)*temp[ii-1]))))))->EvalCopy(alfi);
+            temp[jj]=reinterpret_cast<::FUN_00e53350_cls *>((void *)&(const ::RemovalVector &)((reinterpret_cast<::KnotVector *>((void *)&(const ::RemovalVector &)(Pw.data[j]))->FUN_00e532b0((const ::KnotVector &)((const ::RemovalVector &)(alfj*temp[jj+1]))))))->EvalCopy((1.0f-alfj));
             ++i; ++ii; --j; --jj;
         }
         if(j-i<t) {
             if(!(FUN_00e54ba0(temp[ii-1],temp[jj+1])<=TOL)) break;
         } else {
             float alfi=(u-U.data[i])/(U.data[i+ord+t]-U.data[i]);
-            if(!(FUN_00e54ba0(Pw.data[i],alfi*temp[ii+t+1]+(1.0f-alfi)*temp[ii-1])<=TOL)) break;
+            if(!(FUN_00e54ba0(Pw.data[i],reinterpret_cast<::FourFloatVector *>((void *)&(const ::RemovalVector &)(alfi*temp[ii+t+1]))->FUN_00e53260((int)&(const ::RemovalVector &)((1.0f-alfi)*temp[ii-1])))<=TOL)) break;
         }
         i=first; j=last;
         while(j-i>t) {

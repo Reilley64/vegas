@@ -2,9 +2,53 @@
 // src/havok/physics/dynamics/world/simulation/multithreaded/hkpmultithreadedsimulation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/multithreaded/hkpmultithreadedsimulation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void __cdecl Deallocate(void*);
-extern int DAT_010c63bc;
 
+#include <new>
+#include "fnv/decl/CB1A90Owner.h"
+#include "fnv/decl/ContainerD082.h"
+#include "fnv/decl/D049D0World.h"
+#include "fnv/decl/D04B90World.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00c91120.h"
+#include "fnv/decl/FUN_00c91140_Class.h"
+#include "fnv/decl/FUN_00c91180_Class.h"
+#include "fnv/decl/FUN_00c91190_Class.h"
+#include "fnv/decl/FUN_00cb1930_t.h"
+#include "fnv/decl/FUN_00cb1a60_t.h"
+#include "fnv/decl/FUN_00cb1fe0_t.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00cfa7d0.h"
+#include "fnv/decl/FUN_00d04450_cls.h"
+#include "fnv/decl/FUN_00d0d0d0_cls.h"
+#include "fnv/decl/FnvCpu_FUN_00d04440_CpuObject.h"
+#include "fnv/decl/S00cfa6e0_Dst.h"
+#include "fnv/decl/S00d0db40_Dyn.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/WorldWatchDogHolder.h"
+#include "fnv/decl/fnv_00cb1870__hkMapBaseCB18.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00c91000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00cb4000.h"
+#include "fnv/symbols_00cc1000.h"
+#include "fnv/symbols_00cf7000.h"
+#include "fnv/symbols_00cfd000.h"
+#include "fnv/symbols_00cfe000.h"
+#include "fnv/symbols_00d00000.h"
+#include "fnv/symbols_00d01000.h"
+#include "fnv/symbols_00d02000.h"
+#include "fnv/symbols_00d04000.h"
+#include "fnv/symbols_00d0c000.h"
+#include "fnv/symbols_00d93000.h"
+#include "fnv/symbols_00d96000.h"
+#include "fnv/symbols_00dd7000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010c6000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 struct FUN_00d04300
 {
     int* m_p;
@@ -16,7 +60,7 @@ FUN_00d04300::FUN_00d04300(bool del)
 {
     m_p = &DAT_010c63bc;
     if (del & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
 }
 
 // @fnv 0x00d021e0
@@ -183,7 +227,6 @@ struct World
 };
 struct Reserve
 {
-    void FUN_00d97070(int);
 };
 struct Owner
 {
@@ -210,6 +253,8 @@ struct Owner
     int unk50;
     int unk54;
     Reserve* reserve;
+public:
+    void FUN_00d97070(void *);
 };
 struct FUN_00d0d020
 {
@@ -326,7 +371,7 @@ FUN_00d02c80::FUN_00d02c80(World* world)
 
     active = 0;
     enabled = false;
-    owner->reserve->FUN_00d97070(10000);
+    reinterpret_cast<::Owner *>((owner->reserve))->FUN_00d97070((void *)(10000));
     a.context = this;
     b.context = &workLock;
     world->registry->unk24 = &a;
@@ -461,7 +506,6 @@ struct PairArray
 };
 
 char* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void* alloc, PairArray* arr, int elemSize);
 void __cdecl FUN_00cc0f40(char* a, char* b, char* c);
 
 struct FUN_00d026e0_cls
@@ -491,7 +535,7 @@ void FUN_00d026e0_cls::ProcessPair(int* aiPair)
         if (arr->m_iElementCount == (int)(arr->m_pRayCursor & 0x3fffffff))
         {
             void* alloc = *(void**)(h + 0x10);
-            ResizeAudioStream(alloc, arr, 8);
+            ::ResizeAudioStream((::AudioAllocator *)(alloc), (::AudioStream *)(arr), 8);
         }
         PairEntry* slot = arr->m_data + arr->m_iElementCount;
         if (slot != 0)
@@ -541,9 +585,6 @@ struct AllocHolder
 };
 
 AllocHolder* FUN_00c85750();
-void ResizeAudioStream(void* allocator, PairList* list, unsigned int elemSize);
-char* FindEntryValue(char* a, char* b);
-void FUN_00cc10b0(char* p);
 
 struct FUN_00d027c0_cls
 {
@@ -571,7 +612,7 @@ void FUN_00d027c0_cls::ProcessPairEntry(PairEntry* entry)
             AllocHolder* holder = FUN_00c85750();
             if (list->m_uiItemCount == (int)(list->m_capBits & 0x3fffffffu))
             {
-                ResizeAudioStream(holder->m_pAllocator, list, 8);
+                ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(list), 8);
             }
             PairEntry* slot = &list->m_data[list->m_uiItemCount];
             if (slot != 0)
@@ -584,10 +625,10 @@ void FUN_00d027c0_cls::ProcessPairEntry(PairEntry* entry)
         }
     }
 
-    char* r = FindEntryValue(pFirstRec, pSecondRec);
+    char* r = ((char *)(::FindEntryValue((::LinkNode *)(pFirstRec), (::LinkNode *)(pSecondRec))));
     if (r != 0)
     {
-        FUN_00cc10b0(r);
+        ::FUN_00cc10b0((::S_00cc10b0_Agent *)(r));
     }
 }
 }  // namespace fnv_00d027c0
@@ -617,7 +658,6 @@ inline HkMemRouter& GetMemRouter()
 {
     return *FUN_00c85750()->m10;
 }
-void* __cdecl AllocateBlockHeader(int count, int blockSize);
 
 struct HkFloatHolder
 {
@@ -843,7 +883,6 @@ struct HkSub1
     HkVec4 unk50;
     HkVec4 unk60;
     HkVec4 unk70;
-    void FUN_00cfa6e0(void* a, void* b, int c);
 };
 
 struct HkSub2
@@ -862,10 +901,8 @@ struct HkSub2
     int unk68;
     int unk6c;
     HkVec4 unk70;
-    void FUN_00cfa7d0(HkFloatHolder* h);
 };
 
-extern int DAT_01269210;
 
 struct HkProcessor;
 
@@ -880,11 +917,9 @@ struct HkCollector
     int* unk11c;
 };
 
-void __cdecl AccumulateShapes(HkCollector* c, int flags, HkInput2* in);
 
 struct HkDispatcher
 {
-    void AddObjectCopy(HkInput* in, int n);
     void FUN_00d051b0();
 };
 
@@ -940,7 +975,6 @@ struct HkProcessor
     int unkbc;
     HkDispatcher* dispatcher;
 
-    void FUN_00d0c9c0(int* data, int n, HkSource* src, HkParam* param, char flag);
     void FUN_00d03030(int* data, int n, HkSource* src, HkParam* param, char flag);
 };
 
@@ -949,7 +983,7 @@ void HkProcessor::FUN_00d03030(int* paiData, int aiCount, HkSource* pSource, HkP
 {
     if (dispatcher == 0 || aiCount <= world->unkec)
     {
-        FUN_00d0c9c0(paiData, aiCount, pSource, param, flag);
+        ::FUN_00d0c9c0((::ThingX **)this, (int)(paiData), (::ThingP *)(aiCount), (int)(pSource), (bool)(param));
         return;
     }
 
@@ -976,10 +1010,10 @@ void HkProcessor::FUN_00d03030(int* paiData, int aiCount, HkSource* pSource, HkP
 
     if (aiCount > 0)
     {
-        in.unk20 = AllocateBlockHeader((aiCount - 1) / perBlock + 1, perBlock);
+        in.unk20 = ((void *)(::AllocateBlockHeader((aiCount - 1) / perBlock + 1, perBlock)));
         in.unk10 = param->unk20;
         in.unk02 = 2;
-        dispatcher->AddObjectCopy(&in, 1);
+        reinterpret_cast<::D04B90World *>((dispatcher))->AddObjectCopy((const ::D04B90Object *)(::fnv_00d03030::HkInput *)(&in), (void *)(1));
     }
     dispatcher->FUN_00d051b0();
 
@@ -1001,13 +1035,13 @@ void HkProcessor::FUN_00d03030(int* paiData, int aiCount, HkSource* pSource, HkP
         collector.sub2.unk64 = 0;
         collector.sub2.unk04 = 0;
         collector.unk114 = &world->unk1d0;
-        collector.sub2.FUN_00cfa7d0(world->unk78);
-        collector.sub1.FUN_00cfa6e0(&world->unk1e0, &world->unk1d0, world->unk1b8);
+        new ((void *)&(collector.sub2)) ::FUN_00cfa7d0((*(const ::FUN_00cfa7d0 *)(world->unk78)));
+        reinterpret_cast<::S00cfa6e0_Dst *>(&(collector.sub1))->FUN_00cfa6e0((::S00cfa6e0_Src *)(void *)(&world->unk1e0), (::S00cfa6e0_Pair *)(void *)(&world->unk1d0), world->unk1b8);
         collector.owner = this;
         collector.unk118 = world->unk78->unk8;
-        collector.unk11c = &DAT_01269210;
+        collector.unk11c = &::DAT_01269210;
         collector.world = world;
-        AccumulateShapes(&collector, 0, &input2);
+        ::AccumulateShapes((::Worker **)(::fnv_00d03030::HkCollector *)(&collector), (::TargetClass *)(0), (::Caller *)(::fnv_00d03030::HkInput2 *)(&input2));
         if (collector.sub2.unk64)
         {
             HkMemHolder* h = FUN_00c85750();
@@ -1244,7 +1278,6 @@ struct __declspec(align(16)) CollisionInput
     int unk50, unk54, unk58, unk5C, unk60;
     void* scratch;
     int unk68, unk6C, unk70, unk74, unk78, unk7C;
-    void FUN_00cfa7d0(const CollisionInput*);
 };
 struct __declspec(align(16)) SolverContext
 {
@@ -1252,7 +1285,6 @@ struct __declspec(align(16)) SolverContext
     int unk20, unk24, unk28, unk2C, unk30, unk34, unk38, unk3C;
     int unk40, unk44, unk48, unk4C, unk50, unk54, unk58, unk5C;
     int unk60, unk64, unk68, unk6C, unk70, unk74, unk78, unk7C;
-    void FUN_00cfa6e0(void*, void*, int);
 };
 struct PhysicsOwner
 {
@@ -1365,8 +1397,6 @@ struct __declspec(align(16)) ResultJob : JobHeader
 };
 struct JobQueue
 {
-    void AddObjectCopy(BuildJob*, int);
-    void FUN_00d051b0();
 };
 struct Allocator
 {
@@ -1384,8 +1414,6 @@ struct ThreadState
         return *allocator;
     }
 };
-void* __cdecl AllocateBlockHeader(int, int);
-extern int DAT_01269210;
 struct Processor;
 struct __declspec(align(16)) ProcessingContext
 {
@@ -1398,7 +1426,6 @@ struct __declspec(align(16)) ProcessingContext
     float delta;
     int* shared;
 };
-void __cdecl AccumulateShapes(ProcessingContext*, JobQueue*, ResultJob*);
 struct Processor
 {
     int unk00, unk04, unk08;
@@ -1412,7 +1439,6 @@ struct Processor
     JobQueue* active;
 
     void ProcessGroups(int**, int, struct Group*, int, TaskInput*, hkBoolX);
-    void FUN_00d0c9c0(int**, int, TaskInput*, GroupIdentity*, hkBoolX);
 };
 struct Group
 {
@@ -1421,75 +1447,6 @@ struct Group
     BuildJob* job;
     int unk14;
 };
-// Processes physics groups by creating and executing BuildJobs for large batches or calling FUN_00d0c9c0 directly for small ones.
-// @fnv 0x00d02930
-void Processor::ProcessGroups(int** items, int total, Group* groups, int count, TaskInput* input, hkBoolX flag)
-{
-    if (active && total > owner->threshold)
-    {
-        int batch = owner->batchSize;
-        Group* pSpecialGroup = 0;
-        ThreadState* pThreadState = (ThreadState*)FUN_00c85750();
-        BuildJob* jobs = (BuildJob*)pThreadState->top;
-        pThreadState->top += (count * sizeof(BuildJob) + 127) & ~127;
-        for (int i = 0; i < count; ++i)
-        {
-            Group* group = groups + i;
-            if (group->id == owner->unk20)
-            {
-                pSpecialGroup = group;
-                continue;
-            }
-            int** p = items + group->start;
-            int n = group->count;
-            BuildJob* job = new (jobs + i) BuildJob(p, n, input, batch, flag);
-            job->header = owner->unk74;
-            if (n > 0)
-            {
-                job->results = AllocateBlockHeader((n - 1) / batch + 1, batch);
-                job->spu = 2;
-                job->count = group->id->count;
-                ((JobQueue*)active)->AddObjectCopy(job, 1);
-                group->job = job;
-            }
-        }
-        ((JobQueue*)active)->FUN_00d051b0();
-        for (int i = 0; i < count; ++i)
-        {
-            Group* group = groups + i;
-            if (group->job)
-            {
-                ResultJob job(group->job);
-                job.group = group->id;
-                ProcessingContext context;
-                PhysicsOwner* world = (PhysicsOwner*)owner;
-                context.step = &world->unk1D0;
-                context.input.scratch = 0;
-                context.input.unk04 = 0;
-                context.input.FUN_00cfa7d0(world->input);
-                world = (PhysicsOwner*)owner;
-                context.solver.FUN_00cfa6e0(&world->unk1E0, &world->unk1D0, world->unk1B8);
-                world = (PhysicsOwner*)owner;
-                context.processor = this;
-                context.delta = *(float*)&world->input->unk08;
-                context.owner = world;
-                context.shared = &DAT_01269210;
-                AccumulateShapes(&context, 0, &job);
-                if (context.input.scratch)
-                    ((ThreadState*)FUN_00c85750())->heap().freeBlock(context.input.scratch, 512);
-            }
-        }
-        if (pSpecialGroup)
-            FUN_00d0c9c0(items + pSpecialGroup->start, pSpecialGroup->count, input, pSpecialGroup->id, false);
-        ((ThreadState*)FUN_00c85750())->top = (char*)jobs;
-    }
-    else
-    {
-        for (int i = 0; i < count; ++i)
-            FUN_00d0c9c0(items + groups[i].start, groups[i].count, input, groups[i].id, flag);
-    }
-}
-
 struct hkMemoryAllocatorQ
 {
     virtual void v00();
@@ -1513,8 +1470,6 @@ struct hkMemoryRouterQ
     hkMemoryAllocatorQ* m_pStreamAllocator;
 };
 
-void __cdecl ResizeAudioStream(void* alloc, void* arr, int elemSize);
-extern "C" void __cdecl FUN_00cb1280(void* p, int v, int n);
 
 __forceinline hkMemoryRouterQ& getRouter()
 {
@@ -1548,7 +1503,7 @@ template <class T> struct hkArrayQ
     __forceinline void _pushBack(hkMemoryAllocatorQ& alloc, const T& t)
     {
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&alloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(T));
         m_data[m_iElementCount++] = t;
     }
     __forceinline void AddBack(const T& t)
@@ -1652,7 +1607,6 @@ struct CollidableQ
 
 struct LinkedCollidableQ
 {
-    void CopyAndSortGeometryList(hkArrayQ<CollisionEntryQ>& entries);
 };
 
 struct EntityQ
@@ -1666,7 +1620,6 @@ struct EntityQ
     SimulationIslandQ* m_pSimulationIsland;
     int unkd0;
     int m_d4;
-    void FUN_00c90510();
 };
 
 struct SimulationIslandQ
@@ -1677,8 +1630,6 @@ struct SimulationIslandQ
 
 struct InputQ
 {
-    int LookupHashEntry(int key, int flag);
-    void FUN_00cb1870(hkMemoryAllocatorQ* heap, int key, EntityQ* entity);
 };
 
 struct CollideSimQ
@@ -1691,8 +1642,6 @@ struct CollideSimQ
     int m_3c;
     int unk40[0x20];
     int m_c0;
-    void FUN_00d0db40(EntityQ** entities, int numEntities, void* input, int* out);
-    void FUN_00d03030(AgentEntryQ** entries, int numEntries, void* input, SimulationIslandQ* island, hkBoolQ flag);
     void ProcessCollisionEntries(EntityQ** entities, int numEntities, void* input, InputQ* collInput) throw();
 };
 
@@ -1705,7 +1654,7 @@ void CollideSimQ::ProcessCollisionEntries(EntityQ** entities, int numEntities, v
         SimulationIslandQ* island = entities[0]->m_pSimulationIsland;
         int numIslandEntities = island->m_iActorEntryCount;
         hkLocalArrayQ<unsigned char> marked(numIslandEntities);
-        FUN_00cb1280(marked.m_data, 0, numIslandEntities);
+        ::FUN_00cb1280(marked.m_data, 0, numIslandEntities);
 
         hkLocalArrayQ<AgentEntryQ*> toProcess(1000);
         hkArrayQ<CollisionEntryQ> entries;
@@ -1714,7 +1663,7 @@ void CollideSimQ::ProcessCollisionEntries(EntityQ** entities, int numEntities, v
         {
             EntityQ* entity = entities[i];
             marked.m_data[entity->m_usStorageIndex] = 1;
-            entity->m_kCollidable.CopyAndSortGeometryList(entries);
+            reinterpret_cast<::ContainerD082 *>(&(entity->m_kCollidable))->CopyAndSortGeometryList((::hkArrayD082< ::ItemD082> &)(entries));
 
             for (int j = 0; j < entries.m_iElementCount; j++)
             {
@@ -1733,18 +1682,18 @@ void CollideSimQ::ProcessCollisionEntries(EntityQ** entities, int numEntities, v
                 else
                 {
                     int key = entity->m_d4;
-                    if (!collInput->LookupHashEntry(key, 0))
+                    if (!reinterpret_cast<::FUN_00cb1930_t *>((collInput))->LookupHashEntry(key, 0))
                     {
-                        entity->FUN_00c90510();
+                        reinterpret_cast<::FUN_00c90510_class *>((entity))->FUN_00c90510();
                         key = entity->m_d4;
-                        collInput->FUN_00cb1870(getRouter().m_pStreamAllocator, key, entity);
+                        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((collInput))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(getRouter().m_pStreamAllocator)), key, (unsigned int)(entity));
                     }
                 }
             }
         }
 
         if (toProcess.m_iElementCount)
-            FUN_00d03030(toProcess.m_data, toProcess.m_iElementCount, input, island, false);
+            reinterpret_cast<::fnv_00d03030::HkProcessor *>(this)->FUN_00d03030((int *)(toProcess.m_data), toProcess.m_iElementCount, (::fnv_00d03030::HkSource *)(input), (::fnv_00d03030::HkParam *)(island), (*(char *)&(const ::hkBoolQ &)(false)));
 
         entries.ClearAndRelease();
         toProcess.release();
@@ -1752,7 +1701,7 @@ void CollideSimQ::ProcessCollisionEntries(EntityQ** entities, int numEntities, v
     }
     else
     {
-        FUN_00d0db40(entities, numEntities, input, &m_3c);
+        reinterpret_cast<::S00d0db40_Dyn *>(this)->FUN_00d0db40((::S00d0db40_Entity **)(entities), numEntities, (*(const ::S00d0db40_Input *)(input)), (*(::S00d0db40_Pending *)(&m_3c)));
     }
 }
 
@@ -1822,7 +1771,7 @@ static __declspec(noinline) S00d02880_Elem* FUN_00d02880(S00d02880_Arr* apArray,
     S00d02880_Heap* h = reinterpret_cast<S00d02880_Heap*>(FUN_00c85750());
     if (apArray->m_uiItemCount == (int)(0x3fffffffu & apArray->m_capFlags))
     {
-        ResizeAudioStream(h->unk10, reinterpret_cast<PairArray*>(apArray), 0x18u);
+        ::ResizeAudioStream((::AudioAllocator *)(h->unk10), (::AudioStream *)(::PairArray *)(reinterpret_cast<PairArray*>(apArray)), 0x18u);
     }
     S00d02880_Zero(apArray->m_data + apArray->m_uiItemCount);
     S00d02880_Zero(apArray->m_data + apArray->m_uiItemCount++);
@@ -1845,7 +1794,6 @@ namespace fnv_00d02da0 {
 // three broad phase listeners and finally chains to the base class teardown.
 // ---------------------------------------------------------------------------
 
-extern int DAT_010c63bc;
 
 // The audio sink reached through the global BSAudio instance.  Releasing a
 // streamed buffer is a virtual call: the routine lives in the fifth vtable
@@ -1916,7 +1864,6 @@ struct SimBase
     int unk48;
     int unk4c;
     virtual void onEvent();
-    void BaseTeardown();
 };
 
 struct FUN_00d02da0 : SimBase
@@ -1989,13 +1936,12 @@ FUN_00d02da0::~FUN_00d02da0()
             sink->Release(m_audio6c.m_data, (items & 0x3fffffff) * 8);
         m_audio6c.Clear();
     }
-    m_listenerA.vptr = m_listenerB.vptr = m_listenerC.vptr = &DAT_010c63bc;
-    BaseTeardown();
+    m_listenerA.vptr = m_listenerB.vptr = m_listenerC.vptr = &::DAT_010c63bc;
+    reinterpret_cast<::FUN_00d0d0d0_cls *>(this)->Destroy();
 }
 }  // namespace fnv_00d02da0
 
 #include <xmmintrin.h>
-extern unsigned int DAT_0126835c;
 
 struct TraceRecord
 {
@@ -2013,7 +1959,7 @@ struct TraceBuffer
 
 static __forceinline void WriteTrace(const char* name)
 {
-    TraceBuffer* trace = static_cast<TraceBuffer*>(TlsGetValue(DAT_0126835c));
+    TraceBuffer* trace = static_cast<TraceBuffer*>(TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))));
     if (trace->next < trace->end)
     {
         TraceRecord* record = trace->next;
@@ -2032,7 +1978,6 @@ struct Logger
     virtual void unused2();
     virtual void Log(int level, unsigned int code, void* text, const char* file, int line);
 };
-extern Logger* DAT_01268360;
 
 struct MessageBuilder
 {
@@ -2040,8 +1985,6 @@ struct MessageBuilder
     unsigned int capacity;
     char* cursor;
     __declspec(nothrow) MessageBuilder(char* buffer, unsigned int capacity);
-    void FUN_00cc01c0(const char* text);
-    void FUN_00cc00e0();
 };
 
 struct ObjectLink
@@ -2150,11 +2093,11 @@ void FUN_00d02e70_cls::AddToiEvent(char* input, EventMeta* meta, CRITICAL_SECTIO
     {
         __declspec(align(16)) int buffer[128];
         MessageBuilder message((char*)buffer, sizeof(buffer));
-        message.FUN_00cc01c0(
+        reinterpret_cast<::SinkOwner *>(&(message))->FUN_00cc01c0(
             "Toi event queue full, consider using HK_COLLIDABLE_QUALITY_DEBRIS for some objects or increase hkpWorldCinfo::m_sizeOfToiEventQueue");
-        DAT_01268360->Log(1, 0xf0323454, (char*)buffer,
+        (*reinterpret_cast<::Logger * *>(&::DAT_01268360))->Log(1, 0xf0323454, (char*)buffer,
                           ".\\World\\Simulation\\Multithreaded\\hkpMultithreadedSimulation.cpp", 1015);
-        message.FUN_00cc00e0();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(message))->FUN_00cc00e0::~FUN_00cc00e0();
         return;
     }
     WriteTrace("TtAgentJob.addToi");
@@ -2294,7 +2237,6 @@ void __cdecl FUN_00d02250(PairList<TypedPair>& list)
     sortPairs(list.begin(), list.size(), FUN_00d02160);
 }
 
-extern int DAT_01269200;
 
 extern const float DAT_0104da48 = 3.402820018375656e+38f;
 
@@ -2316,9 +2258,6 @@ struct RuntimeBase
 
 struct Job
 {
-    int FUN_00d04440();
-    void SetSimulationEnabled(int);
-    void SetValue(int);
 };
 
 struct Jobs : RuntimeBase
@@ -3124,7 +3063,77 @@ struct Dispatcher
     int f05c;
 
     Quality* f060;
+public:
+    int FUN_00d051b0();
 };
+// Processes physics groups by creating and executing BuildJobs for large batches or calling FUN_00d0c9c0 directly for small ones.
+// @fnv 0x00d02930
+void Processor::ProcessGroups(int** items, int total, Group* groups, int count, TaskInput* input, hkBoolX flag)
+{
+    if (active && total > owner->threshold)
+    {
+        int batch = owner->batchSize;
+        Group* pSpecialGroup = 0;
+        ThreadState* pThreadState = (ThreadState*)FUN_00c85750();
+        BuildJob* jobs = (BuildJob*)pThreadState->top;
+        pThreadState->top += (count * sizeof(BuildJob) + 127) & ~127;
+        for (int i = 0; i < count; ++i)
+        {
+            Group* group = groups + i;
+            if (group->id == owner->unk20)
+            {
+                pSpecialGroup = group;
+                continue;
+            }
+            int** p = items + group->start;
+            int n = group->count;
+            BuildJob* job = new (jobs + i) BuildJob(p, n, input, batch, flag);
+            job->header = owner->unk74;
+            if (n > 0)
+            {
+                job->results = ((void *)(::AllocateBlockHeader((n - 1) / batch + 1, batch)));
+                job->spu = 2;
+                job->count = group->id->count;
+                reinterpret_cast<::D04B90World *>((((JobQueue*)active)))->AddObjectCopy((const ::D04B90Object *)(job), (void *)(1));
+                group->job = job;
+            }
+        }
+        reinterpret_cast<::Dispatcher *>((((JobQueue*)active)))->FUN_00d051b0();
+        for (int i = 0; i < count; ++i)
+        {
+            Group* group = groups + i;
+            if (group->job)
+            {
+                ResultJob job(group->job);
+                job.group = group->id;
+                ProcessingContext context;
+                PhysicsOwner* world = (PhysicsOwner*)owner;
+                context.step = &world->unk1D0;
+                context.input.scratch = 0;
+                context.input.unk04 = 0;
+                new ((void *)&(context.input)) ::FUN_00cfa7d0((*(const ::FUN_00cfa7d0 *)(world->input)));
+                world = (PhysicsOwner*)owner;
+                reinterpret_cast<::S00cfa6e0_Dst *>(&(context.solver))->FUN_00cfa6e0((::S00cfa6e0_Src *)(void *)(&world->unk1E0), (::S00cfa6e0_Pair *)(void *)(&world->unk1D0), world->unk1B8);
+                world = (PhysicsOwner*)owner;
+                context.processor = this;
+                context.delta = *(float*)&world->input->unk08;
+                context.owner = world;
+                context.shared = &DAT_01269210;
+                ::AccumulateShapes((::Worker **)(::ProcessingContext *)(&context), (::TargetClass *)(::JobQueue *)(0), (::Caller *)(::ResultJob *)(&job));
+                if (context.input.scratch)
+                    ((ThreadState*)FUN_00c85750())->heap().freeBlock(context.input.scratch, 512);
+            }
+        }
+        if (pSpecialGroup)
+            ::FUN_00d0c9c0((::ThingX **)this, (int)(items + pSpecialGroup->start), (::ThingP *)(pSpecialGroup->count), (int)(input), (bool)(pSpecialGroup->id));
+        ((ThreadState*)FUN_00c85750())->top = (char*)jobs;
+    }
+    else
+    {
+        for (int i = 0; i < count; ++i)
+            ::FUN_00d0c9c0((::ThingX **)this, (int)(items + groups[i].start), (::ThingP *)(groups[i].count), (int)(input), (bool)(groups[i].id));
+    }
+}
 
 struct StepWorld
 {
@@ -3351,12 +3360,6 @@ struct StepWorld
 
     PendingConstraints* f1b8;
 
-    void IncrementCounter();
-    void FUN_00c910b0();
-    void FUN_00c91120();
-    void FUN_00c91140();
-    void FUN_00c91190();
-    int FUN_00c93570();
 };
 
 struct TimeInfo
@@ -3370,27 +3373,17 @@ struct StepPair
     Handle* second;
 };
 
-void __cdecl FUN_00dd7d00(Island**, int, int, void(__cdecl*)(bool*, CompareObject*, CompareObject*));
 
-void __cdecl FUN_00cf7130(PairArray*, PairArray*);
 
-void __cdecl FUN_00d02250(PairArray*);
 
-void __cdecl FUN_00cb4c60(StepWorld*, Island*, Island*);
 
 Agent* __cdecl FUN_00cc0f40(Body*, Body*, Dispatcher*);
 
-Agent* __cdecl FindEntryValue(Body*, Body*);
 
-void __cdecl FUN_00cc1160(Agent*);
 
-void __cdecl FUN_00cfedd0(Agent*, Dispatcher*, Output*, Manager*);
 
-void __cdecl FUN_00d00aa0(StepWorld*, Constraint*);
 
-void __cdecl FUN_00d014f0(StepWorld*, TimeInfo*);
 
-void __cdecl ProcessChildLoop(StepWorld*);
 
 __forceinline Body* bodyOf(Handle* h)
 {
@@ -3576,7 +3569,6 @@ struct Stepper
 
     int f100;
 
-    void AddToiEvent(Output*, Agent*, void*);
 
     int FUN_00d03290(Job*, Jobs*);
 };
@@ -3610,7 +3602,7 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
     int result;
 
     {
-        TraceBuffer* p = (TraceBuffer*)TlsGetValue(DAT_0126835c);
+        TraceBuffer* p = (TraceBuffer*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
         TraceRecord* r = p->next;
         if (r < p->end)
         {
@@ -3622,33 +3614,33 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
         }
     }
 
-    f00c->IncrementCounter();
+    reinterpret_cast<::FUN_00c91180_Class *>((f00c))->IncrementCounter();
 
     jobState.prior = 0;
 
     if (job && jobs)
     {
-        jobState.prior = job->FUN_00d04440();
-        job->SetSimulationEnabled(1);
-        job->SetValue(2);
+        jobState.prior = reinterpret_cast<::FnvCpu_FUN_00d04440_CpuObject *>((job))->FUN_00d04440();
+        reinterpret_cast<::D049D0World *>((job))->SetSimulationEnabled(1);
+        reinterpret_cast<::FUN_00d04450_cls *>((job))->SetValue(2);
         jobs->start(job, 11);
     }
 
     const int size = f00c->f02c - f0b8;
 
     if (size > 1)
-        FUN_00dd7d00(f00c->f028 + f0b8, 0, size - 1, CompareObjectKeys);
+        ::FUN_00dd7d00((::S_00dd7d00_Item **)(::Island **)(f00c->f028 + f0b8), 0, size - 1, (S_00dd7d00_Bool (*)(S_00dd7d00_Item *, S_00dd7d00_Item *))(CompareObjectKeys));
 
     for (int i = f0b8; i < f00c->f02c; ++i)
         f00c->f028[i]->storageIndex = (short)i;
 
-    f00c->FUN_00c910b0();
+    ::FUN_00c910b0();
 
     if (removed.size() + added.size())
     {
 
         {
-            TraceBuffer* p = (TraceBuffer*)TlsGetValue(DAT_0126835c);
+            TraceBuffer* p = (TraceBuffer*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
             TraceRecord* r = p->next;
             if (r < p->end)
             {
@@ -3661,10 +3653,10 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
             }
         }
 
-        FUN_00cf7130((PairArray*)&added, (PairArray*)&removed);
+        ::FUN_00cf7130((::EdgeArray *)(::PairArray *)((PairArray*)&added), (::EdgeArray *)(::PairArray *)((PairArray*)&removed));
 
         {
-            TraceBuffer* p = (TraceBuffer*)TlsGetValue(DAT_0126835c);
+            TraceBuffer* p = (TraceBuffer*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
             TraceRecord* r = p->next;
             if (r < p->end)
             {
@@ -3676,11 +3668,11 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
             }
         }
 
-        FUN_00d02250((PairArray*)&added);
-        FUN_00d02250((PairArray*)&removed);
+        ::FUN_00d02250((*(::PairList< ::TypedPair> *)((PairArray*)&added)));
+        ::FUN_00d02250((*(::PairList< ::TypedPair> *)((PairArray*)&removed)));
 
         {
-            TraceBuffer* p = (TraceBuffer*)TlsGetValue(DAT_0126835c);
+            TraceBuffer* p = (TraceBuffer*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
             TraceRecord* r = p->next;
             if (r < p->end)
             {
@@ -3714,7 +3706,7 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
 
             if (island != islandB)
             {
-                FUN_00cb4c60(f00c, island, islandB);
+                ::FUN_00cb4c60((::hkpWorld *)(f00c), (::hkpSimulationIsland *)(island), (::hkpSimulationIsland *)(islandB));
                 island = scratch.entity->f0cc;
             }
 
@@ -3745,13 +3737,13 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
 
                     out.reset();
 
-                    FUN_00cfedd0(agent, d, &out, agent->manager);
+                    ::ProcessAgentCFEDD0::FUN_00cfedd0((::ProcessAgentCFEDD0::hkpAgentNnEntryProcessAgentCFEDD0 *)(agent), (*(const ::ProcessAgentCFEDD0::hkpProcessCollisionInputProcessAgentCFEDD0 *)(d)), (*(::ProcessAgentCFEDD0::hkpProcessCollisionOutputProcessAgentCFEDD0 *)(&out)));
 
                     if (!out.empty())
                         agent->manager->process(*savedA, *scratch.db, *d, out);
 
                     if (out.hasToi())
-                        AddToiEvent(&out, agent, &f100);
+                        reinterpret_cast<::FUN_00d02e70_cls *>(this)->AddToiEvent((char *)(::Output *)(&out), (::EventMeta *)(agent), (::_RTL_CRITICAL_SECTION *)(void *)(&f100));
                 }
             }
 
@@ -3761,7 +3753,7 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
 
         added.clear();
         {
-            TraceBuffer* p = (TraceBuffer*)TlsGetValue(DAT_0126835c);
+            TraceBuffer* p = (TraceBuffer*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
             TraceRecord* r = p->next;
             if (r < p->end)
             {
@@ -3777,14 +3769,14 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
             StepPair* pair = &removed[j];
             Body* a = bodyOf(pair->first);
             Body* b = bodyOf(pair->second);
-            Agent* agent = FindEntryValue(a, b);
+            Agent* agent = ((::Agent *)(::FindEntryValue((::LinkNode *)(a), (::LinkNode *)(b))));
             if (agent)
-                FUN_00cc1160(agent);
+                ::FUN_00cc1160((::Owner *)(agent));
         }
         removed.clear();
         removed.clear();
         {
-            TraceBuffer* p = (TraceBuffer*)TlsGetValue(DAT_0126835c);
+            TraceBuffer* p = (TraceBuffer*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
             TraceRecord* r = p->next;
             if (r < p->end)
             {
@@ -3804,7 +3796,7 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
     const int n = count < 128 ? count : 128;
 
     for (int k = 0; k < n; ++k)
-        FUN_00d00aa0(f00c, f00c->f1b8->entries[k]);
+        ::FUN_00d00aa0((::OwnerD *)(f00c), (int)(f00c->f1b8->entries[k]));
 
     f018 += f01c;
 
@@ -3814,10 +3806,10 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
     {
 
         if (world->f08c)
-            world->FUN_00c91120();
+            reinterpret_cast<::FUN_00c91120 *>((world))->ExecutePendingOperations();
 
         if (world->f0a4 == 1 && world->f090)
-            world->FUN_00c91140();
+            reinterpret_cast<::FUN_00c91140_Class *>((world))->FUN_00c91140();
     }
 
     result = 0;
@@ -3827,9 +3819,9 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
 
         result = 2;
         f018 -= f01c;
-        f00c->FUN_00c91190();
+        reinterpret_cast<::FUN_00c91190_Class *>((f00c))->FUN_00c91190();
         {
-            TraceBuffer* p = (TraceBuffer*)TlsGetValue(DAT_0126835c);
+            TraceBuffer* p = (TraceBuffer*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
             TraceRecord* r = p->next;
             if (r < p->end)
             {
@@ -3848,7 +3840,7 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
         {
 
             {
-                TraceBuffer* p = (TraceBuffer*)TlsGetValue(DAT_0126835c);
+                TraceBuffer* p = (TraceBuffer*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
                 TraceRecord* r = p->next;
                 if (r < p->end)
                 {
@@ -3869,9 +3861,9 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
             t.delta = scratch.end - start;
             t.inverse = t.delta == 0 ? 0 : 1 / t.delta;
 
-            FUN_00d014f0(f00c, &t);
+            ::FUN_00d014f0((::D014F0World *)(f00c), &t);
             {
-                TraceBuffer* p = (TraceBuffer*)TlsGetValue(DAT_0126835c);
+                TraceBuffer* p = (TraceBuffer*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
                 TraceRecord* r = p->next;
                 if (r < p->end)
                 {
@@ -3884,9 +3876,9 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
             }
         }
 
-        f00c->FUN_00c910b0();
+        ::FUN_00c910b0();
         {
-            TraceBuffer* p = (TraceBuffer*)TlsGetValue(DAT_0126835c);
+            TraceBuffer* p = (TraceBuffer*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
             TraceRecord* r = p->next;
             if (r < p->end)
             {
@@ -3901,7 +3893,7 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
         if (f00c->f0e4)
             f0c0 = (int)job;
 
-        f00c->FUN_00c91190();
+        reinterpret_cast<::FUN_00c91190_Class *>((f00c))->FUN_00c91190();
         v18();
         f0c0 = 0;
 
@@ -3913,7 +3905,7 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
     {
 
         {
-            TraceBuffer* p = (TraceBuffer*)TlsGetValue(DAT_0126835c);
+            TraceBuffer* p = (TraceBuffer*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
             TraceRecord* r = p->next;
             if (r < p->end)
             {
@@ -3924,11 +3916,11 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
                 p->next = (TraceRecord*)((char*)r + 12);
             }
         }
-        job->SetSimulationEnabled(0);
-        job->SetValue(jobState.prior);
+        reinterpret_cast<::D049D0World *>((job))->SetSimulationEnabled(0);
+        reinterpret_cast<::FUN_00d04450_cls *>((job))->SetValue(jobState.prior);
         jobs->wait();
         {
-            TraceBuffer* p = (TraceBuffer*)TlsGetValue(DAT_0126835c);
+            TraceBuffer* p = (TraceBuffer*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
             TraceRecord* r = p->next;
             if (r < p->end)
             {
@@ -3943,8 +3935,8 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
 
     f028 = result;
 
-    if (result && f00c->FUN_00c93570())
-        ProcessChildLoop(f00c);
+    if (result && ((int)(reinterpret_cast<::WorldWatchDogHolder *>((f00c))->FUN_00c93570())))
+        ::ProcessChildLoop((::ParamObj *)(f00c));
 
     return f028;
 }
@@ -3968,7 +3960,6 @@ struct Singleton
     int m_0c;
     DeallocCtx* m_10;
 };
-void __cdecl ResizeAudioStream(void*, PairArray*, int);
 static inline Singleton* GetSingleton()
 {
     return (Singleton*)FUN_00c85750();
@@ -4022,7 +4013,7 @@ struct ArrGroup
         }
         Singleton* allocator = GetSingleton();
         if (m_iArrayLength == (m_iCapacity & 0x3fffffff))
-            ResizeAudioStream(allocator->m_10, (PairArray*)this, 24);
+            ::ResizeAudioStream((::AudioAllocator *)(allocator->m_10), (::AudioStream *)(::PairArray *)((PairArray*)this), 24);
         ZeroNew(m_iArrayLength);
         Group* added = m_pData + m_iArrayLength++;
         if (added != 0)
@@ -4044,11 +4035,6 @@ struct ObjA
     int m_00;
     int m_04;
     int m_08;
-    void EnsureCapacity(DeallocCtx* ctx, int zero);
-    int LookupHashEntry(void* elem, int zero);
-    void FUN_00cb1870(DeallocCtx* ctx, void* elem, int one);
-    void ProcessArgument(DeallocCtx* ctx);
-    void FUN_00a29680();
 };
 
 struct CollisionCell
@@ -6022,15 +6008,12 @@ struct SubObj
     {
         return m_78;
     }
-    void FUN_00c91120();
-    void FUN_00c91140();
 };
 
 struct ElemSub
 {
     SubNode* first;
     SubNode* second;
-    void CopyAndSortGeometryList(ArrPair* out);
 };
 
 struct Elem
@@ -6358,7 +6341,6 @@ struct Elem
     unsigned char unkE9_61;
     unsigned char unkE9_62;
     float m_14c;
-    void FUN_00c905b0();
 };
 
 struct ParamObj
@@ -6366,7 +6348,6 @@ struct ParamObj
     Pair* m_pData;
     int m_04;
     int m_iArrayLength;
-    void ResetEntries();
     int First()
     {
         int index = 0;
@@ -6402,14 +6383,13 @@ struct ThisCls
     int m_08;
     SubObj* m_0c;
     void FUN_00d03c20(ParamObj* p0, ParamObj* p1);
-    void ProcessGroups(int* a, int b, Group* c, int d, void* e, CollisionFlag f);
 };
 
 // Collects contact pairs from p1 elements, groups them by identity, and calls ProcessGroups with the results.
 // @fnv 0x00d03c20
 void ThisCls::FUN_00d03c20(ParamObj* apUnused, ParamObj* p1)
 {
-    TraceBuffer* pTraceBuf = (TraceBuffer*)TlsGetValue(DAT_0126835c);
+    TraceBuffer* pTraceBuf = (TraceBuffer*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     if (pTraceBuf->next < pTraceBuf->end)
     {
         TraceRecord* pTraceRec = pTraceBuf->next;
@@ -6437,7 +6417,7 @@ void ThisCls::FUN_00d03c20(ParamObj* apUnused, ParamObj* p1)
     L.seen.m_04 = 0;
     L.seen.m_08 = -1;
     Singleton* pSingleton = GetSingleton();
-    L.seen.EnsureCapacity(pSingleton->m_10, 0);
+    reinterpret_cast<::FUN_00cb1fe0_t *>(&(L.seen))->EnsureCapacity((int)(pSingleton->m_10), 0);
     int sentinel = (int)0x80000000;
     pairs.m_pData = 0;
     pairs.m_iArrayLength = 0;
@@ -6453,7 +6433,7 @@ void ThisCls::FUN_00d03c20(ParamObj* apUnused, ParamObj* p1)
         L.contacts.m_pData = 0;
         L.contacts.m_iArrayLength = 0;
         L.contacts.m_iCapacity = sentinel;
-        savedElem->links.CopyAndSortGeometryList(&L.contacts);
+        reinterpret_cast<::ContainerD082 *>(&(savedElem->links))->CopyAndSortGeometryList((*(::hkArrayD082< ::ItemD082> *)(&L.contacts)));
         iContactCount = L.contacts.m_iArrayLength;
         j = 0;
         if (iContactCount > 0)
@@ -6461,7 +6441,7 @@ void ThisCls::FUN_00d03c20(ParamObj* apUnused, ParamObj* p1)
             for (; j < iContactCount; j++)
             {
                 Elem* e2 = (Elem*)L.contacts.m_pData[j].m_00;
-                if (L.seen.LookupHashEntry(e2, 0) != 0)
+                if (reinterpret_cast<::FUN_00cb1930_t *>(&(L.seen))->LookupHashEntry((int)(e2), 0) != 0)
                     continue;
                 int idx = e2->m_0c;
                 int cell = m_0c->m_80->cells[idx].active;
@@ -6480,17 +6460,17 @@ void ThisCls::FUN_00d03c20(ParamObj* apUnused, ParamObj* p1)
                     key = (GroupIdentity*)((Elem*)h)->m_cc;
                 }
                 Singleton* pSingleton1 = GetSingleton();
-                L.seen.FUN_00cb1870(pSingleton1->m_10, e2, 1);
+                reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(L.seen))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(pSingleton1->m_10)), (unsigned int)(e2), 1);
                 Singleton* pSingleton2 = GetSingleton();
                 if (pairs.m_iArrayLength == (pairs.m_iCapacity & 0x3fffffff))
-                    ResizeAudioStream(pSingleton2->m_10, (PairArray*)&pairs, 8);
+                    ::ResizeAudioStream((::AudioAllocator *)(pSingleton2->m_10), (::AudioStream *)(::PairArray *)((PairArray*)&pairs), 8);
                 pairs.AppendN(e2, (int)key, 1);
                 Group& entry = groups.FindOrAdd(key);
                 ++entry.count;
                 total++;
             }
         }
-        savedElem->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((savedElem))->FUN_00c905b0();
         i = p1->Next(i);
         Singleton* pSingleton4 = GetSingleton();
         DeallocCtx* ctx = pSingleton4->m_10;
@@ -6501,7 +6481,7 @@ void ThisCls::FUN_00d03c20(ParamObj* apUnused, ParamObj* p1)
         L.contacts.m_pData = 0;
         L.contacts.m_iCapacity = sentinel;
     }
-    p1->ResetEntries();
+    reinterpret_cast<::FUN_00cb1a60_t *>((p1))->ResetEntries();
     int acc = 0;
     for (int k2 = 0; k2 < groups.m_iArrayLength; k2++)
     {
@@ -6521,17 +6501,17 @@ void ThisCls::FUN_00d03c20(ParamObj* apUnused, ParamObj* p1)
         triple.unk0C = slot + 1;
         ((int*)p1)[slot] = (int)pfirst;
     }
-    ProcessGroups((int*)p1, total, groups.m_pData, groups.m_iArrayLength, m_0c->GetIn(), (char)0);
+    reinterpret_cast<::Processor *>(this)->ProcessGroups((int **)(int *)((int*)p1), total, groups.m_pData, groups.m_iArrayLength, (::TaskInput *)(void *)(m_0c->GetIn()), (*(::hkBoolX *)&(const ::CollisionFlag &)((char)0)));
     SubObj* sub = m_0c;
     sub->m_94--;
     if (sub->m_94 == 0 && sub->m_9c == 0)
     {
         if (sub->m_8c != 0)
-            sub->FUN_00c91120();
+            reinterpret_cast<::FUN_00c91120 *>((sub))->ExecutePendingOperations();
         if (sub->m_a4 == 1 && sub->m_90 != 0)
-            sub->FUN_00c91140();
+            reinterpret_cast<::FUN_00c91140_Class *>((sub))->FUN_00c91140();
     }
-    TraceBuffer* pTraceBuf2 = (TraceBuffer*)TlsGetValue(DAT_0126835c);
+    TraceBuffer* pTraceBuf2 = (TraceBuffer*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     if (pTraceBuf2->next < pTraceBuf2->end)
     {
         TraceRecord* pTraceRec2 = pTraceBuf2->next;
@@ -6560,6 +6540,6 @@ void ThisCls::FUN_00d03c20(ParamObj* apUnused, ParamObj* p1)
     pairs.m_pData = 0;
     pairs.m_iCapacity = sentinel;
     Singleton* pSingleton10 = GetSingleton();
-    L.seen.ProcessArgument(pSingleton10->m_10);
-    L.seen.FUN_00a29680();
+    reinterpret_cast<::CB1A90Owner *>(&(L.seen))->ProcessArgument((::CB1A90Argument *)(pSingleton10->m_10));
+    ::FUN_00a29680();
 }

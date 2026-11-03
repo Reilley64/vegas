@@ -3,7 +3,11 @@
 
 // src/havok/physics/collide/agent/compoundagent/list/hkplistagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/compoundagent/list/hkplistagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void __cdecl FUN_00da3510(void*, void*);
+#include "fnv/decl/hkTransformCB22.h"
+#include "fnv/symbols_00d36000.h"
+#include "fnv/symbols_00d97000.h"
+#include "fnv/symbols_00da3000.h"
+#include "fnv/symbols_00da4000.h"
 struct hkAgent1nMachine
 {
     void __thiscall InvalidateTim(void*);
@@ -13,9 +17,6 @@ struct hkpListAgent
     char m0[0x10];
     void __thiscall FUN_00d36850(void* arg);
 };
-extern "C" void __cdecl FUN_00d36990(int, int, int, int);
-void __stdcall FUN_00d36b00(int aiArg1, int aiArg2, int aiArg3, int aiArg4);
-extern "C" void __cdecl FUN_00da35f0(void*, float, float, int);
 struct Owner
 {
     int unk04;
@@ -24,11 +25,6 @@ struct Owner
     int unk10;
     void FUN_00d36870(float a1, float a2, int a3);
 };
-void __cdecl FUN_00d36920(void* a, void* b, void* c, void* d);
-void __stdcall FUN_00d36940(void* apArg1, void* apArg2, void* apArg3, void* apArg4);
-void __cdecl FUN_00d36930(int a1, int a2, int a3, int a4, int a5);
-void __stdcall FUN_00d36960(int aiArg1, int aiArg2, int aiArg3, int aiArg4, int aiArg5);
-extern "C" void __cdecl FUN_00da42b0(void* a, int b, int c, int d);
 struct FUN_00d36820_cls
 {
     virtual void v00(int a);
@@ -44,7 +40,6 @@ struct S_00d368a0_Arg
     int unk04;
     int m_field08;
 };
-void __cdecl FUN_00d97250(void* sub, int field08, S_00d368a0_Arg* arg);
 struct S_00d368a0
 {
     int unk00;
@@ -55,7 +50,6 @@ struct S_00d368a0
 
     void FUN_00d368a0(S_00d368a0_Arg* a, int unused);
 };
-extern "C" void __cdecl FUN_00da48e0(void*, void*);
 struct VirtTarget
 {
     virtual int v00();
@@ -174,7 +168,6 @@ struct S00d369a0_Config
 struct S00d369a0_Transform
 {
     __m128 c0, c1, c2, translation;
-    void __thiscall FUN_00cb22f0(S00d369a0_Motion* a, S00d369a0_Motion* b);
 };
 struct S00d369a0_ProcessInput
 {
@@ -189,7 +182,6 @@ struct S00d369a0_ProcessInput
     __m128 tim;
 };
 extern "C" void* __cdecl FUN_00c85750();
-extern "C" void __cdecl FUN_00da4aa0(void* a, S00d369a0_ProcessInput* b, S00d369a0_Container* c, void* d, int e);
 extern "C" unsigned int _rotl(unsigned int, int);
 extern "C" void _ReadWriteBarrier();
 struct S00d369a0_ListAgent
@@ -219,7 +211,7 @@ void S00d369a0_ListAgent::FUN_00d369a0(S00d369a0_Body* a1, S00d369a0_Body* a2, S
     input.tim = _mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(&f0), _mm_load_ss(&f0), 0), d0);
     input.tim = _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(&f1), _mm_load_ss(&f1), 0), d1), input.tim);
     input.tim.m128_f32[3] = (f0 * o->f9c) * o->fa0 + (f1 * p->f9c) * p->fa0;
-    input.transform.FUN_00cb22f0(o, p);
+    reinterpret_cast<::hkTransformCB22 *>(&(input.transform))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(o)), (*(const ::hkTransformCB22 *)(p)));
     int count = bits->m1C;
     unsigned int* out = (unsigned int*)FUN_00c85750();
     unsigned int* dst = (unsigned int*)*out;
@@ -232,6 +224,6 @@ void S00d369a0_ListAgent::FUN_00d369a0(S00d369a0_Body* a1, S00d369a0_Body* a2, S
             dst[n++] = i;
     }
     dst[n] = 0xffffffff;
-    FUN_00da4aa0(&this->track10, &input, bits, dst, a4);
+    ::fnv_00da4aa0::FUN_00da4aa0((*(::fnv_00da4aa0::Q30 *)(&this->track10)), (*(const ::fnv_00da4aa0::Q14 *)(&input)), (const ::fnv_00da4aa0::Q24 *)(bits), (const unsigned int *)(dst), (*(::fnv_00da4aa0::Q6 *)(a4)));
     *(unsigned int*)FUN_00c85750() = (unsigned int)dst;
 }

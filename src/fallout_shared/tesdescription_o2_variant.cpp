@@ -2,9 +2,15 @@
 // src/fallout_shared/tesdescription_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/tesdescription.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/FUN_00482f40_t.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00482000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011c5000.h"
 #include "tesdescription_decls.h"
 extern "C" unsigned char DAT_011c54ba;
-unsigned char FUN_00401500();
 struct TESObjectREFR;
 struct TESFullName : public BaseFormComponent
 {
@@ -64,13 +70,10 @@ struct FUN_00482c80_shell : public TESDescription
     void ClearParsedXML();
 };
 extern "C" unsigned char DAT_011c54ba;
-unsigned char FUN_00401500();
 struct BSStr
 {
-    bool Set(char const*, unsigned int);
 };
 extern int DAT_011c5490;
-void __cdecl WriteDescChunk(void*, int);
 struct FUN_00482cb0_shell
 {
     void __thiscall FUN_00482cb0();

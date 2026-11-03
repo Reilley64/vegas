@@ -2,9 +2,30 @@
 // src/fallout/magic/detectlifeeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/detectlifeeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" unsigned char DAT_011dc034;
 
 // @fnv 0x0080cec0
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/Cls.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_00477ba0_shell.h"
+#include "fnv/decl/FUN_0080d930.h"
+#include "fnv/decl/FUN_0082c000_shell.h"
+#include "fnv/decl/FUN_00973fd0_cls.h"
+#include "fnv/decl/TESCombatStyle.h"
+#include "fnv/decl/fnv_00974a50__FUN_00974a50_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0080c000.h"
+#include "fnv/symbols_0080d000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01079000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011dc000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
 void __cdecl FUN_0080cec0()
 {
     DAT_011dc034 = 0;
@@ -12,56 +33,47 @@ void __cdecl FUN_0080cec0()
 
 struct TESEffectShader;
 
-extern TESEffectShader* DAT_011c3588;
 
 // @fnv 0x0080d0d0
 TESEffectShader* __cdecl FUN_0080d0d0()
 {
-    return DAT_011c3588;
+    return ::DAT_011c3588;
 }
 
-void __cdecl Deallocate(void*);
 struct FUN_0080cd60_shell
 {
-    void __thiscall FUN_0080cd90();
     void* __thiscall Destroy(unsigned int flags);
 };
-// Calls FUN_0080cd90, then frees this with Deallocate when flags has bit 0 set, and returns this.
-// @fnv 0x0080cd60
-void* __thiscall FUN_0080cd60_shell::Destroy(unsigned int flags)
-{
-    FUN_0080cd90();
-    if (flags & 1)
-        Deallocate(this);
-    return this;
-}
-
-extern "C" void* DAT_01079e7c;
 struct FUN_0080d930_shell
 {
-    void __thiscall FUN_0080d930();
 };
 struct FUN_0080cd90_shell
 {
     void __thiscall FUN_0080cd90();
 };
+// Calls FUN_0080cd90, then frees this with Deallocate when flags has bit 0 set, and returns this.
+// @fnv 0x0080cd60
+void* __thiscall FUN_0080cd60_shell::Destroy(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0080cd90_shell *>(this)->FUN_0080cd90();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // @fnv 0x0080cd90
 void __thiscall FUN_0080cd90_shell::FUN_0080cd90()
 {
     *reinterpret_cast<void**>(this) = &DAT_01079e7c;
-    reinterpret_cast<FUN_0080d930_shell*>(this)->FUN_0080d930();
+    reinterpret_cast<::FUN_0080d930 *>((reinterpret_cast<FUN_0080d930_shell*>(this)))->FUN_0080d930::~FUN_0080d930();
 }
 
 struct BSThread
 {
-    unsigned int GetThreadID();
 };
 struct FUN_0082a670_shell
 {
-    void FUN_0082c000();
 };
 struct PC7d;
-extern PC7d* g_thePlayer;
 struct RetObj
 {
     virtual void f0();
@@ -74,22 +86,19 @@ struct DetectLifeEffect : FUN_0082a670_shell
 // @fnv 0x0080ce60
 void DetectLifeEffect::FUN_0080ce60()
 {
-    FUN_0082c000();
-    if (((RetObj*)((BSThread*)this)->GetThreadID())->f1() == g_thePlayer)
+    reinterpret_cast<::FUN_0082c000_shell *>(this)->FUN_0082c000();
+    if (((RetObj*)reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType())->f1() == (*reinterpret_cast<::PC7d * *>(&::_g_thePlayer)))
         FUN_0080cec0();
 }
 
 namespace fnv_0080d0e0 {
 struct BSThread
 {
-    unsigned int GetThreadID();
 };
 struct ValueModifierEffect
 {
-    void ApplyEffect();
 };
 struct PC7d;
-extern PC7d* g_thePlayer;
 struct ActorWrapper
 {
     virtual void Unk0();
@@ -102,8 +111,8 @@ struct DetectLifeEffect : ValueModifierEffect
 // @fnv 0x0080d0e0
 void DetectLifeEffect::FUN_0080d0e0()
 {
-    ValueModifierEffect::ApplyEffect();
-    if (((ActorWrapper*)((BSThread*)this)->GetThreadID())->Unk1() == g_thePlayer)
+    reinterpret_cast<::Cls *>(this)->ApplyEffect();
+    if (((ActorWrapper*)reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType())->Unk1() == (*reinterpret_cast<::fnv_0080d0e0::PC7d * *>(&::_g_thePlayer)))
         FUN_0080cec0();
 }
 }  // namespace fnv_0080d0e0
@@ -165,16 +174,12 @@ struct TESEffectShader;
 struct NiPoint3
 {
     float x, y, z;
-    NiPoint3 FUN_00439ef0(const NiPoint3& kPt) const;
-    float FUN_004a7290() const;
 };
 struct FUN_0045cd60_cls
 {
-    int FUN_0045cd60();
 };
 struct Setting80c
 {
-    float* FUN_00403e20();
 };
 struct Actor80c
 {
@@ -318,8 +323,6 @@ struct Actor80c
     virtual void v137();
     virtual void v138();
     virtual bool IsDead(int);
-    FUN_0045cd60_cls* FUN_008d8520();
-    bool FUN_00477ba0();
 };
 struct NiMemObject
 {
@@ -382,33 +385,27 @@ struct FUN_0081f580 : public NiMemObject
 };
 struct Mgr80c
 {
-    void FUN_00973fd0(FUN_0081f580* pkEffect);
-    void FUN_00974a50(Actor80c* pkRef, TESEffectShader* pkShader);
 };
 TESEffectShader* __cdecl FUN_0080d0d0();
-extern Actor80c* DAT_011dea3c;
-extern Setting80c DAT_011d15e0;
-extern float DAT_01012054;
-extern Mgr80c DAT_011e0e80;
 
 // @fnv 0x0080ced0
 bool __cdecl UpdateEffectShaderOnActor(Actor80c* pkRef, bool bStopEffect)
 {
     TESEffectShader* pkShader2 = FUN_0080d0d0();
-    if (!pkShader2 || !pkRef || pkRef == DAT_011dea3c || !pkRef->FUN_008d8520())
+    if (!pkShader2 || !pkRef || pkRef == (*reinterpret_cast<::Actor80c * *>(&::_g_thePlayer)) || !((::FUN_0045cd60_cls *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkRef))->GetBaseTexture())))
         return false;
     float fZero = 0.0f;
-    float fDistSq = fZero * *DAT_011d15e0.FUN_00403e20();
+    float fDistSq = fZero * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting80c *>(&::originalRuntimeFloatSetting1112))))));
     fDistSq *= fDistSq;
-    NiPoint3 kPlayerPos9 = *DAT_011dea3c->GetPos();
-    if (kPlayerPos9.FUN_00439ef0(*pkRef->GetPos()).FUN_004a7290() < fDistSq && !pkRef->IsDead(0) &&
-        !pkRef->FUN_008d8520()->FUN_0045cd60() && !pkRef->FUN_00477ba0())
+    NiPoint3 kPlayerPos9 = *(*reinterpret_cast<::Actor80c * *>(&::_g_thePlayer))->GetPos();
+    if (reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::NiPoint3 &)((*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kPlayerPos9))->FUN_00439ef0((::NiPoint3 *)&(*pkRef->GetPos()), *(const ::NiPoint3 *)nullptr)))))->UpdateCombatStyle() < fDistSq && !pkRef->IsDead(0) &&
+        !((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::FUN_0045cd60_cls *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkRef))->GetBaseTexture()))))->FUN_0045cd60())) && !reinterpret_cast<::FUN_00477ba0_shell *>((pkRef))->FUN_00477ba0())
     {
         if (!bStopEffect)
         {
-            FUN_0081f580* pkEffect = new FUN_0081f580(pkRef, pkShader2, DAT_01012054);
+            FUN_0081f580* pkEffect = new FUN_0081f580(pkRef, pkShader2, ::DAT_01012054);
             if (pkEffect->IsValid())
-                DAT_011e0e80.FUN_00973fd0(pkEffect);
+                reinterpret_cast<::FUN_00973fd0_cls *>(&((*reinterpret_cast<::Mgr80c *>(&::g_011e0e80))))->FUN_00973fd0((::FnvArgObj *)(pkEffect));
             else
                 delete pkEffect;
         }
@@ -417,7 +414,7 @@ bool __cdecl UpdateEffectShaderOnActor(Actor80c* pkRef, bool bStopEffect)
     else
     {
         if (bStopEffect)
-            DAT_011e0e80.FUN_00974a50(pkRef, pkShader2);
+            reinterpret_cast<::fnv_00974a50::FUN_00974a50_shell *>(&((*reinterpret_cast<::Mgr80c *>(&::g_011e0e80))))->FUN_00974a50((::TESObjectREFR *)(pkRef), pkShader2);
         return false;
     }
 }

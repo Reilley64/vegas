@@ -1,24 +1,51 @@
 
 // tesobjectrefr_ctx2_variant.cpp: context variant of src/fallout_shared/tesobjectrefr.cpp: its stripped skeleton, as these functions were checked
 // against, for verified matches whose own declarations clash with the unit's current types.
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSMessageInitAccess.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_0040fae0_shell.h"
+#include "fnv/decl/FUN_004121b0_shell.h"
+#include "fnv/decl/FUN_0041d390_shell.h"
+#include "fnv/decl/FUN_0041d460_shell.h"
+#include "fnv/decl/FUN_0041fe90_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_0055b9a0_class.h"
+#include "fnv/decl/FUN_00572d50_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00693dc0_class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/NiTMap_S.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TESFile.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_0056b0b0__FUN_0056b0b0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/loader__List.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00446000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00574000.h"
+#include "fnv/symbols_00575000.h"
+#include "fnv/symbols_00579000.h"
+#include "fnv/symbols_0057a000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011c7000.h"
+#include "fnv/symbols_011c9000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011f6000.h"
 #include "tesobjectrefr_decls.h"
-GarbageCollectorUpdateState* FUN_00446ef0();
 void* FUN_0056a8c0();
-void FUN_005743f0();
-void FUN_00575c90(unsigned char value);
-float FUN_005790b0();
-float FUN_005790d0();
-void FUN_0057acc0(unsigned int index);
 
 extern "C" void* __cdecl _alloca(unsigned int);
 struct LoadFile
 {
-    unsigned int Size();
-    bool Read(void*, unsigned int);
     bool ReadID(unsigned int*);
-    bool Special();
-    int Chunk();
-    bool Next();
 };
 struct VecLoad
 {
@@ -28,7 +55,6 @@ struct TransformLoad
 {
     VecLoad position, rotation;
     TransformLoad();
-    void Convert();
 };
 struct ScriptInfoLoad
 {
@@ -36,47 +62,32 @@ struct ScriptInfoLoad
 };
 struct ScriptLoad
 {
-    ScriptInfoLoad* Info();
-    int Text();
-    unsigned char Compiled();
 };
 struct ExtraLoad
 {
-    void* Cell();
-    void Clear(bool);
-    void InitializeForCell(void*);
-    void Load(LoadFile*, void*);
-    struct PatrolLoad* Patrol();
 };
 struct PatrolLoad
 {
-    ScriptLoad* Script();
 };
 struct SaveLoadState
 {
-    bool Active();
 };
 
 struct DataLoad
 {
-    bool Contains(unsigned int);
 };
 
 class TESForm
 {
   public:
     virtual ~TESForm();
+public:
+    void SetInitializationState(bool);
 };
-extern SaveLoadState* g_BGSSaveLoadGame;
-extern DataLoad* g_dataHandler;
 class TESBoundObject : public TESForm
 {
   public:
-    unsigned int ID();
 };
-void ResolveID(unsigned int*, LoadFile*);
-TESForm* LookupForm(unsigned int);
-void WarnLoad(const char*, ...);
 struct StringLoad
 {
     char* text;
@@ -85,7 +96,6 @@ struct StringLoad
     ~StringLoad();
     operator const char*() const;
 };
-int FormatLoad(StringLoad*, const char*, ...);
 struct RefLoad
 {
     virtual void v000();
@@ -178,14 +188,6 @@ struct RefLoad
     unsigned int scale;
     int unk40;
     ExtraLoad extras;
-    void ClearFlags(int);
-    void LoadHeader(LoadFile*);
-    bool Deleted();
-    void Cleanup();
-    void* GetParent();
-    ExtraLoad* Extra();
-    void Mark(int);
-    unsigned int ID();
     bool FUN_0055af90(LoadFile* file);
 };
 // @fnv 0x0055af90
@@ -193,31 +195,31 @@ bool RefLoad::FUN_0055af90(LoadFile* file)
 {
     int chunkID = 0;
     TransformLoad initial4;
-    ClearFlags(0);
+    reinterpret_cast<::TESForm *>(this)->SetInitializationState(0);
     bool failed = false;
     bool hasBaseTmp = false;
     bool reuse = false;
     unsigned int baseIDA = 0;
-    LoadHeader(file);
-    ClearFlags(0);
-    if (Deleted())
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
+    reinterpret_cast<::TESForm *>(this)->SetInitializationState(0);
+    if (reinterpret_cast<::FUN_00440d80_shell *>(this)->FUN_00440d80())
     {
-        void* cell = extras.Cell();
-        if (!g_BGSSaveLoadGame || !((SaveLoadState*)g_BGSSaveLoadGame)->Active())
-            Cleanup();
-        extras.Clear(true);
+        void* cell = ((void *)(reinterpret_cast<::FUN_0041d460_shell *>(&(extras))->FUN_0041d460()));
+        if (!(*reinterpret_cast<::SaveLoadState * *>(&::g_BGSSaveLoadGame)) || !reinterpret_cast<::FUN_004121b0_shell *>((((SaveLoadState*)(*reinterpret_cast<::SaveLoadState * *>(&::g_BGSSaveLoadGame)))))->FUN_004121b0())
+            reinterpret_cast<::fnv_0056b0b0::FUN_0056b0b0_shell *>(this)->FUN_0056b0b0();
+        reinterpret_cast<::FUN_0040fae0_shell *>(&(extras))->FUN_0040fae0(true);
         if (cell)
-            extras.InitializeForCell(cell);
-        return GetParent() != 0;
+            reinterpret_cast<::FUN_0041d390_shell *>(&(extras))->FUN_0041d390((::TESObjectCELL *)(cell));
+        return ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) != 0;
     }
-    while (reuse || (chunkID = file->Chunk()) != 0)
+    while (reuse || (chunkID = reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()) != 0)
     {
         reuse = false;
         switch (chunkID)
         {
         case 0x44494445: {
-            char* editor = (char*)_alloca(file->Size());
-            file->Read(editor, 512);
+            char* editor = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(editor), 512);
             SetEditorID(editor);
             break;
         }
@@ -300,7 +302,7 @@ bool RefLoad::FUN_0055af90(LoadFile* file)
         case 0x544e4358:
         case 0x54574358:
         case 0x57544c58:
-            Extra()->Load(file, this);
+            reinterpret_cast<::loader::List *>((((::ExtraLoad *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->LoadExtraData((::loader::File *)(file), this);
             break;
         case 0x4c435358:
             file->ReadID(&scale);
@@ -308,19 +310,19 @@ bool RefLoad::FUN_0055af90(LoadFile* file)
         case 0x454d414e: {
             hasBaseTmp = true;
             file->ReadID(&baseIDA);
-            ResolveID(&baseIDA, file);
-            TESForm* form3 = LookupForm(baseIDA);
+            ::ResolveFormID(&baseIDA, (::TESFile *)(file));
+            TESForm* form3 = ::FUN_004839c0(baseIDA);
             TESBoundObject* bound5 = dynamic_cast<TESBoundObject*>(form3);
             bool replace = true;
-            if (base && ((SaveLoadState*)g_BGSSaveLoadGame)->Active() &&
-                ((DataLoad*)g_dataHandler)->Contains(base->ID()))
+            if (base && reinterpret_cast<::FUN_004121b0_shell *>((((SaveLoadState*)(*reinterpret_cast<::SaveLoadState * *>(&::g_BGSSaveLoadGame)))))->FUN_004121b0() &&
+                reinterpret_cast<::BSShaderRenderUtility *>((((DataLoad*)(*reinterpret_cast<::DataLoad * *>(&::g_dataHandler)))))->IsRenderTargetId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((base))->FUN_0084e3a0()))))
                 replace = false;
             if (replace)
             {
                 base = bound5;
                 if (!base)
                 {
-                    WarnLoad("MASTERFILE: Missing/Invalid base object (%08X) for reference (%08X)", baseIDA, ID());
+                    ::FUN_005b5e40();
                     failed = true;
                     hasBaseTmp = false;
                 }
@@ -330,37 +332,37 @@ bool RefLoad::FUN_0055af90(LoadFile* file)
         case 0x524c4352:
             break;
         case 0x4d414e4f:
-            Mark(8);
+            reinterpret_cast<::FUN_00572d50_shell *>(this)->FUN_00572d50(8);
             break;
         case 0x41544144:
             if (!failed)
             {
                 TransformLoad transform;
                 Reset3D(0);
-                file->Read(&transform, 24);
-                if (file->Special())
-                    transform.Convert();
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&transform), 24);
+                if (reinterpret_cast<::TESFile *>((file))->IsEndianConversionRequired())
+                    reinterpret_cast<::FUN_00693dc0_class *>(&(transform))->SwapEndian();
                 position = transform.position;
                 rotation = transform.rotation;
             }
             break;
         default:
-            WarnLoad("MASTERFILE: TESObjectREFR::Load abnormally terminated.\n\n");
+            ::FUN_005b5e40();
             chunkID = 0x41544144;
         }
-        if (!file->Next())
+        if (!reinterpret_cast<::TESFile *>((file))->NextChunk())
             break;
     }
-    PatrolLoad* patrolTmp = Extra()->Patrol();
+    PatrolLoad* patrolTmp = ((::PatrolLoad *)(reinterpret_cast<::FUN_0041fe90_shell *>((((::ExtraLoad *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_0041fe90()));
     if (patrolTmp)
     {
-        ScriptLoad* script = patrolTmp->Script();
-        if (script && !script->Info()->unk08 && script->Text() && !script->Compiled())
+        ScriptLoad* script = ((::ScriptLoad *)(reinterpret_cast<::LowProcess *>((patrolTmp))->GetCurrentPackageData()));
+        if (script && !((::ScriptInfoLoad *)(reinterpret_cast<::BGSCameraPath *>((script))->GetConditions()))->unk08 && ((int)(reinterpret_cast<::BGSMessageInitAccess *>((script))->GetIconFormID())) && !((unsigned char)(reinterpret_cast<::FUN_0055b9a0_class *>((script))->GetByteAtOffset42())))
         {
             StringLoad warning;
-            FormatLoad(&warning, "Patrol point event script for point %s has text but has not been compiled.",
+            ::FUN_00406f60((::FUN_00406f90_this *)(::StringLoad *)(&warning), "Patrol point event script for point %s has text but has not been compiled.",
                        EditorID());
-            WarnLoad(warning);
+            ::FUN_005b5e40();
         }
     }
     return base != 0;

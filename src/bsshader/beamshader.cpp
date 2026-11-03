@@ -1,12 +1,24 @@
 // bsshader/beamshader.cpp: BeamPassShader, BloodSplatterBeamShader, DistantLODShader (6 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00e7ecd0_cls.h"
+#include "fnv/decl/LightSlots.h"
+#include "fnv/decl/StageSet.h"
+#include "fnv/decl/StateGroup.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00be0000.h"
+#include "fnv/symbols_00e76000.h"
+#include "fnv/symbols_00e7e000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_010a1000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01201000.h"
 #include "beamshader_types_BeamShader.h"
 #include "beamshader_types_NiConsoleShaderDeclaration.h"
 #include "beamshader_types_NiD3DShaderConstantMap.h"
 
-extern GraphicsRenderer* g_pkRenderer;
-extern const char g_emptyTopicInfoPrompt[1];
-extern "C" const char DAT_010A1E50[];
 extern "C" const char DAT_010af454[];
 
 class DeclarationSlots
@@ -53,7 +65,7 @@ class BloodSplatterBeamShader : public BeamShader
 // @fnv 0x00bc4af0
 BSShader* BloodSplatterBeamShader::CreateShader()
 {
-    NiD3DVertexDeclaration* declaration = NiD3DVertexDeclaration::Create((NiRenderer*)g_pkRenderer, 5, 1);
+    NiD3DVertexDeclaration* declaration = ::FUN_00e76700((NiRenderer*)(*reinterpret_cast<::GraphicsRenderer * *>(&::DAT_011f9508)), 5, 1);
     DeclarationSlots* declarationSlots = (DeclarationSlots*)declaration;
     declarationSlots->f35(0, 0, 0, 2, 0);
     declarationSlots->f35(1, 3, 3, 2, 0);
@@ -114,7 +126,7 @@ void DistantLODShader::UpdateShaderConstants()
         m_spSecondShaderConstantMap = map;
         m_spSecondShaderConstantMap.m_pShaderConstantMap->SetConstant(DAT_010A1E50, 0x20000009, 0, 0, 4, 0, 0, 0, 0, 0);
         m_spSecondShaderConstantMap.m_pShaderConstantMap->SetConstant(DAT_010af454, 0x10000009, 0, 4, 4,
-                                                                      g_emptyTopicInfoPrompt, 0x40, 4, &m_fVars[0], 0);
+                                                                      (*reinterpret_cast<const char (*)[1]>((void *)&::DAT_01011584)), 0x40, 4, &m_fVars[0], 0);
     }
     if (!m_spFirstShaderConstantMap.m_pShaderConstantMap)
     {
@@ -133,10 +145,10 @@ void BeamPassShader::SetupPass()
     p = pass.m_pObject;
     if (p.object->GetStageCount() < 1)
     {
-        BeamStage::CreateNewStage((NiPointer<BeamStage>&)stage);
-        ConfigureBeamStage(stage.object, 0, 1, 2, true);
-        stage.object->state->FUN_00e890c0(7, 0, 0, false);
-        p.object->FUN_00e802b0(p.object->stages, stage.object);
+        ::AssignStageFromPool((::StageReturn *&)((NiPointer<BeamStage>&)stage));
+        ::ConfigureBeamStage(stage.object, 0, 1, 2, true);
+        reinterpret_cast<::LightSlots *>((stage.object->state))->FUN_00e890c0(7, 0, 0, false);
+        reinterpret_cast<::StageSet *>((p.object))->FUN_00e802b0(p.object->stages, (::Stage321 *)(stage.object));
     }
     p.object->vertex = vertex;
     p.object->pixel = pixel;
@@ -165,21 +177,10 @@ struct Holder
 {
     void FUN_00bc49a0();
 };
-void __cdecl _delete(void*, unsigned int);
 struct S
 {
     void* DestroyIfFlagged(unsigned int);
 };
-// Calls FUN_00bc49a0 on this, deletes this with size 0xc0 when flag has bit 0 set, and returns this.
-// @fnv 0x00bc4e70
-void* S::DestroyIfFlagged(unsigned int auiFlags)
-{
-    ((Holder*)this)->FUN_00bc49a0();
-    if (auiFlags & 1)
-        _delete(this, 0xc0);
-    return this;
-}
-
 class ShaderBaseStub
 {
   public:
@@ -189,7 +190,6 @@ class ShaderBaseStub
 class FUN_00bc49a0 : public ShaderBaseStub
 {
   public:
-    static NiPointer<NiRefObject> ms_spShared;
     int unk04;
     int unk08;
     int unk0C;
@@ -239,12 +239,21 @@ class FUN_00bc49a0 : public ShaderBaseStub
     NiPointer<NiRefObject> m_spPixelShaderObject;
     virtual ~FUN_00bc49a0();
 };
+// Calls FUN_00bc49a0 on this, deletes this with size 0xc0 when flag has bit 0 set, and returns this.
+// @fnv 0x00bc4e70
+void* S::DestroyIfFlagged(unsigned int auiFlags)
+{
+    reinterpret_cast<::FUN_00bc49a0 *>((((Holder*)this)))->FUN_00bc49a0::~FUN_00bc49a0();
+    if (auiFlags & 1)
+        ::FUN_00aa1460(this, 0xc0);
+    return this;
+}
 
 // Clears the shared pointer and the pass and two other reference-counted pointers, releasing them.
 // @fnv 0x00bc49a0
 FUN_00bc49a0::~FUN_00bc49a0()
 {
-    ms_spShared = 0;
+    ::DAT_01201fc4 = 0;
     m_spPass = 0;
     m_spVertexShaderObject = 0;
     m_spPixelShaderObject = 0;

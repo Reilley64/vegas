@@ -1,6 +1,7 @@
 #ifndef FNV_QUEST_INFO_H
 #define FNV_QUEST_INFO_H
 
+#include "fnv/decl/BaseProcess.h"
 #include "layout_support.h"
 #include "INFO_LINK_ELEMENT.h"
 #include "TopicInfoArray.h"
@@ -15,7 +16,6 @@ class QuestDialogueInfo
     bool bInitialized;                                    // +0x30
     unsigned char layoutPadding31;
     unsigned short layoutPadding32;
-    TopicInfoArray* GetInfoArray();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(QuestDialogueInfo) == 0x34);

@@ -3,6 +3,7 @@
 #define FNV_NIFORMARRAY_DECLS_H
 
 
+#include "fnv/decl/FUN_0084e3a0_Class.h"
 #include "layout_support.h"
 
 template <class T> class NiTMallocInterface;
@@ -32,7 +33,6 @@ class NiFormArray : public NiTLargePrimitiveArray<TESForm*>
 {
   public:
     void Compact();
-    unsigned int GetSize();
     TESForm*& FUN_00877a30(unsigned int index);
     void SetFormAtIndex(unsigned int index, TESForm* form);
     unsigned int GetIndexOfForm(TESForm* form);

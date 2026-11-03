@@ -1,6 +1,14 @@
 // Source layout: Script. PC corrections are in generate_headers.py.
 #ifndef FNV_SCRIPT_H
 #define FNV_SCRIPT_H
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/FUN_005aa420_shell.h"
+#include "fnv/decl/FUN_005aae70_shell.h"
+#include "fnv/decl/FUN_005abed0_shell.h"
+#include "fnv/decl/FUN_005ac1e0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005d43e0_shell.h"
+#include "fnv/decl/fnv_005ac4f0__FUN_005ac4f0_shell.h"
 #include "lowprocess_support.h"
 #include "ScriptHeaderData.h"
 #include "lowprocess_TESForm.h"
@@ -9,7 +17,6 @@ class Script : public TESForm
 {
   public:
     static bool GetLocalData(TESForm*, ExtraDataList*, unsigned int);
-    bool Run(TESObjectREFR*, ScriptLocals*, TESObjectREFR*, bool);
     void* FUN_0055b980();
     ScriptHeaderData m_kHeader;                                          // +0x18
     char* m_pText;                                                    // +0x2C
@@ -24,15 +31,8 @@ class Script : public TESForm
     virtual ~Script();
     virtual void InitializeComponent();
     char* GetData();
-    ScriptReferencedObject* GetReferencedForm(unsigned int index, ScriptLocals* locals);
-    ScriptHeaderData* GetHeader();
-    const char* GetVariableName(unsigned int index);
     static bool GetValue(double& value, const char* data, unsigned int& offset, TESObjectREFR* reference,
                          TESObjectREFR* container, Script* script, ScriptLocals* locals, bool skip);
-    void CopyScriptContents(Script* script);
-    void SetScriptData(unsigned int size, char* data);
-    BSSimpleList<ScriptReferencedObject*>* GetReferencedObjectList();
-    BSSimpleList<ScriptVariableInfo*>* GetVariableList();
     void InitItem(TESForm* form);
 };
 #pragma pack(pop)

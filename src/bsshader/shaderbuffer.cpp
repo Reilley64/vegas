@@ -1,5 +1,16 @@
 // bsshader/shaderbuffer.cpp: ShaderBufferCollection, SpawnedObject (5 functions)
 
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/AA4610Allocator.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00aa45a0_Class.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_010ef000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011ff000.h"
 #include "shaderbuffer_tables.h"
 #include "MemoryManager.h"
 
@@ -27,14 +38,13 @@ class ShaderBufferCollection
     NiTStringPointerMap<ShaderBufferRecord*> m_kBufferMap;
 };
 
-extern MemoryManager g_memoryManager;
 
 // Looks up the entry for name in the string-pointer map and returns it, or null if not found.
 // @fnv 0x00b7fac0
 ShaderBufferRecord* ShaderBufferCollection::Get(const char* name)
 {
     ShaderBufferRecord* entry = 0;
-    m_kBufferMap.GetAt(name, entry);
+    reinterpret_cast<::A54440Hash *>(&(m_kBufferMap))->FUN_00a53c30((::A54440Manager *)(name), (::A54440Manager **)&(entry));
     return entry;
 }
 
@@ -43,12 +53,12 @@ ShaderBufferCollection::~ShaderBufferCollection()
 {
     if (pFileName)
     {
-        g_memoryManager.Deallocate(pFileName);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(pFileName);
         pFileName = 0;
     }
     if (m_pBufferName)
     {
-        g_memoryManager.Deallocate(m_pBufferName);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(m_pBufferName);
         m_pBufferName = 0;
     }
 }
@@ -82,11 +92,8 @@ void InitializeShaderBufferTables()
 
 struct FUN_00aa4060_Manager
 {
-    void* FUN_00aa4060(void* object);
 };
 
-extern FUN_00aa4060_Manager DAT_011f6238;
-extern void* DAT_010ef53c;
 
 extern void FUN_0045cec0(void* object);
 extern void __stdcall FUN_00ec5fce(void* base, unsigned int elementSize, unsigned int count, void (*destructor)(void*));
@@ -112,12 +119,12 @@ void* FUN_00b7e2b0_Class::Destroy(unsigned char flags)
         unsigned int count = *reinterpret_cast<unsigned int*>(allocation);
 
         FUN_00ec5fce(base, 4, count, FUN_0045cec0);
-        DAT_011f6238.FUN_00aa4060(allocation);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_Manager *>(&::g_memoryManager))))->FUN_00aa4060(allocation);
     }
 
     if ((flags & 1) != 0)
     {
-        DAT_011f6238.FUN_00aa4060(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_Manager *>(&::g_memoryManager))))->FUN_00aa4060(this);
     }
 
     return this;
@@ -127,9 +134,7 @@ namespace fnv_00b7fa40 {
 class ShaderLookupTable
 {
   public:
-    void* Find(unsigned int key);
 };
-extern ShaderLookupTable DAT_011f6238;
 
 void FNVRegisterEntry(void* found, void* name, unsigned int flags);
 void FNVClearRange(void* object, unsigned int value, unsigned int size);
@@ -216,7 +221,7 @@ SpawnedObject* SpawnedObject::FUN_00b7fa40(void* apOwner, void* apName, unsigned
     {
         if (apName != 0)
         {
-            void* found = DAT_011f6238.Find(auiKey);
+            void* found = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00b7fa40::ShaderLookupTable *>(&::g_memoryManager))))->FUN_00aa3e40(auiKey);
             m_104 = found;
             FNVRegisterEntry(found, apName, m_100);
             goto done;

@@ -73,6 +73,8 @@ class RgbaColor
     // char* __cdecl RgbaColor::*(const char*)
     // float __cdecl RgbaColor::*()
     // void __cdecl RgbaColor::*()
+public:
+    char *ToString(const char *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(RgbaColor) == 16);

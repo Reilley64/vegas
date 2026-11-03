@@ -5,6 +5,57 @@
 
 // src/fallout/magic/magiccaster_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/magic/magiccaster.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <new>
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CastTargets__Caster.h"
+#include "fnv/decl/FUN_00404390_shell.h"
+#include "fnv/decl/FUN_00404420_shell.h"
+#include "fnv/decl/FUN_004044d0_shell.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00445300_shell.h"
+#include "fnv/decl/FUN_00453470_shell.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004def90_Class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00622290_cls.h"
+#include "fnv/decl/FUN_00629ab0_shell.h"
+#include "fnv/decl/FUN_0080fcc0_class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008ace90_shell.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FUN_00c9f420_Class.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/Obj.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/ScriptLocalsX.h"
+#include "fnv/decl/TESActorBase.h"
+#include "fnv/decl/TESGrass.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_00572380__Fn572380.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00817970__CasterOps.h"
+#include "fnv/decl/fnv_00818310__ExplosionCaster.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005db000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011de000.h"
 #include "magiccaster_private_match.h"
 
 #include <xmmintrin.h>
@@ -13,7 +64,6 @@ struct Vec3
     float x, y, z;
     Vec3();
     Vec3(float ix, float iy, float iz);
-    Vec3 FUN_00439e90(const Vec3& source);
 };
 struct Box3
 {
@@ -33,14 +83,9 @@ struct PhantomShape
     int field00, field04, field08, field0c, field10, field14;
     PhantomShape(BoundShape* bounds);
     ~PhantomShape();
-    void FUN_00c85810(void* form);
-    struct ListEntries* FUN_00818110();
-    void FUN_00c9f420();
 };
 struct ListEntries
 {
-    int FUN_00726070();
-    int* FUN_00629ab0(int at);
 };
 struct TargetInterface
 {
@@ -82,26 +127,15 @@ struct TargetInterface
     int unused8c;
     int unused90;
     int origin94;
-    bool FUN_008ace90();
-    float FUN_00572380(Vec3* point);
-    struct TargetInterface** FUN_006815c0();
-    TargetInterface* FUN_00726070();
 };
 typedef bool(__thiscall* TargetAvailable)(TargetInterface*);
 typedef int(__thiscall* TargetActive)(TargetInterface*);
 typedef bool(__thiscall* TargetDisabled)(TargetInterface*, int);
 struct RangeManager
 {
-    struct TimeObject* FUN_00825c00();
-    int FUN_00404420();
-    int FUN_0084e3a0();
-    int FUN_00404390();
-    int FUN_004044d0();
 };
 struct TimeObject
 {
-    bool FUN_00403e60(unsigned int flags);
-    float FUN_00639b20();
 };
 struct CalcObject
 {
@@ -109,7 +143,6 @@ struct CalcObject
 };
 struct ListHandle
 {
-    void* FUN_004543c0();
 };
 struct Master
 {
@@ -122,36 +155,24 @@ struct Master
     int field18;
     void FUN_00817b90(Vec3 center, ListHandle* item, void* filter, RangeManager* source, TargetInterface* first,
                       float scale, float strength);
-    TargetInterface* FUN_00815410();
-    bool CheckHealthDamageKill(int* origin, void* filter);
     void FUN_00818150(TargetInterface* selected, Vec3 location, RangeManager* source, float attenuation);
-    void ApplyExplosion(TargetInterface* selected, Vec3 location, RangeManager* source, float attenuation);
 };
-extern TargetInterface* DAT_011dea3c;
 class GameSettingCollection;
 template <> class SettingT<GameSettingCollection>
 {
   public:
     float* FUN_00403e20();
 };
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting1112;
-extern const double DAT_01012060;
-extern const double DAT_01011588;
-extern void* __stdcall FUN_005dbe10(int which);
 struct FormRef;
 struct MediaSelector
 {
     int field00;
-    FormRef* FUN_00622290(int type, void* context);
 };
 struct FormRef
 {
-    int FUN_00559450();
 };
-extern int __cdecl FUN_004b59f0(int object);
 extern float __cdecl CalcEffectCost(float value, int area, int duration, int magnitude, bool special);
 extern int __cdecl FUN_00ec62c0();
-extern void __cdecl FUN_004a3e00(Vec3* destination, Vec3* source);
 extern int* __cdecl FUN_00403e20(unsigned int);
 extern void* __cdecl FUN_00416870(float, float, float);
 
@@ -159,64 +180,64 @@ extern void* __cdecl FUN_00416870(float, float, float);
 void Master::FUN_00817b90(Vec3 center, ListHandle* item, void* filter, RangeManager* source, TargetInterface* first,
                           float scale, float strength)
 {
-    if (source->FUN_00825c00()->FUN_00403e60(0x20000000))
+    if (reinterpret_cast<::S3e60 *>((((::TimeObject *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((source))->FUN_00825c00()))))->FUN_00403e60(0x20000000))
     {
-        float range = (double)source->FUN_00404420() * *originalRuntimeFloatSetting1112.FUN_00403e20() * strength;
-        if (range > DAT_01012060)
+        float range = (double)reinterpret_cast<::FUN_00404420_shell *>((source))->FUN_00404420() * *originalRuntimeFloatSetting1112.FUN_00403e20() * strength;
+        if (range > ::_DAT_01012060)
         {
-            float attenuation = CalcEffectCost(source->FUN_00825c00()->FUN_00639b20(), source->FUN_00404420(),
-                                               (int)(source->FUN_004044d0() * scale),
-                                               (int)(source->FUN_00404390() * scale), source->FUN_0084e3a0() == 2);
-            float size = (float)(range * DAT_01011588);
+            float attenuation = CalcEffectCost(reinterpret_cast<::TESGrass *>((((::TimeObject *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((source))->FUN_00825c00()))))->GetLowestAllowedSlope(), reinterpret_cast<::FUN_00404420_shell *>((source))->FUN_00404420(),
+                                               (int)(reinterpret_cast<::FUN_004044d0_shell *>((source))->FUN_004044d0() * scale),
+                                               (int)(reinterpret_cast<::FUN_00404390_shell *>((source))->FUN_00404390() * scale), reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0() == 2);
+            float size = (float)(range * ::DAT_01011588);
             BoundShape space;
-            FUN_004a3e00((Vec3*)&space.low, &center.FUN_00439e90(Vec3(-size, -size, -size)));
-            FUN_004a3e00((Vec3*)&space.high, &center.FUN_00439e90(Vec3(size, size, size)));
+            ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)((Vec3*)&space.low)), (*(const ::fnv_004a3e00::NiPoint3 *)(&(*(::Vec3 *)(reinterpret_cast<::Point3Offset *>(&(center))->ProjectileLaunched((::NiPoint3 *)&(const ::Vec3 &)(Vec3(-size, -size, -size)), {}))))));
+            ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)((Vec3*)&space.high)), (*(const ::fnv_004a3e00::NiPoint3 *)(&(*(::Vec3 *)(reinterpret_cast<::Point3Offset *>(&(center))->ProjectileLaunched((::NiPoint3 *)&(const ::Vec3 &)(Vec3(size, size, size)), {}))))));
             MediaSelector obj;
-            space.field00 = obj.FUN_00622290(0x29, FUN_005dbe10(0))->FUN_00559450();
+            space.field00 = ::FUN_00559450((int *)(((::FormRef *)(reinterpret_cast<::FUN_00622290_cls *>(&(obj))->FUN_00622290(0x29, (int)(((void *)(::FUN_005dbe10()))), {})))));
             PhantomShape results(&space);
-            void* world = item->FUN_004543c0();
-            results.FUN_00c85810(world);
-            ListEntries* entries = results.FUN_00818110();
-            for (int i = 0; i < entries->FUN_00726070(); ++i)
+            void* world = reinterpret_cast<::FUN_004543c0_cls *>((item))->FUN_004543c0();
+            reinterpret_cast<::Obj *>(&(results))->FUN_00c85810((::Obj *)(world));
+            ListEntries* entries = ((::ListEntries *)(reinterpret_cast<::ScriptLocalsX *>(&(results))->FUN_00818110()));
+            for (int i = 0; i < ((int)(reinterpret_cast<::Callees *>((entries))->FUN_00726070())); ++i)
             {
-                int target = FUN_004b59f0(*entries->FUN_00629ab0(i));
+                int target = ((int)(::FUN_004b59f0((const void *)(*((int *)&(reinterpret_cast<::FUN_00629ab0_shell *>((entries))->FUN_00629ab0(i)))))));
                 if (target)
                 {
                     FUN_00818150((TargetInterface*)target, center, source, attenuation);
                 }
             }
 
-            results.FUN_00c9f420();
+            reinterpret_cast<::FUN_00c9f420_Class *>(&(results))->FUN_00c9f420();
             TargetInterface* node = first;
-            TargetInterface* skip = FUN_00815410();
-            while (node && *node->FUN_006815c0())
+            TargetInterface* skip = ((::TargetInterface *)(reinterpret_cast<::MagicCaster *>(this)->GetCasterActor()));
+            while (node && *((::TargetInterface **)(new ((void *)(node)) ::Vec3())))
             {
-                TargetInterface* current = *node->FUN_006815c0();
+                TargetInterface* current = *((::TargetInterface **)(new ((void *)(node)) ::Vec3()));
                 TargetInterface* candidate = ((TargetAvailable)current->vtable[64])(current) ? current : 0;
                 if (candidate)
                     if (candidate && candidate != skip && ((TargetActive)candidate->vtable[116])(candidate))
                     {
-                        float distance = candidate->FUN_00572380(&center);
+                        float distance = reinterpret_cast<::fnv_00572380::Fn572380 *>((candidate))->FUN_00572380((::fnv_00572380::NiP3Sub *)(::Vec3 *)(&center));
                         if (distance <= range && !((TargetDisabled)candidate->vtable[139])(candidate, 0) &&
-                            !candidate->FUN_008ace90())
+                            !reinterpret_cast<::FUN_008ace90_shell *>((candidate))->FUN_008ace90())
                         {
-                            if (CheckHealthDamageKill(candidate ? &candidate->origin94 : 0, filter))
+                            if (reinterpret_cast<::fnv_00817970::CasterOps *>(this)->CheckHealthDamageKill((::fnv_00817970::Recipient *)(int *)(candidate ? &candidate->origin94 : 0), (::fnv_00817970::EffectSpec *)(filter)))
                             {
-                                ApplyExplosion(candidate, center, source, attenuation);
+                                reinterpret_cast<::fnv_00818310::ExplosionCaster *>(this)->ApplyExplosion((::fnv_00818310::ExplosionActor *)(candidate), (*(::NiPoint3 *)&(const ::Vec3 &)(center)), (::fnv_00818310::ExplosionEffect *)(source), attenuation);
                             }
                         }
                     }
-                node = node->FUN_00726070();
+                node = ((::TargetInterface *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
             }
-            if (DAT_011dea3c && DAT_011dea3c != skip && ((TargetActive)DAT_011dea3c->vtable[116])(DAT_011dea3c))
+            if ((*reinterpret_cast<::TargetInterface * *>(&::_g_thePlayer)) && (*reinterpret_cast<::TargetInterface * *>(&::_g_thePlayer)) != skip && ((TargetActive)(*reinterpret_cast<::TargetInterface * *>(&::_g_thePlayer))->vtable[116])((*reinterpret_cast<::TargetInterface * *>(&::_g_thePlayer))))
             {
-                float distance = DAT_011dea3c->FUN_00572380(&center);
-                if (distance <= range && !((TargetDisabled)DAT_011dea3c->vtable[139])(DAT_011dea3c, 0) &&
-                    !DAT_011dea3c->FUN_008ace90())
+                float distance = reinterpret_cast<::fnv_00572380::Fn572380 *>(((*reinterpret_cast<::TargetInterface * *>(&::_g_thePlayer))))->FUN_00572380((::fnv_00572380::NiP3Sub *)(::Vec3 *)(&center));
+                if (distance <= range && !((TargetDisabled)(*reinterpret_cast<::TargetInterface * *>(&::_g_thePlayer))->vtable[139])((*reinterpret_cast<::TargetInterface * *>(&::_g_thePlayer)), 0) &&
+                    !reinterpret_cast<::FUN_008ace90_shell *>(((*reinterpret_cast<::TargetInterface * *>(&::_g_thePlayer))))->FUN_008ace90())
                 {
-                    if (CheckHealthDamageKill(DAT_011dea3c ? &DAT_011dea3c->origin94 : 0, filter))
+                    if (reinterpret_cast<::fnv_00817970::CasterOps *>(this)->CheckHealthDamageKill((::fnv_00817970::Recipient *)(int *)((*reinterpret_cast<::TargetInterface * *>(&::_g_thePlayer)) ? &(*reinterpret_cast<::TargetInterface * *>(&::_g_thePlayer))->origin94 : 0), (::fnv_00817970::EffectSpec *)(filter)))
                     {
-                        ApplyExplosion(DAT_011dea3c, center, source, attenuation);
+                        reinterpret_cast<::fnv_00818310::ExplosionCaster *>(this)->ApplyExplosion((::fnv_00818310::ExplosionActor *)((*reinterpret_cast<::TargetInterface * *>(&::_g_thePlayer))), (*(::NiPoint3 *)&(const ::Vec3 &)(center)), (::fnv_00818310::ExplosionEffect *)(source), attenuation);
                     }
                 }
             }

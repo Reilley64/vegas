@@ -5,6 +5,10 @@
 
 // src/havok/physics/internal/collide/gjk/penetration/hkpconvexpenetrationutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/gjk/penetration/hkpconvexpenetrationutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_004b4ab0_Class.h"
+#include "fnv/decl/FanSpace__FanBuilder.h"
+#include "fnv/decl/FloatPair.h"
+#include "fnv/decl/Hull.h"
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
@@ -15,6 +19,7 @@ typedef union __declspec(intrin_type) __declspec(align(16)) __m128
     unsigned short m128_u16[8];
     unsigned int m128_u32[4];
 } __m128;
+#include "fnv/symbols_simd.h"
 struct __declspec(align(16)) hkVector4
 {
     float x, y, z, w;
@@ -38,7 +43,6 @@ struct Obj
     int m_iThirdValue;
     int m_auiShapeKeys[4];
     Entry m_usTrailingValue[4];
-    void FUN_00e2d440();
     void SetEntries(const hkVector4* a, const hkVector4* b, const hkVector4* c);
 };
 struct FUN_00df9c40_Obj
@@ -81,7 +85,6 @@ extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
 extern "C" void _mm_store_ps(float* p, __m128 a);
 
-extern const __m128 DAT_010c44d0;
 extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 extern "C" __m128 _mm_unpacklo_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
@@ -311,7 +314,6 @@ struct S00df9ef0_Hit
 
 struct S00df9ef0_Obj
 {
-    void FUN_00df9b50(const S00df9ef0_Vec4* in, S00df9ef0_Vec4* out);
 
     void FUN_00df9ef0(S00df9ef0_Vec4* p, S00df9ef0_Pad<S00df9ef0_Vec4> r, S00df9ef0_Hit* q, S00df9ef0_Pad<float> outF);
 };
@@ -332,9 +334,9 @@ void S00df9ef0_Obj::FUN_00df9ef0(S00df9ef0_Vec4* p, S00df9ef0_Pad<S00df9ef0_Vec4
     S00df9ef0_Hit h;
     S00df9ef0_Vec4 neg;
     _mm_store_ps(&neg.x, _mm_xor_ps(_mm_load_ps(&p->x), DAT_010c44d0));
-    this->FUN_00df9b50(p, &h.a);
+    reinterpret_cast<::hkpMinkowskiDF9B *>((this))->FUN_00df9b50((*(const ::hkVector4DF9B *)(p)), (*(::hkpCdVertexPairDF9B *)(&h.a)));
     S00df9ef0_Hit* qq = q;
-    this->FUN_00df9b50(&neg, &qq->a);
+    reinterpret_cast<::hkpMinkowskiDF9B *>((this))->FUN_00df9b50((*(const ::hkVector4DF9B *)(&neg)), (*(::hkpCdVertexPairDF9B *)(&qq->a)));
 
     float f1 = S00df9ef0_Dot3(_mm_mul_ps(_mm_sub_ps(_mm_load_ps(&h.a.x), _mm_load_ps(&r->x)), _mm_load_ps(&p->x)));
     float f2 = S00df9ef0_Dot3(_mm_mul_ps(_mm_sub_ps(_mm_load_ps(&qq->a.x), _mm_load_ps(&r->x)), _mm_load_ps(&neg.x)));
@@ -389,7 +391,6 @@ struct Edges
 
 struct Result4 : Vec4
 {
-    __declspec(noalias) void FUN_004b4ab0(const Edges* edges, const Tri* tri);
 };
 
 struct Shape
@@ -399,8 +400,6 @@ struct Shape
     int unk08;
     int m_iThirdValue;
     int m_10;
-    int FUN_00dfb040(const Tri* tri, const Vec4* pos, int* outA, int* outB);
-    int FUN_00e2d1b0(int a, int b, const Vec4* pos);
 };
 
 struct Tester
@@ -434,7 +433,7 @@ int Tester::FUN_00df9c90(Shape* shape, const Tri* tri, const Vec4* pos, int* res
     *(__m128*)&edges.e1 = _mm_sub_ps(p, *(const __m128*)tri->m_p1);
     *(__m128*)&edges.e2 = _mm_sub_ps(p, *(const __m128*)tri->m_p2);
     Result4 bary;
-    bary.FUN_004b4ab0(&edges, tri);
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(bary))->FUN_004b4ab0((int)(&edges), (int)(tri));
     if (_mm_movemask_ps(_mm_cmplt_ps(*(__m128*)&bary, *(__m128*)&m_40)) & 7)
     {
         *result = 0;
@@ -442,7 +441,7 @@ int Tester::FUN_00df9c90(Shape* shape, const Tri* tri, const Vec4* pos, int* res
     }
     int a = 0;
     int b;
-    if (shape->FUN_00dfb040(tri, pos, &a, &b))
+    if (reinterpret_cast<::FloatPair *>((shape))->FUN_00dfb040((::ParserContext *)(tri), (int)(pos), &a, (::ParserContext **)(int *)(&b)))
     {
         *result = 3;
         return 1;
@@ -452,7 +451,7 @@ int Tester::FUN_00df9c90(Shape* shape, const Tri* tri, const Vec4* pos, int* res
         *result = 2;
         return 1;
     }
-    if (shape->FUN_00e2d1b0(a, b, pos))
+    if (reinterpret_cast<::FanSpace::FanBuilder *>((shape))->FUN_00e2d1b0(a, (::FanSpace::FanEdge *)(b), (::FanSpace::FanVertex *)(pos)))
     {
         *result = 3;
         return 1;

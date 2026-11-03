@@ -2,7 +2,18 @@
 // src/havok/common/internal/geometryprocessing/hkgeometryprocessing.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/geometryprocessing/hkgeometryprocessing.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void __cdecl Deallocate(void*);
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00de9000.h"
+#include "fnv/symbols_00ded000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_0106c000.h"
+#include "fnv/symbols_010cd000.h"
+#include "fnv/symbols_010d0000.h"
+#include "fnv/symbols_010d9000.h"
+#include "fnv/symbols_01267000.h"
 extern int DAT_010d9fc4;
 
 struct FUN_00dee620
@@ -16,15 +27,14 @@ __thiscall FUN_00dee620::FUN_00dee620(int aiFlags)
 {
     m_pVTable = &DAT_010d9fc4;
     if (aiFlags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
 }
 
-extern "C" void __cdecl FUN_00dedf10(void*, void*, void*, void*, int, int);
 // Forwards the four pointers to FUN_00dedf10 with two trailing int arguments set to 0.
 // @fnv 0x00dee5f0
 void __cdecl FUN_00dee5f0(void* first, void* second, void* third, void* fourth)
 {
-    FUN_00dedf10(first, second, third, fourth, 0, 0);
+    ::FUN_00dedf10((*(const ::Sdedf10_Geometry *)(first)), (int)(second), (*(::Sdedf10_Array< ::Sdedf10_Vector4, ::Sdedf10_TypeIsPod> *)(third)), (int)(fourth), 0, (const ::Sdedf10_IFunction *)(0));
 }
 
 struct FUN_00dee6b0_Class
@@ -39,7 +49,6 @@ float FUN_00dee6b0_Class::FUN_00dee6b0(int testFlag)
     return unk04;
 }
 
-extern int DAT_010cd664;
 
 struct AudioAllocator
 {
@@ -193,7 +202,6 @@ extern "C" __m128 _mm_and_ps(__m128, __m128);
 extern "C" __m128 _mm_andnot_ps(__m128, __m128);
 extern "C" __m128 _mm_or_ps(__m128, __m128);
 
-extern float DAT_0104e148;
 
 struct hkVector4Comparisonq
 {
@@ -263,8 +271,6 @@ struct FourPointsArray
     int m_iElementCount;
 };
 
-extern hkVector4q DAT_010d9fe0;
-extern hkVector4q DAT_010d0fa0;
 
 // Finds the vertex with the maximum dot product against direction, stores it in supportingVertexOut, and packs vertexId into the w component.
 // @fnv 0x00dea810
@@ -273,9 +279,9 @@ void __cdecl FUN_00dea810(const FourPointsArray& rotatedVertices, const hkVector
 {
 
     hkVector4q vBestDot;
-    vBestDot.set(DAT_0104e148, DAT_0104e148, DAT_0104e148, DAT_0104e148);
+    vBestDot.set(::DAT_0104e148, ::DAT_0104e148, ::DAT_0104e148, ::DAT_0104e148);
     hkVector4q vCurIndices;
-    vCurIndices = DAT_010d9fe0;
+    vCurIndices = (*reinterpret_cast<::fnv_00dea810::hkVector4q *>((void *)&::DAT_010d9fe0));
     hkVector4q vBestIndices;
     vBestIndices.setZero4();
 
@@ -303,7 +309,7 @@ void __cdecl FUN_00dea810(const FourPointsArray& rotatedVertices, const hkVector
             hkVector4Comparisonq comp = vBestDot.compareLessThan4(dot);
             vBestDot.setSelect4(comp, dot, vBestDot);
             vBestIndices.setSelect4(comp, vCurIndices, vBestIndices);
-            vCurIndices.add4(DAT_010d0fa0);
+            vCurIndices.add4((*reinterpret_cast<::fnv_00dea810::hkVector4q *>((void *)&::DAT_010d0fa0)));
             ++p;
         }
     }
@@ -357,7 +363,6 @@ float FUN_00dee640_cls::UpdateNearestDistance(void* pair)
     return 1.0f;
 }
 
-extern __m128 DAT_01267e30;
 
 struct Vertex
 {
@@ -472,7 +477,7 @@ void FUN_00e19200_cls::FUN_00e19200(Triangle* apTriangle, const __m128* b, int a
     stBlock.m_40 = -1;
     stBlock.m_44 = -1;
     Vertex* v = m_08.PushFront(&stBlock);
-    v->m_vHitNormal = DAT_01267e30;
+    v->m_vHitNormal = (*reinterpret_cast<::__m128 *>(&::DAT_01267e30));
     v->m_vContactPosition = *b;
     Triangle* pTriangle1 = m_20.FUN_00e241a0(apTriangle);
     Triangle* pTriangle2 = m_20.FUN_00e241a0(apTriangle);
@@ -639,7 +644,6 @@ void __cdecl FUN_00de9590(CubeBox* box)
 
 #include <math.h>
 extern const float DAT_0104da4c = 1.1920928955078125e-7f;
-extern float DAT_0104da48;
 extern "C" __m128 _mm_sqrt_ss(__m128);
 extern "C" __m128 _mm_set_ps1(float);
 extern "C" __m128 _mm_load_ss(const float*);
@@ -689,10 +693,9 @@ float __cdecl FUN_00dea450(const hkVector4& firstStart, const hkVector4& firstEn
     }
     *secondParameter = 0.0f;
     *firstParameter = 0.0f;
-    return DAT_0104da48;
+    return ::DAT_0104da48;
 }
 
-extern const float DAT_0101622c;
 struct Vec4
 {
     __m128 value;
@@ -700,7 +703,7 @@ struct Vec4
 // @fnv 0x00de9b90
 Vec4 __cdecl FUN_00de9b90(const Vec4& a, const Vec4& b, const Vec4& c, const Vec4& d)
 {
-    __m128 scale = _mm_load_ss(&DAT_0101622c);
+    __m128 scale = _mm_load_ss(&::DAT_0101622c);
     __m128 cv = c.value;
     __m128 dv = d.value;
     __m128 bv = b.value;
@@ -722,7 +725,6 @@ extern "C"
     __m128 _mm_cmpeq_ss(__m128, __m128);
     __m128 _mm_andnot_ps(__m128, __m128);
 }
-extern const float DAT_01012054, DAT_01012068, DAT_0106c2e0;
 
 class ScalarValue
 {
@@ -873,7 +875,6 @@ static __forceinline float doubleArea(const GeomVector& origin, const GeomVector
 {
     return offsetCross(origin, a, b).magnitude();
 }
-float __cdecl FUN_00de9e10(const GeomVector&, const GeomVector&, const GeomVector&, GeomVector&, float*);
 
 // Computes the squared distance from a point to a triangle, returning the closest normal and optional barycentric weights.
 // @fnv 0x00de9f10
@@ -893,9 +894,9 @@ float __cdecl FUN_00de9f10(const GeomVector& point, const GeomVector& a, const G
             weights->set(doubleArea(projected, b, c), doubleArea(projected, c, a), doubleArea(projected, a, b), 0);
             ScalarValue sum = weights->sum();
             if (sum > DAT_0104da4c)
-                weights->scale(ScalarValue(DAT_01012068) / sum);
+                weights->scale(ScalarValue(::DAT_01012068) / sum);
             else
-                weights->set(DAT_0106c2e0, DAT_0106c2e0, DAT_0106c2e0, 0);
+                weights->set(::DAT_0106c2e0, ::DAT_0106c2e0, ::DAT_0106c2e0, 0);
         }
         if (distance < 0)
             normal.scale(DAT_01012054);
@@ -906,9 +907,9 @@ float __cdecl FUN_00de9f10(const GeomVector& point, const GeomVector& a, const G
         GeomVector normals[3];
         float fractions[3];
         float distances[3];
-        distances[0] = FUN_00de9e10(point, a, b, normals[0], &fractions[0]);
-        distances[1] = FUN_00de9e10(point, b, c, normals[1], &fractions[1]);
-        distances[2] = FUN_00de9e10(point, c, a, normals[2], &fractions[2]);
+        distances[0] = ::FUN_00de9e10((float *)&(point), (float *)&(a), (float *)&(b), (float *)&(normals[0]), &fractions[0]);
+        distances[1] = ::FUN_00de9e10((float *)&(point), (float *)&(b), (float *)&(c), (float *)&(normals[1]), &fractions[1]);
+        distances[2] = ::FUN_00de9e10((float *)&(point), (float *)&(c), (float *)&(a), (float *)&(normals[2]), &fractions[2]);
         int edge =
             distances[0] < distances[1] ? (distances[0] < distances[2] ? 0 : 2) : (distances[1] < distances[2] ? 1 : 2);
         normal = normals[edge];
@@ -932,6 +933,7 @@ float __cdecl FUN_00de9f10(const GeomVector& point, const GeomVector& a, const G
 }
 
 #include <float.h>
+#include "fnv/symbols_simd.h"
 extern "C"
 {
     __m128 _mm_sub_ps(__m128, __m128);
@@ -1014,7 +1016,6 @@ float FUN_00dea980(const S00dea980_Vec* apFirst, const S00dea980_Vec* apSecond, 
     return 0.0f;
 }
 
-extern float DAT_01016248;
 extern __m128 DAT_010ec7f0;
 static __forceinline void medianInterpolate(hkVector4& result, const hkVector4& first, const hkVector4& second,
                                             const VectorComponentValue& fraction)
@@ -1029,13 +1030,12 @@ static __forceinline void medianInterpolate(hkVector4& result, const hkVector4& 
 hkVector4 __cdecl FUN_00de9b10(const hkVector4& first, const hkVector4& second)
 {
     hkVector4 result;
-    medianInterpolate(result, first, second, VectorComponentValue(_mm_load_ss(&DAT_01016248)));
+    medianInterpolate(result, first, second, VectorComponentValue(_mm_load_ss(&::fnv_00c88020::DAT_01016248)));
     return result;
 }
 
 extern "C" __m128 _mm_load_ps(const float*);
 
-extern const float DAT_0106c2e0;
 
 struct CentroidVector
 {
@@ -1047,7 +1047,7 @@ CentroidVector __cdecl FUN_00de9b50(const CentroidVector* apCentroidA, const Cen
                                     const CentroidVector* apCentroidC)
 {
     __m128 vSum = _mm_load_ps((const float*)&apCentroidA->value);
-    __m128 scale = _mm_load_ss(&DAT_0106c2e0);
+    __m128 scale = _mm_load_ss(&::DAT_0106c2e0);
     __m128 vb = _mm_load_ps((const float*)&apCentroidB->value);
 
     vSum = _mm_add_ps(vSum, vb);

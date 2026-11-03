@@ -2,9 +2,9 @@
 #ifndef NIGEOMETRYGROUP_DECLS_H
 #define NIGEOMETRYGROUP_DECLS_H
 
+#include "fnv/symbols_00fdf000.h"
+#include "fnv/symbols_010f0000.h"
 extern void* NiGeometryGroup_vtable[];
-extern void* NiGeometryBufferData_vtable[];
-extern long(__stdcall* DAT_00fdf0e4)(volatile long*, long);
 class NiGeometryBufferData;
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 class NiGeometryGroup

@@ -4,21 +4,21 @@
 
 class NiStream;
 template <class T> void ReadBinaryValue(NiStream&, T&);
+class NiStream;
 class NiExtraData
 {
   public:
     unsigned int baseData[3];
     void LoadBinary(NiStream&);
+public:
+    void LinkObject(::NiStream &);
 };
 struct NiIntegerStreamEntry
 {
     unsigned int fields[3];
-    void FUN_00c545d0(NiStream&);
 };
 struct NiIntegerStreamArray
 {
-    void FUN_00c54850(unsigned int);
-    void FUN_00c54b70(NiIntegerStreamEntry&);
 };
 class NiIntegersExtraData : public NiExtraData
 {

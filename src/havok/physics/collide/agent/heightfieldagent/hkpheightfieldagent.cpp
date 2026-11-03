@@ -2,8 +2,16 @@
 // src/havok/physics/collide/agent/heightfieldagent/hkpheightfieldagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/heightfieldagent/hkpheightfieldagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern char DAT_010ceaa8[];
 
+#include "fnv/decl/FUN_00cfbbe0_cls.h"
+#include "fnv/decl/hkTransformCB22.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d31000.h"
+#include "fnv/symbols_00d32000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_01076000.h"
+#include "fnv/symbols_010ce000.h"
+#include "fnv/symbols_01268000.h"
 struct hkMemoryAllocator {
     virtual ~hkMemoryAllocator();
 };
@@ -15,7 +23,6 @@ struct BSAudio {
 
 BSAudio* FUN_00c85750();
 
-void __cdecl FUN_00c908c0(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
 
 struct SizeSource {
     virtual void v00(); virtual void v01(); virtual void v02(); virtual void v03();
@@ -42,7 +49,7 @@ struct hkArrayU16 {
         int c = m_iCapacityState & 0x3fffffff;
         if (c < n) {
             c = c * 2;
-            FUN_00c908c0(*alloc, this, n < c ? c : n, 2);
+            ::FUN_00c908c0((::SpawnedObject *)&(*alloc), (::SpawnedArray *)(void *)(this), n < c ? c : n, 2);
         }
     }
     __forceinline void SetSizeAndGrow(int n, const unsigned short& fill)
@@ -101,7 +108,6 @@ BSAudio* FUN_00c85750();
 struct TargetObj {
     int unk00;
     unsigned short size;
-    TargetObj* FUN_00d32060(void* a1, void* a2, void* a3, void* a4);
 };
 
 // Allocates a 0x18-byte TargetObj from the BSAudio allocator, sets its size to 0x18, and returns the result of FUN_00d32060(a1, a2, a3, a4).
@@ -110,7 +116,7 @@ TargetObj* AllocateTargetObj(void* apArg1, void* apArg2, void* apArg3, void* apA
     BSAudio* audio = FUN_00c85750();
     TargetObj* obj = (TargetObj*)audio->allocator->Allocate(0x18);
     obj->size = 0x18;
-    return obj->FUN_00d32060(apArg1, apArg2, apArg3, apArg4);
+    return ((::fnv_00d32110::TargetObj *)(reinterpret_cast<::FUN_00d32060_Class *>((obj))->Init((*(const ::SourceRef *)(apArg1)), (int)(apArg2), (int)(apArg3), (int)(apArg4))));
 }
 }  // namespace fnv_00d32110
 
@@ -122,11 +128,6 @@ void __stdcall FUN_00d32170(void* apArg1, void* apArg2, void* apArg3, void* apAr
 
 typedef void (*S_00d321e0_Func)();
 
-void FUN_00d32190();
-void FUN_00d32370();
-void FUN_00d323b0();
-void FUN_00d323f0();
-void AllocateTargetObj();
 void FUN_00d317d0();
 void FUN_00d319e0();
 void FUN_00d31d30();
@@ -141,7 +142,6 @@ struct S_00d321e0_AgentFuncs {
 };
 
 struct S_00d321e0_Dispatcher {
-    void FUN_00cfbbe0(S_00d321e0_AgentFuncs& f, int typeA, int typeB);
 };
 
 // @fnv 0x00d321e0
@@ -149,27 +149,26 @@ void FUN_00d321e0(S_00d321e0_Dispatcher* dispatcher)
 {
     {
         S_00d321e0_AgentFuncs af;
-        af.m_pCreateFunc = FUN_00d32190;
-        af.m_pQueryPenetrationsFunc = FUN_00d32370;
-        af.m_pGetPenetrationsFunc = FUN_00d323b0;
-        af.m_pLinearCastFunc = FUN_00d323f0;
+        af.m_pCreateFunc = ((void (&)())::fnv_00d32190::FUN_00d32190);
+        af.m_pQueryPenetrationsFunc = ((void (&)())::FUN_00d32370);
+        af.m_pGetPenetrationsFunc = ((void (&)())::FUN_00d323b0);
+        af.m_pLinearCastFunc = ((void (&)())::fnv_00d323f0::FUN_00d323f0);
         af.m_bIsFlipped = true;
         af.m_bIsPredictive = true;
-        dispatcher->FUN_00cfbbe0(af, 0x19, 0x1a);
+        reinterpret_cast<::FUN_00cfbbe0_cls *>((dispatcher))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)&(af), 0x19, 0x1a);
     }
     {
         S_00d321e0_AgentFuncs af;
-        af.m_pCreateFunc = AllocateTargetObj;
+        af.m_pCreateFunc = ((void (&)())::fnv_00d32110::AllocateTargetObj);
         af.m_pQueryPenetrationsFunc = FUN_00d317d0;
         af.m_pGetPenetrationsFunc = FUN_00d319e0;
         af.m_pLinearCastFunc = FUN_00d31d30;
         af.m_bIsFlipped = false;
         af.m_bIsPredictive = true;
-        dispatcher->FUN_00cfbbe0(af, 0x1a, 0x19);
+        reinterpret_cast<::FUN_00cfbbe0_cls *>((dispatcher))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)&(af), 0x1a, 0x19);
     }
 }
 
-extern float g_D323B0MaxDistance;
 
 struct D323B0CollectorBase {
     virtual void unk00();
@@ -178,7 +177,7 @@ struct D323B0CollectorBase {
 
     float m_fEarlyOutDistance;
 
-    D323B0CollectorBase() : m_fEarlyOutDistance(g_D323B0MaxDistance) {}
+    D323B0CollectorBase() : m_fEarlyOutDistance(::DAT_0104da48) {}
 };
 
 struct D323B0Collector : D323B0CollectorBase {
@@ -244,7 +243,6 @@ extern "C" void __stdcall FUN_00d32150(void* arg0, void* arg1, void* arg2, void*
     FUN_00d317d0(arg0, arg1, arg2, arg3);
 }
 
-extern char DAT_010ce81c;
 
 void __cdecl FUN_00d317d0(int a1, int a2, int a3, void* a4);
 
@@ -285,18 +283,15 @@ struct Argument {
     int identifier;
     unsigned int unk24, unk28, unk2c;
 };
-extern "C" const float DAT_0104da48;
-extern "C" const __m128 DAT_010c44d0;
-extern "C" const char UNK_010ce80c;
 extern "C" void __cdecl FUN_00d31d30(int, int, const CopyPacket*, const Argument*, const Argument*);
 
 // Copies a CopyPacket with its orientation sign-flipped and calls FUN_00d31d30 with one or two Argument descriptors built from the source.
 // @fnv 0x00d323f0
 void __cdecl FUN_00d323f0(int a, int b, const CopyPacket* source, int id1, int id2) {
     __m128 orient = _mm_load_ps(&source->orientation.x);
-    __m128 inverted = _mm_xor_ps(orient, DAT_010c44d0);
+    __m128 inverted = _mm_xor_ps(orient, ::DAT_010c44d0);
     Argument first;
-    first.scale = DAT_0104da48;
+    first.scale = ::DAT_0104da48;
     CopyPacket copy = *source;
     _mm_store_ps(&copy.orientation.x, inverted);
     const void* vptr = &UNK_010ce80c;
@@ -306,7 +301,7 @@ void __cdecl FUN_00d323f0(int a, int b, const CopyPacket* source, int id1, int i
     if (id2) {
         Argument second;
         second.vtable = vptr;
-        second.scale = DAT_0104da48;
+        second.scale = ::DAT_0104da48;
         second.orientation = source->orientation;
         second.identifier = id2;
         FUN_00d31d30(b, a, &copy, &first, &second);
@@ -324,14 +319,13 @@ __m128 _mm_shuffle_ps(__m128,__m128,int); __m128 _mm_unpackhi_ps(__m128,__m128);
 __m128 _mm_load_ss(const float*);
 }
 }
-extern unsigned long DAT_0126835c;
+#include "fnv/symbols_simd.h"
 extern const char DAT_010cea38[];
 extern const char DAT_010cea7c[];
 extern const char DAT_010cea6c[];
 extern const char DAT_010cea60[];
 extern const char DAT_010cea54[];
 extern const char DAT_010cea48[];
-extern const char DAT_01076f38[];
 extern const char str_010cea1c[];
 
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
@@ -403,7 +397,6 @@ struct hkTransform {
         m_kColumn2.m_vComponents=other.m_kColumn2.m_vComponents;
         m_vTranslation.m_vComponents=other.m_vTranslation.m_vComponents;
     }
-    void FUN_00cb22f0(const void* b, const void* a);
 };
 
 __forceinline void hkVector4::SetRotatedDirection(const hkTransform& a, const hkVector4& b) {
@@ -534,7 +527,7 @@ void __cdecl FUN_00d317d0(int a1, int a2, int a3, void* a4)
     const hkpShape* shapeA = bodyA->m_pCollisionShape;
     hkpHeightFieldShape* shapeB = (hkpHeightFieldShape*)bodyB->m_pCollisionShape;
     hkTransform aTb;
-    aTb.FUN_00cb22f0(bodyB->m_pMotionState, bodyA->m_pMotionState);
+    reinterpret_cast<::hkTransformCB22 *>(&(aTb))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(bodyB->m_pMotionState)), (*(const ::hkTransformCB22 *)(bodyA->m_pMotionState)));
 
     int count = ((hkpShape*)shapeA)->getNumCollisionSpheres();
 
@@ -600,7 +593,6 @@ struct FUN_00d32190_cls {
     unsigned short m_w04;
     unsigned short m_w06;
 
-    void FUN_00d32060(int a1, int a2, int a3, int a4);
 };
 
 // Allocates a 0x18 byte object via m_pAllocator, sets m_w04 to 0x18, calls FUN_00d32060, and sets m_vptr to DAT_010ceaf4.
@@ -610,7 +602,7 @@ FUN_00d32190_cls* __cdecl FUN_00d32190(int a1, int a2, int a3, int a4)
     AllocHolder* holder = FUN_00c85750();
     FUN_00d32190_cls* obj = (FUN_00d32190_cls*)holder->m_pAllocator->Alloc(0x18);
     obj->m_w04 = 0x18;
-    obj->FUN_00d32060(a2, a1, a3, a4);
+    reinterpret_cast<::FUN_00d32060_Class *>((obj))->Init((*(const ::SourceRef *)(a2)), a1, a3, a4);
     obj->m_vptr = DAT_010ceaf4;
     return obj;
 }

@@ -1,4 +1,5 @@
 // fallout/ai/lowprocess_base.h: declares BaseProcess
+#include "fnv/decl/FUN_0045cd60_shell.h"
 class PackageTargetHolder;
 // Source layout: BaseProcess. PC corrections are in generate_headers.py.
 #ifndef FNV_BASEPROCESS_H
@@ -6,12 +7,11 @@ class PackageTargetHolder;
 #include "layout_support.h"
 #include "lowprocess_ActorPackage.h"
 #pragma pack(push, 4)
+class ActorPackageContext;
 class BaseProcess
 {
   public:
     void FUN_007037c0(unsigned int);
-    PROCESS_TYPE GetProcessLevel();
-    float FUN_007df1f0();
     void FUN_00693d50(float);
     unsigned int FUN_0059bb30();
     void LoadGame(BGSLoadFormBuffer*);
@@ -519,6 +519,10 @@ class BaseProcess
     PROCESS_TYPE m_eProcessType;    // +0x28
     CachedValues* m_pCachedValues;  // +0x2C
     int GetAttackChance(Actor*, float, float, float, bool, bool);
+public:
+    ::ActorPackageContext *GetCurrentProcessData();
+public:
+    void StopPackage();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(BaseProcess) == 0x30);

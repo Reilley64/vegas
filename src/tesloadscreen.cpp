@@ -1,5 +1,33 @@
 // tesloadscreen.cpp: TESLoadScreen, LoadScreenA6C, FormT (13 functions)
 
+#include <new>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/Class005a6b10.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/RefList.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00587000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_01183000.h"
+#include "fnv/symbols_011c3000.h"
 #include "tesloadscreen.h"
 #include "tesloadscreen_decls.h"
 
@@ -15,17 +43,17 @@ TESLoadScreen::~TESLoadScreen()
 // @fnv 0x005a68d0
 bool TESLoadScreen::Load(TESFile* file)
 {
-    LoadRecordHeader(file);
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
     SetInitializationState(false);
 
     int chunkID;
-    while ((chunkID = file->GetChunkID()) != 0)
+    while ((chunkID = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()))) != 0)
     {
         switch (chunkID)
         {
         case 0x44494445: {
-            char* editorID = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(editorID, 0x200);
+            char* editorID = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(editorID), 0x200);
             SetEditorID_AtRuntime(editorID);
             break;
         }
@@ -36,22 +64,22 @@ bool TESLoadScreen::Load(TESFile* file)
             TESTexture::ReadTextureData(static_cast<TESTexture*>(this), file);
             break;
         case 0x43534544: {
-            char* text = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(text, 0);
-            m_kLoadScreenText.Set(text, 0);
+            char* text = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(text), 0);
+            reinterpret_cast<::TextString *>(&(m_kLoadScreenText))->FUN_004037f0(text, 0);
             break;
         }
         case 0x4d414e4c: {
             WorldCellRecord* loadForm = new WorldCellRecord;
-            file->GetChunkData(loadForm, 12);
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(loadForm), 12);
             if (file->IsEndianConversionRequired())
-                reinterpret_cast<ContainerItemExtraFileData*>(loadForm)->Endian();
+                reinterpret_cast<::Class005a6b10 *>((reinterpret_cast<ContainerItemExtraFileData*>(loadForm)))->FUN_005a6b10();
             reinterpret_cast<BSSimpleList<TESObjectREFR*>*>(&m_kWorldCellRecordList)
                 ->AddHead(reinterpret_cast<TESObjectREFR*&>(loadForm));
             break;
         }
         case 0x4d414e46:
-            Warning(kTESLoadScreenWarning, file->GetFilename(), GetName(), GetFormID());
+            ::FUN_005b5e40();
             break;
         case 0x31494d57: {
             unsigned int loadScreenType = 0;
@@ -71,7 +99,7 @@ bool TESLoadScreen::Load(TESFile* file)
 // @fnv 0x005a66e0
 TESLoadScreen::TESLoadScreen()
 {
-    SetFormType(FORM_ID_LSCR);
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)(FORM_ID_LSCR)));
     SetInitializationState(true);
     m_pLoadScreenType = 0;
 }
@@ -91,36 +119,36 @@ void TESLoadScreen::ClearLoadScreenData()
     BSSimpleList<WorldCellRecord*>* item = &m_kWorldCellRecordList;
     while (item && !item->IsEmpty())
     {
-        WorldCellRecord* data = item->GetItem();
+        WorldCellRecord* data = ((::WorldCellRecord *)(new ((void *)(item)) ::Vec3()));
         delete data;
-        item = item->GetNext();
+        item = ((::BSSimpleList< ::WorldCellRecord *> *)(reinterpret_cast<::Callees *>((item))->FUN_00726070()));
     }
-    m_kWorldCellRecordList.RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kWorldCellRecordList))->RemoveAll();
 }
 
 // @fnv 0x005a6b70
 void TESLoadScreen::InitItem()
 {
-    if (IsFormInitialized())
+    if (reinterpret_cast<::TESForm *>((void *)this)->GetInitialized())
         return;
     BSSimpleList<WorldCellRecord*>* item = &m_kWorldCellRecordList;
     BSSimpleList<WorldCellRecord*>* previous = 0;
     while (item && !item->IsEmpty())
     {
-        WorldCellRecord* data = item->GetItem();
+        WorldCellRecord* data = ((::WorldCellRecord *)(new ((void *)(item)) ::Vec3()));
         if (data->auiFormId)
-            TESForm::RemapFormIDForFile(data->auiFormId, GetFile(-1));
+            ::ResolveFormID((unsigned int *)&(data->auiFormId), GetFile(-1));
         if (data->uiWorldID)
-            TESForm::RemapFormIDForFile(data->uiWorldID, GetFile(-1));
+            ::ResolveFormID((unsigned int *)&(data->uiWorldID), GetFile(-1));
         previous = item;
-        item = item->GetNext();
+        item = ((::BSSimpleList< ::WorldCellRecord *> *)(reinterpret_cast<::Callees *>((item))->FUN_00726070()));
     }
     if (m_pLoadScreenType)
     {
         unsigned int formID = 0;
         formID = reinterpret_cast<unsigned int>(m_pLoadScreenType);
-        TESForm::RemapFormIDForFile(formID, GetFile(-1));
-        m_pLoadScreenType = g_dataHandler->GetLoadScreenType(formID);
+        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
+        m_pLoadScreenType = (*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))->GetLoadScreenType(formID);
     }
     SetInitializationState(true);
 }
@@ -138,7 +166,7 @@ bool TESLoadScreen::MatchesFormLocation(TESForm* form)
         TESObjectCELL* cell = static_cast<TESObjectCELL*>(form);
         if (cell->IsCellInterior())
         {
-            location.auiFormId = cell->GetFormID();
+            location.auiFormId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((cell))->FUN_0084e3a0()));
             location.uiWorldID = 0;
             location.uiCellKey = 0;
             display = true;
@@ -149,8 +177,8 @@ bool TESLoadScreen::MatchesFormLocation(TESForm* form)
             if (world)
             {
                 location.auiFormId = 0;
-                location.uiWorldID = world->GetFormID();
-                location.uiCellKey = TESWorldSpace::BuildCellKey(cell->GetCellGridX(), cell->GetCellGridY());
+                location.uiWorldID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((world))->FUN_0084e3a0()));
+                location.uiCellKey = ::PackShortPair(cell->GetCellGridX(), cell->GetCellGridY());
                 display = true;
             }
         }
@@ -158,7 +186,7 @@ bool TESLoadScreen::MatchesFormLocation(TESForm* form)
     }
     case FORM_ID_WRLD: {
         TESWorldSpace* world = static_cast<TESWorldSpace*>(form);
-        location.auiFormId = world->GetFormID();
+        location.auiFormId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((world))->FUN_0084e3a0()));
         location.uiWorldID = 0;
         location.uiCellKey = 0;
         display = true;
@@ -173,22 +201,22 @@ bool TESLoadScreen::MatchesFormLocation(TESForm* form)
     case FORM_ID_PFLA:
     case FORM_ID_PBAR: {
         TESObjectREFR* ref = static_cast<TESObjectREFR*>(form);
-        TESObjectCELL* cell = ref->GetParentCell();
+        TESObjectCELL* cell = ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((void *)(ref))->GetTarget()));
         if (cell && cell->IsCellInterior())
         {
-            location.auiFormId = cell->GetFormID();
+            location.auiFormId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((cell))->FUN_0084e3a0()));
             location.uiWorldID = 0;
             location.uiCellKey = 0;
             display = true;
         }
         else
         {
-            TESWorldSpace* world = ref->GetParentWorldSpace();
+            TESWorldSpace* world = ((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((ref))->FUN_00575d70()));
             if (world)
             {
                 location.auiFormId = 0;
-                location.uiWorldID = world->GetFormID();
-                location.uiCellKey = TESWorldSpace::GetKeyForWorldCoord(*ref->GetPos());
+                location.uiWorldID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((world))->FUN_0084e3a0()));
+                location.uiCellKey = ::FUN_00587440((const ::NiPoint3 *)&(*ref->GetPos()));
                 display = true;
             }
         }
@@ -200,7 +228,7 @@ bool TESLoadScreen::MatchesFormLocation(TESForm* form)
         BSSimpleList<WorldCellRecord*>* item = &m_kWorldCellRecordList;
         while (item && !item->IsEmpty())
         {
-            WorldCellRecord* data = item->GetItem();
+            WorldCellRecord* data = ((::WorldCellRecord *)(new ((void *)(item)) ::Vec3()));
             if (location.auiFormId)
             {
                 if (data->auiFormId == location.auiFormId)
@@ -217,7 +245,7 @@ bool TESLoadScreen::MatchesFormLocation(TESForm* form)
                     break;
                 }
             }
-            item = item->GetNext();
+            item = ((::BSSimpleList< ::WorldCellRecord *> *)(reinterpret_cast<::Callees *>((item))->FUN_00726070()));
         }
     }
     return validLocation;
@@ -260,18 +288,16 @@ struct FUN_005a68b0_shell
 
 struct FUN_004855a0_standin
 {
-    void FUN_004855a0();
 };
 struct FUN_00485680_standin
 {
-    void FUN_00485680();
 };
 
 // @fnv 0x005a68b0
 void FUN_005a68b0_shell::FUN_005a68b0()
 {
-    ((FUN_004855a0_standin*)this)->FUN_004855a0();
-    ((FUN_00485680_standin*)this)->FUN_00485680();
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0_standin*)this)))->FUN_004855a0();
+    reinterpret_cast<::Holder *>((((FUN_00485680_standin*)this)))->FUN_00485680();
 }
 
 // TESLoadScreen destructor: clear the form data; members and base components are destroyed afterwards.
@@ -340,15 +366,11 @@ FUN_005a67e0::~FUN_005a67e0()
 class LoadFormListA6C : public BSSimpleList<WorldCellRecord*>
 {
   public:
-    void AddTail(WorldCellRecord* const& pkItem);
 };
 
 class LoadScreenA6C : public TESLoadScreen
 {
   public:
-    TESLoadScreenType* GetLoadScreenType();
-    void SetLoadScreenType(TESLoadScreenType* pkType);
-    void CopyFormData(TESForm* pkForm);
     void CopyLoadScreenData(TESForm* pkForm);
 };
 
@@ -367,26 +389,23 @@ void LoadScreenA6C::CopyLoadScreenData(TESForm* pkForm)
     pkDstNode = &m_kWorldCellRecordList;
     while (pkSrcIter && !pkSrcIter->IsEmpty())
     {
-        static_cast<LoadFormListA6C*>(pkDstNode)->AddTail(pkSrcIter->GetItem());
-        if (pkDstNode->GetNext())
-            pkDstNode = pkDstNode->GetNext();
-        pkSrcIter = pkSrcIter->GetNext();
+        reinterpret_cast<::Callees *>((static_cast<LoadFormListA6C*>(pkDstNode)))->FUN_00905820((void *)&(((::WorldCellRecord *)(new ((void *)(pkSrcIter)) ::Vec3()))));
+        if (((::BSSimpleList< ::WorldCellRecord *> *)(reinterpret_cast<::Callees *>((pkDstNode))->FUN_00726070())))
+            pkDstNode = ((::BSSimpleList< ::WorldCellRecord *> *)(reinterpret_cast<::Callees *>((pkDstNode))->FUN_00726070()));
+        pkSrcIter = ((::BSSimpleList< ::WorldCellRecord *> *)(reinterpret_cast<::Callees *>((pkSrcIter))->FUN_00726070()));
     }
 
-    SetLoadScreenType(pkSource->GetLoadScreenType());
-    CopyFormData(pkSource);
+    reinterpret_cast<::LowProcess *>(this)->SetCurrentBoundObject((::TESBoundObject *)(::TESLoadScreenType *)(((::TESLoadScreenType *)(reinterpret_cast<::BGSCameraPath *>((pkSource))->GetPrevPath()))));
+    reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(pkSource);
 }
 
-extern char DAT_01186260, DAT_01183028;
+extern char DAT_01186260;
 void* FUN_00ec43fb(void*, int, void*, void*, int);
 class ListX
 {
   public:
     int FUN_005ae380();
     bool FUN_008256d0();
-    void* FUN_006815c0();
-    ListX* FUN_00726070();
-    bool FUN_005f65d0(void*);
     void* head;
     void* next;
 };
@@ -405,14 +424,12 @@ class FormT
     int unk24;
     int unk28;
     ListX kList;
-    bool FUN_00485270(FormT*);
-    int FUN_005f36f0();
     bool FUN_005a6d30(void* pOther);
 };
 // @fnv 0x005a6d30
 bool FormT::FUN_005a6d30(void* pOther)
 {
-    FormT* pOtherForm = (FormT*)FUN_00ec43fb(pOther, 0, &DAT_01183028, &DAT_01186260, 0);
+    FormT* pOtherForm = (FormT*)FUN_00ec43fb(pOther, 0, &(*reinterpret_cast<char *>(&::DAT_01183028)), &DAT_01186260, 0);
     if (!pOtherForm)
         return true;
     ListX* it = &pOtherForm->kList;
@@ -420,13 +437,13 @@ bool FormT::FUN_005a6d30(void* pOther)
         return true;
     while (it && !it->FUN_008256d0())
     {
-        if (!kList.FUN_005f65d0(it->FUN_006815c0()))
+        if (!reinterpret_cast<::RefList *>(&(kList))->FUN_005f65d0((void **)(void *)(((void *)(new ((void *)(it)) ::Vec3())))))
             return true;
-        it = it->FUN_00726070();
+        it = ((::ListX *)(reinterpret_cast<::Callees *>((it))->FUN_00726070()));
     }
-    if (FUN_00485270(pOtherForm))
+    if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270((::TESForm *)(pOtherForm)))
         return true;
-    if (FUN_005f36f0() != pOtherForm->FUN_005f36f0())
+    if (((int)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())) != ((int)(reinterpret_cast<::BGSCameraPath *>((pOtherForm))->GetPrevPath())))
         return true;
     return false;
 }

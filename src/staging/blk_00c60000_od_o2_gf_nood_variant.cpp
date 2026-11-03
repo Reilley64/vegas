@@ -5,16 +5,82 @@
 
 // src/staging/blk_00c60000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/A89210IntsExtraData.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C613A0_Extra.h"
+#include "fnv/decl/C74C20Quat.h"
+#include "fnv/decl/Collector62.h"
+#include "fnv/decl/Extra_00a998e0.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045bb20_cls.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_005611c0_t.h"
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5d2f0_class.h"
+#include "fnv/decl/FUN_00a641f0_cls.h"
+#include "fnv/decl/FUN_00a698a0_class.h"
+#include "fnv/decl/FUN_00a7b2c0_shell.h"
+#include "fnv/decl/FUN_00a89ae0_shell.h"
+#include "fnv/decl/FUN_00a99a90_IntsExtraData.h"
+#include "fnv/decl/FUN_00c319e0_cls.h"
+#include "fnv/decl/FUN_00c31b80_This.h"
+#include "fnv/decl/FUN_00c5fd50_cls.h"
+#include "fnv/decl/FUN_00c62390_cls.h"
+#include "fnv/decl/FUN_00c64e70.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/MyOwner.h"
+#include "fnv/decl/NiObject_00a7b3d0.h"
+#include "fnv/decl/NiPSysBoxEmitterWrapper.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/ParticleModifierBinary.h"
+#include "fnv/decl/PoseState.h"
+#include "fnv/decl/PositionState.h"
+#include "fnv/decl/Quat74.h"
+#include "fnv/decl/S00c62f40_Array.h"
+#include "fnv/decl/S_0060ba10.h"
+#include "fnv/decl/S_00a742a0.h"
+#include "fnv/decl/SetAtArray.h"
+#include "fnv/decl/Stub_00c31b60.h"
+#include "fnv/decl/X.h"
+#include "fnv/decl/fnv_00a9a4e0__Cls_00a9a4e0.h"
+#include "fnv/decl/fnv_00c65490__C65490_Owner.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a3d000.h"
+#include "fnv/symbols_00a41000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00a9a000.h"
+#include "fnv/symbols_00c60000.h"
+#include "fnv/symbols_00c61000.h"
+#include "fnv/symbols_00c63000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_0109d000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01204000.h"
 #include "../../include/layout_support.h"
-extern "C" void* g_01204388;
 struct FUN_00c600f0_Class
 {
     void* __thiscall FUN_00c600f0();
 };
 struct NiStream;
+class CloningProcess;
+class NiStream;
 struct NiPSysModifier
 {
     virtual void LinkObject(NiStream&);
+public:
+    void CopyMemberData(::NiPSysModifier *, ::CloningProcess &);
+public:
+    void LoadBinary(::NiStream &);
 };
 struct BSPSysSimpleColorModifier : public NiPSysModifier
 {
@@ -22,10 +88,8 @@ struct BSPSysSimpleColorModifier : public NiPSysModifier
 };
 struct FUN_00c60930_class
 {
-    void FUN_00c31670(void*);
     void FUN_00c60930(void* a);
 };
-extern "C" void* g_01204390;
 struct FUN_00c60d40_Class
 {
     void* __thiscall FUN_00c60d40();
@@ -46,12 +110,10 @@ struct FUN_00c61430_Class
 };
 struct FUN_00c61450_Class
 {
-    void FUN_00a99a90(int);
     void FUN_00c61450(int a);
 };
 struct FUN_00a9af00_class
 {
-    void FUN_00a9af00(int a);
 };
 struct FUN_00c61470_class : FUN_00a9af00_class
 {
@@ -59,27 +121,21 @@ struct FUN_00c61470_class : FUN_00a9af00_class
 };
 struct FUN_00c61490_Class
 {
-    bool FUN_00a89ae0(const void* arg);
     bool IsNot(const void* arg);
 };
 struct FUN_00c614c0_Class
 {
-    void __thiscall FUN_00a89210(void*);
     void __thiscall FUN_00c614c0(void* ap);
 };
 struct FUN_00c614e0_Class
 {
-    char FUN_00a998e0(int arg);
     char FUN_00c614e0(int arg);
 };
 struct NiFixedString;
 struct NiAVObject
 {
-    void SetName(NiFixedString const&);
     void FUN_00c61610();
 };
-extern NiFixedString* DAT_012043a0;
-extern "C" void* g_012043a4;
 struct FUN_00c61810_class
 {
     void* FUN_00c61810();
@@ -91,61 +147,49 @@ struct FUN_00c61820_class
 struct NiStream;
 struct NiPSysVolumeEmitter
 {
-    void LoadBinary(NiStream&);
     void LoadBinaryFromStream(NiStream* stream);
 };
 struct NiStream;
 struct NiObject
 {
-    void FUN_00c62140();
-    void LinkObject(NiStream&);
     void FUN_00c61f30(NiStream& stream);
 };
 struct FUN_00c61f60_class
 {
-    void __thiscall FUN_00c2f4f0(int);
     void __thiscall FUN_00c61f60(int);
 };
 struct FUN_00c61f80_cls
 {
-    void FUN_00c31b60(void* apParam);
     void FUN_00c61f80(void* apParam);
 };
 struct NiAVObject;
 struct NiPSysCylinderEmitter
 {
-    bool FUN_00c31b80(NiAVObject*);
     bool FUN_00c61fa0(NiAVObject*);
 };
 struct FUN_00c627e0_Class
 {
-    void __thiscall FUN_00c62140();
     void __thiscall FUN_00c627e0(void* p);
 };
-extern "C" void* g_012043b8;
 struct FUN_00c632e0_Class
 {
     void* __thiscall FUN_00c632e0();
 };
 struct FUN_00c31670_class
 {
-    void __thiscall FUN_00c31670(int a);
 };
 struct FUN_00c63950_class
 {
     void __thiscall ForwardToOther(int a);
 };
 struct GlobalObject_00a7b610;
-extern GlobalObject_00a7b610 g_012043c8;
 struct FUN_00c63aa0_class
 {
     GlobalObject_00a7b610* FUN_00c63aa0();
 };
-void __cdecl FUN_00c63c30(int, int);
 void __cdecl CallWithSameArgumentTwice(int a);
 struct NiBinaryExtraData
 {
-    void LinkObject(void*);
 };
 struct BSDecalPlacementVectorExtraData : NiBinaryExtraData
 {
@@ -153,10 +197,8 @@ struct BSDecalPlacementVectorExtraData : NiBinaryExtraData
 };
 struct FUN_00c644d0_Class
 {
-    unsigned char Equals(const char*);
     unsigned char FUN_00c644d0(const char*);
 };
-extern "C" void* g_012043d4;
 struct FUN_00c64600_Class
 {
     void* __thiscall GetGlobalPointer();
@@ -164,7 +206,6 @@ struct FUN_00c64600_Class
 struct NiStream;
 struct NiObjectBase
 {
-    bool RegisterStreamables(NiStream&);
 };
 struct FUN_00c64b70 : NiObjectBase
 {
@@ -177,12 +218,10 @@ struct FUN_00c64fc0_class
 struct NiStream;
 struct NiExtraData
 {
-    void LinkObject(NiStream& stream);
     void FUN_00c65160(NiStream& stream);
 };
 struct C00c541e0
 {
-    bool FUN_00a7b3d0(int);
     bool FUN_00c65290(int a);
 };
 extern "C" void* DAT_012043f0;
@@ -208,22 +247,18 @@ struct FUN_00c65680_Class
 };
 struct FUN_00c600c0_class
 {
-    void* __thiscall FUN_00c5fd50();
     void* __thiscall FUN_00c600c0(unsigned int flags);
     static void __cdecl operator delete(void* p, unsigned int size);
 };
 struct FUN_00c613a0_Class
 {
-    void __thiscall FUN_00c613a0();
     void* __thiscall FUN_00c617e0(unsigned int flags);
     void operator delete(void* p, unsigned int size);
 };
 extern "C" void NiFree(void*);
 struct MemoryManager
 {
-    void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 struct FUN_00c63210_Class
 {
     void* m_iWordAt00;
@@ -242,7 +277,6 @@ void __cdecl operator delete(void*, int);
 struct CloningProcess;
 struct NiPSysModifierCopy : NiPSysModifier
 {
-    void CopyMemberData(NiPSysModifier* dst, CloningProcess& proc);
 };
 struct FUN_00c63840_Class : NiPSysModifier
 {
@@ -250,10 +284,8 @@ struct FUN_00c63840_Class : NiPSysModifier
 };
 struct SStream;
 struct SObj;
-void __cdecl CallAnimCallback(SStream*, SObj*);
 struct NiPSysModifier_00c31950
 {
-    void __thiscall FUN_00c31950(void*);
 };
 struct FUN_00c63970_class : NiPSysModifier_00c31950
 {
@@ -293,36 +325,33 @@ struct FUN_00c60240 : NiPSysPositionModifier
     FUN_00c60240();
 };
 struct NiStream;
+class NiStream;
 struct RgbaColor
 {
-    void SaveBinary(NiStream&);
+public:
+    void LoadBinary(::NiStream &);
 };
 struct FUN_00c60950_class : NiPSysModifier_00c31950
 {
     void FUN_00c60950(NiStream* stream);
 };
-int _sprintf_s(char*, unsigned int, const char*, ...);
 size_t _strlen(const char*);
 struct P03MM
 {
-    void* __thiscall Allocate(unsigned int);
 };
 struct FUN_00c62090_Class
 {
     char* __thiscall BuildAttachTypeString(const char* name, int type);
 };
-extern GlobalObject_00a7b610 g_012043b0;
 struct FUN_00c63320_Class
 {
     GlobalObject_00a7b610* __thiscall FUN_00c63320();
 };
 struct NiStream
 {
-    void SerializeString(const char* s);
 };
 struct NiExtraDataSaveHelper
 {
-    void SaveBinary(NiStream& s);
 };
 struct FUN_00c65210_class
 {
@@ -335,7 +364,6 @@ struct FUN_00c65210_class
     unsigned short m_18;
     void __thiscall FUN_00c65210(NiStream& stream);
 };
-void __cdecl FUN_0044adf0(NiStream& stream, const unsigned int& count);
 extern "C" void* __cdecl NiMalloc(unsigned int size);
 struct FUN_00c65760_Class
 {
@@ -372,9 +400,6 @@ struct NiPoint3_ZERO
     int y;
     int z;
 };
-extern NiPoint3_ZERO _NiPoint3_ZERO;
-extern int _DAT_011f4270;
-extern int _DAT_011f4274;
 extern int DAT_010c37fc;
 struct FUN_00c63330 : NiPSysPositionModifier
 {
@@ -384,7 +409,6 @@ int strcpy_s(char* dst, unsigned int size, const char* src);
 size_t strlen(const char*);
 struct MemoryManagerAllocHelper
 {
-    void* Allocate(unsigned int);
 };
 struct FUN_00c64780_Class
 {
@@ -401,7 +425,6 @@ struct FUN_00c65710_Class
 };
 struct IsEqualHelper
 {
-    bool __thiscall IsEqual(NiObject* arg);
 };
 struct FUN_00c60000_Class
 {
@@ -434,11 +457,9 @@ struct FUN_00c60700_Class : NiPSysModifierCopy
 template <class T> void __cdecl ReadBinaryValue(NiStream& stream, T& value);
 struct NiPSysModifierLoadBinary_StandIn
 {
-    void LoadBinary(NiStream& stream);
 };
 struct NiColorALoadBinary_StandIn
 {
-    void LoadBinary(NiStream& stream);
 };
 struct FUN_00c60850_Class : public NiPSysModifier
 {
@@ -446,7 +467,6 @@ struct FUN_00c60850_Class : public NiPSysModifier
 };
 struct MyIsEqual
 {
-    bool __thiscall FUN_00c31830(NiObject*);
 };
 struct FUN_004a4cc0_shell
 {
@@ -464,11 +484,9 @@ struct FUN_00c60a10_Class
 
     bool __thiscall FUN_00c60a10(NiObject*);
 };
-void __cdecl FUN_00c31750(void);
 void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00c60d10_Class
 {
-    void FUN_00c31750();
     void* __thiscall FUN_00c60d10(unsigned int flags);
 };
 struct A51BF0Base
@@ -481,11 +499,12 @@ struct FUN_00c612b0_Class : NiAVObject, A51BF0Base
 
     FUN_00c612b0_Class();
 };
-extern NiFixedString DAT_011f49e0;
-NiAVObject* __cdecl FUN_00c61510();
+class NiBinaryExtraData;
+struct CloningProcess;
 struct FUN_00a7b330_shell
 {
-    void FUN_00a7b330(void* a, void* b);
+public:
+    void FUN_00a7b330(::NiBinaryExtraData *, ::CloningProcess *);
 };
 struct FUN_00c61830_class
 {
@@ -493,7 +512,6 @@ struct FUN_00c61830_class
 };
 struct FUN_00c62390_class
 {
-    void FUN_00c62390(void*, void*);
 };
 struct FUN_00c61ba0_class : FUN_00c62390_class
 {
@@ -511,7 +529,6 @@ struct FUN_00c63900_class : NiPSysModifierStub
 void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00c31750_Class
 {
-    void __thiscall FUN_00c31750();
 };
 struct FUN_00c63a70_Class
 {
@@ -523,7 +540,6 @@ struct FUN_00c64500_Class : FUN_00c61490_Class
 };
 struct A46BB0Object
 {
-    bool IsEqual(A46BB0Object*);
 };
 int __cdecl __stricmp(const char*, const char*);
 struct FUN_00c64980_Class : A46BB0Object
@@ -532,7 +548,8 @@ struct FUN_00c64980_Class : A46BB0Object
 };
 struct FUN_0043ba10_shell
 {
-    FUN_0043ba10_shell* FUN_0043ba10(unsigned int);
+public:
+    ::FUN_0043ba10_shell *FUN_0043ba10(::FUN_0043ba10_shell *);
 };
 struct FUN_00c64dc0_Class
 {
@@ -549,7 +566,6 @@ struct FUN_00c64dc0_Class
 void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00c64e70_Class
 {
-    void __thiscall FUN_00c64e70();
     void* __thiscall FUN_00c65650(unsigned int flags);
 };
 void* __cdecl FUN_00aa13e0(unsigned int size);
@@ -562,7 +578,6 @@ struct SpawnedObject_b9118
         return FUN_00aa13e0(size);
     }
 };
-SpawnedObject_b9118* FUN_00c607d0();
 class C61330Base
 {
   public:
@@ -574,7 +589,6 @@ class C61330Base
 class FUN_00c61330 : public C61330Base
 {
   public:
-    void Initialize();
 
     FUN_00c61330(int iA, int iB);
     virtual ~FUN_00c61330();
@@ -582,7 +596,6 @@ class FUN_00c61330 : public C61330Base
 struct FUN_00c61c50_sub
 {
     void FUN_00c628c0(unsigned int n);
-    void FUN_00c62b90(unsigned int n, unsigned int* p);
 };
 struct FUN_00c61c50_cls
 {
@@ -590,7 +603,6 @@ struct FUN_00c61c50_cls
     unsigned int* m_60;
     unsigned short pad1[1];
     unsigned short m_66;
-    void FUN_00c31b10(unsigned int a, unsigned int b);
     void FUN_00c61c50(unsigned int x, unsigned int y);
 };
 struct FUN_00c62140_Elem;
@@ -609,7 +621,6 @@ struct FUN_00c62140_Item
     virtual void v00();
     virtual void v01();
     virtual void v02();
-    void FUN_00a59c60(FUN_00c62140_Val* pVal);
     int unk04;
     int unk08;
     int unk0C;
@@ -677,7 +688,6 @@ struct FUN_00c62140_Pad5
 };
 struct FUN_00c62140_Sub
 {
-    void FUN_00c62f40();
 };
 struct FUN_00c62140_cls
 {
@@ -707,7 +717,6 @@ struct FUN_00c62140_cls
     FUN_00c62140_Sub m_5c;
 
     void FUN_00c62140();
-    void FUN_00c62200(FUN_00c62140_Elem* pElem);
 };
 struct S_00c62cc0_Class
 {
@@ -719,7 +728,6 @@ struct S_00c62cc0_Class
     unsigned short m_usTrailingValue;
 
     void FUN_00c628c0(unsigned int arg);
-    void FUN_00c62b90(unsigned int arg1, unsigned int arg2);
     unsigned int FUN_00c62cc0(unsigned int arg);
 };
 struct S_00c62cc0_Locals
@@ -755,7 +763,6 @@ class XSub30
 {
   public:
     unsigned int unk00;
-    unsigned int Call0045bb20(XVec12* out);
 };
 class XItem12
 {
@@ -763,13 +770,11 @@ class XItem12
     unsigned int unk00;
     unsigned int unk04;
     unsigned int unk08;
-    void Call004578c0(unsigned int r, float f);
 };
 class XItem28
 {
   public:
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18;
-    void Call0063c8a0(XSub30* arg);
 };
 class XObj70
 {
@@ -813,22 +818,17 @@ struct PositionModifierObject_b9439
         return FUN_00aa13e0(size);
     }
 };
-PositionModifierObject_b9439* CreatePositionModifierObject();
 struct Pad32
 {
     unsigned int a0, a1, a2, a3, a4, a5, a6, a7;
 };
 struct ArgObj
 {
-    void FUN_0096a610(void* p);
 };
 struct FUN_00c63a00_cls
 {
-    void FUN_00c319e0(void* a);
     void FUN_00c63a00(ArgObj* a1);
 };
-unsigned int __cdecl FUN_00a7d330(unsigned int v);
-unsigned int __cdecl FUN_00a7d550(const char* name, float f);
 struct S_00c643d0_Foo
 {
     void* unk00;
@@ -838,11 +838,8 @@ struct S_00c643d0_Foo
     unsigned short m_uiItemCount;
     void* m_entries[16];
 
-    void __thiscall FUN_00a9a4e0(int arg);
     void __thiscall FUN_00c643d0(int arg);
 };
-extern "C" void __cdecl FUN_00a303a0(int arg, void* object);
-extern "C" void __cdecl FUN_00a417b0(int arg, void* data, int count);
 class FUN_00c64b90_target;
 class FUN_00c64b90_item
 {
@@ -882,13 +879,10 @@ class FUN_00c64b90_cls
     int unk10;
     unsigned short m_14;
     void FUN_00c64b90(FUN_00c64b90_target* a1);
-    void FUN_00a89af0(FUN_00c64b90_target* a1);
 };
-void __cdecl FUN_0044adf0(FUN_00c64b90_target* a1, unsigned int* p);
 struct FUN_00c64da0_cls
 {
     int unk00;
-    void Callee0043ba10(int a);
     void FUN_00c64da0(int a);
 };
 struct DispatchStub_c64
@@ -904,7 +898,6 @@ struct DispatchStub_c64
 };
 struct ItemCallee_c64
 {
-    void FUN_00c65490(int a1, int a2);
 };
 struct FUN_00c65180_VTable
 {
@@ -920,7 +913,6 @@ struct FUN_00c65180_VTable
 };
 struct FUN_00c65180_Class
 {
-    unsigned char __thiscall FUN_00a7b290(FUN_00c65180_VTable* p);
 
     void* m_iWordAt00;
     void* m_iWordAt04;
@@ -1039,12 +1031,10 @@ class NiCloningProcessC60;
 class NiOwnerC60
 {
   public:
-    void CopyMemberData(NiObjectC60* pkDest, NiCloningProcessC60& kCloning);
     NiObjectC60* CloneObject(NiCloningProcessC60& kCloning);
 };
 struct NiTPrimitiveArray_unsigned_int_
 {
-    unsigned int AddFirstEmpty(const unsigned int& value);
 };
 struct FUN_00c615a0_class
 {
@@ -1055,11 +1045,7 @@ struct FUN_00c615a0_class
     void FUN_00a99b20(NiTPrimitiveArray_unsigned_int_* values);
     void AppendGlobalAndFormatValues(NiTPrimitiveArray_unsigned_int_* values);
 };
-extern "C" void* g_012043a4;
-extern const char str_0109df4c[];
 struct GlobalObject_00a7b610;
-char* __cdecl FUN_00a7d330(GlobalObject_00a7b610* value);
-char* __cdecl FUN_00a7d510(const char* format, unsigned int value);
 struct Unused20
 {
     int a, b, c, d, e, f, g, h;
@@ -1072,12 +1058,10 @@ struct C639a0Cls : MyIsEqual
 };
 
 #include <xmmintrin.h>
-extern float DAT_01011d78;
+#include "fnv/symbols_simd.h"
 struct Vector
 {
     __m128 value;
-    void FUN_00c74ac0(const Vector*, const Vector*);
-    float GetAngle();
     void FUN_00c74c90(Vector*);
     void FUN_00cb2450(const Vector*, float);
     inline void FUN_00c66320(const Vector*, const Vector*);
@@ -1096,7 +1080,7 @@ struct Vector
         __m128 estimate = _mm_rsqrt_ss(sum);
         __m128 correction = _mm_sub_ss(_mm_set_ss(3.0f), _mm_mul_ss(_mm_mul_ss(sum, estimate), estimate));
         __m128 inverse = _mm_mul_ss(_mm_mul_ss(_mm_set_ss(0.5f), estimate), correction);
-        inverse = _mm_andnot_ps(_mm_cmpeq_ss(sum, _mm_set_ss(DAT_01011d78)), inverse);
+        inverse = _mm_andnot_ps(_mm_cmpeq_ss(sum, _mm_set_ss(::DAT_01011d78)), inverse);
         value = _mm_mul_ps(_mm_shuffle_ps(inverse, inverse, 0), value);
     }
 };
@@ -1121,7 +1105,6 @@ struct TargetVector
 };
 struct Holder
 {
-    TargetVector* FUN_00cda8e0(int);
 };
 struct Entry
 {
@@ -1132,9 +1115,7 @@ struct Entry
     Vector position;
     unsigned int unk40, unk44, unk48, unk4c;
 };
-extern float DAT_01017d00, DAT_01267d30, DAT_01267d24, DAT_01011d78;
-extern __m128 DAT_01017d10;
-extern double DAT_01023128;
+extern float DAT_01267d30, DAT_01267d24;
 struct Constraint
 {
     unsigned int unk00;
@@ -1208,18 +1189,18 @@ float Constraint::FUN_00c755e0(unsigned int index, InputRef input)
     float distance = 0.0f;
     __m128 oldPosition = entries[index].position.value;
     __m128 newPosition = input->value;
-    __m128 difference = _mm_and_ps(_mm_sub_ps(newPosition, oldPosition), DAT_01017d10);
+    __m128 difference = _mm_and_ps(_mm_sub_ps(newPosition, oldPosition), ::DAT_01017d10);
     __m128 epsilon;
-    epsilon = _mm_set1_ps(DAT_01017d00);
+    epsilon = _mm_set1_ps(::AngularDashpotApplyD4DCB0::DAT_01017d00);
     if ((_mm_movemask_ps(_mm_cmple_ps(difference, epsilon)) & 7) != 7)
     {
         Vector delta;
-        delta.FUN_00c74ac0(input, &entries[index].position);
-        distance = delta.GetAngle();
+        reinterpret_cast<::Quat74 *>(&(delta))->FUN_00c74ac0((*(const ::Quat74 *)(input)), (*(const ::Quat74 *)(&entries[index].position)));
+        distance = reinterpret_cast<::C74C20Quat *>(&(delta))->GetAngle();
         float limit = enabled ? DAT_01267d30 : DAT_01267d24;
-        if (distance > limit * DAT_01023128)
+        if (distance > limit * ::DAT_01023128)
         {
-            distance = (float)(limit * DAT_01023128);
+            distance = (float)(limit * ::DAT_01023128);
             Vector axis;
             delta.FUN_00c74c90(&axis);
             axis.normalize();
@@ -1227,9 +1208,9 @@ float Constraint::FUN_00c755e0(unsigned int index, InputRef input)
         }
         {
             Vector result;
-            result.FUN_00c66320(&delta, &entries[index].position);
-            result.FUN_005611c0();
-            TargetVector* target = entries[index].holder->FUN_00cda8e0(entries[index].index);
+            ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(result), (void *)(&delta), (const ::fnv_00c66320::__m128 *)(const ::Vector *)(&entries[index].position), {});
+            reinterpret_cast<::FUN_005611c0_t *>(&(result))->FUN_005611c0();
+            TargetVector* target = ((::TargetVector *)&(reinterpret_cast<::PoseState *>((entries[index].holder))->FUN_00cda8e0(entries[index].index)));
             __m128 updated = result.value;
             target->vector.value = updated;
             entries[index].position.value = updated;

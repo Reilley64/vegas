@@ -10,6 +10,8 @@ class MagicCaster
     MagicCaster__State eState;  // +0x8
     virtual void CastSpellOnCaster(SpellItem* spell, bool immediate);
     virtual void CastSpellAtTarget(SpellItem* spell, MagicTarget* target, bool immediate);
+public:
+    void RemoveCastingArt();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(MagicCaster) == 0xC);

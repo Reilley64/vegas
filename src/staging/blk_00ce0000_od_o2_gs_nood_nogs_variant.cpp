@@ -7,14 +7,18 @@
 
 // src/staging/blk_00ce0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 struct Vec4Target
 {
     __m128 m_v0;
     __m128 m_v1;
-    void __thiscall FUN_00c66320(const __m128* a, const __m128* b);
 };
 
 __declspec(align(16)) struct Vec4Pod
@@ -29,11 +33,10 @@ __declspec(align(16)) struct Vec4Pod
 void FUN_00ce2ca0(void* unused, __m128* dst, const __m128* a, const __m128* b)
 {
     dst[0] = _mm_add_ps(_mm_mul_ps(a[2], b[0]), a[0]);
-    ((Vec4Target*)(dst + 1))->FUN_00c66320(a + 1, b + 1);
+    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)(((Vec4Target*)(dst + 1))), (void *)(a + 1), (const ::fnv_00c66320::__m128 *)(const ::__m128 *)(b + 1), {});
     dst[2] = b[2];
 }
 
-extern const __m128 DAT_010c4c10;
 
 struct FUN_00cf2280_cls
 {
@@ -49,8 +52,8 @@ struct FUN_00cf2280_cls
 // @fnv 0x00cf2280
 void FUN_00cf2280_cls::FUN_00cf2280(const __m128* a, const __m128* b)
 {
-    m_00 = _mm_and_ps(*a, DAT_010c4c10);
-    m_10 = _mm_and_ps(*a, DAT_010c4c10);
+    m_00 = _mm_and_ps(*a, ::DAT_010c4c10);
+    m_10 = _mm_and_ps(*a, ::DAT_010c4c10);
     m_20 = *b;
     m_30 = *b;
     m_40 = _mm_setzero_ps();
@@ -58,7 +61,6 @@ void FUN_00cf2280_cls::FUN_00cf2280(const __m128* a, const __m128* b)
 
 extern "C" void _ReadWriteBarrier(void);
 
-extern DWORD DAT_0126835c;
 
 unsigned __int64 __cdecl __rdtsc(void);
 

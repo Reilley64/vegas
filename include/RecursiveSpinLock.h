@@ -14,6 +14,8 @@ class FNV_ALIGN(32) RecursiveSpinLock
         if (--m_uiRecursionCount == 0)
             m_uiOwningThreadID = 0;
     }
+public:
+    void FUN_0040fba0();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(RecursiveSpinLock) == 0x20);

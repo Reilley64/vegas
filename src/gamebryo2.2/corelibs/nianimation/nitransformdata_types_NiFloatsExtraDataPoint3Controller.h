@@ -2,6 +2,7 @@
 #ifndef FNV_NITRANSFORMDATA_FNV_NIFLOATSEXTRADATAPOINT3CONTROLLER_H
 #define FNV_NITRANSFORMDATA_FNV_NIFLOATSEXTRADATAPOINT3CONTROLLER_H
 
+#include "fnv/symbols_011f3000.h"
 #include "nitransformdata_layout_support.h"
 #include "nitransformdata_NiFixedString.h"
 #include "nitransformdata_NiObject.h"
@@ -204,7 +205,6 @@ FNV_STATIC_ASSERT(offsetof(NiExtraDataController, m_pExtraData) == 60);
 class NiFloatsExtraDataPoint3Controller : public NiExtraDataController
 {
   public:
-    static const NiRTTI ms_kRTTI;
     virtual const NiRTTI* GetRTTI() const;
     virtual NiBlendInterpolator* GetBlendInterpolator(unsigned short index, bool managerControlled,
                                                       bool accumulateAnimations, float threshold, unsigned char size);

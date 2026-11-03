@@ -2,15 +2,17 @@
 // src/havok/physics/internal/dynamics/world/simulation/continuous/toiresourcemgr/default/hkpdefaulttoiresourcemgr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/dynamics/world/simulation/continuous/toiresourcemgr/default/hkpdefaulttoiresourcemgr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00d9fb30_Stub.h"
+#include "fnv/symbols_010d4000.h"
+#include "fnv/symbols_01269000.h"
 #include "havok/hkpDefaultToiResourceMgr.h"
 
-extern char g_0126955c_arg0;
 
 // Calls two virtual functions on self: one with a pointer to g_0126955c_arg0, then one with no arguments.
 // @fnv 0x00d9fb50
 void __stdcall FUN_00d9fb50(void* self, int aiUnused)
 {
-    (*(void(__thiscall**)(void*, char*))(*(char**)self + 0x18))(self, &g_0126955c_arg0);
+    (*(void(__thiscall**)(void*, char*))(*(char**)self + 0x18))(self, &(*reinterpret_cast<char *>((void *)&::g_0126955c_arg0)));
     (*(void(__thiscall**)(void*))(*(char**)self + 0x1c))(self);
 }
 
@@ -99,7 +101,6 @@ struct FUN_00d9fc70_Class
     void* vtable;
     unsigned short value;
 
-    void __thiscall FUN_00d9fb30();
     void* __thiscall FUN_00d9fc70(unsigned char flag);
 };
 
@@ -109,7 +110,7 @@ FUN_00d9fc70_Router* _D1A0E0GetMemoryRouter();
 // @fnv 0x00d9fc70
 void* __thiscall FUN_00d9fc70_Class::FUN_00d9fc70(unsigned char flag)
 {
-    FUN_00d9fb30();
+    reinterpret_cast<::FUN_00d9fb30_Stub *>(this)->FUN_00d9fb30();
 
     if (flag & 1)
     {
@@ -135,12 +136,11 @@ int __cdecl FUN_00d9fb70()
 // Returns the address of the global registration object that lives at
 // DAT_0126955c.  The startup code fills that object (13 dwords) through a
 // constructor call, and this getter hands out its address.
-extern int DAT_0126955c;
 
 // @fnv 0x00d9fc60
 int* __cdecl FUN_00d9fc60()
 {
-    return &DAT_0126955c;
+    return &(*reinterpret_cast<int *>(&::g_0126955c));
 }
 
 // @fnv 0x00d9fb80

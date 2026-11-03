@@ -2,12 +2,20 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysradialfieldmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysradialfieldmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_012026b0;
 
 // @fnv 0x00c285c0
+#include "fnv/decl/C32060EmitterModifier.h"
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/FUN_00c32120_cls.h"
+#include "fnv/decl/NiPSysFieldModifierImpl.h"
+#include "fnv/decl/S_00c322b0.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_01202000.h"
 void* __cdecl FUN_00c285c0()
 {
-    return &g_012026b0;
+    return &(*reinterpret_cast<void * *>(&::g_012026b0));
 }
 
 struct NiBinaryStream
@@ -25,7 +33,6 @@ struct NiStream
 struct NiPSysFieldModifier
 {
     char _0[0x30];
-    void SaveBinary(NiStream&);
 };
 struct NiPSysRadialFieldModifier : NiPSysFieldModifier
 {
@@ -35,7 +42,7 @@ struct NiPSysRadialFieldModifier : NiPSysFieldModifier
 // @fnv 0x00c27770
 void NiPSysRadialFieldModifier::FUN_00c27770(NiStream& kStream)
 {
-    NiPSysFieldModifier::SaveBinary(kStream);
+    reinterpret_cast<::NiPSysFieldModifierImpl *>(this)->FUN_00c321f0(kStream);
     NiBinaryStream* __restrict output = kStream.m_pBackingStream;
     unsigned int size = 4;
     output->_4 += output->_12(output, &_30, 4, &size, 1);
@@ -56,7 +63,6 @@ struct NiStream
 struct NiPSysFieldModifier
 {
     char _pad[0x30];
-    void LoadBinary(NiStream&);
 };
 struct NiPSysRadialFieldModifier : NiPSysFieldModifier
 {
@@ -66,7 +72,7 @@ struct NiPSysRadialFieldModifier : NiPSysFieldModifier
 // @fnv 0x00c28760
 void NiPSysRadialFieldModifier::FUN_00c28760(NiStream& stream)
 {
-    NiPSysFieldModifier::LoadBinary(stream);
+    reinterpret_cast<::FUN_00c32120_cls *>(this)->LoadFromStream((::StreamOwner *)&(stream));
     NiBinaryStream* __restrict input = stream.m_pUnderlyingStream;
     unsigned int size = 4;
     input->position += input->read(input, &m_fBoundRadius, 4, &size, 1);
@@ -96,12 +102,11 @@ FUN_00c31ff0::FUN_00c31ff0() : _m18(0), _m1c(0.0f), _m20(0.0f), _m24(0), _m28(0.
     *(int*)this = (int)&DAT_010c0b5c;
 }
 
-extern "C" char __stdcall FUN_00c32060(void*);
 
 // @fnv 0x00c285a0
 unsigned char __stdcall FUN_00c285a0(void* p)
 {
-    return FUN_00c32060(p) != 0;
+    return ((char)(reinterpret_cast<::C32060EmitterModifier *>((p))->FUN_00c32060({}))) != 0;
 }
 
 struct S_00c28a90_Arr
@@ -112,8 +117,6 @@ struct S_00c28a90_Arr
     unsigned short esize;
     unsigned short unk0c;
     unsigned short growBy;
-    void FUN_0096ad30(unsigned int);
-    void FUN_0096ae90(unsigned int, char*&);
 };
 struct S_00c28a90_Base
 {
@@ -129,11 +132,7 @@ struct S_00c28a90_Base
     int unk24;
     int unk28;
     int unk2c;
-    void FUN_00c322b0(S_00c28a90_Arr* a);
 };
-extern const char* DAT_012026b0;
-char* __cdecl FUN_00a7d330(const char* s);
-char* __cdecl FUN_00a7d550(const char* name, float value);
 struct S_00c28a90 : S_00c28a90_Base
 {
     float m30;
@@ -143,14 +142,14 @@ __forceinline void S_00c28a90_Add(S_00c28a90_Arr* a, char* s)
 {
     unsigned int i = a->esize;
     if (i >= a->size)
-        a->FUN_0096ad30(i + a->growBy);
-    a->FUN_0096ae90(i, s);
+        reinterpret_cast<::ViewerStrings *>((a))->SetSize(i + a->growBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((a))->SetAt(i, s);
 }
 // @fnv 0x00c28a90
 void S_00c28a90::WriteToArray(S_00c28a90_Arr* pArray)
 {
-    FUN_00c322b0(pArray);
-    S_00c28a90_Add(pArray, FUN_00a7d330(DAT_012026b0));
+    reinterpret_cast<::S_00c322b0 *>(this)->FUN_00c322b0((::S_00c322b0_Arr *)(pArray));
+    S_00c28a90_Add(pArray, FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_012026b0))));
     S_00c28a90_Add(pArray, FUN_00a7d550("RadialType", m30));
 }
 
@@ -190,8 +189,10 @@ struct NiTransform
     ThreeByThreeMatrix m_kOrientation;
     NiPoint3 m_kTranslation;
     float m_fScale;
-    void FUN_004b4880(NiTransform& kDest) const;
-    __declspec(noalias) NiTransform FUN_0062c250(const NiTransform& xform) const;
+public:
+    void CalculateInverse(::NiTransform &);
+public:
+    ::NiTransform operator*(const ::NiTransform &) const;
 };
 struct NiAVObjectStandIn
 {
@@ -285,10 +286,10 @@ void FieldMod::Update(float fTime, NiPSysDataStandIn* pkData)
     NiTransform kInv;
     {
         NiTransform kPrev = m_pkTarget->m_kWorldSpaceTransform;
-        kPrev.FUN_004b4880(kInv);
+        reinterpret_cast<::NiTransform *>((void *)&(kPrev))->CalculateInverse(kInv);
     }
     {
-        NiTransform kDelta = kInv.FUN_0062c250(kField);
+        NiTransform kDelta = reinterpret_cast<::NiTransform *>((void *)&(kInv))->operator*(kField);
         NiPoint3* pkPos = pkData->m_pkVertex;
         float fMag = m_fInfluence;
         for (unsigned short i = 0; i < pkData->m_usActiveVertices; i++)
@@ -300,7 +301,7 @@ void FieldMod::Update(float fTime, NiPSysDataStandIn* pkData)
                 NiPoint3 kWorldPosition = *pkPos++ - kDelta.m_kTranslation;
                 float fS = fDt * fMag;
                 kWorldPosition = kWorldPosition * fS;
-                pkInfo->m_kValue += kWorldPosition;
+                reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3 &)(pkInfo->m_kValue))->FUN_0063c8a0((void *)&(kWorldPosition));
             }
         }
     }

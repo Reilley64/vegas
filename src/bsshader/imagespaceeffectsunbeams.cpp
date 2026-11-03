@@ -2,12 +2,20 @@
 // src/bsshader/imagespaceeffectsunbeams.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/imagespaceeffectsunbeams.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_004b6190_shell.h"
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/FUN_00ba3b50_t.h"
+#include "fnv/decl/FUN_00ba3c70_shell.h"
+#include "fnv/decl/ImageSpaceEffect.h"
+#include "fnv/decl/ImageSpaceShaderParam.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01200000.h"
 struct MemMgr_cls
 {
     int unk00;
-    void* FUN_00aa3e40(unsigned int size);
 };
-extern MemMgr_cls DAT_011f6238;
 
 struct Node_cls
 {
@@ -49,11 +57,9 @@ struct Node_cls
     int unk80;
     int unk84;
     Node_cls();
-    void FUN_00b8ab10(int a1, int a2);
-    void FUN_00b8a790(int a1, float f0, float f1, float f2, float f3);
     static void* operator new(unsigned int size) throw()
     {
-        return DAT_011f6238.FUN_00aa3e40(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemMgr_cls *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }
     static void operator delete(void* p) throw()
     {}
@@ -130,7 +136,6 @@ struct Sub18_cls
     int unk04;
     int unk08;
     int unk0c;
-    void FUN_00ba3aa0(int a1, Node_cls** out);
 };
 
 struct FUN_00c04aa0_cls
@@ -158,9 +163,6 @@ struct FUN_00c04aa0_cls
     unsigned char unk56;
     unsigned char unk57;
     float m_58;
-    void SetTextureArraySize(int a1);
-    void SetArrayEntry(int a1, int a2, int a3, int a4, int a5);
-    void FUN_00ba3c70(int a1, int a2, Node_cls* a3, int a4);
     void InitNode(Ctx_cls* a1, int a2);
 };
 
@@ -168,19 +170,19 @@ struct FUN_00c04aa0_cls
 // @fnv 0x00c04aa0
 void FUN_00c04aa0_cls::InitNode(Ctx_cls* apCtx, int aiArg)
 {
-    SetTextureArraySize(1);
+    reinterpret_cast<::ImageSpaceEffect *>(this)->SetTextureArraySize(1);
     Node_cls* node = new Node_cls();
-    node->FUN_00b8ab10(0, 2);
+    reinterpret_cast<::ImageSpaceShaderParam *>((node))->AllocateShaderConstants(0, 2);
     node->m_55 = 0;
     node->m_56 = 0;
-    node->FUN_00b8a790(0, m_58, 0.0f, 0.0f, 0.0f);
+    reinterpret_cast<::ImageSpaceShaderParam *>((node))->SetShaderConstantVector4(0, m_58, 0.0f, 0.0f, 0.0f);
     {
         Node_cls* pNodeRef = node;
-        m_18.FUN_00ba3aa0(0, &pNodeRef);
+        reinterpret_cast<::FUN_00a41520_cls *>(&(m_18))->FUN_00ba3aa0(0, (::KeyPair **)(::Node_cls **)(&pNodeRef));
     }
-    SetArrayEntry(0, 1, 2, 0, 1);
+    reinterpret_cast<::FUN_00ba3b50_t *>(this)->SetArrayEntry(0, 1, 2, 0, 1);
     int iValue = apCtx->m_08->m_d4;
-    FUN_00ba3c70(0, iValue, node, 0);
+    reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(0, (::ImageSpaceEffect *)(iValue), (::ImageSpaceEffectParam *)(node), 0);
 }
 
 struct NiPoint3
@@ -298,7 +300,6 @@ struct Renderer
 
 struct ConstantMap
 {
-    void SetReferenceVector(unsigned int reg, float x, float y, float z, float w);
 };
 
 struct CameraData
@@ -309,9 +310,6 @@ struct CameraData
 
 extern unsigned char DAT_01202498;
 extern float DAT_011f9418;
-extern Renderer* DAT_011f9508;
-extern CameraData* DAT_011f917c;
-extern NiPoint3 DAT_012004f0;
 
 struct FUN_00c04b90_class
 {
@@ -350,22 +348,22 @@ bool FUN_00c04b90_class::UpdateCameraConstants(void* apUnused)
         fVar1 = m_f58;
     }
 
-    RenderTargetGroup* pkRT = DAT_011f9508->GetDefaultRenderTargetGroup();
+    RenderTargetGroup* pkRT = (*reinterpret_cast<::Renderer * *>(&::DAT_011f9508))->GetDefaultRenderTargetGroup();
     double d5c = m_f5c;
     unsigned int width = pkRT->GetWidth(0);
     float fDiv = (float)(d5c / (float)width);
 
-    pkMap->SetReferenceVector(0, fVar1, fDiv, m_f60, 1.0f);
+    reinterpret_cast<::ImageSpaceShaderParam *>((pkMap))->SetShaderConstantVector4(0, fVar1, fDiv, m_f60, 1.0f);
 
-    CameraData* pCamera = DAT_011f917c;
+    CameraData* pCamera = (*reinterpret_cast<::CameraData * *>(&::DAT_011f917c));
     NiPoint3 kCol0(pCamera->mat[0][0], pCamera->mat[1][0], pCamera->mat[2][0]);
     NiPoint3 kCol1(pCamera->mat[0][1], pCamera->mat[1][1], pCamera->mat[2][1]);
-    NiPoint3 kVec = DAT_012004f0;
+    NiPoint3 kVec = ::DAT_012004f0;
     NiPoint3 negCol0 = -kCol0;
 
-    float fDotY = kVec.Dot(negCol0);
-    float fDotX = kVec.Dot(kCol1);
+    float fDotY = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kVec))->DotProduct((void *)&(negCol0));
+    float fDotX = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kVec))->DotProduct((void *)&(kCol1));
 
-    pkMap->SetReferenceVector(1, fDotX, fDotY, 0.0f, 0.0f);
+    reinterpret_cast<::ImageSpaceShaderParam *>((pkMap))->SetShaderConstantVector4(1, fDotX, fDotY, 0.0f, 0.0f);
     return true;
 }

@@ -2,6 +2,38 @@
 #ifndef TESOBJECTWEAP_DECLS_H
 #define TESOBJECTWEAP_DECLS_H
 
+#include "fnv/decl/AmmoOwner.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_0041fd00_shell.h"
+#include "fnv/decl/FUN_00472840_impl.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/FUN_004ad010_shell.h"
+#include "fnv/decl/FUN_004bcf60_shell.h"
+#include "fnv/decl/FUN_0051f4b0_shell.h"
+#include "fnv/decl/FUN_0051f4d0_class.h"
+#include "fnv/decl/FUN_0051f4f0_Class.h"
+#include "fnv/decl/FUN_0051f530_class.h"
+#include "fnv/decl/FUN_00524b60_shell.h"
+#include "fnv/decl/FUN_00535aa0_Class.h"
+#include "fnv/decl/HighProcess.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/QueueModelHolder.h"
+#include "fnv/decl/TESActorBase.h"
+#include "fnv/decl/TESDataHandler.h"
+#include "fnv/decl/TESRegionGrassObject.h"
+#include "fnv/decl/Thing.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_0067ff10__FUN_0067ff10_Class.h"
+#include "fnv/symbols_0045c000.h"
+#include "fnv/symbols_00478000.h"
+#include "fnv/symbols_0047a000.h"
+#include "fnv/symbols_0047f000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00489000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011c9000.h"
 #include "layout_support.h"
 class SpellItem;
 class Script;
@@ -148,7 +180,6 @@ class TESScriptableForm : public BaseFormComponent
     bool m_bHasScript;
     unsigned char padding[3];
     TESScriptableForm();
-    void SetScript(Script*);
     void InitItem(TESForm*);
 };
 class TESHealthForm : public BaseFormComponent
@@ -229,7 +260,6 @@ class TESModel : public BaseFormComponent
     virtual void SetModelFilePath(const char*);
     unsigned int GetModelLength() const;
     static void LoadModelData(TESModel*, TESFile*);
-    static void LoadTextureSwapData(TESModel*, TESFile*);
     BSStringT<char> m_kModelFilePath;
     FileEntryList m_pTextureSwapData;
     unsigned char cFlags;
@@ -246,7 +276,6 @@ class TESModelTextureSwap : public TESModel
   public:
     TESModelTextureSwap();
     ~TESModelTextureSwap();
-    bool ParseTextureSwapData(void*, unsigned int, unsigned int);
     void InitItem(TESForm*);
     BSSimpleList<DistantTreeTextureInfo*> TextureSwapNodeAccessor;
 };
@@ -258,14 +287,13 @@ class TESEnchantableForm : public BaseFormComponent
 {
   public:
     TESEnchantableForm();
-    void SetCastingType(MagicSystem__CastingType);
-    void SetFormEnchanting(EnchantmentItem*);
-    void FUN_00483170(unsigned short);
     void InitItem(TESForm*);
     EnchantmentItem* m_pEnchantment;
     unsigned short m_usEnchantmentAmount;
     unsigned char layoutPaddingA[2];
     MagicSystem__CastingType m_eCastingType;
+public:
+    void SetFormEnchantmentAmount(unsigned short);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESEnchantableForm) == 16);
@@ -312,7 +340,6 @@ class BGSAmmoForm : public BaseFormComponent
   public:
     BGSAmmoForm();
     void InitItem(TESForm*);
-    void SetAmmo(class TESAmmo*);
     TESForm* m_pAmmo;
 };
 #pragma pack(pop)
@@ -337,7 +364,6 @@ class BGSDestructibleObjectForm : public BaseFormComponent
     BGSDestructibleObjectForm();
     ~BGSDestructibleObjectForm();
     void InitItem(TESForm*);
-    static void LoadDestructibleData(BGSDestructibleObjectForm*, TESFile*);
     CollisionComponent* pData;
 };
 #pragma pack(pop)
@@ -350,7 +376,6 @@ class BGSRepairItemList : public BaseFormComponent
     BGSRepairItemList();
     ~BGSRepairItemList();
     void InitItem(TESForm*);
-    void SetRepairItemList(class BGSListForm*);
     BGSListForm* pListForm;
 };
 #pragma pack(pop)
@@ -361,7 +386,6 @@ class BGSEquipType : public BaseFormComponent
 {
   public:
     BGSEquipType();
-    void SetEquipType(BGSEquipType__EQUIP_TYPE);
     BGSEquipType__EQUIP_TYPE m_eEquipType;
 };
 #pragma pack(pop)
@@ -382,7 +406,6 @@ class BGSMessageIcon : public BaseFormComponent
   public:
     BGSMessageIcon();
     ~BGSMessageIcon();
-    static void LoadMessageIconChunk(BGSMessageIcon*, TESFile*);
     TESIcon Icon;
 };
 #pragma pack(pop)
@@ -395,7 +418,6 @@ class BGSBipedModelList : public BaseFormComponent
     BGSBipedModelList();
     ~BGSBipedModelList();
     void InitItem(TESForm*);
-    void SetBipedModelList(class BGSListForm*);
     BGSListForm* pListForm;
 };
 #pragma pack(pop)
@@ -408,8 +430,6 @@ class BGSPickupPutdownSounds : public BaseFormComponent
     BGSPickupPutdownSounds();
     ~BGSPickupPutdownSounds();
     void InitItem(TESForm*);
-    void SetPickupSound(TESSound*);
-    void SetPutdownSound(TESSound*);
     TESSound* m_pPickupSound;
     TESSound* m_pPutdownSound;
 };
@@ -483,7 +503,6 @@ class WeaponProperties
     float m_fModValueB3;
     float FourFloatsAndUnsignedInteger;
     unsigned int m_uiSkillRequirement;
-    void Endian();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(WeaponProperties) == 204);
@@ -549,7 +568,6 @@ FNV_STATIC_ASSERT(offsetof(WeaponProperties, m_uiSkillRequirement) == 200);
 class WeaponCriticalData
 {
   public:
-    void FUN_00535aa0();
     unsigned short m_usCriticalDamage;
     unsigned char layoutPadding2[2];
     float m_fCriticalChanceMultiplier;
@@ -567,7 +585,6 @@ FNV_STATIC_ASSERT(offsetof(WeaponCriticalData, pEffect) == 12);
 class WeaponVATSData
 {
   public:
-    void FUN_0067ff10();
     SpellItem* m_pVATSAttackSpell;
     float m_fSkill;
     float m_fDamageMultiplier;
@@ -587,6 +604,7 @@ FNV_STATIC_ASSERT(offsetof(WeaponVATSData, bSilent) == 16);
 FNV_STATIC_ASSERT(offsetof(WeaponVATSData, m_bModRequired) == 17);
 FNV_STATIC_ASSERT(offsetof(WeaponVATSData, cFlags) == 18);
 #pragma pack(push, 4)
+class TESObjectIMOD;
 class TESObjectWEAP : public TESBoundObject,
                       public TESFullName,
                       public TESModelTextureSwap,
@@ -617,39 +635,8 @@ class TESObjectWEAP : public TESBoundObject,
     void QueueResourceLoad(int, class QueuedFile*, bool);
     unsigned char GetDamageForActor(bool, bool, Actor*);
     ActorValue__Index GetResistance();
-    BGSProjectile* GetProjectileData(Actor*);
-    class TESAmmo* GetCurrentAmmo(Actor*);
-    unsigned char GetAmmoPerShot();
-    float GetModdedWeaponValue(WEAPON_MOD_EFFECT, unsigned char);
-    bool GetHasScope();
     int GetReloadAnim(bool);
-    void FUN_0051f4b0(BGSProjectile*);
-    SpellItem* GetField1CC();
-    void FUN_0051f4f0(SpellItem*);
-    SpellItem* GetVATSSpecialEffect();
-    void FUN_0051f530(SpellItem*);
-    TESEffectShader* GetScopeEffect();
-    void SetEffectShader(TESEffectShader*);
-    void SetNPCsUseAmmo(bool);
-    void SetModItem(unsigned char, TESObjectIMOD*);
-    void SetModObject(unsigned char, TESObjectSTAT*);
-    void FUN_00521580(unsigned char);
-    TESSound* GetAttackSound(bool);
-    void SetAttackSound(TESSound*);
-    void SetDistantAttackSound(TESSound*);
-    void SetModAttackSound(TESSound*);
-    TESSound* GetModDistantAttackSound();
-    void FUN_00521650(TESSound*);
-    void SetAttackFailSound(TESSound*);
     void SetMeleeBlockSound(TESSound*);
-    void SetIdleSound(TESSound*);
-    void SetEquipSound(TESSound*);
-    void SetUnequipSound(TESSound*);
-    void Set1stPersonObject(TESObjectSTAT*);
-    void SetAttackSound2(TESSound*);
-    void SetModAttackSound2(TESSound*);
-    void SetModDistantAttackSound2(TESSound*);
-    void SetImpactDataSet(BGSImpactDataSet*);
     WeaponProperties data;
     WeaponCriticalData m_kCriticalData;
     TESModel m_kModel;
@@ -693,6 +680,8 @@ class TESObjectWEAP : public TESBoundObject,
     WeaponVATSData m_kVATSData;
     bool m_bHasReloadAnimation;
     unsigned char layoutPadding385[3];
+public:
+    void SetModItem(unsigned int, ::TESObjectIMOD *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESObjectWEAP) == 904);
@@ -741,18 +730,15 @@ FNV_STATIC_ASSERT(offsetof(TESObjectWEAP, m_bHasReloadAnimation) == 900);
 class TESFileFormVersion : public TESFile
 {
   public:
-    unsigned short GetFormVersion();
 };
 class TESFileChunkData16 : public TESFile
 {
   public:
-    bool GetChunkData(unsigned short*);
 };
 
 class TESAmmo : public TESBoundObject
 {
   public:
-    unsigned char GetByteAtOffsetB0();
 };
 class BGSProjectile : public TESBoundObject, public TESFullName, public TESModel, public BGSPreloadable
 {
@@ -778,32 +764,24 @@ class TESObjectIMOD : public TESBoundObject
 class ModelLoader
 {
   public:
-    void ProcessModelRequest(TESModel*, int, class QueuedFile*, int, bool, bool, bool);
 };
-extern ModelLoader* g_modelLoader;
 class TES
 {
   public:
-    static int GetModelResourceType(TESObject*);
 };
 class TESFormInitFlag : public TESForm
 {
   public:
-    bool IsFormInitialized() const;
-    static TESForm* GetFormByID(unsigned int);
 };
 class BGSImpactData : public TESForm
 {
   public:
-    void ReadTypedData(TESFile*, void*, unsigned short);
 };
 class ActorValue
 {
   public:
-    static bool IsSkill(ActorValue__Index);
 };
 bool FUN_0066eba0(ActorValue__Index);
-int Warning(const char*, ...);
 extern "C" void* __cdecl memset(void*, int, unsigned int);
 extern "C" void* __cdecl _alloca(unsigned int);
 
@@ -820,5 +798,4 @@ template <class Collection> class SettingT
   public:
     SETTING_VALUE* Bool();
 };
-extern SettingT<INISettingCollection> DAT_011c94d0;
 #endif

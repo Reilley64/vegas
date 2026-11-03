@@ -2,10 +2,10 @@
 // src/bsshader/bsdistanttreeshaderproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/bsdistanttreeshaderproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00462dc0_cls.h"
+#include "fnv/decl/fnv_006fa0d0__FUN_006fa0d0_Class.h"
 struct FUN_00462d80_shell
 {
-    unsigned int __thiscall InvokeAndAccumulate(void* pvBuffer, unsigned int uiBytes, unsigned int* uiBytesRead,
-                                                unsigned int uiSize);
     unsigned int __thiscall ReadBytes(void* pvBuffer, unsigned int uiBytes);
 };
 
@@ -14,14 +14,13 @@ struct FUN_00462d80_shell
 unsigned int __thiscall FUN_00462d80_shell::ReadBytes(void* pvBuffer, unsigned int uiBytes)
 {
     unsigned int uiSize = 1;
-    unsigned int uiBytesRead = InvokeAndAccumulate(pvBuffer, uiBytes, &uiSize, 1);
+    unsigned int uiBytesRead = ((unsigned int)(reinterpret_cast<::FUN_00462dc0_cls *>(this)->InvokeAndAccumulate((int)(pvBuffer), uiBytes, (int)(&uiSize), 1)));
     return uiBytesRead;
 }
 
 struct Elem006fa0d0
 {
     unsigned char data[32];
-    void FUN_006fa0d0(int);
 };
 struct Holder006fa090
 {
@@ -32,5 +31,5 @@ struct Holder006fa090
 void Holder006fa090::FUN_006fa090(Elem006fa0d0* apElements, unsigned int n)
 {
     for (unsigned int i = 0; i < n; ++i)
-        apElements[i].FUN_006fa0d0(0);
+        reinterpret_cast<::fnv_006fa0d0::FUN_006fa0d0_Class *>(&(apElements[i]))->FUN_006fa0d0(0);
 }

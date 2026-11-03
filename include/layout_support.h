@@ -2,6 +2,8 @@
 #ifndef FNV_LAYOUT_SUPPORT_H
 #define FNV_LAYOUT_SUPPORT_H
 #include <stddef.h>
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
 #define FNV_JOIN_IMPL(a, b) a##b
 #define FNV_JOIN(a, b) FNV_JOIN_IMPL(a, b)
 #define FNV_STATIC_ASSERT(condition) typedef char FNV_JOIN(fnv_static_assert_, __LINE__)[(condition) ? 1 : -1]
@@ -271,6 +273,10 @@ class NiFile
         WRITE_ONLY = 1,
         APPEND_ONLY = 2
     };
+public:
+    bool Flush();
+public:
+    unsigned int FileRead(void *, unsigned int);
 };
 template <class T> class BSSimpleList
 {
@@ -461,17 +467,96 @@ template <class T, unsigned int Capacity> class Stack
     T items[Capacity];
     int top;
 };
+class BGSEncounterZone;
+class NiAVObject;
+class TESRegionList;
+class TESWorldSpace;
+struct RefX;
 class TESObjectCELL
 {
   public:
     bool IsOutdoorCell();
+public:
+    bool IsCellInterior() const;
+public:
+    int GetCellStandValue();
+public:
+    ::NiAVObject *GetCellChildAt(int);
+public:
+    void CellRefLockEnter();
+public:
+    unsigned char GetField24();
+public:
+    int GetCellGridX();
+public:
+    int GetCellGridY();
+public:
+    void *FUN_005454d0();
+public:
+    ::BGSEncounterZone *FindEncounterZone() const;
+public:
+    ::TESRegionList *GetRegionList(bool);
+public:
+    ::NiAVObject *GetDynamicNode();
+public:
+    ::TESWorldSpace *GetParentWorldSpace();
+public:
+    ::RefX *FUN_00551180(::RefX *);
+public:
+    bool HasCellExtraData();
+public:
+    unsigned char FUN_00552bb0();
+public:
+    void ClearAudioMarkers();
 };  // API only; no allocation or layout claim.
+class BGSAddonNode;
+class TESClass;
+class TESFile;
+class TESForm;
+class TESObjectCELL;
+class TESObjectREFR;
+class TESReputation;
+struct Item;
+struct NiPoint3;
+template <class> class BSSimpleList;
 class TESDataHandler
 {
   public:
-    BSSimpleList<TESFile*>* GetFileList();
     TESSound* GetSoundByEditorID(const char* editorID);
-    bool FormIDExists(unsigned int formID);
+public:
+    static bool LoadForm(::TESForm *, ::TESFile *);
+public:
+    bool AddFormToDataHandler(::TESForm *);
+public:
+    void GetRegions();
+public:
+    ::TESReputation *GetReputation(unsigned int);
+public:
+    ::BGSAddonNode *GetAddonNodeByIndex(unsigned int);
+public:
+    void BuildCompiledFileList();
+public:
+    ::TESFile *LookupTESFile(const char *);
+public:
+    ::TESFile *GetCompiledFileByIndex(int);
+public:
+    void SetSaveLoadGameState(int);
+public:
+    static ::TESForm *CreateFormForType(unsigned char);
+public:
+    bool ConstructObject(::TESFile *, bool, ::TESForm *, bool);
+public:
+    unsigned int GetNextID();
+public:
+    void GetReferencesInArea(::TESObjectCELL *, const ::NiPoint3 &, float, const ::NiPoint3 &, float, bool (*)(TESObjectREFR *, long), long);
+public:
+    ::Item *FindNthMatchingItem(void *, int);
+public:
+    int GetDLCIndex(const char *);
+public:
+    unsigned int GetCompiledFileCount();
+public:
+    ::BSSimpleList< ::TESClass *> *GetTESClassList();
 };
 FNV_STATIC_ASSERT(sizeof(BSSimpleList<void*>) == 8);
 FNV_STATIC_ASSERT(sizeof(BSStringT<char>) == 8);

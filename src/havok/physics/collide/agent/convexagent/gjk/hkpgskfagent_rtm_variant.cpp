@@ -4,10 +4,14 @@
 
 // src/havok/physics/collide/agent/convexagent/gjk/hkpgskfagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/gjk/hkpgskfagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-void __cdecl FUN_00dacc00();
-void __cdecl TestGsk();
-void __cdecl FUN_00dac450();
-void __cdecl FUN_00daf8e0();
+#include "fnv/decl/hkTransformCB22.h"
+#include "fnv/decl/hkpGskBaseAgent_S.h"
+#include "fnv/symbols_00dac000.h"
+#include "fnv/symbols_00dad000.h"
+#include "fnv/symbols_00dae000.h"
+#include "fnv/symbols_00daf000.h"
+#include "fnv/symbols_00db4000.h"
+#include "fnv/symbols_01268000.h"
 struct FUN_00dacc70_vt
 {
     void (*m_pVirtualFunction0)();
@@ -18,7 +22,6 @@ struct FUN_00dacc70_vt
     unsigned char b1;
 };
 void __cdecl InitVtable(FUN_00dacc70_vt* p);
-void __cdecl ReleaseAllEntries(void*, void*, void*);
 struct FUN_00dacaf0_vt
 {
     void(__thiscall* dtor)(void*, int);
@@ -32,7 +35,6 @@ struct FUN_00dacaf0
     char field30[0x10];   // +0x30
     void cleanup(void* arg);
 };
-void __cdecl FUN_00dae340(void*, int);
 struct hkpGskfAgent
 {
     void FUN_00dacb20(unsigned short id);
@@ -94,7 +96,6 @@ struct __declspec(align(16)) Dsub
 {
     Dvec4 v0, v1, v2, v3;
     Dvec4 unk40, unk50;
-    void FUN_00cb22f0(Dvec4* pts, Dvec4* other);
 };
 struct Dtask
 {
@@ -139,7 +140,6 @@ struct Drecv
 
     void FUN_00daccd0(Dsrc* a1, Dsrc* a2, Dsrc* a3, int a4);
 };
-void ProcessCollision(Dtask* task, int* ctx1, int* ctx2, int* node, int* a5, int* a6, int a7);
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
@@ -164,7 +164,6 @@ extern "C"
 typedef unsigned long DWORD;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(DWORD);
 
-extern DWORD DAT_0126835c;
 extern const char str_010ceca0[];
 
 struct hkMonitorStreamS
@@ -332,7 +331,6 @@ struct hkGskAgentS
     float m_fFloatValue;
     int unk1c;
     hkVector4S m_vSeparatingNormal;
-    void __thiscall FUN_00daccd0(const hkCdBodyS& a, const hkCdBodyS& b, const hkInputS& input, void* result);
     void __thiscall FUN_00dacd50(const hkCdBodyS& a, const hkCdBodyS& b, const hkInputS& input, void* result);
 };
 
@@ -385,7 +383,7 @@ void __thiscall hkGskAgentS::FUN_00dacd50(const hkCdBodyS& a, const hkCdBodyS& b
         }
     }
     m_fFloatValue = input.m_fEndTime;
-    FUN_00daccd0(a, b, input, result);
+    reinterpret_cast<::Drecv *>(this)->FUN_00daccd0((::Dsrc *)&(a), (::Dsrc *)&(b), (::Dsrc *)&(input), (int)(result));
 END: {
     hkMonitorStreamS& s = hkMonitorStreamS::GetMonitorStream();
     if (s.memoryAvailable())

@@ -5,6 +5,17 @@
 
 // src/gamebryo2.2/corelibs/nianimation/bstreadtransfinterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/bstreadtransfinterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/DataA38.h"
+#include "fnv/decl/FUN_00a641f0_cls.h"
+#include "fnv/decl/FUN_00a95ca0_shell.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiQuatTransform.h"
+#include "fnv/decl/NiStream.h"
+#include "fnv/decl/fnv_00a64df0__FUN_00a64df0_Stream.h"
+#include "fnv/symbols_00a26000.h"
+#include "fnv/symbols_00aa0000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f6000.h"
 struct FUN_00a43560_shell
 {
     unsigned char m_auiShapeKeys[0x20];
@@ -24,7 +35,6 @@ struct BSTreadTransfInterpolator
     ~BSTreadTransfInterpolator();
     void* FUN_00a43a50(unsigned int flags);
 };
-extern "C" void __cdecl __Dummy_00b6fef0(void* ptr, unsigned int flags);
 struct FUN_00a435c0_shell
 {
     unsigned char m_auiShapeKeys[0x20];
@@ -44,7 +54,6 @@ struct SampleTrack
     float* values;
     TrackFlags flags;
 };
-float __cdecl InterpolateKey(float, float*, float*, unsigned int, unsigned int*, TrackFlags);
 struct FUN_00a434b0_shell
 {
     unsigned int unk00;
@@ -268,7 +277,6 @@ class A43600Object;
 class A43600Stream
 {
   public:
-    void SerializeString(void* pkString);
     virtual void unk00();
     virtual void unk04();
     virtual void unk08();
@@ -449,7 +457,6 @@ class A43600Color
     float b;
     float a;
 
-    void SaveBinary(A43600Stream& kStream);
 };
 struct A43600Entry
 {
@@ -468,7 +475,6 @@ struct A43600Entry
 class A43600Base
 {
   public:
-    void SaveBinaryBase(A43600Stream& kStream);
 };
 class A43600Controller : public A43600Base
 {
@@ -491,9 +497,7 @@ __declspec(dllimport) long __stdcall InterlockedDecrement(long* p);
 
 struct MemoryManager
 {
-    void* Allocate(unsigned int size);
 };
-extern MemoryManager _g_memoryManager;
 
 class A438D0Object
 {
@@ -695,8 +699,6 @@ struct A438D0Stream
     int unk248;
     A438D0BinaryStream* m_pUnderlyingStream;
 
-    void ReadStringTableEntry(void* pkString);
-    A438D0Object* DeserializeObject();
 };
 
 struct A438D0Transform
@@ -709,7 +711,6 @@ struct A438D0Transform
     int unk14;
     int unk18;
     int unk1C;
-    void LoadBinary(A438D0Stream& kStream);
 };
 
 struct A438D0Name
@@ -726,7 +727,7 @@ struct A438D0MemObject
 {
     static void* operator new[](unsigned int size)
     {
-        return _g_memoryManager.Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }
 };
 
@@ -750,7 +751,6 @@ template <class T> inline void NiStreamLoadBinaryA438(A438D0Stream& kStream, T& 
 class A438D0Base
 {
   public:
-    void LoadBinary(A438D0Stream& kStream);
 };
 
 class A438D0Interpolator : public A438D0Base
@@ -772,14 +772,14 @@ class A438D0Interpolator : public A438D0Base
 // @fnv 0x00a438d0
 void A438D0Interpolator::FUN_00a438d0(A438D0Stream& kStream)
 {
-    A438D0Base::LoadBinary(kStream);
+    ::FUN_00aa0ac0();
     NiStreamLoadBinaryA438(kStream, m_uiNumEntries);
     m_pkEntryArray = new A438D0Entry[m_uiNumEntries];
     for (unsigned int i = 0; i < m_uiNumEntries; i++)
     {
-        kStream.ReadStringTableEntry(&m_pkEntryArray[i].m_kName);
-        m_pkEntryArray[i].m_kTransform0.LoadBinary(kStream);
-        m_pkEntryArray[i].m_kTransform1.LoadBinary(kStream);
+        reinterpret_cast<::fnv_00a64df0::FUN_00a64df0_Stream *>(&(kStream))->FUN_00a64df0((*(::fnv_00a64df0::NiFixedString *)(&m_pkEntryArray[i].m_kName)));
+        reinterpret_cast<::NiQuatTransform *>(&(m_pkEntryArray[i].m_kTransform0))->LoadBinary((::NiStream &)(kStream));
+        reinterpret_cast<::NiQuatTransform *>(&(m_pkEntryArray[i].m_kTransform1))->LoadBinary((::NiStream &)(kStream));
     }
-    m_spReferencedObject = kStream.DeserializeObject();
+    m_spReferencedObject = ((::A438D0Object *)(reinterpret_cast<::NiStream *>(&(kStream))->DeserializeObject()));
 }

@@ -7,6 +7,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <xmmintrin.h>
+#include "fnv/decl/FUN_00de3090_cls.h"
+#include "fnv/decl/Processor.h"
 struct __declspec(align(16)) hkVector4f
 {
     float x;
@@ -54,7 +56,6 @@ struct CollectorStandIn
     PairArray m_kHits;
 
     void FUN_00de3090();
-    void FUN_00de3520(const char* pInput, const hkTransformf* pTransform, OutputStandIn* pOutput);
     void FUN_00de4420(const char* pInput, OutputStandIn* pOutput);
 };
 
@@ -75,7 +76,7 @@ void CollectorStandIn::FUN_00de4420(const char* pInput, OutputStandIn* pOutput)
     *(__m128*)&t.m_kColumn2 = _mm_setzero_ps();
     t.m_kColumn2.z = one;
     *(__m128*)&t.m_vTranslation = _mm_setzero_ps();
-    FUN_00de3090();
+    reinterpret_cast<::FUN_00de3090_cls *>(this)->FUN_00de3090();
     pOutput->m_unk04 = 0;
-    FUN_00de3520(pInput, &t, pOutput);
+    reinterpret_cast<::Processor *>(this)->FUN_00de3520((::Shape *)(pInput), (const struct ::Transform *)(const ::hkTransformf *)(&t), (::OutputArray *)(pOutput));
 }

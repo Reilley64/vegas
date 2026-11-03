@@ -17,6 +17,16 @@
 // evidence - NiGPUProgram is 12 bytes and NiD3DShaderProgram is 44
 // bytes, with m_uiProgramCodeSize at offset 20.
 //
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/S_00e9cb10_Obj.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00e9c000.h"
+#include "fnv/symbols_011f6000.h"
 typedef unsigned int NiUInt32;
 class NiMemObject
 {
@@ -80,7 +90,6 @@ struct P03MM
     void* Allocate(unsigned int);
 };
 typedef P03MM MemoryManager;
-extern MemoryManager g_memoryManager;
 struct S
 {
     S* FUN_00e9ee60(void*);
@@ -106,8 +115,6 @@ class A64330Obj
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
 
-    void SetSize(unsigned int size);
-    void SetAt(unsigned int index, int* const& value);
 
     unsigned int FUN_00a64330(int* const& value);
 };
@@ -133,9 +140,9 @@ unsigned int A64330Obj::FUN_00a64330(int* const& value)
 
     unsigned int uiSize = m_usSize;
     if (uiSize >= m_usMaxSize)
-        SetSize(uiSize + m_usGrowBy);
+        reinterpret_cast<::FUN_00a41520_cls *>(this)->FUN_00a90180(uiSize + m_usGrowBy);
 
-    SetAt(uiSize, value);
+    reinterpret_cast<::FUN_00a41520_cls *>(this)->FUN_00ba3aa0(uiSize, (::KeyPair **)&(value));
     return uiSize;
 }
 
@@ -150,7 +157,7 @@ struct ShaderObj
     ShaderObj() throw();
     void* operator new(unsigned int n)
     {
-        return g_memoryManager.Allocate(n);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(n);
     }
 };
 
@@ -164,7 +171,6 @@ ShaderObj* __cdecl FUN_00e9efe0(unsigned int a1)
 
 struct Items
 {
-    void FUN_00a64330(unsigned int*);
 };
 typedef unsigned int(__cdecl* ReadFn)(void*, unsigned int*, unsigned int, unsigned int*, unsigned int);
 struct Stream
@@ -179,15 +185,13 @@ struct Obj
     Items items;
     unsigned int* ptrs;
     unsigned short cap, n;
-    void FUN_00a89af0(void*);
     void FUN_00e9f020(char* stream);
 };
-unsigned int FUN_00e9cab0(void*);
 // @fnv 0x00e9f020
 void Obj::FUN_00e9f020(char* stream)
 {
     unsigned int num;
-    FUN_00a89af0(stream);
+    ::FUN_00a89af0((int)this);
     Stream* in = *(Stream**)(stream + 0x24c);
     {
         unsigned int sz = 4;
@@ -195,7 +199,7 @@ void Obj::FUN_00e9f020(char* stream)
     }
     for (unsigned int i = 0; i < num; ++i)
     {
-        unsigned int item = FUN_00e9cab0(stream);
+        unsigned int item = ::FUN_00e9cab0((::e9Obj *)(stream));
         if (item)
         {
             unsigned int max = n;
@@ -204,7 +208,7 @@ void Obj::FUN_00e9f020(char* stream)
                 if (item == ptrs[j])
                     goto found;
             }
-            items.FUN_00a64330(&item);
+            reinterpret_cast<::A64330Obj *>(&(items))->FUN_00a64330((*(int *const *)(&item)));
         found:;
         }
     }
@@ -502,14 +506,13 @@ class FUN_00e9ed50_cls
     unsigned short unk0c;
     unsigned short m_usElementCount;
 
-    void SaveValueToStream(NiStream& kStream);
     void FUN_00e9ed50(NiStream& kStream);
 };
 
 // @fnv 0x00e9ed50
 void FUN_00e9ed50_cls::FUN_00e9ed50(NiStream& kStream)
 {
-    SaveValueToStream(kStream);
+    reinterpret_cast<::S_00e9cb10_Obj *>(this)->SaveValueToStream((::S_00e9cb10_Stream *)&(kStream));
 
     unsigned int ItemUpdateArray = m_usElementCount;
     SerializeValue(*kStream.m_pBackingStream, ItemUpdateArray);
@@ -526,8 +529,6 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 
 extern "C" unsigned int __cdecl strlen(const char* s);
-void* __cdecl FUN_00aa1070(unsigned int size);
-int __cdecl FUN_00a305b0(char* buf, unsigned int count, const char* fmt, ...);
 
 template <class T> class NiTPrimitiveArray
 {
@@ -550,9 +551,9 @@ template <class T> class NiTPrimitiveArray
         u32 uiIndex = m_usSize;
         if (uiIndex >= m_usMaxSize)
         {
-            SetSize(uiIndex + m_usGrowBy);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
         }
-        SetAt(uiIndex, element);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, element);
         return uiIndex;
     }
 
@@ -594,26 +595,25 @@ void NiUnionBV::FUN_00e9f0b0(char* pcPrefix, NiTPrimitiveArray<char*>* pkStrings
 {
     u32 uiLen = strlen(pcPrefix) + 12;
     char* pcString = (char*)FUN_00aa1070(uiLen);
-    FUN_00a305b0(pcString, uiLen, "%s = UNION_BV", pcPrefix);
+    ::NiSprintf(pcString, uiLen, "%s = UNION_BV", pcPrefix);
     pkStrings->Add(pcString);
 
     for (u32 i = 0; i < m_kBoundingVolumes.GetSize(); i++)
     {
         char* pcChild = (char*)FUN_00aa1070(13);
-        FUN_00a305b0(pcChild, 13, "   child %i", i);
+        ::NiSprintf(pcChild, 13, "   child %i", i);
         m_kBoundingVolumes.GetAt(i)->AddViewerStrings(pcChild, pkStrings);
     }
 }
 
 namespace fnv_00e9edd0 {
-void* NiMalloc(unsigned int stSizeInBytes);
 
 template <class T_Data> class NiTMallocInterface
 {
   public:
     static T_Data* Allocate(unsigned int auiCount)
     {
-        return (T_Data*)NiMalloc(sizeof(T_Data) * auiCount);
+        return (T_Data*)::FUN_00aa1070(sizeof(T_Data) * auiCount);
     }
 };
 

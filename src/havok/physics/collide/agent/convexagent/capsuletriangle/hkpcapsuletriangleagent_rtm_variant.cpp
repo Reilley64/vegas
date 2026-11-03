@@ -4,24 +4,23 @@
 
 // src/havok/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-void CreateObjectFromFactory();
-void FUN_00d3a8c0();
-void FUN_00d3a280();
-void FUN_00daf8e0();
+#include "fnv/decl/CapsuleTriProcess.h"
+#include "fnv/decl/FUN_00cfbbe0_cls.h"
+#include "fnv/decl/FUN_00cfbcc0_cls.h"
+#include "fnv/decl/hkpCapsuleTriangleAgent.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00cd6000.h"
+#include "fnv/symbols_00d37000.h"
+#include "fnv/symbols_00d38000.h"
+#include "fnv/symbols_00d39000.h"
+#include "fnv/symbols_00d3a000.h"
+#include "fnv/symbols_00d3b000.h"
+#include "fnv/symbols_00daf000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010ce000.h"
+#include "fnv/symbols_01268000.h"
 void FUN_00d3ab60(void* apObject);
-void __cdecl CreateAllocatedObject();
-void __cdecl FUN_00d3ac80();
-void __cdecl FUN_00d3b1a0();
-void __cdecl FUN_00d3b220();
 void __cdecl FUN_00d3ab90(void** apTable);
-void __cdecl CreateTriAgent2();
-void __cdecl FUN_00d38ac0();
-void __cdecl FUN_00d38ed0();
-void __cdecl FUN_00d3ac80();
-void __cdecl CreateTriAgent();
-void __cdecl FUN_00d38130();
-void __cdecl FUN_00d386c0();
-void __cdecl FUN_00daf8e0();
 typedef void(__cdecl* S_00d389f0_Func)();
 struct S_00d389f0_AgentFuncs
 {
@@ -34,9 +33,7 @@ struct S_00d389f0_AgentFuncs
 };
 struct S_00d389f0_Dispatcher
 {
-    void FUN_00cfbbe0(S_00d389f0_AgentFuncs& f, int typeA, int typeB);
 };
-void __cdecl FUN_00d389f0(S_00d389f0_Dispatcher* dispatcher);
 struct ReceiverBase
 {
     virtual void Release(unsigned int value);
@@ -57,15 +54,12 @@ struct FUN_00d39930_class : ReceiverBase
     unsigned short receiverIds[3];
     void __thiscall DispatchToReceivers(void* value);
 };
-extern const int DAT_010ce7fc;
 struct CallbackState
 {
     const int* m_pIntegerValue;
     float m_fFirstLightParameter;
     int m_iValue;
 };
-void __cdecl FUN_00d3a280(void* apFirst, void* apSecond, void* apThird, CallbackState* apState);
-void __cdecl FUN_00d3b220(void* apOne, void* apTwo, void* apThree, int aiValue);
 struct AllocIface
 {
     virtual void unk00();
@@ -79,9 +73,6 @@ struct AllocHolder
     int unk0c;
     AllocIface* m_pAllocator;
 };
-AllocHolder* __cdecl FUN_00c85750() throw();
-void __cdecl ComputeInverseLengths(void* value, void* self);
-extern char DAT_010ceefc[];
 extern char DAT_010cef38[];
 struct FUN_00d39980_cls
 {
@@ -95,7 +86,6 @@ struct FUN_00d39980_cls
     unsigned short m_w12;
     void* m_sub;
 };
-FUN_00d39980_cls* __cdecl CreateAllocatedObject(int a1, int a2, int a3, int a4);
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
@@ -108,7 +98,6 @@ extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern const __m128 DAT_010c4c00;
 struct hkVector4
 {
     __m128 m_vComponents;
@@ -134,11 +123,11 @@ struct hkVector4
     }
     void setNeg4(const hkVector4& v)
     {
-        m_vComponents = _mm_xor_ps(v.m_vComponents, DAT_010c4c00);
+        m_vComponents = _mm_xor_ps(v.m_vComponents, ::DAT_010c4c00);
     }
     void neg()
     {
-        m_vComponents = _mm_xor_ps(m_vComponents, DAT_010c4c00);
+        m_vComponents = _mm_xor_ps(m_vComponents, ::DAT_010c4c00);
     }
 };
 struct Elem_d3b260
@@ -174,7 +163,6 @@ struct Buffer_d3b260
 };
 struct Agent_d3b260
 {
-    void FUN_00d3ad70(int b, int a, int c, Buffer_d3b260* buf);
     void FUN_00d3b260(int a, int b, int c, Buffer_d3b260* buf);
 };
 struct __declspec(align(16)) FourWord
@@ -221,14 +209,6 @@ struct __declspec(align(16)) MotionCallData
     FourWord direction;
     unsigned int mode;
 };
-extern "C" float DAT_0104da48;
-extern "C" const __m128 DAT_010c44d0;
-extern "C" unsigned char UNK_010ce80c;
-extern "C" void __cdecl FUN_00daf8e0(unsigned int second, unsigned int first, MotionPacket* packet,
-                                     MotionCallData* primary, MotionCallData* secondary);
-void __cdecl FUN_00d3ac80(unsigned int first, unsigned int second, const MotionPacket* apPacket, unsigned int mode,
-                          unsigned int optionalMode);
-extern char DAT_010ce81c;
 struct FUN_00d3b160_tmp
 {
     const void* vt;
@@ -237,7 +217,6 @@ struct FUN_00d3b160_tmp
 };
 struct CallbackHost_d3b160
 {
-    void FUN_00d3a620(void*, void*, void*, void*);
     void FUN_00d3b160(void*, void*, void*, unsigned int);
 };
 struct __declspec(align(16)) Vec4
@@ -248,7 +227,6 @@ struct Mat4
 {
     Vec4 row0, row1, row2, row3;
 };
-void __cdecl FUN_00cd6520(void* a, float b, void* c, float d, void* e, float f, int g, int h, int i);
 static __forceinline void transform(Vec4* out, const char* shape, int count, const Mat4* m)
 {
     Vec4 p0 = m->row0;
@@ -279,8 +257,6 @@ extern "C" void _mm_store_ss(float* p, __m128 a);
 extern "C" __m128 _mm_load_ps(const float* p);
 extern "C" void _mm_store_ps(float* p, __m128 a);
 extern "C" __m128 _mm_rsqrt_ps(__m128 a);
-extern __m128 DAT_010c71c0;
-extern __m128 DAT_010c71d0;
 static __forceinline float SqLenLane(__m128 x)
 {
     __m128 sq = _mm_mul_ps(x, x);
@@ -290,7 +266,6 @@ static __forceinline float SqLenLane(__m128 x)
     _mm_store_ss(&r, zyx);
     return r;
 }
-void __cdecl ComputeInverseLengths(__m128* pts, float* out);
 struct __declspec(align(16)) ScalarVector
 {
     int x, y, z, w;
@@ -411,7 +386,7 @@ struct CollisionWorkspace
 };
 int __cdecl FUN_00d39bf0(Obj* a, Obj* b, Par* volatile p, void* q, Contact* out);
 #include <windows.h>
-extern DWORD DAT_0126835c;
+#include "fnv/symbols_simd.h"
 extern "C" void _ReadWriteBarrier(void);
 unsigned __int64 __cdecl __rdtsc(void);
 struct ProfRec
@@ -457,8 +432,6 @@ struct Context
     __m128 capsule[2];
     __m128 triangle[3];
 };
-extern "C" void __cdecl FUN_00cd6520(void* out1, float fx, void* out2, float fy, void* p, float afDepth, int zero,
-                                     HitRec* hit, int zero2);
 struct hkpShape
 {
     int unk00;
@@ -603,7 +576,6 @@ struct ContactResults
 {
     ContactRecord points[3];
 };
-void __cdecl FUN_00cd6520(hkVector4*, float, hkVector4*, float, void*, float, int, ContactResults*, CacheRecord*);
 struct CollisionAgent
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, cache14;
@@ -615,10 +587,10 @@ typedef void(__cdecl* FnB_daf8e0)(unsigned int, unsigned int, MotionPacket*, Mot
 __declspec(noinline) void FUN_00d3ab60(void* p)
 {
     S_00d389f0_AgentFuncs* s = (S_00d389f0_AgentFuncs*)p;
-    s->m_pCreateFunc = (S_00d389f0_Func)CreateObjectFromFactory;
-    s->m_pQueryPenetrationsFunc = (S_00d389f0_Func)FUN_00d3a8c0;
-    s->m_getClosestPointsFunc = (S_00d389f0_Func)(FnA_d3a280)FUN_00d3a280;
-    s->m_pLinearCastFunc = (S_00d389f0_Func)(FnB_daf8e0)FUN_00daf8e0;
+    s->m_pCreateFunc = (S_00d389f0_Func)((void (&)())::fnv_00d398c0::CreateObjectFromFactory);
+    s->m_pQueryPenetrationsFunc = (S_00d389f0_Func)((void (&)())::FUN_00d3a8c0);
+    s->m_getClosestPointsFunc = (S_00d389f0_Func)(FnA_d3a280)((void (&)(void *, void *, void *, CallbackState *))::hkpCapsuleTriangleAgent::FUN_00d3a280);
+    s->m_pLinearCastFunc = (S_00d389f0_Func)(FnB_daf8e0)((void (&)(unsigned int, unsigned int, MotionPacket *, MotionCallData *, MotionCallData *))::FUN_00daf8e0);
     s->m_bIsFlipped = 0;
     s->m_bIsPredictive = 0;
 }
@@ -630,11 +602,11 @@ void __cdecl FUN_00d3abc0(S_00d389f0_Dispatcher* obj)
     s.m_bIsFlipped = 0;
     s.m_bIsPredictive = 0;
     FUN_00d3ab90((void**)&s);
-    obj->FUN_00cfbbe0(s, 3, 5);
+    reinterpret_cast<::FUN_00cfbbe0_cls *>((obj))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)&(s), 3, 5);
     s.m_bIsFlipped = 0;
     s.m_bIsPredictive = 0;
     FUN_00d3ab60(static_cast<void*>(&s));
-    obj->FUN_00cfbbe0(s, 5, 3);
+    reinterpret_cast<::FUN_00cfbbe0_cls *>((obj))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)&(s), 5, 3);
 }
 
 struct FNVHookStruct
@@ -648,7 +620,6 @@ struct FNVHookStruct
 };
 struct FNVHookOwner
 {
-    void AddSpawnEntry(void* s, int a, int b);
 };
 // @fnv 0x00d3ac20
 void FUN_00d3ac20(FNVHookOwner* p)
@@ -657,9 +628,9 @@ void FUN_00d3ac20(FNVHookOwner* p)
     h.unk10 = 0;
     h.unk11 = 0;
     FUN_00d3ab90((void**)&h);
-    p->AddSpawnEntry(&h, 3, 5);
+    reinterpret_cast<::FUN_00cfbcc0_cls *>((p))->AddSpawnEntry((::SpawnRequest *)(void *)(&h), 3, 5);
     h.unk10 = 0;
     h.unk11 = 0;
     FUN_00d3ab60(&h);
-    p->AddSpawnEntry(&h, 5, 3);
+    reinterpret_cast<::FUN_00cfbcc0_cls *>((p))->AddSpawnEntry((::SpawnRequest *)(void *)(&h), 5, 3);
 }

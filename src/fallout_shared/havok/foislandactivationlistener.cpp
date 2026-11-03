@@ -2,30 +2,60 @@
 // src/fallout_shared/havok/foislandactivationlistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/foislandactivationlistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_0043b4d0_shell.h"
+#include "fnv/decl/FUN_00448a60_struct.h"
+#include "fnv/decl/FUN_0047b4d0_Class.h"
+#include "fnv/decl/FUN_00622920_Array.h"
+#include "fnv/decl/FUN_00624700_shell.h"
+#include "fnv/decl/FUN_00629ab0_shell.h"
+#include "fnv/decl/FUN_00c9bff0_Class.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/NiShader.h"
+#include "fnv/decl/NiTObjectArrayA47.h"
+#include "fnv/decl/ObjectTable.h"
+#include "fnv/decl/TESObjectCELL.h"
+#include "fnv/decl/TESTopicInfo.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00c93820__hkpWorldC938.h"
+#include "fnv/decl/fnv_00c938a0__hkpWorldXc938a0.h"
+#include "fnv/decl/hkWorldC917.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_0054a000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_00624000.h"
+#include "fnv/symbols_008c7000.h"
+#include "fnv/symbols_00c43000.h"
+#include "fnv/symbols_00c7f000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_01268000.h"
 struct hkpIslandActivationListener
 {
-    void InitPtr();
     void* FUN_006241e0(unsigned int);
 };
-extern "C" void __cdecl _Deallocate(void*);
 
-// Calls InitPtr, then deallocates this when flags has bit 0 set, and returns this.
-// @fnv 0x006241e0
-void* hkpIslandActivationListener::FUN_006241e0(unsigned int flags)
-{
-    InitPtr();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
-extern int DAT_0104de10;
 
 struct FUN_00624210_shell
 {
     int* m_ptr;
     void InitPtr();
 };
+// Calls InitPtr, then deallocates this when flags has bit 0 set, and returns this.
+// @fnv 0x006241e0
+void* hkpIslandActivationListener::FUN_006241e0(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00624210_shell *>(this)->InitPtr();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x00624210
 void FUN_00624210_shell::InitPtr()
@@ -49,27 +79,21 @@ struct hkVector4;
 struct NiTransform;
 struct TopicH
 {
-    NiPoint3* GetAddTopicList();
-    NiPoint3& _ref_006815c0();
 };
-void FUN_00624b10(NiTransform*, NiPoint3*);
-NiPoint3& SetNiPoint3FromHkVector4(NiPoint3&, const hkVector4&);
 
 // @fnv 0x00624ad0
 NiTransform* FUN_00624ad0(NiTransform* arNiTran, TopicH* arTopicH)
 {
-    FUN_00624b10(arNiTran, &arTopicH->_ref_006815c0());
-    SetNiPoint3FromHkVector4(*(NiPoint3*)((char*)arNiTran + 0x24), *(const hkVector4*)arTopicH->GetAddTopicList());
+    ::FUN_00624b10((::FUN_004769c0_shell *)(arNiTran), (::FUN_004b4cf0_shell *)(::NiPoint3 *)(&(*(::NiPoint3 *)(new ((void *)(arTopicH)) ::Vec3()))));
+    SetNiPoint3FromHkVector4(*(NiPoint3*)((char*)arNiTran + 0x24), *(const hkVector4*)((::NiPoint3 *)(reinterpret_cast<::TESTopicInfo *>((arTopicH))->GetAddTopicList())));
     return arNiTran;
 }
 
 struct NiTArray
 {
-    void SetSize(unsigned int);
 };
 struct FUN_006228e0_shell
 {
-    unsigned int SetAt(unsigned int, void*);
     unsigned short m_iElementCount;
     unsigned short m_cap;
     unsigned int FUN_006228e0(unsigned int, void*);
@@ -78,27 +102,16 @@ struct FUN_006228e0_shell
 unsigned int FUN_006228e0_shell::FUN_006228e0(unsigned int n, void* p)
 {
     if (n >= *(unsigned short*)((char*)this + 8))
-        ((NiTArray*)this)->SetSize(*(unsigned short*)((char*)this + 0xe) + n);
-    SetAt(n, p);
+        reinterpret_cast<::NiTObjectArrayA47 *>((((NiTArray*)this)))->FUN_0060bef0(*(unsigned short*)((char*)this + 0xe) + n);
+    reinterpret_cast<::FUN_00622920_Array *>(this)->SetAt(n, (*(const ::NiPointer< ::NiAVObject> *)(p)));
     return n;
 }
 
-extern "C" void __cdecl _Deallocate(void*);
 struct FUN_00624190_shell
 {
     void FUN_00624230();
     void* FUN_00624190(unsigned int flags);
 };
-// Calls FUN_00624230, then deallocates this when flags has bit 0 set, and returns this.
-// @fnv 0x00624190
-void* FUN_00624190_shell::FUN_00624190(unsigned int flags)
-{
-    FUN_00624230();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct FUN_006241c0_shell
 {
     int* m_ptr;
@@ -113,9 +126,7 @@ FUN_006241c0_shell::FUN_006241c0_shell()
 
 struct TESObjectREFR
 {
-    static TESObjectREFR* GetReferenceFromNiAVObject(void* p);
 };
-extern "C" int __cdecl FUN_00c7fa90(int);
 struct FUN_00807730_shell
 {
     TESObjectREFR* FUN_00807730(void* p);
@@ -125,9 +136,9 @@ struct FUN_00807730_shell
 TESObjectREFR* FUN_00807730_shell::FUN_00807730(void* p)
 {
     TESObjectREFR* result = 0;
-    int blood = FUN_00c7fa90((int)p);
+    int blood = ::FUN_00c7fa90((::S_Obj *)((int)p));
     if (blood)
-        result = TESObjectREFR::GetReferenceFromNiAVObject((void*)blood);
+        result = ::FUN_0056f930((::NiAVObject *)(void *)((void*)blood));
     return result;
 }
 
@@ -147,34 +158,30 @@ struct FUN_00573eb0_Class
 
 int FUN_00573eb0_Class::FUN_0047b4d0(int)
 {
-    return FUN_0047b4d0(8);
+    return ((int)(reinterpret_cast<::FUN_0047b4d0_Class *>(this)->FUN_0047b4d0(8)));
 }
 
 // @fnv 0x00624bb0
 int FUN_00573eb0_Class::FUN_00624bb0()
 {
-    return FUN_0047b4d0(8);
+    return ((int)(reinterpret_cast<::FUN_0047b4d0_Class *>(this)->FUN_0047b4d0(8)));
 }
 
 struct BSXFlags
 {
-    unsigned int GetFlags(unsigned int);
 };
-extern "C" unsigned int __cdecl GetExtraDataChecked(unsigned int);
 // @fnv 0x00624b70
 unsigned int GetBSXFlags(unsigned int a, unsigned int uiFlags)
 {
-    BSXFlags* p = (BSXFlags*)GetExtraDataChecked(a);
-    return p ? p->GetFlags(uiFlags) : 0;
+    BSXFlags* p = (BSXFlags*)((unsigned int)(::GetExtraDataChecked((::NiAVObjectX *)(a))));
+    return p ? reinterpret_cast<::FUN_00448a60_struct *>((p))->GetMaskedValue(uiFlags) : 0;
 }
 
 struct FUN_00c91840_shell
 {
-    void RemovePointer(void*);
 };
 struct FUN_00c917a0_shell
 {
-    void FUN_00c917a0(void*);
 };
 struct FUN_006242f0_shell
 {
@@ -186,8 +193,8 @@ void FUN_006242f0_shell::NotifyListener(void* listener)
 {
     if (listener)
     {
-        ((FUN_00c91840_shell*)listener)->RemovePointer(this);
-        ((FUN_00c917a0_shell*)listener)->FUN_00c917a0(this ? (char*)this + 4 : 0);
+        reinterpret_cast<::ObjectTable *>((((FUN_00c91840_shell*)listener)))->RemovePointer(this);
+        reinterpret_cast<::hkWorldC917 *>((((FUN_00c917a0_shell*)listener)))->FUN_00c917a0(this ? (char*)this + 4 : 0);
     }
 }
 
@@ -208,6 +215,15 @@ struct FUN_00624230 : BaseDtor_b4091, MemberDtor_b4091
     virtual void unk08();
     ~FUN_00624230();
 };
+// Calls FUN_00624230, then deallocates this when flags has bit 0 set, and returns this.
+// @fnv 0x00624190
+void* FUN_00624190_shell::FUN_00624190(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00624230 *>(this)->FUN_00624230::~FUN_00624230();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x00624230
 FUN_00624230::~FUN_00624230()
@@ -221,7 +237,6 @@ struct NiPoint3_local
     NiPoint3_local();
 };
 
-NiPoint3_local& SetNiPoint3FromHkVector4(NiPoint3_local& dest, const hkVector4& src);
 
 struct FUN_004b4cf0_shell
 {
@@ -240,7 +255,7 @@ FUN_004769c0_shell* FUN_00624b10(FUN_004769c0_shell* dest, FUN_004b4cf0_shell* s
 
     for (unsigned int i = 0; i < 3; i++)
     {
-        SetNiPoint3FromHkVector4(vec, *src->FUN_004b4cf0(i));
+        ::FUN_004a3970(vec, *src->FUN_004b4cf0(i));
         dest->FUN_004769c0(i, (float*)&vec);
     }
 
@@ -257,8 +272,6 @@ struct ActivationBaseB
 };
 struct ActivationListener
 {
-    void FUN_00c938a0(void* owner);
-    void FUN_00c93820(ActivationBaseB* owner);
 };
 struct FUN_006242a0_cls : ActivationBaseA, ActivationBaseB
 {
@@ -270,8 +283,8 @@ void FUN_006242a0_cls::NotifyActivation(ActivationListener* listener)
 {
     if (listener)
     {
-        listener->FUN_00c938a0(this);
-        listener->FUN_00c93820(static_cast<ActivationBaseB*>(this));
+        reinterpret_cast<::fnv_00c938a0::hkpWorldXc938a0 *>((listener))->FUN_00c938a0((::fnv_00c938a0::hkpEntityListenerXc938a0 *)(void *)(this));
+        reinterpret_cast<::fnv_00c93820::hkpWorldC938 *>((listener))->FUN_00c93820((::fnv_00c93820::hkpEntityListenerC938 *)(::ActivationBaseB *)(static_cast<ActivationBaseB*>(this)));
     }
 }
 
@@ -284,31 +297,25 @@ struct FUN_005609f0_shell
 
 struct Type8
 {
-    int FUN_0043b540();
 };
 
 struct ArgType
 {
-    FUN_005609f0_shell FUN_00c9bff0();
-    Type8* FUN_00460140();
 };
 
 struct CF845
 {
     int m_val;
     CF845(int);
-    int FUN_0043b4d0();
 };
 
 class NiRTTI;
-extern NiRTTI DAT_012681c0;
 
 struct Type2;
 struct Type5;
 
 struct Type4
 {
-    Type5* FUN_005497a0();
 };
 
 struct Type3
@@ -431,7 +438,6 @@ struct Type3
     virtual void v73();
     virtual void* vfunc_1d0(int);
 
-    Type4* FUN_008d6f30();
 };
 
 struct Type5
@@ -558,15 +564,8 @@ struct Type7
 
 struct Type1
 {
-    Type2* FUN_0044ddc0();
 };
 
-Type1* __cdecl FUN_004b5a50(void*);
-Type3* __cdecl FUN_0056f930(Type2*);
-bool __cdecl FUN_008c7aa0();
-void __cdecl FUN_0054abd0(Type3*, Type5*);
-void* __cdecl FUN_004b5a80(void*);
-bool __cdecl FUN_0043b300(const NiRTTI*, void*);
 
 struct FUN_00624340_shell
 {
@@ -589,20 +588,20 @@ void FUN_00624340_shell::ProcessArgType(ArgType* apArg)
         void* varVal;
         Type7* var3;
 
-        if (apArg->FUN_00c9bff0().FUN_005609f0())
+        if ((*(::FUN_005609f0_shell *)(reinterpret_cast<::FUN_00c9bff0_Class *>((apArg))->FUN_00c9bff0({}))).FUN_005609f0())
         {
-            varC6 = FUN_004b5a50(apArg);
-            _var8 = varC6 ? varC6->FUN_0044ddc0() : 0;
-            kVar4 = _var8 ? FUN_0056f930(_var8) : 0;
+            varC6 = ((::Type1 *)(::NiShader::DynamicCast((::NiAVObject *)(apArg))));
+            _var8 = varC6 ? ((::Type2 *)(reinterpret_cast<::Twin_0044ddc0 *>((varC6))->GetName())) : 0;
+            kVar4 = _var8 ? ((::Type3 *)(::FUN_0056f930((::NiAVObject *)(_var8)))) : 0;
             if (kVar4 && !kVar4->vfunc_100())
             {
-                varX = kVar4->FUN_008d6f30();
-                var5 = varX ? varX->FUN_005497a0() : 0;
+                varX = ((::Type4 *)(reinterpret_cast<::LowProcess *>((kVar4))->GetTarget()));
+                var5 = varX ? ((::Type5 *)(reinterpret_cast<::TESObjectCELL *>((varX))->GetDynamicNode())) : 0;
                 if (var5)
                 {
                     if (FUN_008c7aa0())
                     {
-                        FUN_0054abd0(kVar4, var5);
+                        ::fnv_0054abd0::FUN_0054abd0((::TESObjectREFR *)(kVar4), (::NiNode *)(var5));
                     }
                     else
                     {
@@ -617,15 +616,15 @@ void FUN_00624340_shell::ProcessArgType(ArgType* apArg)
         }
         else
         {
-            if (CF845(apArg->FUN_00460140()->FUN_0043b540()).FUN_0043b4d0() == 0x14)
+            if (reinterpret_cast<::FUN_0043b4d0_shell *>((void *)&(const ::CF845 &)(CF845(((int)(::FUN_0043b540((char *)(((::Type8 *)(::FUN_00460140((int)(apArg)))))))))))->FUN_0043b4d0() == 0x14)
             {
-                var2 = FUN_004b5a50(apArg);
-                var1C8 = var2 ? var2->FUN_0044ddc0() : 0;
-                var18 = var1C8 ? FUN_0056f930(var1C8) : 0;
+                var2 = ((::Type1 *)(::NiShader::DynamicCast((::NiAVObject *)(apArg))));
+                var1C8 = var2 ? ((::Type2 *)(reinterpret_cast<::Twin_0044ddc0 *>((var2))->GetName())) : 0;
+                var18 = var1C8 ? ((::Type3 *)(::FUN_0056f930((::NiAVObject *)(var1C8)))) : 0;
                 if (var18 && !var18->vfunc_100())
                 {
-                    varVal = FUN_004b5a80(apArg);
-                    if (varVal && FUN_0043b300(&DAT_012681c0, varVal))
+                    varVal = ::FUN_004b5a80(apArg);
+                    if (varVal && ::FUN_0043b300(&(*reinterpret_cast<::NiRTTI *>(&::g_012681c0)), (::NiAVObject *)(varVal)))
                     {
                         var3 = (Type7*)varVal;
                         var3->vfunc_e4(4);
@@ -639,24 +638,13 @@ void FUN_00624340_shell::ProcessArgType(ArgType* apArg)
 namespace fnv_00624580 {
 struct SceneList
 {
-    SceneList* FUN_00624700();
-    int FUN_00726070();
-    void** FUN_00629ab0(int offset);
 };
 struct Geometry
 {
-    Geometry* FUN_0044ddc0();
-    Geometry* FUN_005497a0();
 };
 struct SceneObject
 {
-    Geometry* FUN_008d6f30();
 };
-Geometry* __cdecl FUN_004b5a50(void* object);
-SceneObject* __cdecl FUN_0056f930(Geometry* object);
-bool __cdecl FUN_008c7aa0();
-void __cdecl FUN_0054abd0(SceneObject* object, Geometry* geometry);
-void __cdecl FUN_00624560();
 struct FUN_00624580_Class
 {
     void __thiscall FUN_00624580(SceneList* object);
@@ -666,15 +654,15 @@ void FUN_00624580_Class::FUN_00624580(SceneList* pSceneList)
 {
     if (!pSceneList)
         return;
-    SceneList* count = pSceneList->FUN_00624700();
-    int iItemCount = count->FUN_00726070();
+    SceneList* count = ((::fnv_00624580::SceneList *)(reinterpret_cast<::FUN_00624700_shell *>((pSceneList))->FUN_00624700()));
+    int iItemCount = ((int)(reinterpret_cast<::Callees *>((count))->FUN_00726070()));
     void* pEntry;
     for (int sceneObject = 0; sceneObject < iItemCount; ++sceneObject)
     {
-        pEntry = *count->FUN_00629ab0(sceneObject);
-        Geometry* handle = FUN_004b5a50(pEntry);
-        Geometry* geometry = handle ? handle->FUN_0044ddc0() : 0;
-        SceneObject* parent = geometry ? FUN_0056f930(geometry) : 0;
+        pEntry = *((void **)&(reinterpret_cast<::FUN_00629ab0_shell *>((count))->FUN_00629ab0(sceneObject)));
+        Geometry* handle = ((::fnv_00624580::Geometry *)(::NiShader::DynamicCast((::NiAVObject *)(pEntry))));
+        Geometry* geometry = handle ? ((::fnv_00624580::Geometry *)(reinterpret_cast<::Twin_0044ddc0 *>((handle))->GetName())) : 0;
+        SceneObject* parent = geometry ? ((::fnv_00624580::SceneObject *)(::FUN_0056f930((::NiAVObject *)(geometry)))) : 0;
         if (parent)
         {
             typedef unsigned char(__thiscall * Predicate)(SceneObject*);
@@ -684,19 +672,19 @@ void FUN_00624580_Class::FUN_00624580(SceneList* pSceneList)
             {
                 reinterpret_cast<Dispatch>((*reinterpret_cast<void***>(parent))[18])(parent, 4);
                 Geometry* target;
-                Geometry* owner = parent->FUN_008d6f30();
-                target = owner ? owner->FUN_005497a0() : 0;
+                Geometry* owner = ((::fnv_00624580::Geometry *)(reinterpret_cast<::LowProcess *>((parent))->GetTarget()));
+                target = owner ? ((::fnv_00624580::Geometry *)(reinterpret_cast<::TESObjectCELL *>((owner))->GetDynamicNode())) : 0;
                 if (target)
                 {
-                    if (FUN_008c7aa0())
-                        FUN_0054abd0(parent, target);
+                    if (::FUN_008c7aa0())
+                        ::fnv_0054abd0::FUN_0054abd0((::TESObjectREFR *)(parent), (::NiNode *)(target));
                     else
                         reinterpret_cast<Dispatch>((*reinterpret_cast<void***>(target))[55])(
                             reinterpret_cast<SceneObject*>(target),
                             reinterpret_cast<Retrieve>((*reinterpret_cast<void***>(parent))[116])(parent, 1));
                 }
                 if (reinterpret_cast<Predicate>((*reinterpret_cast<void***>(parent))[84])(parent))
-                    FUN_00624560();
+                    ::FUN_00624560();
             }
         }
     }

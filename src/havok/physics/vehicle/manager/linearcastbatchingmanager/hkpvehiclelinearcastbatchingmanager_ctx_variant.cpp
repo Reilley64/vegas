@@ -3,6 +3,14 @@
 // against, for verified matches whose own declarations clash with the unit's current types.
 // src/havok/physics/vehicle/manager/linearcastbatchingmanager/hkpvehiclelinearcastbatchingmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/manager/linearcastbatchingmanager/hkpvehiclelinearcastbatchingmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/D04B90World.h"
+#include "fnv/decl/VUC_StepInstance.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d05000.h"
+#include "fnv/symbols_01013000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpVehicleLinearCastBatchingManager.h"
 struct FUN_00e42fe0
 {
@@ -50,7 +58,6 @@ extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 typedef unsigned long DWORD;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern DWORD DAT_0126835c;
 struct ProfRec
 {
 	const char *m_pName;
@@ -72,7 +79,6 @@ struct CharacterBufferState
 	AllocV *m_pSharedOwner;
 	AllocV &heap() { return *m_pSharedOwner; }
 };
-CharacterBufferState *__cdecl FUN_00c85750();
 struct AllocV
 {
 	virtual void u0();
@@ -94,14 +100,13 @@ struct HkArr
 		m_iElementCount = n;
 	}
 };
-extern "C" int __cdecl FUN_00c908c0(AllocV &owner, void *arr, int newCap, int stride);
 inline void HkArr::reserve(AllocV &a, int n)
 {
 	if (getCapacity() < n)
 	{
 		int cap2 = 2 * getCapacity();
 		int newSize = (n < cap2) ? cap2 : n;
-		FUN_00c908c0(a, this, newSize, 0x60);
+		::FUN_00c908c0((::SpawnedObject *)&(a), (::SpawnedArray *)(void *)(this), newSize, 0x60);
 	}
 }
 struct Counted433
@@ -149,7 +154,6 @@ struct Vehicle433
 	int unk34;
 	int unk38;
 	Counted433 *m_counted;
-    void FUN_00e39030(void*,void*);
 };
 static __forceinline void S00e43320_timerB(const char *name, volatile DWORD &tick)
 {
@@ -202,8 +206,6 @@ struct S00e43320_Mgr
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
-extern float DAT_0104da4c;
-extern float DAT_01013ea4;
 
 struct E430B0Coll
 {
@@ -413,7 +415,7 @@ __declspec(align(16)) struct E430B0Job : public E430B0QueryJob
 		: E430B0QueryJob(3, 0x40)
 	{
 		tolerance = 0.0f;
-		maxExtraPenetration = DAT_0104da4c;
+		maxExtraPenetration = ::DAT_0104da4c;
 		earlyOutDistance = 0.01f;
 		collisionInput = input;
 		semaphore = sem;
@@ -428,12 +430,10 @@ __declspec(align(16)) struct E430B0Job : public E430B0QueryJob
 
 struct FUN_00d05db0_class
 {
-	void FUN_00d05db0();
 };
 
 struct FUN_00d04b90_class
 {
-	void AddObjectCopy(void* job, int priority);
 };
 
 struct E430B0Mgr
@@ -505,8 +505,8 @@ int __thiscall E430B0Mgr::FUN_00e430b0(E430B0World* world, int filterSize, int n
 	{
 		int n = perJob + (j < rem);
 		E430B0Job job(world->collisionInput, header, cmdPtr, n, semaphore, 128);
-		((FUN_00d05db0_class*)&job)->FUN_00d05db0();
-		jobQueue->AddObjectCopy(&job, 1);
+		::FUN_00d05db0();
+		reinterpret_cast<::D04B90World *>((jobQueue))->AddObjectCopy((const ::D04B90Object *)(void *)(&job), (void *)(1));
 		cmdPtr += n;
 		header++;
 	}

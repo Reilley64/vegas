@@ -2,6 +2,15 @@
 // src/gamebryo2.2/corelibs/nimain/nifogproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nifogproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00a5d450_class.h"
+#include "fnv/decl/FUN_00a62a40_this.h"
+#include "fnv/decl/S_0060ba10.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a5d000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f5000.h"
 struct Obj00a9a120
 {
     virtual void f0();
@@ -23,13 +32,17 @@ void FUN_00a9a120()
     }
 }
 
+class NiStream;
 struct NiProperty
 {
     virtual void Dummy()
     {}
     char _pad[20];
     NiProperty();
+public:
+    void LoadBinary(::NiStream &);
 };
+class NiStream;
 struct NiColor
 {
     float r;
@@ -39,6 +52,12 @@ struct NiColor
     {
         b = g = r = 0.0f;
     }
+public:
+    void LoadBinary(::NiStream &);
+public:
+    char *GetFormattedString(const char *) const;
+public:
+    void SaveBinary(::NiStream &);
 };
 extern NiColor DAT_011f4998;
 extern int DAT_011f499c;
@@ -67,7 +86,6 @@ enum FogFunction
 
 extern "C" unsigned int __cdecl strlen(const char*);
 void* __cdecl NiMalloc(unsigned int);
-char* __cdecl NiSprintf(char*, unsigned int, const char*, ...);
 
 // Allocates a string of strlen(pcPrefix)+20 bytes and formats pcPrefix with the name of the given fog function.
 // @fnv 0x00a99e50
@@ -81,15 +99,15 @@ char* FormatFogFunction(const char* pcPrefix, FogFunction eFunc)
     switch (eFunc)
     {
     case FOG_Z_LINEAR:
-        NiSprintf(pcString, uiLen + 20, "%s = FOG_Z_LINEAR", pcPrefix);
+        ::NiSprintf(pcString, uiLen + 20, "%s = FOG_Z_LINEAR", pcPrefix);
         break;
 
     case FOG_RANGE_SQ:
-        NiSprintf(pcString, uiLen + 20, "%s = FOG_RANGE_SQ", pcPrefix);
+        ::NiSprintf(pcString, uiLen + 20, "%s = FOG_RANGE_SQ", pcPrefix);
         break;
 
     case FOG_VERTEX_ALPHA:
-        NiSprintf(pcString, uiLen + 20, "%s = FOG_VERTEX_ALPHA", pcPrefix);
+        ::NiSprintf(pcString, uiLen + 20, "%s = FOG_VERTEX_ALPHA", pcPrefix);
         break;
     }
 
@@ -111,11 +129,9 @@ struct MyClass
 
 struct CalleeA5d7a0
 {
-    void FUN_00a5d7a0(void* prop, int arg);
 };
 
 void* __cdecl FUN_00aa13e0(unsigned int);
-void __stdcall CreateVertexBufferSet(void*, int);
 
 void* __cdecl operator new(unsigned int, void* p)
 {
@@ -137,7 +153,7 @@ void* MyClass::FUN_00a99f60(int arg)
         {
             esi = 0;
         }
-        ((CalleeA5d7a0*)this)->FUN_00a5d7a0(esi, arg);
+        ::FUN_00a5d7a0();
         unsigned short cx = this->m_18;
         esi->m_uiObjectFlags = cx;
         esi->m_fFogDepth = this->m_1c;
@@ -146,7 +162,7 @@ void* MyClass::FUN_00a99f60(int arg)
     }
     else
     {
-        CreateVertexBufferSet(this, arg);
+        reinterpret_cast<::FUN_00a5d450_class *>((this))->CreateVertexBufferSet(arg, {});
         return this;
     }
 }
@@ -186,7 +202,8 @@ class NiObject;
 
 struct EqBase
 {
-    bool __thiscall FUN_00a62140(NiObject* object);
+public:
+    bool FUN_00a62140(void *);
 };
 
 struct NiPlane
@@ -195,7 +212,8 @@ struct NiPlane
     float y;
     float z;
 
-    bool __thiscall FUN_00439090(const NiPlane* other);
+public:
+    bool operator==(const ::NiPlane &);
 };
 
 struct A9a030Fog : FUN_00a99ed0
@@ -222,7 +240,7 @@ bool __thiscall A9a030Fog::FUN_00a9a030(FUN_00a99ed0* other)
                     NiPlane* color = reinterpret_cast<NiPlane*>(&m_kFogTint);
                     const NiPlane* otherColor = reinterpret_cast<const NiPlane*>(&other->m_kFogTint);
 
-                    if (!color->FUN_00439090(otherColor))
+                    if (!color->operator==((*(const ::NiPlane *)(otherColor))))
                         return true;
                 }
             }
@@ -265,10 +283,8 @@ struct LoadStream
         return *(Reader* const*)((const char*)this + 0x24c);
     }
 };
-void __stdcall FUN_00a5d7f0(LoadStream*);
 struct SubObject
 {
-    void FUN_00a59be0(LoadStream*);
 };
 struct NiPropertyData
 {
@@ -287,7 +303,7 @@ struct NiPropertyData
 void NiPropertyData::LoadPropertyData(LoadStream* stream)
 {
     LoadStream* original = stream;
-    FUN_00a5d7f0(original);
+    reinterpret_cast<::NiProperty *>((original))->LoadBinary(*(::NiStream *)nullptr);
     if (original->version() < 0x0a000102)
     {
         unsigned raw = original->legacyFlags();
@@ -326,7 +342,7 @@ void NiPropertyData::LoadPropertyData(LoadStream* stream)
     amount = 4;
     int count = pReadFn(pReader, &extra(), 4, &amount, 1);
     pReader->position += count;
-    ((SubObject*)((char*)this + 0x20))->FUN_00a59be0(original);
+    reinterpret_cast<::NiColor *>((((SubObject*)((char*)this + 0x20))))->LoadBinary((*(::NiStream *)(original)));
 }
 
 struct ViewerStrings
@@ -339,13 +355,12 @@ struct ViewerStrings
     unsigned short m_usGrowBy;
 
     void SetSize(unsigned int uiMaxSize);
-    void SetAt(unsigned int uiIndex, char*& element);
     unsigned int Add(char* const& element)
     {
         unsigned int uiIndex = m_usSize;
         if (uiIndex >= m_usMaxSize)
             SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, (char*&)element);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char*&)element);
         return uiIndex;
     }
 };
@@ -354,21 +369,15 @@ struct RTTIStub
 {
     const char* m_pcName;
 };
-extern RTTIStub g_fogRTTI;
 
-char* MakeViewerString(const char* pcText);
-char* MakeViewerString(const char* pcPrefix, bool bValue);
-char* MakeViewerString(const char* pcPrefix, float fValue);
 
 struct ColorStub
 {
     float r, g, b;
-    char* FormatToBuffer(const char* pcPrefix) const;
 };
 
 struct PropertyBase
 {
-    void GetViewerStringsBase(ViewerStrings* apViewerStrings);
 };
 
 struct FogViewer : PropertyBase
@@ -398,12 +407,12 @@ struct FogViewer : PropertyBase
 // @fnv 0x00a9a2a0
 void FogViewer::FUN_00a9a2a0(ViewerStrings* pViewerStrings)
 {
-    GetViewerStringsBase(pViewerStrings);
-    pViewerStrings->Add(MakeViewerString(g_fogRTTI.m_pcName));
-    pViewerStrings->Add(MakeViewerString("Enable", GetFog()));
-    pViewerStrings->Add(MakeViewerString("Depth", m_fFogDepth));
-    pViewerStrings->Add(FormatFogFunction("Function", GetFogFunction()));
-    pViewerStrings->Add(m_kFogTint.FormatToBuffer("Color"));
+    reinterpret_cast<::FUN_00a62a40_this *>(this)->AppendString((::StrArr *)(pViewerStrings));
+    reinterpret_cast<::S_0060ba10 *>((pViewerStrings))->FUN_0096a610((int)&(const char *const &)(::FUN_00a7d330((*reinterpret_cast<::RTTIStub *>(&::g_011f5f34)).m_pcName)));
+    reinterpret_cast<::S_0060ba10 *>((pViewerStrings))->FUN_0096a610((int)&(const char *const &)(::FUN_00a7d370("Enable", GetFog())));
+    reinterpret_cast<::S_0060ba10 *>((pViewerStrings))->FUN_0096a610((int)&(const char *const &)(::FUN_00a7d550("Depth", m_fFogDepth)));
+    reinterpret_cast<::S_0060ba10 *>((pViewerStrings))->FUN_0096a610((int)&(const char *const &)(FormatFogFunction("Function", GetFogFunction())));
+    reinterpret_cast<::S_0060ba10 *>((pViewerStrings))->FUN_0096a610((int)&(const char *const &)(reinterpret_cast<::NiColor *>((void *)&(m_kFogTint))->GetFormattedString("Color")));
 }
 
 class NiBinaryStreamA9A2
@@ -450,14 +459,12 @@ template <class T> inline void ReadBinaryValue(NiStreamA9A2& kStream, T& value)
 class FUN_00a5d7b0_helper
 {
   public:
-    void FUN_00a5d7b0(NiStreamA9A2& kStream);
 };
 
 class NiColorA9A2
 {
   public:
     float r, g, b;
-    void FUN_00a69780(NiStreamA9A2& kStream);
 };
 
 class SaverA9A2 : public FUN_00a5d7b0_helper
@@ -476,10 +483,10 @@ class SaverA9A2 : public FUN_00a5d7b0_helper
 // @fnv 0x00a9a230
 void SaverA9A2::FUN_00a9a230(NiStreamA9A2& kStream)
 {
-    FUN_00a5d7b0(kStream);
+    ::FUN_00a5d7b0();
     ReadBinaryValue(kStream, m_us18);
     ReadBinaryValue(kStream, m_f1C);
-    m_kFogTint.FUN_00a69780(kStream);
+    reinterpret_cast<::NiColor *>(&(m_kFogTint))->SaveBinary((::NiStream &)(kStream));
 }
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);

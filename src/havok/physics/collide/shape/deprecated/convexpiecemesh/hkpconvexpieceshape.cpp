@@ -1,10 +1,13 @@
 // havok/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpieceshape.cpp: AdjDerived (12 functions)
 
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010c6000.h"
+#include "fnv/symbols_01268000.h"
 #include "fnv_asm_helpers.h"
 // src/havok/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpieceshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpieceshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern int DAT_010c6fb0;
 extern int DAT_010ece2c;
 extern int DAT_010ece08;
 
@@ -55,8 +58,6 @@ struct FUN_00e60690_owner { int unk00; int unk04; int unk08; Dispatch* unk0c; in
 // @fnv 0x00e60690
 void FUN_00e60690_owner::DispatchToInner(int index,int value) { unk0c->inner.run(unk10[index],value); }
 
-extern int DAT_010c6fb0;
-extern int DAT_0102e388;
 
 struct AudioAllocator {
     virtual void v00();
@@ -92,7 +93,7 @@ struct FUN_00e60c30_cls {
 FUN_00e60c30_cls* FUN_00e60c30_cls::Destroy(unsigned char acFlags)
 {
     m_p14 = (void*)&DAT_010c6fb0;
-    m_vptr = (int)&DAT_0102e388;
+    m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (acFlags & 1) {
         AudioHolder* pHolder = FUN_00c85750();
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
@@ -268,7 +269,6 @@ void Shape_e608::FUN_00e60800(const Transform_e608& kLocalToWorld, float fTolera
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 #include <windows.h>
-extern DWORD hkMonitorStreamTls;
 
 struct S_00e609c0_TimerCommand {
     const char* m_pCommandName;
@@ -284,7 +284,7 @@ struct S_00e609c0_MonitorStream {
 };
 
 static inline void S_00e609c0_Timer(const char* name, int& t) {
-    S_00e609c0_MonitorStream* s = (S_00e609c0_MonitorStream*)TlsGetValue(hkMonitorStreamTls);
+    S_00e609c0_MonitorStream* s = (S_00e609c0_MonitorStream*)TlsGetValue(::DAT_0126835c);
     if (s->m_kRayEnd < s->m_pCurrentCommand) {
         S_00e609c0_TimerCommand* h = (S_00e609c0_TimerCommand*)s->m_kRayEnd;
         h->m_pCommandName = name;
@@ -414,7 +414,6 @@ S_00e609c0_Bool S_00e609c0_ConvexPieceShape::FUN_00e609c0(const S_00e609c0_RayIn
     return hitIndex != -1;
 }
 
-extern unsigned int DAT_0126835c;
 
 struct StringCursor {
     char* m_kRayStart;
@@ -423,7 +422,7 @@ struct StringCursor {
     char* m_pFreeList;
 
     static inline StringCursor& GetMonitorStream() {
-        return *(StringCursor*)TlsGetValue(DAT_0126835c);
+        return *(StringCursor*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     }
 
     inline void timerBegin(const char* name) {
@@ -527,7 +526,7 @@ void FUN_00e60b00_cls::ProcessCollisionShapes(const BodyA* bodyA, const BodyB* b
     for (int i = 0; i < this->m_uiItemCount; ++i) {
         if (bodyA->m_iFilter) {
             const ShapeBase* pShapeBase = this->m_pCollisionShape ? &this->m_pCollisionShape->m_base : 0;
-            if (!bodyA->m_iFilter->IsCollisionEnabled(bodyA, this->m_pCollisionShape, pShapeBase, this->m_keys[i]))
+            if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(bodyA->m_iFilter->IsCollisionEnabled(bodyA, this->m_pCollisionShape, pShapeBase, this->m_keys[i])))->FUN_005609f0())
                 continue;
         }
 

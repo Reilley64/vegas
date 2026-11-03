@@ -2,6 +2,8 @@
 #ifndef FNV_BGSSAVELOADMANAGER_H
 #define FNV_BGSSAVELOADMANAGER_H
 
+#include "fnv/decl/FUN_00424940_shell.h"
+#include "fnv/decl/FUN_00850030_shell.h"
 #include "layout_support.h"
 #include "layout_support.h"
 class SaveLoadFile;
@@ -96,11 +98,17 @@ class BGSSaveLoadManager
     // void __cdecl BGSSaveLoadManager::*()
     // void __cdecl BGSSaveLoadManager::*(BSSaveDataSystemUtility::RESULT)
     // void* __cdecl BGSSaveLoadManager::*(unsigned int)
-    bool FUN_00424940();
     bool IsAutoSaveFileName(const char*);
-    void* ReadHeaderFromFile(const char*, int, int, int);
     bool IsSaveFileNameCustom(const char*);
     void FUN_00850100(SaveLoadHeader*, int);
+public:
+    bool LoadGame(const char *, int, bool, bool);
+public:
+    bool IsSaveFileNameDefault(const char *);
+public:
+    bool IsSaveFileNameLegacyAutosave(const char *);
+public:
+    bool IsQuickSaveFileName(const char *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(BGSSaveLoadManager) == 48);

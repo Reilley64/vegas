@@ -3,6 +3,9 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00d2bef0
+#include "fnv/decl/FUN_00d2be50.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_0106e000.h"
 void __stdcall FUN_00d2bef0(char* p)
 {
     *p = 1;
@@ -24,21 +27,19 @@ bool FUN_00d2bf00_class::Seek(long offset, int whence)
 }
 
 extern int DAT_010ce6f4;
-extern int DAT_0102e388;
 
 struct FUN_00d2bfb0_class
 {
     int* vtbl;
     void FUN_00d2bfb0();
-    void __thiscall FUN_00d2be50();
 };
 
 // @fnv 0x00d2bfb0
 void __thiscall FUN_00d2bfb0_class::FUN_00d2bfb0()
 {
     vtbl = &DAT_010ce6f4;
-    FUN_00d2be50();
-    vtbl = &DAT_0102e388;
+    reinterpret_cast<::FUN_00d2be50 *>(this)->Close();
+    vtbl = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 void __cdecl FUN_00ecda70(void*);
@@ -97,7 +98,6 @@ struct FUN_00d2be30
 {
     void SetFile(const char* fileName, const char* mode);
 };
-extern const unsigned char DAT_0106e798[];
 struct Candidate : FUN_00d2be30
 {
     volatile int* vtable;
@@ -127,7 +127,6 @@ struct FUN_00d2be80_cls
     int* vtbl;
     unsigned int unk04;
     void* m8;
-    void FUN_00d2be50();
     int ReadBytes(char* p, int n);
 };
 
@@ -141,7 +140,7 @@ int FUN_00d2be80_cls::ReadBytes(char* apBuffer, int aiCount)
         int result = FUN_00ecb086(apBuffer, 1, aiCount, stream);
         if (result <= 0)
         {
-            FUN_00d2be50();
+            reinterpret_cast<::FUN_00d2be50 *>(this)->Close();
         }
         return result;
     }

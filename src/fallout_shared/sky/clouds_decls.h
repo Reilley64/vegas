@@ -2,6 +2,31 @@
 #ifndef FNV_CLOUDS_DECLS_H
 #define FNV_CLOUDS_DECLS_H
 
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/F940Owner.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_00453470_shell.h"
+#include "fnv/decl/FUN_004536e0_Class.h"
+#include "fnv/decl/FUN_00476c90_Class.h"
+#include "fnv/decl/FUN_0050d100_shell.h"
+#include "fnv/decl/FUN_0051b8c0_shell.h"
+#include "fnv/decl/FUN_006347a0_Class.h"
+#include "fnv/decl/FUN_006347c0_Class.h"
+#include "fnv/decl/FUN_00634830_cls.h"
+#include "fnv/decl/FUN_00634850_Class.h"
+#include "fnv/decl/FUN_008d0600_s.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00bae930_Class.h"
+#include "fnv/decl/FUN_00c3a8a0_cls.h"
+#include "fnv/decl/MagicCaster_shell.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00644000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_011cc000.h"
+#include "fnv/symbols_01200000.h"
 class NiNode;
 class NiGeometry;
 class NiTexture;
@@ -55,12 +80,10 @@ class NiProperty
 class NiTimeController
 {
   public:
-    int FUN_00441110();
 };
 class NiObjectNET
 {
   public:
-    NiTimeController* GetControllers() const;
 };
 class NiAVObject
 {
@@ -124,9 +147,6 @@ class NiAVObject
 class NiGeometry : public NiAVObject
 {
   public:
-    NiObjectNET* FUN_0050d100();
-    NiProperty* GetProperty(int);
-    void FUN_00450f90(bool);
 };
 class CloudsColorController : public NiTimeController
 {
@@ -138,10 +158,6 @@ class SkyShaderProperty : public NiProperty
 {
   public:
     void SetTexture(NiTexture*);
-    void FUN_00634900(const NiFixedString&);
-    void FUN_0051b8c0(float);
-    void FUN_00bae930(NiTexture*);
-    NiTexture* FUN_009c8680();
 };
 class TESTexture1024
 {
@@ -154,32 +170,20 @@ class TESTexture1024
     virtual void vfn_14();
     virtual const char* vfn_18();
     unsigned int GetModelLength() const;
-    const char* GetTextureResourceName();
 };
 class TESWeather
 {
   public:
-    TESTexture1024* GetCloudTexture(int);
-    float GetCloudLayerSpeed(int, float, float);
 };
 class Sky
 {
   public:
-    TESWeather* FUN_0044edb0();
-    TESWeather* FUN_00825c00();
-    int FUN_00476c90();
-    float FUN_006447d0();
-    float GetFieldCC();
-    bool FUN_00634870();
-    void GetTextureManager();
 };
 class SkyObject
 {
   public:
     void** m_ppVirtualMethodTable;
     NiPointer<NiNode> m_pRootNode;
-    void Initialize(NiNode*);
-    void Update(Sky*, float);
 };
 class Clouds : public SkyObject
 {
@@ -191,8 +195,6 @@ class Clouds : public SkyObject
     bool bForceUpdate;
     void Initialize(NiNode*);
     void Update(Sky*, float);
-    int GetOffset58();
-    NiColor& GetPointAt(int);
     void SetCloudCount(int);
 };
 union SETTING_VALUE
@@ -203,12 +205,8 @@ union SETTING_VALUE
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Float();
 };
-extern SettingT_GameSettingCollection_ DAT_011cca6c;
 struct NiRTTI;
-extern NiRTTI DAT_012005b8;
-SkyShaderProperty* FUN_00653270(const NiRTTI*, NiProperty*);
 void AddToFloatArray(unsigned short, float);
 class SkyTextureManager
 {
@@ -221,19 +219,19 @@ class BSShaderManager
     static void GetTexture(const char*, bool, NiPointer<NiTexture>&, bool, bool);
 };
 
+class NiAVObject;
 class NiNode : public NiAVObject
 {
   public:
     virtual void AddObject(NiAVObject*, bool);
-    int FUN_00453470();
-    NiAVObject* FUN_0043b4a0(int);
+public:
+    ::NiAVObject *GetAt(unsigned int);
 };
 class NiStream
 {
   public:
     virtual ~NiStream();
     unsigned char layoutPadding[0x5c0];
-    bool FUN_00c3a8a0(const char*, bool);
 };
 class BSNodeReferences;
 class BSStream : public NiStream
@@ -252,7 +250,6 @@ class Model
     NiPointer<NiNode> m_spNode;
     Model(const char*, BSStream*, bool, bool);
     ~Model();
-    NiNode* GetObject3D();
 };
 typedef char clouds_stream_size[(sizeof(BSStream) == 0x5cc) ? 1 : -1];
 typedef char clouds_model_size[(sizeof(Model) == 0x10) ? 1 : -1];

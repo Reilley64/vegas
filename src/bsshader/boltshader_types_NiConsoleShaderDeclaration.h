@@ -2,6 +2,7 @@
 #ifndef FNV_NICONSOLESHADERDECLARATION_H
 #define FNV_NICONSOLESHADERDECLARATION_H
 
+#include "fnv/symbols_00e76000.h"
 #include "layout_support.h"
 #include "NiObject.h"
 class Direct3DDeviceInterface;
@@ -76,7 +77,6 @@ class NiD3DVertexDeclaration : public NiD3DShaderDeclaration
     // base NiD3DShaderDeclaration at +0x0, size 44
     _D3DVERTEXELEMENT9* m_pkVertexElements;         // +0x2C, 4 bytes
     COMUnknownInterface* m_pkD3DVertexDeclaration;  // +0x30, 4 bytes
-    static NiD3DVertexDeclaration* Create(NiRenderer*, unsigned int, unsigned int);
     // void __cdecl NiD3DVertexDeclaration::*()
     // NiD3DVertexDeclaration* __cdecl NiD3DVertexDeclaration::*(NiRenderer*, unsigned int, unsigned int)
     // SetEntry

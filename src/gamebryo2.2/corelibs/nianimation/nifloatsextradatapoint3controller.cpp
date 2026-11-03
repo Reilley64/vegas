@@ -2,14 +2,32 @@
 // src/gamebryo2.2/corelibs/nianimation/nifloatsextradatapoint3controller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nifloatsextradatapoint3controller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/C_00e8f010.h"
+#include "fnv/decl/FUN_00a572d0.h"
+#include "fnv/decl/FUN_00a66960_cls.h"
+#include "fnv/decl/FUN_00a89020_cls.h"
+#include "fnv/decl/NiTimeControllerA362.h"
+#include "fnv/decl/Owner_e8bff0.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a57000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00e8b000.h"
+#include "fnv/symbols_00e8c000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_01071000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011bf000.h"
+#include "fnv/symbols_011f3000.h"
 struct BSFadeNode {
     static void* __cdecl operator new(unsigned int);
 };
 
-int* __fastcall InitTimeController(int*);
 
 extern int DAT_0109917c;
-extern int EmptyFS;
 
 // @fnv 0x00a4ecd0
 int* __cdecl FUN_00a4ecd0()
@@ -20,17 +38,19 @@ int* __cdecl FUN_00a4ecd0()
         InitTimeController(p);
         p[0] = (int)&DAT_0109917c;
         p[0x40 / 4] = -1;
-        p[0x44 / 4] = EmptyFS;
+        p[0x44 / 4] = (*reinterpret_cast<int *>(&::DAT_0109b220));
         return p;
     }
     return 0;
 }
 
+class NiStream;
 struct NiPSysModifierCtlr {
     void CopyMemberData(NiPSysModifierCtlr* src, void* proc);
+public:
+    void LoadBinary(::NiStream &);
 };
 struct NiFloatsExtraDataPoint3Controller : NiPSysModifierCtlr {
-    int* __fastcall InitTimeController();
     int* m_pvt;
     char pad[0x3c];
     int m_iFloatsExtraDataIndex;
@@ -42,10 +62,10 @@ NiFloatsExtraDataPoint3Controller* NiFloatsExtraDataPoint3Controller::FUN_00a4ec
 {
     NiFloatsExtraDataPoint3Controller* p = (NiFloatsExtraDataPoint3Controller*)BSFadeNode::operator new(0x48);
     if (p) {
-        p->InitTimeController();
+        ::InitTimeController((int *)(p));
         p->m_pvt = &DAT_0109917c;
         p->m_iFloatsExtraDataIndex = -1;
-        p->m_kCtlrID = EmptyFS;
+        p->m_kCtlrID = (*reinterpret_cast<int *>(&::DAT_0109b220));
     } else {
         p = 0;
     }
@@ -65,7 +85,6 @@ struct NiStream {
     NiBinaryStream* m_pUnderlyingStream;
 };
 struct NiPSysModifierCtlr {
-    void LoadBinary(NiStream&);
 };
 struct NiFloatsExtraDataPoint3Controller : NiPSysModifierCtlr {
     char _pad[0x40];
@@ -75,7 +94,7 @@ struct NiFloatsExtraDataPoint3Controller : NiPSysModifierCtlr {
 // @fnv 0x00a4ee90
 void NiFloatsExtraDataPoint3Controller::FUN_00a4ee90(NiStream& stream)
 {
-    NiPSysModifierCtlr::LoadBinary(stream);
+    reinterpret_cast<::NiPSysModifierCtlr *>(this)->LoadBinary((::NiStream &)(stream));
     NiBinaryStream* __restrict input = stream.m_pUnderlyingStream;
     unsigned int size = 4;
     input->position += input->read(input, &m_fPoint3Value, 4, &size, 1);
@@ -87,9 +106,7 @@ struct NiObject {
     NiObject* DynamicCast(const NiRTTI*);
 };
 struct GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_011f3f70;
 struct ExtraStub {
-    float GetValueAt(int);
 };
 struct Vec12 {
     float x, y, z;
@@ -109,12 +126,12 @@ void FUN_00a4ed50_shell::SetInterpolatorPoint3(NiObject* pkInterp, unsigned shor
     if (!pkInterp) {
         pkFloatInterp = 0;
     } else {
-        pkFloatInterp = pkInterp->DynamicCast((const NiRTTI*)&g_011f3f70);
+        pkFloatInterp = pkInterp->DynamicCast((const NiRTTI*)&::g_011f3f70);
     }
     pkFloatsED = (ExtraStub*)*(int*)((char*)this + 0x3c);
-    kPt.x = pkFloatsED->GetValueAt(m_iFloatsExtraDataIndex);
-    kPt.y = pkFloatsED->GetValueAt(m_iFloatsExtraDataIndex + 1);
-    kPt.z = pkFloatsED->GetValueAt(m_iFloatsExtraDataIndex + 2);
+    kPt.x = reinterpret_cast<::FUN_00a89020_cls *>((pkFloatsED))->GetValueAt(m_iFloatsExtraDataIndex);
+    kPt.y = reinterpret_cast<::FUN_00a89020_cls *>((pkFloatsED))->GetValueAt(m_iFloatsExtraDataIndex + 1);
+    kPt.z = reinterpret_cast<::FUN_00a89020_cls *>((pkFloatsED))->GetValueAt(m_iFloatsExtraDataIndex + 2);
     ((Holder00*)pkFloatInterp)->FUN_00a494b0(kPt);
 }
 
@@ -125,8 +142,6 @@ struct StrArr {
     unsigned short m_iElementCount;
     unsigned short m_ucUnknownByte;
     unsigned short m_growth;
-    void SetSize(unsigned int size);
-    void SetAt(unsigned int index, char*& value);
 };
 
 struct Base57420 {
@@ -134,10 +149,7 @@ struct Base57420 {
     void FUN_00a57420(StrArr* strings);
 };
 
-extern void* g_011f3fc4;
 
-char* __cdecl _FUN_00a7d330(void* value);
-char* __cdecl FUN_00a7d4d0(char const* name, int value);
 
 struct FUN_00a4eed0_shell : Base57420 {
     int m_iFloatsExtraDataIndex;
@@ -151,12 +163,12 @@ void FUN_00a4eed0_shell::FUN_00a4eed0(StrArr* strings)
     Base57420::FUN_00a57420(strings);
 
     {
-        char* value = _FUN_00a7d330(g_011f3fc4);
+        char* value = ::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_011f3fc4))));
         unsigned int index = strings->m_iElementCount;
         unsigned int capacity = strings->m_pRayCursor;
         if (index >= capacity)
-            strings->SetSize(index + strings->m_growth);
-        strings->SetAt(index, value);
+            reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_growth);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
     }
 
     {
@@ -165,30 +177,24 @@ void FUN_00a4eed0_shell::FUN_00a4eed0(StrArr* strings)
         unsigned int index = strings->m_iElementCount;
         unsigned int capacity = strings->m_pRayCursor;
         if (index >= capacity)
-            strings->SetSize(index + strings->m_growth);
-        strings->SetAt(index, value);
+            reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_growth);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
     }
 }
 
-int* __fastcall InitTimeController(int*);
 extern int DAT_0109917c;
-extern int EmptyFS;
 int* __cdecl FUN_00a4ecd0();
 
 
 struct NiRTTI;
 
 struct GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_011f3f70;
 
 
 
 
 
 
-extern void* g_011f3fc4;
-char* __cdecl _FUN_00a7d330(void* value);
-char* __cdecl FUN_00a7d4d0(char const* name, int value);
 
 
 void* __cdecl FUN_00aa13e0(unsigned int);
@@ -211,9 +217,9 @@ int FUN_00a4eb50_cls::BuildAndDispatchVec12(int unused)
 {
     ExtraStub* stub = m_3c;
     Vec12 v;
-    v.x = stub->GetValueAt(m_40);
-    v.y = stub->GetValueAt(m_40 + 1);
-    v.z = stub->GetValueAt(m_40 + 2);
+    v.x = reinterpret_cast<::FUN_00a89020_cls *>((stub))->GetValueAt(m_40);
+    v.y = reinterpret_cast<::FUN_00a89020_cls *>((stub))->GetValueAt(m_40 + 1);
+    v.z = reinterpret_cast<::FUN_00a89020_cls *>((stub))->GetValueAt(m_40 + 2);
     Vec12Sink* p = (Vec12Sink*)FUN_00aa13e0(0x20);
     if (p != 0) {
         return p->FUN_00a49650(v);
@@ -222,7 +228,6 @@ int FUN_00a4eb50_cls::BuildAndDispatchVec12(int unused)
 }
 
 extern "C" int DAT_0109917c;
-extern "C" char* DAT_0109b220;
 extern "C" void (__stdcall* DAT_00fdf1c4)(void*);
 void __cdecl FUN_00aa1460(void* ptr, unsigned int size);
 
@@ -246,7 +251,6 @@ struct FUN_00a4ed10_cls {
     int unk40;
     char* m_44;
 
-    void FUN_00a572d0();
     FUN_00a4ed10_cls* Destroy(unsigned char acFlags);
 };
 
@@ -256,17 +260,16 @@ FUN_00a4ed10_cls* FUN_00a4ed10_cls::Destroy(unsigned char acFlags)
     *(void* volatile*)this = (void*)&DAT_0109917c;
     char* volatile* pm44 = (char* volatile*)&m_44;
     char* p = *pm44;
-    if (p != DAT_0109b220) {
+    if (p != ::DAT_0109b220) {
         DAT_00fdf1c4(p - 8);
     }
-    FUN_00a572d0();
+    reinterpret_cast<class ::FUN_00a572d0 *>(this)->FUN_00a572d0::~FUN_00a572d0();
     if (acFlags & 1) {
         FUN_00aa1460(this, 0x48);
     }
     return this;
 }
 
-extern const float DAT_01096324;
 struct Pt4edd { float x, y, z; };
 class NiFloatsExtraData { public: bool SetValue(unsigned int, float); };
 class Interp4edd {
@@ -314,7 +317,7 @@ void Ctlr4edd::UpdateController(const float& fTime)
 {
     if (GetMC())
         m_fControllerTime = DAT_01096324;
-    else if (FUN_00a36250(fTime)
+    else if (reinterpret_cast<::NiTimeControllerA362 *>(this)->FUN_00a36250(fTime)
         && (!m_spControllerInterpolator || !m_spControllerInterpolator->AlwaysUpdate()))
         return;
 
@@ -345,9 +348,6 @@ struct IDirect3DVertexBuffer9 {
     virtual int __stdcall GetDesc(D3DVERTEXBUFFER_DESC*);
 };
 
-extern unsigned int DAT_011bf558;
-extern const float DAT_010718c0;
-extern const double DAT_0101e568;
 extern const char DAT_010efe14[];
 
 struct RenderBuffer {
@@ -356,7 +356,6 @@ struct RenderBuffer {
     unsigned count;
     unsigned* firstEntry;
     void** entries;
-    void FUN_00e8f010(unsigned count);
 };
 
 struct Point3 { float x, y, z; };
@@ -376,7 +375,6 @@ struct VertexSource {
     Point3* GetPositions() const { return positions; }
     Point3* GetNormals() const { return normals; }
     Color4* GetColors() const { return colors; }
-    TwoComponentVector* FUN_00a66960(unsigned index);
 };
 
 struct VertexData {
@@ -406,7 +404,6 @@ struct VertexBufferLockInfo {
     IDirect3DVertexBuffer9* GetSize() const { return (IDirect3DVertexBuffer9*)lockArg1; }
 };
 
-extern int __cdecl FUN_00a305b0(char*, unsigned, const char*, ...);
 extern void __cdecl FUN_00ec44d0(void*, unsigned, unsigned);
 
 struct VertexRenderer {
@@ -420,9 +417,6 @@ struct VertexRenderer {
     unsigned unk70, unk74, unk78, unk7c;
     CRITICAL_SECTION lock;
 
-    __declspec(noalias) void FUN_00e8c120(VertexSource*, VertexData*, unsigned*, unsigned*, unsigned*, unsigned*, unsigned*, unsigned*, unsigned*);
-    bool FUN_00e8bfa0(RenderBuffer*, unsigned);
-    void* FUN_00e8bff0(unsigned, unsigned, unsigned, IDirect3DVertexBuffer9*);
     VertexBufferLockInfo* FUN_00e8c820(VertexSource*, unsigned, VertexData*, unsigned, VertexBufferLockInfo*, char*);
 };
 
@@ -448,11 +442,11 @@ VertexBufferLockInfo* VertexRenderer::FUN_00e8c820(VertexSource* source, unsigne
     unsigned short* indices = data->indices;
     vertexCount = 0;
     stride = 0;
-    FUN_00e8c120(source, data, &vertexCount, &stride, &positionOffset, &attributeOffset,
-                  &normalOffset, &dataFlags, &texOffset);
+    ::FUN_00e8c120((::Outer *)this, (::Outer *)(source), (unsigned int *)(data), &vertexCount, (int *)(unsigned int *)(&stride), &positionOffset, &attributeOffset,
+                  &normalOffset, &dataFlags);
 
     RenderBuffer* buffer = data->buffer;
-    buffer->FUN_00e8f010(vertexCount);
+    reinterpret_cast<::C_00e8f010 *>((buffer))->FUN_00e8f010(vertexCount);
     if (buffer->count > 0)
         *buffer->firstEntry = stride;
 
@@ -474,7 +468,7 @@ VertexBufferLockInfo* VertexRenderer::FUN_00e8c820(VertexSource* source, unsigne
             }
         }
         if (!valid) {
-            if (!FUN_00e8bfa0(buffer, 0))
+            if (!::FUN_00e8bfa0((::Outer *)this, (unsigned int)(buffer)))
                 return 0;
             if (buffer->count > 0)
                 resource = *(VertexBufferLockInfo**)buffer->entries;
@@ -482,8 +476,8 @@ VertexBufferLockInfo* VertexRenderer::FUN_00e8c820(VertexSource* source, unsigne
                 resource = 0;
             flags = 0xfff;
         }
-        option = (char*)FUN_00e8bff0(resource->GetBuffer(), resource->GetOffset(),
-                                        resource->GetFlags(), resource->GetSize());
+        option = (char*)reinterpret_cast<::Owner_e8bff0 *>(this)->FUN_00e8bff0((::Holder_e8bff0 *)(resource->GetBuffer()), resource->GetOffset(),
+                                        resource->GetFlags(), (unsigned int)(resource->GetSize()));
     }
 
     char* dst = (char*)(option + positionOffset);
@@ -504,7 +498,7 @@ VertexBufferLockInfo* VertexRenderer::FUN_00e8c820(VertexSource* source, unsigne
             float magnitude = (float)fabs(sum);
             if (magnitude > 1e-5f) {
                 char message[256];
-                FUN_00a305b0(message, 256, "ILLEGAL WEIGHTS! Vertex %4d - Weight Sum %8.5f  (%8.5f)\n", i, 1.0 - (double)sum, (double)sum);
+                ::NiSprintf(message, 256, "ILLEGAL WEIGHTS! Vertex %4d - Weight Sum %8.5f  (%8.5f)\n", i, 1.0 - (double)sum, (double)sum);
             }
 
             unsigned short c = 0;
@@ -542,7 +536,7 @@ VertexBufferLockInfo* VertexRenderer::FUN_00e8c820(VertexSource* source, unsigne
         TwoComponentVector* dest = (TwoComponentVector*)(option + texOffset);
         do {
             TwoComponentVector* out = dest;
-            TwoComponentVector* uv = source->FUN_00a66960(i);
+            TwoComponentVector* uv = ((::TwoComponentVector *)(reinterpret_cast<::FUN_00a66960_cls *>((source))->FUN_00a66960(i)));
             for (unsigned j = 0; j < (unsigned short)numVertices; ++j) {
                 unsigned k = indices[j];
                 *out = uv[k];

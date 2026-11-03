@@ -2,11 +2,31 @@
 // src/gamebryo2.2/corelibs/nimain/nibillboardnode_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/gamebryo2.2/corelibs/nimain/nibillboardnode.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <new>
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00a5dbe0_shell.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiNodeEq.h"
+#include "fnv/decl/NiTransform.h"
+#include "fnv/decl/NodeA5E8.h"
+#include "fnv/decl/Point3_0053d280.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a5dd40__FUN_00a5dd40_shell.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_004b3000.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a58000.h"
+#include "fnv/symbols_00a5e000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01095000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
 class NiRTTI;
 class NiBillboardNode
 {
   public:
-    static const NiRTTI ms_kRTTI;
     virtual const NiRTTI* GetRTTI() const;
 };
 
@@ -14,6 +34,8 @@ struct NiUpdateData
 {
     float m_fTime;
 };
+class CloningProcess;
+class NiUpdateData;
 struct NiNode
 {
     virtual void UpdateSelectedDownwardPass(NiUpdateData&, unsigned int);
@@ -64,6 +86,10 @@ struct NiNode
     virtual void f45() = 0;
     virtual void f46() = 0;
     virtual void f47() = 0;
+public:
+    void CopyMemberData(::NiNode *, ::CloningProcess &);
+public:
+    void UpdateDownwardPass(::NiUpdateData &, unsigned int);
 };
 struct UnkBoard : NiNode
 {
@@ -84,7 +110,6 @@ struct NiUpdateData
 };
 struct BaseNode
 {
-    void FUN_00a5e1f0(NiUpdateData&, unsigned int);
 };
 struct StandIn
 {
@@ -94,7 +119,7 @@ struct StandIn
 void StandIn::FUN_00a7dab0(NiUpdateData& UpdateData, unsigned int uFlags)
 {
     *(float*)((char*)this + 0xb0) = UpdateData.m_fTime;
-    ((BaseNode*)this)->FUN_00a5e1f0(UpdateData, uFlags);
+    ::FUN_00a5e1f0((::NiNode *)(((BaseNode*)this)), (int)&(UpdateData), (*(::NiUpdateData *)(uFlags)), {});
     ((void(__thiscall**)(void*)) * (void***)this)[47](this);
 }
 }  // namespace fnv_00a7dab0
@@ -102,23 +127,14 @@ void StandIn::FUN_00a7dab0(NiUpdateData& UpdateData, unsigned int uFlags)
 class NiCullingProcess;
 struct DummyNode
 {
-    void FUN_00a5dbe0(NiCullingProcess*);
 };
 struct FUN_00a7de40_shell
 {
-    void FUN_00a7de40(NiCullingProcess*);
 };
 struct FUN_00a7e610_shell : NiBillboardNode
 {
     void FUN_00a7e610(NiCullingProcess* process);
 };
-// @fnv 0x00a7e610
-void FUN_00a7e610_shell::FUN_00a7e610(NiCullingProcess* process)
-{
-    ((FUN_00a7de40_shell*)this)->FUN_00a7de40(*(NiCullingProcess**)((char*)process + 0xc));
-    ((DummyNode*)this)->FUN_00a5dbe0(process);
-}
-
 struct NiAVObject
 {
     virtual void Dummy()
@@ -199,7 +215,6 @@ struct NiNode
     unsigned short m_flags;
     char _pad2[2];
     float m_uiCommandId;
-    void UpdateDownwardPass(NiUpdateData&, unsigned int);
     void FUN_00a7dae0(NiUpdateData&, unsigned int);
 };
 // @fnv 0x00a7dae0
@@ -210,7 +225,7 @@ void NiNode::FUN_00a7dae0(NiUpdateData& UpdateData, unsigned int uFlags)
         m_flags |= 8;
     else
         m_flags &= 0xFFF7;
-    NiNode::UpdateDownwardPass(UpdateData, uFlags);
+    reinterpret_cast<::NiNode *>(this)->UpdateDownwardPass((::NiUpdateData &)(UpdateData), uFlags);
     F47();
 }
 }  // namespace fnv_00a7dae0
@@ -218,7 +233,6 @@ void NiNode::FUN_00a7dae0(NiUpdateData& UpdateData, unsigned int uFlags)
 class NiObject;
 struct BaseForCall
 {
-    bool FUN_00a5e600(NiObject* pkObject);
 };
 struct MyNode
 {
@@ -229,7 +243,7 @@ struct MyNode
 unsigned char MyNode::FUN_00a7db30(NiObject* pkObject)
 {
     NiBillboardNode* pkNode = (NiBillboardNode*)pkObject;
-    if (!((BaseForCall*)this)->FUN_00a5e600(pkObject))
+    if (!reinterpret_cast<::NiNodeEq *>((((BaseForCall*)this)))->FUN_00a5e600((::NiAVObject *)(pkObject)))
         return 0;
     return ((((unsigned char*)pkNode)[0xAC] ^ ((unsigned char*)this)[0xAC]) & 7) == 0;
 }
@@ -248,7 +262,6 @@ struct NiStream
 };
 struct NiNodeBase
 {
-    void FUN_00a5e880(NiStream&);
 };
 struct StandIn
 {
@@ -259,7 +272,7 @@ struct StandIn
 // @fnv 0x00a7e850
 void StandIn::FUN_00a7e850(NiStream& kStream)
 {
-    ((NiNodeBase*)this)->FUN_00a5e880(kStream);
+    reinterpret_cast<::NodeA5E8 *>((((NiNodeBase*)this)))->FUN_00a5e880((::NiStreamA5E8 &)(kStream));
     NiBinaryStream* __restrict pkOstr = kStream.m_pBackingStream;
     unsigned int size = 2;
     pkOstr->m_pos += pkOstr->m_pfnWrite(pkOstr, &m_field, 2, &size, 1);
@@ -288,8 +301,10 @@ struct NiPoint3
     {
         return y * y + x * x + z * z;
     }
-    void Unitize();
-    NiPoint3 Cross(const NiPoint3& p) const;
+public:
+    ::NiPoint3 CrossProduct(const ::NiPoint3 &) const;
+public:
+    static const ::NiPoint3 ZERO;
 };
 
 struct ThreeByThreeMatrix
@@ -303,7 +318,6 @@ struct ThreeByThreeMatrix
     NiPoint3 operator*(const NiPoint3& p) const;
 };
 
-float NiACos(float f);
 inline float SqrLength3(float a, float b, float c)
 {
     return a * a + b * b + c * c;
@@ -350,7 +364,7 @@ bool __stdcall FUN_00a7dc40(NiCameraStandIn* pkCamera, const NiPoint3& kPos, NiP
     if (fLenSq < 0.001f)
         return false;
 
-    kDelta.Unitize();
+    reinterpret_cast<::FUN_004a0c10_s *>(&(kDelta))->FUN_004a0c10();
     kWorldPosition = -pkCamera->m_kWorldRotate.GetCol(0);
     kUp = pkCamera->m_kWorldRotate.GetCol(1);
     kRight = pkCamera->m_kWorldRotate.GetCol(2);
@@ -360,8 +374,8 @@ bool __stdcall FUN_00a7dc40(NiCameraStandIn* pkCamera, const NiPoint3& kPos, NiP
     {
         ThreeByThreeMatrix kRot;
         {
-            NiPoint3 kAxis = kDelta.Cross(kWorldPosition);
-            kRot.MakeAxisAngleRotation(NiACos(fDot), kAxis.x, kAxis.y, kAxis.z);
+            NiPoint3 kAxis = reinterpret_cast<::NiPoint3 *>((void *)&(kDelta))->CrossProduct(kWorldPosition);
+            kRot.MakeAxisAngleRotation(::AcosClamped(fDot), kAxis.x, kAxis.y, kAxis.z);
         }
         kWorldPosition = kDelta;
         kUp = kRot * kUp;
@@ -421,14 +435,13 @@ class Prop
     char unk00[0xac];
     unsigned short m_usFlags;
 
-    void FUN_00a5dd40(NiStreamImpl& stream);
     void FUN_00a7e7b0(NiStreamImpl& stream);
 };
 
 // @fnv 0x00a7e7b0
 void Prop::FUN_00a7e7b0(NiStreamImpl& stream)
 {
-    FUN_00a5dd40(stream);
+    reinterpret_cast<::fnv_00a5dd40::FUN_00a5dd40_shell *>(this)->FUN_00a5dd40((::NiStream *)&(stream));
     if (stream.GetFileVersion() < 0x0a000102)
     {
         m_usFlags = stream.m_usOldFlags;
@@ -452,17 +465,14 @@ extern "C" double __cdecl sqrt(double x);
 class NiMemManagerA7E
 {
   public:
-    void* Allocate(unsigned int uiSize);
 };
 
-extern NiMemManagerA7E g_kMemManagerA7E;
 
 class NiPoint3A7E
 {
   public:
     float x, y, z;
 
-    static const NiPoint3A7E ZERO;
 
     NiPoint3A7E operator-(const NiPoint3A7E& pt) const
     {
@@ -491,7 +501,7 @@ class NiBoundA7E
   public:
     static void* operator new(unsigned int uiSize)
     {
-        return g_kMemManagerA7E.Allocate(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::NiMemManagerA7E *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }
 
     NiPoint3A7E m_kCenter;
@@ -592,7 +602,7 @@ void NiNodeA7E::FUN_00a7e630()
     if (!m_pkWorldBound)
     {
         SetWorldBound(new NiBoundA7E);
-        m_pkWorldBound->SetCenterAndRadius(NiPoint3A7E::ZERO, 0.0f);
+        m_pkWorldBound->SetCenterAndRadius((*reinterpret_cast<const ::NiPoint3A7E *>((void *)&::NiPoint3::ZERO)), 0.0f);
     }
 
     NiPoint3A7E kDiff = m_pkWorldBound->m_kCenter - m_kWorldTranslate;
@@ -608,14 +618,12 @@ struct StrArr
     unsigned short m_usSize;
     unsigned short unk0c;
     unsigned short m_usGrowBy;
-    void SetSize(unsigned int uiSize);
-    void SetAt(unsigned int uiIndex, char*& element);
     void Add(char* element)
     {
         unsigned int uiIndex = m_usSize;
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, element);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, element);
     }
 };
 
@@ -629,9 +637,6 @@ class GlobalObjectO2_00a7b610
   public:
     char* m_pString;
 };
-extern GlobalObjectO2_00a7b610 g_011f4aa0;
-char* __cdecl FUN_00a7d330(char* value);
-char* __cdecl FUN_00a7db60(const char* pName, unsigned int uiValue);
 
 struct PropTarget : Prop
 {
@@ -642,15 +647,14 @@ struct PropTarget : Prop
 void PropTarget::FUN_00a7e890(StrArr* array)
 {
     ((FUN_00a5ea70_t*)this)->FUN_00a5ea70(array);
-    array->Add(FUN_00a7d330(g_011f4aa0.m_pString));
+    array->Add(::FUN_00a7d330(g_011f4aa0.m_pString));
     unsigned int uiFlags = m_usFlags & 7;
-    array->Add(FUN_00a7db60("m_eMode", uiFlags));
+    array->Add(::FUN_00a7db60("m_eMode", uiFlags));
 }
 
 extern "C" unsigned int __cdecl strlen(const char* s);
 
 void* __cdecl FUN_00aa1070(unsigned int size);
-int __cdecl FUN_00a305b0(char* buffer, unsigned int size, const char* format, ...);
 
 // @fnv 0x00a7db60
 char* __cdecl FUN_00a7db60(const char* name, int type)
@@ -660,22 +664,22 @@ char* __cdecl FUN_00a7db60(const char* name, int type)
     switch (type)
     {
     case 0:
-        FUN_00a305b0(buffer, size, "%s = ALWAYS_FACE_CAMERA", name);
+        ::NiSprintf(buffer, size, "%s = ALWAYS_FACE_CAMERA", name);
         break;
     case 1:
-        FUN_00a305b0(buffer, size, "%s = ROTATE_ABOUT_UP", name);
+        ::NiSprintf(buffer, size, "%s = ROTATE_ABOUT_UP", name);
         break;
     case 2:
-        FUN_00a305b0(buffer, size, "%s = RIGID_FACE_CAMERA", name);
+        ::NiSprintf(buffer, size, "%s = RIGID_FACE_CAMERA", name);
         break;
     case 3:
-        FUN_00a305b0(buffer, size, "%s = ALWAYS_FACE_CENTER", name);
+        ::NiSprintf(buffer, size, "%s = ALWAYS_FACE_CENTER", name);
         break;
     case 4:
-        FUN_00a305b0(buffer, size, "%s = RIGID_FACE_CENTER", name);
+        ::NiSprintf(buffer, size, "%s = RIGID_FACE_CENTER", name);
         break;
     case 5:
-        FUN_00a305b0(buffer, size, "%s = BSROTATE_ABOUT_UP", name);
+        ::NiSprintf(buffer, size, "%s = BSROTATE_ABOUT_UP", name);
         break;
     }
     return buffer;
@@ -699,7 +703,6 @@ struct BoardVector : XY
         out.y = -y;
         out.z = -z;
     }
-    __declspec(noalias) void FUN_0053d280(BoardVector&, float) const;
 };
 inline float LengthPair(float a, float b)
 {
@@ -742,16 +745,13 @@ struct BoardMatrix : ThreeByThreeMatrix
     }
     BoardMatrix* FUN_0043f8d0(BoardMatrix*, const BoardMatrix&) const;
 };
-__declspec(noalias) BoardVector* FUN_004b3ae0(BoardVector*, const BoardVector&, const BoardMatrix&);
 struct BoardTransform
 {
     BoardMatrix rotate;
     BoardVector translate;
     float scale;
-    void FUN_00a86bf0();
     BoardTransform* FUN_0062c250(BoardTransform*, const BoardTransform&) const;
 };
-extern const BoardMatrix DAT_011a9448;
 extern const float DAT_010959f4 = 1.0e-6f;
 extern const float DAT_0109deb8 = 1.0e-12f;
 struct BoardUpdate
@@ -855,10 +855,14 @@ struct BoardObject
     unsigned int unkA8;
     unsigned short flags, unkAE;
     float time;
-    __declspec(noalias) bool FUN_00a7dc40(const BoardObject*, const BoardVector&, BoardVector&, BoardVector&,
-                                          BoardVector&);
     void FUN_00a7de40(const BoardObject*);
 };
+// @fnv 0x00a7e610
+void FUN_00a7e610_shell::FUN_00a7e610(NiCullingProcess* process)
+{
+    reinterpret_cast<::BoardObject *>((((FUN_00a7de40_shell*)this)))->FUN_00a7de40((const ::BoardObject *)(*(NiCullingProcess**)((char*)process + 0xc)));
+    reinterpret_cast<::FUN_00a5dbe0_shell *>((((DummyNode*)this)))->FUN_00a5dbe0(process);
+}
 // @fnv 0x00a7de40
 void BoardObject::FUN_00a7de40(const BoardObject* camera)
 {
@@ -868,10 +872,10 @@ void BoardObject::FUN_00a7de40(const BoardObject* camera)
     if (parent)
         kParentWorld = parent->world;
     else
-        kParentWorld.FUN_00a86bf0();
+        reinterpret_cast<::NiTransform *>(&(kParentWorld))->ResetToIdentity();
     world = *kParentWorld.FUN_0062c250(&composition.composed, local);
     unsigned int mode = flags & 7;
-    BoardMatrix kRot = DAT_011a9448;
+    BoardMatrix kRot = (*reinterpret_cast<const ::BoardMatrix *>(&::DAT_011a9448));
     DirectionLength work;
     BoardVector& kWorldPosition = work.kWorldPosition;
     float& fScaleMultiplier = work.fScaleMultiplier;
@@ -882,7 +886,7 @@ void BoardObject::FUN_00a7de40(const BoardObject* camera)
     case 3:
         if (mode == 3)
         {
-            if (!FUN_00a7dc40(camera, world.translate, kWorldPosition, kUp, kRight))
+            if (!::FUN_00a7dc40((::NiCameraStandIn *)this, (*(const ::NiPoint3 *)(camera)), (::NiPoint3 &)(world.translate), (::NiPoint3 &)(kWorldPosition), (::NiPoint3 &)(kUp)))
                 break;
         }
         else
@@ -895,9 +899,9 @@ void BoardObject::FUN_00a7de40(const BoardObject* camera)
             camera->world.rotate.GetColumn(2, kTmp);
             kRight = kTmp;
         }
-        kWorldPosition = (*FUN_004b3ae0(&results.dir03, kWorldPosition, world.rotate));
-        kUp = (*FUN_004b3ae0(&results.up03, kUp, world.rotate));
-        kRight = (*FUN_004b3ae0(&results.right03, kRight, world.rotate));
+        kWorldPosition = (*((::BoardVector *)(::FUN_004b3ae0((::NiPoint3 *)(::BoardVector *)(&results.dir03), (const ::NiPoint3 &)(kWorldPosition), (const float *)&(world.rotate)))));
+        kUp = (*((::BoardVector *)(::FUN_004b3ae0((::NiPoint3 *)(::BoardVector *)(&results.up03), (const ::NiPoint3 &)(kUp), (const float *)&(world.rotate)))));
+        kRight = (*((::BoardVector *)(::FUN_004b3ae0((::NiPoint3 *)(::BoardVector *)(&results.right03), (const ::NiPoint3 &)(kRight), (const float *)&(world.rotate)))));
         LengthInPlace(fScaleMultiplier, kUp.y, kRight.y);
         if (fScaleMultiplier > DAT_010959f4)
         {
@@ -930,7 +934,7 @@ void BoardObject::FUN_00a7de40(const BoardObject* camera)
         kTmp.x = camera->world.translate.x - world.translate.x;
         kTmp.y = camera->world.translate.y - world.translate.y;
         kTmp.z = camera->world.translate.z - world.translate.z;
-        (*FUN_004b3ae0(&results.dir1, kTmp, world.rotate)).FUN_0053d280(kWorldPosition, world.scale);
+        reinterpret_cast<::Point3_0053d280 *>((void *)&((*((::BoardVector *)(::FUN_004b3ae0((::NiPoint3 *)(::BoardVector *)(&results.dir1), (const ::NiPoint3 &)(kTmp), (const float *)&(world.rotate)))))))->FUN_0053d280((float)&(kWorldPosition));
         fScaleMultiplier = BoardRootFloat(kWorldPosition.x * kWorldPosition.x + kWorldPosition.z * kWorldPosition.z);
         if (!(fScaleMultiplier < DAT_0109deb8))
         {
@@ -952,7 +956,7 @@ void BoardObject::FUN_00a7de40(const BoardObject* camera)
     case 4:
         if (mode == 4)
         {
-            if (!FUN_00a7dc40(camera, world.translate, kRight, kUp, kWorldPosition))
+            if (!::FUN_00a7dc40((::NiCameraStandIn *)this, (*(const ::NiPoint3 *)(camera)), (::NiPoint3 &)(world.translate), (::NiPoint3 &)(kRight), (::NiPoint3 &)(kUp)))
                 break;
         }
         else
@@ -965,9 +969,9 @@ void BoardObject::FUN_00a7de40(const BoardObject* camera)
             camera->world.rotate.GetColumn(2, kTmp);
             kWorldPosition = kTmp;
         }
-        kRight = (*FUN_004b3ae0(&results.right24, kRight, world.rotate));
-        kUp = (*FUN_004b3ae0(&results.up24, kUp, world.rotate));
-        kWorldPosition = (*FUN_004b3ae0(&results.dir24, kWorldPosition, world.rotate));
+        kRight = (*((::BoardVector *)(::FUN_004b3ae0((::NiPoint3 *)(::BoardVector *)(&results.right24), (const ::NiPoint3 &)(kRight), (const float *)&(world.rotate)))));
+        kUp = (*((::BoardVector *)(::FUN_004b3ae0((::NiPoint3 *)(::BoardVector *)(&results.up24), (const ::NiPoint3 &)(kUp), (const float *)&(world.rotate)))));
+        kWorldPosition = (*((::BoardVector *)(::FUN_004b3ae0((::NiPoint3 *)(::BoardVector *)(&results.dir24), (const ::NiPoint3 &)(kWorldPosition), (const float *)&(world.rotate)))));
         kRot.SetColumn(0, kWorldPosition);
         kRot.SetColumn(1, kUp);
         kRot.SetColumn(2, kRight);
@@ -977,7 +981,7 @@ void BoardObject::FUN_00a7de40(const BoardObject* camera)
         kTmp.x = camera->world.translate.x - world.translate.x;
         kTmp.y = camera->world.translate.y - world.translate.y;
         kTmp.z = camera->world.translate.z - world.translate.z;
-        (*FUN_004b3ae0(&results.dir5, kTmp, world.rotate)).FUN_0053d280(kWorldPosition, world.scale);
+        reinterpret_cast<::Point3_0053d280 *>((void *)&((*((::BoardVector *)(::FUN_004b3ae0((::NiPoint3 *)(::BoardVector *)(&results.dir5), (const ::NiPoint3 &)(kTmp), (const float *)&(world.rotate)))))))->FUN_0053d280((float)&(kWorldPosition));
         double vy = kWorldPosition.y;
         double vx = kWorldPosition.x;
         fScaleMultiplier = BoardRootFloat((float)(vx * vx + vy * vy));
@@ -1039,7 +1043,7 @@ struct BillboardClone : StandIn
 
     __forceinline BillboardClone()
     {
-        ((BillboardCloneBaseCall*)this)->FUN_00a5ecb0(0);
+        new ((void *)(((BillboardCloneBaseCall*)this))) ::FUN_00a5ecb0(0);
         m_uiFilterValue = 0.0f;
         ((BillboardCloneVptr*)this)->vtable = DAT_0102bf44;
         m_field = 9;
@@ -1048,7 +1052,6 @@ struct BillboardClone : StandIn
 
 struct BillboardCloneSource : StandIn
 {
-    void FUN_00a5dc80(BillboardClone* dest, void* context);
     BillboardClone* FUN_00a7e710(void* context);
 };
 
@@ -1057,7 +1060,7 @@ BillboardClone* BillboardCloneSource::FUN_00a7e710(void* context)
 {
     void* storage = FUN_00aa13e0(sizeof(BillboardClone));
     BillboardClone* clone = storage ? new (storage) BillboardClone() : 0;
-    FUN_00a5dc80(clone, context);
+    reinterpret_cast<::NiNode *>(this)->CopyMemberData((::NiNode *)(clone), (*(::CloningProcess *)(context)));
     clone->m_field = m_field;
     return clone;
 }

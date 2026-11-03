@@ -2,6 +2,9 @@
 // src/bsmenu/radialtile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsmenu/radialtile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0070b6c0.h"
+#include "fnv/symbols_011f6000.h"
 struct TileImage
 {
     TileImage();
@@ -20,9 +23,7 @@ FUN_00a21660::FUN_00a21660()
 
 struct P03MM
 {
-    void Deallocate(void*);
 };
-extern P03MM g_memoryManager;
 
 struct FUN_00a219e0_shell
 {
@@ -36,7 +37,7 @@ void* FUN_00a219e0_shell::FUN_00a219e0(unsigned int flags)
 {
     DestroyTileImageBase();
     if (flags & 1)
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa4060(this);
     return this;
 }
 
@@ -96,5 +97,5 @@ void FUN_00a219e0_shell::DestroyTileImageBase()
     DeadStackSpace dead;
 
     ((TileImageBase*)this)->vtable = FUN_00a21660Vftable;
-    ((TileImageBase*)this)->TileImageBase::~TileImageBase();
+    reinterpret_cast<::FUN_0070b6c0 *>((((TileImageBase*)this)))->FUN_0070b6c0::~FUN_0070b6c0();
 }

@@ -17,6 +17,12 @@
 // evidence - NiGPUProgram is 12 bytes and NiD3DShaderProgram is 44
 // bytes, with m_uiProgramCodeSize at offset 20.
 //
+#include <new>
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/S00e9e860_Obj.h"
+#include "fnv/decl/fnv_00e9edd0__NiShaderArrayOwner.h"
+#include "fnv/symbols_011f6000.h"
 typedef unsigned int NiUInt32;
 class NiMemObject
 {
@@ -77,10 +83,8 @@ class NiD3DShaderProgram : public NiGPUProgram
 };
 struct P03MM
 {
-    void* Allocate(unsigned int);
 };
 typedef P03MM MemoryManager;
-extern MemoryManager g_memoryManager;
 struct S
 {
     S* FUN_00e9ee60(void*);
@@ -137,12 +141,10 @@ struct Source
 };
 struct TexArray
 {
-    void SetSize(unsigned int n);
     void SetAt(unsigned int i, ImageSpaceTexture*& t);
 };
 struct TexCache
 {
-    void FUN_00e9e860();
     void FUN_00e9ecd0(Source* src);
     unsigned int unk00;
     TexArray m_textures;
@@ -152,8 +154,8 @@ void TexCache::FUN_00e9ecd0(Source* src)
 {
     if (src->GetType() == 4)
     {
-        FUN_00e9e860();
-        m_textures.SetSize(src->m_uiItemCount);
+        reinterpret_cast<::S00e9e860_Obj *>(this)->FUN_00e9e860();
+        reinterpret_cast<::FUN_00a41520_cls *>(&(m_textures))->FUN_00a90180(src->m_uiItemCount);
         for (unsigned int i = 0; i < src->m_uiItemCount; i++)
         {
             Item* item = src->m_items[i];
@@ -161,7 +163,7 @@ void TexCache::FUN_00e9ecd0(Source* src)
             TextureVTable* table = value->vtable;
             ImageSpaceTexture* tex = value;
             table->Attach(value, item);
-            m_textures.SetAt(i, tex);
+            reinterpret_cast<::FUN_00a41520_cls *>(&(m_textures))->FUN_00ba3aa0(i, (::KeyPair **)&(tex));
         }
     }
 }
@@ -186,7 +188,6 @@ struct Array365
     unsigned short unk0c;
     unsigned short unk0e;
 
-    void __thiscall FUN_00a90180(unsigned int n);
 
     __forceinline void SetAt(unsigned int idx, int e)
     {
@@ -216,7 +217,6 @@ struct State365
     Array365 arr;
 
     unsigned int unk14;
-    State365* __thiscall FUN_00e9edd0();
 };
 
 struct Source365
@@ -237,15 +237,15 @@ struct Source365
 // @fnv 0x00e9eef0
 State365* __thiscall Source365::FUN_00e9eef0()
 {
-    State365* state = static_cast<State365*>(g_memoryManager.Allocate(sizeof(State365)));
+    State365* state = static_cast<State365*>(reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(sizeof(State365)));
 
     unsigned int i = 0;
     if (state)
-        state = state->FUN_00e9edd0();
+        state = ((::State365 *)(new ((void *)(state)) ::fnv_00e9edd0::NiShaderArrayOwner()));
 
     else
         state = 0;
-    state->arr.FUN_00a90180(GetSize());
+    reinterpret_cast<::FUN_00a41520_cls *>(&(state->arr))->FUN_00a90180(GetSize());
     for (; i < GetSize(); i++)
         state->arr.SetAt(i, unk08[i]->vf06());
     return state;

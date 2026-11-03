@@ -4,6 +4,7 @@
 
 
 #include <new>
+#include "fnv/symbols_011f9000.h"
 #include "boltshader_types_BoltShader.h"
 #include "boltshader_types_NiConsoleShaderDeclaration.h"
 
@@ -145,5 +146,4 @@ class BoltShaderCalls : public BoltShader
 
 void* __cdecl operator new(unsigned int size);
 
-extern NiRenderer* DAT_011f9508;
 #endif

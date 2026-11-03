@@ -1,11 +1,20 @@
 // bssystemutilities/console/bsdlcsystemutility_console.cpp: DownloadableContentManager, BSSystemUtility, OwnQ (11 functions)
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/Node185.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TemplateList_00a0ae70.h"
+#include "fnv/symbols_00af2000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f7000.h"
 #include "bsdlcsystemutility_console.h"
 
 // @fnv 0x004c69f0
 bool DownloadableContentManager::IsDLCAvailable()
 {
-    return IsContentAvailable();
+    return ((bool)(reinterpret_cast<::StartMenu *>(this)->GetMenuTitle()));
 }
 
 // @fnv 0x005dfa10
@@ -17,7 +26,7 @@ DownloadableContentManager& BSSystemUtility::QDLCUtility()
 // @fnv 0x00af2b10
 unsigned int DownloadableContentManager::MountDownloadableContent(unsigned int userIndex, MOUNT_CALLBACK callback)
 {
-    UnmountDLC();
+    ::FUN_00af2c20((int)this);
     struct MountProgress
     {
         BSSimpleList<ContentMountRecord*>* pkList;
@@ -98,25 +107,23 @@ class MemoryManager
   public:
     void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 struct FUN_00af2850
 {
     ~FUN_00af2850();
     void operator delete(void* p)
     {
-        g_memoryManager.Deallocate(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
     }
     char pad[0x24];
 };
-extern FUN_00af2850* DAT_011f7244;
 // Deletes the global object pointed to by DAT_011f7244 and clears the pointer.
 // @fnv 0x00af2760
 void __cdecl FUN_00af2760()
 {
-    if (DAT_011f7244)
+    if ((*reinterpret_cast<::FUN_00af2850 * *>(&::DAT_011f7244)))
     {
-        delete DAT_011f7244;
-        DAT_011f7244 = 0;
+        delete (*reinterpret_cast<::FUN_00af2850 * *>(&::DAT_011f7244));
+        (*reinterpret_cast<::FUN_00af2850 * *>(&::DAT_011f7244)) = 0;
     }
 }
 
@@ -138,20 +145,18 @@ void __fastcall FUN_00af2c20(int ecx)
 namespace fnv_00af2850 {
 struct List_009e03e0
 {
-    void RemoveAll();
     ~List_009e03e0()
     {
-        RemoveAll();
+        reinterpret_cast<::FileMatchList *>(this)->RemoveAll();
     }
 };
 
 struct BSHelper
 {
     char _pad[8];
-    void RemoveAll();
     ~BSHelper()
     {
-        RemoveAll();
+        reinterpret_cast<::Node185 *>(this)->FUN_00ae83e0();
     }
 };
 
@@ -218,10 +223,8 @@ struct FUN_00af2940_shell : public DownloadableContentManager
 
 struct P03MM
 {
-    void* Allocate(unsigned int);
     void Deallocate(void*);
 };
-extern P03MM _g_memoryManager;
 class ISteamApps
 {
   public:
@@ -245,11 +248,11 @@ struct FUN_00b008b0
 {
     __forceinline static void* operator new(unsigned int s)
     {
-        return _g_memoryManager.Allocate(s);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00af2940::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(s);
     }
     __forceinline static void operator delete(void* p)
     {
-        _g_memoryManager.Deallocate(p);
+        (*reinterpret_cast<::fnv_00af2940::P03MM *>(&::g_memoryManager)).Deallocate(p);
     }
     FUN_00b008b0(unsigned int);
     int a;
@@ -295,7 +298,7 @@ unsigned int FUN_00af2940_shell::AddInstalledDlcPackages(unsigned int anPlayerIn
             {
                 uiInstalledCount++;
                 void* package = new FUN_00b008b0(DAT_011accb8[uiIndex].name);
-                ((FUN_00af2420_class*)((char*)this + 0xc))->FUN_00af25b0(&package);
+                reinterpret_cast<::TemplateList_00a0ae70 *>((((FUN_00af2420_class*)((char*)this + 0xc))))->AddTail((::TileTemplate_00a0ae70 **)(void **)(&package));
             }
         }
     }
@@ -367,16 +370,14 @@ int FUN_00af28f0_cls::FUN_00af28f0(int a1)
 
 struct PoolQ
 {
-    void FUN_00aa4060(void* p);
 };
-extern PoolQ DAT_011f6238;
 struct ItmQ
 {
     ~ItmQ();
     void operator delete(void* p)
     {
         int aiD[3];
-        DAT_011f6238.FUN_00aa4060(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::PoolQ *>(&::g_memoryManager))))->FUN_00aa4060(p);
     }
 };
 struct NodQ
@@ -391,13 +392,11 @@ struct NodQ
 struct LstQ
 {
     NodQ kHead;
-    void FUN_00ae83e0();
 };
 struct OwnQ
 {
     int unk00, unk04, unk08;
     LstQ kList;
-    void FUN_00af2c20();
     void ClearItems(bool bFlag);
 };
 // Optionally calls FUN_00af2c20 when bFlag is set, then deletes every item in kList and resets the list via FUN_00ae83e0.
@@ -405,12 +404,12 @@ struct OwnQ
 void OwnQ::ClearItems(bool bFlag)
 {
     if (bFlag)
-        FUN_00af2c20();
+        ::FUN_00af2c20((int)this);
     NodQ* pNode = &kList.kHead;
     while (pNode && !pNode->IsEmpty())
     {
         delete pNode->pItem;
         pNode = pNode->pNext;
     }
-    kList.FUN_00ae83e0();
+    reinterpret_cast<::Node185 *>(&(kList))->FUN_00ae83e0();
 }

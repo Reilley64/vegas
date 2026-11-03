@@ -5,6 +5,28 @@
 
 // src/staging/blk_00a20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/A237F0Object.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/fnv_00a26010__FUN_00a26010_Class.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_009f9000.h"
+#include "fnv/symbols_00a24000.h"
+#include "fnv/symbols_00ee7000.h"
+#include "fnv/symbols_00ee8000.h"
+#include "fnv/symbols_00ff0000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_01100000.h"
+#include "fnv/symbols_011a2000.h"
+#include "fnv/symbols_011a7000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01202000.h"
 #include "../../include/layout_support.h"
 struct FUN_00a23a30_Class
 {
@@ -51,7 +73,6 @@ struct FUN_00a24f10_Class
 {
     unsigned int FUN_00a24f10(unsigned int i);
 };
-extern int DAT_00ff0000;
 struct FUN_00a24f60_Class
 {
     void FUN_00a24f60(int a, unsigned int b);
@@ -63,7 +84,6 @@ struct InputManager
 };
 struct FUN_00a24080_Class
 {
-    unsigned int GetFlagForType(int a);
 };
 extern unsigned short DAT_011f35bc;
 extern unsigned short DAT_011f35ac;
@@ -82,7 +102,6 @@ struct FUN_00a257c0_Class
 };
 struct FUN_00a26010_Class
 {
-    unsigned char FUN_00a26010();
     int m_50;
     int m_68;
     void AddEntry(int a);
@@ -147,7 +166,6 @@ struct FUN_00a26310_Class
 };
 struct BSStr
 {
-    bool Set(const char*, unsigned int);
 };
 struct FUN_00a22640_Class
 {
@@ -260,9 +278,7 @@ struct InputInterface
 };
 struct NiAllocator
 {
-    void __thiscall FUN_00aa4060(void*);
 };
-extern NiAllocator DAT_011f6238;
 struct InputManagerClose
 {
     unsigned int unk00;
@@ -278,7 +294,6 @@ struct InputManagerClose
     unsigned int unk28;
     InputDevice* keyboard;
     InputDevice* mouse;
-    void __thiscall SetEnabled(int);
     void __thiscall ShutdownInput();
 };
 extern "C" __declspec(dllimport) unsigned long __stdcall GetPrivateProfileStringA(
@@ -287,9 +302,6 @@ extern "C" __declspec(dllimport) unsigned long __stdcall GetPrivateProfileString
 extern "C" long __cdecl strtol(const char* str, char** endptr, int base);
 extern "C" int __cdecl strcpy_s(char* dst, unsigned int size, const char* src);
 extern "C" int __cdecl strcat_s(char* dst, unsigned int size, const char* src);
-extern char DAT_01202fa0[];
-extern const char* DAT_011a2ff8;
-extern const char* DAT_011a7e60[];
 struct ControlsIniLoader : public FUN_00a24f60_Class
 {
     void LoadControlsFromIni();
@@ -2066,7 +2078,6 @@ class A24080Property
 };
 struct FUN_00a25180_cls
 {
-    void FUN_00a24eb0(int a, int b);
     void FUN_00a25180(int a1, int a2, unsigned char a3);
 };
 struct InputHandler
@@ -3838,9 +3849,6 @@ struct InputHandler
     unsigned char m_1b90;
     unsigned char m_1b91;
 
-    void FUN_00a237f0(unsigned int* out);
-    void FUN_00a25180(int index, int flags, unsigned char state);
-    int FUN_00a23a50(int index, int flags);
     bool HandleInput(int key);
 };
 class SpawnedObject
@@ -3867,7 +3875,6 @@ struct FUN_00a252d0_cls
     void SetEnabled(unsigned char enable);
 };
 void __cdecl FUN_00ec61c0(void* dst, int value, unsigned int size);
-void FUN_00a24830();
 struct FUN_00a25810_Target
 {
     int m_00;
@@ -3884,7 +3891,6 @@ struct FUN_00a25810_Class
 {
     void ResetTargetState();
 };
-extern "C" void __stdcall FUN_00ee820a(int, unsigned short*);
 // FUN_00a25870 - returns the flag byte stored in the global at 0x011f3630.
 // The module is an unoptimised (/Od) build, so even this one-liner keeps the
 // full frame: push ebp / mov ebp,esp / mov al,[g] / pop ebp / ret.
@@ -3960,9 +3966,7 @@ struct S
     void FUN_00a25be0();
 };
 extern int* DAT_011f63a8;
-extern int DAT_011f3638;
 extern int DAT_011f363c;
-extern int DAT_01202800;
 struct S_00a25c80_Class
 {
     int m_00;
@@ -4070,7 +4074,6 @@ struct FUN_00a26410_arg
 };
 struct FUN_00a26a50_Class
 {
-    unsigned short FUN_00a26a50(FUN_00a26410_arg* a, unsigned int b);
 };
 struct FUN_00a26410_cls : FUN_00a26a50_Class
 {
@@ -4078,17 +4081,12 @@ struct FUN_00a26410_cls : FUN_00a26a50_Class
 };
 struct FUN_00a26520_Class
 {
-    void UpdateWaveChannel(int a, short* b, int c);
 };
-void __stdcall FUN_00ee820a(int a, short* b);
 struct TwoShorts
 {
     short x;
     short y;
 };
-extern const double DAT_01023128;
-extern const double DAT_01012070;
-extern const double DAT_01011590;
 double __cdecl FUN_00eca060(double v);
 struct FUN_00a26a50_cls
 {
@@ -4103,7 +4101,6 @@ struct Scratch
 };
 extern Scratch DAT_011f35a8;
 extern Scratch DAT_011f35b8;
-int __stdcall FUN_009f996e(int user, Scratch* state);
 struct PollingDevice
 {
     virtual long __stdcall QueryInterface() = 0;
@@ -4169,11 +4166,8 @@ struct EventQueue
 };
 struct EventMemory
 {
-    void* Allocate(unsigned int);
 };
-extern EventMemory _g_memoryManager;
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
-extern "C" void __stdcall FUN_00ee820a(int, unsigned short*);
 struct Controller
 {
     int unk0000;
@@ -5975,7 +5969,6 @@ struct WaveController
 
 struct PoolQ
 {
-    void FUN_00aa4060(void* p);
 };
 struct FUN_00a26240
 {
@@ -5987,7 +5980,7 @@ struct PoolDelQ
     __forceinline void operator delete(void* p)
     {
         int aiD[3];
-        ((PoolQ*)&DAT_011f6238)->FUN_00aa4060(p);
+        reinterpret_cast<::FNV_MemoryManager *>((((PoolQ*)&(*reinterpret_cast<::NiAllocator *>(&::g_memoryManager)))))->FUN_00aa4060(p);
     }
 };
 struct FUN_00a25b00 : PoolDelQ
@@ -5995,16 +5988,14 @@ struct FUN_00a25b00 : PoolDelQ
     char pad[0x3ac];
     FUN_00a26240 kList;
     ~FUN_00a25b00();
-    void FUN_00a25dd0(int a);
 };
-extern FUN_00a25b00* DAT_011f3634Q;
 // @fnv 0x00a25b00
 FUN_00a25b00::~FUN_00a25b00()
 {
     if (DAT_011f3634Q)
     {
         delete DAT_011f3634Q;
-        FUN_00a25dd0(0);
+        reinterpret_cast<::FUN_00a25dd0_Class *>(this)->FUN_00a25dd0(0);
     }
 }
 
@@ -6024,15 +6015,13 @@ FUN_00a25b00::~FUN_00a25b00()
 
 extern "C" char DAT_01100ed4;  // IID_IDirectInput8A
 extern "C" char DAT_01100f84;  // GUID_SysMouse
-extern "C" char DAT_01100f74;  // GUID_SysKeyboard
+  // GUID_SysKeyboard
 extern "C" char DAT_01100cb4;  // c_dfDIMouse
-extern "C" char DAT_01100aac;  // c_dfDIKeyboard
+  // c_dfDIKeyboard
 
-extern "C" unsigned char DAT_011f35d0[];  // Setting objects, 12 B each
+  // Setting objects, 12 B each
 extern "C" unsigned char DAT_011f35d4;
-extern "C" unsigned char DAT_011f35dc[];
 extern "C" unsigned char DAT_011f35e0;
-extern "C" unsigned char DAT_011f35e8[];
 extern "C" unsigned char DAT_011f35ec;
 inline bool SettingIs(const unsigned char* apSetting, bool abValue)
 {
@@ -6041,15 +6030,13 @@ inline bool SettingIs(const unsigned char* apSetting, bool abValue)
 
 struct MemMgr
 {
-    void* FUN_00aa3e40(unsigned int size);
 };
 
 inline void* operator new(unsigned int size)
 {
-    return ((MemMgr*)&DAT_011f6238)->FUN_00aa3e40(size);
+    return reinterpret_cast<::MemoryManagerStandIn *>((((MemMgr*)&(*reinterpret_cast<::NiAllocator *>(&::g_memoryManager)))))->FUN_00aa3e40(size);
 }
 
-extern "C" long __stdcall FUN_00ee7f10(void* hinst, unsigned int version, void* iid, void** out, void* outer);
 extern "C" __declspec(dllimport) long __stdcall RegOpenKeyExA(void* key, const char* sub, unsigned int opt,
                                                               unsigned int sam, void** out);
 extern "C" __declspec(dllimport) long __stdcall RegQueryValueExA(void* key, const char* name, unsigned int* res,
@@ -6097,7 +6084,6 @@ struct FUN_00a262d0_C40  // 0x40 bytes, ctor at 0x00a262d0
     int m00, m04, m08, m0c, m10, m14, m18, m1c;
     int m20, m24, m28, m2c, m30, m34, m38, m3c;
     FUN_00a262d0_C40(unsigned int a);
-    void FUN_00a26310(int a, Elem2* b);
 };
 
 struct DIPROPDWORD
@@ -6133,14 +6119,12 @@ struct Mgr
     unsigned char m1b91;
     unsigned short m1b92;
     Mgr* FUN_00a22660(int arg);
-    void SetEnabled(int enable);
-    void FUN_00a24b70(int a);
 };
 
 __forceinline Elem2* NewZeroedElem2()
 {
     unsigned int uiSizeVal = 0x24;
-    void* pMemory = ((MemMgr*)&DAT_011f6238)->FUN_00aa3e40(uiSizeVal);
+    void* pMemory = reinterpret_cast<::MemoryManagerStandIn *>((((MemMgr*)&(*reinterpret_cast<::NiAllocator *>(&::g_memoryManager)))))->FUN_00aa3e40(uiSizeVal);
     return (Elem2*)(pMemory ? (FUN_00ec61c0(pMemory, 0, uiSizeVal), pMemory) : 0);
 }
 
@@ -6151,11 +6135,11 @@ Mgr* Mgr::FUN_00a22660(int arg)
     this->m04 = 0;
     this->m1b92 = 0;
 
-    FUN_00ee7f10((void*)arg, 0x800, &DAT_01100ed4, (void**)&this->m08, 0);
+    ::FUN_00ee7f10((void*)arg, 0x800, &DAT_01100ed4, (void**)&this->m08, 0);
 
-    if (SettingIs(DAT_011f35d0, true))
+    if (SettingIs((*reinterpret_cast<unsigned char (*)[]>(&::g_011f35d0)), true))
     {
-        this->SetEnabled(1);
+        reinterpret_cast<::FUN_00a252d0_cls *>((this))->SetEnabled(1);
     }
 
     this->m2c = 0;
@@ -6166,7 +6150,7 @@ Mgr* Mgr::FUN_00a22660(int arg)
     {
         this->m04 |= 4;
         this->m2c = (IDIDev*)pDev;
-        if (SettingIs(DAT_011f35dc, true))
+        if (SettingIs((*reinterpret_cast<unsigned char (*)[]>(&::g_011f35dc)), true))
         {
             this->m2c->SetCooperativeLevel(GetActiveWindow(), 0x16);
         }
@@ -6208,7 +6192,7 @@ Mgr* Mgr::FUN_00a22660(int arg)
     FUN_00ec61c0(&this->m1af8[0], 0, 0x2c);
     this->m1af8[0] = 0x2c;
 
-    if (SettingIs(DAT_011f35e8, true))
+    if (SettingIs((*reinterpret_cast<unsigned char (*)[]>(&::g_011f35e8)), true))
     {
         this->m04 |= 8;
     }
@@ -6258,51 +6242,49 @@ Mgr* Mgr::FUN_00a22660(int arg)
         this->m1b84->m14 = 0;
         this->m1b84->m1c = 0;
 
-        this->m1b80->FUN_00a26310(1, this->m1b84);
-        this->m1b80->FUN_00a26310(0, this->m1b84);
+        reinterpret_cast<::FUN_00a26310_Class *>((this->m1b80))->FUN_00a26310(1, (::FUN_00a26480_class *)(this->m1b84));
+        reinterpret_cast<::FUN_00a26310_Class *>((this->m1b80))->FUN_00a26310(0, (::FUN_00a26480_class *)(this->m1b84));
     }
     this->m1b88 = 1;
 
-    this->FUN_00a24b70(4);
+    reinterpret_cast<::FUN_00a24b70_Class *>((this))->FUN_00a24b70(4);
     this->m00 = 0;
     return this;
 }
 
 struct S_00a25920_Pool
 {
-    void* FUN_00aa3e40(unsigned int size);
 };
 struct S_00a25920_Obj
 {
     int unk00;
     static __forceinline void* operator new(unsigned int)
     {
-        return ((S_00a25920_Pool&)DAT_011f6238).FUN_00aa3e40(0x14280);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(((S_00a25920_Pool&)(*reinterpret_cast<::NiAllocator *>(&::g_memoryManager)))))->FUN_00aa3e40(0x14280);
     }
     S_00a25920_Obj();
 };
-extern S_00a25920_Obj* DAT_011f3634;
 // @fnv 0x00a25920
 S_00a25920_Obj* __cdecl FUN_00a25920()
 {
-    if (DAT_011f3634 == 0)
+    if ((*reinterpret_cast<::S_00a25920_Obj * *>(&::DAT_011f3634Q)) == 0)
     {
-        DAT_011f3634 = new S_00a25920_Obj;
+        (*reinterpret_cast<::S_00a25920_Obj * *>(&::DAT_011f3634Q)) = new S_00a25920_Obj;
     }
-    return DAT_011f3634;
+    return (*reinterpret_cast<::S_00a25920_Obj * *>(&::DAT_011f3634Q));
 }
 
 // @fnv 0x00a25880
 void FUN_00a25880()
 {
-    if (!DAT_011f3634)
-        DAT_011f3634 = new S_00a25920_Obj();
-    ((FUN_00a25de0_Class*)DAT_011f3634)->FUN_00a25de0();
+    if (!(*reinterpret_cast<::S_00a25920_Obj * *>(&::DAT_011f3634Q)))
+        (*reinterpret_cast<::S_00a25920_Obj * *>(&::DAT_011f3634Q)) = new S_00a25920_Obj();
+    ((FUN_00a25de0_Class*)(*reinterpret_cast<::S_00a25920_Obj * *>(&::DAT_011f3634Q)))->FUN_00a25de0();
 }
 
 __forceinline void __cdecl operator delete(void* memory)
 {
-    DAT_011f6238.FUN_00aa4060(memory);
+    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::NiAllocator *>(&::g_memoryManager))))->FUN_00aa4060(memory);
 }
 
 // @fnv 0x00a26240

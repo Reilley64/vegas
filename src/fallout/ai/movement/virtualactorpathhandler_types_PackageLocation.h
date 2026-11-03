@@ -2,6 +2,7 @@
 #ifndef FNV_PACKAGELOCATION_H
 #define FNV_PACKAGELOCATION_H
 
+#include "fnv/decl/BGSMessageInitAccess.h"
 #include "layout_support.h"
 #include "TESForm.h"
 #include "TESObjectREFR.h"
@@ -12,7 +13,6 @@ class BSFileEntry;
 class LocationDescriptor
 {
   public:
-    BSFileEntry* SetLocRef();
     char m_ucLocationType;  // +0x0, 1 bytes
     unsigned char layoutPadding1[3];
     unsigned int m_pLocationData;  // +0x4, 4 bytes

@@ -1,5 +1,12 @@
 // NiRenderedTexture.cpp: NiRenderedTexture (6 functions)
 
+#include "fnv/decl/FUN_00a5c240_shell.h"
+#include "fnv/symbols_00a5f000.h"
+#include "fnv/symbols_00a8f000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011ab000.h"
+#include "fnv/symbols_011f4000.h"
 #include "NiRenderedTexture.h"
 
 // @fnv 0x00a7fc00
@@ -32,7 +39,7 @@ NiRenderedTexture* NiRenderedTexture::Create(const NiFixedString& name, unsigned
     texture->m_kTextureFormatPreferences = preferences;
     texture->m_pReuseTexture = reuseTexture;
     texture->m_uiAliasOffset = aliasOffset;
-    Ni2DBuffer* buffer = Ni2DBuffer::Create(width, height);
+    Ni2DBuffer* buffer = ((::Ni2DBuffer *)(::CreateObjA8F260(width, height)));
     Ni2DBuffer* oldBuffer = texture->m_spRenderTargetBuffer.m_pObject;
     if (oldBuffer != buffer)
     {
@@ -42,9 +49,9 @@ NiRenderedTexture* NiRenderedTexture::Create(const NiFixedString& name, unsigned
         if (buffer)
             InterlockedIncrement(reinterpret_cast<volatile long*>(&buffer->m_uiRefCount));
     }
-    texture->m_bUseDepthBuffer = ms_bUseDepthBuffer;
-    texture->m_ePixelFormat = ms_eDepthStencilFormat;
-    texture->m_bUseMipMaps = ms_bUseMipMaps;
+    texture->m_bUseDepthBuffer = ::DAT_011f4ac0;
+    texture->m_ePixelFormat = (*reinterpret_cast<::_D3DFORMAT *>(&::DAT_011ab3c8));
+    texture->m_bUseMipMaps = ::DAT_011ab3c4;
     if (!dxRenderer->CreateRenderedTexture(texture, msaa))
     {
         delete texture;
@@ -59,10 +66,6 @@ NiRenderedTexture* NiRenderedTexture::Create(const NiFixedString& name, unsigned
 // InterlockedDecrement might be needed if not in headers, but let's assume it is or use a helper if needed.
 // The error log didn't complain about InterlockedDecrement, only LONG.
 
-void __fastcall DestroyFogProperty(void*);
-void __fastcall FUN_00a5f800(void*);
-void __cdecl __Dummy_00b6fef0(void*, unsigned int);
-extern int DAT_0109b944;
 
 // Need to declare InterlockedDecrement if it's not found.
 // extern "C" long __cdecl InterlockedDecrement(long*);
@@ -91,12 +94,12 @@ void* __fastcall DestroyRenderedTexture(NiRenderedTexture* self, int, unsigned c
         ((void(__thiscall*)(void*, int))vtbl24[0])(p24, 1);
     }
 
-    FUN_00a5f800(self);
-    DestroyFogProperty(self);
+    ::FUN_00a5f800((::TextureListView *)(self));
+    reinterpret_cast<::FUN_00a5c240_shell *>((self))->DestroyFogProperty();
 
     if (flags & 1)
     {
-        __Dummy_00b6fef0(self, 0x48);
+        ::FUN_00aa1460(self, 0x48);
     }
 
     return self;
@@ -107,12 +110,11 @@ struct FUN_00a7fbd0_shell : public NiRenderedTexture
     void* FUN_00a7fbd0();
 };
 
-extern char const* const g_012708e4_arg1[];
 
 // @fnv 0x00a7fbd0
 void* FUN_00a7fbd0_shell::FUN_00a7fbd0()
 {
-    return reinterpret_cast<void*>(const_cast<char const**>(g_012708e4_arg1));
+    return reinterpret_cast<void*>(const_cast<char const**>((*reinterpret_cast<const char *const (*)[]>(&::g_011f4ac4))));
 }
 
 struct FUN_00a7fbe0_shell : public NiRenderedTexture

@@ -5,7 +5,6 @@
 
 #include "bsfilecache.h"
 
-BSFileCache* FUN_00aff100();
 
 inline bool IsCacheFinished(BSFileCache* m_pAabbCache)
 {
@@ -27,13 +26,13 @@ struct Cls00b01220
 // @fnv 0x00b01220
 Cls00b01220* __thiscall Cls00b01220::FUN_00b01220(int unused)
 {
-    BSFileCache* pCache1 = FUN_00aff100();
+    BSFileCache* pCache1 = ((::BSFileCache *)&(::BSFileCache::GetRandomGenerator()));
     if (!IsCacheFinished(pCache1))
     {
-        BSFileCache* pCache2 = FUN_00aff100();
+        BSFileCache* pCache2 = ((::BSFileCache *)&(::BSFileCache::GetRandomGenerator()));
         this->unk00 = IsCachePaused(pCache2);
 
-        BSFileCache* pCache3 = FUN_00aff100();
+        BSFileCache* pCache3 = ((::BSFileCache *)&(::BSFileCache::GetRandomGenerator()));
         if (pCache3->m_eCacheState == FILE_CACHING_IN_PROGRESS)
         {
             pCache3->m_eCacheState = FILE_CACHING_PAUSED;
@@ -43,7 +42,6 @@ Cls00b01220* __thiscall Cls00b01220::FUN_00b01220(int unused)
     return this;
 }
 
-BSFileCache* FUN_00aff100();
 class FUN_00b012a0_cls
 {
   public:
@@ -53,10 +51,10 @@ class FUN_00b012a0_cls
 // @fnv 0x00b012a0
 void FUN_00b012a0_cls::FUN_00b012a0()
 {
-    BSFileCache* cache = FUN_00aff100();
+    BSFileCache* cache = ((::BSFileCache *)&(::BSFileCache::GetRandomGenerator()));
     if (!IsCacheFinished(cache) && m_00 == 0)
     {
-        BSFileCache* cache2 = FUN_00aff100();
+        BSFileCache* cache2 = ((::BSFileCache *)&(::BSFileCache::GetRandomGenerator()));
         if (cache2->m_eCacheState == FILE_CACHING_PAUSED)
             cache2->m_eCacheState = FILE_CACHING_IN_PROGRESS;
     }

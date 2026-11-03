@@ -1,9 +1,11 @@
 // Source layout: PlayerCharacter. PC corrections are in generate_headers.py.
 #ifndef FNV_PLAYERCHARACTER_H
 #define FNV_PLAYERCHARACTER_H
+#include "fnv/decl/FUN_00493bb0_Class.h"
 #include "layout_support.h"
 #include "Character.h"
 #pragma pack(push, 4)
+class Animation;
 class PlayerCharacter : public Character
 {
   public:
@@ -46,7 +48,8 @@ class PlayerCharacter : public Character
     virtual void Unk_139();
     virtual BSSimpleList<PerkForm*>* GetPerks(bool teammate);
     bool IsSleepingOrResting();
-    bool HasCombatState();
+public:
+    ::Animation *GetAnimation(bool) const;
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(PlayerCharacter) == 0xE50);

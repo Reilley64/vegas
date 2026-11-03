@@ -2,24 +2,38 @@
 // src/fallout_shared/bgsragdoll_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/bgsragdoll.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_005ee380_Data.h"
+#include "fnv/decl/FUN_005ee580_Data.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00407000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005ee000.h"
 #include "bgsragdoll_types_BGSRagdoll.h"
 #include <malloc.h>
 template <int N> struct EndianSizeTag
 {
 };
-void __cdecl BSEndian(unsigned short*, EndianSizeTag<2>);
 class TESFileLoadView : public TESFile
 {
   public:
-    unsigned int GetTESForm();
 };
 class TESFormInitFlag
 {
   public:
-    bool IsFormInitialized() const;
-    static TESForm* GetFormByID(unsigned int formID);
 };
-int __cdecl Warning(const char*, ...);
 void __cdecl operator delete(void*);
 class BGSBodyPartData : public TESForm
 {

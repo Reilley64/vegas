@@ -1,5 +1,26 @@
 // fallout_shared/tesglobal.cpp: TESGlobal, TESImageSpace (8 functions)
 
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_00526ac0_shell.h"
+#include "fnv/decl/FUN_00529ea0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
 #include "tesglobal_layout.h"
 #include "tesglobal_decls.h"
 #include <malloc.h>
@@ -11,19 +32,19 @@
 // @fnv 0x005a64b0
 bool TESGlobal::Load(TESFile* file)
 {
-    if (file->GetTESForm() != 6)
+    if (((unsigned int)(reinterpret_cast<::FUN_00472660_shell *>((file))->FUN_00472660())) != 6)
         return false;
 
-    LoadRecordHeader(file);
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
 
     int chunkID;
-    while ((chunkID = (int)file->GetChunkID()) != 0)
+    while ((chunkID = (int)((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()))) != 0)
     {
         switch (chunkID)
         {
         case FNV_FOURCC('E', 'D', 'I', 'D'): {
-            char* buffer = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(buffer, 0x200);
+            char* buffer = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(buffer), 0x200);
             SetEditorID_AtRuntime(buffer);
             break;
         }
@@ -31,7 +52,7 @@ bool TESGlobal::Load(TESFile* file)
             readOBNDSubRecord(file);
             break;
         case FNV_FOURCC('F', 'N', 'A', 'M'):
-            file->GetChunkData(&cType, 1);
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&cType), 1);
             break;
         case FNV_FOURCC('F', 'L', 'T', 'V'):
             file->GetChunkData((unsigned int*)&fValue);
@@ -49,13 +70,12 @@ bool TESGlobal::Load(TESFile* file)
 // @fnv 0x0052b310
 TESImageSpace::TESImageSpace()
 {
-    SetFormType((ENUM_FORM_ID)0x53);
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)((ENUM_FORM_ID)0x53)));
     TESImageSpace::ResetFormData();
 }
 
 struct BSStr
 {
-    bool Set(char const*, unsigned int);
 };
 
 struct FUN_005a63a0_shell
@@ -68,36 +88,21 @@ struct FUN_005a63a0_shell
 // @fnv 0x005a63a0
 bool __thiscall FUN_005a63a0_shell::SetString(char const* apString)
 {
-    ((BSStr*)((char*)this + 0x18))->Set(apString, 0);
+    reinterpret_cast<::TextString *>((((BSStr*)((char*)this + 0x18))))->FUN_004037f0(apString, 0);
     return 1;
 }
 
-void _Deallocate(void*);
 struct S_5a63c0
 {
     void FUN_005a63f0();
     void* Destroy(unsigned int flags);
 };
-// Calls FUN_005a63f0, then deallocates this if flags has bit 1 set, and returns this.
-// @fnv 0x005a63c0
-void* S_5a63c0::Destroy(unsigned int flags)
-{
-    FUN_005a63f0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct FUN_004855a0
 {
-    void M();
 };
 struct FUN_00485680
 {
-    void M();
 };
-void __cdecl FUN_004858f0(unsigned int, unsigned char);
-void __cdecl _FUN_00485910(unsigned int, float);
 struct FUN_005a6460_standin
 {
     char _p0[32];
@@ -110,23 +115,20 @@ struct FUN_005a6460_standin
 // @fnv 0x005a6460
 void FUN_005a6460_standin::FUN_005a6460()
 {
-    ((FUN_004855a0*)this)->M();
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
     FUN_004858f0(0x4D414E46, _b20);
-    _FUN_00485910(0x56544C46, _f24);
-    ((FUN_00485680*)this)->M();
+    ::FUN_00485910(0x56544C46, _f24);
+    reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
 }
 
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
 };
 struct BSFaceGenModelMap
 {
-    bool FUN_00529ea0();
 };
 struct TESGlobalValueReader
 {
-    float GetValue();
 };
 struct FUN_005a65e0_shell : TESGlobal
 {
@@ -138,14 +140,13 @@ void FUN_005a65e0_shell::FUN_005a65e0(TESForm* apCopy)
     TESGlobal* pCopy = dynamic_cast<TESGlobal*>(apCopy);
     if (!pCopy)
         return;
-    reinterpret_cast<FUN_005e78f0_t*>(this)->FUN_004851b0(apCopy);
-    cType = reinterpret_cast<BSFaceGenModelMap*>(pCopy)->FUN_00529ea0();
-    fValue = reinterpret_cast<TESGlobalValueReader*>(pCopy)->GetValue();
+    reinterpret_cast<::FormCloneOperation *>((reinterpret_cast<FUN_005e78f0_t*>(this)))->FUN_004851b0(apCopy);
+    cType = ((bool)(reinterpret_cast<::FUN_00529ea0_shell *>((reinterpret_cast<BSFaceGenModelMap*>(pCopy)))->FUN_00529ea0()));
+    fValue = reinterpret_cast<::FUN_00526ac0_shell *>((reinterpret_cast<TESGlobalValueReader*>(pCopy)))->FUN_00526ac0();
 }
 
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
 };
 struct FUN_005a6640_shell : TESGlobal
 {
@@ -158,18 +159,17 @@ bool FUN_005a6640_shell::IsNotEqual(TESForm* apCompare)
     TESGlobal* pComp = dynamic_cast<TESGlobal*>(apCompare);
     if (!pComp)
         return true;
-    if (((FUN_005e79a0_t*)this)->FUN_00485270(pComp))
+    if (reinterpret_cast<::FUN_00509540_obj *>((((FUN_005e79a0_t*)this)))->FUN_00485270(pComp))
         return true;
-    if (((char)((BSFaceGenModelMap*)this)->FUN_00529ea0()) != ((char)((BSFaceGenModelMap*)pComp)->FUN_00529ea0()))
+    if (((char)((bool)(reinterpret_cast<::FUN_00529ea0_shell *>((((BSFaceGenModelMap*)this)))->FUN_00529ea0()))) != ((char)((bool)(reinterpret_cast<::FUN_00529ea0_shell *>((((BSFaceGenModelMap*)pComp)))->FUN_00529ea0()))))
         return true;
-    if (((TESGlobalValueReader*)this)->GetValue() != ((TESGlobalValueReader*)pComp)->GetValue())
+    if (reinterpret_cast<::FUN_00526ac0_shell *>((((TESGlobalValueReader*)this)))->FUN_00526ac0() != reinterpret_cast<::FUN_00526ac0_shell *>((((TESGlobalValueReader*)pComp)))->FUN_00526ac0())
         return true;
     return false;
 }
 
 struct FUN_00483710_t
 {
-    void FUN_00483710();
 };
 
 struct FUN_004037d0
@@ -189,9 +189,18 @@ struct FUN_005a63f0 : FUN_00483630
     virtual ~FUN_005a63f0();
     FUN_004037d0 m_18;
 };
+// Calls FUN_005a63f0, then deallocates this if flags has bit 1 set, and returns this.
+// @fnv 0x005a63c0
+void* S_5a63c0::Destroy(unsigned int flags)
+{
+    reinterpret_cast<::FUN_005a63f0 *>(this)->FUN_005a63f0::~FUN_005a63f0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x005a63f0
 FUN_005a63f0::~FUN_005a63f0()
 {
-    ((FUN_00483710_t*)this)->FUN_00483710();
+    reinterpret_cast<::TESForm *>((((FUN_00483710_t*)this)))->ClearData();
 }

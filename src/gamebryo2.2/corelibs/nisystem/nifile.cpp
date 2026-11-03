@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nisystem/nifile.cpp: NiFile (2 functions)
 
+#include "fnv/symbols_00aa8000.h"
 #include "nifile_packet.h"
 // @fnv 0x00aa1a20
 NiFile* NiFile::GetFile(const char* name, OpenMode mode, unsigned int bufferSize)
@@ -21,6 +22,6 @@ unsigned int NiFile::RequestFileAccess(const char* name, unsigned int mode, unsi
     request.name = name;
     request.bufferSize = bufferSize;
     request.mode = mode;
-    CompleteJob(&request);
+    ::CompleteJob((::JobA *)(::NiFileAccessRequest *)(&request));
     return request.result;
 }

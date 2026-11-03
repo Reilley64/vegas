@@ -5,6 +5,7 @@
 
 // src/havok/common/base/memory/router/hkmemoryrouter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/router/hkmemoryrouter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/MagicCaster_shell.h"
 struct FUN_00c85690_Allocator
 {
     virtual void unk00();
@@ -92,7 +93,6 @@ struct Pool
 
 struct Holder
 {
-    Pool* FUN_0044edb0();
 };
 
 Holder* __cdecl FUN_00c85750();
@@ -102,7 +102,7 @@ ReturnType* __cdecl FUN_0056d280(unsigned int nbytes)
 {
     ReturnType* result;
     {
-        Pool* pool = FUN_00c85750()->FUN_0044edb0();
+        Pool* pool = ((::Pool *)(reinterpret_cast<::MagicCaster_shell *>((FUN_00c85750()))->FUN_0044edb0()));
         result = pool->Alloc(nbytes);
     }
     result->unk04 = (unsigned short)nbytes;

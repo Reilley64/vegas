@@ -7,6 +7,14 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/fallout_shared/bgssceneinfo.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/bgssceneinfo.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/BGSMessageInitAccess.h"
+#include "fnv/decl/FUN_004a95d0_shell.h"
+#include "fnv/decl/FUN_004a9850.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_004a8000.h"
+#include "fnv/symbols_004a9000.h"
 struct FUN_004a7cf0_shell
 {
     int m_0000;
@@ -34,7 +42,6 @@ struct Flt
 };
 struct Script
 {
-    int GetText();
 };
 struct FUN_004a8070_shell
 {
@@ -42,19 +49,15 @@ struct FUN_004a8070_shell
 };
 extern unsigned char DAT_0118868c;
 unsigned char __cdecl FUN_004a82c0();
-int __cdecl MinInt(int iA, int iB);
 struct FUN_004a8f50_shell
 {
-    void FUN_004a95d0(int a);
     void* FUN_004a8f50();
 };
 struct GlobalObject2_0040c150
 {
-    int* Int();
 };
 struct GlobalObject2_0045cfe0
 {
-    int* Int();
 };
 GlobalObject2_0045cfe0 g_011c59e0;
 int FUN_004a9100();
@@ -69,9 +72,7 @@ struct FUN_004a9630_shell
 };
 struct FUN_004a9850_shell
 {
-    void FUN_004a9850();
 };
-void __cdecl _Deallocate(void* p);
 
 struct __declspec(align(16)) ChildBuffer
 {
@@ -98,7 +99,6 @@ struct Node
     virtual void vf0c();
     virtual TileWorkList* GetChildren();
 
-    int FUN_0043b230();
 };
 
 // @fnv 0x004a9240
@@ -107,7 +107,7 @@ int __cdecl FUN_004a9240(Node* node)
     if (node == 0)
         return 0;
     int count = 0;
-    switch (node->FUN_0043b230())
+    switch (((int)(::fnv_0043b230::FUN_0043b230((const char *)(node)))))
     {
     case 3:
         return 1;

@@ -5,6 +5,34 @@
 
 // src/speedtree/indexedgeometry.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/indexedgeometry.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00b17e90_cls.h"
+#include "fnv/decl/FUN_00b2e1b0_class.h"
+#include "fnv/decl/FUN_00b2e330_It.h"
+#include "fnv/decl/FUN_00b319a0_class.h"
+#include "fnv/decl/FUN_00b32540_Vector.h"
+#include "fnv/decl/FUN_00b3f130_shell.h"
+#include "fnv/decl/IndexSet.h"
+#include "fnv/decl/Outer_b33110.h"
+#include "fnv/decl/PointOwner.h"
+#include "fnv/decl/PtrVector.h"
+#include "fnv/decl/RandomNumberGenerator.h"
+#include "fnv/decl/S.h"
+#include "fnv/decl/VcVec.h"
+#include "fnv/decl/Vec410.h"
+#include "fnv/decl/Vector_b17f50.h"
+#include "fnv/decl/fnv_00b0a9a0__FUN_00b0a9a0_Tree.h"
+#include "fnv/decl/fnv_00b2c130__MainC.h"
+#include "fnv/decl/fnv_00b30f80__ptb30__PtOwner.h"
+#include "fnv/decl/fnv_00b319e0__vecb319__VcVector.h"
+#include "fnv/decl/fnv_00b32410__PbContainer.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0044d000.h"
+#include "fnv/symbols_00b0d000.h"
+#include "fnv/symbols_00b10000.h"
+#include "fnv/symbols_00b17000.h"
+#include "fnv/symbols_00b42000.h"
+#include "fnv/symbols_011ad000.h"
+#include "fnv/symbols_011f8000.h"
 struct FUN_00b30060_shell
 {
     int FUN_00b30060(float* p);
@@ -53,6 +81,9 @@ struct SubB
 
     SubB();
 };
+struct BranchMatrix;
+struct BranchMesh;
+struct BranchPoint;
 struct FUN_00b10dc0
 {
     int unk00;
@@ -67,6 +98,8 @@ struct FUN_00b10dc0
     SubB unk38;
 
     FUN_00b10dc0(int param);
+public:
+    void FUN_00b11050(unsigned int, float, int, const ::BranchPoint &, float, float, const ::BranchMatrix &, const ::BranchPoint &, ::BranchMesh *, void *, float, unsigned int, float);
 };
 struct FUN_00b300c0_cls
 {
@@ -173,7 +206,6 @@ struct FUN_00b304f0_cls
 
     void FUN_00b304f0(const float& v);
 };
-bool __cdecl FUN_00b0d7a0(void);
 void __cdecl FreeBlock(void* p);
 class FUN_00b32c60_cls
 {
@@ -193,12 +225,9 @@ struct K
     int fC;
     int f10;
     int f14;
-    int __thiscall FUN_00b33110(int, int);
     void __thiscall FUN_00b331c0();
 };
-void __cdecl FUN_00401030(void*);
 unsigned int __cdecl FUN_00ec7c56(void);
-void __cdecl FUN_00401030(void*);
 struct InnerVec
 {
     int unk00;
@@ -219,11 +248,9 @@ struct OuterVec
 };
 struct FUN_00b32350_shell
 {
-    void FUN_00b32350();
 };
 struct FUN_00b32120_shell
 {
-    void FUN_00b32120();
 };
 struct ScratchFrame
 {
@@ -320,7 +347,7 @@ template <class T> inline T* allocateElements(unsigned int n, T*)
         n = 0;
     else if (0xffffffffu / n < sizeof(T))
         throw AllocationFailure();
-    return (T*)::operator new(n * sizeof(T));
+    return (T*)::FUN_00401000(n * sizeof(T));
 }
 struct Aux;
 template <class T> struct Allocator
@@ -482,7 +509,6 @@ struct Lengths : Vector<unsigned short>
             insert(end(), value);
     }
 
-    void FUN_00b32540();
 };
 
 struct Strips : Vector<unsigned short*>
@@ -496,7 +522,6 @@ struct Strips : Vector<unsigned short*>
             insert(end(), value);
     }
 
-    void FUN_00b32350();
 };
 
 struct FUN_00b31350 : ValueBase<Lengths>
@@ -544,12 +569,11 @@ struct FUN_00b31350 : ValueBase<Lengths>
 
     ~FUN_00b31350()
     {
-        FUN_00b32c60();
+        reinterpret_cast<::FUN_00b32c60_cls *>(this)->FUN_00b32c60();
     }
 
     void FUN_00b32c60();
 
-    Lengths* FUN_00b319a0(unsigned int);
     __forceinline Lengths& operator[](unsigned int index)
     {
         if (index >= (unsigned int)((Lengths*)unk10 - (Lengths*)unkc))
@@ -605,12 +629,11 @@ struct FUN_00b31ad0 : ValueBase<Strips>
 
     ~FUN_00b31ad0()
     {
-        FUN_00b331c0();
+        reinterpret_cast<::K *>(this)->FUN_00b331c0();
     }
 
     void FUN_00b331c0();
 
-    Strips* FUN_00b319a0(unsigned int);
     __forceinline Strips& operator[](unsigned int index)
     {
         if (index >= (unsigned int)((Strips*)unk10 - (Strips*)unkc))
@@ -666,12 +689,11 @@ struct FUN_00b311b0 : ValueBase<unsigned int>
 
     ~FUN_00b311b0()
     {
-        FUN_00b17f50();
+        reinterpret_cast<::Vector_b17f50 *>(this)->FUN_00b17f50();
     }
 
     void FUN_00b17f50();
 
-    unsigned int* FUN_00b31230(unsigned int);
     __forceinline unsigned int& operator[](unsigned int index)
     {
         if (index >= (unsigned int)((unsigned int*)unk10 - (unsigned int*)unkc))
@@ -703,7 +725,6 @@ struct Mesh
 
     void FUN_00b2ed70(bool);
 
-    void ClearOuter();
 };
 
 // @fnv 0x00b2ed70
@@ -719,7 +740,7 @@ void Mesh::FUN_00b2ed70(bool preserve)
             int combinedLength = 0;
             for (unsigned short index = 0;
                  index <
-                 ((short)group > -1 ? (unsigned short)strips.FUN_00b319a0((short)group)->size() : (unsigned short)0);
+                 ((short)group > -1 ? (unsigned short)((::StripJoin::Strips *)(reinterpret_cast<::FUN_00b319a0_class *>(&(strips))->FUN_00b319a0((short)group)))->size() : (unsigned short)0);
                  ++index)
                 combinedLength += lengths[group][index];
             if (combinedLength > 0)
@@ -727,7 +748,7 @@ void Mesh::FUN_00b2ed70(bool preserve)
                 if (preserve)
                 {
                     for (unsigned short join = 0;
-                         join < ((short)group > -1 ? (unsigned short)strips.FUN_00b319a0((short)group)->size()
+                         join < ((short)group > -1 ? (unsigned short)((::StripJoin::Strips *)(reinterpret_cast<::FUN_00b319a0_class *>(&(strips))->FUN_00b319a0((short)group)))->size()
                                                    : (unsigned short)0) -
                                     1;
                          ++join)
@@ -741,7 +762,7 @@ void Mesh::FUN_00b2ed70(bool preserve)
                 }
                 else
                 {
-                    int joins = ((short)group > -1 ? (unsigned short)strips.FUN_00b319a0((short)group)->size()
+                    int joins = ((short)group > -1 ? (unsigned short)((::StripJoin::Strips *)(reinterpret_cast<::FUN_00b319a0_class *>(&(strips))->FUN_00b319a0((short)group)))->size()
                                                    : (unsigned short)0);
                     if (joins > 0)
                         joins--;
@@ -750,14 +771,14 @@ void Mesh::FUN_00b2ed70(bool preserve)
                 unsigned short* writer = new unsigned short[combinedLength];
                 unsigned short* joined = writer;
                 for (unsigned short strip = 0;
-                     strip < ((short)group > -1 ? (unsigned short)strips.FUN_00b319a0((short)group)->size()
+                     strip < ((short)group > -1 ? (unsigned short)((::StripJoin::Strips *)(reinterpret_cast<::FUN_00b319a0_class *>(&(strips))->FUN_00b319a0((short)group)))->size()
                                                 : (unsigned short)0);
                      ++strip)
                 {
                     unsigned short copyLength = lengths[group][strip];
                     memcpy(joined, strips[group][strip], copyLength * sizeof(unsigned short));
                     joined += copyLength;
-                    if (strip < ((short)group > -1 ? (unsigned short)strips.FUN_00b319a0((short)group)->size()
+                    if (strip < ((short)group > -1 ? (unsigned short)((::StripJoin::Strips *)(reinterpret_cast<::FUN_00b319a0_class *>(&(strips))->FUN_00b319a0((short)group)))->size()
                                                    : (unsigned short)0) -
                                     1)
                     {
@@ -785,18 +806,18 @@ void Mesh::FUN_00b2ed70(bool preserve)
                         }
                     }
                 }
-                newLengths[group].FUN_00b32410((unsigned short)combinedLength);
-                newStrips[group].FUN_00b15390(writer);
+                reinterpret_cast<::fnv_00b32410::PbContainer *>(&(newLengths[group]))->FUN_00b32410((const short &)((const unsigned short &)((unsigned short)combinedLength)));
+                reinterpret_cast<::IndexSet *>(&(newStrips[group]))->FUN_00b15390((const unsigned int &)(writer));
                 newCounts[group] = combinedLength - 2;
             }
             else
             {
-                newLengths.FUN_00b319a0(group)->FUN_00b32540();
-                newStrips.FUN_00b319a0(group)->FUN_00b32350();
-                *newCounts.FUN_00b31230(group) = 0;
+                reinterpret_cast<::FUN_00b32540_Vector *>((((::StripJoin::Lengths *)(reinterpret_cast<::FUN_00b319a0_class *>(&(newLengths))->FUN_00b319a0(group)))))->FUN_00b32540();
+                reinterpret_cast<::IndexSet *>((((::StripJoin::Strips *)(reinterpret_cast<::FUN_00b319a0_class *>(&(newStrips))->FUN_00b319a0(group)))))->FUN_00b32350();
+                *((unsigned int *)&(reinterpret_cast<::PtrVector *>(&(newCounts))->FUN_00b31230(group))) = 0;
             }
         }
-        ClearOuter();
+        reinterpret_cast<::TargetClass *>(this)->ClearOuter();
         lengths.FUN_00b314f0(newLengths);
         strips.FUN_00b31c70(newStrips);
         counts.FUN_00b36330(newCounts);
@@ -887,8 +908,6 @@ struct Geometry366
     int unk84;
     Vector366 vertices;
     Vector366 normalData;
-    float* GetVertex(int);
-    float* GetPlaneNormal(int);
     void FUN_00b2fc50(const Matrix366&);
 };
 // @fnv 0x00b2fc50
@@ -902,7 +921,7 @@ void Geometry366::FUN_00b2fc50(const Matrix366& matrix)
     count = vertices.size() / 3;
     for (i = 0; i < count; i++)
     {
-        vertex2 = GetVertex(i);
+        vertex2 = reinterpret_cast<::fnv_00b30f80::ptb30::PtOwner *>(this)->FUN_00b30f80(i);
         point2.Set(vertex2[0], vertex2[1], vertex2[2]);
         point2 = point2 * matrix;
         _memmove(vertex2, &point2, 12);
@@ -910,7 +929,7 @@ void Geometry366::FUN_00b2fc50(const Matrix366& matrix)
         {
             if (!normalData.empty())
             {
-                normal = GetPlaneNormal(i);
+                normal = reinterpret_cast<::PointOwner *>(this)->FUN_00b31020(i);
                 point2.Set(normal[0], normal[1], normal[2]);
                 point2 = point2 * matrix;
                 _memmove(normal, &point2, 12);
@@ -961,11 +980,10 @@ struct S_0060b3f0
     }
     void insert_n(VecConstIterator<float> where, unsigned count, const float& value);
     iterator erase(VecConstIterator<float> first, VecConstIterator<float> last);
-    void FUN_0060b410(unsigned count, float value);
 
     inline void resize(unsigned count)
     {
-        FUN_0060b410(count, float());
+        reinterpret_cast<::Vec410 *>(this)->FUN_0060b410(count, float());
     }
     __forceinline unsigned size() const
     {
@@ -1003,7 +1021,7 @@ struct AuxFloatArray
 
     inline void resize(unsigned count)
     {
-        FUN_0060b410(count, float());
+        reinterpret_cast<::Vec410 *>(this)->FUN_0060b410(count, float());
     }
     __forceinline unsigned size() const
     {
@@ -1031,11 +1049,10 @@ struct ByteArray
     }
     void insert_n(iterator where, unsigned count, const unsigned char& value);
     iterator erase(iterator first, iterator last);
-    void FUN_00b0e200(unsigned count, unsigned char value);
 
     inline void resize(unsigned count)
     {
-        FUN_00b0e200(count, (unsigned char)0);
+        reinterpret_cast<::VcVec *>(this)->FUN_00b0e200(count, (unsigned char)0);
     }
     __forceinline unsigned size() const
     {
@@ -1163,7 +1180,7 @@ void CoordinateWriter::FUN_00b301f0(const float* point, short index)
         auxiliaryCoordinates[2 * count + 1] = point[1];
     }
     mainCoordinates[2 * count] = point[0];
-    mainCoordinates[2 * count + 1] = FUN_00b0d7a0() ? -point[1] : point[1];
+    mainCoordinates[2 * count + 1] = ((bool)(::FUN_00b0d7a0())) ? -point[1] : point[1];
 }
 
 struct ScalarTag
@@ -1296,7 +1313,7 @@ template <class T> struct VecIterT : ConstIterT<T>
     {}
     VecIterT<T>& operator+=(int n)
     {
-        ((ConstIterT<T>*)this)->FUN_00b2e330(n);
+        reinterpret_cast<::FUN_00b2e330_It *>((((ConstIterT<T>*)this)))->FUN_00b2e330(n);
         return *this;
     }
     VecIterT<T> operator+(int n) const
@@ -1463,7 +1480,6 @@ inline CatQ_acad60 PtrCat_acad60(char*&, char*&)
     CatQ_acad60 c;
     return c;
 }
-void __cdecl FUN_00b10cf0(char* _First, unsigned int _Count, const char& _Val);
 inline void UFill2_acad60(char* _First, unsigned int _Count, const char& _Val, AlQ_acad60& _Al, CatQ_acad60,
                           TagQ_acad60)
 {
@@ -1541,7 +1557,6 @@ void VecQ_acad60::FUN_00b0dae0(const char& _Val)
     }
 }
 
-void __cdecl FUN_00401030(void* p);
 struct VB9
 {
     inline void*& PP()
@@ -1658,7 +1673,6 @@ struct FUN_00b2e9c0
     {
         FUN_00401030(p);
     }
-    void ClearOuter();
     ~FUN_00b2e9c0();
 };
 // @fnv 0x00b2e9c0
@@ -1666,7 +1680,7 @@ FUN_00b2e9c0::~FUN_00b2e9c0()
 {
     Free(pBuf);
     pBuf = 0;
-    ClearOuter();
+    reinterpret_cast<::TargetClass *>(this)->ClearOuter();
 }
 
 struct Vec3f
@@ -1746,7 +1760,6 @@ struct ShapeHost
         b->y = a2.y;
         b->z = a2.z;
     }
-    Vec3f* FUN_00b30f80(int index);
     void FUN_00b2fa30(BoundsBox* out);
 };
 
@@ -1756,7 +1769,7 @@ void ShapeHost::FUN_00b2fa30(BoundsBox* out)
     unsigned short count = getCount();
     for (int i = 0; i < count; ++i)
     {
-        Vec3f* pX = FUN_00b30f80(i);
+        Vec3f* pX = ((::Vec3f *)(reinterpret_cast<::fnv_00b30f80::ptb30::PtOwner *>(this)->FUN_00b30f80(i)));
         Vec3f b;
         fill(pX, &b);
         *out = out->FUN_00b3caa0(&b);
@@ -1961,11 +1974,11 @@ template <class _Ty> class allocator : public _Allocator_base<_Ty>
     }
     void deallocate(pointer _Ptr, size_type)
     {
-        ::operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     pointer allocate(size_type _Count)
     {
-        return (_Allocate(_Count, (pointer)0));
+        return (((::std::_Aux_cont *)(::FUN_0044d670(_Count))));
     }
     pointer allocate(size_type _Count, const void*)
     {
@@ -2488,7 +2501,7 @@ template <class _Ty, class _Ax> class vector : public _Vector_val<_Ty, _Ax>
         if (this != &_Right)
         {
             if (_Right.size() == 0)
-                clear();
+                reinterpret_cast<::IndexSet *>(this)->FUN_00b32350();
             else if (_Right.size() <= size())
             {
                 pointer _Ptr = ::stdext::unchecked_copy(_Right._Myfirst, _Right._Mylast, _Myfirst);
@@ -2950,20 +2963,6 @@ struct VectorSet
     std::vector<std::vector<unsigned int> > second;
     void FUN_00b2fb30(unsigned short size);
 };
-// @fnv 0x00b2fb30
-void VectorSet::FUN_00b2fb30(unsigned short size)
-{
-    first.clear();
-    second.clear();
-    values.clear();
-    count = size;
-    first.resize(size);
-    second.resize(size);
-    values.resize(size);
-    for (int i = 0; i < size; ++i)
-        values[i] = 0;
-}
-
 template <class T> struct CheckedVector
 {
     void* proxy;
@@ -3559,7 +3558,6 @@ typedef unsigned int U32;
 void* __cdecl operator new[](U32 bytes);
 unsigned int __cdecl FUN_00ec7c56();
 void* __cdecl FUN_00ec44d0(void* dest, const void* src, U32 length);
-extern unsigned char* DAT_011f8d88;
 template <class T> struct DataVector
 {
     U32 metadata00;
@@ -3651,7 +3649,7 @@ struct GeometryProcessor
 };
 __forceinline Matrix4* Matrix(U16 pose)
 {
-    return (Matrix4*)(DAT_011f8d88 + (U32)pose * 64);
+    return (Matrix4*)((*reinterpret_cast<unsigned char * *>(&::leafwind::DAT_011f8d88)) + (U32)pose * 64);
 }
 __forceinline float Blend(float original, float target, float factor)
 {
@@ -3670,7 +3668,7 @@ unsigned char GeometryProcessor::FUN_00b30800(U16 index)
             processedVertices[vertex8] = 0;
         Vec3 transformed;
         Vec3 _interpolatedPosition;
-        for (int group4 = 0; group4 < FUN_00b0a9a0(index); ++group4)
+        for (int group4 = 0; group4 < ((unsigned short)(reinterpret_cast<::fnv_00b0a9a0::FUN_00b0a9a0_Tree *>(this)->FUN_00b0a9a0(index))); ++group4)
         {
             for (int kEntry = 0; kEntry < vertexCounts[index].counts[group4]; ++kEntry)
             {
@@ -3681,7 +3679,7 @@ unsigned char GeometryProcessor::FUN_00b30800(U16 index)
                     Vec3* original = (Vec3*)(&originalPositions[0] + vertexId * 3);
                     transformed.Set(original->x, original->y, original->z);
                     U16 pose3 = transformIndices[vertexId];
-                    transformed = transformed.FUN_00b05000(Matrix(pose3));
+                    transformed = (*(::Vec3 *)(reinterpret_cast<::S *>(&(transformed))->FUN_00b05000((::V *)(Matrix(pose3)), {})));
                     _interpolatedPosition.Set(Blend(original->x, transformed[0], factor5),
                                               Blend(original->y, transformed[1], factor5),
                                               Blend(original->z, transformed[2], factor5));
@@ -3751,6 +3749,19 @@ struct Vec : VecVal
     inline CIter FUN_00b33030(CIter a, CIter b);
     void FUN_00b32120();
 };
+// @fnv 0x00b2fb30
+void VectorSet::FUN_00b2fb30(unsigned short size)
+{
+    reinterpret_cast<::fnv_00b319e0::vecb319::VcVector *>(&(first))->FUN_00b319e0();
+    reinterpret_cast<::Vec *>(&(second))->FUN_00b32120();
+    reinterpret_cast<::IndexSet *>(&(values))->FUN_00b32350();
+    count = size;
+    first.resize(size);
+    second.resize(size);
+    values.resize(size);
+    for (int i = 0; i < size; ++i)
+        values[i] = 0;
+}
 
 inline CIter::CIter(int* p, const Vec* v)
 {
@@ -3833,8 +3844,6 @@ struct ScalarAllocator
     }
 };
 
-unsigned int* __cdecl FUN_00b42e50(unsigned int*, unsigned int*, unsigned int*);
-unsigned int* __cdecl FUN_00b177e0(unsigned int*, unsigned int*, unsigned int*, ScalarAllocator&);
 __forceinline ScalarTag PtrCatQ(unsigned int*&, unsigned int*&)
 {
     ScalarTag _Cat;
@@ -3854,8 +3863,6 @@ struct VectorStorage
     unsigned int* first;
     unsigned int* last;
     unsigned int* end;
-    bool ResizeArray(unsigned int);
-    void FUN_00b32350();
     __forceinline unsigned int size() const
     {
         return (last - first);
@@ -3870,7 +3877,7 @@ struct VectorStorage
     }
     __forceinline unsigned int* UcopyQ(unsigned int* _First, unsigned int* _Last, unsigned int* _Ptr)
     {
-        return FUN_00b177e0(_First, _Last, _Ptr, allocator);
+        return ((unsigned int *)(::fnv_00b0f410::tail_target((int *)(_First), (int *)(_Last), (int *)(_Ptr), (int *)&(allocator))));
     }
     VectorStorage& FUN_00b36330(const VectorStorage& _Right);
 };
@@ -3969,12 +3976,12 @@ VectorStorage& VectorStorage::FUN_00b36330(const VectorStorage& _Right)
     {
         HA();
         if (_Right.size() == 0)
-            FUN_00b32350();
+            reinterpret_cast<::IndexSet *>(this)->FUN_00b32350();
         else if (_Right.size() <= size())
         {
             HB();
             HB2();
-            unsigned int* _Ptr = FUN_00b42e50(_Right.first, _Right.last, first);
+            unsigned int* _Ptr = ((unsigned int *)(::FUN_00b42e50((int *)(_Right.first), (int *)(_Right.last), (int *)(first))));
             DestroyQ(_Ptr, last);
             last = first + _Right.size();
         }
@@ -3982,7 +3989,7 @@ VectorStorage& VectorStorage::FUN_00b36330(const VectorStorage& _Right)
         {
             HC();
             unsigned int* _Ptr = _Right.first + size();
-            FUN_00b42e50(_Right.first, _Ptr, first);
+            ::FUN_00b42e50((int *)(_Right.first), (int *)(_Ptr), (int *)(first));
             last = UcopyQ(_Ptr, _Right.last, last);
         }
         else
@@ -3992,7 +3999,7 @@ VectorStorage& VectorStorage::FUN_00b36330(const VectorStorage& _Right)
                 DestroyQ(first, last);
                 allocator.deallocate(first, end - first);
             }
-            if (ResizeArray(_Right.size()))
+            if (reinterpret_cast<::FUN_00b17e90_cls *>(this)->ResizeArray(_Right.size()))
             {
                 HD();
                 last = UcopyQ(_Right.first, _Right.last, first);
@@ -4068,13 +4075,9 @@ struct Matrix
 struct RandomState
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24;
-    void FUN_00b3f160(int);
-    float FUN_00b3f130(float, float);
 };
 struct RenderObject
 {
-    void FUN_00b2fb30(unsigned short);
-    void FUN_00b306d0(unsigned short);
 };
 struct StateVector;
 struct StateIterator
@@ -4109,7 +4112,6 @@ struct StateVector
         StateIterator start = begin();
         FUN_00b335c0(start, stop);
     }
-    void FUN_00b15390(const int&);
 };
 inline StateIterator::StateIterator(int* p, StateVector* v) : owner(0)
 {
@@ -4118,18 +4120,13 @@ inline StateIterator::StateIterator(int* p, StateVector* v) : owner(0)
     owner = v->proxy;
     current = p;
 }
-extern unsigned char DAT_011ad148;
-extern int DAT_011ad14c;
-extern StateVector DAT_011f8c50;
-extern void* DAT_011f8bf4;
-extern int DAT_011f8bfc;
 inline void SetEnabled(unsigned char enabled)
 {
-    DAT_011ad148 = enabled;
+    (*reinterpret_cast<unsigned char *>(&::DAT_011ad148)) = enabled;
 }
 inline void SetMode(int mode)
 {
-    DAT_011ad14c = mode;
+    ::DAT_011ad14c = mode;
 }
 inline void SetRandomSeed(int seed)
 {
@@ -4137,7 +4134,7 @@ inline void SetRandomSeed(int seed)
 }
 inline void AddValue(int item)
 {
-    DAT_011f8c50.FUN_00b15390(item);
+    reinterpret_cast<::IndexSet *>(&((*reinterpret_cast<::fnv_00b2af80::StateVector *>(&::DAT_011f8c50))))->FUN_00b15390((const unsigned int &)(item));
 }
 inline int ShortCount(int count)
 {
@@ -4155,8 +4152,6 @@ struct Renderer
     int unk38, unk3c, unk40;
     int unk44, unk48, unk4c;
     Renderer(int);
-    void FUN_00b11050(int, float, int, void*, float, float, const Matrix&, const Float3&, RenderObject*, void*, float,
-                      int, float);
 };
 struct Target
 {
@@ -4182,7 +4177,6 @@ struct Target
     bool flag;
     int unkf4, unkf8, unkfc, unk100, unk104;
     int mode;
-    void FUN_00b2c130();
     void FUN_00b2c890(float);
     void FUN_00b2af80(float);
 };
@@ -4194,14 +4188,14 @@ void Target::FUN_00b2af80(float elapsed)
     if (!flag)
         elements = new ArrayElement[capacity];
     SetMode(mode);
-    DAT_011f8c50.FUN_00b32350();
-    DAT_011f8bf4 = &unk94;
+    reinterpret_cast<::IndexSet *>(&((*reinterpret_cast<::fnv_00b2af80::StateVector *>(&::DAT_011f8c50))))->FUN_00b32350();
+    (*reinterpret_cast<void * *>(&::DAT_011f8bf4)) = &unk94;
     for (unsigned i = 0; i < values.size(); ++i)
     {
         AddValue(values[i]);
     }
-    random.FUN_00b3f160(seed);
-    float value = random.FUN_00b3f130(center - range, center + range);
+    reinterpret_cast<::RandomNumberGenerator *>(&(random))->SeedRandomGenerator(seed);
+    float value = reinterpret_cast<::FUN_00b3f130_shell *>(&(random))->FUN_00b3f130(center - range, center + range);
     srand(randomSeed);
     if (center > 0.0)
     {
@@ -4212,16 +4206,16 @@ void Target::FUN_00b2af80(float elapsed)
             record.scaled[Y] = (float)(center * record.original[Y]);
         }
     }
-    random.FUN_00b3f160(seed);
-    object->FUN_00b2fb30((unsigned short)ShortCount(count));
-    object->FUN_00b306d0(0);
+    reinterpret_cast<::RandomNumberGenerator *>(&(random))->SeedRandomGenerator(seed);
+    reinterpret_cast<::VectorSet *>((object))->FUN_00b2fb30((unsigned short)ShortCount(count));
+    reinterpret_cast<::Cls *>((object))->FUN_00b306d0(0);
     SetRandomSeed(seed);
     {
-        renderer->FUN_00b11050(seed, value, 0, &position, 0.0f, 0.0f,
-                               Matrix(1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f), Float3(0.0f, 0.0f, 1.0f),
-                               object, &offset, 1.0f, seed, -1.0f);
+        reinterpret_cast<::FUN_00b10dc0 *>((renderer))->FUN_00b11050(seed, value, 0, (*(const ::BranchPoint *)(&position)), 0.0f, 0.0f,
+                               (const ::BranchMatrix &)((const ::fnv_00b2af80::Matrix &)(Matrix(1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f))), (const ::BranchPoint &)((const ::fnv_00b2af80::Float3 &)(Float3(0.0f, 0.0f, 1.0f))),
+                               (::BranchMesh *)(object), &offset, 1.0f, seed, -1.0f);
     }
-    FUN_00b2c130();
+    reinterpret_cast<::fnv_00b2c130::MainC *>(this)->FUN_00b2c130();
     if (!flag)
         FUN_00b2c890(elapsed);
     srand((unsigned)_time64(0));
@@ -4232,7 +4226,6 @@ namespace fnv_00b2c890 {
 #include <string.h>
 
 void* operator new(unsigned int);
-void FUN_00401030(void*);
 namespace std {
 class exception
 {
@@ -4261,7 +4254,7 @@ template <class T> inline T* AllocateCount(unsigned int count, T*)
         count = 0;
     else if (((unsigned int)(-1) / count) < sizeof(T))
         throw std::bad_alloc(0);
-    return (T*)::operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 template <class T> inline void DestroyElement(T* ptr)
 {
@@ -4305,7 +4298,7 @@ template <class T> struct NativeAllocator
 {
     void deallocate(T* ptr, unsigned int)
     {
-        FUN_00401030(ptr);
+        ::FUN_00401030(ptr);
     }
     T* allocate(unsigned int count)
     {
@@ -4511,7 +4504,7 @@ struct FUN_00b355d0 : ContainerAux
     }
     ~FUN_00b355d0()
     {
-        FUN_00b17f50();
+        reinterpret_cast<::Vector_b17f50 *>(this)->FUN_00b17f50();
     }
 };
 inline ConstFloatIterator::ConstFloatIterator(float* position, const ContainerAux* owner)
@@ -4557,7 +4550,7 @@ struct PairArray : ContainerAux
     }
     ~PairArray()
     {
-        FreeBuffer();
+        reinterpret_cast<::FUN_00b2e1b0_class *>(this)->FreeBuffer();
     }
 };
 struct Init : PairArray
@@ -4691,12 +4684,12 @@ void Target::FUN_00b2c890(float step)
             maximum = 10.0f;
         if (values)
         {
-            values[0].FUN_00b36330(initial);
+            reinterpret_cast<::VectorStorage *>(&(values[0]))->FUN_00b36330((const ::VectorStorage &)(initial));
             for (iteration = 1; iteration < count; iteration++)
             {
                 stepFactor = 1.0f + iteration * step;
                 Init operation(&unk94, (float)(maximum * 10.0), parameter, stepFactor);
-                values[iteration].FUN_00b36330(operation.FUN_00b40b30(values[iteration - 1]));
+                reinterpret_cast<::VectorStorage *>(&(values[iteration]))->FUN_00b36330((const ::VectorStorage &)((const ::fnv_00b2c890::FUN_00b355d0 &)(operation.FUN_00b40b30(values[iteration - 1]))));
             }
         }
     }

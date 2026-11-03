@@ -2,6 +2,16 @@
 // src/havok/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00cfbbe0_cls.h"
+#include "fnv/decl/hkpSphereCapsuleAgent.h"
+#include "fnv/symbols_00d23000.h"
+#include "fnv/symbols_00d3a000.h"
+#include "fnv/symbols_00d3e000.h"
+#include "fnv/symbols_00d3f000.h"
+#include "fnv/symbols_00daf000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010ce000.h"
+#include "fnv/symbols_01268000.h"
 struct S_00d3ef70_CdBody;
 struct S_00d3ef70_Input;
 struct S_00d3ef70_Agent;
@@ -22,17 +32,9 @@ struct S_00d3ef70_AgentFuncs {
 };
 
 struct S_00d3ef70_Dispatcher {
-    void registerCollisionAgent(S_00d3ef70_AgentFuncs& f, int typeA, int typeB);
 };
 
-S_00d3ef70_Agent* FUN_00d3e2f0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, void*);
-void FUN_00d3f040(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
-void FUN_00d3f4c0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
-void FUN_00d3ac80(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&, S_00d3ef70_Collector*);
-S_00d3ef70_Agent* FUN_00d3e270(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, void*);
 void FUN_00d3e330(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
-void FUN_00d3ebe0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
-void FUN_00daf8e0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&, S_00d3ef70_Collector*);
 
 // Registers two collision agent function tables with the dispatcher for the type pairs (5,1) and (1,5).
 // @fnv 0x00d3ef70
@@ -40,23 +42,23 @@ void FUN_00d3ef70(S_00d3ef70_Dispatcher* dispatcher)
 {
     {
         S_00d3ef70_AgentFuncs agentFuncs;
-        agentFuncs.m_pCreateFunc = FUN_00d3e2f0;
-        agentFuncs.m_pQueryPenetrationsFunc = FUN_00d3f040;
-        agentFuncs.m_getClosestPointsFunc = FUN_00d3f4c0;
-        agentFuncs.m_pLinearCastFunc = FUN_00d3ac80;
+        agentFuncs.m_pCreateFunc = ((S_00d3ef70_Agent *(&)(const S_00d3ef70_CdBody &, const S_00d3ef70_CdBody &, const S_00d3ef70_Input &, void *))::FUN_00d3e2f0);
+        agentFuncs.m_pQueryPenetrationsFunc = ((void (&)(const S_00d3ef70_CdBody &, const S_00d3ef70_CdBody &, const S_00d3ef70_Input &, S_00d3ef70_Collector &))::FUN_00d3f040);
+        agentFuncs.m_getClosestPointsFunc = ((void (&)(const S_00d3ef70_CdBody &, const S_00d3ef70_CdBody &, const S_00d3ef70_Input &, S_00d3ef70_Collector &))::FUN_00d3f4c0);
+        agentFuncs.m_pLinearCastFunc = ((void (&)(const S_00d3ef70_CdBody &, const S_00d3ef70_CdBody &, const S_00d3ef70_Input &, S_00d3ef70_Collector &, S_00d3ef70_Collector *))::FUN_00d3ac80);
         agentFuncs.m_bIsFlipped = true;
         agentFuncs.m_bIsPredictive = false;
-        dispatcher->registerCollisionAgent(agentFuncs, 5, 1);
+        reinterpret_cast<::FUN_00cfbbe0_cls *>((dispatcher))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)&(agentFuncs), 5, 1);
     }
     {
         S_00d3ef70_AgentFuncs agentFuncs;
-        agentFuncs.m_pCreateFunc = FUN_00d3e270;
+        agentFuncs.m_pCreateFunc = ((S_00d3ef70_Agent *(&)(const S_00d3ef70_CdBody &, const S_00d3ef70_CdBody &, const S_00d3ef70_Input &, void *))::FUN_00d3e270);
         agentFuncs.m_pQueryPenetrationsFunc = FUN_00d3e330;
-        agentFuncs.m_getClosestPointsFunc = FUN_00d3ebe0;
-        agentFuncs.m_pLinearCastFunc = FUN_00daf8e0;
+        agentFuncs.m_getClosestPointsFunc = ((void (&)(const S_00d3ef70_CdBody &, const S_00d3ef70_CdBody &, const S_00d3ef70_Input &, S_00d3ef70_Collector &))::hkpSphereCapsuleAgent::FUN_00d3ebe0);
+        agentFuncs.m_pLinearCastFunc = ((void (&)(const S_00d3ef70_CdBody &, const S_00d3ef70_CdBody &, const S_00d3ef70_Input &, S_00d3ef70_Collector &, S_00d3ef70_Collector *))::FUN_00daf8e0);
         agentFuncs.m_bIsFlipped = false;
         agentFuncs.m_bIsPredictive = false;
-        dispatcher->registerCollisionAgent(agentFuncs, 1, 5);
+        reinterpret_cast<::FUN_00cfbbe0_cls *>((dispatcher))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)&(agentFuncs), 1, 5);
     }
 }
 
@@ -134,15 +136,13 @@ void __cdecl FUN_00d3e2f0(int aiUnused1, int aiUnused2, int aiUnused3, int aiVal
     pRecord->m_vptr = DAT_010cf018;
 }
 
-void __cdecl FUN_00d3e330(int a, int b, int c, int d);
 
 // @fnv 0x00d3e510
 void __stdcall FUN_00d3e510(int a, int b, int c, int d)
 {
-    FUN_00d3e330(a, b, c, d);
+    ::FUN_00d3e330((*(const ::S_00d3ef70_CdBody *)(a)), (*(const ::S_00d3ef70_CdBody *)(b)), (*(const ::S_00d3ef70_Input *)(c)), (*(::S_00d3ef70_Collector *)(d)));
 }
 
-extern char DAT_010ce81c;
 
 struct FUN_00d3f040_tmp {
     const char* str;
@@ -150,7 +150,6 @@ struct FUN_00d3f040_tmp {
     unsigned int value;
 };
 
-void __cdecl FUN_00d3e330(unsigned int a, unsigned int b, unsigned int c, FUN_00d3f040_tmp* p);
 
 // Builds a FUN_00d3f040_tmp with value a3, flag 0 and str pointing at DAT_010ce81c, then calls FUN_00d3e330(a1, a0, a2, &t).
 // @fnv 0x00d3f040
@@ -160,17 +159,15 @@ void __cdecl FUN_00d3f040(unsigned int a0, unsigned int a1, unsigned int a2, uns
     t.value = uiValue;
     t.flag = 0;
     t.str = &DAT_010ce81c;
-    FUN_00d3e330(a1, a0, a2, &t);
+    ::FUN_00d3e330((*(const ::S_00d3ef70_CdBody *)(a1)), (*(const ::S_00d3ef70_CdBody *)(a0)), (*(const ::S_00d3ef70_Input *)(a2)), (*(::S_00d3ef70_Collector *)(&t)));
 }
 
-extern char DAT_010ce81c;
 struct AgentDispatchDescriptor {
     const void* dispatchTable;
     unsigned char isFlipped;
     volatile unsigned int tag;
 };
 struct CollisionDispatcher {
-    void FUN_00d3e510(void* bodyB, void* bodyA, void* input, AgentDispatchDescriptor* descriptor);
     void FUN_00d3f000(void* bodyA, void* bodyB, void* volatile input, unsigned int tag);
 };
 // Builds an AgentDispatchDescriptor with the given tag and a fixed dispatch table, then calls FUN_00d3e510 with the bodies swapped.
@@ -181,7 +178,7 @@ void CollisionDispatcher::FUN_00d3f000(void* bodyA, void* bodyB, void* volatile 
     descriptor.tag = tag;
     descriptor.isFlipped = false;
     descriptor.dispatchTable = &DAT_010ce81c;
-    FUN_00d3e510(bodyB, bodyA, input, &descriptor);
+    ::FUN_00d3e510((int)this, (int)(bodyB), (int)(bodyA), (int)(input));
 }
 
 union __declspec(intrin_type) __declspec(align(16)) __m128 {
@@ -200,9 +197,7 @@ extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 
-extern unsigned long DAT_0126835c;
 extern const char str_010cf158[];
-extern const char str_010c41f8[];
 
 struct SphCap_Mon {
     char* m_kRayStart;
@@ -279,7 +274,6 @@ struct S_00d3ef70_Collector {
     virtual void AddCdBodyPair(const S_00d3ef70_CdBody& a, const S_00d3ef70_CdBody& b);
 };
 
-int __cdecl FUN_00d230e0(const SphCap_Vector4& pos, const SphCap_Vector4& a, const SphCap_Vector4& b, SphCap_SegResult& out);
 
 struct Group1 {
     SphCap_Vector4F t0;
@@ -342,7 +336,7 @@ t->m_ticks = ticks; }
     }
 
     {
-        FUN_00d230e0(spherePos, points[0], points[1], closest);
+        ::FUN_00d230e0((const ::hkVector4D230 &)(spherePos), (const ::hkVector4D230 &)(points[0]), (const ::hkVector4D230 &)(points[1]), (::hkVector4D230 &)(closest));
 
         float radiusSum = capsule->m_fSphereRadius + sphere->m_fSphereRadius;
         __m128 d = _mm_sub_ps(closest.m_kClosestPoint.m_vComponents, spherePos.m_vComponents);
@@ -362,7 +356,7 @@ t->m_ticks = ticks; }
         if (pos < mon->m_capMinus16) {
             volatile unsigned int ticks;
             SphCap_Timer* t = (SphCap_Timer*)pos;
-            t->m_name = str_010c41f8;
+            t->m_name = ::DAT_010c41f8;
             { unsigned int ticks;
 __asm {
     rdtsc

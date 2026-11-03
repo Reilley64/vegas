@@ -1,5 +1,22 @@
 // fallout_shared/tesscriptvariable.cpp: SL_standin, Rec (6 functions)
 
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00462e80_shell.h"
+#include "fnv/decl/FUN_00471870_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00501c10_cls.h"
+#include "fnv/decl/T2870.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/TESOffsetWorker.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00407000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00472000.h"
 #include "tesscriptvariable_decls.h"
 #include "TESFile.h"
 #include "ScriptVariableInfo.h"
@@ -8,11 +25,11 @@
 // @fnv 0x005e2a20
 void ScriptVariableInfo::Load(TESFile* file)
 {
-    if (file && file->GetChunkID() == 0x44534c53)
+    if (file && ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())) == 0x44534c53)
     {
-        file->GetChunkData(this, 24);
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(this), 24);
         if (file->IsEndianConversionRequired())
-            reinterpret_cast<ScriptVariableEndian*>(this)->FUN_005e2870();
+            reinterpret_cast<::T2870 *>((reinterpret_cast<ScriptVariableEndian*>(this)))->FUN_005e2870();
     }
 }
 
@@ -76,9 +93,6 @@ template <int N> struct EndianSizeTag
     char v;
 };
 
-void __cdecl BSEndian(unsigned char*, EndianSizeTag<0>);
-void __cdecl BSEndian(unsigned char*, EndianSizeTag<1>);
-void __cdecl BSEndian(unsigned char*, EndianSizeTag<10>);
 
 struct FUN_00414220_shell
 {
@@ -88,10 +102,10 @@ struct FUN_00414220_shell
 // @fnv 0x00414220
 void FUN_00414220_shell::FUN_00414220()
 {
-    BSEndian((unsigned char*)this, EndianSizeTag<0>());
-    BSEndian((unsigned char*)this + 4, EndianSizeTag<1>());
-    BSEndian((unsigned char*)this + 8, EndianSizeTag<0>());
-    BSEndian((unsigned char*)this + 12, EndianSizeTag<0>());
+    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this));
+    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this + 4));
+    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this + 8));
+    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this + 12));
 }
 
 namespace fnv_005e2910 {
@@ -105,10 +119,9 @@ struct FUN_004037b0
     int a, b;
     FUN_004037b0();
     ~FUN_004037b0();
-    FUN_004037b0& CallAndReturnSelf(const FUN_004037b0&);
     FUN_004037b0& operator=(const FUN_004037b0& o)
     {
-        return CallAndReturnSelf(o);
+        return (*(::fnv_005e2910::FUN_004037b0 *)(reinterpret_cast<::FUN_00501c10_cls *>(this)->CallAndReturnSelf((int)&(o))));
     }
 };
 struct Rec
@@ -131,6 +144,6 @@ Rec::Rec(const Rec& aRec)
     m0.v = aRec.m0.v;
     d8 = aRec.d8;
     c10 = aRec.c10;
-    m18.CallAndReturnSelf(aRec.m18);
+    reinterpret_cast<::FUN_00501c10_cls *>(&(m18))->CallAndReturnSelf((int)&(aRec.m18));
 }
 }  // namespace fnv_005e2910

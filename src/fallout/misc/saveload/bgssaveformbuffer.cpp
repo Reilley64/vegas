@@ -2,6 +2,10 @@
 // src/fallout/misc/saveload/bgssaveformbuffer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/misc/saveload/bgssaveformbuffer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00853570_shell.h"
+#include "fnv/decl/FUN_00853670_shell.h"
+#include "fnv/symbols_00845000.h"
 struct FUN_00865aa0_shell
 {
     unsigned char c;
@@ -25,14 +29,13 @@ unsigned int __cdecl FUN_00845d40(unsigned int);
 unsigned int __cdecl FUN_00845d70(unsigned int);
 struct _ref_0084e3a0_shell
 {
-    unsigned int __thiscall _ref_0084e3a0();
 };
 
 // Calls _ref_0084e3a0, passes the result through FUN_00845d40 and FUN_00845d70, then returns that value plus 9.
 // @fnv 0x00865b10
 unsigned int __thiscall FUN_00865b10_shell::GetValuePlusNine()
 {
-    unsigned int value = FUN_00845d70(FUN_00845d40(reinterpret_cast<_ref_0084e3a0_shell*>(this)->_ref_0084e3a0()));
+    unsigned int value = FUN_00845d70(FUN_00845d40(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<_ref_0084e3a0_shell*>(this)))->FUN_0084e3a0()))));
     return value + 9;
 }
 
@@ -287,11 +290,9 @@ Actor* BGSSaveFormBuffer::GetActorReference()
 namespace fnv_00865ad0 {
 struct PackedFormID
 {
-    void __thiscall WriteFormIDBytes(unsigned int a);
 };
 struct BGSFormInfo
 {
-    void __thiscall FUN_00853670(unsigned int a);
 };
 struct BGSSaveFormBuffer
 {
@@ -309,9 +310,9 @@ struct BGSSaveFormBuffer
 void BGSSaveFormBuffer::InitFormEntry(unsigned int aiFormID, unsigned int aiChangeFlags, unsigned int aeFormType,
                                       unsigned char acVersion)
 {
-    ((PackedFormID*)((char*)this + 0x14))->WriteFormIDBytes(aiFormID);
+    reinterpret_cast<::FUN_00853570_shell *>((((PackedFormID*)((char*)this + 0x14))))->WriteFormIDBytes(aiFormID);
     ((unsigned int*)((char*)this + 0x17))[0] = aiChangeFlags;
-    ((BGSFormInfo*)((char*)this + 0x1b))->FUN_00853670(aeFormType);
+    reinterpret_cast<::FUN_00853670_shell *>((((BGSFormInfo*)((char*)this + 0x1b))))->FUN_00853670(aeFormType);
     ((unsigned char*)this + 0x1c)[0] = acVersion;
 }
 }  // namespace fnv_00865ad0
@@ -354,18 +355,20 @@ FUN_008659c0::FUN_008659c0() : BGSSaveGameBuffer(), header()
     unk20 = 0;
 }
 
+struct FUN_00846330_shell;
 struct FUN_00865c80_shell
 {
     unsigned char c;
-    void __thiscall FUN_00865c80(void* buffer, unsigned int value);
+public:
+    void FUN_00865c80(::FUN_00846330_shell *, int);
 };
 struct FUN_00846330_shell
 {
-    void __thiscall WriteToFile(void* data, int size);
+public:
+    unsigned int WriteToFile(const void *, unsigned int);
 };
 
 unsigned int __cdecl FUN_00845d40(unsigned int);
-void __cdecl WriteValueByType(void*, unsigned int, unsigned int);
 struct FUN_00865a30_owner
 {
     int unk00;
@@ -380,10 +383,10 @@ struct FUN_00865a30_owner
 // @fnv 0x00865a30
 void FUN_00865a30_owner::FUN_00865a30(void* buffer)
 {
-    unsigned int secondValue = ((_ref_0084e3a0_shell*)this)->_ref_0084e3a0();
+    unsigned int secondValue = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((_ref_0084e3a0_shell*)this)))->FUN_0084e3a0()));
     unsigned int firstValue = FUN_00845d40(secondValue);
     ((FUN_00865aa0_shell*)((char*)this + 0x1b))->SetFlags(firstValue);
     ((FUN_00846330_shell*)buffer)->WriteToFile((char*)this + 0x14, 9);
-    WriteValueByType(buffer, secondValue, firstValue);
-    ((FUN_00865c80_shell*)this)->FUN_00865c80(buffer, secondValue);
+    ::fnv_00845d80::WriteValueByType((::fnv_00845d80::FUN_00846330_shell *)(buffer), secondValue, firstValue);
+    ((FUN_00865c80_shell*)this)->FUN_00865c80((::FUN_00846330_shell *)(buffer), secondValue);
 }

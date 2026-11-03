@@ -2,6 +2,27 @@
 // src/havok/unplaced/havokstream.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/havokstream.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/C626680Array.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/Cls.h"
+#include "fnv/decl/FUN_00462d80_shell.h"
+#include "fnv/decl/FUN_00473180_shell.h"
+#include "fnv/decl/FUN_00538e10_class.h"
+#include "fnv/decl/FUN_00622570_Class.h"
+#include "fnv/decl/FUN_006264f0.h"
+#include "fnv/decl/FUN_00626660_Class.h"
+#include "fnv/decl/FUN_00cb1a60_Class.h"
+#include "fnv/decl/MagicCaster_shell.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00462000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00538000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00626000.h"
+#include "fnv/symbols_00890000.h"
+#include "fnv/symbols_00cb0000.h"
 struct B1
 {
     virtual ~B1();
@@ -15,7 +36,7 @@ struct FUN_0056d6c0_class : B1
 // @fnv 0x0056d6c0
 void FUN_0056d6c0_class::FUN_0056d6c0()
 {
-    B1::~B1();
+    reinterpret_cast<::FUN_00538e10_class *>(this)->FUN_00538e10();
 }
 
 struct hkFileSystem
@@ -31,7 +52,6 @@ int hkFileSystem::FUN_00624e70(const char*, void*)
 
 struct FUN_006264d0
 {
-    void __thiscall FUN_006264d1();
 };
 struct HavokError
 {
@@ -40,11 +60,10 @@ struct HavokError
 // @fnv 0x00625650
 void __thiscall HavokError::FUN_00625650()
 {
-    ((FUN_006264d0*)((char*)this + 0x14))->FUN_006264d1();
+    reinterpret_cast<::FUN_00cb1a60_Class *>((((FUN_006264d0*)((char*)this + 0x14))))->FUN_006264d0();
 }
 
 namespace fnv_00625a80 {
-extern "C" void __cdecl _FNV_Warning(int, const char*);
 struct MessageHandler
 {
     static MessageHandler& Handler();
@@ -57,20 +76,19 @@ struct HavokError
 void HavokError::FUN_00625a80(const char* pcMessage)
 {
     MessageHandler::Handler();
-    _FNV_Warning(4, pcMessage);
+    ::FUN_005b5e40();
 }
 }  // namespace fnv_00625a80
 
 struct FUN_00625bd0_class
 {
-    void FUN_006264f0();
     void FUN_00625bd0();
 };
 
 // @fnv 0x00625bd0
 void FUN_00625bd0_class::FUN_00625bd0()
 {
-    FUN_006264f0();
+    reinterpret_cast<::FUN_006264f0 *>(this)->FUN_006264f0::~FUN_006264f0();
 }
 
 extern int DAT_0104dfb4;
@@ -94,13 +112,12 @@ namespace fnv_00625fe0 {
 extern int DAT_0104dfe8;
 struct FUN_00538ef0_class
 {
-    void* FUN_00538ef0();
     void* FUN_00625fe0();
 };
 // @fnv 0x00625fe0
 void* FUN_00538ef0_class::FUN_00625fe0()
 {
-    FUN_00538ef0();
+    reinterpret_cast<::FUN_00538ef0_class *>(this)->FUN_00538ef0();
     *(int**)this = &DAT_0104dfe8;
     return this;
 }
@@ -122,7 +139,7 @@ struct FUN_00626000_Class
 // @fnv 0x00626000
 FUN_00626000_Class* FUN_00626000_Class::FUN_00626000(int)
 {
-    FUN_00625fc0();
+    new ((void *)this) ::FUN_00625fc0_class();
     pStr = "0`b";
     *(unsigned char*)((char*)this + 0xc) = 1;
     return this;
@@ -130,7 +147,6 @@ FUN_00626000_Class* FUN_00626000_Class::FUN_00626000(int)
 
 struct NiBinaryStream
 {
-    unsigned int Read(void* buffer, unsigned int size);
 };
 
 struct FUN_00626100_shell
@@ -145,12 +161,11 @@ struct FUN_00626100_shell
 // @fnv 0x00626100
 unsigned int FUN_00626100_shell::ReadFromStream(void* buffer, unsigned int size)
 {
-    return m_stream->Read(buffer, size);
+    return reinterpret_cast<::FUN_00462d80_shell *>((m_stream))->ReadBytes(buffer, size);
 }
 
 struct BSFile
 {
-    void FUN_00473180(const void*, unsigned int);
 };
 
 struct FUN_00626320
@@ -164,12 +179,11 @@ struct FUN_00626320
 // @fnv 0x00626320
 void FUN_00626320::Method(const void* data, unsigned int size)
 {
-    file->FUN_00473180(data, size);
+    reinterpret_cast<::FUN_00473180_shell *>((file))->FUN_00473180((void *)(data), size);
 }
 
 struct BSAudio
 {
-    void* GetAudioBackendData();
 };
 extern "C" BSAudio* __cdecl FUN_00c85750();
 void __cdecl FUN_00c856c0(void* a, void* b);
@@ -177,7 +191,7 @@ void __cdecl FUN_00c856c0(void* a, void* b);
 void __cdecl FUN_00626760(void* a)
 {
     BSAudio* p = FUN_00c85750();
-    FUN_00c856c0(p->GetAudioBackendData(), a);
+    FUN_00c856c0(((void *)(reinterpret_cast<::MagicCaster_shell *>((p))->FUN_0044edb0())), a);
 }
 
 struct FUN_005609f0_shell
@@ -207,7 +221,6 @@ void FUN_006255d0_class::FUN_006255d0(int a, int b)
         ((FUN_00626470_Class*)((char*)this + 0x14))->FUN_00626470(a, 1);
 }
 
-void __cdecl FUN_00538eb0(void*);
 struct FUN_00625f80_class : FUN_0056d6c0_class
 {
     FUN_00625f80_class* FUN_00625f80(unsigned int flags);
@@ -217,43 +230,19 @@ FUN_00625f80_class* FUN_00625f80_class::FUN_00625f80(unsigned int flags)
 {
     FUN_0056d6c0();
     if (flags & 1)
-        FUN_00538eb0(this);
+        ::FUN_00538eb0((::Prm *)(void *)(this));
     return this;
 }
 
-void __cdecl FUN_00538eb0(void*);
 struct FUN_00626030_class
 {
     void __thiscall FUN_00626060();
     void* __thiscall FUN_00626030(unsigned int flags);
 };
-// Calls FUN_00626060, then if the low flag bit is set calls FUN_00538eb0 on this, and returns this.
-// @fnv 0x00626030
-void* __thiscall FUN_00626030_class::FUN_00626030(unsigned int flags)
-{
-    FUN_00626060();
-    if (flags & 1)
-        FUN_00538eb0(this);
-    return this;
-}
-
-void __cdecl FUN_00538eb0(void*);
 struct FUN_00626250_class
 {
-    void __thiscall FUN_00626280();
     void* __thiscall FUN_00626250(unsigned int flags);
 };
-// Calls FUN_00626280, then if bit 0 of flags is set calls FUN_00538eb0 on this, and returns this.
-// @fnv 0x00626250
-void* __thiscall FUN_00626250_class::FUN_00626250(unsigned int flags)
-{
-    FUN_00626280();
-    if (flags & 1)
-        FUN_00538eb0(this);
-    return this;
-}
-
-int __fastcall FUN_004720a0(char*);
 
 struct FUN_00626390_class
 {
@@ -271,7 +260,6 @@ int FUN_00626390_class::FUN_00626390()
 }
 
 int __cdecl strcat_s(char*, unsigned int, const char*);
-int __cdecl FUN_00462d40(const char*, int, int, int, int, char*, int, char*, int);
 char* __cdecl FUN_00cb1410(const char*);
 struct FUN_00626420_shell
 {
@@ -280,7 +268,6 @@ struct FUN_00626420_shell
 };
 struct FUN_00625e70_class
 {
-    char* __thiscall FUN_00626420(FUN_00626420_shell*);
     void FUN_00625e70(const char* apFile, int aiLine);
 };
 // @fnv 0x00625e70
@@ -289,11 +276,11 @@ void FUN_00625e70_class::FUN_00625e70(const char* apFile, int aiLine)
     char pfile[128];
     char pext[32];
     FUN_00626420_shell ap;
-    FUN_00462d40(apFile, 0, 0, 0, 0, pfile, 128, pext, 32);
+    ::FUN_00462d40(apFile, (char *)(0), 0, (char *)(0), 0, pfile, 128, pext, 32);
     strcat_s(pfile, 128, pext);
     ap.p = FUN_00cb1410(pfile);
     ap.aiLine = aiLine;
-    ((FUN_00625e70_class*)((char*)this + 8))->FUN_00626420(&ap);
+    reinterpret_cast<::Cls *>((((FUN_00625e70_class*)((char*)this + 8))))->FUN_00626420((int)(&ap));
 }
 
 struct $SG2686
@@ -307,6 +294,15 @@ struct FUN_00626060 : FUN_0056d6c0_class
     unsigned char flag;
     virtual ~FUN_00626060();
 };
+// Calls FUN_00626060, then if the low flag bit is set calls FUN_00538eb0 on this, and returns this.
+// @fnv 0x00626030
+void* __thiscall FUN_00626030_class::FUN_00626030(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00626060 *>(this)->FUN_00626060::~FUN_00626060();
+    if (flags & 1)
+        ::FUN_00538eb0((::Prm *)(void *)(this));
+    return this;
+}
 // @fnv 0x00626060
 FUN_00626060::~FUN_00626060()
 {
@@ -321,6 +317,15 @@ struct FUN_00626280_shell : FUN_0056d6c0_class
     unsigned char b;
     virtual ~FUN_00626280_shell();
 };
+// Calls FUN_00626280, then if bit 0 of flags is set calls FUN_00538eb0 on this, and returns this.
+// @fnv 0x00626250
+void* __thiscall FUN_00626250_class::FUN_00626250(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00626280_shell *>(this)->FUN_00626280_shell::~FUN_00626280_shell();
+    if (flags & 1)
+        ::FUN_00538eb0((::Prm *)(void *)(this));
+    return this;
+}
 // If p is set and b is true, deletes the object pointed to by p.
 // @fnv 0x00626280
 FUN_00626280_shell::~FUN_00626280_shell()
@@ -329,7 +334,6 @@ FUN_00626280_shell::~FUN_00626280_shell()
         delete (FUN_00626280_shell*)p;
 }
 
-void __cdecl FNV_Warning(int, const char*, const char*, int, const char*, const char*);
 struct MessageHandler
 {
     static MessageHandler& Handler();
@@ -344,7 +348,7 @@ void FUN_006259b0_shell::ReportWarning(const char* apWhat, int aiID, const char*
                                        int aiLine)
 {
     MessageHandler::Handler();
-    FNV_Warning(0, "%s:%d: %s : %s'", apFile, aiLine, apWhat, apDescription);
+    ::FUN_005b5e40();
 }
 
 namespace fnv_00625a40 {
@@ -352,7 +356,6 @@ struct MessageHandler
 {
     static MessageHandler& Handler();
 };
-void __cdecl _FNV_Warning(int, const char*, const char*, int, const char*, const char*);
 struct FUN_00625a40_shell : HavokError
 {
     void __thiscall ReportError(const char* apWhat, int aiID, const char* apDescription, const char* apFile,
@@ -364,7 +367,7 @@ void __thiscall FUN_00625a40_shell::ReportError(const char* apDescription, int a
                                                 const char* apFile, int aiLine)
 {
     MessageHandler::Handler();
-    _FNV_Warning(2, "%s:%d: %s : %s'", apFile, aiLine, apDescription, apWhat);
+    ::FUN_005b5e40();
 }
 }  // namespace fnv_00625a40
 
@@ -373,15 +376,6 @@ struct FUN_00625b40_class : HavokError
     virtual ~FUN_00625b40_class();
     void* __thiscall FUN_00625b10(unsigned int flags);
 };
-// @fnv 0x00625b10
-void* __thiscall FUN_00625b40_class::FUN_00625b10(unsigned int flags)
-{
-    this->FUN_00625b40_class::~FUN_00625b40_class();
-    if (flags & 1)
-        FUN_00538eb0(this);
-    return this;
-}
-
 struct CalleeObj
 {
     void FUN_00622570(bool);
@@ -391,14 +385,13 @@ struct FUN_00626160
     void* pad0;
     void* pad1;
     void* pFile;
-    bool FUN_008905f0();
     CalleeObj* Method(CalleeObj*);
 };
 // Calls FUN_00622570 on o with the result of FUN_008905f0 on pFile, or false when pFile is null, and returns o.
 // @fnv 0x00626160
 CalleeObj* FUN_00626160::Method(CalleeObj* apCallee)
 {
-    apCallee->FUN_00622570(pFile ? ((FUN_00626160*)pFile)->FUN_008905f0() : false);
+    reinterpret_cast<::FUN_00622570_Class *>((apCallee))->FUN_00622570(pFile ? ::FUN_008905f0((bool *)(((FUN_00626160*)pFile))) : false);
     return apCallee;
 }
 
@@ -655,7 +648,7 @@ struct FUN_00625a00_shell
 void FUN_00625a00_shell::WarnWithLocation(const char* message, int unused, const char* type, const char* file, int line)
 {
     MessageHandler::Handler();
-    FNV_Warning(1, "%s:%d: %s : %s'", file, line, message, type);
+    ::FUN_005b5e40();
 }
 
 class C624F90Base
@@ -706,8 +699,6 @@ class FUN_00624f90 : public C624F90Base
     FUN_00624f90();
     virtual ~FUN_00624f90();
 
-    void AddHandler(unsigned int uiHash, C624F90Handler kHandler);
-    void AddEvent(const char* pcName, int m_uiSoundID);
 
     C624F90HandlerList m_kHandlers;
     C624F90HandlerMap m_kEvents;
@@ -717,58 +708,58 @@ class FUN_00624f90 : public C624F90Base
 // @fnv 0x00624f90
 FUN_00624f90::FUN_00624f90()
 {
-    AddHandler(0x6E8D163B, C624F90Handler(false));
-    AddHandler(0x6CEE9071, C624F90Handler(false));
-    AddHandler(0xF0DE4355, C624F90Handler(false));
-    AddHandler(0x2FF8C16F, C624F90Handler(false));
-    AddHandler(0xF0FE4356, C624F90Handler(false));
-    AddHandler(0x275EC1FD, C624F90Handler(false));
-    AddHandler(0x1ADAAD0E, C624F90Handler(false));
-    AddHandler(0x70DC41CB, C624F90Handler(false));
-    AddHandler(0x1FF88F0E, C624F90Handler(false));
-    AddHandler(0x475D86B1, C624F90Handler(false));
-    AddHandler(0x6FE84A9B, C624F90Handler(false));
-    AddHandler(0x21C8AB2A, C624F90Handler(false));
-    AddHandler(0x309314D9, C624F90Handler(false));
-    AddHandler(0xAD67FA3A, C624F90Handler(false));
-    AddHandler(0xAD67FA3A, C624F90Handler(false));
-    AddHandler(0xF032DE34, C624F90Handler(false));
-    AddHandler(0x34DF5494, C624F90Handler(false));
-    AddHandler(0xF02E32E1, C624F90Handler(false));
-    AddHandler(0xF02E32E2, C624F90Handler(false));
-    AddHandler(0xF02E32DF, C624F90Handler(false));
-    AddHandler(0xF043D534, C624F90Handler(false));
-    AddHandler(0xF02184ED, C624F90Handler(false));
-    AddHandler(0xF02DE43E, C624F90Handler(false));
-    AddHandler(0xF02E32E0, C624F90Handler(false));
-    AddHandler(0xF02132DF, C624F90Handler(false));
-    AddHandler(0xF02132FF, C624F90Handler(false));
-    AddHandler(0x54006467, C624F90Handler(false));
-    AddHandler(0x717C3B1D, C624F90Handler(false));
-    AddHandler(0xF032DF30, C624F90Handler(false));
-    AddHandler(0x0F0213DE, C624F90Handler(false));
-    AddHandler(0xAD8966AA, C624F90Handler(false));
-    AddHandler(0x2A1DB936, C624F90Handler(false));
-    AddHandler(0x68C4E1DC, C624F90Handler(false));
-    AddHandler(0x38F1276D, C624F90Handler(false));
-    AddHandler(0xF03243DF, C624F90Handler(false));
-    AddHandler(0x2FF8C16D, C624F90Handler(false));
-    AddHandler(0xABBAEFBF, C624F90Handler(false));
-    AddHandler(0x761EC287, C624F90Handler(false));
-    AddHandler(0x53FE2EBC, C624F90Handler(false));
-    AddHandler(0x1F0690F0, C624F90Handler(false));
-    AddHandler(0x56F80833, C624F90Handler(false));
-    AddEvent(g_ac624F90EventName, 38);
-    AddEvent(g_ac624F90EventName, 86);
-    AddEvent(g_ac624F90EventName, 93);
-    AddEvent(g_ac624F90EventName, 106);
-    AddEvent(g_ac624F90EventName, 110);
-    AddEvent(g_ac624F90EventName, 115);
-    AddEvent(g_ac624F90EventName, 126);
-    AddEvent(g_ac624F90EventName, 133);
-    AddEvent(g_ac624F90EventName, 191);
-    AddEvent(g_ac624F90EventName, 246);
-    AddEvent(g_ac624F90EventName, 277);
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0x6E8D163B, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0x6CEE9071, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0xF0DE4355, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0x2FF8C16F, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0xF0FE4356, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0x275EC1FD, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0x1ADAAD0E, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0x70DC41CB, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0x1FF88F0E, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0x475D86B1, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0x6FE84A9B, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0x21C8AB2A, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0x309314D9, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0xAD67FA3A, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0xAD67FA3A, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0xF032DE34, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0x34DF5494, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0xF02E32E1, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0xF02E32E2, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0xF02E32DF, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0xF043D534, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0xF02184ED, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0xF02DE43E, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0xF02E32E0, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0xF02132DF, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0xF02132FF, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0x54006467, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0x717C3B1D, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0xF032DF30, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0x0F0213DE, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0xAD8966AA, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0x2A1DB936, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0x68C4E1DC, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0x38F1276D, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0xF03243DF, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0x2FF8C16D, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0xABBAEFBF, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0x761EC287, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0x53FE2EBC, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0x1F0690F0, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_006255d0_class *>(this)->FUN_006255d0(0x56F80833, (*(int *)&(const ::C624F90Handler &)(C624F90Handler(false))));
+    reinterpret_cast<::FUN_00625e70_class *>(this)->FUN_00625e70(g_ac624F90EventName, 38);
+    reinterpret_cast<::FUN_00625e70_class *>(this)->FUN_00625e70(g_ac624F90EventName, 86);
+    reinterpret_cast<::FUN_00625e70_class *>(this)->FUN_00625e70(g_ac624F90EventName, 93);
+    reinterpret_cast<::FUN_00625e70_class *>(this)->FUN_00625e70(g_ac624F90EventName, 106);
+    reinterpret_cast<::FUN_00625e70_class *>(this)->FUN_00625e70(g_ac624F90EventName, 110);
+    reinterpret_cast<::FUN_00625e70_class *>(this)->FUN_00625e70(g_ac624F90EventName, 115);
+    reinterpret_cast<::FUN_00625e70_class *>(this)->FUN_00625e70(g_ac624F90EventName, 126);
+    reinterpret_cast<::FUN_00625e70_class *>(this)->FUN_00625e70(g_ac624F90EventName, 133);
+    reinterpret_cast<::FUN_00625e70_class *>(this)->FUN_00625e70(g_ac624F90EventName, 191);
+    reinterpret_cast<::FUN_00625e70_class *>(this)->FUN_00625e70(g_ac624F90EventName, 246);
+    reinterpret_cast<::FUN_00625e70_class *>(this)->FUN_00625e70(g_ac624F90EventName, 277);
     m_bModifierActive = false;
 }
 
@@ -788,7 +779,7 @@ struct FUN_00625610_Class
 // @fnv 0x00625610
 CalleeObj* FUN_00625610_Class::FUN_00625610(CalleeObj* obj, int b)
 {
-    obj->FUN_00622570(m_sub.FUN_00626490(b, 0) == 0);
+    reinterpret_cast<::FUN_00622570_Class *>((obj))->FUN_00622570(m_sub.FUN_00626490(b, 0) == 0);
     return obj;
 }
 
@@ -814,40 +805,9 @@ struct ErrorHandler6256
     virtual void ShowError(const char* pcType, int aiSoundId, const char* pcMessage, const char* pcFile, int iLine);
     virtual void ShowWarning(const char* pcType, int aiSoundId, const char* pcMessage, const char* pcFile, int iLine);
     virtual void ShowReport(const char* pcType, int aiSoundId, const char* pcMessage, const char* pcFile, int iLine);
-    bool FUN_00625c50(const char* pcFile, int iLine);
     int ReportMessage(int iType, int aiSoundId, const char* pcMessage, const char* pcFile, int iLine);
 };
 
-// @fnv 0x00625670
-int ErrorHandler6256::ReportMessage(int iType, int iMessageId, const char* pcMessage, const char* pcFile, int iLine)
-{
-    if (iMessageId == -1)
-    {
-        if (!FUN_00625c50(pcFile, iLine))
-            return 0;
-    }
-    else if (!IsEnabled(iMessageId).FUN_005609f0())
-        return 0;
-    switch (iType)
-    {
-    case 0:
-        ShowReport("Report", iMessageId, pcMessage, pcFile, iLine);
-        break;
-    case 1:
-        ShowWarning("Warning", iMessageId, pcMessage, pcFile, iLine);
-        break;
-    case 2:
-    case 3:
-        ShowAssert("Assert", iMessageId, pcMessage, pcFile, iLine);
-        break;
-    default:
-        ShowError("Error", iMessageId, pcMessage, pcFile, iLine);
-        break;
-    }
-    return 1;
-}
-
-int __cdecl FUN_00406d30(char* pcDest, unsigned int uiSize, const char* pcSrc);
 int __cdecl FUN_00406d50(char* pcDest, unsigned int uiSize, const char* pcSrc);
 char* __cdecl FUN_00ec7750(const char* pcString, const char* pcFind);
 
@@ -859,7 +819,6 @@ struct LogStub6257
     virtual int __cdecl Report(const char* pcFile, int iLine, const char* pcMessage);
 };
 
-LogStub6257* __cdecl FUN_0043bd00();
 
 struct FUN_00622570
 {
@@ -887,7 +846,7 @@ void ErrorHandler6257::FUN_00625790(const char* pcPrefix, int aiSoundId, const c
 {
     char acMsg[0x400];
     if (pcPrefix)
-        FUN_00406d30(acMsg, 0x400, pcPrefix);
+        ::TaskQueueInterface::CopyStringToBuffer(acMsg, 0x400, pcPrefix);
     else
         acMsg[0] = 0;
     if (pcMessage)
@@ -905,13 +864,13 @@ void ErrorHandler6257::FUN_00625790(const char* pcPrefix, int aiSoundId, const c
             pcReportFile = FUN_00ec7750(pcFile, "tes4");
         if (pcReportFile)
         {
-            FUN_00406d30(acFileName, 0x104, m_acSdkPath);
+            ::TaskQueueInterface::CopyStringToBuffer(acFileName, 0x104, m_acSdkPath);
             FUN_00406d50(acFileName, 0x104, pcReportFile);
             pcReportFile = acFileName;
         }
         else if (pcFile[0] == '.' && pcFile[1] == '.')
         {
-            FUN_00406d30(acFileName, 0x104, m_acSdkPath);
+            ::TaskQueueInterface::CopyStringToBuffer(acFileName, 0x104, m_acSdkPath);
             FUN_00406d50(acFileName, 0x104, "TES4\\Havok\\SDK\\Include\\");
             FUN_00406d50(acFileName, 0x104, pcFile + 3);
             pcReportFile = acFileName;
@@ -922,7 +881,7 @@ void ErrorHandler6257::FUN_00625790(const char* pcPrefix, int aiSoundId, const c
         pcReportFile = pcFile;
         iLineNo = iLine;
     }
-    if (FUN_0043bd00()->Report(pcReportFile, iLineNo, acMsg) == 5)
+    if (((::LogStub6257 *)(::fnv_0043bd00::FUN_0043bd00()))->Report(pcReportFile, iLineNo, acMsg) == 5)
         Raise(aiSoundId, FUN_00622570(false));
 }
 
@@ -955,8 +914,6 @@ struct FUN_00625bf0_Item
 };
 struct FUN_00625bf0_Container
 {
-    int FUN_00726070();
-    FUN_00625bf0_Item* FUN_00626660(int index);
 };
 void __cdecl FUN_00626760(void* object);
 struct FUN_00625bf0_Class
@@ -967,14 +924,13 @@ struct FUN_00625bf0_Class
 // @fnv 0x00625bf0
 void FUN_00625bf0_Class::FUN_00625bf0(FUN_00625bf0_Container* container)
 {
-    for (int index = 0; index < container->FUN_00726070(); ++index)
+    for (int index = 0; index < ((int)(reinterpret_cast<::Callees *>((container))->FUN_00726070())); ++index)
     {
-        FUN_00625bf0_Item item = *container->FUN_00626660(index);
+        FUN_00625bf0_Item item = *((::FUN_00625bf0_Item *)(reinterpret_cast<::FUN_00626660_Class *>((container))->FUN_00626660(index)));
         FUN_00626760(item.unk00);
     }
 }
 
-int __cdecl CompareStringsCaseInsensitive(const char* pcA, const char* pcB);
 
 struct FileEntry625c
 {
@@ -984,8 +940,6 @@ struct FileEntry625c
 
 struct FileList625c
 {
-    int FUN_00726070();
-    FileEntry625c* FUN_00626660(int iIndex);
 };
 
 struct FileFilter625c
@@ -996,21 +950,49 @@ struct FileFilter625c
 
     bool FUN_00625c50(const char* pcPath, int iValue);
 };
+// @fnv 0x00625670
+int ErrorHandler6256::ReportMessage(int iType, int iMessageId, const char* pcMessage, const char* pcFile, int iLine)
+{
+    if (iMessageId == -1)
+    {
+        if (!reinterpret_cast<::FileFilter625c *>(this)->FUN_00625c50(pcFile, iLine))
+            return 0;
+    }
+    else if (!IsEnabled(iMessageId).FUN_005609f0())
+        return 0;
+    switch (iType)
+    {
+    case 0:
+        ShowReport("Report", iMessageId, pcMessage, pcFile, iLine);
+        break;
+    case 1:
+        ShowWarning("Warning", iMessageId, pcMessage, pcFile, iLine);
+        break;
+    case 2:
+    case 3:
+        ShowAssert("Assert", iMessageId, pcMessage, pcFile, iLine);
+        break;
+    default:
+        ShowError("Error", iMessageId, pcMessage, pcFile, iLine);
+        break;
+    }
+    return 1;
+}
 
 // Builds a name-plus-extension string from pcPath, then returns false if any list entry matches it and has the same iValue; otherwise returns true.
 // @fnv 0x00625c50
 bool FileFilter625c::FUN_00625c50(const char* pcPath, int iValue)
 {
-    if (m_kList.FUN_00726070())
+    if (((int)(reinterpret_cast<::Callees *>(&(m_kList))->FUN_00726070())))
     {
         char acExtBuf[32];
         char acName[128];
-        FUN_00462d40(pcPath, 0, 0, 0, 0, acName, 0x80, acExtBuf, 0x20);
+        ::FUN_00462d40(pcPath, (char *)(0), 0, (char *)(0), 0, acName, 0x80, acExtBuf, 0x20);
         strcat_s(acName, 0x80, acExtBuf);
-        for (int i3 = 0; i3 < m_kList.FUN_00726070(); i3++)
+        for (int i3 = 0; i3 < ((int)(reinterpret_cast<::Callees *>(&(m_kList))->FUN_00726070())); i3++)
         {
-            FileEntry625c kEntry = *m_kList.FUN_00626660(i3);
-            if (!CompareStringsCaseInsensitive(acName, kEntry.m_pcName) && iValue == kEntry.m_iValue)
+            FileEntry625c kEntry = *((::FileEntry625c *)(reinterpret_cast<::FUN_00626660_Class *>(&(m_kList))->FUN_00626660(i3)));
+            if (!::fnv_00cb0fe0::CompareStringsCaseInsensitive(acName, kEntry.m_pcName) && iValue == kEntry.m_iValue)
                 return false;
         }
     }
@@ -1018,8 +1000,6 @@ bool FileFilter625c::FUN_00625c50(const char* pcPath, int iValue)
 }
 
 namespace fnv_00625d60 {
-int __cdecl CompareStringsCaseInsensitive(const char* pcA, const char* pcB);
-void __cdecl FUN_00626760(void* pvMem);
 
 struct FileEntry625c
 {
@@ -1029,9 +1009,6 @@ struct FileEntry625c
 
 struct FileList625c
 {
-    int FUN_00726070();
-    FileEntry625c* FUN_00626660(int iIndex);
-    void RemoveAt(int iIndex);
 };
 
 struct FileFilter625c
@@ -1049,15 +1026,15 @@ void FileFilter625c::RemoveEntryByPathAndValue(const char* pcPath, int iValue)
 {
     char acExtBuf[32];
     char acName[128];
-    FUN_00462d40(pcPath, 0, 0, 0, 0, acName, 0x80, acExtBuf, 0x20);
+    ::FUN_00462d40(pcPath, (char *)(0), 0, (char *)(0), 0, acName, 0x80, acExtBuf, 0x20);
     strcat_s(acName, 0x80, acExtBuf);
-    for (int i3 = 0; i3 < m_kList.FUN_00726070(); i3++)
+    for (int i3 = 0; i3 < ((int)(reinterpret_cast<::Callees *>(&(m_kList))->FUN_00726070())); i3++)
     {
-        FileEntry625c kEntry = *m_kList.FUN_00626660(i3);
-        if (!CompareStringsCaseInsensitive(acName, kEntry.m_pcName) && iValue == kEntry.m_iValue)
+        FileEntry625c kEntry = *((::fnv_00625d60::FileEntry625c *)(reinterpret_cast<::FUN_00626660_Class *>(&(m_kList))->FUN_00626660(i3)));
+        if (!::fnv_00cb0fe0::CompareStringsCaseInsensitive(acName, kEntry.m_pcName) && iValue == kEntry.m_iValue)
         {
-            FUN_00626760((void*)kEntry.m_pcName);
-            m_kList.RemoveAt(i3);
+            ::FUN_00626760((void*)kEntry.m_pcName);
+            reinterpret_cast<::C626680Array *>(&(m_kList))->RemoveAt(i3);
             break;
         }
     }
@@ -1123,15 +1100,22 @@ class FUN_00625b40 : public FUN_0056d6c0
   public:
     virtual ~FUN_00625b40();
 
-    void FUN_00625bf0(FUN_0057c530* pkList);
 
     FUN_0057c530 m_kList;
     FUN_00625bd0 m_kRef;
 };
+// @fnv 0x00625b10
+void* __thiscall FUN_00625b40_class::FUN_00625b10(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00625b40 *>((this))->FUN_00625b40::~FUN_00625b40();
+    if (flags & 1)
+        ::FUN_00538eb0((::Prm *)(void *)(this));
+    return this;
+}
 
 // Destructor that calls FUN_00625bf0 on m_kList before returning.
 // @fnv 0x00625b40
 FUN_00625b40::~FUN_00625b40()
 {
-    FUN_00625bf0(&m_kList);
+    reinterpret_cast<::FUN_00625bf0_Class *>(this)->FUN_00625bf0((::FUN_00625bf0_Container *)(::FUN_0057c530 *)(&m_kList));
 }

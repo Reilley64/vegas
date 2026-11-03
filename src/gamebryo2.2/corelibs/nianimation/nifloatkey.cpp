@@ -2,6 +2,12 @@
 // src/gamebryo2.2/corelibs/nianimation/nifloatkey.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nifloatkey.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00a3da20_cls.h"
+#include "fnv/symbols_00a26000.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00a3d000.h"
+#include "fnv/symbols_00e7c000.h"
+#include "fnv/symbols_011f3000.h"
 struct AnimationKey
 {
     int _00;
@@ -12,14 +18,13 @@ struct TimedAnimationKey : AnimationKey
     float _08;
     float _0c;
 };
-bool __cdecl AreRecordsEqual(const AnimationKey&, const AnimationKey&);
 // Returns false if AreRecordsEqual rejects the keys, otherwise compares the two float fields of the keys for equality.
 // @fnv 0x00a26f30
 bool FUN_00a26f30(const AnimationKey& key0, const AnimationKey& key1)
 {
     const TimedAnimationKey* pKey1Floats = (const TimedAnimationKey*)&key1;
     const TimedAnimationKey* pKey0Floats = (const TimedAnimationKey*)&key0;
-    if (!AreRecordsEqual(key0, key1))
+    if (!::AreRecordsEqual((::FloatRecord_b5532 *)&(key0), (::FloatRecord_b5532 *)&(key1)))
         return false;
     return pKey0Floats->_08 == pKey1Floats->_08 && pKey0Floats->_0c == pKey1Floats->_0c;
 }
@@ -58,7 +63,6 @@ struct NiStream
 struct Base_00a26eb0
 {
     int _0;
-    void AccumulateAnimSink(NiStream&);
 };
 struct Holder_00a26eb0 : Base_00a26eb0
 {
@@ -69,7 +73,7 @@ struct Holder_00a26eb0 : Base_00a26eb0
 // @fnv 0x00a26eb0
 void Holder_00a26eb0::FUN_00a26eb0(NiStream& stream)
 {
-    Base_00a26eb0::AccumulateAnimSink(stream);
+    reinterpret_cast<::FUN_00a3da20_cls *>(this)->AccumulateAnimSink((int)&(stream));
     NiBinaryStream* __restrict input = stream.input;
     unsigned int size = 4;
     input->position += input->read(input, &m, 4, &size, 1);
@@ -92,12 +96,11 @@ struct SObj
     char pad[4];
     float v;
 };
-void __cdecl CallAnimCallback(SStream*, SObj*);
 // Calls CallAnimCallback, then writes the float at a2->v into the stream's output via its fn callback and advances pos by the bytes written.
 // @fnv 0x00a26ef0
 void WriteFloatToStream(SStream* pStream, SObj* pObj)
 {
-    CallAnimCallback(pStream, pObj);
+    ::CallAnimCallback((::FUN_00a3da50_Owner *)(pStream), (int)(pObj));
     SOut* __restrict output = pStream->out;
     unsigned int size = 4;
     output->pos += output->fn(output, &pObj->v, 4, &size, 1);
@@ -105,29 +108,8 @@ void WriteFloatToStream(SStream* pStream, SObj* pObj)
 
 typedef void(__cdecl* BA26E20Func)(void*);
 
-void __cdecl CreateFloatKeys(void* pvKeys);
-void __cdecl DeleteFloatKeys(void* pvKeys);
-void __cdecl EqualFloatKeys(void* pvKeys);
-void __cdecl SaveFloatKeys(void* pvKeys);
-void __cdecl CopyFloatKeys(void* pvKeys);
-void __cdecl InsertFloatKey(void* pvKeys);
-void __cdecl InterpFloatKey(void* pvKeys);
-void __cdecl IsPosedFloatKey(void* pvKeys);
 
 extern bool g_bA26E20Registered;
-extern BA26E20Func g_apfnA26E20CurvesCopy[];
-extern BA26E20Func g_apfnA26E20Interp1[];
-extern BA26E20Func g_apfnA26E20Interp2[];
-extern BA26E20Func g_apfnA26E20Cubic[];
-extern BA26E20Func g_apfnA26E20Create[];
-extern BA26E20Func g_apfnA26E20Delete[];
-extern BA26E20Func g_apfnA26E20Equal[];
-extern BA26E20Func g_apfnA26E20Save[];
-extern BA26E20Func g_apfnA26E20Copy[];
-extern unsigned char g_aucA26E20KeySize[];
-extern BA26E20Func g_apfnA26E20Insert[];
-extern BA26E20Func g_apfnA26E20Interp[];
-extern BA26E20Func g_apfnA26E20IsPosed[];
 
 // Registers the float-key operations in the global function tables and key-size table, returning 1 on first registration and 0 if already registered.
 // @fnv 0x00a26e20
@@ -137,19 +119,19 @@ int __cdecl RegisterFloatKeyOps()
         return 0;
 
     g_bA26E20Registered = true;
-    g_apfnA26E20CurvesCopy[0] = 0;
-    g_apfnA26E20Interp1[0] = 0;
-    g_apfnA26E20Interp2[0] = 0;
-    g_apfnA26E20Cubic[0] = 0;
-    g_apfnA26E20Create[0] = CreateFloatKeys;
-    g_apfnA26E20Delete[0] = DeleteFloatKeys;
-    g_apfnA26E20Equal[0] = EqualFloatKeys;
-    g_apfnA26E20Save[0] = SaveFloatKeys;
-    g_apfnA26E20Copy[0] = CopyFloatKeys;
-    g_aucA26E20KeySize[0] = 8;
-    g_apfnA26E20Insert[0] = InsertFloatKey;
-    g_apfnA26E20Interp[0] = InterpFloatKey;
-    g_apfnA26E20IsPosed[0] = IsPosedFloatKey;
+    (*reinterpret_cast<void (**[])(void *)>(&::DAT_011f3d20))[0] = 0;
+    (*reinterpret_cast<void (**[])(void *)>(&::DAT_011f3c00))[0] = 0;
+    (*reinterpret_cast<void (**[])(void *)>(&::DAT_011f3b70))[0] = 0;
+    (*reinterpret_cast<void (**[])(void *)>(&::g_fnv_cb_011f3810))[0] = 0;
+    (*reinterpret_cast<void (**[])(void *)>(&::DAT_011f3db0))[0] = ((void (&)(void *))::FUN_00e7cd40);
+    (*reinterpret_cast<void (**[])(void *)>(&::g_apfnA29FE0Load))[0] = ((void (&)(void *))::FUN_00a29680);
+    (*reinterpret_cast<void (**[])(void *)>(&::DAT_011f39c0))[0] = ((void (&)(void *))::FUN_00a29680);
+    (*reinterpret_cast<void (**[])(void *)>(&::DAT_011f3930))[0] = ((void (&)(void *))::FUN_00e7cd40);
+    ::DAT_011f38a0[0] = ((void (&)(void *))::FUN_00a29680);
+    ::DAT_011f3758[0] = 8;
+    (*reinterpret_cast<void (**[])(void *)>(&::DAT_011f3c90))[0] = ((void (&)(void *))::FUN_00a29680);
+    (*reinterpret_cast<void (**[])(void *)>(&::DAT_011f3ae0))[0] = ((void (&)(void *))::AreRecordsEqual);
+    (*reinterpret_cast<void (**[])(void *)>(&::DAT_011f3780))[0] = ((void (&)(void *))::FUN_00a29680);
     return 1;
 }
 
@@ -180,8 +162,6 @@ class NiFloatKeyA26
         return (NiFloatKeyA26*)((char*)this + uiIndex * ucKeySize);
     }
 
-    static float InterpolatePosition(float fTime, NiFloatKeyA26* pkKeys, KeyType eType, unsigned int uiNumKeys,
-                                     unsigned int& uiLastIdx, unsigned char ucSize);
     static float GetValueAtTime(float fTime, NiFloatKeyA26* pkKeys, KeyType eType, unsigned int uiNumKeys,
                                 unsigned char ucSize);
 
@@ -205,7 +185,7 @@ float NiFloatKeyA26::GetValueAtTime(float fTime, NiFloatKeyA26* pkKeys, KeyType 
             return pkKeys->GetKeyPointerByIndex(uiNumKeys - 1, ucSize)->GetValue();
 
         unsigned int uiLastIdx = 0;
-        return InterpolatePosition(fTime, pkKeys, eType, uiNumKeys, uiLastIdx, ucSize);
+        return ::InterpolateKey(fTime, (const ::S00a26b40_Key *)(pkKeys), (*(unsigned int *)&(eType)), uiNumKeys, (unsigned int *)&(uiLastIdx), ucSize);
     }
     return g_fDefaultValueA26;
 }
@@ -216,7 +196,6 @@ struct S00a26b40_Key
     float value;
 };
 typedef void(__cdecl* S00a26b40_Interp)(float, const S00a26b40_Key*, const S00a26b40_Key*, float*);
-extern S00a26b40_Interp DAT_011f3c90[];
 
 static inline const S00a26b40_Key& S00a26b40_At(const S00a26b40_Key* keys, unsigned int i, unsigned char keySize)
 {
@@ -254,7 +233,7 @@ float __cdecl InterpolateKey(float time, const S00a26b40_Key* keys, unsigned int
     if (next < count)
     {
         float t = (time - lastTime) / (nextTime - lastTime);
-        DAT_011f3c90[type](t, &S00a26b40_At(keys, last, keySize), &S00a26b40_At(keys, next, keySize), &result);
+        (*reinterpret_cast<void (**[])(float, const S00a26b40_Key *, const S00a26b40_Key *, float *)>(&::DAT_011f3c90))[type](t, &S00a26b40_At(keys, last, keySize), &S00a26b40_At(keys, next, keySize), &result);
     }
     else
         result = S00a26b40_At(keys, last, keySize).value;

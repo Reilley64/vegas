@@ -1,3 +1,4 @@
+#include "fnv/decl/FUN_0049bb50_shell.h"
 #include "baseprocess_packet.h"
 
 static const int kCalculateMoveModeValue1 = 257;
@@ -30,7 +31,7 @@ int BaseProcess::GetPackageInfoValue()
 // @fnv 0x008d0400
 void BaseProcess::SetPackageExecutionState(int amount)
 {
-    m_kProcessData.AddToProcedureIndex(amount);
+    reinterpret_cast<::FUN_0049bb50_shell *>(&(m_kProcessData))->AddToOffset(amount);
 }
 
 // @fnv 0x008d0470

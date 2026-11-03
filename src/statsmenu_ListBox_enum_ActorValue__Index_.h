@@ -3,12 +3,12 @@
 #ifndef FNV_LISTBOX_ENUM_ACTORVALUE__INDEX__H
 #define FNV_LISTBOX_ENUM_ACTORVALUE__INDEX__H
 
+#include "fnv/decl/LBList_7314c0.h"
 #include "statsmenu_layout_support.h"
 #include "statsmenu_ListBoxBase.h"
 class ListBox_enum_ActorValue__Index_ : public ListBoxBase
 {
   public:
-    void Traverse(void(__cdecl* callback)(Tile*, ActorValue::Index), int first, int last);
     BSSimpleList<ListBoxItem_enum_ActorValue__Index_*>
         bSSimpleList_ListBoxItem_enum_ActorValue__Index____Component;  // +0x4
     Tile* m_pListTile;                                                 // +0xC

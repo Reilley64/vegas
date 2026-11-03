@@ -4,6 +4,9 @@
 
 // src/havok/physics/internal/collide/gjk/hkpgsk.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/gjk/hkpgsk.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/GapSolver.h"
+#include "fnv/symbols_00d22000.h"
+#include "fnv/symbols_0104d000.h"
 struct Entry
 {
     char pad[12];
@@ -47,9 +50,8 @@ struct __declspec(align(16)) SegmentClosestResult
     Vector pointA, pointB;
     float distanceSquared;
 };
-extern void __cdecl FUN_00d22e40(const Vector*, const Vector*, const Vector*, const Vector*, SegmentClosestResult*);
 extern const signed char DAT_010cb440[];
-extern const float DAT_0104da48;
+struct Vector;
 struct Simplex
 {
     int countA, countB, unk08, unk0c;
@@ -58,8 +60,9 @@ struct Simplex
     Vector unk60, unk70, unk80, unk90;
     Vector verticesB[4];
     Vector supportB[4];
-    int FUN_00da8500(const Vector*, const Vector*, int);
     void FUN_00da98f0();
+public:
+    int FUN_00da8500(const ::Vector *, ::Vector *, int);
 };
 // @fnv 0x00da98f0
 void Simplex::FUN_00da98f0()
@@ -68,7 +71,7 @@ void Simplex::FUN_00da98f0()
     {
         for (int i = 0; i < countA; ++i)
         {
-            if (FUN_00da8500(&verticesA[i], verticesB, 0) == 7)
+            if (reinterpret_cast<::Simplex *>(this)->FUN_00da8500(&verticesA[i], (::Vector *)(verticesB), 0) == 7)
             {
                 verticesA[0] = verticesA[i];
                 countA = 1;
@@ -80,7 +83,7 @@ void Simplex::FUN_00da98f0()
     {
         for (int j = 0; j < countB; ++j)
         {
-            if (FUN_00da8500(&verticesB[j], verticesA, 0) == 7)
+            if (reinterpret_cast<::Simplex *>(this)->FUN_00da8500(&verticesB[j], (::Vector *)(verticesA), 0) == 7)
             {
                 supportB[0] = supportB[j];
                 verticesB[0] = verticesB[j];
@@ -99,7 +102,7 @@ void Simplex::FUN_00da98f0()
             Vector directionA = _mm_sub_ps(verticesA[DAT_010cb440[i + 2]].quad, verticesA[i].quad);
             Vector directionB = _mm_sub_ps(verticesB[DAT_010cb440[j + 2]].quad, verticesB[j].quad);
             SegmentClosestResult result;
-            FUN_00d22e40(&verticesA[i], &directionA, &verticesB[j], &directionB, &result);
+            ::FUN_00d22e40((*(const ::hkVector4 *)(&verticesA[i])), (*(const ::hkVector4 *)(&directionA)), (*(const ::hkVector4 *)(&verticesB[j])), (*(const ::hkVector4 *)(&directionB)), (*(::VectorPairResult *)(&result)));
             if (result.distanceSquared < bestDistance)
             {
                 bestDistance = result.distanceSquared;
@@ -213,7 +216,6 @@ struct Collision_workspace
     unsigned int unk174;
     unsigned int unk178;
     unsigned int unk17c;
-    int FUN_00daad40(Collision_vcls*, Collision_vcls*, void*, Collision_vector*);
 };
 
 // @fnv 0x00dabca0
@@ -238,7 +240,7 @@ int FUN_00dabca0(Collision_ctx* self, Collision_in* in, Collision_vector* out, C
     shapeA->v0f((void*)in, (int)scratch.countA, &scratch.vector20);
     shapeB->v0f((void*)((char*)in + scratch.countA * 2), (int)scratch.countB, &scratch.vectore0);
 
-    scratch.FUN_00daad40(self->m_08, self->m_0c, (void*)self->m_vptr, &normal);
+    reinterpret_cast<::GapSolver *>(&(scratch))->FUN_00daad40((const ::GapShape *)(self->m_08), (const ::GapShape *)(self->m_0c), (*(const ::GapTransform *)((void*)self->m_vptr)), (*(::GapVector *)(&normal)));
     if (scratch.changed != 0)
     {
         ((ThisClass*)&scratch)->FUN_00da9790((Dest*)in);

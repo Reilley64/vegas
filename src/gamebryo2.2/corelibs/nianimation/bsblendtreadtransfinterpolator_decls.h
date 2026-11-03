@@ -2,6 +2,7 @@
 #ifndef BSBLENDTREADTRANSFINTERPOLATOR_DECLS_H
 #define BSBLENDTREADTRANSFINTERPOLATOR_DECLS_H
 
+#include "fnv/decl/FUN_00a37260_shell.h"
 class NiObjectNET;
 class NiQuatTransform;
 class NiBlendInterpolator
@@ -14,13 +15,11 @@ class NiBlendInterpolator
     unsigned char m_ucArraySize;
     unsigned char m_ucInterpCount;
     unsigned char m_ucSingleIdx;
-    void NormalizeWeights();
 };
 class BSBlendTreadTransfInterpolator : public NiBlendInterpolator
 {
   public:
     virtual bool Update(float, NiObjectNET*, NiQuatTransform&);
-    bool UpdateSingleInterpolator(float, NiObjectNET*, NiQuatTransform&);
     bool UpdateAccumulatedTransform(float, NiObjectNET*, NiQuatTransform&);
 };
 #endif

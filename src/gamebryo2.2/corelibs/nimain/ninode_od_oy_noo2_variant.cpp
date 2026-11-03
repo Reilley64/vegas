@@ -3,6 +3,16 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy (unit src/gamebryo2.2/corelibs/nimain/ninode.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a63460_shell.h"
+#include "fnv/decl/NiDynamicEffect.h"
+#include "fnv/decl/S_00a59e00.h"
+#include "fnv/decl/S_00a64670_Foo.h"
+#include "fnv/decl/Sphere.h"
+#include "fnv/decl/fnv_00a5a170__FUN_00a5a170_cls.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
 #include "ninode_packet_decls.h"
 #pragma optimize("", off)
 #pragma optimize("", on)

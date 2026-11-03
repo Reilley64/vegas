@@ -6,6 +6,9 @@
 //
 // Covered PC function: 0x00AFF100 (116 bytes).
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
 #include "layout_support.h"
 
 class FileCache;

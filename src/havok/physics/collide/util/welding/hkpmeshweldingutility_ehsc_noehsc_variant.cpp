@@ -5,6 +5,22 @@
 
 // src/havok/physics/collide/util/welding/hkpmeshweldingutility.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/util/welding/hkpmeshweldingutility.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/hkTransformCB22.h"
+#include "fnv/symbols_00ceb000.h"
+#include "fnv/symbols_00d2c000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101f000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_0103c000.h"
+#include "fnv/symbols_010d7000.h"
+#include "fnv/symbols_01268000.h"
 struct Record
 {
     float x, y, key;
@@ -32,7 +48,6 @@ inline void SwapRecords(Record& first, Record& second)
 void FUN_00ddeb70(Record* records, int left, int right, int comparator);
 struct DynamicArray
 {
-    void SpliceElements(int a, int b, int c, int d, int e);
     void FUN_00ddecb0(int a, int b, int c, int d);
 };
 struct S_00ddecf0_Key
@@ -59,7 +74,6 @@ struct S_00ddecf0_Array
 {
     S_00ddecf0_Key* m_data;
     int m_iElementCount;
-    void FUN_00ddecd0(S_00ddecf0_Heap& heap, int index, const S_00ddecf0_Key& key);
 };
 struct S_00ddecf0
 {
@@ -68,7 +82,6 @@ struct S_00ddecf0
     void InsertKey(float t, float a, float b);
 };
 extern double DAT_010cd5a8;
-extern double DAT_0101ff40;
 float FUN_00ddd7e0(int a1, int* pOut, float* pF);
 int GetIndexForValue(int aiArg);
 struct Iface
@@ -97,7 +110,6 @@ struct Mgr
     virtual void Write(unsigned int hash, FlagTag value);
     virtual void Read(bool* out, unsigned int hash);
 };
-extern Mgr* DAT_01268360;
 __declspec(align(16)) struct QueryBuffer
 {
     unsigned int unk00;
@@ -232,7 +244,6 @@ __declspec(align(16)) struct QueryBuffer
 int FUN_00dde4c0(Iface* self, void* a, void* b, int idx, int zero, int* out);
 bool* CheckSubQueries(bool* result, void* key, Iface* self);
 void* FUN_00c908c0(void* alloc, void* arr, int numElems, int elemSize);
-void FUN_00d2cc70(void* dst, const void* src, int numBytes);
 inline void* operator new(unsigned int, void* p)
 {
     return p;
@@ -264,7 +275,6 @@ struct S_00ddeab0
 };
 struct S_00ddecd0
 {
-    void FUN_00ddecb0(int a, int b, int c, int flag);
     void FUN_00ddecd0(int a, int b, int c);
 };
 struct FourFloatVector
@@ -299,8 +309,6 @@ struct LocalBuffer
 {
     __declspec(align(16)) int data[125];
 };
-char* IsDegenerateTriangle(char* out, const FourFloatVector* v0, const FourFloatVector* v1, const FourFloatVector* v2,
-                           float eps);
 int FUN_00dde4c0(ObjOuter* p2, Transform* trans, void* p1, int i, void* p3, int* outLocal);
 int __cdecl CheckTransformAndProcess(void* p1, ObjOuter* pOuter, void* p3, short* outWord);
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -308,13 +316,12 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_and_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_cmple_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_load_ps1(const float* p);
 extern "C" int _mm_movemask_ps(__m128 a);
-extern const float DAT_01017d00;
-extern const __m128 DAT_01017d10;
 class hkBoolDDCE
 {
   public:
@@ -333,7 +340,7 @@ struct hkVector4DDCE
     {
         __m128 t = _mm_sub_ps(m_vComponents, v.m_vComponents);
         t = _mm_and_ps(t, DAT_01017d10);
-        const __m128 eps = _mm_load_ps1(&DAT_01017d00);
+        const __m128 eps = _mm_load_ps1(&::AngularDashpotApplyD4DCB0::DAT_01017d00);
         return (_mm_movemask_ps(_mm_cmple_ps(t, eps)) & 7) == 7;
     }
 };
@@ -401,7 +408,6 @@ extern "C" __m128 _mm_mul_ps(__m128, __m128);
 extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
 extern "C" __m128 _mm_add_ss(__m128, __m128);
 extern "C" void _mm_store_ss(float*, __m128);
-int __cdecl FUN_00ddd6f0(const __m128* a, const __m128* b, int index, __m128* out, int* result);
 extern "C"
 {
 
@@ -425,9 +431,6 @@ extern "C"
 
     __m128 _mm_andnot_ps(__m128, __m128);
 }
-extern const float DAT_01011d78;
-extern const float DAT_01017718;
-extern const float DAT_01016248;
 struct ScalarNormal
 {
     __m128 q;
@@ -459,7 +462,7 @@ struct NormalVector
     }
     __forceinline ScalarNormal inverseLength() const
     {
-        __m128 half = _mm_set_ss(DAT_01016248);
+        __m128 half = _mm_set_ss(::fnv_00c88020::DAT_01016248);
         __m128 three = _mm_set_ss(DAT_01017718);
         __m128 zero = _mm_set_ss(DAT_01011d78);
         __m128 len = dot(*this).q;
@@ -486,7 +489,6 @@ struct S_00ddecf0_Heap
         ReturnMemory(p, numElem * (int)sizeof(T));
     }
 };
-extern const double DAT_010290b8;
 __declspec(nothrow) S_00ddecf0_Router* FUN_00c85750();
 void __cdecl ResizeAudioStream(void* heap, void* arr, int elemSize) throw();
 struct KeyLess
@@ -503,7 +505,7 @@ __declspec(noinline) ComparisonResult __cdecl AreZDiffering(const S_00ddecf0_Key
 {
     float delta = a.b - b.b;
     float distance = (float)fabs(delta);
-    bool same = distance < DAT_01017d00;
+    bool same = distance < ::AngularDashpotApplyD4DCB0::DAT_01017d00;
     return ComparisonResult(!same);
 }
 struct ArrayAllocator
@@ -592,8 +594,6 @@ extern "C"
 }
 
 extern char DAT_010d7f80;
-extern char DAT_010d7f50;
-extern const double DAT_0103c7c8;
 
 class hkSimdRealW
 {
@@ -759,7 +759,6 @@ struct hkTransformW
     {
         return m_vTranslation;
     }
-    void FUN_00cb22f0(const hkTransformW& bTa, const hkTransformW& bTc);
 };
 
 inline void hkVector4W::_setMul3(const hkRotationW& a, const hkVector4W& b)
@@ -887,8 +886,6 @@ struct hkHistogramW
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
-    float FUN_00dded60();
-    void InsertKey(float t0, float t1, float angle);
 };
 
 struct hkpShapeContainerW
@@ -976,9 +973,6 @@ struct TextFormat
     char* data;
     int size;
     int capacityFlags;
-    void FUN_00cb1600(char*, int);
-    TextFormat* FUN_00cc01c0(const char*);
-    void FUN_00cc00e0();
 };
 
 struct ErrorManager
@@ -1024,19 +1018,19 @@ __declspec(noinline) hkBoolW __cdecl IsDotProductBelowThreshold(const hkVector4W
 void __cdecl FUN_00dddcd0(const hkTransformW& transform, hkpShapeCollectionW* collection, int weldingType,
                           hkShapeInfoArrayW& allShapes, bool weldOpenEdges)
 {
-    if (collection->m_eCollectionType != COLLECTION_LIST_W &&
-        collection->m_eCollectionType != COLLECTION_EXTENDED_MESH_W &&
-        collection->m_eCollectionType != COLLECTION_SIMPLE_MESH_W &&
-        collection->m_eCollectionType != COLLECTION_TRISAMPLED_HEIGHTFIELD_W &&
-        collection->m_eCollectionType != COLLECTION_USER_W)
+    if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBoolW &)(collection->m_eCollectionType != COLLECTION_LIST_W))->FUN_005609f0() &&
+        reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBoolW &)(collection->m_eCollectionType != COLLECTION_EXTENDED_MESH_W))->FUN_005609f0() &&
+        reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBoolW &)(collection->m_eCollectionType != COLLECTION_SIMPLE_MESH_W))->FUN_005609f0() &&
+        reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBoolW &)(collection->m_eCollectionType != COLLECTION_TRISAMPLED_HEIGHTFIELD_W))->FUN_005609f0() &&
+        reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBoolW &)(collection->m_eCollectionType != COLLECTION_USER_W))->FUN_005609f0())
     {
         QueryBuffer messageStorage;
         char* message = reinterpret_cast<char*>(&messageStorage);
         TextFormat formatted;
-        formatted.FUN_00cb1600(message, 512);
-        formatted.FUN_00cc01c0(&DAT_010d7f80);
-        ((ErrorManager*)DAT_01268360)->Report(1, 0x3f508c6a, message, &DAT_010d7f50, 271);
-        formatted.FUN_00cc00e0();
+        new ((void *)&(formatted)) ::FUN_00cb1600(message, 512);
+        reinterpret_cast<::SinkOwner *>(&(formatted))->FUN_00cc01c0(&DAT_010d7f80);
+        ((ErrorManager*)(*reinterpret_cast<::Mgr * *>(&::DAT_01268360)))->Report(1, 0x3f508c6a, message, &DAT_010d7f50, 271);
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(formatted))->FUN_00cc00e0::~FUN_00cc00e0();
         return;
     }
 
@@ -1068,7 +1062,7 @@ void __cdecl FUN_00dddcd0(const hkTransformW& transform, hkpShapeCollectionW* co
                 const hkShapeInfoW& info = allShapes[shapeIndex];
                 const hkpBvTreeShapeW* bvTree = allShapes[shapeIndex].m_pCollisionShape;
                 hkTransformW t;
-                t.FUN_00cb22f0(info.m_kMotionTransform, transform);
+                reinterpret_cast<::hkTransformCB22 *>(&(t))->FUN_00cb22f0((const ::hkTransformCB22 &)(info.m_kMotionTransform), (const ::hkTransformCB22 &)(transform));
 
                 hkVector4W normal;
                 normal._setRotatedDir(t.getRotation(), triangleNormal);
@@ -1097,12 +1091,12 @@ void __cdecl FUN_00dddcd0(const hkTransformW& transform, hkpShapeCollectionW* co
                     if (hkUtilDDCE::FUN_00ddced0(*(const hkTransformHolderDDCE*)triangle,
                                                  *(const hkTransformHolderDDCE*)other)
                             .m_cBooleanValue ||
-                        FUN_00ddcf60(b, c, other) || FUN_00ddcf60(c, a, other))
+                        reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBoolW &)(FUN_00ddcf60(b, c, other)))->FUN_005609f0() || reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBoolW &)(FUN_00ddcf60(c, a, other)))->FUN_005609f0())
                         continue;
 
                     hkVector4W otherNormal;
                     FUN_00ddd620(other->getVertex(0), other->getVertex(1), other->getVertex(2), otherNormal);
-                    if (!IsDotProductBelowThreshold(edge, otherNormal))
+                    if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBoolW &)(IsDotProductBelowThreshold(edge, otherNormal)))->FUN_005609f0())
                         continue;
 
                     hkVector4W perp;
@@ -1113,11 +1107,11 @@ void __cdecl FUN_00dddcd0(const hkTransformW& transform, hkpShapeCollectionW* co
                     hkVector4W planes[5];
                     GenerateTrianglePlanes(planes, other, 0.05f);
                     float tmin, tmax;
-                    if (FUN_00ddd0b0(a, b, 5, planes, tmin, tmax))
-                        histogram.InsertKey(tmin, tmax, angle);
+                    if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBoolW &)(FUN_00ddd0b0(a, b, 5, planes, tmin, tmax)))->FUN_005609f0())
+                        reinterpret_cast<::S_00ddecf0 *>(&(histogram))->InsertKey(tmin, tmax, angle);
                 }
             }
-            weldingInfo = (unsigned short)FUN_00ddcdd0(weldingInfo, edgeIndex, FindAngleIndex(histogram.FUN_00dded60()));
+            weldingInfo = (unsigned short)FUN_00ddcdd0(weldingInfo, edgeIndex, FindAngleIndex(reinterpret_cast<::Track *>(&(histogram))->FUN_00dded60()));
         }
         collection->SetWeldingInfo(key, weldingInfo);
     }

@@ -2,6 +2,16 @@
 // src/fallout_shared/magic/ingredientitem_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/magic/ingredientitem.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_00503210__Unk.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
 #include "ingredientitem.h"
 struct FUN_00409a30_shell
 {
@@ -9,7 +19,6 @@ struct FUN_00409a30_shell
 };
 struct BipedModelForm
 {
-    void __thiscall Endian(void);
 };
 struct FUN_0040a0f0_shell : BipedModelForm
 {

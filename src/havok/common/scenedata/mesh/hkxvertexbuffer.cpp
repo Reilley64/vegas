@@ -2,6 +2,14 @@
 // src/havok/common/scenedata/mesh/hkxvertexbuffer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/mesh/hkxvertexbuffer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/DFD680MeshData.h"
+#include "fnv/decl/FUN_00e3dfb0_cls.h"
+#include "fnv/decl/ScriptRecordList.h"
+#include "fnv/decl/hkListE3DE.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00e3e000.h"
+#include "fnv/symbols_0102e000.h"
 #include "havok/hkxVertexBuffer.h"
 
 struct FUN_00e3e220_Class
@@ -44,7 +52,6 @@ struct hkMemoryRouterE3E2
 };
 extern "C" hkMemoryRouterE3E2* __cdecl FUN_00c85750() throw();
 
-void __cdecl FUN_00c908c0(hkAllocatorE3E2& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
 
 template <typename T> struct hkArrayE3E2
 {
@@ -63,7 +70,7 @@ template <typename T> struct hkArrayE3E2
         {
             int iCap2 = 2 * iCapacity;
             int iNewSize = (n < iCap2) ? iCap2 : n;
-            FUN_00c908c0(kAlloc, this, iNewSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(kAlloc), (::SpawnedArray *)(void *)(this), iNewSize, sizeof(T));
         }
     }
     void SetSizeAndGrow(int n)
@@ -191,7 +198,6 @@ template <typename T> inline T min2E3E6(T a, T b)
     return a < b ? a : b;
 }
 
-void __cdecl FUN_00cb1260(void* pvDst, const void* pvSrc, int iNumBytes) throw();
 
 class hkxVertexDescriptionE3E6
 {
@@ -200,10 +206,9 @@ class hkxVertexDescriptionE3E6
     int unk04;
     int unk08;
 
-    bool Equals(const hkxVertexDescriptionE3E6& kOther) const throw();
     bool operator==(const hkxVertexDescriptionE3E6& kOther) const
     {
-        return Equals(kOther);
+        return reinterpret_cast<::hkListE3DE *>((void *)this)->Equals((const ::hkListE3DE &)(kOther));
     }
 };
 
@@ -230,46 +235,10 @@ class hkxVertexBufferE3E6
     hkxVertexBufferDataE3E6 m_data;
     hkxVertexDescriptionE3E6 m_kCreateDesc;
 
-    void FUN_00e3e3a0(int iTotalVertexCount, const hkxVertexDescriptionE3E6& kDesc) throw();
-    void FUN_00e3e030(const hkxVertexBufferE3E6& kOther, int iSrc, int iDst) throw();
     void CopyFrom(const hkxVertexBufferE3E6& kOther, bool bResizeToMatch) throw();
 };
 
-// @fnv 0x00e3e670
-void hkxVertexBufferE3E6::CopyFrom(const hkxVertexBufferE3E6& kOther, bool bResizeToMatch) throw()
-{
-    bool bSameDesc = m_kCreateDesc == kOther.m_kCreateDesc;
-    if (bResizeToMatch)
-        FUN_00e3e3a0(kOther.m_data.m_uiVertexCount, m_kCreateDesc);
-
-    if (bSameDesc)
-    {
-        unsigned int numVerts = min2E3E6(kOther.m_data.m_uiVertexCount, m_data.m_uiVertexCount);
-        if (m_data.m_uiUInt8DataStride > 0)
-            FUN_00cb1260(m_data.m_kUInt8Data.begin(), kOther.m_data.m_kUInt8Data.begin(),
-                         m_data.m_uiUInt8DataStride * numVerts);
-        if (m_data.m_uiUInt16DataStride > 0)
-            FUN_00cb1260(m_data.m_kUInt16Data.begin(), kOther.m_data.m_kUInt16Data.begin(),
-                         m_data.m_uiUInt16DataStride * numVerts);
-        if (m_data.m_uiUInt32DataStride > 0)
-            FUN_00cb1260(m_data.m_kUInt32Data.begin(), kOther.m_data.m_kUInt32Data.begin(),
-                         m_data.m_uiUInt32DataStride * numVerts);
-        if (m_data.m_uiFloatDataStride > 0)
-            FUN_00cb1260(m_data.m_kFloatData.begin(), kOther.m_data.m_kFloatData.begin(),
-                         m_data.m_uiFloatDataStride * numVerts);
-        if (m_data.m_uiVectorDataStride > 0)
-            FUN_00cb1260(m_data.m_kVectorData.begin(), kOther.m_data.m_kVectorData.begin(),
-                         m_data.m_uiVectorDataStride * numVerts);
-    }
-    else
-    {
-        for (unsigned int i = 0; i < kOther.m_data.m_uiVertexCount; i++)
-            FUN_00e3e030(kOther, i, i);
-    }
-}
-
 namespace fnv_00e3e760 {
-extern int DAT_0102e388;
 
 struct FUN_00e3e760_VirtualTarget
 {
@@ -314,7 +283,6 @@ struct FUN_00e3e760_Base
     int unk48;
     int unk4C;
     int unk50;
-    void FUN_00dfd680();
 };
 
 struct FUN_00e3e760_Class
@@ -351,8 +319,8 @@ void FUN_00e3e760_Class::FUN_00e3e760()
 skip:
     unk5C = 0;
     unk64 = 0x80000000;
-    unk08.FUN_00dfd680();
-    unk00 = (int)(unsigned int)&DAT_0102e388;
+    reinterpret_cast<::DFD680MeshData *>(&(unk08))->FUN_00dfd680();
+    unk00 = (int)(unsigned int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 }  // namespace fnv_00e3e760
 
@@ -406,7 +374,7 @@ class hkObje3e7b0 : public FUN_00e3e760
 // @fnv 0x00e3e7b0
 hkObje3e7b0* hkObje3e7b0::FUN_00e3e7b0(unsigned int uiFlags) throw()
 {
-    this->FUN_00e3e760::~FUN_00e3e760();
+    reinterpret_cast<::fnv_00e3e760::FUN_00e3e760_Class *>((this))->FUN_00e3e760();
     if (uiFlags & 1)
         hkObje3e7b0::operator delete(this);
     return this;
@@ -416,8 +384,6 @@ hkObje3e7b0* hkObje3e7b0::FUN_00e3e7b0(unsigned int uiFlags) throw()
 class MemoryUtils
 {
   public:
-    static void* CopyRegion(void* dst, const void* src, int size);
-    static void* SetMemory(void* dst, int val, int size);
 };
 
 struct hkxVertexDescriptionElementDecl
@@ -431,14 +397,10 @@ struct hkxVertexDescriptionElementDecl
 struct DescHelper : hkxVertexDescription
 {
     bool operator==(const hkxVertexDescription& other) const;
-    const hkxVertexDescriptionElementDecl* getElementDecl(hkxVertexDescription::DataUsage usage,
-                                                          int m_ucUsageIndex) const;
 };
 
 struct BufferHelper : hkxVertexBuffer
 {
-    void* getVertexDataPtr(const hkxVertexDescriptionElementDecl& decl);
-    const void* getVertexDataPtr(const hkxVertexDescriptionElementDecl& decl) const;
     void FUN_00e3e030(const hkxVertexBuffer* src, int srcIndex, int dstIndex);
 };
 
@@ -446,9 +408,9 @@ struct BufferHelper : hkxVertexBuffer
 // @fnv 0x00e3e030
 void BufferHelper::FUN_00e3e030(const hkxVertexBuffer* src, int srcIndex, int dstIndex)
 {
-    bool bSameDesc = (*(const DescHelper*)&m_kCreateDesc == src->m_kCreateDesc);
+    bool bSameDesc = (reinterpret_cast<::hkListE3DE *>((void *)&(const ::DescHelper &)(*(const DescHelper*)&m_kCreateDesc))->Equals((const ::hkListE3DE &)(src->m_kCreateDesc)));
     unsigned int aiUsageCounts[257];
-    MemoryUtils::SetMemory(aiUsageCounts, 0, sizeof(aiUsageCounts));
+    ::FUN_00cb1280(aiUsageCounts, 0, sizeof(aiUsageCounts));
 
     if (dstIndex >= (int)m_data.m_uiVertexCount || srcIndex >= (int)src->m_data.m_uiVertexCount)
     {
@@ -459,27 +421,27 @@ void BufferHelper::FUN_00e3e030(const hkxVertexBuffer* src, int srcIndex, int ds
     {
         if (m_data.m_uiUInt8DataStride > 0)
         {
-            MemoryUtils::CopyRegion(m_data.m_kUInt8Data.m_data, src->m_data.m_kUInt8Data.m_data,
+            ::FUN_00cb1260(m_data.m_kUInt8Data.m_data, src->m_data.m_kUInt8Data.m_data,
                                     m_data.m_uiUInt8DataStride);
         }
         if (m_data.m_uiUInt16DataStride > 0)
         {
-            MemoryUtils::CopyRegion(m_data.m_kUInt16Data.m_data, src->m_data.m_kUInt16Data.m_data,
+            ::FUN_00cb1260(m_data.m_kUInt16Data.m_data, src->m_data.m_kUInt16Data.m_data,
                                     m_data.m_uiUInt16DataStride);
         }
         if (m_data.m_uiUInt32DataStride > 0)
         {
-            MemoryUtils::CopyRegion(m_data.m_kUInt32Data.m_data, src->m_data.m_kUInt32Data.m_data,
+            ::FUN_00cb1260(m_data.m_kUInt32Data.m_data, src->m_data.m_kUInt32Data.m_data,
                                     m_data.m_uiUInt32DataStride);
         }
         if (m_data.m_uiFloatDataStride > 0)
         {
-            MemoryUtils::CopyRegion(m_data.m_kFloatData.m_data, src->m_data.m_kFloatData.m_data,
+            ::FUN_00cb1260(m_data.m_kFloatData.m_data, src->m_data.m_kFloatData.m_data,
                                     m_data.m_uiFloatDataStride);
         }
         if (m_data.m_uiVectorDataStride > 0)
         {
-            MemoryUtils::CopyRegion(m_data.m_kVectorData.m_data, src->m_data.m_kVectorData.m_data,
+            ::FUN_00cb1260(m_data.m_kVectorData.m_data, src->m_data.m_kVectorData.m_data,
                                     m_data.m_uiVectorDataStride);
         }
         return;
@@ -491,8 +453,8 @@ void BufferHelper::FUN_00e3e030(const hkxVertexBuffer* src, int srcIndex, int ds
     for (int i = 0; i < m_kCreateDesc.m_kElementDeclarations.m_iElementCount; ++i)
     {
         const hkxVertexDescriptionElementDecl& decl = m_kCreateDesc.m_kElementDeclarations.m_data[i];
-        const hkxVertexDescriptionElementDecl* srcDecl = srcDesc.getElementDecl(
-            (hkxVertexDescription::DataUsage)decl.m_eDataUsage, aiUsageCounts[decl.m_eDataUsage]);
+        const hkxVertexDescriptionElementDecl* srcDecl = ((const ::hkxVertexDescriptionElementDecl *)(reinterpret_cast<::ScriptRecordList *>((void *)&(srcDesc))->FindByTypeAndOccurrence(
+            (*(int *)&(const ::hkxVertexDescription::DataUsage &)((hkxVertexDescription::DataUsage)decl.m_eDataUsage)), aiUsageCounts[decl.m_eDataUsage])));
         if (!srcDecl)
         {
             continue;
@@ -502,8 +464,8 @@ void BufferHelper::FUN_00e3e030(const hkxVertexBuffer* src, int srcIndex, int ds
             continue;
         }
         aiUsageCounts[decl.m_eDataUsage]++;
-        void* dstData = getVertexDataPtr(decl);
-        const void* srcData = srcBuf->getVertexDataPtr(*srcDecl);
+        void* dstData = ((void *)(reinterpret_cast<::FUN_00e3dfb0_cls *>(this)->FUN_00e3dfb0((::FUN_00e3dfb0_arg *)&(decl))));
+        const void* srcData = ((const void *)(::FUN_00e3e020((int)(srcBuf), (int *)&(*srcDecl))));
 
         int size = 0;
         switch (decl.m_type)
@@ -531,7 +493,7 @@ void BufferHelper::FUN_00e3e030(const hkxVertexBuffer* src, int srcIndex, int ds
             break;
         }
 
-        MemoryUtils::CopyRegion((char*)dstData + decl.m_uiByteStride * dstIndex,
+        ::FUN_00cb1260((char*)dstData + decl.m_uiByteStride * dstIndex,
                                 (const char*)srcData + srcDecl->m_uiByteStride * srcIndex, size);
     }
 }
@@ -559,7 +521,6 @@ struct VertexDeclMatch
         stride = 0;
     }
 };
-extern "C" void __cdecl ResizeAudioStream(hkAllocatorE3E2*, void*, int) throw();
 struct DescriptionMatch
 {
     VertexDeclMatch* data;
@@ -575,13 +536,11 @@ struct DescriptionMatch
     {
         hkAllocatorE3E2* alloc = &FUN_00c85750()->heap();
         if (size == (capacity & 0x3fffffff))
-            ResizeAudioStream(alloc, this, sizeof(VertexDeclMatch));
+            ::ResizeAudioStream((::AudioAllocator *)(alloc), (::AudioStream *)(void *)(this), sizeof(VertexDeclMatch));
         new (data + size) VertexDeclMatch;
         return data[size++];
     }
-    bool Equals(const DescriptionMatch& other) const throw();
 };
-extern "C" void __cdecl ResizeAudioStream(hkAllocatorE3E2*, void*, int) throw();
 struct VertexDataMatch
 {
     hkArrayE3E2<hkVector4> vectors;
@@ -619,14 +578,46 @@ struct VertexBufferMatch
     DescriptionMatch desc;
     void FUN_00e3e3a0(int n, const DescriptionMatch& input) throw();
 };
+// @fnv 0x00e3e670
+void hkxVertexBufferE3E6::CopyFrom(const hkxVertexBufferE3E6& kOther, bool bResizeToMatch) throw()
+{
+    bool bSameDesc = m_kCreateDesc == kOther.m_kCreateDesc;
+    if (bResizeToMatch)
+        reinterpret_cast<::VertexBufferMatch *>(this)->FUN_00e3e3a0(kOther.m_data.m_uiVertexCount, (const ::DescriptionMatch &)(m_kCreateDesc));
+
+    if (bSameDesc)
+    {
+        unsigned int numVerts = min2E3E6(kOther.m_data.m_uiVertexCount, m_data.m_uiVertexCount);
+        if (m_data.m_uiUInt8DataStride > 0)
+            ::FUN_00cb1260(m_data.m_kUInt8Data.begin(), kOther.m_data.m_kUInt8Data.begin(),
+                         m_data.m_uiUInt8DataStride * numVerts);
+        if (m_data.m_uiUInt16DataStride > 0)
+            ::FUN_00cb1260(m_data.m_kUInt16Data.begin(), kOther.m_data.m_kUInt16Data.begin(),
+                         m_data.m_uiUInt16DataStride * numVerts);
+        if (m_data.m_uiUInt32DataStride > 0)
+            ::FUN_00cb1260(m_data.m_kUInt32Data.begin(), kOther.m_data.m_kUInt32Data.begin(),
+                         m_data.m_uiUInt32DataStride * numVerts);
+        if (m_data.m_uiFloatDataStride > 0)
+            ::FUN_00cb1260(m_data.m_kFloatData.begin(), kOther.m_data.m_kFloatData.begin(),
+                         m_data.m_uiFloatDataStride * numVerts);
+        if (m_data.m_uiVectorDataStride > 0)
+            ::FUN_00cb1260(m_data.m_kVectorData.begin(), kOther.m_data.m_kVectorData.begin(),
+                         m_data.m_uiVectorDataStride * numVerts);
+    }
+    else
+    {
+        for (unsigned int i = 0; i < kOther.m_data.m_uiVertexCount; i++)
+            reinterpret_cast<::BufferHelper *>(this)->FUN_00e3e030((const ::hkxVertexBuffer *)&(kOther), i, i);
+    }
+}
 // Rebuilds desc from input, computes offsets and strides, then sizes each data array for n vertices.
 // @fnv 0x00e3e3a0
 void VertexBufferMatch::FUN_00e3e3a0(int aiCount, const DescriptionMatch& input) throw()
 {
-    if (aiCount == data.count && input.Equals(desc))
+    if (aiCount == data.count && reinterpret_cast<::hkListE3DE *>((void *)&(input))->Equals((const ::hkListE3DE &)(desc)))
         return;
     desc.clear();
-    data.ClearFields();
+    reinterpret_cast<::FUN_00e3e220_Class *>(&(data))->ClearFields();
     for (int i = 0; i < input.size; ++i)
     {
         const VertexDeclMatch& src = input.data[i];

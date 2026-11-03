@@ -2,21 +2,33 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysagedeathmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysagedeathmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00c319e0_cls.h"
+#include "fnv/decl/MyIsEqual.h"
+#include "fnv/decl/NiPSysAirFieldAirFrictionCtlr.h"
+#include "fnv/decl/ParticleModifierBinary.h"
+#include "fnv/decl/PositionState.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/X.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_01202000.h"
 struct NiRTTI;
-extern NiRTTI g_01202798;
 
 // @fnv 0x00c2efe0
 const NiRTTI* __cdecl FUN_00c2efe0()
 {
-    return &g_01202798;
+    return &(*reinterpret_cast<::NiRTTI *>(&::g_01202798));
 }
 
-extern "C" const void* g_012027a0;
 
 // @fnv 0x00c2f3d0
 const void* __cdecl FUN_00c2f3d0()
 {
-    return &g_012027a0;
+    return &(*reinterpret_cast<const void * *>(&::g_012027a0));
 }
 
 struct NiPSysAirFieldSpreadCtlr
@@ -37,9 +49,17 @@ struct NiStream
     void* GetLoadedObject();
 };
 
+class CloningProcess;
+class NiStream;
 struct NiPSysModifier
 {
     virtual void LinkObject(NiStream&);
+public:
+    void CopyMemberData(::NiPSysModifier *, ::CloningProcess &);
+public:
+    void ProcessClone(::CloningProcess &);
+public:
+    void LoadBinary(::NiStream &);
 };
 
 struct NiPSysSpawnModifier;
@@ -59,7 +79,6 @@ void NiPSysAgeDeathModifier::FUN_00c2ef60(NiStream& kStream)
 }
 
 namespace fnv_00c2eff0 {
-void __cdecl FUN_00c31750();
 void __cdecl _delete(void*, unsigned int);
 struct NiPSysAgeDeathModifier
 {
@@ -69,7 +88,7 @@ struct NiPSysAgeDeathModifier
 // @fnv 0x00c2eff0
 void* __thiscall NiPSysAgeDeathModifier::Destroy(unsigned int flag)
 {
-    FUN_00c31750();
+    static_cast<::PositionState *>(nullptr)->FUN_00c31750();
     if (flag & 1)
         _delete(this, 0x20);
     return this;
@@ -97,7 +116,6 @@ typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
 struct NiPSysModifier
 {
     char _pad_00[0x1c];
-    void __thiscall ProcessClone(CloningProcess&);
 };
 struct NiObject
 {
@@ -110,7 +128,6 @@ struct NiPSysSpawnModifier
 struct ShaderBufferRecord;
 struct NiTStringPointerMap_00e93020
 {
-    bool __thiscall GetAt(char const*, ShaderBufferRecord*&);
 };
 struct NiPSysAgeDeathModifier : NiPSysModifier
 {
@@ -124,14 +141,13 @@ void __thiscall NiPSysAgeDeathModifier::FUN_00c2f1a0(CloningProcess& kCloning)
     bool bFound;
     NiObject* pkClone;
     NiPSysAgeDeathModifier* pkDest;
-    NiPSysModifier::ProcessClone(kCloning);
+    reinterpret_cast<::NiPSysModifier *>(this)->ProcessClone((::CloningProcess &)(kCloning));
     pkClone = 0;
-    ((NiTStringPointerMap_00e93020*)kCloning.m_pCloneMap)->GetAt((const char*)this, (ShaderBufferRecord*&)pkClone);
+    reinterpret_cast<::A54440Hash *>((((NiTStringPointerMap_00e93020*)kCloning.m_pCloneMap)))->FUN_00a53c30((::A54440Manager *)((const char*)this), (::A54440Manager **)&((ShaderBufferRecord*&)pkClone));
     pkDest = (NiPSysAgeDeathModifier*)pkClone;
     if (m_pSpawnModifier)
     {
-        bFound = ((NiTStringPointerMap_00e93020*)kCloning.m_pCloneMap)
-                     ->GetAt((const char*)m_pSpawnModifier, (ShaderBufferRecord*&)pkClone);
+        bFound = reinterpret_cast<::A54440Hash *>((((NiTStringPointerMap_00e93020*)kCloning.m_pCloneMap)))->FUN_00a53c30((::A54440Manager *)((const char*)m_pSpawnModifier), (::A54440Manager **)&((ShaderBufferRecord*&)pkClone));
         if (bFound)
         {
             pkDest->m_pSpawnModifier = (NiPSysSpawnModifier*)pkClone;
@@ -170,17 +186,10 @@ FUN_00c32d80* __cdecl FUN_00c2f3a0()
 
 struct StrArr
 {
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 struct Base00c319e0
 {
-    void FUN_00c319e0(StrArr*);
 };
-char* __cdecl FUN_00a7d330(char*);
-char* __cdecl FUN_00a7d370(char const*, bool);
-char* __cdecl FUN_00a7d5e0(char const*, char const*);
-extern char const* const g_011d1f8c_arg1;
 struct FUN_00c2f2c0_shell : Base00c319e0
 {
     char _pad[0x18];
@@ -191,24 +200,24 @@ struct FUN_00c2f2c0_shell : Base00c319e0
 // @fnv 0x00c2f2c0
 void FUN_00c2f2c0_shell::FUN_00c2f2c0(StrArr* pkStrings)
 {
-    FUN_00c319e0(pkStrings);
-    char* pcString = FUN_00a7d330(*(char**)&g_01202798);
+    reinterpret_cast<::FUN_00c319e0_cls *>(this)->FUN_00c319e0(pkStrings);
+    char* pcString = ::FUN_00a7d330(*(char**)&(*reinterpret_cast<::NiRTTI *>(&::g_01202798)));
     unsigned int uiIndex = ((unsigned short*)pkStrings)[5];
     if (uiIndex >= ((unsigned short*)pkStrings)[4])
-        pkStrings->SetSize(((unsigned short*)pkStrings)[7] + uiIndex);
-    pkStrings->SetAt(uiIndex, pcString);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(((unsigned short*)pkStrings)[7] + uiIndex);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiIndex, pcString);
     pcString = FUN_00a7d370("Spawn on Death", m_bHasString);
     uiIndex = ((unsigned short*)pkStrings)[5];
     if (uiIndex >= ((unsigned short*)pkStrings)[4])
-        pkStrings->SetSize(((unsigned short*)pkStrings)[7] + uiIndex);
-    pkStrings->SetAt(uiIndex, pcString);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(((unsigned short*)pkStrings)[7] + uiIndex);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiIndex, pcString);
     char const* pcModifierName =
         m_pSpawnModifier ? *(char const**)((char*)m_pSpawnModifier + 8) : (char const*)&g_011d1f8c_arg1;
-    pcString = FUN_00a7d5e0("Spawn Modifier", pcModifierName);
+    pcString = ::fnv_00a7d5e0::FUN_00a7d5e0("Spawn Modifier", pcModifierName);
     uiIndex = ((unsigned short*)pkStrings)[5];
     if (uiIndex >= ((unsigned short*)pkStrings)[4])
-        pkStrings->SetSize(((unsigned short*)pkStrings)[7] + uiIndex);
-    pkStrings->SetAt(uiIndex, pcString);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(((unsigned short*)pkStrings)[7] + uiIndex);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiIndex, pcString);
 }
 
 struct NiPSysPositionModifier
@@ -221,7 +230,6 @@ struct NiPSysAgeDeathModifierClone : NiPSysPositionModifier
     char _pad[0x18];
     bool m_bHasString;
     NiPSysSpawnModifier* m_pSpawnModifier;
-    void CopyMemberData(NiPSysModifier*, CloningProcess&);
     NiPSysAgeDeathModifierClone* FUN_00c2f150(CloningProcess& kCloning);
 };
 extern int DAT_010c0304;
@@ -240,7 +248,7 @@ NiPSysAgeDeathModifierClone* NiPSysAgeDeathModifierClone::FUN_00c2f150(CloningPr
     {
         pkObject = 0;
     }
-    CopyMemberData((NiPSysModifier*)pkObject, kCloning);
+    reinterpret_cast<::NiPSysModifier *>(this)->CopyMemberData((NiPSysModifier*)pkObject, kCloning);
     pkObject->m_bHasString = m_bHasString;
     return pkObject;
 }
@@ -296,7 +304,6 @@ template <class T> class BC2EF80Pointer
 class BC2EF80Modifier : public BC2EF80Object
 {
   public:
-    bool ModifierIsEqual(BC2EF80Object* pkObject);
 
     int unk04;
     int unk08;
@@ -317,7 +324,7 @@ class BC2EF80Emitter : public BC2EF80Modifier
 // @fnv 0x00c2ef80
 bool BC2EF80Emitter::FUN_00c2ef80(BC2EF80Object* pkObject)
 {
-    if (!ModifierIsEqual(pkObject))
+    if (!reinterpret_cast<::MyIsEqual *>(this)->FUN_00c31830((::NiObject *)(pkObject)))
         return false;
 
     BC2EF80Emitter* pkOther = (BC2EF80Emitter*)pkObject;
@@ -523,13 +530,11 @@ struct NiStream_c2f200
 {
     char pad[0x24c];
     NiBinaryStream_c2f200* m_pUnderlyingStream;
-    void ResetStreamState();
 };
 
 struct NiPSysModifier_c2f200
 {
     char pad[0x18];
-    void LoadBinary(NiStream_c2f200& kStream);
 };
 
 struct NiPSysAgeDeathModifier_c2f200 : NiPSysModifier_c2f200
@@ -541,11 +546,11 @@ struct NiPSysAgeDeathModifier_c2f200 : NiPSysModifier_c2f200
 // @fnv 0x00c2f200
 void NiPSysAgeDeathModifier_c2f200::FUN_00c2f200(NiStream_c2f200& kStream)
 {
-    NiPSysModifier_c2f200::LoadBinary(kStream);
+    reinterpret_cast<::NiPSysModifier *>(this)->LoadBinary((::NiStream &)(kStream));
     unsigned char ucFlag;
     kStream.m_pUnderlyingStream->ReadScalar(&ucFlag, 1);
     m_bHasString = ucFlag != 0;
-    kStream.ResetStreamState();
+    reinterpret_cast<::FUN_00a645b0_cls *>(&(kStream))->FUN_00a645b0();
 }
 
 struct NiBinaryStream;
@@ -566,7 +571,6 @@ struct NiBinaryStream
 };
 struct NiPSysModifierSaveBase
 {
-    void FUN_00c31950(NiStream* stream);
 };
 struct FUN_00c2f260_shell
 {
@@ -576,7 +580,7 @@ struct FUN_00c2f260_shell
 // @fnv 0x00c2f260
 void FUN_00c2f260_shell::SaveAgeDeathModifier(NiStream* stream)
 {
-    reinterpret_cast<NiPSysModifierSaveBase*>(this)->FUN_00c31950(stream);
+    reinterpret_cast<::ParticleModifierBinary *>((reinterpret_cast<NiPSysModifierSaveBase*>(this)))->FUN_00c31950((*(::OutputStream *)(stream)));
     NiPSysAgeDeathModifierClone* modifier = reinterpret_cast<NiPSysAgeDeathModifierClone*>(this);
     bool spawnOnDeath = modifier->m_bHasString;
     NiBinaryStream* output = *reinterpret_cast<NiBinaryStream**>(reinterpret_cast<char*>(stream) + 0x250);
@@ -609,7 +613,7 @@ void __thiscall NiPSysSpawnModifier::FUN_00c2f3f0(float fValue)
     FUN_00c2f3f0Target* target = this->unk3c;
     float fClamped = fValue;
 
-    if (fClamped < g_01012060)
+    if (fClamped < ::_DAT_01012060)
     {
         fClamped = 0.0f;
     }
@@ -624,7 +628,6 @@ void __thiscall NiPSysSpawnModifier::FUN_00c2f3f0(float fValue)
 void* __cdecl FUN_00aa13e0(unsigned int size);
 struct Host2f440
 {
-    void FUN_00c32de0(FUN_00c32d80* obj, int arg);
     FUN_00c32d80* CreateAndInit(int arg);
 };
 // Allocates a 0x40-byte object, constructs it with a vtable, initializes it via FUN_00c32de0 with arg, and returns it (or null on allocation failure).
@@ -641,14 +644,13 @@ FUN_00c32d80* Host2f440::CreateAndInit(int arg)
     {
         p = 0;
     }
-    FUN_00c32de0(p, arg);
+    reinterpret_cast<::NiPSysAirFieldAirFrictionCtlr *>(this)->CopyMemberData((::NiPSysAirFieldAirFrictionCtlr *)(p), (*(::CloningProcess *)(arg)));
     return p;
 }
 
-void __cdecl FUN_00c31670();
 
 // @fnv 0x00c28b60
 void __cdecl FUN_00c28b60()
 {
-    FUN_00c31670();
+    static_cast<::X *>(nullptr)->FUN_00c31670(*(::NiStream *)nullptr);
 }

@@ -2,12 +2,24 @@
 // src/havok/physics/dynamics/collide/filter/pair/hkppaircollisionfilter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/collide/filter/pair/hkppaircollisionfilter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/CB1BC0Map.h"
+#include "fnv/decl/FUN_00c7f750_shell.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00cb1e40_t.h"
+#include "fnv/decl/FUN_00cb2000_cls.h"
+#include "fnv/decl/FUN_00d72030_cls.h"
+#include "fnv/decl/MapCB1C.h"
+#include "fnv/decl/ProbeMap64.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00c98000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010c3000.h"
+#include "fnv/symbols_011b9000.h"
 extern void* FUN_00c85750();
 
 struct HashCls
 {
-    __int64 FUN_00cb1cb0(unsigned __int64 key, int a2, int a3);
-    void InsertKeyValue(unsigned long f0, __int64 m, __int64 n);
 
     int InsertPair(int p1, int p2);
 };
@@ -23,9 +35,9 @@ int HashCls::InsertPair(int aiFirst, int aiSecond)
         m = (__int64)aiSecond * 4294967296LL + (__int64)aiFirst;
 
     HashCls* pHash = (HashCls*)((char*)this + 0x30);
-    __int64 n = pHash->FUN_00cb1cb0(m, 0, 0) + 1;
+    __int64 n = ((long long)(reinterpret_cast<::MapCB1C *>((pHash))->FUN_00cb1cb0(m, 0))) + 1;
     unsigned long f0 = *(unsigned long*)((char*)FUN_00c85750() + 0x10);
-    pHash->InsertKeyValue(f0, m, n);
+    reinterpret_cast<::CB1BC0Map *>((pHash))->InsertKeyValue((*(::CB1BC0Allocator *)(f0)), m, n);
     return (int)n;
 }
 
@@ -53,7 +65,6 @@ extern "C" DEF350MemoryRouter& __cdecl FUN_00c85750();
 
 struct DEF350ReferencedObject
 {
-    void RetainReference();
 };
 
 struct DEF350PointerMap
@@ -64,10 +75,9 @@ struct DEF350PointerMap
 
     DEF350PointerMap() : m_kPrimitiveElement(0), m_iCapacityFlags(0), m_iPairCount(-1)
     {
-        reserve(FUN_00c85750().heap(), 0);
+        reinterpret_cast<::CB1BC0Map *>(this)->ResizeToFit((::CB1BC0Allocator &)(FUN_00c85750().heap()), 0);
     }
 
-    void reserve(DEF350Allocator& alloc, int numElements);
 };
 
 struct DEF350Base
@@ -125,7 +135,7 @@ FUN_00def350::FUN_00def350(DEF350ReferencedObject* object) : m_object(object)
 {
     unk20 = 5;
     if (object)
-        object->RetainReference();
+        reinterpret_cast<::FUN_00c90510_class *>((object))->FUN_00c90510();
 }
 }  // namespace fnv_00def350
 
@@ -135,7 +145,6 @@ struct Inner
 {
     unsigned char unk00[8];
     int threshold;
-    int FUN_00cb1c60(unsigned __int64 value);
 };
 
 struct Owner
@@ -164,7 +173,7 @@ volatile unsigned char* Owner::CheckPairAgainstThreshold(volatile unsigned char*
         value = ullSecond * 0x100000000LL + ullFirst;
 
     Inner* pInner = &inner;
-    int actual = pInner->FUN_00cb1c60(value);
+    int actual = reinterpret_cast<::ProbeMap64 *>((pInner))->FUN_00cb1c60(value);
     if (actual > pInner->threshold)
     {
         *result = 1;
@@ -213,7 +222,6 @@ struct CheckHolder
 
 struct ResultWriter
 {
-    void CheckPairAgainstThreshold(char* apResult, Converted* apFirst, Converted* apSecond);
 };
 
 struct FUN_00def450_cls
@@ -254,7 +262,7 @@ char* FUN_00def450_cls::CheckAndWriteResult(char* apResult, Operand* apFirst, Op
     Converted* pSecond = (apSecond->m_cType == 1) ? (Converted*)((char*)apSecond + apSecond->m_cByteAtOffset10) : 0;
 
     ResultWriter* pWriter = (ResultWriter*)((char*)this - 8);
-    pWriter->CheckPairAgainstThreshold(apResult, pFirst, pSecond);
+    reinterpret_cast<::Owner *>((pWriter))->CheckPairAgainstThreshold((volatile unsigned char *)(apResult), (int)(pFirst), (int)(pSecond));
     return apResult;
 }
 
@@ -434,9 +442,6 @@ struct DEF1E0PairMap
     int m_iCapacityFlags;
     int m_iPairCount;
 
-    DEF1E0Uint64 FindValueForKey(DEF1E0Uint64 key, DEF1E0Uint64 def) const;
-    int insert(DEF1E0Allocator& alloc, DEF1E0Uint64 key, DEF1E0Uint64 val);
-    void remove(DEF1E0Uint64 key);
 };
 
 struct DEF1E0PairCounter
@@ -466,14 +471,14 @@ int DEF1E0PairCounter::DecrementPairCount(int idA, int idB)
     DEF1E0Uint64 b = idB;
     DEF1E0Uint64 key = (a < b) ? a * 0x100000000ULL + b : b * 0x100000000ULL + a;
     DEF1E0PairMap& map = m_pairCounts;
-    DEF1E0Uint64 count = map.FindValueForKey(key, 0);
+    DEF1E0Uint64 count = reinterpret_cast<::MapCB1C *>((void *)&(map))->FUN_00cb1cb0(key, 0);
     if (count == 0)
         return 0;
     count--;
     if (count > 0)
-        map.insert(fnvc_adapt::FUN_00c85750().heap(), key, count);
+        reinterpret_cast<::CB1BC0Map *>(&(map))->InsertKeyValue(fnvc_adapt::(::CB1BC0Allocator &)((const <dependent type> &)(FUN_00c85750().heap())), key, count);
     else
-        map.remove(key);
+        reinterpret_cast<::FUN_00cb2000_cls *>(&(map))->FUN_00cb2000(key, {});
     return (int)count;
 }
 
@@ -636,11 +641,6 @@ extern int DAT_010da0bc;
 extern int DAT_010da0a8;
 extern int DAT_010da09c;
 extern int DAT_010da090;
-extern int DAT_010c3b8c;
-extern int DAT_010c3bac;
-extern int DAT_010c3b98;
-extern int DAT_010c3b80;
-extern int DAT_0102e388;
 
 struct AudioAllocator
 {
@@ -662,7 +662,6 @@ AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00def160_Ref
 {
-    void FUN_00c905b0();
 };
 
 struct FUN_00def160_Sub
@@ -671,8 +670,6 @@ struct FUN_00def160_Sub
     int unk04;
     int unk08;
 
-    void FUN_00cb1e40(void* pAllocator);
-    void FUN_00a29680();
 };
 
 class FUN_00def160_cls
@@ -710,19 +707,19 @@ void FUN_00def160_cls::FUN_00def160()
 
     if (m_pReference != 0)
     {
-        m_pReference->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_pReference))->FUN_00c905b0();
     }
 
     pSub = &m_sub;
     pHolder = FUN_00c85750();
-    pSub->FUN_00cb1e40(pHolder->m_pAllocator);
-    pSub->FUN_00a29680();
+    reinterpret_cast<::FUN_00cb1e40_t *>((pSub))->FUN_00cb1e40((::FUN_00cb1e40_arg_t *)(pHolder->m_pAllocator));
+    ::FUN_00a29680();
 
-    m_vp14 = (void*)&DAT_010c3b8c;
-    m_vp10 = (void*)&DAT_010c3bac;
-    m_vp0C = (void*)&DAT_010c3b98;
-    m_vp08 = (void*)&DAT_010c3b80;
-    m_vp00 = (void*)&DAT_0102e388;
+    m_vp14 = (void*)&::DAT_010c3b8c;
+    m_vp10 = (void*)&::DAT_010c3bac;
+    m_vp0C = (void*)&::DAT_010c3b98;
+    m_vp08 = (void*)&::DAT_010c3b80;
+    m_vp00 = (void*)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 }  // namespace fnv_00def160
 
@@ -746,14 +743,13 @@ struct CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void FUN_00def160();
     CpuObject* FUN_00def500(unsigned int flags);
 };
 // Calls FUN_00def160, and if the low bit of flags is set, invokes the CpuAllocator from FUN_00c85750 with this and size, then returns this.
 // @fnv 0x00def500
 CpuObject* CpuObject::FUN_00def500(unsigned int flags)
 {
-    FUN_00def160();
+    reinterpret_cast<::fnv_00def160::FUN_00def160_cls *>(this)->FUN_00def160();
     if (flags & 1)
     {
         CpuAllocatorHolder* holder = FUN_00c85750();
@@ -971,7 +967,6 @@ class hkVector4
     __forceinline void setSub4(const hkVector4& a, const hkVector4& b);
     __forceinline void mul4(const hkVector4& a);
     __forceinline void setMul4(hkVector4Parameter a, hkVector4Parameter b);
-    void SetRotatedVector(const hkMatrix3& a, const hkVector4& b);
     __forceinline VectorComponentValue horizontalAdd3() const;
     __forceinline hkReal& operator()(int i);
     __forceinline const hkReal& operator()(int i) const;
@@ -1405,11 +1400,10 @@ class SolverSchemaHeader
     static inline int getNumSolverElemTemps(const SolverSchemaHeader* schema)
     {
         const hkEnum<SolverSchemaType, hkInt8> type = getType(schema);
-        const int numSolverElemTemps = ms_aiSolverResultTempCounts[type];
+        const int numSolverElemTemps = (*reinterpret_cast<unsigned char (*)[]>(&::DAT_011b9434))[type];
         return numSolverElemTemps;
     }
     static hkUint8 ms_aucLogicalSchemaSizes[];
-    static hkUint8 ms_aiSolverResultTempCounts[];
 };
 class ConstraintHeaderSchema : public SolverSchemaHeader
 {
@@ -2111,13 +2105,13 @@ void FUN_00def570(const ConstraintSolverInfo& info, const FloatRecord* solverInp
             QuantizedBoundsData* nonConstAccum;
             if (schema->m_iBodyIndex == 0)
             {
-                nonConstAccumA = *mA;
+                reinterpret_cast<::FUN_00d72030_cls *>((void *)&(const ::QuantizedBoundsData &)(nonConstAccumA))->FUN_00d72030((const ::FUN_00d72030_cls *)&(*mA));
                 mA = &nonConstAccumA;
                 nonConstAccum = &nonConstAccumA;
             }
             else
             {
-                nonConstAccumB = *mB;
+                reinterpret_cast<::FUN_00d72030_cls *>((void *)&(const ::QuantizedBoundsData &)(nonConstAccumB))->FUN_00d72030((const ::FUN_00d72030_cls *)&(*mB));
                 mB = &nonConstAccumB;
                 nonConstAccum = &nonConstAccumB;
             }
@@ -2128,18 +2122,18 @@ void FUN_00def570(const ConstraintSolverInfo& info, const FloatRecord* solverInp
         case SolverSchemaHeader::SCHEMA_TYPE_SET_CENTER_OF_MASS: {
             const CenterOfMassShiftSchema* schema = static_cast<const CenterOfMassShiftSchema*>(com);
             com = schema + 1;
-            nonConstAccumA = *mA;
+            reinterpret_cast<::FUN_00d72030_cls *>((void *)&(const ::QuantizedBoundsData &)(nonConstAccumA))->FUN_00d72030((const ::FUN_00d72030_cls *)&(*mA));
             mA = &nonConstAccumA;
-            nonConstAccumB = *mB;
+            reinterpret_cast<::FUN_00d72030_cls *>((void *)&(const ::QuantizedBoundsData &)(nonConstAccumB))->FUN_00d72030((const ::FUN_00d72030_cls *)&(*mB));
             mB = &nonConstAccumB;
             hkVector4 deltaVelA;
-            deltaVelA.SetRotatedVector(schema->m_kAngularToLinearVelocityMatrixA, mA->m_vAngularVelocity);
+            reinterpret_cast<::FUN_00c7f750_shell *>(&(deltaVelA))->FUN_00c7f750((float *)&(schema->m_kAngularToLinearVelocityMatrixA), (float *)&(mA->m_vAngularVelocity));
             hkVector4 deltaSumVelA;
-            deltaSumVelA.SetRotatedVector(schema->m_kAngularToLinearVelocityMatrixA, mA->getSumAngularVel());
+            reinterpret_cast<::FUN_00c7f750_shell *>(&(deltaSumVelA))->FUN_00c7f750((float *)&(schema->m_kAngularToLinearVelocityMatrixA), (float *)&(mA->getSumAngularVel()));
             hkVector4 deltaVelB;
-            deltaVelB.SetRotatedVector(schema->m_kAngularToLinearVelocityMatrixB, mB->m_vAngularVelocity);
+            reinterpret_cast<::FUN_00c7f750_shell *>(&(deltaVelB))->FUN_00c7f750((float *)&(schema->m_kAngularToLinearVelocityMatrixB), (float *)&(mB->m_vAngularVelocity));
             hkVector4 deltaSumVelB;
-            deltaSumVelB.SetRotatedVector(schema->m_kAngularToLinearVelocityMatrixB, mB->getSumAngularVel());
+            reinterpret_cast<::FUN_00c7f750_shell *>(&(deltaSumVelB))->FUN_00c7f750((float *)&(schema->m_kAngularToLinearVelocityMatrixB), (float *)&(mB->getSumAngularVel()));
             nonConstAccumA.m_vLinearVelocity.add4(deltaVelA);
             nonConstAccumA.getSumLinearVel().add4(deltaSumVelA);
             nonConstAccumB.m_vLinearVelocity.add4(deltaVelB);
@@ -2250,7 +2244,7 @@ void FUN_00def570(const ConstraintSolverInfo& info, const FloatRecord* solverInp
                                 const hkReal factor = 1.5f;
                                 const hkReal minRhs =
                                     minDeltaVel * info.m_fTimeStep / motorState->m_kAngularMotors[i].m_fTau * factor;
-                                rhsa = MathUtilities::max2(rhsa, minRhs);
+                                rhsa = ::FUN_00c98210(rhsa, minRhs);
                                 hkSolverExportWriteRhs(rhsa, solverOut + 3 + i);
                             }
                             if (motorState->GetReferenceTimeStep(i) == 1)

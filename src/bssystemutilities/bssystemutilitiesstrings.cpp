@@ -1,5 +1,12 @@
 // bssystemutilities/bssystemutilitiesstrings.cpp: BSSystemUtilitiesStrings (4 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00af35c0_Class.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_011f6000.h"
 #include "bssystemutilitiesstrings.h"
 
 // Frees each of the 8 stored string pointers via g_memoryManager.Deallocate and clears the slots.
@@ -11,7 +18,7 @@ void BSSystemUtilitiesStrings::Destroy()
         if (m_pStringFunctions[i])
         {
             void* ptr = m_pStringFunctions[i];
-            g_memoryManager.Deallocate(ptr);
+            reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(ptr);
             m_pStringFunctions[i] = 0;
         }
     }
@@ -37,23 +44,20 @@ void FUN_00af3660_shell::CallVTableMethod()
 
 struct FUN_00af37a0_Owner
 {
-    void FUN_00af35c0();
     void* DestroyIfFlagged(unsigned int flags);
 };
 // @fnv 0x00af37a0
 void* FUN_00af37a0_Owner::DestroyIfFlagged(unsigned int flags)
 {
-    FUN_00af35c0();
+    reinterpret_cast<::FUN_00af35c0_Class *>(this)->FUN_00af35c0();
     if (flags & 1)
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(this);
     return this;
 }
 
 struct P03MM : public MemoryManager
 {
-    void* Allocate(unsigned int);
 };
-extern P03MM _g_memoryManager;
 
 unsigned int _strlen(const char*);
 void* _fnv_zlib_memset(void*, int, unsigned int);
@@ -75,13 +79,13 @@ void FUN_00af36e0_shell::SetStringAt(unsigned int index, const char* pcStr)
     if (m_pStringFunctions[index])
     {
         void* pOldString = m_pStringFunctions[index];
-        _g_memoryManager.Deallocate(pOldString);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa4060(pOldString);
         m_pStringFunctions[index] = 0;
     }
     if (pcStr)
     {
         len = _strlen(pcStr) + 1;
-        void* pAllocated = _g_memoryManager.Allocate(len);
+        void* pAllocated = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(len);
         m_pStringFunctions[index] = (char*)pAllocated;
         void* pZeroed = m_pStringFunctions[index];
         _fnv_zlib_memset(pZeroed, 0, len);

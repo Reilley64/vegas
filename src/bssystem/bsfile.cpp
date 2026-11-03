@@ -1,5 +1,12 @@
 // bssystem/bsfile.cpp: BSFile, BSFileW (21 functions)
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FileObject.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/WStr.h"
+#include "fnv/decl/WideString.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f6000.h"
 #include "bsfile_decls.h"
 
 // @fnv 0x00affc60
@@ -30,7 +37,7 @@ void BSFile::Close()
         _fclose_nolock(m_pFile);
     }
     void* buffer = m_pBuffer;
-    g_memoryManager.Deallocate(buffer);
+    reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(buffer);
     m_pBuffer = 0;
     m_pFile = 0;
 }
@@ -81,7 +88,7 @@ bool BSFile::AttachFileStream(bool, bool)
     if (bufferSize > 0 && !m_pBuffer)
     {
         unsigned int uiSize = bufferSize;
-        buffer = g_memoryManager.Allocate(uiSize);
+        buffer = reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(uiSize);
         m_pBuffer = buffer;
     }
     m_bGood = true;
@@ -142,7 +149,7 @@ bool BSFile::Open(bool, bool textMode)
         m_pFile = 0;
         fopen_s(&m_pFile, pathStorage.pFileName, mode);
     }
-    CheckIsGood();
+    reinterpret_cast<::FileObject *>(this)->FUN_00aff490();
     return m_bGood;
 }
 
@@ -232,7 +239,6 @@ struct FUN_00affa10_V
     virtual int v17(void*, unsigned int);
 };
 
-int __cdecl SwapBufferBySizes(void*, unsigned int, void*, void*);
 
 // If p3 is positive, calls p1->v17(p2, p3), then if p4 is set calls SwapBufferBySizes(p2, p3, p4, p5), and returns the v17 result.
 // @fnv 0x00affa10
@@ -242,7 +248,7 @@ int __cdecl FUN_00affa10(FUN_00affa10_V* p1, void* apData, unsigned int auiSize,
         return 0;
     int result = p1->v17(apData, auiSize);
     if (apExtra)
-        SwapBufferBySizes(apData, auiSize, apExtra, apExtraArg);
+        ::SwapBufferBySizes((char *)(apData), auiSize, (const unsigned int *)(apExtra), (unsigned int)(apExtraArg));
     return result;
 }
 
@@ -310,7 +316,6 @@ struct S_00aff2a0_Class
     int unk28;
     unsigned char unk2c;
 
-    void FUN_00aff490();
     unsigned char __thiscall FUN_00aff2a0(int);
 };
 
@@ -328,7 +333,7 @@ unsigned char __thiscall S_00aff2a0_Class::FUN_00aff2a0(int a1)
     unk20 = 0;
     unk24 = a1;
 
-    FUN_00aff490();
+    reinterpret_cast<::FileObject *>(this)->FUN_00aff490();
 
     return unk2c;
 }
@@ -357,7 +362,6 @@ struct VTableV18_b7074
 };
 
 void __cdecl FUN_00ec44d0(void* p, unsigned int a, unsigned int b);
-int __cdecl SwapBufferBySizes(void*, unsigned int, void*, void*);
 
 // @fnv 0x00affa60
 int __cdecl FUN_00affa60(VTableV18_b7074* self, unsigned int a1, unsigned int auiSize, void* apExtra, void* a4)
@@ -369,18 +373,18 @@ int __cdecl FUN_00affa60(VTableV18_b7074* self, unsigned int a1, unsigned int au
     void* p;
     int kRet;
     {
-        void* tmp = g_memoryManager.Allocate(auiSize);
+        void* tmp = reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(auiSize);
         p = tmp;
     }
     FUN_00ec44d0(p, a1, auiSize);
     if (apExtra != 0)
     {
-        SwapBufferBySizes(p, auiSize, apExtra, a4);
+        ::SwapBufferBySizes((char *)(p), auiSize, (const unsigned int *)(apExtra), (unsigned int)(a4));
     }
     kRet = self->v18(p, auiSize);
     {
         void* tmp2 = p;
-        g_memoryManager.Deallocate(tmp2);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(tmp2);
     }
     return kRet;
 }
@@ -429,8 +433,6 @@ typedef unsigned int(__cdecl* ReadFn)(void* stream, void* buffer, unsigned int b
                                       unsigned int numComponents);
 struct WStrOut
 {
-    void AddChunkText(const wchar_t* text);
-    void SetChunkText(const wchar_t* text, unsigned int length);
 };
 struct AnsiConvState
 {
@@ -520,9 +522,9 @@ unsigned int BSFileW::ReadWideString(WStrOut* out, unsigned int maxBytes)
         if (count == 260 || ch_ == 0)
         {
             if (kTotal)
-                out->AddChunkText(buffer_);
+                reinterpret_cast<::WStr *>((out))->Append(buffer_);
             else
-                out->SetChunkText(buffer_, 0);
+                reinterpret_cast<::WideString *>((out))->FUN_00afff50((const unsigned short *)(buffer_), 0);
             kTotal += count;
             if (ch_ == 0)
                 break;

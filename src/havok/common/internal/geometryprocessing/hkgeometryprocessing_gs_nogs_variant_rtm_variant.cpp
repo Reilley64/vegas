@@ -7,14 +7,20 @@
 // to their real unit once identified.
 // src/havok/common/internal/geometryprocessing/hkgeometryprocessing.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/geometryprocessing/hkgeometryprocessing.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void __cdecl Deallocate(void*);
+#include "fnv/decl/FUN_00d5d660_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00ded000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_010cd000.h"
+#include "fnv/symbols_01267000.h"
 extern int DAT_010d9fc4;
 struct FUN_00dee620
 {
     void* m_pVTable;
     __thiscall FUN_00dee620(int testFlag);
 };
-extern "C" void __cdecl FUN_00dedf10(void*, void*, void*, void*, int, int);
 void __cdecl FUN_00dee5f0(void* first, void* second, void* third, void* fourth);
 struct FUN_00dee6b0_Class
 {
@@ -22,7 +28,6 @@ struct FUN_00dee6b0_Class
     float unk04;
     float FUN_00dee6b0(int testFlag);
 };
-extern int DAT_010cd664;
 struct AudioAllocator
 {
     virtual void v00();
@@ -37,7 +42,6 @@ struct AudioHolder
     int unk0c;
     AudioAllocator* m_pAllocator;
 };
-AudioHolder* __cdecl FUN_00c85750() throw();
 struct FUN_00dee6c0_cls
 {
     int m_vptr;
@@ -169,16 +173,11 @@ struct Owner
 };
 struct Obj
 {
-    void NextFloat4(Vec4* p);
 };
-void __cdecl ResizeAudioStream(void* allocator, Vec4Array* arr, int elemSize);
-extern Vec4 DAT_01267e30;
-bool __cdecl FUN_00dedbb0(Owner* self, int count, Vec4Array* out, Obj* obj);
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 
-extern __declspec(align(16)) float DAT_010c7160[4];
-extern float DAT_01012054;
 
 // @fnv 0x00de9e10
 float __cdecl FUN_00de9e10(float* arg1, float* arg2, float* arg3, float* result, float* optionalResult)
@@ -192,7 +191,7 @@ float __cdecl FUN_00de9e10(float* arg1, float* arg2, float* arg3, float* result,
     __m128 m = _mm_mul_ps(d2, d1);
     __m128 xy = _mm_add_ss(_mm_shuffle_ps(m, m, 0x55), m);
     __m128 sum = _mm_add_ss(_mm_shuffle_ps(m, m, 0xaa), xy);
-    __m128 num = _mm_sub_ss(_mm_load_ps(DAT_010c7160), sum);
+    __m128 num = _mm_sub_ss(_mm_load_ps((*reinterpret_cast<float (*)[4]>(&::DAT_010c7160))), sum);
     __m128 nxy = _mm_add_ss(_mm_shuffle_ps(n2, n2, 0x55), n2);
     __m128 nsum = _mm_add_ss(_mm_shuffle_ps(n2, n2, 0xaa), nxy);
     float t;
@@ -200,7 +199,7 @@ float __cdecl FUN_00de9e10(float* arg1, float* arg2, float* arg3, float* result,
     float k = t < 0.0f ? 0.0f : t > 1.0f ? 1.0f : t;
     __m128 factor = _mm_load_ss(&k);
     __m128 v = _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(factor, factor, 0), d2), d1);
-    __m128 neg = _mm_load_ss(&DAT_01012054);
+    __m128 neg = _mm_load_ss(&::DAT_01012054);
     _mm_store_ps(result, _mm_mul_ps(_mm_shuffle_ps(neg, neg, 0), v));
     if (optionalResult)
         *optionalResult = k;

@@ -5,6 +5,11 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkphingelimitsdrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkphingelimitsdrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/CpuObject.h"
+#include "fnv/decl/DE44C0Object.h"
+#include "fnv/decl/FUN_00de4530Owner.h"
+#include "fnv/symbols_00cab000.h"
+#include "fnv/symbols_0106d000.h"
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
@@ -64,10 +69,8 @@ struct Vec
 struct Holder
 {
     void* p;
-    void FUN_00e10a10(Visitor* a);
 };
 
-extern const double DAT_0106d4c8;
 
 struct T
 {
@@ -82,12 +85,9 @@ struct T
     Mat3 m90;
     Holder mc;
     void FUN_00de47e0(Src* a, Mat4* b, Mat4* c);
-    void FUN_00de44c0(int a, int b);
-    void FUN_00de4530(int a, int b);
     void FUN_00de6d80(Src* a1, Visitor* a2, int a3, int a4);
 };
 
-int __cdecl PackColorBigEndian(float a, float b, float c, float d);
 
 typedef void(__thiscall* DrawFn)(Visitor*, void*, void*, int, int, int);
 
@@ -103,18 +103,18 @@ void T::FUN_00de6d80(Src* a1, Visitor* a2, int a3, int a4)
         __m128 buf[12];
     } w;
     unsigned char* e = a1->m0c;
-    mc.FUN_00e10a10(a2);
+    reinterpret_cast<::CpuObject *>(&(mc))->FUN_00e10a10((int)(a2));
     FUN_00de47e0(a1, &w.matA, &w.matB);
     m50.FUN_00c7f640(&w.matA, e + 0x90);
     m40.FUN_00c7f640(&w.matB, e + 0x50);
-    FUN_00de44c0(a3, a4);
-    FUN_00de4530(a3, a4);
+    reinterpret_cast<::DE44C0Object *>(this)->FUN_00de44c0(a3, a4);
+    reinterpret_cast<::FUN_00de4530Owner *>(this)->FUN_00de4530(a3, a4);
     w.vb.FUN_00c7f700(&m90, e + ((((int)e[0xa2] + 1) % 3) + 6) * 16);
     w.va.FUN_00c7f700(&m90, e + ((((int)e[0xa2] + 2) % 3) + 6) * 16);
     float s = f1c * f00;
     float t = s;
     float sd = s + t;
-    float s2 = (float)(DAT_0106d4c8 * s);
+    float s2 = (float)(::DAT_0106d4c8 * s);
     __m128 base = m50.v;
     for (int i = 0; i < 2; ++i)
     {
@@ -138,9 +138,9 @@ void T::FUN_00de6d80(Src* a1, Visitor* a2, int a3, int a4)
     do
     {
         DrawFn* slot = (DrawFn*)&a2->vt[9];
-        (*slot)(a2, q, q + 1, PackColorBigEndian(0.8f, 0.8f, 0.8f, 1.0f), a3, a4);
+        (*slot)(a2, q, q + 1, ((int)(::PackColorBigEndian(0.8f, 0.8f, 0.8f, 1.0f))), a3, a4);
         q += 2;
     } while (--n);
     DrawFn* slot = (DrawFn*)&a2->vt[9];
-    (*slot)(a2, &m40, &m20, PackColorBigEndian(0.3f, 0.3f, 0.8f, 1.0f), a3, a4);
+    (*slot)(a2, &m40, &m20, ((int)(::PackColorBigEndian(0.3f, 0.3f, 0.8f, 1.0f))), a3, a4);
 }

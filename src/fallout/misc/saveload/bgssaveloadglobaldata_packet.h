@@ -3,6 +3,26 @@
 #define BGSSAVELOADGLOBALDATA_PACKET_H
 
 
+#include "fnv/decl/CombatThreatMap.h"
+#include "fnv/decl/FUN_00459840_shell.h"
+#include "fnv/decl/FUN_0063f790_shell.h"
+#include "fnv/decl/FUN_006694c0_shell.h"
+#include "fnv/decl/GridHolder.h"
+#include "fnv/decl/TESObjectTREE.h"
+#include "fnv/decl/fnv_00459750__FUN_00459750_cls.h"
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/decl/fnv_00993440__FUN_00993440_shell.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_0045a000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_004d6000.h"
+#include "fnv/symbols_00706000.h"
+#include "fnv/symbols_00836000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
 class BGSLoadGameBuffer;
 class ImageSpaceModifierInstance;
 class NiAVObject;
@@ -24,15 +44,13 @@ template <class T> class BSSimpleList
     BSSimpleList* GetNext();
     void Remove(const NiPointer<NiAVObject>&);
 };
+class NiPoint3;
 class TES
 {
   public:
-    void LoadGame(BGSLoadGameBuffer*);
-    void FUN_00459840(BGSLoadGameBuffer*);
-    void ProcessItems(BGSLoadGameBuffer*);
-    BSSimpleList<NiPointer<ImageSpaceModifierInstance> >* FUN_0043b5d0();
+public:
+    int FindCellAtPosition(const ::NiPoint3 *, bool);
 };
-extern TES* g_TES;
 class ScreenSplatter
 {
   public:
@@ -48,46 +66,35 @@ class BSPortal
   public:
     ~BSPortal();
 };
-BSPortal* FUN_0045a190();
 class ImageSpaceModifierInstanceDOF
 {
   public:
-    void FUN_0063f790(float);
 };
 class ImageSpaceModifierInstance
 {
   public:
-    bool IsFlagSet();
+public:
+    static float GetTime();
 };
 class CombatManager
 {
   public:
-    void LoadGame(BGSLoadGameBuffer*);
-    void FUN_00993800(BGSLoadGameBuffer*);
     void ApplyLoadBuffer(BGSLoadGameBuffer*);
 };
 class Interface
 {
   public:
-    static void ApplyLoadBuffer(BGSLoadGameBuffer*);
-    static void Revert(BGSLoadGameBuffer*);
-    static void LoadGame(BGSLoadGameBuffer*);
-    static void PrintDebugMessage(BGSLoadGameBuffer*);
 };
 
 class BGSLoadGameBuffer
 {
   public:
     virtual unsigned char GetVersion();
-    int ReadElementCount();
-    void ReadDataBlock(void*, unsigned int);
-    unsigned int ReadFormIdentifier();
 };
 class TESForm
 {
   public:
     virtual void vfn_0();
-    static TESForm* GetFormByID(unsigned int);
 };
 class TESImageSpaceModifier : public TESForm
 {
@@ -99,16 +106,11 @@ class ImageSpaceModifierInstanceForm
 {
   public:
     static ImageSpaceModifierInstanceForm* Trigger(TESImageSpaceModifier*, float, NiAVObject*);
-    void SetPad5(float);
 };
-extern float DAT_011c3c08;
 
 class GlobalObject_0096d020
 {
 };
-extern GlobalObject_0096d020 g_011e0e80;
-void FUN_004d60c0(BGSLoadGameBuffer*);
-void ResetRadioGlobals(BGSLoadGameBuffer*);
 class MagicItem;
 class MagicCaster
 {
@@ -117,7 +119,6 @@ class MagicCaster
 };
 
 void FUN_0084cd40(BGSLoadGameBuffer*);
-void ReadSavedSettings(BGSLoadGameBuffer*);
 void FUN_008368b0(BGSLoadGameBuffer*);
 class Sky
 {

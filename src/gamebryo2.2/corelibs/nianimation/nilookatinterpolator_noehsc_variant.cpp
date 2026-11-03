@@ -5,15 +5,37 @@
 
 // src/gamebryo2.2/corelibs/nianimation/nilookatinterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nilookatinterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void* g_011f3f90;
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/Cls_a64ea0.h"
+#include "fnv/decl/DataA38.h"
+#include "fnv/decl/FUN_00a4bcf0.h"
+#include "fnv/decl/FUN_00a641f0_cls.h"
+#include "fnv/decl/FUN_00ba87d0_Class.h"
+#include "fnv/decl/NiGlobalStringTable.h"
+#include "fnv/decl/NiQuatTransform.h"
+#include "fnv/decl/QXformViewer.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a64df0__FUN_00a64df0_Stream.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a4c000.h"
+#include "fnv/symbols_00a57000.h"
+#include "fnv/symbols_00a72000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a81000.h"
+#include "fnv/symbols_00a88000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f4000.h"
 void* __cdecl FUN_00a4be10();
 struct NiLookAtInterpolator
 {
     virtual ~NiLookAtInterpolator();
     void* __thiscall FUN_00a4c5c0(unsigned int flags);
 };
-extern "C" void __cdecl FUN_00a4be20();
-extern "C" void __cdecl __Dummy_00b6fef0(void* p, unsigned int flags);
 class NiAVObject;
 struct NiFixedString
 {
@@ -33,7 +55,6 @@ struct Holder_00a4b8d0
 struct ShaderBufferRecord;
 struct NiTStringPointerMap_00e93060
 {
-    bool GetAt(char const*, ShaderBufferRecord*&);
 };
 struct CloningProcess
 {
@@ -47,6 +68,7 @@ struct Host_00a4bb80
 {
     void __thiscall FUN_00a4bb80(CloningProcess&);
 };
+class NiObject;
 struct NiStream
 {
     virtual void F0();
@@ -58,6 +80,8 @@ struct NiStream
     virtual void F6();
     virtual void F7();
     virtual void Register(void*);
+public:
+    ::NiObject *DeserializeObject();
 };
 struct ObjType
 {
@@ -86,7 +110,6 @@ struct ObjType
 };
 struct BaseInterp
 {
-    bool __thiscall FUN_00a81fe0(NiStream*);
 };
 struct MyInterp
 {
@@ -95,9 +118,7 @@ struct MyInterp
 struct BSFadeNode
 {
     static void* __cdecl operator new(unsigned int);
-    void* __thiscall FUN_00a4bcf0(unsigned int a, unsigned int b, unsigned int c);
 };
-void* __cdecl FUN_00a4c5a0();
 struct FUN_00a4b900_V
 {
     virtual void v00();
@@ -211,9 +232,6 @@ struct Holder
     void __thiscall FUN_00a4b9f0(float m_fStartTime, float m_fMaximumDistance);
 };
 extern "C" const float g_01098b04;
-extern "C" const float g_01015f5c;
-extern "C" const double g_010231b0;
-extern "C" const double g_010241b0;
 struct FUN_00a4b930_item
 {
     virtual void v00();
@@ -286,9 +304,6 @@ struct FUN_00a4b930_cls
 
     void __thiscall GetItemsRange(float* pStart, float* pEnd);
 };
-extern "C" void* g_0109b220;
-extern "C" void* g_011f49e0;
-void* __cdecl FUN_00a5b690(void* p);
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* pTarget);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* pTarget);
 struct RegObj
@@ -351,7 +366,6 @@ struct A4BC40Transform
 class A4BC40Base : public A4BC40Object
 {
   public:
-    bool BaseIsEqual(A4BC40Object* pkObject);
 
     int unk04;
     int unk08;
@@ -381,12 +395,9 @@ struct Arg_b9286
     unsigned short m0a;
     unsigned short m0c;
     unsigned short m0e;
-    void __thiscall FUN_0096ad30(unsigned int n);
-    void __thiscall FUN_0096ae90(unsigned int n, void** out);
 };
 struct Holder_b9286
 {
-    void __thiscall FUN_00a38cb0(Arg_b9286* a);
 };
 struct Obj_b9286
 {
@@ -416,9 +427,6 @@ struct Obj_b9286
     virtual void v23();
     virtual void Visit(Arg_b9286* a);
 };
-extern "C" void* g_011f3f90;
-extern "C" void* __cdecl FUN_00a7d330(void* p);
-extern "C" void* __cdecl FUN_00a7d5a0(const char* s, void* p);
 struct FUN_00a4c780_cls
 {
     unsigned int unk00;
@@ -439,7 +447,6 @@ struct FUN_00a4c780_cls
     Obj_b9286* m3c;
     Obj_b9286* m40;
 
-    void __thiscall FUN_00a570b0(Arg_b9286* a);
 
     void FUN_00a4c780(Arg_b9286* a);
 };
@@ -660,14 +667,10 @@ class C630Stream
     int unk248;
     C630BinaryStream* m_pUnderlyingStream;
 
-    void* DeserializeObject();
-    void ReadFixedString(C630FixedString& kString);
-    void ReadStringTableEntry(C630FixedString& kString);
 };
 class C630Transform
 {
   public:
-    void LoadBinary(C630Stream& kStream);
 
     int unk000;
     int unk004;
@@ -681,7 +684,6 @@ class C630Transform
 class C630Interpolator
 {
   public:
-    void LoadBinary(C630Stream& kStream);
 };
 class C630Blend : public C630Interpolator
 {
@@ -879,21 +881,18 @@ struct Stream341
     unsigned int unk248;
     unsigned int unk24c;
     BinaryOutput341* output;
-    void WriteObjectLink(const void* name);
 };
 struct Transform341
 {
     float translationX, translationY, translationZ;
     float rotationW, rotationX, rotationY, rotationZ;
     float scale;
-    void FUN_00a38b60(Stream341*);
 };
 struct Interpolator341
 {
     virtual ~Interpolator341();
     unsigned int referenceCount;
     float lastTime;
-    void FUN_00a724d0(Stream341*);
 };
 struct LookAt341 : Interpolator341
 {
@@ -905,8 +904,6 @@ struct LookAt341 : Interpolator341
     void SaveToStream(Stream341* stream);
 };
 
-extern "C" char* g_NullStringHandle_0109b220;
-extern "C" char* g_StaticFixedString_011f49e0;
 
 class LAFixedString
 {
@@ -928,13 +925,13 @@ class LAFixedString
     }
     static void IncRefCount(char* h)
     {
-        if (h == g_NullStringHandle_0109b220)
+        if (h == ::DAT_0109b220)
             return;
         InterlockedIncrement((long volatile*)(h - 8));
     }
     static void DecRefCount(char* h)
     {
-        if (h == g_NullStringHandle_0109b220)
+        if (h == ::DAT_0109b220)
             return;
         InterlockedDecrement((long volatile*)(h - 8));
     }
@@ -993,5 +990,5 @@ class NiLookAtInterpolatorX : public NiInterpolator
 // @fnv 0x00a4be20
 NiLookAtInterpolatorX::~NiLookAtInterpolatorX()
 {
-    m_kTargetNodeName = *(LAFixedString*)&g_StaticFixedString_011f49e0;
+    m_kTargetNodeName = *(LAFixedString*)&(*reinterpret_cast<char * *>(&::DAT_011f49e0));
 }

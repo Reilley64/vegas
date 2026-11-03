@@ -3,6 +3,9 @@
 #define FNV_LAYOUT_SUPPORT_H
 
 #include <stddef.h>
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/S00546fb0_Cell.h"
+#include "fnv/symbols_00450000.h"
 #define FNV_JOIN_IMPL(a, b) a##b
 #define FNV_JOIN(a, b) FNV_JOIN_IMPL(a, b)
 #define FNV_STATIC_ASSERT(condition) typedef char FNV_JOIN(fnv_static_assert_, __LINE__)[(condition) ? 1 : -1]
@@ -403,14 +406,11 @@ class TESObjectLAND;
 class TESObjectCELL
 {
   public:
-    bool IsOutdoorCell();
     bool IsCellInterior() const;
-    TESObjectLAND* GetLandscape();
 };  // API only; no allocation or layout claim.
 class TESDataHandler
 {
   public:
-    BSSimpleList<TESFile*>* GetFileList();
 };
 FNV_STATIC_ASSERT(sizeof(BSSimpleList<void*>) == 8);
 FNV_STATIC_ASSERT(sizeof(BSStringT<char>) == 8);

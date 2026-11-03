@@ -1,12 +1,12 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/symbols_011f6000.h"
 extern int DAT_010a48e8;
 struct MMgr
 {
-    void _DeallocateAlias(void* p);
 };
-extern MMgr g_memoryManager;
 struct BSTaskletGroupData
 {
     void* DestroyIfFlagged(unsigned int flags);
@@ -17,6 +17,6 @@ void* BSTaskletGroupData::DestroyIfFlagged(unsigned int flags)
 {
     *(void**)this = (void*)&DAT_010a48e8;
     if (flags & 1)
-        g_memoryManager._DeallocateAlias((void*)this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MMgr *>(&::g_memoryManager))))->FUN_00aa4060((void*)this);
     return (void*)this;
 }

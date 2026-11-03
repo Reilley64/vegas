@@ -4,10 +4,20 @@
 // src/havok/physics/internal/collide/mopp/machine/hkpmoppraybundlevirtualmachine_gs_nogs_variant.cpp - flag-variant unit created 2026-10-31 by flag_proofs.py: contributor code for these functions matched byte for
 // byte only under /MT /O2 /GS- /EHsc /Gy (unit src/havok/physics/internal/collide/mopp/machine/hkpmoppraybundlevirtualmachine.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
+#include <new>
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/RayBundleCopy.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/symbols_00df2000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_010c9000.h"
+#include "fnv/symbols_01268000.h"
 #include "fnv_asm_helpers.h"
 // src/havok/physics/internal/collide/mopp/machine/hkpmoppraybundlevirtualmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/machine/hkpmoppraybundlevirtualmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 __declspec(align(16)) struct FUN_00dd4a50_cls
 {
     __m128 m_v00;
@@ -69,14 +79,12 @@ class PackedVector {
 };
 typedef PackedVector FourFloats;
 typedef __m128 PackedQuad;
-extern const FourFloats DAT_010c44d0;
-extern const FourFloats DAT_010ce1c0;
 static __forceinline __m128 ReciprocalNative(__m128 x) {
  __m128 approximation=_mm_rcp_ps(x);
  return _mm_sub_ps(_mm_add_ps(approximation,approximation),_mm_mul_ps(_mm_mul_ps(approximation,x),approximation));
 }
 __forceinline void PackedVector::setReciprocal4(const PackedVector& a) { value=ReciprocalNative(a.value); }
-__forceinline void PackedVector::setNeg4(const PackedVector& a) { value=_mm_xor_ps(a.value,DAT_010c44d0.getQuad()); }
+__forceinline void PackedVector::setNeg4(const PackedVector& a) { value=_mm_xor_ps(a.value,(*reinterpret_cast<const ::PackedVector *>((void *)&::DAT_010c44d0)).getQuad()); }
 class CompareValue {
  __m128 bits;
  friend class PackedVector;
@@ -84,7 +92,7 @@ class CompareValue {
  __forceinline void setSelect(const CompareValue& a,const CompareValue& b,const CompareValue& c) {bits=_mm_or_ps(_mm_and_ps(c.bits,b.bits),_mm_andnot_ps(c.bits,a.bits));}
  __forceinline void setAnd(const CompareValue& a,const CompareValue& b) { bits=_mm_and_ps(a.bits,b.bits); }
  __forceinline void setOr(const CompareValue& a,const CompareValue& b) { bits=_mm_or_ps(a.bits,b.bits); }
- __forceinline void setNot(const CompareValue& a) { bits=_mm_andnot_ps(a.bits,DAT_010ce1c0.getQuad()); }
+ __forceinline void setNot(const CompareValue& a) { bits=_mm_andnot_ps(a.bits,(*reinterpret_cast<const ::PackedVector *>(&::DAT_010ce1c0)).getQuad()); }
  __forceinline int allAreSet() const { return _mm_movemask_ps(bits)==15; }
  __forceinline int anyIsSet() const { return _mm_movemask_ps(bits); }
 };
@@ -135,7 +143,6 @@ struct QueryState {
 
     unsigned int properties[1];
 
-    QueryState& __thiscall FUN_00dd4a50(const QueryState*);
 
 };
 
@@ -147,7 +154,6 @@ struct RayQuerySet {
 
     FourFloats active;
 
-    void __thiscall FUN_00dd4a90(const RayQuerySet*) throw();
 
 };
 
@@ -257,9 +263,6 @@ struct Shape {
 
 struct ErrorStream {
  int unk00,unk04,unk08;
- __declspec(nothrow) void FUN_00cb1600(void*,int) throw();
- __declspec(nothrow) void FUN_00cc00e0() throw();
- __declspec(nothrow) void FUN_00cc01c0(const char*) throw();
 };
 struct ErrorHandler {
 
@@ -273,21 +276,14 @@ struct ErrorHandler {
 
 };
 
-extern ErrorHandler* DAT_01268360;
 
 extern unsigned char DAT_01269cbe;
 
-extern __declspec(nothrow) void __cdecl FUN_00df22f0(unsigned char*) throw();
 
-extern const float DAT_01011d78;
 
-extern const FourFloats DAT_010c7170;
 
-extern const FourFloats DAT_010ce1c0;
 
-extern const FourFloats DAT_010c44d0;
 
-extern const unsigned int DAT_010c92e0[4];
 
 
 
@@ -309,15 +305,15 @@ static __declspec(noinline) int FUN_00dd3120(const FourFloats* mask, const FourF
 
     __m128 less=_mm_and_ps(_mm_cmpgt_ps(end->getQuad(),start->getQuad()),mask->getQuad());
 
-    __m128 total=SelectVector(mask->getQuad(),DAT_010c7170.getQuad(),_mm_setzero_ps());
+    __m128 total=SelectVector(mask->getQuad(),(*reinterpret_cast<const ::PackedVector *>(&::DAT_010c7170)).getQuad(),_mm_setzero_ps());
 
-    total=_mm_mul_ps(total,DAT_010c7170.getQuad());
+    total=_mm_mul_ps(total,(*reinterpret_cast<const ::PackedVector *>(&::DAT_010c7170)).getQuad());
 
     total=_mm_add_ps(_mm_shuffle_ps(total,total,0x4e),total);
 
-    __m128 count=SelectVector(less,DAT_010c7170.getQuad(),_mm_setzero_ps());
+    __m128 count=SelectVector(less,(*reinterpret_cast<const ::PackedVector *>(&::DAT_010c7170)).getQuad(),_mm_setzero_ps());
 
-    count=_mm_mul_ps(count,DAT_010c7170.getQuad());
+    count=_mm_mul_ps(count,(*reinterpret_cast<const ::PackedVector *>(&::DAT_010c7170)).getQuad());
 
     total=_mm_add_ps(_mm_shuffle_ps(total,total,0xb1),total);
 
@@ -343,7 +339,7 @@ static __declspec(noinline) void FUN_00dd2fd0(const FourFloats* endDistance,
 
     endWeight->getQuad()=_mm_mul_ps(endDistance->getQuad(),reciprocal);
 
-    endWeight->getQuad()=_mm_xor_ps(endWeight->getQuad(),DAT_010c44d0.getQuad());
+    endWeight->getQuad()=_mm_xor_ps(endWeight->getQuad(),(*reinterpret_cast<const ::PackedVector *>((void *)&::DAT_010c44d0)).getQuad());
 
 }
 
@@ -369,13 +365,13 @@ static __forceinline void ClipPlane(RayQuerySet* result,const RayQuerySet* origi
 
     __m128 reciprocal=RefineReciprocal(_mm_sub_ps(startDistance,endDistance)).getQuad();
 
-    __m128 startWeight=_mm_xor_ps(_mm_mul_ps(reciprocal,endDistance),DAT_010c44d0.getQuad());
+    __m128 startWeight=_mm_xor_ps(_mm_mul_ps(reciprocal,endDistance),(*reinterpret_cast<const ::PackedVector *>((void *)&::DAT_010c44d0)).getQuad());
 
     __m128 endWeight=_mm_mul_ps(reciprocal,startDistance);
 
     __m128 direction=keepBelow?_mm_cmpgt_ps(endDistance,startDistance):_mm_cmpgt_ps(startDistance,endDistance);
 
-    __m128 startMask=_mm_and_ps(_mm_andnot_ps(direction,DAT_010ce1c0.getQuad()),crossing);
+    __m128 startMask=_mm_and_ps(_mm_andnot_ps(direction,(*reinterpret_cast<const ::PackedVector *>(&::DAT_010ce1c0)).getQuad()),crossing);
 
     __m128 endMask=_mm_and_ps(direction,crossing);
 
@@ -489,11 +485,11 @@ __forceinline void UpdateNext(const QueryState* state,RayQuerySet* next);
 
 
 __forceinline void RayBundleTraversalMachine::UpdateNext(const QueryState* state,RayQuerySet* next) {
-__m128 beyond=_mm_sub_ps(DAT_010c7170.getQuad(),hitFractions.getQuad());
+__m128 beyond=_mm_sub_ps((*reinterpret_cast<const ::PackedVector *>(&::DAT_010c7170)).getQuad(),hitFractions.getQuad());
 
             __m128 hit;
 
-            hit = _mm_cmplt_ps(hitFractions.getQuad(),DAT_010c7170.getQuad());
+            hit = _mm_cmplt_ps(hitFractions.getQuad(),(*reinterpret_cast<const ::PackedVector *>(&::DAT_010c7170)).getQuad());
 
             __m128 endpointX=_mm_add_ps(_mm_mul_ps(originalEndX.getQuad(),beyond),_mm_mul_ps(originalStartX.getQuad(),hitFractions.getQuad()));
 
@@ -534,7 +530,7 @@ void RayBundleTraversalMachine::FUN_00dd3210(const QueryState* state, const unsi
 
     if (DAT_01269cbe == 0) {
 
-        FUN_00df22f0(&DAT_01269cbe);
+        ::ValidateHavokKeyCode((bool *)(unsigned char *)(&DAT_01269cbe));
 
         if (DAT_01269cbe == 0) return;
 
@@ -717,7 +713,7 @@ boundLow=_mm_shuffle_ps(packed,packed,0xaa);
 
             boundLow=boundHigh.getQuad();
 
-            boundHigh=_mm_add_ps(boundHigh.getQuad(),DAT_010c7170.getQuad());
+            boundHigh=_mm_add_ps(boundHigh.getQuad(),(*reinterpret_cast<const ::PackedVector *>(&::DAT_010c7170)).getQuad());
 
             code+=3;leftJump=0;rightJump=code[-1];
 
@@ -826,14 +822,14 @@ CompareValue direction=startDistance.compareLessThan4(endDistance);
  prune.setSelect(high,low,direction);
  CompareValue both;
  {CompareValue notLeft,notRight;notLeft.setNot(belowMask);notRight.setNot(aboveMask);both.setAnd(notLeft,notRight);}
- prune.setAnd(both,prune);CompareValue hitTest=hitFractions.compareLessThan4(DAT_010c7170);prune.setAnd(prune,hitTest);prune.setNot(prune);prune.setAnd(MaskOf(next->active),prune);StoreMask(next->active,prune);
+ prune.setAnd(both,prune);CompareValue hitTest=hitFractions.compareLessThan4((*reinterpret_cast<const ::PackedVector *>(&::DAT_010c7170)));prune.setAnd(prune,hitTest);prune.setNot(prune);prune.setAnd(MaskOf(next->active),prune);StoreMask(next->active,prune);
  }
 
             if(!_mm_movemask_ps(next->active.getQuad())) return;
 
             code+=nextJump;
 
-            rays->FUN_00dd4a90(next);
+            reinterpret_cast<::RayBundleCopy *>((rays))->FUN_00dd4a90((*(const ::RayBundleCopy *)(next)));
 
             continue;
 
@@ -890,7 +886,7 @@ ordinarySplit: { // Clip the current rays to an axis-aligned interval.
 
             VectorValue reject=_mm_or_ps(_mm_andnot_ps(increasing,rejectDown),_mm_and_ps(value,increasing));
 
-            rays->active=_mm_and_ps(_mm_andnot_ps(reject,DAT_010ce1c0.getQuad()),rays->active.getQuad());
+            rays->active=_mm_and_ps(_mm_andnot_ps(reject,(*reinterpret_cast<const ::PackedVector *>(&::DAT_010ce1c0)).getQuad()),rays->active.getQuad());
 
             if(!_mm_movemask_ps(rays->active.getQuad())) return;
 
@@ -998,7 +994,7 @@ propertyCopy.offset.setAdd4(state->offset,translation);propertyCopy.offset.mul4(
  state=&propertyCopy;code+=4;continue;}
         case 9:
 
-            if (state!=&propertyCopy) {propertyCopy.FUN_00dd4a50(state);state=&propertyCopy;}
+            if (state!=&propertyCopy) {reinterpret_cast<::FUN_00dd4a50_cls *>(&(propertyCopy))->FUN_00dd4a50((const ::FUN_00dd4a50_cls *)(state));state=&propertyCopy;}
 
             propertyCopy.primitiveBase+=byte1;
 
@@ -1008,7 +1004,7 @@ propertyCopy.offset.setAdd4(state->offset,translation);propertyCopy.offset.mul4(
 
             int rejectUp=(byte1<<8)+splitNode;
 
-            if (state!=&propertyCopy) {propertyCopy.FUN_00dd4a50(state);state=&propertyCopy;}
+            if (state!=&propertyCopy) {reinterpret_cast<::FUN_00dd4a50_cls *>(&(propertyCopy))->FUN_00dd4a50((const ::FUN_00dd4a50_cls *)(state));state=&propertyCopy;}
 
             propertyCopy.primitiveBase+=rejectUp;
 
@@ -1020,7 +1016,7 @@ propertyCopy.offset.setAdd4(state->offset,translation);propertyCopy.offset.mul4(
 
             int rejectUp=((((byte1<<8)+splitNode)<<8)+byte3)*256+code[4];
 
-            if (state!=&propertyCopy) {propertyCopy.FUN_00dd4a50(state);state=&propertyCopy;}
+            if (state!=&propertyCopy) {reinterpret_cast<::FUN_00dd4a50_cls *>(&(propertyCopy))->FUN_00dd4a50((const ::FUN_00dd4a50_cls *)(state));state=&propertyCopy;}
 
             propertyCopy.primitiveBase=rejectUp;
 
@@ -1053,7 +1049,7 @@ localState: { // Preserve the changed property while copying shared state.
 
             unsigned int property=propertyCopy.properties[0];
 
-            if(state!=&propertyCopy) {propertyCopy.FUN_00dd4a50(state);state=&propertyCopy;}
+            if(state!=&propertyCopy) {reinterpret_cast<::FUN_00dd4a50_cls *>(&(propertyCopy))->FUN_00dd4a50((const ::FUN_00dd4a50_cls *)(state));state=&propertyCopy;}
 
             propertyCopy.properties[0]=property;
 
@@ -1067,13 +1063,13 @@ localState: { // Preserve the changed property while copying shared state.
 
             {
 
-                ErrorStream stream;stream.FUN_00cb1600(messageStorage,512);
+                ErrorStream stream;new ((void *)&(stream)) ::FUN_00cb1600(messageStorage,512);
 
-                stream.FUN_00cc01c0("Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
+                reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0("Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
 
-int r=DAT_01268360->Report(3,0x1298fedd,(const char*)messageStorage,
+int r=(*reinterpret_cast<::ErrorHandler * *>(&::DAT_01268360))->Report(3,0x1298fedd,(const char*)messageStorage,
 
-                    str_010d7b64,0x346);if(r){if(r&1){__debugbreak();stream.FUN_00cc00e0();}else{__debugbreak();stream.FUN_00cc00e0();}}else{stream.FUN_00cc00e0();}
+                    str_010d7b64,0x346);if(r){if(r&1){__debugbreak();reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();}else{__debugbreak();reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();}}else{reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();}
 
                 
 
@@ -1193,7 +1189,7 @@ leafNode: {
 
             (*reinterpret_cast<OutputLane*>(reinterpret_cast<unsigned char*>(output)+laneOffset)).PopDepth();
 
-            if(DAT_010c92e0[lane]&_mm_movemask_ps(AlignedView(_mm_load_ps(hits.getQuad().m128_f32)))) {
+            if(::DAT_010c92e0[lane]&_mm_movemask_ps(AlignedView(_mm_load_ps(hits.getQuad().m128_f32)))) {
 
                 hitFractions(lane)=(*reinterpret_cast<OutputLane*>(reinterpret_cast<unsigned char*>(output)+laneOffset)).fraction;
 

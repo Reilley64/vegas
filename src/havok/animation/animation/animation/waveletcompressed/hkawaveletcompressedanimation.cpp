@@ -1,6 +1,13 @@
 // src/havok/animation/animation/animation/waveletcompressed/hkawaveletcompressedanimation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/waveletcompressed/hkawaveletcompressedanimation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00e4e000.h"
+#include "fnv/symbols_00e4f000.h"
+#include "fnv/symbols_00e63000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01076000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkaWaveletCompressedAnimation.h"
 
 // Computes an offset from a and the first two bytes of b: ((a - b[1]) * b[0] + 7) / 8 + b[1] * 4.
@@ -348,7 +355,6 @@ void wblk_caller()
 }  // namespace fnv_00e300b0
 
 extern unsigned char DAT_0126ef84;
-void __cdecl FUN_00e63c60(void*);
 extern const float DAT_010ec880[];
 
 struct QParam_00e51660 {
@@ -425,7 +431,7 @@ void __cdecl DecodeQuantizedBlock(const unsigned char* __restrict in, const QPar
     }
 
     if (!DAT_0126ef84) {
-        FUN_00e63c60(&DAT_0126ef84);
+        ::FUN_00e63c60((bool *)(void *)(&DAT_0126ef84));
         if (!DAT_0126ef84) {
             return;
         }
@@ -460,8 +466,6 @@ unsigned short volatile g_in; unsigned short g_out;
 void caller() { g_out = FUN_00e2f9d0(g_in); }
 
 #include <xmmintrin.h>
-extern float DAT_01012068;
-extern __m128 DAT_010c71b0;
 
 // Companion quad-writer variant (scalar-load broadcast form) that shares the
 // module with FUN_00e2fbc0; TU order matters for VC9's codegen state.
@@ -478,7 +482,7 @@ void __stdcall sse_preload_quad(int, int, unsigned int count, DestWrapPre dest)
         do
         {
             p[-2] = zero;
-            p[-1] = DAT_010c71b0;
+            p[-1] = ::DAT_010c71b0;
             p[0] = one;
             p += 3;
         } while (--count);
@@ -499,7 +503,7 @@ void __stdcall FUN_00e2fbc0(int, int, unsigned int count, DestWrap dest)
         do
         {
             p[-2] = zero;
-            p[-1] = DAT_010c71b0;
+            p[-1] = ::DAT_010c71b0;
             p[0] = one;
             p += 3;
         } while (--count);
@@ -512,7 +516,6 @@ struct SwapCountsE2 {
     float n;
     SwapCountsE2() : a(0), b(0), c(0), d(0), e(0), f(0), g(0), h(0), i(0), j(0), k(0), l(0), m(0), n(0.0f) {}
 };
-void __cdecl FUN_00e4ebb0(unsigned short*, unsigned short*, int, int, SwapCountsE2*);
 inline unsigned short SwapShortE2(unsigned short v) {
     union { unsigned short s; unsigned int u; } value;
     value.s = v;
@@ -552,7 +555,7 @@ void __fastcall FUN_00e2fc10(hkaWaveletCompressedAnimation* self) {
                 *p = SwapShortE2(*p);
             SwapCountsE2 counts;
             int transforms = self->m_iNumTransformTracks;
-            FUN_00e4ebb0(masks, masks + transforms, transforms, self->m_iNumberOfFloatTracks, &counts);
+            ::FUN_00e4ebb0(masks, masks + transforms, transforms, self->m_iNumberOfFloatTracks, (::StatsB0 *)(::SwapCountsE2 *)(&counts));
             float* statics = (float*)(self->m_kCompressedData.m_data + self->m_uiNumBlocks);
             int count = counts.a + counts.b + counts.c + counts.d;
             for (int x = 0; x < count; ++x, ++statics)
@@ -578,7 +581,6 @@ extern void* DAT_00fdf044;
 typedef void* (__stdcall* S00e306d0_TlsFn)(unsigned long);
 extern unsigned long DAT_0126835c;
 extern const char str_010eb358[];
-extern const char str_010c41f8[];
 
 struct S00e306d0_Args {
     unsigned int f00;
@@ -619,7 +621,7 @@ struct S00e306d0_Stream {
     void timerEnd() {
         char* p = m_curr;
         if (p < m_kRayEnd) {
-            *(const char**)p = str_010c41f8;
+            *(const char**)p = ::DAT_010c41f8;
             _ReadWriteBarrier();
             unsigned int te = (unsigned int)__rdtsc();
             _ReadWriteBarrier();
@@ -695,6 +697,7 @@ void S00e306d0_Wrap(S00e306d0_Obj* self, unsigned int a, unsigned int b, unsigne
 }
 
 #include <windows.h>
+#include "fnv/symbols_simd.h"
 namespace fnv_00e307b0 {
 extern DWORD DAT_0126835c;
 extern unsigned int* g_escape;
@@ -715,7 +718,7 @@ struct hkTimerCommand {
 
 __forceinline void hkTimer(const char* name)
 {
-    StringCursor* s = (StringCursor*)TlsGetValue(DAT_0126835c);
+    StringCursor* s = (StringCursor*)TlsGetValue(::DAT_0126835c);
     if (s->m_kRayEnd < s->m_pCurrentCommand) {
         hkTimerCommand* c = (hkTimerCommand*)s->m_kRayEnd;
         c->m_pCommandName = name;
@@ -878,10 +881,21 @@ public:
     int unk60;
     void* m_data;
 
-    void FUN_00e2fa60(unsigned int slot, hkDmaRefE2FA* out) const;
     void FUN_00e2fac0(unsigned int offset, int unused, hkDmaRefE2FA* desc, int mode) const;
 };
 
+struct InfoE2FB {
+    InfoE2FB() : m_iFirstValue(0), m_uiLogicalSize(0), m_bFlag(false) {}
+    int m_iFirstValue;
+    int m_uiLogicalSize;
+    unsigned char m_bFlag;
+};
+
+class HostE2FB : public hkaWaveletCompressedAnimation {
+public:
+    void FUN_00e2fa60(unsigned int uiIndex, InfoE2FB* pkInfo);
+    int FUN_00e2fb30();
+};
 // Populates a job descriptor with queue, data, and slot references, optionally including the next slot when mode is 4.
 // @fnv 0x00e2fac0
 void hkQueueE2FA::FUN_00e2fac0(unsigned int offset, int unused, hkDmaRefE2FA* desc, int mode) const
@@ -896,26 +910,13 @@ void hkQueueE2FA::FUN_00e2fac0(unsigned int offset, int unused, hkDmaRefE2FA* de
     desc[1].m_offset = (unsigned char)(unsigned int)desc[1].m_ptr &15;
 
     unsigned int slot = offset / m_slotSize;
-    FUN_00e2fa60(slot, &desc[2]);
+    reinterpret_cast<::HostE2FB *>((void *)this)->FUN_00e2fa60(slot, (::InfoE2FB *)(::hkDmaRefE2FA *)(&desc[2]));
 
     if (mode == 4) {
         unsigned int nextSlot = (slot + 1) % m_numSlots;
-        FUN_00e2fa60(nextSlot, &desc[3]);
+        reinterpret_cast<::HostE2FB *>((void *)this)->FUN_00e2fa60(nextSlot, (::InfoE2FB *)(::hkDmaRefE2FA *)(&desc[3]));
     }
 }
-
-struct InfoE2FB {
-    InfoE2FB() : m_iFirstValue(0), m_uiLogicalSize(0), m_bFlag(false) {}
-    int m_iFirstValue;
-    int m_uiLogicalSize;
-    unsigned char m_bFlag;
-};
-
-class HostE2FB : public hkaWaveletCompressedAnimation {
-public:
-    void FUN_00e2fa60(unsigned int uiIndex, InfoE2FB* pkInfo);
-    int FUN_00e2fb30();
-};
 
 __declspec(noinline) void HostE2FB::FUN_00e2fa60(unsigned int uiIndex, InfoE2FB* pkInfo)
 {
@@ -1094,9 +1095,7 @@ struct RecomposeParameters {
 
 };
 
-void __cdecl FUN_00e4e610(const hkUint16*,const hkUint16*,unsigned int,unsigned int,TrackStatistics*);
 
-void __cdecl FUN_00e4f640(const RecomposeParameters*,hkQsTransform*,float*);
 
 static void FUN_00e300b0(WaveletParameters parameters,float* output) {
 
@@ -1152,9 +1151,9 @@ void __cdecl FUN_00e30200(unsigned int frame,float weight,unsigned int numTransf
 
   TrackStatistics statistics;statistics.Reset();
 
-  if(numFloats==0){FUN_00e4e610(masks,masks+transformTracks,numTransforms,0,&statistics);count=statistics.selectedTranslations+statistics.selectedRotations+statistics.selectedScales;}
+  if(numFloats==0){::AnalyzeTrackWithZeroCount(masks,masks+transformTracks,numTransforms,0,(::TrackAnalysis *)(::TrackStatistics *)(&statistics));count=statistics.selectedTranslations+statistics.selectedRotations+statistics.selectedScales;}
 
-  else {FUN_00e4e610(masks,masks+transformTracks,transformTracks,numFloats,&statistics);count=statistics.selectedScales+statistics.selectedFloats+statistics.selectedRotations+statistics.selectedTranslations;}
+  else {::AnalyzeTrackWithZeroCount(masks,masks+transformTracks,transformTracks,numFloats,(::TrackAnalysis *)(::TrackStatistics *)(&statistics));count=statistics.selectedScales+statistics.selectedFloats+statistics.selectedRotations+statistics.selectedTranslations;}
 
  }
 
@@ -1193,7 +1192,7 @@ void __cdecl FUN_00e30200(unsigned int frame,float weight,unsigned int numTransf
 
  RecomposeParameters m_kRecomposeParameters;m_kRecomposeParameters.numTransformTracks=numTransforms;m_kRecomposeParameters.numFloatTracks=numFloats;m_kRecomposeParameters.staticTransforms=staticDOFs;m_kRecomposeParameters.transformMasks=masks;m_kRecomposeParameters.dynamicTransforms=output;m_kRecomposeParameters.staticFloats=staticDOFs+animation->m_uiOffsetDataOffset;m_kRecomposeParameters.dynamicFloats=output+animation->m_uiScaleDataOffset;m_kRecomposeParameters.floatMasks=masks+animation->m_iNumTransformTracks;
 
- FUN_00e4f640(&m_kRecomposeParameters,transforms,floats);
+ ::fnv_00e4f640::FUN_00e4f640((const ::fnv_00e4f640::TrackData *)(const ::RecomposeParameters *)(&m_kRecomposeParameters),(float *)(transforms),floats);
 
  FUN_00c85750()->m_aiEntries.m_pTileTemplate=reinterpret_cast<char*>(output);FUN_00c85750()->m_aiEntries.m_pTileTemplate=reinterpret_cast<char*>(decoded);monitorSplit("lt");
 
@@ -1204,9 +1203,7 @@ extern char DAT_010eb338[];
 extern char DAT_010eb398[];
 extern char DAT_010eb38c[];
 extern char DAT_010eb37c[];
-extern char DAT_01076f38[];
 extern char DAT_010eb370[];
-extern char DAT_010c41f8[];
 struct MonStreamE30 {
     int unk00;
     char* m_curr;
@@ -1343,7 +1340,6 @@ struct TrackAnalysisE30 {
         tolerance = 0.0f;
     }
 };
-void __cdecl FUN_00e4e610(const unsigned short*, const unsigned short*, int, int, TrackAnalysisE30*);
 
 
 struct WaveletSamplerE30 : FUN_00e2f7c0_Class {
@@ -1365,10 +1361,10 @@ void WaveletSamplerE30::FUN_00e30980(float time, unsigned int transformCount, hk
         TrackAnalysisE30& analysis = u.analysis;
         analysis.clear();
         if (floatCount == 0) {
-            FUN_00e4e610(masks, masks + numTT, transformCount, 0, &analysis);
+            ::AnalyzeTrackWithZeroCount(masks, masks + numTT, transformCount, 0, (::TrackAnalysis *)(::TrackAnalysisE30 *)(&analysis));
             dynamicDOFs = analysis.rotationDOFs + analysis.scaleDOFs + analysis.translationDOFs;
         } else {
-            FUN_00e4e610(masks, masks + numTT, numTT, floatCount, &analysis);
+            ::AnalyzeTrackWithZeroCount(masks, masks + numTT, numTT, floatCount, (::TrackAnalysis *)(::TrackAnalysisE30 *)(&analysis));
             dynamicDOFs = analysis.scaleDOFs + analysis.floatDOFs + analysis.rotationDOFs + analysis.translationDOFs;
         }
     }
@@ -1434,9 +1430,9 @@ void WaveletSamplerE30::FUN_00e30980(float time, unsigned int transformCount, hk
     params.dynamicTransforms = interpolated;
     params.dynamicFloats = interpolated + m_uiScaleDataOffset;
     params.floatMasks = masks + m_iNumTransformTracks;
-    FUN_00e4f640(&params, transforms, floats);
+    ::fnv_00e4f640::FUN_00e4f640((const ::fnv_00e4f640::TrackData *)(const ::RecomposeParameters *)(&params), (float *)(transforms), floats);
     }
-    MonSplitE30(DAT_01076f38);
+    MonSplitE30(::str_01076f38);
     FUN_00c85750()->m_aiEntries.m_pTileTemplate = (char*)interpolated;
     FUN_00c85750()->m_aiEntries.m_pTileTemplate = (char*)block;
 }

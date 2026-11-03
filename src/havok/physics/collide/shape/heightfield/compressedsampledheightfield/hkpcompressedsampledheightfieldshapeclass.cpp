@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/heightfield/compressedsampledheightfield/hkpcompressedsampledheightfieldshapeclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/heightfield/compressedsampledheightfield/hkpcompressedsampledheightfieldshapeclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/Foo00d24660.h"
 struct ByteFlag
 {
     char m_cValue;
@@ -111,7 +112,6 @@ struct BufferContext
     BufferManager* manager;
 };
 BufferContext* __cdecl FUN_00c85750();
-void __fastcall FUN_00d24660(FUN_00e01140_cls*);
 
 struct FUN_00e01180_cls : FUN_00e01140_cls
 {
@@ -130,7 +130,7 @@ FUN_00e01180_cls* FUN_00e01180_cls::FUN_00e01180(unsigned int flags)
     }
     unk60 = 0;
     unk68 = 0x80000000;
-    FUN_00d24660(this);
+    reinterpret_cast<::Foo00d24660 *>((this))->FUN_00d24660();
     if (flags & 1)
     {
         BufferContext* context = FUN_00c85750();

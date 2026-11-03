@@ -3,6 +3,41 @@
 #define EFFECTSETTING_MATCH_H
 
 #include <stddef.h>
+#include "fnv/decl/EndianSwappableData.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004046b0_cls.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00407820_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00482cb0_shell.h"
+#include "fnv/decl/FUN_00487010_shell.h"
+#include "fnv/decl/FUN_004891d0_cls.h"
+#include "fnv/decl/FUN_004fd380_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00857230_shell.h"
+#include "fnv/decl/FUN_008ac890_shell.h"
+#include "fnv/decl/FUN_008cc6d0_class.h"
+#include "fnv/decl/FUN_008ce390_shell.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TESObjectACTI.h"
+#include "fnv/decl/TESPackage.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_0048e370__FUN_0048e370_shell.h"
+#include "fnv/decl/fnv_0057bd60__fnv_anon_tesobjectrefr__Dummy.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_004fd000.h"
+#include "fnv/symbols_005b5000.h"
 #define FNV_JOIN2(a, b) a##b
 #define FNV_JOIN(a, b) FNV_JOIN2(a, b)
 #define FNV_STATIC_ASSERT(e) typedef char FNV_JOIN(fnv_check_, __LINE__)[(e) ? 1 : -1]
@@ -48,8 +83,7 @@ FNV_STATIC_ASSERT(sizeof(BaseFormComponent) == 0x4);
 class TESForm : public BaseFormComponent
 {
   public:
-    void FUN_004855a0();
-    void FUN_00485680();  // declared for the original code (decl_variants.py)
+      // declared for the original code (decl_variants.py)
   public:
     unsigned char m_ucFormType;             // +0x4
     unsigned int m_uiFormFlags;             // +0x8
@@ -130,17 +164,10 @@ class TESForm : public BaseFormComponent
     virtual char* GetName(void) const;
     virtual bool SetEditorID_AtRuntime(const char* edid);
     bool GetInitialized() const;
-    static TESForm* GetFormByID(unsigned int formID);
     TESForm();
     TESFile* GetFile(int fileIndex);
-    BSSimpleList<TESFile*>* GetSourceFiles();
-    bool IsDeleted() const;
-    unsigned int GetFormID() const;
-    bool IsTemporary() const;
     void NotifySaveLoadGameOfFormChange();
     void SetInitializationState(bool initialized);
-    void LoadRecordHeader(TESFile* file);
-    static void RemapFormIDForFile(unsigned int& formID, TESFile* file);
 };
 FNV_STATIC_ASSERT(sizeof(TESForm) == 0x18);
 FNV_STATIC_ASSERT(offsetof(TESForm, m_ucFormType) == 0x4);
@@ -152,7 +179,7 @@ FNV_STATIC_ASSERT(offsetof(TESForm, m_kSourceFiles) == 0x10);
 class TESFullName : public BaseFormComponent
 {
   public:
-    void FUN_00487010();  // declared for the original code (decl_variants.py)
+      // declared for the original code (decl_variants.py)
   public:
     void SetFullName(const char* name);
     BSStringT<char> m_kName;  // +0x4
@@ -164,7 +191,7 @@ FNV_STATIC_ASSERT(offsetof(TESFullName, m_kName) == 0x4);
 class TESDescription : public BaseFormComponent
 {
   public:
-    void FUN_00482cb0();  // declared for the original code (decl_variants.py)
+      // declared for the original code (decl_variants.py)
   public:
     static void ReadDescriptionFromFile(TESDescription*, TESFile*);
     unsigned long m_uiDescriptionFileOffset;  // +0x4
@@ -186,7 +213,7 @@ FNV_STATIC_ASSERT(offsetof(TESTexture, FullNameComponent) == 0x4);
 class TESIcon : public TESTexture
 {
   public:
-    void FUN_0048e370(unsigned int chunk);  // declared for the original code (decl_variants.py)
+      // declared for the original code (decl_variants.py)
   public:
 };
 FNV_STATIC_ASSERT(sizeof(TESIcon) == 0xC);
@@ -248,7 +275,7 @@ FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ppFileEntries) == 4);
 class TESModel : public BaseFormComponent
 {
   public:
-    void WriteToBuffer(unsigned int chunk, unsigned int texChunk);  // declared for the original code (decl_variants.py)
+      // declared for the original code (decl_variants.py)
   public:
     // base BaseFormComponent at +0x0, size 4
     BSStringT<char> m_kModelFilePath;  // +0x4, 8 bytes
@@ -284,7 +311,6 @@ class EffectSetting__EffectSettingData
     float m_fBarterFactor;                     // +0x3C, 4 bytes
     EffectArchetypes__ArchetypeID m_eEffectTypeItem;  // +0x40, 4 bytes
     int m_iAssociatedActorValue;               // +0x44, 4 bytes
-    void Endian();
 };
 FNV_STATIC_ASSERT(sizeof(EffectSetting__EffectSettingData) == 72);
 FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, iFlags) == 0);
@@ -324,25 +350,13 @@ class EffectSetting : public TESForm, public TESModel, public TESDescription, pu
     bool Load(TESFile* file);
     virtual void InitItem();
     void UpdateEffectName(const char* name);
-    BSStringT<char> GetEffectName() const;
     bool HasEffectID();
     bool UsesAssociatedActorValue();
     bool HasNoAssociatedActorValue();
-    bool IsAssociatedFormUsed();
     bool GetFlag(unsigned int flags) const;
-    TESObjectLIGH* GetLight();
-    void SetLight(TESObjectLIGH* light);
     TESSound* GetCastSound();
-    void SetCastSound(TESSound* sound);
-    TESSound* GetBoltSound();
     void SetBoltSound(TESSound* sound);
     TESSound* GetHitSound();
-    void SetHitSound(TESSound* sound);
-    TESSound* GetAreaSound();
-    void SetAreaSound(TESSound* sound);
-    TESEffectShader* GetEffectShader();
-    void SetEffectShader(TESEffectShader* shader);
-    TESEffectShader* GetEnchantEffectShader();
     void SetEnchantEffectShader(TESEffectShader* shader);
     enum EffectFlag
     {
@@ -374,26 +388,17 @@ class TESEffectShader : public TESForm
 class TESFile
 {
   public:
-    int GetTESForm();
-    int GetChunkID();
-    unsigned int GetChunkSize();
-    bool GetChunkData(void*, unsigned int);
-    bool GetChunkData(unsigned int*);
     bool IsEndianConversionRequired();
     bool NextChunk();
 };
 class TESFullNameLoader
 {
   public:
-    static void LoadFullNameChunk(TESFullName*, TESFile*);
 };
 template <int n> struct EndianSizeTag
 {
 };
-void BSEndian(unsigned int*, EndianSizeTag<4>);
 extern "C" void* __cdecl _alloca(unsigned int);
 extern "C" void* __cdecl memset(void*, int, unsigned int);
-int __cdecl Warning(const char*, ...);
 #endif
 
-double FUN_00408820(float value);

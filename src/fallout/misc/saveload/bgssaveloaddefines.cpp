@@ -1,5 +1,11 @@
 // fallout/misc/saveload/bgssaveloaddefines.cpp: SaveGameSizeState (15 functions)
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0084ab00_This.h"
+#include "fnv/decl/Walker8.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00845000.h"
+#include "fnv/symbols_011dd000.h"
 #include "types_TESForm_GetFormType.h"
 enum SIZE_TYPE
 {
@@ -10,7 +16,6 @@ enum SIZE_TYPE
 };
 #include <string.h>
 
-void LogWarning(const char* message, ...);
 
 class TESObjectCELL;
 class TESWorldSpace;
@@ -23,7 +28,6 @@ class SaveGameSizeState
     unsigned int iSize;
     unsigned int iPosition;
     unsigned int iDataLength;
-    void RecordSizeAndLength(unsigned int size, unsigned int length);
     void RecordRequestedSize(unsigned int requested, unsigned int savedSize);
 };
 
@@ -50,7 +54,7 @@ void SaveGameSizeState::RecordRequestedSize(unsigned int requested, unsigned int
     }
     if (savedSize > 0)
     {
-        RecordSizeAndLength(iSize, savedSize);
+        reinterpret_cast<::Walker8 *>(this)->ConstructArray((::Pair8 *)(iSize), savedSize);
         iPosition = savedSize;
     }
 }
@@ -123,7 +127,6 @@ bool GetCellAndWorldspaceForForm(TESForm* form, TESObjectCELL*& cell, TESWorldSp
 
 #include <string.h>
 
-void LogWarning(const char* message, ...);
 
 class TESObjectCELL;
 class TESWorldSpace;
@@ -153,7 +156,7 @@ void WriteEncodedInteger(char* buffer, unsigned int value)
     }
     else
     {
-        LogWarning("SAVELOAD: Variable-sized value %08X is too large to be stored.", value);
+        ::FUN_00845cc0("SAVELOAD: Variable-sized value %08X is too large to be stored.", value);
     }
     buffer[size] = '|';
 }
@@ -196,7 +199,7 @@ unsigned int ReadEncodedInteger(char* buffer, unsigned int& value)
     }
     if (buffer[type] != '|')
     {
-        LogWarning("SAVELOAD: Invalid spacer hit while loading data from the buffer");
+        ::FUN_00845cc0("SAVELOAD: Invalid spacer hit while loading data from the buffer");
     }
     type += 1;
     return type;
@@ -220,13 +223,11 @@ struct MemoryManager
     void* TryAndAllocate(unsigned int);
     void* Reallocate(void*, unsigned int, char*, int, char*);
     void* Reallocate(void*, unsigned int);
-    void Deallocate(void*);
     void DeallocatePhysical(void*, unsigned long, unsigned long);
     void* DoSystemAllocation(unsigned int, bool);
     void DoSystemDeallocation(void*, bool);
     MemoryManagerHelperType* GetContextTracker();
     MemoryManagerComponent* GetUsageTracker();
-    ScrapHeapBuffer* GetGeneralAllocator();
     void Memset(void*, int, unsigned int);
     void Memcpy(void*, void*, unsigned int);
     void CheckMemoryIntegrity(bool);
@@ -289,12 +290,11 @@ struct MemoryManager
 };
 typedef char _sizecheck_MemoryManager[sizeof(MemoryManager) == 844 ? 1 : -1];
 
-MemoryManager* __cdecl FUN_00401020(void);
 
 // @fnv 0x00401030
 void __cdecl FUN_00401030(void* ptr)
 {
-    FUN_00401020()->Deallocate(ptr);
+    reinterpret_cast<::FNV_MemoryManager *>((::FUN_00401020()))->FUN_00aa4060(ptr);
 }
 
 // @fnv 0x00845d20
@@ -311,7 +311,6 @@ unsigned int FUN_00845d70(unsigned int index)
     return DAT_011a2040[index];
 }
 
-void* __cdecl _memcpy(void* dst, const void* src, unsigned int size);
 
 // Copies value into dst as 1, 2 or 4 bytes depending on sizeType (0, 1 or 2).
 // @fnv 0x00845de0
@@ -321,43 +320,42 @@ void __cdecl WriteTypedValue(void* apDest, unsigned int value, unsigned int size
     {
     case 0: {
         unsigned char c = (unsigned char)value;
-        _memcpy(apDest, &c, 1);
+        ::__memcpy(apDest, &c, 1);
         break;
     }
     case 1: {
         unsigned short s = (unsigned short)value;
-        _memcpy(apDest, &s, 2);
+        ::__memcpy(apDest, &s, 2);
         break;
     }
     case 2:
-        _memcpy(apDest, (void*)&value, 4);
+        ::__memcpy(apDest, (void*)&value, 4);
         break;
     }
 }
 
 struct FUN_00846330_shell
 {
-    void WriteToFile(int a, int b);
+public:
+    unsigned int WriteToFile(const void *, unsigned int);
 };
 
 // @fnv 0x00845d00
 void ForwardToShell(FUN_00846330_shell* apShell, int aiArg1, int aiArg2)
 {
-    apShell->WriteToFile(aiArg1, aiArg2);
+    apShell->WriteToFile((const void *)(aiArg1), aiArg2);
 }
 
 struct BGSSaveLoadGame
 {
-    void FUN_0084ab00(const char* apMessage, char* varArgs);
 };
-extern BGSSaveLoadGame* g_BGSSaveLoadGame;
 // @fnv 0x00845cc0
 void __cdecl FUN_00845cc0(const char* apMessage, ...)
 {
     char* varArgs;
     varArgs = (char*)&apMessage + 4;
     if (g_BGSSaveLoadGame)
-        g_BGSSaveLoadGame->FUN_0084ab00(apMessage, varArgs);
+        reinterpret_cast<::FUN_0084ab00_This *>((g_BGSSaveLoadGame))->FUN_0084ab00(apMessage, varArgs);
     varArgs = 0;
 }
 
@@ -371,7 +369,6 @@ unsigned int FUN_00845d40(unsigned int value)
     return 2;
 }
 
-void* __cdecl __memcpy(void* dest, const void* src, unsigned int size);
 
 // Copies 1, 2 or 4 bytes from source into value according to sizeType and returns the number of bytes copied, or 0 for other size types.
 // @fnv 0x00845ee0
@@ -402,7 +399,6 @@ unsigned int ReadValueBySizeType(const void* source, unsigned int* value, unsign
 namespace fnv_00845d80 {
 struct FUN_00846330_shell
 {
-    void WriteToFile(int, int);
 };
 
 // @fnv 0x00845d80
@@ -412,16 +408,16 @@ void WriteValueByType(FUN_00846330_shell* self, unsigned short ausValue, int typ
     {
     case 0: {
         char b = ausValue;
-        self->WriteToFile((int)&b, 1);
+        reinterpret_cast<::FUN_00846330_shell *>((self))->WriteToFile((const void *)((int)&b), 1);
         break;
     }
     case 1: {
         short s = ausValue;
-        self->WriteToFile((int)&s, 2);
+        reinterpret_cast<::FUN_00846330_shell *>((self))->WriteToFile((const void *)((int)&s), 2);
         break;
     }
     case 2:
-        self->WriteToFile((int)&ausValue, 4);
+        reinterpret_cast<::FUN_00846330_shell *>((self))->WriteToFile((const void *)((int)&ausValue), 4);
         break;
     }
 }

@@ -2,12 +2,16 @@
 #ifndef FOLLOWERBARKS_DECLS_H
 #define FOLLOWERBARKS_DECLS_H
 
-unsigned int gm_GetTickCount();
+#include "fnv/decl/FNVWipScreenManager.h"
+#include "fnv/decl/FUN_008d6000_Class.h"
+#include "fnv/decl/HealthCond5e30.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/symbols_00457000.h"
+#include "fnv/symbols_011e0000.h"
 void __cdecl operator delete(void*);
 class Actor
 {
   public:
-    bool IsPlayerTeammate();
 };
 class BGSPerkEntry;
 template <class T> class BSSimpleList
@@ -21,7 +25,6 @@ template <> void BSSimpleList<const char*>::RemoveHead();
 class GlobalObject2_0096a2d0
 {
 };
-extern GlobalObject2_0096a2d0 g_011e0098;
 class BarkPlaybackEntry
 {
   public:
@@ -29,9 +32,6 @@ class BarkPlaybackEntry
     void* topic;
     unsigned int startTime;
     unsigned int endTime;
-    bool IsHealthConditionMet();
-    void InitTiming(Actor*, void*);
-    void PlayBark();
     static void UpdateBarks();
 };
 #endif

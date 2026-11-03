@@ -5,18 +5,20 @@
 // src/havok/animation/animation/ik/lookat/hkalookatiksolver.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/ik/lookat/hkalookatiksolver.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <xmmintrin.h>
+#include "fnv/decl/CD4BA0Matrix3.h"
+#include "fnv/decl/FUN_00c7f750_shell.h"
+#include "fnv/symbols_00c74000.h"
+#include "fnv/symbols_01032000.h"
 float __cdecl ClampAsin(float value);
 float __cdecl FUN_00ce00f0(float a, float b);
-extern "C" const double DAT_01032980;
 // 1.0e-4, the length epsilon
 static const float kZero = 0.0f;
-void __cdecl FUN_00ce01c0(__m128* vec);
 
 #include <math.h>
+#include "fnv/symbols_simd.h"
 typedef float hkReal;
 typedef __m128 hkQuadReal;
-extern const hkQuadReal DAT_010c71e0;
-extern const hkQuadReal DAT_01017d10;  // hkVector4::setAbs4 absMask
+  // hkVector4::setAbs4 absMask
 
 class S00ce0290_hkBool
 {
@@ -237,7 +239,6 @@ class S00ce0290_hkVector4
         return reinterpret_cast<hkReal*>(&m_vComponents)[a];
     }
     __forceinline void SetRotatedDirection(const S00ce0290_hkQuaternion& quat, const S00ce0290_hkVector4& direction);
-    void FUN_00c7f750(const S00ce0290_hkMatrix3& a, const S00ce0290_hkVector4& b);
 
     hkQuadReal m_vComponents;
 };
@@ -256,7 +257,6 @@ class S00ce0290_hkQuaternion
         return m_vec;
     }
     void FUN_00cb2450(const S00ce0290_hkVector4& axis, hkReal angle);
-    void FUN_00c66320(const S00ce0290_hkQuaternion& q0, const S00ce0290_hkQuaternion& q1);
     void FUN_00ce0ca0(const S00ce0290_hkQuaternion& q);  // mul
     S00ce0290_hkVector4 m_vec;
 };
@@ -298,7 +298,6 @@ class S00ce0290_hkMatrix3
         m_kColumn1 = c1;
         m_kColumn2 = c2;
     }
-    void FUN_00cd4ba0(const S00ce0290_hkMatrix3& s);
     S00ce0290_hkVector4 m_kColumn0;
     S00ce0290_hkVector4 m_kColumn1;
     S00ce0290_hkVector4 m_kColumn2;
@@ -421,11 +420,11 @@ S00ce0290_hkBool __cdecl S00ce0290_LookAt::FUN_00ce0290(const Setup& setup, cons
         S00ce0290_hkMatrix3 worldFromFSU;
         S00ce0290_hkMatrix3 fsuFromWorld;
         worldFromFSU.setCols(setup.m_kThirdVector, sideAxisMS, range->m_kRangeVector);
-        fsuFromWorld.FUN_00cd4ba0(worldFromFSU);
+        reinterpret_cast<::CD4BA0Matrix3 *>(&(fsuFromWorld))->Transpose((const ::CD4BA0Matrix3 &)(worldFromFSU));
 
         S00ce0290_hkVector4 vec;
-        vec.FUN_00c7f750(fsuFromWorld, vecToTargetMS);
-        FUN_00ce01c0(vec);
+        reinterpret_cast<::FUN_00c7f750_shell *>(&(vec))->FUN_00c7f750((float *)&(fsuFromWorld), (float *)&(vecToTargetMS));
+        ::FUN_00ce01c0((::__m128 *)&(vec));
 
         S00ce0290_hkVector4 maxVec;
         maxVec.set(3.40282e+38f, range->m_fThirdRangeValue, range->m_fFirstRangeValue, 0.0f);
@@ -437,7 +436,7 @@ S00ce0290_hkBool __cdecl S00ce0290_LookAt::FUN_00ce0290(const Setup& setup, cons
         limitedVec.setMax4(limitedVec, minVec);
         FUN_00ce0110(limitedVec);
 
-        vecToTargetMS.FUN_00c7f750(worldFromFSU, limitedVec);
+        reinterpret_cast<::FUN_00c7f750_shell *>(&(vecToTargetMS))->FUN_00c7f750((float *)&(worldFromFSU), (float *)&(limitedVec));
 
         if (!vecToTargetMS.equals3(vecToTargetMSOld, 0.001f))
         {
@@ -502,7 +501,7 @@ S00ce0290_hkBool __cdecl S00ce0290_LookAt::FUN_00ce0290(const Setup& setup, cons
 
         {
             S00ce0290_hkQuaternion newRotation;
-            newRotation.FUN_00c66320(q, boneModelSpaceInOut.getRotation());
+            ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(newRotation), (void *)&(q), (const ::fnv_00c66320::__m128 *)&(boneModelSpaceInOut.getRotation()), {});
             boneModelSpaceInOut.m_rotation = newRotation;
         }
     }

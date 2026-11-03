@@ -5,6 +5,17 @@
 
 // src/bsmenu/radialtile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsmenu/radialtile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a00f30_shell.h"
+#include "fnv/decl/Interface.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/TileListBoxCalls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_011f6000.h"
 struct TileImage
 {
     TileImage();
@@ -16,9 +27,7 @@ struct FUN_00a21660 : TileImage
 };
 struct P03MM
 {
-    void Deallocate(void*);
 };
-extern P03MM g_memoryManager;
 struct FUN_00a219e0_shell
 {
     void* FUN_00a219e0(unsigned int flags);
@@ -79,12 +88,10 @@ struct Value
     float unk08;
 };
 
-extern unsigned int BSStringLength(const char*);
 inline unsigned int BSStringCapacityMaximum(unsigned int a, unsigned int b)
 {
     return a > b ? a : b;
 }
-extern void* __memcpy(void*, const void*, unsigned int);
 void* operator new(unsigned int);
 void operator delete(void*);
 
@@ -110,7 +117,7 @@ struct BSString
     }
     ~BSString()
     {
-        Set(0, 0);
+        reinterpret_cast<::TextString *>(this)->FUN_004037f0(0, 0);
     }
     unsigned int GetMaxLength() const
     {
@@ -118,9 +125,9 @@ struct BSString
     }
     bool Set(const char* text, unsigned int requested)
     {
-        unsigned int inputLength = text ? BSStringLength(text) : 0;
+        unsigned int inputLength = text ? ::FUN_0044a670(text) : 0;
         unsigned int length = inputLength;
-        unsigned int capacity = BSStringCapacityMaximum(length, requested);
+        unsigned int capacity = ::FUN_00403940(length, requested);
         if (capacity <= GetMaxLength())
         {
             if (capacity)
@@ -160,37 +167,31 @@ struct BSString
 struct Tile
 {
     virtual void Dummy();
-    float FUN_00a011b0(int trait);
-    void* FUN_00a00f30(int trait);
 
     bool FUN_00a216b0(float x, float y);
 };
 
-extern float FUN_00706e40();
-extern Tile* FUN_00706cd0();
-extern int FUN_00406f60(BSString*, const char*, ...);
-extern void FUN_005b5e40(const char*);
 
 // @fnv 0x00a216b0
 bool Tile::FUN_00a216b0(float x, float y)
 {
-    float a = this->FUN_00a011b0(0x1004);
-    float h = this->FUN_00a011b0(0x1005);
-    float q = this->FUN_00a011b0(0x1006);
-    float a7 = this->FUN_00a011b0(0x1007);
-    float f = this->FUN_00a011b0(0x1008);
-    float p = this->FUN_00a011b0(0x1009);
+    float a = reinterpret_cast<::TileListBoxCalls *>((this))->GetFloat(0x1004);
+    float h = reinterpret_cast<::TileListBoxCalls *>((this))->GetFloat(0x1005);
+    float q = reinterpret_cast<::TileListBoxCalls *>((this))->GetFloat(0x1006);
+    float a7 = reinterpret_cast<::TileListBoxCalls *>((this))->GetFloat(0x1007);
+    float f = reinterpret_cast<::TileListBoxCalls *>((this))->GetFloat(0x1008);
+    float p = reinterpret_cast<::TileListBoxCalls *>((this))->GetFloat(0x1009);
 
-    float scale = FUN_00706e40();
+    float scale = ::Interface::GetFourthInterfaceFloat();
     if (scale == 0.0f)
     {
         scale = 1.0f;
     }
 
-    Tile* s = FUN_00706cd0();
+    Tile* s = ::Interface::GetPrimaryInterfaceTile();
     if (s)
     {
-        Value* t34 = (Value*)s->FUN_00a00f30(0xfb1);
+        Value* t34 = (Value*)reinterpret_cast<::FUN_00a00f30_shell *>((s))->FUN_00a00f30(0xfb1);
         if (t34)
         {
             scale = t34->unk08 / scale;
@@ -243,8 +244,8 @@ bool Tile::FUN_00a216b0(float x, float y)
         float mag5 = sqrt(x * x + y * y);
 
         BSString b;
-        FUN_00406f60(&b, "--- fx %f fy %f  --- Magnitude: %f ", x, y, mag5);
-        FUN_005b5e40(b.m_data);
+        ::FUN_00406f60((::FUN_00406f90_this *)(::BSString *)(&b), "--- fx %f fy %f  --- Magnitude: %f ", x, y, mag5);
+        ::FUN_005b5e40();
 
         if (f <= mag5 && mag5 <= p)
         {

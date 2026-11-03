@@ -5,6 +5,23 @@
 
 // src/staging/blk_00640000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_0064db00_class.h"
+#include "fnv/decl/Mipmap__Converter.h"
+#include "fnv/decl/S_0064dac0.h"
+#include "fnv/decl/Tgt.h"
+#include "fnv/decl/_Dummy_0044a170.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_0064d000.h"
+#include "fnv/symbols_00a5f000.h"
+#include "fnv/symbols_00b6b000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011aa000.h"
+#include "fnv/symbols_011d5000.h"
 #include "../../include/layout_support.h"
 
 struct NiTexture;
@@ -15,27 +32,17 @@ struct NiPixelFormat
     int m_08;
     int m_0c;
 };
-extern const NiPixelFormat DAT_011aa2e8;
-extern const NiPixelFormat DAT_011aa2a0;
-extern int DAT_011a9598;
 
-double FUN_00404040(float v);
-bool FUN_0064d870();
-void FUN_00b6b940(void* p);
-NiTexture* FUN_00a5ff10(void* p, int a, void* b);
-NiTexture* FUN_00b6bbd0(NiTexture* t, void* p);
 
 struct GlobalObject_0045cf30
 {
     bool GetBoolValue();
 };
-extern GlobalObject_0045cf30 g_011d59ac;
 
 struct NiPixelData
 {
     virtual ~NiPixelData();
     NiPixelData(unsigned int w, unsigned int h, const NiPixelFormat& fmt, unsigned int a, unsigned int b);
-    void* FUN_0064dac0(int a, int b);
     static void* operator new(unsigned int size);
     static void operator delete(void*, unsigned int);
     int unk04;
@@ -73,7 +80,6 @@ struct NiPtrTex
     NiTexture* m_ptr;
     NiPtrTex(void* p);
     ~NiPtrTex();
-    NiTexture* FUN_00559450();
     NiPtrTex& FUN_0066b0d0(NiTexture* t);
     NiPtrTex& FUN_006e5cc0(NiPtrTex& other);
     void FUN_0045cec0();
@@ -82,15 +88,12 @@ struct NiPtrTex
 struct FaceGenImageView
 {
     float* FUN_0064dbd0();
-    FaceGenImageView* CopyPairAfterCallback(FaceGenImageView* a, int b);
     void* m_00;
     void* m_04;
 };
 
 struct FaceGenImage
 {
-    bool FUN_0064db00();
-    FaceGenImageView* FUN_0044a170(FaceGenImageView* out);
     int m_00;
     int m_04;
     int m_08;
@@ -103,7 +106,6 @@ struct __declspec(align(128)) NiDevImageConverter
 {
     NiDevImageConverter();
     ~NiDevImageConverter();
-    NiTexture* GenerateMipmaps(NiPixelData* pd, int a);
     void FUN_00a7b110();
     void FUN_00a7aff0();
 
@@ -599,7 +601,6 @@ struct __declspec(align(128)) NiDevImageConverter
 
 struct ParamObj
 {
-    int FUN_00726070();
 };
 
 struct NiTexture
@@ -616,89 +617,89 @@ struct NiTexture
 // @fnv 0x0064ceb0
 NiTexture* NiTexture::FUN_0064ceb0(float lo, float hi, float scale, void* srcv)
 {
-    if (m_08.FUN_00559450() == 0 && m_0c.FUN_0064db00() == 0 && m_24 != 0 && m_28 != 0 && lo < hi)
+    if (((::NiTexture *)(::FUN_00559450((int *)&(m_08)))) == 0 && reinterpret_cast<::FUN_0064db00_class *>(&(m_0c))->FUN_0064db00() == 0 && m_24 != 0 && m_28 != 0 && lo < hi)
     {
         NiDevImageConverter creator;
         NiPtrTex result(0);
         NiPixelData* pixelData = 0;
         NiTexture* createdTex = 0;
         FaceGenImageView viewStorage;
-        FaceGenImageView view = *m_0c.FUN_0044a170(&viewStorage);
+        FaceGenImageView view = *((::FaceGenImageView *)(reinterpret_cast<::_Dummy_0044a170 *>(&(m_0c))->FUN_0044a170((::_Out_0044a170 *)(::FaceGenImageView *)(&viewStorage))));
         int count = m_24 * m_28;
         unsigned char* cursor = 0;
         float value;
-        if (((ParamObj*)srcv)->FUN_00726070() == 0)
+        if (((int)(reinterpret_cast<::Callees *>((((ParamObj*)srcv)))->FUN_00726070())) == 0)
         {
-            pixelData = new NiPixelData(m_24, m_28, DAT_011aa2e8, 1, 1);
-            cursor = (unsigned char*)pixelData->FUN_0064dac0(0, 0);
+            pixelData = new NiPixelData(m_24, m_28, ::DAT_011aa2e8, 1, 1);
+            cursor = (unsigned char*)((void *)(reinterpret_cast<::S_0064dac0 *>((pixelData))->FUN_0064dac0(0, 0)));
             for (unsigned int i = 0; i < (unsigned int)count; i++)
             {
                 value = view.FUN_0064dbd0()[0];
-                cursor[0] = (unsigned char)((FUN_00404040(value >= lo ? (value <= hi ? value : hi) : lo) - lo) * scale);
+                cursor[0] = (unsigned char)((((double)(::FUN_00404040(value >= lo ? (value <= hi ? value : hi) : lo))) - lo) * scale);
 
                 value = view.FUN_0064dbd0()[1];
-                cursor[1] = (unsigned char)((FUN_00404040(value >= lo ? (value <= hi ? value : hi) : lo) - lo) * scale);
+                cursor[1] = (unsigned char)((((double)(::FUN_00404040(value >= lo ? (value <= hi ? value : hi) : lo))) - lo) * scale);
 
                 value = view.FUN_0064dbd0()[2];
-                cursor[2] = (unsigned char)((FUN_00404040(value >= lo ? (value <= hi ? value : hi) : lo) - lo) * scale);
+                cursor[2] = (unsigned char)((((double)(::FUN_00404040(value >= lo ? (value <= hi ? value : hi) : lo))) - lo) * scale);
 
                 cursor += 3;
                 FaceGenImageView tmp;
-                view.CopyPairAfterCallback(&tmp, 0);
+                reinterpret_cast<::Tgt *>(&(view))->CopyPairAfterCallback((int *)(::FaceGenImageView *)(&tmp), 0);
             }
         }
         else
         {
-            pixelData = new NiPixelData(m_24, m_28, DAT_011aa2a0, 1, 1);
-            cursor = (unsigned char*)pixelData->FUN_0064dac0(0, 0);
+            pixelData = new NiPixelData(m_24, m_28, (*reinterpret_cast<const ::NiPixelFormat *>(&::gNiPoint3StartupSrc)), 1, 1);
+            cursor = (unsigned char*)((void *)(reinterpret_cast<::S_0064dac0 *>((pixelData))->FUN_0064dac0(0, 0)));
             for (unsigned int i = 0; i < (unsigned int)count; i++)
             {
                 value = view.FUN_0064dbd0()[0];
-                cursor[0] = (unsigned char)((FUN_00404040(value >= lo ? (value <= hi ? value : hi) : lo) - lo) * scale);
+                cursor[0] = (unsigned char)((((double)(::FUN_00404040(value >= lo ? (value <= hi ? value : hi) : lo))) - lo) * scale);
 
                 value = view.FUN_0064dbd0()[1];
-                cursor[1] = (unsigned char)((FUN_00404040(value >= lo ? (value <= hi ? value : hi) : lo) - lo) * scale);
+                cursor[1] = (unsigned char)((((double)(::FUN_00404040(value >= lo ? (value <= hi ? value : hi) : lo))) - lo) * scale);
 
                 value = view.FUN_0064dbd0()[2];
-                cursor[2] = (unsigned char)((FUN_00404040(value >= lo ? (value <= hi ? value : hi) : lo) - lo) * scale);
+                cursor[2] = (unsigned char)((((double)(::FUN_00404040(value >= lo ? (value <= hi ? value : hi) : lo))) - lo) * scale);
 
                 value = view.FUN_0064dbd0()[3];
-                cursor[3] = (unsigned char)((FUN_00404040(value >= lo ? (value <= hi ? value : hi) : lo) - lo) * scale);
+                cursor[3] = (unsigned char)((((double)(::FUN_00404040(value >= lo ? (value <= hi ? value : hi) : lo))) - lo) * scale);
 
                 cursor += 4;
                 FaceGenImageView tmp;
-                view.CopyPairAfterCallback(&tmp, 0);
+                reinterpret_cast<::Tgt *>(&(view))->CopyPairAfterCallback((int *)(::FaceGenImageView *)(&tmp), 0);
             }
         }
 
-        if (g_011d59ac.GetBoolValue())
+        if (::g_011d59ac.GetBoolValue())
         {
-            createdTex = creator.GenerateMipmaps(pixelData, 0);
+            createdTex = ((::NiTexture *)(reinterpret_cast<::Mipmap::Converter *>(&(creator))->GenerateMipmaps((::Mipmap::Image *)(pixelData), (::Mipmap::Image *)(0))));
             delete pixelData;
-            if (FUN_0064d870())
-                FUN_00b6b940(createdTex);
-            result.FUN_0066b0d0(FUN_00a5ff10(createdTex, 0, &DAT_011a9598));
+            if (((bool)(::FUN_0064d870())))
+                ::FUN_00b6b940((::PixelData *)(createdTex));
+            result.FUN_0066b0d0(((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(createdTex), (void *)(0), (const ::fnv_00a5ff10::OwnerTriple *)(void *)(&DAT_011a9598)))));
         }
         else
         {
-            if (FUN_0064d870())
-                FUN_00b6b940(pixelData);
-            result.FUN_0066b0d0(FUN_00a5ff10(pixelData, 0, &DAT_011a9598));
+            if (((bool)(::FUN_0064d870())))
+                ::FUN_00b6b940((::PixelData *)(pixelData));
+            result.FUN_0066b0d0(((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(pixelData), (void *)(0), (const ::fnv_00a5ff10::OwnerTriple *)(void *)(&DAT_011a9598)))));
         }
 
-        if (((ParamObj*)srcv)->FUN_00726070() == 1 || ((ParamObj*)srcv)->FUN_00726070() == 0)
+        if (((int)(reinterpret_cast<::Callees *>((((ParamObj*)srcv)))->FUN_00726070())) == 1 || ((int)(reinterpret_cast<::Callees *>((((ParamObj*)srcv)))->FUN_00726070())) == 0)
         {
             m_08.FUN_006e5cc0(result);
         }
         else
         {
-            m_08.FUN_0066b0d0(FUN_00b6bbd0(result.FUN_00559450(), srcv));
+            m_08.FUN_0066b0d0(((::NiTexture *)(::fnv_00b6bbd0::FUN_00b6bbd0((::fnv_00b6bbd0::NiTexture *)(::NiTexture *)(((::NiTexture *)(::FUN_00559450((int *)&(result))))), (const ::fnv_00b6bbd0::NiPixelFormat *)(srcv)))));
         }
 
-        if (!m_08.FUN_00559450())
+        if (!((::NiTexture *)(::FUN_00559450((int *)&(m_08)))))
         {
             m_08.FUN_006e5cc0(result);
         }
     }
-    return m_08.FUN_00559450();
+    return ((::NiTexture *)(::FUN_00559450((int *)&(m_08))));
 }

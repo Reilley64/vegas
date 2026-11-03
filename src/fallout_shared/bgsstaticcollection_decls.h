@@ -2,6 +2,8 @@
 #ifndef FNV_BGSSTATICCOLLECTION_DECLS_H
 #define FNV_BGSSTATICCOLLECTION_DECLS_H
 
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "TESForm.h"
@@ -92,7 +94,6 @@ FNV_STATIC_ASSERT(offsetof(TESModel, cFlags) == 20);
 class TESModelTextureSwap : public TESModel
 {
   public:
-    bool ParseTextureSwapData(void* data, unsigned int size, unsigned int version);
     void InitItem(TESForm* form);
     BSSimpleList<DistantTreeTextureInfo*> TextureSwapNodeAccessor;  // +0x18, 8 bytes
 };
@@ -120,6 +121,5 @@ enum BGSStaticCollectionModelChunkID
 class TESFileFormVersion
 {
   public:
-    unsigned short GetFormVersion();
 };
 #endif

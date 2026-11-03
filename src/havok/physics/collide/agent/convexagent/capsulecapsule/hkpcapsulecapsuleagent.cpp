@@ -2,6 +2,11 @@
 // src/havok/physics/collide/agent/convexagent/capsulecapsule/hkpcapsulecapsuleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/capsulecapsule/hkpcapsulecapsuleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_00cfbbe0_cls.h"
+#include "fnv/symbols_00d3b000.h"
+#include "fnv/symbols_00daf000.h"
+#include "fnv/symbols_01268000.h"
 struct Callback
 {
     virtual void slot00();
@@ -44,10 +49,7 @@ void FUN_00d3b3d0_Class::InvokeCallbacksAndRelease(int value)
 
 typedef void (__cdecl* HandlerFn)();
 
-void __cdecl FUN_00d3b380();
-void __cdecl FUN_00d3b420();
 void __cdecl FUN_00d3bd80();
-void __cdecl FUN_00daf8e0();
 
 struct HandlerSet {
     HandlerFn m_pfnFirst;
@@ -59,7 +61,6 @@ struct HandlerSet {
 };
 
 struct Registry {
-    void FUN_00cfbbe0(HandlerSet* apHandlers, int aiFirst, int aiSecond);
 };
 
 // Fills a HandlerSet with four handler functions and zeroed flags, then registers it with the registry using 5 and 5.
@@ -69,15 +70,14 @@ void __cdecl RegisterHandlers(Registry* apRegistry)
     HandlerSet kHandlers;
     kHandlers.m_cFlagA = 0;
     kHandlers.m_cFlagB = 0;
-    kHandlers.m_pfnFirst = FUN_00d3b380;
-    kHandlers.m_pfnSecond = FUN_00d3b420;
+    kHandlers.m_pfnFirst = ((void (&)())::fnv_00d3b380::FUN_00d3b380);
+    kHandlers.m_pfnSecond = ((void (&)())::FUN_00d3b420);
     kHandlers.m_pfnThird = FUN_00d3bd80;
-    kHandlers.m_pfnFourth = FUN_00daf8e0;
+    kHandlers.m_pfnFourth = ((void (&)())::FUN_00daf8e0);
 
-    apRegistry->FUN_00cfbbe0(&kHandlers, 5, 5);
+    reinterpret_cast<::FUN_00cfbbe0_cls *>((apRegistry))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)(::HandlerSet *)(&kHandlers), 5, 5);
 }
 
-void __cdecl FUN_00d3b420(const void* a, const void* b, const void* c, void* d);
 
 struct D3B6D0Agent {
     virtual void ForwardToHandler(const void* a, const void* b, const void* c, void* d);
@@ -86,7 +86,7 @@ struct D3B6D0Agent {
 // @fnv 0x00d3b6d0
 void D3B6D0Agent::ForwardToHandler(const void* apArg1, const void* apArg2, const void* apArg3, void* apArg4)
 {
-    FUN_00d3b420(apArg1, apArg2, apArg3, apArg4);
+    ::FUN_00d3b420((::Capsule *)(apArg1), (::Capsule *)(apArg2), (void *)(apArg3), (::HitHandler *)(apArg4));
 }
 
 struct __declspec(intrin_type) __declspec(align(16)) __m128 { float x, y, z, w; };
@@ -384,8 +384,7 @@ class StringCursor
 public:
 __forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}static StringCursor&GetMonitorStream()
 {
-extern hkThreadLocalData<StringCursor*>g_pMonitorStream;
-return*g_pMonitorStream.getData();
+return*(*reinterpret_cast<::hkThreadLocalData< ::StringCursor *> *>(&::DAT_0126835c)).getData();
 }
 public:
 __forceinline char*__cdecl GetStreamStart(){return m_kRayStart.val();}
@@ -648,13 +647,13 @@ return FindCapsuleCapsuleContact(pA,capsuleA->getRadius(),pB,capsuleB->getRadius
 // @fnv 0x00d3bd80
 void __cdecl hkpCapsuleCapsuleAgent::FUN_00d3bd80(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,class hkpCdPointCollector&collector)
 {
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "CapsCaps";h->setTime();mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "CapsCaps";h->setTime();mStream.setEnd((char*)(h+1));}};
 ContactPointPair event(bodyA,bodyB);
 if(getClosestPointInternal(bodyA,bodyB,input,event.m_kPoint)==HK_SUCCESS)
 {
 collector.AddCdPoint(event);
 }
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
 }
 
 extern "C" __m128 _mm_mul_ps(__m128 _A, __m128 _B);
@@ -751,7 +750,6 @@ struct CapsulePointTransforms {
 };
 
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
-extern "C" unsigned long DAT_0126835c;
 extern "C" const char DAT_010d1074[];
 extern "C" const char DAT_010c41f8[];
 extern "C" unsigned __int64 __rdtsc();
@@ -770,7 +768,7 @@ struct MonitorStream
     char* m_kRayEnd;
     char* m_pRayCursor;
     char* m_pCurrentCommand;
-    static MonitorStream* GetMonitorStream() { return (MonitorStream*)TlsGetValue(DAT_0126835c); }
+    static MonitorStream* GetMonitorStream() { return (MonitorStream*)TlsGetValue(::DAT_0126835c); }
 };
 
 static const char s_kEndTimer[] = "Et";

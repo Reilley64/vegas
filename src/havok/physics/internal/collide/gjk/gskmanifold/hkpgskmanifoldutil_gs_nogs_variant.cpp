@@ -5,6 +5,8 @@
 
 // src/havok/physics/internal/collide/gjk/gskmanifold/hkpgskmanifoldutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/gjk/gskmanifold/hkpgskmanifoldutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_00dad000.h"
+#include "fnv/symbols_00dae000.h"
 struct S_00dad640_Entry
 {
     unsigned short unk0;
@@ -28,7 +30,6 @@ struct S_00dad640_Target
     virtual void unk10();
     virtual void Release(unsigned short id, void* arg);
 };
-void ReleaseAllEntries(S_00dad640_Set* set, S_00dad640_Target* target, void* arg);
 struct S_00dad4d0_Key
 {
     unsigned short ids[4];
@@ -61,9 +62,6 @@ struct S_00dad4d0_Set
         return *(unsigned short*)((char*)&entries[count] + (off >> 3));
     }
 };
-bool FindAndPromoteEntry(S_00dad4d0_Set* set, S_00dad4d0_Key* key);
-void __fastcall FUN_00dae220(int unused, S_00dad640_Set* set);
-void __cdecl FUN_00dae340(S_00dad640_Set* set, unsigned int index);
 
 #include <xmmintrin.h>
 struct S_00dad6a0_Vec

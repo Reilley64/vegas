@@ -3,37 +3,87 @@
 // byte only under /MT /Od /Ob1 /Oy- /GS /EHsc /Gy (unit src/fallout/ai/actor.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00409480_shell.h"
+#include "fnv/decl/FUN_00416870_t.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00508100_shell.h"
+#include "fnv/decl/FUN_00508d70_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_0057b0a0_shell.h"
+#include "fnv/decl/FUN_005a2030_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00619a70_shell.h"
+#include "fnv/decl/FUN_0061cdc0_shell.h"
+#include "fnv/decl/FUN_0061cfd0_shell.h"
+#include "fnv/decl/FUN_0061e600_t.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008846e0_shell.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FUN_0098adb0_shell.h"
+#include "fnv/decl/FUN_009c8d60_t.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiGlobalStringTable.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TopicFlagStandIn.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_0043fcd0__FUN_0043fcd0_shell.h"
+#include "fnv/decl/fnv_004518e0__TESObjectCELL.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_0087ce80__FUN_0087ce80_shell.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_00895110__PickActor.h"
+#include "fnv/decl/fnv_0089f580__ActorStub.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00619000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_009e3000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_01020000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f2000.h"
+#include "fnv/symbols_01203000.h"
 #include "Actor.h"
 
 struct ArrowScale
 {
     float value;
 };
-extern const float DAT_01016264;
 struct ArrowMemory
 {
-    void* Allocate(unsigned int);
 };
 extern ArrowMemory _g_memoryManager;
 struct ArrowPoint
 {
     float x, y, z;
-    float Length() const;
     ArrowPoint* FUN_00c5a800(ArrowPoint* result) const;
 };
 struct ArrowColor
 {
     float r, g, b, a;
 };
-extern ArrowColor DAT_012032f8;
-extern ArrowPoint NiPoint3_ZERO;
 struct ArrowMatrix
 {
     float m00, m01, m02, m10, m11, m12, m20, m21, m22;
 };
-extern ArrowMatrix DAT_011a9448;
-extern char* DAT_0109b220;
-char* __cdecl ArrowAddString(const char*);
 __declspec(dllimport) long __stdcall InterlockedDecrement(long*);
 struct ArrowString
 {
@@ -43,7 +93,7 @@ struct ArrowString
         if (!text)
             value = DAT_0109b220;
         else
-            value = ArrowAddString(text);
+            value = ::NiGlobalStringTable::AddString(text);
     }
     __forceinline ~ArrowString()
     {
@@ -97,7 +147,6 @@ struct ArrowGeometry
     ArrowGeometry(unsigned short, ArrowPoint*, ArrowColor*, void*, void*, void*, unsigned char*);
     static void* operator new(unsigned int);
     static void operator delete(void*);
-    void SetName(const ArrowString&);
 };
 __forceinline void ReserveMathWork()
 {
@@ -135,7 +184,7 @@ __forceinline void PerpendicularScale(ArrowPoint& out, const ArrowPoint& n, Arro
 }
 __forceinline void ScaleHead(ArrowPoint& out, const ArrowPoint& n)
 {
-    ArrowPoint v = {n.x * DAT_01016264, n.y * DAT_01016264, n.z * DAT_01016264};
+    ArrowPoint v = {n.x * ::DAT_01016264, n.y * ::DAT_01016264, n.z * ::DAT_01016264};
     out.x = v.x;
     out.y = v.y;
     out.z = v.z;
@@ -198,15 +247,15 @@ ArrowGeometry* __cdecl FUN_00c59a50(const ArrowPoint& direction, const ArrowColo
         ArrowColor c;
         unsigned char* connectionResult4;
         n3 = direction;
-        q = n3.Length();
+        q = reinterpret_cast<::NiPoint3 *>((void *)&(n3))->ComputeMagnitude();
         if (q < 8.0)
         {
             ReserveMathWork();
             ScaleDirection(differenceD, n3, 8.0 / q);
             n3 = differenceD;
-            q = n3.Length();
+            q = reinterpret_cast<::NiPoint3 *>((void *)&(n3))->ComputeMagnitude();
         }
-        vertexAllocation2 = (ArrowPoint*)_g_memoryManager.Allocate(60);
+        vertexAllocation2 = (ArrowPoint*)reinterpret_cast<::MemoryManagerStandIn *>(&(_g_memoryManager))->FUN_00aa3e40(60);
         pForm2 = vertexAllocation2 ? (ConstructPoints(vertexAllocation2), vertexAllocation2) : 0;
         connections = pForm2;
         originJ.x = 0;
@@ -225,8 +274,8 @@ ArrowGeometry* __cdecl FUN_00c59a50(const ArrowPoint& direction, const ArrowColo
         connections[3] = n3;
         connections[4] = left5;
         if (!color)
-            color = &DAT_012032f8;
-        constructionResult = (ArrowColor*)_g_memoryManager.Allocate(96);
+            color = &(*reinterpret_cast<::ArrowColor *>(&::DAT_012032f8));
+        constructionResult = (ArrowColor*)reinterpret_cast<::MemoryManagerStandIn *>(&(_g_memoryManager))->FUN_00aa3e40(96);
         aColorResult = constructionResult ? (ConstructColors(constructionResult), constructionResult) : 0;
         normalizedC = aColorResult;
         normalizedC[0] = *color;
@@ -246,7 +295,7 @@ ArrowGeometry* __cdecl FUN_00c59a50(const ArrowPoint& direction, const ArrowColo
         c.b = 0;
         c.a = 1;
         normalizedC[4] = c;
-        connectionResult4 = (unsigned char*)_g_memoryManager.Allocate(6);
+        connectionResult4 = (unsigned char*)reinterpret_cast<::MemoryManagerStandIn *>(&(_g_memoryManager))->FUN_00aa3e40(6);
         vertexResult = connectionResult4;
         vertexResult[0] = 1;
         vertexResult[1] = 0;
@@ -254,9 +303,9 @@ ArrowGeometry* __cdecl FUN_00c59a50(const ArrowPoint& direction, const ArrowColo
         vertexResult[3] = 1;
         vertexResult[4] = 0;
         vertices5 = new ArrowGeometry(5, connections, normalizedC, 0, 0, 0, vertexResult);
-        vertices5->translation = NiPoint3_ZERO;
-        vertices5->rotation = DAT_011a9448;
-        vertices5->SetName(ArrowString("BSTestObjects DirArrow"));
+        vertices5->translation = (*reinterpret_cast<::ArrowPoint *>((void *)&::NiPoint3::ZERO));
+        vertices5->rotation = (*reinterpret_cast<::ArrowMatrix *>(&::DAT_011a9448));
+        ::AssignFixedString((char *)(vertices5), (int)&(const ::ArrowString &)(ArrowString("BSTestObjects DirArrow")), {});
         return vertices5;
     }
 }

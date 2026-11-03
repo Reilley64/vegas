@@ -2,10 +2,27 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-void* __cdecl FUN_00d68e00();
+#include <new>
+#include "fnv/decl/CollectorStandIn.h"
+#include "fnv/decl/CpuObject.h"
+#include "fnv/decl/FUN_00c86490_Class.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00de3050.h"
+#include "fnv/decl/FUN_00de3060.h"
+#include "fnv/decl/S_00dd9380.h"
+#include "fnv/decl/SearchArray.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/fnv_00c93820__hkpWorldC938.h"
+#include "fnv/decl/fnv_00c93920__hkpWorldXc93920.h"
+#include "fnv/decl/hkWorldC917.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d68000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 struct FUN_00dd9380_class
 {
-    void* __thiscall FUN_00dd9380(const char* name, void* func);
 };
 void* DAT_01269cd0;
 void* DAT_01269010;
@@ -13,7 +30,7 @@ void* DAT_01269010;
 // @fnv 0x00d68e40
 void* __cdecl RegisterConvexRadius()
 {
-    DAT_01269010 = ((FUN_00dd9380_class*)DAT_01269cd0)->FUN_00dd9380("Convex Radius", FUN_00d68e00);
+    DAT_01269010 = ((void *)(reinterpret_cast<::S_00dd9380 *>((((FUN_00dd9380_class*)DAT_01269cd0)))->FUN_00dd9380("Convex Radius", (int)(((void *(&)())::fnv_00d68e00::FUN_00d68e00)))));
     return DAT_01269010;
 }
 
@@ -110,54 +127,24 @@ struct D68FC0Listener
 
 struct D68FC0Object : D68FC0Primary, D68FC0Listener
 {
-    void RegisterEntity(void* entity);
 
     virtual void FUN_00d68fc0();
 };
 
-// @fnv 0x00d68fc0
-void D68FC0Object::FUN_00d68fc0()
-{
-    if (m_pOwningWorld)
-    {
-        for (int i = 0; i < m_pOwningWorld->m_iActorEntryCount; i++)
-            RegisterEntity(m_pOwningWorld->m_kActorEntries[i]);
-    }
-}
-
 struct Target
 {
-    void FUN_00d68e60();
 };
 struct Outer
 {
     void FUN_00d69000();
 };
-// @fnv 0x00d69000
-void Outer::FUN_00d69000()
-{
-    ((Target*)((char*)this - 0x20))->FUN_00d68e60();
-}
-
 struct Base
 {
-    int FindKeyIndex(int);
-    void FUN_00d69010(int);
 };
 struct Sub
 {
     void FUN_00d69160(int);
 };
-// Calls FindKeyIndex on the Base at this-0x20 with value, and if the result is non-negative passes it to FUN_00d69010.
-// @fnv 0x00d69160
-void Sub::FUN_00d69160(int value)
-{
-    Base* base = reinterpret_cast<Base*>(reinterpret_cast<char*>(this) - 0x20);
-    int result = base->FindKeyIndex(value);
-    if (result >= 0)
-        base->FUN_00d69010(result);
-}
-
 // @fnv 0x00d69180
 void* __cdecl FUN_00d69180()
 {
@@ -196,19 +183,6 @@ struct FUN_00d691d0_Class
     FUN_00d691d0_Class* Destroy(unsigned int flags);
 };
 extern Holder* FUN_00c85750();
-// Runs the destructor, and if flags has bit 0 set, frees this object through the holder's allocator using allocationSize.
-// @fnv 0x00d691d0
-FUN_00d691d0_Class* FUN_00d691d0_Class::Destroy(unsigned int flags)
-{
-    ((Destructor*)this)->FUN_00d690d0();
-    if (flags & 1)
-    {
-        Holder* holder = FUN_00c85750();
-        holder->unk10->free(this, allocationSize);
-    }
-    return this;
-}
-
 extern void* DAT_01269010;
 
 struct FUN_00d68940_target
@@ -261,7 +235,6 @@ struct FUN_00d68aa0_mgr
 
 struct FUN_00d68aa0_owner
 {
-    int FindKeyIndex(void* key);
 };
 
 extern void* DAT_01269010;
@@ -282,7 +255,7 @@ void FUN_00d68aa0_cls::RemoveItem(FUN_00d68aa0_req* pRequest)
     {
         return;
     }
-    int idx = ((FUN_00d68aa0_owner*)((char*)this - 0x28))->FindKeyIndex(pRequest->m_08);
+    int idx = reinterpret_cast<::FUN_00d68a70_class *>((((FUN_00d68aa0_owner*)((char*)this - 0x28))))->FindKeyIndex((int)(pRequest->m_08));
     if (idx < 0)
     {
         return;
@@ -343,7 +316,6 @@ struct S_B0
 {
     virtual void b0v0();
     int unk04;
-    void FUN_00d69010(int i) throw();
 };
 struct S_B8
 {
@@ -405,15 +377,6 @@ struct FUN_00d690d0 : FUN_00ddcc60, S_D28, S_D2c
     S_Arr m30;
     virtual ~FUN_00d690d0() throw();
 };
-// Destroys the object: calls FUN_00d69010 for each element of m30 in reverse order, then clears and deallocates m30 using the heap from FUN_00c85750.
-// @fnv 0x00d690d0
-FUN_00d690d0::~FUN_00d690d0() throw()
-{
-    for (int i = m30.m_iElementCount - 1; i >= 0; i--)
-        FUN_00d69010(i);
-    m30._clearAndDeallocate(((S_Router*)FUN_00c85750())->heap());
-}
-
 struct SubObj
 {
     virtual void v0();
@@ -464,7 +427,6 @@ struct Record
     unsigned int m_flags0C;
 };
 
-void ResizeAudioStream(Allocator* allocator, PairList* list, unsigned int elemSize);
 
 struct Owner
 {
@@ -480,8 +442,6 @@ struct Owner
     int unk24;
     ListHolder** m_28;
     int m_2C;
-    void FUN_00c93820(SubObj* p);
-    void FUN_00c93920(SubObj* p);
     int unk30;
     ListHolder** m_34;
     int m_38;
@@ -505,12 +465,26 @@ struct FUN_00d68e60_cls
 
     void FUN_00d68e60(Owner* owner);
 };
+// @fnv 0x00d68fc0
+void D68FC0Object::FUN_00d68fc0()
+{
+    if (m_pOwningWorld)
+    {
+        for (int i = 0; i < m_pOwningWorld->m_iActorEntryCount; i++)
+            reinterpret_cast<::FUN_00d68e60_cls *>(this)->FUN_00d68e60((::Owner *)(m_pOwningWorld->m_kActorEntries[i]));
+    }
+}
+// @fnv 0x00d69000
+void Outer::FUN_00d69000()
+{
+    reinterpret_cast<::FUN_00d68e60_cls *>((((Target*)((char*)this - 0x20))))->FUN_00d68e60({});
+}
 
 // @fnv 0x00d68e60
 void FUN_00d68e60_cls::FUN_00d68e60(Owner* owner)
 {
-    owner->FUN_00c93820(this != 0 ? &m_28 : 0);
-    owner->FUN_00c93920(this != 0 ? &m_2C : 0);
+    reinterpret_cast<::fnv_00c93820::hkpWorldC938 *>((owner))->FUN_00c93820((::fnv_00c93820::hkpEntityListenerC938 *)(::SubObj *)(this != 0 ? &m_28 : 0));
+    reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((owner))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(::SubObj *)(this != 0 ? &m_2C : 0));
 
     Holder* pAllocHolder = FUN_00c85750();
     Record* pRecord = 0;
@@ -528,7 +502,7 @@ void FUN_00d68e60_cls::FUN_00d68e60(Owner* owner)
     Holder* holder = FUN_00c85750();
     if (pList->m_uiItemCount == (int)(pList->m_capBits & 0x3fffffffu))
     {
-        ResizeAudioStream((Allocator*)holder->unk10, pList, 4);
+        ::ResizeAudioStream((::AudioAllocator *)(::Allocator *)((Allocator*)holder->unk10), (::AudioStream *)(pList), 4);
     }
     unsigned int idx = *(volatile unsigned int*)&pList->m_uiItemCount;
     void** ppData = pList->m_data;
@@ -700,8 +674,6 @@ struct Watch2_d65f
 
 struct Agent_d65f
 {
-    void FUN_00c917a0(Listener_d65f* listener);
-    void ClearValue(Watch2_d65f* watch);
 };
 
 struct Node_d65f
@@ -733,28 +705,43 @@ struct Watch_d65f
 struct Phantom_d65f : Base_d65f, Listener_d65f, Watch2_d65f
 {
     hkArray_d65f<Node_d65f*> m_kNodeCollection;
-    void FUN_00d68b20(int index);
     void FUN_00d69010(int index);
 };
-
-// Calls FUN_00c917a0 and ClearValue on the node's collision agent, calls FUN_00d68b20, then deletes the node at index and removes it from m_kNodeCollection.
-// @fnv 0x00d69010
-void Phantom_d65f::FUN_00d69010(int index)
+// Calls FindKeyIndex on the Base at this-0x20 with value, and if the result is non-negative passes it to FUN_00d69010.
+// @fnv 0x00d69160
+void Sub::FUN_00d69160(int value)
 {
-    m_kNodeCollection[index]->m_pCollisionAgent->FUN_00c917a0(this);
-    m_kNodeCollection[index]->m_pCollisionAgent->ClearValue(this);
-    FUN_00d68b20(index);
-    delete m_kNodeCollection[index];
-    m_kNodeCollection.removeAt(index);
+    Base* base = reinterpret_cast<Base*>(reinterpret_cast<char*>(this) - 0x20);
+    int result = reinterpret_cast<::FUN_00d68a70_class *>((base))->FindKeyIndex(value);
+    if (result >= 0)
+        reinterpret_cast<::Phantom_d65f *>((base))->FUN_00d69010(result);
+}
+// Runs the destructor, and if flags has bit 0 set, frees this object through the holder's allocator using allocationSize.
+// @fnv 0x00d691d0
+FUN_00d691d0_Class* FUN_00d691d0_Class::Destroy(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00d690d0 *>((((Destructor*)this)))->FUN_00d690d0::~FUN_00d690d0();
+    if (flags & 1)
+    {
+        Holder* holder = FUN_00c85750();
+        holder->unk10->free(this, allocationSize);
+    }
+    return this;
+}
+// Destroys the object: calls FUN_00d69010 for each element of m30 in reverse order, then clears and deallocates m30 using the heap from FUN_00c85750.
+// @fnv 0x00d690d0
+FUN_00d690d0::~FUN_00d690d0() throw()
+{
+    for (int i = m30.m_iElementCount - 1; i >= 0; i--)
+        reinterpret_cast<::Phantom_d65f *>(this)->FUN_00d69010(i);
+    m30._clearAndDeallocate(((S_Router*)FUN_00c85750())->heap());
 }
 
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 #include <windows.h>
-extern DWORD DAT_0126835c;
 extern void* DAT_01269010;
 extern char DAT_010d2080[];
-extern char DAT_010c41f8[];
 
 struct D68970_ProfileRecord
 {
@@ -782,7 +769,6 @@ struct __declspec(align(16)) D68970_Output
 
 struct D68970_TransformObject
 {
-    void SweepTransform(float time, void* output);
 };
 
 struct D68970_Body
@@ -887,7 +873,6 @@ struct D68970_Owner
     D68970_Entity** entities;
     int entityCount;
 
-    float FUN_00c91020();
 };
 
 struct D68970_DisplayBase
@@ -939,11 +924,11 @@ void D68970_Listener::FUN_00d68970(D68970_Owner* owner)
         for (int bodyIndex = 0; bodyIndex < island->bodyCount; ++bodyIndex)
         {
             D68970_Body* body = island->bodies[bodyIndex];
-            float time = owner->FUN_00c91020();
+            float time = reinterpret_cast<::CpuObject *>((owner))->FUN_00c91020();
 
             D68970_TransformObject* transformObject = &body->transformObject;
             D68970_Output output;
-            transformObject->SweepTransform(time, &output);
+            reinterpret_cast<::FUN_00c86490_Class *>((transformObject))->SweepTransform(time, &output);
 
             static_cast<D68970_Viewer&>(*this).display->vf10(&output, &body->displayId, DAT_01269010);
         }
@@ -1239,7 +1224,6 @@ struct S_00d68c00_Router
 };
 
 S_00d68c00_Router* __cdecl FUN_00c85750() throw();
-void __cdecl ResizeAudioStream(S_00d68c00_Heap* heap, void* arr, int elemSize) throw();
 
 struct S_00d68c00_Obj
 {
@@ -1256,12 +1240,10 @@ struct S_00d68c00_Log
     virtual void v2() throw();
     virtual void v3(int a, int b, char* msg, const char* file, int line) throw();
 };
-extern S_00d68c00_Log* DAT_01268360;
 
 struct S_00d68c00_Real
 {
     float v;
-    void FUN_00de3050() throw();
 };
 
 struct S_00d68c00_Query
@@ -1270,8 +1252,6 @@ struct S_00d68c00_Query
     int unk04;
     int unk08;
     int unk0c;
-    void FUN_00de3060(S_00d68c00_Real* r) throw();
-    void FUN_00de4420(int a, S_00d68c00_Arr* arr) throw();
 };
 
 struct S_00d68c00_Str
@@ -1279,9 +1259,6 @@ struct S_00d68c00_Str
     int unk00;
     int unk04;
     int unk08;
-    void FUN_00cb1600(char* buf, int size) throw();
-    void FUN_00cc01c0(const char* s) throw();
-    void FUN_00cc00e0() throw();
 };
 
 struct S_00d68c00_Main
@@ -1296,7 +1273,6 @@ struct S_00d68c00_Main
     int unk1c;
     int unk20;
     int unk24;
-    int FindKeyIndex(int key) throw();
 };
 
 struct S_00d68c00_Listener
@@ -1321,7 +1297,7 @@ void S_00d68c00_Sub::FUN_00d68c00(S_00d68c00_Arg* a2) throw()
 {
     if (a2->unk10 == 0)
         return;
-    int idx = FindKeyIndex(a2->unk08);
+    int idx = reinterpret_cast<::FUN_00d68a70_class *>(this)->FindKeyIndex(a2->unk08);
     if (idx < 0)
         return;
     S_00d68c00_Item* item = S_00d68c00_Listener::unk08[idx];
@@ -1330,10 +1306,10 @@ void S_00d68c00_Sub::FUN_00d68c00(S_00d68c00_Arg* a2) throw()
     arr.size = 0;
     arr.cap = 0x80000000;
     S_00d68c00_Real radius;
-    radius.FUN_00de3050();
+    new ((void *)&(radius)) ::FUN_00de3050();
     S_00d68c00_Query query;
-    query.FUN_00de3060(&radius);
-    query.FUN_00de4420(a2->unk10, &arr);
+    new ((void *)&(query)) ::FUN_00de3060((const unsigned int *)(::fnv_00d68c00::S_00d68c00_Real *)(&radius));
+    reinterpret_cast<::CollectorStandIn *>(&(query))->FUN_00de4420((const char *)(a2->unk10), (::OutputStandIn *)(::fnv_00d68c00::S_00d68c00_Arr *)(&arr));
     for (int i = arr.size - 1; i >= 0; i--)
     {
         S_00d68c00_Elem* e = arr.data[i];
@@ -1341,10 +1317,10 @@ void S_00d68c00_Sub::FUN_00d68c00(S_00d68c00_Arg* a2) throw()
         {
             unsigned int buf[128];
             S_00d68c00_Str msg;
-            msg.FUN_00cb1600((char*)buf, 0x200);
-            msg.FUN_00cc01c0("Unable to build display geometry from hkpShape geometry data");
-            DAT_01268360->v3(0, -1, (char*)buf, ".\\VisualDebugger\\Viewer\\Collide\\hkpConvexRadiusViewer.cpp", 0xa7);
-            msg.FUN_00cc00e0();
+            new ((void *)&(msg)) ::FUN_00cb1600((char*)buf, 0x200);
+            reinterpret_cast<::SinkOwner *>(&(msg))->FUN_00cc01c0("Unable to build display geometry from hkpShape geometry data");
+            (*reinterpret_cast<::fnv_00d68c00::S_00d68c00_Log * *>(&::DAT_01268360))->v3(0, -1, (char*)buf, ".\\VisualDebugger\\Viewer\\Collide\\hkpConvexRadiusViewer.cpp", 0xa7);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(msg))->FUN_00cc00e0::~FUN_00cc00e0();
             arr.size--;
             if (arr.size != i)
                 arr.data[i] = arr.data[arr.size];
@@ -1356,7 +1332,7 @@ void S_00d68c00_Sub::FUN_00d68c00(S_00d68c00_Arg* a2) throw()
         S_00d68c00_List* list = &item->list;
         S_00d68c00_Router* r = FUN_00c85750();
         if (list->size == (list->cap & 0x3fffffff))
-            ResizeAudioStream(r->unk10, list, 4);
+            ::ResizeAudioStream((::AudioAllocator *)(r->unk10), (::AudioStream *)(list), 4);
         char** p = list->data + list->size;
         for (int k = 0; k < 1; k++)
             p[k] = name;
@@ -1413,7 +1389,7 @@ void* __cdecl FUN_00d68e00(void* arg1)
 {
     TargetAgent* agent = (TargetAgent*)FUN_00c85750()->allocateChunk(0x44);
     agent->m_usMemSizeAndFlags = 0x44;
-    TargetAgent* res = agent->FUN_00d68b90(arg1);
+    TargetAgent* res = ((::fnv_00d68e00::TargetAgent *)(new ((void *)(agent)) ::FUN_00d68b90((int)(arg1))));
     return res ? (char*)res + 8 : 0;
 }
 }  // namespace fnv_00d68e00
@@ -1450,7 +1426,6 @@ struct Holder_d68b20
     void* volatile m_pAllocator;
 };
 
-void __cdecl FUN_00c908c0(void* alloc, void* arr, int n, int elemSize);
 
 struct FUN_00d68b20_cls
 {
@@ -1470,6 +1445,16 @@ struct FUN_00d68b20_cls
 
     void FUN_00d68b20(int idx);
 };
+// Calls FUN_00c917a0 and ClearValue on the node's collision agent, calls FUN_00d68b20, then deletes the node at index and removes it from m_kNodeCollection.
+// @fnv 0x00d69010
+void Phantom_d65f::FUN_00d69010(int index)
+{
+    reinterpret_cast<::hkWorldC917 *>((m_kNodeCollection[index]->m_pCollisionAgent))->FUN_00c917a0(this);
+    reinterpret_cast<::SearchArray *>((m_kNodeCollection[index]->m_pCollisionAgent))->ClearValue((int)(this));
+    reinterpret_cast<::FUN_00d68b20_cls *>(this)->FUN_00d68b20(index);
+    delete m_kNodeCollection[index];
+    m_kNodeCollection.removeAt(index);
+}
 
 // Calls v05 on each element of the item at idx, then conditionally calls FUN_00c908c0 on its array and sets the array size to 0.
 // @fnv 0x00d68b20
@@ -1486,7 +1471,7 @@ void FUN_00d68b20_cls::FUN_00d68b20(int idx)
     int cap = (int)(a->m_iCapacity & 0x3fffffff);
     if (cap < 0)
     {
-        FUN_00c908c0(alloc, a, (cap + cap > 0) ? cap + cap : 0, 4);
+        ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(a), (cap + cap > 0) ? cap + cap : 0, 4);
     }
     a->size = 0;
 }

@@ -2,6 +2,10 @@
 // src/havok/physics/collide/shape/deprecated/mesh/hkpmeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/deprecated/mesh/hkpmeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_00d21000.h"
+#include "fnv/symbols_011b2000.h"
+#include "fnv/symbols_01269000.h"
 #include "havok/hkpMeshShape.h"
 
 struct MeshShapeTriangle
@@ -23,7 +27,6 @@ struct MeshShapeVTable
     virtual void vf10();
     virtual MeshShapeTriangle* vf14(unsigned int key, MeshShapeBuffer* storage);
 };
-extern float DAT_011b2e90;
 extern "C" hkBool* __cdecl IsDegenerateTriangle(hkBool* result, const hkVector4* v0, const hkVector4* v1,
                                                 const hkVector4* v2, float tolerance);
 struct MeshShapeDCCBC0 : public hkpMeshShape
@@ -134,9 +137,7 @@ hkUint32 hkpMeshShapeDCC::GetNextNonDegenerateTriangleKey(hkUint32 auiKey) const
 
 class hkClassDCD1;
 
-extern const hkClassDCD1 DAT_01269198;
 
-int __cdecl FUN_00d06f80(const void* pvChunk, int iNumBytes) throw();
 
 template <class T> class hkArrayDCD1
 {
@@ -176,7 +177,7 @@ class hkStatisticsCollectorDCD1
         if ((kArray.m_iCapacityState & 0x80000000) == 0 || m_countDontDeallocate)
         {
             const T* pData = kArray.m_data;
-            int iAllocated = FUN_00d06f80(pData, kArray.getCapacity() * sizeof(T));
+            int iAllocated = ::fnv_00d06f80::FUN_00d06f80((const char *)(pData), kArray.getCapacity() * sizeof(T));
             AddMemoryChunk(3, pcName, kArray.m_data, kArray.GetLogicalSize() * sizeof(T), iAllocated);
         }
     }
@@ -203,7 +204,6 @@ struct hkSubpartDCD1
 class hkpShapeDCD1
 {
   public:
-    void FUN_00d213e0(hkStatisticsCollectorDCD1* pkCollector, const hkClassDCD1* pkClass) const throw();
 };
 
 class hkObjDCD1 : public hkpShapeDCD1
@@ -232,7 +232,7 @@ class hkObjDCD1 : public hkpShapeDCD1
 void hkObjDCD1::CollectSubPartsStats(hkStatisticsCollectorDCD1* pkCollector, const hkClassDCD1* pkClass) const throw()
 {
     pkCollector->addArray("SubParts", m_kSubparts);
-    FUN_00d213e0(pkCollector, &DAT_01269198);
+    ::FUN_00d213e0((const char *const *)this, (const char *const *)(pkCollector));
 }
 
 struct PageDCCD
@@ -266,24 +266,7 @@ class FUN_00dccd00_C : public Base0DCCD, public Base1DCCD
     int m_iShift;
     PageDCCD* m_pkPages;
 
-    int GetElement(unsigned int uiKey);
 };
-
-// Gets an index for uiKey from GetElement on the owner; if found, returns the pointer stored in that page's value array, otherwise null.
-// @fnv 0x00dccd00
-void* Base1DCCD::FindValue(unsigned int uiKey)
-{
-    FUN_00dccd00_C* pkOwner = (FUN_00dccd00_C*)((char*)this - 0x10);
-    int iIndex = pkOwner->GetElement(uiKey);
-    if (iIndex != -1)
-    {
-        PageDCCD* pkPage = &pkOwner->m_pkPages[uiKey >> (32 - pkOwner->m_iShift)];
-        void** ppValue = (void**)((char*)pkPage->m_ppValues + pkPage->m_iValueStride * iIndex);
-        if (ppValue)
-            return *ppValue;
-    }
-    return 0;
-}
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
@@ -570,6 +553,21 @@ class FUN_00dcd410_C
 
     int GetElement(unsigned int uiKey);
 };
+// Gets an index for uiKey from GetElement on the owner; if found, returns the pointer stored in that page's value array, otherwise null.
+// @fnv 0x00dccd00
+void* Base1DCCD::FindValue(unsigned int uiKey)
+{
+    FUN_00dccd00_C* pkOwner = (FUN_00dccd00_C*)((char*)this - 0x10);
+    int iIndex = reinterpret_cast<::FUN_00dcd410_C *>((pkOwner))->GetElement(uiKey);
+    if (iIndex != -1)
+    {
+        PageDCCD* pkPage = &pkOwner->m_pkPages[uiKey >> (32 - pkOwner->m_iShift)];
+        void** ppValue = (void**)((char*)pkPage->m_ppValues + pkPage->m_iValueStride * iIndex);
+        if (ppValue)
+            return *ppValue;
+    }
+    return 0;
+}
 
 // Looks up the element at uiKey in the paged array, returning its byte or short value, or -1 if the page is not allocated.
 // @fnv 0x00dcd410

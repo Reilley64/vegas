@@ -1,5 +1,31 @@
 // fallout_shared/bgsmovablestatic.cpp: BGSMovableStatic, MovableRecord, MovableStaticFormComparison (11 functions)
 
+#include "fnv/decl/DialogueItem.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00477f20_shell.h"
+#include "fnv/decl/FUN_00487010_shell.h"
+#include "fnv/decl/FUN_0048a520_shell.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/SDSaveForm.h"
+#include "fnv/decl/TESModel.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00478000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_00864000.h"
+#include "fnv/symbols_01183000.h"
 #include "bgsmovablestatic_decls.h"
 
 // @fnv 0x004fbb50
@@ -76,13 +102,11 @@ struct TESObjectSTAT
 };
 struct SFTX
 {
-    void SetFormType(int);
 };
 extern void* DAT_01024cc8[];
 extern void* DAT_01024cec[];
 extern void* DAT_01024e70[];
 extern void* DAT_01024e84[];
-char* __fastcall FUN_00864490(char*);
 
 struct FUN_004fba00_obj : public TESFullName, public BGSDestructibleObjectForm, public TESObjectSTAT
 {
@@ -97,7 +121,7 @@ FUN_004fba00_obj::FUN_004fba00_obj()
     *(void***)((char*)this + 0x14) = DAT_01024cec;
     *(void***)((char*)this + 0x44) = DAT_01024cc8;
     FUN_00864490((char*)this + 0x70);
-    ((SFTX*)((char*)this + 0x14))->SetFormType(0x22);
+    reinterpret_cast<::FUN_004f15a0_shell *>((((SFTX*)((char*)this + 0x14))))->FUN_004f15a0(0x22);
     ((BGSMovableStatic*)((char*)this + 0x14))->ResetFormData();
 }
 
@@ -126,81 +150,40 @@ bool Unk004fc130::IsByteDifferent(unsigned char* pucByte)
     return false;
 }
 
-void _Deallocate(void*);
 struct Unk004fc170
 {
     void FUN_004fbac0();
     void* DestroyIfFlagged(unsigned int);
 };
-// Calls FUN_004fbac0, deallocates this when flags has bit 0 set, and returns this.
-// @fnv 0x004fc170
-void* Unk004fc170::DestroyIfFlagged(unsigned int flags)
-{
-    FUN_004fbac0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct Date
 {
     ~Date();
 };
 struct DoorPart30
 {
-    void FUN_00487010();
 };
 struct DoorPart68
 {
-    void FUN_00477f20();
 };
 struct DoorPart3c
 {
-    void ProcessAndFreeData(unsigned int, unsigned int, unsigned int);
 };
 struct FUN_004855a0
 {
-    void M();
 };
 struct FUN_00485680
 {
-    void M();
 };
 struct FUN_00485e00_shell
 {
-    void FUN_00485e20(Date*, int);
 };
 struct SoundH
 {
-    unsigned int Deallocate();
 };
-bool FUN_00401500();
-void FUN_00485910(unsigned int, unsigned int);
 struct FUN_004fbf20_shell
 {
     void Destroy();
 };
-// @fnv 0x004fbf20
-void FUN_004fbf20_shell::Destroy()
-{
-    unsigned int itempint;
-    ((FUN_004855a0*)this)->M();
-    ((DoorPart30*)((char*)this - 0x14))->FUN_00487010();
-    ((DoorPart3c*)((char*)this + 0x30))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    ((DoorPart68*)((char*)this - 8))->FUN_00477f20();
-    if (FUN_00401500())
-        ((Date*)((char*)this + 0x5c))->Date::~Date();
-    ((FUN_00485e00_shell*)this)->FUN_00485e20((Date*)((char*)this + 0x5c), 1);
-    if (FUN_00401500())
-        ((Date*)((char*)this + 0x5c))->Date::~Date();
-    if (*(void**)((char*)this + 0x58))
-    {
-        itempint = (*(SoundH**)((char*)this + 0x58))->Deallocate();
-        FUN_00485910(0x4d414e53, itempint);
-    }
-    ((FUN_00485680*)this)->M();
-}
-
 struct S_004fbac0_P
 {
     virtual ~S_004fbac0_P();
@@ -237,6 +220,15 @@ struct FUN_004fbac0 : S_004fbac0_P, S_004fbac0_B, S_004fbac0_C, S_004fbac0_E
 {
     virtual ~FUN_004fbac0();
 };
+// Calls FUN_004fbac0, deallocates this when flags has bit 0 set, and returns this.
+// @fnv 0x004fc170
+void* Unk004fc170::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_004fbac0 *>(this)->FUN_004fbac0::~FUN_004fbac0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // Empty destructor for the class; performs no work.
 // @fnv 0x004fbac0
 FUN_004fbac0::~FUN_004fbac0()
@@ -246,13 +238,9 @@ extern "C" void* __cdecl _alloca(unsigned int);
 class TESFile
 {
   public:
-    unsigned char GetTESForm();
-    int GetChunkID();
-    unsigned int GetChunkSize();
-    bool GetChunkData(void*, unsigned int);
     bool GetChunkData(unsigned int*);
-    unsigned short GetFormVersion();
-    bool GetNextChunk();
+public:
+    bool NextChunk();
 };
 struct AlchTexSwap
 {
@@ -267,16 +255,12 @@ struct AlchTexSwap
     unsigned int modelUnknown;
     unsigned int modelReserved;
     unsigned int modelState;
-    bool LoadTextureSwapList(void*, unsigned int, unsigned int);
 };
 struct AlchDestr
 {
 };
-void FUN_004781e0(AlchDestr*, TESFile*);
-void FUN_004892d0(AlchTexSwap*, TESFile*);
 struct TESFullNameLoader
 {
-    static void LoadFullNameChunk(TESFullName*, TESFile*);
 };
 struct MovableRecord;
 struct StaticRecord
@@ -370,8 +354,6 @@ struct StaticRecord
     unsigned int unk24;
     unsigned int unk28;
     unsigned int unk2c;
-    void LoadRecordHeader(TESFile*);
-    void FUN_004861f0(TESFile*, void*, unsigned short);
 };
 struct RecordName
 {
@@ -393,46 +375,46 @@ struct MovableRecord : RecordName, RecordDestruct, StaticRecord, AlchTexSwap
 // @fnv 0x004fbc70
 bool MovableRecord::LoadRecordChunks(TESFile* file)
 {
-    unsigned char p = file->GetTESForm();
-    LoadRecordHeader(file);
+    unsigned char p = ((unsigned char)(reinterpret_cast<::FUN_00472660_shell *>((file))->FUN_00472660()));
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
     int h;
     char* a;
     void* i;
     unsigned int s;
     unsigned int f;
-    while (h = file->GetChunkID())
+    while (h = reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())
     {
         switch (h)
         {
         case 0x44494445:
-            a = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(a, 512);
+            a = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(a), 512);
             SetEditorID(a);
             break;
         case 0x444e424f:
             LoadBounds(file);
             break;
         case 0x4c4c5546:
-            TESFullNameLoader::LoadFullNameChunk(reinterpret_cast<TESFullName*>(this), file);
+            ::ReadFullName(reinterpret_cast<TESFullName*>(this), file);
             break;
         case 0x4c444f4d:
         case 0x54444f4d:
         case 0x44444f4d:
         case 0x44534f4d:
-            FUN_004892d0(this, file);
+            ::TESModel::LoadModelData((::TESModel *)(::AlchTexSwap *)(this), file);
             break;
         case 0x53444f4d:
-            s = file->GetChunkSize();
+            s = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
             i = _alloca(s);
-            file->GetChunkData(i, s);
-            this->LoadTextureSwapList(i, s, file->GetFormVersion());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(i), s);
+            reinterpret_cast<::FUN_0048a7b0_shell *>((this))->LoadTextureSwapList(i, s, reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((file))->FUN_00403570());
             break;
         case 0x54534544:
         case 0x44545344:
-            FUN_004781e0(reinterpret_cast<AlchDestr*>(static_cast<RecordDestruct*>(this)), file);
+            ::FUN_004781e0((::BGSDestructibleObjectForm *)(::AlchDestr *)(reinterpret_cast<AlchDestr*>(static_cast<RecordDestruct*>(this))), file);
             break;
         case 0x41544144:
-            FUN_004861f0(file, &this->data, 1);
+            reinterpret_cast<::fnv_004861f0::Form_004861f0 *>(this)->FUN_004861f0(file, &this->data, 1);
             break;
         case 0x4d414e53:
             f = 0;
@@ -440,7 +422,7 @@ bool MovableRecord::LoadRecordChunks(TESFile* file)
             reinterpret_cast<FUN_004fbf00_shell*>(this)->FUN_004fbf00(reinterpret_cast<TESSound*>(f));
             break;
         }
-        if (!file->GetNextChunk())
+        if (!file->NextChunk())
             break;
     }
     return true;
@@ -450,25 +432,20 @@ namespace fnv_004fbfe0 {
 class TESForm;
 struct FUN_004fbf00_shell
 {
-    void FUN_004fbf00(TESSound*);
 };
 struct FUN_004fc060_shell
 {
-    void SetByteFromPtr(const unsigned char*);
 };
-extern void* DAT_01183028;
 extern void* DAT_01189d4c;
 
 void* __cdecl FUN_00ec43fb(int, int, void*, void*, int);
 
 struct TESChallenge
 {
-    int GetProgressValue();
 };
 
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
 };
 
 struct FUN_004fbfe0_shell : public BGSMovableStatic
@@ -479,18 +456,16 @@ struct FUN_004fbfe0_shell : public BGSMovableStatic
 // @fnv 0x004fbfe0
 void FUN_004fbfe0_shell::FUN_004fbfe0(int arg)
 {
-    int result = (int)FUN_00ec43fb(arg, 0, &DAT_01183028, &DAT_01189d4c, 0);
+    int result = (int)FUN_00ec43fb(arg, 0, &(*reinterpret_cast<void * *>(&::DAT_01183028)), &DAT_01189d4c, 0);
 
     if (result == 0)
         return;
     {
-        reinterpret_cast<FUN_004fbf00_shell*>(reinterpret_cast<char*>(this) - 0x14)
-            ->FUN_004fbf00(reinterpret_cast<TESSound*>(reinterpret_cast<TESChallenge*>(result)->GetProgressValue()));
+        reinterpret_cast<::FUN_004fbf00_shell *>((reinterpret_cast<FUN_004fbf00_shell*>(reinterpret_cast<char*>(this) - 0x14)))->FUN_004fbf00(reinterpret_cast<TESSound*>(((int)(reinterpret_cast<::DialogueItem *>((reinterpret_cast<TESChallenge*>(result)))->SelectDefaultResponseList()))));
 
-        reinterpret_cast<FUN_004fc060_shell*>(this->_pdbpad_5c)
-            ->SetByteFromPtr(reinterpret_cast<const unsigned char*>(reinterpret_cast<BGSMovableStatic*>(result)->data));
+        reinterpret_cast<::FUN_004fc060_shell *>((reinterpret_cast<FUN_004fc060_shell*>(this->_pdbpad_5c)))->SetByteFromPtr(reinterpret_cast<const unsigned char*>(reinterpret_cast<BGSMovableStatic*>(result)->data));
 
-        reinterpret_cast<FUN_005e78f0_t*>(this)->FUN_004851b0(
+        reinterpret_cast<::FormCloneOperation *>((reinterpret_cast<FUN_005e78f0_t*>(this)))->FUN_004851b0(
             result ? reinterpret_cast<TESForm*>(reinterpret_cast<char*>(result) + 0x14) : 0);
     }
 }
@@ -576,9 +551,7 @@ class TESForm
     virtual void unk12C();
     virtual void unk130();
     virtual const char* GetName();
-    bool GetInitialized();
     TESFile* GetFile(int a);
-    unsigned int GetFormID();
     void SetInitializationState(bool b);
     int unk04;
     int unk08;
@@ -588,19 +561,40 @@ class TESForm
     int unk18;
     int unk1c;
     int unk20;
+public:
+    bool GetInitialized() const;
+public:
+    void ClearData();
 };
+// @fnv 0x004fbf20
+void FUN_004fbf20_shell::Destroy()
+{
+    unsigned int itempint;
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
+    reinterpret_cast<::FUN_00487010_shell *>((((DoorPart30*)((char*)this - 0x14))))->FUN_00487010();
+    reinterpret_cast<::FUN_0048a520_shell *>((((DoorPart3c*)((char*)this + 0x30))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
+    reinterpret_cast<::FUN_00477f20_shell *>((((DoorPart68*)((char*)this - 8))))->FUN_00477f20();
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::TESForm *>((((Date*)((char*)this + 0x5c))))->ClearData();
+    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((Date*)((char*)this + 0x5c), 1);
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::TESForm *>((((Date*)((char*)this + 0x5c))))->ClearData();
+    if (*(void**)((char*)this + 0x58))
+    {
+        itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*(SoundH**)((char*)this + 0x58))))->FUN_0084e3a0()));
+        ::FUN_00485910(0x4d414e53, itempint);
+    }
+    reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
+}
 
 struct MovableStaticComponentComparison
 {
-    bool FUN_00485270(::TESForm*);
 };
 struct MovableStaticDataComparison
 {
-    bool IsByteDifferent(unsigned char*);
 };
 struct MovableStaticSoundComparison
 {
-    ::TESSound* FUN_005e3fa0();
 };
 struct MovableStaticFormComparison : ::BGSMovableStatic
 {
@@ -613,13 +607,12 @@ bool MovableStaticFormComparison::FUN_004fc080(::TESForm* apCompare)
     ::BGSMovableStatic* pMovableStatic = dynamic_cast< ::BGSMovableStatic*>(apCompare);
     if (!pMovableStatic)
         return true;
-    if (((MovableStaticComponentComparison*)this)
-            ->FUN_00485270(pMovableStatic ? (::TESForm*)((char*)pMovableStatic + 0x14) : 0))
+    if (reinterpret_cast<::FUN_00509540_obj *>((((MovableStaticComponentComparison*)this)))->FUN_00485270(pMovableStatic ? (::TESForm*)((char*)pMovableStatic + 0x14) : 0))
         return true;
-    if (((MovableStaticDataComparison*)this->_pdbpad_5c)->IsByteDifferent((unsigned char*)pMovableStatic->data))
+    if (reinterpret_cast<::Unk004fc130 *>((((MovableStaticDataComparison*)this->_pdbpad_5c)))->IsByteDifferent((unsigned char*)pMovableStatic->data))
         return true;
-    if (((MovableStaticSoundComparison*)((char*)this - 0x14))->FUN_005e3fa0() !=
-        ((MovableStaticSoundComparison*)pMovableStatic)->FUN_005e3fa0())
+    if (((::TESSound *)(reinterpret_cast<::DialogueItem *>((((MovableStaticSoundComparison*)((char*)this - 0x14))))->SelectDefaultResponseList())) !=
+        ((::TESSound *)(reinterpret_cast<::DialogueItem *>((((MovableStaticSoundComparison*)pMovableStatic)))->SelectDefaultResponseList())))
         return true;
     return false;
 }

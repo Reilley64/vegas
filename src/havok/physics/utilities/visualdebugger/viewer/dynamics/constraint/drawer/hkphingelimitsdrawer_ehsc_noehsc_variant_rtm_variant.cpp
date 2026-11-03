@@ -8,6 +8,13 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkphingelimitsdrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkphingelimitsdrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/CpuObject.h"
+#include "fnv/decl/DE44C0Object.h"
+#include "fnv/decl/FUN_00de4530Owner.h"
+#include "fnv/decl/SetupTarget.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cab000.h"
+#include "fnv/symbols_01267000.h"
 namespace HingeLimitsDrawing {
 typedef float hkReal;
 typedef unsigned char hkUint8;
@@ -282,7 +289,7 @@ template <typename T> __forceinline void HavokElementArray<T>::FUN_00c908c0(hkMe
     {
         int cap2 = 2 * capacity;
         int newSize = (n < cap2) ? cap2 : n;
-        HavokArrayUtilities::FUN_00c908c0(alloc, this, newSize, sizeof(T));
+        ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
     }
 }
 template <typename T> __forceinline void HavokElementArray<T>::clear()
@@ -476,11 +483,10 @@ inline void hkVector4::normalize3()
     hkQuadReal lenInv = lengthInverse3().broadcast();
     m_vComponents = _mm_mul_ps(lenInv, m_vComponents);
 }
-extern "C" hkVector4 DAT_01267e30;
 inline const hkVector4& __cdecl hkVector4::getZero()
 {
 
-    return DAT_01267e30;
+    return (*reinterpret_cast<::HingeLimitsDrawing::hkVector4 *>(&::DAT_01267e30));
 }
 inline const hkVector4& hkMatrix3::getColumn(int x) const
 {
@@ -664,7 +670,6 @@ class DebugDisplayHandlerHolder
 
   public:
     DebugDisplayHandlerHolder();
-    void FUN_00e10a10(hkDebugDisplayHandler* displayHandler);
 };
 class ConstraintDrawer
 {
@@ -678,8 +683,6 @@ class ConstraintDrawer
     }
 
   protected:
-    void FUN_00de44c0(int id, int tag);
-    void FUN_00de4530(int id, int tag);
     void FUN_00de47e0(const hkpConstraintInstance* constraint, hkTransform& refLocalToWorld,
                       hkTransform& attLocalToWorld);
 
@@ -737,8 +740,6 @@ class hkDisplaySemiCircle : public hkDisplayGeometry
   public:
     hkDisplaySemiCircle(const hkVector4& center, const hkVector4& normal, const hkVector4& startPerp,
                         const hkReal thetaMin, const hkReal thetaMax, const hkReal radius, const int numSegments);
-    void FUN_00de4950(const hkReal radius, const hkReal thetaMin, const hkReal thetaMax, const int numSegments,
-                      const hkVector4& center, const hkVector4& normal, const hkVector4& startPerp);
 
   protected:
     hkVector4 m_vHitNormal;
@@ -1006,8 +1007,6 @@ class hkColor
   public:
     static int __cdecl rgbFromChars(unsigned char red, unsigned char green, unsigned char blue,
                                     unsigned char alpha = 0xff);
-    static int __cdecl PackColorBigEndian(const hkReal red, const hkReal green, const hkReal blue,
-                                          const hkReal alpha = 1.0f);
 
   public:
     enum ExtendedColors
@@ -1161,14 +1160,14 @@ __forceinline void HingeConstraintDrawer::drawHinge(hkpConstraintInstance* const
                                                     hkDebugDisplayHandler* displayHandler, int id, int tag)
 {
     const hkpHingeLimitsData* lhinge = static_cast<const hkpHingeLimitsData*>(constraint->getData());
-    m_kDisplayGeometry.FUN_00e10a10(displayHandler);
+    reinterpret_cast<::CpuObject *>(&(m_kDisplayGeometry))->FUN_00e10a10((int)(displayHandler));
     hkTransform refLocalToWorld;
     hkTransform attLocalToWorld;
     FUN_00de47e0(constraint, refLocalToWorld, attLocalToWorld);
     m_vVectorAtOffset50.FUN_00c7f640(refLocalToWorld, hkVector4::getZero());
     m_vVectorAtOffset40.FUN_00c7f640(attLocalToWorld, hkVector4::getZero());
-    FUN_00de4530(id, tag);
-    FUN_00de44c0(id, tag);
+    reinterpret_cast<::FUN_00de4530Owner *>(this)->FUN_00de4530(id, tag);
+    reinterpret_cast<::DE44C0Object *>(this)->FUN_00de44c0(id, tag);
     const hkVector4* baseA = &lhinge->m_kBridgeAtoms.m_kLocalRotations.m_kRotationA.getColumn(0);
     const hkVector4* baseB = &lhinge->m_kBridgeAtoms.m_kLocalRotations.m_kRotationB.getColumn(0);
     hkVector4 axisInWorld;
@@ -1182,13 +1181,13 @@ __forceinline void HingeConstraintDrawer::drawHinge(hkpConstraintInstance* const
         endAxis.add4(m_vVectorAtOffset50);
         startAxis.setMul4(getLineLengthForDraw() * -0.75, axisInWorld);
         startAxis.add4(m_vVectorAtOffset50);
-        displayHandler->DisplayLine(startAxis, endAxis, hkColor::PackColorBigEndian(0.f, .5f, 1.f, 1.f), id, tag);
+        displayHandler->DisplayLine(startAxis, endAxis, ((int)(::PackColorBigEndian(0.f, .5f, 1.f, 1.f))), id, tag);
     }
     {
         hkReal thetaMax = lhinge->getMaxAngularLimit();
         hkReal thetaMin = lhinge->getMinAngularLimit();
-        m_fAngularLimit.FUN_00de4950(getArcRadiusForDraw(), thetaMin, thetaMax, getNumArcSegmentsForDraw(),
-                                     m_vVectorAtOffset50, axisInWorld, axisPerpInWorld);
+        reinterpret_cast<::SetupTarget *>(&(m_fAngularLimit))->FUN_00de4950(getArcRadiusForDraw(), thetaMin, thetaMax, getNumArcSegmentsForDraw(),
+                                     (const ::Vec4 &)(m_vVectorAtOffset50), (const ::Vec4 &)(axisInWorld), (const ::Vec4 &)(axisPerpInWorld));
         hkArray<hkDisplayGeometry*> geometry;
         geometry.SetSizeAndGrow(1);
         geometry[0] = &m_fAngularLimit;

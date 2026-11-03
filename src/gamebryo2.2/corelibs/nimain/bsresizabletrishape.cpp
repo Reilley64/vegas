@@ -2,13 +2,30 @@
 // src/gamebryo2.2/corelibs/nimain/bsresizabletrishape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/bsresizabletrishape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00a74480.h"
+#include "fnv/decl/FUN_00a744a0.h"
+#include "fnv/decl/FUN_00a745c0_This.h"
+#include "fnv/decl/FUN_00a89760_cls.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a74690__FUN_00a74690_shell.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a71000.h"
+#include "fnv/symbols_00a74000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a98000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f5000.h"
+#include "fnv/symbols_011f6000.h"
 struct GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_011f5b34;
 
 // @fnv 0x00a86d20
 GlobalObjectO2_00a7b610* __cdecl FUN_00a86d20()
 {
-    return &g_011f5b34;
+    return &::g_011f5b34;
 }
 
 struct NiBound;
@@ -27,8 +44,6 @@ NiBound* __thiscall FUN_00a86d30_shell::FUN_00a86d30()
     return (NiBound*)((char*)this + 0xc8);
 }
 
-extern "C" void __cdecl _delete(void*, unsigned int);
-void __fastcall FUN_00a89760(void*);
 extern void* DAT_0109e704;
 
 struct FUN_00a86da0_shell : BSResizableTriShape
@@ -41,19 +56,22 @@ struct FUN_00a86da0_shell : BSResizableTriShape
 void* FUN_00a86da0_shell::FUN_00a86da0(unsigned int flags)
 {
     ((void**)(this))[0] = &DAT_0109e704;
-    FUN_00a89760(this);
+    reinterpret_cast<::FUN_00a89760_cls *>((this))->FUN_00a89760_cls::~FUN_00a89760_cls();
     if (flags & 1)
-        _delete(this, 0xd8);
+        ::FUN_00aa1460(this, 0xd8);
     return this;
 }
 
 struct NiRenderer;
+class NiTransform;
 struct NiBound
 {
     unsigned int m_uiX;
     unsigned int m_uiY;
     unsigned int m_uiZ;
     float m_w;
+public:
+    void Update(const ::NiBound &, const ::NiTransform &);
 };
 struct FUN_00a74600_shell
 {
@@ -80,7 +98,6 @@ void __thiscall FUN_00a86e40_shell::FUN_00a86e40(NiRenderer* apRenderer)
 
 struct FUN_00a74480_holder
 {
-    void __thiscall FUN_00a74480(unsigned int);
 };
 struct FUN_00a86dd0
 {
@@ -90,7 +107,7 @@ struct FUN_00a86dd0
 // @fnv 0x00a86dd0
 FUN_00a86dd0::FUN_00a86dd0(unsigned int a)
 {
-    ((FUN_00a74480_holder*)this)->FUN_00a74480(a);
+    new ((void *)(((FUN_00a74480_holder*)this))) ::FUN_00a74480((::NiTriBasedGeomData *)(a));
     *(void**)this = (void*)&DAT_0109e704;
     *(unsigned int*)((char*)this + 0xC4) = 0;
 }
@@ -100,11 +117,9 @@ struct CloningProcess;
 struct BSFadeNode
 {
     static void* __cdecl operator new(unsigned int);
-    void __thiscall FUN_00a744a0();
 };
 struct FUN_00a744c0_holder
 {
-    void __thiscall FUN_00a744c0(BSResizableTriShape* pkClone, CloningProcess& kCloning);
 };
 struct FUN_00a86e80_shell : BSResizableTriShape
 {
@@ -117,14 +132,14 @@ NiObject* __thiscall FUN_00a86e80_shell::FUN_00a86e80(CloningProcess& kCloning)
     pkObject = (BSResizableTriShape*)BSFadeNode::operator new(0xD8);
     if (pkObject)
     {
-        ((BSFadeNode*)pkObject)->FUN_00a744a0();
+        new ((void *)(((BSFadeNode*)pkObject))) ::FUN_00a744a0();
         *(void**)pkObject = (void*)&DAT_0109e704;
     }
     else
     {
         pkObject = 0;
     }
-    ((FUN_00a744c0_holder*)this)->FUN_00a744c0(pkObject, kCloning);
+    ::FUN_00a744c0();
     *(unsigned int*)((char*)pkObject + 0xC4) = *(unsigned int*)((char*)this + 0xC4);
     return (NiObject*)pkObject;
 }
@@ -143,7 +158,6 @@ struct NiStream
 };
 struct FUN_00a71d10_shell
 {
-    void __thiscall FUN_00a71d10(NiStream&);
 };
 struct FUN_00a86ed0_shell : BSResizableTriShape
 {
@@ -152,7 +166,7 @@ struct FUN_00a86ed0_shell : BSResizableTriShape
 // @fnv 0x00a86ed0
 void __thiscall FUN_00a86ed0_shell::FUN_00a86ed0(NiStream& stream)
 {
-    ((FUN_00a71d10_shell*)this)->FUN_00a71d10(stream);
+    ::FUN_00a71d10();
     NiBinaryStream* __restrict input = stream.m_pBackingStream;
     unsigned int size = 4;
     input->position += input->write(input, (void*)((char*)this + 0xc4), 4, &size, 1);
@@ -172,7 +186,6 @@ struct NiStream
 };
 struct BaseX86f10
 {
-    void __thiscall FUN_00a98ea0(NiStream&);
 };
 struct FUN_00a86f10_shell : BaseX86f10
 {
@@ -184,7 +197,7 @@ struct FUN_00a86f10_shell : BaseX86f10
 // @fnv 0x00a86f10
 void __thiscall FUN_00a86f10_shell::ReadValueFromStream(NiStream& stream)
 {
-    FUN_00a98ea0(stream);
+    ::FUN_00a98ea0();
     NiBinaryStream* __restrict input = stream.m_pUnderlyingStream;
     unsigned int size = 4;
     input->m_pos += input->m_pfnRead(input, &m_val, 4, &size, 1);
@@ -193,19 +206,13 @@ void __thiscall FUN_00a86f10_shell::ReadValueFromStream(NiStream& stream)
 
 struct P03MM
 {
-    void* __thiscall Allocate(unsigned int);
 };
-extern P03MM g_memoryManager;
-extern unsigned int _NiPoint3_ZERO;
-extern unsigned char DAT_011f4270;
-extern unsigned char DAT_011f4274;
 struct NiTransformDummy
 {
     char d[52];
 };
 struct NiBoundUpdateHelper
 {
-    void __thiscall Update(NiBound const&, NiTransformDummy const&);
 };
 struct WBHelper
 {
@@ -252,16 +259,15 @@ void __thiscall FUN_00c1a4a0_Shape::UpdateWorldBound()
     NiBound* kBound;
     if (!*(NiBound**)((char*)this + 0x20))
     {
-        kBound = (NiBound*)g_memoryManager.Allocate(16);
+        kBound = (NiBound*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(16);
         ((WBHelper*)this)->SetWorldBound(kBound);
         kBound = *(NiBound**)((char*)this + 0x20);
-        kBound->m_uiX = _NiPoint3_ZERO;
-        kBound->m_uiY = *(unsigned int*)&DAT_011f4270;
-        kBound->m_uiZ = *(unsigned int*)&DAT_011f4274;
+        kBound->m_uiX = (*reinterpret_cast<unsigned int *>((void *)&::NiPoint3::ZERO));
+        kBound->m_uiY = *(unsigned int*)&(*reinterpret_cast<unsigned char *>(&::_DAT_011f4270));
+        kBound->m_uiZ = *(unsigned int*)&(*reinterpret_cast<unsigned char *>(&::_DAT_011f4274));
         kBound->m_w = 0.0f;
     }
-    ((NiBoundUpdateHelper*)*(NiBound**)((char*)this + 0x20))
-        ->Update(*(NiBound*)((char*)this + 0xC8), *(NiTransformDummy*)((char*)this + 0x68));
+    reinterpret_cast<::NiBound *>((((NiBoundUpdateHelper*)*(NiBound**)((char*)this + 0x20))))->Update(*(NiBound*)((char*)this + 0xC8), (const ::NiTransform &)(*(NiTransformDummy*)((char*)this + 0x68)));
 }
 
 struct StrArr
@@ -272,17 +278,12 @@ struct StrArr
     unsigned short _0c;
     unsigned short _0e;
 
-    void SetSize(unsigned int size);
-    void SetAt(unsigned int index, char*& value);
 };
 
 struct Caller74690
 {
-    void __thiscall FUN_00a74690(StrArr* strings);
 };
 
-char* __cdecl _FUN_00a7d330(char* value);
-char* __cdecl FUN_00a7d510(char const* text, char const* value);
 
 extern char str_0109e800[];
 
@@ -301,25 +302,25 @@ void FUN_00a86f50_shell::FUN_00a86f50(StrArr* strings)
     unsigned int index;
     unsigned int count;
 
-    FUN_00a74690(strings);
+    reinterpret_cast<::fnv_00a74690::FUN_00a74690_shell *>(this)->FUN_00a74690((::fnv_00a74690::StrArr *)(strings));
 
-    value = _FUN_00a7d330(*reinterpret_cast<char**>(&g_011f5b34));
+    value = ::FUN_00a7d330(*reinterpret_cast<char**>(&::g_011f5b34));
     index = strings->_0a;
     count = strings->_08;
 
     if (index >= count)
-        strings->SetSize(static_cast<unsigned int>(strings->_0e) + index);
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(static_cast<unsigned int>(strings->_0e) + index);
 
-    strings->SetAt(index, value);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 
-    value = FUN_00a7d510(str_0109e800, _c4);
+    value = ::FUN_00a7d510(str_0109e800, (unsigned int)(_c4));
     index = strings->_0a;
     count = strings->_08;
 
     if (index >= count)
-        strings->SetSize(static_cast<unsigned int>(strings->_0e) + index);
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(static_cast<unsigned int>(strings->_0e) + index);
 
-    strings->SetAt(index, value);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 }
 
 struct FUN_00a86e00_cls
@@ -375,7 +376,6 @@ struct FUN_00a86e00_cls
     unsigned int m_ic0;
     unsigned int m_ic4;
     NiBound m_bound;
-    void FUN_00a745c0();
     void FUN_00a86e00();
 };
 
@@ -389,14 +389,13 @@ void FUN_00a86e00_cls::FUN_00a86e00()
     pBound->m_uiY = m_bound.m_uiY;
     pBound->m_uiZ = m_bound.m_uiZ;
     pBound->m_w = w;
-    FUN_00a745c0();
+    reinterpret_cast<::FUN_00a745c0_This *>(this)->FUN_00a745c0({});
 }
 
-void __cdecl FUN_00a98eb0();
 // @fnv 0x00a86d40
 void __cdecl FUN_00a86d40()
 {
-    FUN_00a98eb0();
+    ::FUN_00a98eb0(*(::NiStream *)nullptr);
 }
 
 void __cdecl FUN_00a74510();
@@ -409,14 +408,13 @@ void __cdecl FUN_00a877f0()
 
 struct FUN_00a87190_shell : BSResizableTriShape
 {
-    void __thiscall FUN_00a74500(unsigned int value);
     void __thiscall FUN_00a87190(unsigned int value);
 };
 
 // @fnv 0x00a87190
 void __thiscall FUN_00a87190_shell::FUN_00a87190(unsigned int value)
 {
-    FUN_00a74500(value);
+    ::FUN_00a74500();
 }
 
 struct S_00a86d50_Bound

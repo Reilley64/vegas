@@ -2,11 +2,18 @@
 // src/havok/physics/collide/agent/convexagent/spherebox/hkpsphereboxagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/spherebox/hkpsphereboxagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern void __cdecl FUN_00d3c440(int a, int b, int c, int d);
 // @fnv 0x00d3c590
+#include "fnv/decl/FUN_00cfbbe0_cls.h"
+#include "fnv/decl/S00d3c910_SphereBoxAgent.h"
+#include "fnv/symbols_00d3a000.h"
+#include "fnv/symbols_00d3c000.h"
+#include "fnv/symbols_00d3d000.h"
+#include "fnv/symbols_00daf000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010ce000.h"
 void __stdcall ForwardToD3C440(int a, int b, int c, int d)
 {
-    FUN_00d3c440(a, b, c, d);
+    ::FUN_00d3c440((const ::S_00d3c440_Body *)(a), (const ::S_00d3c440_Body *)(b), c, (::S_00d3c440_Collector *)(d));
 }
 
 struct Conversion
@@ -20,39 +27,28 @@ struct Conversion
 };
 struct Registry
 {
-    void FUN_00cfbbe0(Conversion*, int, int);
 };
-void FUN_00d3c400();
-void FUN_00d3cfc0();
-void FlipAndDispatchCollector();
-void FUN_00d3ac80();
-void CreateD3C380Obj();
-void FUN_00d3c440();
-void FUN_00d3cc00();
-void FUN_00daf8e0();
 // Fills a Conversion with function pointers and flags and registers it twice with the registry, once for 4->1 and once for 1->4.
 // @fnv 0x00d3cef0
 void __cdecl FUN_00d3cef0(Registry* registry)
 {
     Conversion conversion;
-    conversion.convert = FUN_00d3c400;
-    conversion.create = FUN_00d3cfc0;
-    conversion.copy = FlipAndDispatchCollector;
-    conversion.destroy = FUN_00d3ac80;
+    conversion.convert = ((void (&)())::FUN_00d3c400);
+    conversion.create = ((void (&)())::FUN_00d3cfc0);
+    conversion.copy = ((void (&)())::FlipAndDispatchCollector);
+    conversion.destroy = ((void (&)())::FUN_00d3ac80);
     conversion.enabled = true;
     conversion.supported = false;
-    registry->FUN_00cfbbe0(&conversion, 4, 1);
-    conversion.convert = CreateD3C380Obj;
-    conversion.create = FUN_00d3c440;
-    conversion.copy = FUN_00d3cc00;
-    conversion.destroy = FUN_00daf8e0;
+    reinterpret_cast<::FUN_00cfbbe0_cls *>((registry))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)(::Conversion *)(&conversion), 4, 1);
+    conversion.convert = ((void (&)())::CreateD3C380Obj);
+    conversion.create = ((void (&)())::FUN_00d3c440);
+    conversion.copy = ((void (&)())::FUN_00d3cc00);
+    conversion.destroy = ((void (&)())::FUN_00daf8e0);
     conversion.enabled = false;
     conversion.supported = false;
-    registry->FUN_00cfbbe0(&conversion, 1, 4);
+    reinterpret_cast<::FUN_00cfbbe0_cls *>((registry))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)(::Conversion *)(&conversion), 1, 4);
 }
 
-extern float DAT_0104da48;
-extern void __cdecl FUN_00d3cc00(void*, void*, int, void*);
 struct hkpSymmetricAgentFlipCollector
 {
     virtual void unk00();
@@ -64,9 +60,9 @@ struct hkpSymmetricAgentFlipCollector
 void __cdecl FlipAndDispatchCollector(void* arg1, void* arg2, int arg3, int arg4)
 {
     hkpSymmetricAgentFlipCollector local;
-    local.unk04 = DAT_0104da48;
+    local.unk04 = ::DAT_0104da48;
     local.unk08 = arg4;
-    FUN_00d3cc00(arg2, arg1, arg3, &local);
+    ::FUN_00d3cc00((*(const ::hkpCdBody *)(arg2)), (*(const ::hkpCdBody *)(arg1)), (*(const ::CollisionAgentContext *)(arg3)), (*(::hkpCdPointCollector *)(&local)));
 }
 
 struct S_00d3c3c0_Holder
@@ -160,7 +156,6 @@ class D3CF80Collector : public D3CF80CollectorBase
 class D3CF80Agent
 {
   public:
-    void ForwardToD3C440(void* pkA, void* pkB, void* pkInput, D3CF80Collector* pkCollector);
     void CollectFilteredEvents(void* pkA, void* pkB, void* pkInput, int iFilter);
 };
 
@@ -168,11 +163,9 @@ class D3CF80Agent
 void D3CF80Agent::CollectFilteredEvents(void* pkA, void* pkB, void* pkInput, int iFilter)
 {
     D3CF80Collector kCollector(iFilter);
-    ForwardToD3C440(pkB, pkA, pkInput, &kCollector);
+    ::ForwardToD3C440((int)this, (int)(pkB), (int)(pkA), (int)(pkInput));
 }
 
-extern void __cdecl FUN_00d3c440(int a, int b, int c, int d);
-extern char DAT_010ce81c[];
 
 struct FlipCollectorLocal
 {
@@ -188,8 +181,8 @@ void __cdecl FUN_00d3cfc0(int aiArg1, int aiArg2, int aiArg3, int a4)
     FlipCollectorLocal local;
     local.unk08 = a4;
     local.unk04 = 0;
-    local.unk00 = DAT_010ce81c;
-    FUN_00d3c440(aiArg2, aiArg1, aiArg3, (int)&local);
+    local.unk00 = (*reinterpret_cast<char (*)[]>(&::DAT_010ce81c));
+    ::FUN_00d3c440((const ::S_00d3c440_Body *)(aiArg2), (const ::S_00d3c440_Body *)(aiArg1), aiArg3, (::S_00d3c440_Collector *)((int)&local));
 }
 
 struct CpuCallData
@@ -198,11 +191,8 @@ struct CpuCallData
     float bound;
     unsigned int value;
 };
-extern float DAT_0104da48;
-extern unsigned char DAT_010ce7fc;
 struct CpuObject
 {
-    void FUN_00d3c910(void*, void*, unsigned int, CpuCallData*);
     void FUN_00d3d000(void*, void*, unsigned int, unsigned int);
 };
 // Builds a CpuCallData from fourth, DAT_0104da48 and DAT_010ce7fc, then forwards second, first, third and the data to FUN_00d3c910.
@@ -211,9 +201,9 @@ void CpuObject::FUN_00d3d000(void* first, void* second, unsigned int third, unsi
 {
     CpuCallData callData;
     callData.value = fourth;
-    callData.bound = DAT_0104da48;
+    callData.bound = ::DAT_0104da48;
     callData.descriptor = &DAT_010ce7fc;
-    FUN_00d3c910(second, first, third, &callData);
+    reinterpret_cast<::S00d3c910_SphereBoxAgent *>(this)->FUN_00d3c910((*(const ::S00d3c910_CdBody *)(second)), (*(const ::S00d3c910_CdBody *)(first)), (*(const ::S00d3c910_CollisionInput *)(third)), (*(::S00d3c910_CdPointCollector *)(&callData)));
 }
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -221,6 +211,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 extern "C"
 {
     __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
@@ -229,7 +220,6 @@ extern "C"
     __m128 _mm_xor_ps(__m128, __m128);
 }
 
-extern __m128 DAT_010c4c00;
 
 struct SimplexVertex
 {

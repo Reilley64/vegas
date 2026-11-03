@@ -2,6 +2,8 @@
 #ifndef PACKAGEDATADIALOGUE_DECLS_H
 #define PACKAGEDATADIALOGUE_DECLS_H
 
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_005b5000.h"
 class TESQuest;
 enum DIALOGUE_TYPE;
 class QuestDialogueInfo;
@@ -9,8 +11,6 @@ class TESTopicInfo;
 class DialogueItem;
 #include "TESForm.h"
 #include "TESTopic.h"
-TESForm* GetFormByID(unsigned int);
-int Warning(const char*, ...);
 class TESDialoguePackageData
 {
   public:

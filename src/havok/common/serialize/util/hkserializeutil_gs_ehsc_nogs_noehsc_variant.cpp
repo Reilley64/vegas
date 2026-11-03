@@ -5,15 +5,41 @@
 
 // src/havok/common/serialize/util/hkserializeutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/util/hkserializeutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/Cls.h"
+#include "fnv/decl/DBA7F0Ref.h"
+#include "fnv/decl/DbbOwner.h"
+#include "fnv/decl/FUN_00cb0a60.h"
+#include "fnv/decl/FUN_00d61a50_cls.h"
+#include "fnv/decl/FUN_00dba680_cls.h"
+#include "fnv/decl/FUN_00dba780_cls.h"
+#include "fnv/decl/FUN_00dba810_cls.h"
+#include "fnv/decl/FUN_00dba980_cls.h"
+#include "fnv/decl/FUN_00dbc670.h"
+#include "fnv/decl/FUN_00dbc6e0_s.h"
+#include "fnv/decl/FUN_00dc5d30.h"
+#include "fnv/decl/FUN_00dc72a0_class.h"
+#include "fnv/decl/FUN_00dcc670_Class.h"
+#include "fnv/decl/PatchManager.h"
+#include "fnv/decl/ProviderWrapper.h"
+#include "fnv/decl/SStringPtr.h"
+#include "fnv/decl/fnv_00dbd620__S_00dbd620_Owner.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00d2c000.h"
+#include "fnv/symbols_00dc3000.h"
+#include "fnv/symbols_00dc5000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010d7000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 void __cdecl FUN_00d48620(int a, int b, int c);
 void __cdecl FUN_00d48640(int a, int b);
 extern "C" void __cdecl FUN_00d485a0(int, int, int, int, int);
 void __cdecl FUN_00d48660(int a, int b, int c);
-extern int DAT_0102e388;
-extern int DAT_010d7540;
 struct hkReferencedObject
 {
-    void removeReference();
 };
 struct FUN_00dcc160_cls
 {
@@ -80,10 +106,6 @@ struct FUN_00dbc670_storage
 };
 struct FUN_00dbc670_shell
 {
-    void FUN_00dbc670();
-    void FUN_00dbda50(int, int, int);
-    int ProcessPoly(int, int);
-    void FUN_00dbc6e0();
 };
 struct GlobalDispatch
 {
@@ -92,13 +114,10 @@ struct GlobalDispatch
     virtual int V2();
     virtual int Dispatch(int, int, int, int, int);
 };
-extern GlobalDispatch* DAT_01269b74;
 int __cdecl FUN_00d484a0(int a1, int a2, int a3, int a4, int useLocal, int a6);
 extern void* FUN_00d48d30(void* obj_b, int a2, int a3);
 struct CtorBox
 {
-    CtorBox* InitFromValue(void* arg);
-    void FUN_00dcc160();
 
     void* f0;
     int f4;
@@ -120,13 +139,12 @@ struct S_00d49310_Result
 };
 void FUN_00d48af0(void* stream, int* out) throw();
 S_00d49310_Result FUN_00d49310(void* stream);
-int FUN_00cb0fa0(const char* a, const char* b);
 static inline int S_00d49350_Compare(const char* a, const char* b)
 {
     if (a)
     {
         if (b)
-            return FUN_00cb0fa0(a, b);
+            return ::fnv_00cb0fa0::FUN_00cb0fa0(a, b);
         return 1;
     }
     return b ? -1 : 0;
@@ -158,7 +176,6 @@ struct D493E0Ref
 };
 struct D493E0Registry
 {
-    D493E0Object* find(const void* key, int flags) const;
 };
 struct D493E0Loader
 {
@@ -192,19 +209,14 @@ struct GlobalObj
 };
 struct Obj5
 {
-    void* FUN_00dba680();
     void FUN_00dba660();
 };
 struct Obj2
 {
-    void GetObjectValue(Obj5* apOut);
-    int FUN_00dba980();
     void FUN_00dba660();
-    void GetSourcePair(Pair* apOut);
 };
 struct Obj1
 {
-    void AssignRef(Obj2* apArg);
 };
 struct PairVt
 {
@@ -213,7 +225,6 @@ struct PairVt
     virtual void unk08();
     virtual void unk0c(void** apFirst, void** apSecond);
 };
-extern int DAT_01268b08;
 struct FUN_00d49420_cls
 {
     int unk00;
@@ -236,18 +247,14 @@ static __declspec(noinline) int FUN_00d48950(int d, int a, int b, int c)
 struct Holder_cls
 {
     int unk00;
-    void FUN_00dba7f0();
 };
 struct Pending_cls
 {
     int unk00;
     int unk04;
-    void FUN_00dc5d30();
-    void FUN_00dc5d50(Holder_cls* h, int a, int b);
 };
 struct Owner_cls
 {
-    int FUN_00dba0d0(int a, int b);
 };
 static int FUN_00d48a90(int a1, int esi_in, int edi_in, int ebx_in);
 int __cdecl S00d48a90_Entry(int a1);
@@ -299,7 +306,6 @@ struct S00d48d30_Reader
     int unk08;
     S00d48d30_Reader() throw();
     ~S00d48d30_Reader() throw();
-    S00d48d30_Ref ForwardToReceiver();
     void prepare();
     int open(S00d48d30_Stream* s);
     void close();
@@ -317,7 +323,6 @@ extern const char str_010cfab8[];
 extern const char str_010cfa94[];
 int S00d48d30_Finish(int opts);
 void FUN_00d48af0(void* stream, int* out) throw();
-int __cdecl FUN_00dc3300(const S00d48d30_Ref& r, int opts);
 static __declspec(noinline) int FUN_00d48a90(S00d48d30_Stream* s, S00d48d30_Reader* reader, S00d48d30_Result* out)
 {
     reader->prepare();
@@ -326,7 +331,7 @@ static __declspec(noinline) int FUN_00d48a90(S00d48d30_Stream* s, S00d48d30_Read
         if (out != 0)
         {
             out->m_iResultCode = 3;
-            out->m_message = str_010cfa94;
+            reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(out->m_message))->FUN_00cb0c10(str_010cfa94);
         }
         reader->close();
         return 1;
@@ -377,7 +382,6 @@ struct S00d48680_Sys
     }
 };
 extern "C" S00d48680_Sys* __cdecl FUN_00c85750();
-extern "C" void __cdecl FUN_00c908c0(S00d48680_Alloc* h, S00d48680_Arr* a, int cap, int flag);
 struct S00d48680_Obj
 {
     virtual void v0();
@@ -417,8 +421,6 @@ struct FormatInfo
 struct StringOps
 {
     unsigned int bits;
-    void FUN_00cb0a60();
-    void FUN_00cb0c00();
     void FUN_00cb0c50(const char*, int);
 };
 struct HeapApi
@@ -502,7 +504,6 @@ struct BufferedText
     {
         return array.begin();
     }
-    void FUN_00d61a50(const char*);
 };
 inline const char* stringText(const hkStringPtr& s)
 {
@@ -543,8 +544,6 @@ struct SmallBool
         return value != 0;
     }
 };
-void __cdecl FUN_00d2cab0(void*, int, int);
-void __cdecl FUN_00d2caa0(void*, const void*, int);
 void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 void __cdecl FUN_00cb1280(void*, int, int);
 inline unsigned int reverseWord(unsigned int word)
@@ -600,8 +599,8 @@ static __declspec(noinline) int ParseQuotedValue(const char* text, const char* k
 static __forceinline void detect(VersionedDataBlock* reader, FormatInfo& out)
 {
     out.type = 0;
-    out.version = 0;
-    FUN_00d2cab0(&out.layout, 0, 4);
+    reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(out.version))->FUN_00cb0c10(0);
+    ::FUN_00d2cab0();
     char bytes[128];
     FUN_00ec61c0(bytes, 0, 128);
     reader->mark(128);
@@ -618,23 +617,23 @@ static __forceinline void detect(VersionedDataBlock* reader, FormatInfo& out)
              binary->magic[1] == baseline.magic[1])
     {
         out.type = 2;
-        out.version = binary->version;
-        FUN_00d2caa0(&out.layout, binary->layout, 4);
+        reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(out.version))->FUN_00cb0c10(binary->version);
+        ::fnv_00d2caa0::FUN_00d2caa0(&out.layout, (void *)(binary->layout), 4);
     }
     else if (FUN_00cb1130(bytes, "<hkpackfile ") || FUN_00cb1130(bytes, "<hkpackfile>"))
     {
         out.type = 3;
         BufferedText header;
-        header.FUN_00d61a50(FUN_00cb1130(bytes, "<hkpackfile"));
+        reinterpret_cast<::FUN_00d61a50_cls *>(&(header))->FUN_00d61a50((int)(FUN_00cb1130(bytes, "<hkpackfile")));
         hkStringPtr version;
-        reinterpret_cast<StringOps*>(&version)->FUN_00cb0a60();
+        new ((void *)(reinterpret_cast<StringOps*>(&version))) struct ::FUN_00cb0a60();
         if (ParseQuotedValue(header.cString(), "classversion", version))
         {
             int v = CallWithZeroMiddleArg(stringText(version), 0);
             switch (v)
             {
             case 1:
-                out.version = "Havok-3.0.0";
+                reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(out.version))->FUN_00cb0c10("Havok-3.0.0");
                 break;
             case 2:
             case 3:
@@ -643,16 +642,16 @@ static __forceinline void detect(VersionedDataBlock* reader, FormatInfo& out)
             case 6:
             case 7:
                 if (!ParseQuotedValue(header.cString(), "contentsversion", out.version))
-                    out.version = "Havok-3.1.0";
+                    reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(out.version))->FUN_00cb0c10("Havok-3.1.0");
                 break;
             default:
-                out.version = "error";
+                reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(out.version))->FUN_00cb0c10("error");
                 break;
             }
         }
         else
-            out.version = "Havok-3.0.0";
-        reinterpret_cast<StringOps*>(&version)->FUN_00cb0c00();
+            reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(out.version))->FUN_00cb0c10("Havok-3.0.0");
+        ::FUN_00cb0c00((int)(reinterpret_cast<StringOps*>(&version)));
     }
 }
 // @fnv 0x00d48af0

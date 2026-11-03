@@ -5,6 +5,13 @@
 
 // src/havok/common/scenedata/environment/hkxenvironment.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/environment/hkxenvironment.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00d619d0.h"
+#include "fnv/decl/FUN_00d61df0_cls.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/hkxAttributeMapE3F3.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkxEnvironment.h"
 struct HKXMemoryManager
 {
@@ -52,7 +59,6 @@ struct HavokAllocator
     virtual void ReturnMemory(void*, int);
 };
 HKXMemoryRouter* __cdecl FUN_00c85750();
-void __fastcall FUN_00cb0c00(HavokString* string);
 struct EnvironmentArray
 {
     EnvironmentVariable* data;
@@ -68,8 +74,8 @@ struct EnvironmentArray
             int remaining = size;
             do
             {
-                FUN_00cb0c00(&entry->value);
-                FUN_00cb0c00(&entry->name);
+                ::FUN_00cb0c00((int)(&entry->value));
+                ::FUN_00cb0c00((int)(&entry->name));
                 ++entry;
             } while (--remaining != 0);
         }
@@ -115,7 +121,6 @@ hkMemoryRouterStandIn* getMemoryRouter();
 
 struct hkStringStandIn
 {
-    static int strLen(const char* str);
 };
 
 class InlineStorageString
@@ -167,7 +172,6 @@ class hkError
     virtual void vf02();
     virtual int message(int type, int id, const char* description, const char* file, int line);
 
-    static hkError* s_instance;
 };
 
 struct hkxEnvironmentTransition
@@ -182,7 +186,6 @@ extern const hkxEnvironmentTransition s_transitionTable[32];
 
 struct hkxEnvironmentParser : public hkxEnvironment
 {
-    void AddVariable(const char* name, const char* value);
     int FUN_00e3f520(const char* str);
 };
 
@@ -193,7 +196,7 @@ int hkxEnvironmentParser::FUN_00e3f520(const char* str)
     int pos = 0;
     InlineStorageString name;
     InlineStorageString value;
-    const int length = hkStringStandIn::strLen(str);
+    const int length = ::fnv_00cb10d0::FUN_00cb10d0(str);
 
     do
     {
@@ -239,8 +242,8 @@ int hkxEnvironmentParser::FUN_00e3f520(const char* str)
         case 6: {
             char assertBuf[512];
             hkOstream ostr(assertBuf, sizeof(assertBuf));
-            ostr << "Error parsing environment string: '" << str << "'";
-            hkError::s_instance->message(1, 0xabba7881, assertBuf, ".\\Environment\\hkxEnvironment.cpp", 308);
+            reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(ostr))->FUN_00cc01c0("Error parsing environment string: '")))->FUN_00cc01c0(str)))->FUN_00cc01c0("'");
+            (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabba7881, assertBuf, ".\\Environment\\hkxEnvironment.cpp", 308);
             return 1;
         }
         case 0:
@@ -248,24 +251,24 @@ int hkxEnvironmentParser::FUN_00e3f520(const char* str)
             break;
         case 1: {
             char tmp[2] = {str[pos], 0};
-            name += tmp;
+            reinterpret_cast<::FUN_00d61df0_cls *>((void *)&(const ::InlineStorageString &)(name))->FUN_00d61df0((int)(tmp));
             pos++;
             break;
         }
         case 2: {
             char tmp[2] = {str[pos], 0};
-            value += tmp;
+            reinterpret_cast<::FUN_00d61df0_cls *>((void *)&(const ::InlineStorageString &)(value))->FUN_00d61df0((int)(tmp));
             pos++;
             break;
         }
         case 3:
-            AddVariable(name.cString(), value.cString());
-            name = value = "";
+            reinterpret_cast<::hkxAttributeMapE3F3 *>(this)->FUN_00e3f3b0(name.cString(), value.cString());
+            reinterpret_cast<::FUN_00d619d0 *>((void *)&(const ::InlineStorageString &)(name))->operator=((const ::FUN_00d619d0 &)(value = ""));
             pos++;
             break;
         case 4:
-            AddVariable(name.cString(), 0);
-            name = value = "";
+            reinterpret_cast<::hkxAttributeMapE3F3 *>(this)->FUN_00e3f3b0(name.cString(), 0);
+            reinterpret_cast<::FUN_00d619d0 *>((void *)&(const ::InlineStorageString &)(name))->operator=((const ::FUN_00d619d0 &)(value = ""));
             pos++;
             break;
         case 5:
@@ -273,8 +276,8 @@ int hkxEnvironmentParser::FUN_00e3f520(const char* str)
         default: {
             char assertBuf[512];
             hkOstream ostr(assertBuf, sizeof(assertBuf));
-            ostr << "Internal Error: Unknown action parsing environment string: '" << str << "'";
-            hkError::s_instance->message(1, 0xabba0032, assertBuf, ".\\Environment\\hkxEnvironment.cpp", 320);
+            reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(ostr))->FUN_00cc01c0("Internal Error: Unknown action parsing environment string: '")))->FUN_00cc01c0(str)))->FUN_00cc01c0("'");
+            (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabba0032, assertBuf, ".\\Environment\\hkxEnvironment.cpp", 320);
             return 1;
         }
         }

@@ -5,6 +5,12 @@
 
 // src/staging/blk_00e00000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/RotationRows.h"
+#include "fnv/decl/S_00e11a90_Class.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
 
 #include <xmmintrin.h>
@@ -16,30 +22,27 @@ struct MatrixScalarsE1
 {
     ColumnScalarsE1 c0, c1, c2, c3;
 };
-extern const MatrixScalarsE1 g_identityMatrixE1;
 struct MatrixE1
 {
     __m128 c0, c1, c2, c3;
-    void Apply(const void*);
 };
 struct MatrixOwnerE1
 {
-    void SetMatrix(const MatrixE1&);
     void FUN_00e11ba0(const void*);
 };
 // @fnv 0x00e11ba0
 void MatrixOwnerE1::FUN_00e11ba0(const void* input)
 {
     __declspec(align(16)) MatrixScalarsE1 identity;
-    identity.c0 = g_identityMatrixE1.c0;
-    identity.c1 = g_identityMatrixE1.c1;
-    identity.c2 = g_identityMatrixE1.c2;
-    identity.c3 = g_identityMatrixE1.c3;
+    identity.c0 = (*reinterpret_cast<const ::MatrixScalarsE1 *>(&::DAT_01268370)).c0;
+    identity.c1 = (*reinterpret_cast<const ::MatrixScalarsE1 *>(&::DAT_01268370)).c1;
+    identity.c2 = (*reinterpret_cast<const ::MatrixScalarsE1 *>(&::DAT_01268370)).c2;
+    identity.c3 = (*reinterpret_cast<const ::MatrixScalarsE1 *>(&::DAT_01268370)).c3;
     MatrixE1 matrix;
     matrix.c0 = *reinterpret_cast<const __m128*>(&identity.c0);
     matrix.c1 = *reinterpret_cast<const __m128*>(&identity.c1);
     matrix.c2 = *reinterpret_cast<const __m128*>(&identity.c2);
     matrix.c3 = *reinterpret_cast<const __m128*>(&identity.c3);
-    matrix.Apply(input);
-    SetMatrix(matrix);
+    reinterpret_cast<::RotationRows *>(&(matrix))->FUN_00cb2d90((void *)(input));
+    reinterpret_cast<::S_00e11a90_Class *>(this)->FUN_00e11a90((int)&(matrix));
 }

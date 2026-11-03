@@ -4,6 +4,20 @@
 #define FNV_MEDIALOCATIONCONTROLLER_UPDATE_DECLS_H
 
 // Unit-local header for fallout_shared/medialocationcontroller.cpp.
+#include "fnv/decl/FORenderedMenu.h"
+#include "fnv/decl/FUN_00595c80_shell.h"
+#include "fnv/decl/FUN_00595cb0_shell.h"
+#include "fnv/decl/FUN_00595cf0_shell.h"
+#include "fnv/decl/FUN_00595d10_shell.h"
+#include "fnv/decl/FUN_005fd3b0_shell.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/PlayerNearbyRefs.h"
+#include "fnv/decl/ThisT.h"
+#include "fnv/decl/fnv_00568cb0__FUN_00568cb0_shell.h"
+#include "fnv/decl/fnv_008b8e90__FUN_008b8e90_shell.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
 #ifndef FNV_MEDIALOCATIONCONTROLLER_UNIT_H
 #define FNV_MEDIALOCATIONCONTROLLER_UNIT_H
 #include "layout_support.h"
@@ -78,8 +92,6 @@ class MediaLocationController : public TESForm, public TESFullName
         DEADFACTION_NONE
     };
     bool Update(bool abInCombat);
-    bool IsMediaLocationActive();
-    DEADREPFLAGS GetDeadRep();
     void ResetFormData();
     void ClearData();
 };
@@ -164,8 +176,6 @@ class MediaSet : public TESForm, public TESFullName
     float m_fMediaValue;
     TESSound* m_pSound1;
     TESSound* m_pSound2;
-    void Reset();
-    MEDIASETTYPE GetType();
     bool Update(unsigned int auiTime, bool abForce, MediaLocationController* apController);
 };
 FNV_STATIC_ASSERT(sizeof(MediaSet) == 0xC4);
@@ -182,7 +192,7 @@ class NiPoint3
   public:
     float x, y, z;
     NiPoint3 operator-(const NiPoint3& arOther) const;
-    float GetSquaredXYLength() const;  // canonical binding for SqrXYLength()
+      // canonical binding for SqrXYLength()
 };
 FNV_STATIC_ASSERT(sizeof(NiPoint3) == 12);
 class TESObjectREFR : public TESForm
@@ -237,13 +247,11 @@ class TESObjectREFR : public TESForm
     virtual void vfn_1ec();
     virtual void vfn_1f0();
     virtual NiPoint3* GetPos() const;
-    float GetRadius();
 };
 FNV_STATIC_ASSERT(sizeof(TESObjectREFR) == 0x68);
 class Actor : public TESObjectREFR
 {
   public:
-    bool HasFaction(TESFaction* apFaction);
 };
 struct ActorCombatEntry
 {
@@ -261,30 +269,25 @@ class MusicMarkerReference
 class PlayerCharacter : public Actor
 {
   public:
-    MusicMarkerReference* GetMusicMarkerReference();
-    BSSimpleList<ActorCombatEntry*>* GetListofPerceivedActors();
 };
-extern PlayerCharacter* g_thePlayer;
 class TESFaction : public TESForm
 {
   public:
-    FIGHT_REACTION GetFactionReaction(TESFaction* apFaction);
 };
 enum DEFAULT_OBJECT
 {
     DEFAULT_OBJECT_PLAYER_FACTION = 6
 };
+class TESForm;
+enum DEFAULT_OBJECT;
 class BGSDefaultObjectManager
 {
   public:
-    static TESForm* GetDefaultObjectByIndex(int aeObject);
+public:
+    static ::TESForm *GetDefaultObjectByIndex(::DEFAULT_OBJECT);
 };
 class BSAudio
 {
   public:
-    static BSAudio* GetSingleton();
-    unsigned int GetSynchTime();
 };
-extern MediaLocationController* DAT_011dd374;
-extern MediaLocationController* DAT_011dd378;
 #endif

@@ -2,6 +2,11 @@
 #ifndef FNV_TESOBJECTCONT_H
 #define FNV_TESOBJECTCONT_H
 
+#include "fnv/decl/BGSExplosion.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/fnv_004817f0__FUN_004817f0_shell.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/symbols_00478000.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "TESForm.h"
@@ -163,7 +168,6 @@ class TESContainer : public BaseFormComponent
     // base BaseFormComponent at +0x0, size 4
     BSSimpleList<InventoryItemEntry*> objectList;  // +0x4, 8 bytes
     void InitItem(TESForm*);
-    void* AddContainerObject(void*);
     // TESContainer
     // void __cdecl TESContainer::*()
     // void __cdecl TESContainer::*()
@@ -269,7 +273,6 @@ class TESModelTextureSwap : public TESModel
     // base TESModel at +0x0, size 24
     BSSimpleList<DistantTreeTextureInfo*> TextureSwapNodeAccessor;  // +0x18, 8 bytes
     void InitItem(TESForm*);
-    bool ParseTextureSwapData(void*, unsigned int, unsigned int);
     // TESModelTextureSwap
     // void __cdecl TESModelTextureSwap::*()
     // void __cdecl TESModelTextureSwap::*()
@@ -342,7 +345,6 @@ class BGSDestructibleObjectForm : public BaseFormComponent
     CollisionComponent* pData;  // +0x4, 4 bytes
     ~BGSDestructibleObjectForm();
     void InitItem(TESForm*);
-    static void LoadDestructibleData(BGSDestructibleObjectForm*, TESFile*);
     // BGSDestructibleObjectForm
     // void __cdecl BGSDestructibleObjectForm::*()
     // void __cdecl BGSDestructibleObjectForm::*()
@@ -490,9 +492,7 @@ class __declspec(novtable) TESObjectCONT : public TESBoundAnimObject,
     void ResetFormData();
     TESObjectCONT();
     bool IsFormInitialized() const;
-    void ReadTypedData(TESFile*, void*, unsigned short);
     virtual bool Load(TESFile*);
-    void FUN_004fb0b0(unsigned int);
     virtual void InitItem();
 };
 #pragma pack(pop)

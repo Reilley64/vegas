@@ -2,11 +2,17 @@
 // src/havok/physics/collide/agent/convexagent/gjk/hkpgskfagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/gjk/hkpgskfagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-void __cdecl FUN_00dacc00();
-void __cdecl TestGsk();
-void __cdecl FUN_00dac450();
-void __cdecl FUN_00daf8e0();
 
+#include <new>
+#include "fnv/decl/FUN_00cfbbe0_cls.h"
+#include "fnv/decl/FUN_00dabf10_cls.h"
+#include "fnv/decl/hkTransformCB22.h"
+#include "fnv/decl/hkpGskBaseAgent_S.h"
+#include "fnv/symbols_00dac000.h"
+#include "fnv/symbols_00dad000.h"
+#include "fnv/symbols_00dae000.h"
+#include "fnv/symbols_00daf000.h"
+#include "fnv/symbols_00db4000.h"
 struct FUN_00dacc70_vt
 {
     void (*m_pVirtualFunction0)();
@@ -21,15 +27,14 @@ struct FUN_00dacc70_vt
 // @fnv 0x00dacc70
 void __cdecl InitVtable(FUN_00dacc70_vt* p)
 {
-    p->m_pVirtualFunction0 = (void (*)())FUN_00dacc00;
-    p->m_pVirtualFunction1 = (void (*)())TestGsk;
-    p->m_pVirtualFunction2 = (void (*)())FUN_00dac450;
-    p->m_pVirtualFunction3 = (void (*)())FUN_00daf8e0;
+    p->m_pVirtualFunction0 = (void (*)())((void (&)())::FUN_00dacc00);
+    p->m_pVirtualFunction1 = (void (*)())((void (&)())::TestGsk);
+    p->m_pVirtualFunction2 = (void (*)())((void (&)())::hkpGskBaseAgent_S::FUN_00dac450);
+    p->m_pVirtualFunction3 = (void (*)())((void (&)())::FUN_00daf8e0);
     p->b0 = 0;
     p->b1 = 0;
 }
 
-void __cdecl ReleaseAllEntries(void*, void*, void*);
 
 struct FUN_00dacaf0_vt
 {
@@ -50,11 +55,10 @@ struct FUN_00dacaf0
 // @fnv 0x00dacaf0
 void FUN_00dacaf0::cleanup(void* arg)
 {
-    ReleaseAllEntries(&field30[0], field8, arg);
+    ::ReleaseAllEntries((::S_00dad640_Set *)(void *)(&field30[0]), (::S_00dad640_Target *)(field8), arg);
     vt->dtor(this, 1);
 }
 
-void __cdecl FUN_00dae340(void*, int);
 
 struct hkpGskfAgent
 {
@@ -74,7 +78,7 @@ void hkpGskfAgent::FUN_00dacb20(unsigned short id)
         {
             if (*(unsigned short*)p == id)
             {
-                FUN_00dae340((char*)this + 0x30, i);
+                ::FUN_00dae340((::S_00dad640_Set *)(void *)((char*)this + 0x30), i);
                 return;
             }
             ++i;
@@ -186,7 +190,6 @@ struct __declspec(align(16)) Dsub
 {
     Dvec4 v0, v1, v2, v3;
     Dvec4 unk40, unk50;
-    void FUN_00cb22f0(Dvec4* pts, Dvec4* other);
 };
 
 struct Dtask
@@ -236,7 +239,6 @@ struct Drecv
     void FUN_00daccd0(Dsrc* a1, Dsrc* a2, Dsrc* a3, int a4);
 };
 
-void ProcessCollision(Dtask* task, int* ctx1, int* ctx2, int* node, int* a5, int* a6, int a7);
 
 // Fills a Dtask from a1, a2, a3 and f08, calls FUN_00cb22f0 on its sub with a1->f08 and a2->f08, then ProcessCollision with the task, tmp, f0c, f30, f20 and a4.
 // @fnv 0x00daccd0
@@ -249,8 +251,8 @@ void Drecv::FUN_00daccd0(Dsrc* a1, Dsrc* a2, Dsrc* a3, int a4)
     res.f04 = a2;
     res.f10 = f08;
     res.f0c = a3;
-    res.sub.FUN_00cb22f0(a1->f08, a2->f08);
-    ProcessCollision(&res, &ctx.f0, &ctx.f1, &f0c, &f30, &f20, a4);
+    reinterpret_cast<::hkTransformCB22 *>(&(res.sub))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(a1->f08)), (*(const ::hkTransformCB22 *)(a2->f08)));
+    ::ProcessCollision((::In *)(::Dtask *)(&res), &ctx.f0, (::Arg2 *)(int *)(&ctx.f1), (::Arg3 *)(int *)(&f0c), (::Arg4 *)(int *)(&f30), (::VecS *)(int *)(&f20), (::Arg6 *)(a4));
 }
 
 class hkMemoryAllocatorDACC
@@ -302,8 +304,8 @@ struct GskInitDACC : FUN_00dacbd0
 FUN_00dabf10* __cdecl FUN_00dacc00(int a, int b, int unused, int c)
 {
     if (c)
-        return static_cast<GskInitDACC*>(allocateAgentDACC(0x80))->FUN_00dacbd0(a, b, c);
-    return static_cast<GskInitDACC*>(allocateAgentDACC(0x30))->FUN_00dabf10(a, b, 0);
+        return ((::FUN_00dabf10 *)(new ((void *)(static_cast<GskInitDACC*>(allocateAgentDACC(0x80)))) ::FUN_00dacbd0(a, b, c)));
+    return ((::FUN_00dabf10 *)(reinterpret_cast<::FUN_00dabf10_cls *>((static_cast<GskInitDACC*>(allocateAgentDACC(0x30))))->FUN_00dabf10((::GskNode *)(a), (::GskNode *)(b), 0)));
 }
 
 __declspec(noinline) void __cdecl InitVtable(FUN_00dacc70_vt* p);
@@ -312,7 +314,6 @@ typedef FUN_00dacc70_vt D41FD0AgentFuncs;
 
 struct D41FD0CollisionDispatcher
 {
-    void registerCollisionAgent(D41FD0AgentFuncs& funcs, int a, int b);
 };
 
 // Builds an agent function table with b0 and b1 zeroed and InitVtable, and registers it with the dispatcher for the pair 0x12, 0x12.
@@ -323,5 +324,5 @@ void __cdecl FUN_00dacca0(D41FD0CollisionDispatcher* dispatcher)
     funcs.b0 = 0;
     funcs.b1 = 0;
     InitVtable(&funcs);
-    dispatcher->registerCollisionAgent(funcs, 0x12, 0x12);
+    reinterpret_cast<::FUN_00cfbbe0_cls *>((dispatcher))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)&(funcs), 0x12, 0x12);
 }

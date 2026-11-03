@@ -105,6 +105,8 @@ class NiD3DPass
     // void __cdecl NiD3DPass::*()
     // NiD3DPass& __cdecl NiD3DPass::*(const NiD3DPass&)
     // void __cdecl NiD3DPass::*()
+public:
+    bool ApplyRenderStateChanges(bool);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiD3DPass) == 104);

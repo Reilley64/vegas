@@ -7,21 +7,37 @@
 // to their real unit once identified.
 // src/havok/physics/collide/agent/compoundagent/bvtreestream/hkpbvtreestreamagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/compoundagent/bvtreestream/hkpbvtreestreamagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void __cdecl FUN_00d312f0(void*, void*, void*, void*);
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_00cb21e0_shell.h"
+#include "fnv/decl/FUN_00cfbbe0_cls.h"
+#include "fnv/decl/FUN_00d2de20_cls.h"
+#include "fnv/decl/FUN_00d2def0_cls.h"
+#include "fnv/decl/FUN_00d43880_cls.h"
+#include "fnv/decl/S_00d43cd0.h"
+#include "fnv/decl/hkTransformCB22.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_00d2d000.h"
+#include "fnv/symbols_00d2e000.h"
+#include "fnv/symbols_00d30000.h"
+#include "fnv/symbols_00d31000.h"
+#include "fnv/symbols_00d88000.h"
+#include "fnv/symbols_00d97000.h"
+#include "fnv/symbols_00da3000.h"
+#include "fnv/symbols_00da4000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010ce000.h"
+#include "fnv/symbols_01268000.h"
 struct FUN_00d2dd30_class {
     void __thiscall FUN_00d2dd30(void* a, void* b, void* c, void* d);
 };
-extern "C" void __cdecl FUN_00da3510(void* a, void* b);
 struct FUN_00d2ddd0_class {
     void __thiscall FUN_00d2ddd0(int a);
 };
-extern "C" void __cdecl FUN_00d31110(void*, void*, void*, void*);
 // @fnv 0x00d2dd50
 extern "C" void __stdcall FUN_00d2dd50(void* a, void* b, void* c, void* d)
 {
     FUN_00d31110(a, b, c, d);
 }
-void __cdecl FUN_00d30f50(void*, void*, void*, void*, void*);
 struct OperationAdapter {
     void FUN_00d2dd70(void* a, void* b, void* c, void* d, void* e);
 };
@@ -41,8 +57,6 @@ struct FUN_00d2dda0_class {
     int unk30;
     void __thiscall FUN_00d2dda0(int value);
 };
-extern void __cdecl FUN_00da42b0(void*, int, int, int);
-void __cdecl FUN_00da35f0(void* self, float a, float b, void* c);
 struct FUN_00d2ddf0_Class {
     void __thiscall FUN_00d2ddf0(float a, float b, void* c);
 };
@@ -65,7 +79,6 @@ struct RefObj {
 };
 struct Obj : RefObj {
     int pad[14];
-    Obj* FUN_00d2def0(int, int, int, int);
 };
 inline void* hkAlloc(int n)
 {
@@ -73,28 +86,12 @@ inline void* hkAlloc(int n)
     p->m_usMemSizeAndFlags = (short)n;
     return p;
 }
-void* __cdecl FUN_00d2df50(int a, int b, int c, int d);
-void FUN_00d2e680();
-void FUN_00d2e970();
-void FUN_00d2e9b0();
-void FUN_00d2e9f0();
-void FUN_00d2df50();
-void FUN_00d31110();
-void FUN_00d30f50();
 struct Conversion { void (*convert)(); void (*create)(); void (*copy)(); void (*destroy)(); bool enabled; bool supported; };
-struct Registry { void FUN_00cfbbe0(Conversion*,int,int); };
-void FUN_00d2e760(Registry* registry);
+struct Registry {  };
 typedef void* (__cdecl* S_00d2e8e0_CreateFunc)(void*, void*, void*, void*);
 typedef void (__cdecl* S_00d2e8e0_GetPenetrationsFunc)(void*, void*, void*, void*);
 typedef void (__cdecl* S_00d2e8e0_GetClosestPointsFunc)(void*, void*, void*, void*);
 typedef void (__cdecl* S_00d2e8e0_LinearCastFunc)(void*, void*, void*, void*, void*);
-void* FUN_00d2e7f0(void*, void*, void*, void*);
-void FUN_00d2e970(void*, void*, void*, void*);
-void FUN_00d2e9b0(void*, void*, void*, void*);
-void FUN_00d2e9f0(void*, void*, void*, void*, void*);
-void* FUN_00d2e5a0(void*, void*, void*, void*);
-void FUN_00d31110(void*, void*, void*, void*);
-void FUN_00d30f50(void*, void*, void*, void*, void*);
 struct S_00d2e8e0_AgentFuncs {
     S_00d2e8e0_CreateFunc m_pCreateFunc;
     S_00d2e8e0_GetPenetrationsFunc m_pQueryPenetrationsFunc;
@@ -104,10 +101,8 @@ struct S_00d2e8e0_AgentFuncs {
     bool m_bIsPredictive;
 };
 struct S_00d2e8e0_Dispatcher {
-    void FUN_00cfbbe0(S_00d2e8e0_AgentFuncs& f, int typeA, int typeB);
 };
 void FUN_00d2e8e0(S_00d2e8e0_Dispatcher* dispatcher);
-extern float g_D2E9B0MaxDistance;
 struct D2E9B0CollectorBase {
     virtual void unk00();
     virtual void unk04();
@@ -115,7 +110,7 @@ struct D2E9B0CollectorBase {
 
     float m_fEarlyOutDistance;
 
-    D2E9B0CollectorBase() : m_fEarlyOutDistance(g_D2E9B0MaxDistance) {}
+    D2E9B0CollectorBase() : m_fEarlyOutDistance(::DAT_0104da48) {}
 };
 struct D2E9B0Collector : D2E9B0CollectorBase {
     int m_iData;
@@ -125,9 +120,6 @@ struct D2E9B0Collector : D2E9B0CollectorBase {
     virtual void unk00();
     virtual void unk04();
 };
-void __cdecl FUN_00d31110(int a, int b, int c, D2E9B0CollectorBase* collector);
-void __cdecl FUN_00d2e9b0(int a, int b, int c, int d);
-extern float DAT_0104da48;
 struct hkpSymmetricAgentFlipCollector
 {
     virtual void dispose();
@@ -138,11 +130,8 @@ struct hkpSymmetricAgentFlipCollector
 };
 struct Context
 {
-    void FUN_00d43880(void* first, void* second, void* third, hkpSymmetricAgentFlipCollector* collector);
     void FUN_00d2edd0(void* first, void* second, void* third, void* fourth);
 };
-extern "C" void* __cdecl FUN_00d06f80(void* ptr, unsigned int size);
-extern "C" void __cdecl FUN_00d97250(void* a, int b, void* c);
 extern "C" const char str_010ce828[];
 struct VisitTarget {
     virtual void v00() {}
@@ -177,13 +166,11 @@ struct BufOwner {
     PackedBuffer m_buf;
     void __thiscall VisitPackedBuffer(VisitTarget* target, int flags);
 };
-extern "C" const void* DAT_010ce81c;
 struct Collector {
     const void* vtable;
     char flip;
     void* collector;
 };
-void __cdecl FUN_00d2e970(void* bodyA, void* bodyB, void* arg3, void* orig_collector);
 struct FUN_00d2eb50_nib {
     unsigned char lo : 4;
     unsigned char hi : 4;
@@ -200,13 +187,10 @@ struct FUN_00d2eb50_cls {
     void __thiscall SwapFields();
 };
 struct CpuCallData { void* descriptor; float bound; unsigned int value; };
-extern float DAT_0104da48;
-extern unsigned char DAT_010ce7fc;
 struct CpuObject {
-    void FUN_00d2dd50(void*, void*, unsigned int, CpuCallData*);
     void DispatchWithBoundData(void*, void*, unsigned int, unsigned int);
 };
-struct CallTarget_00d2de20 { int FUN_00d2de20(int, int, int, int); };
+struct CallTarget_00d2de20 {  };
 struct SearchObject {
     int CallTarget(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
 };
@@ -222,13 +206,12 @@ struct hkpSymmetricAgentFlipBodyCollector : hkpCollectorBase {
 };
 // Game side wrapper that fills the collector and hands it to the query routine.
 struct FUN_00d43cd0_class {
-    void __thiscall ProcessCollisionEntries(void* a, void* b, void* c, void* d);
     void __thiscall FUN_00d2ed90(void* a1, void* a2, void* a3, void* a4);
 };
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 struct S2ee10_Ref { void* p; };
 struct S2ee10_Vec4;
-extern "C" const S2ee10_Vec4 DAT_010c4c00;
 struct S2ee10_Simd {
     __m128 m_vValue;
 };
@@ -248,7 +231,7 @@ struct S2ee10_Vec4 {
 };
 inline void S2ee10_Vec4::setNeg4(const S2ee10_Vec4& v)
 {
-    m_vComponents = _mm_xor_ps(v.m_vComponents, DAT_010c4c00.m_vComponents);
+    m_vComponents = _mm_xor_ps(v.m_vComponents, (*reinterpret_cast<const ::S2ee10_Vec4 *>(&::DAT_010c4c00)).m_vComponents);
 }
 struct S2ee10_ContactPoint {
     S2ee10_Vec4 m_vContactPosition;
@@ -731,8 +714,6 @@ __forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerR
 __forceinline hkTransform(){}
 __forceinline const hkVector4&getTranslation()const;
 __forceinline const hkRotation&getRotation()const;
-void SetConjugate(const hkTransform&t);
-void SetMulInverse(const hkTransform&bTa,const hkTransform&bTc);
 private:
 hkRotation m_rotation;
 hkVector4 m_vTranslation;};
@@ -804,11 +785,10 @@ inline Vector4Comparison hkVector4::compareLessThanEqual4(const hkVector4&a)cons
 Vector4Comparison m;m.m_uiMask=_mm_cmple_ps(m_vComponents,a.m_vComponents);
 return m;
 }
-extern "C" const hkQuadReal DAT_010c44d0;
 extern "C" const char str_010ce7d4[];
 inline void hkVector4::setNeg4(const hkVector4&v)
 {
-m_vComponents=_mm_xor_ps(v.m_vComponents,DAT_010c44d0);
+m_vComponents=_mm_xor_ps(v.m_vComponents,::DAT_010c44d0);
 }
 inline void hkVector4::setMin4(const hkVector4&a,const hkVector4&b)
 {
@@ -865,8 +845,7 @@ class StringCursor
 public:
 __forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}static StringCursor&GetMonitorStream()
 {
-extern hkThreadLocalData<StringCursor*>g_pMonitorStream;
-return*g_pMonitorStream.getData();
+return*(*reinterpret_cast<::hkThreadLocalData< ::StringCursor *> *>(&::DAT_0126835c)).getData();
 }
 public:
 __forceinline char*__cdecl GetStreamStart(){return m_kRayStart.val();}
@@ -1231,7 +1210,7 @@ AgentSectorPointerArray m_kAgentNnTrack;
 };
 extern "C"
 {
-void __cdecl BuildShapeCollectionBWorldOperations(AgentSectorPointerArray&agentTrack,const AgentSubtypeMarker&input,const hkpShapeContainer*shapeContainterB,const hkpShapeKey*hitList,WorldOperationEntry&output);}
+}
 class hkpBvTreeShape:public hkpShape
 {
 public:
@@ -1289,7 +1268,7 @@ QuickSortSubrange(pArr,low,high,cmpLess);
 }
 }
 }
-void SetMemoryState(hkMemoryAllocator_S::MemoryState state);__forceinline bool hkHasMemoryAvailable(int id,int size)
+__forceinline bool hkHasMemoryAvailable(int id,int size)
 {
 bool hasAvailable=NineIntegerRecord::GetMonitorStream().heap().CanAllocateBytes(size);
 return hasAvailable;
@@ -1344,7 +1323,7 @@ aabbExtents.setSub4(aabb.m_kMaximumCorner,aabb.m_kMinimumCorner);
 }
 if(cachedAabb)
 {
-if(cachedAabb->contains(aabb))
+if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(cachedAabb->contains(aabb)))->FUN_005609f0())
 {
 return HK_FAILURE;
 }
@@ -1373,7 +1352,7 @@ return HK_SUCCESS;}
 // @fnv 0x00d2df90
 void hkpBvTreeStreamAgent::FUN_00d2df90(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const GskAgentInput&input,WorldOperationEntry&output)
 {
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::TimedNameRecord*h=reinterpret_cast<StringCursor::TimedNameRecord*>(mStream.GetStreamEnd());h->m_pCommandName="L" "t" "BvTree3";h->m_pFirst="S" "t" "QueryTree";h->setTime();mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::TimedNameRecord*h=reinterpret_cast<StringCursor::TimedNameRecord*>(mStream.GetStreamEnd());h->m_pCommandName="L" "t" "BvTree3";h->m_pFirst="S" "t" "QueryTree";h->setTime();mStream.setEnd((char*)(h+1));}};
 AgentSubtypeMarker in3;
 {
 in3.m_pBodyA=&bodyA;
@@ -1383,36 +1362,36 @@ in3.m_pRayCastInput=&input;
 const hkMotionState*msA=bodyA.GetMotionState();
 const hkMotionState*msB=bodyB.GetMotionState();
 MotionUtilities::calcTimInfo(*msA,*msB,input.m_pStepInfo.m_fTimeStep,in3.m_vSubtypePosition);
-in3.m_kTransform.SetMulInverse(msA->getTransform(),msB->getTransform());
+reinterpret_cast<::hkTransformCB22 *>(&(in3.m_kTransform))->FUN_00cb22f0((const ::hkTransformCB22 &)(msA->getTransform()),(const ::hkTransformCB22 &)(msB->getTransform()));
 }
 hkInplaceArray<hkpShapeKey,128>hitList;
 hitList.pushBackUnchecked(0xffffffff);
 hkResult prepareSuccessful;
 {
-hkTransform bTa;bTa.SetConjugate(in3.m_kTransform);
+hkTransform bTa;reinterpret_cast<::FUN_00cb21e0_shell *>(&(bTa))->FUN_00cb21e0((const ::Matrix44 *)&(in3.m_kTransform));
 prepareSuccessful=hkpBvTreeAgent::BuildCollisionHitList(bodyA,bodyB,bTa,in3.m_vSubtypePosition,input,&m_kBoundingBox,hitList);
 }
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName=str_010ce7d4;h->setTime();mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName=str_010ce7d4;h->setTime();mStream.setEnd((char*)(h+1));}};
 if(prepareSuccessful==HK_SUCCESS)
 {
 int newMemNeeded=(hitList.GetLogicalSize()/ 4+1-m_kAgentNnTrack.m_kSectors.GetLogicalSize())*hkpAgent1nSector::SECTOR_SIZE;
 if(!hkHasMemoryAvailable(3,newMemNeeded))
 {
-SetMemoryState(hkMemoryAllocator_S::MEMORY_STATE_OUT_OF_MEMORY);
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="l" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
+::FUN_00d88040((*(int *)&(const ::hkMemoryAllocator_S::MemoryState &)(hkMemoryAllocator_S::MEMORY_STATE_OUT_OF_MEMORY)));
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="l" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
 return;
 }
 AlgorithmUtilities::quickSort(hitList.begin(),hitList.GetLogicalSize());
 ;
 const hkpBvTreeShape*bvB=static_cast<const hkpBvTreeShape*>(bodyB.getShape());
 const hkpShapeContainer*shapeContainer=bvB->GetShapeContainer();
-BuildShapeCollectionBWorldOperations(m_kAgentNnTrack,in3,shapeContainer,hitList.begin(),output);
+::fnv_00da4aa0::FUN_00da4aa0((::fnv_00da4aa0::Q30 &)(m_kAgentNnTrack),(const ::fnv_00da4aa0::Q14 &)(in3),(const ::fnv_00da4aa0::Q24 *)(shapeContainer),hitList.begin(),(::fnv_00da4aa0::Q6 &)(output));
 }
 else
 {
 const hkpBvTreeShape*bvB=static_cast<const hkpBvTreeShape*>(bodyB.getShape());
 const hkpShapeContainer*shapeContainer=bvB->GetShapeContainer();
-BuildShapeCollectionBWorldOperations(m_kAgentNnTrack,in3,shapeContainer,0,output);
+::fnv_00da4aa0::FUN_00da4aa0((::fnv_00da4aa0::Q30 &)(m_kAgentNnTrack),(const ::fnv_00da4aa0::Q14 &)(in3),(const ::fnv_00da4aa0::Q24 *)(shapeContainer),0,(::fnv_00da4aa0::Q6 &)(output));
 }
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="l" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="l" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
 }

@@ -2,6 +2,19 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkprigidbodycentreofmassviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkprigidbodycentreofmassviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/MotionMassView.h"
+#include "fnv/decl/S_00dd9380.h"
+#include "fnv/decl/SearchArray.h"
+#include "fnv/decl/fnv_00c93820__hkpWorldC938.h"
+#include "fnv/decl/fnv_00c93920__hkpWorldXc93920.h"
+#include "fnv/decl/hkWorldC917.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d6a000.h"
+#include "fnv/symbols_0102f000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010cc000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 struct Entries
 {
     int unk00;
@@ -36,7 +49,6 @@ struct Entries
 };
 struct Owner
 {
-    void FUN_00d69c10(void* item);
 };
 struct View
 {
@@ -50,32 +62,13 @@ struct View
     Entries* entries;
     void FUN_00d69f60();
 };
-// Iterates entries and calls FUN_00d69c10 on each item via the owner at this-8.
-// @fnv 0x00d69f60
-void View::FUN_00d69f60()
-{
-    if (entries)
-    {
-        for (int i = 0; i < entries->count; ++i)
-            reinterpret_cast<Owner*>(reinterpret_cast<char*>(this) - 8)->FUN_00d69c10(entries->items[i]);
-    }
-}
-
 struct Target
 {
-    void FUN_00d69c10();
 };
 struct FUN_00d69fb0_cls
 {
     void CallTargetMethod();
 };
-// Calls FUN_00d69c10 on the Target object located 0x20 bytes before this.
-// @fnv 0x00d69fb0
-void FUN_00d69fb0_cls::CallTargetMethod()
-{
-    ((Target*)((char*)this - 0x20))->FUN_00d69c10();
-}
-
 template <class T> struct S_00d69fc0_Array
 {
     T* m_data;
@@ -280,8 +273,6 @@ struct ArgOwner
     PtrItem** m_34;
     int m_38;
 
-    void Attach(void* p);
-    void Detach(void* p);
 };
 
 struct FUN_00d69b20_cls
@@ -306,8 +297,8 @@ struct FUN_00d69b20_cls
 // @fnv 0x00d69b20
 void FUN_00d69b20_cls::AttachAndDispatch(ArgOwner* apOwner)
 {
-    apOwner->Attach(this != 0 ? (void*)&m_28 : 0);
-    apOwner->Detach(this != 0 ? (void*)&m_2c : 0);
+    reinterpret_cast<::hkWorldC917 *>((apOwner))->FUN_00c917a0(this != 0 ? (void*)&m_28 : 0);
+    reinterpret_cast<::SearchArray *>((apOwner))->ClearValue((int)(this != 0 ? (void*)&m_2c : 0));
 
     for (int i = 0; i < apOwner->m_2c; ++i)
     {
@@ -343,7 +334,6 @@ class SpawnedObject;
 class FUN_00d69b20_cls
 {
   public:
-    void FUN_00d69b20_target();
 };
 
 class FUN_00d69fa0_cls
@@ -355,12 +345,10 @@ class FUN_00d69fa0_cls
 // @fnv 0x00d69fa0
 void FUN_00d69fa0_cls::FUN_00d69fa0()
 {
-    ((FUN_00d69b20_cls*)((char*)this - 0x20))->FUN_00d69b20_target();
+    reinterpret_cast<::FUN_00d69b20_cls *>((((FUN_00d69b20_cls*)((char*)this - 0x20))))->AttachAndDispatch({});
 }
 }  // namespace fnv_00d69fa0
 
-extern const char str_0102f13c[];
-extern const char DAT_010ccf7c[];
 extern const char DAT_010d22a8[];
 extern const char DAT_010d2288[];
 extern const char DAT_010d2278[];
@@ -392,8 +380,8 @@ struct FUN_00d6a040 : FUN_00ddccb0
 // @fnv 0x00d6a040
 FUN_00d6a040::FUN_00d6a040(void* input) : FUN_00ddccb0(input)
 {
-    unk28 = (void*)str_0102f13c;
-    unk2c = (void*)DAT_010ccf7c;
+    unk28 = (void*)::str_0102f13c;
+    unk2c = (void*)(*reinterpret_cast<const char (*)[]>(&::DAT_010ccf7c));
     unk00 = (void*)DAT_010d22a8;
     unk08 = (void*)DAT_010d2288;
     unk20 = (void*)DAT_010d2278;
@@ -407,18 +395,15 @@ FUN_00d6a040::FUN_00d6a040(void* input) : FUN_00ddccb0(input)
 class RegistryOwner
 {
   public:
-    void* Register(const char* name, void (*callback)());
 };
 
-extern RegistryOwner* DAT_01269cd0;
 extern void* DAT_01269020;
 
-extern void FUN_00d6a140();
 
 // @fnv 0x00d6a180
 void RegisterCenterOfMass()
 {
-    DAT_01269020 = DAT_01269cd0->Register("Center of Mass", FUN_00d6a140);
+    DAT_01269020 = ((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::RegistryOwner * *>(&::DAT_01269cd0))))->FUN_00dd9380("Center of Mass", (int)(((void (&)())::FUN_00d6a140)))));
 }
 
 struct DwordList
@@ -441,7 +426,6 @@ namespace fnvc_adapt {
 GlobalHolder* __cdecl FUN_00c85750();
 }
 extern "C" void _ReadWriteBarrier(void);
-void __cdecl ResizeAudioStream(void* aAlloc, void* aList, unsigned int aiElemSize);
 
 struct FUN_00d6a000_cls
 {
@@ -460,7 +444,7 @@ void FUN_00d6a000_cls::AppendDword(unsigned int aValue)
     GlobalHolder* pAllocHolder = fnvc_adapt::FUN_00c85750();
     if (list->m_iArrayLength == (int)(list->m_uCapFlags & 0x3fffffffu))
     {
-        ResizeAudioStream(pAllocHolder->m_pAllocator, list, 4);
+        ::ResizeAudioStream((::AudioAllocator *)(pAllocHolder->m_pAllocator), (::AudioStream *)(list), 4);
     }
 
     unsigned int count = (unsigned int)list->m_iArrayLength;
@@ -581,7 +565,6 @@ struct FUN_00d6a0a0 : Base00, Base08, Base20, Base28, Base2C
 {
     Array unk30;
     virtual ~FUN_00d6a0a0();
-    void AttachAndDispatch(void* item) throw();
 };
 
 // Destructor: iterates the Source's unk70 entries and calls AttachAndDispatch on each pointer in unk6C when unk24 is set.
@@ -591,7 +574,7 @@ FUN_00d6a0a0::~FUN_00d6a0a0()
     if (unk24)
     {
         for (int i = 0; i < unk24->unk70; i++)
-            AttachAndDispatch(unk24->unk6C[i]);
+            reinterpret_cast<::FUN_00d69b20_cls *>(this)->AttachAndDispatch((::ArgOwner *)(unk24->unk6C[i]));
     }
 }
 }  // namespace fnv_00d6a0a0
@@ -613,12 +596,10 @@ extern "C" unsigned __int64 __rdtsc(void);
 
 extern "C" void*(__stdcall* DAT_00fdf044)(unsigned long);
 
-extern unsigned int DAT_0126835c;
 extern float DAT_011b6194;
 extern char DAT_010d2224[];
 extern char DAT_010d2210[];
 extern char DAT_010d2200[];
-extern char DAT_010c41f8[];
 
 extern "C" __m128 _mm_set_ss(float);
 extern "C" __m128 _mm_set_ps1(float);
@@ -645,7 +626,7 @@ struct MonStream
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 static __forceinline void monBegin(const char* tag, volatile unsigned int* stamped)
 {
-    MonStream* s = (MonStream*)TlsGetValue(DAT_0126835c);
+    MonStream* s = (MonStream*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     MonRec* c = s->cur;
     if (c < s->end)
     {
@@ -658,7 +639,7 @@ static __forceinline void monBegin(const char* tag, volatile unsigned int* stamp
 }
 static __forceinline void monEnd(const char* tag, volatile unsigned int* stamped)
 {
-    MonStream* s = (MonStream*)DAT_00fdf044(DAT_0126835c);
+    MonStream* s = (MonStream*)DAT_00fdf044((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     MonRec* c = s->cur;
     if (c < s->end)
     {
@@ -684,7 +665,6 @@ struct Motion
     __m128 axisZ;
     int m40, m44, m48, m4c, m50, m54, m58, m5c;
     __m128 pos;
-    float FUN_00c86430();
 };
 
 struct Body
@@ -755,7 +735,7 @@ void COMViewerPart::FUN_00d69d00(void* unused)
         do
         {
             Body* body = items[i];
-            if (body->motion.FUN_00c86430() != 0.0f)
+            if (reinterpret_cast<::MotionMassView *>(&(body->motion))->FUN_00c86430() != 0.0f)
             {
                 monBegin(DAT_010d2210, &timers.begin);
                 const float& scale = DAT_011b6194;
@@ -992,8 +972,6 @@ struct Context
     int unk30;
     Record** list34;
     int count38;
-    void FUN_00c93820(Callback* ptr);
-    void FUN_00c93920(int* ptr);
 };
 struct CenterOfMassRemovalDispatcher
 {
@@ -1011,12 +989,28 @@ struct CenterOfMassRemovalDispatcher
     int data2c;
     void FUN_00d69c10(Context* context);
 };
+// Iterates entries and calls FUN_00d69c10 on each item via the owner at this-8.
+// @fnv 0x00d69f60
+void View::FUN_00d69f60()
+{
+    if (entries)
+    {
+        for (int i = 0; i < entries->count; ++i)
+            reinterpret_cast<::CenterOfMassRemovalDispatcher *>((reinterpret_cast<Owner*>(reinterpret_cast<char*>(this) - 8)))->FUN_00d69c10((::Context *)(entries->items[i]));
+    }
+}
+// Calls FUN_00d69c10 on the Target object located 0x20 bytes before this.
+// @fnv 0x00d69fb0
+void FUN_00d69fb0_cls::CallTargetMethod()
+{
+    reinterpret_cast<::CenterOfMassRemovalDispatcher *>((((Target*)((char*)this - 0x20))))->FUN_00d69c10({});
+}
 // Passes callback28 and data2c to context, then calls callback28.deliver for each entry in the data48 lists of list28, list34 and special20.
 // @fnv 0x00d69c10
 void CenterOfMassRemovalDispatcher::FUN_00d69c10(Context* context)
 {
-    context->FUN_00c93820(this ? &callback28 : 0);
-    context->FUN_00c93920(this ? &data2c : 0);
+    reinterpret_cast<::fnv_00c93820::hkpWorldC938 *>((context))->FUN_00c93820((::fnv_00c93820::hkpEntityListenerC938 *)(struct ::Callback *)(this ? &callback28 : 0));
+    reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((context))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(int *)(this ? &data2c : 0));
     for (int i = 0; i < context->count2c; ++i)
     {
         RemovalEntityList* pRemovalList = &context->list28[i]->data48;

@@ -2,6 +2,7 @@
 #ifndef FNV_BGSDEBRIS_H
 #define FNV_BGSDEBRIS_H
 
+#include "fnv/symbols_004fa000.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "TESForm.h"
@@ -40,7 +41,6 @@ class BGSDebris : public TESForm, public BGSPreloadable
     bool Load(TESFile*);
     void Preload(int priority, void* file);
     DebrisModelEntry* AddDebrisModel(char chance, const char* path, char flags);
-    void InsertDebrisIfValid(DebrisModelEntry*);
     // void __cdecl BGSDebris::*(TESObjectCELL*, const NiPoint3&, unsigned int, float)
     // void __cdecl BGSDebris::*(IO_TASK_PRIORITY, QueuedFile*)
     // TestHavokLayer

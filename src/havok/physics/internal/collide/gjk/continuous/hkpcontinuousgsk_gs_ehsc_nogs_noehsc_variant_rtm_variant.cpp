@@ -9,6 +9,17 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <math.h>
 #include <xmmintrin.h>
+#include "fnv/decl/FUN_004b4ab0_Class.h"
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/GapSolver.h"
+#include "fnv/decl/ThisClass.h"
+#include "fnv/decl/hkTransformCB22.h"
+#include "fnv/symbols_00c98000.h"
+#include "fnv/symbols_00cf1000.h"
+#include "fnv/symbols_00da8000.h"
+#include "fnv/symbols_00db4000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_simd.h"
 struct __declspec(align(16)) hkVector4
 {
     float x, y, z, w;
@@ -58,9 +69,6 @@ struct SweepState
     hkVector4 oa;  // 110
     hkVector4 ob;  // 120
 };
-void __cdecl FUN_00db4b50(SweepObj* obj, float t, SweepState* st);
-float __cdecl FUN_00db4ca0(SweepObj* obj, float* p, hkVector4* v, float a, float b, float c, float d, float e,
-                           SweepOut* out);
 static inline __m128 Cross(const __m128& a, const __m128& b)
 {
     __m128 c0 = _mm_mul_ps(_mm_shuffle_ps(a, a, 0xc9), _mm_shuffle_ps(b, b, 0xd2));
@@ -80,12 +88,8 @@ static inline __m128 Dot4xyz1(const __m128& a, const __m128& b)
     __m128 x3 = _mm_add_ss(_mm_shuffle_ps(xx, xx, 0x55), xx);
     return _mm_add_ps(x2, x3);
 }
-void __cdecl FUN_00db4e40(SweepObj* obj, float* p, SweepOut* out);
 // Adapted from the project's prior contributor draft of 24 October 2026.
 // The same-file caller lets VC2008 reproduce the private register convention.
-extern const __m128 DAT_010c44d0;
-extern const __m128 DAT_010ec7f0;
-extern const double DAT_010290f0;
 static float FUN_00db49b0(char* a, char* b, __m128* p, __m128* v0, __m128* v1, __m128* v2, float t);
 __m128* volatile dbPlanes;
 char* volatile dbBodyA;
@@ -97,7 +101,6 @@ volatile float dbTime;
 volatile float dbResult;
 void evaluatePlaneDistance();
 
-extern "C" __declspec(align(16)) const unsigned int DAT_010c4c00[4];
 extern "C" const float DAT_010d5384;
 typedef float hkReal;
 typedef unsigned char hkUint8;
@@ -568,7 +571,6 @@ class hkTransform
     __forceinline const hkVector4X& getTranslation() const;
     __forceinline hkRotation& getRotation();
     __forceinline const hkRotation& getRotation() const;
-    void SetMulInverse(const hkTransform& bTa, const hkTransform& bTc);
 
   private:
     hkRotation m_rotation;
@@ -614,7 +616,7 @@ inline void hkVector4X::setSub4(const hkVector4X& v0, const hkVector4X& v1)
 }
 inline void hkVector4X::setNeg3(const hkVector4X& v)
 {
-    m_vComponents = _mm_xor_ps(v.m_vComponents, *(const hkQuadReal*)&DAT_010c4c00);
+    m_vComponents = _mm_xor_ps(v.m_vComponents, *(const hkQuadReal*)&(*reinterpret_cast<const unsigned int (*)[4]>(&::DAT_010c4c00)));
 }
 inline void hkVector4X::setMul4(hkSimdRealParameter r, const hkVector4X& v1)
 {
@@ -647,7 +649,7 @@ inline void hkVector4X::setCross(const hkVector4X& v0, const hkVector4X& v1)
 inline void hkVector4X::setInterpolate4(const hkVector4X& v0, const hkVector4X& v1, hkSimdRealParameter _t)
 {
     hkQuadReal t = _t.broadcast();
-    hkQuadReal s = _mm_sub_ps(DAT_010ec7f0, t);
+    hkQuadReal s = _mm_sub_ps(::DAT_010ec7f0, t);
     m_vComponents = _mm_add_ps(_mm_mul_ps(s, v0.m_vComponents), _mm_mul_ps(t, v1.m_vComponents));
 }
 inline void hkVector4X::setNeg4(const hkVector4X& v)
@@ -1562,7 +1564,6 @@ struct WorldOperationEntry : public CollisionContactResults
     ValueWrapper<ContactPointBuffer*> m_akContactRecords;
 };
 namespace MotionUtilities {
-void __cdecl calcTransformFromSweptTransform(const hkSweptTransform& sweptTrans, hkTime t, hkReal tAddOn, hkTransform& transformOut);
 __forceinline void __cdecl calcAngularTimInfo(const hkMotionState& ms0, const hkMotionState& ms1, hkReal deltaTime,
                                               hkVector4X* deltaAngleOut0, hkVector4X* deltaAngleOut1);
 }
@@ -1728,8 +1729,6 @@ enum hkpGskStatus
 class ConvexShapePairCache
 {
   public:
-    hkpGskStatus GetClosestPoint(const hkpConvexShape* shapeA, const hkpConvexShape* shapeB, const hkTransform& aTb,
-                                   hkVector4X& separatingNormalOut);
     __forceinline void getClosestPointAinA(const hkVector4X& separatingNormal, hkVector4X& pointInA)
     {
         if (m_ucDimensionA == 1)
@@ -1746,7 +1745,6 @@ class ConvexShapePairCache
             pointInA = m_kVectorPairResult[0];
         }
     }
-    void WriteContactFeatureCache(ConvexFeaturePairCache& cache) const;
     ValueWrapper<int> m_ucDimensionA;
     ValueWrapper<int> m_ucDimensionB;
     ValueWrapper<int> m_ucFeatureTypeA;
@@ -1762,11 +1760,6 @@ class ConvexShapePairCache
     hkVector4X m_pSupport;
     hkVector4X m_kVectorPairResult[3];
 };
-extern "C" void FindSupportPoint(const Vector4WithInt24W* vA, const hkVector4X* vBinA, int dimA, int dimB,
-                                           const hkVector4X* masterNormalA, hkVector4X* pointBinAOut,
-                                           hkVector4X* supportOut);
-extern "C" void hk4dGskCollidePointsWithPlane(const ConvexCollisionQueryData& input,
-                                              const ContactPointWeldingParameters& tol, ScalarVectorData& out);
 __forceinline void hk4dGskCollPInputInitialize(const AgentSubtypeMarker& in3,
                                                ConvexCollisionQueryData& collPInput)
 {
@@ -1888,8 +1881,8 @@ __forceinline void hk4dGskCalcWorstCaseProjectedVelocity(const hkMotionState* ms
 static __forceinline void hkGskRecalcContact(ConvexShapePairCache* gsk, const hkVector4X* masterNormalA,
                                              hkVector4X* pointBinAOut, hkVector4X* supportOut)
 {
-    FindSupportPoint(gsk->m_akPackedVerticesA, gsk->m_akCachedVectors, gsk->m_ucDimensionA,
-                               gsk->m_ucDimensionB, masterNormalA, pointBinAOut, supportOut);
+    ::FUN_00da8a00((::ContactVector *)(gsk->m_akPackedVerticesA), (::ContactVector *)(gsk->m_akCachedVectors), gsk->m_ucDimensionA,
+                               gsk->m_ucDimensionB, (*(const ::ContactVector *)(masterNormalA)), (*(::ContactVector *)(pointBinAOut)), (*(::ContactVector *)(supportOut)));
 }
 // @fnv 0x00db54b0
 static __declspec(noinline) void FUN_00db54b0(const AgentSubtypeMarker& in3, ContactPointWeldingParameters& tol,
@@ -1920,7 +1913,7 @@ static __declspec(noinline) void FUN_00db54b0(const AgentSubtypeMarker& in3, Con
             delta = 0.5f;
         }
         hkBool earlyOut;
-        if (MathUtilities::equal(distance1, tol.m_fMinimumTimeOfImpactDelta, tol.m_fMaximumConstraintViolation))
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(MathUtilities::equal(distance1, tol.m_fMinimumTimeOfImpactDelta, tol.m_fMaximumConstraintViolation)))->FUN_005609f0())
         {
             earlyOut = true;
             featureChange = 0;
@@ -1930,22 +1923,22 @@ static __declspec(noinline) void FUN_00db54b0(const AgentSubtypeMarker& in3, Con
         {
             earlyOut = false;
             hkReal rel = (tol.m_fMinimumTimeOfImpactDelta - distance0) / delta;
-            rel = MathUtilities::max2(rel, 0.1f);
+            rel = ::FUN_00c98210(rel, 0.1f);
             rel = MathUtilities::min2(rel, 0.9f);
             Rt = (1.0f - rel) * startRt + endRt * rel;
         }
         const hkStepInfo* stepInfo = &in3.m_pRayCastInput->m_pStepInfo;
         hkReal timeAddon = stepInfo->m_fTimeStep * Rt;
-        MotionUtilities::calcTransformFromSweptTransform(in3.m_pBodyA->GetMotionState()->getSweptTransform(), stepInfo->m_uiStartTime,
-                                 timeAddon, wTa);
-        MotionUtilities::calcTransformFromSweptTransform(in3.m_pBodyB->GetMotionState()->getSweptTransform(), stepInfo->m_uiStartTime,
-                                 timeAddon, wTb);
-        aTb.SetMulInverse(wTa, wTb);
+        ::fnv_00cf1710::FUN_00cf1710((const ::fnv_00cf1710::hkSweptTransformL &)(in3.m_pBodyA->GetMotionState()->getSweptTransform()), stepInfo->m_uiStartTime,
+                                 timeAddon, (::fnv_00cf1710::hkTransformL &)(wTa));
+        ::fnv_00cf1710::FUN_00cf1710((const ::fnv_00cf1710::hkSweptTransformL &)(in3.m_pBodyB->GetMotionState()->getSweptTransform()), stepInfo->m_uiStartTime,
+                                 timeAddon, (::fnv_00cf1710::hkTransformL &)(wTb));
+        reinterpret_cast<::hkTransformCB22 *>(&(aTb))->FUN_00cb22f0((const ::hkTransformCB22 &)(wTa), (const ::hkTransformCB22 &)(wTb));
         if (featureChange)
         {
             const hkpConvexShape* shapeA = (const hkpConvexShape*)in3.m_pBodyA->getShape();
             const hkpConvexShape* shapeB = (const hkpConvexShape*)in3.m_pBodyB->getShape();
-            gsk.GetClosestPoint(shapeA, shapeB, aTb, normalA);
+            reinterpret_cast<::GapSolver *>(&(gsk))->FUN_00daad40((const ::GapShape *)(shapeA), (const ::GapShape *)(shapeB), (const ::GapTransform &)(aTb), (::GapVector &)(normalA));
             gsk.getClosestPointAinA(normalA, pointA);
         }
         else
@@ -1953,12 +1946,12 @@ static __declspec(noinline) void FUN_00db54b0(const AgentSubtypeMarker& in3, Con
             hkVector4XUtil::TransformPointArray(aTb, gsk.m_akPackedVerticesB, gsk.m_ucDimensionB,
                                                 gsk.m_akCachedVectors);
             hkVector4X oldMasterNormalInA;
-            oldMasterNormalInA.setRotatedInverseDir(wTa.getRotation(), oldMasterNormal);
+            reinterpret_cast<::FUN_004b4ab0_Class *>(&(oldMasterNormalInA))->FUN_004b4ab0((int)&(wTa.getRotation()), (int)&(oldMasterNormal));
             hkGskRecalcContact(&gsk, &oldMasterNormalInA, &pointA, &normalA);
         }
         distance = normalA(3) - radiusSum;
-        if (MathUtilities::equal(distance, tol.m_fMinimumTimeOfImpactDelta, tol.m_fMaximumConstraintViolation) ||
-            earlyOut)
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(MathUtilities::equal(distance, tol.m_fMinimumTimeOfImpactDelta, tol.m_fMaximumConstraintViolation)))->FUN_005609f0() ||
+            reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(earlyOut))->FUN_005609f0())
         {
             break;
         }
@@ -1978,7 +1971,7 @@ static __declspec(noinline) void FUN_00db54b0(const AgentSubtypeMarker& in3, Con
         }
     }
     const hkStepInfo* stepInfo = &in3.m_pRayCastInput->m_pStepInfo;
-    hkReal deltaTime = MathUtilities::max2(stepInfo->m_fTimeStep.val() * Rt, tol.m_fMaximumAngularVelocity.val());
+    hkReal deltaTime = ::FUN_00c98210(stepInfo->m_fTimeStep.val() * Rt, tol.m_fMaximumAngularVelocity.val());
     hkReal toi = stepInfo->m_uiStartTime + deltaTime;
     ;
     ;
@@ -2019,7 +2012,7 @@ static __declspec(noinline) void FUN_00db54b0(const AgentSubtypeMarker& in3, Con
                 cp.setSeparatingNormal(weldedNormal);
             EXAMINE_WELD_RESULTS:
                 if (weldResult == hkpConvexShape::WELD_RESULT_REJECT_CONTACT_POINT &&
-                    in3.m_pRayCastInput->m_pCollisionQualityInfo->m_bEnableToiWeldRejection)
+                    reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(in3.m_pRayCastInput->m_pCollisionQualityInfo->m_bEnableToiWeldRejection))->FUN_005609f0())
                 {
                     return;
                 }
@@ -2067,12 +2060,12 @@ static __declspec(noinline) void FUN_00db54b0(const AgentSubtypeMarker& in3, Con
                     collPInput.m_fStepTimeParameter = realProjectedLinearDelta + projectedAngularDelta;
                 }
                 hk4dGskCollPInputInitialize(in3, collPInput);
-                collPInput.m_vFirstStoredVector.setRotatedInverseDir(wTb.getRotation(), cp.getNormal());
+                reinterpret_cast<::FUN_004b4ab0_Class *>(&(collPInput.m_vFirstStoredVector))->FUN_004b4ab0((int)&(wTb.getRotation()), (int)&(cp.getNormal()));
                 collPInput.m_vSecondStoredVector = gsk.m_akPackedVerticesB[0];
                 if (collPInput.m_akPackedVerticesA.val())
                 {
                     ScalarVectorData collidePointsOut;
-                    hk4dGskCollidePointsWithPlane(collPInput, tol, collidePointsOut);
+                    ::FUN_00db4e40((::SweepObj *)&(collPInput), (float *)&(tol), (::SweepOut *)&(collidePointsOut));
                     hkDeallocateStack<hkVector4X>(collPInput.m_akPackedVerticesA.val());
                     if (collidePointsOut.m_fScale < 1.0f)
                     {
@@ -2101,12 +2094,12 @@ static __declspec(noinline) void FUN_00db54b0(const AgentSubtypeMarker& in3, Con
         ContactDataPhysicsMaterial properties;
         MemoryUtils::memClear16(&properties, 3);
         properties.m_uiUserData = DAT_010d5384;
-        gsk.WriteContactFeatureCache(cache);
+        reinterpret_cast<::ThisClass *>((void *)&(gsk))->FUN_00da9790((::Dest *)&(cache));
         cbResult = in3.m_pContactManager->addToi(*in3.m_pBodyA, *in3.m_pBodyB, *in3.m_pRayCastInput, out, toi, cp,
                                                  &cache, separatingVelocity, properties);
         if (cbResult == hkpContactMgr::TOI_ACCEPT)
         {
-            if (out.hasToi())
+            if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(out.hasToi()))->FUN_005609f0())
             {
                 in3.m_pContactManager->removeToi(*out.m_pConstraintOwner, out.m_fTimeOfImpact.m_kProperties);
             }

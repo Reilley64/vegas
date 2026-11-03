@@ -1,11 +1,21 @@
 // Source layout: TESForm. PC corrections are in generate_headers.py.
 #ifndef FNV_TESFORM_H
 #define FNV_TESFORM_H
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 class BGSLoadFormBuffer;
 class TESFile;
 #pragma pack(push, 4)
+enum ENUM_FORM_ID;
 class TESForm : public BaseFormComponent
 {
   public:
@@ -90,22 +100,20 @@ class TESForm : public BaseFormComponent
     TESForm();
     TESFile* GetFile(int fileIndex);
     BSSimpleList<TESFile*>* GetSourceFiles();
-    bool IsDeleted() const;
     unsigned int GetFormID();
-    bool IsTemporary() const;
     void NotifySaveLoadGameOfFormChange();
     void SetInitializationState(bool initialized);
-    bool GetDeleted() const;
     bool GetDisabled() const;
-    bool IsStillLoading() const;
     static TESForm* GetFormByID(unsigned int formID);
-    bool IsFormInitialized() const;
     bool GetInitialized() const;
-    unsigned int GetDataSizeAdjustment();
     void ReadTypedData(TESFile* file, void* data, unsigned short size);
     void SetFormType(ENUM_FORM_ID type);
-    void LoadRecordHeader(TESFile* file);
-    static void RemapFormIDForFile(unsigned int& formID, TESFile* file);
+public:
+    ::ENUM_FORM_ID GetFormType() const;
+public:
+    static ::TESForm *LookupFormByEditorID(const char *);
+public:
+    void SetCollisionDisabled(bool);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESForm) == 0x18);

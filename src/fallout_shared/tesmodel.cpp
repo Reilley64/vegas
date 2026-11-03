@@ -2,6 +2,33 @@
 // src/fallout_shared/tesmodel.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/tesmodel.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00481110_shell.h"
+#include "fnv/decl/FUN_00487980_shell.h"
+#include "fnv/decl/FUN_004f9ef0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008b2010_shell.h"
+#include "fnv/decl/FUN_008c1be0_Class.h"
+#include "fnv/decl/FUN_008d0600_s.h"
+#include "fnv/decl/Owner487a60.h"
+#include "fnv/decl/OwnerLookupView.h"
+#include "fnv/decl/TESIdleForm.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_0040a000.h"
+#include "fnv/symbols_00481000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00489000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00af6000.h"
+#include "fnv/symbols_01183000.h"
+#include "fnv/symbols_01184000.h"
+#include "fnv/symbols_011ac000.h"
+#include "fnv/symbols_011c5000.h"
+#include "fnv/symbols_011f8000.h"
 struct BSFileEntry;
 struct FileFormCollection;
 struct TESFile;
@@ -64,7 +91,6 @@ struct FUN_00489620_shell : public FileEntryList
     bool ClearTextureList();
 };
 
-extern void __cdecl _Deallocate(void*);
 
 // Frees the texture offset array if present, nulls it, resets the texture count, and returns whether anything was freed.
 // @fnv 0x00489620
@@ -74,7 +100,7 @@ bool FUN_00489620_shell::ClearTextureList()
     if (m_ppFileEntries)
     {
         BSFileEntry** p = m_ppFileEntries;
-        _Deallocate(p);
+        ::FUN_00401030(p);
         m_ppFileEntries = 0;
         bresult = true;
     }
@@ -99,10 +125,9 @@ struct FUN_004898c0_shell
 // @fnv 0x004898c0
 void FUN_004898c0_shell::FUN_004898c0(int param_1)
 {
-    ((FUN_008c1be0_shell*)((char*)this + 0xc))->FUN_008c1be0(param_1);
+    reinterpret_cast<::FUN_008c1be0_Class *>((((FUN_008c1be0_shell*)((char*)this + 0xc))))->FUN_008c1be0(param_1);
 }
 
-extern bool DAT_011acdf8;
 
 // @fnv 0x004898e0
 bool FUN_004898e0()
@@ -118,7 +143,7 @@ struct FUN_004890e0_shell
 // @fnv 0x004890e0
 void FUN_004890e0_shell::ForwardToMember()
 {
-    ((FUN_00489620_t*)((char*)this + 0xc))->ClearTextureList();
+    reinterpret_cast<::fnv_00489620::FUN_00489620_shell *>((((FUN_00489620_t*)((char*)this + 0xc))))->ClearTextureList();
 }
 
 struct FUN_00489860_shell
@@ -194,12 +219,10 @@ struct TESLeveledList : public BaseFormComponent
     void SetChanceGlobal(TESGlobal*);
     void InitializeLeveledList();
     void SortLeveledList();
-    LeveledObject* CreateLeveledObject(unsigned short, unsigned short, TESForm*, ContainerItemExtra*);
     void DeleteLeveledObject(LeveledObject*);
     void SelectLeveledObject(unsigned short, TESForm**, unsigned short*, ContainerItemExtra**, bool, int);
     void PopulateContainerWithLeveledItems(unsigned short, unsigned short, TESContainer*, int);
     void PopulateContainerFromReference(TESObjectREFR*, TESContainer*);
-    void ClearScriptAddedLeveledObjects();
     void AddScriptAddedLeveledObject(TESForm*, unsigned short, unsigned short, TESForm*, ContainerItemExtra*);
     void SaveGame(BGSSaveFormBuffer*);
     void LoadGame(BGSLoadFormBuffer*);
@@ -254,7 +277,7 @@ struct FakeOwner
 void FUN_00487a00_shell::FUN_00487a00(TESForm* apOwner, unsigned short asLevel, unsigned short asCount, TESForm* apForm,
                                       ContainerItemExtra* apExtra)
 {
-    LeveledObject* plev = CreateLeveledObject(asLevel, asCount, apForm, apExtra);
+    LeveledObject* plev = ((::LeveledObject *)(reinterpret_cast<::Owner487a60 *>(this)->InsertEntryByPriority(asLevel, asCount, (int)(apForm), (int)(apExtra))));
     if (plev)
     {
         ((G2*)m_kLeveledObjects)->AddHead(plev);
@@ -267,20 +290,8 @@ struct TESModel
     virtual ~TESModel();
     void* FUN_00489010(unsigned int flags);
 };
-void __cdecl _Deallocate(void*);
-// Calls the TESModel destructor and, when flags has bit 0 set, deallocates this; returns this.
-// @fnv 0x00489010
-void* TESModel::FUN_00489010(unsigned int flags)
-{
-    this->TESModel::~TESModel();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct BSStr
 {
-    bool Set(const char*, unsigned int);
 };
 struct Flt
 {
@@ -300,7 +311,7 @@ struct FUN_00489040_shell
 void FUN_00489040_shell::ClearString()
 {
     if ((Flt&)FullNameComponent)
-        FullNameComponent.Set(0, 0);
+        reinterpret_cast<::TextString *>(&(FullNameComponent))->FUN_004037f0(0, 0);
     *(unsigned char*)((char*)this + 0x14) = 0;
 }
 
@@ -322,8 +333,6 @@ struct Flt
     operator unsigned int();
     int v;
 };
-extern Flt DAT_011f8190[];
-extern Flt DAT_011f81b4[];
 // Returns the value at index param_1 from DAT_011f8190 if nonzero, otherwise from DAT_011f81b4.
 // @fnv 0x004898f0
 unsigned int GetFltValue(int aiIndex)
@@ -331,10 +340,10 @@ unsigned int GetFltValue(int aiIndex)
     Flt* b;
     {
         Flt* a;
-        if ((unsigned int)DAT_011f8190[aiIndex])
-            a = &DAT_011f8190[aiIndex];
+        if ((unsigned int)(*reinterpret_cast<fnv_004898f0::Flt (*)[]>(&::DAT_011f8190))[aiIndex])
+            a = &(*reinterpret_cast<fnv_004898f0::Flt (*)[]>(&::DAT_011f8190))[aiIndex];
         else
-            a = &DAT_011f81b4[aiIndex];
+            a = &(*reinterpret_cast<fnv_004898f0::Flt (*)[]>(&::archive_master_lookup::DAT_011f81b4))[aiIndex];
         b = a;
     }
     return (unsigned int)*b;
@@ -397,15 +406,13 @@ struct FUN_00489940_shell : public FileEntryList
 
 struct TESFile
 {
-    unsigned int GetChunkSize();
-    bool GetChunkData(void*, unsigned int);
 };
 extern "C" void* __cdecl _alloca(unsigned int);
 extern "C" void* __cdecl memset(void*, int, unsigned int);
 // @fnv 0x00489940
 void FUN_00489940_shell::LoadChunkData(TESFile* file, TESForm* form, char* name)
 {
-    unsigned int isize = file->GetChunkSize();
+    unsigned int isize = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
     if (isize % 24)
         return;
     unsigned int icount = isize / 24;
@@ -414,7 +421,7 @@ void FUN_00489940_shell::LoadChunkData(TESFile* file, TESForm* form, char* name)
     {
         FileFormCollection* pdata = (FileFormCollection*)_alloca(iusablesize);
         memset(pdata, 0, iusablesize);
-        file->GetChunkData(pdata, iusablesize);
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(pdata), iusablesize);
         WriteFileEntryToBuffer(pdata, icount, form, name);
     }
 }
@@ -422,16 +429,15 @@ void FUN_00489940_shell::LoadChunkData(TESFile* file, TESForm* form, char* name)
 
 struct FUN_004f9ec0_shell
 {
-    void CallInnerMethod();
     void* __thiscall DestroyIfFlagged(unsigned int flags);
 };
 // Calls CallInnerMethod, then deletes this if bit 0 of flags is set, and returns this.
 // @fnv 0x004f9ec0
 void* FUN_004f9ec0_shell::DestroyIfFlagged(unsigned int flags)
 {
-    CallInnerMethod();
+    reinterpret_cast<::FUN_004f9ef0_shell *>(this)->CallInnerMethod();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -464,13 +470,12 @@ struct FUN_00488f50_cls : SpawnedBase
 
     FUN_00488f50_cls();
     virtual void unk00();
-    void ClearString();
 };
 
 // @fnv 0x00488f50
 FUN_00488f50_cls::FUN_00488f50_cls()
 {
-    ClearString();
+    reinterpret_cast<::FUN_00489040_shell *>(this)->ClearString();
 }
 
 struct FUN_00489120_cls
@@ -484,18 +489,16 @@ struct FUN_00489120_cls
     void SetFarPath(char* path);
 };
 
-void __cdecl FUN_00406d30(char* dst, int maxLen, const char* src);
-char* __cdecl FUN_0040ab30(const char* s, int ch);
 
 // @fnv 0x00489120
 void FUN_00489120_cls::SetFarPath(char* path)
 {
     char* ext;
-    FUN_00406d30(path, 0x104, GetPath());
-    ext = FUN_0040ab30(path, 0x2e);
+    ::TaskQueueInterface::CopyStringToBuffer(path, 0x104, GetPath());
+    ext = ::FUN_0040ab30((char *)(path), 0x2e);
     if (ext != 0)
     {
-        FUN_00406d30(ext, 0x104 - (ext - path), "_far.NIF");
+        ::TaskQueueInterface::CopyStringToBuffer(ext, 0x104 - (ext - path), "_far.NIF");
     }
 }
 
@@ -504,13 +507,11 @@ class B479FB0Actor;
 class B479FB0Idle
 {
   public:
-    bool FUN_005ff430(B479FB0Actor* pkActor, int iArg, bool bFlag);
 };
 
 class B479FB0Actor
 {
   public:
-    bool HasIdleInFormArray(B479FB0Idle* pkIdle);
 };
 
 class B479FB0IdleList
@@ -536,7 +537,7 @@ bool B479FB0IdleList::FUN_00479fb0(B479FB0Actor* pkActor, int iArg)
         for (int i = 0; i < m_ucCount; i++)
         {
             B479FB0Idle* pkIdle = m_ppkIdles[i];
-            if (pkIdle && pkActor->HasIdleInFormArray(pkIdle) && pkIdle->FUN_005ff430(pkActor, iArg, true))
+            if (pkIdle && reinterpret_cast<::FUN_008b2010_shell *>((pkActor))->HasIdleInFormArray((::TESIdleForm *)(pkIdle)) && reinterpret_cast<::TESIdleForm *>((pkIdle))->IsValidForReferences((::TESObjectREFR *)(pkActor), (::TESObjectREFR *)(iArg), true))
                 return true;
         }
     }
@@ -584,19 +585,26 @@ class FUN_00489070
 {
   public:
     virtual ~FUN_00489070();
-    void Clear();
 
     B9070String m_kName;
     B9070List m_kEntries;
 };
+// Calls the TESModel destructor and, when flags has bit 0 set, deallocates this; returns this.
+// @fnv 0x00489010
+void* TESModel::FUN_00489010(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00489070 *>((this))->FUN_00489070::~FUN_00489070();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x00489070
 FUN_00489070::~FUN_00489070()
 {
-    Clear();
+    reinterpret_cast<::FUN_004890e0_shell *>(this)->ForwardToMember();
 }
 
-int __cdecl B489480Stricmp(const char* pcA, const char* pcB);
 
 struct FUN_00489480_shell : public TESModel
 {
@@ -620,7 +628,7 @@ bool FUN_00489480_shell::IsModelPathDifferent(BaseFormComponent* pkComponent)
         const char* pcOtherPath = pkOther->GetModelPath();
         if (pcPath && pcOtherPath)
         {
-            if (B489480Stricmp(pcPath, pcOtherPath))
+            if (::FUN_00404dc0(pcPath, pcOtherPath))
                 return true;
         }
         else if (!pcPath || !pcOtherPath)
@@ -730,7 +738,6 @@ struct ModelRef
     virtual void unk4A();
     virtual void unk4B();
     virtual const char* GetEditorName();
-    unsigned int FUN_0084e3a0();
 };
 struct FUN_00408d60_shell
 {
@@ -742,20 +749,15 @@ struct Cls
     unsigned int* m_04;
     void LoadTextureArchiveEntries(Elem* arr, unsigned int count, ModelRef* form, const char* model);
 };
-extern char DAT_011c5574;
-extern char DAT_011c555c;
-FUN_004898a0_shell* __cdecl GetFltValue(int);
 bool __cdecl FUN_004898e0();
-unsigned int __cdecl FindFileEntryInArchives(int, FUN_00489860_shell*, FUN_00489860_shell*, int);
-void __cdecl FUN_005b5e40(const char* fmt, ...);
 
 // Stores the count and allocates an array, then for each Elem builds two keys, looks up an archive entry, and logs a warning when the lookup fails.
 // @fnv 0x00489670
 void Cls::LoadTextureArchiveEntries(Elem* aElems, unsigned int count, ModelRef* form, const char* model)
 {
-    FUN_004898a0_shell* s = GetFltValue(1);
+    FUN_004898a0_shell* s = ((::FUN_004898a0_shell *)(::fnv_004898f0::GetFltValue(1)));
     if (!(s != 0 && ((FUN_004898a0_shell*)((char*)s + 0x160))->FUN_004898a0() &&
-          *((FUN_00408d60_shell*)&DAT_011c5574)->FUN_00408d60() != 0))
+          *((FUN_00408d60_shell*)&(*reinterpret_cast<char *>(&::g_011c5574)))->FUN_00408d60() != 0))
         return;
     m_00 = (unsigned char)count;
     m_04 = new unsigned int[count];
@@ -765,8 +767,8 @@ void Cls::LoadTextureArchiveEntries(Elem* aElems, unsigned int count, ModelRef* 
         key0.FUN_00489860(aElems[i].b0, aElems[i].b1, aElems[i].b2, aElems[i].b3, aElems[i].i4);
         FUN_00489860_shell key1;
         key1.FUN_00489860(aElems[i].c0, aElems[i].c1, aElems[i].c2, aElems[i].c3, aElems[i].i14);
-        m_04[i] = FindFileEntryInArchives(1, &key1, &key0, 0);
-        if (*((FUN_00408d60_shell*)&DAT_011c555c)->FUN_00408d60() != 0)
+        m_04[i] = ((unsigned int)(::fnv_00af6540::FindFileEntryInArchives(1, (*(::fnv_00af6540::FileNameHash *)(&key1)), (*(::fnv_00af6540::FileNameHash *)(&key0)), (const char *)(0))));
+        if (*((FUN_00408d60_shell*)&(*reinterpret_cast<char *>(&::g_011c555c)))->FUN_00408d60() != 0)
         {
             if (FUN_004898e0())
             {
@@ -774,19 +776,17 @@ void Cls::LoadTextureArchiveEntries(Elem* aElems, unsigned int count, ModelRef* 
                 {
                     if (form != 0 && model != 0)
                     {
-                        FUN_005b5e40(
-                            "MASTERFILE: Failed to find archive file entry for texture on model '%s' for form %s (%08X).",
-                            model, form->GetEditorName(), form->FUN_0084e3a0());
+                        ::FUN_005b5e40(
+                            );
                     }
                     else if (model != 0)
                     {
-                        FUN_005b5e40(
-                            "MASTERFILE: Failed to find archive file entry for texture on model '%s' on UNKNOWN form.",
-                            model);
+                        ::FUN_005b5e40(
+                            );
                     }
                     else
                     {
-                        FUN_005b5e40("MASTERFILE: Failed to find archive file entry for texture on UNKNOWN Model");
+                        ::FUN_005b5e40();
                     }
                 }
             }
@@ -794,11 +794,9 @@ void Cls::LoadTextureArchiveEntries(Elem* aElems, unsigned int count, ModelRef* 
     }
 }
 
-void __cdecl FUN_004856f0(char* pcDest, const char* pcSrc, unsigned int uiSize);
 
 struct FUN_004891d0_hash
 {
-    void FUN_008d0600(void* pkOut, const char* pcPath);
 };
 
 struct FUN_004891d0_cls
@@ -823,9 +821,9 @@ void FUN_004891d0_cls::WriteToBuffer(char* pcBuffer, void* pkOut)
     if (FUN_0048cee0())
     {
         if (pcBuffer)
-            FUN_004856f0(pcBuffer, GetPath(), FUN_0048cee0() + 1);
+            ::FUN_004856f0(pcBuffer, (void *)(GetPath()), (void *)(FUN_0048cee0() + 1));
         if (pkOut)
-            m_kObjectMap.FUN_008d0600(pkOut, GetPath());
+            reinterpret_cast<::FUN_008d0600_s *>(&(m_kObjectMap))->FUN_008d0600((int)(pkOut), (int)(GetPath()));
     }
 }
 
@@ -842,8 +840,6 @@ struct FUN_004895b0_model
 };
 
 extern "C" void* __cdecl FNV_DynamicCast(void* inptr, long vfDelta, void* srcType, void* targetType, int isReference);
-extern "C" char FNV_RTTI_TESForm;
-extern "C" char FNV_RTTI_TESObjectREFR;
 extern unsigned char DAT_011831e8;
 
 FUN_004895b0_model* FUN_00481010(TESForm* form, TESObjectREFR* ref);
@@ -852,11 +848,11 @@ FUN_004895b0_model* FUN_00481010(TESForm* form, TESObjectREFR* ref);
 // @fnv 0x004895b0
 const char* FUN_004895b0(TESForm* apForm)
 {
-    FUN_004895b0_model* m = (FUN_004895b0_model*)FNV_DynamicCast(apForm, 0, &FNV_RTTI_TESForm, &DAT_011831e8, 0);
+    FUN_004895b0_model* m = (FUN_004895b0_model*)FNV_DynamicCast(apForm, 0, &(*reinterpret_cast<char *>(&::DAT_01183028)), &DAT_011831e8, 0);
     if (m == 0)
     {
         m = FUN_00481010(apForm,
-                         (TESObjectREFR*)FNV_DynamicCast(apForm, 0, &FNV_RTTI_TESForm, &FNV_RTTI_TESObjectREFR, 0));
+                         (TESObjectREFR*)FNV_DynamicCast(apForm, 0, &(*reinterpret_cast<char *>(&::DAT_01183028)), &::DAT_011841cc, 0));
     }
     if (m != 0)
     {
@@ -872,7 +868,6 @@ struct TESForm
 
 struct DistantModelView : TESModel
 {
-    void SetFarPath(char*);
 };
 // If apForm is a TESModel, cast it to DistantModelView and call FUN_00489120 with apModelName.
 // @fnv 0x00489190
@@ -884,7 +879,7 @@ void FUN_00489190(char* apModelName, TESForm* apForm)
         pmodel = dynamic_cast<TESModel*>(apForm);
         if (pmodel)
         {
-            static_cast<DistantModelView*>(pmodel)->SetFarPath(apModelName);
+            reinterpret_cast<::FUN_00489120_cls *>((static_cast<DistantModelView*>(pmodel)))->SetFarPath(apModelName);
         }
     }
 }
@@ -906,7 +901,7 @@ struct TextureModelView : TESModel
 void FUN_004893e0(TESModel* model, TESFile* file)
 {
     if (model && file)
-        static_cast<TextureModelView*>(model)->textures.Load(file, dynamic_cast<TESForm*>(model),
+        reinterpret_cast<::fnv_00489940::FUN_00489940_shell *>(&(static_cast<TextureModelView*>(model)->textures))->LoadChunkData((::fnv_00489940::TESFile *)(file), (::fnv_00489940::TESForm *)(::TESForm *)(dynamic_cast<TESForm*>(model)),
                                                              static_cast<TextureModelView*>(model)->GetPath());
 }
 
@@ -936,11 +931,11 @@ unsigned int __cdecl FUN_00489540(void* apForm)
 {
     void* result;
 
-    result = ::FNV_DynamicCast(apForm, 0, &::FNV_RTTI_TESForm, &::DAT_011831e8, 0);
+    result = ::FNV_DynamicCast(apForm, 0, &(*reinterpret_cast<char *>(&::DAT_01183028)), &::DAT_011831e8, 0);
     if (result == 0)
     {
-        result = ::FUN_00481010((::TESForm*)apForm, (::TESObjectREFR*)::FNV_DynamicCast(apForm, 0, &::FNV_RTTI_TESForm,
-                                                                                        &::FNV_RTTI_TESObjectREFR, 0));
+        result = ::FUN_00481010((::TESForm*)apForm, (::TESObjectREFR*)::FNV_DynamicCast(apForm, 0, &(*reinterpret_cast<char *>(&::DAT_01183028)),
+                                                                                        &::DAT_011841cc, 0));
     }
     if (result != 0)
     {
@@ -970,12 +965,10 @@ class TESBipedModelForm : public BaseFormComponent
     WorldModelEntry481010 femaleBipedModel;
     FUN_004895b0_model worldModel;
 
-    FUN_004895b0_model* GetWorldModel(int sex);
 };
 
 struct ReferenceOwnerView481010
 {
-    TESForm* FUN_00567790();
 };
 
 struct ActorSexView481010
@@ -998,9 +991,9 @@ FUN_004895b0_model* __cdecl FUN_00481010(TESForm* apBipedModelForm, TESObjectREF
     if (apReference == 0)
         return &sex->worldModel;
 
-    biped = reinterpret_cast<ReferenceOwnerView481010*>(apReference)->FUN_00567790();
+    biped = reinterpret_cast<::OwnerLookupView *>((reinterpret_cast<ReferenceOwnerView481010*>(apReference)))->FUN_00567790();
     iOwnerSex = 0;
     if (biped != 0 && _FNV_GetFormType(biped) == 0x2a)
         iOwnerSex = reinterpret_cast<ActorSexView481010*>(biped)->FUN_005f0cc0();
-    return sex->GetWorldModel(iOwnerSex);
+    return ((::FUN_004895b0_model *)(reinterpret_cast<::FUN_00481110_shell *>((sex))->GetWorldModel(iOwnerSex)));
 }

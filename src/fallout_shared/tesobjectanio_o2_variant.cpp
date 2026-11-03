@@ -2,10 +2,25 @@
 // src/fallout_shared/tesobjectanio_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/tesobjectanio.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_0048a520_shell.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00511a10_cls.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
 #include "tesobjectanio_decls.h"
 struct SFTX
 {
-    void SetFormType(int);
 };
 struct B2_4fe
 {
@@ -22,26 +37,20 @@ struct FUN_00511950 : public TESForm, public B2_4fe
 void operator delete(void*);
 struct FUN_005119e0_obj
 {
-    void FUN_00511a10();
     void* Destroy(unsigned int flags);
 };
 struct FUN_004855a0
 {
-    void __thiscall M();
 };
 struct FUN_00485680
 {
-    void __thiscall M();
 };
 struct S_0048a520
 {
-    void __thiscall ProcessAndFreeData(unsigned int, unsigned int, unsigned int);
 };
 struct _ref_0084e3a0_t
 {
-    unsigned int __thiscall _ref_0084e3a0();
 };
-unsigned int __cdecl _FUN_00485910(unsigned int, unsigned int);
 struct FUN_00511d10_shell
 {
     void __thiscall FUN_00511d10();

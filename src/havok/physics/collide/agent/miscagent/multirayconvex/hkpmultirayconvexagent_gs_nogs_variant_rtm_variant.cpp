@@ -7,17 +7,21 @@
 
 // src/havok/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-void FUN_00d374f0(int a, int b, int c, int d);
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_00cfbbe0_cls.h"
+#include "fnv/decl/hkTransformCB22.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d37000.h"
+#include "fnv/symbols_00d3a000.h"
+#include "fnv/symbols_00daf000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010ce000.h"
+#include "fnv/symbols_01268000.h"
 struct FUN_00d37690_Class {
     void __thiscall ForwardToFunction(int a, int b, int c, int d);
 };
-void FUN_00d37740(int a, int b, int c, int d);
-void FUN_00d37780(int a, int b, int c, int d);
-void FUN_00d37860(int a, int b, int c, int d);
 void FUN_00d378a0(int a, int b, int c, int d);
-void FUN_00d37280(int a, int b, int c, int d);
-void FUN_00daf8e0();
-void FUN_00d3ac80();
 struct FUN_00cfbbe0_Arg {
     void* f0;
     void* f1;
@@ -27,9 +31,7 @@ struct FUN_00cfbbe0_Arg {
     char f5;
 };
 struct FUN_00cfbbe0_Class {
-    void __thiscall FUN_00cfbbe0(FUN_00cfbbe0_Arg* a, int b, int c);
 };
-void FUN_00d377d0(int pClass);
 struct Handler {
     virtual void slot0();
     virtual void slot1();
@@ -58,12 +60,7 @@ struct S_00d37860_Collector : S_00d37860_Base {
     S_00d37860_Collector(int filter) : m_iFilter(filter) {}
     virtual void f1();
 };
-void FUN_00d374f0(void* b, void* a, void* c, S_00d37860_Collector* collector);
-void FUN_00d37860(void* a, void* b, void* c, int filter);
 struct Payload { const char* name; float value; int id; };
-extern float DAT_0104da48;
-extern const char DAT_010ce7fc[];
-void FUN_00d37280(int, int, int, Payload*);
 void FUN_00d378a0(int aiArg1, int aiArg2, int aiArg3, int aiId);
 struct D376B0Allocator;
 struct D376B0MemoryRouter {
@@ -76,7 +73,6 @@ struct D376B0MemoryRouter {
     D376B0Allocator& heap() { return *m_pStreamAllocator; }
 };
 extern "C" D376B0MemoryRouter& __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(D376B0Allocator* alloc, void* array, int numElements, int sizeElem);
 class D376B0ReferencedObject {
 public:
     D376B0ReferencedObject() : m_sReferenceCount(1) {}
@@ -103,7 +99,7 @@ struct D376B0IndexArray {
         if (cap < n) {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, sizeof(unsigned short));
+            ::FUN_00c908c0((::SpawnedObject *)(::D376B0Allocator *)(&alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(unsigned short));
         }
         m_iElementCount = n;
     }
@@ -384,7 +380,6 @@ public:
 __forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
 __forceinline const hkVector4&getTranslation()const;
 __forceinline const hkRotation&getRotation()const;
-void SetMulInverse(const hkTransform&bTa,const hkTransform&bTc);
 private:
 hkRotation m_rotation;
 hkVector4 m_vTranslation;};inline void hkVector4::setInterpolate4(const hkVector4&v0,const hkVector4&v1,hkSimdRealParameter _t)
@@ -443,8 +438,7 @@ class StringCursor
 public:
 __forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}static StringCursor&GetMonitorStream()
 {
-extern hkThreadLocalData<StringCursor*>g_pMonitorStream;
-return*g_pMonitorStream.getData();
+return*(*reinterpret_cast<::hkThreadLocalData< ::StringCursor *> *>(&::DAT_0126835c)).getData();
 }
 public:
 __forceinline char*__cdecl GetStreamStart(){return m_kRayStart.val();}
@@ -767,16 +761,14 @@ inline ShapeRayCastQuery::ShapeRayCastQuery()
 m_pRayShapeCollectionFilter(0)
 {
 }
-extern const char DAT_010ceda8[];
-extern const char DAT_010c41f8[];
 
 // @fnv 0x00d37280
 void __cdecl FUN_00d37280(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,class hkpCdPointCollector&collector)
 {
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName=DAT_010ceda8;h->setTime();mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName=::DAT_010ceda8;h->setTime();mStream.setEnd((char*)(h+1));}};
 const hkpMultiRayShape*msA=static_cast<const hkpMultiRayShape*>(bodyA.getShape());
 const hkpConvexShape*convexB=static_cast<const hkpConvexShape*>(bodyB.getShape());
-hkTransform bTa;bTa.SetMulInverse(bodyB.getTransform(),bodyA.getTransform());
+hkTransform bTa;reinterpret_cast<::hkTransformCB22 *>(&(bTa))->FUN_00cb22f0((const ::hkTransformCB22 &)(bodyB.getTransform()),(const ::hkTransformCB22 &)(bodyA.getTransform()));
 const hkArray<hkpMultiRayShape::Ray>&RaysA=msA->getRays();
 int nRays=RaysA.GetLogicalSize();
 const hkpMultiRayShape::Ray*rayA=RaysA.begin();
@@ -788,7 +780,7 @@ ShapeRayCastOutput rayResults;
 rayInput.m_vFrom._setTransformedPos(bTa,rayA->m_kRayStart);
 rayInput.m_vTo._setTransformedPos(bTa,rayA->m_kRayEnd);
 hkBool rayHit=convexB->RayCast(rayInput,rayResults);
-if(rayHit)
+if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(rayHit))->FUN_005609f0())
 {
 const hkVector4&normal=rayResults.m_vHitNormal;
 const hkReal dist=rayResults.m_fHitFraction;
@@ -800,5 +792,5 @@ collector.AddCdPoint(event);
 }
 rayA++;
 }
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName=DAT_010c41f8;h->setTime();mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName=::DAT_010c41f8;h->setTime();mStream.setEnd((char*)(h+1));}};
 }

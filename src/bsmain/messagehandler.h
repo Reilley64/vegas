@@ -7,6 +7,8 @@
 #define BSMESSAGEHANDLER_H
 
 
+#include "fnv/symbols_0046e000.h"
+#include "fnv/symbols_004ff000.h"
 #include "layout_support.h"
 
 // Per-thread warning bookkeeping.  The warning queueing state is kept per
@@ -35,7 +37,6 @@ class MessageHandler
     float speechProgress;
 
     static MessageHandler& Handler();
-    static void SetWarningCount(int count);
 
     const char* GetWarningFileName();
     float GetSpeechProgress();
@@ -50,7 +51,6 @@ MessageHandler& MessageHandler::Handler()
     return *pHandler;
 }
 
-int Warning();
 
 // @fnv 0x0045a330
 const char* MessageHandler::GetWarningFileName()

@@ -2,6 +2,55 @@
 // src/fallout/magic/magicprojectile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/magicprojectile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/EffectSetting.h"
+#include "fnv/decl/FUN_00404420_shell.h"
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_004534f0_shell.h"
+#include "fnv/decl/FUN_0046a010_shell.h"
+#include "fnv/decl/FUN_00818be0_cls.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008df040_shell.h"
+#include "fnv/decl/FUN_00931ff0_shell.h"
+#include "fnv/decl/FUN_00932070_MobileObject.h"
+#include "fnv/decl/FUN_00932490_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_0096d490_shell.h"
+#include "fnv/decl/FUN_009cdae0_shell.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FaderManager.h"
+#include "fnv/decl/Fn575690.h"
+#include "fnv/decl/Host096d450.h"
+#include "fnv/decl/InterfaceManager.h"
+#include "fnv/decl/MagicCaster.h"
+#include "fnv/decl/MagicItem.h"
+#include "fnv/decl/S86a0.h"
+#include "fnv/decl/TESDataHandler.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_00405f30__EILStandIn.h"
+#include "fnv/decl/fnv_004062a0__EffectItemList.h"
+#include "fnv/decl/fnv_004064d0__EffectItemList.h"
+#include "fnv/decl/fnv_00484ce0__TESSaveLoadGameHelper.h"
+#include "fnv/decl/fnv_00484d00__FUN_00484d00_shell.h"
+#include "fnv/decl/fnv_004bc450__FUN_004bc450_S.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_0085a3d0__TESSaveLoadGameStandIn.h"
+#include "fnv/decl/fnv_009320e0__FUN_009320e0_class.h"
+#include "fnv/decl/fnv_00c741e0__FUN_00c741e0.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00c56000.h"
+#include "fnv/symbols_00c84000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01183000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
 struct FUN_0081aa80_shell
 {
     void* m_kPointA;
@@ -22,7 +71,6 @@ FUN_0081aa80_shell* FUN_0081aa80_shell::FUN_0081aa80(void* pFirst, void* pSecond
 
 struct Call741e0
 {
-    void FUN_00c741e0(int a);
 };
 extern int DAT_010795b8;
 extern int DAT_010795d4;
@@ -35,7 +83,7 @@ struct FUN_00806eb0
 // @fnv 0x00806eb0
 FUN_00806eb0::FUN_00806eb0(int aiArg, int aiValue)
 {
-    ((Call741e0*)this)->FUN_00c741e0(aiArg);
+    new ((void *)(((Call741e0*)this))) ::fnv_00c741e0::FUN_00c741e0((::fnv_00c741e0::T741_Src *)(aiArg));
     *(void**)this = (void*)&DAT_010795e4;
     *(void**)((char*)this + 0x3E0) = (void*)&DAT_010795d4;
     *(void**)((char*)this + 0x410) = (void*)&DAT_010795b8;
@@ -44,14 +92,11 @@ FUN_00806eb0::FUN_00806eb0(int aiArg, int aiValue)
 
 struct TESSaveLoadGame
 {
-    unsigned char FUN_008df040();
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct FUN_0081e830_shell
 {
     unsigned short GetSaveRecordSize(unsigned int a);
-    unsigned int __thiscall FUN_00931ff0(unsigned int);
 };
 
 // Computes a save record size: adds the result of FUN_00931ff0(a) plus 12, and 4 more each when the save version is at least 0x48 and 0x64.
@@ -59,20 +104,19 @@ struct FUN_0081e830_shell
 unsigned short FUN_0081e830_shell::GetSaveRecordSize(unsigned int a)
 {
     unsigned short usSize = 0;
-    usSize += (unsigned short)FUN_00931ff0(a);
+    usSize += (unsigned short)((unsigned int)(reinterpret_cast<::FUN_00931ff0_shell *>(this)->FUN_00931ff0(a)));
     usSize += 4;
     usSize += 4;
     usSize += 4;
-    if (g_TESSaveLoadGame->FUN_008df040() >= 0x48)
+    if (reinterpret_cast<::FUN_008df040_shell *>((g_TESSaveLoadGame))->FUN_008df040() >= 0x48)
         usSize += 4;
-    if (g_TESSaveLoadGame->FUN_008df040() >= 0x64)
+    if (reinterpret_cast<::FUN_008df040_shell *>((g_TESSaveLoadGame))->FUN_008df040() >= 0x64)
         usSize += 4;
     return usSize;
 }
 
 struct PC7d
 {
-    void FUN_00484ce0(unsigned int, int);
 };
 struct FUN_00484d20_Class
 {
@@ -80,11 +124,9 @@ struct FUN_00484d20_Class
 };
 struct FUN_00932070_shell
 {
-    void SaveProcess(unsigned int);
 };
 struct FUN_00818be0_shell
 {
-    unsigned int FUN_00818be0();
 };
 struct FUN_0040a1e0_shell
 {
@@ -97,28 +139,26 @@ struct FUN_0081e8c0_shell : FUN_00932070_shell
 // @fnv 0x0081e8c0
 void FUN_0081e8c0_shell::FUN_0081e8c0(unsigned int aiFlags)
 {
-    SaveProcess(aiFlags);
+    reinterpret_cast<::FUN_00932070_MobileObject *>(this)->SaveProcess(aiFlags);
     unsigned int icasterID =
-        reinterpret_cast<FUN_00818be0_shell*>(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x94))
-            ->FUN_00818be0();
+        ((unsigned int)(reinterpret_cast<::FUN_00818be0_cls *>((reinterpret_cast<FUN_00818be0_shell*>(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x94))))->FUN_00818be0()));
     reinterpret_cast<FUN_00484d20_Class*>(this)->ForwardToSaveLoadGame(reinterpret_cast<int>(&icasterID), 4);
     unsigned int ispellID =
         reinterpret_cast<FUN_0040a1e0_shell*>(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x98))
             ->FUN_0040a1e0();
     reinterpret_cast<FUN_00484d20_Class*>(this)->ForwardToSaveLoadGame(reinterpret_cast<int>(&ispellID), 4);
-    reinterpret_cast<PC7d*>(this)->FUN_00484ce0(
-        reinterpret_cast<unsigned int>(reinterpret_cast<unsigned char*>(this) + 0xa4), 4);
-    if (g_TESSaveLoadGame->FUN_008df040() >= 0x48)
-        reinterpret_cast<PC7d*>(this)->FUN_00484ce0(
-            reinterpret_cast<unsigned int>(reinterpret_cast<unsigned char*>(this) + 0x90), 4);
-    if (g_TESSaveLoadGame->FUN_008df040() >= 0x64)
-        reinterpret_cast<PC7d*>(this)->FUN_00484ce0(
-            reinterpret_cast<unsigned int>(reinterpret_cast<unsigned char*>(this) + 0x8c), 4);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(
+        (void *)(reinterpret_cast<unsigned int>(reinterpret_cast<unsigned char*>(this) + 0xa4)), 4);
+    if (reinterpret_cast<::FUN_008df040_shell *>((g_TESSaveLoadGame))->FUN_008df040() >= 0x48)
+        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(
+            (void *)(reinterpret_cast<unsigned int>(reinterpret_cast<unsigned char*>(this) + 0x90)), 4);
+    if (reinterpret_cast<::FUN_008df040_shell *>((g_TESSaveLoadGame))->FUN_008df040() >= 0x64)
+        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(
+            (void *)(reinterpret_cast<unsigned int>(reinterpret_cast<unsigned char*>(this) + 0x8c)), 4);
 }
 
 struct STR00
 {
-    void FUN_00484d00(void*, unsigned int);
 };
 struct FUN_00484d40_Host
 {
@@ -126,24 +166,23 @@ struct FUN_00484d40_Host
 };
 struct FUN_0081e980_shell
 {
-    void __thiscall SetProcessLevel(unsigned int, unsigned int);
     void __thiscall FUN_0081e980(unsigned int, unsigned int);
 };
 // @fnv 0x0081e980
 void __thiscall FUN_0081e980_shell::FUN_0081e980(unsigned int a, unsigned int b)
 {
-    SetProcessLevel(a, b);
+    reinterpret_cast<::fnv_009320e0::FUN_009320e0_class *>(this)->SetProcessLevel((void *)(a), (void *)(b));
     unsigned int icasterID;
     ((FUN_00484d40_Host*)this)->FUN_00484d40(&icasterID, 4);
     *(unsigned int*)((char*)this + 0x94) = icasterID;
     unsigned int ispellID;
     ((FUN_00484d40_Host*)this)->FUN_00484d40(&ispellID, 4);
     *(unsigned int*)((char*)this + 0x98) = ispellID;
-    ((STR00*)this)->FUN_00484d00((char*)this + 0xa4, 4);
-    if (g_TESSaveLoadGame->FUN_008df040() >= 0x48)
-        ((STR00*)this)->FUN_00484d00((char*)this + 0x90, 4);
-    if (g_TESSaveLoadGame->FUN_008df040() >= 0x64)
-        ((STR00*)this)->FUN_00484d00((char*)this + 0x8c, 4);
+    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((((STR00*)this)))->FUN_00484d00((char*)this + 0xa4, 4);
+    if (reinterpret_cast<::FUN_008df040_shell *>((g_TESSaveLoadGame))->FUN_008df040() >= 0x48)
+        reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((((STR00*)this)))->FUN_00484d00((char*)this + 0x90, 4);
+    if (reinterpret_cast<::FUN_008df040_shell *>((g_TESSaveLoadGame))->FUN_008df040() >= 0x64)
+        reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((((STR00*)this)))->FUN_00484d00((char*)this + 0x8c, 4);
 }
 
 struct Form
@@ -154,7 +193,6 @@ struct Form
 
 struct ArrSI
 {
-    unsigned int GetFlags();
 };
 
 struct FUN_0081aa80
@@ -171,11 +209,9 @@ struct S3c60
     unsigned char m_auiShapeKeys[0xc8];
     FUN_0081aa80* m_pEntries;
 
-    int GetArchetype();
     bool AddAudioFormEntry(Form* pForm, ArrSI* pAudio);
 };
 
-unsigned int __fastcall _ref_0084e3a0(ArrSI* pAudio);
 void* __cdecl operator new(unsigned int);
 
 // @fnv 0x0081a960
@@ -184,11 +220,11 @@ bool S3c60::AddAudioFormEntry(Form* pForm, ArrSI* pAudio)
     if (!pForm || !pAudio)
         return false;
 
-    if (pAudio->GetFlags() != GetArchetype())
+    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pAudio))->GetName())) != reinterpret_cast<::EffectSetting *>(this)->GetArchetype())
         return true;
 
     Form* form = pForm->FUN_00800004();
-    unsigned int value = _ref_0084e3a0(pAudio);
+    unsigned int value = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pAudio))->FUN_0084e3a0()));
 
     FUN_0081aa80* node = m_pEntries;
     while (node)
@@ -335,7 +371,6 @@ struct NiAVObject
 
 struct Calendar : public NiAVObject
 {
-    Calendar* GetDaysPassed();
 };
 
 struct MagicProjectile
@@ -593,9 +628,9 @@ void MagicProjectile::FUN_0081e730()
 
     if (pAreaDisplay)
     {
-        if (static_cast<Calendar*>(pAreaDisplay)->GetDaysPassed())
+        if (((::Calendar *)(reinterpret_cast<::FUN_009611e0_shell *>((static_cast<Calendar*>(pAreaDisplay)))->FUN_009611e0())))
         {
-            static_cast<Calendar*>(pAreaDisplay)->GetDaysPassed()->v058(pAreaDisplay);
+            ((::Calendar *)(reinterpret_cast<::FUN_009611e0_shell *>((static_cast<Calendar*>(pAreaDisplay)))->FUN_009611e0()))->v058(pAreaDisplay);
         }
     }
 }
@@ -603,12 +638,10 @@ void MagicProjectile::FUN_0081e730()
 namespace fnv_0081ea40 {
 struct FUN_00932490_shell
 {
-    void SetProcessFlags(unsigned int, unsigned int);
 };
 
 struct MagicCaster
 {
-    static MagicCaster* __cdecl GetCasterByHandle(unsigned int);
 };
 
 struct EffectItem
@@ -617,7 +650,6 @@ struct EffectItem
 
 struct EffectItemList_shell
 {
-    EffectItem* FindCostliestEffectItem(int, int);
 };
 
 struct ES_0081c630
@@ -634,7 +666,6 @@ struct MagicItem
     unsigned char m_ucUnknownByte[0x0c];
     EffectItemList_shell m_effectItemList;
 
-    static MagicItem* __cdecl GetMagicItemByID(unsigned int);
 };
 
 struct MobileObject
@@ -649,18 +680,14 @@ struct ActorDeletionQueue
 
 struct Host096d450
 {
-    void FUN_0096d450(MobileObject*, int, bool, bool, MobileObject*);
 };
 
 struct MagicProjectile;
 
 struct SaveManager
 {
-    void AddFormToList(MagicProjectile*);
 };
 
-extern SaveManager* DAT_011de45c;
-extern int DAT_011e0e80;
 
 struct MagicProjectile
 {
@@ -911,36 +938,33 @@ void MagicProjectile::ResolveMagicReferences(unsigned int aiFlags, unsigned int 
     unsigned int icasterID;
 
     icasterID = reinterpret_cast<unsigned int>(m_magicCaster);
-    m_magicCaster = MagicCaster::GetCasterByHandle(icasterID);
+    m_magicCaster = ((::fnv_0081ea40::MagicCaster *)(::MagicCaster::GetCasterByHandle(icasterID)));
 
     ispellID = reinterpret_cast<unsigned int>(m_magicItem);
-    m_magicItem = MagicItem::GetMagicItemByID(ispellID);
+    m_magicItem = ((::fnv_0081ea40::MagicItem *)(::MagicItem::GetMagicItemByID(ispellID)));
 
-    m_effectItem = m_magicItem->m_effectItemList.FindCostliestEffectItem(2, 0);
+    m_effectItem = ((::fnv_0081ea40::EffectItem *)(reinterpret_cast<::fnv_004064d0::EffectItemList *>(&(m_magicItem->m_effectItemList))->FindCostliestEffectItem(2, 0)));
     m_avEffect = reinterpret_cast<MI_0081c630*>(m_magicItem)->GetEffectSettingForRange(0);
 
     this->v114(0);
 
-    reinterpret_cast<FUN_00932490_shell*>(this)->SetProcessFlags(aiFlags, aiOldFlags);
+    reinterpret_cast<::FUN_00932490_shell *>((reinterpret_cast<FUN_00932490_shell*>(this)))->SetProcessFlags(aiFlags, aiOldFlags);
 
-    reinterpret_cast<ActorDeletionQueue*>(&DAT_011e0e80)
+    reinterpret_cast<ActorDeletionQueue*>(&(*reinterpret_cast<int *>(&::g_011e0e80)))
         ->FUN_0096d470(reinterpret_cast<MobileObject*>(this),
                        static_cast<int>(reinterpret_cast<MobileObject*>(this)->GetCurrentProcessLevel()));
 
-    reinterpret_cast<Host096d450*>(&DAT_011e0e80)
-        ->FUN_0096d450(reinterpret_cast<MobileObject*>(this),
+    reinterpret_cast<::Host096d450 *>((reinterpret_cast<Host096d450*>(&(*reinterpret_cast<int *>(&::g_011e0e80)))))->FUN_0096d450((::MobileObject *)(::fnv_0081ea40::MobileObject *)(reinterpret_cast<MobileObject*>(this)),
                        static_cast<int>(reinterpret_cast<MobileObject*>(this)->GetCurrentProcessLevel()), false, false,
-                       0);
+                       (::MobileObject *)(::fnv_0081ea40::MobileObject *)(0));
 
     if (!m_magicCaster || !m_magicItem)
-        DAT_011de45c->AddFormToList(this);
+        reinterpret_cast<::fnv_0085a3d0::TESSaveLoadGameStandIn *>(((*reinterpret_cast<::fnv_0081ea40::SaveManager * *>(&::g_TESSaveLoadGame))))->AddFormToList((::TESForm *)(::fnv_0081ea40::MagicProjectile *)(this));
 }
 }  // namespace fnv_0081ea40
 
 struct EventData
 {
-    bool HasDetrimentalEffect();
-    bool HasNonDetrimentalEffect();
 };
 struct Event
 {
@@ -976,45 +1000,42 @@ struct Handler
     virtual void SetEvent(Event*);
     virtual void v17();
     virtual void SetValue(int);
-    void FUN_00818af0(int, const char*);
     bool FUN_00815480(Event*, int, bool);
 };
 extern char DAT_0107acc8[];
 extern char DAT_0107acac[];
-extern char DAT_01183140[];
-extern char DAT_01183060[];
 extern "C" void* __cdecl FUN_00ec43fb(Event*, int, const char*, const char*, int);
 // Checks evt->data, dispatches by evt->GetType() to Handle4/Handle1/Handle10, else logs errors and calls SetEvent/SetValue then HandleYes or HandleNo.
 // @fnv 0x00815480
 bool Handler::FUN_00815480(Event* pEvent, int value, bool flag)
 {
-    if (pEvent->data.HasDetrimentalEffect())
+    if (reinterpret_cast<::fnv_004062a0::EffectItemList *>(&(pEvent->data))->HasDetrimentalEffect())
     {
-        FUN_00818af0(5, DAT_0107acc8);
+        reinterpret_cast<::MagicCaster *>(this)->SetState((::MagicCaster__State)(5), (char *)(DAT_0107acc8));
         return false;
     }
     switch (pEvent->GetType())
     {
     case 4:
-        Handle4(FUN_00ec43fb(pEvent, 0, DAT_01183140, DAT_01183060, 0), flag);
+        Handle4(FUN_00ec43fb(pEvent, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183140)), DAT_01183060, 0), flag);
         return true;
         break;
     case 1:
-        Handle1(FUN_00ec43fb(pEvent, 0, DAT_01183140, DAT_01183060, 0), value, flag);
+        Handle1(FUN_00ec43fb(pEvent, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183140)), DAT_01183060, 0), value, flag);
         return true;
         break;
     case 10:
-        Handle10(FUN_00ec43fb(pEvent, 0, DAT_01183140, DAT_01183060, 0), flag);
+        Handle10(FUN_00ec43fb(pEvent, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183140)), DAT_01183060, 0), flag);
         return true;
     }
     if (HasError())
     {
-        FUN_00818af0(6, DAT_0107acac);
+        reinterpret_cast<::MagicCaster *>(this)->SetState((::MagicCaster__State)(6), (char *)(DAT_0107acac));
         return false;
     }
     SetEvent(pEvent);
     SetValue(value);
-    if (pEvent->data.HasNonDetrimentalEffect() && value)
+    if (reinterpret_cast<::fnv_00405f30::EILStandIn *>(&(pEvent->data))->HasNonDetrimentalEffect() && value)
     {
         HandleYes();
     }
@@ -1361,16 +1382,13 @@ struct FUN_0081dbb0 : MobileObject
 {
     float unk88, unk8c, unk90;
     int unk94, unk98, unk9c, unka0;
-    void FUN_0046a010(bool);
-    void* FUN_007af430();
-    void FUN_00575690(void*);
     FUN_0081dbb0();
 };
 // Initializes the object, zeroes its float and int fields, allocates a HighProcess, and calls FUN_00575690 with the result of FUN_007af430.
 // @fnv 0x0081dbb0
 FUN_0081dbb0::FUN_0081dbb0()
 {
-    FUN_0046a010(true);
+    reinterpret_cast<::FUN_0046a010_shell *>(this)->FUN_0046a010(true);
     unk90 = 0.0f;
     unk94 = 0;
     unk98 = 0;
@@ -1379,7 +1397,7 @@ FUN_0081dbb0::FUN_0081dbb0()
     unk88 = 0.0f;
     unk8c = 0.0f;
     process = new HighProcess;
-    FUN_00575690(FUN_007af430());
+    reinterpret_cast<::Fn575690 *>(this)->FUN_00575690(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())));
 }
 
 struct MarkerErrorSub
@@ -1410,11 +1428,9 @@ struct MarkerErrorObj
 
 struct MarkerErrorMgr
 {
-    void FUN_004603b0(MarkerErrorObj* pObj);
 };
 
 extern MarkerErrorObj* DAT_011dc774;
-extern MarkerErrorMgr* DAT_011c3f2c;
 
 // Creates the marker_error.nif object on first call, registers it with DAT_011c3f2c, and returns the cached DAT_011dc774 instance.
 // @fnv 0x0081e310
@@ -1425,7 +1441,7 @@ MarkerErrorObj* __cdecl GetMarkerErrorObj()
         MarkerErrorObj* pObj = new MarkerErrorObj();
         pObj->m_sub.v006("marker_error.nif");
         DAT_011dc774 = pObj;
-        DAT_011c3f2c->FUN_004603b0(DAT_011dc774);
+        reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::MarkerErrorMgr * *>(&::g_dataHandler))))->AddFormToDataHandler((::TESForm *)(DAT_011dc774));
     }
     return DAT_011dc774;
 }
@@ -1434,6 +1450,8 @@ struct NiPoint3
 {
     float x, y, z;
     NiPoint3(float fX, float fY, float fZ);
+public:
+    static const ::NiPoint3 ZERO;
 };
 struct MADName
 {
@@ -1450,8 +1468,6 @@ struct FUN_00a75650 : NiMemObject
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c,
         unk40, unk44, unk48;
     FUN_00a75650();
-    void FUN_004534f0(const float* pColor);
-    void FUN_004bc450(const NiPoint3& kPoint);
 };
 struct MADNode;
 struct MADObject
@@ -1463,36 +1479,24 @@ struct MADObject
     virtual void v20(), v21(), v22(), v23(), v24(), v25(), v26(), v27(), v28(), v29(), v30(), v31(), v32(), v33(),
         v34(), v35(), v36(), v37(), v38();
     virtual MADObject* GetObjectByName(const MADName& kName);
-    float GetFloatAt64();
-    void AssignFixedString(const MADName& kName);
-    void FUN_00440460(const void* pData);
-    void FUN_00439410(FUN_00a75650* pProperty);
 };
 struct MADNode : MADObject
 {
     virtual void v40(), v41(), v42(), v43(), v44(), v45(), v46(), v47(), v48(), v49(), v50(), v51(), v52(), v53(),
         v54();
     virtual void AttachChildInAvailableSlot(MADObject* pChild, bool abFirstAvailableSlot);
-    void FUN_00a5a040();
 };
 struct MADCount
 {
-    int FUN_00404420();
 };
 struct MADSetting
 {
-    float* FUN_00403e20();
 };
-extern MADSetting DAT_011d15e0;
-extern const char DAT_011f426c[];
-extern const float DAT_011a9b7c[];
 struct MADHandle
 {
     void* m_pObject;
     MADHandle& operator=(const MADHandle& kOther);
 };
-MADObject* __cdecl FUN_00c56680(float fRadius, int iSlices, int iStacks, int iUnk);
-void __cdecl GetLayerColor(void* pObject, const NiPoint3& kPoint);
 struct MagicAreaOwner
 {
     virtual void v000(), v001(), v002(), v003(), v004(), v005(), v006(), v007(), v008(), v009();
@@ -1508,7 +1512,6 @@ struct MagicAreaOwner
     virtual void v100(), v101(), v102(), v103(), v104(), v105(), v106(), v107(), v108(), v109();
     virtual void v110(), v111(), v112(), v113(), v114(), v115();
     virtual MADObject* Get3D();
-    MADCount* FUN_00586150();
     MADHandle FUN_00931ed0();
     void CreateMagicAreaDisplay();
 };
@@ -1524,35 +1527,30 @@ void MagicAreaOwner::CreateMagicAreaDisplay()
     MADNode* pNode2 = pRoot->IsSceneNode();
     if (pNode2)
     {
-        float fRadius3 = FUN_00586150()->FUN_00404420() * *DAT_011d15e0.FUN_00403e20() / pRoot->GetFloatAt64();
-        MADObject* pDisplaySphere = FUN_00c56680(fRadius3, 10, 10, 0);
-        pDisplaySphere->AssignFixedString(MADName("MagicAreaDisplay"));
-        pDisplaySphere->FUN_00440460(DAT_011f426c);
+        float fRadius3 = reinterpret_cast<::FUN_00404420_shell *>((((::MADCount *)(reinterpret_cast<::InterfaceManager *>(this)->FUN_00586150()))))->FUN_00404420() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MADSetting *>(&::originalRuntimeFloatSetting1112)))))) / reinterpret_cast<::FUN_009cdae0_shell *>((pRoot))->GetFloatAt64();
+        MADObject* pDisplaySphere = ((::MADObject *)(::FUN_00c56680(fRadius3, 10, 10, (const ::Color4 *)(0))));
+        ::AssignFixedString((char *)(pDisplaySphere), (int)&(const ::MADName &)(MADName("MagicAreaDisplay")), {});
+        reinterpret_cast<::FUN_00440460_S *>((pDisplaySphere))->FUN_00440460((const ::V3 *)((*reinterpret_cast<const char (*)[]>((void *)&::NiPoint3::ZERO))));
         NiPoint3 kZero_(0.0f, 0.0f, 0.0f);
-        GetLayerColor(FUN_00931ed0().m_pObject, kZero_);
+        ::GetLayerColor((unsigned int)(FUN_00931ed0().m_pObject), (::NiColor &)(kZero_));
         FUN_00a75650* pMaterial = new FUN_00a75650;
-        pMaterial->FUN_004534f0(DAT_011a9b7c);
-        pMaterial->FUN_004534f0(DAT_011a9b7c);
-        pMaterial->FUN_004bc450(kZero_);
-        pDisplaySphere->FUN_00439410(pMaterial);
+        reinterpret_cast<::FUN_004534f0_shell *>((pMaterial))->FUN_004534f0((unsigned int)((*reinterpret_cast<const float (*)[]>(&::DAT_011a9b7c))));
+        reinterpret_cast<::FUN_004534f0_shell *>((pMaterial))->FUN_004534f0((unsigned int)((*reinterpret_cast<const float (*)[]>(&::DAT_011a9b7c))));
+        reinterpret_cast<::fnv_004bc450::FUN_004bc450_S *>((pMaterial))->FUN_004bc450((const ::fnv_004bc450::C3 *)&(kZero_));
+        reinterpret_cast<::FUN_00439410_cls *>((pDisplaySphere))->FUN_00439410((::ArgObject *)(pMaterial));
         pNode2->AttachChildInAvailableSlot(pDisplaySphere, true);
-        pNode2->FUN_00a5a040();
+        reinterpret_cast<::FUN_00a5a040_Class *>((pNode2))->FUN_00a5a040();
     }
 }
 
 struct ActorDeletionQueue
 {
-    float FUN_0096d490();
 };
-extern ActorDeletionQueue DAT_011e0e80;
 
 struct Interface
 {
-    float FUN_007014e0(int);
 };
-extern Interface* DAT_011d8804;
 
-extern const double DAT_01012060;
 extern const double DAT_010290d0;
 
 struct Class_0081df60
@@ -1762,7 +1760,7 @@ struct Class_0081df60
 void Class_0081df60::Update(int param_1)
 {
     float dt3;
-    float time = DAT_011e0e80.FUN_0096d490();
+    float time = reinterpret_cast<::FUN_0096d490_shell *>(&((*reinterpret_cast<::ActorDeletionQueue *>(&::g_011e0e80))))->FUN_0096d490();
     dt3 = time - unka4;
 
     if (unka4 > time || unka4 < 0.0)
@@ -1775,7 +1773,7 @@ void Class_0081df60::Update(int param_1)
     }
 
     unka4 = time;
-    if (DAT_011d8804->FUN_007014e0(1) > 0.0)
+    if (reinterpret_cast<::FaderManager *>((::DAT_011d8804))->GetFadeValue((::FADER_ENUM)(1)) > 0.0)
         return;
     unk90 += dt3;
     vf_2f8(dt3);
@@ -1791,22 +1789,18 @@ struct Vector3
 
 struct GameTimerRecord
 {
-    unsigned int GetTime() const;
 };
 
 struct S86a0
 {
-    int FUN_004086a0();
 };
 
 void* __cdecl operator new(unsigned int size);
 
 struct Host096d450
 {
-    void __thiscall FUN_0096d450(void* object, int a, bool b, bool c, void* d);
 };
 
-extern Host096d450 DAT_011e0e80;
 
 struct FUN_0080f810
 {
@@ -1856,9 +1850,9 @@ void __cdecl FUN_0081e040(void* a, unsigned int b, unsigned int c, int d, GameTi
     void* result = 0;
     unsigned int currentTime;
 
-    currentTime = projectile ? (unsigned int)projectile : timer->GetTime();
+    currentTime = projectile ? (unsigned int)projectile : reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(timer))->FUN_00825c00();
 
-    switch (projectile->FUN_004086a0())
+    switch (reinterpret_cast<::S86a0 *>((projectile))->FUN_004086a0())
     {
     case 0:
         result = new FUN_0080f810(a, d, timer, currentTime, first, second, b, c);
@@ -1878,6 +1872,6 @@ void __cdecl FUN_0081e040(void* a, unsigned int b, unsigned int c, int d, GameTi
     }
 
     if (result)
-        DAT_011e0e80.FUN_0096d450(result, 0, 0, 0, 0);
+        reinterpret_cast<::Host096d450 *>(&((*reinterpret_cast<::fnv_0081e040::Host096d450 *>(&::g_011e0e80))))->FUN_0096d450((::MobileObject *)(result), 0, 0, 0, (::MobileObject *)(void *)(0));
 }
 }  // namespace fnv_0081e040

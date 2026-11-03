@@ -5,6 +5,7 @@
 // RemoveValueAt - drops slot <index> of the eight-slot table held by
 // FUN_00db0920: the last slot in use is moved into the hole and the used-slot
 // counter goes down by one.
+#include "fnv/symbols_010d5000.h"
 struct FUN_00db0920
 {
     int values[8];        // +0x00: eight four-byte slots, low half holds the key
@@ -30,6 +31,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 extern "C"
 {
     __m128 _mm_add_ps(__m128, __m128);
@@ -110,8 +112,6 @@ struct BoxBoxEdgeContact
     int m_featureB;                        // 0x3c
 };
 
-extern const hkVector4 g_boxVertexSigns[8];
-extern const __m128 g_negateMask;
 
 struct BoxBoxCollisionDetection
 {
@@ -144,7 +144,7 @@ static __forceinline __m128 splat(const float& f)
 // feature ids keep the vertex sign bits pre-scaled to a byte offset into the sign table
 static __forceinline const hkVector4& boxVertexSign(int byteOffset)
 {
-    return *reinterpret_cast<const hkVector4*>(reinterpret_cast<const char*>(g_boxVertexSigns) + byteOffset);
+    return *reinterpret_cast<const hkVector4*>(reinterpret_cast<const char*>((*reinterpret_cast<const hkVector4 (*)[8]>(&::DAT_010d52d0))) + byteOffset);
 }
 
 static inline float hkFabs(float r)
@@ -246,14 +246,14 @@ hkBool BoxBoxCollisionDetection::TestEdgeEdgeContact(BoxBoxEdgeContact* contact)
         return hkBool(false);
 
     if (dot3(boxVertexSign((unsigned short)contact->m_featureA & 0x70).q(), normal.q()) < 0.0f)
-        normal.set(_mm_xor_ps(normal.q(), g_negateMask));
+        normal.set(_mm_xor_ps(normal.q(), ::DAT_010c44d0));
 
     float dist = dot3(normal.q(), diff.q());
     if (dist > m_fScalar)
         return hkBool(false);
 
     contact->m_vContactPosition.set(vertexA.q());
-    contact->m_vHitNormal.set(_mm_xor_ps(normal.q(), g_negateMask));
+    contact->m_vHitNormal.set(_mm_xor_ps(normal.q(), ::DAT_010c44d0));
     contact->m_fClosestPointDistanceSquared = dist;
     return hkBool(true);
 }

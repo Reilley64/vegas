@@ -4,6 +4,10 @@
 
 // JohnnyGuitarNVSE PC reverse-engineering headers. No dependency definitions.
 #include <stddef.h>
+#include "fnv/decl/FUN_004a51d0_shell.h"
+#include "fnv/decl/FUN_004f0000_shell.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_004a8000.h"
 class NiRTTI;
 class NiNode;
 class BSFadeNode;
@@ -44,7 +48,6 @@ class NiBound
   public:
     NiPoint3 m_kCenter;
     float m_fBoundRadius;
-    void SetCenterAndRadius(const NiPoint3&, float);
 };
 // FourComponentFloatVector, but these two parameter types are inferred from the PC call site.
 class FourComponentFloatVector : public NiBound
@@ -115,7 +118,6 @@ class NiObjectNET : public NiObject
     NiExtraData** m_ppExtraData;
     unsigned short m_usExtraDataCount;
     unsigned short m_usMaxSize;
-    NiTimeController* GetControllers() const;
 };
 class NiTimeController : public NiObject
 {
@@ -123,7 +125,6 @@ class NiTimeController : public NiObject
     virtual void Start(float);
     virtual void Stop();
     virtual void Update(NiUpdateData&);
-    NiTimeController* GetNext() const;
 };
 class NiProperty : public NiObjectNET
 {
@@ -189,7 +190,6 @@ class NiAVObject : public NiObjectNET
     unsigned int m_uiObjectFlags;
     NiTransform m_kLocalTransform;
     NiTransform m_kWorldSpaceTransform;
-    bool GetHasPropertyController() const;
     void UpdateTimeControllers(NiUpdateData&, bool);
     void EnsureWorldBound();
 };

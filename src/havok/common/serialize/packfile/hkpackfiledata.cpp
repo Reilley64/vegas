@@ -2,6 +2,25 @@
 // src/havok/common/serialize/packfile/hkpackfiledata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/packfile/hkpackfiledata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/CB1A90Owner.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00cb1930_t.h"
+#include "fnv/decl/FUN_00cb1a60_t.h"
+#include "fnv/decl/FUN_00cb1fe0_t.h"
+#include "fnv/decl/FUN_00d87760_class.h"
+#include "fnv/decl/FUN_00d87790.h"
+#include "fnv/decl/FUN_00d877d0_class.h"
+#include "fnv/decl/FUN_00e06800_cls.h"
+#include "fnv/decl/FUN_00e069a0_cls.h"
+#include "fnv/decl/hkObjectD878.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkStringMapD874.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_01268000.h"
 struct FUN_00cb1930_Class
 {
     void* m_kPointA;
@@ -14,7 +33,6 @@ struct FUN_00cb1930_Class
     void* m_h;
     void* m_i;
     void* m_iUnknownValue;
-    unsigned long FindValueForKey(void* key, unsigned long def);
 };
 
 struct FUN_00e05140_Class
@@ -28,14 +46,12 @@ struct FUN_00e05140_Class
 unsigned long FUN_00e05140_Class::FUN_00e05140()
 {
     if (m_iThirdValue)
-        return ((FUN_00cb1930_Class*)((char*)this + 0x10))->FindValueForKey(m_iThirdValue, 0);
+        return ((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>((((FUN_00cb1930_Class*)((char*)this + 0x10))))->LookupHashEntry((int)(m_iThirdValue), 0)));
     return 0;
 }
 
 struct hkReferencedObject
 {
-    void RetainReference();
-    void removeReference();
 };
 
 struct hkPackFileData
@@ -48,9 +64,9 @@ struct hkPackFileData
 void hkPackFileData::SetObject(hkReferencedObject* pObject)
 {
     if (pObject)
-        pObject->RetainReference();
+        reinterpret_cast<::FUN_00c90510_class *>((pObject))->FUN_00c90510();
     if (*(hkReferencedObject**)((char*)this + 0x2c))
-        (*(hkReferencedObject**)((char*)this + 0x2c))->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>(((*(hkReferencedObject**)((char*)this + 0x2c))))->FUN_00c905b0();
     *(hkReferencedObject**)((char*)this + 0x2c) = pObject;
 }
 
@@ -81,7 +97,6 @@ int FUN_00e05950_class::FindFirstNonEmptySlot()
 }
 
 void* FUN_00c85750();
-void ResizeAudioStream(void* a, void* b, int c);
 struct UnkRet
 {
     int a;
@@ -110,7 +125,7 @@ void UnkHolder::FUN_00e055a0(UnkRet* r, int v)
     UnkRet* slot = (UnkRet*)((char*)this + 0x58);
     UnkRet* pTemp = FUN_00c85750();
     if ((unsigned int)slot->b == ((unsigned int)slot->c & 0x3fffffff))
-        ResizeAudioStream((void*)pTemp->e, slot, 8);
+        ::ResizeAudioStream((::AudioAllocator *)(void *)((void*)pTemp->e), (::AudioStream *)(slot), 8);
     UnkRet* p = (UnkRet*)((char*)slot->a + slot->b * 8);
     slot->b++;
     p->a = (int)r;
@@ -136,7 +151,7 @@ void FUN_00e05550_Class::AppendPair(int aiFirst, int aiSecond)
     void* router = _D1A0E0GetMemoryRouter();
     unsigned int cap = p[2] & 0x3fffffff;
     if (p[1] == (int)cap)
-        ResizeAudioStream(*(void**)((char*)router + 0x10), p, 8);
+        ::ResizeAudioStream((::AudioAllocator *)(*(void**)((char*)router + 0x10)), (::AudioStream *)(p), 8);
     int iIndex = p[1];
     int* slot = (int*)(p[0] + iIndex * 8);
     p[1] = iIndex + 1;
@@ -172,7 +187,6 @@ struct FUN_00e05250_Class
 
 typedef void(__thiscall* FUN_00e05250_Write)(FUN_00e05250_Archive*, int, const char*, void*, int, int);
 
-int __cdecl _FUN_00d06f80(void* data, int size);
 
 // @fnv 0x00e05250
 void FUN_00e05250_Class::WriteSections(FUN_00e05250_Archive* pArchive, int)
@@ -181,7 +195,7 @@ void FUN_00e05250_Class::WriteSections(FUN_00e05250_Archive* pArchive, int)
     {
         void* data = m_memoryData;
         int size = (m_memoryHashSize & 0x3fffffff) * 4;
-        int hash = _FUN_00d06f80(data, size);
+        int hash = ::fnv_00d06f80::FUN_00d06f80((const char *)(data), size);
 
         FUN_00e05250_Write write = reinterpret_cast<FUN_00e05250_Write>(pArchive->m_ppVirtualMethodTable[5]);
 
@@ -192,7 +206,7 @@ void FUN_00e05250_Class::WriteSections(FUN_00e05250_Archive* pArchive, int)
     {
         void* data = m_chunksData;
         int size = (m_chunksHashSize & 0x3fffffff) * 12;
-        int hash = _FUN_00d06f80(data, size);
+        int hash = ::fnv_00d06f80::FUN_00d06f80((const char *)(data), size);
 
         FUN_00e05250_Write write = reinterpret_cast<FUN_00e05250_Write>(pArchive->m_ppVirtualMethodTable[5]);
 
@@ -203,7 +217,7 @@ void FUN_00e05250_Class::WriteSections(FUN_00e05250_Archive* pArchive, int)
     {
         void* data = m_exportsData;
         int size = (m_exportsHashSize & 0x3fffffff) * 8;
-        int hash = _FUN_00d06f80(data, size);
+        int hash = ::fnv_00d06f80::FUN_00d06f80((const char *)(data), size);
 
         FUN_00e05250_Write write = reinterpret_cast<FUN_00e05250_Write>(pArchive->m_ppVirtualMethodTable[5]);
 
@@ -214,7 +228,7 @@ void FUN_00e05250_Class::WriteSections(FUN_00e05250_Archive* pArchive, int)
     {
         void* data = m_importsData;
         int size = (m_importsHashSize & 0x3fffffff) * 8;
-        int hash = _FUN_00d06f80(data, size);
+        int hash = ::fnv_00d06f80::FUN_00d06f80((const char *)(data), size);
 
         FUN_00e05250_Write write = reinterpret_cast<FUN_00e05250_Write>(pArchive->m_ppVirtualMethodTable[5]);
 
@@ -228,11 +242,9 @@ struct ByteSink
 };
 struct E06C20Writer
 {
-    void FUN_00e069a0(int a, void* b);
 };
 struct FUN_00e06800_Class
 {
-    void FUN_00e06800(int a, void* b);
 };
 
 struct FUN_00e06d70_Class
@@ -249,9 +261,9 @@ void FUN_00e06d70_Class::WriteSize(unsigned int size)
     if (size < 0x100)
         ((ByteSink*)p)->PutBytePair(9, (char)size);
     else if (size < 0x10000)
-        ((FUN_00e06800_Class*)p)->FUN_00e06800(0xa, (void*)size);
+        reinterpret_cast<::FUN_00e06800_cls *>((((FUN_00e06800_Class*)p)))->FUN_00e06800(0xa, (int)((void*)size));
     else
-        ((E06C20Writer*)p)->FUN_00e069a0(0xb, (void*)size);
+        reinterpret_cast<::FUN_00e069a0_cls *>((((E06C20Writer*)p)))->FUN_00e069a0(0xb, (unsigned int)((void*)size));
 }
 
 struct FUN_00e05100_cls
@@ -299,7 +311,6 @@ struct hkMemoryRouterE054
         return *m_pkHeap;
     }
 };
-void __cdecl FUN_00c908c0(hkAllocatorE054& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
 
 inline void* __cdecl operator new(unsigned int, void* p) throw()
 {
@@ -342,7 +353,7 @@ template <typename T> struct hkArrayE054
         {
             int iCap2 = 2 * iCapacity;
             int iNewSize = (n < iCap2) ? iCap2 : n;
-            FUN_00c908c0(kAlloc, this, iNewSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(kAlloc), (::SpawnedArray *)(void *)(this), iNewSize, sizeof(T));
         }
     }
     __forceinline void _copyFromArray(hkAllocatorE054& kAlloc, const hkArrayE054<T>& a)
@@ -388,12 +399,10 @@ void FUN_00e05410_Owner::CopyPairArrays(hkArrayE054<PairE054>& kFirstOut, hkArra
 
 struct FUN_00dce8d0_class
 {
-    unsigned long LookupHashEntry(unsigned long uiKey, unsigned long uiDefault);
 };
 
 struct FUN_00d874d0_s
 {
-    void FUN_00d874d0(const char* pcKey, int iValue);
 };
 
 struct hkBoolE055
@@ -472,7 +481,6 @@ class hkPackfileDataE055
     int m_aiUnk20[3];
     hkClassRegistryE055* m_pkClassRegistry;
 
-    int FUN_00e05240();
     void* FUN_00e055f0(const char* pcExpectedClassName, const hkFinishRegistryE055* pkFinish);
 };
 
@@ -482,7 +490,7 @@ void* hkPackfileDataE055::FUN_00e055f0(const char* pcExpectedClassName, const hk
     if (m_pvTopLevelObject)
     {
         const char* pcTopClassName =
-            (const char*)((FUN_00dce8d0_class*)&m_kTrackedTypes)->LookupHashEntry((unsigned long)m_pvTopLevelObject, 0);
+            (const char*)((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>((((FUN_00dce8d0_class*)&m_kTrackedTypes)))->LookupHashEntry((unsigned long)m_pvTopLevelObject, 0)));
         if (pcExpectedClassName)
         {
             const hkClassRegistryE055* pkRegistry = m_pkClassRegistry;
@@ -491,7 +499,7 @@ void* hkPackfileDataE055::FUN_00e055f0(const char* pcExpectedClassName, const hk
             if (!pkExpected->FUN_00d46d80(*pkTopClass).m_bValue)
                 goto fail;
         }
-        if (FUN_00e05240() == 0 && pkFinish)
+        if (((int)(reinterpret_cast<::FUN_00e05240_cls *>(this)->FUN_00e05240())) == 0 && pkFinish)
         {
             bool bFailed = false;
             for (int i = m_kTrackedTypes.FindFirstNonEmptySlot(); m_kTrackedTypes.isValid(i);
@@ -501,7 +509,7 @@ void* hkPackfileDataE055::FUN_00e055f0(const char* pcExpectedClassName, const hk
                 const char* pcClassName = (const char*)m_kTrackedTypes.getValue(i);
                 int iInfo = pkFinish->RegisterLoadedObject(pvObject, pcClassName);
                 if (iInfo)
-                    m_kFinishedTypes.FUN_00d874d0(pcClassName, iInfo);
+                    reinterpret_cast<::hkStringMapD874 *>(&(m_kFinishedTypes))->FUN_00d874d0(pcClassName, iInfo);
                 else
                     bFailed = true;
             }
@@ -515,7 +523,6 @@ fail:
 }
 
 extern "C" const void* DAT_010ea51c;
-extern int DAT_0102e388;
 
 void* FUN_00c85750();
 void __cdecl FUN_00c856c0(void* heap, void* ptr);
@@ -581,14 +588,12 @@ struct Map1Type
     void* m_kPointA;
     int m_kPointB;
     int m_iThirdValue;
-    void ProcessArgument(void* heap);
-    void FUN_00a29680();
 
     void ClearAndRelease()
     {
         NineIntegerRecord* router = (NineIntegerRecord*)FUN_00c85750();
-        this->ProcessArgument(router->m_pStreamAllocator);
-        this->FUN_00a29680();
+        reinterpret_cast<::CB1A90Owner *>((this))->ProcessArgument((::CB1A90Argument *)(router->m_pStreamAllocator));
+        ::FUN_00a29680();
     }
 };
 
@@ -598,7 +603,6 @@ struct Map2Type
     int m_kPointB;
     int m_iThirdValue;
     int m_iFourthElementInteger;
-    void FreeBuffer();
 };
 
 struct FUN_00e057c0_Class
@@ -616,60 +620,8 @@ struct FUN_00e057c0_Class
     hkArray<Export> m_kExports;
     hkArray<Import> m_kImports;
 
-    void Clear();
     void FUN_00e057c0();
 };
-
-// @fnv 0x00e057c0
-void FUN_00e057c0_Class::FUN_00e057c0()
-{
-    this->vtable = &DAT_010ea51c;
-    this->Clear();
-
-    int i;
-    for (i = 0; i < this->m_pMemoryAllocator.m_iElementCount; ++i)
-    {
-        void* item = this->m_pMemoryAllocator.m_data[i];
-        NineIntegerRecord* router = (NineIntegerRecord*)FUN_00c85750();
-        FUN_00c856c0(router->m_pStreamAllocator, item);
-    }
-
-    for (i = 0; i < this->m_kChunks.m_iElementCount; ++i)
-    {
-        int size = this->m_kChunks.m_data[i].size;
-        void* data = this->m_kChunks.m_data[i].data;
-        NineIntegerRecord* router = (NineIntegerRecord*)FUN_00c85750();
-        router->m_pStreamAllocator->ReleaseBlock(data, size);
-    }
-
-    void* unk0c = this->unk0c;
-    NineIntegerRecord* router = (NineIntegerRecord*)FUN_00c85750();
-    FUN_00c856c0(router->m_pStreamAllocator, unk0c);
-
-    NineIntegerRecord* r1 = (NineIntegerRecord*)FUN_00c85750();
-    this->m_kImports.ClearAndRelease(r1->m_pStreamAllocator);
-
-    NineIntegerRecord* r2 = (NineIntegerRecord*)FUN_00c85750();
-    this->m_kExports.ClearAndRelease(r2->m_pStreamAllocator);
-
-    NineIntegerRecord* r3 = (NineIntegerRecord*)FUN_00c85750();
-    this->m_kChunks.ClearAndRelease(r3->m_pStreamAllocator);
-
-    NineIntegerRecord* r4 = (NineIntegerRecord*)FUN_00c85750();
-    this->m_pMemoryAllocator.ClearAndRelease(r4->m_pStreamAllocator);
-
-    if (this->m_obj)
-    {
-        this->m_obj->removeReference();
-    }
-    this->m_obj = 0;
-
-    this->m_map2.FreeBuffer();
-
-    this->m_map1.ClearAndRelease();
-
-    this->vtable = (const void*)&DAT_0102e388;
-}
 
 class FUN_00e057c0
 {
@@ -720,7 +672,7 @@ class hkObje05970 : public FUN_00e057c0
 // @fnv 0x00e05970
 hkObje05970* hkObje05970::FUN_00e05970(unsigned int uiFlags) throw()
 {
-    this->FUN_00e057c0::~FUN_00e057c0();
+    reinterpret_cast<::FUN_00e057c0_Class *>((this))->FUN_00e057c0();
     if (uiFlags & 1)
         hkObje05970::operator delete(this);
     return this;
@@ -878,7 +830,6 @@ struct FUN_00e05370_List
     FUN_00e05370_Entry* data;
     int capacity;
     int lastIndex;
-    void ResetEntries();
 };
 struct FUN_00e05370_Map
 {
@@ -888,8 +839,6 @@ struct FUN_00e05370_Map
     int unknownC;
     int unknown10;
     void* table;
-    FUN_00e05370_Callback* GetValue(void* key, int defaultValue);
-    void ClearEntries();
 };
 struct FUN_00e05370_Class
 {
@@ -901,6 +850,56 @@ struct FUN_00e05370_Class
     FUN_00e05370_Map map;
     void Clear();
 };
+// @fnv 0x00e057c0
+void FUN_00e057c0_Class::FUN_00e057c0()
+{
+    this->vtable = &DAT_010ea51c;
+    reinterpret_cast<::FUN_00e05370_Class *>((this))->Clear();
+
+    int i;
+    for (i = 0; i < this->m_pMemoryAllocator.m_iElementCount; ++i)
+    {
+        void* item = this->m_pMemoryAllocator.m_data[i];
+        NineIntegerRecord* router = (NineIntegerRecord*)FUN_00c85750();
+        FUN_00c856c0(router->m_pStreamAllocator, item);
+    }
+
+    for (i = 0; i < this->m_kChunks.m_iElementCount; ++i)
+    {
+        int size = this->m_kChunks.m_data[i].size;
+        void* data = this->m_kChunks.m_data[i].data;
+        NineIntegerRecord* router = (NineIntegerRecord*)FUN_00c85750();
+        router->m_pStreamAllocator->ReleaseBlock(data, size);
+    }
+
+    void* unk0c = this->unk0c;
+    NineIntegerRecord* router = (NineIntegerRecord*)FUN_00c85750();
+    FUN_00c856c0(router->m_pStreamAllocator, unk0c);
+
+    NineIntegerRecord* r1 = (NineIntegerRecord*)FUN_00c85750();
+    this->m_kImports.ClearAndRelease(r1->m_pStreamAllocator);
+
+    NineIntegerRecord* r2 = (NineIntegerRecord*)FUN_00c85750();
+    this->m_kExports.ClearAndRelease(r2->m_pStreamAllocator);
+
+    NineIntegerRecord* r3 = (NineIntegerRecord*)FUN_00c85750();
+    this->m_kChunks.ClearAndRelease(r3->m_pStreamAllocator);
+
+    NineIntegerRecord* r4 = (NineIntegerRecord*)FUN_00c85750();
+    this->m_pMemoryAllocator.ClearAndRelease(r4->m_pStreamAllocator);
+
+    if (this->m_obj)
+    {
+        reinterpret_cast<::hkReferencedObjectC905 *>((this->m_obj))->FUN_00c905b0();
+    }
+    this->m_obj = 0;
+
+    reinterpret_cast<::FUN_00d877d0_class *>(&(this->m_map2))->FreeBuffer();
+
+    this->m_map1.ClearAndRelease();
+
+    this->vtable = (const void*)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+}
 // Invokes each registered callback with its entry id, then resets field08 and clears the list and map.
 // @fnv 0x00e05370
 void FUN_00e05370_Class::Clear()
@@ -916,7 +915,7 @@ void FUN_00e05370_Class::Clear()
             do
             {
                 void* key = list.data[index].key;
-                FUN_00e05370_Callback* pCallback = map.GetValue(key, 0);
+                FUN_00e05370_Callback* pCallback = ((::FUN_00e05370_Callback *)(reinterpret_cast<::hkObjectD878 *>(&(map))->GetValue((int)(key), 0)));
                 if (pCallback && pCallback->invoke)
                     pCallback->invoke(list.data[index].id);
                 int next = index + 1;
@@ -927,23 +926,20 @@ void FUN_00e05370_Class::Clear()
         }
     }
     field08 = 0;
-    list.ResetEntries();
-    map.ClearEntries();
+    reinterpret_cast<::FUN_00cb1a60_t *>(&(list))->ResetEntries();
+    reinterpret_cast<::FUN_00d87760_class *>(&(map))->ClearEntries();
 }
 
 struct FUN_00cb1fe0_Class
 {
-    int __thiscall EnsureCapacity(void* arg1, int arg2);
 };
 
 struct FUN_00d87790_Class
 {
-    void __thiscall FUN_00d87790(int arg);
 };
 
 struct FUN_00c90510_Class
 {
-    void __thiscall FUN_00c90510();
 };
 
 struct FUN_01268B08_Obj
@@ -956,7 +952,6 @@ struct FUN_01268B08_Obj
 };
 
 extern "C" const void* DAT_010ea51c;
-extern FUN_01268B08_Obj* DAT_01268b08;
 
 struct S00e05700_Arr
 {
@@ -1016,11 +1011,11 @@ S00e05700_Class* __thiscall S00e05700_Class::FUN_00e05700()
     void* audio = FUN_00c85750();
     void* audioObject = *reinterpret_cast<void**>(reinterpret_cast<char*>(audio) + 0x10);
 
-    reinterpret_cast<FUN_00cb1fe0_Class*>(first)->EnsureCapacity(audioObject, zero);
+    reinterpret_cast<::FUN_00cb1fe0_t *>((reinterpret_cast<FUN_00cb1fe0_Class*>(first)))->EnsureCapacity((int)(audioObject), zero);
 
     unsigned char flag = static_cast<unsigned char>(zero);
     int flagArg = *reinterpret_cast<int*>(&flag);
-    reinterpret_cast<FUN_00d87790_Class*>(reinterpret_cast<char*>(this) + 0x1C)->FUN_00d87790(flagArg);
+    new ((void *)(reinterpret_cast<FUN_00d87790_Class*>(reinterpret_cast<char*>(this) + 0x1C))) ::FUN_00d87790(flagArg);
 
     unk2C = 0;
     unk30 = 1;
@@ -1029,16 +1024,16 @@ S00e05700_Class* __thiscall S00e05700_Class::FUN_00e05700()
     arr4C.reset(static_cast<int>(0x80000000u));
     arr58.reset(static_cast<int>(0x80000000u));
 
-    int result = DAT_01268b08->vf10();
+    int result = (*reinterpret_cast<::FUN_01268B08_Obj * *>(&::DAT_01268b08))->vf10();
 
     if (result != 0)
     {
-        reinterpret_cast<FUN_00c90510_Class*>(result)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((reinterpret_cast<FUN_00c90510_Class*>(result)))->FUN_00c90510();
     }
 
     if (unk2C != 0)
     {
-        unk2C->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((unk2C))->FUN_00c905b0();
     }
 
     unk2C = reinterpret_cast<hkReferencedObject*>(result);

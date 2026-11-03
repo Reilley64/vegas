@@ -6,6 +6,9 @@
 #ifndef FNV_DIALOGUEITEM_H
 #define FNV_DIALOGUEITEM_H
 
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/MagicCaster_shell.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
 #include "layout_support.h"
 #pragma pack(push, 4)
 class DialogueItem
@@ -20,9 +23,6 @@ class DialogueItem
     ~DialogueItem();
     TESObjectREFR* SelectDefaultResponseList();
     DialogueResponse* GetActiveResponse();
-    TESTopicInfo* GetInfo();
-    TESQuest* GetQuest();
-    TESTopic* GetAudioBackendData();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(DialogueItem) == 0x1C);

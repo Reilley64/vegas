@@ -2,44 +2,47 @@
 // src/gamebryo2.2/corelibs/nianimation/niboolinterpcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/niboolinterpcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00a39030_cls.h"
+#include "fnv/decl/FUN_00a532d0.h"
+#include "fnv/decl/Holder00a390a0.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a531a0__FUN_00a531a0_shell.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a56000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_011f4000.h"
 struct BSFadeNode
 {
     static void* __cdecl operator new(unsigned int);
 };
 struct NiBlendInterpolator;
-NiBlendInterpolator* __fastcall ConstructBlendInterpolator(NiBlendInterpolator*, int, int, float, int);
 // @fnv 0x00a57750
 NiBlendInterpolator* __stdcall FUN_00a57750(int aiUnused, int aiArg, int aiUnused2, float a4, int a5)
 {
     void* pMemory = BSFadeNode::operator new(0x34);
     if (pMemory)
-        return ConstructBlendInterpolator((NiBlendInterpolator*)pMemory, aiArg, aiArg, a4, a5);
+        return ::ConstructBlendInterpolator((NiBlendInterpolator*)pMemory, aiArg, aiArg, a4, a5);
     return 0;
 }
 
-extern char const* const g_011f3f08_arg1;
 struct StrArr
 {
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
-void __stdcall FUN_00a390a0(StrArr*);
-char* __cdecl FUN_00a7d330(const char*);
 // Appends the string returned by FUN_00a7d330(g_011f3f08_arg1) to the StrArr at index e, growing it by the value at offset 14 plus e when e >= c.
 // @fnv 0x00a57800
 void __stdcall FUN_00a57800(StrArr* apStrings)
 {
-    FUN_00a390a0(apStrings);
-    char* pString = FUN_00a7d330(g_011f3f08_arg1);
+    reinterpret_cast<::Holder00a390a0 *>((apStrings))->FUN_00a390a0({});
+    char* pString = FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f4228)));
     unsigned int e = *(unsigned short*)((char*)apStrings + 10);
     unsigned int c = *(unsigned short*)((char*)apStrings + 8);
     if (e >= c)
-        apStrings->SetSize(*(unsigned short*)((char*)apStrings + 14) + e);
-    apStrings->SetAt(e, pString);
+        reinterpret_cast<::ViewerStrings *>((apStrings))->SetSize(*(unsigned short*)((char*)apStrings + 14) + e);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((apStrings))->SetAt(e, pString);
 }
 
 class NiRTTI;
-extern unsigned int DAT_011f404c;
 class NiObject
 {
   public:
@@ -51,7 +54,6 @@ class NiInterpolator : public NiObject
 class NiBoolInterpolator : public NiObject
 {
   public:
-    void SetBoolValue(bool);
 };
 class NiSingleInterpController
 {
@@ -131,15 +133,14 @@ void NiBoolInterpController::SetBoolInterpolatorValue(NiInterpolator* pkInterp, 
     if (pkInterp == 0)
         pkBoolInterp = 0;
     else
-        pkBoolInterp = (NiBoolInterpolator*)pkInterp->DynamicCast((const NiRTTI*)&DAT_011f404c);
+        pkBoolInterp = (NiBoolInterpolator*)pkInterp->DynamicCast((const NiRTTI*)&(*reinterpret_cast<unsigned int *>(&::g_011f404c)));
     GetPoseValue(bPoseValue);
-    pkBoolInterp->SetBoolValue(bPoseValue);
+    reinterpret_cast<::fnv_00a531a0::FUN_00a531a0_shell *>((pkBoolInterp))->SetBoolValue(bPoseValue);
 }
 
 class S2
 {
   public:
-    void* FUN_00a532d0(int value);
 };
 class NiBoolInterpControllerShim : public NiBoolInterpController
 {
@@ -157,7 +158,7 @@ NiInterpolator* NiBoolInterpControllerShim::FUN_00a57710(int unused)
     GetPoseValue(value.flag);
     S2* result = (S2*)BSFadeNode::operator new(0x18);
     if (result)
-        return (NiInterpolator*)result->FUN_00a532d0(value.word);
+        return (NiInterpolator*)((void *)(new ((void *)(result)) class ::FUN_00a532d0(value.word)));
     return 0;
 }
 
@@ -169,11 +170,10 @@ struct FUN_00a57c10_This
 struct StandIn
 {
     int __thiscall FUN_00a57c10(FUN_00a57c10_This* this_, int param_2);
-    int __thiscall IsCompatibleWith(FUN_00a57c10_This* this_, int param_2);
 };
 
 // @fnv 0x00a57c10
 int __thiscall StandIn::FUN_00a57c10(FUN_00a57c10_This* this_, int param_2)
 {
-    return IsCompatibleWith(this_, param_2);
+    return ((int)(reinterpret_cast<::FUN_00a39030_cls *>(this)->IsCompatibleWith((::NiSingleInterpController *)(this_))));
 }

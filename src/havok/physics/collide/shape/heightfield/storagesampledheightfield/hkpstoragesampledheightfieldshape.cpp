@@ -2,6 +2,9 @@
 // src/havok/physics/collide/shape/heightfield/storagesampledheightfield/hkpstoragesampledheightfieldshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/heightfield/storagesampledheightfield/hkpstoragesampledheightfieldshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/Foo00d24660.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_011b1000.h"
 #include "havok/hkpStorageSampledHeightFieldShape.h"
 
 // @fnv 0x00d496b0
@@ -14,13 +17,11 @@ int __stdcall FUN_00d496b0(int unused, int aiValue)
     return r;
 }
 
-extern "C" void __cdecl Deallocate(void*);
 extern int DAT_010cfb34;
 
 struct FUN_00d496d0
 {
     int vtbl;
-    void FUN_00d24660();
     ~FUN_00d496d0();
 };
 
@@ -29,8 +30,8 @@ FUN_00d496d0::~FUN_00d496d0()
 {
     *(void**)this = &DAT_010cfb34;
     if (*(char*)((char*)this + 0x70))
-        Deallocate(*(void**)((char*)this + 0x60));
-    FUN_00d24660();
+        ::FUN_00401030(*(void**)((char*)this + 0x60));
+    reinterpret_cast<::Foo00d24660 *>(this)->FUN_00d24660();
 }
 
 struct FUN_00d248a0
@@ -156,7 +157,6 @@ struct HfVec_d49850
     }
 };
 
-extern const HfVec_d49850 DAT_011b1bd0;
 
 struct HfInput_d49850
 {

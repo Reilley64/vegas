@@ -2,11 +2,28 @@
 // src/fallout_shared/tesskill.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/tesskill.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00482cb0_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_00617f40.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/SDSaveForm.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_0048e370__FUN_0048e370_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00482000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_01183000.h"
 template <int N> struct EndianSizeTag
 {
 };
 
-void __cdecl BSEndian(int*, EndianSizeTag<3>);
 
 struct FUN_006180a0_shell
 {
@@ -22,30 +39,26 @@ struct FUN_006180a0_shell
 // @fnv 0x006180a0
 void __thiscall FUN_006180a0_shell::SwapEndian()
 {
-    BSEndian(&m0, EndianSizeTag<3>());
-    BSEndian(&m4, EndianSizeTag<3>());
-    BSEndian(&m8, EndianSizeTag<3>());
+    ::FUN_00401080(&m0);
+    ::FUN_00401080(&m4);
+    ::FUN_00401080(&m8);
     for (int i = 0; i < 2; ++i)
     {
-        BSEndian(&m12 + i, EndianSizeTag<3>());
+        ::FUN_00401080(&m12 + i);
     }
 }
 
-bool __cdecl FUN_00401500();
-void __cdecl AppendChunk(unsigned int, void*, unsigned int);
 // @fnv 0x00485910
 void __cdecl FUN_00485910(unsigned int a, int aiValue)
 {
-    if (FUN_00401500())
-        BSEndian(&aiValue, EndianSizeTag<3>());
-    AppendChunk(a, &aiValue, 4);
+    if (((bool)(::FUN_00401500())))
+        ::FUN_00401080(&aiValue);
+    ::AppendChunk(a, &aiValue, 4);
 }
 
-void __cdecl Deallocate(void*);
 
 struct FUN_00617f40_shell
 {
-    void __thiscall FUN_00617f40();
 };
 
 struct FUN_00617e50_shell : public FUN_00617f40_shell
@@ -57,9 +70,9 @@ struct FUN_00617e50_shell : public FUN_00617f40_shell
 // @fnv 0x00617e50
 void* __thiscall FUN_00617e50_shell::FUN_00617e50(unsigned int flags)
 {
-    FUN_00617f40();
+    reinterpret_cast<::FUN_00617f40 *>(this)->FUN_00617f40::~FUN_00617f40();
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -90,27 +103,19 @@ void __thiscall FUN_00617ea0_shell::ResetState()
 namespace fnv_00617fc0 {
 struct FUN_004855a0
 {
-    void __thiscall M();
 };
 struct FUN_00482cb0_shell
 {
-    void __thiscall FUN_00482cb0();
 };
 struct FUN_0048e370_obj
 {
-    void __thiscall FUN_0048e370(unsigned int);
 };
 struct FUN_00485e00_shell
 {
-    void __thiscall FUN_00485e20(int, int);
 };
 struct FUN_00485680
 {
-    void __thiscall M();
 };
-void __cdecl FUN_00485910(int, int);
-void __cdecl WriteDescChunk(void*, int);
-int __cdecl FUN_00401500();
 struct FUN_00617fc0_shell
 {
     void __thiscall FUN_00617fc0();
@@ -118,20 +123,20 @@ struct FUN_00617fc0_shell
 // @fnv 0x00617fc0
 void __thiscall FUN_00617fc0_shell::FUN_00617fc0()
 {
-    ((FUN_004855a0*)this)->M();
-    FUN_00485910(0x58444e49, *(int*)((char*)this + 0x2c));
-    ((FUN_00482cb0_shell*)((char*)this + 0x18))->FUN_00482cb0();
-    ((FUN_0048e370_obj*)((char*)this + 0x20))->FUN_0048e370(0x4e4f4349);
-    if ((unsigned char)FUN_00401500())
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
+    ::FUN_00485910(0x58444e49, *(int*)((char*)this + 0x2c));
+    reinterpret_cast<::FUN_00482cb0_shell *>((((FUN_00482cb0_shell*)((char*)this + 0x18))))->FUN_00482cb0();
+    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_obj*)((char*)this + 0x20))))->FUN_0048e370(0x4e4f4349);
+    if ((unsigned char)((int)(::FUN_00401500())))
         ((FUN_006180a0_shell*)((char*)this + 0x2c))->SwapEndian();
-    ((FUN_00485e00_shell*)this)->FUN_00485e20((int)((char*)this + 0x2c), 0x14);
-    if ((unsigned char)FUN_00401500())
+    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((int)((char*)this + 0x2c)), 0x14);
+    if ((unsigned char)((int)(::FUN_00401500())))
         ((FUN_006180a0_shell*)((char*)this + 0x2c))->SwapEndian();
-    WriteDescChunk((char*)this + 0x40, 0x4d414e41);
-    WriteDescChunk((char*)this + 0x48, 0x4d414e4a);
-    WriteDescChunk((char*)this + 0x50, 0x4d414e45);
-    WriteDescChunk((char*)this + 0x58, 0x4d414e4d);
-    ((FUN_00485680*)this)->M();
+    ::WriteDescChunk((char*)this + 0x40, 0x4d414e41);
+    ::WriteDescChunk((char*)this + 0x48, 0x4d414e4a);
+    ::WriteDescChunk((char*)this + 0x50, 0x4d414e45);
+    ::WriteDescChunk((char*)this + 0x58, 0x4d414e4d);
+    reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
 }
 }  // namespace fnv_00617fc0
 
@@ -145,12 +150,10 @@ struct TESTexture;
 
 struct TESFile
 {
-    int __thiscall _ref_00472660();
-    int __thiscall _ref_004726b0();
-    bool __thiscall _ref_004726f0();
-    unsigned int __thiscall _ref_00401660();
-    bool __thiscall _ref_00472890(void*, unsigned int);
-    bool GetChunkData();
+public:
+    bool IsEndianConversionRequired();
+public:
+    bool NextChunk();
 };
 
 struct TESDescription
@@ -165,8 +168,6 @@ struct TESTexture
 
 struct TESForm
 {
-    void __thiscall _ref_00485110(TESFile*);
-    void __thiscall ReadTypedData(TESFile*, void*, unsigned short);
 
     virtual void _slot00()
     {}
@@ -340,18 +341,18 @@ bool TESSkill::FUN_00618130(TESFile* apFile)
 {
     CHUNK_ID chunkID;
 
-    if (apFile->_ref_00472660() != 0x0F)
+    if (reinterpret_cast<::FUN_00472660_shell *>((apFile))->FUN_00472660() != 0x0F)
         return false;
 
-    this->_ref_00485110(apFile);
+    reinterpret_cast<::S00485110 *>((this))->CallWithThis((::T00485110 *)(apFile));
 
-    while ((chunkID = apFile->_ref_004726b0()) != 0)
+    while ((chunkID = reinterpret_cast<::FUN_004726b0_class *>((apFile))->FUN_004726b0()) != 0)
     {
         switch (chunkID)
         {
         case 0x44494445: {
-            char* pMessage = static_cast<char*>(_alloca(apFile->_ref_00401660()));
-            apFile->_ref_00472890(pMessage, 0x200);
+            char* pMessage = static_cast<char*>(_alloca(reinterpret_cast<::FUN_00401660_Class *>((apFile))->GetField25C()));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(pMessage), 0x200);
             this->SetEditorID(pMessage);
             break;
         }
@@ -371,7 +372,7 @@ bool TESSkill::FUN_00618130(TESFile* apFile)
             break;
 
         case 0x41544144:
-            this->ReadTypedData(apFile, reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x2C), 0x14);
+            reinterpret_cast<::fnv_004861f0::Form_004861f0 *>((this))->FUN_004861f0(apFile, reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x2C), 0x14);
             break;
 
         case 0x4D414E41:
@@ -398,21 +399,20 @@ bool TESSkill::FUN_00618130(TESFile* apFile)
             break;
         }
 
-        if (chunkID == 0x41544144 && apFile->GetChunkData())
+        if (chunkID == 0x41544144 && apFile->IsEndianConversionRequired())
         {
             reinterpret_cast<FUN_006180a0_shell*>(reinterpret_cast<char*>(this) + 0x2C)->SwapEndian();
         }
 
-        if (!apFile->_ref_004726f0())
+        if (!apFile->NextChunk())
             break;
     }
 
     return true;
 }
 
-extern char DAT_01186518, DAT_01183028;
+extern char DAT_01186518;
 void* FUN_00ec43fb(void*, int, void*, void*, int);
-void FUN_00401460(void*, const void*, unsigned int);
 class Elem
 {
   public:
@@ -437,18 +437,17 @@ class FormC
     int unk28;
     int k2c[5];
     Elem arr[4];
-    void FUN_004851b0(void*);
     void CopyFrom(void* pOther);
 };
 // Copies the k2c array and arr elements from another FormC instance into this one after resolving pOther.
 // @fnv 0x00618390
 void FormC::CopyFrom(void* pOther)
 {
-    FormC* pSource = (FormC*)FUN_00ec43fb(pOther, 0, &DAT_01183028, &DAT_01186518, 0);
+    FormC* pSource = (FormC*)FUN_00ec43fb(pOther, 0, &(*reinterpret_cast<char *>(&::DAT_01183028)), &DAT_01186518, 0);
     if (!pSource)
         return;
-    FUN_004851b0(pOther);
-    FUN_00401460(k2c, pSource->k2c, 0x14);
+    reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(pOther);
+    ::__memcpy(k2c, pSource->k2c, 0x14);
     for (int i = 0; i < 4; i++)
         arr[i].Copy(&pSource->arr[i]);
 }
@@ -457,7 +456,6 @@ struct NiColor;
 
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
 };
 
 struct TESRegion
@@ -498,7 +496,7 @@ bool SkillV::FUN_00618430(TESForm* apCompare)
         return true;
     }
 
-    if (FUN_005e79a0_t::FUN_00485270(reinterpret_cast<TESForm*>(pOther)))
+    if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270(reinterpret_cast<TESForm*>(pOther)))
     {
         return true;
     }

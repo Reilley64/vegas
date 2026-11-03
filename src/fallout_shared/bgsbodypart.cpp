@@ -1,5 +1,32 @@
 // fallout_shared/bgsbodypart.cpp: BGSBodyPart, BodyPartInfo, BGSTextureModel, SomeClass (15 functions)
 
+#include <new>
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00488f50_cls.h"
+#include "fnv/decl/FUN_0051b950_shell.h"
+#include "fnv/decl/FUN_005e3fc0_shell.h"
+#include "fnv/decl/FUN_005e3fe0_class.h"
+#include "fnv/decl/FUN_00994ef0_Class.h"
+#include "fnv/decl/MagicProjectile.h"
+#include "fnv/decl/NiNode.h"
+#include "fnv/decl/QueueModelHolder.h"
+#include "fnv/decl/TESPackage.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0043f000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00489000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005e4000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011f4000.h"
 #include "bgsbodypart_decls.h"
 
 // @fnv 0x005e3a00
@@ -20,8 +47,8 @@ void BodyPartInfo::Initialize()
     m_pRelatedObject1 = 0;
     m_pRelatedObject2 = 0;
     m_fValue3 = 1.0f;
-    m_kPoint1 = NiPoint3_ZERO;
-    m_kPoint2 = NiPoint3_ZERO;
+    m_kPoint1 = ::NiPoint3::ZERO;
+    m_kPoint2 = ::NiPoint3::ZERO;
     m_pRelatedObject3 = 0;
     m_pRelatedObject4 = 0;
     m_ucByte1 = 0;
@@ -33,7 +60,7 @@ void BodyPartInfo::Initialize()
 void BGSBodyPart::QueueResourceLoad(IO_TASK_PRIORITY priority, QueuedFile* queuedFile)
 {
     if (m_kModel.GetModelLength())
-        g_modelLoader->ProcessModelRequest(&m_kModel, priority, queuedFile, true, true, false, false);
+        reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((int)(&m_kModel), priority, (int)(queuedFile), true, true, false, false);
     if (Data.m_pExplosion)
         ((Queueable18*)((char*)Data.m_pExplosion + 0x18))->QueueResourceLoad(priority, queuedFile);
     if (Data.m_pDebrisObject)
@@ -48,15 +75,6 @@ void BGSBodyPart::QueueResourceLoad(IO_TASK_PRIORITY priority, QueuedFile* queue
         ((Queueable18*)((char*)Data.m_pRelatedObject4 + 0x18))->QueueResourceLoad(priority, queuedFile);
 }
 
-// Zeroes the 0x54-byte Data block, calls Data.Initialize(), then FUN_005e3d20().
-// @fnv 0x005e3af0
-BGSBodyPart::BGSBodyPart()
-{
-    memset(&Data, 0, 0x54);
-    Data.Initialize();
-    FUN_005e3d20();
-}
-
 // @fnv 0x005e3d80
 void BGSBodyPart::InitItem(TESForm* form)
 {
@@ -65,39 +83,39 @@ void BGSBodyPart::InitItem(TESForm* form)
     unsigned int formID = (unsigned int)((DialogueItem*)this)->SelectDefaultResponseList();
     if (formID)
     {
-        TESForm::RemapFormIDForFile(formID, form->GetFile(-1));
-        Data.m_pDebrisObject = dynamic_cast<BGSExplosion*>(TESForm::GetFormByID(formID));
+        ::ResolveFormID((unsigned int *)&(formID), form->GetFile(-1));
+        Data.m_pDebrisObject = dynamic_cast<BGSExplosion*>(::FUN_004839c0(formID));
     }
-    formID = (unsigned int)((Actor*)this)->GetProcess();
+    formID = (unsigned int)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((Actor*)this)))->GetBaseTexture()));
     if (formID)
     {
-        TESForm::RemapFormIDForFile(formID, form->GetFile(-1));
-        Data.m_pExplosion = dynamic_cast<BGSDebris*>(TESForm::GetFormByID(formID));
+        ::ResolveFormID((unsigned int *)&(formID), form->GetFile(-1));
+        Data.m_pExplosion = dynamic_cast<BGSDebris*>(::FUN_004839c0(formID));
     }
     formID = (unsigned int)((EffectSetting*)this)->GetCastSound();
     if (formID)
     {
-        TESForm::RemapFormIDForFile(formID, form->GetFile(-1));
-        Data.m_pRelatedObject2 = dynamic_cast<BGSExplosion*>(TESForm::GetFormByID(formID));
+        ::ResolveFormID((unsigned int *)&(formID), form->GetFile(-1));
+        Data.m_pRelatedObject2 = dynamic_cast<BGSExplosion*>(::FUN_004839c0(formID));
     }
-    formID = (unsigned int)((EffectSetting*)this)->GetEnchantEffectShader();
+    formID = (unsigned int)((::TESEffectShader *)(reinterpret_cast<::TESPackage *>((((EffectSetting*)this)))->GetRefCount()));
     if (formID)
     {
-        TESForm::RemapFormIDForFile(formID, form->GetFile(-1));
-        Data.m_pRelatedObject1 = dynamic_cast<BGSDebris*>(TESForm::GetFormByID(formID));
+        ::ResolveFormID((unsigned int *)&(formID), form->GetFile(-1));
+        Data.m_pRelatedObject1 = dynamic_cast<BGSDebris*>(::FUN_004839c0(formID));
     }
-    formID = (unsigned int)((InterfaceManager*)this)->FUN_004fd400();
+    formID = (unsigned int)((::Tile *)(reinterpret_cast<::MagicProjectile *>((((InterfaceManager*)this)))->FUN_004fd400()));
     if (formID)
     {
-        TESForm::RemapFormIDForFile(formID, form->GetFile(-1));
+        ::ResolveFormID((unsigned int *)&(formID), form->GetFile(-1));
         ((InterfaceManager*)this)
-            ->FUN_00500a20((Tile*)dynamic_cast<BGSImpactDataSet*>(TESForm::GetFormByID(formID)));
+            ->FUN_00500a20((Tile*)dynamic_cast<BGSImpactDataSet*>(::FUN_004839c0(formID)));
     }
-    formID = FUN_005e3fc0();
+    formID = reinterpret_cast<::FUN_005e3fc0_shell *>(this)->Get();
     if (formID)
     {
-        TESForm::RemapFormIDForFile(formID, form->GetFile(-1));
-        FUN_00994ef0(dynamic_cast<BGSImpactDataSet*>(TESForm::GetFormByID(formID)));
+        ::ResolveFormID((unsigned int *)&(formID), form->GetFile(-1));
+        reinterpret_cast<::FUN_00994ef0_Class *>(this)->Set((int)(dynamic_cast<BGSImpactDataSet*>(::FUN_004839c0(formID))));
     }
 }
 
@@ -110,49 +128,49 @@ bool BGSBodyPart::Load(TESFile* file)
         bool badScale;
         if (!file)
             return false;
-        if (file->GetChunkID() == 0x4e545042)
+        if (((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())) == 0x4e545042)
         {
-            char* partName = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(partName, 0);
-            m_kPartName.Set(partName, 0);
+            char* partName = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(partName), 0);
+            reinterpret_cast<::TextString *>(&(m_kPartName))->FUN_004037f0(partName, 0);
             if (!file->NextChunk())
                 return false;
         }
-        if (file->GetChunkID() == 0x4d414e50)
+        if (((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())) == 0x4d414e50)
         {
             TESModel::LoadModelData((TESModel*)&m_kRagdollModel, file);
             if (!file->NextChunk())
                 return false;
         }
-        if (file->GetChunkID() != 0x4e4e5042)
+        if (((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())) != 0x4e4e5042)
             return false;
-        pChunkBuffer = (char*)_alloca(file->GetChunkSize());
-        file->GetChunkData(pChunkBuffer, 0);
-        NodeName.Set((char*)pChunkBuffer, 0);
+        pChunkBuffer = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(pChunkBuffer), 0);
+        reinterpret_cast<::TextString *>(&(NodeName))->FUN_004037f0((char*)pChunkBuffer, 0);
         if (!file->NextChunk())
             return false;
-        if (file->GetChunkID() != 0x544e5042)
+        if (((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())) != 0x544e5042)
             return false;
-        pChunkBuffer = (char*)_alloca(file->GetChunkSize());
-        file->GetChunkData(pChunkBuffer, 0);
-        TargetName.Set((char*)pChunkBuffer, 0);
+        pChunkBuffer = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(pChunkBuffer), 0);
+        reinterpret_cast<::TextString *>(&(TargetName))->FUN_004037f0((char*)pChunkBuffer, 0);
         if (!file->NextChunk())
             return false;
-        if (file->GetChunkID() == 0x494e5042)
+        if (((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())) == 0x494e5042)
         {
-            pChunkBuffer = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(pChunkBuffer, 0);
-            m_kVATSNodeName.Set((char*)pChunkBuffer, 0);
+            pChunkBuffer = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(pChunkBuffer), 0);
+            reinterpret_cast<::TextString *>(&(m_kVATSNodeName))->FUN_004037f0((char*)pChunkBuffer, 0);
             if (!file->NextChunk())
                 return false;
         }
-        if (file->GetChunkID() != 0x444e5042)
+        if (((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())) != 0x444e5042)
             return false;
         if (file->IsEndianConversionRequired())
-            Data.SwapEndianFields();
-        file->GetChunkData(&Data, 0x54);
+            reinterpret_cast<::FUN_005e3fe0_class *>(&(Data))->SwapEndianFields();
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&Data), 0x54);
         if (file->IsEndianConversionRequired())
-            Data.SwapEndianFields();
+            reinterpret_cast<::FUN_005e3fe0_class *>(&(Data))->SwapEndianFields();
         badScale = false;
         if (Data.m_fValue4 == 0.0)
         {
@@ -170,46 +188,46 @@ bool BGSBodyPart::Load(TESFile* file)
             badScale = true;
         }
         if (badScale)
-            Warning("MODELS: Debris scale value of zero loaded.  Please set to non-zero value in editor.");
+            ::FUN_005b5e40();
         if (!file->NextChunk())
             return false;
-        if (file->GetChunkID() != 0x314d414e)
+        if (((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())) != 0x314d414e)
             return false;
-        if (file->GetChunkSize())
+        if (reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C())
         {
-            char* modelName = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(modelName, 0);
+            char* modelName = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(modelName), 0);
             m_kModel.vfn_18(modelName);
         }
-        if (((TESFileFormVersion*)file)->GetFormVersion() < 3)
+        if (reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((((TESFileFormVersion*)file)))->FUN_00403570() < 3)
         {
-            if (!file->NextChunk() || file->GetChunkID() != 0x324d414e)
-                return ((TESFileFormVersion*)file)->GetFormVersion() < 2;
-            if (file->GetChunkSize())
+            if (!file->NextChunk() || ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())) != 0x324d414e)
+                return reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((((TESFileFormVersion*)file)))->FUN_00403570() < 2;
+            if (reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C())
             {
-                char* modelName2 = (char*)_alloca(file->GetChunkSize());
-                file->GetChunkData(modelName2, 0);
+                char* modelName2 = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(modelName2), 0);
             }
-            if (!file->NextChunk() || file->GetChunkID() != 0x334d414e)
-                return ((TESFileFormVersion*)file)->GetFormVersion() < 2;
-            if (file->GetChunkSize())
+            if (!file->NextChunk() || ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())) != 0x334d414e)
+                return reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((((TESFileFormVersion*)file)))->FUN_00403570() < 2;
+            if (reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C())
             {
-                char* modelName3 = (char*)_alloca(file->GetChunkSize());
-                file->GetChunkData(modelName3, 0);
+                char* modelName3 = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(modelName3), 0);
             }
         }
-        if (!file->NextChunk() || file->GetChunkID() != 0x344d414e)
-            return ((TESFileFormVersion*)file)->GetFormVersion() < 2;
-        if (file->GetChunkSize())
+        if (!file->NextChunk() || ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())) != 0x344d414e)
+            return reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((((TESFileFormVersion*)file)))->FUN_00403570() < 2;
+        if (reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C())
         {
-            char* goreName = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(goreName, 0);
-            m_kGoreName.Set(goreName, 0);
+            char* goreName = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(goreName), 0);
+            reinterpret_cast<::TextString *>(&(m_kGoreName))->FUN_004037f0(goreName, 0);
         }
-        if (!file->NextChunk() || file->GetChunkID() != 0x354d414e)
+        if (!file->NextChunk() || ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())) != 0x354d414e)
             return true;
-        if (file->GetChunkSize())
-            TESModel::LoadTextureSwapData(&m_kModel, file);
+        if (reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C())
+            ::FUN_004893e0(&m_kModel, file);
         return true;
     }
 }
@@ -219,18 +237,17 @@ extern int DAT_0104540c;
 // @fnv 0x005e3be0
 TESModel* __fastcall FUN_005e3be0(TESModel* pThis)
 {
-    pThis->TESModel::TESModel();
+    new ((void *)(pThis)) ::FUN_00488f50_cls();
     *(int**)pThis = &DAT_0104540c;
     return pThis;
 }
 
-void __fastcall _ref_006815c0(void*);
 
 // @fnv 0x005e3c00
 void* __fastcall FUN_005e3c00(char* pObject)
 {
-    _ref_006815c0(pObject + 0x2c);
-    _ref_006815c0(pObject + 0x38);
+    new ((void *)(pObject + 0x2c)) ::Vec3();
+    new ((void *)(pObject + 0x38)) ::Vec3();
     return pObject;
 }
 
@@ -238,6 +255,14 @@ struct FUN_005e3d20_shell : public BGSBodyPart
 {
     void FUN_005e3d20();
 };
+// Zeroes the 0x54-byte Data block, calls Data.Initialize(), then FUN_005e3d20().
+// @fnv 0x005e3af0
+BGSBodyPart::BGSBodyPart()
+{
+    memset(&Data, 0, 0x54);
+    Data.Initialize();
+    reinterpret_cast<::FUN_005e3d20_shell *>(this)->FUN_005e3d20();
+}
 
 struct VCall0
 {
@@ -261,9 +286,9 @@ struct BGSTextureModel
 // @fnv 0x005e3c30
 void* BGSTextureModel::FUN_005e3c30(unsigned int flags)
 {
-    this->BGSTextureModel::~BGSTextureModel();
+    reinterpret_cast<::FUN_0051b950_shell *>((this))->FUN_0051b950();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -305,7 +330,6 @@ class FUN_005e3c60_cls
 {
   public:
     virtual ~FUN_005e3c60_cls();
-    void FUN_005e3d50();
 
     BSStringT<char> NodeName;
     BSStringT<char> TargetName;
@@ -319,7 +343,7 @@ class FUN_005e3c60_cls
 // @fnv 0x005e3c60
 FUN_005e3c60_cls::~FUN_005e3c60_cls()
 {
-    FUN_005e3d50();
+    reinterpret_cast<::Outer005e3d50 *>(this)->FUN_005e3d50();
 }
 
 class PartList;
@@ -339,7 +363,6 @@ class PartList
 {
   public:
     unsigned int CountItems();
-    PartNode* GetItem(unsigned int);
 };
 
 class PartSink
@@ -348,9 +371,6 @@ class PartSink
     void AddEntry(unsigned int, int);
 };
 
-extern int DAT_011f49d8;
-void* __cdecl FUN_00653270(void*, void*);
-void* __fastcall FUN_0043fad0(void*);
 
 // Recursively walks a PartNode tree; for leaf nodes with a target, looks up a PartSink and adds two entries keyed by a1 and a1+0xc8.
 // @fnv 0x005e4730
@@ -366,14 +386,14 @@ void AddNodeEntries(unsigned int a1, PartNode* pNode)
         unsigned int i;
         for (i = 0; i < list3->CountItems(); i++)
         {
-            AddNodeEntries(a1, list3->GetItem(i));
+            AddNodeEntries(a1, ((::PartNode *)(reinterpret_cast<::NiNode *>((list3))->GetAt(i))));
         }
     }
     else if (pNode->GetTarget())
     {
         void* target = pNode->GetTarget();
-        void* base = FUN_0043fad0(target);
-        PartSink* sink2 = (PartSink*)FUN_00653270(&DAT_011f49d8, base);
+        void* base = ((void *)(::fnv_0043fad0::FUN_0043fad0((const char *)(target))));
+        PartSink* sink2 = (PartSink*)((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<int *>(&::g_011f49d8))), (::NiObject *)(base))));
         if (sink2)
         {
             sink2->AddEntry((unsigned short)a1, 0);
@@ -432,12 +452,10 @@ class NodeList
 {
   public:
     unsigned int FUN_0043b480();
-    TreeNode* FUN_0043b4a0(unsigned int index);
 };
 class KeyName
 {
   public:
-    const char* FUN_0043fad0();
 };
 class TreeNode
 {
@@ -453,10 +471,7 @@ class TreeNode
 class FoundResult
 {
   public:
-    void SetEntryStateByKey(unsigned int value, int enabled);
 };
-extern char DAT_011f49d8[];
-FoundResult* __cdecl FUN_00653270(const char*, const char*);
 // Recurses into a tree node's children; for each leaf with a key name, looks up a result by name and applies key and key+200 to it.
 // @fnv 0x005e4890
 void __cdecl ApplyKeyToLeafNodes(unsigned int key, TreeNode* node)
@@ -468,24 +483,23 @@ void __cdecl ApplyKeyToLeafNodes(unsigned int key, TreeNode* node)
         NodeList* children = node->GetChildren();
         for (unsigned int i = 0; i < children->FUN_0043b480(); ++i)
         {
-            ApplyKeyToLeafNodes(key, children->FUN_0043b4a0(i));
+            ApplyKeyToLeafNodes(key, ((::fnv_005e4890::TreeNode *)(reinterpret_cast<::NiNode *>((children))->GetAt(i))));
         }
     }
     else if (node->GetKeyName())
     {
         KeyName* pKeyName = node->GetKeyName();
-        const char* pcText = pKeyName->FUN_0043fad0();
-        FoundResult* result = FUN_00653270(DAT_011f49d8, pcText);
+        const char* pcText = ::fnv_0043fad0::FUN_0043fad0((const char *)(pKeyName));
+        FoundResult* result = ((::fnv_005e4890::FoundResult *)(::FUN_00653270((const ::NiRTTI *)((*reinterpret_cast<char (*)[]>(&::g_011f49d8))), (::NiObject *)(pcText))));
         if (result != 0)
         {
-            result->SetEntryStateByKey(static_cast<unsigned short>(key), 1);
-            result->SetEntryStateByKey(key + 200, 0);
+            reinterpret_cast<::SomeClass *>((result))->SetEntryStateByKey(static_cast<unsigned short>(key), 1);
+            reinterpret_cast<::SomeClass *>((result))->SetEntryStateByKey(key + 200, 0);
         }
     }
 }
 }  // namespace fnv_005e4890
 
-extern "C" void __cdecl _Deallocate(void*);
 void __cdecl FUN_005e3c60(void*);
 
 struct FUN_005e50c0_shell
@@ -499,5 +513,5 @@ FUN_005e50c0_shell::~FUN_005e50c0_shell()
 {
     FUN_005e3c60(this);
     if (1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
 }

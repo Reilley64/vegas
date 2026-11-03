@@ -6,6 +6,11 @@
 // src/speedtree/billboardleaf.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/billboardleaf.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00b3ed20_cls.h"
+#include "fnv/decl/FUN_00b3ede0_shell.h"
+#include "fnv/decl/FUN_00b40800_t.h"
+#include "fnv/decl/S_00b3ed80.h"
+#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
 struct FUN_00b28440_Class
 {
     float m_v[3];
@@ -70,9 +75,8 @@ struct FUN_0044a4c0
     FUN_0044a4c0(const FUN_0044a4c0& r);
     ~FUN_0044a4c0()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
-    void FUN_0044a730(unsigned char b, unsigned n);
 };
 struct FUN_00b096a0
 {
@@ -101,10 +105,6 @@ struct Parser
 {
     unsigned uiPos;
     ByteVec kData;
-    int GetNextElement();
-    float FUN_00b3ed20();
-    int FUN_00b3ede0();
-    unsigned char GetNextChar();
     V3 GetVector3();
 };
 inline void DeadEnd()
@@ -139,42 +139,42 @@ struct LeafQ
 LeafQ* FUN_00b405c0(Parser* p)
 {
     LeafQ* pLeaf = new LeafQ;
-    int iToken = p->GetNextElement();
+    int iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
     do
     {
         switch (iToken)
         {
         case 0x1b5e:
-            pLeaf->i14 = p->FUN_00b3ede0();
+            pLeaf->i14 = ((int)(reinterpret_cast<::FUN_00b3ede0_shell *>((p))->FUN_00b3ede0()));
             break;
         case 0x1b5f:
-            pLeaf->b10 = p->GetNextChar();
+            pLeaf->b10 = ((unsigned char)(reinterpret_cast<::FUN_00b40800_t *>((p))->GetNextChar()));
             break;
         case 0x1b60:
-            pLeaf->b18 = p->GetNextChar();
+            pLeaf->b18 = ((unsigned char)(reinterpret_cast<::FUN_00b40800_t *>((p))->GetNextChar()));
             break;
         case 0x1b62:
             pLeaf->kB = p->GetVector3();
             break;
         case 0x1b63:
-            pLeaf->b40 = p->GetNextChar();
+            pLeaf->b40 = ((unsigned char)(reinterpret_cast<::FUN_00b40800_t *>((p))->GetNextChar()));
             break;
         case 0x1b64:
-            pLeaf->f44 = p->GetNextChar() / 255.0;
+            pLeaf->f44 = ((unsigned char)(reinterpret_cast<::FUN_00b40800_t *>((p))->GetNextChar())) / 255.0;
             break;
         case 0x1b65:
-            pLeaf->i48 = p->GetNextElement();
+            pLeaf->i48 = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
             break;
         case 0x1b67:
             pLeaf->SetA(p->GetVector3());
             break;
         case 0x1b68:
-            p->FUN_00b3ed20();
+            reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
             break;
         default:
             throw FUN_00b09480("malformed billboard leaf", false);
         }
-        iToken = p->GetNextElement();
+        iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
     } while (iToken != 0x1b5d);
     DeadEnd();
     return pLeaf;

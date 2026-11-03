@@ -2,6 +2,15 @@
 // src/havok/animation/ragdoll/penetration/hkadetectragdollpenetration.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/ragdoll/penetration/hkadetectragdollpenetration.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FnvBounds.h"
+#include "fnv/decl/PhantomBounds.h"
+#include "fnv/decl/SkeletonPoseData.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cde000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_0104e000.h"
 struct hkMemoryAllocator;
 
 struct AudioMgr
@@ -21,7 +30,6 @@ inline AudioMgr* audio()
     return (AudioMgr*)FUN_00c85750();
 }
 
-__declspec(nothrow) void __cdecl FUN_00c908c0(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
 
 inline void* operator new(unsigned int, void* p)
 {
@@ -50,7 +58,7 @@ struct hkIntArray
         if (getCapacity() < n)
         {
             int cap = 2 * getCapacity();
-            FUN_00c908c0(alloc, this, n < cap ? cap : n, sizeof(int));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), n < cap ? cap : n, sizeof(int));
         }
     }
     __forceinline void SetSizeAndGrow(int n, const int& fill)
@@ -117,8 +125,6 @@ extern "C" __m128 _mm_set_ps1(float);
 extern "C" __m128 _mm_min_ps(__m128, __m128);
 extern "C" __m128 _mm_max_ps(__m128, __m128);
 
-extern float DAT_0104da48;
-extern float DAT_0104e148;
 
 struct hkVector4
 {
@@ -161,7 +167,6 @@ struct hkAabb
 {
     hkVector4 m_kMinimumCorner;
     hkVector4 m_kMaximumCorner;
-    hkBool ValidateBounds() const throw();
     void includePoint(const hkVector4& p)
     {
         m_kMinimumCorner.setMin4(m_kMinimumCorner, p);
@@ -178,7 +183,6 @@ struct hkAllocVt
     virtual void ReturnMemory(void* p, int numBytes) throw();
 };
 
-__declspec(nothrow) void __cdecl ResizeAudioStream(void* alloc, void* arr, int sizeElem);
 
 template <typename T> struct hkArr
 {
@@ -200,7 +204,7 @@ template <typename T> struct hkArr
     {
         hkMemoryAllocator& alloc = audio()->heap();
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
-            ResizeAudioStream(&alloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(T));
         new (m_data + m_iElementCount) T(t);
         m_iElementCount++;
     }
@@ -219,12 +223,11 @@ struct BoxSet
     BoxEntry* m_boxes;
     int unk14, unk18;
     int* m_flags;
-    const hkVector4& FUN_00cda180(int idx) throw();
     __forceinline const hkVector4& GetBoxVector(int idx)
     {
         if (!(m_flags[idx] & 2))
             return m_boxes[idx].m_kPoint;
-        return FUN_00cda180(idx);
+        return (*(const ::hkVector4 *)&(reinterpret_cast<::SkeletonPoseData *>(this)->FUN_00cda180(idx)));
     }
 };
 
@@ -246,7 +249,6 @@ struct PairRecord
 
 struct AabbSink
 {
-    void FUN_00cf24a0(const hkAabb& aabb) throw();
 };
 
 struct PairTester
@@ -255,7 +257,6 @@ struct PairTester
     virtual hkBool test(AabbSink* sink, const hkVector4& a, const hkVector4& b, hkVector4& p0, hkVector4& p1) throw();
 };
 
-void __cdecl CollectReachableNodes(IndexInfo* info, short idx, hkArr<short>* list, int flags) throw();
 
 struct PairFinder : RefObj
 {
@@ -277,8 +278,8 @@ hkBool PairFinder::FUN_00d1fb00(BoxSet* boxes, hkArr<PairRecord>* out)
     {
         {
             hkAabb aabb;
-            aabb.m_kMinimumCorner.SetAllComponents(DAT_0104da48);
-            aabb.m_kMaximumCorner.SetAllComponents(DAT_0104e148);
+            aabb.m_kMinimumCorner.SetAllComponents(::DAT_0104da48);
+            aabb.m_kMaximumCorner.SetAllComponents(::DAT_0104e148);
             for (short i = 1; i < m_uiItemCount; i++)
             {
                 short idx = m_info->m_idx[i];
@@ -292,8 +293,8 @@ hkBool PairFinder::FUN_00d1fb00(BoxSet* boxes, hkArr<PairRecord>* out)
                     aabb.includePoint(b);
                 }
             }
-            if (aabb.ValidateBounds())
-                m_sink->FUN_00cf24a0(aabb);
+            if ((*(::hkBool *)(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(reinterpret_cast<::FnvBounds *>((void *)&(aabb))->ValidateBounds({})))->FUN_005609f0())))
+                reinterpret_cast<::PhantomBounds *>((m_sink))->FUN_00cf24a0(aabb);
         }
         hkVector4 a, b, p0, p1;
         for (short i = 1; i < m_uiItemCount; i++)
@@ -304,7 +305,7 @@ hkBool PairFinder::FUN_00d1fb00(BoxSet* boxes, hkArr<PairRecord>* out)
                 a = boxes->GetBoxVector(idx);
                 b = boxes->GetBoxVector(i);
                 hkBool res = m_tester->test(m_sink, a, b, p0, p1);
-                if (res)
+                if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(res))->FUN_005609f0())
                 {
                     PairRecord rec;
                     rec.m_p0 = p0;
@@ -329,7 +330,7 @@ hkBool PairFinder::FUN_00d1fb00(BoxSet* boxes, hkArr<PairRecord>* out)
         if (m_aiIndexedValues.m_data[c] != 2)
             m_aiIndexedValues.m_data[c] = 1;
         hkArr<short> list;
-        CollectReachableNodes(m_info, c, &list, 0);
+        ::fnv_00cde450::CollectReachableNodes((::fnv_00cde450::S_00cde450_Graph *)(m_info), c, (::fnv_00cde450::S_00cde450_UShortArr *)(::hkArr<short> *)(&list), 0);
         for (int k = 0; k < list.m_iElementCount; k++)
         {
             short p = list.m_data[k];
@@ -341,7 +342,6 @@ hkBool PairFinder::FUN_00d1fb00(BoxSet* boxes, hkArr<PairRecord>* out)
 }
 
 namespace fnv_00d1fe70 {
-extern int DAT_0102e388;
 
 struct AudioAllocator
 {
@@ -394,7 +394,7 @@ FUN_00d1fe70_cls* FUN_00d1fe70_cls::FUN_00d1fe70(unsigned char acFlags)
     }
     m_p18 = 0;
     m_20 = 0x80000000;
-    m_vptr = (int)&DAT_0102e388;
+    m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (acFlags & 1)
     {
         AudioHolder* pHolder2 = FUN_00c85750();

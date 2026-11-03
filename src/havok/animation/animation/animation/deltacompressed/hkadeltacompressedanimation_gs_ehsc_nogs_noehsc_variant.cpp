@@ -5,6 +5,12 @@
 
 // src/havok/animation/animation/animation/deltacompressed/hkadeltacompressedanimation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/deltacompressed/hkadeltacompressedanimation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00e4e000.h"
+#include "fnv/symbols_00e4f000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkaDeltaCompressedAnimation.h"
 struct FUN_00e34b40_s
 {
@@ -86,7 +92,6 @@ struct BlkInfo
 };
 struct FUN_00e34c90_s : hkaDeltaCompressedAnimation
 {
-    unsigned int GetCompressedBlockRange(unsigned int index, unsigned int count, BlkInfo* info);
     unsigned int GetMaxBlockSize();
 };
 struct Source
@@ -157,7 +162,6 @@ struct S00e34c10_Cache
 };
 struct S00e34c10_Anim : hkaDeltaCompressedAnimation
 {
-    void __thiscall GetCompressedBlockRange(unsigned int blockIndex, int numBlocks, S00e34c10_Block* apBlocks);
     void __thiscall FUN_00e34c10(unsigned int frameIndex, int unused, S00e34c10_Cache* cache, int mode);
 };
 // FUN_00e34d80 - hkaDeltaCompressedAnimation block decode launcher (Havok timer-wrapped)
@@ -165,9 +169,7 @@ struct S00e34c10_Anim : hkaDeltaCompressedAnimation
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long tlsIndex);
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
-extern unsigned int DAT_0126835c;
 extern char DAT_010eb77c[];
-extern char DAT_010c41f8[];
 struct DqEvt
 {
     const char* tag;
@@ -248,8 +250,6 @@ struct AnimationStatistics
         compressionRatio = 0.0f;
     }
 };
-void __cdecl FUN_00e4ebb0(const unsigned short*, const unsigned short*, unsigned int, unsigned int,
-                          AnimationStatistics*);
 inline unsigned short swapMask(unsigned short value)
 {
     union Input
@@ -394,9 +394,6 @@ struct ScratchAllocator
 {
     char* current;
 };
-extern "C" ScratchAllocator* FUN_00c85750();
-void __cdecl AnalyzeTrackWithZeroCount(const hkUint16*, const hkUint16*, unsigned int, unsigned int, TrackStatistics*);
-void __cdecl FUN_00e4f640(const RecomposeParameters*, hkQsTransform*, float*);
 void __cdecl DecodeQuantizedBlock(const hkUint8*, const Quantization*, float*, int);
 void __cdecl PrefixSum(float*, int);
 int __cdecl FUN_00e51da0(int, const Quantization*);
@@ -427,8 +424,7 @@ void __cdecl FUN_00e354b0(unsigned int frame, float delta, unsigned int numTrans
                           unsigned int numFloats, float* floats, const Chunk* chunks, int chunkCount);
 
 #include <xmmintrin.h>
-extern float DAT_01012068;
-extern __m128 DAT_010c71b0;
+#include "fnv/symbols_simd.h"
 
 // @fnv 0x00e34d30
 void __stdcall FUN_00e34d30(int a, int b, unsigned int count, unsigned int* target)
@@ -442,7 +438,7 @@ void __stdcall FUN_00e34d30(int a, int b, unsigned int count, unsigned int* targ
         do
         {
             _mm_store_ps((float*)(p - 0x20), zero);
-            _mm_store_ps((float*)(p - 0x10), DAT_010c71b0);
+            _mm_store_ps((float*)(p - 0x10), ::DAT_010c71b0);
             _mm_store_ps((float*)p, ones);
 
             p += 0x30;

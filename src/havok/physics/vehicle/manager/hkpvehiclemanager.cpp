@@ -2,10 +2,14 @@
 // src/havok/physics/vehicle/manager/hkpvehiclemanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/manager/hkpvehiclemanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/VUBCD_Instance.h"
+#include "fnv/decl/VUC_StepInstance.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c90000.h"
 class FUN_00d1df70
 {
   public:
-    void removeReference();
 };
 
 class RefPtrArray
@@ -43,7 +47,7 @@ found:
     {
         m_items[idx] = m_items[newCount];
     }
-    pObj->removeReference();
+    reinterpret_cast<::hkReferencedObjectC905 *>((pObj))->FUN_00c905b0();
 }
 
 struct E426F0Allocator;
@@ -63,11 +67,9 @@ struct E426F0MemoryRouter
 };
 
 extern "C" E426F0MemoryRouter& __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void* alloc, void* array, int sizeElem);
 
 struct E426F0Object
 {
-    void RetainReference() const;
 };
 
 struct E426F0ObjectArray
@@ -91,7 +93,7 @@ struct E426F0ObjectArray
     {
         E426F0Allocator& alloc = FUN_00c85750().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&alloc, this, sizeof(E426F0Object*));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(E426F0Object*));
         construct(m_data + m_iElementCount, 1, e);
         m_iElementCount++;
     }
@@ -109,7 +111,7 @@ struct E426F0Container
 // @fnv 0x00e426f0
 void E426F0Container::AddObject(E426F0Object* object)
 {
-    object->RetainReference();
+    reinterpret_cast<::FUN_00c90510_class *>((void *)(object))->FUN_00c90510();
     m_kTrackedObjects.AddBack(object);
 }
 
@@ -145,7 +147,6 @@ class E42740ReferencedObject
     virtual ~E42740ReferencedObject() throw()
     {}
 
-    void removeReference() const;
 
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
@@ -182,7 +183,7 @@ FUN_00e42740::~FUN_00e42740() throw()
 {
     int numObjects = m_kTrackedObjects.m_iElementCount;
     for (int i = 0; i < numObjects; i++)
-        m_kTrackedObjects.m_data[i]->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((void *)(m_kTrackedObjects.m_data[i]))->FUN_00c905b0();
 }
 }  // namespace fnv_00e42740
 
@@ -195,7 +196,6 @@ struct E426F0Allocator
     virtual void Free(void* p, unsigned int size);
 };
 
-void __cdecl FUN_00c908c0(E426F0Allocator* alloc, void* list, unsigned int newCap, unsigned int elemSize);
 
 struct ParamObj
 {
@@ -245,8 +245,6 @@ struct ItemRec
     int unk38;
     ObjBase* m_3c;
 
-    void sub_e37940();
-    void sub_e39030(ParamObj* p, void* buf);
 };
 
 struct LocalArray
@@ -300,13 +298,13 @@ void FUN_00e427b0_cls::ProcessItems(ParamObj* p)
                 {
                     iNewCapacity = flag;
                 }
-                FUN_00c908c0(pAllocator, &buffer, iNewCapacity, 0x60);
+                ::FUN_00c908c0((::SpawnedObject *)(pAllocator), (::SpawnedArray *)(void *)(&buffer), iNewCapacity, 0x60);
             }
             buffer.m_iElementCount = flag;
-            item->sub_e37940();
+            reinterpret_cast<::VUBCD_Instance *>((item))->FUN_00e37940();
             ObjBase* pObj = item->m_3c;
             pObj->v10(p->m_08, item, buffer.m_data);
-            item->sub_e39030(p, buffer.m_data);
+            reinterpret_cast<::VUC_StepInstance *>((item))->FUN_00e39030((*(const ::VUC_StepInfo *)(p)), buffer.m_data);
             i++;
         } while (i < count);
     }

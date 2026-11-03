@@ -2,12 +2,18 @@
 // src/gamebryo2.2/corelibs/nimain/ninifimagereader.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/ninifimagereader.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" int __cdecl NiStricmp(char const*, char const*);
 
 // @fnv 0x00a8ad80
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/NiStream.h"
+#include "fnv/symbols_00a65000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109f000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
 char __stdcall IsNifExtension(const char* pcFileExtension)
 {
-    return NiStricmp(pcFileExtension, ".nif") == 0;
+    return ::NiStricmp(pcFileExtension, ".nif") == 0;
 }
 
 __declspec(dllimport) void __stdcall InitializeCriticalSection(void* pkSection);
@@ -111,12 +117,9 @@ FUN_00a8ae50::FUN_00a8ae50()
 {}
 
 #include <windows.h>
-extern int DAT_0109f3e4[];
-extern int DAT_0109f3d0[];
 
 struct A8NiStream
 {
-    void __thiscall FUN_00a65300();
 };
 
 struct A8Class
@@ -190,7 +193,7 @@ struct A8Class
 void __thiscall A8Class::FUN_00a8ada0()
 {
     unk00 = DAT_0109f3e4;
-    unk100.FUN_00a65300();
+    ::FUN_00a65300((::FUN_00a65300_holder *)&(unk100));
     unk00 = DAT_0109f3d0;
     DeleteCriticalSection(&unk80);
 }
@@ -263,20 +266,15 @@ bool FUN_00a8add0_cls::FUN_00a8add0(const char* pcFileExtension, unsigned int* p
 }
 
 namespace fnv_00a8ae80 {
-extern int DAT_0109f3e4;
-extern int DAT_0109f3d0;
 
 struct FUN_00a8ae80_member
 {
     int unk00;
-    void Cleanup();
 };
 
 struct FUN_00a8ae80_pool
 {
-    void Free(void* apMemory);
 };
-extern FUN_00a8ae80_pool DAT_011f6238;
 
 struct FUN_00a8ae80_cls
 {
@@ -349,19 +347,18 @@ struct FUN_00a8ae80_cls
 FUN_00a8ae80_cls* FUN_00a8ae80_cls::FUN_00a8ae80(unsigned char acFlags)
 {
     FUN_00a8ae80_member* pMember = &m_100;
-    m_vptr = (int)&DAT_0109f3e4;
-    pMember->Cleanup();
-    m_vptr = (int)&DAT_0109f3d0;
+    m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0109f3e4));
+    ::FUN_00a65300((::FUN_00a65300_holder *)(pMember));
+    m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0109f3d0));
     DeleteCriticalSection(&m_cs);
     if (acFlags & 1)
     {
-        DAT_011f6238.Free(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a8ae80::FUN_00a8ae80_pool *>(&::g_memoryManager))))->FUN_00aa4060(this);
     }
     return this;
 }
 }  // namespace fnv_00a8ae80
 
-extern int DAT_011f4a90;
 
 struct Node
 {
@@ -380,7 +377,6 @@ struct SubObj
 {
     virtual void v00();
     virtual void v04(const char* name);
-    void Init();
 };
 
 struct FnvMgr
@@ -395,7 +391,7 @@ Obj* FnvMgr::FUN_00a8aec0(const char* name, int unused)
     CRITICAL_SECTION* cs = (CRITICAL_SECTION*)((char*)this + 0x80);
     EnterCriticalSection(cs);
     SubObj* pSubObj = (SubObj*)((char*)this + 0x100);
-    pSubObj->Init();
+    reinterpret_cast<::NiStream *>((pSubObj))->ClearTopLevelObjects();
     pSubObj->v04(name);
     if (*(int*)((char*)this + 0x328) == 1)
     {
@@ -407,7 +403,7 @@ Obj* FnvMgr::FUN_00a8aec0(const char* name, int unused)
             {
                 for (Node* pNode = pHead; pNode != 0; pNode = pNode->next)
                 {
-                    if (pNode == (Node*)&DAT_011f4a90)
+                    if (pNode == (Node*)&(*reinterpret_cast<int *>(&::g_011f4a90)))
                     {
                         LeaveCriticalSection(cs);
                         return pObj;

@@ -2,9 +2,22 @@
 // src/gamebryo2.2/corelibs/nimain/nivertexcolorproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nivertexcolorproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00a5c200.h"
+#include "fnv/decl/FUN_00a5d450_class.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a5d000.h"
+#include "fnv/symbols_00a5f000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_011f4000.h"
+class NiStream;
 struct NiProperty
 {
     NiProperty();
+public:
+    void LoadBinary(::NiStream &);
 };
 
 struct BSFadeNode
@@ -21,7 +34,7 @@ NiProperty* FUN_00a5f280()
     NiProperty* p = static_cast<NiProperty*>(BSFadeNode::operator new(0x1c));
     if (p)
     {
-        p->NiProperty::NiProperty();
+        new ((void *)(p)) struct ::FUN_00a5c200();
         *reinterpret_cast<short*>(reinterpret_cast<char*>(p) + 0x18) = 8;
         *reinterpret_cast<int*>(p) = reinterpret_cast<int>(&DAT_0109b72c);
         return p;
@@ -36,7 +49,8 @@ struct NiObject
 struct EqBase
 {
     char _pad[0x18];
-    bool FUN_00a62140(NiObject*);
+public:
+    bool FUN_00a62140(void *);
 };
 struct NiVertexColorProperty : EqBase
 {
@@ -47,7 +61,7 @@ struct NiVertexColorProperty : EqBase
 bool NiVertexColorProperty::IsVertexColorPropertyEqual(NiObject* pkObject)
 {
     NiVertexColorProperty* pkVC;
-    if (EqBase::FUN_00a62140(pkObject))
+    if (reinterpret_cast<::EqBase *>(this)->FUN_00a62140(pkObject))
     {
         pkVC = (NiVertexColorProperty*)pkObject;
         if ((pkVC->m_uiObjectFlags & 0x30) == (m_uiObjectFlags & 0x30))
@@ -67,8 +81,6 @@ struct StrArr
     char _pad2[0x02];
     unsigned short _growBy;
 
-    void SetSize(unsigned int size);
-    void SetAt(unsigned int index, char*& value);
 };
 
 struct FUN_00a62a40_this
@@ -76,9 +88,6 @@ struct FUN_00a62a40_this
     void AppendString(StrArr* strings);
 };
 
-extern double* _g_011f4430;
-char* __cdecl _FUN_00a7d330(double* value);
-char* __cdecl BuildSourceString(const char* name, unsigned int value);
 char* __cdecl BuildLightingEnumString(const char* name, unsigned int value);
 
 struct FUN_00a5f3a0_shell : NiVertexColorProperty
@@ -91,29 +100,28 @@ void FUN_00a5f3a0_shell::AppendVertexColorProperties(StrArr* strings)
 {
     reinterpret_cast<FUN_00a62a40_this*>(this)->AppendString(strings);
 
-    char* value = _FUN_00a7d330(_g_011f4430);
+    char* value = ::FUN_00a7d330((const char *)((*reinterpret_cast<double * *>(&::g_011f4430))));
     unsigned int index = strings->_count;
     if (index >= strings->_capacity)
-        strings->SetSize(index + strings->_growBy);
-    strings->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->_growBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 
     unsigned int sourceMode = (m_uiObjectFlags >> 4) & 3;
-    value = BuildSourceString("Source Mode", sourceMode);
+    value = ::BuildSourceString("Source Mode", sourceMode);
     index = strings->_count;
     if (index >= strings->_capacity)
-        strings->SetSize(index + strings->_growBy);
-    strings->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->_growBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 
     unsigned int lightingMode = (m_uiObjectFlags >> 3) & 1;
     value = BuildLightingEnumString("Lighting Mode", lightingMode);
     index = strings->_count;
     if (index >= strings->_capacity)
-        strings->SetSize(index + strings->_growBy);
-    strings->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->_growBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 }
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
-void __stdcall CreateVertexBufferSet(void* self, unsigned int arg);
 
 struct NodeBase_b9855
 {
@@ -147,7 +155,6 @@ struct FUN_00a5f210_cls
     unsigned int unk14;
     unsigned short m_18;
 
-    void FUN_00a5d7a0(NodeBase_b9855* p, unsigned int arg);
     void* FUN_00a5f210(unsigned int a1);
 };
 
@@ -157,13 +164,13 @@ void* FUN_00a5f210_cls::FUN_00a5f210(unsigned int a1)
     if (m_0c != 0)
     {
         NodeBase_b9855* p = new NodeObj_b9855();
-        FUN_00a5d7a0(p, a1);
+        ::FUN_00a5d7a0();
         p->m_18 = m_18;
         return p;
     }
     else
     {
-        CreateVertexBufferSet(this, a1);
+        reinterpret_cast<::FUN_00a5d450_class *>((this))->CreateVertexBufferSet(a1, {});
         return this;
     }
 }
@@ -171,7 +178,6 @@ void* FUN_00a5f210_cls::FUN_00a5f210(unsigned int a1)
 extern "C" unsigned int __cdecl strlen(const char* s);
 
 void* __cdecl NiMalloc(unsigned int size);
-int __cdecl FUN_00a305b0(char* buffer, unsigned int size, const char* format, ...);
 
 // Allocates a buffer and formats name with a lighting enum value (LIGHTING_E, LIGHTING_E_A_D, or UNKNOWN) into it, returning the buffer.
 // @fnv 0x00a5f160
@@ -182,20 +188,19 @@ char* __cdecl BuildLightingEnumString(const char* name, unsigned int value)
     switch (value)
     {
     case 0:
-        FUN_00a305b0(buffer, size, "%s = LIGHTING_E", name);
+        ::NiSprintf(buffer, size, "%s = LIGHTING_E", name);
         break;
     case 1:
-        FUN_00a305b0(buffer, size, "%s = LIGHTING_E_A_D", name);
+        ::NiSprintf(buffer, size, "%s = LIGHTING_E_A_D", name);
         break;
     default:
-        FUN_00a305b0(buffer, size, "%s = UNKNOWN!!!", name);
+        ::NiSprintf(buffer, size, "%s = UNKNOWN!!!", name);
         break;
     }
     return buffer;
 }
 
 void* _NiMalloc(unsigned int);
-int _NiSprintf(char*, unsigned int, const char*, ...);
 
 // Allocates a string of uiLen + 0x1a bytes and formats pcPrefix with a source name selected by eMode into it, returning the string.
 // @fnv 0x00a5f0d0
@@ -209,19 +214,19 @@ char* BuildSourceString(const char* pcPrefix, int eMode)
     switch (eMode)
     {
     case 0:
-        _NiSprintf(pcString, uiLen + 0x1a, "%s = SOURCE_IGNORE", pcPrefix);
+        ::NiSprintf(pcString, uiLen + 0x1a, "%s = SOURCE_IGNORE", pcPrefix);
         break;
 
     case 1:
-        _NiSprintf(pcString, uiLen + 0x1a, "%s = SOURCE_EMISSIVE", pcPrefix);
+        ::NiSprintf(pcString, uiLen + 0x1a, "%s = SOURCE_EMISSIVE", pcPrefix);
         break;
 
     case 2:
-        _NiSprintf(pcString, uiLen + 0x1a, "%s = SOURCE_AMB_DIFF", pcPrefix);
+        ::NiSprintf(pcString, uiLen + 0x1a, "%s = SOURCE_AMB_DIFF", pcPrefix);
         break;
 
     default:
-        _NiSprintf(pcString, uiLen + 0x1a, "%s = UNKNOWN!!!", pcPrefix);
+        ::NiSprintf(pcString, uiLen + 0x1a, "%s = UNKNOWN!!!", pcPrefix);
         break;
     }
 
@@ -432,13 +437,12 @@ struct Prop
     unsigned int unk10;
     unsigned int unk14;
     unsigned short m_usFlags;
-    void FUN_00a5d7f0(Stream* s);
     void ReadFromStream(Stream* s);
 };
 // @fnv 0x00a5f2b0
 void Prop::ReadFromStream(Stream* apStream)
 {
-    FUN_00a5d7f0(apStream);
+    reinterpret_cast<::NiProperty *>(this)->LoadBinary((*(::NiStream *)(apStream)));
     if (apStream->m_uiFormatVersion < 0xa000102)
         m_usFlags = apStream->m_usFlags & 7;
     else

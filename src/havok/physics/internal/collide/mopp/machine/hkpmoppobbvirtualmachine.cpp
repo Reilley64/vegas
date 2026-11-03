@@ -2,6 +2,13 @@
 // src/havok/physics/internal/collide/mopp/machine/hkpmoppobbvirtualmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/machine/hkpmoppobbvirtualmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00df2000.h"
+#include "fnv/symbols_01268000.h"
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 
 struct GridSource {
@@ -90,9 +97,51 @@ struct GridCell {
     int m34;
 
     void FUN_00dd1da0(GridSource* a1, GridBounds* a2, int a3);
-    void Execute(GridScratch* s, unsigned char* p, int z);
 };
 
+extern "C" void _ReadWriteBarrier();
+extern "C" void __debugbreak();
+struct __declspec(align(16)) QueryState {
+ union {int lower[4]; struct {int f00;int f04;int f08;int unk0c;};};
+ union {int upper[4]; struct {int f10;int f14;int f18;int unk1c;};};
+ union {int origin[3]; struct {int f20;int f24;int f28;};};
+ union {unsigned primitiveOffset;unsigned f2c;};
+ union {int shift;int f30;};
+ union {unsigned properties[1];unsigned f34;};
+};
+struct CodeData {
+ int unk00;int unk04;int unk08;int unk0c;
+ float f10;float f14;float f18;float f1c;
+ union {unsigned char* code;unsigned char* p20;};
+};
+struct HitArray { int* data; int size; unsigned capacity; };
+struct AllocatorContext { int field00, field04, field08, field0c; void* allocator; };
+extern AllocatorContext* __cdecl FUN_00c85750();
+extern unsigned char DAT_01269cbc;
+struct ErrorText { char* data; int length; int capacity;    };
+struct ErrorReporter { virtual void ReportDiagnostic(); virtual void unused1(); virtual void unused2(); virtual int report(int,unsigned,const char*,const char*,int); };
+struct VirtualMachine {
+ union {int m00;HitArray* hits;};
+ int unk04;int unk08;int unk0c;
+ union {int lower[4];struct {
+ union {int m10;struct {short unk10;short m12;};};
+ union {int m14;struct {short unk14;short m16;};};
+ int m18;int unk1c;
+ };};
+ union {int upper[4];struct {
+ union {int m20;struct {short unk20;short m22;};};
+ union {int m24;struct {short unk24;short m26;};};
+ union {int m28;struct {short unk28;short m2a;};};
+ int unk2c;
+ };};
+ union {CodeData* data;void* m30;};
+ union {int primitiveMask;int m34;};
+ void Execute(const QueryState*,unsigned char*,int);
+ __forceinline void AddHit(int value) {
+  HitArray* out=hits;AllocatorContext* context=FUN_00c85750();
+  if(out->size==(out->capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(context->allocator),(::AudioStream *)(out),4);
+  int* destination=&out->data[out->size]; ++out->size; *destination=value; }
+};
 // @fnv 0x00dd1da0
 void GridCell::FUN_00dd1da0(GridSource* a1, GridBounds* a2, int a3) {
     m30 = a1;
@@ -124,62 +173,15 @@ void GridCell::FUN_00dd1da0(GridSource* a1, GridBounds* a2, int a3) {
 
     unsigned char* p = a1->p20;
     m34 = ((*p != 0xd) ? 1 : 0) - 1;
-    Execute(&loc, p, 0);
+    reinterpret_cast<::VirtualMachine *>(this)->Execute((const ::QueryState *)(::GridScratch *)(&loc), (unsigned char *__restrict)(p), 0);
 }
-
-extern "C" void _ReadWriteBarrier();
-extern "C" void __debugbreak();
-struct __declspec(align(16)) QueryState {
- union {int lower[4]; struct {int f00;int f04;int f08;int unk0c;};};
- union {int upper[4]; struct {int f10;int f14;int f18;int unk1c;};};
- union {int origin[3]; struct {int f20;int f24;int f28;};};
- union {unsigned primitiveOffset;unsigned f2c;};
- union {int shift;int f30;};
- union {unsigned properties[1];unsigned f34;};
-};
-struct CodeData {
- int unk00;int unk04;int unk08;int unk0c;
- float f10;float f14;float f18;float f1c;
- union {unsigned char* code;unsigned char* p20;};
-};
-struct HitArray { int* data; int size; unsigned capacity; };
-struct AllocatorContext { int field00, field04, field08, field0c; void* allocator; };
-extern AllocatorContext* __cdecl FUN_00c85750();
-extern void __cdecl ResizeAudioStream(void*, void*, int);
-extern unsigned char DAT_01269cbc;
-extern void __cdecl ValidateHavokKeyCode(unsigned char*);
-struct ErrorText { char* data; int length; int capacity; void FUN_00cb1600(char*,int); void FUN_00cc01c0(const char*); void FUN_00cc00e0(); };
-struct ErrorReporter { virtual void ReportDiagnostic(); virtual void unused1(); virtual void unused2(); virtual int report(int,unsigned,const char*,const char*,int); };
-extern ErrorReporter* DAT_01268360;
-struct VirtualMachine {
- union {int m00;HitArray* hits;};
- int unk04;int unk08;int unk0c;
- union {int lower[4];struct {
- union {int m10;struct {short unk10;short m12;};};
- union {int m14;struct {short unk14;short m16;};};
- int m18;int unk1c;
- };};
- union {int upper[4];struct {
- union {int m20;struct {short unk20;short m22;};};
- union {int m24;struct {short unk24;short m26;};};
- union {int m28;struct {short unk28;short m2a;};};
- int unk2c;
- };};
- union {CodeData* data;void* m30;};
- union {int primitiveMask;int m34;};
- void Execute(const QueryState*,unsigned char*,int);
- __forceinline void AddHit(int value) {
-  HitArray* out=hits;AllocatorContext* context=FUN_00c85750();
-  if(out->size==(out->capacity&0x3fffffff)) ResizeAudioStream(context->allocator,out,4);
-  int* destination=&out->data[out->size]; ++out->size; *destination=value; }
-};
 // Executes a MOPP BVH tree traversal from a QueryState, recursing on diagonal and axial branches, and emits a hit via AddHit on a leaf.
 // @fnv 0x00dd1400
 void VirtualMachine::Execute(const QueryState* apQueryState,unsigned char* __restrict pc,int codeOffset) {
     int by;(void)by;
     QueryState localQueryState;
     if (!DAT_01269cbc) {
-        ValidateHavokKeyCode(&DAT_01269cbc);
+        ::ValidateHavokKeyCode((bool *)(unsigned char *)(&DAT_01269cbc));
         if (!DAT_01269cbc) return;
     }
     for (;;) {
@@ -285,10 +287,10 @@ void VirtualMachine::Execute(const QueryState* apQueryState,unsigned char* __res
             term=op-0x30;goto emit;
         default:
         badCommand:
-            {unsigned int errorBuffer[128];ErrorText errorText;errorText.FUN_00cb1600(reinterpret_cast<char*>(errorBuffer),512);
-            errorText.FUN_00cc01c0("Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
+            {unsigned int errorBuffer[128];ErrorText errorText;new ((void *)&(errorText)) ::FUN_00cb1600(reinterpret_cast<char*>(errorBuffer),512);
+            reinterpret_cast<::SinkOwner *>(&(errorText))->FUN_00cc01c0("Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
             if(DAT_01268360->report(3,0x1298fedd,reinterpret_cast<char*>(errorBuffer),".\\Collide\\Mopp\\Machine\\hkpMoppObbVirtualMachine.cpp",459)) __debugbreak();
-            errorText.FUN_00cc00e0();}break;
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(errorText))->FUN_00cc00e0::~FUN_00cc00e0();}break;
         emit:
             {unsigned key=apQueryState->primitiveOffset+term; unsigned value=((((unsigned)(codeOffset>>9))<<8)&primitiveMask)|key;
             AddHit(value);return;}

@@ -7,9 +7,9 @@
 
 #include <math.h>
 #include <xmmintrin.h>
-extern float DAT_01011d78;
 
 // @fnv 0x00ce0110
+#include "fnv/symbols_01011000.h"
 void __cdecl FUN_00ce0110(float* v)
 {
     volatile float x = v[0];

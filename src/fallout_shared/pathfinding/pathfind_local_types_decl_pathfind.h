@@ -4,6 +4,8 @@
 
 // Unit-local supersets of canonical types (same layout; see pathfind_decls.h). Needs the canonical NiPoint3 and the
 // layout_support.h forward declarations (included first by pathfind_decls.h).
+#include "fnv/decl/NLLocation.h"
+#include "fnv/decl/TaskQueueInterface.h"
 #pragma pack(push, 4)
 class NavMeshPtr;
 template <class T> class NiPointer
@@ -37,13 +39,12 @@ class PathingLocation
     PathingLocation(const NiPoint3&, TESObjectCELL*, TESWorldSpace*);
     ~PathingLocation();
     bool HasValidTriangle();
-    bool IsPathingLocationValid();
     bool FindNavMeshTriangle(NavMeshPtr&, unsigned short&);
     void ResetLocation();
     PathingLocation(const PathingLocation&);                   // 0x006dcc40 (called out of line by unmatched code)
     PathingLocation(const NiPoint3&, const PathingLocation&);  // 0x006dd0d0
     PathingLocation& operator=(const PathingLocation&);        // out of line in the original (no rep movsd)
-    NiPoint3 GetLocation() const;                              // 0x005c3420
+                                  // 0x005c3420
 };
 #pragma pack(pop)
 #endif

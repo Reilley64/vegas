@@ -1,5 +1,58 @@
 // bsmenu/tile.cpp: Tile, Tile__FloatAction, LoadingMenu, TileListBoxCalls and more (86 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0043a010_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004e7560_shell.h"
+#include "fnv/decl/FUN_00559a70_Class.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/FUN_00a087d0_shell.h"
+#include "fnv/decl/FUN_00a0abe0.h"
+#include "fnv/decl/FUN_00a0c6c0_cls.h"
+#include "fnv/decl/FUN_00a20650_cls.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FadeList.h"
+#include "fnv/decl/Interface.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/Node185.h"
+#include "fnv/decl/RMapBase.h"
+#include "fnv/decl/S_00a0c7c0_List.h"
+#include "fnv/decl/S_00adc830_Map.h"
+#include "fnv/decl/SndStack70.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
+#include "fnv/decl/fnv_00a09410__EvalValue.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00726000.h"
+#include "fnv/symbols_009ff000.h"
+#include "fnv/symbols_00a00000.h"
+#include "fnv/symbols_00a01000.h"
+#include "fnv/symbols_00a04000.h"
+#include "fnv/symbols_00a07000.h"
+#include "fnv/symbols_00a08000.h"
+#include "fnv/symbols_00a1d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_0103a000.h"
+#include "fnv/symbols_0103c000.h"
+#include "fnv/symbols_0106f000.h"
+#include "fnv/symbols_01076000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011d2000.h"
+#include "fnv/symbols_011d4000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
 #include "Tile__FloatAction.h"
 
 // @fnv 0x00a0c000
@@ -13,7 +66,7 @@ float Tile__FloatAction::GetStoredFloatValue()
 // @fnv 0x00a01530
 float Tile::GetInterfaceScale()
 {
-    return Menu::GetMenuScale();
+    return ::FUN_00a1dfb0();
 }
 
 // @fnv 0x00a0bae0
@@ -31,20 +84,20 @@ bool Tile::GetSpeechChallengeFailure()
 // @fnv 0x00a04620
 void Tile::SetSpeechChallengeFailure(bool recursive)
 {
-    UpdateAll(false);
+    ::fnv_00a04200::FUN_00a04200(false);
 }
 
 // Sets the given trait to the integer value cast to float, delegating to the float overload with the third argument true.
 // @fnv 0x00700320
 void Tile::Set(int trait,int value)
 {
-    Set(trait,(float)value,true);
+    reinterpret_cast<::FUN_00a012d0_t *>(this)->FUN_00a012d0(trait,(float)value,true);
 }
 
 // @fnv 0x00a03c60
 bool Tile::IsMenuRendered()
 {
-    Menu* menu=GetMenu(); bool rendered=menu->m_bIsSpecial; return rendered;
+    Menu* menu=reinterpret_cast<::FUN_00a03c90_shell *>(this)->FUN_00a03c90(); bool rendered=menu->m_bIsSpecial; return rendered;
 }
 
 // Returns true if the bit at position trait is set in floatFlags.
@@ -64,16 +117,7 @@ Tile*& NiTPointerList<Tile*>::GetPrev(NiTListItem<Tile*>*& pos)
 // @fnv 0x00715c60
 void Tile::Set(int trait,unsigned int value)
 {
-    Set(trait,(float)value,true);
-}
-
-// Returns the float value of the tile's value for the given trait, or 0.0f if no such value exists.
-// @fnv 0x00a011b0
-float TileListBoxCalls::GetFloat(int trait)
-{
-    Tile::Value* value=((Tile*)this)->GetValue(trait);
-    if (value) { float result=value->fValue; return result; }
-    return 0.0f;
+    reinterpret_cast<::FUN_00a012d0_t *>(this)->FUN_00a012d0(trait,(float)value,true);
 }
 
 struct NiStream;
@@ -83,7 +127,6 @@ struct NiPoint2 {
     float Length();
     float SqrLength();
     float Dot(void*);
-    float Unitize();
     static void LoadBinary(NiStream*, NiPoint2*, unsigned int);
     void LoadBinary(NiStream*);
     static void SaveBinary(NiStream*, NiPoint2*, unsigned int);
@@ -141,32 +184,9 @@ struct FUN_00a011f0_shell : public Tile {
     char* FUN_00a011f0(int);
 };
 
-// @fnv 0x00a011f0
-char* FUN_00a011f0_shell::FUN_00a011f0(int trait) {
-    Tile::Value* pvalue = GetValue(trait);
-    if (pvalue) {
-        char* result = *reinterpret_cast<char**>(reinterpret_cast<char*>(pvalue) + 0xc);
-        return result;
-    }
-    return 0;
-}
-
 struct FUN_00a01230_shell : public Tile {
     bool IsTraitNonZero(int);
 };
-
-// Looks up the Value for aeTrait and returns whether its fValue is non-zero, or false if no Value exists.
-// @fnv 0x00a01230
-bool FUN_00a01230_shell::IsTraitNonZero(int aeTrait)
-{
-    Value* pvalue = GetValue(aeTrait);
-    if (pvalue)
-    {
-        float fval = pvalue->fValue;
-        return fval != 0.0;
-    }
-    return false;
-}
 
 struct FUN_00a01290_shell : public Tile {
     void SetTraitAndReset(int, float);
@@ -176,8 +196,8 @@ struct FUN_00a01290_shell : public Tile {
 // @fnv 0x00a01290
 void FUN_00a01290_shell::SetTraitAndReset(int aiTrait, float afValue)
 {
-    Set(aiTrait, afValue, true);
-    Set(aiTrait, 0.0f, true);
+    reinterpret_cast<::FUN_00a012d0_t *>(this)->FUN_00a012d0(aiTrait, afValue, true);
+    reinterpret_cast<::FUN_00a012d0_t *>(this)->FUN_00a012d0(aiTrait, 0.0f, true);
 }
 
 struct FUN_00a013d0_shell : public Tile {
@@ -188,13 +208,13 @@ struct FUN_00a013d0_shell : public Tile {
 // @fnv 0x00a013d0
 float FUN_00a013d0_shell::GetTotalFloat()
 {
-    float fTotal = GetFloat(0xfa1);
+    float fTotal = reinterpret_cast<::TileListBoxCalls *>(this)->GetFloat(0xfa1);
     Tile* ptile = *(Tile**)((char*)this + 0x28);
     while (ptile)
     {
-        if (ptile->GetFloat(0xfa8) != 0.0)
+        if (reinterpret_cast<::TileListBoxCalls *>((ptile))->GetFloat(0xfa8) != 0.0)
         {
-            fTotal += ptile->GetFloat(0xfa1);
+            fTotal += reinterpret_cast<::TileListBoxCalls *>((ptile))->GetFloat(0xfa1);
         }
         ptile = *(Tile**)((char*)ptile + 0x28);
     }
@@ -205,26 +225,24 @@ struct FUN_00a01440_shell : public Tile {
     float GetAccumulatedFloat();
 };
 
-extern const double gModifierZero;
 
 // Sums GetFloat(0xfa2) over this tile and its 0x28-linked chain, adding each linked tile's 0xfa2 when its 0xfa8 differs from gModifierZero.
 // @fnv 0x00a01440
 float FUN_00a01440_shell::GetAccumulatedFloat()
 {
-    float fTotal = GetFloat(0xfa2);
+    float fTotal = reinterpret_cast<::TileListBoxCalls *>(this)->GetFloat(0xfa2);
     Tile* ptile = *(Tile**)((char*)this + 0x28);
     while (ptile != 0)
     {
-        if (ptile->GetFloat(0xfa8) != gModifierZero)
+        if (reinterpret_cast<::TileListBoxCalls *>((ptile))->GetFloat(0xfa8) != ::_DAT_01012060)
         {
-            fTotal = ptile->GetFloat(0xfa2) + fTotal;
+            fTotal = reinterpret_cast<::TileListBoxCalls *>((ptile))->GetFloat(0xfa2) + fTotal;
         }
         ptile = *(Tile**)((char*)ptile + 0x28);
     }
     return fTotal;
 }
 
-int __cdecl FUN_00a01860(const char*);
 
 // Copies characters before '(' into text and characters inside parentheses into apParam, then passes text to FUN_00a01860 and returns its result.
 // @fnv 0x00a018d0
@@ -279,23 +297,21 @@ int __cdecl FUN_00a01a20(const char* apTraitName)
     }
 }
 
-extern int DAT_011f3330;
 __declspec(dllimport) void __stdcall EnterCriticalSection(void* lpCriticalSection);
 
 // @fnv 0x00a044f0
 void __cdecl FUN_00a044f0()
 {
-    EnterCriticalSection(&DAT_011f3330);
+    EnterCriticalSection(&(*reinterpret_cast<int *>(&::DAT_011f3330)));
 }
 
 namespace fnv_00a04500 {
-extern _RTL_CRITICAL_SECTION DAT_011f3330;
 extern void (__stdcall * const __imp__LeaveCriticalSection)(_RTL_CRITICAL_SECTION *);
 
 // @fnv 0x00a04500
 void __cdecl FUN_00a04500()
 {
-    __imp__LeaveCriticalSection(&DAT_011f3330);
+    __imp__LeaveCriticalSection(&(*reinterpret_cast<::_RTL_CRITICAL_SECTION *>(&::DAT_011f3330)));
 }
 }  // namespace fnv_00a04500
 
@@ -303,7 +319,6 @@ struct FUN_00a074d0_shell : public Tile {
     void FUN_00a074d0(int);
 };
 
-void __cdecl FUN_00a07690(Tile*);
 
 // @fnv 0x00a074d0
 void FUN_00a074d0_shell::FUN_00a074d0(int aiFlag)
@@ -315,7 +330,7 @@ void FUN_00a074d0_shell::FUN_00a074d0(int aiFlag)
     *(unsigned int*)((char*)this + 0x30) &= 0xfffffc00;
     *(unsigned int*)((char*)this + 0x30) |= aiFlag;
     if (*(unsigned int*)((char*)this + 0x30) != iold) {
-        FUN_00a07690(this);
+        ::FUN_00a07690((::FlaggedTile *)(::Tile *)(this));
     }
 }
 
@@ -323,7 +338,6 @@ struct FUN_00a07530_shell : public Tile {
     void FUN_00a07530(int);
 };
 
-void __cdecl FUN_00a07690(Tile*);
 
 // ORs aiFlag into the flags at offset 0x30 when aiFlag is at most 0x3ff, and calls FUN_00a07690 if the flags changed.
 // @fnv 0x00a07530
@@ -334,7 +348,7 @@ void FUN_00a07530_shell::FUN_00a07530(int aiFlag)
     unsigned int iold = *(unsigned int*)((char*)this + 0x30);
     *(unsigned int*)((char*)this + 0x30) |= aiFlag;
     if (*(unsigned int*)((char*)this + 0x30) != iold)
-        FUN_00a07690(this);
+        ::FUN_00a07690((::FlaggedTile *)(::Tile *)(this));
 }
 
 struct FUN_00a07ed0_shell : public Tile {
@@ -352,13 +366,12 @@ struct FadeControlNode {
     FadeControlNode* m_pkNext;
 };
 
-extern FadeControlNode DAT_011f3348;
 
 // Walks the DAT_011f3348 fade-control list and returns true if an item matches aiTrait and points to this tile.
 // @fnv 0x00a07ed0
 bool FUN_00a07ed0_shell::FUN_00a07ed0(int aiTrait)
 {
-    for (FadeControlNode* pfade = &DAT_011f3348; pfade && pfade->m_item; pfade = pfade->m_pkNext) {
+    for (FadeControlNode* pfade = &(*reinterpret_cast<::FadeControlNode *>(&::fnv_00a00a30::DAT_011f3348)); pfade && pfade->m_item; pfade = pfade->m_pkNext) {
         if (pfade->m_item->m_iValueId == aiTrait && pfade->m_item->pTile == this) {
             return true;
         }
@@ -385,18 +398,17 @@ struct FadeNode_00a07f30 {
     FadeNode_00a07f30* m_pkNext;
 };
 
-extern FadeNode_00a07f30 DAT_011f3348;
 
 // @fnv 0x00a07f30
 float FUN_00a07f30_shell::GetTraitFloat(int aiTrait)
 {
     int iendValue = -1;
-    for (FadeNode_00a07f30* pfade = &DAT_011f3348; pfade && pfade->m_item; pfade = pfade->m_pkNext) {
+    for (FadeNode_00a07f30* pfade = &(*reinterpret_cast<::fnv_00a07f30::FadeNode_00a07f30 *>(&::fnv_00a00a30::DAT_011f3348)); pfade && pfade->m_item; pfade = pfade->m_pkNext) {
         if (pfade->m_item->m_iValueId == aiTrait && pfade->m_item->pTile == this) {
             iendValue = pfade->m_item->m_fAlpha;
         }
     }
-    return iendValue == -1.0 ? GetFloat(aiTrait) : iendValue;
+    return iendValue == -1.0 ? reinterpret_cast<::TileListBoxCalls *>(this)->GetFloat(aiTrait) : iendValue;
 }
 }  // namespace fnv_00a07f30
 
@@ -422,12 +434,11 @@ struct FadeListDummy {
     FadeListDummy* m_pkNext;
 };
 
-extern FadeListDummy DAT_011f3348;
 
 // @fnv 0x00a07fc0
 bool FUN_00a07fc0_shell::FUN_00a07fc0(int aiTrait)
 {
-    for (FadeListDummy* pfade = &DAT_011f3348; pfade && pfade->m_item; pfade = pfade->m_pkNext)
+    for (FadeListDummy* pfade = &(*reinterpret_cast<::fnv_00a07fc0::FadeListDummy *>(&::fnv_00a00a30::DAT_011f3348)); pfade && pfade->m_item; pfade = pfade->m_pkNext)
     {
         if (pfade->m_item->m_iValueId == aiTrait && pfade->m_item->pTile == this)
         {
@@ -476,33 +487,18 @@ struct FUN_00a0a0b0_shell : public Tile {
     void* FUN_00a0a0b0(int, int);
 };
 
-const char* __cdecl FUN_00a01a70(int);
-int __cdecl _sprintf_s(char*, unsigned int, const char*, ...);
-int __cdecl FUN_00a01860(const char*);
 
-// Builds a value name from the base trait name and ID, then returns the value looked up by that name.
-// @fnv 0x00a0a0b0
-void* FUN_00a0a0b0_shell::FUN_00a0a0b0(int aiBaseTrait, int aiID)
-{
-    char strValueName[260];
-    const char* strBaseName = FUN_00a01a70(aiBaseTrait);
-    _sprintf_s(strValueName, sizeof(strValueName), "%s%d", strBaseName, aiID);
-    return GetValue(FUN_00a01860(strValueName));
-}
-
-struct MemoryManager { void Deallocate(void* p); };
-extern MemoryManager g_memoryManager;
+struct MemoryManager {  };
 struct Tile3DStub {
-    void FUN_00a20650();
     Tile3DStub* FUN_00a0bde0(unsigned int flags);
 };
 // Calls FUN_00a20650, deallocates this via g_memoryManager when flags has bit 1 set, and returns this.
 // @fnv 0x00a0bde0
 Tile3DStub* Tile3DStub::FUN_00a0bde0(unsigned int flags)
 {
-    FUN_00a20650();
+    reinterpret_cast<::FUN_00a20650_cls *>(this)->FUN_00a20650_cls::~FUN_00a20650_cls();
     if (flags & 1)
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
     return this;
 }
 
@@ -517,8 +513,7 @@ struct FUN_00a0be10_shell : public MenuValueDescriptor {
     void FUN_00a0be10();
 };
 
-struct MemoryManager { void Deallocate(void*); };
-extern MemoryManager g_memoryManager;
+struct MemoryManager {  };
 struct XMLStorageX : public MenuValueDescriptor {
     MenuValueDescriptor* FUN_00a0be10(unsigned int flags);
 };
@@ -527,33 +522,31 @@ MenuValueDescriptor* XMLStorageX::FUN_00a0be10(unsigned int flags)
 {
     if (m_pName) {
         char* p = m_pName;
-        g_memoryManager.Deallocate(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a0be10::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(p);
     }
     m_pName = 0;
     if (flags & 1) {
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a0be10::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(this);
     }
     return this;
 }
 }  // namespace fnv_00a0be10
 
-void __cdecl FUN_00a07690(Tile*);
 struct TV { bool IsVisible(); };
 struct XL { void* head; void* RemovePos(void*&); };
-extern XL DAT_011f3324;
 // Iterates the tile list, and for each visible tile clears flags 0x800 and 0x1000, calls FUN_00a07690, and removes it from the list.
 // @fnv 0x00a078e0
 void FUN_00a078e0()
 {
-    void* xelem = DAT_011f3324.head;
+    void* xelem = (*reinterpret_cast<::XL *>(&::DAT_011f3324)).head;
     while (xelem) {
         Tile* ptile = *(Tile**)((char*)xelem + 8);
         char pad[0x20];
         if (((TV*)ptile)->IsVisible()) {
             0 ? (*(unsigned int*)((char*)ptile + 0x30) |= 0x800) : (*(unsigned int*)((char*)ptile + 0x30) &= ~0x800);
             0 ? (*(unsigned int*)((char*)ptile + 0x30) |= 0x1000) : (*(unsigned int*)((char*)ptile + 0x30) &= ~0x1000);
-            FUN_00a07690(ptile);
-            DAT_011f3324.RemovePos(xelem);
+            ::FUN_00a07690((::FlaggedTile *)(ptile));
+            (*reinterpret_cast<::XL *>(&::DAT_011f3324)).RemovePos(xelem);
         } else {
             xelem = xelem ? *(void**)xelem : 0;
         }
@@ -592,9 +585,8 @@ void FUN_00a079d0_shell::UpdateTileChildren()
 }
 
 namespace fnv_00a0a270 {
-struct MemoryManager { void Deallocate(void*); };
-extern MemoryManager g_memoryManager;
-struct VX { char pad[8]; float fValue; void* ptr; void RemoveFromReactions(); void FUN_00a09410(bool); };
+struct MemoryManager {  };
+struct VX { char pad[8]; float fValue; void* ptr; void RemoveFromReactions();  };
 struct BW { bool v; };
 struct FW { float f; };
 // Stores afValue.f into fValue, frees ptr if set, optionally calls RemoveFromReactions, then calls FUN_00a09410 with whether the value changed or ptr was non-null.
@@ -605,12 +597,12 @@ void __fastcall FUN_00a0a270(VX* self, FW afValue, BW abClearActions)
     self->fValue = afValue.f;
     if (self->ptr) {
         void* p = self->ptr;
-        g_memoryManager.Deallocate(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a0a270::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(p);
         self->ptr = 0;
     }
     if (abClearActions.v)
         self->RemoveFromReactions();
-    self->FUN_00a09410(bforceUpdate);
+    reinterpret_cast<::fnv_00a09410::EvalValue *>((self))->FUN_00a09410(bforceUpdate);
 }
 }  // namespace fnv_00a0a270
 
@@ -618,9 +610,9 @@ struct FUN_009ff600_shell : public Tile {
     void InitTile(Tile*, char*, Tile*);
 };
 
-struct StrMem { bool Set(const char*, unsigned int); };
+struct StrMem {  };
 struct NP_0081c630 { NP_0081c630& operator=(void*); };
-struct TileStandIn_009ff600 { void SetParent(Tile*, Tile*); };
+struct TileStandIn_009ff600 {  };
 
 // @fnv 0x009ff600
 void FUN_009ff600_shell::InitTile(Tile* apParent, char* apName, Tile* apReplacedTile)
@@ -630,17 +622,17 @@ void FUN_009ff600_shell::InitTile(Tile* apParent, char* apName, Tile* apReplaced
     {
         int aiPad1[10];
         StrMem* pName = (StrMem*)((char*)this + 0x20);
-        pName->Set("", 0);
+        reinterpret_cast<::TextString *>((pName))->FUN_004037f0("", 0);
     }
     *((char*)this + 0x35) = 0;
     *(unsigned int*)((char*)this + 0x30) = 0;
     if (apParent)
-        ((TileStandIn_009ff600*)this)->SetParent(apParent, apReplacedTile);
+        reinterpret_cast<::FUN_00a087d0_shell *>((((TileStandIn_009ff600*)this)))->FUN_00a087d0(apParent, apReplacedTile);
     if (apName)
     {
         int aiPad1[8];
         StrMem* pName = (StrMem*)((char*)this + 0x20);
-        pName->Set(apName, 0);
+        reinterpret_cast<::TextString *>((pName))->FUN_004037f0(apName, 0);
     }
 }
 
@@ -648,7 +640,6 @@ struct FUN_00a00e90_shell : public Tile {
     void* FindTraitValue(int);
 };
 
-extern int DAT_011f3330;
 __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 // @fnv 0x00a00e90
@@ -663,14 +654,14 @@ void* FUN_00a00e90_shell::FindTraitValue(int aiTrait)
  unsigned int uiSizeB;
     pFoundValue = 0;
     uiIndex = 0;
-    EnterCriticalSection(&DAT_011f3330);
+    EnterCriticalSection(&(*reinterpret_cast<int *>(&::DAT_011f3330)));
     while ((uiSizeA = *(unsigned int*)((char*)this + 0x18), uiIndex < uiSizeA)
            && (*(Tile::Value***)((char*)this + 0x14))[uiIndex]->m_iValueId < aiTrait)
         uiIndex++;
     if ((uiSizeB = *(unsigned int*)((char*)this + 0x18), uiIndex < uiSizeB)
         && (*(Tile::Value***)((char*)this + 0x14))[uiIndex]->m_iValueId == aiTrait)
         pFoundValue = (*(Tile::Value***)((char*)this + 0x14))[uiIndex];
-    LeaveCriticalSection(&DAT_011f3330);
+    LeaveCriticalSection(&(*reinterpret_cast<int *>(&::DAT_011f3330)));
     return pFoundValue;
  }
  }
@@ -682,17 +673,14 @@ struct FUN_00a01000_shell : public Tile {
     void* GetOrCreateTraitValue(int);
 };
 
-struct MemoryManager { void* Allocate(unsigned int); };
-extern MemoryManager g_memoryManager;
+struct MemoryManager {  };
 struct P09Value { int m_uiSoundID; void* pParent; float fValue; void* p0c; void* p10; };
-int __cdecl FUN_00a01160(const void*, const void*);
 void __cdecl FUN_00fda2a0();
 int __cdecl _atexit(void (__cdecl*)());
 struct P09Traits {
     unsigned int BinarySearch(P09Value*&, int (__cdecl*)(const void*, const void*));
     void InsertInSortedOrder(P09Value*&, int (__cdecl*)(const void*, const void*));
 };
-extern int DAT_011f3330;
 __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 extern int DAT_011f338c;
@@ -706,7 +694,7 @@ extern unsigned int DAT_011f33a0;
 void* FUN_00a01000_shell::GetOrCreateTraitValue(int aiTrait)
 {
     P09Value* preturnVal = 0;
-    EnterCriticalSection(&DAT_011f3330);
+    EnterCriticalSection(&(*reinterpret_cast<int *>(&::DAT_011f3330)));
     if (!(DAT_011f33a0 & 1)) {
         DAT_011f33a0 |= 1;
         DAT_011f338c = 0x80000000;
@@ -720,20 +708,20 @@ void* FUN_00a01000_shell::GetOrCreateTraitValue(int aiTrait)
     DAT_011f338c = aiTrait;
     {
         P09Value* pSearchKey = (P09Value*)&DAT_011f338c;
-        uifoundIndex = ((P09Traits*)((char*)this + 0x10))->BinarySearch(pSearchKey, FUN_00a01160);
+        uifoundIndex = ((P09Traits*)((char*)this + 0x10))->BinarySearch(pSearchKey, ((int (&)(const void *, const void *))::FUN_00a01160));
     }
     if (uifoundIndex != (unsigned int)-1) {
         preturnVal = (*(P09Value***)((char*)this + 0x14))[uifoundIndex];
     } else {
-        P09Value* pNew = (P09Value*)g_memoryManager.Allocate(0x14);
+        P09Value* pNew = (P09Value*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a01000::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(0x14);
         P09Value* pInitValue = pNew ? (pNew->m_uiSoundID = 0x80000000, pNew->pParent = 0, pNew->fValue = 0.0f,
             pNew->p0c = 0, pNew->p10 = 0, pNew) : 0;
         preturnVal = pInitValue;
         preturnVal->m_uiSoundID = aiTrait;
         preturnVal->pParent = this;
-        ((P09Traits*)((char*)this + 0x10))->InsertInSortedOrder(preturnVal, FUN_00a01160);
+        ((P09Traits*)((char*)this + 0x10))->InsertInSortedOrder(preturnVal, ((int (&)(const void *, const void *))::FUN_00a01160));
     }
-    LeaveCriticalSection(&DAT_011f3330);
+    LeaveCriticalSection(&(*reinterpret_cast<int *>(&::DAT_011f3330)));
     return preturnVal;
 }
 }  // namespace fnv_00a01000
@@ -744,12 +732,9 @@ struct FUN_00a031b0_shell : public Tile {
 
 struct P09Item { int eType; float fValue; void* pName; int i0c; Tile* pTile; };
 struct P09VTile { virtual void f0(); virtual void Init(Tile*, void*, int); };
-struct P09TileS { void Set(int, const char*, bool); void SetImageFlags(int); };
+struct P09TileS {   };
 struct P09Setting { void* pVtbl; const char* volatile pValue; };
-extern P09Setting g_011f3368;
 extern double DAT_01094a80;
-Tile* __cdecl FUN_00a00c20(int);
-void __cdecl _FNV_Warning(const char*, ...);
 // @fnv 0x00a031b0
 Tile* FUN_00a031b0_shell::CreateMenuTiles(void* apTemplate)
 {
@@ -776,9 +761,9 @@ Tile* FUN_00a031b0_shell::CreateMenuTiles(void* apTemplate)
             pitem = *ppData;
         }
         if (pitem->eType == 6) {
-            ptile = FUN_00a00c20((int)pitem->fValue);
+            ptile = ::fnv_00a00c20::FUN_00a00c20((int)pitem->fValue);
             if (!ptile) {
-                _FNV_Warning("MENUS: Unable to create tile. Aborting menu creation.");
+                ::FUN_005b5e40();
                 return 0;
             }
             {
@@ -786,16 +771,16 @@ Tile* FUN_00a031b0_shell::CreateMenuTiles(void* apTemplate)
                 ((P09VTile*)ptile)->Init(pparent, pName, 0);
             }
             if (pitem->fValue == DAT_01094a80) {
-                ptile->Set(0xfaa, -1.0f, true);
-                ptile->Set(0xfaf, 1.0f, true);
-                ptile->Set(0xff5, -1.0f, true);
-                ptile->Set(0xfb2, 255.0f, true);
-                ptile->Set(0xfb3, 255.0f, true);
-                ptile->Set(0xfb4, 255.0f, true);
-                ptile->Set(0xfa9, 0.0f, true);
-                ((P09TileS*)ptile)->Set(0xfcc, "solid.dds", true);
-                ((P09TileS*)ptile)->Set(0xff9, &g_011f3368 ? g_011f3368.pValue : 0, true);
-                ((P09TileS*)ptile)->SetImageFlags(0x20);
+                reinterpret_cast<::FUN_00a012d0_t *>((ptile))->FUN_00a012d0(0xfaa, -1.0f, true);
+                reinterpret_cast<::FUN_00a012d0_t *>((ptile))->FUN_00a012d0(0xfaf, 1.0f, true);
+                reinterpret_cast<::FUN_00a012d0_t *>((ptile))->FUN_00a012d0(0xff5, -1.0f, true);
+                reinterpret_cast<::FUN_00a012d0_t *>((ptile))->FUN_00a012d0(0xfb2, 255.0f, true);
+                reinterpret_cast<::FUN_00a012d0_t *>((ptile))->FUN_00a012d0(0xfb3, 255.0f, true);
+                reinterpret_cast<::FUN_00a012d0_t *>((ptile))->FUN_00a012d0(0xfb4, 255.0f, true);
+                reinterpret_cast<::FUN_00a012d0_t *>((ptile))->FUN_00a012d0(0xfa9, 0.0f, true);
+                reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((P09TileS*)ptile)))->FUN_00a01350(0xfcc, (char *)("solid.dds"), true);
+                reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((P09TileS*)ptile)))->FUN_00a01350(0xff9, (char *)(&(*reinterpret_cast<::P09Setting *>(&::g_011f3368)) ? (*reinterpret_cast<::P09Setting *>(&::g_011f3368)).pValue : 0), true);
+                reinterpret_cast<::FUN_00a07530_shell *>((((P09TileS*)ptile)))->FUN_00a07530(0x20);
             }
             if (!pfirst_tile)
                 pfirst_tile = ptile;
@@ -847,9 +832,7 @@ Tile* FUN_00a03d40_shell::FUN_00a03d40()
 namespace fnv_00a077c0 {
 struct NiTPointerListBase_00a077c0 { int iVal; void* AddHead(); };
 extern NiTPointerListBase_00a077c0 DAT_011f332c;
-struct FUN_004ed8c0_shell_00a077c0 { void FUN_00559a70(void*); };
-extern FUN_004ed8c0_shell_00a077c0 DAT_011f3324;
-extern int DAT_011f32d8;
+struct FUN_004ed8c0_shell_00a077c0 {  };
 extern void** DAT_011f3328;
 
 // If apTile is valid, lacks flag 0x800 and is not the excluded list entry, adds it to DAT_011f332c, increments DAT_011f32d8, sets flag 0x800 and clears 0x1000.
@@ -870,10 +853,10 @@ void FUN_00a077c0(Tile* apTile)
     if (apTile && !(bool)(int)((*(unsigned int*)((char*)apTile + 0x30) & 0x800) != 0)
         && ((bool)(int)(DAT_011f332c.iVal == 0) || apTile != DAT_011f3328[2]))
     {
-        DAT_011f32d8++;
-        pNode = DAT_011f332c.AddHead();
+        ::DAT_011f32d8++;
+        pNode = ((void *)(reinterpret_cast<::FUN_0043a010_shell *>(&(DAT_011f332c))->FUN_0043a010()));
         ((void**)pNode)[2] = apTile;
-        DAT_011f3324.FUN_00559a70(pNode);
+        reinterpret_cast<::FUN_00559a70_Class *>(&((*reinterpret_cast<::fnv_00a077c0::FUN_004ed8c0_shell_00a077c0 *>(&::DAT_011f3324))))->FUN_00559a70(pNode);
         pTile1 = apTile;
         if (1)
         {
@@ -910,26 +893,21 @@ struct FUN_00a07c60_shell : public Tile {
     void StartFade(int, float, float, float, int);
 };
 
-struct MemoryManager { void* Allocate(unsigned int); };
-extern MemoryManager g_memoryManager;
+struct MemoryManager {  };
 struct P09Fade { float fStart; float m_fEndValue; unsigned long m_uiState; float fScaleMultiplier; int m_iValueId; Tile* pTile; int eType; };
-struct FUN_00a0c7c0_Helper { void AddToHead(P09Fade**); };
-extern FUN_00a0c7c0_Helper DAT_011f3348;
+struct FUN_00a0c7c0_Helper {  };
 struct P09TileFade { void UpdateTrait(int); };
-int __cdecl GetTileValueID(const char*, int);
-extern double DAT_01011588;
-extern double _gModifierZero;
 __declspec(dllimport) unsigned long __stdcall GetTickCount();
 // Starts a fade on this tile: allocates a P09Fade, fills start/end/length/type and tick, sets flash traits for types 2 and 3, then queues it via DAT_011f3348.
 // @fnv 0x00a07c60
 void FUN_00a07c60_shell::StartFade(int aiTrait, float afStart, float afEnd, float afLength, int aeFadeType)
 {
     P09Fade* pFade;
-    if (afStart != afEnd && afLength > _gModifierZero) {
+    if (afStart != afEnd && afLength > ::_DAT_01012060) {
         float ftotalFlashes;
         ((P09TileFade*)this)->UpdateTrait(aiTrait);
         {
-            void* pMem = g_memoryManager.Allocate(0x1c);
+            void* pMem = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a07c60::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(0x1c);
             pFade = (P09Fade*)pMem;
         }
         pFade->pTile = this;
@@ -943,17 +921,17 @@ void FUN_00a07c60_shell::StartFade(int aiTrait, float afStart, float afEnd, floa
         }
         pFade->eType = aeFadeType;
         if (aeFadeType == 3) {
-            ftotalFlashes = afLength / DAT_01011588;
-            int iFlash = GetTileValueID("_FlashCount", -1);
-            Set(iFlash, 0.0f, true);
-            Set(GetTileValueID("_TotalFlashCount", -1), ftotalFlashes - 2.0, true);
+            ftotalFlashes = afLength / ::DAT_01011588;
+            int iFlash = ::FUN_00a00940("_FlashCount", -1);
+            reinterpret_cast<::FUN_00a012d0_t *>(this)->FUN_00a012d0(iFlash, 0.0f, true);
+            reinterpret_cast<::FUN_00a012d0_t *>(this)->FUN_00a012d0(::FUN_00a00940("_TotalFlashCount", -1), ftotalFlashes - 2.0, true);
             pFade->fScaleMultiplier = afLength / ftotalFlashes * 1000.0;
         }
         if (aeFadeType == 2) {
-            int iFlash2 = GetTileValueID("_FlashCount", -1);
-            Set(iFlash2, 0.0f, true);
+            int iFlash2 = ::FUN_00a00940("_FlashCount", -1);
+            reinterpret_cast<::FUN_00a012d0_t *>(this)->FUN_00a012d0(iFlash2, 0.0f, true);
         }
-        DAT_011f3348.AddToHead(&pFade);
+        reinterpret_cast<::S_00a0c7c0_List *>(&((*reinterpret_cast<::fnv_00a07c60::FUN_00a0c7c0_Helper *>(&::fnv_00a00a30::DAT_011f3348))))->AddToHead((void **)(::fnv_00a07c60::P09Fade **)(&pFade));
         {
             int iPad0, iPad1, iPad2;
         }
@@ -966,13 +944,11 @@ struct FUN_00a07dc0_shell : public Tile {
     void RemoveFadeItemsForTile(int);
 };
 
-class MemoryManager { public: void Deallocate(void*); };
-extern MemoryManager g_memoryManager;
+class MemoryManager { public:  };
 struct P03FadeItem { char pad[0x10]; int m_iValueId; Tile* pTile; };
 struct P03FadeNode { P03FadeItem* item; P03FadeNode* next; };
-struct P03FadeList { P03FadeItem* item; P03FadeNode* next; void FUN_00a0cbe0(P03FadeItem**); };
-extern P03FadeList DAT_011f3348;
-struct FUN_00a0c7c0_Helper { void AddToHead(Tile__TileTemplate**); };
+struct P03FadeList { P03FadeItem* item; P03FadeNode* next;  };
+struct FUN_00a0c7c0_Helper {  };
 struct FUN_00ae83e0 { P03FadeItem* item; P03FadeNode* next; ~FUN_00ae83e0(); };
 // @fnv 0x00a07dc0
 void FUN_00a07dc0_shell::RemoveFadeItemsForTile(int aiTrait)
@@ -982,18 +958,18 @@ void FUN_00a07dc0_shell::RemoveFadeItemsForTile(int aiTrait)
     P03FadeNode* pDel;
     P03FadeItem* pfade;
     void* premove;
-    for (removeList = (P03FadeNode*)&DAT_011f3348; removeList && removeList->item; removeList = removeList->next) {
+    for (removeList = (P03FadeNode*)&(*reinterpret_cast<::fnv_00a07dc0::P03FadeList *>(&::fnv_00a00a30::DAT_011f3348)); removeList && removeList->item; removeList = removeList->next) {
         if ((removeList->item->m_iValueId == aiTrait || aiTrait == (int)0x80000000) && removeList->item->pTile == this)
-            ((FUN_00a0c7c0_Helper*)&ptoBeDeleted)->AddToHead((Tile__TileTemplate**)removeList);
+            reinterpret_cast<::S_00a0c7c0_List *>((((FUN_00a0c7c0_Helper*)&ptoBeDeleted)))->AddToHead((void **)(::Tile__TileTemplate **)((Tile__TileTemplate**)removeList));
     }
     for (pDel = (P03FadeNode*)&ptoBeDeleted; pDel && pDel->item; pDel = pDel->next) {
         pfade = pDel->item;
-        DAT_011f3348.FUN_00a0cbe0(&pfade);
+        reinterpret_cast<::FadeList *>(&((*reinterpret_cast<::fnv_00a07dc0::P03FadeList *>(&::fnv_00a00a30::DAT_011f3348))))->FUN_00a0cbe0((*(::FadeRecord * *)(&pfade)));
         premove = pfade;
-        g_memoryManager.Deallocate(premove);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a07dc0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(premove);
     }
     { struct P03Pad { int a[18]; } aiPad; }
-    ((BSSimpleList<unsigned char*>*)&ptoBeDeleted)->RemoveAll();
+    reinterpret_cast<::Node185 *>((((BSSimpleList<unsigned char*>*)&ptoBeDeleted)))->FUN_00ae83e0();
 }
 }  // namespace fnv_00a07dc0
 
@@ -1029,10 +1005,9 @@ Tile* __cdecl FindTileByName(Tile* apTarget, const char* apName)
     return 0;
 }
 
-extern MemoryManager g_memoryManager;
 extern void* DAT_01094c2c;
 extern void* DAT_01094c38;
-struct P03MM { void* Allocate(unsigned int); };
+struct P03MM {  };
 struct P03Value { void AppendFloatAction(int aiActionType, float afValue); };
 // Allocates a Tile__FloatAction with the given action type and value, then appends it to the end of the action list at this+0x10 or sets it as the head.
 // @fnv 0x00a09080
@@ -1040,7 +1015,7 @@ void P03Value::AppendFloatAction(int aiActionType, float afValue)
 {
     Tile__Action* pNew = *(Tile__Action**)((char*)this + 0x10);
     Tile__FloatAction* pMem;
-    void* ptail = ((P03MM*)&g_memoryManager)->Allocate(0x10);
+    void* ptail = reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(0x10);
     Tile__FloatAction* pnewAction = ptail ? (((Tile__Action*)ptail)->m_ppVirtualMethodTable = (void**)&DAT_01094c38,
         ((Tile__Action*)ptail)->eActionType = (Tile__VALUE_ACTION)2000,
         ((Tile__Action*)ptail)->m_pActionSuccessor = 0,
@@ -1059,8 +1034,7 @@ void P03Value::AppendFloatAction(int aiActionType, float afValue)
 }
 
 namespace fnv_00a09200 {
-struct MemoryManager_00a09200 { void Deallocate(void*); };
-extern MemoryManager_00a09200 g_memoryManager;
+struct MemoryManager_00a09200 {  };
 struct Value_00a09200;
 struct Reaction_00a09200 { Value_00a09200* pValue; Reaction_00a09200* pNext; };
 struct Action_00a09200 {
@@ -1071,10 +1045,7 @@ struct Action_00a09200 {
 };
 struct BSMapBase_00a09200 {
     bool GetAt(unsigned long, Reaction_00a09200*&);
-    void FUN_00a1e240(unsigned long);
-    void InsertOrUpdate(unsigned long, Reaction_00a09200*);
 };
-extern BSMapBase_00a09200 DAT_011f3358;
 struct Value_00a09200 {
     void RemoveFromReactions();
 };
@@ -1108,7 +1079,7 @@ void Value_00a09200::RemoveFromReactions()
         if (pcurrAction->GetRef())
         {
             preactionListA = 0;
-            if (DAT_011f3358.GetAt(pcurrAction->GetRef(), preactionListA))
+            if (reinterpret_cast<::S_00adc830_Map *>(&((*reinterpret_cast<::fnv_00a09200::BSMapBase_00a09200 *>(&::g_kA0A220Handlers))))->GetAt(pcurrAction->GetRef(), (::S_00adc830_Entry *&)(preactionListA)))
             {
                 ppcurrReaction = &preactionListA;
                 pOriginalHead = *ppcurrReaction;
@@ -1122,18 +1093,18 @@ void Value_00a09200::RemoveFromReactions()
                     {
                         *ppcurrReaction = pcurrReaction->pNext;
                         pDeletedReaction = pcurrReaction;
-                        g_memoryManager.Deallocate(pDeletedReaction);
+                        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a09200::MemoryManager_00a09200 *>(&::g_memoryManager))))->FUN_00aa4060(pDeletedReaction);
                     }
                 }
                 if (!preactionListA)
-                    DAT_011f3358.FUN_00a1e240(pcurrAction->GetRef());
+                    reinterpret_cast<::RMapBase *>(&((*reinterpret_cast<::fnv_00a09200::BSMapBase_00a09200 *>(&::g_kA0A220Handlers))))->FUN_00a1e240(pcurrAction->GetRef());
                 else if (preactionListA != pOriginalHead)
-                    DAT_011f3358.InsertOrUpdate(pcurrAction->GetRef(), preactionListA);
+                    reinterpret_cast<::FUN_00a0c6c0_cls *>(&((*reinterpret_cast<::fnv_00a09200::BSMapBase_00a09200 *>(&::g_kA0A220Handlers))))->InsertOrUpdate(pcurrAction->GetRef(), (::AnimSequenceBase *)(preactionListA));
             }
         }
         *ppcurrAction = pcurrAction->pNext;
         pDeletedAction = pcurrAction;
-        g_memoryManager.Deallocate(pDeletedAction);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a09200::MemoryManager_00a09200 *>(&::g_memoryManager))))->FUN_00aa4060(pDeletedAction);
     }
     }
     }
@@ -1148,9 +1119,8 @@ void Value_00a09200::RemoveFromReactions()
 }  // namespace fnv_00a09200
 
 namespace fnv_00a0ab70 {
-struct MemoryManager { void Deallocate(void*); };
-extern MemoryManager g_memoryManager;
-struct StrMem { bool Set(char const*, unsigned int); char pad[8]; };
+struct MemoryManager {  };
+struct StrMem {  char pad[8]; };
 struct SoundMessageRecord {
     char pad[8];
     StrMem str;
@@ -1176,9 +1146,9 @@ void OH2TileTemplate::ClearList()
             {
                 int inl[13];
                 while ((count = list.count) != 0) {
-                    pMsg = list.RemoveHead();
+                    pMsg = ((::fnv_00a0ab70::SoundMessageRecord *)(reinterpret_cast<::SndStack70 *>(&(list))->FUN_00ae7f90()));
                     p = pMsg;
-                    p ? (p->str.Set(0, 0), (((0, 1) & 1) ? g_memoryManager.Deallocate(p) : (void)0), p) : 0;
+                    p ? (reinterpret_cast<::TextString *>(&(p->str))->FUN_004037f0(0, 0), (((0, 1) & 1) ? reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a0ab70::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(p) : (void)0), p) : 0;
                 }
             }
         }
@@ -1189,7 +1159,6 @@ void OH2TileTemplate::ClearList()
 __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct NiGlobalStringTable { static char* __cdecl AddString(const char*); };
 int __cdecl FUN_00ec6da0(const char*, const char*);
-extern char* EmptyFS;
 struct TileTemplate_00a0af10 { char* m_kName; };
 struct TemplateList_00a0af10 { TileTemplate_00a0af10* pItem; TemplateList_00a0af10* pNext; };
 
@@ -1222,7 +1191,7 @@ TileTemplate_00a0af10* BuildStorage_00a0af10::FindTemplateByName(const char* pNa
     long* pRef2;
     pNode = (TemplateList_00a0af10*)((char*)this + 4);
     if (!pName)
-        nm = EmptyFS;
+        nm = ::DAT_0109b220;
     else
         nm = NiGlobalStringTable::AddString(pName);
     while (pNode && pNode->pItem)
@@ -1238,7 +1207,7 @@ TileTemplate_00a0af10* BuildStorage_00a0af10::FindTemplateByName(const char* pNa
         if (bEqual)
         {
             pResult = pNode->pItem;
-            if (nm == EmptyFS)
+            if (nm == ::DAT_0109b220)
             {
             }
             else
@@ -1251,7 +1220,7 @@ TileTemplate_00a0af10* BuildStorage_00a0af10::FindTemplateByName(const char* pNa
         pNode = pNode->pNext;
     }
     pZero = 0;
-    if (nm == EmptyFS)
+    if (nm == ::DAT_0109b220)
     {
     }
     else
@@ -1280,7 +1249,7 @@ struct FUN_00a0b280_shell : public Tile {
     void ApplyAlphaAndColorToChildren(NiNode*, float, void*);
 };
 
-struct PropHelper { void* GetProperty(unsigned int); };
+struct PropHelper {  };
 struct OH3Color { float r, g, b, a; };
 struct OH3Child {
     virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3();
@@ -1306,7 +1275,7 @@ void FUN_00a0b280_shell::ApplyAlphaAndColorToChildren(NiNode* apNode, float afAl
             }
             pgeom = pchild ? pchild->v6() : 0;
             if (pgeom) {
-                pprop = pgeom->GetProperty(3);
+                pprop = ((void *)(reinterpret_cast<::FUN_00a59d30_C *>((pgeom))->FUN_00a59d30(3)));
                 ptsp = (char*)pprop;
                 *(float*)(ptsp + 0x78) = afAlpha;
                 *(OH3Color*)(ptsp + 0x68) = *(OH3Color*)apColor;
@@ -1318,10 +1287,46 @@ void FUN_00a0b280_shell::ApplyAlphaAndColorToChildren(NiNode* apNode, float afAl
 struct FUN_00a00f30_shell : public Tile {
     void* FUN_00a00f30(int);
 };
+// Returns the float value of the tile's value for the given trait, or 0.0f if no such value exists.
+// @fnv 0x00a011b0
+float TileListBoxCalls::GetFloat(int trait)
+{
+    Tile::Value* value=((::Tile::Value *)(reinterpret_cast<::FUN_00a00f30_shell *>((((Tile*)this)))->FUN_00a00f30(trait)));
+    if (value) { float result=value->fValue; return result; }
+    return 0.0f;
+}
+// @fnv 0x00a011f0
+char* FUN_00a011f0_shell::FUN_00a011f0(int trait) {
+    Tile::Value* pvalue = ((::Tile::Value *)(reinterpret_cast<::FUN_00a00f30_shell *>(this)->FUN_00a00f30(trait)));
+    if (pvalue) {
+        char* result = *reinterpret_cast<char**>(reinterpret_cast<char*>(pvalue) + 0xc);
+        return result;
+    }
+    return 0;
+}
+// Looks up the Value for aeTrait and returns whether its fValue is non-zero, or false if no Value exists.
+// @fnv 0x00a01230
+bool FUN_00a01230_shell::IsTraitNonZero(int aeTrait)
+{
+    Value* pvalue = ((::Tile::Value *)(reinterpret_cast<::FUN_00a00f30_shell *>(this)->FUN_00a00f30(aeTrait)));
+    if (pvalue)
+    {
+        float fval = pvalue->fValue;
+        return fval != 0.0;
+    }
+    return false;
+}
+// Builds a value name from the base trait name and ID, then returns the value looked up by that name.
+// @fnv 0x00a0a0b0
+void* FUN_00a0a0b0_shell::FUN_00a0a0b0(int aiBaseTrait, int aiID)
+{
+    char strValueName[260];
+    const char* strBaseName = ((const char *)(::FUN_00a01a70(aiBaseTrait)));
+    ::FUN_00406d00(strValueName, sizeof(strValueName), "%s%d", strBaseName, aiID);
+    return ((::Tile::Value *)(reinterpret_cast<::FUN_00a00f30_shell *>(this)->FUN_00a00f30(FUN_00a01860(strValueName))));
+}
 
-extern int DAT_011f3330;
 int __cdecl _atexit(void (__cdecl*)());
-int __cdecl FUN_00a01160(const void*, const void*);
 void __cdecl FUN_00fda290();
 extern void (__stdcall *DAT_00fdf05c)(void*);
 extern void (__stdcall *DAT_00fdf100)(void*);
@@ -1343,7 +1348,7 @@ public:
 void* FUN_00a00f30_shell::FUN_00a00f30(int aiTrait)
 {
     Tile::Value* preturnVal = 0;
-    DAT_00fdf05c(&DAT_011f3330);
+    DAT_00fdf05c(&(*reinterpret_cast<int *>(&::DAT_011f3330)));
     if (!(DAT_011f3388 & 1)) {
         DAT_011f3388 |= 1;
         DAT_011f3374 = 0x80000000;
@@ -1357,23 +1362,21 @@ void* FUN_00a00f30_shell::FUN_00a00f30(int aiTrait)
     DAT_011f3374 = aiTrait;
     {
         Tile::Value* pkey = (Tile::Value*)&DAT_011f3374;
-        uifoundIndex = ((BSSimpleArray<Tile::Value*,8>*)((char*)this + 0x10))->BinarySearch(pkey, FUN_00a01160);
+        uifoundIndex = ((BSSimpleArray<Tile::Value*,8>*)((char*)this + 0x10))->BinarySearch(pkey, ((int (&)(const void *, const void *))::FUN_00a01160));
     }
     if (uifoundIndex != 0xffffffff)
         preturnVal = (*(Tile::Value***)((char*)this + 0x14))[uifoundIndex];
-    DAT_00fdf100(&DAT_011f3330);
+    DAT_00fdf100(&(*reinterpret_cast<int *>(&::DAT_011f3330)));
     return preturnVal;
 }
 
 namespace fnv_00a09330 {
-class MemoryManager { public: void Deallocate(void*); };
-extern MemoryManager g_memoryManager;
+class MemoryManager { public:  };
 struct ScrapHeapBuffer;
 template<class K, class V> struct BSMapBase {
     bool GetAt(K, V&);
     void FUN_00a1e240(K);
 };
-extern BSMapBase<unsigned long, ScrapHeapBuffer*> DAT_011f3358;
 struct Action_00a09330 {
     virtual void v0();
     virtual void* GetValue();
@@ -1388,7 +1391,6 @@ struct FUN_00a09330_shell {
     int iVal4;
     float fValue;
     void* pBuf;
-    void RemoveFromReactions();
     void ClearActionsAndFreeBuffer();
 };
 // Calls RemoveFromReactions, clears matching action values and frees the preaction list nodes, then frees pBuf and resets fValue and iVal4.
@@ -1396,8 +1398,8 @@ struct FUN_00a09330_shell {
 void FUN_00a09330_shell::ClearActionsAndFreeBuffer()
 {
     Node_00a09330* preactionListA = 0;
-    RemoveFromReactions();
-    if (DAT_011f3358.GetAt((unsigned long)this, (ScrapHeapBuffer*&)preactionListA)) {
+    reinterpret_cast<::fnv_00a09200::Value_00a09200 *>(this)->RemoveFromReactions();
+    if (reinterpret_cast<::S_00adc830_Map *>(&((*reinterpret_cast<::fnv_00a09330::BSMapBase<unsigned long, ::fnv_00a09330::ScrapHeapBuffer *> *>(&::g_kA0A220Handlers))))->GetAt((unsigned long)this, (::S_00adc830_Entry *&)((ScrapHeapBuffer*&)preactionListA))) {
         while (preactionListA) {
             Action_00a09330* pcurrAction = preactionListA->pData->pActions;
             while (pcurrAction) {
@@ -1409,15 +1411,15 @@ void FUN_00a09330_shell::ClearActionsAndFreeBuffer()
             preactionListA = preactionListA->pNext;
             {
                 void* pMem = premove;
-                g_memoryManager.Deallocate(pMem);
+                reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a09330::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(pMem);
             }
         }
-        DAT_011f3358.FUN_00a1e240((unsigned long)this);
+        reinterpret_cast<::RMapBase *>(&((*reinterpret_cast<::fnv_00a09330::BSMapBase<unsigned long, ::fnv_00a09330::ScrapHeapBuffer *> *>(&::g_kA0A220Handlers))))->FUN_00a1e240((unsigned long)this);
     }
     if (pBuf) {
         void* pMem = pBuf;
         int unused[6];
-        g_memoryManager.Deallocate(pMem);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a09330::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(pMem);
     }
     fValue = 0.0f;
     iVal4 = 0;
@@ -1454,7 +1456,7 @@ void FUN_00a0c900_shell::FUN_00a0c900(const char* pcKey, int val)
         }
         pkItem = pkItem->m_pkNext;
     }
-    pkItem = (NiTMapItem_00a0c900*)((NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*>*)&m_uiCount)->AddHead();
+    pkItem = (NiTMapItem_00a0c900*)((void *)(reinterpret_cast<::FUN_0043a010_shell *>((((NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*>*)&m_uiCount)))->FUN_0043a010()));
     SetValue(pkItem, pcKey, val);
     pkItem->m_pkNext = m_ppkHashTable[uiIndex];
     m_ppkHashTable[uiIndex] = pkItem;
@@ -1462,45 +1464,39 @@ void FUN_00a0c900_shell::FUN_00a0c900(const char* pcKey, int val)
 }
 
 struct FUN_007000b0_shell {
-    void HasFlag(int);
     void FUN_007000b0();
+};
+struct FUN_007000d0_shell {
+    void FUN_007000d0();
+};
+struct FUN_007000f0_shell {
+    bool HasFlag(int mask);
 };
 // @fnv 0x007000b0
 void FUN_007000b0_shell::FUN_007000b0()
 {
-    HasFlag(1);
+    reinterpret_cast<::FUN_007000f0_shell *>(this)->HasFlag(1);
 }
-
-struct FUN_007000d0_shell {
-    void HasFlag(int);
-    void FUN_007000d0();
-};
 // @fnv 0x007000d0
 void FUN_007000d0_shell::FUN_007000d0()
 {
-    HasFlag(2);
+    reinterpret_cast<::FUN_007000f0_shell *>(this)->HasFlag(2);
 }
-
-struct FUN_007000f0_shell {
-    bool HasFlag(int mask);
-};
 // @fnv 0x007000f0
 bool FUN_007000f0_shell::HasFlag(int mask)
 {
     return (*(unsigned char*)((char*)this + 0x28) & mask) != 0;
 }
 
-int __cdecl GetTileValueID(const char* apName, int aiIndex);
 struct VATSMenu {
-    int GetSelectedTargetIndex();
     int FUN_007267c0();
 };
 
 // @fnv 0x007267c0
 int VATSMenu::FUN_007267c0()
 {
-    static int iNumFilteredTrait = GetTileValueID("_num_filtered", -1);
-    return GetSelectedTargetIndex() - (unsigned int)(*(Tile**)((char*)this + 0xc))->GetFloat(iNumFilteredTrait);
+    static int iNumFilteredTrait = ::FUN_00a00940("_num_filtered", -1);
+    return ::GetRaceCount((char *)this) - (unsigned int)reinterpret_cast<::TileListBoxCalls *>(((*(Tile**)((char*)this + 0xc))))->GetFloat(iNumFilteredTrait);
 }
 
 // @fnv 0x00a01160
@@ -1515,7 +1511,6 @@ int __cdecl FUN_00a01160(int** pFirst, int** pSecond)
     return 0;
 }
 
-extern "C" void __cdecl FUN_00a04500();
 
 struct FUN_00a0baf0_class {
     void FUN_00a0baf0();
@@ -1524,7 +1519,7 @@ struct FUN_00a0baf0_class {
 // @fnv 0x00a0baf0
 void FUN_00a0baf0_class::FUN_00a0baf0()
 {
-    FUN_00a04500();
+    ::fnv_00a04500::FUN_00a04500();
 }
 
 struct TileText {
@@ -1558,20 +1553,17 @@ int FUN_00a0c060_shell::GetField0C()
     return *(int*)((char*)this + 0xc);
 }
 
-extern const char g_011c7820_arg1[];
 struct FUN_00a0c080_shell {
     const char* GetArg1String();
 };
 // @fnv 0x00a0c080
 const char* FUN_00a0c080_shell::GetArg1String()
 {
-    return g_011c7820_arg1;
+    return (*reinterpret_cast<const char (*)[]>(&::g_011f4a80));
 }
 
-void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 
 struct FUN_00a0c090_Class {
-    void FUN_00a0abe0();
     void* FUN_00a0c090(unsigned int flags);
 };
 
@@ -1579,9 +1571,9 @@ struct FUN_00a0c090_Class {
 // @fnv 0x00a0c090
 void* FUN_00a0c090_Class::FUN_00a0c090(unsigned int flags)
 {
-    this->FUN_00a0abe0();
+    reinterpret_cast<::FUN_00a0abe0 *>((this))->FUN_00a0abe0::~FUN_00a0abe0();
     if (flags & 1)
-        __Dummy_00b6fef0(this, 0x14);
+        ::FUN_00aa1460(this, 0x14);
     return this;
 }
 
@@ -1607,13 +1599,12 @@ bool FUN_00a04100_shell::FUN_00a04100()
 {
     Tile* t = pTile;
     while (t) {
-        if (t->GetFloat(0xfaa) == 110.0)
+        if (reinterpret_cast<::TileListBoxCalls *>((t))->GetFloat(0xfaa) == 110.0)
             t = *(Tile**)((char*)t + 0x28);
     }
     return false;
 }
 
-void _NiFreeAlias(void*);
 
 struct NiTMapItem_ {
     char const* m_key;
@@ -1631,11 +1622,10 @@ struct NiTStringTemplateMap_ {
 void NiTStringTemplateMap_::FUN_00a0d4a0(NiTMapItem_* pkItem)
 {
     if (m_bCopy)
-        _NiFreeAlias((void*)(pkItem->m_uiFilterValue));
+        ::FUN_00aa10f0((void*)(pkItem->m_uiFilterValue));
 }
 
 struct FUN_00a011b0_cls {
-    float __thiscall FUN_00a011b0(int value);
 };
 
 struct FUN_0072ccd0_cls {
@@ -1643,23 +1633,20 @@ struct FUN_0072ccd0_cls {
     int unk04;
     int unk08;
     FUN_00a011b0_cls* m_0c;
-    int GetRaceCount();
     int FUN_0072ccd0();
 };
 
-int __cdecl FUN_00a00940(const char* name, int len);
 
 // Returns GetRaceCount() minus the value FUN_00a011b0 computes from the static _num_filtered setting via m_0c.
 // @fnv 0x0072ccd0
 int FUN_0072ccd0_cls::FUN_0072ccd0()
 {
     static int numFiltered = FUN_00a00940("_num_filtered", -1);
-    return GetRaceCount() - (unsigned int)m_0c->FUN_00a011b0(numFiltered);
+    return ::GetRaceCount((char *)this) - (unsigned int)reinterpret_cast<::TileListBoxCalls *>((m_0c))->GetFloat(numFiltered);
 }
 
 namespace fnv_0075b020 {
 struct FUN_00a011b0_cls {
-    float __thiscall FUN_00a011b0(int value);
 };
 
 struct FUN_0075b020_cls {
@@ -1667,24 +1654,21 @@ struct FUN_0075b020_cls {
     int unk04;
     int unk08;
     FUN_00a011b0_cls* m_0c;
-    int GetRaceCount();
     int FUN_0075b020();
 };
 
-int __cdecl FUN_00a00940(const char* name, int len);
 
 // Returns the result of GetRaceCount minus the value FUN_00a011b0 computes from the cached _num_filtered setting.
 // @fnv 0x0075b020
 int FUN_0075b020_cls::FUN_0075b020()
 {
-    static int numFiltered = FUN_00a00940("_num_filtered", -1);
-    return GetRaceCount() - (unsigned int)m_0c->FUN_00a011b0(numFiltered);
+    static int numFiltered = ::FUN_00a00940("_num_filtered", -1);
+    return ::GetRaceCount((char *)this) - (unsigned int)reinterpret_cast<::TileListBoxCalls *>((m_0c))->GetFloat(numFiltered);
 }
 }  // namespace fnv_0075b020
 
 namespace fnv_007a71b0 {
 struct FUN_00a011b0_cls {
-    float __thiscall FUN_00a011b0(int value);
 };
 
 struct FUN_007a71b0_cls {
@@ -1692,32 +1676,28 @@ struct FUN_007a71b0_cls {
     int unk04;
     int unk08;
     FUN_00a011b0_cls* m_0c;
-    int GetRaceCount();
     int FUN_007a71b0();
 };
 
-int __cdecl FUN_00a00940(const char* name, int len);
 
 // Returns the result of GetRaceCount minus the value FUN_00a011b0 computes from the cached "_num_filtered" setting.
 // @fnv 0x007a71b0
 int FUN_007a71b0_cls::FUN_007a71b0()
 {
-    static int numFiltered = FUN_00a00940("_num_filtered", -1);
-    return GetRaceCount() - (unsigned int)m_0c->FUN_00a011b0(numFiltered);
+    static int numFiltered = ::FUN_00a00940("_num_filtered", -1);
+    return ::GetRaceCount((char *)this) - (unsigned int)reinterpret_cast<::TileListBoxCalls *>((m_0c))->GetFloat(numFiltered);
 }
 }  // namespace fnv_007a71b0
 
 struct RecurseItem;
 struct RecurseNode;
 
-extern const double DAT_01012060;
 
 float __cdecl FUN_00a01540(RecurseItem* self);
 
 struct RecurseItem {
     void* unk00;
     RecurseNode* m_pkChildren;
-    float FUN_00a011b0(int ordinal);
 };
 
 struct RecurseNode {
@@ -1729,7 +1709,7 @@ struct RecurseNode {
 // @fnv 0x00a01540
 float __cdecl FUN_00a01540(RecurseItem* self)
 {
-    float result2 = self->FUN_00a011b0(0xfad);
+    float result2 = reinterpret_cast<::TileListBoxCalls *>((self))->GetFloat(0xfad);
     RecurseItem* child_ = 0;
     RecurseNode* pos5 = self->m_pkChildren;
     RecurseNode* cur = pos5;
@@ -1737,8 +1717,8 @@ float __cdecl FUN_00a01540(RecurseItem* self)
         RecurseItem* const& element3 = cur->m_pInventoryEntryData;
         cur = cur->m_pkNext;
         child_ = element3;
-        if (self->FUN_00a011b0(0xfa8) != DAT_01012060) {
-            float childF = self->FUN_00a011b0(0xfad) + FUN_00a01540(child_);
+        if (reinterpret_cast<::TileListBoxCalls *>((self))->GetFloat(0xfa8) != ::_DAT_01012060) {
+            float childF = reinterpret_cast<::TileListBoxCalls *>((self))->GetFloat(0xfad) + FUN_00a01540(child_);
             result2 = result2 > childF ? result2 : childF;
         } else {
             float childF = FUN_00a01540(child_);
@@ -1763,7 +1743,6 @@ struct FNVSearchNode {
     FNVSearchNode* m_pNext;
 };
 
-extern FNVSearchNode g_fnvSearchHead;
 
 class FNVSearchOwner {
 public:
@@ -1773,7 +1752,7 @@ public:
 // Walks the global search list and returns m_iValue18 of the first item whose m_iKey10 equals key and whose m_pOwner14 is this, else 0.
 // @fnv 0x00a08070
 int FNVSearchOwner::FindValueByKey(int key) {
-    for (FNVSearchNode* node = &g_fnvSearchHead; node != 0 && node->m_pInventoryEntryData != 0; node = node->m_pNext) {
+    for (FNVSearchNode* node = &(*reinterpret_cast<::FNVSearchNode *>(&::fnv_00a00a30::DAT_011f3348)); node != 0 && node->m_pInventoryEntryData != 0; node = node->m_pNext) {
         if (node->m_pInventoryEntryData->m_iKey10 == key && node->m_pInventoryEntryData->m_pOwner14 == (void*)this) {
             return node->m_pInventoryEntryData->m_iValue18;
         }
@@ -1782,7 +1761,7 @@ int FNVSearchOwner::FindValueByKey(int key) {
 }
 
 struct TileNode; struct TileNodeList { TileNodeList* next; TileNode* parent; TileNode* child; };
-struct TileNode { void* virtualTable; TileNodeList* children; float __thiscall FUN_00a011b0(int trait); };
+struct TileNode { void* virtualTable; TileNodeList* children;  };
 // Recursively searches root and its child nodes for the first TileNode whose trait 0xFAA equals target, returning it or null.
 // @fnv 0x00a08fb0
 TileNode* __cdecl FindTileNodeByTrait(TileNode* root, int target) {
@@ -1790,7 +1769,7 @@ TileNode* __cdecl FindTileNodeByTrait(TileNode* root, int target) {
     {
         TileNode* found;
         {
-            if (root && root->FUN_00a011b0(0xFAA) == target) return root;
+            if (root && reinterpret_cast<::TileListBoxCalls *>((root))->GetFloat(0xFAA) == target) return root;
             TileNodeList* head = root->children;
             cursor = head;
             while (cursor) {
@@ -1807,7 +1786,6 @@ TileNode* __cdecl FindTileNodeByTrait(TileNode* root, int target) {
 // Look up the handler list registered for a key and notify every handler in it.
 
 struct A0A220Handler {
-    void Notify(int iArg);
 };
 
 struct A0A220Node {
@@ -1819,7 +1797,6 @@ struct A0A220HandlerMap {
     bool GetAt(unsigned int uiKey, A0A220Node*& rpkHead);
 };
 
-extern A0A220HandlerMap g_kA0A220Handlers;
 
 // Looks up the handler list for uiKey and calls Notify(0) on each handler in the chain.
 // @fnv 0x00a0a220
@@ -1828,9 +1805,9 @@ void __cdecl NotifyHandlersByKey(unsigned int uiKey)
     A0A220Node* pkIter = 0;
     A0A220Handler* pkItem;  // declared but never used in this build
     unsigned int ItemUpdateArray;      // declared but never used in this build
-    if (g_kA0A220Handlers.GetAt(uiKey, pkIter)) {
+    if (reinterpret_cast<::S_00adc830_Map *>(&(g_kA0A220Handlers))->GetAt(uiKey, (::S_00adc830_Entry *&)(pkIter))) {
         while (pkIter) {
-            pkIter->m_pkItem->Notify(0);
+            reinterpret_cast<::fnv_00a09410::EvalValue *>((pkIter->m_pkItem))->FUN_00a09410(0);
             pkIter = pkIter->m_pkNext;
         }
     }
@@ -1838,19 +1815,9 @@ void __cdecl NotifyHandlersByKey(unsigned int uiKey)
 
 class InventoryMenuSetting {
 public:
-    const char* FUN_00403df0();
 };
 struct SystemLocaleState : InventoryMenuSetting {};
-extern SystemLocaleState gSystemLocaleState;
 class GlobalObject_0040c150 : public InventoryMenuSetting {};
-extern GlobalObject_0040c150 g_011d4378;
-extern InventoryMenuSetting DAT_011d29b8;
-extern InventoryMenuSetting DAT_011d4d50;
-extern InventoryMenuSetting DAT_011d40b4;
-extern InventoryMenuSetting DAT_011d2acc;
-extern GlobalObject_0040c150 g_011d4918;
-int __cdecl FUN_00408b20(const char*, const char*);
-int __cdecl strcpy_s(char*, unsigned int, const char*);
 void __cdecl FUN_00730490(char*, int);
 struct FUN_0055d520_shell { char* FUN_0055d520(); };
 struct Menu_007301f0 {
@@ -1903,52 +1870,50 @@ void Menu_007301f0::UpdateTileText(P09TileS* tile)
 {
     char text[260];
     int selection = tile == primaryTile ? primaryCategory : secondaryCategory;
-    bool isLocalized = FUN_00408b20(gSystemLocaleState.FUN_00403df0(), "ENGLISH") != 0;
+    bool isLocalized = FUN_00408b20(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SystemLocaleState *>(&::g_011c3cb4))))->GetMenuTitle())), "ENGLISH") != 0;
     switch (selection) {
     case 0:
         if (tile == primaryTile) {
-            strcpy_s(text, 260, g_011d4378.FUN_00403df0());
+            ::TaskQueueInterface::CopyStringToBuffer(text, 260, ((const char *)(reinterpret_cast<::StartMenu *>(&(g_011d4378))->GetMenuTitle())));
             if (!isLocalized)
                 FUN_00730490(text, 260);
         } else {
-            strcpy_s(text, 260, selectedObject->FUN_0055d520());
+            ::TaskQueueInterface::CopyStringToBuffer(text, 260, selectedObject->FUN_0055d520());
         }
         break;
     case 1:
-        strcpy_s(text, 260, DAT_011d29b8.FUN_00403df0());
+        ::TaskQueueInterface::CopyStringToBuffer(text, 260, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d29b8))))->GetMenuTitle())));
         if (!isLocalized)
             FUN_00730490(text, 260);
         break;
     case 2:
-        strcpy_s(text, 260, DAT_011d4d50.FUN_00403df0());
+        ::TaskQueueInterface::CopyStringToBuffer(text, 260, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d4d50))))->GetMenuTitle())));
         if (!isLocalized)
             FUN_00730490(text, 260);
         break;
     case 3:
-        strcpy_s(text, 260, DAT_011d40b4.FUN_00403df0());
+        ::TaskQueueInterface::CopyStringToBuffer(text, 260, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d40b4))))->GetMenuTitle())));
         if (!isLocalized)
             FUN_00730490(text, 260);
         break;
     case 4:
-        strcpy_s(text, 260, DAT_011d2acc.FUN_00403df0());
+        ::TaskQueueInterface::CopyStringToBuffer(text, 260, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d2acc))))->GetMenuTitle())));
         if (!isLocalized)
             FUN_00730490(text, 260);
         break;
     case 5:
-        strcpy_s(text, 260, g_011d4918.FUN_00403df0());
+        ::TaskQueueInterface::CopyStringToBuffer(text, 260, ((const char *)(reinterpret_cast<::StartMenu *>(&(g_011d4918))->GetMenuTitle())));
         if (!isLocalized)
             FUN_00730490(text, 260);
         break;
     }
-    tile->Set(0xfc4, text, true);
+    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tile))->FUN_00a01350(0xfc4, (char *)(text), true);
 }
 
 namespace TraitRegistration {
-void FUN_009ff8a0(const char*,int);bool FUN_00707b40();extern unsigned char DAT_011d8a84,DAT_011d8c50;
+extern unsigned char DAT_011d8c50;
 extern char DAT_010345e4;
-extern char DAT_0103a454;
 extern char DAT_0103c034;
-extern char DAT_0103c83c;
 extern char DAT_01044c0c;
 extern char DAT_0106ec74;
 extern char DAT_0106ec7c;
@@ -1956,7 +1921,6 @@ extern char DAT_0106f488;
 extern char DAT_0106f490;
 extern char DAT_0106fc9c;
 extern char DAT_01076f20;
-extern char DAT_01076f38;
 extern char DAT_01077c6c;
 extern char DAT_01077c78;
 extern char DAT_01078bc0;
@@ -2171,230 +2135,230 @@ extern char DAT_01094860;
 extern char DAT_01094868;
 // @fnv 0x009ff970
 void FUN_009ff970(){
-FUN_009ff8a0(&DAT_01094868, -1);
-FUN_009ff8a0(&DAT_0106ec74, 0);
-FUN_009ff8a0(&DAT_0106ec7c, 1);
-FUN_009ff8a0(&DAT_01094860, 1);
-FUN_009ff8a0(&DAT_01094854, 2);
-FUN_009ff8a0(&DAT_0109484c, 4);
-FUN_009ff8a0(&DAT_01094844, 5);
-FUN_009ff8a0(&DAT_0109483c, 6);
-FUN_009ff8a0(&DAT_01094834, -1);
-FUN_009ff8a0(&DAT_01094824, 101);
-FUN_009ff8a0(&DAT_01094814, 102);
-FUN_009ff8a0(&DAT_01094800, 6008);
-FUN_009ff8a0(&DAT_010947f0, 103);
-FUN_009ff8a0(&DAT_0106f490, (unsigned char)((DAT_011d8a84 && bool(DAT_011d8c50 ? 0 : 1)) ? 1 : 0));
-FUN_009ff8a0(&DAT_010947e4, 0);
-FUN_009ff8a0(&DAT_0106f488, (unsigned char)((DAT_011d8a84 && bool(DAT_011d8c50 ? 0 : 1)) ? 1 : 0));
-FUN_009ff8a0(&DAT_010947d8, 1);
-FUN_009ff8a0(&DAT_010947c8, FUN_00707b40());
-FUN_009ff8a0(&DAT_010947b8, 110);
-FUN_009ff8a0(&DAT_010947a8, 111);
-FUN_009ff8a0(&DAT_01094798, 112);
-FUN_009ff8a0(&DAT_01094788, -1);
-FUN_009ff8a0(&DAT_01094778, 0);
-FUN_009ff8a0(&DAT_0109476c, -1);
-FUN_009ff8a0(&DAT_01094758, 9);
-FUN_009ff8a0(&DAT_0109474c, 9);
-FUN_009ff8a0(&DAT_01094740, 10);
-FUN_009ff8a0(&DAT_01094734, 11);
-FUN_009ff8a0(&DAT_01094728, 12);
-FUN_009ff8a0(&DAT_0109471c, 13);
-FUN_009ff8a0(&DAT_01094710, 14);
-FUN_009ff8a0(&DAT_01094704, 15);
-FUN_009ff8a0(&DAT_010946f8, 16);
-FUN_009ff8a0(&DAT_01077c78, 17);
-FUN_009ff8a0(&DAT_01077c6c, 18);
-FUN_009ff8a0(&DAT_010946ec, 17);
-FUN_009ff8a0(&DAT_010946e0, 18);
-FUN_009ff8a0(&DAT_010946d8, 902);
-FUN_009ff8a0(&DAT_010946d0, 905);
-FUN_009ff8a0(&DAT_010946cc, 904);
-FUN_009ff8a0(&DAT_010946c8, 904);
-FUN_009ff8a0(&DAT_010946c0, 901);
-FUN_009ff8a0(&DAT_010946b8, 906);
-FUN_009ff8a0(&DAT_010946ac, 999);
-FUN_009ff8a0(&DAT_0103c83c, 903);
-FUN_009ff8a0(&DAT_010946a4, 907);
-FUN_009ff8a0(&DAT_0109469c, 908);
-FUN_009ff8a0(&DAT_01094690, 1017);
-FUN_009ff8a0(&DAT_01094684, 1026);
-FUN_009ff8a0(&DAT_01094674, 1048);
-FUN_009ff8a0(&DAT_01094664, 1008);
-FUN_009ff8a0(&DAT_01094654, 1009);
-FUN_009ff8a0(&DAT_01094644, 1020);
-FUN_009ff8a0(&DAT_01094634, 1004);
-FUN_009ff8a0(&DAT_01094624, 1002);
-FUN_009ff8a0(&DAT_01094614, 1007);
-FUN_009ff8a0(&DAT_01094604, 1014);
-FUN_009ff8a0(&DAT_010945f8, 1023);
-FUN_009ff8a0(&DAT_010945e8, 1001);
-FUN_009ff8a0(&DAT_010945d8, 1059);
-FUN_009ff8a0(&DAT_010945c8, 1051);
-FUN_009ff8a0(&DAT_010945bc, 1013);
-FUN_009ff8a0(&DAT_010945ac, 1016);
-FUN_009ff8a0(&DAT_0109459c, 1036);
-FUN_009ff8a0(&DAT_0109458c, 1012);
-FUN_009ff8a0(&DAT_01094580, 1003);
-FUN_009ff8a0(&DAT_01094574, 1018);
-FUN_009ff8a0(&DAT_01094564, 1027);
-FUN_009ff8a0(&DAT_01094554, 1035);
-FUN_009ff8a0(&DAT_01094544, 1061);
-FUN_009ff8a0(&DAT_0109452c, 1058);
-FUN_009ff8a0(&DAT_0109451c, 1047);
-FUN_009ff8a0(&DAT_0109450c, 1053);
-FUN_009ff8a0(&DAT_010944fc, 1054);
-FUN_009ff8a0(&DAT_010944ec, 1055);
-FUN_009ff8a0(&DAT_010944dc, 1057);
-FUN_009ff8a0(&DAT_010944d0, 1056);
-FUN_009ff8a0(&DAT_010944bc, 1060);
-FUN_009ff8a0(&DAT_010944a4, 1075);
-FUN_009ff8a0(&DAT_01094490, 1074);
-FUN_009ff8a0(&DAT_0109447c, 1076);
-FUN_009ff8a0(&DAT_01094468, 1080);
-FUN_009ff8a0(&DAT_01094458, 1081);
-FUN_009ff8a0(&DAT_01094448, 1082);
-FUN_009ff8a0(&DAT_01094438, 1077);
-FUN_009ff8a0(&DAT_01094428, 1083);
-FUN_009ff8a0(&DAT_0109441c, 1084);
-FUN_009ff8a0(&DAT_01094418, 2010);
-FUN_009ff8a0(&DAT_01094414, 2001);
-FUN_009ff8a0(&DAT_01094410, 2018);
-FUN_009ff8a0(&DAT_01094408, 2009);
-FUN_009ff8a0(&DAT_01094400, 2000);
-FUN_009ff8a0(&DAT_010943fc, 2004);
-FUN_009ff8a0(&DAT_010943f8, 2014);
-FUN_009ff8a0(&DAT_010943f0, 2008);
-FUN_009ff8a0(&DAT_010943ec, 2012);
-FUN_009ff8a0(&DAT_010943e8, 2013);
-FUN_009ff8a0(&DAT_01076f38, 2016);
-FUN_009ff8a0(&DAT_010943e4, 2017);
-FUN_009ff8a0(&DAT_010943e0, 2006);
-FUN_009ff8a0(&DAT_010943dc, 2005);
-FUN_009ff8a0(&DAT_010943d8, 2007);
-FUN_009ff8a0(&DAT_010943d4, 2003);
-FUN_009ff8a0(&DAT_010943cc, 2003);
-FUN_009ff8a0(&DAT_010943c8, 2015);
-FUN_009ff8a0(&DAT_010943c4, 2020);
-FUN_009ff8a0(&DAT_010943bc, 2021);
-FUN_009ff8a0(&DAT_010943b0, 2022);
-FUN_009ff8a0(&DAT_010943ac, 2019);
-FUN_009ff8a0(&DAT_01044c0c, 2023);
-FUN_009ff8a0(&DAT_010943a4, 2011);
-FUN_009ff8a0(&DAT_010943a0, 2002);
-FUN_009ff8a0(&DAT_01094398, 3002);
-FUN_009ff8a0(&DAT_01094394, 3003);
-FUN_009ff8a0(&DAT_0109438c, 3004);
-FUN_009ff8a0(&DAT_01094384, 3001);
-FUN_009ff8a0(&DAT_0103a454, 4009);
-FUN_009ff8a0(&DAT_01094378, 4050);
-FUN_009ff8a0(&DAT_01094370, 4020);
-FUN_009ff8a0(&DAT_01094364, 4085);
-FUN_009ff8a0(&DAT_01094358, 4022);
-FUN_009ff8a0(&DAT_0109434c, 4022);
-FUN_009ff8a0(&DAT_01094344, 4004);
-FUN_009ff8a0(&DAT_0109433c, 4039);
-FUN_009ff8a0(&DAT_01094330, 4043);
-FUN_009ff8a0(&DAT_01094320, 4072);
-FUN_009ff8a0(&DAT_01094314, 4011);
-FUN_009ff8a0(&DAT_01094308, 4032);
-FUN_009ff8a0(&DAT_010942fc, 4031);
-FUN_009ff8a0(&DAT_010942f4, 4032);
-FUN_009ff8a0(&DAT_010942ec, 4031);
-FUN_009ff8a0(&DAT_010942e4, 4014);
-FUN_009ff8a0(&DAT_010942d8, 4006);
-FUN_009ff8a0(&DAT_0103c034, 4013);
-FUN_009ff8a0(&DAT_010942cc, 4073);
-FUN_009ff8a0(&DAT_010942c0, 4078);
-FUN_009ff8a0(&DAT_010942b4, 4079);
-FUN_009ff8a0(&DAT_010942a8, 4074);
-FUN_009ff8a0(&DAT_0109429c, 4075);
-FUN_009ff8a0(&DAT_01094290, 4076);
-FUN_009ff8a0(&DAT_01094284, 4077);
-FUN_009ff8a0(&DAT_0109427c, 4080);
-FUN_009ff8a0(&DAT_01094274, 4081);
-FUN_009ff8a0(&DAT_01094268, 4034);
-FUN_009ff8a0(&DAT_0109425c, 4046);
-FUN_009ff8a0(&DAT_01094250, 4044);
-FUN_009ff8a0(&DAT_01094244, 4045);
-FUN_009ff8a0(&DAT_0109423c, 4025);
-FUN_009ff8a0(&DAT_01094234, 4019);
-FUN_009ff8a0(&DAT_0109422c, 4016);
-FUN_009ff8a0(&DAT_01094228, 4010);
-FUN_009ff8a0(&DAT_01094220, 4030);
-FUN_009ff8a0(&DAT_01094218, 4023);
-FUN_009ff8a0(&DAT_0109420c, 4052);
-FUN_009ff8a0(&DAT_01094204, 4087);
-FUN_009ff8a0(&DAT_010941f8, 4012);
-FUN_009ff8a0(&DAT_010941f0, 4008);
-FUN_009ff8a0(&DAT_010941e4, 4033);
-FUN_009ff8a0(&DAT_010941d8, 4035);
-FUN_009ff8a0(&DAT_010941cc, 4053);
-FUN_009ff8a0(&DAT_010941c4, 4029);
-FUN_009ff8a0(&DAT_010941c0, 4018);
-FUN_009ff8a0(&DAT_010941b0, 4047);
-FUN_009ff8a0(&DAT_0109419c, 4048);
-FUN_009ff8a0(&DAT_01094190, 4090);
-FUN_009ff8a0(&DAT_01094184, 4091);
-FUN_009ff8a0(&DAT_01094178, 4092);
-FUN_009ff8a0(&DAT_01094168, 4037);
-FUN_009ff8a0(&DAT_01094158, 4007);
-FUN_009ff8a0(&DAT_01094150, 4036);
-FUN_009ff8a0(&DAT_01094144, 4084);
-FUN_009ff8a0(&DAT_0108dff8, 4015);
-FUN_009ff8a0(&DAT_01094138, 4089);
-FUN_009ff8a0(&DAT_01094130, 4021);
-FUN_009ff8a0(&DAT_01094128, 4100);
-FUN_009ff8a0(&DAT_01094120, 4101);
-FUN_009ff8a0(&DAT_01094118, 4102);
-FUN_009ff8a0(&DAT_01094110, 4103);
-FUN_009ff8a0(&DAT_01094108, 4104);
-FUN_009ff8a0(&DAT_01094100, 4105);
-FUN_009ff8a0(&DAT_010940f8, 4106);
-FUN_009ff8a0(&DAT_010940f0, 4107);
-FUN_009ff8a0(&DAT_010940e8, 4108);
-FUN_009ff8a0(&DAT_010940e0, 4109);
-FUN_009ff8a0(&DAT_010940d8, 4110);
-FUN_009ff8a0(&DAT_010940d0, 4111);
-FUN_009ff8a0(&DAT_010940c8, 4112);
-FUN_009ff8a0(&DAT_010940c0, 4113);
-FUN_009ff8a0(&DAT_010940b8, 4114);
-FUN_009ff8a0(&DAT_010940b0, 4115);
-FUN_009ff8a0(&DAT_010940a8, 4116);
-FUN_009ff8a0(&DAT_0106fc9c, 4003);
-FUN_009ff8a0(&DAT_0109409c, 4082);
-FUN_009ff8a0(&DAT_01094090, 4083);
-FUN_009ff8a0(&DAT_01094088, 4017);
-FUN_009ff8a0(&DAT_0109407c, 4027);
-FUN_009ff8a0(&DAT_01094070, 4028);
-FUN_009ff8a0(&DAT_01094064, 4026);
-FUN_009ff8a0(&DAT_01094058, 4061);
-FUN_009ff8a0(&DAT_0109404c, 4062);
-FUN_009ff8a0(&DAT_01094040, 4063);
-FUN_009ff8a0(&DAT_01094034, 4064);
-FUN_009ff8a0(&DAT_01094028, 4065);
-FUN_009ff8a0(&DAT_0109401c, 4066);
-FUN_009ff8a0(&DAT_01094010, 4067);
-FUN_009ff8a0(&DAT_01094004, 4068);
-FUN_009ff8a0(&DAT_01093ff4, 4071);
-FUN_009ff8a0(&DAT_01093fe8, 4054);
-FUN_009ff8a0(&DAT_01093fe4, 4055);
-FUN_009ff8a0(&DAT_01093fdc, 4056);
-FUN_009ff8a0(&DAT_01093fd4, 4057);
-FUN_009ff8a0(&DAT_01093fcc, 4058);
-FUN_009ff8a0(&DAT_010345e4, 4001);
-FUN_009ff8a0(&DAT_01076f20, 4002);
-FUN_009ff8a0(&DAT_01093fc4, 4024);
-FUN_009ff8a0(&DAT_01093fb0, 4088);
-FUN_009ff8a0(&DAT_01086f50, 5005);
-FUN_009ff8a0(&DAT_01093fac, 5002);
-FUN_009ff8a0(&DAT_01093fa8, 5008);
-FUN_009ff8a0(&DAT_01093fa0, 5001);
-FUN_009ff8a0(&DAT_01078bc0, 5006);
-FUN_009ff8a0(&DAT_01093f98, 5004);
-FUN_009ff8a0(&DAT_01093f8c, 5009);
-FUN_009ff8a0(&DAT_01093f84, 5007);
+::FUN_009ff8a0(&DAT_01094868, -1);
+::FUN_009ff8a0(&DAT_0106ec74, 0);
+::FUN_009ff8a0(&DAT_0106ec7c, 1);
+::FUN_009ff8a0(&DAT_01094860, 1);
+::FUN_009ff8a0(&DAT_01094854, 2);
+::FUN_009ff8a0(&DAT_0109484c, 4);
+::FUN_009ff8a0(&DAT_01094844, 5);
+::FUN_009ff8a0(&DAT_0109483c, 6);
+::FUN_009ff8a0(&DAT_01094834, -1);
+::FUN_009ff8a0(&DAT_01094824, 101);
+::FUN_009ff8a0(&DAT_01094814, 102);
+::FUN_009ff8a0(&DAT_01094800, 6008);
+::FUN_009ff8a0(&DAT_010947f0, 103);
+::FUN_009ff8a0(&DAT_0106f490, (unsigned char)(((*reinterpret_cast<unsigned char *>(&::DAT_011d8a84)) && bool(DAT_011d8c50 ? 0 : 1)) ? 1 : 0));
+::FUN_009ff8a0(&DAT_010947e4, 0);
+::FUN_009ff8a0(&DAT_0106f488, (unsigned char)(((*reinterpret_cast<unsigned char *>(&::DAT_011d8a84)) && bool(DAT_011d8c50 ? 0 : 1)) ? 1 : 0));
+::FUN_009ff8a0(&DAT_010947d8, 1);
+::FUN_009ff8a0(&DAT_010947c8, ::Interface::IsInterfaceOpen());
+::FUN_009ff8a0(&DAT_010947b8, 110);
+::FUN_009ff8a0(&DAT_010947a8, 111);
+::FUN_009ff8a0(&DAT_01094798, 112);
+::FUN_009ff8a0(&DAT_01094788, -1);
+::FUN_009ff8a0(&DAT_01094778, 0);
+::FUN_009ff8a0(&DAT_0109476c, -1);
+::FUN_009ff8a0(&DAT_01094758, 9);
+::FUN_009ff8a0(&DAT_0109474c, 9);
+::FUN_009ff8a0(&DAT_01094740, 10);
+::FUN_009ff8a0(&DAT_01094734, 11);
+::FUN_009ff8a0(&DAT_01094728, 12);
+::FUN_009ff8a0(&DAT_0109471c, 13);
+::FUN_009ff8a0(&DAT_01094710, 14);
+::FUN_009ff8a0(&DAT_01094704, 15);
+::FUN_009ff8a0(&DAT_010946f8, 16);
+::FUN_009ff8a0(&DAT_01077c78, 17);
+::FUN_009ff8a0(&DAT_01077c6c, 18);
+::FUN_009ff8a0(&DAT_010946ec, 17);
+::FUN_009ff8a0(&DAT_010946e0, 18);
+::FUN_009ff8a0(&DAT_010946d8, 902);
+::FUN_009ff8a0(&DAT_010946d0, 905);
+::FUN_009ff8a0(&DAT_010946cc, 904);
+::FUN_009ff8a0(&DAT_010946c8, 904);
+::FUN_009ff8a0(&DAT_010946c0, 901);
+::FUN_009ff8a0(&DAT_010946b8, 906);
+::FUN_009ff8a0(&DAT_010946ac, 999);
+::FUN_009ff8a0(&DAT_0103c83c, 903);
+::FUN_009ff8a0(&DAT_010946a4, 907);
+::FUN_009ff8a0(&DAT_0109469c, 908);
+::FUN_009ff8a0(&DAT_01094690, 1017);
+::FUN_009ff8a0(&DAT_01094684, 1026);
+::FUN_009ff8a0(&DAT_01094674, 1048);
+::FUN_009ff8a0(&DAT_01094664, 1008);
+::FUN_009ff8a0(&DAT_01094654, 1009);
+::FUN_009ff8a0(&DAT_01094644, 1020);
+::FUN_009ff8a0(&DAT_01094634, 1004);
+::FUN_009ff8a0(&DAT_01094624, 1002);
+::FUN_009ff8a0(&DAT_01094614, 1007);
+::FUN_009ff8a0(&DAT_01094604, 1014);
+::FUN_009ff8a0(&DAT_010945f8, 1023);
+::FUN_009ff8a0(&DAT_010945e8, 1001);
+::FUN_009ff8a0(&DAT_010945d8, 1059);
+::FUN_009ff8a0(&DAT_010945c8, 1051);
+::FUN_009ff8a0(&DAT_010945bc, 1013);
+::FUN_009ff8a0(&DAT_010945ac, 1016);
+::FUN_009ff8a0(&DAT_0109459c, 1036);
+::FUN_009ff8a0(&DAT_0109458c, 1012);
+::FUN_009ff8a0(&DAT_01094580, 1003);
+::FUN_009ff8a0(&DAT_01094574, 1018);
+::FUN_009ff8a0(&DAT_01094564, 1027);
+::FUN_009ff8a0(&DAT_01094554, 1035);
+::FUN_009ff8a0(&DAT_01094544, 1061);
+::FUN_009ff8a0(&DAT_0109452c, 1058);
+::FUN_009ff8a0(&DAT_0109451c, 1047);
+::FUN_009ff8a0(&DAT_0109450c, 1053);
+::FUN_009ff8a0(&DAT_010944fc, 1054);
+::FUN_009ff8a0(&DAT_010944ec, 1055);
+::FUN_009ff8a0(&DAT_010944dc, 1057);
+::FUN_009ff8a0(&DAT_010944d0, 1056);
+::FUN_009ff8a0(&DAT_010944bc, 1060);
+::FUN_009ff8a0(&DAT_010944a4, 1075);
+::FUN_009ff8a0(&DAT_01094490, 1074);
+::FUN_009ff8a0(&DAT_0109447c, 1076);
+::FUN_009ff8a0(&DAT_01094468, 1080);
+::FUN_009ff8a0(&DAT_01094458, 1081);
+::FUN_009ff8a0(&DAT_01094448, 1082);
+::FUN_009ff8a0(&DAT_01094438, 1077);
+::FUN_009ff8a0(&DAT_01094428, 1083);
+::FUN_009ff8a0(&DAT_0109441c, 1084);
+::FUN_009ff8a0(&DAT_01094418, 2010);
+::FUN_009ff8a0(&DAT_01094414, 2001);
+::FUN_009ff8a0(&DAT_01094410, 2018);
+::FUN_009ff8a0(&DAT_01094408, 2009);
+::FUN_009ff8a0(&DAT_01094400, 2000);
+::FUN_009ff8a0(&DAT_010943fc, 2004);
+::FUN_009ff8a0(&DAT_010943f8, 2014);
+::FUN_009ff8a0(&DAT_010943f0, 2008);
+::FUN_009ff8a0(&DAT_010943ec, 2012);
+::FUN_009ff8a0(&DAT_010943e8, 2013);
+::FUN_009ff8a0(&(*reinterpret_cast<char *>((void *)&::str_01076f38)), 2016);
+::FUN_009ff8a0(&DAT_010943e4, 2017);
+::FUN_009ff8a0(&DAT_010943e0, 2006);
+::FUN_009ff8a0(&DAT_010943dc, 2005);
+::FUN_009ff8a0(&DAT_010943d8, 2007);
+::FUN_009ff8a0(&DAT_010943d4, 2003);
+::FUN_009ff8a0(&DAT_010943cc, 2003);
+::FUN_009ff8a0(&DAT_010943c8, 2015);
+::FUN_009ff8a0(&DAT_010943c4, 2020);
+::FUN_009ff8a0(&DAT_010943bc, 2021);
+::FUN_009ff8a0(&DAT_010943b0, 2022);
+::FUN_009ff8a0(&DAT_010943ac, 2019);
+::FUN_009ff8a0(&DAT_01044c0c, 2023);
+::FUN_009ff8a0(&DAT_010943a4, 2011);
+::FUN_009ff8a0(&DAT_010943a0, 2002);
+::FUN_009ff8a0(&DAT_01094398, 3002);
+::FUN_009ff8a0(&DAT_01094394, 3003);
+::FUN_009ff8a0(&DAT_0109438c, 3004);
+::FUN_009ff8a0(&DAT_01094384, 3001);
+::FUN_009ff8a0(&DAT_0103a454, 4009);
+::FUN_009ff8a0(&DAT_01094378, 4050);
+::FUN_009ff8a0(&DAT_01094370, 4020);
+::FUN_009ff8a0(&DAT_01094364, 4085);
+::FUN_009ff8a0(&DAT_01094358, 4022);
+::FUN_009ff8a0(&DAT_0109434c, 4022);
+::FUN_009ff8a0(&DAT_01094344, 4004);
+::FUN_009ff8a0(&DAT_0109433c, 4039);
+::FUN_009ff8a0(&DAT_01094330, 4043);
+::FUN_009ff8a0(&DAT_01094320, 4072);
+::FUN_009ff8a0(&DAT_01094314, 4011);
+::FUN_009ff8a0(&DAT_01094308, 4032);
+::FUN_009ff8a0(&DAT_010942fc, 4031);
+::FUN_009ff8a0(&DAT_010942f4, 4032);
+::FUN_009ff8a0(&DAT_010942ec, 4031);
+::FUN_009ff8a0(&DAT_010942e4, 4014);
+::FUN_009ff8a0(&DAT_010942d8, 4006);
+::FUN_009ff8a0(&DAT_0103c034, 4013);
+::FUN_009ff8a0(&DAT_010942cc, 4073);
+::FUN_009ff8a0(&DAT_010942c0, 4078);
+::FUN_009ff8a0(&DAT_010942b4, 4079);
+::FUN_009ff8a0(&DAT_010942a8, 4074);
+::FUN_009ff8a0(&DAT_0109429c, 4075);
+::FUN_009ff8a0(&DAT_01094290, 4076);
+::FUN_009ff8a0(&DAT_01094284, 4077);
+::FUN_009ff8a0(&DAT_0109427c, 4080);
+::FUN_009ff8a0(&DAT_01094274, 4081);
+::FUN_009ff8a0(&DAT_01094268, 4034);
+::FUN_009ff8a0(&DAT_0109425c, 4046);
+::FUN_009ff8a0(&DAT_01094250, 4044);
+::FUN_009ff8a0(&DAT_01094244, 4045);
+::FUN_009ff8a0(&DAT_0109423c, 4025);
+::FUN_009ff8a0(&DAT_01094234, 4019);
+::FUN_009ff8a0(&DAT_0109422c, 4016);
+::FUN_009ff8a0(&DAT_01094228, 4010);
+::FUN_009ff8a0(&DAT_01094220, 4030);
+::FUN_009ff8a0(&DAT_01094218, 4023);
+::FUN_009ff8a0(&DAT_0109420c, 4052);
+::FUN_009ff8a0(&DAT_01094204, 4087);
+::FUN_009ff8a0(&DAT_010941f8, 4012);
+::FUN_009ff8a0(&DAT_010941f0, 4008);
+::FUN_009ff8a0(&DAT_010941e4, 4033);
+::FUN_009ff8a0(&DAT_010941d8, 4035);
+::FUN_009ff8a0(&DAT_010941cc, 4053);
+::FUN_009ff8a0(&DAT_010941c4, 4029);
+::FUN_009ff8a0(&DAT_010941c0, 4018);
+::FUN_009ff8a0(&DAT_010941b0, 4047);
+::FUN_009ff8a0(&DAT_0109419c, 4048);
+::FUN_009ff8a0(&DAT_01094190, 4090);
+::FUN_009ff8a0(&DAT_01094184, 4091);
+::FUN_009ff8a0(&DAT_01094178, 4092);
+::FUN_009ff8a0(&DAT_01094168, 4037);
+::FUN_009ff8a0(&DAT_01094158, 4007);
+::FUN_009ff8a0(&DAT_01094150, 4036);
+::FUN_009ff8a0(&DAT_01094144, 4084);
+::FUN_009ff8a0(&DAT_0108dff8, 4015);
+::FUN_009ff8a0(&DAT_01094138, 4089);
+::FUN_009ff8a0(&DAT_01094130, 4021);
+::FUN_009ff8a0(&DAT_01094128, 4100);
+::FUN_009ff8a0(&DAT_01094120, 4101);
+::FUN_009ff8a0(&DAT_01094118, 4102);
+::FUN_009ff8a0(&DAT_01094110, 4103);
+::FUN_009ff8a0(&DAT_01094108, 4104);
+::FUN_009ff8a0(&DAT_01094100, 4105);
+::FUN_009ff8a0(&DAT_010940f8, 4106);
+::FUN_009ff8a0(&DAT_010940f0, 4107);
+::FUN_009ff8a0(&DAT_010940e8, 4108);
+::FUN_009ff8a0(&DAT_010940e0, 4109);
+::FUN_009ff8a0(&DAT_010940d8, 4110);
+::FUN_009ff8a0(&DAT_010940d0, 4111);
+::FUN_009ff8a0(&DAT_010940c8, 4112);
+::FUN_009ff8a0(&DAT_010940c0, 4113);
+::FUN_009ff8a0(&DAT_010940b8, 4114);
+::FUN_009ff8a0(&DAT_010940b0, 4115);
+::FUN_009ff8a0(&DAT_010940a8, 4116);
+::FUN_009ff8a0(&DAT_0106fc9c, 4003);
+::FUN_009ff8a0(&DAT_0109409c, 4082);
+::FUN_009ff8a0(&DAT_01094090, 4083);
+::FUN_009ff8a0(&DAT_01094088, 4017);
+::FUN_009ff8a0(&DAT_0109407c, 4027);
+::FUN_009ff8a0(&DAT_01094070, 4028);
+::FUN_009ff8a0(&DAT_01094064, 4026);
+::FUN_009ff8a0(&DAT_01094058, 4061);
+::FUN_009ff8a0(&DAT_0109404c, 4062);
+::FUN_009ff8a0(&DAT_01094040, 4063);
+::FUN_009ff8a0(&DAT_01094034, 4064);
+::FUN_009ff8a0(&DAT_01094028, 4065);
+::FUN_009ff8a0(&DAT_0109401c, 4066);
+::FUN_009ff8a0(&DAT_01094010, 4067);
+::FUN_009ff8a0(&DAT_01094004, 4068);
+::FUN_009ff8a0(&DAT_01093ff4, 4071);
+::FUN_009ff8a0(&DAT_01093fe8, 4054);
+::FUN_009ff8a0(&DAT_01093fe4, 4055);
+::FUN_009ff8a0(&DAT_01093fdc, 4056);
+::FUN_009ff8a0(&DAT_01093fd4, 4057);
+::FUN_009ff8a0(&DAT_01093fcc, 4058);
+::FUN_009ff8a0(&DAT_010345e4, 4001);
+::FUN_009ff8a0(&DAT_01076f20, 4002);
+::FUN_009ff8a0(&DAT_01093fc4, 4024);
+::FUN_009ff8a0(&DAT_01093fb0, 4088);
+::FUN_009ff8a0(&DAT_01086f50, 5005);
+::FUN_009ff8a0(&DAT_01093fac, 5002);
+::FUN_009ff8a0(&DAT_01093fa8, 5008);
+::FUN_009ff8a0(&DAT_01093fa0, 5001);
+::FUN_009ff8a0(&DAT_01078bc0, 5006);
+::FUN_009ff8a0(&DAT_01093f98, 5004);
+::FUN_009ff8a0(&DAT_01093f8c, 5009);
+::FUN_009ff8a0(&DAT_01093f84, 5007);
 }
 }
 
@@ -2413,12 +2377,6 @@ struct UpdateTreeNode {
  UpdateTreeNode* parent;
  __forceinline UpdateTreeNode* GetParent() { return parent; }
  __forceinline UpdateNode* GetChildren() { return children; }
- float FUN_00a011b0(int);
- const char* FUN_00a011f0(int);
- MenuDepthController* FUN_00a03c90();
- UpdateTreeNode* FUN_00a03d40();
- void FUN_00a07530(int);
- void FUN_00a012d0(int,float,bool);
  UpdateTreeNode* FUN_00a037e0(int, float, int);
 };
 // @fnv 0x00a037e0
@@ -2431,48 +2389,48 @@ UpdateTreeNode* UpdateTreeNode::FUN_00a037e0(int trait, float value, int unused)
    aLast = value;
    aReadObject = this;
    while ((aContext = aReadObject->parent) && (aList1 = aReadObject->parent, aPrevious = aList1->parent)) {
-    if (aReadObject->FUN_00a011b0(0xfa8) != 0.0) aLast += aReadObject->FUN_00a011b0(0xfad);
+    if (reinterpret_cast<::TileListBoxCalls *>((aReadObject))->GetFloat(0xfa8) != 0.0) aLast += reinterpret_cast<::TileListBoxCalls *>((aReadObject))->GetFloat(0xfad);
     aReadObject = aReadObject->parent;
    }
-   aCurrent = FUN_00a03c90();
-   aBound = FUN_00a03d40();
+   aCurrent = ((::MenuDepthController *)(reinterpret_cast<::FUN_00a03c90_shell *>(this)->FUN_00a03c90()));
+   aBound = ((::UpdateTreeNode *)(reinterpret_cast<::FUN_00a03d40_shell *>(this)->FUN_00a03d40()));
    if (aCurrent && aBound && aBound != this && aCurrent && aLast > (aMargin = aCurrent->depth)) aCurrent->depth = (int)aLast;
   }
-  if (FUN_00a011b0(0xfa6) != 0.0) FUN_00a07530(0x80);
-  FUN_00a07530(1); return this;
+  if (reinterpret_cast<::TileListBoxCalls *>(this)->GetFloat(0xfa6) != 0.0) reinterpret_cast<::FUN_00a07530_shell *>(this)->FUN_00a07530(0x80);
+  reinterpret_cast<::FUN_00a07530_shell *>(this)->FUN_00a07530(1); return this;
  }
  if (GetType() == 0x387 && (trait == 0xfba || trait == 0xfbb || trait == 0xfbc || trait == 0xff7 || trait == 0xfbd || trait == 0xfbe || trait == 0xfb9 || trait == 0xfb7)) {
-  FUN_00a07530(2); return this;
+  reinterpret_cast<::FUN_00a07530_shell *>(this)->FUN_00a07530(2); return this;
  }
  if ((trait == 0xfb1 || trait == 0xfb0 || trait == 0xfc0 || trait == 0xfbf) && GetType() == 0x386) {
-  if (FUN_00a011b0(0xfa6) != 0.0) FUN_00a07530(0x80);
-  FUN_00a07530(0x10); return this;
+  if (reinterpret_cast<::TileListBoxCalls *>(this)->GetFloat(0xfa6) != 0.0) reinterpret_cast<::FUN_00a07530_shell *>(this)->FUN_00a07530(0x80);
+  reinterpret_cast<::FUN_00a07530_shell *>(this)->FUN_00a07530(0x10); return this;
  }
- if (trait == 0xfa6 && (GetType() == 0x386 || GetType() == 0x385)) { FUN_00a07530(0x80); return this; }
+ if (trait == 0xfa6 && (GetType() == 0x386 || GetType() == 0x385)) { reinterpret_cast<::FUN_00a07530_shell *>(this)->FUN_00a07530(0x80); return this; }
  if (trait == 0xfae && (GetType() == 0x386 || GetType() == 0x387)) {
-  FUN_00a07530(0x100);
+  reinterpret_cast<::FUN_00a07530_shell *>(this)->FUN_00a07530(0x100);
   aOuter2 = children;
   aBipedNode = aOuter2;
   while (aBipedNode) {
    aLocation = &aBipedNode->data;
    aBipedNode = aBipedNode->next;
-   (*aLocation)->FUN_00a012d0(0xfae,FUN_00a011b0(0xfae),true);
+   reinterpret_cast<::FUN_00a012d0_t *>(((*aLocation)))->FUN_00a012d0(0xfae,reinterpret_cast<::TileListBoxCalls *>(this)->GetFloat(0xfae),true);
   }
   return this;
  }
- if (trait == 0xfa3) { FUN_00a07530(4); return this; }
+ if (trait == 0xfa3) { reinterpret_cast<::FUN_00a07530_shell *>(this)->FUN_00a07530(4); return this; }
  if (trait == 0xfa9 || trait == 0xfb2 || trait == 0xfb3 || trait == 0xfb4 || trait == 0xff4 || trait == 0xff5) {
-  if (GetType() == 0x386 || GetType() == 0x387) FUN_00a07530(8);
+  if (GetType() == 0x386 || GetType() == 0x387) reinterpret_cast<::FUN_00a07530_shell *>(this)->FUN_00a07530(8);
   return this;
  }
- if (trait == 0xfcc && GetType() == 0x386 && FUN_00a011f0(0xfcc)) { FUN_00a07530(0x20); return this; }
- if (trait == 0xfcc && GetType() == 0x388 && FUN_00a011f0(0xfcc)) { FUN_00a07530(0x40); return this; }
- if (trait == 0xfa8) { FUN_00a07530(0x200); return this; }
+ if (trait == 0xfcc && GetType() == 0x386 && reinterpret_cast<::FUN_00a011f0_shell *>(this)->FUN_00a011f0(0xfcc)) { reinterpret_cast<::FUN_00a07530_shell *>(this)->FUN_00a07530(0x20); return this; }
+ if (trait == 0xfcc && GetType() == 0x388 && reinterpret_cast<::FUN_00a011f0_shell *>(this)->FUN_00a011f0(0xfcc)) { reinterpret_cast<::FUN_00a07530_shell *>(this)->FUN_00a07530(0x40); return this; }
+ if (trait == 0xfa8) { reinterpret_cast<::FUN_00a07530_shell *>(this)->FUN_00a07530(0x200); return this; }
  if (trait == 0xfaa) {
-  aOther = FUN_00a03c90();
+  aOther = ((::MenuDepthController *)(reinterpret_cast<::FUN_00a03c90_shell *>(this)->FUN_00a03c90()));
   if (aOther) aOther->SetDepth((int)value,this);
  }
- if (trait == 0xffa || trait == 0xffb || trait == 0xffc) { FUN_00a07530(1); return this; }
+ if (trait == 0xffa || trait == 0xffb || trait == 0xffc) { reinterpret_cast<::FUN_00a07530_shell *>(this)->FUN_00a07530(1); return this; }
  return 0;
 }
 
@@ -2486,8 +2444,6 @@ struct TileValueStr {
     Tile* pTile;
     float fValue;
     char* pString;
-    void RefreshA();
-    void RefreshB(bool);
     void SetString(const char* apString, bool abUpdate);
 };
 
@@ -2503,20 +2459,20 @@ void TileValueStr::SetString(const char* apString, bool abUpdate)
                     (pString && apString && (pCur = pString, FUN_00ec6da0(pCur, apString)));
     if (pString) {
         pOld = pString;
-        g_memoryManager.Deallocate(pOld);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(pOld);
         pString = 0;
     }
     if (apString) {
         uiLen6 = strlen(apString);
-        pNew3 = (char*)((P03MM*)&g_memoryManager)->Allocate(uiLen6 + 1);
+        pNew3 = (char*)reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(uiLen6 + 1);
         pString = pNew3;
         pDest4 = pString;
         strcpy_s(pDest4, uiLen6 + 1, apString);
     }
     fValue = 0.0f;
     if (abUpdate)
-        RefreshA();
-    RefreshB(kBChanged);
+        reinterpret_cast<::fnv_00a09200::Value_00a09200 *>(this)->RemoveFromReactions();
+    reinterpret_cast<::fnv_00a09410::EvalValue *>(this)->FUN_00a09410(kBChanged);
 }
 }  // namespace fnv_00a0a300
 
@@ -2542,16 +2498,15 @@ unsigned int FUN_00a0d1b0_cls::HashKey(const char* key) {
 
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 
-int __cdecl GetTrait(const char*, int);
 extern int DAT_011d8e64;
 extern int DAT_011d8e68;
-struct ListOwner { int Mode(); };
+struct ListOwner {  };
 struct FUN_00726920_StandIn { char pad0[0xc]; Tile* pTile; int FUN_00726920(); };
 // @fnv 0x00726920
 int FUN_00726920_StandIn::FUN_00726920()
 {
-    static int numFiltered = GetTrait("_num_filtered", -1);
-    return ((ListOwner*)this)->Mode() - (unsigned int)pTile->GetFloat(numFiltered);
+    static int numFiltered = ::FUN_00a00940("_num_filtered", -1);
+    return ::GetRaceCount((char *)(((ListOwner*)this))) - (unsigned int)reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(numFiltered);
 }
 
 class StrMapW {
@@ -2574,9 +2529,6 @@ unsigned int StrMapW::FUN_00a0d440(const char* pKey)
     return uiHash % m_uiHashSize;
 }
 
-int __cdecl FUN_00a00940(const char*, int);
-int __fastcall GetRaceCount(char*);
-extern const char DAT_0106f8d0[];
 
 struct FilteredList {
     int unk00;
@@ -2590,21 +2542,18 @@ struct FilteredList {
 // @fnv 0x00726870
 unsigned int FilteredList::FUN_00726870()
 {
-    static int s_iNumFiltered = FUN_00a00940(DAT_0106f8d0, -1);
-    return GetRaceCount((char*)this) - (unsigned int)tile->GetFloat(s_iNumFiltered);
+    static int s_iNumFiltered = FUN_00a00940(::str_0106f8d0, -1);
+    return GetRaceCount((char*)this) - (unsigned int)reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(s_iNumFiltered);
 }
 
-int __cdecl FUN_00a00940(const char* name, int index);
 namespace filt72c {
 struct F2Tile {
-    float FUN_00a011b0(int trait);
 };
 struct F2Menu {
     int unk00;
     int unk04;
     int unk08;
     F2Tile* pList;
-    int GetRaceCount();
     int FUN_0072cd80();
 };
 }
@@ -2615,40 +2564,33 @@ using namespace filt72c;
 int F2Menu::FUN_0072cd80()
 {
     static int s_iNumFiltered = FUN_00a00940("_num_filtered", -1);
-    return GetRaceCount() - (unsigned int)pList->FUN_00a011b0(s_iNumFiltered);
+    return ::GetRaceCount((char *)this) - (unsigned int)reinterpret_cast<::TileListBoxCalls *>((pList))->GetFloat(s_iNumFiltered);
 }
 
-extern const char DAT_0106f8d0[];
-int __cdecl FUN_00a00940(const char*, int);
 struct TraitSource {
-    float FUN_00a011b0(int);
 };
 struct ItemCounter {
     int unk00;
     int unk04;
     int unk08;
     TraitSource* tile;
-    int GetRaceCount();
     unsigned int FUN_007a8030();
 };
 // Returns the race count minus the trait value from the tile's TraitSource for the static trait id.
 // @fnv 0x007a8030
 unsigned int ItemCounter::FUN_007a8030() {
-    static int trait = FUN_00a00940(DAT_0106f8d0, -1);
-    return GetRaceCount() - (unsigned int)tile->FUN_00a011b0(trait);
+    static int trait = FUN_00a00940(::str_0106f8d0, -1);
+    return ::GetRaceCount((char *)this) - (unsigned int)reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(trait);
 }
 
-int __cdecl FUN_00a00940(const char* name, int index);
 namespace filt7a8 {
 struct F7Tile {
-    float FUN_00a011b0(int trait);
 };
 struct F7Menu {
     int unk00;
     int unk04;
     int unk08;
     F7Tile* pList;
-    int GetRaceCount();
     int FUN_007a86e0();
 };
 }
@@ -2659,11 +2601,9 @@ using namespace filt7a8;
 int F7Menu::FUN_007a86e0()
 {
     static int s_iNumFiltered = FUN_00a00940("_num_filtered", -1);
-    return GetRaceCount() - (unsigned int)pList->FUN_00a011b0(s_iNumFiltered);
+    return ::GetRaceCount((char *)this) - (unsigned int)reinterpret_cast<::TileListBoxCalls *>((pList))->GetFloat(s_iNumFiltered);
 }
 
-extern double g_dZero;
-Tile* FUN_00706cd0();
 
 struct S00a014b0_Tile : Tile {
     float FUN_00a014b0();
@@ -2674,12 +2614,12 @@ struct S00a014b0_Tile : Tile {
 float S00a014b0_Tile::FUN_00a014b0()
 {
     Tile* pChild;
-    float fTotal = GetFloat(0xfad);
+    float fTotal = reinterpret_cast<::TileListBoxCalls *>(this)->GetFloat(0xfad);
     pChild = *(Tile**)((char*)this + 0x28);
     while (pChild) {
         Tile* pNext2;
-        if (pChild->GetFloat(0xfa8) != g_dZero || (pNext2 = *(Tile**)((char*)pChild + 0x28), pNext2 == FUN_00706cd0()))
-            fTotal += pChild->GetFloat(0xfad);
+        if (reinterpret_cast<::TileListBoxCalls *>((pChild))->GetFloat(0xfa8) != ::_DAT_01012060 || (pNext2 = *(Tile**)((char*)pChild + 0x28), pNext2 == ::Interface::GetPrimaryInterfaceTile()))
+            fTotal += reinterpret_cast<::TileListBoxCalls *>((pChild))->GetFloat(0xfad);
         pChild = *(Tile**)((char*)pChild + 0x28);
     }
     return fTotal;
@@ -2736,8 +2676,6 @@ bool Owner::IsAllChildrenFlag0()
 
 }
 
-extern int DAT_011f32d4;
-extern int DAT_011f3320;
 
 // @fnv 0x00a04510
 void FUN_00a04510()
@@ -2762,7 +2700,7 @@ void FUN_00a04510()
     if (iCount > 10)
         return;
     iCount = 11 - iCount;
-    xelem = *(void**)&DAT_011f3324;
+    xelem = *(void**)&(*reinterpret_cast<::XL *>(&::DAT_011f3324));
     while (xelem && iCount)
     {
         ptile = *(Tile**)((char*)xelem + 8);
@@ -2788,9 +2726,9 @@ void FUN_00a04510()
                 *(unsigned int*)((char*)ptile + 0x30) &= ~0x1000;
                 uiFlags2 = *(unsigned int*)((char*)ptile + 0x30);
             }
-            FUN_00a07690(ptile);
+            ::FUN_00a07690((::FlaggedTile *)(ptile));
         }
-        DAT_011f3324.RemovePos(xelem);
+        (*reinterpret_cast<::XL *>(&::DAT_011f3324)).RemovePos(xelem);
         iCount = iCount - 1;
     }
 

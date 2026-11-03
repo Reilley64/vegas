@@ -2,12 +2,31 @@
 // src/gamebryo2.2/corelibs/nimain/niswitchnode.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/niswitchnode.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern char const* const g_011f5f1c_arg1;
 
 // @fnv 0x00a943f0
+#include <new>
+#include "fnv/decl/ChildNode.h"
+#include "fnv/decl/FUN_00a5e930.h"
+#include "fnv/decl/FUN_00a5ea70_t.h"
+#include "fnv/decl/NiNode.h"
+#include "fnv/decl/NiNodeEq.h"
+#include "fnv/decl/Node2.h"
+#include "fnv/decl/NodeA5E8.h"
+#include "fnv/decl/S_00a59e00.h"
+#include "fnv/decl/SomeClass.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a5dd40__FUN_00a5dd40_shell.h"
+#include "fnv/decl/fnv_00a5e690__S00a5e690_Obj.h"
+#include "fnv/decl/fnv_00a5e780__NodeStandIn.h"
+#include "fnv/decl/fnv_00a5ed10__ChildNode.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a5e000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f5000.h"
 char const* const* __cdecl FUN_00a943f0()
 {
-    return &g_011f5f1c_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_011f5eb4));
 }
 
 struct NiObject
@@ -63,19 +82,17 @@ struct NiObject
 };
 struct NiSwitchNode : public NiObject
 {
-    bool __thiscall FUN_00a5e600(NiObject*);
     bool __thiscall FUN_00a94000(NiObject*);
 };
 // Calls FUN_00a5e600, then returns true only if m_0b0 matches and the low bit of m_0ac matches the other object's.
 // @fnv 0x00a94000
 bool __thiscall NiSwitchNode::FUN_00a94000(NiObject* other)
 {
-    if (!FUN_00a5e600(other) || m_0b0 != other->m_0b0 || (m_0ac ^ other->m_0ac) & 1)
+    if (!reinterpret_cast<::NiNodeEq *>(this)->FUN_00a5e600((::NiAVObject *)(other)) || m_0b0 != other->m_0b0 || (m_0ac ^ other->m_0ac) & 1)
         return false;
     return true;
 }
 
-extern unsigned char DAT_011f4380;
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 struct NiObjectNET
@@ -87,14 +104,14 @@ struct NiObjectNET
 // @fnv 0x00a5bf50
 bool __thiscall NiObjectNET::FUN_00a5bf50(unsigned short ausIndex)
 {
-    EnterCriticalSection(&DAT_011f4380);
+    EnterCriticalSection(&(*reinterpret_cast<unsigned char *>(&::DAT_011f4380)));
     if (ausIndex < *(unsigned short*)((char*)this + 0x14))
     {
         DeleteExtraData(ausIndex);
-        LeaveCriticalSection(&DAT_011f4380);
+        LeaveCriticalSection(&(*reinterpret_cast<unsigned char *>(&::DAT_011f4380)));
         return true;
     }
-    LeaveCriticalSection(&DAT_011f4380);
+    LeaveCriticalSection(&(*reinterpret_cast<unsigned char *>(&::DAT_011f4380)));
     return false;
 }
 
@@ -103,7 +120,6 @@ struct CloningProcess
 };
 struct NiNode_Helper
 {
-    void __thiscall CopyMemberData(NiSwitchNode*, CloningProcess&);
 };
 struct FUN_00a93c00_shell : NiSwitchNode
 {
@@ -112,7 +128,7 @@ struct FUN_00a93c00_shell : NiSwitchNode
 // @fnv 0x00a93c00
 void __thiscall FUN_00a93c00_shell::FUN_00a93c00(NiSwitchNode* pkDest, CloningProcess& kCloning)
 {
-    ((NiNode_Helper*)this)->CopyMemberData(pkDest, kCloning);
+    reinterpret_cast<::NiNode *>((((NiNode_Helper*)this)))->CopyMemberData((::NiNode *)(pkDest), kCloning);
     *(unsigned short*)((char*)pkDest + 0xac) = *(unsigned short*)((char*)this + 0xac);
     pkDest->m_0b0 = m_0b0;
 }
@@ -165,7 +181,6 @@ class NiAVObject
 };
 struct NiNodeHack
 {
-    void UpdateChildControllers(NiUpdateData&);
 };
 struct SwitchHack : public NiObject
 {
@@ -186,7 +201,7 @@ void SwitchHack::FUN_00a94300(NiUpdateData& data)
     }
     else
     {
-        ((NiNodeHack*)this)->UpdateChildControllers(data);
+        ::fnv_00a5e280::UpdateChildControllers((::NiNode *)(((NiNodeHack*)this)), (int)&(data), *(::NiUpdateData *)nullptr);
     }
 }
 
@@ -194,7 +209,6 @@ void __cdecl _NiFreeAlias(void*);
 void __cdecl _delete(void*, unsigned int);
 struct Unk_00a5e930
 {
-    void __thiscall FUN_00a5e930();
 };
 struct FUN_00a94400_shell
 {
@@ -207,7 +221,7 @@ void* __thiscall FUN_00a94400_shell::DestroyWithFlags(unsigned int flags)
     void* tmp = *(void**)((char*)this + 0xc0);
     *(char const**)((char*)this + 0xbc) = " HG";
     _NiFreeAlias(tmp);
-    ((Unk_00a5e930*)this)->FUN_00a5e930();
+    reinterpret_cast<class ::FUN_00a5e930 *>((((Unk_00a5e930*)this)))->FUN_00a5e930::~FUN_00a5e930();
     if (flags & 1)
         _delete(this, 0xcc);
     return this;
@@ -223,7 +237,6 @@ struct BSFadeNode
 };
 struct NiNode_Helper
 {
-    void __thiscall CopyMemberData(void*, void*);
 };
 struct NiSwitchNode_Helper
 {
@@ -242,7 +255,7 @@ NiObject* __thiscall FUN_00a94500_Holder::CloneSwitchNode(CloningProcess& kCloni
         pkObject = ((NiSwitchNode_Helper*)pMemory)->FUN_00a94360();
     else
         pkObject = 0;
-    ((NiNode_Helper*)this)->CopyMemberData(pkObject, &kCloning);
+    reinterpret_cast<::NiNode *>((((NiNode_Helper*)this)))->CopyMemberData((::NiNode *)(pkObject), (*(::CloningProcess *)(&kCloning)));
     *(unsigned short*)((char*)pkObject + 0xAC) = *(unsigned short*)((char*)this + 0xAC);
     *(void**)((char*)pkObject + 0xB0) = *(void**)((char*)this + 0xB0);
     return pkObject;
@@ -251,8 +264,6 @@ NiObject* __thiscall FUN_00a94500_Holder::CloneSwitchNode(CloningProcess& kCloni
 
 struct StrArr
 {
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 struct NiPointer
 {
@@ -260,7 +271,6 @@ struct NiPointer
 };
 struct FUN_00a5ee30_shell
 {
-    void __thiscall FUN_00a5ee30(unsigned int, NiAVObject*, NiPointer&);
 };
 struct FUN_00a944a0_shell : public NiSwitchNode
 {
@@ -273,9 +283,9 @@ void FUN_00a944a0_shell::SetChildAtIndex(unsigned int uiIndex, NiAVObject* pkChi
     *(unsigned int*)((char*)this + 0xb8) = 1;
     char* p = 0;
     if (uiIndex >= *(unsigned short*)((char*)arr + 8))
-        arr->SetSize(*(unsigned short*)((char*)arr + 0xe) + uiIndex);
-    arr->SetAt(uiIndex, p);
-    ((FUN_00a5ee30_shell*)this)->FUN_00a5ee30(uiIndex, pkChild, spobject);
+        reinterpret_cast<::ViewerStrings *>((arr))->SetSize(*(unsigned short*)((char*)arr + 0xe) + uiIndex);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((arr))->SetAt(uiIndex, p);
+    reinterpret_cast<::ChildNode *>((((FUN_00a5ee30_shell*)this)))->FUN_00a5ee30(uiIndex, (::ChildObj *)(pkChild), (::ChildObj *&)(spobject));
 }
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
@@ -313,7 +323,6 @@ struct RefPtr
 };
 struct S2
 {
-    void __thiscall FUN_00a5e780(RefObj*, RefPtr&);
 };
 struct Target : NiObject
 {
@@ -348,7 +357,7 @@ void Target::FUN_00a93ca0(RefObj* child, RefPtr& out)
     }
     RefPtr refTemp;
     refTemp.p = 0;
-    ((S2*)this)->FUN_00a5e780(child, refTemp);
+    reinterpret_cast<::fnv_00a5e780::NodeStandIn *>((((S2*)this)))->FUN_00a5e780((::fnv_00a5e780::RefObj *)(child), (::fnv_00a5e780::RefPtr &)(refTemp));
     int active = (int)m_0b0;
     if (active > -1 && (active >= (int)*((unsigned short*)&m_0a4 + 1) || !((RefObj**)m_0a0)[active]))
         m_0b0 = (void*)-1;
@@ -409,7 +418,6 @@ class A93DD0AVObjectPtr
 class A93DD0BlockArray
 {
   public:
-    void Remove(unsigned int uiIndex) throw();
 };
 
 class A93DD0Node
@@ -465,7 +473,6 @@ class A93DD0Node
     int m_bValueAt0C;
     A93DD0BlockArray m_kBlocks;
 
-    void DetachChildInternal(unsigned int uiIndex, A93DD0AVObjectPtr& spChild) throw();
     void RemoveChild(unsigned int uiIndex, A93DD0AVObjectPtr& pChild);
 };
 
@@ -474,10 +481,10 @@ void A93DD0Node::RemoveChild(unsigned int uiIndex, A93DD0AVObjectPtr& spChildOut
 {
     m_bValueAt0C = 1;
     if (uiIndex < m_usChildCount)
-        m_kBlocks.Remove(uiIndex);
+        reinterpret_cast<::SomeClass *>(&(m_kBlocks))->FUN_00a93c50(uiIndex);
 
     A93DD0AVObjectPtr spChild;
-    DetachChildInternal(uiIndex, spChild);
+    reinterpret_cast<::fnv_00a5e690::S00a5e690_Obj *>(this)->GetChild(uiIndex, (::fnv_00a5e690::NiRefA **)&(spChild));
 
     if (m_iLastChild > -1 && (m_iLastChild >= m_usChildCount || !m_ppkChildren[m_iLastChild]))
         m_iLastChild = -1;
@@ -530,12 +537,10 @@ struct SwitchChildB10050
     virtual void f39();
     virtual void f40();
     virtual void f41(void* out, bool flag);
-    void __thiscall FUN_00a59e00(unsigned int);
 };
 
 struct SwitchHolderB10050
 {
-    void __thiscall FUN_0096ae90(unsigned int, void*);
 };
 
 struct SwitchOutB10050
@@ -569,7 +574,7 @@ void __thiscall FUN_00a93ef0_cls::UpdateSwitchChild(unsigned int arg)
             SwitchOutB10050 block;
             if (m_0c0[idx] != m_0b8)
             {
-                m_0bc.FUN_0096ae90((unsigned int)idx, &m_0b8);
+                reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(m_0bc))->SetAt((unsigned int)idx, (*(char * *)(&m_0b8)));
                 block.m_00 = m_0b4;
                 block.m_04 = (unsigned char)(((unsigned char)m_0ac >> 1) & 1);
                 block.m_05 = 0;
@@ -578,7 +583,7 @@ void __thiscall FUN_00a93ef0_cls::UpdateSwitchChild(unsigned int arg)
                 block.m_08 = 0;
                 child->f41(&block, false);
             }
-            child->FUN_00a59e00(arg);
+            reinterpret_cast<::S_00a59e00 *>((child))->FUN_00a59e00((::S_00a59e00_Arg *)(arg));
         }
     }
 }
@@ -591,12 +596,10 @@ struct Vec4Like
     float w;
 };
 
-extern Vec4Like g_default_011f4288;
 
 struct FUN_00a93f90_cls : public NiSwitchNode
 {
     void UpdateFromActiveChild();
-    void UpdateWorldBoundFromChildren();
 };
 
 // If the switch flag is set, copies the active child's m_020 vector into m_020 (or zeroes w when there is no child); otherwise calls UpdateWorldBoundFromChildren.
@@ -612,7 +615,7 @@ void FUN_00a93f90_cls::UpdateFromActiveChild()
         if (child != 0)
         {
             void* p = child->m_020;
-            Vec4Like* src = p != 0 ? (Vec4Like*)p : &g_default_011f4288;
+            Vec4Like* src = p != 0 ? (Vec4Like*)p : &(*reinterpret_cast<::Vec4Like *>(&::g_defaultBound));
             Vec4Like* dst = (Vec4Like*)m_020;
             float w = src->w;
             dst->x = src->x;
@@ -624,7 +627,7 @@ void FUN_00a93f90_cls::UpdateFromActiveChild()
         ((Vec4Like*)m_020)->w = 0.0f;
         return;
     }
-    UpdateWorldBoundFromChildren();
+    reinterpret_cast<::Node2 *>(this)->UpdateWorldBoundFromChildren();
 }
 
 struct FNV_UpdateFlags
@@ -637,8 +640,6 @@ struct FNV_Color4
     unsigned int first, second, third;
     float fourth;
 };
-extern FNV_Color4 DAT_011f4288;
-extern "C" void __stdcall FUN_004eff50(FNV_UpdateFlags*, unsigned int);
 struct FNV_SwitchVirtual : NiAVObject
 {
     virtual void f35();
@@ -664,14 +665,12 @@ struct FNV_ChildVirtual : NiAVObject
 };
 struct FNV_SwitchTracker
 {
-    void FUN_0096ae90(int, unsigned int*);
 };
 struct FUN_00a94040_shell : NiSwitchNode
 {
     float m_uiCommandId;
     unsigned int m_revision;
     FNV_SwitchTracker m_pTracker;
-    void FUN_00a5dd70(FNV_UpdateFlags*, unsigned int);
     void UpdateSwitchState(FNV_UpdateFlags*, unsigned int);
 };
 // Updates the switch node's active state and time, notifies the selected child, and copies its color, or delegates to FUN_00a5dd70 when inactive.
@@ -689,7 +688,7 @@ void FUN_00a94040_shell::UpdateSwitchState(FNV_UpdateFlags* update, unsigned int
         ++m_revision;
         unsigned int* count = &m_revision;
         if (update->shouldActivate)
-            FUN_004eff50(update, 1);
+            reinterpret_cast<::NiAVObject *>((update))->UpdateTimeControllers((*(::NiUpdateData *)(1)), {});
         reinterpret_cast<FNV_SwitchVirtual*>(this)->NotifyUpdated(update);
         if ((int)m_0b0 >= 0)
         {
@@ -697,9 +696,9 @@ void FUN_00a94040_shell::UpdateSwitchState(FNV_UpdateFlags* update, unsigned int
             if (child)
             {
                 child->NotifySelected(update, flags);
-                m_pTracker.FUN_0096ae90((int)m_0b0, count);
+                reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(m_pTracker))->SetAt((int)m_0b0, (*(char * *)(count)));
                 NiObject* raw = reinterpret_cast<NiObject*>(child);
-                FNV_Color4* color = raw->m_020 ? reinterpret_cast<FNV_Color4*>(raw->m_020) : &DAT_011f4288;
+                FNV_Color4* color = raw->m_020 ? reinterpret_cast<FNV_Color4*>(raw->m_020) : &(*reinterpret_cast<::FNV_Color4 *>(&::g_defaultBound));
                 FNV_Color4* out = reinterpret_cast<FNV_Color4*>(m_020);
                 float alpha = color->fourth;
                 out->first = color->first;
@@ -711,7 +710,7 @@ void FUN_00a94040_shell::UpdateSwitchState(FNV_UpdateFlags* update, unsigned int
     }
     else
     {
-        FUN_00a5dd70(update, flags);
+        reinterpret_cast<::NiNode *>(this)->UpdateDownwardPass((*(::NiUpdateData *)(update)), flags);
     }
 }
 
@@ -781,11 +780,8 @@ class SwitchChildX
 struct SwitchSubX
 {
     unsigned int unk00;
-    void FUN_0096ae90(int idx, int* counter);
 };
 
-void __stdcall FUN_004eff50(NiUpdateData* upd, int value);
-extern unsigned char DAT_011f4288;
 
 class FUN_00a94130_cls
 {
@@ -854,7 +850,6 @@ class FUN_00a94130_cls
     int m_b8;
     SwitchSubX m_bc;
 
-    void FUN_00a5ded0(NiUpdateData& upd, bool flag);
     void FUN_00a94130(NiUpdateData& upd, bool flag);
 };
 
@@ -869,7 +864,7 @@ void FUN_00a94130_cls::FUN_00a94130(NiUpdateData& upd, bool flag)
         m_b8++;
         unsigned char ucSavedFlag = pUpdBytes[4];
         pUpdBytes[4] = (unsigned char)((flags >> 3) & 1);
-        FUN_004eff50(&upd, 1);
+        reinterpret_cast<::NiAVObject *>((&upd))->UpdateTimeControllers((*(::NiUpdateData *)(1)), {});
         pUpdBytes[4] = ucSavedFlag;
         f46(upd);
         if (m_b0 < 0)
@@ -895,11 +890,11 @@ void FUN_00a94130_cls::FUN_00a94130(NiUpdateData& upd, bool flag)
                 child->f42(upd, flag);
             }
         }
-        m_bc.FUN_0096ae90(m_b0, &m_b8);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(m_bc))->SetAt(m_b0, (*(char * *)(&m_b8)));
         SwitchValX* src = child->m_20;
         if (src == 0)
         {
-            src = (SwitchValX*)&DAT_011f4288;
+            src = (SwitchValX*)&(*reinterpret_cast<unsigned char *>(&::g_defaultBound));
         }
         SwitchValX* dst = m_20;
         float fValue = src->m_0c;
@@ -911,7 +906,7 @@ void FUN_00a94130_cls::FUN_00a94130(NiUpdateData& upd, bool flag)
     }
     else
     {
-        FUN_00a5ded0(upd, flag);
+        reinterpret_cast<::NiNode *>(this)->UpdateSelectedDownwardPass(upd, flag);
     }
 }
 }  // namespace fnv_00a94130
@@ -1028,16 +1023,14 @@ struct Arr_a94440
     unsigned short m_usSize;
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
-    void SetSize(unsigned int uiSize);
-    void SetAt(unsigned int uiIndex, void*& pvItem);
     void Add(void* pvItem)
     {
         unsigned int uiIndex = m_usSize;
         if (uiIndex >= m_usMaxSize)
         {
-            SetSize(uiIndex + m_usGrowBy);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
         }
-        SetAt(uiIndex, pvItem);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pvItem));
     }
 };
 
@@ -1046,7 +1039,6 @@ struct Node_a94440
     int unk[46];
     volatile int m_b8;
     Arr_a94440 m_kArrBC;
-    void FUN_00a5ed10(void* a1, int a2);
     void FUN_00a94440(void* a1, int a2);
 };
 
@@ -1054,7 +1046,7 @@ struct Node_a94440
 // @fnv 0x00a94440
 void Node_a94440::FUN_00a94440(void* a1, int a2)
 {
-    FUN_00a5ed10(a1, a2);
+    reinterpret_cast<::fnv_00a5ed10::ChildNode *>(this)->FUN_00a5ed10((::fnv_00a5ed10::ChildObj *)(a1), a2);
     m_b8 = 1;
     m_kArrBC.Add(0);
 }
@@ -1071,7 +1063,7 @@ SwitchNode_a94550* __cdecl CreateSwitchNode()
 {
     SwitchNode_a94550* p = (SwitchNode_a94550*)FUN_00aa13e0(0xcc);
     if (p)
-        return p->FUN_00a94360();
+        return ((::SwitchNode_a94550 *)(new ((void *)(p)) ::FUN_00a94360()));
     return 0;
 }
 
@@ -1272,7 +1264,6 @@ template <class T> inline void BA94570LoadBinary(BA94570Stream& kStream, T& valu
 class BA94570Node
 {
   public:
-    void LoadBinary(BA94570Stream& kStream);
 };
 
 class FUN_00a94570_Node : public BA94570Node
@@ -1331,7 +1322,7 @@ class FUN_00a94570_Node : public BA94570Node
 // @fnv 0x00a94570
 void FUN_00a94570_Node::FUN_00a94570(BA94570Stream& kStream)
 {
-    BA94570Node::LoadBinary(kStream);
+    reinterpret_cast<::fnv_00a5dd40::FUN_00a5dd40_shell *>(this)->FUN_00a5dd40((::NiStream *)&(kStream));
 
     if (kStream.m_uiFileVersion < 0x0A000102)
         m_usFlags = (kStream.m_usLegacyFlags >> 6) & 0x1ff;
@@ -1342,14 +1333,9 @@ void FUN_00a94570_Node::FUN_00a94570(BA94570Stream& kStream)
     m_usFlags |= 2;
 }
 
-extern char* DAT_011f5eb4;
-char* __cdecl FUN_00a7d330(char const*);
-char* __cdecl FUN_00a7d4d0(char const*, int);
-char* __cdecl FUN_00a7d370(char const*, bool);
 
 struct FUN_00a5ea70_Obj
 {
-    void FUN_00a5ea70(StrArr* pkStrings);
 };
 
 struct StrArrView
@@ -1360,8 +1346,6 @@ struct StrArrView
     unsigned short m_usAllocedSize;
     unsigned short unk0c;
     unsigned short m_usGrowBy;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*& pStr);
 };
 
 __forceinline void AddString(StrArr* pkStrings, char* pStr)
@@ -1369,8 +1353,8 @@ __forceinline void AddString(StrArr* pkStrings, char* pStr)
     StrArrView* pArr = reinterpret_cast<StrArrView*>(pkStrings);
     unsigned int index = pArr->m_usAllocedSize;
     if (index >= pArr->m_usMaxSize)
-        pArr->SetSize(index + pArr->m_usGrowBy);
-    pArr->SetAt(index, pStr);
+        reinterpret_cast<::ViewerStrings *>((pArr))->SetSize(index + pArr->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pArr))->SetAt(index, pStr);
 }
 
 struct FUN_00a94680_shell : public NiSwitchNode
@@ -1382,8 +1366,8 @@ struct FUN_00a94680_shell : public NiSwitchNode
 // @fnv 0x00a94680
 void FUN_00a94680_shell::AppendDebugStrings(StrArr* pkStrings)
 {
-    reinterpret_cast<FUN_00a5ea70_Obj*>(this)->FUN_00a5ea70(pkStrings);
-    AddString(pkStrings, FUN_00a7d330(DAT_011f5eb4));
+    reinterpret_cast<::FUN_00a5ea70_t *>((reinterpret_cast<FUN_00a5ea70_Obj*>(this)))->FUN_00a5ea70(pkStrings);
+    AddString(pkStrings, FUN_00a7d330((*reinterpret_cast<char * *>(&::g_011f5eb4))));
     AddString(pkStrings, FUN_00a7d4d0("m_iIndex", reinterpret_cast<int>(m_0b0)));
     bool bUpdateOnlyActive = m_0ac & 1;
     AddString(pkStrings, FUN_00a7d370("m_bUpdateOnlyActive", bUpdateOnlyActive));
@@ -1496,13 +1480,11 @@ class SwitchNodeBase : public SwitchAVObject
     SwitchAVObject** m_ppChildren;  // +0xa0
     int unka4;
     int unka8;
-    void FUN_00a5e1f0(FNV_UpdateFlags* apData, unsigned int auiFlags);
 };
 
 class SwitchRevList
 {
   public:
-    void FUN_0096ae90(int aiIndex, unsigned int* apuiRevID);
 };
 
 class SwitchNodeUpdate : public SwitchNodeBase
@@ -1526,7 +1508,7 @@ void SwitchNodeUpdate::FUN_00a94220(FNV_UpdateFlags* apData, unsigned int auiFla
         ++m_uiRevID;
         unsigned char bSavedActivate = apData->shouldActivate;
         apData->shouldActivate = m_bUpdate;
-        FUN_004eff50(apData, 1);
+        reinterpret_cast<::NiAVObject *>((apData))->UpdateTimeControllers((*(::NiUpdateData *)(1)), {});
         apData->shouldActivate = bSavedActivate;
         UpdateWorldData(apData);
         if (m_iIndex >= 0)
@@ -1536,8 +1518,8 @@ void SwitchNodeUpdate::FUN_00a94220(FNV_UpdateFlags* apData, unsigned int auiFla
             {
                 if (pkChild->GetSelectiveUpdate())
                     pkChild->UpdateDownwardPass(apData, auiFlags);
-                m_kRevList.FUN_0096ae90(m_iIndex, &m_uiRevID);
-                const FNV_Color4* pkBound = pkChild->m_pWorldBound ? pkChild->m_pWorldBound : &DAT_011f4288;
+                reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(m_kRevList))->SetAt(m_iIndex, (*(char * *)(&m_uiRevID)));
+                const FNV_Color4* pkBound = pkChild->m_pWorldBound ? pkChild->m_pWorldBound : &(*reinterpret_cast<::FNV_Color4 *>(&::g_defaultBound));
                 float fFourth = pkBound->fourth;
                 FNV_Color4* pkDest = m_pWorldBound;
                 pkDest->first = pkBound->first;
@@ -1549,7 +1531,7 @@ void SwitchNodeUpdate::FUN_00a94220(FNV_UpdateFlags* apData, unsigned int auiFla
     }
     else
     {
-        FUN_00a5e1f0(apData, auiFlags);
+        ::FUN_00a5e1f0((::NiNode *)this, (int)(apData), (*(::NiUpdateData *)(auiFlags)), {});
     }
 }
 
@@ -1751,7 +1733,6 @@ template <class T> inline void A946SaveBinary(NiStreamA946& kStream, const T& va
 class NiNodeA946
 {
   public:
-    void SaveBinary(NiStreamA946& kStream);
 
     void* m_ppVirtualMethodTable;
     int unk04;
@@ -1812,7 +1793,7 @@ class NiSwitchNodeA946 : public NiNodeA946
 // @fnv 0x00a94610
 void NiSwitchNodeA946::FUN_00a94610(NiStreamA946& kStream)
 {
-    NiNodeA946::SaveBinary(kStream);
+    reinterpret_cast<::NodeA5E8 *>(this)->FUN_00a5e880((::NiStreamA5E8 &)(kStream));
     A946SaveBinary(kStream, m_usFlags);
     A946SaveBinary(kStream, m_iIndex);
 }

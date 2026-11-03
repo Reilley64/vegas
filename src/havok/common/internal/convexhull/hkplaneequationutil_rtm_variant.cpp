@@ -4,6 +4,11 @@
 
 // src/havok/common/internal/convexhull/hkplaneequationutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/convexhull/hkplaneequationutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00d74d40_cls.h"
+#include "fnv/decl/S00d76120_cls.h"
+#include "fnv/decl/enumeration_rework__PlaneHull.h"
+#include "fnv/decl/fnv_00d76940__FUN_00d76940_cls.h"
+#include "fnv/decl/fnv_00d76ca0__FUN_00d76ca0.h"
 struct Arg
 {
     void* data;
@@ -16,7 +21,6 @@ struct B
     int f2;
     int f3;
 
-    void* FUN_00d74d40();
 };
 struct A
 {
@@ -26,10 +30,6 @@ struct A
     int f3;
     int f4;
 
-    void FUN_00d76ca0();
-    int FUN_00d774a0(void*, int, void*);
-    void FUN_00d76120(int, int);
-    void FUN_00d76940();
 };
 int __cdecl ProcessArg(Arg* a, int second);
 
@@ -54,11 +54,11 @@ extern "C"
     __m128 _mm_load_ps(const float*);
 }
 #include <math.h>
+#include "fnv/symbols_simd.h"
 extern "C"
 {
 }
 typedef __m128 hkQuadReal;
-extern const hkQuadReal DAT_010c44d0;
 struct VectorComponentValue
 {
     hkQuadReal m_vValue;

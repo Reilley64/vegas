@@ -8,6 +8,8 @@ class TESFullName : public BaseFormComponent
 {
   public:
     BSStringT<char> m_kName;  // +0x4
+public:
+    void SetFullName(const char *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESFullName) == 0xC);

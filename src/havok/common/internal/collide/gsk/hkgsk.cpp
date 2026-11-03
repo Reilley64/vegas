@@ -2,6 +2,7 @@
 // src/havok/common/internal/collide/gsk/hkgsk.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/collide/gsk/hkgsk.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00d22000.h"
 extern "C" void _ReadWriteBarrier(void);
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -9,6 +10,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 extern "C"
 {
     __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
@@ -68,11 +70,10 @@ struct hkVector4
     }
 };
 
-extern __m128 DAT_010c44d0;
 
 __forceinline void hkVector4::setNeg4(const hkVector4& v)
 {
-    m_vComponents = _mm_xor_ps(v.m_vComponents, DAT_010c44d0);
+    m_vComponents = _mm_xor_ps(v.m_vComponents, ::DAT_010c44d0);
 }
 
 static __forceinline int hkDot3LessZero(const hkVector4& a, const hkVector4& b)
@@ -440,7 +441,6 @@ struct Both
     Clip first;
     Clip second;
 };
-extern "C" int FUN_00d22e40(Shape*, const V*, const V*, const V*, Clip*);
 
 static __forceinline void ThreeDots(const V& first, const V& firstWeight, const V& second, const V& secondWeight,
                                     const V& third, const V& thirdWeight, V& out)
@@ -493,7 +493,6 @@ struct State
     int m10, m14, m18, m1c;
     V m20, m30, m40, m50, m60, m70, m80, m90, ma0, mb0, mc0, md0, me0, mf0, m100, m110;
     V direction;
-    int FUN_00e4da90(Shape*, Shape*, V*);
     int FUN_00e4dc70(V*, Shape*, V*);
     int FUN_00e4bbe0(Shape*, Shape*, int*, int*, unsigned char, int);
 };
@@ -528,7 +527,7 @@ int State::FUN_00e4bbe0(Shape* apShapeA, Shape* apShapeB, int* __restrict apOutC
                 Swap(apShapeA->points[0], apShapeA->points[1]);
                 Swap(apShapeA->anchors[0], apShapeA->anchors[1]);
             }
-            if (FUN_00e4da90(apShapeA, apShapeB, &direction) == 7)
+            if (reinterpret_cast<::TriangleSolver *>(this)->FUN_00e4da90((*(const ::hkVector4 *)(apShapeA)), (*(::TriangleVerts *)(apShapeB)), (*(::hkVector4 *)(&direction))) == 7)
             {
                 *apOutCount1 = 1;
                 return 0;
@@ -538,8 +537,8 @@ int State::FUN_00e4bbe0(Shape* apShapeA, Shape* apShapeB, int* __restrict apOutC
         diff.sub(apShapeA->points[1], apShapeA->points[0]);
         Clip clip0, clip1;
         Clip* later = &clip1;
-        FUN_00d22e40(apShapeA, &diff, &apShapeB->points[2], &edge0, &clip0);
-        FUN_00d22e40(apShapeA, &diff, &apShapeB->points[2], &edge1, later);
+        ::FUN_00d22e40((*(const ::hkVector4 *)(apShapeA)), (*(const ::hkVector4 *)(&diff)), (*(const ::hkVector4 *)(&apShapeB->points[2])), (*(const ::hkVector4 *)(&edge0)), (*(::VectorPairResult *)(&clip0)));
+        ::FUN_00d22e40((*(const ::hkVector4 *)(apShapeA)), (*(const ::hkVector4 *)(&diff)), (*(const ::hkVector4 *)(&apShapeB->points[2])), (*(const ::hkVector4 *)(&edge1)), (*(::VectorPairResult *)(later)));
         int index = clip0.distance > clip1.distance ? 1 : 0;
         ReplaceSelected(apShapeB->points[index], apShapeB->anchors[index], apShapeB->points[2], apShapeB->anchors[2],
                         apOutCount2);

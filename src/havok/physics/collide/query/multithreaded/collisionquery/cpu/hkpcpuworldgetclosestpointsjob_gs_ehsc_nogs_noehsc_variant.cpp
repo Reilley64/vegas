@@ -5,6 +5,13 @@
 
 // src/havok/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpuworldgetclosestpointsjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpuworldgetclosestpointsjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/symbols_00d1b000.h"
+#include "fnv/symbols_00d1d000.h"
+#include "fnv/symbols_00df6000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_0108f000.h"
+#include "fnv/symbols_01268000.h"
 struct S_00df6a30_Inner { int unk0; float unk4; };
 struct S_00df6a30 {
     int unk0;
@@ -25,7 +32,6 @@ struct DF6B10Listener {
     virtual int HandleEvent(DF6B10Event* event);
 };
 struct DF6B10Object : DF6B10Primary, DF6B10Listener {
-    int handleBody(void* body);
 
     virtual int HandleEvent(DF6B10Event* event);
 };
@@ -219,17 +225,13 @@ struct DF6A60CastCollector {
 // sibling thiscall helper (the helper receives `this` in ecx and pops its
 // single stack argument).
 struct FUN_00df6af0_cls {
-    float Helper(int value);
     float GetHelperResultForOffset(int a1, int a2);
 };
 struct SiblingCls_df6a60 {
-    float Call(int a);
 };
 struct FUN_00df6b30_cls {
     unsigned char* FUN_00df6b30(unsigned char* out, int a);
 };
-extern float DAT_0104da48;
-extern int DAT_0108f288;
 extern "C" __declspec(dllimport) long __stdcall DAT_00fdf1ec(long volatile*, long);
 struct CopyQuad { int x; int y; int z; int w; };
 struct __declspec(align(16)) QueryPoint { CopyQuad parts[7]; };
@@ -250,7 +252,7 @@ struct QueryCollector {
     QueryPoint* next;
     int capacity;
     int count;
-    QueryCollector(QueryPoint* b, int c) : earlyOut(DAT_0104da48), base(b), next(b), capacity(c), count(0), table(&DAT_0108f288) {}
+    QueryCollector(QueryPoint* b, int c) : earlyOut(::DAT_0104da48), base(b), next(b), capacity(c), count(0), table(&DAT_0108f288) {}
 };
 struct QueryJob {
     int unk00; int unk04; int unk08; int unk0C;
@@ -278,7 +280,6 @@ inline QueryPoint* allocateResults(PairCommand* command, const QueryCollector& c
         return 0;
     }
 }
-void FUN_00df6e00(const QueryJob* job, const QueryInput* source, PairCommand* commands, int count);
 // FUN_00df6db0 - base-class adjustment thunk (8 bytes):
 //
 //     sub ecx, 4
@@ -545,8 +546,7 @@ class StringCursor
 public:
 __forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}static StringCursor&GetMonitorStream()
 {
-extern hkThreadLocalData<StringCursor*>g_pMonitorStream;
-return*g_pMonitorStream.getData();
+return*(*reinterpret_cast<::hkThreadLocalData< ::StringCursor *> *>(&::DAT_0126835c)).getData();
 }
 public:
 __forceinline char*__cdecl GetStreamStart(){return m_kRayStart.val();}
@@ -1560,7 +1560,6 @@ class KdTreeAabbQuery
 {
 public:
 enum{DEFAULT_STACK_SIZE=128};
-static void __cdecl queryAabbIterative(const KdTree*root,const hkAabb&aabb,hkKdTreeCastCollector*collector);
 private:
 static hkUint32 __cdecl CollectAabbHitsIntoBuffers(const KdTreeNode*root,const FieldlessRecord*projectedEntries,hkVector4Parameter scale,hkVector4Parameter offset,const hkAabb&aabb,int treeDepth,
 hkArray<hkPrimitiveId>::Temp*hitArray,hkKdTreeCastCollector*collector,hkPrimitiveIdIterator*hitsOut,int maxHits);};
@@ -1572,7 +1571,7 @@ virtual void CollectAabbCastResults(const hkAabb&aabb,hkpBroadPhaseCastCollector
 // @fnv 0x00df6b50
 JobDispatcher::JobStatus __cdecl FUN_00df6b50(JobDispatcher&jobQueue,JobDispatcher::JobQueueSlot&nextJobOut)
 {
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "CollQueryWorldGetClosestPoints";h->setTime();mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "CollQueryWorldGetClosestPoints";h->setTime();mStream.setEnd((char*)(h+1));}};
 const ContactPointQueryJob&worldGetClosestPointsJob=reinterpret_cast<ContactPointQueryJob&>(nextJobOut);
 hkpFixedBufferCdPointCollector castCollector(0,1);
 hkCpuWorldGetClosestPointsCollector broadPhaseCollector;
@@ -1606,15 +1605,15 @@ broadphase->CollectAabbCastResults(aabb,&broadPhaseCollector);
 }
 if(aabbTreeInt)
 {
-hkAabbTreeQueryUtils<hkAabbTreeData::QuantizedAabb,hkUint16>::GetAabbHits(aabbTreeInt,aabb,&broadPhaseCollector);
+::FUN_00d1d500((void *)(aabbTreeInt),(int)&(aabb),(int)(&broadPhaseCollector));
 }
 if(kdTree)
 {
-KdTreeAabbQuery::queryAabbIterative(kdTree,aabb,&broadPhaseCollector);
+::FUN_00d1b9b0((::QueryObj *)(kdTree),(int)&(aabb),(int)(&broadPhaseCollector));
 }
 }
 command->m_iResultCapacity=castCollector.m_iPointCount;
 }
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
 return jobQueue.GetNextJob(&nextJobOut,nextJobOut);
 }

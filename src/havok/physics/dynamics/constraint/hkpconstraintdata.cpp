@@ -2,9 +2,9 @@
 // src/havok/physics/dynamics/constraint/hkpconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/hkpconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00cb1000.h"
 #include "havok/hkpConstraintData.h"
 
-extern "C" void __cdecl FUN_00cb1280(void* dst, int n, int len);
 
 struct FUN_00d21a30_class
 {
@@ -15,7 +15,7 @@ struct FUN_00d21a30_class
 void __thiscall FUN_00d21a30_class::FUN_00d21a30(int a, int pBuffer, int uiLength)
 {
     if (pBuffer)
-        FUN_00cb1280((void*)pBuffer, 0, uiLength);
+        ::FUN_00cb1280((void*)pBuffer, 0, uiLength);
 }
 
 // @fnv 0x00d21a50

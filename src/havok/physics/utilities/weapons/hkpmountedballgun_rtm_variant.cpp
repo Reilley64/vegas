@@ -4,14 +4,29 @@
 
 // src/havok/physics/utilities/weapons/hkpmountedballgun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpmountedballgun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/FUN_00c91620_Class.h"
+#include "fnv/decl/FUN_00cd8160.h"
+#include "fnv/decl/FUN_00e46f90.h"
+#include "fnv/decl/Owner.h"
+#include "fnv/decl/S00ca8c90_Body.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpWorldC914.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00cf0000.h"
+#include "fnv/symbols_00e46000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01013000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01018000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_01022000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_010ec000.h"
 #include "havok/hkpMountedBallGun.h"
 #include <xmmintrin.h>
-extern unsigned int DAT_010ec004;
-extern float DAT_01011d78;
-extern float DAT_01016410;
 struct FUN_00e46f90_Obj
 {
-    void FUN_00e46f90(int a);
 };
 struct HKStr
 {
@@ -81,7 +96,6 @@ struct hkMemoryRouterQ
     }
 };
 void* __cdecl FUN_00c85750();
-void __cdecl FUN_00cb1260(void* dst, const void* src, int numBytes);
 inline hkMemoryRouterQ& getRouter()
 {
     return *(hkMemoryRouterQ*)FUN_00c85750();
@@ -139,8 +153,6 @@ struct S00e451b0_ZSphere
     int unk00;
     unsigned short unk04;
     short unk06;
-    S00e451b0_ZSphere* FUN_00cd8160(float);
-    void FUN_00c905b0();
 };
 struct __declspec(align(16)) S00e451b0_ZInfo
 {
@@ -151,7 +163,6 @@ struct __declspec(align(16)) S00e451b0_ZInfo
     float unk90, unk94, unk98, unk9c, unkA0, unkA4, unkA8, unkAc, unkB0;
     unsigned char unkB4, unkB5, unkB6, unkB7;
     int unkB8, unkBc;
-    void FUN_00cf5ea0();
 };
 struct S00e451b0_ZBody
 {
@@ -163,8 +174,6 @@ struct S00e451b0_ZBody
     S00e451b0_SIMD::__m128 unk40, unk50, unk60, unk70, unk80;
     int unk90, unk94, unk98;
     float unk9c;
-    S00e451b0_ZBody* FUN_00ca8c90(S00e451b0_ZInfo*);
-    void FUN_00c905b0();
 };
 struct S00e451b0_ZListener
 {
@@ -179,8 +188,6 @@ struct S00e451b0_ZWorld
 {
     int unk00, unk04, unk08, unk0c;
     hkVector4 unk10;
-    void FUN_00c914d0(S00e451b0_ZBody*, int);
-    void ProcessTarget(bool*, S00e451b0_ZBody*);
 };
 struct S00e451b0_ZAllocator
 {
@@ -199,9 +206,6 @@ struct S00e451b0_ZRouter
 namespace ZMem {
 __declspec(nothrow) S00e451b0_ZRouter& __cdecl FUN_00c85750();
 }
-extern const float DAT_0102226c, DAT_01013ea4, DAT_0101df44;
-extern float DAT_010231a8, DAT_010181bc;
-void __cdecl FUN_00cf07a0(S00e451b0_ZSphere*, float, S00e451b0_ZInfo*);
 struct __declspec(align(16)) S00e451b0_ZCastResult
 {
     S00e451b0_SIMD::__m128 point, normal;
@@ -210,8 +214,6 @@ struct __declspec(align(16)) S00e451b0_ZCastResult
 };
 int __cdecl FUN_00e464e0(S00e451b0_ZWorld*, const S00e451b0_SIMD::__m128*, float, const S00e451b0_SIMD::__m128*,
                          S00e451b0_ZCastResult*);
-void __cdecl FUN_00e463d0(const S00e451b0_SIMD::__m128*, const S00e451b0_SIMD::__m128*, const hkVector4*, float,
-                          S00e451b0_SIMD::__m128*);
 struct S00e451b0_ZQueue
 {
     S00e451b0_ZBody** unk00;
@@ -255,10 +257,10 @@ void S00e451b0_ZGun::FUN_00e451b0(S00e451b0_ZWorld* world, const hkTransform* tr
     S00e451b0_SIMD::__m128 end = S00e451b0_SIMD::_mm_add_ps(
         S00e451b0_SIMD::_mm_mul_ps(S00e451b0_SIMD::_mm_shuffle_ps(distance.q, distance.q, 0), direction), start);
     S00e451b0_ZInfo info;
-    info.FUN_00cf5ea0();
+    reinterpret_cast<::Owner *>(&(info))->FUN_00cf5ea0();
     S00e451b0_ZSphere* sphere = (S00e451b0_ZSphere*)ZMem::FUN_00c85750().getHeap().alloc(0x20);
     sphere->unk04 = 0x20;
-    sphere = sphere->FUN_00cd8160(m_fBulletRadius);
+    sphere = ((::S00e451b0_ZSphere *)(new ((void *)(sphere)) ::FUN_00cd8160(m_fBulletRadius)));
     info.unk90 = m_fBulletMass;
     S00e451b0_SIMD::__m128 position = *(S00e451b0_SIMD::__m128*)&m_vContactPosition;
     info.unkB0 = 0.01f;
@@ -269,14 +271,14 @@ void S00e451b0_ZGun::FUN_00e451b0(S00e451b0_ZWorld* world, const hkTransform* tr
     info.unkB7 = 6;
     info.unk10 = position;
     info.unkB4 = 2;
-    FUN_00cf07a0(sphere, m_fBulletMass * 2.0f, &info);
+    ::FUN_00cf07a0(sphere, m_fBulletMass * 2.0f, (::Dest *)(::S00e451b0_ZInfo *)(&info));
     info.unk90 = m_fBulletMass;
     info.unk94 = 0.0f;
     info.unk98 = DAT_010231a8;
     S00e451b0_ZCastResult target;
     if (!FUN_00e464e0(world, &start, DAT_010181bc, &end, &target))
     {
-        FUN_00e463d0(&info.unk10, &target.point, &world->unk10, m_fBulletVelocity, &info.unk30);
+        ::FUN_00e463d0((*(const ::hkVector4 *)(&info.unk10)), (*(const ::hkVector4 *)(&target.point)), (*(const ::hkVector4 *)(&world->unk10)), m_fBulletVelocity, (*(::hkVector4 *)(&info.unk30)));
     }
     else
     {
@@ -288,12 +290,12 @@ void S00e451b0_ZGun::FUN_00e451b0(S00e451b0_ZWorld* world, const hkTransform* tr
         ((S00e451b0_ZListener**)m_kListeners.m_data)[i]->v14(posPtr, &hit);
     S00e451b0_ZBody* body = (S00e451b0_ZBody*)ZMem::FUN_00c85750().getHeap().alloc(0x220);
     body->unk04 = 0x220;
-    body = body->FUN_00ca8c90(&info);
-    info.unk04->FUN_00c905b0();
+    body = ((::S00e451b0_ZBody *)(reinterpret_cast<::S00ca8c90_Body *>((body))->FUN_00ca8c90((*(const ::CInfo181 *)(&info)))));
+    reinterpret_cast<::hkReferencedObjectC905 *>((info.unk04))->FUN_00c905b0();
     body->unk9c = m_fBulletSpread;
     for (int i = 0; i < m_kListeners.m_iElementCount; ++i)
         ((S00e451b0_ZListener**)m_kListeners.m_data)[i]->vC(body);
-    world->FUN_00c914d0(body, 1);
+    reinterpret_cast<::hkpWorldC914 *>((world))->FUN_00c914d0((::hkpEntityC914 *)(body), 1);
     ((S00e451b0_ZQueue*)m_pBulletQueue)->push(body);
     if (((S00e451b0_ZQueue*)m_pBulletQueue)->unk10 > m_iBulletBatchCount)
     {
@@ -303,8 +305,8 @@ void S00e451b0_ZGun::FUN_00e451b0(S00e451b0_ZWorld* world, const hkTransform* tr
         if (body->unk08)
         {
             bool removed;
-            body->unk08->ProcessTarget(&removed, body);
+            reinterpret_cast<::FUN_00c91620_Class *>((body->unk08))->ProcessTarget((unsigned char *)(bool *)(&removed), (::FUN_00c91620_Target *)(body));
         }
-        body->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((body))->FUN_00c905b0();
     }
 }

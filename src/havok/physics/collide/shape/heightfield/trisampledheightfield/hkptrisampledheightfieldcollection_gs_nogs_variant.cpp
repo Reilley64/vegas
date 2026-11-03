@@ -5,6 +5,11 @@
 
 // src/havok/physics/collide/shape/heightfield/trisampledheightfield/hkptrisampledheightfieldcollection.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/heightfield/trisampledheightfield/hkptrisampledheightfieldcollection.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00d21410.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00c90000.h"
 #include "havok/hkpTriSampledHeightFieldCollection.h"
 struct FUN_00d263f0_t
 {
@@ -31,7 +36,6 @@ struct FUN_00d26880_MemoryRouter
     unsigned char Padding[0x10];
     FUN_00d26880_MemoryManagerClient* Manager;
 };
-FUN_00d26880_MemoryRouter* _D1A0E0GetMemoryRouter();
 struct FUN_00d26880_StandIn : public hkpTriSampledHeightFieldCollection
 {
     hkpTriSampledHeightFieldCollection* FUN_00d26880(unsigned int flags);
@@ -87,10 +91,8 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
 extern "C" __m128 _mm_setzero_ps(void);
 extern int DAT_010ce390;
 extern int DAT_010ce370;
-void __stdcall FUN_00d21410(int a, int b);
 struct Target26700
 {
-    void __thiscall FUN_00c90510();
 };
 struct FUN_00d26700
 {
@@ -152,7 +154,6 @@ template <class T> struct hkArrayD267
 };
 struct RefD267 : public hkReferencedObject
 {
-    void FUN_00c905b0() throw();
 };
 class hkBase0D267
 {
@@ -181,7 +182,6 @@ class FUN_00d26760 : public hkBase0D267, public hkBase1D267
 };
 struct FUN_00d26450_S
 {
-    void* FUN_00d26450();
 };
 struct FUN_00d267c0_Alloc
 {
@@ -191,8 +191,6 @@ struct FUN_00d267c0_Alloc
     virtual void unk0C();
     virtual void Free(void* data, int size);
 };
-void* FUN_00c85750(void);
-void FUN_00c908c0(int a1, int a2, int a3, int a4);
 struct FUN_00d267c0_t : FUN_00d26450_S
 {
     void FUN_00d267c0(int mode);
@@ -244,14 +242,13 @@ struct FUN_00d26460_cls
     int unk28;
     int unk2C;
     N::__m128 m_kTranslation;
-    hkShape_d26460* FUN_00d26450();
     void FUN_00d26460(const hkTransform_d26460& kTransform, float fTolerance, hkAabb_d26460& kAabbOut);
 };
 // @fnv 0x00d26460
 void FUN_00d26460_cls::FUN_00d26460(const hkTransform_d26460& kTransform, float fTolerance, hkAabb_d26460& kAabbOut)
 {
     hkAabb_d26460 kAabb;
-    FUN_00d26450()->getAabb(kTransform, m_fBoundRadius + fTolerance, kAabb);
+    ((::hkShape_d26460 *)(reinterpret_cast<::FUN_00d26450_Obj *>(this)->FUN_00d26450()))->getAabb(kTransform, m_fBoundRadius + fTolerance, kAabb);
     N::__m128 kMaxPoint = N::_mm_add_ps(m_kTranslation, kAabb.m_kMaximumCorner);
     N::__m128 kMinBoundsCur = N::_mm_add_ps(m_kTranslation, kAabb.m_kMinimumCorner);
     kAabbOut.m_kMinimumCorner = N::_mm_min_ps(kAabb.m_kMinimumCorner, kMinBoundsCur);

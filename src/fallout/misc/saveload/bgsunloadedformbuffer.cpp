@@ -2,11 +2,19 @@
 // src/fallout/misc/saveload/bgsunloadedformbuffer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/misc/saveload/bgsunloadedformbuffer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_0084b750.h"
+#include "fnv/decl/FUN_00864520_shell.h"
+#include "fnv/decl/SaveLoadFile.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_008647f0__FUN_008647f0_shell.h"
+#include "fnv/decl/fnv_008a8150__FUN_008a8150_shell.h"
+#include "fnv/symbols_00845000.h"
+#include "fnv/symbols_00866000.h"
 extern int DAT_0107f494;
 
 struct FUN_0084b4e0_shell
 {
-    void FUN_0084b750(void* arg);
     int FUN_0084b4e0(void* arg);
 };
 
@@ -14,7 +22,7 @@ struct FUN_0084b4e0_shell
 // @fnv 0x0084b4e0
 int FUN_0084b4e0_shell::FUN_0084b4e0(void* arg)
 {
-    FUN_0084b750(arg);
+    new ((void *)this) ::FUN_0084b750((int)(arg));
     *(int*)this = (int)&DAT_0107f494;
     return (int)this;
 }
@@ -36,7 +44,6 @@ struct FormBufferContext
 };
 
 unsigned int __cdecl FUN_00845d70(unsigned int);
-unsigned int __fastcall FUN_00864520(void*);
 
 // If pBuffer is set, computes a size from the header via FUN_00864520 and FUN_00845d70 and returns pBuffer plus that size plus 2; otherwise returns 0.
 // @fnv 0x00866390
@@ -47,7 +54,7 @@ char* FormBufferContext::FUN_00866390()
     if (pBuffer)
     {
         punloadedHeader = (FormInfoRecord*)pBuffer;
-        isizeTypeSize = FUN_00845d70(FUN_00864520(punloadedHeader));
+        isizeTypeSize = FUN_00845d70(((unsigned int)(reinterpret_cast<::FUN_00864520_shell *>((punloadedHeader))->FUN_00864520())));
         return (char*)(pBuffer + isizeTypeSize + 2);
     }
     return 0;
@@ -55,17 +62,15 @@ char* FormBufferContext::FUN_00866390()
 
 typedef unsigned int SIZE_TYPE;
 
-SIZE_TYPE __fastcall FUN_00864520(void*);
 
 // @fnv 0x00866430
 SIZE_TYPE __fastcall FUN_00866430(void* a)
 {
-    return FUN_00864520(*(void**)a);
+    return ((unsigned int)(reinterpret_cast<::FUN_00864520_shell *>((*(void**)a))->FUN_00864520()));
 }
 
 struct FUN_00866450_shell
 {
-    unsigned int __thiscall FUN_00866430();
     unsigned int __thiscall GetAdjustedValue();
 };
 
@@ -75,11 +80,10 @@ unsigned int __cdecl FUN_00845d70(unsigned int);
 // @fnv 0x00866450
 unsigned int __thiscall FUN_00866450_shell::GetAdjustedValue()
 {
-    unsigned int result = FUN_00845d70(FUN_00866430());
+    unsigned int result = FUN_00845d70(::FUN_00866430((void *)this));
     return result + 9;
 }
 
-void __cdecl ReadValueBySizeType(void* a1, unsigned int* a2, unsigned int a3);
 struct FUN_008663e0_shell
 {
     char* pBuffer;
@@ -95,7 +99,7 @@ unsigned int FUN_008663e0_shell::FUN_008663e0()
         unsigned int uiSize = FUN_00866430(this);
         char* pData = pBuffer + 2;
         uiOut = 0;
-        ReadValueBySizeType(pData, &uiOut, uiSize);
+        ::ReadValueBySizeType(pData, &uiOut, uiSize);
     }
     return uiOut;
 }
@@ -119,8 +123,6 @@ struct BGSLoadFormBuffer
     unsigned int field2C;
 
     BGSLoadFormBuffer();
-    void SetBuffer(char* buffer, unsigned int size, unsigned int position);
-    void FUN_008a8150(unsigned char value);
 };
 
 struct FUN_0084b450_Class
@@ -130,7 +132,6 @@ struct FUN_0084b450_Class
 
 struct FUN_00866480_shell : FormBufferContext
 {
-    unsigned int FUN_00866430();
     BGSLoadFormBuffer* FUN_00866480();
 };
 
@@ -144,20 +145,19 @@ BGSLoadFormBuffer* FUN_00866480_shell::FUN_00866480()
     BGSLoadFormBuffer* ploadFormBuffer;
 
     ploadFormBuffer = new BGSLoadFormBuffer;
-    ploadFormBuffer->FUN_008a8150(reinterpret_cast<FUN_0084b450_Class*>(this)->FUN_0084b450());
-    esizeType = this->FUN_00866430();
+    reinterpret_cast<::fnv_008a8150::FUN_008a8150_shell *>((ploadFormBuffer))->FUN_008a8150(reinterpret_cast<FUN_0084b450_Class*>(this)->FUN_0084b450());
+    esizeType = ::FUN_00866430((void *)(this));
     iposition = 2;
     padvancedBuffer = this->pBuffer + 2;
     isize = 0;
     iposition += (*reinterpret_cast<unsigned int(__cdecl*)(void const*, unsigned int*, unsigned int)>(
-        &ReadValueBySizeType))(padvancedBuffer, &isize, esizeType);
-    ploadFormBuffer->SetBuffer(this->pBuffer, isize + iposition, iposition);
+        &((void (&)(void *, unsigned int *, unsigned int))::ReadValueBySizeType)))(padvancedBuffer, &isize, esizeType);
+    reinterpret_cast<::fnv_008647f0::FUN_008647f0_shell *>((ploadFormBuffer))->FUN_008647f0(this->pBuffer, isize + iposition, iposition);
     return ploadFormBuffer;
 }
 
 struct FUN_0044ddc0_shell
 {
-    void FUN_0044ddc0();
 };
 
 struct FUN_00866da0_shell
@@ -190,13 +190,12 @@ struct FUN_00866da0_shell
 // @fnv 0x00866da0
 void FUN_00866da0_shell::CallSlotMethod(int index)
 {
-    unk50[index]->FUN_0044ddc0();
+    reinterpret_cast<::Twin_0044ddc0 *>((unk50[index]))->GetName();
 }
 
 class Version866
 {
   public:
-    int GetFormat();
 
     unsigned char m_ucMajor;
     unsigned char m_ucMinor;
@@ -220,11 +219,8 @@ class Header866
 class SaveFile866
 {
   public:
-    unsigned int Read(void* pvBuffer, unsigned int uiSize);
 };
 
-int __cdecl ReadLength866(SaveFile866* pkFile, unsigned int* puiLength, int iFormat);
-void __cdecl PrepareBuffer866(void* pvBuffer, unsigned int uiLength, int iFormat);
 
 class Buffer866
 {
@@ -245,10 +241,10 @@ void Buffer866::ReadBuffer(SaveFile866* pkFile)
     char* pcCur6;
     Header866 kHeader5;
 
-    pkFile->Read(&kHeader5, 9);
-    iFormat2 = kHeader5.m_kVersion.GetFormat();
+    reinterpret_cast<::SaveLoadFile *>((pkFile))->Read(&kHeader5, 9);
+    iFormat2 = reinterpret_cast<::FUN_00864520_shell *>(&(kHeader5.m_kVersion))->FUN_00864520();
     uiLength_ = 0;
-    iExtra = ReadLength866(pkFile, &uiLength_, iFormat2);
+    iExtra = ((int)(::ReadSizedUnsignedInt((::SaveLoadFile *)(pkFile), (*(unsigned int *)(&uiLength_)), (::SIZE_TYPE)(iFormat2))));
     uiSize = uiLength_ + iExtra + 2;
     m_pcData = new char[uiSize];
     pcCur6 = m_pcData;
@@ -256,8 +252,8 @@ void Buffer866::ReadBuffer(SaveFile866* pkFile)
     pkVersion2->m_ucMinor = kHeader5.m_kVersion.m_ucMinor;
     pkVersion2->m_ucMajor = kHeader5.m_kVersion.m_ucMajor;
     pcCur6 += 2;
-    PrepareBuffer866(pcCur6, uiLength_, iFormat2);
+    ::WriteTypedValue(pcCur6, uiLength_, iFormat2);
     pcCur6 += iExtra;
     if (uiLength_)
-        pkFile->Read(pcCur6, uiLength_);
+        reinterpret_cast<::SaveLoadFile *>((pkFile))->Read(pcCur6, uiLength_);
 }

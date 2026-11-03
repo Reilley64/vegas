@@ -1,5 +1,40 @@
 // fallout_shared/bgsopencloseform.cpp: BGSOpenCloseForm, AIThreadManager (8 functions)
 
+#include "fnv/decl/C47AAF0Player.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_0041e660_class.h"
+#include "fnv/decl/FUN_0041e690.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00572d50_shell.h"
+#include "fnv/decl/FUN_00572db0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_006c0f10_shell.h"
+#include "fnv/decl/FUN_0087b540_Holder.h"
+#include "fnv/decl/FUN_0087b600_Holder.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/Holder87b580.h"
+#include "fnv/decl/ObstMgr0dc0.h"
+#include "fnv/decl/TESTopicInfoData.h"
+#include "fnv/decl/fnv_0041d490__FUN_0041d490_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_0047a520__Fn47a520.h"
+#include "fnv/decl/fnv_00572d30__FUN_00572d30_shell.h"
+#include "fnv/decl/fnv_00578a30__Thing.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_0047a000.h"
+#include "fnv/symbols_0047b000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_005ac000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_006c0000.h"
+#include "fnv/symbols_008c7000.h"
+#include "fnv/symbols_00c6b000.h"
+#include "fnv/symbols_011d7000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f3000.h"
 #include "bgsopencloseform_packet_decls.h"
 
 // @fnv 0x0047a490
@@ -34,22 +69,22 @@ BGSOpenCloseForm::OPEN_STATE BGSOpenCloseForm::GetOpenState(TESObjectREFR* ref)
 {
     // Local names preserve MSVC9 stack allocation order.
     OPEN_STATE eState = CLOSED_UNKNOWN;
-    if (ref && HasOpenCloseComponent(ref->GetObjectReference()))
+    if (ref && HasOpenCloseComponent(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))))
     {
-        bool pManager = ref->GetAction(ACTION_OPEN);  // Saved open action flag.
+        bool pManager = reinterpret_cast<::fnv_00572d30::FUN_00572d30_shell *>((ref))->FUN_00572d30((*(int *)&(const ::OBJECT_ACTION &)(ACTION_OPEN)));  // Saved open action flag.
         if (pManager)
             eState = OPEN;
         else
             eState = CLOSED;
         NiNode* pController = ref->GetNiNode_v();                                   // Reference scene node.
-        NiTimeController* pNode = pController ? pController->GetControllers() : 0;  // Controller chain.
+        NiTimeController* pNode = pController ? ((::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(pController)))) : 0;  // Controller chain.
         // Runtime RTTI cast to the controller manager.
-        NiControllerManager* bOpen = (NiControllerManager*)FUN_00653270(&DAT_011f36ac, (NiProperty*)pNode);
+        NiControllerManager* bOpen = (NiControllerManager*)((::SkyShaderProperty *)(::FUN_00653270(&(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac)), (::NiObject *)(::NiProperty *)((NiProperty*)pNode))));
         if (bOpen)
         {
-            NiControllerSequence* pOpenSequence = bOpen->FindSequenceByName(*TESObjectDOOR::GetOpenSequenceName());
+            NiControllerSequence* pOpenSequence = ((::NiControllerSequence *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((bOpen))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(*TESObjectDOOR::GetOpenSequenceName()))));
             NiControllerSequence* pCloseSequence =
-                bOpen->FindSequenceByName(*NiControllerManager::FindSequenceByName());
+                ((::NiControllerSequence *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((bOpen))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(*NiControllerManager::FindSequenceByName()))));
             if (pOpenSequence && pCloseSequence)
             {
                 if (((LowProcess*)pOpenSequence)->GetActiveCombatTarget() == (TESObjectREFR*)1)
@@ -60,87 +95,6 @@ BGSOpenCloseForm::OPEN_STATE BGSOpenCloseForm::GetOpenState(TESObjectREFR* ref)
         }
     }
     return eState;
-}
-
-// @fnv 0x0047aec0
-bool BGSOpenCloseForm::SetOpenState(TESObjectREFR* ref, bool open, bool immediate)
-{
-    bool result = false;
-    if (ref && HasOpenCloseComponent(ref->GetObjectReference()))
-    {
-        if (IsConditionMet() && ref != AIThreadManager::IsConditionMet())
-        {
-            TaskQueueInterface::GetSingleton()->FUN_0087b600(ref, open, immediate);
-            return true;
-        }
-        if (open)
-            ref->PerformAction(ACTION_OPEN);
-        else
-            ref->CloseReference(ACTION_OPEN);
-        NiNode* node = ref->GetNiNode_v();
-        NiTimeController* manager = node ? node->GetControllers() : 0;  // Controller chain.
-        // Runtime RTTI cast to the controller manager.
-        NiControllerManager* controller = (NiControllerManager*)FUN_00653270(&DAT_011f36ac, (NiProperty*)manager);
-        if (controller)
-        {
-            NiControllerSequence* active = 0;
-            NiControllerSequence* inactive = 0;
-            NiControllerSequence* opening = controller->FindSequenceByName(*TESObjectDOOR::GetOpenSequenceName());
-            NiControllerSequence* closing = controller->FindSequenceByName(*NiControllerManager::FindSequenceByName());
-            if (opening && closing)
-            {
-                if (open)
-                {
-                    active = opening;
-                    inactive = closing;
-                }
-                else
-                {
-                    active = closing;
-                    inactive = opening;
-                }
-                controller->FUN_0047aa40(true);
-                if (immediate)
-                {
-                    ref->GetExtraData()->CallExtraDataListMethod36(0);
-                    controller->StopSequence(active, 0.0f);
-                    controller->ActivateControllerSequence(inactive, 0, false, 1.0f, 0.0f, 0);
-                    inactive->FUN_0098adb0(-DAT_0101ab70);
-                    NiUpdateData data(inactive->FUN_00759450(), true, false);
-                    ref->GetNiNode_v()->Update(data);
-                    controller->StopSequence(inactive, 0.0f);
-                    ref->FUN_00578a30(active->GetName());
-                    FUN_00c6bd00(ref->GetNiNode_v(), true);
-                }
-                else
-                {
-                    controller->StopSequence(inactive, 0.0f);
-                    controller->ActivateControllerSequence(active, 0, false, 1.0f, 0.0f, 0);
-                    active->FUN_0098adb0(-DAT_0101ab70);
-                    NiUpdateData data(active->FUN_00759450(), true, false);
-                    ref->GetNiNode_v()->Update(data);
-                }
-                result = true;
-            }
-        }
-        else
-        {
-            if (open)
-                ref->FUN_00578a30(DAT_01011f30);
-            else
-                ref->FUN_00578a30(g_011d22b0_arg1);
-        }
-        if (immediate && *((ProcessLists*)&g_011d7188)->GetLifeStateControlFlag() &&
-            ref->GetObjectReference()->GetFormType() == ENUM_FORM_ID_DOOR_ID && ref->GetNiNode_v() &&
-            !ref->GetExtraRadioData())
-        {
-            if (open)
-                NavMeshObstacleManager::GetSingleton()->RemoveObstacleReference(ref);
-            else
-                NavMeshObstacleManager::GetSingleton()->AddObstacleReference(ref);
-        }
-    }
-    return result;
 }
 
 struct FUN_00759450_shell : public NiControllerSequence
@@ -158,6 +112,86 @@ struct FUN_0098adb0_shell : public NiControllerSequence
 {
     void FUN_0098adb0(float);
 };
+// @fnv 0x0047aec0
+bool BGSOpenCloseForm::SetOpenState(TESObjectREFR* ref, bool open, bool immediate)
+{
+    bool result = false;
+    if (ref && HasOpenCloseComponent(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))))
+    {
+        if (::FUN_008c7aa0() && ref != ((::TESObjectREFR *)(::FUN_0047b200())))
+        {
+            reinterpret_cast<::FUN_0087b600_Holder *>((TaskQueueInterface::GetSingleton()))->FUN_0087b600((int)(ref), open, immediate);
+            return true;
+        }
+        if (open)
+            reinterpret_cast<::FUN_00572d50_shell *>((ref))->FUN_00572d50((*(int *)&(const ::OBJECT_ACTION &)(ACTION_OPEN)));
+        else
+            reinterpret_cast<::FUN_00572db0_shell *>((ref))->FUN_00572db0((*(int *)&(const ::OBJECT_ACTION &)(ACTION_OPEN)));
+        NiNode* node = ref->GetNiNode_v();
+        NiTimeController* manager = node ? ((::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(node)))) : 0;  // Controller chain.
+        // Runtime RTTI cast to the controller manager.
+        NiControllerManager* controller = (NiControllerManager*)((::SkyShaderProperty *)(::FUN_00653270(&(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac)), (::NiObject *)(::NiProperty *)((NiProperty*)manager))));
+        if (controller)
+        {
+            NiControllerSequence* active = 0;
+            NiControllerSequence* inactive = 0;
+            NiControllerSequence* opening = ((::NiControllerSequence *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((controller))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(*TESObjectDOOR::GetOpenSequenceName()))));
+            NiControllerSequence* closing = ((::NiControllerSequence *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((controller))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(*NiControllerManager::FindSequenceByName()))));
+            if (opening && closing)
+            {
+                if (open)
+                {
+                    active = opening;
+                    inactive = closing;
+                }
+                else
+                {
+                    active = closing;
+                    inactive = opening;
+                }
+                reinterpret_cast<::TaskQueueInterface *>((controller))->QueueReferenceStateTask(true);
+                if (immediate)
+                {
+                    reinterpret_cast<::fnv_0041d490::FUN_0041d490_shell *>((((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->UpdateRagDoll(0);
+                    controller->StopSequence(active, 0.0f);
+                    controller->ActivateControllerSequence(inactive, 0, false, 1.0f, 0.0f, 0);
+                    reinterpret_cast<::FUN_0098adb0_shell *>((inactive))->FUN_0098adb0(-DAT_0101ab70);
+                    NiUpdateData data(reinterpret_cast<::FUN_00759450_shell *>((inactive))->FUN_00759450(), true, false);
+                    reinterpret_cast<::FUN_00a59c60_cls *>((ref->GetNiNode_v()))->FUN_00a59c60((int)&(data));
+                    controller->StopSequence(inactive, 0.0f);
+                    reinterpret_cast<::fnv_00578a30::Thing *>((ref))->FUN_00578a30((int)((*(const ::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((void *)(active))->GetLinkToList()))));
+                    ::FUN_00c6bd00((::TreeNode_cls *)(::NiNode *)(ref->GetNiNode_v()), true);
+                }
+                else
+                {
+                    controller->StopSequence(inactive, 0.0f);
+                    controller->ActivateControllerSequence(active, 0, false, 1.0f, 0.0f, 0);
+                    reinterpret_cast<::FUN_0098adb0_shell *>((active))->FUN_0098adb0(-DAT_0101ab70);
+                    NiUpdateData data(reinterpret_cast<::FUN_00759450_shell *>((active))->FUN_00759450(), true, false);
+                    reinterpret_cast<::FUN_00a59c60_cls *>((ref->GetNiNode_v()))->FUN_00a59c60((int)&(data));
+                }
+                result = true;
+            }
+        }
+        else
+        {
+            if (open)
+                reinterpret_cast<::fnv_00578a30::Thing *>((ref))->FUN_00578a30((int)(DAT_01011f30));
+            else
+                reinterpret_cast<::fnv_00578a30::Thing *>((ref))->FUN_00578a30((int)(g_011d22b0_arg1));
+        }
+        if (immediate && *((ProcessLists*)&g_011d7188)->GetLifeStateControlFlag() &&
+            ((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))->GetFormType() == ENUM_FORM_ID_DOOR_ID && ref->GetNiNode_v() &&
+            !ref->GetExtraRadioData())
+        {
+            if (open)
+                reinterpret_cast<::ObstMgr0dc0 *>((((::NavMeshObstacleManager *)(::fnv_006c0720::GetNavMeshObstacleManager()))))->FUN_006c0dc0(ref);
+            else
+                reinterpret_cast<::FUN_006c0f10_shell *>((((::NavMeshObstacleManager *)(::fnv_006c0720::GetNavMeshObstacleManager()))))->UpdateDoorObstacle(ref);
+        }
+    }
+    return result;
+}
 
 // @fnv 0x0098adb0
 void FUN_0098adb0_shell::FUN_0098adb0(float afValue)
@@ -219,13 +253,10 @@ struct EventString
 };
 struct SequenceEvent
 {
-    EventString& GetName();
 };
 struct Ref;
 struct EventExtra
 {
-    Ref* GetTarget();
-    void ResetTargetPointer(Ref*);
 };
 struct BaseForm
 {
@@ -233,9 +264,6 @@ struct BaseForm
 };
 struct Ref
 {
-    EventExtra* Extra();
-    BaseForm* Base();
-    void Reset(bool);
 };
 struct OpenCloseHandler
 {
@@ -254,65 +282,57 @@ struct EventQueue
 };
 struct ObstacleManager
 {
-    static ObstacleManager* GetSingleton();
     void Open(Ref*);
     void Close(Ref*);
 };
-extern Ref* player;
-extern EventSetting setting;
-bool ProcessEvent(Ref*, SequenceEvent*);
 int CompareEvent(const char*, const char*);
-void SetEventFlags(Ref*, EventExtra*, unsigned int);
-OpenCloseHandler* GetHandler(BaseForm*);
-bool ShouldQueue();
-EventQueue* GetQueue();
 // @fnv 0x0047ac70
 void __cdecl ProcessOpenCloseEvent(Ref* ref, SequenceEvent* sequence)
 {
     bool handled = false;
     if (ref && sequence)
     {
-        handled = ProcessEvent(ref, sequence);
-        if (!CompareEvent(sequence->GetName(), "Open"))
+        handled = ::FUN_0047ab40((::Ref_47ab40 *)(ref), (::NamedObject_47ab40 *)(sequence));
+        if (!CompareEvent((*(::EventString *)(reinterpret_cast<::TESTopicInfoData *>((sequence))->GetLinkToList())), "Open"))
         {
             handled = true;
-            SetEventFlags(ref, ref->Extra(), 0x10000);
-            Ref* openTarget = ref->Extra()->GetTarget();
+            ::FUN_005ac750((::TESForm *)(ref), (::ExtraDataList *)(::EventExtra *)(((::EventExtra *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))), 0x10000);
+            Ref* openTarget = ((::Ref *)(reinterpret_cast<::FUN_0041e660_class *>((((::EventExtra *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->FUN_0041e660()));
             if (openTarget)
             {
-                OpenCloseHandler* openHandler = GetHandler(ref->Base());
+                OpenCloseHandler* openHandler = ((::OpenCloseHandler *)(::GetOpenCloseForm((::TESForm *)(::BaseForm *)(((::BaseForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))))));
                 if (openHandler)
                     openHandler->Open(ref, openTarget);
-                ref->Extra()->ResetTargetPointer(0);
-                if (openTarget == player && openHandler && openHandler->IsSpecial())
-                    player->Reset(false);
+                reinterpret_cast<::FUN_0041e690 *>((((::EventExtra *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->SetLinkedReference((::TESObjectREFR *)(::Ref *)(0));
+                if (openTarget == (*reinterpret_cast<::Ref * *>(&::_g_thePlayer)) && openHandler && openHandler->IsSpecial())
+                    reinterpret_cast<::C47AAF0Player *>(((*reinterpret_cast<::Ref * *>(&::_g_thePlayer))))->SetQuickKeysEnabled(false);
             }
-            if (*setting.Bool() && ref->Base()->FormType() == 28)
+            if (*(*reinterpret_cast<::EventSetting *>(&::g_011d7188)).Bool() && ((::BaseForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))->FormType() == 28)
             {
-                if (ShouldQueue())
-                    GetQueue()->Open(ref);
+                if (::FUN_008c7aa0())
+                    reinterpret_cast<::FUN_0087b540_Holder *>((((::EventQueue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b540((int)(ref));
                 else
-                    ObstacleManager::GetSingleton()->Open(ref);
+                    reinterpret_cast<::ObstMgr0dc0 *>((((::ObstacleManager *)(::fnv_006c0720::GetNavMeshObstacleManager()))))->FUN_006c0dc0((::TESObjectREFR *)(ref));
             }
         }
-        else if (!CompareEvent(sequence->GetName(), "Close"))
+        else if (!CompareEvent((*(::EventString *)(reinterpret_cast<::TESTopicInfoData *>((sequence))->GetLinkToList())), "Close"))
         {
             handled = true;
-            SetEventFlags(ref, ref->Extra(), 0x20000);
-            Ref* closeTarget = ref->Extra()->GetTarget();
+            ::FUN_005ac750((::TESForm *)(ref), (::ExtraDataList *)(::EventExtra *)(((::EventExtra *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))), 0x20000);
+            Ref* closeTarget = ((::Ref *)(reinterpret_cast<::FUN_0041e660_class *>((((::EventExtra *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->FUN_0041e660()));
             if (closeTarget)
             {
-                OpenCloseHandler* closeHandler = GetHandler(ref->Base());
+                OpenCloseHandler* closeHandler = ((::OpenCloseHandler *)(::GetOpenCloseForm((::TESForm *)(::BaseForm *)(((::BaseForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))))));
                 if (closeHandler)
                     closeHandler->Close(ref, closeTarget);
-                ref->Extra()->ResetTargetPointer(0);
+                reinterpret_cast<::FUN_0041e690 *>((((::EventExtra *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->SetLinkedReference((::TESObjectREFR *)(::Ref *)(0));
             }
-            if (*setting.Bool() && ref->Base()->FormType() == 28)
+            if (*(*reinterpret_cast<::EventSetting *>(&::g_011d7188)).Bool() && ((::BaseForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))->FormType() == 28)
             {
-                if (ShouldQueue())
-                    GetQueue()->Close(ref);
+                if (::FUN_008c7aa0())
+                    reinterpret_cast<::Holder87b580 *>((((::EventQueue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b580((int)(ref));
                 else
-                    ObstacleManager::GetSingleton()->Close(ref);
+                    reinterpret_cast<::FUN_006c0f10_shell *>((((::ObstacleManager *)(::fnv_006c0720::GetNavMeshObstacleManager()))))->UpdateDoorObstacle((::TESObjectREFR *)(ref));
             }
         }
     }

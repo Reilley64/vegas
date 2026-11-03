@@ -2,9 +2,74 @@
 // src/staging/blk_007e0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <new>
+#include "fnv/decl/AGOwner.h"
+#include "fnv/decl/BSShaderManager.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/EffectSettingList.h"
+#include "fnv/decl/FUN_004048e0_cls.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FUN_00445300_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00470440.h"
+#include "fnv/decl/FUN_005db4c0_struct.h"
+#include "fnv/decl/FUN_007004e0_class.h"
+#include "fnv/decl/FUN_007242c0_shell.h"
+#include "fnv/decl/FUN_00724930_cls.h"
+#include "fnv/decl/FUN_00726090_cls.h"
+#include "fnv/decl/FUN_007af180_shell.h"
+#include "fnv/decl/FUN_00a00e90_shell.h"
+#include "fnv/decl/FUN_00a00f30_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/FUN_00a1d910_shell.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FaderManager.h"
+#include "fnv/decl/FalloffController.h"
+#include "fnv/decl/FocusManager.h"
+#include "fnv/decl/NiAdditionalGeometryData.h"
+#include "fnv/decl/P03Value.h"
+#include "fnv/decl/S7010.h"
+#include "fnv/decl/SSN_b5.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/TileListBoxCalls.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/VATSMenuView.h"
+#include "fnv/decl/VLList.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/W004702f0.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
+#include "fnv/decl/fnv_00a09200__Value_00a09200.h"
+#include "fnv/decl/fnv_00a09410__EvalValue.h"
+#include "fnv/decl/fnv_00a1ddb0__FUN_00a1ddb0_shell.h"
+#include "fnv/decl/fnv_00ad8510__BSAudioManager.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00718000.h"
+#include "fnv/symbols_00726000.h"
+#include "fnv/symbols_007ab000.h"
+#include "fnv/symbols_007f6000.h"
+#include "fnv/symbols_00a00000.h"
+#include "fnv/symbols_00a01000.h"
+#include "fnv/symbols_011a0000.h"
+#include "fnv/symbols_011ae000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011da000.h"
+#include "fnv/symbols_011db000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
 #include "../../include/layout_support.h"
 
-const char* __cdecl FUN_007ab810();
 
 struct FUN_007e6760_cls
 {
@@ -14,19 +79,18 @@ struct FUN_007e6760_cls
 // @fnv 0x007e6760
 bool __thiscall FUN_007e6760_cls::FUN_007e6760()
 {
-    return FUN_007ab810() != 0;
+    return ::fnv_007ab810::FUN_007ab810() != 0;
 }
 
 struct BSAudio_
 {
-    void FUN_00ad8510(int, int);
     void FUN_007eb8a0();
 };
 
 // @fnv 0x007eb8a0
 void BSAudio_::FUN_007eb8a0()
 {
-    FUN_00ad8510(0x3002, 0);
+    reinterpret_cast<::fnv_00ad8510::BSAudioManager *>(this)->FUN_00ad8510(0x3002, 0);
 }
 
 extern "C" void __cdecl FUN_007004e0();
@@ -40,12 +104,11 @@ struct FUN_007f7770_Class
 // @fnv 0x007f7770
 void __thiscall FUN_007f7770_Class::FUN_007f7770()
 {
-    FUN_007004e0();
+    reinterpret_cast<::FUN_007004e0_class *>(this)->FUN_007004e0();
 }
 
 extern float DAT_012007d0;
 extern float DAT_012007d4;
-extern char DAT_011ae5d4;
 
 // @fnv 0x007f7a50
 void __cdecl FUN_007f7a50(float afValue1, float afValue2)
@@ -119,14 +182,13 @@ unsigned int FUN_007fd640Class::FUN_007fd640()
 
 struct RaceSexMenu
 {
-    void OnRaceSelected(void*);
     void FUN_007fe910(void* apList);
 };
 
 // @fnv 0x007fe910
 void RaceSexMenu::FUN_007fe910(void* apList)
 {
-    OnRaceSelected(apList);
+    reinterpret_cast<::FUN_007af180_shell *>(this)->FUN_007af180((int)(apList));
 }
 
 struct NavMeshPtr
@@ -135,9 +197,7 @@ struct NavMeshPtr
 };
 struct BSStr
 {
-    bool Set(const char*, unsigned int);
 };
-extern BSStr g_011daed8;
 void __cdecl FUN_007e65b0();
 struct FUN_007e66a0_cls
 {
@@ -153,7 +213,7 @@ void __thiscall FUN_007e66a0_cls::FUN_007e66a0(int aiIndex, int aiValue)
     switch (aiIndex)
     {
     case 1:
-        g_011daed8.Set((const char*)((NavMeshPtr*)((char*)this + 0x34))->FUN_00458b50(), 0);
+        reinterpret_cast<::TextString *>(&((*reinterpret_cast<::BSStr *>(&::g_011daed8))))->FUN_004037f0((const char*)((NavMeshPtr*)((char*)this + 0x34))->FUN_00458b50(), 0);
         FUN_007e65b0();
         break;
     }
@@ -165,20 +225,9 @@ struct FUN_007f69d0_Class
     void __thiscall DestroyList();
     void* __thiscall FUN_007f69d0(unsigned int flags);
 };
-// @fnv 0x007f69d0
-void* __thiscall FUN_007f69d0_Class::FUN_007f69d0(unsigned int flags)
-{
-    DestroyList();
-    if (flags & 1)
-        operator delete(this);
-    return this;
-}
-
 struct GameTimerRecord
 {
-    unsigned int GetTime() const;
 };
-extern GameTimerRecord g_timeGlobal;
 struct FUN_007f7880_Class
 {
     unsigned char _0[0x28];
@@ -202,30 +251,26 @@ void __thiscall FUN_007f7880_Class::FUN_007f7880(float a, float b, float c)
     f3 = a;
     f4 = b;
     f8 = c;
-    f5 = g_timeGlobal.GetTime();
+    f5 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)&(g_timeGlobal))->FUN_00825c00();
     f10 = 0.0f;
     f6 = 0.0f;
 }
 
 struct ModelLoader
 {
-    void QueueModelLoad(char*, bool, unsigned int);
 };
 struct Loader_S
 {
     void* m_p;
     ModelLoader* operator->();
 };
-extern Loader_S* g_modelLoader;
-extern int DAT_011a0bb0;
-extern Flt g_011db63c;
 // If g_011db63c is nonzero, calls the model loader with DAT_011a0bb0, true, true, then sets g_011db63c to 0.
 // @fnv 0x007ffe00
 void FUN_007ffe00()
 {
-    if ((unsigned int)g_011db63c)
-        ((ModelLoader*)g_modelLoader)->QueueModelLoad((char*)DAT_011a0bb0, true, true);
-    *(GO*)&g_011db63c = 0;
+    if ((unsigned int)(*reinterpret_cast<::Flt *>(&::g_011db63c)))
+        reinterpret_cast<::FUN_00445300_shell *>((((ModelLoader*)(*reinterpret_cast<::Loader_S * *>(&::g_modelLoader)))))->FUN_00445300((char*)DAT_011a0bb0, true, true);
+    *(GO*)&(*reinterpret_cast<::Flt *>(&::g_011db63c)) = 0;
 }
 
 struct FUN_007e0e30_Class
@@ -247,16 +292,15 @@ struct FUN_007f7830_Class
 {
     char _0[0x28];
     unsigned char bActive;
-    void __thiscall UpdateFalloff(float);
     void __thiscall UpdateIfActive();
 };
 // Reads the global time and, when bActive is set, calls UpdateFalloff with that time as a float.
 // @fnv 0x007f7830
 void FUN_007f7830_Class::UpdateIfActive()
 {
-    float fappTime = (float)g_timeGlobal.GetTime();
+    float fappTime = (float)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)&(g_timeGlobal))->FUN_00825c00();
     if (bActive)
-        UpdateFalloff(fappTime);
+        reinterpret_cast<::FalloffController *>(this)->UpdateFalloff(fappTime);
 }
 
 struct FUN_007fecc0_Class
@@ -274,7 +318,7 @@ struct FUN_007fecc0_Class
 void __thiscall FUN_007fecc0_Class::FUN_007fecc0()
 {
     bActive = 1;
-    fTime = (float)g_timeGlobal.GetTime();
+    fTime = (float)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)&(g_timeGlobal))->FUN_00825c00();
     fValue = 0.0f;
 }
 
@@ -303,20 +347,17 @@ struct Tile
 };
 struct Menu
 {
-    void __thiscall LoadMenuData();
 };
 struct SimpleList
 {
-    SimpleList* __thiscall GetNext();
 };
-extern SimpleList* DAT_011daec4;
 // @fnv 0x007e65b0
 void FUN_007e65b0()
 {
     if (DAT_011daec4)
     {
-        ((Tile*)DAT_011daec4->GetNext())->Set(0x1772, 1);
-        ((Menu*)DAT_011daec4)->LoadMenuData();
+        ((Tile*)((::SimpleList *)(reinterpret_cast<::Callees *>((DAT_011daec4))->FUN_00726070())))->Set(0x1772, 1);
+        reinterpret_cast<::FUN_00a1d910_shell *>((((Menu*)DAT_011daec4)))->FUN_00a1d910();
         DAT_011daec4 = 0;
     }
 }
@@ -331,10 +372,18 @@ struct FUN_007f6a00_Class
     ListX l;
     void __thiscall DestroyList();
 };
+// @fnv 0x007f69d0
+void* __thiscall FUN_007f69d0_Class::FUN_007f69d0(unsigned int flags)
+{
+    reinterpret_cast<::FUN_007f6a00_Class *>(this)->DestroyList();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // @fnv 0x007f6a00
 void __thiscall FUN_007f6a00_Class::DestroyList()
 {
-    l.ListX::~ListX();
+    reinterpret_cast<::EffectSettingList *>(&(l))->EffectSettingList::~EffectSettingList();
 }
 
 struct NiPoint2
@@ -343,7 +392,6 @@ struct NiPoint2
     float y;
 };
 
-extern NiPoint2 DAT_011f4980;
 
 struct FUN_007f78f0_Class
 {
@@ -368,18 +416,15 @@ void __thiscall FUN_007f78f0_Class::InitFromPoints(const NiPoint2* apPoint1, con
     f2 = *apPoint1;
     f4 = *apPoint2;
     f6 = *apPoint3;
-    fTime = g_timeGlobal.GetTime();
-    f8 = DAT_011f4980;
+    fTime = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)&(g_timeGlobal))->FUN_00825c00();
+    f8 = ::DAT_011f4980;
 }
 
 struct FUN_007e0d80_shell : Flt
 {
     char* m_buffer;
-    unsigned int FUN_004048e0();
     unsigned int FUN_004039a0();
-    void FUN_004037f0(char* oldBuffer, unsigned int requiredLength);
     void FUN_004039c0(unsigned int newLength);
-    unsigned int GetLengthPlusOne();
     void FUN_00438470(FUN_007e0d80_shell* other);
     FUN_007e0d80_shell* AppendString(FUN_007e0d80_shell* other);
 };
@@ -392,12 +437,12 @@ FUN_007e0d80_shell* FUN_007e0d80_shell::AppendString(FUN_007e0d80_shell* other)
     {
         if ((unsigned int)*this)
         {
-            unsigned int newLength = FUN_004048e0() + other->FUN_004048e0();
+            unsigned int newLength = ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(this)->FUN_004048e0())) + ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((other))->FUN_004048e0()));
             if (newLength > FUN_004039a0())
             {
-                FUN_004037f0((char*)(unsigned int)*this, newLength);
+                reinterpret_cast<::TextString *>(this)->FUN_004037f0((char*)(unsigned int)*this, newLength);
             }
-            memcpy(m_buffer + FUN_004048e0(), (char*)(unsigned int)*other, other->GetLengthPlusOne());
+            memcpy(m_buffer + ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(this)->FUN_004048e0())), (char*)(unsigned int)*other, reinterpret_cast<::S7010 *>((other))->GetLengthPlusOne());
             FUN_004039c0(newLength);
         }
         else
@@ -422,7 +467,6 @@ int __cdecl FUN_007e65a0()
 
 struct SysMgr
 {
-    void Init(int a, int b);
 };
 struct TaskA
 {
@@ -430,12 +474,8 @@ struct TaskA
 };
 struct MgrB
 {
-    TaskA* GetTask();
 };
-void Fn7f6920();
 
-extern SysMgr* g_sysMgr;
-extern MgrB* g_mgrB;
 
 class Base
 {
@@ -534,15 +574,14 @@ class FUN_007e9130_cls : public Base
 // @fnv 0x007e9130
 FUN_007e9130_cls::~FUN_007e9130_cls()
 {
-    g_sysMgr->Init(0, 0);
-    Fn7f6920();
-    TaskA* pTask = g_mgrB->GetTask();
+    reinterpret_cast<::FaderManager *>(((*reinterpret_cast<::SysMgr * *>(&::DAT_011d8804))))->StopFader((::FADER_ENUM)(0), 0);
+    ::FUN_007f6920();
+    TaskA* pTask = ((::TaskA *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::MgrB * *>(&::DAT_011db0d4))))->FUN_00726070()));
     TaskA* p = pTask;
     (void)(p ? p->Run(1) : 0);
-    g_mgrB = 0;
+    (*reinterpret_cast<::MgrB * *>(&::DAT_011db0d4)) = 0;
 }
 
-extern unsigned int* DAT_011f4aa8;
 // Computes the squared length of a 3-component vector and returns its approximate square root via a bit-manipulation lookup table.
 // @fnv 0x007eb7f0
 float __cdecl FastSqrt(const float* v)
@@ -650,26 +689,11 @@ struct SystemColorManager
     bool GetColor(int id, NiColor& out);
 };
 
-Dummy_00718c90* __cdecl FUN_00718b60();
 
 struct PipboyStub : FOPipboyManager
 {
-    void SetQuad(ImageSpaceEffectParam* p);
-    void FUN_007f7fb0(ImageSpaceEffectParam* p);
     void FUN_007f7f40();
 };
-
-// @fnv 0x007f7f40
-void PipboyStub::FUN_007f7f40()
-{
-    ImageSpaceEffectParam p(0.0f, 0.0f, 0.0f, 0.0f);
-    if (reinterpret_cast<SystemColorManager*>(FUN_00718b60())->GetColor(4, *(NiColor*)&p))
-    {
-        SetQuad(&p);
-        FUN_007f7fb0(&p);
-        InitializeMenuLight();
-    }
-}
 
 struct FUN_007f7fb0_Value
 {
@@ -708,6 +732,17 @@ struct FUN_007f7fe0_cls
     Quad4 m_q;
     void __thiscall SetQuad(const Quad4* src);
 };
+// @fnv 0x007f7f40
+void PipboyStub::FUN_007f7f40()
+{
+    ImageSpaceEffectParam p(0.0f, 0.0f, 0.0f, 0.0f);
+    if (reinterpret_cast<SystemColorManager*>(FUN_00718b60())->GetColor(4, *(NiColor*)&p))
+    {
+        reinterpret_cast<::FUN_007f7fe0_cls *>(this)->SetQuad((const ::Quad4 *)(::ImageSpaceEffectParam *)(&p));
+        reinterpret_cast<::FUN_007f7fb0_Class *>(this)->FUN_007f7fb0((const ::FUN_007f7fb0_Value *)(::ImageSpaceEffectParam *)(&p));
+        InitializeMenuLight();
+    }
+}
 
 // Copies the four unsigned ints from src into the m_q member of this object.
 // @fnv 0x007f7fe0
@@ -730,23 +765,18 @@ struct BSSoundHandleEx
 {
     SoundPlaybackHandle base;
     ~BSSoundHandleEx();
-    bool Play(bool);
 };
 
 struct BSAudio
 {
-    static BSAudio* GetSingleton();
     BSSoundHandleEx GetSoundHandleByEditorID(const char*, unsigned int);
 };
 
 struct GlobalObject_0044f440
 {
-    float* Float();
 };
 
-extern GlobalObject_0044f440 g_011db288;
 
-extern bool g_burstSoundEnabled;
 
 struct FUN_007fa0f0_Class
 {
@@ -914,12 +944,12 @@ void FUN_007fa0f0_Class::SetValue(int index, bool play)
     if (unk120 != values[index])
     {
         unk120 = values[index];
-        unk12c = *g_011db288.Float();
+        unk12c = *((float *)&(::FUN_00403e20((float *)&(::g_011db288))));
         if (g_burstSoundEnabled && play)
         {
             BSSoundHandleEx handle;
-            handle = BSAudio::GetSingleton()->GetSoundHandleByEditorID("UIPipBoyTab", 0x121);
-            handle.Play(false);
+            handle = ::FUN_00453a70()->GetSoundHandleByEditorID("UIPipBoyTab", 0x121);
+            reinterpret_cast<::FUN_00ad8830_shell *>(&(handle))->FUN_00ad8830(false);
         }
     }
 }
@@ -950,13 +980,11 @@ FUN_007fb730_Class* __thiscall FUN_007fb730_Class::Add(FUN_007fb730_Class* outpu
 class NiBound7FD
 {
   public:
-    float GetRadius() const;
 };
 
 class NiAVObject7FD
 {
   public:
-    const NiBound7FD& GetBoundingVolume() const;
 };
 
 template <class T> class NiPointer7FD
@@ -970,10 +998,8 @@ template <class T> class NiPointer7FD
 class ShadowSceneNode7FD
 {
   public:
-    void GetShadowSceneLight(NiAVObject7FD* pkLight, float fRadius);
 };
 
-ShadowSceneNode7FD* __cdecl FUN_00450b80(unsigned int uiIndex);
 
 class Light7FD
 {
@@ -995,8 +1021,8 @@ class Light7FD
 // @fnv 0x007fd660
 void Light7FD::FUN_007fd660(float fScale)
 {
-    float fRadius = m_spNode.Get()->GetBoundingVolume().GetRadius() * 3.0 * fScale;
-    FUN_00450b80(3)->GetShadowSceneLight(m_spLight.Get(), fRadius);
+    float fRadius = reinterpret_cast<::Twin_0084d030 *>((void *)&((*(const ::NiBound7FD *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(((::NiAVObject7FD *)(::FUN_00559450((int *)&(m_spNode))))))->FUN_0043d450()))))->GetStoredFloatValue() * 3.0 * fScale;
+    reinterpret_cast<::SSN_b5 *>((((::ShadowSceneNode7FD *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(3)))))->FUN_00b5ca70((::Node_b5 *)(::NiAVObject7FD *)(((::NiAVObject7FD *)(::FUN_00559450((int *)&(m_spLight))))), fRadius);
 }
 
 struct NiNode;
@@ -1102,22 +1128,12 @@ struct Entry;
 struct ValueX
 {
     void Clear();
-    void Copy(int, void*, int);
-    void SetFloat(int, float);
-    void Finish(int);
 };
 struct MenuX
 {
-    struct TileX* Create(struct TileX*, const char*, int);
 };
 struct TileX
 {
-    MenuX* GetMenu();
-    void* GetValue(int);
-    void Set(int, int);
-    void Set(int, const char*, bool);
-    float GetFloat(int);
-    ValueX* GetAction(int);
 };
 struct Entry
 {
@@ -1130,10 +1146,8 @@ struct Entries
 {
     Entry* first;
     Entries* next;
-    void Insert(Entry*, void*);
     void AddTail(Entry* const&);
 };
-int GetTrait(const char*, int);
 struct ListOwner
 {
     int unk00;
@@ -1143,11 +1157,6 @@ struct ListOwner
     int unk14;
     const char* templateName;
     unsigned short count;
-    bool Test(unsigned int);
-    void Refresh();
-    void Select(TileX*);
-    void Update();
-    int Mode();
     TileX* FUN_007e0e70(int data, const char* text, void* compare, const char* name);
 };
 // @fnv 0x007e0e70
@@ -1155,34 +1164,34 @@ TileX* ListOwner::FUN_007e0e70(int data, const char* text, void* compare, const 
 {
     if (parent && (templateName || name))
     {
-        TileX* tile = parent->GetMenu()->Create(parent, name ? name : templateName, 0);
-        if (!tile->GetValue(0xfaa))
-            tile->Set(0xfaa, -1);
+        TileX* tile = ((::TileX *)(reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((::MenuX *)(reinterpret_cast<::FUN_00a03c90_shell *>((parent))->FUN_00a03c90()))))->FUN_00a1ddb0((::Tile *)(parent), (char *)(name ? name : templateName), (::Tile *)(0))));
+        if (!reinterpret_cast<::FUN_00a00f30_shell *>((tile))->FUN_00a00f30(0xfaa))
+            reinterpret_cast<::Tile *>((tile))->Set(0xfaa, -1);
         if (text)
-            tile->Set(0xfc4, text, true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tile))->FUN_00a01350(0xfc4, (char *)(text), true);
         if (compare)
         {
-            entries.Insert(new Entry(tile, &data), compare);
-            if (Test(0))
-                Refresh();
+            reinterpret_cast<::FUN_00470440 *>(&(entries))->FUN_007a7eb0((::BGSPerkEntry *)(::Entry *)(new Entry(tile, &data)), (int (*)(BGSPerkEntry *, BGSPerkEntry *))(compare));
+            if (reinterpret_cast<::FUN_007242c0_shell *>(this)->FUN_007242c0(0))
+                reinterpret_cast<::FUN_00724930_cls *>(this)->FUN_00724930();
         }
         else
         {
-            entries.AddTail(new Entry(tile, &data));
-            if (Test(0))
+            reinterpret_cast<::Callees *>(&(entries))->FUN_00905820((void *)&(const ::Entry *const &)(new Entry(tile, &data)));
+            if (reinterpret_cast<::FUN_007242c0_shell *>(this)->FUN_007242c0(0))
             {
-                Select(tile);
-                Update();
+                reinterpret_cast<::VLList *>(this)->AccumulateTileHeight((::VLTile *)(tile));
+                reinterpret_cast<::VATSMenuView *>(this)->FUN_00724dd0();
             }
-            tile->Set(0xfac, count++);
+            reinterpret_cast<::Tile *>((tile))->Set(0xfac, count++);
         }
-        if (Mode() == 1 && parent->GetFloat(GetTrait("_number_of_visible_items", -1)) > 0.0)
+        if (::GetRaceCount((char *)this) == 1 && reinterpret_cast<::TileListBoxCalls *>((parent))->GetFloat(::FUN_00a00940("_number_of_visible_items", -1)) > 0.0)
         {
-            ValueX* value = parent->GetAction(0xfb0);
-            value->Clear();
-            value->Copy(0x7d0, tile, 0xfb0);
-            value->SetFloat(0x7d3, parent->GetFloat(GetTrait("_number_of_visible_items", -1)));
-            value->Finish(0);
+            ValueX* value = ((::ValueX *)(reinterpret_cast<::FUN_00a00e90_shell *>((parent))->FindTraitValue(0xfb0)));
+            reinterpret_cast<::fnv_00a09200::Value_00a09200 *>((value))->RemoveFromReactions();
+            reinterpret_cast<::AGOwner *>((value))->FUN_00a09130(0x7d0, (::Tile *)(tile), 0xfb0);
+            reinterpret_cast<::P03Value *>((value))->AppendFloatAction(0x7d3, reinterpret_cast<::TileListBoxCalls *>((parent))->GetFloat(::FUN_00a00940("_number_of_visible_items", -1)));
+            reinterpret_cast<::fnv_00a09410::EvalValue *>((value))->FUN_00a09410(0);
         }
         return tile;
     }
@@ -1222,24 +1231,18 @@ struct WXParam
 
 struct WXTimeGlobal
 {
-    unsigned int GetTime();
 };
 
 struct WXIntSetting
 {
-    int* Int();
 };
 
 struct WXFloatSetting
 {
-    float* Float();
 };
 
 int __cdecl WXRand();
 
-extern WXTimeGlobal g_kWXTimeGlobal;
-extern WXIntSetting g_kWXRandomRange;
-extern WXFloatSetting g_kWXDuration;
 
 struct FUN_007faa20
 {
@@ -1323,8 +1326,8 @@ FUN_007faa20::FUN_007faa20()
     kParamA8 = WXParam(0.0f, 0.0f, 0.0f, 0.0f);
     bFlag2A = false;
     bFlag95 = false;
-    fTimeA4 = (double)g_kWXTimeGlobal.GetTime() + WXRand() % *g_kWXRandomRange.Int();
-    fDurationA0 = *g_kWXDuration.Float();
+    fTimeA4 = (double)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::WXTimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00() + WXRand() % *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::WXIntSetting *>(&::g_011db4f8))))));
+    fDurationA0 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::WXFloatSetting *>(&::g_011db4d0))))));
     bFlag94 = false;
     iValue20 = 0;
 }
@@ -1334,7 +1337,6 @@ struct Accum
     static void* operator new(unsigned int);
     static void operator delete(void*);
     Accum(int, unsigned int, unsigned int);
-    void SetEnabled(bool);
     int unk000;
     int unk004;
     int unk008;
@@ -1513,22 +1515,15 @@ struct Pair
 };
 struct FloatSetting
 {
-    float* Float();
 };
 struct IntSetting
 {
-    int* Int();
 };
 struct StringSetting
 {
-    const char* String();
 };
-extern FloatSetting g_011db6bc;
-extern IntSetting g_011db75c;
-extern StringSetting g_011db744;
 extern "C" int __cdecl rand();
 
-void __cdecl LoadTexture(const char*, bool, Ref&, bool, bool);
 struct FUN_007ffec0
 {
     int unk000;
@@ -1628,24 +1623,24 @@ FUN_007ffec0::FUN_007ffec0()
     unk118 = false;
     unk129 = true;
     unk28c = 0.0f;
-    unk290 = *g_011db6bc.Float();
+    unk290 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::g_011db6bc))))));
     unk298 = false;
     unk284 = false;
     unk2ac = 0.0f;
     unk2b0 = 0.0f;
     unk2c0 = 0.0f;
-    unk294 = (double)g_timeGlobal.GetTime() + rand() % *g_011db75c.Int();
+    unk294 = (double)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)&(g_timeGlobal))->FUN_00825c00() + rand() % *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting *>(&::g_011db75c))))));
     unk2b4 = false;
     unk2b5 = false;
     unk240 = 0;
     first.value = 0;
     first.node = 0;
-    LoadTexture(g_011db744.String(), true, unk2c4, false, false);
+    ::BSShaderManager::GetTexture(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StringSetting *>(&::g_011db744))))->GetMenuTitle())), true, (::NiPointer< ::NiTexture> &)(unk2c4), false, false);
     unk000 = 0;
     unk00c = 0;
     unk010 = -1;
     unk2cc = new Accum(0x65, 1, 0x2f7);
-    ((Accum*)unk2cc)->SetEnabled(false);
+    reinterpret_cast<::FUN_005db4c0_struct *>((((Accum*)unk2cc)))->FUN_005db4c0(false);
     unk2c8 = 1;
     for (int index = 0; index < 16; ++index)
     {
@@ -1659,8 +1654,6 @@ FUN_007ffec0::FUN_007ffec0()
 struct RemoveTile
 {
     virtual void* Destroy(unsigned int);
-    float FUN_00a011b0(int);
-    void FUN_00a012d0(int, float, bool);
 };
 struct RemoveOwned
 {
@@ -1676,18 +1669,10 @@ struct RemoveNode
 {
     RemoveData* data;
     RemoveNode* next;
-    RemoveData** FUN_006815c0();
-    RemoveNode* FUN_00726070();
-    void FUN_006ecd40(RemoveNode*);
-    void* FUN_004702f0(unsigned int);
 };
 struct RemoveInterface
 {
-    void FUN_00715860(RemoveTile*, int, bool);
 };
-RemoveInterface* FUN_004b7210();
-int FUN_00a01860(const char*);
-void FUN_00401030(void*);
 struct RemoveBase
 {
     int unk00;
@@ -1696,8 +1681,6 @@ struct RemoveView : RemoveBase, RemoveNode
 {
     RemoveTile* container;
     RemoveTile* selected;
-    bool FUN_007242c0(bool);
-    void FUN_00726090();
     bool RemoveNodeFromList(RemoveNode*, RemoveNode*);
 };
 // @fnv 0x007f7380
@@ -1705,29 +1688,29 @@ bool RemoveView::RemoveNodeFromList(RemoveNode* node, RemoveNode* previous)
 {
     if (node)
     {
-        if ((*node->FUN_006815c0())->tile == selected)
+        if ((*((::RemoveData **)(new ((void *)(node)) ::Vec3())))->tile == selected)
         {
-            selected = node->FUN_00726070() ? (*node->FUN_00726070()->FUN_006815c0())->tile
-                                            : (previous && previous != node ? (*previous->FUN_006815c0())->tile : 0);
+            selected = ((::RemoveNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())) ? (*((::RemoveData **)(new ((void *)(((::RemoveNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))) ::Vec3())))->tile
+                                            : (previous && previous != node ? (*((::RemoveData **)(new ((void *)(previous)) ::Vec3())))->tile : 0);
             if (selected)
-                FUN_004b7210()->FUN_00715860(selected, 0xfc3, true);
+                reinterpret_cast<::FocusManager *>((((::RemoveInterface *)(::fnv_004b7210::FUN_004b7210()))))->FUN_00715860((::FocusTile *)(selected), 0xfc3, true);
         }
-        if (container && (*node->FUN_006815c0())->filtered)
+        if (container && (*((::RemoveData **)(new ((void *)(node)) ::Vec3())))->filtered)
         {
-            container->FUN_00a012d0(FUN_00a01860("_num_filtered"),
-                                    (float)(container->FUN_00a011b0(FUN_00a01860("_num_filtered")) - 1.0), true);
+            reinterpret_cast<::FUN_00a012d0_t *>((container))->FUN_00a012d0(FUN_00a01860("_num_filtered"),
+                                    (float)(reinterpret_cast<::TileListBoxCalls *>((container))->GetFloat(FUN_00a01860("_num_filtered")) - 1.0), true);
         }
-        RemoveTile* tile_2 = (*node->FUN_006815c0())->tile;
+        RemoveTile* tile_2 = (*((::RemoveData **)(new ((void *)(node)) ::Vec3())))->tile;
         RemoveTile* tileCopyA = tile_2;
         tileCopyA ? tileCopyA->Destroy(1) : 0;
-        if (FUN_007242c0(true))
+        if (reinterpret_cast<::FUN_007242c0_shell *>(this)->FUN_007242c0(true))
         {
-            RemoveOwned* owned3 = (*node->FUN_006815c0())->owned;
+            RemoveOwned* owned3 = (*((::RemoveData **)(new ((void *)(node)) ::Vec3())))->owned;
             RemoveOwned* ownedCopyB = owned3;
             ownedCopyB ? ownedCopyB->FUN_004459e0(1) : 0;
         }
         {
-            RemoveData* record7 = *node->FUN_006815c0();
+            RemoveData* record7 = *((::RemoveData **)(new ((void *)(node)) ::Vec3()));
             FUN_00401030(record7);
         }
         if (node == static_cast<RemoveNode*>(this))
@@ -1735,12 +1718,12 @@ bool RemoveView::RemoveNodeFromList(RemoveNode* node, RemoveNode* previous)
             if (next)
             {
                 previous = next;
-                next = previous->FUN_00726070();
-                data = *previous->FUN_006815c0();
-                previous->FUN_006ecd40(0);
+                next = ((::RemoveNode *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
+                data = *((::RemoveData **)(new ((void *)(previous)) ::Vec3()));
+                reinterpret_cast<::CombatProcedure *>((previous))->Initialize((::CombatController *)(::RemoveNode *)(0));
                 RemoveNode* oldA = previous;
                 RemoveNode* oldCopyATmp = oldA;
-                oldCopyATmp ? oldCopyATmp->FUN_004702f0(1) : 0;
+                oldCopyATmp ? ((void *)(reinterpret_cast<::W004702f0 *>((oldCopyATmp))->FUN_004702f0(1))) : 0;
             }
             else
             {
@@ -1749,14 +1732,14 @@ bool RemoveView::RemoveNodeFromList(RemoveNode* node, RemoveNode* previous)
         }
         else
         {
-            previous->FUN_006ecd40(node->FUN_00726070());
-            node->FUN_006ecd40(0);
+            reinterpret_cast<::CombatProcedure *>((previous))->Initialize((::CombatController *)(::RemoveNode *)(((::RemoveNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()))));
+            reinterpret_cast<::CombatProcedure *>((node))->Initialize((::CombatController *)(::RemoveNode *)(0));
             RemoveNode* oldB = node;
             RemoveNode* oldCopyB4 = oldB;
-            oldCopyB4 ? oldCopyB4->FUN_004702f0(1) : 0;
+            oldCopyB4 ? ((void *)(reinterpret_cast<::W004702f0 *>((oldCopyB4))->FUN_004702f0(1))) : 0;
         }
-        if (FUN_007242c0(false))
-            FUN_00726090();
+        if (reinterpret_cast<::FUN_007242c0_shell *>(this)->FUN_007242c0(false))
+            reinterpret_cast<::FUN_00726090_cls *>(this)->FUN_00726090();
         return true;
     }
     return false;

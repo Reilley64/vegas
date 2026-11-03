@@ -2,6 +2,10 @@
 #ifndef FNV_MAGICSYSTEM_DECLS_H
 #define FNV_MAGICSYSTEM_DECLS_H
 
+#include "fnv/decl/FUN_0045c650_shell.h"
+#include "fnv/decl/PackedByteIntRecord.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00874000.h"
 #include "layout_support.h"
 class EffectItem;
 enum ENUM_FORM_ID
@@ -245,12 +249,8 @@ class EffectSettingCollection
 class DataHandler
 {
   public:
-    BSSimpleList<TESSound*>* FUN_0045c650();
-    BSSimpleList<TESEffectShader*>* FUN_00874670();
-    BSSimpleList<SpellItem*>* FUN_0087eaa0();
 };
 extern DataHandler* g_dataHandler;
-TESForm* GetFormByID(unsigned int formID);
 
 extern TESSound* DAT_011c3538;
 extern TESSound* DAT_011c353c;

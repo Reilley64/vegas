@@ -4,6 +4,43 @@
 
 // src/staging/blk_00ae0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/AF1430.h"
+#include "fnv/decl/BSGameSound.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045cee0_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00aa63c0.h"
+#include "fnv/decl/FUN_00ae9c50_s.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/O.h"
+#include "fnv/decl/SndStack70.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_006b3000.h"
+#include "fnv/symbols_00a62000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00ae9000.h"
+#include "fnv/symbols_00af0000.h"
+#include "fnv/symbols_00af2000.h"
+#include "fnv/symbols_00af3000.h"
+#include "fnv/symbols_00af4000.h"
+#include "fnv/symbols_00afd000.h"
+#include "fnv/symbols_00ee8000.h"
+#include "fnv/symbols_01000000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_01030000.h"
+#include "fnv/symbols_01047000.h"
+#include "fnv/symbols_01093000.h"
+#include "fnv/symbols_010a2000.h"
+#include "fnv/symbols_010a3000.h"
+#include "fnv/symbols_01100000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f7000.h"
+#include "fnv/symbols_011f8000.h"
+#include "fnv/symbols_01202000.h"
 #include "../../include/layout_support.h"
 extern int DAT_010a42b4;
 void* __cdecl _fnv_zlib_memset(void* p, int c, unsigned int n);
@@ -115,7 +152,6 @@ struct FUN_00af3b50_Class
 {
     void __thiscall SetVTable();
 };
-void __cdecl SwapByteQuadWords(void* p, int a2);
 struct FUN_00afd960_Class
 {
     void* vtbl;
@@ -127,7 +163,6 @@ struct FileFinder
 {
     static NiFile* __cdecl GetFile(const char*, int, unsigned int, unsigned int);
 };
-void __cdecl FUN_00afdf00(const char* apPath, int b, unsigned int c);
 extern int DAT_010a39d8;
 struct FUN_00ad6f40_Class
 {
@@ -150,9 +185,7 @@ struct FUN_00aea730_Class
 };
 struct MemoryManager
 {
-    void __thiscall Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 struct FUN_00aeaa80_Class
 {
     void __thiscall FUN_00aea770();
@@ -175,9 +208,7 @@ struct BSFile
 int __cdecl CloseAndDeleteFile(BSFile* apFile);
 struct DownloadableContentManager
 {
-    static void __cdecl GetRandomGenerator();
 };
-char __cdecl FUN_00af2750();
 struct FUN_00af2c50_Class
 {
     bool FUN_00af2c50(int a, int b);
@@ -189,7 +220,6 @@ struct FUN_00af3570_Class
     int a[8];
     void* __thiscall FUN_00af3570();
 };
-void __cdecl _sprintf_s(char* dst, unsigned int size, const char* fmt, ...);
 struct FUN_00afd860_Class
 {
     unsigned char m_acCharacterBuffer[4];
@@ -204,8 +234,6 @@ struct FUN_00afdbc0_Class
     unsigned int m_kPointB;
     bool IsIndexInRange(int idx);
 };
-extern int DAT_010a3370;
-void* __cdecl _NiMalloc(unsigned int);
 struct FUN_00ae7b40_Class
 {
     void* vtbl;
@@ -214,8 +242,6 @@ struct FUN_00ae7b40_Class
     int iCapacity;
     FUN_00ae7b40_Class(int n);
 };
-extern int DAT_010a3390;
-void* __cdecl _NiMalloc(unsigned int);
 struct FUN_00ae7bc0_Class
 {
     void* vtbl;
@@ -224,8 +250,6 @@ struct FUN_00ae7bc0_Class
     int m_auiShapeKeys;
     FUN_00ae7bc0_Class(int count);
 };
-extern int DAT_010a33b0;
-void* __cdecl NiMalloc(unsigned int size);
 struct FUN_00ae7c40_Class
 {
     void* __thiscall InitBuffer(int size);
@@ -233,7 +257,6 @@ struct FUN_00ae7c40_Class
 size_t __cdecl _strlen(const char* s);
 int __cdecl _strnicmp(const char* s1, const char* s2, size_t n);
 int __cdecl _strcpy_s(char* dst, size_t size, const char* src);
-void CopyRelativeDataPath(const char* source, char* destination, size_t size);
 struct FUN_00afd8b0_Class
 {
     unsigned int uiMagic;
@@ -252,7 +275,6 @@ struct BSAudio
     char pad[0x38];
     void* pAudio;
 };
-extern BSAudio* DAT_011f6d98;
 struct FUN_00af1ba0_Class
 {
     char pad[0x198];
@@ -265,16 +287,13 @@ struct S00a0d390
     int pad;
     void* p;
 
-    void __thiscall ClearAll();
     void __thiscall FUN_00ae8c30();
 };
-void __cdecl _NiFree(void* p);
 long FUN_00aeabf0(void* stream, long offset, int whence, int iOrigin);
 struct FUN_00aefd90_Class
 {
     void __thiscall FUN_00aefd90(int a, int b, int c);
 };
-int __cdecl FUN_00af2290(int apObject);
 struct FUN_00af2ed0_Class
 {
     void* vtbl;
@@ -344,7 +363,6 @@ struct FUN_00ae78a0_cls
     int unk38;
     int unk3C;
     void* m_h40;
-    void FUN_00aa63c0();
     void FUN_00ae78a0();
 };
 struct FUN_00ae8010_node
@@ -810,17 +828,16 @@ struct S_00aeaa10_Cls
 void* __cdecl _fnv_zlib_memset(void* p, int c, int n);
 struct MMStub
 {
-    void* __thiscall Allocate(unsigned int size);
 };
-extern MMStub g_mmStub;
 class NiPoint3
 {
   public:
     float x;
     float y;
     float z;
+public:
+    static const ::NiPoint3 ZERO;
 };
-extern const NiPoint3 NiPoint3_ZERO;
 struct Stub1A4
 {
     int unk00;
@@ -1080,29 +1097,18 @@ struct SndStream
 };
 struct SndHeap
 {
-    void* Allocate(unsigned int size);
-    void Deallocate(void* p);
 };
 struct SndFloatHolder
 {
     int unk00;
     float fValue;
 };
-extern SndHeap g_SndHeap;
-extern SndFloatHolder g_SndFloatHolder;
-extern float g_fSndZeroFallback;
-extern float g_fSndMinDistance;
 extern float g_fSndConeValue;
-extern float g_fSnd150;
-extern float g_fSndReverb1;
 extern float g_fSndReverb2;
-extern const SndGuid g_IID_SndBuffer8;
-extern const SndGuid g_IID_Snd3DBuffer;
 extern const SndGuid g_GUID_SndFX;
 extern const SndGuid g_IID_SndFXParams;
 void* __cdecl SndMemCopy(void* dst, const void* src, unsigned int n);
 void* __cdecl SndMemSet(void* dst, int c, unsigned int n);
-void __cdecl SndLog(const char* fmt, ...);
 class FUN_00aec530_cls
 {
   public:
@@ -1129,10 +1135,6 @@ class FUN_00aec530_cls
     virtual void SetPosition(float x, float y, float z);
 
     void Release(int a);
-    bool IsStreaming();
-    bool IsLooping();
-    void UpdateFlags();
-    void UpdateDistance();
     void FUN_00aec530();
 
     int unk04;
@@ -1625,7 +1627,6 @@ struct S_00af01e0_Cls
     int FUN_00af01e0(float f);
 };
 extern "C" void* fnv_zlib_memset(void* dst, int c, int n);
-void FUN_005b5e40(const char* pcFormat, ...);
 struct AF0320WaveFormat
 {
     unsigned short wFormatTag;
@@ -2056,7 +2057,6 @@ struct FUN_00af1d80_tgt
 {
     virtual int Tick(int flag);
 };
-void __cdecl FUN_00ee81e6(void* self);
 struct FUN_00af1d80_cls
 {
     int unk000;
@@ -2249,8 +2249,6 @@ struct FUN_00af2100_cls
 {
     unsigned int FUN_00af2100(unsigned char* p, unsigned int n);
 };
-unsigned int __cdecl FUN_00ee8204(FUN_00af2100_cls* self, unsigned char* p, unsigned int n, unsigned int a,
-                                  unsigned int b, unsigned int c, unsigned int* out);
 typedef int(__cdecl* FUN_00af2180_ProcFn)(void* self, void* arg0, int product, int* out, int one);
 struct FUN_00af2180_cls
 {
@@ -2267,7 +2265,6 @@ struct FUN_00af2180_cls
     int unk28;
     unsigned char m_2c;
 };
-int __cdecl CallProcAndAccumulate(void* arg0, int iLeft, int iRight, FUN_00af2180_cls* p);
 class AF2200Handler
 {
   public:
@@ -2278,7 +2275,6 @@ class AF2200Handler
     virtual void vfunc04();
     virtual void Handle(void* pvEvent, void* pvData);
 };
-int DispatchHandlerEvent(void* pvHandler, void* pvEvent, void* pvUnused, void* pvData);
 struct FUN_00af2c30_cls
 {
     int unk00;
@@ -2345,8 +2341,6 @@ struct FUN_00af2db0_cls
     void UpdateSteamRunningFlag();
 };
 extern "C" int __cdecl toupper(int c);
-extern unsigned int g_uiMatchFlags;
-int __cdecl WildcardMatch(const char* pcString, const char* pcPattern);
 bool HasWildcardChars(const char* pcString);
 int __cdecl FUN_00ec3bad(int value);
 struct AllocatorToken
@@ -2382,7 +2376,6 @@ struct FUN_00afdc00_Item
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0C;
-    bool Test(int idx);
 };
 class FUN_00afdc00_cls
 {
@@ -2741,7 +2734,6 @@ struct SoundObj
     NiPoint3 position;
     bool is3D;
 
-    bool IsPlaying();
     void FUN_00aefda0(float maxDist, float minDist);
 };
 extern const double DAT_010a3e68;
@@ -3127,11 +3119,6 @@ struct AudioState
     AudioFile* file;
 };
 AudioFile* __cdecl OpenAudioFile(const char*, int, unsigned int, unsigned int);
-void __cdecl AudioWarning(const char*, ...);
-extern int DAT_010a2484;
-extern int DAT_010a2480;
-extern int DAT_010a2488;
-int __stdcall AudioFileOp(AudioState* state, unsigned int op, void* data, int size);
 extern "C" __declspec(dllimport) void* __stdcall CreateFileA(const char* lpFileName, unsigned long dwDesiredAccess,
                                                              unsigned long dwShareMode, void* lpSecurityAttributes,
                                                              unsigned long dwCreationDisposition,
@@ -3148,7 +3135,6 @@ struct S_008785e0
     unsigned char m_unk0f;
     void* m_unk10;
 
-    int FUN_00afeef0(int a1, int a2, int a3, int a4);
     int OpenFile(const char* lpFileName);
 };
 extern "C" __declspec(dllimport) int __stdcall ReadFile(void* hFile, void* lpBuffer, unsigned long nNumberOfBytesToRead,
@@ -3273,8 +3259,6 @@ struct FUN_00aee580_cls
     FUN_00aee580_stream* pStream;
     bool UpdateStreamBuffer(int iArg);
 };
-extern double DAT_010290f8;
-extern int DAT_01000000;
 extern "C" __declspec(dllimport) unsigned long __stdcall GetTickCount();
 struct FUN_00aea150_Class
 {
@@ -3358,7 +3342,6 @@ struct xAudio
 };
 struct xMemoryManager
 {
-    void* Allocate(unsigned int uiSize);
 };
 extern "C" void*(__stdcall* xmmioOpen)(char* pszFile, xMMIOINFO* pInfo, unsigned int dwFlags);
 extern "C" unsigned int(__stdcall* xmmioDescend)(void* h, xMMCKINFO* pck, const xMMCKINFO* pckParent,
@@ -3371,16 +3354,10 @@ extern "C" unsigned int(__stdcall* xmmioAdvance)(void* h, xMMIOINFO* pInfo, unsi
 extern "C" char* __cdecl xStrstr(char* s, const char* sub);
 extern "C" int __cdecl strcpy_s(char* dst, unsigned int n, const char* src);
 extern "C" void* __cdecl xMemcpy(void* d, const void* s, unsigned int n);
-void xWarning(const char* fmt, ...);
-long __stdcall xWavIOProc(char* a, unsigned int b, long c, long d);
-extern xGuid xg_kGuid2D;
-extern xGuid xg_kGuid3D;
 struct xAudioPtr
 {
     xAudio* p;
 };
-extern xAudioPtr xg_kAudio;
-extern xMemoryManager xg_kMemoryManager;
 struct xFmtPtr
 {
     xWAVEFORMATEX* p;
@@ -3423,10 +3400,6 @@ struct xGameSound
     int m_iUnk1cc;
     char _pad1d0[0x1dc - 0x1d0];
     unsigned int m_uiValue5;
-    bool CheckFile();
-    bool Finish(bool bSuccess);
-    bool TryStream();
-    void ResetFile(bool b);
     bool FUN_00aeb270();
 };
 int __cdecl FUN_00ec3bad(int value);
@@ -3442,10 +3415,8 @@ struct FUN_00afdb20_Class
     int m_0c;
     void FUN_00afdb20();
 };
-extern "C" int DAT_010472d0;
 struct FUN_009b7940_shell
 {
-    void FUN_006b3eb0(unsigned int a, unsigned int b);
 };
 struct FUN_00afe9f0_Class : public FUN_009b7940_shell
 {
@@ -3460,7 +3431,6 @@ struct FUN_00ae8090_Node
 struct FUN_00ae8090_Allocator
 {
     unsigned int count;
-    void FUN_0045cee0(FUN_00ae8090_Node* node);
 };
 struct FUN_00ae8090_Locals
 {
@@ -3485,8 +3455,6 @@ class FUN_00ae8090_Class
     FUN_00ae8090_Node* tail;
     FUN_00ae8090_Allocator allocator;
 
-    unsigned int FUN_00ae7f90();
-    unsigned int PopFront();
     unsigned int FUN_00ae8090(FUN_00ae8090_Node** position);
 };
 struct ObjC
@@ -3659,8 +3627,6 @@ struct AED080_Cls
     int unk220;
     int unk224;
     ObjC* m_228;
-    bool FUN_00af1c00(int a1, unsigned int a2, unsigned int a3, char* a4);
-    void ClearCallback();
     bool FUN_00aed080(bool p);
 };
 // DirectSound buffer copy and auxiliary stream-state duplication.
@@ -3790,7 +3756,6 @@ struct AudioConfig
 };
 struct AudioMemory
 {
-    void* __thiscall FUN_00aa3e40(U32 size);
 };
 struct AudioOptionsSource
 {
@@ -3812,10 +3777,6 @@ struct AudioOptionsSource
     U32 unk3c;
     AudioConfig options;
 };
-extern AudioMemory DAT_011f6238;
-extern GuidValue DAT_01093f04, DAT_01100fe4;
-extern GuidValue DAT_01100f94, DAT_01100fb4;
-extern const float DAT_010a3dcc;
 extern const char DAT_010a4168[], DAT_010a4130[], DAT_010a40f0[], DAT_010a40b0[], DAT_010a4074[], DAT_010a4038[];
 extern const char DAT_010a3ffc[], DAT_010a3fc0[], DAT_010a3f84[], DAT_010a3f48[], DAT_010a3f0c[], DAT_010a3ed0[];
 extern void __cdecl FUN_00ec65a6(char*, U32, const char*);
@@ -4117,9 +4078,7 @@ class AudioBuffer
 
     CopyState* m_copyState;
 
-    void __thiscall FUN_00ae97a0(AudioBuffer*, bool);
 
-    bool __thiscall SetFlagState(bool);
 
     __forceinline bool IsBuffered()
     {
@@ -4130,6 +4089,8 @@ class AudioBuffer
         return (m_flags & 0x4000000) || (m_flags & 0x2000000);
     }
     void __thiscall FUN_00af0630(AudioBuffer*, bool);
+public:
+    bool FUN_00aebff0();
 };
 struct FUN_00aea020_cls
 {
@@ -4137,7 +4098,6 @@ struct FUN_00aea020_cls
     FUN_00aea020_cls();
     ~FUN_00aea020_cls();
 };
-extern BSAudio* DAT_011f6d98;
 void __cdecl FUN_00aea020();
 struct FUN_00af33f0
 {
@@ -4146,7 +4106,6 @@ struct FUN_00af33f0
     FUN_00af33f0();
     ~FUN_00af33f0();
 };
-void* __cdecl FUN_00af3020();
 namespace Worker114 {
 struct FUN_00ae9360_Base
 {
@@ -4194,7 +4153,6 @@ struct FUN_00ae9360_Base
 }
 struct Allocate114
 {
-    void* FUN_00aa3e40(unsigned int);
 };
 struct FUN_00aeac20 : Worker114::FUN_00ae9360_Base
 {
@@ -4244,8 +4202,6 @@ extern "C" int __cdecl _splitpath_s(const char* source, char* drive, unsigned in
                                     char* extension, unsigned int extensionSize);
 extern "C" int __cdecl _makepath_s(char* result, unsigned int resultSize, const char* drive, const char* directory,
                                    const char* filename, const char* extension);
-extern unsigned int DAT_011f804c;
-void __cdecl FUN_00af4070(char* result, const char* source);
 extern "C" __declspec(dllimport) int __stdcall WriteFile(void*, const void*, unsigned long, unsigned long*, void*);
 struct SystemFileWriter : Win32ReadFile
 {

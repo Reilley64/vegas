@@ -2,7 +2,28 @@
 // src/gamebryo2.2/corelibs/nianimation/nibonelodcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nibonelodcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void __cdecl _NiFreeAlias(void*);
+#include <new>
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a311e0_s.h"
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00a6d290.h"
+#include "fnv/decl/FUN_00a6d730_shell.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiStream.h"
+#include "fnv/decl/NiTimeControllerCM.h"
+#include "fnv/decl/NiTimeController_Luna.h"
+#include "fnv/decl/S_00b601a0_Map.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a6c000.h"
+#include "fnv/symbols_00a6d000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109a000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
 extern int DAT_0109a2a4;
 
 struct FUN_00a543f0_shell
@@ -17,32 +38,27 @@ void FUN_00a543f0_shell::FUN_00a543f0()
 {
     void* p = m_ptr;
     m_kPointA = &DAT_0109a2a4;
-    _NiFreeAlias(p);
+    ::FUN_00aa10f0(p);
 }
 
 struct GlobalObjectO2_00a7b610
 {
 };
 
-extern GlobalObjectO2_00a7b610 g_011f405c;
 
 // @fnv 0x00a55120
 GlobalObjectO2_00a7b610* __cdecl FUN_00a55120()
 {
-    return &g_011f405c;
+    return &::g_011f405c;
 }
 
 struct NiTMapBaseStub
 {
-    void RemoveAll();
 };
 extern int DAT_0109a264;
-extern int DAT_0109a284;
 struct P03MM
 {
-    void Deallocate(void*);
 };
-extern P03MM g_memoryManager;
 struct FUN_00a54370_shell : NiTMapBaseStub
 {
     void* m_kPointA;
@@ -55,12 +71,12 @@ struct FUN_00a54370_shell : NiTMapBaseStub
 FUN_00a54370_shell* FUN_00a54370_shell::FUN_00a54370(bool abFree)
 {
     m_kPointA = &DAT_0109a284;
-    RemoveAll();
+    reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
     m_kPointA = &DAT_0109a264;
-    RemoveAll();
-    _NiFreeAlias(m_ptr);
+    reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
+    ::FUN_00aa10f0(m_ptr);
     if (abFree & 1)
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa4060(this);
     return this;
 }
 
@@ -69,7 +85,6 @@ struct NiStreamLinkIDSet
     void* m_kPointA;
     unsigned int m_uiItemCount;
     unsigned int m_pRayCursor;
-    void Realloc(unsigned int);
 };
 
 struct NiStreamLinkIDSetShell
@@ -89,7 +104,7 @@ void NiStreamLinkIDSetShell::AppendLinkID(unsigned int* value)
             size *= 2;
         else
             size = 1;
-        set->Realloc(size);
+        reinterpret_cast<::FUN_00a311e0_s *>((set))->FUN_00a311e0(size);
     }
     unsigned int* puiData = reinterpret_cast<unsigned int*>(set->m_kPointA);
     puiData[set->m_pRayCursor] = *value;
@@ -97,12 +112,9 @@ void NiStreamLinkIDSetShell::AppendLinkID(unsigned int* value)
 }
 
 namespace fnv_00a54410 {
-extern int DAT_0109a2ac;
 struct MemoryManager
 {
-    void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 struct FUN_00a54410_shell
 {
     void* m_kPointA;
@@ -114,9 +126,9 @@ void* FUN_00a54410_shell::FreeAndMaybeDeallocate(unsigned int flags)
 {
     void* tmp = m_ptr;
     m_kPointA = (void*)&DAT_0109a2ac;
-    _NiFreeAlias(tmp);
+    ::FUN_00aa10f0(tmp);
     if (flags & 1)
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a54410::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(this);
     return this;
 }
 }  // namespace fnv_00a54410
@@ -135,25 +147,9 @@ struct NiBoneLODController : public NiObject
     int m_iLOD;
     unsigned int m_uiNumLODs;
     NiBoneLODController* FUN_00a550b0();
-    void FUN_00a6cfe0(NiBoneLODController*, CloningProcess*);
     NiBoneLODController* FUN_00a552c0(CloningProcess&);
 };
-// @fnv 0x00a552c0
-NiBoneLODController* NiBoneLODController::FUN_00a552c0(CloningProcess& kCloning)
-{
-    NiBoneLODController* pkObject = static_cast<NiBoneLODController*>(BSFadeNode::operator new(0x68));
-    if (pkObject)
-        pkObject = pkObject->FUN_00a550b0();
-    else
-        pkObject = 0;
-    FUN_00a6cfe0(pkObject, &kCloning);
-    pkObject->m_iLOD = m_iLOD;
-    pkObject->m_uiNumLODs = m_uiNumLODs;
-    return pkObject;
-}
-
 namespace fnv_00a553f0 {
-extern int DAT_0109a2ac;
 extern int DAT_0109a2d4;
 struct S55190
 {
@@ -161,9 +157,7 @@ struct S55190
 };
 struct S6D290
 {
-    void FUN_00a6d290();
 };
-void _delete(void*, unsigned int);
 struct NiBoneLODController
 {
     void* FUN_00a553f0(unsigned int);
@@ -173,16 +167,16 @@ void* NiBoneLODController::FUN_00a553f0(unsigned int flags)
 {
     *(void**)this = (void*)&DAT_0109a2d4;
     ((S55190*)this)->ClearEntries();
-    _NiFreeAlias(*(void**)((char*)this + 0x5c));
+    ::FUN_00aa10f0(*(void**)((char*)this + 0x5c));
     void* p1 = *(void**)((char*)this + 0x50);
-    *(void**)((char*)this + 0x4c) = (void*)&DAT_0109a2ac;
-    _NiFreeAlias(p1);
+    *(void**)((char*)this + 0x4c) = (void*)&::fnv_00a54410::DAT_0109a2ac;
+    ::FUN_00aa10f0(p1);
     void* p2 = *(void**)((char*)this + 0x40);
     *(void**)((char*)this + 0x3c) = (void*)&DAT_0109a2a4;
-    _NiFreeAlias(p2);
-    ((S6D290*)this)->FUN_00a6d290();
+    ::FUN_00aa10f0(p2);
+    reinterpret_cast<struct ::FUN_00a6d290 *>((((S6D290*)this)))->FUN_00a6d290::~FUN_00a6d290();
     if (flags & 1)
-        _delete(this, 0x68);
+        ::FUN_00aa1460(this, 0x68);
     return this;
 }
 }  // namespace fnv_00a553f0
@@ -204,7 +198,7 @@ struct NiBoneLODController : NiObject
 // @fnv 0x00a54340
 void NiBoneLODController::FUN_00a54340(NiStream& kStream)
 {
-    NiObject::LinkObject(kStream);
+    ::FUN_00a89af0((int)this);
     int iLOD = m_iLOD;
     m_iLOD = -1;
     FUN_00a541f0(iLOD);
@@ -217,7 +211,6 @@ struct NiRTTI
     const char* m_pcName;
     NiRTTI* m_pBaseRTTI;
 };
-extern NiRTTI DAT_011f4428;
 struct TargetObj
 {
     virtual void f0();
@@ -242,7 +235,7 @@ bool NiBoneLODController::IsTargetOfType() const
         return false;
     do
     {
-        if (pkRTTI == &DAT_011f4428)
+        if (pkRTTI == &(*reinterpret_cast<::fnv_00a55130::NiRTTI *>(&::g_011f4428)))
             return true;
         pkRTTI = pkRTTI->m_pBaseRTTI;
     } while (pkRTTI);
@@ -389,6 +382,8 @@ template <class T> class NiTPrimitiveArray
     unsigned short m_usGrowBy;
 };
 
+class CloningProcess;
+class NiStream;
 class NiTimeController : public NiObjectA53
 {
   public:
@@ -406,6 +401,10 @@ class NiTimeController : public NiObjectA53
     int unk28;
     int unk2C;
     int unk30;
+public:
+    void ProcessClone(::CloningProcess &);
+public:
+    void LinkObject(::NiStream &);
 };
 
 class NiBoneLODControllerA53 : public NiTimeController
@@ -426,7 +425,7 @@ class NiBoneLODControllerA53 : public NiTimeController
 // @fnv 0x00a53d00
 bool NiBoneLODControllerA53::FUN_00a53d00(NiStream& kStream)
 {
-    if (!NiTimeController::RegisterStreamables(kStream))
+    if (!::FUN_00a6d0f0((::TCReg *)this, (int)&(kStream), *(::NiStream *)nullptr))
         return false;
 
     for (unsigned int ui = 0; ui < m_kSkinInfoSets.GetSize(); ui++)
@@ -602,10 +601,7 @@ bool LODManager::FUN_00a541f0(int desiredLOD)
 
 struct MemoryAllocator
 {
-    void FUN_00aa4060(void* object);
 };
-extern MemoryAllocator g_011f6238;
-extern "C" void __cdecl FUN_00aa10f0(void* object);
 extern "C" long __declspec(dllimport) __stdcall InterlockedDecrement(volatile long* addend);
 
 struct RefCounter
@@ -677,8 +673,8 @@ void FUN_00a55190_owner::ClearEntries()
         FirstEntry* entry = smallEntries[i];
         if (entry)
         {
-            FUN_00aa10f0(entry->allocation);
-            g_011f6238.FUN_00aa4060(entry);
+            ::FUN_00aa10f0(entry->allocation);
+            reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryAllocator *>(&::g_memoryManager))))->FUN_00aa4060(entry);
         }
     }
     for (unsigned short i = 0; i < smallCount; ++i)
@@ -699,11 +695,11 @@ void FUN_00a55190_owner::ClearEntries()
                     RefCounter* reference = object->reference;
                     if (reference && InterlockedDecrement(&reference->count) == 0)
                         reference->Release();
-                    g_011f6238.FUN_00aa4060(object);
+                    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryAllocator *>(&::g_memoryManager))))->FUN_00aa4060(object);
                 }
             }
-            FUN_00aa10f0(group->objects);
-            g_011f6238.FUN_00aa4060(group);
+            ::FUN_00aa10f0(group->objects);
+            reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryAllocator *>(&::g_memoryManager))))->FUN_00aa4060(group);
         }
     }
     for (unsigned short i = 0; i < largeCount; ++i)
@@ -717,14 +713,13 @@ class BA55320StringArray
 {
   public:
     virtual ~BA55320StringArray();
-    void SetSize(unsigned int uiMaxSize);
     void SetAt(unsigned int uiIndex, char* const& pcElement);
 
     unsigned int SetAtGrow(unsigned int uiIndex, char* const& pcElement)
     {
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, pcElement);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pcElement));
         return uiIndex;
     }
     unsigned int Add(char* const& pcElement)
@@ -739,11 +734,7 @@ class BA55320StringArray
     unsigned short m_usGrowBy;
 };
 
-extern const char* g_pcA55320ClassName;
 
-char* __cdecl FUN_00a7d330(const char* pcString);
-char* __cdecl A55320GetViewerStringInt(const char* pcPrefix, int iValue);
-char* __cdecl A55320GetViewerStringUInt(const char* pcPrefix, unsigned int uiValue);
 
 class A55320Object
 {
@@ -771,9 +762,9 @@ class A55320Object
 // @fnv 0x00a55320
 void A55320Object::AppendViewerStrings(BA55320StringArray* pkStrings)
 {
-    pkStrings->Add(FUN_00a7d330(g_pcA55320ClassName));
-    pkStrings->Add(A55320GetViewerStringInt("m_iLOD", m_iLOD));
-    pkStrings->Add(A55320GetViewerStringUInt("m_uiNumLODs", m_uiNumLODs));
+    pkStrings->Add(FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_011f405c))));
+    pkStrings->Add(::FUN_00a7d4d0("m_iLOD", m_iLOD));
+    pkStrings->Add(::FUN_00a7d510("m_uiNumLODs", m_uiNumLODs));
 }
 
 class EqObject
@@ -862,7 +853,6 @@ typedef EqPrimitiveSet<EqSkinInfo*> EqSkinInfoSet;
 class EqTimeController : public EqObject
 {
   public:
-    bool BaseIsEqual(EqObject* pkObject);
 
     int unk04;
     int unk08;
@@ -893,7 +883,7 @@ class EqBoneLODController : public EqTimeController
 // @fnv 0x00a53ea0
 bool EqBoneLODController::FUN_00a53ea0(EqObject* pkObject)
 {
-    if (!BaseIsEqual(pkObject))
+    if (!::FUN_00a6cc80((::TCEq *)this, (int)(pkObject), {}))
         return false;
 
     EqBoneLODController* pkDest = (EqBoneLODController*)pkObject;
@@ -956,8 +946,6 @@ bool EqBoneLODController::FUN_00a53ea0(EqObject* pkObject)
     return true;
 }
 
-void* __cdecl FUN_00aa1070(unsigned int);
-void __cdecl FUN_00aa10f0(void*);
 struct StreamBinary
 {
     unsigned int unknown;
@@ -1120,7 +1108,6 @@ struct LODStream
     int unk244;
     int unk248;
     StreamBinary* binary;
-    void FUN_00a645b0();
     void Read32(void* data)
     {
         StreamBinary* file = binary;
@@ -1129,9 +1116,7 @@ struct LODStream
 };
 struct LODPool
 {
-    void* FUN_00aa3e40(unsigned int);
 };
-extern LODPool DAT_011f6238;
 template <class T> struct LinkGroup
 {
     T* data;
@@ -1139,7 +1124,7 @@ template <class T> struct LinkGroup
     unsigned int count;
     static void* operator new(unsigned int size)
     {
-        return DAT_011f6238.FUN_00aa3e40(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::LODPool *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }
     LinkGroup() : data(0), capacity(0), count(0)
     {}
@@ -1156,7 +1141,7 @@ template <class T> struct LinkGroup
             }
             else
                 replacement = 0;
-            FUN_00aa10f0(data);
+            ::FUN_00aa10f0(data);
             data = replacement;
             capacity = size;
         }
@@ -1175,7 +1160,7 @@ struct LinkSkinInfo
     void* skin;
     static void* operator new(unsigned int size)
     {
-        return DAT_011f6238.FUN_00aa3e40(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::LODPool *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }
     LinkSkinInfo() : skin(0)
     {}
@@ -1189,7 +1174,7 @@ template <class T> struct LinkGroupArray
     __forceinline void SetAt(unsigned int index, LinkGroup<T>* const& group)
     {
         if (index >= capacity)
-            FUN_00a90180(index + growBy);
+            reinterpret_cast<::FUN_00a41520_cls *>(this)->FUN_00a90180(index + growBy);
         if (index >= size)
         {
             size = (unsigned short)(index + 1);
@@ -1229,7 +1214,6 @@ struct BoneLODLoader
     LinkGroupArray<void*> nodeGroups;
     LinkGroupArray<LinkSkinInfo*> skinGroups;
     LinkGroup<void*> extraLinks;
-    void FUN_00a6d5e0(LODStream*);
     void ReadFromStream(LODStream*);
 };
 // Reads the current LOD, LOD count, node groups, skin groups and extra links from the stream, building the group arrays.
@@ -1237,7 +1221,7 @@ struct BoneLODLoader
 void BoneLODLoader::ReadFromStream(LODStream* stream)
 {
     unsigned int i;
-    FUN_00a6d5e0(stream);
+    reinterpret_cast<::NiTimeController_Luna *>(this)->FUN_00a6d5e0((*(::NiStream *)(stream)));
     stream->Read32(&currentLOD);
     stream->Read32(&lodCount);
     unsigned int nodeCount = 0;
@@ -1252,7 +1236,7 @@ void BoneLODLoader::ReadFromStream(LODStream* stream)
         {
             void* object = this;
             group->Add(object);
-            stream->FUN_00a645b0();
+            reinterpret_cast<::FUN_00a645b0_cls *>((stream))->FUN_00a645b0();
         }
     }
     unsigned int skinCount = 0;
@@ -1267,8 +1251,8 @@ void BoneLODLoader::ReadFromStream(LODStream* stream)
         {
             LinkSkinInfo* info = new LinkSkinInfo;
             group->Add(info);
-            stream->FUN_00a645b0();
-            stream->FUN_00a645b0();
+            reinterpret_cast<::FUN_00a645b0_cls *>((stream))->FUN_00a645b0();
+            reinterpret_cast<::FUN_00a645b0_cls *>((stream))->FUN_00a645b0();
         }
     }
     unsigned int extraCount = 0;
@@ -1277,7 +1261,7 @@ void BoneLODLoader::ReadFromStream(LODStream* stream)
     {
         void* object = this;
         extraLinks.Add(object);
-        stream->FUN_00a645b0();
+        reinterpret_cast<::FUN_00a645b0_cls *>((stream))->FUN_00a645b0();
     }
 }
 
@@ -1486,7 +1470,7 @@ template <class T> inline void SaveStream(NiStream& kStream, const T& value)
 // @fnv 0x00a549d0
 void BoneLODSerializer::FUN_00a549d0(NiStream& stream)
 {
-    BaseHack::FUN_00a6d730(stream);
+    reinterpret_cast<::FUN_00a6d730_shell *>(this)->FUN_00a6d730((::Stream_a6d730 &)(stream));
     SaveStream(stream, lod);
     SaveStream(stream, lodCount);
     {
@@ -1614,6 +1598,19 @@ class FUN_00a550b0 : public a550::FUN_00a6d220
     NiTPrimitiveArrayA55<NiTPrimitiveSetA55<SkinInfoA55*>*> m_kSkinInfoSets;
     NiTPrimitiveSetA55<NiGeometryA55*> m_kShaderSet;
 };
+// @fnv 0x00a552c0
+NiBoneLODController* NiBoneLODController::FUN_00a552c0(CloningProcess& kCloning)
+{
+    NiBoneLODController* pkObject = static_cast<NiBoneLODController*>(BSFadeNode::operator new(0x68));
+    if (pkObject)
+        pkObject = ((::NiBoneLODController *)(new ((void *)(pkObject)) ::FUN_00a550b0()));
+    else
+        pkObject = 0;
+    reinterpret_cast<::NiTimeControllerCM *>(this)->FUN_00a6cfe0((::NiTimeController *)(pkObject), (*(::CloningProcess *)(&kCloning)));
+    pkObject->m_iLOD = m_iLOD;
+    pkObject->m_uiNumLODs = m_uiNumLODs;
+    return pkObject;
+}
 // Default constructor that initializes m_iLOD to -1 and m_uiNumLODs to 0.
 // @fnv 0x00a550b0
 FUN_00a550b0::FUN_00a550b0() : m_iLOD(-1), m_uiNumLODs(0)
@@ -1674,25 +1671,22 @@ struct A54440Remap
 };
 struct A54440Heap : MemoryAllocator
 {
-    void* FUN_00aa3e40(unsigned int bytes);
 };
-void* __cdecl FUN_00aa1070(unsigned int);
 struct A54440PointerGroup
 {
     static void* operator new(unsigned int bytes)
     {
-        return ((A54440Heap*)&g_011f6238)->FUN_00aa3e40(bytes);
+        return reinterpret_cast<::MemoryManagerStandIn *>((((A54440Heap*)&(*reinterpret_cast<::MemoryAllocator *>(&::g_memoryManager)))))->FUN_00aa3e40(bytes);
     }
     A54440PointerGroup() : elements(0), capacity(0), count(0)
     {}
     void** elements;
     unsigned int capacity;
     unsigned int count;
-    void FUN_00a311e0(unsigned int nextCapacity);
     void Append(void* item)
     {
         if (count == capacity)
-            FUN_00a311e0(capacity > 0 ? capacity * 2 : 1);
+            reinterpret_cast<::FUN_00a311e0_s *>(this)->FUN_00a311e0(capacity > 0 ? capacity * 2 : 1);
         elements[count++] = item;
     }
 };
@@ -1724,7 +1718,7 @@ struct A54440GrowGroup
                 }
                 else
                     newData = 0;
-                FUN_00aa10f0(elements);
+                ::FUN_00aa10f0(elements);
                 elements = newData;
                 capacity = newCapacity;
             }
@@ -1736,7 +1730,7 @@ struct A54440LinkGroup
 {
     static void* operator new(unsigned int bytes)
     {
-        return ((A54440Heap*)&g_011f6238)->FUN_00aa3e40(bytes);
+        return reinterpret_cast<::MemoryManagerStandIn *>((((A54440Heap*)&(*reinterpret_cast<::MemoryAllocator *>(&::g_memoryManager)))))->FUN_00aa3e40(bytes);
     }
     A54440LinkGroup() : entries(0), capacity(0), count(0)
     {}
@@ -1758,7 +1752,7 @@ struct A54440LinkGroup
                 }
                 else
                     newData = 0;
-                FUN_00aa10f0(entries);
+                ::FUN_00aa10f0(entries);
                 entries = newData;
                 capacity = newCapacity;
             }
@@ -1777,18 +1771,17 @@ struct A54440Array
     unsigned short count;
     unsigned short elementSize;
     unsigned short growBy;
-    void FUN_00a90180(unsigned int);
     void FUN_00ba3aa0(unsigned int, void* const*);
     void SetCloneGroup(unsigned int index, void* const& ptr)
     {
         if (index >= capacity)
-            FUN_00a90180(index + growBy);
-        FUN_00ba3aa0(index, &ptr);
+            reinterpret_cast<::FUN_00a41520_cls *>(this)->FUN_00a90180(index + growBy);
+        reinterpret_cast<::FUN_00a41520_cls *>(this)->FUN_00ba3aa0(index, (::KeyPair **)(void *const *)(&ptr));
     }
     __forceinline void SetAtGrow(unsigned int index, void* value)
     {
         if (index >= capacity)
-            FUN_00a90180(index + growBy);
+            reinterpret_cast<::FUN_00a41520_cls *>(this)->FUN_00a90180(index + growBy);
         if (index >= count)
         {
             count = (unsigned short)(index + 1);
@@ -1828,8 +1821,6 @@ struct A54440Manager
     A54440Array groups;
     A54440Array links;
     A54440GrowGroup defaults;
-    void FUN_00a6d0c0(A54440Remap* source);
-    bool FUN_00a541f0(int newLOD);
     void CloneFrom(A54440Remap* source);
 };
 struct A54440RefSlots
@@ -1855,7 +1846,7 @@ struct A54440SourceLink
 {
     static void* operator new(unsigned int bytes)
     {
-        return ((A54440Heap*)&g_011f6238)->FUN_00aa3e40(bytes);
+        return reinterpret_cast<::MemoryManagerStandIn *>((((A54440Heap*)&(*reinterpret_cast<::MemoryAllocator *>(&::g_memoryManager)))))->FUN_00aa3e40(bytes);
     }
     A54440SourceLink() : ref(0)
     {}
@@ -1942,7 +1933,7 @@ struct A54440CloneWork
 void A54440Manager::CloneFrom(A54440Remap* remap)
 {
     unsigned int i;
-    FUN_00a6d0c0(remap);
+    reinterpret_cast<::NiTimeController *>(this)->ProcessClone((*(::CloningProcess *)(remap)));
     A54440CloneWork work;
     remap->map->FUN_00a53c30(this, &work.clone);
     i = 0;
@@ -2024,7 +2015,7 @@ void A54440Manager::CloneFrom(A54440Remap* remap)
     }
     int lod = work.clone->currentLOD;
     work.clone->currentLOD = -1;
-    work.clone->FUN_00a541f0(lod);
+    reinterpret_cast<::LODManager *>((work.clone))->FUN_00a541f0(lod);
 }
 
 namespace fnv_00a53d70 {
@@ -2033,7 +2024,6 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volati
 
 struct NiStream
 {
-    void* GetLoadedObject();
 };
 
 struct NiRefObject
@@ -2135,7 +2125,6 @@ struct NiTimeControllerStub
     int unk28;
     int unk2C;
     int unk30;
-    void LinkObject(NiStream& kStream);
 };
 
 struct BoneLODCtrl : NiTimeControllerStub
@@ -2152,7 +2141,7 @@ struct BoneLODCtrl : NiTimeControllerStub
 // @fnv 0x00a53d70
 void BoneLODCtrl::FUN_00a53d70(NiStream& kStream)
 {
-    NiTimeControllerStub::LinkObject(kStream);
+    reinterpret_cast<::NiTimeController *>(this)->LinkObject((::NiStream &)(kStream));
 
     unsigned int i;
     for (i = 0; i < m_kBoneSetArray.GetSize(); i++)
@@ -2161,7 +2150,7 @@ void BoneLODCtrl::FUN_00a53d70(NiStream& kStream)
         if (pkBones)
         {
             for (unsigned int j = 0; j < pkBones->GetSize(); j++)
-                pkBones->ReplaceAt(j, (NiNode*)kStream.GetLoadedObject());
+                pkBones->ReplaceAt(j, (NiNode*)((void *)(reinterpret_cast<::NiStream *>(&(kStream))->GetLoadedObject())));
         }
     }
 
@@ -2173,13 +2162,13 @@ void BoneLODCtrl::FUN_00a53d70(NiStream& kStream)
             for (unsigned int j = 0; j < pkSkins->GetSize(); j++)
             {
                 GeometrySkinInstancePair* pkInfo = pkSkins->GetAt(j);
-                pkInfo->m_pkGeom = (NiTriBasedGeom*)kStream.GetLoadedObject();
-                pkInfo->m_spInstance = (NiSkinInstance*)kStream.GetLoadedObject();
+                pkInfo->m_pkGeom = (NiTriBasedGeom*)((void *)(reinterpret_cast<::NiStream *>(&(kStream))->GetLoadedObject()));
+                pkInfo->m_spInstance = (NiSkinInstance*)((void *)(reinterpret_cast<::NiStream *>(&(kStream))->GetLoadedObject()));
             }
         }
     }
 
     for (i = 0; i < m_kShapeGroups.GetSize(); i++)
-        m_kShapeGroups.ReplaceAt(i, (NiTriBasedGeom*)kStream.GetLoadedObject());
+        m_kShapeGroups.ReplaceAt(i, (NiTriBasedGeom*)((void *)(reinterpret_cast<::NiStream *>(&(kStream))->GetLoadedObject())));
 }
 }  // namespace fnv_00a53d70

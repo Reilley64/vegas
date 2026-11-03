@@ -2,6 +2,7 @@
 // src/havok/common/scenedata/material/hkxmaterialshaderset.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/material/hkxmaterialshaderset.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FilterListAE90.h"
 #include "havok/hkxMaterialShaderSet.h"
 
 struct FnvCpu_FUN_00e4af10_CpuAllocator
@@ -23,13 +24,12 @@ struct FnvCpu_FUN_00e4af10_CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void FUN_00e4ae90();
     FnvCpu_FUN_00e4af10_CpuObject* FUN_00e4af10(unsigned int flags);
 };
 // @fnv 0x00e4af10
 FnvCpu_FUN_00e4af10_CpuObject* FnvCpu_FUN_00e4af10_CpuObject::FUN_00e4af10(unsigned int flags)
 {
-    FUN_00e4ae90();
+    reinterpret_cast<::FilterListAE90 *>(this)->FUN_00e4ae90();
     if (flags & 1)
     {
         FnvCpu_FUN_00e4af10_CpuAllocatorHolder* holder = FUN_00c85750();

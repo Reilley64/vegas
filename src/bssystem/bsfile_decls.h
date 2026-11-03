@@ -2,12 +2,13 @@
 #ifndef FNV_BSFILE_PRIVATE_DECLS_H
 #define FNV_BSFILE_PRIVATE_DECLS_H
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_011f6000.h"
 class _iobuf;
 class MemoryManager
 {
   public:
-    void Deallocate(void* pointer);
-    void* Allocate(unsigned int size);
 };
 
 class NiFile
@@ -59,7 +60,6 @@ class NiFile
     unsigned int FileRead(void*, unsigned int);
 };
 
-extern MemoryManager g_memoryManager;
 extern "C" int __cdecl _fclose_nolock(_iobuf* stream);
 extern "C" int __cdecl fopen_s(_iobuf**, const char*, const char*);
 extern "C" long __cdecl ftell(_iobuf*);
@@ -78,7 +78,6 @@ class BSFile : public NiFile
     void Close();
     void SetEndianSwap(bool doSwap);
     virtual bool Open(bool, bool);
-    void CheckIsGood();
     bool Write();
     unsigned int Read(void*, unsigned int);
     bool AttachFileStream(bool, bool);

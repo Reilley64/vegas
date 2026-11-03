@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/bilateral/rotational/hkprotationalconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/rotational/hkprotationalconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00d21000.h"
 #include "havok/hkpRotationalConstraintData.h"
 
 // Writes 3 and 0x18 into out[1] and out[0] when flag is set, otherwise writes 0 into both.
@@ -20,7 +21,6 @@ void __stdcall FUN_00e3b520(char flag, int* out)
     }
 }
 
-void* __cdecl FUN_00d21a60(void*, int, int);
 struct FUN_00e3b500_cls
 {
     void __thiscall FUN_00e3b500(int arg);
@@ -28,7 +28,7 @@ struct FUN_00e3b500_cls
 // @fnv 0x00e3b500
 void __thiscall FUN_00e3b500_cls::FUN_00e3b500(int arg)
 {
-    FUN_00d21a60((char*)this + 0x10, 0x74, arg);
+    ::FUN_00d21a60((const ::hkpConstraintAtom *)(void *)((char*)this + 0x10), 0x74, (::GenericConstraintAtomScheme *)(arg));
 }
 
 // Returns the constant value 16.

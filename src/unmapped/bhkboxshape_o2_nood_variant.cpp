@@ -6,18 +6,20 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <xmmintrin.h>
-extern __declspec(thread) int g_iThreadState2B4;
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_010c7000.h"
+#include "fnv/symbols_01272000.h"
 struct ThreadStateGuard
 {
     int m_iSaved;
     ThreadStateGuard()
     {
-        m_iSaved = g_iThreadState2B4;
-        g_iThreadState2B4 = 0x10;
+        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 0x10;
     }
     ~ThreadStateGuard()
     {
-        g_iThreadState2B4 = m_iSaved;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
     }
 };
 struct hkMemoryAllocatorX
@@ -49,7 +51,6 @@ struct SpawnSource
     int unk00, unk04, unk08, unk0C;
     float m_fVectorY, m_fVectorZ, m_fScalarPart, m_fVectorX;
 };
-extern float DAT_010c72bc;
 struct SpawnedRefObject
 {
     void* m_pVtbl;
@@ -67,7 +68,6 @@ struct SpawnedRefObject
         FUN_00c85750()->m_pHeap->ReleaseBlock(p, n);
     }
     SpawnedRefObject(const hkVector4X&, float);
-    void FUN_00c905b0();
 };
 struct SpawnOwner
 {
@@ -129,6 +129,6 @@ void SpawnOwner::FUN_00ca0190(SpawnSource* pSource)
         hkVector4X(pSource->m_fVectorY, pSource->m_fVectorZ, pSource->m_fScalarPart, pSource->m_fVectorX),
         DAT_010c72bc);
     v35(pObject);
-    pObject->FUN_00c905b0();
+    reinterpret_cast<::hkReferencedObjectC905 *>((pObject))->FUN_00c905b0();
     v47(pSource);
 }

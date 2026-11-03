@@ -5,6 +5,35 @@
 
 // src/fallout_shared/tesmodel.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/tesmodel.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00478130_class.h"
+#include "fnv/decl/FUN_00478570_holder.h"
+#include "fnv/decl/FUN_00478690_shell.h"
+#include "fnv/decl/FUN_00478e90_This.h"
+#include "fnv/decl/FUN_00487980_shell.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/FUN_004f9ef0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008b2010_shell.h"
+#include "fnv/decl/ManagedSceneHolder.h"
+#include "fnv/decl/TESIdleForm.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_00489620__FUN_00489620_shell.h"
+#include "fnv/decl/fnv_00503210__Unk.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_0040a000.h"
+#include "fnv/symbols_00489000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00af6000.h"
+#include "fnv/symbols_011ac000.h"
+#include "fnv/symbols_011c5000.h"
 struct BSFileEntry;
 struct FileFormCollection;
 struct TESFile;
@@ -31,7 +60,6 @@ struct FUN_00488ff0_shell : public FileEntryList
 };
 struct FUN_00489620_t
 {
-    void ClearTextureList();
 };
 struct FUN_008c1be0_shell
 {
@@ -43,7 +71,6 @@ struct FUN_004898c0_shell
 {
     void FUN_004898c0(int param_1);
 };
-extern bool DAT_011acdf8;
 bool FUN_004898e0();
 struct FUN_004890e0_shell
 {
@@ -113,7 +140,6 @@ struct TESLeveledList : public BaseFormComponent
     void SelectLeveledObject(unsigned short, TESForm**, unsigned short*, ContainerItemExtra**, bool, int);
     void PopulateContainerWithLeveledItems(unsigned short, unsigned short, TESContainer*, int);
     void PopulateContainerFromReference(TESObjectREFR*, TESContainer*);
-    void ClearScriptAddedLeveledObjects();
     void AddScriptAddedLeveledObject(TESForm*, unsigned short, unsigned short, TESForm*, ContainerItemExtra*);
     void SaveGame(BGSSaveFormBuffer*);
     void LoadGame(BGSLoadFormBuffer*);
@@ -173,12 +199,9 @@ struct TESModel
     virtual void TM05();
     virtual void SetModelPath(const char* path);
     void* FUN_00489010(unsigned int flags);
-    void LoadTextureSwapList(void* buffer, unsigned int size, unsigned int version);
 };
-void __cdecl _Deallocate(void*);
 struct BSStr
 {
-    bool Set(const char*, unsigned int);
 };
 struct Flt
 {
@@ -195,12 +218,10 @@ struct FUN_00489040_shell
 };
 struct FUN_004898a0_shell : public FUN_004898c0_shell
 {
-    int FUN_004898c0(int param_1);
     bool FUN_004898a0();
 };
 struct FUN_004f9ec0_shell
 {
-    void CallInnerMethod();
     void* __thiscall DestroyIfFlagged(unsigned int flags);
 };
 struct SpawnedBase
@@ -229,7 +250,6 @@ struct FUN_00488f50_cls : SpawnedBase
 
     FUN_00488f50_cls();
     virtual void unk00();
-    void ClearString();
 };
 struct FUN_00489120_cls
 {
@@ -241,18 +261,14 @@ struct FUN_00489120_cls
     virtual char* GetPath();
     void SetFarPath(char* path);
 };
-void __cdecl FUN_00406d30(char* dst, int maxLen, const char* src);
-char* __cdecl FUN_0040ab30(const char* s, int ch);
 class B479FB0Actor;
 class B479FB0Idle
 {
   public:
-    bool FUN_005ff430(B479FB0Actor* pkActor, int iArg, bool bFlag);
 };
 class B479FB0Actor
 {
   public:
-    bool HasIdleInFormArray(B479FB0Idle* pkIdle);
 };
 class B479FB0IdleList
 {
@@ -297,12 +313,10 @@ class FUN_00489070
 {
   public:
     virtual ~FUN_00489070();
-    void Clear();
 
     B9070String m_kName;
     B9070List m_kEntries;
 };
-int __cdecl B489480Stricmp(const char* pcA, const char* pcB);
 struct FUN_00489480_shell : public TESModel
 {
     virtual void VFunc04();
@@ -409,7 +423,6 @@ struct ModelRef
     virtual void unk4A();
     virtual void unk4B();
     virtual const char* GetEditorName();
-    unsigned int FUN_0084e3a0();
 };
 struct FUN_00408d60_shell
 {
@@ -421,12 +434,7 @@ struct Cls
     unsigned int* m_04;
     void LoadTextureArchiveEntries(Elem* arr, unsigned int count, ModelRef* form, const char* model);
 };
-extern char DAT_011c5574;
-extern char DAT_011c555c;
-FUN_004898a0_shell* __cdecl GetFltValue(int);
 bool __cdecl FUN_004898e0();
-unsigned int __cdecl FindFileEntryInArchives(int, FUN_00489860_shell*, FUN_00489860_shell*, int);
-void __cdecl FUN_005b5e40(const char* fmt, ...);
 
 class String;
 template <class T> struct tList
@@ -516,17 +524,12 @@ class TESForm : public BaseFormComponent
     unsigned long flags;
     unsigned long refID;
     tList<TESFile> mods;
-    unsigned int GetFormID() const;
 };
 
 struct TESFile
 {
-    unsigned int GetChunkID();
-    unsigned int GetChunkSize();
-    bool GetChunkData(void*, unsigned int);
     bool IsEndianConversionRequired();
     bool NextChunk();
-    unsigned short GetFormVersion();
 };
 struct DestructionStage
 {
@@ -538,7 +541,6 @@ struct DestructionStage
     TESForm* debris;
     unsigned int debrisCount;
     TESModel* replacementModel;
-    void EnsureB2_4fe();
 };
 struct DestructibleData
 {
@@ -551,10 +553,6 @@ class BGSDestructibleObjectForm : public BaseFormComponent
 {
   public:
     DestructibleData* pkData;
-    void EnsureCurrentEntry();
-    void FUN_00478690();
-    DestructibleData* FUN_00726070();
-    DestructionStage** AllocateSpawnedItemArray(unsigned int);
 };
 struct DestructibleHeader
 {
@@ -563,7 +561,6 @@ struct DestructibleHeader
     unsigned char flags;
     unsigned short unused;
     DestructibleHeader();
-    void FUN_00503210();
 };
 struct DestructionStageChunk
 {
@@ -575,49 +572,45 @@ struct DestructionStageChunk
     TESForm* explosion;
     TESForm* debris;
     unsigned int debrisCount;
-    void FUN_00478130();
 };
 extern "C" void* __cdecl _alloca(unsigned int);
 extern "C" void* __cdecl memset(void*, int, unsigned int);
-void __cdecl FUN_005b5e40(const char*, ...);
-void __cdecl FUN_004893e0(TESModel*, TESFile*);
 
 // @fnv 0x004781e0
 void __cdecl FUN_004781e0(BGSDestructibleObjectForm* component, TESFile* file)
 {
     if (!file || !component)
         return;
-    int chunkID = file->GetChunkID();
-    component->EnsureCurrentEntry();
-    DestructibleData* pkData = component->FUN_00726070();
+    int chunkID = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()));
+    reinterpret_cast<::ManagedSceneHolder *>((component))->EnsureCurrentEntry();
+    DestructibleData* pkData = ((::DestructibleData *)(reinterpret_cast<::Callees *>((component))->FUN_00726070()));
     switch (chunkID)
     {
     case 0x54534544: {
         DestructibleHeader header;
-        if (file->GetChunkSize() != 8)
+        if (reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C() != 8)
         {
             TESForm* form = dynamic_cast<TESForm*>(component);
-            FUN_005b5e40("MASTERFILE: Old Destruction data found on form %08X %s.  It needs to be resaved.",
-                         form->GetFormID(), form->GetName());
-            component->FUN_00478690();
+            ::FUN_005b5e40();
+            reinterpret_cast<::FUN_00478690_shell *>((component))->FUN_00478690();
             return;
         }
-        file->GetChunkData(&header, 0);
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&header), 0);
         if (file->IsEndianConversionRequired())
-            header.FUN_00503210();
+            reinterpret_cast<::fnv_00503210::Unk *>(&(header))->FUN_00503210();
         pkData->health = header.health;
         pkData->stageCount = header.stageCount;
         pkData->flags = header.flags;
         if (pkData->stageCount)
-            pkData->stages = component->AllocateSpawnedItemArray(pkData->stageCount);
+            pkData->stages = ((::DestructionStage **)(reinterpret_cast<::FUN_00478e90_This *>((component))->AllocateSpawnedItemArray(pkData->stageCount)));
         break;
     }
     case 0x44545344: {
         DestructionStageChunk stage;
         memset(&stage, 0, sizeof(stage));
-        file->GetChunkData(&stage, sizeof(stage));
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&stage), sizeof(stage));
         if (file->IsEndianConversionRequired())
-            stage.FUN_00478130();
+            reinterpret_cast<::FUN_00478130_class *>(&(stage))->FUN_00478130();
         unsigned char index = stage.index;
         if (index < pkData->stageCount)
         {
@@ -628,27 +621,27 @@ void __cdecl FUN_004781e0(BGSDestructibleObjectForm* component, TESFile* file)
             pkData->stages[index]->explosion = stage.explosion;
             pkData->stages[index]->debris = stage.debris;
             pkData->stages[index]->debrisCount = stage.debrisCount;
-            while ((chunkID = file->GetChunkID()) != 0)
+            while ((chunkID = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()))) != 0)
             {
                 switch (chunkID)
                 {
                 case 0x4c444d44: {
-                    pkData->stages[index]->EnsureB2_4fe();
-                    char* path = (char*)_alloca(file->GetChunkSize());
-                    file->GetChunkData(path, 0);
+                    reinterpret_cast<::FUN_00478570_holder *>((pkData->stages[index]))->EnsureB2_4fe();
+                    char* path = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+                    reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(path), 0);
                     pkData->stages[index]->replacementModel->SetModelPath(path);
                     break;
                 }
                 case 0x54444d44:
-                    pkData->stages[index]->EnsureB2_4fe();
+                    reinterpret_cast<::FUN_00478570_holder *>((pkData->stages[index]))->EnsureB2_4fe();
                     FUN_004893e0(pkData->stages[index]->replacementModel, file);
                     break;
                 case 0x53444d44: {
-                    pkData->stages[index]->EnsureB2_4fe();
-                    unsigned int size = file->GetChunkSize();
+                    reinterpret_cast<::FUN_00478570_holder *>((pkData->stages[index]))->EnsureB2_4fe();
+                    unsigned int size = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
                     void* pBuffer = _alloca(size);
-                    file->GetChunkData(pBuffer, size);
-                    pkData->stages[index]->replacementModel->LoadTextureSwapList(pBuffer, size, file->GetFormVersion());
+                    reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(pBuffer), size);
+                    reinterpret_cast<::FUN_0048a7b0_shell *>((pkData->stages[index]->replacementModel))->LoadTextureSwapList(pBuffer, size, reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((file))->FUN_00403570());
                     break;
                 }
                 case 0x46545344:

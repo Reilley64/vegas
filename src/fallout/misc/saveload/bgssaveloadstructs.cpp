@@ -2,6 +2,49 @@
 // src/fallout/misc/saveload/bgssaveloadstructs.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/misc/saveload/bgssaveloadstructs.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/BGSLoadFormBuffer.h"
+#include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/C6b7f20_Map.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_00470440.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_00620b80_shell.h"
+#include "fnv/decl/FUN_00844700_Class.h"
+#include "fnv/decl/FUN_0084b450_Class.h"
+#include "fnv/decl/FUN_0084e320_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00851110_shell.h"
+#include "fnv/decl/FUN_00854b80_class.h"
+#include "fnv/decl/FUN_00854c10_Class.h"
+#include "fnv/decl/FUN_00865b10_shell.h"
+#include "fnv/decl/FUN_008663e0_shell.h"
+#include "fnv/decl/FUN_00866450_shell.h"
+#include "fnv/decl/MagicCaster_shell.h"
+#include "fnv/decl/TESPackage.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_004280f0__FUN_004280f0_shell.h"
+#include "fnv/decl/fnv_0050f9c0__FUN_0050f9c0_shell.h"
+#include "fnv/decl/fnv_00853130__NiTMapBase.h"
+#include "fnv/decl/fnv_00865ad0__BGSSaveFormBuffer.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00461000.h"
+#include "fnv/symbols_00482000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_0083f000.h"
+#include "fnv/symbols_00845000.h"
+#include "fnv/symbols_0084b000.h"
+#include "fnv/symbols_00853000.h"
+#include "fnv/symbols_01187000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
 struct FUN_00847db0_shell
 {
     int m_00;
@@ -163,10 +206,8 @@ struct FormIDConverter
 };
 struct ArrSI
 {
-    unsigned int GetFlags();
 };
 struct BGSSaveLoadGame;
-extern BGSSaveLoadGame* g_BGSSaveLoadGame;
 struct FUN_00853570_shell
 {
     void WriteFormIDBytes(unsigned int numericID);
@@ -174,7 +215,7 @@ struct FUN_00853570_shell
 // @fnv 0x00853570
 void FUN_00853570_shell::WriteFormIDBytes(unsigned int numericID)
 {
-    unsigned int iElementIndex = reinterpret_cast<FormIDConverter*>(reinterpret_cast<ArrSI*>(g_BGSSaveLoadGame)->GetFlags())
+    unsigned int iElementIndex = reinterpret_cast<FormIDConverter*>(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(g_BGSSaveLoadGame)))->GetName())))
                               ->RegisterFormID(numericID);
     unsigned int ifileIndex = iElementIndex >> 24;
     if (ifileIndex == 0xFF)
@@ -205,15 +246,13 @@ struct FUN_00853670_shell
 };
 extern unsigned char DAT_011de360[];
 extern unsigned int DAT_011de3e0;
-char const* __cdecl GetStringForByte(unsigned char);
-void __cdecl _fnv_call_845cc0(char const*, ...);
 // @fnv 0x00853670
 void __thiscall FUN_00853670_shell::FUN_00853670(int formType)
 {
     unsigned char type = DAT_011de360[formType];
     if (type >= DAT_011de3e0)
     {
-        _fnv_call_845cc0("Unknown form type %i %s in BGSSaveLoadFormInfo::SetFormType()", formType,
+        ::FUN_00845cc0("Unknown form type %i %s in BGSSaveLoadFormInfo::SetFormType()", formType,
                          GetStringForByte((unsigned char)formType));
     }
     m0 = (m0 & ~0x3F) | type;
@@ -225,16 +264,6 @@ struct FUN_00853880_shell
     void __thiscall FUN_008538b0();
     void* __thiscall Destroy(unsigned int flags);
 };
-// Calls FUN_008538b0, frees this with operator delete when flags has bit 0 set, and returns this.
-// @fnv 0x00853880
-void* __thiscall FUN_00853880_shell::Destroy(unsigned int flags)
-{
-    FUN_008538b0();
-    if (flags & 1)
-        operator delete(this);
-    return this;
-}
-
 struct Dummy008539e0
 {
     virtual int Func(int);
@@ -365,7 +394,6 @@ struct TESForm
 
 struct MobileObject : TESForm
 {
-    char const* __thiscall GetFullName();
 };
 
 struct TESObjectREFR : MobileObject
@@ -462,7 +490,6 @@ struct TESTopicInfo : TESForm
 
 struct TESFullName
 {
-    static char const* __cdecl GetFullName(TESForm*);
 };
 
 struct TaskQueueInterface
@@ -470,7 +497,6 @@ struct TaskQueueInterface
     static void __cdecl CopyStringToBuffer(char*, unsigned int, char const*);
 };
 
-unsigned int __cdecl _BSStringLength(char const*);
 
 struct FormNameEntry
 {
@@ -501,19 +527,19 @@ void __thiscall FormNameEntry::BuildFormName(char* apName, unsigned int aiNameSi
 
     if (pRefr)
     {
-        TaskQueueInterface::CopyStringToBuffer(apName, aiNameSize, pRefr->GetFullName());
+        TaskQueueInterface::CopyStringToBuffer(apName, aiNameSize, reinterpret_cast<::FUN_0055d520_shell *>((pRefr))->FUN_0055d520());
     }
     else
     {
-        TaskQueueInterface::CopyStringToBuffer(apName, aiNameSize, TESFullName::GetFullName(this->pForm));
+        TaskQueueInterface::CopyStringToBuffer(apName, aiNameSize, ::FUN_00482720(this->pForm));
     }
 
-    if (_BSStringLength(apName) == 0)
+    if (::FUN_0044a670(apName) == 0)
     {
         TaskQueueInterface::CopyStringToBuffer(apName, aiNameSize, this->pForm->GetName());
     }
 
-    if (_BSStringLength(apName) == 0)
+    if (::FUN_0044a670(apName) == 0)
     {
         switch (this->pForm->FNV_GetFormType())
         {
@@ -533,7 +559,6 @@ struct AEList
 {
     void* m_auiShapeKeys[2];
 
-    void Insert(void*, int(__cdecl*)(void*, void*));
 };
 
 struct SL : public AEList
@@ -543,12 +568,10 @@ struct SL : public AEList
 
 struct DummyPointerMap
 {
-    bool GetAt(unsigned int, unsigned int&);
 };
 
 struct SetAtHelper
 {
-    void SetAt(unsigned int, unsigned int);
 };
 
 struct FUN_00854af0
@@ -581,13 +604,13 @@ void __thiscall FUN_008549b0_shell::FUN_008549b0(unsigned int p0, unsigned int p
     {
         unsigned int list = 0;
 
-        if (!reinterpret_cast<DummyPointerMap*>(this)->GetAt(uiKey, list))
+        if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((reinterpret_cast<DummyPointerMap*>(this)))->FUN_00853130(uiKey, (::fnv_00853130::CombatThreatRecord *&)(list)))
         {
             list = reinterpret_cast<unsigned int>(new SL());
-            reinterpret_cast<SetAtHelper*>(this)->SetAt(uiKey, list);
+            reinterpret_cast<::FUN_00844700_Class *>((reinterpret_cast<SetAtHelper*>(this)))->FUN_00844700(uiKey, list);
         }
 
-        reinterpret_cast<AEList*>(list)->Insert(form, reinterpret_cast<int(__cdecl*)(void*, void*)>(FUN_00854960));
+        reinterpret_cast<::FUN_00470440 *>((reinterpret_cast<AEList*>(list)))->FUN_007a7eb0((::BGSPerkEntry *)(form), (int (*)(BGSPerkEntry *, BGSPerkEntry *))(int (*)(void *, void *))(reinterpret_cast<int(__cdecl*)(void*, void*)>(FUN_00854960)));
     }
 }
 
@@ -631,8 +654,6 @@ struct StringListNode
     char* item;
     StringListNode* next;
     ~StringListNode();
-    char** FUN_006815c0();
-    StringListNode* FUN_00726070();
 };
 struct MapBase
 {
@@ -641,8 +662,6 @@ struct MapBase
     int unk08;
     int unk0c;
     ~MapBase();
-    void* FUN_004b9ba0();
-    void FUN_006b7f20(void*&, unsigned int&, StringListNode*&);
 };
 struct FUN_008538b0 : MapBase
 {
@@ -650,28 +669,37 @@ struct FUN_008538b0 : MapBase
     ResourceView* resource;
     ~FUN_008538b0();
 };
+// Calls FUN_008538b0, frees this with operator delete when flags has bit 0 set, and returns this.
+// @fnv 0x00853880
+void* __thiscall FUN_00853880_shell::Destroy(unsigned int flags)
+{
+    reinterpret_cast<::FUN_008538b0 *>(this)->FUN_008538b0::~FUN_008538b0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // Deletes resource, then frees every stored pointer in the map's buckets and in the owned list, walking each linked list.
 // @fnv 0x008538b0
 FUN_008538b0::~FUN_008538b0()
 {
     delete resource;
-    void* position = FUN_004b9ba0();
+    void* position = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(this)->GetFirstPos();
     while (position)
     {
         unsigned int key = 0;
         StringListNode* list = 0;
-        FUN_006b7f20(position, key, list);
+        reinterpret_cast<::C6b7f20_Map *>(this)->FUN_006b7f20((::C6b7f20_Node **)&(position), (unsigned int *)&(key), (void **)&(list));
         while (list)
         {
-            delete *list->FUN_006815c0();
-            list = list->FUN_00726070();
+            delete *((char **)(new ((void *)(list)) ::Vec3()));
+            list = ((::StringListNode *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
         }
     }
     StringListNode* list = &owned;
     while (list)
     {
-        delete *list->FUN_006815c0();
-        list = list->FUN_00726070();
+        delete *((char **)(new ((void *)(list)) ::Vec3()));
+        list = ((::StringListNode *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
     }
 }
 
@@ -705,23 +733,17 @@ class B4B10Speaker
     virtual void Unk_14();
     virtual void OnResponseReady(B4B10Response* pkResponse);
 
-    void* GetVoiceType();
     unsigned int GetFormType();
 };
 
 class B4B10DialogueManager
 {
   public:
-    int GetCurrentID();
 };
-extern B4B10DialogueManager* g_pkB4B10DialogueManager;
 
 class B4B10Response
 {
   public:
-    void Reset();
-    void Init(void* pvVoiceType, int iTopic, unsigned int uiFormType, int m_uiSoundID);
-    void SetSpeaker(B4B10Speaker* pkSpeaker);
 };
 
 void __cdecl B4B10SetupResponse(B4B10Response* pkResponse, B4B10Speaker* pkSpeaker, int iTopic);
@@ -736,10 +758,10 @@ class B4B10Dialogue
 // @fnv 0x00854b10
 void B4B10Dialogue::SetupResponse(B4B10Speaker* pkSpeaker, int iTopic, B4B10Response* pkResponse)
 {
-    pkResponse->Reset();
-    pkResponse->Init(pkSpeaker->GetVoiceType(), iTopic, pkSpeaker->GetFormType(),
-                     g_pkB4B10DialogueManager->GetCurrentID());
-    pkResponse->SetSpeaker(pkSpeaker);
+    reinterpret_cast<::FUN_00847db0_shell *>((pkResponse))->FUN_00847db0();
+    reinterpret_cast<::fnv_00865ad0::BGSSaveFormBuffer *>((pkResponse))->InitFormEntry((unsigned int)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((pkSpeaker))->FUN_0084e3a0()))), iTopic, pkSpeaker->GetFormType(),
+                     reinterpret_cast<::FUN_00851110_shell *>(((*reinterpret_cast<::B4B10DialogueManager * *>(&::DAT_011de134))))->GetConstant27());
+    reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((pkResponse))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(pkSpeaker));
     B4B10SetupResponse(pkResponse, pkSpeaker, iTopic);
     pkSpeaker->OnResponseReady(pkResponse);
 }
@@ -757,20 +779,10 @@ struct SavedBuffer
     unsigned int flags;
     SavedBuffer();
     ~SavedBuffer();
-    void FUN_00847db0();
-    unsigned char GetVersion();
-    unsigned int FUN_0044edb0();
-    unsigned int GetValuePlusNine();
-    int GetDifference();
 };
 struct SavedDataView
 {
     void* data;
-    void* FUN_00559450();
-    unsigned char FUN_0084b450();
-    unsigned int GetAdjustedValue();
-    unsigned int FUN_008663e0();
-    int FUN_00849220();
 };
 struct SavedEntry
 {
@@ -779,67 +791,57 @@ struct SavedEntry
 };
 struct SavedEntryMap
 {
-    void* FUN_004b9ba0();
-    void FUN_006b7f20(void*&, unsigned int&, SavedEntry*&);
 };
 struct BGSSaveLoadGame
 {
-    SavedEntryMap* FUN_00559450();
 };
-TESForm* __cdecl FUN_004839c0(unsigned int);
-bool __cdecl FUN_0084bcd0(unsigned int, SavedBuffer*);
 struct SavedStats
 {
     void LoadStats();
-    void FUN_008549b0(unsigned int, TESForm*, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int,
-                      unsigned char);
-    void SetupResponse(TESForm*, unsigned int, SavedBuffer*);
-    void FUN_00854c10(int, int, unsigned int);
 };
 // Iterates saved entries, applying each to stats via FUN_008549b0, then processes indices 0-11 and 1000 through FUN_0084bcd0 and FUN_00854c10.
 // @fnv 0x00853b90
 void SavedStats::LoadStats()
 {
     SavedBuffer map;
-    SavedEntryMap* buffer = g_BGSSaveLoadGame->FUN_00559450();
-    void* position = buffer->FUN_004b9ba0();
+    SavedEntryMap* buffer = ((::SavedEntryMap *)(::FUN_00559450((int *)(g_BGSSaveLoadGame))));
+    void* position = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((buffer))->GetFirstPos();
     while (position)
     {
         unsigned int entryId = 0;
         SavedEntry* pEntry = 0;
-        buffer->FUN_006b7f20(position, entryId, pEntry);
-        if (pEntry->buffer.FUN_00559450())
+        reinterpret_cast<::C6b7f20_Map *>((buffer))->FUN_006b7f20((::C6b7f20_Node **)&(position), (unsigned int *)&(entryId), (void **)&(pEntry));
+        if (((void *)(::FUN_00559450((int *)&(pEntry->buffer)))))
         {
-            FUN_008549b0(entryId, 0, pEntry->buffer.FUN_00849220(), pEntry->topic, pEntry->buffer.FUN_008663e0(),
-                         pEntry->buffer.GetAdjustedValue(), 0, pEntry->buffer.FUN_0084b450());
+            reinterpret_cast<::FUN_008549b0_shell *>(this)->FUN_008549b0(entryId, (unsigned int)(0), reinterpret_cast<::FUN_00849220_shell *>(&(pEntry->buffer))->FUN_00849220(), pEntry->topic, reinterpret_cast<::FUN_008663e0_shell *>(&(pEntry->buffer))->FUN_008663e0(),
+                         reinterpret_cast<::FUN_00866450_shell *>(&(pEntry->buffer))->GetAdjustedValue(), 0, reinterpret_cast<::FUN_0084b450_Class *>(&(pEntry->buffer))->FUN_0084b450());
         }
         else
         {
-            TESForm* form = FUN_004839c0(entryId);
+            TESForm* form = ::FUN_004839c0(entryId);
             if (form)
             {
-                SetupResponse(form, pEntry->topic, &map);
-                FUN_008549b0(entryId, form, form->FNV_GetFormType(), pEntry->topic, map.GetDifference(),
-                             map.GetValuePlusNine(), map.FUN_0044edb0(), map.GetVersion());
+                reinterpret_cast<::B4B10Dialogue *>(this)->SetupResponse((::B4B10Speaker *)(form), pEntry->topic, (::B4B10Response *)(::SavedBuffer *)(&map));
+                reinterpret_cast<::FUN_008549b0_shell *>(this)->FUN_008549b0(entryId, (unsigned int)(form), form->FNV_GetFormType(), pEntry->topic, reinterpret_cast<::FUN_00853dc0_shell *>(&(map))->GetDifference(),
+                             reinterpret_cast<::FUN_00865b10_shell *>(&(map))->GetValuePlusNine(), ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>(&(map))->FUN_0044edb0())), reinterpret_cast<::BGSLoadFormBuffer *>(&(map))->GetVersion());
             }
         }
     }
     for (unsigned int index = 0; index < 12; ++index)
     {
-        map.FUN_00847db0();
-        if (FUN_0084bcd0(index, &map))
-            FUN_00854c10(FUN_00853de0(index), map.GetDifference(), map.FUN_0044edb0());
+        reinterpret_cast<::FUN_00847db0_shell *>(&(map))->FUN_00847db0();
+        if (::FUN_0084bcd0(index, (::BGSSaveFormBuffer *)(::SavedBuffer *)(&map)))
+            reinterpret_cast<::FUN_00854c10_Class *>(this)->FUN_00854c10(FUN_00853de0(index), reinterpret_cast<::FUN_00853dc0_shell *>(&(map))->GetDifference(), ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>(&(map))->FUN_0044edb0())));
     }
     for (unsigned int index = 1000; index < 1001; ++index)
     {
-        map.FUN_00847db0();
-        if (FUN_0084bcd0(index, &map))
-            FUN_00854c10(FUN_00853de0(index), map.GetDifference(), map.FUN_0044edb0());
+        reinterpret_cast<::FUN_00847db0_shell *>(&(map))->FUN_00847db0();
+        if (::FUN_0084bcd0(index, (::BGSSaveFormBuffer *)(::SavedBuffer *)(&map)))
+            reinterpret_cast<::FUN_00854c10_Class *>(this)->FUN_00854c10(FUN_00853de0(index), reinterpret_cast<::FUN_00853dc0_shell *>(&(map))->GetDifference(), ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>(&(map))->FUN_0044edb0())));
     }
 }
 
 #include <windows.h>
-int GameStrcpy(char* dst, unsigned int size, const char* src);
 int GameStrcat(char* dst, unsigned int size, const char* src);
 int FUN_00ecbf05(const char* path, int mode);
 
@@ -945,10 +947,7 @@ struct TextDumpWriter
     int unk18;
     TextDumpWriter();
     ~TextDumpWriter();
-    void SetFile(BSFile* file);
-    void WriteHeader();
     void WriteBody();
-    void Close();
 };
 
 // Creates a .txt file from baseName, writes its header and body, then calls ShellExecuteA with the open verb.
@@ -957,31 +956,27 @@ void DumpTextAndOpen(const char* baseName)
 {
     TextDumpWriter writer;
     char path[260];
-    GameStrcpy(path, 260, baseName);
+    ::TaskQueueInterface::CopyStringToBuffer(path, 260, baseName);
     GameStrcat(path, 260, ".txt");
     if (FUN_00ecbf05(path, 0) != -1)
         DeleteFileA(path);
-    writer.SetFile(new BSFile(path, 1, 0x4000, false));
-    writer.WriteHeader();
+    reinterpret_cast<::TESPackage *>(&(writer))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(new BSFile(path, 1, 0x4000, false)));
+    reinterpret_cast<::SavedStats *>(&(writer))->LoadStats();
     writer.WriteBody();
-    writer.Close();
+    reinterpret_cast<::FUN_008539e0_holder *>(&(writer))->FUN_008539e0();
     ShellExecuteA(0, "open", path, 0, 0, 5);
 }
 
 namespace fnv_00853e10 {
 void* _fnv_zlib_memset(void*, int, unsigned int);
 
-int xSprintf(char*, unsigned int, const char*, ...);
-int xStrcpy(char*, unsigned int, const char*);
 int xStrcat(char*, unsigned int, const char*);
 int xMbsnicmp(const char*, const char*, unsigned int);
-const char* xFlagName(unsigned int, unsigned int, int);
 struct xTypeName
 {
     const char* m_name;
     int m_kPointA, m_kPointB;
 };
-extern xTypeName xg_TypeNames[];
 struct xSizeArg
 {
     xSizeArg(int);
@@ -992,20 +987,15 @@ struct xSizer
 {
     xSizer();
     ~xSizer();
-    int GetSize();
     int m_00, m_04, m_08, m_0c, m_10, m_14, m_18, m_1c, m_20;
 };
 struct xStats
 {
     xStats();
-    void Add(unsigned int, unsigned int, unsigned int);
-    int GetTotal();
-    float GetAverage();
     int m_uiItemCount, m_data, m_overhead, m_pDebugAllocator, m_kMinimumCorner, m_kMaximumCorner;
 };
 struct xLevelHolder
 {
-    int GetLevel();
 };
 
 struct xForm
@@ -1074,12 +1064,10 @@ struct xForm
     virtual void v61();
     virtual void v62();
     virtual bool HasLevel();
-    xLevelHolder* GetLevelHolder();
 };
 
 struct xChangeFlags
 {
-    bool Test(unsigned int) const;
     operator unsigned int();
     unsigned int m_v;
 };
@@ -1090,40 +1078,27 @@ struct xChange
     unsigned int m_8, m_iThirdValue, m_10;
     xForm* m_form;
     unsigned char m_ver;
-    void Describe(char*, unsigned int);
-    int GetSize();
 };
 struct xNodeL
 {
-    void** Head();
-    xNodeL* Next();
     int m_kPointA, m_kPointB;
 };
 struct xMisc
 {
     char m_name[0x104];
     unsigned int m_104, m_108;
-    int GetCount();
 };
 struct xHistory
 {
-    const char* GetAt(unsigned int);
 };
 struct xSaveLoad
 {
-    xHistory* GetHistory();
 };
-extern xSaveLoad* xg_SaveLoad;
-int __fastcall xHistoryCount(xHistory*);
 struct SaveLoadStatsDump
 {
     int m_00, m_04, m_08, m_0c;
     xNodeL m_10;
     void FUN_00853e10();
-    void Write(const char*);
-    void* GetFirstPos();
-    void GetNext(void*&, unsigned int&, xNodeL*&);
-    void Measure(xForm*, xSizeArg, xSizer*);
 };
 
 // Writes a formatted dump of save/load form stats, misc stats, and save game history via Write.
@@ -1138,10 +1113,10 @@ void SaveLoadStatsDump::FUN_00853e10()
     xSizer qpqRa;
     xStats qdqWL;
     char qHXYKT[0x3e8];
-    xSprintf(qHXYKT, 0x3e8, "  %-8s %-5s %-8s %3s %-40s  %s\r\n\r\n", "Form ID", "Size", "Flags", "Ver", "Name",
+    ::FUN_00406d00(qHXYKT, 0x3e8, "  %-8s %-5s %-8s %3s %-40s  %s\r\n\r\n", "Form ID", "Size", "Flags", "Ver", "Name",
              "Changes");
-    Write(qHXYKT);
-    qfTOqo = GetFirstPos();
+    reinterpret_cast<::FUN_00854b80_class *>(this)->FUN_00854b80(qHXYKT);
+    qfTOqo = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(this)->GetFirstPos();
     while (qfTOqo)
     {
         unsigned int qxQHW;
@@ -1149,12 +1124,12 @@ void SaveLoadStatsDump::FUN_00853e10()
         xStats qAhbO;
         qxQHW = 0;
         qArxcFu = 0;
-        GetNext(qfTOqo, qxQHW, qArxcFu);
-        xSprintf(qHXYKT, 0x3e8, "%ss:\r\n\r\n", xg_TypeNames[qxQHW].m_name);
-        Write(qHXYKT);
+        reinterpret_cast<::C6b7f20_Map *>(this)->FUN_006b7f20((::C6b7f20_Node **)&(qfTOqo), (unsigned int *)&(qxQHW), (void **)&(qArxcFu));
+        ::FUN_00406d00(qHXYKT, 0x3e8, "%ss:\r\n\r\n", (*reinterpret_cast<fnv_00853e10::xTypeName (*)[]>((void *)&::FNV_FormTypeNames))[qxQHW].m_name);
+        reinterpret_cast<::FUN_00854b80_class *>(this)->FUN_00854b80(qHXYKT);
         while (qArxcFu)
         {
-            xChange* qJDuOZ = (xChange*)*qArxcFu->Head();
+            xChange* qJDuOZ = (xChange*)*((void **)(new ((void *)(qArxcFu)) ::Vec3()));
             if (qJDuOZ)
             {
                 char qpia[0x3e8];
@@ -1169,11 +1144,11 @@ void SaveLoadStatsDump::FUN_00853e10()
                 qkJsUdT = 0;
                 if (qJDuOZ->m_form)
                 {
-                    Measure(qJDuOZ->m_form, xSizeArg(0), &qpqRa);
-                    qkJsUdT = qpqRa.GetSize();
+                    reinterpret_cast<::B4B10Dialogue *>(this)->SetupResponse((::B4B10Speaker *)(qJDuOZ->m_form), (*(int *)&(const ::fnv_00853e10::xSizeArg &)(xSizeArg(0))), (::B4B10Response *)(::fnv_00853e10::xSizer *)(&qpqRa));
+                    qkJsUdT = reinterpret_cast<::FUN_0084e3a0_Class *>(&(qpqRa))->FUN_0084e3a0();
                     if (qkJsUdT)
                     {
-                        xStrcpy(qQGWBE, 0x3e8, "Base");
+                        ::TaskQueueInterface::CopyStringToBuffer(qQGWBE, 0x3e8, "Base");
                         if (qJDuOZ->m_form->IsActorType())
                         {
                             qZWI = qJDuOZ->m_form;
@@ -1181,103 +1156,103 @@ void SaveLoadStatsDump::FUN_00853e10()
                             {
                                 xForm* qIpA = qZWI;
                                 int qXMUYT = -1;
-                                if (qIpA->GetLevelHolder())
-                                    qXMUYT = qIpA->GetLevelHolder()->GetLevel();
+                                if (((::fnv_00853e10::xLevelHolder *)(reinterpret_cast<::BSShaderNoLightingProperty *>((qIpA))->GetBaseTexture())))
+                                    qXMUYT = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::fnv_00853e10::xLevelHolder *)(reinterpret_cast<::BSShaderNoLightingProperty *>((qIpA))->GetBaseTexture()))))->FUN_0045cd60()));
                                 switch (qXMUYT)
                                 {
                                 case -1:
-                                    xStrcpy(qQGWBE, 0x3e8, "None");
+                                    ::TaskQueueInterface::CopyStringToBuffer(qQGWBE, 0x3e8, "None");
                                     break;
                                 case 3:
-                                    xStrcpy(qQGWBE, 0x3e8, "Low");
+                                    ::TaskQueueInterface::CopyStringToBuffer(qQGWBE, 0x3e8, "Low");
                                     break;
                                 case 2:
-                                    xStrcpy(qQGWBE, 0x3e8, "Mid Low");
+                                    ::TaskQueueInterface::CopyStringToBuffer(qQGWBE, 0x3e8, "Mid Low");
                                     break;
                                 case 1:
-                                    xStrcpy(qQGWBE, 0x3e8, "Mid High");
+                                    ::TaskQueueInterface::CopyStringToBuffer(qQGWBE, 0x3e8, "Mid High");
                                     break;
                                 case 0:
-                                    xStrcpy(qQGWBE, 0x3e8, "High");
+                                    ::TaskQueueInterface::CopyStringToBuffer(qQGWBE, 0x3e8, "High");
                                     break;
                                 }
                             }
                         }
-                        xSprintf(qdbVTq, 0x3e8, "%s(%i)", qQGWBE, qkJsUdT);
-                        xSprintf(qIrY, 0x3e8, "%-25s", qdbVTq);
+                        ::FUN_00406d00(qdbVTq, 0x3e8, "%s(%i)", qQGWBE, qkJsUdT);
+                        ::FUN_00406d00(qIrY, 0x3e8, "%-25s", qdbVTq);
                         xStrcat(qpia, 0x3e8, qIrY);
                     }
                 }
                 for (unsigned int qbfQdhM = 0; qbfQdhM < 0x20; qbfQdhM++)
                 {
                     unsigned int qAXSCg = 1 << qbfQdhM;
-                    if (qJDuOZ->m_flags.Test(qAXSCg))
+                    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(qJDuOZ->m_flags))->FUN_004280f0(qAXSCg))
                     {
-                        xStrcpy(qQGWBE, 0x3e8, xFlagName(qAXSCg, qxQHW, 1));
+                        ::TaskQueueInterface::CopyStringToBuffer(qQGWBE, 0x3e8, ::GetChangeFlagName(qAXSCg, qxQHW, 1));
                         if (qJDuOZ->m_form)
                         {
-                            Measure(qJDuOZ->m_form, xSizeArg(qAXSCg), &qpqRa);
-                            xSprintf(qdbVTq, 0x3e8, "%s(%i)", qQGWBE, qpqRa.GetSize() - qkJsUdT);
+                            reinterpret_cast<::B4B10Dialogue *>(this)->SetupResponse((::B4B10Speaker *)(qJDuOZ->m_form), (*(int *)&(const ::fnv_00853e10::xSizeArg &)(xSizeArg(qAXSCg))), (::B4B10Response *)(::fnv_00853e10::xSizer *)(&qpqRa));
+                            ::FUN_00406d00(qdbVTq, 0x3e8, "%s(%i)", qQGWBE, reinterpret_cast<::FUN_0084e3a0_Class *>(&(qpqRa))->FUN_0084e3a0() - qkJsUdT);
                         }
                         else
-                            xSprintf(qdbVTq, 0x3e8, "%s", qQGWBE);
-                        xSprintf(qIrY, 0x3e8, "%-25s", qdbVTq);
+                            ::FUN_00406d00(qdbVTq, 0x3e8, "%s", qQGWBE);
+                        ::FUN_00406d00(qIrY, 0x3e8, "%-25s", qdbVTq);
                         xStrcat(qpia, 0x3e8, qIrY);
                     }
                 }
-                xStrcpy(qQGWBE, 0x3e8, "");
-                qJDuOZ->Describe(qQGWBE, 0x3e8);
-                xSprintf(qHXYKT, 0x3e8, "  %08X %5i %08X %3i %-40s- %s\r\n", qJDuOZ->m_formID, qJDuOZ->GetSize(),
+                ::TaskQueueInterface::CopyStringToBuffer(qQGWBE, 0x3e8, "");
+                reinterpret_cast<::FormNameEntry *>((qJDuOZ))->BuildFormName(qQGWBE, 0x3e8);
+                ::FUN_00406d00(qHXYKT, 0x3e8, "  %08X %5i %08X %3i %-40s- %s\r\n", qJDuOZ->m_formID, reinterpret_cast<::FUN_008547f0_shell *>((qJDuOZ))->GetSum(),
                          (unsigned int)qJDuOZ->m_flags, qJDuOZ->m_ver, qQGWBE, qpia);
-                Write(qHXYKT);
+                reinterpret_cast<::FUN_00854b80_class *>(this)->FUN_00854b80(qHXYKT);
             }
-            qAhbO.Add(qJDuOZ->m_8, qJDuOZ->m_iThirdValue, qJDuOZ->m_10);
-            qdqWL.Add(qJDuOZ->m_8, qJDuOZ->m_iThirdValue, qJDuOZ->m_10);
-            qArxcFu = qArxcFu->Next();
+            reinterpret_cast<::FUN_00854880_shell *>(&(qAhbO))->AccumulateStats(qJDuOZ->m_8, qJDuOZ->m_iThirdValue, qJDuOZ->m_10);
+            reinterpret_cast<::FUN_00854880_shell *>(&(qdqWL))->AccumulateStats(qJDuOZ->m_8, qJDuOZ->m_iThirdValue, qJDuOZ->m_10);
+            qArxcFu = ((::fnv_00853e10::xNodeL *)(reinterpret_cast<::Callees *>((qArxcFu))->FUN_00726070()));
         }
-        xSprintf(
+        ::FUN_00406d00(
             qHXYKT, 0x3e8,
             "\r\nTotal %s Count: %i  Total %s Size: %i - Data: %i Overhead: %i Debug: %i Min %s Size: %i  Max %s Size: %i  Average %s Size: %.2f\r\n\r\n",
-            xg_TypeNames[qxQHW].m_name, qAhbO.m_uiItemCount, xg_TypeNames[qxQHW].m_name, qAhbO.GetTotal(), qAhbO.m_data,
-            qAhbO.m_overhead, qAhbO.m_pDebugAllocator, xg_TypeNames[qxQHW].m_name, qAhbO.m_kMinimumCorner,
-            xg_TypeNames[qxQHW].m_name, qAhbO.m_kMaximumCorner, xg_TypeNames[qxQHW].m_name, qAhbO.GetAverage());
-        Write(qHXYKT);
+            (*reinterpret_cast<fnv_00853e10::xTypeName (*)[]>((void *)&::FNV_FormTypeNames))[qxQHW].m_name, qAhbO.m_uiItemCount, (*reinterpret_cast<fnv_00853e10::xTypeName (*)[]>((void *)&::FNV_FormTypeNames))[qxQHW].m_name, reinterpret_cast<::FUN_00854900_shell *>(&(qAhbO))->FUN_00854900(), qAhbO.m_data,
+            qAhbO.m_overhead, qAhbO.m_pDebugAllocator, (*reinterpret_cast<fnv_00853e10::xTypeName (*)[]>((void *)&::FNV_FormTypeNames))[qxQHW].m_name, qAhbO.m_kMinimumCorner,
+            (*reinterpret_cast<fnv_00853e10::xTypeName (*)[]>((void *)&::FNV_FormTypeNames))[qxQHW].m_name, qAhbO.m_kMaximumCorner, (*reinterpret_cast<fnv_00853e10::xTypeName (*)[]>((void *)&::FNV_FormTypeNames))[qxQHW].m_name, reinterpret_cast<::FUN_00854920_shell *>(&(qAhbO))->GetRatio());
+        reinterpret_cast<::FUN_00854b80_class *>(this)->FUN_00854b80(qHXYKT);
     }
-    xSprintf(
+    ::FUN_00406d00(
         qHXYKT, 0x3e8,
         "\r\nTotal Form Count: %i  Total Form Size: %i - Data: %i Overhead: %i Debug: %i  Min Form Size: %i  Max Form Size: %i  Average Form Size: %.2f\r\n\r\n",
-        qdqWL.m_uiItemCount, qdqWL.GetTotal(), qdqWL.m_data, qdqWL.m_overhead, qdqWL.m_pDebugAllocator,
-        qdqWL.m_kMinimumCorner, qdqWL.m_kMaximumCorner, qdqWL.GetAverage());
-    Write(qHXYKT);
+        qdqWL.m_uiItemCount, reinterpret_cast<::FUN_00854900_shell *>(&(qdqWL))->FUN_00854900(), qdqWL.m_data, qdqWL.m_overhead, qdqWL.m_pDebugAllocator,
+        qdqWL.m_kMinimumCorner, qdqWL.m_kMaximumCorner, reinterpret_cast<::FUN_00854920_shell *>(&(qdqWL))->GetRatio());
+    reinterpret_cast<::FUN_00854b80_class *>(this)->FUN_00854b80(qHXYKT);
     xStats qrEZrs;
-    Write("\r\nMisc Stats:\r\n\r\n");
+    reinterpret_cast<::FUN_00854b80_class *>(this)->FUN_00854b80("\r\nMisc Stats:\r\n\r\n");
     qvyWyw = &m_10;
     while (qvyWyw)
     {
-        xMisc* qBLsiu = (xMisc*)*qvyWyw->Head();
+        xMisc* qBLsiu = (xMisc*)*((void **)(new ((void *)(qvyWyw)) ::Vec3()));
         if (qBLsiu)
         {
-            xSprintf(qHXYKT, 0x3e8, "  %8i      %s\r\n", qBLsiu->GetCount(), qBLsiu);
-            Write(qHXYKT);
-            qrEZrs.Add(qBLsiu->m_104, 0, qBLsiu->m_108);
+            ::FUN_00406d00(qHXYKT, 0x3e8, "  %8i      %s\r\n", reinterpret_cast<::FUN_00854810_shell *>((qBLsiu))->GetSumOfFields(), qBLsiu);
+            reinterpret_cast<::FUN_00854b80_class *>(this)->FUN_00854b80(qHXYKT);
+            reinterpret_cast<::FUN_00854880_shell *>(&(qrEZrs))->AccumulateStats(qBLsiu->m_104, 0, qBLsiu->m_108);
         }
-        qvyWyw = qvyWyw->Next();
+        qvyWyw = ((::fnv_00853e10::xNodeL *)(reinterpret_cast<::Callees *>((qvyWyw))->FUN_00726070()));
     }
-    xSprintf(
+    ::FUN_00406d00(
         qHXYKT, 0x3e8,
         "\r\nTotal Misc Count: %i  Total Misc Size: %i - Data: %i Overhead: %i Debug: %i  Min Misc Size: %i  Max Misc Size: %i  Average Misc Size: %.2f\r\n\r\n",
-        qrEZrs.m_uiItemCount, qrEZrs.GetTotal(), qrEZrs.m_data, qrEZrs.m_overhead, qrEZrs.m_pDebugAllocator,
-        qrEZrs.m_kMinimumCorner, qrEZrs.m_kMaximumCorner, qrEZrs.GetAverage());
-    Write(qHXYKT);
-    qSVM = xg_SaveLoad->GetHistory();
-    qpTd = xHistoryCount(qSVM);
+        qrEZrs.m_uiItemCount, reinterpret_cast<::FUN_00854900_shell *>(&(qrEZrs))->FUN_00854900(), qrEZrs.m_data, qrEZrs.m_overhead, qrEZrs.m_pDebugAllocator,
+        qrEZrs.m_kMinimumCorner, qrEZrs.m_kMaximumCorner, reinterpret_cast<::FUN_00854920_shell *>(&(qrEZrs))->GetRatio());
+    reinterpret_cast<::FUN_00854b80_class *>(this)->FUN_00854b80(qHXYKT);
+    qSVM = ((::fnv_00853e10::xHistory *)(reinterpret_cast<::BGSTerrainManager *>(((*reinterpret_cast<::fnv_00853e10::xSaveLoad * *>(&::g_BGSSaveLoadGame))))->GetMinLevel()));
+    qpTd = ((int)(reinterpret_cast<::FUN_00620b80_shell *>((qSVM))->GetReferenceFlags()));
     qsSDDgz = 0;
     if (qpTd)
     {
-        Write("\r\n\r\nSave Game History:\r\n\r\n");
+        reinterpret_cast<::FUN_00854b80_class *>(this)->FUN_00854b80("\r\n\r\nSave Game History:\r\n\r\n");
         for (unsigned int qrUCJDN = 0; qrUCJDN < (unsigned int)qpTd; qrUCJDN++)
         {
-            const char* qpydTG = qSVM->GetAt(qrUCJDN);
+            const char* qpydTG = ((const char *)(reinterpret_cast<::FUN_0084e320_Class *>((qSVM))->GetArrayElement(qrUCJDN)));
             int qyFp = 0;
             if (!xMbsnicmp(qpydTG, "***", 3))
                 qyFp = 1;
@@ -1287,9 +1262,9 @@ void SaveLoadStatsDump::FUN_00853e10()
                 qsSDDgz--;
             }
             for (int qhQRuW = 0; qhQRuW < qsSDDgz; qhQRuW++)
-                Write("  ");
-            Write(qyFp ? qpydTG + 3 : qpydTG);
-            Write("\r\n");
+                reinterpret_cast<::FUN_00854b80_class *>(this)->FUN_00854b80("  ");
+            reinterpret_cast<::FUN_00854b80_class *>(this)->FUN_00854b80(qyFp ? qpydTG + 3 : qpydTG);
+            reinterpret_cast<::FUN_00854b80_class *>(this)->FUN_00854b80("\r\n");
             if (qyFp == 1)
                 qsSDDgz++;
         }

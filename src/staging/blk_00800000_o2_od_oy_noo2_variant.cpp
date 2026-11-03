@@ -5,6 +5,54 @@
 
 // src/staging/blk_00800000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <new>
+#include "fnv/decl/Actor80F.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CellView.h"
+#include "fnv/decl/FUN_0043b4d0_shell.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a3eb0_shell.h"
+#include "fnv/decl/FUN_004a3fb0_shell.h"
+#include "fnv/decl/FUN_004a46b0_class.h"
+#include "fnv/decl/FUN_005dbf20.h"
+#include "fnv/decl/FUN_0081c4a0_cls.h"
+#include "fnv/decl/FUN_0081f1e0_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MagicProjectile.h"
+#include "fnv/decl/PathingRequest.h"
+#include "fnv/decl/PlayerMover.h"
+#include "fnv/decl/S0062aea0_Vector.h"
+#include "fnv/decl/S_00627920.h"
+#include "fnv/decl/SoundPlaybackHandle.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/TESObjectREFR.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/XRef.h"
+#include "fnv/decl/fnv_004a3da0__FUN_004a3da0_shell.h"
+#include "fnv/decl/fnv_00567400__FUN_00567400_shell.h"
+#include "fnv/decl/fnv_00570f70__Obj570.h"
+#include "fnv/decl/fnv_0080fb00__FUN_0080fb00_Class.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_004ae000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_004fd000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_0070c000.h"
+#include "fnv/symbols_0080f000.h"
+#include "fnv/symbols_01054000.h"
+#include "fnv/symbols_0107a000.h"
+#include "fnv/symbols_011ce000.h"
+#include "fnv/symbols_011cf000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011de000.h"
 #include "../../include/layout_support.h"
 
 #include <xmmintrin.h>
@@ -16,7 +64,6 @@ struct hkVector4B00
     __m128 m_vComponents;
     hkVector4B00();
 };
-void __cdecl FUN_00458620(void* apTarget, const hkVector4B00& arVector);
 
 struct VectorSourceB00
 {
@@ -29,7 +76,7 @@ void VectorSourceB00::FUN_00812b00(void* apTarget)
 {
     hkVector4B00 kVector;
     SubtractVectors(kVector);
-    FUN_00458620(apTarget, kVector);
+    ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(apTarget)), (const ::hkVector4 &)(kVector));
 }
 
 struct xP3
@@ -56,23 +103,17 @@ struct __declspec(align(16)) xHitInfo
 };
 struct xHitList
 {
-    int FUN_00726070();
-    xHitInfo* GetEntryAt(int);
 };
 struct __declspec(align(16)) xAllHits
 {
     xAllHits();
     virtual ~xAllHits();
-    xHitList* FUN_00460140();
     int m_q[0xc7];
 };
 struct __declspec(align(16)) xPick
 {
     xPick();
-    void FUN_004a3da0(xP3*);
-    void FUN_004a3eb0(const xP3&);
     void FUN_004a3f70(xFilter);
-    void FUN_004a3fb0(xAllHits*);
     char m_buf[0xb0];
 };
 struct xWorld
@@ -131,17 +172,11 @@ struct xWorld
 };
 
 struct xCell;
-xWorld* __fastcall xFUN_004543c0(xCell*);
 struct xOwner
 {
     xFilter FUN_0070c440();
 };
 struct xActor;
-float __fastcall xFUN_0070c3b0(xActor*);
-void* xFUN_004b5820(void*);
-void* xFUN_004b59f0(void*);
-void* xFUN_004b5a80(void*);
-xActor* xFUN_0056f930(void*);
 struct xShooterV
 {
     virtual void v0();
@@ -353,53 +388,48 @@ struct xActor
     virtual void v191();
     virtual void v192();
     virtual void FUN_304(xP3, void*, xActor*, int);
-    xCell* FUN_008d6f30();
-    float FUN_00567400();
     xFilter FUN_00931ed0();
-    xOwner* FUN_009306d0();
-    xShooterV* FUN_009185e0();
     void FUN_0081eba0();
 };
 
-extern xActor* xg_player_11dea3c;
 // @fnv 0x0081eba0
 void xActor::FUN_0081eba0()
 {
     void* EFFECT = FUN_1d0();
-    if ((FUN_009185e0() && FUN_009185e0()->FUN_2c() != xg_player_11dea3c) || !EFFECT)
+    if ((((::xShooterV *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags())) && ((::xShooterV *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))->FUN_2c() != (*reinterpret_cast<::xActor * *>(&::_g_thePlayer))) || !EFFECT)
         return;
     xPick PICK;
     xP3 PLPOS;
     xP3 MYPOS;
     xP3 DIR;
     MYPOS = *FUN_1f4();
-    PLPOS = *xg_player_11dea3c->FUN_1f4();
-    PLPOS.z = PLPOS.z + xFUN_0070c3b0(xg_player_11dea3c) * xg_player_11dea3c->FUN_00567400();
+    PLPOS = *(*reinterpret_cast<::xActor * *>(&::_g_thePlayer))->FUN_1f4();
+    PLPOS.z = PLPOS.z + ::FUN_0070c3b0((::FUN_0070c3b0_Dummy *)((*reinterpret_cast<::xActor * *>(&::_g_thePlayer)))) * reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>(((*reinterpret_cast<::xActor * *>(&::_g_thePlayer))))->FUN_00567400();
     DIR = MYPOS - PLPOS;
-    xOwner* OWNER = FUN_009306d0();
+    xOwner* OWNER = ((::xOwner *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()));
     xFilter FILTER(0);
     if (OWNER)
         FILTER = OWNER->FUN_0070c440();
     else
-        FILTER = xg_player_11dea3c->FUN_00931ed0();
+        FILTER = (*reinterpret_cast<::xActor * *>(&::_g_thePlayer))->FUN_00931ed0();
     PICK.FUN_004a3f70(FILTER);
-    PICK.FUN_004a3da0(&PLPOS);
-    PICK.FUN_004a3eb0(PLPOS + DIR);
+    reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(PICK))->FUN_004a3da0(&PLPOS);
+    reinterpret_cast<::FUN_004a3eb0_shell *>(&(PICK))->FUN_004a3eb0((void *)&(const ::xP3 &)(PLPOS + DIR));
     xAllHits HITS;
-    PICK.FUN_004a3fb0(&HITS);
+    reinterpret_cast<::FUN_004a3fb0_shell *>(&(PICK))->FUN_004a3fb0((::hkpAllRayHitCollector *)(::xAllHits *)(&HITS));
     bool DONE = false;
-    if (xg_player_11dea3c->FUN_008d6f30() && xFUN_004543c0(xg_player_11dea3c->FUN_008d6f30())->FUN_c8(&PICK))
+    if (((::xCell *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::xActor * *>(&::_g_thePlayer))))->GetTarget())) && ((::xWorld *)(reinterpret_cast<::FUN_004543c0_cls *>((((::xCell *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::xActor * *>(&::_g_thePlayer))))->GetTarget()))))->FUN_004543c0()))->FUN_c8(&PICK))
     {
         bool GO = true;
-        for (int I = 0; GO && I < HITS.FUN_00460140()->FUN_00726070() && !DONE; I++)
+        for (int I = 0; GO && I < ((int)(reinterpret_cast<::Callees *>((((::xHitList *)(::FUN_00460140((int)&(HITS))))))->FUN_00726070())) && !DONE; I++)
         {
-            xHitInfo INFO(HITS.FUN_00460140()->GetEntryAt(I));
-            void* OBJ = xFUN_004b5820(INFO.m_50);
+            xHitInfo INFO(((::xHitInfo *)(reinterpret_cast<::FUN_004a46b0_class *>((((::xHitList *)(::FUN_00460140((int)&(HITS))))))->GetEntryAt(I))));
+            void* OBJ = ((void *)(::FUN_004b5820((::FormLike *)(INFO.m_50))));
             if (OBJ)
             {
-                void* FormRecordHeader = xFUN_004b5a80(xFUN_004b59f0(INFO.m_50));
-                xActor* ACTOR = xFUN_0056f930(OBJ);
-                if (ACTOR != xg_player_11dea3c && ACTOR != this && !ACTOR->FUN_100() && FormRecordHeader)
+                void* FormRecordHeader = ::FUN_004b5a80(::FUN_004b59f0(INFO.m_50));
+                xActor* ACTOR = ((::xActor *)(::FUN_0056f930((::NiAVObject *)(OBJ))));
+                if (ACTOR != (*reinterpret_cast<::xActor * *>(&::_g_thePlayer)) && ACTOR != this && !ACTOR->FUN_100() && FormRecordHeader)
                 {
                     xP3 HITPOS = PLPOS + DIR * INFO.m_10;
                     FUN_304(HITPOS, FormRecordHeader, ACTOR, 0);
@@ -410,33 +440,22 @@ void xActor::FUN_0081eba0()
     }
 }
 
-extern const float DAT_010546cc;
 struct ImpactValue
 {
-    float* __thiscall FUN_00403e20();
 };
-extern ImpactValue DAT_011ce3e4, DAT_011cecac, DAT_011cf9d4, DAT_011ce798, DAT_011cf114, DAT_011ce224;
 struct ImpactState
 {
-    void __thiscall FUN_00483710();
 };
 struct ImpactType
 {
     int value;
-    int __thiscall FUN_0043b4d0();
 };
 struct __declspec(align(16)) ImpactVector
 {
     __m128 coordinates;
-    void __thiscall FUN_006815c0();
-    void __thiscall FUN_005dbf20(float);
-    void __thiscall FUN_0062aea0();
-    void __thiscall FUN_00627920(ImpactVector*);
 };
-extern void __cdecl FUN_004a3e00(ImpactVector*, const float*);
 struct ImpactResult
 {
-    void __thiscall ApplyVirtualCall();
 };
 struct ImpactObject
 {
@@ -480,8 +499,6 @@ struct ImpactObject
     virtual void unknown_0094();
     virtual ImpactState* unknown_0098();
     void __thiscall FUN_0043b4f0(ImpactType*);
-    float __thiscall FUN_004b5400();
-    ImpactResult* __thiscall FUN_004ae750(ImpactVector*, ImpactVector*);
 };
 struct ImpactOwner
 {
@@ -498,40 +515,40 @@ void ImpactOwner::FUN_0081f000(float x, float y, float z, float dx, float dy, fl
         float scale = DAT_010546cc;
         ImpactType type;
         object->FUN_0043b4f0(&type);
-        switch (type.FUN_0043b4d0())
+        switch (reinterpret_cast<::FUN_0043b4d0_shell *>(&(type))->FUN_0043b4d0())
         {
         case 14:
-            scale *= *DAT_011ce3e4.FUN_00403e20();
+            scale *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ImpactValue *>(&::originalRuntimeFloatSetting679))))));
             break;
         case 8:
         case 29:
-            scale *= *DAT_011cecac.FUN_00403e20();
+            scale *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ImpactValue *>(&::originalRuntimeFloatSetting678))))));
             break;
         case 2:
         case 10:
-            scale *= *DAT_011cf9d4.FUN_00403e20();
+            scale *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ImpactValue *>(&::g_011cf9d4))))));
             break;
         default:
-            scale *= *DAT_011ce798.FUN_00403e20();
+            scale *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ImpactValue *>(&::originalRuntimeFloatSetting677))))));
             break;
         }
-        float weight = object->FUN_004b5400();
-        if (weight < *DAT_011cf114.FUN_00403e20())
-            scale = weight / *DAT_011cf114.FUN_00403e20() * scale;
-        scale *= *DAT_011ce224.FUN_00403e20();
+        float weight = ::FUN_004b5400((void *)(object));
+        if (weight < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ImpactValue *>(&::originalRuntimeFloatSetting680)))))))
+            scale = weight / *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ImpactValue *>(&::originalRuntimeFloatSetting680)))))) * scale;
+        scale *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ImpactValue *>(&::g_011ce224))))));
         ImpactVector direction;
-        direction.FUN_006815c0();
-        FUN_004a3e00(&direction, &dx);
+        new ((void *)&(direction)) ::Vec3();
+        ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&direction)), (*(const ::fnv_004a3e00::NiPoint3 *)(&dx)));
         ImpactVector position;
-        position.FUN_006815c0();
-        FUN_004a3e00(&position, &x);
-        direction.FUN_0062aea0();
+        new ((void *)&(position)) ::Vec3();
+        ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&position)), (*(const ::fnv_004a3e00::NiPoint3 *)(&x)));
+        reinterpret_cast<::S0062aea0_Vector *>(&(direction))->FUN_0062aea0();
         ImpactVector amount;
-        amount.FUN_005dbf20(scale);
-        direction.FUN_00627920(&amount);
-        state->FUN_00483710();
-        object->FUN_004ae750(&direction, &position)->ApplyVirtualCall();
-        state->FUN_00483710();
+        new ((void *)&(amount)) ::FUN_005dbf20(scale);
+        reinterpret_cast<::S_00627920 *>(&(direction))->FUN_00627920((::S_00561240 *)(::ImpactVector *)(&amount));
+        reinterpret_cast<::TESForm *>((state))->ClearData();
+        reinterpret_cast<::FUN_0081f1e0_Class *>((((::ImpactResult *)(::FUN_004ae750((void *)(object))))))->ApplyVirtualCall({}, {});
+        reinterpret_cast<::TESForm *>((state))->ClearData();
     }
 }
 
@@ -555,41 +572,28 @@ struct xSound
     xSound();
     ~xSound();
     xSound& operator=(const xSound&);
-    bool FUN_00ad8ce0();
-    void FUN_00ad8d10();
     int m_iWordAt00, m_iWordAt04, m_8;
 };
 struct xFltSetting
 {
-    float* FUN_00403e20();
 };
-extern xFltSetting xg_11d16f8;
-extern xFltSetting xg_11d1c28;
-extern const float xg_107a510;
-void xFUN_0080fae0(float);
 struct xRadius
 {
-    float FUN_009b0bd0();
 };
 struct xSndForm
 {
-    void* FUN_0084e3a0();
 };
 struct xEffect
 {
-    xSndForm* FUN_004fd3c0();
 };
 struct xCtl
 {
-    void FUN_0080fb00(xVec4*);
 };
 struct xCell
 {
-    void FUN_00548230(void*, bool);
 };
 struct xOwner
 {
-    void FUN_0081c4a0(void*);
 };
 struct xA
 {
@@ -622,7 +626,6 @@ struct xActorV
     virtual void* FUN_2c();
 };
 
-extern void* xg_player_11dea3c;
 struct xProj : xBase
 {
     int m_pad1c[27];
@@ -634,50 +637,41 @@ struct xProj : xBase
     xSound m_b4;
     xOwner* m_c0;
     xProj(int a, int b, int c, int d, xP3 kP1, xP3 kP2, void* apE, xOwner* apOwner);
-    xEffect* FUN_004fd400();
-    void FUN_00570f70(void*);
-    void FUN_0081e570(int);
-    void ResetProjectileIdleAnimation();
-    void FUN_0080feb0();
-    xCtl* FUN_009306d0();
-    xCell* FUN_008d6f30();
     xSound PlaySoundByFormID(void*, int, unsigned int, int);
-    void FUN_0081eba0();
-    xActorV* FUN_009185e0();
 };
 // @fnv 0x0080f810
 xProj::xProj(int a, int b, int c, int d, xP3 kP1, xP3 kP2, void* apE, xOwner* apOwner) : xBase(a, b, c, d, kP1, kP2)
 {
-    m_88 = ((xRadius*)FUN_004fd400())->FUN_009b0bd0() * *xg_11d16f8.FUN_00403e20();
+    m_88 = reinterpret_cast<::PathingRequest *>((((xRadius*)((::fnv_0080f810::xEffect *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400())))))->GetCenterRadius() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0080f810::xFltSetting *>(&::originalRuntimeFloatSetting1140))))));
     m_ac = 0;
     m_a8 = 0.0f;
     m_b0 = 1.0f;
     m_c0 = 0;
     if (apE)
-        FUN_00570f70(apE);
+        reinterpret_cast<::fnv_00570f70::Obj570 *>(this)->FUN_00570f70((int)(apE));
     else
-        FUN_0081e570(0);
-    ResetProjectileIdleAnimation();
-    FUN_0080feb0();
-    xVec4 V(-xg_107a510, 0.0f, 0.0f, 0.0f);
-    FUN_009306d0()->FUN_0080fb00(&V);
-    FUN_008d6f30()->FUN_00548230(this, false);
-    if (FUN_004fd400()->FUN_004fd3c0())
+        reinterpret_cast<::XRef *>(this)->FUN_0081e570(0);
+    reinterpret_cast<::TESObjectREFR *>(this)->ResetProjectileIdleAnimation();
+    reinterpret_cast<::Actor80F *>(this)->FUN_0080feb0();
+    xVec4 V(-::DAT_0107a510, 0.0f, 0.0f, 0.0f);
+    reinterpret_cast<::fnv_0080fb00::FUN_0080fb00_Class *>((((::fnv_0080f810::xCtl *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()))))->FUN_0080fb00((int)(&V));
+    reinterpret_cast<::CellView *>((((::fnv_0080f810::xCell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_00548230((::RefView *)(void *)(this), false);
+    if (((::fnv_0080f810::xSndForm *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((::fnv_0080f810::xEffect *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400())))))))
     {
-        void* NAME = FUN_004fd400()->FUN_004fd3c0()->FUN_0084e3a0();
-        if (m_b4.FUN_00ad8ce0())
-            m_b4.FUN_00ad8d10();
-        m_b4 = PlaySoundByFormID(NAME, 1, 0x40000102, 1);
+        void* NAME = ((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::fnv_0080f810::xSndForm *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((::fnv_0080f810::xEffect *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400()))))))))->FUN_0084e3a0()));
+        if (reinterpret_cast<::SoundPlaybackHandle *>(&(m_b4))->IsValid())
+            reinterpret_cast<::SoundPlaybackHandle *>(&(m_b4))->Release();
+        reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::fnv_0080f810::xSound &)(m_b4))->operator=((const ::SoundPlaybackHandle &)((const ::fnv_0080f810::xSound &)(PlaySoundByFormID(NAME, 1, 0x40000102, 1))));
     }
     if (apOwner)
     {
-        apOwner->FUN_0081c4a0(this);
+        reinterpret_cast<::FUN_0081c4a0_cls *>((apOwner))->FUN_0081c4a0((::VTableTarget116 *)(void *)(this));
         m_c0 = apOwner;
     }
-    FUN_0081eba0();
-    void* SHOOTER = FUN_009185e0() ? FUN_009185e0()->FUN_2c() : 0;
-    if (SHOOTER != xg_player_11dea3c)
-        xFUN_0080fae0(*xg_11d1c28.FUN_00403e20());
+    reinterpret_cast<::xActor *>(this)->FUN_0081eba0();
+    void* SHOOTER = ((::fnv_0080f810::xActorV *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags())) ? ((::fnv_0080f810::xActorV *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))->FUN_2c() : 0;
+    if (SHOOTER != (*reinterpret_cast<void * *>(&::_g_thePlayer)))
+        ::FUN_0080fae0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0080f810::xFltSetting *>(&::g_011d1c28)))))));
     FUN_00484b60(0x10000000);
 }
 }  // namespace fnv_0080f810

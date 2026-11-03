@@ -2,6 +2,15 @@
 // src/staging/blk_00ea0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00ebf000.h"
+#include "fnv/symbols_00ec0000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_0126f000.h"
 #include "../../include/layout_support.h"
 
 // Returns the smallest power of two greater than or equal to value, or value itself when it is 2 or less.
@@ -101,10 +110,8 @@ struct Struct_00ebfd20
 
 struct Standin_011f6238
 {
-    void FUN_00aa4060(void* param_1);
 };
 
-extern Standin_011f6238 DAT_011f6238;
 
 // Releases each interface pointer in the array at unk40, clears the array pointer, and calls FUN_00aa4060 on the struct.
 // @fnv 0x00ebfd20
@@ -120,7 +127,7 @@ void __cdecl ReleaseInterfaceArray(Struct_00ebfd20* pStruct)
             }
         }
         pStruct->unk40 = 0;
-        DAT_011f6238.FUN_00aa4060(pStruct);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::Standin_011f6238 *>(&::g_memoryManager))))->FUN_00aa4060(pStruct);
     }
 }
 
@@ -186,7 +193,6 @@ struct FnvD3DDevice
                                          void** sharedHandle);
 };
 
-extern bool DAT_0126f0d0;
 
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 
@@ -225,11 +231,8 @@ FnvD3DTexture* __cdecl CreateZeroedTexture(FnvD3DDevice* device, int format, int
 
 struct GridAllocator : Standin_011f6238
 {
-    void* FUN_00aa3e40(unsigned int bytes);
 };
 void* __cdecl FUN_00ec61c0(void* destination, int value, unsigned int bytes);
-Interface_00ebfd20* __cdecl CreateZeroedTexture(void* device, unsigned int format, unsigned int edgeWidth,
-                                                unsigned int bytesPerPixel, unsigned int width, unsigned int height);
 
 // Allocates a tiled texture object, computes tile grid counts and edge sizes, creates a texture per tile, and frees everything if any tile creation fails.
 // @fnv 0x00ebf8e0
@@ -247,7 +250,7 @@ Struct_00ebfd20* __cdecl CreateTiledTexture(void* device, unsigned int width, un
     unsigned int row = height > edgePitch ? height : edgePitch;  // Maximum required height.
     // Total number of full and partial tiles.
     unsigned int i = ((width + tileSize - 1) / tileSize) * ((height + tileSize - 1) / tileSize);
-    pitch = (Struct_00ebfd20*)((GridAllocator*)&DAT_011f6238)->FUN_00aa3e40(0x48 + i * 4);
+    pitch = (Struct_00ebfd20*)reinterpret_cast<::MemoryManagerStandIn *>((((GridAllocator*)&(*reinterpret_cast<::Standin_011f6238 *>(&::g_memoryManager)))))->FUN_00aa3e40(0x48 + i * 4);
     if (!pitch)
         return 0;
     FUN_00ec61c0(pitch, 0, 0x48);
@@ -274,13 +277,13 @@ Struct_00ebfd20* __cdecl CreateTiledTexture(void* device, unsigned int width, un
         for (edgeHeight = 0; edgeHeight < pitch->unk24; edgeHeight++)
         {
             *maxHeight =
-                CreateZeroedTexture(device, pitch->unk04, pitch->unk1C, pitch->unk08, pitch->unk3C, pitch->unk3C);
+                ((::Interface_00ebfd20 *)(::CreateZeroedTexture((::FnvD3DDevice *)(device), pitch->unk04, pitch->unk1C, pitch->unk08, pitch->unk3C, pitch->unk3C)));
             maxHeight++;
         }
         if (pitch->unk2C)
         {
             *maxHeight =
-                CreateZeroedTexture(device, pitch->unk04, pitch->unk1C, pitch->unk08, pitch->unk2C, pitch->unk3C);
+                ((::Interface_00ebfd20 *)(::CreateZeroedTexture((::FnvD3DDevice *)(device), pitch->unk04, pitch->unk1C, pitch->unk08, pitch->unk2C, pitch->unk3C)));
             maxHeight++;
         }
     }
@@ -290,13 +293,13 @@ Struct_00ebfd20* __cdecl CreateTiledTexture(void* device, unsigned int width, un
         for (edgeHeight = 0; edgeHeight < pitch->unk24; edgeHeight++)
         {
             *maxHeight =
-                CreateZeroedTexture(device, pitch->unk04, pitch->unk1C, pitch->unk08, pitch->unk3C, pitch->unk30);
+                ((::Interface_00ebfd20 *)(::CreateZeroedTexture((::FnvD3DDevice *)(device), pitch->unk04, pitch->unk1C, pitch->unk08, pitch->unk3C, pitch->unk30)));
             maxHeight++;
         }
         if (pitch->unk2C)
         {
             *maxHeight =
-                CreateZeroedTexture(device, pitch->unk04, pitch->unk1C, pitch->unk08, pitch->unk2C, pitch->unk30);
+                ((::Interface_00ebfd20 *)(::CreateZeroedTexture((::FnvD3DDevice *)(device), pitch->unk04, pitch->unk1C, pitch->unk08, pitch->unk2C, pitch->unk30)));
             maxHeight++;
         }
     }
@@ -313,7 +316,7 @@ Struct_00ebfd20* __cdecl CreateTiledTexture(void* device, unsigned int width, un
                     pitch->unk40[grid] = 0;
                 }
             }
-            DAT_011f6238.FUN_00aa4060(pitch);
+            reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::Standin_011f6238 *>(&::g_memoryManager))))->FUN_00aa4060(pitch);
             return 0;
         }
     }
@@ -489,15 +492,12 @@ struct TileGrid
     unsigned int tileSize;
     IDirect3DBaseTexture9** textures;
 };
-void __cdecl FUN_00ec0460(IDirect3DDevice9* device);
-void __cdecl DrawTexturedQuad(IDirect3DDevice9* device, float x, float y, float scaleX, float scaleY, unsigned int width,
-                          unsigned int height);
 
 // Renders a grid of textured tiles and optional edge strips to the D3D device using the textures in the TileGrid.
 // @fnv 0x00ebff30
 void __cdecl FUN_00ebff30(TileGrid* grid, float startX, float startY, float scaleX, float scaleY)
 {
-    FUN_00ec0460(grid->device);
+    ::FUN_00ec0460((::FUN_00ec0460_cls *)(grid->device));
     grid->device->SetRenderState(D3DRS_ZENABLE, 0);
     grid->device->SetRenderState(D3DRS_ZWRITEENABLE, 0);
     grid->device->SetRenderState(D3DRS_COLORWRITEENABLE, 15);
@@ -527,14 +527,14 @@ void __cdecl FUN_00ebff30(TileGrid* grid, float startX, float startY, float scal
                         {
                             grid->device->SetTexture(0, *texture);
                             texture++;
-                            DrawTexturedQuad(grid->device, x, y, scaleX, scaleY, grid->tileSize, grid->tileSize);
+                            ::DrawTexturedQuad((::EC0280Device *)(grid->device), x, y, scaleX, scaleY, grid->tileSize, grid->tileSize);
                             x += stepX;
                         }
                         if (grid->edgeWidth != 0)
                         {
                             grid->device->SetTexture(0, *texture);
                             texture++;
-                            DrawTexturedQuad(grid->device, x, y, scaleX, scaleY, grid->edgeWidth, grid->tileSize);
+                            ::DrawTexturedQuad((::EC0280Device *)(grid->device), x, y, scaleX, scaleY, grid->edgeWidth, grid->tileSize);
                         }
                         y += stepY;
                     }
@@ -545,14 +545,14 @@ void __cdecl FUN_00ebff30(TileGrid* grid, float startX, float startY, float scal
                         {
                             grid->device->SetTexture(0, *texture);
                             texture++;
-                            DrawTexturedQuad(grid->device, x, y, scaleX, scaleY, grid->tileSize, grid->edgeHeight);
+                            ::DrawTexturedQuad((::EC0280Device *)(grid->device), x, y, scaleX, scaleY, grid->tileSize, grid->edgeHeight);
                             x += stepX;
                         }
                         if (grid->edgeWidth != 0)
                         {
                             grid->device->SetTexture(0, *texture);
                             texture++;
-                            DrawTexturedQuad(grid->device, x, y, scaleX, scaleY, grid->edgeWidth, grid->edgeHeight);
+                            ::DrawTexturedQuad((::EC0280Device *)(grid->device), x, y, scaleX, scaleY, grid->edgeWidth, grid->edgeHeight);
                         }
                     }
                     grid->device->SetRenderState(D3DRS_ZENABLE, 1);

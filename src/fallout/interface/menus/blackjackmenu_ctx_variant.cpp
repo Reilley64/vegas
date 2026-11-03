@@ -3,6 +3,105 @@
 // against, for verified matches whose own declarations clash with the unit's current types.
 // src/fallout/interface/menus/blackjackmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/blackjackmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/ActorValueOwner.h"
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/BSFaceGenNiNode.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatState.h"
+#include "fnv/decl/ContainerOperation.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_004a0fd0_shell.h"
+#include "fnv/decl/FUN_004bc1f0_S.h"
+#include "fnv/decl/FUN_00504e40_shell.h"
+#include "fnv/decl/FUN_00504e60_shell.h"
+#include "fnv/decl/FUN_00508100_shell.h"
+#include "fnv/decl/FUN_007316d0_Class.h"
+#include "fnv/decl/FUN_00737e30_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/FUN_00a1d910_shell.h"
+#include "fnv/decl/FUN_00a1dc70_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FUN_00c4f270_Class.h"
+#include "fnv/decl/FUN_00c4f2d0_class.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/InterfaceManager.h"
+#include "fnv/decl/Menu.h"
+#include "fnv/decl/MiddleLowProcess.h"
+#include "fnv/decl/MyHost.h"
+#include "fnv/decl/NiAdditionalGeometryData.h"
+#include "fnv/decl/NiControllerManager.h"
+#include "fnv/decl/PickupSoundActorView.h"
+#include "fnv/decl/S00739970.h"
+#include "fnv/decl/SSN_b5.h"
+#include "fnv/decl/TESQuest.h"
+#include "fnv/decl/Target2180.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/TileListBoxCalls.h"
+#include "fnv/decl/TimeCounter.h"
+#include "fnv/decl/TopicMenuController.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00447080__FUN_00447080_shell.h"
+#include "fnv/decl/fnv_0047a520__Fn47a520.h"
+#include "fnv/decl/fnv_004818e0__FUN_004818e0_t.h"
+#include "fnv/decl/fnv_00731800__FUN_00731800.h"
+#include "fnv/decl/fnv_00731d70__This731.h"
+#include "fnv/decl/fnv_007395a0__FUN_007395a0_shell.h"
+#include "fnv/decl/fnv_0073ab40__FUN_0073ab40_shell.h"
+#include "fnv/decl/fnv_007fd640__FUN_007fd640Class.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_00969b80__FUN_00969b80_class.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
+#include "fnv/decl/fnv_00a01b00__TileLoader.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0043c000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_0045c000.h"
+#include "fnv/symbols_00482000.h"
+#include "fnv/symbols_004aa000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005a6000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00705000.h"
+#include "fnv/symbols_00709000.h"
+#include "fnv/symbols_00733000.h"
+#include "fnv/symbols_00944000.h"
+#include "fnv/symbols_00a00000.h"
+#include "fnv/symbols_00a08000.h"
+#include "fnv/symbols_00a09000.h"
+#include "fnv/symbols_00a6d000.h"
+#include "fnv/symbols_00b6b000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01019000.h"
+#include "fnv/symbols_0101c000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_01020000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_01025000.h"
+#include "fnv/symbols_01030000.h"
+#include "fnv/symbols_0103a000.h"
+#include "fnv/symbols_01049000.h"
+#include "fnv/symbols_01070000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011d2000.h"
+#include "fnv/symbols_011d3000.h"
+#include "fnv/symbols_011d4000.h"
+#include "fnv/symbols_011d5000.h"
+#include "fnv/symbols_011d9000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f6000.h"
 struct FUN_007316f0_shell
 {
     void ClearField();
@@ -26,24 +125,22 @@ struct FUN_007317d0_shell
 };
 struct Helper731800
 {
-    void __thiscall FUN_00731800();
 };
-void _Deallocate(void*);
 struct Proc_S
 {
-    void* GetNext();
 };
 struct Tile
 {
-    void Set(int, float, bool);
+public:
+    void Set(int, int);
+public:
+    static float GetInterfaceScale();
 };
-void* __cdecl FUN_004b7210();
 struct DAT_011d9050_S
 {
     char _pad[0x28];
     int v28;
 };
-extern DAT_011d9050_S* DAT_011d9050;
 void FUN_00731d30();
 struct Helper62d0
 {
@@ -74,11 +171,9 @@ struct FUN_00738fb0_shell
 };
 struct NiAVObject
 {
-    void __thiscall SetAppCulled(bool);
 };
 struct SceneObjectLookup
 {
-    static NiAVObject* __cdecl GetObjectByName(NiAVObject*, char const*);
 };
 struct FUN_00739ad0_Holder
 {
@@ -112,32 +207,22 @@ struct S148c0
 {
     void FUN_007148c0(int, int);
 };
-S148c0* FUN_0043c4b0();
 struct Accum_00733500
 {
-    void FUN_00c4f270(int);
-    void FUN_004a0fd0(AnimIdle*);
-    void FUN_00c4f2d0();
 };
 struct Node_00733500
 {
-    Accum_00733500* GetProcessInteger();
-    AnimIdle* GetAnimationData();
 };
-Node_00733500* FUN_0045c670();
 struct Mgr_00733500
 {
-    AnimIdle* FUN_007fd640();
 };
-void __cdecl UpdateCameraFrustum(AnimIdle*, float);
-void* __cdecl FUN_00450b80(int);
-void __cdecl FUN_00b6bee0(AnimIdle*, void*, Accum_00733500*);
+class BSShaderAccumulator;
+class NiCamera;
 struct BSShaderRenderUtility
 {
-    static void __cdecl SetRenderCamera(AnimIdle*, AnimIdle*, bool);
+public:
+    static void SetRenderCamera(::NiCamera *, ::BSShaderAccumulator *, bool);
 };
-extern const float g_011db5ec_arg1;
-extern NiPointer<AnimIdle> g_011d90bc;
 void __cdecl FUN_00733500();
 struct FUN_00739650_shell : FUN_00734d50_holder
 {
@@ -152,19 +237,19 @@ struct NiUpdateData
 
     NiUpdateData(float, bool, bool);
 };
+class NiAVObject;
 struct NiNode
 {
-    void __thiscall Update(NiUpdateData const&);
+public:
+    ::NiAVObject *GetAt(unsigned int);
 };
 struct LodObject
 {
-    void __thiscall SetAppCulled(bool);
 };
 struct GO
 {
     operator unsigned int() const;
 };
-extern GO g_011d9098;
 extern char str_01070e34[];
 extern char str_01070e20[];
 extern char str_01070e0c[];
@@ -174,7 +259,6 @@ extern char str_01070dd4[];
 extern char str_01070dc4[];
 extern char str_01070db0[];
 extern char str_01070d9c[];
-int _sprintf_s(char*, unsigned int, const char*, ...);
 struct FUN_00738270_shell
 {
     unsigned char _pad[0xdb8];
@@ -186,29 +270,16 @@ struct FUN_00738270_shell
 };
 struct StartMenu
 {
-    char const* __thiscall GetMenuTitle();
 };
-extern StartMenu g_011d25ec;
-extern StartMenu g_011d30fc;
-extern StartMenu g_011d3354;
-extern StartMenu g_011d33fc;
-extern StartMenu g_011d37f8;
-extern StartMenu g_011d3da8;
-extern StartMenu g_011d4234;
-extern StartMenu g_011d487c;
-extern StartMenu g_011d4c78;
-extern StartMenu g_011d4e28;
 struct FUN_00a01290_shell
 {
     void __thiscall SetTraitAndReset(int, float);
 };
 struct P09TileS
 {
-    void __thiscall Set(int, char const*, bool);
 };
 struct Tile2
 {
-    void __thiscall Set(int, int);
 };
 struct FUN_00738c30_shell
 {
@@ -237,7 +308,6 @@ struct G2
 };
 struct SoundListView
 {
-    void __thiscall AddTail(Padding16ByteBlock* const& value);
 };
 struct FUN_007393f0_shell
 {
@@ -249,9 +319,6 @@ struct FUN_007393f0_shell
     G2* _dealerHand;
     G2* _playerHand;
 
-    int DrawCard(int a1, int a2, int a3);
-    int DrawCard(G2* hand, int a1, int a2);
-    void FUN_00738ff0(G2* hand);
 
     void __thiscall DealInitialCards();
 };
@@ -282,21 +349,15 @@ struct SetElem
 };
 struct SetMgr
 {
-    void* FUN_007316d0();
 };
 struct SetMgrB
 {
-    int FUN_00575610(int);
 };
 struct SetMgrC
 {
     void ClearField();
 };
-extern SetMgr* DAT_011d9058;
-extern SetMgrB* DAT_011dea3c;
-extern void* DAT_011d9044;
 extern void* DAT_011d9048;
-void* __cdecl FUN_00a00940(const char*, int);
 class FUN_007315e0 : public SetBase
 {
   public:
@@ -357,39 +418,30 @@ struct Local12_cls
     int m0;
     int m4;
     int m8;
-    void __thiscall FUN_0043d410(float a1, int a2, int a3);
 };
 struct Node_cls
 {
-    void __thiscall FUN_00450f90(int);
 };
 struct Tail2_cls
 {
-    void __thiscall FUN_00a59c60();
 };
 struct Tail1_cls
 {
-    Tail2_cls* __thiscall FUN_0043b4a0();
 };
 struct Mgr_cls
 {
-    Tail1_cls* __thiscall FUN_00559450(int, Local12_cls*);
 };
-extern Mgr_cls DAT_011d9098;
 extern char str_01070e58[];
 extern char str_01070e44[];
-Node_cls* __cdecl FUN_004aae30(int value, char const* name);
 struct FUN_007399f0_cls
 {
     unsigned char _pad0[0xdb4];
     int m_db4;
 
-    bool __thiscall HasFlag(int aFlag);
     void __thiscall FUN_007399f0();
 };
 struct ChipNodeX
 {
-    void SetLocalRotation(float afX, float afY, float afZ);
 };
 struct UpdateDataX
 {
@@ -402,14 +454,12 @@ struct UpdateDataX
 };
 struct RootNodeX
 {
-    void Update(const UpdateDataX& arData);
 };
 struct RootPtrX
 {
     RootNodeX* m_pObject;
     operator RootNodeX*() const;
 };
-extern RootPtrX xspTableRoot;
 struct BlackJackChipsX
 {
     char _pad00[0x6c];
@@ -426,12 +476,9 @@ struct String90
 };
 struct Controller90
 {
-    void* FUN_0047a520(const String90&);
-    void FUN_0048fef0(float);
 };
 struct Bound90
 {
-    float FUN_0084d030();
 };
 struct Update90
 {
@@ -550,28 +597,15 @@ struct Node90
     Node90(int);
     static void* operator new(unsigned int);
     static void operator delete(void*, unsigned int);
-    void FUN_00a59c60(const Update90&);
-    Controller90* FUN_00a5c570(const void*);
-    Node90* FUN_00a59d30(int);
-    int FUN_00441110();
-    Bound90* FUN_0043d450();
-    void FUN_00b5ca70(Node90*, float);
 };
 struct Pointer90
 {
     Node90* p;
     Pointer90& FUN_0066b0d0(Node90*);
-    Node90* FUN_00559450();
 };
-extern Pointer90 DAT_011d90bc;
-extern int DAT_011f36ac;
 struct Loader90
 {
-    Node90* FUN_00447080(const char*, int, int, int, int, int);
 };
-extern Loader90* DAT_011c3b3c;
-Node90* __cdecl FUN_004aae30(Node90*, const char*);
-void __cdecl FUN_00a6d2d0(Node90*);
 struct Menu90
 {
     int unk000;
@@ -1489,10 +1523,6 @@ struct Menu90
     void* anime68;
     void* anime6c;
     void InitBlackjackScene();
-    void UpdateChipPositions();
-    void FUN_00739970(int);
-    void HideArrowNodes();
-    Node90* FUN_007c2180();
 };
 struct FUN_00733f50
 {
@@ -1503,8 +1533,6 @@ struct FUN_00733f50
 };
 struct Node129
 {
-    FUN_00733f50** FUN_006815c0();
-    Node129* FUN_00726070();
     bool FUN_008256d0();
     void FUN_00726c60(FUN_00733f50* const&);
     void FUN_005ae3d0(FUN_00733f50* const&);
@@ -1519,13 +1547,11 @@ struct BSSoundHandleEx
     int flags;
     int state;
     ~BSSoundHandleEx();
-    bool FUN_00ad8830(bool);
 };
 struct Audio129
 {
     BSSoundHandleEx FUN_00ad7550(const char*, int);
 };
-Audio129* FUN_00453a70();
 struct Stats129
 {
     int unk00;
@@ -1542,7 +1568,6 @@ struct Stats129
 };
 struct Name129
 {
-    const char* FUN_00408da0();
 };
 struct Casino129
 {
@@ -1629,26 +1654,15 @@ struct Casino129
     int unk10;
     int unk14;
     Name129 name;
-    int FUN_0084e3a0();
-    Stats129* FUN_00504e60();
 };
 struct Tile129
 {
-    float FUN_00a011b0(int);
-    void FUN_00a012d0(int, float);
-    void FUN_00a01350(int, const char*, bool);
-    void SetTraitAndReset(int, float);
-    void FUN_00700320(int, int);
-    struct Menu129* FUN_00a03c90();
 };
-Tile129* FUN_00a08b20(Tile129*, const char*);
 struct Xml129
 {
-    Tile129* FUN_00a01b00();
 };
 struct Interface129
 {
-    Xml129* FUN_00586150(const char*);
 };
 struct Menu129
 {
@@ -1693,18 +1707,10 @@ struct Menu129
     int unk64;
     int setting;
     int bet;
-    void FUN_00a1dc70(Tile129*, int);
-    bool FUN_00733f90();
-    void UpdateTileText();
-    bool LoadCardDeckResources();
-    void InitBlackjackScene();
-    void FUN_00a1dc20(int);
     void ClearField();
-    Tile129* FUN_00726070();
 };
 struct Mode129
 {
-    int FUN_0066ef20(int);
 };
 struct Player129
 {
@@ -1750,26 +1756,9 @@ struct Player129
     int unk9C;
     int unkA0;
     Mode129 mode;
-    Node129* FUN_005a6260();
-    bool FUN_00969b80();
-    int FUN_00969b40();
 };
-extern FUN_00733f50* DAT_011d9054;
 extern int DAT_0119fe40, DAT_0119fe3c;
-extern Settings129 DAT_011d451c, DAT_011d3abc, DAT_011d2424, DAT_011d3594, DAT_011d3804, DAT_011d3300, DAT_011d3e08,
-    DAT_011d4c84;
-extern const float DAT_010162c0;
-extern const double DAT_010704f0, DAT_010704e8;
-extern const char DAT_01070c58[], DAT_01049638[], DAT_01025cc4[], DAT_01070c38[], DAT_01070be0[], DAT_01070bc0[],
-    DAT_01012058[], DAT_01070ba8[];
-Menu129* FUN_00a09030(int);
-int FUN_00406d00(char*, unsigned int, const char*, ...);
-void DispatchMessageToSink(const char*, int, const char*, int, float, int);
-void FUN_005b5e40(const char*);
-float __stdcall FUN_00a01530(int);
-int FUN_0044a670(const char*);
-Tile129* FUN_00733630(SetMgr* casino, int minimum, int maximum, int required);
-NiAVObject* __cdecl FUN_004aae30(NiAVObject*, const char*);
+extern const char DAT_01070c38[], DAT_01070be0[], DAT_01070bc0[], DAT_01070ba8[];
 struct Menu737e50
 {
     int unk000;
@@ -2655,13 +2644,10 @@ struct Menu737e50
     NiAVObject* split;
     void UpdateCulledNodes();
 };
-extern float DAT_0101e704, DAT_01023cd8;
 struct BlackjackButtonMenu
 {
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24;
     int state;
-    bool HasFlag(unsigned int);
-    void FUN_00738c30(int, float);
     void UpdateButtonState(int);
 };
 struct BJCard
@@ -2674,7 +2660,6 @@ struct BJCard
     ~BJCard();
     BJCard& operator=(const BJCard&);
 };
-int __cdecl GetRandomNumberInRange(int, int);
 int __cdecl FUN_00ec7d40(int);
 struct BJDeck
 {
@@ -2718,9 +2703,6 @@ struct BJDeck
     int unk8c;
     BJCard cards[209];
     int count;
-    void Shuffle();
-    int HandValue(void*);
-    int CardValue(int);
     int DrawCard(void*, bool, bool);
 };
 class TESObjectREFR;
@@ -2759,11 +2741,9 @@ struct CardInfo
 };
 struct TableNode : Node90
 {
-    Node90* __thiscall FUN_0043b4a0(int index);
 };
 struct GlobalPtr
 {
-    TableNode* FUN_00559450();
 };
 struct BlackjackMenuShell
 {
@@ -2775,12 +2755,9 @@ struct OwnQ
 };
 struct CardHand
 {
-    CardInfo** FUN_006815c0();
-    CardHand* FUN_00726070();
     bool FUN_008256d0();
     void FUN_00726c60(CardInfo* const&);
     void FUN_005ae3d0(CardInfo* const&);
-    void FUN_00905820(CardInfo* const&);
 };
 struct MenuGlobalView : Menu129
 {
@@ -2831,18 +2808,7 @@ struct InputMenu
     CardHand* hand;
     CardHand* split;
     void HandleAction(int, void*);
-    void UpdateButtonState(int);
-    bool HasFlag(int);
-    void SetFlag(int, bool);
-    int DrawCard(void*, bool, bool);
-    int FUN_00738ff0(CardHand*);
     void ClearField();
-    void FUN_00738c30(int, float);
-    void DealInitialCards();
-    bool FUN_00739650(bool);
-    void UpdateChipPositions();
-    void FUN_007396e0(int, int, CardInfo*);
-    void FUN_007399f0();
 };
 
 void* __cdecl operator new(unsigned int);
@@ -2852,10 +2818,6 @@ struct FUN_0096a2d0
     BJCard* item;
     FUN_0096a2d0* next;
     FUN_0096a2d0();
-    BJCard** FUN_006815c0();
-    FUN_0096a2d0* FUN_00726070();
-    void FUN_00470470();
-    void FUN_00905820(BJCard* const&);
 };
 struct GlobalObject_0041a250
 {
@@ -2878,19 +2840,12 @@ class TESContainer
     int unk00, unk04, unk08;
     TESContainer();
     ~TESContainer();
-    void FUN_004818e0(void*, int, void*);
-    void FUN_004821a0(void*, bool);
 };
 struct BooleanHandler
 {
-    void FUN_0060c9c0(bool);
 };
 struct CasinoUpdate
 {
-    void* FUN_007316d0();
-    int GetFieldAt210();
-    BooleanHandler* FUN_00504e40();
-    Stats129* FUN_00504e60();
 };
 struct PlayerUpdate
 {
@@ -2990,49 +2945,31 @@ struct PlayerUpdate
     virtual void v174();
     virtual void v178();
     virtual void Remove(void*, int, int, int, int, int, int, int, int, int);
-    int FUN_00575610(void*);
-    const char* FUN_008adcf0(void*, int, bool);
 };
 struct TimeUpdate
 {
-    int FUN_00825c00();
 };
-extern TimeUpdate g_timeGlobal;
 bool __cdecl FUN_00702450(int);
 struct InterfaceUpdate
 {
-    FUN_00a012d0_t* FUN_0045cd60();
 };
 struct SceneUpdate
 {
-    SceneUpdate* FUN_0043b4a0(int);
-    void FUN_00a59c60(const Update90&);
 };
 struct ScenePointerUpdate
 {
-    SceneUpdate* FUN_00559450();
 };
 struct SequenceUpdate
 {
-    float FUN_00508100();
 };
 struct SequenceUpdateHandler
 {
-    void FUN_0047aab0(SequenceUpdate*, int, int, float, float, int);
-    void FUN_0047b220(SequenceUpdate*, float);
-    void FUN_0048fef0(float);
 };
-Audio129* __cdecl FUN_00453a70();
-const char* __cdecl FUN_00482720(void*);
-int __cdecl FUN_00406f60(BSStringT<char>*, const char*, ...);
-void __cdecl FUN_004d5c60(int);
-extern Settings129 DAT_011d3db4, DAT_011d3114, DAT_011d4e7c, DAT_011d5050, DAT_011d3a98, DAT_011d2ff4, DAT_011d25e0,
-    DAT_011d3474, DAT_011d3f88;
 extern float DAT_011d90e0;
 extern int DAT_011d90dc;
 extern const double DAT_01070d18;
-extern const char DAT_0101c178[], DAT_01070d8c[], DAT_010208a0[], DAT_0103a830[], DAT_01070d74[], DAT_01070d5c[],
-    DAT_01070d40[], DAT_01070d20[], DAT_01070d0c[], DAT_01070cf8[], DAT_01070ce4[], DAT_01019f08[];
+extern const char DAT_01070d8c[], DAT_01070d74[], DAT_01070d5c[],
+    DAT_01070d40[], DAT_01070d20[], DAT_01070d0c[], DAT_01070cf8[], DAT_01070ce4[];
 struct BlackjackUpdate
 {
     virtual void v00();
@@ -3123,23 +3060,7 @@ struct BlackjackUpdate
     SequenceUpdate* splitSeq[8];
     SequenceUpdate* dealerSeq[8];
     SequenceUpdate* revealSeq;
-    Tile129* FUN_00726070();
-    int FUN_0059bb30();
-    void FUN_00a1d910();
-    bool HasFlag(int);
-    void SetFlag(int, bool);
-    int FUN_00738ff0(FUN_0096a2d0*);
-    void FUN_007396e0(int, int, BJCard*);
-    void FUN_007395a0();
-    void UpdateButtonState(int);
-    void FUN_00739970(bool);
-    void UpdateCulledNodes();
-    void UncullCardObjects();
     void ClearField();
-    void HideArrowNodes();
-    int DrawCard(FUN_0096a2d0*, bool, bool);
-    void UpdateTileText();
-    void FUN_007399d0();
     void FUN_00734db0();
 };
 
@@ -3161,7 +3082,7 @@ void BlackjackUpdate::FUN_00734db0()
     }
     else if (active)
     {
-        dt = g_timeGlobal.FUN_00825c00() - lastTime;
+        dt = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeUpdate *>(&::g_timeGlobal))))->FUN_00825c00())) - lastTime;
         if (dt > 1000)
             dt = 0;
         if (DAT_011d90dc != state)
@@ -3169,183 +3090,181 @@ void BlackjackUpdate::FUN_00734db0()
         else
             DAT_011d90e0 += dt / 1000.0;
     }
-    lastTime = g_timeGlobal.FUN_00825c00();
+    lastTime = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeUpdate *>(&::g_timeGlobal))))->FUN_00825c00()));
     DAT_011d90dc = state;
     if (!active)
-        ((InterfaceUpdate*)FUN_004b7210())->FUN_0045cd60()->FUN_00a012d0(0xfa9, 255.0f, true);
+        ((::FUN_00a012d0_t *)(reinterpret_cast<::FUN_0045cd60_shell *>((((InterfaceUpdate*)((void *)(::fnv_004b7210::FUN_004b7210())))))->FUN_0045cd60()))->FUN_00a012d0(0xfa9, 255.0f, true);
     switch (state)
     {
     case 13:
         if (DAT_011d90e0 < 1.0)
             break;
-        if (FUN_0059bb30() != 2)
+        if (((int)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) != 2)
         {
-            ((InterfaceUpdate*)FUN_004b7210())->FUN_0045cd60()->FUN_00a012d0(0xfa9, 255.0f, true);
-            FUN_00726070()->FUN_00700320(0x1772, 1);
-            FUN_00a1d910();
+            ((::FUN_00a012d0_t *)(reinterpret_cast<::FUN_0045cd60_shell *>((((InterfaceUpdate*)((void *)(::fnv_004b7210::FUN_004b7210())))))->FUN_0045cd60()))->FUN_00a012d0(0xfa9, 255.0f, true);
+            reinterpret_cast<::Tile *>((((::Tile129 *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(0x1772, 1);
+            reinterpret_cast<::FUN_00a1d910_shell *>(this)->FUN_00a1d910();
             int difference =
-                balance - ((PlayerUpdate*)DAT_011dea3c)->FUN_00575610(((CasinoUpdate*)DAT_011d9058)->FUN_007316d0());
+                balance - reinterpret_cast<::CombatState *>((((PlayerUpdate*)(*reinterpret_cast<::SetMgrB * *>(&::_g_thePlayer)))))->GetInventoryItemCount((::TESForm *)(void *)(((void *)(reinterpret_cast<::FUN_007316d0_Class *>((((CasinoUpdate*)DAT_011d9058)))->FUN_007316d0()))));
             if (difference < 0)
             {
-                ((PlayerUpdate*)DAT_011dea3c)
-                    ->Remove(((CasinoUpdate*)DAT_011d9058)->FUN_007316d0(), 0, -difference, 0, 0, 0, 0, 0, 1, 0);
+                ((PlayerUpdate*)(*reinterpret_cast<::SetMgrB * *>(&::_g_thePlayer)))
+                    ->Remove(((void *)(reinterpret_cast<::FUN_007316d0_Class *>((((CasinoUpdate*)DAT_011d9058)))->FUN_007316d0())), 0, -difference, 0, 0, 0, 0, 0, 1, 0);
                 BSStringT<char> msg;
-                FUN_00406f60(&msg, DAT_0101c178, -difference,
-                             FUN_00482720(((CasinoUpdate*)DAT_011d9058)->FUN_007316d0()), DAT_011d3114.FUN_00403df0(),
-                             DAT_011d3db4.FUN_00403df0());
-                DispatchMessageToSink(msg, 0, DAT_010208a0,
-                                      (int)((PlayerUpdate*)DAT_011dea3c)
-                                          ->FUN_008adcf0(((CasinoUpdate*)DAT_011d9058)->FUN_007316d0(), 1, false),
-                                      DAT_010162c0, 0);
+                ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT<char> *)(&msg), DAT_0101c178, -difference,
+                             ::FUN_00482720((::TESForm *)(void *)(((void *)(reinterpret_cast<::FUN_007316d0_Class *>((((CasinoUpdate*)DAT_011d9058)))->FUN_007316d0())))), (*reinterpret_cast<::Settings129 *>(&::g_011d3114)).FUN_00403df0(),
+                             (*reinterpret_cast<::Settings129 *>(&::g_011d3db4)).FUN_00403df0());
+                ::DispatchMessageToSink((int)(msg), 0, (int)(::g_011cba18_arg1),
+                                      (int)reinterpret_cast<::PickupSoundActorView *>((((PlayerUpdate*)(*reinterpret_cast<::SetMgrB * *>(&::_g_thePlayer)))))->FUN_008adcf0((::TESBoundObject *)(void *)(((void *)(reinterpret_cast<::FUN_007316d0_Class *>((((CasinoUpdate*)DAT_011d9058)))->FUN_007316d0()))), 1, false),
+                                      ::DAT_010162c0, 0);
             }
             else if (difference > 0)
             {
                 TESContainer inventory;
-                inventory.FUN_004818e0(((CasinoUpdate*)DAT_011d9058)->FUN_007316d0(), difference, 0);
-                if (DAT_011d9054->amount < ((CasinoUpdate*)DAT_011d9058)->GetFieldAt210())
-                    inventory.FUN_004821a0(DAT_011dea3c, false);
+                reinterpret_cast<::fnv_004818e0::FUN_004818e0_t *>(&(inventory))->FUN_004818e0((::TESObject *)(void *)(((void *)(reinterpret_cast<::FUN_007316d0_Class *>((((CasinoUpdate*)DAT_011d9058)))->FUN_007316d0()))), difference, (::ContainerItemExtra *)(void *)(0));
+                if (DAT_011d9054->amount < ((int)(reinterpret_cast<::FUN_00737e30_shell *>((((CasinoUpdate*)DAT_011d9058)))->GetFieldAt210())))
+                    reinterpret_cast<::ContainerOperation *>(&(inventory))->FUN_004821a0((::TESObjectREFR *)((*reinterpret_cast<::SetMgrB * *>(&::_g_thePlayer))), false);
                 else
                 {
-                    inventory.FUN_004821a0(DAT_011dea3c, true);
+                    reinterpret_cast<::ContainerOperation *>(&(inventory))->FUN_004821a0((::TESObjectREFR *)((*reinterpret_cast<::SetMgrB * *>(&::_g_thePlayer))), true);
                     BSStringT<char> msg2;
-                    FUN_00406f60(&msg2, DAT_01070d8c, difference,
-                                 FUN_00482720(((CasinoUpdate*)DAT_011d9058)->FUN_007316d0()),
-                                 DAT_011d3114.FUN_00403df0(), DAT_011d4e7c.FUN_00403df0(), DAT_011d3abc.FUN_00403df0());
-                    DispatchMessageToSink(msg2, 0, DAT_0103a830,
-                                          (int)((PlayerUpdate*)DAT_011dea3c)
-                                              ->FUN_008adcf0(((CasinoUpdate*)DAT_011d9058)->FUN_007316d0(), 1, false),
-                                          DAT_010162c0, 0);
+                    ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT<char> *)(&msg2), DAT_01070d8c, difference,
+                                 ::FUN_00482720((::TESForm *)(void *)(((void *)(reinterpret_cast<::FUN_007316d0_Class *>((((CasinoUpdate*)DAT_011d9058)))->FUN_007316d0())))),
+                                 (*reinterpret_cast<::Settings129 *>(&::g_011d3114)).FUN_00403df0(), (*reinterpret_cast<::Settings129 *>(&::g_011d4e7c)).FUN_00403df0(), (*reinterpret_cast<::Settings129 *>(&::g_011d3abc)).FUN_00403df0());
+                    ::DispatchMessageToSink((int)(msg2), 0, (int)(::g_011cba00_arg1),
+                                          (int)reinterpret_cast<::PickupSoundActorView *>((((PlayerUpdate*)(*reinterpret_cast<::SetMgrB * *>(&::_g_thePlayer)))))->FUN_008adcf0((::TESBoundObject *)(void *)(((void *)(reinterpret_cast<::FUN_007316d0_Class *>((((CasinoUpdate*)DAT_011d9058)))->FUN_007316d0()))), 1, false),
+                                          ::DAT_010162c0, 0);
                 }
             }
             if (reward)
             {
-                BooleanHandler* quest = ((CasinoUpdate*)DAT_011d9058)->FUN_00504e40();
+                BooleanHandler* quest = ((::BooleanHandler *)(reinterpret_cast<::FUN_00504e40_shell *>((((CasinoUpdate*)DAT_011d9058)))->FUN_00504e40()));
                 if (quest)
-                    quest->FUN_0060c9c0(true);
+                    reinterpret_cast<::TESQuest *>((quest))->SetEnabled(true);
             }
         }
         break;
     case 1: {
         int previous = counts[2];
-        float half = playerSeq[previous]->FUN_00508100() / 2.0;
-        static float endTime = playerSeq[1]->FUN_00508100();
+        float half = reinterpret_cast<::FUN_00508100_shell *>((playerSeq[previous]))->FUN_00508100() / 2.0;
+        static float endTime = reinterpret_cast<::FUN_00508100_shell *>((playerSeq[1]))->FUN_00508100();
         if (dealerSeq[previous] && playerSeq[previous])
         {
             if (DAT_011d90e0 > 1.0)
-                message->FUN_00700320(0xfa3, 0);
+                reinterpret_cast<::Tile *>((message))->Set(0xfa3, 0);
             Update90 scene(DAT_011d90e0, true, false);
-            ((ScenePointerUpdate*)&g_011d9098)->FUN_00559450()->FUN_0043b4a0(0)->FUN_00a59c60(scene);
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(0)))))->FUN_00a59c60((int)&(scene));
             if (DAT_011d90e0 == 0.0)
             {
                 Update90 reset(0.0f, true, false);
-                ((ScenePointerUpdate*)&g_011d9098)->FUN_00559450()->FUN_00a59c60(reset);
-                FUN_00453a70()->FUN_00ad7550(DAT_01070d74, 0x121).FUN_00ad8830(false);
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->FUN_00a59c60((int)&(reset));
+                reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01070d74, 0x121)))->FUN_00ad8830(false);
                 sounded = true;
                 FUN_0096a2d0* p = player;
                 FUN_0096a2d0* dealerNode = dealer;
-                FUN_007396e0(0, 1, *p->FUN_006815c0());
-                p = p->FUN_00726070();
-                FUN_007396e0(0, 2, *p->FUN_006815c0());
-                FUN_007396e0(2, 1, *dealerNode->FUN_006815c0());
-                dealerNode = dealerNode->FUN_00726070();
-                FUN_007396e0(2, 2, *dealerNode->FUN_006815c0());
-                playerAnim->FUN_0047aab0(playerSeq[1], 0, 0, 1.0f, 0.0f, 0);
-                dealerAnim->FUN_0047aab0(dealerSeq[1], 0, 0, 1.0f, 0.0f, 0);
-                endTime = playerSeq[1]->FUN_00508100();
+                reinterpret_cast<::BlackjackMenuShell *>(this)->FUN_007396e0(0, 1, (::CardInfo *)(*((::BJCard **)(new ((void *)(p)) ::Vec3()))));
+                p = ((::FUN_0096a2d0 *)(reinterpret_cast<::Callees *>((p))->FUN_00726070()));
+                reinterpret_cast<::BlackjackMenuShell *>(this)->FUN_007396e0(0, 2, (::CardInfo *)(*((::BJCard **)(new ((void *)(p)) ::Vec3()))));
+                reinterpret_cast<::BlackjackMenuShell *>(this)->FUN_007396e0(2, 1, (::CardInfo *)(*((::BJCard **)(new ((void *)(dealerNode)) ::Vec3()))));
+                dealerNode = ((::FUN_0096a2d0 *)(reinterpret_cast<::Callees *>((dealerNode))->FUN_00726070()));
+                reinterpret_cast<::BlackjackMenuShell *>(this)->FUN_007396e0(2, 2, (::CardInfo *)(*((::BJCard **)(new ((void *)(dealerNode)) ::Vec3()))));
+                reinterpret_cast<::NiControllerManager *>((playerAnim))->ActivateControllerSequence((::NiControllerSequence *)(playerSeq[1]), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
+                reinterpret_cast<::NiControllerManager *>((dealerAnim))->ActivateControllerSequence((::NiControllerSequence *)(dealerSeq[1]), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
+                endTime = reinterpret_cast<::FUN_00508100_shell *>((playerSeq[1]))->FUN_00508100();
             }
             if (counts[0] == 1)
             {
                 Update90 pu(DAT_011d90e0, true, false);
-                ((ScenePointerUpdate*)&g_011d9098)->FUN_00559450()->FUN_0043b4a0(1)->FUN_00a59c60(pu);
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(1)))))->FUN_00a59c60((int)&(pu));
             }
             if (counts[2] == 1 && DAT_011d90e0 >= half)
             {
-                if (sounded && DAT_011d90e0 < playerSeq[1]->FUN_00508100())
+                if (sounded && DAT_011d90e0 < reinterpret_cast<::FUN_00508100_shell *>((playerSeq[1]))->FUN_00508100())
                 {
                     sounded = false;
-                    FUN_00453a70()->FUN_00ad7550(DAT_01070d74, 0x121).FUN_00ad8830(false);
+                    reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01070d74, 0x121)))->FUN_00ad8830(false);
                 }
                 Update90 du(DAT_011d90e0 - half, true, false);
-                ((ScenePointerUpdate*)&g_011d9098)->FUN_00559450()->FUN_0043b4a0(3)->FUN_00a59c60(du);
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(3)))))->FUN_00a59c60((int)&(du));
             }
-            if (counts[0] == 2 && DAT_011d90e0 >= playerSeq[1]->FUN_00508100())
+            if (counts[0] == 2 && DAT_011d90e0 >= reinterpret_cast<::FUN_00508100_shell *>((playerSeq[1]))->FUN_00508100())
             {
-                if (!sounded && DAT_011d90e0 < playerSeq[1]->FUN_00508100() + half)
+                if (!sounded && DAT_011d90e0 < reinterpret_cast<::FUN_00508100_shell *>((playerSeq[1]))->FUN_00508100() + half)
                 {
                     sounded = true;
-                    FUN_00453a70()->FUN_00ad7550(DAT_01070d74, 0x121).FUN_00ad8830(false);
+                    reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01070d74, 0x121)))->FUN_00ad8830(false);
                 }
-                Update90 pu2(DAT_011d90e0 - playerSeq[previous]->FUN_00508100(), true, false);
-                ((ScenePointerUpdate*)&g_011d9098)->FUN_00559450()->FUN_0043b4a0(1)->FUN_00a59c60(pu2);
+                Update90 pu2(DAT_011d90e0 - reinterpret_cast<::FUN_00508100_shell *>((playerSeq[previous]))->FUN_00508100(), true, false);
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(1)))))->FUN_00a59c60((int)&(pu2));
             }
-            if (counts[2] == 2 && DAT_011d90e0 >= playerSeq[1]->FUN_00508100() + half)
+            if (counts[2] == 2 && DAT_011d90e0 >= reinterpret_cast<::FUN_00508100_shell *>((playerSeq[1]))->FUN_00508100() + half)
             {
                 if (sounded)
                 {
                     sounded = false;
-                    FUN_00453a70()->FUN_00ad7550(DAT_01070d5c, 0x121).FUN_00ad8830(false);
+                    reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01070d5c, 0x121)))->FUN_00ad8830(false);
                 }
-                Update90 du2(DAT_011d90e0 - (playerSeq[1]->FUN_00508100() + half), true, false);
-                ((ScenePointerUpdate*)&g_011d9098)->FUN_00559450()->FUN_0043b4a0(3)->FUN_00a59c60(du2);
+                Update90 du2(DAT_011d90e0 - (reinterpret_cast<::FUN_00508100_shell *>((playerSeq[1]))->FUN_00508100() + half), true, false);
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(3)))))->FUN_00a59c60((int)&(du2));
             }
             if (DAT_011d90e0 >= endTime)
             {
                 if (counts[0] == 1)
                 {
                     counts[0]++;
-                    playerAnim->FUN_0047b220(playerSeq[previous], 0.0f);
-                    playerAnim->FUN_0047aab0(playerSeq[counts[0]], 0, 0, 1.0f, 0.0f, 0);
-                    endTime = dealerSeq[1]->FUN_00508100() + half;
+                    reinterpret_cast<::NiControllerManager *>((playerAnim))->StopSequence((::NiControllerSequence *)(playerSeq[previous]), 0.0f);
+                    reinterpret_cast<::NiControllerManager *>((playerAnim))->ActivateControllerSequence((::NiControllerSequence *)(playerSeq[counts[0]]), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
+                    endTime = reinterpret_cast<::FUN_00508100_shell *>((dealerSeq[1]))->FUN_00508100() + half;
                 }
                 else if (counts[2] == 1)
                 {
                     counts[2]++;
-                    dealerAnim->FUN_0047b220(dealerSeq[previous], 0.0f);
-                    dealerAnim->FUN_0047aab0(dealerSeq[counts[2]], 0, 0, 1.0f, 0.0f, 0);
-                    endTime = playerSeq[1]->FUN_00508100() + dealerSeq[1]->FUN_00508100();
+                    reinterpret_cast<::NiControllerManager *>((dealerAnim))->StopSequence((::NiControllerSequence *)(dealerSeq[previous]), 0.0f);
+                    reinterpret_cast<::NiControllerManager *>((dealerAnim))->ActivateControllerSequence((::NiControllerSequence *)(dealerSeq[counts[2]]), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
+                    endTime = reinterpret_cast<::FUN_00508100_shell *>((playerSeq[1]))->FUN_00508100() + reinterpret_cast<::FUN_00508100_shell *>((dealerSeq[1]))->FUN_00508100();
                 }
                 else if (counts[0] == 2)
                 {
                     counts[0]++;
-                    playerAnim->FUN_0047b220(playerSeq[previous], 0.0f);
-                    endTime = dealerSeq[1]->FUN_00508100() + half + dealerSeq[2]->FUN_00508100();
+                    reinterpret_cast<::NiControllerManager *>((playerAnim))->StopSequence((::NiControllerSequence *)(playerSeq[previous]), 0.0f);
+                    endTime = reinterpret_cast<::FUN_00508100_shell *>((dealerSeq[1]))->FUN_00508100() + half + reinterpret_cast<::FUN_00508100_shell *>((dealerSeq[2]))->FUN_00508100();
                 }
                 else
                 {
-                    int value = FUN_00738ff0(player);
+                    int value = reinterpret_cast<::OwnQ *>(this)->FUN_00738ff0((::Node129 *)(player));
                     if (value == 21)
                     {
                         playerResult = 5;
-                        SetFlag(0x20, true);
+                        reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x20, true);
                     }
-                    if (FUN_00738ff0(dealer) == 21)
+                    if (reinterpret_cast<::OwnQ *>(this)->FUN_00738ff0((::Node129 *)(dealer)) == 21)
                     {
-                        SetFlag(0x20, true);
+                        reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x20, true);
                         if (playerResult == 5)
                             playerResult = 2;
                         else
                             playerResult = 1;
                     }
-                    if (!HasFlag(0x20))
+                    if (!((bool)(reinterpret_cast<::FUN_00734d30_shell *>(this)->HasFlag(0x20))))
                         UpdateBetTiles(false);
                     if (balance >= bet * 2)
                     {
                         if (value == 11)
-                            SetFlag(0x40, true);
+                            reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x40, true);
                         else
-                            FUN_007395a0();
+                            reinterpret_cast<::fnv_007395a0::FUN_007395a0_shell *>(this)->FUN_007395a0();
                     }
                     else
                     {
-                        SetFlag(0x40, false);
-                        SetFlag(0x100, false);
-                        SetFlag(4, false);
+                        reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x40, false);
+                        reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x100, false);
+                        reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(4, false);
                     }
-                    UpdateButtonState(10);
+                    reinterpret_cast<::BlackjackButtonMenu *>(this)->UpdateButtonState(10);
                     endTime = 0.0f;
                     counts[2]++;
-                    dealerAnim->FUN_0047b220(dealerSeq[previous], 0.0f);
-                    if (HasFlag(0x20))
+                    reinterpret_cast<::NiControllerManager *>((dealerAnim))->StopSequence((::NiControllerSequence *)(dealerSeq[previous]), 0.0f);
+                    if (((bool)(reinterpret_cast<::FUN_00734d30_shell *>(this)->HasFlag(0x20))))
                         state = 8;
                     else
                         state = 4;
@@ -3355,7 +3274,7 @@ void BlackjackUpdate::FUN_00734db0()
         break;
     }
     case 2: {
-        bool onSplit = HasFlag(0x10);
+        bool onSplit = ((bool)(reinterpret_cast<::FUN_00734d30_shell *>(this)->HasFlag(0x10)));
         if (onSplit)
         {
             if (!splitSeq[counts[1]])
@@ -3367,12 +3286,12 @@ void BlackjackUpdate::FUN_00734db0()
                 break;
         }
         if (DAT_011d90e0 > 1.0)
-            message->FUN_00700320(0xfa3, 0);
+            reinterpret_cast<::Tile *>((message))->Set(0xfa3, 0);
         Update90 scene(DAT_011d90e0, true, false);
-        ((ScenePointerUpdate*)&g_011d9098)->FUN_00559450()->FUN_0043b4a0(0)->FUN_00a59c60(scene);
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(0)))))->FUN_00a59c60((int)&(scene));
         if (DAT_011d90e0 == 0.0)
         {
-            FUN_00453a70()->FUN_00ad7550(DAT_01070d74, 0x121).FUN_00ad8830(false);
+            reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01070d74, 0x121)))->FUN_00ad8830(false);
             FUN_0096a2d0* curr = 0;
             BJCard* last = 0;
             int drawn = 0;
@@ -3380,59 +3299,59 @@ void BlackjackUpdate::FUN_00734db0()
             if (onSplit)
             {
                 handId = 1;
-                splitAnim->FUN_0047aab0(splitSeq[counts[1]], 0, 0, 1.0f, 0.0f, 0);
+                reinterpret_cast<::NiControllerManager *>((splitAnim))->ActivateControllerSequence((::NiControllerSequence *)(splitSeq[counts[1]]), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
                 curr = split;
-                while (curr && *curr->FUN_006815c0() && drawn != counts[1])
+                while (curr && *((::BJCard **)(new ((void *)(curr)) ::Vec3())) && drawn != counts[1])
                 {
-                    last = *curr->FUN_006815c0();
-                    curr = curr->FUN_00726070();
+                    last = *((::BJCard **)(new ((void *)(curr)) ::Vec3()));
+                    curr = ((::FUN_0096a2d0 *)(reinterpret_cast<::Callees *>((curr))->FUN_00726070()));
                     drawn++;
                 }
             }
             else
             {
-                playerAnim->FUN_0047aab0(playerSeq[counts[0]], 0, 0, 1.0f, 0.0f, 0);
+                reinterpret_cast<::NiControllerManager *>((playerAnim))->ActivateControllerSequence((::NiControllerSequence *)(playerSeq[counts[0]]), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
                 curr = player;
-                while (curr && *curr->FUN_006815c0() && drawn != counts[0])
+                while (curr && *((::BJCard **)(new ((void *)(curr)) ::Vec3())) && drawn != counts[0])
                 {
-                    last = *curr->FUN_006815c0();
-                    curr = curr->FUN_00726070();
+                    last = *((::BJCard **)(new ((void *)(curr)) ::Vec3()));
+                    curr = ((::FUN_0096a2d0 *)(reinterpret_cast<::Callees *>((curr))->FUN_00726070()));
                     drawn++;
                 }
             }
-            while (curr && *curr->FUN_006815c0() && drawn)
+            while (curr && *((::BJCard **)(new ((void *)(curr)) ::Vec3())) && drawn)
             {
-                last = *curr->FUN_006815c0();
-                curr = curr->FUN_00726070();
+                last = *((::BJCard **)(new ((void *)(curr)) ::Vec3()));
+                curr = ((::FUN_0096a2d0 *)(reinterpret_cast<::Callees *>((curr))->FUN_00726070()));
                 drawn++;
             }
-            FUN_007396e0(handId, drawn, last);
+            reinterpret_cast<::BlackjackMenuShell *>(this)->FUN_007396e0(handId, drawn, (::CardInfo *)(last));
         }
         Update90 hu(DAT_011d90e0, true, false);
         if (onSplit)
-            ((ScenePointerUpdate*)&g_011d9098)->FUN_00559450()->FUN_0043b4a0(2)->FUN_00a59c60(hu);
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(2)))))->FUN_00a59c60((int)&(hu));
         else
-            ((ScenePointerUpdate*)&g_011d9098)->FUN_00559450()->FUN_0043b4a0(1)->FUN_00a59c60(hu);
-        if ((onSplit && DAT_011d90e0 >= splitSeq[counts[1]]->FUN_00508100()) ||
-            (!onSplit && DAT_011d90e0 >= playerSeq[counts[0]]->FUN_00508100()))
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(1)))))->FUN_00a59c60((int)&(hu));
+        if ((onSplit && DAT_011d90e0 >= reinterpret_cast<::FUN_00508100_shell *>((splitSeq[counts[1]]))->FUN_00508100()) ||
+            (!onSplit && DAT_011d90e0 >= reinterpret_cast<::FUN_00508100_shell *>((playerSeq[counts[0]]))->FUN_00508100()))
         {
             if (onSplit)
             {
-                splitAnim->FUN_0047b220(splitSeq[counts[1]], 0.0f);
+                reinterpret_cast<::NiControllerManager *>((splitAnim))->StopSequence((::NiControllerSequence *)(splitSeq[counts[1]]), 0.0f);
                 counts[1]++;
             }
             else
             {
-                playerAnim->FUN_0047b220(playerSeq[counts[0]], 0.0f);
+                reinterpret_cast<::NiControllerManager *>((playerAnim))->StopSequence((::NiControllerSequence *)(playerSeq[counts[0]]), 0.0f);
                 counts[0]++;
             }
-            if (HasFlag(0x4000))
+            if (((bool)(reinterpret_cast<::FUN_00734d30_shell *>(this)->HasFlag(0x4000))))
                 state = 3;
-            else if (HasFlag(0x1000))
+            else if (((bool)(reinterpret_cast<::FUN_00734d30_shell *>(this)->HasFlag(0x1000))))
                 state = 8;
-            else if (HasFlag(8) && HasFlag(0x400) && HasFlag(0x800))
+            else if (((bool)(reinterpret_cast<::FUN_00734d30_shell *>(this)->HasFlag(8))) && ((bool)(reinterpret_cast<::FUN_00734d30_shell *>(this)->HasFlag(0x400))) && ((bool)(reinterpret_cast<::FUN_00734d30_shell *>(this)->HasFlag(0x800))))
                 state = 8;
-            else if (!HasFlag(8) && HasFlag(0x400))
+            else if (!((bool)(reinterpret_cast<::FUN_00734d30_shell *>(this)->HasFlag(8))) && ((bool)(reinterpret_cast<::FUN_00734d30_shell *>(this)->HasFlag(0x400))))
                 state = 8;
             else
                 state = 4;
@@ -3444,31 +3363,31 @@ void BlackjackUpdate::FUN_00734db0()
             break;
         if (counts[1] == 1)
         {
-            SetFlag(0x4000, true);
-            FUN_00739970(true);
-            playerAnim->FUN_0047aab0(playerSeq[2], 0, 0, 1.0f, 0.0f, 0);
+            reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x4000, true);
+            reinterpret_cast<::S00739970 *>(this)->FUN_00739970(true);
+            reinterpret_cast<::NiControllerManager *>((playerAnim))->ActivateControllerSequence((::NiControllerSequence *)(playerSeq[2]), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
             Update90 pu(0.0f, true, false);
             Update90 du(0.0f, true, false);
-            ((ScenePointerUpdate*)&g_011d9098)->FUN_00559450()->FUN_0043b4a0(3)->FUN_00a59c60(du);
-            ((ScenePointerUpdate*)&g_011d9098)->FUN_00559450()->FUN_0043b4a0(1)->FUN_00a59c60(pu);
-            SetFlag(0x10, true);
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(3)))))->FUN_00a59c60((int)&(du));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(1)))))->FUN_00a59c60((int)&(pu));
+            reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x10, true);
             counts[0]--;
             state = 2;
         }
         else if (counts[0] == 2)
         {
-            SetFlag(0x10, false);
+            reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x10, false);
             state = 2;
         }
         else if (counts[1] == 2)
         {
-            SetFlag(0x10, true);
+            reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x10, true);
             state = 2;
         }
         else
         {
-            SetFlag(0x4000, false);
-            SetFlag(0x10, false);
+            reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x4000, false);
+            reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x10, false);
             if (playerResult == 5 && splitResult == 5)
                 state = 12;
             else
@@ -3479,60 +3398,60 @@ void BlackjackUpdate::FUN_00734db0()
         if (playerSeq[0] && splitSeq[0] && dealerSeq[0])
         {
             if (DAT_011d90e0 > 1.0)
-                message->FUN_00700320(0xfa3, 0);
+                reinterpret_cast<::Tile *>((message))->Set(0xfa3, 0);
             if (DAT_011d90e0 == 0.0 && !sounded)
             {
-                FUN_00453a70()->FUN_00ad7550(DAT_01070d40, 0x121).FUN_00ad8830(false);
+                reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01070d40, 0x121)))->FUN_00ad8830(false);
                 Update90 reset(0.0f, true, false);
-                ((ScenePointerUpdate*)&g_011d9098)->FUN_00559450()->FUN_00a59c60(reset);
-                tableAnim->FUN_0047aab0(tableStart, 0, 0, 1.0f, 0.0f, 0);
-                playerAnim->FUN_0047aab0(playerSeq[0], 0, 0, 1.0f, 0.0f, 0);
-                splitAnim->FUN_0047aab0(splitSeq[0], 0, 0, 1.0f, 0.0f, 0);
-                UpdateCulledNodes();
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->FUN_00a59c60((int)&(reset));
+                reinterpret_cast<::NiControllerManager *>((tableAnim))->ActivateControllerSequence((::NiControllerSequence *)(tableStart), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
+                reinterpret_cast<::NiControllerManager *>((playerAnim))->ActivateControllerSequence((::NiControllerSequence *)(playerSeq[0]), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
+                reinterpret_cast<::NiControllerManager *>((splitAnim))->ActivateControllerSequence((::NiControllerSequence *)(splitSeq[0]), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
+                reinterpret_cast<::Menu737e50 *>(this)->UpdateCulledNodes();
             }
-            if (!sounded && DAT_011d90e0 < playerSeq[0]->FUN_00508100())
+            if (!sounded && DAT_011d90e0 < reinterpret_cast<::FUN_00508100_shell *>((playerSeq[0]))->FUN_00508100())
             {
                 Update90 tableUpdate(DAT_011d90e0, true, false);
                 Update90 playerUpdate(DAT_011d90e0, true, false);
                 Update90 splitUpdate(DAT_011d90e0, true, false);
-                ((ScenePointerUpdate*)&g_011d9098)->FUN_00559450()->FUN_0043b4a0(0)->FUN_00a59c60(tableUpdate);
-                ((ScenePointerUpdate*)&g_011d9098)->FUN_00559450()->FUN_0043b4a0(1)->FUN_00a59c60(playerUpdate);
-                ((ScenePointerUpdate*)&g_011d9098)->FUN_00559450()->FUN_0043b4a0(2)->FUN_00a59c60(splitUpdate);
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(0)))))->FUN_00a59c60((int)&(tableUpdate));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(1)))))->FUN_00a59c60((int)&(playerUpdate));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(2)))))->FUN_00a59c60((int)&(splitUpdate));
             }
-            else if (sounded && DAT_011d90e0 - soundTime < dealerSeq[0]->FUN_00508100())
+            else if (sounded && DAT_011d90e0 - soundTime < reinterpret_cast<::FUN_00508100_shell *>((dealerSeq[0]))->FUN_00508100())
             {
                 Update90 tableUpdate2(DAT_011d90e0 - soundTime, true, false);
                 Update90 dealerUpdate(DAT_011d90e0 - soundTime, true, false);
-                ((ScenePointerUpdate*)&g_011d9098)->FUN_00559450()->FUN_0043b4a0(0)->FUN_00a59c60(tableUpdate2);
-                ((ScenePointerUpdate*)&g_011d9098)->FUN_00559450()->FUN_0043b4a0(3)->FUN_00a59c60(dealerUpdate);
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(0)))))->FUN_00a59c60((int)&(tableUpdate2));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(3)))))->FUN_00a59c60((int)&(dealerUpdate));
             }
-            if (DAT_011d90e0 >= playerSeq[0]->FUN_00508100() && !sounded)
+            if (DAT_011d90e0 >= reinterpret_cast<::FUN_00508100_shell *>((playerSeq[0]))->FUN_00508100() && !sounded)
             {
-                tableAnim->FUN_0047b220(tableStart, 0.0f);
-                tableAnim->FUN_0047aab0(tableEnd, 0, 0, 1.0f, 0.0f, 0);
-                dealerAnim->FUN_0047aab0(dealerSeq[0], 0, 0, 1.0f, 0.0f, 0);
-                FUN_00453a70()->FUN_00ad7550(DAT_01070d20, 0x121).FUN_00ad8830(false);
+                reinterpret_cast<::NiControllerManager *>((tableAnim))->StopSequence((::NiControllerSequence *)(tableStart), 0.0f);
+                reinterpret_cast<::NiControllerManager *>((tableAnim))->ActivateControllerSequence((::NiControllerSequence *)(tableEnd), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
+                reinterpret_cast<::NiControllerManager *>((dealerAnim))->ActivateControllerSequence((::NiControllerSequence *)(dealerSeq[0]), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
+                reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01070d20, 0x121)))->FUN_00ad8830(false);
                 sounded = true;
                 soundTime = DAT_011d90e0;
                 Update90 tableUpdate2(0.0f, true, false);
                 Update90 dealerUpdate(0.0f, true, false);
-                ((ScenePointerUpdate*)&g_011d9098)->FUN_00559450()->FUN_0043b4a0(0)->FUN_00a59c60(tableUpdate2);
-                ((ScenePointerUpdate*)&g_011d9098)->FUN_00559450()->FUN_0043b4a0(3)->FUN_00a59c60(dealerUpdate);
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(0)))))->FUN_00a59c60((int)&(tableUpdate2));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(3)))))->FUN_00a59c60((int)&(dealerUpdate));
             }
-            else if (DAT_011d90e0 - soundTime >= dealerSeq[0]->FUN_00508100() && sounded)
+            else if (DAT_011d90e0 - soundTime >= reinterpret_cast<::FUN_00508100_shell *>((dealerSeq[0]))->FUN_00508100() && sounded)
             {
-                tableAnim->FUN_0047b220(tableEnd, 0.0f);
-                dealerAnim->FUN_0047b220(dealerSeq[0], 0.0f);
-                tableAnim->FUN_0048fef0(0.0f);
-                dealerAnim->FUN_0048fef0(0.0f);
-                playerAnim->FUN_0048fef0(0.0f);
-                splitAnim->FUN_0048fef0(0.0f);
-                UncullCardObjects();
-                ClearField();
-                FUN_00739970(false);
+                reinterpret_cast<::NiControllerManager *>((tableAnim))->StopSequence((::NiControllerSequence *)(tableEnd), 0.0f);
+                reinterpret_cast<::NiControllerManager *>((dealerAnim))->StopSequence((::NiControllerSequence *)(dealerSeq[0]), 0.0f);
+                reinterpret_cast<::NiControllerManager *>((tableAnim))->DeactivateAllSequences(0.0f);
+                reinterpret_cast<::NiControllerManager *>((dealerAnim))->DeactivateAllSequences(0.0f);
+                reinterpret_cast<::NiControllerManager *>((playerAnim))->DeactivateAllSequences(0.0f);
+                reinterpret_cast<::NiControllerManager *>((splitAnim))->DeactivateAllSequences(0.0f);
+                reinterpret_cast<::FUN_00738270_shell *>(this)->UncullCardObjects();
+                reinterpret_cast<::FUN_007316f0_shell *>(this)->ClearField();
+                reinterpret_cast<::S00739970 *>(this)->FUN_00739970(false);
                 sounded = false;
                 UpdateBetTiles(true);
-                int limit = ((CasinoUpdate*)DAT_011d9058)->FUN_00504e60()->limit;
+                int limit = ((::Stats129 *)(reinterpret_cast<::FUN_00504e60_shell *>((((CasinoUpdate*)DAT_011d9058)))->FUN_00504e60()))->limit;
                 int winnings = DAT_011d9054->amount;
                 int curTier = DAT_011d9054->flags;
                 for (int i = 1; i < 5; i++)
@@ -3558,74 +3477,74 @@ void BlackjackUpdate::FUN_00734db0()
         break;
     case 8: {
         if (DAT_011d90e0 > 1.0)
-            message->FUN_00700320(0xfa3, 0);
+            reinterpret_cast<::Tile *>((message))->Set(0xfa3, 0);
         if (!revealSeq)
         {
             state = 11;
             break;
         }
         Update90 su(DAT_011d90e0, true, false);
-        ((ScenePointerUpdate*)&g_011d9098)->FUN_00559450()->FUN_0043b4a0(0)->FUN_00a59c60(su);
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(0)))))->FUN_00a59c60((int)&(su));
         if (DAT_011d90e0 == 0.0)
         {
-            SetFlag(0x400, true);
-            SetFlag(0x800, true);
-            HideArrowNodes();
-            FUN_00453a70()->FUN_00ad7550(DAT_01070d5c, 0x121).FUN_00ad8830(false);
-            dealerAnim->FUN_0047aab0(revealSeq, 0, 0, 1.0f, 0.0f, 0);
+            reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x400, true);
+            reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x800, true);
+            reinterpret_cast<::FUN_00739ad0_Holder *>(this)->HideArrowNodes();
+            reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01070d5c, 0x121)))->FUN_00ad8830(false);
+            reinterpret_cast<::NiControllerManager *>((dealerAnim))->ActivateControllerSequence((::NiControllerSequence *)(revealSeq), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
         }
-        if (DAT_011d90e0 < revealSeq->FUN_00508100())
+        if (DAT_011d90e0 < reinterpret_cast<::FUN_00508100_shell *>((revealSeq))->FUN_00508100())
         {
             Update90 du(DAT_011d90e0, true, false);
-            ((ScenePointerUpdate*)&g_011d9098)->FUN_00559450()->FUN_0043b4a0(3)->FUN_00a59c60(du);
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(3)))))->FUN_00a59c60((int)&(du));
         }
-        if (DAT_011d90e0 >= revealSeq->FUN_00508100())
+        if (DAT_011d90e0 >= reinterpret_cast<::FUN_00508100_shell *>((revealSeq))->FUN_00508100())
         {
-            dealerAnim->FUN_0047b220(revealSeq, 0.0f);
+            reinterpret_cast<::NiControllerManager *>((dealerAnim))->StopSequence((::NiControllerSequence *)(revealSeq), 0.0f);
             state = 11;
         }
         break;
     }
     case 9: {
         if (DAT_011d90e0 > 1.0)
-            message->FUN_00700320(0xfa3, 0);
+            reinterpret_cast<::Tile *>((message))->Set(0xfa3, 0);
         if (!dealerSeq[counts[2]])
         {
-            if (FUN_00738ff0(dealer) > 21 || HasFlag(0x2000))
+            if (reinterpret_cast<::OwnQ *>(this)->FUN_00738ff0((::Node129 *)(dealer)) > 21 || ((bool)(reinterpret_cast<::FUN_00734d30_shell *>(this)->HasFlag(0x2000))))
                 state = 12;
             else
                 state = 11;
             break;
         }
         Update90 su(DAT_011d90e0, true, false);
-        ((ScenePointerUpdate*)&g_011d9098)->FUN_00559450()->FUN_0043b4a0(0)->FUN_00a59c60(su);
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(0)))))->FUN_00a59c60((int)&(su));
         if (DAT_011d90e0 == 0.0)
         {
-            FUN_00453a70()->FUN_00ad7550(DAT_01070d5c, 0x121).FUN_00ad8830(false);
-            HideArrowNodes();
+            reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01070d5c, 0x121)))->FUN_00ad8830(false);
+            reinterpret_cast<::FUN_00739ad0_Holder *>(this)->HideArrowNodes();
             FUN_0096a2d0* curr = dealer;
             BJCard* last = 0;
             int drawn = 0;
-            while (curr && *curr->FUN_006815c0())
+            while (curr && *((::BJCard **)(new ((void *)(curr)) ::Vec3())))
             {
-                last = *curr->FUN_006815c0();
-                curr = curr->FUN_00726070();
+                last = *((::BJCard **)(new ((void *)(curr)) ::Vec3()));
+                curr = ((::FUN_0096a2d0 *)(reinterpret_cast<::Callees *>((curr))->FUN_00726070()));
                 drawn++;
             }
             if (last)
-                FUN_007396e0(2, drawn, last);
-            dealerAnim->FUN_0047aab0(dealerSeq[counts[2]], 0, 0, 1.0f, 0.0f, 0);
+                reinterpret_cast<::BlackjackMenuShell *>(this)->FUN_007396e0(2, drawn, (::CardInfo *)(last));
+            reinterpret_cast<::NiControllerManager *>((dealerAnim))->ActivateControllerSequence((::NiControllerSequence *)(dealerSeq[counts[2]]), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
         }
-        if (DAT_011d90e0 < dealerSeq[counts[2]]->FUN_00508100())
+        if (DAT_011d90e0 < reinterpret_cast<::FUN_00508100_shell *>((dealerSeq[counts[2]]))->FUN_00508100())
         {
             Update90 du(DAT_011d90e0, true, false);
-            ((ScenePointerUpdate*)&g_011d9098)->FUN_00559450()->FUN_0043b4a0(3)->FUN_00a59c60(du);
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(3)))))->FUN_00a59c60((int)&(du));
         }
-        if (DAT_011d90e0 >= dealerSeq[counts[2]]->FUN_00508100())
+        if (DAT_011d90e0 >= reinterpret_cast<::FUN_00508100_shell *>((dealerSeq[counts[2]]))->FUN_00508100())
         {
-            dealerAnim->FUN_0047b220(dealerSeq[counts[2]], 0.0f);
+            reinterpret_cast<::NiControllerManager *>((dealerAnim))->StopSequence((::NiControllerSequence *)(dealerSeq[counts[2]]), 0.0f);
             counts[2]++;
-            if (FUN_00738ff0(dealer) > 21 || HasFlag(0x2000))
+            if (reinterpret_cast<::OwnQ *>(this)->FUN_00738ff0((::Node129 *)(dealer)) > 21 || ((bool)(reinterpret_cast<::FUN_00734d30_shell *>(this)->HasFlag(0x2000))))
                 state = 12;
             else
                 state = 11;
@@ -3635,7 +3554,7 @@ void BlackjackUpdate::FUN_00734db0()
     case 4:
         if (playerResult)
         {
-            if (HasFlag(8))
+            if (((bool)(reinterpret_cast<::FUN_00734d30_shell *>(this)->HasFlag(8))))
             {
                 if (splitResult)
                     state = 8;
@@ -3643,11 +3562,11 @@ void BlackjackUpdate::FUN_00734db0()
             else
                 state = 8;
         }
-        if (HasFlag(0x400))
+        if (((bool)(reinterpret_cast<::FUN_00734d30_shell *>(this)->HasFlag(0x400))))
         {
-            if (HasFlag(8))
+            if (((bool)(reinterpret_cast<::FUN_00734d30_shell *>(this)->HasFlag(8))))
             {
-                if (HasFlag(0x800))
+                if (((bool)(reinterpret_cast<::FUN_00734d30_shell *>(this)->HasFlag(0x800))))
                     state = 8;
             }
             else
@@ -3655,43 +3574,43 @@ void BlackjackUpdate::FUN_00734db0()
         }
         break;
     case 11: {
-        SetFlag(0x1000, true);
-        if (HasFlag(8))
+        reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x1000, true);
+        if (((bool)(reinterpret_cast<::FUN_00734d30_shell *>(this)->HasFlag(8))))
         {
             if (playerResult == 4 && splitResult == 4)
             {
-                SetFlag(0x2000, true);
+                reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x2000, true);
                 state = 12;
                 break;
             }
         }
         else if (playerResult == 4 || playerResult == 6)
         {
-            SetFlag(0x2000, true);
+            reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x2000, true);
             state = 12;
             break;
         }
-        if (HasFlag(0x20))
+        if (((bool)(reinterpret_cast<::FUN_00734d30_shell *>(this)->HasFlag(0x20))))
         {
             state = 12;
             break;
         }
-        int dealerTotal = FUN_00738ff0(dealer);
+        int dealerTotal = reinterpret_cast<::OwnQ *>(this)->FUN_00738ff0((::Node129 *)(dealer));
         int chosen = 0;
         int count = 0;
         FUN_0096a2d0* node = dealer;
         bool soft = false;
-        while (node && *node->FUN_006815c0())
+        while (node && *((::BJCard **)(new ((void *)(node)) ::Vec3())))
         {
             count++;
-            if ((*node->FUN_006815c0())->rank == 12)
+            if ((*((::BJCard **)(new ((void *)(node)) ::Vec3())))->rank == 12)
                 soft = true;
-            node = node->FUN_00726070();
+            node = ((::FUN_0096a2d0 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         }
         if ((dealerTotal < 17 || (dealerTotal == 17 && soft && !standSoft17)) && count < 7)
         {
-            chosen = DrawCard(dealer, true, true);
-            dealer->FUN_00905820(&cards[chosen]);
+            chosen = reinterpret_cast<::BJDeck *>(this)->DrawCard(dealer, true, true);
+            reinterpret_cast<::Callees *>((dealer))->FUN_00905820((void *)&(const ::BJCard *const &)(&cards[chosen]));
             state = 9;
         }
         else
@@ -3699,9 +3618,9 @@ void BlackjackUpdate::FUN_00734db0()
         break;
     }
     case 12: {
-        FUN_004d5c60(41);
-        int playerValue = FUN_00738ff0(player);
-        int dealerValue = FUN_00738ff0(dealer);
+        ::TopicMenuController::IncrementMiscStat(41);
+        int playerValue = reinterpret_cast<::OwnQ *>(this)->FUN_00738ff0((::Node129 *)(player));
+        int dealerValue = reinterpret_cast<::OwnQ *>(this)->FUN_00738ff0((::Node129 *)(dealer));
         int payout = 0;
         char buf[260];
         if (!playerResult)
@@ -3713,9 +3632,9 @@ void BlackjackUpdate::FUN_00734db0()
             else
                 playerResult = 2;
         }
-        if (HasFlag(8))
+        if (((bool)(reinterpret_cast<::FUN_00734d30_shell *>(this)->HasFlag(8))))
         {
-            playerValue = FUN_00738ff0(split);
+            playerValue = reinterpret_cast<::OwnQ *>(this)->FUN_00738ff0((::Node129 *)(split));
             if (!splitResult)
             {
                 if ((playerValue > dealerValue && playerValue < 22) || (playerValue < 22 && dealerValue > 21))
@@ -3756,84 +3675,84 @@ void BlackjackUpdate::FUN_00734db0()
             break;
         }
         balance += payout;
-        ((BlackjackUpdate*)DAT_011d9050)->tile38->SetTraitAndReset((int)DAT_011d9048, 1.0f);
-        ((BlackjackUpdate*)DAT_011d9050)->tile38->FUN_00700320((int)DAT_011d9048, balance);
+        reinterpret_cast<::FUN_00a01290_shell *>((((BlackjackUpdate*)DAT_011d9050)->tile38))->SetTraitAndReset((int)DAT_011d9048, 1.0f);
+        reinterpret_cast<::Tile *>((((BlackjackUpdate*)DAT_011d9050)->tile38))->Set((int)DAT_011d9048, balance);
         DAT_011d9054->amount += payout;
-        UpdateTileText();
+        reinterpret_cast<::fnv_0073ab40::FUN_0073ab40_shell *>(this)->UpdateTileText();
         if (payout > 0)
         {
             if (luckyWin)
-                FUN_00406d00(buf, 260, DAT_01070d0c, DAT_011d3a98.FUN_00403df0(), payout, DAT_011d5050.FUN_00403df0(),
-                             DAT_011d3114.FUN_00403df0());
+                ::FUN_00406d00(buf, 260, DAT_01070d0c, (*reinterpret_cast<::Settings129 *>(&::g_011d3a98)).FUN_00403df0(), payout, (*reinterpret_cast<::Settings129 *>(&::g_011d5050)).FUN_00403df0(),
+                             (*reinterpret_cast<::Settings129 *>(&::g_011d3114)).FUN_00403df0());
             else
-                FUN_00406d00(buf, 260, DAT_01070d0c, DAT_011d2ff4.FUN_00403df0(), payout, DAT_011d5050.FUN_00403df0(),
-                             DAT_011d3114.FUN_00403df0());
-            FUN_00453a70()->FUN_00ad7550(DAT_01070cf8, 0x121).FUN_00ad8830(false);
-            ((BlackjackUpdate*)DAT_011d9050)->message->SetTraitAndReset(0xfc4, 1.0f);
-            ((BlackjackUpdate*)DAT_011d9050)->message->FUN_00a01350(0xfc4, buf, true);
-            ((BlackjackUpdate*)DAT_011d9050)->message->FUN_00700320(0xfa3, 1);
+                ::FUN_00406d00(buf, 260, DAT_01070d0c, (*reinterpret_cast<::Settings129 *>(&::g_011d2ff4)).FUN_00403df0(), payout, (*reinterpret_cast<::Settings129 *>(&::g_011d5050)).FUN_00403df0(),
+                             (*reinterpret_cast<::Settings129 *>(&::g_011d3114)).FUN_00403df0());
+            reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01070cf8, 0x121)))->FUN_00ad8830(false);
+            reinterpret_cast<::FUN_00a01290_shell *>((((BlackjackUpdate*)DAT_011d9050)->message))->SetTraitAndReset(0xfc4, 1.0f);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((BlackjackUpdate*)DAT_011d9050)->message))->FUN_00a01350(0xfc4, (char *)(buf), true);
+            reinterpret_cast<::Tile *>((((BlackjackUpdate*)DAT_011d9050)->message))->Set(0xfa3, 1);
         }
         else if (payout < 0)
         {
             if (luckyLose)
-                FUN_00406d00(buf, 260, DAT_01070d0c, DAT_011d25e0.FUN_00403df0(), -payout, DAT_011d5050.FUN_00403df0(),
-                             DAT_011d3114.FUN_00403df0());
+                ::FUN_00406d00(buf, 260, DAT_01070d0c, (*reinterpret_cast<::Settings129 *>(&::g_011d25e0)).FUN_00403df0(), -payout, (*reinterpret_cast<::Settings129 *>(&::g_011d5050)).FUN_00403df0(),
+                             (*reinterpret_cast<::Settings129 *>(&::g_011d3114)).FUN_00403df0());
             else
-                FUN_00406d00(buf, 260, DAT_01070d0c, DAT_011d3474.FUN_00403df0(), -payout, DAT_011d5050.FUN_00403df0(),
-                             DAT_011d3114.FUN_00403df0());
-            FUN_00453a70()->FUN_00ad7550(DAT_01070ce4, 0x121).FUN_00ad8830(false);
-            ((BlackjackUpdate*)DAT_011d9050)->message->SetTraitAndReset(0xfc4, 1.0f);
-            ((BlackjackUpdate*)DAT_011d9050)->message->FUN_00a01350(0xfc4, buf, true);
-            ((BlackjackUpdate*)DAT_011d9050)->message->FUN_00700320(0xfa3, 1);
+                ::FUN_00406d00(buf, 260, DAT_01070d0c, (*reinterpret_cast<::Settings129 *>(&::g_011d3474)).FUN_00403df0(), -payout, (*reinterpret_cast<::Settings129 *>(&::g_011d5050)).FUN_00403df0(),
+                             (*reinterpret_cast<::Settings129 *>(&::g_011d3114)).FUN_00403df0());
+            reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01070ce4, 0x121)))->FUN_00ad8830(false);
+            reinterpret_cast<::FUN_00a01290_shell *>((((BlackjackUpdate*)DAT_011d9050)->message))->SetTraitAndReset(0xfc4, 1.0f);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((BlackjackUpdate*)DAT_011d9050)->message))->FUN_00a01350(0xfc4, (char *)(buf), true);
+            reinterpret_cast<::Tile *>((((BlackjackUpdate*)DAT_011d9050)->message))->Set(0xfa3, 1);
         }
         else
         {
-            FUN_00406d00(buf, 260, DAT_01019f08, DAT_011d3f88.FUN_00403df0());
-            ((BlackjackUpdate*)DAT_011d9050)->message->SetTraitAndReset(0xfc4, 1.0f);
-            ((BlackjackUpdate*)DAT_011d9050)->message->FUN_00a01350(0xfc4, buf, true);
-            ((BlackjackUpdate*)DAT_011d9050)->message->FUN_00700320(0xfa3, 1);
+            ::FUN_00406d00(buf, 260, DAT_01019f08, (*reinterpret_cast<::Settings129 *>(&::g_011d3f88)).FUN_00403df0());
+            reinterpret_cast<::FUN_00a01290_shell *>((((BlackjackUpdate*)DAT_011d9050)->message))->SetTraitAndReset(0xfc4, 1.0f);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((BlackjackUpdate*)DAT_011d9050)->message))->FUN_00a01350(0xfc4, (char *)(buf), true);
+            reinterpret_cast<::Tile *>((((BlackjackUpdate*)DAT_011d9050)->message))->Set(0xfa3, 1);
         }
-        player->FUN_00470470();
-        dealer->FUN_00470470();
-        if (HasFlag(8))
+        reinterpret_cast<::FileMatchList *>((player))->RemoveAll();
+        reinterpret_cast<::FileMatchList *>((dealer))->RemoveAll();
+        if (((bool)(reinterpret_cast<::FUN_00734d30_shell *>(this)->HasFlag(8))))
         {
-            split->FUN_00470470();
-            ((BlackjackUpdate*)DAT_011d9050)->tile34->SetTraitAndReset((int)DAT_011d9048, 1.0f);
-            ((BlackjackUpdate*)DAT_011d9050)->tile34->FUN_00700320((int)DAT_011d9048, bet);
+            reinterpret_cast<::FileMatchList *>((split))->RemoveAll();
+            reinterpret_cast<::FUN_00a01290_shell *>((((BlackjackUpdate*)DAT_011d9050)->tile34))->SetTraitAndReset((int)DAT_011d9048, 1.0f);
+            reinterpret_cast<::Tile *>((((BlackjackUpdate*)DAT_011d9050)->tile34))->Set((int)DAT_011d9048, bet);
             splitBet = 0;
         }
-        if (HasFlag(0x80))
+        if (((bool)(reinterpret_cast<::FUN_00734d30_shell *>(this)->HasFlag(0x80))))
         {
             bet /= 2;
-            ((BlackjackUpdate*)DAT_011d9050)->tile34->SetTraitAndReset((int)DAT_011d9048, 1.0f);
-            ((BlackjackUpdate*)DAT_011d9050)->tile34->FUN_00700320((int)DAT_011d9048, bet);
+            reinterpret_cast<::FUN_00a01290_shell *>((((BlackjackUpdate*)DAT_011d9050)->tile34))->SetTraitAndReset((int)DAT_011d9048, 1.0f);
+            reinterpret_cast<::Tile *>((((BlackjackUpdate*)DAT_011d9050)->tile34))->Set((int)DAT_011d9048, bet);
         }
         if (balance < bet)
         {
             bet = balance;
-            ((BlackjackUpdate*)DAT_011d9050)->tile34->SetTraitAndReset((int)DAT_011d9048, 1.0f);
-            ((BlackjackUpdate*)DAT_011d9050)->tile34->FUN_00700320((int)DAT_011d9048, bet);
+            reinterpret_cast<::FUN_00a01290_shell *>((((BlackjackUpdate*)DAT_011d9050)->tile34))->SetTraitAndReset((int)DAT_011d9048, 1.0f);
+            reinterpret_cast<::Tile *>((((BlackjackUpdate*)DAT_011d9050)->tile34))->Set((int)DAT_011d9048, bet);
         }
         state = 7;
         break;
     }
     case 10:
         if (remaining < decks * 52 * shuffleThreshold)
-            FUN_007399d0();
+            reinterpret_cast<::FUN_007399d0_shell *>(this)->FUN_007399d0();
         if (DAT_011d90e0 > 1.0)
-            message->FUN_00700320(0xfa3, 0);
+            reinterpret_cast<::Tile *>((message))->Set(0xfa3, 0);
         if (balance < bet)
         {
             bet = balance;
-            ((BlackjackUpdate*)DAT_011d9050)->tile34->SetTraitAndReset((int)DAT_011d9048, 1.0f);
-            ((BlackjackUpdate*)DAT_011d9050)->tile34->FUN_00700320((int)DAT_011d9048, bet);
+            reinterpret_cast<::FUN_00a01290_shell *>((((BlackjackUpdate*)DAT_011d9050)->tile34))->SetTraitAndReset((int)DAT_011d9048, 1.0f);
+            reinterpret_cast<::Tile *>((((BlackjackUpdate*)DAT_011d9050)->tile34))->Set((int)DAT_011d9048, bet);
         }
         if (balance < DAT_0119fe40)
         {
             char warning[260];
-            FUN_00406d00(warning, 260, DAT_011d2424.FUN_00403df0());
-            DispatchMessageToSink(warning, 0, DAT_01049638, 0, DAT_010162c0, 0);
-            FUN_00453a70()->FUN_00ad7550(DAT_01025cc4, 0x121).FUN_00ad8830(false);
+            ::FUN_00406d00(warning, 260, (*reinterpret_cast<::Settings129 *>(&::g_011d2424)).FUN_00403df0());
+            ::DispatchMessageToSink((int)(warning), 0, (int)(DAT_01049638), 0, ::DAT_010162c0, 0);
+            reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01025cc4, 0x121)))->FUN_00ad8830(false);
             FUN_00731d30();
         }
         break;

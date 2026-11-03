@@ -1,5 +1,7 @@
 // fallout/misc/saveload/bgschangeflags_decls.h: declares FormChangeMask, FormChangeRecord, BGSChangeFlagsState
 
+#include "fnv/decl/BSFlags.h"
+#include "fnv/symbols_00559000.h"
 class GlobalObject_008c71b0
 {
   public:
@@ -10,14 +12,12 @@ class FormChangeMask
 {
   public:
     unsigned int flags;
-    unsigned int FUN_00559450();
     static FormChangeMask HasFormChanged(FormChangeMask changes, FormChangeMask forced, int type, bool enabled);
 };
 class FormChangeRecord
 {
   public:
     unsigned int flags;
-    bool FUN_00562210(unsigned int mask);
 };
 class BGSChangeFlagsState
 {

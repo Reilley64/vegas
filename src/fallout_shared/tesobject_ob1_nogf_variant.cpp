@@ -3,6 +3,56 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /Ob1 (unit src/fallout_shared/tesobject.cpp lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/decl/A5D2C0Object.h"
+#include "fnv/decl/BSXFlags_shell.h"
+#include "fnv/decl/ControllerOwner.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00407820_shell.h"
+#include "fnv/decl/FUN_0040e500_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00477ba0_shell.h"
+#include "fnv/decl/FUN_0047cdb0_shell.h"
+#include "fnv/decl/FUN_004aad00_shell.h"
+#include "fnv/decl/FUN_0050d4a0_shell.h"
+#include "fnv/decl/FUN_0050e8b0_shell.h"
+#include "fnv/decl/FUN_0050ed30_class.h"
+#include "fnv/decl/FUN_005102b0_shell.h"
+#include "fnv/decl/FUN_00510360_Class.h"
+#include "fnv/decl/FUN_00510380_Class.h"
+#include "fnv/decl/FUN_005bb4d0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00929240_Class.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/LightCreation__LightForm.h"
+#include "fnv/decl/MyHost.h"
+#include "fnv/decl/TESActorBase.h"
+#include "fnv/decl/TESPackage.h"
+#include "fnv/decl/Thing.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_0047ce10__OwnerShell.h"
+#include "fnv/decl/fnv_0050f9c0__FUN_0050f9c0_shell.h"
+#include "fnv/decl/fnv_00567400__FUN_00567400_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00ad8100__FUN_00ad8100_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00448000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00489000.h"
+#include "fnv/symbols_004aa000.h"
+#include "fnv/symbols_0050e000.h"
+#include "fnv/symbols_00511000.h"
+#include "fnv/symbols_00517000.h"
+#include "fnv/symbols_00518000.h"
+#include "fnv/symbols_0065f000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011c9000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011df000.h"
+#include "fnv/symbols_011f6000.h"
 #include "tesobject_decls.h"
 
 #include <string>
@@ -12,9 +62,7 @@
 class MemoryManager
 {
   public:
-    void Deallocate(void*);
 };
-extern MemoryManager DAT_011f6238;
 
 struct El
 {
@@ -23,7 +71,7 @@ struct El
     std::vector<unsigned int> v;
     void operator delete(void* p)
     {
-        DAT_011f6238.Deallocate(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
     }
 };
 
@@ -62,7 +110,7 @@ template <> class allocator<El>
     }
     void deallocate(pointer p, size_type)
     {
-        DAT_011f6238.Deallocate(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
     }
     void construct(pointer p, const El& v)
     {
@@ -130,7 +178,7 @@ template <> void InsertVector<El>::FUN_00abfa90(V::const_iterator _Where, V::siz
     if (_Count == 0)
         ;
     else if (max_size() - size() < _Count)
-        _Xlen();
+        ::fnv_0065f640::ThrowVectorTooLong();
     else if (_Capacity < size() + _Count)
     {
         _Capacity = max_size() - _Capacity / 2 < _Capacity ? 0 : _Capacity + _Capacity / 2;

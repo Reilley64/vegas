@@ -5,11 +5,54 @@
 
 // src/fallout/interface/menus/vatsmenu_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/interface/menus/vatsmenu.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <new>
+#include "fnv/decl/BGSImpactData.h"
+#include "fnv/decl/BSFaceGenNiNode.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CameraWindowRay.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_004a39f0_shell.h"
+#include "fnv/decl/FUN_004a3fb0_shell.h"
+#include "fnv/decl/FUN_004a46b0_class.h"
+#include "fnv/decl/FUN_0059ce80_shell.h"
+#include "fnv/decl/FUN_0070ec70_class.h"
+#include "fnv/decl/FUN_00792760_shell.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/S50.h"
+#include "fnv/decl/ShadowLightData.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/VatsQueueText__VATSMenuQueue.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_004a3a20__FUN_004a3a20_shell.h"
+#include "fnv/decl/fnv_004a3da0__FUN_004a3da0_shell.h"
+#include "fnv/decl/fnv_004a3f90__T_.h"
+#include "fnv/decl/fnv_007f07a0__Owner7.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_008cdd90__FUN_008cdd90_shell.h"
+#include "fnv/decl/fnv_00a1ddb0__FUN_00a1ddb0_shell.h"
+#include "fnv/symbols_0045c000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_00726000.h"
+#include "fnv/symbols_007eb000.h"
+#include "fnv/symbols_007f3000.h"
+#include "fnv/symbols_007f4000.h"
+#include "fnv/symbols_007f6000.h"
+#include "fnv/symbols_00a00000.h"
+#include "fnv/symbols_00a08000.h"
+#include "fnv/symbols_011db000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f2000.h"
+#include "fnv/symbols_011f6000.h"
 #include "vatsmenu_decls.h"
 struct ItemListElement;
 struct ItemList
 {
-    ItemListElement** FUN_006815c0();
     void FUN_0063f7b0();
 };
 struct ItemListContainer
@@ -20,31 +63,23 @@ struct ItemListContainer
 };
 struct TargetList
 {
-    ItemListContainer** FUN_006815c0();
     void FUN_0063f7b0();
 };
 struct GlobalObject2_0096a2d0
 {
     int x;
 };
-extern GlobalObject2_0096a2d0 g_011db150;
-void FUN_007f6920();
 struct FUN_007ebd30_This
 {
     char pad[0x374];
     float fValue;
     float __thiscall FUN_007ebd30();
 };
-extern int DAT_011db0d4;
-void __cdecl FUN_007f3bd0(int a1);
 struct ArrSI
 {
-    unsigned int GetFlags();
 };
-extern int DAT_011f2250;
 struct Caller007efa10
 {
-    void __thiscall UpdateQueueEntry(int a1, int a2, int a3);
 };
 struct FUN_007ef710_This
 {
@@ -55,9 +90,7 @@ struct FUN_007ef710_This
 struct Tile;
 struct FUN_0070ec70_This
 {
-    int __thiscall FUN_0070ec70();
 };
-void* __cdecl FUN_004b7210();
 struct FUN_007ef760_Owner
 {
     virtual void vf0();
@@ -78,8 +111,6 @@ struct TESObjectREFR
 struct BSSimpleList
 {
     bool FUN_008256d0();
-    ItemListContainer** FUN_006815c0();
-    BSSimpleList* FUN_00726070();
 };
 struct StandIn
 {
@@ -88,27 +119,15 @@ struct StandIn
 struct Tile;
 struct Menu
 {
-    Tile* CreateTileFromTemplate(Tile*, char const*, Tile*);
 };
-void __cdecl _FNV_Warning(char const*);
-void __cdecl _FUN_007037e0();
-void __cdecl ShutdownVats();
-Tile* FUN_007f4830(Tile* apParent, char const* axName);
 struct Tile;
-Tile* __cdecl FindNamedTile(Tile*, char const*);
-void __cdecl _FNV_Warning(char const*);
-void __cdecl _FUN_007037e0();
-void __cdecl ShutdownVats();
-Tile* __cdecl FUN_007f4890(Tile* a1, char const* a2);
 struct AnimIdle
 {
-    int GetSection();
 };
 class GameTimerRecord
 {
     char _d;
 };
-extern GameTimerRecord g_timeGlobal;
 struct DAT_Pointee_7f4bb0
 {
     char pad[0x10F];
@@ -116,7 +135,6 @@ struct DAT_Pointee_7f4bb0
     char pad2[4];
     int t;
 };
-bool FUN_007f4bb0();
 struct Tile;
 struct ListBox
 {
@@ -126,7 +144,6 @@ struct ListBox
     virtual void v3();
     virtual void v4();
     virtual Tile* v5(int);
-    int GetFilteredCount(int);
     Tile* FUN_007f6fb0();
 };
 
@@ -140,12 +157,10 @@ struct __declspec(align(16)) B006815c0
     B006815c0();
 };
 
-B006815c0* __cdecl FUN_004a3e00(B006815c0* a1, const NiPoint3& a2);
 
 class Class_007f68a0
 {
   public:
-    void ForwardToSubObject(B006815c0* a1);
     void FUN_007f68a0(const NiPoint3& pt);
 };
 
@@ -153,7 +168,7 @@ class Class_007f68a0
 void Class_007f68a0::FUN_007f68a0(const NiPoint3& pt)
 {
     B006815c0 vec;
-    ForwardToSubObject(FUN_004a3e00(&vec, pt));
+    reinterpret_cast<::fnv_004a3f90::T_ *>(this)->ForwardToSubObject(((::B006815c0 *)&(::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&vec)), (const ::fnv_004a3e00::NiPoint3 &)(pt)))));
 }
 
 struct Point007f6af0
@@ -164,21 +179,16 @@ struct Point007f6af0
 };
 struct Quest007f6af0
 {
-    float FUN_00792760();
 };
 struct Light007f6af0
 {
-    float FUN_009a9350();
 };
 struct Anim007f6af0
 {
-    void MapScreenToRay(int, int, Point007f6af0*, Point007f6af0*, int);
 };
 struct Node007f6af0
 {
-    Anim007f6af0* FUN_006629f0();
 };
-Node007f6af0* FUN_0045c670();
 extern float DAT_011a0b74;
 struct Filter007f6af0
 {
@@ -186,8 +196,6 @@ struct Filter007f6af0
     Filter007f6af0()
     {}
     Filter007f6af0(int);
-    void FUN_004a39f0(int);
-    void FUN_0059ce80(unsigned);
     unsigned FUN_004a3a20();
 };
 struct Hit007f6af0
@@ -195,16 +203,12 @@ struct Hit007f6af0
     int field_00[20];
     void* field_50;
     int field_54[3];
-    Hit007f6af0* FUN_00696c30(Hit007f6af0*);
 };
 struct Hits007f6af0
 {
-    int FUN_00726070();
-    Hit007f6af0* GetEntryAt(int);
 };
 struct Response007f6af0
 {
-    Hits007f6af0* GetVoiceFilePath();
 };
 struct __declspec(align(16)) Collector007f6af0
 {
@@ -217,10 +221,6 @@ struct __declspec(align(16)) Ray007f6af0
     char field_00[176];
     Ray007f6af0();
     void FUN_004a3f70(int);
-    void FUN_004a3da0(Point007f6af0*);
-    void FUN_007f68a0(Point007f6af0 const&);
-    void FUN_004a3fb0(Collector007f6af0*);
-    Response007f6af0* FUN_008cdd90();
 };
 struct World007f6af0
 {
@@ -284,19 +284,11 @@ struct PlayerFilter007f6af0
 struct Player007f6af0
 {
     void FUN_00931ed0(PlayerFilter007f6af0*);
-    void* GetTarget();
 };
-extern Player007f6af0* DAT_011dea3c;
-World007f6af0* __fastcall FUN_004543c0(void*);
-void FUN_00c82870(int, unsigned __int64);
-void* FUN_004b5820(void*);
-TESObjectREFR* FUN_0056f930(void*);
-extern ItemListContainer* DAT_011f21cc;
 struct Owner007f6af0
 {
     char field_00[0x10e];
     unsigned char field_10e;
-    void UpdateLimbHighlight();
 };
 // @fnv 0x007f6af0
 bool __fastcall FUN_007f6af0(Owner007f6af0* self)
@@ -306,43 +298,43 @@ bool __fastcall FUN_007f6af0(Owner007f6af0* self)
     float distance = DAT_011a0b74;
     Point007f6af0 origin;
     Point007f6af0 direction;
-    FUN_0045c670()->FUN_006629f0()->MapScreenToRay((int)((Light007f6af0*)FUN_004b7210())->FUN_009a9350(),
-                                                   (int)((Quest007f6af0*)FUN_004b7210())->FUN_00792760(), &origin,
-                                                   &direction, 0);
+    reinterpret_cast<::CameraWindowRay *>((((::Anim007f6af0 *)(reinterpret_cast<::BSFaceGenNiNode *>((((::Node007f6af0 *)(::FUN_0045c670()))))->GetAnimationData()))))->MapScreenToRay((int)reinterpret_cast<::BGSImpactData *>((((Light007f6af0*)((void *)(::fnv_004b7210::FUN_004b7210())))))->FUN_009a9350(),
+                                                   (int)reinterpret_cast<::FUN_00792760_shell *>((((Quest007f6af0*)((void *)(::fnv_004b7210::FUN_004b7210())))))->FUN_00792760(), (*(::NiPoint3 *)(&origin)),
+                                                   (*(::NiPoint3 *)(&direction)), (const ::NiRenderTargetGroup *)(0));
     Ray007f6af0 ray;
     unsigned int mask = 0x140;
-    FUN_00c82870(0x27, mask);
+    ::ShadowLightData::SetTargetMaskForSelection(0x27, mask);
     PlayerFilter007f6af0 playerFilter;
-    DAT_011dea3c->FUN_00931ed0(&playerFilter);
+    (*reinterpret_cast<::Player007f6af0 * *>(&::_g_thePlayer))->FUN_00931ed0(&playerFilter);
     Filter007f6af0 filter(0);
-    filter.FUN_004a39f0(0x27);
-    filter.FUN_0059ce80(playerFilter.FUN_004a3a20());
+    reinterpret_cast<::FUN_004a39f0_shell *>(&(filter))->FUN_004a39f0(0x27);
+    reinterpret_cast<::FUN_0059ce80_shell *>(&(filter))->FUN_0059ce80(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>(&(playerFilter))->FUN_004a3a20());
     ray.FUN_004a3f70(filter.field_00);
-    ray.FUN_004a3da0(&origin);
-    ray.FUN_007f68a0(direction * distance);
+    reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(ray))->FUN_004a3da0(&origin);
+    reinterpret_cast<::Class_007f68a0 *>(&(ray))->FUN_007f68a0((const ::NiPoint3 &)((const ::Point007f6af0 &)(direction * distance)));
     Collector007f6af0 collector;
-    ray.FUN_004a3fb0(&collector);
-    World007f6af0* world = FUN_004543c0(DAT_011dea3c->GetTarget());
+    reinterpret_cast<::FUN_004a3fb0_shell *>(&(ray))->FUN_004a3fb0((::hkpAllRayHitCollector *)(::Collector007f6af0 *)(&collector));
+    World007f6af0* world = ((::World007f6af0 *)(reinterpret_cast<::FUN_004543c0_cls *>((((void *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::Player007f6af0 * *>(&::_g_thePlayer))))->GetTarget()))))->FUN_004543c0()));
     world->v50(&ray);
     int unused = 0;
-    for (int i = 0; i < ray.FUN_008cdd90()->GetVoiceFilePath()->FUN_00726070(); ++i)
+    for (int i = 0; i < ((int)(reinterpret_cast<::Callees *>((((::Hits007f6af0 *)(::FUN_00460140((int)(((::Response007f6af0 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->FUN_00726070())); ++i)
     {
         Hit007f6af0 hit;
-        hit.FUN_00696c30(ray.FUN_008cdd90()->GetVoiceFilePath()->GetEntryAt(i));
-        void* object = FUN_004b5820(hit.field_50);
-        TESObjectREFR* ref = FUN_0056f930(object);
+        reinterpret_cast<::S50 *>(&(hit))->FUN_00696c30((::S50 *)(::Hit007f6af0 *)(((::Hit007f6af0 *)(reinterpret_cast<::FUN_004a46b0_class *>((((::Hits007f6af0 *)(::FUN_00460140((int)(((::Response007f6af0 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->GetEntryAt(i)))));
+        void* object = ((void *)(::FUN_004b5820((::FormLike *)(hit.field_50))));
+        TESObjectREFR* ref = ::FUN_0056f930((::NiAVObject *)(object));
         if (object)
         {
             BSSimpleList* entry = ((StandIn*)self)->FindListEntryForTarget(ref);
-            if (entry && *(ItemListContainer**)*entry->FUN_006815c0() == DAT_011f21cc)
+            if (entry && *(ItemListContainer**)*((::ItemListContainer **)(new ((void *)(entry)) ::Vec3())) == (*reinterpret_cast<::ItemListContainer * *>(&::DAT_011f21cc)))
             {
                 return false;
             }
             else if (entry)
             {
                 FUN_007f3bd0(0);
-                self->UpdateLimbHighlight();
-                DAT_011f21cc = *(ItemListContainer**)*entry->FUN_006815c0();
+                reinterpret_cast<::fnv_007f07a0::Owner7 *>((self))->UpdateLimbHighlight();
+                (*reinterpret_cast<::ItemListContainer * *>(&::DAT_011f21cc)) = *(ItemListContainer**)*((::ItemListContainer **)(new ((void *)(entry)) ::Vec3()));
                 return true;
             }
             ref = 0;

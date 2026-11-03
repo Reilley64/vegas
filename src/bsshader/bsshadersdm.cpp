@@ -1,5 +1,12 @@
 // bsshader/bsshadersdm.cpp: BSShaderInitializer (3 functions)
 
+#include "fnv/decl/FUN_00bc1cc0_class.h"
+#include "fnv/decl/FUN_00bc2660_cls.h"
+#include "fnv/decl/ShaderPropertyRecord.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_01201000.h"
 #include "bsshadersdm_decls.h"
 
 // @fnv 0x00bc2940
@@ -13,18 +20,16 @@ void BSShaderInitializer::InitializeMultiBounds()
     }
 }
 
-void __stdcall FUN_00bc2660(float, float);
-void __stdcall FUN_00bc1cc0(float, float);
 // Calls FUN_00bc2660 with a and b when flag is false, otherwise calls FUN_00bc1cc0 with a and c.
 // @fnv 0x00bc28b0
 void __stdcall DispatchFloatPair(float afFirst, float afSecond, float afThird, bool abUseThird)
 {
     if (!abUseThird)
     {
-        FUN_00bc2660(afFirst, afSecond);
+        reinterpret_cast<::FUN_00bc2660_cls *>((afFirst))->FUN_00bc2660(afSecond, {});
         return;
     }
-    FUN_00bc1cc0(afFirst, afThird);
+    reinterpret_cast<::FUN_00bc1cc0_class *>((afFirst))->FUN_00bc1cc0(afThird, {});
 }
 
 struct StrArr
@@ -34,26 +39,21 @@ struct StrArr
     unsigned short mA;
     char _padC[2];
     unsigned short mE;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
-void __stdcall WriteToSettingArray(StrArr*);
-char* _FUN_00a7d330(const char*);
 struct GlobalObjectO2_00a7b610
 {
     const char* f0;
 };
-extern GlobalObjectO2_00a7b610 g_01201f68;
 // @fnv 0x00bc28f0
 void __stdcall FUN_00bc28f0(StrArr* pStrArr)
 {
-    WriteToSettingArray(pStrArr);
-    char* pStr = _FUN_00a7d330(g_01201f68.f0);
+    reinterpret_cast<::ShaderPropertyRecord *>((pStrArr))->WriteToSettingArray({});
+    char* pStr = ::FUN_00a7d330(::g_01201f68.f0);
     unsigned int uiIndex = pStrArr->mA;
     unsigned int cnt = pStrArr->m8;
     if (uiIndex >= cnt)
     {
-        pStrArr->SetSize(pStrArr->mE + uiIndex);
+        reinterpret_cast<::ViewerStrings *>((pStrArr))->SetSize(pStrArr->mE + uiIndex);
     }
-    pStrArr->SetAt(uiIndex, pStr);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pStrArr))->SetAt(uiIndex, pStr);
 }

@@ -5,14 +5,40 @@
 // src/fallout_shared/tesobjectrefr_o2_nood_variant.cpp - flag-variant unit created 2026-10-24 by flag_proofs.py: contributor code for these functions matched byte for
 // byte only under /MT /O2 /GS /EHsc /Gy (unit src/fallout_shared/tesobjectrefr.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
+#include "fnv/decl/CB2FC0Object.h"
+#include "fnv/decl/FUN_005611c0_t.h"
+#include "fnv/decl/FUN_00c876d0_cls.h"
+#include "fnv/decl/FUN_00c9f970_cls.h"
+#include "fnv/decl/FUN_00cac920_Class.h"
+#include "fnv/decl/FloatMatrix3.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiTMap_S.h"
+#include "fnv/decl/Owner00c9ec00.h"
+#include "fnv/decl/Owner_00c85880.h"
+#include "fnv/decl/Quat74.h"
+#include "fnv/decl/RotationRows.h"
+#include "fnv/decl/S006288c0_Object.h"
+#include "fnv/decl/bhkRigidBody_2.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00446000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00574000.h"
+#include "fnv/symbols_00575000.h"
+#include "fnv/symbols_00579000.h"
+#include "fnv/symbols_0057a000.h"
+#include "fnv/symbols_00624000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00c55000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_011c7000.h"
+#include "fnv/symbols_011c9000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01272000.h"
 #include "tesobjectrefr_decls.h"
-GarbageCollectorUpdateState* FUN_00446ef0();
 void* FUN_0056a8c0();
-void FUN_005743f0();
-void FUN_00575c90(unsigned char value);
-float FUN_005790b0();
-float FUN_005790d0();
-void FUN_0057acc0(unsigned int index);
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
@@ -25,18 +51,18 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     unsigned __int16 m128_u16[8];
     unsigned __int32 m128_u32[4];
 };
-extern "C" __declspec(thread) int tls_state;
+#include "fnv/symbols_simd.h"
 struct MemContextGuard
 {
     int m_iOld;
     MemContextGuard(int aiMemoryContext)
     {
-        m_iOld = tls_state;
-        tls_state = aiMemoryContext;
+        m_iOld = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
     }
     ~MemContextGuard()
     {
-        tls_state = m_iOld;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iOld;
     }
 };
 template <class T> class NiTMallocInterface
@@ -77,8 +103,6 @@ class GlobalObjectO2_00a7b610
         return m_pcName;
     }
 };
-extern GlobalObjectO2_00a7b610 g_01268224;
-char* FUN_00a7d330(const char* pcText);
 struct NiPoint3
 {
     float x, y, z;
@@ -87,7 +111,6 @@ struct NiPoint3
 struct ThreeByThreeMatrix
 {
     float m_afEntries[3][3];
-    char* ToString(const char* pcPrefix);
 };
 struct NiTransform
 {
@@ -108,13 +131,9 @@ struct hkTransform
     hkRotation m_rotation;
     hkVector4 m_vTranslation;
 };
-void FUN_00624b10(ThreeByThreeMatrix* pkOut, const hkRotation* pkIn);
-void FUN_00458620(NiPoint3* pkOut, const hkVector4* pkIn);
 class bhkViewerObject
 {
   public:
-    void FUN_00c9f480(NiViewerStringsArray* pkStrings);
-    void FUN_00c9ec00(hkTransform& kTransform);
     void FUN_00c9ed30(NiViewerStringsArray* pkStrings);
 };
 struct Arg_00c9f830
@@ -132,13 +151,8 @@ struct Arg_00c9f830
 };
 struct Obj_00c9f830
 {
-    void FillOutputFromState(Arg_00c9f830* value);
-    void FUN_006288c0(__m128* value);
     void FUN_00c9f830(Arg_00c9f830* value);
 };
-extern __m128 DAT_01267e30;
-extern __m128 DAT_010c71b0;
-void __stdcall FUN_00cb31a0_sub_a(__m128* p);
 struct FUN_00cb31a0_cls
 {
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
@@ -146,8 +160,6 @@ struct FUN_00cb31a0_cls
     __m128 m_30;
     __m128 m_40;
 
-    void Sub_b(__m128* p);
-    void Sub_c(FUN_00cb31a0_cls* p);
     void FUN_00cb31a0(FUN_00cb31a0_cls* src);
 };
 struct Sub
@@ -159,12 +171,10 @@ struct Cls
 {
     char pad[0x20];
     Sub m_20;
-    void FUN_00c8d130(__m128* out);
     Arg* FUN_00cb3200(Arg* arg);
 };
 struct Arg
 {
-    void FUN_00c74ac0(__m128* out, Sub* sub);
 };
 struct S00cb3250_Query
 {
@@ -174,7 +184,6 @@ struct S00cb3250_Query
 class S00cb3250_Object
 {
   public:
-    void FUN_00c8d1a0(S00cb3250_Query* pQuery);
     void FUN_00cb3250(int iArg);
     unsigned int unk00;
     unsigned int unk04;
@@ -201,7 +210,6 @@ struct RotationResult
     int unk28;
     int unk2c;
     __m128 translation;
-    void FUN_00cb2d90(const __m128*);
 };
 struct ShapeFrame
 {
@@ -459,18 +467,17 @@ struct F9_Ctx
     int unk2B0;
     int unk2b4;
 };
-extern __declspec(thread) F9_Ctx F9_tls;
 struct F9_Scope
 {
     int saved;
     F9_Scope()
     {
-        saved = F9_tls.unk2b4;
-        F9_tls.unk2b4 = 0x10;
+        saved = (*reinterpret_cast<::F9_Ctx *>(&::g_tlsBlock)).unk2b4;
+        (*reinterpret_cast<::F9_Ctx *>(&::g_tlsBlock)).unk2b4 = 0x10;
     }
     ~F9_Scope()
     {
-        F9_tls.unk2b4 = saved;
+        (*reinterpret_cast<::F9_Ctx *>(&::g_tlsBlock)).unk2b4 = saved;
     }
 };
 struct F9_Mat
@@ -479,7 +486,6 @@ struct F9_Mat
     __m128 c1;
     __m128 c2;
     __m128 c3;
-    void FUN_00cb2fc0();
 };
 struct F9_Arg
 {
@@ -589,7 +595,6 @@ struct F9_Obj
     int unk168;
     int unk16C;
     F9_Obj(int a, const F9_Mat* m, int b);
-    void FUN_00c905b0();
     static void* operator new(unsigned int n)
     {
         F9_Alloc& h = FUN_00c85750()->heap();
@@ -670,7 +675,6 @@ class NiFixedString
 class NiAVObject
 {
   public:
-    void SetName(const NiFixedString& kName);
 };
 class NiNode
 {
@@ -744,8 +748,6 @@ struct PositionSource
     int unk1C;
     hkVector4 m_vContactPosition;
 };
-extern const char str_010c40a0[];
-NiAVObject* __cdecl FUN_00c55920(const NiPoint3* pkPosition, int iFlags);
 struct PositionOwner
 {
     int unk00;
@@ -770,7 +772,6 @@ struct Obj08
     int unk18;
     int unk1C;
     __m128 m_20;
-    void FUN_00cac920(__m128* v);
     void FUN_00cac110();
 };
 struct Obj570
@@ -1325,25 +1326,22 @@ struct C9FA20_TlsBlock
     unsigned int unk2B0;
     unsigned int m_2b4;
 };
-extern __declspec(thread) C9FA20_TlsBlock g_c9fa20Tls;
 struct C9FA20_TlsGuard
 {
     unsigned int m_saved;
     C9FA20_TlsGuard()
     {
-        m_saved = g_c9fa20Tls.m_2b4;
-        g_c9fa20Tls.m_2b4 = 0x10;
+        m_saved = (*reinterpret_cast<::C9FA20_TlsBlock *>(&::g_tlsBlock)).m_2b4;
+        (*reinterpret_cast<::C9FA20_TlsBlock *>(&::g_tlsBlock)).m_2b4 = 0x10;
     }
     ~C9FA20_TlsGuard()
     {
-        g_c9fa20Tls.m_2b4 = m_saved;
+        (*reinterpret_cast<::C9FA20_TlsBlock *>(&::g_tlsBlock)).m_2b4 = m_saved;
     }
 };
 struct C9FA20_Alloc
 {
-    void* __thiscall FUN_00aa3e40(unsigned int size);
 };
-extern C9FA20_Alloc DAT_011f6238;
 struct C9FA20_Array
 {
     void* m_data;
@@ -1365,7 +1363,7 @@ struct C9FA20_Data
 
     static __forceinline void* operator new(unsigned int size)
     {
-        unsigned char* p = static_cast<unsigned char*>(DAT_011f6238.FUN_00aa3e40(size + 0x10));
+        unsigned char* p = static_cast<unsigned char*>(reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::C9FA20_Alloc *>(&::g_memoryManager))))->FUN_00aa3e40(size + 0x10));
         unsigned char offset = (unsigned char)(0x10 - ((unsigned int)p & 0xf));
         p += offset;
         p[-1] = offset;
@@ -1388,7 +1386,6 @@ struct C9FA20_Owner
     int unk04;
     int m_08;
     C9FA20_Data* m_pData;
-    void FUN_00c9f830(C9FA20_Data* data);
     C9FA20_Data* FUN_00c9fa20(bool* created);
 };
 
@@ -1415,7 +1412,6 @@ extern "C"
 }
 }
 
-extern const N::__m128 DAT_010c71e0;
 
 class hkQuaternionDAD;
 
@@ -1465,8 +1461,7 @@ class __declspec(align(16)) hkVector4DAD
 class hkQuaternionDAD
 {
   public:
-    void FUN_00c66320(const hkQuaternionDAD& q0, const hkQuaternionDAD& q1);
-    void FUN_005611c0();  // normalize
+      // normalize
     const hkVector4DAD& getImag() const
     {
         return m_vec;
@@ -1480,7 +1475,7 @@ __forceinline void hkVector4DAD::SetRotatedDirection(const hkQuaternionDAD& quat
     hkVector4DAD qreal;
     qreal.setBroadcast3(quat.m_vec);
     hkVector4DAD q2minus1;
-    q2minus1.m_vComponents = N::_mm_add_ps(N::_mm_mul_ps(qreal.m_vComponents, qreal.m_vComponents), DAT_010c71e0);
+    q2minus1.m_vComponents = N::_mm_add_ps(N::_mm_mul_ps(qreal.m_vComponents, qreal.m_vComponents), (*reinterpret_cast<const ::N::__m128 *>((void *)&::DAT_010c71e0)));
     hkVector4DAD ret;
     ret.setMul4(q2minus1, direction);
     hkVector4DAD imagDotDir;
@@ -1568,7 +1563,6 @@ class RigidMotionBaseDAD
 class RigidMotionDAD : public RigidMotionBaseDAD
 {
   public:
-    void FUN_00c8d170(const hkVector4DAD& position);
     void FUN_00cb3480(const hkVector4DAD& position);
 
     hkVector4DAD m_localTranslation;
@@ -1585,6 +1579,6 @@ void RigidMotionDAD::FUN_00cb3480(const hkVector4DAD& position)
         newPosition.SetRotatedDirection(rotation, m_localTranslation);
         hkVector4DAD worldPosition;
         worldPosition.setAdd4(newPosition, position);
-        FUN_00c8d170(worldPosition);
+        reinterpret_cast<::bhkRigidBody *>(this)->SetPosition((const ::NiPoint3 &)(worldPosition));
     }
 }

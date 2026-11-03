@@ -2,12 +2,32 @@
 // src/havok/common/serialize/util/hkbuiltintyperegistry.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/util/hkbuiltintyperegistry.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/CB1A90Owner.h"
+#include "fnv/decl/FUN_00c903b0_class.h"
+#include "fnv/decl/FUN_00cb1930_t.h"
+#include "fnv/decl/FUN_00cb1fe0_t.h"
+#include "fnv/decl/FUN_00d87430_class.h"
+#include "fnv/decl/FUN_00d87790.h"
+#include "fnv/decl/FUN_00d877d0_class.h"
+#include "fnv/decl/FUN_00db78a0_cls.h"
+#include "fnv/decl/FnvClassNameNode.h"
+#include "fnv/decl/fnv_00cb1870__hkMapBaseCB18.h"
+#include "fnv/decl/hkBlockD46E.h"
+#include "fnv/decl/hkObjectD878.h"
+#include "fnv/decl/hkSetD874.h"
+#include "fnv/decl/hkStringMapD874.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d47000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010cf000.h"
+#include "fnv/symbols_01269000.h"
 struct hkDefaultBuiltinTypeRegistry
 {
     int* v;
     int _pad;
     unsigned short _f;
-    void FUN_00d47860();
     hkDefaultBuiltinTypeRegistry* Initialize();
 };
 extern int DAT_010cf78c;
@@ -16,37 +36,34 @@ hkDefaultBuiltinTypeRegistry* hkDefaultBuiltinTypeRegistry::Initialize()
 {
     *(unsigned short*)((char*)this + 6) = 1;
     v = &DAT_010cf78c;
-    FUN_00d47860();
+    ::FUN_00d47860();
     return this;
 }
 
 struct FUN_00d479e0_class
 {
-    void* __thiscall GetValue(const void* key, const void* def);
     void* __thiscall FUN_00d479e0(const void* key);
 };
 
 // @fnv 0x00d479e0
 void* __thiscall FUN_00d479e0_class::FUN_00d479e0(const void* key)
 {
-    return ((FUN_00d479e0_class*)((char*)this + 8))->GetValue(key, 0);
+    return ((void *)(reinterpret_cast<::hkObjectD878 *>((((FUN_00d479e0_class*)((char*)this + 8))))->GetValue((int)(key), (int)(0))));
 }
 
 struct FUN_00d47a80_class
 {
-    void* GetValue(void* a, int b);
     void* ForwardToOffsetMember(void* a);
 };
 
 // @fnv 0x00d47a80
 void* FUN_00d47a80_class::ForwardToOffsetMember(void* apArg)
 {
-    return ((FUN_00d47a80_class*)((char*)this + 0xc))->GetValue(apArg, 0);
+    return ((void *)(reinterpret_cast<::hkObjectD878 *>((((FUN_00d47a80_class*)((char*)this + 0xc))))->GetValue((int)(apArg), 0)));
 }
 
 struct HashEntryTable
 {
-    unsigned long FindValueForKey(unsigned long a, unsigned long b);
 };
 struct hkVtableClassRegistry
 {
@@ -56,7 +73,7 @@ struct hkVtableClassRegistry
 unsigned long hkVtableClassRegistry::LookupClassByVtable(const unsigned long* pVtable)
 {
     unsigned long v = *pVtable;
-    return ((HashEntryTable*)((char*)this + 8))->FindValueForKey(v, 0);
+    return ((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>((((HashEntryTable*)((char*)this + 8))))->LookupHashEntry(v, 0)));
 }
 
 struct D481D0Class
@@ -65,7 +82,6 @@ struct D481D0Class
 };
 struct FUN_00d874d0_s
 {
-    void FUN_00d874d0(const char*, int);
 };
 struct FUN_00d47aa0_s
 {
@@ -78,7 +94,7 @@ struct FUN_00d47aa0_s
 // @fnv 0x00d47aa0
 void FUN_00d47aa0_s::FUN_00d47aa0(int a, const char* name)
 {
-    ((FUN_00d874d0_s*)((char*)this + 0xc))->FUN_00d874d0(name ? name : ((D481D0Class*)a)->getName(), a);
+    reinterpret_cast<::hkStringMapD874 *>((((FUN_00d874d0_s*)((char*)this + 0xc))))->FUN_00d874d0(name ? name : reinterpret_cast<::FnvClassNameNode *>((void *)(((D481D0Class*)a)))->FUN_00d46d40(), a);
 }
 
 struct FUN_00d87440_Class
@@ -95,7 +111,6 @@ struct FUN_00d874b0_class
 };
 struct FUN_00d87410_Class
 {
-    int __thiscall FUN_00d87410();
 };
 
 struct FUN_00d47ad0_class
@@ -106,7 +121,7 @@ struct FUN_00d47ad0_class
 // @fnv 0x00d47ad0
 void FUN_00d47ad0_class::ProcessRegistryEntries(FUN_00d874b0_class* reg)
 {
-    int key = ((FUN_00d87410_Class*)reg)->FUN_00d87410();
+    int key = reinterpret_cast<::hkSetD874 *>((((FUN_00d87410_Class*)reg)))->FUN_00d87410();
     char flag;
     reg->SetBoolFromThreshold(&flag, key);
     while (flag)
@@ -131,7 +146,6 @@ struct MemoryRouter
 extern "C" MemoryRouter* __cdecl D1A0E0GetMemoryRouter();
 struct DepthLimit
 {
-    void FUN_00cb1870(void*, void*, int);
 };
 struct FUN_00d47c60_class
 {
@@ -145,7 +159,7 @@ void FUN_00d47c60_class::FUN_00d47c60(void* key, int aiDefault)
 {
     MemoryRouter* r = D1A0E0GetMemoryRouter();
     void* p = (void*)r->j.a;
-    z.FUN_00cb1870(p, key, aiDefault);
+    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(z))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(p)), (unsigned int)(key), aiDefault);
 }
 
 extern int DAT_01269b18;
@@ -164,7 +178,6 @@ int __cdecl FUN_00d47a10()
     return DAT_01269b14;
 }
 
-extern int DAT_01269b10;
 
 // @fnv 0x00d47a20
 int FUN_00d47a20()
@@ -179,8 +192,6 @@ struct D477C0Input
 };
 struct D477C0Source
 {
-    int FUN_00d46d40();
-    int SumLinkedValues();
 };
 struct D477C0RegistryA
 {
@@ -211,10 +222,10 @@ struct D477C0RegistryC
 void __stdcall RegisterInputSource(D477C0Input* input, D477C0Source* source)
 {
     D477C0RegistryA* registryA = *(D477C0RegistryA**)&DAT_01269b14;
-    registryA->registerObject(source, source->FUN_00d46d40());
+    registryA->registerObject(source, ((int)(reinterpret_cast<::FnvClassNameNode *>((source))->FUN_00d46d40())));
     D477C0RegistryB* registryB = *(D477C0RegistryB**)&DAT_01269b18;
     registryB->registerInput(input);
-    if (source->SumLinkedValues() > 0)
+    if (reinterpret_cast<::hkBlockD46E *>((source))->SumLinkedValues() > 0)
     {
         D477C0RegistryC* registryC = *(D477C0RegistryC**)&DAT_01269b10;
         registryC->registerLink(input->value0c, source);
@@ -244,7 +255,7 @@ class hkClassNameRegistryD478
 // @fnv 0x00d478e0
 void hkClassNameRegistryD478::RegisterClass(const hkClassD478* pkClass)
 {
-    m_map.FUN_00d874d0(pkClass->getName(), (int)pkClass);
+    reinterpret_cast<::hkStringMapD874 *>(&(m_map))->FUN_00d874d0(pkClass->getName(), (int)pkClass);
 }
 
 struct hkEntryD479
@@ -269,7 +280,7 @@ struct hkObjD479
 // @fnv 0x00d47900
 hkEntryD479* hkObjD479::FindEntryAndCall(void* apArg, void* key)
 {
-    hkEntryD479* p = (hkEntryD479*)m_map.GetValue(key, 0);
+    hkEntryD479* p = (hkEntryD479*)((void *)(reinterpret_cast<::hkObjectD878 *>(&(m_map))->GetValue((int)(key), 0)));
     if (p)
     {
         if (p->m_func)
@@ -288,7 +299,6 @@ struct FUN_00d47940_Result
 
 struct FUN_00d47940_Registry
 {
-    void* __thiscall GetValue(const void* key, const void* def);
 };
 
 struct FUN_00d47940_Obj
@@ -303,7 +313,7 @@ struct FUN_00d47940_Obj
 // @fnv 0x00d47940
 void* __thiscall FUN_00d47940_Obj::FUN_00d47940(int param1, int aKey)
 {
-    FUN_00d47940_Result* result = (FUN_00d47940_Result*)this->unk08.GetValue((const void*)aKey, 0);
+    FUN_00d47940_Result* result = (FUN_00d47940_Result*)((void *)(reinterpret_cast<::hkObjectD878 *>(&(this->unk08))->GetValue((int)((const void*)aKey), (int)(0))));
 
     if (result != 0 && result->unk08 != 0)
     {
@@ -315,7 +325,6 @@ void* __thiscall FUN_00d47940_Obj::FUN_00d47940(int param1, int aKey)
 
 struct FUN_00d87430_Class
 {
-    int __thiscall GetEntry(int index);
 };
 struct FUN_00d47970_Class
 {
@@ -330,7 +339,7 @@ struct FUN_00d47970_Class
 void FUN_00d47970_Class::FUN_00d47970(void* iterator)
 {
     FUN_00d87410_Class* registry = (FUN_00d87410_Class*)((char*)iterator + 8);
-    int index = registry->FUN_00d87410();
+    int index = reinterpret_cast<::hkSetD874 *>((registry))->FUN_00d87410();
     ((FUN_00d874b0_class*)registry)->SetBoolFromThreshold((char*)&iterator, index);
     if (*(char*)&iterator != 0)
     {
@@ -338,8 +347,8 @@ void FUN_00d47970_Class::FUN_00d47970(void* iterator)
         do
         {
             int key = ((FUN_00d87440_Class*)registry)->FUN_00d87440(index);
-            int value = ((FUN_00d87430_Class*)registry)->GetEntry(index);
-            destination->FUN_00d874d0((const char*)value, key);
+            int value = reinterpret_cast<::FUN_00d87430_class *>((((FUN_00d87430_Class*)registry)))->GetEntry(index);
+            reinterpret_cast<::hkStringMapD874 *>((destination))->FUN_00d874d0((const char*)value, key);
             index = ((SlotBitmap*)registry)->FindNextUsedSlot(index);
             ((FUN_00d874b0_class*)registry)->SetBoolFromThreshold((char*)&iterator, index);
         } while (*(char*)&iterator != 0);
@@ -383,10 +392,9 @@ struct HavokRouter
 extern "C" HavokRouter* __cdecl FUN_00c85750();
 struct EmbeddedRegistry
 {
-    void FreeBuffer();
     ~EmbeddedRegistry()
     {
-        FreeBuffer();
+        reinterpret_cast<::FUN_00d877d0_class *>(this)->FreeBuffer();
     }
 };
 struct RegistryBase
@@ -432,14 +440,9 @@ struct D47Router
     void* heap;
 };
 D47Router* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void* allocator, D47Array* array, int elementSize);
 
 struct D47Map
 {
-    int FUN_00d87410();
-    void SetBoolFromThreshold(unsigned char* hasNext, int iterator);
-    int FUN_00d87440(int iterator);
-    int FindNextUsedSlot(int iterator);
 };
 struct D47Owner
 {
@@ -454,21 +457,21 @@ struct D47Owner
 void D47Owner::AppendEntryValues(D47Array* values)
 {
     unsigned char hasItem;
-    int iterator = entries.FUN_00d87410();
-    entries.SetBoolFromThreshold(&hasItem, iterator);
+    int iterator = reinterpret_cast<::hkSetD874 *>(&(entries))->FUN_00d87410();
+    reinterpret_cast<::FUN_00d874b0_class *>(&(entries))->SetBoolFromThreshold((char *)(unsigned char *)(&hasItem), iterator);
     while (hasItem)
     {
-        int value = entries.FUN_00d87440(iterator);
+        int value = reinterpret_cast<::FUN_00d87440_Class *>(&(entries))->FUN_00d87440(iterator);
         D47Router* router = FUN_00c85750();
         if (values->count == (values->capacityAndFlags & 0x3fffffff))
         {
-            ResizeAudioStream(router->heap, values, 4);
+            ::ResizeAudioStream((::AudioAllocator *)(router->heap), (::AudioStream *)(values), 4);
         }
         int* insertion = values->data + values->count;
         ++values->count;
         *insertion = value;
-        iterator = entries.FindNextUsedSlot(iterator);
-        entries.SetBoolFromThreshold(&hasItem, iterator);
+        iterator = reinterpret_cast<::SlotBitmap *>(&(entries))->FindNextUsedSlot(iterator);
+        reinterpret_cast<::FUN_00d874b0_class *>(&(entries))->SetBoolFromThreshold((char *)(unsigned char *)(&hasItem), iterator);
     }
 }
 }  // namespace fnv_00d47bb0
@@ -486,12 +489,9 @@ struct Holder
     Alloc* alloc;
 };
 Holder* __cdecl FUN_00c85750() throw();
-extern int DAT_0102e388;
 struct Sub
 {
     int q;
-    void ProcessArgument(Alloc* a);
-    void FUN_00a29680();
 };
 struct FUN_00d47c90_cls
 {
@@ -504,9 +504,9 @@ struct FUN_00d47c90_cls
 // @fnv 0x00d47c90
 FUN_00d47c90_cls* FUN_00d47c90_cls::Destroy(unsigned char flags)
 {
-    sub.ProcessArgument(FUN_00c85750()->alloc);
-    sub.FUN_00a29680();
-    vptr = &DAT_0102e388;
+    reinterpret_cast<::CB1A90Owner *>(&(sub))->ProcessArgument((::CB1A90Argument *)(FUN_00c85750()->alloc));
+    ::FUN_00a29680();
+    vptr = &(*reinterpret_cast<int *>(&::DAT_0102e388));
     Holder* h;
     if (flags & 1)
     {
@@ -535,7 +535,6 @@ struct hkMemoryRouterD47C
 };
 extern "C" hkMemoryRouterD47C& __cdecl FUN_00c85750();
 
-void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
 
 template <class T> __forceinline void constructWithCopyD47C(T* p, int n, const T& t)
 {
@@ -558,7 +557,7 @@ template <class T> class hkArrayD47C
     {
         hkMemoryAllocatorD47C& kAlloc = FUN_00c85750().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&kAlloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyD47C(m_data + m_iElementCount, 1, t);
         m_iElementCount++;
     }
@@ -630,11 +629,6 @@ void FUN_00d47ce0_class::CollectMapValues(hkArrayD47C<int>& kValuesOut) const
 }  // namespace fnv_00d47ce0
 
 namespace fnv_00d47d70 {
-extern int DAT_010cf7d4;
-extern int DAT_010cf804;
-extern int DAT_010cf7b0;
-extern int DAT_010cf844;
-extern const char str_010cf830[];
 
 struct MyAllocator
 {
@@ -653,18 +647,15 @@ struct MyRouter
 };
 
 extern "C" MyRouter* FUN_00c85750();
-extern "C" void __fastcall ReleaseReference(void* ecx);
 
 struct MapHelper
 {
     int m00, m04, m08, m0c;
-    void FUN_00d87790(int dummy);
 };
 
 struct DepthHelper
 {
     int d0, d1, d2;
-    void EnsureCapacity(MyAllocator* mem, int zero);
 };
 
 struct FUN_00d47d70_class : hkDefaultBuiltinTypeRegistry
@@ -712,15 +703,15 @@ void FUN_00d47d70_class::InitGlobalObjects()
     p = (Obj1*)FUN_00c85750()->alloc(0x20);
     p->GetAllocationSize = 0x20;
     p->refCount = 1;
-    p->vtable = &DAT_010cf7d4;
-    p->name = str_010cf830;
+    p->vtable = &::DAT_010cf7d4;
+    p->name = ::str_010cf830;
     u.c = 0;
-    p->map.FUN_00d87790(u.i);
-    p->vtable = &DAT_010cf804;
+    new ((void *)&(p->map)) ::FUN_00d87790(u.i);
+    p->vtable = &::DAT_010cf804;
 
     if (DAT_01269b14)
     {
-        ReleaseReference((void*)DAT_01269b14);
+        reinterpret_cast<::FUN_00c903b0_class *>(((void*)DAT_01269b14))->ReleaseReference();
     }
     DAT_01269b14 = (int)p;
 
@@ -730,12 +721,12 @@ void FUN_00d47d70_class::InitGlobalObjects()
     n->refCount = 1;
     u.c = 0;
     n->vtable = &DAT_010cf7b0;
-    n->map.FUN_00d87790(u.i);
+    new ((void *)&(n->map)) ::FUN_00d87790(u.i);
     n->flag = 1;
 
     if (DAT_01269b18)
     {
-        ReleaseReference((void*)DAT_01269b18);
+        reinterpret_cast<::FUN_00c903b0_class *>(((void*)DAT_01269b18))->ReleaseReference();
     }
     DAT_01269b18 = (int)n;
 
@@ -750,15 +741,15 @@ void FUN_00d47d70_class::InitGlobalObjects()
     pDepth->d1 = 0;
     pDepth->d2 = -1;
     MyRouter* r = FUN_00c85750();
-    pDepth->EnsureCapacity(r->heap, 0);
+    reinterpret_cast<::FUN_00cb1fe0_t *>((pDepth))->EnsureCapacity((int)(r->heap), 0);
 
     if (DAT_01269b10)
     {
-        ReleaseReference((void*)DAT_01269b10);
+        reinterpret_cast<::FUN_00c903b0_class *>(((void*)DAT_01269b10))->ReleaseReference();
     }
     DAT_01269b10 = (int)kIter;
 
-    FUN_00d47860();
+    ::FUN_00d47860();
 }
 }  // namespace fnv_00d47d70
 
@@ -914,7 +905,6 @@ class hkMemberD47B
 {
   public:
     int unk00;
-    void FreeBuffer() throw();
 };
 
 class hkObjectD47B : public hkReferencedObjectD47B
@@ -929,7 +919,7 @@ class hkObjectD47B : public hkReferencedObjectD47B
 // @fnv 0x00d47b70
 hkObjectD47B* hkObjectD47B::FUN_00d47b70(unsigned int uiFlags) throw()
 {
-    m_kMemberDescriptor.FreeBuffer();
+    reinterpret_cast<::FUN_00d877d0_class *>(&(m_kMemberDescriptor))->FreeBuffer();
     this->hkReferencedObjectD47B::~hkReferencedObjectD47B();
     if (uiFlags & 1)
         hkReferencedObjectD47B::operator delete(this);
@@ -959,7 +949,6 @@ struct RuntimeTypeInfoRegistry
 };
 struct NameRegistryTable
 {
-    void FUN_00db78a0(void** entries, void* info);
 };
 extern int DAT_01268b0c;
 extern void* DAT_010d5430[];
@@ -975,5 +964,5 @@ void __cdecl FUN_00d47860()
         types->registerType(*curr);
         ++curr;
     }
-    ((NameRegistryTable*)DAT_01269b10)->FUN_00db78a0(DAT_010d5430, &DAT_010d59b8);
+    reinterpret_cast<::FUN_00db78a0_cls *>((((NameRegistryTable*)DAT_01269b10)))->FUN_00db78a0((::FUN_00db78a0_item **)(DAT_010d5430), (void **)(void *)(&DAT_010d59b8));
 }

@@ -8,14 +8,55 @@
 // that unit declares it this way.
 // src/staging/blk_00e40000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <new>
+#include "fnv/decl/AttributeFormatter.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/E426F0Container.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00cb0a60.h"
+#include "fnv/decl/FUN_00cb0a70_Class.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00e58a20_cls.h"
+#include "fnv/decl/HostC9C6.h"
+#include "fnv/decl/KnotVector.h"
+#include "fnv/decl/RefPtrArray.h"
+#include "fnv/decl/Registry_e5c5.h"
+#include "fnv/decl/SStringPtr.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/hkArrayE5CD.h"
+#include "fnv/decl/hkMapE63E.h"
+#include "fnv/decl/hkpMoppFindAllVirtualMachine.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00d2c000.h"
+#include "fnv/symbols_00e42000.h"
+#include "fnv/symbols_00e50000.h"
+#include "fnv/symbols_00e57000.h"
+#include "fnv/symbols_00e58000.h"
+#include "fnv/symbols_00e5c000.h"
+#include "fnv/symbols_00e60000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0101f000.h"
+#include "fnv/symbols_01022000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_01055000.h"
+#include "fnv/symbols_010af000.h"
+#include "fnv/symbols_010e5000.h"
+#include "fnv/symbols_010ec000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_0126c000.h"
+#include "fnv/symbols_0126e000.h"
 #include "../../include/layout_support.h"
 struct FUN_00e428f0_class
 {
-    void Remove(void*);
     void FUN_00e428f0(void* p);
 };
-int __cdecl FUN_00e42940(int p);
-extern "C" void __cdecl FUN_00cb0a60();
 struct FUN_00e4e400_class
 {
     FUN_00e4e400_class* __thiscall FUN_00e4e400();
@@ -40,12 +81,7 @@ struct GlobalObjectO2_00d472a0
     int x;
 };
 GlobalObjectO2_00d472a0 g_0126e600;
-void __stdcall FUN_00e5c540(int, GlobalObjectO2_00d472a0*);
-void __stdcall FUN_00e5c5b0(int a);
-extern "C" void __stdcall FUN_00e5c540(int, int);
 struct GlobalObjectO2_00d472a0;
-extern GlobalObjectO2_00d472a0 g_0126c5f0;
-void __stdcall FUN_00e5c5f0(int a);
 struct FUN_00e459c0_class
 {
     void SetBitMaskFlags(int a, int b);
@@ -65,7 +101,6 @@ struct FUN_00e58880_Class
 int __cdecl Factorial(int count);
 extern const float runtimeFloatSettingDefault132;
 extern const float runtimeFloatSettingDefault255;
-extern const float g_011c7344_arg1;
 extern int DAT_010e62a4;
 struct FUN_00e44280_struct
 {
@@ -100,7 +135,6 @@ struct FUN_00e426f0_class
     unsigned short m_10;
     unsigned short m_12;
     unsigned short m_14;
-    void AddObject(void* p);
     void AddByteFromObject(void* p);
 };
 struct FUN_00e61480_class
@@ -118,7 +152,6 @@ struct FUN_00e4ab50_class
 extern int DAT_010ec1fc;
 struct FUN_00cb0a70
 {
-    void m(int);
 };
 struct FUN_00e4af80
 {
@@ -131,21 +164,10 @@ struct FUN_00e4af80
 };
 struct FUN_00e58b10_class
 {
-    void FillWithValue(float* out);
-    void FUN_00e58a20(int a, int b, int c);
     void FUN_00e58b10(int a, int b, int c);
 };
-extern const char* const g_0126c5f0_arg1;
-void __stdcall FUN_00e5c540(int, int);
-void __stdcall FUN_00e5c5d0(int a);
 struct GlobalObjectO2_00d472a0;
-extern GlobalObjectO2_00d472a0 g_0126eb10;
-void __stdcall FUN_00e5c540(int a, GlobalObjectO2_00d472a0* b);
-void __stdcall FUN_00e5c630(int a);
 struct GlobalObjectO2_00d472a0;
-extern GlobalObjectO2_00d472a0 g_0126eac8;
-void __stdcall FUN_00e5c540(int, GlobalObjectO2_00d472a0*);
-void __stdcall CallWithGlobalObject(int a);
 struct FUN_00e406d0_cls
 {
     int unk00;
@@ -180,7 +202,6 @@ struct HolderStub
     void* m_pAllocator;
 };
 HolderStub* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void* pAllocator, void* pArray, unsigned int auiNewSize);
 struct ValueArray
 {
     unsigned int* m_pData;
@@ -267,7 +288,6 @@ struct FUN_00e42680_cls
 
     void CallItemsVirtual();
 };
-extern "C" int DAT_010e5e9c;
 struct FUN_00e43ac0_cls
 {
     void* m_00;
@@ -280,10 +300,7 @@ struct FUN_00e43ac0_cls
 };
 extern double DAT_010ebf20;
 extern double DAT_010ebf18;
-extern double DAT_01012638;
-extern double DAT_0101ff48;
 float __cdecl ComputeScaledRatio(float param_1, float param_2, float param_3, float param_4);
-extern "C" int DAT_010e5ff4;
 struct FUN_00e43f30_cls
 {
     void* volatile m_00;
@@ -424,8 +441,6 @@ struct FUN_00e49fe0 : FUN_00cbfba0
     virtual void d14();
 };
 struct E4AAA0Allocator;
-void __cdecl FUN_00c908c0(E4AAA0Allocator* alloc, void* array, int numElements, int sizeElem);
-void __cdecl FUN_00d2cc70(void* dst, const void* src, unsigned int nbytes);
 struct E4AAA0Element
 {
     int m_kPointA;
@@ -451,7 +466,7 @@ struct E4AAA0Array
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, sizeof(E4AAA0Element));
+            ::FUN_00c908c0((::SpawnedObject *)(::E4AAA0Allocator *)(&alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(E4AAA0Element));
         }
     }
 
@@ -533,7 +548,6 @@ ThunkDerived::ThunkDerived()
 {}
 struct S_00e4af60_helper
 {
-    void FUN_00cb0a60();
 };
 struct S_00e4af60_class
 {
@@ -548,12 +562,6 @@ struct S_00e4af60_class
     S_00e4af60_class* FUN_00e4af60();
 };
 extern int DAT_010ec1fc;
-void __cdecl AccumulateNeighborSum(float k, const float* src, float* dst, int n);
-extern float DAT_0102295c;
-extern float DAT_0101622c;
-void __cdecl DeinterleaveFloats(float* a, float* b, unsigned int n);
-void __cdecl AccumulateNeighborSum(float c, float* a, float* b, unsigned int n);
-void __cdecl FUN_00e50e50(float c, float* a, float* b, unsigned int n);
 void __cdecl FUN_00e51330(float* base, unsigned int n);
 struct PackedFormat
 {
@@ -565,17 +573,14 @@ struct PackedFormat
 };
 void FUN_00e51f60(const float* src, unsigned int count, const PackedFormat* format, unsigned char* dst);
 void __cdecl PackFourFloatsToNibbles(const float* src, unsigned char* dst);
-extern const float g_x;
 float __cdecl FUN_00e52f40();
 extern const float g_010ec960;
 float __cdecl FUN_00e52f50();
-extern const float g_010af2f0;
 float __cdecl FUN_00e52f60();
 extern const float g_010ec964;
 float __cdecl FUN_00e52f70();
 extern const float DAT_010ec968;
 float __cdecl FUN_00e52f80();
-extern float DAT_0104da4c;
 float __cdecl FUN_00e52f90(void);
 void __cdecl SwapBytes(void* arg);
 inline void SwapByte(unsigned char& left, unsigned char& right)
@@ -648,7 +653,6 @@ struct FourFloatVector
     float z;
     float w;
 
-    FourFloatVector& FUN_00e531a0(int parameter);
     FourFloatVector FUN_00e53260(int parameter);
 };
 struct S_e53300_Vec;
@@ -658,7 +662,6 @@ struct S_e53300_Vec
     float unk04;
     float unk08;
     float unk0c;
-    S_e53300_Vec& FUN_00e53200(float f);
     S_e53300_Vec ScaleCopy(float f);
 };
 struct Quad4
@@ -667,7 +670,6 @@ struct Quad4
     unsigned int m_04;
     unsigned int m_08;
     unsigned int m_0c;
-    Quad4* Eval(float t);
 };
 class FUN_00e53350_cls : public Quad4
 {
@@ -684,7 +686,6 @@ float* __cdecl FUN_00e533a0(float* pOut, float f, SpawnedObject* pObj);
 // the first argument back to the caller.
 struct FUN_00e533c0_cls
 {
-    void SetValue(float* pOut, float fValue);
 };
 float* __cdecl SetValueAndReturn(float* pOut, float fValue, FUN_00e533c0_cls* pObj);
 double __cdecl FUN_00ec6940(double value);
@@ -743,14 +744,12 @@ struct FUN_00e54ad0_cls
     void FUN_00e54ad0();
 };
 // The two callees below are unnamed in the binary's symbol table; they bind by position.
-extern void __cdecl helper_before();
 extern double __cdecl helper_value();
 float __cdecl GetHelperValueAsFloat();
 class FUN_00e54b00_cls
 {
   public:
     float GetHelperValueAsFloat();
-    void EvalCopy(int a, float b);
     int FUN_00e54b00(int p);
 };
 struct FUN_00e54b20_out
@@ -762,7 +761,6 @@ struct FUN_00e54b20_out
 };
 struct FUN_00e54b20_src
 {
-    void* Lookup(FUN_00e54b20_out* out, unsigned int key);
 };
 struct FUN_00e54b20_sink
 {
@@ -787,7 +785,6 @@ struct FUN_00e54ae0_class
 };
 struct FUN_00e532b0_class
 {
-    FUN_00e54ae0_class* __thiscall FUN_00e532b0(void* buffer, void* value);
 };
 void __cdecl FUN_00e54ba0(void* value, FUN_00e532b0_class* object);
 char* __cdecl IsSampleBoundary(int* base, int idx, int b, int c);
@@ -809,13 +806,10 @@ struct Float4
 {
     float x, y, z, w;
 };
-extern const double DAT_01016978;
 void __cdecl FUN_00e54630(Float4* out, int a, int b, int c, int d, float input);
 float __cdecl LookupAndConsume(const Float4* left, const Float4* right);
 unsigned char* __cdecl CheckVerticesAboveThresholds(unsigned char* result, int a, int b, int c, int d, int last,
                                                     Float4** verticesPtr, float** valuesPtr, float** thresholdsPtr);
-extern void __cdecl FUN_00e58440(int, int, int, int, float, int, int, int, int);
-void __cdecl FUN_00e58740(int i1, int i2, int i3, int i4, float f5, int i6, int i7, int i8, int i9);
 struct FUN_00e58820_cls
 {
     float* m_data;
@@ -861,7 +855,6 @@ struct FUN_00e5c490_entry
     unsigned int m_ptr;
     unsigned int m_unk04;
 };
-int CompareStringsCaseInsensitive(unsigned int item, unsigned int ctx);
 class FUN_00e5c490_cls
 {
   public:
@@ -900,13 +893,7 @@ class AttrWriter_b5103
     int m_unk00;
     int m_unk04;
     int m_unk08;
-    AttrWriter_b5103& Write5(const char* a, const char* name, const char* b, const void* self, const char* c) throw();
-    AttrWriter_b5103& Step1() throw();
-    AttrWriter_b5103& Step2() throw();
     AttrWriter_b5103& Step3() throw();
-    AttrWriter_b5103& Step4() throw();
-    AttrWriter_b5103& Step5();
-    void Release() throw();
     unsigned int* GetBuf() throw();
 };
 class AttrStream_b5103
@@ -915,12 +902,9 @@ class AttrStream_b5103
     AttrStream_b5103(unsigned int* buf, unsigned int size) throw();
     AttrWriter_b5103 m_w;
 };
-extern AttrLog_b5103* DAT_01268360_b5103;
 class FUN_00e5c6b0_cls
 {
   public:
-    AttrEntry_b5103* FindPrimary(const char* name) throw();
-    AttrEntry_b5103* FindSecondary(const char* name) throw();
     int GetBoolAttribute(const char* name, bool required, unsigned char* out);
 };
 struct ConfigValue
@@ -932,10 +916,6 @@ struct CharBuffer
 {
     char* destination;
     unsigned capacity, length;
-    void FUN_00cb1600(char*, unsigned);
-    CharBuffer* FUN_00cc01c0(const char*);
-    CharBuffer* WriteName(const void*);
-    void FUN_00cc00e0();
 };
 struct DiagnosticLogger
 {
@@ -944,13 +924,9 @@ struct DiagnosticLogger
     virtual void flush();
     virtual void report(int, unsigned, const char*, const char*, int);
 };
-extern DiagnosticLogger* DAT_01268360;
-extern const char str_010ecd20[], str_010eccfc[], str_010ecd0c[], str_010eccc8[];
+extern const char str_010ecd20[];
 struct ConfigTable
 {
-    ConfigValue* FUN_00e5c5d0(const char*);
-    ConfigValue* FUN_00e5c5b0(const char*);
-    ConfigValue* FUN_00e5c5f0(const char*);
     int GetUnsignedValue(const char*, bool, unsigned*);
 };
 struct FUN_00e5c8b0_Node
@@ -959,7 +935,6 @@ struct FUN_00e5c8b0_Node
 };
 struct FUN_00e5c8b0_Target
 {
-    void FindValue(unsigned int a, unsigned int* b);
 };
 struct FUN_00e5c8b0_Rec
 {
@@ -978,12 +953,6 @@ struct FUN_00e5c8b0_Str
     int m_00;
     int m_04;
     int m_08;
-    void Set(char* buf, unsigned int len);
-    FUN_00e5c8b0_Str* Chain5(const char* s0, int a1, const char* s2, int a3, const char* s4);
-    FUN_00e5c8b0_Str* Chain0();
-    FUN_00e5c8b0_Str* ChainB();
-    FUN_00e5c8b0_Str* ChainC();
-    void Release();
 };
 struct FUN_00e5c8b0_cls
 {
@@ -991,8 +960,6 @@ struct FUN_00e5c8b0_cls
     int unk04;
     int unk08;
     int unk0C;
-    FUN_00e5c8b0_Rec* FUN_00e5c610(int a);
-    FUN_00e5c8b0_Rec* FUN_00e5c5f0(int a);
     int GetAttributeValue(int a, bool flag, unsigned int* out);
 };
 struct FUN_00e5c8b0_Logger
@@ -1002,7 +969,6 @@ struct FUN_00e5c8b0_Logger
     virtual void v2();
     virtual void Report(int level, unsigned int code, const char* msg, const char* file, int line);
 };
-extern FUN_00e5c8b0_Logger* g_01268360;
 struct AttrLogBuf
 {
     unsigned int m_00;
@@ -1147,11 +1113,6 @@ class AttrLogBuilder
     unsigned short m_sLen;
     unsigned short m_sMaxLen;
     unsigned int m_08;
-    void Init(AttrLogBuf* buf, unsigned int size);
-    AttrLogBuilder* Build(const char* a, const char* name, const char* b, void* self, const char* c);
-    AttrLogBuilder* Chain();
-    AttrLogBuilder* Other();
-    void Free();
 };
 class LogSink
 {
@@ -1161,18 +1122,15 @@ class LogSink
     virtual void v2();
     virtual void Log(int level, unsigned int tag, const char* msg, const char* file, int line);
 };
-extern LogSink* g_pAttrLogger;
 class FUN_00e5c9b0_cls
 {
   public:
-    AttrEntry* FindAttr(const char* name);
     int GetFloatAttribute(const char* name, bool log, float* out);
 };
 // FUN_00e5cec0 - forwards this + four stack arguments to SpliceArray,
 // with a literal zero inserted as the third argument.
 struct FUN_00e5cdb0_class
 {
-    void __thiscall SpliceArray(int a, int b, int c, int d, int e);
     void __thiscall FUN_00e5cec0(int a, int b, int c, int d);
 };
 struct S_00e5cfb0_Object
@@ -1194,10 +1152,8 @@ struct S_00e65ee0_Class
     int unk08;
     int unk0c;
 
-    void __thiscall FUN_00e65ee0(int* buffer, int value);
 };
 void __cdecl FUN_00e5cfb0(S_00e5cfb0_Object* object, int value);
-extern float DAT_0104e148;
 struct FloatArray_e404b0
 {
     float* data;
@@ -1208,7 +1164,6 @@ template <class T> inline T MaxOf(T a, T b)
     return a > b ? a : b;
 }
 float __cdecl FUN_00e404b0(FloatArray_e404b0* arr);
-extern float _DAT_0104da48;
 float __cdecl FindMinFloat(int* param_1);
 extern int DAT_010e60c4;
 struct FUN_00e44070
@@ -1515,7 +1470,6 @@ struct ActorEntry
         return m_pExtendedListeners;
     }
 
-    void __thiscall FUN_00c9c670(CListener* el);
 };
 template <typename T> struct HkArray
 {
@@ -1582,9 +1536,7 @@ struct FUN_00e46900 : CShape, CListener
 };
 struct Ref
 {
-    void FUN_00c90510();
 };
-int FUN_00e60cb0(unsigned char, int);
 struct Entry
 {
     Ref* name;
@@ -1602,7 +1554,7 @@ struct Entry
     int length() const
     {
         int t = type;
-        return FUN_00e60cb0(t, count);
+        return ::FUN_00e60cb0(t, count);
     }
 };
 struct Allocator
@@ -1618,14 +1570,9 @@ struct Router
     }
 };
 Router* getRouter();
-int FUN_00e60cb0(unsigned char type, int count);
-extern "C" void FUN_00c908c0(Allocator*, void*, int, int);
-void FUN_00cb1260(void*, const void*, int);
 struct String
 {
     void* value;
-    void init() throw();
-    void assign(const char*) throw();
 };
 struct ArrayBase
 {
@@ -1642,7 +1589,7 @@ struct ArrayBase
     {
         int cap = a->getCapacity();
         if (cap < n)
-            FUN_00c908c0(&heap, a, n < 2 * cap ? 2 * cap : n, stride);
+            ::FUN_00c908c0((::SpawnedObject *)(::Allocator *)(&heap), (::SpawnedArray *)(a), n < 2 * cap ? 2 * cap : n, stride);
     }
     void reserve(Allocator& heap, int n, int stride)
     {
@@ -1759,10 +1706,8 @@ struct FloatArrayRef
     int size;
     unsigned int capacity;
 };
-int __cdecl FUN_00e57210(FloatArrayRef* array, int count);
 struct ArrayAllocator;
 struct FloatArray;
-void FUN_00c908c0(ArrayAllocator* alloc, FloatArray* arr, int newCap, int elemSize);
 struct FloatArray
 {
     float* m_data;
@@ -1778,7 +1723,7 @@ struct FloatArray
         if (cap < n)
         {
             int c = 2 * cap;
-            FUN_00c908c0(&alloc, this, n < c ? c : n, 4);
+            ::FUN_00c908c0((::SpawnedObject *)(::ArrayAllocator *)(&alloc), (::SpawnedArray *)(::FloatArray *)(this), n < c ? c : n, 4);
         }
     }
 };
@@ -1795,7 +1740,6 @@ struct MemoryRouter
     }
 };
 MemoryRouter* GetMemoryRouter();
-int RemoveAdjacentDuplicates(FloatArray* arr, int last);
 // Element-wise subtract another matrix of the same shape from this one.
 class E87E0Matrix
 {
@@ -1815,10 +1759,8 @@ class E87E0Matrix
 class CE588A0Vector
 {
   public:
-    double Get(int iIndex);
     int GetSize();
 };
-float __cdecl DotProduct(CE588A0Vector* pkA, CE588A0Vector* pkB);
 struct Stand_e58d90
 {
     void* m_pData;
@@ -1848,7 +1790,7 @@ struct SampleVec
     {}
     SampleVec()
     {
-        FUN_00e53160(0, 0, 0, 0);
+        new ((void *)this) ::FUN_00e53160(0, 0, 0, 0);
     }
 
     SampleVec* FUN_00e53160(float, float, float, float);
@@ -1967,7 +1909,7 @@ float FUN_00e54cb0(int leftIndex, int degree, float** knots, void* context, cons
 
         FUN_00e544c0(leftIndex, degree, knots, context, param, 2, cost);
 
-        cost[0].FUN_00e531d0(*target);
+        reinterpret_cast<::FUN_00e531d0_cls *>(&(cost[0]))->FUN_00e531d0((const float *)&(*target));
 
         bool angleOK;
 

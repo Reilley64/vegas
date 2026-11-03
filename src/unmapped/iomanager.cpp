@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_0043cc80_shell.h"
 struct FUN_0043c610_shell
 {
     void __thiscall RunVirtualMethod28();
@@ -52,11 +53,11 @@ struct QHeadPtr
 };
 struct IOTask
 {
-    unsigned char GetPriority();
 };
 struct C_00449210
 {
-    void FUN_00449210(int, QHeadPtr*);
+public:
+    void FUN_00449210(int, int);
 };
 struct FUN_0043d6b0_shell
 {
@@ -67,5 +68,5 @@ struct FUN_0043d6b0_shell
 void FUN_0043d6b0_shell::FUN_0043d6b0(QHeadLocal* aHead)
 {
     QHeadPtr head(aHead);
-    (*(C_00449210**)((char*)this + 0x64))->FUN_00449210(((IOTask*)aHead)->GetPriority(), &head);
+    (*(C_00449210**)((char*)this + 0x64))->FUN_00449210(reinterpret_cast<::FUN_0043cc80_shell *>((((IOTask*)aHead)))->FUN_0043cc80(), (int)(&head));
 }

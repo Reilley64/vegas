@@ -1,9 +1,10 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_011ad000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_011ff000.h"
 extern int DAT_011ad8a8[];
-extern void* DAT_011f9508;
-extern int DAT_011ff9d8[];
 extern unsigned int DAT_011ffa7c;
 extern unsigned int DAT_011ffa80;
 
@@ -14,15 +15,15 @@ void AddToTwoCounters(int aiIndexA, int aiIndexB, int aiAmount)
     int iCounterIndex = DAT_011ffa7c;
     if (DAT_011ff9d8[iCounterIndex] == 0)
     {
-        ((void(__thiscall*)(void*, int, int, int, int))(*(void***)*(void**)((char*)DAT_011f9508 + 0x8b8))[0x68 / 4])(
-            *(void**)((char*)DAT_011f9508 + 0x8b8), 0x13, DAT_011ad8a8[aiIndexA], 0, 0);
+        ((void(__thiscall*)(void*, int, int, int, int))(*(void***)*(void**)((char*)(*reinterpret_cast<void * *>(&::DAT_011f9508)) + 0x8b8))[0x68 / 4])(
+            *(void**)((char*)(*reinterpret_cast<void * *>(&::DAT_011f9508)) + 0x8b8), 0x13, DAT_011ad8a8[aiIndexA], 0, 0);
     }
     DAT_011ff9d8[iCounterIndex] += aiAmount;
     iCounterIndex = DAT_011ffa80;
     if (DAT_011ff9d8[iCounterIndex] == 0)
     {
-        ((void(__thiscall*)(void*, int, int, int, int))(*(void***)*(void**)((char*)DAT_011f9508 + 0x8b8))[0x68 / 4])(
-            *(void**)((char*)DAT_011f9508 + 0x8b8), 0x14, DAT_011ad8a8[aiIndexB], 0, 0);
+        ((void(__thiscall*)(void*, int, int, int, int))(*(void***)*(void**)((char*)(*reinterpret_cast<void * *>(&::DAT_011f9508)) + 0x8b8))[0x68 / 4])(
+            *(void**)((char*)(*reinterpret_cast<void * *>(&::DAT_011f9508)) + 0x8b8), 0x14, DAT_011ad8a8[aiIndexB], 0, 0);
     }
     DAT_011ff9d8[iCounterIndex] += aiAmount;
 }
@@ -631,23 +632,18 @@ struct B98070ScenePointer
     }
 };
 
-extern B98070ScenePointer g_B98070Scene;
-extern unsigned int g_B98070Index;
-extern int g_B98070Counts[];
 
 // Adjusts the renderer state 0x34 when the current index's count is zero, then adds count to g_B98070Counts[index].
 // @fnv 0x00b98070
 void __cdecl UpdateRendererStateCount(bool enable, int count)
 {
-    unsigned int index = g_B98070Index;
-    if (g_B98070Counts[index] == 0)
-        g_B98070Scene->m_renderer->SetState(0x34, enable, 0, 0);
-    g_B98070Counts[index] += count;
+    unsigned int index = ::DAT_011ffb00;
+    if (::DAT_011ff9d8[index] == 0)
+        (*reinterpret_cast<::B98070ScenePointer *>(&::DAT_011f9508))->m_renderer->SetState(0x34, enable, 0, 0);
+    ::DAT_011ff9d8[index] += count;
 }
 
 extern int DAT_011ad8a8[];
-extern void* DAT_011f9508;
-extern int DAT_011ff9d8[];
 extern unsigned int DAT_011ffb04;
 extern unsigned int DAT_011ffb08;
 extern unsigned int DAT_011ffb0c;
@@ -661,14 +657,14 @@ void __cdecl FUN_00b980c0(int aiFirstIndex, int aiSecondIndex, int aiThirdIndex,
 {
     if (DAT_011ff9d8[DAT_011ffb04] == 0)
     {
-        void* renderer = *(void* volatile*)&DAT_011f9508;
+        void* renderer = *(void* volatile*)&(*reinterpret_cast<void * *>(&::DAT_011f9508));
         DeviceView* device = *(DeviceView**)((char*)renderer + 0x8b8);
         ((void(__thiscall*)(DeviceView*, unsigned int, int, int, int))device->vtable[26])(
             device, 0x35, DAT_011ad8a8[aiFirstIndex + 11], 0, 0);
     }
     if (DAT_011ff9d8[DAT_011ffb08] == 0)
     {
-        void* renderer = *(void* volatile*)&DAT_011f9508;
+        void* renderer = *(void* volatile*)&(*reinterpret_cast<void * *>(&::DAT_011f9508));
         DeviceView* device = *(DeviceView**)((char*)renderer + 0x8b8);
         ((void(__thiscall*)(DeviceView*, unsigned int, int, int, int))device->vtable[26])(
             device, 0x36, DAT_011ad8a8[aiSecondIndex + 11], 0, 0);
@@ -676,7 +672,7 @@ void __cdecl FUN_00b980c0(int aiFirstIndex, int aiSecondIndex, int aiThirdIndex,
     unsigned int index = DAT_011ffb0c;
     if (DAT_011ff9d8[index] == 0)
     {
-        void* renderer = DAT_011f9508;
+        void* renderer = (*reinterpret_cast<void * *>(&::DAT_011f9508));
         DeviceView* device = *(DeviceView**)((char*)renderer + 0x8b8);
         ((void(__thiscall*)(DeviceView*, unsigned int, int, int, int))device->vtable[26])(
             device, 0x37, DAT_011ad8a8[aiThirdIndex + 11], 0, 0);
@@ -1278,29 +1274,26 @@ class GraphicsRenderer
     RenderState* state;
 };
 extern unsigned int DAT_011ffb10;
-extern bool DAT_011ad884;
 extern unsigned int DAT_011ffb14;
 extern unsigned int DAT_011ffb18;
-extern int DAT_011ff9d8[];
-extern GraphicsRenderer* volatile g_pkRenderer;
 // @fnv 0x00b98180
 void FUN_00b98180(int a, int aiValue39, int aiValue3A, int aiSlotIncrement)
 {
     if (DAT_011ff9d8[DAT_011ffb10] == 0)
     {
-        GraphicsRenderer* renderer = g_pkRenderer;
+        GraphicsRenderer* renderer = (*reinterpret_cast<::GraphicsRenderer *volatile *>(&::DAT_011f9508));
         RenderState* state = renderer->state;
         state->Send(0x38, *(reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(&DAT_011ad884) + 4) + a), 0, 0);
     }
     if (DAT_011ff9d8[DAT_011ffb14] == 0)
     {
-        GraphicsRenderer* renderer = g_pkRenderer;
+        GraphicsRenderer* renderer = (*reinterpret_cast<::GraphicsRenderer *volatile *>(&::DAT_011f9508));
         RenderState* state = renderer->state;
         state->Send(0x39, aiValue39, 0, 0);
     }
     unsigned int index = DAT_011ffb18;
     if (DAT_011ff9d8[index] == 0)
-        g_pkRenderer->state->Send(0x3A, aiValue3A, 0, 0);
+        (*reinterpret_cast<::GraphicsRenderer *volatile *>(&::DAT_011f9508))->state->Send(0x3A, aiValue3A, 0, 0);
     DAT_011ff9d8[index] += aiSlotIncrement;
 }
 
@@ -1897,9 +1890,6 @@ struct Renderer
     int unk8b4;
     RenderState* state;
 };
-extern unsigned int DAT_011ffd3c;
-extern int DAT_011ff9d8[];
-extern Renderer* g_pkRenderer;
 // Sends opcode 0xc3 with the float's bit pattern when the renderer slot is zero, then adds addend to that slot.
 // @fnv 0x00b98320
 void SendFloatAdd(float value, int addend)
@@ -1910,17 +1900,15 @@ void SendFloatAdd(float value, int addend)
         int bits;
     } uBits;
     uBits.f = value;
-    unsigned int index = DAT_011ffd3c;
-    if (DAT_011ff9d8[index] == 0)
+    unsigned int index = ::DAT_011ffd3c;
+    if (::DAT_011ff9d8[index] == 0)
     {
-        g_pkRenderer->state->Send(0xc3, uBits.bits, 0, 0);
+        (*reinterpret_cast<::fnv_00b98320::Renderer * *>(&::DAT_011f9508))->state->Send(0xc3, uBits.bits, 0, 0);
     }
-    DAT_011ff9d8[index] += addend;
+    ::DAT_011ff9d8[index] += addend;
 }
 }  // namespace fnv_00b98320
 
-extern int DAT_011ffb1c;
-extern int DAT_011ff9d8[];
 
 struct Service
 {
@@ -1957,18 +1945,15 @@ struct Service
 // @fnv 0x00b98230
 void __cdecl AddToSlot(void* apFirst, int aiSecond)
 {
-    int iSlotIndex = DAT_011ffb1c;
+    int iSlotIndex = (*reinterpret_cast<int *>(&::DAT_011ffb1c));
     if (DAT_011ff9d8[iSlotIndex] == 0)
     {
-        Service* pService = *(Service**)((char*)DAT_011f9508 + 0x8b8);
+        Service* pService = *(Service**)((char*)(*reinterpret_cast<void * *>(&::DAT_011f9508)) + 0x8b8);
         pService->V68(0x3b, apFirst, 0, 0);
     }
     DAT_011ff9d8[iSlotIndex] += aiSecond;
 }
 
-extern int DAT_011ffc90;
-extern void* DAT_011f9508;
-extern int DAT_011ff9d8[];
 
 struct SpawnedObject
 {
@@ -2005,10 +1990,10 @@ struct SpawnedObject
 void UpdateSpawnedObjectFlags(unsigned char abFlag1, unsigned char abFlag2, unsigned char abFlag3,
                               unsigned char abFlag4, unsigned char abFlag5, unsigned char abFlag6, int aiDelta)
 {
-    int iIndex = DAT_011ffc90;
+    int iIndex = (*reinterpret_cast<int *>(&::DAT_011ffc90));
     if (DAT_011ff9d8[iIndex] == 0)
     {
-        SpawnedObject* pObject = *(SpawnedObject**)((char*)DAT_011f9508 + 0x8b8);
+        SpawnedObject* pObject = *(SpawnedObject**)((char*)(*reinterpret_cast<void * *>(&::DAT_011f9508)) + 0x8b8);
         unsigned int flags = (abFlag1 != 0) ? 1u : 0u;
         flags |= (abFlag2 != 0) ? 2u : 0u;
         flags |= (abFlag3 != 0) ? 4u : 0u;

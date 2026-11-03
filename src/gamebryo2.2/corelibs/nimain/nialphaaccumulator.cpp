@@ -1,5 +1,19 @@
 // gamebryo2.2/corelibs/nimain/nialphaaccumulator.cpp: NiAlphaAccumulator, CloneAccumulator (17 functions)
 
+#include <new>
+#include "fnv/decl/FUN_0043a010_shell.h"
+#include "fnv/decl/FUN_00a95ca0_shell.h"
+#include "fnv/decl/NiRenderer.h"
+#include "fnv/symbols_00aa0000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_010a1000.h"
+#include "fnv/symbols_010a2000.h"
+#include "fnv/symbols_011a8000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f5000.h"
 #include "nialphaaccumulator_decls.h"
 
 // Constructs the accumulator: sets the vtable pointer and zeroes the list count, head, tail and the remaining members.
@@ -17,15 +31,6 @@ NiAlphaAccumulator::NiAlphaAccumulator()
     m_pfGeometrySortValues = 0;
 }
 
-extern float DAT_01096b8c;
-extern int EmptyFS;
-extern int DAT_011a8400;
-extern int DAT_011a8404;
-extern int DAT_011a8408;
-extern int DAT_011f3704;
-extern int DAT_011f3708;
-extern int DAT_011f370c;
-extern int DAT_011f3710;
 
 struct DummyObj
 {
@@ -41,23 +46,23 @@ struct DummyObj
 // @fnv 0x00a433b0
 DummyObj* __fastcall InitFromGlobals(DummyObj* pThis)
 {
-    pThis->f00 = DAT_011a8400;
+    pThis->f00 = (*reinterpret_cast<int *>(&::DAT_011a8400));
     pThis->f04 = DAT_011a8404;
     pThis->f08 = DAT_011a8408;
-    pThis->f0c = DAT_011f3704;
+    pThis->f0c = (*reinterpret_cast<int *>(&::DAT_011f3704));
     pThis->f10 = DAT_011f3708;
     pThis->f14 = DAT_011f370c;
     pThis->f18 = DAT_011f3710;
     pThis->f1c = DAT_01096b8c;
-    pThis->f20 = DAT_011a8400;
+    pThis->f20 = (*reinterpret_cast<int *>(&::DAT_011a8400));
     pThis->f24 = DAT_011a8404;
     pThis->f28 = DAT_011a8408;
-    pThis->f2c = DAT_011f3704;
+    pThis->f2c = (*reinterpret_cast<int *>(&::DAT_011f3704));
     pThis->f30 = DAT_011f3708;
     pThis->f34 = DAT_011f370c;
     pThis->f38 = DAT_011f3710;
     pThis->f3c = DAT_01096b8c;
-    pThis->f40 = EmptyFS;
+    pThis->f40 = (*reinterpret_cast<int *>(&::DAT_0109b220));
     return pThis;
 }
 
@@ -75,12 +80,11 @@ struct GlobalObjectO2_00a7b610
 {
     char c;
 };
-extern GlobalObjectO2_00a7b610 g_011f3ed8;
 // Returns the address of the global object g_011f3ed8.
 // @fnv 0x00a43360
 GlobalObjectO2_00a7b610* __cdecl FUN_00a43360()
 {
-    return &g_011f3ed8;
+    return &::g_011f3ed8;
 }
 
 struct FUN_00a43450_fs
@@ -171,12 +175,11 @@ struct FUN_00a9b510_shell : public NiAlphaAccumulator
 
 struct FUN_00aa0ae0_stub
 {
-    char FUN_00aa0ae0(NiObject* pkObject);
 };
 // @fnv 0x00a9b510
 bool FUN_00a9b510_shell::FUN_00a9b510(NiObject* pkObject)
 {
-    bool b = ((FUN_00aa0ae0_stub*)this)->FUN_00aa0ae0(pkObject) != 0;
+    bool b = ((char)(::FUN_00aa0ae0((::NiObject *)(((FUN_00aa0ae0_stub*)this))))) != 0;
     return b;
 }
 
@@ -185,11 +188,10 @@ struct FUN_00a9b530_shell : public NiAlphaAccumulator
     void* FUN_00a9b530();
 };
 
-extern const char* const g_011fa000_arg1;
 // @fnv 0x00a9b530
 void* FUN_00a9b530_shell::FUN_00a9b530()
 {
-    return (void*)&g_011fa000_arg1;
+    return (void*)&(*reinterpret_cast<const char *const *>(&::g_011f5f74));
 }
 
 void* __cdecl FUN_00aa13e0(unsigned int);
@@ -238,7 +240,6 @@ Derived_a43370* __cdecl CreateDerivedA43370()
     return new Derived_a43370();
 }
 
-extern int DAT_011f4748;
 
 struct FUN_00b58570_Class
 {
@@ -368,7 +369,7 @@ struct FUN_00a9b850_shell : public NiAlphaAccumulator
 bool FUN_00a9b850_shell::FUN_00a9b850(FUN_00a9b850_Obj* pObject)
 {
     FUN_00a9b850_Prop* p = pObject->m9c;
-    int g = DAT_011f4748;
+    int g = (*reinterpret_cast<int *>(&::NiRenderer::ms_pRenderer));
     if ((p->unk18 & 1) && (!m_bSkipObjectsWithFlag13 || !((unsigned char)(p->unk18w >> 13) & 1)) &&
         ((unsigned char)~(pObject->unk30 >> 6) & 1))
     {
@@ -379,11 +380,10 @@ bool FUN_00a9b850_shell::FUN_00a9b850(FUN_00a9b850_Obj* pObject)
     return true;
 }
 
-void FUN_00a95ca0();
 // @fnv 0x00a43330
 void FUN_00a43330()
 {
-    FUN_00a95ca0();
+    static_cast<::FUN_00a95ca0_shell *>(nullptr)->FUN_00a95ca0(*(::S_00a58160_Stream *)nullptr);
 }
 
 struct C8CCC0Base
@@ -400,14 +400,12 @@ bool FUN_00a43340::IsEqual(const FUN_00a43340& apObject)
     return C8CCC0Base::IsEqual(apObject);
 }
 
-void __cdecl FUN_00aa0ac0();
 // @fnv 0x00a9b4f0
 void __cdecl FUN_00a9b4f0()
 {
     FUN_00aa0ac0();
 }
 
-void __cdecl FUN_00aa0ad0();
 // @fnv 0x00a9b500
 void __cdecl FUN_00a9b500()
 {
@@ -423,7 +421,6 @@ struct S00a9b570_Bound
     S00a9b570_Pt m_kCenter;
     float m_fBoundRadius;
 };
-extern S00a9b570_Bound DAT_011f4288;
 void __cdecl FUN_00aa10f0(void* p);
 void* __cdecl FUN_00aa1070(unsigned int n);
 
@@ -497,7 +494,7 @@ struct S00a9b570_Geom
     const S00a9b570_Bound& GetBoundingVolume() const
     {
         const S00a9b570_Bound* p = m_pkBound;
-        return p ? *p : DAT_011f4288;
+        return p ? *p : (*reinterpret_cast<::S00a9b570_Bound *>(&::g_defaultBound));
     }
 };
 
@@ -546,7 +543,6 @@ struct S00a9b570_Acc
     bool m_bInterface;
 
     void FUN_00a9b570();
-    void FUN_00aa0b40(int start, int finish);
 };
 
 // @fnv 0x00a9b570
@@ -594,7 +590,7 @@ void S00a9b570_Acc::FUN_00a9b570()
             m_pfGeometrySortValues[i] = S00a9b570_Dot(m_ppGeometries[i]->GetBoundingVolume().m_kCenter, kViewDir);
         }
     }
-    FUN_00aa0b40(0, m_iGeometryCount - 1);
+    reinterpret_cast<::NiBackToFrontAccumulator *>(this)->QuickSort(0, m_iGeometryCount - 1);
 }
 
 struct DelS
@@ -616,7 +612,6 @@ FUN_00a9b540::~FUN_00a9b540()
 
 namespace fnv_00a9b790 {
 class NiRenderer;
-extern NiRenderer* DAT_011f4748;
 
 struct S00a9b790_Node
 {
@@ -627,7 +622,6 @@ struct S00a9b790_Node
 
 struct S00a9b790_NodeAllocator
 {
-    S00a9b790_Node* FUN_0043a010();
 };
 
 class S00a9b790_NiAlphaProperty
@@ -813,7 +807,7 @@ class S00a9b790_VNiAlphaAccumulator : public S00a9b790_VNiBackToFrontAccumulator
 
     void AddTail(S00a9b790_NiGeometry* pkObject)
     {
-        S00a9b790_Node* pkNode = ((S00a9b790_NodeAllocator*)&m_kUnsortedGeometryList.m_kItemCount)->FUN_0043a010();
+        S00a9b790_Node* pkNode = ((::fnv_00a9b790::S00a9b790_Node *)(reinterpret_cast<::FUN_0043a010_shell *>((((S00a9b790_NodeAllocator*)&m_kUnsortedGeometryList.m_kItemCount)))->FUN_0043a010()));
         pkNode->m_element = pkObject;
         pkNode->m_pkNext = 0;
         pkNode->m_pkPrev = m_kUnsortedGeometryList.m_pkTail;
@@ -830,7 +824,7 @@ class S00a9b790_VNiAlphaAccumulator : public S00a9b790_VNiBackToFrontAccumulator
 
 void S00a9b790_VNiAlphaAccumulator::Body(S00a9b790_NiVisibleArray& kArray)
 {
-    NiRenderer* pkRenderer = DAT_011f4748;
+    NiRenderer* pkRenderer = (*reinterpret_cast<::fnv_00a9b790::NiRenderer * *>(&::NiRenderer::ms_pRenderer));
     const unsigned int uiQuantity = kArray.GetCount();
     for (unsigned int i = 0; i < uiQuantity; i++)
     {
@@ -861,14 +855,11 @@ void S00a9b790_Acc::FUN_00a9b790(S00a9b790_NiVisibleArray& kArray)
 
 struct NiObject;
 struct CloningProcess;
-extern unsigned int kVtbl_NiAlphaAccumulator;
 struct CloneBaseInitializer
 {
-    void FUN_00aa0f00();
 };
 struct CloneCopyHelper
 {
-    void FUN_00aa0ab0(void*, CloningProcess*);
 };
 struct CloneAccumulator : NiAlphaAccumulator
 {
@@ -882,7 +873,7 @@ NiObject* CloneAccumulator::FUN_00a9b730(CloningProcess* cloning)
     NiAlphaAccumulator* clone = (NiAlphaAccumulator*)FUN_00aa13e0(sizeof(NiAlphaAccumulator));
     if (clone)
     {
-        ((CloneBaseInitializer*)clone)->FUN_00aa0f00();
+        new ((void *)(((CloneBaseInitializer*)clone))) ::NiAlphaAccumulator();
         clone->m_layout0 = (unsigned int)&kVtbl_NiAlphaAccumulator;
         clone->m_bSkipObjectsWithFlag13 = true;
         clone->m_bSkipObjectsWithFlag14 = false;
@@ -892,7 +883,7 @@ NiObject* CloneAccumulator::FUN_00a9b730(CloningProcess* cloning)
     {
         clone = 0;
     }
-    ((CloneCopyHelper*)this)->FUN_00aa0ab0(clone, cloning);
+    ::FUN_00aa0ab0();
     clone->m_bSkipObjectsWithFlag13 = m_bSkipObjectsWithFlag13;
     clone->m_bSkipObjectsWithFlag14 = m_bSkipObjectsWithFlag14;
     return (NiObject*)clone;

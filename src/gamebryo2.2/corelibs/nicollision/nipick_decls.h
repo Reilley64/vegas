@@ -2,6 +2,10 @@
 #ifndef FNV_NIPICK_DECLS_H
 #define FNV_NIPICK_DECLS_H
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00e9c000.h"
+#include "fnv/symbols_011f6000.h"
 #include "NiPoint3.h"
 #include "NiObjectNET.h"
 
@@ -15,10 +19,7 @@ class NiNode : public NiAVObject
 class MemoryManager
 {
   public:
-    void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
-void NiFree(void*);
 extern void* DAT_010f16ec[];
 extern void* DAT_010f16dc[];
 
@@ -87,7 +88,6 @@ class NiPick
             m_pBase[index] = record;
         }
         void InvokeCallbacks();
-        void FindHighestPriorityCallback();
         void Clear() throw();
     };
     PickType m_ePickMode;
@@ -119,6 +119,5 @@ FNV_STATIC_ASSERT(offsetof(NiPick, m_spRootNode) == 20);
 FNV_STATIC_ASSERT(offsetof(NiPick, m_kResults) == 24);
 
 namespace NiPickIntersections {
-bool FindIntersections(const NiPoint3&, const NiPoint3&, NiPick&, NiAVObject*);
 }
 #endif

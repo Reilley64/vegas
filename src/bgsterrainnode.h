@@ -9,6 +9,10 @@
 #define FNV_BGSTERRAINNODE_LOCAL_H
 
 
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_011d8000.h"
 #include "layout_support.h"
 #include <float.h>
 #include <stddef.h>
@@ -29,7 +33,8 @@ class NiPoint3
     NiPoint3();
     NiPoint3(float xPos, float yPos, float zPos);
     NiPoint3 operator-(const NiPoint3& point) const;
-    float ComputeMagnitude();
+public:
+    float ComputeMagnitude() const;
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiPoint3) == 0xC);
@@ -40,7 +45,6 @@ FNV_STATIC_ASSERT(offsetof(NiPoint3, z) == 0x8);
 class BGSTerrainManager
 {
   public:
-    unsigned int GetMaxLevel();
     unsigned int GetMinLevel();
 };
 
@@ -67,14 +71,9 @@ class SettingT_GameSettingCollection_
   public:
     SettingT_GameSettingCollection_();
     ~SettingT_GameSettingCollection_();
-    SETTING_VALUE* Float();
     SETTING_VALUE* Bool();
 };
 
-extern SettingT_GameSettingCollection_ fSplitDistanceMult;
-extern SettingT_GameSettingCollection_ fMorphStartDistanceMult;
-extern SettingT_GameSettingCollection_ fMorphEndDistanceMult;
-extern SettingT_GameSettingCollection_ bKeepLowDetailTerrain;
 
 class AutoMemContext
 {
@@ -84,7 +83,6 @@ class AutoMemContext
     ~AutoMemContext();
 };
 
-int Warning(const char* aFormat, ...);
 
 extern "C" void* memset(void* pDestination, int cValue, unsigned int uSize);
 

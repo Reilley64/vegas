@@ -7,6 +7,18 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <xmmintrin.h>
+#include <new>
+#include "fnv/decl/FUN_00d58510.h"
+#include "fnv/decl/FUN_00de1f50.h"
+#include "fnv/decl/FnvCpu_FUN_00d58d50_CpuObject.h"
+#include "fnv/decl/hkMatrix4CD60.h"
+#include "fnv/decl/hkpCylinderShapeGetCylRadius.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101b000.h"
+#include "fnv/symbols_01023000.h"
 struct D31Arr
 {
     void* data;                     // +0x00
@@ -40,7 +52,7 @@ struct D31Tbl2
 };
 struct D31Mgr
 {
-    D31Pair* FUN_00d58d50();         // __thiscall
+             // __thiscall
     void FUN_00d59200(D31Arr* out);  // __thiscall, 1 stack arg
 };
 struct D31Tbl
@@ -49,11 +61,11 @@ struct D31Tbl
 };
 __declspec(align(16)) D31Tbl tbl_0101b330;
 D31Tbl2* __cdecl FUN_00c85750();
-extern float DAT_0101b31c;
 static float FUN_00de3110(int dummy, D31Mgr* mgr);
 float __cdecl S00de3110_Entry();
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 extern "C" void _ReadWriteBarrier();
 extern "C" void _ReadBarrier();
 extern "C" void _WriteBarrier();
@@ -136,15 +148,12 @@ struct Shape
     __m128 point20;
     __m128 point30;
     __m128 point40;
-    float FUN_00d571a0();
-    struct PlaneArray* FUN_00d58d50();
     void FUN_00d59200(struct PlaneArray*);
 };
 struct Transform
 {
     __m128 rotation0, rotation1, rotation2, translation;
     void FUN_00cb2240(const Transform*, const Transform*);
-    void FUN_00c6cd60(const Transform*);
 };
 struct VectorResult
 {
@@ -167,16 +176,12 @@ struct Allocator
     virtual void* allocateChunk(int& bytes);
     virtual void freeChunk(void*, int);
 };
-extern void FUN_00c90940(void*, void*, int);
-extern void FUN_00c908c0(void*, void*, int, int);
 struct OutputShape
 {
     int field00;
     unsigned short memorySize, references;
     int field08, field0c;
     Transform transform;
-    __declspec(noalias) OutputShape* FUN_00d58510(const __m128*, const __m128*, float, int, int);
-    __declspec(noalias) OutputShape* FUN_00de1f50(const __m128*);
 };
 struct OutputArray
 {
@@ -187,7 +192,7 @@ struct OutputArray
     {
         D31Tbl2* holder = FUN_00c85750();
         if (size == (capacity & 0x3fffffff))
-            FUN_00c90940(reinterpret_cast<Allocator*>(holder->sub), this, 4);
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(reinterpret_cast<Allocator*>(holder->sub)), (::AudioStream *)(void *)(this), 4);
         OutputShape** slot = data + size;
         for (int i = 0; i < 1; ++i)
             slot[i] = shape;
@@ -238,7 +243,7 @@ struct PlaneArray
             int wanted = 2 * old;
             if (wanted <= count)
                 wanted = count;
-            FUN_00c908c0(a, this, wanted, 16);
+            ::FUN_00c908c0((::SpawnedObject *)(a), (::SpawnedArray *)(void *)(this), wanted, 16);
         }
     }
     __forceinline void release()
@@ -270,13 +275,6 @@ struct CallbackList
 };
 extern CallbackList* DAT_01269ce4;
 extern bool* FUN_00ceb8d0(bool*, const __m128*, const __m128*, const __m128*, float);
-extern const float DAT_01017718;
-extern const float DAT_01011d78;
-extern float DAT_010c7160;
-extern float DAT_010c44d0;
-extern const float DAT_01016248;
-extern const double DAT_01023b88;
-extern float DAT_01017d00;
 static __forceinline __m128 dot3(__m128 a, __m128 b)
 {
     __m128 p = _mm_mul_ps(a, b);
@@ -301,7 +299,7 @@ static __forceinline __m128 normalized(__m128 v)
     __m128 root = _mm_rsqrt_ss(n);
     __m128 zero = _mm_set_ss(DAT_01011d78);
     __m128 three = _mm_set_ss(DAT_01017718);
-    __m128 half = _mm_set_ss(DAT_01016248);
+    __m128 half = _mm_set_ss(::fnv_00c88020::DAT_01016248);
     __m128 mask = _mm_cmpeq_ss(n, zero);
     n = _mm_mul_ss(_mm_mul_ss(n, root), root);
     __m128 k = _mm_mul_ss(_mm_mul_ss(half, root), _mm_sub_ss(three, n));
@@ -314,7 +312,7 @@ static __forceinline __m128 normalizedInit(__m128 v, __m128& zero, __m128& three
     __m128 root = _mm_rsqrt_ss(n);
     zero = _mm_set_ss(DAT_01011d78);
     three = _mm_set_ss(DAT_01017718);
-    half = _mm_set_ss(DAT_01016248);
+    half = _mm_set_ss(::fnv_00c88020::DAT_01016248);
     __m128 mask = _mm_cmpeq_ss(n, zero);
     n = _mm_mul_ss(_mm_mul_ss(n, root), root);
     __m128 k = _mm_mul_ss(_mm_mul_ss(half, root), _mm_sub_ss(three, n));
@@ -349,7 +347,7 @@ static __forceinline void planeDistance(PlaneArray& planes, int index, __m128 p,
     __m128 r = _mm_shuffle_ps(scalar, scalar, 0);
     __m128 point = _mm_add_ps(_mm_mul_ps(r, normal), p);
     planes.data[index].m128_f32[3] =
-        getReal(_mm_sub_ss(*reinterpret_cast<const __m128*>(&DAT_010c7160), dot3(point, normal)));
+        getReal(_mm_sub_ss(*reinterpret_cast<const __m128*>(&(*reinterpret_cast<float *>(&::DAT_010c7160))), dot3(point, normal)));
 }
 struct Bounds
 {
@@ -359,7 +357,7 @@ extern const Transform DAT_01268370;
 
 static __declspec(noinline) float FUN_00de3110(Shape* shape)
 {
-    PlaneArray* source = shape->FUN_00d58d50();
+    PlaneArray* source = ((::PlaneArray *)(reinterpret_cast<::FnvCpu_FUN_00d58d50_CpuObject *>((shape))->FUN_00d58d50()));
     PlaneArray vertices;
     vertices.data = 0;
     vertices.size = 0;
@@ -548,7 +546,7 @@ void Processor::FUN_00de3520(Shape* shape, const Transform* transform, OutputArr
         return;
     }
     case 2: {
-        float additional = shape->FUN_00d571a0();
+        float additional = reinterpret_cast<::hkpCylinderShapeGetCylRadius *>((shape))->FUN_00d571a0();
         float radius = shape->radius;
         if (!(radius > threshold))
             return;
@@ -567,8 +565,8 @@ void Processor::FUN_00de3520(Shape* shape, const Transform* transform, OutputArr
         D31Tbl2* holder = FUN_00c85750();
         OutputShape* result = static_cast<OutputShape*>(reinterpret_cast<Allocator*>(holder->sub)->allocate(0x90));
         result->memorySize = 0x90;
-        result = result->FUN_00d58510(&end.value, &start.value, radius + additional, 9, 1);
-        result->transform.FUN_00c6cd60(transform);
+        result = ((::OutputShape *)(new ((void *)(result)) ::FUN_00d58510((*(const ::Vector4D22DC0 *)(&end.value)), (*(const ::Vector4D22DC0 *)(&start.value)), radius + additional, 9, 1)));
+        reinterpret_cast<::hkMatrix4CD60 *>(&(result->transform))->FUN_00c6cd60((*(const ::hkMatrix4CD60 *)(transform)));
         output->append(result);
         return;
     }
@@ -580,8 +578,8 @@ void Processor::FUN_00de3520(Shape* shape, const Transform* transform, OutputArr
         D31Tbl2* holder = FUN_00c85750();
         OutputShape* result = static_cast<OutputShape*>(reinterpret_cast<Allocator*>(holder->sub)->allocate(0x70));
         result->memorySize = 0x70;
-        result = result->FUN_00de1f50(&dimensions);
-        result->transform.FUN_00c6cd60(transform);
+        result = ((::OutputShape *)(new ((void *)(result)) ::FUN_00de1f50((*(const ::DE1F50Vector4 *)(&dimensions)))));
+        reinterpret_cast<::hkMatrix4CD60 *>(&(result->transform))->FUN_00c6cd60((*(const ::hkMatrix4CD60 *)(transform)));
         output->append(result);
         return;
     }
@@ -594,7 +592,7 @@ void Processor::FUN_00de3520(Shape* shape, const Transform* transform, OutputArr
         const __m128* a = &shape->point20;
         const __m128* b = &shape->point30;
         const __m128* c = &shape->point40;
-        if (*FUN_00ceb8d0(&degenerate, a, b, c, DAT_01017d00))
+        if (*FUN_00ceb8d0(&degenerate, a, b, c, ::AngularDashpotApplyD4DCB0::DAT_01017d00))
             return;
         __m128 normZero, normThree, normHalf;
         __m128 pointB = *b;
@@ -618,7 +616,7 @@ void Processor::FUN_00de3520(Shape* shape, const Transform* transform, OutputArr
         planes.size = 8;
         planes.data[0] = normal;
         planeDistance(planes, 0, *a, radius);
-        planes.data[1] = _mm_xor_ps(normal, *reinterpret_cast<const __m128*>(&DAT_010c44d0));
+        planes.data[1] = _mm_xor_ps(normal, *reinterpret_cast<const __m128*>(&(*reinterpret_cast<float *>((void *)&::DAT_010c44d0))));
         planeDistance(planes, 1, *a, radius);
         planes.data[2].setCross(edge0, normal);
         planeDistance(planes, 2, *a, radius);
@@ -646,7 +644,7 @@ void Processor::FUN_00de3520(Shape* shape, const Transform* transform, OutputArr
         float radius = shape->radius;
         if (!(radius > threshold))
             return;
-        PlaneArray* source = shape->FUN_00d58d50();
+        PlaneArray* source = ((::PlaneArray *)(reinterpret_cast<::FnvCpu_FUN_00d58d50_CpuObject *>((shape))->FUN_00d58d50()));
         float limit = FUN_00de3110(shape);
         planes.data = 0;
         planes.size = 0;
@@ -669,7 +667,7 @@ void Processor::FUN_00de3520(Shape* shape, const Transform* transform, OutputArr
             for (int index = 0; index < count; ++index)
                 dst[index].quad = src[index].quad;
         }
-        float permitted = float(DAT_01023b88 - radius);
+        float permitted = float(::DAT_01023b88 - radius);
         if (limit > permitted)
         {
             int count = source->size;

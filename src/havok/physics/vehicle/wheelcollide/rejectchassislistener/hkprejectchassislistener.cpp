@@ -2,10 +2,10 @@
 // src/havok/physics/vehicle/wheelcollide/rejectchassislistener/hkprejectchassislistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/wheelcollide/rejectchassislistener/hkprejectchassislistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010c9000.h"
 #include "havok/hkpRejectChassisListener.h"
 
-extern "C" void* DAT_010c925c;
-extern "C" void* DAT_0102e388;
 struct FUN_00e360f0
 {
     void* m_pVTable;
@@ -16,8 +16,8 @@ struct FUN_00e360f0
 // @fnv 0x00e360f0
 FUN_00e360f0::~FUN_00e360f0()
 {
-    m_pListener = &DAT_010c925c;
-    m_pVTable = &DAT_0102e388;
+    m_pListener = &(*reinterpret_cast<void * *>(&::DAT_010c925c));
+    m_pVTable = &::DAT_0102e388;
 }
 
 struct FUN_00e36100_StandIn
@@ -113,7 +113,7 @@ class hkObjdfbd40 : public hkpRejectChassisListener
 // @fnv 0x00dfbd40
 hkObjdfbd40* hkObjdfbd40::FUN_00dfbd40(unsigned int uiFlags) throw()
 {
-    this->FUN_00e360f0();
+    reinterpret_cast<::FUN_00e360f0 *>((this))->FUN_00e360f0::~FUN_00e360f0();
     if (uiFlags & 1)
         hkObjdfbd40::operator delete(this);
     return this;

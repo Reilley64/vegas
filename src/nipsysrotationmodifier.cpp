@@ -1,5 +1,23 @@
 // nipsysrotationmodifier.cpp: NiPSysRotationModifier, NiPSysMeshUpdateModifier, FnvRotMod (12 functions)
 
+#include <new>
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00c319e0_cls.h"
+#include "fnv/decl/MyIsEqual.h"
+#include "fnv/decl/NiColor.h"
+#include "fnv/decl/NiPlane.h"
+#include "fnv/decl/ParticleModifierBinary.h"
+#include "fnv/decl/S_00a64670_Foo.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f5000.h"
+#include "fnv/symbols_01202000.h"
 #include "nipsysrotationmodifier_types_NiPSysRotationModifier.h"
 #include "nipsysrotationmodifier_types_NiPSysMeshUpdateModifier.h"
 #include "nipsysrotationmodifier_types_NiStream.h"
@@ -23,7 +41,7 @@ void NiPSysMeshUpdateModifier::LoadBinary(NiStream& stream)
 {
     NiPSysModifier::LoadBinary(stream);
     m_uiUpdateOrder = 0x1964;
-    stream.ReadUnsignedInteger();
+    reinterpret_cast<::S_00a64670_Foo *>(&(stream))->FUN_00a64670();
 }
 
 struct FUN_00c206a0_shell : public NiPSysRotationModifier
@@ -31,12 +49,11 @@ struct FUN_00c206a0_shell : public NiPSysRotationModifier
     void* FUN_00c206a0();
 };
 
-extern "C" void* g_01202528;
 
 // @fnv 0x00c206a0
 void* FUN_00c206a0_shell::FUN_00c206a0()
 {
-    return &g_01202528;
+    return &(*reinterpret_cast<void * *>(&::g_01202528));
 }
 
 struct FUN_00c20a00_shell : public NiPSysRotationModifier
@@ -48,7 +65,7 @@ struct FUN_00c20a00_shell : public NiPSysRotationModifier
 // @fnv 0x00c20a00
 void FUN_00c20a00_shell::FUN_00c20a00(NiStream* kStream)
 {
-    NiObject::LinkObject(*kStream);
+    ::FUN_00a89af0((int)this);
     if (*(unsigned int*)((char*)kStream + 0xD8) < 0x14000002)
     {
         float* pfRotationSpeeds;
@@ -71,20 +88,19 @@ struct FUN_00c20a60_shell : public NiPSysRotationModifier
 
 struct Call_439090_tgt
 {
-    bool Call_439090(const NiPoint3&);
 };
 
 // @fnv 0x00c20a60
 bool FUN_00c20a60_shell::FUN_00c20a60(NiObject* object)
 {
     NiPSysRotationModifier* pkDest = static_cast<NiPSysRotationModifier*>(object);
-    if (NiPSysModifier::IsEqual(pkDest) && pkDest->m_fInitialRotationSpeed == m_fInitialRotationSpeed &&
+    if (reinterpret_cast<::MyIsEqual *>((void *)this)->FUN_00c31830(pkDest) && pkDest->m_fInitialRotationSpeed == m_fInitialRotationSpeed &&
         pkDest->m_fInitialRotationSpeedVariation == m_fInitialRotationSpeedVariation &&
         pkDest->m_bRandomInitialRotationSpeedSign == m_bRandomInitialRotationSpeedSign &&
         pkDest->m_fInitialRotationAngle == m_fInitialRotationAngle &&
         pkDest->m_fInitialRotationAngleVariation == m_fInitialRotationAngleVariation &&
         pkDest->m_bUseRandomRotationAxis == m_bUseRandomRotationAxis &&
-        !reinterpret_cast<Call_439090_tgt*>(&pkDest->m_kRotationAxis)->Call_439090(m_kRotationAxis))
+        !reinterpret_cast<::NiPlane *>((reinterpret_cast<Call_439090_tgt*>(&pkDest->m_kRotationAxis)))->operator==((const ::NiPlane &)(m_kRotationAxis)))
         return true;
     return false;
 }
@@ -110,9 +126,6 @@ struct NiPSysPositionModifier
     NiPSysPositionModifier();
 };
 extern int DAT_010bdaec;
-extern int DAT_011a946c;
-extern int DAT_011a9470;
-extern int DAT_011a9474;
 inline void* __cdecl operator new(unsigned int, void* p)
 {
     return p;
@@ -151,22 +164,15 @@ struct StrArr
     unsigned short _c;
     unsigned short _e;
 
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 
 struct Base00c319e0
 {
-    void FUN_00c319e0(StrArr*);
 };
 
-char* _FUN_00a7d330(char const*);
-char* _FUN_00a7d370(char const*, bool);
-char* FUN_00a7d550(char const*, float);
 
 struct NiPoint3Proxy
 {
-    char* FUN_00a59af0(char const*);
 };
 
 // Appends the rotation modifier's property names and values to a string array, growing it as needed via SetSize and SetAt.
@@ -176,72 +182,72 @@ void FUN_00c20d00_shell::AddRotationStrings(void* pkStrings)
     StrArr* strings = static_cast<StrArr*>(pkStrings);
     char* value;
 
-    reinterpret_cast<Base00c319e0*>(this)->FUN_00c319e0(strings);
+    reinterpret_cast<::FUN_00c319e0_cls *>((reinterpret_cast<Base00c319e0*>(this)))->FUN_00c319e0(strings);
 
-    value = _FUN_00a7d330(static_cast<char const*>(g_01202528));
+    value = ::FUN_00a7d330(static_cast<char const*>((*reinterpret_cast<void * *>(&::g_01202528))));
     unsigned int count = strings->_a;
     if (count >= strings->_8)
     {
-        strings->SetSize(static_cast<unsigned int>(strings->_e + count));
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(static_cast<unsigned int>(strings->_e + count));
     }
-    strings->SetAt(count, value);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(count, value);
 
     value = FUN_00a7d550("Initial Rotation Speed", m_fInitialRotationSpeed);
     count = strings->_a;
     if (count >= strings->_8)
     {
-        strings->SetSize(static_cast<unsigned int>(strings->_e + count));
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(static_cast<unsigned int>(strings->_e + count));
     }
-    strings->SetAt(count, value);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(count, value);
 
     value = FUN_00a7d550("Initial Rotation Speed Variation", m_fInitialRotationSpeedVariation);
     count = strings->_a;
     if (count >= strings->_8)
     {
-        strings->SetSize(static_cast<unsigned int>(strings->_e + count));
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(static_cast<unsigned int>(strings->_e + count));
     }
-    strings->SetAt(count, value);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(count, value);
 
-    value = _FUN_00a7d370("Random Rot Speed Sign", m_bRandomInitialRotationSpeedSign);
+    value = ::FUN_00a7d370("Random Rot Speed Sign", m_bRandomInitialRotationSpeedSign);
     count = strings->_a;
     if (count >= strings->_8)
     {
-        strings->SetSize(static_cast<unsigned int>(strings->_e + count));
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(static_cast<unsigned int>(strings->_e + count));
     }
-    strings->SetAt(count, value);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(count, value);
 
     value = FUN_00a7d550("Initial Rotation Angle", m_fInitialRotationAngle);
     count = strings->_a;
     if (count >= strings->_8)
     {
-        strings->SetSize(static_cast<unsigned int>(strings->_e + count));
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(static_cast<unsigned int>(strings->_e + count));
     }
-    strings->SetAt(count, value);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(count, value);
 
     value = FUN_00a7d550("Initial Rotation Angle Variation", m_fInitialRotationAngleVariation);
     count = strings->_a;
     if (count >= strings->_8)
     {
-        strings->SetSize(static_cast<unsigned int>(strings->_e + count));
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(static_cast<unsigned int>(strings->_e + count));
     }
-    strings->SetAt(count, value);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(count, value);
 
-    value = _FUN_00a7d370("Random Initial Axis", m_bUseRandomRotationAxis);
+    value = ::FUN_00a7d370("Random Initial Axis", m_bUseRandomRotationAxis);
     count = strings->_a;
     if (count >= strings->_8)
     {
-        strings->SetSize(static_cast<unsigned int>(strings->_e + count));
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(static_cast<unsigned int>(strings->_e + count));
     }
-    strings->SetAt(count, value);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(count, value);
 
     NiPoint3Proxy* initialAxis = reinterpret_cast<NiPoint3Proxy*>(reinterpret_cast<char*>(this) + 0x28);
-    value = initialAxis->FUN_00a59af0("Initial Axis");
+    value = reinterpret_cast<::NiPoint3 *>((initialAxis))->FUN_00a59af0("Initial Axis");
     count = strings->_a;
     if (count >= strings->_8)
     {
-        strings->SetSize(static_cast<unsigned int>(strings->_e + count));
+        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(static_cast<unsigned int>(strings->_e + count));
     }
-    strings->SetAt(count, value);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(count, value);
 }
 
 // ---------------------------------------------------------------------------
@@ -273,12 +279,10 @@ struct FnvModBase
     unsigned int m_uiUpdateOrder;
     void* m_pkTarget;
     bool m_bModifierActive;
-    void FUN_00c31950(void* stream);
 };
 
 struct FnvPoint3 : public NiPoint3
 {
-    void FnvSavePoint(NiStream* stream);
 };
 
 struct FnvRotMod : public FnvModBase
@@ -297,7 +301,7 @@ struct FnvRotMod : public FnvModBase
 // @fnv 0x00c20c00
 void FnvRotMod::FUN_00c20c00(NiStream* stream)
 {
-    FnvModBase::FUN_00c31950(stream);
+    reinterpret_cast<::ParticleModifierBinary *>(this)->FUN_00c31950((*(::OutputStream *)(stream)));
 
     {
         FnvOutStream* out = (FnvOutStream*)stream->m_pBackingStream;
@@ -344,7 +348,7 @@ void FnvRotMod::FUN_00c20c00(NiStream* stream)
         }
     }
 
-    m_kRotationAxis.FnvSavePoint(stream);
+    reinterpret_cast<::NiColor *>(&(m_kRotationAxis))->SaveBinary((*(::NiStream *)(stream)));
 }
 
 class CC20AE0BinaryStream
@@ -530,7 +534,6 @@ template <class T> inline void CC20AE0LoadBinary(CC20AE0Stream& kStream, T& valu
 class CC20AE0Point3
 {
   public:
-    void LoadBinary(CC20AE0Stream& kStream);
 
     float x;
     float y;
@@ -567,7 +570,7 @@ class CC20AE0FieldModifier : public CC20AE0Modifier
 // @fnv 0x00c20ae0
 void CC20AE0FieldModifier::FUN_00c20ae0(CC20AE0Stream& kStream)
 {
-    CC20AE0Modifier::LoadBinary(kStream);
+    reinterpret_cast<::NiPSysModifier *>(this)->LoadBinary((::NiStream &)(kStream));
 
     CC20AE0LoadBinary(kStream, m_fInfluence);
     if (kStream.m_uiFileVersion >= 0x14000002)
@@ -584,7 +587,7 @@ void CC20AE0FieldModifier::FUN_00c20ae0(CC20AE0Stream& kStream)
     CC20AE0LoadBinary(kStream, ucUseMaxDistance);
     m_bEnableMaxDistance = ucUseMaxDistance != 0;
 
-    m_kLightVector.LoadBinary(kStream);
+    reinterpret_cast<::NiColor *>(&(m_kLightVector))->LoadBinary((::NiStream &)(kStream));
 }
 
 const float g_fPi = 3.1415927f;
@@ -669,7 +672,6 @@ void __stdcall UpdateRotationAngles(float fTime, NiPSysData* pkData)
 void* __cdecl FUN_00aa13e0(unsigned int size);
 struct C20980_Base
 {
-    void FUN_00c31720() throw();
 };
 struct C20980_Modifier : C20980_Base
 {
@@ -695,7 +697,7 @@ struct C20980_Modifier : C20980_Base
     }
     C20980_Modifier()
     {
-        FUN_00c31720();
+        new ((void *)this) ::NiPSysPositionModifier();
         m_pVtable = &DAT_010bdaec;
         m_18 = 0.0f;
         m_1C = 0.0f;
@@ -710,7 +712,6 @@ struct C20980_Modifier : C20980_Base
 };
 struct C20980_Owner
 {
-    void FUN_00c205e0(C20980_Modifier* modifier, int arg);
     C20980_Modifier* CreateModifier(int arg);
 };
 // Allocates and constructs a C20980_Modifier, passes it and arg to FUN_00c205e0, and returns it.
@@ -718,16 +719,13 @@ struct C20980_Owner
 C20980_Modifier* C20980_Owner::CreateModifier(int arg)
 {
     C20980_Modifier* modifier = new C20980_Modifier;
-    FUN_00c205e0(modifier, arg);
+    reinterpret_cast<::NiPSysRotationModifier *>(this)->CopyMemberData((::NiPSysRotationModifier *)(modifier), (*(::CloningProcess *)(arg)));
     return modifier;
 }
 
 #include <stdlib.h>
 #include <math.h>
-extern double DAT_01029790;
 extern float DAT_011aea98;
-extern float DAT_011f4ae0[];
-extern float DAT_011f52e0[];
 
 struct RotationPSysData
 {

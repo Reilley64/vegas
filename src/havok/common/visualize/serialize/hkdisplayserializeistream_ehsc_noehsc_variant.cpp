@@ -5,6 +5,12 @@
 
 // src/havok/common/visualize/serialize/hkdisplayserializeistream.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/serialize/hkdisplayserializeistream.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/DD8FE0_Stream.h"
+#include "fnv/decl/hkDisplaySerializeIStream.h"
+#include "fnv/decl/hkLargeBlockAllocator.h"
+#include "fnv/decl/hkMatrix4CD60.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00dda000.h"
 struct DdabeTag
 {
     bool b;
@@ -30,8 +36,6 @@ struct FUN_00ddac60_Obj
     int unk08;
     float unk0C;
 };
-void __stdcall FUN_00dd8fe0(FUN_00ddac60_Obj* obj, int a, int b);
-void __stdcall FUN_00ddac60(FUN_00ddac60_Obj* obj);
 struct ArrayRecord
 {
     void* data;
@@ -47,11 +51,8 @@ struct BSAudio
 {
 };
 BSAudio* __cdecl FUN_00c85750();
-extern "C" void __cdecl FUN_00c908c0(void*, void*, int, int);
 struct FUN_00ddacd0_shell
 {
-    void __thiscall FUN_00dd8fe0(void* output, int elementSize, int count);
-    void __thiscall FUN_00ddac60(void* output);
     void __thiscall FUN_00ddac00(void* output);
     void __thiscall FUN_00ddacd0(ArrayPair* arrays);
 };
@@ -75,7 +76,6 @@ struct FUN_00dd9210_cls
     unsigned short m_uSize;
     unsigned short m_u06;
 
-    void FUN_00dd91f0();
 
     FUN_00dd9210_cls* FUN_00dd9210(unsigned char acFlags);
 };
@@ -110,7 +110,6 @@ struct hkTransformQ
     hkVector4Q m_kColumn1;
     hkVector4Q m_kColumn2;
     hkVector4Q m_vTranslation;
-    void FUN_00c6cd60(const hkTransformQ& t);
 };
 
 struct hkSphereQ
@@ -183,7 +182,7 @@ struct hkDisplayGeometryQ
     {}
     __forceinline void SetGeometryTransform(const hkTransformQ& t)
     {
-        m_kMotionTransform.FUN_00c6cd60(t);
+        reinterpret_cast<::hkMatrix4CD60 *>(&(m_kMotionTransform))->FUN_00c6cd60((const ::hkMatrix4CD60 &)(t));
     }
 };
 
@@ -286,40 +285,36 @@ struct hkDisplayCylinderQ : hkDisplayGeometryQ
 struct hkDisplaySerializeIStreamQ
 {
     int unk00;
-    void FUN_00dd8fe0(void* buf, int elemSize, int numElems);
-    void FUN_00ddac60(hkVector4Q& v);
-    void FUN_00ddac80(hkTransformQ& t);
-    void FUN_00ddacd0(hkGeometryQ* geom);
 
     __forceinline hkInt8 readInt8()
     {
         hkInt8 c;
-        FUN_00dd8fe0(&c, 1, 1);
+        reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&c, 1, 1);
         return c;
     }
     __forceinline int readInt32()
     {
         int i;
-        FUN_00dd8fe0(&i, 4, 1);
+        reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&i, 4, 1);
         return i;
     }
     __forceinline hkReal readFloat32()
     {
         hkReal f;
-        FUN_00dd8fe0(&f, 4, 1);
+        reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&f, 4, 1);
         return f;
     }
     __forceinline void ReadVector4(hkVector4Q& v)
     {
-        FUN_00ddac60(v);
+        ::FUN_00ddac60((::FUN_00ddac60_Obj *)this);
     }
     __forceinline void ReadTransform(hkTransformQ& t)
     {
-        FUN_00ddac80(t);
+        reinterpret_cast<::hkDisplaySerializeIStream *>(this)->FUN_00ddac80((::FUN_008cd6a0_Class *)&(t));
     }
     __forceinline void ReadGeometry(hkGeometryQ* g)
     {
-        FUN_00ddacd0(g);
+        reinterpret_cast<::FUN_00ddacd0_shell *>(this)->FUN_00ddacd0((::ArrayPair *)(g));
     }
 
     void FUN_00ddada0(hkDisplayGeometryQ*& geometry);

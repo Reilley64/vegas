@@ -5,8 +5,30 @@
 
 // src/havok/physics/utilities/serialize/hkpphysicsdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/serialize/hkpphysicsdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/BodyCollection.h"
+#include "fnv/decl/Container64.h"
+#include "fnv/decl/FUN_00c90b80.h"
+#include "fnv/decl/FUN_00c9bff0_Class.h"
+#include "fnv/decl/FUN_00d061b0_Class.h"
+#include "fnv/decl/MatchWorld.h"
+#include "fnv/decl/S96_WorldShell.h"
+#include "fnv/decl/SStringPtr.h"
+#include "fnv/decl/Src_00c91c50.h"
+#include "fnv/decl/SystemWorld.h"
+#include "fnv/decl/WorldCtor.h"
+#include "fnv/decl/fnv_00d061f0__FUN_00d061f0_Class.h"
+#include "fnv/decl/hkOwnerD064.h"
+#include "fnv/decl/hkOwnerXd06540.h"
+#include "fnv/decl/hkOwnerXd06590.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00cbf000.h"
+#include "fnv/symbols_00dcd000.h"
+#include "fnv/symbols_00dce000.h"
+#include "fnv/symbols_0102f000.h"
 #include "havok/hkpPhysicsData.h"
-int __cdecl CompareStringsCaseInsensitive(int, int);
 struct FUN_00d4c000
 {
     int m_00;
@@ -28,7 +50,6 @@ struct FUN_00d4c220_s
     int m_14;
     FUN_00d4c220_s();
 };
-int __cdecl CompareStringsCaseInsensitive(int, int);
 struct FUN_00d4c050_obj
 {
     int m_00;
@@ -38,7 +59,6 @@ struct FUN_00d4c050_obj
     int m_10;
     int FindMatchingEntry(int a);
 };
-extern int DAT_0102f0ec;
 struct hkMemoryAllocator
 {
     virtual void* vfunc0() throw();
@@ -59,11 +79,8 @@ class hkThreadMemory
     }
 };
 void* FUN_00c85750() throw();
-void __cdecl InitializeWorld(void*) throw();
-void __cdecl RunWithLocalContext(void*, void*, void*) throw();
 struct FUN_00d1df70
 {
-    void removeReference() throw();
 };
 template <typename T> struct ReferenceCountedPointer
 {
@@ -74,7 +91,7 @@ template <typename T> struct ReferenceCountedPointer
     {
         if (m_pRetainedObject)
         {
-            ((FUN_00d1df70*)m_pRetainedObject)->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((((FUN_00d1df70*)m_pRetainedObject)))->FUN_00c905b0();
         }
         m_pRetainedObject = 0;
     }
@@ -157,10 +174,9 @@ class __declspec(align(16)) FUN_00553540
     int unke8;
     int unkec;
 
-    void FUN_00c90b80() throw();
     __forceinline FUN_00553540() throw()
     {
-        FUN_00c90b80();
+        new ((void *)this) ::FUN_00c90b80();
     }
     __forceinline ~FUN_00553540() throw()
     {
@@ -389,13 +405,10 @@ class hkpWorld
         ((unsigned short*)p)[2] = (unsigned short)size;
         return p;
     }
-    hkpWorld* FUN_00c95a80(const FUN_00553540* info, unsigned int version = 0x111d4) throw();
     __forceinline hkpWorld(const FUN_00553540* info) throw()
     {
-        FUN_00c95a80(info, 0x111d4);
+        reinterpret_cast<::WorldCtor *>(this)->FUN_00c95a80((::WorldInfoCtor *)(info), 0x111d4);
     }
-    void FUN_00c97f80(hkpPhysicsSystem* system) throw();
-    void FUN_00c96ff0(int a, int b) throw();
 };
 struct ContactOptions
 {
@@ -415,8 +428,6 @@ struct PhysicsDataExt : public hkpPhysicsData
 };
 extern void* __cdecl FUN_00c85750(void);
 extern int DAT_010d07f4;
-extern void __cdecl ProcessCollisionRecords(void*, void*, void*);
-extern void __cdecl ResizeAudioStream(void*, void*, int);
 struct D4C2Place
 {
 };
@@ -432,7 +443,6 @@ struct BigType
     int m_00;
     unsigned short m_04;
     unsigned short m_06;
-    void* FUN_00c90b80(void);
 };
 struct ArrayField
 {
@@ -483,8 +493,6 @@ struct HolderType
 };
 struct ClientType
 {
-    void FUN_00c91c50(void*);
-    void AddPhysicsSystem(void*);
 };
 struct ArrayType
 {
@@ -503,7 +511,6 @@ struct HostType
 extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 struct Value
 {
-    BoolResult FUN_00c9bff0();
 };
 struct Owner
 {
@@ -511,7 +518,6 @@ struct Owner
     int unk04;
     int** m_08;
     int m_0c;
-    void FUN_00d06130(int index);
 };
 struct Entity
 {
@@ -532,7 +538,6 @@ struct Entity
     int unk38;
     int unk3c;
     unsigned char m_40;
-    void AddShape(int value);
 };
 struct OwnerArg
 {
@@ -680,7 +685,7 @@ template <class T> struct SplitArrayBase
     __forceinline void appendWith(SplitAllocator& alloc, const T& item)
     {
         if (size == getCapacity())
-            ResizeAudioStream(&alloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(T));
         copyItems(data + size, 1, item);
         ++size;
     }
@@ -701,10 +706,9 @@ template <class T> struct SplitArray : SplitArrayBase<T>
 struct SplitName
 {
     char* text;
-    SplitName& FUN_00cb0c10(const char*);
     __forceinline SplitName& operator=(const char* str)
     {
-        return FUN_00cb0c10(str);
+        return (*(::SplitName *)(reinterpret_cast<::SStringPtr *>(this)->FUN_00cb0c10(str)));
     }
 };
 struct SplitBody;
@@ -752,13 +756,6 @@ struct SplitSystem : SplitRef
         return p;
     }
 
-    void AddShape(SplitBody*);
-    void FUN_00d064f0(void*);
-    void FUN_00d06540(SplitConstraint*);
-    void FUN_00d06590(SplitAction*);
-    void FUN_00d06130(int);
-    void FUN_00d061b0(int);
-    void FUN_00d061f0(int);
     __forceinline const SplitArray<SplitBody*>& getRigidBodies() const
     {
         return bodies;
@@ -915,7 +912,6 @@ struct SplitEntity
     int unkd8;
     int unkdc;
     SplitMotion motion;
-    SplitBool FUN_00c9bff0() const;
     inline SplitBool isFixed() const
     {
         return motion.type == SplitMotionFixed;
@@ -951,9 +947,9 @@ static __declspec(noinline) void FUN_00d4bf70(SplitSystem* from, SplitSystem* vo
     int toIndex = to->getRigidBodies().indexOf(body);
     if (toIndex == -1 && fromIndex != -1)
     {
-        to->setActive(to->isActive() || body->FUN_00c9bff0());
-        to->AddShape(body);
-        from->FUN_00d06130(fromIndex);
+        to->setActive(to->isActive() || (*(::SplitBool *)(reinterpret_cast<::FUN_00c9bff0_Class *>((void *)(body))->FUN_00c9bff0({}))));
+        reinterpret_cast<::Container64 *>((to))->AddShape((::Shape64 *)(body));
+        reinterpret_cast<::BodyCollection *>((from))->FUN_00d06130(fromIndex);
     }
 }
 static __forceinline void moveConnected(SplitSystem* from, SplitSystem* to, SplitEntity* item)
@@ -968,13 +964,13 @@ void FUN_00d4c3b0(const SplitSystem* source, SplitOutput& output)
 {
     SplitSystem* remaining = makeSystem();
     for (int i = 0; i < source->getRigidBodies().GetLogicalSize(); ++i)
-        remaining->AddShape(source->getRigidBodies()[i]);
+        reinterpret_cast<::Container64 *>((remaining))->AddShape((::Shape64 *)(source->getRigidBodies()[i]));
     for (int i = 0; i < source->getActions().GetLogicalSize(); ++i)
-        remaining->FUN_00d06590(source->getActions()[i]);
+        reinterpret_cast<::hkOwnerXd06590 *>((remaining))->FUN_00d06590((::hkShapeXd06590 *)(source->getActions()[i]));
     for (int i = 0; i < source->getConstraints().GetLogicalSize(); ++i)
-        remaining->FUN_00d06540(source->getConstraints()[i]);
+        reinterpret_cast<::hkOwnerXd06540 *>((remaining))->FUN_00d06540((::hkShapeXd06540 *)(source->getConstraints()[i]));
     for (int i = 0; i < source->getPhantomArray().GetLogicalSize(); ++i)
-        remaining->FUN_00d064f0(source->getPhantomArray()[i]);
+        reinterpret_cast<::hkOwnerD064 *>((remaining))->FUN_00d064f0((::hkShapeD064 *)(source->getPhantomArray()[i]));
 
     const SplitArray<SplitBody*>& bodies = remaining->getRigidBodies();
     SplitSystem* moving = makeSystem();
@@ -997,9 +993,9 @@ void FUN_00d4c3b0(const SplitSystem* source, SplitOutput& output)
         SplitSystem* component = makeSystem();
         component->SetParentObject("Constrained System");
         component->setUserData(remaining->getUserData());
-        component->setActive(bodies[0]->FUN_00c9bff0());
-        component->AddShape(bodies[0]);
-        remaining->FUN_00d06130(0);
+        component->setActive((*(::SplitBool *)(reinterpret_cast<::FUN_00c9bff0_Class *>((void *)(bodies[0]))->FUN_00c9bff0({}))));
+        reinterpret_cast<::Container64 *>((component))->AddShape((::Shape64 *)(bodies[0]));
+        reinterpret_cast<::BodyCollection *>((remaining))->FUN_00d06130(0);
         bool changed = true;
         while (changed)
         {
@@ -1013,11 +1009,11 @@ void FUN_00d4c3b0(const SplitSystem* source, SplitOutput& output)
                     if (constraints[i]->getEntityA() == current || constraints[i]->getEntityB() == current)
                     {
                         changed = true;
-                        component->FUN_00d06540(constraints[i]);
+                        reinterpret_cast<::hkOwnerXd06540 *>((component))->FUN_00d06540((::hkShapeXd06540 *)(constraints[i]));
                         SplitEntity* other = constraints[i]->getOtherEntity(current);
                         if (other && !other->isFixed())
                             moveConnected(remaining, component, other);
-                        remaining->FUN_00d061b0(i);
+                        reinterpret_cast<::FUN_00d061b0_Class *>((remaining))->FUN_00d061b0(i);
                     }
                     else
                         ++i;
@@ -1033,8 +1029,8 @@ void FUN_00d4c3b0(const SplitSystem* source, SplitOutput& output)
                         if (participants[k] == current)
                         {
                             changed = true;
-                            component->FUN_00d06590(actions[i]);
-                            remaining->FUN_00d061f0(i);
+                            reinterpret_cast<::hkOwnerXd06590 *>((component))->FUN_00d06590((::hkShapeXd06590 *)(actions[i]));
+                            reinterpret_cast<::fnv_00d061f0::FUN_00d061f0_Class *>((remaining))->FUN_00d061f0(i);
                             moved = true;
                             for (int l = 0; l < participants.GetLogicalSize(); ++l)
                             {
@@ -1052,18 +1048,18 @@ void FUN_00d4c3b0(const SplitSystem* source, SplitOutput& output)
         if (component->getConstraints().GetLogicalSize() == 0 && component->getActions().GetLogicalSize() == 0)
         {
             SplitBody* body = component->getRigidBodies()[0];
-            bool active = !body->GetSimulationIsland() || body->FUN_00c9bff0();
+            bool active = !body->GetSimulationIsland() || (*(::SplitBool *)(reinterpret_cast<::FUN_00c9bff0_Class *>((void *)(body))->FUN_00c9bff0({})));
             if (body->getMotionType() == 4)
             {
                 keyframed->setActive(keyframed->isActive() || active);
-                keyframed->AddShape(body);
+                reinterpret_cast<::Container64 *>((keyframed))->AddShape((::Shape64 *)(body));
             }
             else if (body->getMotionType() == 5)
-                fixed->AddShape(body);
+                reinterpret_cast<::Container64 *>((fixed))->AddShape((::Shape64 *)(body));
             else
             {
                 moving->setActive(moving->isActive() || active);
-                moving->AddShape(body);
+                reinterpret_cast<::Container64 *>((moving))->AddShape((::Shape64 *)(body));
             }
             delete component;
         }
@@ -1099,7 +1095,7 @@ void FUN_00d4c3b0(const SplitSystem* source, SplitOutput& output)
         phantomGroup->setUserData(remaining->getUserData());
         output.m_kPhantoms = phantomGroup;
         for (int i = 0; i < phantoms.GetLogicalSize(); ++i)
-            phantomGroup->FUN_00d064f0(phantoms[i]);
+            reinterpret_cast<::hkOwnerD064 *>((phantomGroup))->FUN_00d064f0((::hkShapeD064 *)(phantoms[i]));
     }
     else
         output.m_kPhantoms = 0;

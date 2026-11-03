@@ -5,6 +5,13 @@
 
 // src/havok/physics/dynamics/constraint/chain/powered/hkppoweredchaindata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/chain/powered/hkppoweredchaindata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00827200_class.h"
+#include "fnv/decl/RotationRows.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d6f000.h"
+#include "fnv/symbols_00dce000.h"
+#include "fnv/symbols_00dcf000.h"
+#include "fnv/symbols_00df2000.h"
 #include "havok/hkpPoweredChainData.h"
 struct FUN_00e3b720_s
 {
@@ -130,7 +137,7 @@ class hkObje3c210 : public FUN_00e3b9a0
 };
 
 #include <xmmintrin.h>
-__declspec(align(16)) extern const float DAT_010c44d0[4];
+#include "fnv/symbols_simd.h"
 
 struct Vec4
 {
@@ -162,7 +169,7 @@ static __declspec(noinline) void FUN_00e3b680(const Vec4& b, const Vec4& a, Vec4
     __m128 q = _mm_add_ps(_mm_shuffle_ps(p, p, 0x4e), p);
     __m128 w = _mm_add_ps(_mm_shuffle_ps(q, q, 0xb1), q);
     if (_mm_movemask_ps(w) & 1)
-        r.m_vComponents = _mm_xor_ps(r.m_vComponents, *(const __m128*)DAT_010c44d0);
+        r.m_vComponents = _mm_xor_ps(r.m_vComponents, *(const __m128*)(*reinterpret_cast<const float (*)[4]>((void *)&::DAT_010c44d0)));
 }
 
 volatile int g_a, g_b, g_r;
@@ -185,14 +192,10 @@ struct Vector
             float x, y, z, w;
         };
     };
-    void FUN_00cb26e0(const hkRotation*);
-    void FUN_00c66320(const Vector*, const Vector*);
 };
-extern const __m128 DAT_010c4c00;
 struct Rotation
 {
     Vector col[3];
-    void FUN_00cb2d90(const Vector*);
 };
 struct Transform
 {
@@ -294,16 +297,8 @@ struct MemoryRouter
     int unk00, unk04, unk08, unk0c;
     MemoryAllocator* heap;
 };
-void __cdecl FUN_00c908c0(MemoryAllocator*, void*, int, int);
-void __cdecl ResizeAudioStream(void*, void*, int);
-extern "C" void __cdecl AppendEventRecord(const QueryInput*, QueryOutput*, char*, int);
 char* __cdecl FUN_00dd13d0(char*);
 char* __cdecl FUN_00dd13e0(char*, int);
-void __cdecl FUN_00dcee70(QueryInput*);
-void __cdecl FUN_00dcfc00(Vector*, Vector*, float, QueryInput*, char*);
-void __cdecl FUN_00d6cd70(Vector*, QueryInput*, char*, float*);
-void __cdecl FUN_00dcfff0(void*, MotorInput*, MotorOutput*);
-void __cdecl WriteInputHeader(BuildInfo*, const QueryInput*, QueryOutput*);
 struct Entity
 {
     int unk00;
@@ -417,7 +412,7 @@ template <class T, int N> struct InplaceArray
             int next = c * 2;
             if (n >= next)
                 next = n;
-            FUN_00c908c0(heap, this, next, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(heap), (::SpawnedArray *)(void *)(this), next, sizeof(T));
         }
         for (int j = n; j < size; ++j)
             data[j].~T();
@@ -434,7 +429,7 @@ template <class T, int N> struct InplaceArray
     {
         hkMemoryRouterXe3c210* route = &FUN_00c85750();
         if (size == (capacity & 0x3fffffff))
-            ResizeAudioStream(route->m_pStreamAllocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(route->m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         copyConstruct(data + size, 1, x);
         ++size;
     }
@@ -478,7 +473,7 @@ struct PoweredChain : hkpPoweredChainData
 // @fnv 0x00e3ba40
 void PoweredChain::FUN_00e3ba40(const QueryInput& input, QueryOutput& output)
 {
-    AppendEventRecord(&input, &output, input.runtime, 8);
+    ::fnv_00d6f2b0::AppendEventRecord((const ::fnv_00d6f2b0::RecordSource *)(const ::QueryInput *)(&input), (::fnv_00d6f2b0::EventRecord **)(::QueryOutput *)(&output), (volatile unsigned int)(input.runtime), 8);
     QueryInput query = input;
     query.chain = 0;
     query.runtime = 0;
@@ -510,13 +505,13 @@ void PoweredChain::FUN_00e3ba40(const QueryInput& input, QueryOutput& output)
             Vector pivotA, pivotB;
             transformPoint(pivotA, *query.transformA, getInfo(i).pivotA);
             transformPoint(pivotB, *query.transformB, getInfo(i).pivotB);
-            FUN_00dcee70(&query);
-            FUN_00dcfc00(&pivotA, &pivotB, m_fMaximumAngularImpulse, &query, jacobian);
+            ::FUN_00dcee70();
+            ::FUN_00dcfc00((const ::hkVector4 *)(::Vector *)(&pivotA), (const ::hkVector4 *)(::Vector *)(&pivotB), m_fMaximumAngularImpulse, (const ::Input102 *)(::QueryInput *)(&query), (::Row102 *)(jacobian));
             jacobian += 0x90;
         }
         Vector rotationA, rotationB;
-        rotationA.FUN_00cb26e0(reinterpret_cast<hkRotation*>(&query.transformA->rotation));
-        rotationB.FUN_00cb26e0(reinterpret_cast<hkRotation*>(&query.transformB->rotation));
+        reinterpret_cast<::FUN_00827200_class *>(&(rotationA))->FUN_00cb26e0((int)(reinterpret_cast<hkRotation*>(&query.transformA->rotation)));
+        reinterpret_cast<::FUN_00827200_class *>(&(rotationB))->FUN_00cb26e0((int)(reinterpret_cast<hkRotation*>(&query.transformB->rotation)));
         if (getInfo(i).switched)
         {
             Vector tmp = rotationA;
@@ -525,7 +520,7 @@ void PoweredChain::FUN_00e3ba40(const QueryInput& input, QueryOutput& output)
         }
         {
             Vector product;
-            product.FUN_00c66320(&rotationB, &getInfo(i).targetB);
+            ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(product), (void *)(&rotationB), (const ::fnv_00c66320::__m128 *)(const ::Vector *)(&getInfo(i).targetB), {});
             rotationB.simd = product.simd;
         }
         Vector& target = getInfo(i).target;
@@ -541,8 +536,8 @@ void PoweredChain::FUN_00e3ba40(const QueryInput& input, QueryOutput& output)
         if (squaredLength == 0.0f)
             previousTarget.simd = target.simd;
         Vector targetWorld, oldTargetWorld;
-        targetWorld.FUN_00c66320(&rotationA, &target);
-        oldTargetWorld.FUN_00c66320(&rotationA, &previousTarget);
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(targetWorld), (void *)(&rotationA), (const ::fnv_00c66320::__m128 *)(const ::Vector *)(&target), {});
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(oldTargetWorld), (void *)(&rotationA), (const ::fnv_00c66320::__m128 *)(const ::Vector *)(&previousTarget), {});
         previous->x = target.x;
         previous->y = target.y;
         previous->z = target.z;
@@ -553,11 +548,11 @@ void PoweredChain::FUN_00e3ba40(const QueryInput& input, QueryOutput& output)
         error.simd = _mm_sub_ps(error.simd, oldError.simd);
         if (getInfo(i).switched)
         {
-            error.simd = _mm_xor_ps(error.simd, DAT_010c4c00);
-            oldError.simd = _mm_xor_ps(oldError.simd, DAT_010c4c00);
+            error.simd = _mm_xor_ps(error.simd, ::DAT_010c4c00);
+            oldError.simd = _mm_xor_ps(oldError.simd, ::DAT_010c4c00);
         }
         Rotation axes;
-        axes.FUN_00cb2d90(&rotationB);
+        reinterpret_cast<::RotationRows *>(&(axes))->FUN_00cb2d90((void *)(&rotationB));
         for (int axis = 0; axis < 3; ++axis)
         {
             Vector direction = axes.col[axis];
@@ -566,13 +561,13 @@ void PoweredChain::FUN_00e3ba40(const QueryInput& input, QueryOutput& output)
             MotorState* __restrict motorStates = static_cast<MotorState*>(motorStep(solverResults));
             motorInput.state.unk00 = 0.0f;
             motorInput.state.unk04 = 0.0f;
-            FUN_00d6cd70(&direction, &query, states, &motorInput.currentVelocity);
+            ::FUN_00d6cd70((*(const ::__m128 *)(&direction)), (*(const ::Pair409 *)(&query)), (*(::Jacobian409 *)(states)), (*(float *)(&motorInput.currentVelocity)));
             motorInput.positionError = reinterpret_cast<float*>(&error)[axis];
             motorInput.deltaTarget = reinterpret_cast<float*>(&oldError)[axis];
             motorInput.step = &query;
             motorInput.state = motorStates[i * 6 + axis + 3];
             MotorOutput motorOutput;
-            FUN_00dcfff0(getInfo(i).motors[axis], &motorInput, &motorOutput);
+            ::FUN_00dcfff0((::ObjA *)(getInfo(i).motors[axis]), (::ObjB *)(::MotorInput *)(&motorInput), (float *)(::MotorOutput *)(&motorOutput));
             float* dst = matrices.data[i].values + axis * 5;
             dst[0] = motorOutput.c * query.unk04;
             dst[1] = motorOutput.d * query.unk04;
@@ -601,7 +596,7 @@ void PoweredChain::FUN_00e3ba40(const QueryInput& input, QueryOutput& output)
         build.zero = 0.0f;
         build.states = status;
         build.jacobian = states;
-        WriteInputHeader(&build, &input, &output);
+        ::WriteInputHeader((::Input *)(::BuildInfo *)(&build), (void *)(&input), (::Header **)(::QueryOutput *)(&output));
     }
     matrices.clear();
     offsets.clear();

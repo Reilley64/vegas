@@ -2,6 +2,7 @@
 #ifndef FNV_COMBATMANAGER_H
 #define FNV_COMBATMANAGER_H
 
+#include "fnv/decl/FUN_00435e00_t.h"
 #include "layout_support.h"
 #include "Actor.h"
 #include "TimeoutTimer.h"
@@ -23,11 +24,15 @@ class NiTPrimitiveArray_CombatGroup___ : public NiTArray<ActorCombatGroup*, NiTM
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiTPrimitiveArray_CombatGroup___) == 16);
 #pragma pack(push, 4)
+class BGSLoadGameBuffer;
 class CombatTargetTimestamp
 {
   public:
     float fTimeStamp;  // +0x0, 4 bytes
-    float GetElapsedTime();
+public:
+    float FUN_006a7f50() const;
+public:
+    void LoadGame(::BGSLoadGameBuffer *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(CombatTargetTimestamp) == 4);
@@ -46,12 +51,10 @@ class CombatManager
     TimeoutTimer m_kSecondEightByteManagerData;         // +0x2C, 8 bytes
     unsigned int m_uiDebugFlags;                       // +0x34, 4 bytes
     NiPointer<NiNode> m_spDebugRootNode;               // +0x38, 4 bytes
-    unsigned int GetCombatGroupTargetCount(Actor* target, unsigned int* recentCount);
     void Update(bool arg);
     void UpdateCombatGroups(bool arg);
     void ResetTargetMap();
     bool IsCombatActive();
-    void LoadGame(BGSLoadGameBuffer* buffer);
     void ApplyLoadBuffer(BGSLoadGameBuffer* buffer);
     void FUN_00991dc0();
     // CombatManager

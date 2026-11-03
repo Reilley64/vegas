@@ -2,6 +2,8 @@
 // src/havok/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpuworldgetclosestpointsjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpuworldgetclosestpointsjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_0108f000.h"
 struct S_00df6a30_Inner
 {
     int unk0;
@@ -40,17 +42,9 @@ struct DF6B10Listener
 
 struct DF6B10Object : DF6B10Primary, DF6B10Listener
 {
-    int handleBody(void* body);
 
     virtual int HandleEvent(DF6B10Event* event);
 };
-
-// @fnv 0x00df6b10
-int DF6B10Object::HandleEvent(DF6B10Event* event)
-{
-    void* body = event->m_kCollisionBody;
-    return handleBody(body);
-}
 
 struct FUN_00df6a40_inner
 {
@@ -275,6 +269,12 @@ struct DF6A60CastCollector
 
     float LinearCastAgainst(const DF6A60Collidable* collidableB);
 };
+// @fnv 0x00df6b10
+int DF6B10Object::HandleEvent(DF6B10Event* event)
+{
+    void* body = event->m_kCollisionBody;
+    return ((int)(reinterpret_cast<::DF6A60CastCollector *>(this)->LinearCastAgainst((const ::DF6A60Collidable *)(body))));
+}
 
 // @fnv 0x00df6a60
 float DF6A60CastCollector::LinearCastAgainst(const DF6A60Collidable* collidableB)
@@ -298,7 +298,6 @@ float DF6A60CastCollector::LinearCastAgainst(const DF6A60Collidable* collidableB
 // single stack argument).
 struct FUN_00df6af0_cls
 {
-    float Helper(int value);
     float GetHelperResultForOffset(int a1, int a2);
 };
 
@@ -307,12 +306,11 @@ float FUN_00df6af0_cls::GetHelperResultForOffset(int aiBase, int aiUnused)
 {
     signed char c = *(signed char*)(aiBase + 5);
     int v = c + aiBase;
-    return this->Helper(v);
+    return reinterpret_cast<::DF6A60CastCollector *>((this))->LinearCastAgainst((const ::DF6A60Collidable *)(v));
 }
 
 struct SiblingCls_df6a60
 {
-    float Call(int a);
 };
 
 struct FUN_00df6b30_cls
@@ -323,13 +321,11 @@ struct FUN_00df6b30_cls
 // @fnv 0x00df6b30
 unsigned char* FUN_00df6b30_cls::FUN_00df6b30(unsigned char* out, int a)
 {
-    ((SiblingCls_df6a60*)((char*)this - 8))->Call(a);
+    reinterpret_cast<::DF6A60CastCollector *>((((SiblingCls_df6a60*)((char*)this - 8))))->LinearCastAgainst((const ::DF6A60Collidable *)(a));
     *out = 0;
     return out;
 }
 
-extern float DAT_0104da48;
-extern int DAT_0108f288;
 extern "C" __declspec(dllimport) long __stdcall DAT_00fdf1ec(long volatile*, long);
 
 struct CopyQuad
@@ -375,7 +371,7 @@ struct QueryCollector
     int capacity;
     int count;
     QueryCollector(QueryPoint* b, int c)
-        : earlyOut(DAT_0104da48), base(b), next(b), capacity(c), count(0), table(&DAT_0108f288)
+        : earlyOut(::DAT_0104da48), base(b), next(b), capacity(c), count(0), table(&DAT_0108f288)
     {}
 };
 struct QueryJob
@@ -433,7 +429,7 @@ void FUN_00df6e00(const QueryJob* job, const QueryInput* source, PairCommand* co
         const DF6A60Collidable* b = command->b;
         const DF6A60Shape* pShapeA = a->m_pCollisionShape;
         const DF6A60Shape* pShapeB = b->m_pCollisionShape;
-        collector.earlyOut = DAT_0104da48;
+        collector.earlyOut = ::DAT_0104da48;
         collector.base = buffer;
         collector.next = buffer;
         collector.capacity = command->capacity;

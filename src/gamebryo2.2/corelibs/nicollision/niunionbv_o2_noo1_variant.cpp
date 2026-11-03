@@ -17,6 +17,9 @@
 // evidence - NiGPUProgram is 12 bytes and NiD3DShaderProgram is 44
 // bytes, with m_uiProgramCodeSize at offset 20.
 //
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_011f6000.h"
 typedef unsigned int NiUInt32;
 class NiMemObject
 {
@@ -77,10 +80,8 @@ class NiD3DShaderProgram : public NiGPUProgram
 };
 struct P03MM
 {
-    void* Allocate(unsigned int);
 };
 typedef P03MM MemoryManager;
-extern MemoryManager g_memoryManager;
 struct S
 {
     S* FUN_00e9ee60(void*);
@@ -119,8 +120,6 @@ struct CloneArrayQ
     unsigned short m_usSize;
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
-    void FUN_00a90180(unsigned int);
-    void FUN_00ba3aa0(unsigned int, NiCloneableQ* const&);
 };
 
 struct SViewQ
@@ -142,14 +141,14 @@ S* S::FUN_00e9ee60(void* pkOtherRaw)
     pkArray->m_usESize = 0;
     pkArray->m_pBase = 0;
     pkArray->vtbl = DAT_010f17ac;
-    pkArray->FUN_00a90180(pkOther->m_kArray.m_usSize);
+    reinterpret_cast<::FUN_00a41520_cls *>((pkArray))->FUN_00a90180(pkOther->m_kArray.m_usSize);
     for (unsigned int i = 0; i < pkOther->m_kArray.m_usSize; i++)
     {
         NiCloneableQ* p = pkOther->m_kArray.m_pBase[i];
         if (p)
         {
             NiCloneableQ* q = p->Clone();
-            pkArray->FUN_00ba3aa0(i, q);
+            reinterpret_cast<::FUN_00a41520_cls *>((pkArray))->FUN_00ba3aa0(i, (::KeyPair **)&(q));
         }
     }
     return this;

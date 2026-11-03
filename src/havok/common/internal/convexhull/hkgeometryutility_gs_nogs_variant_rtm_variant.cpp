@@ -7,6 +7,18 @@
 // to their real unit once identified.
 // src/havok/common/internal/convexhull/hkgeometryutility.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/convexhull/hkgeometryutility.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/D76250Shape.h"
+#include "fnv/decl/FUN_00d74d40_cls.h"
+#include "fnv/decl/FUN_00d76990_Class.h"
+#include "fnv/decl/H77ConvexHull.h"
+#include "fnv/decl/S_00d76410_Builder.h"
+#include "fnv/decl/fnv_00d76940__FUN_00d76940_cls.h"
+#include "fnv/decl/fnv_00d76ca0__FUN_00d76ca0.h"
+#include "fnv/symbols_00d5a000.h"
+#include "fnv/symbols_00d5c000.h"
+#include "fnv/symbols_00dd6000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_0106e000.h"
 struct FUN_00d5a5e0_ctxA
 {
     unsigned int unk00;
@@ -15,10 +27,6 @@ struct FUN_00d5a5e0_ctxA
     unsigned int unk0c;
     unsigned int unk10;
 
-    void InitA();
-    int FindB(void* a1, void* b);
-    void SetB(int zero, int a2);
-    void FinishA();
 };
 struct FUN_00d5a5e0_ctxB
 {
@@ -29,9 +37,7 @@ struct FUN_00d5a5e0_ctxB
     unsigned int unk08;
     unsigned int unk0c;
 
-    void InitB();
 };
-void __cdecl InitAndSetB(void* a1, int a2);
 struct FUN_00d5a630_ctxA
 {
     unsigned int unk00;
@@ -40,12 +46,6 @@ struct FUN_00d5a630_ctxA
     unsigned int unk0c;
     unsigned int unk10;
 
-    void InitA();
-    int FindB(void* a1, void* b);
-    void SetB(int zero, int a2);
-    void SetF(float f, int zero);
-    void SetC(int a3);
-    void FinishA();
 };
 struct FUN_00d5a630_ctxB
 {
@@ -56,10 +56,7 @@ struct FUN_00d5a630_ctxB
     unsigned int unk08;
     unsigned int unk0c;
 
-    void InitB();
 };
-extern float DAT_0106ea1c;
-void __cdecl FUN_00d5a630(void* a1, int a2, int a3);
 struct S_00d5a6b0_Elem
 {
     float x;
@@ -134,12 +131,8 @@ struct D5C110Geometry
     int unk0C;
     int m_iTriangleCount;
 };
-void __cdecl ProcessArg(const void* shape, D5C110VertexArray& vertices);
-void __cdecl InitAndSetB(const D5C110StridedVertices& vertices, D5C110Geometry& out);
 void __cdecl BuildGeometryFromShape(const void* shape, D5C110Geometry& out);
 struct D5C110VertexArray;
-void __cdecl ProcessArg(const void* shape, D5C110VertexArray& vertices);
-void __cdecl FUN_00d5a6a0(const void* shape, D5C110VertexArray& vertices);
 #include <math.h>
 struct S00d5ad60_cls
 {
@@ -153,7 +146,6 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     unsigned __int64 m128_u64[2];
 };
 extern "C" __m128 _mm_setr_ps(float, float, float, float);
-extern float DAT_01011d78;
 static int FUN_00d5ad90(const float* pVec, float fTol);
 int __cdecl S00d5ad90_Wrap(const float* pVec, float fTol);
 struct S00d5c060_Src
@@ -178,8 +170,6 @@ struct __declspec(align(16)) S00d5c060_Result
 };
 char* __cdecl AllocateWithHeader(D5C110Allocator* alloc, int size);
 char* __cdecl FUN_00c856c0(D5C110Allocator* owner, char* data);
-void __cdecl FUN_00d5beb0(S00d5c060_Result* self, char* data, int count, int flags, float scale);
-S00d5c060_Result FUN_00d5c060(const S00d5c060_Src* src, float scale);
 
 extern "C" __m128 _mm_load_ps(const float*);
 extern "C" __m128 _mm_mul_ps(__m128, __m128);
@@ -202,6 +192,7 @@ struct hkBool
     }
 };
 #include <math.h>
+#include "fnv/symbols_simd.h"
 static __forceinline float RowLen(const float* r)
 {
     __m128 v = _mm_load_ps(r);

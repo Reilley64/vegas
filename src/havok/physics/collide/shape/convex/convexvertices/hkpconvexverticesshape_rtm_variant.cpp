@@ -4,6 +4,19 @@
 
 // src/havok/physics/collide/shape/convex/convexvertices/hkpconvexverticesshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/convexvertices/hkpconvexverticesshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cbe000.h"
+#include "fnv/symbols_00d26000.h"
+#include "fnv/symbols_00d2c000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_010d0000.h"
+#include "fnv/symbols_010d9000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpConvexVerticesShape.h"
 struct FUN_00d58d60_t
 {
@@ -15,9 +28,8 @@ struct FUN_00d591d0_class
 {
     void FUN_00d591d0(void*, float, int);
 };
-void __cdecl FUN_00d26230(void*, void*, void*, float, int);
-struct RefObj { void RetainReference(); void removeReference(); };
-struct DDCC60World { void removeReference(); };
+struct RefObj {   };
+struct DDCC60World {  };
 struct FUN_00d5a320 {
     void FUN_00d59f40();
     void AssignReference(RefObj* p, bool b);
@@ -68,11 +80,12 @@ struct FnvCpu_FUN_00d58d10_CpuObject {
     int FUN_00d58d10();
 };
 struct FnvCpu_FUN_00d58d50_CpuObject { char* FUN_00d58d50(); };
-struct CallTarget_00d5a410 { int FUN_00d5a410(int, int, int, int, int); };
+struct CallTarget_00d5a410 {  };
 struct SearchObject {
     int FUN_00d5a4c0(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
 };
 union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
+#include "fnv/symbols_simd.h"
 extern "C" __m128 _mm_setr_ps(float, float, float, float);
 struct hkVec4Q {
     __m128 m_vComponents;
@@ -169,7 +182,6 @@ struct ConvexD5A360 {
     int unk50;
     ArrayD5A360<Vector4D5A360> m_kVertices;
     int m_iConnectivity;
-    void FUN_00d59f40();
     void SetVertices(const ArrayD5A360<Vector4D5A360>& kVertices);
 };
 struct FUN_00d58d20
@@ -203,8 +215,6 @@ public:
 };
 class SpliceAllocator;
 struct AlignedSpliceVector {__m128 value;};
-void __cdecl FUN_00c908c0(SpliceAllocator& allocator,void* array,int capacity,int elementBytes);
-void __cdecl FUN_00d2cc70(void* destination,const void* source,unsigned bytes);
 struct VectorSpliceArray {
     AlignedSpliceVector* data;
     int size;
@@ -253,7 +263,6 @@ namespace hkD598 {
     public:
         unsigned short m_usMemSizeAndFlags;
         short m_sReferenceCount;
-        void FUN_00c905b0() throw();
     };
 
     class hkpShape : public hkReferencedObject {
@@ -295,7 +304,7 @@ namespace FUN_00d59870 {
     hkpConvexVerticesShape::~hkpConvexVerticesShape()
     {
         if (m_pConnectivity)
-            m_pConnectivity->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pConnectivity))->FUN_00c905b0();
     }
 }
 extern "C" __m128 _mm_load_ps(const float*);
@@ -332,8 +341,6 @@ struct MatchVector
     void selectIndex(const SelectBits& comp,const MatchVector& trueValue,const MatchVector& falseValue) {m_vComponents=_mm_or_ps(_mm_and_ps(comp.v,trueValue.m_vComponents),_mm_andnot_ps(_mm_load_ps((const float*)&comp.v),falseValue.m_vComponents));}
 void setInt24W(int value) { ((int*)&m_vComponents)[3] = value | 0x3f000000; }
 };
-extern const MatchVector DAT_010d9fe0;
-extern const MatchVector DAT_010d0fa0;
 struct hkFourTransposedPointsQ
 {
     MatchVector m_uiX;
@@ -355,7 +362,6 @@ struct MatchShape : public hkpShape
 
     void FUN_00d58ee0(const MatchVector& direction, MatchVector& supportingVertexOut) const;
 };
-extern void* DAT_010d0fc4;
 extern "C" void _ReadWriteBarrier();
 struct InputValues {
     int x;
@@ -363,7 +369,6 @@ struct InputValues {
     int z;
 };
 struct FinalCall {
-    void FUN_00d59900(int x, int z, int y);
 };
 __forceinline void AllocateVectors(
     AllocatorD5A360& allocator,
@@ -461,18 +466,12 @@ extern "C" void _ReadBarrier(void);
 extern "C" void _WriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern "C" unsigned long DAT_0126835c;
-extern float DAT_01011d78;
-extern float DAT_01017718;
-extern float DAT_01016248;
-extern __m128 DAT_010c7160;
-extern float DAT_01012054;
 struct ConvexPiece;
 struct TimerRec { const char* m_name; unsigned int m_uiCommandId; unsigned int unk08; };
 struct TimerStream { int unk00; TimerRec* m_cur; int unk08; TimerRec* m_kRayEnd; };
 __forceinline void TimerMark(const char* name, int kind)
 {
-    TimerStream* s = (TimerStream*)TlsGetValue(DAT_0126835c);
+    TimerStream* s = (TimerStream*)TlsGetValue(::DAT_0126835c);
     TimerRec* r = s->m_cur;
     if (r < s->m_kRayEnd) {
         r->m_name = name;
@@ -487,7 +486,7 @@ __forceinline void TimerMark(const char* name, int kind)
 }
 __forceinline void TimerMarkOut(const char* name, int kind)
 {
-    TimerStream* s = (TimerStream*)TlsGetValue(DAT_0126835c);
+    TimerStream* s = (TimerStream*)TlsGetValue(::DAT_0126835c);
     TimerRec* r = s->m_cur;
     if (r < s->m_kRayEnd) {
         r->m_name = name;
@@ -506,7 +505,6 @@ struct hkBoolRet {
 };
 struct __declspec(align(16)) V4 { float x, y, z, w; };
 struct FourVecs { float xs[4]; float ys[4]; float zs[4]; };
-void __cdecl ResizeAudioStream(void*, void*, int);
 struct PlaneArr { V4* m_data; int m_iElementCount; int m_iCapacityState; };
 struct ConvexPiece {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18;
@@ -567,7 +565,7 @@ struct VertArray96Q {
         {
             int cap2 = cap + cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(reinterpret_cast<SpliceAllocator&>(alloc), this, newSize, sizeof(hkVec4Q));
+            ::FUN_00c908c0((::SpawnedObject *)&(reinterpret_cast<SpliceAllocator&>(alloc)), (::SpawnedArray *)(void *)(this), newSize, sizeof(hkVec4Q));
         }
         m_iElementCount = n;
     }
@@ -575,7 +573,6 @@ struct VertArray96Q {
 struct ConvexVertsQ_d59200 : ConvexVertsQ {
     void FUN_00d59200(VertArray96Q& vertices) const;
 };
-extern __m128 DAT_010c71d0;
 struct hkMemoryAllocator;
 struct NineIntegerRecord
 {
@@ -638,7 +635,6 @@ struct Aabb
         halfExtents.m_vComponents = _mm_mul_ps(_mm_sub_ps(m_kMaximumCorner.m_vComponents, m_kMinimumCorner.m_vComponents), DAT_010c71d0);
     }
 };
-void __cdecl CalcAabb_cbeaf0(const float* vertexArray, int numVertices, int striding, Aabb& aabbOut);
 struct ConvexVerticesShape
 {
     void* vtable;
@@ -732,7 +728,6 @@ public:
 
 struct FUN_00d59200_Helper {
 
-    void FUN_00d59200(void* vertices) throw();
 
 };
 
@@ -740,7 +735,6 @@ struct FUN_00d59200_Helper {
 
 struct FUN_00d5a4c0_Helper {
 
-    void FUN_00d5a4c0(void* mem, int index, const void* src, int num) throw();
 
 };
 
@@ -1057,7 +1051,7 @@ void FUN_00d5a320::FUN_00d59f40()
 
     LocalArray vertices(numVertices);
 
-    reinterpret_cast<FUN_00d59200_Helper*>(shape)->FUN_00d59200(&vertices);
+    reinterpret_cast<::ConvexVertsQ_d59200 *>((reinterpret_cast<FUN_00d59200_Helper*>(shape)))->FUN_00d59200((*(::VertArray96Q *)(&vertices)));
 
 
 
@@ -1165,9 +1159,9 @@ if (reinterpret_cast<PlaneVector&>(normal).normalize()==PlaneSuccess) {
 
         ThreadMemory* mem = (ThreadMemory*)&FUN_00c85750();
 
-        reinterpret_cast<FUN_00d5a4c0_Helper*>(&planeEquations)->FUN_00d5a4c0(
+        reinterpret_cast<::SearchObject *>((reinterpret_cast<FUN_00d5a4c0_Helper*>(&planeEquations)))->FUN_00d5a4c0(
 
-            mem->m_pMemoryAllocator, index, planes.begin(), planes.GetLogicalSize());
+            (unsigned int)(mem->m_pMemoryAllocator), index, (unsigned int)(planes.begin()), planes.GetLogicalSize());
 
     }
 

@@ -1,5 +1,20 @@
 // fallout_shared/packageschedule.cpp: PackedByteIntRecord, DurationData (9 functions)
 
+#include "fnv/decl/Calendar.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_005407b0_Class.h"
+#include "fnv/decl/FUN_0060ce80_Obj.h"
+#include "fnv/decl/FUN_00678cc0_shell.h"
+#include "fnv/decl/FUN_00678ce0_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
 #include "layout_support.h"
 
 class PackedByteIntRecord
@@ -38,6 +53,8 @@ struct DurationData
     char* GetMonthName();
     void* __vecDelDtor(unsigned int);
     PackedByteIntRecord m_kScheduleData;
+public:
+    int FUN_00678ca0();
 };
 typedef char _sizecheck_PackageSchedule[sizeof(DurationData) == 8 ? 1 : -1];
 struct FUN_0067fcb0_shell : public DurationData
@@ -89,11 +106,11 @@ void FUN_0067fd40_shell::FUN_0067fd40(DurationData* apCopy)
 {
     if (apCopy)
     {
-        SetStartMonth(apCopy->GetStartMonth());
-        SetStartDayOfWeek(apCopy->GetStartDayOfWeek());
-        SetStartDate(apCopy->GetStartDate());
-        SetStartTime(apCopy->GetStartTime());
-        SetDuration(apCopy->GetDuration());
+        SetStartMonth(reinterpret_cast<::FUN_00678cc0_shell *>((apCopy))->GetSecondByte());
+        reinterpret_cast<::FUN_005407b0_Class *>(this)->FUN_005407b0(reinterpret_cast<::DurationData *>((apCopy))->FUN_00678ca0());
+        SetStartDate(reinterpret_cast<::FUN_00678ce0_shell *>((apCopy))->FUN_00678ce0());
+        SetStartTime(reinterpret_cast<::Calendar *>((apCopy))->GetGameHour());
+        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((apCopy))->FUN_00726070()))));
     }
 }
 }  // namespace fnv_0067fd40
@@ -142,11 +159,8 @@ void FUN_0067fdb0_shell::FUN_0067fdb0(bool abValue)
 
 struct QuestData
 {
-    void __thiscall Endian();
 };
 
-extern "C" unsigned char __cdecl FUN_00401500();
-extern "C" void __cdecl AppendChunk(int, void*, int);
 
 struct FUN_0067fec0_shell
 {
@@ -156,11 +170,11 @@ struct FUN_0067fec0_shell
 // @fnv 0x0067fec0
 void FUN_0067fec0_shell::Save()
 {
-    if (FUN_00401500())
-        reinterpret_cast<QuestData*>(this)->Endian();
-    AppendChunk(0x54445350, this, 8);
-    if (FUN_00401500())
-        reinterpret_cast<QuestData*>(this)->Endian();
+    if (::FUN_00401500())
+        reinterpret_cast<::FUN_0060ce80_Obj *>((reinterpret_cast<QuestData*>(this)))->FUN_0060ce80();
+    ::AppendChunk(0x54445350, this, 8);
+    if (::FUN_00401500())
+        reinterpret_cast<::FUN_0060ce80_Obj *>((reinterpret_cast<QuestData*>(this)))->FUN_0060ce80();
 }
 
 struct FUN_0067fcf0_shell : PackedByteIntRecord
@@ -204,14 +218,9 @@ void FUN_0067fdf0_shell::SetByteAtOffset3(unsigned char aucValue)
 namespace fnv_0067fe10 {
 struct BoundHolder
 {
-    int GetBoundingRadius();
 };
 struct DurationData : BoundHolder
 {
-    int GetSecondByte();
-    char FUN_00678ce0();
-    char FUN_0086a460();
-    int _ref_00726070();
     char FUN_0067fe10(DurationData* other);
 };
 // Returns 1 if other is null or any of five compared values differ, otherwise returns 0.
@@ -220,15 +229,15 @@ char DurationData::FUN_0067fe10(DurationData* other)
 {
     if (!other)
         return 1;
-    if (GetSecondByte() != other->GetSecondByte())
+    if (reinterpret_cast<::FUN_00678cc0_shell *>(this)->GetSecondByte() != reinterpret_cast<::FUN_00678cc0_shell *>((other))->GetSecondByte())
         return 1;
-    if (GetBoundingRadius() != other->GetBoundingRadius())
+    if (reinterpret_cast<::DurationData *>(this)->FUN_00678ca0() != reinterpret_cast<::DurationData *>((other))->FUN_00678ca0())
         return 1;
-    if (FUN_00678ce0() != other->FUN_00678ce0())
+    if (reinterpret_cast<::FUN_00678ce0_shell *>(this)->FUN_00678ce0() != reinterpret_cast<::FUN_00678ce0_shell *>((other))->FUN_00678ce0())
         return 1;
-    if (FUN_0086a460() != other->FUN_0086a460())
+    if (reinterpret_cast<::Calendar *>(this)->GetGameHour() != reinterpret_cast<::Calendar *>((other))->GetGameHour())
         return 1;
-    if (_ref_00726070() != other->_ref_00726070())
+    if (((int)(reinterpret_cast<::Callees *>(this)->FUN_00726070())) != ((int)(reinterpret_cast<::Callees *>((other))->FUN_00726070())))
         return 1;
     return 0;
 }

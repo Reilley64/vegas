@@ -2,12 +2,15 @@
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/S_00e89970.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00ee6000.h"
+#include "fnv/symbols_0126f000.h"
 struct NiD3DPixelShader
 {
     void* __thiscall DestroyPixelShader(unsigned int flags);
 };
-extern "C" void __cdecl FUN_00e89970();
-extern void __cdecl __Dummy_00b6fef0(void* p, unsigned int flags);
 struct COMUnknownInterface;
 struct NiD3DVertexShader
 {
@@ -23,7 +26,6 @@ struct VTableObj
     virtual void* v3();
     virtual void Call(int a, int b);
 };
-extern "C" void* __cdecl FUN_00c85750();
 struct FUN_00c7b0f0_shell
 {
     int m_kPointA;
@@ -31,12 +33,9 @@ struct FUN_00c7b0f0_shell
     int m_iThirdValue;
     void FUN_00c7b0f0();
 };
-extern "C" void* g_0126fa40;
 void* __cdecl FUN_00e95cc0();
-extern const void* g_0126fa48;
 const void* __cdecl FUN_00e95df0();
 extern void(__cdecl* DAT_fdf3f0)();
-void __cdecl FUN_00ee6e2e();
 struct NiD3DShaderProgramCreator;
 struct NiD3DShaderProgram
 {

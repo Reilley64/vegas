@@ -1,5 +1,23 @@
 // staging/blk_00ca0000_od_o2_nood_variant.cpp: Picker_ca3b, TriMeshShape, VecOwnerAB, CacObj and more (15 functions)
 
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_009ba5f0_shell.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
+#include "fnv/decl/FUN_00c84d00_cls.h"
+#include "fnv/decl/FUN_00ca73c0.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/PtrEntryArray.h"
+#include "fnv/decl/S_00a64670_Foo.h"
+#include "fnv/decl/S_00ca49a0_Array.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/This_2.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_010c7000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01272000.h"
 extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
 #include <windows.h>
 // src/staging/blk_00ca0000_od_o2_nood_variant.cpp - flag-variant unit created 2026-10-24 by flag_proofs.py: contributor code for these functions matched byte for
@@ -634,7 +652,7 @@ TriShape* TriMeshShape::FUN_00ca3c40(unsigned int key, TriShape* buffer)
     if (index >= data->numTriangles)
         return 0;
     TriIndices* tri = &data->triangles[index];
-    TriShape* shape = buffer ? buffer->FUN_00ca39a0(radius) : 0;
+    TriShape* shape = buffer ? ((::TriShape *)(new ((void *)(buffer)) ::FUN_00ca39a0(radius))) : 0;
     SetVertex(shape->vertex0, data->GetVertex(tri->a));
     SetVertex(shape->vertex1, data->GetVertex(tri->b));
     SetVertex(shape->vertex2, data->GetVertex(tri->c));
@@ -718,13 +736,11 @@ struct PointArrayCA4B : public PointArrayBaseCA4B
     PointArrayCA4B(unsigned int uiMaxSize = 0, unsigned int uiGrowBy = 1) : PointArrayBaseCA4B(uiMaxSize, uiGrowBy)
     {}
     virtual ~PointArrayCA4B();
-    void SetSize(unsigned int uiSize);
-    void SetAt(unsigned int uiIndex, const PointCA4B& kElement);
     unsigned int SetAtGrow(unsigned int uiIndex, const PointCA4B& kElement)
     {
         if (uiIndex >= m_uiMaxSize)
-            SetSize(uiIndex + m_uiGrowBy);
-        SetAt(uiIndex, kElement);
+            reinterpret_cast<::PtrEntryArray *>(this)->Resize(uiIndex + m_uiGrowBy);
+        reinterpret_cast<::S_00ca49a0_Array *>(this)->FUN_00ca49a0(uiIndex, (const ::S_00ca49a0_Elem &)(kElement));
         return uiIndex;
     }
     unsigned int Add(const PointCA4B& kElement)
@@ -803,11 +819,9 @@ struct MassInfo_ca5360
 };
 struct Shape_ca5360
 {
-    void FUN_00ca3b20(MassInfo_ca5360* pkInfo);
 };
 struct Base_ca5360
 {
-    void FUN_00c84e20(MassInfo_ca5360* pkInfo);
 };
 struct FUN_00ca5360_cls : Base_ca5360
 {
@@ -819,9 +833,9 @@ struct FUN_00ca5360_cls : Base_ca5360
 // @fnv 0x00ca5360
 void FUN_00ca5360_cls::FUN_00ca5360(MassInfo_ca5360* pkInfo)
 {
-    Base_ca5360::FUN_00c84e20(pkInfo);
+    reinterpret_cast<::This *>(this)->FUN_00c84e20((unsigned int *)(pkInfo));
     if (this != 0 && m_pShape != 0)
-        m_pShape->FUN_00ca3b20(pkInfo);
+        reinterpret_cast<::Picker_ca3b *>((m_pShape))->FUN_00ca3b20((::PickResult_ca3b *)(pkInfo));
     else
     {
         pkInfo->m_fMass = 0.0f;
@@ -832,7 +846,6 @@ void FUN_00ca5360_cls::FUN_00ca5360(MassInfo_ca5360* pkInfo)
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
-extern float DAT_01012068;
 
 class Ca5580Ref
 {
@@ -1166,18 +1179,17 @@ struct F7_Ctx
     int unk2B0;
     int unk2b4;
 };
-extern __declspec(thread) F7_Ctx F7_tls;
 struct F7_Scope
 {
     int saved;
     F7_Scope()
     {
-        saved = F7_tls.unk2b4;
-        F7_tls.unk2b4 = 0x10;
+        saved = (*reinterpret_cast<::F7_Ctx *>(&::g_tlsBlock)).unk2b4;
+        (*reinterpret_cast<::F7_Ctx *>(&::g_tlsBlock)).unk2b4 = 0x10;
     }
     ~F7_Scope()
     {
-        F7_tls.unk2b4 = saved;
+        (*reinterpret_cast<::F7_Ctx *>(&::g_tlsBlock)).unk2b4 = saved;
     }
 };
 struct F7_Alloc
@@ -1239,7 +1251,6 @@ struct F7_Clone
 {
     int unk00;
     F7_Shape* shape;
-    void ReleaseObject(F7_Shape*, F7_Params*);
     void FUN_00cbdb70(F7_Shape* dest, F7_Params* params);
 };
 // @fnv 0x00cbdb70
@@ -1260,7 +1271,7 @@ void F7_Clone::FUN_00cbdb70(F7_Shape* dest, F7_Params* params)
     float scale = params->scale;
     if (scale != 1.0f)
         FUN_00cbd9e0(scale, dest);
-    ReleaseObject(dest, params);
+    reinterpret_cast<::FUN_009ba5f0_shell *>(this)->ReleaseObject((::hkReferencedObject *)(dest), (int)(params));
 }
 
 namespace fnv_00cbeaf0 {
@@ -1364,7 +1375,6 @@ struct NiStream
     unsigned unk244;
     unsigned unk248;
     Reader* reader;
-    void FUN_00a64670();
     template <class T> void ReadValue(T& value)
     {
         reader->ReadScalar(&value, sizeof(T));
@@ -1434,10 +1444,9 @@ struct __declspec(align(16)) FUN_00ca7310
     LegacyArray<unsigned> aa8;
     unsigned unkb4, unkb8, unkbc;
     FUN_00ca7310();
-    void FUN_00ca73c0();
     ~FUN_00ca7310()
     {
-        FUN_00ca73c0();
+        reinterpret_cast<::FUN_00ca73c0 *>(this)->FUN_00ca73c0::~FUN_00ca73c0();
     }
 };
 struct ReferenceObject
@@ -1468,14 +1477,12 @@ struct MaterialArray
     void* vtable;
     MaterialEntry* data;
     unsigned capacity, size, occupied, growth;
-    void Resize(unsigned);
-    void FUN_00ca49a0(unsigned, MaterialEntry&);
     void Append(MaterialEntry& value)
     {
         unsigned index = size;
         if (index >= capacity)
-            Resize(index + growth);
-        FUN_00ca49a0(index, value);
+            reinterpret_cast<::PtrEntryArray *>(this)->Resize(index + growth);
+        reinterpret_cast<::S_00ca49a0_Array *>(this)->FUN_00ca49a0(index, (const ::S_00ca49a0_Elem &)(value));
     }
 };
 struct RuntimeMesh
@@ -1502,12 +1509,10 @@ struct FUN_00cc0500
     unsigned short unk04, references;
     void* writer;
     FUN_00cc0500(char*, int, TextFlag);
-    void FUN_00cc00e0();
     ~FUN_00cc0500()
     {
-        FUN_00cc00e0();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(this)->FUN_00cc00e0::~FUN_00cc00e0();
     }
-    FUN_00cc0500& FUN_00cc01c0(const char*);
 };
 struct WarningHandler
 {
@@ -1516,8 +1521,6 @@ struct WarningHandler
     virtual void unk08() = 0;
     virtual void Report(int, unsigned, const char*, const char*, int) = 0;
 };
-extern WarningHandler* DAT_01268360;
-extern const float DAT_010c72c0;
 struct MeshShape
 {
     virtual void unk00() = 0;
@@ -1568,8 +1571,6 @@ struct MeshShape
     virtual RuntimeMesh* GetRuntime(unsigned char*) = 0;
     unsigned references, field08, field0c;
     int material;
-    void ReadGroup(NiStream&);
-    void FUN_00c84d00(NiStream&);
     void FUN_00ca7a70(NiStream&);
 };
 
@@ -1587,15 +1588,11 @@ void MeshShape::FUN_00ca7a70(NiStream& stream)
             char message[512];
             FUN_00cc0500 text(message, 512, TextFlag(true));
             const char* path = stream.filePath;
-            text.FUN_00cc01c0("File ")
-                .FUN_00cc01c0(path)
-                .FUN_00cc01c0(" contains an old bhkpMeshShape! ")
-                .FUN_00cc01c0(name)
-                .FUN_00cc01c0(" re-export\n");
-            DAT_01268360->Report(1, 0x234f2250, message,
+            reinterpret_cast<::SinkOwner *>(&((*(::fnv_00ca7a70::FUN_00cc0500 *)(reinterpret_cast<::SinkOwner *>(&((*(::fnv_00ca7a70::FUN_00cc0500 *)(reinterpret_cast<::SinkOwner *>(&((*(::fnv_00ca7a70::FUN_00cc0500 *)(reinterpret_cast<::SinkOwner *>(&((*(::fnv_00ca7a70::FUN_00cc0500 *)(reinterpret_cast<::SinkOwner *>(&(text))->FUN_00cc01c0("File ")))))->FUN_00cc01c0(path)))))->FUN_00cc01c0(" contains an old bhkpMeshShape! ")))))->FUN_00cc01c0(name)))))->FUN_00cc01c0(" re-export\n");
+            (*reinterpret_cast<::fnv_00ca7a70::WarningHandler * *>(&::DAT_01268360))->Report(1, 0x234f2250, message,
                                  "D:\\_Fallout3\\Platforms\\Common\\Code\\BSHavok\\bhkNiTriStripsShape.cpp", 170);
         }
-        ReadGroup(stream);
+        reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup((::NiStream *)&(stream));
         FUN_00ca7310 old;
         stream.reader->Read(&old, 0xc0, 0, 0);
         old.a24.ClearAndDeallocate();
@@ -1632,13 +1629,13 @@ void MeshShape::FUN_00ca7a70(NiStream& stream)
             old.material = 0;
         material = old.material;
         mesh->material = 0;
-        mesh->radius = DAT_010c72c0;
-        stream.FUN_00a64670();
+        mesh->radius = ::DAT_010c72c0;
+        reinterpret_cast<::S_00a64670_Foo *>(&(stream))->FUN_00a64670();
     }
     else
     {
-        FUN_00c84d00(stream);
-        stream.FUN_00a64670();
+        reinterpret_cast<::FUN_00c84d00_cls *>(this)->FUN_00c84d00((::FUN_00c84d00_obj *)&(stream));
+        reinterpret_cast<::S_00a64670_Foo *>(&(stream))->FUN_00a64670();
         unsigned count = 0;
         stream.ReadValue(count);
         if (stream.littleEndian != 1)

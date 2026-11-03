@@ -2,6 +2,7 @@
 #ifndef FNV_BGSHUNGERSTAGE_H
 #define FNV_BGSHUNGERSTAGE_H
 
+#include "fnv/decl/FUN_00843170_shell.h"
 class SpellItem;
 #include "layout_support.h"
 #include "TESForm.h"
@@ -14,7 +15,6 @@ class HungerStageData
     HungerStageData();
     unsigned int m_uiStageLevel;  // +0x0, 4 bytes
     SpellItem* m_pSpell;          // +0x4, 4 bytes
-    void Reinitialize();
     // void __cdecl HungerStageData::*()
     // void __cdecl HungerStageData::*()
     // void __cdecl HungerStageData::*()
@@ -53,7 +53,6 @@ class BGSHungerStage : public TESForm
     // void __cdecl BGSHungerStage::*()
     BGSHungerStage();
     void ResetFormData();
-    HungerStageData* FUN_00500940();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(BGSHungerStage) == 32);

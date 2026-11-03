@@ -2,15 +2,16 @@
 // src/havok/physics/utilities/actions/dashpot/hkpdashpotaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/dashpot/hkpdashpotaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00cf4d80.h"
+#include "fnv/symbols_01013000.h"
+#include "fnv/symbols_0101e000.h"
 #include "havok/hkpDashpotAction.h"
 
 #include <xmmintrin.h>
-extern float DAT_0101e2bc;
-extern float DAT_01013ea4;
 extern int DAT_010d0994;
 struct FUN_00cf4d80_shell
 {
-    void FUN_00cf4d80(int entityA, int entityB, int name);
 };
 struct FUN_00d4d980_Class : hkpDashpotAction
 {
@@ -20,7 +21,7 @@ struct FUN_00d4d980_Class : hkpDashpotAction
 // @fnv 0x00d4d980
 FUN_00d4d980_Class* FUN_00d4d980_Class::FUN_00d4d980(int entityA, int entityB, int name)
 {
-    reinterpret_cast<FUN_00cf4d80_shell*>(this)->FUN_00cf4d80(entityA, entityB, name);
+    new ((void *)(reinterpret_cast<FUN_00cf4d80_shell*>(this))) ::FUN_00cf4d80((void *)(entityA), (void *)(entityB), name);
     m_fSpringStrength = DAT_0101e2bc;
     m_fMotorDamping = DAT_01013ea4;
     *reinterpret_cast<int**>(this) = &DAT_010d0994;
@@ -87,8 +88,7 @@ hkpAction* hkpDashpotActionX::FUN_00d4d9d0(const hkArray<hkpEntity*>& newEntitie
     DashRouter1* router = (DashRouter1*)FUN_00c85750();
     hkpDashpotAction* pDashpot = (hkpDashpotAction*)router->u10->allocate(0x60);
     pDashpot->m_usMemSizeAndFlags = 0x60;
-    pDashpot = (hkpDashpotAction*)((FUN_00d4d980_class*)pDashpot)
-                   ->FUN_00d4d980(newEntities.m_data[0], newEntities.m_data[1], m_ulUserData);
+    pDashpot = (hkpDashpotAction*)((void *)(reinterpret_cast<::FUN_00d4d980_Class *>((((FUN_00d4d980_class*)pDashpot)))->FUN_00d4d980((int)(newEntities.m_data[0]), (int)(newEntities.m_data[1]), m_ulUserData)));
 
     *(__m128*)&pDashpot->m_kPoint[0] = *(__m128*)&m_kPoint[0];
     *(__m128*)&pDashpot->m_kPoint[1] = *(__m128*)&m_kPoint[1];

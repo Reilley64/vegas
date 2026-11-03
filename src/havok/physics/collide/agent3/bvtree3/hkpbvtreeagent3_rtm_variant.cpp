@@ -4,14 +4,19 @@
 
 // src/havok/physics/collide/agent3/bvtree3/hkpbvtreeagent3.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/bvtree3/hkpbvtreeagent3.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-void* __cdecl InitAndReturnTail(void*, void*, void*);
-void __fastcall FUN_00d2d890(void* self, int, void*, int);
-void __fastcall CallWithValueSource(void* self, int, int, int);
-void __fastcall FUN_00d2d430(void* self, int, int, int);
-void __fastcall FUN_00d2d480(void* self, int, int, int);
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_00cb21e0_shell.h"
+#include "fnv/decl/FUN_00cfbd60_cls.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00d2d000.h"
+#include "fnv/symbols_00d97000.h"
+#include "fnv/symbols_00da3000.h"
+#include "fnv/symbols_00da4000.h"
+#include "fnv/symbols_00da6000.h"
+#include "fnv/symbols_01076000.h"
+#include "fnv/symbols_010ce000.h"
+#include "fnv/symbols_01268000.h"
 void FUN_00d2d9d0(void* pObject);
-extern "C" void __cdecl FUN_00da35f0(void*, float, float, int);
-void __cdecl FUN_00d2d480(void*, void* target, float first, float second, int flags);
 struct Interface
 {
     virtual void f0();
@@ -20,7 +25,6 @@ struct Interface
     virtual void f3();
     virtual void f4();
 };
-void FUN_00d2d4b0(Interface** a);
 struct LessU32
 {
     int pad;
@@ -82,9 +86,6 @@ struct CallBuf
     int unk18;
     int unk1c;
 };
-void __cdecl FUN_00da48e0(void* a, void* b);
-void __cdecl CallWithValueSource(void* apUnused, void* p2, int aiArg0, ValueSource** apValueSource, int aiArg1,
-                                 int aiArg2, int aiArg3);
 struct SpawnedObject
 {
     int unk00;
@@ -105,7 +106,6 @@ struct SpawnedObject
     int unk30;
     void* m_ptr34;  // 0x34
 };
-void* __cdecl GetSpawnedObjectPointer(void** holder);
 struct Agent
 {
     virtual void f0();
@@ -117,21 +117,15 @@ struct Agent
     virtual void f6(const char* typeName);
     virtual void f7();
 };
-extern "C" void __cdecl FUN_00d97250(int, int, void*);
-extern "C" void __cdecl FUN_00da3510(int, int);
-void __cdecl FUN_00d2d430(int a1, int a2, int a3, Agent* p);
 void __cdecl FUN_00d2d460(int a, int b, int c)
 {
-    FUN_00da3510(b, c);
+    ::FUN_00da3510((*(::AgentSectorPointerArray *)(b)), (*(::CollisionAgentContext *)(c)));
 }
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" const char str_010ce7ec[];
-extern "C" const char str_010ce7e0[];
 extern "C" const char str_010ce7d4[];
-extern "C" const char str_01076f38[];
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern unsigned long DAT_0126835c;
 struct S00d2d890_Rec
 {
     const char* name;
@@ -166,7 +160,6 @@ struct __declspec(align(16)) S00d2d890_Local
     int b0f;
     S00d2d890_Local()
     {}
-    void FUN_00cb21e0(void* a);
 };
 struct S00d2d890_Hits
 {
@@ -312,14 +305,8 @@ struct S00d2d890_Obj
     int unk08;
     int unk0c;
 };
-char** FUN_00c85750();
-int FUN_00d2d4f0(int a, int b, S00d2d890_Local* l, void* c, int d, int e, char* f, int g);
-int FUN_00d2d4b0(int a, S00d2d890_Hits* h);
-int FUN_00da4aa0(int a, void* b, int c, char* d, int e);
-char* __cdecl FUN_00d2d890(char* self, int a1, char* child, int a3, int a4);
 struct FUN_00cfbd60_Obj
 {
-    void AddEntry(void* a1, int a2, int a3);
 };
 __declspec(noinline) void FUN_00d2d9d0(void* pObject);
 struct __declspec(align(16)) S_00d2da20_AgentFuncs
@@ -351,7 +338,6 @@ struct __declspec(align(16)) S_00d2da20_AgentFuncs
         unk28 = 0;
     }
 };
-void FUN_00d2da20(FUN_00cfbd60_Obj* target);
 
 typedef float hkReal;
 typedef unsigned char hkUchar;
@@ -571,6 +557,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
         float x, y, z, w;
     };
 };
+#include "fnv/symbols_simd.h"
 extern "C"
 {
     __m128 _mm_add_ps(__m128, __m128);
@@ -832,10 +819,9 @@ inline Vector4Comparison hkVector4::compareLessThanEqual4(const hkVector4& a) co
     m.m_uiMask = _mm_cmple_ps(m_vComponents, a.m_vComponents);
     return m;
 }
-extern __declspec(align(16)) const hkUint32 DAT_010c44d0[4];
 inline void hkVector4::setNeg4(const hkVector4& v)
 {
-    m_vComponents = _mm_xor_ps(v.m_vComponents, *(const hkQuadReal*)&DAT_010c44d0);
+    m_vComponents = _mm_xor_ps(v.m_vComponents, *(const hkQuadReal*)&(*reinterpret_cast<const unsigned int (*)[4]>((void *)&::DAT_010c44d0)));
 }
 inline void hkVector4::setMin4(const hkVector4& a, const hkVector4& b)
 {
@@ -1444,9 +1430,6 @@ void __cdecl RemovePoint(FourByteState* entry, hkpAgentData* agentData, const Co
 void __cdecl WarpTime(FourByteState* entry, hkpAgentData* agentData, hkTime oldTime, hkTime newTime,
                       const CollisionAgentContext& input);
 
-const hkpShapeContainer* __cdecl GetContainerFromBody(const hkpCdBody* body, hkpShapeBuffer& buffer);
-const hkpShapeCollection* __cdecl GetCollectionFromBody(const hkpCdBody* body,
-                                                                                hkpShapeBuffer& buffer);
 }
 class hkpBvTreeShape : public hkpShape
 {
@@ -1546,7 +1529,7 @@ template <typename T, typename L> void __cdecl quickSort(T* pArr, int iSize, L c
     {
         int low = 0;
         int high = iSize - 1;
-        QuickSortSubrange(pArr, low, high, cmpLess);
+        ::QuickSortRange(pArr, low, high, (*(::LessU32 *)&(const ::AlgorithmUtilities::less<unsigned int> &)(cmpLess)));
     }
 }
 }
@@ -1611,7 +1594,7 @@ int __cdecl FUN_00d2d4f0(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const h
         }
         if (cachedAabb)
         {
-            if (cachedAabb->contains(aabb))
+            if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(cachedAabb->contains(aabb)))->FUN_005609f0())
             {
                 return -1;
             }

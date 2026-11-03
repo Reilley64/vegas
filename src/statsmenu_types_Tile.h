@@ -2,6 +2,9 @@
 #ifndef FNV_TILE_H
 #define FNV_TILE_H
 
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/TileListBoxCalls.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
 #include "statsmenu_layout_support.h"
 #include "statsmenu_layout_support.h"
 class NiTAbstractPoolAllocator_unsigned_int_;
@@ -102,10 +105,7 @@ FNV_STATIC_ASSERT(sizeof(NiTPointerList_Tile___) == 12);
 class Tile
 {
   public:
-    float GetFloat(int trait) const;
-    Tile* GetParent() const;
     void Set(int trait, int value);
-    void Set(int trait, const char* value, bool clearActions);
     void** m_ppVirtualMethodTable;                           // +0x0, 4 bytes
     NiTPointerList_Tile___ m_kChildTileList;   // +0x4, 12 bytes
     BSSimpleArray<Tile__Value*, 8> m_kValues;  // +0x10, 16 bytes
@@ -230,6 +230,12 @@ class Tile
     // bool __cdecl Tile::*()
     // Tile& __cdecl Tile::*(const Tile&)
     // void __cdecl Tile::*()
+public:
+    void SetName(const char *);
+public:
+    void Set(int, unsigned int);
+public:
+    static float GetInterfaceScale();
 };
 FNV_STATIC_ASSERT(sizeof(Tile) == 56);
 FNV_STATIC_ASSERT(offsetof(Tile, m_ppVirtualMethodTable) == 0);

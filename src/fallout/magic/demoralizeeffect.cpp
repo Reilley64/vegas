@@ -2,10 +2,28 @@
 // src/fallout/magic/demoralizeeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/demoralizeeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/EffectSaveShell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/FUN_00608d80_shell.h"
+#include "fnv/decl/FUN_00804f80_shell.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_008d0600_s.h"
+#include "fnv/decl/FleeActorEntry.h"
+#include "fnv/decl/fnv_0087f9f0__FUN_0087f9f0_shell.h"
+#include "fnv/decl/fnv_00881680__FUN_00881680_shell.h"
+#include "fnv/decl/fnv_008a6730__FUN_008a6730_shell.h"
+#include "fnv/symbols_00495000.h"
+#include "fnv/symbols_00649000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_011a0000.h"
+#include "fnv/symbols_011a1000.h"
+#include "fnv/symbols_011de000.h"
 struct Actor;
 struct ActiveEffect
 {
-    unsigned short GetSaveSize(Actor* apActor);
 };
 struct DemoralizeEffect : ActiveEffect
 {
@@ -16,7 +34,7 @@ struct DemoralizeEffect : ActiveEffect
 unsigned short DemoralizeEffect::FUN_0080ccf0(Actor* apActor)
 {
     unsigned short isize = 0;
-    isize += ActiveEffect::GetSaveSize(apActor);
+    isize += reinterpret_cast<::FUN_00804f80_shell *>(this)->FUN_00804f80(apActor);
     isize += 1;
     return isize;
 }
@@ -44,13 +62,10 @@ FUN_0080c890::FUN_0080c890(MagicCaster* a, MagicItem* pItem, EffectItem* pEffect
 
 struct TESSaveLoadGame
 {
-    void FUN_008579b0(void*, int);
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct SaveGameHelper
 {
-    void SaveGame(Actor*);
 };
 
 struct DemoralizeEffectShell : DemoralizeEffect
@@ -62,8 +77,8 @@ struct DemoralizeEffectShell : DemoralizeEffect
 // @fnv 0x0082b750
 void DemoralizeEffectShell::FUN_0082b750(Actor* apActor)
 {
-    reinterpret_cast<SaveGameHelper*>(this)->SaveGame(apActor);
-    g_TESSaveLoadGame->FUN_008579b0(reinterpret_cast<char*>(this) + 0x48, 1);
+    reinterpret_cast<::EffectSaveShell *>((reinterpret_cast<SaveGameHelper*>(this)))->FUN_008050d0(apActor);
+    reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(reinterpret_cast<char*>(this) + 0x48, 1);
 }
 
 struct Actor;
@@ -550,26 +565,24 @@ struct Actor
     virtual void method267();
     virtual void method268();
     virtual void Reset(Actor*);
-    bool FUN_00493bb0();
-    PackageNodeHandler* FUN_008d8520();
-    bool FUN_008a6650(int);
-    void FUN_008a6730(Actor*);
 };
+class Actor;
 struct MagicTarget
 {
-    Actor* FUN_00822b40();
+public:
+    ::Actor *GetOwnerActor() const;
 };
+class Actor;
 struct MagicCaster
 {
-    Actor* FUN_00815410();
+public:
+    ::Actor *GetCasterActor();
 };
 struct EffectController
 {
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24, unk28, unk2C, unk30, unk34, unk38, unk3C,
         unk40, unk44;
     bool enabled;
-    MagicTarget* FUN_0059bb30();
-    MagicCaster* FUN_0045cd60();
     void RestoreEffect();
 };
 // @fnv 0x0080cb60
@@ -577,20 +590,20 @@ void EffectController::RestoreEffect()
 {
     if (!enabled)
         return;
-    Actor* target = FUN_0059bb30() ? FUN_0059bb30()->FUN_00822b40() : 0;
-    Actor* caster = FUN_0045cd60() ? FUN_0045cd60()->FUN_00815410() : 0;
+    Actor* target = ((::MagicTarget *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::MagicTarget *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))->GetOwnerActor() : 0;
+    Actor* caster = reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60() ? reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()->GetCasterActor() : 0;
     if (target)
     {
-        if (target->FUN_00493bb0())
+        if (((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((target))->FUN_00493bb0())))
         {
             target->Reset(caster);
-            if (caster && target->FUN_008d8520())
+            if (caster && ((::PackageNodeHandler *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture())))
             {
-                target->FUN_008d8520()->Restore(target, caster, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0);
+                ((::PackageNodeHandler *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->Restore(target, caster, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0);
             }
         }
-        else if (target->FUN_008a6650(0))
-            target->FUN_008a6730(caster);
+        else if (reinterpret_cast<::FleeActorEntry *>((target))->FUN_008a6650(0))
+            reinterpret_cast<::fnv_008a6730::FUN_008a6730_shell *>((target))->FUN_008a6730((::TESObjectREFR *)(caster));
     }
 }
 
@@ -712,12 +725,10 @@ FUN_0080c890* FUN_0080c8d0_cls::CreateSpawnedEffect()
     return obj;
 }
 
-extern float DAT_01012054;
 
 struct S_0080ca50_Actor;
 struct S_0080ca50_Sub
 {
-    void FUN_008d0600();
 };
 struct S_0080ca50_Actor
 {
@@ -988,8 +999,6 @@ struct S_0080ca50_Actor
     virtual void v108();
     virtual void v109();
     virtual S_0080ca50_Sub* v428();
-    bool FUN_008a6650(int a);
-    void FUN_00881680(int a);
 };
 struct S_0080ca50_Actor2
 {
@@ -1263,11 +1272,9 @@ struct S_0080ca50_Actor2
 };
 struct S_0080ca50_Caster
 {
-    S_0080ca50_Actor* FUN_00822b40();
 };
 struct S_0080ca50_Target
 {
-    S_0080ca50_Actor* FUN_00815410();
 };
 struct S_0080ca50_Effect
 {
@@ -1275,8 +1282,6 @@ struct S_0080ca50_Effect
     int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
     int unk40, unk44;
     char unk48;
-    S_0080ca50_Caster* FUN_0059bb30();
-    S_0080ca50_Target* FUN_0045cd60();
     void FUN_0080ca50();
 };
 
@@ -1284,28 +1289,25 @@ struct S_0080ca50_Effect
 // @fnv 0x0080ca50
 void S_0080ca50_Effect::FUN_0080ca50()
 {
-    S_0080ca50_Actor* caster = FUN_0059bb30() ? FUN_0059bb30()->FUN_00822b40() : 0;
-    S_0080ca50_Actor* target2 = FUN_0045cd60() ? FUN_0045cd60()->FUN_00815410() : 0;
+    S_0080ca50_Actor* caster = ((::S_0080ca50_Caster *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::S_0080ca50_Actor *)(reinterpret_cast<::MagicTarget *>((((::S_0080ca50_Caster *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
+    S_0080ca50_Actor* target2 = ((::S_0080ca50_Target *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((::S_0080ca50_Actor *)(reinterpret_cast<::MagicCaster *>((((::S_0080ca50_Target *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor())) : 0;
     if (caster && target2)
     {
         if (caster->v428())
         {
-            ((S_0080ca50_Actor2*)caster)->v428(target2, 0)->FUN_008d0600();
+            reinterpret_cast<::FUN_008d0600_s *>((((S_0080ca50_Actor2*)caster)->v428(target2, 0)))->FUN_008d0600({}, {});
             unk48 = 1;
         }
-        else if (!caster->FUN_008a6650(0))
+        else if (!reinterpret_cast<::FleeActorEntry *>((caster))->FUN_008a6650(0))
         {
-            caster->FUN_00881680(0);
-            caster->v410(target2, 1, 1, 1, 0, 0, DAT_01012054, DAT_01012054);
+            reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>((caster))->FUN_00881680(0);
+            caster->v410(target2, 1, 1, 1, 0, 0, ::DAT_01012054, ::DAT_01012054);
             unk48 = 1;
         }
     }
 }
 
-extern int DAT_011a0ef8;
-extern int DAT_011a106c;
 
-bool FUN_006494d0(unsigned short, float);
 struct Actor_80c980;
 int FUN_00ec43fb(Actor_80c980*, int, int*, int*, int);
 
@@ -1498,31 +1500,27 @@ struct Actor_80c980
     virtual void vb8();
     virtual void vb9();
     virtual bool vba();
-    Actor_80c980* FUN_00822b40();
-    unsigned short FUN_0087f9f0();
-    bool FUN_00608d80();
 };
 
 struct FUN_0080c980_cls
 {
-    float GetFloatAtOffset1C();
     bool FUN_0080c980(Actor_80c980* apActor);
 };
 
 // @fnv 0x0080c980
 bool FUN_0080c980_cls::FUN_0080c980(Actor_80c980* apActor)
 {
-    Actor_80c980* Actor_80c980 = apActor ? apActor->FUN_00822b40() : 0;
+    Actor_80c980* Actor_80c980 = apActor ? ((::Actor_80c980 *)(reinterpret_cast<::MagicTarget *>((apActor))->GetOwnerActor())) : 0;
     if (Actor_80c980 != 0 && !Actor_80c980->v8b(0) && !Actor_80c980->vba() &&
-        FUN_006494d0(Actor_80c980->FUN_0087f9f0(), this->GetFloatAtOffset1C()))
+        ::FUN_006494d0(reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>((Actor_80c980))->FUN_0087f9f0(), ::GetFloatAtOffset1C((char *)(this))))
     {
-        int result = FUN_00ec43fb(apActor, 0, &DAT_011a0ef8, &DAT_011a106c, 0);
+        int result = FUN_00ec43fb(apActor, 0, &DAT_011a0ef8, &(*reinterpret_cast<int *>(&::_data_011a106c)), 0);
         if (result != 0)
         {
         }
         else
         {
-            if (Actor_80c980->FUN_00608d80())
+            if (reinterpret_cast<::FUN_00608d80_shell *>((Actor_80c980))->FUN_00608d80())
                 return false;
         }
         return true;

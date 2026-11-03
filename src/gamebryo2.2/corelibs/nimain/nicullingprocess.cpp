@@ -2,12 +2,19 @@
 // src/gamebryo2.2/corelibs/nimain/nicullingprocess.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nicullingprocess.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern char const* const g_01201f7c_arg1;
 
 // @fnv 0x00a693f0
+#include "fnv/decl/CameraState4E9.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FrustumPlanes__Planes.h"
+#include "fnv/decl/NiRenderer.h"
+#include "fnv/decl/S_00a59e00.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
 char const* const* const __cdecl FUN_00a693f0()
 {
-    return &g_01201f7c_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_011f4990));
 }
 
 struct SevenInts
@@ -16,7 +23,6 @@ struct SevenInts
 };
 struct H74e10
 {
-    void __thiscall SetFromFrustum(void*, void*);
 };
 struct S694a0
 {
@@ -35,7 +41,7 @@ void __thiscall S694a0::FUN_00a694a0(void* pSource)
     if (_0c)
     {
         *(SevenInts*)_10 = *(SevenInts*)pSource;
-        _2c.SetFromFrustum(_10, _0c + 0x68);
+        reinterpret_cast<::FrustumPlanes::Planes *>(&(_2c))->SetFromFrustum((const ::FrustumPlanes::Frustum *)(_10), (const ::FrustumPlanes::Transform *)(void *)(_0c + 0x68));
         _8c = 63;
     }
 }
@@ -56,7 +62,6 @@ struct NiAVObject
 {
     int unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     B_004b6100* bound;
-    NiBound const& __thiscall FUN_0043d450() const;
     virtual void vslot0();
     virtual void vslot1();
     virtual void vslot2();
@@ -136,7 +141,7 @@ void WorkerS694a0::FUN_00a694e0(NiAVObject* object)
     {
         if (flags & mask)
         {
-            int side = reinterpret_cast<B_004b6100&>(const_cast<NiBound&>(object->FUN_0043d450()))
+            int side = reinterpret_cast<B_004b6100&>(const_cast<NiBound&>((*(const ::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(object))->FUN_0043d450()))))
                            .ClassifySphereAgainstPlane(plane);
             if (side == 2)
                 break;
@@ -251,9 +256,7 @@ struct GlobalMgr
 {
     int unk00, unk04;
     void* unk08;
-    void __thiscall SetFromCamera(void*);
 };
-extern GlobalMgr* DAT_011f4748;
 struct RefLookup
 {
     RefObjView* volatile obj;
@@ -261,7 +264,6 @@ struct RefLookup
 };
 struct Handler
 {
-    void __thiscall FUN_00a59e00(void*);
 };
 struct Sub694a0 : S694a0
 {
@@ -285,15 +287,15 @@ void Sub694a0::ProcessWorkerWithHandler(void* worker, Handler* handler, void* te
         refLookup.obj = 0;
         if (!*(void**)(_00 + 8))
         {
-            refLookup.FUN_0066b0d0(DAT_011f4748->unk08);
+            refLookup.FUN_0066b0d0((*reinterpret_cast<::GlobalMgr * *>(&::NiRenderer::ms_pRenderer))->unk08);
             ref = refLookup.obj;
             if (ref)
                 ref->vslot35(worker);
         }
-        handler->FUN_00a59e00(this);
+        reinterpret_cast<::S_00a59e00 *>((handler))->FUN_00a59e00((::S_00a59e00_Arg *)(void *)(this));
         if (ref)
         {
-            DAT_011f4748->SetFromCamera(worker);
+            reinterpret_cast<::CameraState4E9 *>(((*reinterpret_cast<::GlobalMgr * *>(&::NiRenderer::ms_pRenderer))))->SetFromCamera((*(const ::Camera4E9 *)(worker)));
             ref->vslot36();
         }
         if (temporary)
@@ -348,15 +350,13 @@ void WorkerA69640::ProcessObject(NiAVObject* object)
 
 struct MemoryManager
 {
-    void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 struct FUN_00a69470
 {
     virtual ~FUN_00a69470();
     void operator delete(void* p)
     {
-        g_memoryManager.Deallocate(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
     }
 };
 // @fnv 0x00a69470

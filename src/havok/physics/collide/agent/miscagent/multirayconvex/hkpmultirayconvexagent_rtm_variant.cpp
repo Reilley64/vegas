@@ -4,18 +4,21 @@
 
 // src/havok/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-void FUN_00d374f0(int a, int b, int c, int d);
+#include "fnv/decl/FUN_00cfbbe0_cls.h"
+#include "fnv/decl/hkTransformCB22.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d37000.h"
+#include "fnv/symbols_00d3a000.h"
+#include "fnv/symbols_00daf000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010ce000.h"
+#include "fnv/symbols_01268000.h"
 struct FUN_00d37690_Class
 {
     void __thiscall ForwardToFunction(int a, int b, int c, int d);
 };
-void FUN_00d37740(int a, int b, int c, int d);
-void FUN_00d37780(int a, int b, int c, int d);
-void FUN_00d37860(int a, int b, int c, int d);
 void FUN_00d378a0(int a, int b, int c, int d);
-void FUN_00d37280(int a, int b, int c, int d);
-void FUN_00daf8e0();
-void FUN_00d3ac80();
 struct FUN_00cfbbe0_Arg
 {
     void* f0;
@@ -27,9 +30,7 @@ struct FUN_00cfbbe0_Arg
 };
 struct FUN_00cfbbe0_Class
 {
-    void __thiscall FUN_00cfbbe0(FUN_00cfbbe0_Arg* a, int b, int c);
 };
-void FUN_00d377d0(int pClass);
 struct Handler
 {
     virtual void slot0();
@@ -64,17 +65,12 @@ struct S_00d37860_Collector : S_00d37860_Base
     {}
     virtual void f1();
 };
-void FUN_00d374f0(void* b, void* a, void* c, S_00d37860_Collector* collector);
-void FUN_00d37860(void* a, void* b, void* c, int filter);
 struct Payload
 {
     const char* name;
     float value;
     int id;
 };
-extern float DAT_0104da48;
-extern const char DAT_010ce7fc[];
-void FUN_00d37280(int, int, int, Payload*);
 void FUN_00d378a0(int aiArg1, int aiArg2, int aiArg3, int aiId);
 struct D376B0Allocator;
 struct D376B0MemoryRouter
@@ -91,7 +87,6 @@ struct D376B0MemoryRouter
     }
 };
 extern "C" D376B0MemoryRouter& __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(D376B0Allocator* alloc, void* array, int numElements, int sizeElem);
 class D376B0ReferencedObject
 {
   public:
@@ -126,7 +121,7 @@ struct D376B0IndexArray
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, sizeof(unsigned short));
+            ::FUN_00c908c0((::SpawnedObject *)(::D376B0Allocator *)(&alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(unsigned short));
         }
         m_iElementCount = n;
     }
@@ -168,6 +163,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
         float x, y, z, w;
     };
 };
+#include "fnv/symbols_simd.h"
 extern "C"
 {
     __m128 _mm_add_ps(__m128, __m128);
@@ -183,13 +179,9 @@ extern "C" unsigned __int64 __rdtsc();
 
 extern "C" void _ReadWriteBarrier();
 
-extern unsigned int DAT_0126835c;
 
-extern char DAT_010ceda8[];
 
-extern char DAT_010c41f8[];
 
-extern __m128 DAT_010ec7f0;
 
 struct MonitorEvent
 {
@@ -209,7 +201,7 @@ struct MonitorStream
 static void timer(const char* name, volatile unsigned& ticks)
 {
 
-    MonitorStream* stream = (MonitorStream*)TlsGetValue(DAT_0126835c);
+    MonitorStream* stream = (MonitorStream*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
 
     MonitorEvent* event = stream->current;
 
@@ -242,7 +234,6 @@ struct RayTransform
 
     __m128 col0, col1, col2, translation;
 
-    void __thiscall FUN_00cb22f0(const void*, const void*);
 
     __m128 point(__m128 v) const
     {
@@ -388,7 +379,7 @@ void __stdcall FUN_00d37010(const RayBody* a, const RayBody* b, void* unused, Ra
     RayLocals L;
     ShapeRayInput input;
 
-    L.relative.FUN_00cb22f0(b->transform, a->transform);
+    reinterpret_cast<::hkTransformCB22 *>(&(L.relative))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(b->transform)), (*(const ::hkTransformCB22 *)(a->transform)));
 
     int count = shape->count;
 
@@ -426,7 +417,7 @@ void __stdcall FUN_00d37010(const RayBody* a, const RayBody* b, void* unused, Ra
                 __m128 t = _mm_load_ss(&fraction);
                 t = _mm_shuffle_ps(t, t, 0);
 
-                __m128 p = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(DAT_010ec7f0, t), input.from), _mm_mul_ps(t, input.to));
+                __m128 p = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(::DAT_010ec7f0, t), input.from), _mm_mul_ps(t, input.to));
 
                 const RayTransform* world = b->transform;
 

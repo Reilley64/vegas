@@ -2,6 +2,12 @@
 // src/havok/physics/utilities/constraint/chain/hkpconstraintchainutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/constraint/chain/hkpconstraintchainutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/D10710Object.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/Quat74.h"
+#include "fnv/decl/hkpPhantomOverlapDD04.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d2c000.h"
 struct CallTarget_00e5c370
 {
     int InsertAndDelete(int, int, int, int, int);
@@ -23,7 +29,6 @@ int SearchObject::FUN_00e5c420(unsigned int auiParam0, unsigned int auiParam1, u
 namespace fnv_00e5c440 {
 struct CallTarget_00e5c420
 {
-    int FUN_00e5c420(int, int, int, int);
 };
 struct SearchObject
 {
@@ -33,7 +38,7 @@ struct SearchObject
 int SearchObject::FUN_00e5c440(unsigned int arg0, unsigned int arg1, unsigned int arg2)
 {
     unsigned int callResult0 =
-        (unsigned int)((CallTarget_00e5c420*)this)->FUN_00e5c420((int)arg0, (int)arg1, (int)arg2, (int)1u);
+        (unsigned int)reinterpret_cast<::SearchObject *>((((CallTarget_00e5c420*)this)))->FUN_00e5c420((int)arg0, (int)arg1, (int)arg2, (int)1u);
     return (int)callResult0;
 }
 }  // namespace fnv_00e5c440
@@ -60,12 +65,10 @@ AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct DispatchTarget
 {
-    void CallWithFlag(void* aValue, int aZero, void* aOut);
 };
 
 struct OutObject
 {
-    void FUN_00c90510();
 };
 
 struct FUN_00e5c460_cls
@@ -95,11 +98,12 @@ void FUN_00e5c460_cls::FUN_00e5c460(OutObject* pOutObject)
 {
     AudioHolder* pHolder = FUN_00c85750();
     void* pValue = pHolder->m_pAllocator;
-    m_38.CallWithFlag(pValue, 0, &pOutObject);
-    pOutObject->FUN_00c90510();
+    reinterpret_cast<::D10710Object *>(&(m_38))->CallWithFlag(pValue, (void *)(0), &pOutObject);
+    reinterpret_cast<::FUN_00c90510_class *>((pOutObject))->FUN_00c90510();
 }
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 __declspec(align(16)) struct XfOut_cls
 {
     unsigned int m_00;
@@ -108,9 +112,12 @@ __declspec(align(16)) struct XfOut_cls
     unsigned int m_0c;
 };
 
+struct S_00c7f690_M;
+struct S_00c7f690_V;
 struct FUN_00c7f690_cls
 {
-    void FUN_00c7f690(const __m128* m, const __m128* v);
+public:
+    void FUN_00c7f690(const ::S_00c7f690_M *, const ::S_00c7f690_V *);
 };
 
 struct XfSub_cls
@@ -136,7 +143,6 @@ struct XfScene_cls
     int unk34;
     char** m_38;
     int m_3c;
-    void AddReferencedObject(XfScene_cls* other);
 };
 
 static char* XfSelectRec(char* rec)
@@ -155,10 +161,10 @@ void FUN_00e5b3a0(XfScene_cls* a1, XfScene_cls* a2, const __m128* a3)
     char* p1 = XfSelectRec(a1->m_38[a1->m_3c - 1] + 0x10);
     char* p2 = XfSelectRec((char*)a2 + 0x10);
     XfOut_cls outs[2];
-    ((FUN_00c7f690_cls*)&outs[0])->FUN_00c7f690((const __m128*)(p1 + 0xf0), a3);
-    ((FUN_00c7f690_cls*)&outs[1])->FUN_00c7f690((const __m128*)(p2 + 0xf0), a3);
+    ((FUN_00c7f690_cls*)&outs[0])->FUN_00c7f690((const ::S_00c7f690_M *)(const ::__m128 *)((const __m128*)(p1 + 0xf0)), (const ::S_00c7f690_V *)(a3));
+    ((FUN_00c7f690_cls*)&outs[1])->FUN_00c7f690((const ::S_00c7f690_M *)(const ::__m128 *)((const __m128*)(p2 + 0xf0)), (const ::S_00c7f690_V *)(a3));
     sub->Push(&outs[0], &outs[1]);
-    a1->AddReferencedObject(a2);
+    reinterpret_cast<::hkpPhantomOverlapDD04 *>((a1))->AddReferencedObject((::hkReferencedObjectDD04 *)(a2));
 }
 
 namespace fnv_00e5b440 {
@@ -168,7 +174,6 @@ struct __declspec(align(16)) FUN_00c7f690_cls
     int unk04;
     int unk08;
     int unk0c;
-    void FUN_00c7f690(const __m128* m, const __m128* v);
 };
 
 struct __declspec(align(16)) RelativeOrientationData
@@ -184,7 +189,6 @@ struct __declspec(align(16)) RelativeOrientationData
     int argument4;
     int argument5;
     int argument6;
-    void FUN_00c74ac0(char* a, char* b);
 };
 
 struct Callee
@@ -211,7 +215,6 @@ struct Owner
     int unk34;
     void** m_38;
     int m_3c;
-    void AddReferencedObject(char* a);
 };
 
 // Computes relative orientation between two objects and applies it via a Callee, then adds a reference to a2.
@@ -235,16 +238,16 @@ void ApplyRelativeOrientation(Owner* a1, char* a2, const __m128* a3, int a4, int
         FUN_00c7f690_cls first;
         FUN_00c7f690_cls second;
     } points;
-    points.first.FUN_00c7f690((const __m128*)(e1 + 0xf0), a3);
-    points.second.FUN_00c7f690((const __m128*)(e2 + 0xf0), a3);
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(points.first))->FUN_00c7f690((const ::S_00c7f690_M *)(const ::__m128 *)((const __m128*)(e1 + 0xf0)), (const ::S_00c7f690_V *)(a3));
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(points.second))->FUN_00c7f690((const ::S_00c7f690_M *)(const ::__m128 *)((const __m128*)(e2 + 0xf0)), (const ::S_00c7f690_V *)(a3));
     // Helper writes the quaternion at offset 0; original also stores arguments at 0x20/24/28.
     RelativeOrientationData relativeOrientation;
-    relativeOrientation.FUN_00c74ac0(e2 + 0x160, e1 + 0x160);
+    reinterpret_cast<::Quat74 *>(&(relativeOrientation))->FUN_00c74ac0((*(const ::Quat74 *)(e2 + 0x160)), (*(const ::Quat74 *)(e1 + 0x160)));
     relativeOrientation.argument4 = a4;
     relativeOrientation.argument5 = a5;
     relativeOrientation.argument6 = a6;
     pCallee->FUN_00e3b850(&points.first, &points.second, (void*)&relativeOrientation, a4, a5, a6);
-    a1->AddReferencedObject(a2);
+    reinterpret_cast<::hkpPhantomOverlapDD04 *>((a1))->AddReferencedObject((::hkReferencedObjectDD04 *)(a2));
 }
 }  // namespace fnv_00e5b440
 
@@ -284,7 +287,6 @@ struct KeyOwnerA
 
 struct Sub18
 {
-    void FUN_00e5c440(AudioAllocator* a, int b, Pair32* c);
 };
 
 struct OwnerC
@@ -317,11 +319,8 @@ struct ListB
     unsigned int unk34;
     unsigned int* m_38;
     unsigned int m_3c;
-    void AddReferencedObject(unsigned int key);
-    void FUN_00e5c460(unsigned int key);
 };
 
-int FUN_00e5ad40(KeyOwnerA* a, Tmp16* p, Tmp16* q);
 
 // Returns 1 if FUN_00e5ad40 is nonzero or no key matches; else matches a1's m_14/m_18 to a2's list ends, calls a3 helpers, updates a2 and returns 0.
 // @fnv 0x00e5b8f0
@@ -329,25 +328,25 @@ int FUN_00e5b8f0(KeyOwnerA* a1, ListB* a2, OwnerC* a3, ...)
 {
     Pair32 keyPair;
 
-    if (FUN_00e5ad40(a1, &keyPair.lo, &keyPair.hi) != 0)
+    if (::FUN_00e5ad40((::FnvHolder *)(a1), (::__m128 *)(::Tmp16 *)(&keyPair.lo), (::__m128 *)(::Tmp16 *)(&keyPair.hi)) != 0)
     {
         return 1;
     }
     if (a2->m_3c == 0)
     {
-        a2->AddReferencedObject(a1->m_14);
+        reinterpret_cast<::hkpPhantomOverlapDD04 *>((a2))->AddReferencedObject((::hkReferencedObjectDD04 *)(a1->m_14));
     }
     unsigned int uiLastKey = a2->m_38[a2->m_3c - 1];
     if (uiLastKey == a1->m_14)
     {
         a3->Push(&keyPair.lo, &keyPair.hi);
-        a2->AddReferencedObject(a1->m_18);
+        reinterpret_cast<::hkpPhantomOverlapDD04 *>((a2))->AddReferencedObject((::hkReferencedObjectDD04 *)(a1->m_18));
         return 0;
     }
     if (uiLastKey == a1->m_18)
     {
         a3->Push(&keyPair.hi, &keyPair.lo);
-        a2->AddReferencedObject(a1->m_14);
+        reinterpret_cast<::hkpPhantomOverlapDD04 *>((a2))->AddReferencedObject((::hkReferencedObjectDD04 *)(a1->m_14));
         return 0;
     }
     if (a2->m_38[0] == a1->m_14)
@@ -356,8 +355,8 @@ int FUN_00e5b8f0(KeyOwnerA* a1, ListB* a2, OwnerC* a3, ...)
         CopyTmp16(&p.lo, &keyPair.hi);
         CopyTmp16(&p.hi, &keyPair.lo);
         AudioHolder* h = FUN_00c85750();
-        a3->m_18.FUN_00e5c440(h->m_pAllocator, 0, &p);
-        a2->FUN_00e5c460(a1->m_18);
+        reinterpret_cast<::fnv_00e5c440::SearchObject *>(&(a3->m_18))->FUN_00e5c440((unsigned int)(h->m_pAllocator), 0, (unsigned int)(&p));
+        reinterpret_cast<::FUN_00e5c460_cls *>((a2))->FUN_00e5c460((::OutObject *)(a1->m_18));
         return 0;
     }
     if (a2->m_38[0] == a1->m_18)
@@ -366,8 +365,8 @@ int FUN_00e5b8f0(KeyOwnerA* a1, ListB* a2, OwnerC* a3, ...)
         CopyTmp16(&p.lo, &keyPair.lo);
         CopyTmp16(&p.hi, &keyPair.hi);
         AudioHolder* h = FUN_00c85750();
-        a3->m_18.FUN_00e5c440(h->m_pAllocator, 0, &p);
-        a2->FUN_00e5c460(a1->m_14);
+        reinterpret_cast<::fnv_00e5c440::SearchObject *>(&(a3->m_18))->FUN_00e5c440((unsigned int)(h->m_pAllocator), 0, (unsigned int)(&p));
+        reinterpret_cast<::FUN_00e5c460_cls *>((a2))->FUN_00e5c460((::OutObject *)(a1->m_14));
         return 0;
     }
     return 1;
@@ -395,8 +394,6 @@ struct S_00e5c370_Elem
         reinterpret_cast<__m128&>(b) = reinterpret_cast<const __m128&>(o.b);
     }
 };
-void __cdecl FUN_00c908c0(S_00e5c370_Alloc& alloc, void* arr, int numElem, int sizeElem);
-void __cdecl FUN_00d2cc70(void* dst, const void* src, int nbytes);
 
 template <typename T> struct S_00e5c370_ArrayBase
 {
@@ -414,7 +411,7 @@ template <typename T> struct S_00e5c370_ArrayBase
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(a, this, newSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(a), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
         }
     }
     // Removes numdel elements at index, inserts numtoinsert elements from p, and shifts the remaining elements to keep the array contiguous.
@@ -425,7 +422,7 @@ template <typename T> struct S_00e5c370_ArrayBase
         int numtomove = m_iElementCount - index - numdel;
         if (newsize > getCapacity())
             GrowArrayCapacity(alloc, newsize);
-        FUN_00d2cc70(m_data + index + numtoinsert, m_data + index + numdel, numtomove * sizeof(T));
+        ::FUN_00d2cc70(m_data + index + numtoinsert, (void *)(m_data + index + numdel), numtomove * sizeof(T));
         T* dst = m_data + index;
         for (int i = 0; i < numtoinsert; i++)
             new (dst + i) T(apElements[i]);

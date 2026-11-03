@@ -2,6 +2,10 @@
 #ifndef FNV_TESLEVCHARACTER_UNIT_H
 #define FNV_TESLEVCHARACTER_UNIT_H
 
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/Owner487a60.h"
+#include "fnv/decl/TmpEndian.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "teslevcharacter_TESForm.h"
@@ -65,10 +69,10 @@ class TESBoundAnimObject : public TESBoundObject
   public:
 };
 FNV_STATIC_ASSERT(sizeof(TESBoundAnimObject) == 48);
+class BGSLoadFormBuffer;
 class TESLeveledList : public BaseFormComponent
 {
   public:
-    LeveledObject* CreateLeveledObject(unsigned short, unsigned short, TESForm*, ContainerItemExtra*);
     void FUN_0042e680(unsigned char);
     void InitItem(TESForm* form);
     void LoadGame(BGSLoadFormBuffer* buffer);
@@ -78,6 +82,8 @@ class TESLeveledList : public BaseFormComponent
     unsigned char layoutPaddingE[2];
     TESGlobal* m_pLevelGlobal;                       // +0x10, 4 bytes
     BSSimpleList<LeveledObject*> m_kLeveledObjects;  // +0x14, 8 bytes
+public:
+    void Revert(::BGSLoadFormBuffer *);
 };
 FNV_STATIC_ASSERT(sizeof(TESLeveledList) == 28);
 FNV_STATIC_ASSERT(offsetof(TESLeveledList, leveledList) == 4);
@@ -112,7 +118,6 @@ class TESModelTextureSwap : public TESModel
 {
   public:
     void InitItem(TESForm* form);
-    bool ParseTextureSwapData(void*, unsigned int, unsigned int);
     BSSimpleList<DistantTreeTextureInfo*> TextureSwapNodeAccessor;  // +0x18, 8 bytes
 };
 FNV_STATIC_ASSERT(sizeof(TESModelTextureSwap) == 32);
@@ -142,7 +147,6 @@ FNV_STATIC_ASSERT(sizeof(TESLevItem) == 76);
 class TESFileFormVersion
 {
   public:
-    unsigned short GetFormVersion();
 };
 class ContainerItemExtra
 {
@@ -158,7 +162,6 @@ class LeveledObject
     unsigned short pad;
     TESForm* form;
     ContainerItemExtra* extra;
-    void SwapEndian();
 };
 extern LeveledObject* DAT_011c8e64;
 extern "C" void* memset(void*, int, unsigned int);

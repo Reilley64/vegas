@@ -3,27 +3,33 @@
 #ifndef FNV_ORIGINAL_CALLBACK_INITIALIZERS_H
 #define FNV_ORIGINAL_CALLBACK_INITIALIZERS_H
 
-int InitializeRuntimeCallbackGroup1();
+#include "fnv/symbols_00a26000.h"
+#include "fnv/symbols_00a27000.h"
+#include "fnv/symbols_00a28000.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00a2a000.h"
+#include "fnv/symbols_00a2b000.h"
+#include "fnv/symbols_00a2c000.h"
+#include "fnv/symbols_00a2d000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010a5000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011cc000.h"
+#include "fnv/symbols_011f8000.h"
+#include "fnv/symbols_01203000.h"
 extern int runtimeCallbackInitializationStatus1;
-int InitializeRuntimeCallbackGroup2();
 extern int runtimeCallbackInitializationStatus2;
-int InitializeRuntimeCallbackGroup6();
 extern int runtimeCallbackInitializationStatus3;
-int InitializeRuntimeCallbackGroup8();
 extern int runtimeCallbackInitializationStatus4;
-int InitializeRuntimeCallbackGroup9();
 extern int runtimeCallbackInitializationStatus5;
-int InitializeRuntimeCallbackGroup11();
 extern int runtimeCallbackInitializationStatus6;
-int InitializeRuntimeCallbackGroup15();
 extern int runtimeCallbackInitializationStatus7;
-int InitializeRuntimeCallbackGroup16();
 extern int runtimeCallbackInitializationStatus8;
-int InitializeRuntimeCallbackGroup17();
 extern int runtimeCallbackInitializationStatus9;
-int InitializeRuntimeCallbackGroup18();
 extern int runtimeCallbackInitializationStatus10;
-int InitializeRuntimeCallbackGroup19();
 extern int runtimeCallbackInitializationStatus11;
 extern int runtimeCallbackInitializationStatus12;
 extern int runtimeCallbackInitializationStatus13;
@@ -3650,8 +3656,6 @@ extern int runtimeCallbackInitializationStatus3633;
 extern int runtimeCallbackInitializationStatus3634;
 
 extern float runtimeInitializationFloat1;
-extern const double runtimeInitializationDouble1;
-extern const double runtimeInitializationDouble2;
 extern float runtimeInitializationFloat2;
 extern float runtimeInitializationFloat3;
 extern float runtimeInitializationFloat4;
@@ -3681,8 +3685,6 @@ extern float runtimeInitializationFloat25;
 extern float runtimeInitializationFloat26;
 extern float runtimeInitializationFloat27;
 extern float runtimeInitializationFloat28;
-extern const double runtimeInitializationDouble5;
-extern const double runtimeInitializationDouble6;
 extern float runtimeInitializationFloat29;
 extern float runtimeInitializationFloat30;
 extern float runtimeInitializationFloat31;
@@ -3826,7 +3828,6 @@ extern float runtimeInitializationFloat168;
 extern float runtimeInitializationFloat169;
 extern float runtimeInitializationFloat170;
 extern float runtimeInitializationFloat171;
-extern const double runtimeInitializationDouble7;
 extern float runtimeInitializationFloat172;
 extern float runtimeInitializationFloat173;
 extern float runtimeInitializationFloat174;
@@ -5116,7 +5117,6 @@ extern float runtimeInitializationFloat1456;
 extern float runtimeInitializationFloat1457;
 extern float runtimeInitializationFloat1458;
 extern float runtimeInitializationFloat1459;
-extern float runtimeInitializationFloat1460;
 extern float runtimeInitializationFloat1461;
 extern float runtimeInitializationFloat1462;
 extern float runtimeInitializationFloat1463;
@@ -5722,7 +5722,6 @@ extern float runtimeInitializationFloat2062;
 extern float runtimeInitializationFloat2063;
 extern float runtimeInitializationFloat2064;
 extern float runtimeInitializationFloat2065;
-extern float runtimeInitializationFloat2066;
 extern float runtimeInitializationFloat2067;
 extern float runtimeInitializationFloat2068;
 extern float runtimeInitializationFloat2069;
@@ -6046,7 +6045,6 @@ extern float runtimeInitializationFloat2386;
 extern float runtimeInitializationFloat2387;
 extern float runtimeInitializationFloat2388;
 extern float runtimeInitializationFloat2389;
-extern float runtimeInitializationFloat2390;
 extern float runtimeInitializationFloat2391;
 extern float runtimeInitializationFloat2392;
 extern float runtimeInitializationFloat2393;
@@ -6371,7 +6369,6 @@ extern float runtimeInitializationFloat2711;
 extern float runtimeInitializationFloat2712;
 extern float runtimeInitializationFloat2713;
 extern float runtimeInitializationFloat2714;
-extern float runtimeInitializationFloat2715;
 extern float runtimeInitializationFloat2716;
 extern float runtimeInitializationFloat2717;
 extern float runtimeInitializationFloat2718;
@@ -7816,11 +7813,8 @@ extern float runtimeInitializationFloat4156;
 extern float runtimeInitializationFloat4157;
 extern float runtimeInitializationFloat4158;
 extern float runtimeInitializationFloat4159;
-extern float runtimeInitializationFloat4160;
-extern float runtimeInitializationFloat4161;
 extern float runtimeInitializationFloat4162;
 extern float runtimeInitializationFloat4163;
-extern float runtimeInitializationFloat4164;
 extern float runtimeInitializationFloat4165;
 extern float runtimeInitializationFloat4166;
 extern float runtimeInitializationFloat4167;
@@ -7878,32 +7872,21 @@ extern float runtimeInitializationFloat4218;
 extern float runtimeInitializationFloat4219;
 extern float runtimeInitializationFloat4220;
 extern float runtimeInitializationFloat4221;
-extern float runtimeInitializationFloat4222;
 enum
 {
     kRuntimeInitializerUnit = 1
 };
 
 // Additional original bindings proved from actual bounded helper inputs.
-int InitializeRuntimeCallbackGroup20();
 extern int runtimeCallbackInitializationStatus3635;
-int InitializeRuntimeCallbackGroup21();
 extern int runtimeCallbackInitializationStatus3636;
-int InitializeRuntimeCallbackGroup22();
 extern int runtimeCallbackInitializationStatus3637;
-int InitializeRuntimeCallbackGroup23();
 extern int runtimeCallbackInitializationStatus3638;
-int InitializeRuntimeCallbackGroup24();
 extern int runtimeCallbackInitializationStatus3639;
-int InitializeRuntimeCallbackGroup25();
 extern int runtimeCallbackInitializationStatus3640;
-int InitializeRuntimeCallbackGroup26();
 extern int runtimeCallbackInitializationStatus3641;
-int InitializeRuntimeCallbackGroup27();
 extern int runtimeCallbackInitializationStatus3642;
-int InitializeRuntimeCallbackGroup28();
 extern int runtimeCallbackInitializationStatus3643;
-int InitializeRuntimeCallbackGroup29();
 extern int runtimeCallbackInitializationStatus3644;
 extern int runtimeCallbackInitializationStatus3645;
 extern int runtimeCallbackInitializationStatus3646;

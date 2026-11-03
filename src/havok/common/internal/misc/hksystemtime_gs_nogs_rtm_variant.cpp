@@ -3,6 +3,7 @@
 
 // src/havok/common/internal/misc/hksystemtime.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/misc/hksystemtime.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_00e29000.h"
 extern "C" __int64 __cdecl __time64(__int64*);
 int FUN_00e29910(void);
 
@@ -11,6 +12,7 @@ typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
 } __m128;
+#include "fnv/symbols_simd.h"
 extern "C"
 {
     __m128 _mm_setzero_ps();
@@ -119,7 +121,6 @@ extern "C" FNV_Ctx* FUN_00c85750() throw();
 // ---- shell helpers
 struct FUN_00e29920_shell;
 extern "C" bool FUN_00e29920(FNV_Vec4*, FNV_Vec4*, FNV_Vec4*, FNV_Vec4*, FNV_Vec4*, FNV_Vec4*, float, float) throw();
-extern "C" void FUN_00e29a10(E29SrcList*, const __m128*, const __m128*, char*, E29Out1*, int*, E29Out2*, int*) throw();
 
 static __forceinline __m128 dot3(__m128 a, __m128 b)
 {
@@ -228,7 +229,7 @@ void FUN_00e2a010(int corner, FNV_Vec4* A, FNV_Vec4* B, int n, float angle, floa
             pa++;
         } while (i < n);
     }
-    FUN_00e29a10(&list, (const __m128*)A, (const __m128*)B, a7, a8, a9, a10, a11);
+    ::FUN_00e29a10(&list, (const __m128*)A, (const __m128*)B, a7, a8, a9, a10, a11);
     FUN_00c85750()->cur = recs;
     FNV_Ctx* holder = FUN_00c85750();
     FNV_MemObj* allocator = holder->obj;

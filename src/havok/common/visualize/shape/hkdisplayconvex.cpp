@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00de1d10
+#include "fnv/symbols_00c90000.h"
 void __cdecl FUN_00de1d10()
 {}
 
@@ -94,7 +95,6 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
 };
 
 struct hkMemoryAllocator;
-void __cdecl ResizeAudioStream(void* alloc, void* array, int elemSize);
 
 struct hkVector4
 {
@@ -128,7 +128,7 @@ template <typename T> struct hkArr
     {
         if (m_iElementCount == getCapacity())
         {
-            ResizeAudioStream(&alloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(T));
         }
         hkConstructWithCopy(m_data + m_iElementCount, 1, t);
         m_iElementCount++;

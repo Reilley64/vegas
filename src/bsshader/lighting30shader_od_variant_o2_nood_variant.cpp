@@ -5,6 +5,14 @@
 
 // src/bsshader/lighting30shader_od_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/bsshader/lighting30shader.cpp functions whose prologue its flags cannot
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include "fnv/symbols_00b79000.h"
+#include "fnv/symbols_00e76000.h"
+#include "fnv/symbols_00ee6000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01200000.h"
+#include "fnv/symbols_01201000.h"
 #include "lighting30shader_lighting30_factory_types.h"
 #include "lighting30shader_packet.h"
 
@@ -70,17 +78,7 @@ struct S00bbe6b0_Cam
     int unk00;
 };
 
-extern S00bbe6b0_Setting* DAT_01201098;
-extern S00bbe6b0_Setting* DAT_012010b8;
-extern S00bbe6b0_Mat DAT_01201170;
-extern float DAT_011f474c;
-extern float DAT_011f4750;
-extern float DAT_011f4754;
-extern S00bbe6b0_Mat DAT_012012b0;
 
-void FUN_00b799a0(S00bbe6b0_Mat* m, void* out);
-S00bbe6b0_Mat* __stdcall FUN_00ee6de0(S00bbe6b0_Mat* out, const S00bbe6b0_Mat* a, const S00bbe6b0_Mat* b);
-S00bbe6b0_Mat* __stdcall FUN_00ee6dd4(S00bbe6b0_Mat* out, const S00bbe6b0_Mat* in);
 void* FUN_00ec44d0(void* dst, const void* src, unsigned int n);
 
 struct S00bbe6b0_Renderer
@@ -102,30 +100,30 @@ void S00bbe6b0_Renderer::FUN_00bbe6b0(S00bbe6b0_Src* src, unsigned int id, int f
     __declspec(align(16)) S00bbe6b0_Mat world;
     __declspec(align(16)) S00bbe6b0_Mat res;
 
-    if (DAT_01201098->bEnabled)
+    if ((*reinterpret_cast<::S00bbe6b0_Setting * *>(&::ConstantMaps::DAT_01201098))->bEnabled)
     {
         S00bbe6b0_Pair* pair = src->pair;
         if (!pair || (src->count > 0 && *((unsigned char*)pair->first + 0xed)) || (id >= 0x1bd && id <= 0x1c3) ||
             (id >= 0x2d8 && id <= 0x2ef))
         {
             mat = *(S00bbe6b0_Mat*)(m_18 + 0x940);
-            FUN_00ee6dd4(&mat, &mat);
-            DAT_01201170._11 = mat._11;
-            DAT_01201170._12 = mat._12;
-            DAT_01201170._13 = mat._13;
-            DAT_01201170._14 = mat._14;
-            DAT_01201170._21 = mat._21;
-            DAT_01201170._22 = mat._22;
-            DAT_01201170._23 = mat._23;
-            DAT_01201170._24 = mat._24;
-            DAT_01201170._31 = mat._31;
-            DAT_01201170._32 = mat._32;
-            DAT_01201170._33 = mat._33;
-            DAT_01201170._34 = mat._34;
-            DAT_01201170._41 = mat._41;
-            DAT_01201170._42 = mat._42;
-            DAT_01201170._43 = mat._43;
-            DAT_01201170._44 = mat._44;
+            ::FUN_00ee6dd4();
+            (*reinterpret_cast<::S00bbe6b0_Mat *>(&::ConstantMaps::DAT_01201170))._11 = mat._11;
+            (*reinterpret_cast<::S00bbe6b0_Mat *>(&::ConstantMaps::DAT_01201170))._12 = mat._12;
+            (*reinterpret_cast<::S00bbe6b0_Mat *>(&::ConstantMaps::DAT_01201170))._13 = mat._13;
+            (*reinterpret_cast<::S00bbe6b0_Mat *>(&::ConstantMaps::DAT_01201170))._14 = mat._14;
+            (*reinterpret_cast<::S00bbe6b0_Mat *>(&::ConstantMaps::DAT_01201170))._21 = mat._21;
+            (*reinterpret_cast<::S00bbe6b0_Mat *>(&::ConstantMaps::DAT_01201170))._22 = mat._22;
+            (*reinterpret_cast<::S00bbe6b0_Mat *>(&::ConstantMaps::DAT_01201170))._23 = mat._23;
+            (*reinterpret_cast<::S00bbe6b0_Mat *>(&::ConstantMaps::DAT_01201170))._24 = mat._24;
+            (*reinterpret_cast<::S00bbe6b0_Mat *>(&::ConstantMaps::DAT_01201170))._31 = mat._31;
+            (*reinterpret_cast<::S00bbe6b0_Mat *>(&::ConstantMaps::DAT_01201170))._32 = mat._32;
+            (*reinterpret_cast<::S00bbe6b0_Mat *>(&::ConstantMaps::DAT_01201170))._33 = mat._33;
+            (*reinterpret_cast<::S00bbe6b0_Mat *>(&::ConstantMaps::DAT_01201170))._34 = mat._34;
+            (*reinterpret_cast<::S00bbe6b0_Mat *>(&::ConstantMaps::DAT_01201170))._41 = mat._41;
+            (*reinterpret_cast<::S00bbe6b0_Mat *>(&::ConstantMaps::DAT_01201170))._42 = mat._42;
+            (*reinterpret_cast<::S00bbe6b0_Mat *>(&::ConstantMaps::DAT_01201170))._43 = mat._43;
+            (*reinterpret_cast<::S00bbe6b0_Mat *>(&::ConstantMaps::DAT_01201170))._44 = mat._44;
         }
         else
         {
@@ -134,20 +132,20 @@ void S00bbe6b0_Renderer::FUN_00bbe6b0(S00bbe6b0_Src* src, unsigned int id, int f
                 S00bbe6b0_Identity(&world);
                 S00bbe6b0_Identity(&mat);
                 if (!flag)
-                    FUN_00b799a0(&world, out);
-                world._41 += DAT_011f474c;
+                    ::FUN_00b799a0((float *)(::S00bbe6b0_Mat *)(&world), (const char *)(out));
+                world._41 += (*reinterpret_cast<float *>(&::DAT_011f474c));
                 world._42 += DAT_011f4750;
                 world._43 += DAT_011f4754;
-                FUN_00ee6de0(&res, &world, &(id - 0x1c4 <= 3 ? pair->first : pair->second)->world);
+                ::FUN_00ee6de0(&res, &world, &(id - 0x1c4 <= 3 ? pair->first : pair->second)->world);
                 mat = res;
-                FUN_00ee6dd4(&mat, &mat);
-                FUN_00ec44d0(&DAT_01201170, &mat, 0x40);
+                ::FUN_00ee6dd4();
+                FUN_00ec44d0(&(*reinterpret_cast<::S00bbe6b0_Mat *>(&::ConstantMaps::DAT_01201170)), &mat, 0x40);
             }
         }
     }
-    if (DAT_012010b8->bEnabled && flag)
+    if ((*reinterpret_cast<::S00bbe6b0_Setting * *>(&::ConstantMaps::DAT_012010b8))->bEnabled && flag)
     {
         S00bbe6b0_Identity(&mat);
-        FUN_00ec44d0(&DAT_012012b0, &mat, 0x40);
+        FUN_00ec44d0(&(*reinterpret_cast<::S00bbe6b0_Mat *>(&::ConstantMaps::DAT_012012b0)), &mat, 0x40);
     }
 }

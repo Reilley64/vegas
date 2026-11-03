@@ -7,6 +7,9 @@
 #ifndef FNV_MENUCONSOLE_IDLE_H
 #define FNV_MENUCONSOLE_IDLE_H
 
+#include "fnv/decl/ConsoleText.h"
+#include "fnv/decl/FUN_007b52d0_cls.h"
+#include "fnv/decl/S71df20.h"
 #include "menuconsole_support.h"
 
 class DFALL_NiTListItem_BSStringT_char_____;
@@ -51,11 +54,8 @@ FNV_STATIC_ASSERT(offsetof(NiTListBase_DFALL_NiTListItem_BSStringT_char______BSS
 class NiTListBase_DFALL_NiTListItem_BSStringT_char______BSStringT_char___
 {
   public:
-    void* DereferenceIfNotNull(void*);
     BSStringT<char>& AddEight(void*);
-    void AssignString(const BSStringT<char>&);
     BSStringT<char> PopFront();
-    void RemoveAll();
     NiTListItem_BSStringT_char___* m_pkHead;  // +0x0, 4 bytes
     NiTListItem_BSStringT_char___* m_pkTail;  // +0x4, 4 bytes
     NiTListBase_DFALL_NiTListItem_BSStringT_char______BSStringT_char_____AntiBloatAllocator
@@ -149,9 +149,7 @@ class ConsoleManager
     char m_acOutputFilename[260];       // +0x810, 260 bytes
 
     bool Idle(int);
-    void Print(const char*, const char*);
     void ResetOutputState();
-    void DumpTextureList();
     static ConsoleManager* Instance(bool bCreate);
 
   private:

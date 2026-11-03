@@ -2,6 +2,25 @@
 // polymorphic classes (BookMenu). The skeleton of src/fallout/interface/menumanager.cpp with those classes made polymorphic; move the functions to
 // their real unit once its classes are.
 
+#include "fnv/decl/FUN_004fd3a0_shell.h"
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/Script.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/TileListBoxCalls.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/symbols_004a4000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00704000.h"
+#include "fnv/symbols_0070e000.h"
+#include "fnv/symbols_00716000.h"
+#include "fnv/symbols_0073a000.h"
+#include "fnv/symbols_0075b000.h"
+#include "fnv/symbols_0076b000.h"
+#include "fnv/symbols_00784000.h"
+#include "fnv/symbols_00788000.h"
+#include "fnv/symbols_007cb000.h"
+#include "fnv/symbols_00a09000.h"
+#include "fnv/symbols_011f3000.h"
 #include "menumanager_decls_rtti2_menumanager.h"
 
 // 0x00720aa0  838 bytes  /MT /Od /Oy- /GS /EHsc /Gy /GF
@@ -12,40 +31,19 @@ class Tile
 {
   public:
     virtual ~Tile();
-    float FUN_00a011b0(int value);
-    Tile* FUN_00a03c90();
-    void FUN_007037c0(int value);
-    void* FUN_004fd3a0();
-    char* FUN_00671d10();
 };
 
 class TESBoundObject
 {
   public:
     virtual ~TESBoundObject();
-    TESBoundObject* FUN_007af430();
 };
 
 class TESObjectBOOK : public TESBoundObject
 {
 };
 
-Tile* FUN_00a09030(int menuClass);
-bool IsStartMenuFlag1Set();
 int FUN_00720df0();
-int FUN_0070ede0();
-Tile* FUN_00704140();
-Tile* FUN_00704490();
-Tile* FUN_007046c0();
-Tile* CreateInventoryMenuIfModifierKey();
-Tile* FUN_00704be0();
-Tile* FUN_0076bfe0();
-Tile* FUN_00784c80();
-void FUN_007164c0(Tile* menu, float value);
-bool FUN_0070cb7d0(bool flag, bool other);
-Tile* CreateLoadingMenuTile(void* form, bool a, bool b);
-Tile* FUN_0075b310(void* form, int flag);
-Tile* FUN_0073ad50(void* book, char* data);
 
 struct Mgr20
 {
@@ -55,8 +53,8 @@ struct Mgr20
 // @fnv 0x00720aa0
 void* Mgr20::FUN_00720aa0(int menuClass)
 {
-    Tile* pMenu = FUN_00a09030(menuClass);
-    bool bFlag = IsStartMenuFlag1Set();
+    Tile* pMenu = ((::Tile *)(::FUN_00a09030(menuClass)));
+    bool bFlag = ((bool)(::IsStartMenuFlag1Set()));
     if (pMenu)
     {
         delete pMenu;
@@ -65,67 +63,67 @@ void* Mgr20::FUN_00720aa0(int menuClass)
 
     if (FUN_00720df0() == menuClass)
     {
-        pMenu = FUN_00704140();
-        FUN_007164c0(pMenu->FUN_00a03c90(), pMenu->FUN_00a011b0(0xfc1));
-        pMenu->FUN_00a03c90()->FUN_007037c0(8);
+        pMenu = ((::Tile *)(::fnv_00704140::FUN_00704140()));
+        ::fnv_007164c0::FUN_007164c0((int)(((::Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu))->FUN_00a03c90()))), reinterpret_cast<::TileListBoxCalls *>((pMenu))->GetFloat(0xfc1));
+        reinterpret_cast<::TESRecipe *>((((::Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu))->FUN_00a03c90()))))->SetRequiredSkill((::ActorValue::Index)(8));
     }
     else if (menuClass == 0x40b)
     {
-        pMenu = FUN_00704490();
-        FUN_007164c0(pMenu->FUN_00a03c90(), pMenu->FUN_00a011b0(0xfc1));
-        pMenu->FUN_00a03c90()->FUN_007037c0(8);
+        pMenu = ((::Tile *)(::fnv_00704490::FUN_00704490()));
+        ::fnv_007164c0::FUN_007164c0((int)(((::Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu))->FUN_00a03c90()))), reinterpret_cast<::TileListBoxCalls *>((pMenu))->GetFloat(0xfc1));
+        reinterpret_cast<::TESRecipe *>((((::Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu))->FUN_00a03c90()))))->SetRequiredSkill((::ActorValue::Index)(8));
     }
     else if (menuClass == 0x425)
     {
-        pMenu = FUN_007046c0();
-        FUN_007164c0(pMenu->FUN_00a03c90(), pMenu->FUN_00a011b0(0xfc1));
-        pMenu->FUN_00a03c90()->FUN_007037c0(8);
+        pMenu = ((::Tile *)(::fnv_007046c0::FUN_007046c0()));
+        ::fnv_007164c0::FUN_007164c0((int)(((::Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu))->FUN_00a03c90()))), reinterpret_cast<::TileListBoxCalls *>((pMenu))->GetFloat(0xfc1));
+        reinterpret_cast<::TESRecipe *>((((::Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu))->FUN_00a03c90()))))->SetRequiredSkill((::ActorValue::Index)(8));
     }
     else if (menuClass == 0x3ea)
     {
-        pMenu = CreateInventoryMenuIfModifierKey();
-        FUN_007164c0(pMenu->FUN_00a03c90(), pMenu->FUN_00a011b0(0xfc1));
-        pMenu->FUN_00a03c90()->FUN_007037c0(8);
+        pMenu = ::fnv_007048c0::CreateInventoryMenuIfModifierKey();
+        ::fnv_007164c0::FUN_007164c0((int)(((::Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu))->FUN_00a03c90()))), reinterpret_cast<::TileListBoxCalls *>((pMenu))->GetFloat(0xfc1));
+        reinterpret_cast<::TESRecipe *>((((::Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu))->FUN_00a03c90()))))->SetRequiredSkill((::ActorValue::Index)(8));
     }
     else if (menuClass == 0x3eb)
     {
-        pMenu = FUN_00704be0();
-        FUN_007164c0(pMenu->FUN_00a03c90(), pMenu->FUN_00a011b0(0xfc1));
-        pMenu->FUN_00a03c90()->FUN_007037c0(8);
+        pMenu = ((::Tile *)(::fnv_00704be0::FUN_00704be0()));
+        ::fnv_007164c0::FUN_007164c0((int)(((::Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu))->FUN_00a03c90()))), reinterpret_cast<::TileListBoxCalls *>((pMenu))->GetFloat(0xfc1));
+        reinterpret_cast<::TESRecipe *>((((::Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu))->FUN_00a03c90()))))->SetRequiredSkill((::ActorValue::Index)(8));
     }
     else if (menuClass == 0x3ec)
     {
         pMenu = FUN_0076bfe0();
     }
-    else if (FUN_0070ede0() == menuClass && FUN_0070cb7d0(bFlag, false))
+    else if (FUN_0070ede0() == menuClass && ::InitStartMenu(bFlag, false))
     {
-        pMenu = FUN_00a09030(menuClass);
+        pMenu = ((::Tile *)(::FUN_00a09030(menuClass)));
     }
     else if (menuClass == 0x3ef)
     {
-        pMenu = CreateLoadingMenuTile(0, true, false);
+        pMenu = ::CreateLoadingMenuTile((::TESForm *)(void *)(0), true, false);
     }
     else if (menuClass == 0x403)
     {
-        pMenu = FUN_00784c80();
+        pMenu = ((::Tile *)(::fnv_00784c80::FUN_00784c80()));
     }
     else if (menuClass == 0x3f0)
     {
-        ContainerMenu* pContainer = dynamic_cast<ContainerMenu*>(FUN_00a09030(0x3f0));
+        ContainerMenu* pContainer = dynamic_cast<ContainerMenu*>(((::Tile *)(::FUN_00a09030(0x3f0))));
         if (pContainer)
         {
-            pMenu = FUN_0075b310(((Tile*)pContainer)->FUN_004fd3a0(), 1);
+            pMenu = ((::Tile *)(::FUN_0075b310((::TESObjectREFR *)(void *)(((void *)(reinterpret_cast<::FUN_004fd3a0_shell *>((((Tile*)pContainer)))->FUN_004fd3a0()))), 1)));
         }
     }
     else if (menuClass == 0x402)
     {
-        BookMenu* pBookMenu = dynamic_cast<BookMenu*>(FUN_00a09030(0x3f0));
+        BookMenu* pBookMenu = dynamic_cast<BookMenu*>(((::Tile *)(::FUN_00a09030(0x3f0))));
         if (pBookMenu)
         {
-            char* data = ((Tile*)pBookMenu)->FUN_00671d10();
-            TESObjectBOOK* pBookForm = dynamic_cast<TESObjectBOOK*>(((TESBoundObject*)data)->FUN_007af430());
+            char* data = reinterpret_cast<::Script *>((((Tile*)pBookMenu)))->GetData();
+            TESObjectBOOK* pBookForm = dynamic_cast<TESObjectBOOK*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESBoundObject*)data)))->FUN_007af430())));
             delete (Tile*)pBookMenu;
-            pMenu = FUN_0073ad50(pBookForm, data);
+            pMenu = ::FUN_0073ad50((::TESObjectBOOK *)(pBookForm), (::TESObjectREFR *)(data));
         }
     }
 

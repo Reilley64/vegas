@@ -2,6 +2,8 @@
 // src/havok/physics/dynamics/constraint/bilateral/hinge/hkphingeconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/hinge/hkphingeconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_004b4ab0_Class.h"
+#include "fnv/decl/FUN_00c7f690_cls.h"
 #include "havok/hkpHingeConstraintData.h"
 
 struct FUN_00cbe1b0_class
@@ -248,8 +250,6 @@ union hkVector4q
         return reinterpret_cast<const hkReal*>(&m_vComponents)[i];
     }
 
-    void FUN_004b4ab0(const hkRotation& r, const hkVector4q& v);
-    void FUN_00c7f690(const hkTransform& t, const hkVector4& v);
 };
 
 struct hkpSetLocalTransformsAtom
@@ -339,15 +339,15 @@ void hkpHingeConstraintDataEx::SetLocalTransforms(const hkTransform& bodyATransf
     hkNormalize3(perpToAxle1);
     hkSetCross(perpToAxle2, axle, perpToAxle1);
 
-    t.m_kRotationA[0].FUN_004b4ab0(bodyATransform.m_rotation, axle);
-    t.m_kRotationA[1].FUN_004b4ab0(bodyATransform.m_rotation, perpToAxle1);
-    t.m_kRotationA[2].FUN_004b4ab0(bodyATransform.m_rotation, perpToAxle2);
-    t.m_kTranslationA.FUN_00c7f690(bodyATransform, pivot);
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationA[0]))->FUN_004b4ab0((int)&(bodyATransform.m_rotation), (int)&(axle));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationA[1]))->FUN_004b4ab0((int)&(bodyATransform.m_rotation), (int)&(perpToAxle1));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationA[2]))->FUN_004b4ab0((int)&(bodyATransform.m_rotation), (int)&(perpToAxle2));
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(t.m_kTranslationA))->FUN_00c7f690((const ::S_00c7f690_M *)&(bodyATransform), (const ::S_00c7f690_V *)&(pivot));
 
-    t.m_kRotationB[0].FUN_004b4ab0(bodyBTransform.m_rotation, axle);
-    t.m_kRotationB[1].FUN_004b4ab0(bodyBTransform.m_rotation, perpToAxle1);
-    t.m_kRotationB[2].FUN_004b4ab0(bodyBTransform.m_rotation, perpToAxle2);
-    t.m_kTranslationB.FUN_00c7f690(bodyBTransform, pivot);
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationB[0]))->FUN_004b4ab0((int)&(bodyBTransform.m_rotation), (int)&(axle));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationB[1]))->FUN_004b4ab0((int)&(bodyBTransform.m_rotation), (int)&(perpToAxle1));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationB[2]))->FUN_004b4ab0((int)&(bodyBTransform.m_rotation), (int)&(perpToAxle2));
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(t.m_kTranslationB))->FUN_00c7f690((const ::S_00c7f690_M *)&(bodyBTransform), (const ::S_00c7f690_V *)&(pivot));
 }
 }  // namespace fnv_00cbe240
 

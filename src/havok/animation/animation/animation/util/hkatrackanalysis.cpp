@@ -2,6 +2,16 @@
 // src/havok/animation/animation/animation/util/hkatrackanalysis.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/util/hkatrackanalysis.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00cc02d0_cls.h"
+#include "fnv/decl/FloatArgStream.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/fnv_00e50ca0__FUN_00e50ca0_cls.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00e4e000.h"
+#include "fnv/symbols_01268000.h"
 struct TrackAnalysis
 {
     int a;
@@ -63,7 +73,6 @@ struct TraceSink
     virtual void begin(unsigned int, const char*);
     virtual void end();
 };
-extern TraceSink* DAT_01268360;
 extern const char str_010ec758[];
 extern const char str_010ec724[];
 extern const char str_010ec74c[];
@@ -84,12 +93,6 @@ struct TextBuilder
     int state;
     int length;
     int bufferCapacity;
-    void FUN_00cb1600(char*, unsigned int);
-    TextBuilder* FUN_00cc01c0(const char*, int);
-    TextBuilder* FUN_00cc01c0(const char*, float);
-    void FUN_00cc02d0();
-    void WriteFloat();
-    void FUN_00cc00e0();
 };
 struct TrackStatistics
 {
@@ -116,67 +119,66 @@ void TrackStatistics::LogStatistics()
     {
         TextBuilder textBuilder;
         char* outputWords[128];
-        DAT_01268360->begin(0x432434a4u, str_010ec758);
-        textBuilder.FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
-        textBuilder.FUN_00cc01c0(str_010ec74c, total0 + total1)->FUN_00cc02d0();
-        DAT_01268360->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 47);
-        textBuilder.FUN_00cc00e0();
-        textBuilder.FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
-        textBuilder.FUN_00cc01c0(str_010ec70c, field0)->FUN_00cc02d0();
-        DAT_01268360->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 48);
-        textBuilder.FUN_00cc00e0();
-        textBuilder.FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
-        textBuilder.FUN_00cc01c0(str_010ec6f4, field1)->FUN_00cc02d0();
-        DAT_01268360->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 49);
-        textBuilder.FUN_00cc00e0();
-        textBuilder.FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
-        textBuilder.FUN_00cc01c0(str_010ec6e0, field2)->FUN_00cc02d0();
-        DAT_01268360->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 50);
-        textBuilder.FUN_00cc00e0();
-        textBuilder.FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
-        textBuilder.FUN_00cc01c0(str_010ec6cc, field3)->FUN_00cc02d0();
-        DAT_01268360->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 51);
-        textBuilder.FUN_00cc00e0();
-        textBuilder.FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
-        textBuilder.FUN_00cc01c0(str_010ec6b4, field4)->FUN_00cc02d0();
-        DAT_01268360->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 52);
-        textBuilder.FUN_00cc00e0();
-        textBuilder.FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
-        textBuilder.FUN_00cc01c0(str_010ec69c, field5)->FUN_00cc02d0();
-        DAT_01268360->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 53);
-        textBuilder.FUN_00cc00e0();
-        textBuilder.FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
-        textBuilder.FUN_00cc01c0(str_010ec688, field6)->FUN_00cc02d0();
-        DAT_01268360->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 54);
-        textBuilder.FUN_00cc00e0();
-        textBuilder.FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
-        textBuilder.FUN_00cc01c0(str_010ec670, field7)->FUN_00cc02d0();
-        DAT_01268360->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 55);
-        textBuilder.FUN_00cc00e0();
-        textBuilder.FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
-        textBuilder.FUN_00cc01c0(str_010ec658, field8)->FUN_00cc02d0();
-        DAT_01268360->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 56);
-        textBuilder.FUN_00cc00e0();
-        textBuilder.FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
-        textBuilder.FUN_00cc01c0(str_010ec644, field9)->FUN_00cc02d0();
-        DAT_01268360->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 57);
-        textBuilder.FUN_00cc00e0();
-        textBuilder.FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
-        textBuilder.FUN_00cc01c0(str_010ec6f40, field10)->FUN_00cc02d0();
-        DAT_01268360->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 58);
-        textBuilder.FUN_00cc00e0();
-        textBuilder.FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
-        textBuilder.FUN_00cc01c0(str_010ec624, rate)->WriteFloat();
-        DAT_01268360->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 59);
-        textBuilder.FUN_00cc00e0();
+        (*reinterpret_cast<::TraceSink * *>(&::DAT_01268360))->begin(0x432434a4u, str_010ec758);
+        new ((void *)&(textBuilder)) ::FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
+        reinterpret_cast<::FUN_00cc02d0_cls *>((((::TextBuilder *)(reinterpret_cast<::SinkOwner *>(&(textBuilder))->FUN_00cc01c0(str_010ec74c)))))->FUN_00cc02d0({});
+        (*reinterpret_cast<::TraceSink * *>(&::DAT_01268360))->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 47);
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(textBuilder))->FUN_00cc00e0::~FUN_00cc00e0();
+        new ((void *)&(textBuilder)) ::FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
+        reinterpret_cast<::FUN_00cc02d0_cls *>((((::TextBuilder *)(reinterpret_cast<::SinkOwner *>(&(textBuilder))->FUN_00cc01c0(str_010ec70c)))))->FUN_00cc02d0({});
+        (*reinterpret_cast<::TraceSink * *>(&::DAT_01268360))->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 48);
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(textBuilder))->FUN_00cc00e0::~FUN_00cc00e0();
+        new ((void *)&(textBuilder)) ::FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
+        reinterpret_cast<::FUN_00cc02d0_cls *>((((::TextBuilder *)(reinterpret_cast<::SinkOwner *>(&(textBuilder))->FUN_00cc01c0(str_010ec6f4)))))->FUN_00cc02d0({});
+        (*reinterpret_cast<::TraceSink * *>(&::DAT_01268360))->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 49);
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(textBuilder))->FUN_00cc00e0::~FUN_00cc00e0();
+        new ((void *)&(textBuilder)) ::FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
+        reinterpret_cast<::FUN_00cc02d0_cls *>((((::TextBuilder *)(reinterpret_cast<::SinkOwner *>(&(textBuilder))->FUN_00cc01c0(str_010ec6e0)))))->FUN_00cc02d0({});
+        (*reinterpret_cast<::TraceSink * *>(&::DAT_01268360))->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 50);
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(textBuilder))->FUN_00cc00e0::~FUN_00cc00e0();
+        new ((void *)&(textBuilder)) ::FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
+        reinterpret_cast<::FUN_00cc02d0_cls *>((((::TextBuilder *)(reinterpret_cast<::SinkOwner *>(&(textBuilder))->FUN_00cc01c0(str_010ec6cc)))))->FUN_00cc02d0({});
+        (*reinterpret_cast<::TraceSink * *>(&::DAT_01268360))->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 51);
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(textBuilder))->FUN_00cc00e0::~FUN_00cc00e0();
+        new ((void *)&(textBuilder)) ::FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
+        reinterpret_cast<::FUN_00cc02d0_cls *>((((::TextBuilder *)(reinterpret_cast<::SinkOwner *>(&(textBuilder))->FUN_00cc01c0(str_010ec6b4)))))->FUN_00cc02d0({});
+        (*reinterpret_cast<::TraceSink * *>(&::DAT_01268360))->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 52);
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(textBuilder))->FUN_00cc00e0::~FUN_00cc00e0();
+        new ((void *)&(textBuilder)) ::FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
+        reinterpret_cast<::FUN_00cc02d0_cls *>((((::TextBuilder *)(reinterpret_cast<::SinkOwner *>(&(textBuilder))->FUN_00cc01c0(str_010ec69c)))))->FUN_00cc02d0({});
+        (*reinterpret_cast<::TraceSink * *>(&::DAT_01268360))->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 53);
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(textBuilder))->FUN_00cc00e0::~FUN_00cc00e0();
+        new ((void *)&(textBuilder)) ::FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
+        reinterpret_cast<::FUN_00cc02d0_cls *>((((::TextBuilder *)(reinterpret_cast<::SinkOwner *>(&(textBuilder))->FUN_00cc01c0(str_010ec688)))))->FUN_00cc02d0({});
+        (*reinterpret_cast<::TraceSink * *>(&::DAT_01268360))->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 54);
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(textBuilder))->FUN_00cc00e0::~FUN_00cc00e0();
+        new ((void *)&(textBuilder)) ::FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
+        reinterpret_cast<::FUN_00cc02d0_cls *>((((::TextBuilder *)(reinterpret_cast<::SinkOwner *>(&(textBuilder))->FUN_00cc01c0(str_010ec670)))))->FUN_00cc02d0({});
+        (*reinterpret_cast<::TraceSink * *>(&::DAT_01268360))->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 55);
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(textBuilder))->FUN_00cc00e0::~FUN_00cc00e0();
+        new ((void *)&(textBuilder)) ::FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
+        reinterpret_cast<::FUN_00cc02d0_cls *>((((::TextBuilder *)(reinterpret_cast<::SinkOwner *>(&(textBuilder))->FUN_00cc01c0(str_010ec658)))))->FUN_00cc02d0({});
+        (*reinterpret_cast<::TraceSink * *>(&::DAT_01268360))->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 56);
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(textBuilder))->FUN_00cc00e0::~FUN_00cc00e0();
+        new ((void *)&(textBuilder)) ::FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
+        reinterpret_cast<::FUN_00cc02d0_cls *>((((::TextBuilder *)(reinterpret_cast<::SinkOwner *>(&(textBuilder))->FUN_00cc01c0(str_010ec644)))))->FUN_00cc02d0({});
+        (*reinterpret_cast<::TraceSink * *>(&::DAT_01268360))->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 57);
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(textBuilder))->FUN_00cc00e0::~FUN_00cc00e0();
+        new ((void *)&(textBuilder)) ::FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
+        reinterpret_cast<::FUN_00cc02d0_cls *>((((::TextBuilder *)(reinterpret_cast<::SinkOwner *>(&(textBuilder))->FUN_00cc01c0(str_010ec6f40)))))->FUN_00cc02d0({});
+        (*reinterpret_cast<::TraceSink * *>(&::DAT_01268360))->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 58);
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(textBuilder))->FUN_00cc00e0::~FUN_00cc00e0();
+        new ((void *)&(textBuilder)) ::FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
+        reinterpret_cast<::FloatArgStream *>((((::TextBuilder *)(reinterpret_cast<::SinkOwner *>(&(textBuilder))->FUN_00cc01c0(str_010ec624)))))->WriteFloat({});
+        (*reinterpret_cast<::TraceSink * *>(&::DAT_01268360))->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 59);
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(textBuilder))->FUN_00cc00e0::~FUN_00cc00e0();
     }
-    return DAT_01268360->end();
+    return (*reinterpret_cast<::TraceSink * *>(&::DAT_01268360))->end();
 }
 
 void* FUN_00c85750();
 
 struct hkMemoryAllocator_e50650;
-void FUN_00c908c0(hkMemoryAllocator_e50650& kAllocator, void* pkArray, int iNewCapacity, int iElementSize);
 
 struct hkMemoryRouter_e50650
 {
@@ -216,7 +218,7 @@ template <class T> struct hkArray_e50650
         {
             int iCap = 2 * iCapacity;
             int iNewSize = (n < iCap) ? iCap : n;
-            FUN_00c908c0(kAllocator, this, iNewSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(kAllocator), (::SpawnedArray *)(void *)(this), iNewSize, sizeof(T));
         }
     }
     void _setSize(hkMemoryAllocator_e50650& kAllocator, int n)
@@ -256,7 +258,6 @@ struct TrackBuffers_e50650
     hkArray_e50650<float> m_kCubicCoefficient;
     hkArray_e50650<unsigned char> m_kE;
 
-    void FUN_00e50ca0();
 };
 
 struct hkBool_e50650
@@ -292,7 +293,7 @@ void ExpandTrackSource(const TrackSource_e50650* pkSource, void* pkArg, void* pk
         kBuffers.m_kE.m_data[i] = pkSource->m_ucE;
     }
     FUN_00e4f910(&kBuffers, pkArg, pkArgCur, true);
-    kBuffers.FUN_00e50ca0();
+    reinterpret_cast<::fnv_00e50ca0::FUN_00e50ca0_cls *>(&(kBuffers))->FUN_00e50ca0();
 }
 
 struct StatsB0

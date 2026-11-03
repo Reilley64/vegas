@@ -2,11 +2,14 @@
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
 
 
+#include "fnv/symbols_00d89000.h"
+#include "fnv/symbols_00d92000.h"
+#include "fnv/symbols_011b9000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
 #include "fnv_asm_helpers.h"
 // src/havok/physics/constraintsolver/solve/hkpsolver.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/constraintsolver/solve/hkpsolver.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern unsigned char DAT_011b9434[128];
-int __cdecl FUN_00d921d0(const signed char* index);
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128 {
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
@@ -16,6 +19,7 @@ typedef union __declspec(intrin_type) __declspec(align(16)) __m128 {
     unsigned short m128_u16[8];
     unsigned int m128_u32[4];
 } __m128;
+#include "fnv/symbols_simd.h"
 extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
 // Adds the lowest single-precision float of b to that of a and stores the result in out.
 // @fnv 0x00c6cce0
@@ -23,14 +27,12 @@ extern "C" void __cdecl AddScalarFloat(__m128* pResult, const __m128* pLeft, con
 {
     *pResult = _mm_add_ss(*pLeft, *pRight);
 }
-char* __cdecl FUN_00d921c0(char* dst, const char* src);
 extern "C" __m128 _mm_sub_ss(__m128 a, __m128 b);
 // @fnv 0x00c6ccc0
 extern "C" void __cdecl SubtractScalarFloat(__m128* pResult, const __m128* pLeft, const __m128* pRight)
 {
     *pResult = _mm_sub_ss(*pLeft, *pRight);
 }
-void FUN_00d892d0();
 
 extern "C" void _ReadWriteBarrier();
 extern "C" __m128 _mm_load_ss(const float*);
@@ -155,8 +157,6 @@ public:
     __forceinline int GetLaneMask() const { return _mm_movemask_ps(m_uiMask); }
     Step_PlainQuad m_uiMask;
 };
-extern const unsigned int DAT_01017d10[4]; 
-extern const unsigned int DAT_010d3da0[4]; 
 class Step_Vector4 {
 public:
     __forceinline void operator=(const Step_Vector4& v) { m_vComponents = v.m_vComponents; }
@@ -168,7 +168,7 @@ public:
     __forceinline void mul4(Step_SimdRealParameter s) { m_vComponents = _mm_mul_ps(s.broadcast(), m_vComponents); }
     __forceinline void setMul4(Step_SimdRealParameter r, const Step_Vector4& v1) { m_vComponents = _mm_mul_ps(r.broadcast(), v1.m_vComponents); }
     __forceinline void addMul4(Step_SimdRealParameter r, const Step_Vector4& v1) { m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(r.broadcast(), v1.m_vComponents)); }
-    __forceinline void setAbs4(const Step_Vector4& v) { m_vComponents = _mm_and_ps(v.m_vComponents, *(const __m128*)&DAT_01017d10); }
+    __forceinline void setAbs4(const Step_Vector4& v) { m_vComponents = _mm_and_ps(v.m_vComponents, *(const __m128*)&(*reinterpret_cast<const unsigned int (*)[4]>((void *)&::DAT_01017d10))); }
     __forceinline Step_Comparison compareLessThan4(const Step_Vector4& a) const { Step_Comparison m; m.m_uiMask = _mm_cmplt_ps(m_vComponents, a.m_vComponents); return m; }
     __forceinline Step_Comparison compareEqual4(const Step_Vector4& a) const { Step_Comparison m; m.m_uiMask = _mm_cmpeq_ps(m_vComponents, a.m_vComponents); return m; }
     __forceinline Step_Comparison compareLessThanEqual4(const Step_Vector4& a) const { Step_Comparison m; m.m_uiMask = _mm_cmple_ps(m_vComponents, a.m_vComponents); return m; }
@@ -203,8 +203,7 @@ public:
     __forceinline static const Step_Vector4& getZero();
     Step_PlainQuad m_vComponents;
 };
-extern Step_Vector4 DAT_01267e30; 
-__forceinline const Step_Vector4& Step_Vector4::getZero() { return DAT_01267e30; }
+__forceinline const Step_Vector4& Step_Vector4::getZero() { return (*reinterpret_cast<::Step_Vector4 *>(&::DAT_01267e30)); }
 class Step_Matrix3 {
 public:
     Step_Vector4 m_kColumn0, m_kColumn1, m_kColumn2;
@@ -220,8 +219,7 @@ public:
     __forceinline const Step_Vector4& getColumn(int x) const { return m_rotation.getColumn(x); }
     __forceinline static const Step_Transform& GetIdentityTransform();
 };
-extern Step_Transform DAT_01268370; 
-__forceinline const Step_Transform& Step_Transform::GetIdentityTransform() { return DAT_01268370; }
+__forceinline const Step_Transform& Step_Transform::GetIdentityTransform() { return (*reinterpret_cast<::Step_Transform *>(&::DAT_01268370)); }
 class Step_Bool {
 public:
     __forceinline Step_Bool() {}
@@ -300,7 +298,7 @@ template<bool top> static __forceinline void Step_integrateVelocityAccumulator(c
     sum.setMul4(di.m_fFirstFloat, absLinVel);
     sum.addMul4(di.m_fSecondFloat, absAngVel);
     Step_Vector4 one; one.setAll3(info.m_iCachedVertexCount);
-    const Step_Vector4& maxVel = *(const Step_Vector4*)&DAT_010d3da0;
+    const Step_Vector4& maxVel = *(const Step_Vector4*)&(*reinterpret_cast<const unsigned int (*)[4]>((void *)&::DAT_010d3da0));
     int mask;
     if(top) {
     __m128 angCopy=accu->m_vAngularVelocity.m_vComponents;

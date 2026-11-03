@@ -2,6 +2,7 @@
 // src/havok/common/scenedata/attributes/hkxsparselyanimatedenumclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/attributes/hkxsparselyanimatedenumclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/hkReferencedObjectC905.h"
 struct S_00dfdb90_Allocator
 {
     virtual ~S_00dfdb90_Allocator();
@@ -95,7 +96,7 @@ extern Holder* FUN_00c85750();
 // @fnv 0x00dfdc10
 Owner* Owner::DestroyOwner(unsigned int flags)
 {
-    ((Helper*)this)->FUN_00dfdb90();
+    reinterpret_cast<::FUN_00dfdb90 *>((((Helper*)this)))->FUN_00dfdb90::~FUN_00dfdb90();
     if (flags & 1)
     {
         Holder* holder = FUN_00c85750();
@@ -181,7 +182,6 @@ FUN_00dfdc40::~FUN_00dfdc40() throw()
 namespace fnv_00dfdcb0 {
 struct Ref
 {
-    void removeReference();
 };
 struct Heap
 {
@@ -221,9 +221,9 @@ extern Holder* FUN_00c85750();
 Owner* Owner::Destroy(unsigned int flags)
 {
     if (unk20)
-        unk20->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((unk20))->FUN_00c905b0();
     unk20 = 0;
-    ((Helper*)this)->FUN_00dfdb90();
+    reinterpret_cast<::FUN_00dfdb90 *>((((Helper*)this)))->FUN_00dfdb90::~FUN_00dfdb90();
     if (flags & 1)
     {
         Holder* holder = FUN_00c85750();
@@ -268,7 +268,7 @@ struct FUN_00dfdcf0_cls
 // @fnv 0x00dfdcf0
 FUN_00dfdcf0_cls* FUN_00dfdcf0_cls::FUN_00dfdcf0(unsigned char acFlags)
 {
-    FUN_00dfdc40();
+    reinterpret_cast<::fnv_00dfdc40::FUN_00dfdc40 *>(this)->fnv_00dfdc40::FUN_00dfdc40::~FUN_00dfdc40();
     if (acFlags & 1)
     {
         AudioHolder* pHolder = FUN_00c85750();

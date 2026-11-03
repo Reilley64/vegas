@@ -10,6 +10,7 @@
 //   +0x00  four floats, zeroed (one 16-byte SSE store)
 //   +0x10  the float the callee writes its result into
 // The type is 16-byte aligned, so sizeof is 32 and the frame slot is aligned.
+#include "fnv/symbols_00e33000.h"
 struct __declspec(align(16)) FnvScratch
 {
     unsigned int unk00;
@@ -47,8 +48,6 @@ class FnvNode
 
 // The helper the original calls with eight stack arguments; it is cdecl (the
 // caller pops them) and it also receives the object pointer in ECX.
-void __cdecl FUN_00e33a30(unsigned int* a5, int a2, float m40, float a1, unsigned char a3, int a4, float* blk,
-                          float* res);
 
 // @fnv 0x00e33f10
 void FnvNode::FUN_00e33f10(float a1, int a2, unsigned char a3, int a4, unsigned int* a5, float* a6)
@@ -61,7 +60,7 @@ void FnvNode::FUN_00e33f10(float a1, int a2, unsigned char a3, int a4, unsigned 
     {
         FnvScratch s;
         _mm_store_ps((float*)&s.unk00, _mm_setzero_ps());
-        FUN_00e33a30(a5, a2, m_40, a1, a3, a4, (float*)&s.unk00, &s.result);
+        ::FUN_00e33a30((*(const unsigned char * *)(a5)), a2, m_40, a1, a3, a4, (::Point4 *)(float *)((float*)&s.unk00), (int)(&s.result));
         *a6 = s.result;
     }
     *a5 = (*a5 + 3) & 0xfffffffcu;

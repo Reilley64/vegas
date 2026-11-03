@@ -5,21 +5,29 @@
 
 // src/havok/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00d06fb0_cls.h"
+#include "fnv/decl/S_00d112c0.h"
+#include "fnv/decl/fnv_00d11650__AxisSweep3.h"
+#include "fnv/decl/fnv_00d13bd0__FUN_00d13bd0.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_00d10000.h"
+#include "fnv/symbols_00d11000.h"
+#include "fnv/symbols_00d13000.h"
+#include "fnv/symbols_010cd000.h"
+#include "fnv/symbols_011b3000.h"
 struct hkp3AxisSweep {
     int FUN_00d11630();
 };
 unsigned short MaxUnsignedShort(unsigned short a, unsigned short b);
 struct BSAudio { void* p; int a; int b; };
 BSAudio* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void*, void*, int);
 struct UnkRet { int x; int y; };
-void __fastcall AppendPairToBuffer(UnkRet* a, UnkRet* b, void* c);
 void __fastcall ToggleBit(int a, void* b);
 struct Entry {
     unsigned short key;
     unsigned short value;
 };
-Entry* __stdcall LowerBoundEntry(Entry* first, Entry* last, unsigned short key);
 struct FUN_00d11960_cls {
     int* m_pEntryData;
     int m_iArrayLength;
@@ -36,8 +44,6 @@ struct D1A0E0MemoryRouter {
     D1A0E0Allocator& heap() { return *m_pStreamAllocator; }
 };
 extern "C" D1A0E0MemoryRouter& __cdecl D1A0E0GetMemoryRouter();
-void __cdecl FUN_00c908c0(D1A0E0Allocator* alloc, void* array, int numElements, int sizeElem);
-extern char* g_D1A0E0Tables[2];
 struct D1A0E0Entry {
     unsigned short m_flags;
     unsigned short m_uiEdgeIndex;
@@ -57,7 +63,7 @@ struct D1A0E0EntryArray {
         if (cap < n) {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, sizeof(D1A0E0Entry));
+            ::FUN_00c908c0((::SpawnedObject *)(::D1A0E0Allocator *)(&alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(D1A0E0Entry));
         }
     }
 
@@ -73,7 +79,6 @@ struct S_00d1a180_Allocator {
     int unk0;
 };
 struct S_00d1a180_ArrayUtil {
-    static int __cdecl FUN_00c908c0(S_00d1a180_Allocator& alloc, void* arr, int numElem, int elemSize);
 };
 extern int DAT_011b37b4[2];
 struct S_00d1a180_Router {
@@ -108,7 +113,7 @@ struct S_00d1a180_Axis {
         if (capacity < n) {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            S_00d1a180_ArrayUtil::FUN_00c908c0(a, this, newSize, sizeof(S_00d1a180_EndPoint));
+            ::FUN_00c908c0((::SpawnedObject *)&(a), (::SpawnedArray *)(void *)(this), newSize, sizeof(S_00d1a180_EndPoint));
         }
     }
 
@@ -190,7 +195,6 @@ struct SweepEntry { // 16-byte entry, matches shl eax,4 stride
 };
 // Tail-call target observed forwarding (this, handle, entry) with edx = handle kept live:
 // __fastcall helper taking (self in ecx, handle in edx, entry on stack).
-void __fastcall FUN_00d11650(void* self, UnkHandle* handle, SweepEntry* entry);
 // Stand-in owner class for the __thiscall thunk; fnvcheck matches the name FUN_00d119c0.
 struct FUN_00d119c0_owner {
     int unk00;
@@ -259,11 +263,8 @@ struct FUN_00d11c10_cls {
     int unk08;
     int m_0C;
 };
-void __fastcall AppendPairEntry(FUN_00d11c10_cls* self, FUN_00d11c10_cls* other, PairArray* arr);
 unsigned short MaxUnsignedShort(unsigned short a, unsigned short b);
 BSAudio* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void*, void*, int);
-void __fastcall AppendPairToBuffer(UnkRet* a, UnkRet* b, void* c);
 struct FnvNode {
     unsigned int m_00;
     unsigned int m_04;
@@ -286,7 +287,6 @@ struct FnvHolderTail {
     int unk0c;
     void* m_pAllocator;
 };
-void __fastcall FUN_00d11c60(void* base, FnvNode* p, unsigned short a1, FnvNode* q, FnvArr* a3);
 struct FUN_00d11da0_cls;
 struct FUN_00d11da0_holder {
     int unk00;
@@ -299,7 +299,6 @@ struct FUN_00d11da0_entry {
     unsigned short key;
     unsigned short value;
 };
-void __cdecl FUN_00c908c0(void* allocator, FUN_00d11da0_cls* self, unsigned int newCap, int elemSize);
 struct FUN_00d11da0_cls {
     FUN_00d11da0_entry* m_data;
     int m_uiItemCount;
@@ -328,7 +327,6 @@ struct S_00d138a0_Node {
     unsigned short unk0a;
     int unk0c;
 };
-void __cdecl CollectNodePairs(int unused, S_00d138a0_Node* node, int count, S_00d138a0_Array* out);
 struct AllocIface {
     virtual void* unk00();
     virtual void* Alloc(unsigned int size);
@@ -344,11 +342,9 @@ struct SpawnedObject {
     int unk00;
     unsigned short m_wSize;
 
-    SpawnedObject* Init(int a, int b, int c);
 };
 SpawnedObject* FUN_00d182a0(int a, int b, int c);
 int __cdecl FUN_00d19d10(const float* v, float* out);
-extern int DAT_011b37a4[];
 struct hkp3AxisSweep;
 struct Endpoint {
     unsigned short value;
@@ -370,7 +366,6 @@ void __cdecl FUN_00d19fa0(unsigned int* base, int lo, int hi, int unkArg);
 void __cdecl QuickSortByLowWord(unsigned int* base, int lo, int hi, int unkArg);
 static int FUN_00d10b10(void* self, int index, unsigned int* bits);
 int IsBitmapBitSet(void* table, int index, unsigned int* bits);
-extern int DAT_011b37a4[];
 class FUN_00d11120_cls {
 public:
     Endpoint* m_endpoints;
@@ -451,7 +446,6 @@ struct S_d11790_Sweep {
     S_d11790_Edge* axis2;
     void FixNodeEdges(unsigned h);
 };
-extern "C" int __cdecl FUN_00d06f80(const void* ptr, int size);
 struct hkStatisticsCollector {
     virtual void dummy0();
     virtual void dummy1();
@@ -465,7 +459,6 @@ struct hkStatisticsCollector {
     int pad0C;
     char m_reportInplaceAllocations;
 
-    void DispatchWithMode(const char* name, const void* ptr, int size, int unk);
 };
 template <typename T>
 struct hkArray {
@@ -616,7 +609,7 @@ struct SmallArray {
 
     void _pushBack(Allocator& alloc, const unsigned short& val) {
         if (m_iElementCount == (int)(m_iCapacityState & 0x3fffffff)) {
-            ResizeAudioStream(&alloc, this, sizeof(unsigned short));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(unsigned short));
         }
         constructWithCopy(m_data + m_iElementCount, 1, val);
         m_iElementCount++;
@@ -648,7 +641,7 @@ struct TargetStruct {
 struct BroadPhasePairArray : S_00d138a0_Array {
     S_00d138a0_Pair& _expandOne(Allocator& alloc) {
         if (unk04 == (int)(unk08 & 0x3fffffff)) {
-            ResizeAudioStream(&alloc, this, sizeof(S_00d138a0_Pair));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(S_00d138a0_Pair));
             construct(unk00 + unk04, 1);
         }
         return unk00[unk04++];
@@ -720,7 +713,6 @@ struct C_00d13620 {
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 // Broad-phase endpoint sweep with two inline active-node sets.
 struct BSAudioLocal { void* p; int a; int b; };
-void __cdecl ResizeAudioStream(void*, void*, int);
 struct AllocObj {
     void** m_vtbl;
 };
@@ -775,7 +767,7 @@ static void PushShort(ShortVec* v, unsigned short val)
 {
     AllocHolderLocal* h = (AllocHolderLocal*)FUN_00c85750();
     if (v->m_04 == (v->m_08 & 0x3fffffff))
-        ResizeAudioStream(h->m_10, v, 2);
+        ::ResizeAudioStream((::AudioAllocator *)(h->m_10), (::AudioStream *)(v), 2);
     v->m_00[v->m_04].v = val;
     v->m_04++;
 }
@@ -783,7 +775,7 @@ static void PushDynamic(ShortVec* v, unsigned short val)
 {
     AllocHolderLocal* h = (AllocHolderLocal*)FUN_00c85750();
     if (v->m_04 == (v->m_08 & 0x3fffffff))
-        ResizeAudioStream(h->m_10, v, 2);
+        ::ResizeAudioStream((::AudioAllocator *)(h->m_10), (::AudioStream *)(v), 2);
     U16* p = v->m_00 + *(volatile int*)&v->m_04;
     p->v = val;
     v->m_04++;
@@ -819,7 +811,7 @@ static __forceinline void HandlePair(ThisCls* idx, Record* rec, Record* other, P
         if ((other->m_0c & 1) == 0) {
             AllocHolderLocal* r = (AllocHolderLocal*)FUN_00c85750();
             if (out->m_04 == (out->m_08 & 0x3fffffff))
-                ResizeAudioStream(r->m_10, out, 8);
+                ::ResizeAudioStream((::AudioAllocator *)(r->m_10), (::AudioStream *)(out), 8);
             AppendN(out, other, rec, 1);
             return;
         }
@@ -841,9 +833,6 @@ static __forceinline void HandlePair(ThisCls* idx, Record* rec, Record* other, P
     }
 }
 #include <xmmintrin.h>
-extern __m128 DAT_010c44d0;
-extern __m128 DAT_010c7170;
-extern float DAT_010cd5b0;
 struct FUN_00d10e10_cls {
     unsigned int unk00;
     unsigned int unk04;
@@ -923,7 +912,6 @@ struct S00d11470_Object {
 struct S00d11470_Owner {
     bool __thiscall FUN_00d11470(int* first, int* second);
 };
-void __cdecl FUN_00c908c0(void* alloc, void* self, int newCap, int elemSize);
 struct FUN_00d11e80_cls {
     S_00d1a180_EndPoint* m_data;
     int m_iElementCount;
@@ -1227,7 +1215,6 @@ struct Sweep {
     Sub* m_d8;
 
     void FUN_00d15fc0();
-    void FixNodeEdges(int) throw();
     __forceinline void setNodeIndex(Elem& node, int i) throw() {
         int* const& h = node.h;
         if (((unsigned)h & 1) == 0) {
@@ -1237,7 +1224,6 @@ struct Sweep {
         }
     }
 };
-extern int DAT_011b37ac[2];
 struct SweepMerge {
     Endpoint* m_endpoints;
     void FUN_00d19e40(char* cells, int n, Endpoint* source, int count);
@@ -1408,7 +1394,6 @@ struct AxisSweep {
     int numRecords;
     int unkA8;
     SweepType* types;
-    void FUN_00d112c0(int numRecords, unsigned short code, SweepRecord* rec, int index, void* buffer);
     void FUN_00d14100(int* index, EventList* events);
 };
 extern "C" void _ReadWriteBarrier();
@@ -1456,7 +1441,7 @@ struct SweepPairsX {
  SweepPairX* data; int size; unsigned int capacity;
  void push(unsigned int* a,unsigned int b) {
   SweepRouterX* r=SweepRouterX::router();
-  if(size==(capacity&0x3fffffff)) ResizeAudioStream(r->heap,this,8);
+  if(size==(capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(r->heap),(::AudioStream *)(void *)(this),8);
   new(data+size) SweepPairX(a,b);
   ++size;
  }
@@ -1466,13 +1451,12 @@ struct SweepNodesX {
  void SetSizeAndGrow(int n) {
   D1A0E0Allocator& a=SweepRouterX::router()->getHeap();
   int cap=capacity&0x3fffffff;
-  if(cap<n) { int twice=cap*2; FUN_00c908c0(&a,this,n<twice?twice:n,16); }
+  if(cap<n) { int twice=cap*2; ::FUN_00c908c0((::SpawnedObject *)(::D1A0E0Allocator *)(&a),(::SpawnedArray *)(void *)(this),n<twice?twice:n,16); }
   size=n;
  }
 };
 struct SweepAxisX {
  Endpoint* data; int size; int capacity;
- void FUN_00d11960(int a,int b);
 };
 struct SweepOwnerX {
  int unk00;
@@ -1520,13 +1504,11 @@ struct SweepOwnerX {
  int groupCount;
  unsigned short shiftBits, unusedD6;
  SweepGroupX* groups;
- void FUN_00d112c0(int count,int key,SweepNodeX* node,unsigned int index,unsigned int* bits);
- void FUN_00d10d10(SweepNodeX* base,int count,SweepNodeX* node);
- void FixNodeEdges(unsigned int index);
  void FUN_00d14600(unsigned int* handle,SweepPairsX* pairs);
 };
 
 #include <math.h>
+#include "fnv/symbols_simd.h"
 extern "C" void _ReadWriteBarrier();
 
 
@@ -1587,8 +1569,6 @@ struct SweepRayCast {
     virtual float intersect(const SweepHandle* handle, int rayIndex);
 };
 
-extern __m128 DAT_011b3790;
-extern __m128 DAT_011b3770;
 
 inline float sweepBound(float x,float offset,float scale) { return (x+offset)*scale; }
 inline float sweepSub(float x,float y) { return x-y; }
@@ -1680,9 +1660,9 @@ void SweepSpace::FUN_00d16300(const SweepScan& scan, SweepRayCast* rays, int ray
     __m128 node3;
     node3 = _mm_mul_ps(_mm_add_ps(_mm_load_ps(centerOffset), _mm_load_ps(scan.origin)), _mm_load_ps(reciprocalExtent));
     __m128 dist = _mm_setzero_ps();
-    node3 = _mm_min_ps(node3, DAT_011b3790);
+    node3 = _mm_min_ps(node3, (*reinterpret_cast<::__m128 *>(&::DAT_011b3790)));
     node3 = _mm_max_ps(node3, dist);
-    node3 = _mm_add_ps(node3, DAT_011b3770);
+    node3 = _mm_add_ps(node3, (*reinterpret_cast<::__m128 *>(&::DAT_011b3770)));
     _mm_store_ps((float*)sweepKeys, node3);
     SweepKeyValues x = { sweepKeys[0] >> 7, sweepKeys[1] >> 7, sweepKeys[2] >> 7, sweepKeys[3] >> 7 };
     sweepKeys[0] = (unsigned short)x.x;

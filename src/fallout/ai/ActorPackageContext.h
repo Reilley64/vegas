@@ -3,8 +3,12 @@
 // canonical header is regenerated and this file retires.
 #ifndef FNV_ACTORPACKAGE_H
 #define FNV_ACTORPACKAGE_H
+#include "fnv/decl/FUN_0084e3a0_Class.h"
 #include "layout_support.h"
 #pragma pack(push, 4)
+class BGSLoadFormBuffer;
+class TESObjectREFR;
+class TESPackage;
 class ActorPackageContext
 {
   public:
@@ -15,8 +19,14 @@ class ActorPackageContext
     float m_fPackageValue;    // +0x10
     unsigned int iFlags;      // +0x14
     // Canonical additions requested:
-    int GetProcedureIndex();
-    void AddToProcedureIndex(int);
+public:
+    void Clear();
+public:
+    void SetPackageAndTarget(::TESPackage *, ::TESObjectREFR *);
+public:
+    void LoadGame(::BGSLoadFormBuffer *);
+public:
+    void ApplyLoadBuffer(::BGSLoadFormBuffer *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(ActorPackageContext) == 0x18);

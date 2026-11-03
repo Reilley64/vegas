@@ -7,6 +7,10 @@
 // to their real unit once identified.
 // src/havok/physics/dynamics/entity/util/hkpentityaabbutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/entity/util/hkpentityaabbutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_00cbe000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01267000.h"
 struct S_00d1b1d0_Item {
     unsigned int m_key;
     int m_uiFilterValue;
@@ -27,16 +31,12 @@ void FUN_00d1b1d0(S_00d1b1d0_Item* pItems, int iLow, int iHigh, S_00d1b1d0_Less 
 // Computes quantized and expanded bounds for compound or single collision objects, sorts and scatters compound records.
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 
-extern "C" double DAT_01011588;
 
-extern "C" float DAT_01016248;
 
-extern "C" float DAT_010ec7f0[4];
 
-extern "C" __m128 DAT_011b6d70;
 
-extern "C" float DAT_01267e30[4];
 
 
 class ScalarLane {
@@ -189,7 +189,6 @@ InputField<int> count;
 Mat4Like start,inverseEnd;
 };
 extern "C" void* FUN_00c85750();
-extern "C" void FUN_00cbec90(void*,void*);
 __forceinline void Vec4::transform(const Mat4Like& matrix,const Vec4& input) {
     __m128 x=_mm_shuffle_ps(input.data,input.data,0);
     __m128 rowx=_mm_mul_ps(matrix.r0.getQuad(),x);
@@ -200,7 +199,7 @@ __forceinline void Vec4::transform(const Mat4Like& matrix,const Vec4& input) {
     data=_mm_add_ps(_mm_add_ps(rowx,rowy),_mm_add_ps(rowz,matrix.r3.getQuad()));
 }
 
-static __forceinline const Vec4& ZeroVector() { return *reinterpret_cast<const Vec4*>(DAT_01267e30); }
+static __forceinline const Vec4& ZeroVector() { return *reinterpret_cast<const Vec4*>((*reinterpret_cast<float (*)[4]>(&::DAT_01267e30))); }
 
 struct UpperVector : Vec4 { using Vec4::operator=; }; struct FloatBounds { Vec4 minimum; UpperVector maximum; };
 
@@ -225,7 +224,7 @@ static __forceinline void ConvertToUint32(const Vec4& maximum,const __m128& mini
 
 static __forceinline void ConvertAabb(const FloatBounds& aabb, const Vec4& offsetLow,const Vec4& offsetHigh,const Vec4& scale,BoundsRecord& out) {
     Vec4 maxVal;
-    maxVal.getQuad() = DAT_011b6d70;
+    maxVal.getQuad() = ::DAT_011b6d70;
     ConvertToUint32(maxVal,ZeroVector().getQuad(),aabb.minimum,offsetLow,scale,out.minimum);
     ConvertToUint32(maxVal,ZeroVector().getQuad(),aabb.maximum,offsetHigh,scale,out.maximum);
 }
@@ -322,7 +321,7 @@ static __forceinline void CopyQuads(void* destination, const void* source, int c
 
 // @fnv 0x00d1a330
 extern "C" void FUN_00d1a330(const CollisionContext* context,EntityNode*const* objects,int count) {
-    const float slack=(float)((double)context->getTolerance()*DAT_01011588);
+    const float slack=(float)((double)context->getTolerance()*::DAT_01011588);
     for(int at=0;at<count;++at) {
         EntityNode* object=objects[at];
         const EntityNode* collider=object->getCollidable();
@@ -338,7 +337,7 @@ extern "C" void FUN_00d1a330(const CollisionContext* context,EntityNode*const* o
             unsigned int* keys=(unsigned int*)*stack;
             *stack+=(n*4+127)&~127;
             OffsetInput sweepInput;
-            FUN_00cbec90(object->m_pMotionState.GetMotionState(),&sweepInput);
+            ::FUN_00cbec90((const ::hkMotionStateq *)(void *)(object->m_pMotionState.GetMotionState()),(::SweptTransformSamples *)(void *)(&sweepInput));
             FloatBounds total;
             const Vec4& position=object->m_pMotionState.GetMotionState()->getSweptTransform().center1;
             total.minimum=position;

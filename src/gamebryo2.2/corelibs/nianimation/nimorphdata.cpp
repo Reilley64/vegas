@@ -2,13 +2,28 @@
 // src/gamebryo2.2/corelibs/nianimation/nimorphdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nimorphdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_011f3e74;
 
 // Returns the address of the global g_011f3e74.
 // @fnv 0x00a415e0
+#include "fnv/decl/A5D6E0This.h"
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/Cls_a64ea0.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/decl/FUN_00a641f0_cls.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/S_0060ba10.h"
+#include "fnv/decl/fnv_00a64df0__FUN_00a64df0_Stream.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f6000.h"
 void* __cdecl FUN_00a415e0()
 {
-    return &g_011f3e74;
+    return &(*reinterpret_cast<void * *>(&::g_011f3e74));
 }
 
 extern int DAT_010976fc;
@@ -20,7 +35,6 @@ struct S41660
 {
     void __thiscall FUN_00a41660(int);
 };
-void __cdecl _delete(void*, unsigned int);
 struct NiMorphData
 {
     char _pad[16];
@@ -34,9 +48,9 @@ void* NiMorphData::FUN_00a41a00(unsigned int auiFlags)
     *(void**)this = (void*)&DAT_010976fc;
     if (p)
         ((S41660*)p)->FUN_00a41660(3);
-    ((NiRefObject*)this)->~NiRefObject();
+    reinterpret_cast<class ::FUN_00a5d3d0 *>((((NiRefObject*)this)))->FUN_00a5d3d0::~FUN_00a5d3d0();
     if (auiFlags & 1)
-        _delete(this, 0x18);
+        ::FUN_00aa1460(this, 0x18);
     return this;
 }
 
@@ -114,7 +128,6 @@ void FUN_00a57850_shell::FUN_00a57850(NiStream& kStream)
     kStream.RegisterStreamable((void*)((char*)this + 4));
 }
 
-extern int DAT_0109b220;
 struct Object
 {
     int field_00;
@@ -127,19 +140,16 @@ struct Object
 Object* __thiscall Object::FUN_00a415f0()
 {
     field_00 = 0;
-    field_04 = DAT_0109b220;
+    field_04 = (*reinterpret_cast<int *>(&::DAT_0109b220));
     field_08 = 0.0f;
     field_0c = 0;
     return this;
 }
 
-extern int DAT_011f6238;
-extern int DAT_0109b220;
 extern void* DAT_00fdf1c4;
 
 struct GlobalMgr_b9415
 {
-    void FUN_00aa4060(int key);
 };
 
 struct RefItem_b9415
@@ -164,7 +174,7 @@ class FUN_00a41610_cls
 // @fnv 0x00a41610
 void FUN_00a41610_cls::ReleaseResources()
 {
-    ((GlobalMgr_b9415*)&DAT_011f6238)->FUN_00aa4060(m_00);
+    reinterpret_cast<::FNV_MemoryManager *>((((GlobalMgr_b9415*)&(*reinterpret_cast<int *>(&::g_memoryManager)))))->FUN_00aa4060((void *)(m_00));
     ReleaseFn_b9415 pfnRelease = (ReleaseFn_b9415)DAT_00fdf1c4;
     RefItem_b9415* pRefItem = m_0c;
     if (pRefItem != 0)
@@ -172,17 +182,14 @@ void FUN_00a41610_cls::ReleaseResources()
         if (pfnRelease((int)&pRefItem->m_refs) == 0)
             pRefItem->Delete();
     }
-    if (m_04 != DAT_0109b220)
+    if (m_04 != (*reinterpret_cast<int *>(&::DAT_0109b220)))
         pfnRelease(m_04 - 8);
 }
 
 namespace fnv_00a41660 {
 struct MemoryManager_00a41660
 {
-    void __thiscall FUN_00aa4060(void*);
 };
-extern MemoryManager_00a41660 DAT_011f6238;
-extern char* DAT_0109b220;
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct Reference_00a41660
 {
@@ -200,7 +207,6 @@ struct Entry_00a41660
 struct Owner_00a41660
 {
     Entry_00a41660 object;
-    void __thiscall ReleaseResources();
     void* __thiscall FUN_00a41660(unsigned char flags);
 };
 // @fnv 0x00a41660
@@ -213,7 +219,7 @@ void* __thiscall Owner_00a41660::FUN_00a41660(unsigned char flags)
         while (--count >= 0)
         {
             --pEntry;
-            DAT_011f6238.FUN_00aa4060(pEntry->allocation);
+            reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a41660::MemoryManager_00a41660 *>(&::g_memoryManager))))->FUN_00aa4060(pEntry->allocation);
             Reference_00a41660* ref = pEntry->reference;
             if (ref)
             {
@@ -221,17 +227,17 @@ void* __thiscall Owner_00a41660::FUN_00a41660(unsigned char flags)
                     ref->Destroy();
             }
             char* pName = pEntry->name;
-            if (pName != DAT_0109b220)
+            if (pName != ::DAT_0109b220)
                 InterlockedDecrement((long volatile*)(pName - 8));
         }
         void* header = (char*)this - 4;
         if (flags & 1)
-            DAT_011f6238.FUN_00aa4060(header);
+            reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a41660::MemoryManager_00a41660 *>(&::g_memoryManager))))->FUN_00aa4060(header);
         return header;
     }
-    ReleaseResources();
+    reinterpret_cast<::FUN_00a41610_cls *>(this)->ReleaseResources();
     if (flags & 1)
-        DAT_011f6238.FUN_00aa4060(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a41660::MemoryManager_00a41660 *>(&::g_memoryManager))))->FUN_00aa4060(this);
     return this;
 }
 }  // namespace fnv_00a41660
@@ -473,7 +479,6 @@ struct NiStreamM
     int unk24C;
     NiBinaryStream* m_pBackingStream;
 
-    void SerializeString(const NiFixedStr& kString);
 };
 
 inline void SerializeValue(NiStreamM& kStream, const unsigned int& uiValue)
@@ -505,7 +510,6 @@ struct NiObjBase
 {
     void* m_ppVirtualMethodTable;
     int m_uiRefCount;
-    void SaveBinaryBase(NiStreamM& kStream);
 };
 
 struct MorphTgt
@@ -517,7 +521,7 @@ struct MorphTgt
 
     void SaveBinary(NiStreamM& kStream, unsigned int m_uiScaleCount)
     {
-        kStream.SerializeString(m_kName);
+        reinterpret_cast<::FUN_00a641f0_cls *>(&(kStream))->WriteObjectLink((void *)&(m_kName));
         if (m_uiScaleCount)
             SerializeValue(kStream, m_aVerts, m_uiScaleCount);
     }
@@ -536,7 +540,7 @@ struct NiMorphDataX : NiObjBase
 // @fnv 0x00a41d90
 void NiMorphDataX::FUN_00a41d90(NiStreamM& kStream)
 {
-    SaveBinaryBase(kStream);
+    ::FUN_00a89af0((int)this);
     SerializeValue(kStream, m_uiNumTargets);
     SerializeValue(kStream, m_uiNumVertsPerTarget);
     char cRelative = m_bTargetsAreRelative;
@@ -554,13 +558,12 @@ struct ViewerStrings
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
     void SetSize(unsigned int uiMaxSize);
-    void SetAt(unsigned int uiIndex, char* const& element);
     inline unsigned int Add(char* const& element)
     {
         unsigned int uiIndex = m_usSize;
         if (uiIndex >= m_usMaxSize)
             SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, element);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(element));
         return uiIndex;
     }
     __forceinline unsigned int AddInl(char* const& element)
@@ -605,15 +608,10 @@ struct MorphTarget
     int unk0c;
 };
 
-extern "C" void* g_011f3e74;
 
-char* FUN_00a7d330(const char* pcName);
-char* FUN_00a7d510(const char* pcPrefix, unsigned int uiValue);
-char* FUN_00a7d5e0(const char* pcPrefix, const char* pcValue);
 
 struct NiObjectBase
 {
-    void AppendCameraPathEntries(ViewerStrings* pkStrings);
 };
 
 struct NiMorphDataV : NiObjectBase
@@ -634,13 +632,13 @@ struct NiMorphDataV : NiObjectBase
 // @fnv 0x00a41ea0
 void NiMorphDataV::AppendToStrings(ViewerStrings* pkStrings)
 {
-    NiObjectBase::AppendCameraPathEntries(pkStrings);
-    pkStrings->Add(FUN_00a7d330((const char*)g_011f3e74));
-    pkStrings->Add(FUN_00a7d510("m_uiNumTargets", m_uiNumTargets));
-    pkStrings->Add(FUN_00a7d510("m_uiNumVertsPerTarget", m_uiNumVertsPerTarget));
-    pkStrings->Add(FUN_00a7d330("MorphTargets"));
+    reinterpret_cast<::A5D6E0This *>(this)->AppendCameraPathEntries((::NiTArray< ::BGSCameraPath *, ::NiTMallocInterface< ::BGSCameraPath *>> *)(pkStrings));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d330((const char*)(*reinterpret_cast<void * *>(&::g_011f3e74)))));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d510("m_uiNumTargets", m_uiNumTargets)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d510("m_uiNumVertsPerTarget", m_uiNumVertsPerTarget)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d330("MorphTargets")));
     for (unsigned int i = 0; i < m_uiNumTargets; i++)
-        pkStrings->AddInl(FUN_00a7d5e0("m_pcName", GetTarget(i)->GetName()));
+        pkStrings->AddInl(::fnv_00a7d5e0::FUN_00a7d5e0("m_pcName", GetTarget(i)->GetName()));
 }
 
 struct FNVBinaryInput
@@ -670,9 +668,7 @@ void __cdecl ReadElements(NiStreamM* apStreamContext, const unsigned int* data, 
 
 struct MemoryManager
 {
-    void* Allocate(unsigned int uiSize);
 };
-extern MemoryManager g_memoryManager;
 typedef unsigned int(__cdecl* NiBinReadFn_a41940)(struct NiBinIstr_a41940*, void*, unsigned int, unsigned int*,
                                                   unsigned int);
 struct NiBinIstr_a41940
@@ -847,15 +843,13 @@ struct NiStreamL_a41940
     int unk244;
     int unk248;
     NiBinIstr_a41940* m_pUnderlyingStream;
-    void FUN_00a64ea0(NiFixedStrL_a41940& kString);
-    void FUN_00a64df0(NiFixedStrL_a41940& kString);
 };
 struct NiPoint3_a41940
 {
     float x, y, z;
     static void* operator new[](unsigned int uiSize)
     {
-        return g_memoryManager.Allocate(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(uiSize);
     }
 };
 struct MorphTarget_a41940
@@ -870,9 +864,9 @@ struct MorphTarget_a41940
 void MorphTarget_a41940::Load(NiStreamL_a41940& kStream, unsigned int m_uiScaleCount)
 {
     if (kStream.m_uiNifVersion < 0x14010001)
-        kStream.FUN_00a64ea0(m_kName);
+        reinterpret_cast<::Cls_a64ea0 *>(&(kStream))->FUN_00a64ea0((char **)&(m_kName));
     else
-        kStream.FUN_00a64df0(m_kName);
+        reinterpret_cast<::fnv_00a64df0::FUN_00a64df0_Stream *>(&(kStream))->FUN_00a64df0((::fnv_00a64df0::NiFixedString &)(m_kName));
     if (kStream.m_uiNifVersion >= 0x0A010068 && kStream.m_uiNifVersion < 0x14010003)
         NiBinIstrLoad_a41940(kStream.m_pUnderlyingStream, &m_fMorphWeight, 1);
     m_aVerts = new NiPoint3_a41940[m_uiScaleCount];
@@ -901,7 +895,6 @@ struct MorphEqualData
     unsigned int m_0c;
     MorphEqualTarget* m_10;
     unsigned char m_14;
-    bool IsSameAs(MorphEqualData* other);
     bool FUN_00a418a0(MorphEqualData* other);
 };
 
@@ -921,7 +914,7 @@ __declspec(noinline) bool MorphEqualTarget::Equals(MorphEqualTarget* other, unsi
 // @fnv 0x00a418a0
 bool MorphEqualData::FUN_00a418a0(MorphEqualData* other)
 {
-    if (!IsSameAs(other))
+    if (!reinterpret_cast<::A5d470Class *>(this)->IsSameAs((::A5d470Object *)(other)))
     {
         return false;
     }
@@ -942,7 +935,7 @@ bool MorphEqualData::FUN_00a418a0(MorphEqualData* other)
         {
             MorphEqualTarget* pOtherTarget = (i < otherCount) ? (pOther->m_10 + i) : 0;
             MorphEqualTarget* pThisTarget = (i < thisCount) ? (m_10 + i) : 0;
-            if (!pThisTarget->Equals(pOtherTarget, m_0c))
+            if (!reinterpret_cast<::FUN_00a417f0_cls *>((pThisTarget))->Equals((::FUN_00a417f0_cls *)(pOtherTarget), m_0c))
             {
                 return false;
             }

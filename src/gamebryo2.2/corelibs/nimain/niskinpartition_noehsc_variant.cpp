@@ -3,6 +3,27 @@
 // byte only under /MT /O2 /GS /Gy (unit src/gamebryo2.2/corelibs/nimain/niskinpartition.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/A5D6E0This.h"
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_00438af0_Class.h"
+#include "fnv/decl/FUN_00a5d3a0.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
+#include "fnv/decl/HashTableBase.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a81000.h"
+#include "fnv/symbols_00a82000.h"
+#include "fnv/symbols_00a83000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109e000.h"
+#include "fnv/symbols_011c5000.h"
+#include "fnv/symbols_011f5000.h"
+#include "fnv/symbols_011f6000.h"
 #include "niskinpartition_decls.h"
 const void* g_011f5b1c;
 const void* __cdecl FUN_00a820d0();
@@ -20,14 +41,10 @@ struct NiRefObject
 };
 struct NiRenderer
 {
-    static NiRenderer* ms_pRenderer;
 };
-extern int DAT_0109e47c;
 struct P03MM
 {
-    void __thiscall _DeallocateAlias(void* p);
 };
-extern P03MM g_memoryManager;
 struct S : NiRefObject
 {
     int f4;
@@ -42,14 +59,8 @@ struct NiTAbstractPoolAllocator_unsigned_int
 };
 struct RecursiveSpinLock
 {
-    void __thiscall Lock(const char*);
 };
-extern RecursiveSpinLock g_011c5f80;
-extern unsigned int DAT_011c5f84;
-extern NiTAbstractPoolAllocator_unsigned_int NiTAbstractPoolAllocator_unsigned_int_instance;
 void __stdcall PoolFreeUIntNode(void* a);
-void* __cdecl NiMalloc(unsigned int);
-void __cdecl NiFreeAlias(void*);
 struct FUN_00a82710_shell
 {
     void* m_p;
@@ -59,13 +70,10 @@ struct FUN_00a82710_shell
 };
 struct FUN_00a82890_shell
 {
-    char __thiscall ContainsAllValues(void*);
     char __thiscall FUN_00a82890(const unsigned short* a, const void* b);
 };
-void __cdecl _delete(void*, unsigned int);
 struct FUN_00a82c70_holder
 {
-    void FUN_00a824d0();
     void* DestroyIfFlagged(unsigned int);
 };
 struct C082d30
@@ -73,7 +81,6 @@ struct C082d30
     unsigned short* f0;
     unsigned int f4;
     unsigned int f8;
-    void FUN_00a82710(unsigned int);
     void AppendMatchingIndices(int, int*, unsigned int);
 };
 struct Dummy13
@@ -88,14 +95,11 @@ struct MyCls
     Dummy13 _0c;
     int _40;
     int _44;
-    void _Call_a5d3a0();
     void FUN_00a853c0(int);
     MyCls* InitFromData(int, int, const Dummy13&, int);
 };
 extern int DAT_0109e574;
 int __cdecl FUN_00a853c0();
-void* __cdecl _NiMalloc(unsigned int);
-void __cdecl _NiFree(void*);
 struct FUN_00a826b0_shell
 {
     void* m_p;
@@ -116,7 +120,6 @@ struct FUN_00a81ff0_elem
     int m_20;
     int m_24;
     int m_28;
-    bool FUN_00a81c90(const FUN_00a81ff0_elem* other);
 };
 struct FUN_00a81ff0_cls
 {
@@ -124,7 +127,6 @@ struct FUN_00a81ff0_cls
     int m_04;
     unsigned int m_uiItemCount;
     FUN_00a81ff0_elem* m_pElements;
-    bool IsSameAs(const FUN_00a81ff0_cls* other);
     bool Equals(const FUN_00a81ff0_cls* other);
 };
 struct S_00a82050_Node
@@ -172,7 +174,6 @@ S_00a82050_Base::~S_00a82050_Base()
 // checker binds both call targets from the original's own bytes.
 extern "C" void* __cdecl FNV_search_821f0(const void* key, const void* base, unsigned int count, unsigned int size,
                                           int(__cdecl* cmp)(const void*, const void*));
-extern "C" int __cdecl FNV_cmp_us_821f0(const void* a, const void* b);
 // One record of the list that is handed in: the 16-bit key sits at +0 and the
 // record is eight bytes wide.
 struct FNV_Rec_821f0
@@ -195,7 +196,6 @@ struct FNV_This_821f0
     unsigned int m_uCount;
     char __thiscall ContainsAllValues(FNV_Arg_821f0* pArg);
 };
-void* __cdecl NiMalloc(unsigned int);
 struct TriIndexList
 {
     unsigned short* m_pusTriangles;
@@ -278,9 +278,7 @@ struct WeightedMap
     virtual bool KeysEqual(void* left, void* right);
     unsigned int unk04;
     WeightedMapNode** buckets;
-    void FUN_00a82050(void* key, float weight);
 };
-void __stdcall MergeGroupWeights(WeightedMap* map, const unsigned short* groupIndices, EntryGroup* __restrict groups);
 struct ItemSet
 {
     void** m_items;
@@ -356,7 +354,6 @@ class CA82250MergeIterator
     unsigned int GetNext();
 };
 // Build this partition's triangle list: fetch each source triangle and remap its vertex indices.
-void* NiMalloc(unsigned int uiSize);
 struct A2400TriangleSet
 {
     unsigned short* m_pusTriangles;
@@ -523,8 +520,8 @@ struct SkinMap
 {
     virtual ~SkinMap() throw()
     {
-        FUN_00438af0();
-        NiFreeAlias(buckets);
+        reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
+        ::FUN_00aa10f0(buckets);
     }
     virtual __declspec(nothrow) unsigned int Hash(int key) throw();
     virtual __declspec(nothrow) bool Equal(int left, int right) throw();
@@ -533,12 +530,9 @@ struct SkinMap
     unsigned int count;
     SkinMap() throw() : size(37), count(0)
     {
-        buckets = (SkinMapNode**)NiMalloc(size * sizeof(SkinMapNode*));
+        buckets = (SkinMapNode**)::FUN_00aa1070(size * sizeof(SkinMapNode*));
         fnv_zlib_memset(buckets, 0, size * sizeof(SkinMapNode*));
     }
-    __declspec(nothrow) void FUN_00438af0() throw();
-    __declspec(nothrow) void InsertOrUpdate(int key, int value) throw();
-    __declspec(nothrow) bool FUN_00a53c30(int key, int& value) throw();
     __declspec(nothrow) int Lookup(int key) throw()
     {
         SkinMapNode* node = buckets[Hash(key)];
@@ -557,7 +551,7 @@ struct SkinPointerMap : SkinMap
     {}
     ~SkinPointerMap() throw()
     {
-        FUN_00438af0();
+        reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
     }
 };
 struct SkinBuilder
@@ -565,8 +559,6 @@ struct SkinBuilder
     int unk00;
     int unk04;
     unsigned int count;
-    __declspec(nothrow) void BuildBoneLODControllerSets(SkinGeom*, void*, SkinItems*, int*) throw();
-    __declspec(nothrow) void FUN_00a839d0(unsigned int, SkinItems*) throw();
     bool BuildTriangleSetMapping(SkinGeom*, void*, unsigned int, void*, SkinItems*, int**, int*) throw();
 };
 template <class T> class SkinTArray
@@ -624,14 +616,10 @@ struct SkinRTTI
         return m_pcName;
     }
 };
-extern SkinRTTI g_kSkinPartitionRTTI;
-char* __cdecl SkinGetViewerString(const char* pcName);
-int __cdecl SkinSprintf(char* pcDest, unsigned int uiDestSize, const char* pcFormat, ...);
 class SkinObjectBase
 {
   public:
     virtual ~SkinObjectBase();
-    void GetViewerStrings(SkinViewerStrings* pkStrings);
 };
 class SkinPartitionOwner : public SkinObjectBase
 {
@@ -710,14 +698,10 @@ struct Skp_00a828d0_src
 };
 struct Skp_00a828d0_cls : NiSkinPartition::Partition
 {
-    unsigned short* SplitTriangles(GeomData* pkData, void* pkSet);
-    void ExpandTriangles(void* pkSet, void* pkSource, unsigned short* pusRemap);
     void PopulateSkinData(GeomData* pkData, Skp_00a828d0_src* pkSrc, void* pkSet, Skp_00a828d0_grp* pkGroups,
                           bool bWeights, bool bZeroPalette, unsigned char ucBonesPerVertex, unsigned int uiBones);
 };
-void* __cdecl AllocBlock(unsigned int uiSize);
 void __cdecl FreeBlock(void* p);
-void* __cdecl NiMalloc(unsigned int);
 struct NiBinaryStream;
 typedef unsigned int(__cdecl* NiBinaryStreamReadFn)(NiBinaryStream* pkThis, void* pvBuffer, unsigned int uiBytes,
                                                     unsigned int* puiComponentSizes, unsigned int uiNumComponents);
@@ -935,12 +919,10 @@ template <class T> inline void ReadBinaryValue(NiStreamA83C& kStream, T& value)
 class FUN_00a89af0_helper
 {
   public:
-    void FUN_00a89af0(NiStreamA83C& kStream);
 };
 class ElemA83C
 {
   public:
-    void WriteToStream(NiStreamA83C& kStream);
     int unk00[11];
 };
 class SaverA83C : public FUN_00a89af0_helper
@@ -1134,14 +1116,12 @@ template <class T> inline void LBStreamLoadBinary(LBStream& arStream, T& arValue
 
 struct LBMemoryManager
 {
-    void* Allocate(unsigned int auiSize);
 };
 
-extern LBMemoryManager g_kLBMemoryManager;
 
 inline void* __cdecl operator new[](unsigned int auiSize)
 {
-    return g_kLBMemoryManager.Allocate(auiSize);
+    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::LBMemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(auiSize);
 }
 
 struct LBObject
@@ -1149,7 +1129,6 @@ struct LBObject
     virtual ~LBObject();
     int unk04;
 
-    void LoadBinary(LBStream& arStream);
 };
 
 struct LBPartition
@@ -1168,7 +1147,6 @@ struct LBPartition
 
     LBPartition() throw();
     ~LBPartition();
-    void LoadBinary(LBStream& arStream);
 };
 
 struct LBSkinPartition : LBObject
@@ -1182,9 +1160,9 @@ struct LBSkinPartition : LBObject
 // @fnv 0x00a83c30
 void LBSkinPartition::FUN_00a83c30(LBStream& arStream)
 {
-    LBObject::LoadBinary(arStream);
+    reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup((::NiStream *)&(arStream));
     LBStreamLoadBinary(arStream, m_uiPartitionCount);
     m_pPartitions = new LBPartition[m_uiPartitionCount];
     for (unsigned int i = 0; i < m_uiPartitionCount; i++)
-        m_pPartitions[i].LoadBinary(arStream);
+        reinterpret_cast<::PartitionLoader *>(&(m_pPartitions[i]))->FUN_00a82d90((::NiStream &)(arStream));
 }

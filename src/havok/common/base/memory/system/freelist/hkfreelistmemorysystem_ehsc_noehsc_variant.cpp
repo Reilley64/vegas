@@ -5,17 +5,33 @@
 
 // src/havok/common/base/memory/system/freelist/hkfreelistmemorysystem.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/system/freelist/hkfreelistmemorysystem.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/FNVArray.h"
+#include "fnv/decl/FUN_00cbbfa0_class.h"
+#include "fnv/decl/FUN_00cbbfe0_This.h"
+#include "fnv/decl/FUN_00cbf1a0_cls.h"
+#include "fnv/decl/FUN_00cd06a0_class.h"
+#include "fnv/decl/FUN_00cf6da0_cls.h"
+#include "fnv/decl/FUN_00d2c7a0_class.h"
+#include "fnv/decl/FUN_00d5e900.h"
+#include "fnv/decl/FUN_00d5ffd0_class.h"
+#include "fnv/decl/FUN_00d60270_cls.h"
+#include "fnv/decl/FUN_00d60500.h"
+#include "fnv/decl/HKThreadMemory.h"
+#include "fnv/decl/Target.h"
+#include "fnv/decl/TargetClass.h"
+#include "fnv/decl/hkObjD5E9.h"
+#include "fnv/symbols_00d2c000.h"
+#include "fnv/symbols_01094000.h"
+#include "fnv/symbols_010ca000.h"
 struct FUN_00cd06c0_t
 {
     void __thiscall FUN_00cd06c0(int v);
 };
-extern int DAT_010cacd0;
 struct FUN_00cd06a0
 {
     void* m_p00;
     FUN_00cd06a0(int aiArg);
-    void FUN_00d2c7a0();
-    void FUN_00cbf1a0();
 };
 struct Inner
 {
@@ -43,7 +59,6 @@ struct Outer
     Inner inner;
     void FUN_00cd06e0();
 };
-void __cdecl FUN_00d2cab0(void*, int, unsigned int);
 struct FUN_00cd0940_record
 {
     virtual void slot00() = 0;
@@ -117,7 +132,6 @@ struct FUN_00cd0c80
 };
 struct CallTarget_00cd1d80
 {
-    int FUN_00cd1d80(int, int, int, int, int);
 };
 struct SearchObject
 {
@@ -125,7 +139,6 @@ struct SearchObject
 };
 struct SpawnedSub
 {
-    int Compute();
 };
 struct FUN_00cd06f0_cls
 {
@@ -135,7 +148,6 @@ struct CD0730Object
 {
     virtual int FUN_00cd0730(const void* info) const;
 };
-extern const char str_01094d90[];
 struct Gap040
 {
     int unk00;
@@ -211,7 +223,6 @@ struct Sub0b0c
 };
 struct FUN_00d5e960_t
 {
-    void __thiscall InitStream(int v);
 };
 struct Owner
 {
@@ -249,10 +260,9 @@ struct S_00cd0a60_sub8
     int unk08;
     int unk0c;
     int unk10;
-    void FUN_00d60500(int a1, int a2);
     __forceinline S_00cd0a60_sub8()
     {
-        FUN_00d60500(0, 0);
+        new ((void *)this) ::FUN_00d60500((void *)(0), 0);
     }
 };
 struct S_00cd0a60_sub1c
@@ -936,10 +946,9 @@ struct S_00cd0a60_sub1c
     int unka90;
     int unka94;
     int unka98;
-    void FUN_00d60270(S_00cd0a60_sub8* a1);
     __forceinline S_00cd0a60_sub1c(S_00cd0a60_sub8* a1)
     {
-        FUN_00d60270(a1);
+        reinterpret_cast<::FUN_00d60270_cls *>(this)->FUN_00d60270((int)(a1));
     }
 };
 struct S_00cd0a60_VtBase
@@ -978,10 +987,9 @@ struct S_00cd0a60_sub0ad0
     int unk24;
     int unk28;
     int unk2c;
-    void FUN_00cf6da0(int a1);
     __forceinline S_00cd0a60_sub0ad0()
     {
-        FUN_00cf6da0(0);
+        reinterpret_cast<::FUN_00cf6da0_cls *>(this)->FUN_00cf6da0(0);
     }
 };
 struct S_00cd0a60_sub0b00
@@ -989,10 +997,9 @@ struct S_00cd0a60_sub0b00
     int unk00;
     int unk04;
     int unk08;
-    void FUN_00cbbfa0();
     __forceinline S_00cd0a60_sub0b00()
     {
-        FUN_00cbbfa0();
+        new ((void *)this) ::FUN_00cbbfa0_class();
     }
 };
 struct S_00cd0a60_sub0b0c
@@ -1006,10 +1013,9 @@ struct S_00cd0a60_sub0b0c
     int unk18;
     int unk1c;
     int unk20;
-    void Clear();
     __forceinline S_00cd0a60_sub0b0c()
     {
-        Clear();
+        reinterpret_cast<::TargetClass *>(this)->Clear();
     }
 };
 struct S_00cd0a60_sub0b30
@@ -1093,10 +1099,9 @@ struct S_00cd0a60_sub0b30
     int unk130;
     int unk134;
     int unk138;
-    void FUN_00d5e900();
     __forceinline S_00cd0a60_sub0b30()
     {
-        FUN_00d5e900();
+        new ((void *)this) ::FUN_00d5e900();
     }
 };
 struct S_00cd0a60_elem
@@ -1179,7 +1184,6 @@ struct S_00cd0a60_elem
     char unk12c;
     int unk130;
     int unk134;
-    void FUN_00d2c720();
 };
 struct S_00cd0a60_arr
 {
@@ -1189,7 +1193,7 @@ struct S_00cd0a60_arr
         S_00cd0a60_elem* p = e;
         for (int i = 31; i >= 0; --i)
         {
-            p->FUN_00d2c720();
+            reinterpret_cast<::HKThreadMemory *>((p))->FUN_00d2c720();
             p->unk128 = 0;
             p->unk12c = 0;
             p->unk130 = 0;
@@ -1214,7 +1218,6 @@ struct FUN_00cd0a60
 };
 struct Helper
 {
-    void FUN_00cd09d0();
 };
 struct FUN_00cd0c70_cls
 {
@@ -1257,7 +1260,6 @@ struct CD07B0_Buffer
     {
         return m_pRecordEnd - m_pBegin;
     }
-    void InitStream(int a1, int a2);
 };
 struct FUN_00cd07b0_cls
 {
@@ -1305,13 +1307,7 @@ struct FUN_00cd07b0_cls
 #include <windows.h>
 extern int DAT_010cad74;
 extern int DAT_010cad0c;
-extern int DAT_010cacd0;
 
-void __fastcall FUN_00d2c7a0(void* self);
-void __fastcall FUN_00cbf1a0(void* self);
-void __fastcall ResetVftableAndDeleteCriticalSection(void* self);
-void __fastcall FUN_00d5ffd0(void* self);
-void __fastcall FUN_00cbbfe0(void* self);
 
 struct Base_cd09d0
 {
@@ -1322,7 +1318,7 @@ struct Base_cd09d0
     ~Base_cd09d0()
     {
         m_08 = &DAT_010cad0c;
-        FUN_00cbbfe0(this);
+        reinterpret_cast<::FUN_00cbbfe0_This *>((this))->FUN_00cbbfe0();
     }
 };
 struct Mem1c_cd09d0
@@ -1414,7 +1410,7 @@ struct Mem1c_cd09d0
     int unk0a80, unk0a84, unk0a88, unk0a8c, unk0a90, unk0a94, unk0a98;
     ~Mem1c_cd09d0()
     {
-        FUN_00d5ffd0(this);
+        reinterpret_cast<::FUN_00d5ffd0_class *>((this))->FUN_00d5ffd0();
     }
 };
 struct MemAB8_cd09d0
@@ -1427,7 +1423,7 @@ struct MemAB8_cd09d0
     ~MemAB8_cd09d0()
     {
         DeleteCriticalSection(&m_kLock);
-        FUN_00cbf1a0(this);
+        reinterpret_cast<::FUN_00cbf1a0_cls *>((this))->FUN_00cbf1a0();
     }
 };
 struct MemB30_cd09d0
@@ -1444,7 +1440,7 @@ struct MemB30_cd09d0
     int unk0120, unk0124, unk0128, unk012c, unk0130, unk0134, unk0138;
     ~MemB30_cd09d0()
     {
-        ResetVftableAndDeleteCriticalSection(this);
+        reinterpret_cast<::FUN_00cd06a0_class *>((this))->ResetVftableAndDeleteCriticalSection();
     }
 };
 struct Block_cd09d0
@@ -1463,8 +1459,8 @@ struct Block_cd09d0
     ~Block_cd09d0()
     {
         m_vptr = &DAT_010cacd0;
-        FUN_00d2c7a0(this);
-        FUN_00cbf1a0(this);
+        reinterpret_cast<::FUN_00d2c7a0_class *>((this))->FUN_00d2c7a0();
+        reinterpret_cast<::FUN_00cbf1a0_cls *>((this))->FUN_00cbf1a0();
     }
 };
 class Pool_cd09d0 : public Base_cd09d0

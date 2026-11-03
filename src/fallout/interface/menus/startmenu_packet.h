@@ -6,6 +6,13 @@
 #define FNV_STARTMENU_PACKET_H
 
 
+#include "fnv/decl/FUN_00450410_Class.h"
+#include "fnv/decl/GlobalObject_0045cf30.h"
+#include "fnv/symbols_004a4000.h"
+#include "fnv/symbols_011a0000.h"
+#include "fnv/symbols_011ad000.h"
+#include "fnv/symbols_011c7000.h"
+#include "fnv/symbols_011d8000.h"
 #include "layout_support.h"
 #include "Menu.h"
 
@@ -74,6 +81,7 @@ template <class T> class ListBox : public ListBoxBase, public BSSimpleList<ListB
 
 // Hand-authored partial StartMenu layout for the members this translation unit
 // consumes (same shape the accepted IsFlagSet body was compiled against).
+class TileMenu;
 class StartMenu : public Menu
 {
   public:
@@ -132,6 +140,10 @@ class StartMenu : public Menu
     StartMenu::UserOption* m_pUserOption;            // +0x1A4
     unsigned int uiFlags;                            // +0x1A8
     float m_fMenuTimer;                              // +0x1AC
+public:
+    ::TileMenu *GetMenuTitle();
+public:
+    bool IsStartMenuActive();
 };
 
 // StartMenu::Option: PC vftable .?AVOption@StartMenu@@ (1 slot); 0x10 bytes.
@@ -187,6 +199,7 @@ class BGSSaveLoadUI
     void FUN_007d0bd0(bool);  // sets +0x88
 };
 
+class NiTexture;
 class BGSSaveLoadFileEntry
 {
   public:
@@ -198,12 +211,17 @@ class BGSSaveLoadFileEntry
     ReadTypedData();  // ?ReadTypedData@BGSSaveLoadFileEntry@@QAEXXZ @ 0x00846900 (defined in the saveloadmanager unit)
     char* FUN_007d5140();       // ReadTypedData(); return m_pSaveFileName
     NiTexture* FUN_007d5280();  // return spScreenshot
+public:
+    ::NiTexture *ReadScreenshotFromFile();
+public:
+    bool IsAutoSave();
+public:
+    bool IsSaveEntryValid();
 };
 
 class GlobalObject_0044f440
 {
   public:
-    float FUN_00450410();
 };
 // 0x007d1b30 calls the routine at 0x00450410 through the receiver's own class and
 // discards the result with no fstp, so at this call site it is the void variant
@@ -212,12 +230,10 @@ class GlobalObject_0044f440
 class GlobalObject_004de370
 {
   public:
-    void FUN_00450410();
 };
 class GlobalObject_00709f00
 {
   public:
-    void GetBoolValue();
 };
 
 #pragma pack(pop)
@@ -242,7 +258,7 @@ FNV_STATIC_ASSERT(offsetof(BGSSaveLoadFileEntry, spScreenshot) == 0x40);
 #endif
 
 // ---- identities used by this packet (mapped in manifest.json) ----
-extern bool DAT_011a0294;                 // ?DAT_011a0294@@3_NA
-extern GlobalObject_004de370 g_011c71ac;  // ?g_011c71ac@@3VGlobalObject_004de370@@A
-extern float DAT_011ad7b8[];              // ?DAT_011ad7b8@@3PAMA
-extern GlobalObject_00709f00 g_011d8c4c;  // ?g_011d8c4c@@3VGlobalObject_00709f00@@A
+                 // ?DAT_011a0294@@3_NA
+  // ?g_011c71ac@@3VGlobalObject_004de370@@A
+              // ?DAT_011ad7b8@@3PAMA
+  // ?g_011d8c4c@@3VGlobalObject_00709f00@@A

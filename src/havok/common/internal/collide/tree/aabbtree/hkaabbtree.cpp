@@ -4,8 +4,16 @@
 // src/havok/common/internal/collide/tree/aabbtree/hkaabbtree.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/collide/tree/aabbtree/hkaabbtree.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/AabbTree.h"
+#include "fnv/decl/BuildTree.h"
+#include "fnv/decl/FUN_00d9a4d0_Class.h"
+#include "fnv/decl/IdxStand_.h"
+#include "fnv/decl/S00d9b240_Tree.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d9c000.h"
+#include "fnv/symbols_010d4000.h"
+#include "fnv/symbols_01267000.h"
 struct FUN_00d9be20_class {
-    void FUN_00d9be20();
 };
 
 struct FUN_00d9be30_class {
@@ -20,30 +28,11 @@ struct FUN_00d9be30_class {
     void FUN_00d9be30();
 };
 
-// @fnv 0x00d9be30
-void FUN_00d9be30_class::FUN_00d9be30()
-{
-    reinterpret_cast<FUN_00d9be20_class*>(reinterpret_cast<char*>(this) + 0x1c)->FUN_00d9be20();
-    m10 = 0;
-    m14 = 0x7fffffff;
-    m18 = 0;
-}
-
 struct FUN_00d9be20_cls {
-    void __thiscall FUN_00d9be20();
 };
 struct FUN_00d9bed0_cls {
     void __thiscall FUN_00d9bed0();
 };
-// @fnv 0x00d9bed0
-void __thiscall FUN_00d9bed0_cls::FUN_00d9bed0()
-{
-    ((FUN_00d9be20_cls*)((char*)this + 0x1c))->FUN_00d9be20();
-    *(int*)((char*)this + 0x10) = 0;
-    *(unsigned short*)((char*)this + 0x14) = 0x7fff;
-    *(int*)((char*)this + 0x18) = 0;
-}
-
 struct Obj_d9be20 {
     int m0;
     int m4;
@@ -52,6 +41,22 @@ struct Obj_d9be20 {
     int m10;
     void FUN_00d9be20();
 };
+// @fnv 0x00d9be30
+void FUN_00d9be30_class::FUN_00d9be30()
+{
+    reinterpret_cast<::Obj_d9be20 *>((reinterpret_cast<FUN_00d9be20_class*>(reinterpret_cast<char*>(this) + 0x1c)))->FUN_00d9be20();
+    m10 = 0;
+    m14 = 0x7fffffff;
+    m18 = 0;
+}
+// @fnv 0x00d9bed0
+void __thiscall FUN_00d9bed0_cls::FUN_00d9bed0()
+{
+    reinterpret_cast<::Obj_d9be20 *>((((FUN_00d9be20_cls*)((char*)this + 0x1c))))->FUN_00d9be20();
+    *(int*)((char*)this + 0x10) = 0;
+    *(unsigned short*)((char*)this + 0x14) = 0x7fff;
+    *(int*)((char*)this + 0x18) = 0;
+}
 // @fnv 0x00d9be20
 void Obj_d9be20::FUN_00d9be20() { m4 = 0; m10 = 0; }
 
@@ -140,7 +145,6 @@ int* FUN_00d9ce00_Class::PopItem(int first, int second, int* output)
 
 struct UnsignedShortArray { unsigned short* elements; unsigned int count; unsigned int capacity; };
 struct AllocationContext { int unknown00, unknown04, unknown08, unknown0c; void* memory; };
-void __cdecl ResizeAudioStream(void* memory, UnsignedShortArray* buffer, unsigned int count);
 struct Owner { int unknown00, unknown04, unknown08; UnsignedShortArray buffer; AllocationContext* FUN_00c85750(); unsigned short* AppendElement(unsigned short value); };
 // Grows the buffer if it is full, appends value at the end, increments the count and returns a pointer to the stored element.
 // @fnv 0x00d9bef0
@@ -148,7 +152,7 @@ unsigned short* Owner::AppendElement(unsigned short value) {
     UnsignedShortArray* pBuffer = &buffer;
     AllocationContext* context = FUN_00c85750();
     if (pBuffer->count == (pBuffer->capacity & 0x3fffffff))
-        ResizeAudioStream(context->memory, pBuffer, 2);
+        ::ResizeAudioStream((::AudioAllocator *)(context->memory), (::AudioStream *)(pBuffer), 2);
     unsigned short* pElement = pBuffer->elements + pBuffer->count;
     *pElement = value;
     ++pBuffer->count;
@@ -172,7 +176,6 @@ struct AllocHolder {
 };
 
 AllocHolder* __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(Allocator* allocator, void** data, unsigned int capacity, unsigned int elemSize);
 
 struct S_d9bf30_Rec {
     int unk0; int unk4; int unk8; int unkc;
@@ -198,7 +201,7 @@ struct S_d9bf30_Words {
             if ((int)newSize >= (int)nc) {
                 nc = newSize;
             }
-            FUN_00c908c0(alloc, (void**)&m_data, nc, 2);
+            ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(void **)((void**)&m_data), nc, 2);
         }
 
         for (int i = (int)newSize - 1; i >= oldCount; --i) {
@@ -232,7 +235,7 @@ void FUN_00d9bf30_cls::AllocateRecords(unsigned short newSize, S_d9bf30_Rec** ap
         if (n >= (int)nc) {
             nc = newSize;
         }
-        FUN_00c908c0(alloc, (void**)&m_data, nc, 0x14);
+        ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(void **)((void**)&m_data), nc, 0x14);
     }
 
     int k = n - m_uiItemCount;
@@ -398,12 +401,11 @@ struct RecordPool {
     int unk08;
     unsigned short* available;
     int count;
-    void __thiscall AllocateRecords(unsigned short typeCode, int first, int second);
     unsigned short __thiscall AddRecord(int first,int second,const Record20* item);
 };
 // @fnv 0x00d9c210
 unsigned short RecordPool::AddRecord(int first,int second,const Record20* item) {
-    if (!count) AllocateRecords((unsigned short)(type + 0x80),first,second);
+    if (!count) reinterpret_cast<::FUN_00d9bf30_cls *>(this)->AllocateRecords((unsigned short)(type + 0x80),(::S_d9bf30_Rec **)(first),(unsigned short *)(second));
     unsigned short slot=available[count - 1];
     volatile int& remaining = count;
     --remaining;
@@ -433,7 +435,6 @@ struct Glyph20 {
 };
 
 struct FUN_00d9bf30_cls {
-    void __thiscall AllocateRecords(unsigned short index, int* outRecord, unsigned short* inChar);
 };
 
 struct FUN_00d9c280_cls {
@@ -451,7 +452,7 @@ struct FUN_00d9c280_cls {
 Glyph20* FUN_00d9c280_cls::PopGlyphRecord(int* outRecord, unsigned short* inChar, unsigned short* outChar) {
     if (m_nStack == 0) {
         unsigned short index = (unsigned short)(0x80 + m_nRecords);
-        ((FUN_00d9bf30_cls*)this)->AllocateRecords(index, outRecord, inChar);
+        reinterpret_cast<::FUN_00d9bf30_cls *>((((FUN_00d9bf30_cls*)this)))->AllocateRecords(index, (::S_d9bf30_Rec **)(outRecord), inChar);
     }
     unsigned short*& stack = m_pStackBuffer;
     *outChar = stack[m_nStack - 1];
@@ -481,7 +482,6 @@ AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct SubObject_b3483 {
     int unk00;
-    void Release();
 };
 
 struct FUN_00d9c320_cls {
@@ -494,7 +494,6 @@ struct FUN_00d9c320_cls {
     int unk18;
     SubObject_b3483 m_sub;
 
-    void BaseRelease();
     FUN_00d9c320_cls* Destroy(unsigned char acFlags);
 };
 
@@ -503,8 +502,8 @@ struct FUN_00d9c320_cls {
 FUN_00d9c320_cls* FUN_00d9c320_cls::Destroy(unsigned char acFlags)
 {
     m_vptr = (int)&DAT_010d40ac;
-    BaseRelease();
-    m_sub.Release();
+    reinterpret_cast<::FUN_00d9bed0_cls *>(this)->FUN_00d9bed0();
+    reinterpret_cast<::fnv_00d9c090::FUN_00d9c090_cls *>(&(m_sub))->ClearArrays();
     if (acFlags & 1) {
         AudioHolder* pHolder = FUN_00c85750();
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
@@ -534,7 +533,6 @@ struct D9C360MemoryRouter {
 };
 
 extern "C" D9C360MemoryRouter& __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void* alloc, void* array, int sizeElem);
 
 struct D9C360Node {
     int unk00;
@@ -552,7 +550,6 @@ struct D9C360Node {
 };
 
 struct D9C360NodeArray {
-    D9C360Node* get(int index);
 };
 
 // hkInplaceArray<D9C360Node*, 128> without a destructor (Havok was built without EH).
@@ -570,7 +567,7 @@ struct D9C360NodeStack {
     {
         D9C360Allocator& alloc = FUN_00c85750().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&alloc, this, sizeof(D9C360Node*));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(D9C360Node*));
         m_data[m_iElementCount++] = n;
     }
 
@@ -610,8 +607,8 @@ void D9C360Tree::TraverseTree(D9C360Node* node, void* context)
             stack.m_iElementCount--;
             continue;
         }
-        node = m_kNodeCollection.get(node->m_pChildAtom);
-        D9C360Node* sibling = (node->m_sibling != 0x7fffffff) ? m_kNodeCollection.get(node->m_sibling) : 0;
+        node = ((::fnv_00d9c360::D9C360Node *)(reinterpret_cast<::IdxStand_ *>(&(m_kNodeCollection))->FUN_00d9a4c0(node->m_pChildAtom)));
+        D9C360Node* sibling = (node->m_sibling != 0x7fffffff) ? ((::fnv_00d9c360::D9C360Node *)(reinterpret_cast<::IdxStand_ *>(&(m_kNodeCollection))->FUN_00d9a4c0(node->m_sibling))) : 0;
         stack.AddBack(sibling);
     }
     stack.release();
@@ -619,15 +616,15 @@ void D9C360Tree::TraverseTree(D9C360Node* node, void* context)
 }  // namespace fnv_00d9c360
 
 struct BoundsNode { unsigned short m00,m02,m04,m06,m08,m0A,m0C,m0E,m10,m12; };
-struct FUN_00d9a4d0_cls { BoundsNode* __thiscall GetEntryOffset(unsigned short key); };
+struct FUN_00d9a4d0_cls {  };
 struct FUN_00d9b450_cls { int m00,m04,m08,m0C,m10,m14,m18; FUN_00d9a4d0_cls m1c; void __thiscall UpdateBoundsNode(BoundsNode* a1,unsigned short a2,unsigned short a3); };
 // Sets a node's m12 to a3, then unless m10 has bit 0x8000 set, updates its two child nodes and recomputes the node's bounds from them.
 // @fnv 0x00d9b450
 void FUN_00d9b450_cls::UpdateBoundsNode(BoundsNode* pNode,unsigned short usValue,unsigned short usValue2) {
  pNode->m12=usValue2;
  if(pNode->m10&0x8000) return;
- BoundsNode* pChild1=m1c.GetEntryOffset(pNode->m0C);
- BoundsNode* pChild2=m1c.GetEntryOffset(pNode->m0E);
+ BoundsNode* pChild1=((::BoundsNode *)(reinterpret_cast<::FUN_00d9a4d0_Class *>(&(m1c))->GetEntryOffset(pNode->m0C)));
+ BoundsNode* pChild2=((::BoundsNode *)(reinterpret_cast<::FUN_00d9a4d0_Class *>(&(m1c))->GetEntryOffset(pNode->m0E)));
  pChild1->m10=(pChild1->m10&0x8000)|usValue;
  pChild2->m10=(pChild2->m10&0x8000)|usValue;
  UpdateBoundsNode(pChild1,pNode->m0C,pNode->m0E);
@@ -660,7 +657,6 @@ struct S_00d9d650_Router
 };
 
 namespace fnvc_adapt { S_00d9d650_Router& __cdecl FUN_00c85750(); }
-void __cdecl FUN_00c908c0(S_00d9d650_Heap& alloc, void* array, int reqCapacity, int sizeElem);
 
 template <typename T>
 struct S_00d9d650_Array
@@ -692,7 +688,7 @@ struct S_00d9d650_Array
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(alloc, this, newSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
         }
     }
     __forceinline void _setSize(S_00d9d650_Heap& alloc, int n)
@@ -732,7 +728,6 @@ struct S_00d9d650_Node
 struct S_00d9d650_Pool
 {
     void FUN_00d9c450(int numNodes, S_00d9d650_Node** root, int* a);
-    S_00d9d650_Node* PopItem(S_00d9d650_Node** root, int* a, int* b);
 };
 
 struct S_00d9d650_Tree
@@ -746,9 +741,7 @@ struct S_00d9d650_Tree
     int m_iNodeCount;
     S_00d9d650_Pool m_kNodePool;
 
-    void FUN_00d9d1c0(S_00d9d650_Aabb* aabbs, const int* keys, int n, S_00d9d650_Node* root, S_00d9d650_Array<int>& out, int depth);
     void MergeNode(S_00d9d650_Node* root, int a, int b);
-    void TraverseTree(S_00d9d650_Node* root, int a);
     void BuildTree(const S_00d9d650_Aabb* aabbs, const int* keys, int n, S_00d9d650_Array<int>& out) throw();
 };
 
@@ -760,7 +753,7 @@ void S_00d9d650_Tree::BuildTree(const S_00d9d650_Aabb* aabbs, const int* keys, i
     {
         out.SetSizeAndGrow(n);
         m_kNodePool.FUN_00d9c450(2 * n - 1, &m_pTreeNode, &m_14);
-        m_pTreeNode = m_kNodePool.PopItem(&m_pTreeNode, &m_14, &m_14);
+        m_pTreeNode = ((::S_00d9d650_Node *)(reinterpret_cast<::FUN_00d9ce00_Class *>(&(m_kNodePool))->PopItem((int)(&m_pTreeNode), (int)(&m_14), &m_14)));
         m_pTreeNode->m_28 |= 0x7fffffff;
 
         S_00d9d650_Array<S_00d9d650_Aabb> tmp;
@@ -781,10 +774,10 @@ void S_00d9d650_Tree::BuildTree(const S_00d9d650_Aabb* aabbs, const int* keys, i
         }
         else
         {
-            FUN_00d9d1c0(tmp.m_data, keys, n, m_pTreeNode, out, 0);
+            reinterpret_cast<::BuildTree *>(this)->FUN_00d9d1c0((const ::BuildAabb *)(tmp.m_data), keys, n, (::BuildTreeNode *)(m_pTreeNode), (::BuildArray<int> &)(out), 0);
         }
         MergeNode(m_pTreeNode, m_14, 0x7fffffff);
-        TraverseTree(m_pTreeNode, 0);
+        reinterpret_cast<::fnv_00d9c360::D9C360Tree *>(this)->TraverseTree((::fnv_00d9c360::D9C360Node *)(m_pTreeNode), (void *)(0));
     }
 }
 
@@ -801,8 +794,6 @@ struct Node_d9c520
 
 struct Resolver_d9c520
 {
-    Node_d9c520* GetEntryOffset(unsigned short index);
-    Node_d9c520* ResolveChild(unsigned short index);
 };
 
 struct TrackedArray_d9c520
@@ -848,11 +839,11 @@ void Pool_d9c520::TraverseNodeTree(Node_d9c520* node, int second)
             }
             else
             {
-                node = resolver.GetEntryOffset(node->unk0C);
-                Node_d9c520* child = node->unk12 != 0x7fff ? resolver.ResolveChild(node->unk12) : 0;
+                node = ((::Node_d9c520 *)(reinterpret_cast<::FUN_00d9a4d0_Class *>(&(resolver))->GetEntryOffset(node->unk0C)));
+                Node_d9c520* child = node->unk12 != 0x7fff ? ((::Node_d9c520 *)(reinterpret_cast<::FUN_00d9a4d0_Class *>(&(resolver))->GetEntryOffset(node->unk12))) : 0;
                 AllocHolder* holder = FUN_00c85750();
                 if (nodeStack.count == (nodeStack.capacity & 0x3fffffff))
-                    ResizeAudioStream(holder->m_pThreadAllocator, (UnsignedShortArray*)&nodeStack, 4);
+                    ::ResizeAudioStream((::AudioAllocator *)(holder->m_pThreadAllocator), (::AudioStream *)(::UnsignedShortArray *)((UnsignedShortArray*)&nodeStack), 4);
                 nodeStack.elements[nodeStack.count] = child;
                 nodeStack.count = nodeStack.count + 1;
             }
@@ -867,14 +858,14 @@ void Pool_d9c520::TraverseNodeTree(Node_d9c520* node, int second)
     }
 }
 
-void __cdecl AppendElement();
 
 // @fnv 0x00d9c2d0
 void __cdecl FUN_00d9c2d0(int param_1, unsigned short param_2) {
-    AppendElement();
+    static_cast<::Owner *>(nullptr)->AppendElement({});
 }
 
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
+#include "fnv/symbols_simd.h"
 
 struct NodeD9C7 {
     char unk00[0x10];
@@ -883,7 +874,6 @@ struct NodeD9C7 {
 
 class FreeListD9C7 {
 public:
-    void FUN_00d9c2d0(NodeD9C7* pkNode);
 };
 
 class FUN_00d9c7d0_C {
@@ -905,12 +895,12 @@ void FUN_00d9c7d0_C::FUN_00d9c7d0(NodeD9C7* pkNode)
     if (!(m_pkTreeNode->m_usFlags & 0x8000)) {
         NodeD9C7* pkOther;
         FUN_00d9bb50(pkNode, &pkOther);
-        m_kFreeList.FUN_00d9c2d0(pkOther);
+        ::FUN_00d9c2d0((int)&(m_kFreeList), (unsigned short)(pkOther));
     } else {
         m_sValue = 0x7fff;
         m_pkTreeNode = 0;
     }
-    m_kFreeList.FUN_00d9c2d0(pkNode);
+    ::FUN_00d9c2d0((int)&(m_kFreeList), (unsigned short)(pkNode));
     m_iArrayLength--;
 }
 
@@ -924,7 +914,6 @@ struct hkVector4 {
     void set(float x, float y, float z, float w) { m_vComponents = _mm_setr_ps(x, y, z, w); }
 };
 
-extern hkVector4 DAT_01267e30;
 
 struct Range {
     unsigned int m_kPointA;
@@ -952,8 +941,8 @@ struct FUN_00d9c110_cls {
 
 // @fnv 0x00d9c110
 FUN_00d9c110_cls::FUN_00d9c110_cls() {
-    m40 = DAT_01267e30;
-    m50 = DAT_01267e30;
+    m40 = (*reinterpret_cast<::hkVector4 *>(&::DAT_01267e30));
+    m50 = (*reinterpret_cast<::hkVector4 *>(&::DAT_01267e30));
     hkVector4 v;
     v.set(1.0f, 1.0f, 1.0f, 0.0f);
     m10 = 0;
@@ -975,7 +964,7 @@ template <class T> struct hkArray_d9c4 {
         int cap = m_iCapacityState & 0x3fffffff;
         if (cap < n) {
             int cap2 = 2 * cap;
-            FUN_00c908c0(heap, this, n < cap2 ? cap2 : n, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(heap), (::SpawnedArray *)(void *)(this), n < cap2 ? cap2 : n, sizeof(T));
         }
     }
     static void construct(T* p, int n)
@@ -1033,7 +1022,6 @@ struct S_00d9af30_Node {
 };
 struct S_00d9af30_Pool {
     S_00d9af30_Node* m_pData;
-    S_00d9af30_Node* __thiscall FUN_00d9a4c0(int);
 };
 struct S_00d9af30 {
     int unk00;
@@ -1052,8 +1040,8 @@ void __thiscall S_00d9af30::MergeNode(S_00d9af30_Node* apNode, int a, int b)
 {
     apNode->unk2c = b;
     if ((apNode->m_flags & 0x80000000) == 0) {
-        S_00d9af30_Node* pLeft = m_kNodePool.FUN_00d9a4c0(apNode->unk20);
-        S_00d9af30_Node* r = m_kNodePool.FUN_00d9a4c0(apNode->unk24);
+        S_00d9af30_Node* pLeft = ((::S_00d9af30_Node *)(reinterpret_cast<::IdxStand_ *>(&(m_kNodePool))->FUN_00d9a4c0(apNode->unk20)));
+        S_00d9af30_Node* r = ((::S_00d9af30_Node *)(reinterpret_cast<::IdxStand_ *>(&(m_kNodePool))->FUN_00d9a4c0(apNode->unk24)));
         pLeft->m_flags = (pLeft->m_flags & 0x80000000) | a;
         r->m_flags = (r->m_flags & 0x80000000) | a;
         MergeNode(pLeft, apNode->unk20, apNode->unk24);
@@ -1069,10 +1057,8 @@ struct __declspec(align(16)) Block32 {
 };
 
 struct S00d9a4c0_Cls {
-    Block32* __thiscall FUN_00d9a4c0(int key);
 };
 
-__declspec(noalias) void __stdcall FUN_00d9b240(int key, unsigned int* out);
 
 struct MapD9 {
     int m00;
@@ -1083,7 +1069,6 @@ struct MapD9 {
     int m14;
     int m18;
     S00d9a4c0_Cls m1c;
-    void FUN_00d9afe0(int a1, int a2, int a3);
     void FUN_00d9be50(int key, const Block32* src);
 };
 
@@ -1091,22 +1076,21 @@ struct MapD9 {
 // @fnv 0x00d9be50
 void MapD9::FUN_00d9be50(int key, const Block32* src) {
     if (m14 == key) {
-        Block32* out = m1c.FUN_00d9a4c0(key);
+        Block32* out = ((::Block32 *)(reinterpret_cast<::IdxStand_ *>(&(m1c))->FUN_00d9a4c0(key)));
         out->m10 = src->m10;
         out->m00 = src->m00;
         return;
     }
     unsigned int tmp;
-    FUN_00d9b240(key, &tmp);
-    Block32* out = m1c.FUN_00d9a4c0(key);
+    reinterpret_cast<::S00d9b240_Tree *>((key))->FUN_00d9b240((int)(&tmp), {});
+    Block32* out = ((::Block32 *)(reinterpret_cast<::IdxStand_ *>(&(m1c))->FUN_00d9a4c0(key)));
     __m128 hi = src->m10;
     __m128 lo = src->m00;
     out->m00 = lo;
     out->m10 = hi;
-    FUN_00d9afe0(m14, key, tmp);
+    reinterpret_cast<::AabbTree *>(this)->FUN_00d9afe0(m14, key, tmp);
 }
 
-extern __m128 DAT_010c7170;
 
 struct __declspec(align(16)) S_00d9c180_Vec { float x, y, z, w; };
 
@@ -1156,7 +1140,6 @@ FUN_00d9c180::FUN_00d9c180(const S_00d9c180_Vec* apVecA, const S_00d9c180_Vec* a
     unk14 = 0x7fff;
 }
 
-extern const void* DAT_010d40a4[];
 
 struct TreeDeleteAllocatorD9C2 {
     virtual void First();
@@ -1165,7 +1148,6 @@ struct TreeDeleteAllocatorD9C2 {
 };
 
 struct TreeDeleteNodeManagerD9C2 {
-    void ClearBuffers();
 };
 
 struct TreeDeleteD9C2 {
@@ -1173,7 +1155,6 @@ struct TreeDeleteD9C2 {
     int unk04, unk08, unk0c, unk10, unk14, unk18;
     TreeDeleteNodeManagerD9C2 m_kNodeCollection;
 
-    void FUN_00d9be30();
     TreeDeleteD9C2* FUN_00d9c2e0(unsigned char flags);
 };
 
@@ -1181,9 +1162,9 @@ struct TreeDeleteD9C2 {
 // @fnv 0x00d9c2e0
 TreeDeleteD9C2* TreeDeleteD9C2::FUN_00d9c2e0(unsigned char flags)
 {
-    m_ppVirtualMethodTable = DAT_010d40a4;
-    FUN_00d9be30();
-    m_kNodeCollection.ClearBuffers();
+    m_ppVirtualMethodTable = (*reinterpret_cast<const void * (*)[]>(&::DAT_010d40a4));
+    reinterpret_cast<::FUN_00d9be30_class *>(this)->FUN_00d9be30();
+    reinterpret_cast<::fnv_00d9c010::FUN_00d9c010_cls *>(&(m_kNodeCollection))->ClearBuffers();
     if (flags & 1) {
         AllocHolder* holder = FUN_00c85750();
         reinterpret_cast<TreeDeleteAllocatorD9C2*>(holder->m_pThreadAllocator)->Deallocate(this, 0x80);

@@ -2,6 +2,16 @@
 #ifndef NIDEVIMAGECONVERTER_DECLS_H
 #define NIDEVIMAGECONVERTER_DECLS_H
 
+#include "fnv/decl/Conv.h"
+#include "fnv/decl/FUN_00a77960_shell.h"
+#include "fnv/decl/Owner.h"
+#include "fnv/symbols_00a76000.h"
+#include "fnv/symbols_00a77000.h"
+#include "fnv/symbols_00a78000.h"
+#include "fnv/symbols_00a79000.h"
+#include "fnv/symbols_00a7a000.h"
+#include "fnv/symbols_00a8b000.h"
+#include "fnv/symbols_011aa000.h"
 class NiMemObject
 {
   public:
@@ -62,20 +72,10 @@ class NiPixelFormat
     NiPixelFormat() throw();
     bool operator==(const NiPixelFormat&) const throw();
     bool operator!=(const NiPixelFormat&) const;
-    bool IsField4InRange() const;
 };
 struct NiPoint3StartupTable;
 extern NiPoint3StartupTable gNiPoint3StartupSrc;
 #define SOURCE_FORMAT_RGB reinterpret_cast<const NiPixelFormat&>(gNiPoint3StartupSrc)
-extern const NiPixelFormat DAT_011aa180;
-extern const NiPixelFormat DAT_011aa1c8;
-extern const NiPixelFormat DAT_011aa210;
-extern const NiPixelFormat DAT_011aa258;
-extern const NiPixelFormat DAT_011aa2e8;
-extern const NiPixelFormat DAT_011aa330;
-extern const NiPixelFormat DAT_011aa3c0;
-extern const NiPixelFormat DAT_011aa408;
-extern const NiPixelFormat DAT_011aa450;
 class NiPalette : public NiMemObject
 {
   public:
@@ -92,7 +92,6 @@ class NiPalette : public NiMemObject
     NiPalette *m_pkPrev, *m_pkNext;
     NiPalette(const NiPalette&) throw();
     NiPalette(bool, unsigned, const PaletteColorEntry*) throw();
-    void FUN_00a8b190(const NiPalette&);
     unsigned GetEntries(PaletteColorEntry*& entries) const throw()
     {
         entries = m_pColorEntries;
@@ -144,7 +143,6 @@ class NiPixelData : public NiMemObject
     unsigned m_uiMipmapLevels, m_uiPixelStride, m_uiRevID, m_uiFaces;
     bool m_bOwnsPixelData;
     NiPixelData(unsigned, unsigned, const NiPixelFormat&, unsigned, unsigned) throw();
-    void FUN_00a76a60(NiPalette*);
     NiPalette* GetPalette() const throw()
     {
         return m_spPalette;
@@ -173,7 +171,6 @@ class NiPixelData : public NiMemObject
 class PixelDataExpander
 {
   public:
-    NiPixelData* ExpandPixelData(const NiPixelData&) throw();
 };
 class NiDevImageConverter
 {
@@ -208,89 +205,16 @@ extern "C" void* __cdecl fnv_zlib_memcpy(void*, const void*, unsigned);
 typedef void(__cdecl* PixelConvertFunc)(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
                                         const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
                                         const NiDevImageConverter::PixelFormatBitLayout&);
-void __cdecl FUN_00a76d70(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
-                          const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
-                          const NiDevImageConverter::PixelFormatBitLayout&);
-void __cdecl FUN_00a76e90(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
-                          const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
-                          const NiDevImageConverter::PixelFormatBitLayout&);
-void __cdecl ConvertPixelsTo16Bit(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
-                                  const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
-                                  const NiDevImageConverter::PixelFormatBitLayout&);
-void __cdecl ConvertRGBToFormat(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
-                                const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
-                                const NiDevImageConverter::PixelFormatBitLayout&);
-void __cdecl ConvertRGBAToPacked(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
-                                 const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
-                                 const NiDevImageConverter::PixelFormatBitLayout&);
-void __cdecl FUN_00a77110(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
-                          const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
-                          const NiDevImageConverter::PixelFormatBitLayout&);
-void __cdecl FUN_00a771d0(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
-                          const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
-                          const NiDevImageConverter::PixelFormatBitLayout&);
-void __cdecl UnpackPixels(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
-                          const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
-                          const NiDevImageConverter::PixelFormatBitLayout&);
-void __cdecl ConvertPixelsToBytes(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
-                                  const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
-                                  const NiDevImageConverter::PixelFormatBitLayout&);
-void __cdecl FUN_00a773d0(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
-                          const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
-                          const NiDevImageConverter::PixelFormatBitLayout&);
-void __cdecl ConvertRgbToRgba(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
-                              const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
-                              const NiDevImageConverter::PixelFormatBitLayout&);
-void __cdecl ConvertPixelsToRgb(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
-                                const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
-                                const NiDevImageConverter::PixelFormatBitLayout&);
-void __cdecl ConvertPixelFormat(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
-                                const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
-                                const NiDevImageConverter::PixelFormatBitLayout&);
-void __cdecl ConvertPackedPixelsToRGBA(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
-                                       const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
-                                       const NiDevImageConverter::PixelFormatBitLayout&);
-void __cdecl FUN_00a776b0(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
-                          const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
-                          const NiDevImageConverter::PixelFormatBitLayout&);
-void __cdecl ConvertRgbToPacked16(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
-                                  const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
-                                  const NiDevImageConverter::PixelFormatBitLayout&);
-void __cdecl FUN_00a77800(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
-                          const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
-                          const NiDevImageConverter::PixelFormatBitLayout&);
-void __cdecl FUN_00a77880(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
-                          const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
-                          const NiDevImageConverter::PixelFormatBitLayout&);
-void __cdecl Convert4BitPalettedTo24Bit(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
-                                        const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
-                                        const NiDevImageConverter::PixelFormatBitLayout&);
 void __cdecl ExpandPalettedImage(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
                                  const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
                                  const NiDevImageConverter::PixelFormatBitLayout&);
-void __cdecl FUN_00a79310(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
-                          const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
-                          const NiDevImageConverter::PixelFormatBitLayout&);
 void __cdecl ConvertPaletteTo16Bit(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
                                    const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
                                    const NiDevImageConverter::PixelFormatBitLayout&);
-void __cdecl FUN_00a798c0(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
-                          const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
-                          const NiDevImageConverter::PixelFormatBitLayout&);
 void __cdecl FUN_00a79ae0(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
                           const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
                           const NiDevImageConverter::PixelFormatBitLayout&);
-void __cdecl FUN_00a79e20(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
-                          const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
-                          const NiDevImageConverter::PixelFormatBitLayout&);
-void __cdecl ConvertPalettizedToFormat(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
-                                       const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
-                                       const NiDevImageConverter::PixelFormatBitLayout&);
 void __cdecl FUN_00a7a160(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
                           const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
                           const NiDevImageConverter::PixelFormatBitLayout&);
-void __cdecl FUN_00a7a1f0(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
-                          const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
-                          const NiDevImageConverter::PixelFormatBitLayout&);
-bool __cdecl FUN_00a77920(unsigned) throw();
 #endif

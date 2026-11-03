@@ -5,6 +5,33 @@
 
 // src/staging/blk_009a0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/Actor.h"
+#include "fnv/decl/BSFadeNode.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C00624070.h"
+#include "fnv/decl/FUN_0043b4d0_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004a51b0_shell.h"
+#include "fnv/decl/FUN_006212c0_shell.h"
+#include "fnv/decl/FUN_009b0c50_Class.h"
+#include "fnv/decl/PathingRequest.h"
+#include "fnv/decl/S_9b3080_Class.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/bhkCollisionObject.h"
+#include "fnv/decl/fnv_009b0cf0__FUN_009b0cf0_class.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00476000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_004ae000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_0062b000.h"
+#include "fnv/symbols_009b2000.h"
+#include "fnv/symbols_011cf000.h"
+#include "fnv/symbols_011d0000.h"
 #include "../../include/layout_support.h"
 
 #include <xmmintrin.h>
@@ -16,36 +43,24 @@ struct NiPoint3B09
     NiPoint3B09 operator-(const NiPoint3B09& kPt) const;
     NiPoint3B09 operator*(float fScalar) const;
     float& operator[](int i);
-    void Unitize();
 };
 struct hkVector4B09
 {
     __m128 m_vComponents;
     hkVector4B09();
 };
-void __cdecl FUN_00458620(NiPoint3B09* pDest, const hkVector4B09* pSrc);
 struct SettingB09
 {
-    float* GetFloat();
 };
-extern SettingB09 g_kSettingE70;
-extern SettingB09 g_kSettingDBC;
-extern SettingB09 g_kSettingC9C;
-extern SettingB09 g_kSettingF64;
-extern SettingB09 g_kSetting2EC;
 struct HandleB09
 {
     int m_iValue;
-    bool FUN_00624070();
-    int FUN_0043b4d0();
 };
 struct FormB09
 {
-    void* FUN_0044ddc0();
 };
 struct ProcessB09
 {
-    float FUN_009b0bd0();
 };
 struct RefB09
 {
@@ -111,15 +126,7 @@ struct RefB09
     virtual void vr03b();
     virtual hkVector4B09* GetPosF0(hkVector4B09* pOut);
     HandleB09* FUN_0043b4f0(HandleB09* pOut);
-    void* FUN_004ae750();
-    void FUN_009b0bf0(const NiPoint3B09& kImpulse);
-    void FUN_009b0c90(const NiPoint3B09& kImpulse);
 };
-FormB09* __cdecl FUN_004b5a20(void* pBase);
-void* __cdecl FUN_0056f930(void* pForm);
-float __cdecl FUN_0062b520(float fValue, RefB09* pRef, int iFlag);
-float __cdecl FUN_0040ebd0(float fA, float fB);
-float __cdecl FUN_00476b70(float fMin, float fScaledValue);
 struct OwnerB09
 {
     virtual void vo000();
@@ -248,68 +255,23 @@ struct OwnerB09
     virtual void vo07b();
     virtual void vo07c();
     virtual NiPoint3B09* GetPos1F4();
-    ProcessB09* FUN_004181e0();
-    void* FUN_009ad610();
     void FUN_009b0920(RefB09* pRef);
 };
-
-// @fnv 0x009b0920
-void OwnerB09::FUN_009b0920(RefB09* pRef)
-{
-    if (pRef)
-    {
-        float fForce = FUN_004181e0()->FUN_009b0bd0();
-        if (fForce > 0.0)
-        {
-            hkVector4B09 kPos;
-            NiPoint3B09 kRefPos;
-            FUN_00458620(&kRefPos, pRef->GetPosF0(&kPos));
-            NiPoint3B09 kWorldPosition = kRefPos - *GetPos1F4();
-            kWorldPosition.Unitize();
-            HandleB09 kHandle;
-            if (pRef->FUN_0043b4f0(&kHandle)->FUN_00624070())
-                kWorldPosition[2] += *g_kSettingE70.GetFloat();
-            bool bMatched = false;
-            if (FUN_009ad610())
-            {
-                FormB09* pForm = FUN_004b5a20(pRef->FUN_004ae750());
-                void* pBase = pForm ? pForm->FUN_0044ddc0() : 0;
-                void* pOther = FUN_0056f930(pBase);
-                if (pOther && pOther == FUN_009ad610())
-                {
-                    HandleB09 kHandle2;
-                    if (pRef->FUN_0043b4f0(&kHandle2)->FUN_0043b4d0() == 20)
-                        pRef->SetFlagE4(1);
-                    fForce *= *g_kSettingDBC.GetFloat();
-                    bMatched = true;
-                }
-            }
-            fForce = FUN_0062b520(fForce, pRef, 1);
-            if (!bMatched)
-                fForce = FUN_0040ebd0(fForce, *g_kSettingC9C.GetFloat());
-            pRef->FUN_009b0bf0(kWorldPosition * fForce * *g_kSettingF64.GetFloat());
-            NiPoint3B09 kRandom(FUN_00476b70(-1.0f, 1.0f), FUN_00476b70(-1.0f, 1.0f), FUN_00476b70(-1.0f, 1.0f));
-            pRef->FUN_009b0c90(kRandom * fForce * *g_kSetting2EC.GetFloat());
-        }
-    }
-}
 
 struct S009b0bf0_Box
 {
     __m128 q;
     S009b0bf0_Box();
 };
-int __cdecl FUN_004a3e00(S009b0bf0_Box*, int);
 struct S009b0bf0_Obj
 {
-    void FUN_009b0c50(int);
     void FUN_009b0bf0(int a0);
 };
 // @fnv 0x009b0bf0
 void S009b0bf0_Obj::FUN_009b0bf0(int a0)
 {
     S009b0bf0_Box box;
-    FUN_009b0c50(FUN_004a3e00(&box, a0));
+    reinterpret_cast<::FUN_009b0c50_Class *>(this)->FUN_009b0c50(((int)(::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&box)), (*(const ::fnv_004a3e00::NiPoint3 *)(a0))))));
 }
 
 struct __declspec(align(16)) hkVec4S_9b0c90
@@ -317,18 +279,56 @@ struct __declspec(align(16)) hkVec4S_9b0c90
     __m128 m_vComponents;
     hkVec4S_9b0c90();
 };
-hkVec4S_9b0c90& FUN_004a3e00(hkVec4S_9b0c90& out, const NiPoint3& in);
 struct S_009b0c90
 {
     int unk00;
-    void FUN_009b0cf0(const hkVec4S_9b0c90& v);
     void FUN_009b0c90(const NiPoint3& p);
 };
+// @fnv 0x009b0920
+void OwnerB09::FUN_009b0920(RefB09* pRef)
+{
+    if (pRef)
+    {
+        float fForce = reinterpret_cast<::PathingRequest *>((((::ProcessB09 *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->GetCenterRadius();
+        if (fForce > 0.0)
+        {
+            hkVector4B09 kPos;
+            NiPoint3B09 kRefPos;
+            ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&kRefPos)), (*(const ::hkVector4 *)(pRef->GetPosF0(&kPos))));
+            NiPoint3B09 kWorldPosition = kRefPos - *GetPos1F4();
+            reinterpret_cast<::FUN_004a0c10_s *>(&(kWorldPosition))->FUN_004a0c10();
+            HandleB09 kHandle;
+            if (reinterpret_cast<::C00624070 *>((pRef->FUN_0043b4f0(&kHandle)))->FUN_00624070())
+                reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3B09 &)(kWorldPosition))->FUN_004a51b0(2) += *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingB09 *>(&::originalRuntimeFloatSetting1028))))));
+            bool bMatched = false;
+            if (((void *)(reinterpret_cast<::BSFadeNode *>(this)->FUN_009ad610())))
+            {
+                FormB09* pForm = ((::FormB09 *)(::bhkCollisionObject::GetFromRigidBody((const ::hkpRigidBody *)(void *)(((void *)(::FUN_004ae750((void *)(pRef))))))));
+                void* pBase = pForm ? ((void *)(reinterpret_cast<::Twin_0044ddc0 *>((pForm))->GetName())) : 0;
+                void* pOther = ((void *)(::FUN_0056f930((::NiAVObject *)(pBase))));
+                if (pOther && pOther == ((void *)(reinterpret_cast<::BSFadeNode *>(this)->FUN_009ad610())))
+                {
+                    HandleB09 kHandle2;
+                    if (reinterpret_cast<::FUN_0043b4d0_shell *>((pRef->FUN_0043b4f0(&kHandle2)))->FUN_0043b4d0() == 20)
+                        pRef->SetFlagE4(1);
+                    fForce *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingB09 *>(&::g_011d0dbc))))));
+                    bMatched = true;
+                }
+            }
+            fForce = ::FUN_0062b520(fForce, (::bhkWorldObject *)(pRef), 1);
+            if (!bMatched)
+                fForce = FUN_0040ebd0(fForce, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingB09 *>(&::originalRuntimeFloatSetting1031)))))));
+            reinterpret_cast<::S009b0bf0_Obj *>((pRef))->FUN_009b0bf0((int)&(const ::NiPoint3B09 &)(kWorldPosition * fForce * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingB09 *>(&::g_011cff64))))))));
+            NiPoint3B09 kRandom(::RandomFloat(-1.0f, 1.0f), ::RandomFloat(-1.0f, 1.0f), ::RandomFloat(-1.0f, 1.0f));
+            reinterpret_cast<::S_009b0c90 *>((pRef))->FUN_009b0c90((const ::NiPoint3 &)((const ::NiPoint3B09 &)(kRandom * fForce * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingB09 *>(&::g_011d02ec)))))))));
+        }
+    }
+}
 // @fnv 0x009b0c90
 void S_009b0c90::FUN_009b0c90(const NiPoint3& p)
 {
     hkVec4S_9b0c90 v;
-    FUN_009b0cf0(FUN_004a3e00(v, p));
+    reinterpret_cast<::fnv_009b0cf0::FUN_009b0cf0_class *>(this)->FUN_009b0cf0((int)&((*(::hkVec4S_9b0c90 *)&(::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(v), (const ::fnv_004a3e00::NiPoint3 &)(p))))));
 }
 
 typedef __m128 ContactVector369;
@@ -343,12 +343,10 @@ struct FUN_00621c40
     unsigned int keyB;
     unsigned int shapePathB[8];
     FUN_00621c40();
-    FUN_00621c40& FUN_006212c0(const FUN_00621c40&);
 };
 struct Predicate369
 {
     bool flag;
-    int CompareBool(const FUN_00621c40&, const FUN_00621c40&) const;
 };
 // @fnv 0x009b2ed0
 void FUN_009b2ed0(FUN_00621c40* base, int lo, int hi, Predicate369 predicate)
@@ -358,12 +356,12 @@ void FUN_009b2ed0(FUN_00621c40* base, int lo, int hi, Predicate369 predicate)
 restart: {
     int j = hi;
     int i = lo;
-    pivot.FUN_006212c0(base[(lo + hi) >> 1]);
+    reinterpret_cast<::FUN_006212c0_shell *>(&(pivot))->FUN_006212c0((void *)&(base[(lo + hi) >> 1]));
     do
     {
-        while (predicate.CompareBool(base[i], pivot))
+        while (reinterpret_cast<::S_9b3080_Class *>((void *)&(predicate))->CompareBool((::S_9b3080_A *)&(base[i]), (::S_9b3080_A *)&(pivot)))
             ++i;
-        while (predicate.CompareBool(pivot, base[j]))
+        while (reinterpret_cast<::S_9b3080_Class *>((void *)&(predicate))->CompareBool((::S_9b3080_A *)&(pivot), (::S_9b3080_A *)&(base[j])))
             --j;
         if (j >= i)
         {
@@ -372,9 +370,9 @@ restart: {
                 FUN_00621c40 temp;
                 FUN_00621c40* high = &base[j];
                 FUN_00621c40* low = &base[i];
-                temp.FUN_006212c0(*high);
-                high->FUN_006212c0(*low);
-                low->FUN_006212c0(temp);
+                reinterpret_cast<::FUN_006212c0_shell *>(&(temp))->FUN_006212c0((void *)&(*high));
+                reinterpret_cast<::FUN_006212c0_shell *>((high))->FUN_006212c0((void *)&(*low));
+                reinterpret_cast<::FUN_006212c0_shell *>((low))->FUN_006212c0((void *)&(temp));
             }
             --j;
             ++i;

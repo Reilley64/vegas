@@ -4,6 +4,11 @@
 
 
 // the allocation entry points use the canonical MemoryManager signatures.
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00ba3c70_shell.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00ba3000.h"
+#include "fnv/symbols_011f6000.h"
 class IMemoryHeap;
 class MemoryManager
 {
@@ -11,10 +16,7 @@ class MemoryManager
     unsigned char layoutPadding0[297];
     bool m_bPoolAllocationEnabled;
     unsigned char layoutPadding12A[2];
-    void* Allocate(unsigned int size);
-    void Deallocate(void* pointer);
 };
-extern MemoryManager g_memoryManager;
 
 template <class T> class NiTMallocInterface
 {
@@ -86,11 +88,11 @@ class ImageSpaceShaderParam : public ImageSpaceEffectParam
     void SetShaderConstantVector4(int index, float x, float y, float z, float w);
     static void* operator new(unsigned int size) throw()
     {
-        return g_memoryManager.Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }
     static void operator delete(void* pointer)
     {
-        g_memoryManager.Deallocate(pointer);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(pointer);
     }
 };
 
@@ -107,10 +109,9 @@ class ImageSpaceEffect
     struct ImageSpaceEffectInput;
     NiTPrimitiveArray<ImageSpaceEffectInput*> pEffectInputs;
     NiTPrimitiveArray<int> pEffectOutput;
-    void SetTextureArrayCount(int count);
-    void SetEffectAt(int index, ImageSpaceEffect* effect, ImageSpaceEffectParam* param, int output);
     // No identity candidate is available for the one-input setup helper.
-    void SetEffectParamAt(int effectIndex, int textureIndex, int filterMode);
+public:
+    void SetTextureArraySize(int);
 };
 
 // Only the PC prefix read by Setup is required here.

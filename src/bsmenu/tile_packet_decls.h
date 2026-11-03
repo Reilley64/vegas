@@ -2,12 +2,13 @@
 #ifndef TILE_PACKET_DECLS_H
 #define TILE_PACKET_DECLS_H
 
+#include "fnv/symbols_00a04000.h"
+#include "fnv/symbols_00a1d000.h"
 class Menu
 {
   public:
     char menuFields[0x1c];
     bool m_bIsSpecial;
-    static float GetMenuScale();
 };
 class TileListBoxCalls
 {
@@ -36,14 +37,13 @@ class Tile
     bool IsPointInside(float, float);
     bool GetSpeechChallengeFailure();
     void SetSpeechChallengeFailure(bool);
-    static void UpdateAll(bool);
     void Set(int, int);
     void Set(int, unsigned int);
-    void Set(int, float, bool);
-    Menu* GetMenu();
     bool IsMenuRendered();
     Value* GetValue(int);
     float GetFloat(int);
+public:
+    static bool IsSpecialTileName(const char *);
 };
 template <class T> class NiTPointerList;
 template <> class NiTPointerList<Tile*>

@@ -2,6 +2,8 @@
 #ifndef FNV_GRENADEPROJECTILE_PRIVATE_TYPES_H
 #define FNV_GRENADEPROJECTILE_PRIVATE_TYPES_H
 
+#include "fnv/decl/Actor.h"
+#include "fnv/decl/FUN_00439f50_class.h"
 #include "layout_support.h"
 #include "SoundPlaybackHandle.h"
 #include "InventoryStackRecord.h"
@@ -81,7 +83,7 @@ FNV_STATIC_ASSERT(offsetof(NiPoint4, m_afExtents) == 0);
 class ThreeByThreeMatrix
 {
   public:
-    void FUN_00439f50(int column, NiPoint3& out) const;  // declared for the original code (decl_variants.py)
+      // declared for the original code (decl_variants.py)
 
   public:
     NiPoint4 m_afEntries[3];  // +0x0, 48 bytes
@@ -125,7 +127,6 @@ class Projectile : public MobileObject
     virtual bool ProcessImpact();
     virtual bool IsProximityTriggered();
     // JohnnyGuitarNVSE Projectile.hpp:135 and Projectile.cpp address annotation.
-    BGSProjectile* GetProjectileBase() const;
     // base MobileObject at +0x0, size 136
     BSSimpleList<Projectile__ImpactData*> m_kProjectileImpactList;  // +0x88, 8 bytes
     bool m_bHasImpactData;                                          // +0x90, 1 bytes

@@ -2,6 +2,18 @@
 #ifndef TESCREATURE_DECLS_H
 #define TESCREATURE_DECLS_H
 
+#include "fnv/decl/FUN_004516b0_shell.h"
+#include "fnv/decl/FUN_0047d800_shell.h"
+#include "fnv/decl/FUN_00489a60.h"
+#include "fnv/decl/FUN_005f75e0.h"
+#include "fnv/decl/FUN_005f77b0.h"
+#include "fnv/decl/FUN_005f7b50_Class.h"
+#include "fnv/decl/FlagSet.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/s428110__Owner.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_011c1000.h"
+#include "fnv/symbols_011c3000.h"
 namespace TESDataHandlerTypes {
 class TESFaction;
 }
@@ -19,8 +31,6 @@ class FormChangeMask
 class BGSLoadFormBuffer
 {
   public:
-    FormChangeMask GetChangeFlags(unsigned int flag);
-    void ReadTypedData(void* data, unsigned int size);
 };
 
 class TESAttackDamageForm
@@ -38,7 +48,6 @@ class TESModelList
     virtual void vfn_00() = 0;
     unsigned char modelListLayout[0x10];
     TESModelList();
-    void FUN_00489a60();
     ~TESModelList();
 };
 
@@ -58,7 +67,6 @@ class BGSImpactDataSet;
 class BGSListForm;
 class CombatController;
 
-extern "C" const float gCreatureFootWeight;
 extern "C" char gVtable_TESCreature;
 extern "C" char gVtable_30;
 extern "C" char gVtable_64;
@@ -76,13 +84,6 @@ extern "C" char gVtable_104;
 extern "C" char gVtable_10c;
 extern "C" char gVtable_114;
 extern "C" char gDestructorEhHandler;
-extern "C" void FnvActorBaseCtorAlias();
-extern "C" void FnvAttackCtorAlias();
-extern "C" void FnvClearDataAlias();
-extern "C" void FnvModelListDtorAlias();
-extern "C" void FnvAttackDtorAlias();
-extern "C" void FnvActorBaseDtorAlias();
-extern "C" unsigned int __security_cookie;
 
 class CreatureSoundCollection
 {
@@ -97,10 +98,7 @@ class TESActorBaseData
   public:
     virtual void vfn_00() = 0;
     unsigned char componentLayout[0x30];
-    void SetFactionRank(TESDataHandlerTypes::TESFaction*, char);
     bool GetFlag(unsigned int flag) const;
-    void UpdateFlagBit(int flag, bool value, bool addChange);
-    void UpdateFlagBit(bool value, bool addChange);
 };
 
 class CombatProcedure
@@ -119,20 +117,25 @@ enum ENUM_FORM_ID
 {
     kCreature = 0x2b
 };
+class TESFile;
 class TESForm
 {
   public:
     virtual ~TESForm();  // the original class is polymorphic (rtti_variants.py)
   public:
     void SetFormType(ENUM_FORM_ID);
+public:
+    bool GetInitialized() const;
+public:
+    void SetInitializationState(bool);
+public:
+    ::TESFile *GetFile(int);
 };
 extern TESDataHandlerTypes::TESFaction* DAT_011cb550;
 class TESDataHandler
 {
   public:
-    bool FUN_004516b0();
 };
-extern TESDataHandler* g_dataHandler;
 class TESAIForm
 {
   public:
@@ -149,23 +152,32 @@ class TESBoundAnimObject
     virtual void vfn_00() = 0;
     unsigned char componentLayout[44];
 };
+class TESForm;
 class TESContainer
 {
   public:
     virtual void vfn_00() = 0;
     unsigned char componentLayout[8];
+public:
+    void InitItem(::TESForm *);
 };
+class TESForm;
 class BGSTouchSpellForm
 {
   public:
     virtual void vfn_00() = 0;
     unsigned char componentLayout[8];
+public:
+    void InitItem(::TESForm *);
 };
+class TESForm;
 class TESSpellList
 {
   public:
     virtual void vfn_00() = 0;
     unsigned char componentLayout[16];
+public:
+    void InitItem(::TESForm *);
 };
 class TESHealthForm
 {
@@ -197,22 +209,28 @@ class TESModel
     virtual void vfn_00() = 0;
     unsigned char componentLayout[20];
 };
+class TESForm;
 class TESScriptableForm
 {
   public:
     virtual void vfn_00() = 0;
     unsigned char componentLayout[8];
+public:
+    void InitItem(::TESForm *);
 };
 class ActorValueOwner
 {
   public:
     virtual void vfn_00() = 0;
 };
+class TESForm;
 class BGSDestructibleObjectForm
 {
   public:
     virtual void vfn_00() = 0;
     unsigned char componentLayout[4];
+public:
+    void InitItem(::TESForm *);
 };
 class TESActorBase : public TESBoundAnimObject,
                      public TESActorBaseData,
@@ -232,7 +250,6 @@ class TESActorBase : public TESBoundAnimObject,
   public:
     TESActorBase();
     ~TESActorBase();
-    void LoadGame(BGSLoadFormBuffer*);
 };
 
 class TESCreature : public TESActorBase, public TESAttackDamageForm, public TESModelList

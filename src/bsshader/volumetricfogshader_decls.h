@@ -4,6 +4,10 @@
 
 #include <stddef.h>
 
+#include "fnv/symbols_00e76000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_010a1000.h"
+#include "fnv/symbols_011f9000.h"
 class NiMemObject
 {
   public:
@@ -104,7 +108,6 @@ template <class T> class NiPointer
 class NiD3DVertexDeclaration
 {
   public:
-    static NiD3DVertexDeclaration* Create(NiRenderer* renderer, unsigned int first, unsigned int second);
 };
 
 class NiConsoleShaderDeclarationVTable
@@ -266,11 +269,8 @@ class VolumetricFogShaderVTable
     virtual void vfn_148();
 };
 
-extern NiRenderer* DAT_011f9508;
-extern const char g_emptyTopicInfoPrompt[];
 extern const char DAT_010babec[];
 extern const char DAT_010bb0ac[];
-extern "C" const char DAT_010A1E50[];
 
 typedef char NiD3DShaderConstantMap_must_be_68_bytes[(sizeof(NiD3DShaderConstantMap) == 0x44) ? 1 : -1];
 typedef char VolumetricFogShader_must_be_168_bytes[(sizeof(VolumetricFogShader) == 0xa8) ? 1 : -1];

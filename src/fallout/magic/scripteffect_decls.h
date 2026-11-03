@@ -1,10 +1,11 @@
 // fallout/magic/scripteffect_decls.h: declares BGSLoadFormBuffer, ScriptLocals, Script, ActorMover, MagicTarget and more
 
+#include "fnv/decl/fnv_005a9f20__FUN_005a9f20_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
 class TESObjectREFR;
 class BGSLoadFormBuffer
 {
   public:
-    void ReadTypedData(void*, unsigned int);
 };
 class ScriptLocals
 {
@@ -16,12 +17,10 @@ class ScriptLocals
     void* effect;
     ScriptLocals();
     ~ScriptLocals();
-    void LoadGame(BGSLoadFormBuffer*);
 };
 class Script
 {
   public:
-    ScriptLocals* GetOrCreateScriptLocals();
     void AdvanceScript(TESObjectREFR*, ScriptLocals*, float);
 };
 class ActorMover
@@ -40,6 +39,8 @@ class ActiveEffect
   public:
     char data[68];
     virtual void LoadGame(BGSLoadFormBuffer*);
+public:
+    void CopyData(::ActiveEffect *);
 };
 class ScriptEffect : public ActiveEffect
 {

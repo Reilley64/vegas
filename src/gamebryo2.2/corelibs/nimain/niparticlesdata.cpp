@@ -1,14 +1,39 @@
 // gamebryo2.2/corelibs/nimain/niparticlesdata.cpp: NiParticlesData, Candidate, ParticleViewData, ParticlesEquality and more (14 functions)
 
+#include <new>
+#include "fnv/decl/AA4610Allocator.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004b6190_shell.h"
+#include "fnv/decl/FUN_00658930_class.h"
+#include "fnv/decl/FUN_00a67c00.h"
+#include "fnv/decl/FUN_00a698a0_class.h"
+#include "fnv/decl/FUN_00a96800_shell.h"
+#include "fnv/decl/FUN_00aa45a0_Class.h"
+#include "fnv/decl/GeomData.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiColor.h"
+#include "fnv/decl/NiObject_b.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a67ea0__GeomEA0.h"
+#include "fnv/decl/fnv_00a68520__NiGeometryDataSave.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a41000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f5000.h"
+#include "fnv/symbols_011f6000.h"
 #include "MemoryManager.h"
 #include "niparticlesdata_local.h"
 
-extern MemoryManager g_memoryManager;
 
 // @fnv 0x00a968a0
 void NiParticlesData::SetRotations(NiQuaternion* pkRotations)
 {
-    g_memoryManager.Deallocate(m_pkRotations);
+    reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(m_pkRotations);
     m_pkRotations = pkRotations;
 }
 
@@ -27,12 +52,11 @@ void __fastcall FUN_00a968e0(char* this_ptr, int, void* param_2, unsigned char p
     *(void**)(this_ptr + 0x68) = param_2;
 }
 
-extern const char* const g_011f5f0c_arg1;
 
 // @fnv 0x00a967d0
 const char* const* __cdecl FUN_00a967d0()
 {
-    return &g_011f5f0c_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_011f5ef0));
 }
 
 struct FUN_00a968c0_shell
@@ -43,11 +67,10 @@ struct FUN_00a968c0_shell
 // @fnv 0x00a968c0
 void __thiscall FUN_00a968c0_shell::SetPointer(void* apPointer)
 {
-    g_memoryManager.Deallocate(*(void**)(this + 0x60));
+    reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(*(void**)(this + 0x60));
     *(void**)(this + 0x60) = apPointer;
 }
 
-void __fastcall FUN_00a67c00(void* object);
 
 struct NiGeometryData_SetConsistency_View
 {
@@ -82,7 +105,7 @@ void* FUN_00a96600()
     FUN_00a96600_data* p = (FUN_00a96600_data*)BSFadeNode::operator new(sizeof(FUN_00a96600_data));
     if (p)
     {
-        FUN_00a67c00(p);
+        new ((void *)(p)) struct ::FUN_00a67c00();
         p->vtable = DAT_010a05e4;
         p->field_4c = 0;
         p->field_50 = 0;
@@ -102,7 +125,6 @@ void* FUN_00a96600()
 }
 
 void __cdecl _delete(void*, unsigned int);
-void __cdecl FUN_00a96800();
 struct FUN_00a96a10_shell
 {
     void* __thiscall FUN_00a96a10(unsigned int flags);
@@ -111,21 +133,26 @@ struct FUN_00a96a10_shell
 // @fnv 0x00a96a10
 void* __thiscall FUN_00a96a10_shell::FUN_00a96a10(unsigned int flags)
 {
-    FUN_00a96800();
+    static_cast<::FUN_00a96800_shell *>(nullptr)->FUN_00a96800();
     if (flags & 1)
         _delete(this, 0x70);
     return this;
 }
 
+class NiStream;
 class RgbaColor
 {
   public:
     float r, g, b, a;
+public:
+    void LoadBinary(::NiStream &);
 };
 class NiQuaternion
 {
   public:
     float w, x, y, z;
+public:
+    static const ::NiQuaternion IDENTITY;
 };
 struct Candidate : NiParticlesData
 {
@@ -188,38 +215,14 @@ struct ParticleViewFrame
     unsigned int unk_60;
     NiPoint3 axisX, axisY, axisZ;
 };
-extern MemoryManager g_memoryManager;
 inline void* operator new[](unsigned int bytes, MemoryManager& manager)
 {
-    return manager.Allocate(bytes);
+    return reinterpret_cast<::MemoryManagerStandIn *>(&(manager))->FUN_00aa3e40(bytes);
 }
 struct ParticleViewData : NiParticlesData
 {
-    void FUN_00a966c0(int, int);
     void FUN_00a96910(ParticleViewFrame*);
 };
-// @fnv 0x00a96910
-void ParticleViewData::FUN_00a96910(ParticleViewFrame* pViewFrame)
-{
-    if (!m_pusParticleIndices)
-    {
-        m_pusParticleIndices = new (g_memoryManager) unsigned short[m_usVertices];
-        m_pfSortValues = new (g_memoryManager) float[m_usVertices];
-    }
-    for (unsigned short i = 0; i < m_usActive; ++i)
-        m_pusParticleIndices[i] = i;
-    if (m_usActive > 1)
-    {
-        NiPoint3 viewDirection = {pViewFrame->axisX.y, pViewFrame->axisY.y, pViewFrame->axisZ.y};
-        for (unsigned short i = 0; i < m_usActive; ++i)
-        {
-            const NiPoint3& p = m_pkVertex[i];
-            m_pfSortValues[i] = p.Dot(viewDirection);
-        }
-        FUN_00a966c0(0, m_usActive - 1);
-    }
-}
-
 void* __cdecl FUN_00aa13e0(unsigned int uiSize);
 inline void* __cdecl operator new(unsigned int, void* pv) throw()
 {
@@ -246,7 +249,7 @@ struct Obj_a96
     void FUN_00a67050(int i) throw();
     Obj_a96() throw()
     {
-        FUN_00a67c00(this);
+        new ((void *)(this)) struct ::FUN_00a67c00();
         m_vf = DAT_010a05e4;
         m_4c = 0;
         m_50 = 0;
@@ -523,12 +526,10 @@ struct NiStream
 };
 struct GeoSave
 {
-    void FUN_00a68520(NiStream&);
 };
 struct NiColorA_SaveHelper
 {
     float r, g, b, a;
-    void SaveBinary(NiStream&);
 };
 struct FUN_00a97290_holder : NiParticlesData
 {
@@ -538,7 +539,7 @@ struct FUN_00a97290_holder : NiParticlesData
 // @fnv 0x00a97290
 void FUN_00a97290_holder::FUN_00a97290(NiStream& stream)
 {
-    ((GeoSave*)this)->FUN_00a68520(stream);
+    reinterpret_cast<::fnv_00a68520::NiGeometryDataSave *>((((GeoSave*)this)))->FUN_00a68520((::fnv_00a68520::SaveStream &)(stream));
     bool hasRadii = m_pfRadii != 0;
     stream.output->Write(&hasRadii, 1);
     stream.output->Write(&m_usActive, 2);
@@ -554,7 +555,7 @@ void FUN_00a97290_holder::FUN_00a97290(NiStream& stream)
     stream.output->Write(&hasIndices, 1);
     stream.output->Write(&m_ucSubTextureOffsetCount, 1);
     for (unsigned int i = 0; i < m_ucSubTextureOffsetCount; i++)
-        ((NiColorA_SaveHelper*)m_pkSubTextureOffsets)[i].SaveBinary(stream);
+        reinterpret_cast<::FUN_00a698a0_class *>(&(((NiColorA_SaveHelper*)m_pkSubTextureOffsets)[i]))->FUN_00a698a0((void *)&(stream));
 }
 
 template <class T> class NiTViewerArray
@@ -594,8 +595,8 @@ template <class T> class NiTViewerArray
     unsigned int SetAtGrow(unsigned int uiIndex, const T& element)
     {
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, element);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(element));
         return uiIndex;
     }
     unsigned int Add(const T& element)
@@ -613,21 +614,12 @@ template <class T> class NiTViewerArray
 };
 typedef NiTViewerArray<char*> NiViewerStringsArray;
 
-char* CreateDebugString(const char* pcName);
-char* CreateDebugString(const char* pcName, unsigned short usValue);
-char* CreateDebugString(const char* pcName, unsigned int uiValue);
-char* CreateDebugString(const char* pcName, int iValue);
-char* CreateDebugString(const char* pcName, const char* pcValue);
-char* CreateDebugString(const char* pcName, void* pvValue);
-char* CreateDebugString(const char* pcName, unsigned char ucValue);
 
-extern const char* g_pcParticlesDataName;
 
 class NiGeometryDataViewer
 {
   public:
     virtual void v0();
-    void GetViewerStrings(NiViewerStringsArray* pkStrings);
 };
 
 class NiParticlesDataViewer : public NiGeometryDataViewer
@@ -668,18 +660,18 @@ class NiParticlesDataViewer : public NiGeometryDataViewer
 // @fnv 0x00a97420
 void NiParticlesDataViewer::FUN_00a97420(NiViewerStringsArray* pkStrings)
 {
-    NiGeometryDataViewer::GetViewerStrings(pkStrings);
+    reinterpret_cast<::GeomData *>(this)->RegisterFields((::StrArr *)(pkStrings));
 
-    pkStrings->Add(CreateDebugString(g_pcParticlesDataName));
-    pkStrings->Add(CreateDebugString("m_pfRadii", (void*)m_pfRadii));
-    pkStrings->Add(CreateDebugString("m_usActive", m_usActive));
-    pkStrings->Add(CreateDebugString("m_pfSizes", (void*)m_pfSizes));
-    pkStrings->Add(CreateDebugString("m_pkRotations", m_pkRotations));
-    pkStrings->Add(CreateDebugString("m_pfRotationAngles", (void*)m_pfRotationAngles));
-    pkStrings->Add(CreateDebugString("m_pkRotationAxes", m_pkRotationAxes));
-    pkStrings->Add(CreateDebugString("m_pucTextureIndices", (void*)m_pucTextureIndices));
-    pkStrings->Add(CreateDebugString("m_ucSubTextureOffsetCount", m_ucSubTextureOffsetCount));
-    pkStrings->Add(CreateDebugString("m_pkSubTextureOffsets", m_pkSubTextureOffsets));
+    pkStrings->Add(::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_011f5ef0))));
+    pkStrings->Add(::FUN_00a7d5a0("m_pfRadii", (void*)m_pfRadii));
+    pkStrings->Add(::FUN_00a7d490("m_usActive", m_usActive));
+    pkStrings->Add(::FUN_00a7d5a0("m_pfSizes", (void*)m_pfSizes));
+    pkStrings->Add(::FUN_00a7d5a0("m_pkRotations", m_pkRotations));
+    pkStrings->Add(::FUN_00a7d5a0("m_pfRotationAngles", (void*)m_pfRotationAngles));
+    pkStrings->Add(::FUN_00a7d5a0("m_pkRotationAxes", m_pkRotationAxes));
+    pkStrings->Add(::FUN_00a7d5a0("m_pucTextureIndices", (void*)m_pucTextureIndices));
+    pkStrings->Add(::FUN_00a7d410("m_ucSubTextureOffsetCount", m_ucSubTextureOffsetCount));
+    pkStrings->Add(::FUN_00a7d5a0("m_pkSubTextureOffsets", m_pkSubTextureOffsets));
 }
 
 class RenderOrderSorter
@@ -706,6 +698,27 @@ class RenderOrderSorter
     float* m_pfSortValues;
     void FUN_00a966c0(int left, int right);
 };
+// @fnv 0x00a96910
+void ParticleViewData::FUN_00a96910(ParticleViewFrame* pViewFrame)
+{
+    if (!m_pusParticleIndices)
+    {
+        m_pusParticleIndices = new (::g_memoryManager) unsigned short[m_usVertices];
+        m_pfSortValues = new (::g_memoryManager) float[m_usVertices];
+    }
+    for (unsigned short i = 0; i < m_usActive; ++i)
+        m_pusParticleIndices[i] = i;
+    if (m_usActive > 1)
+    {
+        NiPoint3 viewDirection = {pViewFrame->axisX.y, pViewFrame->axisY.y, pViewFrame->axisZ.y};
+        for (unsigned short i = 0; i < m_usActive; ++i)
+        {
+            const NiPoint3& p = m_pkVertex[i];
+            m_pfSortValues[i] = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(p))->DotProduct((void *)&(viewDirection));
+        }
+        reinterpret_cast<::RenderOrderSorter *>(this)->FUN_00a966c0(0, m_usActive - 1);
+    }
+}
 // Partitions m_pusParticleIndices between left and right around a pivot value from m_pfSortValues, then recurses on both sub-ranges.
 // @fnv 0x00a966c0
 void RenderOrderSorter::FUN_00a966c0(int left, int right)
@@ -906,23 +919,18 @@ struct StreamIn
     BinStream* kReadStream;
 };
 void* __cdecl FUN_00aa1070(unsigned int size);
-void __cdecl ReadElements(StreamIn* stream, float* arr, unsigned int count);
 void __cdecl FUN_00ec61c0(void* p, int val, unsigned int n);
 struct A67EA0_shell
 {
-    void __thiscall ReadBinary(StreamIn* stream);
 };
 struct AllocSvc
 {
-    void* __thiscall FUN_00aa3e40(unsigned int n);
-    void __thiscall FUN_00aa4060(void* p);
 };
-extern AllocSvc DAT_011f6238;
 struct ArrNew
 {
     static void* operator new[](unsigned int n)
     {
-        return DAT_011f6238.FUN_00aa3e40(n);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::AllocSvc *>(&::g_memoryManager))))->FUN_00aa3e40(n);
     }
 };
 struct Rot16 : ArrNew
@@ -931,19 +939,15 @@ struct Rot16 : ArrNew
     float qy;
     float qz;
     float qw;
-    void __thiscall FUN_00a69800(StreamIn* stream);
 };
-extern float DAT_011a9ea4;
 extern float DAT_011a9ea8;
 extern float DAT_011a9eac;
 extern float DAT_011a9eb0;
-extern char DAT_011f5f0c;
 struct Axis12 : ArrNew
 {
     float ax;
     float ay;
     float az;
-    void __thiscall FUN_00a59be0(StreamIn* stream);
 };
 struct RTTILink
 {
@@ -991,7 +995,7 @@ void __thiscall ParticlesLoadView::FUN_00a96cf0(StreamIn* stream)
         float radius;
         unsigned char flag;
     } value;
-    ((A67EA0_shell*)this)->ReadBinary(stream);
+    reinterpret_cast<::fnv_00a67ea0::GeomEA0 *>((((A67EA0_shell*)this)))->ReadBinary((*(::fnv_00a67ea0::StreamEA0 *)(stream)));
     if (stream->verD8 < 0x4010007)
     {
         BinStream* kReadStream = stream->kReadStream;
@@ -1014,7 +1018,7 @@ void __thiscall ParticlesLoadView::FUN_00a96cf0(StreamIn* stream)
         kReadStream->Read(&flag, 1, 1);
         if (flag != 0 && stream->ver4 < 0x13)
         {
-            ReadElements(stream, m_pfRadii, (unsigned int)m_usVertices);
+            ::ReadElements((::NiStreamM *)(stream), (const unsigned int *)(m_pfRadii), (unsigned int)m_usVertices);
         }
         else
         {
@@ -1072,14 +1076,14 @@ void __thiscall ParticlesLoadView::FUN_00a96cf0(StreamIn* stream)
         {
             for (unsigned int i = 0; i < m_usVertices; i++)
             {
-                m_pkRotations[i].FUN_00a69800(stream);
+                reinterpret_cast<::RgbaColor *>(&(m_pkRotations[i]))->LoadBinary((*(::NiStream *)(stream)));
             }
         }
         else
         {
             for (unsigned int i = 0; i < m_usVertices; i++)
             {
-                m_pkRotations[i] = *(Rot16*)&DAT_011a9ea4;
+                m_pkRotations[i] = *(Rot16*)&(*reinterpret_cast<float *>((void *)&::NiQuaternion::IDENTITY));
             }
         }
     }
@@ -1095,7 +1099,7 @@ void __thiscall ParticlesLoadView::FUN_00a96cf0(StreamIn* stream)
             {
                 for (unsigned short i = 0; i < m_usVertices; i++)
                 {
-                    m_pkRotations[i].FUN_00a69800(stream);
+                    reinterpret_cast<::RgbaColor *>(&(m_pkRotations[i]))->LoadBinary((*(::NiStream *)(stream)));
                 }
             }
             if (stream->verD8 <= 0xa000100)
@@ -1103,13 +1107,13 @@ void __thiscall ParticlesLoadView::FUN_00a96cf0(StreamIn* stream)
                 RTTILink* pRttiChain = ((RTTIView*)this)->GetRTTIChain();
                 while (pRttiChain != 0)
                 {
-                    if (pRttiChain == (void*)&DAT_011f5f0c)
+                    if (pRttiChain == (void*)&(*reinterpret_cast<char *>(&::g_011f5f0c)))
                     {
                         goto keepRot;
                     }
                     pRttiChain = pRttiChain->base;
                 }
-                DAT_011f6238.FUN_00aa4060(m_pkRotations);
+                reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::AllocSvc *>(&::g_memoryManager))))->FUN_00aa4060(m_pkRotations);
                 m_pkRotations = 0;
             keepRot:;
             }
@@ -1144,7 +1148,7 @@ void __thiscall ParticlesLoadView::FUN_00a96cf0(StreamIn* stream)
                 {
                     for (unsigned short i = 0; i < m_usVertices; i++)
                     {
-                        ((Axis12*)&m_pkRotationAxes[i])->FUN_00a59be0(stream);
+                        reinterpret_cast<::NiColor *>((((Axis12*)&m_pkRotationAxes[i])))->LoadBinary((*(::NiStream *)(stream)));
                     }
                 }
             }
@@ -1166,7 +1170,7 @@ void __thiscall ParticlesLoadView::FUN_00a96cf0(StreamIn* stream)
             m_pkSubTextureOffsets = (Rot16*)FUN_00aa1070((unsigned int)m_ucSubTextureOffsetCount * 16);
             for (unsigned short i = 0; i < m_ucSubTextureOffsetCount; i++)
             {
-                m_pkSubTextureOffsets[i].FUN_00a69800(stream);
+                reinterpret_cast<::RgbaColor *>(&(m_pkSubTextureOffsets[i]))->LoadBinary((*(::NiStream *)(stream)));
             }
         }
     }

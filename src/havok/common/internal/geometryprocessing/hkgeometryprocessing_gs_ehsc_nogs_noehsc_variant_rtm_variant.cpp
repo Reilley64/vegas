@@ -7,14 +7,21 @@
 // to their real unit once identified.
 // src/havok/common/internal/geometryprocessing/hkgeometryprocessing.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/geometryprocessing/hkgeometryprocessing.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void __cdecl Deallocate(void*);
+#include "fnv/decl/FnvCpu_FUN_00d76d80_CpuOwner.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cbf000.h"
+#include "fnv/symbols_00dea000.h"
+#include "fnv/symbols_00ded000.h"
+#include "fnv/symbols_010cd000.h"
+#include "fnv/symbols_01267000.h"
 extern int DAT_010d9fc4;
 struct FUN_00dee620
 {
     void* m_pVTable;
     __thiscall FUN_00dee620(int testFlag);
 };
-extern "C" void __cdecl FUN_00dedf10(void*, void*, void*, void*, int, int);
 void __cdecl FUN_00dee5f0(void* first, void* second, void* third, void* fourth);
 struct FUN_00dee6b0_Class
 {
@@ -22,7 +29,6 @@ struct FUN_00dee6b0_Class
     float unk04;
     float FUN_00dee6b0(int testFlag);
 };
-extern int DAT_010cd664;
 struct AudioAllocator
 {
     virtual void v00();
@@ -37,7 +43,6 @@ struct AudioHolder
     int unk0c;
     AudioAllocator* m_pAllocator;
 };
-AudioHolder* __cdecl FUN_00c85750() throw();
 struct FUN_00dee6c0_cls
 {
     int m_vptr;
@@ -46,7 +51,6 @@ struct FUN_00dee6c0_cls
 };
 #include <xmmintrin.h>
 #include <math.h>
-double __cdecl Atan2(float y, float x);
 struct Vector3
 {
     float x, y, z;
@@ -129,18 +133,15 @@ static __forceinline void calcEdgeAxis(const hkVector4& a0, const hkVector4& a1,
     eb.setSub4(b1, b0);
     axis.setCross(ea, eb);
 }
-int __cdecl FUN_00deab10(const hkVector4* triA, const hkVector4* triB);
 struct Point4;
-extern Point4 DAT_01267e30;
 struct __declspec(align(16)) Point4
 {
     float x, y, z, w;
     __forceinline Point4()
     {
-        *this = DAT_01267e30;
+        *this = (*reinterpret_cast<::Point4 *>(&::DAT_01267e30));
     }
 };
-extern Point4 DAT_01267e30;
 struct VertexArray
 {
     Point4* data;
@@ -163,8 +164,6 @@ struct FourPointArray
     int size;
     int capacity;
 };
-void __cdecl FUN_00c908c0(AudioAllocator*, void*, int, int);
-void __cdecl FUN_00dedcf0(const VertexArray& vertices, FourPointArray& output);
 
 #include <math.h>
 #include <xmmintrin.h>
@@ -345,7 +344,6 @@ struct S_Self
     int unk00;
     int unk04;
     S_Body* body;
-    void FUN_00d76d80(float* diag, S_Rot* rot);
 };
 
 struct AxisOwner : S_Self
@@ -373,7 +371,7 @@ S_V4 AxisOwner::FUN_00d76d90()
     case 3: {
         float d[4];
         S_Rot rot;
-        FUN_00d76d80(d, &rot);
+        reinterpret_cast<::FnvCpu_FUN_00d76d80_CpuOwner *>(this)->FUN_00d76d80();
         int idx;
         if (d[0] < d[1])
             idx = (d[2] > d[0]) ? 0 : 2;

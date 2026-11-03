@@ -3,6 +3,7 @@
 #ifndef CONDITIONFN_MOBILEOBJECT_DECLARATIONS_H
 #define CONDITIONFN_MOBILEOBJECT_DECLARATIONS_H
 
+#include "fnv/decl/FUN_00935a40_cls.h"
 #include "tesconditionfunctions_conditionfn_dep_layout_support_decl_tesconditionfunctions.h"
 #include "tesconditionfunctions_conditionfn_dep_TESObjectREFR_decl_tesconditionfunctions.h"
 class MobileObject : public TESObjectREFR
@@ -75,7 +76,6 @@ class MobileObject : public TESObjectREFR
     virtual void Unk_BF(void);
     virtual void Unk_C0(void);
     bool GetShouldUseEmotionAnimation() const;
-    bool HasSaidTopicInfo(TESTopicInfo* info);
 };
 FNV_STATIC_ASSERT(sizeof(MobileObject) == 0x88);
 FNV_STATIC_ASSERT(offsetof(MobileObject, m_pBaseProcess) == 0x68);

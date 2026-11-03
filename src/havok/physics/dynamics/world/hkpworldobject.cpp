@@ -2,6 +2,11 @@
 // src/havok/physics/dynamics/world/hkpworldobject.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/hkpworldobject.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00d06fb0_cls.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_0105c000.h"
 #include "havok/hkpWorldObject.h"
 
 // @fnv 0x00cd2930
@@ -29,7 +34,6 @@ namespace hkRouterCD2B {
 extern "C" hkMemoryRouterCD2B& __cdecl FUN_00c85750() throw();
 }
 
-void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
 
 struct hkEntryCD2B
 {
@@ -58,7 +62,7 @@ template <class T> class hkArrayCD2B
     {
         hkMemoryAllocatorCD2B& kAlloc = hkRouterCD2B::FUN_00c85750().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&kAlloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         return m_data[m_iElementCount++];
     }
 };
@@ -86,11 +90,9 @@ void hkOwnerCD2B::AddEntry(void* key, hkEntryCD2B::Value v)
     e.m_key = key;
 }
 
-extern char DAT_0105c390;
 extern char DAT_010cb2d8;
 extern char DAT_01020e44;
 extern char DAT_010cb2c8;
-void* __cdecl FUN_00d06f80(void* data, int bytes);
 
 struct hkStreamWriter
 {
@@ -106,7 +108,6 @@ struct hkStreamWriter
     int unk0C;
     unsigned char m_includeOwned;
 
-    void DispatchWithMode(const void* field, const void* data, int bytes, int flags);
 };
 
 struct FNVWorldObject : hkpWorldObject
@@ -118,14 +119,14 @@ struct FNVWorldObject : hkpWorldObject
 // @fnv 0x00cd2b00
 void FNVWorldObject::WriteToStream(hkStreamWriter* writer, int unused)
 {
-    writer->WriteField(&DAT_0105c390, m_kCollidable.m_pCollisionShape, 0);
+    writer->WriteField(&(*reinterpret_cast<char *>((void *)&::g_011d26d0_arg1)), m_kCollidable.m_pCollisionShape, 0);
 
     hkArray<char>& collisionEntries = m_kCollidable.m_kCollisionEntries;
     int entryCap = collisionEntries.m_iCapacityState;
     if ((entryCap & 0x80000000) == 0 || writer->m_includeOwned)
     {
         void* entryData = collisionEntries.m_data;
-        void* copy = FUN_00d06f80(entryData, (entryCap & 0x3fffffff) * 8);
+        void* copy = ((void *)(::fnv_00d06f80::FUN_00d06f80((const char *)(entryData), (entryCap & 0x3fffffff) * 8)));
         writer->WriteArray(3, &DAT_010cb2d8, collisionEntries.m_data, collisionEntries.m_iElementCount * 8, copy);
     }
 
@@ -133,7 +134,7 @@ void FNVWorldObject::WriteToStream(hkStreamWriter* writer, int unused)
     if ((propCap & 0x80000000) == 0 || writer->m_includeOwned)
     {
         void* propData = m_kProperties.m_data;
-        void* copy = FUN_00d06f80(propData, (propCap & 0x3fffffff) * 16);
+        void* copy = ((void *)(::fnv_00d06f80::FUN_00d06f80((const char *)(propData), (propCap & 0x3fffffff) * 16)));
         writer->WriteArray(3, &DAT_01020e44, m_kProperties.m_data, m_kProperties.m_iElementCount * 16, copy);
     }
 
@@ -141,8 +142,8 @@ void FNVWorldObject::WriteToStream(hkStreamWriter* writer, int unused)
     void* firstChild = bounds.m_pChildShapeAabbs;
     if (firstChild)
     {
-        writer->DispatchWithMode(&DAT_010cb2c8, firstChild, (unsigned int)bounds.m_uiCapacityChildShapeAabbs * 32, 0);
-        writer->DispatchWithMode(&DAT_010cb2c8, bounds.m_pChildShapeKeys,
+        reinterpret_cast<::FUN_00d06fb0_cls *>((writer))->DispatchWithMode((void *)(&DAT_010cb2c8), (void *)(firstChild), (unsigned int)bounds.m_uiCapacityChildShapeAabbs * 32, 0);
+        reinterpret_cast<::FUN_00d06fb0_cls *>((writer))->DispatchWithMode((void *)(&DAT_010cb2c8), (void *)(bounds.m_pChildShapeKeys),
                                  (unsigned int)bounds.m_uiCapacityChildShapeAabbs * 4, 0);
     }
 }
@@ -323,7 +324,6 @@ class hkStringPtr
 
 struct FUN_00c90510_s
 {
-    void FUN_00c90510() throw();
 };
 
 namespace hkCD2E {
@@ -446,6 +446,6 @@ hkpWorldObject::hkpWorldObject(const void* shape, int type)
 {
     m_kCollidable.SetOwnerPointer(this);
     if (shape)
-        ((FUN_00c90510_s*)shape)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((FUN_00c90510_s*)shape)))->FUN_00c90510();
 }
 }

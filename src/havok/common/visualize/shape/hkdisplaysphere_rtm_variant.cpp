@@ -4,6 +4,10 @@
 
 // src/havok/common/visualize/shape/hkdisplaysphere.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplaysphere.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/RotationRows.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00e0a000.h"
+#include "fnv/symbols_01268000.h"
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
@@ -37,7 +41,6 @@ struct __declspec(align(16)) hkVec4f
 {
     float x, y, z, w;
 };
-extern float DAT_012683b0;
 struct FUN_008cd6a0_Class
 {
     hkVector4 m_kColumn0;
@@ -56,7 +59,6 @@ struct FUN_008cd6a0_Class
         d[10] = 1.0f;
         m_vTranslation.setZero4();
     }
-    void FUN_00cb2d90(void* p);
 };
 struct hkReferencedObject
 {
@@ -159,8 +161,6 @@ struct SphereBuildGeometry
     SphereBuildFaces faces;
 };
 
-extern "C" void __cdecl FUN_00c908c0(SphereBuildAllocator* ctx, void* arr, int newCap, int stride);
-void __cdecl FUN_00e0afe0(void* obj, int idx, float v, float f2);
 
 struct SphereMeshBuilder
 {
@@ -232,7 +232,7 @@ __declspec(noinline) void SphereMeshBuilder::FUN_00e0b360()
         int nc = (geo->verts.m_iCap & 0x3fffffff) + (geo->verts.m_iCap & 0x3fffffff);
         if (nc <= 12)
             nc = 12;
-        FUN_00c908c0(va, &geo->verts, nc, 0x10);
+        ::FUN_00c908c0((::SpawnedObject *)(va), (::SpawnedArray *)(void *)(&geo->verts), nc, 0x10);
     }
     geo->verts.m_iArrayLength = 12;
     ((SphereBuildVertex* const&)geo->verts.m_pData)[0].set(-s, 0.0f, t, 0.0f);
@@ -260,7 +260,7 @@ __declspec(noinline) void SphereMeshBuilder::FUN_00e0b360()
         int nc2 = (fv->m_iCap & 0x3fffffff) + (fv->m_iCap & 0x3fffffff);
         if (nc2 <= 20)
             nc2 = 20;
-        FUN_00c908c0(fa, fv, nc2, 0x10);
+        ::FUN_00c908c0((::SpawnedObject *)(fa), (::SpawnedArray *)(fv), nc2, 0x10);
     }
     fv->m_iArrayLength = 20;
     SphereBuildSetFace(fv->m_pData + 0, 1, 4, (int)zero);
@@ -284,5 +284,5 @@ __declspec(noinline) void SphereMeshBuilder::FUN_00e0b360()
     SphereBuildSetFace(fv->m_pData + 18, 5, 2, 9);
     SphereBuildSetFace(fv->m_pData + 19, 11, 2, 7);
     for (int i = 0; i < 20; ++i)
-        FUN_00e0afe0(m_08, i, v, 2.0f);
+        ::FUN_00e0afe0((::SubdivMesh *)(m_08), i, v, 2.0f);
 }

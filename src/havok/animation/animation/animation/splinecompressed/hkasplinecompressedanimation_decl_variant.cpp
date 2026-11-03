@@ -5,6 +5,10 @@
 
 // src/havok/animation/animation/animation/splinecompressed/hkasplinecompressedanimation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/splinecompressed/hkasplinecompressedanimation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_00e33000.h"
+#include "fnv/symbols_00e52000.h"
+#include "fnv/symbols_010eb000.h"
+#include "fnv/symbols_011be000.h"
 #include "havok/hkaSplineCompressedAnimation.h"
 struct FUN_00e33330_Class
 {
@@ -12,7 +16,6 @@ struct FUN_00e33330_Class
 };
 extern bool DAT_0126efb8;
 int __cdecl FUN_00e63c60(bool*);
-int __cdecl GetIndexedValueWithOffset(int offset, const int* values, int index, int count);
 int __stdcall FUN_00e32ed0(int a1, int a2);
 struct FnvAnimation
 {
@@ -31,10 +34,6 @@ struct FnvAnimation
     int FUN_00e32ee0(float time, int parameterA, int parameterB, int parameterC);
 };
 typedef void(__cdecl* SplineDecodeFn)(int, void*);
-extern int DAT_010eb3b8[];
-extern int DAT_010eb3d0[];
-extern SplineDecodeFn DAT_011be4b8[];
-void __cdecl DecodeSplineFrames(int* cursor, int type, int lastFrame, int firstFrame, int endFrame, void* output);
 template <class T> class hkArrayE333
 {
   public:
@@ -95,8 +94,6 @@ class hkaSplineCompressedAnimationE333
     int unk88;
     int unk8C;
 
-    void GetBlockAndTime(unsigned int frame, float delta, int& blockOut, float& blockTimeOut,
-                         unsigned char& quantizedTimeOut) const throw();
     void GetDataChunks(unsigned int frame, float delta, hkaAnimationDataChunkE333* dataChunks, int numDataChunks) const
         throw();
 };

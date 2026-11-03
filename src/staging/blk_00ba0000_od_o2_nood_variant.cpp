@@ -5,6 +5,14 @@
 
 // src/staging/blk_00ba0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00b71000.h"
+#include "fnv/symbols_00ee6000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01200000.h"
 #include "../../include/layout_support.h"
 
 struct Matrix
@@ -142,12 +150,6 @@ struct Scene
     unsigned int unk008;
     Geometry** geometries;
 };
-extern Scene* DAT_011f91e0;
-extern Point3 DAT_011f474c;
-extern FourFloatVector DAT_01200510, DAT_01200520, DAT_01200540, DAT_01200570;
-void __cdecl FUN_00b71a40(AlignedMatrix*, const Transform*, const Point3*, float);
-Matrix* __stdcall D3DXMatrixMultiply(Matrix*, const Matrix*, const Matrix*);
-Matrix* __stdcall D3DXMatrixTranspose(Matrix*, const Matrix*);
 struct Shader
 {
     void FUN_00baa850(int identity, const Transform* transform);
@@ -275,18 +277,18 @@ void Shader::FUN_00baa850(int identity, const Transform* transform)
         result.m41 = result.m42 = result.m43 = 0.0f;
 
     if (!identity)
-        FUN_00b71a40(&world, transform, &transform->position, transform->scale);
-    world.m41 += DAT_011f474c.x;
-    world.m42 += DAT_011f474c.y;
-    world.m43 += DAT_011f474c.z;
-    AlignedMatrix view = *static_cast<AlignedMatrix*>(&DAT_011f91e0->geometries[0]->view);
+        ::BuildTransformMatrix((float *)(::AlignedMatrix *)(&world), (*(const ::ThreeByThreeMatrix *)(transform)), (*(const ::NiPoint3 *)(&transform->position)), transform->scale);
+    world.m41 += (*reinterpret_cast<::Point3 *>(&::DAT_011f474c)).x;
+    world.m42 += (*reinterpret_cast<::Point3 *>(&::DAT_011f474c)).y;
+    world.m43 += (*reinterpret_cast<::Point3 *>(&::DAT_011f474c)).z;
+    AlignedMatrix view = *static_cast<AlignedMatrix*>(&(*reinterpret_cast<::Scene * *>(&::DAT_011f91e0))->geometries[0]->view);
     AlignedMatrix product;
-    D3DXMatrixMultiply(&product, &world, &view);
+    ::FUN_00ee6de0(&product, &world, &view);
     result = product;
-    D3DXMatrixTranspose(&result, &result);
+    ::FUN_00ee6dd4();
     {
         FourFloatVector value = {result.m11, result.m12, result.m13, result.m14};
-        DAT_01200510 = value;
+        (*reinterpret_cast<::FourFloatVector *>(&::DAT_01200510)) = value;
     }
     {
         FourFloatVector value = {result.m21, result.m22, result.m23, result.m24};
@@ -300,7 +302,7 @@ void Shader::FUN_00baa850(int identity, const Transform* transform)
         FourFloatVector value = {result.m41, result.m42, result.m43, result.m44};
         DAT_01200570 = value;
     }
-    Camera* camera = DAT_011f91e0->geometries[0]->camera;
+    Camera* camera = (*reinterpret_cast<::Scene * *>(&::DAT_011f91e0))->geometries[0]->camera;
     Point3 eye = camera->position;
     Point3 forward = camera->direction;
     Point3 up = camera->up;

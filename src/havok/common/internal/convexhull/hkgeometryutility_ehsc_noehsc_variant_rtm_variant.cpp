@@ -7,6 +7,21 @@
 
 // src/havok/common/internal/convexhull/hkgeometryutility.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/convexhull/hkgeometryutility.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/D76250Shape.h"
+#include "fnv/decl/FUN_00d5d660_cls.h"
+#include "fnv/decl/FUN_00d74d40_cls.h"
+#include "fnv/decl/FUN_00d76990_Class.h"
+#include "fnv/decl/H77ConvexHull.h"
+#include "fnv/decl/S_00d76410_Builder.h"
+#include "fnv/decl/fnv_00d76940__FUN_00d76940_cls.h"
+#include "fnv/decl/fnv_00d76ca0__FUN_00d76ca0.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d5a000.h"
+#include "fnv/symbols_00d5c000.h"
+#include "fnv/symbols_00dd6000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_0106e000.h"
 struct FUN_00d5a5e0_ctxA
 {
     unsigned int unk00;
@@ -15,10 +30,6 @@ struct FUN_00d5a5e0_ctxA
     unsigned int unk0c;
     unsigned int unk10;
 
-    void InitA();
-    int FindB(void* a1, void* b);
-    void SetB(int zero, int a2);
-    void FinishA();
 };
 struct FUN_00d5a5e0_ctxB
 {
@@ -29,9 +40,7 @@ struct FUN_00d5a5e0_ctxB
     unsigned int unk08;
     unsigned int unk0c;
 
-    void InitB();
 };
-void __cdecl InitAndSetB(void* a1, int a2);
 struct FUN_00d5a630_ctxA
 {
     unsigned int unk00;
@@ -40,12 +49,6 @@ struct FUN_00d5a630_ctxA
     unsigned int unk0c;
     unsigned int unk10;
 
-    void InitA();
-    int FindB(void* a1, void* b);
-    void SetB(int zero, int a2);
-    void SetF(float f, int zero);
-    void SetC(int a3);
-    void FinishA();
 };
 struct FUN_00d5a630_ctxB
 {
@@ -56,10 +59,7 @@ struct FUN_00d5a630_ctxB
     unsigned int unk08;
     unsigned int unk0c;
 
-    void InitB();
 };
-extern float DAT_0106ea1c;
-void __cdecl FUN_00d5a630(void* a1, int a2, int a3);
 struct S_00d5a6b0_Elem
 {
     float x;
@@ -134,12 +134,8 @@ struct D5C110Geometry
     int unk0C;
     int m_iTriangleCount;
 };
-void __cdecl ProcessArg(const void* shape, D5C110VertexArray& vertices);
-void __cdecl InitAndSetB(const D5C110StridedVertices& vertices, D5C110Geometry& out);
 void __cdecl BuildGeometryFromShape(const void* shape, D5C110Geometry& aGeometry);
 struct D5C110VertexArray;
-void __cdecl ProcessArg(const void* shape, D5C110VertexArray& vertices);
-void __cdecl FUN_00d5a6a0(const void* shape, D5C110VertexArray& vertices);
 #include <math.h>
 struct S00d5ad60_cls
 {
@@ -153,11 +149,11 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 #endif
 #ifndef _INCLUDED_MM2
 extern "C" __m128 _mm_setr_ps(float, float, float, float);
 #endif
-extern float DAT_01011d78;
 static int FUN_00d5ad90(const float* pVec, float fTol);
 int __cdecl S00d5ad90_Wrap(const float* pVec, float fTol);
 struct S00d5c060_Src
@@ -182,8 +178,6 @@ struct __declspec(align(16)) S00d5c060_Result
 };
 char* __cdecl AllocateWithHeader(D5C110Allocator* alloc, int size);
 char* __cdecl FUN_00c856c0(D5C110Allocator* owner, char* data);
-void __cdecl FUN_00d5beb0(S00d5c060_Result* self, char* data, int count, int flags, float scale);
-S00d5c060_Result FUN_00d5c060(const S00d5c060_Src* src, float scale);
 extern "C" __m128 _mm_add_ss(__m128, __m128);
 extern "C" float _mm_cvtss_f32(__m128);
 extern "C" void _mm_store_ss(float*, __m128);
@@ -192,7 +186,6 @@ extern "C" __m128 _mm_setzero_ps(void);
 extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 extern "C" __m128 _mm_sqrt_ss(__m128);
 extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern const float DAT_01012054;
 struct __declspec(align(16)) Vec4
 {
     float x, y, z, w;
@@ -225,7 +218,6 @@ static __declspec(noinline) Vec4* FUN_00d5bce0(Vec4* res, Vec4* p0, Vec4* p1, Ve
     res->w = a.y;
     return res;
 }
-__m128* __cdecl FUN_00d5beb0(__m128* out, MyPoint* pts, int count, int depth, float t);
 
 namespace MeanCovIntrinsics {
 extern "C"
@@ -308,7 +300,6 @@ struct MeanCovObbStride
 {
     int v;
 };
-void __cdecl FUN_00c908c0(void*, void*, int, int);
 struct MeanCovTrivialElements
 {
 };
@@ -347,7 +338,7 @@ template <class T> class MeanCovArrayBase
         {
             int doubled = oldCapacity * 2;
             int chosen = count < doubled ? doubled : count;
-            FUN_00c908c0(&heap, this, chosen, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(&heap), (::SpawnedArray *)(void *)(this), chosen, sizeof(T));
         }
     }
     __forceinline T* expand(D5C110Allocator& heap, int count)
@@ -394,9 +385,7 @@ typedef MeanCovTypedArray<MeanCovObbVec> MeanCovObbArr;
 struct MeanCovObbRandom
 {
     int seed0, seed1;
-    void NextFloat4(MeanCovObbVec& out);
 };
-void __cdecl FUN_00c908c0(void*, void*, int, int);
 static __forceinline __m128 MeanCovsplat(float x)
 {
     __m128 r = MeanCovIntrinsics::_mm_load_ss(&x);
@@ -454,7 +443,7 @@ extern "C" __declspec(noinline) void __cdecl FUN_00d5c1a0(const void* vertices, 
             random.seed0 = count;
             random.seed1 = count;
             MeanCovObbVec delta;
-            random.NextFloat4(delta);
+            reinterpret_cast<::FUN_00d5d660_cls *>(&(random))->NextFloat4((float *)&(delta));
             MeanCovObbVec moved;
             moved.q = _mm_sub_ps(MeanCovIntrinsics::_mm_add_ps(_mm_mul_ps(MeanCovsplat(0.01f), delta.q), av), bv);
             MeanCovObbVec edge;

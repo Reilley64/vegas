@@ -5,6 +5,9 @@
 
 // src/havok/physics/internal/collide/gjk/hkpgsk.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/gjk/hkpgsk.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_00d22000.h"
+#include "fnv/symbols_00dfa000.h"
+#include "fnv/symbols_01014000.h"
 struct Entry
 {
     char pad[12];
@@ -59,11 +62,8 @@ struct Transform
     PlainVector x, y, z, translation;
 };
 
-extern const float runtimeFloatSettingDefault726;
 
-int __cdecl TestPenetration(void*, void*, const Transform*, float, Vector*, Vector*, Vector*, int, SolverOutput*);
 
-void __cdecl FUN_00d22e40(Vector*, Vector*, Vector*, Vector*, Vector*);
 
 struct Simplex
 {
@@ -163,8 +163,8 @@ void Simplex::FUN_00daa7e0(void* arg1, void* arg2, const Transform* transform)
     for (int i = 0; i < count; ++i)
         differences[i].quad = _mm_sub_ps(a[i].quad, verticesB[i].quad);
 
-    if (TestPenetration(arg1, arg2, transform, runtimeFloatSettingDefault726, a, verticesB + 4, differences, count,
-                        &output) == 1)
+    if (::TestPenetration((int)(arg1), (int)(arg2), (*(const ::S_00dfaac0_Transform *)(transform)), ::DAT_010141cc, (int)(a), (int)(verticesB + 4), (int)(differences), count,
+                        (int)(&output)) == 1)
     {
 
         countA = 1;
@@ -238,7 +238,7 @@ void Simplex::FUN_00daa7e0(void* arg1, void* arg2, const Transform* transform)
 
         db.quad = _mm_sub_ps(verticesB[1].quad, verticesB[0].quad);
 
-        FUN_00d22e40(a, &da, verticesB, &db, &axis);
+        ::FUN_00d22e40((*(const ::hkVector4 *)(a)), (*(const ::hkVector4 *)(&da)), (*(const ::hkVector4 *)(verticesB)), (*(const ::hkVector4 *)(&db)), (*(::VectorPairResult *)(&axis)));
         status = 1;
     }
 

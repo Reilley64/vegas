@@ -2,11 +2,27 @@
 #ifndef SCREENCUSTOMSPLATTER_DECLS_H
 #define SCREENCUSTOMSPLATTER_DECLS_H
 
+#include "fnv/decl/CamLook.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_004def90_Class.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00c5dea0_Class.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0043c000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01022000.h"
+#include "fnv/symbols_01189000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011c7000.h"
+#include "fnv/symbols_011ce000.h"
+#include "fnv/symbols_011cf000.h"
+#include "fnv/symbols_011f9000.h"
 union SETTING_VALUE;
 class PortalEntry
 {
   public:
-    void FUN_00c5dea0();
 };
 template <class T> class PortalArray
 {
@@ -59,24 +75,27 @@ class NiMemObject
     static void* operator new(unsigned int);
     static void operator delete(void*, unsigned int);
 };
+class NiExtraData;
+class NiFixedString;
 class NiAVObject : public NiMemObject
 {
   public:
-    void FUN_00440460(const NiPoint3&);
-    void Update(NiUpdateData&);
+public:
+    ::NiExtraData *GetExtraData(const ::NiFixedString &);
 };
+class NiAVObject;
 class NiNode : public NiAVObject
 {
   public:
     char bytes[0xac];
     NiNode(unsigned short);
-    void FUN_004def90();
+public:
+    ::NiAVObject *GetAt(unsigned int);
 };
 class NiCamera : public NiAVObject
 {
   public:
     void UpdateViewFrustum(const NiFrustum&);
-    bool AimAt(const NiPoint3&, const NiPoint3&);
 };
 // Unidentified PC camera constructor at 0x00a712f0.
 class FUN_00a712f0 : public NiCamera
@@ -96,8 +115,6 @@ template <class T> class NiPointer
 class SettingT_GameSettingCollection_
 {
   public:
-    const char* String();
-    SETTING_VALUE* Float();
 };
 class SkyTextureManager
 {
@@ -105,12 +122,8 @@ class SkyTextureManager
     static void LoadTextureFromPath(NiPointer<NiTexture>*, const char*);
 };
 extern unsigned int DAT_011c77dc;
-extern unsigned char DAT_011c77e8, DAT_011c77e9;
+extern unsigned char DAT_011c77e9;
 extern float DAT_011c77ec;
-extern NiPointer<NiNode> DAT_011c7810;
-extern NiPointer<NiTexture> DAT_011c7804, DAT_011c7808, DAT_011c780c;
-extern SettingT_GameSettingCollection_ DAT_011ce284, DAT_011ce918, DAT_011cede8;
-extern bool DAT_011f941e;
 
 enum MEM_CONTEXT
 {
@@ -141,12 +154,6 @@ class GraphicsRenderer
     unsigned int GetRenderTargetWidth();
     unsigned int GetRenderTargetHeight();
 };
-NiRenderer* FUN_0043c4b0();
-extern SettingT<INISettingCollection> DAT_011c77f4;
-extern NiPointer<NiNode> DAT_011c781c;
-extern SettingT_GameSettingCollection_ DAT_011cfc2c;
-extern NiPoint3 DAT_011a9478;
-extern float DAT_01022960, DAT_01016248, DAT_0102295c, DAT_01022958, DAT_01189500, DAT_01189504;
-extern double DAT_01011598, DAT_01011588;
+extern float DAT_01022960;
 
 #endif

@@ -4,6 +4,11 @@
 // to their real unit once identified.
 
 // NiRTTI: the Gamebryo runtime type descriptor.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_004ed000.h"
+#include "fnv/symbols_0104d000.h"
 #include "layout_support.h"
 class NiRTTI
 {
@@ -19,8 +24,6 @@ class NiRTTI
 };
 FNV_STATIC_ASSERT(sizeof(NiRTTI) == 0x8);
 
-extern const char DAT_0104d448[];
-void __cdecl FUN_004ede70(const void*);
 struct RTTIEntry
 {
     const void* name;
@@ -31,5 +34,5 @@ struct RTTIEntry
 void RTTIEntry::FUN_0061bcf0()
 {
     name = DAT_0104d448;
-    FUN_004ede70(base);
+    ::FUN_004ede70((void *)(base));
 }

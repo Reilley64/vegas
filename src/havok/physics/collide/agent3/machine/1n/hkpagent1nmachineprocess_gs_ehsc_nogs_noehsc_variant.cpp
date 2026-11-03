@@ -4,6 +4,7 @@
 
 // src/havok/physics/collide/agent3/machine/1n/hkpagent1nmachineprocess.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/machine/1n/hkpagent1nmachineprocess.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00cb21e0_shell.h"
 struct Pair
 {
     int a;
@@ -27,9 +28,9 @@ static void FUN_00da4a50(Updater* self, int flag, Pair* dest, Pair* src, Updater
 void S00da4a50_Wrap(Updater* self, int flag, Pair* dest, Pair* src, Updater* other, int y, Out* out2, Out* out1);
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 struct S00da4920_Sub
 {
-    void FUN_00cb21e0(void* arg);
 };
 
 struct S00da4920_Blob
@@ -65,7 +66,6 @@ struct S00da4920_Blob
     __m128 m_v70;
 };
 
-extern char DAT_010c4c00;
 
 // @fnv 0x00da4920
 static __declspec(noinline) void FUN_00da4920(S00da4920_Blob* src, S00da4920_Blob* dst)
@@ -74,8 +74,8 @@ static __declspec(noinline) void FUN_00da4920(S00da4920_Blob* src, S00da4920_Blo
     dst->unk04 = src->unk00;
     dst->unk0C = src->unk0C;
     dst->unk10 = src->unk10;
-    dst->m_v70 = _mm_xor_ps(src->m_v70, *(const __m128*)&DAT_010c4c00);
-    ((S00da4920_Sub*)((char*)dst + 0x20))->FUN_00cb21e0((char*)src + 0x20);
+    dst->m_v70 = _mm_xor_ps(src->m_v70, *(const __m128*)&(*reinterpret_cast<char *>(&::DAT_010c4c00)));
+    reinterpret_cast<::FUN_00cb21e0_shell *>((((S00da4920_Sub*)((char*)dst + 0x20))))->FUN_00cb21e0((const ::Matrix44 *)(void *)((char*)src + 0x20));
 }
 
 void S00da4920_entry(S00da4920_Blob* src, S00da4920_Blob* dst)

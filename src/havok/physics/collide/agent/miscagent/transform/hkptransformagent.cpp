@@ -2,6 +2,13 @@
 // src/havok/physics/collide/agent/miscagent/transform/hkptransformagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/miscagent/transform/hkptransformagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00cfbbe0_cls.h"
+#include "fnv/decl/FUN_00d2eb50_cls.h"
+#include "fnv/symbols_00d42000.h"
+#include "fnv/symbols_00d43000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010ce000.h"
+#include "fnv/symbols_01268000.h"
 struct CollisionAgentFunctionTable {
     void* f0;
     void* f4;
@@ -11,37 +18,28 @@ struct CollisionAgentFunctionTable {
     char f11;
 };
 struct Agent {
-    void FUN_00cfbbe0(CollisionAgentFunctionTable* af, int a, int b);
 };
-void __cdecl CreateTransformAgent();
-void __cdecl RunCollector();
-void __cdecl RunSymmetricAgentFlipCollector();
-void __cdecl FUN_00d43370();
-void __cdecl BuildHeaderAndDispatchHandler();
-void __cdecl ProcessTransformShapeCollision();
-void __cdecl FUN_00d42e50();
-void __cdecl DispatchClosestPoints();
 
 // Fills a callback struct with two sets of function pointers and flags and registers each set on self via FUN_00cfbbe0 with ranges (-1,15) and (15,-1).
 // @fnv 0x00d43120
 void RegisterCallbacks(Agent* pAgent)
 {
     CollisionAgentFunctionTable af;
-    af.f0 = (void*)&CreateTransformAgent;
-    af.f4 = (void*)&RunCollector;
-    af.f8 = (void*)&RunSymmetricAgentFlipCollector;
-    af.fc = (void*)&FUN_00d43370;
+    af.f0 = (void*)&((void (&)())::CreateTransformAgent);
+    af.f4 = (void*)&((void (&)())::RunCollector);
+    af.f8 = (void*)&((void (&)())::RunSymmetricAgentFlipCollector);
+    af.fc = (void*)&((void (&)())::FUN_00d43370);
     af.f10 = 1;
     af.f11 = 1;
-    pAgent->FUN_00cfbbe0(&af, -1, 15);
+    reinterpret_cast<::FUN_00cfbbe0_cls *>((pAgent))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)(::CollisionAgentFunctionTable *)(&af), -1, 15);
 
-    af.f0 = (void*)&BuildHeaderAndDispatchHandler;
-    af.f4 = (void*)&ProcessTransformShapeCollision;
-    af.f8 = (void*)&FUN_00d42e50;
-    af.fc = (void*)&DispatchClosestPoints;
+    af.f0 = (void*)&((void (&)())::BuildHeaderAndDispatchHandler);
+    af.f4 = (void*)&((void (&)())::ProcessTransformShapeCollision);
+    af.f8 = (void*)&((void (&)())::FUN_00d42e50);
+    af.fc = (void*)&((void (&)())::DispatchClosestPoints);
     af.f10 = 0;
     af.f11 = 1;
-    pAgent->FUN_00cfbbe0(&af, 15, -1);
+    reinterpret_cast<::FUN_00cfbbe0_cls *>((pAgent))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)(::CollisionAgentFunctionTable *)(&af), 15, -1);
 }
 
 struct Target {
@@ -311,18 +309,15 @@ struct D432F0Collector : D432F0CollectorBase {
     virtual void unk04();
 };
 
-void __cdecl ProcessTransformShapeCollision(int a, int b, int c, D432F0CollectorBase* collector);
 
 // Constructs a D432F0Collector from d and calls ProcessTransformShapeCollision with b, a, c and the collector.
 // @fnv 0x00d432f0
 void __cdecl RunCollector(int aiArgA, int aiArgB, int aiArgC, int aiData)
 {
     D432F0Collector collector(aiData);
-    ProcessTransformShapeCollision(aiArgB, aiArgA, aiArgC, &collector);
+    ::ProcessTransformShapeCollision((const ::CollisionBody_00d42f40 *)(aiArgB), (const ::CollisionBody_00d42f40 *)(aiArgA), (const ::CollisionInput_00d42f40 *)(aiArgC), &collector);
 }
 
-extern float DAT_0104da48;
-extern void __cdecl FUN_00d42e50(void*, void*, int, void*);
 
 struct hkpSymmetricAgentFlipCollector
 {
@@ -336,28 +331,15 @@ struct hkpSymmetricAgentFlipCollector
 void __cdecl RunSymmetricAgentFlipCollector(void* arg1, void* arg2, int arg3, int arg4)
 {
     hkpSymmetricAgentFlipCollector local;
-    local.unk04 = DAT_0104da48;
+    local.unk04 = ::DAT_0104da48;
     local.unk08 = arg4;
-    FUN_00d42e50(arg2, arg1, arg3, &local);
+    ::FUN_00d42e50((const ::CollisionBody_00d42f40 *)(arg2), (const ::CollisionBody_00d42f40 *)(arg1), (const ::CollisionInput_00d42f40 *)(arg3), &local);
 }
 
 struct CallData { void* descriptor; float bound; unsigned int value; };
-extern unsigned char DAT_010ce7fc;
-extern float DAT_0104da48;
 struct Wrapper {
-    void FUN_00d42de0(void*, void*, unsigned int, CallData*);
     void FUN_00d434a0(void*, void*, unsigned int, unsigned int);
 };
-// Builds a CallData from fourth and DAT_0104da48 with descriptor DAT_010ce7fc, then calls FUN_00d42de0 with second, first and third.
-// @fnv 0x00d434a0
-void Wrapper::FUN_00d434a0(void* first, void* second, unsigned int third, unsigned int fourth) {
-    CallData data;
-    data.value = fourth;
-    data.bound = DAT_0104da48;
-    data.descriptor = &DAT_010ce7fc;
-    FUN_00d42de0(second, first, third, &data);
-}
-
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128 {
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
@@ -365,11 +347,10 @@ typedef union __declspec(intrin_type) __declspec(align(16)) __m128 {
     __int64 m128_i64[2];
     unsigned int m128_u32[4];
 } __m128;
+#include "fnv/symbols_simd.h"
 
 extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
 
-extern char DAT_010ce80c[];
-extern const __m128 DAT_010c44d0;
 
 struct __declspec(align(16)) Vec4_d43620 {
     float x, y, z, w;
@@ -390,7 +371,7 @@ struct Collector_d43620 {
 
     Collector_d43620* Init(const __m128& dir, int value)
     {
-        m_vtbl = DAT_010ce80c;
+        m_vtbl = (*reinterpret_cast<char (*)[]>(&::UNK_010ce80c));
         m_fHitFraction = 3.40282e+38f;
         m_dir = *(const Vec4_d43620*)&dir;
         m_uiFilterValue = value;
@@ -399,7 +380,6 @@ struct Collector_d43620 {
 };
 
 struct Caster_d43620 {
-    int ProcessSource(int a, int b, const Input_d43620* in, Collector_d43620* c, Collector_d43620* c2);
     int FUN_00d43620(int a, int b, const Input_d43620* in, int c, int d);
 };
 
@@ -412,8 +392,8 @@ int Caster_d43620::FUN_00d43620(int aiArg1, int aiArg2, const Input_d43620* apIn
     Collector_d43620 c1;
     c1.Init(apInput->m_dir, aiValue1);
     Collector_d43620 c2;
-    if (aiValue2) { c2.Init(apInput->m_dir, aiValue2); return ProcessSource(aiArg2, aiArg1, &rev, &c1, &c2); }
-    return ProcessSource(aiArg2, aiArg1, &rev, &c1, 0);
+    if (aiValue2) { c2.Init(apInput->m_dir, aiValue2); return reinterpret_cast<::Caster *>(this)->ProcessSource((::Source *)(aiArg2), aiArg1, (int)(&rev), (int)(&c1), (int)(&c2)); }
+    return reinterpret_cast<::Caster *>(this)->ProcessSource((::Source *)(aiArg2), aiArg1, (int)(&rev), (int)(&c1), (int)(0));
 }
 
 // FUN_00d429c0: thiscall, one stack argument (callee pops 4).
@@ -694,14 +674,14 @@ void __cdecl ProcessTransformShapeCollision(
         &childBody, second, input, output);
 }
 
-struct CallTarget_00d42fc0 { int FUN_00d42fc0(int, int, int, int); };
+struct CallTarget_00d42fc0 {  };
 struct SearchObject {
     int FUN_00d43600(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
 };
 // @fnv 0x00d43600
 int SearchObject::FUN_00d43600(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3)
 {
-    unsigned int uiResult = (unsigned int)((CallTarget_00d42fc0*)this)->FUN_00d42fc0((int)arg1, (int)arg0, (int)arg2, (int)arg3);
+    unsigned int uiResult = (unsigned int)reinterpret_cast<::fnv_00d42fc0::Owner *>((((CallTarget_00d42fc0*)this)))->FUN_00d42fc0((::fnv_00d42fc0::Input *)((int)arg1), (int)arg0, (int)arg2, (int)arg3);
     return (int)uiResult;
 }
 
@@ -812,7 +792,6 @@ S_00d431b0& S_00d431b0::CopyFrom(const S_00d431b0& aOther) {
     return *this;
 }
 
-extern const __m128 DAT_010c4c00;
 extern "C" __m128 __cdecl _mm_mul_ps(__m128, __m128);
 extern "C" __m128 __cdecl _mm_add_ps(__m128, __m128);
 extern "C" __m128 __cdecl _mm_shuffle_ps(__m128, __m128, unsigned int);
@@ -831,10 +810,10 @@ struct __declspec(align(16)) FourFloatVector {
         m_vComponents = _mm_add_ps(_mm_mul_ps(r.m_vValue, a.m_vComponents), m_vComponents);
     }
     __forceinline void setNeg3(const FourFloatVector& a) {
-        m_vComponents = _mm_xor_ps(a.m_vComponents, DAT_010c4c00);
+        m_vComponents = _mm_xor_ps(a.m_vComponents, ::DAT_010c4c00);
     }
     __forceinline void setNeg3() {
-        m_vComponents = _mm_xor_ps(m_vComponents, DAT_010c4c00);
+        m_vComponents = _mm_xor_ps(m_vComponents, ::DAT_010c4c00);
     }
 };
 
@@ -897,7 +876,7 @@ struct CollisionCacheState {
     ConvexFeaturePairCache m_kGskCache;
     __forceinline void flip() {
         m_vSeparatingNormal.setNeg3();
-        m_kGskCache.flip();
+        reinterpret_cast<::FUN_00d2eb50_cls *>(&(m_kGskCache))->SwapFields();
     }
 };
 
@@ -1217,52 +1196,11 @@ struct Output {
 struct hkpCdBody; struct GskAgentInput;
 
 struct hkpGskAgent {
-    void FUN_00d42b50(const hkpCdBody& bodyB, const hkpCdBody& bodyA, const GskAgentInput& input, Output& output);
 };
 
 struct hkpSymmetricAgent : public hkpGskAgent {
     void FUN_00d434e0(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const GskAgentInput& input, Output& output);
 };
-
-// @fnv 0x00d434e0
-void hkpSymmetricAgent::FUN_00d434e0(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const GskAgentInput& input, Output& output)
-{
-    float oldTime = output.m_fTimeOfImpact.m_uiCommandId;
-    AlignedPairData* cp = output.m_pAlignedPairData;
-
-    hkpGskAgent::FUN_00d42b50(bodyB, bodyA, input, output);
-
-    while (cp < output.m_pAlignedPairData) {
-        cp->m_vContactPosition.addMul4(cp->m_vSeparatingNormal.getDistanceSimdReal(), cp->m_vSeparatingNormal);
-        cp->m_vSeparatingNormal.setNeg3(cp->m_vSeparatingNormal);
-        cp++;
-    }
-
-    if (oldTime != output.m_fTimeOfImpact.m_uiCommandId) {
-        output.m_fTimeOfImpact.m_vSeparatingNormal.setNeg3();
-
-        unsigned char t = output.m_fTimeOfImpact.m_kGskCache.m_features.a;
-        output.m_fTimeOfImpact.m_kGskCache.m_features.a = output.m_fTimeOfImpact.m_kGskCache.m_features.b;
-        unsigned char dimA;
-        output.m_fTimeOfImpact.m_kGskCache.m_features.b = t;
-        dimA = output.m_fTimeOfImpact.m_kGskCache.m_ucDimensionA;
-
-        unsigned char dimB = output.m_fTimeOfImpact.m_kGskCache.m_ucDimensionB;
-        output.m_fTimeOfImpact.m_kGskCache.m_ucDimensionB = dimA;
-        int idx = (int)dimB + (int)dimA - 1;
-        output.m_fTimeOfImpact.m_kGskCache.m_ucDimensionA = dimB;
-        unsigned short v0 = output.m_fTimeOfImpact.m_kGskCache.m_kVertices[0];
-        unsigned short* v = output.m_fTimeOfImpact.m_kGskCache.m_kVertices;
-        v[0] = v[idx];
-        v[idx] = v0;
-
-        if ((output.m_fTimeOfImpact.m_kGskCache.m_ucDimensionA & output.m_fTimeOfImpact.m_kGskCache.m_ucDimensionB) == 2) {
-            unsigned short v1 = output.m_fTimeOfImpact.m_kGskCache.m_kVertices[1];
-            output.m_fTimeOfImpact.m_kGskCache.m_kVertices[1] = output.m_fTimeOfImpact.m_kGskCache.m_kVertices[2];
-            output.m_fTimeOfImpact.m_kGskCache.m_kVertices[2] = v1;
-        }
-    }
-}
 
 struct __declspec(align(16)) S_00d43030_Transform {
     float m00; float m04; float m08; float m0C;
@@ -1400,8 +1338,6 @@ S_00d43030_Agent* CreateTransformAgent(const S_00d43030_CdBody& bodyA, const S_0
     return agent;
 }
 
-extern float DAT_0104da48;
-extern const __m128 DAT_010c44d0;
 
 struct __declspec(align(16)) Key_d2e9 {
     unsigned int m_k0;
@@ -1427,7 +1363,6 @@ struct Record_d2e9 {
     int m_uiFilterValue;
 };
 
-void __cdecl DispatchClosestPoints(int a1, int a2, Input_d2e9* input, Record_d2e9* rec, Record_d2e9* optRec);
 
 // XORs the input vector with DAT_010c44d0, builds a Record_d2e9 with m_fScalar and a4, and calls DispatchClosestPoints with an optional second record using a5.
 // @fnv 0x00d43370
@@ -1437,20 +1372,20 @@ void __cdecl FUN_00d43370(int a2, int a1, const Input_d2e9* input, int a4, int a
     local.m_vComponents = _mm_xor_ps(input->m_vComponents, DAT_010c44d0);
 
     Record_d2e9 rec;
-    rec.m_vtbl = (const unsigned int*)DAT_010ce80c;
-    rec.m_fScalar = DAT_0104da48;
+    rec.m_vtbl = (const unsigned int*)(*reinterpret_cast<char (*)[]>(&::UNK_010ce80c));
+    rec.m_fScalar = ::DAT_0104da48;
     rec.m_key = input->m_key;
     rec.m_uiFilterValue = a4;
 
     if (a5 != 0) {
         Record_d2e9 rec2;
-        rec2.m_vtbl = (const unsigned int*)DAT_010ce80c;
-        rec2.m_fScalar = DAT_0104da48;
+        rec2.m_vtbl = (const unsigned int*)(*reinterpret_cast<char (*)[]>(&::UNK_010ce80c));
+        rec2.m_fScalar = ::DAT_0104da48;
         rec2.m_key = input->m_key;
         rec2.m_uiFilterValue = a5;
-        DispatchClosestPoints(a1, a2, &local, &rec, &rec2);
+        ::DispatchClosestPoints((*(const ::S_00d42d60_CdBody *)(a1)), (*(const ::S_00d42d60_CdBody *)(a2)), (*(const ::S_00d42d60_Input *)(&local)), (::S_00d42d60_Collector *)(::Record_d2e9 *)(&rec), (::S_00d42d60_Collector *)(::Record_d2e9 *)(&rec2));
     } else {
-        DispatchClosestPoints(a1, a2, &local, &rec, 0);
+        ::DispatchClosestPoints((*(const ::S_00d42d60_CdBody *)(a1)), (*(const ::S_00d42d60_CdBody *)(a2)), (*(const ::S_00d42d60_Input *)(&local)), (::S_00d42d60_Collector *)(::Record_d2e9 *)(&rec), (::S_00d42d60_Collector *)(::Record_d2e9 *)(0));
     }
 }
 
@@ -1465,7 +1400,6 @@ extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
 extern "C" __m128 _mm_movelh_ps(__m128, __m128);
 extern "C" __m128 _mm_movehl_ps(__m128, __m128);
 
-extern unsigned long DAT_0126835c;
 
 struct S_00d42b50_TimerCommand {
     const char* m_pCommandName;
@@ -1498,7 +1432,6 @@ struct __declspec(align(16)) S_00d42b50_Vec { float x, y, z, w; };
 
 struct __declspec(align(16)) S_00d42b50_Rot {
     float x, y, z, w;
-    void FUN_00c66320(const S_00d42b50_Vec* a, const S_00d42b50_Vec* b);
 };
 
 struct S_00d42b50_Xform {
@@ -1560,6 +1493,45 @@ struct S_00d42b50_Cls {
     S_00d42b50_Agent* m_pAgent;
     void FUN_00d42b50(const S_00d42b50_CdBody& bodyA, const S_00d42b50_CdBody& bodyB, const S_00d42b50_Input& input, S_00d42b50_Output& output);
 };
+// @fnv 0x00d434e0
+void hkpSymmetricAgent::FUN_00d434e0(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const GskAgentInput& input, Output& output)
+{
+    float oldTime = output.m_fTimeOfImpact.m_uiCommandId;
+    AlignedPairData* cp = output.m_pAlignedPairData;
+
+    reinterpret_cast<::S_00d42b50_Cls *>(this)->FUN_00d42b50((const ::S_00d42b50_CdBody &)(bodyB), (const ::S_00d42b50_CdBody &)(bodyA), (const ::S_00d42b50_Input &)(input), (::S_00d42b50_Output &)(output));
+
+    while (cp < output.m_pAlignedPairData) {
+        cp->m_vContactPosition.addMul4(cp->m_vSeparatingNormal.getDistanceSimdReal(), cp->m_vSeparatingNormal);
+        cp->m_vSeparatingNormal.setNeg3(cp->m_vSeparatingNormal);
+        cp++;
+    }
+
+    if (oldTime != output.m_fTimeOfImpact.m_uiCommandId) {
+        output.m_fTimeOfImpact.m_vSeparatingNormal.setNeg3();
+
+        unsigned char t = output.m_fTimeOfImpact.m_kGskCache.m_features.a;
+        output.m_fTimeOfImpact.m_kGskCache.m_features.a = output.m_fTimeOfImpact.m_kGskCache.m_features.b;
+        unsigned char dimA;
+        output.m_fTimeOfImpact.m_kGskCache.m_features.b = t;
+        dimA = output.m_fTimeOfImpact.m_kGskCache.m_ucDimensionA;
+
+        unsigned char dimB = output.m_fTimeOfImpact.m_kGskCache.m_ucDimensionB;
+        output.m_fTimeOfImpact.m_kGskCache.m_ucDimensionB = dimA;
+        int idx = (int)dimB + (int)dimA - 1;
+        output.m_fTimeOfImpact.m_kGskCache.m_ucDimensionA = dimB;
+        unsigned short v0 = output.m_fTimeOfImpact.m_kGskCache.m_kVertices[0];
+        unsigned short* v = output.m_fTimeOfImpact.m_kGskCache.m_kVertices;
+        v[0] = v[idx];
+        v[idx] = v0;
+
+        if ((output.m_fTimeOfImpact.m_kGskCache.m_ucDimensionA & output.m_fTimeOfImpact.m_kGskCache.m_ucDimensionB) == 2) {
+            unsigned short v1 = output.m_fTimeOfImpact.m_kGskCache.m_kVertices[1];
+            output.m_fTimeOfImpact.m_kGskCache.m_kVertices[1] = output.m_fTimeOfImpact.m_kGskCache.m_kVertices[2];
+            output.m_fTimeOfImpact.m_kGskCache.m_kVertices[2] = v1;
+        }
+    }
+}
 
 // @fnv 0x00d42b50
 void S_00d42b50_Cls::FUN_00d42b50(const S_00d42b50_CdBody& bodyA, const S_00d42b50_CdBody& bodyB, const S_00d42b50_Input& input, S_00d42b50_Output& output)
@@ -1591,8 +1563,8 @@ void S_00d42b50_Cls::FUN_00d42b50(const S_00d42b50_CdBody& bodyA, const S_00d42b
     const S_00d42b50_Motion* src = bodyA.m_pMotionState;
     _mm_store_ps(&ms.unk40.x, _mm_load_ps(&src->unk40.x));
     _mm_store_ps(&ms.unk50.x, _mm_load_ps(&src->unk50.x));
-    ms.unk60.FUN_00c66320((const S_00d42b50_Vec*)&src->unk60, &scratch.shape->m_rotation);
-    ms.unk70.FUN_00c66320((const S_00d42b50_Vec*)&src->unk70, &scratch.shape->m_rotation);
+    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(ms.unk60), (void *)((const S_00d42b50_Vec*)&src->unk60), (const ::fnv_00c66320::__m128 *)(const ::S_00d42b50_Vec *)(&scratch.shape->m_rotation), {});
+    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(ms.unk70), (void *)((const S_00d42b50_Vec*)&src->unk70), (const ::fnv_00c66320::__m128 *)(const ::S_00d42b50_Vec *)(&scratch.shape->m_rotation), {});
 
     __m128 delta = _mm_sub_ps(_mm_load_ps(&src->unk80.x), _mm_load_ps(&xf.t.x));
     __m128 xcol = _mm_load_ps(&xf.c0.x);
@@ -1648,7 +1620,6 @@ struct SectorDesc {
 };
 
 struct TtTransform {
-    void FUN_00d42ed0(int, int, int, SectorDesc*);
 };
 
 struct TtShapeCollection : TtTransform {
@@ -1662,7 +1633,7 @@ void TtShapeCollection::FUN_00d43460(int a, int b, int c, int d) {
     s.unk04 = false;
     s.sectorPtrs = (void*)0x10ce81c;
     s.unk08 = d;
-    TtTransform::FUN_00d42ed0(b, a, c, &s);
+    reinterpret_cast<::fnv_00d42ed0::Owner *>(this)->FUN_00d42ed0((::fnv_00d42ed0::Input *)(b), a, c, (int)(&s));
 }
 
 struct CollisionAgentContext;
@@ -1717,6 +1688,15 @@ struct TransformClosestAgent {
         const S_00d42d60_CdBody& bodyB, const S_00d42d60_Input& input,
         TransformClosestPointCollector& collector);
 };
+// Builds a CallData from fourth and DAT_0104da48 with descriptor DAT_010ce7fc, then calls FUN_00d42de0 with second, first and third.
+// @fnv 0x00d434a0
+void Wrapper::FUN_00d434a0(void* first, void* second, unsigned int third, unsigned int fourth) {
+    CallData data;
+    data.value = fourth;
+    data.bound = ::DAT_0104da48;
+    data.descriptor = &DAT_010ce7fc;
+    reinterpret_cast<::TransformClosestAgent *>(this)->FUN_00d42de0((*(const ::S_00d42d60_CdBody *)(second)), (*(const ::S_00d42d60_CdBody *)(first)), (*(const ::S_00d42d60_Input *)(third)), (*(::TransformClosestPointCollector *)(&data)));
+}
 
 // Builds a temporary child body from bodyA's contained shape and motion transform, then delegates to m_pAgent to collect closest points with bodyB.
 // @fnv 0x00d42de0

@@ -1,6 +1,10 @@
 // src/speedtree/branchinfo.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/branchinfo.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01018000.h"
+#include "fnv/symbols_0101e000.h"
 struct S_00b3f310_Item
 {
     int unk00;
@@ -38,12 +42,6 @@ struct S_00b3f310_Item
     int unk80;
     S_00b3f310_Item();
 };
-extern float DAT_01017870;
-extern float DAT_01018f5c;
-extern float DAT_01017b78;
-extern float DAT_01016248;
-extern float DAT_0101622c;
-extern float DAT_0101e2bc;
 
 struct FUN_00b3f310
 {
@@ -102,7 +100,7 @@ FUN_00b3f310::FUN_00b3f310()
     unk30 = DAT_01018f5c;
     unk34 = DAT_01017b78;
     unk38 = 1.0f;
-    unk3c = DAT_01016248;
+    unk3c = ::fnv_00c88020::DAT_01016248;
     unk40 = DAT_0101622c;
     unk44 = DAT_01017870;
     unk48 = DAT_0101e2bc;

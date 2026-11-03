@@ -2,6 +2,8 @@
 #ifndef FNV_TESFACTION_H
 #define FNV_TESFACTION_H
 
+#include "fnv/decl/FUN_005a8080.h"
+#include "fnv/decl/fnv_00503210__Unk.h"
 #include "layout_support.h"
 #include "tesfaction_form.h"
 #include "TESFullName.h"
@@ -14,7 +16,6 @@ class TESReputation;
 class FactionSaveData
 {
   public:
-    void Endian();
     unsigned int iFlags;  // +0x0, 4 bytes
     // void __cdecl FactionSaveData::*()
 };
@@ -40,8 +41,6 @@ class TESFaction : public TESForm, public TESFullName, public TESReactionForm
     void ClearReactions();
     void InitItem();
     void LoadGame(BGSLoadFormBuffer*);
-    int InitializeFaction();
-    BSSimpleList<FactionRankPresentation*>* GetRankDataList();
     bool Load(TESFile*);
     // TESFaction
     // void __cdecl TESFaction::*()

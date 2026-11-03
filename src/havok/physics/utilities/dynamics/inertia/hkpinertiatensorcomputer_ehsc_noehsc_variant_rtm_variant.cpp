@@ -7,6 +7,32 @@
 
 // src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/D762F0Owner.h"
+#include "fnv/decl/ExpandShape.h"
+#include "fnv/decl/FUN_00cce530.h"
+#include "fnv/decl/FUN_00cd5880_cls.h"
+#include "fnv/decl/FUN_00d74d40_cls.h"
+#include "fnv/decl/FUN_00d74e10_cls.h"
+#include "fnv/decl/FUN_00d75390_cls.h"
+#include "fnv/decl/H77ConvexHull.h"
+#include "fnv/decl/RotationRows.h"
+#include "fnv/decl/S_00cd4c70.h"
+#include "fnv/decl/S_00d752e0_Class.h"
+#include "fnv/decl/fnv_00d75560__FUN_00d75560_cls.h"
+#include "fnv/decl/fnv_00d75600__S_00d75600_Obj.h"
+#include "fnv/decl/fnv_00d76940__FUN_00d76940_cls.h"
+#include "fnv/decl/fnv_00d76ca0__FUN_00d76ca0.h"
+#include "fnv/symbols_00c74000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00ca8000.h"
+#include "fnv/symbols_00ceb000.h"
+#include "fnv/symbols_00cf0000.h"
+#include "fnv/symbols_00d5a000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01020000.h"
+#include "fnv/symbols_010cb000.h"
+#include "fnv/symbols_011b1000.h"
+#include "fnv/symbols_01272000.h"
 struct Object
 {
 };
@@ -268,8 +294,6 @@ struct Bounds
 {
     Vector lo, hi;
 };
-extern const Vector DAT_01017d10;
-void FUN_00d5ac50(char*, Matrix*, Vector*, Vector*, Vector*);
 struct Shape
 {
     virtual void v0();
@@ -302,7 +326,6 @@ void FUN_00cebdb0(const MotionLike* source, MotionLike* destination);
 extern "C" __m128 _mm_load_ss(const float*);
 struct Sub
 {
-    void Multiply(const Vector* p);
 };
 struct Owner
 {
@@ -355,7 +378,6 @@ struct S00ceccf0_Out
     S00ceccf0_Vec m_10;
     S00ceccf0_Mat m_20;
 };
-extern const double DAT_010cbf40;
 static __declspec(noinline) void __cdecl FUN_00ceba60(float a, float b, S00ceccf0_Out* out)
 {
     out->m_10.set(_mm_setzero_ps());
@@ -417,7 +439,6 @@ struct Node
     {
         return &shape;
     }
-    void FUN_00ca8920(Mat3* m);
 };
 struct LocalArr
 {
@@ -426,7 +447,6 @@ struct LocalArr
     int m_cap;
     Edge* storage[16];
 };
-void __cdecl ResizeAudioStream(void* heap, void* array, int elemSize);
 __forceinline void releaseArr(LocalArr* a)
 {
     S_00cee1c0_Router* router = FUN_00c85750();
@@ -473,21 +493,10 @@ struct Track
     int sequence;
     int timer;
     int interpolation;
-    void FUN_00d76ca0();
-    void FUN_00d77200(void* state, Probe* probe);
-    int FUN_00d74e10();
-    void FUN_00d762f0();
-    float GetMass();
-    double FUN_00d752e0();
-    __m128* FUN_00d75600();
-    __m128* FUN_00d75560();
-    void FUN_00d77be0(float scale);
-    void FUN_00d76940();
 };
 struct RowMatrix
 {
     __m128 row0, row1, row2;
-    void Multiply(const Vec4* weight);
 };
 struct Receiver2
 {
@@ -500,10 +509,7 @@ struct Receiver2
 };
 struct Status
 {
-    void FUN_00d74d40();
 };
-extern float DAT_011b153c;
-extern double DAT_01020998;
 extern double DAT_010cbf50;
 extern double DAT_010cbf48;
 inline __m128 scalarVector(float x)
@@ -616,7 +622,6 @@ struct __declspec(align(16)) S_00ced090_V4
 struct S_00ced090_Mat
 {
     S_00ced090_V4 r0, r1, r2;
-    void FUN_00cd5880(void* xf);
 };
 struct S_00ced090_Vec
 {
@@ -631,18 +636,17 @@ struct S_00ced090_Inertia
 void __cdecl AddInertiaTensor(S_00ced090_Vec* d, float m, S_00ced090_Mat* mat);
 int __cdecl FUN_00ced090(S_00ced090_State* s, S_00ced090_Out* out);
 extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
-extern __declspec(thread) int DAT_012722b4;
 struct S00cf0f40_Guard
 {
     int m_saved;
     S00cf0f40_Guard()
     {
-        m_saved = DAT_012722b4;
-        DAT_012722b4 = 0x10;
+        m_saved = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 0x10;
     }
     ~S00cf0f40_Guard()
     {
-        DAT_012722b4 = m_saved;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_saved;
     }
 };
 struct S00cf0f40_Stream
@@ -826,7 +830,6 @@ inline S_00cee1c0_Heap& S00cf0f40_heap(S_00cee1c0_Router* r)
 {
     return *r->heap;
 }
-void __cdecl FUN_00c908c0(S_00cee1c0_Heap* heap, void* arr, int cap, int elemSize);
 struct S00cf0f40_Arr
 {
     S00cf0f40_Vec* m_data;
@@ -853,7 +856,7 @@ struct S00cf0f40_Arr
         if (cap < n)
         {
             int nc = cap * 2;
-            FUN_00c908c0(&heap, this, n < nc ? nc : n, sizeof(S00cf0f40_Vec));
+            ::FUN_00c908c0((::SpawnedObject *)(::S_00cee1c0_Heap *)(&heap), (::SpawnedArray *)(void *)(this), n < nc ? nc : n, sizeof(S00cf0f40_Vec));
         }
     }
     void SetSizeAndGrow(int n)
@@ -870,9 +873,9 @@ inline void S00cf0f40_Swap4(void* p)
     t = _byteswap_ulong(t);
     memcpy(p, &t, 4);
 }
-unsigned int __cdecl FUN_00cf0f40(S00cf0f40_Owner* owner, S00cf0f40_Arr* arr);
 
 #include <math.h>
+#include "fnv/symbols_simd.h"
 extern "C"
 {
     __m128 _mm_setzero_ps();
@@ -1125,7 +1128,7 @@ template <typename T> class HavokElementArray
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(reinterpret_cast<S_00cee1c0_Heap*>(&alloc), this, newSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(::S_00cee1c0_Heap *)(reinterpret_cast<S_00cee1c0_Heap*>(&alloc)), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
         }
     }
     __forceinline void _setSize(hkMemoryAllocator& alloc, int n)
@@ -1230,9 +1233,8 @@ struct hkGeometry
     {}
     __forceinline ~hkGeometry()
     {
-        FUN_00cce530();
+        reinterpret_cast<::FUN_00cce530 *>(this)->FUN_00cce530::~FUN_00cce530();
     }
-    void FUN_00cce530();
 };
 
 __declspec(noinline) void __cdecl FUN_00cebe80(const hkVector4& shift, hkReal mass, hkMatrix3& inertia)
@@ -1400,7 +1402,7 @@ extern const double DAT_010cbf70 = 0.999989986419677734375;
 extern const double DAT_010cbf40 = 4.18879032135009765625;
 extern const double DAT_010cbf68 = 0.375;
 extern const double DAT_010cbf60 = -0.375;
-extern const float DAT_01011d78, DAT_01017718, DAT_01016248, DAT_01012068;
+extern const float DAT_01011d78, DAT_01017718, DAT_01012068;
 
 class CapsuleMassScalar
 {
@@ -1476,8 +1478,6 @@ struct CapsuleMassMatrix
         row2.m = b.row2.m;
         return *this;
     }
-    void FUN_00cb2d90(const CapsuleMassVector*);
-    void Multiply(const CapsuleMassVector*);
     __forceinline void zero()
     {
         row0.m = CapsuleMassSimd::_mm_setzero_ps();
@@ -1568,7 +1568,6 @@ struct CapsuleMassElement
         transform = b.transform;
     }
 };
-extern void __cdecl ResizeAudioStream(void*, void*, int);
 struct CapsuleMassArray
 {
     CapsuleMassElement* data;
@@ -1581,7 +1580,7 @@ struct CapsuleMassArray
     {
         S_00cee1c0_Router* r = FUN_00c85750();
         if (size == (capacity & 0x3fffffff))
-            CapsuleMassSimd::ResizeAudioStream(r->heap, this, sizeof(CapsuleMassElement));
+            ::ResizeAudioStream((::AudioAllocator *)(r->heap), (::AudioStream *)(void *)(this), sizeof(CapsuleMassElement));
         new (data + size) CapsuleMassElement(e);
         ++size;
     }
@@ -1597,7 +1596,6 @@ struct CapsuleMassArray
 };
 extern int __cdecl FUN_00ced090(CapsuleMassArray*, Receiver*);
 extern int __cdecl FUN_00ceba60(float, float, CapsuleMassBody*);
-extern float __cdecl ClampedAcos(float);
 
 static __forceinline CapsuleMassQuad capsuleMassSum3(CapsuleMassQuad v)
 {
@@ -1669,8 +1667,8 @@ __declspec(noinline) int __cdecl FUN_00ceeca0(const CapsuleMassVector* source, c
             axis.m = capsuleMassCross(up.m, between.m);
             axis.normalize3();
             CapsuleMassQuaternion q;
-            q.FUN_00cb2450(&axis, ClampedAcos(float(up.dot3(between))));
-            transform.rotation.FUN_00cb2d90(&q);
+            q.FUN_00cb2450(&axis, ::ClampedAcos(float(up.dot3(between))));
+            reinterpret_cast<::RotationRows *>(&(transform.rotation))->FUN_00cb2d90((void *)(&q));
         }
         else
             transform.rotation.identity();
@@ -1698,7 +1696,7 @@ __declspec(noinline) int __cdecl FUN_00ceeca0(const CapsuleMassVector* source, c
         element.properties.inertia.row0.x = (float)(halfLength * length * 0.5 / 3.0 + radius * radius * 0.25);
         element.properties.inertia.row1.y = element.properties.inertia.row0.x;
         element.properties.inertia.row2.z = (float)(radius * radius * 0.5);
-        element.properties.inertia.Multiply(&scale);
+        reinterpret_cast<::S_00cd4c70 *>(&(element.properties.inertia))->Multiply((*(const ::S_V4 *)(&scale)));
         element.properties.volume = cylinderVolume;
         element.properties.mass = cylinderMass;
         element.properties.center.m = CapsuleMassSimd::_mm_setzero_ps();
@@ -1717,8 +1715,8 @@ __declspec(noinline) int __cdecl FUN_00ceeca0(const CapsuleMassVector* source, c
         FUN_00ceba60(radius, sphereMass, &ball);
         cap.properties.inertia = ball.inertia;
         CapsuleMassVector half;
-        half.m = CapsuleMassSimd::_mm_load_ss(&DAT_01016248);
-        cap.properties.inertia.Multiply(&half);
+        half.m = CapsuleMassSimd::_mm_load_ss(&::fnv_00c88020::DAT_01016248);
+        reinterpret_cast<::S_00cd4c70 *>(&(cap.properties.inertia))->Multiply((*(const ::S_V4 *)(&half)));
         FUN_00cebe80((FUN_00cebe80_Struct*)&cap.properties.center, (float)(sphereMass * 0.5),
                      &cap.properties.inertia.row0.x);
         cap.properties.volume = (float)(sphereVolume * 0.5);
@@ -1738,8 +1736,8 @@ __declspec(noinline) int __cdecl FUN_00ceeca0(const CapsuleMassVector* source, c
         FUN_00ceba60(radius, sphereMass, &ball);
         cap.properties.inertia = ball.inertia;
         CapsuleMassVector half;
-        half.m = CapsuleMassSimd::_mm_load_ss(&DAT_01016248);
-        cap.properties.inertia.Multiply(&half);
+        half.m = CapsuleMassSimd::_mm_load_ss(&::fnv_00c88020::DAT_01016248);
+        reinterpret_cast<::S_00cd4c70 *>(&(cap.properties.inertia))->Multiply((*(const ::S_V4 *)(&half)));
         FUN_00cebe80((FUN_00cebe80_Struct*)&cap.properties.center, (float)(sphereMass * 0.5),
                      &cap.properties.inertia.row0.x);
         cap.properties.volume = (float)(sphereVolume * 0.5);

@@ -5,6 +5,195 @@
 
 // src/fallout/ai/highprocess_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/ai/highprocess.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include "fnv/decl/Actor87.h"
+#include "fnv/decl/Actor897.h"
+#include "fnv/decl/B968730Actor.h"
+#include "fnv/decl/BGSMessageInitAccess.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C.h"
+#include "fnv/decl/C901C50Object.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/Date.h"
+#include "fnv/decl/DialogueItem_shell.h"
+#include "fnv/decl/ExtraDataListRemoveTrespassPackage.h"
+#include "fnv/decl/FUN_00416870_t.h"
+#include "fnv/decl/FUN_00418830_shell.h"
+#include "fnv/decl/FUN_0041ca90.h"
+#include "fnv/decl/FUN_0041cb10_shell.h"
+#include "fnv/decl/FUN_0041cd70_shell.h"
+#include "fnv/decl/FUN_00422820_shell.h"
+#include "fnv/decl/FUN_00435e00_t.h"
+#include "fnv/decl/FUN_00437b90_shell.h"
+#include "fnv/decl/FUN_00437bd0_stub.h"
+#include "fnv/decl/FUN_00437bf0_shell.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_0047d7c0_Class.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/FUN_00497f20_shell.h"
+#include "fnv/decl/FUN_00498d30_t.h"
+#include "fnv/decl/FUN_0049bb50_shell.h"
+#include "fnv/decl/FUN_004a39f0_shell.h"
+#include "fnv/decl/FUN_004b4e50_shell.h"
+#include "fnv/decl/FUN_004eaf60_shell.h"
+#include "fnv/decl/FUN_0050ead0_cls.h"
+#include "fnv/decl/FUN_0050eb90_Class.h"
+#include "fnv/decl/FUN_00544490_Class.h"
+#include "fnv/decl/FUN_0059ce80_shell.h"
+#include "fnv/decl/FUN_0059f610Class.h"
+#include "fnv/decl/FUN_005ac1e0_shell.h"
+#include "fnv/decl/FUN_005be5c0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005ff160_shell.h"
+#include "fnv/decl/FUN_00608d80_shell.h"
+#include "fnv/decl/FUN_0061cc40_shell.h"
+#include "fnv/decl/FUN_0067a480_shell.h"
+#include "fnv/decl/FUN_0067a770_shell.h"
+#include "fnv/decl/FUN_0067efd0_shell.h"
+#include "fnv/decl/FUN_0067f1c0_shell.h"
+#include "fnv/decl/FUN_0083d0d0_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008846e0_shell.h"
+#include "fnv/decl/FUN_00884f80_shell.h"
+#include "fnv/decl/FUN_0088c570_shell.h"
+#include "fnv/decl/FUN_008a7570_shell.h"
+#include "fnv/decl/FUN_008ace90_shell.h"
+#include "fnv/decl/FUN_008adcb0_shell.h"
+#include "fnv/decl/FUN_008b0bd0_shell.h"
+#include "fnv/decl/FUN_008b2010_shell.h"
+#include "fnv/decl/FUN_008b39f0_shell.h"
+#include "fnv/decl/FUN_008b3ab0_shell.h"
+#include "fnv/decl/FUN_008bc700_shell.h"
+#include "fnv/decl/FUN_008c0050_cls.h"
+#include "fnv/decl/FUN_008c51c0_shell.h"
+#include "fnv/decl/FUN_008ce390_shell.h"
+#include "fnv/decl/FUN_008d72e0_Class.h"
+#include "fnv/decl/FUN_008d7340StandIn.h"
+#include "fnv/decl/FUN_008d7420.h"
+#include "fnv/decl/FUN_008d74a0.h"
+#include "fnv/decl/FUN_008dade0_shell.h"
+#include "fnv/decl/FUN_008ff080_shell.h"
+#include "fnv/decl/FUN_008ffdc0_Class.h"
+#include "fnv/decl/FUN_009003e0_shell.h"
+#include "fnv/decl/FUN_00900400_shell.h"
+#include "fnv/decl/FUN_00903cd0_shell.h"
+#include "fnv/decl/FUN_00905450_StandIn.h"
+#include "fnv/decl/FUN_00915400_shell.h"
+#include "fnv/decl/FUN_0091fe80_shell.h"
+#include "fnv/decl/FUN_009280f0_Class.h"
+#include "fnv/decl/FUN_0092bf20_cls.h"
+#include "fnv/decl/FUN_0092ce00_shell.h"
+#include "fnv/decl/FUN_00953c20_shell.h"
+#include "fnv/decl/FUN_00953c50_Class.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_009865b0_shell.h"
+#include "fnv/decl/FUN_00992530_shell.h"
+#include "fnv/decl/FleeActorEntry.h"
+#include "fnv/decl/FormNode.h"
+#include "fnv/decl/HostActor.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/Owner0092cec0.h"
+#include "fnv/decl/Owner8ffe50.h"
+#include "fnv/decl/Ref.h"
+#include "fnv/decl/RefS.h"
+#include "fnv/decl/S0056e810_Object.h"
+#include "fnv/decl/ST_008c8bb0.h"
+#include "fnv/decl/S_FUN_0045bc00.h"
+#include "fnv/decl/Self.h"
+#include "fnv/decl/TESCombatStyle.h"
+#include "fnv/decl/TESNPC_Sub.h"
+#include "fnv/decl/Target.h"
+#include "fnv/decl/Thing.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/UpdateOwner.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_0041cc90__ExtraDataListStandIn.h"
+#include "fnv/decl/fnv_00496940__FUN_00496940_shell.h"
+#include "fnv/decl/fnv_004985f0__FUN_004985f0_s.h"
+#include "fnv/decl/fnv_00498f80__FUN_00498f80_cls.h"
+#include "fnv/decl/fnv_004a3a20__FUN_004a3a20_shell.h"
+#include "fnv/decl/fnv_00564db0__FUN_00564db0_cls.h"
+#include "fnv/decl/fnv_00567400__FUN_00567400_shell.h"
+#include "fnv/decl/fnv_00567490__ScaleReference.h"
+#include "fnv/decl/fnv_005710c0__ModelRef.h"
+#include "fnv/decl/fnv_00572380__Fn572380.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_0084a810__FUN_0084a810_shell.h"
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/decl/fnv_0089f580__ActorStub.h"
+#include "fnv/decl/fnv_008a5e80__FakeActor.h"
+#include "fnv/decl/fnv_008a7870__FUN_008a7870_shell.h"
+#include "fnv/decl/fnv_008a78f0__FUN_008a78f0_shell.h"
+#include "fnv/decl/fnv_008ac6f0__ActorS_008ac6f0.h"
+#include "fnv/decl/fnv_008acbe0__FUN_008acbe0_shell.h"
+#include "fnv/decl/fnv_008b8e90__FUN_008b8e90_shell.h"
+#include "fnv/decl/fnv_008bcc80__FUN_008bcc80_shell.h"
+#include "fnv/decl/fnv_008bffc0__FUN_008bffc0_shell.h"
+#include "fnv/decl/fnv_008ffd10__FUN_008ffdc0_Class.h"
+#include "fnv/decl/fnv_00903de0__FUN_00903de0_shell.h"
+#include "fnv/decl/fnv_00903e00__FUN_00903e00_shell.h"
+#include "fnv/decl/fnv_00903e20__FUN_00903e20_shell.h"
+#include "fnv/decl/fnv_00904160__FUN_00904160_shell.h"
+#include "fnv/decl/fnv_009278d0__Target.h"
+#include "fnv/decl/fnv_009334b0__FUN_009334b0_shell.h"
+#include "fnv/decl/fnv_00968670__FUN_00968670_shell.h"
+#include "fnv/decl/fnv_00972570__FUN_00972570_shell.h"
+#include "fnv/decl/fnv_00992480__CombatOwner_SV.h"
+#include "fnv/decl/fnv_00ad88f0__FUN_00ad88f0_h.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_00435000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_0047e000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_004ae000.h"
+#include "fnv/symbols_004b6000.h"
+#include "fnv/symbols_00537000.h"
+#include "fnv/symbols_00546000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00579000.h"
+#include "fnv/symbols_005a4000.h"
+#include "fnv/symbols_005b9000.h"
+#include "fnv/symbols_005cc000.h"
+#include "fnv/symbols_005d9000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_00642000.h"
+#include "fnv/symbols_00669000.h"
+#include "fnv/symbols_008d7000.h"
+#include "fnv/symbols_00903000.h"
+#include "fnv/symbols_00a6e000.h"
+#include "fnv/symbols_00b5b000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0101a000.h"
+#include "fnv/symbols_01022000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_011a3000.h"
+#include "fnv/symbols_011c5000.h"
+#include "fnv/symbols_011cb000.h"
+#include "fnv/symbols_011cd000.h"
+#include "fnv/symbols_011cf000.h"
+#include "fnv/symbols_011d0000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f1000.h"
+#include "fnv/symbols_011f2000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01268000.h"
 #include "highprocess_decls.h"
 
 struct xPoint3
@@ -13,19 +202,17 @@ struct xPoint3
 };
 struct xHeaderOwner
 {
-    xPoint3* FUN_00500940();
 };
+struct xBuf;
 struct xProcess
 {
     void* vtbl;
+public:
+    void FUN_00927000(::xBuf *);
 };
 struct xFilter
 {
     xFilter(int);
-    void FUN_004a39f0(int);
-    void FUN_0059ce80(unsigned int);
-    int FUN_004a3a20();
-    unsigned int FUN_00559450();
     unsigned int m_uiFilterValue;
 };
 struct xHasFilter
@@ -35,7 +222,6 @@ struct xHasFilter
 struct xVec4
 {
     float m_q[4];
-    void SetFromScaledVector3(const xPoint3*);
 };
 struct __declspec(align(16)) xCinfo
 {
@@ -61,11 +247,9 @@ struct xBody : xNiAlloc
     xBody(xCinfo*);
     int m_auiShapeKeys[6];
 };
-int __fastcall xFUN_004ae750(void*);
 struct xBodyV;
 struct xPtr
 {
-    unsigned int FUN_00559450();
     xBodyV* operator->();
     void FUN_0066b0d0(void*);
 };
@@ -120,12 +304,9 @@ struct xCell
 {
     void* FUN_008d6f30();
 };
-void* __fastcall xFUN_004543c0(void*);
 struct xSetting
 {
-    float* FUN_00403e20();
 };
-extern xSetting xg_setting_11e029c;
 struct xMiddle
 {
     virtual void v0();
@@ -510,6 +691,7 @@ struct xMiddle
     virtual void v379();
     virtual xHeaderOwner* FUN_5f0();
 };
+struct xP3;
 struct xActor
 {
     virtual void v0();
@@ -641,7 +823,8 @@ struct xActor
     char m_pad04[0x64];
     xMiddle* m_68;
     xCell* FUN_008d6f30();
-    float FUN_00567400();
+public:
+    bool FUN_0088c240(const ::xP3 &, bool, bool);
 };
 struct xController
 {
@@ -820,10 +1003,10 @@ void xController::FUN_008e4e50(xActor* apActor)
 {
     if (apActor->m_68->FUN_5f0())
     {
-        if (!m_434.FUN_00559450())
+        if (!((unsigned int)(::FUN_00559450((int *)&(m_434)))))
         {
-            xPoint3 HALF = *apActor->m_68->FUN_5f0()->FUN_00500940();
-            float fActorScale = apActor->FUN_00567400();
+            xPoint3 HALF = *((::xPoint3 *)(reinterpret_cast<::BGSCameraPath *>((apActor->m_68->FUN_5f0()))->GetConditions()));
+            float fActorScale = reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((apActor))->FUN_00567400();
             if (HALF.y > HALF.z)
                 HALF.y = HALF.y * fActorScale;
             else
@@ -832,18 +1015,18 @@ void xController::FUN_008e4e50(xActor* apActor)
             HALF.z = HALF.z * fActorScale;
             xShape* SHAPE = new xShape(&HALF);
             xFilter FILTER(0);
-            FILTER.FUN_004a39f0(0x22);
+            reinterpret_cast<::FUN_004a39f0_shell *>(&(FILTER))->FUN_004a39f0(0x22);
             xHasFilter* OWNER = FUN_28c();
             if (OWNER)
-                FILTER.FUN_0059ce80(OWNER->FUN_0070c440().FUN_004a3a20());
+                reinterpret_cast<::FUN_0059ce80_shell *>(&(FILTER))->FUN_0059ce80(((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::xFilter &)(OWNER->FUN_0070c440()))->FUN_004a3a20())));
             xCinfo CINFO;
-            CINFO.m_uiFilterInfo = FILTER.FUN_00559450();
-            CINFO.m_pCollisionShape = xFUN_004ae750(SHAPE);
-            CINFO.m_vContactPosition.SetFromScaledVector3(apActor->FUN_1f4());
+            CINFO.m_uiFilterInfo = ((unsigned int)(::FUN_00559450((int *)&(FILTER))));
+            CINFO.m_pCollisionShape = ::FUN_004ae750(SHAPE);
+            reinterpret_cast<::FUN_004b4e50_shell *>(&(CINFO.m_vContactPosition))->SetFromScaledVector3((void *)(apActor->FUN_1f4()));
             m_434.FUN_0066b0d0(new xBody(&CINFO));
-            m_438 = *xg_setting_11e029c.FUN_00403e20();
+            m_438 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xSetting *>(&::g_011e029c))))));
         }
-        void* WORLD = xFUN_004543c0(apActor->FUN_008d6f30());
+        void* WORLD = reinterpret_cast<::FUN_004543c0_cls *>((((::xCell *)(reinterpret_cast<::LowProcess *>((apActor))->GetTarget()))))->FUN_004543c0();
         m_434->FUN_9c(WORLD);
     }
 }
@@ -863,13 +1046,10 @@ struct __declspec(align(16)) xVec4
     xM128 m_vComponents;
     xVec4();
 };
-xVec4* xFUN_004a3e00(xVec4*, const xP3&);
-extern int xg_126825c;
 struct xConvexShape
 {
     xConvexShape();
     virtual ~xConvexShape();
-    void FUN_0056e810(xVec4*);
     int m_iWordAt04, m_8, m_iThirdValue;
 };
 struct xBoxShape : xConvexShape
@@ -881,8 +1061,8 @@ struct xBoxShape : xConvexShape
 // @fnv 0x008e5100
 xBoxShape::xBoxShape(const xP3& akHalfExtents)
 {
-    ++xg_126825c;
+    ++::DAT_0126825c;
     xVec4 HALF;
-    FUN_0056e810(xFUN_004a3e00(&HALF, akHalfExtents));
+    reinterpret_cast<::S0056e810_Object *>(this)->FUN_0056e810((*(const ::S0056e810_Vector *)(((::fnv_008e5100::xVec4 *)&(::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&HALF)), (const ::fnv_004a3e00::NiPoint3 &)(akHalfExtents)))))));
 }
 }  // namespace fnv_008e5100

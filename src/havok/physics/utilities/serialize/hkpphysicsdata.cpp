@@ -2,9 +2,27 @@
 // src/havok/physics/utilities/serialize/hkpphysicsdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/serialize/hkpphysicsdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/BodyCollection.h"
+#include "fnv/decl/Container64.h"
+#include "fnv/decl/FUN_00c90b80.h"
+#include "fnv/decl/FUN_00c9bff0_Class.h"
+#include "fnv/decl/FUN_00d065e0.h"
+#include "fnv/decl/MatchWorld.h"
+#include "fnv/decl/S96_WorldShell.h"
+#include "fnv/decl/Src_00c91c50.h"
+#include "fnv/decl/SystemWorld.h"
+#include "fnv/decl/WorldCtor.h"
+#include "fnv/decl/fnv_00dcecc0__FUN_00dcecc0.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00cbf000.h"
+#include "fnv/symbols_00dcd000.h"
+#include "fnv/symbols_00dce000.h"
+#include "fnv/symbols_0102f000.h"
 #include "havok/hkpPhysicsData.h"
 
-int __cdecl CompareStringsCaseInsensitive(int, int);
 
 struct FUN_00d4c000
 {
@@ -22,7 +40,7 @@ int FUN_00d4c000::Method(int a)
     for (int i = 0; i < m_10; i++)
     {
         int v = *reinterpret_cast<int*>(*(reinterpret_cast<char**>(m_0c) + i) + 0x38) & 0xfffffffe;
-        if (v && !CompareStringsCaseInsensitive(v, a))
+        if (v && !::fnv_00cb0fe0::CompareStringsCaseInsensitive((const char *)(v), (const char *)(a)))
             return m_0c[i];
     }
     return 0;
@@ -53,7 +71,6 @@ FUN_00d4c220_s::FUN_00d4c220_s()
     m_08 = 0;
 }
 
-int __cdecl CompareStringsCaseInsensitive(int, int);
 
 struct FUN_00d4c050_obj
 {
@@ -76,14 +93,13 @@ int FUN_00d4c050_obj::FindMatchingEntry(int a)
         {
             int v = ((int*)p[2])[jItem];
             int m = *(int*)((char*)v + 0x74);
-            if ((m & ~1) && !CompareStringsCaseInsensitive(m & ~1, a))
+            if ((m & ~1) && !::fnv_00cb0fe0::CompareStringsCaseInsensitive((const char *)(m & ~1), (const char *)(a)))
                 return v;
         }
     }
     return 0;
 }
 
-extern int DAT_0102f0ec;
 
 struct hkMemoryAllocator
 {
@@ -107,12 +123,9 @@ class hkThreadMemory
 };
 
 void* FUN_00c85750() throw();
-void __cdecl InitializeWorld(void*) throw();
-void __cdecl RunWithLocalContext(void*, void*, void*) throw();
 
 struct FUN_00d1df70
 {
-    void removeReference() throw();
 };
 
 template <typename T> struct ReferenceCountedPointer
@@ -124,7 +137,7 @@ template <typename T> struct ReferenceCountedPointer
     {
         if (m_pRetainedObject)
         {
-            ((FUN_00d1df70*)m_pRetainedObject)->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((((FUN_00d1df70*)m_pRetainedObject)))->FUN_00c905b0();
         }
         m_pRetainedObject = 0;
     }
@@ -210,10 +223,9 @@ class __declspec(align(16)) FUN_00553540
     int unke8;
     int unkec;
 
-    void FUN_00c90b80() throw();
     __forceinline FUN_00553540() throw()
     {
-        FUN_00c90b80();
+        new ((void *)this) ::FUN_00c90b80();
     }
     __forceinline ~FUN_00553540() throw()
     {
@@ -446,10 +458,8 @@ class hkpWorld
     hkpWorld* FUN_00c95a80(const FUN_00553540* info, unsigned int version = 0x111d4) throw();
     __forceinline hkpWorld(const FUN_00553540* info) throw()
     {
-        FUN_00c95a80(info, 0x111d4);
+        reinterpret_cast<::WorldCtor *>(this)->FUN_00c95a80((::WorldInfoCtor *)(info), 0x111d4);
     }
-    void FUN_00c97f80(hkpPhysicsSystem* system) throw();
-    void FUN_00c96ff0(int a, int b) throw();
 };
 
 struct ContactOptions
@@ -486,12 +496,12 @@ hkpWorld* PhysicsDataExt::CreateWorld(char bRegisterWithMemoryManager) throw()
 
     if (bRegisterWithMemoryManager)
     {
-        InitializeWorld(world->m_pDispatcher);
+        ::InitializeWorld((::WorldCBFD *)(world->m_pDispatcher));
     }
 
     for (int i = 0; i < this->m_kPhysicsSystems.m_iElementCount; ++i)
     {
-        world->FUN_00c97f80(this->m_kPhysicsSystems.m_data[i]);
+        reinterpret_cast<::SystemWorld *>((world))->FUN_00c97f80((::PhysicsSystem *)(this->m_kPhysicsSystems.m_data[i]));
         if (this->m_kPhysicsSystems.m_data[i]->vfunc4().val)
         {
             ContactOptions opts;
@@ -501,13 +511,13 @@ hkpWorld* PhysicsDataExt::CreateWorld(char bRegisterWithMemoryManager) throw()
             opts.m_08 = 1;
             opts.m_09 = 1;
             opts.m_0a = 0;
-            RunWithLocalContext(&opts, this->m_kPhysicsSystems.m_data[i], world);
+            ::RunWithLocalContext((int)(&opts), (int)(this->m_kPhysicsSystems.m_data[i]), (int)(world));
         }
     }
 
     if (this->m_pWorldCinfo && ((FUN_00553540*)this->m_pWorldCinfo)->m_pCollisionFilter.m_pRetainedObject)
     {
-        world->FUN_00c96ff0(0, 1);
+        reinterpret_cast<::S96_WorldShell *>((world))->FUN_00c96ff0(0, 1);
     }
 
     return world;
@@ -555,7 +565,7 @@ class FUN_00dcecc0
 // @fnv 0x00d4c8e0
 FUN_00dcecc0* FUN_00dcecc0::Destroy(unsigned int uiFlags) throw()
 {
-    this->FUN_00dcecc0::~FUN_00dcecc0();
+    reinterpret_cast<::fnv_00dcecc0::FUN_00dcecc0 *>((this))->fnv_00dcecc0::FUN_00dcecc0::~FUN_00dcecc0();
     if (uiFlags & 1)
         FUN_00dcecc0::operator delete(this);
     return this;
@@ -564,8 +574,6 @@ FUN_00dcecc0* FUN_00dcecc0::Destroy(unsigned int uiFlags) throw()
 
 extern void* __cdecl FUN_00c85750(void);
 extern int DAT_010d07f4;
-extern void __cdecl ProcessCollisionRecords(void*, void*, void*);
-extern void __cdecl ResizeAudioStream(void*, void*, int);
 
 struct D4C2Place
 {
@@ -583,7 +591,6 @@ struct BigType
     int m_00;
     unsigned short m_04;
     unsigned short m_06;
-    void* FUN_00c90b80(void);
 };
 
 struct ArrayField
@@ -618,7 +625,6 @@ struct SmallType
     unsigned char m_42;
     unsigned char m_43;
     ArrayField m_ppData;
-    void FUN_00d065e0(void);
 };
 
 struct AllocType
@@ -636,8 +642,6 @@ struct HolderType
 };
 struct ClientType
 {
-    void FUN_00c91c50(void*);
-    void AddPhysicsSystem(void*);
 };
 struct ArrayType
 {
@@ -663,12 +667,12 @@ void HostType::FUN_00d4c2d0(ClientType* client, unsigned char ubFlag)
         HolderType* holder = (HolderType*)FUN_00c85750();
         BigType* big = (BigType*)holder->m_10->vf04(0xF0);
         big->m_04 = 0xF0;
-        m_08 = big->FUN_00c90b80();
+        m_08 = ((void *)(new ((void *)(big)) ::FUN_00c90b80()));
     }
 
-    client->FUN_00c91c50(m_08);
+    reinterpret_cast<::Src_00c91c50 *>((client))->FUN_00c91c50((::Dst_00c91c50 *)(m_08));
     ArrayType* array = &m_0c;
-    client->AddPhysicsSystem(array);
+    reinterpret_cast<::MatchWorld *>((client))->AddPhysicsSystem((::hkArrayXc937a0< ::FUN_00d065e0 *> *)(array));
 
     if (ubFlag != 0)
     {
@@ -684,19 +688,19 @@ void HostType::FUN_00d4c2d0(ClientType* client, unsigned char ubFlag)
         HolderType* holder = (HolderType*)FUN_00c85750();
         SmallType* small = (SmallType*)holder->m_10->vf04(0x50);
         small->m_04 = 0x50;
-        small->FUN_00d065e0();
+        new ((void *)(small)) ::FUN_00d065e0();
 
         small->m_00 = (int)&DAT_010d07f4;
         new (&small->m_ppData, D4C2Place()) ArrayField();
 
-        ProcessCollisionRecords(&local, client, small);
+        ::ProcessCollisionRecords(&local, (::S_00dcda40_World *)(client), (::S_00dcdd80_Listener *)(small));
 
         small->m_40 = 0;
 
         holder = (HolderType*)FUN_00c85750();
         if (array->m_iElementCount == (array->m_cap & 0x3fffffff))
         {
-            ResizeAudioStream(holder->m_10, array, 4);
+            ::ResizeAudioStream((::AudioAllocator *)(holder->m_10), (::AudioStream *)(array), 4);
         }
 
         new (array->m_data + array->m_iElementCount, D4C2Place()) SmallType*(small);
@@ -708,7 +712,6 @@ extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 
 struct Value
 {
-    BoolResult FUN_00c9bff0();
 };
 struct Owner
 {
@@ -716,7 +719,6 @@ struct Owner
     int unk04;
     int** m_08;
     int m_0c;
-    void FUN_00d06130(int index);
 };
 struct Entity
 {
@@ -737,7 +739,6 @@ struct Entity
     int unk38;
     int unk3c;
     unsigned char m_40;
-    void AddShape(int value);
 };
 struct OwnerArg
 {
@@ -770,9 +771,9 @@ static __declspec(noinline) void FUN_00d4bf70(Owner* owner, Entity* volatile apE
     int entityIndex = findValue(entity, value);
     if (entityIndex == -1 && ownerIndex != -1)
     {
-        entity->m_40 = entity->m_40 || value->FUN_00c9bff0().val;
-        entity->AddShape((int)value);
-        owner->FUN_00d06130(ownerIndex);
+        entity->m_40 = entity->m_40 || (*(::BoolResult *)(reinterpret_cast<::FUN_00c9bff0_Class *>((value))->FUN_00c9bff0({}))).val;
+        reinterpret_cast<::Container64 *>((entity))->AddShape((::Shape64 *)((int)value));
+        reinterpret_cast<::BodyCollection *>((owner))->FUN_00d06130(ownerIndex);
     }
 }
 Owner* volatile probeOwner;
@@ -813,7 +814,6 @@ extern "C" hkMemoryRouterD4C* __cdecl FUN_00c85750() throw();
 
 struct hkRefD4C
 {
-    void FUN_00c905b0() throw();
 };
 
 template <class T> class hkArrayD4C
@@ -862,8 +862,8 @@ class FUN_00d4c250 : public hkReferencedObjectD4C
 FUN_00d4c250::~FUN_00d4c250()
 {
     if (m_pCollisionShape)
-        m_pCollisionShape->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_pCollisionShape))->FUN_00c905b0();
     for (int i = 0; i < m_children.m_iElementCount; i++)
-        m_children.m_data[i]->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_children.m_data[i]))->FUN_00c905b0();
 }
 }  // namespace fnv_00d4c250

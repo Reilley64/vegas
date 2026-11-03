@@ -2,6 +2,9 @@
 #ifndef ABSTRACTHEAP_DECLS_H
 #define ABSTRACTHEAP_DECLS_H
 
+#include "fnv/decl/FUN_00aaa6e0_Class.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_011f6000.h"
 #include "IMemoryHeap.h"
 
 class MemoryHeapType;
@@ -38,7 +41,6 @@ class MemoryBlockHeader
     {
         m_pPreviousBlock = previous;
     }
-    void SetFlags(unsigned int, MemoryHeapType*);
     __forceinline void SetFree(bool value)
     {
         if (value)
@@ -108,13 +110,12 @@ class HeapBlockList
     HeapFreeList* pFirst;
 };
 class AbstractHeapLogger;
-extern AbstractHeapLogger* DAT_011f6388;
 class AbstractHeapLogger
 {
   public:
     static __forceinline AbstractHeapLogger* Get()
     {
-        return DAT_011f6388;
+        return ::DAT_011f6388;
     }
     virtual void vfn_00();
     virtual void vfn_04();
@@ -125,14 +126,13 @@ class AbstractHeapLogger
 };
 __forceinline bool AbstractHeapHasLog()
 {
-    return DAT_011f6388 != 0;
+    return ::DAT_011f6388 != 0;
 }
 extern "C"
 {
     extern void(__stdcall* fnv_EnterCriticalSection)(void*);
     extern void(__stdcall* fnv_LeaveCriticalSection)(void*);
     __declspec(dllimport) void* __stdcall VirtualAlloc(void*, unsigned int, unsigned int, unsigned int);
-    int __cdecl sprintf_s(char*, unsigned int, const char*, ...);
 }
 
 class AbstractHeap : public IMemoryHeap

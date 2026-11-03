@@ -62,6 +62,8 @@ class NiTMap_unsigned_int_Actor___ : public NiTMapBase_DFALL_NiTMapItem_unsigned
 {
 };
 
+class FormChangeMask;
+class TESForm;
 class BGSSaveLoadGame
 {
   public:
@@ -81,6 +83,8 @@ class BGSSaveLoadGame
     unsigned int m_uiInitializationFlags;
     unsigned char m_ucSaveLoadState;
     bool GetInitingForms() const;
+public:
+    bool HasFormChangeFlags(::TESForm *, ::FormChangeMask);
 };
 typedef char modelloader_check_map_size[(sizeof(NiTMap_unsigned_int_Actor___) == 16) ? 1 : -1];
 typedef char modelloader_check_flags_offset[(offsetof(BGSSaveLoadGame, m_uiInitializationFlags) == 0x244) ? 1 : -1];

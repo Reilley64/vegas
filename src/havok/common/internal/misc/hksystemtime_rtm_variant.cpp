@@ -4,6 +4,7 @@
 
 // src/havok/common/internal/misc/hksystemtime.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/misc/hksystemtime.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_00e29000.h"
 extern "C" __int64 __cdecl __time64(__int64*);
 int FUN_00e29910(void);
 
@@ -501,7 +502,7 @@ extern "C" void __cdecl FUN_00e29cd0(int* indices, int numIndices, const S29cd0_
                 S29cd0_hkVector4 dir1;
                 dir1.setSub4(to1, from1);
                 dir1.fastNormalize3();
-                if (FUN_00e29920(from, to, dir, from1, to1, dir1, cosVariance,
+                if (::RaySimilarityMath::FUN_00e29920((const ::RaySimilarityMath::RayVector &)(from), (const ::RaySimilarityMath::RayVector &)(to), (const ::RaySimilarityMath::RayVector &)(dir), (const ::RaySimilarityMath::RayVector &)(from1), (const ::RaySimilarityMath::RayVector &)(to1), (const ::RaySimilarityMath::RayVector &)(dir1), cosVariance,
                                  len2 * S29cd0_hkSimdReal(distanceVariance2)))
                 {
                     cluster.AddBack(rayIdx);

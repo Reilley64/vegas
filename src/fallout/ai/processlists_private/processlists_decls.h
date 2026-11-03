@@ -4,6 +4,17 @@
 #define FNV_PROCESSLISTS_PRIVATE_DECLS_H
 
 
+#include "fnv/decl/AlarmPackageData.h"
+#include "fnv/decl/FUN_00c67aa0_Class.h"
+#include "fnv/decl/Owner.h"
+#include "fnv/decl/World.h"
+#include "fnv/decl/WorldView.h"
+#include "fnv/decl/fnv_00c67df0__PendingWorld.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_004a8000.h"
+#include "fnv/symbols_011dc000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_01202000.h"
 class MobileObject;
 
 // Placeholder carrier for canonical binding ?IsUnk28Set@FOPipboyManager@@QAE_NXZ.
@@ -66,11 +77,8 @@ template <class T> class SettingT
 };
 
 // Placeholder globals.
-extern int DAT_01202800;
-extern MobileObject* DAT_011e0e38;
 
 // 0x00c68f00 canonical binding: ?SetWorldActive@bhkWorld@@QAEX_N@Z
-void ProcessPendingItems();
 
 class bhkWorld
 {
@@ -96,10 +104,6 @@ class bhkWorld
     unsigned int m_uiValueAt48;
     void* m_pObjectAt4C;
     unsigned int unk50;  // +0x50
-    void ReleaseBodies();
-    void ClearReferences();
-    void ClearEntries();
-    void FlushEntries();
     void SetWorldActive(bool arg);
     char _pdbpad_54[12];
     char Origin[16];
@@ -115,12 +119,13 @@ extern float DAT_011e0e2c;
 extern double DAT_0108c160;
 extern "C" int FNV_IsNaN(double);
 extern "C" int FNV_Finite(double);
+class Actor;
 class Crime
 {
   public:
-    void FUN_009ec400(BGSLoadGameBuffer*);
+public:
+    bool IsActorInList(::Actor *);
 };
-int MinInt(int, int);
 class TESGlobal;
 template <class K, class V> class NiTMap
 {
@@ -144,6 +149,4 @@ class BGSTerrainManager
     unsigned int GetMinLevel();
 };
 class GlobalObject_00a7b610;
-extern GlobalObject_00a7b610 g_011dc804;
-bool FUN_0043b300(const NiRTTI*, NiAVObject*);
 #endif

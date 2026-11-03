@@ -7,6 +7,8 @@
 // src/havok/common/visualize/shape/hkdisplaysemicircle.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplaysemicircle.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00cb2e30_cls.h"
+#include "fnv/symbols_00c90000.h"
 __if_not_exists(__m128)
 {
     union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -88,7 +90,6 @@ struct Vec_de4af0
 struct Frame_de4af0
 {
     __m128 column0, column1, column2;
-    void FUN_00cb2e30(void* p, float t);
 };
 // Output array: data pointer, element count, capacity.
 struct VecArr_de4af0
@@ -98,7 +99,6 @@ struct VecArr_de4af0
     unsigned int m_uCap;  // +0x08
 };
 Holder_de4af0* FUN_00c85750();
-extern "C" void FUN_00c908c0(void* alloc, VecArr_de4af0* arr, unsigned int newCap, unsigned int stride);
 struct ArcSamples_de4af0
 {
     int unk00;         // +0x00
@@ -140,13 +140,13 @@ void ArcSamples_de4af0::FUN_00de4af0(VecArr_de4af0* arr)
     const Vec_de4af0& origin = m_v80;
     __declspec(align(16)) float step = (m_f94 - m_f90) / (float)m_i9c;
     Frame_de4af0 local;
-    local.FUN_00cb2e30(&m_v60, m_f90);
+    reinterpret_cast<::FUN_00cb2e30_cls *>(&(local))->SpawnSnap((int)(&m_v60), m_f90);
     Vec_de4af0 x;
     _mm_store_ps(&x.m_f00,
                  _mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(&m_f98), _mm_load_ss(&m_f98), 0), _mm_load_ps(&m_v70.m_f00)));
     x.FUN_00c7f700(&local, &x);
     x.add(origin, x);
-    local.FUN_00cb2e30(&m_v60, step);
+    reinterpret_cast<::FUN_00cb2e30_cls *>(&(local))->SpawnSnap((int)(&m_v60), step);
     int n = m_i9c + 2;
     Holder_de4af0* h = FUN_00c85750();
     _ReadWriteBarrier();
@@ -159,7 +159,7 @@ void ArcSamples_de4af0::FUN_00de4af0(VecArr_de4af0* arr)
         {
             newCap = n;
         }
-        FUN_00c908c0(alloc, arr, newCap, 0x10);
+        ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(arr), newCap, 0x10);
     }
     __m128 initial = x.v;
     arr->m_iArrayLength = n;

@@ -9,6 +9,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <xmmintrin.h>
+#include "fnv/decl/Solver.h"
+#include "fnv/symbols_00e62000.h"
 struct __declspec(align(16)) Scalar4
 {
     float x, y, z, w;
@@ -44,10 +46,7 @@ struct SimplexContext
     FourFloatVector* pointsB;
     Scalar4* differences;
     int count;
-    int FUN_00e63770(FourFloatVector*);
 };
-void __cdecl FUN_00e62740(const void*, const void*, const Transform*, FourFloatVector*, FourFloatVector*,
-                          FourFloatVector*);
 template <class T> struct Ref
 {
     T* p;
@@ -148,9 +147,9 @@ void Simplex::FUN_00e4c230(const void* shapeA, const void* shapeB, const Transfo
     context.pointsB = pointsB;
     context.differences = &differences.d0;
     context.count = simplexCount;
-    if (context.FUN_00e63770(output) == 5)
+    if (reinterpret_cast<::Solver *>(&(context))->FUN_00e63770((::E63Out *)(output)) == 5)
     {
-        FUN_00e62740(shapeA, shapeB, transform, pointsA, pointsB, output);
+        ::FUN_00e62740((::Shape *)(shapeA), (::Shape *)(shapeB), (const ::Matrix *)(transform), (::Vec *)(pointsA), (::Vec *)(pointsB), (::SamplingOutPair_e62740 *)(output));
         *countA = 1;
         *countB = 1;
     }

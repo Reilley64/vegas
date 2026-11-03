@@ -5,9 +5,18 @@
 
 // src/havok/animation/ragdoll/utils/hkaragdollutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/ragdoll/utils/hkaragdollutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/FUN_00c7f690_cls.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00ce2510.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00cea000.h"
+#include "fnv/symbols_00d74000.h"
+#include "fnv/symbols_01268000.h"
 extern "C"
 {
-    int __cdecl FUN_00cea030(void*, void*);
     int __cdecl FUN_00ce9db0(void*, void*);
     int __cdecl FUN_00ce9e90(void*);
 }
@@ -43,7 +52,6 @@ struct Counter
     int unk00[12];
     int unk30;
 };
-extern "C" void __cdecl AssignNodeFlags(int, int, int);
 void __cdecl FUN_00ce9fa0(Container* c, int value, Counter* counter);
 struct Inner
 {
@@ -78,7 +86,6 @@ struct hkError
     virtual void unk1();
     virtual int message(int type, int id, const char* desc, const char* file, int line) throw();
 };
-extern hkError* DAT_01268360;
 static bool IsSupportedRagdollConstraint(Obj* obj, bool reportError) throw();
 void caller(Obj* obj);
 struct SpawnedAllocator
@@ -94,12 +101,10 @@ struct SpawnedGlobal
     int unk0c;
     SpawnedAllocator* m_pAllocator;
 };
-SpawnedGlobal* __cdecl FUN_00c85750() throw();
 struct SpawnedObject
 {
     int unk00;
     unsigned short m_size04;
-    int Init(void* a, void* b, int c, void* d);
 };
 struct SourceRecord
 {
@@ -121,9 +126,6 @@ int __cdecl SpawnObjectFromRecord(SourceRecord* src);
 struct Builder390
 {
     unsigned int unk00, unk04, unk08;
-    void FUN_00cb1600(void*, int);
-    void FUN_00cc01c0(const char*);
-    void FUN_00cc00e0();
 };
 struct Constraint390
 {
@@ -202,10 +204,10 @@ static __declspec(noinline) void* FUN_00ce9cf0(Owner390* owner)
     default: {
         char message[512];
         Builder390 stream;
-        stream.FUN_00cb1600(message, sizeof(message));
-        stream.FUN_00cc01c0("Unsupported type of constraint in rag doll.");
-        DAT_01268360->message(1, 0xabbabf3b, message, ".\\Utils\\hkaRagdollUtils.cpp", 230);
-        stream.FUN_00cc00e0();
+        new ((void *)&(stream)) ::FUN_00cb1600(message, sizeof(message));
+        reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0("Unsupported type of constraint in rag doll.");
+        (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabbabf3b, message, ".\\Utils\\hkaRagdollUtils.cpp", 230);
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();
         return 0;
     }
     }
@@ -226,7 +228,6 @@ __declspec(align(16)) struct Vec4
 
 struct Target
 {
-    void FUN_00c7f690(void* where, Vec4* v);
 };
 
 struct Body : public Obj
@@ -250,7 +251,7 @@ static __declspec(noinline) bool IsSupportedRagdollConstraint(Obj* obj, bool rep
         return true;
     if (reportError)
     {
-        DAT_01268360->message(1, 0, 0, 0, 0);
+        (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0, 0, 0, 0);
     }
     return false;
 }
@@ -289,14 +290,14 @@ extern "C" int __cdecl FUN_00ce9e90(void* p)
             Vec4* vel = FUN_00ce9c40(b);
             *(__m128*)vel = _mm_setzero_ps();
             Target* target = FUN_00ce9cf0(b);
-            target->FUN_00c7f690(owner + 0xf0, &v);
+            reinterpret_cast<::FUN_00c7f690_cls *>((target))->FUN_00c7f690((const ::S_00c7f690_M *)(void *)(owner + 0xf0), (const ::S_00c7f690_V *)(::Vec4 *)(&v));
         }
         if (b->inner->getSomething() == 8)
         {
             int buf[0x80];
             hkErrStream stream(buf, 0x200);
-            stream << "Unusual : Aligning constraint spaces of a stiff spring.";
-            DAT_01268360->message(1, 0xabba876d, (const char*)buf, ".\\Utils\\hkaRagdollUtils.cpp", 0x134);
+            reinterpret_cast<::SinkOwner *>((void *)&(const ::hkErrStream &)(stream))->FUN_00cc01c0("Unusual : Aligning constraint spaces of a stiff spring.");
+            (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabba876d, (const char*)buf, ".\\Utils\\hkaRagdollUtils.cpp", 0x134);
         }
     }
     return 0;

@@ -1,5 +1,27 @@
 // fallout_shared/ragdolldata.cpp: RagDollData, RagDollDataEx, RagDollRefUpdater, RagDollWalker and more (17 functions)
 
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_0043fa80_s.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/Matrix161.h"
+#include "fnv/decl/NiPlane.h"
+#include "fnv/decl/S_00a592c0_Matrix3.h"
+#include "fnv/decl/S_FUN_0045bc00.h"
+#include "fnv/decl/fnv_0043fcd0__FUN_0043fcd0_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_004a8000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_006a9000.h"
+#include "fnv/symbols_006fa000.h"
+#include "fnv/symbols_00c6a000.h"
+#include "fnv/symbols_00c6b000.h"
 #include "ragdolldata_decls.h"
 
 // Returns the negation of operator== for this matrix compared with another matrix.
@@ -7,48 +29,6 @@
 bool ThreeByThreeMatrix::operator!=(const ThreeByThreeMatrix& matrix) const
 {
     return !(*this == matrix);
-}
-
-// Recursively applies stored bone translation and rotation to node and its children, advancing index while bones remain.
-// @fnv 0x004d9dc0
-bool RagDollData::FindBoneIndex(NiNode* node, unsigned int& ruiIndex)
-{
-    bool result = true;
-    if (node && ruiIndex < count)
-    {
-        bhkCollisionObject* collision = FUN_004a8b00(node);
-        if (collision)
-        {
-            {
-                int id = collision->FUN_006fa820()->FUN_0043b4f0().FUN_004d9da0();
-                if (bones[ruiIndex].id != id)
-                    return false;
-            }
-            node->FUN_00440460(bones[ruiIndex].translate);
-            ThreeByThreeMatrix rotation;
-            rotation.FUN_00a59540(bones[ruiIndex].rotate.x, bones[ruiIndex].rotate.y, bones[ruiIndex].rotate.z);
-            node->FUN_0043fa80(&rotation);
-            collision->FUN_004d9fa0(true);
-            collision->vfn_b0(1, 0, 0);
-            ++ruiIndex;
-        }
-        NiUpdateData update(0.0f, false, false);
-        node->UpdateWorldData(update);
-        unsigned int children = node->FUN_0043b480();
-        for (unsigned int i = 0; i < children; ++i)
-        {
-            NiNode* childNode;
-            {
-                NiAVObject* child = node->FUN_0043b4a0(i);
-                childNode = child ? child->IsSceneNode() : 0;
-            }
-            if (childNode && !FindBoneIndex(childNode, ruiIndex))
-                result = false;
-            if (ruiIndex >= count)
-                break;
-        }
-    }
-    return result;
 }
 
 struct CFilter
@@ -87,21 +67,54 @@ unsigned int FUN_004d9da0_shell::FUN_004d9da0()
 
 struct _dummy_4d9fa0
 {
-    void FUN_004d9fc0(bool, unsigned short);
     void FUN_004d9fa0(bool abTF);
 };
-
-// @fnv 0x004d9fa0
-void _dummy_4d9fa0::FUN_004d9fa0(bool abTF)
+// Recursively applies stored bone translation and rotation to node and its children, advancing index while bones remain.
+// @fnv 0x004d9dc0
+bool RagDollData::FindBoneIndex(NiNode* node, unsigned int& ruiIndex)
 {
-    FUN_004d9fc0(abTF, 0x40);
+    bool result = true;
+    if (node && ruiIndex < count)
+    {
+        bhkCollisionObject* collision = ((::bhkCollisionObject *)(::FUN_004a8b00((::BGSBodyPart *)(node))));
+        if (collision)
+        {
+            {
+                int id = ((int)(reinterpret_cast<::FUN_004d9da0_shell *>((void *)&(const ::bhkFilter &)(((::bhkWorldObject *)(::fnv_006fa820::FUN_006fa820((const char *)(collision))))->FUN_0043b4f0()))->FUN_004d9da0()));
+                if (bones[ruiIndex].id != id)
+                    return false;
+            }
+            reinterpret_cast<::FUN_00440460_S *>((node))->FUN_00440460((const ::V3 *)&(bones[ruiIndex].translate));
+            ThreeByThreeMatrix rotation;
+            reinterpret_cast<::Matrix161 *>(&(rotation))->FUN_00a59540(bones[ruiIndex].rotate.x, bones[ruiIndex].rotate.y, bones[ruiIndex].rotate.z);
+            reinterpret_cast<::FUN_0043fa80_s *>((node))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&rotation)));
+            reinterpret_cast<::_dummy_4d9fa0 *>((collision))->FUN_004d9fa0(true);
+            collision->vfn_b0(1, 0, 0);
+            ++ruiIndex;
+        }
+        NiUpdateData update(0.0f, false, false);
+        node->UpdateWorldData(update);
+        unsigned int children = node->FUN_0043b480();
+        for (unsigned int i = 0; i < children; ++i)
+        {
+            NiNode* childNode;
+            {
+                NiAVObject* child = node->GetAt(i);
+                childNode = child ? child->IsSceneNode() : 0;
+            }
+            if (childNode && !FindBoneIndex(childNode, ruiIndex))
+                result = false;
+            if (ruiIndex >= count)
+                break;
+        }
+    }
+    return result;
 }
 
 template <int N> struct EndianSizeTag
 {
 };
 
-void __cdecl BSEndian(int* p, EndianSizeTag<4>);
 
 struct FUN_004d9280
 {
@@ -112,12 +125,12 @@ struct FUN_004d9280
 // @fnv 0x004d9280
 void __thiscall FUN_004d9280::EndianSwap()
 {
-    BSEndian((int*)this + 1, EndianSizeTag<4>());
-    BSEndian((int*)this + 2, EndianSizeTag<4>());
-    BSEndian((int*)this + 3, EndianSizeTag<4>());
-    BSEndian((int*)this + 4, EndianSizeTag<4>());
-    BSEndian((int*)this + 5, EndianSizeTag<4>());
-    BSEndian((int*)this + 6, EndianSizeTag<4>());
+    ::FUN_00401080((int*)this + 1);
+    ::FUN_00401080((int*)this + 2);
+    ::FUN_00401080((int*)this + 3);
+    ::FUN_00401080((int*)this + 4);
+    ::FUN_00401080((int*)this + 5);
+    ::FUN_00401080((int*)this + 6);
 }
 
 struct FUN_004d9fc0_shell
@@ -125,6 +138,11 @@ struct FUN_004d9fc0_shell
     unsigned short m_flags;  // +0xc
     void FUN_004d9fc0(bool abSet, unsigned short uFlags);
 };
+// @fnv 0x004d9fa0
+void _dummy_4d9fa0::FUN_004d9fa0(bool abTF)
+{
+    reinterpret_cast<::FUN_004d9fc0_shell *>(this)->FUN_004d9fc0(abTF, 0x40);
+}
 
 // Sets or clears the given flag bits in the 16-bit flags field at offset 0xc of this object.
 // @fnv 0x004d9fc0
@@ -143,12 +161,12 @@ unsigned char FUN_004da180(NiNode* node)
     unsigned char count = 0;
     if (node)
     {
-        if (FUN_004a8b00(node))
+        if (((::bhkCollisionObject *)(::FUN_004a8b00((::BGSBodyPart *)(node)))))
             ++count;
         unsigned int total = node->FUN_0043b480();
         for (unsigned int i = 0; i < total; ++i)
         {
-            NiAVObject* object = node->FUN_0043b4a0(i);
+            NiAVObject* object = node->GetAt(i);
             NiNode* child = object ? object->IsSceneNode() : 0;
             if (child)
                 count += FUN_004da180(child);
@@ -167,10 +185,8 @@ void* __cdecl operator new(unsigned int);
 template <int N> struct EndianSizeTag
 {
 };
-void __cdecl BSEndian(unsigned char*, EndianSizeTag<1>);
 struct FUN_004d9280
 {
-    void EndianSwap();
 };
 struct FUN_0055a400 : FUN_004d9280
 {
@@ -179,38 +195,37 @@ struct FUN_0055a400 : FUN_004d9280
 };
 struct TESFileAccessor
 {
-    bool GetChunkData();
 };
 // @fnv 0x004d94a0
 bool FUN_004d94a0_shell::LoadRagdollChunk(TESFile* apFile)
 {
     bool bretval = false;
-    if (apFile->GetChunkID() == 0x44475258)
+    if (((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((apFile))->FUN_004726b0())) == 0x44475258)
     {
-        unsigned int isize = apFile->GetChunkSize();
+        unsigned int isize = reinterpret_cast<::FUN_00401660_Class *>((apFile))->GetField25C();
         *(unsigned char*)this = isize / sizeof(FUN_0055a400);
         if (isize % *(unsigned char*)this == 0)
         {
             *(FUN_0055a400**)((char*)this + 4) = new FUN_0055a400[*(unsigned char*)this];
-            apFile->GetChunkData(*(FUN_0055a400**)((char*)this + 4), isize);
-            if (((TESFileAccessor*)apFile)->GetChunkData())
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(*(FUN_0055a400**)((char*)this + 4)), isize);
+            if (reinterpret_cast<::TESFile *>((((TESFileAccessor*)apFile)))->IsEndianConversionRequired())
             {
                 for (unsigned int I = 0; I < *(unsigned char*)this; I++)
-                    (*(FUN_0055a400**)((char*)this + 4))[I].EndianSwap();
+                    reinterpret_cast<::FUN_004d9280 *>(&((*(FUN_0055a400**)((char*)this + 4))[I]))->EndianSwap();
             }
             bretval = true;
         }
         else
             *(unsigned char*)this = 0;
     }
-    if (apFile->GetChunkID() == 0x42475258)
+    if (((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((apFile))->FUN_004726b0())) == 0x42475258)
     {
-        apFile->GetChunkData((char*)this + 8, 0xc);
-        if (((TESFileAccessor*)apFile)->GetChunkData())
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(void *)((char*)this + 8), 0xc);
+        if (reinterpret_cast<::TESFile *>((((TESFileAccessor*)apFile)))->IsEndianConversionRequired())
         {
-            BSEndian((unsigned char*)this + 8, EndianSizeTag<1>());
-            BSEndian((unsigned char*)this + 0xc, EndianSizeTag<1>());
-            BSEndian((unsigned char*)this + 0x10, EndianSizeTag<1>());
+            ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this + 8));
+            ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this + 0xc));
+            ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this + 0x10));
         }
         bretval = true;
     }
@@ -239,15 +254,13 @@ bool FUN_004d9780_shell::FUN_004d9780(FUN_004d9780_shell* apCompare)
         return true;
     if (m_ucValue != apCompare->m_ucValue)
         return true;
-    if (*(Call_439090*)((char*)this + 8) == *(Call_439090*)((char*)apCompare + 8))
+    if (reinterpret_cast<::NiPlane *>((void *)&(const ::Call_439090 &)(*(Call_439090*)((char*)this + 8)))->operator==((const ::NiPlane &)(*(Call_439090*)((char*)apCompare + 8))))
         return true;
     if (m_ucValue && _memcmp(m_pTransformEntry, apCompare->m_pTransformEntry, m_ucValue * 0x1c))
         return true;
     return false;
 }
 
-extern void __cdecl _Deallocate(void*);
-extern void* __cdecl __memcpy(void*, const void*, unsigned int);
 extern unsigned int _data_011c16bc;
 
 struct DoorTeleportLoadData
@@ -280,7 +293,7 @@ void FUN_004d9670_shell::FUN_004d9670(const FUN_004d9670_shell* source)
     if (source)
     {
         DoorTeleportLoadData* oldItems = items;
-        _Deallocate(oldItems);
+        ::FUN_00401030(oldItems);
 
         count = source->count;
         data = source->data;
@@ -296,14 +309,12 @@ struct FUN_004d93c0_bone
     signed char unk00;
     float translate[3];
     float rotate[3];
-    void EndianSwap();
 };
 
 struct FUN_004d93c0_name
 {
     unsigned int m_00;
     unsigned int m_04;
-    bool Matches(const char* name);
 };
 
 struct FUN_004d93c0_cls
@@ -314,35 +325,31 @@ struct FUN_004d93c0_cls
     void FUN_004d93c0();
 };
 
-bool __cdecl FUN_00401500();
-void __cdecl AppendChunk(unsigned int tag, void* p, unsigned int size);
-void __cdecl FUN_00485710(unsigned int tag, void* p, unsigned int n);
-extern char DAT_011f426c[];
 
 // @fnv 0x004d93c0
 void FUN_004d93c0_cls::FUN_004d93c0()
 {
     if (m_uiItemCount != 0)
     {
-        if (FUN_00401500())
+        if (((bool)(::FUN_00401500())))
         {
             for (unsigned int i = 0; i < m_uiItemCount; i++)
             {
-                m_kBones[i].EndianSwap();
+                reinterpret_cast<::FUN_004d9280 *>(&(m_kBones[i]))->EndianSwap();
             }
         }
-        AppendChunk(0x44475258, m_kBones, m_uiItemCount * 28);
-        if (FUN_00401500())
+        ::AppendChunk(0x44475258, m_kBones, m_uiItemCount * 28);
+        if (((bool)(::FUN_00401500())))
         {
             for (unsigned int uiSwapIndex = 0; uiSwapIndex < m_uiItemCount; uiSwapIndex++)
             {
-                m_kBones[uiSwapIndex].EndianSwap();
+                reinterpret_cast<::FUN_004d9280 *>(&(m_kBones[uiSwapIndex]))->EndianSwap();
             }
         }
     }
-    if (m_name.Matches(DAT_011f426c))
+    if (reinterpret_cast<::NiPlane *>(&(m_name))->operator==((*(const ::NiPlane *)((*reinterpret_cast<char (*)[]>((void *)&::NiPoint3::ZERO))))))
     {
-        FUN_00485710(0x42475258, &m_name, 3);
+        ::FUN_00485710((void *)(0x42475258), &m_name, (void *)(3));
     }
 }
 
@@ -471,32 +478,8 @@ class RagDollRefStandIn
 class RagDollDataEx : public RagDollData
 {
   public:
-    void ReadFromActor(RagDollRefStandIn* apRef);
-    void ReadFromRef(RagDollRefStandIn* apRef);
-    bool ApplyToAnimationData(NiNode* apNode, unsigned int& auiIndex, unsigned int auiDepth);
     bool FUN_004d9800(RagDollRefStandIn* apRef);
 };
-
-// @fnv 0x004d9800
-bool RagDollDataEx::FUN_004d9800(RagDollRefStandIn* apRef)
-{
-    unsigned int uiIndex = 0;
-    bool bResultTmp = true;
-    if (apRef && apRef->Get3D())
-    {
-        NiAVObject* p3D = apRef->Get3D();
-        NiNode* pNode2 = p3D ? p3D->IsSceneNode() : 0;
-        if (apRef->IsActor())
-            ReadFromActor(apRef);
-        if (!count)
-            ReadFromRef(apRef);
-        if (count)
-            bResultTmp = ApplyToAnimationData(pNode2, uiIndex, 0);
-        if (!bResultTmp)
-            ReadFromRef(apRef);
-    }
-    return uiIndex == count && bResultTmp;
-}
 
 class TESObjectREFR
 {
@@ -627,78 +610,34 @@ class TESObjectREFR
     virtual void vf1ec();
     virtual void vf1f0();
     virtual NiPoint3* GetPos();
-    NiAVObject* Get3DSimple();
     ThreeByThreeMatrix GetRotation();
 };
 
 class NiAVObjectEx : public NiAVObject
 {
   public:
-    NiPoint3& GetLocalTranslate();
-    ThreeByThreeMatrix& GetLocalRotate();
-    void SetLocalRotate(const ThreeByThreeMatrix&);
-    void Update(NiUpdateData&);
 };
 
 struct NiPoint3Cmp
 {
-    bool NotEqual(const NiPoint3& pt) const;
 };
 
 struct NiMatrix3Cmp
 {
-    bool NotEqual(const ThreeByThreeMatrix& m) const;
 };
 
-void __cdecl FUN_00c6bd00(NiAVObject* apObject, bool abFlag);
-void __cdecl FUN_00c6a350(NiNode* apNode, int aiVal, bool ab1, bool ab2, bool ab3);
 
 struct RagDollRefUpdater
 {
     bool bEnabled;
-    void SyncRef(TESObjectREFR* apRef);
-    bool ApplyToAnimationData(NiNode* apNode, unsigned int& auiCount);
     bool FUN_004d9910(TESObjectREFR* apRef);
 };
 
-// @fnv 0x004d9910
-bool RagDollRefUpdater::FUN_004d9910(TESObjectREFR* apRef)
-{
-    unsigned int ItemUpdateArray = 0;
-    bool bResult = true;
-    if (apRef && apRef->Get3DSimple() && bEnabled)
-    {
-        NiAVObjectEx* p3D2 = (NiAVObjectEx*)apRef->Get3DSimple();
-        NiNode* pNode4 = p3D2 ? p3D2->IsSceneNode() : 0;
-        if (apRef->IsDynamicHavok())
-            SyncRef(apRef);
-        bResult = ApplyToAnimationData(pNode4, ItemUpdateArray);
-        if (p3D2)
-        {
-            if (((NiPoint3Cmp&)p3D2->GetLocalTranslate()).NotEqual(*apRef->GetPos()) ||
-                ((NiMatrix3Cmp&)p3D2->GetLocalRotate()).NotEqual(apRef->GetRotation()))
-            {
-                p3D2->FUN_00440460(*apRef->GetPos());
-                p3D2->SetLocalRotate(apRef->GetRotation());
-                FUN_00c6bd00(p3D2, true);
-                NiUpdateData kData6(0.0f, false, false);
-                p3D2->Update(kData6);
-            }
-        }
-        if (!bResult)
-            FUN_00c6a350(pNode4, 1, 1, 0, 1);
-    }
-    return ItemUpdateArray == bEnabled && bResult;
-}
-
 struct EulerMatrix
 {
-    void ExtractEulerAnglesXYZ(float& x, float& y, float& z);
 };
 struct AVObjectLocal
 {
-    NiPoint3& GetLocalTranslate();
-    EulerMatrix* GetLocalRotate();
 };
 
 struct RagDollWalker
@@ -714,27 +653,25 @@ bool RagDollWalker::CollectBoneTransforms(NiNode* apNode, unsigned int& arIndex,
     bool bResult2 = true;
     if (apNode && arIndex < count)
     {
-        bhkCollisionObject* pCollision = FUN_004a8b00(apNode);
+        bhkCollisionObject* pCollision = ((::bhkCollisionObject *)(::FUN_004a8b00((::BGSBodyPart *)(apNode))));
         if (pCollision)
         {
             if (abSet)
             {
-                bones[arIndex].id = pCollision->FUN_006fa820()->FUN_0043b4f0().FUN_004d9da0();
+                bones[arIndex].id = ((int)(reinterpret_cast<::FUN_004d9da0_shell *>((void *)&(const ::bhkFilter &)(((::bhkWorldObject *)(::fnv_006fa820::FUN_006fa820((const char *)(pCollision))))->FUN_0043b4f0()))->FUN_004d9da0()));
             }
-            else if (bones[arIndex].id != pCollision->FUN_006fa820()->FUN_0043b4f0().FUN_004d9da0())
+            else if (bones[arIndex].id != ((int)(reinterpret_cast<::FUN_004d9da0_shell *>((void *)&(const ::bhkFilter &)(((::bhkWorldObject *)(::fnv_006fa820::FUN_006fa820((const char *)(pCollision))))->FUN_0043b4f0()))->FUN_004d9da0())))
             {
                 return false;
             }
-            bones[arIndex].translate = ((AVObjectLocal*)apNode)->GetLocalTranslate();
-            ((AVObjectLocal*)apNode)
-                ->GetLocalRotate()
-                ->ExtractEulerAnglesXYZ(bones[arIndex].rotate.x, bones[arIndex].rotate.y, bones[arIndex].rotate.z);
+            bones[arIndex].translate = reinterpret_cast<::NiAVObject *>((((AVObjectLocal*)apNode)))->FUN_0043c490();
+            reinterpret_cast<::S_00a592c0_Matrix3 *>((((::EulerMatrix *)(::FUN_006a9540((char *)(((AVObjectLocal*)apNode)))))))->DecomposeToEulerAngles(bones[arIndex].rotate.x, bones[arIndex].rotate.y, bones[arIndex].rotate.z);
             arIndex++;
         }
         unsigned int uiCount5 = apNode->FUN_0043b480();
         for (unsigned int i3 = 0; i3 < uiCount5; i3++)
         {
-            NiAVObject* pChild2 = apNode->FUN_0043b4a0(i3);
+            NiAVObject* pChild2 = apNode->GetAt(i3);
             NiNode* pChildNode = pChild2 ? pChild2->IsSceneNode() : 0;
             if (pChildNode)
             {
@@ -883,16 +820,13 @@ struct SceneInput
 struct NamedLink;
 struct VisualNode
 {
-    NamedLink* FUN_0045bc00(int mode);
 };
 struct Controller;
 struct NamedLink
 {
-    Controller* FUN_006a9540(int* x, int* y, int* z);
 };
 struct Controller
 {
-    void DecomposeToEulerAngles();
 };
 struct LocalRagdollTransform
 {
@@ -910,19 +844,17 @@ void LocalRagdollTransform::FUN_004da340(SceneInput* source)
     VisualNode* node = pObject ? pObject->IsSceneNode() : 0;
     if (node != 0)
     {
-        NamedLink* link = node->FUN_0045bc00(0);
+        NamedLink* link = ((::NamedLink *)(reinterpret_cast<::S_FUN_0045bc00 *>((node))->FUN_0045bc00(0)));
         if (link != 0)
         {
-            link->FUN_006a9540(&field08, &field0c, &field10)->DecomposeToEulerAngles();
+            reinterpret_cast<::S_00a592c0_Matrix3 *>((((::Controller *)(::FUN_006a9540((char *)(link))))))->DecomposeToEulerAngles(*(float *)nullptr, *(float *)nullptr, *(float *)nullptr);
         }
     }
 }
 
-extern NiPoint3 _NiPoint3_ZERO;
 
 struct FUN_004da230_node : public NiNode
 {
-    NiNode* FUN_0045bc00(unsigned int);
 };
 
 struct FUN_004da230_intermediate
@@ -1061,11 +993,40 @@ struct FUN_004da230_shell
     NiPoint3 position;
     void UpdateNodeFromPosition(FUN_004da230_param* object);
 };
+// @fnv 0x004d9910
+bool RagDollRefUpdater::FUN_004d9910(TESObjectREFR* apRef)
+{
+    unsigned int ItemUpdateArray = 0;
+    bool bResult = true;
+    if (apRef && ((::NiAVObject *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((apRef))->FUN_0043fcd0())) && bEnabled)
+    {
+        NiAVObjectEx* p3D2 = (NiAVObjectEx*)((::NiAVObject *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((apRef))->FUN_0043fcd0()));
+        NiNode* pNode4 = p3D2 ? p3D2->IsSceneNode() : 0;
+        if (apRef->IsDynamicHavok())
+            reinterpret_cast<::FUN_004da230_shell *>(this)->UpdateNodeFromPosition((::FUN_004da230_param *)(apRef));
+        bResult = reinterpret_cast<::RagDollData *>(this)->FindBoneIndex(pNode4, ItemUpdateArray);
+        if (p3D2)
+        {
+            if (reinterpret_cast<::NiPlane *>((void *)&(((NiPoint3Cmp&)reinterpret_cast<::NiAVObject *>((p3D2))->FUN_0043c490())))->operator==((const ::NiPlane &)(*apRef->GetPos())) ||
+                reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(((NiMatrix3Cmp&)(*(::ThreeByThreeMatrix *)(::FUN_006a9540((char *)(p3D2)))))))->operator!=(apRef->GetRotation()))
+            {
+                reinterpret_cast<::FUN_00440460_S *>((p3D2))->FUN_00440460((const ::V3 *)&(*apRef->GetPos()));
+                reinterpret_cast<::FUN_0043fa80_s *>((p3D2))->FUN_0043fa80(apRef->GetRotation());
+                ::FUN_00c6bd00((::TreeNode_cls *)(p3D2), true);
+                NiUpdateData kData6(0.0f, false, false);
+                reinterpret_cast<::FUN_00a59c60_cls *>((p3D2))->FUN_00a59c60((int)&(kData6));
+            }
+        }
+        if (!bResult)
+            ::FUN_00c6a350((::NiAVObject *)(pNode4), 1, 1, 0, 1);
+    }
+    return ItemUpdateArray == bEnabled && bResult;
+}
 
 // @fnv 0x004da230
 void FUN_004da230_shell::UpdateNodeFromPosition(FUN_004da230_param* object)
 {
-    if (reinterpret_cast<Call_439090&>(position) == reinterpret_cast<Call_439090&>(_NiPoint3_ZERO))
+    if (reinterpret_cast<::NiPlane *>((void *)&(const ::Call_439090 &)(reinterpret_cast<Call_439090&>(position)))->operator==((const ::NiPlane &)(reinterpret_cast<Call_439090&>(::NiPoint3::ZERO))))
     {
         FUN_004da230_intermediate* pContainer;
         FUN_004da230_node* pNode;
@@ -1075,12 +1036,12 @@ void FUN_004da230_shell::UpdateNodeFromPosition(FUN_004da230_param* object)
 
         if (pNode != 0)
         {
-            NiNode* node = pNode->FUN_0045bc00(0);
+            NiNode* node = ((::NiNode *)(reinterpret_cast<::S_FUN_0045bc00 *>((pNode))->FUN_0045bc00(0)));
             if (node != 0)
             {
                 ThreeByThreeMatrix rotation;
-                rotation.FUN_00a59540(position.x, position.y, position.z);
-                node->FUN_0043fa80(&rotation);
+                reinterpret_cast<::Matrix161 *>(&(rotation))->FUN_00a59540(position.x, position.y, position.z);
+                reinterpret_cast<::FUN_0043fa80_s *>((node))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&rotation)));
                 NiUpdateData update(0.0f, false, false);
                 node->UpdateWorldData(update);
             }
@@ -1089,7 +1050,6 @@ void FUN_004da230_shell::UpdateNodeFromPosition(FUN_004da230_param* object)
 }
 
 unsigned char FUN_004da180(NiNode* node);
-void FNV_Warning(const char* fmt, ...);
 
 struct RagDollBoneInit : public TransformEntry
 {
@@ -1101,6 +1061,26 @@ class RagDollDataInit : public RagDollData
   public:
     void InitFromRef(RagDollRefStandIn* apRef);
 };
+// @fnv 0x004d9800
+bool RagDollDataEx::FUN_004d9800(RagDollRefStandIn* apRef)
+{
+    unsigned int uiIndex = 0;
+    bool bResultTmp = true;
+    if (apRef && apRef->Get3D())
+    {
+        NiAVObject* p3D = apRef->Get3D();
+        NiNode* pNode2 = p3D ? p3D->IsSceneNode() : 0;
+        if (apRef->IsActor())
+            reinterpret_cast<::LocalRagdollTransform *>(this)->FUN_004da340((::SceneInput *)(apRef));
+        if (!count)
+            reinterpret_cast<::RagDollDataInit *>(this)->InitFromRef(apRef);
+        if (count)
+            bResultTmp = reinterpret_cast<::RagDollWalker *>(this)->CollectBoneTransforms(pNode2, uiIndex, 0);
+        if (!bResultTmp)
+            reinterpret_cast<::RagDollDataInit *>(this)->InitFromRef(apRef);
+    }
+    return uiIndex == count && bResultTmp;
+}
 
 // Initializes ragdoll bone data from a reference's 3D node, collecting bone transforms and warning on failure.
 // @fnv 0x004da010
@@ -1118,7 +1098,7 @@ void RagDollDataInit::InitFromRef(RagDollRefStandIn* apRef)
             bones = new RagDollBoneInit[count];
             unsigned int uiIndex = 0;
             if (!((RagDollWalker*)this)->CollectBoneTransforms(pNode, uiIndex, true))
-                FNV_Warning("HAVOK: Failed to initialize RagDollData.");
+                ::FUN_005b5e40();
         }
     }
 }

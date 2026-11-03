@@ -5,6 +5,8 @@
 // src/havok/physics/collide/util/hkpcollidetriangleutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/util/hkpcollidetriangleutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00d23000.h"
+#include "fnv/symbols_01267000.h"
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     struct
@@ -34,6 +36,7 @@ extern "C"
 }
 
 #include <math.h>
+#include "fnv/symbols_simd.h"
 
 // Triangle closest-point query.
 
@@ -116,8 +119,6 @@ struct __declspec(align(16)) S_00cd7850_Vec
     }
 };
 
-extern const hkQuadReal DAT_01267e30;
-extern const hkQuadReal DAT_010c44d0;
 extern const signed char DAT_010cb438[8];
 extern const signed char DAT_010cb440[];
 
@@ -141,7 +142,6 @@ struct S_00cd7850_Features
     unsigned short m_auiVertexIds[3];
 };
 
-int FUN_00d230e0(const S_00cd7850_Vec& pos, const S_00cd7850_Vec& a, const S_00cd7850_Vec& b, S_00cd7850_Vec* out);
 
 // @fnv 0x00cd7850
 int FUN_00cd7850(const S_00cd7850_Vec& position, const S_00cd7850_Vec* tri, const S_00cd7850_Cache& cache,
@@ -169,7 +169,7 @@ int FUN_00cd7850(const S_00cd7850_Vec& position, const S_00cd7850_Vec* tri, cons
     uvw.set(u + eps, 1.0f + eps - u - v, v + eps, eps);
 
     TriangleLaneComparison c;
-    c.q = _mm_cmplt_ps(DAT_01267e30, uvw.quad);
+    c.q = _mm_cmplt_ps((*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30)), uvw.quad);
     int mask = c.get();
     if (c.all())
     {
@@ -199,7 +199,7 @@ int FUN_00cd7850(const S_00cd7850_Vec& position, const S_00cd7850_Vec* tri, cons
     if (index < 0)
     {
         index += 8;
-        int code = FUN_00d230e0(position, tri[DAT_010cb440[index + 2]], tri[DAT_010cb440[index]], &uvw);
+        int code = ::FUN_00d230e0((const ::hkVector4D230 &)(position), (const ::hkVector4D230 &)(tri[DAT_010cb440[index + 2]]), (const ::hkVector4D230 &)(tri[DAT_010cb440[index]]), (*(::hkVector4D230 *)(&uvw)));
         if (featuresOut)
         {
             if (code == 4)
@@ -225,8 +225,8 @@ int FUN_00cd7850(const S_00cd7850_Vec& position, const S_00cd7850_Vec* tri, cons
     }
 
     S_00cd7850_Vec p1;
-    int code0 = FUN_00d230e0(position, tri[index], tri[DAT_010cb440[index + 2]], &uvw);
-    int code1 = FUN_00d230e0(position, tri[DAT_010cb440[index]], tri[index], &p1);
+    int code0 = ::FUN_00d230e0((const ::hkVector4D230 &)(position), (const ::hkVector4D230 &)(tri[index]), (const ::hkVector4D230 &)(tri[DAT_010cb440[index + 2]]), (*(::hkVector4D230 *)(&uvw)));
+    int code1 = ::FUN_00d230e0((const ::hkVector4D230 &)(position), (const ::hkVector4D230 &)(tri[DAT_010cb440[index]]), (const ::hkVector4D230 &)(tri[index]), (*(::hkVector4D230 *)(&p1)));
     S_00cd7850_Vec deltaA;
     deltaA.setSub4(position, uvw);
     S_00cd7850_Vec deltaB;

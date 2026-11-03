@@ -2,6 +2,11 @@
 // src/havok/animation/animation/animation/waveletcompressed/hkawaveletcompressedanimationclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/waveletcompressed/hkawaveletcompressedanimationclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00dfb5a0_cls.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_01268000.h"
 struct DFB610Ostream
 {
     __declspec(nothrow) DFB610Ostream& operator<<(const char* str);
@@ -14,7 +19,6 @@ struct DFB610ErrStream : DFB610Ostream
     int unk08;
 
     DFB610ErrStream(void* buf, int bufSize);
-    void release();
 };
 
 struct DFB610Error
@@ -25,7 +29,6 @@ struct DFB610Error
     virtual __declspec(nothrow) int message(int type, int id, const char* description, const char* file, int line);
 };
 
-extern DFB610Error* g_DFB610ErrorInstance;
 
 struct DFB610QsTransform;
 struct DFB610ChunkCache;
@@ -43,12 +46,12 @@ void DFB610Animation::SamplePartialPose(float time, int maxNumTracks, DFB610QsTr
 {
     int assertBuf[128];
     DFB610ErrStream ostr(assertBuf, sizeof(assertBuf));
-    ostr << "samplePartialPose not implemented for this type of animation";
-    if (g_DFB610ErrorInstance->message(
+    reinterpret_cast<::SinkOwner *>((void *)&(const ::DFB610Ostream &)(ostr))->FUN_00cc01c0("samplePartialPose not implemented for this type of animation");
+    if ((*reinterpret_cast<::DFB610Error * *>(&::DAT_01268360))->message(
             3, 0x54e32123, (const char*)assertBuf,
             "d:\\Projects\\fallout\\code\\Havok\\Source\\Animation/Animation/Animation/hkaAnimation.inl", 25))
         __debugbreak();
-    ostr.release();
+    reinterpret_cast<struct ::FUN_00cc00e0 *>(&(ostr))->FUN_00cc00e0::~FUN_00cc00e0();
 }
 
 struct HkError
@@ -59,7 +62,6 @@ struct HkError
     virtual int Message(int aiKind, unsigned int auiId, const char* apText, const char* apFile, int aiLine);
 };
 
-extern HkError* g_01268360;
 
 struct HkStringBuf
 {
@@ -67,7 +69,6 @@ struct HkStringBuf
     int m_iCapacity;
     int m_iReferenceCount;
     HkStringBuf(char* apBuffer, unsigned int auiCapacity);
-    void Append(const char* apText);
     void Release();
 };
 
@@ -77,12 +78,12 @@ void __stdcall ReportGetDataChunksNotImplemented(int a1, int a2, int a3, int a4)
 {
     unsigned int auBuffer[128];
     HkStringBuf buf((char*)auBuffer, sizeof(auBuffer));
-    buf.Append("getDataChunks not implemented for this type of animation");
-    if (g_01268360->Message(
+    reinterpret_cast<::SinkOwner *>(&(buf))->FUN_00cc01c0("getDataChunks not implemented for this type of animation");
+    if ((*reinterpret_cast<::HkError * *>(&::DAT_01268360))->Message(
             3, 0x54e32124, (char*)auBuffer,
             "d:\\Projects\\fallout\\code\\Havok\\Source\\Animation/Animation/Animation/hkaAnimation.inl", 0x25))
         __debugbreak();
-    buf.Release();
+    reinterpret_cast<struct ::FUN_00cc00e0 *>(&(buf))->FUN_00cc00e0::~FUN_00cc00e0();
 }
 
 struct S_00dfb720_Allocator
@@ -109,7 +110,7 @@ S_00dfb720_Router* FUN_00c85750();
 template <class T> __forceinline void destruct(T* t, int n)
 {
     for (int i = 0; i < n; ++i)
-        t[i].~T();
+        reinterpret_cast<::FUN_00dfb5a0_cls *>(&(t[i]))->FUN_00dfb5a0();
 }
 template <class T> struct S_00dfb720_Array
 {
@@ -140,7 +141,6 @@ struct S_00dfb720_Elem
 };
 struct S_00dfb720_Ref
 {
-    void FUN_00c905b0();
 };
 template <class T> struct S_00dfb720_RefPtr
 {
@@ -148,7 +148,7 @@ template <class T> struct S_00dfb720_RefPtr
     __forceinline ~S_00dfb720_RefPtr() throw()
     {
         if (m_pRetainedObject)
-            m_pRetainedObject->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pRetainedObject))->FUN_00c905b0();
         m_pRetainedObject = 0;
     }
 };
@@ -239,7 +239,7 @@ Record* Record::ClearAndNotify(unsigned int flags)
         callback->Release(data64, size & 0x3fffffff);
     data64 = 0;
     state6c = 0x80000000;
-    FUN_00dfb720();
+    reinterpret_cast<::FUN_00dfb720 *>(this)->FUN_00dfb720::~FUN_00dfb720();
     if (flags & 1)
     {
         manager = FUN_00c85750();
@@ -327,7 +327,7 @@ struct Owner
 // @fnv 0x00dfb7b0
 Owner* Owner::FUN_00dfb7b0(unsigned int flags)
 {
-    FUN_00dfb720();
+    reinterpret_cast<::FUN_00dfb720 *>(this)->FUN_00dfb720::~FUN_00dfb720();
     if (flags & 1u)
     {
         BSAudio* audio = FUN_00c85750();

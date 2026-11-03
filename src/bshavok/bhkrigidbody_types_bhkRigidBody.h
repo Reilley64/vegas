@@ -2,6 +2,9 @@
 #ifndef FNV_BHKRIGIDBODY_H
 #define FNV_BHKRIGIDBODY_H
 
+#include "fnv/decl/FUN_005d3d10_This.h"
+#include "fnv/decl/FUN_00c87a50_t.h"
+#include "fnv/symbols_004b5000.h"
 #include "layout_support.h"
 #include "NiObject.h"
 #include <xmmintrin.h>
@@ -168,10 +171,7 @@ class bhkRigidBody : public bhkEntity
     __forceinline const __m128& RotationVector();
     void SetRotation(const NiQuaternion&);
     float GetBodyMass();
-    hkpMotion* FUN_005d3d10();
-    float FUN_004b5400();
     void FUN_00c8d1d0(const NiPoint3&, const NiQuaternion&);
-    void* FUN_00c87a50();
     NiPoint3& FUN_00c8d200(NiPoint3&);
     __forceinline const __m128& FUN_00c8d200Vector();
     NiPoint3& GetVec(NiPoint3&);

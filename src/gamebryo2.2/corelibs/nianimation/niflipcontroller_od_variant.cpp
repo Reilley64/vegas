@@ -4,11 +4,15 @@
 
 // src/gamebryo2.2/corelibs/nianimation/niflipcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/niflipcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/DummyStruct_00631820.h"
+#include "fnv/decl/FUN_004b0460_class.h"
+#include "fnv/decl/FUN_00a4f820.h"
+#include "fnv/symbols_00a4f000.h"
+#include "fnv/symbols_011f3000.h"
 struct FUN_00a4f300_shell
 {
     void* GetEntryAt(int idx);
 };
-extern "C" const void* g_011f3fd4;
 const void* __cdecl FUN_00a4f5d0();
 struct BSFadeNode
 {
@@ -16,9 +20,7 @@ struct BSFadeNode
 };
 struct NiFlipController
 {
-    void* __thiscall FUN_00a4f820();
 };
-void* __cdecl CreateNiFlipController();
 
 struct StaticKey
 {
@@ -30,8 +32,6 @@ struct StaticKey
 struct SlotTarget
 {
     unsigned int m_00;
-    bool IsNotEqual(StaticKey* k);
-    bool FUN_004b0460(StaticKey* k);
     void FUN_006e5cc0(SlotTarget* a);
 };
 
@@ -53,23 +53,23 @@ void FUN_0060c120_cls::FUN_0060c120(unsigned int idx, SlotTarget* a2)
     if (idx >= m_0a)
     {
         m_0a = (unsigned short)(idx + 1);
-        if (a2->IsNotEqual(&key))
+        if (reinterpret_cast<::DummyStruct_00631820 *>((a2))->IsNotEqual((*(const ::DummyStruct_00631820 *)(&key))))
         {
             m_0c++;
         }
     }
     else
     {
-        if (a2->IsNotEqual(&key))
+        if (reinterpret_cast<::DummyStruct_00631820 *>((a2))->IsNotEqual((*(const ::DummyStruct_00631820 *)(&key))))
         {
-            if ((m_04 + idx)->FUN_004b0460(&key))
+            if (reinterpret_cast<::FUN_004b0460_class *>(((m_04 + idx)))->FUN_004b0460((const void **)(::StaticKey *)(&key)))
             {
                 m_0c++;
             }
         }
         else
         {
-            if ((m_04 + idx)->IsNotEqual(&key))
+            if (reinterpret_cast<::DummyStruct_00631820 *>(((m_04 + idx)))->IsNotEqual((*(const ::DummyStruct_00631820 *)(&key))))
             {
                 m_0c--;
             }

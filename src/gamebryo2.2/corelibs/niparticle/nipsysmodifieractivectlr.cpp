@@ -1,5 +1,17 @@
 // gamebryo2.2/corelibs/niparticle/nipsysmodifieractivectlr.cpp: NiPSysAirFieldAirFrictionCtlr, StandIn, NiPSysModifierActiveCtlr (13 functions)
 
+#include <new>
+#include "fnv/decl/CtlrStandin.h"
+#include "fnv/decl/FUN_00a52f00.h"
+#include "fnv/decl/FUN_00a57630.h"
+#include "fnv/decl/NiStream.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/fnv_00c1b0f0__FUN_00c1b0f0_cls.h"
+#include "fnv/decl/fnv_00c31530__NiPSysModifierCtlrRuntime.h"
+#include "fnv/decl/fnv_00c32d30__NiPSysModifierBoolCtlr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_01202000.h"
 #include "nipsysmodifieractivectlr_decls.h"
 
 // @fnv 0x00c32de0
@@ -8,13 +20,12 @@ void NiPSysAirFieldAirFrictionCtlr::CopyMemberData(NiPSysAirFieldAirFrictionCtlr
     NiPSysModifierCtlr::CopyMemberData(destination, cloning);
 }
 
-void __fastcall FUN_00c31260(void*);
 extern int DAT_010c0d2c;
 
 // @fnv 0x00c32b60
 void* __fastcall FUN_00c32b60(void* pThis)
 {
-    FUN_00c31260(pThis);
+    reinterpret_cast<::CtlrStandin *>((pThis))->FUN_00c31260();
     *(int**)pThis = &DAT_010c0d2c;
     return pThis;
 }
@@ -76,31 +87,27 @@ void __thiscall FUN_00c29d50_shell::FUN_00c29d50(char* pOut)
 }
 
 struct GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_012026d0;
 
 // @fnv 0x00c29d40
 GlobalObjectO2_00a7b610* __cdecl FUN_00c29d40()
 {
-    return &g_012026d0;
+    return &::g_012026d0;
 }
 
-extern char const* const g_012026d0_arg1;
 
 // @fnv 0x00c32be0
 const char* __cdecl FUN_00c32be0()
 {
-    return reinterpret_cast<const char*>(&g_012026d0_arg1);
+    return reinterpret_cast<const char*>(&(*reinterpret_cast<const char *const *>(&::g_012027f0)));
 }
 
 struct NiObjectNET;
 struct NiPSysModifier;
 struct BaseStandIn
 {
-    bool IsTargetParticleSystem(NiObjectNET*);
 };
 struct PsStandIn
 {
-    NiPSysModifier* FUN_00c1b0f0(void*);
 };
 struct StandIn
 {
@@ -110,23 +117,18 @@ struct StandIn
 bool StandIn::FUN_00c29dd0(NiObjectNET* pkTarget)
 {
     NiPSysModifier* pkModifier;
-    if (!((BaseStandIn*)this)->IsTargetParticleSystem(pkTarget))
+    if (!reinterpret_cast<::fnv_00c31530::NiPSysModifierCtlrRuntime *>((((BaseStandIn*)this)))->IsTargetParticleSystem((::fnv_00c31530::NiParticleSystemRuntime *)(pkTarget)))
         return false;
-    pkModifier = ((PsStandIn*)pkTarget)->FUN_00c1b0f0((void*)((char*)this + 0x38));
+    pkModifier = ((::NiPSysModifier *)(reinterpret_cast<::fnv_00c1b0f0::FUN_00c1b0f0_cls *>((((PsStandIn*)pkTarget)))->FUN_00c1b0f0((unsigned int *)(void *)((void*)((char*)this + 0x38)))));
     return pkModifier;
 }
 
-extern "C" void* __cdecl FUN_00a7d330(const void*);
 struct GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_012026d0;
 struct StrArr
 {
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 struct NiPSysModifierBoolCtlr
 {
-    void __thiscall FUN_00c32d30(StrArr*);
 };
 struct NiPSysModifierActiveCtlr : NiPSysModifierBoolCtlr
 {
@@ -135,13 +137,13 @@ struct NiPSysModifierActiveCtlr : NiPSysModifierBoolCtlr
 // @fnv 0x00c29e00
 void __thiscall NiPSysModifierActiveCtlr::FUN_00c29e00(StrArr* pArray)
 {
-    FUN_00c32d30(pArray);
-    char* p = (char*)FUN_00a7d330((const void*)*(void**)(void*)&g_012026d0);
+    reinterpret_cast<::fnv_00c32d30::NiPSysModifierBoolCtlr *>(this)->FUN_00c32d30((::fnv_00c32d30::StrArr *)(pArray));
+    char* p = (char*)((void *)(::FUN_00a7d330((const char *)(const void *)((const void*)*(void**)(void*)&::g_012026d0))));
     unsigned int uiIndex = *(unsigned short*)((char*)pArray + 0x0a);
     unsigned int n = *(unsigned short*)((char*)pArray + 0x08);
     if (uiIndex >= n)
-        pArray->SetSize(*(unsigned short*)((char*)pArray + 0x0e) + uiIndex);
-    pArray->SetAt(uiIndex, p);
+        reinterpret_cast<::ViewerStrings *>((pArray))->SetSize(*(unsigned short*)((char*)pArray + 0x0e) + uiIndex);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pArray))->SetAt(uiIndex, p);
 }
 
 // FUN_00c29d60 (0x00c29d60, 31 bytes)
@@ -281,7 +283,6 @@ class C29D80Object : public C29D80Base
     {}
     virtual ~C29D80Object();
 
-    void CopyMemberData(C29D80Object* pkDest, void* pvCloning);
     C29D80Object* FUN_00c29d80(void* pvCloning);
 };
 
@@ -289,7 +290,7 @@ class C29D80Object : public C29D80Base
 C29D80Object* C29D80Object::FUN_00c29d80(void* pvCloning)
 {
     C29D80Object* pkClone = new C29D80Object;
-    CopyMemberData(pkClone, pvCloning);
+    reinterpret_cast<::NiPSysAirFieldAirFrictionCtlr *>(this)->CopyMemberData((::NiPSysAirFieldAirFrictionCtlr *)(pkClone), (*(::CloningProcess *)(pvCloning)));
     return pkClone;
 }
 
@@ -313,21 +314,18 @@ struct RefCountedStandIn
 
 struct NewStandIn
 {
-    RefCountedStandIn* FUN_00a52f00(void* pArg);
 };
 
 struct ArgStandIn
 {
     char unk00[0xd8];
     unsigned int m_d8;
-    void* FUN_00a63430();
 };
 
 class FUN_00c32bf0_cls
 {
   public:
     void FUN_00c32bf0(ArgStandIn* arg);
-    void FUN_00a57630(ArgStandIn* arg);
 
     char unk00[0x34];
     RefCountedStandIn* m_34;
@@ -337,17 +335,17 @@ class FUN_00c32bf0_cls
 // @fnv 0x00c32bf0
 void FUN_00c32bf0_cls::FUN_00c32bf0(ArgStandIn* arg)
 {
-    FUN_00a57630(arg);
+    reinterpret_cast<struct ::FUN_00a57630 *>(this)->LinkObject((*(::NiStream *)(arg)));
     if (arg->m_d8 >= 0xa010068)
     {
         return;
     }
-    void* pSource = arg->FUN_00a63430();
+    void* pSource = ((void *)(reinterpret_cast<::NiStream *>((arg))->GetLoadedObject()));
     void* n = FUN_00aa13e0(0x20);
     RefCountedStandIn* pNew;
     if (n != 0)
     {
-        pNew = ((NewStandIn*)n)->FUN_00a52f00(pSource);
+        pNew = ((::RefCountedStandIn *)(new ((void *)(((NewStandIn*)n))) ::FUN_00a52f00((::NiBoolData *)(pSource))));
     }
     else
     {

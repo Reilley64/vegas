@@ -2,6 +2,50 @@
 #ifndef FNV_TESDATAHANDLER_FORMS_H
 #define FNV_TESDATAHANDLER_FORMS_H
 
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CellView.h"
+#include "fnv/decl/EffectItemList_6140.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_00409700_Class.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00440e30_This.h"
+#include "fnv/decl/FUN_0045afb0_cls.h"
+#include "fnv/decl/FUN_0046dcc0_class.h"
+#include "fnv/decl/FUN_0047c850.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_005102b0_shell.h"
+#include "fnv/decl/FUN_005516c0.h"
+#include "fnv/decl/FUN_00587670_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005fd460_shell.h"
+#include "fnv/decl/FUN_00617ea0_shell.h"
+#include "fnv/decl/FUN_0068a830_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FloatSettings.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/Owner45A.h"
+#include "fnv/decl/S00546fb0_Cell.h"
+#include "fnv/decl/StubRef565.h"
+#include "fnv/decl/TESRegionGrassObject.h"
+#include "fnv/decl/WORLD_SHELL.h"
+#include "fnv/decl/fnv_0043fcd0__FUN_0043fcd0_shell.h"
+#include "fnv/decl/fnv_00483720__FUN_00483720_shell.h"
+#include "fnv/decl/fnv_00483870__FUN_00483870_shell.h"
+#include "fnv/decl/fnv_005340e0__TESObjectLAND.h"
+#include "fnv/decl/fnv_0054ca90__Cell.h"
+#include "fnv/decl/fnv_00564eb0__TESObjectREFR_Flags.h"
+#include "fnv/decl/fnv_005653d0__FUN_005653d0_shell.h"
+#include "fnv/decl/fnv_00565480__RefPersistsStandin.h"
+#include "fnv/decl/fnv_00587550__FUN_00587550_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/s54da20__Owner.h"
+#include "fnv/symbols_00409000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00564000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_0070e000.h"
+#include "fnv/symbols_011de000.h"
 void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
 class NiNode;
@@ -10,6 +54,8 @@ enum ENUM_FORM_ID
 {
     ENUM_FORM_ID_NONE = 0
 };
+class TESFile;
+template <class> class NiTLargePrimitiveArray;
 class TESForm
 {
   public:
@@ -95,17 +141,20 @@ class TESForm
     unsigned int flags;
     unsigned int formID;
     void* sourceFiles[2];
-    unsigned int GetFormID();
-    const char* FUN_00440e30();
     void SetFile(TESFile*);
-    void FUN_00483870();
-    void ClearFormData();
     void SetMasterFile(bool);
-    bool IsDeleted() const;
-    void SetFormType(ENUM_FORM_ID);
-    bool FUN_00460250();
     ENUM_FORM_ID GetFormType() const;
     void SetInitializationState(bool);
+public:
+    static ::TESForm *LookupFormByEditorID(const char *);
+public:
+    void SetDestructible(bool);
+public:
+    static bool IsReservedFormID(unsigned int);
+public:
+    ::TESFile *GetFile(int);
+public:
+    static ::NiTLargePrimitiveArray< ::TESForm *> *ms_pAllForms;
 };
 class NiMemObject
 {
@@ -118,7 +167,6 @@ class TESFullName
   public:
     virtual ~TESFullName();
     void SetFullName(const char*);
-    const char* GetFullName();
     char* fullName;
     unsigned short length, capacity;
 };
@@ -143,8 +191,6 @@ class TESObject : public TESForm
     void* parentList;
     TESObject* prev;
     TESObject* next;
-    TESObject* GetNext();
-    bool FUN_00409700();
 };
 class TESBoundObject : public TESObject
 {
@@ -204,14 +250,10 @@ template <class T> class BSSimpleList
 class TESFormInitFlag
 {
   public:
-    static TESForm* LookupFormByEditorID(const char*);
-    static TESForm* GetFormByID(unsigned int);
 };
 class TESFormList
 {
   public:
-    TESObject* AddToObjectList(TESObject*);
-    TESObject* GetFirst();
 };
 
 class TESObjectACTI : public TESBoundObject
@@ -360,11 +402,20 @@ class TESIdleForm : public TESForm
     unsigned char formData[0x3c];
 };
 typedef char check_TESIdleForm_size[(sizeof(TESIdleForm) == 0x54) ? 1 : -1];
+class BGSCameraShot;
+class PerkEntryConditionSet;
+template <class> class BSSimpleList;
 class BGSCameraPath : public TESForm
 {
   public:
     BGSCameraPath();
     unsigned char formData[0x20];
+public:
+    ::PerkEntryConditionSet *GetConditions();
+public:
+    ::BGSCameraPath *GetPrevPath();
+public:
+    ::BSSimpleList< ::BGSCameraShot *> *GetShotList();
 };
 typedef char check_BGSCameraPath_size[(sizeof(BGSCameraPath) == 0x38) ? 1 : -1];
 class BGSIdleMarker : public TESBoundObject
@@ -381,11 +432,14 @@ class TESPackage : public TESForm
     unsigned char formData[0x68];
 };
 typedef char check_TESPackage_size[(sizeof(TESPackage) == 0x80) ? 1 : -1];
+class TreeRecordData;
 class TESObjectTREE : public TESBoundObject
 {
   public:
     TESObjectTREE();
     unsigned char formData[0x64];
+public:
+    ::TreeRecordData *GetData();
 };
 typedef char check_TESObjectTREE_size[(sizeof(TESObjectTREE) == 0x94) ? 1 : -1];
 class TESFurniture : public TESBoundObject
@@ -401,7 +455,6 @@ class TESObjectWEAP : public TESBoundObject
     TESObjectWEAP();
     TESFullName fullName;
     unsigned char layout_3c[0x34c];
-    void SetByteAtOffsetF4(int);
 };
 typedef char check_TESObjectWEAP_size[(sizeof(TESObjectWEAP) == 0x388) ? 1 : -1];
 class TESAmmo : public TESBoundObject
@@ -414,7 +467,6 @@ typedef char check_TESAmmo_size[(sizeof(TESAmmo) == 0xdc) ? 1 : -1];
 class ActorBaseData
 {
   public:
-    bool FUN_00461560();
     virtual void vfn_0();
     virtual void vfn_4();
     virtual void vfn_8();
@@ -425,8 +477,9 @@ class TESNPC : public TESBoundObject, public ActorBaseData
 {
   public:
     TESNPC();
-    void AutoCalcStats(bool);
     unsigned char formData[0x1d8];
+public:
+    void UpdateActorBaseData(bool);
 };
 typedef char check_TESNPC_size[(sizeof(TESNPC) == 0x20c) ? 1 : -1];
 class TESCreature : public TESBoundObject, public ActorBaseData
@@ -460,21 +513,18 @@ typedef char check_SpellItem_size[(sizeof(SpellItem) == 0x44) ? 1 : -1];
 class EffectItemList
 {
   public:
-    bool HasNonDetrimentalEffectWithFlag(unsigned int);
     unsigned char data[0x10];
 };
 class TESBipedModelForm
 {
   public:
     virtual ~TESBipedModelForm();
-    bool FUN_0047c850();
 };
 class EnchantmentItem : public TESForm
 {
   public:
     EnchantmentItem();
     bool IsValidObject(TESForm*);
-    unsigned int GetEnchantmentType();
     unsigned char magicData[0xc];
     EffectItemList effects;
     unsigned int enchantmentType;
@@ -508,18 +558,7 @@ class TESObjectREFR : public TESForm
 {
   public:
     TESObjectREFR();
-    TESBoundObject* GetObjectReference();
-    static TESObjectREFR* CreateReference(unsigned char, bool);
-    ExtraDataList* GetExtraData();
-    int GetReferenceType();
-    bool GetReferencePersistence();
     unsigned int GetFlags();
-    void SetFlags(unsigned int);
-    TESObjectCELL* GetParentCell();
-    bool IsPersistentFlagSet();
-    void SetPersistentFlag(bool);
-    bool FUN_00564e00();
-    void FUN_00564eb0(bool);
     virtual void vfn_138();
     virtual void vfn_13c();
     virtual void vfn_140();
@@ -665,7 +704,6 @@ class TESFaction : public TESForm
     unsigned char layout_18[0xc];
     TESReactionForm reaction;
     unsigned char layout_30[0x1c];
-    int InitializeFaction();
 };
 }
 using TESDataHandlerTypes::TESFaction;
@@ -729,6 +767,7 @@ class BGSImpactDataSet : public TESForm
     unsigned char formData[0x34];
 };
 typedef char check_BGSImpactDataSet_size[(sizeof(BGSImpactDataSet) == 0x4c) ? 1 : -1];
+class TESSound;
 class EffectSetting : public TESForm
 {
   public:
@@ -736,6 +775,8 @@ class EffectSetting : public TESForm
     unsigned char layout_18[0x20];
     TESFullName fullName;
     unsigned char layout_44[0x6c];
+public:
+    ::TESSound *GetHitSound();
 };
 typedef char check_EffectSetting_size[(sizeof(EffectSetting) == 0xb0) ? 1 : -1];
 class TESClimate : public TESForm
@@ -750,7 +791,6 @@ class TESImageSpace : public TESForm
 {
   public:
     TESImageSpace();
-    void InitDefaults();
     unsigned char formData[0x98];
 };
 typedef char check_TESImageSpace_size[(sizeof(TESImageSpace) == 0xb0) ? 1 : -1];
@@ -770,43 +810,38 @@ class TESWeather : public TESForm
     unsigned char formData[0x354];
 };
 typedef char check_TESWeather_size[(sizeof(TESWeather) == 0x36c) ? 1 : -1];
+class TESObjectREFR;
 class TESWorldSpace : public TESForm
 {
   public:
     TESWorldSpace();
-    void GetReferencesInArea(const NiPoint3&, float, const NiPoint3&, float, bool(__cdecl*)(TESObjectREFR*, long),
-                             long);
-    bool HasCell(TESObjectCELL*);
     TESObjectCELL* GetCellAtGridPosition(int, int);
-    TESObjectCELL* GetCellByWorldPosition(const NiPoint3&);
     unsigned char formData[0xd4];
+public:
+    void AddPersistentReference(::TESObjectREFR *);
 };
 typedef char check_TESWorldSpace_size[(sizeof(TESWorldSpace) == 0xec) ? 1 : -1];
 class TESObjectCELL : public TESForm
 {
   public:
     TESObjectCELL();
-    bool GetReferencesInArea(const NiPoint3&, float, const NiPoint3&, float, bool(__cdecl*)(TESObjectREFR*, long),
-                             long);
     int GetCellGridX();
     int GetCellGridY();
-    bool IsCellPersistent();
-    void RemoveReference(TESObjectREFR*);
     TESWorldSpace* GetParentWorldSpace();
-    NavMeshCollection* GetNavMeshArray();
-    void SetNavMeshArray(NavMeshCollection*);
-    TESObjectLAND* GetLandscape();
     void SetLandscape(TESObjectLAND*);
-    bool IsInterior();
-    void AddReference(TESObjectREFR*, bool);
     unsigned char formData[0xc8];
+public:
+    bool IsCellInterior() const;
+public:
+    void RemoveNonPersistentRefs();
+public:
+    bool HasCellExtraData();
 };
 typedef char check_TESObjectCELL_size[(sizeof(TESObjectCELL) == 0xe0) ? 1 : -1];
 class TESSkill : public TESForm
 {
   public:
     TESSkill();
-    void ResetData();
     unsigned char formData[0x48];
 };
 typedef char check_TESSkill_size[(sizeof(TESSkill) == 0x60) ? 1 : -1];
@@ -884,7 +919,6 @@ class TESObjectLAND : public TESForm
 {
   public:
     TESObjectLAND();
-    void InitializeForCell(TESObjectCELL*);
     unsigned char formData[0x14];
 };
 typedef char check_TESObjectLAND_size[(sizeof(TESObjectLAND) == 0x2c) ? 1 : -1];
@@ -929,7 +963,6 @@ class NavMesh : public TESForm, public NiMemObject
 {
   public:
     NavMesh();
-    TESObjectCELL* GetParentCell();
     unsigned char formData[0xf0];
 };
 typedef char check_NavMesh_size[(sizeof(NavMesh) == 0x108) ? 1 : -1];
@@ -952,7 +985,6 @@ class BGSAddonNode : public TESBoundObject
 {
   public:
     BGSAddonNode();
-    unsigned int GetIndex();
     void SetIndex(unsigned int);
     unsigned char formData[0x30];
 };
@@ -1112,7 +1144,6 @@ class TESFlora : public TESProduceForm, public TESObjectACTI
 };
 typedef char check_TESFlora_size[(sizeof(TESFlora) == 0x9c) ? 1 : -1];
 const char* GetStringForByte(unsigned char);
-int Warning(const char*, ...);
 template <class T> class NiTMallocInterface
 {
 };
@@ -1144,17 +1175,9 @@ class TESRegionList : public BSSimpleList<TESRegion*>
 class TES
 {
   public:
-    void IsCellAttached(class NavMeshInfoMap*);
     void ProcessCellQueues(bool, bool);
-    void ClearField88();
-    void SetDawnSound(TESSound*);
     void ResetCachedValues();
-    TESForm* GetActiveCell();
-    TESObjectCELL* GetPrevPath();
-    TESWorldSpace* GetHitSound();
 };
-extern TES* g_TES;
-void RegisterEffectSetting(EffectSetting*);
 class MobileObject : public TESObjectREFR
 {
 };

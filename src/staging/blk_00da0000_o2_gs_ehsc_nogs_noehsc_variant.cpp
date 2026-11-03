@@ -5,6 +5,34 @@
 
 // src/staging/blk_00da0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <new>
+#include "fnv/decl/BDBA270Array.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/CB1A90Owner.h"
+#include "fnv/decl/FUNObj.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00d87790.h"
+#include "fnv/decl/FnvClassNameNode.h"
+#include "fnv/decl/S_00db7c70_class.h"
+#include "fnv/decl/StackTraceOwner.h"
+#include "fnv/decl/fnv_00cb1870__hkMapBaseCB18.h"
+#include "fnv/decl/fnv_00da2840__DA2840Object.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00da0000.h"
+#include "fnv/symbols_00da3000.h"
+#include "fnv/symbols_00da4000.h"
+#include "fnv/symbols_00da6000.h"
+#include "fnv/symbols_00db0000.h"
+#include "fnv/symbols_00db7000.h"
+#include "fnv/symbols_00df6000.h"
+#include "fnv/symbols_00df7000.h"
+#include "fnv/symbols_010c5000.h"
+#include "fnv/symbols_010c6000.h"
+#include "fnv/symbols_010cf000.h"
+#include "fnv/symbols_010d5000.h"
+#include "fnv/symbols_01269000.h"
 #include "../../include/layout_support.h"
 extern "C" void __cdecl FUN_00cb0a70(void*);
 extern int DAT_010d461c;
@@ -12,61 +40,36 @@ struct FUN_00da07b0_class
 {
     void __thiscall FUN_00cb0a70(void*);
 };
-void __cdecl FUN_00da07b0(void* a, void* b);
-void __cdecl InitBlockPool(void*);
-void* __cdecl InitAndReturnTail(void* a, void* b, void* c);
-void __cdecl FUN_00da08c0(void** a);
-extern int DAT_010c59f4;
 extern int DAT_010c6bec;
-void __cdecl FUN_00da08e0(void* a, int b);
-extern int DAT_010c6fd0;
-void __cdecl FUN_00da0b10(int* p);
 extern int DAT_010d6014;
 struct FUN_00db7ab0_class
 {
     void* __thiscall FUN_00db7ab0(void* a, void* b, void* c);
 };
-int __cdecl Crc32ShiftRight8(unsigned int a);
-void __cdecl FUN_00da6dc0(void*);
-void __cdecl FUN_00da6de0(void*);
-void __cdecl FUN_00da6e30(void*);
-void __cdecl FUN_00da6e60(void*);
-void __cdecl BuildEventIndex(void);
-void* __cdecl InitAndReturnTail(void* a, void* b, void* c);
 void* __cdecl FUN_00da6e10(void* a, void* b, void* c);
-void __cdecl FUN_00da6fd0(void* p);
 void __cdecl FUN_00da0680(char* a, int b);
 struct FUN_00da0740_vt
 {
     virtual void v0(int);
 };
-void __cdecl FUN_00da0740(FUN_00da0740_vt* p);
 struct FUN_00cb0a70_class
 {
     void __thiscall FUN_00cb0a70(int);
 };
-void __cdecl FUN_00da0760(void* a, void* b);
 struct FUN_00db7cf0_class
 {
     int __thiscall FUN_00db7cf0(int a, int b);
 };
-extern int g_unk0126958c;
 void* __cdecl FUN_00da0610();
-extern char DAT_012695bc;
 char* __cdecl FUN_00da0630(void);
-extern int DAT_012695ec;
 int* __cdecl FUN_00da0660(void);
-extern int g_unk0126961c;
 int* __cdecl FUN_00da0670();
 struct FUN_00da0720_Class
 {
     virtual void vf00(int value);
 };
-void __cdecl FUN_00da0720(FUN_00da0720_Class* param_1);
 struct CpuOpaque;
-extern CpuOpaque DAT_0126967c;
 CpuOpaque* __cdecl FUN_00da0730();
-extern int DAT_012696c4;
 int* __cdecl FUN_00da0750();
 // FUN_00da08a0 : cdecl, 13 bytes
 //   mov ecx, [esp+4]
@@ -80,10 +83,7 @@ struct FUN_00da08a0_cls
 {
     virtual int v00(int a);
 };
-int __cdecl FUN_00da08a0(FUN_00da08a0_cls* pObj);
-extern int DAT_0126970c;
 int* __cdecl FUN_00da08b0();
-extern int DAT_01269754;
 void* __cdecl FUN_00da08d0(void);
 extern int DAT_010c6bec;
 void* __cdecl FUN_00da0910(void);
@@ -267,48 +267,30 @@ class DA0920Object : public DA0920Base
     {}
     virtual void vfunc00();
 };
-void ConstructDA0920Object(void* p, int finishing);
-extern int g_unk010c6c64;
 void* __cdecl FUN_00da0950();
-extern int DAT_0126979c;
 void* __cdecl FUN_00da0970();
-extern void* DAT_012697cc;
 void* FUN_00da09a0();
 struct CpuOpaque;
-extern CpuOpaque DAT_012697fc;
 CpuOpaque* __cdecl FUN_00da09c0();
-extern int DAT_0126982c;
 void* __cdecl FUN_00da09e0();
 struct CpuOpaque;
-extern CpuOpaque DAT_0126985c;
 CpuOpaque* __cdecl FUN_00da0a00();
-extern int DAT_0126988c;
 void* __cdecl FUN_00da0a20();
 // FUN_00da0a40 : a one-line function - getter
-extern int g_target_00da0a40;
 void* FUN_00da0a40();
-extern int DAT_012698ec;
 void* __cdecl FUN_00da0a60();
 // FUN_00da0a80 : returns the address of a global data object.
-extern int DAT_0126991c;
 int* __cdecl FUN_00da0a80(void);
-extern int DAT_0126994c;
 int __cdecl FUN_00da0aa0();
 struct CpuOpaque;
-extern CpuOpaque DAT_0126997c;
 CpuOpaque* __cdecl FUN_00da0ac0();
-extern int DAT_012699ac;
 int* __cdecl FUN_00da0ae0(void);
 struct FUN_00da0af0_Class
 {
     virtual void vf00(int value);
 };
-void __cdecl FUN_00da0af0(FUN_00da0af0_Class* param_1);
-extern int DAT_01269a0c;
 void* __cdecl FUN_00da0b00();
-extern int DAT_010c6fd0;
 void* __cdecl FUN_00da0b20();
-unsigned char* __cdecl CheckDuplicateValues(unsigned char* result, int* values);
 struct FUN_00db0060_class
 {
     int unk00;
@@ -340,7 +322,6 @@ class DB7570Map
 
     DB7570Result Lookup(unsigned int key, unsigned int& valueOut) const;
 };
-extern "C" int __cdecl CompareStringsCaseInsensitive(int a1, int a2);
 struct FUN_00db75b0_entry
 {
     int unk00;
@@ -431,7 +412,6 @@ struct HashEntryTable
         return m_kPrimitiveElement[it].val;
     }
 
-    void FUN_00cb1870(hkMemoryAllocator& alloc, unsigned int key, unsigned int val);
 };
 struct MapHolder
 {
@@ -443,7 +423,6 @@ struct MapHolder
 // ForwardToInner: forwards a 64-bit value to a member function held at this->m_08.
 struct SpawnedInner
 {
-    void FUN_00db7c70(__int64 v);
 };
 struct SpawnedOuter
 {
@@ -455,7 +434,6 @@ struct SpawnedOuter
 };
 struct CallTarget_00dba270
 {
-    int Splice(int, int, int, int, int);
 };
 struct SearchObject
 {
@@ -464,12 +442,10 @@ struct SearchObject
 class DBA340Object
 {
   public:
-    int FUN_00dba320(void* pvA, void* pvB, void* pvC, int iFlag);
     int FUN_00dba340(void* pvA, void* pvB, void* pvC);
 };
 struct DBB100Class
 {
-    const char* getName() const;
 };
 struct DBB100Registry
 {
@@ -608,8 +584,6 @@ struct DBA430Listener
 };
 struct DBA430Inner
 {
-    void __thiscall Sync(DBA430Listener* listener);
-    void __thiscall Mark();
 };
 struct BSAudio
 {
@@ -685,7 +659,6 @@ __forceinline void addEdge(int& mask, int value)
     else
         addCell(mask, x + 2 * y + 8);
 }
-void __stdcall CheckFeatureCacheCoverage(FeatureCache* cache, int firstFlags, int secondFlags);
 void __cdecl FUN_00da0600();
 void __cdecl FUN_00da0620(void);
 void FUN_00da0640();
@@ -723,7 +696,6 @@ extern int DAT_010d4de4;
 extern int DAT_01269a9c;
 struct FUN_00da2840_Obj
 {
-    void __thiscall FUN_00da2840();
 };
 struct FUN_00da2b90_Obj
 {
@@ -753,19 +725,12 @@ struct DA2D70Object
     int unk00;
     unsigned short unk04;
 
-    void __thiscall FUN_00da2930();
     void* __thiscall NotifyAudioListener(int flags);
 };
 extern BSAudio* __cdecl FUN_00c85750();
 void __cdecl FUN_00da2da0();
 void __cdecl FUN_00da44d0(int a, int b, void* pvCallback);
-void __cdecl ProcessCollisionEntry();
-void __cdecl FUN_00da4900(int a, int b);
-void* __cdecl FUN_00da3510(void*, void*);
 void* __cdecl FUN_00da6e10(void* a, void* b, void* c);
-extern int DAT_010cf7d4;
-extern int DAT_010cf804;
-extern char str_010cf830[];
 struct Allocator
 {
     virtual void Reserved();
@@ -785,7 +750,6 @@ struct SubObject
     int unk04;
     int unk08;
     int unk0C;
-    void FUN_00d87790(int flags);
 };
 struct CreatedObject
 {
@@ -810,7 +774,7 @@ struct CreatedObject
 
         vtable = &DAT_010cf7d4;
         typeName = str_010cf830;
-        base.FUN_00d87790(arg);
+        new ((void *)&(base)) ::FUN_00d87790(arg);
         vtable = &DAT_010cf804;
     }
 };
@@ -819,9 +783,7 @@ struct FUN_00db7c00_obj
 {
     virtual void vslot00(int value);
 };
-void __cdecl FUN_00db7c00(FUN_00db7c00_obj* p);
 // 0x00db7c10  /MT /O2 /GS /EHsc /Gy   target: B8 28 9B 26 01 C3  (mov eax, offset DAT_01269b28; ret)
-extern int DAT_01269b28;
 int* FUN_00db7c10();
 extern int DAT_010cce28;
 struct hkLoadedObjectDB7C
@@ -842,7 +804,6 @@ struct hkLoadedObjectDB7C
     int unk34;
     FUN_00cb0a70_class m_name;
 };
-void __cdecl InitLoadedObject(void* pvObject, int iFinishing);
 extern "C" void __cdecl FUN_00ec658f(const void*);
 extern unsigned char DAT_01269b80;
 extern void* DAT_010d6260;
@@ -851,15 +812,8 @@ extern void* FUN_00fde2a0;
 extern unsigned short DAT_01269b7e;
 void* __cdecl FUN_00dba610();
 typedef void(__cdecl* FuncDA34)();
-void __cdecl ExecuteMoppAabbQuery();
-void __cdecl FUN_00df6f80();
 void __cdecl FUN_00df6b50();
-void __cdecl FUN_00df79d0();
 void __cdecl FUN_00df7340();
-void __cdecl ProcessWorkQueue();
-void __cdecl ProcessAabbTree();
-void __cdecl SplitJob();
-void __cdecl FUN_00df7a90();
 struct FuncTableDA34
 {
     FuncDA34 m_func0;
@@ -881,9 +835,7 @@ struct RegisterInfoDA34
 class DispatcherDA34
 {
   public:
-    void SetEntry(int type, RegisterInfoDA34 info);
 };
-void __cdecl FUN_00da3400(DispatcherDA34* dispatcher);
 void FUN_00da82d0();
 inline unsigned int mySeparatedYZ(const SweepBounds& a, const SweepBounds& b)
 {
@@ -981,13 +933,10 @@ __forceinline SweepPair* collideOneT<false>(const SweepBounds* bounds, const Swe
     }
     return out;
 }
-int __cdecl CollideSweepBounds(const SweepBounds* a1, int count1, const SweepBounds* a2, int count2,
-                               SweepPair* __restrict pairs, int capacity, int& skipped);
 static float FUN_00db09f0(unsigned short arg);
 unsigned short volatile g_in_db09f0;
 float volatile g_out_db09f0;
 void drive_db09f0(void);
-extern int DAT_010d52d0;
 extern "C" unsigned int stub_val(void);
 static int* FUN_00db0db0(unsigned int a);
 int stub_caller(void);

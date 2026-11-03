@@ -1,5 +1,24 @@
 // fallout_shared/tesquesttarget.cpp: free functions (5 functions)
 
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_0041c8d0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_005b5000.h"
 #include "tesquesttarget_decls.h"
 
 // Resolves the stored reference form ID against the quest's file, warns if it is missing, then initializes the conditions.
@@ -9,35 +28,34 @@ void RegionObjectEntry::InitItem(TESForm* form)
     if (m_pReference)
     {
         unsigned int formID = reinterpret_cast<unsigned int>(m_pReference);
-        TESForm::RemapFormIDForFile(formID, form->GetFile(-1));
-        m_pReference = dynamic_cast<TESObjectREFR*>(TESForm::GetFormByID(formID));
+        ::ResolveFormID((unsigned int *)&(formID), form->GetFile(-1));
+        m_pReference = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(formID));
         if (!m_pReference)
-            Warning("MASTERFILE: Could not find target reference (%08X) on quest (%08X) '%s'.", formID,
-                    form->GetFormID(), form->GetName());
+            ::FUN_005b5e40();
     }
     else
     {
-        Warning("MASTERFILE: No reference on target for quest (%08X) '%s'.", form->GetFormID(), form->GetName());
+        ::FUN_005b5e40();
     }
-    if (GetConditions())
-        GetConditions()->InitItem(form);
+    if (((::PerkEntryConditionSet *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData())))
+        ((::PerkEntryConditionSet *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()))->InitItem(form);
 }
 
 // @fnv 0x0060f440
 void QuestStage::Load(TESFile* file)
 {
-    if (file && file->GetChunkID() == 0x58444e49)
+    if (file && ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())) == 0x58444e49)
     {
-        if (file->GetChunkSize() == 8)
+        if (reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C() == 8)
         {
             TESQuestStageLegacyData legacy;
-            file->GetChunkData(&legacy, sizeof(legacy));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&legacy), sizeof(legacy));
             m_Data.m_bCompleted = legacy.data.m_bCompleted;
             m_Data.m_ucClipIdentifier = legacy.data.m_ucClipIdentifier;
         }
         else
         {
-            file->GetChunkData(&m_Data, sizeof(m_Data));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&m_Data), sizeof(m_Data));
         }
     }
 }
@@ -47,9 +65,9 @@ void QuestStage::Load(TESFile* file)
 TESObjectREFR* RegionObjectEntry::GetReference(bool resolveDeleted)
 {
     TESObjectREFR* reference = m_pReference;
-    if (reference && reference->IsDeleted() && resolveDeleted)
+    if (reference && reinterpret_cast<::FUN_00440d80_shell *>((void *)(reference))->FUN_00440d80() && resolveDeleted)
     {
-        TESObjectREFR* replacement = reference->GetExtraData()->GetReplacementReference();
+        TESObjectREFR* replacement = reinterpret_cast<::FUN_0041c8d0_shell *>((((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((reference))->FUN_005d43c0()))))->FUN_0041c8d0();
         if (replacement)
             reference = replacement;
     }

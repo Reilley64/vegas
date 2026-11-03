@@ -4,6 +4,10 @@
 
 // src/havok/physics/constraintsolver/constraint/bilateral/hkp1dbilateralconstraintbuildjacobian.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/constraintsolver/constraint/bilateral/hkp1dbilateralconstraintbuildjacobian.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_00dce000.h"
+#include "fnv/symbols_00dcf000.h"
+#include "fnv/symbols_010c9000.h"
+#include "fnv/symbols_01268000.h"
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
@@ -142,8 +146,6 @@ struct QueryOut_dcf880
 {
     Jac_dcf880* m_pJacobian;
 };
-void __cdecl ComputeAngularJacobian(const Info_dcf880& info, const QueryIn_dcf880& aQueryIn,
-                                    QueryOut_dcf880& aQueryOut);
 struct __declspec(align(16)) S_00dcf100_V4
 {
     float x, y, z, w;
@@ -222,9 +224,6 @@ static __forceinline __m128 S_Rot(__m128 v, const S_00dcf100_Body* b)
                           _mm_mul_ps(_mm_shuffle_ps(v, v, 0x00), S_Ld(b->col0)));
     return _mm_add_ps(r, _mm_mul_ps(_mm_shuffle_ps(v, v, 0xaa), S_Ld(b->col2)));
 }
-void __cdecl FUN_00dcf100(S_00dcf100_In* pInput, S_00dcf100_Cfg* pConfig, S_00dcf100_Out** ppOut);
-void __cdecl FUN_00dcee70();
-extern double DAT_010c9300;
 static void FUN_00dcf460(Jac_dcf880* out, const Info_dcf880* info, const QueryIn_dcf880* in, float scale);
 Jac_dcf880* volatile g_out_dcf460;
 const Info_dcf880* volatile g_info_dcf460;
@@ -252,12 +251,7 @@ struct Jacobian_dcf5b0
     Vector_dcf5b0 angularA;
     Vector_dcf5b0 angularB;
 };
-extern double DAT_010c9300;
-void __cdecl FUN_00dcf5b0(Input_dcf5b0* a1, S_00dcf100_Cfg* a2, Jacobian_dcf5b0** a3, float k);
-extern double DAT_010c9300;
-void __cdecl FUN_00dcfa30(Info_dcf880* a1, S_00dcf100_Cfg* a2, Jac_dcf880** a3);
 extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern double DAT_010c9300;
 extern __m128 DAT_010c44d0;
 struct Src
 {
@@ -290,7 +284,6 @@ struct JOut
     float c20;
     int unk24, unk28, unk2c;
 };
-void __cdecl FUN_00dcefb0(Src* s, Cfg* cfg, JOut** a3);
 struct Input_dcf280
 {
     __m128 pivot;
@@ -312,8 +305,6 @@ struct Jacobian_dcf280
     Vector_dcf280 angularA;
     Vector_dcf280 angularB;
 };
-extern double DAT_010c9300;
-void __cdecl FUN_00dcf280(Input_dcf280* a1, S_00dcf100_Cfg* a2, Jacobian_dcf280** a3);
 struct S_00dcf720_Vector4
 {
     float x, y, z, w;
@@ -404,7 +395,6 @@ struct S_00dcf720_Jacobian
         return r;
     }
 };
-void FUN_00dcf720(const S_00dcf720_Info& info, const S_00dcf720_QueryIn& in, S_00dcf720_Jacobian* jac, float rhsFactor);
 // Adapted from an earlier contributor's 2026-10-21 WIP; retain prior credit.
 extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
 static const double S00dcee80_kEps = 1.1920928955078125e-07;
@@ -556,7 +546,6 @@ struct S_00dcee80_QueryOut
 {
     S_00dcee80_Jacobian* m_jacobians;
 };
-void FUN_00dcee80(const S_00dcee80_Info& info, const S_00dcee80_QueryIn& in, S_00dcee80_QueryOut& out);
 
 #include <math.h>
 extern "C" __m128 _mm_load_ps(const float*);
@@ -575,8 +564,6 @@ struct Row102
     hkVector4 linear, angularA, angularB;
 };
 extern hkVector4 DAT_010ec7f0;
-extern double DAT_010c9300;
-extern hkVector4 DAT_01268370[];
 void FUN_00d6c970(const hkVector4*, const hkVector4*, const Input102*, Row102*);
 static float DotValue(__m128 v, __m128 a)
 {
@@ -640,7 +627,7 @@ void FUN_00dcfc00(const hkVector4* pivotA, const hkVector4* pivotB, float maxFor
         b.m_vComponents = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(ones, sb), bodyB->m_kCenterPosition.m_vComponents),
                                      _mm_mul_ps(pivotB->m_vComponents, sb));
         Row102* row = jac;
-        hkVector4* axis = DAT_01268370;
+        hkVector4* axis = (*reinterpret_cast<hkVector4 (*)[]>(&::DAT_01268370));
         int n = 0;
         do
         {

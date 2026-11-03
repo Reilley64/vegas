@@ -7,6 +7,10 @@
 
 #include <xmmintrin.h>
 
+#include "fnv/decl/CpuObject.h"
+#include "fnv/decl/DE44C0Object.h"
+#include "fnv/decl/FUN_00de4530Owner.h"
+#include "fnv/symbols_00cab000.h"
 struct B_00de7580
 {
     __m128 unk00;
@@ -63,12 +67,10 @@ struct Render_00de7580
 
 struct FUN_00e10a10_Obj
 {
-    void FUN_00e10a10(Render_00de7580* a1);
 };
 
 typedef void(__thiscall* VF5_00de7580)(void* self, void* p1, void* p2, void* p3, int p4, int p5);
 
-__m128* PackColorBigEndian(float a, float b, float c, float d);
 
 struct ArgHolder_00de7580
 {
@@ -92,8 +94,6 @@ struct FUN_00de7580_cls
     FUN_00e10a10_Obj unkC0;
 
     void FUN_00de47e0(Arg_00de7580* a1, Transform_00de7580* a2, Transform_00de7580* a3);
-    void FUN_00de44c0(int a1, int a2);
-    void FUN_00de4530(int a1, int a2);
     void FUN_00de7580(ArgHolder_00de7580 a1, Render_00de7580* a2, int a3, int a4);
 };
 
@@ -105,12 +105,12 @@ void FUN_00de7580_cls::FUN_00de7580(ArgHolder_00de7580 a1, Render_00de7580* a2, 
     V4_00de7580 result;
     B_00de7580* b = a1.value->unk0c;
 
-    unkC0.FUN_00e10a10(a2);
+    reinterpret_cast<::CpuObject *>(&(unkC0))->FUN_00e10a10((int)(a2));
     FUN_00de47e0(a1.value, &v44, &v80);
     unk50.FUN_00c7f640(&v44, &b->unk30);
     unk40.FUN_00c7f640(&v80, &b->unk20);
-    FUN_00de44c0(a3, a4);
-    FUN_00de4530(a3, a4);
+    reinterpret_cast<::DE44C0Object *>(this)->FUN_00de44c0(a3, a4);
+    reinterpret_cast<::FUN_00de4530Owner *>(this)->FUN_00de4530(a3, a4);
 
     float t = b->unk44;
     __m128 d = _mm_sub_ps(unk50.unk00, unk40.unk00);
@@ -130,6 +130,6 @@ void FUN_00de7580_cls::FUN_00de7580(ArgHolder_00de7580 a1, Render_00de7580* a2, 
     __m128 res = _mm_add_ps(unk40.unk00, _mm_mul_ps(tv, _mm_load_ps(&result.x)));
 
     _mm_store_ps(&result.x, res);
-    a2->draw(&unk40, &result, PackColorBigEndian(0.0f, 0.5f, 1.0f, 1.0f), a3, a4);
+    a2->draw(&unk40, &result, ((::__m128 *)(::PackColorBigEndian(0.0f, 0.5f, 1.0f, 1.0f))), a3, a4);
     a2->draw(&result, &unk50, (void*)0xffff0000, a3, a4);
 }

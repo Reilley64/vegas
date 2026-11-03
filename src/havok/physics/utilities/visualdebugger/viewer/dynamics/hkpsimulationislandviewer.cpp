@@ -2,6 +2,12 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpsimulationislandviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkpsimulationislandviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/S_00dd9380.h"
+#include "fnv/decl/SearchArray.h"
+#include "fnv/decl/fnv_00c93920__hkpWorldXc93920.h"
+#include "fnv/symbols_00d65000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 struct Base0
 {
     char pad[0x20];
@@ -9,7 +15,6 @@ struct Base0
 struct Base2;
 struct Target
 {
-    void FUN_00c93920(Base2* p);
 };
 struct Base1
 {
@@ -29,7 +34,7 @@ struct Derived : Base0, Base1, Base2
 void Base1::PassSelfAsBase2ToTarget(Target* apTarget)
 {
     Derived* d = (Derived*)((char*)this - 0x20);
-    apTarget->FUN_00c93920(d ? (Base2*)((char*)this + 8) : 0);
+    reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((apTarget))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(::Base2 *)(d ? (Base2*)((char*)this + 8) : 0));
 }
 
 struct S_00d65180_Allocator
@@ -101,7 +106,6 @@ S_00d65180_Base2* FUN_00d65180(void* arg)
     return new S_00d65180_Obj(arg);
 }
 
-extern int g_D651E0Value;
 
 // @fnv 0x00d651e0
 int __cdecl FUN_00d651e0()
@@ -148,7 +152,6 @@ FUN_00d65220_Class* FUN_00d65220_Class::FUN_00d65220(char flags)
 
 struct S_Elem2
 {
-    void ClearValue(void* d) throw();
 };
 struct S_P
 {
@@ -294,7 +297,7 @@ FUN_00d64ae0::~FUN_00d64ae0() throw()
     if (m24)
     {
         for (int i = 0; i < m24->m70; i++)
-            m24->m6c[i]->ClearValue((S_D*)this);
+            reinterpret_cast<::SearchArray *>((m24->m6c[i]))->ClearValue((int)((S_D*)this));
     }
     m3c.clear();
     m30.clear();
@@ -303,19 +306,15 @@ FUN_00d64ae0::~FUN_00d64ae0() throw()
 class RegistryOwner
 {
   public:
-    void* Register(const char* name, void (*callback)());
 };
 
-extern RegistryOwner* DAT_01269cd0;
-extern void* DAT_01268fdc;
 extern const char str_010d19d0[];
 
-extern void RegisterCallback();
 
 // @fnv 0x00d651c0
 void FUN_00d651c0()
 {
-    DAT_01268fdc = DAT_01269cd0->Register(str_010d19d0, RegisterCallback);
+    (*reinterpret_cast<void * *>(&::g_D651E0Value)) = ((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::RegistryOwner * *>(&::DAT_01269cd0))))->FUN_00dd9380(str_010d19d0, (int)(((void (&)())::FUN_00d65180)))));
 }
 
 template <typename T> struct hkArrayD64A
@@ -334,7 +333,6 @@ class hkListenerD64A
 class hkEntityD64A
 {
   public:
-    void FUN_00c93920(hkListenerD64A* pkListener) throw();
 };
 class hkWorldD64A
 {
@@ -392,7 +390,7 @@ FUN_00d64a50::FUN_00d64a50(void* pkInfo) throw() : FUN_00ddccb0(pkInfo)
     if (m_pOwningWorld)
     {
         for (int i = 0; i < m_pOwningWorld->m_iActorEntryCount; i++)
-            m_pOwningWorld->m_kActorEntries[i]->FUN_00c93920(this);
+            reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((m_pOwningWorld->m_kActorEntries[i]))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(::hkListenerD64A *)(this));
     }
 }
 
@@ -492,5 +490,5 @@ struct IslandWorldRemoval : IslandRemovalParent, hkListenerD64A
 // @fnv 0x00d64a20
 void IslandWorldRemoval::FUN_00d64a20(S_Elem2* world)
 {
-    world->ClearValue(static_cast<hkListenerD64A*>(this));
+    reinterpret_cast<::SearchArray *>((world))->ClearValue((int)(static_cast<hkListenerD64A*>(this)));
 }

@@ -2,6 +2,20 @@
 // src/havok/physics/dynamics/phantom/hkpcachingshapephantom.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/phantom/hkpcachingshapephantom.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/C.h"
+#include "fnv/decl/CA92A0Object.h"
+#include "fnv/decl/FUN_00ca94c0_Class.h"
+#include "fnv/decl/FUN_00cfa7d0.h"
+#include "fnv/decl/FUN_00d07cf0_cls.h"
+#include "fnv/decl/fnv_00d4ce60__FUN_00d4ce60.h"
+#include "fnv/decl/hkpAabbPhantomD07.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00c9e000.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_00d4d000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_01269000.h"
 #include "havok/hkpCachingShapePhantom.h"
 
 struct hkpCachingShapePhantomStandIn
@@ -15,7 +29,6 @@ struct hkpCachingShapePhantomStandIn
     void FUN_00d4d090();
 };
 
-void __cdecl SortEntriesByCollisionKey(void*, int, int, int);
 
 // @fnv 0x00d4d090
 void hkpCachingShapePhantomStandIn::FUN_00d4d090()
@@ -33,7 +46,7 @@ void hkpCachingShapePhantomStandIn::FUN_00d4d090()
         seed.byteValue = 0;
 
         if (size > 1)
-            SortEntriesByCollisionKey(m_kCollisionDetails, 0, size - 1, seed.value);
+            ::SortEntriesByCollisionKey((::CollisionKeyEntry *)(m_kCollisionDetails), 0, size - 1, seed.value);
 
         m_bOrderDirty = 0;
     }
@@ -340,9 +353,7 @@ hkBoolD4C9 hkpCachingShapePhantomD4C9::ContainsCollidable(const hkpCollidableD4C
 
 class hkClassD4CD;
 
-extern const hkClassD4CD DAT_0126902c;
 
-int __cdecl FUN_00d06f80(const void* pvChunk, int iNumBytes) throw();
 
 template <class T> class hkArrayD4CD
 {
@@ -383,7 +394,7 @@ class hkStatisticsCollectorD4CD
     {
         if ((kArray.m_iCapacityState & 0x80000000) == 0 || m_countDontDeallocate)
         {
-            int iAllocated = FUN_00d06f80(kArray.m_data, kArray.getCapacity() * sizeof(T));
+            int iAllocated = ::fnv_00d06f80::FUN_00d06f80((const char *)(kArray.m_data), kArray.getCapacity() * sizeof(T));
             AddMemoryChunk(3, pcName, kArray.m_data, kArray.GetLogicalSize() * sizeof(T), iAllocated);
         }
     }
@@ -399,7 +410,6 @@ class FUN_00d08130
     hkInt16 m_sReferenceCount;
     char m_pad08[0xa8];
 
-    void WritePhantomLists(hkStatisticsCollectorD4CD* pkCollector, const hkClassD4CD* pkClass) const throw();
 };
 
 class hkpCollisionAgentD4CD;
@@ -425,7 +435,7 @@ class hkpCachingShapePhantomD4CD : public FUN_00d08130
 void hkpCachingShapePhantomD4CD::AddToCollector(hkStatisticsCollectorD4CD* pkCollector,
                                                 const hkClassD4CD* pkClass) const throw()
 {
-    WritePhantomLists(pkCollector, &DAT_0126902c);
+    reinterpret_cast<::FUN_00d07cf0_cls *>((void *)this)->WritePhantomLists((::PhArchive *)(pkCollector), (int)(&(*reinterpret_cast<const ::hkClassD4CD *>(&::g_0126902c))));
     pkCollector->addArray("AgentPtr", m_kCollisionDetails);
     pkCollector->beginObject("agents");
     for (int i = 0; i < m_kCollisionDetails.GetLogicalSize(); i++)
@@ -561,7 +571,6 @@ class hkpWorldObjectD4D0
     {
         return &m_kCollidable;
     }
-    void CopyEntriesFrom(const hkpWorldObjectD4D0* pkOtherObj) throw();
 };
 
 class FUN_00d4ce10 : public hkpWorldObjectD4D0
@@ -602,7 +611,7 @@ hkpWorldObjectD4D0* FUN_00d4ce10::FUN_00d4d0d0() const throw()
         new FUN_00d4ce10(pkCollidable->getShape(), getTransform(), pkCollidable->GetFilterInfoForKey());
     pkPhantom->m_kPhantomOverlapListeners = m_kPhantomOverlapListeners;
     pkPhantom->m_kPhantomListeners = m_kPhantomListeners;
-    pkPhantom->CopyEntriesFrom(this);
+    reinterpret_cast<::CA92A0Object *>((pkPhantom))->CopyEntriesFrom((const ::CA92A0Object *)(const ::hkpWorldObjectD4D0 *)(this));
     return pkPhantom;
 }
 
@@ -670,13 +679,12 @@ struct FnvCpu_FUN_00d4d310_CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void FUN_00d4ce60();
     FnvCpu_FUN_00d4d310_CpuObject* FUN_00d4d310(unsigned int flags);
 };
 // @fnv 0x00d4d310
 FnvCpu_FUN_00d4d310_CpuObject* FnvCpu_FUN_00d4d310_CpuObject::FUN_00d4d310(unsigned int flags)
 {
-    FUN_00d4ce60();
+    reinterpret_cast<::fnv_00d4ce60::FUN_00d4ce60 *>(this)->fnv_00d4ce60::FUN_00d4ce60::~FUN_00d4ce60();
     if (flags & 1)
     {
         FnvCpu_FUN_00d4d310_CpuAllocatorHolder* holder = FUN_00c85750();
@@ -740,19 +748,8 @@ struct FUN_00d4cc50_cls
     __m128 output0;
     __m128 output1;
     __m128 output2;
-    void FUN_00d4cab0(const void* additional, int a, int b, int c);
     void CopyFrom(const Aligned_00d4cc50* source, int a, int b, int c);
 };
-// Copies source's three __m128 columns into output0..2, then calls FUN_00d4cab0 with source + 0x30 and a, b, c.
-// @fnv 0x00d4cc50
-void FUN_00d4cc50_cls::CopyFrom(const Aligned_00d4cc50* source, int a, int b, int c)
-{
-    output0 = source->column0;
-    output1 = source->column1;
-    output2 = source->column2;
-    FUN_00d4cab0(reinterpret_cast<const char*>(source) + 0x30, a, b, c);
-}
-
 extern int DAT_010ccebc;
 
 struct hkBool_d4cc
@@ -914,7 +911,6 @@ struct World_d4cc
     int unk15C;
     hkArray_d4cc<Entry_d4cc> m_entries;
     unsigned char m_bValueAt0C;
-    void NotifyAll(Owned_d4cc* obj, hkBool_d4cc found);
     void FUN_00d4cca0(Owned_d4cc* obj);
 };
 
@@ -931,7 +927,7 @@ void World_d4cc::FUN_00d4cca0(Owned_d4cc* apOwned)
     {
         if (m_entries[i].m_object == apOwned)
         {
-            NotifyAll(apOwned, hkBool_d4cc(true));
+            reinterpret_cast<::C *>(this)->NotifyAll((int)(apOwned), (*(char *)&(const ::hkBool_d4cc &)(hkBool_d4cc(true))));
             if (m_entries[i].m_kListener)
                 m_entries[i].m_kListener->visit(&visitor);
             m_entries.removeAt(i);
@@ -939,12 +935,11 @@ void World_d4cc::FUN_00d4cca0(Owned_d4cc* apOwned)
             return;
         }
     }
-    NotifyAll(apOwned, hkBool_d4cc(false));
+    reinterpret_cast<::C *>(this)->NotifyAll((int)(apOwned), (*(char *)&(const ::hkBool_d4cc &)(hkBool_d4cc(false))));
 }
 
 class hkpCollidable;
 
-void ResizeAudioStream(void* pvAlloc, void* apvArray, int iSizeElem) throw();
 
 template <typename T> struct hkArrayD4CF
 {
@@ -959,7 +954,7 @@ template <typename T> struct hkArrayD4CF
     T& _expandOne(hkMemoryAllocatorD4D0& kAlloc)
     {
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&kAlloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         return m_data[m_iElementCount++];
     }
     T& AllocatePair()
@@ -1065,14 +1060,13 @@ struct hkpProcessCollisionInputD4CF : public hkpCollisionInputD4CF
     hkpProcessCollisionInputD4CF(const hkpProcessCollisionInputD4CF& kOther) throw() : hkpCollisionInputD4CF(kOther)
     {
         m_pAgent1nSector = 0;
-        FUN_00cfa7d0(kOther);
+        new ((void *)this) ::FUN_00cfa7d0((const ::FUN_00cfa7d0 &)(kOther));
     }
     ~hkpProcessCollisionInputD4CF() throw()
     {
         if (m_pAgent1nSector)
             FUN_00c85750().heap().ReleaseBlock(m_pAgent1nSector, 0x200);
     }
-    void FUN_00cfa7d0(const hkpProcessCollisionInputD4CF& kOther);
 };
 
 __forceinline hkpCollisionAgentD4CF* hkpCollisionDispatcherD4CF::getNewCollisionAgent(
@@ -1105,14 +1099,13 @@ class hkpCachingShapePhantomD4CF : public hkpShapePhantom
     hkArrayD4CF<hkpCollisionDetailD4CF> m_kCollisionDetails;
     hkBool m_bOrderDirty;
 
-    int FUN_00ca94c0(hkpCollidable* pkCollidable) throw();
     void FUN_00d4cf10(hkpCollidable* pkCollidable) throw();
 };
 
 // @fnv 0x00d4cf10
 void hkpCachingShapePhantomD4CF::FUN_00d4cf10(hkpCollidable* pkCollidable) throw()
 {
-    if (pkCollidable->m_pCollisionShape != 0 && FUN_00ca94c0(pkCollidable) == 0)
+    if (pkCollidable->m_pCollisionShape != 0 && reinterpret_cast<::FUN_00ca94c0_Class *>(this)->FUN_00ca94c0((unsigned int)(pkCollidable)) == 0)
     {
         hkpCollisionDetailD4CF& kDetail = m_kCollisionDetails.AllocatePair();
         hkpProcessCollisionInputD4CF kInput = *((hkpWorldD4CF*)m_pOwningWorld)->m_pCollisionInput;
@@ -1241,7 +1234,6 @@ class hkOwnerD4D0
     char unk000[0x160];
     hkArrayD4D0<PairD4D0> m_ppData;
 
-    void FUN_00c9e820();
     void FUN_00d4d030();
 };
 
@@ -1251,7 +1243,7 @@ void hkOwnerD4D0::FUN_00d4d030()
 {
     if (m_ppData.m_iElementCount == 0)
         m_ppData.ClearAndRelease();
-    FUN_00c9e820();
+    ::FUN_00c9e820();
 }
 }  // namespace fnv_00d4d030
 
@@ -1276,7 +1268,6 @@ extern "C"
 }
 }
 
-extern float DAT_0104da4c;
 
 class hkpCdPointCollector;
 
@@ -1339,7 +1330,7 @@ struct ShapeSweepParameters : public CollisionAgentContext
 
     __forceinline ShapeSweepParameters()
     {
-        m_fMaxExtraPenetration = DAT_0104da4c;
+        m_fMaxExtraPenetration = ::DAT_0104da4c;
         m_unk04 = 0;
     }
     __forceinline void set(const GskAgentInput& input)
@@ -1366,10 +1357,18 @@ struct LinearCastParameters
 
 struct hkpCachingShapePhantomLocal : public hkpCachingShapePhantom
 {
-    void FUN_00d07ec0(const hkAabb& aabb);
     void FUN_00d4cab0(const hkVector4& position, const LinearCastParameters& input, hkpCdPointCollector& castCollector,
                       hkpCdPointCollector* startCollector);
 };
+// Copies source's three __m128 columns into output0..2, then calls FUN_00d4cab0 with source + 0x30 and a, b, c.
+// @fnv 0x00d4cc50
+void FUN_00d4cc50_cls::CopyFrom(const Aligned_00d4cc50* source, int a, int b, int c)
+{
+    output0 = source->column0;
+    output1 = source->column1;
+    output2 = source->column2;
+    reinterpret_cast<::hkpCachingShapePhantomLocal *>(this)->FUN_00d4cab0((*(const ::hkVector4 *)(reinterpret_cast<const char*>(source) + 0x30)), (*(const ::LinearCastParameters *)(a)), (*(::hkpCdPointCollector *)(b)), (::hkpCdPointCollector *)(c));
+}
 
 class hkpCollisionAgentLinear : public hkpCollisionAgent
 {
@@ -1405,7 +1404,7 @@ void hkpCachingShapePhantomLocal::FUN_00d4cab0(const hkVector4& position, const 
     *(CastSimd::__m128*)&aabb.m_kMinimumCorner = auiLowerBounds;
     *(CastSimd::__m128*)&aabb.m_kMaximumCorner = auiUpperBounds;
 
-    FUN_00d07ec0(aabb);
+    reinterpret_cast<::hkpAabbPhantomD07 *>(this)->FUN_00d07ec0((const ::hkAabbD07 &)(aabb));
 
     ShapeSweepParameters linearInput;
     linearInput.set(*((hkpWorld*)m_pOwningWorld)->m_pCollisionInput);

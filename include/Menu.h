@@ -17,6 +17,8 @@ class Menu
     unsigned short layoutPadding1E;
     int m_iMenuId;                       // +0x20
     Interface__FADE_STATE m_eFadeState;  // +0x24
+public:
+    void SetMenuVisibility(bool);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(Menu) == 0x28);

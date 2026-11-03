@@ -10,6 +10,38 @@
 
 // The original TU reached NULL through the game core headers; this
 // standalone reconstruction defines it directly.
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C857A10Buffer.h"
+#include "fnv/decl/FUN_0041ca90.h"
+#include "fnv/decl/FUN_0041fd00_shell.h"
+#include "fnv/decl/FUN_0047c850.h"
+#include "fnv/decl/FUN_005277d0_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_008579e0_shell.h"
+#include "fnv/decl/FUN_00857aa0.h"
+#include "fnv/decl/FUN_00857bd0.h"
+#include "fnv/decl/FUN_0085a290_t.h"
+#include "fnv/decl/FUN_0085a2e0_Class.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_008c6920_shell.h"
+#include "fnv/decl/FakeGame.h"
+#include "fnv/decl/fnv_00564db0__FUN_00564db0_cls.h"
+#include "fnv/decl/fnv_006777b0__FUN_006777b0_shell.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00865df0__FUN_00865df0_holder.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00670000.h"
+#include "fnv/symbols_00845000.h"
+#include "fnv/symbols_0096a000.h"
+#include "fnv/symbols_0119b000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
 #define NULL 0
 
 typedef enum
@@ -73,8 +105,6 @@ class BGSSaveFormBuffer;
 class BGSLoadFormBuffer
 {
   public:
-    bool ReadFormIdentifier(void* apFormID);
-    void ReadTypedData(void* apData, unsigned int auSize);
 };
 
 class BaseFormComponent
@@ -162,37 +192,28 @@ class TESForm : public BaseFormComponent
     virtual void SetRefID(unsigned int auiRefID, bool abGenerateID);
     virtual char* GetName2();
     virtual char* GetName() const;
-    unsigned int GetFormID();
-    static TESForm* GetFormByID(unsigned int auiFormID);
 };
 
 class TESPackage : public TESForm
 {
   public:
-    void AddRef();
-    int Release();
     bool IsMustComplete();
     PTYPE GetPackType();
-    static TESPackage* CreatePackageForType(PTYPE aeType);
 };
 
 class BGSSaveLoadGame
 {
   public:
-    void ChangeFormID(unsigned int auiOldFormID, unsigned int auiNewFormID);
 };
 
 class TESSaveLoadGame
 {
   public:
-    bool GetLoading();
-    void DeleteForm(TESForm* apForm);
 };
 
 class TESDataHandler
 {
   public:
-    bool FormIDExists(unsigned int auiFormID);
 };
 
 class PlayerCharacter
@@ -250,17 +271,8 @@ class ActorPackageContext
     void SetPackageAndTarget(TESPackage* apPackage, TESObjectREFR* apTarget);
     void LoadGame(BGSLoadFormBuffer* apBuffer);
     void ApplyLoadBuffer(BGSLoadFormBuffer* apBuffer);
-    bool IsFlagSet(unsigned char aeFlag);
-    void SetFlag(unsigned char aeFlag, bool abSet);
 };
 
-extern PlayerCharacter* g_thePlayer;
-extern TESDataHandler* g_dataHandler;
-extern Calendar g_calendar;
-extern BGSSaveLoadGame* g_BGSSaveLoadGame;
-extern TESSaveLoadGame* g_TESSaveLoadGame;
-extern const char* g_packageTypeNames[];
-void LogWarning(const char* apFormat, ...);
 
 static const char s_kPackageTypeChangedWarning[] =
     "Package '%s' (%08X) changed type from %s to %s, so the actor package data was replaced";
@@ -273,74 +285,25 @@ void GuardActorPackageData::SetReferenceTarget(TESObjectREFR* apReference)
         pWarningTarget = NULL;
 }
 
-// @fnv 0x008c5ef0
-void ActorPackageContext::Clear()
-{
-    if (pPackage)
-    {
-        if (pPackage == g_thePlayer->pCurrentPackage)
-            g_thePlayer->pCurrentPackage = NULL;
-        if (!pPackage->Release() && pPackage->IsMustComplete())
-        {
-            TESPackage* pOldPackage = pPackage;
-            pPackage = NULL;
-            if (g_TESSaveLoadGame->GetLoading())
-                g_TESSaveLoadGame->DeleteForm(pOldPackage);
-            else
-                delete pOldPackage;
-        }
-        else
-        {
-            pPackage = NULL;
-        }
-    }
-    if (pData)
-    {
-        delete pData;
-        pData = NULL;
-    }
-    m_fPackageValue = -1.0F;
-    m_iPackageValue = -1;
-    iFlags = 0;
-    pTarget = NULL;
-}
-
-// @fnv 0x008c6080
-void ActorPackageContext::SetPackageAndTarget(TESPackage* apPackage, TESObjectREFR* apTarget)
-{
-    if (apPackage == pPackage)
-        return;
-    Clear();
-    if (apPackage)
-    {
-        apPackage->AddRef();
-        m_fPackageValue = g_calendar.GetGameTime();
-        pPackage = apPackage;
-        pData = ActorPackageData::CreatePackageData(apPackage->GetPackType());
-        m_iPackageValue = 0;
-        pTarget = apTarget;
-    }
-}
-
 // Reads a package form ID, package type and package data from the buffer, then reads flags and target, creating the package if needed.
 // @fnv 0x008c6730
 void ActorPackageContext::LoadGame(BGSLoadFormBuffer* apBuffer)
 {
     unsigned int iFormID = 0;
-    bool bResult = apBuffer->ReadFormIdentifier(&iFormID);
+    bool bResult = reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apBuffer))->FUN_008648e0((unsigned int *)(void *)(&iFormID));
     bool bCreated;
     if (iFormID || bResult)
     {
         char cDataType;
         bCreated = false;
-        if (g_dataHandler->FormIDExists(iFormID))
+        if (reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))->IsRenderTargetId(iFormID))
         {
             char cPackageType = 0;
-            apBuffer->ReadTypedData(&cPackageType, 1);
+            reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&cPackageType), 1);
             if (cPackageType != -1)
             {
-                pPackage = TESPackage::CreatePackageForType((PTYPE)cPackageType);
-                g_BGSSaveLoadGame->ChangeFormID(iFormID, pPackage->GetFormID());
+                pPackage = ::CreatePackageByType((*(int *)&(const ::PTYPE &)((PTYPE)cPackageType)));
+                reinterpret_cast<::FakeGame *>((::g_BGSSaveLoadGame))->SetFormIDMapping(iFormID, ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pPackage))->FUN_0084e3a0())));
                 pPackage->LoadGame(apBuffer);
             }
             else
@@ -351,10 +314,10 @@ void ActorPackageContext::LoadGame(BGSLoadFormBuffer* apBuffer)
         }
         else
         {
-            pPackage = iFormID ? dynamic_cast<TESPackage*>(TESForm::GetFormByID(iFormID)) : NULL;
+            pPackage = iFormID ? dynamic_cast<TESPackage*>(::FUN_004839c0(iFormID)) : NULL;
         }
         cDataType = -1;
-        apBuffer->ReadTypedData(&cDataType, 1);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&cDataType), 1);
         if (cDataType != -1)
         {
             pData = ActorPackageData::CreatePackageData((PTYPE)cDataType);
@@ -365,34 +328,15 @@ void ActorPackageContext::LoadGame(BGSLoadFormBuffer* apBuffer)
             delete pData;
             pData = NULL;
         }
-        apBuffer->ReadTypedData(&m_iPackageValue, 4);
-        apBuffer->ReadTypedData(&m_fPackageValue, 4);
-        apBuffer->ReadTypedData(&iFlags, 4);
-        apBuffer->ReadFormIdentifier(&pTarget);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_iPackageValue), 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_fPackageValue), 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&iFlags), 4);
+        reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apBuffer))->FUN_008648e0((unsigned int *)(void *)(&pTarget));
         if (bCreated)
-            SetFlag(0, true);
+            reinterpret_cast<::FUN_008c6920_shell *>(this)->SetFlag(0, true);
     }
     if (bResult)
         Clear();
-}
-
-// @fnv 0x008c6b20
-void ActorPackageContext::ApplyLoadBuffer(BGSLoadFormBuffer* apBuffer)
-{
-    if (IsFlagSet(0))
-        SetFlag(0, false);
-    else if (pPackage && g_dataHandler->FormIDExists(pPackage->GetFormID()))
-        pPackage->Unk_21(apBuffer);
-    if (pData && pPackage)
-    {
-        if (pPackage->GetPackType() != pData->GetPackageType())
-        {
-            LogWarning(s_kPackageTypeChangedWarning, pPackage->GetName(), pPackage->GetFormID(),
-                       g_packageTypeNames[pData->GetPackageType()], g_packageTypeNames[pPackage->GetPackType()]);
-            delete pData;
-            pData = ActorPackageData::CreatePackageData(pPackage->GetPackType());
-        }
-    }
 }
 
 #include "actorpackage_getters.h"
@@ -410,13 +354,12 @@ struct FUN_00527770_arg
     unsigned int val;
 };
 
-void __fastcall FUN_005890c0(int* self, FUN_00527770_arg a);
 
 // Calls FUN_005890c0 on self, then stores the address of DAT_01031fac into *self and returns self.
 // @fnv 0x00527770
 int* __fastcall FUN_00527770(int* self, FUN_00527770_arg a)
 {
-    FUN_005890c0(self, a);
+    reinterpret_cast<::FUN_005277d0_Class *>((self))->InitBuffer((*(unsigned int *)&(const ::FUN_00527770_arg &)(a)));
     *self = (int)&DAT_01031fac;
     return self;
 }
@@ -438,13 +381,43 @@ struct FUN_008c6030_shell : public TESPackage
 {
     unsigned int FUN_008c6030();
 };
+// @fnv 0x008c5ef0
+void ActorPackageContext::Clear()
+{
+    if (pPackage)
+    {
+        if (pPackage == ::_g_thePlayer->pCurrentPackage)
+            ::_g_thePlayer->pCurrentPackage = NULL;
+        if (!((int)(reinterpret_cast<::FUN_008c6030_shell *>((pPackage))->FUN_008c6030())) && pPackage->IsMustComplete())
+        {
+            TESPackage* pOldPackage = pPackage;
+            pPackage = NULL;
+            if (reinterpret_cast<::FUN_0047c850 *>((::g_TESSaveLoadGame))->EvaluateCondition())
+                reinterpret_cast<::FUN_0085a2e0_Class *>((::g_TESSaveLoadGame))->FUN_0085a2e0(pOldPackage);
+            else
+                delete pOldPackage;
+        }
+        else
+        {
+            pPackage = NULL;
+        }
+    }
+    if (pData)
+    {
+        delete pData;
+        pData = NULL;
+    }
+    m_fPackageValue = -1.0F;
+    m_iPackageValue = -1;
+    iFlags = 0;
+    pTarget = NULL;
+}
 
-unsigned int __cdecl FinishScriptRunLock(void*);
 
 // @fnv 0x008c6030
 unsigned int FUN_008c6030_shell::FUN_008c6030()
 {
-    unsigned int newRefCount = FinishScriptRunLock((char*)this + 0x7c);
+    unsigned int newRefCount = ((unsigned int)(::WaitForSingleObjectEx((long *)(void *)((char*)this + 0x7c))));
     return newRefCount;
 }
 
@@ -452,6 +425,22 @@ struct FUN_008c6100_shell : public TESPackage
 {
     unsigned int FUN_008c6100();
 };
+// @fnv 0x008c6080
+void ActorPackageContext::SetPackageAndTarget(TESPackage* apPackage, TESObjectREFR* apTarget)
+{
+    if (apPackage == pPackage)
+        return;
+    Clear();
+    if (apPackage)
+    {
+        reinterpret_cast<::FUN_008c6100_shell *>((apPackage))->FUN_008c6100();
+        m_fPackageValue = (*reinterpret_cast<::Calendar *>(&::g_011de7b8)).GetGameTime();
+        pPackage = apPackage;
+        pData = ActorPackageData::CreatePackageData(apPackage->GetPackType());
+        m_iPackageValue = 0;
+        pTarget = apTarget;
+    }
+}
 
 unsigned int __cdecl InitScriptRunLock(void*);
 
@@ -485,6 +474,24 @@ struct FUN_008c6b00_shell : public ActorPackageContext
 {
     bool FUN_008c6b00(int);
 };
+// @fnv 0x008c6b20
+void ActorPackageContext::ApplyLoadBuffer(BGSLoadFormBuffer* apBuffer)
+{
+    if (reinterpret_cast<::FUN_008c6b00_shell *>(this)->FUN_008c6b00(0))
+        reinterpret_cast<::FUN_008c6920_shell *>(this)->SetFlag(0, false);
+    else if (pPackage && reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))->IsRenderTargetId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pPackage))->FUN_0084e3a0()))))
+        pPackage->Unk_21(apBuffer);
+    if (pData && pPackage)
+    {
+        if (pPackage->GetPackType() != pData->GetPackageType())
+        {
+            ::FUN_00845cc0(s_kPackageTypeChangedWarning, pPackage->GetName(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pPackage))->FUN_0084e3a0())),
+                       g_packageTypeNames[pData->GetPackageType()], g_packageTypeNames[pPackage->GetPackType()]);
+            delete pData;
+            pData = ActorPackageData::CreatePackageData(pPackage->GetPackType());
+        }
+    }
+}
 
 // Returns true if the bit for aeFlag is set in the 32-bit flags field at offset 0x14 of this object.
 // @fnv 0x008c6b00
@@ -639,12 +646,10 @@ void FUN_008c65a0_shell::FUN_008c65a0(int aiFlags)
 
 struct DataHandler
 {
-    bool FormIDExists(unsigned int auiFormID);
 };
 
 struct TESObjectREFRHelper
 {
-    void SetTargetingState(bool abTargeted);
 };
 
 struct FUN_0084aa90_shell
@@ -659,10 +664,8 @@ struct FUN_009611e0_shell
 
 struct FUN_006777b0_shell
 {
-    void ComputePackageFlags(TESObjectREFR* apTarget);
 };
 
-int __cdecl FUN_0096a820(int);
 
 struct FUN_008c6970_shell : public ActorPackageContext
 {
@@ -672,36 +675,34 @@ struct FUN_008c6970_shell : public ActorPackageContext
 // @fnv 0x008c6970
 void FUN_008c6970_shell::FUN_008c6970(BGSLoadFormBuffer* apBuffer)
 {
-    if (IsFlagSet(0))
+    if (reinterpret_cast<::FUN_008c6b00_shell *>(this)->FUN_008c6b00(0))
     {
-        unsigned int uiPackageFormID = ((FUN_0084aa90_shell*)g_BGSSaveLoadGame)->FUN_0084aa90((unsigned int)pPackage);
-        pPackage = uiPackageFormID ? dynamic_cast<TESPackage*>(TESForm::GetFormByID(uiPackageFormID)) : 0;
+        unsigned int uiPackageFormID = ((FUN_0084aa90_shell*)::g_BGSSaveLoadGame)->FUN_0084aa90((unsigned int)pPackage);
+        pPackage = uiPackageFormID ? dynamic_cast<TESPackage*>(::FUN_004839c0(uiPackageFormID)) : 0;
     }
-    else if (pPackage && ((DataHandler*)g_dataHandler)->FormIDExists(pPackage->GetFormID()))
+    else if (pPackage && reinterpret_cast<::BSShaderRenderUtility *>((((DataHandler*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->IsRenderTargetId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pPackage))->FUN_0084e3a0()))))
     {
         pPackage->Unk_19(apBuffer);
     }
     if (pPackage)
     {
         if (((FUN_009611e0_shell*)pPackage)->FUN_009611e0() == -1)
-            ((FUN_006777b0_shell*)pPackage)->ComputePackageFlags(0);
-        pPackage->AddRef();
+            reinterpret_cast<::fnv_006777b0::FUN_006777b0_shell *>((((FUN_006777b0_shell*)pPackage)))->ComputePackageFlags(0);
+        reinterpret_cast<::FUN_008c6100_shell *>((pPackage))->FUN_008c6100();
         int iCount = FUN_0096a820(((FUN_009611e0_shell*)pPackage)->FUN_009611e0());
         if (m_iPackageValue >= iCount)
             m_iPackageValue = iCount - 1;
     }
     if (pData)
         pData->InitLoadGame(apBuffer);
-    pTarget = pTarget ? dynamic_cast<TESObjectREFR*>(TESForm::GetFormByID((unsigned int)pTarget)) : 0;
+    pTarget = pTarget ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)pTarget)) : 0;
     if (pTarget)
-        ((TESObjectREFRHelper*)pTarget)->SetTargetingState(true);
+        reinterpret_cast<::fnv_00564db0::FUN_00564db0_cls *>((((TESObjectREFRHelper*)pTarget)))->FUN_00564db0(true);
 }
 
 struct NvGate
 {
-    bool Check(unsigned int aiValue);
 };
-extern NvGate* g_pNvGate;
 struct NvInner
 {
     virtual void v0();
@@ -788,8 +789,6 @@ struct NvInner
     virtual void v81();
     virtual void v82();
     virtual unsigned short v83();
-    unsigned int GetA();
-    bool Check();
 };
 struct NvOuter
 {
@@ -803,12 +802,12 @@ unsigned short NvOuter::ComputeTotal(int aiFlags)
     total += 4;
     if (m_pInner != 0)
     {
-        unsigned int uiValue = m_pInner->GetA();
+        unsigned int uiValue = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pInner))->FUN_0084e3a0()));
         if ((aiFlags & 0) != 0)
         {
-            if (g_pNvGate->Check(uiValue))
+            if (reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::NvGate * *>(&::g_dataHandler))))->IsRenderTargetId(uiValue))
             {
-                bool b = m_pInner->Check();
+                bool b = ((bool)(reinterpret_cast<struct ::FUN_0041ca90 *>((m_pInner))->get()));
                 total += 1;
                 if ((aiFlags & 0) == 0)
                 {
@@ -828,8 +827,6 @@ class BGSSaveFormBuffer
     virtual void Unk_00();
     virtual void Unk_01();
     virtual int GetVersion();
-    void SerializeFormData(void* apForm, int aiFlags);
-    void SaveData(void* apData, unsigned int auSize, int aiFlags);
 };
 
 struct TESPackageEx : public TESPackage
@@ -857,32 +854,31 @@ struct ActorPackageSaver : public ActorPackageContext
 void ActorPackageSaver::SavePackage(BGSSaveFormBuffer* apBuffer)
 {
     int iVersion = apBuffer->GetVersion();
-    apBuffer->SerializeFormData(pPackage, 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(pPackage), 0);
     if (pPackage)
     {
-        if (g_dataHandler->FormIDExists(pPackage->GetFormID()))
+        if (reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))->IsRenderTargetId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pPackage))->FUN_0084e3a0()))))
         {
             char cType = pPackage->GetPackType();
             if (!((TESPackageEx*)pPackage)->IsDataValidForVersion(iVersion))
                 cType = -1;
-            apBuffer->SaveData(&cType, 1, 0);
+            reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&cType, 1, 0);
             if (cType != -1)
                 pPackage->Unk_15(apBuffer);
         }
         char cDataType = pData ? pData->GetPackageType() : -1;
-        apBuffer->SaveData(&cDataType, 1, 0);
+        reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&cDataType, 1, 0);
         if (cDataType != -1)
             pData->SaveGame(apBuffer);
-        apBuffer->SaveData(&m_iPackageValue, 4, 0);
-        apBuffer->SaveData(&m_fPackageValue, 4, 0);
-        apBuffer->SaveData(&iFlags, 4, 0);
-        apBuffer->SerializeFormData(pTarget, 0);
+        reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&m_iPackageValue, 4, 0);
+        reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&m_fPackageValue, 4, 0);
+        reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&iFlags, 4, 0);
+        reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(pTarget), 0);
     }
 }
 
 class TESForm;
 class TESPackage;
-TESForm* __cdecl FUN_004839c0(unsigned int id);
 struct Manager
 {
     virtual void slot00();
@@ -972,20 +968,14 @@ struct Manager
     virtual void slot54();
     virtual void slot55();
     virtual void dispatch();
-    unsigned FUN_0084e3a0();
-    int FUN_009611e0();
 };
 struct Handler
 {
-    bool FUN_00469860(unsigned);
 };
-extern Handler* DAT_011c3f2c;
-int __cdecl FUN_0096a820(int);
 struct Owner
 {
     Manager* manager;
     int unk04, unk08, interval;
-    void FUN_008c6080(TESPackage*, int);
     void FUN_008c64d0(unsigned, unsigned);
 };
 // @fnv 0x008c64d0
@@ -998,17 +988,17 @@ void Owner::FUN_008c64d0(unsigned a, unsigned auiUnused)
             if (a & 0)
             {
                 Manager* pManager = manager;
-                FUN_008c6080(dynamic_cast<TESPackage*>(FUN_004839c0((unsigned)pManager)), 0);
+                reinterpret_cast<::ActorPackageContext *>(this)->SetPackageAndTarget(dynamic_cast<TESPackage*>(FUN_004839c0((unsigned)pManager)), (::TESObjectREFR *)(0));
             }
             else
             {
-                if (DAT_011c3f2c->FUN_00469860(manager->FUN_0084e3a0()))
+                if (reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::Handler * *>(&::g_dataHandler))))->IsRenderTargetId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((manager))->FUN_0084e3a0()))))
                     manager->dispatch();
             }
         }
         if (manager)
         {
-            int elapsed = FUN_0096a820(manager->FUN_009611e0());
+            int elapsed = FUN_0096a820(reinterpret_cast<::FUN_009611e0_shell *>((manager))->FUN_009611e0());
             if (interval >= elapsed)
                 interval = elapsed - 1;
         }
@@ -1017,10 +1007,7 @@ void Owner::FUN_008c64d0(unsigned a, unsigned auiUnused)
 
 struct PackageSaveWriter
 {
-    void FUN_00857a10(void* data, unsigned int size);
-    void FUN_008579b0(void* data, unsigned int size);
 };
-extern PackageSaveWriter* DAT_011de45c;
 
 struct PackageVirtuals : public TESPackage
 {
@@ -1044,26 +1031,25 @@ void ActorPackageLegacySave::FUN_008c6250(unsigned int auiFlags)
     unsigned int auiFormId = 0;
     if (pPackage != NULL)
     {
-        auiFormId = pPackage->GetFormID();
+        auiFormId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pPackage))->FUN_0084e3a0()));
     }
-    DAT_011de45c->FUN_00857a10(&auiFormId, 4);
+    reinterpret_cast<::C857A10Buffer *>(((*reinterpret_cast<::PackageSaveWriter * *>(&::g_TESSaveLoadGame))))->FUN_00857a10((const unsigned int *)(void *)(&auiFormId), 4);
     if (auiFormId != 0)
     {
-        if ((auiFlags & 0) != 0 && g_dataHandler->FormIDExists(auiFormId))
+        if ((auiFlags & 0) != 0 && reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))->IsRenderTargetId(auiFormId))
         {
             unsigned char ucType = pPackage->GetPackType();
-            DAT_011de45c->FUN_008579b0(&ucType, 1);
+            reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::PackageSaveWriter * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&ucType, 1);
             if ((auiFlags & 0) == 0)
             {
                 static_cast<PackageVirtuals*>(pPackage)->Unk_54();
             }
         }
-        DAT_011de45c->FUN_008579b0(&m_iPackageValue, 4);
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::PackageSaveWriter * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&m_iPackageValue, 4);
     }
-    DAT_011de45c->FUN_008579b0(&m_fPackageValue, 4);
+    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::PackageSaveWriter * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&m_fPackageValue, 4);
 }
 
-extern "C" void __cdecl FUN_005b5e40(const char* apFormat, ...);
 
 struct LoadedPackage : public TESPackage
 {
@@ -1076,47 +1062,39 @@ struct LoadedPackage : public TESPackage
     virtual void Unk_53();
     virtual void Unk_54();
     virtual void InitAfterLoad();
-    int GetLoadIndex();
-    void SetTargetRef(TESObjectREFR* apTarget);
 };
 
 struct SaveLoadStub
 {
-    bool ReadFormID(unsigned int* apFormID, int aiSize);
-    void ReadData(void* apData, unsigned int auiSize);
-    void SkipData(unsigned int auiSize);
-    LoadedPackage* GetCreatedPackage(unsigned int auiFormID, unsigned char aucType);
 };
 
-TESForm* LookupFormByID(unsigned int auiFormID);
 
 struct ActorPackageLoad : public ActorPackageContext
 {
     void FUN_008c6320(int aiFlags, int aiUnused);
-    void SetProcIndex(int aiIndex);
 };
 
 // @fnv 0x008c6320
 void ActorPackageLoad::FUN_008c6320(int aiFlags, int aiUnused)
 {
     unsigned int auiFormId;
-    bool bRead = ((SaveLoadStub*)g_TESSaveLoadGame)->ReadFormID(&auiFormId, 4);
+    bool bRead = reinterpret_cast<::FUN_00857aa0 *>((((SaveLoadStub*)::g_TESSaveLoadGame)))->ValidateFormIDArray(&auiFormId, 4);
     Clear();
     bool bFailed = false;
     if (auiFormId)
     {
-        if ((aiFlags & 0) && g_dataHandler->FormIDExists(auiFormId))
+        if ((aiFlags & 0) && reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))->IsRenderTargetId(auiFormId))
         {
             unsigned char ucType;
-            ((SaveLoadStub*)g_TESSaveLoadGame)->ReadData(&ucType, 1);
+            reinterpret_cast<::FUN_008579e0_shell *>((((SaveLoadStub*)::g_TESSaveLoadGame)))->FUN_008579e0(&ucType, 1);
             if (!(aiFlags & 0))
             {
-                LoadedPackage* pNew = ((SaveLoadStub*)g_TESSaveLoadGame)->GetCreatedPackage(auiFormId, ucType);
+                LoadedPackage* pNew = ((::LoadedPackage *)(reinterpret_cast<::FUN_0085a290_t *>((((SaveLoadStub*)::g_TESSaveLoadGame)))->FUN_0085a240(auiFormId, ucType)));
                 pNew->InitAfterLoad();
                 SetPackageAndTarget(pNew, 0);
-                if (pNew->GetLoadIndex() == -1)
+                if (reinterpret_cast<::FUN_009611e0_shell *>((pNew))->FUN_009611e0() == -1)
                 {
-                    pNew->SetTargetRef(pTarget);
+                    reinterpret_cast<::fnv_006777b0::FUN_006777b0_shell *>((pNew))->ComputePackageFlags(pTarget);
                 }
             }
             else
@@ -1126,35 +1104,35 @@ void ActorPackageLoad::FUN_008c6320(int aiFlags, int aiUnused)
         }
         else
         {
-            SetPackageAndTarget(dynamic_cast<TESPackage*>(LookupFormByID(auiFormId)), 0);
+            SetPackageAndTarget(dynamic_cast<TESPackage*>(::FUN_004839c0(auiFormId)), 0);
             if (pPackage)
             {
-                ((LoadedPackage*)pPackage)->SetTargetRef(pTarget);
+                reinterpret_cast<::fnv_006777b0::FUN_006777b0_shell *>((((LoadedPackage*)pPackage)))->ComputePackageFlags(pTarget);
             }
             else
             {
                 bFailed = true;
             }
         }
-        ((SaveLoadStub*)g_TESSaveLoadGame)->ReadData(&m_iPackageValue, 4);
+        reinterpret_cast<::FUN_008579e0_shell *>((((SaveLoadStub*)::g_TESSaveLoadGame)))->FUN_008579e0(&m_iPackageValue, 4);
     }
     else if (bRead)
     {
-        ((SaveLoadStub*)g_TESSaveLoadGame)->SkipData(4);
-        SetProcIndex(0);
+        reinterpret_cast<::FUN_00857bd0 *>((((SaveLoadStub*)::g_TESSaveLoadGame)))->Init(4);
+        reinterpret_cast<::FUN_0041fd00_shell *>(this)->FUN_0041fd00(0);
         bFailed = true;
     }
     if (bFailed)
     {
         if (auiFormId)
         {
-            FUN_005b5e40("AI: Couldn't find package %08X while loading and will try to choose a new one.", auiFormId);
+            ::FUN_005b5e40();
         }
         else
         {
-            FUN_005b5e40("AI: Couldn't find a plugin package while loading and will try to choose a new one.");
+            ::FUN_005b5e40();
         }
-        SetProcIndex(-1);
+        reinterpret_cast<::FUN_0041fd00_shell *>(this)->FUN_0041fd00(-1);
     }
-    ((SaveLoadStub*)g_TESSaveLoadGame)->ReadData(&m_fPackageValue, 4);
+    reinterpret_cast<::FUN_008579e0_shell *>((((SaveLoadStub*)::g_TESSaveLoadGame)))->FUN_008579e0(&m_fPackageValue, 4);
 }

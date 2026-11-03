@@ -1,5 +1,41 @@
 // fallout/misc/saveload/bgssaveloadheader.cpp: free functions (4 functions)
 
+#include <new>
+#include "fnv/decl/FUN_00424940_shell.h"
+#include "fnv/decl/FUN_004381b0_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_00846330_shell.h"
+#include "fnv/decl/FUN_00846490_t.h"
+#include "fnv/decl/FUN_0084ff90_shell.h"
+#include "fnv/decl/FUN_00851bf0_shell.h"
+#include "fnv/decl/FUN_00864740_shell.h"
+#include "fnv/decl/FUN_00865c40_shell.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_00865e70_shell.h"
+#include "fnv/decl/MgrStandIn851.h"
+#include "fnv/decl/S_0064dac0.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/bhkCapsuleShape.h"
+#include "fnv/decl/fnv_0043b1b0__FUN_0043b1b0_shell.h"
+#include "fnv/decl/fnv_008646f0__FUN_008646f0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_0087f9f0__FUN_0087f9f0_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_0047e000.h"
+#include "fnv/symbols_004dc000.h"
+#include "fnv/symbols_004f3000.h"
+#include "fnv/symbols_00846000.h"
+#include "fnv/symbols_0084d000.h"
+#include "fnv/symbols_00878000.h"
+#include "fnv/symbols_00a5f000.h"
+#include "fnv/symbols_011aa000.h"
+#include "fnv/symbols_011c1000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011de000.h"
 #include "bgssaveloadheader_decls.h"
 
 struct SaveContentDescriptor
@@ -25,7 +61,7 @@ SaveLoadFile* FUN_00850030_shell::FUN_00850030(char* apFileName, bool abWrite, i
     SaveLoadFile* pfile;
     char pfullFileName[260];
 
-    GetFullPath(apFileName, pfullFileName, abWrite);
+    reinterpret_cast<::FUN_0084ff90_shell *>(this)->BuildWeaponPath(apFileName, pfullFileName, abWrite);
 
     if (aeBufferType == 0)
         ibufferSize = 0x10000;
@@ -40,9 +76,9 @@ SaveLoadFile* FUN_00850030_shell::FUN_00850030(char* apFileName, bool abWrite, i
             DeleteFileA(pfullFileName);
     }
 
-    pfile = (SaveLoadFile*)FUN_00846520(pfullFileName, abWrite, ibufferSize);
+    pfile = (SaveLoadFile*)((void *)(::FUN_00846520(pfullFileName, abWrite, ibufferSize)));
     ((BGSLoadGameBuffer*)pfile)->FUN_008464f0((SaveLoadFile*)apFileName);
-    ((BGSLoadGameBuffer*)pfile)->FUN_008463c0();
+    ::FUN_008463c0((::UnknownOwner008463c0 *)(((BGSLoadGameBuffer*)pfile)));
 
     return pfile;
 }
@@ -75,39 +111,37 @@ int __cdecl ReadSaveHeader(SaveLoadFile* apFile)
         return -1;
 
     LGB loadBuffer;
-    loadBuffer.ReadAndVerifySize(apFile);
+    reinterpret_cast<::FUN_00864740_shell *>(&(loadBuffer))->ReadAndVerifySize(apFile);
     apLoadGameBuffer = &loadBuffer;
     iversion = 0;
-    apLoadGameBuffer->ReadDataBlock(&iversion, 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&iversion), 4);
     if (iversion == 0x30)
     {
-        char* pdata4 = apLoadGameBuffer->GetCombinedValue();
+        char* pdata4 = ((char *)(::GetCombinedValue((int)(apLoadGameBuffer))));
         if (pdata4[4] == '|')
         {
         }
         else
         {
             char lname[64];
-            apLoadGameBuffer->ReadDataBlock(lname, 0x40);
+            reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(lname), 0x40);
         }
     }
     else
     {
         char lname[64];
-        apLoadGameBuffer->ReadDataBlock(lname, 0x40);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(lname), 0x40);
     }
     unsigned int iscreenshotWidth2 = 0;
     unsigned int iscreenshotHeight = 0;
-    apLoadGameBuffer->ReadDataBlock(&iscreenshotWidth2, 4);
-    apLoadGameBuffer->ReadDataBlock(&iscreenshotHeight, 4);
-    apFile->AdvancePosition(iscreenshotWidth2 * iscreenshotHeight * 3);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&iscreenshotWidth2), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&iscreenshotHeight), 4);
+    reinterpret_cast<::FUN_00846490_t *>((apFile))->AdvancePosition(iscreenshotWidth2 * iscreenshotHeight * 3);
     return iversion;
 }
 
 struct HeaderFile
 {
-    void WriteToFile(const void*, unsigned int);
-    const char* FUN_006815c0();
 };
 struct HeaderBuffer
 {
@@ -115,95 +149,74 @@ struct HeaderBuffer
     unsigned int unk04, unk08, unk0C, unk10;
     HeaderBuffer();
     ~HeaderBuffer();
-    void FUN_00865e50(const void*, unsigned int, bool);
-    void FUN_00865e70(const char*, bool);
-    void FUN_00865c40(HeaderFile*);
 };
 struct HeaderManager
 {
-    unsigned int FUN_0066d730();
-    bool FUN_00424940();
-    unsigned int FUN_0044ddc0();
-    void CopyPlayerName(char*);
-    void FormatPlayTime(char*, bool);
 };
 struct HeaderPlayer
 {
-    const char* FUN_0055d520();
-    unsigned short FUN_0087f9f0();
 };
 struct HeaderSetting
 {
-    const char* FUN_00403df0();
     unsigned char* FUN_00408d60();
 };
 struct HeaderPixels
 {
     virtual ~HeaderPixels();
-    void* FUN_0064dac0(int, int);
 };
-extern HeaderManager* DAT_011de134;
-extern HeaderPlayer* DAT_011dea3c;
-extern HeaderSetting DAT_011c3cb4, DAT_011de2fc, DAT_011c3f74;
-void* FUN_00403d30(void*, int, unsigned int);
 void* FUN_00ec61c0(void*, int, unsigned int);
 int FUN_00406d50(char*, unsigned int, const char*);
-int FUN_00406d30(char*, unsigned int, const char*);
-int FUN_004dc200();
-int FUN_004dc1f0();
-HeaderPixels* FUN_00878f60(int*, int*, const char*);
-const char* FUN_0047e0e0(HeaderPlayer*);
 // @fnv 0x0084d4b0
 void FUN_0084d4b0(HeaderFile* file)
 {
-    file->WriteToFile(DAT_011a2224, strlen(DAT_011a2224));
+    reinterpret_cast<::FUN_00846330_shell *>((file))->WriteToFile(DAT_011a2224, strlen(DAT_011a2224));
     HeaderBuffer buffer_;
     HeaderBuffer* stream = &buffer_;
-    unsigned int version = DAT_011de134->FUN_0066d730();
-    stream->FUN_00865e50(&version, 4, false);
+    unsigned int version = reinterpret_cast<::bhkCapsuleShape *>(((*reinterpret_cast<::HeaderManager * *>(&::DAT_011de134))))->FUN_0066d730();
+    reinterpret_cast<::FUN_00865e50_shell *>((stream))->FUN_00865e50((void *)(&version), 4, false);
     char playerName3[64];
-    FUN_00403d30(playerName3, 0, 64);
-    FUN_00406d50(playerName3, 64, DAT_011c3cb4.FUN_00403df0());
-    stream->FUN_00865e50(playerName3, 64, false);
-    bool wide6 = (double)FUN_004dc200() / FUN_004dc1f0() < 0.75;
+    ::FUN_00403d30(playerName3, 0, 64);
+    FUN_00406d50(playerName3, 64, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::HeaderSetting *>(&::g_011c3cb4))))->GetMenuTitle())));
+    reinterpret_cast<::FUN_00865e50_shell *>((stream))->FUN_00865e50((void *)(playerName3), 64, false);
+    bool wide6 = (double)FUN_004dc200() / ((int)(::FUN_004dc1f0())) < 0.75;
     int height5 = wide6 ? 512 : 432;
     int width2 = wide6 ? 512 : 432;
     char screenshotPath_2[260];
     screenshotPath_2[0] = 0;
     FUN_00ec61c0(screenshotPath_2 + 1, 0, 259);
-    if (*DAT_011de2fc.FUN_00408d60())
+    if (*(*reinterpret_cast<::HeaderSetting *>(&::g_011de2fc)).FUN_00408d60())
     {
-        FUN_00406d30(screenshotPath_2, 260, DAT_011c3f74.FUN_00403df0());
-        FUN_00406d50(screenshotPath_2, 260, file->FUN_006815c0());
+        ::TaskQueueInterface::CopyStringToBuffer(screenshotPath_2, 260, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::HeaderSetting *>(&::g_011c3f74))))->GetMenuTitle())));
+        FUN_00406d50(screenshotPath_2, 260, ((const char *)(new ((void *)(file)) ::Vec3())));
         FUN_00406d50(screenshotPath_2, 260, ".bmp");
     }
     HeaderPixels* pixels = 0;
-    if (!DAT_011de134->FUN_00424940())
-        pixels = FUN_00878f60(&height5, &width2, screenshotPath_2);
+    if (!((bool)(reinterpret_cast<::FUN_00424940_shell *>(((*reinterpret_cast<::HeaderManager * *>(&::DAT_011de134))))->FUN_00424940())))
+        pixels = ((::HeaderPixels *)(::FUN_00878f60(&height5, &width2, screenshotPath_2)));
     else
     {
-        float aspect3 = (double)FUN_004dc200() / FUN_004dc1f0();
+        float aspect3 = (double)FUN_004dc200() / ((int)(::FUN_004dc1f0()));
         width2 = (int)(width2 * aspect3);
     }
-    stream->FUN_00865e50(&height5, 4, false);
-    stream->FUN_00865e50(&width2, 4, false);
-    unsigned int numberVal = DAT_011de134->FUN_0044ddc0();
-    stream->FUN_00865e50(&numberVal, 4, false);
-    stream->FUN_00865e70(DAT_011dea3c->FUN_0055d520(), false);
-    stream->FUN_00865e70(FUN_0047e0e0(DAT_011dea3c), false);
-    unsigned int level2 = DAT_011dea3c->FUN_0087f9f0();
-    stream->FUN_00865e50(&level2, 4, false);
+    reinterpret_cast<::FUN_00865e50_shell *>((stream))->FUN_00865e50((void *)(&height5), 4, false);
+    reinterpret_cast<::FUN_00865e50_shell *>((stream))->FUN_00865e50((void *)(&width2), 4, false);
+    unsigned int numberVal = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::HeaderManager * *>(&::DAT_011de134))))->GetName()));
+    reinterpret_cast<::FUN_00865e50_shell *>((stream))->FUN_00865e50((void *)(&numberVal), 4, false);
+    reinterpret_cast<::FUN_00865e70_shell *>((stream))->FUN_00865e70(reinterpret_cast<::FUN_0055d520_shell *>(((*reinterpret_cast<::HeaderPlayer * *>(&::_g_thePlayer))))->FUN_0055d520(), false);
+    reinterpret_cast<::FUN_00865e70_shell *>((stream))->FUN_00865e70(::FUN_0047e0e0((::Actor *)((*reinterpret_cast<::HeaderPlayer * *>(&::_g_thePlayer)))), false);
+    unsigned int level2 = reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<::HeaderPlayer * *>(&::_g_thePlayer))))->FUN_0087f9f0();
+    reinterpret_cast<::FUN_00865e50_shell *>((stream))->FUN_00865e50((void *)(&level2), 4, false);
     char location9[260];
-    DAT_011de134->CopyPlayerName(location9);
-    stream->FUN_00865e70(location9, false);
+    reinterpret_cast<::MgrStandIn851 *>(((*reinterpret_cast<::HeaderManager * *>(&::DAT_011de134))))->CopyPlayerName(location9);
+    reinterpret_cast<::FUN_00865e70_shell *>((stream))->FUN_00865e70(location9, false);
     char time[260];
-    DAT_011de134->FormatPlayTime(time, true);
-    stream->FUN_00865e70(time, false);
-    buffer_.FUN_00865c40(file);
-    if (!DAT_011de134->FUN_00424940())
-        file->WriteToFile(pixels->FUN_0064dac0(0, 0), height5 * width2 * 3);
+    reinterpret_cast<::FUN_00851bf0_shell *>(((*reinterpret_cast<::HeaderManager * *>(&::DAT_011de134))))->FormatPlayTime(time, true);
+    reinterpret_cast<::FUN_00865e70_shell *>((stream))->FUN_00865e70(time, false);
+    reinterpret_cast<::FUN_00865c40_shell *>(&(buffer_))->FUN_00865c40((::FUN_00846330_shell *)(file));
+    if (!((bool)(reinterpret_cast<::FUN_00424940_shell *>(((*reinterpret_cast<::HeaderManager * *>(&::DAT_011de134))))->FUN_00424940())))
+        reinterpret_cast<::FUN_00846330_shell *>((file))->WriteToFile(((void *)(reinterpret_cast<::S_0064dac0 *>((pixels))->FUN_0064dac0(0, 0))), height5 * width2 * 3);
     else
-        file->WriteToFile(0, height5 * width2 * 3);
+        reinterpret_cast<::FUN_00846330_shell *>((file))->WriteToFile(0, height5 * width2 * 3);
     delete pixels;
 }
 
@@ -229,14 +242,12 @@ class NiPixelFormat
     int unk40;
 };
 
-extern const NiPixelFormat kScreenshotPixelFormat;
 
 class ScreenshotPixelData : public NiMemObject
 {
   public:
     ScreenshotPixelData(unsigned int width, unsigned int height, const NiPixelFormat& format, unsigned int mipmapLevels,
                         unsigned int faces);
-    void* GetPixels(int mipmap, int face);
     int unk00;
     int unk04;
     int unk08;
@@ -284,8 +295,6 @@ struct ScreenshotName
     const char* pString;
 };
 
-NiTexture* __cdecl CreateScreenshotTexture(ScreenshotPixelData* pixelData, const char* name,
-                                           ScreenshotTexFormat* format);
 
 // Seeks to offset in file, reads width*height*3 bytes into a new ScreenshotPixelData, and creates a texture named BGSSaveLoadHeader_Screenshot.
 // @fnv 0x0084dda0
@@ -293,12 +302,12 @@ NiTexture* __cdecl LoadScreenshotTexture(SaveLoadFile* file, unsigned int offset
                                          unsigned int height)
 {
     file->SetFilePosition(offset);
-    NiPixelFormat format = kScreenshotPixelFormat;
+    NiPixelFormat format = ::DAT_011aa2e8;
     ScreenshotPixelData* pixelData2 = new ScreenshotPixelData(width, height, format, 1, 1);
-    file->Read(pixelData2->GetPixels(0, 0), width * height * 3);
+    file->Read(((void *)(reinterpret_cast<::S_0064dac0 *>((pixelData2))->FUN_0064dac0(0, 0))), width * height * 3);
     ScreenshotTexFormat aTexFormat;
     aTexFormat.iPixelLayout = 2;
     aTexFormat.iMipMapped = 0;
     aTexFormat.iAlphaFormat = 0;
-    return CreateScreenshotTexture(pixelData2, ScreenshotName("BGSSaveLoadHeader_Screenshot"), &aTexFormat);
+    return ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(pixelData2), (void *)(ScreenshotName("BGSSaveLoadHeader_Screenshot")), (const ::fnv_00a5ff10::OwnerTriple *)(::ScreenshotTexFormat *)(&aTexFormat))));
 }

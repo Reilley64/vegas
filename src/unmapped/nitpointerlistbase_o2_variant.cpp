@@ -4,18 +4,19 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_004b0000.h"
+#include "fnv/symbols_011f4000.h"
 struct A5E9C0RTTI
 {
     const char* m_pcName;
     const A5E9C0RTTI* m_pBaseRTTI;
 };
 
-extern A5E9C0RTTI g_A5E9C0RTTI;
 
 // @fnv 0x00a5e9c0
 const A5E9C0RTTI* __cdecl FUN_00a5e9c0()
 {
-    return &g_A5E9C0RTTI;
+    return &(*reinterpret_cast<::A5E9C0RTTI *>(&::g_011f4428));
 }
 
 struct AlphaKey
@@ -82,13 +83,12 @@ struct A5E930RefObject
     }
 };
 
-extern "C" void __cdecl FUN_004b0220(void* p);
 
 struct A5E930Buffer
 {
     virtual ~A5E930Buffer()
     {
-        FUN_004b0220(m_pBase);
+        ::FUN_004b0220((int)(m_pBase));
     }
 
     void* m_pBase;

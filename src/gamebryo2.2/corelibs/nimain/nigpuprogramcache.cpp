@@ -2,8 +2,32 @@
 // src/gamebryo2.2/corelibs/nimain/nigpuprogramcache.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nigpuprogramcache.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern void* DAT_11ac230;
 // @fnv 0x00aa1ab0
+#include "fnv/decl/AA1AC0Class.h"
+#include "fnv/decl/C00be0ad0.h"
+#include "fnv/decl/DBBCBC0Target.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a62660_cls.h"
+#include "fnv/decl/FUN_00ee8ac0_cls.h"
+#include "fnv/decl/FUN_00eea4f0_cls.h"
+#include "fnv/decl/FUN_00eea500_Holder.h"
+#include "fnv/decl/FnvCpu_FUN_00eea520_CpuObject.h"
+#include "fnv/decl/FnvCpu_FUN_00eea530_CpuObject.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiGlobalStringTable.h"
+#include "fnv/decl/fnv_00a2f170__S00a2f170_TmpSet.h"
+#include "fnv/symbols_00a57000.h"
+#include "fnv/symbols_00a63000.h"
+#include "fnv/symbols_00a64000.h"
+#include "fnv/symbols_00a8d000.h"
+#include "fnv/symbols_00aa2000.h"
+#include "fnv/symbols_00e98000.h"
+#include "fnv/symbols_00ee9000.h"
+#include "fnv/symbols_00eea000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_01101000.h"
+#include "fnv/symbols_011ac000.h"
+#include "fnv/symbols_011f6000.h"
 void __cdecl FUN_00aa1ab0()
 {
     ((void (*)())DAT_11ac230)();
@@ -29,10 +53,7 @@ struct NiTFixedStringMap_NiAVObject___
 void _NiFreeAlias(void*);
 struct MemoryManager
 {
-    void _DeallocateAlias(void*);
 };
-extern MemoryManager g_memoryManager;
-extern int DAT_01101378;
 extern int DAT_01101388;
 struct SomeClass
 {
@@ -47,7 +68,7 @@ void* SomeClass::FUN_00ee90b0(unsigned int uiFlags)
     ((NiTFixedStringMap_NiAVObject___*)this)->RemoveAll();
     _NiFreeAlias(*(void**)((char*)this + 8));
     if (uiFlags & 1)
-        g_memoryManager._DeallocateAlias(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
     return this;
 }
 
@@ -91,13 +112,10 @@ bool __thiscall NiGPUProgramCache::FUN_00ee8e70()
 }  // namespace fnv_00ee8e70
 
 namespace fnv_00ee9070 {
-extern void* DAT_01101378;
 void __cdecl NiFreeAlias(void*);
 struct MemoryManager
 {
-    void* Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 struct NiTFixedStringMap_NiAVObject___
 {
     void RemoveAll();
@@ -111,18 +129,17 @@ struct FUN_00ee9070_shell : NiTFixedStringMap_NiAVObject___
 // @fnv 0x00ee9070
 FUN_00ee9070_shell* __thiscall FUN_00ee9070_shell::FUN_00ee9070(bool b)
 {
-    *(void**)this = &DAT_01101378;
+    *(void**)this = &(*reinterpret_cast<void * *>(&::DAT_01101378));
     RemoveAll();
     NiFreeAlias(*(void**)((char*)this + 8));
     if (b & 1)
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00ee9070::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(this);
     return this;
 }
 }  // namespace fnv_00ee9070
 
 struct FUN_00a5e3a0_Helper
 {
-    void* FUN_00aa3e40(unsigned int);
 };
 struct NiStandardAllocator
 {
@@ -131,7 +148,7 @@ struct NiStandardAllocator
 };
 void* __cdecl NiStandardAllocator::operator new(unsigned int n)
 {
-    return ((FUN_00a5e3a0_Helper*)&g_memoryManager)->FUN_00aa3e40(n);
+    return reinterpret_cast<::MemoryManagerStandIn *>((((FUN_00a5e3a0_Helper*)&g_memoryManager)))->FUN_00aa3e40(n);
 }
 struct FUN_00aa2200
 {
@@ -149,7 +166,6 @@ FUN_00aa2200::FUN_00aa2200()
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern char* _EmptyFS;
 
 class NiFixedString
 {
@@ -160,14 +176,16 @@ class NiFixedString
         if (m_kHandle != s.m_kHandle)
         {
             char* h = s.m_kHandle;
-            if (h != _EmptyFS)
+            if (h != ::DAT_0109b220)
                 InterlockedIncrement((long*)(h - 8));
-            if (m_kHandle != _EmptyFS)
+            if (m_kHandle != ::DAT_0109b220)
                 InterlockedDecrement((long*)(m_kHandle - 8));
             m_kHandle = h;
         }
         return *this;
     }
+public:
+    ::NiFixedString &operator=(const char *);
 };
 
 class NiRefObject
@@ -185,6 +203,8 @@ class NiRefObject
         if (InterlockedDecrement(&m_uiRefCount) == 0)
             DeleteThis();
     }
+public:
+    static unsigned int ms_lObjectCount;
 };
 
 class NiObjPtr
@@ -247,9 +267,6 @@ void FixedStringMap::GetNextEntry(MapItem*& pos, NiFixedString& key, NiObjPtr& v
     pos = 0;
 }
 
-bool __cdecl FUN_00aa2cc0(const char*) throw();
-bool __cdecl FUN_00aa2d10(char*, unsigned int) throw();
-int __cdecl BuildAbsolutePath(char*, unsigned int, const char*, const char*) throw();
 
 struct S_00ee8af0_String : NiFixedString
 {
@@ -257,19 +274,19 @@ struct S_00ee8af0_String : NiFixedString
     {}
     S_00ee8af0_String(const S_00ee8af0_String& s) throw()
     {
-        if (s.m_kHandle != _EmptyFS)
+        if (s.m_kHandle != ::DAT_0109b220)
             InterlockedIncrement((long*)(s.m_kHandle - 8));
         m_kHandle = s.m_kHandle;
     }
     S_00ee8af0_String(const NiFixedString& s) throw()
     {
-        if (s.m_kHandle != _EmptyFS)
+        if (s.m_kHandle != ::DAT_0109b220)
             InterlockedIncrement((long*)(s.m_kHandle - 8));
         m_kHandle = s.m_kHandle;
     }
     ~S_00ee8af0_String() throw()
     {
-        if (m_kHandle != _EmptyFS)
+        if (m_kHandle != ::DAT_0109b220)
             InterlockedDecrement((long*)(m_kHandle - 8));
     }
     using NiFixedString::operator=;
@@ -328,16 +345,16 @@ bool S_00ee8af0::SetString(const NiFixedString& akString) throw()
 {
     S_00ee8af0_String kOld = this->m_kString;
 
-    if (akString.m_kHandle != _EmptyFS && FUN_00aa2cc0(akString.m_kHandle))
+    if (akString.m_kHandle != ::DAT_0109b220 && FUN_00aa2cc0(akString.m_kHandle))
     {
         char acDir[260];
-        if (FUN_00aa2d10(acDir, 260))
+        if (((bool)(::FUN_00aa2d10((int)(acDir), 260))))
         {
             const char* pcHandle = akString.m_kHandle;
             char acFullPath[260];
-            if (BuildAbsolutePath(acFullPath, 260, pcHandle, acDir))
+            if (((int)(::BuildAbsolutePath(acFullPath, 260, pcHandle, acDir))))
             {
-                this->m_kString = acFullPath;
+                reinterpret_cast<::NiFixedString *>((void *)&(const ::S_00ee8af0_String &)(this->m_kString))->operator=(acFullPath);
             }
             else
             {
@@ -420,32 +437,30 @@ class FixedPathMap : public FixedStringMap
 };
 
 // helpers of the game (declared only)
-void __cdecl BuildAbsolutePath(char* buffer, unsigned int size, char* a, char* b);
-char* __cdecl FUN_00a5b690(char* str);
 
 // Rebuilds m_20 from m_18 and m_1c via BuildAbsolutePath, or clears it and m_39 when either handle is empty; calls onStringChanged if the handle changed.
 // @fnv 0x00ee8c10
 void FixedPathMap::UpdatePathString()
 {
-    if (m_1c.m_kHandle != _EmptyFS && m_18.m_kHandle != _EmptyFS)
+    if (m_1c.m_kHandle != ::DAT_0109b220 && m_18.m_kHandle != ::DAT_0109b220)
     {
-        if (m_20.m_kHandle != _EmptyFS)
+        if (m_20.m_kHandle != ::DAT_0109b220)
             InterlockedIncrement((long*)(m_20.m_kHandle - 8));
 
         char buffer[0x104];
         char* old = m_20.m_kHandle;
-        BuildAbsolutePath(buffer, 0x104, m_18.m_kHandle, m_1c.m_kHandle);
+        ::BuildAbsolutePath(buffer, 0x104, m_18.m_kHandle, m_1c.m_kHandle);
 
         char* rel = m_20.m_kHandle;
         if (rel != buffer)
         {
-            m_20.m_kHandle = FUN_00a5b690(buffer);
-            if (rel != _EmptyFS)
+            m_20.m_kHandle = ::NiGlobalStringTable::AddString(buffer);
+            if (rel != ::DAT_0109b220)
                 InterlockedDecrement((long*)(rel - 8));
         }
         if (old != m_20.m_kHandle)
             onStringChanged();
-        if (old != _EmptyFS)
+        if (old != ::DAT_0109b220)
             InterlockedDecrement((long*)(old - 8));
     }
     else
@@ -453,8 +468,8 @@ void FixedPathMap::UpdatePathString()
         char* cur = m_20.m_kHandle;
         if (cur != 0)
         {
-            m_20.m_kHandle = FUN_00a5b690(0);
-            if (cur != _EmptyFS)
+            m_20.m_kHandle = ::NiGlobalStringTable::AddString(0);
+            if (cur != ::DAT_0109b220)
                 InterlockedDecrement((long*)(cur - 8));
         }
         m_39 = 0;
@@ -462,7 +477,6 @@ void FixedPathMap::UpdatePathString()
 }
 
 namespace fnv_00ee8e10 {
-char* __cdecl FUN_00a5b690(const char* s);
 struct S_00ee8e10_Arr
 {
     char** data;
@@ -480,8 +494,8 @@ void S_00ee8e10_Arr::FUN_00ee8e10()
         char* h = e;
         if (h)
         {
-            e = FUN_00a5b690(0);
-            if (h != _EmptyFS)
+            e = ::NiGlobalStringTable::AddString(0);
+            if (h != ::DAT_0109b220)
                 InterlockedDecrement((long*)(h - 8));
         }
     }
@@ -534,7 +548,6 @@ void FUN_00ee8fe0_cls::RemoveAt(unsigned int uiIndex)
     }
 }
 
-extern void* DAT_11ac230;
 void __cdecl FUN_00aa1ab0();
 
 void __cdecl AdvancePosition(S_00a8d8b0* a, void* b, unsigned int c);
@@ -578,15 +591,6 @@ struct S_00ee97e0_Stream
 
 struct S_00ee97e0_Elem
 {
-    int* FUN_00a62660();
-    int* FUN_00eea4f0();
-    int* FUN_00eea500();
-    int* FUN_00eea510();
-    int* FUN_00eea520();
-    int FUN_00be0ad0();
-    int FUN_00aa1ac0();
-    int FUN_00dbbc00();
-    int FUN_00eea530();
 };
 
 struct S_00ee97e0_Obj
@@ -658,14 +662,13 @@ struct S_00ee97e0_Cls
     int unk30;
     int unk34;
     bool WriteToStream(S_00ee97e0_Stream* s, S_00ee97e0_Obj* o, int* v);
-    void FUN_00ee9230(S_00ee97e0_Stream* s, int v);
 };
 
 // @fnv 0x00ee97e0
 bool S_00ee97e0_Cls::WriteToStream(S_00ee97e0_Stream* pStream, S_00ee97e0_Obj* pObj, int* piValue)
 {
     S_00ee97e0_Write(pStream, &unk34);
-    FUN_00ee9230(pStream, *piValue);
+    ::FUN_00ee9230((::S_00ee9230_Stream *)this, (const char *)(pStream));
     int f8 = pObj->unk08;
     if (!vf90(pStream, f8))
         return false;
@@ -674,18 +677,18 @@ bool S_00ee97e0_Cls::WriteToStream(S_00ee97e0_Stream* pStream, S_00ee97e0_Obj* p
     for (unsigned int i = 0; i < count; i++)
     {
         S_00ee97e0_Elem* e = pObj->unk0c[i];
-        FUN_00ee9230(pStream, *e->FUN_00a62660());
-        FUN_00ee9230(pStream, *e->FUN_00eea4f0());
-        FUN_00ee9230(pStream, *e->FUN_00eea500());
-        FUN_00ee9230(pStream, *e->FUN_00eea510());
-        FUN_00ee9230(pStream, *e->FUN_00eea520());
-        int a = e->FUN_00be0ad0();
+        ::FUN_00ee9230((::S_00ee9230_Stream *)this, (const char *)(pStream));
+        ::FUN_00ee9230((::S_00ee9230_Stream *)this, (const char *)(pStream));
+        ::FUN_00ee9230((::S_00ee9230_Stream *)this, (const char *)(pStream));
+        ::FUN_00ee9230((::S_00ee9230_Stream *)this, (const char *)(pStream));
+        ::FUN_00ee9230((::S_00ee9230_Stream *)this, (const char *)(pStream));
+        int a = reinterpret_cast<::C00be0ad0 *>((e))->FUN_00be0ad0();
         S_00ee97e0_Write(pStream, &a);
-        int b = e->FUN_00aa1ac0();
+        int b = ((int)(reinterpret_cast<::AA1AC0Class *>((e))->FUN_00aa1ac0()));
         S_00ee97e0_Write(pStream, &b);
-        int c = e->FUN_00dbbc00();
+        int c = reinterpret_cast<::DBBCBC0Target *>((e))->FUN_00dbbc00();
         S_00ee97e0_Write(pStream, &c);
-        int iValD = e->FUN_00eea530();
+        int iValD = reinterpret_cast<::FnvCpu_FUN_00eea530_CpuObject *>((e))->FUN_00eea530();
         S_00ee97e0_Write(pStream, &iValD);
     }
     return true;
@@ -703,12 +706,11 @@ struct RecordPair
     unsigned int m_i08;
 };
 
-extern "C" FUN_00a5e3a0_Helper DAT_011f6238;
 
 // @fnv 0x00ee99b0
 RecordPair* __cdecl CreateRecordPair()
 {
-    RecordPair* pRecord = (RecordPair*)DAT_011f6238.FUN_00aa3e40(0xc);
+    RecordPair* pRecord = (RecordPair*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::FUN_00a5e3a0_Helper *>(&::g_memoryManager))))->FUN_00aa3e40(0xc);
     if (pRecord)
     {
         pRecord->m_i08 = 0;
@@ -721,7 +723,6 @@ RecordPair* __cdecl CreateRecordPair()
     return pRecord;
 }
 
-char* __cdecl FUN_00a5b690(const char*);
 
 struct FixedStringDtor
 {
@@ -731,8 +732,8 @@ struct FixedStringDtor
         if (m_kHandle)
         {
             char* pcOld = m_kHandle;
-            m_kHandle = FUN_00a5b690(pcString);
-            if (pcOld != _EmptyFS)
+            m_kHandle = ::NiGlobalStringTable::AddString(pcString);
+            if (pcOld != ::DAT_0109b220)
             {
                 InterlockedDecrement((long*)(pcOld - 8));
             }
@@ -741,7 +742,7 @@ struct FixedStringDtor
     }
     __forceinline ~FixedStringDtor() throw()
     {
-        if (m_kHandle != _EmptyFS)
+        if (m_kHandle != ::DAT_0109b220)
         {
             InterlockedDecrement((long*)(m_kHandle - 8));
         }
@@ -780,7 +781,7 @@ struct ItemWithDtor
 
     void operator delete(void* p)
     {
-        g_memoryManager._DeallocateAlias(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
     }
 };
 
@@ -793,10 +794,7 @@ void __stdcall ClearAndDeleteItem(ItemWithDtor* pItem)
     delete pItem;
 }
 
-extern long DAT_011f4400;
-extern char* DAT_0109b220;
 
-void __cdecl FreeTable(void* p);
 void __cdecl FreeBlock(void* p);
 
 struct ReleaseHelper
@@ -805,7 +803,6 @@ struct ReleaseHelper
 };
 struct MapClearHelper
 {
-    void FUN_00ee8e10();
 };
 
 class SpawnedRoot
@@ -813,7 +810,7 @@ class SpawnedRoot
   public:
     virtual ~SpawnedRoot() throw()
     {
-        InterlockedDecrement(&DAT_011f4400);
+        InterlockedDecrement(&(*reinterpret_cast<long *>(&::NiRefObject::ms_lObjectCount)));
     }
 };
 
@@ -856,8 +853,8 @@ class FUN_00ee9a60_cls : public SpawnedRoot
 // @fnv 0x00ee9a60
 FUN_00ee9a60_cls::~FUN_00ee9a60_cls() throw()
 {
-    reinterpret_cast<MapClearHelper*>(&m_mapHead)->FUN_00ee8e10();
-    FreeTable(reinterpret_cast<void*>(m_mapHead));
+    reinterpret_cast<::fnv_00ee8e10::S_00ee8e10_Arr *>((reinterpret_cast<MapClearHelper*>(&m_mapHead)))->FUN_00ee8e10();
+    ::FUN_00a644a0((char **)(void *)(reinterpret_cast<void*>(m_mapHead)));
     if (m_s3.m_kHandle != DAT_0109b220)
         InterlockedDecrement((long*)(m_s3.m_kHandle - 8));
     if (m_s2.m_kHandle != DAT_0109b220)
@@ -894,7 +891,6 @@ struct Ee9b10_Map
 
 struct Ee9b10_Visitor
 {
-    void FUN_00e8ea60(Ee9b10_Item** pItem);
 };
 
 struct Ee9b10_Value : public NiRefObject
@@ -913,7 +909,6 @@ struct Ee9b10_Owner
     void* LookupAndVisit(const char* name, Ee9b10_Visitor* visitor);
 };
 
-void* __cdecl FUN_00a5b690(const char* str);
 
 // Hash the key handle, walk the bucket chain and publish the entry that
 // matches; the old value is released and the new one referenced, exactly like
@@ -953,9 +948,9 @@ void* Ee9b10_Owner::LookupAndVisit(const char* name, Ee9b10_Visitor* visitor)
 {
     char* h;
     if (!name)
-        h = _EmptyFS;
+        h = ::DAT_0109b220;
     else
-        h = (char*)FUN_00a5b690(name);
+        h = (char*)((void *)(::NiGlobalStringTable::AddString(name)));
     NiFixedString key;
     key.m_kHandle = h;
     Ee9b10_Value* val = 0;
@@ -963,17 +958,17 @@ void* Ee9b10_Owner::LookupAndVisit(const char* name, Ee9b10_Visitor* visitor)
     {
         for (unsigned int i = 0; i < val->m_uiItemCount; i++)
         {
-            visitor->FUN_00e8ea60(&val->m_pEntryData[i]);
+            reinterpret_cast<::fnv_00a2f170::S00a2f170_TmpSet *>((visitor))->FUN_00e8ea60((*(const ::fnv_00a2f170::S00a2f170_Ptr< ::fnv_00a2f170::S00a2f170_Seq> *)(&val->m_pEntryData[i])));
         }
         void* pResult = val->m_pFirst;
         val->DecRefCount();
-        if (h != _EmptyFS)
+        if (h != ::DAT_0109b220)
             InterlockedDecrement((long*)(h - 8));
         return pResult;
     }
     if (val)
         val->DecRefCount();
-    if (h != _EmptyFS)
+    if (h != ::DAT_0109b220)
         InterlockedDecrement((long*)(h - 8));
     return 0;
 }
@@ -981,11 +976,8 @@ void* Ee9b10_Owner::LookupAndVisit(const char* name, Ee9b10_Visitor* visitor)
 
 namespace fnv_00ee9bf0 {
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern long DAT_011f4400;
-extern unsigned int DAT_0109b220;
 void* __cdecl FUN_00aa1070(unsigned int);
 void* __cdecl FUN_00ec61c0(void*, unsigned int, unsigned int);
-void* __cdecl FUN_00a63ae0(unsigned int);
 
 struct S_00ee9bf0_Base
 {
@@ -994,7 +986,7 @@ struct S_00ee9bf0_Base
     S_00ee9bf0_Base()
     {
         unk04 = 0;
-        InterlockedIncrement(&DAT_011f4400);
+        InterlockedIncrement(&(*reinterpret_cast<long *>(&::NiRefObject::ms_lObjectCount)));
     }
 };
 struct S_00ee9bf0_B
@@ -1023,11 +1015,11 @@ struct S_00ee9bf0_C : S_00ee9bf0_B
     virtual void vf0();
     __forceinline S_00ee9bf0_C()
     {
-        unk18 = DAT_0109b220;
-        unk1c = DAT_0109b220;
-        unk20 = DAT_0109b220;
-        unk24 = DAT_0109b220;
-        unk28 = FUN_00a63ae0(0xa);
+        unk18 = (*reinterpret_cast<unsigned int *>(&::DAT_0109b220));
+        unk1c = (*reinterpret_cast<unsigned int *>(&::DAT_0109b220));
+        unk20 = (*reinterpret_cast<unsigned int *>(&::DAT_0109b220));
+        unk24 = (*reinterpret_cast<unsigned int *>(&::DAT_0109b220));
+        unk28 = ::FUN_00a63ae0(0xa);
         unk30 = 0;
         unk2c = 0xa;
     }
@@ -1081,10 +1073,9 @@ struct KeyObj
 
 struct KeyEntry
 {
-    char** FUN_00eea510();
     __forceinline bool CompareKey(const char* key)
     {
-        char* hk = *FUN_00eea510();
+        char* hk = *((char **)(::FUN_00eea510((void *)this)));
         if (hk == key)
             return true;
         if (!key || !hk)
@@ -1098,7 +1089,6 @@ struct FUN_00ee90f0_cls
     KeyEntry** m_ppEntries;
     unsigned int unk04;
     unsigned int m_uiItemCount;
-    void RemoveAt(int index);
 };
 
 // Marks entries whose keys appear in a1, then removes every unmarked entry from a2 by index in reverse order and returns true.
@@ -1130,7 +1120,7 @@ bool __stdcall RemoveMissingKeys(KeyObj* apKeyObj, FUN_00ee90f0_cls* apEntryList
         {
             if (flags[iEntryIndex] == 0)
             {
-                apEntryList->RemoveAt(iEntryIndex);
+                reinterpret_cast<::FUN_00ee8fe0_cls *>((apEntryList))->RemoveAt(iEntryIndex);
             }
         } while (--iEntryIndex >= 0);
     }
@@ -1404,10 +1394,7 @@ extern bool DAT_011c2fdd;
 bool __cdecl FUN_00aa1ab0(const char* pcName);
 bool __cdecl FUN_00aa1bb0(const char* pcName);
 NiFileE93* __cdecl FUN_00aa1a20(const char* pcName, int eMode, unsigned int uiBufferSize);
-void __cdecl AdvancePosition(NiFileE93* pkFile, char* pcBuffer, unsigned int uiLen);
 int __cdecl FUN_00aa1360(const char* pc1, const char* pc2);
-void __cdecl InvokeAndAccumulate(NiFileE93* pkFile, bool* pbValue);
-void __cdecl FUN_00a575b0(NiFileE93* pkFile, unsigned int* puiValue);
 
 class NiFixedStringE93
 {
@@ -1458,7 +1445,6 @@ class NiGPUProgramCacheE93 : public FixedStringMap
     virtual void vf88();
     virtual bool FiveIntegerLoadRecord(NiFileE93* pkFile, bool* pbUpdated);
 
-    bool FUN_00ee92d0(NiFileE93* pkFile, char* pcBuffer, unsigned int uiBufferSize);
     bool LoadCacheFile();
 
     void* m_pkEntryMap;
@@ -1494,7 +1480,7 @@ bool NiGPUProgramCacheE93::LoadCacheFile()
         if (pkFile->IsGood() == true)
         {
             const char* pcHeader = "NiGPUProgram Cache File";
-            AdvancePosition(pkFile, acBuffer, strlen(pcHeader) + 1);
+            ::AdvancePosition((::S_00a8d8b0 *)(pkFile), acBuffer, strlen(pcHeader) + 1);
             if (FUN_00aa1360(acBuffer, pcHeader) != 0)
             {
                 delete pkFile;
@@ -1502,9 +1488,9 @@ bool NiGPUProgramCacheE93::LoadCacheFile()
             }
 
             bool bLittleEndian;
-            InvokeAndAccumulate(pkFile, &bLittleEndian);
+            ::InvokeAndAccumulate((::FUN_00a57580_cls *)(pkFile), (int)(&bLittleEndian));
             unsigned int uiVersion;
-            FUN_00a575b0(pkFile, &uiVersion);
+            ::FUN_00a575b0((::FUN_00a575b0_Object *)(pkFile), (int)(&uiVersion));
             if (uiVersion < 5)
             {
                 delete pkFile;
@@ -1513,19 +1499,19 @@ bool NiGPUProgramCacheE93::LoadCacheFile()
                 return false;
             }
 
-            FUN_00ee92d0(pkFile, acBuffer, 0x200);
+            ::FUN_00ee92d0((::S_00a8d8b0 *)this, (unsigned int)(pkFile), (unsigned int)(acBuffer));
             if (FUN_00aa1360(acBuffer, GetShaderType()) != 0)
             {
                 delete pkFile;
                 return false;
             }
-            FUN_00ee92d0(pkFile, acBuffer, 0x200);
+            ::FUN_00ee92d0((::S_00a8d8b0 *)this, (unsigned int)(pkFile), (unsigned int)(acBuffer));
             if (FUN_00aa1360(acBuffer, GetRendererName()) != 0)
             {
                 delete pkFile;
                 return false;
             }
-            FUN_00ee92d0(pkFile, acBuffer, 0x200);
+            ::FUN_00ee92d0((::S_00a8d8b0 *)this, (unsigned int)(pkFile), (unsigned int)(acBuffer));
             if (FUN_00aa1360(acBuffer, GetPlatformName()) != 0)
             {
                 delete pkFile;
@@ -1557,9 +1543,7 @@ bool NiGPUProgramCacheE93::LoadCacheFile()
 }
 
 extern "C" size_t strlen(const char*);
-extern char* _EmptyFS;
 bool __cdecl FUN_00aa1bb0(const char* h);
-void __cdecl FUN_00e984d0(void* s, const char* name, unsigned int len);
 
 struct StreamObj : public NiFile
 {
@@ -1585,7 +1569,6 @@ template <class T> inline void S00ee9620_SaveBinary(StreamObj* s, const T& v)
 
 struct OwnerMap : public FixedStringMap
 {
-    MapItem* FUN_00ee8ac0();
     void GetNextEntry(MapItem*& pos, NiFixedString& key, NiObjPtr& val);
 };
 
@@ -1620,7 +1603,7 @@ struct PathString
     }
     bool Exists() const
     {
-        return handle != _EmptyFS;
+        return handle != ::DAT_0109b220;
     }
 };
 
@@ -1669,7 +1652,6 @@ class GpuCacheWriter
     PathString m_1c;
     PathString m_20;
 
-    void FUN_00ee9230(StreamObj* s, unsigned int v);
     __forceinline bool CanSave()
     {
         return m_1c.Exists() && (((bool(__cdecl*)(const char*))FUN_00aa1ab0)(m_1c) || FUN_00aa1bb0(m_1c));
@@ -1688,28 +1670,28 @@ bool GpuCacheWriter::FUN_00ee9620()
     if (s && s->IsGood() == true)
     {
         const char* str = "NiGPUProgram Cache File";
-        FUN_00e984d0(s, str, strlen(str) + 1);
+        ::FUN_00e984d0((::FUN_00e984d0_Struct *)(s), (int)(str), strlen(str) + 1);
 
         unsigned char bLittleEndian = 1;
         S00ee9620_SaveBinary(s, bLittleEndian);
         unsigned int version = 5;
         S00ee9620_SaveBinary(s, version);
 
-        FUN_00ee9230(s, v19());
-        FUN_00ee9230(s, v18());
-        FUN_00ee9230(s, *v15());
+        ::FUN_00ee9230((::S_00ee9230_Stream *)this, (const char *)(s));
+        ::FUN_00ee9230((::S_00ee9230_Stream *)this, (const char *)(s));
+        ::FUN_00ee9230((::S_00ee9230_Stream *)this, (const char *)(s));
 
-        MapItem* pItem = m_map.FUN_00ee8ac0();
+        MapItem* pItem = ((::MapItem *)(reinterpret_cast<::FUN_00ee8ac0_cls *>(&(m_map))->FUN_00ee8ac0()));
         while (pItem != 0)
         {
             NiObjPtr val;
             NiFixedString key;
-            key.m_kHandle = _EmptyFS;
+            key.m_kHandle = ::DAT_0109b220;
             val.m_pObject = 0;
-            m_map.GetNextEntry(pItem, key, val);
+            reinterpret_cast<::FixedStringMap *>(&(m_map))->GetNextEntry(pItem, key, val);
             NiRefObject* object = val.m_pObject;
             v22(s, object, &key);
-            if (key.m_kHandle != _EmptyFS)
+            if (key.m_kHandle != ::DAT_0109b220)
             {
                 InterlockedDecrement((long*)(key.m_kHandle - 8));
             }

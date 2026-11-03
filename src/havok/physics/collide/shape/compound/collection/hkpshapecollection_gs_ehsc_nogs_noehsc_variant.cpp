@@ -5,6 +5,14 @@
 
 // src/havok/physics/collide/shape/compound/collection/hkpshapecollection.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/hkpshapecollection.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FunctionContext.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00d21000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010c6000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpShapeCollection.h"
 class hkPackedNiTriStripsShape;
 class hkNiTriStripsShape;
@@ -15,9 +23,6 @@ class hkpShapeCollection_L
     virtual ~hkpShapeCollection_L();
     virtual int FUN_00d213d0();
 };
-extern char const* const DAT_01268910;
-void __cdecl FUN_00c90360(char const* const* first, char const* const* second);
-void __cdecl FUN_00d213e0(char const* const* first, char const* const* ignored);
 void __stdcall FUN_00d213f0(int, int);
 void __stdcall FUN_00d21400(int a1);
 struct Allocator
@@ -34,8 +39,6 @@ struct MemorySystem
     unsigned int field0c;
     Allocator* allocator;
 };
-extern char DAT_010c6fb0;
-extern char DAT_0102e388;
 struct Holder
 {
     void* vtable;
@@ -44,13 +47,11 @@ struct Holder
     unsigned int userData;
     unsigned int shapeType;
     void* shapeVtable;
-    MemorySystem* __thiscall FUN_00c85750();
     Holder* __thiscall Destroy(unsigned char flags);
 };
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
-extern "C" unsigned long DAT_0126835c;
 struct hkBoolRet
 {
     char m_cBooleanValue;
@@ -135,11 +136,8 @@ class hkpRayShapeCollectionFilter
     virtual hkBoolRet IsCollisionEnabled(const ShapeRayCastQuery& aInput, const FUN_00d21450_Class& aCollection,
                                          const hkpShapeContainer& bContainer, hkpShapeKey aKey) const = 0;
 };
-extern unsigned long DAT_0126835c;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern float DAT_0104e148;
 extern const char str_010ce228[];
-extern const char str_010c41f8[];
 struct S00d216e0_Rec
 {
     const char* name;
@@ -160,7 +158,7 @@ struct S00d216e0_Ctx
     S00d216e0_Rec* end;
     static S00d216e0_Ctx& GetMonitorStream()
     {
-        return *(S00d216e0_Ctx*)TlsGetValue(DAT_0126835c);
+        return *(S00d216e0_Ctx*)TlsGetValue(::DAT_0126835c);
     }
 };
 __forceinline void S00d216e0_timer(const char* name)
@@ -241,7 +239,6 @@ class ShapeAabb : public hkpShape
     virtual void getAabb(const hkTransform&, float, Aabb&) const;
 };
 extern char DAT_010ce208;
-extern char DAT_010c41f8;
 class CollectionAabb : public FUN_00d21450_Class
 {
   public:
@@ -250,7 +247,7 @@ class CollectionAabb : public FUN_00d21450_Class
 // @fnv 0x00d215d0
 void CollectionAabb::FUN_00d215d0(const hkTransform& transform, float tolerance, Aabb& out) const
 {
-    StringCursor* stream = (StringCursor*)TlsGetValue(DAT_0126835c);
+    StringCursor* stream = (StringCursor*)TlsGetValue(::DAT_0126835c);
     char* event = stream->m_pTileTemplate;
     if (event < stream->m_kRayEnd)
     {
@@ -273,11 +270,11 @@ void CollectionAabb::FUN_00d215d0(const hkTransform& transform, float tolerance,
         out.maximum = _mm_max_ps(out.maximum, child.maximum);
         key = m_container.getNextShapeKey(key);
     }
-    stream = (StringCursor*)TlsGetValue(DAT_0126835c);
+    stream = (StringCursor*)TlsGetValue(::DAT_0126835c);
     event = stream->m_pTileTemplate;
     if (event < stream->m_kRayEnd)
     {
-        *(const char**)event = &DAT_010c41f8;
+        *(const char**)event = &(*reinterpret_cast<char *>(&::DAT_010c41f8));
         _ReadWriteBarrier();
         volatile unsigned int stamp = (unsigned int)__rdtsc();
         *(unsigned int*)(event + 4) = stamp;

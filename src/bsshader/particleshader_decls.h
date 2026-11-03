@@ -3,17 +3,17 @@
 #define PARTICLESHADER_DECLS_H
 
 
+#include "fnv/symbols_00e76000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01200000.h"
 extern "C"
 {
-    extern unsigned int fnv_particle_shader_particle_count;
-    extern int fnv_particle_shader_renderer_level;
 }
 
 class NiRenderer;
 class NiD3DVertexDeclaration
 {
   public:
-    static NiD3DVertexDeclaration* Create(NiRenderer*, unsigned int, unsigned int);
     virtual void vfn_0();
     virtual void vfn_4();
     virtual void vfn_8();
@@ -62,7 +62,6 @@ class NiD3DVertexDeclaration
     virtual void vfn_b0();
     virtual void vfn_b4();
 };
-extern NiRenderer* DAT_011f9508;
 class BSShader
 {
   public:

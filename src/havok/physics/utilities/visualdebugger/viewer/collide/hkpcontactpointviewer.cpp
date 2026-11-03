@@ -2,6 +2,13 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpcontactpointviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpcontactpointviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00ddcc60.h"
+#include "fnv/decl/FUN_00de1d20.h"
+#include "fnv/decl/SearchArray.h"
+#include "fnv/decl/fnv_00c93920__hkpWorldXc93920.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_01268000.h"
 struct Prefix32
 {
     int unk00;
@@ -15,7 +22,6 @@ struct Prefix32
 };
 struct Context
 {
-    void FUN_00c93920(void* value);
 };
 struct Secondary
 {
@@ -37,7 +43,7 @@ void Secondary::FUN_00de2950(Context* context)
         value = &child;
     else
         value = 0;
-    context->FUN_00c93920(value);
+    reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((context))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(value));
 }
 
 struct S_00de2980_B2
@@ -46,7 +52,6 @@ struct S_00de2980_B2
 };
 struct S_00de2980_World
 {
-    int ClearValue(S_00de2980_B2* p);
 };
 struct S_00de2980_B0
 {
@@ -72,7 +77,7 @@ struct S_00de2980_D : S_00de2980_B0, S_00de2980_B1, S_00de2980_B2
 // @fnv 0x00de2980
 void S_00de2980_D::FUN_00de2980(S_00de2980_World* pWorld)
 {
-    pWorld->ClearValue(this);
+    reinterpret_cast<::SearchArray *>((pWorld))->ClearValue((int)(this));
 }
 
 struct DE29B0PartA
@@ -179,7 +184,6 @@ struct hkpPhysicsContextWorldListener
 };
 struct hkpWorldViewerBase : hkBaseObject, hkProcess, hkpPhysicsContextWorldListener
 {
-    void FUN_00ddcc60() throw();
 };
 struct hkpWorldPostSimulationListener
 {
@@ -190,7 +194,7 @@ struct hkpWorldPostSimulationListener
 };
 __forceinline hkpWorldPostSimulationListener::~hkpWorldPostSimulationListener() throw()
 {
-    ((hkpWorldViewerBase*)((char*)this - 0x28))->FUN_00ddcc60();
+    reinterpret_cast<struct ::FUN_00ddcc60 *>((((hkpWorldViewerBase*)((char*)this - 0x28))))->FUN_00ddcc60::~FUN_00ddcc60();
 }
 struct hkpContactPointViewer : hkpWorldViewerBase, hkpWorldPostSimulationListener
 {
@@ -200,7 +204,7 @@ struct hkpContactPointViewer : hkpWorldViewerBase, hkpWorldPostSimulationListene
 __forceinline hkpContactPointViewer::~hkpContactPointViewer() throw()
 {
     for (int i = 0; this->contacts && i < this->contacts->size; ++i)
-        this->hkpPhysicsContextWorldListener::FUN_00de2980(this->contacts->data[i]);
+        reinterpret_cast<::S_00de2980_D *>((this))->FUN_00de2980((::S_00de2980_World *)(this->contacts->data[i]));
 }
 // @fnv 0x00de2a40
 void hkpContactPointViewer::DestroyContactPointViewer() throw()
@@ -286,7 +290,6 @@ extern "C"
     __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 }
 
-extern unsigned long DAT_0126835c;
 
 struct StringCursor
 {
@@ -329,41 +332,7 @@ struct S_00de2fa0_Listener
 struct S_00de2fa0 : S_00de2fa0_Base0, S_00de2fa0_Listener
 {
     virtual void PostSimulationCallback(S_00de2fa0_Arg* a);
-    void FUN_00de2da0(void* elem);
 };
-
-// Writes profiler markers to the TLS stream, then iterates the array returned by vfn_0c and calls FUN_00de2da0 on each element.
-// @fnv 0x00de2fa0
-void S_00de2fa0::PostSimulationCallback(S_00de2fa0_Arg* apArg)
-{
-    StringCursor* stream = (StringCursor*)TlsGetValue(DAT_0126835c);
-    char* p = stream->m_ptr;
-    if (p < stream->m_kRayEnd)
-    {
-        *(const char**)p = "TthkpActiveContactPointViewer::postSimulationCallback";
-        _ReadWriteBarrier();
-        unsigned uiTimestamp = (unsigned)__rdtsc();
-        *(unsigned*)(p + 4) = *(volatile unsigned*)&uiTimestamp;
-        stream->m_ptr = p + 12;
-    }
-
-    S_00de2fa0_Array* arr = vfn_0c(apArg);
-    for (int i = 0; i < arr->m_iElementCount; ++i)
-    {
-        FUN_00de2da0(arr->m_data[i]);
-    }
-
-    StringCursor* stream2 = (StringCursor*)TlsGetValue(DAT_0126835c);
-    char* pCursor2 = stream2->m_ptr;
-    if (pCursor2 < stream2->m_kRayEnd)
-    {
-        *(const char**)pCursor2 = "Et";
-        _ReadWriteBarrier();
-        unsigned uiTimestamp2 = (unsigned)__rdtsc();
-        *(unsigned*)(pCursor2 + 4) = *(volatile unsigned*)&uiTimestamp2;
-        stream2->m_ptr = pCursor2 + 12;
-    }
-}
 
 struct HkArrayRaw
 {
@@ -399,11 +368,9 @@ struct HkDisplayConvexObj
     unsigned short m_u04;
     unsigned short unk06;
 
-    HkDisplayConvexObj* FUN_00de1d20(HkArrayPairBlock* a1);
 };
 
 HkAllocHolder* __cdecl FUN_00c85750() throw();
-void __cdecl ResizeAudioStream(HkAllocator* a1, HkArrayRaw* a2, int a3);
 
 struct FUN_00de4340_cls
 {
@@ -441,12 +408,12 @@ HkDisplayConvexObj* FUN_00de4340_cls::GetOrCreateConvex(HkArrayRaw* a1)
         h = FUN_00c85750();
         pMemory = h->m_pAllocator->Alloc(0x60);
         ((HkDisplayConvexObj*)pMemory)->m_u04 = 0x60;
-        m_pConvex = ((HkDisplayConvexObj*)pMemory)->FUN_00de1d20(pPairBlock);
+        m_pConvex = ((::HkDisplayConvexObj *)(new ((void *)(((HkDisplayConvexObj*)pMemory))) ::FUN_00de1d20((int)(pPairBlock))));
 
         h = FUN_00c85750();
         if (a1->m_iArrayLength == (int)(a1->m_uCapFlags & 0x3fffffffu))
         {
-            ResizeAudioStream(h->m_pAllocator, a1, 4);
+            ::ResizeAudioStream((::AudioAllocator *)(h->m_pAllocator), (::AudioStream *)(a1), 4);
         }
         int iIndex = a1->m_iArrayLength;
         HkDisplayConvexObj** data = (HkDisplayConvexObj**)a1->m_pData;
@@ -463,7 +430,6 @@ extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 
 extern "C" unsigned __int64 __rdtsc();
 
-extern unsigned long DAT_0126835c;
 
 struct ProfEntry
 {
@@ -765,6 +731,38 @@ struct Node
 
     void FUN_00de2da0(Cont* c);
 };
+// Writes profiler markers to the TLS stream, then iterates the array returned by vfn_0c and calls FUN_00de2da0 on each element.
+// @fnv 0x00de2fa0
+void S_00de2fa0::PostSimulationCallback(S_00de2fa0_Arg* apArg)
+{
+    StringCursor* stream = (StringCursor*)TlsGetValue(DAT_0126835c);
+    char* p = stream->m_ptr;
+    if (p < stream->m_kRayEnd)
+    {
+        *(const char**)p = "TthkpActiveContactPointViewer::postSimulationCallback";
+        _ReadWriteBarrier();
+        unsigned uiTimestamp = (unsigned)__rdtsc();
+        *(unsigned*)(p + 4) = *(volatile unsigned*)&uiTimestamp;
+        stream->m_ptr = p + 12;
+    }
+
+    S_00de2fa0_Array* arr = vfn_0c(apArg);
+    for (int i = 0; i < arr->m_iElementCount; ++i)
+    {
+        reinterpret_cast<::Node *>(this)->FUN_00de2da0((::Cont *)(arr->m_data[i]));
+    }
+
+    StringCursor* stream2 = (StringCursor*)TlsGetValue(DAT_0126835c);
+    char* pCursor2 = stream2->m_ptr;
+    if (pCursor2 < stream2->m_kRayEnd)
+    {
+        *(const char**)pCursor2 = "Et";
+        _ReadWriteBarrier();
+        unsigned uiTimestamp2 = (unsigned)__rdtsc();
+        *(unsigned*)(pCursor2 + 4) = *(volatile unsigned*)&uiTimestamp2;
+        stream2->m_ptr = pCursor2 + 12;
+    }
+}
 
 // Iterates contact records in c, and for each unskipped object whose float value is at least unk2c, draws a point via FUN_00de2aa0.
 // @fnv 0x00de2da0

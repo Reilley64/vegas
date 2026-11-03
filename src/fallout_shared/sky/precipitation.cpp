@@ -1,7 +1,22 @@
 // fallout_shared/sky/precipitation.cpp: Precipitation, PrecipS (6 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_00453470_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/QueueHelper.h"
+#include "fnv/decl/S_FUN_0045bc00.h"
+#include "fnv/decl/fnv_00447080__FUN_00447080_shell.h"
+#include "fnv/decl/fnv_00637890__ParticleMgr.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00461000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_01202000.h"
 #include "precipitation_decls.h"
-int FUN_00404dc0(const char*, const char*);
 // @fnv 0x00636c40
 void Precipitation::Load(const char* path)
 {
@@ -14,7 +29,7 @@ void Precipitation::Load(const char* path)
     }
     if (path && *path)
     {
-        NiNode* model = g_modelLoader->LoadFile(path, ENUM_LOD_MULT_Default, true, false, false, false);
+        NiNode* model = reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>((g_modelLoader))->FUN_00447080((char *)(path), (*(int *)&(const ::ENUM_LOD_MULT &)(ENUM_LOD_MULT_Default)), true, false, false, false);
         if (model)
         {
             bool bIsSnow = FUN_00404dc0(path, DAT_0104ed9c) == 0;
@@ -22,19 +37,19 @@ void Precipitation::Load(const char* path)
             model->UpdateDownwardPass(kUpdateData, 0);
             m_pPrecipitationNode = reinterpret_cast<NiNode*>(new NiSortAdjustNode(0));
             fEmissionRate = 0.0f;
-            for (unsigned int index = 0; index < model->FUN_00453470(); ++index)
+            for (unsigned int index = 0; index < ((unsigned int)(reinterpret_cast<::FUN_00453470_shell *>((model))->FUN_00453470())); ++index)
             {
-                NiAVObject* m_pShaderGeometry = model->FUN_0043b4a0(index)->vfn_000c();
+                NiAVObject* m_pShaderGeometry = model->GetAt(index)->vfn_000c();
                 SkyShaderProperty* pShaderProperty =
-                    m_pShaderGeometry ? FUN_00653270(&DAT_012024e0, m_pShaderGeometry->FUN_0045bc00(false)) : 0;
+                    m_pShaderGeometry ? ((::SkyShaderProperty *)(::FUN_00653270(&(*reinterpret_cast<const ::NiRTTI *>(&::g_012024e0)), (::NiObject *)(::NiProperty *)(((::NiProperty *)(reinterpret_cast<::S_FUN_0045bc00 *>((m_pShaderGeometry))->FUN_0045bc00(false))))))) : 0;
                 if (!pShaderProperty)
                     continue;
-                NiAVObject* precipParticle = CreateParticleShape(pShaderProperty, pParent->FUN_00461130(bIsSnow));
+                NiAVObject* precipParticle = ((::NiAVObject *)(reinterpret_cast<::fnv_00637890::ParticleMgr *>(this)->CreateParticleShape((::fnv_00637890::Obj *)(pShaderProperty), (int)(((::NiAVObject *)(::FUN_00461130((int)(pParent))))), {})));
                 if (precipParticle)
                     static_cast<NiNode*>(m_pPrecipitationNode)->AddObject(precipParticle, true);
             }
             pParent->AddObject(m_pPrecipitationNode, true);
-            static_cast<NiNode*>(m_pPrecipitationNode)->UpdateSceneObject();
+            reinterpret_cast<::FUN_00a5a040_Class *>((static_cast<NiNode*>(m_pPrecipitationNode)))->FUN_00a5a040();
         }
     }
 }
@@ -146,22 +161,11 @@ void PrecipS::RemoveChildren()
     }
 }
 
-void _Deallocate(void*);
 struct Cls636af0
 {
     void FUN_00636b20();
     void* DestroyIfFlagged(unsigned int);
 };
-// Calls FUN_00636b20, then deallocates this if flags has bit 1 set, and returns this.
-// @fnv 0x00636af0
-void* Cls636af0::DestroyIfFlagged(unsigned int flags)
-{
-    FUN_00636b20();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct PrecipQueuedObject
 {
     virtual void vfn_0000();
@@ -176,15 +180,12 @@ struct PrecipQueuedObject
 
 struct PrecipPointerHelper
 {
-    int FUN_00559450();
 };
 
 struct PrecipManager
 {
-    void FUN_00444040(void* object);
 };
 
-extern PrecipManager* DAT_011c3b3c;
 
 struct FUN_00636bd0_cls
 {
@@ -196,22 +197,21 @@ struct FUN_00636bd0_cls
     const void* m_pPrecipitationData;
 
     void QueuePrecipitationObject(PrecipQueuedObject* object);
-    void FUN_00636c40(void* arg);
 };
 
 // @fnv 0x00636bd0
 void FUN_00636bd0_cls::QueuePrecipitationObject(PrecipQueuedObject* object)
 {
-    if (((PrecipPointerHelper*)&m_pPreviousNode)->FUN_00559450())
+    if (::FUN_00559450((int *)(((PrecipPointerHelper*)&m_pPreviousNode))))
         return;
 
     if (object != 0 && object->FUN_0048cee0() != 0)
     {
-        DAT_011c3b3c->FUN_00444040(object->vfn_0014(0, 0, 0, 0, 0, 0));
+        reinterpret_cast<::QueueHelper *>(((*reinterpret_cast<::PrecipManager * *>(&::g_modelLoader))))->FUN_00444040((int)(object->vfn_0014(0, 0, 0, 0, 0, 0)), {}, {}, {}, {}, {}, {});
         m_pPrecipitationData = object;
     }
     else
-        FUN_00636c40(0);
+        reinterpret_cast<::Precipitation *>(this)->Load((const char *)(void *)(0));
 }
 
 // Destructor: release both handles and clear the cached pointer before the handle members are destroyed.
@@ -236,6 +236,15 @@ class FUN_00636b20
     int unk10;
     void* m_pvCached;
 };
+// Calls FUN_00636b20, then deallocates this if flags has bit 1 set, and returns this.
+// @fnv 0x00636af0
+void* Cls636af0::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00636b20 *>(this)->FUN_00636b20::~FUN_00636b20();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Resets both B20Handle members to null and clears m_pvCached.
 // @fnv 0x00636b20

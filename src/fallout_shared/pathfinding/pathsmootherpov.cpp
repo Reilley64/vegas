@@ -1,29 +1,130 @@
 // fallout_shared/pathfinding/pathsmootherpov.cpp: PathSmootherPOVSearch, std, MyHolder, Manager6AE and more (63 functions)
 
+#include <new>
+#include "fnv/decl/ASC6a0e90.h"
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/Array64.h"
+#include "fnv/decl/BSMultiBoundSphere.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/C6B40F0Allocator.h"
+#include "fnv/decl/CombatTargetTimestamp.h"
+#include "fnv/decl/E6a0e50.h"
+#include "fnv/decl/FUN_0040f6e0_class.h"
+#include "fnv/decl/FUN_00438690.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_0045cbc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004b6190_shell.h"
+#include "fnv/decl/FUN_00589850_Class.h"
+#include "fnv/decl/FUN_00595c80_shell.h"
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/FUN_0068efb0_shell.h"
+#include "fnv/decl/FUN_0068efd0_cls.h"
+#include "fnv/decl/FUN_0068f0a0_shell.h"
+#include "fnv/decl/FUN_0068f230_shell.h"
+#include "fnv/decl/FUN_00691140_shell.h"
+#include "fnv/decl/FUN_00691620_shell.h"
+#include "fnv/decl/FUN_00691640_shell.h"
+#include "fnv/decl/FUN_00693b70_shell.h"
+#include "fnv/decl/FUN_00698320_t.h"
+#include "fnv/decl/FUN_006985f0_shell.h"
+#include "fnv/decl/FUN_0069f920_cls.h"
+#include "fnv/decl/FUN_006a04e0_helper.h"
+#include "fnv/decl/FUN_006a0840_shell.h"
+#include "fnv/decl/FUN_006a1b60_Class.h"
+#include "fnv/decl/FUN_006a1fb0_class.h"
+#include "fnv/decl/FUN_006a7980_shell.h"
+#include "fnv/decl/FUN_006a9520_Class.h"
+#include "fnv/decl/FUN_006a9560_Class.h"
+#include "fnv/decl/FUN_006b0570_shell.h"
+#include "fnv/decl/FUN_006b3910_S.h"
+#include "fnv/decl/FUN_006b3cb0_cls.h"
+#include "fnv/decl/FUN_006b3e10_cls.h"
+#include "fnv/decl/FUN_006b3f40_Class.h"
+#include "fnv/decl/FUN_006b3fd0_cls.h"
+#include "fnv/decl/FUN_006b4060_class.h"
+#include "fnv/decl/FUN_006b4190_class.h"
+#include "fnv/decl/FUN_006bc870_shell.h"
+#include "fnv/decl/FUN_006cf4c0_Array.h"
+#include "fnv/decl/FUN_006cf900_Class.h"
+#include "fnv/decl/FUN_006d4ca0_Class.h"
+#include "fnv/decl/FUN_006f9790_class.h"
+#include "fnv/decl/FUN_0076b610_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/GetCenterX_006a6eb0.h"
+#include "fnv/decl/Holder670.h"
+#include "fnv/decl/MeshX.h"
+#include "fnv/decl/MyPoint439180.h"
+#include "fnv/decl/NonActorMagicTarget.h"
+#include "fnv/decl/PathSearch.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/S00693b90.h"
+#include "fnv/decl/S0069a690.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/S_006b3d90.h"
+#include "fnv/decl/S_FUN_006b05a0.h"
+#include "fnv/decl/TESCombatStyle.h"
+#include "fnv/decl/TESRegion.h"
+#include "fnv/decl/TESTopicInfoData.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/_Dummy_0069e390.h"
+#include "fnv/decl/fnv_0068f0c0__FUN_0068f0c0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/decl/fnv_0084b5c0__FUN_0084b5c0_Array.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_004b1000.h"
+#include "fnv/symbols_004e4000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00624000.h"
+#include "fnv/symbols_0069e000.h"
+#include "fnv/symbols_006a0000.h"
+#include "fnv/symbols_006a9000.h"
+#include "fnv/symbols_006b3000.h"
+#include "fnv/symbols_006b9000.h"
+#include "fnv/symbols_006ba000.h"
+#include "fnv/symbols_006d4000.h"
+#include "fnv/symbols_009a3000.h"
+#include "fnv/symbols_00b00000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_0103c000.h"
+#include "fnv/symbols_01064000.h"
+#include "fnv/symbols_0106b000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011d6000.h"
+#include "fnv/symbols_011d7000.h"
+#include "fnv/symbols_011de000.h"
 #include "pathsmootherpov_decls.h"
 
 // @fnv 0x006afcc0
 void PathSmootherPOVSearch::AddPathPoints(bool addGoal)
 {
-    for (unsigned int i = 0; i < Links.GetSize(); ++i)
+    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(Links))->GetName())); ++i)
     {
         NiPoint3 delta = Links.GetBufferElementAddress(i).m_kEndPoint.Location -
                          Links.GetBufferElementAddress(i).m_kStartPoint.Location;
-        float segmentLength = delta.FUN_00457990();
+        float segmentLength = reinterpret_cast<::NiPoint3 *>(&(delta))->ComputeMagnitude();
         bool bAdd = true;
         if (i > 0)
         {
             SineCosine difference =
                 Links.GetBufferElementAddress(i).m_kStartAngle - Links.GetBufferElementAddress(i - 1).m_kEnd;
             CircularArc halfCircle(SineCosine(-1.5707963705062866f), SineCosine(1.5707963705062866f), AD_CCW);
-            if (difference.FUN_006a0840() * Nodes.FUN_006a1440(i).m_pAvoidNode->fRadius < 50.0 &&
+            if (reinterpret_cast<::FUN_006a0840_shell *>((void *)&(difference))->FUN_006a0840() * Nodes.FUN_006a1440(i).m_pAvoidNode->fRadius < 50.0 &&
                 halfCircle.FUN_006a0660(difference))
                 bAdd = false;
             if (m_bUnderwaterPath)
             {
-                float water = g_TES->UpdateTESState(
-                    Links.GetBufferElementAddress(i).m_kStartPoint.Location,
-                    Links.GetBufferElementAddress(i).m_kStartPoint.m_pLocationNavMesh->GetCurrentMoveModeType());
+                float water = reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetCellHeightAtPosition(
+                    (const ::NiPoint3 *)&(Links.GetBufferElementAddress(i).m_kStartPoint.Location),
+                    (::CellView *)(reinterpret_cast<::ActorMover *>((Links.GetBufferElementAddress(i).m_kStartPoint.m_pLocationNavMesh))->GetCurrentMoveModeType()));
                 if (water >= Links.GetBufferElementAddress(i).m_kStartPoint.Location.z)
                     Links.GetBufferElementAddress(i).m_kStartPoint.Location.z = water;
             }
@@ -31,73 +132,73 @@ void PathSmootherPOVSearch::AddPathPoints(bool addGoal)
         if (bAdd)
         {
             PathingLocation Location(Links.GetBufferElementAddress(i).m_kStartPoint.Location,
-                                     Links.GetBufferElementAddress(i).m_kStartPoint.m_pLocationNavMesh->FUN_0068efb0());
+                                     reinterpret_cast<::FUN_0068efb0_shell *>((Links.GetBufferElementAddress(i).m_kStartPoint.m_pLocationNavMesh))->FUN_0068efb0());
             NiPoint3 Dir =
                 RotatePoint90(Links.GetBufferElementAddress(i).m_kStartAngle, Nodes.FUN_006a1440(i).Direction);
             if (i > 0)
             {
                 SineCosine difference =
                     Links.GetBufferElementAddress(i).m_kStartAngle - Links.GetBufferElementAddress(i - 1).m_kEnd;
-                float arcLength = std::abs(difference.FUN_006a0840() * Nodes.FUN_006a1440(i).m_pAvoidNode->fRadius);
-                Dir *= arcLength;
+                float arcLength = std::abs(reinterpret_cast<::FUN_006a0840_shell *>((void *)&(difference))->FUN_006a0840() * Nodes.FUN_006a1440(i).m_pAvoidNode->fRadius);
+                reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3 &)(Dir))->FUN_00439180(arcLength);
             }
             else
-                Dir *= Nodes.FUN_006a1440(i).m_pAvoidNode->fRadius;
-            Dir *= 3.0f;
-            if (Dir.FUN_004a7290() > segmentLength * segmentLength)
+                reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3 &)(Dir))->FUN_00439180(Nodes.FUN_006a1440(i).m_pAvoidNode->fRadius);
+            reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3 &)(Dir))->FUN_00439180(3.0f);
+            if (reinterpret_cast<::TESCombatStyle *>((void *)&(Dir))->UpdateCombatStyle() > segmentLength * segmentLength)
             {
-                Dir.ComputeMagnitude();
-                Dir *= segmentLength;
+                reinterpret_cast<::FUN_004a0c10_s *>(&(Dir))->FUN_004a0c10();
+                reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3 &)(Dir))->FUN_00439180(segmentLength);
             }
-            m_pOutputSolution->ReserveIndex(Location, Dir);
+            reinterpret_cast<::FUN_0069f920_cls *>((m_pOutputSolution))->FUN_0069f920((int)&(Location), (int)&(Dir));
         }
-        if (m_bUnderwaterPath && (i < Links.GetSize() - 1 || m_pOutputSolution->FUN_006b05d0() || addGoal))
+        if (m_bUnderwaterPath && (i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(Links))->GetName())) - 1 || m_pOutputSolution->FUN_006b05d0() || addGoal))
         {
-            float water = g_TES->UpdateTESState(
-                Links.GetBufferElementAddress(i).m_kEndPoint.Location,
-                Links.GetBufferElementAddress(i).m_kEndPoint.m_pLocationNavMesh->GetCurrentMoveModeType());
+            float water = reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetCellHeightAtPosition(
+                (const ::NiPoint3 *)&(Links.GetBufferElementAddress(i).m_kEndPoint.Location),
+                (::CellView *)(reinterpret_cast<::ActorMover *>((Links.GetBufferElementAddress(i).m_kEndPoint.m_pLocationNavMesh))->GetCurrentMoveModeType()));
             if (water >= Links.GetBufferElementAddress(i).m_kEndPoint.Location.z)
                 Links.GetBufferElementAddress(i).m_kEndPoint.Location.z = water;
         }
         PathingLocation Location(Links.GetBufferElementAddress(i).m_kEndPoint.Location,
-                                 Links.GetBufferElementAddress(i).m_kEndPoint.m_pLocationNavMesh->FUN_0068efb0());
+                                 reinterpret_cast<::FUN_0068efb0_shell *>((Links.GetBufferElementAddress(i).m_kEndPoint.m_pLocationNavMesh))->FUN_0068efb0());
         NiPoint3 Dir = RotatePoint90(Links.GetBufferElementAddress(i).m_kEnd, Nodes.FUN_006a1440(i + 1).Direction);
         AddNavMeshEdgeRecord(Links.GetBufferElementAddress(i).m_kStartPoint.m_pLocationNavMesh,
                              Links.GetBufferElementAddress(i).m_kStartPoint.m_usTriangleID,
                              Links.GetBufferElementAddress(i).m_kStartPoint.Location,
                              Links.GetBufferElementAddress(i).m_kEndPoint.Location);
-        if (i < Links.GetSize() - 1)
+        if (i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(Links))->GetName())) - 1)
         {
             SineCosine difference =
                 Links.GetBufferElementAddress(i + 1).m_kStartAngle - Links.GetBufferElementAddress(i).m_kEnd;
-            float arcLength = std::abs(difference.FUN_006a0840() * Nodes.FUN_006a1440(i + 1).m_pAvoidNode->fRadius);
-            Dir *= arcLength;
+            float arcLength = std::abs(reinterpret_cast<::FUN_006a0840_shell *>((void *)&(difference))->FUN_006a0840() * Nodes.FUN_006a1440(i + 1).m_pAvoidNode->fRadius);
+            reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3 &)(Dir))->FUN_00439180(arcLength);
         }
         else
-            Dir *= Nodes.FUN_006a1440(i + 1).m_pAvoidNode->fRadius;
-        Dir *= 3.0f;
-        if (Dir.FUN_004a7290() > segmentLength * segmentLength)
+            reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3 &)(Dir))->FUN_00439180(Nodes.FUN_006a1440(i + 1).m_pAvoidNode->fRadius);
+        reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3 &)(Dir))->FUN_00439180(3.0f);
+        if (reinterpret_cast<::TESCombatStyle *>((void *)&(Dir))->UpdateCombatStyle() > segmentLength * segmentLength)
         {
-            Dir.ComputeMagnitude();
-            Dir *= segmentLength;
+            reinterpret_cast<::FUN_004a0c10_s *>(&(Dir))->FUN_004a0c10();
+            reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3 &)(Dir))->FUN_00439180(segmentLength);
         }
-        m_pOutputSolution->ReserveIndex(Location, Dir);
+        reinterpret_cast<::FUN_0069f920_cls *>((m_pOutputSolution))->FUN_0069f920((int)&(Location), (int)&(Dir));
     }
-    if (pRequest->FUN_00505c00() && !Links.FUN_0076b610())
+    if (pRequest->FUN_00505c00() && !reinterpret_cast<::FUN_0076b610_Class *>((void *)&(Links))->FUN_0076b610())
     {
-        NiPoint3 Dir = m_pOutputSolution->FUN_006b05a0()->FUN_005d8a70();
-        float fStartAngle = GetDirectionAngle(Dir);
+        NiPoint3 Dir = (*(const ::NiPoint3 *)(reinterpret_cast<::TESRegion *>((((::PathingGraphNode *)(reinterpret_cast<::S_FUN_006b05a0 *>((m_pOutputSolution))->FUN_006b05a0()))))->GetDiffuseColor()));
+        float fStartAngle = ::GetDirectionAngle((const ::NiPoint3 *)&(Dir));
         float goalAngle = pRequest->FUN_00507e10();
         float difference = goalAngle - fStartAngle;
         WrapValueToRange(difference, -3.1415927410125732f, 3.1415927410125732f);
         if (std::abs(difference) < 1.5707963267948966)
         {
-            float segmentLength = Dir.FUN_00589850();
+            float segmentLength = reinterpret_cast<::FUN_00589850_Class *>((void *)&(Dir))->FUN_00589850();
             NiPoint3 NewTangent;
             NewTangent.x = cos(goalAngle) * segmentLength;
             NewTangent.y = FUN_004e44b0(goalAngle) * segmentLength;
             NewTangent.z = 0.0f;
-            m_pOutputSolution->FUN_006b05a0()->FUN_006b0570(NewTangent);
+            reinterpret_cast<::FUN_006b0570_shell *>((((::PathingGraphNode *)(reinterpret_cast<::S_FUN_006b05a0 *>((m_pOutputSolution))->FUN_006b05a0()))))->FUN_006b0570((::NiColor *)&(NewTangent));
         }
     }
 }
@@ -106,9 +207,9 @@ void PathSmootherPOVSearch::AddPathPoints(bool addGoal)
 void PathSmootherPOVSearch::BuildSmoothedPath()
 {
     NavMeshEdgePoint startEdge;
-    PathingLocation StartLoc(m_kPathStartPosition, Triangles->GetFirstElement().m_pLocationNavMesh->FUN_0068efb0(),
-                             Triangles->GetFirstElement().m_usTriangleIdentifier);
-    if (FUN_006d4570(StartLoc, pRequest->GetFloatAtOffset68(), startEdge))
+    PathingLocation StartLoc(m_kPathStartPosition, reinterpret_cast<::FUN_0068efb0_shell *>((::GetFirstElement((const ::BSSimpleArray< ::NavMeshTriangleReference, 1024> *)(Triangles)).m_pLocationNavMesh))->FUN_0068efb0(),
+                             ::GetFirstElement((const ::BSSimpleArray< ::NavMeshTriangleReference, 1024> *)(Triangles)).m_usTriangleIdentifier);
+    if (::FUN_006d4570((::LocationView *)&(StartLoc), ::GetFloatAtOffset68((const char *)(pRequest)), (::LocationView *)&(startEdge)))
     {
         NiPoint3 Diff = m_kPathStartPosition - startEdge.Location;
         NiPoint3 Perp = DAT_011a9484.CrossProduct(Diff);
@@ -116,27 +217,27 @@ void PathSmootherPOVSearch::BuildSmoothedPath()
         pLeftPOV->eType = 4;
         pLeftPOV->m_kFirstEdge = NiPoint3::ZERO;
         pLeftPOV->m_kSecondEdge = NiPoint3::ZERO;
-        pLeftPOV->Center = m_kPathStartPosition + Perp * pRequest->GetFloatAtOffset68() * 1.01f;
+        pLeftPOV->Center = m_kPathStartPosition + Perp * ::GetFloatAtOffset68((const char *)(pRequest)) * 1.01f;
         pLeftPOV->m_fWeight = 1.0f;
-        pLeftPOV->fRadius = pRequest->GetFloatAtOffset68();
+        pLeftPOV->fRadius = ::GetFloatAtOffset68((const char *)(pRequest));
         pLeftPOV->m_uiReferenceIndex = 0xffffffff;
-        m_kPathPoints.Add(pLeftPOV);
-        m_kRequestPathPoints.Add(pLeftPOV);
+        reinterpret_cast<::FUN_00438690 *>(&(m_kPathPoints))->FUN_007cb2e0((unsigned int *)&(pLeftPOV));
+        reinterpret_cast<::FUN_00438690 *>(&(m_kRequestPathPoints))->FUN_007cb2e0((unsigned int *)&(pLeftPOV));
         PathSmootherPOVPoint* pPOV2 = new PathSmootherPOVPoint;
         pPOV2->eType = 4;
         pPOV2->m_kFirstEdge = NiPoint3::ZERO;
         pPOV2->m_kSecondEdge = NiPoint3::ZERO;
-        pPOV2->Center = m_kPathStartPosition - Perp * pRequest->GetFloatAtOffset68() * 1.01f;
+        pPOV2->Center = m_kPathStartPosition - Perp * ::GetFloatAtOffset68((const char *)(pRequest)) * 1.01f;
         pPOV2->m_fWeight = 1.0f;
-        pPOV2->fRadius = pRequest->GetFloatAtOffset68();
+        pPOV2->fRadius = ::GetFloatAtOffset68((const char *)(pRequest));
         pPOV2->m_uiReferenceIndex = 0xffffffff;
-        m_kPathPoints.Add(pPOV2);
-        m_kRequestPathPoints.Add(pPOV2);
+        reinterpret_cast<::FUN_00438690 *>(&(m_kPathPoints))->FUN_007cb2e0((unsigned int *)&(pPOV2));
+        reinterpret_cast<::FUN_00438690 *>(&(m_kRequestPathPoints))->FUN_007cb2e0((unsigned int *)&(pPOV2));
     }
     NavMeshEdgePoint GoalEdgeLoc;
-    PathingLocation GoalPathLocation(m_kGoalPosition, Triangles->GetLastElement().m_pLocationNavMesh->FUN_0068efb0(),
-                                     Triangles->GetLastElement().m_usTriangleIdentifier);
-    if (FUN_006d4570(GoalPathLocation, pRequest->GetFloatAtOffset68(), GoalEdgeLoc))
+    PathingLocation GoalPathLocation(m_kGoalPosition, reinterpret_cast<::FUN_0068efb0_shell *>((::GetLastElement((const ::BSSimpleArray< ::NavMeshTriangleReference, 1024> *)(Triangles)).m_pLocationNavMesh))->FUN_0068efb0(),
+                                     ::GetLastElement((const ::BSSimpleArray< ::NavMeshTriangleReference, 1024> *)(Triangles)).m_usTriangleIdentifier);
+    if (::FUN_006d4570((::LocationView *)&(GoalPathLocation), ::GetFloatAtOffset68((const char *)(pRequest)), (::LocationView *)&(GoalEdgeLoc)))
     {
         NiPoint3 Diff = m_kGoalPosition - GoalEdgeLoc.Location;
         NiPoint3 Perp = DAT_011a9484.CrossProduct(Diff);
@@ -144,22 +245,22 @@ void PathSmootherPOVSearch::BuildSmoothedPath()
         pLeftPOV->eType = 4;
         pLeftPOV->m_kFirstEdge = NiPoint3::ZERO;
         pLeftPOV->m_kSecondEdge = NiPoint3::ZERO;
-        pLeftPOV->Center = m_kGoalPosition + Perp * pRequest->GetFloatAtOffset68() * 1.01f;
+        pLeftPOV->Center = m_kGoalPosition + Perp * ::GetFloatAtOffset68((const char *)(pRequest)) * 1.01f;
         pLeftPOV->m_fWeight = 1.0f;
-        pLeftPOV->fRadius = pRequest->GetFloatAtOffset68();
+        pLeftPOV->fRadius = ::GetFloatAtOffset68((const char *)(pRequest));
         pLeftPOV->m_uiReferenceIndex = 0xffffffff;
-        m_kPathPoints.Add(pLeftPOV);
-        m_kRequestPathPoints.Add(pLeftPOV);
+        reinterpret_cast<::FUN_00438690 *>(&(m_kPathPoints))->FUN_007cb2e0((unsigned int *)&(pLeftPOV));
+        reinterpret_cast<::FUN_00438690 *>(&(m_kRequestPathPoints))->FUN_007cb2e0((unsigned int *)&(pLeftPOV));
         PathSmootherPOVPoint* pPOV2 = new PathSmootherPOVPoint;
         pPOV2->eType = 4;
         pPOV2->m_kFirstEdge = NiPoint3::ZERO;
         pPOV2->m_kSecondEdge = NiPoint3::ZERO;
-        pPOV2->Center = m_kGoalPosition - Perp * pRequest->GetFloatAtOffset68() * 1.01f;
+        pPOV2->Center = m_kGoalPosition - Perp * ::GetFloatAtOffset68((const char *)(pRequest)) * 1.01f;
         pPOV2->m_fWeight = 1.0f;
-        pPOV2->fRadius = pRequest->GetFloatAtOffset68();
+        pPOV2->fRadius = ::GetFloatAtOffset68((const char *)(pRequest));
         pPOV2->m_uiReferenceIndex = 0xffffffff;
-        m_kPathPoints.Add(pPOV2);
-        m_kRequestPathPoints.Add(pPOV2);
+        reinterpret_cast<::FUN_00438690 *>(&(m_kPathPoints))->FUN_007cb2e0((unsigned int *)&(pPOV2));
+        reinterpret_cast<::FUN_00438690 *>(&(m_kRequestPathPoints))->FUN_007cb2e0((unsigned int *)&(pPOV2));
     }
 }
 
@@ -179,49 +280,49 @@ bool PathSmootherPOVSearch::SearchForPath(PathingRequest* request,
     m_pOutputSolution = solution;
     m_pNavMeshInfos = infos;
     bool startUnderWater =
-        triangles.GetFirstElement().m_pLocationNavMesh->GetCurrentMoveModeType()
-            ? triangles.GetFirstElement().FUN_006a6eb0().z <
-                  g_TES->UpdateTESState(start,
-                                        triangles.GetFirstElement().m_pLocationNavMesh->GetCurrentMoveModeType()) +
+        reinterpret_cast<::ActorMover *>((::GetFirstElement((const ::BSSimpleArray< ::NavMeshTriangleReference, 1024> *)&(triangles)).m_pLocationNavMesh))->GetCurrentMoveModeType()
+            ? (*(::NiPoint3 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>((void *)&(::GetFirstElement((const ::BSSimpleArray< ::NavMeshTriangleReference, 1024> *)&(triangles))))->FUN_006a6eb0({}))).z <
+                  reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetCellHeightAtPosition((const ::NiPoint3 *)&(start),
+                                        (::CellView *)(reinterpret_cast<::ActorMover *>((::GetFirstElement((const ::BSSimpleArray< ::NavMeshTriangleReference, 1024> *)&(triangles)).m_pLocationNavMesh))->GetCurrentMoveModeType())) +
                       50.0f
             : true;
     if (!startUnderWater)
     {
         float z = m_kPathStartPosition.z;
-        triangles.GetFirstElement().m_pLocationNavMesh->GetTriangleHeightAtPoint(
-            triangles.GetFirstElement().m_usTriangleIdentifier, m_kPathStartPosition, 180.0f, 64.0f, z);
+        ::GetFirstElement((const ::BSSimpleArray< ::NavMeshTriangleReference, 1024> *)&(triangles)).m_pLocationNavMesh->GetTriangleHeightAtPoint(
+            ::GetFirstElement((const ::BSSimpleArray< ::NavMeshTriangleReference, 1024> *)&(triangles)).m_usTriangleIdentifier, m_kPathStartPosition, 180.0f, 64.0f, z);
         m_kPathStartPosition.z = z;
     }
     bool bGoalUnderWater = false;
-    if (!request->FUN_006a9540()->FUN_006a9520() &&
-        triangles.GetLastElement().m_pLocationNavMesh->GetCurrentMoveModeType() &&
-        triangles.GetLastElement().FUN_006a6eb0().z <
-            g_TES->UpdateTESState(goal, triangles.GetLastElement().m_pLocationNavMesh->GetCurrentMoveModeType()) +
+    if (!reinterpret_cast<::FUN_006a9520_Class *>((((::PathingLocation *)(::FUN_006a9540((char *)(request))))))->FUN_006a9520() &&
+        reinterpret_cast<::ActorMover *>((::GetLastElement((const ::BSSimpleArray< ::NavMeshTriangleReference, 1024> *)&(triangles)).m_pLocationNavMesh))->GetCurrentMoveModeType() &&
+        (*(::NiPoint3 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>((void *)&(::GetLastElement((const ::BSSimpleArray< ::NavMeshTriangleReference, 1024> *)&(triangles))))->FUN_006a6eb0({}))).z <
+            reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetCellHeightAtPosition((const ::NiPoint3 *)&(goal), (::CellView *)(reinterpret_cast<::ActorMover *>((::GetLastElement((const ::BSSimpleArray< ::NavMeshTriangleReference, 1024> *)&(triangles)).m_pLocationNavMesh))->GetCurrentMoveModeType())) +
                 50.0f)
         bGoalUnderWater = true;
     if (!bGoalUnderWater)
     {
         float z = m_kGoalPosition.z;
-        triangles.GetLastElement().m_pLocationNavMesh->GetTriangleHeightAtPoint(
-            triangles.GetLastElement().m_usTriangleIdentifier, m_kGoalPosition, 180.0f, 64.0f, z);
+        ::GetLastElement((const ::BSSimpleArray< ::NavMeshTriangleReference, 1024> *)&(triangles)).m_pLocationNavMesh->GetTriangleHeightAtPoint(
+            ::GetLastElement((const ::BSSimpleArray< ::NavMeshTriangleReference, 1024> *)&(triangles)).m_usTriangleIdentifier, m_kGoalPosition, 180.0f, 64.0f, z);
         m_kGoalPosition.z = z;
     }
     if (startUnderWater && bGoalUnderWater)
         m_bUnderwaterPath = true;
-    m_kPrimaryPathPoints.GrowCapacity(edges.GetSize());
-    m_kSecondaryPathPoints.GrowCapacity(edges.GetSize());
-    m_kPrimaryEdgeRecords.ReserveIndex(edges.GetSize());
-    m_kSecondaryEdgeRecords.ReserveIndex(edges.GetSize());
-    m_kRequestPathPoints.GrowCapacity(pRequest->GetString() ? pRequest->GetString()->GetSize() * 2 : 0);
-    m_kPathPoints.GrowCapacity(edges.GetSize() * 2 + m_kRequestPathPoints.FUN_0084e3a0() + 2);
+    reinterpret_cast<::fnv_0084b5c0::FUN_0084b5c0_Array *>(&(m_kPrimaryPathPoints))->FUN_0084b5c0(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(edges))->GetName())));
+    reinterpret_cast<::fnv_0084b5c0::FUN_0084b5c0_Array *>(&(m_kSecondaryPathPoints))->FUN_0084b5c0(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(edges))->GetName())));
+    reinterpret_cast<::FUN_006f9790_class *>(&(m_kPrimaryEdgeRecords))->FUN_006f9790(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(edges))->GetName())));
+    reinterpret_cast<::FUN_006f9790_class *>(&(m_kSecondaryEdgeRecords))->FUN_006f9790(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(edges))->GetName())));
+    reinterpret_cast<::fnv_0084b5c0::FUN_0084b5c0_Array *>(&(m_kRequestPathPoints))->FUN_0084b5c0(((::BSSimpleArray<void *> *)(reinterpret_cast<::_Dummy_0069e390 *>((pRequest))->GetString())) ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)(((::BSSimpleArray<void *> *)(reinterpret_cast<::_Dummy_0069e390 *>((pRequest))->GetString()))))->GetName())) * 2 : 0);
+    reinterpret_cast<::fnv_0084b5c0::FUN_0084b5c0_Array *>(&(m_kPathPoints))->FUN_0084b5c0(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(edges))->GetName())) * 2 + ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(m_kRequestPathPoints))->FUN_0084e3a0())) + 2);
     AddAvoidanceNodes();
     PathSmootherPOVAvoidanceNode m_kStartingTriangle;
     m_kStartingTriangle.m_pAvoidNode = m_pStartPoint;
     m_kStartingTriangle.Direction = AD_CCW;
     InsertNode(FUN_0069f900(m_pStartPoint, AD_CCW), m_kStartingTriangle,
-               (m_kGoalPosition - m_kPathStartPosition).FUN_00457990() * 0.75f);
-    Nodes.Clear(false);
-    Links.Clear(false);
+               reinterpret_cast<::NiPoint3 *>((void *)&(const ::NiPoint3 &)((m_kGoalPosition - m_kPathStartPosition)))->ComputeMagnitude() * 0.75f);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(Nodes))->Clear(false);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(Links))->Clear(false);
     bool success = FUN_006b3380(&Nodes, &Links, true);
     if (!success)
     {
@@ -236,22 +337,22 @@ bool PathSmootherPOVSearch::SearchForPath(PathingRequest* request,
                 link.m_pLocationNavMesh = Edge.m_pLocationNavMesh;
                 link.m_usTriangleIdentifier = Edge.m_usTriangleID;
                 link.m_iEdgeIndex = Edge.m_iEdgeIndex;
-                extraEdges->Add(link);
+                reinterpret_cast<::FUN_006cf4c0_Array *>((extraEdges))->FUN_006cf4c0((const ::ParentSpaceNode &)(link));
             }
         }
     }
     AddPathPoints(!success);
-    for (unsigned int i = 0; i < triangles.GetSize(); ++i)
+    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(triangles))->GetName())); ++i)
     {
-        if (triangles.FUN_006b3160(i).FUN_006a78d0()->FUN_00691140(0x1000))
+        if (reinterpret_cast<::FUN_00691140_shell *>((triangles.FUN_006b3160(i).FUN_006a78d0()))->FUN_00691140(0x1000))
         {
             void* door = triangles.FUN_006b3160(i)
                              .m_pLocationNavMesh->GetClosedDoorInfo(triangles.FUN_006b3160(i).m_usTriangleIdentifier)
                              ->pPathNodeDoor;
-            m_pOutputSolution->Doors.Add(door);
+            reinterpret_cast<::FUN_00438690 *>(&(m_pOutputSolution->Doors))->FUN_007cb2e0((unsigned int *)&(door));
         }
     }
-    for (unsigned int i = 0; i < m_kPathPoints.GetSize(); ++i)
+    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(m_kPathPoints))->GetName())); ++i)
         delete m_kPathPoints[i];
     return success;
 }
@@ -259,14 +360,14 @@ bool PathSmootherPOVSearch::SearchForPath(PathingRequest* request,
 // @fnv 0x006b0ad0
 bool PathSmootherPOVSearch::CollectConnections(const POVNode* node, BSSimpleArray<POVNode*>* connections)
 {
-    const PathSmootherPOVAvoidanceNode& Node = node->FUN_00413f40();
+    const PathSmootherPOVAvoidanceNode& Node = (*(const ::PathSmootherPOVAvoidanceNode *)(reinterpret_cast<::TESTopicInfoData *>((void *)(node))->GetLinkToList()));
     const int iMaxFailureCount = 4;
     unsigned int size = 0xffffffff;
     unsigned int failures = 0;
     FindPathToPoint(node, m_pGoalPoint, connections);
     if (Node.m_pAvoidNode->eType == 0)
     {
-        size = m_kPrimaryPathPoints.GetSize();
+        size = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(m_kPrimaryPathPoints))->GetName()));
         failures = 0;
         for (unsigned int i = Node.m_pAvoidNode->m_uiListIndex + 1; i < size; ++i)
         {
@@ -278,7 +379,7 @@ bool PathSmootherPOVSearch::CollectConnections(const POVNode* node, BSSimpleArra
                     break;
             }
         }
-        size = m_kSecondaryPathPoints.GetSize();
+        size = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(m_kSecondaryPathPoints))->GetName()));
         failures = 0;
         for (unsigned int i = Node.m_pAvoidNode->m_uiReferenceIndex; i < size; ++i)
         {
@@ -293,7 +394,7 @@ bool PathSmootherPOVSearch::CollectConnections(const POVNode* node, BSSimpleArra
     }
     else if (Node.m_pAvoidNode->eType == 1)
     {
-        size = m_kSecondaryPathPoints.GetSize();
+        size = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(m_kSecondaryPathPoints))->GetName()));
         failures = 0;
         for (unsigned int i = Node.m_pAvoidNode->m_uiListIndex + 1; i < size; ++i)
         {
@@ -305,7 +406,7 @@ bool PathSmootherPOVSearch::CollectConnections(const POVNode* node, BSSimpleArra
                     break;
             }
         }
-        size = m_kPrimaryPathPoints.GetSize();
+        size = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(m_kPrimaryPathPoints))->GetName()));
         failures = 0;
         for (unsigned int i = Node.m_pAvoidNode->m_uiReferenceIndex; i < size; ++i)
         {
@@ -320,7 +421,7 @@ bool PathSmootherPOVSearch::CollectConnections(const POVNode* node, BSSimpleArra
     }
     else if (Node.m_pAvoidNode->eType == 2)
     {
-        size = m_kSecondaryPathPoints.GetSize();
+        size = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(m_kSecondaryPathPoints))->GetName()));
         failures = 0;
         for (unsigned int i = 0; i < size; ++i)
         {
@@ -332,7 +433,7 @@ bool PathSmootherPOVSearch::CollectConnections(const POVNode* node, BSSimpleArra
                     break;
             }
         }
-        size = m_kPrimaryPathPoints.GetSize();
+        size = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(m_kPrimaryPathPoints))->GetName()));
         failures = 0;
         for (unsigned int i = 0; i < size; ++i)
         {
@@ -347,20 +448,20 @@ bool PathSmootherPOVSearch::CollectConnections(const POVNode* node, BSSimpleArra
     }
     else
     {
-        size = m_kSecondaryPathPoints.GetSize();
+        size = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(m_kSecondaryPathPoints))->GetName()));
         for (unsigned int i = 0; i < size; ++i)
         {
             PathSmootherPOVPoint* pov = m_kSecondaryPathPoints[i];
             FindPathToPoint(node, pov, connections);
         }
-        size = m_kPrimaryPathPoints.GetSize();
+        size = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(m_kPrimaryPathPoints))->GetName()));
         for (unsigned int i = 0; i < size; ++i)
         {
             PathSmootherPOVPoint* pov = m_kPrimaryPathPoints[i];
             FindPathToPoint(node, pov, connections);
         }
     }
-    size = m_kRequestPathPoints.GetSize();
+    size = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(m_kRequestPathPoints))->GetName()));
     for (unsigned int i = 0; i < size; ++i)
     {
         PathSmootherPOVPoint* pov = m_kRequestPathPoints[i];
@@ -377,15 +478,15 @@ void PathSmootherPOVSearch::AddNavMeshEdgeRecord(NavMesh* mesh, unsigned short t
     NiPoint3 start = from;
     NiPoint3 end = to;
     NiPoint3 pathDirection = end - start;
-    pathDirection.ComputeMagnitude();
+    reinterpret_cast<::FUN_004a0c10_s *>(&(pathDirection))->FUN_004a0c10();
     NiPoint3 CurrentLoc = start;
     NavMeshEdgeData currentEdge(mesh, triangle, -1);
     int iterations = 0;
     while (iterations < 1000)
     {
         ++iterations;
-        int index = currentEdge.m_pLocationNavMesh->FindCrossedEdge(currentEdge.m_usTriangleID,
-                                                                    currentEdge.m_iEdgeIndex, CurrentLoc, end);
+        int index = reinterpret_cast<::FUN_00698320_t *>((currentEdge.m_pLocationNavMesh))->FindCrossedEdge(currentEdge.m_usTriangleID,
+                                                                    currentEdge.m_iEdgeIndex, (const ::NiPoint3 *)&(CurrentLoc), (const ::NiPoint3 *)&(end));
         if (index == -1)
         {
             break;
@@ -394,7 +495,7 @@ void PathSmootherPOVSearch::AddNavMeshEdgeRecord(NavMesh* mesh, unsigned short t
         {
             NavMeshEdgeData exit(currentEdge.m_pLocationNavMesh, currentEdge.m_usTriangleID, index);
             NavMeshEdgeData entry;
-            bool connected = exit.m_pLocationNavMesh->MatchNavMesh(exit, entry);
+            bool connected = reinterpret_cast<::Holder670 *>((exit.m_pLocationNavMesh))->MatchNavMesh((::In670 *)&(exit), (::Out670 *)&(entry));
             if (connected)
             {
                 if (currentEdge.m_pLocationNavMesh != entry.m_pLocationNavMesh)
@@ -403,37 +504,36 @@ void PathSmootherPOVSearch::AddNavMeshEdgeRecord(NavMesh* mesh, unsigned short t
                         entry.m_pLocationNavMesh->FUN_0068f040(entry.m_usTriangleID, entry.m_iEdgeIndex);
                     NiPoint3 center = (*vertices.p1 + *vertices.p2) * 0.5f;
                     CurrentLoc = FUN_006ba550(*vertices.p1, *vertices.p2, start, end);
-                    CurrentLoc += (center - CurrentLoc) * 0.01f;
+                    reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3 &)(CurrentLoc))->FUN_0063c8a0((void *)&(const ::NiPoint3 &)((center - CurrentLoc) * 0.01f));
                 }
-                NiPoint3 exitNormal = exit.m_pLocationNavMesh->FUN_006971e0(exit.m_usTriangleID);
-                NiPoint3 entryNormal = entry.m_pLocationNavMesh->FUN_006971e0(entry.m_usTriangleID);
-                if (exitNormal.Dot(entryNormal) < 0.9f)
+                NiPoint3 exitNormal = exit.m_pLocationNavMesh->GetPlaneNormal(exit.m_usTriangleID);
+                NiPoint3 entryNormal = entry.m_pLocationNavMesh->GetPlaneNormal(entry.m_usTriangleID);
+                if (reinterpret_cast<::FUN_004b6190_shell *>((void *)&(exitNormal))->DotProduct((void *)&(entryNormal)) < 0.9f)
                 {
                     NiPoint3 p1, p2;
-                    exit.m_pLocationNavMesh->FUN_0068f0c0(exit.m_usTriangleID, exit.m_iEdgeIndex, p1, p2);
+                    reinterpret_cast<::fnv_0068f0c0::FUN_0068f0c0_shell *>((exit.m_pLocationNavMesh))->FUN_0068f0c0(exit.m_usTriangleID, exit.m_iEdgeIndex, (::NiPoint3 *)&(p1), (::NiPoint3 *)&(p2));
                     NiPoint3 Crossing;
-                    if (FUN_006ba100(p1, p2, start, end, Crossing))
+                    if (::fnv_006ba100::FUN_006ba100((const ::NiPoint3 *)&(p1), (const ::NiPoint3 *)&(p2), (const ::NiPoint3 *)&(start), (const ::NiPoint3 *)&(end), (::NiPoint3 *)&(Crossing)))
                     {
-                        if ((Crossing - start).FUN_004a7290() > 1024.0f && (Crossing - end).FUN_004a7290() > 1024.0f &&
-                            m_pOutputSolution->FUN_006b05a0() &&
-                            (Crossing - m_pOutputSolution->FUN_006b05a0()->FUN_00717e50().FUN_005c3420())
-                                    .FUN_004a7290() > 1024.0f)
+                        if (reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::NiPoint3 &)((Crossing - start)))->UpdateCombatStyle() > 1024.0f && reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::NiPoint3 &)((Crossing - end)))->UpdateCombatStyle() > 1024.0f &&
+                            ((::PathingGraphNode *)(reinterpret_cast<::S_FUN_006b05a0 *>((m_pOutputSolution))->FUN_006b05a0())) &&
+                            reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::NiPoint3 &)((Crossing - reinterpret_cast<::TaskQueueInterface *>((void *)&((*(::PathingLocation *)(reinterpret_cast<::BaseProcess *>((((::PathingGraphNode *)(reinterpret_cast<::S_FUN_006b05a0 *>((m_pOutputSolution))->FUN_006b05a0()))))->GetCurrentProcessData()))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))))->UpdateCombatStyle() > 1024.0f)
                         {
                             if (m_bUnderwaterPath)
                             {
-                                float water = g_TES->UpdateTESState(
-                                    Crossing, m_pOutputSolution->FUN_006b05a0()->FUN_00717e50().FUN_006dd4f0());
+                                float water = reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetCellHeightAtPosition(
+                                    (const ::NiPoint3 *)&(Crossing), (::CellView *)(((unsigned int)(reinterpret_cast<::PathingLocation *>((void *)&((*(::PathingLocation *)(reinterpret_cast<::BaseProcess *>((((::PathingGraphNode *)(reinterpret_cast<::S_FUN_006b05a0 *>((m_pOutputSolution))->FUN_006b05a0()))))->GetCurrentProcessData()))))->GetContainingCell()))));
                                 if (water >= Crossing.z)
                                     Crossing.z = water;
                             }
-                            PathingLocation location(Crossing, exit.m_pLocationNavMesh->FUN_0068efb0(),
+                            PathingLocation location(Crossing, reinterpret_cast<::FUN_0068efb0_shell *>((exit.m_pLocationNavMesh))->FUN_0068efb0(),
                                                      exit.m_usTriangleID);
-                            NiPoint3 Dir = pathDirection * pRequest->GetFloatAtOffset68();
-                            m_pOutputSolution->ReserveIndex(location, Dir);
+                            NiPoint3 Dir = pathDirection * ::GetFloatAtOffset68((const char *)(pRequest));
+                            reinterpret_cast<::FUN_0069f920_cls *>((m_pOutputSolution))->FUN_0069f920((int)&(location), (int)&(Dir));
                         }
                     }
                 }
-                currentEdge = entry;
+                reinterpret_cast<::FUN_006bc870_shell *>((void *)&(const ::NavMeshEdgeData &)(currentEdge))->CopyFromNavMeshEdge((void *)&(entry));
             }
             else
                 break;
@@ -445,18 +545,18 @@ void PathSmootherPOVSearch::AddNavMeshEdgeRecord(NavMesh* mesh, unsigned short t
 bool PathSmootherPOVSearch::CalculatePathCost(PathSmootherPOVPoint* from, PathSmootherPOVPoint* to,
                                               const NiPoint3& start, const NiPoint3& end, float* pfCost)
 {
-    *pfCost = (end - start).FUN_00457990();
-    if ((end - start).GetSquaredXYLength() < 0.001f)
+    *pfCost = reinterpret_cast<::NiPoint3 *>((void *)&(const ::NiPoint3 &)((end - start)))->ComputeMagnitude();
+    if (reinterpret_cast<::FUN_00595c80_shell *>((void *)(void *)&(const ::NiPoint3 &)((end - start)))->GetSquaredXYLength() < 0.001f)
         return true;
-    for (unsigned int i = 0; i < m_kRequestPathPoints.GetSize(); ++i)
+    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(m_kRequestPathPoints))->GetName())); ++i)
     {
         PathSmootherPOVPoint* pov = m_kRequestPathPoints[i];
-        if (FUN_006bab00(pov->Center, pov->fRadius, start, end))
+        if (::FUN_006bab00((const ::Pt3 &)(pov->Center), pov->fRadius, (const ::Pt3 &)(start), (const ::Pt3 &)(end)))
         {
             Sphere sphere(pov->Center, pov->fRadius);
             Segment kSegment(start, end);
             SphereIntersection result;
-            IntersectLineCircle(sphere, kSegment, result);
+            ::CircleIntersection::IntersectLineCircle((::CircleIntersection::Circle *)&(sphere), (const ::CircleIntersection::Line *)&(kSegment), (::CircleIntersection::Result *)&(result));
             NiPoint3 entryPoint, leavePoint;
             switch (result.type)
             {
@@ -482,17 +582,17 @@ bool PathSmootherPOVSearch::CalculatePathCost(PathSmootherPOVPoint* from, PathSm
             }
             if (pov->eType == 5 && pov != to)
             {
-                if (pRequest->GetByteAtOffset9B() && from->eType != 2)
+                if (((bool)(reinterpret_cast<::FUN_006a9560_Class *>((pRequest))->GetByteAtOffset9B())) && from->eType != 2)
                     return false;
                 else
                     *pfCost *= 10.0f;
             }
-            float segmentLength = (leavePoint - entryPoint).FUN_00457990();
-            float fDist = DistanceToSegment(pov->Center, entryPoint, leavePoint, 0);
+            float segmentLength = reinterpret_cast<::NiPoint3 *>((void *)&(const ::NiPoint3 &)((leavePoint - entryPoint)))->ComputeMagnitude();
+            float fDist = ::DistanceToSegment((::V006b9b10 *)&(pov->Center), (::V006b9b10 *)&(entryPoint), (::V006b9b10 *)&(leavePoint), (unsigned char *)(float *)(0));
             float costFraction = (pov->fRadius - fDist) / pov->fRadius;
             if (costFraction < 0.0f)
                 costFraction = 0.0f;
-            *pfCost += (1.0f + costFraction * DAT_011d7084.Float()->f) * segmentLength;
+            *pfCost += (1.0f + costFraction * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d7084))))))->f) * segmentLength;
         }
     }
     return true;
@@ -503,27 +603,27 @@ bool PathSmootherPOVSearch::CalculatePathCost(PathSmootherPOVPoint* from, PathSm
 void PathSmootherPOVSearch::CollectUniqueNavMeshes()
 {
     BSSimpleArray<NavMesh*> uniqueMeshes;
-    for (unsigned int i = 0; i < Triangles->GetSize(); ++i)
+    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)(Triangles))->GetName())); ++i)
     {
-        if (uniqueMeshes.Find(Triangles->FUN_006dad90(i), 0, FUN_009a3830) == 0xffffffff)
-            uniqueMeshes.Add(Triangles->FUN_006dad90(i));
+        if (uniqueMeshes.Find(Triangles->FUN_006dad90(i), 0, ((bool (&)(NavMesh *const &, NavMesh *const &))::FUN_009a3830)) == 0xffffffff)
+            reinterpret_cast<::FUN_00438690 *>(&(uniqueMeshes))->FUN_007cb2e0((unsigned int *)&(Triangles->FUN_006dad90(i)));
     }
-    for (unsigned int i = 0; i < uniqueMeshes.GetSize(); ++i)
+    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(uniqueMeshes))->GetName())); ++i)
     {
         NavMesh* mesh = uniqueMeshes[i];
-        for (unsigned int j = 0; j < mesh->FUN_00691620(); ++j)
+        for (unsigned int j = 0; j < reinterpret_cast<::FUN_00691620_shell *>((mesh))->GetFlags(); ++j)
         {
             PathSmootherPOVPoint* pov = new PathSmootherPOVPoint;
             pov->eType = 4;
             pov->m_kFirstEdge = NiPoint3::ZERO;
             pov->m_kSecondEdge = NiPoint3::ZERO;
-            pov->Center = mesh->FUN_00691640(j).FUN_006815c0();
+            pov->Center = (*(const ::NiPoint3 *)(new ((void *)&((*(::AvoidSphere *)(reinterpret_cast<::FUN_00691640_shell *>((mesh))->FUN_00691640(j))))) ::Vec3()));
             pov->m_fWeight = 1.0f;
-            pov->fRadius = mesh->FUN_00691640(j).GetRadius() + pRequest->GetFloatAtOffset68() * 1.2f;
+            pov->fRadius = reinterpret_cast<::BSMultiBoundSphere *>((void *)&((*(::AvoidSphere *)(reinterpret_cast<::FUN_00691640_shell *>((mesh))->FUN_00691640(j)))))->GetRadius() + ::GetFloatAtOffset68((const char *)(pRequest)) * 1.2f;
             pov->m_uiReferenceIndex = 0xffffffff;
             pov->m_uiCompositeId = i * 1000 + j;
-            m_kPathPoints.Add(pov);
-            m_kRequestPathPoints.Add(pov);
+            reinterpret_cast<::FUN_00438690 *>(&(m_kPathPoints))->FUN_007cb2e0((unsigned int *)&(pov));
+            reinterpret_cast<::FUN_00438690 *>(&(m_kRequestPathPoints))->FUN_007cb2e0((unsigned int *)&(pov));
         }
     }
 }
@@ -537,7 +637,7 @@ PathSmootherPOVSearch::~PathSmootherPOVSearch()
 // @fnv 0x006b1dc0
 bool PathSmootherPOVSearch::HasReachedGoal(const POVNode* node)
 {
-    return node->FUN_00413f40().m_pAvoidNode->eType == 3;
+    return (*(const ::PathSmootherPOVAvoidanceNode *)(reinterpret_cast<::TESTopicInfoData *>((void *)(node))->GetLinkToList())).m_pAvoidNode->eType == 3;
 }
 
 // MSVC9 allocates these locals by identifier as well as scope.
@@ -576,11 +676,11 @@ bool PathSmootherPOVSearch::FindPathToPoint(const POVNode* node, PathSmootherPOV
     int failedCount;
     const NavMeshEdgeSegment* incomingLink;
     {
-        const PathSmootherPOVAvoidanceNode& currentNode = node->FUN_00413f40();
-        incomingLink = &node->FUN_007d6bb0();
+        const PathSmootherPOVAvoidanceNode& currentNode = (*(const ::PathSmootherPOVAvoidanceNode *)(reinterpret_cast<::TESTopicInfoData *>((void *)(node))->GetLinkToList()));
+        incomingLink = &(*(const ::NavMeshEdgeSegment *)(reinterpret_cast<::NonActorMagicTarget *>((void *)(node))->GetActiveEffectList()));
         if (pov == currentNode.m_pAvoidNode)
             return true;
-        if (node->GetField54() && pov == node->GetField54()->FUN_00413f40().m_pAvoidNode)
+        if (((::AStarNode< ::PathSmootherPOVAvoidanceNode, ::NavMeshEdgeSegment> *)(reinterpret_cast<::FUN_006a1b60_Class *>((void *)(node))->GetField54())) && pov == (*(const ::PathSmootherPOVAvoidanceNode *)(reinterpret_cast<::TESTopicInfoData *>((void *)(((::AStarNode< ::PathSmootherPOVAvoidanceNode, ::NavMeshEdgeSegment> *)(reinterpret_cast<::FUN_006a1b60_Class *>((void *)(node))->GetField54()))))->GetLinkToList())).m_pAvoidNode)
             return true;
         NiPoint3 centerDelta = pov->Center - currentNode.m_pAvoidNode->Center;
         float xyDistanceSquared = centerDelta.GetSquaredXYLength();
@@ -592,7 +692,7 @@ bool PathSmootherPOVSearch::FindPathToPoint(const POVNode* node, PathSmootherPOV
         SphereTangents tangentData;
         int tangentCount =
             NavMeshPOVSearch::FindSphereTangents(startSphere, endSphere, currentNode.Direction, tangentData);
-        if (!node->GetField54())
+        if (!((::AStarNode< ::PathSmootherPOVAvoidanceNode, ::NavMeshEdgeSegment> *)(reinterpret_cast<::FUN_006a1b60_Class *>((void *)(node))->GetField54())))
         {
             NiPoint3 direction = currentNode.m_pAvoidNode->Center - pov->Center;
             if (direction.FUN_004a7290() < pov->fRadius * pov->fRadius)
@@ -650,13 +750,13 @@ bool PathSmootherPOVSearch::FindPathToPoint(const POVNode* node, PathSmootherPOV
                                 continue;
                             if (pov->eType == 1 && tangentData.Tangents[i].Direction == AD_CCW)
                                 continue;
-                            if (node->GetField54() && (node->GetField54()->Node.m_pAvoidNode->eType == 0 ||
-                                                       node->GetField54()->Node.m_pAvoidNode->eType == 1))
+                            if (((::AStarNode< ::PathSmootherPOVAvoidanceNode, ::NavMeshEdgeSegment> *)(reinterpret_cast<::FUN_006a1b60_Class *>((void *)(node))->GetField54())) && (((::AStarNode< ::PathSmootherPOVAvoidanceNode, ::NavMeshEdgeSegment> *)(reinterpret_cast<::FUN_006a1b60_Class *>((void *)(node))->GetField54()))->Node.m_pAvoidNode->eType == 0 ||
+                                                       ((::AStarNode< ::PathSmootherPOVAvoidanceNode, ::NavMeshEdgeSegment> *)(reinterpret_cast<::FUN_006a1b60_Class *>((void *)(node))->GetField54()))->Node.m_pAvoidNode->eType == 1))
                             {
                                 SineCosine angle = tangentData.Tangents[i].m_kStartAngle - incomingLink->m_kEnd;
                                 if (currentNode.Direction == AD_CCW)
                                 {
-                                    float radians = angle.FUN_006a0840();
+                                    float radians = reinterpret_cast<::FUN_006a0840_shell *>((void *)&(angle))->FUN_006a0840();
                                     if (radians < 0.0)
                                         radians += 6.2831854820251465;
                                     if (radians > 3.4906585216522217)
@@ -664,7 +764,7 @@ bool PathSmootherPOVSearch::FindPathToPoint(const POVNode* node, PathSmootherPOV
                                 }
                                 else
                                 {
-                                    float radians = angle.FUN_006a0840();
+                                    float radians = reinterpret_cast<::FUN_006a0840_shell *>((void *)&(angle))->FUN_006a0840();
                                     if (radians > 0.0)
                                         radians -= 6.2831854820251465;
                                     if (radians < -3.4906585216522217)
@@ -674,10 +774,10 @@ bool PathSmootherPOVSearch::FindPathToPoint(const POVNode* node, PathSmootherPOV
                             CircularArc sourceArc(incomingLink->m_kEnd, tangentData.Tangents[i].m_kStartAngle,
                                                   currentNode.Direction);
                             NavMeshEdgePoint sourceLocation;
-                            if (!node->GetField54())
+                            if (!((::AStarNode< ::PathSmootherPOVAvoidanceNode, ::NavMeshEdgeSegment> *)(reinterpret_cast<::FUN_006a1b60_Class *>((void *)(node))->GetField54())))
                             {
-                                sourceLocation.m_pLocationNavMesh = Triangles->GetFirstElement().m_pLocationNavMesh;
-                                sourceLocation.m_usTriangleID = Triangles->GetFirstElement().m_usTriangleIdentifier;
+                                sourceLocation.m_pLocationNavMesh = ::GetFirstElement((const ::BSSimpleArray< ::NavMeshTriangleReference, 1024> *)(Triangles)).m_pLocationNavMesh;
+                                sourceLocation.m_usTriangleID = ::GetFirstElement((const ::BSSimpleArray< ::NavMeshTriangleReference, 1024> *)(Triangles)).m_usTriangleIdentifier;
                                 sourceLocation.m_iEdgeIndex = -1;
                                 sourceLocation.Location = m_kPathStartPosition;
                             }
@@ -685,7 +785,7 @@ bool PathSmootherPOVSearch::FindPathToPoint(const POVNode* node, PathSmootherPOV
                                 sourceLocation = incomingLink->m_kEndPoint;
                             ++testedCount;
                             NavMeshEdgePoint exitLocation;
-                            if (!node->GetField54())
+                            if (!((::AStarNode< ::PathSmootherPOVAvoidanceNode, ::NavMeshEdgeSegment> *)(reinterpret_cast<::FUN_006a1b60_Class *>((void *)(node))->GetField54())))
                                 exitLocation = sourceLocation;
                             else
                             {
@@ -712,7 +812,7 @@ bool PathSmootherPOVSearch::FindPathToPoint(const POVNode* node, PathSmootherPOV
                                 ++failedCount;
                                 continue;
                             }
-                            if (node->GetField54())
+                            if (((::AStarNode< ::PathSmootherPOVAvoidanceNode, ::NavMeshEdgeSegment> *)(reinterpret_cast<::FUN_006a1b60_Class *>((void *)(node))->GetField54())))
                             {
                                 sourceLocation.m_iEdgeIndex = -1;
                                 if (!m_bUnderwaterPath && !FUN_006b23d0(sourceLocation, startSphere, sourceArc))
@@ -727,7 +827,7 @@ bool PathSmootherPOVSearch::FindPathToPoint(const POVNode* node, PathSmootherPOV
                                 projectedPoint.z);
                             float heightDelta = projectedPoint.z - endSphere.Center.z;
                             if (!((entryLocation.Location.z <
-                                       g_TES->UpdateTESState(
+                                       (*reinterpret_cast<::TES * *>(&::g_TES))->UpdateTESState(
                                            entryLocation.Location,
                                            entryLocation.m_pLocationNavMesh->GetCurrentMoveModeType()) ||
                                    heightDelta > -64.0f) &&
@@ -743,8 +843,8 @@ bool PathSmootherPOVSearch::FindPathToPoint(const POVNode* node, PathSmootherPOV
                                 continue;
                             discount *= 0.8999999761581421;
                             FUN_005330e0(discount, 0.0f, 1.0f);
-                            cost = node->FUN_006a7f50();
-                            if (node->GetField54())
+                            cost = reinterpret_cast<::CombatTargetTimestamp *>((void *)(node))->FUN_006a7f50();
+                            if (((::AStarNode< ::PathSmootherPOVAvoidanceNode, ::NavMeshEdgeSegment> *)(reinterpret_cast<::FUN_006a1b60_Class *>((void *)(node))->GetField54())))
                                 cost += sourceArc.FUN_006a07a0(currentNode.m_pAvoidNode->fRadius) * pov->m_fWeight *
                                         (1.0f - discount);
                             cost += fScaleMultiplier * pov->m_fWeight * (1.0f - discount);
@@ -832,6 +932,8 @@ unsigned int FUN_0069f900_shell::FUN_0069f900(PathSmootherPOVPoint* apPOV, int a
 struct P3
 {
     int x, y, z;
+public:
+    ::P3 *FUN_004a0bd0(::P3 *);
 };
 struct FUN_006a04b0_stand
 {
@@ -862,9 +964,9 @@ void* __fastcall FUN_006ae120(char* pObject)
     *(int*)pObject = -1;
     *(NiPoint3*)(pObject + 4) = NiPoint3::ZERO;
     *(float*)(pObject + 0x10) = 0.0f;
-    ((NiBound*)(pObject + 0x14))->NiBound::NiBound();
-    ((AvoidSphere*)(pObject + 0x20))->FUN_006815c0();
-    ((AvoidSphere*)(pObject + 0x2c))->FUN_006815c0();
+    ::FUN_006240d0((void *)(((NiBound*)(pObject + 0x14))));
+    new ((void *)(((AvoidSphere*)(pObject + 0x20)))) ::Vec3();
+    new ((void *)(((AvoidSphere*)(pObject + 0x2c)))) ::Vec3();
     *(float*)(pObject + 0x38) = 1.0f;
     return pObject;
 }
@@ -889,19 +991,17 @@ struct NiFixedString;
 class NiAVObject
 {
   public:
-    NiFixedString& GetName();
 };
 
 // @fnv 0x006b1df0
 void FUN_006b1df0_shell::SetPOVSearchNode(void* apNode, PathSmootherPOVPoint* apPOV, int aDirection)
 {
-    reinterpret_cast<int*>(&reinterpret_cast<NiAVObject*>(apNode)->GetName())[0] = reinterpret_cast<int>(apPOV);
-    reinterpret_cast<int*>(&reinterpret_cast<NiAVObject*>(apNode)->GetName())[1] = aDirection;
+    reinterpret_cast<int*>(&(*(::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((reinterpret_cast<NiAVObject*>(apNode)))->GetLinkToList())))[0] = reinterpret_cast<int>(apPOV);
+    reinterpret_cast<int*>(&(*(::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((reinterpret_cast<NiAVObject*>(apNode)))->GetLinkToList())))[1] = aDirection;
 
     *reinterpret_cast<float*>(reinterpret_cast<char*>(apNode) + 4) =
-        (*reinterpret_cast<NiPoint3*>(reinterpret_cast<char*>(apPOV) + 4) -
-         *reinterpret_cast<NiPoint3*>(*reinterpret_cast<char**>(reinterpret_cast<char*>(this) + 0x20c8) + 4))
-            .FUN_00457990() *
+        reinterpret_cast<::NiPoint3 *>((void *)&(const ::NiPoint3 &)((*reinterpret_cast<NiPoint3*>(reinterpret_cast<char*>(apPOV) + 4) -
+         *reinterpret_cast<NiPoint3*>(*reinterpret_cast<char**>(reinterpret_cast<char*>(this) + 0x20c8) + 4))))->ComputeMagnitude() *
         0.1f;
 }
 
@@ -938,13 +1038,13 @@ char* FUN_006b3160_shell::FUN_006b3160(unsigned int uiIndex)
 // @fnv 0x006b3180
 const NavMeshTriangleReference& __fastcall GetFirstElement(const BSSimpleArray<NavMeshTriangleReference, 1024>* pThis)
 {
-    return pThis->FUN_006b3160(0);
+    return (*(const ::NavMeshTriangleReference *)(reinterpret_cast<::FUN_006b3160_shell *>((void *)(pThis))->FUN_006b3160(0)));
 }
 
 // @fnv 0x006b31a0
 const NavMeshTriangleReference& __fastcall GetLastElement(const BSSimpleArray<NavMeshTriangleReference, 1024>* pThis)
 {
-    return pThis->FUN_006b3160(*(const unsigned int*)((const char*)pThis + 8) - 1);
+    return (*(const ::NavMeshTriangleReference *)(reinterpret_cast<::FUN_006b3160_shell *>((void *)(pThis))->FUN_006b3160(*(const unsigned int*)((const char*)pThis + 8) - 1)));
 }
 
 class Date
@@ -986,11 +1086,10 @@ class GlobalObject_00869f00
 void __fastcall InitGlobalObject(GlobalObject_00869f00* _this)
 {
     *(int**)_this = &DAT_0106ba1c;
-    _this->Clear(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((_this))->Clear(true);
 }
 
 namespace fnv_006b35f0 {
-extern int DAT_0106ba30;
 
 struct GlobalObject_00869f00
 {
@@ -1000,8 +1099,8 @@ struct GlobalObject_00869f00
 // @fnv 0x006b35f0
 void __fastcall FUN_006b35f0(GlobalObject_00869f00* pThis)
 {
-    *(int**)pThis = &DAT_0106ba30;
-    pThis->Clear(true);
+    *(int**)pThis = &::DAT_0106ba30;
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((pThis))->Clear(true);
 }
 }  // namespace fnv_006b35f0
 
@@ -1011,7 +1110,7 @@ extern int DAT_0106ba44;
 void __fastcall InitSimpleArray(BSSimpleArray<NavMeshEdgeSegment, 1024>* _this)
 {
     *(int**)_this = &DAT_0106ba44;
-    _this->Clear(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((_this))->Clear(true);
 }
 
 namespace fnv_006b3710 {
@@ -1025,13 +1124,14 @@ class GlobalObject_00869f00
 void __fastcall FUN_006b3710(GlobalObject_00869f00* pThis)
 {
     *(const char**)pThis = "p9k";
-    pThis->Clear(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((pThis))->Clear(true);
 }
 }  // namespace fnv_006b3710
 
 struct WaitableObject
 {
-    void FUN_0040f6e0();
+public:
+    void FUN_00401970();
 };
 struct FUN_006b37b0_stand
 {
@@ -1044,14 +1144,13 @@ FUN_006b37b0_stand* FUN_006b37b0_stand::SetObject(int* pObject)
 {
     p = pObject;
     if (p)
-        ((WaitableObject*)((char*)p + 0x10))->FUN_0040f6e0();
+        reinterpret_cast<::FUN_0040f6e0_class *>((((WaitableObject*)((char*)p + 0x10))))->FUN_0040f6e0();
     return this;
 }
 
 namespace fnv_006b37e0 {
 struct NiAVObject
 {
-    void FUN_00401970();
 };
 
 // If the object pointer at pThis is non-null, calls FUN_00401970 on the NiAVObject at offset 0x10 of that pointer.
@@ -1060,7 +1159,7 @@ void __fastcall FUN_006b37e0(char** pThis)
 {
     if (*pThis)
     {
-        ((NiAVObject*)(*pThis + 0x10))->FUN_00401970();
+        reinterpret_cast<::WaitableObject *>((((NiAVObject*)(*pThis + 0x10))))->FUN_00401970();
     }
 }
 }  // namespace fnv_006b37e0
@@ -1088,14 +1187,13 @@ struct DummyArr
     void* m_ptr;
     unsigned int m_iElementCount;
     unsigned int m_pRayCursor;
-    int GetBufferElementAddress(unsigned int);
     int FUN_006b3100();
 };
 
 // @fnv 0x006b3100
 int DummyArr::FUN_006b3100()
 {
-    return GetBufferElementAddress(m_iElementCount - 1);
+    return reinterpret_cast<::DummyArr *>(this)->GetBufferElementAddress(m_iElementCount - 1);
 }
 }  // namespace fnv_006b3100
 
@@ -1118,14 +1216,13 @@ struct FUN_006b3140_shell
     int m_00;
     int m_04;
     int m_08;
-    void GetElementAt(int);
     void FUN_006b3140();
 };
 
 // @fnv 0x006b3140
 void FUN_006b3140_shell::FUN_006b3140()
 {
-    GetElementAt(m_08 - 1);
+    reinterpret_cast<::FUN_006b3120_shell *>(this)->GetElementAt(m_08 - 1);
 }
 
 struct FUN_006b3570_shell
@@ -1155,25 +1252,23 @@ struct FUN_006b3780_shell
 // @fnv 0x006b3780
 void* __thiscall FUN_006b3780_shell::AllocateScaledBlock(unsigned int size)
 {
-    void* p = ::operator new(size << 5);
+    void* p = ::FUN_00401000(size << 5);
     return p;
 }
 
 struct Dummy_0061bf20
 {
     void* vtable;
-    void FUN_006b3f40(int, int);
     Dummy_0061bf20* FUN_006b35c0();
 };
 
-extern int DAT_0106ba30;
 
 // Sets the vtable to DAT_0106ba30, calls FUN_006b3f40 with 0 and 0, and returns this.
 // @fnv 0x006b35c0
 Dummy_0061bf20* Dummy_0061bf20::FUN_006b35c0()
 {
     vtable = &DAT_0106ba30;
-    this->FUN_006b3f40(0, 0);
+    reinterpret_cast<::FUN_006b3f40_Class *>((this))->FUN_006b3f40(0, 0);
     return this;
 }
 
@@ -1186,11 +1281,10 @@ struct FUN_006b36b0_shell
 // @fnv 0x006b36b0
 void* FUN_006b36b0_shell::AllocateBlock(int count)
 {
-    void* mem = operator new(count * 64);
+    void* mem = ::FUN_00401000(count * 64);
     return mem;
 }
 
-void __cdecl _Deallocate(void*);
 struct FUN_006ad660_shell : PathSmootherPOVSearch
 {
     void* DestroyPathSmootherPOVSearch(unsigned int);
@@ -1201,7 +1295,7 @@ void* FUN_006ad660_shell::DestroyPathSmootherPOVSearch(unsigned int flags)
 {
     this->PathSmootherPOVSearch::~PathSmootherPOVSearch();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -1248,37 +1342,34 @@ extern int DAT_0106ba44;
 struct S_006b3610
 {
     void* vtable;
-    void FUN_006a2130(int, int);
     S_006b3610* FUN_006b3610();
+};
+struct Elem3660
+{
+    char data[64];
+};
+struct Holder3660
+{
+    int _0;
+    Elem3660* p;
+    int FUN_006b3660(int);
+public:
+    void FUN_006a2130(unsigned int, unsigned int);
 };
 // Sets the vtable pointer to DAT_0106ba44, calls FUN_006a2130 with 0, 0, and returns this.
 // @fnv 0x006b3610
 S_006b3610* S_006b3610::FUN_006b3610()
 {
     vtable = &DAT_0106ba44;
-    FUN_006a2130(0, 0);
+    reinterpret_cast<::Holder3660 *>(this)->FUN_006a2130(0, 0);
     return this;
 }
-
-struct Elem3660
-{
-    char data[64];
-    void FUN_006b3910(int);
-};
-struct Holder3660
-{
-    int _0;
-    Elem3660* p;
-    int FUN_006b3fd0();
-    void FUN_006a2630(Elem3660*, int);
-    int FUN_006b3660(int);
-};
 // @fnv 0x006b3660
 int Holder3660::FUN_006b3660(int a)
 {
-    int iIndex = FUN_006b3fd0();
-    FUN_006a2630(&p[iIndex], 1);
-    p[iIndex].FUN_006b3910(a);
+    int iIndex = ((int)(reinterpret_cast<::FUN_006b3fd0_cls *>(this)->FUN_006b3fd0()));
+    reinterpret_cast<::Array64 *>(this)->FUN_006a2630((::ResizeElement64 *)(::Elem3660 *)(&p[iIndex]), 1);
+    reinterpret_cast<::FUN_006b3910_S *>(&(p[iIndex]))->FUN_006b3910((const ::FUN_006b3910_S *)(a));
     return iIndex;
 }
 
@@ -1286,7 +1377,6 @@ extern int $SG4390;
 struct S006b36e0
 {
     void* vtable;
-    void FUN_006b4190(int, int);
     S006b36e0* FUN_006b36e0();
 };
 // Sets the vtable to $SG4390, calls FUN_006b4190 with 0, 0, and returns this.
@@ -1294,17 +1384,15 @@ struct S006b36e0
 S006b36e0* S006b36e0::FUN_006b36e0()
 {
     vtable = &$SG4390;
-    FUN_006b4190(0, 0);
+    reinterpret_cast<::FUN_006b4190_class *>(this)->FUN_006b4190(0, 0);
     return this;
 }
 
 struct H4060
 {
-    int GetNextIndex();
 };
 struct H40F0
 {
-    void ConstructElements(void* p, int i);
 };
 struct H39A0
 {
@@ -1320,8 +1408,8 @@ struct MyHolder
 int MyHolder::FUN_006b3730(int a)
 {
     int iIndex;
-    iIndex = ((H4060*)this)->GetNextIndex();
-    ((H40F0*)this)->ConstructElements((void*)(iIndex * 32 + f4), 1);
+    iIndex = reinterpret_cast<::FUN_006b4060_class *>((((H4060*)this)))->GetNextIndex();
+    reinterpret_cast<::C6B40F0Allocator *>((((H40F0*)this)))->ConstructElements((::C6B40F0Element *)(void *)((void*)(iIndex * 32 + f4)), 1);
     ((H39A0*)(iIndex * 32 + f4))->FUN_006b39a0(a);
     return iIndex;
 }
@@ -1417,12 +1505,10 @@ struct FUN_00996840_shell
 };
 struct PSNodePool
 {
-    PSNode* FUN_006b3d90();
     char pad[0x10];
 };
 struct PSOpenList
 {
-    void UnlinkFromList(PSNode*);
 };
 struct FUN_006b3420_shell
 {
@@ -1444,7 +1530,7 @@ int FUN_006b3420_shell::InsertOrUpdateNode(unsigned int aiKey, float afCost, PSN
             if ((*pBucketHead)->m_fPathingCostCur > afCost)
             {
                 *aRetNode = *pBucketHead;
-                kOpen.UnlinkFromList(*aRetNode);
+                reinterpret_cast<::FUN_006a1fb0_class *>(&(kOpen))->UnlinkFromList((int)(*aRetNode));
                 (*aRetNode)->m_fPathingCostCur = afCost;
                 return 1;
             }
@@ -1466,7 +1552,7 @@ int FUN_006b3420_shell::InsertOrUpdateNode(unsigned int aiKey, float afCost, PSN
                     if (pcurrent->m_fPathingCostCur > afCost)
                     {
                         *aRetNode = pcurrent;
-                        kOpen.UnlinkFromList(*aRetNode);
+                        reinterpret_cast<::FUN_006a1fb0_class *>(&(kOpen))->UnlinkFromList((int)(*aRetNode));
                         (*aRetNode)->m_fPathingCostCur = afCost;
                         return 1;
                     }
@@ -1480,7 +1566,7 @@ int FUN_006b3420_shell::InsertOrUpdateNode(unsigned int aiKey, float afCost, PSN
             }
         }
     }
-    *aRetNode = kPool.FUN_006b3d90();
+    *aRetNode = ((::PSNode *)(reinterpret_cast<::S_006b3d90 *>(&(kPool))->FUN_006b3d90()));
     (*aRetNode)->uiKey = aiKey;
     (*aRetNode)->m_fPathingCostCur = afCost;
     (*aRetNode)->pNext = *pBucketHead;
@@ -1490,7 +1576,6 @@ int FUN_006b3420_shell::InsertOrUpdateNode(unsigned int aiKey, float afCost, PSN
 
 struct BSSimpleArrayActor
 {
-    unsigned int Add(void*& value);
 };
 
 struct FUN_006ae190_shell
@@ -1522,14 +1607,12 @@ void FUN_006ae190_shell::FUN_006ae190()
     *reinterpret_cast<unsigned short*>(
         reinterpret_cast<char*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x20c4)) + 0x48) = 0xffff;
 
-    reinterpret_cast<BSSimpleArrayActor*>(reinterpret_cast<char*>(this) + 0x20b4)
-        ->Add(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x20c4));
+    reinterpret_cast<::FUN_00438690 *>((reinterpret_cast<BSSimpleArrayActor*>(reinterpret_cast<char*>(this) + 0x20b4)))->FUN_007cb2e0((unsigned int *)&(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x20c4)));
 }
 
 namespace fnv_006ae280 {
 struct BSSimpleArrayActor
 {
-    unsigned int Add(void*& value);
     unsigned char padding[0x13];
 };
 
@@ -1571,14 +1654,13 @@ void FUN_006ae280_shell::CreateSmoother()
     reinterpret_cast<FUN_006ae280_Smoother*>(this->smoother)->value = 0.0f;
     reinterpret_cast<FUN_006ae280_Smoother*>(this->smoother)->flags = 0xffff;
 
-    this->actors.Add(this->smoother);
+    reinterpret_cast<::FUN_00438690 *>(&(this->actors))->FUN_007cb2e0((unsigned int *)&(this->smoother));
 }
 }  // namespace fnv_006ae280
 
 class Key6AE
 {
   public:
-    Key6AE* Copy(const Key6AE* pkOther);
 
     int unk00;
     int unk04;
@@ -1609,8 +1691,6 @@ class Entry6AE
 class List6AE
 {
   public:
-    int GetCount();
-    int Add(Entry6AE* pkEntry);
 
     int unk00;
     int unk04;
@@ -1896,12 +1976,12 @@ class Manager6AE
 void Manager6AE::AddEntry(const Key6AE* pkKey, const Data6AE& kData)
 {
     Entry6AE kEntry;
-    kEntry.m_kControlPoint.Copy(pkKey);
-    kEntry.m_kData = kData;
-    kEntry.m_iCountA = m_kOther.GetCount();
-    kEntry.m_iCountB = m_kEntries.GetCount();
+    reinterpret_cast<::S0069a690 *>(&(kEntry.m_kControlPoint))->FUN_0069a690((const ::S0069a690 *)(pkKey));
+    reinterpret_cast<::FUN_006bc870_shell *>((void *)&(const ::Data6AE &)(kEntry.m_kData))->CopyFromNavMeshEdge((void *)&(kData));
+    kEntry.m_iCountA = ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kOther))->GetName()));
+    kEntry.m_iCountB = ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kEntries))->GetName()));
     kEntry.m_iIndex = -1;
-    m_kEntries.Add(&kEntry);
+    reinterpret_cast<::MyHolder *>(&(m_kEntries))->FUN_006b3730((int)(&kEntry));
 }
 
 struct Point17
@@ -1909,9 +1989,7 @@ struct Point17
     float x, y, z;
     Point17 operator+(const Point17&) const;
     Point17 operator-(const Point17&) const;
-    void FUN_004a0c10();
     Point17& operator*=(float);
-    Point17& Subtract(const Point17&);
 };
 struct Angle17
 {
@@ -1938,11 +2016,9 @@ struct LinkArrayOps
 };
 struct LocationOps17
 {
-    NavMeshEdgePoint& FUN_006cf900(const NavMeshEdgePoint&);
 };
 struct MeshOps17
 {
-    unsigned int FUN_0059bb30();
 };
 struct Link17
 {
@@ -1950,97 +2026,28 @@ struct Link17
     NavMeshEdgePoint m2, m3;
     Link17();
 };
-int FUN_006bb570(const Sphere17&, const Sphere17&, ANGLE_DIRECTION, SphereTangents&);
 struct LastNodeSearch17 : PathSmootherPOVSearch
 {
     bool FUN_006b1e50(const NavMeshEdgePoint&, Sphere17&, Arc17, NavMeshEdgePoint*);
-    bool FUN_006b23d0(const NavMeshEdgePoint&, Sphere17&, Arc17);
-    bool FUN_006b25f0(const NavMeshEdgePoint&, const Point17&, NavMeshEdgePoint*, bool, bool, float&);
     bool FindPath(const NavMeshEdgePoint&, const Point17&, NavMeshEdgePoint*, float&);
     bool FUN_006b2c00(PathSmootherPOVPoint*, PathSmootherPOVPoint*, NiPoint3&, const Point17&, float&);
     bool TryAddLastNode();
 };
-// Computes tangents between the current node and the target, validates the path, adjusts the endpoint for water, and appends a link and node.
-// @fnv 0x006b1970
-bool LastNodeSearch17::TryAddLastNode()
-{
-    if (Links.FUN_0076b610())
-        return false;
-    const PathSmootherPOVAvoidanceNode& h = Nodes.GetLastEdge();
-    const NavMeshEdgeSegment& eb = ((LinkArrayOps*)&Links)->FUN_006b3100();
-    Sphere17 f((const Point17&)h.m_pAvoidNode->Center, h.m_pAvoidNode->fRadius);
-    Sphere17 k((const Point17&)m_pGoalPoint->Center, m_pGoalPoint->fRadius);
-    SphereTangents b;
-    int q = FUN_006bb570(f, k, h.Direction, b);
-    if (!q)
-        return false;
-    Arc17 c((const Angle17&)eb.m_kEnd, (const Angle17&)b.Tangents[0].m_kStartAngle, h.Direction);
-    NavMeshEdgePoint cf;
-    if (!FUN_006b1e50(eb.m_kEndPoint, f, c, &cf))
-        return false;
-    if (!FUN_006b23d0(eb.m_kEndPoint, f, c))
-        return false;
-    NavMeshEdgePoint s;
-    Point17 ba = k.center + ((const Angle17&)b.Tangents[0].m_kEnd).MakePointOnCircle(k.radius);
-    cf.m_iEdgeIndex = -1;
-    float p = 0;
-    if (pRequest->GetFloatAtOffset68() >= 100.0)
-    {
-        if (FUN_006b25f0(cf, ba, &s, false, true, p))
-        {
-            float radius = 0;
-            if (!FUN_006b2c00(h.m_pAvoidNode, m_pGoalPoint, cf.Location, ba, radius))
-                return false;
-        }
-    }
-    else
-    {
-        if (FindPath(cf, ba, &s, p))
-        {
-            float radius = 0;
-            if (!FUN_006b2c00(h.m_pAvoidNode, m_pGoalPoint, cf.Location, ba, radius))
-                return false;
-        }
-    }
-    if (m_bUnderwaterPath)
-    {
-        float water = g_TES->UpdateTESState(s.Location, ((MeshOps17*)s.m_pLocationNavMesh)->FUN_0059bb30());
-        if (water >= s.Location.z)
-            s.Location.z = water;
-    }
-    Point17 l = ba - (const Point17&)cf.Location;
-    l.FUN_004a0c10();
-    l *= pRequest->GetFloatAtOffset68() * 2.0f;
-    ((Point17&)s.Location).Subtract(l);
-    Link17 a;
-    ((LocationOps17*)&a.m2)->FUN_006cf900(cf);
-    ((LocationOps17*)&a.m3)->FUN_006cf900(s);
-    ((Angle17&)a.m0) = (const Angle17&)b.Tangents[0].m_kStartAngle;
-    ((Angle17&)a.m1) = (const Angle17&)b.Tangents[0].m_kEnd;
-    Links.Add((const NavMeshEdgeSegment&)a);
-    PathSmootherPOVAvoidanceNode i;
-    i.m_pAvoidNode = m_pGoalPoint;
-    i.m_fPathDistance = 0;
-    i.Direction = b.Tangents[0].Direction;
-    Nodes.Add(i);
-    return true;
-}
-
 // @fnv 0x006b2fc0
 bool PathSmootherPOVSearch::FUN_006b2fc0(BSSimpleArray<NavMeshTriangleEdgeReference>* apEdges)
 {
     if (apEdges == 0)
         return false;
     bool bStateChanged = false;
-    for (unsigned int i = 0; i < Edges->GetSize(); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)(Edges))->GetName())); i++)
     {
         NiPoint3 kStartPt;
         NiPoint3 kEndPt;
-        Edges->operator[](i).m_pLocationNavMesh->FUN_0068f0c0(Edges->operator[](i).m_usTriangleIdentifier,
-                                                              Edges->operator[](i).m_iEdgeIndex, kStartPt, kEndPt);
-        if ((kStartPt - kEndPt).FUN_004a7290() < pRequest->GetFloatAtOffset68() * pRequest->GetFloatAtOffset68() * 4.0)
+        reinterpret_cast<::fnv_0068f0c0::FUN_0068f0c0_shell *>((Edges->operator[](i).m_pLocationNavMesh))->FUN_0068f0c0(Edges->operator[](i).m_usTriangleIdentifier,
+                                                              Edges->operator[](i).m_iEdgeIndex, (::NiPoint3 *)&(kStartPt), (::NiPoint3 *)&(kEndPt));
+        if (reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::NiPoint3 &)((kStartPt - kEndPt)))->UpdateCombatStyle() < ::GetFloatAtOffset68((const char *)(pRequest)) * ::GetFloatAtOffset68((const char *)(pRequest)) * 4.0)
         {
-            apEdges->Add(Edges->operator[](i));
+            reinterpret_cast<::FUN_006cf4c0_Array *>((apEdges))->FUN_006cf4c0((const ::ParentSpaceNode &)(Edges->operator[](i)));
             bStateChanged = true;
         }
     }
@@ -4155,7 +4162,6 @@ FUN_006b31c0_cls::FUN_006b31c0_cls()
 
 struct PSNodeSlot
 {
-    void InsertSorted(POVNode* pNode);
 };
 
 struct PSSearchView
@@ -4165,7 +4171,6 @@ struct PSSearchView
     PSNodeSlot m_1ff4;
     char unk1ff5[0x2050 - 0x1ff5];
     POVNode* m_2050;
-    int InsertOrUpdateNode(unsigned int aiKey, float afCost, POVNode*& aRetNode);
     POVNode* InsertNode(unsigned int aiKey, const PathSmootherPOVAvoidanceNode& aNode, float afCost);
 };
 
@@ -4173,12 +4178,12 @@ struct PSSearchView
 POVNode* PSSearchView::InsertNode(unsigned int aiKey, const PathSmootherPOVAvoidanceNode& aNode, float afCost)
 {
     POVNode* pNode;
-    switch (InsertOrUpdateNode(aiKey, 0.0f, pNode))
+    switch (reinterpret_cast<::FUN_006b3420_shell *>(this)->InsertOrUpdateNode(aiKey, 0.0f, (::PSNode **)&(pNode)))
     {
     case 0:
         pNode->m_fPathingCostCur = afCost;
         pNode->Node = aNode;
-        m_1ff4.InsertSorted(pNode);
+        reinterpret_cast<::FUN_006b3e10_cls *>(&(m_1ff4))->InsertSorted((::SortNodeB5152 *)(pNode));
         m_2050 = pNode;
         return pNode;
     case 1:
@@ -4198,14 +4203,10 @@ struct FUN_006b3380_obj
     virtual unsigned char v3(int);
 };
 
-FUN_006b3380_obj* FUN_00b00a00();
 int FUN_0040fc90();
 
 struct FUN_006b3380_shell : public PathSmootherPOVSearch
 {
-    void* FUN_006b3a30();
-    void CopyNodeListToArrays(void* cur, BSSimpleArray<PathSmootherPOVAvoidanceNode>* nodes,
-                              BSSimpleArray<NavMeshEdgeSegment>* links);
     bool FUN_006b3380(BSSimpleArray<PathSmootherPOVAvoidanceNode>* nodes, BSSimpleArray<NavMeshEdgeSegment>* links,
                       bool bUseCached);
 };
@@ -4217,8 +4218,8 @@ bool FUN_006b3380_shell::FUN_006b3380(BSSimpleArray<PathSmootherPOVAvoidanceNode
     bool result2;
     void* p4;
     void* cur;
-    searchState[0x2050] = FUN_00b00a00()->v3(FUN_0040fc90());
-    p4 = FUN_006b3a30();
+    searchState[0x2050] = ((::FUN_006b3380_obj *)&(::GetTaskletManager()))->v3(FUN_0040fc90());
+    p4 = ((void *)(reinterpret_cast<::PathSearch *>(this)->FUN_006b3a30()));
     if (p4 != 0)
     {
         result2 = true;
@@ -4235,21 +4236,20 @@ bool FUN_006b3380_shell::FUN_006b3380(BSSimpleArray<PathSmootherPOVAvoidanceNode
         cur = 0;
     }
     if (cur != 0)
-        CopyNodeListToArrays(cur, nodes, links);
+        reinterpret_cast<::FUN_006b3cb0_cls *>(this)->CopyNodeListToArrays((::FUN_006b3cb0_node *)(cur), (::FUN_006b3cb0_arg2 *)(nodes), (::FUN_006b3cb0_arg3 *)(links));
     return result2;
 }
 
 struct NiPoint3Cmp
 {
     float x, y, z;
-    bool IsEqual(const NiPoint3& other);
 };
 NiPoint3 operator*(float scale, const NiPoint3& point);
 
 // @fnv 0x006ba550
 NiPoint3 FUN_006ba550(const NiPoint3& a, const NiPoint3& b, const NiPoint3& c, const NiPoint3& d)
 {
-    if (((NiPoint3Cmp*)&a)->IsEqual(b))
+    if (reinterpret_cast<::NiPoint3 *>((((NiPoint3Cmp*)&a)))->FUN_004390c0(b))
         return a;
     float fB = (c.x - b.x) * (d.y - b.y) - (c.y - b.y) * (d.x - b.x);
     float fA2 = (c.x - a.x) * (d.y - a.y) - (c.y - a.y) * (d.x - a.x);
@@ -4257,7 +4257,7 @@ NiPoint3 FUN_006ba550(const NiPoint3& a, const NiPoint3& b, const NiPoint3& c, c
     NiPoint3 kResult3 = a + fRatio * (b - a);
     if (fB * fA2 > 0.0)
     {
-        if ((kResult3 - a).FUN_004a7290() < (kResult3 - b).FUN_004a7290())
+        if (reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::NiPoint3 &)((kResult3 - a)))->UpdateCombatStyle() < reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::NiPoint3 &)((kResult3 - b)))->UpdateCombatStyle())
             return a;
         else
             return b;
@@ -4272,15 +4272,9 @@ namespace AvoidNodes {
 struct Vec
 {
     float x, y, z;
-    Vec FUN_00439e90(const Vec&) const;
-    Vec FUN_00439ef0(const Vec&) const;
     Vec ApplyScaled(float) const;
     Vec FUN_004b3800(const Vec&) const;
-    float FUN_00457990();
 };
-extern const Vec DAT_011a9484;
-extern const float DAT_01016248, DAT_0101df44, DAT_01016410;
-extern const double DAT_010290c0, DAT_010290b0;
 struct FUN_006ae120
 {
     int type;
@@ -4295,68 +4289,58 @@ struct FUN_006ae120
 };
 struct NodeList
 {
-    void FUN_007cb2e0(FUN_006ae120*&);
 };
 struct Request
 {
-    bool FUN_006a7980();
 };
 struct Search : PathSmootherPOVSearch
 {
-    void FUN_006ae190();
     void BuildPOVLinks();
-    void CreateSmoother();
     void FUN_006aefc0();
-    void FUN_006af2b0();
-    void FUN_006af500();
     void AddAvoidanceNodes();
 };
 // Runs the search steps, then if the request passes, creates three type-4 avoidance nodes (center, left, right) and adds each to both node lists.
 // @fnv 0x006adcb0
 void Search::AddAvoidanceNodes()
 {
-    FUN_006ae190();
+    reinterpret_cast<::FUN_006ae190_shell *>(this)->FUN_006ae190();
     BuildPOVLinks();
-    CreateSmoother();
+    reinterpret_cast<::fnv_006ae280::FUN_006ae280_shell *>(this)->CreateSmoother();
     FUN_006aefc0();
-    FUN_006af2b0();
-    FUN_006af500();
-    if (((Request*)pRequest)->FUN_006a7980())
+    reinterpret_cast<::PathSmootherPOVSearch *>(this)->CollectUniqueNavMeshes();
+    reinterpret_cast<::PathSmootherPOVSearch *>(this)->BuildSmoothedPath();
+    if (reinterpret_cast<::FUN_006a7980_shell *>((((Request*)pRequest)))->FUN_006a7980())
     {
         FUN_006ae120* centerSlot13 = new FUN_006ae120;
         centerSlot13->type = 4;
         centerSlot13->center =
-            ((Vec&)m_kPathStartPosition).FUN_00439e90((Vec&)m_kGoalPosition).ApplyScaled(DAT_01016248);
+            (*(::AvoidNodes::Vec *)(reinterpret_cast<::Point3Offset *>((void *)&(((Vec&)m_kPathStartPosition)))->ProjectileLaunched((::NiPoint3 *)&((Vec&)m_kGoalPosition), {}))).ApplyScaled(::fnv_00c88020::DAT_01016248);
         centerSlot13->radius =
-            ((Vec&)m_kPathStartPosition).FUN_00439ef0((Vec&)m_kGoalPosition).FUN_00457990() * DAT_010290c0;
+            reinterpret_cast<::NiPoint3 *>((void *)&(const ::AvoidNodes::Vec &)((*(::AvoidNodes::Vec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(((Vec&)m_kPathStartPosition)))->FUN_00439ef0((::NiPoint3 *)&((Vec&)m_kGoalPosition), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude() * ::DAT_010290c0;
         centerSlot13->vertex = 0xffff;
-        centerSlot13->cost = DAT_01016410;
-        ((NodeList*)&m_kPathPoints)->FUN_007cb2e0(centerSlot13);
-        ((NodeList*)&m_kRequestPathPoints)->FUN_007cb2e0(centerSlot13);
-        Vec direction = ((Vec&)m_kPathStartPosition).FUN_00439ef0((Vec&)m_kGoalPosition);
-        Vec perpendicularSlot2 = DAT_011a9484.FUN_004b3800(direction);
+        centerSlot13->cost = ::DAT_01016410;
+        reinterpret_cast<::FUN_00438690 *>((((NodeList*)&m_kPathPoints)))->FUN_007cb2e0((unsigned int *)&(centerSlot13));
+        reinterpret_cast<::FUN_00438690 *>((((NodeList*)&m_kRequestPathPoints)))->FUN_007cb2e0((unsigned int *)&(centerSlot13));
+        Vec direction = (*(::AvoidNodes::Vec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(((Vec&)m_kPathStartPosition)))->FUN_00439ef0((::NiPoint3 *)&((Vec&)m_kGoalPosition), *(const ::NiPoint3 *)nullptr)));
+        Vec perpendicularSlot2 = (*reinterpret_cast<const ::AvoidNodes::Vec *>((void *)&::DAT_011a9484)).FUN_004b3800(direction);
         FUN_006ae120* leftSlot15 = new FUN_006ae120;
         leftSlot15->type = 4;
-        leftSlot15->center = ((Vec&)m_kGoalPosition)
-                                 .FUN_00439e90(direction.ApplyScaled(DAT_0101df44))
-                                 .FUN_00439e90(perpendicularSlot2.ApplyScaled(DAT_0101df44));
+        leftSlot15->center = (*(::AvoidNodes::Vec *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const ::AvoidNodes::Vec &)((*(::AvoidNodes::Vec *)(reinterpret_cast<::Point3Offset *>((void *)&(((Vec&)m_kGoalPosition)))->ProjectileLaunched((::NiPoint3 *)&(const ::AvoidNodes::Vec &)(direction.ApplyScaled(::DAT_0101df44)), {})))))->ProjectileLaunched((::NiPoint3 *)&(const ::AvoidNodes::Vec &)(perpendicularSlot2.ApplyScaled(::DAT_0101df44)), {})));
         leftSlot15->radius =
-            ((Vec&)m_kPathStartPosition).FUN_00439ef0((Vec&)m_kGoalPosition).FUN_00457990() * DAT_010290b0;
+            reinterpret_cast<::NiPoint3 *>((void *)&(const ::AvoidNodes::Vec &)((*(::AvoidNodes::Vec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(((Vec&)m_kPathStartPosition)))->FUN_00439ef0((::NiPoint3 *)&((Vec&)m_kGoalPosition), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude() * ::DAT_010290b0;
         leftSlot15->vertex = 0xffff;
-        leftSlot15->cost = DAT_01016410;
-        ((NodeList*)&m_kPathPoints)->FUN_007cb2e0(leftSlot15);
-        ((NodeList*)&m_kRequestPathPoints)->FUN_007cb2e0(leftSlot15);
+        leftSlot15->cost = ::DAT_01016410;
+        reinterpret_cast<::FUN_00438690 *>((((NodeList*)&m_kPathPoints)))->FUN_007cb2e0((unsigned int *)&(leftSlot15));
+        reinterpret_cast<::FUN_00438690 *>((((NodeList*)&m_kRequestPathPoints)))->FUN_007cb2e0((unsigned int *)&(leftSlot15));
         FUN_006ae120* rightSlot10 = new FUN_006ae120;
         rightSlot10->type = 4;
-        rightSlot10->center = ((Vec&)m_kGoalPosition)
-                                  .FUN_00439e90(direction.ApplyScaled(DAT_0101df44))
-                                  .FUN_00439ef0(perpendicularSlot2.ApplyScaled(DAT_0101df44));
+        rightSlot10->center = (*(::AvoidNodes::Vec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const ::AvoidNodes::Vec &)((*(::AvoidNodes::Vec *)(reinterpret_cast<::Point3Offset *>((void *)&(((Vec&)m_kGoalPosition)))->ProjectileLaunched((::NiPoint3 *)&(const ::AvoidNodes::Vec &)(direction.ApplyScaled(::DAT_0101df44)), {})))))->FUN_00439ef0((::NiPoint3 *)&(const ::AvoidNodes::Vec &)(perpendicularSlot2.ApplyScaled(::DAT_0101df44)), *(const ::NiPoint3 *)nullptr)));
         rightSlot10->radius =
-            ((Vec&)m_kPathStartPosition).FUN_00439ef0((Vec&)m_kGoalPosition).FUN_00457990() * DAT_010290b0;
+            reinterpret_cast<::NiPoint3 *>((void *)&(const ::AvoidNodes::Vec &)((*(::AvoidNodes::Vec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(((Vec&)m_kPathStartPosition)))->FUN_00439ef0((::NiPoint3 *)&((Vec&)m_kGoalPosition), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude() * ::DAT_010290b0;
         rightSlot10->vertex = 0xffff;
-        rightSlot10->cost = DAT_01016410;
-        ((NodeList*)&m_kPathPoints)->FUN_007cb2e0(rightSlot10);
-        ((NodeList*)&m_kRequestPathPoints)->FUN_007cb2e0(rightSlot10);
+        rightSlot10->cost = ::DAT_01016410;
+        reinterpret_cast<::FUN_00438690 *>((((NodeList*)&m_kPathPoints)))->FUN_007cb2e0((unsigned int *)&(rightSlot10));
+        reinterpret_cast<::FUN_00438690 *>((((NodeList*)&m_kRequestPathPoints)))->FUN_007cb2e0((unsigned int *)&(rightSlot10));
     }
 }
 }
@@ -4364,14 +4348,11 @@ void Search::AddAvoidanceNodes()
 class AvoidSphereExt : public AvoidSphere
 {
   public:
-    int FUN_007af430();
 };
 
 class AvoidNodeArray
 {
   public:
-    unsigned int GetCount();
-    AvoidSphere* At(unsigned int);
 };
 
 class AvoidNodeArrayHolder
@@ -4380,10 +4361,8 @@ class AvoidNodeArrayHolder
     void* unk00;
     AvoidNodeArrayHolder(BSSimpleArray<void*>*);
     ~AvoidNodeArrayHolder();
-    AvoidNodeArray* Get();
 };
 
-extern const NiPoint3 DAT_011f426c;
 
 struct FUN_006aefc0_cls : public PathSmootherPOVSearch
 {
@@ -4393,37 +4372,37 @@ struct FUN_006aefc0_cls : public PathSmootherPOVSearch
 // @fnv 0x006aefc0
 void FUN_006aefc0_cls::FUN_006aefc0()
 {
-    AvoidNodeArrayHolder holder(this->pRequest->GetString());
-    if (holder.Get() != 0)
+    AvoidNodeArrayHolder holder(((::BSSimpleArray<void *> *)(reinterpret_cast<::_Dummy_0069e390 *>((this->pRequest))->GetString())));
+    if (((::AvoidNodeArray *)(::FUN_00559450((int *)&(holder)))) != 0)
     {
-        for (unsigned int i = 0; i < holder.Get()->GetCount(); i++)
+        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((::AvoidNodeArray *)(::FUN_00559450((int *)&(holder))))))->GetName())); i++)
         {
-            AvoidSphereExt* avoid = (AvoidSphereExt*)holder.Get()->At(i);
+            AvoidSphereExt* avoid = (AvoidSphereExt*)((::AvoidSphere *)(reinterpret_cast<::S3e60 *>((((::AvoidNodeArray *)(::FUN_00559450((int *)&(holder))))))->FUN_006a1400(i)));
             PathSmootherPOVPoint* cur = new PathSmootherPOVPoint();
             cur->eType = 4;
-            cur->m_kFirstEdge = DAT_011f426c;
-            cur->m_kSecondEdge = DAT_011f426c;
-            cur->Center = avoid->FUN_006815c0();
+            cur->m_kFirstEdge = ::NiPoint3::ZERO;
+            cur->m_kSecondEdge = ::NiPoint3::ZERO;
+            cur->Center = (*(const ::NiPoint3 *)(new ((void *)(avoid)) ::Vec3()));
             cur->m_fWeight = 1.0f;
-            cur->fRadius = (float)(avoid->GetRadius() + this->pRequest->GetFloatAtOffset68() * 1.2f);
+            cur->fRadius = (float)(reinterpret_cast<::BSMultiBoundSphere *>((void *)(avoid))->GetRadius() + ::GetFloatAtOffset68((const char *)(this->pRequest)) * 1.2f);
             cur->m_uiReferenceIndex = 0xffffffff;
             cur->m_uiCompositeId = i;
-            this->m_kPathPoints.Add(cur);
-            this->m_kRequestPathPoints.Add(cur);
+            reinterpret_cast<::FUN_00438690 *>(&(this->m_kPathPoints))->FUN_007cb2e0((unsigned int *)&(cur));
+            reinterpret_cast<::FUN_00438690 *>(&(this->m_kRequestPathPoints))->FUN_007cb2e0((unsigned int *)&(cur));
 
-            if (avoid->FUN_007af430() == 2)
+            if (((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((avoid))->FUN_007af430())) == 2)
             {
                 PathSmootherPOVPoint* pov2 = new PathSmootherPOVPoint();
                 pov2->eType = 5;
-                pov2->m_kFirstEdge = DAT_011f426c;
-                pov2->m_kSecondEdge = DAT_011f426c;
-                pov2->Center = avoid->FUN_006815c0();
+                pov2->m_kFirstEdge = ::NiPoint3::ZERO;
+                pov2->m_kSecondEdge = ::NiPoint3::ZERO;
+                pov2->Center = (*(const ::NiPoint3 *)(new ((void *)(avoid)) ::Vec3()));
                 pov2->m_fWeight = 10.0f;
-                pov2->fRadius = (float)(avoid->GetRadius() * 0.25 + this->pRequest->GetFloatAtOffset68() * 1.2f);
+                pov2->fRadius = (float)(reinterpret_cast<::BSMultiBoundSphere *>((void *)(avoid))->GetRadius() * 0.25 + ::GetFloatAtOffset68((const char *)(this->pRequest)) * 1.2f);
                 pov2->m_uiReferenceIndex = 0xffffffff;
                 pov2->m_uiCompositeId = i;
-                this->m_kPathPoints.Add(pov2);
-                this->m_kRequestPathPoints.Add(pov2);
+                reinterpret_cast<::FUN_00438690 *>(&(this->m_kPathPoints))->FUN_007cb2e0((unsigned int *)&(pov2));
+                reinterpret_cast<::FUN_00438690 *>(&(this->m_kRequestPathPoints))->FUN_007cb2e0((unsigned int *)&(pov2));
             }
         }
     }
@@ -4442,9 +4421,7 @@ struct Edge
 };
 struct Mesh
 {
-    Edge GetEdge(unsigned short, int);
     const Vec& Vertex(unsigned short);
-    bool Previous(unsigned short, int, Mesh**, unsigned short*, int*);
 };
 struct Handle
 {
@@ -4458,7 +4435,6 @@ struct Vertex
     Mesh* mesh;
     unsigned short index;
     Vertex(Mesh*, unsigned short);
-    bool Equals(const Vertex&) const;
 };
 struct Link
 {
@@ -4468,7 +4444,6 @@ struct Link
 };
 struct Links
 {
-    unsigned int Size() const;
     Link& At(unsigned int);
 };
 struct Triangles
@@ -4487,9 +4462,7 @@ struct Verts
     VertInfo* data;
     unsigned int size, capacity;
     void Clear(bool);
-    unsigned int Size() const;
     Vertex& Last();
-    VertInfo& GetElementAt(unsigned int);
 };
 struct POV
 {
@@ -6602,7 +6575,6 @@ struct Smoother
     int nodesVtable, nodesData, nodesSize, nodesCap;
     int linksVtable, linksData, linksSize, linksCap;
     Verts left, right;
-    void AddLeft(const Vertex&, const Handle&);
     void AddRight(const Vertex&, const Handle&);
     void InsertPOVPoint(Verts*, unsigned int, int);
     void BuildPOVLinks();
@@ -6610,103 +6582,103 @@ struct Smoother
 // @fnv 0x006ae370
 void Smoother::BuildPOVLinks()
 {
-    left.Clear(false);
-    right.Clear(false);
-    for (int i = 0; i < edges->Size(); ++i)
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(left))->Clear(false);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(right))->Clear(false);
+    for (int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)(edges))->GetName())); ++i)
     {
         Handle c(edges->At(i).mesh, edges->At(i).tri, edges->At(i).edge);
-        Edge j = edges->At(i).mesh->GetEdge(edges->At(i).tri, edges->At(i).edge);
+        Edge j = (*(::Edge *)(reinterpret_cast<::FUN_0068efd0_cls *>((edges->At(i).mesh))->FUN_0068efd0((::EdgeT *)(edges->At(i).tri), edges->At(i).edge, {})));
         Vertex l(edges->At(i).mesh, j.a);
         Vertex e(edges->At(i).mesh, j.b);
         if (i == 0)
         {
-            Vec diffVal = l.mesh->Vertex(l.index) - e.mesh->Vertex(e.index);
-            Vec crossVal = diffVal.Cross(l.mesh->Vertex(l.index) - start);
+            Vec diffVal = (*(const ::Vec *)(reinterpret_cast<::FUN_0068f0a0_shell *>((l.mesh))->FUN_0068f0a0(l.index))) - (*(const ::Vec *)(reinterpret_cast<::FUN_0068f0a0_shell *>((e.mesh))->FUN_0068f0a0(e.index)));
+            Vec crossVal = diffVal.Cross((*(const ::Vec *)(reinterpret_cast<::FUN_0068f0a0_shell *>((l.mesh))->FUN_0068f0a0(l.index))) - start);
             if (crossVal.z > 0.0)
             {
-                AddLeft(e, c);
+                reinterpret_cast<::Manager6AE *>(this)->AddEntry((const ::Key6AE *)&(e), (const ::Data6AE &)(c));
                 AddRight(l, c);
             }
             else
             {
-                AddLeft(l, c);
+                reinterpret_cast<::Manager6AE *>(this)->AddEntry((const ::Key6AE *)&(l), (const ::Data6AE &)(c));
                 AddRight(e, c);
             }
         }
-        else if (l.Equals(left.Last()))
+        else if (((bool)(reinterpret_cast<::FUN_006d4ca0_Class *>((void *)&(l))->Equals((const ::FUN_006d4ca0_Class *)&(left.Last())))))
         {
             AddRight(e, c);
         }
-        else if (l.Equals(right.Last()))
+        else if (((bool)(reinterpret_cast<::FUN_006d4ca0_Class *>((void *)&(l))->Equals((const ::FUN_006d4ca0_Class *)&(right.Last())))))
         {
-            AddLeft(e, c);
+            reinterpret_cast<::Manager6AE *>(this)->AddEntry((const ::Key6AE *)&(e), (const ::Data6AE &)(c));
         }
-        else if (e.Equals(left.Last()))
+        else if (((bool)(reinterpret_cast<::FUN_006d4ca0_Class *>((void *)&(e))->Equals((const ::FUN_006d4ca0_Class *)&(left.Last())))))
         {
             AddRight(l, c);
         }
-        else if (e.Equals(right.Last()))
+        else if (((bool)(reinterpret_cast<::FUN_006d4ca0_Class *>((void *)&(e))->Equals((const ::FUN_006d4ca0_Class *)&(right.Last())))))
         {
-            AddLeft(l, c);
+            reinterpret_cast<::Manager6AE *>(this)->AddEntry((const ::Key6AE *)&(l), (const ::Data6AE &)(c));
         }
         else
         {
             Mesh* handle = 0;
             unsigned short edge5 = 0xffff;
             int edge = -1;
-            if (triangles->At(i - 1)->mesh->Previous(triangles->At(i - 1)->tri, edges->At(i - 1).edge, &handle, &edge5,
+            if (reinterpret_cast<::MeshX *>((triangles->At(i - 1)->mesh))->FindAdjacentEdge(triangles->At(i - 1)->tri, edges->At(i - 1).edge, (::MeshX **)(::Mesh **)(&handle), &edge5,
                                                      &edge))
             {
             }
             Handle edge2(handle, edge5, edge);
-            Edge edge3 = handle->GetEdge(edge5, edge);
+            Edge edge3 = (*(::Edge *)(reinterpret_cast<::FUN_0068efd0_cls *>((handle))->FUN_0068efd0((::EdgeT *)(edge5), edge, {})));
             Vertex edge9(edges->At(i).mesh, edge3.a);
             Vertex edge6(edges->At(i).mesh, edge3.b);
-            if (l.Equals(edge9))
+            if (((bool)(reinterpret_cast<::FUN_006d4ca0_Class *>((void *)&(l))->Equals((const ::FUN_006d4ca0_Class *)&(edge9)))))
             {
                 AddRight(e, edge2);
             }
-            else if (l.Equals(edge6))
+            else if (((bool)(reinterpret_cast<::FUN_006d4ca0_Class *>((void *)&(l))->Equals((const ::FUN_006d4ca0_Class *)&(edge6)))))
             {
-                AddLeft(e, edge2);
+                reinterpret_cast<::Manager6AE *>(this)->AddEntry((const ::Key6AE *)&(e), (const ::Data6AE &)(edge2));
             }
-            else if (e.Equals(edge9))
+            else if (((bool)(reinterpret_cast<::FUN_006d4ca0_Class *>((void *)&(e))->Equals((const ::FUN_006d4ca0_Class *)&(edge9)))))
             {
                 AddRight(l, edge2);
             }
-            else if (e.Equals(edge6))
+            else if (((bool)(reinterpret_cast<::FUN_006d4ca0_Class *>((void *)&(e))->Equals((const ::FUN_006d4ca0_Class *)&(edge6)))))
             {
-                AddLeft(l, edge2);
+                reinterpret_cast<::Manager6AE *>(this)->AddEntry((const ::Key6AE *)&(l), (const ::Data6AE &)(edge2));
             }
         }
     }
-    for (unsigned int j = 0; j < left.Size(); ++j)
+    for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(left))->GetName())); ++j)
         InsertPOVPoint(&left, j, 1);
-    for (unsigned int k = 0; k < right.Size(); ++k)
+    for (unsigned int k = 0; k < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(right))->GetName())); ++k)
         InsertPOVPoint(&right, k, 0);
-    for (unsigned int l = 0; l < left.Size(); ++l)
+    for (unsigned int l = 0; l < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(left))->GetName())); ++l)
     {
-        if (left.GetElementAt(l).pov != -1)
+        if ((*(::VertInfo *)(reinterpret_cast<::FUN_006b3120_shell *>(&(left))->GetElementAt(l))).pov != -1)
         {
-            for (unsigned int m = left.GetElementAt(l).other; m < right.Size(); ++m)
+            for (unsigned int m = (*(::VertInfo *)(reinterpret_cast<::FUN_006b3120_shell *>(&(left))->GetElementAt(l))).other; m < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(right))->GetName())); ++m)
             {
-                if (right.GetElementAt(m).pov != -1)
+                if ((*(::VertInfo *)(reinterpret_cast<::FUN_006b3120_shell *>(&(right))->GetElementAt(m))).pov != -1)
                 {
-                    leftPOVs.FUN_00877a30(left.GetElementAt(l).pov)->other = right.GetElementAt(m).pov;
+                    leftPOVs.FUN_00877a30((*(::VertInfo *)(reinterpret_cast<::FUN_006b3120_shell *>(&(left))->GetElementAt(l))).pov)->other = (*(::VertInfo *)(reinterpret_cast<::FUN_006b3120_shell *>(&(right))->GetElementAt(m))).pov;
                     break;
                 }
             }
         }
     }
-    for (unsigned int n = 0; n < right.Size(); ++n)
+    for (unsigned int n = 0; n < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(right))->GetName())); ++n)
     {
-        if (right.GetElementAt(n).pov != -1)
+        if ((*(::VertInfo *)(reinterpret_cast<::FUN_006b3120_shell *>(&(right))->GetElementAt(n))).pov != -1)
         {
-            for (unsigned int o = right.GetElementAt(n).other; o < left.Size(); ++o)
+            for (unsigned int o = (*(::VertInfo *)(reinterpret_cast<::FUN_006b3120_shell *>(&(right))->GetElementAt(n))).other; o < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(left))->GetName())); ++o)
             {
-                if (left.GetElementAt(o).pov != -1)
+                if ((*(::VertInfo *)(reinterpret_cast<::FUN_006b3120_shell *>(&(left))->GetElementAt(o))).pov != -1)
                 {
-                    rightPOVs.FUN_00877a30(right.GetElementAt(n).pov)->other = left.GetElementAt(o).pov;
+                    rightPOVs.FUN_00877a30((*(::VertInfo *)(reinterpret_cast<::FUN_006b3120_shell *>(&(right))->GetElementAt(n))).pov)->other = (*(::VertInfo *)(reinterpret_cast<::FUN_006b3120_shell *>(&(left))->GetElementAt(o))).pov;
                     break;
                 }
             }
@@ -6723,9 +6695,7 @@ struct P3
 struct ASC
 {
     float fCos, fSin;
-    void SetFromAngle(float);
     ASC& operator=(const ASC&);
-    ASC Multiply(const ASC&) const;
     P3 MakePointOnCircle(float) const;
 };
 
@@ -6733,13 +6703,11 @@ struct ASCArc
 {
     ASC Start, End;
     int Direction;
-    bool FUN_006a0660(const ASC*) const;
 };
 
 struct PtEx
 {
     float x, y, z, r;
-    P3 FUN_00439e90(const P3&) const;
 };
 
 struct EdgeLoc
@@ -6748,13 +6716,8 @@ struct EdgeLoc
     unsigned short m_usTriangleID;
     int m_iEdgeIndex;
     P3 Location;
-    void FUN_006a0480();
-    void FUN_006a0e50(const EdgeLoc*);
-    void FUN_006cf900(const EdgeLoc*);
 };
 
-extern float DAT_01064f64;
-extern float DAT_0106b3a8;
 
 struct POVSearch
 {
@@ -6766,46 +6729,46 @@ struct POVSearch
 bool POVSearch::FUN_006b1e50(const EdgeLoc& edge, PtEx& sphere, ASCArc arc, EdgeLoc* out)
 {
     ASC rot3;
-    rot3.SetFromAngle(arc.Direction == 0 ? DAT_01064f64 : DAT_0106b3a8);
+    reinterpret_cast<::FUN_006a04e0_helper *>(&(rot3))->SetFromAngle(arc.Direction == 0 ? ::DAT_01064f64 : ::DAT_0106b3a8);
     ASC startAng5;
-    startAng5 = arc.Start;
-    ASC angTmp = startAng5.Multiply(rot3);
-    P3 RunFourthVirtual = sphere.FUN_00439e90(angTmp.MakePointOnCircle(sphere.r));
+    reinterpret_cast<::FUN_006985f0_shell *>((void *)&(const ::fnv_006b1e50::ASC &)(startAng5))->CopyFloatPair((void *)&(arc.Start));
+    ASC angTmp = (*(::fnv_006b1e50::ASC *)(reinterpret_cast<::ASC6a0e90 *>((void *)&(startAng5))->Multiply((::ASC6a0e90 *)&(rot3), {})));
+    P3 RunFourthVirtual = (*(::fnv_006b1e50::P3 *)(reinterpret_cast<::Point3Offset *>((void *)&(sphere))->ProjectileLaunched((::NiPoint3 *)&(const ::fnv_006b1e50::P3 &)(angTmp.MakePointOnCircle(sphere.r)), {})));
     EdgeLoc cur4;
-    cur4.FUN_006a0e50(&edge);
+    reinterpret_cast<::E6a0e50 *>(&(cur4))->FUN_006a0e50((const ::E6a0e50 *)(const ::fnv_006b1e50::EdgeLoc *)(&edge));
     EdgeLoc arr5;
-    arr5.FUN_006a0480();
+    ::FUN_006a0480((void *)&(arr5));
     unsigned int count9 = 0;
     int idx4 = -1;
     float weight = 0.0f;
-    while (arc.FUN_006a0660(&angTmp) && count9 < 0x18)
+    while (reinterpret_cast<::CircularArc *>((void *)&(arc))->FUN_006a0660((*(const ::SineCosine *)(&angTmp))) && count9 < 0x18)
     {
         cur4.m_iEdgeIndex = -1;
         if (!FindPath(cur4, RunFourthVirtual, &arr5, &weight))
         {
-            out->FUN_006cf900(&arr5);
+            reinterpret_cast<::FUN_006cf900_Class *>((out))->FUN_006cf900((const ::FUN_006cf900_Class *)(const ::fnv_006b1e50::EdgeLoc *)(&arr5));
             return false;
         }
-        cur4.FUN_006cf900(&arr5);
-        startAng5 = angTmp;
-        angTmp = startAng5.Multiply(rot3);
-        RunFourthVirtual = sphere.FUN_00439e90(angTmp.MakePointOnCircle(sphere.r));
+        reinterpret_cast<::FUN_006cf900_Class *>(&(cur4))->FUN_006cf900((const ::FUN_006cf900_Class *)(const ::fnv_006b1e50::EdgeLoc *)(&arr5));
+        reinterpret_cast<::FUN_006985f0_shell *>((void *)&(const ::fnv_006b1e50::ASC &)(startAng5))->CopyFloatPair((void *)&(angTmp));
+        reinterpret_cast<::FUN_006985f0_shell *>((void *)&(const ::fnv_006b1e50::ASC &)(angTmp))->CopyFloatPair((void *)&(const ::fnv_006b1e50::ASC &)((*(::fnv_006b1e50::ASC *)(reinterpret_cast<::ASC6a0e90 *>((void *)&(startAng5))->Multiply((::ASC6a0e90 *)&(rot3), {})))));
+        RunFourthVirtual = (*(::fnv_006b1e50::P3 *)(reinterpret_cast<::Point3Offset *>((void *)&(sphere))->ProjectileLaunched((::NiPoint3 *)&(const ::fnv_006b1e50::P3 &)(angTmp.MakePointOnCircle(sphere.r)), {})));
         idx4 = arr5.m_iEdgeIndex;
         count9 = count9 + 1;
     }
     if (count9 == 0x18)
     {
-        out->FUN_006cf900(&arr5);
+        reinterpret_cast<::FUN_006cf900_Class *>((out))->FUN_006cf900((const ::FUN_006cf900_Class *)(const ::fnv_006b1e50::EdgeLoc *)(&arr5));
         return false;
     }
-    P3 q2 = sphere.FUN_00439e90(arc.End.MakePointOnCircle(sphere.r));
+    P3 q2 = (*(::fnv_006b1e50::P3 *)(reinterpret_cast<::Point3Offset *>((void *)&(sphere))->ProjectileLaunched((::NiPoint3 *)&(const ::fnv_006b1e50::P3 &)(arc.End.MakePointOnCircle(sphere.r)), {})));
     cur4.m_iEdgeIndex = -1;
     if (!FindPath(cur4, q2, &arr5, &weight))
     {
-        out->FUN_006cf900(&arr5);
+        reinterpret_cast<::FUN_006cf900_Class *>((out))->FUN_006cf900((const ::FUN_006cf900_Class *)(const ::fnv_006b1e50::EdgeLoc *)(&arr5));
         return false;
     }
-    out->FUN_006cf900(&arr5);
+    reinterpret_cast<::FUN_006cf900_Class *>((out))->FUN_006cf900((const ::FUN_006cf900_Class *)(const ::fnv_006b1e50::EdgeLoc *)(&arr5));
     return true;
 }
 }  // namespace fnv_006b1e50
@@ -6831,14 +6794,10 @@ struct FUN_006b2060_shell : public PathSmootherPOVSearch
 class NavMeshAccess : public NavMesh
 {
   public:
-    NavMeshTriangle* FUN_005582f0(unsigned short);
-    EdgeExtraInfo* FUN_0068f230(unsigned short, int);
 };
 class TriangleAccess : public NavMeshTriangle
 {
   public:
-    bool HasFlag40();
-    bool FUN_00693b90();
 };
 class MeshEdgeRecord : public NavMeshEdgeData
 {
@@ -6853,8 +6812,6 @@ class EdgeLocation : public NavMeshEdgePoint
   public:
     EdgeLocation(const MeshEdgeRecord&, const NiPoint3&);
 };
-extern SettingT_GameSettingCollection_ DAT_011d6ef0;
-bool FUN_006ba240(const NiPoint3&, const NiPoint3&, const NiPoint3&, const NiPoint3&, NiPoint3&);
 class PathSmootherAccess : public PathSmootherPOVSearch
 {
   public:
@@ -6868,7 +6825,7 @@ bool PathSmootherAccess::FindPath(const NavMeshEdgePoint& start, const NiPoint3&
     NiPoint3 position2 = start.Location;
     NiPoint3 position8 = goal;
     NiPoint3 normal = position8 - position2;
-    normal.ComputeMagnitude();
+    reinterpret_cast<::FUN_004a0c10_s *>(&(normal))->FUN_004a0c10();
     NiPoint3 position = position2;
     MeshEdgeRecord current(start);
     int count = 0;
@@ -6876,19 +6833,18 @@ bool PathSmootherAccess::FindPath(const NavMeshEdgePoint& start, const NiPoint3&
     while (index7 < 1000)
     {
         ++index7;
-        if (static_cast<TriangleAccess*>(
-                static_cast<NavMeshAccess*>(current.m_pLocationNavMesh)->FUN_005582f0(current.m_usTriangleID))
-                ->HasFlag40())
+        if (reinterpret_cast<::FUN_00693b70_shell *>((static_cast<TriangleAccess*>(
+                reinterpret_cast<::NavMesh *>((static_cast<NavMeshAccess*>(current.m_pLocationNavMesh)))->GetTriangle(current.m_usTriangleID))))->HasFlag40())
             ++count;
-        int NextEdge = current.m_pLocationNavMesh->FindCrossedEdge(current.m_usTriangleID, current.m_iEdgeIndex,
-                                                                   position, position8);
+        int NextEdge = reinterpret_cast<::FUN_00698320_t *>((current.m_pLocationNavMesh))->FindCrossedEdge(current.m_usTriangleID, current.m_iEdgeIndex,
+                                                                   (const ::NiPoint3 *)&(position), (const ::NiPoint3 *)&(position8));
         if (NextEdge == -1)
         {
             float Height = position8.z;
             current.m_pLocationNavMesh->GetTriangleHeightAtPoint(current.m_usTriangleID, position8, 3.402823466e38F,
                                                                  3.402823466e38F, Height);
             position8.z = Height;
-            *output = EdgeLocation(current, position8);
+            reinterpret_cast<::FUN_006cf900_Class *>((void *)&(const ::NavMeshEdgePoint &)(*output))->FUN_006cf900((const ::FUN_006cf900_Class *)&(const ::NavMeshEdgePoint &)(EdgeLocation(current, position8)));
             ratio = float(count) / index7;
             return true;
         }
@@ -6896,17 +6852,15 @@ bool PathSmootherAccess::FindPath(const NavMeshEdgePoint& start, const NiPoint3&
         {
             MeshEdgeRecord next2(current.m_pLocationNavMesh, current.m_usTriangleID, NextEdge);
             MeshEdgeRecord next;
-            bool result9 = next2.m_pLocationNavMesh->MatchNavMesh(next2, next);
+            bool result9 = reinterpret_cast<::Holder670 *>((next2.m_pLocationNavMesh))->MatchNavMesh((::In670 *)&(next2), (::Out670 *)&(next));
             if (result9)
             {
-                EdgeExtraInfo* info = static_cast<NavMeshAccess*>(next2.m_pLocationNavMesh)
-                                          ->FUN_0068f230(next2.m_usTriangleID, next2.m_iEdgeIndex);
+                EdgeExtraInfo* info = reinterpret_cast<::FUN_0068f230_shell *>((static_cast<NavMeshAccess*>(next2.m_pLocationNavMesh)))->FUN_0068f230(next2.m_usTriangleID, next2.m_iEdgeIndex);
                 if (info && info->eType == 1)
                     result9 = false;
-                if (pRequest->GetFloatAtOffset68() > DAT_011d6ef0.Float()->f &&
-                    static_cast<TriangleAccess*>(
-                        static_cast<NavMeshAccess*>(next.m_pLocationNavMesh)->FUN_005582f0(next.m_usTriangleID))
-                        ->FUN_00693b90())
+                if (::GetFloatAtOffset68((const char *)(pRequest)) > ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1308))))))->f &&
+                    reinterpret_cast<::S00693b90 *>((static_cast<TriangleAccess*>(
+                        reinterpret_cast<::NavMesh *>((static_cast<NavMeshAccess*>(next.m_pLocationNavMesh)))->GetTriangle(next.m_usTriangleID))))->FUN_00693b90())
                     result9 = false;
             }
             if (result9)
@@ -6917,22 +6871,22 @@ bool PathSmootherAccess::FindPath(const NavMeshEdgePoint& start, const NiPoint3&
                         next.m_pLocationNavMesh->FUN_0068f040(next.m_usTriangleID, next.m_iEdgeIndex);
                     NiPoint3 point = (*index.p1 + *index.p2) * 0.5F;
                     position = FUN_006ba550(*index.p1, *index.p2, position2, position8);
-                    position += (point - position) * 0.01F;
+                    reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3 &)(position))->FUN_0063c8a0((void *)&(const ::NiPoint3 &)((point - position) * 0.01F));
                 }
-                current = next;
+                reinterpret_cast<::FUN_006bc870_shell *>((void *)&(const ::MeshEdgeRecord &)(current))->CopyFromNavMeshEdge((void *)&(next));
             }
             else
             {
                 NavMeshEdgeVertexPair index = next2.m_pLocationNavMesh->FUN_0068f040(next2.m_usTriangleID, NextEdge);
                 NiPoint3 point;
-                FUN_006ba240(position2, position8, *index.p1, *index.p2, point);
-                *output = EdgeLocation(next2, point);
+                ::FUN_006ba240((const ::ThreeDimensionalVector *)&(position2), (const ::ThreeDimensionalVector *)&(position8), (const ::ThreeDimensionalVector *)&(*index.p1), (const ::ThreeDimensionalVector *)&(*index.p2), (::ThreeDimensionalVector *)&(point));
+                reinterpret_cast<::FUN_006cf900_Class *>((void *)&(const ::NavMeshEdgePoint &)(*output))->FUN_006cf900((const ::FUN_006cf900_Class *)&(const ::NavMeshEdgePoint &)(EdgeLocation(next2, point)));
                 ratio = float(count) / index7;
                 return false;
             }
         }
     }
-    *output = EdgeLocation(current, position8);
+    reinterpret_cast<::FUN_006cf900_Class *>((void *)&(const ::NavMeshEdgePoint &)(*output))->FUN_006cf900((const ::FUN_006cf900_Class *)&(const ::NavMeshEdgePoint &)(EdgeLocation(current, position8)));
     if (index7 > 0)
         ratio = float(count) / index7;
     else
@@ -6945,7 +6899,6 @@ struct PathPos6AE
 {
     int unk00;
     int unk04;
-    PathPos6AE* FUN_0069a690(const PathPos6AE* pkOther);
 };
 
 struct PathLoc6AE
@@ -6953,7 +6906,6 @@ struct PathLoc6AE
     int unk00;
     int unk04;
     int unk08;
-    PathLoc6AE& CopyFromNavMeshEdge(const PathLoc6AE& kOther);
 };
 
 struct FUN_006aeb70
@@ -6968,8 +6920,6 @@ struct FUN_006aeb70
 
 struct List6AE
 {
-    int FUN_0044ddc0();
-    int FUN_006b3730(FUN_006aeb70* pkRequest);
 };
 
 class FUN_006aeb00_C
@@ -6988,12 +6938,12 @@ class FUN_006aeb00_C
 int FUN_006aeb00_C::FUN_006aeb00(const PathPos6AE* pkPos, const PathLoc6AE& kLoc)
 {
     FUN_006aeb70 kRequest;
-    kRequest.kPos.FUN_0069a690(pkPos);
-    kRequest.kLoc.CopyFromNavMeshEdge(kLoc);
-    kRequest.iCount1 = kList1.FUN_0044ddc0();
-    kRequest.iCount2 = kList2.FUN_0044ddc0();
+    reinterpret_cast<::S0069a690 *>(&(kRequest.kPos))->FUN_0069a690((const ::S0069a690 *)(pkPos));
+    reinterpret_cast<::FUN_006bc870_shell *>(&(kRequest.kLoc))->CopyFromNavMeshEdge((void *)&(kLoc));
+    kRequest.iCount1 = ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kList1))->GetName()));
+    kRequest.iCount2 = ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kList2))->GetName()));
     kRequest.iIndex = -1;
-    return kList2.FUN_006b3730(&kRequest);
+    return reinterpret_cast<::MyHolder *>(&(kList2))->FUN_006b3730((int)(&kRequest));
 }
 }  // namespace fnv_006aeb00
 
@@ -7026,44 +6976,35 @@ typedef PathSmootherPOVSearch::NavMeshEdgeRecord PathEdgeVertType;
 typedef BSSimpleArray<PathEdgeVertType, 1024> EdgeVertArray;
 struct NavMeshVertexAccess : NavMesh
 {
-    const NiPoint3* FUN_0068f0a0(unsigned short);
 };
 struct VertAccess
 {
-    PathEdgeVertType& GetElementAt(unsigned int);
 };
 struct Unitizer
 {
-    void Unitize();
 };
 struct CrossAccess
 {
-    NiPoint3 FUN_004b3800(const NiPoint3&) const;
 };
 struct RequestAccess
 {
-    float GetFloatAtOffset68();
 };
 struct CornerSearch : PathSmootherPOVSearch
 {
     void InsertPOVPoint(EdgeVertArray* vertices, unsigned int index, bool left);
 };
-extern const double DAT_01012060;
-extern const double DAT_0103c7c8;
 extern const double DAT_0106b9d8;
-extern const double DAT_010290f0;
 
 // Checks the vertex directions, then adds a PathSmootherPOVPoint to the path lists when endpoint or cross and dot conditions select it.
 // @fnv 0x006aeba0
 void CornerSearch::InsertPOVPoint(EdgeVertArray* vertices, unsigned int index, bool left)
 {
     NiPoint3 point =
-        *reinterpret_cast<NavMeshVertexAccess*>(
-             reinterpret_cast<PathEdgeVertType*>(&reinterpret_cast<VertAccess*>(vertices)->GetElementAt(index))
-                 ->m_pLocationNavMesh)
-             ->FUN_0068f0a0(
-                 reinterpret_cast<PathEdgeVertType*>(&reinterpret_cast<VertAccess*>(vertices)->GetElementAt(index))
-                     ->m_usVertexId);
+        *((const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>((reinterpret_cast<NavMeshVertexAccess*>(
+             reinterpret_cast<PathEdgeVertType*>(&(*(::PathSmootherPOVSearch::NavMeshEdgeRecord *)(reinterpret_cast<::FUN_006b3120_shell *>((reinterpret_cast<VertAccess*>(vertices)))->GetElementAt(index))))
+                 ->m_pLocationNavMesh)))->FUN_0068f0a0(
+                 reinterpret_cast<PathEdgeVertType*>(&(*(::PathSmootherPOVSearch::NavMeshEdgeRecord *)(reinterpret_cast<::FUN_006b3120_shell *>((reinterpret_cast<VertAccess*>(vertices)))->GetElementAt(index))))
+                     ->m_usVertexId)));
     NiPoint3 prevDir;
     NiPoint3 right;
     if (index == 0)
@@ -7073,42 +7014,40 @@ void CornerSearch::InsertPOVPoint(EdgeVertArray* vertices, unsigned int index, b
     else
     {
         prevDir =
-            *reinterpret_cast<NavMeshVertexAccess*>(
-                 reinterpret_cast<PathEdgeVertType*>(&reinterpret_cast<VertAccess*>(vertices)->GetElementAt(index - 1))
-                     ->m_pLocationNavMesh)
-                 ->FUN_0068f0a0(reinterpret_cast<PathEdgeVertType*>(
-                                    &reinterpret_cast<VertAccess*>(vertices)->GetElementAt(index - 1))
-                                    ->m_usVertexId) -
+            *((const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>((reinterpret_cast<NavMeshVertexAccess*>(
+                 reinterpret_cast<PathEdgeVertType*>(&(*(::PathSmootherPOVSearch::NavMeshEdgeRecord *)(reinterpret_cast<::FUN_006b3120_shell *>((reinterpret_cast<VertAccess*>(vertices)))->GetElementAt(index - 1))))
+                     ->m_pLocationNavMesh)))->FUN_0068f0a0(reinterpret_cast<PathEdgeVertType*>(
+                                    &(*(::PathSmootherPOVSearch::NavMeshEdgeRecord *)(reinterpret_cast<::FUN_006b3120_shell *>((reinterpret_cast<VertAccess*>(vertices)))->GetElementAt(index - 1))))
+                                    ->m_usVertexId))) -
             point;
     }
-    if (index == vertices->GetSize() - 1)
+    if (index == ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)(vertices))->GetName())) - 1)
     {
         right = m_kGoalPosition - point;
     }
     else
     {
         right =
-            *reinterpret_cast<NavMeshVertexAccess*>(
-                 reinterpret_cast<PathEdgeVertType*>(&reinterpret_cast<VertAccess*>(vertices)->GetElementAt(index + 1))
-                     ->m_pLocationNavMesh)
-                 ->FUN_0068f0a0(reinterpret_cast<PathEdgeVertType*>(
-                                    &reinterpret_cast<VertAccess*>(vertices)->GetElementAt(index + 1))
-                                    ->m_usVertexId) -
+            *((const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>((reinterpret_cast<NavMeshVertexAccess*>(
+                 reinterpret_cast<PathEdgeVertType*>(&(*(::PathSmootherPOVSearch::NavMeshEdgeRecord *)(reinterpret_cast<::FUN_006b3120_shell *>((reinterpret_cast<VertAccess*>(vertices)))->GetElementAt(index + 1))))
+                     ->m_pLocationNavMesh)))->FUN_0068f0a0(reinterpret_cast<PathEdgeVertType*>(
+                                    &(*(::PathSmootherPOVSearch::NavMeshEdgeRecord *)(reinterpret_cast<::FUN_006b3120_shell *>((reinterpret_cast<VertAccess*>(vertices)))->GetElementAt(index + 1))))
+                                    ->m_usVertexId))) -
             point;
     }
     prevDir.z = 0.0f;
     right.z = 0.0f;
-    reinterpret_cast<Unitizer*>(&prevDir)->Unitize();
-    reinterpret_cast<Unitizer*>(&right)->Unitize();
-    NiPoint3 cross = left ? reinterpret_cast<CrossAccess*>(&prevDir)->FUN_004b3800(right)
-                          : reinterpret_cast<CrossAccess*>(&right)->FUN_004b3800(prevDir);
-    float dot = right.Dot(prevDir);
+    reinterpret_cast<::FUN_004a0c10_s *>((reinterpret_cast<Unitizer*>(&prevDir)))->FUN_004a0c10();
+    reinterpret_cast<::FUN_004a0c10_s *>((reinterpret_cast<Unitizer*>(&right)))->FUN_004a0c10();
+    NiPoint3 cross = left ? reinterpret_cast<::NiPoint3 *>((void *)(reinterpret_cast<CrossAccess*>(&prevDir)))->Cross(right)
+                          : reinterpret_cast<::NiPoint3 *>((void *)(reinterpret_cast<CrossAccess*>(&right)))->Cross(prevDir);
+    float dot = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(right))->DotProduct((void *)&(prevDir));
     bool usePOV = false;
-    if (index == 0 || index == vertices->GetSize() - 1)
+    if (index == 0 || index == ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)(vertices))->GetName())) - 1)
     {
         usePOV = true;
     }
-    else if (dot > DAT_01012060)
+    else if (dot > ::_DAT_01012060)
     {
         if (cross.z < DAT_0103c7c8)
         {
@@ -7123,35 +7062,34 @@ void CornerSearch::InsertPOVPoint(EdgeVertArray* vertices, unsigned int index, b
     {
         PathSmootherPOVPoint* pov = new PathSmootherPOVPoint;
         pov->eType = !left;
-        pov->MeshEdgeRecord =
-            reinterpret_cast<PathEdgeVertType*>(&reinterpret_cast<VertAccess*>(vertices)->GetElementAt(index))->Edge;
+        reinterpret_cast<::FUN_006bc870_shell *>((void *)&(const ::NavMeshEdgeData &)(pov->MeshEdgeRecord))->CopyFromNavMeshEdge((void *)&(reinterpret_cast<PathEdgeVertType*>(&(*(::PathSmootherPOVSearch::NavMeshEdgeRecord *)(reinterpret_cast<::FUN_006b3120_shell *>((reinterpret_cast<VertAccess*>(vertices)))->GetElementAt(index))))->Edge));
         pov->m_kFirstEdge = prevDir;
         pov->m_kSecondEdge = right;
         pov->Center = point;
         pov->m_fWeight = 1.0f;
-        pov->fRadius = reinterpret_cast<RequestAccess*>(pRequest)->GetFloatAtOffset68() * DAT_010290f0;
+        pov->fRadius = ::GetFloatAtOffset68((const char *)(reinterpret_cast<RequestAccess*>(pRequest))) * DAT_010290f0;
         pov->m_usResult =
-            reinterpret_cast<PathEdgeVertType*>(&reinterpret_cast<VertAccess*>(vertices)->GetElementAt(index))
+            reinterpret_cast<PathEdgeVertType*>(&(*(::PathSmootherPOVSearch::NavMeshEdgeRecord *)(reinterpret_cast<::FUN_006b3120_shell *>((reinterpret_cast<VertAccess*>(vertices)))->GetElementAt(index))))
                 ->m_usVertexId;
         pov->m_uiReferenceIndex = -1;
         if (left)
         {
-            pov->m_uiListIndex = m_kPrimaryPathPoints.GetSize();
+            pov->m_uiListIndex = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(m_kPrimaryPathPoints))->GetName()));
         }
         else
         {
-            pov->m_uiListIndex = m_kSecondaryPathPoints.GetSize();
+            pov->m_uiListIndex = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(m_kSecondaryPathPoints))->GetName()));
         }
-        reinterpret_cast<PathEdgeVertType*>(&reinterpret_cast<VertAccess*>(vertices)->GetElementAt(index))
+        reinterpret_cast<PathEdgeVertType*>(&(*(::PathSmootherPOVSearch::NavMeshEdgeRecord *)(reinterpret_cast<::FUN_006b3120_shell *>((reinterpret_cast<VertAccess*>(vertices)))->GetElementAt(index))))
             ->m_uiTrailingValue = pov->m_uiListIndex;
-        m_kPathPoints.Add(pov);
+        reinterpret_cast<::FUN_00438690 *>(&(m_kPathPoints))->FUN_007cb2e0((unsigned int *)&(pov));
         if (left)
         {
-            m_kPrimaryPathPoints.Add(pov);
+            reinterpret_cast<::FUN_00438690 *>(&(m_kPrimaryPathPoints))->FUN_007cb2e0((unsigned int *)&(pov));
         }
         else
         {
-            m_kSecondaryPathPoints.Add(pov);
+            reinterpret_cast<::FUN_00438690 *>(&(m_kSecondaryPathPoints))->FUN_007cb2e0((unsigned int *)&(pov));
         }
     }
 }
@@ -7163,28 +7101,87 @@ struct CollisionProbe
 
 struct VectorUnitizer
 {
-    void Unitize();
 };
 struct VectorNegation
 {
-    NiPoint3 FUN_004a0bd0() const;
 };
-extern const double DAT_0106b9e8;
-extern const float DAT_01016248;
-extern const float DAT_010177e8;
-extern const float DAT_01016970;
 
 struct ClearanceSearch : PathSmootherPOVSearch
 {
     bool FUN_006b25f0(const NavMeshEdgePoint&, const NiPoint3&, NavMeshEdgePoint*, bool, bool, float&);
 };
+// Computes tangents between the current node and the target, validates the path, adjusts the endpoint for water, and appends a link and node.
+// @fnv 0x006b1970
+bool LastNodeSearch17::TryAddLastNode()
+{
+    if (reinterpret_cast<::FUN_0076b610_Class *>((void *)&(Links))->FUN_0076b610())
+        return false;
+    const PathSmootherPOVAvoidanceNode& h = (*(const ::PathSmootherPOVAvoidanceNode *)(reinterpret_cast<::FUN_006ced90_stand *>(&(Nodes))->GetLastEdge()));
+    const NavMeshEdgeSegment& eb = ((LinkArrayOps*)&Links)->FUN_006b3100();
+    Sphere17 f((const Point17&)h.m_pAvoidNode->Center, h.m_pAvoidNode->fRadius);
+    Sphere17 k((const Point17&)m_pGoalPoint->Center, m_pGoalPoint->fRadius);
+    SphereTangents b;
+    int q = ::NavMeshPOVSearch::FindSphereTangents((const ::Sphere &)(f), (const ::Sphere &)(k), h.Direction, b);
+    if (!q)
+        return false;
+    Arc17 c((const Angle17&)eb.m_kEnd, (const Angle17&)b.Tangents[0].m_kStartAngle, h.Direction);
+    NavMeshEdgePoint cf;
+    if (!FUN_006b1e50(eb.m_kEndPoint, f, c, &cf))
+        return false;
+    if (!reinterpret_cast<::PathSmootherPOVSearch *>(this)->FUN_006b23d0(eb.m_kEndPoint, (::Sphere &)(f), (*(::CircularArc *)&(const ::Arc17 &)(c))))
+        return false;
+    NavMeshEdgePoint s;
+    Point17 ba = k.center + ((const Angle17&)b.Tangents[0].m_kEnd).MakePointOnCircle(k.radius);
+    cf.m_iEdgeIndex = -1;
+    float p = 0;
+    if (::GetFloatAtOffset68((const char *)(pRequest)) >= 100.0)
+    {
+        if (reinterpret_cast<::ClearanceSearch *>(this)->FUN_006b25f0(cf, (const ::NiPoint3 &)(ba), &s, false, true, p))
+        {
+            float radius = 0;
+            if (!FUN_006b2c00(h.m_pAvoidNode, m_pGoalPoint, cf.Location, ba, radius))
+                return false;
+        }
+    }
+    else
+    {
+        if (reinterpret_cast<::PathSmootherAccess *>(this)->FindPath(cf, (const ::NiPoint3 &)(ba), &s, p))
+        {
+            float radius = 0;
+            if (!FUN_006b2c00(h.m_pAvoidNode, m_pGoalPoint, cf.Location, ba, radius))
+                return false;
+        }
+    }
+    if (m_bUnderwaterPath)
+    {
+        float water = reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetCellHeightAtPosition((const ::NiPoint3 *)&(s.Location), (::CellView *)(reinterpret_cast<::ActorMover *>((((MeshOps17*)s.m_pLocationNavMesh)))->GetCurrentMoveModeType()));
+        if (water >= s.Location.z)
+            s.Location.z = water;
+    }
+    Point17 l = ba - (const Point17&)cf.Location;
+    reinterpret_cast<::FUN_004a0c10_s *>(&(l))->FUN_004a0c10();
+    reinterpret_cast<::MyPoint439180 *>((void *)&(const ::Point17 &)(l))->FUN_00439180(::GetFloatAtOffset68((const char *)(pRequest)) * 2.0f);
+    reinterpret_cast<::NiPoint3 *>(&(((Point17&)s.Location)))->Subtract((const ::NiPoint3 &)(l));
+    Link17 a;
+    reinterpret_cast<::FUN_006cf900_Class *>((((LocationOps17*)&a.m2)))->FUN_006cf900((const ::FUN_006cf900_Class *)&(cf));
+    reinterpret_cast<::FUN_006cf900_Class *>((((LocationOps17*)&a.m3)))->FUN_006cf900((const ::FUN_006cf900_Class *)&(s));
+    reinterpret_cast<::FUN_006985f0_shell *>((void *)&(const ::Angle17 &)(((Angle17&)a.m0)))->CopyFloatPair((void *)&((const Angle17&)b.Tangents[0].m_kStartAngle));
+    reinterpret_cast<::FUN_006985f0_shell *>((void *)&(const ::Angle17 &)(((Angle17&)a.m1)))->CopyFloatPair((void *)&((const Angle17&)b.Tangents[0].m_kEnd));
+    reinterpret_cast<::Holder3660 *>(&(Links))->FUN_006b3660((int)&((const NavMeshEdgeSegment&)a));
+    PathSmootherPOVAvoidanceNode i;
+    i.m_pAvoidNode = m_pGoalPoint;
+    i.m_fPathDistance = 0;
+    i.Direction = b.Tangents[0].Direction;
+    reinterpret_cast<::FUN_006cf4c0_Array *>(&(Nodes))->FUN_006cf4c0((const ::ParentSpaceNode &)(i));
+    return true;
+}
 
 // Finds a path from origin to target, then probes four lateral offsets around the route to verify clearance, adjusting the hit height if flipB is false.
 // @fnv 0x006b25f0
 bool ClearanceSearch::FUN_006b25f0(const NavMeshEdgePoint& origin, const NiPoint3& target, NavMeshEdgePoint* hit,
                                    bool flipA, bool flipB, float& afDestinationHeight)
 {
-    if (!reinterpret_cast<CollisionProbe*>(this)->FindPath(origin, target, hit, afDestinationHeight))
+    if (!reinterpret_cast<::PathSmootherAccess *>((reinterpret_cast<CollisionProbe*>(this)))->FindPath(origin, target, hit, afDestinationHeight))
         return false;
 
     if (m_bUnderwaterPath)
@@ -7195,64 +7192,64 @@ bool ClearanceSearch::FUN_006b25f0(const NavMeshEdgePoint& origin, const NiPoint
 
     NiPoint3 delta = target - origin.Location;
     NiPoint3 kDirection = delta;
-    reinterpret_cast<VectorUnitizer*>(&kDirection)->Unitize();
+    reinterpret_cast<::FUN_004a0c10_s *>((reinterpret_cast<VectorUnitizer*>(&kDirection)))->FUN_004a0c10();
 
     NiPoint3 offsetAVal, offsetBVal, aOffsetC, offsetD2;
 
     float spread9;
-    if (pRequest->GetFloatAtOffset68() * pRequest->GetFloatAtOffset68() > delta.FUN_004a7290())
-        spread9 = delta.FUN_00457990() * DAT_0106b9e8;
+    if (::GetFloatAtOffset68((const char *)(pRequest)) * ::GetFloatAtOffset68((const char *)(pRequest)) > reinterpret_cast<::TESCombatStyle *>((void *)&(delta))->UpdateCombatStyle())
+        spread9 = reinterpret_cast<::NiPoint3 *>(&(delta))->ComputeMagnitude() * DAT_0106b9e8;
     else
-        spread9 = pRequest->GetFloatAtOffset68() * DAT_0106b9e8;
+        spread9 = ::GetFloatAtOffset68((const char *)(pRequest)) * DAT_0106b9e8;
 
     NiPoint3 advance3 = kDirection * spread9;
-    NiPoint3 lateral4 = reinterpret_cast<const CrossAccess*>(&DAT_011a9484)->FUN_004b3800(kDirection);
+    NiPoint3 lateral4 = reinterpret_cast<::NiPoint3 *>((void *)(reinterpret_cast<const CrossAccess*>(&DAT_011a9484)))->Cross(kDirection);
 
     if (flipA)
     {
-        offsetAVal = ((lateral4 * spread9) * DAT_01016248) + (advance3 * DAT_01016248);
-        offsetBVal = ((reinterpret_cast<const VectorNegation*>(&lateral4)->FUN_004a0bd0() * spread9) * DAT_01016248) +
-                     (advance3 * DAT_01016248);
+        offsetAVal = ((lateral4 * spread9) * ::fnv_00c88020::DAT_01016248) + (advance3 * ::fnv_00c88020::DAT_01016248);
+        offsetBVal = (((*(::NiPoint3 *)(reinterpret_cast<::P3 *>((void *)(reinterpret_cast<const VectorNegation*>(&lateral4)))->FUN_004a0bd0({}))) * spread9) * ::fnv_00c88020::DAT_01016248) +
+                     (advance3 * ::fnv_00c88020::DAT_01016248);
     }
     else
     {
-        offsetAVal = (lateral4 * pRequest->GetFloatAtOffset68()) * DAT_010177e8;
+        offsetAVal = (lateral4 * ::GetFloatAtOffset68((const char *)(pRequest))) * DAT_010177e8;
         offsetBVal =
-            (reinterpret_cast<const VectorNegation*>(&lateral4)->FUN_004a0bd0() * pRequest->GetFloatAtOffset68()) *
+            ((*(::NiPoint3 *)(reinterpret_cast<::P3 *>((void *)(reinterpret_cast<const VectorNegation*>(&lateral4)))->FUN_004a0bd0({}))) * ::GetFloatAtOffset68((const char *)(pRequest))) *
             DAT_010177e8;
     }
     if (flipB)
     {
-        aOffsetC = ((lateral4 * spread9) * DAT_01016248) - (advance3 * DAT_01016248);
-        offsetD2 = ((reinterpret_cast<const VectorNegation*>(&lateral4)->FUN_004a0bd0() * spread9) * DAT_01016248) -
-                   (advance3 * DAT_01016248);
+        aOffsetC = ((lateral4 * spread9) * ::fnv_00c88020::DAT_01016248) - (advance3 * ::fnv_00c88020::DAT_01016248);
+        offsetD2 = (((*(::NiPoint3 *)(reinterpret_cast<::P3 *>((void *)(reinterpret_cast<const VectorNegation*>(&lateral4)))->FUN_004a0bd0({}))) * spread9) * ::fnv_00c88020::DAT_01016248) -
+                   (advance3 * ::fnv_00c88020::DAT_01016248);
     }
     else
     {
-        aOffsetC = (lateral4 * pRequest->GetFloatAtOffset68()) * DAT_010177e8;
+        aOffsetC = (lateral4 * ::GetFloatAtOffset68((const char *)(pRequest))) * DAT_010177e8;
         offsetD2 =
-            (reinterpret_cast<const VectorNegation*>(&lateral4)->FUN_004a0bd0() * pRequest->GetFloatAtOffset68()) *
+            ((*(::NiPoint3 *)(reinterpret_cast<::P3 *>((void *)(reinterpret_cast<const VectorNegation*>(&lateral4)))->FUN_004a0bd0({}))) * ::GetFloatAtOffset68((const char *)(pRequest))) *
             DAT_010177e8;
     }
 
     float height2;
     NavMeshEdgePoint firstVal;
-    if (!reinterpret_cast<CollisionProbe*>(this)->FindPath(origin, origin.Location + offsetAVal, &firstVal, height2))
+    if (!reinterpret_cast<::PathSmootherAccess *>((reinterpret_cast<CollisionProbe*>(this)))->FindPath(origin, origin.Location + offsetAVal, &firstVal, height2))
         return false;
     NavMeshEdgePoint secondB;
-    if (!reinterpret_cast<CollisionProbe*>(this)->FindPath(firstVal, target + aOffsetC, &secondB, height2))
+    if (!reinterpret_cast<::PathSmootherAccess *>((reinterpret_cast<CollisionProbe*>(this)))->FindPath(firstVal, target + aOffsetC, &secondB, height2))
         return false;
     NavMeshEdgePoint third3;
-    if (!reinterpret_cast<CollisionProbe*>(this)->FindPath(origin, origin.Location + offsetBVal, &third3, height2))
+    if (!reinterpret_cast<::PathSmootherAccess *>((reinterpret_cast<CollisionProbe*>(this)))->FindPath(origin, origin.Location + offsetBVal, &third3, height2))
         return false;
     NavMeshEdgePoint fourth;
-    if (!reinterpret_cast<CollisionProbe*>(this)->FindPath(third3, target + offsetD2, &fourth, height2))
+    if (!reinterpret_cast<::PathSmootherAccess *>((reinterpret_cast<CollisionProbe*>(this)))->FindPath(third3, target + offsetD2, &fourth, height2))
         return false;
     if (!flipB)
     {
         float savedHeight = hit->Location.z;
-        hit->m_pLocationNavMesh->GetTriangleHeightAtPoint(hit->m_usTriangleID, hit->Location, DAT_01016970,
-                                                          DAT_01016970, savedHeight);
+        hit->m_pLocationNavMesh->GetTriangleHeightAtPoint(hit->m_usTriangleID, hit->Location, ::DAT_01016970,
+                                                          ::DAT_01016970, savedHeight);
         hit->Location.z = savedHeight;
     }
     return true;

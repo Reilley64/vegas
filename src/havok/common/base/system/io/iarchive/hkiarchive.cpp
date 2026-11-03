@@ -2,10 +2,11 @@
 // src/havok/common/base/system/io/iarchive/hkiarchive.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/iarchive/hkiarchive.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_010d7000.h"
 struct hkReferencedObject
 {
-    void RetainReference();
-    void removeReference();
 };
 
 struct FUN_00dd9110_class
@@ -19,8 +20,8 @@ struct FUN_00dd9110_class
 // @fnv 0x00dd9110
 void FUN_00dd9110_class::SetReferencedObject(hkReferencedObject* apObject)
 {
-    apObject->RetainReference();
-    m_cByteAtOffset2->removeReference();
+    reinterpret_cast<::FUN_00c90510_class *>((apObject))->FUN_00c90510();
+    reinterpret_cast<::hkReferencedObjectC905 *>((m_cByteAtOffset2))->FUN_00c905b0();
     m_cByteAtOffset2 = apObject;
 }
 
@@ -39,7 +40,7 @@ FUN_00dd9130_class* FUN_00dd9130_class::Init(hkReferencedObject* apObject, bool 
     *(int**)this = &DAT_010d7c80;
     *(hkReferencedObject**)((char*)this + 8) = apObject;
     *(bool*)((char*)this + 12) = abFlag;
-    apObject->RetainReference();
+    reinterpret_cast<::FUN_00c90510_class *>((apObject))->FUN_00c90510();
     return this;
 }
 

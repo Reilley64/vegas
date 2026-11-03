@@ -1,2 +1,11 @@
 
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_004bcf60_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TimeoutTimer.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00485000.h"
 #include "tesobjectweap.h"

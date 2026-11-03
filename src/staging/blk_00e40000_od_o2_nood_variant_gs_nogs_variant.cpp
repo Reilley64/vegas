@@ -8,6 +8,10 @@
 // to their real unit once identified.
 // src/staging/blk_00e40000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00e50000.h"
 #include "../../include/layout_support.h"
 struct FloatLess
 {
@@ -16,7 +20,6 @@ struct FloatLess
         return a < b;
     }
 };
-void __cdecl FUN_00e50f10(float* pArr, int d, int h, FloatLess cmpLess);
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];

@@ -4,6 +4,9 @@
 #ifndef FNV_TESAMMO_H
 #define FNV_TESAMMO_H
 
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/symbols_00478000.h"
+#include "fnv/symbols_0047a000.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "TESForm.h"
@@ -219,7 +222,6 @@ FNV_STATIC_ASSERT(offsetof(TESModel, cFlags) == 20);
 class TESModelTextureSwap : public TESModel
 {
   public:
-    bool ParseTextureSwapData(void*, unsigned int, unsigned int);
     void InitItem(TESForm*);
     TESModelTextureSwap();
     // base TESModel at +0x0, size 24
@@ -255,7 +257,6 @@ FNV_STATIC_ASSERT(offsetof(TESModelTextureSwap, TextureSwapNodeAccessor) == 24);
 class BGSMessageIcon : public BaseFormComponent
 {
   public:
-    static void LoadMessageIconChunk(BGSMessageIcon*, TESFile*);
     BGSMessageIcon();
     // base BaseFormComponent at +0x0, size 4
     TESIcon Icon;  // +0x4, 12 bytes
@@ -328,7 +329,6 @@ FNV_STATIC_ASSERT(offsetof(BGSClipRoundsForm, m_ucClipRounds) == 4);
 class BGSDestructibleObjectForm : public BaseFormComponent
 {
   public:
-    static void LoadDestructibleData(BGSDestructibleObjectForm*, TESFile*);
     void InitItem(TESForm*);
     BGSDestructibleObjectForm();
     ~BGSDestructibleObjectForm();

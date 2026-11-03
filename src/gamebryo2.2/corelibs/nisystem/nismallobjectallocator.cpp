@@ -2,6 +2,9 @@
 // src/gamebryo2.2/corelibs/nisystem/nismallobjectallocator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nisystem/nismallobjectallocator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00aa34b0_cls.h"
+#include "fnv/decl/NiFixedAllocatorStub.h"
+#include "fnv/decl/S_00aa36f0_Foo.h"
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 struct SubAlloc
@@ -9,8 +12,6 @@ struct SubAlloc
     char _0[0x18];
     int _18;
     char _1c[0x64];
-    int FindEntryContaining(void*);
-    int WriteBufferByte(void*);
 };
 struct PointerCountProcessor
 {
@@ -22,9 +23,9 @@ void PointerCountProcessor::FUN_00aa3830(void* p, unsigned int stNumBytes)
     SubAlloc* pAlloc = (SubAlloc*)((char*)this + (stNumBytes << 8) - 0x100);
     void* pCriticalSection = (char*)pAlloc + 0x80;
     EnterCriticalSection(pCriticalSection);
-    int v = pAlloc->FindEntryContaining(p);
+    int v = ((int)(reinterpret_cast<::FUN_00aa34b0_cls *>((pAlloc))->FindEntryContaining((unsigned int)(p))));
     pAlloc->_18 = v;
-    pAlloc->WriteBufferByte(p);
+    reinterpret_cast<::S_00aa36f0_Foo *>((pAlloc))->WriteBufferByte((unsigned char *)(p));
     LeaveCriticalSection(pCriticalSection);
 }
 
@@ -154,7 +155,6 @@ FUN_00aa3760_cls* FUN_00aa3760_cls::InitEntries(unsigned int auiValue)
 // A single allocator block owns a sub-allocator header and a critical section.
 struct AllocBlock
 {
-    int FUN_00aa35a0();
 };
 
 // The allocator keeps its blocks in a 0x100 sized array.
@@ -168,5 +168,5 @@ class FUN_00aa3810_cls
 int FUN_00aa3810_cls::FUN_00aa3810(unsigned int index)
 {
     AllocBlock* block = (AllocBlock*)((char*)this + (index << 8) - 0x100);
-    return block->FUN_00aa35a0();
+    return ((int)(reinterpret_cast<::NiFixedAllocatorStub *>((block))->FUN_00aa35a0()));
 }

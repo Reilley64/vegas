@@ -2,14 +2,18 @@
 // src/havok/physics/utilities/actions/spring/hkpspringaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/spring/hkpspringaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00c7f690_cls.h"
+#include "fnv/symbols_01013000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_01269000.h"
 #include "havok/hkpSpringAction.h"
 
-extern int g_unk01269168;
 
 // @fnv 0x00cf4ef0
 int* __cdecl FUN_00cf4ef0()
 {
-    return &g_unk01269168;
+    return &(*reinterpret_cast<int *>(&::g_01269168));
 }
 
 void* __cdecl _fnv_zlib_memset(void* pvDst, int iValue, unsigned int uiNumBytes);
@@ -127,8 +131,6 @@ struct FUN_00cf4d80
     FUN_00cf4d80(void* a, void* b, unsigned long c);
 };
 extern int DAT_010d08f4;
-extern float DAT_01013974;
-extern float DAT_0101e2bc;
 struct FUN_00d4d340 : FUN_00cf4d80
 {
     FUN_00d4d340(void* a, void* b, unsigned long c);
@@ -179,7 +181,6 @@ struct hkVector4D4D3
 {
     __m128 m_vComponents;
 
-    void FUN_00c7f690(const hkTransformD4D3& kT, const hkVector4D4D3& kV);
     void setSub4(const hkVector4D4D3& a, const hkVector4D4D3& b)
     {
         m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents);
@@ -234,8 +235,8 @@ void hkpStiffSpringWrapperD4D3::UpdatePivotsAndRestLength(const hkVector4D4D3& k
 {
     hkpEntityD4D3* pkA = m_pEntityA;
     hkpEntityD4D3* pkB = m_pEntityB;
-    m_kPivotInA.FUN_00c7f690(pkA->m_kMotionTransform, kPivotAW);
-    m_kPivotInB.FUN_00c7f690(pkB->m_kMotionTransform, kPivotBW);
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(m_kPivotInA))->FUN_00c7f690((const ::S_00c7f690_M *)&(pkA->m_kMotionTransform), (const ::S_00c7f690_V *)&(kPivotAW));
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(m_kPivotInB))->FUN_00c7f690((const ::S_00c7f690_M *)&(pkB->m_kMotionTransform), (const ::S_00c7f690_V *)&(kPivotBW));
     hkVector4D4D3 kDiff;
     kDiff.setSub4(kPivotAW, kPivotBW);
     m_fSpringRestLength = kDiff.length3();
@@ -448,7 +449,7 @@ S00d4d4a0_Obj* S00d4d4a0_Obj::FUN_00d4d4a0(const hkpCloneArgD4A0& argA, const hk
 
     S00d4d4a0_Obj* clone = new S00d4d4a0_Obj;
 
-    clone = clone->FUN_00d4d340(argA.m_kActorEntries->m_pEntityA, argA.m_kActorEntries->m_pEntityB, m_ulUserData);
+    clone = ((::fnv_00d4d4a0::S00d4d4a0_Obj *)(new ((void *)(clone)) ::FUN_00d4d340(argA.m_kActorEntries->m_pEntityA, argA.m_kActorEntries->m_pEntityB, (unsigned long)(m_ulUserData))));
 
     clone->m_kPivotInA = m_kPivotInA;
     clone->m_kPivotInB = m_kPivotInB;

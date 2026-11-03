@@ -3,6 +3,9 @@
 #define FADERMANAGER_UPDATE_DECLS_H
 
 // Private declarations for the fader update's out-of-line helpers.
+#include "fnv/decl/FUN_00821600_shell.h"
+#include "fnv/decl/FUN_008cc6d0_class.h"
+#include "fnv/symbols_011f6000.h"
 enum MEM_CONTEXT
 {
     MEM_CONTEXT_INTERFACE = 13
@@ -17,17 +20,15 @@ class AutoMemContext
 class TimeGlobal
 {
   public:
-    float GetSecondsPassed();
 };
-extern TimeGlobal g_timeGlobal;
 class NiTexture;
+struct NiTexture;
 class TileShaderProperty : public NiMemObject
 {
   public:
     unsigned char layout[176];
     TileShaderProperty(bool);
-    void SetTextureImage(NiTexture*);
-    void FUN_008cc6d0(int);
-    void SetAlpha(float);
+public:
+    void FUN_00bb7a10(::NiTexture *);
 };
 #endif

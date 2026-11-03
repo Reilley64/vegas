@@ -2,6 +2,8 @@
 #ifndef FNV_NIBOOLINTERPCONTROLLER_H
 #define FNV_NIBOOLINTERPCONTROLLER_H
 
+#include "fnv/decl/NiTimeControllerA362.h"
+#include "fnv/symbols_00a35000.h"
 #include "layout_support.h"
 #include "NiObject.h"
 #include "NiObjectNET.h"
@@ -17,7 +19,6 @@ class NiUpdateData;
 class NiTimeController : public NiObject
 {
   public:
-    bool AdvanceController(float);
     void SetControllerActive(bool);
     // base NiObject at +0x0, size 8
     unsigned short m_uiObjectFlags;  // +0x8, 2 bytes
@@ -126,7 +127,6 @@ class NiSingleInterpController : public NiInterpController
     void CopyMemberData(NiSingleInterpController*, CloningProcess&);
     bool IsEqual(NiObject*);
     void LoadBinary(NiStream&);
-    void LinkObject(NiStream&);
     // base NiInterpController at +0x0, size 52
     NiPointer<NiInterpolator> m_spControllerInterpolator;  // +0x34, 4 bytes
     // const NiRTTI* __cdecl NiSingleInterpController::*()

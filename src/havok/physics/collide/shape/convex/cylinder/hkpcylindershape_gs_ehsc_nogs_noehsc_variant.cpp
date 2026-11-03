@@ -5,6 +5,11 @@
 
 // src/havok/physics/collide/shape/convex/cylinder/hkpcylindershape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/cylinder/hkpcylindershape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FunctionContext.h"
+#include "fnv/symbols_01030000.h"
+#include "fnv/symbols_010d0000.h"
+#include "fnv/symbols_011b5000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpCylinderShape.h"
 int __cdecl FUN_00d571b0();
 // FUN_00d571a0: __thiscall getter returning the float at this+0x14,
@@ -12,8 +17,6 @@ class hkpCylinderShapeGetCylRadius : public hkpCylinderShape {
 public:
     hkReal FUN_00d571a0();
 };
-extern char DAT_01268940[];
-void __cdecl FUN_00c90360(void* item, const char* type);
 void __cdecl FUN_00d571c0(void* item, const char*);
 struct C00d573e0 {
     char  pad00[0x10];
@@ -26,9 +29,6 @@ struct C00d573e0 {
     void SetValue(float v);
 };
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
-extern char DAT_010305a8;
-extern char DAT_010d0f1c;
-extern float DAT_011b5be8;
 static __declspec(noinline) float FUN_00d571d0()
 {
     return 0.0f;
@@ -44,23 +44,20 @@ struct S00d57b20_Obj {
 
 #include <xmmintrin.h>
 namespace fnv_00d57aa0 {
-extern int DAT_010d0f1c;
-extern float DAT_011b5be8;
-extern float DAT_01030ff0;
 
 static __declspec(noinline) float FUN_00d571d0()
 {
-    return DAT_01030ff0;
+    return ::DAT_01030ff0;
 }
 
 static __declspec(noinline) void __stdcall SetValue(float value)
 {
-    DAT_011b5be8 = value;
+    ::DAT_011b5be8 = value;
 }
 
 static __declspec(noinline) void InitPerpendiculars()
 {
-    DAT_011b5be8 = DAT_01030ff0;
+    ::DAT_011b5be8 = ::DAT_01030ff0;
 }
 
 struct S00d57aa0_Obj {
@@ -101,10 +98,10 @@ void* __thiscall S00d57aa0_Obj::FUN_00d57aa0(
     unk06 = 1;
     unk08 = 0;
     unk0c = 2;
-    vft = &DAT_010d0f1c;
+    vft = &(*reinterpret_cast<int *>(&::DAT_010d0f1c));
 
-    if (DAT_011b5be8 < 0.0f) {
-        DAT_011b5be8 = 1.0f - FUN_00d571d0();
+    if (::DAT_011b5be8 < 0.0f) {
+        ::DAT_011b5be8 = 1.0f - FUN_00d571d0();
     }
 
     _mm_store_ps(&unk20, _mm_load_ps(a));
@@ -113,7 +110,7 @@ void* __thiscall S00d57aa0_Obj::FUN_00d57aa0(
     SetValue(c);
     InitPerpendiculars();
 
-    unk18 = DAT_01030ff0;
+    unk18 = ::DAT_01030ff0;
     return this;
 }
 }  // namespace fnv_00d57aa0

@@ -1,5 +1,21 @@
 // staging/blk_00e40000_od_o2_nood_variant.cpp: Cls, TreeDecoder (9 functions)
 
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/GridCell.h"
+#include "fnv/decl/MoppFindAllVM.h"
+#include "fnv/decl/MoppFindAllVirtualMachine.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/hkpMoppFindAllVirtualMachine.h"
+#include "fnv/decl/xSphereMachine.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00e50000.h"
+#include "fnv/symbols_010d5000.h"
+#include "fnv/symbols_01268000.h"
 #include "fnv_asm_helpers.h"
 // src/staging/blk_00e40000_od_o2_nood_variant.cpp - flag-variant unit created 2026-10-24 by flag_proofs.py: contributor code for these functions matched byte for
 // byte only under /MT /O2 /GS /EHsc /Gy (unit src/staging/blk_00e40000_od.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
@@ -142,27 +158,27 @@ int __cdecl FUN_00e5cf00(void* a1, int a2, int a3, int a4)
 }
 
 struct __declspec(align(16)) Vec4E5 { float x, y, z, w; };
-struct TmpE5CF40 { Vec4E5 a, b; void FUN_00e64f00(int a, int b, int c); };
+struct TmpE5CF40 { Vec4E5 a, b;  };
 // @fnv 0x00e5cf40
 void __cdecl FUN_00e5cf40(int a, int b, int c)
 {
     TmpE5CF40 tmp;
-    tmp.FUN_00e64f00(a, b, c);
+    reinterpret_cast<::xSphereMachine *>(&(tmp))->FUN_00e64f00((const ::xMoppCode *)(a), (*(const ::xSphere *)(b)), (::HitArray *)(c));
 }
 
 struct __declspec(align(16)) FUN_00e5d010_Block {
     unsigned int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c;
     unsigned int unk20,unk24,unk28,unk2c,unk30,unk34,unk38,unk3c;
-    void __thiscall FUN_00dd1da0(int first,int second,int third);
 };
 // @fnv 0x00e5d010
 extern "C" void __cdecl FUN_00e5d010(int first,int second,int third)
 {
     FUN_00e5d010_Block instance;
-    instance.FUN_00dd1da0(first,second,third);
+    reinterpret_cast<::GridCell *>(&(instance))->FUN_00dd1da0((::GridSource *)(first),(::GridBounds *)(second),third);
 }
 
 #include <math.h>
+#include "fnv/symbols_simd.h"
 extern "C" __m128 _mm_xor_ps(__m128,__m128);
 extern "C" __m128 _mm_and_ps(__m128,__m128);
 extern "C" __m128 _mm_andnot_ps(__m128,__m128);
@@ -255,23 +271,17 @@ struct BoundsRef { F8* p; F8* operator->() const { return p; } operator F8*() co
 struct Vec { int* base; int count; int cap; };
 struct Resource { int unk00, unk04, unk08, unk0c; void* allocator; };
 extern void* FUN_00c85750();
-extern void ResizeAudioStream(void* a, void* b, int c);
 static const __declspec(align(16)) unsigned int AbsMask[4] = { 0x7fffffff, 0x7fffffff, 0x7fffffff, 0x7fffffff };
 
 
 struct Diagnostic {
   int unk00, unk04, unk08;
-  void FUN_00cb1600(char*, int);
-  void FUN_00cc01c0(const char*);
-  void FUN_00cc00e0();
 };
 struct ErrorReporter {
   virtual void ReportDiagnostic(); virtual void unused1(); virtual void unused2();
   virtual int report(int, unsigned int, const char*, const char*, int);
 };
-extern int DAT_01268360;
 struct Query {
-  void FUN_00e65ee0(P1*, unsigned char*);
   __forceinline int classify(P1* state, unsigned char* stream, int offset, F8* bounds) {
     float r2 = center[3] * center[3];
     V4 sum, extent, outside;
@@ -285,7 +295,7 @@ struct Query {
     if(near2>r2) return 0;
     extent.add(sum);
     float far2=extent.lengthSquared3();
-    if(far2<r2){FUN_00e65ee0(state,stream+offset);return 1;}
+    if(far2<r2){reinterpret_cast<::hkpMoppFindAllVirtualMachine *>(this)->FUN_00e65ee0((const ::MoppState *)(state),stream+offset);return 1;}
     return 2;
   }
   __forceinline int classifyLocal(P1* state, unsigned char* stream, int offset, F8* bounds) {
@@ -301,7 +311,7 @@ struct Query {
     if(near2>r2) return 0;
     extent.add(sum);
     float far2=extent.lengthSquared3();
-    if(far2<r2){FUN_00e65ee0(state,stream+offset);return 1;}
+    if(far2<r2){reinterpret_cast<::hkpMoppFindAllVirtualMachine *>(this)->FUN_00e65ee0((const ::MoppState *)(state),stream+offset);return 1;}
     return 2;
   }
   Vec* results; int unk24; int unk28; int unk2c;
@@ -499,10 +509,10 @@ __forceinline void Cls::interpret(P1* a1, unsigned char* p, F8* const& a3) {
     default: {
       Diagnostic high;
       int buffer[128];
-      high.FUN_00cb1600((char*)buffer, 512);
-      high.FUN_00cc01c0("Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
-      if (((ErrorReporter*)DAT_01268360)->report(3, 0x1298fedd, (char*)buffer, "d:\\build\\20091222_000100_AiAnBeClDePh\\Source\\Physics/Internal/Collide/Mopp/Machine/hkpMoppUsingFloatAabbVirtualMachine.inl", 301)) __debugbreak();
-      high.FUN_00cc00e0();
+      new ((void *)&(high)) ::FUN_00cb1600((char*)buffer, 512);
+      reinterpret_cast<::SinkOwner *>(&(high))->FUN_00cc01c0("Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
+      if (((ErrorReporter*)(*reinterpret_cast<int *>(&::DAT_01268360)))->report(3, 0x1298fedd, (char*)buffer, "d:\\build\\20091222_000100_AiAnBeClDePh\\Source\\Physics/Internal/Collide/Mopp/Machine/hkpMoppUsingFloatAabbVirtualMachine.inl", 301)) __debugbreak();
+      reinterpret_cast<struct ::FUN_00cc00e0 *>(&(high))->FUN_00cc00e0::~FUN_00cc00e0();
       break;
     }
     case 80: right = p[1]; goto append;
@@ -517,7 +527,7 @@ __forceinline void Cls::interpret(P1* a1, unsigned char* p, F8* const& a3) {
     append: {
       Vec* item=vec; unsigned int bounds_test=right; _ReadWriteBarrier(); *(volatile int*)&right=right; bounds_test+=cur->f0;
       Resource* first = (Resource*)FUN_00c85750();
-      if (item->count == (item->cap & 0x3fffffff)) ResizeAudioStream(first->allocator, item, 4);
+      if (item->count == (item->cap & 0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(first->allocator), (::AudioStream *)(item), 4);
       int* message = &item->base[item->count++];
       *message = bounds_test;
       return;
@@ -555,22 +565,15 @@ struct __declspec(align(16)) BoundsPair { __m128 minimum; __m128 maximum;
 };
 struct OutputArray { int* data; int size; int capacity; };
 struct AllocatorContext { int unk00; int unk04; int unk08; int unk0C; void* allocator; };
-void ResizeAudioStream(void*, void*, int);
 struct DiagnosticStream {
     void* vtable; int flags; void* writer;
-    void FUN_00cb1600(void*, int);
-    void FUN_00cc01c0(const char*);
-    void FUN_00cc00e0();
 };
-extern const char str_010d5100[];
 extern const char str_010ecd88[];
 struct __declspec(align(16)) PlanePacket { __m128 x,y,z,w; };
 struct CullMachine {
     int unk00; int unk04; int unk08; int unk0C; int count; int unk14; int unk18; int unk1C;
     PlanePacket planes[8];
     PlanePacket absolutePlanes[8];
-    void FUN_00e66600(DecodeState*, const unsigned char*);
-    void FUN_00e66290(DecodeState*, const unsigned char*);
     __forceinline int classify(DecodeState* state, const unsigned char* code, const BoundsPair& bounds) {
         int allInside = 15;
         const PlanePacket* p=planes;
@@ -590,8 +593,8 @@ struct CullMachine {
             allInside &= _mm_movemask_ps(_mm_cmplt_ps(_mm_add_ps(distance,radius),_mm_setzero_ps()));
         }
         if (allInside == 15) {
-            FUN_00e66600(state,code);
-            FUN_00e66290(state,code);
+            reinterpret_cast<::MoppFindAllVirtualMachine *>(this)->FUN_00e66600((const ::MoppState *)(state),code);
+            reinterpret_cast<::MoppFindAllVM *>(this)->FUN_00e66290((const ::MoppQueryState *)(state),code);
             return 1;
         }
         return 2;
@@ -618,8 +621,8 @@ struct CullMachine {
             allInside &= _mm_movemask_ps(_mm_cmplt_ps(_mm_add_ps(distance,radius),_mm_setzero_ps()));
         }
         if (allInside == 15) {
-            FUN_00e66600(state,code);
-            FUN_00e66290(state,code);
+            reinterpret_cast<::MoppFindAllVirtualMachine *>(this)->FUN_00e66600((const ::MoppState *)(state),code);
+            reinterpret_cast<::MoppFindAllVM *>(this)->FUN_00e66290((const ::MoppQueryState *)(state),code);
             return 1;
         }
         return 2;
@@ -633,7 +636,7 @@ struct TreeDecoder {
     __forceinline void emit(int value) {
         OutputArray* a = output;
         AllocatorContext* context = (AllocatorContext*)FUN_00c85750();
-        if (a->size == (a->capacity & 0x3fffffff)) ResizeAudioStream(context->allocator,a,4);
+        if (a->size == (a->capacity & 0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(context->allocator),(::AudioStream *)(a),4);
         int* destination = &a->data[a->size]; ++a->size; *destination = value;
     }
     __forceinline void readBounds(DecodeState* state, const unsigned char* code, int& offset, BoundsPair& bounds, const float& scalar) {
@@ -678,9 +681,9 @@ void TreeDecoder::FUN_00e5e430(DecodeState* state, const unsigned char* code, Bo
     for (;;) {
         int op = *code;
         if ((unsigned)op > 0x6b) {
-            stream.FUN_00cb1600(buffer,512);
-            stream.FUN_00cc01c0(str_010d5100);
-            diagnosticResult=((ErrorReporter*)DAT_01268360)->report(3,0x1298fedd,(const char*)buffer,str_010ecd88,301);
+            new ((void *)&(stream)) ::FUN_00cb1600(buffer,512);
+            reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(str_010d5100);
+            diagnosticResult=((ErrorReporter*)(*reinterpret_cast<int *>(&::DAT_01268360)))->report(3,0x1298fedd,(const char*)buffer,str_010ecd88,301);
             goto DiagnosticTail;
         }
         switch (op) {
@@ -768,12 +771,12 @@ localBounds=*bounds; int r=code[1]+1; localBounds.minimum.m128_f32[op-0x20]=(sta
         }
         default: {
 
-            stream.FUN_00cb1600(buffer,512);
-            stream.FUN_00cc01c0(str_010d5100);
-            diagnosticResult=((ErrorReporter*)DAT_01268360)->report(3,0x1298fedd,(const char*)buffer,str_010ecd88,301);
+            new ((void *)&(stream)) ::FUN_00cb1600(buffer,512);
+            reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(str_010d5100);
+            diagnosticResult=((ErrorReporter*)(*reinterpret_cast<int *>(&::DAT_01268360)))->report(3,0x1298fedd,(const char*)buffer,str_010ecd88,301);
         DiagnosticTail:
             if(diagnosticResult) __debugbreak();
-            stream.FUN_00cc00e0(); break;
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0(); break;
         }
         case 0x50: value=code[1]; goto terminal;
         case 0x51: value=(code[1]<<8)+code[2]; goto terminal;
@@ -791,7 +794,6 @@ localBounds=*bounds; int r=code[1]+1; localBounds.minimum.m128_f32[op-0x20]=(sta
 
 extern "C" __m128 _mm_and_ps(__m128, __m128);
 
-extern const __m128 DAT_01017d10;
 
 struct hkQuatStore_e52190 { __m128 m_vec; };
 

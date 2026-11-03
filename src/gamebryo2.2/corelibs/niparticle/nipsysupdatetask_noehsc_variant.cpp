@@ -5,7 +5,14 @@
 
 // src/gamebryo2.2/corelibs/niparticle/nipsysupdatetask.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysupdatetask.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void* g_01202580;
+#include "fnv/decl/ActiveArray.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a311e0_s.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00e7f000.h"
+#include "fnv/symbols_011ae000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01202000.h"
 void* __cdecl FUN_00c25870();
 struct NiRefObject
 {
@@ -75,26 +82,21 @@ struct NiPSysUpdateTask
 };
 struct PoolHelper
 {
-    void __thiscall AppendRecords(int);
 };
 extern void* DAT_011aeb98;
-extern int DAT_011aeba0;
-extern int DAT_011aeba8;
 extern int DAT_01202600;
 NiPSysUpdateTask* PopNiPSysUpdateTask();
 typedef unsigned int C25AC0size_t;
 struct C25AC0MemoryManager
 {
-    void Deallocate(void* pvMem);
 };
-extern C25AC0MemoryManager g_C25AC0MemoryManager;
 inline void __cdecl operator delete(void* pvMem)
 {
-    g_C25AC0MemoryManager.Deallocate(pvMem);
+    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::C25AC0MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
 }
 inline void __cdecl operator delete[](void* pvMem)
 {
-    g_C25AC0MemoryManager.Deallocate(pvMem);
+    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::C25AC0MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
 }
 struct C25AC0MemObject
 {
@@ -105,7 +107,6 @@ struct C25AC0Entry : C25AC0MemObject
 };
 struct C25AC0Helper : C25AC0MemObject
 {
-    void DeleteThis(int iFlags);
 };
 struct C25AC0Manager : C25AC0MemObject
 {
@@ -117,12 +118,10 @@ struct C25AC0Manager : C25AC0MemObject
     {
         delete[] m_pkEntryArray;
         if (m_pkHelper)
-            m_pkHelper->DeleteThis(1);
+            ::fnv_00e7f900::FUN_00e7f900((void *)(m_pkHelper), 1, {});
     }
 };
 extern C25AC0Manager* g_C25AC0Instance;
-extern int g_C25AC0Count;
-extern int g_C25AC0Current;
 extern int g_C25AC0Default;
 void __cdecl DestroyManager();
 // The per-count link record the game allocates: { data, count, next }.
@@ -135,9 +134,7 @@ struct LinkRec_00c25b30
 // The game's global memory manager object.
 struct PoolAlloc_00c25b30
 {
-    void* Alloc(unsigned int size);
 };
-extern PoolAlloc_00c25b30 DAT_011f6238;
 // Builds the array of 20-byte link records (lives in another unit of the game).
 void* __cdecl FUN_00c25990(unsigned int count);
 // The link-id set: { items, capacity, size, head }.
@@ -148,7 +145,6 @@ struct LinkIDSet_00c25b30
     unsigned int m_iElementCount;
     LinkRec_00c25b30* m_pFirstNode;
 
-    void Grow(unsigned int newCapacity);
     void AppendRecords(unsigned int count);
 };
 struct S_00c25be0
@@ -162,7 +158,6 @@ struct S_00c25be0
 };
 struct S_00e7ec00
 {
-    void __thiscall FindOrAdd(void*);
 };
 extern void(__stdcall* DAT_00fdf05c)(void*);
 extern void(__stdcall* DAT_00fdf100)(void*);
@@ -216,7 +211,7 @@ struct C25990Elem
     static void* operator new[](unsigned int size, unsigned int count)
     {
         if (count == 0)
-            return DAT_011f6238.Alloc(4);
+            return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::PoolAlloc_00c25b30 *>(&::g_memoryManager))))->FUN_00aa3e40(4);
         return FUN_00aa1420(size);
     }
     static void operator delete[](void* p);

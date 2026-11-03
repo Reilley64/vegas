@@ -54,6 +54,8 @@ class BSFileCache
     void* m_pfnCacheStatus;
     volatile FILE_CACHE_STATE m_eCacheState;
     void* m_pCacheSyncObject;
+public:
+    static ::BSFileCache &GetRandomGenerator();
 };
 #pragma pack(pop)
 

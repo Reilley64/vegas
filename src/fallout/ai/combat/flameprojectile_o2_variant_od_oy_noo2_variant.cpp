@@ -7,6 +7,46 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/fallout/ai/combat/flameprojectile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/flameprojectile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/Actor.h"
+#include "fnv/decl/Class_007f68a0.h"
+#include "fnv/decl/FUN_00439f50_class.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_00458e20_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004a0c90_shell.h"
+#include "fnv/decl/FUN_004a39f0_shell.h"
+#include "fnv/decl/FUN_004a3c20.h"
+#include "fnv/decl/FUN_004a3fb0_shell.h"
+#include "fnv/decl/FUN_00508070_class.h"
+#include "fnv/decl/FUN_00524ac0_shell.h"
+#include "fnv/decl/FUN_0059ce80_shell.h"
+#include "fnv/decl/FUN_00632ce0_Class.h"
+#include "fnv/decl/FUN_00645ce0_class.h"
+#include "fnv/decl/GlobalObject_008c71b0.h"
+#include "fnv/decl/ImageSpaceEffectParam.h"
+#include "fnv/decl/InterfaceManager.h"
+#include "fnv/decl/LoadProjectile52.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MobileObject.h"
+#include "fnv/decl/PathingRequest.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_004a3da0__FUN_004a3da0_shell.h"
+#include "fnv/decl/fnv_005de0a0__FUN_005de0a0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/decl/fnv_00979260__Projectile.h"
+#include "fnv/decl/fnv_009bda10__ProjectileRuntime.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_004a4000.h"
+#include "fnv/symbols_004b3000.h"
+#include "fnv/symbols_00874000.h"
+#include "fnv/symbols_009c0000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f2000.h"
 struct Flt
 {
     operator unsigned int() const;
@@ -17,11 +57,9 @@ struct FUN_009b3cb0_shell
 };
 struct BGSLoadFormBuffer
 {
-    void ReadTypedData(void* pBuf, unsigned int uSize);
 };
 struct BeamProjectile
 {
-    void LoadProjectile(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 struct FlameProjectile : BeamProjectile
 {
@@ -35,11 +73,9 @@ struct FUN_009b32b0_shell
 };
 struct FUN_005de0a0_shell
 {
-    void FUN_005de0a0(int, int);
 };
 struct FUN_009bda10_shell
 {
-    void FUN_009bda10();
 };
 
 #include <xmmintrin.h>
@@ -52,7 +88,6 @@ struct NiPoint3
 {
     float x, y, z;
     NiPoint3();
-    void FUN_004a0c10();
     NiPoint3 operator-(const NiPoint3& kPt) const;
     NiPoint3 operator+(const NiPoint3& kPt) const;
     NiPoint3 operator*(float fScalar) const;
@@ -60,11 +95,7 @@ struct NiPoint3
 struct NiMatrix33
 {
     float rows[9];
-    void FUN_006815c0();
-    void FUN_004a0c90(float angle);
-    void FUN_00524ac0(float angle);
     NiMatrix33* FUN_0043f8d0(NiMatrix33* result, NiMatrix33* rhs);
-    void FUN_00439f50(int enabled, NiPoint3* output);
 };
 struct __declspec(align(16)) VisualState
 {
@@ -74,24 +105,13 @@ struct __declspec(align(16)) VisualState
     unsigned unk050, unk054, unk058, unk05c, unk060, unk064, unk068, unk06c;
     unsigned unk070, unk074, unk078, unk07c, unk080, unk084, unk088, unk08c;
     unsigned unk090, unk094, unk098, unk09c, unk0a0, unk0a4, unk0a8, unk0ac;
-    void FUN_004a3c20();
-    void FUN_00500a20(void* state);
-    void FUN_004a3f70(unsigned int state);
-    void FUN_004a3da0(NiPoint3* point);
-    void FUN_007f68a0(const NiPoint3& point);
-    void FUN_004a3fb0(void* result);
-    bool FUN_00632ce0();
 };
 struct Handle
 {
     unsigned int id;
-    void FUN_008c71b0(int initial);
-    void FUN_004a39f0(int kind);
-    void FUN_0059ce80(const FilterKey& kKey);
 };
 struct Controller
 {
-    void* FUN_0044ddc0();
 };
 struct Source
 {
@@ -177,7 +197,6 @@ struct BoundForm
 };
 struct ActorRef
 {
-    BoundForm* FUN_004543c0();
 };
 struct Tester
 {
@@ -235,7 +254,6 @@ struct Tester
 };
 struct GameObject
 {
-    ActorRef* FUN_008d6f30();
 };
 struct FlagSetting
 {
@@ -243,11 +261,9 @@ struct FlagSetting
 };
 struct FloatSetting
 {
-    float* FUN_00403e20();
 };
 struct ImpactManager
 {
-    void FUN_00458e20(void* impact, float value);
 };
 struct ImpactData
 {
@@ -290,18 +306,9 @@ struct ImpactData
 struct Color4
 {
     float r, g, b, a;
-    Color4* FUN_00414430(float r, float g, float b, float a);
 };
-extern GameObject* DAT_011dea3c;
-extern FlagSetting DAT_011f20ec;
-extern FloatSetting DAT_011f210c;
-extern ImpactManager* DAT_011dea10;
-extern float FUN_004a4240();
 extern const FilterKey& FUN_005dbe10();
-extern int FUN_009c0d80(VisualState*, void*, int, int, int, float);
-extern float DAT_01016970;
 extern void GenerateSpherePoints(NiPoint3*, int, NiPoint3, float, float, float, float, float);
-extern void* FUN_004b3890(NiPoint3*, Color4*, NiPoint3*, Color4*, int);
 struct ProjectileEffect
 {
     virtual ~ProjectileEffect();
@@ -480,91 +487,82 @@ struct ProjectileEffect
     virtual void pe2b4();
     virtual void pe2b8();
     virtual float GetProjectileSpread(int iMode);
-    ActorRef* FUN_008d6f30();
-    AttachedObject* FUN_009306d0();
-    FireObject* FUN_00874480();
     Controller* FUN_009b3cb0();
-    float FUN_00931d70();
-    float GetField154();
-    GameObject* FUN_004181e0();
-    double GetFirstLightParameter();
-    double FUN_00508070();
     bool FUN_009b36f0();
 };
 struct EmitterProperties
 {
-    float FUN_009a7c40();
 };
 // @fnv 0x009b36f0
 bool ProjectileEffect::FUN_009b36f0()
 {
-    if (!FUN_008d6f30() || !FUN_008d6f30()->FUN_004543c0())
+    if (!((::ActorRef *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) || !((::BoundForm *)(reinterpret_cast<::FUN_004543c0_cls *>((((::ActorRef *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0())))
         return false;
     bool emitted = false;
-    void* pWorld = FUN_008d6f30()->FUN_004543c0();
+    void* pWorld = ((::BoundForm *)(reinterpret_cast<::FUN_004543c0_cls *>((((::ActorRef *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0()));
     VisualState visual;
-    visual.FUN_004a3c20();
+    new ((void *)&(visual)) ::FUN_004a3c20();
     NiPoint3 position;
     NiPoint3 direction;
     position = *GetFiringPosition();
     NiMatrix33 rotation;
-    rotation.FUN_006815c0();
-    rotation.FUN_004a0c90(GetProjectileSpread(0));
+    new ((void *)&(rotation)) ::Vec3();
+    reinterpret_cast<::FUN_004a0c90_shell *>(&(rotation))->FUN_004a0c90(GetProjectileSpread(0));
     NiMatrix33 spin;
-    spin.FUN_006815c0();
-    spin.FUN_00524ac0(FUN_00931d70());
+    new ((void *)&(spin)) ::Vec3();
+    reinterpret_cast<::FUN_00524ac0_shell *>(&(spin))->FUN_00524ac0(reinterpret_cast<::MobileObject *>(this)->GetLooking());
     NiMatrix33 result;
     rotation = *rotation.FUN_0043f8d0(&result, &spin);
-    rotation.FUN_00439f50(1, &direction);
-    direction.FUN_004a0c10();
+    reinterpret_cast<::FUN_00439f50_class *>(&(rotation))->FUN_00439f50(1, &direction);
+    reinterpret_cast<::FUN_004a0c10_s *>(&(direction))->FUN_004a0c10();
     Handle objectHandle;
-    objectHandle.FUN_008c71b0(0);
-    if (FUN_009306d0())
+    new ((void *)&(objectHandle)) ::GlobalObject_008c71b0(0);
+    if (((::AttachedObject *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0())))
     {
         unsigned int handleId;
-        objectHandle.id = *FUN_009306d0()->FUN_0070c440(&handleId);
+        objectHandle.id = *((::AttachedObject *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()))->FUN_0070c440(&handleId);
     }
     else
     {
-        objectHandle.FUN_004a39f0(6);
-        if (FUN_00874480() && FUN_00874480()->IsEnabled())
+        reinterpret_cast<::FUN_004a39f0_shell *>(&(objectHandle))->FUN_004a39f0(6);
+        if (((::FireObject *)(::FUN_00874480((char *)this))) && ((::FireObject *)(::FUN_00874480((char *)this)))->IsEnabled())
         {
-            objectHandle.FUN_0059ce80(FUN_00874480()->FUN_00931ed0()->FUN_004a3a20());
+            reinterpret_cast<::FUN_0059ce80_shell *>(&(objectHandle))->FUN_0059ce80((unsigned int)&(const ::FilterKey &)(((::FireObject *)(::FUN_00874480((char *)this)))->FUN_00931ed0()->FUN_004a3a20()));
         }
         else
         {
-            objectHandle.FUN_0059ce80(FUN_005dbe10());
+            reinterpret_cast<::FUN_0059ce80_shell *>(&(objectHandle))->FUN_0059ce80((unsigned int)&(FUN_005dbe10()));
         }
     }
-    if (FUN_009b3cb0() && FUN_009b3cb0()->FUN_0044ddc0())
-        visual.FUN_00500a20(FUN_009b3cb0()->FUN_0044ddc0());
+    if (((::Controller *)(reinterpret_cast<::FUN_009b3cb0_shell *>(this)->FUN_009b3cb0())) && ((void *)(reinterpret_cast<::Twin_0044ddc0 *>((((::Controller *)(reinterpret_cast<::FUN_009b3cb0_shell *>(this)->FUN_009b3cb0()))))->GetName())))
+        reinterpret_cast<::InterfaceManager *>(&(visual))->FUN_00500a20((::Tile *)(void *)(((void *)(reinterpret_cast<::Twin_0044ddc0 *>((((::Controller *)(reinterpret_cast<::FUN_009b3cb0_shell *>(this)->FUN_009b3cb0()))))->GetName()))));
     int iNumPoints = 4;
     NiPoint3 points[4];
-    GenerateSpherePoints(points, 3, position, GetProjectileSpread(0), FUN_00931d70(), GetField154(),
-                         ((EmitterProperties*)FUN_004181e0())->FUN_009a7c40(), FUN_004a4240());
-    points[3] = position + direction * (float)(GetFirstLightParameter() - FUN_00508070());
-    visual.FUN_004a3f70(objectHandle.id);
-    visual.FUN_004a3da0(&position);
+    GenerateSpherePoints(points, 3, position, GetProjectileSpread(0), reinterpret_cast<::MobileObject *>(this)->GetLooking(), reinterpret_cast<::FUN_00645ce0_class *>(this)->GetField154(),
+                         reinterpret_cast<::PathingRequest *>((((EmitterProperties*)((::GameObject *)(reinterpret_cast<::Actor *>(this)->GetActorBase())))))->GetActorRadius(), ((float)(::FUN_004a4240())));
+    points[3] = position + direction * (float)(((double)(reinterpret_cast<::fnv_00979260::Projectile *>(this)->GetFirstLightParameter())) - ((double)(reinterpret_cast<::FUN_00508070_class *>(this)->FUN_00508070())));
+    ::FUN_004a3f70((char *)&(visual), (::Flt)(objectHandle.id));
+    reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(visual))->FUN_004a3da0(&position);
     for (int i = 0; i < 4; ++i)
     {
-        visual.FUN_007f68a0(points[i] - position);
+        reinterpret_cast<::Class_007f68a0 *>(&(visual))->FUN_007f68a0(points[i] - position);
         ImpactData impact;
-        visual.FUN_004a3fb0(&impact);
-        Tester* tester = (Tester*)DAT_011dea3c->FUN_008d6f30()->FUN_004543c0();
+        reinterpret_cast<::FUN_004a3fb0_shell *>(&(visual))->FUN_004a3fb0((::hkpAllRayHitCollector *)(void *)(&impact));
+        Tester* tester = (Tester*)((::BoundForm *)(reinterpret_cast<::FUN_004543c0_cls *>((((::ActorRef *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::GameObject * *>(&::_g_thePlayer))))->GetTarget()))))->FUN_004543c0()));
         bool accepted = tester->Query(&visual);
         if (accepted)
-            accepted = FUN_009c0d80(&visual, this, 0, 0, 0, DAT_01016970) != 0;
+            accepted = ::FUN_009c0d80((::Scene *)(::VisualState *)(&visual), (::Controller *)(void *)(this), 0, (float *)(0), 0, DAT_01016970) != 0;
         if (accepted)
             emitted = true;
-        if (*DAT_011f20ec.FUN_00408d60())
+        if (*(*reinterpret_cast<::FlagSetting *>(&::g_011f20ec)).FUN_00408d60())
         {
             Color4 greenColor;
             Color4 yellowColor;
-            Color4* pColor = visual.FUN_00632ce0() ? greenColor.FUN_00414430(1.0f, 0.0f, 0.0f, 1.0f)
-                                                   : yellowColor.FUN_00414430(1.0f, 1.0f, 0.0f, 1.0f);
+            Color4* pColor = ((bool)(reinterpret_cast<::FUN_00632ce0_Class *>(&(visual))->FUN_00632ce0())) ? ((::Color4 *)(new ((void *)&(greenColor)) ::ImageSpaceEffectParam(1.0f, 0.0f, 0.0f, 1.0f)))
+                                                   : ((::Color4 *)(new ((void *)&(yellowColor)) ::ImageSpaceEffectParam(1.0f, 1.0f, 0.0f, 1.0f)));
             __declspec(align(16)) Color4 color = *pColor;
-            void* marker = FUN_004b3890(&position, &color, &points[i], &color, 1);
-            DAT_011dea10->FUN_00458e20(marker, *DAT_011f210c.FUN_00403e20());
+            void* marker = ((void *)(::fnv_004b3890::FUN_004b3890((*(const class class ::FUN_006815c0 *)(&position)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&color)), (*(const class class ::FUN_006815c0 *)(&points[i])), (*(const ::fnv_004b3890::FUN_004a7800 *)(&color)), 1)));
+            reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::ImpactManager * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(marker), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::g_011f210c)))))));
         }
     }
     return emitted;

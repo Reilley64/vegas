@@ -5,6 +5,17 @@
 
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpsimulationislandviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkpsimulationislandviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FnvCpu_FUN_00de1170_CpuObject.h"
+#include "fnv/decl/S_00dd9380.h"
+#include "fnv/decl/SearchArray.h"
+#include "fnv/decl/fnv_00c93920__hkpWorldXc93920.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d65000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 struct Base0
 {
     char pad[0x20];
@@ -12,7 +23,6 @@ struct Base0
 struct Base2;
 struct Target
 {
-    void FUN_00c93920(Base2* p);
 };
 struct Base1
 {
@@ -82,12 +92,9 @@ struct S_00d65180_Obj : S_00d65180_RefObj, S_00d65180_Base2
     int unk44;
     S_00d65180_Obj(void* arg) throw();
 };
-S_00d65180_Base2* FUN_00d65180(void* arg);
-extern int g_D651E0Value;
 int __cdecl FUN_00d651e0();
 struct S_Elem2
 {
-    void ClearValue(void* d) throw();
 };
 struct S_P
 {
@@ -229,12 +236,8 @@ struct FUN_00d64ae0 : FUN_00ddcc60, S_D
 class RegistryOwner
 {
   public:
-    void* Register(const char* name, void (*callback)());
 };
-extern RegistryOwner* DAT_01269cd0;
-extern void* DAT_01268fdc;
 extern const char str_010d19d0[];
-extern void RegisterCallback();
 void FUN_00d651c0();
 template <typename T> struct hkArrayD64A
 {
@@ -252,7 +255,6 @@ class hkListenerD64A
 class hkEntityD64A
 {
   public:
-    void FUN_00c93920(hkListenerD64A* pkListener) throw();
 };
 class hkWorldD64A
 {
@@ -379,11 +381,6 @@ inline void* operator new(unsigned int, void* p)
     return p;
 }
 
-extern DWORD DAT_0126835c;
-extern float DAT_0104da48;
-extern float DAT_0104e148;
-extern const char str_010c41f8[];
-extern void* DAT_01268fdc;
 extern "C" void _ReadWriteBarrier(void);
 unsigned __int64 __cdecl __rdtsc(void);
 
@@ -425,7 +422,6 @@ struct DeallocCtx
     virtual void v2();
     virtual void v3();
     virtual void v4(void* pData, int iSize);
-    void __cdecl FUN_00c908c0(void*, int, int);
     __forceinline void Grow(Vec* v, int need, int elemSize);
 };
 
@@ -454,7 +450,7 @@ __forceinline void DeallocCtx::Grow(Vec* v, int need, int elemSize)
         int g = cap + cap;
         if (need >= g)
             g = need;
-        FUN_00c908c0(v, g, elemSize);
+        ::FUN_00c908c0((::SpawnedObject *)this, (::SpawnedArray *)(v), g, elemSize);
     }
 }
 inline void GrowVec10(Vec* v, int need, int elemSize)
@@ -485,7 +481,6 @@ struct FUN_00de1210
 {
     virtual ~FUN_00de1210();
     FUN_00de1210();
-    void FUN_00de1170(Vec4* pLo, Vec4* pHi);
     int unk04;
     int unk08;
     int unk0c;
@@ -785,8 +780,8 @@ void ThisCls::FUN_00d64c00(Param* pParam)
         int z = 0;
         if (z < pParam->active.count)
         {
-            seedHi = _mm_set1_ps(DAT_0104e148);
-            seedLo = _mm_set1_ps(DAT_0104da48);
+            seedHi = _mm_set1_ps(::DAT_0104e148);
+            seedLo = _mm_set1_ps(::DAT_0104da48);
             int off = 0;
             do
             {
@@ -807,14 +802,14 @@ void ThisCls::FUN_00d64c00(Param* pParam)
                     currentLo.v = _mm_min_ps(currentLo.v, out.m_ucLowNibble.v);
                 }
                 Elem* a = m_contA.m_pData + eo;
-                a->FUN_00de1170(&currentLo, &currentHi);
+                reinterpret_cast<::FnvCpu_FUN_00de1170_CpuObject *>((a))->FUN_00de1170((::FnvCpu_FUN_00de1170_CpuData0 *)(::Vec4 *)(&currentLo), (::FnvCpu_FUN_00de1170_CpuData1 *)(::Vec4 *)(&currentHi));
                 offsets.m_pData[z] = (int)(m_contA.m_pData + eo);
                 eo += 1;
                 off++;
             } while (++z < pParam->active.count);
         }
         EmitObj* i = static_cast<ParentObject*>(this)->Parent::m_00;
-        i->v14(&offsets, (int)0xff0000ff, 0, (int)DAT_01268fdc);
+        i->v14(&offsets, (int)0xff0000ff, 0, (int)(*reinterpret_cast<void * *>(&::g_D651E0Value)));
         Singleton* freeBoundsRouter;
         freeBoundsRouter = (Singleton*)FUN_00c85750();
         DeallocCtx* need = freeBoundsRouter->m_0c;
@@ -867,13 +862,13 @@ void ThisCls::FUN_00d64c00(Param* pParam)
                     currentHi.v = _mm_min_ps(currentHi.v, out.m_ucLowNibble.v);
                 }
                 Elem* a = m_contB.m_pData + eo;
-                a->FUN_00de1170(&currentHi, &currentLo);
+                reinterpret_cast<::FnvCpu_FUN_00de1170_CpuObject *>((a))->FUN_00de1170((::FnvCpu_FUN_00de1170_CpuData0 *)(::Vec4 *)(&currentHi), (::FnvCpu_FUN_00de1170_CpuData1 *)(::Vec4 *)(&currentLo));
                 offsets.m_pData[z] = (int)(m_contB.m_pData + eo);
                 ++eo;
             } while (++z < islandsB.size());
         }
         EmitObj* i = static_cast<ParentObject*>(this)->Parent::m_00;
-        i->v14(&offsets, (int)0xff008000, 0, (int)DAT_01268fdc);
+        i->v14(&offsets, (int)0xff008000, 0, (int)(*reinterpret_cast<void * *>(&::g_D651E0Value)));
         Singleton* offsetCount = (Singleton*)FUN_00c85750();
         DeallocCtx* val = offsetCount->m_10;
         offsets.m_iArrayLength = 0;
@@ -886,7 +881,7 @@ void ThisCls::FUN_00d64c00(Param* pParam)
     if (pBuf2->m_pCurrent < pBuf2->m_pRecordEnd)
     {
         TraceRecord* acc = pBuf2->m_pCurrent;
-        acc->m_pTag = str_010c41f8;
+        acc->m_pTag = ::DAT_010c41f8;
         _ReadWriteBarrier();
         volatile DWORD tick = (DWORD)__rdtsc();
         acc->m_dwTime = tick;

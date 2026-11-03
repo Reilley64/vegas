@@ -2,8 +2,9 @@
 // src/fallout_shared/teskey.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/teskey.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void __cdecl _Deallocate(void*);
 
+#include "fnv/decl/TESForm.h"
+#include "fnv/symbols_00401000.h"
 struct TESKey
 {
     void* Destroy(unsigned int flags);
@@ -19,7 +20,7 @@ void* TESKey::Destroy(unsigned int flags)
 {
     FUN_0050a6a0();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -106,11 +107,10 @@ struct TESSub09
 struct FUN_0050a6a0 : TESSub00, TESSub01, TESSub02, TESSub03, TESSub04, TESSub05, TESSub06, TESSub07, TESSub08, TESSub09
 {
     virtual ~FUN_0050a6a0();
-    void Cleanup();
 };
 
 // @fnv 0x0050a6a0
 FUN_0050a6a0::~FUN_0050a6a0()
 {
-    Cleanup();
+    reinterpret_cast<::TESForm *>(this)->ClearData();
 }

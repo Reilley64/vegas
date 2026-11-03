@@ -4,12 +4,94 @@
 
 // src/staging/blk_00c00000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <new>
+#include "fnv/decl/BSShader.h"
+#include "fnv/decl/BSShaderBloodSplatter.h"
+#include "fnv/decl/BSShaderLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/D3DRenderStateGroup.h"
+#include "fnv/decl/E7DE90Owner.h"
+#include "fnv/decl/E7DEF0TextureStage.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004bc320_shell.h"
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/FUN_00a71cc0_cls.h"
+#include "fnv/decl/FUN_00a71d70_shell.h"
+#include "fnv/decl/FUN_00a71db0_class.h"
+#include "fnv/decl/FUN_00a74480.h"
+#include "fnv/decl/FUN_00a745c0_This.h"
+#include "fnv/decl/FUN_00a74600_shell.h"
+#include "fnv/decl/FUN_00a89760_cls.h"
+#include "fnv/decl/FUN_00b704b0_t.h"
+#include "fnv/decl/FUN_00ba3780_struct.h"
+#include "fnv/decl/FUN_00ba3a00.h"
+#include "fnv/decl/FUN_00ba4080.h"
+#include "fnv/decl/FUN_00ba8ab0_shell.h"
+#include "fnv/decl/FUN_00ba96d0Owner.h"
+#include "fnv/decl/FUN_00ba9740_cls.h"
+#include "fnv/decl/FUN_00bb4520_Class.h"
+#include "fnv/decl/FUN_00bbdcd0_shell.h"
+#include "fnv/decl/FUN_00bbdda0_cls.h"
+#include "fnv/decl/FUN_00be1750_shell.h"
+#include "fnv/decl/FUN_00e7ecd0_cls.h"
+#include "fnv/decl/Fake_FUN_004a2020.h"
+#include "fnv/decl/H_00ba3840.h"
+#include "fnv/decl/H_00ba39a0.h"
+#include "fnv/decl/LightSortOwner.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/NiRenderer.h"
+#include "fnv/decl/S_00b8a6e0_Foo.h"
+#include "fnv/decl/StageSet.h"
+#include "fnv/decl/StateGroup.h"
+#include "fnv/decl/TallGrassShader.h"
+#include "fnv/decl/fnv_00a71d30__FUN_00a71d30_shell.h"
+#include "fnv/decl/fnv_00a74640__FUN_00a74640.h"
+#include "fnv/decl/fnv_00ba9660__FUN_00ba9660_cls.h"
+#include "fnv/decl/fnv_00ba9820__FUN_00ba9820_cls.h"
+#include "fnv/decl/fnv_00c0bcf0__C0BCF0Shader.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00441000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_004b3000.h"
+#include "fnv/symbols_005bf000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00b4f000.h"
+#include "fnv/symbols_00b60000.h"
+#include "fnv/symbols_00b70000.h"
+#include "fnv/symbols_00b79000.h"
+#include "fnv/symbols_00b7a000.h"
+#include "fnv/symbols_00ba8000.h"
+#include "fnv/symbols_00bb4000.h"
+#include "fnv/symbols_00bb9000.h"
+#include "fnv/symbols_00be0000.h"
+#include "fnv/symbols_00c02000.h"
+#include "fnv/symbols_00c03000.h"
+#include "fnv/symbols_00c06000.h"
+#include "fnv/symbols_00c0b000.h"
+#include "fnv/symbols_00e76000.h"
+#include "fnv/symbols_00e7e000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01018000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_011fa000.h"
+#include "fnv/symbols_011fb000.h"
+#include "fnv/symbols_011fc000.h"
+#include "fnv/symbols_011fd000.h"
+#include "fnv/symbols_011fe000.h"
+#include "fnv/symbols_01200000.h"
+#include "fnv/symbols_01201000.h"
+#include "fnv/symbols_01202000.h"
+#include "fnv/symbols_0126f000.h"
 #include "../../include/layout_support.h"
 struct MemoryManager
 {
-    void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 void __cdecl FUN_00c03270();
 struct FUN_00c033f0_class
 {
@@ -49,7 +131,6 @@ struct Target_00c04090
 
     void AssignRefObjects(Arg_00c04090* arg);
 };
-extern "C" void __cdecl FUN_00b4f510();
 struct NiTPrimitiveArray_int___
 {
     void SetAt(unsigned int, int&);
@@ -80,26 +161,19 @@ struct FUN_00c05350_class
     int FUN_00c05350();
 };
 extern void* DAT_010bcb60;
-void __cdecl FUN_00bb45b0();
-extern "C" void __cdecl _delete(void*, unsigned int);
 struct FUN_00c058c0
 {
     void* vtbl;
     __thiscall FUN_00c058c0(bool flag);
 };
-extern "C" void __cdecl FUN_00b7a870(int, int);
 void __stdcall FUN_00c1a2f0(unsigned short ausValue);
-void __fastcall FUN_00a89760(void*);
-extern "C" void __cdecl _delete(void*, unsigned int);
 struct NiScreenElements
 {
-    void FUN_00a89760();
     void* DestroyIfRequested(bool);
 };
 extern int DAT_010bcdc8;
 struct FUN_00a74480_holder
 {
-    void FUN_00a74480(unsigned int);
 };
 struct FUN_00c1a660_holder : FUN_00a74480_holder
 {
@@ -116,15 +190,11 @@ struct NiShaderConstantMapEntry
     int m_iWordAt04;
     unsigned char m_8;
 };
-extern NiShaderConstantMapEntry* DAT_011fec44;
-extern NiShaderConstantMapEntry* DAT_011fec6c;
-void __cdecl UpdateFlagHolders(int);
 void SetShaderConstantMapEntryFlags(int a);
 struct FUN_00c036e0_class
 {
     void __thiscall FUN_00c036e0(int a);
 };
-int PackBits(char a, char b, char c, char d, char e, char f, char g, char h);
 struct FUN_00c06ee0_class
 {
     char pad00[0x34];
@@ -241,7 +311,6 @@ struct FUN_00c1a640_class
 };
 extern float DAT_011ae6cc;
 extern float DAT_011ae6c8;
-extern float _DAT_012003c4;
 struct ImageSpaceShaderParam
 {
     void __thiscall SetShaderConstantVector4(int a, float b, float c, float d, float e);
@@ -257,7 +326,6 @@ struct FUN_00c053c0_class
 };
 struct ImageSpaceTexture
 {
-    void AddRenderedTexture();
 };
 struct FUN_00c03260_class
 {
@@ -278,7 +346,6 @@ struct FUN_00c03350_class
 };
 struct ISTex
 {
-    void __thiscall CreateRenderTargetTexture(unsigned int);
 };
 struct FUN_00c03390_class
 {
@@ -293,11 +360,17 @@ struct BeamStage
 };
 struct StageReturn : BeamStage
 {
-    void __thiscall ReturnToPool();
 };
+template <class> class NiPointer;
 struct NiD3DPass : StageReturn
 {
     bool __thiscall ApplyRenderStateChanges(bool);
+public:
+    void SetAlphaBlendMode(unsigned int, unsigned int, bool);
+public:
+    void DestroyPass();
+public:
+    static void CreateD3DPass(::NiPointer< ::NiD3DPass> &);
 };
 struct UnkBA38F0
 {
@@ -308,7 +381,6 @@ struct NiD3DShader
     char pad00[0x24];
     NiD3DPass** m_ppPasses;
 };
-extern int DAT_0126f74c;
 struct StageReturnPtr
 {
     NiD3DPass* m_pObject;
@@ -323,7 +395,7 @@ struct StageReturnPtr
             if (m_pObject)
             {
                 if (--m_pObject->m_iObjectReferenceCount == 0)
-                    m_pObject->ReturnToPool();
+                    reinterpret_cast<::FUN_00e7ecd0_cls *>((m_pObject))->FUN_00e7ecd0();
             }
 
             m_pObject = pObject;
@@ -338,7 +410,7 @@ struct StageReturnPtr
         if (m_pObject)
         {
             if (--m_pObject->m_iObjectReferenceCount == 0)
-                m_pObject->ReturnToPool();
+                reinterpret_cast<::FUN_00e7ecd0_cls *>((m_pObject))->FUN_00e7ecd0();
         }
     }
 };
@@ -411,7 +483,6 @@ struct FUN_00c1a480_class
 {
     int m_vtbl;
     int m_iWordAt04;
-    int __thiscall FUN_00a71cc0(int);
     int __thiscall FUN_00c1a480(int a);
 };
 struct StrArr
@@ -427,7 +498,6 @@ struct StrArr
 };
 struct FUN_00a7fb20_class
 {
-    char* __thiscall FUN_00a7fb20(char const* name);
 };
 struct Holder
 {
@@ -439,14 +509,17 @@ struct Holder
     void __thiscall AppendString(StrArr* strings);
     void __thiscall AppendBoundInfo(StrArr* strings);
 };
-char* __cdecl FUN_00a7d490(char const* name, unsigned short value);
 struct NiTransformDummy
 {
     int pad[4];
 };
+class NiTransform;
 struct NiBound
 {
-    void Update(const NiBound&, const NiTransformDummy&);
+public:
+    char *FUN_00a7fb20(const char *);
+public:
+    void Update(const ::NiBound &, const ::NiTransform &);
 };
 struct FUN_00c1a680_class
 {
@@ -554,15 +627,6 @@ struct FUN_00c02d40_cls
     float m_f5c;
     float FUN_00c02d40();
 };
-extern unsigned int DAT_011a9bd0;
-extern unsigned int DAT_011a9bd4;
-extern unsigned int DAT_011a9bd8;
-extern unsigned int DAT_011a9bdc;
-extern float DAT_01018f5c;
-extern unsigned int DAT_011fa2d0;
-extern unsigned int DAT_011fa2d4;
-extern unsigned int DAT_011fa2d8;
-extern unsigned int DAT_011fa2dc;
 class FUN_00c02d90_tgt
 {
   public:
@@ -591,12 +655,6 @@ struct FlagHolderB5649
     char pad00[8];
     unsigned char m_flag08;
 };
-extern unsigned int DAT_011febdc;
-extern unsigned int DAT_011fec34;
-extern unsigned int DAT_011fec8c;
-extern unsigned int DAT_011fcc80;
-extern unsigned int DAT_011fc0a0;
-void UpdateFlagHolders(unsigned int uiIndex);
 extern int DAT_010bc8a4;
 struct Base03270
 {
@@ -643,7 +701,6 @@ struct FUN_00c03270 : Base03270
 
     ~FUN_00c03270();
 };
-extern unsigned char g_unk012023f0;
 unsigned char __cdecl FUN_00c03340();
 struct FUN_00c033c0
 {
@@ -655,13 +712,10 @@ struct DestroyableReference
 };
 struct Handle
 {
-    void FUN_00ba3a00();
 };
 struct HandlePool
 {
-    void FUN_00aa4060(Handle* handle);
 };
-extern HandlePool DAT_011f6238;
 struct RefMapEntries
 {
     int m_zero;
@@ -682,7 +736,6 @@ struct ElementMap
     void* m_entries;
     int m_uiItemCount;
     int m_pRayCursor;
-    void FUN_00ba3aa0(unsigned int index, int* newValue);
 };
 struct Entry
 {
@@ -718,20 +771,16 @@ struct FUN_00c03580 : Parent
 
     ~FUN_00c03580();
 };
-extern float DAT_01202400;
-extern float DAT_0120240c;
 int __cdecl FUN_00c036b0();
 class FUN_00c036f0_sub28;
 class FUN_00c036f0_sub5c;
 class FUN_00c036f0_sub28
 {
   public:
-    void FUN_00ba3aa0(int aiMode, FUN_00c036f0_sub5c** appRef);
 };
 class FUN_00c036f0_sub5c
 {
   public:
-    void FUN_00ba3840(int aiValue);
 };
 class FUN_00c036f0_cls
 {
@@ -753,6 +802,8 @@ class NiRefObject
         if (InterlockedDecrement((volatile long*)&m_uiRefCount) == 0)
             DeleteThis();
     }
+public:
+    static unsigned int ms_lObjectCount;
 };
 class SpawnedPrimary_c03a20
 {
@@ -803,8 +854,6 @@ struct ShaderDesc
     const char* m_pFile;
     int m_04;
 };
-void BuildShaderPath(const char* file, char* out);
-int sprintf_s(char* buf, unsigned int size, const char* fmt, ...);
 struct ShaderOwner
 {
     int unk00;
@@ -859,13 +908,10 @@ struct ShaderOwner
     NiPointer<ShaderObj> m_spVertexShaderObject;
     NiPointer<ShaderObj> m_spPixelShaderObject;
 
-    ShaderObj* CreateVertexShader(char* path, int* desc, void* p, char* name);
-    ShaderObj* CreatePixelShader(char* path, int* desc, void* p, char* name);
     void FUN_00c03ae0(ShaderDesc* vsDesc, ShaderDesc* psDesc, const char* name, void* vsArg, void* psArg);
 };
 // FUN_00c03d70 : copies a member into a global and returns.
 //   mov eax,[ecx+0x5c] / mov [0x126f74c],eax / ret 4
-extern int g_00c03d70;
 struct Cls_00c03d70
 {
     int unk00;
@@ -998,7 +1044,6 @@ struct FUN_00c04030_class
     void __thiscall SetupRenderer();
 };
 extern FUN_00c04030_renderer* DAT_011f9508;
-FUN_00c04030_renderer* __cdecl FUN_00e76700(FUN_00c04030_renderer* renderer, int a, int b);
 // FUN_00c043f0: thiscall, one stack arg, two guarded virtual calls on this->m_30 / this->m_34.
 struct B4630X;
 struct B4630Y;
@@ -1102,7 +1147,6 @@ struct B4630G
     void* m_5c;
 };
 extern int DAT_011f91e0;
-extern char DAT_011f4288;
 struct B4630Obj
 {
     virtual void v00();
@@ -1160,9 +1204,7 @@ class FUN_00c043f0_cls
 class MemoryManagerC046
 {
   public:
-    void Deallocate(void* pvMem);
 };
-extern MemoryManagerC046 g_kMemoryManagerC046;
 class ImageSpaceTextureC046
 {
   public:
@@ -1170,7 +1212,7 @@ class ImageSpaceTextureC046
 
     static void operator delete(void* pvMem)
     {
-        g_kMemoryManagerC046.Deallocate(pvMem);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManagerC046 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
     }
 };
 class C04620Object
@@ -1307,14 +1349,12 @@ class C04990Geometry
 
     bool IsAlphaVisible();
 };
-extern float DAT_01016248;
 extern void* DAT_010bcaac;
 struct FUN_00ba4080_class
 {
-    void FUN_00ba4080();
     FUN_00ba4080_class()
     {
-        FUN_00ba4080();
+        new ((void *)this) class ::FUN_00ba4080();
     }
     ~FUN_00ba4080_class();
 };
@@ -1322,7 +1362,6 @@ struct FUN_00a90180_class
 {
     unsigned int unk28, unk2c, unk30, unk34, unk38, unk3c;
     unsigned int unk40, unk44, unk48, unk4c, unk50, unk54;
-    void FUN_00a90180(unsigned int);
 };
 struct FourFloats
 {
@@ -1350,7 +1389,6 @@ struct FUN_00c049c0 : FUN_00ba4080_class
     TailC049C0 m74;
     FUN_00c049c0();
 };
-extern "C" void __cdecl FUN_00ba4080();
 extern unsigned char DAT_010bcae8;
 extern char str_011ae684;
 extern unsigned char DAT_011ae694;
@@ -1439,7 +1477,6 @@ struct Property
     int value04;
     int value08;
     int value0c;
-    void FUN_00ba3840(int count);
 };
 struct PropertyCollection
 {
@@ -1456,7 +1493,6 @@ struct PropertyCollection
     int field28;
     int field2c;
     int field30;
-    void FUN_00ba3aa0(int index, Property** entry);
 };
 struct EffectProperties
 {
@@ -1543,7 +1579,6 @@ struct FUN_00c05880_cls
     unsigned int unkF8;
     unsigned int unkFC;
     unsigned int m_100;
-    void FUN_00bb4520();
     FUN_00c05880_cls* FUN_00c05880();
 };
 struct ShaderEntry
@@ -1625,7 +1660,6 @@ struct ShaderInterface
 };
 struct ShaderUpdater
 {
-    void FUN_00bb9640(ShaderEntry*, ShaderInterface*);
     void UpdateShaderEntry(ShaderEntryTable*, ShaderInterface*, int);
 };
 // CopyOwnerValuesToItems candidate
@@ -1771,7 +1805,6 @@ class Cb50Owner
     Cb50Item* m_ac;
     Cb50Item* m_b0;
 };
-void __stdcall CopyOwnerValuesToItems(Cb50Ctx* ctx, Cb50Owner* owner, unsigned char flag);
 struct S_00c0bba0_Dst
 {
     int unk00;
@@ -1840,7 +1873,6 @@ struct S_00c0bba0_B
     int* unkb0;
 };
 extern int DAT_011f9510;
-void __stdcall SetDstValueFromB(S_00c0bba0_A* a, S_00c0bba0_B* pValueHolder);
 struct FUN_00c0bbd0_Value
 {
     char unk00;
@@ -1908,7 +1940,6 @@ struct FUN_00c0bbd0_Arg
 };
 extern int DAT_011f95e4;
 extern int DAT_011f95e8;
-void __stdcall FUN_00c0bbd0(FUN_00c0bbd0_Arg* arg);
 struct FNV_Target
 {
     int unk00;
@@ -1997,7 +2028,6 @@ struct FNV_Node
     virtual void vEC();
     virtual void vF0();
     virtual int v3D(int a, int b);
-    unsigned char Method15(int a);
     int unk04;
     int unk08;
     int unk0C;
@@ -2115,8 +2145,6 @@ struct FNV_Mgr
 extern unsigned int DAT_011f9544;
 extern unsigned int DAT_011f95d4;
 extern unsigned char DAT_011f9427;
-FNV_Mgr* __cdecl Callee1();
-void __stdcall SetNodeResultValue(FNV_A1* a1, FNV_Node* apNode, int aiCode);
 struct C0BC90Texture;
 struct C0BC90Geometry
 {
@@ -2226,7 +2254,6 @@ extern C0BC90Texture* g_pkC0BC90DefaultTexture;
 class C0BC90ShaderBase
 {
   public:
-    void SetupTextureStage(C0BC90TextureStage* pkStage, C0BC90Geometry* pkGeometry);
 };
 class C0BC90Shader : public C0BC90ShaderBase
 {
@@ -2244,11 +2271,10 @@ struct TexStage
     int m_0c;
     int unk10[20];
     int m_iObjectReferenceCount;  // 0x60
-    void ReturnToPool();
     void DecRef()
     {
         if (--m_iObjectReferenceCount == 0)
-            ReturnToPool();
+            reinterpret_cast<::FUN_00e7ecd0_cls *>(this)->FUN_00e7ecd0();
     }
 };
 struct TexStagePtr
@@ -2270,7 +2296,6 @@ struct RefTex
 };
 struct RenderStateGroup
 {
-    static RenderStateGroup* __cdecl GetFree();
     void SetRenderState(int state, int value, bool save);
 };
 struct ShaderPass
@@ -2302,18 +2327,14 @@ struct ShaderPass
     int unk60;
     int m_iObjectReferenceCount;  // 0x64
 
-    static void __cdecl CreateStage(TexStagePtr* out);
-    void SetStage(unsigned int idx, TexStage* stage);
-    void Destroy();
 
     RenderStateGroup* GetRSG()
     {
         if (m_30 == 0)
-            m_30 = RenderStateGroup::GetFree();
+            m_30 = ((::RenderStateGroup *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
         return m_30;
     }
 };
-void __cdecl SetupStage(TexStage* stage, unsigned int idx, int a, int b, int c);
 extern int DAT_011f9534;
 extern int DAT_011fd084;
 extern int DAT_011fd088;
@@ -2343,7 +2364,7 @@ struct ShaderPassPtr
         if (m_p)
         {
             if (--m_p->m_iObjectReferenceCount == 0)
-                m_p->Destroy();
+                reinterpret_cast<::NiD3DPass *>((m_p))->DestroyPass();
         }
     }
     void operator=(const ShaderPassPtr& sp)
@@ -2353,7 +2374,7 @@ struct ShaderPassPtr
             if (m_p)
             {
                 if (--m_p->m_iObjectReferenceCount == 0)
-                    m_p->Destroy();
+                    reinterpret_cast<::NiD3DPass *>((m_p))->DestroyPass();
             }
             m_p = sp.m_p;
             if (m_p)
@@ -2414,41 +2435,41 @@ static __forceinline void SetupStages(ShaderPassPtr& spRenderPass, TexStagePtr& 
     unsigned int n = spRenderPass->m_18;
     if (n < 8)
     {
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 0, 1, 2, 1);
-        spRenderPass->SetStage(0, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 1, 1, 2, 1);
-        spRenderPass->SetStage(1, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 2, 1, 2, 1);
-        spRenderPass->SetStage(2, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 3, 1, 2, 1);
-        spRenderPass->SetStage(3, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 4, 1, 2, 1);
-        spRenderPass->SetStage(4, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 5, 3, 0, 1);
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(0, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 1, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(1, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 2, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(2, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 3, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(3, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 4, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(4, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 5, 3, 0, 1);
         spStage.m_p->m_08 = DAT_011f9534;
         spStage.m_p->m_0c = 1;
-        spRenderPass->SetStage(5, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 6, 1, 2, 1);
-        spRenderPass->SetStage(6, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 7, 3, 0, 1);
-        spRenderPass->SetStage(7, spStage.m_p);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(5, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 6, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(6, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 7, 3, 0, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(spStage.m_p));
     }
 }
 static __forceinline void SetupRenderStates(ShaderPassPtr& spRenderPass)
 {
-    spRenderPass->GetRSG()->SetRenderState(0x1b, 0, true);
-    spRenderPass->GetRSG()->SetRenderState(0xf, 0, true);
-    spRenderPass->GetRSG()->SetRenderState(7, 1, true);
-    spRenderPass->GetRSG()->SetRenderState(0x17, 4, true);
-    spRenderPass->GetRSG()->SetRenderState(0xe, 1, true);
+    reinterpret_cast<::StateGroup *>((spRenderPass->GetRSG()))->SetNodeValue(0x1b, 0, true);
+    reinterpret_cast<::StateGroup *>((spRenderPass->GetRSG()))->SetNodeValue(0xf, 0, true);
+    reinterpret_cast<::StateGroup *>((spRenderPass->GetRSG()))->SetNodeValue(7, 1, true);
+    reinterpret_cast<::StateGroup *>((spRenderPass->GetRSG()))->SetNodeValue(0x17, 4, true);
+    reinterpret_cast<::StateGroup *>((spRenderPass->GetRSG()))->SetNodeValue(0xe, 1, true);
 }
 struct RefHandle
 {
@@ -2465,15 +2486,12 @@ struct RefHandle
         return object;
     }
 };
-extern RefHandle DAT_011fda48[208];
 RefObject* __cdecl FUN_00c163a0(unsigned int index);
 struct CpuOpaque;
-extern CpuOpaque DAT_012024b8;
 CpuOpaque* __cdecl FUN_00c1a3a0();
 class C1A3B0Heap
 {
   public:
-    void* Allocate(unsigned int uiSize);
 };
 struct C1A3B0Point3
 {
@@ -2481,13 +2499,12 @@ struct C1A3B0Point3
     float y;
     float z;
 };
-extern "C" C1A3B0Point3 _NiPoint3_ZERO;
 class C1A3B0Bound
 {
   public:
     static void* operator new(unsigned int uiSize)
     {
-        return reinterpret_cast<C1A3B0Heap&>(g_memoryManager).Allocate(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(reinterpret_cast<C1A3B0Heap&>(g_memoryManager)))->FUN_00aa3e40(uiSize);
     }
 
     C1A3B0Bound& operator=(const C1A3B0Bound& kBound)
@@ -2667,7 +2684,6 @@ class FUN_00c1a500_cls
     unsigned int m_iCC;
     unsigned int m_iD0;
     float m_fD4;
-    void FUN_00a71d30(unsigned int a1);
     void UpdateOutput(unsigned int a1);
 };
 class NiRenderer;
@@ -2753,10 +2769,8 @@ class C1A550Object
     unsigned short unkC6;
     C1A550Bound m_kWorldBound;
 
-    void RenderImmediate(NiRenderer* pkRenderer);
     void RenderIfActive(NiRenderer* pkRenderer);
 };
-extern int DAT_012024c0;
 int* __cdecl FUN_00c1a650();
 struct FUN_00c1a6a0_out
 {
@@ -2823,7 +2837,6 @@ struct FUN_00c1a6a0_cls
     int m_d0;
     float m_d4;
     void CopyStateToOutput(int a1);
-    void unkTail(int a1);
 };
 struct S_00c1a6f0_Dst
 {
@@ -2844,10 +2857,8 @@ struct S_00c1a6f0_Self
     unsigned int m_d0;
     float m_d4;
 
-    void __thiscall FUN_00a74600(int p);
     void __thiscall CopyStateToDestination(int p);
 };
-extern long g_liveObjectCount;
 struct CountedObjectBase
 {
     virtual ~CountedObjectBase();
@@ -2856,7 +2867,7 @@ struct CountedObjectBase
     CountedObjectBase()
     {
         m_iRefCount = 0;
-        InterlockedIncrement((volatile long*)&g_liveObjectCount);
+        InterlockedIncrement((volatile long*)&(*reinterpret_cast<long *>(&::NiRefObject::ms_lObjectCount)));
     }
 };
 struct FUN_00c1cf20 : CountedObjectBase
@@ -2881,8 +2892,6 @@ struct DecompPass266
     void* unk00;
     void* unk04;
     void* m_resource;
-    void ApplyPairToState(unsigned int value);
-    void FUN_00e7def0(unsigned int value);
 };
 struct ShaderPasses
 {
@@ -3011,11 +3020,9 @@ struct Renderer
     unsigned int unka8;
     ObjectHandle* m_primary;
     ObjectHandle* m_secondary;
-    unsigned short FUN_00b704b0();
 };
 struct TextureGenerator
 {
-    void* FUN_004bc320(unsigned int code);
 };
 struct ShaderResource
 {
@@ -3111,8 +3118,6 @@ struct V08
 {
     float r, g, b, a;
 };
-extern C08 DAT_011f4998;
-extern V08 DAT_011fa0c0;
 struct M08c
 {
     int unk00, unk04, unk08;
@@ -3143,7 +3148,6 @@ struct L08
     int unk38, unk3c;
     float dimmer;
 };
-void __stdcall AccumulateLightColor(L08* light);
 class TextureC054
 {
   public:
@@ -3239,10 +3243,7 @@ struct RefTex111
 };
 struct ElemObj
 {
-    void __thiscall SetNodeValue(int a, int b, int c);
 };
-ElemObj* __cdecl FUN_00e7f5d0();
-void __cdecl AssignStageFromPool(StageReturn*& p);
 struct RefPtr
 {
     RefTex111* m_pObject;
@@ -3271,7 +3272,7 @@ struct StagePtr
     {
         --p->m_iObjectReferenceCount;
         if (p->m_iObjectReferenceCount == 0)
-            p->ReturnToPool();
+            reinterpret_cast<::FUN_00e7ecd0_cls *>((p))->FUN_00e7ecd0();
     }
     ~StagePtr()
     {
@@ -3311,8 +3312,6 @@ struct ClusterObj
     RefPtr m_5c;
     unsigned int unk60;
     int m_64;
-    void __thiscall FUN_00e802b0(int idx, StageReturn* s);
-    void __thiscall FUN_00e80190();
 };
 struct ClusterPtr
 {
@@ -3330,7 +3329,7 @@ struct ClusterPtr
             if (m_pObject)
             {
                 if (--m_pObject->m_64 == 0)
-                    m_pObject->FUN_00e80190();
+                    reinterpret_cast<::NiD3DPass *>((m_pObject))->DestroyPass();
             }
             m_pObject = p;
             if (m_pObject)
@@ -3342,7 +3341,7 @@ struct ClusterPtr
         if (m_pObject)
         {
             if (--m_pObject->m_64 == 0)
-                m_pObject->FUN_00e80190();
+                reinterpret_cast<::NiD3DPass *>((m_pObject))->DestroyPass();
         }
     }
 };
@@ -3353,7 +3352,6 @@ struct StageFields
     int m_08;
     int m_0c;
 };
-extern ClusterObj* DAT_01202230;
 extern ClusterObj* DAT_01202234;
 extern ClusterObj* DAT_01202238;
 extern ClusterObj* DAT_0120223c;
@@ -3458,7 +3456,6 @@ struct FUN_00c0d200_class
     RefTex111* m_12c;
     void InitClusterStages();
 };
-void __cdecl ConfigureBeamStage(FUN_00c0d200_class* self, int a, int b, int c, int d);
 extern ShaderPassPtr DAT_01202294;
 extern ShaderPassPtr DAT_01202298;
 extern int DAT_011fd150;
@@ -3552,20 +3549,20 @@ static __forceinline void SetupFourStages(ShaderPassPtr& pass, TexStagePtr& stag
     unsigned int count = pass->m_18;
     if (count < 4)
     {
-        ShaderPass::CreateStage(&stage);
-        SetupStage(stage.m_p, 0, 1, 2, 1);
-        pass->SetStage(0, stage.m_p);
-        ShaderPass::CreateStage(&stage);
-        SetupStage(stage.m_p, 1, 1, 2, 1);
-        pass->SetStage(1, stage.m_p);
-        ShaderPass::CreateStage(&stage);
-        SetupStage(stage.m_p, 2, 1, 2, 1);
-        pass->SetStage(2, stage.m_p);
-        ShaderPass::CreateStage(&stage);
+        ::AssignStageFromPool((*(::StageReturn * *)(&stage)));
+        ::ConfigureBeamStage((::BeamStage *)(stage.m_p), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(0, (::Stage321 *)(stage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&stage)));
+        ::ConfigureBeamStage((::BeamStage *)(stage.m_p), 1, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(1, (::Stage321 *)(stage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&stage)));
+        ::ConfigureBeamStage((::BeamStage *)(stage.m_p), 2, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(2, (::Stage321 *)(stage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&stage)));
         stage.m_p->m_08 = DAT_011f9534;
         stage.m_p->m_0c = 1;
-        SetupStage(stage.m_p, 3, 3, 0, 1);
-        pass->SetStage(3, stage.m_p);
+        ::ConfigureBeamStage((::BeamStage *)(stage.m_p), 3, 3, 0, 1);
+        reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(3, (::Stage321 *)(stage.m_p));
     }
 }
 struct C16400Shader
@@ -3658,8 +3655,6 @@ extern int DAT_011faacc;
 extern int DAT_011faad0;
 extern int DAT_011faad8;
 extern int DAT_011faadc;
-extern int DAT_011fad90;
-extern int DAT_011fad94;
 extern int DAT_011fada0;
 extern int DAT_011fada4;
 extern int DAT_011fae08;
@@ -3677,7 +3672,6 @@ extern int DAT_011fb6a8;
 extern int DAT_011fb6ac;
 extern int DAT_011fb6b0;
 extern int DAT_011fb6b8;
-extern int DAT_011fb6bc;
 extern int DAT_011fb970;
 extern int DAT_011fb974;
 extern int DAT_011fb980;
@@ -3688,66 +3682,35 @@ extern int DAT_011fba10;
 extern int DAT_011fba14;
 extern int DAT_011fba20;
 extern int DAT_011fba24;
-extern int DAT_011fbe08;
 extern int DAT_011fbe18;
-extern int DAT_011fc200;
 extern int DAT_011fc220;
-extern int DAT_011fc230;
 extern int DAT_011fc288;
 extern int DAT_011fc28c;
-extern int DAT_011fc290;
 extern int DAT_011fc298;
-extern int DAT_011fc29c;
-extern int DAT_011fc550;
-extern int DAT_011fc554;
 extern int DAT_011fc560;
 extern int DAT_011fc564;
-extern int DAT_011fc5c8;
 extern int DAT_011fc5e4;
-extern int DAT_011fc5f0;
-extern int DAT_011fc5f4;
 extern int DAT_011fc600;
 extern int DAT_011fc604;
-extern int DAT_011fc9e8;
 extern int DAT_011fc9f8;
-extern int DAT_011fcde0;
 extern int DAT_011fce00;
-extern int DAT_011fce10;
 extern int DAT_011fce68;
 extern int DAT_011fce6c;
-extern int DAT_011fce70;
 extern int DAT_011fce78;
-extern int DAT_011fce7c;
-extern int DAT_011fd130;
-extern int DAT_011fd134;
 extern int DAT_011fd140;
 extern int DAT_011fd144;
-extern int DAT_011fd1a8;
 extern int DAT_011fd1c4;
-extern int DAT_011fd1d0;
-extern int DAT_011fd1d4;
 extern int DAT_011fd1e0;
 extern int DAT_011fd1e4;
-extern int DAT_011fd5c8;
 extern int DAT_011fd5d8;
-extern ShaderPassPtr DAT_01202350;
-extern ShaderPassPtr DAT_01202354;
-extern ShaderPassPtr DAT_01202358;
-extern ShaderPassPtr DAT_0120235c;
-extern ShaderPassPtr DAT_01202360;
-extern ShaderPassPtr DAT_01202364;
-extern ShaderPassPtr DAT_01202368;
-extern ShaderPassPtr DAT_0120236c;
-extern ShaderPassPtr DAT_01202370;
-extern ShaderPassPtr DAT_01202374;
 static __forceinline void SetupC16400Stages1(ShaderPassPtr& pass, TexStagePtr& stage)
 {
     unsigned int count = pass->m_18;
     if (count < 1)
     {
-        ShaderPass::CreateStage(&stage);
-        SetupStage(stage.m_p, 0, 1, 2, 1);
-        pass->SetStage(pass->unk14, stage.m_p);
+        ::AssignStageFromPool((*(::StageReturn * *)(&stage)));
+        ::ConfigureBeamStage((::BeamStage *)(stage.m_p), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(pass->unk14, (::Stage321 *)(stage.m_p));
     }
 }
 static __forceinline void SetupC16400Stages2(ShaderPassPtr& pass, TexStagePtr& stage)
@@ -3755,12 +3718,12 @@ static __forceinline void SetupC16400Stages2(ShaderPassPtr& pass, TexStagePtr& s
     unsigned int count = pass->m_18;
     if (count < 2)
     {
-        ShaderPass::CreateStage(&stage);
-        SetupStage(stage.m_p, 0, 1, 2, 1);
-        pass->SetStage(pass->unk14, stage.m_p);
-        ShaderPass::CreateStage(&stage);
-        SetupStage(stage.m_p, 0, 1, 2, 1);
-        pass->SetStage(pass->unk14, stage.m_p);
+        ::AssignStageFromPool((*(::StageReturn * *)(&stage)));
+        ::ConfigureBeamStage((::BeamStage *)(stage.m_p), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(pass->unk14, (::Stage321 *)(stage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&stage)));
+        ::ConfigureBeamStage((::BeamStage *)(stage.m_p), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(pass->unk14, (::Stage321 *)(stage.m_p));
     }
 }
 static __forceinline void SetupC16400Stages4(ShaderPassPtr& pass, TexStagePtr& stage)
@@ -3768,21 +3731,21 @@ static __forceinline void SetupC16400Stages4(ShaderPassPtr& pass, TexStagePtr& s
     unsigned int count = pass->m_18;
     if (count < 4)
     {
-        ShaderPass::CreateStage(&stage);
-        SetupStage(stage.m_p, 0, 1, 2, 1);
-        pass->SetStage(pass->unk14, stage.m_p);
-        ShaderPass::CreateStage(&stage);
-        SetupStage(stage.m_p, 1, 3, 2, 1);
+        ::AssignStageFromPool((*(::StageReturn * *)(&stage)));
+        ::ConfigureBeamStage((::BeamStage *)(stage.m_p), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(pass->unk14, (::Stage321 *)(stage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&stage)));
+        ::ConfigureBeamStage((::BeamStage *)(stage.m_p), 1, 3, 2, 1);
         stage.m_p->m_08 = DAT_011f9534;
-        pass->SetStage(pass->unk14, stage.m_p);
-        ShaderPass::CreateStage(&stage);
-        SetupStage(stage.m_p, 2, 3, 2, 1);
+        reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(pass->unk14, (::Stage321 *)(stage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&stage)));
+        ::ConfigureBeamStage((::BeamStage *)(stage.m_p), 2, 3, 2, 1);
         stage.m_p->m_08 = DAT_011f9538;
-        pass->SetStage(pass->unk14, stage.m_p);
-        ShaderPass::CreateStage(&stage);
-        SetupStage(stage.m_p, 3, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(pass->unk14, (::Stage321 *)(stage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&stage)));
+        ::ConfigureBeamStage((::BeamStage *)(stage.m_p), 3, 1, 2, 1);
         stage.m_p->m_08 = DAT_011f950c;
-        pass->SetStage(pass->unk14, stage.m_p);
+        reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(pass->unk14, (::Stage321 *)(stage.m_p));
     }
 }
 extern int _DAT_012024fc;
@@ -3887,7 +3850,6 @@ class FUN_00c1f420_Array : public NiTArrayF42<NiPointerF42<NiObjectF42> >
 };
 struct FNVSampler
 {
-    void __thiscall SetNodeValue(int attribute, int mode, int enabled);
 };
 struct FNVFace
 {
@@ -3942,11 +3904,10 @@ struct FNVFace
 
     unsigned int unk060;
 
-    void __thiscall FUN_00e7ecd0();
     void DecRef()
     {
         if (--unk060 == 0)
-            FUN_00e7ecd0();
+            reinterpret_cast<::FUN_00e7ecd0_cls *>(this)->FUN_00e7ecd0();
     }
 };
 struct FNVCubeSurface
@@ -4008,9 +3969,7 @@ struct FNVCubeSurface
     {
         return m_faceCount;
     }
-    void __thiscall FUN_00e80190();
 
-    void __thiscall FUN_00e802b0(void* currentFace, FNVFace* replacement);
 };
 struct FNVRenderManager
 {
@@ -4191,10 +4150,8 @@ extern FNVCubeSurface* DAT_012022a8;
 extern FNVCubeSurface* DAT_012022ac;
 extern FNVCubeSurface* DAT_012022b0;
 extern unsigned int DAT_011fd1f0, DAT_011fd208, DAT_011fd220, DAT_011fd238, DAT_011fd250;
-extern unsigned int DAT_011fc610, DAT_011fc628, DAT_011fc638, DAT_011fc640, DAT_011fc650, DAT_011fc658, DAT_011fc668,
+extern unsigned int DAT_011fc610, DAT_011fc628, DAT_011fc640, DAT_011fc658,
     DAT_011fc670;
-extern void __cdecl AssignStageFromPool(FNVFace** destination);
-extern void __cdecl ConfigureBeamStage(FNVFace* target, int face, int enabled, int channel, int layer);
 struct FNVFaceRef
 {
 
@@ -4221,7 +4178,7 @@ struct FNVCubeRef
     ~FNVCubeRef()
     {
         if (surface && --surface->m_iObjectReferenceCount == 0)
-            surface->FUN_00e80190();
+            reinterpret_cast<::NiD3DPass *>((surface))->DestroyPass();
     }
 
     void operator=(FNVCubeSurface* const& next)
@@ -4231,7 +4188,7 @@ struct FNVCubeRef
             return;
 
         if (surface && --surface->m_iObjectReferenceCount == 0)
-            surface->FUN_00e80190();
+            reinterpret_cast<::NiD3DPass *>((surface))->DestroyPass();
 
         surface = next;
 
@@ -4268,7 +4225,6 @@ struct Color374
     Color374(float red, float green, float blue, float alpha) : r(red), g(green), b(blue), a(alpha)
     {}
 };
-extern Color374 _DAT_011fa270;
 extern unsigned char DAT_011F941E;
 struct Settings374
 {
@@ -4300,8 +4256,6 @@ struct Source374
     unsigned int unk38, unk3c;
     float multiplier;
 };
-void __stdcall ApplySourceColor(Source374* source);
-extern "C" void __cdecl FUN_00b4f510();
 void __cdecl FUN_00c04950();
 struct ObjPtrArray
 {
@@ -4445,7 +4399,6 @@ struct State
     int unk5c;
     int unk60;
     int refs;
-    void DestroyState();
 };
 struct StatePtr
 {
@@ -4455,14 +4408,14 @@ struct StatePtr
     ~StatePtr()
     {
         if (p && --p->refs == 0)
-            p->DestroyState();
+            reinterpret_cast<::NiD3DPass *>((p))->DestroyPass();
     }
     StatePtr& operator=(const StatePtr& other)
     {
         if (p != other.p)
         {
             if (p && --p->refs == 0)
-                p->DestroyState();
+                reinterpret_cast<::NiD3DPass *>((p))->DestroyPass();
             p = other.p;
             if (p)
                 ++p->refs;
@@ -4470,11 +4423,6 @@ struct StatePtr
         return *this;
     }
 };
-extern StatePtr DAT_01200ec0[112];
-extern unsigned DAT_01200a28[112];
-extern unsigned DAT_01200868[112];
-extern ConstantEntryStandin* DAT_01201080[17];
-extern ConstantEntryStandin* DAT_012010c4[10];
 struct Owner
 {
     int unk00;
@@ -4508,7 +4456,6 @@ struct Owner
     NiD3DShaderConstantMap* vertex;
     void InitShaderConstantMaps();
 };
-void __cdecl FUN_00a74640();
 void __cdecl FUN_00c1a630();
 extern "C" void _ReadWriteBarrier();
 struct P440Light;
@@ -4527,7 +4474,6 @@ struct P440Position
 struct P440Vector
 {
     float x, y, z;
-    float FUN_00457990();
 };
 struct P440LightFlags
 {
@@ -4624,8 +4570,6 @@ struct P440Pass
     unsigned char capacity;
     unsigned char unk0b;
     P440Light** lights;
-    void FUN_00ba8c30();
-    void AllocateElemArray(unsigned char);
 };
 struct P440List
 {
@@ -5049,29 +4993,11 @@ struct P440Shader
         unsigned int bit = (unsigned int)index % 32;
         return ((word == 0 ? flags : flags2) & (1u << bit)) > 0;
     }
-    void FUN_00441130(int, bool);
-    void EnsureNewObj(int);
-    void EnsureBa9740Obj(int);
-    void EnsureAllocated(int);
-    void CreateSpawnedObjectIfMissing(int);
-    void FUN_00ba95e0(int);
-    void FUN_00ba8ab0(float);
-    void SortShadowSceneLights(P440Position*);
-    P440Light* FUN_00b70590(void**);
-    P440Light* FUN_00b70680(void**);
-    P440Light* FUN_00b70600(void**);
-    P440Light* FUN_00b70700(void**);
     P440List* GetPasses(P440Geometry*, unsigned int, int, unsigned int, P440Renderer*, int);
 };
-extern P440Renderer* DAT_011f4748;
 extern float DAT_011f9458, DAT_011f9460, DAT_011f9468, DAT_011f946c;
 extern float DAT_011f9470;
 extern unsigned char DAT_011f91a7;
-P440Renderer* __cdecl FUN_00b4f5c0();
-bool __cdecl IsParticleShaderRendererEnabled();
-int __cdecl GetGlobalFloatAsUInt();
-bool __cdecl FUN_005bf7b0();
-float __cdecl LinearInterpolate(float, float, float, float, float);
 struct FUN_00c02c30_Obj
 {
     virtual void v00();
@@ -5137,20 +5063,10 @@ struct FUN_00c02c30_Obj
     char p04[0xc4 - 4];
     unsigned char* m_c4;
 };
-extern unsigned int DAT_011a9bd0;
-extern unsigned int DAT_011a9bd4;
-extern unsigned int DAT_011a9bd8;
-extern unsigned int DAT_011a9bdc;
-extern unsigned int DAT_011fa2d0;
-extern unsigned int DAT_011fa2d4;
-extern unsigned int DAT_011fa2d8;
-extern unsigned int DAT_011fa2dc;
 struct S00c02c30_ColorA
 {
     float r, g, b, a;
 };
-void __stdcall FUN_00c02c30(unsigned int param_1, int param_2, FUN_00c02c30_Obj* param_3, int param_4);
-int __stdcall FUN_00c02f30(FNV_Node* a2, int a3);
 struct S00c03c80_entry;
 struct S00c03c80_item
 {
@@ -5196,7 +5112,6 @@ struct S00c03c80_item
 };
 struct S00c03c80_entry
 {
-    S00c03c80_item* __thiscall FUN_00ba3780();
 };
 struct S00c03c80_meta
 {
@@ -5307,10 +5222,8 @@ struct S00c03c80_manager
     virtual void vc4() = 0;
     virtual S00c03c80_provider* GetProvider();
 };
-extern S00c03c80_manager* _DAT_011f4748;
 struct S00c03c80_processor
 {
-    void __thiscall FUN_00b8a6e0(unsigned int, int, void*);
 };
 struct S00c03c80_cls
 {
@@ -5517,118 +5430,6 @@ struct Binding
 {
     void FUN_00a5f860(void*);
 };
-extern void* DAT_01200ec0;
-extern void* DAT_01200ec4;
-extern void* DAT_01200ec8;
-extern void* DAT_01200ecc;
-extern void* DAT_01200ed0;
-extern void* DAT_01200ed4;
-extern void* DAT_01200ed8;
-extern void* DAT_01200edc;
-extern void* DAT_01200ee0;
-extern void* DAT_01200ee4;
-extern void* DAT_01200ee8;
-extern void* DAT_01200eec;
-extern void* DAT_01200ef0;
-extern void* DAT_01200ef4;
-extern void* DAT_01200ef8;
-extern void* DAT_01200efc;
-extern void* DAT_01200f00;
-extern void* DAT_01200f04;
-extern void* DAT_01200f08;
-extern void* DAT_01200f0c;
-extern void* DAT_01200f10;
-extern void* DAT_01200f14;
-extern void* DAT_01200f18;
-extern void* DAT_01200f1c;
-extern void* DAT_01200f20;
-extern void* DAT_01200f24;
-extern void* DAT_01200f28;
-extern void* DAT_01200f2c;
-extern void* DAT_01200f30;
-extern void* DAT_01200f34;
-extern void* DAT_01200f38;
-extern void* DAT_01200f3c;
-extern void* DAT_01200f40;
-extern void* DAT_01200f44;
-extern void* DAT_01200f48;
-extern void* DAT_01200f4c;
-extern void* DAT_01200f50;
-extern void* DAT_01200f54;
-extern void* DAT_01200f58;
-extern void* DAT_01200f5c;
-extern void* DAT_01200f60;
-extern void* DAT_01200f64;
-extern void* DAT_01200f68;
-extern void* DAT_01200f6c;
-extern void* DAT_01200f70;
-extern void* DAT_01200f74;
-extern void* DAT_01200f78;
-extern void* DAT_01200f7c;
-extern void* DAT_01200f80;
-extern void* DAT_01200f84;
-extern void* DAT_01200f88;
-extern void* DAT_01200f8c;
-extern void* DAT_01200f90;
-extern void* DAT_01200f94;
-extern void* DAT_01200f98;
-extern void* DAT_01200f9c;
-extern void* DAT_01200fa0;
-extern void* DAT_01200fa4;
-extern void* DAT_01200fa8;
-extern void* DAT_01200fac;
-extern void* DAT_01200fb0;
-extern void* DAT_01200fb4;
-extern void* DAT_01200fb8;
-extern void* DAT_01200fbc;
-extern void* DAT_01200fc0;
-extern void* DAT_01200fc4;
-extern void* DAT_01200fc8;
-extern void* DAT_01200fcc;
-extern void* DAT_01200fd0;
-extern void* DAT_01200fd4;
-extern void* DAT_01200fd8;
-extern void* DAT_01200fdc;
-extern void* DAT_01200fe0;
-extern void* DAT_01200fe4;
-extern void* DAT_01200fe8;
-extern void* DAT_01200fec;
-extern void* DAT_01200ff0;
-extern void* DAT_01200ff4;
-extern void* DAT_01200ff8;
-extern void* DAT_01200ffc;
-extern void* DAT_01201000;
-extern void* DAT_01201004;
-extern void* DAT_01201008;
-extern void* DAT_0120100c;
-extern void* DAT_01201010;
-extern void* DAT_01201014;
-extern void* DAT_01201018;
-extern void* DAT_0120101c;
-extern void* DAT_01201020;
-extern void* DAT_01201024;
-extern void* DAT_01201028;
-extern void* DAT_0120102c;
-extern void* DAT_01201030;
-extern void* DAT_01201034;
-extern void* DAT_01201038;
-extern void* DAT_0120103c;
-extern void* DAT_01201040;
-extern void* DAT_01201044;
-extern void* DAT_01201048;
-extern void* DAT_0120104c;
-extern void* DAT_01201050;
-extern void* DAT_01201054;
-extern void* DAT_01201058;
-extern void* DAT_0120105c;
-extern void* DAT_01201060;
-extern void* DAT_01201064;
-extern void* DAT_01201068;
-extern void* DAT_0120106c;
-extern void* DAT_01201070;
-extern void* DAT_01201074;
-extern void* DAT_01201078;
-extern void* DAT_0120107c;
 struct Shader
 {
     void* field0;
@@ -5702,7 +5503,7 @@ void* Shader::FUN_00c0abd0(unsigned int pass)
         binding.FUN_00a5f860(field8c);
         goto finished;
     case 376:
-        result = DAT_01200ec0;
+        result = (*reinterpret_cast<void * *>(&::DAT_01200ec0));
         binding.FUN_00a5f860(field7c);
         goto finished;
     case 383:
@@ -6140,20 +5941,15 @@ finished:
 }
 struct BSShaderPPLightingProperty
 {
-    bool FUN_004a2020(int flag);
 };
 struct TextureReceiver
 {
-    TextureReceiver* FUN_004bc320(int code);
 };
 struct C0CD80Pass
 {
-    unsigned int FUN_00e7def0(unsigned int code);
-    unsigned int ApplyPairToState(unsigned int code);
 };
 struct C0CD80Rdr
 {
-    unsigned short FUN_00b704b0();
 };
 struct C0CD80Item
 {
@@ -6175,10 +5971,8 @@ struct C0CD80Mgr
     C0CD80Item** m_kNode;
 };
 extern unsigned int DAT_011f91b0;
-extern long DAT_01201c7c;
 struct C0CD80Shader
 {
-    void FUN_00bb9640(ShaderEntry* entry, ShaderInterface* iface);
     void FUN_00c0cd80(unsigned int technique, Renderer* renderer);
 };
 struct SplatterItem
@@ -6205,19 +5999,8 @@ struct SplatterGeom
 };
 struct BloodUpdater : ShaderUpdater
 {
-    void SetupTextureStages(SplatterGeom* geom, ShaderEntryTable* table);
-    void ApplyTextureStages(SplatterGeom* geom, ShaderEntryTable* table);
-    void FUN_00c0bbd0(ShaderEntryTable* table);
-    void CopyOwnerValuesToItems(ShaderEntryTable* table, SplatterGeom* geom, int flag);
-    void SetNodeResultValue(ShaderEntryTable* table, SplatterGeom* geom, int kind);
-    void ApplyTextureStage(ShaderEntryTable* table, SplatterGeom* geom, int zero);
-    void SetDstValueFromB(ShaderEntryTable* table, SplatterGeom* geom);
-    void FUN_00c0bb20(ShaderEntryTable* table, SplatterGeom* geom);
-    void SetupPassTextureStage(ShaderEntryTable* table, SplatterGeom* geom);
     void FUN_00c0cf10(unsigned int kind, SplatterGeom* geom);
 };
-extern ClusterObj* DAT_01202230;
-extern "C" void __cdecl FUN_00e804d0(void* pSlot);
 struct C0D170Self
 {
     virtual void s00();
@@ -6332,7 +6115,6 @@ struct Obj_c1a310
     float unk38;
 };
 void __stdcall FUN_00c1a310(int a, int b, Obj_c1a310* p);
-extern "C" void __cdecl CreateTriStripsObject();
 void __cdecl FUN_00c1a390();
 namespace ShaderBias {
 struct RefObject
@@ -6361,9 +6143,7 @@ struct ShaderRefPointer
 };
 struct RenderStateBlock
 {
-    void SetNodeValue(unsigned int, unsigned int, bool);
 };
-RenderStateBlock* FUN_00e7f5d0();
 struct ShaderStage
 {
     unsigned int unk00;
@@ -6391,12 +6171,11 @@ struct ShaderStage
     unsigned int unk58;
     unsigned int unk5c;
     int references;
-    void FUN_00e7ecd0();
     __forceinline void Release()
     {
         --references;
         if (references == 0)
-            FUN_00e7ecd0();
+            reinterpret_cast<::FUN_00e7ecd0_cls *>(this)->FUN_00e7ecd0();
     }
 };
 struct ShaderStagePointer
@@ -6410,8 +6189,6 @@ struct ShaderStagePointer
             object->Release();
     }
 };
-void AssignStageFromPool(ShaderStagePointer*);
-void ConfigureBeamStage(ShaderStage*, unsigned int, unsigned int, unsigned int, bool);
 extern unsigned int DAT_011f9534;
 struct ShaderPass
 {
@@ -6445,12 +6222,10 @@ struct ShaderPass
     {
         return stageCount;
     }
-    void FUN_00e80190();
-    void FUN_00e802b0(unsigned int, ShaderStage*);
     __forceinline RenderStateBlock* const& GetState()
     {
         if (!state)
-            state = FUN_00e7f5d0();
+            state = ((::ShaderBias::RenderStateBlock *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
         return state;
     }
 };
@@ -6462,14 +6237,14 @@ struct ShaderPassPointer
     ~ShaderPassPointer()
     {
         if (object && --object->references == 0)
-            object->FUN_00e80190();
+            reinterpret_cast<::NiD3DPass *>((object))->DestroyPass();
     }
     __forceinline void operator=(ShaderPass* const& value)
     {
         if (object != value)
         {
             if (object && --object->references == 0)
-                object->FUN_00e80190();
+                reinterpret_cast<::NiD3DPass *>((object))->DestroyPass();
             object = value;
             if (object)
                 ++object->references;
@@ -6480,7 +6255,6 @@ struct ShaderPassPointer
         return object;
     }
 };
-extern float DAT_01200458;
 extern ShaderPass* DAT_011feb58;
 extern RefObject *DAT_011fdfcc, *DAT_011fdc70;
 extern unsigned int DAT_011fd7e0, DAT_011fcc00;
@@ -6517,69 +6291,69 @@ void FUN_00c02340()
     pass = DAT_011feb58;
     pass->vertexShader = DAT_011fdfcc;
     pass->pixelShader = DAT_011fdc70;
-    pass->GetState()->SetNodeValue(168, 3, 1);
-    pass->GetState()->SetNodeValue(195, FloatBits(DAT_01200458), 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(168, 3, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(195, FloatBits(::DAT_01200458), 1);
     DAT_011fd7e0 = 16388;
     DAT_011fcc00 = 0x140040;
     pass = DAT_011feb5c;
     pass->vertexShader = DAT_011fdfd0;
     pass->pixelShader = DAT_011fdc70;
-    pass->GetState()->SetNodeValue(168, 3, 1);
-    pass->GetState()->SetNodeValue(195, FloatBits(DAT_01200458), 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(168, 3, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(195, FloatBits(::DAT_01200458), 1);
     DAT_011fd7e4 = 34816;
     DAT_011fcc04 = 0x140040;
     pass = DAT_011feb70;
-    AssignStageFromPool(&stage);
-    ConfigureBeamStage(stage.object, 0, 1, 2, true);
-    pass->FUN_00e802b0(pass->unk14, stage.object);
+    ::AssignStageFromPool((*(::StageReturn * *)(&stage)));
+    ::ConfigureBeamStage((::BeamStage *)(stage.object), 0, 1, 2, true);
+    reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(pass->unk14, (::Stage321 *)(stage.object));
     pass->vertexShader = DAT_011fdfd4;
     pass->pixelShader = DAT_011fdc74;
-    pass->GetState()->SetNodeValue(168, 3, 1);
-    pass->GetState()->SetNodeValue(195, FloatBits(DAT_01200458), 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(168, 3, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(195, FloatBits(::DAT_01200458), 1);
     DAT_011fd7f8 = 16388;
     DAT_011fcc18 = 0x140040;
     pass = DAT_011feb74;
-    AssignStageFromPool(&stage);
-    ConfigureBeamStage(stage.object, 0, 1, 2, true);
-    pass->FUN_00e802b0(pass->unk14, stage.object);
+    ::AssignStageFromPool((*(::StageReturn * *)(&stage)));
+    ::ConfigureBeamStage((::BeamStage *)(stage.object), 0, 1, 2, true);
+    reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(pass->unk14, (::Stage321 *)(stage.object));
     pass->vertexShader = DAT_011fdfd8;
     pass->pixelShader = DAT_011fdc74;
-    pass->GetState()->SetNodeValue(168, 3, 1);
-    pass->GetState()->SetNodeValue(195, FloatBits(DAT_01200458), 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(168, 3, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(195, FloatBits(::DAT_01200458), 1);
     DAT_011fd7fc = 34816;
     DAT_011fcc1c = 0x140040;
     pass = DAT_011feb88;
     pass->vertexShader = DAT_011fdfdc;
     pass->pixelShader = DAT_011fdc70;
-    pass->GetState()->SetNodeValue(168, 3, 1);
-    pass->GetState()->SetNodeValue(195, FloatBits(DAT_01200458), 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(168, 3, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(195, FloatBits(::DAT_01200458), 1);
     DAT_011fd810 = 16388;
     DAT_011fcc30 = 0x140040;
     pass = DAT_011feb8c;
     pass->vertexShader = DAT_011fdfe0;
     pass->pixelShader = DAT_011fdc70;
-    pass->GetState()->SetNodeValue(168, 3, 1);
-    pass->GetState()->SetNodeValue(195, FloatBits(DAT_01200458), 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(168, 3, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(195, FloatBits(::DAT_01200458), 1);
     DAT_011fd814 = 34816;
     DAT_011fcc34 = 0x140040;
     pass = DAT_011feba0;
-    AssignStageFromPool(&stage);
-    ConfigureBeamStage(stage.object, 0, 1, 2, true);
-    pass->FUN_00e802b0(pass->unk14, stage.object);
+    ::AssignStageFromPool((*(::StageReturn * *)(&stage)));
+    ::ConfigureBeamStage((::BeamStage *)(stage.object), 0, 1, 2, true);
+    reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(pass->unk14, (::Stage321 *)(stage.object));
     pass->vertexShader = DAT_011fdfe4;
     pass->pixelShader = DAT_011fdc74;
-    pass->GetState()->SetNodeValue(168, 3, 1);
-    pass->GetState()->SetNodeValue(195, FloatBits(DAT_01200458), 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(168, 3, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(195, FloatBits(::DAT_01200458), 1);
     DAT_011fd828 = 16388;
     DAT_011fcc48 = 0x140040;
     pass = DAT_011feba4;
-    AssignStageFromPool(&stage);
-    ConfigureBeamStage(stage.object, 0, 1, 2, true);
-    pass->FUN_00e802b0(pass->unk14, stage.object);
+    ::AssignStageFromPool((*(::StageReturn * *)(&stage)));
+    ::ConfigureBeamStage((::BeamStage *)(stage.object), 0, 1, 2, true);
+    reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(pass->unk14, (::Stage321 *)(stage.object));
     pass->vertexShader = DAT_011fdfe8;
     pass->pixelShader = DAT_011fdc74;
-    pass->GetState()->SetNodeValue(168, 3, 1);
-    pass->GetState()->SetNodeValue(195, FloatBits(DAT_01200458), 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(168, 3, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(195, FloatBits(::DAT_01200458), 1);
     DAT_011fd82c = 34816;
     DAT_011fcc4c = 0x140040;
 }
@@ -6613,11 +6387,9 @@ struct __declspec(novtable) ISBaseA
     int unk60;
     int unk64;
     int unk68;
-    void FUN_00be2200();
-    void FUN_00be0870();
     ISBaseA()
     {
-        FUN_00be2200();
+        new ((void *)this) ::BSShader();
     }
 };
 struct __declspec(novtable) ISBaseB
@@ -6644,10 +6416,9 @@ struct __declspec(novtable) ISBaseB
     int unk4c;
     int unk50;
     int unk54;
-    void FUN_00ba4080();
     ISBaseB()
     {
-        FUN_00ba4080();
+        new ((void *)this) class ::FUN_00ba4080();
     }
 };
 struct ISRefObj
@@ -6666,7 +6437,6 @@ struct ISEffect : ISBaseA, ISBaseB
     ISPtr unkc4;
     ISPtr unkc8;
     virtual ~ISEffect();
-    void SetupRenderer();
     ISEffect();
 };
 struct ImageSpaceEffectParamC056
@@ -6774,7 +6544,7 @@ struct RefPass04120 : NiD3DPass
     void DecRefCount()
     {
         if (--m_iObjectReferenceCount == 0)
-            ReturnToPool();
+            reinterpret_cast<::FUN_00e7ecd0_cls *>(this)->FUN_00e7ecd0();
     }
 };
 struct Pass04120
@@ -6799,12 +6569,11 @@ struct Shader04120
     int unk48, unk4c, unk50, unk54, unk58;
     NiRefObject* m_texture;
 
-    void FUN_00e802b0(void*, NiD3DPass*);
     void SetRenderState(int a, int b, int c)
     {
         if (!m_uiContentCount)
-            m_uiContentCount = FUN_00e7f5d0();
-        m_uiContentCount->SetNodeValue(a, b, c);
+            m_uiContentCount = ((::ElemObj *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+        reinterpret_cast<::StateGroup *>((m_uiContentCount))->SetNodeValue(a, b, c);
     }
     void SetTexture(NiRefObject* p)
     {
@@ -6829,9 +6598,6 @@ struct Shader04120
         }
     }
 };
-void __cdecl FUN_00e804d0(void*);
-void __cdecl AssignStageFromPool(Pass04120*);
-void __cdecl ConfigureBeamStage(NiD3DPass*, unsigned int, int, int, int);
 struct Target04120
 {
     virtual void v000();
@@ -6935,29 +6701,17 @@ struct Target04120
     bool ConfigureBeam();
 };
 
-extern int DAT_011fab34;
 extern int DAT_011fab5c;
-extern int DAT_011fab60;
 extern int DAT_011fab88;
-extern int DAT_011fab8c;
 extern int DAT_011fabb4;
-extern int DAT_011fabb8;
 extern int DAT_011fabe0;
-extern int DAT_011fac3c;
 extern int DAT_011fac5c;
-extern int DAT_011fac60;
 extern int DAT_011fac80;
-extern int DAT_011fac84;
 extern int DAT_011faca4;
-extern int DAT_011faca8;
 extern int DAT_011facc8;
-extern int DAT_011faccc;
 extern int DAT_011fad00;
-extern int DAT_011fad08;
 extern int DAT_011fad30;
-extern int DAT_011fad38;
 extern int DAT_011fad5c;
-extern int DAT_011fad64;
 extern int DAT_011fad88;
 extern int DAT_011fada8;
 extern int DAT_011fadbc;
@@ -6969,29 +6723,19 @@ extern int DAT_011fae60;
 extern int DAT_011fae74;
 extern int DAT_011fb1a4;
 extern int DAT_011fb1b0;
-extern int DAT_011fb714;
 extern int DAT_011fb73c;
-extern int DAT_011fb740;
 extern int DAT_011fb768;
-extern int DAT_011fb76c;
 extern int DAT_011fb794;
-extern int DAT_011fb798;
 extern int DAT_011fb7c0;
 extern int DAT_011fb81c;
 extern int DAT_011fb83c;
-extern int DAT_011fb840;
 extern int DAT_011fb860;
 extern int DAT_011fb864;
 extern int DAT_011fb884;
-extern int DAT_011fb888;
 extern int DAT_011fb8a8;
-extern int DAT_011fb8ac;
 extern int DAT_011fb8e0;
-extern int DAT_011fb8e8;
 extern int DAT_011fb910;
-extern int DAT_011fb918;
 extern int DAT_011fb93c;
-extern int DAT_011fb944;
 extern int DAT_011fb968;
 extern int DAT_011fb988;
 extern int DAT_011fb99c;
@@ -6999,128 +6743,54 @@ extern int DAT_011fb9b8;
 extern int DAT_011fb9cc;
 extern int DAT_011fba28;
 extern int DAT_011fba3c;
-extern int DAT_011fba40;
 extern int DAT_011fba54;
-extern int DAT_011fbd84;
 extern int DAT_011fbd90;
-extern int DAT_011fc2f4;
 extern int DAT_011fc31c;
-extern int DAT_011fc320;
 extern int DAT_011fc348;
-extern int DAT_011fc34c;
 extern int DAT_011fc374;
-extern int DAT_011fc378;
 extern int DAT_011fc3a0;
-extern int DAT_011fc3fc;
 extern int DAT_011fc41c;
-extern int DAT_011fc420;
 extern int DAT_011fc440;
-extern int DAT_011fc444;
 extern int DAT_011fc464;
-extern int DAT_011fc468;
 extern int DAT_011fc488;
-extern int DAT_011fc48c;
 extern int DAT_011fc4c0;
-extern int DAT_011fc4c8;
 extern int DAT_011fc4f0;
-extern int DAT_011fc4f8;
 extern int DAT_011fc51c;
-extern int DAT_011fc524;
 extern int DAT_011fc548;
-extern int DAT_011fc568;
 extern int DAT_011fc57c;
-extern int DAT_011fc598;
 extern int DAT_011fc5ac;
-extern int DAT_011fc608;
 extern int DAT_011fc61c;
-extern int DAT_011fc620;
 extern int DAT_011fc634;
 extern int DAT_011fc64c;
 extern int DAT_011fc664;
 extern int DAT_011fc67c;
-extern int DAT_011fc964;
 extern int DAT_011fc970;
-extern int DAT_011fced4;
 extern int DAT_011fcefc;
-extern int DAT_011fcf00;
 extern int DAT_011fcf28;
-extern int DAT_011fcf2c;
 extern int DAT_011fcf54;
-extern int DAT_011fcf58;
 extern int DAT_011fcf80;
-extern int DAT_011fcfdc;
 extern int DAT_011fcffc;
-extern int DAT_011fd000;
 extern int DAT_011fd020;
-extern int DAT_011fd024;
 extern int DAT_011fd044;
-extern int DAT_011fd048;
 extern int DAT_011fd068;
-extern int DAT_011fd06c;
 extern int DAT_011fd0a0;
-extern int DAT_011fd0a8;
 extern int DAT_011fd0d0;
-extern int DAT_011fd0d8;
 extern int DAT_011fd0fc;
-extern int DAT_011fd104;
 extern int DAT_011fd128;
-extern int DAT_011fd148;
 extern int DAT_011fd15c;
-extern int DAT_011fd178;
 extern int DAT_011fd18c;
-extern int DAT_011fd1e8;
 extern int DAT_011fd1fc;
-extern int DAT_011fd200;
 extern int DAT_011fd214;
-extern int DAT_011fd218;
 extern int DAT_011fd22c;
-extern int DAT_011fd230;
 extern int DAT_011fd244;
-extern int DAT_011fd248;
 extern int DAT_011fd25c;
-extern int DAT_011fd544;
 extern int DAT_011fd550;
-extern RefTex* DAT_011fdb08;
-extern RefTex* DAT_011fdb1c;
-extern RefTex* DAT_011fdb34;
-extern RefTex* DAT_011fdb40;
-extern RefTex* DAT_011fdb4c;
-extern RefTex* DAT_011fdb58;
-extern RefTex* DAT_011fdb64;
-extern RefTex* DAT_011fdb70;
-extern RefTex* DAT_011fdb9c;
-extern RefTex* DAT_011fdba4;
-extern RefTex* DAT_011fdbac;
-extern RefTex* DAT_011fdbb4;
-extern ShaderPassPtr DAT_01202378;
-extern ShaderPassPtr DAT_0120237c;
-extern ShaderPassPtr DAT_01202380;
-extern ShaderPassPtr DAT_01202384;
-extern ShaderPassPtr DAT_01202388;
-extern ShaderPassPtr DAT_0120238c;
-extern ShaderPassPtr DAT_01202390;
-extern ShaderPassPtr DAT_01202394;
-extern ShaderPassPtr DAT_01202398;
-extern ShaderPassPtr DAT_0120239c;
-extern ShaderPassPtr DAT_012023a0;
-extern ShaderPassPtr DAT_012023a4;
-extern ShaderPassPtr DAT_012023a8;
-extern ShaderPassPtr DAT_012023ac;
-extern ShaderPassPtr DAT_012023b0;
-extern ShaderPassPtr DAT_012023b4;
-extern ShaderPassPtr DAT_012023b8;
-extern ShaderPassPtr DAT_012023bc;
-extern ShaderPassPtr DAT_012023c0;
-extern ShaderPassPtr DAT_012023c4;
 struct ShaderHandle
 {
     RefTex* value;
 };
 struct PassMethods : ShaderPass
 {
-    void SetPixelShader(ShaderHandle);
-    void SetVertexShader(RefTex*);
-    void SetBlend(int source, int destination, bool save);
 };
 struct LocalPassPtr
 {
@@ -7137,7 +6807,7 @@ struct LocalPassPtr
             if (m_p)
             {
                 if (--m_p->m_iObjectReferenceCount == 0)
-                    m_p->Destroy();
+                    reinterpret_cast<::NiD3DPass *>((m_p))->DestroyPass();
             }
             m_p = sp.m_p;
             if (m_p)
@@ -7147,7 +6817,7 @@ struct LocalPassPtr
     ~LocalPassPtr()
     {
         if (m_p && --m_p->m_iObjectReferenceCount == 0)
-            m_p->Destroy();
+            reinterpret_cast<::NiD3DPass *>((m_p))->DestroyPass();
     }
     ShaderPass* operator->() const
     {
@@ -7239,32 +6909,32 @@ void C17510Shader::FUN_00c17510()
     unsigned int count0 = spRenderPass->m_18;
     if (count0 < 7)
     {
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 0, 1, 2, 1);
-        spRenderPass->SetStage(0, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 1, 1, 2, 1);
-        spRenderPass->SetStage(1, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 2, 1, 2, 1);
-        spRenderPass->SetStage(2, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 3, 1, 2, 1);
-        spRenderPass->SetStage(3, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 4, 3, 2, 1);
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(0, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 1, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(1, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 2, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(2, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 3, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(3, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 4, 3, 2, 1);
         spStage.m_p->m_08 = DAT_011f9534;
         spStage.m_p->m_0c = 1;
-        spRenderPass->SetStage(4, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 5, 1, 2, 1);
-        spRenderPass->SetStage(5, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 6, 3, 2, 1);
-        spRenderPass->SetStage(6, spStage.m_p);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(4, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 5, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(5, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 6, 3, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(6, (::Stage321 *)(spStage.m_p));
     }
     AssignTex(spRenderPass->m_5c, m_b4);
-    AssignTex(spRenderPass->m_44, DAT_011fdb9c);
+    AssignTex(spRenderPass->m_44, (*reinterpret_cast<::RefTex * *>(&::DAT_011fdb9c)));
     SetupRenderStates(spRenderPass);
     DAT_011fcffc = DAT_011fcfdc;
     DAT_011fc41c = DAT_011fc3fc;
@@ -7275,32 +6945,32 @@ void C17510Shader::FUN_00c17510()
     spRenderPass = DAT_0120237c;
     if (spRenderPass->m_18 < 7)
     {
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 0, 1, 2, 1);
-        spRenderPass->SetStage(0, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 1, 1, 2, 1);
-        spRenderPass->SetStage(1, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 2, 1, 2, 1);
-        spRenderPass->SetStage(2, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 3, 1, 2, 1);
-        spRenderPass->SetStage(3, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 4, 3, 2, 1);
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(0, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 1, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(1, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 2, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(2, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 3, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(3, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 4, 3, 2, 1);
         spStage.m_p->m_08 = DAT_011f9534;
         spStage.m_p->m_0c = 1;
-        spRenderPass->SetStage(4, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 5, 1, 2, 1);
-        spRenderPass->SetStage(5, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 6, 3, 2, 1);
-        spRenderPass->SetStage(6, spStage.m_p);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(4, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 5, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(5, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 6, 3, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(6, (::Stage321 *)(spStage.m_p));
     }
     AssignTex(spRenderPass->m_5c, m_b8);
-    AssignTex(spRenderPass->m_44, DAT_011fdba4);
+    AssignTex(spRenderPass->m_44, (*reinterpret_cast<::RefTex * *>(&::DAT_011fdba4)));
     SetupRenderStates(spRenderPass);
     DAT_011fd020 = DAT_011fd000;
     DAT_011fc440 = DAT_011fc420;
@@ -7311,32 +6981,32 @@ void C17510Shader::FUN_00c17510()
     spRenderPass = DAT_01202380;
     if (spRenderPass->m_18 < 7)
     {
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 0, 1, 2, 1);
-        spRenderPass->SetStage(0, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 1, 1, 2, 1);
-        spRenderPass->SetStage(1, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 2, 1, 2, 1);
-        spRenderPass->SetStage(2, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 3, 1, 2, 1);
-        spRenderPass->SetStage(3, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 4, 3, 2, 1);
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(0, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 1, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(1, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 2, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(2, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 3, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(3, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 4, 3, 2, 1);
         spStage.m_p->m_08 = DAT_011f9534;
         spStage.m_p->m_0c = 1;
-        spRenderPass->SetStage(4, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 5, 1, 2, 1);
-        spRenderPass->SetStage(5, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 6, 3, 2, 1);
-        spRenderPass->SetStage(6, spStage.m_p);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(4, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 5, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(5, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 6, 3, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(6, (::Stage321 *)(spStage.m_p));
     }
     AssignTex(spRenderPass->m_5c, m_bc);
-    AssignTex(spRenderPass->m_44, DAT_011fdbac);
+    AssignTex(spRenderPass->m_44, (*reinterpret_cast<::RefTex * *>(&::DAT_011fdbac)));
     SetupRenderStates(spRenderPass);
     DAT_011fd044 = DAT_011fd024;
     DAT_011fc464 = DAT_011fc444;
@@ -7347,32 +7017,32 @@ void C17510Shader::FUN_00c17510()
     spRenderPass = DAT_01202384;
     if (spRenderPass->m_18 < 7)
     {
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 0, 1, 2, 1);
-        spRenderPass->SetStage(0, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 1, 1, 2, 1);
-        spRenderPass->SetStage(1, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 2, 1, 2, 1);
-        spRenderPass->SetStage(2, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 3, 1, 2, 1);
-        spRenderPass->SetStage(3, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 4, 3, 2, 1);
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(0, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 1, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(1, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 2, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(2, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 3, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(3, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 4, 3, 2, 1);
         spStage.m_p->m_08 = DAT_011f9534;
         spStage.m_p->m_0c = 1;
-        spRenderPass->SetStage(4, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 5, 1, 2, 1);
-        spRenderPass->SetStage(5, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 6, 3, 2, 1);
-        spRenderPass->SetStage(6, spStage.m_p);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(4, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 5, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(5, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 6, 3, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(6, (::Stage321 *)(spStage.m_p));
     }
     AssignTex(spRenderPass->m_5c, m_c0);
-    AssignTex(spRenderPass->m_44, DAT_011fdbb4);
+    AssignTex(spRenderPass->m_44, (*reinterpret_cast<::RefTex * *>(&::DAT_011fdbb4)));
     SetupRenderStates(spRenderPass);
     DAT_011fd068 = DAT_011fd048;
     DAT_011fc488 = DAT_011fc468;
@@ -7384,35 +7054,35 @@ void C17510Shader::FUN_00c17510()
     unsigned int count4 = spRenderPass->m_18;
     if (count4 < 8)
     {
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 0, 1, 2, 1);
-        spRenderPass->SetStage(0, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 1, 1, 2, 1);
-        spRenderPass->SetStage(1, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 2, 1, 2, 1);
-        spRenderPass->SetStage(2, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 3, 1, 2, 1);
-        spRenderPass->SetStage(3, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 4, 1, 2, 1);
-        spRenderPass->SetStage(4, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 5, 3, 2, 1);
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(0, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 1, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(1, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 2, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(2, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 3, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(3, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 4, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(4, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 5, 3, 2, 1);
         spStage.m_p->m_08 = DAT_011f9534;
         spStage.m_p->m_0c = 1;
-        spRenderPass->SetStage(5, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 6, 1, 2, 1);
-        spRenderPass->SetStage(6, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 7, 3, 2, 1);
-        spRenderPass->SetStage(7, spStage.m_p);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(5, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 6, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(6, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 7, 3, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(spStage.m_p));
     }
     AssignTex(spRenderPass->m_5c, m_c4);
-    AssignTex(spRenderPass->m_44, DAT_011fdb08);
+    AssignTex(spRenderPass->m_44, (*reinterpret_cast<::RefTex * *>(&::fnv_00bebd20::DAT_011fdb08)));
     SetupRenderStates(spRenderPass);
     DAT_011fd0a0 = DAT_011fd06c;
     DAT_011fc4c0 = DAT_011fc48c;
@@ -7423,35 +7093,35 @@ void C17510Shader::FUN_00c17510()
     spRenderPass = DAT_0120238c;
     if (spRenderPass->m_18 < 8)
     {
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 0, 1, 2, 1);
-        spRenderPass->SetStage(0, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 1, 1, 2, 1);
-        spRenderPass->SetStage(1, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 2, 1, 2, 1);
-        spRenderPass->SetStage(2, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 3, 1, 2, 1);
-        spRenderPass->SetStage(3, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 4, 1, 2, 1);
-        spRenderPass->SetStage(4, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 5, 3, 2, 1);
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(0, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 1, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(1, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 2, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(2, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 3, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(3, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 4, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(4, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 5, 3, 2, 1);
         spStage.m_p->m_08 = DAT_011f9534;
         spStage.m_p->m_0c = 1;
-        spRenderPass->SetStage(5, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 6, 1, 2, 1);
-        spRenderPass->SetStage(6, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 7, 3, 2, 1);
-        spRenderPass->SetStage(7, spStage.m_p);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(5, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 6, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(6, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 7, 3, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(spStage.m_p));
     }
     AssignTex(spRenderPass->m_5c, m_c8);
-    AssignTex(spRenderPass->m_44, DAT_011fdb1c);
+    AssignTex(spRenderPass->m_44, (*reinterpret_cast<::RefTex * *>(&::fnv_00bebd20::DAT_011fdb1c)));
     SetupRenderStates(spRenderPass);
     DAT_011fd0d0 = DAT_011fd0a8;
     DAT_011fc4f0 = DAT_011fc4c8;
@@ -7462,35 +7132,35 @@ void C17510Shader::FUN_00c17510()
     spRenderPass = DAT_01202390;
     if (spRenderPass->m_18 < 8)
     {
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 0, 1, 2, 1);
-        spRenderPass->SetStage(0, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 1, 1, 2, 1);
-        spRenderPass->SetStage(1, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 2, 1, 2, 1);
-        spRenderPass->SetStage(2, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 3, 1, 2, 1);
-        spRenderPass->SetStage(3, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 4, 1, 2, 1);
-        spRenderPass->SetStage(4, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 5, 3, 2, 1);
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(0, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 1, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(1, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 2, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(2, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 3, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(3, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 4, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(4, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 5, 3, 2, 1);
         spStage.m_p->m_08 = DAT_011f9534;
         spStage.m_p->m_0c = 1;
-        spRenderPass->SetStage(5, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 6, 1, 2, 1);
-        spRenderPass->SetStage(6, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 7, 3, 2, 1);
-        spRenderPass->SetStage(7, spStage.m_p);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(5, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 6, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(6, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 7, 3, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(spStage.m_p));
     }
     AssignTex(spRenderPass->m_5c, m_cc);
-    AssignTex(spRenderPass->m_44, DAT_011fdb34);
+    AssignTex(spRenderPass->m_44, (*reinterpret_cast<::RefTex * *>(&::fnv_00bebd20::DAT_011fdb34)));
     SetupRenderStates(spRenderPass);
     DAT_011fd0fc = DAT_011fd0d8;
     DAT_011fc51c = DAT_011fc4f8;
@@ -7501,35 +7171,35 @@ void C17510Shader::FUN_00c17510()
     spRenderPass = DAT_01202394;
     if (spRenderPass->m_18 < 8)
     {
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 0, 1, 2, 1);
-        spRenderPass->SetStage(0, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 1, 1, 2, 1);
-        spRenderPass->SetStage(1, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 2, 1, 2, 1);
-        spRenderPass->SetStage(2, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 3, 1, 2, 1);
-        spRenderPass->SetStage(3, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 4, 1, 2, 1);
-        spRenderPass->SetStage(4, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 5, 3, 2, 1);
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(0, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 1, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(1, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 2, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(2, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 3, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(3, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 4, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(4, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 5, 3, 2, 1);
         spStage.m_p->m_08 = DAT_011f9534;
         spStage.m_p->m_0c = 1;
-        spRenderPass->SetStage(5, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 6, 1, 2, 1);
-        spRenderPass->SetStage(6, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 7, 3, 2, 1);
-        spRenderPass->SetStage(7, spStage.m_p);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(5, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 6, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(6, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 7, 3, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(spStage.m_p));
     }
     AssignTex(spRenderPass->m_5c, m_d0);
-    AssignTex(spRenderPass->m_44, DAT_011fdb40);
+    AssignTex(spRenderPass->m_44, (*reinterpret_cast<::RefTex * *>(&::fnv_00bebd20::DAT_011fdb40)));
     SetupRenderStates(spRenderPass);
     DAT_011fd128 = DAT_011fd104;
     DAT_011fc548 = DAT_011fc524;
@@ -7540,35 +7210,35 @@ void C17510Shader::FUN_00c17510()
     spRenderPass = DAT_01202398;
     if (spRenderPass->m_18 < 8)
     {
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 0, 1, 2, 1);
-        spRenderPass->SetStage(0, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 1, 1, 2, 1);
-        spRenderPass->SetStage(1, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 2, 1, 2, 1);
-        spRenderPass->SetStage(2, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 3, 1, 2, 1);
-        spRenderPass->SetStage(3, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 4, 1, 2, 1);
-        spRenderPass->SetStage(4, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 5, 3, 2, 1);
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(0, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 1, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(1, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 2, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(2, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 3, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(3, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 4, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(4, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 5, 3, 2, 1);
         spStage.m_p->m_08 = DAT_011f9534;
         spStage.m_p->m_0c = 1;
-        spRenderPass->SetStage(5, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 6, 1, 2, 1);
-        spRenderPass->SetStage(6, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 7, 3, 2, 1);
-        spRenderPass->SetStage(7, spStage.m_p);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(5, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 6, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(6, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 7, 3, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(spStage.m_p));
     }
     AssignTex(spRenderPass->m_5c, m_d4);
-    AssignTex(spRenderPass->m_44, DAT_011fdb4c);
+    AssignTex(spRenderPass->m_44, (*reinterpret_cast<::RefTex * *>(&::DAT_011fdb4c)));
     SetupRenderStates(spRenderPass);
     DAT_011fcefc = DAT_011fced4;
     DAT_011fc31c = DAT_011fc2f4;
@@ -7579,35 +7249,35 @@ void C17510Shader::FUN_00c17510()
     spRenderPass = DAT_0120239c;
     if (spRenderPass->m_18 < 8)
     {
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 0, 1, 2, 1);
-        spRenderPass->SetStage(0, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 1, 1, 2, 1);
-        spRenderPass->SetStage(1, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 2, 1, 2, 1);
-        spRenderPass->SetStage(2, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 3, 1, 2, 1);
-        spRenderPass->SetStage(3, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 4, 1, 2, 1);
-        spRenderPass->SetStage(4, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 5, 3, 2, 1);
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(0, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 1, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(1, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 2, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(2, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 3, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(3, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 4, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(4, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 5, 3, 2, 1);
         spStage.m_p->m_08 = DAT_011f9534;
         spStage.m_p->m_0c = 1;
-        spRenderPass->SetStage(5, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 6, 1, 2, 1);
-        spRenderPass->SetStage(6, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 7, 3, 2, 1);
-        spRenderPass->SetStage(7, spStage.m_p);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(5, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 6, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(6, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 7, 3, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(spStage.m_p));
     }
     AssignTex(spRenderPass->m_5c, m_d8);
-    AssignTex(spRenderPass->m_44, DAT_011fdb58);
+    AssignTex(spRenderPass->m_44, (*reinterpret_cast<::RefTex * *>(&::DAT_011fdb58)));
     SetupRenderStates(spRenderPass);
     DAT_011fcf28 = DAT_011fcf00;
     DAT_011fc348 = DAT_011fc320;
@@ -7618,35 +7288,35 @@ void C17510Shader::FUN_00c17510()
     spRenderPass = DAT_012023a0;
     if (spRenderPass->m_18 < 8)
     {
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 0, 1, 2, 1);
-        spRenderPass->SetStage(0, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 1, 1, 2, 1);
-        spRenderPass->SetStage(1, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 2, 1, 2, 1);
-        spRenderPass->SetStage(2, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 3, 1, 2, 1);
-        spRenderPass->SetStage(3, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 4, 1, 2, 1);
-        spRenderPass->SetStage(4, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 5, 3, 2, 1);
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(0, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 1, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(1, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 2, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(2, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 3, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(3, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 4, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(4, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 5, 3, 2, 1);
         spStage.m_p->m_08 = DAT_011f9534;
         spStage.m_p->m_0c = 1;
-        spRenderPass->SetStage(5, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 6, 1, 2, 1);
-        spRenderPass->SetStage(6, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 7, 3, 2, 1);
-        spRenderPass->SetStage(7, spStage.m_p);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(5, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 6, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(6, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 7, 3, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(spStage.m_p));
     }
     AssignTex(spRenderPass->m_5c, m_dc);
-    AssignTex(spRenderPass->m_44, DAT_011fdb64);
+    AssignTex(spRenderPass->m_44, (*reinterpret_cast<::RefTex * *>(&::DAT_011fdb64)));
     SetupRenderStates(spRenderPass);
     DAT_011fcf54 = DAT_011fcf2c;
     DAT_011fc374 = DAT_011fc34c;
@@ -7657,35 +7327,35 @@ void C17510Shader::FUN_00c17510()
     spRenderPass = DAT_012023a4;
     if (spRenderPass->m_18 < 8)
     {
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 0, 1, 2, 1);
-        spRenderPass->SetStage(0, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 1, 1, 2, 1);
-        spRenderPass->SetStage(1, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 2, 1, 2, 1);
-        spRenderPass->SetStage(2, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 3, 1, 2, 1);
-        spRenderPass->SetStage(3, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 4, 1, 2, 1);
-        spRenderPass->SetStage(4, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 5, 3, 2, 1);
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(0, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 1, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(1, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 2, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(2, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 3, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(3, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 4, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(4, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 5, 3, 2, 1);
         spStage.m_p->m_08 = DAT_011f9534;
         spStage.m_p->m_0c = 1;
-        spRenderPass->SetStage(5, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 6, 1, 2, 1);
-        spRenderPass->SetStage(6, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 7, 3, 2, 1);
-        spRenderPass->SetStage(7, spStage.m_p);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(5, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 6, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(6, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 7, 3, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(spStage.m_p));
     }
     AssignTex(spRenderPass->m_5c, m_e0);
-    static_cast<PassMethods*>(spRenderPass.m_p)->SetVertexShader(DAT_011fdb70);
+    reinterpret_cast<::BSShaderBloodSplatter *>((static_cast<PassMethods*>(spRenderPass.m_p)))->FUN_00b80600((::NiRefObject *)((*reinterpret_cast<::RefTex * *>(&::DAT_011fdb70))));
     SetupRenderStates(spRenderPass);
     DAT_011fcf80 = DAT_011fcf58;
     DAT_011fc3a0 = DAT_011fc378;
@@ -7696,27 +7366,27 @@ void C17510Shader::FUN_00c17510()
     spRenderPass = DAT_012023a8;
     if (spRenderPass->m_18 < 4)
     {
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 0, 1, 2, 1);
-        spRenderPass->SetStage(0, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 1, 1, 2, 1);
-        spRenderPass->SetStage(1, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 2, 1, 2, 1);
-        spRenderPass->SetStage(2, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(0, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 1, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(1, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 2, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(2, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
         spStage.m_p->m_08 = DAT_011f9534;
         spStage.m_p->m_0c = 1;
-        SetupStage(spStage.m_p, 3, 3, 2, 1);
-        spRenderPass->SetStage(3, spStage.m_p);
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 3, 3, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(3, (::Stage321 *)(spStage.m_p));
     }
     {
         ShaderHandle handle = {m_e4};
-        static_cast<PassMethods*>(spRenderPass.m_p)->SetPixelShader(handle);
+        ::FUN_00b79950((char *)(static_cast<PassMethods*>(spRenderPass.m_p)), (*(int *)&(const ::ShaderHandle &)(handle)), {});
     }
-    static_cast<PassMethods*>(spRenderPass.m_p)->SetVertexShader(reinterpret_cast<RefTex*>(FUN_00c163a0(93)));
-    static_cast<PassMethods*>(spRenderPass.m_p)->SetBlend(2, 2, false);
+    reinterpret_cast<::BSShaderBloodSplatter *>((static_cast<PassMethods*>(spRenderPass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(reinterpret_cast<RefTex*>(FUN_00c163a0(93))));
+    reinterpret_cast<::NiD3DPass *>((static_cast<PassMethods*>(spRenderPass.m_p)))->SetAlphaBlendMode(2, 2, false);
     DAT_011fd15c = DAT_011fd148;
     DAT_011fc57c = DAT_011fc568;
     DAT_011fb99c = DAT_011fb988;
@@ -7726,27 +7396,27 @@ void C17510Shader::FUN_00c17510()
     spRenderPass = DAT_012023ac;
     if (spRenderPass->m_18 < 4)
     {
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 0, 1, 2, 1);
-        spRenderPass->SetStage(0, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 1, 1, 2, 1);
-        spRenderPass->SetStage(1, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 2, 1, 2, 1);
-        spRenderPass->SetStage(2, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(0, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 1, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(1, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 2, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(2, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
         spStage.m_p->m_08 = DAT_011f9534;
         spStage.m_p->m_0c = 1;
-        SetupStage(spStage.m_p, 3, 3, 2, 1);
-        spRenderPass->SetStage(3, spStage.m_p);
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 3, 3, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(3, (::Stage321 *)(spStage.m_p));
     }
     {
         ShaderHandle handle = {m_e8};
-        static_cast<PassMethods*>(spRenderPass.m_p)->SetPixelShader(handle);
+        ::FUN_00b79950((char *)(static_cast<PassMethods*>(spRenderPass.m_p)), (*(int *)&(const ::ShaderHandle &)(handle)), {});
     }
-    static_cast<PassMethods*>(spRenderPass.m_p)->SetVertexShader(reinterpret_cast<RefTex*>(FUN_00c163a0(94)));
-    static_cast<PassMethods*>(spRenderPass.m_p)->SetBlend(2, 2, false);
+    reinterpret_cast<::BSShaderBloodSplatter *>((static_cast<PassMethods*>(spRenderPass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(reinterpret_cast<RefTex*>(FUN_00c163a0(94))));
+    reinterpret_cast<::NiD3DPass *>((static_cast<PassMethods*>(spRenderPass.m_p)))->SetAlphaBlendMode(2, 2, false);
     DAT_011fd18c = DAT_011fd178;
     DAT_011fc5ac = DAT_011fc598;
     DAT_011fb9cc = DAT_011fb9b8;
@@ -7756,33 +7426,33 @@ void C17510Shader::FUN_00c17510()
     spRenderPass = DAT_012023b0;
     if (spRenderPass->m_18 < 6)
     {
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 0, 1, 2, 1);
-        spRenderPass->SetStage(spRenderPass->unk14, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 1, 1, 2, 1);
-        spRenderPass->SetStage(1, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 2, 1, 2, 1);
-        spRenderPass->SetStage(2, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(spRenderPass->unk14, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 1, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(1, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 2, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(2, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
         spStage.m_p->m_08 = DAT_011f9534;
         spStage.m_p->m_0c = 1;
-        SetupStage(spStage.m_p, 3, 3, 2, 1);
-        spRenderPass->SetStage(3, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 4, 1, 2, 1);
-        spRenderPass->SetStage(4, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 5, 1, 2, 1);
-        spRenderPass->SetStage(5, spStage.m_p);
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 3, 3, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(3, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 4, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(4, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 5, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(5, (::Stage321 *)(spStage.m_p));
     }
     {
         ShaderHandle handle = {m_ec};
-        static_cast<PassMethods*>(spRenderPass.m_p)->SetPixelShader(handle);
+        ::FUN_00b79950((char *)(static_cast<PassMethods*>(spRenderPass.m_p)), (*(int *)&(const ::ShaderHandle &)(handle)), {});
     }
-    static_cast<PassMethods*>(spRenderPass.m_p)->SetVertexShader(reinterpret_cast<RefTex*>(FUN_00c163a0(95)));
-    static_cast<PassMethods*>(spRenderPass.m_p)->SetBlend(2, 2, false);
+    reinterpret_cast<::BSShaderBloodSplatter *>((static_cast<PassMethods*>(spRenderPass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(reinterpret_cast<RefTex*>(FUN_00c163a0(95))));
+    reinterpret_cast<::NiD3DPass *>((static_cast<PassMethods*>(spRenderPass.m_p)))->SetAlphaBlendMode(2, 2, false);
     DAT_011fd1fc = DAT_011fd1e8;
     DAT_011fc61c = DAT_011fc608;
     DAT_011fba3c = DAT_011fba28;
@@ -7792,33 +7462,33 @@ void C17510Shader::FUN_00c17510()
     spRenderPass = DAT_012023b4;
     if (spRenderPass->m_18 < 6)
     {
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 0, 1, 2, 1);
-        spRenderPass->SetStage(spRenderPass->unk14, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 1, 1, 2, 1);
-        spRenderPass->SetStage(1, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 2, 1, 2, 1);
-        spRenderPass->SetStage(2, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(spRenderPass->unk14, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 1, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(1, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 2, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(2, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
         spStage.m_p->m_08 = DAT_011f9534;
         spStage.m_p->m_0c = 1;
-        SetupStage(spStage.m_p, 3, 3, 2, 1);
-        spRenderPass->SetStage(3, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 4, 1, 2, 1);
-        spRenderPass->SetStage(4, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 5, 1, 2, 1);
-        spRenderPass->SetStage(5, spStage.m_p);
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 3, 3, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(3, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 4, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(4, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 5, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(5, (::Stage321 *)(spStage.m_p));
     }
     {
         ShaderHandle handle = {m_f0};
-        static_cast<PassMethods*>(spRenderPass.m_p)->SetPixelShader(handle);
+        ::FUN_00b79950((char *)(static_cast<PassMethods*>(spRenderPass.m_p)), (*(int *)&(const ::ShaderHandle &)(handle)), {});
     }
-    static_cast<PassMethods*>(spRenderPass.m_p)->SetVertexShader(reinterpret_cast<RefTex*>(FUN_00c163a0(97)));
-    static_cast<PassMethods*>(spRenderPass.m_p)->SetBlend(2, 2, false);
+    reinterpret_cast<::BSShaderBloodSplatter *>((static_cast<PassMethods*>(spRenderPass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(reinterpret_cast<RefTex*>(FUN_00c163a0(97))));
+    reinterpret_cast<::NiD3DPass *>((static_cast<PassMethods*>(spRenderPass.m_p)))->SetAlphaBlendMode(2, 2, false);
     DAT_011fd214 = DAT_011fd200;
     DAT_011fc634 = DAT_011fc620;
     DAT_011fba54 = DAT_011fba40;
@@ -7828,33 +7498,33 @@ void C17510Shader::FUN_00c17510()
     spRenderPass = DAT_012023b8;
     if (spRenderPass->m_18 < 6)
     {
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 0, 1, 2, 1);
-        spRenderPass->SetStage(spRenderPass->unk14, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 1, 1, 2, 1);
-        spRenderPass->SetStage(1, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 2, 1, 2, 1);
-        spRenderPass->SetStage(2, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(spRenderPass->unk14, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 1, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(1, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 2, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(2, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
         spStage.m_p->m_08 = DAT_011f9534;
         spStage.m_p->m_0c = 1;
-        SetupStage(spStage.m_p, 3, 3, 2, 1);
-        spRenderPass->SetStage(3, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 4, 1, 2, 1);
-        spRenderPass->SetStage(4, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 5, 1, 2, 1);
-        spRenderPass->SetStage(5, spStage.m_p);
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 3, 3, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(3, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 4, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(4, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 5, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(5, (::Stage321 *)(spStage.m_p));
     }
     {
         ShaderHandle handle = {m_f4};
-        static_cast<PassMethods*>(spRenderPass.m_p)->SetPixelShader(handle);
+        ::FUN_00b79950((char *)(static_cast<PassMethods*>(spRenderPass.m_p)), (*(int *)&(const ::ShaderHandle &)(handle)), {});
     }
-    static_cast<PassMethods*>(spRenderPass.m_p)->SetVertexShader(reinterpret_cast<RefTex*>(FUN_00c163a0(99)));
-    static_cast<PassMethods*>(spRenderPass.m_p)->SetBlend(2, 2, false);
+    reinterpret_cast<::BSShaderBloodSplatter *>((static_cast<PassMethods*>(spRenderPass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(reinterpret_cast<RefTex*>(FUN_00c163a0(99))));
+    reinterpret_cast<::NiD3DPass *>((static_cast<PassMethods*>(spRenderPass.m_p)))->SetAlphaBlendMode(2, 2, false);
     DAT_011fd22c = DAT_011fd218;
     DAT_011fc64c = DAT_011fc638;
 
@@ -7862,33 +7532,33 @@ void C17510Shader::FUN_00c17510()
     spRenderPass = DAT_012023bc;
     if (spRenderPass->m_18 < 6)
     {
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 0, 1, 2, 1);
-        spRenderPass->SetStage(spRenderPass->unk14, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 1, 1, 2, 1);
-        spRenderPass->SetStage(1, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 2, 1, 2, 1);
-        spRenderPass->SetStage(2, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(spRenderPass->unk14, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 1, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(1, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 2, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(2, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
         spStage.m_p->m_08 = DAT_011f9534;
         spStage.m_p->m_0c = 1;
-        SetupStage(spStage.m_p, 3, 3, 2, 1);
-        spRenderPass->SetStage(3, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 4, 1, 2, 1);
-        spRenderPass->SetStage(4, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 5, 1, 2, 1);
-        spRenderPass->SetStage(5, spStage.m_p);
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 3, 3, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(3, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 4, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(4, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 5, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(5, (::Stage321 *)(spStage.m_p));
     }
     {
         ShaderHandle handle = {m_f8};
-        static_cast<PassMethods*>(spRenderPass.m_p)->SetPixelShader(handle);
+        ::FUN_00b79950((char *)(static_cast<PassMethods*>(spRenderPass.m_p)), (*(int *)&(const ::ShaderHandle &)(handle)), {});
     }
-    static_cast<PassMethods*>(spRenderPass.m_p)->SetVertexShader(reinterpret_cast<RefTex*>(FUN_00c163a0(101)));
-    static_cast<PassMethods*>(spRenderPass.m_p)->SetBlend(2, 2, false);
+    reinterpret_cast<::BSShaderBloodSplatter *>((static_cast<PassMethods*>(spRenderPass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(reinterpret_cast<RefTex*>(FUN_00c163a0(101))));
+    reinterpret_cast<::NiD3DPass *>((static_cast<PassMethods*>(spRenderPass.m_p)))->SetAlphaBlendMode(2, 2, false);
     DAT_011fd244 = DAT_011fd230;
     DAT_011fc664 = DAT_011fc650;
 
@@ -7896,33 +7566,33 @@ void C17510Shader::FUN_00c17510()
     spRenderPass = DAT_012023c0;
     if (spRenderPass->m_18 < 6)
     {
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 0, 1, 2, 1);
-        spRenderPass->SetStage(spRenderPass->unk14, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 1, 1, 2, 1);
-        spRenderPass->SetStage(1, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 2, 1, 2, 1);
-        spRenderPass->SetStage(2, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(spRenderPass->unk14, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 1, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(1, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 2, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(2, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
         spStage.m_p->m_08 = DAT_011f9534;
         spStage.m_p->m_0c = 1;
-        SetupStage(spStage.m_p, 3, 3, 2, 1);
-        spRenderPass->SetStage(3, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 4, 1, 2, 1);
-        spRenderPass->SetStage(4, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 5, 1, 2, 1);
-        spRenderPass->SetStage(5, spStage.m_p);
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 3, 3, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(3, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 4, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(4, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 5, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(5, (::Stage321 *)(spStage.m_p));
     }
     {
         ShaderHandle handle = {m_fc};
-        static_cast<PassMethods*>(spRenderPass.m_p)->SetPixelShader(handle);
+        ::FUN_00b79950((char *)(static_cast<PassMethods*>(spRenderPass.m_p)), (*(int *)&(const ::ShaderHandle &)(handle)), {});
     }
-    static_cast<PassMethods*>(spRenderPass.m_p)->SetVertexShader(reinterpret_cast<RefTex*>(FUN_00c163a0(103)));
-    static_cast<PassMethods*>(spRenderPass.m_p)->SetBlend(2, 2, false);
+    reinterpret_cast<::BSShaderBloodSplatter *>((static_cast<PassMethods*>(spRenderPass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(reinterpret_cast<RefTex*>(FUN_00c163a0(103))));
+    reinterpret_cast<::NiD3DPass *>((static_cast<PassMethods*>(spRenderPass.m_p)))->SetAlphaBlendMode(2, 2, false);
     DAT_011fd25c = DAT_011fd248;
     DAT_011fc67c = DAT_011fc668;
 
@@ -7930,44 +7600,44 @@ void C17510Shader::FUN_00c17510()
     spRenderPass = DAT_012023c4;
     if (spRenderPass->m_18 < 8)
     {
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 0, 1, 2, 1);
-        spRenderPass->SetStage(0, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 1, 1, 2, 1);
-        spRenderPass->SetStage(1, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 2, 1, 2, 1);
-        spRenderPass->SetStage(2, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 3, 1, 2, 1);
-        spRenderPass->SetStage(3, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 4, 1, 2, 1);
-        spRenderPass->SetStage(4, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 5, 3, 0, 1);
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(0, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 1, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(1, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 2, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(2, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 3, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(3, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 4, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(4, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 5, 3, 0, 1);
         spStage.m_p->m_08 = DAT_011f9534;
         spStage.m_p->m_0c = 1;
-        spRenderPass->SetStage(5, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 6, 1, 2, 1);
-        spRenderPass->SetStage(6, spStage.m_p);
-        ShaderPass::CreateStage(&spStage);
-        SetupStage(spStage.m_p, 7, 3, 0, 1);
-        spRenderPass->SetStage(7, spStage.m_p);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(5, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 6, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(6, (::Stage321 *)(spStage.m_p));
+        ::AssignStageFromPool((*(::StageReturn * *)(&spStage)));
+        ::ConfigureBeamStage((::BeamStage *)(spStage.m_p), 7, 3, 0, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(spStage.m_p));
     }
     {
         ShaderHandle handle = {m_100};
-        static_cast<PassMethods*>(spRenderPass.m_p)->SetPixelShader(handle);
+        ::FUN_00b79950((char *)(static_cast<PassMethods*>(spRenderPass.m_p)), (*(int *)&(const ::ShaderHandle &)(handle)), {});
     }
-    static_cast<PassMethods*>(spRenderPass.m_p)->SetVertexShader(reinterpret_cast<RefTex*>(FUN_00c163a0(200)));
-    spRenderPass->GetRSG()->SetRenderState(0x1b, 1, true);
-    static_cast<PassMethods*>(spRenderPass.m_p)->SetBlend(9, 1, false);
-    spRenderPass->GetRSG()->SetRenderState(15, 0, true);
-    spRenderPass->GetRSG()->SetRenderState(7, 1, true);
-    spRenderPass->GetRSG()->SetRenderState(23, 4, true);
-    spRenderPass->GetRSG()->SetRenderState(14, 0, true);
+    reinterpret_cast<::BSShaderBloodSplatter *>((static_cast<PassMethods*>(spRenderPass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(reinterpret_cast<RefTex*>(FUN_00c163a0(200))));
+    reinterpret_cast<::StateGroup *>((spRenderPass->GetRSG()))->SetNodeValue(0x1b, 1, true);
+    reinterpret_cast<::NiD3DPass *>((static_cast<PassMethods*>(spRenderPass.m_p)))->SetAlphaBlendMode(9, 1, false);
+    reinterpret_cast<::StateGroup *>((spRenderPass->GetRSG()))->SetNodeValue(15, 0, true);
+    reinterpret_cast<::StateGroup *>((spRenderPass->GetRSG()))->SetNodeValue(7, 1, true);
+    reinterpret_cast<::StateGroup *>((spRenderPass->GetRSG()))->SetNodeValue(23, 4, true);
+    reinterpret_cast<::StateGroup *>((spRenderPass->GetRSG()))->SetNodeValue(14, 0, true);
     DAT_011fd550 = DAT_011fd544;
     DAT_011fc970 = DAT_011fc964;
     DAT_011fbd90 = DAT_011fbd84;

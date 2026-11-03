@@ -5,10 +5,15 @@
 
 // src/havok/physics/collide/shape/convex/box/hkpboxshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/box/hkpboxshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FunctionContext.h"
+#include "fnv/decl/fnv_00c9e120__hkAabbUtilC9E1.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010c7000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpBoxShape.h"
 int __cdecl FUN_00c9db70();
 float __cdecl FUN_00c9e0f0(float a, float b);
-extern "C" void* DAT_0102e388;
 struct FUN_00c9db80_class
 {
     void __thiscall FUN_00c9db80();
@@ -31,22 +36,15 @@ struct FUN_00c9e1b0_class
     void* vftable;
     unsigned short size;
 
-    int FUN_00c9db80();
     void* FUN_00c9e1b0(unsigned char flags);
 };
-MemoryRouter* __cdecl _D1A0E0GetMemoryRouter();
 int __stdcall FUN_00c9e1a0(int a1, int a2);
-extern "C" int DAT_01268940;
-void __cdecl FUN_00c90360(int a, int* b);
 void __cdecl FUN_00c9db60(int a, int* b);
 struct hkAabb;
-void __cdecl ComputeAabbFromTransform(const hkTransform& transform, const hkVector4& halfExtents, hkReal tolerance,
-                                      hkAabb& out);
 struct FUN_00c9dc10_class : public hkpBoxShape
 {
     void __thiscall GetAabb(const hkTransform& transform, hkReal tolerance, hkAabb& out) const;
 };
-extern void* DAT_010c70b4;
 struct VectorExtents
 {
     float x, y, z, w;
@@ -71,6 +69,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 extern "C" __m128 _mm_and_ps(__m128, __m128);
 extern "C" __m128 _mm_xor_ps(__m128, __m128);
 extern "C" __m128 _mm_cmplt_ps(__m128, __m128);
@@ -78,7 +77,6 @@ extern "C" __m128 _mm_setzero_ps(void);
 extern "C" __m128 _mm_load_ps(const float*);
 extern "C" void _mm_store_ps(float*, __m128);
 extern "C" int _mm_movemask_ps(__m128);
-extern float DAT_010c44d0[4];
 struct S00c9dc40_Box : public hkpBoxShape
 {
     void __thiscall FUN_00c9dc40(const float* src, float* dst);

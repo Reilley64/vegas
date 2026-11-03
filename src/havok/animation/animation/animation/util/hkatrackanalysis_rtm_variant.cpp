@@ -4,6 +4,13 @@
 
 // src/havok/animation/animation/animation/util/hkatrackanalysis.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/util/hkatrackanalysis.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00cc02d0_cls.h"
+#include "fnv/decl/FloatArgStream.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/fnv_00e50ca0__FUN_00e50ca0_cls.h"
+#include "fnv/symbols_01268000.h"
 struct TrackAnalysis
 {
     int a;
@@ -33,7 +40,6 @@ struct TraceSink
     virtual void begin(unsigned int, const char*);
     virtual void end();
 };
-extern TraceSink* DAT_01268360;
 extern const char str_010ec758[];
 extern const char str_010ec724[];
 extern const char str_010ec74c[];
@@ -54,12 +60,6 @@ struct TextBuilder
     int state;
     int length;
     int bufferCapacity;
-    void FUN_00cb1600(char*, unsigned int);
-    TextBuilder* FUN_00cc01c0(const char*, int);
-    TextBuilder* FUN_00cc01c0(const char*, float);
-    void FUN_00cc02d0();
-    void WriteFloat();
-    void FUN_00cc00e0();
 };
 struct TrackStatistics
 {
@@ -155,7 +155,6 @@ struct TrackBuffers_e50650
     hkArray_e50650<float> m_kCubicCoefficient;
     hkArray_e50650<unsigned char> m_kE;
 
-    void FUN_00e50ca0();
 };
 struct hkBool_e50650
 {

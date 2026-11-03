@@ -1,5 +1,41 @@
 // bsshader/imagespacemanager.cpp: ImageSpaceManager, Derived, Host, ImageSpaceManager_b8b and more (60 functions)
 
+#include "fnv/decl/B94520Cls.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00a87900_class.h"
+#include "fnv/decl/FUN_00ba3770_struct.h"
+#include "fnv/decl/FUN_00ba3780_struct.h"
+#include "fnv/decl/FUN_00c03a20_cls.h"
+#include "fnv/decl/FUN_00e6e630_cls.h"
+#include "fnv/decl/H_00ba3840.h"
+#include "fnv/decl/ImageSpaceShaderParam.h"
+#include "fnv/decl/NiRenderer.h"
+#include "fnv/decl/NiScreenElementsDataShell.h"
+#include "fnv/decl/Pool.h"
+#include "fnv/decl/S_00b601a0_Map.h"
+#include "fnv/decl/StateGroup.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00b58000.h"
+#include "fnv/symbols_00b59000.h"
+#include "fnv/symbols_00b8a000.h"
+#include "fnv/symbols_00b8b000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0104a000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_010b0000.h"
+#include "fnv/symbols_011ad000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01202000.h"
+#include "fnv/symbols_0126f000.h"
+#include "fnv/symbols_01272000.h"
 #include "imagespacemanager_geometry.h"
 #include "imagespacemanager_types_ImageSpaceManager.h"
 #include "imagespacemanager_effect.h"
@@ -41,12 +77,11 @@ void ImageSpaceManager::SetDepthOfFieldParameters(float strength, unsigned int m
     }
 }
 
-extern ImageSpaceManager* DAT_011f91ac;
 #pragma optimize("", off)
 // @fnv 0x004e3270
 ImageSpaceManager* ImageSpaceManager::FUN_004e3270()
 {
-    return DAT_011f91ac;
+    return ::DAT_011f91ac;
 }
 #pragma optimize("", on)
 
@@ -56,12 +91,12 @@ void ImageSpaceManager::CreateMenuBackgroundGeometry()
 {
     m_pMenuBackgroundScreenElementsData = new NiScreenElementsData(false, false, 1, 1, 1, 4, 1, 2, 1);
     m_pMenuBackgroundScreenGeometry = new NiScreenElements(m_pMenuBackgroundScreenElementsData);
-    m_pMenuBackgroundScreenGeometry->GetData()->FUN_00a87ae0(4, 0, 0);
-    m_pMenuBackgroundScreenGeometry->GetData()->SetRectangleBounds(0, DAT_01012054, 1.0f, DAT_010162c0, DAT_0104a494);
-    m_pMenuBackgroundScreenGeometry->GetData()->FUN_00a88130(0, 0, 0.0f, 0.0f, 1.0f, 1.0f);
-    m_pMenuBackgroundScreenGeometry->GetData()->FUN_00a87900();
-    m_pMenuBackgroundScreenGeometry->SetName(GeometryString("Imagespace Effect Geometry"));
-    m_pMenuBackgroundScreenGeometry->UpdateSceneObject();
+    reinterpret_cast<::NiScreenElementsDataShell *>((m_pMenuBackgroundScreenGeometry->GetData()))->FUN_00a87ae0(4, 0, (const unsigned short *)(0));
+    m_pMenuBackgroundScreenGeometry->GetData()->SetRectangle(0, DAT_01012054, 1.0f, ::DAT_010162c0, DAT_0104a494);
+    m_pMenuBackgroundScreenGeometry->GetData()->SetRectangleBounds(0, 0, 0.0f, 0.0f, 1.0f, 1.0f);
+    reinterpret_cast<::FUN_00a87900_class *>((m_pMenuBackgroundScreenGeometry->GetData()))->FUN_00a87900();
+    ::AssignFixedString((char *)((m_pMenuBackgroundScreenGeometry).operator->()), (int)&(const ::NiFixedString &)(GeometryString("Imagespace Effect Geometry")), {});
+    reinterpret_cast<::FUN_00a5a040_Class *>(((m_pMenuBackgroundScreenGeometry).operator->()))->FUN_00a5a040();
     NiUpdateData update;
     update.time = 0.0f;
     update.a = false;
@@ -69,13 +104,13 @@ void ImageSpaceManager::CreateMenuBackgroundGeometry()
     update.c = false;
     update.d = false;
     update.e = false;
-    m_pMenuBackgroundScreenGeometry->Update(update);
+    reinterpret_cast<::FUN_00a59c60_cls *>(((m_pMenuBackgroundScreenGeometry).operator->()))->FUN_00a59c60((int)&(update));
 }
 
 // @fnv 0x00b8b200
 void __stdcall FUN_00b8b200(bool value)
 {
-    DAT_012023f0 = value;
+    (*reinterpret_cast<bool *>(&::g_unk012023f0)) = value;
 }
 
 // @fnv 0x00b8b130
@@ -186,7 +221,7 @@ void ImageSpaceManager::PrepareEndOfFrameEffects()
 {
     m_eEndOfFrameEffect = ImageSpaceManager__ImageSpaceEffectEnum_EFFECT_NONE;
     m_iEndOfFrameEffectCount = 0;
-    if (m_bHasEndOfFrameEffects)
+    if (::DAT_011ad884)
     {
         for (int i = 0; i < ImageSpaceManager__ImageSpaceEffectEnum_EFFECT_ENDOFFRAME_END; i++)
         {
@@ -229,9 +264,9 @@ void NiTArray<bool, NiTMallocInterface<bool> >::SetAt(unsigned int index, const 
 BSRenderedTexture* ImageSpaceManager::GetDepthRenderedTexture()
 {
     const ImageSpaceTexture& depth = m_kDepthTexture;
-    if (!depth.GetTexture())
-        m_kDepthTexture.CreateRenderTargetTexture(BSTextureManager::BSTM_RT_SCENE_DEPTH_BUFFER);
-    return depth.GetRenderedTexture();
+    if (!((::NiTexture *)(reinterpret_cast<::FUN_00ba3780_struct *>((void *)&(depth))->FUN_00ba3780())))
+        reinterpret_cast<::H_00ba3840 *>(&(m_kDepthTexture))->FUN_00ba3840((*(int *)&(const ::BSTextureManager::RenderTargetType &)(BSTextureManager::BSTM_RT_SCENE_DEPTH_BUFFER)));
+    return ((::BSRenderedTexture *)(reinterpret_cast<::FUN_00ba3770_struct *>((void *)&(depth))->FUN_00ba3770()));
 }
 
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
@@ -476,7 +511,6 @@ void __fastcall FUN_00b8bc20(char* self, int)
 class D3DRenderStateGroup
 {
   public:
-    void SetRenderState(unsigned int, unsigned int, bool);
     static D3DRenderStateGroup* __cdecl GetCurrentRenderStateGroup(void);
 };
 
@@ -487,22 +521,22 @@ void __fastcall FUN_00b8bfe0(char* pThis, int)
     char* pPass = *(char**)(pThis + 0x5c);
     if (*(D3DRenderStateGroup**)(pPass + 0x30) == 0)
         *(D3DRenderStateGroup**)(pPass + 0x30) = D3DRenderStateGroup::GetCurrentRenderStateGroup();
-    (*(D3DRenderStateGroup**)(pPass + 0x30))->SetRenderState(0x34, 1, true);
+    reinterpret_cast<::StateGroup *>(((*(D3DRenderStateGroup**)(pPass + 0x30))))->SetNodeValue(0x34, 1, true);
 
     pPass = *(char**)(pThis + 0x5c);
     if (*(D3DRenderStateGroup**)(pPass + 0x30) == 0)
         *(D3DRenderStateGroup**)(pPass + 0x30) = D3DRenderStateGroup::GetCurrentRenderStateGroup();
-    (*(D3DRenderStateGroup**)(pPass + 0x30))->SetRenderState(0x38, 7, true);
+    reinterpret_cast<::StateGroup *>(((*(D3DRenderStateGroup**)(pPass + 0x30))))->SetNodeValue(0x38, 7, true);
 
     pPass = *(char**)(pThis + 0x5c);
     if (*(D3DRenderStateGroup**)(pPass + 0x30) == 0)
         *(D3DRenderStateGroup**)(pPass + 0x30) = D3DRenderStateGroup::GetCurrentRenderStateGroup();
-    (*(D3DRenderStateGroup**)(pPass + 0x30))->SetRenderState(0x39, 0x80, true);
+    reinterpret_cast<::StateGroup *>(((*(D3DRenderStateGroup**)(pPass + 0x30))))->SetNodeValue(0x39, 0x80, true);
 
     pPass = *(char**)(pThis + 0x5c);
     if (*(D3DRenderStateGroup**)(pPass + 0x30) == 0)
         *(D3DRenderStateGroup**)(pPass + 0x30) = D3DRenderStateGroup::GetCurrentRenderStateGroup();
-    (*(D3DRenderStateGroup**)(pPass + 0x30))->SetRenderState(0x37, 1, true);
+    reinterpret_cast<::StateGroup *>(((*(D3DRenderStateGroup**)(pPass + 0x30))))->SetNodeValue(0x37, 1, true);
 }
 
 struct ShaderInitBlock_00b8c0e0
@@ -544,11 +578,10 @@ void __fastcall InitTVShader(Obj_00b8c0e0* pObj, int)
     pObj->vt->fn_14c(pObj);
 }
 
-int __cdecl FUN_00b59d30(int, int, int*);
 // @fnv 0x00b8b1c0
 int __stdcall FUN_00b8b1c0(int a, int b)
 {
-    return FUN_00b59d30(a, b, &b);
+    return ((int)(::FUN_00b59d30((::Vec4 *)(a), (::NiPoint2 *)(b), (float *)(int *)(&b))));
 }
 
 extern float DAT_012023f4;
@@ -560,7 +593,6 @@ void __stdcall FUN_00b8b1e0(const int* aiValues)
     *reinterpret_cast<int*>(&DAT_012023f8) = aiValues[1];
 }
 
-extern ImageSpaceManager* DAT_011f91ac;
 
 void __stdcall FUN_00b8b200(bool value);
 
@@ -569,7 +601,6 @@ extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 extern "C" void* __cdecl _memmove(void*, const void*, unsigned int);
 extern ImageSpaceModifierParameterData DAT_011ff940;
 extern float DAT_012003d0;
-extern float _DAT_01202400;
 
 // Copies 0x98 bytes from the object's source pointer at 0xb0 or 0xac into offset 0x14, falling back to DAT_011ff940, then zeroes two floats.
 // @fnv 0x00b8b500
@@ -579,7 +610,7 @@ void __fastcall FUN_00b8b500(void* thisPtr, int aiUnused)
     if (pSource)
     {
         _memmove((char*)thisPtr + 0x14, pSource, 0x98);
-        _DAT_01202400 = 0.0f;
+        ::DAT_01202400 = 0.0f;
         DAT_012003d0 = 0.0f;
         return;
     }
@@ -587,12 +618,12 @@ void __fastcall FUN_00b8b500(void* thisPtr, int aiUnused)
     if (pSource)
     {
         _memmove((char*)thisPtr + 0x14, pSource, 0x98);
-        _DAT_01202400 = 0.0f;
+        ::DAT_01202400 = 0.0f;
         DAT_012003d0 = 0.0f;
         return;
     }
     _memmove((char*)thisPtr + 0x14, &DAT_011ff940, 0x98);
-    _DAT_01202400 = 0.0f;
+    ::DAT_01202400 = 0.0f;
     DAT_012003d0 = 0.0f;
 }
 
@@ -620,7 +651,6 @@ struct ImageSpaceEffectShader
 
 struct NiTPrimitiveArray_ImageSpaceTexture___
 {
-    void __thiscall SetSize(unsigned int);
 };
 
 extern int DAT_010affa0;
@@ -641,29 +671,25 @@ FUN_00b8bce0::FUN_00b8bce0()
 {
     m_vtbl = &DAT_010affc0;
     m_6c = &DAT_010affa0;
-    m_ppData.SetSize(5);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_ppData))->FUN_00a90180(5);
 }
 
-extern const char g_011fed88_arg1[];
 // Returns the address of the string g_011fed88_arg1.
 // @fnv 0x00b8bd90
 const char* __cdecl GetArg1String()
 {
-    return g_011fed88_arg1;
+    return (*reinterpret_cast<const char (*)[]>(&::g_0126f554));
 }
 
 namespace fnv_00b8bea0 {
 struct NiTPrimitiveArray_ImageSpaceTexture___
 {
-    void __thiscall SetSize(unsigned int);
 };
 struct ImageSpaceEffectShader
 {
     ImageSpaceEffectShader();
     ~ImageSpaceEffectShader();
 };
-extern int DAT_010b0174;
-extern int DAT_010b0198;
 struct FUN_00b8bea0 : ImageSpaceEffectShader
 {
     int* v0;
@@ -677,9 +703,9 @@ struct FUN_00b8bea0 : ImageSpaceEffectShader
 // @fnv 0x00b8bea0
 FUN_00b8bea0::FUN_00b8bea0()
 {
-    v0 = &DAT_010b0198;
-    v6c = &DAT_010b0174;
-    arr.SetSize(2);
+    v0 = &::DAT_010b0198;
+    v6c = &::DAT_010b0174;
+    reinterpret_cast<::FUN_00a41520_cls *>(&(arr))->FUN_00a90180(2);
 }
 }  // namespace fnv_00b8bea0
 
@@ -726,7 +752,6 @@ struct ImageSpaceEffectShader
 
 struct NiTPrimitiveArray_ImageSpaceTexture___
 {
-    void __thiscall SetSize(unsigned int);
 };
 
 struct FUN_00b8c070 : ImageSpaceEffectShader
@@ -740,7 +765,7 @@ FUN_00b8c070::FUN_00b8c070()
 {
     *(int**)this = &DAT_010b0338;
     *(int**)((char*)this + 0x6c) = &DAT_010b0318;
-    m.SetSize(4);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m))->FUN_00a90180(4);
 }
 }  // namespace fnv_00b8c070
 
@@ -748,7 +773,6 @@ extern int DAT_010affa0;
 extern int DAT_010affc0;
 struct H_00c03a20
 {
-    void __thiscall FUN_00c03a20();
 };
 void __cdecl _delete(void*, unsigned int);
 struct S_00b8bd50
@@ -760,7 +784,7 @@ void* __thiscall S_00b8bd50::FUN_00b8bd50(unsigned int flags)
 {
     *(int*)this = (int)&DAT_010affc0;
     *(int*)((char*)this + 0x6c) = (int)&DAT_010affa0;
-    ((H_00c03a20*)this)->FUN_00c03a20();
+    reinterpret_cast<::FUN_00c03a20_cls *>((((H_00c03a20*)this)))->FUN_00c03a20_cls::~FUN_00c03a20_cls();
     if (flags & 1)
         _delete(this, 0xd0);
     return this;
@@ -867,12 +891,9 @@ void Host::FUN_00b8b3b0()
     }
 }
 
-extern int DAT_010b0198;
-extern int DAT_010b0174;
 void __cdecl _delete(void*, unsigned int);
 struct UnkClass
 {
-    void FUN_00c03a20();
     void* DestroyIfFlagged(unsigned int);
 };
 // Resets two vtable pointers, calls FUN_00c03a20, and deletes this with size 0xd0 when flag bit 0 is set, returning this.
@@ -881,7 +902,7 @@ void* UnkClass::DestroyIfFlagged(unsigned int auiFlags)
 {
     *(int**)this = &DAT_010b0198;
     *(int**)((char*)this + 0x6c) = &DAT_010b0174;
-    FUN_00c03a20();
+    reinterpret_cast<::FUN_00c03a20_cls *>(this)->FUN_00c03a20_cls::~FUN_00c03a20_cls();
     if (auiFlags & 1)
         _delete(this, 0xd0);
     return this;
@@ -1254,14 +1275,11 @@ struct NiPosGlobal_b8b7d0
     Vec3_b8b7d0 m8c;
 };
 
-extern NiPosGlobal_b8b7d0* DAT_011f917c;
 extern "C" double __cdecl sqrt(double);
 
-int __cdecl FUN_00b59d30(int, int, int*);
 
 struct FUN_00b8b7d0_cls
 {
-    void SetIfHigherPriority(float, int, float, float, float, float, int*);
     void FUN_00b8b7d0(float a0, int a1, float a2, float a3, Vec3_b8b7d0* p);
 };
 
@@ -1269,7 +1287,7 @@ struct FUN_00b8b7d0_cls
 void FUN_00b8b7d0_cls::FUN_00b8b7d0(float afParam0, int aiParam1, float afParam2, float afParam3,
                                     Vec3_b8b7d0* pPosition)
 {
-    NiPosGlobal_b8b7d0* g = DAT_011f917c;
+    NiPosGlobal_b8b7d0* g = (*reinterpret_cast<::NiPosGlobal_b8b7d0 * *>(&::DAT_011f917c));
     Vec3_b8b7d0 gp = g->m8c;
     Vec3_b8b7d0 pos = *pPosition;
     Vec3_b8b7d0 d;
@@ -1279,9 +1297,9 @@ void FUN_00b8b7d0_cls::FUN_00b8b7d0(float afParam0, int aiParam1, float afParam2
     float t = d.x * d.x + d.y * d.y + d.z * d.z;
     t = (float)sqrt((double)t);
     float dist = t;
-    FUN_00b59d30((int)pPosition, (int)&pos, (int*)&t);
+    ::FUN_00b59d30((::Vec4 *)((int)pPosition), (::NiPoint2 *)((int)&pos), (float *)(int *)((int*)&t));
     t = t + afParam3;
-    SetIfHigherPriority(afParam0, aiParam1, dist, dist, afParam2, t, (int*)&pos);
+    reinterpret_cast<::B8B060Request *>(this)->SetIfHigherPriority(afParam0, aiParam1, dist, dist, afParam2, t, (*(const ::B8B060Pair *)((int*)&pos)));
 }
 
 extern "C" void FUN_00ec61c0(void* a, unsigned int b, unsigned int c);
@@ -1290,7 +1308,6 @@ extern "C" void* FUN_00e7f5d0();
 class ISPassCore
 {
   public:
-    void SetNodeValue(unsigned int a, unsigned int b, unsigned int c);
 };
 
 class ISPassHolder
@@ -1443,24 +1460,22 @@ void FUN_00b8bdb0_cls::InitScanBlendPass()
     ISPassHolder* a = (ISPassHolder*)this->m_5c;
     if (a->m_30 == 0)
         a->m_30 = (ISPassCore*)FUN_00e7f5d0();
-    a->m_30->SetNodeValue(0x1b, 1, 1);
+    reinterpret_cast<::StateGroup *>((a->m_30))->SetNodeValue(0x1b, 1, 1);
     ISPassHolder* b = (ISPassHolder*)this->m_5c;
     if (b->m_30 == 0)
         b->m_30 = (ISPassCore*)FUN_00e7f5d0();
-    b->m_30->SetNodeValue(0x13, 5, 1);
+    reinterpret_cast<::StateGroup *>((b->m_30))->SetNodeValue(0x13, 5, 1);
     if (b->m_30 == 0)
         b->m_30 = (ISPassCore*)FUN_00e7f5d0();
-    b->m_30->SetNodeValue(0x14, 6, 1);
+    reinterpret_cast<::StateGroup *>((b->m_30))->SetNodeValue(0x14, 6, 1);
 }
 
 struct MemoryManager
 {
-    void Deallocate(void* p);
 };
-extern MemoryManager _g_memoryManager;
 inline void MemFree(void* p)
 {
-    _g_memoryManager.Deallocate(p);
+    reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
 }
 
 class CachedEntry : public NiRefObject
@@ -1514,22 +1529,20 @@ class CachedEntryMap
     void RemoveAll();
 };
 
-CachedEntryMap* __cdecl GetCachedEntryMap();
-void __cdecl ClearOtherCachedMap();
 
 // Clears another cached map, then walks the cached entry map releasing each entry's pointers and data, and removes all entries.
 // @fnv 0x00b59940
 void __cdecl ClearCachedEntryMap()
 {
-    ClearOtherCachedMap();
-    void* pos = GetCachedEntryMap()->GetFirstPos();
+    ::ClearMap();
+    void* pos = ((::CachedEntryMap *)(::GetNiTStringMap()))->GetFirstPos();
     const char* key;
     NiPointer<CachedEntry> spEntry;
-    if (GetCachedEntryMap()->GetCount() > 0)
+    if (((::CachedEntryMap *)(::GetNiTStringMap()))->GetCount() > 0)
     {
         while (pos)
         {
-            GetCachedEntryMap()->GetNext(pos, key, spEntry);
+            reinterpret_cast<::FUN_00e6e630_cls *>((void *)(((::CachedEntryMap *)(::GetNiTStringMap()))))->AdvanceIterator((::MapItemNode **)&(pos), (unsigned int *)&(key), (::MapValueObject **)&(spEntry));
             if (spEntry)
             {
                 spEntry->spObj08 = 0;
@@ -1541,7 +1554,7 @@ void __cdecl ClearCachedEntryMap()
                 spEntry->spObj24 = 0;
             }
         }
-        GetCachedEntryMap()->RemoveAll();
+        reinterpret_cast<::S_00b601a0_Map *>((((::CachedEntryMap *)(::GetNiTStringMap()))))->FUN_00b601a0();
     }
 }
 
@@ -1554,7 +1567,6 @@ template <> class NiTArray<ImageSpaceEffectParam*, NiTMallocInterface<ImageSpace
     unsigned short m_usSize;
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
-    void SetAt(unsigned int uiIndex, ImageSpaceEffectParam* const& element);
 };
 typedef NiTArray<ImageSpaceEffectParam*, NiTMallocInterface<ImageSpaceEffectParam*> > ParamArray_b8b;
 
@@ -1577,7 +1589,7 @@ void ImageSpaceManager_b8b::ShutdownAllEffects()
             pkEffect->Shutdown();
             pkEffect->Destroy(true);
             ImageSpaceEffectParam* pkNull = 0;
-            ((ParamArray_b8b*)&m_kEffects)->SetAt(i, pkNull);
+            reinterpret_cast<::FUN_00a41520_cls *>((((ParamArray_b8b*)&m_kEffects)))->FUN_00ba3aa0(i, (::KeyPair **)&(pkNull));
         }
     }
     for (unsigned short j = 0; j < m_kEffects.m_usSize; j++)
@@ -1586,42 +1598,33 @@ void ImageSpaceManager_b8b::ShutdownAllEffects()
     m_kEffects.m_usESize = 0;
 }
 
-extern __declspec(thread) unsigned int g_uiTlsAllocState;
 
 struct TlsAllocStateGuard
 {
     unsigned int uiSaved;
     TlsAllocStateGuard(unsigned int uiState)
     {
-        uiSaved = g_uiTlsAllocState;
-        g_uiTlsAllocState = uiState;
+        uiSaved = ::currentAllocationContext;
+        ::currentAllocationContext = uiState;
     }
     ~TlsAllocStateGuard()
     {
-        g_uiTlsAllocState = uiSaved;
+        ::currentAllocationContext = uiSaved;
     }
 };
 
 struct ImageSpaceManagerHelper : public ImageSpaceManager
 {
-    void InitShaders();
-    void InitTextures();
-    void InitParams();
     void FUN_00b977d0();
 };
 
 struct ImageSpaceShaderParamGlobal
 {
-    void Init(int, int);
 };
-extern ImageSpaceShaderParamGlobal g_01202410;
 
 struct BSTextureManagerStub
 {
-    BSRenderedTexture* CreateRenderedTexture(int, int, int, int, int);
 };
-extern BSTextureManagerStub* DAT_011f91a8;
-extern int DAT_011f4748;
 
 // Initializes shaders, textures, effects, params and a rendered texture once, guarded by a TLS alloc-state guard and a one-time flag.
 // @fnv 0x00b977d0
@@ -1630,12 +1633,12 @@ void ImageSpaceManagerHelper::FUN_00b977d0()
     TlsAllocStateGuard kGuard(0x27);
     if (!m_bEndOfFrameEffectsEnabled)
     {
-        InitShaders();
-        InitTextures();
+        reinterpret_cast<::B94520Cls *>(this)->FUN_00b94520();
+        reinterpret_cast<::ImageSpaceManager *>(this)->CreateMenuBackgroundGeometry();
         m_bEndOfFrameEffectsEnabled = true;
         SetupEffects();
-        g_01202410.Init(0, 0);
-        InitParams();
+        reinterpret_cast<::ImageSpaceShaderParam *>(&((*reinterpret_cast<::ImageSpaceShaderParamGlobal *>(&::g_01202410))))->AllocateShaderConstants(0, 0);
+        ::FUN_00b8ad70();
         RgbaColor kTint;
         kTint.b = kTint.g = kTint.r = 0.0f;
         kTint.a = 0.3f;
@@ -1645,7 +1648,7 @@ void ImageSpaceManagerHelper::FUN_00b977d0()
         m_kMenuBackgroundRect.m_fMinimumV = 1.0f;
         m_kMenuBackgroundRect.m_fMaximumV = 0.0f;
         m_pCurrentRenderedTexture = 0;
-        m_pMenuBackgroundTexture = DAT_011f91a8->CreateRenderedTexture(DAT_011f4748, 3, 0, 0, 0);
+        m_pMenuBackgroundTexture = ((::BSRenderedTexture *)(reinterpret_cast<::Pool *>(((*reinterpret_cast<::BSTextureManagerStub * *>(&::DAT_011f91a8))))->FUN_00b6e110((*reinterpret_cast<int *>(&::NiRenderer::ms_pRenderer)), 3, 0, 0, 0)));
     }
 }
 
@@ -1663,19 +1666,18 @@ unsigned char C00b8bda0::FUN_00b8bda0()
     return m4;
 }
 
-extern __declspec(thread) int g_tlsMemContext;
 
 struct ScopedMemoryContext
 {
     int iOldContext;
     ScopedMemoryContext(int aiContext)
     {
-        iOldContext = g_tlsMemContext;
-        g_tlsMemContext = aiContext;
+        iOldContext = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiContext;
     }
     ~ScopedMemoryContext()
     {
-        g_tlsMemContext = iOldContext;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = iOldContext;
     }
 };
 
@@ -1777,8 +1779,8 @@ void DerivedImageSpaceManager::FUN_00b8ccb0()
         m_kBlendedParameterData.m_afColorAndAlphaParameters[i] -= diff;
     }
 
-    FUN_00b8b540(m_kPartialRenderColor);
-    FUN_00b8b610(m_kWeatherFadeColor);
+    reinterpret_cast<::ImageSpaceManager *>(this)->ApplyTintColorParamModifier(m_kPartialRenderColor);
+    reinterpret_cast<::ImageSpaceManager *>(this)->SetFadeColorParamModifier(m_kWeatherFadeColor);
 
     float fBlurStrength = m_fWeatherBlurRadius;
     if (fBlurStrength > m_fDoubleVisionStrength)
@@ -1830,7 +1832,6 @@ void DerivedImageSpaceManager::FUN_00b8ccb0()
     }
 }
 
-extern float DAT_01202400;
 extern float DAT_012003d0;
 
 struct ImageSpaceModifierRampState
@@ -1938,8 +1939,6 @@ struct ImageSpaceEffectDepthOfFieldParams
             eMode = mode;
         }
     }
-    void FUN_00b8bc80();
-    void FUN_00b8bc20();
 };
 
 struct ImageSpaceEffectDepthRadialBlurParams
@@ -2018,7 +2017,6 @@ struct ImageSpaceEffectDepthRadialBlurParams
         m_fRampUp = rampup;
         fStart = start;
     }
-    void FUN_00b8b210(ImageSpaceEffectDepthRadialBlur__RadialBlurMode mode);
 };
 
 struct ImageSpaceModifierStrengthState
@@ -2114,11 +2112,11 @@ void FUN_00b8d020_class::FUN_00b8d020()
     pDOF->SetMode(m_eDepthOfFieldMode);
     if (m_bDepthOfFieldUsesObject)
     {
-        pDOF->FUN_00b8bc80();
+        reinterpret_cast<::FUN_00b8bc80_shell *>((pDOF))->FUN_00b8bc80();
     }
     else
     {
-        pDOF->FUN_00b8bc20();
+        ::FUN_00b8bc20((char *)(pDOF), {});
     }
 
     ImageSpaceEffectDepthRadialBlurParams* pDepthRadialBlur =
@@ -2127,7 +2125,7 @@ void FUN_00b8d020_class::FUN_00b8d020()
     pDepthRadialBlur->SetStrength(m_fBlurRadius);
     pDepthRadialBlur->SetDistance(m_fRadialBlurDistance);
     pDepthRadialBlur->SetRange(m_fRadialBlurRange);
-    pDepthRadialBlur->FUN_00b8b210(m_eRadialBlurMode);
+    ::FUN_00b8b210((char *)(pDepthRadialBlur), (*(int *)&(m_eRadialBlurMode)), {});
     pDepthRadialBlur->SetParams(m_fBlurRadius, m_fRadialBlurTransition, m_fRadialBlurStartValue);
 
     ImageSpaceModifierStrengthState* pMotionBlur =
@@ -2223,7 +2221,6 @@ struct Camera
     int unkDC, unkE0, unkE4, unkE8, unkEC, unkF0, unkF4, unkF8, unkFC;
     Viewport unk100;
 };
-extern Camera* DAT_011f9684;
 // Transforms a 3D position with the camera matrix, maps it through the viewport, and computes a capped radius from the input r offset.
 // @fnv 0x00b59d30
 NiPoint2* FUN_00b59d30(Vec4* apPoint, NiPoint2* apScreenPos, float* radius)
@@ -2293,12 +2290,10 @@ NiPoint2* FUN_00b59d30(Vec4* apPoint, NiPoint2* apScreenPos, float* radius)
     return apScreenPos;
 }
 
-void __cdecl FUN_00b59d30(int a1, int* a2, float* a3);
 class FUN_00b8b760_cls
 {
   public:
     int unk00;
-    void FUN_00b8b000(float a1, float a2, float a3, float a4, float a5, int* out);
     void FUN_00b8b760(float a1, float a2, float a3, float a4, float a5, int a6);
 };
 // Calls FUN_00b59d30 with a6 and local, then passes a3 and a5 adjusted by a6's float bits to FUN_00b8b000.
@@ -2306,8 +2301,8 @@ class FUN_00b8b760_cls
 void FUN_00b8b760_cls::FUN_00b8b760(float a1, float a2, float a3, float a4, float a5, int a6)
 {
     int local[2];
-    FUN_00b59d30(a6, local, &a5 + 1);
-    FUN_00b8b000(a1, a2, *(float*)&a6 + a3, a4, *(float*)&a6 + a5, local);
+    ::FUN_00b59d30((::Vec4 *)(a6), (::NiPoint2 *)(local), &a5 + 1);
+    reinterpret_cast<::ImageSpaceManager *>(this)->SetRadialBlurParameters(a1, a2, *(float*)&a6 + a3, a4, *(float*)&a6 + a5, (*(const ::NiPoint2 *)(local)));
 }
 
 namespace fnv_00b8b8d0 {
@@ -2319,21 +2314,19 @@ struct Point3
         return sqrtf(x * x + y * y + z * z);
     }
 };
-extern char* DAT_011f917c;
 struct ImageSpaceDistanceEffect
 {
-    void FUN_00b8b0d0(float strength, int mode, float duration, float nearDistance, float farDistance);
     void SetDistanceEffect(float strength, int mode, float duration, const Point3* position);
 };
 // Computes the distance from the position at DAT_011f917c + 0x8c and passes it as both bounds to FUN_00b8b0d0.
 // @fnv 0x00b8b8d0
 void ImageSpaceDistanceEffect::SetDistanceEffect(float strength, int mode, float duration, const Point3* position)
 {
-    const Point3 worldPosition = *reinterpret_cast<const Point3*>(DAT_011f917c + 0x8c);
+    const Point3 worldPosition = *reinterpret_cast<const Point3*>((*reinterpret_cast<char * *>(&::DAT_011f917c)) + 0x8c);
     const volatile Point3 sample = *position;
     const Point3 delta = {sample.x - worldPosition.x, sample.y - worldPosition.y, sample.z - worldPosition.z};
     const float distance = delta.Length();
-    FUN_00b8b0d0(strength, mode, duration, distance, distance);
+    reinterpret_cast<::ImageSpaceManager *>(this)->SetDepthOfFieldParameters(strength, mode, duration, distance, distance);
 }
 }  // namespace fnv_00b8b8d0
 
@@ -2393,7 +2386,6 @@ class NiCamera
     NiPoint3 pos;
 };
 
-extern NiCamera* DAT_011f917c;
 static __forceinline float Dot(NiPoint3 a, NiPoint3 b)
 {
     return a.x * b.x + a.y * b.y + a.z * b.z;
@@ -2403,7 +2395,7 @@ static __forceinline float Dot(NiPoint3 a, NiPoint3 b)
 // @fnv 0x00b8bb70
 void __stdcall FUN_00b8bb70(NiPoint3* apPoint, float* out)
 {
-    NiPoint3 g = DAT_011f917c->pos;
+    NiPoint3 g = (*reinterpret_cast<::fnv_00b8bb70::NiCamera * *>(&::DAT_011f917c))->pos;
     NiPoint3 pPoint = *apPoint;
     NiPoint3 d = pPoint - g;
     float l = sqrtf(Dot(d, d));
@@ -2412,7 +2404,6 @@ void __stdcall FUN_00b8bb70(NiPoint3* apPoint, float* out)
 }
 }  // namespace fnv_00b8bb70
 
-extern __declspec(thread) int BSAudioThreadContext;
 
 class FUN_00b8cb30_cls
 {
@@ -2424,8 +2415,8 @@ class FUN_00b8cb30_cls
 // @fnv 0x00b8cb30
 void FUN_00b8cb30_cls::FUN_00b8cb30(int mode, int aiIndex, float* apValues, float afWeight)
 {
-    int iSavedContext = BSAudioThreadContext;
-    BSAudioThreadContext = 0x27;
+    int iSavedContext = (*reinterpret_cast<int *>(&::currentAllocationContext));
+    (*reinterpret_cast<int *>(&::currentAllocationContext)) = 0x27;
 
     float* p = 0;
     switch (mode)
@@ -2462,7 +2453,7 @@ void FUN_00b8cb30_cls::FUN_00b8cb30(int mode, int aiIndex, float* apValues, floa
 
     *p = *p - (float)(*p - t) * afWeight;
 
-    BSAudioThreadContext = iSavedContext;
+    (*reinterpret_cast<int *>(&::currentAllocationContext)) = iSavedContext;
 }
 
 // Adjustor thunk for FUN_00b8bd80: "sub ecx, 0x6c; jmp FUN_00b8bd50".
@@ -2757,7 +2748,6 @@ struct TLSData
     int currentHeap;
 };
 
-extern __declspec(thread) TLSData g_tlsData;
 
 class AutoMemContext
 {
@@ -2766,13 +2756,13 @@ class AutoMemContext
 
     AutoMemContext(int newTag)
     {
-        m_iOldTag = g_tlsData.currentHeap;
-        g_tlsData.currentHeap = newTag;
+        m_iOldTag = (*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).currentHeap;
+        (*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).currentHeap = newTag;
     }
 
     ~AutoMemContext()
     {
-        g_tlsData.currentHeap = m_iOldTag;
+        (*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).currentHeap = m_iOldTag;
     }
 };
 
@@ -2792,13 +2782,13 @@ void PartialScreenGeometryReceiver::FUN_00b8c3b0(float afWidth, float afHeight,
     this->m_pMenuBackgroundScreenElements = ::new NiScreenElements(spScreenData);
     float width = afWidth * 2.0f;
     float height = afHeight * -2.0;
-    this->m_pMenuBackgroundScreenElements->GetData()->FUN_00a87ae0(4, 0, 0);
-    this->m_pMenuBackgroundScreenElements->GetData()->SetRectangleBounds(0, DAT_01012054, 1.0f, width, height);
-    this->m_pMenuBackgroundScreenElements->GetData()->FUN_00a87900();
-    this->m_pMenuBackgroundScreenElements->GetData()->FUN_00a88130(0, 0, 0.0f, 0.0f, afWidth, afHeight);
-    this->m_pMenuBackgroundScreenElements->UpdateSceneObject();
+    reinterpret_cast<::NiScreenElementsDataShell *>((this->m_pMenuBackgroundScreenElements->GetData()))->FUN_00a87ae0(4, 0, (const unsigned short *)(0));
+    this->m_pMenuBackgroundScreenElements->GetData()->SetRectangle(0, DAT_01012054, 1.0f, width, height);
+    reinterpret_cast<::FUN_00a87900_class *>((this->m_pMenuBackgroundScreenElements->GetData()))->FUN_00a87900();
+    this->m_pMenuBackgroundScreenElements->GetData()->SetRectangleBounds(0, 0, 0.0f, 0.0f, afWidth, afHeight);
+    reinterpret_cast<::FUN_00a5a040_Class *>(((this->m_pMenuBackgroundScreenElements).operator->()))->FUN_00a5a040();
     NiUpdateData updateData = {0.0f, false, false, false, false, false};
-    this->m_pMenuBackgroundScreenElements->Update(updateData);
-    this->m_pMenuBackgroundScreenElements->SetName(GeometryString("Interface Effect Partial Screen Trishape"));
+    reinterpret_cast<::FUN_00a59c60_cls *>(((this->m_pMenuBackgroundScreenElements).operator->()))->FUN_00a59c60((int)&(updateData));
+    ::AssignFixedString((char *)((this->m_pMenuBackgroundScreenElements).operator->()), (int)&(const ::NiFixedString &)(GeometryString("Interface Effect Partial Screen Trishape")), {});
     apScreenElements = this->m_pMenuBackgroundScreenElements;
 }

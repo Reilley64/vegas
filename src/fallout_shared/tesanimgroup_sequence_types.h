@@ -14,6 +14,8 @@ class NiFixedString
 {
   public:
     char* m_kHandle;
+public:
+    int IsNotEmpty() const;
 };
 class NiObject : public NiRefObject
 {

@@ -3,6 +3,7 @@
 #define FNV_MAGICCASTER_PRIVATE_ACTORVALUEOWNER_H
 
 #include "magiccaster_private_layout_support.h"
+namespace ActorValue { enum Index; }
 class ActorValueOwner
 {
   public:
@@ -18,6 +19,8 @@ class ActorValueOwner
     virtual TESForm* GetActorValueOwnerForm();
     virtual unsigned short GetActorValueOwnerType();
     Actor* GetActorOwner();
+public:
+    int GetActorValueAsInteger(::ActorValue::Index);
 };
 FNV_STATIC_ASSERT(sizeof(ActorValueOwner) == 0x4);
 #endif

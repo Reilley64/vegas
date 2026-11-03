@@ -2,6 +2,7 @@
 #ifndef FNV_EFFECTSETTING_H
 #define FNV_EFFECTSETTING_H
 
+#include "fnv/symbols_00403000.h"
 #include "statsmenu_layout_support.h"
 #include "statsmenu_BaseFormComponent.h"
 #include "statsmenu_TESDescription.h"
@@ -64,7 +65,6 @@ struct MagicEffectSystem
         };
     };
     typedef _Type::Type Type;
-    static bool IsFlagSet(Type type, unsigned int flags);
 };
 enum EffectArchetypes__ArchetypeID
 {

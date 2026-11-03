@@ -7,52 +7,55 @@
 // No @fnv markers here; the covered template members are defined and
 // marked in the header. This translation unit only forces the covered
 // COMDATs to be emitted so their bytes can be compared.
+#include "fnv/decl/DummyStruct_00631820.h"
+#include "fnv/decl/FUN_00658930_class.h"
+#include "fnv/decl/FUN_00c8ad40_cls.h"
+#include "fnv/decl/NiTObjectArrayA47.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/WorldObjectCC3.h"
+#include "fnv/decl/fnv_00a5ed10__ChildArray.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_004ed000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01272000.h"
 #include "nitarray.inl"
 void NiTArray_UnitReference()
 {
     NiTArray<ActorCombatGroup*, NiTMallocInterface<ActorCombatGroup*> >* pGroups = 0;
     ActorCombatGroup* pGroup = 0;
-    pGroups->SetAt(0, pGroup);
-    pGroups->SetSize(0);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pGroups))->SetAt(0, (char *&)(pGroup));
+    reinterpret_cast<::ViewerStrings *>((pGroups))->SetSize(0);
     pGroups->SetAtGrow(0, pGroup);
 }
 struct Arr
 {
-    unsigned int GetSize();
 };
 struct StrArr
 {
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
-    unsigned int GetSize();
 };
 struct FUN_0096aca0_shell : Arr
 {
     void ResizeAndClear(int b);
 };
 
-extern __declspec(thread) int g_tlsMemContext;
-extern void* DAT_012685c8;
-void* __cdecl FUN_00a7d330(void*);
 
 struct PrimitiveStringArray
 {
     virtual ~PrimitiveStringArray();
     void** data_at_04;
     unsigned short capacity_at_08, size_at_0a, used_at_0c, growth_at_0e;
-    void FUN_0096ad30(unsigned int);
-    void FUN_0096ae90(unsigned int, void*&);
 };
 struct MemoryContextScope
 {
     int previous;
-    __forceinline MemoryContextScope() : previous(g_tlsMemContext)
+    __forceinline MemoryContextScope() : previous((*reinterpret_cast<int *>(&::currentAllocationContext)))
     {
-        g_tlsMemContext = 16;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 16;
     }
     __forceinline ~MemoryContextScope()
     {
-        g_tlsMemContext = previous;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = previous;
     }
 };
 struct __declspec(align(16)) ScalarVector4
@@ -71,20 +74,18 @@ struct OperationParameters
 };
 struct HavokOperation
 {
-    void FUN_00c8ad40(PrimitiveStringArray*);
-    void FUN_00cc3a50(const OperationParameters*);
     void FUN_00cc4070(PrimitiveStringArray*);
 };
 // @fnv 0x00cc4070
 void HavokOperation::FUN_00cc4070(PrimitiveStringArray* array)
 {
     MemoryContextScope context;
-    FUN_00c8ad40(array);
-    void* entry = FUN_00a7d330(DAT_012685c8);
+    reinterpret_cast<::FUN_00c8ad40_cls *>(this)->FUN_00c8ad40((::BC8AD40StringArray *)(array));
+    void* entry = ((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_012685c8))))));
     unsigned int index = array->size_at_0a;
     if (index >= array->capacity_at_08)
-        array->FUN_0096ad30(index + array->growth_at_0e);
-    array->FUN_0096ae90(index, entry);
+        reinterpret_cast<::ViewerStrings *>((array))->SetSize(index + array->growth_at_0e);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((array))->SetAt(index, (char *&)(entry));
     OperationParameters parameters = {0, 0, 0, {0, 0, 0, 0}, {0, 0, 0, 0}, 0.1f, 0.01f};
-    FUN_00cc3a50(&parameters);
+    reinterpret_cast<::WorldObjectCC3 *>(this)->FUN_00cc3a50((::PropertiesCC3 *)(&parameters));
 }

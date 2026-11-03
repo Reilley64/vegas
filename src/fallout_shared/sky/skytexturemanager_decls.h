@@ -2,11 +2,12 @@
 #ifndef FNV_SKYTEXTUREMANAGER_DECLS_H
 #define FNV_SKYTEXTUREMANAGER_DECLS_H
 
+#include "fnv/symbols_00af4000.h"
+#include "fnv/symbols_01202000.h"
 #include "skytexturemanager_task_decls.h"
 
 void* __cdecl operator new(unsigned int size);
 void __cdecl operator delete(void* object);
-bool __cdecl CleanPath(const char* path, char* output, unsigned int outputSize);
 
 class SkyTextureManager
 {
@@ -38,7 +39,6 @@ class IOManager
     virtual void vfn_44();
     virtual void Unk_12(SkyTask* task);
 };
-extern IOManager* DAT_01202d98;
 
 class BSShaderManager
 {

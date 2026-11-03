@@ -2,6 +2,29 @@
 // src/fallout/magic/lighteffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/lighteffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/B5Owner.h"
+#include "fnv/decl/FUN_004534f0_shell.h"
+#include "fnv/decl/FUN_004fd380_shell.h"
+#include "fnv/decl/FUN_00950bb0_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/fnv_004bc2e0__NiDynamicEffect.h"
+#include "fnv/decl/fnv_00567400__FUN_00567400_shell.h"
+#include "fnv/decl/fnv_00572750__XActor.h"
+#include "fnv/decl/fnv_00572770__XActor.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_00b5c940__SSNode.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00495000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_006d2000.h"
+#include "fnv/symbols_0080e000.h"
+#include "fnv/symbols_00b5b000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011de000.h"
 struct FUN_0080ed20_shell
 {
     float f0;
@@ -25,7 +48,6 @@ struct Actor
 };
 struct TESForm
 {
-    void Revert(Actor* apActor);
 };
 struct LightEffect : TESForm
 {
@@ -36,7 +58,7 @@ struct LightEffect : TESForm
 // @fnv 0x0080f030
 void LightEffect::FUN_0080f030(Actor* apActor)
 {
-    TESForm::Revert(apActor);
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)(apActor));
     FUN_0080ed60();
 }
 
@@ -44,20 +66,10 @@ struct FUN_0080e6d0_shell
 {
     void FUN_0080e6d0();
 };
-void* __cdecl Deallocate(void* p);
 struct FUN_0080e6a0_shell : LightEffect
 {
     void* DestroyLightEffect(unsigned int flags);
 };
-// @fnv 0x0080e6a0
-void* FUN_0080e6a0_shell::DestroyLightEffect(unsigned int flags)
-{
-    ((FUN_0080e6d0_shell*)this)->FUN_0080e6d0();
-    if (flags & 1)
-        Deallocate(this);
-    return this;
-}
-
 struct GO
 {
     ~GO();
@@ -73,6 +85,14 @@ struct FUN_0080e6d0
     GO _m1;
     ~FUN_0080e6d0();
 };
+// @fnv 0x0080e6a0
+void* FUN_0080e6a0_shell::DestroyLightEffect(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0080e6d0 *>((((FUN_0080e6d0_shell*)this)))->FUN_0080e6d0::~FUN_0080e6d0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // Destructor for FUN_0080e6d0; destroys its FUN_00803ed0 member and GO member.
 // @fnv 0x0080e6d0
 FUN_0080e6d0::~FUN_0080e6d0()
@@ -86,7 +106,6 @@ struct NiLight;
 struct ShadowSceneLight;
 struct ShadowSceneNode
 {
-    ShadowSceneLight* GetShadowSceneLight(NiLight*, bool);
 };
 struct NiAdditionalGeometryData
 {
@@ -94,7 +113,6 @@ struct NiAdditionalGeometryData
 };
 struct FUN_00b5b4a0_holder
 {
-    int __thiscall FUN_00b5b4a0(unsigned int);
 };
 struct FUN_0080e8a0_holder
 {
@@ -109,9 +127,9 @@ void FUN_0080e8a0_holder::FUN_0080e8a0(float afSecondsElapsed)
         pnode = NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0);
         if (pnode)
         {
-            if (!((FUN_00b5b4a0_holder*)pnode)->FUN_00b5b4a0((unsigned int)(*(Flt*)((char*)this + 0x48))))
+            if (!((int)(::FUN_00b5b4a0((::FUN_00b5b4a0_self *)(((FUN_00b5b4a0_holder*)pnode)), (unsigned int)(*(Flt*)((char*)this + 0x48)), {}))))
             {
-                pnode->GetShadowSceneLight((NiLight*)(unsigned int)(*(Flt*)((char*)this + 0x48)), true);
+                reinterpret_cast<::fnv_00b5c940::SSNode *>((pnode))->FUN_00b5c940((::fnv_00b5c940::NiLightObj *)(::NiLight *)((NiLight*)(unsigned int)(*(Flt*)((char*)this + 0x48))), true);
             }
         }
     }
@@ -155,6 +173,7 @@ void FUN_0080efd0_shell::FUN_0080efd0(Actor* apActor)
 }
 
 class BGSLoadFormBuffer;
+class EffectSetting;
 struct ActiveEffect
 {
     virtual void ApplyLoadBuffer(BGSLoadFormBuffer*);
@@ -178,6 +197,10 @@ struct ActiveEffect
     virtual void vf18();
     virtual void vf19();
     virtual void vf20();
+public:
+    ::EffectSetting *GetEffectSetting() const;
+public:
+    void CopyData(::ActiveEffect *);
 };
 struct LightEffectStandIn : ActiveEffect
 {
@@ -272,13 +295,12 @@ struct FUN_0080e7e0_Class : ActiveEffect
     void* unk40;
     void* unk44;
     CopiedState state48;
-    void FUN_00804090(ActiveEffect* other);
     void FUN_0080e7e0(ActiveEffect* other);
 };
 // @fnv 0x0080e7e0
 void FUN_0080e7e0_Class::FUN_0080e7e0(ActiveEffect* other)
 {
-    FUN_00804090(other);
+    reinterpret_cast<::ActiveEffect *>(this)->CopyData(other);
     LightEffect* effect = dynamic_cast<LightEffect*>(other);
     if (effect)
     {
@@ -329,57 +351,25 @@ struct Effect
 };
 struct Source
 {
-    Effect* FUN_00822b40();
 };
 struct Host
 {
-    Source* FUN_0059bb30();
     void FUN_0080e830();
 };
-void __cdecl FUN_0080ee50(int* value);
-// Gets an Effect via FUN_0059bb30()->FUN_00822b40() and, if non-null, passes its field94 to FUN_0080ee50.
-// @fnv 0x0080e830
-void Host::FUN_0080e830()
-{
-    Effect* effect = FUN_0059bb30() ? FUN_0059bb30()->FUN_00822b40() : 0;
-    if (effect)
-        FUN_0080ee50(effect ? &effect->field94 : 0);
-}
-
 struct FUN_0080e900_inner
 {
-    void* FUN_00822b40();
 };
 
 struct FUN_0080e900_cls
 {
-    void FUN_0080ed60();
-    FUN_0080e900_inner* FUN_0059bb30();
     void FUN_0080e900();
 };
 
-void __cdecl FUN_0080ee50(char* p);
-
-// @fnv 0x0080e900
-void FUN_0080e900_cls::FUN_0080e900()
-{
-    FUN_0080ed60();
-    char* a = FUN_0059bb30() != 0 ? (char*)FUN_0059bb30()->FUN_00822b40() : 0;
-    if (a != 0)
-    {
-        FUN_0080ee50(a != 0 ? a + 0x94 : 0);
-    }
-}
 
 extern int DAT_011dc304;
 
 struct EdCallee
 {
-    void* FUN_0059bb30();
-    void* FUN_00822b40();
-    void* FUN_00559450();
-    void* FUN_009611e0();
-    void FUN_00b5eed0(void* apArg);
     void FUN_00572a50(int aiArg);
     void FUN_0066b0d0(int aiArg);
 };
@@ -387,39 +377,6 @@ struct EdCallee
 void* __cdecl FUN_00450b80(int aiArg);
 
 typedef void(__thiscall* EdVirtual)(void* self, void* apArg);
-
-// @fnv 0x0080ed60
-void LightEffect::FUN_0080ed60()
-{
-    void* pActor2;
-    void* pTmp;
-    void* pObj;
-    pActor2 = ((EdCallee*)this)->FUN_0059bb30() ? ((EdCallee*)((EdCallee*)this)->FUN_0059bb30())->FUN_00822b40() : 0;
-
-    if (((EdCallee*)((char*)this + 0x48))->FUN_00559450() != 0)
-    {
-        pTmp = FUN_00450b80(0);
-        if (pTmp != 0)
-        {
-            ((EdCallee*)pTmp)->FUN_00b5eed0(((EdCallee*)((char*)this + 0x48))->FUN_00559450());
-        }
-        pObj = ((EdCallee*)((EdCallee*)((char*)this + 0x48))->FUN_00559450())->FUN_009611e0();
-        if (pObj != 0)
-        {
-            ((EdVirtual)(*(void***)pObj)[58])(pObj, ((EdCallee*)((char*)this + 0x48))->FUN_00559450());
-        }
-        if (pActor2 != 0)
-        {
-            ((EdCallee*)pActor2)->FUN_00572a50(1);
-        }
-        ((EdCallee*)((char*)this + 0x48))->FUN_0066b0d0(0);
-        DAT_011dc304 = DAT_011dc304 - 1;
-        if (DAT_011dc304 < 0)
-        {
-            DAT_011dc304 = 0;
-        }
-    }
-}
 
 struct NiPointLight;
 class NiNode;
@@ -522,7 +479,6 @@ class NiPointLight : public FUN_004bc1f0_S
     static void* operator new(unsigned int size);
     static void operator delete(void* p);
     NiPointLight();
-    void SetEffectColor(const NiPoint3&);
     void FUN_0050dd50(const NiPoint3&);
     void FUN_0050dd20(float);
 };
@@ -714,35 +670,27 @@ struct ActorStandIn
 
 struct ActorV_S
 {
-    float GetScale();
-    float GetActorHeight() const;
 };
 
 struct ActorCalls
 {
-    int FUN_00572750();
-    void FUN_00572770(NiPointLight*);
 };
 
 class PlayerCharacter
 {
   public:
-    NiNode* GetNode(bool);
 };
 
-extern PlayerCharacter* _g_thePlayer;
 
 class GlobalObject2_0040c150
 {
   public:
-    int* Int();
 };
 extern GlobalObject2_0040c150 g_011d1d18;
 
 class GlobalObject_0040e0b0
 {
   public:
-    float* Float();
 };
 extern GlobalObject_0040e0b0 g_011d1980;
 extern GlobalObject_0040e0b0 g_011d1a30;
@@ -759,11 +707,9 @@ template <class T> class SettingT
   public:
     SETTING_VALUE* Float();
 };
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting1112;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting1166;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting1167;
 
-void FNV_Warning(const char* fmt, ...);
 
 class TESObjectLIGH
 {
@@ -776,23 +722,72 @@ struct FUN_005e3fc0_shell
 
 struct PathingRequest
 {
-    float GetFieldB4Float();
 };
 
 struct EffectSetting
 {
-    TESObjectLIGH* GetLight();
 };
 
 struct FUN_0082ccb0_Cls
 {
-    EffectSetting* GetEffectSetting();
 };
 
+class Actor;
 struct MagicTarget
 {
-    Actor* FUN_00822b40();
+public:
+    ::Actor *GetOwnerActor() const;
 };
+// Gets an Effect via FUN_0059bb30()->FUN_00822b40() and, if non-null, passes its field94 to FUN_0080ee50.
+// @fnv 0x0080e830
+void Host::FUN_0080e830()
+{
+    Effect* effect = ((::Source *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::Effect *)(reinterpret_cast<::MagicTarget *>((((::Source *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
+    if (effect)
+        ::FUN_0080ee50((::MagicTarget *)(int *)(effect ? &effect->field94 : 0));
+}
+// @fnv 0x0080e900
+void FUN_0080e900_cls::FUN_0080e900()
+{
+    reinterpret_cast<::LightEffect *>(this)->FUN_0080ed60();
+    char* a = ((::FUN_0080e900_inner *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) != 0 ? (char*)((void *)(reinterpret_cast<::MagicTarget *>((((::FUN_0080e900_inner *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
+    if (a != 0)
+    {
+        ::FUN_0080ee50((::MagicTarget *)(char *)(a != 0 ? a + 0x94 : 0));
+    }
+}
+// @fnv 0x0080ed60
+void LightEffect::FUN_0080ed60()
+{
+    void* pActor2;
+    void* pTmp;
+    void* pObj;
+    pActor2 = ((void *)(reinterpret_cast<::ActorMover *>((((EdCallee*)this)))->GetCurrentMoveModeType())) ? ((void *)(reinterpret_cast<::MagicTarget *>((((EdCallee*)((void *)(reinterpret_cast<::ActorMover *>((((EdCallee*)this)))->GetCurrentMoveModeType())))))->GetOwnerActor())) : 0;
+
+    if (((void *)(::FUN_00559450((int *)(((EdCallee*)((char*)this + 0x48)))))) != 0)
+    {
+        pTmp = FUN_00450b80(0);
+        if (pTmp != 0)
+        {
+            reinterpret_cast<::B5Owner *>((((EdCallee*)pTmp)))->FUN_00b5eed0((unsigned int)(((void *)(::FUN_00559450((int *)(((EdCallee*)((char*)this + 0x48))))))));
+        }
+        pObj = ((void *)(reinterpret_cast<::FUN_009611e0_shell *>((((EdCallee*)((void *)(::FUN_00559450((int *)(((EdCallee*)((char*)this + 0x48)))))))))->FUN_009611e0()));
+        if (pObj != 0)
+        {
+            ((EdVirtual)(*(void***)pObj)[58])(pObj, ((void *)(::FUN_00559450((int *)(((EdCallee*)((char*)this + 0x48)))))));
+        }
+        if (pActor2 != 0)
+        {
+            ((EdCallee*)pActor2)->FUN_00572a50(1);
+        }
+        ((EdCallee*)((char*)this + 0x48))->FUN_0066b0d0(0);
+        DAT_011dc304 = DAT_011dc304 - 1;
+        if (DAT_011dc304 < 0)
+        {
+            DAT_011dc304 = 0;
+        }
+    }
+}
 
 struct LightEffectDerived : ActiveEffect
 {
@@ -815,8 +810,6 @@ struct LightEffectDerived : ActiveEffect
     int unk44;
     NiPointer<NiPointLight> m_spLight;  // offset 0x48
 
-    MagicTarget* FUN_0059bb30();
-    float GetFloatAtOffset1C();
 
     void AttachLightEffect();
 };
@@ -824,14 +817,14 @@ struct LightEffectDerived : ActiveEffect
 // @fnv 0x0080e970
 void LightEffectDerived::AttachLightEffect()
 {
-    Actor* pTarget3 = this->FUN_0059bb30() ? this->FUN_0059bb30()->FUN_00822b40() : 0;
-    if (!this->m_spLight && pTarget3 && !((ActorCalls*)pTarget3)->FUN_00572750() && DAT_011dc304 <= *g_011d1d18.Int())
+    Actor* pTarget3 = ((::MagicTarget *)(reinterpret_cast<::ActorMover *>((this))->GetCurrentMoveModeType())) ? ((::MagicTarget *)(reinterpret_cast<::ActorMover *>((this))->GetCurrentMoveModeType()))->GetOwnerActor() : 0;
+    if (!this->m_spLight && pTarget3 && !((int)(reinterpret_cast<::fnv_00572750::XActor *>((((ActorCalls*)pTarget3)))->FUN_00572750())) && DAT_011dc304 <= *((int *)&(::FUN_0043d4d0((int *)&(g_011d1d18)))))
     {
-        TESObjectLIGH* pLightTmp = ((FUN_0082ccb0_Cls*)this)->GetEffectSetting()->GetLight();
+        TESObjectLIGH* pLightTmp = ((::TESObjectLIGH *)(reinterpret_cast<::FUN_004fd380_shell *>((reinterpret_cast<::ActiveEffect *>((((FUN_0082ccb0_Cls*)this)))->GetEffectSetting()))->FUN_004fd380()));
         if (!pLightTmp)
         {
-            FNV_Warning(
-                "EDITOR: Light Effect has no Light object associated with it. Use the editor to select a light in the Magic Effects window for the Light effect.");
+            ::FUN_005b5e40(
+                );
             return;
         }
 
@@ -842,33 +835,33 @@ void LightEffectDerived::AttachLightEffect()
                              (float)(unsigned char)(((unsigned short)color4 >> 8) & 0xff),
                              (float)(unsigned char)((color4 >> 16) & 0xff));
         colorPoint4.DivideByScalar(255.0f);
-        this->m_spLight->SetEffectColor(colorPoint4);
+        reinterpret_cast<::fnv_004bc2e0::NiDynamicEffect *>(((this->m_spLight).operator->()))->SetEffectColor((const ::fnv_004bc2e0::NiColor &)(colorPoint4));
 
-        float fValX = (*g_011d1980.Float() + this->GetFloatAtOffset1C()) * originalRuntimeFloatSetting1112.Float()->f;
+        float fValX = (*((float *)&(::FUN_00403e20((float *)&(g_011d1980)))) + ::GetFloatAtOffset1C((char *)(this))) * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1112))))->f;
         NiPoint3 offsetPoint5(fValX, 0.0f, 0.0f);
         this->m_spLight->FUN_0050dd50(offsetPoint5);
 
-        this->m_spLight->FUN_0050dd20(((PathingRequest*)pLightTmp)->GetFieldB4Float());
+        this->m_spLight->FUN_0050dd20(::GetFieldB4Float((char *)(((PathingRequest*)pLightTmp))));
 
         ShadowSceneNode* aPScene = (ShadowSceneNode*)FUN_00450b80(0);
         if (aPScene)
         {
-            aPScene->GetShadowSceneLight((NiLight*)this->m_spLight.get(), true);
+            reinterpret_cast<::fnv_00b5c940::SSNode *>((aPScene))->FUN_00b5c940((::fnv_00b5c940::NiLightObj *)(::NiLight *)((NiLight*)((::NiPointLight *)(::FUN_00559450((int *)&(this->m_spLight))))), true);
         }
 
-        float fX = *g_011d1a30.Float() * ((ActorV_S*)pTarget3)->GetScale();
+        float fX = *((float *)&(::FUN_00403e20((float *)&(g_011d1a30)))) * reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((((ActorV_S*)pTarget3)))->FUN_00567400();
 
-        float fY = (((ActorStandIn*)pTarget3)->GetPos().f1 + originalRuntimeFloatSetting1166.Float()->f) *
-                   ((ActorV_S*)pTarget3)->GetScale();
-        float fZ = ((ActorV_S*)pTarget3)->GetActorHeight() +
-                   originalRuntimeFloatSetting1167.Float()->f * ((ActorV_S*)pTarget3)->GetScale();
+        float fY = (((ActorStandIn*)pTarget3)->GetPos().f1 + ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1166))))->f) *
+                   reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((((ActorV_S*)pTarget3)))->FUN_00567400();
+        float fZ = reinterpret_cast<::fnv_008853a0::FUN_008853a0_shell *>((void *)(((ActorV_S*)pTarget3)))->GetActorHeight() +
+                   ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1167))))->f * reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((((ActorV_S*)pTarget3)))->FUN_00567400();
 
-        ((FUN_004bc1f0_S*)this->m_spLight.get())->FUN_004bc1f0(fX, fY, fZ);
+        ((FUN_004bc1f0_S*)((::NiPointLight *)(::FUN_00559450((int *)&(this->m_spLight)))))->FUN_004bc1f0(fX, fY, fZ);
 
-        NiPointer<NiNode> spNode3((pTarget3 == (Actor*)_g_thePlayer) ? _g_thePlayer->GetNode(false)
+        NiPointer<NiNode> spNode3((pTarget3 == (Actor*)_g_thePlayer) ? ((::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>((_g_thePlayer))->FUN_00950bb0(false)))
                                                                      : ((ActorStandIn*)pTarget3)->Get3D());
         spNode3->AttachChildInAvailableSlot(this->m_spLight, true);
-        ((ActorCalls*)pTarget3)->FUN_00572770(this->m_spLight);
+        reinterpret_cast<::fnv_00572770::XActor *>((((ActorCalls*)pTarget3)))->FUN_00572770(this->m_spLight);
         ++DAT_011dc304;
     }
 }

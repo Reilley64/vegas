@@ -7,15 +7,52 @@
 // to their real unit once identified.
 // src/staging/blk_00ce0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C89AC0_Owner.h"
+#include "fnv/decl/Cls_c7f4e0.h"
+#include "fnv/decl/D06D50Finder.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00cb24c0_cls.h"
+#include "fnv/decl/FUN_00d86220_Class.h"
+#include "fnv/decl/MapperInitialization.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/Quat74.h"
+#include "fnv/decl/RotationRows.h"
+#include "fnv/decl/ShapeData.h"
+#include "fnv/decl/Transform.h"
+#include "fnv/decl/fnv_00ce5370__FUN_00ce5370_cls.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00ce0000.h"
+#include "fnv/symbols_00ce2000.h"
+#include "fnv/symbols_00ce4000.h"
+#include "fnv/symbols_00ce5000.h"
+#include "fnv/symbols_00cf0000.h"
+#include "fnv/symbols_00cf4000.h"
+#include "fnv/symbols_00cf6000.h"
+#include "fnv/symbols_00cf7000.h"
+#include "fnv/symbols_00cfb000.h"
+#include "fnv/symbols_00cfc000.h"
+#include "fnv/symbols_00d27000.h"
+#include "fnv/symbols_00d86000.h"
+#include "fnv/symbols_00d87000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_01032000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010cc000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01272000.h"
 #include "../../include/layout_support.h"
 extern int DAT_010cc164;
-void __cdecl FUN_00d86220();
 struct FUN_00cf45d0_class {
     int vtable;
     FUN_00cf45d0_class();
 };
 struct hkReferencedObject {
-    void RetainReference();
 };
 struct FUN_00cf4ca0_class {
     int m_auiShapeKeys[6];
@@ -24,18 +61,13 @@ struct FUN_00cf4ca0_class {
     void FUN_00cf4ca0();
 };
 struct FUN_00d06d50_cls {
-    int __thiscall FindClass(int);
 };
-extern "C" void __cdecl FUN_00cf6920(int, int, int);
 void __cdecl FUN_00cf6950(int a, int b);
 struct FUN_00cf86f0_class {
     int IsFieldEqual();
 };
-unsigned short FUN_00cfcb80(unsigned short a, unsigned short b);
 extern int DAT_010cb864;
 struct FUN_00ce4ae0_cls {
-    int __thiscall FUN_00ce4ae0(int);
-    void __thiscall FUN_00ce5310();
 };
 struct FUN_00ce4a20_cls {
     int m_kPointA;
@@ -45,14 +77,12 @@ struct FUN_00ce4a20_cls {
     int __thiscall FUN_00ce4a20(int a);
 };
 extern int DAT_0102e378;
-void __cdecl FUN_00cf69a0(int* a);
 struct FUN_00cf69c0_class {
     int m_kPointA;
     int m_auiShapeKeys;
     int m_kPointB;
     int __thiscall FUN_00cf69c0(int a);
 };
-int __cdecl FUN_00cb0fa0(int a, int b);
 struct FUN_00cf86e0_class {
     void FUN_00cf86e0(float f);
 };
@@ -65,7 +95,6 @@ struct FUN_00cf4820_class {
     int m4;
     FUN_00cf4820_class();
 };
-extern int DAT_0102e388;
 struct FUN_00cf86d0_cls {
     void FUN_00cf86d0();
 };
@@ -74,10 +103,8 @@ struct FUN_00cf86d0_cls {
 //   - calls the constructor of the sub-object living at this+0x10,
 //   - then installs the vtable pointer of the derived class at [this].
 extern int DAT_010cb864;
-extern int DAT_0102e388;
 // Sub-object at +0x10; FUN_00ce5370 is the game's constructor for it.
 struct FUN_00ce5370_cls {
-    void FUN_00ce5370();
 };
 struct FUN_00ce29e0_cls {
     int* m_pVTable;          // +0x00
@@ -93,8 +120,6 @@ struct FnvProbe {
     int m_04;
     int m_08;
     int m_0c;
-    unsigned char* Match(FnvSpawnedObject** ref);
-    unsigned char* Check(FnvSpawnedObject** ref);
 };
 struct FnvSpawnedObject {
     int m_00;
@@ -103,13 +128,8 @@ struct FnvSpawnedObject {
     int m_0c;
     FnvProbe m_10;
     FnvProbe m_20;
-    unsigned char* Check(FnvSpawnedObject** ref);
 };
-bool __cdecl FUN_00ce2a00(int unused, FnvSpawnedObject* obj);
-void __cdecl FUN_00ce2ca0(int a1, int a2, int* a3, int a4);
 void __cdecl FUN_00ce2cf0(int param_1, int param_2, int param_3);
-void __cdecl FUN_00ce3090(int a1, int a2, int a3, int a4, int a5, int a6);
-void __cdecl FUN_00ce4330(int a1, int a2, int a3, int a4);
 struct FnvKeyRec {
     unsigned short m_iOwnerObjectOffset;
     int unk04;
@@ -135,7 +155,6 @@ struct FUN_00ce5480_cls {
     int m_uiItemCount;
 };
 void* __cdecl FindKeyRecord(unsigned short aKey, FUN_00ce5480_cls* pBox);
-void __cdecl FUN_00d86160(void* stream, void* self);
 struct DragBinaryStreamView {
     void* vtable;
     unsigned int absolutePosition;
@@ -162,7 +181,6 @@ struct FUN_00cf4490_cls {
     void FUN_00cf4490(void* stream);
 };
 struct CpuOpaque;
-extern CpuOpaque DAT_01268740;
 CpuOpaque* __cdecl FUN_00cf45f0();
 struct PacketSerializer {
     int metadata, bytesWritten, reserved;
@@ -170,18 +188,16 @@ struct PacketSerializer {
     Fn write;
 };
 struct SerializedObject { int base00,base04,base08,base0C,base10,word14,word18;void __thiscall SerializeToStream(int source); };
-extern "C" void __cdecl FUN_00d86160(int,SerializedObject*);
 // Save a Havok-wrapped object: write its type id, then let a type-specific saver write the rest.
-extern __declspec(thread) int g_iCF4BC0AllocTag;
 struct CF4BC0AllocTagScope {
     int m_iSaved;
 
     CF4BC0AllocTagScope(int aiAllocationTag)
     {
-        m_iSaved = g_iCF4BC0AllocTag;
-        g_iCF4BC0AllocTag = aiAllocationTag;
+        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
     }
-    ~CF4BC0AllocTagScope() { g_iCF4BC0AllocTag = m_iSaved; }
+    ~CF4BC0AllocTagScope() { (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved; }
 };
 class CF4BC0BinaryStream {
 public:
@@ -379,12 +395,7 @@ public:
     virtual void Unk_02();
     virtual void SaveBinary(CF4BC0Stream& kStream);
 
-    void SetObject(CF4BC0Object* pkObject);
 };
-CF4BC0Saver* __cdecl CF4BC0CreateSaver(unsigned int uiType);
-void __cdecl FUN_00cf4bc0(CF4BC0Stream& kStream, CF4BC0Object* pkObject);
-extern int DAT_010cc2fc;
-extern int DAT_0102e388;
 struct AudioAllocator {
     virtual void v00();
     virtual void v04();
@@ -400,7 +411,6 @@ struct AudioHolder {
 AudioHolder* __cdecl FUN_00c85750() throw();
 struct SubObject_b3813 {
     int unk00;
-    void Release();
 };
 struct FUN_00cf4eb0_cls {
     int m_vptr;
@@ -450,7 +460,6 @@ struct FUN_00cf4f70_src
     int* m_00;
     int m_04;
 };
-int __cdecl CountBitsInWords(int* data, int count);
 class FUN_00cf4f70_cls
 {
 public:
@@ -483,11 +492,8 @@ struct FUN_00cf6980_class {
     virtual void FUN_00cf6980(int);
 };
 void __cdecl FUN_00cf6980(FUN_00cf6980_class* object);
-extern int DAT_01268748;
 int* __cdecl FUN_00cf6990();
 extern int DAT_0102e378;
-int* __cdecl FUN_00cf69b0();
-extern int DAT_01268794;
 extern "C" __declspec(dllimport) void __stdcall FUN_00fdf05c(int value);
 extern "C" __declspec(dllimport) void __stdcall FUN_00fdf100(int value);
 struct S_00cf6b50_Foo {
@@ -537,12 +543,10 @@ struct FUN_00cf8710_cls
 };
 class MemoryManager {
 public:
-    void* Allocate(unsigned int size);
 };
-extern MemoryManager _g_memoryManager;
 class CF4840Saver {
 public:
-    void* operator new(unsigned int size) { return _g_memoryManager.Allocate(size); }
+    void* operator new(unsigned int size) { return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size); }
     virtual void DeleteThis(bool bFree);
     int unk04;
     int unk08;
@@ -560,22 +564,19 @@ struct Saver09 : CF4840Saver { Saver09() throw(); };
 struct Saver10 : CF4840Saver { Saver10() throw(); };
 struct Saver12 : CF4840Saver { Saver12() throw(); };
 struct Saver13 : CF4840Saver { Saver13() throw(); };
-CF4840Saver* __cdecl CreateSaver(unsigned int uiType);
 // Build the Havok object for a serialized node: find its creator, run it, keep the result and delete the creator.
-extern __declspec(thread) int g_iF4A30AllocTag;
 struct F4A30AllocTagScope {
     int m_iSaved;
 
     F4A30AllocTagScope(int aiAllocationTag)
     {
-        m_iSaved = g_iF4A30AllocTag;
-        g_iF4A30AllocTag = aiAllocationTag;
+        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
     }
-    ~F4A30AllocTagScope() { g_iF4A30AllocTag = m_iSaved; }
+    ~F4A30AllocTagScope() { (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved; }
 };
 class F4A30Result {
 public:
-    void RetainReference();
 };
 class F4A30Node {
 public:
@@ -594,14 +595,9 @@ public:
     virtual ~F4A30Creator();
     virtual void Create(int iFlags, void* pvContext);
 
-    void Init(F4A30Node* pkNode);
 
     F4A30Result* m_pkResult;
 };
-F4A30Creator* __cdecl F4A30FindCreator(int iTypeID);
-F4A30Result* CreateF4A30Result(F4A30Node* pkNode, void* pvContext);
-void __cdecl FUN_00ce51f0();
-void __cdecl FUN_00ce5300();
 class FUN_00ce5360_This {
 public:
 // @fnv 0x00ce5360
@@ -798,7 +794,6 @@ static inline void WriteData(Stream* s, void* data, int size)
     int count = size;
     s->pos += s->io(s, data, size, &count, 1);
 }
-void FUN_00cf09a0(StreamOwner* owner, Record* rec);
 extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
 struct ArrayData {
     unsigned int* m_data;
@@ -835,9 +830,7 @@ struct FUN_00cdf560 {
 struct FUN_00cf4190 : FUN_00cdf560 {
     FUN_00cf4190();
 };
-extern int DAT_01268730;
 int* FUN_00cf41b0();
-extern "C" void __cdecl FUN_00d86100(void* view, void* object);
 struct BinaryStream {
     void* vtable;
     unsigned int absolutePosition;
@@ -859,7 +852,6 @@ struct SerializedRecord {
     void FUN_00cf41c0(StreamView* view);
 };
 struct CpuOpaque;
-extern CpuOpaque DAT_01268738;
 CpuOpaque* __cdecl FUN_00cf43f0();
 class NiBinaryStreamCF46 {
 public:
@@ -886,7 +878,6 @@ struct hkArchiveCF46 {
     int unk000[0x93];
     NiBinaryStreamCF46* m_stream;
 };
-void __cdecl FUN_00d86100(hkArchiveCF46* ar, void* obj);
 class hkObjCF46 {
 public:
     int unk00;
@@ -901,7 +892,6 @@ public:
 };
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* cs) throw();
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* cs) throw();
-unsigned int __cdecl FUN_00d87a40() throw();
 struct hkCriticalSectionCF6B {
     int m_kCriticalSection;
 };
@@ -925,7 +915,6 @@ struct hkMultiThreadCheckCF6B {
 };
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* cs) throw();
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* cs) throw();
-unsigned int __cdecl FUN_00d87a40() throw();
 struct hkCriticalSectionCF61 {
     int m_kCriticalSection;
 };
@@ -1003,12 +992,10 @@ struct hkMultiThreadCheckCF6E {
     void ResetThreadCheck();
 };
 struct CC9F10Shape {
-    void FUN_00c90510();
 };
 struct FUN_00cf7490_class {
     void FUN_00cf7490();
 };
-void __cdecl FUN_00c905b0(void);
 void __cdecl FUN_00cf74a0(void);
 struct hkOwnerCF74;
 struct hkEntryCF74 {
@@ -1023,7 +1010,6 @@ struct hkOwnerCF74 {
     int unk9C, unkA0, unkA4, unkA8, unkAC, unkB0, unkB4, unkB8, unkBC, unkC0, unkC4, unkC8, unkCC, unkD0;
     unsigned int m_d4;
 };
-int __cdecl FUN_00cf74b0(const hkEntryCF74& a, const hkEntryCF74& b);
 struct hkBoolCF74 {
     char m_cBooleanValue;
     hkBoolCF74() {}
@@ -1099,12 +1085,8 @@ struct hkPairCF74 {
     hkEntityCF74* m_kPointA;
     hkEntityCF74* m_kPointB;
 };
-hkBoolCF74 __cdecl LessThanPairPriority(const hkPairCF74& x, const hkPairCF74& y);
-void* __cdecl FUN_00cfb050(void* pvUnused, bool* pbOut, void* pvResult);
 void FUN_00cfb060();
-int __cdecl FUN_00cfb070(int a, int b, int c);
 void __stdcall FUN_00cfc580(int, int, int, int, int);
-extern int DAT_0102e388;
 struct FUN_00cfc590_class {
     int* vtable;
 
@@ -1183,15 +1165,13 @@ struct CE0020Buffer {
     int m_unk08;
     CE0020Event* m_pRecordEnd;
 };
-extern unsigned int DAT_0126835c;
 extern char DAT_010cb81c[];
-extern char DAT_010c41f8[];
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 __forceinline void CE0020TimerMark(const char* pTag)
 {
-    CE0020Buffer* pBuffer = (CE0020Buffer*)TlsGetValue(DAT_0126835c);
+    CE0020Buffer* pBuffer = (CE0020Buffer*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     CE0020Event* pEvent = pBuffer->m_pHead;
     if (pEvent < pBuffer->m_pRecordEnd)
     {
@@ -1250,10 +1230,6 @@ public:
     virtual void Unk05();
     virtual void EnableConstraints();
 };
-void __cdecl FUN_00d27690(CE0020Target* pTarget, CE0020Subject* pSubject, int iType);
-void __cdecl EnableConstraintsAndZeroArrays(CE0020Target* pTarget, CE0020Subject* pSubject);
-void __cdecl FUN_00ce2d10();
-void __cdecl FUN_00ce2f30();
 struct NiBinaryStreamCF42 {
     void* m_pvVtbl;
     unsigned int m_uiStreamFlags;
@@ -1294,7 +1270,6 @@ struct NiStreamCF42 {
     NiBinaryStreamCF42* GetIstr() { return m_pUnderlyingStream; }
 };
 class SerializableCF42;
-void __cdecl FUN_00d86160(NiStreamCF42& kStream, SerializableCF42* pkObject);
 class SerializableCF42 {
 public:
     int unk00, unk04, unk08, unk0C, unk10;
@@ -1368,7 +1343,6 @@ struct NiStreamCF44 {
     NiBinaryStreamCF44* GetIstr() { return m_pUnderlyingStream; }
 };
 class SerializableCF44;
-void __cdecl FUN_00d86100(NiStreamCF44& kStream, SerializableCF44* pkObject);
 class SerializableCF44 {
 public:
     int unk00, unk04, unk08, unk0C, unk10;
@@ -1422,9 +1396,8 @@ public:
     hkReferencedObject* m_pPointer;
 };
 struct TagState { int oldTag; int newTag; };
-__forceinline TagState GetTag(int tag) { TagState state={g_iCF4BC0AllocTag,tag}; return state; }
-struct AllocScope { int saved; AllocScope(TagState t):saved(t.oldTag){g_iCF4BC0AllocTag=t.newTag;} ~AllocScope(){g_iCF4BC0AllocTag=saved;} };
-hkReferencedObject* __cdecl FUN_00cf4af0(CF4BC0Stream& kStream);
+__forceinline TagState GetTag(int tag) { TagState state={(*reinterpret_cast<int *>(&::currentAllocationContext)),tag}; return state; }
+struct AllocScope { int saved; AllocScope(TagState t):saved(t.oldTag){(*reinterpret_cast<int *>(&::currentAllocationContext))=t.newTag;} ~AllocScope(){(*reinterpret_cast<int *>(&::currentAllocationContext))=saved;} };
 void FUN_00cf6d10();
 class hkBaseObject {
 public:
@@ -1459,8 +1432,7 @@ public:
     ~FUN_00cf7060();
 };
 #include <xmmintrin.h>
-extern const __m128 DAT_010c71c0;
-extern const __m128 DAT_010c71d0;
+#include "fnv/symbols_simd.h"
 struct SimdReal {
     __m128 m_vValue;
     __forceinline SimdReal(__m128 r) : m_vValue(r) {}
@@ -1482,16 +1454,15 @@ struct FourFloatVector {
     __forceinline void setSqrtInverse4(const FourFloatVector& v)
     {
         __m128 e = _mm_rsqrt_ps(v.m_vComponents);
-        __m128 he = _mm_mul_ps(DAT_010c71d0, e);
+        __m128 he = _mm_mul_ps(::DAT_010c71d0, e);
         __m128 ree = _mm_mul_ps(_mm_mul_ps(e, v.m_vComponents), e);
-        m_vComponents = _mm_mul_ps(_mm_sub_ps(DAT_010c71c0, ree), he);
+        m_vComponents = _mm_mul_ps(_mm_sub_ps(::DAT_010c71c0, ree), he);
     }
 };
 static void FUN_00ce2a50(FourFloatVector* a, FourFloatVector* b);
 void CallerX(FourFloatVector* a, FourFloatVector* b);
 struct SubMatrix {
     __m128 m_row[4];
-    void FUN_00cb2d90(const float* pQuat);
 };
 struct TransformOwner {
     int unk00;
@@ -1592,13 +1563,8 @@ struct VectorValue {
         return ScalarValue(_mm_add_ss(_mm_shuffle_ps(products,products,170),first));
     }
 };
-extern double DAT_01032980;
 ResultByte FUN_00ceb6f0(float& outT,float& outU,float& outV,const VectorValue& position,const VectorValue& direction,const VectorValue& a,const VectorValue& b,const VectorValue& c,bool cull);
 
-extern float DAT_01011d78;
-extern const __m128 DAT_010c71e0;
-extern const __m128 DAT_010c71c0;
-extern const __m128 DAT_010c71d0;
 
 struct BoolX {
     char value;
@@ -1786,9 +1752,6 @@ struct MapperX {
     int property;
     void __cdecl FUN_00ce3090(const PoseX*, PoseX*, const short*, const short*, bool) const;
 };
-extern void __cdecl FUN_00ce2f30(const PoseX*, const PoseX*, const short*, int, PoseX*) throw();
-extern void __cdecl FUN_00ce2f40(const PoseX*, const PoseX*, const short*, int, PoseX*) throw();
-extern void __cdecl FUN_00ce2ca0(int, PoseX&, const PoseX&, const PoseX&) throw();
 
 struct ClockEventX { const char* tag; unsigned stamp; int unused; };
 struct ClockListX : ClockEventX { const char* split; };
@@ -1820,7 +1783,7 @@ struct ClockX {
             current=(char*)(event+1);
         }
     }
-    static __forceinline ClockX& instance() throw() { return *(ClockX*)TlsGetValue(DAT_0126835c); }
+    static __forceinline ClockX& instance() throw() { return *(ClockX*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))); }
 };
 template<class T> class StoredX {
     T value;
@@ -1851,7 +1814,7 @@ static __declspec(noinline) void FUN_00ce2a50(VectorX& a,VectorX& b) throw() {
     packed.quad()=_mm_shuffle_ps(al.quad(),_mm_unpackhi_ps(al.quad(),bl.quad()),0xc4);
     __m128 root=_mm_rsqrt_ps(packed.quad());
     __m128 correction=_mm_mul_ps(_mm_mul_ps(root,packed.quad()),root);
-    __m128 inverse=_mm_mul_ps(_mm_mul_ps(DAT_010c71d0,root),_mm_sub_ps(DAT_010c71c0,correction));
+    __m128 inverse=_mm_mul_ps(_mm_mul_ps(::DAT_010c71d0,root),_mm_sub_ps(::DAT_010c71c0,correction));
     a.multiply(ScalarX(_mm_shuffle_ps(inverse,inverse,0)));
     b.multiply(ScalarX(_mm_shuffle_ps(inverse,inverse,0xff)));
 }
@@ -1890,7 +1853,7 @@ void __cdecl MapperX::FUN_00ce3090(const PoseX* original,PoseX* output,const sho
     }
     const BoolX sparse=mapA&&mapB;
     BufferX<PoseX> scratch(first->bones.count());
-    if (additive) FUN_00ce2f30(original,first->reference.begin(),mapA,first->bones.count(),scratch.begin());
+    if (additive) ::FUN_00ce2f30();
     const PoseX* input=additive?scratch.begin():original;
     {
         const int total=records.count();
@@ -1899,7 +1862,7 @@ void __cdecl MapperX::FUN_00ce3090(const PoseX* original,PoseX* output,const sho
             const RecordX& r=records[i];
             int a=r.a,b=r.b;
             if(sparse) { a=mapA[a]; if(a<0) continue; b=mapB[b]; }
-            FUN_00ce2ca0(property,output[b],r.offset,input[a]);
+            ::FUN_00ce2ca0((void *)(property),(::__m128 *)&(output[b]),(const ::__m128 *)&(r.offset),(const ::__m128 *)&(input[a]));
             _mm_prefetch((const char*)&input[a]+128,_MM_HINT_NTA);
             _mm_prefetch((const char*)&output[b]+128,_MM_HINT_NTA);
         }
@@ -1948,16 +1911,16 @@ void __cdecl MapperX::FUN_00ce3090(const PoseX* original,PoseX* output,const sho
             }
             int a=r.a,c=r.c,b=r.b,d=r.d;
             if(sparse) { a=mapA[a];c=mapB[c];b=mapA[b];d=mapB[d]; }
-            FUN_00ce2ca0(property,output[c],r.root,input[a]);
+            ::FUN_00ce2ca0((void *)(property),(::__m128 *)&(output[c]),(const ::__m128 *)&(r.root),(const ::__m128 *)&(input[a]));
             FUN_00ce2a50(posA,posB);
             RotationX shortest; shortest.FUN_00cd9d10(posB,posA);
             RotationX offset; offset.vec=r.end.translation;
-            RotationX applied; applied.FUN_00c74ac0(shortest,offset);
+            RotationX applied; reinterpret_cast<::Quat74 *>(&(applied))->FUN_00c74ac0((const ::Quat74 &)(shortest),(const ::Quat74 &)(offset));
             output[c].rotation.FUN_00ce0ca0(applied);
-            output[d].rotation.FUN_00c66320(r.end.rotation,input[b].rotation);
+            ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(output[d].rotation), (void *)&(r.end.rotation),(const ::fnv_00c66320::__m128 *)&(input[b].rotation), {});
         }
     }
-    if(additive) FUN_00ce2f40(output,second->reference.begin(),mapB,second->bones.count(),output);
+    if(additive) ::FUN_00ce2f40((unsigned int)(output),(unsigned int)(second->reference.begin()),(unsigned int)(mapB),second->bones.count(),(unsigned int)(output));
     {
         ClockX& timer=ClockX::instance();
         if(timer.current<timer.end) {

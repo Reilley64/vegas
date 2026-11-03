@@ -2,6 +2,9 @@
 #ifndef MAGICFORMULAS_PACKET_H
 #define MAGICFORMULAS_PACKET_H
 
+#include "fnv/decl/FUN_009373f0_shell.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_00874000.h"
 class FlaggedData
 {
     unsigned char padding[0x40];
@@ -14,12 +17,9 @@ class FlaggedData
 class QuestStage
 {
   public:
-    unsigned char GetIndex();
 };
 class InterfaceManager
 {
   public:
-    int FUN_00874480();
 };
-InterfaceManager* FUN_004b7210();
 #endif

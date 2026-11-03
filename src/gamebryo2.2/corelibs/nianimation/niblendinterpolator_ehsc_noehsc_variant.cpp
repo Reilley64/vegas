@@ -3,6 +3,13 @@
 // byte only under /MT /O2 /GS /EHs-c- /Gy (unit src/gamebryo2.2/corelibs/nianimation/niblendinterpolator.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <new>
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a37260_shell.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_011f6000.h"
 #include "niblendinterpolator_types_NiBlendInterpolator.h"
 #include "niblendinterpolator_types_NiBlendInterpolator__InterpArrayItem.h"
 #include "niblendinterpolator_types_NiCloningProcess.h"
@@ -34,18 +41,14 @@ struct S_00a370b0_Class
     float m_fNextHighSumOfWeights;
     float m_fTrailingValue;
 
-    void FUN_00a56ff0();
     S_00a370b0_Class* FUN_00a370b0(bool bFlags, float fWeightThreshold, unsigned char volatile ucArraySize);
 };
 
 struct S_00a370b0_Allocator
 {
-    void* FUN_00aa3e40(unsigned int nSize);
 };
 
-extern float DAT_0109696c;
 extern int DAT_0109697c;
-extern S_00a370b0_Allocator DAT_011f6238;
 
 struct BlendItem
 {
@@ -59,7 +62,7 @@ struct BlendItem
     ~BlendItem() throw();
     static void* operator new[](unsigned int size)
     {
-        return DAT_011f6238.FUN_00aa3e40(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::S_00a370b0_Allocator *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }
 };
 
@@ -70,7 +73,7 @@ S_00a370b0_Class* __thiscall S_00a370b0_Class::FUN_00a370b0(bool bFlags, float f
     unsigned int nCount;
     unsigned int nSize;
 
-    FUN_00a56ff0();
+    new ((void *)this) ::NiInterpolator();
     unsigned char arraySize = ucArraySize;
 
     m_fWeightThreshold = fWeightThreshold;

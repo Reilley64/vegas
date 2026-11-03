@@ -9,6 +9,10 @@ class NiPoint3
     float y;  // +0x4
     float z;  // +0x8
     static const NiPoint3 ZERO;
+public:
+    float GetLengthSquared();
+public:
+    float ComputeMagnitude() const;
 };
 FNV_STATIC_ASSERT(sizeof(NiPoint3) == 0xC);
 FNV_STATIC_ASSERT(offsetof(NiPoint3, x) == 0x0);

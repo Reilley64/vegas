@@ -2,11 +2,74 @@
 // src/fallout/ai/spectatorpackage_od_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/ai/spectatorpackage.cpp functions whose prologue its flags cannot
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/A90Cls.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSSimpleArray_PathingAvoidNode_1024.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00438690.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_004534f0_shell.h"
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/FUN_00678fd0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_008b3ab0_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_009f8fa0_Class.h"
+#include "fnv/decl/FUN_009f9040_cls.h"
+#include "fnv/decl/FUN_009f90f0_Class.h"
+#include "fnv/decl/FUN_009f9180_Class.h"
+#include "fnv/decl/MyPoint439180.h"
+#include "fnv/decl/Package679120.h"
+#include "fnv/decl/Package6798c0.h"
+#include "fnv/decl/PackageCopy.h"
+#include "fnv/decl/PackageEx.h"
+#include "fnv/decl/ReferenceLinkController.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/TESCombatStyle.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/fnv_00484ce0__TESSaveLoadGameHelper.h"
+#include "fnv/decl/fnv_00484d00__FUN_00484d00_shell.h"
+#include "fnv/decl/fnv_00564db0__FUN_00564db0_cls.h"
+#include "fnv/decl/fnv_0057bd60__fnv_anon_tesobjectrefr__Dummy.h"
+#include "fnv/decl/fnv_00679340__Package679.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/decl/fnv_0084b5c0__FUN_0084b5c0_Array.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/decl/fnv_00865df0__FUN_00865df0_holder.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_0042f000.h"
+#include "fnv/symbols_00457000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_00647000.h"
+#include "fnv/symbols_006a8000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_009f9000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01093000.h"
+#include "fnv/symbols_01183000.h"
+#include "fnv/symbols_011cc000.h"
+#include "fnv/symbols_011cd000.h"
+#include "fnv/symbols_011f6000.h"
 #include "spectatorpackage_decls.h"
 
 struct NiPoint3
 {
     float x, y, z;
+public:
+    static const ::NiPoint3 ZERO;
 };
 
 struct FUN_009f7050_class
@@ -42,11 +105,8 @@ NiPoint3& FUN_009f7080_class::FUN_009f7080(NiPoint3& akDest)
 }
 }  // namespace fnv_009f7080
 
-unsigned int __cdecl gm_GetTickCount(void);
 struct BGSSaveFormBuffer
 {
-    void __thiscall SerializeFormData(void*, int);
-    void __thiscall SaveData(void*, int, int);
 };
 struct SpectatorThreatInfo
 {
@@ -56,24 +116,21 @@ struct SpectatorThreatInfo
 void __thiscall SpectatorThreatInfo::FUN_009f70b0(BGSSaveFormBuffer* buffer)
 {
     unsigned int imodifiedPerceivedTime;
-    buffer->SaveData(this + 8, 4, 0);
-    imodifiedPerceivedTime = gm_GetTickCount() - ((unsigned int*)this)[3];
-    buffer->SaveData(&imodifiedPerceivedTime, 4, 0);
-    buffer->SaveData(this + 16, 4, 0);
-    buffer->SaveData(this + 20, 12, 0);
-    buffer->SaveData(this + 32, 12, 0);
-    buffer->SaveData(this + 44, 1, 0);
-    buffer->SaveData(this + 45, 1, 0);
-    buffer->SerializeFormData(*(void**)this, 0);
-    buffer->SerializeFormData(*(void**)(this + 4), 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(this + 8, 4, 0);
+    imodifiedPerceivedTime = ((unsigned int)(::FUN_00457fe0())) - ((unsigned int*)this)[3];
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&imodifiedPerceivedTime, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(this + 16, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(this + 20, 12, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(this + 32, 12, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(this + 44, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(this + 45, 1, 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(*(void**)this), 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(*(void**)(this + 4)), 0);
 }
 
 namespace fnv_009f7170 {
-unsigned int __cdecl gm_GetTickCount();
 struct BGSLoadFormBuffer
 {
-    bool ReadFormIdentifier(void*);
-    void ReadTypedData(void*, unsigned int);
 };
 struct SpectatorThreatInfo
 {
@@ -82,17 +139,17 @@ struct SpectatorThreatInfo
 // @fnv 0x009f7170
 void SpectatorThreatInfo::FUN_009f7170(BGSLoadFormBuffer* buffer)
 {
-    buffer->ReadTypedData(this + 8, 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this + 8), 4);
     unsigned int imodifiedPerceivedTime = 0;
-    buffer->ReadTypedData(&imodifiedPerceivedTime, 4);
-    *(unsigned int*)((char*)this + 0xc) = gm_GetTickCount() - imodifiedPerceivedTime;
-    buffer->ReadTypedData(this + 0x10, 4);
-    buffer->ReadTypedData(this + 0x14, 0xc);
-    buffer->ReadTypedData(this + 0x20, 0xc);
-    buffer->ReadTypedData(this + 0x2c, 1);
-    buffer->ReadTypedData(this + 0x2d, 1);
-    buffer->ReadFormIdentifier(this);
-    buffer->ReadFormIdentifier(this + 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&imodifiedPerceivedTime), 4);
+    *(unsigned int*)((char*)this + 0xc) = ((unsigned int)(::FUN_00457fe0())) - imodifiedPerceivedTime;
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this + 0x10), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this + 0x14), 0xc);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this + 0x20), 0xc);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this + 0x2c), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this + 0x2d), 1);
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((buffer))->FUN_008648e0((unsigned int *)(void *)(this));
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((buffer))->FUN_008648e0((unsigned int *)(void *)(this + 4));
 }
 }  // namespace fnv_009f7170
 
@@ -101,15 +158,6 @@ struct FUN_009f73e0
     void __thiscall FUN_009f7410();
     void* __thiscall DeleteThis(unsigned int flags);
 };
-
-// @fnv 0x009f73e0
-void* FUN_009f73e0::DeleteThis(unsigned int flags)
-{
-    FUN_009f7410();
-    if (flags & 1)
-        operator delete(this);
-    return this;
-}
 
 namespace fnv_009f8300 {
 struct NiPoint3
@@ -132,25 +180,22 @@ NiPoint3& FUN_009f8300_class::FUN_009f8300(NiPoint3& akDest)
 
 struct Saver
 {
-    unsigned short FUN_00678fd0();
     unsigned short FUN_009f86f0();
 };
 // @fnv 0x009f86f0
 unsigned short Saver::FUN_009f86f0()
 {
     unsigned short size = 0;
-    size += FUN_00678fd0();
+    size += reinterpret_cast<::FUN_00678fd0_shell *>(this)->FUN_00678fd0();
     size += 8;
     return size;
 }
 
 struct Base009f8770
 {
-    void FUN_00679340();
 };
 struct Helper009f8770
 {
-    void FUN_00484d00(void*, int);
 };
 struct Holder009f8770
 {
@@ -159,49 +204,44 @@ struct Holder009f8770
 // @fnv 0x009f8770
 void Holder009f8770::FUN_009f8770()
 {
-    ((Base009f8770*)this)->FUN_00679340();
-    ((Helper009f8770*)this)->FUN_00484d00((char*)this + 0x84, 4);
-    ((Helper009f8770*)this)->FUN_00484d00((char*)this + 0x88, 4);
+    reinterpret_cast<::fnv_00679340::Package679 *>((((Base009f8770*)this)))->FUN_00679340();
+    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((((Helper009f8770*)this)))->FUN_00484d00((char*)this + 0x84, 4);
+    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((((Helper009f8770*)this)))->FUN_00484d00((char*)this + 0x88, 4);
 }
 
 struct FUN_009f8aa0_class
 {
-    int __thiscall FUN_009f8ac0(int);
     int __thiscall FUN_009f8aa0();
 };
-// @fnv 0x009f8aa0
-int __thiscall FUN_009f8aa0_class::FUN_009f8aa0()
-{
-    return FUN_009f8ac0(0);
-}
-
 struct FUN_009f8ac0_class
 {
     int __thiscall FUN_009f8ac0(int a);
 };
+// @fnv 0x009f8aa0
+int __thiscall FUN_009f8aa0_class::FUN_009f8aa0()
+{
+    return reinterpret_cast<::FUN_009f8ac0_class *>(this)->FUN_009f8ac0(0);
+}
 // @fnv 0x009f8ac0
 int __thiscall FUN_009f8ac0_class::FUN_009f8ac0(int a)
 {
     return a * 0x34 + *(int*)((char*)this + 4);
 }
 
-extern int DAT_01093980;
 struct FUN_009f8ae0Class
 {
     void* vtbl;
-    void FUN_009f90f0(int a, int b);
     void* FUN_009f8ae0(int a, int b);
 };
 // @fnv 0x009f8ae0
 void* FUN_009f8ae0Class::FUN_009f8ae0(int a, int b)
 {
     vtbl = &DAT_01093980;
-    FUN_009f90f0(a, b);
+    reinterpret_cast<::FUN_009f90f0_Class *>(this)->FUN_009f90f0(a, b);
     return this;
 }
 
 namespace fnv_009f8b10 {
-extern int DAT_01093980;
 struct SpectatorThreatInfo
 {
     void* ReallocateStorage(int);
@@ -210,7 +250,7 @@ struct SpectatorThreatInfo
 // @fnv 0x009f8b10
 void SpectatorThreatInfo::FUN_009f8b10()
 {
-    *reinterpret_cast<void**>(this) = &DAT_01093980;
+    *reinterpret_cast<void**>(this) = &::DAT_01093980;
     ReallocateStorage(1);
 }
 }  // namespace fnv_009f8b10
@@ -218,7 +258,6 @@ void SpectatorThreatInfo::FUN_009f8b10()
 namespace fnv_009f8d00 {
 struct NavMeshSearchLOSArray
 {
-    void FUN_006a8500();
 };
 struct SpectatorThreatInfo
 {
@@ -244,7 +283,7 @@ void FUN_009f8d00_class::FUN_009f8d00(bool freeStorage)
         FUN_009f8f60(pBuffer, iSize);
         if (freeStorage)
         {
-            ((NavMeshSearchLOSArray*)this)->FUN_006a8500();
+            ::FUN_006a8500((::DummyClass_006a8500 *)(((NavMeshSearchLOSArray*)this)));
             pBuffer = 0;
             SimpleArrayStorage = 0;
         }
@@ -261,11 +300,10 @@ struct FUN_009f8d60_Class
 // @fnv 0x009f8d60
 void* __thiscall FUN_009f8d60_Class::FUN_009f8d60(int size)
 {
-    void* memory = operator new(size * 0x34);
+    void* memory = ::FUN_00401000(size * 0x34);
     return memory;
 }
 
-extern "C" void* __cdecl Reallocate(void*, int);
 
 struct FUN_009f8d90
 {
@@ -287,16 +325,15 @@ struct FUN_009f8b10_class
 // @fnv 0x009f8db0
 void* FUN_009f8b10_class::FUN_009f8db0(unsigned int flags)
 {
-    FUN_009f8b10();
+    reinterpret_cast<::fnv_009f8b10::SpectatorThreatInfo *>(this)->FUN_009f8b10();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct S009f9180
 {
     char data[0x34];
-    void __thiscall FUN_009f9180(int);
 };
 struct S009f8f60
 {
@@ -306,12 +343,11 @@ struct S009f8f60
 void __thiscall S009f8f60::FUN_009f8f60(S009f9180* a1, unsigned int a2)
 {
     for (int i = 0; i < a2; ++i)
-        a1[i].FUN_009f9180(0);
+        reinterpret_cast<::FUN_009f9180_Class *>(&(a1[i]))->FUN_009f9180(0);
 }
 
 struct ArrSI
 {
-    unsigned int GetFlags();
 };
 struct Holder_009f7fe0
 {
@@ -324,16 +360,14 @@ struct Holder_009f7fe0
 // @fnv 0x009f7fe0
 bool Holder_009f7fe0::FUN_009f7fe0()
 {
-    return _arrA0.GetFlags() == 0 || _flag90 != 0;
+    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(_arrA0))->GetName())) == 0 || _flag90 != 0;
 }
 
 struct PC7d
 {
-    void FUN_00484ce0(unsigned int, int);
 };
 struct S00679120
 {
-    void SavePackage();
 };
 struct Wrap
 {
@@ -345,9 +379,9 @@ struct Wrap
 // @fnv 0x009f8730
 void Wrap::FUN_009f8730()
 {
-    ((S00679120*)this)->SavePackage();
-    ((PC7d*)this)->FUN_00484ce0((unsigned int)&u84, 4);
-    ((PC7d*)this)->FUN_00484ce0((unsigned int)&u88, 4);
+    reinterpret_cast<::Package679120 *>((((S00679120*)this)))->SavePackage();
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((((PC7d*)this)))->FUN_00484ce0((void *)((unsigned int)&u84), 4);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((((PC7d*)this)))->FUN_00484ce0((void *)((unsigned int)&u88), 4);
 }
 
 struct TESForm
@@ -360,7 +394,6 @@ struct Actor : TESForm
 };
 struct TESObjectREFRHelper
 {
-    void SetTargetingState(bool);
 };
 struct FUN_009f7230_class
 {
@@ -368,16 +401,15 @@ struct FUN_009f7230_class
     Actor* q;
     void FUN_009f7230(TESObjectREFRHelper* a);
 };
-TESForm* __cdecl GetFormByID(unsigned int);
 // @fnv 0x009f7230
 void FUN_009f7230_class::FUN_009f7230(TESObjectREFRHelper* a)
 {
-    p = p ? dynamic_cast<Actor*>(GetFormByID((unsigned int)p)) : 0;
-    q = q ? dynamic_cast<Actor*>(GetFormByID((unsigned int)q)) : 0;
+    p = p ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)p)) : 0;
+    q = q ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)q)) : 0;
     if (p)
-        ((TESObjectREFRHelper*)p)->SetTargetingState(true);
+        reinterpret_cast<::fnv_00564db0::FUN_00564db0_cls *>((((TESObjectREFRHelper*)p)))->FUN_00564db0(true);
     if (q)
-        ((TESObjectREFRHelper*)q)->SetTargetingState(true);
+        reinterpret_cast<::fnv_00564db0::FUN_00564db0_cls *>((((TESObjectREFRHelper*)q)))->FUN_00564db0(true);
 }
 
 struct Flt
@@ -386,12 +418,9 @@ struct Flt
 };
 struct FUN_009f8a80_class
 {
-    Flt* FUN_009f8a80(unsigned int);
-    void* _ref_00726070();
 };
 struct FUN_009f8c70_class
 {
-    void FUN_009f8c70(unsigned int, unsigned int);
 };
 struct FUN_009f84d0_class
 {
@@ -400,75 +429,20 @@ struct FUN_009f84d0_class
     void FUN_009f84d0(unsigned int);
 };
 
-// @fnv 0x009f84d0
-void FUN_009f84d0_class::FUN_009f84d0(unsigned int id)
-{
-    int count = arr.GetFlags();
-    for (int i = 0; i < count; ++i)
-    {
-        Flt* item = reinterpret_cast<FUN_009f8a80_class*>(&arr)->FUN_009f8a80(i);
-        if (item->operator unsigned int() == id ||
-            reinterpret_cast<FUN_009f8a80_class*>(item)->_ref_00726070() == (void*)id)
-        {
-            reinterpret_cast<FUN_009f8c70_class*>(&arr)->FUN_009f8c70(i, 1);
-            --count;
-            --i;
-        }
-    }
-}
-
 struct BSSimpleArrayActor
 {
-    void Clear(bool);
-    void GrowCapacity(unsigned int);
-    unsigned int Add(void*&);
 };
 struct FUN_009f8660_class
 {
     void FUN_009f8660(BSSimpleArrayActor& aArray);
 };
-// @fnv 0x009f8660
-void FUN_009f8660_class::FUN_009f8660(BSSimpleArrayActor& aArray)
-{
-    aArray.Clear(true);
-    unsigned int count = ((FUN_009f84d0_class*)this)->arr.GetFlags();
-    aArray.GrowCapacity(count << 1);
-    {
-        int i = 0;
-        int j = 0;
-        for (; j < (int)count; j++)
-        {
-            Flt* form = ((FUN_009f8a80_class*)((char*)this + 0xa0))->FUN_009f8a80(j);
-            void* id = (void*)(unsigned int)*form;
-            if (id)
-                aArray.Add(id);
-        }
-    }
-}
-
 struct FUN_00679a90_shell
 {
-    void DispatchToSubobjects(void*);
 };
 struct FUN_009f8a10 : FUN_00679a90_shell
 {
     void InitLoadGame(void* apLoadGameBuffer);
 };
-// @fnv 0x009f8a10
-void FUN_009f8a10::InitLoadGame(void* apLoadGameBuffer)
-{
-    unsigned int i;
-    unsigned int isaveGameCount8;
-    SpectatorThreatInfo* threatInfo;
-    DispatchToSubobjects(apLoadGameBuffer);
-    isaveGameCount8 = ((ArrSI*)((char*)this + 0xa0))->GetFlags();
-    for (i = 0; i < isaveGameCount8; ++i)
-    {
-        threatInfo = (SpectatorThreatInfo*)((FUN_009f8a80_class*)((char*)this + 0xa0))->FUN_009f8a80(i);
-        ((FUN_009f7230_class*)threatInfo)->FUN_009f7230((TESObjectREFRHelper*)apLoadGameBuffer);
-    }
-}
-
 struct Helper62d0
 {
     Helper62d0& operator=(const Helper62d0&);
@@ -504,14 +478,15 @@ SpectatorThreatInfo62d0& SpectatorThreatInfo62d0::FUN_009f7630(const SpectatorTh
     return *this;
 }
 
+struct FUN_006797c0_arg;
 struct FUN_006797c0_shell
 {
-    void __thiscall FUN_006797c0(void*);
+public:
+    void FUN_006797c0(::FUN_006797c0_arg *);
 };
 
 struct GameTimerRecord
 {
-    unsigned int GetTime() const;
 };
 
 struct BGSSaveGameBuffer
@@ -526,6 +501,42 @@ struct SpectatorPackageSave : SpectatorPackage
     void __thiscall FUN_009f87d0(BGSSaveFormBuffer* apSaveGameBuffer);
 };
 
+struct FUN_009f8a80_wrapper : FUN_009f8aa0_class
+{
+    int __thiscall FUN_009f8a80(unsigned int a);
+};
+// @fnv 0x009f8660
+void FUN_009f8660_class::FUN_009f8660(BSSimpleArrayActor& aArray)
+{
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(aArray))->Clear(true);
+    unsigned int count = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((FUN_009f84d0_class*)this)->arr))->GetName()));
+    reinterpret_cast<::fnv_0084b5c0::FUN_0084b5c0_Array *>(&(aArray))->FUN_0084b5c0(count << 1);
+    {
+        int i = 0;
+        int j = 0;
+        for (; j < (int)count; j++)
+        {
+            Flt* form = ((::Flt *)(reinterpret_cast<::FUN_009f8a80_wrapper *>((((FUN_009f8a80_class*)((char*)this + 0xa0))))->FUN_009f8a80(j)));
+            void* id = (void*)(unsigned int)*form;
+            if (id)
+                reinterpret_cast<::FUN_00438690 *>(&(aArray))->FUN_007cb2e0((unsigned int *)&(id));
+        }
+    }
+}
+// @fnv 0x009f8a10
+void FUN_009f8a10::InitLoadGame(void* apLoadGameBuffer)
+{
+    unsigned int i;
+    unsigned int isaveGameCount8;
+    SpectatorThreatInfo* threatInfo;
+    reinterpret_cast<::A90Cls *>(this)->DispatchToSubobjects((int)(apLoadGameBuffer));
+    isaveGameCount8 = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0xa0))))->GetName()));
+    for (i = 0; i < isaveGameCount8; ++i)
+    {
+        threatInfo = (SpectatorThreatInfo*)((::Flt *)(reinterpret_cast<::FUN_009f8a80_wrapper *>((((FUN_009f8a80_class*)((char*)this + 0xa0))))->FUN_009f8a80(i)));
+        ((FUN_009f7230_class*)threatInfo)->FUN_009f7230((TESObjectREFRHelper*)apLoadGameBuffer);
+    }
+}
 // @fnv 0x009f87d0
 void SpectatorPackageSave::FUN_009f87d0(BGSSaveFormBuffer* apSaveGameBuffer)
 {
@@ -534,19 +545,19 @@ void SpectatorPackageSave::FUN_009f87d0(BGSSaveFormBuffer* apSaveGameBuffer)
     unsigned int ipathTimeDelta;
     SpectatorThreatInfo* isaveGameCount;
 
-    reinterpret_cast<FUN_006797c0_shell*>(this)->FUN_006797c0(apSaveGameBuffer);
+    reinterpret_cast<FUN_006797c0_shell*>(this)->FUN_006797c0((::FUN_006797c0_arg *)(apSaveGameBuffer));
 
-    i = g_timeGlobal.GetTime() - *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x80);
+    i = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)&(g_timeGlobal))->FUN_00825c00() - *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x80);
 
-    apSaveGameBuffer->SaveData(&i, 4, 0);
-    apSaveGameBuffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x84), 4, 0);
-    apSaveGameBuffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x88), 4, 0);
-    apSaveGameBuffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x8c), 4, 0);
-    apSaveGameBuffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x90), 1, 0);
-    apSaveGameBuffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x94), 12, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&i, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x84), 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x88), 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x8c), 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x90), 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x94), 12, 0);
 
     threatInfo = reinterpret_cast<ArrSI*>(reinterpret_cast<char*>(this) + 0xa0)
-                     ? reinterpret_cast<ArrSI*>(reinterpret_cast<char*>(this) + 0xa0)->GetFlags()
+                     ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<char*>(this) + 0xa0)))->GetName()))
                      : 0;
 
     reinterpret_cast<BGSSaveGameBuffer*>(apSaveGameBuffer)->FUN_00865f60(threatInfo);
@@ -554,19 +565,14 @@ void SpectatorPackageSave::FUN_009f87d0(BGSSaveFormBuffer* apSaveGameBuffer)
     for (ipathTimeDelta = 0; ipathTimeDelta < threatInfo; ++ipathTimeDelta)
     {
         isaveGameCount = reinterpret_cast<SpectatorThreatInfo*>(
-            reinterpret_cast<FUN_009f8a80_class*>(reinterpret_cast<char*>(this) + 0xa0)->FUN_009f8a80(ipathTimeDelta));
+            ((::Flt *)(reinterpret_cast<::FUN_009f8a80_wrapper *>((reinterpret_cast<FUN_009f8a80_class*>(reinterpret_cast<char*>(this) + 0xa0)))->FUN_009f8a80(ipathTimeDelta))));
         isaveGameCount->FUN_009f70b0(apSaveGameBuffer);
     }
 }
-
-struct FUN_009f8a80_wrapper : FUN_009f8aa0_class
-{
-    int __thiscall FUN_009f8a80(unsigned int a);
-};
 // @fnv 0x009f8a80
 int FUN_009f8a80_wrapper::FUN_009f8a80(unsigned int a)
 {
-    return FUN_009f8ac0((int)a);
+    return reinterpret_cast<::FUN_009f8ac0_class *>(this)->FUN_009f8ac0((int)a);
 }
 
 struct SpectatorPackageStandIn
@@ -576,55 +582,25 @@ struct SpectatorPackageStandIn
 
 struct SpectatorThreatInfoStandIn
 {
-    unsigned int __thiscall _ref_00726070();
 };
-
-// @fnv 0x009f8420
-void SpectatorPackageStandIn::FUN_009f8420(Actor& aActor)
-{
-    SpectatorThreatInfo* scanInfo;
-    int isize_ = reinterpret_cast<ArrSI*>(reinterpret_cast<char*>(this) + 0xA0)->GetFlags();
-    int i6 = 0;
-
-    for (; i6 < isize_; ++i6)
-    {
-        scanInfo = reinterpret_cast<SpectatorThreatInfo*>(
-            reinterpret_cast<FUN_009f8a80_class*>(reinterpret_cast<char*>(this) + 0xA0)->FUN_009f8a80(i6));
-
-        if (reinterpret_cast<Flt*>(scanInfo)->operator unsigned int() == reinterpret_cast<unsigned int>(&aActor))
-        {
-            reinterpret_cast<FUN_009f8c70_class*>(reinterpret_cast<char*>(this) + 0xA0)->FUN_009f8c70(i6, 1);
-            isize_--;
-            i6--;
-        }
-        else if (reinterpret_cast<SpectatorThreatInfoStandIn*>(scanInfo)->_ref_00726070() ==
-                 reinterpret_cast<unsigned int>(&aActor))
-        {
-            *reinterpret_cast<Actor**>(reinterpret_cast<char*>(scanInfo) + 4) = 0;
-            *reinterpret_cast<bool*>(reinterpret_cast<char*>(scanInfo) + 0x2D) = false;
-        }
-    }
-}
 
 struct BGSLoadFormBuffer
 {
-    void __thiscall ReadTypedData(void* data, unsigned int size);
-    int __thiscall ReadElementCount();
 };
 
+enum PACKAGE_PROCEDURE_TYPE;
 struct TESPackage
 {
-    void __thiscall LoadGame(BGSLoadFormBuffer* buffer);
+public:
+    void SetProcedureType(::PACKAGE_PROCEDURE_TYPE);
 };
 
 struct FUN_009f7170_class
 {
-    void __thiscall FUN_009f7170(BGSLoadFormBuffer* buffer);
 };
 
 struct FUN_009f8b30_class
 {
-    void __thiscall FUN_009f8b30(unsigned int size, int flag);
 };
 
 struct FUN_009f8900_class
@@ -642,50 +618,12 @@ struct FUN_009f8900_class
     void __thiscall FUN_009f8900(BGSLoadFormBuffer* buffer);
 };
 
-// @fnv 0x009f8900
-void FUN_009f8900_class::FUN_009f8900(BGSLoadFormBuffer* apLoadGameBuffer)
-{
-    reinterpret_cast<TESPackage*>(this)->LoadGame(apLoadGameBuffer);
-
-    int ipathTimeDelta = 0;
-    apLoadGameBuffer->ReadTypedData(&ipathTimeDelta, 4);
-    field80 = g_timeGlobal.GetTime() - ipathTimeDelta;
-
-    apLoadGameBuffer->ReadTypedData(&field84, 4);
-    apLoadGameBuffer->ReadTypedData(&field88, 4);
-    apLoadGameBuffer->ReadTypedData(&field8C, 4);
-    apLoadGameBuffer->ReadTypedData(&field90, 1);
-    apLoadGameBuffer->ReadTypedData(field94, 12);
-
-    {
-        unsigned int isaveGameCount = apLoadGameBuffer->ReadElementCount();
-
-        reinterpret_cast<FUN_009f8b30_class*>(reinterpret_cast<unsigned char*>(this) + 0xA0)
-            ->FUN_009f8b30(isaveGameCount, 1);
-
-        {
-            unsigned int i;
-            for (i = 0; i < isaveGameCount; ++i)
-            {
-                SpectatorThreatInfo* threatInfo = reinterpret_cast<SpectatorThreatInfo*>(
-                    reinterpret_cast<FUN_009f8a80_wrapper*>(reinterpret_cast<unsigned char*>(this) + 0xA0)
-                        ->FUN_009f8a80(i));
-
-                reinterpret_cast<FUN_009f7170_class*>(threatInfo)->FUN_009f7170(apLoadGameBuffer);
-            }
-        }
-    }
-}
-
-unsigned int __cdecl gm_GetTickCount(void);
-int __cdecl ClampThreat(int, int);
 struct WeapStub
 {
     int GetWeaponType();
 };
 struct Item428
 {
-    WeapStub* GetLoadedForm();
 };
 struct ActorStub
 {
@@ -971,13 +909,13 @@ struct ThreatInfo
 // @fnv 0x009f6d50
 void ThreatInfo::FUN_009f6d50()
 {
-    m_uiSecondValue = pSource ? gm_GetTickCount() : m_uiSecondValue;
+    m_uiSecondValue = pSource ? ((unsigned int)(::FUN_00457fe0())) : m_uiSecondValue;
     NiPoint3* pA = pSource ? pSource->GetPosPtr() : &aPos;
     aPos = *pA;
     NiPoint3* pB = pTarget ? pTarget->GetPosPtr() : &bPos;
     bPos = *pB;
     Item428* pItem = pSource ? pSource->GetItem428() : 0;
-    WeapStub* pWeap7 = pItem ? pItem->GetLoadedForm() : 0;
+    WeapStub* pWeap7 = pItem ? ((::WeapStub *)(::FUN_007031c0((int)(pItem)))) : 0;
     int iLevel = 0;
     if (pWeap7)
     {
@@ -1005,7 +943,7 @@ void ThreatInfo::FUN_009f6d50()
             break;
         }
     }
-    m_iFirstInteger = ClampThreat(m_iFirstInteger, iLevel);
+    m_iFirstInteger = ::FUN_00647b70(m_iFirstInteger, iLevel);
 }
 
 class Base_9f72f0
@@ -1022,7 +960,6 @@ struct Vec3U
     unsigned int z;
 };
 
-extern Vec3U DAT_011f426c;
 
 class SubA0
 {
@@ -1088,19 +1025,17 @@ class FUN_009f72f0 : public Base_9f72f0
     SubB0 m_b0;
     FUN_009f72f0();
     virtual ~FUN_009f72f0();
-    void SetPackageType(int a);
-    void FUN_00984f60(int a);
 };
 
 // @fnv 0x009f72f0
-FUN_009f72f0::FUN_009f72f0() : m_v94(DAT_011f426c), m_a0(0x20, 0), m_b0(0)
+FUN_009f72f0::FUN_009f72f0() : m_v94((*reinterpret_cast<::Vec3U *>((void *)&::NiPoint3::ZERO))), m_a0(0x20, 0), m_b0(0)
 {
-    SetPackageType(0x18);
+    reinterpret_cast<::PackageEx *>(this)->SetPackageType(0x18);
     m_i80 = 0;
     m_f88 = 0.0f;
     m_f8c = 0.0f;
     m_b90 = 0;
-    FUN_00984f60(0xf);
+    reinterpret_cast<::TESPackage *>(this)->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(0xf));
 }
 
 struct ActorObject
@@ -1167,7 +1102,6 @@ struct ActorObject
 };
 struct ObjectRef
 {
-    ActorObject* FUN_009611e0();
 };
 struct FUN_006708b0
 {
@@ -1222,7 +1156,6 @@ struct FUN_009f8b10
 };
 struct FUN_0045cec0
 {
-    ObjectRef* FUN_00559450();
     void FUN_0066b0d0(int release);
     ~FUN_0045cec0();
 };
@@ -1232,14 +1165,22 @@ struct FUN_009f7410 : FUN_006708b0
     FUN_0045cec0 memberB0;
     virtual ~FUN_009f7410();
 };
+// @fnv 0x009f73e0
+void* FUN_009f73e0::DeleteThis(unsigned int flags)
+{
+    reinterpret_cast<::FUN_009f7410 *>(this)->FUN_009f7410::~FUN_009f7410();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // @fnv 0x009f7410
 FUN_009f7410::~FUN_009f7410()
 {
-    if (memberB0.FUN_00559450())
+    if (((::ObjectRef *)(::FUN_00559450((int *)&(memberB0)))))
     {
-        if (memberB0.FUN_00559450()->FUN_009611e0())
+        if (((::ActorObject *)(reinterpret_cast<::FUN_009611e0_shell *>((((::ObjectRef *)(::FUN_00559450((int *)&(memberB0))))))->FUN_009611e0())))
         {
-            memberB0.FUN_00559450()->FUN_009611e0()->RemoveReference(memberB0.FUN_00559450());
+            ((::ActorObject *)(reinterpret_cast<::FUN_009611e0_shell *>((((::ObjectRef *)(::FUN_00559450((int *)&(memberB0))))))->FUN_009611e0()))->RemoveReference(((::ObjectRef *)(::FUN_00559450((int *)&(memberB0)))));
         }
         memberB0.FUN_0066b0d0(0);
     }
@@ -1518,46 +1459,15 @@ struct Parameter
 };
 struct Entry
 {
-    Parameter* FUN_00559450();
-    int FUN_00726070();
-    void SetSourceReference(Parameter*);
 };
 struct ThreatList
 {
-    int FUN_0044ddc0();
-    Entry* FUN_009f8a80(int);
-    void FUN_009f8b30(int, int);
 };
 struct Package
 {
     void FUN_009f8330(Parameter*);
     void FUN_009f76e0();
 };
-// @fnv 0x009f8330
-void Package::FUN_009f8330(Parameter* actor)
-{
-    int id = actor->GetMark();
-    int count = ((ThreatList*)((char*)this + 0xA0))->FUN_0044ddc0();
-    Entry* match = 0;
-    for (int i = 0; i < count; ++i)
-    {
-        Entry* e = ((ThreatList*)((char*)this + 0xA0))->FUN_009f8a80(i);
-        if (e->FUN_00559450() == actor && e->FUN_00726070() == id)
-        {
-            match = e;
-            break;
-        }
-    }
-    if (!match)
-    {
-        int n = ((ThreatList*)((char*)this + 0xA0))->FUN_0044ddc0();
-        ((ThreatList*)((char*)this + 0xA0))->FUN_009f8b30(n + 1, 1);
-        match = ((ThreatList*)((char*)this + 0xA0))->FUN_009f8a80(n);
-    }
-    match->SetSourceReference(actor);
-    FUN_009f76e0();
-}
-
 struct ThreatArray
 {
     virtual void ReleaseStorage();
@@ -1565,52 +1475,8 @@ struct ThreatArray
     S009f9180* data;
     unsigned int size;
     unsigned int capacity;
-    void FUN_009f8d00(bool);
-    void EnsureBuffer(unsigned int, unsigned int);
-    void FUN_009f8de0(S009f9180*, unsigned int);
-    void FUN_009f8f60(S009f9180*, unsigned int);
     void FUN_009f8b30(unsigned int count, bool shrink);
 };
-// @fnv 0x009f8b30
-void ThreatArray::FUN_009f8b30(unsigned int count, bool shrink)
-{
-    if (count == 0)
-    {
-        FUN_009f8d00(shrink);
-    }
-    else if (count > capacity)
-    {
-        if (capacity == 0)
-        {
-            data = Allocate(count);
-            capacity = count;
-        }
-        else
-        {
-            EnsureBuffer(count, size);
-            capacity = count;
-        }
-        FUN_009f8de0(data + size, count - size);
-        size = count;
-    }
-    else if (count < size)
-    {
-        FUN_009f8f60(data + count, size - count);
-        size = count;
-        if (shrink && count <= capacity / 4)
-        {
-            EnsureBuffer(count, count);
-            capacity = count;
-        }
-    }
-    else
-    {
-        FUN_009f8de0(data + size, count - size);
-        size = count;
-    }
-}
-
-int __cdecl SpanIndex(int a, int b);
 
 struct FUN_009f8c70_cls
 {
@@ -1618,17 +1484,57 @@ struct FUN_009f8c70_cls
     char* m_pData;
     int m_uiItemCount;
 
-    void FUN_009f8f60(void* apElem, unsigned int auiArg);
-    void CopyElements(void* apDst, void* apSrc, int aiIdx);
     void FUN_009f8c70(unsigned int a1, unsigned int a2);
 };
+// @fnv 0x009f84d0
+void FUN_009f84d0_class::FUN_009f84d0(unsigned int id)
+{
+    int count = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr))->GetName()));
+    for (int i = 0; i < count; ++i)
+    {
+        Flt* item = ((::Flt *)(reinterpret_cast<::FUN_009f8a80_wrapper *>((reinterpret_cast<FUN_009f8a80_class*>(&arr)))->FUN_009f8a80(i)));
+        if (item->operator unsigned int() == id ||
+            reinterpret_cast<::Callees *>((reinterpret_cast<FUN_009f8a80_class*>(item)))->FUN_00726070() == (void*)id)
+        {
+            reinterpret_cast<::FUN_009f8c70_cls *>((reinterpret_cast<FUN_009f8c70_class*>(&arr)))->FUN_009f8c70(i, 1);
+            --count;
+            --i;
+        }
+    }
+}
+// @fnv 0x009f8420
+void SpectatorPackageStandIn::FUN_009f8420(Actor& aActor)
+{
+    SpectatorThreatInfo* scanInfo;
+    int isize_ = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<char*>(this) + 0xA0)))->GetName()));
+    int i6 = 0;
+
+    for (; i6 < isize_; ++i6)
+    {
+        scanInfo = reinterpret_cast<SpectatorThreatInfo*>(
+            ((::Flt *)(reinterpret_cast<::FUN_009f8a80_wrapper *>((reinterpret_cast<FUN_009f8a80_class*>(reinterpret_cast<char*>(this) + 0xA0)))->FUN_009f8a80(i6))));
+
+        if (reinterpret_cast<Flt*>(scanInfo)->operator unsigned int() == reinterpret_cast<unsigned int>(&aActor))
+        {
+            reinterpret_cast<::FUN_009f8c70_cls *>((reinterpret_cast<FUN_009f8c70_class*>(reinterpret_cast<char*>(this) + 0xA0)))->FUN_009f8c70(i6, 1);
+            isize_--;
+            i6--;
+        }
+        else if (((unsigned int)(reinterpret_cast<::Callees *>((reinterpret_cast<SpectatorThreatInfoStandIn*>(scanInfo)))->FUN_00726070())) ==
+                 reinterpret_cast<unsigned int>(&aActor))
+        {
+            *reinterpret_cast<Actor**>(reinterpret_cast<char*>(scanInfo) + 4) = 0;
+            *reinterpret_cast<bool*>(reinterpret_cast<char*>(scanInfo) + 0x2D) = false;
+        }
+    }
+}
 
 // @fnv 0x009f8c70
 void FUN_009f8c70_cls::FUN_009f8c70(unsigned int a1, unsigned int a2)
 {
-    int idx = SpanIndex(m_uiItemCount - a1 - a2, a2);
-    FUN_009f8f60(m_pData + a1 * 0x34, a2);
-    CopyElements(m_pData + a1 * 0x34, m_pData + m_uiItemCount * 0x34 - idx * 0x34, idx);
+    int idx = ((int)(::FUN_0042f5a0(m_uiItemCount - a1 - a2, a2)));
+    reinterpret_cast<::S009f8f60 *>(this)->FUN_009f8f60((::S009f9180 *)(void *)(m_pData + a1 * 0x34), a2);
+    reinterpret_cast<::FUN_009f8fa0_Class *>(this)->CopyElements((char *)(void *)(m_pData + a1 * 0x34), (char *)(void *)(m_pData + m_uiItemCount * 0x34 - idx * 0x34), idx);
     m_uiItemCount = m_uiItemCount - a2;
 }
 
@@ -1640,7 +1546,6 @@ struct FUN_009f8e80_vec3
     float z;
 };
 
-extern FUN_009f8e80_vec3 DAT_011f426c;
 
 struct FUN_009f8e80_sub
 {
@@ -1669,7 +1574,7 @@ class FUN_009f8e80_cls
 
 // @fnv 0x009f8e80
 FUN_009f8e80_cls::FUN_009f8e80_cls()
-    : m_00(0), m_04(0), m_08(0), m_0c(0), m_10(0.0f), m_14(DAT_011f426c), m_20(DAT_011f426c), m_2c(0), m_2d(0), m_30(0)
+    : m_00(0), m_04(0), m_08(0), m_0c(0), m_10(0.0f), m_14((*reinterpret_cast<::fnv_009f8e80::FUN_009f8e80_vec3 *>((void *)&::NiPoint3::ZERO))), m_20((*reinterpret_cast<::fnv_009f8e80::FUN_009f8e80_vec3 *>((void *)&::NiPoint3::ZERO))), m_2c(0), m_2d(0), m_30(0)
 {
     m_30.FUN_0066b0d0(0);
 }
@@ -1698,8 +1603,6 @@ struct SpectatorInfo
     bool bHasStart;
     bool bHasEnd;
 
-    NiPoint3 GetStart();
-    NiPoint3 GetEnd();
     void FUN_009f6f30(SpectatorVolume& arVolume);
 };
 
@@ -1710,16 +1613,16 @@ void SpectatorInfo::FUN_009f6f30(SpectatorVolume& arVolume)
     {
         if (bHasEnd)
         {
-            arVolume = SpectatorVolume(GetStart(), GetEnd(), fRadius, 100.0f);
+            arVolume = SpectatorVolume(reinterpret_cast<::FUN_009f7050_class *>(this)->FUN_009f7050(*(::NiPoint3 *)nullptr), (*(::NiPoint3 *)&(reinterpret_cast<::fnv_009f7080::FUN_009f7080_class *>(this)->FUN_009f7080(*(::fnv_009f7080::NiPoint3 *)nullptr))), fRadius, 100.0f);
         }
         else
         {
-            arVolume = SpectatorVolume(GetStart(), fRadius, 100.0f);
+            arVolume = SpectatorVolume(reinterpret_cast<::FUN_009f7050_class *>(this)->FUN_009f7050(*(::NiPoint3 *)nullptr), fRadius, 100.0f);
         }
     }
     else if (bHasEnd)
     {
-        arVolume = SpectatorVolume(GetEnd(), fRadius, 100.0f);
+        arVolume = SpectatorVolume((*(::NiPoint3 *)&(reinterpret_cast<::fnv_009f7080::FUN_009f7080_class *>(this)->FUN_009f7080(*(::fnv_009f7080::NiPoint3 *)nullptr))), fRadius, 100.0f);
     }
 }
 
@@ -1772,16 +1675,14 @@ struct FUN_009f7500_class
         unsigned int third;
     } field94;
     ArrSI arrA0;
-    void CopyFromPackage(void*);
     void FUN_009f7500(void*);
 };
-extern int DAT_01183028;
 extern int DAT_011a5fd8;
 extern void* __cdecl FUN_00ec43fb(void*, int, int*, int*, int);
 // @fnv 0x009f7500
 void FUN_009f7500_class::FUN_009f7500(void* param_2)
 {
-    CopyFromPackage(param_2);
+    reinterpret_cast<::PackageCopy *>(this)->CopyFromPackage((::TESForm *)(param_2));
     FUN_009f7500_class* other = (FUN_009f7500_class*)FUN_00ec43fb(param_2, 0, &DAT_01183028, &DAT_011a5fd8, 0);
     if (other != 0)
     {
@@ -1791,13 +1692,13 @@ void FUN_009f7500_class::FUN_009f7500(void* param_2)
         field8c = other->field8c;
         field94 = other->field94;
         field90 = other->field90;
-        int count = other->arrA0.GetFlags();
-        ((FUN_009f8b30_class*)&arrA0)->FUN_009f8b30(count, 1);
+        int count = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->arrA0))->GetName()));
+        reinterpret_cast<::ThreatArray *>((((FUN_009f8b30_class*)&arrA0)))->FUN_009f8b30(count, 1);
         int i;
         for (i = 0; i < count; i++)
         {
-            ((SpectatorThreatInfo62d0*)((FUN_009f8a80_class*)&arrA0)->FUN_009f8a80(i))
-                ->FUN_009f7630(*(SpectatorThreatInfo62d0*)((FUN_009f8a80_class*)&other->arrA0)->FUN_009f8a80(i));
+            ((SpectatorThreatInfo62d0*)((::Flt *)(reinterpret_cast<::FUN_009f8a80_wrapper *>((((FUN_009f8a80_class*)&arrA0)))->FUN_009f8a80(i))))
+                ->FUN_009f7630(*(SpectatorThreatInfo62d0*)((::Flt *)(reinterpret_cast<::FUN_009f8a80_wrapper *>((((FUN_009f8a80_class*)&other->arrA0)))->FUN_009f8a80(i))));
         }
     }
 }
@@ -1806,10 +1707,6 @@ namespace ThreatBounds {
 struct Vec
 {
     float x, y, z;
-    void FUN_0063c8a0(const Vec&);
-    void FUN_00439180(float);
-    Vec FUN_00439ef0(const Vec&);
-    float FUN_004a7290();
 };
 struct Threat
 {
@@ -1825,20 +1722,11 @@ struct Threat
     unsigned int unk24;
     unsigned int unk28;
     bool hasSource, hasTarget;
-    Vec FUN_009f7050();
-    Vec FUN_009f7080();
 };
 struct ThreatList
 {
     unsigned int unk00;
-    int FUN_0044ddc0();
-    Threat* FUN_009f8a80(int);
 };
-extern const Vec DAT_011f426c;
-extern const float DAT_01016248;
-float FUN_00404010(float, float);
-float FUN_0040ebd0(float, float);
-float FUN_004019d0(float);
 struct Package
 {
     unsigned int unk0;
@@ -1885,64 +1773,64 @@ struct Package
 // @fnv 0x009f76e0
 void Package::FUN_009f76e0()
 {
-    if (!threats.FUN_0044ddc0())
+    if (!((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(threats))->GetName())))
         return;
-    int sizeSlot13 = threats.FUN_0044ddc0();
+    int sizeSlot13 = ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(threats))->GetName()));
     int pointCountSlot1 = 0;
-    Vec minimumSlot0 = DAT_011f426c;
-    Vec maximumSlot27 = DAT_011f426c;
+    Vec minimumSlot0 = (*reinterpret_cast<const ::ThreatBounds::Vec *>((void *)&::NiPoint3::ZERO));
+    Vec maximumSlot27 = (*reinterpret_cast<const ::ThreatBounds::Vec *>((void *)&::NiPoint3::ZERO));
     bool unusedSlot12 = false;
     int index;
     for (index = 0; index < sizeSlot13; index++)
     {
-        Threat* threat = threats.FUN_009f8a80(index);
+        Threat* threat = ((::ThreatBounds::Threat *)(reinterpret_cast<::FUN_009f8a80_wrapper *>(&(threats))->FUN_009f8a80(index)));
         if (threat->hasSource && threat->hasTarget)
         {
-            minimumSlot0.x = FUN_00404010(threat->FUN_009f7050().x, threat->FUN_009f7080().x);
-            minimumSlot0.y = FUN_00404010(threat->FUN_009f7050().y, threat->FUN_009f7080().y);
-            minimumSlot0.z = FUN_00404010(threat->FUN_009f7050().z, threat->FUN_009f7080().z);
-            maximumSlot27.x = FUN_0040ebd0(threat->FUN_009f7050().x, threat->FUN_009f7080().x);
-            maximumSlot27.y = FUN_0040ebd0(threat->FUN_009f7050().y, threat->FUN_009f7080().y);
-            maximumSlot27.z = FUN_0040ebd0(threat->FUN_009f7050().z, threat->FUN_009f7080().z);
+            minimumSlot0.x = ::FUN_00404010((*(::ThreatBounds::Vec *)&(reinterpret_cast<::FUN_009f7050_class *>((threat))->FUN_009f7050(*(::NiPoint3 *)nullptr))).x, (*(::ThreatBounds::Vec *)&(reinterpret_cast<::fnv_009f7080::FUN_009f7080_class *>((threat))->FUN_009f7080(*(::fnv_009f7080::NiPoint3 *)nullptr))).x);
+            minimumSlot0.y = ::FUN_00404010((*(::ThreatBounds::Vec *)&(reinterpret_cast<::FUN_009f7050_class *>((threat))->FUN_009f7050(*(::NiPoint3 *)nullptr))).y, (*(::ThreatBounds::Vec *)&(reinterpret_cast<::fnv_009f7080::FUN_009f7080_class *>((threat))->FUN_009f7080(*(::fnv_009f7080::NiPoint3 *)nullptr))).y);
+            minimumSlot0.z = ::FUN_00404010((*(::ThreatBounds::Vec *)&(reinterpret_cast<::FUN_009f7050_class *>((threat))->FUN_009f7050(*(::NiPoint3 *)nullptr))).z, (*(::ThreatBounds::Vec *)&(reinterpret_cast<::fnv_009f7080::FUN_009f7080_class *>((threat))->FUN_009f7080(*(::fnv_009f7080::NiPoint3 *)nullptr))).z);
+            maximumSlot27.x = ::FUN_0040ebd0((*(::ThreatBounds::Vec *)&(reinterpret_cast<::FUN_009f7050_class *>((threat))->FUN_009f7050(*(::NiPoint3 *)nullptr))).x, (*(::ThreatBounds::Vec *)&(reinterpret_cast<::fnv_009f7080::FUN_009f7080_class *>((threat))->FUN_009f7080(*(::fnv_009f7080::NiPoint3 *)nullptr))).x);
+            maximumSlot27.y = ::FUN_0040ebd0((*(::ThreatBounds::Vec *)&(reinterpret_cast<::FUN_009f7050_class *>((threat))->FUN_009f7050(*(::NiPoint3 *)nullptr))).y, (*(::ThreatBounds::Vec *)&(reinterpret_cast<::fnv_009f7080::FUN_009f7080_class *>((threat))->FUN_009f7080(*(::fnv_009f7080::NiPoint3 *)nullptr))).y);
+            maximumSlot27.z = ::FUN_0040ebd0((*(::ThreatBounds::Vec *)&(reinterpret_cast<::FUN_009f7050_class *>((threat))->FUN_009f7050(*(::NiPoint3 *)nullptr))).z, (*(::ThreatBounds::Vec *)&(reinterpret_cast<::fnv_009f7080::FUN_009f7080_class *>((threat))->FUN_009f7080(*(::fnv_009f7080::NiPoint3 *)nullptr))).z);
             pointCountSlot1 += 2;
             break;
         }
         else if (threat->hasSource)
         {
-            minimumSlot0 = threat->FUN_009f7050();
-            maximumSlot27 = threat->FUN_009f7050();
+            minimumSlot0 = (*(::ThreatBounds::Vec *)&(reinterpret_cast<::FUN_009f7050_class *>((threat))->FUN_009f7050(*(::NiPoint3 *)nullptr)));
+            maximumSlot27 = (*(::ThreatBounds::Vec *)&(reinterpret_cast<::FUN_009f7050_class *>((threat))->FUN_009f7050(*(::NiPoint3 *)nullptr)));
             pointCountSlot1++;
             break;
         }
         else if (threat->hasTarget)
         {
-            minimumSlot0 = threat->FUN_009f7080();
-            maximumSlot27 = threat->FUN_009f7080();
+            minimumSlot0 = (*(::ThreatBounds::Vec *)&(reinterpret_cast<::fnv_009f7080::FUN_009f7080_class *>((threat))->FUN_009f7080(*(::fnv_009f7080::NiPoint3 *)nullptr)));
+            maximumSlot27 = (*(::ThreatBounds::Vec *)&(reinterpret_cast<::fnv_009f7080::FUN_009f7080_class *>((threat))->FUN_009f7080(*(::fnv_009f7080::NiPoint3 *)nullptr)));
             pointCountSlot1++;
             break;
         }
     }
     for (index++; index < sizeSlot13; index++)
     {
-        Threat* nextThreat = threats.FUN_009f8a80(index);
+        Threat* nextThreat = ((::ThreatBounds::Threat *)(reinterpret_cast<::FUN_009f8a80_wrapper *>(&(threats))->FUN_009f8a80(index)));
         if (nextThreat->hasSource)
         {
-            minimumSlot0.x = FUN_00404010(minimumSlot0.x, nextThreat->FUN_009f7050().x);
-            minimumSlot0.y = FUN_00404010(minimumSlot0.y, nextThreat->FUN_009f7050().y);
-            minimumSlot0.z = FUN_00404010(minimumSlot0.z, nextThreat->FUN_009f7050().z);
-            maximumSlot27.x = FUN_0040ebd0(maximumSlot27.x, nextThreat->FUN_009f7050().x);
-            maximumSlot27.y = FUN_0040ebd0(maximumSlot27.y, nextThreat->FUN_009f7050().y);
-            maximumSlot27.z = FUN_0040ebd0(maximumSlot27.z, nextThreat->FUN_009f7050().z);
+            minimumSlot0.x = ::FUN_00404010(minimumSlot0.x, (*(::ThreatBounds::Vec *)&(reinterpret_cast<::FUN_009f7050_class *>((nextThreat))->FUN_009f7050(*(::NiPoint3 *)nullptr))).x);
+            minimumSlot0.y = ::FUN_00404010(minimumSlot0.y, (*(::ThreatBounds::Vec *)&(reinterpret_cast<::FUN_009f7050_class *>((nextThreat))->FUN_009f7050(*(::NiPoint3 *)nullptr))).y);
+            minimumSlot0.z = ::FUN_00404010(minimumSlot0.z, (*(::ThreatBounds::Vec *)&(reinterpret_cast<::FUN_009f7050_class *>((nextThreat))->FUN_009f7050(*(::NiPoint3 *)nullptr))).z);
+            maximumSlot27.x = ::FUN_0040ebd0(maximumSlot27.x, (*(::ThreatBounds::Vec *)&(reinterpret_cast<::FUN_009f7050_class *>((nextThreat))->FUN_009f7050(*(::NiPoint3 *)nullptr))).x);
+            maximumSlot27.y = ::FUN_0040ebd0(maximumSlot27.y, (*(::ThreatBounds::Vec *)&(reinterpret_cast<::FUN_009f7050_class *>((nextThreat))->FUN_009f7050(*(::NiPoint3 *)nullptr))).y);
+            maximumSlot27.z = ::FUN_0040ebd0(maximumSlot27.z, (*(::ThreatBounds::Vec *)&(reinterpret_cast<::FUN_009f7050_class *>((nextThreat))->FUN_009f7050(*(::NiPoint3 *)nullptr))).z);
             pointCountSlot1++;
         }
         if (nextThreat->hasTarget)
         {
-            minimumSlot0.x = FUN_00404010(minimumSlot0.x, nextThreat->FUN_009f7080().x);
-            minimumSlot0.y = FUN_00404010(minimumSlot0.y, nextThreat->FUN_009f7080().y);
-            minimumSlot0.z = FUN_00404010(minimumSlot0.z, nextThreat->FUN_009f7080().z);
-            maximumSlot27.x = FUN_0040ebd0(maximumSlot27.x, nextThreat->FUN_009f7080().x);
-            maximumSlot27.y = FUN_0040ebd0(maximumSlot27.y, nextThreat->FUN_009f7080().y);
-            maximumSlot27.z = FUN_0040ebd0(maximumSlot27.z, nextThreat->FUN_009f7080().z);
+            minimumSlot0.x = ::FUN_00404010(minimumSlot0.x, (*(::ThreatBounds::Vec *)&(reinterpret_cast<::fnv_009f7080::FUN_009f7080_class *>((nextThreat))->FUN_009f7080(*(::fnv_009f7080::NiPoint3 *)nullptr))).x);
+            minimumSlot0.y = ::FUN_00404010(minimumSlot0.y, (*(::ThreatBounds::Vec *)&(reinterpret_cast<::fnv_009f7080::FUN_009f7080_class *>((nextThreat))->FUN_009f7080(*(::fnv_009f7080::NiPoint3 *)nullptr))).y);
+            minimumSlot0.z = ::FUN_00404010(minimumSlot0.z, (*(::ThreatBounds::Vec *)&(reinterpret_cast<::fnv_009f7080::FUN_009f7080_class *>((nextThreat))->FUN_009f7080(*(::fnv_009f7080::NiPoint3 *)nullptr))).z);
+            maximumSlot27.x = ::FUN_0040ebd0(maximumSlot27.x, (*(::ThreatBounds::Vec *)&(reinterpret_cast<::fnv_009f7080::FUN_009f7080_class *>((nextThreat))->FUN_009f7080(*(::fnv_009f7080::NiPoint3 *)nullptr))).x);
+            maximumSlot27.y = ::FUN_0040ebd0(maximumSlot27.y, (*(::ThreatBounds::Vec *)&(reinterpret_cast<::fnv_009f7080::FUN_009f7080_class *>((nextThreat))->FUN_009f7080(*(::fnv_009f7080::NiPoint3 *)nullptr))).y);
+            maximumSlot27.z = ::FUN_0040ebd0(maximumSlot27.z, (*(::ThreatBounds::Vec *)&(reinterpret_cast<::fnv_009f7080::FUN_009f7080_class *>((nextThreat))->FUN_009f7080(*(::fnv_009f7080::NiPoint3 *)nullptr))).z);
             pointCountSlot1++;
         }
     }
@@ -1952,30 +1840,30 @@ void Package::FUN_009f76e0()
         return;
     }
     Vec midpointSlot20 = minimumSlot0;
-    midpointSlot20.FUN_0063c8a0(maximumSlot27);
-    midpointSlot20.FUN_00439180(DAT_01016248);
+    reinterpret_cast<::FUN_0063c8a0_shell *>(&(midpointSlot20))->FUN_0063c8a0((void *)&(maximumSlot27));
+    reinterpret_cast<::MyPoint439180 *>(&(midpointSlot20))->FUN_00439180(::fnv_00c88020::DAT_01016248);
     float distance = 0.0f;
     float radiusSquaredSlot57 = 0.0f;
     for (index = 0; index < sizeSlot13; index++)
     {
-        Threat* radiusThreat = threats.FUN_009f8a80(index);
+        Threat* radiusThreat = ((::ThreatBounds::Threat *)(reinterpret_cast<::FUN_009f8a80_wrapper *>(&(threats))->FUN_009f8a80(index)));
         if (!radiusThreat->hasSource && !radiusThreat->hasTarget)
             continue;
         if (radiusThreat->hasSource)
         {
-            distance = midpointSlot20.FUN_00439ef0(radiusThreat->FUN_009f7050()).FUN_004a7290();
+            distance = reinterpret_cast<::TESCombatStyle *>((void *)&(const ::ThreatBounds::Vec &)((*(::ThreatBounds::Vec *)(reinterpret_cast<::FUN_00439ef0_class *>(&(midpointSlot20))->FUN_00439ef0((::NiPoint3 *)&(const ::ThreatBounds::Vec &)((*(::ThreatBounds::Vec *)&(reinterpret_cast<::FUN_009f7050_class *>((radiusThreat))->FUN_009f7050(*(::NiPoint3 *)nullptr)))), *(const ::NiPoint3 *)nullptr)))))->UpdateCombatStyle();
             if (distance >= radiusSquaredSlot57)
                 radiusSquaredSlot57 = distance;
         }
         if (radiusThreat->hasTarget)
         {
-            distance = midpointSlot20.FUN_00439ef0(radiusThreat->FUN_009f7080()).FUN_004a7290();
+            distance = reinterpret_cast<::TESCombatStyle *>((void *)&(const ::ThreatBounds::Vec &)((*(::ThreatBounds::Vec *)(reinterpret_cast<::FUN_00439ef0_class *>(&(midpointSlot20))->FUN_00439ef0((::NiPoint3 *)&(const ::ThreatBounds::Vec &)((*(::ThreatBounds::Vec *)&(reinterpret_cast<::fnv_009f7080::FUN_009f7080_class *>((radiusThreat))->FUN_009f7080(*(::fnv_009f7080::NiPoint3 *)nullptr)))), *(const ::NiPoint3 *)nullptr)))))->UpdateCombatStyle();
             if (distance >= radiusSquaredSlot57)
                 radiusSquaredSlot57 = distance;
         }
     }
     center = midpointSlot20;
-    radius = FUN_004019d0(radiusSquaredSlot57);
+    radius = ::ConvertDoubleResult(radiusSquaredSlot57);
 }
 }
 
@@ -2466,7 +2354,6 @@ struct BaseProcess
 
 struct MobileObject
 {
-    void* __thiscall FUN_008d8520();
 };
 
 struct FUN_009f7f20_class
@@ -2483,19 +2370,19 @@ void __thiscall FUN_009f7f20_class::FUN_009f7f20(MobileObject* actor, unsigned c
     TargetView* AX;
     if (flag != 0)
     {
-        if ((unsigned int)(((ThreatList*)((char*)this + 0xa0))->FUN_0044ddc0()) > 0)
+        if ((unsigned int)(((int)(reinterpret_cast<::Twin_0044ddc0 *>((((ThreatList*)((char*)this + 0xa0))))->GetName()))) > 0)
         {
             TargetView* A5 =
-                (TargetView*)((Entry*)((FUN_009f8aa0_class*)((char*)this + 0xa0))->FUN_009f8aa0())->FUN_00726070();
+                (TargetView*)((int)(reinterpret_cast<::Callees *>((((Entry*)((FUN_009f8aa0_class*)((char*)this + 0xa0))->FUN_009f8aa0())))->FUN_00726070()));
             AX = (A5 != 0 && A5->IsActor() != 0) ? A5 : (TargetView*)0;
             if (AX != 0)
             {
-                ((BaseProcess*)actor->FUN_008d8520())->SetTarget(AX);
+                ((BaseProcess*)((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())))->SetTarget(AX);
                 return;
             }
         }
     }
-    ((BaseProcess*)actor->FUN_008d8520())->SetFallback(1);
+    ((BaseProcess*)((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())))->SetFallback(1);
 }
 
 extern "C" void* __cdecl FUN_00aa13e0(unsigned int bytes);
@@ -2512,13 +2399,9 @@ struct FUN_006e3850
         return FUN_00aa13e0(bytes);
     }
     FUN_006e3850();
-    int __thiscall FUN_0044ddc0();
-    void __thiscall SetSize(int newCount, int preserve);
-    void* __thiscall FUN_006a1400(int index);
 };
 struct ThreatItem_009f8570
 {
-    void __thiscall FUN_009f6f30(void* element);
 };
 struct FUN_009f8570_class
 {
@@ -2528,36 +2411,28 @@ struct FUN_009f8570_class
 FUN_006e3850* __thiscall FUN_009f8570_class::FUN_009f8570()
 {
     FUN_006e3850* output = new FUN_006e3850;
-    int total = reinterpret_cast<ThreatList*>(reinterpret_cast<char*>(this) + 0xa0)->FUN_0044ddc0();
+    int total = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ThreatList*>(reinterpret_cast<char*>(this) + 0xa0)))->GetName()));
     for (int index = 0; index < total; ++index)
     {
         int used;
         ThreatItem_009f8570* item;
         item = reinterpret_cast<ThreatItem_009f8570*>(
-            reinterpret_cast<ThreatList*>(reinterpret_cast<char*>(this) + 0xa0)->FUN_009f8a80(index));
-        used = output->FUN_0044ddc0();
-        output->SetSize(used + 1, 1);
-        item->FUN_009f6f30(output->FUN_006a1400(used));
+            ((::Entry *)(reinterpret_cast<::FUN_009f8a80_wrapper *>((reinterpret_cast<ThreatList*>(reinterpret_cast<char*>(this) + 0xa0)))->FUN_009f8a80(index))));
+        used = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((output))->GetName()));
+        reinterpret_cast<::BSSimpleArray_PathingAvoidNode_1024 *>((output))->SetSize(used + 1, 1);
+        reinterpret_cast<::SpectatorInfo *>((item))->FUN_009f6f30((*(::SpectatorVolume *)(((void *)(reinterpret_cast<::S3e60 *>((output))->FUN_006a1400(used))))));
     }
     return output;
 }
 
-extern const double DAT_01012060;
-unsigned int __cdecl FUN_00487f50();
-void* __cdecl GetTopicSubTypeName(int iType, int iFlags);
 
 struct Setting9f7d
 {
-    float* FUN_00403e20();
 };
-extern Setting9f7d DAT_011cdc04;
-extern Setting9f7d DAT_011ccff0;
 
 struct Timer9f7d
 {
-    float FUN_0084d030();
 };
-extern Timer9f7d DAT_011f6394;
 
 struct Process9f7d
 {
@@ -2830,20 +2705,14 @@ struct Target9f7d
 
 struct Candidate9f7d
 {
-    Target9f7d* FUN_00726070();
 };
 
 struct List9f7d
 {
-    unsigned int FUN_0044ddc0();
-    Candidate9f7d* FUN_009f8aa0();
 };
 
 struct Actor9f7d
 {
-    Process9f7d* FUN_008d8520();
-    void FUN_008b3ab0();
-    void FUN_0057bd60(Target9f7d* pkTarget);
 };
 
 struct FUN_009f7d70_cls
@@ -2861,29 +2730,29 @@ void FUN_009f7d70_cls::FUN_009f7d70(Actor9f7d* pkActor, bool bActive)
 {
     if (!bActive)
     {
-        pkActor->FUN_008d8520()->StopAll(0);
-        pkActor->FUN_008b3ab0();
+        ((::Process9f7d *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture()))->StopAll(0);
+        reinterpret_cast<::FUN_008b3ab0_shell *>((pkActor))->FUN_008b3ab0();
         return;
     }
-    if (m_kTargets.FUN_0044ddc0() > 0)
+    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kTargets))->GetName())) > 0)
     {
-        int iRoll = FUN_00487f50() % 100;
-        Target9f7d* pkCandidate = m_kTargets.FUN_009f8aa0()->FUN_00726070();
+        int iRoll = ::DialogueRandom() % 100;
+        Target9f7d* pkCandidate = ((::Target9f7d *)(reinterpret_cast<::Callees *>((((::Candidate9f7d *)(reinterpret_cast<::FUN_009f8aa0_class *>(&(m_kTargets))->FUN_009f8aa0()))))->FUN_00726070()));
         Target9f7d* pkTarget = (pkCandidate && pkCandidate->IsValidTarget()) ? pkCandidate : 0;
         if (pkTarget)
         {
-            if (pkActor->FUN_008d8520() && !pkActor->FUN_008d8520()->IsBusy() && iRoll < *DAT_011cdc04.FUN_00403e20() &&
-                m_fTimer <= DAT_01012060)
+            if (((::Process9f7d *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture())) && !((::Process9f7d *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture()))->IsBusy() && iRoll < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9f7d *>(&::originalRuntimeFloatSetting136)))))) &&
+                m_fTimer <= ::_DAT_01012060)
             {
-                void* pkPackage = GetTopicSubTypeName(6, 0);
+                void* pkPackage = ((void *)(::fnv_0061a2d0::GetTopicSubTypeName(6, 0)));
                 if (pkPackage)
                 {
-                    pkActor->FUN_0057bd60(pkTarget);
-                    pkActor->FUN_008d8520()->SetPackage(pkActor, pkPackage, 0, 0, 1, 0);
-                    m_fTimer = *DAT_011ccff0.FUN_00403e20();
+                    reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>((pkActor))->FUN_0057bd60((::fnv_0057bd60::MobileObject *)(pkTarget));
+                    ((::Process9f7d *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture()))->SetPackage(pkActor, pkPackage, 0, 0, 1, 0);
+                    m_fTimer = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9f7d *>(&::originalRuntimeFloatSetting143))))));
                 }
             }
-            m_fTimer -= DAT_011f6394.FUN_0084d030();
+            m_fTimer -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::Timer9f7d *>(&::g_timeGlobal))))->GetStoredFloatValue();
         }
     }
 }
@@ -3218,29 +3087,18 @@ struct Actor8020
     virtual void slot319();
     virtual void slot320();
     virtual Relation8020* GetRelation(Actor8020*, int);
-    bool FUN_00440d80();
-    Actor8020* FUN_008d8520();
 };
 struct Threat8020
 {
     Actor8020* source;
     Actor8020* target;
-    Actor8020* FUN_00559450();
-    Actor8020* FUN_00726070();
-    unsigned int FUN_0084e3a0();
-    void FUN_009f6d50();
 };
 struct ThreatList8020
 {
-    int FUN_0044ddc0();
-    Threat8020* FUN_009f8a80(int);
-    void FUN_009f8c70(int, int);
 };
 struct SettingFloat8020
 {
-    float* Float();
 };
-extern SettingFloat8020 originalRuntimeFloatSetting144;
 struct Package8020
 {
     unsigned int unk00;
@@ -3284,65 +3142,62 @@ struct Package8020
     unsigned int unk98;
     unsigned int unk9c;
     ThreatList8020 threats;
-    void FUN_009f8330(Actor8020*);
-    void FUN_009f76e0();
-    void FUN_004534f0(Actor8020*);
     void FUN_009f8020(Actor8020* actor);
 };
 // @fnv 0x009f8020
 void Package8020::FUN_009f8020(Actor8020* owner)
 {
     bool updated = false;
-    int count = threats.FUN_0044ddc0();
+    int count = ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(threats))->GetName()));
     for (int i = 0; i < count; ++i)
     {
-        Threat8020* entry = threats.FUN_009f8a80(i);
-        if (entry->FUN_00559450() && entry->FUN_00726070())
+        Threat8020* entry = ((::Threat8020 *)(reinterpret_cast<::FUN_009f8a80_wrapper *>(&(threats))->FUN_009f8a80(i)));
+        if (((::Actor8020 *)(::FUN_00559450((int *)(entry)))) && ((::Actor8020 *)(reinterpret_cast<::Callees *>((entry))->FUN_00726070())))
         {
-            Actor8020* currentTarget = entry->FUN_00559450()->GetTarget();
-            if (currentTarget && currentTarget != entry->FUN_00726070())
+            Actor8020* currentTarget = ((::Actor8020 *)(::FUN_00559450((int *)(entry))))->GetTarget();
+            if (currentTarget && currentTarget != ((::Actor8020 *)(reinterpret_cast<::Callees *>((entry))->FUN_00726070())))
             {
-                FUN_009f8330(owner);
+                reinterpret_cast<::Package *>(this)->FUN_009f8330((::Parameter *)(owner));
                 updated = true;
             }
         }
     }
-    count = threats.FUN_0044ddc0();
+    count = ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(threats))->GetName()));
     for (int j = 0; j < count; ++j)
     {
-        Threat8020* entry = threats.FUN_009f8a80(j);
-        Actor8020* actor = entry->FUN_00559450();
-        Actor8020* target = entry->FUN_00726070();
-        if (gm_GetTickCount() <= entry->FUN_0084e3a0() + 2000)
+        Threat8020* entry = ((::Threat8020 *)(reinterpret_cast<::FUN_009f8a80_wrapper *>(&(threats))->FUN_009f8a80(j)));
+        Actor8020* actor = ((::Actor8020 *)(::FUN_00559450((int *)(entry))));
+        Actor8020* target = ((::Actor8020 *)(reinterpret_cast<::Callees *>((entry))->FUN_00726070()));
+        if (((unsigned int)(::FUN_00457fe0())) <= ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((entry))->FUN_0084e3a0())) + 2000)
             continue;
-        if (gm_GetTickCount() > entry->FUN_0084e3a0() + *originalRuntimeFloatSetting144.Float() * 1000.0)
+        if (((unsigned int)(::FUN_00457fe0())) > ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((entry))->FUN_0084e3a0())) + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat8020 *>(&::originalRuntimeFloatSetting144)))))) * 1000.0)
         {
-            threats.FUN_009f8c70(j, 1);
+            reinterpret_cast<::FUN_009f8c70_cls *>(&(threats))->FUN_009f8c70(j, 1);
             --count;
             --j;
             updated = true;
             continue;
         }
-        if (target && (target->IsDead(0) || target->FUN_00440d80() || target->IsStateActive() || target->IsDisabled()))
+        if (target && (target->IsDead(0) || reinterpret_cast<::FUN_00440d80_shell *>((target))->FUN_00440d80() || target->IsStateActive() || target->IsDisabled()))
         {
             entry->target = 0;
             updated = true;
             continue;
         }
-        if (actor && actor->IsActor() && owner->FUN_008d8520())
+        if (actor && actor->IsActor() && ((::Actor8020 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((owner))->GetBaseTexture())))
         {
-            Relation8020* relation = owner->FUN_008d8520() ? owner->FUN_008d8520()->GetRelation(actor, 0) : 0;
+            Relation8020* relation = ((::Actor8020 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((owner))->GetBaseTexture())) ? ((::Actor8020 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((owner))->GetBaseTexture()))->GetRelation(actor, 0) : 0;
             if (!relation || relation->count <= 0)
                 continue;
         }
         if (actor && target && actor->GetTarget() != target)
             continue;
         updated = true;
-        entry->FUN_009f6d50();
+        reinterpret_cast<::ThreatInfo *>((entry))->FUN_009f6d50();
     }
     if (updated)
-        FUN_009f76e0();
-    FUN_004534f0(owner);
+        reinterpret_cast<::ThreatBounds::Package *>(this)->FUN_009f76e0();
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)(owner));
 }
 
 void* __cdecl operator new(unsigned int, void*);
@@ -3370,6 +3225,101 @@ struct ElemArray
 {
     void FUN_009f8de0(Elem* apArray, unsigned int ItemUpdateArray);
 };
+// @fnv 0x009f8900
+void FUN_009f8900_class::FUN_009f8900(BGSLoadFormBuffer* apLoadGameBuffer)
+{
+    reinterpret_cast<::Package6798c0 *>((reinterpret_cast<TESPackage*>(this)))->LoadPackage((::LoadBuffer6798c0 *)(apLoadGameBuffer));
+
+    int ipathTimeDelta = 0;
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ipathTimeDelta), 4);
+    field80 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)&(g_timeGlobal))->FUN_00825c00() - ipathTimeDelta;
+
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&field84), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&field88), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&field8C), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&field90), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(field94), 12);
+
+    {
+        unsigned int isaveGameCount = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((apLoadGameBuffer))->FUN_00864a60();
+
+        reinterpret_cast<::ThreatArray *>((reinterpret_cast<FUN_009f8b30_class*>(reinterpret_cast<unsigned char*>(this) + 0xA0)))->FUN_009f8b30(isaveGameCount, 1);
+
+        {
+            unsigned int i;
+            for (i = 0; i < isaveGameCount; ++i)
+            {
+                SpectatorThreatInfo* threatInfo = reinterpret_cast<SpectatorThreatInfo*>(
+                    reinterpret_cast<FUN_009f8a80_wrapper*>(reinterpret_cast<unsigned char*>(this) + 0xA0)
+                        ->FUN_009f8a80(i));
+
+                reinterpret_cast<::fnv_009f7170::SpectatorThreatInfo *>((reinterpret_cast<FUN_009f7170_class*>(threatInfo)))->FUN_009f7170((::fnv_009f7170::BGSLoadFormBuffer *)(apLoadGameBuffer));
+            }
+        }
+    }
+}
+// @fnv 0x009f8330
+void Package::FUN_009f8330(Parameter* actor)
+{
+    int id = actor->GetMark();
+    int count = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((ThreatList*)((char*)this + 0xA0))))->GetName()));
+    Entry* match = 0;
+    for (int i = 0; i < count; ++i)
+    {
+        Entry* e = ((::Entry *)(reinterpret_cast<::FUN_009f8a80_wrapper *>((((ThreatList*)((char*)this + 0xA0))))->FUN_009f8a80(i)));
+        if (((::Parameter *)(::FUN_00559450((int *)(e)))) == actor && ((int)(reinterpret_cast<::Callees *>((e))->FUN_00726070())) == id)
+        {
+            match = e;
+            break;
+        }
+    }
+    if (!match)
+    {
+        int n = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((ThreatList*)((char*)this + 0xA0))))->GetName()));
+        reinterpret_cast<::ThreatArray *>((((ThreatList*)((char*)this + 0xA0))))->FUN_009f8b30(n + 1, 1);
+        match = ((::Entry *)(reinterpret_cast<::FUN_009f8a80_wrapper *>((((ThreatList*)((char*)this + 0xA0))))->FUN_009f8a80(n)));
+    }
+    reinterpret_cast<::ReferenceLinkController *>((match))->SetSourceReference((::GameReference *)(actor));
+    FUN_009f76e0();
+}
+// @fnv 0x009f8b30
+void ThreatArray::FUN_009f8b30(unsigned int count, bool shrink)
+{
+    if (count == 0)
+    {
+        reinterpret_cast<::fnv_009f8d00::FUN_009f8d00_class *>(this)->FUN_009f8d00(shrink);
+    }
+    else if (count > capacity)
+    {
+        if (capacity == 0)
+        {
+            data = Allocate(count);
+            capacity = count;
+        }
+        else
+        {
+            reinterpret_cast<::FUN_009f9040_cls *>(this)->EnsureBuffer(count, size);
+            capacity = count;
+        }
+        reinterpret_cast<::ElemArray *>(this)->FUN_009f8de0((::Elem *)(::S009f9180 *)(data + size), count - size);
+        size = count;
+    }
+    else if (count < size)
+    {
+        reinterpret_cast<::S009f8f60 *>(this)->FUN_009f8f60(data + count, size - count);
+        size = count;
+        if (shrink && count <= capacity / 4)
+        {
+            reinterpret_cast<::FUN_009f9040_cls *>(this)->EnsureBuffer(count, count);
+            capacity = count;
+        }
+    }
+    else
+    {
+        reinterpret_cast<::ElemArray *>(this)->FUN_009f8de0((::Elem *)(::S009f9180 *)(data + size), count - size);
+        size = count;
+    }
+}
 
 // @fnv 0x009f8de0
 void ElemArray::FUN_009f8de0(Elem* apArray, unsigned int ItemUpdateArray)

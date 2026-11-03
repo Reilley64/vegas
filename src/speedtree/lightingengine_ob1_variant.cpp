@@ -6,6 +6,22 @@
 // src/speedtree/lightingengine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/lightingengine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00b0cf90_class.h"
+#include "fnv/decl/FUN_00b12790_class.h"
+#include "fnv/decl/FUN_00b2a180.h"
+#include "fnv/decl/FUN_00b2abc0_It.h"
+#include "fnv/decl/FUN_00b2ac30_t.h"
+#include "fnv/decl/FUN_00b3ed20_cls.h"
+#include "fnv/decl/FUN_00b40430_cls.h"
+#include "fnv/decl/FUN_00b404c0_cls.h"
+#include "fnv/decl/FUN_00b42980.h"
+#include "fnv/decl/FacingTint.h"
+#include "fnv/decl/FnvVecIter.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/S_00b3ed80.h"
+#include "fnv/decl/V3cdd0.h"
+#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
+#include "fnv/symbols_01012000.h"
 extern double FUN_00ec6054(double);
 
 struct Vec3
@@ -94,7 +110,6 @@ struct GameContext
     unsigned int packed14;
     unsigned char alpha18, unk19, unk1a, unk1b;
     Vec3 location;
-    void FUN_00b40430(float*);
     void FUN_00b404c0(const Color& values, bool adjust)
     {
         unsigned int packed = PackChannel(values.r, adjust, alpha18);
@@ -102,28 +117,23 @@ struct GameContext
         packed += PackChannel(values.b, adjust, alpha18) << 16;
         packed14 = packed - 0x1000000;
     }
-    void FUN_00b40210(int, Vec3*, float);
     float FUN_00b04d40(Vec3*);
 };
 struct Record;
 struct Iterator
 {
     int unk00, unk04;
-    void FUN_00b42980(int, Record*);
     __forceinline Iterator(int value, Record* owner)
     {
-        FUN_00b42980(value, owner);
+        reinterpret_cast<::FUN_00b42980 *>(this)->Set(value, (*(const ::FUN_00b42980 *)(owner)));
     }
-    bool FUN_00b2ac30(Iterator*);
-    GameContext*& FUN_00b2ab50();
-    void FUN_00b2abc0();
     __forceinline bool operator!=(Iterator const& rhs)
     {
-        return !FUN_00b2ac30((Iterator*)&rhs);
+        return !reinterpret_cast<::FUN_00b2ac30_t *>(this)->FUN_00b2ac30((::FUN_00b2ac30_t *)(::Iterator *)((Iterator*)&rhs));
     }
     __forceinline GameContext*& operator->()
     {
-        return FUN_00b2ab50();
+        return ((::GameContext *)(reinterpret_cast<::FnvVecIter *>(this)->FUN_00b2ab50()));
     }
 };
 struct Record
@@ -158,9 +168,6 @@ struct DeviceData
 };
 extern DeviceData DAT_011ad168[8];
 extern unsigned char DAT_011f8d50[8];
-extern float DAT_01012054;
-extern double DAT_01012060;
-extern double DAT_01012070;
 __forceinline void BlendWeight(float& weight, float blend)
 {
     weight = weight * (1.0 - blend) + blend;
@@ -192,14 +199,14 @@ void Scene::FUN_00b2a210(int output, Record* records, int count)
         for (int i = 0; i < count; ++i)
         {
             Iterator it = records[i].begin();
-            for (; it != records[i].end(); it.FUN_00b2abc0())
+            for (; it != records[i].end(); reinterpret_cast<::FUN_00b2abc0_It *>(&(it))->FUN_00b2abc0())
             {
                 void* location = &it->location;
                 void* rotationW = &it->rotation;
                 Color origin20;
-                it->FUN_00b40430(&origin20.r);
+                reinterpret_cast<::FUN_00b40430_cls *>(((it).operator->()))->FUN_00b40430(&origin20.r);
                 Vec3 best;
-                float maximumW2 = DAT_01012054;
+                float maximumW2 = ::DAT_01012054;
                 Vec3 result5;
                 for (int j = 0; j < 8; ++j)
                 {
@@ -207,15 +214,15 @@ void Scene::FUN_00b2a210(int output, Record* records, int count)
                     {
                         Vec3 dir(DAT_011ad168[j].position.x, DAT_011ad168[j].position.y, DAT_011ad168[j].position.z);
                         Vec3 normal_29 =
-                            DAT_011ad168[j].transformMode == DAT_01012060 ? dir : dir.FUN_00b13040(rotationW);
-                        normal_29.FUN_00b12790();
-                        float weight = normal_29.FUN_00b2a180(location);
+                            DAT_011ad168[j].transformMode == ::_DAT_01012060 ? dir : dir.FUN_00b13040(rotationW);
+                        reinterpret_cast<::FUN_00b12790_class *>(&(normal_29))->FUN_00b12790();
+                        float weight = reinterpret_cast<::FUN_00b2a180 *>(&(normal_29))->Dot((*(const ::NiPoint3 *)(location)));
                         if (weight >= maximumW2)
                         {
                             maximumW2 = weight;
                             best = dir;
                         }
-                        if (weight < DAT_01012060)
+                        if (weight < ::_DAT_01012060)
                             weight = 0.0f;
                         BlendWeight(weight, blend70);
                         if ((flags74 & 1) != 0)
@@ -224,35 +231,35 @@ void Scene::FUN_00b2a210(int output, Record* records, int count)
                             Vec3 combined5(DAT_011ad168[j].mix.x * colors48.x, DAT_011ad168[j].mix.y * colors48.y,
                                            DAT_011ad168[j].mix.z * colors48.z);
                             float falloff = 1.0f;
-                            if (DAT_011ad168[j].transformMode != DAT_01012060)
+                            if (DAT_011ad168[j].transformMode != ::_DAT_01012060)
                             {
-                                float dist8 = ((Vec3*)rotationW)->FUN_00b04d40(&dir);
+                                float dist8 = reinterpret_cast<::V3cdd0 *>((((Vec3*)rotationW)))->FUN_00b04d40((const ::V3cdd0 *)(::Vec3 *)(&dir));
                                 float polynomial = DAT_011ad168[j].constant + DAT_011ad168[j].linear * dist8 +
                                                    DAT_011ad168[j].quadratic * dist8 * dist8;
-                                if (polynomial != DAT_01012060)
+                                if (polynomial != ::_DAT_01012060)
                                     falloff = 1.0f / polynomial;
                             }
                             Vec3 attenuation((weight * DAT_011ad168[j].scale.x) * origin20[0],
                                              (weight * DAT_011ad168[j].scale.y) * origin20[1],
                                              (weight * DAT_011ad168[j].scale.z) * origin20[2]);
-                            result5.FUN_00b2a1c0(
-                                &pos29.AddVector(combined5.AddVector(attenuation).ScaleSwizzled(falloff)));
+                            reinterpret_cast<::NiPoint3 *>(&(result5))->FUN_00b2a1c0(
+                                (*(const ::NiPoint3 *)(&(*(::Vec3 *)(reinterpret_cast<::FUN_00b0cf90_class *>(&(pos29))->AddVector((float *)&(const ::Vec3 &)((*(::Vec3 *)(reinterpret_cast<::FUN_00b0cf90_class *>(&(combined5))->AddVector((float *)&(attenuation), {}))).ScaleSwizzled(falloff)), {}))))));
                         }
                     }
                 }
-                result5[0]<DAT_01012060 ? result5[0] = 0.0 : result5[0]> DAT_01012070 ? result5[0] = 1.0
+                result5[0]<::_DAT_01012060 ? result5[0] = 0.0 : result5[0]> ::g_01012070 ? result5[0] = 1.0
                                                                                       : result5[0] = result5[0];
-                result5[1]<DAT_01012060 ? result5[1] = 0.0 : result5[1]> DAT_01012070 ? result5[1] = 1.0
+                result5[1]<::_DAT_01012060 ? result5[1] = 0.0 : result5[1]> ::g_01012070 ? result5[1] = 1.0
                                                                                       : result5[1] = result5[1];
-                result5[2]<DAT_01012060 ? result5[2] = 0.0 : result5[2]> DAT_01012070 ? result5[2] = 1.0
+                result5[2]<::_DAT_01012060 ? result5[2] = 0.0 : result5[2]> ::g_01012070 ? result5[2] = 1.0
                                                                                       : result5[2] = result5[2];
                 if ((flags74 & 1) != 0)
                 {
-                    it->FUN_00b404c0((Color&)result5, 0);
+                    reinterpret_cast<::FUN_00b404c0_cls *>(((it).operator->()))->FUN_00b404c0((const ::FUN_00b28440_Class *)&((Color&)result5), 0);
                 }
                 if ((flags74 & 2) != 0)
                 {
-                    it->FUN_00b40210(output, &best, blend70);
+                    reinterpret_cast<::FacingTint *>(((it).operator->()))->FUN_00b40210((::Vec *)(output), (::Vec *)(::Vec3 *)(&best), blend70);
                 }
             }
         }
@@ -269,9 +276,8 @@ struct FUN_0044a4c0
     FUN_0044a4c0(const FUN_0044a4c0& r);
     ~FUN_0044a4c0()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
-    void FUN_0044a730(bool b, unsigned n);
 };
 struct FUN_00b096a0
 {
@@ -296,8 +302,6 @@ struct Parser
 {
     unsigned uiPos;
     ByteVec kData;
-    int GetNextElement();
-    float FUN_00b3ed20();
 };
 inline void DeadTop()
 {
@@ -320,41 +324,41 @@ struct LightQ
 void LightQ::FUN_00b2a940(Parser* p)
 {
     DeadTop();
-    int iToken = p->GetNextElement();
+    int iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
     do
     {
         switch (iToken)
         {
         case 0x1f42:
-            iMode = p->GetNextElement();
+            iMode = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
             break;
         case 0x1f43:
             for (int i = 0; i < 13; i++)
-                afA[i] = p->FUN_00b3ed20();
+                afA[i] = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
             break;
         case 0x1f44:
-            iCount = p->GetNextElement();
+            iCount = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
             break;
         case 0x1f45:
             for (int j = 0; j < 13; j++)
-                afB[j] = p->FUN_00b3ed20();
+                afB[j] = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
             break;
         case 0x1f46:
-            fScale = p->FUN_00b3ed20();
+            fScale = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
             break;
         case 0x1f47:
-            iX = p->GetNextElement();
+            iX = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
             break;
         case 0x1f48:
-            iY = p->GetNextElement();
+            iY = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
             break;
         case 0x1f49:
             for (int k = 0; k < 13; k++)
-                afC[k] = p->FUN_00b3ed20();
+                afC[k] = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
             break;
         default:
             throw FUN_00b09480("malformed lighting information", false);
         }
-        iToken = p->GetNextElement();
+        iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
     } while (iToken != 0x1f41);
 }

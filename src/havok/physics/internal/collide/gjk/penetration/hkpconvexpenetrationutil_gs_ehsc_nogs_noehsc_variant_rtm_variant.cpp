@@ -7,6 +7,15 @@
 // to their real unit once identified.
 // src/havok/physics/internal/collide/gjk/penetration/hkpconvexpenetrationutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/gjk/penetration/hkpconvexpenetrationutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_004b4ab0_Class.h"
+#include "fnv/decl/FanSpace__FanBuilder.h"
+#include "fnv/decl/FloatPair.h"
+#include "fnv/decl/Hull.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_010c9000.h"
+#include "fnv/symbols_01267000.h"
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
@@ -40,7 +49,6 @@ struct Obj
     int m_iThirdValue;
     int m_auiShapeKeys[4];
     Entry m_usTrailingValue[4];
-    void FUN_00e2d440();
     void SetEntries(const hkVector4* a, const hkVector4* b, const hkVector4* c);
 };
 struct FUN_00df9c40_Obj
@@ -81,7 +89,6 @@ extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
 extern "C" void _mm_store_ps(float* p, __m128 a);
-extern const __m128 DAT_010c44d0;
 extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 extern "C" __m128 _mm_unpacklo_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
@@ -279,7 +286,6 @@ struct S00df9ef0_Hit
 };
 struct S00df9ef0_Obj
 {
-    void FUN_00df9b50(const S00df9ef0_Vec4* in, S00df9ef0_Vec4* out);
 
     void FUN_00df9ef0(S00df9ef0_Vec4* p, S00df9ef0_Pad<S00df9ef0_Vec4> r, S00df9ef0_Hit* q, S00df9ef0_Pad<float> outF);
 };
@@ -322,7 +328,6 @@ struct Edges
 };
 struct Result4 : Vec4
 {
-    __declspec(noalias) void FUN_004b4ab0(const Edges* edges, const Tri* tri);
 };
 struct Shape
 {
@@ -331,8 +336,6 @@ struct Shape
     int unk08;
     int m_iThirdValue;
     int m_10;
-    int FUN_00dfb040(const Tri* tri, const Vec4* pos, int* outA, int* outB);
-    int FUN_00e2d1b0(int a, int b, const Vec4* pos);
 };
 struct Tester
 {
@@ -360,6 +363,7 @@ extern "C" void _ReadWriteBarrier();
 extern "C" void _ReadBarrier();
 extern "C" void _ReadWriteBarrier();
 #include <math.h>
+#include "fnv/symbols_simd.h"
 extern "C" __m128 _mm_sub_ps(__m128, __m128);
 extern "C" __m128 _mm_mul_ps(__m128, __m128);
 extern "C" __m128 _mm_add_ps(__m128, __m128);
@@ -377,15 +381,6 @@ extern "C" __m128 _mm_sqrt_ss(__m128);
 extern "C" double fabs(double);
 extern "C" __m128 _mm_setzero_ps();
 extern "C" __m128 _mm_set_ss(float);
-extern const __m128 DAT_010c44d0;
-extern const __m128 DAT_01268380;
-extern const __m128 DAT_01017d10;
-extern const __m128 DAT_010ec7f0;
-extern const float DAT_01011d78;
-extern const float DAT_01017718;
-extern const float DAT_01016248;
-extern const double DAT_010c9300;
-extern const int DAT_01267e30;
 void __cdecl FUN_00cd7530(const void* g, void* a, void* b, void* c, void* out);
 
 struct Scalar
@@ -484,9 +479,7 @@ struct Host
     int unk64;
     Vector* pts;
     int feat;
-    void FUN_00df9b50(const Vector* direction, Support* support);
     void PushVectorTriple(const Support* support);
-    void FUN_00df9ef0(const Vector* direction, const Vector* point, Support* support, float* distance);
     int FUN_00df9fe0(Output* out, int* pfeat);
 };
 
@@ -616,8 +609,8 @@ stage0: {
         initial.v = _mm_xor_ps(v, mask);
     }
     if (lv <= thresh)
-        initial.v = DAT_01268380;
-    FUN_00df9b50(&initial, &support);
+        initial.v = ::DAT_01268380;
+    reinterpret_cast<::hkpMinkowskiDF9B *>(this)->FUN_00df9b50((*(const ::hkVector4DF9B *)(&initial)), (*(::hkpCdVertexPairDF9B *)(&support)));
     PushVectorTriple(&support);
     point = pts;
     float nextLen = point[0].dot(point[0]);
@@ -629,12 +622,12 @@ stage0: {
 pointSupport: {
     point = pts;
     best = 1;
-    FUN_00df9b50(point, &support2);
+    reinterpret_cast<::hkpMinkowskiDF9B *>(this)->FUN_00df9b50((*(const ::hkVector4DF9B *)(point)), (*(::hkpCdVertexPairDF9B *)(&support2)));
     Vector delta, negative;
     delta.sub(support2.c, pts[0]);
     float distance = delta.dot(delta);
     negative.v = _mm_xor_ps(point->v, DAT_010c44d0);
-    FUN_00df9b50(&negative, &support);
+    reinterpret_cast<::hkpMinkowskiDF9B *>(this)->FUN_00df9b50((*(const ::hkVector4DF9B *)(&negative)), (*(::hkpCdVertexPairDF9B *)(&support)));
     Vector delta2;
     delta2.sub(support.c, pts[0]);
     float distance2 = delta2.dot(delta2);
@@ -655,8 +648,8 @@ lineSupport: {
     perp.normalize();
     second.normalize();
     float d1, d2;
-    FUN_00df9ef0(&perp, pts, &support, &d1);
-    FUN_00df9ef0(&second, pts, &support2, &d2);
+    reinterpret_cast<::S00df9ef0_Obj *>(this)->FUN_00df9ef0((::S00df9ef0_Vec4 *)(&perp), (::S00df9ef0_Pad< ::S00df9ef0_Vec4>)(pts), (::S00df9ef0_Hit *)(::Support *)(&support), (::S00df9ef0_Pad<float>)(&d1));
+    reinterpret_cast<::S00df9ef0_Obj *>(this)->FUN_00df9ef0((::S00df9ef0_Vec4 *)(&second), (::S00df9ef0_Pad< ::S00df9ef0_Vec4>)(pts), (::S00df9ef0_Hit *)(::Support *)(&support2), (::S00df9ef0_Pad<float>)(&d2));
     if (d1 > d2)
     {
         PushVectorTriple(&support);
@@ -669,7 +662,7 @@ triangleSupport: {
     best = 3;
     normal.normalize();
     float distance;
-    FUN_00df9ef0(&normal, pts, &support, &distance);
+    reinterpret_cast<::S00df9ef0_Obj *>(this)->FUN_00df9ef0((::S00df9ef0_Vec4 *)(&normal), (::S00df9ef0_Pad< ::S00df9ef0_Vec4>)(pts), (::S00df9ef0_Hit *)(::Support *)(&support), (::S00df9ef0_Pad<float>)(&distance));
     if (distance < f40)
         goto outTriangle;
     PushVectorTriple(&support);
@@ -695,10 +688,10 @@ outLine: {
     Vector ab;
     ab.v = _mm_and_ps(pts[0].v, DAT_01017d10);
     float s = ab.sum(), u = ab.sum();
-    float t = s / (s + u + DAT_010c9300);
+    float t = s / (s + u + ::DAT_010c9300);
     __m128 ts = _mm_load_ss(&t);
     ts = _mm_shuffle_ps(ts, ts, 0);
-    out->point.v = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(DAT_010ec7f0, ts), mat[0].v), _mm_mul_ps(mat[1].v, ts));
+    out->point.v = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(::DAT_010ec7f0, ts), mat[0].v), _mm_mul_ps(mat[1].v, ts));
     *pfeat = 0;
     _ReadWriteBarrier();
     return 1;
@@ -706,7 +699,7 @@ outLine: {
 outTriangle: {
     out->distance = 0.0f;
     out->direction = normal;
-    FUN_00cd7530(&DAT_01267e30, pts, &pts[1], &pts[2], &scratch);
+    FUN_00cd7530(&(*reinterpret_cast<const int *>(&::DAT_01267e30)), pts, &pts[1], &pts[2], &scratch);
     __m128 c0 = _mm_load_ss(&scratch.f[0]);
     __m128 c1, c2;
     {

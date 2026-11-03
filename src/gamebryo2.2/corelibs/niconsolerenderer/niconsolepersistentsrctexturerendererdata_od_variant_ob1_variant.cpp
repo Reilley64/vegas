@@ -2,14 +2,23 @@
 // to their real unit once identified.
 
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include "fnv/decl/A5D6E0This.h"
+#include "fnv/decl/FUN_00a5d450_class.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00c35eb0.h"
+#include "fnv/decl/NiRefObject.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00c36000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_010f0000.h"
+#include "fnv/symbols_01202000.h"
 #include "niconsolepersistentsrctexturerendererdata_decls.h"
 struct NiStream
 {
-    void ResetStreamState();
 };
 struct NiObject
 {
-    void LoadBinary(NiStream&);
 };
 struct FUN_00c36040_Class
 {
@@ -17,15 +26,12 @@ struct FUN_00c36040_Class
 };
 struct FUN_00c36220_class
 {
-    void* __thiscall AppendCameraPathEntries(int);
     void* __thiscall FUN_00c36220(int arg);
 };
 struct S_00c36290
 {
-    void FUN_00c35eb0();
     void* FUN_00c36290(unsigned int);
 };
-void _delete(void*, unsigned int);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct R_00c362c0
 {
@@ -38,7 +44,6 @@ struct S_00c362c0
     R_00c362c0* ptr;
     void FUN_00c362c0();
 };
-extern "C" void* g_01202810;
 struct FUN_00c36300_Class
 {
     void* __thiscall FUN_00c36300();
@@ -60,7 +65,6 @@ struct A51BF0Base
 {
     static void* __cdecl operator new(unsigned int);
 };
-BSMultiBound* FUN_00c361a0();
 
 struct Obj
 {
@@ -196,7 +200,6 @@ template <class T> class NiPointer
 class NiObjectCM
 {
   public:
-    void CopyMembersStream(unsigned int uFlags, void* pvStream);
 };
 
 struct BSMbW
@@ -210,7 +213,7 @@ struct BSMbW
 // @fnv 0x00c35fe0
 void FUN_00c35f50_class::FUN_00c35fe0(BSMultiBound* pkDest, int kCloning)
 {
-    ((NiObjectCM*)this)->CopyMembersStream((unsigned int)pkDest, (void*)kCloning);
+    reinterpret_cast<::FUN_00a5d450_class *>((((NiObjectCM*)this)))->CreateVertexBufferSet((unsigned int)pkDest, (void*)kCloning);
     NiNode* pNewInstance = ((BSMbW*)this)->m_spShape->MakeClone(kCloning);
     ((BSMbW*)pkDest)->m_spShape = pNewInstance;
 }

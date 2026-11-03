@@ -2,6 +2,7 @@
 #ifndef FNV_IMAGESPACESHADERPARAM_H
 #define FNV_IMAGESPACESHADERPARAM_H
 
+#include "fnv/decl/FUN_00b8a9e0.h"
 #include "layout_support.h"
 #include "layout_support.h"
 class DFALL_NiTMapItem_unsigned_int_unsigned_int___;
@@ -282,7 +283,6 @@ FNV_STATIC_ASSERT(sizeof(NiTMap_unsigned_int_unsigned_int_) == 16);
 class ImageSpaceShaderParam : public ImageSpaceEffectParam
 {
   public:
-    ImageSpaceShaderParam* SetSize();
 
     void SetShaderConstantVector4(int, float, float, float, float);
     void AllocateShaderConstants(int, int);

@@ -11,6 +11,8 @@
 #ifndef FNV_BGSLIGHTINGTEMPLATE_UNIT_H
 #define FNV_BGSLIGHTINGTEMPLATE_UNIT_H
 
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
 #include "layout_support.h"
 #include "TESForm.h"
 #include "TESFile.h"
@@ -35,7 +37,6 @@ class InteriorData
     float m_fFogPower;                       // +0x24, 4 bytes
     unsigned int m_uiTrailingValue;          // +0x28, 4 bytes
     InteriorData();
-    void Endian();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(InteriorData) == 44);
@@ -58,7 +59,6 @@ FNV_STATIC_ASSERT(offsetof(InteriorData, m_uiTrailingValue) == 40);
 // the original static type; it binds the real GetTESForm target.
 struct TESFileFormInt : public TESFile
 {
-    int GetTESForm();
 };
 #pragma pack(push, 4)
 class BGSLightingTemplate : public TESForm
@@ -68,7 +68,6 @@ class BGSLightingTemplate : public TESForm
     BGSLightingTemplate();
     void ResetFormData();
     bool Load(TESFile* file);
-    void ReadTypedData(TESFile* file, void* buffer, unsigned short size);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(BGSLightingTemplate) == 68);

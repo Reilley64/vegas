@@ -2,18 +2,40 @@
 // src/gamebryo2.2/corelibs/nianimation/nipathcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nipathcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00a6d220.h"
+#include "fnv/decl/FUN_00a6d730_shell.h"
+#include "fnv/decl/NiStream.h"
+#include "fnv/decl/NiTimeController.h"
+#include "fnv/decl/NiTimeControllerA362.h"
+#include "fnv/decl/NiTimeControllerCM.h"
+#include "fnv/decl/NiTimeController_Luna.h"
+#include "fnv/decl/TCController.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a26000.h"
+#include "fnv/symbols_00a49000.h"
+#include "fnv/symbols_00a6c000.h"
+#include "fnv/symbols_00a6d000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01032000.h"
+#include "fnv/symbols_01097000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f3000.h"
 typedef void NiRTTI;
 
-extern NiRTTI* g_011f3f80;
 
 // @fnv 0x00a49e00
 NiRTTI* __cdecl FUN_00a49e00()
 {
-    return &g_011f3f80;
+    return &(*reinterpret_cast<void * *>(&::g_011f3f80));
 }
 
 struct AnimationKey;
-extern void(__cdecl* DAT_011f3ca8[])(float, AnimationKey const*, AnimationKey const*, void*);
 struct FUN_00a49e10_shell
 {
     char _0[0x40];
@@ -46,7 +68,7 @@ void* FUN_00a49e10_shell::InvokeIndexedCallback(void* a1, int iIndexA, int iInde
         base = 0;
         sz = 0;
     }
-    DAT_011f3ca8[idx](fValue, (AnimationKey const*)((char const*)base + (unsigned)sz * (unsigned)iIndexA),
+    (*reinterpret_cast<void (**[])(float, const AnimationKey *, const AnimationKey *, void *)>(&::DAT_011f3ca8))[idx](fValue, (AnimationKey const*)((char const*)base + (unsigned)sz * (unsigned)iIndexA),
                       (AnimationKey const*)((char const*)base + (unsigned)sz * (unsigned)iIndexB), a1);
     return a1;
 }
@@ -71,11 +93,7 @@ void* __thiscall FUN_00a4a8c0_shell::FUN_00a4a8c0(unsigned int flags)
 
 struct StrArr
 {
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
-void __stdcall FUN_00a6d830(StrArr*);
-char* __cdecl _FUN_00a7d330(const char*);
 struct NiPathController
 {
     void AppendString(StrArr*);
@@ -84,12 +102,12 @@ struct NiPathController
 // @fnv 0x00a4b2e0
 void NiPathController::AppendString(StrArr* pkStrings)
 {
-    FUN_00a6d830(pkStrings);
-    char* pStr = _FUN_00a7d330((const char*)g_011f3f80);
+    reinterpret_cast<::TCController *>((pkStrings))->FUN_00a6d830({});
+    char* pStr = ::FUN_00a7d330((const char*)(*reinterpret_cast<void * *>(&::g_011f3f80)));
     unsigned int nSize = *(unsigned short*)((char*)pkStrings + 0xa);
     if (nSize >= *(unsigned short*)((char*)pkStrings + 8))
-        pkStrings->SetSize(nSize + *(unsigned short*)((char*)pkStrings + 0xe));
-    pkStrings->SetAt(nSize, pStr);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(nSize + *(unsigned short*)((char*)pkStrings + 0xe));
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(nSize, pStr);
 }
 
 namespace fnv_00a49c80 {
@@ -154,7 +172,7 @@ struct NiPathController : NiTimeController
 // @fnv 0x00a49c80
 void NiPathController::FUN_00a49c80(CloningProcess& kCloning)
 {
-    NiTimeController::ProcessClone(kCloning);
+    reinterpret_cast<::NiTimeController *>(this)->ProcessClone((::CloningProcess &)(kCloning));
     NiTimeController* pkPathData = m_pPathObject.m_pObject;
     if (pkPathData)
         pkPathData->ProcessClone(kCloning);
@@ -194,7 +212,6 @@ struct FakeObj
 struct Base40
 {
     char _pad[0x40];
-    bool FUN_00a6d0f0(NiStream&);
 };
 struct NiPathController : public Base40
 {
@@ -205,7 +222,7 @@ struct NiPathController : public Base40
 // @fnv 0x00a49cc0
 bool NiPathController::FUN_00a49cc0(NiStream& kStream)
 {
-    if (!FUN_00a6d0f0(kStream))
+    if (!::FUN_00a6d0f0((::TCReg *)this, (int)&(kStream), *(::NiStream *)nullptr))
         return false;
     FakeObj* pkPath = m_pPathObject;
     if (pkPath)
@@ -222,25 +239,10 @@ extern float DAT_011a8b2c[5];
 
 struct FUN_00a4a6a0_cls
 {
-    float GetKeyDerivativeLength(int a1, int a2, float a3);
     float FUN_00a4a6a0(int a1, int a2, float a3);
 };
 
-// Sums five weighted samples of GetKeyDerivativeLength at offsets scaled by a3, then multiplies the total by a3.
-// @fnv 0x00a4a6a0
-float FUN_00a4a6a0_cls::FUN_00a4a6a0(int a1, int a2, float afScale)
-{
-    float sum = 0.0f;
-    for (int i = 0; i < 5; i++)
-    {
-        float t = DAT_011a8b40[i] * afScale;
-        sum += GetKeyDerivativeLength(a1, a2, t) * DAT_011a8b2c[i];
-    }
-    return sum * afScale;
-}
-
 struct StrArr;
-void __stdcall FUN_00a6d730(StrArr*);
 struct S_00a4aeb0_Source
 {
     int unk00;
@@ -278,7 +280,7 @@ inline int S_00a4aeb0_Read(S_00a4aeb0_Source* s, void* p, int n)
 void S_00a4aeb0_Controller::LoadFromStream(S_00a4aeb0_Stream& kStream)
 {
     unsigned char* controller = reinterpret_cast<unsigned char*>(this);
-    FUN_00a6d730(reinterpret_cast<StrArr*>(&kStream));
+    reinterpret_cast<::FUN_00a6d730_shell *>((reinterpret_cast<StrArr*>(&kStream)))->FUN_00a6d730(*(::Stream_a6d730 *)nullptr);
     {
         S_00a4aeb0_Source* src =
             *reinterpret_cast<S_00a4aeb0_Source**>(reinterpret_cast<unsigned char*>(&kStream) + 0x250);
@@ -310,7 +312,6 @@ void S_00a4aeb0_Controller::LoadFromStream(S_00a4aeb0_Stream& kStream)
 
 void* __cdecl FUN_00aa13e0(unsigned int size) throw();
 extern int DAT_0109893c;
-extern float DAT_01012054;
 
 struct SpawnedObject
 {
@@ -342,7 +343,6 @@ struct SpawnedObject
     float m5c;
     int m60;
 
-    void InitBase() throw();
 };
 
 // Allocates a 0x64-byte SpawnedObject, runs InitBase, sets its vtable and initializes its fields, returning the object or null on allocation failure.
@@ -352,7 +352,7 @@ SpawnedObject* __cdecl FUN_00a4b270() throw()
     SpawnedObject* p = (SpawnedObject*)FUN_00aa13e0(0x64);
     if (p != 0)
     {
-        p->InitBase();
+        new ((void *)(p)) class ::FUN_00a6d220();
         *(void* volatile*)&p->m_pVTable = (void*)&DAT_0109893c;
         *(int volatile*)&p->m40 = 0;
         *(int volatile*)&p->m44 = 0;
@@ -360,7 +360,7 @@ SpawnedObject* __cdecl FUN_00a4b270() throw()
         *(float volatile*)&p->m54 = 0.0f;
         *(float volatile*)&p->m5c = 0.0f;
         *(int volatile*)&p->m38 = 0;
-        p->m4c = DAT_01012054;
+        p->m4c = ::DAT_01012054;
         p->m3c = 0;
         p->m48 = 0;
         p->m58 = 0;
@@ -403,7 +403,6 @@ struct FUN_00a4a8e0_cls
     int unk44;
     float* lengths;
     float totalLength;
-    double FUN_00a4a6a0(unsigned int a1, unsigned int a2, float a3);
     float GetTotalLength();
 };
 
@@ -419,7 +418,7 @@ float FUN_00a4a8e0_cls::GetTotalLength()
         lengths[0] = 0.0f;
         for (unsigned int i = 0; i < count - 1; i++)
         {
-            float fSegment = FUN_00a4a6a0(i, i + 1, 1.0f);
+            float fSegment = ((double)(reinterpret_cast<::FUN_00a4a6a0_cls *>(this)->FUN_00a4a6a0(i, i + 1, 1.0f)));
             float* p = lengths;
             p[i + 1] = p[i] + fSegment;
         }
@@ -454,8 +453,6 @@ struct LegacyView
     unsigned short flags;
 };
 struct NiStream;
-void __stdcall func_0x00a6d5e0(NiStream* stream);
-void __fastcall FUN_00a645b0(NiStream* stream);
 template <class T> inline void StreamRead(NiStream& stream, T& dst)
 {
     BinaryReader* reader = ((ReaderView*)((char*)&stream + 0x24c))->reader;
@@ -476,7 +473,7 @@ struct NiPathControllerView
 // @fnv 0x00a4acb0
 void NiPathControllerView::ReadFromStream(NiStream* stream)
 {
-    func_0x00a6d5e0(stream);
+    reinterpret_cast<::NiTimeController_Luna *>((stream))->FUN_00a6d5e0(*(::NiStream *)nullptr);
     unsigned int mode;
     if (((VersionView*)((char*)stream + 0xd8))->version < 0x0a000102)
     {
@@ -491,13 +488,12 @@ void NiPathControllerView::ReadFromStream(NiStream* stream)
     StreamRead(*stream, m_50);
     StreamRead(*stream, m_54);
     StreamRead(*stream, m_58);
-    FUN_00a645b0(stream);
-    FUN_00a645b0(stream);
+    reinterpret_cast<::FUN_00a645b0_cls *>((stream))->FUN_00a645b0();
+    reinterpret_cast<::FUN_00a645b0_cls *>((stream))->FUN_00a645b0();
 }
 
 extern "C" double __cdecl fmod(double, double);
 extern "C" double __cdecl fabs(double);
-extern double DAT_01032980;
 inline float PathRemainder(float x, float y)
 {
     return (float)fmod(x, y);
@@ -506,60 +502,6 @@ struct PathController : FUN_00a4a8e0_cls
 {
     void FUN_00a4a980(float time, unsigned int* first, unsigned int* second, float* position);
 };
-// Adjusts time to the unit interval, then finds the path segment and refines its local parameter for that distance.
-// @fnv 0x00a4a980
-void PathController::FUN_00a4a980(float time, unsigned int* apFirstKey, unsigned int* apSecondKey, float* apLocalParam)
-{
-    unsigned int count = keys ? keys->count : 0;
-    if (time == 0.0f)
-    {
-        *apFirstKey = 0;
-        *apSecondKey = 1;
-        *apLocalParam = 0.0f;
-        return;
-    }
-    if (time < 0.0f)
-        time = PathRemainder(time, 1.0f) + 1.0f;
-    if (time == 1.0f)
-    {
-        *apFirstKey = count - 2;
-        *apSecondKey = count - 1;
-        *apLocalParam = 1.0f;
-        return;
-    }
-    if (time > 1.0f)
-    {
-        volatile float remainder = PathRemainder(time, 1.0f);
-        time = remainder;
-    }
-    float distance = time * totalLength;
-    unsigned int i = 0;
-    unsigned int uiSecondKey = 1;
-    float base = 0.0f;
-    float t = 0.0f;
-    for (; i < count - 1; ++i, ++uiSecondKey)
-    {
-        if (lengths[uiSecondKey] >= distance)
-        {
-            base = distance - lengths[i];
-            t = base / (lengths[uiSecondKey] - lengths[i]);
-            break;
-        }
-    }
-    int iteration = 0;
-    do
-    {
-        float error = ((FUN_00a4a6a0_cls*)this)->FUN_00a4a6a0(i, uiSecondKey, t) - base;
-        if ((float)fabs(error) <= DAT_01032980)
-            break;
-        t = t - (double)error / ((FUN_00a4a6a0_cls*)this)->GetKeyDerivativeLength(i, uiSecondKey, t);
-        ++iteration;
-    } while (iteration < 32);
-    *apFirstKey = i;
-    *apSecondKey = uiSecondKey;
-    *apLocalParam = t;
-}
-
 struct PathIndices
 {
     int first;
@@ -621,8 +563,6 @@ struct PathKeyData
     }
 };
 
-float __cdecl InterpolateKey(float fTime, void* pkKeys, int eType, unsigned int uiNumKeys, unsigned int& uiLastIdx,
-                             unsigned char ucSize);
 
 struct PathCtlr
 {
@@ -649,53 +589,11 @@ struct PathCtlr
     PathKeyData* m_pPathObject;
     PathKeyData* m_pPathInterp;
 
-    bool FUN_00a36250(float fTime);
-    void FUN_00a4ab50(float fPct, int* piIdx1, int* piIdx2, float* pfPct);
     void FUN_00a49e70(int iIdx1, int iIdx2, float fPct, ThreeByThreeMatrix* pkRot);
-    void InvokeIndexedCallback(NiPoint3* result, int iIdx1, int iIdx2, float fPct);
     void UpdatePathTarget(float* pfTime);
 };
 
-// Evaluates the percent and path keys at controller time, writes translation to m_pkTarget, and writes rotation when follow is enabled.
-// @fnv 0x00a4afa0
-void PathCtlr::UpdatePathTarget(float* apfTime)
-{
-    if (!m_pPathInterp)
-        return;
-    unsigned int uiNumPctKeys;
-    int ePctType;
-    unsigned char ucPctSize;
-    void* pkPctKeys = m_pPathInterp->ComputePositionAtTime(uiNumPctKeys, ePctType, ucPctSize);
-    if (!pkPctKeys || !m_pPathObject)
-        return;
-    unsigned int uiNumPathKeys;
-    int ePathType;
-    unsigned char ucPathSize;
-    void* pkPathKeys = m_pPathObject->ComputePositionAtTime(uiNumPathKeys, ePathType, ucPathSize);
-    if (!pkPathKeys)
-        return;
-    if (FUN_00a36250(*apfTime))
-        return;
-
-    float fPct = InterpolateKey(m_fControllerTime, pkPctKeys, ePctType, uiNumPctKeys, m_uiPercentKeyCount, ucPathSize);
-    {
-        PathIndices stIndices;
-        FUN_00a4ab50(fPct, (int*)&stIndices.first, (int*)&stIndices.second, &fPct);
-        int i2;
-        if ((GetFollow() ? (i2 = stIndices.second, true) : (i2 = stIndices.second, false)))
-        {
-            ThreeByThreeMatrix kRot;
-            FUN_00a49e70(stIndices.first, i2, fPct, &kRot);
-            m_pkTarget->m_kRotate = kRot;
-        }
-        NiPoint3 kPos;
-        InvokeIndexedCallback(&kPos, stIndices.first, i2, fPct);
-        m_pkTarget->m_kTranslate = kPos;
-    }
-}
-
 #include <math.h>
-extern void(__cdecl* DAT_011f3c18[])(float, AnimationKey const*, AnimationKey const*, void*);
 
 struct NiPoint3A4A6
 {
@@ -718,6 +616,71 @@ struct FUN_00a4a610_shell
 
     float GetKeyDerivativeLength(unsigned int uiKey1, unsigned int uiKey2, float fTime);
 };
+// Sums five weighted samples of GetKeyDerivativeLength at offsets scaled by a3, then multiplies the total by a3.
+// @fnv 0x00a4a6a0
+float FUN_00a4a6a0_cls::FUN_00a4a6a0(int a1, int a2, float afScale)
+{
+    float sum = 0.0f;
+    for (int i = 0; i < 5; i++)
+    {
+        float t = DAT_011a8b40[i] * afScale;
+        sum += reinterpret_cast<::FUN_00a4a610_shell *>(this)->GetKeyDerivativeLength(a1, a2, t) * DAT_011a8b2c[i];
+    }
+    return sum * afScale;
+}
+// Adjusts time to the unit interval, then finds the path segment and refines its local parameter for that distance.
+// @fnv 0x00a4a980
+void PathController::FUN_00a4a980(float time, unsigned int* apFirstKey, unsigned int* apSecondKey, float* apLocalParam)
+{
+    unsigned int count = keys ? keys->count : 0;
+    if (time == 0.0f)
+    {
+        *apFirstKey = 0;
+        *apSecondKey = 1;
+        *apLocalParam = 0.0f;
+        return;
+    }
+    if (time < 0.0f)
+        time = PathRemainder(time, 1.0f) + 1.0f;
+    if (time == 1.0f)
+    {
+        *apFirstKey = count - 2;
+        *apSecondKey = count - 1;
+        *apLocalParam = 1.0f;
+        return;
+    }
+    if (time > 1.0f)
+    {
+        volatile float remainder = PathRemainder(time, 1.0f);
+        time = remainder;
+    }
+    float distance = time * totalLength;
+    unsigned int i = 0;
+    unsigned int uiSecondKey = 1;
+    float base = 0.0f;
+    float t = 0.0f;
+    for (; i < count - 1; ++i, ++uiSecondKey)
+    {
+        if (lengths[uiSecondKey] >= distance)
+        {
+            base = distance - lengths[i];
+            t = base / (lengths[uiSecondKey] - lengths[i]);
+            break;
+        }
+    }
+    int iteration = 0;
+    do
+    {
+        float error = ((FUN_00a4a6a0_cls*)this)->FUN_00a4a6a0(i, uiSecondKey, t) - base;
+        if ((float)fabs(error) <= DAT_01032980)
+            break;
+        t = t - (double)error / reinterpret_cast<::FUN_00a4a610_shell *>((((FUN_00a4a6a0_cls*)this)))->GetKeyDerivativeLength(i, uiSecondKey, t);
+        ++iteration;
+    } while (iteration < 32);
+    *apFirstKey = i;
+    *apSecondKey = uiSecondKey;
+    *apLocalParam = t;
+}
 
 // Computes the length of the derivative vector between two animation keys at a given time using a type-specific function pointer.
 // @fnv 0x00a4a610
@@ -741,7 +704,7 @@ float FUN_00a4a610_shell::GetKeyDerivativeLength(unsigned int uiKey1, unsigned i
     }
 
     NiPoint3A4A6 kDeriv;
-    DAT_011f3c18[uiRequestType](fTime, (AnimationKey*)((char*)pkKeys + uiKey1 * ucSize),
+    (*reinterpret_cast<void (**[])(float, const AnimationKey *, const AnimationKey *, void *)>(&::DAT_011f3c18))[uiRequestType](fTime, (AnimationKey*)((char*)pkKeys + uiKey1 * ucSize),
                                 (AnimationKey*)((char*)pkKeys + uiKey2 * ucSize), &kDeriv);
     float fLengthSquared = kDeriv.x * kDeriv.x + kDeriv.y * kDeriv.y + kDeriv.z * kDeriv.z;
     return (float)sqrt(fLengthSquared);
@@ -758,7 +721,6 @@ struct ShortField
         return *this;
     }
 };
-void __fastcall FUN_00a6d220(void* object);
 struct PathBase
 {
     void* m_pVTable;
@@ -776,7 +738,7 @@ struct PathBase
     int unk30;
     __forceinline PathBase()
     {
-        FUN_00a6d220(this);
+        new ((void *)(this)) class ::FUN_00a6d220();
         m_pVTable = &DAT_0109893c;
     }
 };
@@ -807,7 +769,7 @@ struct PathObject : PathBase
         m50 = 0.0f;
         m54 = 0.0f;
         m5c = 0.0f;
-        m4c = DAT_01012054;
+        m4c = ::DAT_01012054;
         m38 = 0;
         m3c = 0;
         m60 = 1;
@@ -818,28 +780,8 @@ struct PathObject : PathBase
 };
 struct PathShell
 {
-    void FUN_00a4b0b0(PathObject*, int);
     PathObject* CreatePathObject(int value);
 };
-// Allocates and initializes a PathObject, then calls FUN_00a4b0b0 with the given value and returns the new object or null.
-// @fnv 0x00a4b330
-PathObject* PathShell::CreatePathObject(int value)
-{
-    PathObject* object = (PathObject*)FUN_00aa13e0(0x64);
-    PathObject* result;
-    if (object)
-    {
-        object->PathObject::PathObject();
-        result = object;
-    }
-    else
-    {
-        result = 0;
-    }
-    FUN_00a4b0b0(result, value);
-    return result;
-}
-
 #include <string.h>
 struct NiObject
 {
@@ -871,7 +813,6 @@ struct NiObject
 
 struct NiTimeControllerStub : NiObject
 {
-    bool TimeControllerIsEqual(NiObject* pkObject);
 };
 
 struct NiPtr
@@ -920,7 +861,6 @@ struct NiPathControllerStub : NiTimeControllerStub
     {
         return ((m_uiObjectFlags >> n) & 1) ? true : false;
     }
-    void GetLengths(unsigned int* a, unsigned int* count, int* c, unsigned char* d);
     bool FUN_00a4a710(NiObject* pkObject);
 };
 
@@ -928,7 +868,7 @@ struct NiPathControllerStub : NiTimeControllerStub
 // @fnv 0x00a4a710
 bool NiPathControllerStub::FUN_00a4a710(NiObject* pkObject)
 {
-    if (!TimeControllerIsEqual(pkObject))
+    if (!::FUN_00a6cc80((::TCEq *)this, (int)(pkObject), {}))
         return false;
 
     NiPathControllerStub* pkOther = (NiPathControllerStub*)pkObject;
@@ -950,7 +890,7 @@ bool NiPathControllerStub::FUN_00a4a710(NiObject* pkObject)
         unsigned int ItemUpdateArray;
         int c;
         unsigned char d;
-        GetLengths(&a, &ItemUpdateArray, &c, &d);
+        ::fnv_00a49d00::GetRotKeyData((::NiRotData *)this, (int)(&a), (::fnv_00a49d00::TimedRotationKey **)(unsigned int *)(&ItemUpdateArray), &c, (int *)(unsigned char *)(&d), {});
         if (memcmp(pkLengths, pkOther->m_pkPartLengths, ItemUpdateArray * sizeof(unsigned int)) != 0)
             return false;
     }
@@ -987,10 +927,8 @@ struct SampleData
 };
 struct SpawnedArg
 {
-    RefObj* FUN_00a63430();
 };
 
-extern float(__cdecl* DAT_011f3d38[])(const void*, unsigned int);
 
 struct FUN_00a4adc0_cls
 {
@@ -1020,8 +958,6 @@ struct FUN_00a4adc0_cls
     int unk58;
     float m_5c;
 
-    float GetTotalLength();
-    void FUN_00a6d500(SpawnedArg* a);
     void SetSpawnedArgs(SpawnedArg* a);
 };
 
@@ -1029,9 +965,9 @@ struct FUN_00a4adc0_cls
 // @fnv 0x00a4adc0
 void FUN_00a4adc0_cls::SetSpawnedArgs(SpawnedArg* apSpawnedArg)
 {
-    FUN_00a6d500(apSpawnedArg);
+    reinterpret_cast<::NiTimeController *>(this)->LinkObject((*(::NiStream *)(apSpawnedArg)));
 
-    RefObj* p = apSpawnedArg->FUN_00a63430();
+    RefObj* p = ((::RefObj *)(reinterpret_cast<::NiStream *>((apSpawnedArg))->GetLoadedObject()));
     RefObj* old = m_40;
     if (old != p)
     {
@@ -1049,7 +985,7 @@ void FUN_00a4adc0_cls::SetSpawnedArgs(SpawnedArg* apSpawnedArg)
         }
     }
 
-    p = apSpawnedArg->FUN_00a63430();
+    p = ((::RefObj *)(reinterpret_cast<::NiStream *>((apSpawnedArg))->GetLoadedObject()));
     old = m_44;
     if (old != p)
     {
@@ -1072,7 +1008,7 @@ void FUN_00a4adc0_cls::SetSpawnedArgs(SpawnedArg* apSpawnedArg)
     unsigned char hi = (unsigned char)(m_34 >> 4);
     if ((hi & bit) != 0 && ((unsigned char)m_34 & bit) != 0)
     {
-        m_4c = GetTotalLength();
+        m_4c = reinterpret_cast<::FUN_00a4a8e0_cls *>(this)->GetTotalLength();
         m_34 &= ~bit;
     }
 
@@ -1083,7 +1019,7 @@ void FUN_00a4adc0_cls::SetSpawnedArgs(SpawnedArg* apSpawnedArg)
         SampleData sample = {t->m_10, t->m_0c};
         if (count > 0)
         {
-            float(__cdecl * pfnSample)(const void*, unsigned int) = DAT_011f3d38[sample.index];
+            float(__cdecl * pfnSample)(const void*, unsigned int) = (*reinterpret_cast<float (**[])(const void *, unsigned int)>(&::DAT_011f3d38))[sample.index];
             m_5c = pfnSample(sample.value, count);
         }
     }
@@ -1168,7 +1104,6 @@ struct CloneableObj
     int unk28;
     int unk2c;
     int unk30;
-    void FUN_00a6cfe0(CloneableObj* pDest, void* kCloning);
 };
 
 struct PathCtl : CloneableObj
@@ -1188,7 +1123,6 @@ struct PathCtl : CloneableObj
     float unk5c;
     int m60;
 
-    float GetTotalLength();
     bool GetBit(int pos) const
     {
         return ((m_uiObjectFlags >> pos) & 1) != 0;
@@ -1205,18 +1139,36 @@ struct PathCtl : CloneableObj
         SetBit(b, 0x10);
         if (b && GetBit(0))
         {
-            m_fTotalPathLength = GetTotalLength();
+            m_fTotalPathLength = reinterpret_cast<::FUN_00a4a8e0_cls *>(this)->GetTotalLength();
             m_uiObjectFlags &= ~1;
         }
     }
     void FUN_00a4b0b0(PathCtl* pDest, void* kCloning);
 };
+// Allocates and initializes a PathObject, then calls FUN_00a4b0b0 with the given value and returns the new object or null.
+// @fnv 0x00a4b330
+PathObject* PathShell::CreatePathObject(int value)
+{
+    PathObject* object = (PathObject*)FUN_00aa13e0(0x64);
+    PathObject* result;
+    if (object)
+    {
+        object->PathObject::PathObject();
+        result = object;
+    }
+    else
+    {
+        result = 0;
+    }
+    reinterpret_cast<::PathCtl *>(this)->FUN_00a4b0b0((::PathCtl *)(result), (void *)(value));
+    return result;
+}
 
 // Copies PathCtl state into pDest, cloning m_pPathObject and m_pPathInterp, and duplicating the m_pfPathLengths array.
 // @fnv 0x00a4b0b0
 void PathCtl::FUN_00a4b0b0(PathCtl* pDest, void* kCloning)
 {
-    CloneableObj::FUN_00a6cfe0(pDest, kCloning);
+    reinterpret_cast<::NiTimeControllerCM *>(this)->FUN_00a6cfe0((::NiTimeController *)(pDest), (*(::CloningProcess *)(kCloning)));
     pDest->m_uiObjectFlags = m_uiObjectFlags;
 
     if (m_pPathObject)
@@ -1258,7 +1210,6 @@ class NiPoint3
     NiPoint3(float a, float b, float c) : x(a), y(b), z(c)
     {}
     NiPoint3 operator+(const NiPoint3&) const;
-    void FUN_004a0c10();
     NiPoint3 Cross(const NiPoint3&) const;
     __declspec(noinline) NiPoint3 FUN_0053d1a0(const NiPoint3& v) const
     {
@@ -1326,14 +1277,11 @@ struct PathMatrix
         return v;
     }
 };
-extern const PathMatrix DAT_011a9448;
-extern const NiPoint3 DAT_011a9484;
-extern float DAT_01097304;
 void __cdecl ComputeFrenetFrame(float, const AnimationKey*, const AnimationKey*, int, NiPoint3*, NiPoint3*, NiPoint3*,
                                 float*);
 inline float& GetBankFactor()
 {
-    static float f = DAT_01097304;
+    static float f = ::fnv_00a3de50::DAT_01097304;
     return f;
 }
 struct PathKeys
@@ -1397,7 +1345,7 @@ void PathController::FUN_00a49e70(unsigned aiFirstKey, unsigned aiSecondKey, flo
     PathMatrix result;
     NiPoint3 position;
     NiPoint3 normal;
-    result = DAT_011a9448;
+    result = (*reinterpret_cast<const ::fnv_00a49e70::PathMatrix *>(&::DAT_011a9448));
     if (data)
     {
         unsigned count = data->count;
@@ -1438,7 +1386,7 @@ void PathController::FUN_00a49e70(unsigned aiFirstKey, unsigned aiSecondKey, flo
                                            (const AnimationKey*)((const char*)base + size * (adjacent + 1)), type,
                                            &vScratch, &vOther, &normal, &otherCurvature);
                         vTangent = FUN_004a3760(w0, vTangent) + FUN_004a3760(w1, vOther);
-                        vTangent.FUN_004a0c10();
+                        reinterpret_cast<::FUN_004a0c10_s *>(&(vTangent))->FUN_004a0c10();
                         curvature = w1 * otherCurvature + w0 * curvature;
                         normal = position.Cross(vTangent);
                     }
@@ -1458,7 +1406,7 @@ void PathController::FUN_00a49e70(unsigned aiFirstKey, unsigned aiSecondKey, flo
                                            (const AnimationKey*)((const char*)base + size * adjacent), type, &vScratch,
                                            &vOther, &normal, &otherCurvature);
                         vTangent = FUN_004a3760(w0, vTangent) + FUN_004a3760(w1, vOther);
-                        vTangent.FUN_004a0c10();
+                        reinterpret_cast<::FUN_004a0c10_s *>(&(vTangent))->FUN_004a0c10();
                         curvature = w1 * otherCurvature + w0 * curvature;
                         normal = position.Cross(vTangent);
                     }
@@ -1474,7 +1422,7 @@ void PathController::FUN_00a49e70(unsigned aiFirstKey, unsigned aiSecondKey, flo
                                (const AnimationKey*)((const char*)base + size * aiSecondKey), type, &position,
                                &vTangent, &normal, &curvature);
             result.Set0(position);
-            NiPoint3 vUp = DAT_011a9484.FUN_0053d1a0(position);
+            NiPoint3 vUp = (*reinterpret_cast<const ::fnv_00a49e70::NiPoint3 *>((void *)&::DAT_011a9484)).FUN_0053d1a0(position);
             result.Set1(vUp);
             result.Set2(position.InlineCross(vUp));
         }
@@ -1560,6 +1508,43 @@ struct RetryCtlr : CloneableObj
     void FUN_00a4a980(float t, unsigned int& i0, unsigned int& i1, float& frac);
     void FUN_00a4ab50(float t, unsigned int& i0, unsigned int& i1, float& frac);
 };
+// Evaluates the percent and path keys at controller time, writes translation to m_pkTarget, and writes rotation when follow is enabled.
+// @fnv 0x00a4afa0
+void PathCtlr::UpdatePathTarget(float* apfTime)
+{
+    if (!m_pPathInterp)
+        return;
+    unsigned int uiNumPctKeys;
+    int ePctType;
+    unsigned char ucPctSize;
+    void* pkPctKeys = m_pPathInterp->ComputePositionAtTime(uiNumPctKeys, ePctType, ucPctSize);
+    if (!pkPctKeys || !m_pPathObject)
+        return;
+    unsigned int uiNumPathKeys;
+    int ePathType;
+    unsigned char ucPathSize;
+    void* pkPathKeys = m_pPathObject->ComputePositionAtTime(uiNumPathKeys, ePathType, ucPathSize);
+    if (!pkPathKeys)
+        return;
+    if (reinterpret_cast<::NiTimeControllerA362 *>(this)->FUN_00a36250(*apfTime))
+        return;
+
+    float fPct = ::InterpolateKey(m_fControllerTime, (const ::S00a26b40_Key *)(pkPctKeys), ePctType, uiNumPctKeys, (unsigned int *)&(m_uiPercentKeyCount), ucPathSize);
+    {
+        PathIndices stIndices;
+        reinterpret_cast<::RetryCtlr *>(this)->FUN_00a4ab50(fPct, (*(unsigned int *)((int*)&stIndices.first)), (*(unsigned int *)((int*)&stIndices.second)), (*(float *)(&fPct)));
+        int i2;
+        if ((GetFollow() ? (i2 = stIndices.second, true) : (i2 = stIndices.second, false)))
+        {
+            ThreeByThreeMatrix kRot;
+            FUN_00a49e70(stIndices.first, i2, fPct, &kRot);
+            m_pkTarget->m_kRotate = kRot;
+        }
+        NiPoint3 kPos;
+        reinterpret_cast<::FUN_00a49e10_shell *>(this)->InvokeIndexedCallback(&kPos, stIndices.first, i2, fPct);
+        m_pkTarget->m_kTranslate = kPos;
+    }
+}
 // Selects two key indices and a fraction for t, using path-distance lookup when follow is enabled.
 // @fnv 0x00a4ab50
 void RetryCtlr::FUN_00a4ab50(float afTime, unsigned int& aiKey0, unsigned int& aiKey1, float& frac)

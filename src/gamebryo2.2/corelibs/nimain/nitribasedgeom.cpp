@@ -1,4 +1,7 @@
 // gamebryo2.2/corelibs/nimain/nitribasedgeom.cpp: BSTextureSet, NiGeometry, NiTriBasedGeom (5 functions)
+#include "fnv/decl/FUN_0051d1c0.h"
+#include "fnv/decl/S_0051d080.h"
+#include "fnv/symbols_00aa1000.h"
 #include "nitribasedgeom_decls.h"
 #pragma optimize("", off)
 // @fnv 0x0051d190
@@ -25,7 +28,6 @@ void NiTriBasedGeom::SetBitfield(unsigned short value, unsigned short mask, unsi
 
 struct DummyClass
 {
-    void __thiscall FUN_0051d080_mem(unsigned char a1, int a2);
 };
 
 struct StackByte
@@ -36,7 +38,7 @@ struct StackByte
 // @fnv 0x0051d060
 void __fastcall FUN_0051d060(DummyClass* _this, StackByte aByteValue)
 {
-    _this->FUN_0051d080_mem(aByteValue.v, 8);
+    reinterpret_cast<::S_0051d080 *>((_this))->FUN_0051d080(aByteValue.v, 8);
 }
 
 class NiMemObject
@@ -45,7 +47,6 @@ class NiMemObject
     static void __cdecl operator delete(void*, size_t);
 };
 
-void __fastcall FUN_0051d1c0(void* pThis);
 
 struct Dummy_0051d160
 {
@@ -53,10 +54,10 @@ struct Dummy_0051d160
 // @fnv 0x0051d160
     void* __thiscall FUN_0051d160(unsigned int flags)
     {
-        FUN_0051d1c0(this);
+        reinterpret_cast<struct ::FUN_0051d1c0 *>((this))->FUN_0051d1c0::~FUN_0051d1c0();
         if ((flags & 1) != 0)
         {
-            NiMemObject::operator delete(this, 0x38);
+            ::FUN_00aa1460(this, 0x38);
         }
         return this;
     }

@@ -2,6 +2,13 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpbroadphaseviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpbroadphaseviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/S_00dd9380.h"
+#include "fnv/decl/SearchArray.h"
+#include "fnv/decl/fnv_00c93920__hkpWorldXc93920.h"
+#include "fnv/symbols_00d6a000.h"
+#include "fnv/symbols_010c6000.h"
+#include "fnv/symbols_01269000.h"
 struct Container
 {
     int ClearValue(void* value);
@@ -24,16 +31,12 @@ int Owner::FUN_00d6a910(Container* container)
 
 struct FUN_00dd9380_StandIn
 {
-    int FUN_00dd9380(const char* name, void* constructor);
 };
-extern FUN_00dd9380_StandIn* DAT_01269cd0;
 extern int DAT_01269028;
-extern char DAT_010c65b0;
-void FUN_00d6ad00();
 // @fnv 0x00d6ad40
 void __cdecl FUN_00d6ad40()
 {
-    DAT_01269028 = DAT_01269cd0->FUN_00dd9380(&DAT_010c65b0, (void*)&FUN_00d6ad00);
+    DAT_01269028 = reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::FUN_00dd9380_StandIn * *>(&::DAT_01269cd0))))->FUN_00dd9380(&::str_010c65b0, (int)((void*)&((void (&)())::fnv_00d6ad00::FUN_00d6ad00)));
 }
 
 extern int DAT_01269028;
@@ -45,7 +48,6 @@ int FUN_00d6ad60()
 
 struct Target
 {
-    void FUN_00c93920(void* apArg);
 };
 
 struct FUN_00d6a8e0_cls
@@ -66,7 +68,7 @@ struct FUN_00d6a8e0_cls
 // @fnv 0x00d6a8e0
 void FUN_00d6a8e0_cls::CallTargetWithSelfOffset(Target* apTarget)
 {
-    apTarget->FUN_00c93920(((char*)this - 0x20) != 0 ? (char*)this + 8 : 0);
+    reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((apTarget))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(void *)(((char*)this - 0x20) != 0 ? (char*)this + 8 : 0));
 }
 
 // ---------------------------------------------------------------------------
@@ -148,7 +150,6 @@ struct PostSimListener
 // one shape of the world; 0xc93920 appends a listener to its list at +0x164
 struct BroadElem
 {
-    void FUN_00c93920(PostSimListener* p);
 };
 
 // the primary base at 0x00 (its vptr is the one at 0x00)
@@ -225,7 +226,7 @@ FUN_00d6a940::FUN_00d6a940(void* a) : WorldViewerBase(a)
         for (int i = 0; i < m_ctx->count; i++)
         {
             BroadElem* e = (BroadElem*)m_ctx->arr[i];
-            e->FUN_00c93920(this);  // this+0x28: the listener subobject
+            reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((e))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(::PostSimListener *)(this));  // this+0x28: the listener subobject
         }
     }
 }
@@ -364,7 +365,7 @@ FUN_00d6ac40_cls::~FUN_00d6ac40_cls() throw()
     {
         for (int i = 0; i < m_pSharedOwner->m_iArrayLength; ++i)
         {
-            m_pSharedOwner->m_ppItems[i]->ClearValue(static_cast<SubObject*>(this));
+            reinterpret_cast<::SearchArray *>((m_pSharedOwner->m_ppItems[i]))->ClearValue((int)(static_cast<SubObject*>(this)));
         }
     }
     AudioHolder* pAudioHolder = FUN_00c85750();
@@ -423,7 +424,6 @@ struct SpawnedObject
     int unk2C;
     int unk30;
     int unk34;
-    int __thiscall Init(int arg);
 };
 
 // Allocates a 0x38-byte object from the holder's allocator, sets its size, calls Init(arg), and returns the result plus 8 or 0.
@@ -434,7 +434,7 @@ int FUN_00d6ad00(int arg)
     AllocatorIface* pAllocator = pAllocHolder->m_pAllocator;
     SpawnedObject* pObject = (SpawnedObject*)pAllocator->allocate(0x38);
     pObject->m_wSize = 0x38;
-    int iInitResult = pObject->Init(arg);
+    int iInitResult = ((int)(new ((void *)(pObject)) ::FUN_00d6a940((void *)(arg))));
     return iInitResult != 0 ? iInitResult + 8 : 0;
 }
 }  // namespace fnv_00d6ad00

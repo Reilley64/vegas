@@ -1,5 +1,20 @@
 // gamebryo2.2/corelibs/nimain/niimageconverter.cpp: NiImageConverter, ImageOwner (17 functions)
 
+#include <new>
+#include "fnv/decl/A8Class.h"
+#include "fnv/decl/FUN_00a7c030.h"
+#include "fnv/decl/FUN_00a8ae50.h"
+#include "fnv/decl/NiGlobalStringTable.h"
+#include "fnv/decl/NiPixelFormat.h"
+#include "fnv/decl/NiRefObject.h"
+#include "fnv/decl/Owner.h"
+#include "fnv/decl/fnv_00aa2820__FileNameComponents.h"
+#include "fnv/symbols_00a76000.h"
+#include "fnv/symbols_00a8b000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00aa2000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f4000.h"
 #include "niimageconverter_worker.h"
 
 // @fnv 0x00a76640
@@ -10,7 +25,6 @@ NiImageConverter* NiImageConverter::GetSharedImageConverter()
 
 __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern long volatile DAT_011f4400;
 struct NiRefObject2
 {
     virtual ~NiRefObject2();
@@ -19,12 +33,11 @@ struct NiRefObject2
     NiRefObject2() throw()
     {
         refs = 0;
-        InterlockedIncrement(&DAT_011f4400);
+        InterlockedIncrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
     }
 };
 struct Sub80
 {
-    void FUN_00a8ae50() throw();
 };
 struct BSFadeNode
 {
@@ -37,7 +50,7 @@ struct NiImageConverter2 : NiRefObject2
     char pad2[0x6ff];
     NiImageConverter2() throw()
     {
-        s.FUN_00a8ae50();
+        new ((void *)&(s)) ::FUN_00a8ae50();
     }
     void* operator new(unsigned int n)
     {
@@ -98,17 +111,15 @@ bool __fastcall FUN_00a76d40(const VTable_FUN_00a76d40* pThis, int, const NiPixe
 
 namespace fnv_00a76650 {
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern long volatile DAT_011f4400;
 struct Sub80
 {
-    void FUN_00a8ae50() throw();
 };
 struct NiRefObject
 {
     unsigned int m_uiRefCount;
     NiRefObject() : m_uiRefCount(0)
     {
-        InterlockedIncrement(&DAT_011f4400);
+        InterlockedIncrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
     }
     virtual ~NiRefObject();
 };
@@ -121,25 +132,21 @@ struct FUN_00a76650 : NiRefObject
 // @fnv 0x00a76650
 FUN_00a76650::FUN_00a76650()
 {
-    ((Sub80*)((char*)this + 0x80))->FUN_00a8ae50();
+    new ((void *)(((Sub80*)((char*)this + 0x80)))) ::FUN_00a8ae50();
 }
 }  // namespace fnv_00a76650
 
 namespace fnv_00a76680 {
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern long volatile DAT_011f4400;
-extern void* DAT_011f4a78;
-void _NiFreeAlias(void*) throw();
 struct Sub80
 {
-    void FUN_00a8ada0() throw();
 };
 struct NiRefObject
 {
     unsigned int m_uiRefCount;
     virtual ~NiRefObject()
     {
-        InterlockedDecrement(&DAT_011f4400);
+        InterlockedDecrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
     }
 };
 struct FUN_00a76680 : NiRefObject
@@ -150,10 +157,10 @@ struct FUN_00a76680 : NiRefObject
 // @fnv 0x00a76680
 FUN_00a76680::~FUN_00a76680()
 {
-    if (DAT_011f4a78)
-        _NiFreeAlias(DAT_011f4a78);
-    DAT_011f4a78 = 0;
-    ((Sub80*)((char*)this + 0x80))->FUN_00a8ada0();
+    if ((*reinterpret_cast<void * *>(&::DAT_011f4a78)))
+        ::FUN_00aa10f0((*reinterpret_cast<void * *>(&::DAT_011f4a78)));
+    (*reinterpret_cast<void * *>(&::DAT_011f4a78)) = 0;
+    reinterpret_cast<::A8Class *>((((Sub80*)((char*)this + 0x80))))->FUN_00a8ada0();
 }
 }  // namespace fnv_00a76680
 
@@ -167,7 +174,7 @@ bool __stdcall ArePixelFormatsEqual(void* apFormatA, void* apFormatB)
 {
     NiPixelFormat& a = *(NiPixelFormat*)apFormatA;
     NiPixelFormat& b = *(NiPixelFormat*)apFormatB;
-    return (*(FUN_00a76890_eq*)&a).operator==(b);
+    return reinterpret_cast<::NiPixelFormat *>((void *)&((*(FUN_00a76890_eq*)&a)))->operator====(b);
 }
 
 namespace fnv_00a76960 {
@@ -176,31 +183,27 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volati
 struct FileNameComponents
 {
     FileNameComponents(const char* pcFullPath);
-    void FUN_00aa29d0(char* pcPath, unsigned int uiLen);
     char m_acHead[0x303];
     char m_acTail[0x100];
 };
 struct NiGlobalStringTable
 {
-    static char* AddString(const char*);
 };
 int strcpy_s(char*, unsigned int, const char*);
-extern const char* DAT_011f4a78;
-extern char* EmptyFS;
 // @fnv 0x00a76960
 void FUN_00a76960(char** apszSource, char** apszDest)
 {
-    if (DAT_011f4a78)
+    if (::DAT_011f4a78)
     {
         FileNameComponents kName(*apszSource);
-        strcpy_s(kName.m_acTail, 0x100, DAT_011f4a78);
+        strcpy_s(kName.m_acTail, 0x100, ::DAT_011f4a78);
         char acBuf[0x104];
-        kName.FUN_00aa29d0(acBuf, 0x104);
+        ::FUN_00aa29d0();
         char* pcOldString = *apszDest;
         if (pcOldString != acBuf)
         {
-            *apszDest = NiGlobalStringTable::AddString(acBuf);
-            if (pcOldString != EmptyFS)
+            *apszDest = ::NiGlobalStringTable::AddString(acBuf);
+            if (pcOldString != ::DAT_0109b220)
                 InterlockedDecrement((long volatile*)(pcOldString - 8));
         }
     }
@@ -209,9 +212,9 @@ void FUN_00a76960(char** apszSource, char** apszDest)
         char* pcNewString = *apszSource;
         if (*apszDest != pcNewString)
         {
-            if (pcNewString != EmptyFS)
+            if (pcNewString != ::DAT_0109b220)
                 InterlockedIncrement((long volatile*)(pcNewString - 8));
-            if (*apszDest != EmptyFS)
+            if (*apszDest != ::DAT_0109b220)
                 InterlockedDecrement((long volatile*)(*apszDest - 8));
             *apszDest = pcNewString;
         }
@@ -354,7 +357,6 @@ struct NiPalette
 {
     char data[0x24];
     NiPalette(const NiPalette& other);
-    void FUN_00a8b190(const NiPalette& other);
     static void* operator new(unsigned int, void* p)
     {
         return p;
@@ -371,12 +373,10 @@ struct NiPixelData
     unsigned int* m_puiOffsetInBytes;
     unsigned int m_uiMipmapLevels;
     char tail[0x10];
-    void FUN_00a76a60(NiPalette* pal);
     NiPalette* GetPalette() const
     {
         return m_spPalette;
     }
-    NiPixelData* FUN_00a7c030(const NiPixelData& src);
 };
 
 // @fnv 0x00a76c10
@@ -384,13 +384,13 @@ NiPixelData* FUN_00a76c10_shell::FUN_00a76c10(void* src, void* apDestFmt, NiPixe
 {
     const NiPixelData& kSrc = *(const NiPixelData*)src;
     const NiPixelFormat& kDestFmt = *(const NiPixelFormat*)apDestFmt;
-    if (((const PixelFormatOps*)&kSrc.m_kPixelFormat)->operator!=(kDestFmt))
+    if (reinterpret_cast<::NiPixelFormat *>((void *)(((const PixelFormatOps*)&kSrc.m_kPixelFormat)))->operator!=!=((const ::NiPixelFormat &)(kDestFmt)))
         return 0;
     if (pkOptDest)
     {
         if (pkOptDest == &kSrc)
             return pkOptDest;
-        if (((const PixelFormatOps*)&pkOptDest->m_kPixelFormat)->operator==(kDestFmt) &&
+        if (reinterpret_cast<::NiPixelFormat *>((void *)(((const PixelFormatOps*)&pkOptDest->m_kPixelFormat)))->operator====((const ::NiPixelFormat &)(kDestFmt)) &&
             *pkOptDest->m_puiWidth == *kSrc.m_puiWidth && *pkOptDest->m_puiHeight == *kSrc.m_puiHeight &&
             pkOptDest->m_uiMipmapLevels <= kSrc.m_uiMipmapLevels)
         {
@@ -406,16 +406,16 @@ NiPixelData* FUN_00a76c10_shell::FUN_00a76c10(void* src, void* apDestFmt, NiPixe
                 if (!pkOptDest->m_spPalette)
                 {
                     void* pal = BSFadeNode::operator new(0x24);
-                    pkOptDest->FUN_00a76a60(pal ? new (pal) NiPalette(*kSrc.GetPalette()) : 0);
+                    reinterpret_cast<::Owner *>((pkOptDest))->FUN_00a76a60((::Item *)(::fnv_00a76c10::NiPalette *)(pal ? new (pal) NiPalette(*kSrc.GetPalette()) : 0));
                 }
                 else
-                    pkOptDest->m_spPalette->FUN_00a8b190(*kSrc.m_spPalette);
+                    ::FUN_00a8b190((::MyObj *)(pkOptDest->m_spPalette), (void *)&(*kSrc.m_spPalette), {});
             }
             return pkOptDest;
         }
     }
     void* pNewPixelData = BSFadeNode::operator new(0x74);
-    return pNewPixelData ? ((NiPixelData*)pNewPixelData)->FUN_00a7c030(kSrc) : 0;
+    return pNewPixelData ? ((::fnv_00a76c10::NiPixelData *)(new ((void *)(((NiPixelData*)pNewPixelData))) ::FUN_00a7c030((const ::FUN_00a7c030 &)(kSrc)))) : 0;
 }
 }  // namespace fnv_00a76c10
 
@@ -518,27 +518,22 @@ void FUN_00a76d70(unsigned int uiWidth, unsigned int uiHeight, unsigned int, uns
 
 struct NiPalette;
 struct PixelFormatBitLayout;
-void __cdecl FUN_00a76d70(unsigned int, unsigned int, unsigned int, unsigned char*, NiPalette const*,
-                          PixelFormatBitLayout const&, unsigned char const*, PixelFormatBitLayout const&);
 
 // @fnv 0x00a76e90
 void __cdecl FUN_00a76e90(unsigned int a, unsigned int b, unsigned int c, unsigned char* d, NiPalette const* e,
                           PixelFormatBitLayout const& f, unsigned char const* g, PixelFormatBitLayout const& h)
 {
-    FUN_00a76d70(a, b, c, d, e, f, g, h);
+    ::FUN_00a76d70(a, b, c, d, (unsigned int)(e), (const ::Fmt *)&(f), g, (const ::Fmt *)&(h));
 }
 
-void __cdecl BuildFullPath(void);
 
 // @fnv 0x00aa29d0
 void __cdecl FUN_00aa29d0(void)
 {
-    BuildFullPath();
+    static_cast<::fnv_00aa2820::FileNameComponents *>(nullptr)->BuildFullPath({}, {});
 }
 
 #include <string.h>
-void* _NiMalloc(unsigned int);
-extern char* DAT_011f4a78;
 int _strcpy_s(char*, unsigned int, const char*);
 void _fnv_CopyFilePath(char*, unsigned int, const char*, unsigned int);
 
@@ -555,19 +550,18 @@ struct FileNameComponents
     {
         _strcpy_s(m_acExtension, 0x100, pcExt);
     }
-    void FUN_00aa29d0(char* pcDest, unsigned int uiDestLen);
 };
 
 // Populates a buffer from pcPath, setting its extension from DAT_011f4a78 when that value is non-null.
 // @fnv 0x00a768b0
 char* GetPathWithExtension(const char* pcPath)
 {
-    char* pcDest = (char*)_NiMalloc(0x104);
+    char* pcDest = (char*)::FUN_00aa1070(0x104);
     if (DAT_011f4a78)
     {
         FileNameComponents kFilename(pcPath);
         kFilename.SetExt(DAT_011f4a78);
-        kFilename.FUN_00aa29d0(pcDest, 0x104);
+        ::FUN_00aa29d0();
     }
     else
     {
@@ -578,19 +572,15 @@ char* GetPathWithExtension(const char* pcPath)
 
 namespace fnv_00a76bb0 {
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern long volatile DAT_011f4400;
-extern void* DAT_011f4a78;
-void _NiFreeAlias(void*) throw();
 struct Sub80
 {
-    void FUN_00a8ada0() throw();
 };
 struct NiRefObject
 {
     unsigned int m_uiRefCount;
     virtual ~NiRefObject()
     {
-        InterlockedDecrement(&DAT_011f4400);
+        InterlockedDecrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
     }
 };
 struct FUN_00a76bb0 : NiRefObject
@@ -603,10 +593,10 @@ struct FUN_00a76bb0 : NiRefObject
 // @fnv 0x00a76bb0
 FUN_00a76bb0::~FUN_00a76bb0()
 {
-    if (DAT_011f4a78)
-        _NiFreeAlias(DAT_011f4a78);
-    DAT_011f4a78 = 0;
-    ((Sub80*)((char*)this + 0x80))->FUN_00a8ada0();
+    if ((*reinterpret_cast<void * *>(&::DAT_011f4a78)))
+        ::FUN_00aa10f0((*reinterpret_cast<void * *>(&::DAT_011f4a78)));
+    (*reinterpret_cast<void * *>(&::DAT_011f4a78)) = 0;
+    reinterpret_cast<::A8Class *>((((Sub80*)((char*)this + 0x80))))->FUN_00a8ada0();
 }
 }  // namespace fnv_00a76bb0
 

@@ -4,6 +4,24 @@
 
 // src/havok/physics/collide/util/welding/hkpmeshweldingutility.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/util/welding/hkpmeshweldingutility.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00cc02d0_cls.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/symbols_00cbf000.h"
+#include "fnv/symbols_00ceb000.h"
+#include "fnv/symbols_00d2c000.h"
+#include "fnv/symbols_00ddc000.h"
+#include "fnv/symbols_00ddd000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01014000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101f000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_010d7000.h"
+#include "fnv/symbols_01268000.h"
 struct Record
 {
     float x, y, key;
@@ -31,7 +49,6 @@ inline void SwapRecords(Record& first, Record& second)
 void FUN_00ddeb70(Record* records, int left, int right, int comparator);
 struct DynamicArray
 {
-    void SpliceElements(int a, int b, int c, int d, int e);
     void FUN_00ddecb0(int a, int b, int c, int d);
 };
 struct S_00ddecf0_Key
@@ -58,7 +75,6 @@ struct S_00ddecf0_Array
 {
     S_00ddecf0_Key* m_data;
     int m_iElementCount;
-    void FUN_00ddecd0(S_00ddecf0_Heap& heap, int index, const S_00ddecf0_Key& key);
 };
 struct S_00ddecf0
 {
@@ -67,8 +83,6 @@ struct S_00ddecf0
     void InsertKey(float t, float a, float b);
 };
 extern double DAT_010cd5a8;
-extern double DAT_0101ff40;
-float FUN_00ddd7e0(int a1, int* pOut, float* pF);
 int GetIndexForValue(int aiArg);
 struct Iface
 {
@@ -96,7 +110,6 @@ struct Mgr
     virtual void Write(unsigned int hash, FlagTag value);
     virtual void Read(bool* out, unsigned int hash);
 };
-extern Mgr* DAT_01268360;
 __declspec(align(16)) struct QueryBuffer
 {
     unsigned int unk00;
@@ -231,7 +244,6 @@ __declspec(align(16)) struct QueryBuffer
 int FUN_00dde4c0(Iface* self, void* a, void* b, int idx, int zero, int* out);
 bool* CheckSubQueries(bool* result, void* key, Iface* self);
 void* FUN_00c908c0(void* alloc, void* arr, int numElems, int elemSize);
-void FUN_00d2cc70(void* dst, const void* src, int numBytes);
 inline void* operator new(unsigned int, void* p)
 {
     return p;
@@ -263,7 +275,6 @@ struct S_00ddeab0
 };
 struct S_00ddecd0
 {
-    void FUN_00ddecb0(int a, int b, int c, int flag);
     void FUN_00ddecd0(int a, int b, int c);
 };
 struct FourFloatVector
@@ -298,8 +309,6 @@ struct LocalBuffer
 {
     __declspec(align(16)) int data[125];
 };
-char* IsDegenerateTriangle(char* out, const FourFloatVector* v0, const FourFloatVector* v1, const FourFloatVector* v2,
-                           float eps);
 int FUN_00dde4c0(ObjOuter* p2, Transform* trans, void* p1, int i, void* p3, int* outLocal);
 int __cdecl CheckTransformAndProcess(void* p1, ObjOuter* pOuter, void* p3, short* outWord);
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -307,13 +316,12 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_and_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_cmple_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_load_ps1(const float* p);
 extern "C" int _mm_movemask_ps(__m128 a);
-extern const float DAT_01017d00;
-extern const __m128 DAT_01017d10;
 class hkBoolDDCE
 {
   public:
@@ -332,7 +340,7 @@ struct hkVector4DDCE
     {
         __m128 t = _mm_sub_ps(m_vComponents, v.m_vComponents);
         t = _mm_and_ps(t, DAT_01017d10);
-        const __m128 eps = _mm_load_ps1(&DAT_01017d00);
+        const __m128 eps = _mm_load_ps1(&::AngularDashpotApplyD4DCB0::DAT_01017d00);
         return (_mm_movemask_ps(_mm_cmple_ps(t, eps)) & 7) == 7;
     }
 };
@@ -400,7 +408,6 @@ extern "C" __m128 _mm_mul_ps(__m128, __m128);
 extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
 extern "C" __m128 _mm_add_ss(__m128, __m128);
 extern "C" void _mm_store_ss(float*, __m128);
-int __cdecl FUN_00ddd6f0(const __m128* a, const __m128* b, int index, __m128* out, int* result);
 extern "C"
 {
 
@@ -424,9 +431,6 @@ extern "C"
 
     __m128 _mm_andnot_ps(__m128, __m128);
 }
-extern const float DAT_01011d78;
-extern const float DAT_01017718;
-extern const float DAT_01016248;
 struct ScalarNormal
 {
     __m128 q;
@@ -458,7 +462,7 @@ struct NormalVector
     }
     __forceinline ScalarNormal inverseLength() const
     {
-        __m128 half = _mm_set_ss(DAT_01016248);
+        __m128 half = _mm_set_ss(::fnv_00c88020::DAT_01016248);
         __m128 three = _mm_set_ss(DAT_01017718);
         __m128 zero = _mm_set_ss(DAT_01011d78);
         __m128 len = dot(*this).q;
@@ -472,7 +476,6 @@ struct NormalVector
         q = _mm_mul_ps(inverseLength().broadcast(), q);
     }
 };
-void FUN_00ddd620(const NormalVector* a, const NormalVector* b, const NormalVector* c, NormalVector* out);
 struct S_00ddecf0_Heap
 {
     virtual void unk00();
@@ -485,7 +488,6 @@ struct S_00ddecf0_Heap
         ReturnMemory(p, numElem * (int)sizeof(T));
     }
 };
-extern const double DAT_010290b8;
 __declspec(nothrow) S_00ddecf0_Router* FUN_00c85750();
 void __cdecl ResizeAudioStream(void* heap, void* arr, int elemSize) throw();
 struct KeyLess
@@ -502,7 +504,7 @@ __declspec(noinline) ComparisonResult __cdecl AreZDiffering(const S_00ddecf0_Key
 {
     float delta = a.b - b.b;
     float distance = (float)fabs(delta);
-    bool same = distance < DAT_01017d00;
+    bool same = distance < ::AngularDashpotApplyD4DCB0::DAT_01017d00;
     return ComparisonResult(!same);
 }
 struct ArrayAllocator
@@ -606,7 +608,6 @@ extern "C"
     __m128 _mm_cmpeq_ss(__m128, __m128);
     __m128 _mm_set_ss(float);
     void _mm_store_ss(float*, __m128);
-    float __cdecl Atan2(float y, float x);
 }
 struct hkVector4q
 {
@@ -661,11 +662,8 @@ struct hkVector4q
 };
 static __forceinline float hkAtan2(float y, float x)
 {
-    return Atan2(y, x);
+    return ::Atan2(y, x);
 }
-void __cdecl FUN_00ddd620_triNormal(const hkVector4q& a, const hkVector4q& b, const hkVector4q& c,
-                                    hkVector4q& normalOut);
-float FUN_00ddd7e0(const hkVector4q* v, float* sinOut, float* cosOut);
 extern "C" __m128 _mm_load_ps(float const* _A);
 extern "C" void _mm_store_ps(float* _V, __m128 _A);
 struct __declspec(align(16)) Row
@@ -696,18 +694,14 @@ struct S00dde760_ScratchVector
     unsigned int encodedCapacity;
     char* originalCursor;
 };
-extern "C" Matrix44 DAT_01268370;
-extern "C" void __cdecl FUN_00dddcd0(const Matrix44*, int, int, S00dde760_ScratchVector*, int);
 void __cdecl FUN_00dde760(int a, int b, int c, int d);
 
 extern "C" ::__m128(_mm_setr_ps)(float, float, float, float);
 extern "C" ::__m128(_mm_add_ps)(::__m128, ::__m128);
 
-extern float DAT_010141cc;
 extern const char str_010d7fc8[];
 extern const char str_010d8004[];
 extern const char str_010d8014[];
-extern const char str_010d7f50[];
 
 struct S00dde4c0_Vec
 {
@@ -816,10 +810,6 @@ struct S00dde4c0_Str
     int unk04;
     int unk08;
     int unk0c;
-    void FUN_00cb1600(void* buf, int n);
-    S00dde4c0_Str& FUN_00cc01c0(const char* s);
-    S00dde4c0_Str& FUN_00cc02d0(int v);
-    void FUN_00cc00e0();
 };
 struct S00dde4c0_Err
 {
@@ -829,7 +819,6 @@ struct S00dde4c0_Err
     virtual void report(int a, unsigned int id, const char* msg, const char* file, int line);
 };
 
-int __cdecl FUN_00ddd6f0(const S00dde4c0_Vec* tri, const void* shape, int idx, S00dde4c0_Out* out, int* winding);
 unsigned int __cdecl FUN_00ddcdd0(unsigned int f, unsigned int idx, unsigned int v);
 
 // @fnv 0x00dde4c0
@@ -846,7 +835,7 @@ int __cdecl FUN_00dde4c0(S00dde4c0_Mesh* mesh, S00dde4c0_Tri* tri, int skip, int
             S00dde4c0_Vec lo;
         } work;
         work.center = verts[idx % 3];
-        float eps = DAT_010141cc;
+        float eps = ::DAT_010141cc;
         work.lo.setAll3(-eps);
         ::__m128 low = work.lo.q;
         S00dde4c0_Vec hi;
@@ -867,21 +856,17 @@ int __cdecl FUN_00dde4c0(S00dde4c0_Mesh* mesh, S00dde4c0_Tri* tri, int skip, int
             continue;
         int winding[2];
         S00dde4c0_Out out;
-        if (FUN_00ddd6f0(verts, &shape->data, idx, &out, winding) != 4)
+        if (::FUN_00ddd6f0((const ::__m128 *)(verts), (const ::__m128 *)(const void *)(&shape->data), idx, (::__m128 *)(::S00dde4c0_Out *)(&out), winding) != 4)
             continue;
         if (checkWinding && winding[0] != (winding[1] + 1) % 3)
         {
             if (first)
             {
                 S00dde4c0_Str sb;
-                sb.FUN_00cb1600(&buffer, 0x200);
-                sb.FUN_00cc01c0(str_010d7fc8)
-                    .FUN_00cc02d0(skip)
-                    .FUN_00cc01c0(str_010d8004)
-                    .FUN_00cc02d0(other)
-                    .FUN_00cc01c0(str_010d8014);
-                ((S00dde4c0_Err*)::DAT_01268360)->report(1, 0xabba751e, (const char*)&buffer, str_010d7f50, 0x2c9);
-                sb.FUN_00cc00e0();
+                new ((void *)&(sb)) ::FUN_00cb1600(&buffer, 0x200);
+                reinterpret_cast<::SinkOwner *>(&((*(::S00dde4c0_Str *)(reinterpret_cast<::FUN_00cc02d0_cls *>(&((*(::S00dde4c0_Str *)(reinterpret_cast<::SinkOwner *>(&((*(::S00dde4c0_Str *)(reinterpret_cast<::FUN_00cc02d0_cls *>(&((*(::S00dde4c0_Str *)(reinterpret_cast<::SinkOwner *>(&(sb))->FUN_00cc01c0(str_010d7fc8)))))->FUN_00cc02d0(skip)))))->FUN_00cc01c0(str_010d8004)))))->FUN_00cc02d0(other)))))->FUN_00cc01c0(str_010d8014);
+                ((S00dde4c0_Err*)(*reinterpret_cast<::Mgr * *>(&::DAT_01268360)))->report(1, 0xabba751e, (const char*)&buffer, (*reinterpret_cast<const char (*)[]>(&::DAT_010d7f50)), 0x2c9);
+                reinterpret_cast<struct ::FUN_00cc00e0 *>(&(sb))->FUN_00cc00e0::~FUN_00cc00e0();
             }
             first = false;
         }

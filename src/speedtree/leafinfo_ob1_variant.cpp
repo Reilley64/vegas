@@ -5,6 +5,15 @@
 
 // src/speedtree/leafinfo.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/leafinfo.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00b3ed20_cls.h"
+#include "fnv/decl/FUN_00b3f130_shell.h"
+#include "fnv/decl/S_00b3ed80.h"
+#include "fnv/decl/fnv_00b059e0__FUN_00b06090.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_01030000.h"
+#include "fnv/symbols_01170000.h"
 struct NiPoint3
 {
     float x;
@@ -48,7 +57,6 @@ class Scratch_cls
     unsigned int unk48;
     unsigned int unk4C;
 };
-extern int DAT_010173f0;
 class FUN_00b2e680_cls
 {
   public:
@@ -66,7 +74,6 @@ struct S_00b3cf40_Random
 {
     S_00b3cf40_Random();
     ~S_00b3cf40_Random();
-    float FUN_00b3f130(float lo, float hi);
 };
 static const float DAT_01022958 = 10000.0f;
 struct S_00b3cf40
@@ -98,7 +105,7 @@ struct S_00b3cf40
 
 #include <string>
 #include <vector>
-extern const float DAT_01030ff0, DAT_0101df44, DAT_01016248, DAT_010a587c, DAT_01017b78;
+extern const float DAT_010a587c;
 struct LeafPoint
 {
     float x, y, z;
@@ -109,7 +116,6 @@ struct LeafPoint
     LeafPoint(float xx, float yy);
     LeafPoint(float xx, float yy, float zz);
 };
-extern int DAT_01170384;
 
 struct S00b3d1b0_Str : std::string
 {
@@ -165,13 +171,10 @@ struct S00b3d1b0_Name : S00b3d1b0_Str
 
 struct S00b3d1b0_Src
 {
-    int GetNextElement();
     int ReadToken()
     {
-        return GetNextElement();
+        return ((int)(reinterpret_cast<::S_00b3ed80 *>(this)->GetNextElement()));
     }
-    float FUN_00b3ed20();
-    char FUN_00b06180();
     LeafPoint GetVector3();
     S00b3d1b0_Str FUN_00b3ee40();
 };
@@ -187,8 +190,8 @@ struct S00b3d1b0_Leaf
     LeafPoint m_48;
 
     S00b3d1b0_Leaf()
-        : m_iWordAt00(false), m_iWordAt04(DAT_01030ff0), m_10(DAT_0101df44), m_30(DAT_01016248, 1.0f, 0.0f),
-          m_3c(DAT_010a587c, DAT_010a587c, 0.0f), m_48(DAT_01017b78, DAT_01017b78, 0.0f)
+        : m_iWordAt00(false), m_iWordAt04(DAT_01030ff0), m_10(::DAT_0101df44), m_30(::fnv_00c88020::DAT_01016248, 1.0f, 0.0f),
+          m_3c(DAT_010a587c, DAT_010a587c, 0.0f), m_48(::DAT_01017b78, ::DAT_01017b78, 0.0f)
     {}
 };
 
@@ -226,41 +229,41 @@ void S00b3d1b0_Obj::FUN_00b3d1b0(S00b3d1b0_Src* src)
         switch (aTag)
         {
         case 3000:
-            m_2c = src->FUN_00b3ed20();
+            m_2c = reinterpret_cast<::FUN_00b3ed20_cls *>((src))->FUN_00b3ed20();
             break;
         case 3001:
-            m_34 = src->GetNextElement();
+            m_34 = ((int)(reinterpret_cast<::S_00b3ed80 *>((src))->GetNextElement()));
             break;
         case 3002:
-            m_30 = src->FUN_00b3ed20();
+            m_30 = reinterpret_cast<::FUN_00b3ed20_cls *>((src))->FUN_00b3ed20();
             break;
         case 3003:
-            src->FUN_00b06180();
+            reinterpret_cast<::fnv_00b059e0::FUN_00b06090 *>((src))->FUN_00b06180();
             break;
         case 3004:
-            src->FUN_00b3ed20();
+            reinterpret_cast<::FUN_00b3ed20_cls *>((src))->FUN_00b3ed20();
             break;
         case 3009:
-            m_iWordAt00 = src->FUN_00b06180();
+            m_iWordAt00 = ((char)(reinterpret_cast<::fnv_00b059e0::FUN_00b06090 *>((src))->FUN_00b06180()));
             break;
         case 3010:
-            m_iWordAt04 = src->FUN_00b3ed20();
+            m_iWordAt04 = reinterpret_cast<::FUN_00b3ed20_cls *>((src))->FUN_00b3ed20();
             break;
         case 3005:
-            src->FUN_00b3ed20();
+            reinterpret_cast<::FUN_00b3ed20_cls *>((src))->FUN_00b3ed20();
             break;
         case 3006:
-            src->FUN_00b06180();
+            reinterpret_cast<::fnv_00b059e0::FUN_00b06090 *>((src))->FUN_00b06180();
             break;
         case 3007:
-            m_28 = src->FUN_00b3ed20();
+            m_28 = reinterpret_cast<::FUN_00b3ed20_cls *>((src))->FUN_00b3ed20();
             break;
         case 3008:
-            m_iThirdValue = src->GetNextElement();
+            m_iThirdValue = ((int)(reinterpret_cast<::S_00b3ed80 *>((src))->GetNextElement()));
             break;
         case 1009: {
             aTag = src->ReadToken();
-            count = src->GetNextElement();
+            count = ((int)(reinterpret_cast<::S_00b3ed80 *>((src))->GetNextElement()));
             m_10.clear();
             m_10.resize(count);
             for (i = 0; i < count; ++i)
@@ -273,13 +276,13 @@ void S00b3d1b0_Obj::FUN_00b3d1b0(S00b3d1b0_Src* src)
                     switch (aTag)
                     {
                     case 4000:
-                        leaf.m_iWordAt00 = src->FUN_00b06180();
+                        leaf.m_iWordAt00 = ((char)(reinterpret_cast<::fnv_00b059e0::FUN_00b06090 *>((src))->FUN_00b06180()));
                         break;
                     case 4001:
                         leaf.m_iWordAt04 = src->GetVector3();
                         break;
                     case 4002:
-                        leaf.m_10 = src->FUN_00b3ed20();
+                        leaf.m_10 = reinterpret_cast<::FUN_00b3ed20_cls *>((src))->FUN_00b3ed20();
                         break;
                     case 4003:
                         leaf.m_14 = src->FUN_00b3ee40();
@@ -295,7 +298,7 @@ void S00b3d1b0_Obj::FUN_00b3d1b0(S00b3d1b0_Src* src)
                         leaf.m_48 = src->GetVector3();
                         break;
                     case 4007:
-                        src->FUN_00b3ed20();
+                        reinterpret_cast<::FUN_00b3ed20_cls *>((src))->FUN_00b3ed20();
                         break;
                     default:
                         throw S00b3d1b0_Err("malformed single leaf information", false);

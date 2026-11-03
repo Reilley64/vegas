@@ -2,6 +2,26 @@
 // src/havok/common/base/memory/system/freelist/hkfreelistmemorysystem.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/system/freelist/hkfreelistmemorysystem.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00cbbfa0_class.h"
+#include "fnv/decl/FUN_00cbf1a0_cls.h"
+#include "fnv/decl/FUN_00cf6da0_cls.h"
+#include "fnv/decl/FUN_00d2c3a0_class.h"
+#include "fnv/decl/FUN_00d2c7a0_class.h"
+#include "fnv/decl/FUN_00d5e900.h"
+#include "fnv/decl/FUN_00d60270_cls.h"
+#include "fnv/decl/FUN_00d60500.h"
+#include "fnv/decl/HKThreadMemory.h"
+#include "fnv/decl/Pool_cd09d0.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/Target.h"
+#include "fnv/decl/TargetClass.h"
+#include "fnv/decl/hkObjD5E9.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cbc000.h"
+#include "fnv/symbols_00d2c000.h"
+#include "fnv/symbols_01094000.h"
+#include "fnv/symbols_010ca000.h"
 struct FUN_00cd06c0_t
 {
     void __thiscall FUN_00cd06c0(int v);
@@ -13,22 +33,19 @@ void __thiscall FUN_00cd06c0_t::FUN_00cd06c0(int v)
     *(int*)((char*)this + 0x18) = v;
 }
 
-extern int DAT_010cacd0;
 
 struct FUN_00cd06a0
 {
     void* m_p00;
     FUN_00cd06a0(int aiArg);
-    void FUN_00d2c7a0();
-    void FUN_00cbf1a0();
 };
 
 // @fnv 0x00cd06a0
 FUN_00cd06a0::FUN_00cd06a0(int aiArg)
 {
     m_p00 = &DAT_010cacd0;
-    FUN_00d2c7a0();
-    FUN_00cbf1a0();
+    reinterpret_cast<::FUN_00d2c7a0_class *>(this)->FUN_00d2c7a0();
+    reinterpret_cast<::FUN_00cbf1a0_cls *>(this)->FUN_00cbf1a0();
 }
 
 struct Inner
@@ -63,7 +80,6 @@ void Outer::FUN_00cd06e0()
     inner.v16();
 }
 
-void __cdecl FUN_00d2cab0(void*, int, unsigned int);
 struct FUN_00cd0940_record
 {
     virtual void slot00() = 0;
@@ -118,7 +134,7 @@ void __thiscall FUN_00cd0940_shell::ResetRecordState(int* aiParams, unsigned cha
         record->slot13();
         *(volatile int*)((unsigned char*)record + 0x128) = 0;
         *(volatile unsigned char*)((unsigned char*)record + 0x12c) = 0;
-        FUN_00d2cab0(aiParams, 0, 0x24);
+        ::FUN_00d2cab0();
     }
 }
 
@@ -194,7 +210,6 @@ int SearchObject::Search(unsigned int arg0, unsigned int arg1, unsigned int arg2
 
 struct SpawnedSub
 {
-    int Compute();
 };
 
 struct FUN_00cd06f0_cls
@@ -213,7 +228,7 @@ void FUN_00cd06f0_cls::AccumulateSpawnedSubTotals(int* out)
         if (*(elem - 4) != 0)
         {
             SpawnedSub* sub = (SpawnedSub*)(elem - 0x130);
-            out[1] += sub->Compute();
+            out[1] += reinterpret_cast<::Target *>((sub))->ComputeWeightedSum();
             out[0] += *(int*)elem;
         }
         elem += 0x138;
@@ -233,7 +248,6 @@ int CD0730Object::FUN_00cd0730(const void* info) const
     return 1;
 }
 
-extern const char str_01094d90[];
 
 struct Gap040
 {
@@ -315,7 +329,6 @@ struct Sub0b0c
 
 struct FUN_00d5e960_t
 {
-    void __thiscall InitStream(int v);
 };
 
 struct Owner
@@ -363,7 +376,7 @@ Sub0b0c* Owner::FUN_00cd0740(const Pair* apPair, Flags flags)
         if (b)
         {
             int r = svc->s1(b, b);
-            cnt0b30.InitStream(r);
+            reinterpret_cast<::hkObjD5E9 *>(&(cnt0b30))->InitStream((char *)(r), {});
         }
     }
     return &sub0b0c;
@@ -378,10 +391,9 @@ struct S_00cd0a60_sub8
     int unk08;
     int unk0c;
     int unk10;
-    void FUN_00d60500(int a1, int a2);
     __forceinline S_00cd0a60_sub8()
     {
-        FUN_00d60500(0, 0);
+        new ((void *)this) ::FUN_00d60500((void *)(0), 0);
     }
 };
 
@@ -1066,10 +1078,9 @@ struct S_00cd0a60_sub1c
     int unka90;
     int unka94;
     int unka98;
-    void FUN_00d60270(S_00cd0a60_sub8* a1);
     __forceinline S_00cd0a60_sub1c(S_00cd0a60_sub8* a1)
     {
-        FUN_00d60270(a1);
+        reinterpret_cast<::FUN_00d60270_cls *>(this)->FUN_00d60270((int)(a1));
     }
 };
 
@@ -1112,10 +1123,9 @@ struct S_00cd0a60_sub0ad0
     int unk24;
     int unk28;
     int unk2c;
-    void FUN_00cf6da0(int a1);
     __forceinline S_00cd0a60_sub0ad0()
     {
-        FUN_00cf6da0(0);
+        reinterpret_cast<::FUN_00cf6da0_cls *>(this)->FUN_00cf6da0(0);
     }
 };
 
@@ -1124,10 +1134,9 @@ struct S_00cd0a60_sub0b00
     int unk00;
     int unk04;
     int unk08;
-    void FUN_00cbbfa0();
     __forceinline S_00cd0a60_sub0b00()
     {
-        FUN_00cbbfa0();
+        new ((void *)this) ::FUN_00cbbfa0_class();
     }
 };
 
@@ -1142,10 +1151,9 @@ struct S_00cd0a60_sub0b0c
     int unk18;
     int unk1c;
     int unk20;
-    void Clear();
     __forceinline S_00cd0a60_sub0b0c()
     {
-        Clear();
+        reinterpret_cast<::TargetClass *>(this)->Clear();
     }
 };
 
@@ -1230,10 +1238,9 @@ struct S_00cd0a60_sub0b30
     int unk130;
     int unk134;
     int unk138;
-    void FUN_00d5e900();
     __forceinline S_00cd0a60_sub0b30()
     {
-        FUN_00d5e900();
+        new ((void *)this) ::FUN_00d5e900();
     }
 };
 
@@ -1317,7 +1324,6 @@ struct S_00cd0a60_elem
     char unk12c;
     int unk130;
     int unk134;
-    void FUN_00d2c720();
 };
 
 struct S_00cd0a60_arr
@@ -1328,7 +1334,7 @@ struct S_00cd0a60_arr
         S_00cd0a60_elem* p = e;
         for (int i = 31; i >= 0; --i)
         {
-            p->FUN_00d2c720();
+            reinterpret_cast<::HKThreadMemory *>((p))->FUN_00d2c720();
             p->unk128 = 0;
             p->unk12c = 0;
             p->unk130 = 0;
@@ -1364,7 +1370,6 @@ FUN_00cd0a60::FUN_00cd0a60() : unk04(0), m1c(&m08)
 
 struct Helper
 {
-    void FUN_00cd09d0();
 };
 
 struct FUN_00cd0c70_cls
@@ -1377,7 +1382,7 @@ struct FUN_00cd0c70_cls
 // @fnv 0x00cd0c70
 FUN_00cd0c70_cls* FUN_00cd0c70_cls::FUN_00cd0c70(int aiUnused)
 {
-    ((Helper*)this)->FUN_00cd09d0();
+    reinterpret_cast<::Pool_cd09d0 *>((((Helper*)this)))->Pool_cd09d0::~Pool_cd09d0();
     return this;
 }
 
@@ -1416,7 +1421,6 @@ struct CD07B0_Buffer
     {
         return m_pRecordEnd - m_pBegin;
     }
-    void InitStream(int a1, int a2);
 };
 struct FUN_00cd07b0_cls
 {
@@ -1470,7 +1474,7 @@ int FUN_00cd07b0_cls::Cleanup(Flags akFlags)
         if (m_kBuffer.Size())
         {
             m_pAllocator->FreeBytes(m_kBuffer.m_pBegin, m_kBuffer.Size());
-            m_kBuffer.InitStream(0, 0);
+            reinterpret_cast<::hkObjD5E9 *>(&(m_kBuffer))->InitStream((char *)(0), 0);
         }
     }
     if (akFlags.bits & 1)
@@ -1485,7 +1489,6 @@ int FUN_00cd07b0_cls::Cleanup(Flags akFlags)
 #include <windows.h>
 struct FUN_00d2c3a0_t
 {
-    void __thiscall FUN_00d2c3a0(unsigned int a, unsigned int b);
 };
 
 struct Slot_1c_t
@@ -1528,7 +1531,7 @@ void FUN_00cd0830_cls::AcquireSlot(unsigned int* out, unsigned int a2, unsigned 
         char* slot = self + iSlotIndex * 0x138 + 0xc6c;
         *(unsigned int*)(slot + 0x128) = a2;
         unsigned int uiValue = *(unsigned int*)(self + 0xb08);
-        ((FUN_00d2c3a0_t*)slot)->FUN_00d2c3a0(uiValue, 8);
+        reinterpret_cast<::FUN_00d2c3a0_class *>((((FUN_00d2c3a0_t*)slot)))->FUN_00d2c3a0((void *)(uiValue), (void *)(8));
 
         uiZero = 0;
         out[3] = uiZero;
@@ -1567,7 +1570,6 @@ void FUN_00cd0830_cls::AcquireSlot(unsigned int* out, unsigned int a2, unsigned 
 
 struct FUN_00cbf1a0_t
 {
-    void FUN_00cbf1a0();
 };
 
 struct FUN_00cd0c50_cls
@@ -1587,7 +1589,7 @@ struct FUN_00cd0c50_cls
 FUN_00cd0c50_cls* FUN_00cd0c50_cls::Destroy(int a1)
 {
     DeleteCriticalSection((LPCRITICAL_SECTION)((char*)this + 0x18));
-    reinterpret_cast<FUN_00cbf1a0_t*>(this)->FUN_00cbf1a0();
+    reinterpret_cast<::FUN_00cbf1a0_cls *>((reinterpret_cast<FUN_00cbf1a0_t*>(this)))->FUN_00cbf1a0();
     return this;
 }
 
@@ -1606,11 +1608,9 @@ struct AudioHolderStub
 };
 
 AudioHolderStub* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void* pAllocator, void* pArray, unsigned int auiNewSize);
 
 struct Target_cc01
 {
-    void FUN_00cc01c0(char* pText);
 };
 
 struct VSlotObj
@@ -1654,7 +1654,6 @@ struct CtorLocal
 
 struct FUN_00cd0b30_cls
 {
-    void FUN_00cbc220(int a1, CtorLocal* pLocal);
     void FUN_00cd0b30(int a1);
 };
 
@@ -1663,8 +1662,8 @@ struct FUN_00cd0b30_cls
 void FUN_00cd0b30_cls::FUN_00cd0b30(int apTarget)
 {
     char* self = (char*)this;
-    ((Target_cc01*)apTarget)->FUN_00cc01c0(&str_010cade0);
-    ((Target_cc01*)apTarget)->FUN_00cc01c0(&str_010cadb4);
+    reinterpret_cast<::SinkOwner *>((((Target_cc01*)apTarget)))->FUN_00cc01c0(&str_010cade0);
+    reinterpret_cast<::SinkOwner *>((((Target_cc01*)apTarget)))->FUN_00cc01c0(&str_010cadb4);
 
     CtorLocal localData;
     localData.m_cA = 0x80000000u;
@@ -1688,7 +1687,7 @@ void FUN_00cd0b30_cls::FUN_00cd0b30(int apTarget)
             AudioHolderStub* holder = FUN_00c85750();
             if (localData.m_nCallbackId == (localData.m_cA & 0x3fffffffu))
             {
-                ResizeAudioStream(holder->m_pAllocator, &localData.m_ppA, 4);
+                ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(void *)(&localData.m_ppA), 4);
             }
             localData.m_ppA[localData.m_nCallbackId] = (void*)(p - 0x134);
             localData.m_nCallbackId++;
@@ -1696,7 +1695,7 @@ void FUN_00cd0b30_cls::FUN_00cd0b30(int apTarget)
             holder = FUN_00c85750();
             if (localData.m_nB == (localData.m_cB & 0x3fffffffu))
             {
-                ResizeAudioStream(holder->m_pAllocator, &localData.m_pB, 4);
+                ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(void *)(&localData.m_pB), 4);
             }
             localData.m_pB[localData.m_nB] = *(int*)p;
             localData.m_nB++;
@@ -1704,7 +1703,7 @@ void FUN_00cd0b30_cls::FUN_00cd0b30(int apTarget)
         p += 0x138;
     }
 
-    this->FUN_00cbc220(apTarget, &localData);
-    localData.FUN_00cd0c80();
+    ::FUN_00cbc220((::hkOstream *)(this), (::MemSystemInfo *)(apTarget));
+    reinterpret_cast<::FUN_00cd0c80 *>(&(localData))->FUN_00cd0c80::~FUN_00cd0c80();
 }
 }  // namespace fnv_00cd0b30

@@ -2,6 +2,13 @@
 // src/havok/physics/collide/shape/deprecated/convexlist/hkpconvexlistshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/deprecated/convexlist/hkpconvexlistshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FunctionContext.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_00d26000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpConvexListShape.h"
 
 struct FUN_00d5e2e0_Class
@@ -225,8 +232,6 @@ struct BSAudio
 };
 
 BSAudio* FUN_00c85750();
-void FUN_00c908c0(void* allocator, void* arrayPtr, int newCapacity, int elementSize);
-void __fastcall FUN_00c90510(hkpConvexShape* shape);
 
 struct ConvexList : hkpConvexListShape
 {
@@ -247,14 +252,14 @@ void ConvexList::SetChildren(hkpConvexShape** children, int numChildren)
         {
             iCapacity = numChildren;
         }
-        FUN_00c908c0(allocator, pChildrenArray, iCapacity, sizeof(hkpConvexShape*));
+        ::FUN_00c908c0((::SpawnedObject *)(allocator), (::SpawnedArray *)(pChildrenArray), iCapacity, sizeof(hkpConvexShape*));
     }
     pChildrenArray->m_iElementCount = numChildren;
     m_fSphereRadius = children[0]->m_fSphereRadius;
     for (int i = 0; i < numChildren; i++)
     {
         pChildrenArray->m_data[i] = children[i];
-        FUN_00c90510(children[i]);
+        reinterpret_cast<::FUN_00c90510_class *>((children[i]))->FUN_00c90510();
     }
 }
 
@@ -336,7 +341,6 @@ extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_load_ps1(const float* p);
 
-extern const __m128 DAT_010c71d0;
 static const float DAT_0104da48 = 3.40282e+38f;
 static const float DAT_0104e148 = -3.40282e+38f;
 
@@ -400,7 +404,6 @@ struct hkAabbD5E3
     }
 };
 
-extern hkTransformD5E3 DAT_01268370;
 
 template <class T> struct hkArrayD5E3
 {
@@ -473,16 +476,16 @@ void hkpConvexListShapeD5E3::UpdateCachedAabb(bool bUseCachedAabb)
         for (int i = 0; i < m_kChildShapes.GetLogicalSize(); i++)
         {
             hkAabbD5E3 kChildAabb;
-            m_kChildShapes[i]->getAabb(DAT_01268370, 0.0f, kChildAabb);
+            m_kChildShapes[i]->getAabb((*reinterpret_cast<::hkTransformD5E3 *>(&::DAT_01268370)), 0.0f, kChildAabb);
             kAabb.includeAabb(kChildAabb);
         }
         hkVector4D5E3 kTargetCenter;
         kTargetCenter.setAdd4(kAabb.m_kMinimumCorner, kAabb.m_kMaximumCorner);
-        kTargetCenter.mul4(DAT_010c71d0);
+        kTargetCenter.mul4(::DAT_010c71d0);
         m_kAabbCenter = kTargetCenter;
         hkVector4D5E3 m_kPoint2;
         m_kPoint2.setSub4(kAabb.m_kMaximumCorner, kAabb.m_kMinimumCorner);
-        m_kPoint2.mul4(DAT_010c71d0);
+        m_kPoint2.mul4(::DAT_010c71d0);
         m_kAabbHalfExtents = m_kPoint2;
     }
 }
@@ -531,8 +534,6 @@ struct hkAabbD5E3
     }
 };
 
-void __cdecl FUN_00d26230(const hkTransformD5E3& kLocalToWorld, const hkVector4D5E3& m_kPoint2,
-                          const hkVector4D5E3& kTargetCenter, float fExtraRadius, hkAabbD5E3& kAabbOut);
 
 template <class T> struct hkArrayD5E3
 {
@@ -599,7 +600,7 @@ void hkpConvexListShapeD5E3::FUN_00d5e3c0(const hkTransformD5E3& kLocalToWorld, 
 {
     if (m_bUseCachedAabb)
     {
-        FUN_00d26230(kLocalToWorld, m_kAabbHalfExtents, m_kAabbCenter, m_fSphereRadius + fTolerance, kOut);
+        ::FUN_00d26230((const ::hkTransformD262 &)(kLocalToWorld), (const ::hkVector4D262 &)(m_kAabbHalfExtents), (const ::hkVector4D262 &)(m_kAabbCenter), m_fSphereRadius + fTolerance, (::hkAabbD262 &)(kOut));
         return;
     }
 
@@ -667,8 +668,6 @@ class FUN_00d5e750 : public hkShapeD5E7, public hkContainerD5E7
     FUN_00d5e750(void* a, void* b) throw();
     virtual ~FUN_00d5e750() throw();
 
-    void SetChildren(void* a, void* b) throw();
-    void UpdateCachedAabb(int flag) throw();
 
     hkArrayD5E7<int> m_ppData;
 };
@@ -677,8 +676,8 @@ class FUN_00d5e750 : public hkShapeD5E7, public hkContainerD5E7
 FUN_00d5e750::FUN_00d5e750(void* a, void* b) throw() : hkShapeD5E7(0x16)
 {
     m_vScale = 1.0f;
-    SetChildren(a, b);
-    UpdateCachedAabb(1);
+    reinterpret_cast<::ConvexList *>(this)->SetChildren((::hkpConvexShape **)(a), (int)(b));
+    reinterpret_cast<::hkpConvexListShapeD5E3 *>(this)->UpdateCachedAabb(1);
 }
 
 namespace fnv_00d5e7c0 {
@@ -732,7 +731,6 @@ template <typename T> struct hkArrayD5E7
 class hkRefD5E7
 {
   public:
-    void FUN_00c905b0() throw();
 };
 
 class hkBaseAD5E7
@@ -765,13 +763,11 @@ FUN_00d5e7c0::~FUN_00d5e7c0() throw()
 {
     for (int i = 0; i < m_kChildInfoList.GetLogicalSize(); i++)
     {
-        m_kChildInfoList.m_data[i]->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_kChildInfoList.m_data[i]))->FUN_00c905b0();
     }
 }
 }  // namespace fnv_00d5e7c0
 
-extern int _FUN_00d06f80(void*, int);
-extern int DAT_01268940;
 extern const char str_010cc3a4[];
 
 struct S00d5e480_Visitor
@@ -812,7 +808,6 @@ struct S00d5e480_Class
     int count;
     int capacity;
 
-    void FUN_00c90360(S00d5e480_Visitor*, int*);
     void FUN_00d5e480(S00d5e480_Visitor*, int);
 };
 
@@ -823,7 +818,7 @@ void S00d5e480_Class::FUN_00d5e480(S00d5e480_Visitor* visitor, int)
     {
         void** childArray = children;
         int allocationSize = (capacity & 0x3fffffff) * 4;
-        int allocated = _FUN_00d06f80(childArray, allocationSize);
+        int allocated = ::fnv_00d06f80::FUN_00d06f80((const char *)(childArray), allocationSize);
         visitor->visitArray(3, str_010cc3a4, children, count * 4, allocated);
     }
 
@@ -836,13 +831,13 @@ void S00d5e480_Class::FUN_00d5e480(S00d5e480_Visitor* visitor, int)
         }
     }
 
-    FUN_00c90360(visitor, &DAT_01268940);
+    reinterpret_cast<::FunctionContext *>(this)->FUN_00c90360(visitor, &(*reinterpret_cast<int *>(&::g_01268940)));
 }
 
 #include <windows.h>
+#include "fnv/symbols_simd.h"
 extern "C" void _ReadWriteBarrier(void);
 
-extern DWORD DAT_0126835c;
 unsigned __int64 __cdecl __rdtsc(void);
 
 struct ProfRec
@@ -943,7 +938,6 @@ bool* Node::FUN_00d5e500(bool* __restrict result, void* other, State* st)
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 
-extern DWORD hkMonitorStream__tlsIndex;
 
 struct StringCursor
 {
@@ -966,7 +960,7 @@ struct StringCursor
 
     static inline StringCursor& GetMonitorStream()
     {
-        return *static_cast<StringCursor*>(TlsGetValue(hkMonitorStream__tlsIndex));
+        return *static_cast<StringCursor*>(TlsGetValue(::DAT_0126835c));
     }
     inline hkBool memoryAvailable() const
     {

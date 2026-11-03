@@ -5,6 +5,16 @@
 
 // src/havok/physics/collide/dispatch/hkpcollisiondispatcher.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/dispatch/hkpcollisiondispatcher.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/RequestReceiver.h"
+#include "fnv/decl/S00cfb080_State.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_01268000.h"
 struct FUN_00cfb1e0
 {
     void Set(bool b);
@@ -40,8 +50,6 @@ struct Owner
 };
 struct S_00cfb1f0_Ref
 {
-    void FUN_00c90510();
-    void FUN_00c905b0();
 };
 struct S_00cfb1f0_Obj
 {
@@ -53,7 +61,6 @@ struct S_00cfb1f0_Obj
 };
 struct CFB240ContactMgrFactory
 {
-    void RetainReference() const;
     void removeReference() const;
 };
 struct CFB240Dispatcher
@@ -66,7 +73,6 @@ struct CFB240Dispatcher
     void SetContactMgrFactory(CFB240ContactMgrFactory* fac, int responseA);
 };
 const char* GetHavokShapeTypeName(int type);
-int Vsnprintf(char* buf, int size, const char* fmt, ...);
 struct IntegerPair
 {
     int m_iFirst;
@@ -196,7 +202,6 @@ struct FUN_00cfbd60_cls
     void RegisterAgentType(void* p, int i, int a, int b, int c, int d, int e, int f);
     int AddEntry(SrcRec* a1, int a2, int a3);
 };
-int __cdecl FUN_00d06f80(const void* p, int numBytes);
 struct CFBED0ShapeInheritance
 {
     int m_vFrom;
@@ -232,7 +237,7 @@ struct CFBED0StatisticsCollector
     {
         if ((array.m_iCapacityState & 0x80000000) == 0 || m_countDontDeallocate)
         {
-            int allocated = FUN_00d06f80(array.m_data, array.getCapacity() * sizeof(CFBED0ShapeInheritance));
+            int allocated = ::fnv_00d06f80::FUN_00d06f80((const char *)(array.m_data), array.getCapacity() * sizeof(CFBED0ShapeInheritance));
             AddMemoryChunk(3, fieldName, array.m_data, array.m_iElementCount * sizeof(CFBED0ShapeInheritance), allocated);
         }
     }
@@ -2124,7 +2129,6 @@ struct CFBF60MemoryRouter
     }
 };
 extern "C" CFBF60MemoryRouter& __cdecl CFBF60GetMemoryRouter();
-void __cdecl ResizeAudioStream(void* alloc, void* array, int sizeElem);
 struct CFBF60ShapeInheritance
 {
     int m_iSecond;
@@ -2155,7 +2159,7 @@ struct CFBF60InheritanceArray
     {
         CFBF60Allocator& alloc = CFBF60GetMemoryRouter().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&alloc, this, sizeof(CFBF60ShapeInheritance));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(CFBF60ShapeInheritance));
         return m_data[m_iElementCount++];
     }
 };
@@ -4092,11 +4096,9 @@ struct CFBF60Dispatcher
     int unk1E20;
     CFBF60InheritanceArray m_pShapeInheritance;
 
-    void updateShapeInheritance(int primaryType, int alternateType, bool recurse);
     void FUN_00cfbf60(int primaryType, int alternateType);
 };
 extern "C" int DAT_010cc7c0;
-extern "C" int DAT_0102e388;
 struct hkReferencedObject
 {
     void removeReference();
@@ -4128,7 +4130,6 @@ struct Cleanup
 extern "C" int DAT_010cc7c0;
 struct RefCounted
 {
-    void AddRef();
 };
 template <class T> static inline volatile T& At(void* base, unsigned int off)
 {
@@ -4140,13 +4141,10 @@ struct FUN_00cfc030_cls
     unsigned short unk04;
     unsigned short unk06;
     unsigned int unk08;
-    void Reset_cfb080();
     FUN_00cfc030_cls* FUN_00cfc030(unsigned int a1, unsigned int v);
 };
 
-extern int DAT_01268360;
 const char* GetHavokShapeTypeName(int type);
-int Vsnprintf(char* buf, int size, const char* fmt, ...);
 struct DispatcherReferencedObject
 {
     virtual ~DispatcherReferencedObject();
@@ -4204,8 +4202,6 @@ struct hkOstream : DispatcherReferencedObject
     void* m_pStreamWriter;
     hkOstream(void*, int);
     virtual ~hkOstream();
-    void InvokeFromRequest(const InlineStorageString&);
-    void FUN_00cc01c0(const char*);
 };
 struct DispatcherAgentFuncs
 {
@@ -4280,7 +4276,7 @@ struct DebugTableDispatcher : DispatcherReferencedObject
 // @fnv 0x00cfc1d0
 void DebugTableDispatcher::FUN_00cfc1d0()
 {
-    ((hkError*)DAT_01268360)->BeginSection(0x5e4345e4, "hkpCollisionDispatcher::debugPrintTable");
+    ((hkError*)(*reinterpret_cast<int *>(&::DAT_01268360)))->BeginSection(0x5e4345e4, "hkpCollisionDispatcher::debugPrintTable");
     if (!m_tableDiscrete || !m_tableContinuous)
     {
         return;
@@ -4291,8 +4287,8 @@ void DebugTableDispatcher::FUN_00cfc1d0()
         InlineStorageString str("\nEntries for (continuous)", GetHavokShapeTypeName(i));
         {
             hkOstream stream(buf, 512);
-            stream.InvokeFromRequest(str);
-            ((hkError*)DAT_01268360)->message(0, -1, buf, ".\\Dispatch\\hkpCollisionDispatcher.cpp", 547);
+            reinterpret_cast<::RequestReceiver *>(&(stream))->InvokeFromRequest((void *)&(str));
+            ((hkError*)(*reinterpret_cast<int *>(&::DAT_01268360)))->message(0, -1, buf, ".\\Dispatch\\hkpCollisionDispatcher.cpp", 547);
         }
         for (int j = 1; j < 32; ++j)
         {
@@ -4305,8 +4301,8 @@ void DebugTableDispatcher::FUN_00cfc1d0()
                 const char* b = GetHavokShapeTypeName(entry.m_iAgentTypeB);
                 Vsnprintf(lineBuf, 255, "vs %30s <%i:%s-%s>", other, entry.m_priority, a, b);
                 hkOstream stream(buf, 512);
-                stream.FUN_00cc01c0(lineBuf);
-                ((hkError*)DAT_01268360)->message(0, -1, buf, ".\\Dispatch\\hkpCollisionDispatcher.cpp", 562);
+                reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(lineBuf);
+                ((hkError*)(*reinterpret_cast<int *>(&::DAT_01268360)))->message(0, -1, buf, ".\\Dispatch\\hkpCollisionDispatcher.cpp", 562);
             }
         }
     }
@@ -4315,8 +4311,8 @@ void DebugTableDispatcher::FUN_00cfc1d0()
         InlineStorageString str("\nEntries for (discrete)", GetHavokShapeTypeName(i));
         {
             hkOstream stream(buf, 512);
-            stream.InvokeFromRequest(str);
-            ((hkError*)DAT_01268360)->message(0, -1, buf, ".\\Dispatch\\hkpCollisionDispatcher.cpp", 570);
+            reinterpret_cast<::RequestReceiver *>(&(stream))->InvokeFromRequest((void *)&(str));
+            ((hkError*)(*reinterpret_cast<int *>(&::DAT_01268360)))->message(0, -1, buf, ".\\Dispatch\\hkpCollisionDispatcher.cpp", 570);
         }
         for (int j = 1; j < 32; ++j)
         {
@@ -4329,12 +4325,12 @@ void DebugTableDispatcher::FUN_00cfc1d0()
                 const char* b = GetHavokShapeTypeName(entry.m_iAgentTypeB);
                 Vsnprintf(lineBuf, 255, "vs %30s <%i:%s-%s>", other, entry.m_priority, a, b);
                 hkOstream stream(buf, 512);
-                stream.FUN_00cc01c0(lineBuf);
-                ((hkError*)DAT_01268360)->message(0, -1, buf, ".\\Dispatch\\hkpCollisionDispatcher.cpp", 585);
+                reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(lineBuf);
+                ((hkError*)(*reinterpret_cast<int *>(&::DAT_01268360)))->message(0, -1, buf, ".\\Dispatch\\hkpCollisionDispatcher.cpp", 585);
             }
         }
     }
-    ((hkError*)DAT_01268360)->EndSection();
+    ((hkError*)(*reinterpret_cast<int *>(&::DAT_01268360)))->EndSection();
 }
 InlineStorageString::~InlineStorageString()
 {

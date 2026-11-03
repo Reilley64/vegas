@@ -2,6 +2,8 @@
 #ifndef SHADOWSCENENODE_LOCAL_H
 #define SHADOWSCENENODE_LOCAL_H
 
+#include "fnv/decl/FUN_00b9bc50_t.h"
+#include "fnv/decl/MultiBoundOwner.h"
 #include "layout_support.h"
 #include "NiObjectNET.h"
 #include "NiPoint3.h"
@@ -353,6 +355,7 @@ FNV_STATIC_ASSERT(offsetof(NiAVObject, m_uiObjectFlags) == 48);
 FNV_STATIC_ASSERT(offsetof(NiAVObject, m_kLocalTransform) == 64);
 FNV_STATIC_ASSERT(offsetof(NiAVObject, m_kWorldSpaceTransform) == 128);
 // Minimal owner declaration for this unit (full PC layout pending canonical
+class NiRenderTargetGroup;
 class BSRenderedTexture
 {
   public:
@@ -365,11 +368,12 @@ class BSRenderedTexture
     char m_acDataAtOffset40[4];
     int m_iDataAtOffset44;
     char spTexture[16];
+public:
+    ::NiRenderTargetGroup *GetGroup();
 };
 class BSTextureManager
 {
   public:
-    void RemoveRenderedTexture(BSRenderedTexture*);
 };
 extern BSTextureManager* DAT_011f91a8;
 struct ShadowListItem
@@ -397,6 +401,7 @@ struct ShadowLightFlags
     NiPoint3 diffuse;
 };
 class NiLight;
+class NiAVObject;
 class ShadowSceneLight
 {
   public:
@@ -405,6 +410,8 @@ class ShadowSceneLight
     char padFC[0x10];
     BSRenderedTexture* texture;
     float ComputeLightAttenuation(NiPoint3, NiLight*);
+public:
+    void AddObject(::NiAVObject *);
 };
 inline float ShadowMax(float a, float b)
 {
@@ -422,7 +429,6 @@ class ShadowSceneNode
     char padD8[8];
     ShadowSceneLight* ambientLight;
     void AddObject(NiAVObject*);
-    void RemoveSceneObject(NiAVObject*, bool);
     void UpdateShadowLights();
     float CalculateLightingAtPoint(NiPoint3, int&, float&, float&, NiLight*);
 };

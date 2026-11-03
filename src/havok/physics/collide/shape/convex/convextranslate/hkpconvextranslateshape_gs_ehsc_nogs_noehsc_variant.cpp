@@ -5,6 +5,8 @@
 
 // src/havok/physics/collide/shape/convex/convextranslate/hkpconvextranslateshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/convextranslate/hkpconvextranslateshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FunctionContext.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpConvexTranslateShape.h"
 // FUN_00dd5e60 : the stub family - load a sub-object pointer out of `this`
 // and tail-jump to one of its virtuals.
@@ -75,7 +77,6 @@ struct Sub_dd5e70
     virtual void v08();
     virtual void v0C(const char* name, void* child, int flags);
 };
-extern int DAT_01268940;
 struct Own_dd5e70
 {
     int unk00;
@@ -86,7 +87,6 @@ struct Own_dd5e70
     int unk14;
     void* m_sub;
 
-    void __thiscall FUN_00c90360(Sub_dd5e70* object, const int* attribute);
     void __thiscall AttachChildAndAttribute(Sub_dd5e70* object, int unused);
 };
 struct FUN_00dd5ea0_class

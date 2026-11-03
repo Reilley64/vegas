@@ -2,6 +2,26 @@
 // src/havok/physics/dynamics/entity/hkpentity.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/entity/hkpentity.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FNVWorldObject.h"
+#include "fnv/decl/FUN_00d01ae0_shell.h"
+#include "fnv/decl/FUN_00d1dff0.h"
+#include "fnv/decl/FlagState.h"
+#include "fnv/decl/WorldWithPending.h"
+#include "fnv/decl/hkMapD01A.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00c9c000.h"
+#include "fnv/symbols_00c9d000.h"
+#include "fnv/symbols_00cb5000.h"
+#include "fnv/symbols_00cb6000.h"
+#include "fnv/symbols_00cf6000.h"
+#include "fnv/symbols_00cff000.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_00d1a000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010c5000.h"
+#include "fnv/symbols_010c6000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpEntity.h"
 
 // @fnv 0x00c9c380
@@ -235,7 +255,6 @@ struct FUN_00c9bfa0_Class
     void FUN_00c9bfa0();
 };
 
-void __cdecl FUN_00d1a330(int a1, int* a2, int a3);
 
 // If m_08 and m_10 are set, calls FUN_00d1a330 with m_08->m_78, a pointer to this, and 1.
 // @fnv 0x00c9bfa0
@@ -244,7 +263,7 @@ void FUN_00c9bfa0_Class::FUN_00c9bfa0()
     if (m_08 && m_10)
     {
         FUN_00c9bfa0_Class* self = this;
-        FUN_00d1a330(m_08->m_78, (int*)&self, 1);
+        ::FUN_00d1a330((const ::CollisionContext *)(m_08->m_78), (::EntityNode *const *)(int *)((int*)&self), 1);
     }
 }
 
@@ -311,7 +330,6 @@ class hkpWorldC9C3
     {
         return m_iCriticalOperationsLockCount != 0;
     }
-    void FUN_00c91160(const hkWorldOperationBaseC9C3& kOperation) throw();
 };
 
 class hkpEntityC9C3
@@ -321,22 +339,8 @@ class hkpEntityC9C3
     int unk04;
     hkpWorldC9C3* m_pOwningWorld;
 
-    void FUN_00c9c1d0();
     void FUN_00c9c300();
 };
-
-// @fnv 0x00c9c300
-void hkpEntityC9C3::FUN_00c9c300()
-{
-    if (m_pOwningWorld && m_pOwningWorld->areCriticalOperationsLocked())
-    {
-        hkWorldOperationC9C3 kOp;
-        kOp.m_pEntity = this;
-        m_pOwningWorld->FUN_00c91160(kOp);
-        return;
-    }
-    FUN_00c9c1d0();
-}
 
 struct WorldOp
 {
@@ -346,7 +350,6 @@ struct WorldOp
 
 struct World_Class : public FUN_00c9c3c0_Class
 {
-    void FUN_00c91160(WorldOp* op);
 };
 
 struct FUN_00c9c240_holder : public hkpEntity
@@ -364,7 +367,7 @@ void FUN_00c9c240_holder::FUN_00c9c340()
         WorldOp op;
         op.m_pEntity = this;
         op.m_type = 0x22;
-        world->FUN_00c91160(&op);
+        reinterpret_cast<::WorldWithPending *>((world))->FUN_00c91160();
         return;
     }
     FUN_00c9c240();
@@ -388,8 +391,6 @@ int FUN_00c9c390_Class::GetEntry(int index)
 }
 
 class GlobalObjectO2_00d472a0;
-extern GlobalObjectO2_00d472a0 g_012688c8;
-extern GlobalObjectO2_00d472a0 g_01268808;
 
 class hkStatisticsCollector
 {
@@ -413,13 +414,10 @@ class hkpEntityExtendedListeners
     hkpEntitySmallArraySerializeOverrideType m_kEntityListenerArray;
 };
 
-void __cdecl WriteReflectedMembers(const void* obj, const GlobalObjectO2_00d472a0* cls,
-                                   hkStatisticsCollector* collector);
 
 class hkpEntityStats : public hkpEntity
 {
   public:
-    void WriteToStream(hkStatisticsCollector* collector, const GlobalObjectO2_00d472a0* cls) const;
     void CollectStats(hkStatisticsCollector* collector, const hkClass* cls) const;
 };
 
@@ -429,7 +427,7 @@ void hkpEntityStats::CollectStats(hkStatisticsCollector* collector, const hkClas
 {
     collector->AddMemoryChunk(3, "constraintsSlave", m_kSlaveConstraints.m_data, m_kSlaveConstraints.m_iElementCount * 4,
                               (m_kSlaveConstraints.m_iCapacityState & 0x3fffffff) * 4);
-    WriteReflectedMembers(this, &g_012688c8, collector);
+    ::WriteReflectedMembers((void *)(this), (::Meta64 *)(&g_012688c8), (::Writer64 *)(collector));
     if ((m_kContactListeners.m_iCapacityState & 0x8000) == 0 || collector->m_clearDontDeallocate)
     {
         collector->AddMemoryChunk(3, "CollisionListnr", m_kContactListeners.m_data, m_kContactListeners.m_iElementCount * 4,
@@ -453,10 +451,9 @@ void hkpEntityStats::CollectStats(hkStatisticsCollector* collector, const hkClas
         }
     }
     collector->addChildObject("SavedMotion", m_pMotionState.m_pSavedMotion, 0);
-    WriteToStream(collector, &g_01268808);
+    reinterpret_cast<::FNVWorldObject *>((void *)this)->WriteToStream((::hkStreamWriter *)(collector), (int)(&g_01268808));
 }
 
-void __cdecl FUN_00d06cb0(void* array, int elemSize);
 
 template <typename T> class hkSmallArrayC9C5
 {
@@ -481,7 +478,7 @@ template <typename T> class hkSmallArrayC9C5
     void AddBack(const T& t)
     {
         if (m_iElementCount == getCapacity())
-            FUN_00d06cb0(this, sizeof(T));
+            ::FUN_00d06cb0((::GrowBuf *)(void *)(this), sizeof(T));
         m_data[m_iElementCount++] = t;
     }
 };
@@ -595,7 +592,6 @@ struct FUN_00c9c860_Shell
     unsigned char m_e8;
     void UpdateNodeSlotIndices();
 };
-void FUN_00c9d250(void* a1, int a2, int a3, void* a4);
 // @fnv 0x00c9c860
 void FUN_00c9c860_Shell::UpdateNodeSlotIndices()
 {
@@ -605,7 +601,7 @@ void FUN_00c9c860_Shell::UpdateNodeSlotIndices()
     }
     if (m_b8 > 1)
     {
-        FUN_00c9d250(m_b4, 0, m_b8 - 1, this);
+        ::FUN_00c9d250((::hkpAgentEntryD250 **)(m_b4), 0, m_b8 - 1, (::hkEntryLessD250)(this));
     }
     for (int i = 0; i < m_b8; ++i)
     {
@@ -628,7 +624,6 @@ class hkLocalFrame;
 class hkpConstraintInstance;
 class hkpEntityExtendedListeners;
 
-extern const int DAT_010c6c64;
 extern const int DAT_010c6f7c;
 
 struct hkpMaterialC9CC : public hkpMaterial
@@ -677,7 +672,7 @@ class __declspec(novtable) hkpMaxSizeMotionC9CC : public hkpMaxSizeMotion
     hkpMaxSizeMotionC9CC()
     {
         m_pSavedMotion = 0;
-        *(const int**)this = &DAT_010c6c64;
+        *(const int**)this = &::g_unk010c6c64;
     }
 };
 
@@ -746,7 +741,6 @@ FUN_00c9cce0::FUN_00c9cce0(const hkpShape* pkShape) throw() : hkpEntityBaseC9CC(
     m_uiUniqueId = 0xffffffff;
 }
 
-extern int DAT_010c59f4;
 extern int DAT_010c6bec;
 
 struct MotionStateObject
@@ -794,7 +788,7 @@ struct FnvCpu_FUN_00c9d160_CpuObject
 // @fnv 0x00c9d160
 FnvCpu_FUN_00c9d160_CpuObject* FnvCpu_FUN_00c9d160_CpuObject::FUN_00c9d160(unsigned int flags)
 {
-    FUN_00d1dff0();
+    reinterpret_cast<::FUN_00d1dff0 *>(this)->setMotion();
     if (flags & 1)
     {
         FnvCpu_FUN_00c9d160_CpuAllocatorHolder* holder = FUN_00c85750();
@@ -803,8 +797,6 @@ FnvCpu_FUN_00c9d160_CpuObject* FnvCpu_FUN_00c9d160_CpuObject::FUN_00c9d160(unsig
     return this;
 }
 
-extern int DAT_010c59f4;
-extern int DAT_010c6d54;
 struct FUN_00c9d190
 {
     void* volatile m_vtbl;
@@ -893,7 +885,7 @@ FUN_00c9d190::FUN_00c9d190(int flag)
         float one = 1.0f;
         unk11e = (short)(*(int*)&one >> 16);
     }
-    m_vtbl = &DAT_010c6d54;
+    m_vtbl = &(*reinterpret_cast<int *>(&::DAT_010c6d54));
 }
 
 inline void* operator new(unsigned int, void* p)
@@ -1369,11 +1361,9 @@ class hkBoundingVolumeC9C0
     int unk14, unk18, unk1C, unk20;
     int m_data;
 
-    void FreeStorage();
-    void FUN_00d01ae0(int iNumChildren);
     void Reset(int iNumChildren)
     {
-        FUN_00d01ae0(iNumChildren);
+        reinterpret_cast<::FUN_00d01ae0_shell *>(this)->FUN_00d01ae0(iNumChildren);
         m_dirty = 1;
         m_pChildShapeAabbs = 0;
     }
@@ -1387,7 +1377,6 @@ class hkpEntityC9C0
     int unk58[(0xe8 - 0x58) / 4];
     unsigned char m_bFlag;
 
-    void FUN_00c9bfa0();
     void UpdateBoundingVolume(const hkpWorldC9C0* pkWorld, const hkpShapeC9C0* pkShape);
 };
 
@@ -1396,7 +1385,7 @@ class hkpEntityC9C0
 void hkpEntityC9C0::UpdateBoundingVolume(const hkpWorldC9C0* pkWorld, const hkpShapeC9C0* pkShape)
 {
     if (m_boundingVolume.m_data)
-        m_boundingVolume.FreeStorage();
+        reinterpret_cast<::hkMapD01A *>(&(m_boundingVolume))->FreeStorage();
     if (!pkWorld || !pkShape)
         return;
 
@@ -1422,7 +1411,7 @@ void hkpEntityC9C0::UpdateBoundingVolume(const hkpWorldC9C0* pkWorld, const hkpS
 
     m_boundingVolume.Reset(pkContainer->GetNumChildShapes());
     if (m_bFlag == 5)
-        FUN_00c9bfa0();
+        reinterpret_cast<::FUN_00c9bfa0_Class *>(this)->FUN_00c9bfa0();
 }
 
 namespace fnv_00c9c0f0 {
@@ -1751,7 +1740,6 @@ struct hkpWorldC9C
     unsigned char m_frameB;
 };
 
-void __cdecl AddEntryToList(hkpWorldC9C* world, hkpSimulationIslandC9C* island);
 
 class hkpMotionC9C
 {
@@ -1763,7 +1751,6 @@ class hkpMotionC9C
     unsigned char m_ucDeactivationIntegrateCounter;
     unsigned short m_ausDeactivationNumInactiveFrames[2];
 
-    void SetFlagBits(int a, int b, int c);
 };
 
 class hkpEntityC9C
@@ -1829,6 +1816,18 @@ class hkpEntityC9C
 
     void FUN_00c9c1d0();
 };
+// @fnv 0x00c9c300
+void hkpEntityC9C3::FUN_00c9c300()
+{
+    if (m_pOwningWorld && m_pOwningWorld->areCriticalOperationsLocked())
+    {
+        hkWorldOperationC9C3 kOp;
+        kOp.m_pEntity = this;
+        reinterpret_cast<::WorldWithPending *>((m_pOwningWorld))->FUN_00c91160();
+        return;
+    }
+    reinterpret_cast<::hkpEntityC9C *>(this)->FUN_00c9c1d0();
+}
 
 // @fnv 0x00c9c1d0
 void hkpEntityC9C::FUN_00c9c1d0()
@@ -1840,8 +1839,8 @@ void hkpEntityC9C::FUN_00c9c1d0()
     {
         m_pMotionState.m_ausDeactivationNumInactiveFrames[0] = 0;
         m_pMotionState.m_ausDeactivationNumInactiveFrames[1] = 0;
-        AddEntryToList(m_pOwningWorld, m_pSimulationIsland);
-        m_pMotionState.SetFlagBits(m_pOwningWorld->m_bWantDeactivation, m_pOwningWorld->m_frameA,
+        ::fnv_00cb5500::AddEntryToList(m_pOwningWorld, (::fnv_00cb5500::Entry *)(m_pSimulationIsland));
+        reinterpret_cast<::FlagState *>(&(m_pMotionState))->SetFlagBits(m_pOwningWorld->m_bWantDeactivation, m_pOwningWorld->m_frameA,
                                    m_pOwningWorld->m_frameB);
     }
 }
@@ -1952,7 +1951,6 @@ struct hkMemoryRouterC9C7
 namespace fnvc_adapt {
 extern "C" hkMemoryRouterC9C7& __cdecl FUN_00c85750() throw();
 }
-void __cdecl FUN_00c908c0(hkMemoryAllocatorC9C7& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
 
 template <class T> class hkArrayC9C7
 {
@@ -1972,7 +1970,7 @@ template <class T> class hkArrayC9C7
         {
             int iCap2 = 2 * iCap;
             int iNewCap = (n < iCap2) ? iCap2 : n;
-            FUN_00c908c0(kAlloc, this, iNewCap, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(kAlloc), (::SpawnedArray *)(void *)(this), iNewCap, sizeof(T));
         }
     }
     __forceinline void SetSizeAndGrow(int n)
@@ -2004,14 +2002,13 @@ class hkpEntityC9C7
     hkpConstraintInstanceC9C7** m_kSlaveConstraints;
     int m_constraintsSlaveSize;
 
-    int FUN_00c9c380();
     void CollectConstraints(hkArrayC9C7<hkpConstraintInstanceC9C7*>& constraints);
 };
 
 // @fnv 0x00c9c7c0
 void hkpEntityC9C7::CollectConstraints(hkArrayC9C7<hkpConstraintInstanceC9C7*>& constraints)
 {
-    constraints.SetSizeAndGrow(FUN_00c9c380());
+    constraints.SetSizeAndGrow(::FUN_00c9c380((void *)this, {}));
     int k = 0;
     for (int i = 0; i < m_constraintsMasterSize; i++)
         constraints[k++] = m_eSmallArraySerializeOverrideType[i].m_pHavokConstraint;
@@ -2023,8 +2020,6 @@ void hkpEntityC9C7::CollectConstraints(hkArrayC9C7<hkpConstraintInstanceC9C7*>& 
 class hkLocalFrame;
 class hkpConstraintInstance;
 class hkpEntityExtendedListeners;
-extern int DAT_010c59f4;
-extern const int DAT_010c6c64;
 extern const int DAT_010c6f7c;
 struct hkFinishLoadedObjectFlagC9CE
 {
@@ -2068,7 +2063,7 @@ class __declspec(novtable) hkpMaxSizeMotionC9CE : public hkpMotionC9CE
   public:
     hkpMaxSizeMotionC9CE(int flag) : hkpMotionC9CE(flag)
     {
-        *(const int**)this = &DAT_010c6c64;
+        *(const int**)this = &::g_unk010c6c64;
     }
 };
 class FUN_00c9d1c0
@@ -2516,7 +2511,7 @@ void FUN_00c9c700_Class::FUN_00c9c700(int value)
     }
 
     if (array->m_iElementCount == (array->m_iCapacityState & 0x3fff))
-        FUN_00d06cb0(array, 4);
+        ::FUN_00d06cb0((::GrowBuf *)(array), 4);
 
     array->m_data[array->m_iElementCount] = value;
     ++array->m_iElementCount;
@@ -2586,9 +2581,6 @@ class hkpSimulationIslandQ
     }
 };
 
-extern float DAT_0104da48;
-void __cdecl PropagateStateToChildren(FUN_00c9c3c0_Class* world, hkpSimulationIslandQ* island);
-void __cdecl AddItemToContainer(FUN_00c9c3c0_Class* world, hkpSimulationIslandQ* island);
 // If the island is active: runs PropagateStateToChildren when split-check or sparse is set, sets each entity's reference position w to FLT_MAX, then calls AddItemToContainer.
 // @fnv 0x00c9c240
 void FUN_00c9c240_holder::FUN_00c9c240()
@@ -2607,8 +2599,8 @@ void FUN_00c9c240_holder::FUN_00c9c240()
                 world->m_b4 = 0;
                 ((hkpSimulationIslandQ*)m_pSimulationIsland)->m_bSparseEnabled = 0;
                 ((hkpSimulationIslandQ*)m_pSimulationIsland)->m_bSplitCheckRequested = 1;
-                PropagateStateToChildren((FUN_00c9c3c0_Class*)m_pOwningWorld,
-                                         (hkpSimulationIslandQ*)m_pSimulationIsland);
+                ::PropagateStateToChildren((::Object *)(::FUN_00c9c3c0_Class *)((FUN_00c9c3c0_Class*)m_pOwningWorld),
+                                         (int *)(::hkpSimulationIslandQ *)((hkpSimulationIslandQ*)m_pSimulationIsland));
                 ((FUN_00c9c3c0_Class*)m_pOwningWorld)->m_b4 = minIslandSize;
             }
             island = (hkpSimulationIslandQ*)m_pSimulationIsland;
@@ -2623,7 +2615,7 @@ void FUN_00c9c240_holder::FUN_00c9c240()
                     entity->m_pMotionState.m_akDeactivationReferencePositions[1].w = 3.40282e+38f;
                 } while (++i < island->m_kActorEntries.GetLogicalSize());
             }
-            AddItemToContainer((FUN_00c9c3c0_Class*)m_pOwningWorld, island);
+            ::fnv_00cb5420::AddItemToContainer((::fnv_00cb5420::S_00cb5420_Container *)(::FUN_00c9c3c0_Class *)((FUN_00c9c3c0_Class*)m_pOwningWorld), (::fnv_00cb5420::S_00cb5420_Item *)(island));
         }
     }
 }
@@ -2786,7 +2778,6 @@ struct FnvRB
 {
     int x;
 };
-extern void __stdcall FUN_00c9c140(FnvRB*);
 struct FnvRef : FnvRA, FnvRB
 {
     virtual ~FnvRef();
@@ -2997,7 +2988,7 @@ void EntityRebuild::FUN_00c9c8f0()
     FnvRef* old = p98;
     if (old)
     {
-        FUN_00c9c140(old);
+        reinterpret_cast<::hkOwnerC9C1 *>((old))->FUN_00c9c140({});
         delete old;
         p98 = 0;
     }
@@ -3128,7 +3119,6 @@ struct hkConstraintInternalC9CF
 
 struct hkReferencedObjectC9CF
 {
-    void FUN_00c905b0() throw();
 };
 
 template <class T> struct hkRefPtrC9CF
@@ -3138,7 +3128,7 @@ template <class T> struct hkRefPtrC9CF
     ~hkRefPtrC9CF() throw()
     {
         if (m_pRetainedObject)
-            m_pRetainedObject->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pRetainedObject))->FUN_00c905b0();
         m_pRetainedObject = 0;
     }
 };
@@ -3186,10 +3176,8 @@ struct LimitUtilC9CF : public hkReferencedObjectBaseC9CF, public hkpContactListe
 
 struct OwnerC9CF
 {
-    void FUN_00c9c140(hkpContactListenerC9CF* m_pAudioListener);
 };
 
-void __cdecl DeleteCallbacks(void* pEntity);
 
 namespace FUN_00c9d3b0 {
 class hkpWorldObject
@@ -3237,11 +3225,11 @@ FUN_00c9cf60::~FUN_00c9cf60() throw()
     LimitUtilC9CF* pkUtil = m_pEntityUserData;
     if (pkUtil)
     {
-        ((OwnerC9CF*)this)->FUN_00c9c140(pkUtil);
+        reinterpret_cast<::hkOwnerC9C1 *>((((OwnerC9CF*)this)))->FUN_00c9c140(pkUtil);
         delete pkUtil;
         m_pEntityUserData = 0;
     }
-    DeleteCallbacks(this);
+    ::DeleteCallbacks((::ProfOwner *)(void *)(this));
     if (m_pExtendedListeners)
         delete m_pExtendedListeners;
 }
@@ -3311,7 +3299,6 @@ class hkReferencedObject : public hkBaseObject
   public:
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
-    void FUN_00c905b0() throw();
 };
 }
 
@@ -3355,9 +3342,9 @@ class hkpWorldObject : public hkC9D3::hkReferencedObject
 hkpWorldObject::~hkpWorldObject()
 {
     if (m_pCollisionShape)
-        m_pCollisionShape->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_pCollisionShape))->FUN_00c905b0();
     if (m_kNextStreamField)
-        m_kNextStreamField->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_kNextStreamField))->FUN_00c905b0();
 }
 }
 }  // namespace fnv_00c9d3b0

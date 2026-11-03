@@ -2,6 +2,8 @@
 // src/havok/physics/dynamics/constraint/bilateral/wheel/hkpwheelconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/wheel/hkpwheelconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_004b4ab0_Class.h"
+#include "fnv/symbols_01267000.h"
 #include "havok/hkpWheelConstraintData.h"
 
 // Writes 6 and 0x30 into a2[1] and a2[0] when a1 is nonzero, otherwise writes zeros to both.
@@ -160,7 +162,7 @@ static __forceinline void hkSetCross(hkVector4q& out, const hkVector4q& v0, cons
 
 static __forceinline void hkSetRotatedInverseDir(hkVector4q& out, const hkTransform& t, const hkVector4& v)
 {
-    static_cast<hkVector4Out&>(out.m_vec).setRotatedInverseDir(t.m_rotation, v);
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(out.m_vec)))->FUN_004b4ab0((int)&(t.m_rotation), (int)&(v));
 }
 
 static __forceinline void hkSetTransformedInversePos(hkVector4q& out, const hkTransform& t, const hkVector4& p)
@@ -649,7 +651,6 @@ struct hkBoolRet
 };
 
 extern "C" void IsOrthonormal();
-extern float DAT_01267e30;
 
 struct DummyTransform
 {

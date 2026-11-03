@@ -7,6 +7,11 @@
 // to their real unit once identified.
 // src/staging/blk_00e20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
 #include "../../include/layout_support.h"
 
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -24,8 +29,6 @@ extern "C"
     __m128 _mm_add_ps(__m128, __m128);
     __m128 _mm_mul_ps(__m128, __m128);
 }
-extern float DAT_01012068;
-extern float DAT_01011d78;
 
 static __forceinline __m128 inverseSpan(__m128 a, __m128 b)
 {
@@ -47,7 +50,7 @@ void FUN_00e33760(float t, int unused, const float* knots, const __m128* ctrl, _
     left[2] = _mm_load_ss(&f);
     f = knots[4] - t;
     right[2] = _mm_load_ss(&f);
-    __m128 zero = _mm_load_ss(&DAT_01011d78);
+    __m128 zero = _mm_load_ss(&::DAT_01011d78);
     __m128 n03 = _mm_div_ss(_mm_add_ss(zero, n12), _mm_add_ss(right[1], left[2]));
     __m128 n22 = _mm_div_ss(_mm_mul_ss(left[1], inv), _mm_add_ss(right[2], left[1]));
     f = t - knots[0];

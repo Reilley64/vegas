@@ -2,6 +2,7 @@
 // src/havok/common/base/memory/router/hkmemoryrouter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/router/hkmemoryrouter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_01268000.h"
 struct FUN_00c85690_Allocator
 {
     virtual void unk00();
@@ -140,21 +141,19 @@ TargetClass* TargetClass::Clear()
 }
 
 #include <windows.h>
-extern DWORD g_01268108;
 
 // @fnv 0x00c85730
 void __cdecl SetThreadLocalValue(void* apValue)
 {
-    TlsSetValue(g_01268108, apValue);
+    TlsSetValue((*reinterpret_cast<unsigned long *>(&::DAT_01268108)), apValue);
 }
 
 namespace fnv_00c85760 {
 // Global TLS slot index used by the thread-local accessor.
-extern DWORD g_dwTlsIndex;
 
 // @fnv 0x00c85760
 void* FUN_00c85760()
 {
-    return TlsGetValue(g_dwTlsIndex);
+    return TlsGetValue((*reinterpret_cast<unsigned long *>(&::DAT_01268108)));
 }
 }  // namespace fnv_00c85760

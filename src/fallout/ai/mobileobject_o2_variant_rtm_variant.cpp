@@ -4,6 +4,118 @@
 
 // src/fallout/ai/mobileobject_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/ai/mobileobject.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include "fnv/decl/ActorStandIn008a.h"
+#include "fnv/decl/AimController_c70060.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C70940Obj.h"
+#include "fnv/decl/C70CharacterController.h"
+#include "fnv/decl/CacObj.h"
+#include "fnv/decl/CharProxy.h"
+#include "fnv/decl/CharacterProbeLocal.h"
+#include "fnv/decl/CharacterProxy.h"
+#include "fnv/decl/CpuObject.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00414220_shell.h"
+#include "fnv/decl/FUN_0041ca90.h"
+#include "fnv/decl/FUN_004303e0_Class.h"
+#include "fnv/decl/FUN_00437bd0_stub.h"
+#include "fnv/decl/FUN_00437bf0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_005aa420_shell.h"
+#include "fnv/decl/FUN_005aae70_shell.h"
+#include "fnv/decl/FUN_005abed0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005d43e0_shell.h"
+#include "fnv/decl/FUN_00608d80_shell.h"
+#include "fnv/decl/FUN_00619df0_shell.h"
+#include "fnv/decl/FUN_006212c0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_0087f3d0_shell.h"
+#include "fnv/decl/FUN_00881650_shell.h"
+#include "fnv/decl/FUN_00893530_shell.h"
+#include "fnv/decl/FUN_008ace90_shell.h"
+#include "fnv/decl/FUN_008b3b90_shell.h"
+#include "fnv/decl/FUN_008bc790_shell.h"
+#include "fnv/decl/FUN_00931fb0_shell.h"
+#include "fnv/decl/FUN_00933810.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FUN_00ad73b0_t.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FUN_00ad89e0_shell.h"
+#include "fnv/decl/FUN_00ad8b60_h.h"
+#include "fnv/decl/FUN_00ad8f20_shell.h"
+#include "fnv/decl/FUN_00c6cc10_cls.h"
+#include "fnv/decl/FUN_00c6cef0_cls.h"
+#include "fnv/decl/FUN_00c6d120_cls.h"
+#include "fnv/decl/FUN_00c6d150_class.h"
+#include "fnv/decl/FUN_00c6ffc0_Class.h"
+#include "fnv/decl/FUN_00cac110_Class.h"
+#include "fnv/decl/FUN_00cac920_Class.h"
+#include "fnv/decl/FleeActorEntry.h"
+#include "fnv/decl/Holder00807080.h"
+#include "fnv/decl/HostActor.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/RotationOwner.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S005620e0_Object.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/TESRegion.h"
+#include "fnv/decl/TeleportableReference.h"
+#include "fnv/decl/TopicMethods.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_005ac4f0__FUN_005ac4f0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_0080fb00__FUN_0080fb00_Class.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_009334b0__FUN_009334b0_shell.h"
+#include "fnv/decl/fnv_00ad88f0__FUN_00ad88f0_h.h"
+#include "fnv/decl/fnv_00c70bd0__FUN_00c70bd0_cls.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpCharacterStateView.h"
+#include "fnv/decl/s56ae10__Owner.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_0049e000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_004ae000.h"
+#include "fnv/symbols_00553000.h"
+#include "fnv/symbols_00574000.h"
+#include "fnv/symbols_005ac000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_0061b000.h"
+#include "fnv/symbols_00930000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00ca9000.h"
+#include "fnv/symbols_00cac000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01018000.h"
+#include "fnv/symbols_01032000.h"
+#include "fnv/symbols_0103c000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_011b0000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
 class ExtraDismemberedLimbs;
 class bhkCharacterController;
 #include "../../../include/layout_support.h"
@@ -13,9 +125,7 @@ class bhkCharacterController;
 #include "mobileobject_private/mobileobject_interface.h"
 #include "../../../include/BSAudio.h"
 #include "../../../include/SoundPlaybackHandle.h"
-extern TESDataHandler* g_dataHandler;
 #include "mobileobject_private/mobileobject_packet.h"
-bhkCharacterController* CopyCharacterControllerVector(bhkCharacterController* output, const NiPoint3& point);
 struct UnkCallee
 {
     virtual void F0();
@@ -39,17 +149,14 @@ struct UnkHolder
     void FUN_00c72210();
 };
 
-extern const char str_010c4ad8[], str_010c4ac0[], str_010c41f8[];
+extern const char str_010c4ad8[], str_010c4ac0[];
 extern "C" void _ReadWriteBarrier();
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern unsigned long DAT_0126835c;
-extern const float DAT_01267bcc;
-extern float DAT_01267bc4, DAT_010181bc, DAT_01017d00;
-extern float DAT_01011d78, DAT_01012054, DAT_011b014c, DAT_01267bb0;
-extern double DAT_01032980, DAT_0103c7c8;
-extern __m128 DAT_01267e30, DAT_01017d10, DAT_010c71e0, DAT_010c44d0;
-struct Point { float x,y,z;bool FUN_004390c0(const Point&)const;
+extern float DAT_01267bc4;
+extern float DAT_01267bb0;
+struct Point { float x,y,z;
     __forceinline Point() {}
     __forceinline Point(float fX,float fY,float fZ) { x=fX; y=fY; z=fZ; }
     __forceinline Point operator/(float fScalar) const { float fInvScalar=1.0f/fScalar; return Point(x*fInvScalar,y*fInvScalar,z*fInvScalar); }
@@ -58,7 +165,6 @@ struct Point { float x,y,z;bool FUN_004390c0(const Point&)const;
     __forceinline Point& operator*=(float factor) { x=factor*x;y=factor*y;z=factor*z;return *this; }
 };
 __forceinline void AddMovement(Point& out,const Point& rhs){out.x=(float)(rhs.x+out.x);out.y=(float)(rhs.y+out.y);out.z=(float)(rhs.z+out.z);}
-extern Point DAT_011f426c;
 
 struct S00c73170_Flags { unsigned int value; __forceinline void Or(unsigned int m) { value |= m; } __forceinline void Clear(unsigned int m) { value &= ~m; } __forceinline void Set(unsigned int m, bool on) { if (on) Or(m); else Clear(m); } __forceinline bool Bit(int n) const { return (value >> n) & 1; } };
 class S00c73170_Bool { public: __forceinline S00c73170_Bool(bool b) { m_cBooleanValue = static_cast<char>(b); } __forceinline operator bool() const { return m_cBooleanValue != 0; } char m_cBooleanValue; };
@@ -112,8 +218,8 @@ public:
     __forceinline void setAll3(float a) { m_vComponents = _mm_set_ps1(a); }
     __forceinline void setSub4(const S00c73170_Vec& a, const S00c73170_Vec& b) { m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents); }
     __forceinline void setAdd4(const S00c73170_Vec& a, const S00c73170_Vec& b) { m_vComponents = _mm_add_ps(a.m_vComponents, b.m_vComponents); }
-    __forceinline void setAbs4(const S00c73170_Vec& v) { m_vComponents = _mm_and_ps(v.m_vComponents, DAT_01017d10); }
-    __forceinline void setNeg4(const S00c73170_Vec& v) { m_vComponents = _mm_xor_ps(v.m_vComponents, DAT_010c44d0); }
+    __forceinline void setAbs4(const S00c73170_Vec& v) { m_vComponents = _mm_and_ps(v.m_vComponents, ::DAT_01017d10); }
+    __forceinline void setNeg4(const S00c73170_Vec& v) { m_vComponents = _mm_xor_ps(v.m_vComponents, ::DAT_010c44d0); }
     __forceinline void setMul4(const S00c73170_Vec& a, const S00c73170_Vec& b) { m_vComponents = _mm_mul_ps(a.m_vComponents, b.m_vComponents); }
     __forceinline void setMul4(const S00c73170_Real& r, const S00c73170_Vec& v) { m_vComponents = _mm_mul_ps(r.broadcast(), v.m_vComponents); }
     __forceinline void addMul4(const S00c73170_Real& r, const S00c73170_Vec& v) { m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(r.broadcast(), v.m_vComponents)); }
@@ -158,7 +264,7 @@ public:
     __m128 m_vComponents;
 };
 __forceinline void S00c73170_Vec::SetRotatedDirection(const S00c73170_Vec& quat, const S00c73170_Vec& direction) {
-    S00c73170_Vec minusHalf; minusHalf.m_vComponents = DAT_010c71e0;
+    S00c73170_Vec minusHalf; minusHalf.m_vComponents = ::DAT_010c71e0;
     S00c73170_Vec qreal; qreal.m_vComponents = _mm_shuffle_ps(quat.m_vComponents, quat.m_vComponents, 0xff);
     S00c73170_Vec q2minus1; q2minus1.setAddMul4(minusHalf, qreal, qreal);
     S00c73170_Vec ret; ret.setMul4(direction, q2minus1);
@@ -169,7 +275,7 @@ __forceinline void S00c73170_Vec::SetRotatedDirection(const S00c73170_Vec& quat,
     ret.addMul4(qreal, imagCrossDir);
     setAdd4(ret, ret);
 }
-__forceinline const S00c73170_Vec& S00c73170_Zero() { return reinterpret_cast<const S00c73170_Vec&>(DAT_01267e30); }
+__forceinline const S00c73170_Vec& S00c73170_Zero() { return reinterpret_cast<const S00c73170_Vec&>((*reinterpret_cast<::__m128 *>(&::DAT_01267e30))); }
 __forceinline void SetInt(int& out,int v){out=v;}
 __forceinline bool EqualsV(__m128 a, __m128 b, float epsilon = 1e-3f) { S00c73170_Vec t; t.m_vComponents=_mm_sub_ps(b,a); t.setAbs4(t); S00c73170_Vec epsilon_v; epsilon_v.setAll3(epsilon); return (_mm_movemask_ps(_mm_cmple_ps(t.m_vComponents, epsilon_v.m_vComponents)) & 15) == 15; }
 __forceinline void ScaleV(float scale,Point& out,const Point& input){out.x=scale*input.x;out.y=scale*input.y;out.z=scale*input.z;}
@@ -184,23 +290,21 @@ struct Rotation {
 };
 struct State {
     unsigned int unk00;
-    int FUN_00ca9600();
 };
 struct Action {
     virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c();
     virtual void v10(); virtual void v14(); virtual void v18(); virtual void v1c();
     virtual void update(void*);
 };
-struct ActionSet { Action* FUN_00cbc510(unsigned int); };
-struct RefObj { void FUN_00c905b0(); };
-struct S00c73170_RefPtr { RefObj* m_p; __forceinline void Clear() { if(m_p) m_p->FUN_00c905b0(); m_p=0; } };
+struct ActionSet {  };
+struct RefObj {  };
+struct S00c73170_RefPtr { RefObj* m_p; __forceinline void Clear() { if(m_p) reinterpret_cast<::hkReferencedObjectC905 *>((m_p))->FUN_00c905b0(); m_p=0; } };
 struct BooleanFloatQuery {
     S00c73170_Vec normal, position;
     unsigned int material, unk24;
     struct Block32 { unsigned int a,b,c,d,e,f,g,h; } info;
     unsigned int object, unk4c;
     Block32 extra;
-    void FUN_006212c0(const BooleanFloatQuery*);
 };
 struct HitArray { BooleanFloatQuery* data; int size; unsigned int capacity; __forceinline void Append(const BooleanFloatQuery* src); };
 struct Body {
@@ -248,10 +352,6 @@ struct Body {
     unsigned int unk0a4;
     unsigned int unk0a8;
     int mode;
-    HitArray* FUN_00cac900();
-    S00c73170_Vec* FUN_00cac910();
-    void FUN_00cac920(S00c73170_Vec*);
-    void FUN_00cac960(S00c73170_Vec*);
 };
 struct Gravity {     unsigned int unk000;
     unsigned int unk004;
@@ -365,13 +465,11 @@ struct Gravity {     unsigned int unk000;
     unsigned int unk1b4;
     float acceleration;
 };
-extern Gravity* DAT_01267bb4;
 struct AllocatorHolder { unsigned int unk00,unk04,unk08,unk0c; void* allocator; };
 AllocatorHolder* FUN_00c85750();
-void __cdecl ResizeAudioStream(void*,HitArray*,unsigned int);
 __forceinline void HitArray::Append(const BooleanFloatQuery* src) {
     AllocatorHolder* holder=FUN_00c85750();
-    if(size==(capacity&0x3fffffff)) ResizeAudioStream(holder->allocator,this,0x70);
+    if(size==(capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(holder->allocator),(::AudioStream *)(::HitArray *)(this),0x70);
     BooleanFloatQuery* dst=data+size;
     if(dst) {
         dst->normal=src->normal;dst->position=src->position;
@@ -382,9 +480,6 @@ __forceinline void HitArray::Append(const BooleanFloatQuery* src) {
     }
     ++size;
 }
-void __cdecl FUN_00458620(Point*,const S00c73170_Vec*);
-bool __cdecl AreVectorsEqual(Point*,Point*,float);
-void __cdecl FUN_004a3e00(S00c73170_Vec*,Point*);
 struct Inspect { unsigned int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28,unk2c,count; };
 struct ReadyInterface {
     virtual void v00();
@@ -807,59 +902,41 @@ struct MovementController {
     S00c73170_RefPtr ref638;
     HitArray hits;
     void SubtractVectors(S00c73170_Vec*);
-    void FUN_005620e0(Point*);
-    void ClearList();
     Inspect* FUN_00621ad0();
-    void FUN_00c6d150();
-    void FUN_00c70940(float);
-    float Evaluate(float,float);
-    unsigned char FUN_009306b0();
-    unsigned char FUN_00c6d120();
-    void FUN_00c6e420(Rotation*);
-    S00c73170_Vec* FUN_00807080();
-    Action* FUN_00933810();
-    void FUN_0080fb00(S00c73170_Vec*);
-    void FUN_00c72250(float);
-    void FUN_00c6e820();
-    void CallTargetWithArgs(S00c73170_Vec*,unsigned int*);
-    void FUN_00c6cf30(unsigned int*);
-    void FUN_00cac110();
-    Body* FUN_004ae750();
-    void FUN_00c70060();
 };
 // @fnv 0x00c73170
 extern "C" int __fastcall FUN_00c73170(MovementController* self, void*, MovementInput* in) {
     int result=0;
     struct SpeedTrace { float value; } speedTrace;
     Rotation rot;
-    if (self->state.FUN_00ca9600()==4) {
+    if (::FUN_00ca9600((char *)&(self->state))==4) {
         Trace(str_010c4ad8);
         Point temp;
         {
         S00c73170_Vec position;
         self->SubtractVectors(&position);
-        FUN_00458620(&temp,&position);
+        ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&temp)),(*(const ::hkVector4 *)(&position)));
         }
         AddMovement(temp,in->displacement);
-        self->FUN_005620e0(&temp);
-        self->actions->FUN_00cbc510(self->actionIndex)->update(self);
+        reinterpret_cast<::S005620e0_Object *>((self))->FUN_005620e0((const ::S005620e0_Source *)(::Point *)(&temp));
+        ((::Action *)(reinterpret_cast<::hkpCharacterStateView *>((self->actions))->FUN_00cbc510(self->actionIndex)))->update(self);
         Point* v;
         if(in->dt>0) {
             ScaleV(1.0f/in->dt,temp,in->displacement);
             v=&temp;
-        } else v=&DAT_011f426c;
+        } else v=&(*reinterpret_cast<::Point *>((void *)&::NiPoint3::ZERO));
         double x=v->x;
         _ReadWriteBarrier();
-        double scale=DAT_01267bcc;
+        double scale=::DAT_01267bcc;
         self->velocity(0)=x*scale;
         self->velocity(1)=v->y*scale;
         self->velocity(2)=v->z*scale;
         self->velocity(3)=0;
-        Trace(str_010c41f8);
+        Trace(::DAT_010c41f8);
         return 0;
     }
     self->fl.Clear(0xc0);
-    self->ClearList();
+    reinterpret_cast<::fnv_00c70bd0::FUN_00c70bd0_cls *>((self))->ClearList();
     self->ref630.Clear();
     self->value634=0;
     self->ref638.Clear();
@@ -872,18 +949,18 @@ extern "C" int __fastcall FUN_00c73170(MovementController* self, void*, Movement
         if(self->FUN_00621ad0()->count>0) goto done;
         self->fl.Clear(0x400000);
     }
-    bool idle=AreVectorsEqual(&in->displacement,&DAT_011f426c,DAT_010181bc);
+    bool idle=::AreVectorsEqual((const float *)(::Point *)(&in->displacement),(const float *)(::Point *)(&(*reinterpret_cast<::Point *>((void *)&::NiPoint3::ZERO))),DAT_010181bc);
     bool mode20=self->fl.Bit(20);
     bool mode19=self->fl.Bit(19);
-    if(!idle) { self->FUN_00c6d150(); self->value528=0;self->value52c=0; }
+    if(!idle) { reinterpret_cast<::FUN_00c6d150_class *>((self))->FUN_00c6d150(); self->value528=0;self->value52c=0; }
     idle &= self->extraVelocity.equals3(S00c73170_Zero());
     if(!idle) self->fl.Or(8); else self->fl.Clear(8);
     Trace(str_010c4ac0);
     {
     S00c73170_Vec negAxis;
-    self->FUN_00c70940(dt);
+    reinterpret_cast<::C70940Obj *>((self))->FUN_00c70940(dt);
     self->value434=0x24; self->value438=0;
-    float speed=self->Evaluate(in->speed,in->dt);
+    float speed=reinterpret_cast<::FUN_00c6cc10_cls *>((self))->Evaluate(in->speed,in->dt);
     in->speed=speed;
     rot.FUN_00cb2450(&self->axis,-speed);
     self->time4e8=in->dt;
@@ -892,14 +969,14 @@ extern "C" int __fastcall FUN_00c73170(MovementController* self, void*, Movement
     {
         Point tempStore=*displacement;
         Point& temp=tempStore;
-        if(!self->FUN_009306b0() && !self->fl.Bit(11)) temp.z=0;
+        if(!((unsigned char)(::FUN_009306b0((::bhkCharacterController *)(self)))) && !self->fl.Bit(11)) temp.z=0;
         temp.y=temp.y;
         float& reciprocal=speedTrace.value;
         reciprocal=self->inverse4ec;
         temp*=reciprocal;
-        FUN_004a3e00(&self->desiredVelocity,&temp);
+        ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&self->desiredVelocity)),(*(const ::fnv_004a3e00::NiPoint3 *)(&temp)));
     }
-    if(self->FUN_00c6d120() && in->angle!=0) {
+    if(((unsigned char)(reinterpret_cast<::FUN_00c6d120_cls *>((self))->FUN_00c6d120())) && in->angle!=0) {
         S00c73170_Vec axisAngle; axisAngle.set(-1.0f,0.0f,0.0f,0.0f);
         Rotation q;
         q.FUN_00cb2450(&axisAngle,in->angle);
@@ -908,28 +985,28 @@ extern "C" int __fastcall FUN_00c73170(MovementController* self, void*, Movement
     float* stepOut=&self->value578;*stepOut=self->value538;
     S00c73170_Vec down; down.set(0.0f,-1.0f,0.0f,0.0f);
     negAxis.setNeg4(self->axis);
-    if(self->fl.Bit(25) || self->fl.Bit(26) || self->fl.Bit(0)) self->FUN_00c6e420(&rot);
+    if(self->fl.Bit(25) || self->fl.Bit(26) || self->fl.Bit(0)) reinterpret_cast<::RotationOwner *>((self))->FUN_00c6e420((::FUN_005611c0_t *)(::Rotation *)(&rot));
     S00c73170_Vec rotated; rotated.SetRotatedDirection(rot.q,down);
-    if(!idle || !rotated.equals3(self->normal)) self->value530=DAT_011b014c;
+    if(!idle || !rotated.equals3(self->normal)) self->value530=::DAT_011b014c;
     Body* savedBody=self->body;
     self->normal=rotated;
     if(mode19) {
-        self->velocity=*self->FUN_00807080();
+        self->velocity=*((::S00c73170_Vec *)(reinterpret_cast<::Holder00807080 *>((self))->FUN_00807080()));
         self->value4a0=S00c73170_Zero();
         Trace(str_010c4ad8);
-        self->FUN_00933810()->update(self);
-        Trace(str_010c41f8);
-        self->FUN_0080fb00(&self->velocity);
-        self->FUN_00c72250(self->time4e8);
+        ((::Action *)(reinterpret_cast<::FUN_00933810 *>((self))->Method()))->update(self);
+        Trace(::DAT_010c41f8);
+        reinterpret_cast<::fnv_0080fb00::FUN_0080fb00_Class *>((self))->FUN_0080fb00((int)(&self->velocity));
+        reinterpret_cast<::CharProxy *>((self))->FUN_00c72250(self->time4e8);
     } else {
-        DAT_01267bb4=0;
-        self->velocity=*self->FUN_00807080();
-        if(idle && self->state.FUN_00ca9600()!=2) self->velocity(2)=0;
-        if(in->active || self->state.FUN_00ca9600()!=0 || !displacement->FUN_004390c0(DAT_011f426c) || self->value450.equals4(S00c73170_Zero())) {
+        (*reinterpret_cast<::Gravity * *>(&::DAT_01267bb4))=0;
+        self->velocity=*((::S00c73170_Vec *)(reinterpret_cast<::Holder00807080 *>((self))->FUN_00807080()));
+        if(idle && ::FUN_00ca9600((char *)&(self->state))!=2) self->velocity(2)=0;
+        if(in->active || ::FUN_00ca9600((char *)&(self->state))!=0 || !reinterpret_cast<::NiPoint3 *>((void *)(displacement))->FUN_004390c0((const ::NiPoint3 &)((*reinterpret_cast<::Point *>((void *)&::NiPoint3::ZERO)))) || self->value450.equals4(S00c73170_Zero())) {
             self->fl.Clear(0x600);
             self->fl.Or(0x10000);
-            self->FUN_00c6e820();
-            self->CallTargetWithArgs(&negAxis,&self->value480);
+            reinterpret_cast<::CharacterProbeLocal *>((self))->FUN_00c6e820();
+            reinterpret_cast<::FUN_00c6cef0_cls *>((self))->CallTargetWithArgs((int)(&negAxis),(int)(&self->value480));
             self->fl.Clear(0x10000);
             bool contact=self->value480==2 && !self->byte478;
             if(self->fl.value&0x2000) {
@@ -942,7 +1019,7 @@ extern "C" int __fastcall FUN_00c73170(MovementController* self, void*, Movement
                         if(contact && self->fl.Bit(9) && self->value450(2)>=self->value430) {
                             S00c73170_Vec dir; dir.setMul4(inv,v);
                             float dot=dir.dot3(self->value450);
-                            if(dot<=DAT_0103c7c8) self->fl.Clear(0x2000);
+                            if(dot<=::DAT_0103c7c8) self->fl.Clear(0x2000);
                         }
                     }
                     contact=false;
@@ -951,26 +1028,26 @@ extern "C" int __fastcall FUN_00c73170(MovementController* self, void*, Movement
             self->fl.Set(0x100,contact);
         }
         Trace(str_010c4ad8);
-        self->actions->FUN_00cbc510(self->actionIndex)->update(self);
-        Trace(str_010c41f8);
-        if(self->body) self->body->FUN_00cac960(&self->velocity);
+        ((::Action *)(reinterpret_cast<::hkpCharacterStateView *>((self->actions))->FUN_00cbc510(self->actionIndex)))->update(self);
+        Trace(::DAT_010c41f8);
+        if(self->body) reinterpret_cast<::CacObj *>((self->body))->FUN_00cac960((const ::CacV4 *)(::S00c73170_Vec *)(&self->velocity));
         bool changed=true;
-        if(idle && self->state.FUN_00ca9600()!=2 && (self->state.FUN_00ca9600()!=5 || self->velocity(2)==0) && savedBody->FUN_00cac900()->size<=self->hits.size) {
+        if(idle && ::FUN_00ca9600((char *)&(self->state))!=2 && (::FUN_00ca9600((char *)&(self->state))!=5 || self->velocity(2)==0) && ((::HitArray *)(::FUN_00cac900((::SomeClass *)(savedBody))))->size<=self->hits.size) {
             changed=false;
             for(int i=0;!changed;++i) {
-                HitArray* loopArray=savedBody->FUN_00cac900();
+                HitArray* loopArray=((::HitArray *)(::FUN_00cac900((::SomeClass *)(savedBody))));
                 if(i>=loopArray->size) break;
- HitArray* currentArray=savedBody->FUN_00cac900();
+ HitArray* currentArray=((::HitArray *)(::FUN_00cac900((::SomeClass *)(savedBody))));
  if(!EqualsV(currentArray->data[i].normal.m_vComponents,self->hits.data[i].normal.m_vComponents)) changed=true;
  else {
- currentArray=savedBody->FUN_00cac900();
+ currentArray=((::HitArray *)(::FUN_00cac900((::SomeClass *)(savedBody))));
  BooleanFloatQuery* previous=&self->hits.data[i];
  S00c73170_Vec pos=self->hits.data[i].position;
  if(!pos.equals4(currentArray->data[i].position) ||
-                       previous->material!=savedBody->FUN_00cac900()->data[i].material) changed=true;
+                       previous->material!=((::HitArray *)(::FUN_00cac900((::SomeClass *)(savedBody))))->data[i].material) changed=true;
                     else {
                         BooleanFloatQuery& previousObject=self->hits.data[i];
-                        if(previousObject.object!=savedBody->FUN_00cac900()->data[i].object) changed=true;
+                        if(previousObject.object!=((::HitArray *)(::FUN_00cac900((::SomeClass *)(savedBody))))->data[i].object) changed=true;
                     }
                 }
             }
@@ -978,36 +1055,36 @@ extern "C" int __fastcall FUN_00c73170(MovementController* self, void*, Movement
         if(changed) {
             if(mode20) savedBody->mode=1;
             else savedBody->mode=4;
-            self->FUN_00c6cf30(&self->value4e0);
+            reinterpret_cast<::CharacterProxy *>((self))->FUN_00c6cf30((unsigned int)(&self->value4e0));
             savedBody->mode=4;
         } else {
             self->velocity=S00c73170_Zero();
-            if(self->body) self->body->FUN_00cac960(&self->velocity);
+            if(self->body) reinterpret_cast<::CacObj *>((self->body))->FUN_00cac960((const ::CacV4 *)(::S00c73170_Vec *)(&self->velocity));
         }
-        if(DAT_01267bb4 && !(self->fl.value&0x2000)) {
-            self->FUN_00cac110();
-            Body* target=self->FUN_004ae750();
-            S00c73170_Vec position=*target->FUN_00cac910();
-            float gravity=DAT_01267bb4->acceleration*self->time4e8;
+        if((*reinterpret_cast<::Gravity * *>(&::DAT_01267bb4)) && !(self->fl.value&0x2000)) {
+            reinterpret_cast<::FUN_00cac110_Class *>((self))->FUN_00cac110();
+            Body* target=((::Body *)(::FUN_004ae750((void *)(self))));
+            S00c73170_Vec position=*((::S00c73170_Vec *)(reinterpret_cast<::CpuObject *>((target))->FUN_00cac910()));
+            float gravity=(*reinterpret_cast<::Gravity * *>(&::DAT_01267bb4))->acceleration*self->time4e8;
             position(2)=self->value578+DAT_01267bb0+gravity;
-            target->FUN_00cac920(&position);
+            reinterpret_cast<::FUN_00cac920_Class *>((target))->FUN_00cac920(&position);
             position(2)=gravity+DAT_01267bb0;
-            self->FUN_00cac110();
+            reinterpret_cast<::FUN_00cac110_Class *>((self))->FUN_00cac110();
         }
         self->value520=11;
-        int size=savedBody->FUN_00cac900()->size;
+        int size=((::HitArray *)(::FUN_00cac900((::SomeClass *)(savedBody))))->size;
         int n=size>5?5:size;
         for(int i=0;i<n;++i) {
-            if(i<self->hits.size) self->hits.data[i].FUN_006212c0(&savedBody->FUN_00cac900()->data[i]);
+            if(i<self->hits.size) reinterpret_cast<::FUN_006212c0_shell *>(&(self->hits.data[i]))->FUN_006212c0((void *)(&((::HitArray *)(::FUN_00cac900((::SomeClass *)(savedBody))))->data[i]));
             else {
-                self->hits.Append(&savedBody->FUN_00cac900()->data[i]);
+                self->hits.Append(&((::HitArray *)(::FUN_00cac900((::SomeClass *)(savedBody))))->data[i]);
             }
         }
     }
     }
-    if(self->fl.Bit(25) || self->fl.Bit(26)) self->FUN_00c70060();
+    if(self->fl.Bit(25) || self->fl.Bit(26)) reinterpret_cast<::AimController_c70060 *>((self))->FUN_00c70060();
     if(self->fl.value&0xc0) SetInt(result,2);
-    Trace(str_010c41f8);
+    Trace(::DAT_010c41f8);
     if(self->value524>0) {
         float remaining=self->value524-dt;
         self->value524=remaining;

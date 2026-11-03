@@ -3,28 +3,33 @@
 // byte only under /MT /O2 /GS /Gy (unit src/havok/common/visualize/process/hkinspectprocess.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00d605d0_class.h"
+#include "fnv/decl/FUN_00d609a0_Class.h"
+#include "fnv/decl/S_00dd9380.h"
+#include "fnv/decl/fnv_00ddb550__FUN_00ddb550_cls.h"
+#include "fnv/decl/fnv_00ddb670__FUN_00ddb670.h"
+#include "fnv/decl/hkOwnerXcd13c0.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d60000.h"
+#include "fnv/symbols_00ddb000.h"
+#include "fnv/symbols_00ddc000.h"
+#include "fnv/symbols_011b7000.h"
+#include "fnv/symbols_01269000.h"
+#include "fnv/symbols_0126c000.h"
 void __stdcall GetPunctuationChars(char** pOut, int* pLen);
 struct hkInspectProcess;
 struct hkProcess;
-extern hkProcess* DAT_01269cd0;
 extern hkInspectProcess* DAT_01269cd4;
-void __cdecl FUN_00ddb710(hkProcess*);
 struct hkProcessFactory
 {
-    hkInspectProcess* __thiscall RegisterProcess(const char*, void(__cdecl*)(hkProcess*));
 };
-extern hkProcessFactory* FUN_00dd9380;
 void __cdecl RegisterObjectInspectionProcess();
 struct hkInspectProcessStandIn
 {
-    void __thiscall WriteObjectHeader(void* object, int type, int flags);
-    void __thiscall RemovePair(void* object);
 };
-void __cdecl FUN_00ddb5d0(void* object, int type, char addObject, int flags, hkInspectProcess* inspectProcess);
-void __cdecl CreateImpl(hkProcess*);
 struct hkInspectProcess;
-extern hkInspectProcess* DAT_01269cd8;
-hkInspectProcess* __cdecl CreateStatisticsProcess();
 struct hkInspectProcess;
 extern hkInspectProcess* DAT_01269cd4;
 hkInspectProcess* FUN_00ddbeb0();
@@ -53,8 +58,6 @@ class hkSourceDDB6
     int unk00;
     void* m_target;
 
-    void FUN_00c90510() throw();
-    void FUN_00cd13c0(void(__cdecl* callback)(void*), void* userData) throw();
 };
 struct hkSourceListDDB6
 {
@@ -69,7 +72,6 @@ template <typename T> struct hkArrayDDB6
     hkArrayDDB6() throw() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
     {}
 };
-void __cdecl FUN_00ddb5d0(void* userData);
 class FUN_00ddb600 : public hkRefObjDDB6, public hkListenerDDB6
 {
   public:
@@ -98,14 +100,12 @@ struct FnvCpu_FUN_00ddb710_CpuHolder
     unsigned int unk0c;
     FnvCpu_FUN_00ddb710_CpuAllocator* allocator;
 };
-void* __cdecl FUN_00c85750();
 struct FnvCpu_FUN_00ddb710_CpuBlock
 {
     unsigned int unk00;
     unsigned short size;
     FnvCpu_FUN_00ddb710_CpuBlock* FUN_00ddb600(unsigned int value);
 };
-void* __cdecl FUN_00ddb710(unsigned int value);
 struct MemoryManager
 {
     virtual void unk0();
@@ -120,14 +120,12 @@ struct ThreadMemory
     int unk0C;
     MemoryManager* memoryManager;
 };
-void* __cdecl FUN_00c85750();
 struct TestClass
 {
     void* vtable;
     unsigned short m_usAllocationSize;
     unsigned short m_iObjectReferenceCount;
 
-    void FUN_00ddb670();
     void* FUN_00ddbed0(char flags);
 };
 class hkClass;
@@ -173,9 +171,6 @@ class ProcessContext
 class hkOArchive
 {
   public:
-    void FUN_00d60960(unsigned int);
-    void FUN_00d605d0(unsigned char);
-    void FUN_00d609a0(unsigned __int64);
 };
 struct hkInspectProcess
 {
@@ -192,15 +187,10 @@ struct LayoutRulesDDB3
     unsigned char m_bReusePaddingOptimization;
     unsigned char m_bEmptyBaseClassOptimization;
 };
-extern const LayoutRulesDDB3 DAT_011b7b88;
 class GlobalObjectO2_00d472a0;
-extern GlobalObjectO2_00d472a0 g_0126cae8;
 class FUN_00d605d0_Class
 {
   public:
-    void FUN_00d60960(int iCommand);
-    void FUN_00d605d0(unsigned int uiValue);
-    void FUN_00d609a0(const GlobalObjectO2_00d472a0* pkClass, int iFlags);
 };
 struct TrackedObjectDDB3
 {
@@ -248,7 +238,6 @@ class InspectProcessDDB3 : public ProcessBaseDDB3, public ListenerDDB3
     int unk18, unk1C, unk20, unk24, unk28;
     TrackedListDDB3* m_pkTracked;
 
-    void WriteObjectHeader(void* pvObject, int iType, int iFlags);
     virtual void WriteTrackedObjects();
 };
 
@@ -270,7 +259,6 @@ struct Router_ddba
     }
     static Router_ddba& __cdecl FUN_00c85750() throw();
 };
-void __cdecl FUN_00c908c0(Heap_ddba* heap, void* array, int numElements, int sizeOfElement) throw();
 
 struct hkBool_ddba
 {
@@ -300,7 +288,7 @@ template <class T> struct hkArray_ddba
         if (cap < n)
         {
             int cap2 = 2 * cap;
-            FUN_00c908c0(&heap, this, n < cap2 ? cap2 : n, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(::Heap_ddba *)(&heap), (::SpawnedArray *)(void *)(this), n < cap2 ? cap2 : n, sizeof(T));
         }
         m_iElementCount = n;
     }

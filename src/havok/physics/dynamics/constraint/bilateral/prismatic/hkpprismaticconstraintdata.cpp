@@ -2,6 +2,11 @@
 // src/havok/physics/dynamics/constraint/bilateral/prismatic/hkpprismaticconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/prismatic/hkpprismaticconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00c7f690_cls.h"
+#include "fnv/decl/FUN_00d51620_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0102e000.h"
 #include "havok/hkpPrismaticConstraintData.h"
 
 extern "C" void* __cdecl FUN_00d21a60(void* self, int a, void* b);
@@ -25,10 +30,8 @@ void __stdcall FUN_00d4f8a0(int aiUnused, hkpPrismaticConstraintData* apConstrai
 }
 
 extern int DAT_010d0b3c;
-extern int DAT_0102e388;
 struct DDCC60World
 {
-    void removeReference();
 };
 struct FUN_00d4f8d0_class
 {
@@ -42,8 +45,8 @@ void FUN_00d4f8d0_class::FUN_00d4f8d0()
     DDCC60World* p = *reinterpret_cast<DDCC60World**>(reinterpret_cast<unsigned char*>(this) + 0xac);
     vtbl = &DAT_010d0b3c;
     if (p)
-        p->removeReference();
-    vtbl = &DAT_0102e388;
+        reinterpret_cast<::hkReferencedObjectC905 *>((p))->FUN_00c905b0();
+    vtbl = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 // FUN_00d4f8c0: cdecl constant-return leaf (mov eax,6; ret)
@@ -67,7 +70,6 @@ class hkBoolD4FD
     char m_cBooleanValue;
 };
 
-extern float DAT_01017d00;
 
 class hkTransformD4FD
 {
@@ -92,7 +94,7 @@ class hkObjD4FD
 // @fnv 0x00d4fdd0
 hkBoolD4FD hkObjD4FD::IsValid() const
 {
-    return m_kPointA.IsOrthonormal(DAT_01017d00) && m_kPointB.IsOrthonormal(DAT_01017d00) && m_kMinimumCorner <= m_kMaximumCorner;
+    return m_kPointA.IsOrthonormal(::AngularDashpotApplyD4DCB0::DAT_01017d00) && m_kPointB.IsOrthonormal(::AngularDashpotApplyD4DCB0::DAT_01017d00) && m_kMinimumCorner <= m_kMaximumCorner;
 }
 
 class hkMemoryAllocatorD4FF
@@ -136,18 +138,16 @@ class FUN_00d4f8d0
 // @fnv 0x00d4ffd0
 FUN_00d4f8d0* FUN_00d4f8d0::FUN_00d4ffd0(unsigned int uiFlags) throw()
 {
-    this->FUN_00d4f8d0::~FUN_00d4f8d0();
+    reinterpret_cast<::FUN_00d4f8d0_class *>((this))->FUN_00d4f8d0();
     if (uiFlags & 1)
         FUN_00d4f8d0::operator delete(this);
     return this;
 }
 
 extern int DAT_010d0b9c;
-extern int DAT_0102e388;
 
 struct RefObj
 {
-    void removeReference();
 };
 
 struct Embedded
@@ -165,7 +165,6 @@ struct Embedded
     int unk28;
     int unk2c;
     int unk30;
-    void Run();
 };
 
 struct FUN_00d50c50
@@ -188,10 +187,10 @@ FUN_00d50c50::~FUN_00d50c50()
     vtbl = &DAT_010d0b9c;
     for (int i = 0; i < mCount; ++i)
     {
-        mArr[i]->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((mArr[i]))->FUN_00c905b0();
     }
-    mSub.Run();
-    vtbl = &DAT_0102e388;
+    reinterpret_cast<::FUN_00d51620_class *>(&(mSub))->FreeArrays();
+    vtbl = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -306,7 +305,6 @@ void hkpPrismaticConstraintDataEx::FUN_00d4fba0(const hkVector4& pivotA, const h
 #include <math.h>
 struct hkVector4Out : public hkVector4
 {
-    void SetTransformedPosition(const hkTransform& t, const hkVector4& v);
 };
 
 static __forceinline hkReal hkFabs(hkReal r)
@@ -391,6 +389,6 @@ void PrismaticWorldSpaceView::FUN_00d4f8f0(const hkTransform& bodyATransform, co
     hkSetTransposeMul(reinterpret_cast<hkMatrix3q&>(t.m_kBodyBLocalFrame.m_rotation),
                       reinterpret_cast<const hkMatrix3q&>(bodyBTransform.m_rotation), rot);
 
-    static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_vTranslation).SetTransformedPosition(bodyATransform, pivot);
-    static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_vTranslation).SetTransformedPosition(bodyBTransform, pivot);
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_vTranslation)))->FUN_00c7f690((const ::S_00c7f690_M *)&(bodyATransform), (const ::S_00c7f690_V *)&(pivot));
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_vTranslation)))->FUN_00c7f690((const ::S_00c7f690_M *)&(bodyBTransform), (const ::S_00c7f690_V *)&(pivot));
 }

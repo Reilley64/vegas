@@ -5,6 +5,20 @@
 
 // src/havok/physics/collide/shape/compound/tree/mopp/hkpmoppbvtreeshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/tree/mopp/hkpmoppbvtreeshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/BundleMachine.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FunctionContext.h"
+#include "fnv/decl/GridCell.h"
+#include "fnv/decl/ObbQueryDetail__ObbMachine.h"
+#include "fnv/decl/fnv_00d543e0__FUN_00d543e0.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_01091000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010c6000.h"
+#include "fnv/symbols_010c9000.h"
+#include "fnv/symbols_010d0000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 #include "havok/hkpMoppBvTreeShape.h"
 struct FUN_00d54420_Interface
 {
@@ -34,10 +48,7 @@ void FUN_00d54420_Owner::FUN_00d54420(int a, float b, int c)
 }
 struct hkReferencedObject
 {
-    void RetainReference();
 };
-extern int DAT_010c6fd0;
-extern int DAT_010d0dac;
 struct FUN_00d54490
 {
     FUN_00d54490(int, int);
@@ -64,11 +75,9 @@ struct FUN_00d54930Object
 
     unsigned short m_iElementCount;
 
-    void FUN_00d543e0();
     FUN_00d54930Object* Destroy(unsigned char flags);
 };
 class hkClassD543;
-extern const hkClassD543 DAT_01269c8c;
 class hkStatisticsCollectorD543
 {
   public:
@@ -80,7 +89,6 @@ class hkStatisticsCollectorD543
 class hkpShapeD543
 {
   public:
-    void FUN_00c90360(hkStatisticsCollectorD543* pkCollector, const hkClassD543* pkClass) const throw();
 };
 class hkpSingleShapeContainerD543 : public hkpShapeD543
 {
@@ -121,7 +129,6 @@ struct __declspec(align(16)) FUN_00dd1bf0_Obj
     int unk38;
     int unk3C;
 
-    void __thiscall FUN_00dd1bf0(void* target, int a, int b, float c, int d);
 };
 struct FUN_00d54350_Obj
 {
@@ -156,8 +163,6 @@ struct hkMemoryRouterD548
 extern "C" hkMemoryRouterD548& __cdecl FUN_00c85750();
 struct FUN_00d1df70
 {
-    void FUN_00c90510() throw();
-    void removeReference() throw();
 };
 class hkReferencedObjectD548
 {
@@ -186,7 +191,7 @@ class hkpSingleChildShapeD548 : public hkpShapeD548
 
     virtual ~hkpSingleChildShapeD548() throw()
     {
-        m_pContainedShape->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_pContainedShape))->FUN_00c905b0();
     }
     hkpSingleChildShapeD548* FUN_00d548f0(unsigned int uiFlags) throw();
 };
@@ -236,10 +241,8 @@ struct S00d54440_Obj
     int FUN_00d54440(int, int);
 };
 #include <xmmintrin.h>
-extern char DAT_010d0d70;
 struct S00d54490_Ref
 {
-    void FUN_00c90510();
 };
 struct S00d54490_Obj
 {
@@ -258,11 +261,8 @@ struct S00d54490_Obj
 };
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
-extern unsigned long DAT_0126835c;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern const int DAT_010c92e0[4];
 extern "C" const char str_010d0df0[];
-extern "C" const char str_010c41f8[];
 struct hkTimerCommandD546
 {
     const char* m_pCommandName;
@@ -397,10 +397,6 @@ struct hkpMoppRayBundleVirtualMachineD546
     int m_80, m_84, m_88, m_8c, m_90, m_94, m_98, m_9c;
     int m_a0, m_a4, m_a8, m_ac, m_b0, m_b4, m_b8, m_bc;
     int m_c0, m_c4, m_c8, m_cc, m_d0, m_d4, m_d8, m_dc;
-    hkVector4ComparisonD546 FUN_00dd4870(const hkpShapeContainerD546* pkCollection, const hkpMoppCodeD546* pkCode,
-                                         const hkpShapeRayBundleCastInputD546& kInput,
-                                         hkpShapeRayBundleCastOutputD546& kResults,
-                                         const hkVector4ComparisonD546& kRayMask) throw();
 };
 class hkpMoppBvTreeShapeD546
 {
@@ -537,10 +533,8 @@ struct hkMoppHitsQ
     int unk38;
     int unk3C;
 
-    void FUN_00dd1da0(const hkpMoppCodeQ* code, const hkAabbq* aabb, hkArr<unsigned int>* hits) throw();
 };
 
-extern double DAT_01091c00;
 
 class hkMoppBvTreeShapeBaseQ : public hkMoppBvTreeShapeBase
 {
@@ -557,13 +551,13 @@ int hkMoppBvTreeShapeBaseQ::FUN_00d54810(const hkAabbq& aabbIn, unsigned int* hi
     int buffer[16];
     hkpMoppCodeQ* code = (hkpMoppCodeQ*)(((unsigned int)buffer + 15) & ~15u);
     code->init(reinterpret_cast<const hkMoppCodeInfoQ&>(offset), m_pMoppData, m_uiMoppDataSize);
-    float extent = (float)(DAT_01091c00 / m_kMoppCodeInfo.w);
+    float extent = (float)(::DAT_01091c00 / m_kMoppCodeInfo.w);
     aabb.m_kMinimumCorner.m_vComponents = _mm_max_ps(offset.m_vComponents, aabbIn.m_kMinimumCorner.m_vComponents);
     aabb.m_kMaximumCorner.m_vComponents =
         _mm_min_ps(_mm_add_ps(_mm_set_ps1(extent), offset.m_vComponents), aabbIn.m_kMaximumCorner.m_vComponents);
     hkArr<unsigned int> hitsArray(hits, 0, maxNumKeys);
     hkMoppHitsQ machine;
-    machine.FUN_00dd1da0(code, &aabb, &hitsArray);
+    reinterpret_cast<::GridCell *>(&(machine))->FUN_00dd1da0((::GridSource *)(code), (::GridBounds *)(&aabb), (int)(&hitsArray));
     int numHits = machine.m_kHits->m_iElementCount;
     hitsArray._clearAndDeallocate(FUN_00c85750().heap());
     return numHits;

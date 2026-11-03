@@ -2,6 +2,29 @@
 // src/gamebryo2.2/corelibs/nianimation/nitransformcontroller_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/gamebryo2.2/corelibs/nianimation/nitransformcontroller.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/CloneableObj.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004f0180_Class.h"
+#include "fnv/decl/FUN_00a38e00.h"
+#include "fnv/decl/FUN_00a40980.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00a6d290.h"
+#include "fnv/decl/Holder00a390a0.h"
+#include "fnv/decl/NiTimeControllerA362.h"
+#include "fnv/decl/TargetA35.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a35000.h"
+#include "fnv/symbols_00a39000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_011a8000.h"
+#include "fnv/symbols_011f3000.h"
 #include "nitransformcontroller_nimemobject_decl.h"
 #include "nitransformcontroller_types_NiCloningProcess.h"
 #include "nitransformcontroller_types_NiBoolInterpController.h"
@@ -15,7 +38,6 @@ struct RefObj
     virtual void vf4();
     volatile long refCount;
 };
-void __fastcall FUN_00a6d290(void*);
 struct Unknown
 {
     void FUN_00a360d0();
@@ -29,7 +51,7 @@ void Unknown::FUN_00a360d0()
         if (InterlockedDecrement(&p->refCount) == 0)
             p->vf4();
     }
-    FUN_00a6d290(this);
+    reinterpret_cast<struct ::FUN_00a6d290 *>((this))->FUN_00a6d290::~FUN_00a6d290();
 }
 
 struct FakeTransformController : NiSingleInterpController
@@ -41,18 +63,16 @@ void FakeTransformController::FUN_00a36190(NiStream& kStream)
 {
     NiSingleInterpController::LoadBinary(kStream);
     if (*(unsigned int*)((char*)&kStream + 0xD8) < 0x0A010068)
-        kStream.ResetStreamState();
+        reinterpret_cast<::FUN_00a645b0_cls *>(&(kStream))->FUN_00a645b0();
 }
 
-extern int g_011f371c;
 
 // @fnv 0x00a36480
 int* __cdecl FUN_00a36480()
 {
-    return &g_011f371c;
+    return &(*reinterpret_cast<int *>(&::g_011f371c));
 }
 
-void __fastcall FUN_00a39290(void*);
 void __cdecl _delete(void*, unsigned int);
 struct S_00a36490
 {
@@ -61,43 +81,37 @@ struct S_00a36490
 // @fnv 0x00a36490
 void* __thiscall S_00a36490::FUN_00a36490(unsigned int flag)
 {
-    FUN_00a39290(this);
+    ::FUN_00a39290(this, {});
     if (flag & 1)
         _delete(this, 0x58);
     return this;
 }
 
-extern "C" void* g_011f36ec;
 
 // @fnv 0x00a36580
 void* __cdecl FUN_00a36580()
 {
-    return &g_011f36ec;
+    return &(*reinterpret_cast<void * *>(&::g_011f36ec));
 }
 
 namespace fnv_00a36840 {
 struct StrArr
 {
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
     char _pad[8];
     unsigned short m_usMaxSize;
     unsigned short m_usSize;
     unsigned short m_usPad;
     unsigned short m_usGrowBy;
 };
-void __stdcall FUN_00a390a0(StrArr*);
-char* __cdecl FUN_00a7d330(const char*);
-extern const char* g_011f36ec;
 // @fnv 0x00a36840
 void __stdcall FUN_00a36840(StrArr* pkStrings)
 {
-    FUN_00a390a0(pkStrings);
-    char* pszString = FUN_00a7d330(g_011f36ec);
+    reinterpret_cast<::Holder00a390a0 *>((pkStrings))->FUN_00a390a0({});
+    char* pszString = ::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_011f36ec)));
     unsigned int uiSize = pkStrings->m_usSize;
     if (uiSize >= pkStrings->m_usMaxSize)
-        pkStrings->SetSize(uiSize + pkStrings->m_usGrowBy);
-    pkStrings->SetAt(uiSize, pszString);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(uiSize + pkStrings->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiSize, pszString);
 }
 }  // namespace fnv_00a36840
 
@@ -163,7 +177,7 @@ struct FUN_00a38ef0_Class : NiInterpController
 // @fnv 0x00a38ef0
 void FUN_00a38ef0_Class::FUN_00a38ef0(FUN_00a38ef0_Class* pkDest, CloningProcess& kCloning)
 {
-    ((FUN_00a2f8a0_Holder*)this)->FUN_00a2f8a0(pkDest, kCloning);
+    reinterpret_cast<::CloneableObj *>((((FUN_00a2f8a0_Holder*)this)))->FUN_00a2f8a0((::CloneableObj *)(pkDest), (void *)&(kCloning));
 
     if (m_spControllerInterpolator != 0)
     {
@@ -194,12 +208,11 @@ struct S_00a36560
 // @fnv 0x00a36560
 void* S_00a36560::FUN_00a36560()
 {
-    ((NiTimeController_Call*)this)->SetControllerActive();
+    new ((void *)(((NiTimeController_Call*)this))) ::FUN_00a38e00();
     *(void**)this = &DAT_0109687c;
     return this;
 }
 
-extern int DAT_01096694;
 struct NiSingleInterpControllerBase
 {
     int unk00;
@@ -235,12 +248,11 @@ FUN_00a36070::FUN_00a36070(int a1, int a2)
     m_spControllerInterpolator = 0;
     unk38 = 0;
     unk3c = 0;
-    *(int**)this = &DAT_01096694;
+    *(int**)this = &(*reinterpret_cast<int *>(&::DAT_01096694));
     unk40 = 0;
-    ((FUN_00a35a80_Obj*)this)->FUN_00a35a80(a1, a2);
+    reinterpret_cast<::TargetA35 *>((((FUN_00a35a80_Obj*)this)))->FUN_00a35a80(a1, a2);
 }
 
-extern double DAT_010241b0;
 extern "C" void _ReadWriteBarrier(void);
 
 struct Tgt
@@ -281,20 +293,20 @@ struct FUN_00a364b0_cls
 // @fnv 0x00a364b0
 void FUN_00a364b0_cls::FUN_00a364b0(V3 aT0, V4 aR0, float fScale)
 {
-    if (aR0.f1 != DAT_010241b0)
+    if (aR0.f1 != ::DAT_010241b0)
     {
         m_r = aR0;
         _ReadWriteBarrier();
         if (unk2c)
             unk2c->FUN_00a4e2e0(0, 0, 0);
     }
-    if (fScale != DAT_010241b0)
+    if (fScale != ::DAT_010241b0)
     {
         unk28 = fScale;
         if (unk2c)
             unk2c->FUN_00a4e3b0(0, 0, 0);
     }
-    if (aT0.f0 != DAT_010241b0)
+    if (aT0.f0 != ::DAT_010241b0)
     {
         m_t = aT0;
         _ReadWriteBarrier();
@@ -306,7 +318,6 @@ void FUN_00a364b0_cls::FUN_00a364b0(V3 aT0, V4 aR0, float fScale)
 // Apply the source object's local transform (as a quaternion transform) to the given node.
 
 class A36590RTTI;
-extern const A36590RTTI g_kA36590NodeRTTI;
 
 struct A36590Point3
 {
@@ -334,7 +345,6 @@ struct A36590Quaternion
     float m_fVectorY;
     float m_fVectorZ;
     float m_fScalarPart;
-    void FromRotationMatrix(const A36590Matrix3& kRot);
 };
 
 struct A36590QuatTransform
@@ -347,7 +357,6 @@ struct A36590QuatTransform
 class A36590Object
 {
   public:
-    A36590Object* DynamicCast(const A36590RTTI* pkRTTI);
 };
 
 class A36590AVObject : public A36590Object
@@ -374,7 +383,6 @@ class A36590AVObject : public A36590Object
 class A36590Node : public A36590Object
 {
   public:
-    void SetTargetTransform(A36590QuatTransform kTransform);
 };
 
 class A36590Controller
@@ -399,17 +407,17 @@ class A36590Controller
 // @fnv 0x00a36590
 void A36590Controller::FUN_00a36590(A36590Object* pkObject, int iUnused)
 {
-    A36590Node* pkNode = !pkObject ? 0 : (A36590Node*)pkObject->DynamicCast(&g_kA36590NodeRTTI);
+    A36590Node* pkNode = !pkObject ? 0 : (A36590Node*)((::A36590Object *)(reinterpret_cast<::NiObject *>((pkObject))->DynamicCast((const ::NiRTTI *)(const ::A36590RTTI *)(&(*reinterpret_cast<const ::A36590RTTI *>(&::g_011f3e50))))));
     A36590AVObject* pkSource = m_pkSource;
 
     A36590Quaternion kRotate;
-    kRotate.FromRotationMatrix(pkSource->m_kRotate);
+    reinterpret_cast<::NiQuaternion *>(&(kRotate))->FromRotationMatrix((const ::ThreeByThreeMatrix &)(pkSource->m_kRotate));
 
     A36590QuatTransform kTransform;
     kTransform.m_kTranslate = pkSource->m_kTranslate;
     kTransform.m_kRotate = kRotate;
     kTransform.m_fScale = pkSource->m_fScale;
-    pkNode->SetTargetTransform(kTransform);
+    reinterpret_cast<::FUN_00a364b0_cls *>((pkNode))->FUN_00a364b0((*(::V3 *)&(const ::A36590QuatTransform &)(kTransform)), {}, {});
 }
 
 extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
@@ -431,7 +439,6 @@ class NiTransformInitB
     {
         return FUN_00aa13e0(size);
     }
-    void* InitB(int a, float b, int c);
 };
 
 // @fnv 0x00a36620
@@ -451,7 +458,7 @@ void* __stdcall FUN_00a36620(int a1, int a2, unsigned char a3, float a4, int a5)
         obj = NiTransformInitB::operator new(0x30);
         if (obj != 0)
         {
-            return ((NiTransformInitB*)obj)->InitB(a2, a4, a5);
+            return ((void *)(new ((void *)(((NiTransformInitB*)obj))) ::FUN_00a40980(a2, a4, a5)));
         }
     }
     return 0;
@@ -525,10 +532,6 @@ struct QuatXf_00a36680
     NiQuaternion m_kRotate;
     float m_fScale;
 };
-extern NiPoint3 DAT_011a8400;
-extern NiQuaternion DAT_011f3704;
-extern float DAT_01096b8c;
-extern const float DAT_01096324;
 struct Flags_00a36680
 {
     bool b0 : 1;
@@ -560,7 +563,7 @@ void TransformCtl_t::FUN_00a36680(UpdData_00a36680& UpdateData)
     {
         *(float*)((char*)this + 0x28) = DAT_01096324;
     }
-    else if (AdvanceController(UpdateData.fTime) && (!spInterp || !spInterp->AlwaysUpdate()))
+    else if (reinterpret_cast<::NiTimeControllerA362 *>(this)->FUN_00a36250(UpdateData.fTime) && (!spInterp || !spInterp->AlwaysUpdate()))
     {
         return;
     }
@@ -576,7 +579,7 @@ void TransformCtl_t::FUN_00a36680(UpdData_00a36680& UpdateData)
             if (kTransform.m_kTranslate.x != -3.4028234663852886e+38)
                 pkTarget->m_kTranslate = kTransform.m_kTranslate;
             if (kTransform.m_kRotate.m_fVectorY != -3.4028234663852886e+38)
-                kTransform.m_kRotate.ToRotationMatrix(pkTarget->m_kRotate);
+                reinterpret_cast<::FUN_004f0180_Class *>(&(kTransform.m_kRotate))->FUN_004f0180((::M3_ *)&(pkTarget->m_kRotate));
             if (kTransform.m_fScale != -3.4028234663852886e+38)
                 pkTarget->m_fScale = fabs(kTransform.m_fScale);
         }

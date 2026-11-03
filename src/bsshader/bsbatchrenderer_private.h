@@ -1,6 +1,9 @@
 #ifndef BSBATCHRENDERER_PRIVATE_H
 #define BSBATCHRENDERER_PRIVATE_H
 
+#include "fnv/decl/AlphaList.h"
+#include "fnv/decl/FUN_00b63e90_cls.h"
+#include "fnv/symbols_011f6000.h"
 #include "bsbatchrenderer_types_BSBatchRenderer.h"
 class BSBatchRenderer__ActivePassList
 {
@@ -20,11 +23,9 @@ __forceinline int BSBatchRenderer_Max(int a, int b)
     return a > b ? a : b;
 }
 #include "MemoryManager.h"
-extern MemoryManager g_memoryManager;
 class BSBatchRenderer__AlphaList
 {
   public:
-    BSBatchRenderer__GeometryGroup* Remove(BSBatchRenderer__GeometryGroup*&);
 };
 #pragma pack(push, 4)
 struct BSBatchRenderer__PassGroup
@@ -52,15 +53,14 @@ class BSBatchRenderer__PassList
     {
         unsigned int ItemUpdateArray;
     } Allocator;
-    __declspec(nothrow) void ResetPassList();
     __declspec(nothrow) virtual ~BSBatchRenderer__PassList()
     {
-        ResetPassList();
+        reinterpret_cast<::FUN_00b63e90_cls *>(this)->ReleasePoolNodes();
         m_pCachedListItems = pHead;
         pHead = 0;
         pTail = 0;
         Allocator.ItemUpdateArray = 0;
-        ResetPassList();
+        reinterpret_cast<::FUN_00b63e90_cls *>(this)->ReleasePoolNodes();
     }
 };
 class BSBatchRenderer__GeometryGroup

@@ -5,10 +5,12 @@
 
 // src/havok/common/base/math/matrix/hktransform.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/matrix/hktransform.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/Cls_c7f4e0.h"
+#include "fnv/symbols_00cb2000.h"
+#include "fnv/symbols_00ce5000.h"
 struct Matrix43;
 struct Transform
 {
-    void FUN_00ce5300(Matrix43* out);
 };
 struct __declspec(align(16)) Matrix43
 {
@@ -45,7 +47,6 @@ __declspec(align(16)) struct Matrix44
 };
 struct S_c7f4e0_Foo
 {
-    bool* __thiscall CheckFloatsFinite(bool* value);
 };
 struct S_cb2110_Foo
 {
@@ -64,7 +65,6 @@ struct S_cb2110_Foo
 
     S_c7f4e0_Foo unk30;
 
-    bool* __thiscall FUN_00cb2d70(bool* value);
     bool* __thiscall FUN_00cb2110(bool* result);
 };
 union __declspec(intrin_type) __declspec(align(16)) __m128

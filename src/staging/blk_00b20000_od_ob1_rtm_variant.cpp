@@ -4,6 +4,33 @@
 
 // src/staging/blk_00b20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/B2EVector.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0044a450.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00b02d40_class.h"
+#include "fnv/decl/FUN_00b16830_Iterator.h"
+#include "fnv/decl/FUN_00b17e90_cls.h"
+#include "fnv/decl/FUN_00b32c60_cls.h"
+#include "fnv/decl/Mat3.h"
+#include "fnv/decl/Outer_b33110.h"
+#include "fnv/decl/RangeInitializer.h"
+#include "fnv/decl/Vector_b17f50.h"
+#include "fnv/decl/buyElement24__BxVector.h"
+#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
+#include "fnv/decl/fnv_00b277b0__FUN_00b277b0_cls.h"
+#include "fnv/decl/xlenb0f__BxVecBase.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00b12000.h"
+#include "fnv/symbols_00b2e000.h"
+#include "fnv/symbols_00b35000.h"
+#include "fnv/symbols_00b36000.h"
+#include "fnv/symbols_00b42000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_010a3000.h"
+#include "fnv/symbols_010a4000.h"
+#include "fnv/symbols_01140000.h"
 #include "../../include/layout_support.h"
 extern "C" void __cdecl FUN_00b02c90();
 struct FUN_00b274a0_class
@@ -11,14 +38,12 @@ struct FUN_00b274a0_class
     void __thiscall FUN_00b02c90();
     FUN_00b274a0_class* __thiscall ResetState();
 };
-extern "C" void FUN_0044a450(int);
 extern int DAT_010a57fc;
 struct FUN_00b3c440_class
 {
     int* vtbl;
     int FUN_00b3c440(int a);
 };
-extern int DAT_010a31fc;
 struct FUN_00b3c910_class
 {
     void InitVTable();
@@ -56,7 +81,6 @@ struct FUN_00b3c600_class
 {
     float* pData;
     int* pCount;
-    double __thiscall FUN_00b3c5a0();
     void NormalizeData();
 };
 struct FUN_00b27660_class
@@ -116,8 +140,6 @@ struct FUN_00b2e1b0_class
 
     void __thiscall FreeBuffer();
 };
-void _Deallocate(void*);
-void _Deallocate(void*);
 struct FUN_00b34d90_class
 {
     unsigned char padding[0x0c];
@@ -148,7 +170,6 @@ struct Random
     void* __thiscall DestroyRandom(unsigned int flags);
 };
 extern const int vftable_Random[];
-void _Deallocate(void*);
 struct FUN_00b27060_cls
 {
     int unk00;
@@ -186,13 +207,11 @@ struct ResourceBufferOwner
     int unk3c;
     unsigned char* buffer40;
 
-    void ClearFields();
     void FreeBuffers();
 };
 class FUN_00b276f0_sub
 {
   public:
-    void* Destroy(int kind);
 };
 class FUN_00b276f0_cls
 {
@@ -212,10 +231,7 @@ class FUN_00b276f0_cls
 
     void Reset();
 };
-extern void __cdecl FUN_00401030(void* p);
 // InitBuffer
-extern "C" int __cdecl FUN_00b2e4a0(unsigned int count, int flag);
-extern "C" void __cdecl FUN_00b0fb80();
 struct FnvB2e080
 {
     int f00;
@@ -230,7 +246,6 @@ struct SpanPair
 {
     int a;
     int b;
-    bool Compare(SpanPair& other);
 };
 struct FUN_00b2e250_cls
 {
@@ -239,15 +254,12 @@ struct FUN_00b2e250_cls
     unsigned int m_08;
     unsigned int m_0c;
     unsigned int m_10;
-    void Update(int newValue, int oldValue);
     SpanPair* FUN_00b2e250(SpanPair* out, int unk04, unsigned int idx1, int unk14, unsigned int idx2);
 };
-extern "C" int __cdecl FUN_00b2e3f0(int, int, int);
 struct ProbePair
 {
     unsigned int m_00;
     unsigned int m_04;
-    bool FUN_00b16830(const ProbePair* key);
 };
 struct FUN_00b335c0_tmp
 {
@@ -265,7 +277,6 @@ struct FUN_00b335c0_tmp
     unsigned int unk28;
     unsigned int unk2C;
 };
-unsigned int __cdecl FUN_00b42e50(unsigned int a, unsigned int b, unsigned int c);
 struct FUN_00b335c0_cls
 {
     unsigned int unk00;
@@ -279,7 +290,6 @@ struct FUN_00b33af0_pair
 {
     unsigned int a;
     unsigned int b;
-    bool CompareTo(FUN_00b33af0_pair* other);
 };
 struct FUN_00b33af0_iter
 {
@@ -309,7 +319,6 @@ struct FUN_00b33af0_cls
     FUN_00b33af0_pair* FUN_00b33af0(FUN_00b33af0_pair* out, unsigned int unk0c, unsigned int a, unsigned int unk14,
                                     unsigned int b);
 };
-extern "C" unsigned int __cdecl FUN_00b35c30(unsigned int, unsigned int, unsigned int);
 struct Hldr0044
 {
     int m_iWordAt00;
@@ -318,9 +327,6 @@ struct Hldr0044
     void Init(unsigned int* p);
 };
 extern "C" void __stdcall FUN_00ec7894(Hldr0044* p, void* dat);
-extern "C" void __cdecl FUN_00401000(unsigned int scaled);
-extern "C" int DAT_01140ef8;
-extern "C" int DAT_010176f8;
 // @fnv 0x00b35f00
 extern "C" void __cdecl FUN_00b35f00(unsigned int n)
 {
@@ -342,7 +348,7 @@ extern "C" void __cdecl FUN_00b35f00(unsigned int n)
         }
     }
 
-    FUN_00401000(n * 2);
+    ::FUN_00401000(n * 2);
 }
 struct FUN_00b31270
 {
@@ -548,7 +554,6 @@ struct FUN_00b3c930_Obj
 {
     FNV_00b3c930_Member m00;  // +0x00
     FNV_00b3c930_Member m18;  // +0x18
-    void FNV_00b3cc30();
     FUN_00b3c930_Obj();
     ~FUN_00b3c930_Obj();
 };
@@ -620,10 +625,10 @@ struct FNV_00b3efe0_Obj
     FNV_00b3efe0_Buffer unk04;
     unsigned int GetElementAtOffset();
 };
-void __cdecl _Deallocate(void*);
 struct FUN_00b37880_class
 {
-    void __thiscall FUN_00b37880();
+public:
+    ~FUN_00b37880_class();
 };
 struct FUN_00b3fdd0_class
 {
@@ -656,7 +661,6 @@ struct FUN_00b3fdd0_class
 extern int DAT_010173e8;
 struct FUN_00b3c3b0_Sub
 {
-    void __thiscall FUN_0044a730(int a, int b);
 };
 struct FUN_00b3c3b0_Class
 {
@@ -684,7 +688,6 @@ struct FUN_00b2ac30_t
     int m_04;
     bool FUN_00b2ac30(FUN_00b2ac30_t* other);
 };
-extern const double DAT_010a4d90;
 double __cdecl FUN_00ec9f30(double value);
 double __cdecl FUN_00eca060(double value);
 struct Mat
@@ -698,15 +701,12 @@ struct Mat
     float m20;
     float m21;
     float m22;
-    void __thiscall FUN_00b12af0();
-    Mat* __thiscall Multiply(Mat* out, Mat* rhs);
     void __thiscall FUN_00b273d0(float angle);
 };
 struct ElemAlloc
 {
     char c;
 };
-void __cdecl FUN_00b35ca0(int* pFirst, unsigned int ItemUpdateArray, const int& kVal, ElemAlloc& kAl);
 class IntVector
 {
   public:
@@ -717,8 +717,6 @@ class IntVector
     int* m_pLast;
     int* m_pRecordEnd;
 
-    bool ResizeArray(unsigned int ItemUpdateArray);
-    void FUN_00b17f50();
     void FUN_00b32600(unsigned int ItemUpdateArray, const int& kVal);
 };
 struct S_00b3db50
@@ -744,12 +742,8 @@ struct Vec32780
     int m_00, m_04, m_08;
     Item32780* m_0c;
     Item32780* m_10;
-    bool FUN_00b1f590(int n);
-    void FUN_00b32c60();
     void FUN_00b32780(int n, const Item32780* value);
 };
-extern void __cdecl FUN_00b360a0(Item32780*, int, const Item32780*, void*, unsigned char, unsigned char);
-extern "C" void* __cdecl FUN_00b35b60(unsigned int, unsigned int, unsigned int);
 struct S_B33030
 {
     int unk00[3];
@@ -757,7 +751,6 @@ struct S_B33030
     unsigned int m_last;
     unsigned int m_kRayEnd;
 
-    void __thiscall FUN_00b33110(unsigned int, unsigned int);
 
     ProbePair FUN_00b33030(ProbePair first, ProbePair last);
 };
@@ -773,7 +766,6 @@ struct RandomTag
 {
     bool value;
 };
-void FUN_00b36b80(unsigned short* dst, unsigned int count, const unsigned short* src);
 #include <string.h>
 struct FUN_00b29fd0_Params
 {
@@ -880,7 +872,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 template <class T> struct BxAllocT
 {
@@ -899,7 +891,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -1250,7 +1242,7 @@ template <class T> inline T* AsHeapAllocate(unsigned int _Count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(_Count * sizeof(T));
+    return (T*)::FUN_00401000(_Count * sizeof(T));
 }
 template <class T> struct AsAlloc
 {
@@ -1364,7 +1356,7 @@ struct AsVector : AsContainer
         AsIterator _Last = _Make_iter(_Last_arg);
         if (_First != _Last)
         {
-            AsElem* _Ptr = AsUncheckedCopy(_Last._Myptr, _Mylast, _First._Myptr);
+            AsElem* _Ptr = ((::eraseb2d::AsObj **)(::FUN_00b42e50((int *)(_Last._Myptr), (int *)(_Mylast), (int *)(_First._Myptr))));
             _Destroy(_Ptr, _Mylast);
             _Mylast = _Ptr;
         }
@@ -1412,7 +1404,7 @@ using namespace eraseb2d;
 // @fnv 0x00b2def0
 AsIterator AsVector::FUN_00b2def0(AsConstIterator _Where)
 {
-    AsUncheckedCopy(_Where._Myptr + 1, _Mylast, _Where._Myptr);
+    ::FUN_00b42e50((int *)(::eraseb2d::AsObj **)(_Where._Myptr + 1), (int *)(_Mylast), (int *)(_Where._Myptr));
     _Destroy(_Mylast - 1, _Mylast);
     --_Mylast;
     return AsIterator(_Where._Myptr, this);
@@ -1495,7 +1487,7 @@ struct FUN_00b355d0 : PointerVectorStorage
 // @fnv 0x00b355d0
 FUN_00b355d0::FUN_00b355d0(const FUN_00b355d0& source) : PointerVectorStorage(source._Alval)
 {
-    if (ResizeArray(source.size()))
+    if (reinterpret_cast<::FUN_00b17e90_cls *>(this)->ResizeArray(source.size()))
     {
         try
         {
@@ -1503,7 +1495,7 @@ FUN_00b355d0::FUN_00b355d0(const FUN_00b355d0& source) : PointerVectorStorage(so
         }
         catch (...)
         {
-            FUN_00b17f50();
+            reinterpret_cast<::Vector_b17f50 *>(this)->FUN_00b17f50();
             throw;
         }
     }

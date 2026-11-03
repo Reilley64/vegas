@@ -1,6 +1,11 @@
 // src/havok/common/visualize/serialize/hkdisplayserializeistream.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/serialize/hkdisplayserializeistream.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/DD8FE0_Stream.h"
+#include "fnv/decl/RotationRows.h"
+#include "fnv/decl/hkLargeBlockAllocator.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00dda000.h"
 struct DdabeTag
 {
     bool b;
@@ -34,12 +39,11 @@ struct FUN_00ddac60_Obj
     float unk0C;
 };
 
-void __stdcall FUN_00dd8fe0(FUN_00ddac60_Obj* obj, int a, int b);
 
 // @fnv 0x00ddac60
 void __stdcall FUN_00ddac60(FUN_00ddac60_Obj* obj)
 {
-    FUN_00dd8fe0(obj, 4, 3);
+    reinterpret_cast<::DD8FE0_Stream *>((obj))->FUN_00dd8fe0((void *)(4), 3, {});
     obj->unk0C = 0.0f;
 }
 
@@ -58,11 +62,8 @@ struct BSAudio
 {
 };
 BSAudio* __cdecl FUN_00c85750();
-extern "C" void __cdecl FUN_00c908c0(void*, void*, int, int);
 struct FUN_00ddacd0_shell
 {
-    void __thiscall FUN_00dd8fe0(void* output, int elementSize, int count);
-    void __thiscall FUN_00ddac60(void* output);
     void __thiscall FUN_00ddac00(void* output);
     void __thiscall FUN_00ddacd0(ArrayPair* arrays);
 };
@@ -71,7 +72,7 @@ void __thiscall FUN_00ddacd0_shell::FUN_00ddacd0(ArrayPair* arrays)
 {
     {
         int firstCount;
-        FUN_00dd8fe0(&firstCount, 4, 1);
+        reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&firstCount, 4, 1);
         if (firstCount > 0)
         {
             for (int remaining = firstCount; remaining != 0; --remaining)
@@ -87,17 +88,17 @@ void __thiscall FUN_00ddacd0_shell::FUN_00ddacd0(ArrayPair* arrays)
                     int grown = capacity * 2;
                     if (needed < grown)
                         needed = grown;
-                    FUN_00c908c0(growFunction, array, needed, 16);
+                    ::FUN_00c908c0((::SpawnedObject *)(growFunction), (::SpawnedArray *)(array), needed, 16);
                 }
                 ++array->size;
                 void* output = (char*)array->data + size * 16;
-                FUN_00ddac60(output);
+                ::FUN_00ddac60((::FUN_00ddac60_Obj *)this);
             }
         }
     }
     {
         int secondCount;
-        FUN_00dd8fe0(&secondCount, 4, 1);
+        reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&secondCount, 4, 1);
         if (secondCount > 0)
         {
             ArrayRecord* array = &arrays->second;
@@ -113,7 +114,7 @@ void __thiscall FUN_00ddacd0_shell::FUN_00ddacd0(ArrayPair* arrays)
                     int grown = capacity * 2;
                     if (needed < grown)
                         needed = grown;
-                    FUN_00c908c0(growFunction, array, needed, 16);
+                    ::FUN_00c908c0((::SpawnedObject *)(growFunction), (::SpawnedArray *)(array), needed, 16);
                 }
                 ++array->size;
                 void* output = (char*)array->data + size * 16;
@@ -145,7 +146,6 @@ struct FUN_00dd9210_cls
     unsigned short m_uSize;
     unsigned short m_u06;
 
-    void FUN_00dd91f0();
 
     FUN_00dd9210_cls* FUN_00dd9210(unsigned char acFlags);
 };
@@ -154,7 +154,7 @@ struct FUN_00dd9210_cls
 // @fnv 0x00dd9210
 FUN_00dd9210_cls* FUN_00dd9210_cls::FUN_00dd9210(unsigned char acFlags)
 {
-    FUN_00dd91f0();
+    reinterpret_cast<::hkLargeBlockAllocator *>(this)->FUN_00dd91f0();
     if (acFlags & 1)
     {
         AudioHolder* pHolder = reinterpret_cast<AudioHolder*>(FUN_00c85750());
@@ -174,7 +174,6 @@ struct __declspec(align(16)) Vec4
 };
 struct FUN_008cd6a0_Class
 {
-    void FUN_00cb2d90(void* value);
     int unk00;
     int unk04;
     int unk08;
@@ -191,7 +190,6 @@ struct FUN_008cd6a0_Class
 };
 struct hkIArchive
 {
-    void FUN_00dd8fe0(void* destination, int componentSize, int components);
 };
 struct hkDisplaySerializeIStream : hkIArchive
 {
@@ -203,11 +201,11 @@ void hkDisplaySerializeIStream::FUN_00ddac80(FUN_008cd6a0_Class* target)
 {
     Vec4 source;
     Vec4 destination;
-    FUN_00dd8fe0(&source, 4, 3);
+    reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&source, 4, 3);
     source.w = 1.0f;
-    FUN_00dd8fe0(&destination, 4, 4);
+    reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&destination, 4, 4);
     target->unk30 = *(__m128*)&source;
-    target->FUN_00cb2d90(&destination);
+    reinterpret_cast<::RotationRows *>((target))->FUN_00cb2d90(&destination);
 }
 
 // Reads three 4-byte integers via FUN_00dd8fe0 and stores them sequentially into the output buffer.
@@ -217,17 +215,17 @@ __declspec(noinline) void __thiscall FUN_00ddacd0_shell::FUN_00ddac00(void* outp
     int* dst = (int*)output;
     {
         int val1;
-        FUN_00dd8fe0(&val1, 4, 1);
+        reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&val1, 4, 1);
         dst[0] = val1;
     }
     {
         int val2;
-        FUN_00dd8fe0(&val2, 4, 1);
+        reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&val2, 4, 1);
         dst[1] = val2;
     }
     {
         int val3;
-        FUN_00dd8fe0(&val3, 4, 1);
+        reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&val3, 4, 1);
         dst[2] = val3;
     }
 }

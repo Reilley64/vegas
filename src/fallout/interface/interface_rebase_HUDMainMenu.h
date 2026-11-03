@@ -1,6 +1,8 @@
 // Source layout: HUDMainMenu. PC corrections are in generate_headers.py.
 #ifndef FNV_INTERFACE_REBASE_FNV_HUDMAINMENU_H
 #define FNV_INTERFACE_REBASE_FNV_HUDMAINMENU_H
+#include "fnv/symbols_00772000.h"
+#include "fnv/symbols_0077f000.h"
 #include "interface_rebase_layout_support.h"
 #include "interface_rebase_BSSoundHandle.h"
 #include "interface_rebase_BSTimer.h"
@@ -9,8 +11,6 @@
 class HUDMainMenu : public Menu
 {
   public:
-    static void SetCrosshairTarget(TESObjectREFR*, bool);
-    static void SetHUDVisible(bool);
     Tile* m_pTiles[87];                                                // +0x28
     Tile* m_pAdditionalHudTile;                                        // +0x184
     float m_fMessageDisplayTimer;                                      // +0x188

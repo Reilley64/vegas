@@ -12,6 +12,8 @@
 #define FNV_TILERECT_H
 
 
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a074d0_shell.h"
 #include "layout_support.h"
 
 #pragma pack(push, 4)
@@ -20,8 +22,6 @@ class Tile
   public:
     virtual ~Tile();
     virtual void Init(Tile*, const char*, Tile*);
-    void Set(int, float, bool);
-    void SetTileType(int);
 
     // Tile::enumType). TileRect::GetType returns eRect.
     enum enumType

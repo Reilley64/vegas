@@ -2,6 +2,22 @@
 // src/fallout/magic/bhkcharacterlistenerspell.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/bhkcharacterlistenerspell.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/AlignedVector.h"
+#include "fnv/decl/FUN_0043b4d0_shell.h"
+#include "fnv/decl/FUN_005532a0_cls.h"
+#include "fnv/decl/FUN_00620b80_shell.h"
+#include "fnv/decl/FUN_00807730_shell.h"
+#include "fnv/decl/FUN_00807770_Class.h"
+#include "fnv/decl/FUN_0089f4e0_shell.h"
+#include "fnv/decl/FnvCpu_FUN_00c89720_CpuInterface.h"
+#include "fnv/decl/FnvCpu_FUN_00cac950_CpuObject.h"
+#include "fnv/decl/GlobalObject_008c71b0.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_01268000.h"
 struct NiRTTI
 {
 };
@@ -12,12 +28,11 @@ struct bhkCharacterProxy
     const NiRTTI* GetRTTI();
 };
 
-extern const NiRTTI g_01268344;
 
 // @fnv 0x00806f00
 const NiRTTI* bhkCharacterProxy::GetRTTI()
 {
-    return &g_01268344;
+    return &(*reinterpret_cast<const ::NiRTTI *>(&::g_01268344));
 }
 
 struct FUN_00806f10_shell
@@ -31,15 +46,12 @@ unsigned int FUN_00806f10_shell::FUN_00806f10()
     return 0xc0;
 }
 
-const char* __cdecl FUN_00458b20();
-int __fastcall GetReferenceFlags(void*);
 struct NiObject
 {
     virtual const NiRTTI* GetStreamableRTTI();
 };
 struct ProxyHolder
 {
-    const char* FUN_00cac950();
 };
 struct Holder00807080
 {
@@ -49,13 +61,13 @@ struct Holder00807080
 // @fnv 0x00807080
 const char* Holder00807080::FUN_00807080()
 {
-    ProxyHolder* pProxy = (ProxyHolder*)GetReferenceFlags(this);
-    const char* pResult = FUN_00458b20();
+    ProxyHolder* pProxy = (ProxyHolder*)((int)(reinterpret_cast<::FUN_00620b80_shell *>((this))->GetReferenceFlags()));
+    const char* pResult = ((const char *)(::FUN_00458b20()));
     if (pProxy)
     {
-        ((NiObject*)this)->NiObject::GetStreamableRTTI();
-        pResult = pProxy->FUN_00cac950();
-        ((NiObject*)this)->NiObject::GetStreamableRTTI();
+        reinterpret_cast<::FnvCpu_FUN_00c89720_CpuInterface *>((((NiObject*)this)))->FUN_00c89720();
+        pResult = reinterpret_cast<::FnvCpu_FUN_00cac950_CpuObject *>((pProxy))->FUN_00cac950();
+        reinterpret_cast<::FnvCpu_FUN_00c89720_CpuInterface *>((((NiObject*)this)))->FUN_00c89720();
     }
     return pResult;
 }
@@ -72,7 +84,6 @@ struct Node2
     int unk04;
     int unk08;
     int unk0C;
-    void* __thiscall FUN_0043b540();
 };
 
 struct Node
@@ -102,14 +113,11 @@ struct Node
 struct Str20
 {
     int unk00;
-    void __thiscall FUN_008c71b0(void* p);
-    int __thiscall FUN_0043b4d0();
 };
 
 struct __declspec(align(16)) Vec16
 {
     __m128 m_v;
-    int __thiscall FUN_005532a0(float a, float b, float c, float d);
 };
 
 struct Item
@@ -130,12 +138,10 @@ struct Item
     int unk34;
     int unk38;
     int unk3C;
-    void __thiscall FUN_004a3f10(int p);
 };
 
 struct ItemSub
 {
-    void __thiscall FUN_004a3f10(int p);
 };
 
 struct Arg2
@@ -164,21 +170,15 @@ struct Arg2
 
 struct Owner1
 {
-    Node* __thiscall FUN_00807770(int i);
 };
 
 struct Global
 {
-    int __thiscall FUN_0089f4e0();
 };
 
-extern Global* g_pGlobalDea3c;
-int __cdecl FUN_004b59f0(void* p);
 
 struct ProxyUpdate
 {
-    int __thiscall FUN_00807080();
-    int __thiscall FUN_00807730(void* p);
     void __thiscall FUN_00806f20(Owner1* a1, Arg2* a2);
 };
 
@@ -190,28 +190,28 @@ void ProxyUpdate::FUN_00806f20(Owner1* apOwner, Arg2* apArgs)
     for (int i = 0; i < count; i++)
     {
         Item* item = apArgs->m_48 + i;
-        Node* pNode = apOwner->FUN_00807770(i);
-        int iResult1 = FUN_004b59f0(pNode->m_48);
+        Node* pNode = ((::Node *)(reinterpret_cast<::FUN_00807770_Class *>((apOwner))->FUN_00807770(i)));
+        int iResult1 = ((int)(::FUN_004b59f0(pNode->m_48)));
         Str20 s;
-        s.FUN_008c71b0(pNode->m_48->FUN_0043b540());
-        int iResult3 = s.FUN_0043b4d0();
+        new ((void *)&(s)) ::GlobalObject_008c71b0((int)(((void *)(::FUN_0043b540((char *)(pNode->m_48))))));
+        int iResult3 = reinterpret_cast<::FUN_0043b4d0_shell *>(&(s))->FUN_0043b4d0();
         if (iResult1 == 0)
         {
             if (iResult3 != 0x1e)
             {
-                ((ItemSub*)&item->unk10)->FUN_004a3f10(this->FUN_00807080());
+                reinterpret_cast<::AlignedVector *>((((ItemSub*)&item->unk10)))->FUN_004a3f10((*(const ::AlignedVector *)(((int)(reinterpret_cast<::Holder00807080 *>((this))->FUN_00807080())))));
                 Vec16 t;
-                item->FUN_004a3f10(t.FUN_005532a0(0.0f, 0.0f, 0.0f, 1.0f));
+                reinterpret_cast<::AlignedVector *>((item))->FUN_004a3f10((*(const ::AlignedVector *)(((int)(reinterpret_cast<::FUN_005532a0_cls *>(&(t))->FUN_005532a0(0.0f, 0.0f, 0.0f, 1.0f))))));
             }
         }
         else
         {
-            int iResult4 = this->FUN_00807730(pNode->m_48);
-            if (iResult4 != 0 && iResult4 == g_pGlobalDea3c->FUN_0089f4e0())
+            int iResult4 = ((int)(reinterpret_cast<::FUN_00807730_shell *>((this))->FUN_00807730(pNode->m_48)));
+            if (iResult4 != 0 && iResult4 == ((int)(reinterpret_cast<::FUN_0089f4e0_shell *>(((*reinterpret_cast<::Global * *>(&::_g_thePlayer))))->FUN_0089f4e0())))
             {
-                ((ItemSub*)&item->unk10)->FUN_004a3f10(this->FUN_00807080());
+                reinterpret_cast<::AlignedVector *>((((ItemSub*)&item->unk10)))->FUN_004a3f10((*(const ::AlignedVector *)(((int)(reinterpret_cast<::Holder00807080 *>((this))->FUN_00807080())))));
                 Vec16 t;
-                item->FUN_004a3f10(t.FUN_005532a0(0.0f, 0.0f, 0.0f, 1.0f));
+                reinterpret_cast<::AlignedVector *>((item))->FUN_004a3f10((*(const ::AlignedVector *)(((int)(reinterpret_cast<::FUN_005532a0_cls *>(&(t))->FUN_005532a0(0.0f, 0.0f, 0.0f, 1.0f))))));
                 break;
             }
         }

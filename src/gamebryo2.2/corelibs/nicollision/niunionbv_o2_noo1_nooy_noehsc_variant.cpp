@@ -17,6 +17,11 @@
 // evidence - NiGPUProgram is 12 bytes and NiD3DShaderProgram is 44
 // bytes, with m_uiProgramCodeSize at offset 20.
 //
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/S00e9e860_Obj.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f6000.h"
 typedef unsigned int NiUInt32;
 class NiMemObject
 {
@@ -77,10 +82,8 @@ class NiD3DShaderProgram : public NiGPUProgram
 };
 struct P03MM
 {
-    void* Allocate(unsigned int);
 };
 typedef P03MM MemoryManager;
-extern MemoryManager g_memoryManager;
 struct S
 {
     S* FUN_00e9ee60(void*);
@@ -96,12 +99,9 @@ S* __fastcall FUN_00e9efb0(void* self);
 extern int g_fnv_00e9ecc0_value_anchor;
 int FUN_00e9ecc0();
 
-void NiFree(void* pvMem);
 struct E9EE20MemoryManager
 {
-    void Deallocate(void* pvMem);
 };
-extern E9EE20MemoryManager g_kE9EE20MemoryManager;
 
 class E9EE20Base
 {
@@ -111,7 +111,7 @@ class E9EE20Base
 
     static void operator delete(void* pvMem)
     {
-        g_kE9EE20MemoryManager.Deallocate(pvMem);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::E9EE20MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
     }
 };
 
@@ -120,7 +120,7 @@ class E9EE20Buffer
   public:
     virtual ~E9EE20Buffer()
     {
-        NiFree(m_pResource);
+        ::FUN_00aa10f0(m_pResource);
     }
 
     void* m_pResource;
@@ -130,7 +130,6 @@ class FUN_00e9ee20 : public E9EE20Base
 {
   public:
     virtual ~FUN_00e9ee20();
-    void FUN_00e9e860();
 
     E9EE20Buffer m_kBuffer;
 };
@@ -138,5 +137,5 @@ class FUN_00e9ee20 : public E9EE20Base
 // @fnv 0x00e9ee20
 FUN_00e9ee20::~FUN_00e9ee20()
 {
-    FUN_00e9e860();
+    reinterpret_cast<::S00e9e860_Obj *>(this)->FUN_00e9e860();
 }

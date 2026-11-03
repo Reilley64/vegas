@@ -5,6 +5,29 @@
 
 // src/staging/blk_00a20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/A237F0Object.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a26240.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/fnv_00a26010__FUN_00a26010_Class.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_009f9000.h"
+#include "fnv/symbols_00a24000.h"
+#include "fnv/symbols_00a27000.h"
+#include "fnv/symbols_00a2b000.h"
+#include "fnv/symbols_00ee8000.h"
+#include "fnv/symbols_00ff0000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_011a2000.h"
+#include "fnv/symbols_011a7000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01202000.h"
 #include "../../include/layout_support.h"
 struct FUN_00a23a30_Class
 {
@@ -51,7 +74,6 @@ struct FUN_00a24f10_Class
 {
     unsigned int FUN_00a24f10(unsigned int i);
 };
-extern int DAT_00ff0000;
 struct FUN_00a24f60_Class
 {
     void FUN_00a24f60(int a, unsigned int b);
@@ -63,7 +85,6 @@ struct InputManager
 };
 struct FUN_00a24080_Class
 {
-    unsigned int GetFlagForType(int a);
 };
 extern unsigned short DAT_011f35bc;
 extern unsigned short DAT_011f35ac;
@@ -82,7 +103,6 @@ struct FUN_00a257c0_Class
 };
 struct FUN_00a26010_Class
 {
-    unsigned char FUN_00a26010();
     int m_50;
     int m_68;
     void AddEntry(int a);
@@ -147,7 +167,6 @@ struct FUN_00a26310_Class
 };
 struct BSStr
 {
-    bool Set(const char*, unsigned int);
 };
 struct FUN_00a22640_Class
 {
@@ -208,7 +227,6 @@ struct FUN_00a25f10_Class
 struct FUN_00a26220_Class
 {
     unsigned int FUN_00a26220();
-    unsigned int FUN_00a26240();
 };
 extern "C" __declspec(dllimport) unsigned int __stdcall GetTickCount();
 struct FUN_00a262d0_Class
@@ -260,9 +278,7 @@ struct InputInterface
 };
 struct NiAllocator
 {
-    void __thiscall FUN_00aa4060(void*);
 };
-extern NiAllocator DAT_011f6238;
 struct InputManagerClose
 {
     unsigned int unk00;
@@ -278,7 +294,6 @@ struct InputManagerClose
     unsigned int unk28;
     InputDevice* keyboard;
     InputDevice* mouse;
-    void __thiscall SetEnabled(int);
     void __thiscall ShutdownInput();
 };
 extern "C" __declspec(dllimport) unsigned long __stdcall GetPrivateProfileStringA(
@@ -287,9 +302,6 @@ extern "C" __declspec(dllimport) unsigned long __stdcall GetPrivateProfileString
 extern "C" long __cdecl strtol(const char* str, char** endptr, int base);
 extern "C" int __cdecl strcpy_s(char* dst, unsigned int size, const char* src);
 extern "C" int __cdecl strcat_s(char* dst, unsigned int size, const char* src);
-extern char DAT_01202fa0[];
-extern const char* DAT_011a2ff8;
-extern const char* DAT_011a7e60[];
 struct ControlsIniLoader : public FUN_00a24f60_Class
 {
     void LoadControlsFromIni();
@@ -2066,7 +2078,6 @@ class A24080Property
 };
 struct FUN_00a25180_cls
 {
-    void FUN_00a24eb0(int a, int b);
     void FUN_00a25180(int a1, int a2, unsigned char a3);
 };
 struct InputHandler
@@ -3838,9 +3849,6 @@ struct InputHandler
     unsigned char m_1b90;
     unsigned char m_1b91;
 
-    void FUN_00a237f0(unsigned int* out);
-    void FUN_00a25180(int index, int flags, unsigned char state);
-    int FUN_00a23a50(int index, int flags);
     bool HandleInput(int key);
 };
 class SpawnedObject
@@ -3867,7 +3875,6 @@ struct FUN_00a252d0_cls
     void SetEnabled(unsigned char enable);
 };
 void __cdecl FUN_00ec61c0(void* dst, int value, unsigned int size);
-void FUN_00a24830();
 struct FUN_00a25810_Target
 {
     int m_00;
@@ -3884,7 +3891,6 @@ struct FUN_00a25810_Class
 {
     void ResetTargetState();
 };
-extern "C" void __stdcall FUN_00ee820a(int, unsigned short*);
 // FUN_00a25870 - returns the flag byte stored in the global at 0x011f3630.
 // The module is an unoptimised (/Od) build, so even this one-liner keeps the
 // full frame: push ebp / mov ebp,esp / mov al,[g] / pop ebp / ret.
@@ -3960,9 +3966,7 @@ struct S
     void FUN_00a25be0();
 };
 extern int* DAT_011f63a8;
-extern int DAT_011f3638;
 extern int DAT_011f363c;
-extern int DAT_01202800;
 struct S_00a25c80_Class
 {
     int m_00;
@@ -4070,7 +4074,6 @@ struct FUN_00a26410_arg
 };
 struct FUN_00a26a50_Class
 {
-    unsigned short FUN_00a26a50(FUN_00a26410_arg* a, unsigned int b);
 };
 struct FUN_00a26410_cls : FUN_00a26a50_Class
 {
@@ -4078,17 +4081,12 @@ struct FUN_00a26410_cls : FUN_00a26a50_Class
 };
 struct FUN_00a26520_Class
 {
-    void UpdateWaveChannel(int a, short* b, int c);
 };
-void __stdcall FUN_00ee820a(int a, short* b);
 struct TwoShorts
 {
     short x;
     short y;
 };
-extern const double DAT_01023128;
-extern const double DAT_01012070;
-extern const double DAT_01011590;
 double __cdecl FUN_00eca060(double v);
 struct FUN_00a26a50_cls
 {
@@ -4103,7 +4101,6 @@ struct Scratch
 };
 extern Scratch DAT_011f35a8;
 extern Scratch DAT_011f35b8;
-int __stdcall FUN_009f996e(int user, Scratch* state);
 struct PollingDevice
 {
     virtual long __stdcall QueryInterface() = 0;
@@ -4169,11 +4166,8 @@ struct EventQueue
 };
 struct EventMemory
 {
-    void* Allocate(unsigned int);
 };
-extern EventMemory _g_memoryManager;
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
-extern "C" void __stdcall FUN_00ee820a(int, unsigned short*);
 struct Controller
 {
     int unk0000;
@@ -6015,8 +6009,6 @@ struct Spl_a28060_Key
 };
 extern int DAT_011a7ed4;
 extern float DAT_011f3658;
-void __cdecl FUN_00a27d60(float t, Spl_a28060_Key* a, Spl_a28060_Key* b, Spl_a28060_Pt* out);
-void __cdecl FUN_00a27e40(float t, Spl_a28060_Key* a, Spl_a28060_Key* b, Spl_a28060_Pt* out);
 
 // @fnv 0x00a28060
 float __cdecl FUN_00a28060(Spl_a28060_Key* keys, int count)
@@ -6030,8 +6022,8 @@ float __cdecl FUN_00a28060(Spl_a28060_Key* keys, int count)
         {
             float t = j * DAT_011f3658;
             Spl_a28060_Pt d1, d2;
-            FUN_00a27d60(t, a, b, &d1);
-            FUN_00a27e40(t, a, b, &d2);
+            ::FUN_00a27d60(t, (::TCBKeyS *)(a), (unsigned int)(b), (::Vec3S *)(::Spl_a28060_Pt *)(&d1));
+            ::fnv_00a27e40::FUN_00a27e40(t, (const float *)(a), (unsigned int)(b), (::fnv_00a27e40::Vec3Output *)(::Spl_a28060_Pt *)(&d2));
             float v = d1.Cross(d2).Length() / d1.SqrLength();
             if (v > fScaledValue)
                 fScaledValue = v;
@@ -6084,8 +6076,6 @@ struct Spl_a2b6d0_Key
 };
 extern int DAT_011a7ed4;
 extern float DAT_011f3658;
-void __cdecl ComputeInterpolatedPosition(float t, Spl_a2b6d0_Key* a, Spl_a2b6d0_Key* b, Spl_a2b6d0_Pt* out);
-void __cdecl FUN_00a2b130(float t, Spl_a2b6d0_Key* a, Spl_a2b6d0_Key* b, Spl_a2b6d0_Pt* out);
 
 // @fnv 0x00a2b6d0
 float __cdecl FUN_00a2b6d0(Spl_a2b6d0_Key* keys, int count)
@@ -6099,8 +6089,8 @@ float __cdecl FUN_00a2b6d0(Spl_a2b6d0_Key* keys, int count)
         {
             float t = j * DAT_011f3658;
             Spl_a2b6d0_Pt d1, d2;
-            ComputeInterpolatedPosition(t, a, b, &d1);
-            FUN_00a2b130(t, a, b, &d2);
+            ::ComputeInterpolatedPosition(t, (::S_00a2b050_Obj *)(a), (int)(b), (::S_00a2b050_V3 *)(::Spl_a2b6d0_Pt *)(&d1));
+            ::FUN_00a2b130(t, (const float *)(a), (unsigned int)(b), (::Vector3 *)(::Spl_a2b6d0_Pt *)(&d2));
             float v = d1.Cross(d2).Length() / d1.SqrLength();
             if (v > fScaledValue)
                 fScaledValue = v;

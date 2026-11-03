@@ -5,14 +5,18 @@
 
 // src/havok/common/internal/geometryprocessing/hkgeometryprocessing.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/geometryprocessing/hkgeometryprocessing.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void __cdecl Deallocate(void*);
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cbf000.h"
+#include "fnv/symbols_00ded000.h"
+#include "fnv/symbols_010cd000.h"
+#include "fnv/symbols_01267000.h"
 extern int DAT_010d9fc4;
 struct FUN_00dee620
 {
     void* m_pVTable;
     __thiscall FUN_00dee620(int testFlag);
 };
-extern "C" void __cdecl FUN_00dedf10(void*, void*, void*, void*, int, int);
 void __cdecl FUN_00dee5f0(void* first, void* second, void* third, void* fourth);
 struct FUN_00dee6b0_Class
 {
@@ -20,7 +24,6 @@ struct FUN_00dee6b0_Class
     float unk04;
     float FUN_00dee6b0(int testFlag);
 };
-extern int DAT_010cd664;
 struct AudioAllocator
 {
     virtual void v00();
@@ -45,7 +48,6 @@ struct FUN_00dee6c0_cls
 
 #include <xmmintrin.h>
 #include <math.h>
-double __cdecl Atan2(float y, float x);
 
 struct Vector3
 {
@@ -57,7 +59,7 @@ void FUN_00de98c0(const Vector3* v, __m128* out)
 {
     float ly = v->y;
     float lx = v->x;
-    float a = (Atan2(ly, lx) * 2) / 3.1415927410125732;
+    float a = (((double)(::Atan2(ly, lx))) * 2) / 3.1415927410125732;
     float b;
     if (v->z < 0)
     {
@@ -361,16 +363,14 @@ int __cdecl FUN_00deab10(const hkVector4* triA, const hkVector4* triB)
 }
 
 struct Point4;
-extern Point4 DAT_01267e30;
 struct __declspec(align(16)) Point4
 {
     float x, y, z, w;
     __forceinline Point4()
     {
-        *this = DAT_01267e30;
+        *this = (*reinterpret_cast<::Point4 *>(&::DAT_01267e30));
     }
 };
-extern Point4 DAT_01267e30;
 struct VertexArray
 {
     Point4* data;
@@ -393,7 +393,6 @@ struct FourPointArray
     int size;
     int capacity;
 };
-void __cdecl FUN_00c908c0(AudioAllocator*, void*, int, int);
 // @fnv 0x00dedcf0
 void __cdecl FUN_00dedcf0(const VertexArray& vertices, FourPointArray& output)
 {
@@ -408,7 +407,7 @@ void __cdecl FUN_00dedcf0(const VertexArray& vertices, FourPointArray& output)
     if (capacity < required)
     {
         int grown = required >= capacity * 2 ? required : capacity * 2;
-        FUN_00c908c0(allocator, &output, grown, sizeof(FourPoints));
+        ::FUN_00c908c0((::SpawnedObject *)(allocator), (::SpawnedArray *)(void *)(&output), grown, sizeof(FourPoints));
     }
     output.size += count;
     FourPoints* destination = output.data + start;

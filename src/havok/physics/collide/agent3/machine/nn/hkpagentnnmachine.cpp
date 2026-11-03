@@ -2,6 +2,11 @@
 // src/havok/physics/collide/agent3/machine/nn/hkpagentnnmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/machine/nn/hkpagentnnmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/SearchObject.h"
+#include "fnv/decl/hkTransformCB22.h"
+#include "fnv/symbols_00cf1000.h"
+#include "fnv/symbols_00cfe000.h"
+#include "fnv/symbols_01012000.h"
 struct LinkEntry
 {
     void* m_pIntegerData;
@@ -320,7 +325,6 @@ struct __declspec(align(16)) FUN_00cfeba0_Node
     int unkac;
 };
 
-void* __cdecl FUN_00cfe1d0(void* h, void* a, void* b, unsigned int n, void* c);
 
 // @fnv 0x00cfeba0
 void __cdecl FUN_00cfeba0(FUN_00cfeba0_Obj* self, void** apCallbackTable, void* a3)
@@ -347,8 +351,8 @@ void __cdecl FUN_00cfeba0(FUN_00cfeba0_Obj* self, void** apCallbackTable, void* 
         case 8:
         case 10:
         case 12:
-            h1 = FUN_00cfe1d0(h1, &results[0], &elems[0], 4, &flag);
-            h2 = FUN_00cfe1d0(h2, &results[4], &elems[4], 4, &flag);
+            h1 = ((void *)(::FUN_00cfe1d0((::Entry *)(h1), (::Entry *)(void *)(&results[0]), (::Vector *)(void *)(&elems[0]), 4, (unsigned char *)(void *)(&flag))));
+            h2 = ((void *)(::FUN_00cfe1d0((::Entry *)(h2), (::Entry *)(void *)(&results[4]), (::Vector *)(void *)(&elems[4]), 4, (unsigned char *)(void *)(&flag))));
             type = (unsigned int)((unsigned char)type) & (unsigned int)0xf7;
             continue;
         default:
@@ -509,7 +513,6 @@ struct ItemStack
     int m_uiItemCount;
 };
 
-void __cdecl FUN_00cfea30(ItemStack* s, int value, int a, int b);
 
 // @fnv 0x00cfed90
 void __cdecl FUN_00cfed90(ItemStack* s, int a, int b)
@@ -520,12 +523,11 @@ void __cdecl FUN_00cfed90(ItemStack* s, int a, int b)
         {
             int iIndex = *(volatile int*)&s->m_uiItemCount;
             int iItemValue = s->m_pItems[iIndex - 1];
-            FUN_00cfea30(s, iItemValue + s->m_base - 0x80, a, b);
+            ::FUN_00cfea30(s, (::hkpAgentNnEntryCFEA *)(iItemValue + s->m_base - 0x80), (::hkpCollisionDispatcherCFEA *)(a), (void *)(b));
         } while (s->m_uiItemCount != 0);
     }
 }
 
-extern const float DAT_01012054;
 
 struct FUN_00cfdc90_Obj
 {
@@ -868,7 +870,6 @@ struct hkpLinkedCollidableCFEA
     hkCollisionEntryArrayCFEA m_kCollisionEntries;
 };
 
-void __cdecl FUN_00cfe020(void* track, hkpAgentNnEntryCFEA* entry);
 
 // @fnv 0x00cfea30
 void __cdecl FUN_00cfea30(void* track, hkpAgentNnEntryCFEA* entry, hkpCollisionDispatcherCFEA* dispatch,
@@ -908,7 +909,7 @@ void __cdecl FUN_00cfea30(void* track, hkpAgentNnEntryCFEA* entry, hkpCollisionD
         entries.OptimizeCapacity(FUN_00c85750().heap(), 4);
     }
 
-    FUN_00cfe020(track, entry);
+    ::FUN_00cfe020((::S_cfe020_Pool *)(track), (::S_cfe020_Entry *)(entry));
 }
 
 struct hkpAgentNnSectorCFF2;
@@ -973,7 +974,6 @@ struct hkSectorArrayCFF2
         m_iElementCount--;
     }
 
-    void Search(hkMemoryAllocatorCFF2& alloc, int index, hkpAgentNnSectorCFF2* const* p, int numToInsert);
 
     __forceinline void OptimizeCapacity(int numFreeElemsLeft)
     {
@@ -998,7 +998,6 @@ struct hkpAgentNnTrackCFF2
     hkSectorArrayCFF2 m_kSectors;
 };
 
-void __cdecl CloneRecord(hkpAgentNnTrackCFF2* track, hkpAgentNnEntryCFF2* entry);
 
 // Clones records from the end of appendee into track while track's last sector is not full, then inserts appendee's remaining sectors into track's sector array.
 // @fnv 0x00cff290
@@ -1012,7 +1011,7 @@ void __cdecl FUN_00cff290(hkpAgentNnTrackCFF2* track, hkpAgentNnTrackCFF2* appen
         }
         hkpAgentNnEntryCFF2* entry =
             (hkpAgentNnEntryCFF2*)((char*)appendee->m_kSectors.back() + appendee->m_iBytesUsedInLastSector - 0x80);
-        CloneRecord(track, entry);
+        ::fnv_00cfeca0::CloneRecord((::fnv_00cfeca0::State *)(track), (const ::fnv_00cfeca0::Record *)(entry));
         appendee->m_iBytesUsedInLastSector = appendee->m_iBytesUsedInLastSector - 0x80;
         if (appendee->m_iBytesUsedInLastSector == 0)
         {
@@ -1027,7 +1026,7 @@ void __cdecl FUN_00cff290(hkpAgentNnTrackCFF2* track, hkpAgentNnTrackCFF2* appen
     if (appendee->m_kSectors.GetLogicalSize())
     {
         hkpAgentNnSectorCFF2** sectors = appendee->m_kSectors.m_data;
-        track->m_kSectors.Search(hkRouterCFF2::FUN_00c85750().heap(), track->m_kSectors.GetLogicalSize(), sectors,
+        reinterpret_cast<::SearchObject *>(&(track->m_kSectors))->Search(hkRouterCFF2::(unsigned int)&(const <dependent type> &)(FUN_00c85750().heap()), track->m_kSectors.GetLogicalSize(), (unsigned int)(sectors),
                                  appendee->m_kSectors.GetLogicalSize());
         track->m_iBytesUsedInLastSector = appendee->m_iBytesUsedInLastSector;
         appendee->m_kSectors.m_iElementCount = 0;
@@ -1283,7 +1282,6 @@ struct CollidableBody
 struct __declspec(align(16)) Transform
 {
     __m128 column0, column1, column2, translation;
-    void __thiscall FUN_00cb22f0(const Transform& t1, const Transform& t2);
 };
 struct CollisionAgentEntry;
 template <typename T> class ValueWrapper
@@ -1418,7 +1416,7 @@ CollisionAgentEntry* __cdecl FUN_00cfe8a0(CFE820Pool* pool, CollidableNode* node
         input.m_pBodyB = bodyB;
         input.m_pContactManager = entry->m_pCurrentSimulationIsland;
         input.m_pRayCastInput = dispatcher;
-        input.m_kTransform.FUN_00cb22f0(*bodyA->m_kMotionTransform, *bodyB->m_kMotionTransform);
+        reinterpret_cast<::hkTransformCB22 *>(&(input.m_kTransform))->FUN_00cb22f0((const ::hkTransformCB22 &)(*bodyA->m_kMotionTransform), (const ::hkTransformCB22 &)(*bodyB->m_kMotionTransform));
         char* tableBase = dispatcher->m_tableBase;
         char agentType = tableBase[0x1bb0 + nodeA->m_type * 10 + nodeB->m_type];
         entry->m_ucNnTrackType = agentType;
@@ -1533,14 +1531,13 @@ struct PairTemporary
     PairBody a, b;
     Transform ta, tb;
 };
-void __cdecl FUN_00cf1510(const SweptPose&, float, Transform&);
 
 // Computes swept transforms for both bodies, copies shapes and keys into temp bodies, and sets out fields from in and temp.
 // @fnv 0x00cfde10
 static __declspec(noinline) void FUN_00cfde10(PairInput& out, PairInput& in, PairTemporary& temp)
 {
-    FUN_00cf1510(in.bodyA->GetMotionState()->getSweptTransform(), in.context->step.start, temp.ta);
-    FUN_00cf1510(in.bodyB->GetMotionState()->getSweptTransform(), in.context->step.start, temp.tb);
+    ::FUN_00cf1510((const ::hkSweptTransformL &)(in.bodyA->GetMotionState()->getSweptTransform()), in.context->step.start, (::hkTransformL &)(temp.ta));
+    ::FUN_00cf1510((const ::hkSweptTransformL &)(in.bodyB->GetMotionState()->getSweptTransform()), in.context->step.start, (::hkTransformL &)(temp.tb));
     out.bodyA = &temp.a;
     out.bodyB = &temp.b;
     out.manager = in.manager;
@@ -1549,7 +1546,7 @@ static __declspec(noinline) void FUN_00cfde10(PairInput& out, PairInput& in, Pai
     temp.b.SetCollisionShapeAndKey(in.bodyB->getShape(), in.bodyB->getShapeKey());
     new (&temp.a) PairBody(in.bodyA, &temp.ta);
     new (&temp.b) PairBody(in.bodyB, &temp.tb);
-    out.relative.FUN_00cb22f0(temp.ta, temp.tb);
+    reinterpret_cast<::hkTransformCB22 *>(&(out.relative))->FUN_00cb22f0((const ::hkTransformCB22 &)(temp.ta), (const ::hkTransformCB22 &)(temp.tb));
 }
 PairInput* volatile pairIn;
 PairTemporary* volatile pairTemp;

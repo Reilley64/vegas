@@ -2,6 +2,7 @@
 // src/havok/common/scenedata/material/hkxmaterialeffectclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/material/hkxmaterialeffectclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00cb0000.h"
 struct AudioAllocator
 {
     virtual void v00();
@@ -62,7 +63,7 @@ FUN_00e022d0_cls* FUN_00e022d0_cls::FUN_00e022d0(unsigned char acFlags)
     }
     m_pData = 0;
     m_uiObjectFlags = 0x80000000;
-    m_kMemberDescriptor.~SpawnedMember();
+    ::FUN_00cb0c00((int)&(m_kMemberDescriptor));
     this->SpawnedBase::~SpawnedBase();
     if (acFlags & 1)
     {

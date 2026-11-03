@@ -1,6 +1,7 @@
 // src/havok/physics/vehicle/hkpvehicleinstanceclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/hkpvehicleinstanceclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00e38bf0.h"
 struct AudioAllocator
 {
     virtual void v00();
@@ -25,7 +26,6 @@ struct FUN_00dfbe50_cls
     unsigned short m_uSize;
     unsigned short m_u06;
 
-    void FUN_00e38bf0();
 
     FUN_00dfbe50_cls* FUN_00dfbe50(unsigned char acFlags);
     static void operator delete(void* apMemory) throw();
@@ -35,7 +35,7 @@ struct FUN_00dfbe50_cls
 // @fnv 0x00dfbe50
 FUN_00dfbe50_cls* FUN_00dfbe50_cls::FUN_00dfbe50(unsigned char acFlags)
 {
-    FUN_00e38bf0();
+    reinterpret_cast<::FUN_00e38bf0 *>(this)->FUN_00e38bf0::~FUN_00e38bf0();
     if (acFlags & 1)
     {
         AudioHolder* pHolder = FUN_00c85750();

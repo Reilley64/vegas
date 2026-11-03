@@ -2,6 +2,7 @@
 #ifndef FNV_NITRISTRIPSDATA_H
 #define FNV_NITRISTRIPSDATA_H
 
+#include "fnv/decl/FUN_00a8aa30_shell.h"
 #include "layout_support.h"
 #include "NiObject.h"
 #include "NiPoint3.h"
@@ -153,7 +154,6 @@ class NiTriBasedGeomData : public NiGeometryData
     // base NiGeometryData at +0x0, size 64
     unsigned short m_usTriangles;  // +0x40, 2 bytes
     unsigned char layoutPadding42[2];
-    void LoadBinary(NiStream&);
     void SaveBinary(NiStream&);
     unsigned short GetNumTriangles();
     // const NiRTTI* __cdecl NiTriBasedGeomData::*()
@@ -183,7 +183,6 @@ class NiTriStripsData : public NiTriBasedGeomData
     unsigned short* m_pusStripLengths;  // +0x48, 4 bytes
     unsigned short* m_pusStripLists;    // +0x4C, 4 bytes
     const NiRTTI* GetRTTI() const;
-    void LoadBinary(NiStream&);
     unsigned short* GetTriangleStripData();
     void GetTriangleStripData(unsigned short&, const unsigned short*&, const unsigned short*&, unsigned int&);
     void SaveBinary(NiStream&);

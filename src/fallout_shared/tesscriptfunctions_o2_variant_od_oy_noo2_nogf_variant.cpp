@@ -5,6 +5,88 @@
 
 // src/fallout_shared/tesscriptfunctions_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/tesscriptfunctions.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <new>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSFaceGenNiNode.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/CalleeObj.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/F005fd430.h"
+#include "fnv/decl/FUN_00414220_shell.h"
+#include "fnv/decl/FUN_00458420_cls.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004a39f0_shell.h"
+#include "fnv/decl/FUN_004a3eb0_shell.h"
+#include "fnv/decl/FUN_004b55c0_class.h"
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_00564c60_cls.h"
+#include "fnv/decl/FUN_0056c780_t.h"
+#include "fnv/decl/FUN_00572db0_shell.h"
+#include "fnv/decl/FUN_0059ce80_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005dbe40_Class.h"
+#include "fnv/decl/FUN_005df510_shell.h"
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00c84f50_cls.h"
+#include "fnv/decl/FlagSet.h"
+#include "fnv/decl/HandlerView.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MyPoint439180.h"
+#include "fnv/decl/NavMeshPtr.h"
+#include "fnv/decl/NiAVObject.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/Ref39.h"
+#include "fnv/decl/S005dbe60_Object.h"
+#include "fnv/decl/S_00a592c0_Matrix3.h"
+#include "fnv/decl/ShadowLightData.h"
+#include "fnv/decl/TESLeveledList.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_0041e340__FUN_0041e340_ExtraDataList.h"
+#include "fnv/decl/fnv_004a3a20__FUN_004a3a20_shell.h"
+#include "fnv/decl/fnv_004a3da0__FUN_004a3da0_shell.h"
+#include "fnv/decl/fnv_0050ebf0__FUN_0050ebf0_shell.h"
+#include "fnv/decl/fnv_00565480__RefPersistsStandin.h"
+#include "fnv/decl/fnv_00567490__ScaleReference.h"
+#include "fnv/decl/fnv_00567e10__FUN_00567e10_shell.h"
+#include "fnv/decl/fnv_00572d30__FUN_00572d30_shell.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_008bcd20__FUN_008bcd20_shell.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/n451__Grid.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_0045c000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_0059c000.h"
+#include "fnv/symbols_0059d000.h"
+#include "fnv/symbols_0059e000.h"
+#include "fnv/symbols_0059f000.h"
+#include "fnv/symbols_005a0000.h"
+#include "fnv/symbols_005a1000.h"
+#include "fnv/symbols_005a2000.h"
+#include "fnv/symbols_005a3000.h"
+#include "fnv/symbols_005a4000.h"
+#include "fnv/symbols_005ac000.h"
+#include "fnv/symbols_005b9000.h"
+#include "fnv/symbols_005c5000.h"
+#include "fnv/symbols_005ca000.h"
+#include "fnv/symbols_005db000.h"
+#include "fnv/symbols_005df000.h"
+#include "fnv/symbols_006a9000.h"
+#include "fnv/symbols_006d9000.h"
+#include "fnv/symbols_0082f000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011de000.h"
 #include "tesscriptfunctions_layout_support.h"
 class ScriptParameter;
 class ScriptHeaderData;
@@ -80,9 +162,6 @@ enum OBJECT_ACTION
 class TESObjectREFR : public TESForm
 {
   public:
-    void SetScale(float);
-    bool GetAction(OBJECT_ACTION);
-    void CloseReference(OBJECT_ACTION);
 };
 class BGSMusicType;
 class FalloutAudioMedia
@@ -90,7 +169,6 @@ class FalloutAudioMedia
   public:
     static void PlayMedia(BGSMusicType*);
     static void EndMediaUpdate();
-    static void Update();
 };
 class ScriptLocals;
 class TESQuest
@@ -105,7 +183,6 @@ class Script
   public:
     static bool OnHitWithFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                   ScriptLocals*, double&, unsigned int&);
-    ScriptHeaderData* GetHeader();
     static bool StopQuestFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                   ScriptLocals*, double&, unsigned int&);
     static bool ScriptEffectUpdateFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*,
@@ -116,38 +193,26 @@ class Script
                                      ScriptLocals*, double&, unsigned int&);
     static bool GetCurrentTimeFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                        ScriptLocals*, double&, unsigned int&);
-    static bool SetScriptCondition(TESObjectREFR*, void*, void*, double&);
     static bool GetSecondsPassedFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                          ScriptLocals*, double&, unsigned int&);
-    static bool EvaluateScriptResult(TESObjectREFR*, void*, void*, double&);
     static bool GetDead(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*,
                         double&, unsigned int&);
-    static bool ResetScript(TESObjectREFR*, void*, void*, double&);
     static bool GetItemCount(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                              ScriptLocals*, double&, unsigned int&);
-    static bool HandleScriptLocals(TESObjectREFR*, void*, void*, double&);
     static bool GetSitting(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*,
                            double&, unsigned int&);
-    static bool ReadScriptArguments(TESObjectREFR*, void*, void*, double&);
     static bool GetTalkedToPC(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                               ScriptLocals*, double&, unsigned int&);
-    static bool FindScriptVariable(TESObjectREFR*, void*, void*, double&);
     static bool GetIsRaining(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                              ScriptLocals*, double&, unsigned int&);
-    static bool EvaluateWeatherCondition(TESObjectREFR*, void*, void*, double&);
     static bool GetInCell(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*,
                           double&, unsigned int&);
-    static bool EvaluateCellMembership(TESObjectREFR*, void*, void*, double&);
     static bool GetInFaction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                              ScriptLocals*, double&, unsigned int&);
-    static bool GetScriptOperand(TESObjectREFR*, void*, void*, double&);
     static bool GetRandomPercent(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                  ScriptLocals*, double&, unsigned int&);
-    static bool EvaluateRandomPercentage(TESObjectREFR*, void*, void*, double&);
     static bool GetLevel(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*,
                          double&, unsigned int&);
-    static bool EvaluateReferenceLevel(TESObjectREFR*, void*, void*, double&);
-    static void CheckFlagFunction(unsigned int, TESObjectREFR*, TESForm*, ScriptLocals*, double&);
     static bool OnAddFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                               ScriptLocals*, double&, unsigned int&);
     static bool OnSellFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
@@ -200,52 +265,23 @@ class Script
     // Insert these declaration-only additions in the existing Script public section.
     static bool IsIdlePlayingFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                       ScriptLocals*, double&, unsigned int&);
-    static bool CheckIdlePlaying(TESObjectREFR*, void*, void*, double&);
     static bool IsTalkingFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                   ScriptLocals*, double&, unsigned int&);
-    static bool CheckTalkingState(TESObjectREFR*, void*, void*, double&);
     static bool GetDayOfWeekFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                      ScriptLocals*, double&, unsigned int&);
-    static bool ParseScript(TESObjectREFR*, void*, void*, double&);
     static bool IsPCSleepingFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                      ScriptLocals*, double&, unsigned int&);
-    static bool IsPlayerAsleep(TESObjectREFR*, void*, void*, double&);
     static bool GetDestroyedFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                      ScriptLocals*, double&, unsigned int&);
-    static bool HandleScriptOperation(TESObjectREFR*, void*, void*, double&);
     static bool HasBeenEatenFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                      ScriptLocals*, double&, unsigned int&);
-    static bool GetScriptObject(TESObjectREFR*, void*, void*, double&);
     static bool GetUnconsciousFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                        ScriptLocals*, double&, unsigned int&);
-    static bool ResolveScriptValue(TESObjectREFR*, void*, void*, double&);
     static bool IsInCombatFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                    ScriptLocals*, double&, unsigned int&);
-    static bool GetScriptFunctionValue(TESObjectREFR*, void*, void*, double&);
     static bool IsInInteriorFunction(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                      ScriptLocals*, double&, unsigned int&);
-    static bool EvaluateReferenceQuery(TESObjectREFR*, void*, void*, double&);
 
-    static bool EvaluateReferenceCondition(TESObjectREFR*, void*, void*, double&);
-    static bool CheckActorCondition(TESObjectREFR*, void*, void*, double&);
-    static bool EvaluateReferenceFlag(TESObjectREFR*, void*, void*, double&);
-    static bool EvaluateFirstReferenceOperand(TESObjectREFR*, void*, void*, double&);
-    static bool EvaluateSecondReferenceOperand(TESObjectREFR*, void*, void*, double&);
-    static bool ReadScriptOperand(TESObjectREFR*, void*, void*, double&);
-    static bool EvaluateReferenceScriptValue(TESObjectREFR*, void*, void*, double&);
-    static bool ResolveScriptReference(TESObjectREFR*, void*, void*, double&);
-    static bool CheckScriptCondition(TESObjectREFR*, void*, void*, double&);
-    static bool EvaluateSeventhReferenceOperand(TESObjectREFR*, void*, void*, double&);
-    static bool GetScriptParameter(TESObjectREFR*, void*, void*, double&);
-    static bool HandleScriptExpression(TESObjectREFR*, void*, void*, double&);
-    static bool GetScriptResult(TESObjectREFR*, void*, void*, double&);
-    static bool AdvanceScriptInstruction(TESObjectREFR*, void*, void*, double&);
-    static bool HandleScriptReference(TESObjectREFR*, void*, void*, double&);
-    static bool ExecuteScriptCommand(TESObjectREFR*, void*, void*, double&);
-    static bool EvaluateReferencePredicate(TESObjectREFR*, void*, void*, double&);
-    static bool HandleScriptEvent(TESObjectREFR*, void*, void*, double&);
-    static bool WriteScriptValue(TESObjectREFR*, void*, void*, double&);
-    static bool EvaluateReferenceProperty(TESObjectREFR*, void*, void*, double&);
     static void SetReferenceScale(TESObjectREFR*, float);
 
     static bool GetQuestCompleted(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
@@ -294,9 +330,9 @@ class Script
                                    ScriptLocals*, double&, unsigned int&);
     static bool EvaluateScriptCallback(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*,
                                        ScriptLocals*, double&, unsigned int&);
+public:
+    static void CopyIdentifierBitsToValue(const unsigned int &, double &);
 };
-extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*,
-                        ScriptLocals*, ...);
 #include "tesscriptfunctions_TESActorBaseData.h"
 #include "tesscriptfunctions_SCRIPT_HEADER.h"
 struct _FightReaction
@@ -314,14 +350,11 @@ typedef _FightReaction::Type FIGHT_REACTION;
 class TESFaction
 {
   public:
-    void SetFactionFightReaction(TESFaction*, FIGHT_REACTION);
 };
 class BGSListForm : public TESForm
 {
   public:
-    BSSimpleList<TESForm*>* GetList();
 };
-void* _NiMalloc(unsigned int);
 struct Map;
 struct NiProperty
 {
@@ -344,11 +377,10 @@ struct StrArr
         m_usSize = 0;
         m_usESize = 0;
         if (m_usMaxSize > 0)
-            m_pBase = (Map**)_NiMalloc(sizeof(Map*) * m_usMaxSize);
+            m_pBase = (Map**)::FUN_00aa1070(sizeof(Map*) * m_usMaxSize);
         else
             m_pBase = 0;
     }
-    void SetAt(unsigned int, Map*&);
 };
 struct StrArrP : StrArr
 {
@@ -377,7 +409,6 @@ class NiPoint3C4
     NiPoint3C4& operator+=(const NiPoint3C4& kPt);
     NiPoint3C4& operator-=(const NiPoint3C4& kPt);
     NiPoint3C4& operator*=(float fScale);
-    void Unitize();
     float x;
     float y;
     float z;
@@ -386,33 +417,25 @@ class NiPoint3C4
 class NiMatrix3C4
 {
   public:
-    float GetEntry(unsigned int uiRow, unsigned int uiCol) const;
     float m_afEntries[3][3];
 };
 
 class NodeC4
 {
   public:
-    const NiMatrix3C4& GetWorldRotate();
-    const NiPoint3C4& GetWorldTranslate();
 };
 
-float __cdecl FUN_005c5420();
-float __cdecl FUN_005c53d0(float fAngleDifference);
-float __cdecl FUN_005b9e80(float fAngleDifference);
 
 class HitFlagC4
 {
   public:
     HitFlagC4();
-    bool IsHit();
     char m_cValue;
 };
 
 class HitC4
 {
   public:
-    HitFlagC4 GetFlag();
     __m128 m_kData[2];
 };
 
@@ -420,8 +443,6 @@ class PickFlagsC4
 {
   public:
     PickFlagsC4(int iValue);
-    void SetType(int iType);
-    void SetLayer(int iLayer);
     int m_iValue;
 };
 
@@ -430,8 +451,6 @@ class PickQueryC4
   public:
     PickQueryC4();
     void SetFlags(PickFlagsC4 kFlags);
-    void SetOrigin(const NiPoint3C4& akStart);
-    void SetEnd(const NiPoint3C4& kEnd);
     __m128 m_akA[3];
     HitC4 m_kHit;
     __m128 m_akB[6];
@@ -440,10 +459,7 @@ class PickQueryC4
 class PickWorldC4
 {
   public:
-    bool IsInWorld(const NiPoint3C4* pkPoint);
-    void* Pick(PickQueryC4& kQuery);
 };
-extern PickWorldC4* g_pkPickWorldC4;
 
 class ActorC4
 {
@@ -712,7 +728,6 @@ class ActorC4
     virtual void a105();
     virtual void a106();
     virtual void SetAlpha(float fAlpha);
-    void Reset3D();
 };
 
 class RefC4
@@ -844,20 +859,12 @@ class RefC4
     virtual void r07b();
     virtual void r07c();
     virtual const NiPoint3C4* GetPos();
-    const NiPoint3C4& GetAngle();
-    void* GetContainingCell();
-    void* GetParentWorldspace();
-    int GetLevel(int iValue);
-    void SetScaleC4(float fScale);
 };
 
 class DataHandlerC4
 {
   public:
-    RefC4* PlaceRef(void* pvForm, NiPoint3C4* pkPos, NiPoint3C4* pkAngle, void* pvCell, void* pvWorld, void* pv0,
-                    void* pv1, void* pv2);
 };
-extern DataHandlerC4* g_pkDataHandlerC4;
 
 struct LevEntryC4
 {
@@ -868,9 +875,7 @@ struct LevEntryC4
 class LevNodeC4
 {
   public:
-    LevEntryC4** GetItem();
     bool IsEmpty();
-    LevNodeC4* GetNext();
 };
 
 class LevResultC4
@@ -878,14 +883,12 @@ class LevResultC4
   public:
     LevResultC4();
     ~LevResultC4();
-    LevNodeC4* GetHead();
     void* m_pResource[3];
 };
 
 class LevListC4
 {
   public:
-    void CalculateLeveled(unsigned short usLevel, unsigned short m_usPassCountLocal, LevResultC4& kResult, int iFlags);
 };
 
 class FormC4
@@ -969,7 +972,6 @@ class LevCharacterC4 : public FormC4
 class BoundC4 : public FormC4
 {
   public:
-    float GetRadius();
 };
 
 class CountC4
@@ -981,7 +983,6 @@ class CountC4
     virtual void c003();
     virtual unsigned int GetCount();
 };
-CountC4* __cdecl GetHealthForm(BoundC4* pkBound);
 
 // @fnv 0x005c4b30
 RefC4* __cdecl FUN_005c4b30(RefC4* pkRef, FormC4* pkForm, int iCount, int iDistance, int iMode, float fScale)
@@ -989,7 +990,7 @@ RefC4* __cdecl FUN_005c4b30(RefC4* pkRef, FormC4* pkForm, int iCount, int iDista
     RefC4* pkNew = 0;
     if (pkRef && pkForm)
     {
-        NiPoint3C4 kAngle = pkRef->GetAngle();
+        NiPoint3C4 kAngle = (*(const ::NiPoint3C4 *)(reinterpret_cast<::TESRecipe *>((pkRef))->GetData()));
         NiPoint3C4 kPos = *pkRef->GetPos();
         if (iDistance)
         {
@@ -997,31 +998,31 @@ RefC4* __cdecl FUN_005c4b30(RefC4* pkRef, FormC4* pkForm, int iCount, int iDista
             if (pkNode)
             {
                 NiPoint3C4 kWorldPosition(0.0f, 0.0f, 0.0f);
-                NiMatrix3C4 kRotate = pkNode->GetWorldRotate();
-                kPos = pkNode->GetWorldTranslate();
+                NiMatrix3C4 kRotate = (*(const ::NiMatrix3C4 *)(::FUN_006a9540((char *)(pkNode))));
+                kPos = (*(const ::NiPoint3C4 *)&(reinterpret_cast<::NiAVObject *>((pkNode))->FUN_0043c490()));
                 switch (iMode)
                 {
                 case 2:
                 case 3:
-                    kWorldPosition.x = kRotate.GetEntry(0, 0);
-                    kWorldPosition.y = kRotate.GetEntry(1, 0);
-                    kWorldPosition.z = kRotate.GetEntry(2, 0);
+                    kWorldPosition.x = reinterpret_cast<::FUN_004b55c0_class *>((void *)&(kRotate))->GetFloatAt(0, 0);
+                    kWorldPosition.y = reinterpret_cast<::FUN_004b55c0_class *>((void *)&(kRotate))->GetFloatAt(1, 0);
+                    kWorldPosition.z = reinterpret_cast<::FUN_004b55c0_class *>((void *)&(kRotate))->GetFloatAt(2, 0);
                     break;
                 default:
-                    kWorldPosition.x = kRotate.GetEntry(0, 1);
-                    kWorldPosition.y = kRotate.GetEntry(1, 1);
-                    kWorldPosition.z = kRotate.GetEntry(2, 1);
+                    kWorldPosition.x = reinterpret_cast<::FUN_004b55c0_class *>((void *)&(kRotate))->GetFloatAt(0, 1);
+                    kWorldPosition.y = reinterpret_cast<::FUN_004b55c0_class *>((void *)&(kRotate))->GetFloatAt(1, 1);
+                    kWorldPosition.z = reinterpret_cast<::FUN_004b55c0_class *>((void *)&(kRotate))->GetFloatAt(2, 1);
                     break;
                 }
-                kWorldPosition *= (float)iDistance;
+                reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3C4 &)(kWorldPosition))->FUN_00439180((float)iDistance);
                 switch (iMode)
                 {
                 case 1:
                 case 2:
-                    kPos -= kWorldPosition;
+                    reinterpret_cast<::NiPoint3 *>((void *)&(const ::NiPoint3C4 &)(kPos))->Subtract((const ::NiPoint3 &)(kWorldPosition));
                     break;
                 default:
-                    kPos += kWorldPosition;
+                    reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3C4 &)(kPos))->FUN_0063c8a0((void *)&(kWorldPosition));
                     break;
                 }
             }
@@ -1030,7 +1031,7 @@ RefC4* __cdecl FUN_005c4b30(RefC4* pkRef, FormC4* pkForm, int iCount, int iDista
         int iIndex = 0;
         akPos[iIndex] = kPos;
         iIndex++;
-        float fAngleDifference = FUN_005c5420() * 0.785398185253143310546875;
+        float fAngleDifference = ::RandomFloat0To1() * 0.785398185253143310546875;
         for (int i = 0; i < 8; i++)
         {
             akPos[iIndex] =
@@ -1040,70 +1041,70 @@ RefC4* __cdecl FUN_005c4b30(RefC4* pkRef, FormC4* pkForm, int iCount, int iDista
         }
         if (pkForm->GetFormType() == 0x2c || pkForm->GetFormType() == 0x2d)
         {
-            int iLevel = pkRef->GetLevel(0);
+            int iLevel = ((int)(reinterpret_cast<::fnv_00567e10::FUN_00567e10_shell *>((pkRef))->FUN_00567e10(0)));
             LevResultC4 kResult;
             if (pkForm->GetFormType() == 0x2c)
             {
                 LevCreatureC4* pkLev = (LevCreatureC4*)pkForm;
-                pkLev->m_kList.CalculateLeveled(iLevel, iCount, kResult, 0);
+                reinterpret_cast<::TESLeveledList *>(&(pkLev->m_kList))->PopulateContainerWithLeveledItems(iLevel, iCount, (::TESContainer *)&(kResult), 0);
             }
             else
             {
                 LevCharacterC4* pkLev = (LevCharacterC4*)pkForm;
-                pkLev->m_kList.CalculateLeveled(iLevel, iCount, kResult, 0);
+                reinterpret_cast<::TESLeveledList *>(&(pkLev->m_kList))->PopulateContainerWithLeveledItems(iLevel, iCount, (::TESContainer *)&(kResult), 0);
             }
-            LevNodeC4* pkIter = kResult.GetHead();
+            LevNodeC4* pkIter = ((::LevNodeC4 *)(reinterpret_cast<::BaseProcess *>(&(kResult))->GetCurrentProcessData()));
             while (pkIter && !pkIter->IsEmpty())
             {
-                LevEntryC4* pkEntry = *pkIter->GetItem();
+                LevEntryC4* pkEntry = *((::LevEntryC4 **)(new ((void *)(pkIter)) ::Vec3()));
                 if (pkEntry && pkEntry->m_pkForm)
                 {
                     while (pkEntry->m_iArrayLength > 0)
                     {
                         pkNew =
-                            g_pkDataHandlerC4->PlaceRef(pkEntry->m_pkForm, &kPos, &kAngle, pkRef->GetContainingCell(),
-                                                        pkRef->GetParentWorldspace(), 0, 0, 0);
+                            ((::RefC4 *)(reinterpret_cast<::HandlerView *>(((*reinterpret_cast<::DataHandlerC4 * *>(&::g_dataHandler))))->PlaceObjectReference((::TESBoundObject *)(pkEntry->m_pkForm), (::NiPoint3 *)(::NiPoint3C4 *)(&kPos), (::NiPoint3 *)(::NiPoint3C4 *)(&kAngle), (::TESObjectCELL *)(void *)(((void *)(reinterpret_cast<::LowProcess *>((pkRef))->GetTarget()))),
+                                                        (::TESWorldSpace *)(void *)(((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((pkRef))->FUN_00575d70()))), (::TESObjectREFR *)(void *)(0), (const char *)(void *)(0), (::TESForm *)(void *)(0))));
                         if (pkNew && pkNew->IsActor())
                         {
                             ActorC4* pkActor = (ActorC4*)pkNew;
                             pkActor->SetAlpha(0.0f);
-                            pkActor->Reset3D();
+                            reinterpret_cast<::fnv_008bcd20::FUN_008bcd20_shell *>((pkActor))->FUN_008bcd20();
                         }
                         pkEntry->m_iArrayLength--;
                     }
                 }
-                pkIter = pkIter->GetNext();
+                pkIter = ((::LevNodeC4 *)(reinterpret_cast<::Callees *>((pkIter))->FUN_00726070()));
             }
         }
         else if (pkForm->IsBoundObject())
         {
             BoundC4* pkBound = (BoundC4*)pkForm;
-            CountC4* pkCountObj = GetHealthForm(pkBound);
+            CountC4* pkCountObj = ((::CountC4 *)(::GetHealthForm((::TESForm *)(pkBound))));
             bool bOutside = false;
-            if (!g_pkPickWorldC4->IsInWorld(pkRef->GetPos()))
+            if (!reinterpret_cast<::n451::Grid *>(((*reinterpret_cast<::PickWorldC4 * *>(&::g_TES))))->ContainsPoint((*(const ::n451::Pt *)(pkRef->GetPos()))))
                 bOutside = true;
             iIndex = 0;
             for (int j = 0; j < iCount; j++)
             {
-                if (iIndex && !bOutside && g_pkPickWorldC4->IsInWorld(&akPos[iIndex]))
+                if (iIndex && !bOutside && reinterpret_cast<::n451::Grid *>(((*reinterpret_cast<::PickWorldC4 * *>(&::g_TES))))->ContainsPoint((*(const ::n451::Pt *)(&akPos[iIndex]))))
                 {
                     PickQueryC4 kQuery;
                     PickFlagsC4 kFlags(0);
-                    kFlags.SetType(0x26);
-                    kFlags.SetLayer(3);
+                    reinterpret_cast<::FUN_004a39f0_shell *>(&(kFlags))->FUN_004a39f0(0x26);
+                    reinterpret_cast<::FUN_0059ce80_shell *>(&(kFlags))->FUN_0059ce80(3);
                     kQuery.SetFlags(kFlags);
                     NiPoint3C4 kStart = *pkRef->GetPos();
                     kStart.z += 64.0;
                     NiPoint3C4 kEnd = akPos[iIndex];
                     kEnd.z += 64.0;
-                    kQuery.SetOrigin(kStart);
-                    kQuery.SetEnd(kEnd);
-                    g_pkPickWorldC4->Pick(kQuery);
-                    if (kQuery.m_kHit.GetFlag().IsHit())
+                    reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(kQuery))->FUN_004a3da0((void *)&(kStart));
+                    reinterpret_cast<::FUN_004a3eb0_shell *>(&(kQuery))->FUN_004a3eb0((void *)&(kEnd));
+                    reinterpret_cast<::FUN_00458420_cls *>(((*reinterpret_cast<::PickWorldC4 * *>(&::g_TES))))->FUN_00458420((int)&(kQuery));
+                    if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::HitFlagC4 &)((*(::HitFlagC4 *)(reinterpret_cast<::CalleeObj *>(&(kQuery.m_kHit))->FUN_005c53f0({})))))->FUN_005609f0())
                     {
                         NiPoint3C4 kDelta = kEnd - kStart;
-                        kDelta.Unitize();
-                        kPos = kEnd - kDelta * pkBound->GetRadius();
+                        reinterpret_cast<::FUN_004a0c10_s *>(&(kDelta))->FUN_004a0c10();
+                        kPos = kEnd - kDelta * reinterpret_cast<::fnv_0050ebf0::FUN_0050ebf0_shell *>((pkBound))->FUN_0050ebf0();
                     }
                     else
                     {
@@ -1115,21 +1116,21 @@ RefC4* __cdecl FUN_005c4b30(RefC4* pkRef, FormC4* pkForm, int iCount, int iDista
                 {
                     kPos = *pkRef->GetPos();
                 }
-                pkNew = g_pkDataHandlerC4->PlaceRef(pkBound, &kPos, &kAngle, pkRef->GetContainingCell(),
-                                                    pkRef->GetParentWorldspace(), 0, 0, 0);
+                pkNew = ((::RefC4 *)(reinterpret_cast<::HandlerView *>(((*reinterpret_cast<::DataHandlerC4 * *>(&::g_dataHandler))))->PlaceObjectReference((::TESBoundObject *)(pkBound), (::NiPoint3 *)(::NiPoint3C4 *)(&kPos), (::NiPoint3 *)(::NiPoint3C4 *)(&kAngle), (::TESObjectCELL *)(void *)(((void *)(reinterpret_cast<::LowProcess *>((pkRef))->GetTarget()))),
+                                                    (::TESWorldSpace *)(void *)(((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((pkRef))->FUN_00575d70()))), (::TESObjectREFR *)(void *)(0), (const char *)(void *)(0), (::TESForm *)(void *)(0))));
                 if (!pkNew)
                     return 0;
                 if (pkNew->IsActor())
                 {
                     ActorC4* pkActor = (ActorC4*)pkNew;
                     pkActor->SetAlpha(0.0f);
-                    pkActor->Reset3D();
+                    reinterpret_cast<::fnv_008bcd20::FUN_008bcd20_shell *>((pkActor))->FUN_008bcd20();
                 }
                 if (pkCountObj)
                 {
                     float fNewScale = (float)pkCountObj->GetCount();
                     fNewScale *= fScale;
-                    pkNew->SetScaleC4(fNewScale);
+                    reinterpret_cast<::Ref39 *>((pkNew))->FUN_00568bd0(fNewScale);
                 }
                 iIndex++;
                 if (iIndex == 9)
@@ -1154,7 +1155,6 @@ class NiMatrix3DB
 {
   public:
     NiMatrix3DB();
-    void ExtractEulerAnglesXYZ(float& fX, float& fY, float& fZ);
     float m_afEntries[3][3];
 };
 NiMatrix3DB __cdecl FUN_00c4b8a0(NiPoint3DB kNormal);
@@ -1163,24 +1163,20 @@ class NodeDB;
 class SceneNodeDB
 {
   public:
-    void AddChildRef(void* pvRef);
 };
 
 class HitFlagDB
 {
   public:
     HitFlagDB();
-    bool IsHit();
     char m_cValue;
 };
 
 class HitDB
 {
   public:
-    HitFlagDB GetFlag();
     __m128 m_kData[2];
 };
-void __cdecl FUN_00458620(NiPoint3DB& kOut, const HitDB& kHit);
 
 class ShapeDB;
 class ContainerDB
@@ -1202,21 +1198,16 @@ class ShapeDB
     virtual void v02();
     virtual void v03();
     virtual ContainerDB* GetContainer();
-    int GetType();
 };
 
 class CollObjDB
 {
   public:
-    bool IsHavokFlag(unsigned int uiFlag);
-    bool IsKeyFlag(int iKey, unsigned int uiFlag);
 };
-CollObjDB* __cdecl FUN_004a3a40(ShapeDB* pkShape);
 
 class CollidableDB
 {
   public:
-    ShapeDB* GetShape();
 };
 
 class KeyBufferDB
@@ -1233,20 +1224,14 @@ class PickFlagsDB
 {
   public:
     PickFlagsDB(int iValue);
-    void SetType(int iType);
-    void SetTarget(void* pvTarget);
     int m_iValue;
 };
-void* __cdecl FUN_005dbe10();
 
 class PickQueryDB
 {
   public:
     PickQueryDB();
     void SetFlags(PickFlagsDB kFlags);
-    void SetOrigin(const NiPoint3DB& akStart);
-    void SetEnd(const NiPoint3DB& kEnd);
-    void GetHitPoint(NiPoint3DB& kPoint);
     __m128 m_akA[3];
     HitDB m_kHit;
     int m_aiKeys[8];
@@ -1258,9 +1243,7 @@ class PickQueryDB
 class PickWorldDB
 {
   public:
-    void* Pick(PickQueryDB& kQuery);
 };
-extern PickWorldDB* g_pkPickWorldDB;
 
 class SurfaceDB
 {
@@ -1269,8 +1252,6 @@ class SurfaceDB
     ~SurfaceDB();
     char m_acData[0x28];
 };
-void __cdecl GetPathingLocationNormal(SurfaceDB& kSurface, NiPoint3DB& kNormal);
-void __cdecl FUN_00c82870(int iLayer, unsigned __int64 ulMask);
 
 class RefDB
 {
@@ -1401,24 +1382,12 @@ class RefDB
     virtual void v7b();
     virtual void v7c();
     virtual const NiPoint3DB* GetPos();
-    const NiPoint3DB& GetAngle();
-    SceneNodeDB* GetLinkNode();
-    void* GetContainingCell();
-    void* GetParentWorldspace();
-    void SetDisabledDB(bool bDisabled);
-    void SetPersistDB(bool bPersist);
-    void SetFlagDB(bool bFlag);
 };
 
 class DataHandlerDB
 {
   public:
-    RefDB* PlaceRef(void* pvForm, NiPoint3DB* pkPos, NiPoint3DB* pkAngle, void* pvCell, void* pvWorld, void* pv0,
-                    void* pv1, void* pv2);
 };
-extern DataHandlerDB* g_pkDataHandlerDB;
-extern void* g_pvFormA_DB;
-extern void* g_pvFormB_DB;
 
 // @fnv 0x005db870
 bool __cdecl FUN_005db870(const ScriptParameter* paramInfo, const char* scriptData, RefDB* thisObj,
@@ -1426,35 +1395,35 @@ bool __cdecl FUN_005db870(const ScriptParameter* paramInfo, const char* scriptDa
                           unsigned int& opcodeOffsetPtr)
 {
     int iType = 0;
-    if (!ExtractArgs(paramInfo, scriptData, &opcodeOffsetPtr, (TESObjectREFR*)thisObj, containingObj, scriptObj,
+    if (!::FUN_005accb0((const ::ExtractParameter *)(paramInfo), scriptData, &opcodeOffsetPtr, (TESObjectREFR*)thisObj, containingObj, (::ExtractScript *)(scriptObj),
                      eventList, &iType))
         return false;
     if (thisObj && thisObj->Is3DLoaded())
     {
         NodeDB* pkNode = thisObj->Get3D();
         NiPoint3DB kPos = *thisObj->GetPos();
-        NiPoint3DB kAngle(0.0f, 0.0f, thisObj->GetAngle().z);
+        NiPoint3DB kAngle(0.0f, 0.0f, (*(const ::NiPoint3DB *)(reinterpret_cast<::TESRecipe *>((thisObj))->GetData())).z);
         bool bAligned = false;
         unsigned int uiMask = 0x8022802;
-        FUN_00c82870(0x27, uiMask);
+        ::ShadowLightData::SetTargetMaskForSelection(0x27, uiMask);
         PickQueryDB kQuery;
         PickFlagsDB kFlags(0);
-        kFlags.SetType(0x27);
-        kFlags.SetTarget(FUN_005dbe10());
+        reinterpret_cast<::FUN_004a39f0_shell *>(&(kFlags))->FUN_004a39f0(0x27);
+        reinterpret_cast<::FUN_0059ce80_shell *>(&(kFlags))->FUN_0059ce80((unsigned int)(((void *)(::FUN_005dbe10()))));
         kQuery.SetFlags(kFlags);
         NiPoint3DB kStart = kPos;
         kStart.z += 32.0;
         NiPoint3DB kEnd = kPos;
         kEnd.z -= 256.0;
-        kQuery.SetOrigin(kStart);
-        kQuery.SetEnd(kEnd);
-        g_pkPickWorldDB->Pick(kQuery);
-        if (kQuery.m_kHit.GetFlag().IsHit())
+        reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(kQuery))->FUN_004a3da0((void *)&(kStart));
+        reinterpret_cast<::FUN_004a3eb0_shell *>(&(kQuery))->FUN_004a3eb0((void *)&(kEnd));
+        reinterpret_cast<::FUN_00458420_cls *>(((*reinterpret_cast<::PickWorldDB * *>(&::g_TES))))->FUN_00458420((int)&(kQuery));
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::HitFlagDB &)((*(::HitFlagDB *)(reinterpret_cast<::CalleeObj *>(&(kQuery.m_kHit))->FUN_005c53f0({})))))->FUN_005609f0())
         {
             bool bSurface = false;
-            ShapeDB* pkShape = kQuery.m_pkCollidable->GetShape();
-            CollObjDB* pkObj = FUN_004a3a40(pkShape);
-            bSurface = pkObj->IsHavokFlag(0x40);
+            ShapeDB* pkShape = ((::ShapeDB *)(::FUN_00559450((int *)(kQuery.m_pkCollidable))));
+            CollObjDB* pkObj = ((::CollObjDB *)(::FUN_004a3a40((::TESObjectREFR *)(pkShape))));
+            bSurface = reinterpret_cast<::FUN_005dbe40_Class *>((pkObj))->FUN_005dbe40((::OBJECT_ACTION)(0x40));
             if (!bSurface)
             {
                 ShapeDB* pkCur = pkShape;
@@ -1463,7 +1432,7 @@ bool __cdecl FUN_005db870(const ScriptParameter* paramInfo, const char* scriptDa
                 KeyBufferDB kBuffer(8, 0);
                 for (int i = 0; i < 8 && kQuery.m_aiKeys[i] != -1; i++)
                 {
-                    if (pkCur->GetType() == 10)
+                    if (((int)(::fnv_0043b230::FUN_0043b230((const char *)(pkCur)))) == 10)
                     {
                         i++;
                         if (i >= 8 || kQuery.m_aiKeys[i] == -1)
@@ -1471,35 +1440,35 @@ bool __cdecl FUN_005db870(const ScriptParameter* paramInfo, const char* scriptDa
                     }
                     iKey = kQuery.m_aiKeys[i];
                     pkLast = pkCur;
-                    pkCur = pkCur->GetContainer()->GetChildShape(kQuery.m_aiKeys[i], kBuffer.GetAt(i));
+                    pkCur = pkCur->GetContainer()->GetChildShape(kQuery.m_aiKeys[i], reinterpret_cast<::NavMeshPtr *>(&(kBuffer))->FUN_005e05b0(i));
                 }
-                CollObjDB* pkLastObj = FUN_004a3a40(pkLast);
+                CollObjDB* pkLastObj = ((::CollObjDB *)(::FUN_004a3a40((::TESObjectREFR *)(pkLast))));
                 if (pkLastObj)
-                    bSurface = pkLastObj->IsKeyFlag(iKey, 0x40);
+                    bSurface = reinterpret_cast<::FUN_00c84f50_cls *>((pkLastObj))->FUN_00c84f50(iKey, 0x40);
             }
             NiPoint3DB kNormal;
             if (bSurface)
             {
                 SurfaceDB kSurface((TESObjectREFR*)thisObj);
-                GetPathingLocationNormal(kSurface, kNormal);
+                ::GetPathingLocationNormal((::PathingLocation &)(kSurface), (::NiPoint3 &)(kNormal));
             }
             else
             {
-                FUN_00458620(kNormal, kQuery.m_kHit);
+                ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kNormal), (const ::hkVector4 &)(kQuery.m_kHit));
             }
             NiMatrix3DB kRotate = FUN_00c4b8a0(kNormal);
-            kRotate.ExtractEulerAnglesXYZ(kAngle.x, kAngle.y, kAngle.z);
+            reinterpret_cast<::S_00a592c0_Matrix3 *>(&(kRotate))->DecomposeToEulerAngles(kAngle.x, kAngle.y, kAngle.z);
             bAligned = true;
-            kQuery.GetHitPoint(kPos);
+            reinterpret_cast<::S005dbe60_Object *>(&(kQuery))->FUN_005dbe60((::S005dbe60_Target *)&(kPos));
         }
-        void* pvForm = iType == 2 ? g_pvFormA_DB : g_pvFormB_DB;
-        RefDB* pkNew = g_pkDataHandlerDB->PlaceRef(pvForm, &kPos, &kAngle, thisObj->GetContainingCell(),
-                                                   thisObj->GetParentWorldspace(), 0, 0, 0);
-        pkNew->SetDisabledDB(!bAligned);
-        pkNew->SetPersistDB(true);
-        pkNew->SetFlagDB(true);
-        pkNew->GetLinkNode()->AddChildRef(thisObj);
-        thisObj->GetLinkNode()->AddChildRef(pkNew);
+        void* pvForm = iType == 2 ? (*reinterpret_cast<void * *>(&::DAT_011ca280)) : (*reinterpret_cast<void * *>(&::DAT_011ca27c));
+        RefDB* pkNew = ((::RefDB *)(reinterpret_cast<::HandlerView *>(((*reinterpret_cast<::DataHandlerDB * *>(&::g_dataHandler))))->PlaceObjectReference((::TESBoundObject *)(pvForm), (::NiPoint3 *)(::NiPoint3DB *)(&kPos), (::NiPoint3 *)(::NiPoint3DB *)(&kAngle), (::TESObjectCELL *)(void *)(((void *)(reinterpret_cast<::LowProcess *>((thisObj))->GetTarget()))),
+                                                   (::TESWorldSpace *)(void *)(((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((thisObj))->FUN_00575d70()))), (::TESObjectREFR *)(void *)(0), (const char *)(void *)(0), (::TESForm *)(void *)(0))));
+        reinterpret_cast<::FUN_00564c60_cls *>((pkNew))->FUN_00564c60(!bAligned);
+        reinterpret_cast<::FUN_0056c780_t *>((pkNew))->FUN_0056c780(true);
+        reinterpret_cast<::fnv_00565480::RefPersistsStandin *>((pkNew))->FUN_00565480(true);
+        reinterpret_cast<::fnv_0041e340::FUN_0041e340_ExtraDataList *>((((::SceneNodeDB *)(reinterpret_cast<::FUN_005d43c0_ *>((pkNew))->FUN_005d43c0()))))->FUN_0041e340(thisObj);
+        reinterpret_cast<::fnv_0041e340::FUN_0041e340_ExtraDataList *>((((::SceneNodeDB *)(reinterpret_cast<::FUN_005d43c0_ *>((thisObj))->FUN_005d43c0()))))->FUN_0041e340(pkNew);
         pkNew->SetFlagsDB(0x80000000);
         thisObj->SetFlagsDB(0x80000000);
     }
@@ -1522,7 +1491,6 @@ class NiMatrix3DF
   public:
     NiMatrix3DF();
     void GetRow(unsigned int uiRow, float& f0, float& f1, float& f2) const;
-    void SetRow(unsigned int uiRow, const NiPoint3DF& kRow);
     NiPoint3DF operator*(const NiPoint3DF& kPt) const;
     float m_afEntries[3][3];
 };
@@ -1536,14 +1504,11 @@ class SceneNodeDF
 class SceneDF
 {
   public:
-    SceneNodeDF* GetNode();
 };
-SceneDF* __cdecl FUN_0045c670();
 
 class HandleDF
 {
   public:
-    void* Get();
     unsigned int m_uiHandle;
 };
 
@@ -1676,17 +1641,13 @@ class PlayerDF
     virtual void v7b();
     virtual void v7c();
     virtual const NiPoint3DF* GetLookAt();
-    NiPoint3DF& GetEyePos();
     HandleDF GetHandle();
 };
-extern PlayerDF* g_pkPlayerDF;
 
 class PickFlagsDF
 {
   public:
     PickFlagsDF(int iValue);
-    void SetType(int iType);
-    void SetTarget(void* pvTarget);
     int m_iValue;
 };
 
@@ -1695,8 +1656,6 @@ class PickQueryDF
   public:
     PickQueryDF();
     void SetFlags(PickFlagsDF kFlags);
-    void SetOrigin(const NiPoint3DF& akStart);
-    void SetEnd(const NiPoint3DF& kEnd);
     __m128 m_kData[11];
 };
 
@@ -1705,16 +1664,11 @@ class PickWorldDF
   public:
     void* Pick(PickQueryDF& kQuery);
 };
-extern PickWorldDF* g_pkPickWorldDF;
 
 class RefDF
 {
   public:
-    unsigned int GetRefID();
 };
-RefDF* __cdecl FUN_0056f930(void* pvHit);
-float __cdecl FUN_0040ebd0(float fA, float fB);
-void __cdecl FUN_005acc70(unsigned int* puiID, double& rdResult);
 
 // @fnv 0x005df5d0
 bool __cdecl FUN_005df5d0(const ScriptParameter* paramInfo, const char* scriptData, TESObjectREFR* thisObj,
@@ -1726,38 +1680,38 @@ bool __cdecl FUN_005df5d0(const ScriptParameter* paramInfo, const char* scriptDa
     int iUnused2 = 1;
     float fAngleDifference = 0;
     float fDistance = 0;
-    if (!ExtractArgs(paramInfo, scriptData, &opcodeOffsetPtr, thisObj, containingObj, scriptObj, eventList,
+    if (!::FUN_005accb0((const ::ExtractParameter *)(paramInfo), scriptData, &opcodeOffsetPtr, thisObj, containingObj, (::ExtractScript *)(scriptObj), eventList,
                      &fAngleDifference, &fDistance))
         return false;
     fDistance = FUN_0040ebd0(fDistance, 50000.0f);
     PickQueryDF kQuery;
     NiPoint3DF kEnd(0.0f, fDistance, 0.0f);
-    NiPoint3DF kStart = *g_pkPlayerDF->GetLookAt();
-    SceneNodeDF* pkNode = FUN_0045c670()->GetNode();
+    NiPoint3DF kStart = *(*reinterpret_cast<::PlayerDF * *>(&::_g_thePlayer))->GetLookAt();
+    SceneNodeDF* pkNode = ((::SceneNodeDF *)(reinterpret_cast<::BSFaceGenNiNode *>((((::SceneDF *)(::FUN_0045c670()))))->GetAnimationData()));
     NiMatrix3DF kRotate = pkNode->GetRotate();
     NiMatrix3DF kSwizzled;
     NiPoint3DF kRow;
     kRotate.GetRow(0, kRow.y, kRow.z, kRow.x);
-    kSwizzled.SetRow(0, kRow);
+    reinterpret_cast<::FUN_005df510_shell *>(&(kSwizzled))->FUN_005df510(0, (float *)&(kRow));
     kRotate.GetRow(1, kRow.y, kRow.z, kRow.x);
-    kSwizzled.SetRow(1, kRow);
+    reinterpret_cast<::FUN_005df510_shell *>(&(kSwizzled))->FUN_005df510(1, (float *)&(kRow));
     kRotate.GetRow(2, kRow.y, kRow.z, kRow.x);
-    kSwizzled.SetRow(2, kRow);
-    kStart = g_pkPlayerDF->GetEyePos();
+    reinterpret_cast<::FUN_005df510_shell *>(&(kSwizzled))->FUN_005df510(2, (float *)&(kRow));
+    kStart = (*(::NiPoint3DF *)(::FUN_005df5b0((char *)((*reinterpret_cast<::PlayerDF * *>(&::_g_thePlayer))))));
     kEnd = kSwizzled * kEnd + kStart;
-    HandleDF kHandle = g_pkPlayerDF->GetHandle();
+    HandleDF kHandle = (*reinterpret_cast<::PlayerDF * *>(&::_g_thePlayer))->GetHandle();
     PickFlagsDF kFlags(0);
-    kFlags.SetType(6);
-    kFlags.SetTarget(g_pkPlayerDF->GetHandle().Get());
+    reinterpret_cast<::FUN_004a39f0_shell *>(&(kFlags))->FUN_004a39f0(6);
+    reinterpret_cast<::FUN_0059ce80_shell *>(&(kFlags))->FUN_0059ce80((unsigned int)(((void *)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::HandleDF &)((*reinterpret_cast<::PlayerDF * *>(&::_g_thePlayer))->GetHandle()))->FUN_004a3a20()))));
     kQuery.SetFlags(kFlags);
-    kQuery.SetOrigin(kStart);
-    kQuery.SetEnd(kEnd);
-    void* pvHit = g_pkPickWorldDF->Pick(kQuery);
-    RefDF* pkRef = pvHit ? FUN_0056f930(pvHit) : 0;
+    reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(kQuery))->FUN_004a3da0((void *)&(kStart));
+    reinterpret_cast<::FUN_004a3eb0_shell *>(&(kQuery))->FUN_004a3eb0((void *)&(kEnd));
+    void* pvHit = (*reinterpret_cast<::PickWorldDF * *>(&::g_TES))->Pick(kQuery);
+    RefDF* pkRef = pvHit ? ((::RefDF *)(::FUN_0056f930((::NiAVObject *)(pvHit)))) : 0;
     if (pkRef)
     {
-        unsigned int uiID = pkRef->GetRefID();
-        FUN_005acc70(&uiID, result);
+        unsigned int uiID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pkRef))->FUN_0084e3a0()));
+        ::Script::CopyIdentifierBitsToValue((*(const unsigned int *)(&uiID)), result);
     }
     return true;
 }

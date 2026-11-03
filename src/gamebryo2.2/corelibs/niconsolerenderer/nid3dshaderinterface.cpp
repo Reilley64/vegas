@@ -1,5 +1,23 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderinterface.cpp: NiD3DShaderInterface (11 functions)
 
+#include <new>
+#include "fnv/decl/FUN_00a5d3a0.h"
+#include "fnv/decl/FUN_00a8f490.h"
+#include "fnv/decl/FUN_00e93ad0.h"
+#include "fnv/decl/NiRefObject.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00e7e000.h"
+#include "fnv/symbols_00e7f000.h"
+#include "fnv/symbols_00e91000.h"
+#include "fnv/symbols_00e92000.h"
+#include "fnv/symbols_00e93000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_0109f000.h"
+#include "fnv/symbols_010ef000.h"
+#include "fnv/symbols_011f5000.h"
+#include "fnv/symbols_0126f000.h"
 #include "nid3dshaderinterface_decls.h"
 
 // @fnv 0x00e81a90
@@ -50,58 +68,53 @@ void NiD3DShaderInterface::SetShaderObject(GraphicsRenderer* renderer)
 unsigned int NiD3DShaderInterface::InitializeShaderRenderer(GraphicsRenderer* renderer)
 {
     Direct3DDeviceInterface* device = renderer->m_pD3DDevice;
-    FUN_00e7f920(renderer);
-    FUN_00e7e8d0(renderer);
-    DAT_0126f99c = device;
-    FUN_00e92f70(renderer);
-    FUN_00e93f50(renderer);
+    ::FUN_00e7f920((int)(renderer));
+    ::FUN_00e7e8d0((int)(renderer));
+    (*reinterpret_cast<::Direct3DDeviceInterface * *>(&::DAT_0126f99c)) = device;
+    ::FUN_00e92f70((int)(renderer));
+    ::FUN_00e93f50(renderer);
     NiD3DPass::SetActiveRenderer(renderer);
     device->vfn_100();
-    NiD3DShaderFactory* factory = NiD3DShaderFactory::GetShaderFactory();
+    NiD3DShaderFactory* factory = ((::NiD3DShaderFactory *)(::FUN_00e91f10()));
     if (factory)
         factory->vfn_70(renderer);
-    if (!DAT_0126fa10)
+    if (!::DAT_0126fa10)
     {
         Program* p = (Program*)NiMemObject::operator new(28);
-        DAT_0126fa10 = p ? p->FUN_00e93ad0() : 0;
-        if (!DAT_0126fa10)
-            NiD3DDefaultShader::SetShaderName("Failed to create shader program factory!");
+        ::DAT_0126fa10 = p ? ((::Program *)(new ((void *)(p)) ::FUN_00e93ad0())) : 0;
+        if (!::DAT_0126fa10)
+            ::FUN_00a29680();
     }
     return 0;
 }
 
-extern int vftable_NiRefObject;
 extern int DAT_0109f584;
-extern long volatile DAT_011f4400;
-extern int EmptyFS;
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 
 // Sets the vtable and clears fields of the object, increments the global counter, then assigns the second vtable and initializes the remaining fields.
 // @fnv 0x00a8f440
 void* __fastcall FUN_00a8f440(void* apObject)
 {
-    *(int**)apObject = &vftable_NiRefObject;
+    *(int**)apObject = &::DAT_0101dce4;
     *((int*)apObject + 1) = 0;
-    InterlockedIncrement(&DAT_011f4400);
+    InterlockedIncrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
     *(int**)apObject = &DAT_0109f584;
-    *((int*)apObject + 2) = EmptyFS;
+    *((int*)apObject + 2) = (*reinterpret_cast<int *>(&::DAT_0109b220));
     *((int*)apObject + 3) = 0;
     *((char*)apObject + 16) = 0;
     return apObject;
 }
 
-extern const char* const g_011f603c_arg1;
 // @fnv 0x00a8f1b0
 const char* const* __fastcall FUN_00a8f1b0(void* p, int)
 {
-    return &g_011f603c_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_011f5d00));
 }
 
-extern const char* const g_0126f75c_arg1;
 // @fnv 0x00a8f480
 const char* const* __fastcall FUN_00a8f480(void* p, int)
 {
-    return &g_0126f75c_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_011f5d08));
 }
 
 struct VF
@@ -141,23 +154,22 @@ void DestroyProgram();
 // @fnv 0x00e819f0
 int FUN_00e819f0()
 {
-    VF* pShaderFactory = (VF*)NiD3DShaderFactory::GetShaderFactory();
+    VF* pShaderFactory = (VF*)((::NiD3DShaderFactory *)(::FUN_00e91f10()));
     if (pShaderFactory)
     {
         FUN_00aa0000();
         pShaderFactory->Op(0);
     }
-    FUN_00e7f920(0);
-    FUN_00e7e8d0(0);
-    DAT_0126f99c = 0;
+    ::FUN_00e7f920((int)(0));
+    ::FUN_00e7e8d0((int)(0));
+    (*reinterpret_cast<::Direct3DDeviceInterface * *>(&::DAT_0126f99c)) = 0;
     DestroyProgram();
-    FUN_00e92f70(0);
-    FUN_00e93f50(0);
+    ::FUN_00e92f70((int)(0));
+    ::FUN_00e93f50(0);
     NiD3DPass::SetActiveRenderer(0);
     return 0;
 }
 
-extern int DAT_010ef39c;
 struct Rel
 {
     virtual void a();
@@ -172,7 +184,6 @@ struct Obj
     int r;
     int s;
 };
-void __fastcall FUN_00a8f490(Obj*);
 // Sets the object's vtable, clears r and s, releases dev if set, nulls dev, then calls FUN_00a8f490.
 // @fnv 0x00e81a50
 void __fastcall FUN_00e81a50(Obj* pObj, int)
@@ -184,11 +195,10 @@ void __fastcall FUN_00e81a50(Obj* pObj, int)
     if (d)
         d->Release();
     pObj->dev = 0;
-    FUN_00a8f490(pObj);
+    reinterpret_cast<class ::FUN_00a8f490 *>((pObj))->FUN_00a8f490::~FUN_00a8f490();
 }
 
 namespace fnv_00e81ab0 {
-extern int DAT_010ef39c;
 struct Rel
 {
     virtual void a();
@@ -203,21 +213,19 @@ struct Obj
     int r;
     int s;
 };
-void __fastcall FUN_00a8f490(Obj*);
-void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 // @fnv 0x00e81ab0
 Obj* __fastcall FUN_00e81ab0(Obj* o, int, unsigned int flags)
 {
-    *(int**)o = &DAT_010ef39c;
+    *(int**)o = &::DAT_010ef39c;
     Rel* d = o->dev;
     o->r = 0;
     o->s = 0;
     if (d)
         d->Release();
     o->dev = 0;
-    FUN_00a8f490(o);
+    reinterpret_cast<class ::FUN_00a8f490 *>((o))->FUN_00a8f490::~FUN_00a8f490();
     if (flags & 1)
-        __Dummy_00b6fef0(o, 0x24);
+        ::FUN_00aa1460(o, 0x24);
     return o;
 }
 }  // namespace fnv_00e81ab0
@@ -228,8 +236,6 @@ struct Rf
     virtual unsigned long __stdcall AddRef();
     virtual unsigned long __stdcall Release();
 };
-extern void* DAT_0126fa2c;
-extern Rf* DAT_0126fa28;
 // Stores r in DAT_0126fa2c and, if r is non-null, releases the old DAT_0126fa28 and AddRefs the object at r+0x288; otherwise releases and clears DAT_0126fa28.
 // @fnv 0x00e93f50
 void FUN_00e93f50(void* apObject)
@@ -238,22 +244,21 @@ void FUN_00e93f50(void* apObject)
     if (apObject)
     {
         Rf* pRef = *(Rf**)((char*)apObject + 0x288);
-        if (DAT_0126fa28)
-            DAT_0126fa28->Release();
-        DAT_0126fa28 = pRef;
+        if ((*reinterpret_cast<::Rf * *>(&::g_0126fa28)))
+            (*reinterpret_cast<::Rf * *>(&::g_0126fa28))->Release();
+        (*reinterpret_cast<::Rf * *>(&::g_0126fa28)) = pRef;
         if (pRef)
             pRef->AddRef();
     }
     else
     {
-        if (DAT_0126fa28)
-            DAT_0126fa28->Release();
-        DAT_0126fa28 = 0;
+        if ((*reinterpret_cast<::Rf * *>(&::g_0126fa28)))
+            (*reinterpret_cast<::Rf * *>(&::g_0126fa28))->Release();
+        (*reinterpret_cast<::Rf * *>(&::g_0126fa28)) = 0;
     }
 }
 
 // Constructor of a derived object: base ctor call, two zeroed fields, vtable pointer, one more zeroed field.
-extern int DAT_0109f4dc;
 
 struct FUN_00a8f190_cls
 {
@@ -263,7 +268,7 @@ struct FUN_00a8f190_cls
     int m_i0C;        // +0x0C
     int m_i10;        // +0x10
 
-    void Init();  // base constructor (external)
+      // base constructor (external)
 
     FUN_00a8f190_cls();
 };
@@ -271,9 +276,9 @@ struct FUN_00a8f190_cls
 // @fnv 0x00a8f190
 FUN_00a8f190_cls::FUN_00a8f190_cls()
 {
-    Init();
+    new ((void *)this) struct ::FUN_00a5d3a0();
     m_i08 = 0;
     m_i0C = 0;
-    *(void* volatile*)&m_pVTable = &DAT_0109f4dc;
+    *(void* volatile*)&m_pVTable = &(*reinterpret_cast<int *>((void *)&::DAT_0109f4dc));
     *(int volatile*)&m_i10 = 0;
 }

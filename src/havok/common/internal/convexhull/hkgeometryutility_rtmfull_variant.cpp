@@ -5,6 +5,23 @@
 // src/havok/common/internal/convexhull/hkgeometryutility.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/convexhull/hkgeometryutility.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/D76250Shape.h"
+#include "fnv/decl/FUN_00cce530.h"
+#include "fnv/decl/FUN_00d74d40_cls.h"
+#include "fnv/decl/FUN_00d76990_Class.h"
+#include "fnv/decl/H77ConvexHull.h"
+#include "fnv/decl/ObbInput.h"
+#include "fnv/decl/S_00d76410_Builder.h"
+#include "fnv/decl/fnv_00d76940__FUN_00d76940_cls.h"
+#include "fnv/decl/fnv_00d76ca0__FUN_00d76ca0.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d5a000.h"
+#include "fnv/symbols_00dd6000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01013000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0106e000.h"
 struct FUN_00d5a5e0_ctxA
 {
     unsigned int unk00;
@@ -13,10 +30,6 @@ struct FUN_00d5a5e0_ctxA
     unsigned int unk0c;
     unsigned int unk10;
 
-    void InitA();
-    int FindB(void* a1, void* b);
-    void SetB(int zero, int a2);
-    void FinishA();
 };
 
 struct FUN_00d5a5e0_ctxB
@@ -28,7 +41,6 @@ struct FUN_00d5a5e0_ctxB
     unsigned int unk08;
     unsigned int unk0c;
 
-    void InitB();
 };
 
 // Initializes two context objects, looks up a1 in the first, and if found calls SetB with 0 and a2, then finishes.
@@ -38,14 +50,14 @@ void __cdecl InitAndSetB(void* a1, int a2)
     FUN_00d5a5e0_ctxB b;
     FUN_00d5a5e0_ctxA a;
 
-    a.InitA();
-    b.InitB();
+    new ((void *)&(a)) ::fnv_00d76ca0::FUN_00d76ca0();
+    reinterpret_cast<::FUN_00d74d40_cls *>(&(b))->FUN_00d74d40();
     b.m_00 = 1;
-    if (a.FindB(a1, &b) != -1)
+    if (reinterpret_cast<::H77ConvexHull *>(&(a))->FUN_00d77200((*(const ::H77StridedVertices *)(a1)), (int)(&b)) != -1)
     {
-        a.SetB(0, a2);
+        reinterpret_cast<::S_00d76410_Builder *>(&(a))->FUN_00d76410(0, (*(::S_00d76410_Geometry *)(a2)));
     }
-    a.FinishA();
+    reinterpret_cast<::fnv_00d76940::FUN_00d76940_cls *>(&(a))->FUN_00d76940();
 }
 
 struct FUN_00d5a630_ctxA
@@ -56,12 +68,6 @@ struct FUN_00d5a630_ctxA
     unsigned int unk0c;
     unsigned int unk10;
 
-    void InitA();
-    int FindB(void* a1, void* b);
-    void SetB(int zero, int a2);
-    void SetF(float f, int zero);
-    void SetC(int a3);
-    void FinishA();
 };
 
 struct FUN_00d5a630_ctxB
@@ -73,10 +79,8 @@ struct FUN_00d5a630_ctxB
     unsigned int unk08;
     unsigned int unk0c;
 
-    void InitB();
 };
 
-extern float DAT_0106ea1c;
 
 // Initialises two context objects, sets a flag, looks up a1 in the first context and, if found, applies a2 and a3 and a float constant before finishing.
 // @fnv 0x00d5a630
@@ -85,16 +89,16 @@ void __cdecl FUN_00d5a630(void* a1, int a2, int a3)
     FUN_00d5a630_ctxB b;
     FUN_00d5a630_ctxA a;
 
-    a.InitA();
-    b.InitB();
+    new ((void *)&(a)) ::fnv_00d76ca0::FUN_00d76ca0();
+    reinterpret_cast<::FUN_00d74d40_cls *>(&(b))->FUN_00d74d40();
     b.m_00 = 1;
-    if (a.FindB(a1, &b) != -1)
+    if (reinterpret_cast<::H77ConvexHull *>(&(a))->FUN_00d77200((*(const ::H77StridedVertices *)(a1)), (int)(&b)) != -1)
     {
-        a.SetB(0, a2);
-        a.SetF(DAT_0106ea1c, 0);
-        a.SetC(a3);
+        reinterpret_cast<::S_00d76410_Builder *>(&(a))->FUN_00d76410(0, (*(::S_00d76410_Geometry *)(a2)));
+        reinterpret_cast<::FUN_00d76990_Class *>(&(a))->SetValue(DAT_0106ea1c, 0);
+        reinterpret_cast<::D76250Shape *>(&(a))->CopyVerticesToArray((*(::D76250VectorArray *)(a3)));
     }
-    a.FinishA();
+    reinterpret_cast<::fnv_00d76940::FUN_00d76940_cls *>(&(a))->FUN_00d76940();
 }
 
 struct S_00d5a6b0_Elem
@@ -187,21 +191,19 @@ struct D5C110Geometry
     int m_iTriangleCount;
 };
 
-void __cdecl ProcessArg(const void* shape, D5C110VertexArray& vertices);
-void __cdecl InitAndSetB(const D5C110StridedVertices& vertices, D5C110Geometry& out);
 
 // @fnv 0x00d5c110
 void __cdecl BuildGeometryFromShape(const void* shape, D5C110Geometry& aGeometry)
 {
     D5C110VertexArray vertices;
-    ProcessArg(shape, vertices);
+    ::ProcessArg((::Arg *)(shape), (int)&(vertices));
     if (vertices.m_iElementCount > 0)
     {
         D5C110StridedVertices stridedVertices;
         stridedVertices.m_iStridedVertexCount = vertices.m_iElementCount;
         stridedVertices.m_kVertices = &vertices.m_data->m_uiX;
         stridedVertices.m_iVertexStride = sizeof(D5C110Vector4);
-        InitAndSetB(stridedVertices, aGeometry);
+        ::InitAndSetB((void *)&(stridedVertices), (int)&(aGeometry));
     }
     else
     {
@@ -212,12 +214,11 @@ void __cdecl BuildGeometryFromShape(const void* shape, D5C110Geometry& aGeometry
 }
 
 struct D5C110VertexArray;
-void __cdecl ProcessArg(const void* shape, D5C110VertexArray& vertices);
 
 // @fnv 0x00d5a6a0
 void __cdecl FUN_00d5a6a0(const void* shape, D5C110VertexArray& vertices)
 {
-    ProcessArg(shape, vertices);
+    ::ProcessArg((::Arg *)(shape), (int)&(vertices));
 }
 
 #include <math.h>
@@ -246,6 +247,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 #endif
 #ifndef _INCLUDED_MM2
 extern "C" __m128 _mm_setr_ps(float, float, float, float);
@@ -298,7 +300,6 @@ struct __declspec(align(16)) S00d5c060_Result
 
 char* __cdecl AllocateWithHeader(D5C110Allocator* alloc, int size);
 char* __cdecl FUN_00c856c0(D5C110Allocator* owner, char* data);
-void __cdecl FUN_00d5beb0(S00d5c060_Result* self, char* data, int count, int flags, float scale);
 
 // @fnv 0x00d5c060
 S00d5c060_Result FUN_00d5c060(const S00d5c060_Src* src, float scale)
@@ -314,7 +315,7 @@ S00d5c060_Result FUN_00d5c060(const S00d5c060_Src* src, float scale)
         d[i].m_uiY = ((const float*)src->m_pData)[i * quad + 1];
         d[i].m_uiZ = ((const float*)src->m_pData)[i * quad + 2];
     }
-    FUN_00d5beb0(&result, data, src->m_uiItemCount, 0, scale);
+    ::FUN_00d5beb0((::__m128 *)(::S00d5c060_Result *)(&result), (::MyPoint *)(data), src->m_uiItemCount, 0, scale);
     FUN_00c856c0(&FUN_00c85750().heap(), data);
     return result;
 }
@@ -331,7 +332,6 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
 extern "C" __m128 _mm_setr_ps(float, float, float, float);
 #endif
 
-extern float DAT_01013ea4;
 extern float DAT_01011d78;
 extern float DAT_01012068;
 extern "C" int ae60_mix(int);
@@ -406,7 +406,6 @@ struct ObbGeom
 
     ObbGeom() : verts(0), numVerts(0), vcap(0x80000000), tris(0), numTris(0), tcap(0x80000000)
     {}
-    void FUN_00cce530();
 };
 
 struct ObbArr
@@ -425,8 +424,6 @@ struct ObbFlag
     char c;
 };
 
-void __cdecl FUN_00c908c0(void*, void*, int, int);
-bool __cdecl FUN_00d5c6d0(void* geom, void* halfExtents, void* transform, float tolerance);
 void __cdecl FUN_00d5c1a0(void*, int, int, void*, void*, ObbFlag);
 void __cdecl FUN_00d5ac50(void*, void*, void*, void*, void*);
 
@@ -458,7 +455,7 @@ static __declspec(noinline) float FUN_00d5b990(S4 verts, S4 count, S4 src, int s
 void FUN_00d5d270(const void* shape, ObbVec* outExt, ObbXf* outXf, int mode)
 {
     ObbGeom geom;
-    InitAndSetB(*(const D5C110StridedVertices*)shape, *(D5C110Geometry*)&geom);
+    ::InitAndSetB((void *)&(*(const D5C110StridedVertices*)shape), (int)&(*(D5C110Geometry*)&geom));
 
     int nStack = geom.numTris * 3;
     ObbArr arr;
@@ -476,7 +473,7 @@ void FUN_00d5d270(const void* shape, ObbVec* outExt, ObbXf* outXf, int mode)
         int cap = (arr.m_cap & 0x3fffffff) * 2;
         if (total >= cap)
             cap = total;
-        FUN_00c908c0(&heap, &arr.m_data, cap, 16);
+        ::FUN_00c908c0((::SpawnedObject *)(void *)(&heap), (::SpawnedArray *)(void *)(&arr.m_data), cap, 16);
     }
     arr.m_iElementCount = total;
 
@@ -487,7 +484,7 @@ void FUN_00d5d270(const void* shape, ObbVec* outExt, ObbXf* outXf, int mode)
         arr.m_data[i * 3 + 2].q = geom.verts[geom.tris[i].i2].q;
     }
 
-    if (FUN_00d5c6d0(&geom, outExt, outXf, DAT_01013ea4))
+    if (reinterpret_cast<::ObbInput *>((&geom))->FUN_00d5c6d0((*(::ObbVec *)(outExt)), (*(::ObbXf *)(outXf)), ::DAT_01013ea4))
     {
         char* saved = arr.m_pTrailingData;
         if (saved == (char*)arr.m_data)
@@ -499,7 +496,7 @@ void FUN_00d5d270(const void* shape, ObbVec* outExt, ObbXf* outXf, int mode)
             alloc.ReturnMemory(arr.m_data, (arr.m_cap & 0x3fffffff) * 16);
         arr.m_cap = 0x80000000;
         arr.m_data = 0;
-        geom.FUN_00cce530();
+        reinterpret_cast<::FUN_00cce530 *>(&(geom))->FUN_00cce530::~FUN_00cce530();
         return;
     }
 
@@ -562,7 +559,7 @@ void FUN_00d5d270(const void* shape, ObbVec* outExt, ObbXf* outXf, int mode)
         alloc2.ReturnMemory(arr.m_data, (arr.m_cap & 0x3fffffff) * 16);
     arr.m_cap = 0x80000000;
     arr.m_data = 0;
-    geom.FUN_00cce530();
+    reinterpret_cast<::FUN_00cce530 *>(&(geom))->FUN_00cce530::~FUN_00cce530();
 }
 }  // namespace fnv_00d5d270
 
@@ -575,7 +572,6 @@ extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 extern "C" __m128 _mm_sqrt_ss(__m128);
 extern "C" __m128 _mm_sub_ps(__m128, __m128);
 
-extern const float DAT_01012054;
 
 struct __declspec(align(16)) Vec4
 {
@@ -1312,7 +1308,6 @@ void runProbe()
 }
 #pragma optimize("", on)
 
-extern float DAT_01016248;
 
 namespace sphere_pair_build {
 
@@ -1384,7 +1379,7 @@ __declspec(noinline) Vec4* FUN_00d5bb10(Vec4* result, Vec4* first, Vec4* second,
     const Vector& base = *a;
     Vector delta;
     delta.setSub(*b, base);
-    Scalar half(DAT_01016248);
+    Scalar half(::fnv_00c88020::DAT_01016248);
     delta.multiply(half);
     float distance = delta.length();
     out->setAdd(base, delta);

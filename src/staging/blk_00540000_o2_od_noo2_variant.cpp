@@ -5,6 +5,30 @@
 
 // src/staging/blk_00540000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/AlignedVector.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_00454380_Class.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_005532a0_cls.h"
+#include "fnv/decl/FUN_005533f0_cls.h"
+#include "fnv/decl/FUN_006242a0_cls.h"
+#include "fnv/decl/FUN_00c6a620_cls.h"
+#include "fnv/decl/Root.h"
+#include "fnv/decl/S_00c90db0_Foo.h"
+#include "fnv/decl/ScriptLocals.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/_Helper_005534f0.h"
+#include "fnv/decl/bhkCharacterController.h"
+#include "fnv/decl/fnv_00553440__S.h"
+#include "fnv/decl/fnv_00553480__FUN_00553480_cls.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00456000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_0062f000.h"
+#include "fnv/symbols_00c68000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_011ca000.h"
 #include "../../include/layout_support.h"
 
 #include <xmmintrin.h>
@@ -14,13 +38,10 @@ struct FUN_006815c0
     float x, y, z;
     FUN_006815c0();
 
-    float* FUN_00560d30(int);
 };
 struct FourFloatVector
 {
     __m128 values;
-    FourFloatVector* FUN_005532a0(float, float, float, float);
-    void FUN_004a3f10(FourFloatVector*);
 };
 struct FUN_00404eb0
 {
@@ -94,11 +115,9 @@ struct __declspec(align(16)) FUN_00c681c0
         FUN_00553520();
     }
     void FUN_00553520();
-    void FUN_00c90db0(float);
 };
 struct Component
 {
-    void FUN_00483710();
 };
 void* __cdecl FUN_00553300(unsigned int);
 struct CurveBase
@@ -216,15 +235,6 @@ struct ParticleSystem
     {
         return FUN_00553300(n);
     }
-    Component* FUN_00541c80();
-    void FUN_005533f0(void*);
-    void FUN_00553480(CurveBase*);
-    void SetField(void*);
-    void FUN_005534f0(void*);
-    void FUN_00553440(void*);
-    void FUN_00c68750(FUN_006815c0*);
-    void FUN_00454380(bool);
-    void SetProcessEnabled(int);
 };
 struct FUN_00c99ff0 : ParticleSystem
 {
@@ -271,53 +281,46 @@ struct FUN_00624150
 {
     U32 header, body;
     FUN_00624150();
-    void NotifyActivation(Component*);
 };
 extern "C"
 {
-    extern float DAT_011ca158, DAT_0102f104, DAT_0102f100, DAT_0102f0fc;
-    extern const char str_0102ed68[];
-    extern FUN_00624150* DAT_011ca088;
+    extern float DAT_0102f104, DAT_0102f100, DAT_0102f0fc;
 }
-extern float __cdecl FUN_004a3e90(float);
-extern void* __cdecl FUN_0062f3d0();
-extern void* __cdecl FUN_00453720();
-extern bool __cdecl FUN_00456c70();
 // @fnv 0x00554010
 ParticleSystem* __cdecl FUN_00554010(const FUN_006815c0* origin)
 {
     FUN_00404eb0 context(16, 1, str_0102ed68, 0x3c1b);
     FUN_00c681c0 source;
     FourFloatVector rotation;
-    source.orientation.FUN_004a3f10(rotation.FUN_005532a0(0.0f, 0.0f, DAT_011ca158, 0.0f));
-    source.FUN_00c90db0(FUN_004a3e90(DAT_0102f104));
+    reinterpret_cast<::AlignedVector *>(&(source.orientation))->FUN_004a3f10((*(const ::AlignedVector *)(((::FourFloatVector *)(reinterpret_cast<::FUN_005532a0_cls *>(&(rotation))->FUN_005532a0(0.0f, 0.0f, ::runtimeInitializationFloat2390, 0.0f))))));
+    reinterpret_cast<::S_00c90db0_Foo *>(&(source))->FUN_00c90db0(FUN_004a3e90(DAT_0102f104));
     FUN_006815c0 direction;
     direction = *origin;
     direction.z = 0.0f;
     source.alpha = 1.0f;
     __declspec(align(16)) FUN_006815c0 velocity;
-    *velocity.FUN_00560d30(0) = FUN_004a3e90(DAT_0102f100);
-    *velocity.FUN_00560d30(1) = FUN_004a3e90(DAT_0102f100);
-    *velocity.FUN_00560d30(2) = FUN_004a3e90(DAT_0102f100);
+    *((float *)&(reinterpret_cast<::bhkCharacterController *>(&(velocity))->GetVectorElement(0))) = FUN_004a3e90(DAT_0102f100);
+    *((float *)&(reinterpret_cast<::bhkCharacterController *>(&(velocity))->GetVectorElement(1))) = FUN_004a3e90(DAT_0102f100);
+    *((float *)&(reinterpret_cast<::bhkCharacterController *>(&(velocity))->GetVectorElement(2))) = FUN_004a3e90(DAT_0102f100);
     __declspec(align(16)) FUN_006815c0 acceleration;
-    *acceleration.FUN_00560d30(0) = FUN_004a3e90(DAT_0102f0fc);
-    *acceleration.FUN_00560d30(1) = FUN_004a3e90(DAT_0102f0fc);
-    *acceleration.FUN_00560d30(2) = FUN_004a3e90(DAT_0102f0fc);
+    *((float *)&(reinterpret_cast<::bhkCharacterController *>(&(acceleration))->GetVectorElement(0))) = FUN_004a3e90(DAT_0102f0fc);
+    *((float *)&(reinterpret_cast<::bhkCharacterController *>(&(acceleration))->GetVectorElement(1))) = FUN_004a3e90(DAT_0102f0fc);
+    *((float *)&(reinterpret_cast<::bhkCharacterController *>(&(acceleration))->GetVectorElement(2))) = FUN_004a3e90(DAT_0102f0fc);
     ParticleSystem* system = new FUN_00c99ff0(&source, &velocity, &acceleration);
-    system->FUN_00541c80()->FUN_00483710();
-    system->FUN_005533f0(new FUN_00554590());
-    system->FUN_00553480(new FUN_0062d5c0());
-    system->SetField(FUN_0062f3d0());
-    system->FUN_005534f0(new FUN_0061f460());
-    system->FUN_00553440(FUN_00453720());
-    system->FUN_005533f0(new FUN_0062a460());
+    reinterpret_cast<::TESForm *>((((::Component *)(reinterpret_cast<::ScriptLocals *>((system))->GetLocalData()))))->ClearData();
+    reinterpret_cast<::FUN_005533f0_cls *>((system))->FUN_005533f0((unsigned int)(new FUN_00554590()));
+    reinterpret_cast<::fnv_00553480::FUN_00553480_cls *>((system))->FUN_00553480((char *)(::CurveBase *)(new FUN_0062d5c0()));
+    reinterpret_cast<::FUN_00c6a620_cls *>((system))->SetField(((void *)(::FUN_0062f3d0())));
+    reinterpret_cast<::_Helper_005534f0 *>((system))->FUN_005534f0(new FUN_0061f460());
+    reinterpret_cast<::fnv_00553440::S *>((system))->FUN_00553440((int)(((void *)(::FUN_00453720()))));
+    reinterpret_cast<::FUN_005533f0_cls *>((system))->FUN_005533f0((unsigned int)(new FUN_0062a460()));
     if (!DAT_011ca088)
         DAT_011ca088 = new FUN_00624150();
-    DAT_011ca088->NotifyActivation(system->FUN_00541c80());
-    system->FUN_00c68750(&direction);
-    system->FUN_00541c80()->FUN_00483710();
+    reinterpret_cast<::FUN_006242a0_cls *>((DAT_011ca088))->NotifyActivation((::ActivationListener *)(::Component *)(((::Component *)(reinterpret_cast<::ScriptLocals *>((system))->GetLocalData()))));
+    ::FUN_00c68750((const ::SourcePoint *)(system));
+    reinterpret_cast<::TESForm *>((((::Component *)(reinterpret_cast<::ScriptLocals *>((system))->GetLocalData()))))->ClearData();
     system->Update();
-    system->FUN_00454380(!FUN_00456c70());
-    system->SetProcessEnabled(0);
+    reinterpret_cast<::FUN_00454380_Class *>((system))->FUN_00454380(!((bool)(::FUN_00456c70())));
+    reinterpret_cast<::Root *>((system))->SetProcessEnabled(0);
     return system;
 }

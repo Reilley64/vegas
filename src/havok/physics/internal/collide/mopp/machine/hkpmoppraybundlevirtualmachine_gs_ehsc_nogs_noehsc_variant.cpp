@@ -3,10 +3,12 @@
 // byte only under /MT /O2 /GS- /EHs-c- /Gy (unit src/havok/physics/internal/collide/mopp/machine/hkpmoppraybundlevirtualmachine.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/decl/RayBundleTraversalMachine.h"
 #include "fnv_asm_helpers.h"
 // src/havok/physics/internal/collide/mopp/machine/hkpmoppraybundlevirtualmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/machine/hkpmoppraybundlevirtualmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 __declspec(align(16)) struct FUN_00dd4a50_cls
 {
     __m128 m_v00;
@@ -22,7 +24,6 @@ __declspec(align(16)) struct FUN_00dd4a50_cls
 };
 
 extern const double DAT_010d5198;
-extern const __m128 DAT_01268460;
 
 class __declspec(align(16)) Vec4
 {
@@ -117,7 +118,7 @@ public:
 
     __forceinline void set(Mask)
     {
-        m_uiMask = DAT_01268460;
+        m_uiMask = (*reinterpret_cast<const ::__m128 *>(&::DAT_01268460));
     }
 
 private:
@@ -215,7 +216,6 @@ public:
     const ShapeContainer* m_pShapeCollection;
     int m_iCurrentChunkId;
 
-    void FUN_00dd3210(const MachineVectorIndexRecord* query, const unsigned char* pc, PointBundlePairAndVector* fQuery, int chunkId);
     __forceinline void querySub(const TreeCode* code, const RayBundleInput& input, const Vec4Comp& mask);
     Vec4Comp FUN_00dd4870(const ShapeContainer* collection, const TreeCode* code, const RayBundleInput& input, RayBundleOutput& rayResult, const Vec4Comp& mask);
 };
@@ -265,7 +265,7 @@ inline void BundleMachine::querySub(const TreeCode* code, const RayBundleInput& 
 
     m_iCurrentChunkId = (programCounter[0] != 0x0d) - 1;
 
-    FUN_00dd3210(&query, programCounter, &fQuery, 0);
+    reinterpret_cast<::RayBundleTraversalMachine *>(this)->FUN_00dd3210((const ::QueryState *)(const ::BundleMachine::MachineVectorIndexRecord *)(&query), programCounter, (::RayQuerySet *)(::BundleMachine::PointBundlePairAndVector *)(&fQuery), 0);
 }
 
 // @fnv 0x00dd4870

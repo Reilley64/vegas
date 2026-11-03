@@ -2,6 +2,10 @@
 // src/havok/common/internal/kdtree/hkkdtree.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/kdtree/hkkdtree.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d9d000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_0104e000.h"
 struct Entry
 {
     unsigned short unk00;
@@ -72,15 +76,13 @@ struct DrawParams
     int m_i1c;
 };
 
-void __cdecl MixChannels(void* apTarget, int aiFirst, int aiSecond, int aiThird, int aiCount, int aiFifth,
-                         int* apExtra);
 
 // If the count field is positive, forwards the target and the parameter fields to MixChannels.
 // @fnv 0x00d9db30
 void __cdecl DrawIfCountPositive(void* apTarget, DrawParams* apParams)
 {
     if (apParams->m_iArrayLength > 0)
-        MixChannels(apTarget, apParams->m_i00, apParams->m_i1c, apParams->m_i04, apParams->m_iArrayLength, apParams->m_i18,
+        ::MixChannels(apTarget, (int *)(apParams->m_i00), apParams->m_i1c, (void *)(apParams->m_i04), apParams->m_iArrayLength, (int *)(apParams->m_i18),
                     &apParams->m_i0c);
 }
 
@@ -101,7 +103,6 @@ struct D97770MemoryRouter
 };
 
 extern "C" D97770MemoryRouter& __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(D97770Allocator* alloc, void* array, int numElements, int sizeElem);
 
 struct D97770Interval
 {
@@ -134,7 +135,7 @@ struct D97770IntervalArray
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, sizeof(D97770Interval));
+            ::FUN_00c908c0((::SpawnedObject *)(::D97770Allocator *)(&alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(D97770Interval));
         }
     }
 
@@ -167,7 +168,6 @@ void D97770IntervalArray::FUN_00d97770(int minSize)
 
 struct FUN_00d97770_base
 {
-    void FUN_00d97770(unsigned int aValue);
 };
 
 struct FUN_00d97810_cls
@@ -196,7 +196,7 @@ FUN_00d97810_cls* FUN_00d97810_cls::Initialize(unsigned int aValue)
     m_1c = 0;
     m_20 = 0;
     m_24 = 0x80000000u;
-    reinterpret_cast<FUN_00d97770_base*>(this)->FUN_00d97770(aValue);
+    reinterpret_cast<::D97770IntervalArray *>((reinterpret_cast<FUN_00d97770_base*>(this)))->FUN_00d97770(aValue);
     return this;
 }
 
@@ -267,8 +267,6 @@ void FUN_00d97850_cls::ClearBuffers()
 }  // namespace fnv_00d97850
 
 #include <xmmintrin.h>
-extern float DAT_0104da48;
-extern float DAT_0104e148;
 
 __declspec(align(16)) struct FUN_00d976d0_cls
 {
@@ -289,13 +287,13 @@ extern "C" void _ReadWriteBarrier(void);
 // @fnv 0x00d976d0
 void FUN_00d976d0_cls::FUN_00d976d0()
 {
-    __m128 v = _mm_set1_ps(DAT_0104da48);
+    __m128 v = _mm_set1_ps(::DAT_0104da48);
     *(volatile int*)&m_00 = -1;
     *(volatile unsigned char*)&m_04 = 2;
     *(volatile unsigned char*)&m_05 = 1;
     _ReadWriteBarrier();
     m_10 = v;
-    m_20 = _mm_set1_ps(DAT_0104e148);
+    m_20 = _mm_set1_ps(::DAT_0104e148);
 }
 
 struct Cinfo_d978
@@ -321,7 +319,7 @@ template <class T> struct hkArray_d978
         if (cap < n)
         {
             int cap2 = 2 * cap;
-            FUN_00c908c0(&heap, this, n < cap2 ? cap2 : n, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(::D97770Allocator *)(&heap), (::SpawnedArray *)(void *)(this), n < cap2 ? cap2 : n, sizeof(T));
         }
         m_iElementCount = n;
     }
@@ -343,7 +341,6 @@ struct Tree_d978
     int unk28, unk2C;
     __m128 m_kMinimumCorner;
     __m128 m_kMaximumCorner;
-    void FUN_00d97770(int minSize);
     void FUN_00d978d0(const Cinfo_d978& cinfo);
 };
 
@@ -358,7 +355,7 @@ void Tree_d978::FUN_00d978d0(const Cinfo_d978& cinfo)
     int numSplits = cinfo.m_numSplits;
     int perSplit = (numSplits == 0) ? 0 : cinfo.m_numObjects / numSplits;
     m_numSplits = perSplit;
-    FUN_00d97770(m_iNodeCount + perSplit);
+    reinterpret_cast<::D97770IntervalArray *>(this)->FUN_00d97770(m_iNodeCount + perSplit);
     m_numObjects = cinfo.m_numObjects;
     m_kNodeCollection.SetSizeAndGrow(m_numObjects);
 }

@@ -2,8 +2,23 @@
 // src/havok/common/base/debugutil/statisticscollector/util/hkstatisticscollectorutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/debugutil/statisticscollector/util/hkstatisticscollectorutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" int __cdecl FUN_00cb10d0(const char* s);
 
+#include "fnv/decl/D06D50Finder.h"
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_00d46f70_cls.h"
+#include "fnv/decl/FUN_00d46f80_class.h"
+#include "fnv/decl/FUN_00d87340_cls.h"
+#include "fnv/decl/FnvCpu_FUN_00d470d0_CpuObject.h"
+#include "fnv/decl/OwnerD869.h"
+#include "fnv/decl/ReflectObj.h"
+#include "fnv/decl/StringMemberAccessor.h"
+#include "fnv/decl/TestClass.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00cf5000.h"
+#include "fnv/symbols_00d86000.h"
+#include "fnv/symbols_00d87000.h"
+#include "fnv/symbols_01268000.h"
 class Hasher
 {
   public:
@@ -42,6 +57,8 @@ class Handler
     virtual void v0c();
     virtual void v10();
     virtual void Emit(int kind, int a, const char* s, int len, int hash);
+public:
+    void EmitString(int, unsigned int *);
 };
 
 // If s is non-null, computes its length plus one, hashes it via the audio hasher, and emits it through h with kind 1 and *a.
@@ -50,7 +67,7 @@ extern "C" void __cdecl EmitStringWithHash(int* pValue, const char* pString, Han
 {
     if (pString)
     {
-        int len = FUN_00cb10d0(pString) + 1;
+        int len = ::fnv_00cb10d0::FUN_00cb10d0(pString) + 1;
         int hash = FUN_00c85750()->GetHasher().Hash(pString, len);
         pHandler->Emit(1, *pValue, pString, len, hash);
     }
@@ -131,7 +148,6 @@ void FUN_00cf6080(int a, void* p, int aiOldCount, int newCount, int elemSize, S_
 
 struct Target
 {
-    int FUN_00d470d0();
 };
 
 struct TypeInfo
@@ -144,7 +160,6 @@ struct TypeInfo
     short m_sValue;
 };
 
-TypeInfo* __cdecl FUN_00d868a0(int aiType);
 
 struct Thing
 {
@@ -154,7 +169,6 @@ struct Thing
     unsigned char unk0c;
     unsigned char m_ucType;
 
-    Target* FUN_00d86910();
 };
 
 // Reads the type from apThing, looks up its TypeInfo, and returns m_sValue if positive, else the result of FUN_00d470d0 for kind 0x19, otherwise -1.
@@ -165,13 +179,13 @@ int __cdecl GetThingValue(Thing* apThing)
     if (ucType == 0)
         return -1;
 
-    TypeInfo* pInfo = FUN_00d868a0(ucType);
+    TypeInfo* pInfo = ((::TypeInfo *)(::FUN_00d868a0(ucType)));
     short sValue = pInfo->m_sValue;
     if (sValue > 0)
         return sValue;
 
     if (pInfo->m_ucKind == 0x19)
-        return apThing->FUN_00d86910()->FUN_00d470d0();
+        return reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((((::Target *)(reinterpret_cast<::TestClass *>((apThing))->FUN_00d86910()))))->FUN_00d470d0();
 
     return -1;
 }
@@ -193,8 +207,6 @@ struct Shape;
 
 struct Container
 {
-    __declspec(nothrow) int FUN_00d46f70() const;
-    __declspec(nothrow) const Shape* FUN_00d46f80(int i) const;
 };
 
 __declspec(nothrow) hkBool __cdecl GetFlagByState(const Shape* s);
@@ -203,10 +215,10 @@ __declspec(nothrow) hkBool __cdecl GetFlagByState(const Shape* s);
 // @fnv 0x00cf6330
 hkBool __cdecl FUN_00cf6330(const Container* apContainer)
 {
-    int n = apContainer->FUN_00d46f70();
+    int n = reinterpret_cast<::FUN_00d46f70_cls *>((void *)(apContainer))->FUN_00d46f70();
     for (int i = 0; i < n; i++)
     {
-        if (!GetFlagByState(apContainer->FUN_00d46f80(i)))
+        if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(GetFlagByState(((const ::Shape *)(reinterpret_cast<::FUN_00d46f80_class *>((void *)(apContainer))->FUN_00d46f80(i))))))->FUN_005609f0())
             return false;
     }
     return true;
@@ -266,7 +278,6 @@ void* __cdecl CallWithNullContext(const void* a, const void* b, const void* c)
 
 struct SpawnedObject
 {
-    int CalleeA(int aiArg);
 };
 
 void __cdecl CalleeB_00cf60d0(int aiA, int aiB, int aiC, int aiD);
@@ -276,7 +287,7 @@ void __cdecl CalleeB_00cf60d0(int aiA, int aiB, int aiC, int aiD);
 void __cdecl CallObjectMethodAndDispatch(int aiFirst, int aiSecond)
 {
     SpawnedObject* pObj = (SpawnedObject*)aiSecond;
-    int result = pObj->CalleeA(aiFirst);
+    int result = ((int)(reinterpret_cast<::D06D50Finder *>((pObj))->FindClass((const ::D06D50Object *)(aiFirst))));
     if (result != 0)
     {
         CalleeB_00cf60d0(0, aiFirst, result, aiSecond);
@@ -285,11 +296,8 @@ void __cdecl CallObjectMethodAndDispatch(int aiFirst, int aiSecond)
 
 struct FUN_00d46f70_Obj
 {
-    int __thiscall FUN_00d46f70();
-    FUN_00d46f70_Obj* __thiscall FUN_00d46d50();
 };
 
-extern FUN_00d46f70_Obj DAT_01268748;
 
 // @fnv 0x00cf6170
 unsigned char* FUN_00cf6170(unsigned char* result, FUN_00d46f70_Obj* object)
@@ -298,16 +306,16 @@ unsigned char* FUN_00cf6170(unsigned char* result, FUN_00d46f70_Obj* object)
     {
         do
         {
-            if (object == &DAT_01268748)
+            if (object == &(*reinterpret_cast<::FUN_00d46f70_Obj *>(&::g_01268748)))
                 break;
 
-            if (object->FUN_00d46f70() > 0)
+            if (reinterpret_cast<::FUN_00d46f70_cls *>((object))->FUN_00d46f70() > 0)
             {
                 *result = 1;
                 return result;
             }
 
-            object = object->FUN_00d46d50();
+            object = ((::FUN_00d46f70_Obj *)(reinterpret_cast<::ReflectObj *>((object))->FUN_00d46d50()));
         } while (object != 0);
     }
 
@@ -317,7 +325,6 @@ unsigned char* FUN_00cf6170(unsigned char* result, FUN_00d46f70_Obj* object)
 
 struct SceneNode
 {
-    SceneNode* Advance();
 };
 
 unsigned char* FUN_00cf6330(SceneNode** where, SceneNode* node);
@@ -334,7 +341,7 @@ unsigned char* FUN_00cf6380(unsigned char* pResult, SceneNode* pStartNode)
             *pResult = 0;
             return pResult;
         }
-        cur = cur->Advance();
+        cur = ((::SceneNode *)(reinterpret_cast<::ReflectObj *>((cur))->FUN_00d46d50()));
     } while (cur != 0);
     *pResult = 1;
     return pResult;
@@ -356,7 +363,6 @@ struct CF63C0Bool
 
 struct CF63C0Class
 {
-    int GetObjectAlignment() const;
     CF63C0Bool hasVtable() const;
 };
 
@@ -380,7 +386,7 @@ void __cdecl WriteObjectArray(void* context, const CF63C0Class& pClassInfo, cons
         if (!FUN_00cf6380(pClassInfo))
         {
             const char* cur = static_cast<const char*>(data);
-            int size = pClassInfo.GetObjectAlignment();
+            int size = reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((void *)&(pClassInfo))->FUN_00d470d0();
             if (pClassInfo.hasVtable())
             {
                 for (int i = 0; i < count; i++)
@@ -403,7 +409,6 @@ void __cdecl WriteObjectArray(void* context, const CF63C0Class& pClassInfo, cons
 
 struct Node
 {
-    Node* FUN_00d46d50();
 };
 
 void __cdecl WriteReflectedMembers(void* a, Node* b, void* c);
@@ -418,7 +423,7 @@ void __cdecl FUN_00cf6920(void* a1, Node* apNode, void* apArg)
     do
     {
         WriteReflectedMembers(a1, p, apArg);
-        p = p->FUN_00d46d50();
+        p = ((::Node *)(reinterpret_cast<::ReflectObj *>((p))->FUN_00d46d50()));
     } while (p != 0);
 }
 
@@ -510,7 +515,7 @@ unsigned char* GetFlagByState(unsigned char* pucOut, FNV_Cf62b0_Obj* pObj)
         return pucOut;
 
     case 24:
-        FUN_cf62b0_next(pucOut, pObj->FUN_cf62b0_get04());
+        FUN_cf62b0_next(pucOut, ((int)(reinterpret_cast<::TestClass *>((pObj))->FUN_00d86910())));
         return pucOut;
 
     default:
@@ -539,14 +544,9 @@ struct Member64
     Flags64 flags;
     unsigned short offset;
     void* attributes;
-    int FUN_00d86940();
-    Meta64* FUN_00d86910();
 };
 struct Meta64
 {
-    int FUN_00d46f70();
-    Member64* FUN_00d46f80(int);
-    int FUN_00d470d0();
 };
 struct Pair64
 {
@@ -575,10 +575,6 @@ struct Access64
     void* data;
     Member64* member;
     Access64(void*, Member64*);
-    char** FUN_00d87220(int);
-    const char* FUN_00d87230(int);
-    Pair64* FUN_00d87340(int);
-    Homogeneous64* FUN_00d87350(int);
 };
 struct Writer64
 {
@@ -592,10 +588,8 @@ struct Writer64
     virtual void End();
     int unk04, unk08, unk0c;
     unsigned char includeStorage;
-    void EmitString(const char*, const char*);
 };
 int __cdecl MemberSize64(Member64*);
-void __cdecl EmitStringWithHash(Member64*, const char*, Writer64*);
 void __cdecl FUN_00cf6080(const char*, void*, int, int, int, Writer64*);
 void __cdecl FUN_00cf6460(Member64*, void*, int, Writer64*);
 void __cdecl WriteObjectArray(const char*, Meta64*, void*, int, Writer64*);
@@ -608,37 +602,37 @@ void __cdecl WriteReflectedMembers(void* base, Meta64* apMeta, Writer64* writer)
 {
     if (!base)
         return;
-    int count = apMeta->FUN_00d46f70();
+    int count = reinterpret_cast<::FUN_00d46f70_cls *>((apMeta))->FUN_00d46f70();
     for (int i = 0; i < count; ++i)
     {
-        Member64* m = apMeta->FUN_00d46f80(i);
+        Member64* m = ((::Member64 *)(reinterpret_cast<::FUN_00d46f80_class *>((apMeta))->FUN_00d46f80(i)));
         if (((unsigned char)(m->flags.get() >> 9) & 1) != 0)
             continue;
         switch (m->type)
         {
         case 29: {
             Access64 value(base, m);
-            int n = m->FUN_00d86940();
+            int n = reinterpret_cast<::OwnerD869 *>((m))->FUN_00d86940();
             if (n <= 1)
-                EmitStringWithHash(m, *value.FUN_00d87220(0), writer);
+                ::EmitStringWithHash((int *)(m), *((char **)(::FUN_00d87220((char *)&(value), 0, {}))), (::Handler *)(writer));
             else
                 for (int j = 0; j < n; ++j)
-                    EmitStringWithHash(m, *value.FUN_00d87220(j), writer);
+                    ::EmitStringWithHash((int *)(m), *((char **)(::FUN_00d87220((char *)&(value), j, {}))), (::Handler *)(writer));
             break;
         }
         case 33: {
             Access64 value(base, m);
-            int n = m->FUN_00d86940();
+            int n = reinterpret_cast<::OwnerD869 *>((m))->FUN_00d86940();
             if (n <= 1)
             {
                 const char* name = m->name;
-                writer->EmitString(name, value.FUN_00d87230(0));
+                reinterpret_cast<::Handler *>((writer))->EmitString((int)(name), (unsigned int *)(((const char *)(reinterpret_cast<::StringMemberAccessor *>(&(value))->FUN_00d87230(0)))));
             }
             else
                 for (int j = 0; j < n; ++j)
                 {
                     const char* name = m->name;
-                    writer->EmitString(name, value.FUN_00d87230(j));
+                    reinterpret_cast<::Handler *>((writer))->EmitString((int)(name), (unsigned int *)(((const char *)(reinterpret_cast<::StringMemberAccessor *>(&(value))->FUN_00d87230(j)))));
                 }
             break;
         }
@@ -668,7 +662,7 @@ void __cdecl WriteReflectedMembers(void* base, Meta64* apMeta, Writer64* writer)
         }
         case 26: {
             Access64 value(base, m);
-            Pair64 a = *value.FUN_00d87340(0);
+            Pair64 a = *((::Pair64 *)(reinterpret_cast<::FUN_00d87340_cls *>(&(value))->FUN_00d87340(0)));
             void* data = a.data;
             int length = a.count;
             int size = GetThingValue(m);
@@ -682,7 +676,7 @@ void __cdecl WriteReflectedMembers(void* base, Meta64* apMeta, Writer64* writer)
         }
         case 27: {
             Access64 value(base, m);
-            Homogeneous64 a = *value.FUN_00d87350(0);
+            Homogeneous64 a = *((::Homogeneous64 *)(::FUN_00d87350((int *)&(value), 0, {})));
             Meta64* itemClass = a.pClassInfo;
             void* data = a.data;
             int length = a.count;
@@ -690,7 +684,7 @@ void __cdecl WriteReflectedMembers(void* base, Meta64* apMeta, Writer64* writer)
             {
                 writer->Begin(m->name);
                 const char* name = m->name;
-                FUN_00cf6080(name, data, length, length, itemClass->FUN_00d470d0(), writer);
+                FUN_00cf6080(name, data, length, length, reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((itemClass))->FUN_00d470d0(), writer);
                 WriteObjectArray(m->name, itemClass, data, length, writer);
                 writer->End();
             }
@@ -701,7 +695,7 @@ void __cdecl WriteReflectedMembers(void* base, Meta64* apMeta, Writer64* writer)
             {
                 void* data = *(void**)((char*)base + m->offset);
                 const char* name = m->name;
-                WriteToDestination(name, data, m->FUN_00d86910(), writer);
+                WriteToDestination(name, data, ((::Meta64 *)(reinterpret_cast<::TestClass *>((m))->FUN_00d86910())), writer);
             }
             break;
         case 28: {
@@ -713,7 +707,7 @@ void __cdecl WriteReflectedMembers(void* base, Meta64* apMeta, Writer64* writer)
         case 25: {
             const char* name = m->name;
             void* data = (char*)base + m->offset;
-            FUN_00cf60d0(name, data, m->FUN_00d86910(), writer);
+            FUN_00cf60d0(name, data, ((::Meta64 *)(reinterpret_cast<::TestClass *>((m))->FUN_00d86910())), writer);
             break;
         }
         }
@@ -738,8 +732,6 @@ struct hkClassMember
 
 struct hkClass
 {
-    int GetNumDeclaredMembers() const;
-    const hkClassMember& GetDeclaredMember(int i) const;
     void touch() const
     {}
 };
@@ -755,34 +747,31 @@ struct StringArrayAccessor
     const hkClassMember* m_kMemberDescriptor;
 
     StringArrayAccessor(const void* object, const hkClassMember* member);
-    const char*& GetStringPointerAt(int index);
-    hkStringPtr& GetStringPtr(int index);
 };
 
-int __cdecl FUN_00cb0fa0(const char* a, const char* b);
 
 // Finds the declared member named "name" in pClassInfo and returns its string value, or "unnamed" when the pointer is null.
 // @fnv 0x00cf6210
 static __declspec(noinline) const char* FUN_00cf6210(const void* object, const hkClass& pClassInfo)
 {
-    const int n = pClassInfo.GetNumDeclaredMembers();
+    const int n = reinterpret_cast<::FUN_00d46f70_cls *>((void *)&(pClassInfo))->FUN_00d46f70();
     for (int i = 0; i < n; i++)
     {
-        const hkClassMember& member = pClassInfo.GetDeclaredMember(i);
+        const hkClassMember& member = (*(const ::hkClassMember *)(reinterpret_cast<::FUN_00d46f80_class *>((void *)&(pClassInfo))->FUN_00d46f80(i)));
         const char* name = member.m_name;
-        if (FUN_00cb0fa0(name, "name") != 0)
+        if (::fnv_00cb0fa0::FUN_00cb0fa0(name, "name") != 0)
             continue;
         StringArrayAccessor accessor(object, &member);
         switch (member.getType())
         {
         case 0x1d: {
-            const char* s = accessor.GetStringPointerAt(0);
+            const char* s = ::FUN_00d87220((char *)&(accessor), 0, {});
             if (&pClassInfo)
                 return s ? s : "unnamed";
             return s ? s : "unnamed";
         }
         case 0x21: {
-            const char* s = (const char*)((unsigned int)accessor.GetStringPtr(0).m_pcText & ~1u);
+            const char* s = (const char*)((unsigned int)(*(::hkStringPtr *)(reinterpret_cast<::StringMemberAccessor *>(&(accessor))->FUN_00d87230(0))).m_pcText & ~1u);
             return s ? s : "unnamed";
         }
         }
@@ -800,7 +789,6 @@ void caller_cf6210()
 
 extern const char DAT_01094398[];
 extern const char DAT_010cc458[];
-int __cdecl FUN_00cb0fa0(const char*, const char*);
 struct TaggedString64
 {
     unsigned int bits;
@@ -809,22 +797,22 @@ static __declspec(noinline) const char* FUN_00cf6210(Meta64* pClassInfo, void* o
 {
     if (!pClassInfo)
         return 0;
-    int count = pClassInfo->FUN_00d46f70();
+    int count = reinterpret_cast<::FUN_00d46f70_cls *>((pClassInfo))->FUN_00d46f70();
     for (int i = 0; i < count; ++i)
     {
-        Member64* m = pClassInfo->FUN_00d46f80(i);
-        if (FUN_00cb0fa0(m->name, DAT_01094398) == 0)
+        Member64* m = ((::Member64 *)(reinterpret_cast<::FUN_00d46f80_class *>((pClassInfo))->FUN_00d46f80(i)));
+        if (::fnv_00cb0fa0::FUN_00cb0fa0(m->name, DAT_01094398) == 0)
         {
             Access64 access(object, m);
             switch (m->type)
             {
             case 0x21: {
-                TaggedString64* slot = (TaggedString64*)access.FUN_00d87230(0);
+                TaggedString64* slot = (TaggedString64*)((const char *)(reinterpret_cast<::StringMemberAccessor *>(&(access))->FUN_00d87230(0)));
                 const char* name = (const char*)(slot->bits & ~1u);
                 return name ? name : DAT_010cc458;
             }
             case 0x1d: {
-                const char* name = *access.FUN_00d87220(0);
+                const char* name = *((char **)(::FUN_00d87220((char *)&(access), 0, {})));
                 return name ? name : DAT_010cc458;
             }
             }
@@ -842,7 +830,7 @@ void __cdecl FUN_00cf6460(Member64* member, void* elements, int count, Writer64*
     switch (member->subtype)
     {
     case 0x14: {
-        Meta64* meta = member->FUN_00d86910();
+        Meta64* meta = ((::Meta64 *)(reinterpret_cast<::TestClass *>((member))->FUN_00d86910()));
         if (!meta)
             return;
         for (int i = 0; i < count; ++i)
@@ -855,7 +843,7 @@ void __cdecl FUN_00cf6460(Member64* member, void* elements, int count, Writer64*
         return;
     }
     case 0x19: {
-        Meta64* meta = member->FUN_00d86910();
+        Meta64* meta = ((::Meta64 *)(reinterpret_cast<::TestClass *>((member))->FUN_00d86910()));
         if (!meta)
             return;
         WriteObjectArray(member->name, meta, elements, count, writer);
@@ -863,11 +851,11 @@ void __cdecl FUN_00cf6460(Member64* member, void* elements, int count, Writer64*
     }
     case 0x1d:
         for (int i = 0; i < count; ++i)
-            EmitStringWithHash(member, ((const char**)elements)[i], writer);
+            ::EmitStringWithHash((int *)(member), ((const char**)elements)[i], (::Handler *)(writer));
         return;
     case 0x21: {
         for (int i = 0; i < count; ++i)
-            writer->EmitString(member->name, (const char*)((const char**)elements + i));
+            reinterpret_cast<::Handler *>((writer))->EmitString((int)(member->name), (unsigned int *)((const char*)((const char**)elements + i)));
         return;
     }
     }

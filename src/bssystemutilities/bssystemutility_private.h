@@ -2,13 +2,16 @@
 #define BSSYSTEMUTILITY_PRIVATE_H
 
 
+#include "fnv/decl/FUN_00442550_shell.h"
+#include "fnv/decl/FUN_00af2db0_cls.h"
+#include "fnv/decl/FnvEmptyThiscall_Class.h"
+#include "fnv/symbols_00af2000.h"
 class CountingSemaphore
 {
   public:
     volatile int iCount;
     void* hSemaphore;
     int m_iMaximumCount;
-    void Signal();
 };
 
 class BSSystemUtility
@@ -30,20 +33,22 @@ class IdleSystem
     static IdleSystem& GetRandomGenerator();
     void Idle();
     static void Initialize();
+public:
+    static void Startup();
+public:
+    static void Shutdown();
 };
 
 class NetworkSystemUtility
 {
   public:
     static NetworkSystemUtility& GetRandomGenerator();
-    void UpdateSteamRunningFlag();
 };
 
 class DownloadableContentManager
 {
   public:
     static DownloadableContentManager& GetRandomGenerator();
-    void FUN_00af2c80();
 };
 
 class FNVVTableSlot4
@@ -69,9 +74,6 @@ class FNVVTableSlot8Args
     virtual void vfn_08();
 };
 
-void FUN_00af2370();
-void FUN_00af2360();
-void FUN_00af2750();
 void FUN_00af2760();
 void FUN_00af2d30();
 FNVVTableSlot8* FUN_00af3850();

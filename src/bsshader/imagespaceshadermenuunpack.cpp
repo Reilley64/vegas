@@ -3,6 +3,19 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <windows.h>
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00a87790_cls.h"
+#include "fnv/decl/FUN_00a87900_class.h"
+#include "fnv/decl/FUN_00ba3770_struct.h"
+#include "fnv/decl/NiRenderer.h"
+#include "fnv/decl/NiScreenElementsDataShell.h"
+#include "fnv/decl/S00c03c80_cls.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011ae000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01202000.h"
 struct NiRefObject
 {
     virtual void vf00();
@@ -70,7 +83,6 @@ template <class T> struct NiPointer
     }
 };
 
-extern char* DAT_0109b220;
 
 struct NiFixedString
 {
@@ -93,7 +105,6 @@ struct BSRenderedTexture : NiRefObject
 };
 struct ImageSpaceTexture
 {
-    BSRenderedTexture* FUN_00ba3770();
 };
 
 struct NiScreenElementsData
@@ -128,11 +139,10 @@ struct NiScreenElementsData
     int unk68;
     int unk6c;
     NiScreenElementsData(bool a, bool b, unsigned short c, int d, int e, int f, int g, int h, int i);
-    bool FUN_00a87ae0(int a, int b, int c);
     bool SetRectangle(int i, float a, float b, float c, float d);
-    void FUN_00a87900();
-    bool FUN_00a88130(int i, int j, float a, float b, float c, float d);
     void FUN_00a67050(int a);
+public:
+    bool SetRectangleBounds(int, unsigned short, float, float, float, float);
 };
 
 struct NiUpdateData
@@ -196,10 +206,6 @@ struct NiScreenElements : NiRefObject
     int unkbc;
     HudOwner* unkc0;
     NiScreenElements(NiScreenElementsData* d);
-    void AssignFixedString(NiFixedString* s);
-    void FUN_00a5a040();
-    void FUN_00a59c60(NiUpdateData* u);
-    void FUN_00a87790(ScreenSink* s);
 };
 
 struct ColorA
@@ -469,7 +475,6 @@ struct SurfaceOwner
 
 struct HudBase
 {
-    int ProcessEntries();
     virtual void vf00();
     virtual void vf01();
     virtual void vf02();
@@ -616,11 +621,7 @@ struct HudOwner : HudBase, HudInner
 };
 
 extern unsigned short DAT_011ae5e2;
-extern bool DAT_011ae5d4;
 extern RecEntry** DAT_011ae5dc;
-extern GlobalA* DAT_011f91ac;
-extern ScreenSink* DAT_011f4748;
-extern HudParam DAT_01202410;
 
 // Rebuilds the HUD NiScreenElements from RecEntry rectangles when DAT_011ae5d4 is set, then renders them through the HudOwner and ScreenSink.
 // @fnv 0x00bb7530
@@ -631,11 +632,11 @@ void HudInner::UpdateHudGeometry(int aiUnk, SurfaceOwner* apSurface, HudParam* a
     {
         HudParam* p = apHudParam;
         if (p == 0)
-            p = &DAT_01202410;
-        if (DAT_011ae5d4)
+            p = &(*reinterpret_cast<::HudParam *>(&::g_01202410));
+        if ((*reinterpret_cast<bool *>(&::DAT_011ae5d4)))
         {
-            NiPointer<BSRenderedTexture> pTexture = (*unk2c)->FUN_00ba3770();
-            DAT_011f91ac->unk200.Release();
+            NiPointer<BSRenderedTexture> pTexture = ((::BSRenderedTexture *)(reinterpret_cast<::FUN_00ba3770_struct *>(((*unk2c)))->FUN_00ba3770()));
+            (*reinterpret_cast<::GlobalA * *>(&::DAT_011f91ac))->unk200.Release();
             NiScreenElements* pScreenElements =
                 new NiScreenElements(new NiScreenElementsData(false, false, 1, 1, 1, 4, 1, 2, 1));
             int i = 0;
@@ -645,7 +646,7 @@ void HudInner::UpdateHudGeometry(int aiUnk, SurfaceOwner* apSurface, HudParam* a
                 unsigned h = apSurface->GetHeight();
                 float aspect = (float)w / (float)h;
                 aspect = aspect / 1.3333333730697632;
-                pScreenElements->unkb8->FUN_00a87ae0(4, 0, 0);
+                reinterpret_cast<::NiScreenElementsDataShell *>((pScreenElements->unkb8))->FUN_00a87ae0(4, 0, (const unsigned short *)(0));
                 RecEntry* pRecEntry = DAT_011ae5dc[i];
                 double fScale = aspect * 1280.0;
                 float qx = pRecEntry->f10 / fScale;
@@ -661,30 +662,30 @@ void HudInner::UpdateHudGeometry(int aiUnk, SurfaceOwner* apSurface, HudParam* a
                 float e0 = qw + v4;
                 float e1 = qh + v5;
                 pScreenElements->unkb8->SetRectangle(i, fX, fY, fW, fH);
-                pScreenElements->unkb8->FUN_00a87900();
+                reinterpret_cast<::FUN_00a87900_class *>((pScreenElements->unkb8))->FUN_00a87900();
                 NiScreenElementsData* pScreenElementsData = pScreenElements->unkb8;
-                pScreenElementsData->FUN_00a88130(i, 0, v4, v5, e0, e1);
+                pScreenElementsData->SetRectangleBounds(i, 0, v4, v5, e0, e1);
                 pScreenElements->unkb8->FUN_00a67050(0);
                 NiFixedString sName(NiGlobalStringTable::AddString("Interface: HUD Unpack Geometry"));
-                pScreenElements->AssignFixedString(&sName);
+                ::AssignFixedString((char *)(pScreenElements), (int)(&sName), {});
             }
-            pScreenElements->FUN_00a5a040();
+            reinterpret_cast<::FUN_00a5a040_Class *>((pScreenElements))->FUN_00a5a040();
             NiUpdateData ud;
-            pScreenElements->FUN_00a59c60(&ud);
+            reinterpret_cast<::FUN_00a59c60_cls *>((pScreenElements))->FUN_00a59c60((int)(&ud));
             pScreenElements->unkc0 = (HudOwner*)((char*)this - 0x6c);
-            DAT_011f91ac->unk200 = pScreenElements;
+            (*reinterpret_cast<::GlobalA * *>(&::DAT_011f91ac))->unk200 = pScreenElements;
         }
-        NiScreenElements* spr = DAT_011f91ac->unk200;
+        NiScreenElements* spr = (*reinterpret_cast<::GlobalA * *>(&::DAT_011f91ac))->unk200;
         HudOwner* pHudOwner = (HudOwner*)((char*)this - 0x6c);
         pHudOwner->vf14(spr);
         pHudOwner->vf52(p);
-        pHudOwner->ProcessEntries();
-        if (DAT_011f4748->unk200 == 1 || DAT_011f4748->unk200 == 2)
+        reinterpret_cast<::S00c03c80_cls *>((pHudOwner))->ProcessEntries();
+        if ((*reinterpret_cast<::ScreenSink * *>(&::NiRenderer::ms_pRenderer))->unk200 == 1 || (*reinterpret_cast<::ScreenSink * *>(&::NiRenderer::ms_pRenderer))->unk200 == 2)
         {
-            if (DAT_011f4748->unk208 == true)
-                DAT_011f4748->vf64(&color);
+            if ((*reinterpret_cast<::ScreenSink * *>(&::NiRenderer::ms_pRenderer))->unk208 == true)
+                (*reinterpret_cast<::ScreenSink * *>(&::NiRenderer::ms_pRenderer))->vf64(&color);
         }
-        spr->FUN_00a87790(DAT_011f4748);
-        DAT_011ae5d4 = false;
+        reinterpret_cast<::FUN_00a87790_cls *>((spr))->FUN_00a87790((int)((*reinterpret_cast<::ScreenSink * *>(&::NiRenderer::ms_pRenderer))));
+        (*reinterpret_cast<bool *>(&::DAT_011ae5d4)) = false;
     }
 }

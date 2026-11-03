@@ -2,14 +2,29 @@
 // src/havok/animation/ragdoll/instance/hkaragdollinstance.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/ragdoll/instance/hkaragdollinstance.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/CpuObject.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00ca8860_cls.h"
+#include "fnv/decl/FUN_00ce2150Owner.h"
+#include "fnv/decl/Mgr.h"
+#include "fnv/decl/Ragdoll4.h"
+#include "fnv/decl/TW.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpConstraintInstanceCF3F.h"
+#include "fnv/decl/hkpEntityC9C.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00ce1000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010cb000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkaRagdollInstance.h"
 
-extern int DAT_01268700;
-void __stdcall FUN_00ce1760(int, int, int);
 // @fnv 0x00ce18d0
 void __stdcall FUN_00ce18d0(int a)
 {
-    FUN_00ce1760(a, (int)&DAT_01268700, 0);
+    reinterpret_cast<::Ragdoll4 *>((a))->FUN_00ce1760((::hkQsTransformC17 *)((int)&DAT_01268700), (*(const ::hkQsTransformC17 *)(0)), {});
 }
 
 struct FUN_00ce2430_Transform
@@ -28,7 +43,6 @@ struct FUN_00ce2430_Class
     unsigned char pad[0x2c];
     FUN_00ce2430_Data* data;
 
-    void FUN_00ce2150(int, float, void*);
     void ApplyValueToTransforms(float, FUN_00ce2430_Transform*);
 };
 
@@ -40,7 +54,7 @@ void FUN_00ce2430_Class::ApplyValueToTransforms(float value, FUN_00ce2430_Transf
 
     for (int i = 0; i < count; ++i)
     {
-        this->FUN_00ce2150(i, value, transforms);
+        reinterpret_cast<::FUN_00ce2150Owner *>((this))->FUN_00ce2150(i, value, (*(::hkQsTransformC21 *)(transforms)));
         ++transforms;
     }
 }
@@ -83,7 +97,6 @@ void* FUN_00ce29b0_standin::Destroy(unsigned char deletingFlag)
     return this;
 }
 
-extern int DAT_010cfd84;
 
 struct FnvVtObj
 {
@@ -95,14 +108,12 @@ struct FnvVtObj
 // @fnv 0x00ce25f0
 FnvVtObj* FnvVtObj::FUN_00ce25f0(unsigned int unusedArg)
 {
-    m_vptr = (int)&DAT_010cfd84;
+    m_vptr = (int)&::DAT_010cb830;
     return this;
 }
 
 struct ReferenceObject : hkReferencedObject
 {
-    void FUN_00c90510();
-    void FUN_00c905b0();
 };
 struct ArrayAllocator
 {
@@ -164,26 +175,24 @@ void RagdollInstance::FUN_00ce22c0(const ObjectArray<ReferenceObject*>& bodies,
                                    const ObjectArray<ReferenceObject*>& constraints, ReferenceObject* skeleton)
 {
     if (skeleton)
-        skeleton->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((skeleton))->FUN_00c90510();
     if (m_pSkeleton)
-        m_pSkeleton->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_pSkeleton))->FUN_00c905b0();
     m_pSkeleton = skeleton;
     m_ppRigidBodies.assign(bodies);
     m_ppConstraints.assign(constraints);
     for (int i = 0; i < m_ppRigidBodies.m_iElementCount; ++i)
         if (m_ppRigidBodies[i])
-            m_ppRigidBodies[i]->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((m_ppRigidBodies[i]))->FUN_00c90510();
     for (int i = 0; i < m_ppConstraints.m_iElementCount; ++i)
         if (m_ppConstraints[i])
-            m_ppConstraints[i]->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((m_ppConstraints[i]))->FUN_00c90510();
 }
 
 namespace fnv_00ce2600 {
 extern int DAT_010cb830;
-extern int DAT_0102e388;
 struct FnvRefObject
 {
-    void FUN_00c905b0() throw();
 };
 struct FnvMemoryManager
 {
@@ -226,7 +235,7 @@ struct FnvParent
     short references;
     ~FnvParent() throw()
     {
-        vtbl = &DAT_0102e388;
+        vtbl = &(*reinterpret_cast<int *>(&::DAT_0102e388));
     }
 };
 struct FUN_00ce2600 : FnvParent
@@ -238,20 +247,19 @@ struct FUN_00ce2600 : FnvParent
 // @fnv 0x00ce2600
 FUN_00ce2600::~FUN_00ce2600() throw()
 {
-    vtbl = &DAT_010cb830;
+    vtbl = &::DAT_010cb830;
     for (int i = 0; i < bodies.size; ++i)
-        ((FnvRefObject*)bodies.data[i])->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((((FnvRefObject*)bodies.data[i])))->FUN_00c905b0();
     for (int j = 0; j < constraints.size; ++j)
-        ((FnvRefObject*)constraints.data[j])->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((((FnvRefObject*)constraints.data[j])))->FUN_00c905b0();
     if (skeleton)
-        skeleton->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((skeleton))->FUN_00c905b0();
     skeleton = 0;
 }
 }  // namespace fnv_00ce2600
 
 struct FUN_00ce26f0_ObjectC
 {
-    float FUN_00c91020();
 };
 
 struct FUN_00ce26f0_ObjectB
@@ -272,8 +280,6 @@ struct FUN_00ce26f0_Class
     int unk04;
     FUN_00ce26f0_ObjectA* unk08;
 
-    void FUN_00ce18d0(FUN_00ce2430_Transform* a);
-    void ApplyValueToTransforms(float a, FUN_00ce2430_Transform* b);
     void FUN_00ce26f0(FUN_00ce2430_Transform* a);
 };
 
@@ -286,11 +292,11 @@ void FUN_00ce26f0_Class::FUN_00ce26f0(FUN_00ce2430_Transform* apTransform)
 
     if (target == 0)
     {
-        this->FUN_00ce18d0(apTransform);
+        ::FUN_00ce18d0((int)(this));
         return;
     }
 
-    this->ApplyValueToTransforms(target->FUN_00c91020(), apTransform);
+    reinterpret_cast<::FUN_00ce2430_Class *>((this))->ApplyValueToTransforms(reinterpret_cast<::CpuObject *>((target))->FUN_00c91020(), apTransform);
 }
 
 typedef unsigned int hk_size_tR;
@@ -316,7 +322,6 @@ struct hkMemoryRouterR
     }
 };
 hkMemoryRouterR& __cdecl GetMemoryRouterR() throw();
-void __cdecl hkArrayUtil_reserveR(hkMemoryAllocatorR& kAlloc, void* pkArray, int iNumElements, int iSizeElem) throw();
 template <typename T> struct hkArrayR
 {
     hkArrayR() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
@@ -354,7 +359,7 @@ template <typename T> struct hkArrayR
         {
             int iCap2 = 2 * iCapacity;
             int iNewSize = (n < iCap2) ? iCap2 : n;
-            hkArrayUtil_reserveR(kAlloc, this, iNewSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(kAlloc), (::SpawnedArray *)(void *)(this), iNewSize, sizeof(T));
         }
     }
     __forceinline void SetSizeAndGrow(int n)
@@ -398,7 +403,6 @@ class hkReferencedObjectR
 {
   public:
     virtual ~hkReferencedObjectR() throw();
-    void removeReference() const throw();
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 };
@@ -464,18 +468,19 @@ hkaRagdollInstanceR* hkaRagdollInstanceR::FUN_00ce2730(int aeCloneMode) const th
     {
         hkpRigidBodyR* pkChildRb = kNewRigidBodies[c + 1];
         hkpRigidBodyR* pkParentRb = kNewRigidBodies[m_pSkeleton->m_kParentIndices[c + 1]];
-        kNewConstraints[c] = m_ppConstraints[c]->clone(pkChildRb, pkParentRb, aeCloneMode);
+        kNewConstraints[c] = ((::hkpConstraintInstanceR *)(reinterpret_cast<::hkpConstraintInstanceCF3F *>((void *)(m_ppConstraints[c]))->FUN_00cf3fa0((::hkpEntity *)(pkChildRb), (::hkpEntity *)(pkParentRb), aeCloneMode)));
     }
     hkaRagdollInstanceR* pkNewInstance =
         new hkaRagdollInstanceR(kNewRigidBodies, kNewConstraints, getSkeleton(), m_kBoneMap);
     for (int rb = 0; rb < iNumRigidBodies; rb++)
-        kNewRigidBodies[rb]->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((void *)(kNewRigidBodies[rb]))->FUN_00c905b0();
     for (int c = 0; c < iNumConstraints; c++)
-        kNewConstraints[c]->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((void *)(kNewConstraints[c]))->FUN_00c905b0();
     return pkNewInstance;
 }
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 struct FUN_00ce14b0_standin
 {
     int unk00;
@@ -517,17 +522,17 @@ struct FUN_00ce1680_Body
 
 struct FUN_00c94bd0_Obj
 {
-    void FUN_00c94bd0(void* objects, int count, int flag);
 };
 
 struct FUN_00c97d30_Obj
 {
-    void FUN_00c97d30(void* object);
 };
 
+struct CollisionEntity;
 struct CallRet
 {
-    void FUN_00c946e0(void* object, int a, int b);
+public:
+    void FUN_00c946e0(::CollisionEntity *, int, int);
 };
 
 class FUN_00ce1680_Ragdoll : public hkReferencedObject
@@ -550,11 +555,11 @@ int FUN_00ce1680_Ragdoll::FUN_00ce1680(void* world, unsigned char flag)
     if (firstBody && firstBody->unk08)
         return 1;
 
-    ((FUN_00c94bd0_Obj*)world)->FUN_00c94bd0(m_ppRigidBodies.m_data, m_ppRigidBodies.m_iElementCount, 1);
+    reinterpret_cast<::TW *>((((FUN_00c94bd0_Obj*)world)))->FUN_00c94bd0((::TE *const *)(m_ppRigidBodies.m_data), m_ppRigidBodies.m_iElementCount, (::TEA)(1));
 
     for (int iConstraintIndex = 0; iConstraintIndex < m_ppConstraints.m_iElementCount; ++iConstraintIndex)
     {
-        ((FUN_00c97d30_Obj*)world)->FUN_00c97d30(m_ppConstraints.m_data[iConstraintIndex]);
+        reinterpret_cast<::Mgr *>((((FUN_00c97d30_Obj*)world)))->FUN_00c97d30((::Item *)(m_ppConstraints.m_data[iConstraintIndex]));
     }
 
     if (flag)
@@ -566,7 +571,7 @@ int FUN_00ce1680_Ragdoll::FUN_00ce1680(void* world, unsigned char flag)
         {
             do
             {
-                ((CallRet*)world)->FUN_00c946e0(m_ppRigidBodies.m_data[bodyIndex], 1, 0);
+                ((CallRet*)world)->FUN_00c946e0((::CollisionEntity *)(m_ppRigidBodies.m_data[bodyIndex]), 1, 0);
             } while (++bodyIndex < bodyCount);
         }
     }
@@ -575,7 +580,6 @@ int FUN_00ce1680_Ragdoll::FUN_00ce1680(void* world, unsigned char flag)
 }
 
 extern int DAT_010cb830;
-void __cdecl FUN_00c908c0(ArrayAllocator* heap, void* array, int numElements, int sizeOfElement);
 struct RouterRef_ce24
 {
     void* unk00;
@@ -612,7 +616,7 @@ template <class T> struct hkArray_ce24
         if (cap < n)
         {
             int cap2 = 2 * cap;
-            FUN_00c908c0(&heap, this, n < cap2 ? cap2 : n, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(::ArrayAllocator *)(&heap), (::SpawnedArray *)(void *)(this), n < cap2 ? cap2 : n, sizeof(T));
         }
         m_iElementCount = n;
     }
@@ -633,8 +637,6 @@ struct RagdollInstance_ce24
     hkArray_ce24<ReferenceObject*> m_ppConstraints;
     hkArray_ce24<int> m_kBoneMap;
     Skeleton_ce24* m_pSkeleton;
-    void FUN_00ce22c0(const hkArray_ce24<ReferenceObject*>& bodies, const hkArray_ce24<ReferenceObject*>& constraints,
-                      Skeleton_ce24* skeleton);
     RagdollInstance_ce24* FUN_00ce2470(const hkArray_ce24<ReferenceObject*>& bodies,
                                        const hkArray_ce24<ReferenceObject*>& constraints, Skeleton_ce24* skeleton);
 };
@@ -651,7 +653,7 @@ RagdollInstance_ce24* RagdollInstance_ce24::FUN_00ce2470(const hkArray_ce24<Refe
     m_ppConstraints.init();
     m_kBoneMap.init();
     m_pSkeleton = 0;
-    FUN_00ce22c0(bodies, constraints, skeleton);
+    reinterpret_cast<::RagdollInstance *>(this)->FUN_00ce22c0((const ::ObjectArray< ::ReferenceObject *> &)(bodies), (const ::ObjectArray< ::ReferenceObject *> &)(constraints), (::ReferenceObject *)(skeleton));
     m_kBoneMap.SetSizeAndGrow(skeleton->m_iBoneCount);
     for (int i = 0; i < skeleton->m_iBoneCount; i++)
         m_kBoneMap[i] = i;
@@ -660,11 +662,6 @@ RagdollInstance_ce24* RagdollInstance_ce24::FUN_00ce2470(const hkArray_ce24<Refe
 
 extern "C"
 {
-    extern __m128 DAT_010c71e0;
-    extern __m128 DAT_010c7170;
-    extern __m128 DAT_010c44d0;
-    extern __m128 DAT_010c4c00;
-    extern __m128 DAT_010c4c10;
 }
 
 void __cdecl FUN_00ce2d10(unsigned int p0, void* p1, unsigned int p2, int p3, unsigned int p4);
@@ -704,28 +701,28 @@ void __cdecl FUN_00ce2f40(unsigned int arg0, unsigned int arg1, unsigned int arg
             __m128 t1 = _mm_add_ss(_mm_shuffle_ps(ab, ab, 0x55), ab);
             __m128 vDot = _mm_add_ss(_mm_shuffle_ps(ab, ab, 0xaa), t1);
             __m128 t5 = _mm_mul_ps(vW, vW);
-            t5 = _mm_add_ps(t5, DAT_010c71e0);
+            t5 = _mm_add_ps(t5, ::DAT_010c71e0);
             t5 = _mm_mul_ps(t5, a);
             __m128 t2 = _mm_mul_ps(_mm_shuffle_ps(vDot, vDot, 0), b);
             t5 = _mm_add_ps(t5, t2);
             vCross = _mm_add_ps(vCross, t5);
             __m128 res = _mm_add_ps(vCross, vCross);
             d[i].r0 = res;
-            res = _mm_xor_ps(res, DAT_010c44d0);
+            res = _mm_xor_ps(res, ::DAT_010c44d0);
             d[i].r0 = res;
 
-            __m128 k = _mm_xor_ps(s[i].r1, DAT_010c4c00);
+            __m128 k = _mm_xor_ps(s[i].r1, ::DAT_010c4c00);
             d[i].r1 = k;
 
             __m128 c = s[i].r2;
-            __m128 x = _mm_unpackhi_ps(c, DAT_010c7170);
+            __m128 x = _mm_unpackhi_ps(c, ::DAT_010c7170);
             x = _mm_shuffle_ps(c, x, 0xc4);
             __m128 vRcp = _mm_rcp_ps(x);
             __m128 tt = _mm_mul_ps(vRcp, x);
             tt = _mm_mul_ps(tt, vRcp);
             __m128 vRecip = _mm_add_ps(vRcp, vRcp);
             vRecip = _mm_sub_ps(vRecip, tt);
-            vRecip = _mm_and_ps(vRecip, DAT_010c4c10);
+            vRecip = _mm_and_ps(vRecip, ::DAT_010c4c10);
             d[i].r2 = vRecip;
         }
     }
@@ -735,14 +732,9 @@ void __cdecl FUN_00ce2f40(unsigned int arg0, unsigned int arg1, unsigned int arg
     *cursor2 = pMatBase;
 }
 
-extern float DAT_01267e30;
-extern float DAT_01017d00;
-extern float DAT_01017d10;
 
 struct UnkCall
 {
-    void FUN_00c9c1d0();
-    void FUN_00ca8860(const hkVector4& pos, const hkQuaternion& rot);
 };
 
 struct hkpMotion
@@ -802,12 +794,12 @@ struct hkpRigidBody : public UnkCall
 
     void SetTranslationalVelocity(const hkVector4& vel)
     {
-        FUN_00c9c1d0();
+        reinterpret_cast<::hkpEntityC9C *>(this)->FUN_00c9c1d0();
         m_pMotionState.SetTranslationalVelocity(vel);
     }
     void SetRotationalVelocity(const hkVector4& vel)
     {
-        FUN_00c9c1d0();
+        reinterpret_cast<::hkpEntityC9C *>(this)->FUN_00c9c1d0();
         m_pMotionState.SetRotationalVelocity(vel);
     }
 };
@@ -855,13 +847,13 @@ void RagdollHelper::FUN_00ce1560(PoseW pose)
             hkpRigidBody* rb = (hkpRigidBody*)m_ppRigidBodies.m_data[rbIndex];
             if (rb)
             {
-                rb->FUN_00ca8860(cursor->m_vTranslation, cursor->m_rotation);
+                reinterpret_cast<::FUN_00ca8860_cls *>((rb))->FUN_00ca8860((int)&(cursor->m_vTranslation), (int)&(cursor->m_rotation));
 
                 __m128 kZeroVec = *(const __m128*)&zero;
                 __m128 kLinVel = *(const __m128*)&rb->m_pMotionState.m_kTranslationalVelocity;
-                __m128 eps = _mm_set1_ps(DAT_01017d00);
+                __m128 eps = _mm_set1_ps(::AngularDashpotApplyD4DCB0::DAT_01017d00);
                 __m128 kDiffLin = _mm_sub_ps(kZeroVec, kLinVel);
-                __m128 kAbsLin = _mm_and_ps(kDiffLin, *(const __m128*)&DAT_01017d10);
+                __m128 kAbsLin = _mm_and_ps(kDiffLin, *(const __m128*)&(*reinterpret_cast<float *>((void *)&::DAT_01017d10)));
                 __m128 kCmpLin = _mm_cmple_ps(kAbsLin, eps);
                 if ((_mm_movemask_ps(kCmpLin) & 0xf) != 0xf)
                 {
@@ -871,7 +863,7 @@ void RagdollHelper::FUN_00ce1560(PoseW pose)
 
                 __m128 kAngVel = *(const __m128*)&rb->m_pMotionState.m_kAngularVelocity;
                 __m128 kDiffAng = _mm_sub_ps(kZeroVec, kAngVel);
-                __m128 kAbsAng = _mm_and_ps(kDiffAng, *(const __m128*)&DAT_01017d10);
+                __m128 kAbsAng = _mm_and_ps(kDiffAng, *(const __m128*)&(*reinterpret_cast<float *>((void *)&::DAT_01017d10)));
                 __m128 kCmpAng = _mm_cmple_ps(kAbsAng, eps);
                 if ((_mm_movemask_ps(kCmpAng) & 0xf) != 0xf)
                 {
@@ -906,7 +898,6 @@ struct FUN_00ce2510
     InitArray<int> m_kBoneMap;
     int m_2c;
 
-    void FUN_00ce22c0(int a, int b, int c);
     FUN_00ce2510(int a, int b, int c, ObjectArray<int>* d);
 };
 
@@ -916,6 +907,6 @@ FUN_00ce2510::FUN_00ce2510(int a, int b, int c, ObjectArray<int>* apBoneMap) : m
 {
     m_2c = 0;
 
-    FUN_00ce22c0(a, b, c);
+    reinterpret_cast<::RagdollInstance *>(this)->FUN_00ce22c0((*(const ::ObjectArray< ::ReferenceObject *> *)(a)), (*(const ::ObjectArray< ::ReferenceObject *> *)(b)), (::ReferenceObject *)(c));
     m_kBoneMap.assign(*apBoneMap);
 }

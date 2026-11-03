@@ -2,10 +2,9 @@
 #ifndef FNV_NIPARALLELUPDATETASKMANAGER_INL_DECLS_H
 #define FNV_NIPARALLELUPDATETASKMANAGER_INL_DECLS_H
 
-int FUN_00683a60();
-bool FUN_00714a00();
-void FUN_00a81a80();
-void FUN_00714960(int);
+#include "fnv/symbols_00683000.h"
+#include "fnv/symbols_00714000.h"
+#include "fnv/symbols_00a81000.h"
 class NiParallelUpdateTaskManager
 {
   public:

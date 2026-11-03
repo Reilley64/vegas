@@ -2,6 +2,7 @@
 // src/havok/common/base/math/swepttransform/hkswepttransform.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/swepttransform/hkswepttransform.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/RotationRows.h"
 #include "havok/hkSweptTransform.h"
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -75,7 +76,6 @@ struct hkRotationq
     hkVector4q m_kColumn1;
     hkVector4q m_kColumn2;
 
-    void FUN_00cb2d90(const hkQuaternionq& q);
     __forceinline const hkVector4q& getColumn(int i) const
     {
         return (&m_kColumn0)[i];
@@ -122,7 +122,7 @@ void hkSweptTransformq::Evaluate(float time, hkTransformq& transformOut) const
     hkQuaternionq q;
     q.m_vec.setInterpolate4(m_qRotation0.m_vec, m_qRotation1.m_vec, t4);
     q.normalize();
-    transformOut.m_rotation.FUN_00cb2d90(q);
+    reinterpret_cast<::RotationRows *>(&(transformOut.m_rotation))->FUN_00cb2d90((void *)&(q));
 
     transformOut.m_vTranslation.setInterpolate4(m_vCenterOfMass0, m_vCenterOfMass1, t4);
     hkVector4q centerShift;
@@ -143,7 +143,6 @@ struct Swept_00cf2410_Sub
 };
 struct Swept_00cf2410_Cb
 {
-    void FUN_00cb2d90(void* p);
 };
 struct Swept_00cf2410
 {
@@ -189,7 +188,7 @@ struct Swept_00cf2410
 void Swept_00cf2410::FUN_00cf2410(__m128 const& position, __m128 const& rotation)
 {
     ((Swept_00cf2410_Sub*)((char*)this + 0x40))->FUN_00cf2280(&position, &rotation);
-    ((Swept_00cf2410_Cb*)this)->FUN_00cb2d90(const_cast<__m128*>(&rotation));
+    reinterpret_cast<::RotationRows *>((((Swept_00cf2410_Cb*)this)))->FUN_00cb2d90(const_cast<__m128*>(&rotation));
     m_vContactPosition = position;
     m_inverseTime = 1.0f;
     m_vVector = _mm_setzero_ps();

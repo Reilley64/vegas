@@ -3,6 +3,15 @@
 #define FNV_PRECIPITATION_DECLS_H
 
 
+#include "fnv/decl/FUN_00453470_shell.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/S_FUN_0045bc00.h"
+#include "fnv/decl/fnv_00447080__FUN_00447080_shell.h"
+#include "fnv/decl/fnv_00637890__ParticleMgr.h"
+#include "fnv/symbols_00461000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_01202000.h"
 #include "layout_support.h"
 
 struct NiRTTI;
@@ -84,10 +93,9 @@ class NiAVObject
     virtual void vfn_00d4();
     virtual void vfn_00d8();
 
-    NiProperty* FUN_0045bc00(bool flag);
-    void UpdateSceneObject();
 };
 
+class NiAVObject;
 class NiNode : public NiAVObject
 {
   public:
@@ -96,9 +104,8 @@ class NiNode : public NiAVObject
     virtual void RemoveObject2(NiAVObject* object, NiAVObject** result);
     virtual void RemoveObject(NiAVObject* object);
 
-    unsigned int FUN_00453470();
-    NiAVObject* FUN_0043b4a0(int index);
-    NiAVObject* FUN_00461130(bool flag);
+public:
+    ::NiAVObject *GetAt(unsigned int);
 };
 
 template <> class NiPointer<NiNode>
@@ -117,10 +124,7 @@ enum ENUM_LOD_MULT
 class ModelLoader
 {
   public:
-    NiNode* LoadFile(const char* path, ENUM_LOD_MULT lodMult, bool assignShaders, bool suppressWarning, bool keepUV,
-                     bool noUseCountIncrease);
 };
-extern ModelLoader* g_modelLoader;
 
 class Precipitation
 {
@@ -132,7 +136,6 @@ class Precipitation
     float fEmissionRate;
     const void* m_pPrecipitationData;
     void Load(const char* path);
-    NiAVObject* CreateParticleShape(SkyShaderProperty* property, NiAVObject* object);
 };
 FNV_STATIC_ASSERT(sizeof(Precipitation) == 24);
 
@@ -152,9 +155,7 @@ class NiSortAdjustNode : public NiMemObject
 };
 FNV_STATIC_ASSERT(sizeof(NiSortAdjustNode) == 0xac);
 
-extern const NiRTTI DAT_012024e0;
 extern const char DAT_0104ed9c[];
 
-SkyShaderProperty* FUN_00653270(const NiRTTI* rtti, NiProperty* property);
 
 #endif

@@ -54,6 +54,8 @@ class NiQuaternion
     // float __cdecl NiQuaternion::*(float)
     // float __cdecl NiQuaternion::*(float, float, float)
     // float __cdecl NiQuaternion::*(float, float)
+public:
+    void MakeUnitLength();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiQuaternion) == 16);
@@ -71,8 +73,6 @@ class NiQuatTransform
     NiQuatTransform();
     bool IsInvalid() const;
     void LoadBinary(NiStream& stream);
-    void TransformBy(NiQuatTransform& result);
-    NiQuatTransform CombineTransforms(const NiQuatTransform& other);
     // NiQuatTransform
     // const NiPoint3& __cdecl NiQuatTransform::*()
     // void __cdecl NiQuatTransform::*(const NiPoint3&)

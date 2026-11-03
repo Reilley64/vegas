@@ -78,6 +78,12 @@ class NiPoint3
     float z;  // +0x8
     NiPoint3(float xPos, float yPos, float zPos);
     NiPoint3 Cross(const NiPoint3& point) const;
+public:
+    bool FUN_004390c0(const ::NiPoint3 &);
+public:
+    float ComputeMagnitude() const;
+public:
+    static const ::NiPoint3 ZERO;
 };
 
 // Shared engine pointer template. Assignment and conversion stay out of line;

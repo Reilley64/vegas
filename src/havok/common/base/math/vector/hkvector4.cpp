@@ -18,6 +18,17 @@
 // to EAX; the parameter order (out, self, count) is what makes the call site
 // materialise EDX before ESI.
 
+#include "fnv/decl/CpuObject.h"
+#include "fnv/decl/FUN_00c6c720_class.h"
+#include "fnv/decl/FUN_00c6e280_cls.h"
+#include "fnv/decl/FUN_00c84f10_cls.h"
+#include "fnv/decl/FnvCpu_FUN_00c89720_CpuInterface.h"
+#include "fnv/symbols_00c6d000.h"
+#include "fnv/symbols_00cd6000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_0102f000.h"
+#include "fnv/symbols_01267000.h"
 struct Cls_c7f4e0
 {
     float unk00[8];
@@ -47,7 +58,7 @@ void Cls_c7f4e0::CheckFloatsFinite(void* pResult)
 }
 
 #include <xmmintrin.h>
-extern __m128 DAT_01267e30;
+#include "fnv/symbols_simd.h"
 
 struct SubVecHolder;
 struct FUN_00c7f700_cls
@@ -58,7 +69,6 @@ struct FUN_00c7f700_cls
 
 struct VecSource
 {
-    __m128* FUN_00cac910();
 };
 
 struct HolderNode
@@ -429,7 +439,6 @@ struct FUN_00c6e300_cls
     int unk590;
     HolderNode* m_p594;
 
-    void FUN_00c89720();
     void SubtractVectors(__m128* out);
 };
 
@@ -443,13 +452,13 @@ void FUN_00c6e300_cls::SubtractVectors(__m128* apResult)
     FUN_00c7f700_cls res;
     res.FUN_00c7f700(base + 0xb0, (char*)this + 0x570);
 
-    __m128* vec = &DAT_01267e30;
+    __m128* vec = &(*reinterpret_cast<::__m128 *>(&::DAT_01267e30));
     VecSource* src = m_p08;
     if (src != 0)
     {
-        FUN_00c89720();
-        vec = src->FUN_00cac910();
-        FUN_00c89720();
+        reinterpret_cast<::FnvCpu_FUN_00c89720_CpuInterface *>(this)->FUN_00c89720();
+        vec = ((::__m128 *)(reinterpret_cast<::CpuObject *>((src))->FUN_00cac910()));
+        reinterpret_cast<::FnvCpu_FUN_00c89720_CpuInterface *>(this)->FUN_00c89720();
     }
 
     __m128 a = *vec;
@@ -460,7 +469,6 @@ void FUN_00c6e300_cls::SubtractVectors(__m128* apResult)
 struct __declspec(align(16)) Vec4
 {
     float x, y, z, w;
-    void FUN_00c7f690(void* transform, const Vec4* value);
     void FUN_00c7f700(void* transform, const Vec4* value);
 };
 
@@ -559,111 +567,13 @@ struct Node
 };
 
 struct bhkCharacterController;
-extern float __fastcall GetSettingFloat(bhkCharacterController* controller);
 
-extern float DAT_01011d78;
-extern float DAT_01267bcc;
-extern double DAT_010290b0;
-extern double DAT_0102f070;
 
 struct bhkCharacterController
 {
     void SubtractVectors(Vec4* result);
     bool FUN_00c6fa20();
 };
-
-// Casts rays between transformed points, adjusts both z coordinates by advance, and returns true when a cast fraction is below 1.
-// @fnv 0x00c6fa20
-bool bhkCharacterController::FUN_00c6fa20()
-{
-    Node* node = *(Node**)((char*)this + 0x594);
-    State* state = node ? node->state : 0;
-    float advance = *(float*)((char*)this + 0x564) * DAT_010290b0;
-    float range = DAT_01267bcc * DAT_0102f070 + GetSettingFloat(this);
-    Vec4 value;
-    *(__m128*)&value = _mm_setr_ps(DAT_01011d78, range, DAT_01011d78, DAT_01011d78);
-    State* transformState = node ? node->state : 0;
-    value.FUN_00c7f700((char*)transformState + 0xb0, &value);
-    Vec4 vStart;
-    this->SubtractVectors(&vStart);
-    VecArr vFinish;
-    *(__m128*)&vFinish = _mm_add_ps(*(__m128*)&vStart, *(__m128*)&value);
-
-    for (int i = 0; i < state->count(); ++i)
-    {
-        Geometry* geom = (Geometry*)state->itemAt(i);
-        if (!geom)
-            continue;
-        switch (geom->flags & 0x7f)
-        {
-        case 4:
-        case 5:
-        case 6:
-        case 7:
-        case 8:
-        case 10:
-        case 11:
-        case 12:
-        case 16:
-        case 17:
-        case 22:
-        case 23:
-        case 24:
-        case 29:
-        case 30:
-            continue;
-        }
-        CollisionObject* __restrict shape = geom->collision;
-        if (shape->type0c != 8 && shape->type0c != 6 && shape->type0c != 10)
-            continue;
-
-        Geometry* __restrict body = geom;
-        CastInput input;
-        HitResult result;
-        input.from.FUN_00c7f690(body->transform, &vStart);
-        input.to.FUN_00c7f690(geom->transform, (Vec4*)&vFinish);
-
-        bool hit = false;
-        unsigned int j = 0;
-        do
-        {
-            result.fraction = 1.0f;
-            input.from.z += advance;
-            input.to.z += advance;
-            result.faceIndex = -1;
-            result.shapeKeys[0] = (unsigned int)-1;
-            result.flag40 = 0;
-            shape->RayCast(input, result);
-            if (result.fraction < 1.0f)
-            {
-                hit = true;
-                break;
-            }
-        } while (++j < 3);
-
-        input.from.FUN_00c7f690(geom->transform, (Vec4*)&vFinish);
-        input.to.FUN_00c7f690(geom->transform, &vStart);
-
-        if (!hit)
-        {
-            for (unsigned int j = 0; j < 3; ++j)
-            {
-                result.fraction = 1.0f;
-                input.from.z += advance;
-                input.to.z += advance;
-                result.faceIndex = -1;
-                result.shapeKeys[0] = (unsigned int)-1;
-                result.flag40 = 0;
-                shape->RayCast(input, result);
-                if (result.fraction < 1.0f)
-                {
-                    return true;
-                }
-            }
-        }
-    }
-    return false;
-}
 
 struct __declspec(align(16)) SpawnedMatrix
 {
@@ -708,6 +618,98 @@ struct FUN_00c7f690_cls
 {
     void FUN_00c7f690(const S_00c7f690_M* m, const S_00c7f690_V* v);
 };
+// Casts rays between transformed points, adjusts both z coordinates by advance, and returns true when a cast fraction is below 1.
+// @fnv 0x00c6fa20
+bool bhkCharacterController::FUN_00c6fa20()
+{
+    Node* node = *(Node**)((char*)this + 0x594);
+    State* state = node ? node->state : 0;
+    float advance = *(float*)((char*)this + 0x564) * DAT_010290b0;
+    float range = DAT_01267bcc * ::fnv_0093c200::DAT_0102f070 + reinterpret_cast<::FUN_00c6e280_cls *>((this))->GetSettingFloat();
+    Vec4 value;
+    *(__m128*)&value = _mm_setr_ps(::DAT_01011d78, range, ::DAT_01011d78, ::DAT_01011d78);
+    State* transformState = node ? node->state : 0;
+    value.FUN_00c7f700((char*)transformState + 0xb0, &value);
+    Vec4 vStart;
+    this->SubtractVectors(&vStart);
+    VecArr vFinish;
+    *(__m128*)&vFinish = _mm_add_ps(*(__m128*)&vStart, *(__m128*)&value);
+
+    for (int i = 0; i < state->count(); ++i)
+    {
+        Geometry* geom = (Geometry*)state->itemAt(i);
+        if (!geom)
+            continue;
+        switch (geom->flags & 0x7f)
+        {
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 10:
+        case 11:
+        case 12:
+        case 16:
+        case 17:
+        case 22:
+        case 23:
+        case 24:
+        case 29:
+        case 30:
+            continue;
+        }
+        CollisionObject* __restrict shape = geom->collision;
+        if (shape->type0c != 8 && shape->type0c != 6 && shape->type0c != 10)
+            continue;
+
+        Geometry* __restrict body = geom;
+        CastInput input;
+        HitResult result;
+        reinterpret_cast<::FUN_00c7f690_cls *>(&(input.from))->FUN_00c7f690((const ::S_00c7f690_M *)(body->transform), (const ::S_00c7f690_V *)(const ::Vec4 *)(&vStart));
+        reinterpret_cast<::FUN_00c7f690_cls *>(&(input.to))->FUN_00c7f690((const ::S_00c7f690_M *)(geom->transform), (const ::S_00c7f690_V *)(const ::Vec4 *)((Vec4*)&vFinish));
+
+        bool hit = false;
+        unsigned int j = 0;
+        do
+        {
+            result.fraction = 1.0f;
+            input.from.z += advance;
+            input.to.z += advance;
+            result.faceIndex = -1;
+            result.shapeKeys[0] = (unsigned int)-1;
+            result.flag40 = 0;
+            shape->RayCast(input, result);
+            if (result.fraction < 1.0f)
+            {
+                hit = true;
+                break;
+            }
+        } while (++j < 3);
+
+        reinterpret_cast<::FUN_00c7f690_cls *>(&(input.from))->FUN_00c7f690((const ::S_00c7f690_M *)(geom->transform), (const ::S_00c7f690_V *)(const ::Vec4 *)((Vec4*)&vFinish));
+        reinterpret_cast<::FUN_00c7f690_cls *>(&(input.to))->FUN_00c7f690((const ::S_00c7f690_M *)(geom->transform), (const ::S_00c7f690_V *)(const ::Vec4 *)(&vStart));
+
+        if (!hit)
+        {
+            for (unsigned int j = 0; j < 3; ++j)
+            {
+                result.fraction = 1.0f;
+                input.from.z += advance;
+                input.to.z += advance;
+                result.faceIndex = -1;
+                result.shapeKeys[0] = (unsigned int)-1;
+                result.flag40 = 0;
+                shape->RayCast(input, result);
+                if (result.fraction < 1.0f)
+                {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
 
 // Subtracts m->c3 from v, multiplies the difference by components assembled from m->c0 through m->c2, and stores the result in this.
 // @fnv 0x00c7f690
@@ -828,7 +830,6 @@ struct QueryVector
         return *this;
     }
     void FUN_00c7f640(void* a, const QueryVector* v);
-    void FUN_00c7f690(const Mat16* t, const QueryVector* v);
 };
 struct Mat16
 {
@@ -857,7 +858,6 @@ struct BoundingVolumeNode
             BoundingVolumeNode* f34;
         };
     };
-    int FUN_00c84f10(int key);
 };
 struct VarObj
 {
@@ -975,7 +975,6 @@ struct Sub410
     int s054;
     int s058;
     int s05c;
-    void AccumulateValue(void* a, float f);
 };
 struct ThisCls
 {
@@ -1415,14 +1414,8 @@ __declspec(noinline) void* __cdecl GetValidatedPointer(void* obj)
     }
     return result;
 }
-void __cdecl ComputeInverseLengths(const QueryVector* triangle, Plane* plane);
-void __cdecl FUN_00cd6520(const QueryVector* ray, float tolerance, const QueryVector* triangle, float radius,
-                          const Plane* plane, float zero, int flags, Contacts* contacts, void* extra);
-char __cdecl FUN_00c6d7e0(BoundingVolumeNode* obj, int one, char v, int id);
 typedef char(__cdecl* PredFn)(int v);
-extern PredFn DAT_01267bc8;
 extern "C" void _ReadWriteBarrier();
-extern float DAT_01011d78;
 static __forceinline float scalar(__m128 x)
 {
     float value;
@@ -1512,10 +1505,10 @@ char ThisCls::FUN_00c6eb00(ArgObj* arg)
         if (found && found->child)
         {
             BoundingVolumeNode* child = found->child;
-            int v = key != -1 ? child->FUN_00c84f10(key) : child->f10 & 31;
+            int v = key != -1 ? reinterpret_cast<::FUN_00c84f10_cls *>((child))->FUN_00c84f10(key) : child->f10 & 31;
             char c = 0;
-            if (DAT_01267bc8)
-                c = DAT_01267bc8(v);
+            if ((*reinterpret_cast<char (**)(int)>(&::DAT_01267bc8)))
+                c = (*reinterpret_cast<char (**)(int)>(&::DAT_01267bc8))(v);
             allowed = c == 0;
         }
         flag = allowed == 0;
@@ -1616,12 +1609,12 @@ char ThisCls::FUN_00c6eb00(ArgObj* arg)
                     scratch.col[k].q = _mm_add_ps(_mm_add_ps(y, x), _mm_add_ps(z, c3));
                 }
                 Plane plane;
-                ComputeInverseLengths(scratch.col, &plane);
+                ::ComputeInverseLengths((::__m128 *)(scratch.col), (float *)(::Plane *)(&plane));
                 input.vectors[1].q = pos.q;
                 input.vectors[0].q = pos.q;
                 input.vectors[1].q.m128_f32[0] -= scalar(direction.q) * x474;
                 input.vectors[1].q.m128_f32[1] -= scalar(_mm_shuffle_ps(direction.q, direction.q, 85)) * x474;
-                FUN_00cd6520(input.vectors, 0.05f, scratch.col, triangle->radius, &plane, 0.0f, 0, &output.contacts, 0);
+                ::FUN_00cd6520((const ::ContactVector *)(input.vectors), 0.05f, (const ::ContactVector *)(scratch.col), triangle->radius, (const float *)(const ::Plane *)(&plane), 0.0f, 0, (::ContactRecord *)(::Contacts *)(&output.contacts), (::Feature *)(void *)(0));
                 flag = output.contacts.hit[0].distance >= 0.0f && output.contacts.hit[1].distance >= 0.0f;
                 goto end;
             }
@@ -1642,8 +1635,8 @@ char ThisCls::FUN_00c6eb00(ArgObj* arg)
             scratch.col[1].q = decoded48->mat.col[1].q;
             scratch.col[2].q = decoded48->mat.col[2].q;
             scratch.col[3].q = decoded48->mat.col[3].q;
-            input.vectors[0].FUN_00c7f690(&scratch, &origin);
-            input.vectors[1].FUN_00c7f690(&scratch, &endpoint);
+            reinterpret_cast<::FUN_00c7f690_cls *>(&(input.vectors[0]))->FUN_00c7f690((const ::S_00c7f690_M *)(const ::Mat16 *)(&scratch), (const ::S_00c7f690_V *)(const ::QueryVector *)(&origin));
+            reinterpret_cast<::FUN_00c7f690_cls *>(&(input.vectors[1]))->FUN_00c7f690((const ::S_00c7f690_M *)(const ::Mat16 *)(&scratch), (const ::S_00c7f690_V *)(const ::QueryVector *)(&endpoint));
             ((RayShape*)shape)->cast(input, output.ray);
             if (output.ray.fraction < 1.0f)
             {
@@ -1654,7 +1647,7 @@ char ThisCls::FUN_00c6eb00(ArgObj* arg)
                         break;
                     uiLastKey = key;
                 }
-                flag = FUN_00c6d7e0(shape, 1, side, uiLastKey) == 0;
+                flag = ::FUN_00c6d7e0((::FUN_00c6d7e0_Parent *)(shape), 1, side, uiLastKey) == 0;
             }
             else
             {
@@ -1664,6 +1657,6 @@ char ThisCls::FUN_00c6eb00(ArgObj* arg)
     }
 end:
     if ((sub.flags & 1) && flag)
-        sub.AccumulateValue((void*)iIndex, scalar(_mm_shuffle_ps(_mm_load_ps(a->v), _mm_load_ps(a->v), 170)));
+        reinterpret_cast<::FUN_00c6c720_class *>(&(sub))->AccumulateValue((int)((void*)iIndex), scalar(_mm_shuffle_ps(_mm_load_ps(a->v), _mm_load_ps(a->v), 170)));
     return flag;
 }

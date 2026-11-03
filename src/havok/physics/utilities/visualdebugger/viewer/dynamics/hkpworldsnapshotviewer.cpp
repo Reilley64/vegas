@@ -2,6 +2,13 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpworldsnapshotviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkpworldsnapshotviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00ddccb0_cls.h"
+#include "fnv/decl/FUN_00ddf170_cls.h"
+#include "fnv/decl/S_00dd9380.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d62000.h"
+#include "fnv/symbols_01269000.h"
 extern int DAT_010d16f0;
 extern int DAT_010d1700;
 extern int DAT_010d1720;
@@ -41,22 +48,18 @@ typedef void(__cdecl* SnapshotFn)();
 
 struct ProfileRegistry
 {
-    int FUN_00dd9380(const char* apName, SnapshotFn apfnHandler);
 };
 
-extern ProfileRegistry* DAT_01269cd0;
 extern int DAT_01268fc4;
 extern int DAT_01268fc0;
 
-void __cdecl FUN_00d62f20();
-void __cdecl AllocateRecordWithData();
 
 // Registers the two world-snapshot commands with the profile registry, storing their returned handles in DAT_01268fc4 and DAT_01268fc0.
 // @fnv 0x00d63000
 void __cdecl RegisterSnapshotCommands()
 {
-    DAT_01268fc4 = DAT_01269cd0->FUN_00dd9380("* Grab World Snapshot Native", FUN_00d62f20);
-    DAT_01268fc0 = DAT_01269cd0->FUN_00dd9380("* Grab World Snapshot PC", AllocateRecordWithData);
+    DAT_01268fc4 = reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::ProfileRegistry * *>(&::DAT_01269cd0))))->FUN_00dd9380("* Grab World Snapshot Native", (int)(((void (&)())::FUN_00d62f20)));
+    DAT_01268fc0 = reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::ProfileRegistry * *>(&::DAT_01269cd0))))->FUN_00dd9380("* Grab World Snapshot PC", (int)(((void (&)())::AllocateRecordWithData)));
 }
 
 struct FUN_00c7be20_cls;
@@ -86,7 +89,6 @@ struct FUN_00c7be20_arr
 };
 
 void* __cdecl FUN_00c85750() throw();
-void __cdecl FUN_00c908c0(void* allocator, FUN_00c7be20_arr* self, unsigned int newCap, int elemSize);
 
 struct FUN_00c7be20_cls
 {
@@ -131,7 +133,7 @@ void FUN_00c7be20_cls::CopySourceArray(FUN_00c7be20_arr* out)
             {
                 newCap = iCount;
             }
-            FUN_00c908c0(allocator, out, (unsigned int)newCap, 4);
+            ::FUN_00c908c0((::SpawnedObject *)(allocator), (::SpawnedArray *)(out), (unsigned int)newCap, 4);
         }
         *(volatile int*)&out->m_uiItemCount = iCount;
         int iRemaining = m_48->m_0c;
@@ -208,7 +210,6 @@ struct FUN_00d63250_cls
     unsigned short m_uSize;
     unsigned short m_u06;
 
-    void FUN_00d62fe0();
 
     FUN_00d63250_cls* Destroy(unsigned char acFlags);
     static void operator delete(void* apMemory) throw();
@@ -218,7 +219,7 @@ struct FUN_00d63250_cls
 // @fnv 0x00d63250
 FUN_00d63250_cls* FUN_00d63250_cls::Destroy(unsigned char acFlags)
 {
-    FUN_00d62fe0();
+    reinterpret_cast<::FUN_00d62fe0_cls *>(this)->FUN_00d62fe0();
     if (acFlags & 1)
     {
         AudioHolder* pHolder = FUN_00c85750();
@@ -235,7 +236,6 @@ extern int DAT_010d1764;
 
 struct SubObject
 {
-    void Init(int a, int b);
 };
 
 struct FUN_00d63280_cls
@@ -252,18 +252,17 @@ struct FUN_00d63280_cls
     int unk24;
     SubObject m_sub28;
 
-    void Setup(int b);
     FUN_00d63280_cls* FUN_00d63280(int a, int b);
 };
 
 // @fnv 0x00d63280
 FUN_00d63280_cls* FUN_00d63280_cls::FUN_00d63280(int a, int b)
 {
-    Setup(b);
+    new ((void *)this) ::FUN_00ddccb0_cls((*(const ::BDDCCB0Array< ::BDDCCB0ProcessContext *> *)(b)));
     m_vtbl0 = (void*)&DAT_010d1794;
     m_vtbl8 = (void*)&DAT_010d1774;
     m_vtbl20 = (void*)&DAT_010d1764;
-    m_sub28.Init(a, 0x7a120);
+    reinterpret_cast<::FUN_00ddf170_cls *>(&(m_sub28))->FUN_00ddf170(a, 0x7a120);
     return this;
 }
 

@@ -5,6 +5,18 @@
 
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpmidphaseviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpmidphaseviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/FUN_00de1210.h"
+#include "fnv/decl/FnvCpu_FUN_00de1170_CpuObject.h"
+#include "fnv/decl/S_00dd9380.h"
+#include "fnv/decl/SearchArray.h"
+#include "fnv/decl/fnv_00c93920__hkpWorldXc93920.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d6a000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 struct FullObject;
 struct Receiver;
 struct HeadPart {
@@ -29,7 +41,6 @@ struct FullObject : HeadPart, FirstBase, SecondBase {
 };
 typedef char _check_offsets[sizeof(FullObject) == 0x2c ? 1 : -1];
 struct Receiver {
-    void ClearValue(SecondBase* apObject);
 };
 struct hkMemoryAllocator
 {
@@ -126,7 +137,6 @@ struct S_00d6a750_Base1
 struct S_00d6a750_Listener;
 struct S_00d6a750_Source
 {
-    void ClearValue(S_00d6a750_Listener* m_pAudioListener) throw();
 };
 struct S_00d6a750_Owner
 {
@@ -175,15 +185,10 @@ struct FUN_00d6a750 : S_00d6a750_Base0, S_00d6a750_Base1, S_00d6a750_Base2, S_00
     ~FUN_00d6a750();
 };
 struct Registry_00dd9380 {
-    void* Register(const char* name, void (*fn)());
 };
-extern Registry_00dd9380* DAT_01269cd0;
 extern char DAT_010d22e0[];
-extern void* DAT_01269024;
-void FUN_00d6a810();
 void FUN_00d6a850();
 struct Target {
-    int Handle(void* apValue);
 };
 struct FUN_00d6a220_cls {
     int unk00;
@@ -259,7 +264,6 @@ struct S_d6a280_Mx {
     __forceinline S_d6a280_Mx() {}
 };
 struct S_d6a280_Elem {
-    void FUN_00c93920(S_d6a280_Mx* m);
 };
 struct FUN_00d6a280 : FUN_00ddccb0, S_d6a280_Mx {
     S_d6a280_Arr m_aiIndexedValues;
@@ -373,6 +377,7 @@ struct hkpMidphaseViewer : public hkpShape, public hkpMidphaseViewerBase {
 hkpMidphaseViewer::hkpMidphaseViewer() : hkpShape(), hkpMidphaseViewerBase() { }
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 struct EventStamp {
     const void* marker;
     unsigned tick;
@@ -388,12 +393,7 @@ struct EventStorage {
     unsigned unk08;
     EventStamp* m_pFreeList;
 };
-extern unsigned long DAT_0126835c;
 extern char DAT_010d233c[];
-extern char DAT_010c41f8[];
-extern void* DAT_01269024;
-extern const float DAT_01011d78;
-extern const __m128 DAT_010c7170;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 
 static __forceinline void TimerMark(char* marker)
@@ -412,7 +412,6 @@ static __forceinline void TimerMark(char* marker)
     }
 }
 
-void __cdecl FUN_00c908c0(hkMemoryAllocator* alloc, void* arr, int newSize, int elemSize);
 struct __declspec(align(16)) Vec4 {
     float x, y, z, w;
 };
@@ -428,8 +427,6 @@ struct Elem80 {
     int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c;
     int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54; int unk58; int unk5c;
     int unk60; int unk64; int unk68; int unk6c; int unk70; int unk74; int unk78; int unk7c;
-    void FUN_00de1210();
-    void FUN_00de1170(const Vec4& a, const Vec4& b);
 };
 struct ListEntry {
     int m_00;
@@ -588,7 +585,7 @@ void Self::FUN_00d6a2f0(Param* apParam)
                                     float f5 = (float)quantized.max.z;
                                     SetVec(bounds.max,f3,f4,f5,0.0f);
                                     __m128 row1 = _mm_load_ps(mat + 8);
-                                    __m128 t = _mm_shuffle_ps(row1, _mm_unpackhi_ps(row1, DAT_010c7170), 0xc4);
+                                    __m128 t = _mm_shuffle_ps(row1, _mm_unpackhi_ps(row1, ::DAT_010c7170), 0xc4);
                                     __m128 r = _mm_rcp_ps(t);
                                     __m128 inv = _mm_sub_ps(_mm_add_ps(r, r), _mm_mul_ps(_mm_mul_ps(r, t), r));
                                     *(__m128*)&bounds.min = _mm_mul_ps(*(__m128*)&bounds.min, inv);
@@ -602,12 +599,12 @@ void Self::FUN_00d6a2f0(Param* apParam)
                                     if ((output->m_iCapacityState & 0x3fffffff) < newSize) {
                                         int dbl = (output->m_iCapacityState & 0x3fffffff) * 2;
                                         if (newSize < dbl) newSize = dbl;
-                                        FUN_00c908c0(&alloc, output, newSize, 0x80);
+                                        ::FUN_00c908c0((::SpawnedObject *)(::hkMemoryAllocator *)(&alloc), (::SpawnedArray *)(output), newSize, 0x80);
                                     }
                                     Elem80* elem = &output->m_data[output->m_iElementCount];
-                                    if (elem) elem->FUN_00de1210();
+                                    if (elem) new ((void *)(elem)) ::FUN_00de1210();
                                     output->m_iElementCount++;
-                                    output->m_data[oldSize].FUN_00de1170(bounds.min, bounds.max);
+                                    reinterpret_cast<::FnvCpu_FUN_00de1170_CpuObject *>(&(output->m_data[oldSize]))->FUN_00de1170((::FnvCpu_FUN_00de1170_CpuData0 *)&(bounds.min), (::FnvCpu_FUN_00de1170_CpuData1 *)&(bounds.max));
                                     k++;
                                     list++;
                                 } while (k < node->m_uiItemCount);
@@ -639,7 +636,7 @@ void Self::FUN_00d6a2f0(Param* apParam)
     if ((indices.m_iCapacityState & 0x3fffffff) < count) {
         int ns = (indices.m_iCapacityState & 0x3fffffff) * 2;
         if (count >= ns) ns = count;
-        FUN_00c908c0(&alloc2, &indices, ns, 4);
+        ::FUN_00c908c0((::SpawnedObject *)(::hkMemoryAllocator *)(&alloc2), (::SpawnedArray *)(void *)(&indices), ns, 4);
     }
     indices.m_iElementCount = count;
     for (int i = 0; i < count; i++) {

@@ -2,6 +2,10 @@
 #ifndef FNV_TESOBJECTTREE_DECLS_H
 #define FNV_TESOBJECTTREE_DECLS_H
 
+#include "fnv/decl/FUN_00414290.h"
+#include "fnv/decl/S_0060ba10.h"
+#include "fnv/symbols_00478000.h"
+#include "fnv/symbols_005e0000.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "TESForm.h"
@@ -238,7 +242,6 @@ class BGSDestructibleObjectForm : public BaseFormComponent
     // base BaseFormComponent at +0x0, size 4
     CollisionComponent* pData;  // +0x4, 4 bytes
     void InitItem(TESForm* form);
-    static void LoadDestructibleData(BGSDestructibleObjectForm* destructible, TESFile* file);
     // BGSDestructibleObjectForm
     // void __cdecl BGSDestructibleObjectForm::*()
     // void __cdecl BGSDestructibleObjectForm::*()
@@ -300,8 +303,6 @@ FNV_STATIC_ASSERT(offsetof(BGSDestructibleObjectForm, pData) == 4);
 class NiTPrimitiveArray_unsigned_int_ : public NiTArray<unsigned int, NiTMallocInterface<unsigned int> >
 {
   public:
-    void RemoveAll();
-    unsigned int AddFirstEmpty(const unsigned int& seed);
     // base NiTArray<unsigned int,NiTMallocInterface<unsigned int> > at +0x0, size 16
     // NiTPrimitiveArray<unsigned int>
     // void __cdecl NiTPrimitiveArray<unsigned int>::*()
@@ -313,7 +314,6 @@ FNV_STATIC_ASSERT(sizeof(NiTPrimitiveArray_unsigned_int_) == 16);
 class TreeRecordData
 {
   public:
-    void Endian();
     float m_fFirstRecordValue;    // +0x0, 4 bytes
     float FiveFloatEndianRecord;  // +0x4, 4 bytes
     float ShadowParameters;       // +0x8, 4 bytes
@@ -365,7 +365,6 @@ FNV_STATIC_ASSERT(offsetof(NiPoint2, y) == 4);
 class TESFormInitFlag
 {
   public:
-    bool IsFormInitialized() const;
 };
 
 class TESObjectTREE : public TESBoundTreeObject,

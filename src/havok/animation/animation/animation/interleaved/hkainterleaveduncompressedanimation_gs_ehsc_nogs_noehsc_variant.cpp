@@ -34,11 +34,7 @@ struct FUN_00e3f920_class
 };
 
 #include <xmmintrin.h>
-extern __m128 DAT_010c71e0;
-extern __m128 DAT_010c7170;
-extern __m128 DAT_010c44d0;
-extern __m128 DAT_010c4c00;
-extern __m128 DAT_010c4c10;
+#include "fnv/symbols_simd.h"
 
 class hkQuaternionE40;
 
@@ -75,7 +71,7 @@ class hkVector4E40
     }
     __forceinline void setNeg4(const hkVector4E40& a)
     {
-        m_vComponents = _mm_xor_ps(a.m_vComponents, DAT_010c44d0);
+        m_vComponents = _mm_xor_ps(a.m_vComponents, ::DAT_010c44d0);
     }
     __forceinline void setCross(const hkVector4E40& v1, const hkVector4E40& v2)
     {
@@ -134,7 +130,7 @@ __forceinline void hkVector4E40::SetRotatedDirection(const hkQuaternionE40& quat
     qreal.m_vComponents = _mm_shuffle_ps(quat.m_vec.m_vComponents, quat.m_vec.m_vComponents, _MM_SHUFFLE(3, 3, 3, 3));
     hkVector4E40 q2minus1;
     q2minus1.setMul4(qreal, qreal);
-    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, DAT_010c71e0);
+    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, ::DAT_010c71e0);
     hkVector4E40 ret;
     ret.setMul4(direction, q2minus1);
     __m128 imagDotDir = quat.m_vec.dot3(direction);
@@ -151,7 +147,7 @@ __forceinline void hkVector4E40::setRotatedInverseDir(const hkQuaternionE40& qua
     qreal.m_vComponents = _mm_shuffle_ps(quat.m_vec.m_vComponents, quat.m_vec.m_vComponents, _MM_SHUFFLE(3, 3, 3, 3));
     hkVector4E40 q2minus1;
     q2minus1.setMul4(qreal, qreal);
-    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, DAT_010c71e0);
+    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, ::DAT_010c71e0);
     hkVector4E40 ret;
     ret.setMul4(direction, q2minus1);
     __m128 imagDotDir = quat.m_vec.dot3(direction);
@@ -185,7 +181,7 @@ class hkQsTransformE40
         hkVector4E40 temp;
         temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-        m_rotation.SetProduct(t1.m_rotation, t2.m_rotation);
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
         m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
     }
 };

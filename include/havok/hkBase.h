@@ -21,13 +21,18 @@ struct hkVector4
 {
     hkReal x, y, z, w;
 };  // 16 bytes (SIMD-aligned in the PC build)
+struct hkVector4;
 struct hkQuaternion
 {
     hkVector4 m_vec;
+public:
+    void FUN_00cb2ca0(const ::hkVector4 &, ::hkQuaternion &, float &) const;
 };  // 16
 struct hkMatrix3
 {
     hkVector4 m_kColumn0, m_kColumn1, m_kColumn2;
+public:
+    int FUN_00cd4f10(float);
 };  // 48
 struct hkRotation : hkMatrix3
 {
@@ -46,6 +51,8 @@ struct hkQsTransform
 struct hkMatrix4
 {
     hkVector4 m_kColumn0, m_kColumn1, m_kColumn2, m_kColumn3;
+public:
+    void FUN_00de8e50(const ::hkMatrix4 &);
 };  // 64
 template <class T> struct hkArray
 {

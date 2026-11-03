@@ -2,6 +2,33 @@
 // src/fallout/ai/combat/flameprojectile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/flameprojectile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/Actor.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_004d7d50_StandIn.h"
+#include "fnv/decl/FUN_00526ac0_shell.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_009bbc40.h"
+#include "fnv/decl/LoadProjectile52.h"
+#include "fnv/decl/NiUpdateData.h"
+#include "fnv/decl/Owner.h"
+#include "fnv/decl/Projectile9c58.h"
+#include "fnv/decl/ProjectileHelper.h"
+#include "fnv/decl/ProjectileHit.h"
+#include "fnv/decl/ThreeByThreeMatrix.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00968670__FUN_00968670_shell.h"
+#include "fnv/decl/fnv_009bda10__ProjectileRuntime.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00461000.h"
+#include "fnv/symbols_00874000.h"
+#include "fnv/symbols_009b3000.h"
+#include "fnv/symbols_009c2000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_0106b000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_01202000.h"
 struct Flt
 {
     operator unsigned int() const;
@@ -20,12 +47,10 @@ unsigned int FUN_009b3cb0_shell::FUN_009b3cb0()
 
 struct BGSLoadFormBuffer
 {
-    void ReadTypedData(void* pBuf, unsigned int uSize);
 };
 
 struct BeamProjectile
 {
-    void LoadProjectile(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 
 struct FlameProjectile : BeamProjectile
@@ -38,16 +63,15 @@ struct FlameProjectile : BeamProjectile
 // @fnv 0x009b3f00
 void FlameProjectile::FUN_009b3f00(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    BeamProjectile::LoadProjectile(apLoadGameBuffer);
-    apLoadGameBuffer->ReadTypedData((char*)this + 0x150, 4);
-    apLoadGameBuffer->ReadTypedData((char*)this + 0x154, 4);
+    reinterpret_cast<::LoadProjectile52 *>(this)->LoadProjectile((::LoadBuf52 *)(apLoadGameBuffer));
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x150), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x154), 4);
 }
 
 namespace fnv_009b3f50 {
 struct BGSLoadFormBuffer;
 struct Projectile
 {
-    void FUN_009c58e0(BGSLoadFormBuffer*);
 };
 struct FlameProjectile : Projectile
 {
@@ -58,7 +82,7 @@ struct FlameProjectile : Projectile
 // @fnv 0x009b3f50
 void FlameProjectile::FUN_009b3f50(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    Projectile::FUN_009c58e0(apLoadGameBuffer);
+    reinterpret_cast<::Projectile9c58 *>(this)->FUN_009c58e0((::LoadBuffer9c58 *)(apLoadGameBuffer));
     *(float*)((char*)this + 0x150) = 0.0f;
     *(float*)((char*)this + 0x154) = 0.0f;
 }
@@ -77,7 +101,6 @@ struct FUN_005de0a0_shell
 
 struct FUN_009bda10_shell
 {
-    void FUN_009bda10();
 };
 
 // Calls FUN_005de0a0 with several bit flags and values, then calls FUN_009bda10.
@@ -91,16 +114,14 @@ void FUN_009b32b0_shell::ConfigureFlags()
     ((FUN_005de0a0_shell*)this)->FUN_005de0a0(0x20, 0);
     ((FUN_005de0a0_shell*)this)->FUN_005de0a0(0x80, 1);
     ((FUN_005de0a0_shell*)this)->FUN_005de0a0(0x100, 1);
-    ((FUN_009bda10_shell*)this)->FUN_009bda10();
+    reinterpret_cast<::fnv_009bda10::ProjectileRuntime *>((((FUN_009bda10_shell*)this)))->FUN_009bda10();
 }
 
 struct BGSSaveFormBuffer
 {
-    void SaveData(void*, int, int);
 };
 struct FUN_009c4ff0_cls
 {
-    void SaveProjectile(BGSSaveFormBuffer*);
 };
 struct StandInFlame
 {
@@ -109,14 +130,13 @@ struct StandInFlame
 // @fnv 0x009b3eb0
 void StandInFlame::Save(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    ((FUN_009c4ff0_cls*)this)->SaveProjectile(apSaveGameBuffer);
-    apSaveGameBuffer->SaveData((char*)this + 0x150, 4, 0);
-    apSaveGameBuffer->SaveData((char*)this + 0x154, 4, 0);
+    reinterpret_cast<::ProjectileHelper *>((((FUN_009c4ff0_cls*)this)))->SaveProjectile(apSaveGameBuffer);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)this + 0x150, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)this + 0x154, 4, 0);
 }
 
 struct Projectile
 {
-    void FUN_009bc470();
 };
 struct FUN_009b3f80_shell : Projectile
 {
@@ -125,7 +145,7 @@ struct FUN_009b3f80_shell : Projectile
 // @fnv 0x009b3f80
 void FUN_009b3f80_shell::FUN_009b3f80()
 {
-    FUN_009bc470();
+    reinterpret_cast<::FUN_009bbc40 *>(this)->FUN_009bbc40::~FUN_009bbc40();
 }
 
 namespace fnv_005de0a0 {
@@ -175,20 +195,13 @@ struct NiAVObject : NiNode
 
 struct Particle
 {
-    unsigned int FUN_004d7d50();
-    Object* GetByIndex(unsigned int index);
 };
 
 struct TESGlobal : Object
 {
-    float GetValue();
 };
 
-bool __cdecl FUN_0043b300(RTTI const* rtti, Object* object);
 
-extern void* g_01202560;
-extern int g_01202500_arg1;
-extern double _DAT_01012060;
 
 float GetMaxParticleGlobalValue(NiNode* node);
 
@@ -201,18 +214,18 @@ float GetMaxParticleGlobalValue(NiNode* node)
     {
         NiNode* root;
 
-        if (FUN_0043b300(reinterpret_cast<RTTI const*>(&g_01202560), node))
+        if (::FUN_0043b300((const ::NiRTTI *)(const ::RTTI *)(reinterpret_cast<RTTI const*>(&(*reinterpret_cast<void * *>(&::g_01202560)))), (::NiAVObject *)(node)))
         {
             Particle* particle = reinterpret_cast<Particle*>(node);
 
-            for (unsigned int i = 0; result == _DAT_01012060 && i < particle->FUN_004d7d50(); ++i)
+            for (unsigned int i = 0; result == _DAT_01012060 && i < reinterpret_cast<::FUN_004d7d50_StandIn *>((particle))->FUN_004d7d50(); ++i)
             {
-                Object* object = particle->GetByIndex(i);
+                Object* object = ((::Object *)(reinterpret_cast<::Owner *>((particle))->GetByIndex(i)));
 
-                if (object && FUN_0043b300(reinterpret_cast<RTTI const*>(&g_01202500_arg1), object))
+                if (object && ::FUN_0043b300((const ::NiRTTI *)(const ::RTTI *)(reinterpret_cast<RTTI const*>(&(*reinterpret_cast<int *>(&::g_01202540)))), (::NiAVObject *)(object)))
                 {
                     TESGlobal* global = reinterpret_cast<TESGlobal*>(object);
-                    result = global->GetValue();
+                    result = reinterpret_cast<::FUN_00526ac0_shell *>((global))->FUN_00526ac0();
                 }
             }
         }
@@ -237,19 +250,18 @@ float GetMaxParticleGlobalValue(NiNode* node)
 struct Vec3
 {
     float x, y, z;
-    void FUN_0043d410(float x, int y, int z);
+public:
+    Vec3();
 };
 struct FloatMatrix3
 {
     float xx, xy, xz;
     float yx, yy, yz;
     float zx, zy, zz;
-    int FUN_004b45b0();
     FloatMatrix3* FUN_0043f8d0(int);
 };
 struct GameNode
 {
-    FloatMatrix3* FUN_00461130(FloatMatrix3*);
 };
 struct OtherNode
 {
@@ -389,11 +401,8 @@ struct OtherNode
 typedef GameNode*(__thiscall* NodeGetter)(void*);
 typedef void(__thiscall* VectorSetter)(GameNode*, Vec3*);
 typedef GameNode*(__thiscall* SecondaryGetter)(void*);
-float GetMaxParticleGlobalValue(GameNode*);
-extern double _DAT_0106b9e8;
 struct ProjectileObject
 {
-    OtherNode* FUN_00874480();
     void UpdateProjectileNode();
 };
 // Gets the projectile's node and secondary node, sets a zero vector on the node, copies a matrix into this+0x94, and stores a scaled value at this+0x154.
@@ -403,20 +412,20 @@ void ProjectileObject::UpdateProjectileNode()
     GameNode* node = ((NodeGetter)(*reinterpret_cast<void***>(this))[0x1d0 / 4])(this);
     if (node)
     {
-        GameNode* secondary = FUN_00874480()->GetSecondary();
+        GameNode* secondary = ((::OtherNode *)(::FUN_00874480((char *)this)))->GetSecondary();
         if (secondary)
         {
             Vec3 vec;
-            vec.FUN_0043d410(0.0f, 0, 0);
+            new ((void *)&(vec)) ::NiUpdateData(0.0f, 0, 0);
             ((VectorSetter)(*reinterpret_cast<void***>(node))[0xb8 / 4])(node, &vec);
             FloatMatrix3 firstMatrix;
             FloatMatrix3 second;
             *reinterpret_cast<FloatMatrix3*>(reinterpret_cast<char*>(this) + 0x94) = *(
-                ((NodeGetter)(*reinterpret_cast<void***>(this))[0x1d0 / 4])(this)->FUN_00461130(&second)->FUN_0043f8d0(
-                    secondary->FUN_00461130(&firstMatrix)->FUN_004b45b0()));
+                ((::FloatMatrix3 *)(::FUN_00461130((int)(((NodeGetter)(*reinterpret_cast<void***>(this))[0x1d0 / 4])(this)))))->FUN_0043f8d0(
+                    ((int)(reinterpret_cast<::ThreeByThreeMatrix *>((((::FloatMatrix3 *)(::FUN_00461130((int)(secondary))))))->FUN_004b45b0({})))));
         }
         *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x154) =
-            GetMaxParticleGlobalValue(node) * _DAT_0106b9e8;
+            ::GetMaxParticleGlobalValue((::NiNode *)(node)) * ::DAT_0106b9e8;
     }
 }
 
@@ -565,15 +574,15 @@ struct ProjObj
 };
 struct FUN_004181e0_shell
 {
-    unsigned int FUN_004181e0();
 };
 struct FUN_00874480_shell
 {
-    unsigned int FUN_00874480();
 };
 struct FUN_005be5c0_shell
 {
     unsigned int FUN_005be5c0();
+public:
+    unsigned int FUN_005be5c0(int);
 };
 struct FUN_00968670_shell
 {
@@ -586,26 +595,24 @@ struct ProjMgr
 };
 struct FUN_00717e50_shell
 {
-    ProjMgr* FUN_00717e50(unsigned int index);
 };
-extern FUN_00717e50_shell DAT_011e0e80;
 
 // Scans the project manager's objects for one whose v137 is set and whose FUN_004181e0 equals b and FUN_00874480 equals a, returning the first match or null.
 // @fnv 0x009bd780
 ProjObj* FindProjectObject(unsigned int a, unsigned int b)
 {
     ProjObj* result = 0;
-    for (unsigned int i = 0; result == 0 && i < DAT_011e0e80.FUN_00717e50(0)->FUN_005be5c0(); ++i)
+    for (unsigned int i = 0; result == 0 && i < reinterpret_cast<::FUN_005be5c0_shell *>((((::ProjMgr *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::FUN_00717e50_shell *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_005be5c0({}); ++i)
     {
-        ProjObj* pObj = DAT_011e0e80.FUN_00717e50(i)->FUN_00968670();
+        ProjObj* pObj = ((::ProjObj *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::ProjMgr *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::FUN_00717e50_shell *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670({})));
         if (pObj != 0)
         {
             if (pObj->v137() != 0)
             {
                 ProjObj* pCandidate = pObj;
-                if (((FUN_004181e0_shell*)pCandidate)->FUN_004181e0() == b)
+                if (((unsigned int)(reinterpret_cast<::Actor *>((((FUN_004181e0_shell*)pCandidate)))->GetActorBase())) == b)
                 {
-                    if (((FUN_00874480_shell*)pCandidate)->FUN_00874480() == a)
+                    if (((unsigned int)(::FUN_00874480((char *)(((FUN_00874480_shell*)pCandidate))))) == a)
                     {
                         result = pCandidate;
                     }
@@ -696,8 +703,6 @@ class HitNode9B3
 {
   public:
     bool IsEmpty();
-    HitEntry9B3** GetItem();
-    HitNode9B3* GetNext();
 
     HitEntry9B3* m_pkItem;
     HitNode9B3* m_pkNext;
@@ -706,7 +711,6 @@ class HitNode9B3
 class ProjectileBase9B3;
 class Projectile9B3;
 
-bool __cdecl CanHit9B3(Ref9B3* pkTarget, int iPart, Projectile9B3* pkProjectile, ProjectileBase9B3* pkBase);
 
 class Projectile9B3
 {
@@ -747,29 +751,27 @@ class Projectile9B3
     int unk84;
     HitNode9B3 m_kHitList;
 
-    ProjectileBase9B3* GetProjectileBase() const;
-    bool ProcessHit(Ref9B3* pkTarget, int iArg1, int iArg2, int iPart, int iArg4, int iArg5);
     bool CanProcessHit(Ref9B3* pkTarget, int iArg1, int iArg2, int iPart, int iArg4, int iArg5);
 };
 
 // @fnv 0x009b3cd0
 bool Projectile9B3::CanProcessHit(Ref9B3* pkTarget, int iArg1, int iArg2, int iPart, int iArg4, int iArg5)
 {
-    if (CanHit9B3(pkTarget, iPart, this, GetProjectileBase()))
+    if (::fnv_009c2c80::CanProjectileHit((::fnv_009c2c80::RefObj *)(pkTarget), (::fnv_009c2c80::CdBody *)(iPart), (int)(this), (::fnv_009c2c80::ProjData *)(::ProjectileBase9B3 *)(((::ProjectileBase9B3 *)(reinterpret_cast<::Actor *>((void *)this)->GetActorBase())))))
     {
         HitNode9B3* pkNode = &m_kHitList;
         while (pkNode && !pkNode->IsEmpty())
         {
-            if (pkTarget == (*pkNode->GetItem())->m_pkRef)
+            if (pkTarget == (*((::HitEntry9B3 **)(new ((void *)(pkNode)) ::Vec3())))->m_pkRef)
             {
                 if (pkTarget && pkTarget->IsDead())
                     return false;
                 else
                     return true;
             }
-            pkNode = pkNode->GetNext();
+            pkNode = ((::HitNode9B3 *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070()));
         }
-        if (ProcessHit(pkTarget, iArg1, iArg2, iPart, iArg4, iArg5))
+        if (reinterpret_cast<::ProjectileHit *>(this)->ProcessHit((::Obj *)(pkTarget), (*(const ::Vec *)(iArg1)), (*(const ::Vec *)(iArg2)), (::Buffer *)(iPart), iArg4, iArg5))
             return true;
     }
     return false;

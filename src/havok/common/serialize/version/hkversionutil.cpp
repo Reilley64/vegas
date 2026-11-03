@@ -2,6 +2,31 @@
 // src/havok/common/serialize/version/hkversionutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/version/hkversionutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/CB1A90Owner.h"
+#include "fnv/decl/ClassMember_d869.h"
+#include "fnv/decl/D87370Obj.h"
+#include "fnv/decl/FUN_00cb1fe0_t.h"
+#include "fnv/decl/FUN_00d46f00_s.h"
+#include "fnv/decl/FUN_00d46fe0_Class.h"
+#include "fnv/decl/FUN_00d47130_class.h"
+#include "fnv/decl/FUN_00dc1670_cls.h"
+#include "fnv/decl/FUN_00dc1bb0_Class.h"
+#include "fnv/decl/FnvClassNameNode.h"
+#include "fnv/decl/FnvCpu_FUN_00d470d0_CpuObject.h"
+#include "fnv/decl/FnvCpu_FUN_00d871f0_CpuObject.h"
+#include "fnv/decl/HkClassNode.h"
+#include "fnv/decl/Struct_d86920.h"
+#include "fnv/decl/TargetClass.h"
+#include "fnv/decl/TestClass.h"
+#include "fnv/decl/hkBufferedStreamD273.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00e03000.h"
+#include "fnv/symbols_00e04000.h"
+#include "fnv/symbols_010cf000.h"
+#include "fnv/symbols_01268000.h"
 extern "C" void __cdecl VisitObjectList(int, int);
 
 struct FUN_00db7a80_Class
@@ -71,17 +96,15 @@ FUN_00e049d0_Class* FUN_00e049d0_Class::FUN_00e049d0(int flags)
     return this;
 }
 
-extern "C" char str_010cf830[];
 
 // @fnv 0x00dc0fb0
 void* __cdecl FUN_00dc0fb0()
 {
-    return &str_010cf830;
+    return &::str_010cf830;
 }
 
 struct FUN_00d86980_Class
 {
-    int FUN_00d86980();
 };
 
 struct FUN_00d871a0
@@ -90,12 +113,8 @@ struct FUN_00d871a0
     int m_04;
 
     FUN_00d871a0(void*, int);
-    bool& FUN_00d871e0(bool&);
-    void* FUN_00d871f0();
-    FUN_00d86980_Class* FUN_00d87370();
 };
 
-extern "C" void* __cdecl FUN_00cb1260(void*, const void*, unsigned int);
 
 // @fnv 0x00dc0fc0
 void __cdecl FUN_00dc0fc0(void* a1, int a2, void* a3, int a4)
@@ -103,15 +122,14 @@ void __cdecl FUN_00dc0fc0(void* a1, int a2, void* a3, int a4)
     FUN_00d871a0 obj1(a1, a2);
     FUN_00d871a0 obj2(a3, a4);
     bool b;
-    if (obj1.FUN_00d871e0(b) && obj2.FUN_00d871e0(b))
+    if (((bool)(reinterpret_cast<::TargetClass *>(&(obj1))->FUN_00d871e0((bool *)&(b)))) && ((bool)(reinterpret_cast<::TargetClass *>(&(obj2))->FUN_00d871e0((bool *)&(b)))))
     {
-        FUN_00cb1260(obj2.FUN_00d871f0(), obj1.FUN_00d871f0(), obj2.FUN_00d87370()->FUN_00d86980());
+        ::FUN_00cb1260(((void *)(reinterpret_cast<::FnvCpu_FUN_00d871f0_CpuObject *>(&(obj2))->FUN_00d871f0())), ((void *)(reinterpret_cast<::FnvCpu_FUN_00d871f0_CpuObject *>(&(obj1))->FUN_00d871f0())), reinterpret_cast<::ClassMember_d869 *>((((::FUN_00d86980_Class *)(reinterpret_cast<::D87370Obj *>(&(obj2))->FUN_00d87370()))))->FUN_00d86980());
     }
 }
 
 struct FUN_00d46d40_s
 {
-    const char* FUN_00d46d40() const throw();
 };
 
 class GlobalObjectO2_00d472a0 : public FUN_00d46d40_s
@@ -119,9 +137,7 @@ class GlobalObjectO2_00d472a0 : public FUN_00d46d40_s
   public:
     int m_00;
 };
-extern GlobalObjectO2_00d472a0 g_01268748;
 
-int __cdecl FUN_00cb0fa0(const char* pcA, const char* pcB) throw();
 
 class hkClassMemberDC11
 {
@@ -143,14 +159,11 @@ class hkClassMemberDC11
     unsigned char m_type;
     unsigned char m_eSubtype;
 
-    int FUN_00d86920() const throw();
-    const FUN_00d46d40_s& FUN_00d86910() const throw();
 };
 
 class hkVersionCheckDC11
 {
   public:
-    int FUN_00e032d0(const hkClassMemberDC11* pkOld, const hkClassMemberDC11* pkNew) throw();
     int IsMemberCompatible(const hkClassMemberDC11* pkOld, const hkClassMemberDC11* pkNew) throw();
 };
 
@@ -164,16 +177,16 @@ int hkVersionCheckDC11::IsMemberCompatible(const hkClassMemberDC11* pkOld, const
         (pkOld->m_type == hkClassMemberDC11::TYPE_CSTRING && pkNew->m_type == hkClassMemberDC11::TYPE_STRINGPTR);
     bool bVariantToPtr =
         (pkOld->m_type == hkClassMemberDC11::TYPE_VARIANT && pkNew->m_type == hkClassMemberDC11::TYPE_POINTER &&
-         pkNew->m_eSubtype == hkClassMemberDC11::TYPE_STRUCT && pkNew->FUN_00d86920() &&
-         FUN_00cb0fa0(g_01268748.FUN_00d46d40(), pkNew->FUN_00d86910().FUN_00d46d40()) == 0);
+         pkNew->m_eSubtype == hkClassMemberDC11::TYPE_STRUCT && reinterpret_cast<::Struct_d86920 *>((void *)(pkNew))->FUN_00d86920() &&
+         ::fnv_00cb0fa0::FUN_00cb0fa0(reinterpret_cast<::FnvClassNameNode *>((void *)&(g_01268748))->FUN_00d46d40(), reinterpret_cast<::FnvClassNameNode *>((void *)&((*(const ::FUN_00d46d40_s *)(reinterpret_cast<::TestClass *>((void *)(pkNew))->FUN_00d86910()))))->FUN_00d46d40()) == 0);
     bool bSubTypeCompatible =
         (pkOld->m_eSubtype == pkNew->m_eSubtype) || (pkOld->m_eSubtype == hkClassMemberDC11::TYPE_CSTRING &&
                                                      pkNew->m_eSubtype == hkClassMemberDC11::TYPE_STRINGPTR);
     bool bSubVariantToPtr =
         (pkOld->m_eSubtype == hkClassMemberDC11::TYPE_VARIANT && pkNew->m_eSubtype == hkClassMemberDC11::TYPE_POINTER &&
-         pkNew->FUN_00d86920() && FUN_00cb0fa0(g_01268748.FUN_00d46d40(), pkNew->FUN_00d86910().FUN_00d46d40()) == 0);
+         reinterpret_cast<::Struct_d86920 *>((void *)(pkNew))->FUN_00d86920() && ::fnv_00cb0fa0::FUN_00cb0fa0(reinterpret_cast<::FnvClassNameNode *>((void *)&(g_01268748))->FUN_00d46d40(), reinterpret_cast<::FnvClassNameNode *>((void *)&((*(const ::FUN_00d46d40_s *)(reinterpret_cast<::TestClass *>((void *)(pkNew))->FUN_00d86910()))))->FUN_00d46d40()) == 0);
 
-    if (FUN_00e032d0(pkOld, pkNew) || bCStringToStringPtr || bVariantToPtr ||
+    if (::FUN_00e032d0((const void *)this, pkOld) || bCStringToStringPtr || bVariantToPtr ||
         (bTypeCompatible && (bSubTypeCompatible || bSubVariantToPtr)))
         return 1;
     return 0;
@@ -195,7 +208,6 @@ struct hkMemoryRouterDC12
 };
 extern "C" hkMemoryRouterDC12& __cdecl FUN_00c85750();
 
-void __cdecl ProcessObjectArray(void* const* ppvList, int iFlags) throw();
 
 class hkPointerMapDC12
 {
@@ -208,12 +220,9 @@ class hkPointerMapDC12
     {}
     ~hkPointerMapDC12() throw()
     {
-        FUN_00a29680();
+        ::FUN_00a29680();
     }
 
-    void EnsureCapacity(hkMemoryAllocatorDC12& kAlloc, int iNumElems) throw();
-    void ProcessArgument(hkMemoryAllocatorDC12& kAlloc) throw();
-    void FUN_00a29680() throw();
 };
 
 class hkVisitorDC12
@@ -223,23 +232,21 @@ class hkVisitorDC12
 
     hkVisitorDC12() throw()
     {
-        FUN_00dc1670();
+        reinterpret_cast<::FUN_00dc1670_cls *>(this)->FUN_00dc1670();
     }
-    void FUN_00dc1670() throw();
-    void FUN_00dc1bb0(void* pvObject, hkPointerMapDC12& kDone, int iFlags) throw();
 };
 
 // @fnv 0x00dc1230
 extern "C" void __cdecl VisitObjectList(int apvList, int iFlags)
 {
     void* const* ppvList = reinterpret_cast<void* const*>(apvList);
-    ProcessObjectArray(ppvList, iFlags);
+    ::ProcessObjectArray((::BE04D90Object **)(ppvList), iFlags);
     hkVisitorDC12 kVisitor;
     hkPointerMapDC12 kDone;
-    kDone.EnsureCapacity(FUN_00c85750().heap(), 0);
+    reinterpret_cast<::FUN_00cb1fe0_t *>(&(kDone))->EnsureCapacity((int)&(FUN_00c85750().heap()), 0);
     for (int i = 0; ppvList[i]; i++)
-        kVisitor.FUN_00dc1bb0(ppvList[i], kDone, 1);
-    kDone.ProcessArgument(FUN_00c85750().heap());
+        reinterpret_cast<::FUN_00dc1bb0_Class *>(&(kVisitor))->FUN_00dc1bb0((unsigned int)(ppvList[i]), (unsigned int)&(kDone), 1);
+    reinterpret_cast<::CB1A90Owner *>(&(kDone))->ProcessArgument((::CB1A90Argument *)&(FUN_00c85750().heap()));
 }
 
 class hkBoolDC10
@@ -255,7 +262,6 @@ class hkBoolDC10
 class FUN_00d27520
 {
   public:
-    void FUN_00d27520_dtor() throw();
     int unk00;
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
@@ -264,13 +270,14 @@ class FUN_00d27520
     int m_curSize;
     int m_iCapacity;
     char m_overflowed;
+public:
+    ~FUN_00d27520();
 };
 
 class FUN_00d274c0 : public FUN_00d27520
 {
   public:
     FUN_00d274c0(void* pvMem, int m_uiSizeAndFlags, hkBoolDC10 bMemoryIsString) throw();
-    int FUN_00d27380(int offset, int whence) throw();
 };
 
 struct EntryDC10
@@ -286,35 +293,30 @@ struct EntryDC10
 class SetDC10
 {
   public:
-    int FUN_00d46fe0(int key) throw();
 };
 
 class SectionsDC10
 {
   public:
-    int FUN_00d470d0() throw();
-    int FUN_00d46f00() throw();
-    EntryDC10* FUN_00d46f20(int i) throw();
-    void InvokeTarget(int i, FUN_00d27520* pkWriter) throw();
 };
 
 // Writes entries from pkSections whose key is not in pkSet to pvBuf via a FUN_00d274c0 writer.
 // @fnv 0x00dc1070
 void __cdecl FUN_00dc1070(void* apvBuffer, SetDC10* pkSet, SectionsDC10* pkSections)
 {
-    FUN_00d274c0 kWriter(apvBuffer, pkSections->FUN_00d470d0(), false);
-    for (int i = 0; i < pkSections->FUN_00d46f00(); i++)
+    FUN_00d274c0 kWriter(apvBuffer, reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((pkSections))->FUN_00d470d0(), false);
+    for (int i = 0; i < ((int)(reinterpret_cast<::FUN_00d46f00_s *>((pkSections))->FUN_00d46f00())); i++)
     {
-        EntryDC10* pkEntry = pkSections->FUN_00d46f20(i);
+        EntryDC10* pkEntry = ((::EntryDC10 *)(reinterpret_cast<::HkClassNode *>((pkSections))->FUN_00d46f20(i)));
         int key = pkEntry->m_key;
-        if (!pkSet->FUN_00d46fe0(key))
+        if (!((int)(reinterpret_cast<::FUN_00d46fe0_Class *>((pkSet))->FUN_00d46fe0((const int *)(key)))))
         {
             int iOffset = pkEntry->m_offset;
-            kWriter.FUN_00d27380(iOffset, 0);
-            pkSections->InvokeTarget(i, &kWriter);
+            reinterpret_cast<::hkBufferedStreamD273 *>(&(kWriter))->FUN_00d27380(iOffset, 0);
+            reinterpret_cast<::FUN_00d47130_class *>((pkSections))->InvokeTarget((const char *)(i), (::FUN_00d471c0_target *)(::FUN_00d27520 *)(&kWriter));
         }
     }
-    kWriter.FUN_00d27520_dtor();
+    reinterpret_cast<::FUN_00d27520 *>(&(kWriter))->FUN_00d27520::~FUN_00d27520();
 }
 
 struct S00dc15a0_Buffer
@@ -350,7 +352,6 @@ struct S00dc15a0_Array
 namespace fnvc_adapt {
 extern "C" S00dc15a0_AudioSystem* __cdecl FUN_00c85750();
 }
-extern "C" void __cdecl FUN_00c908c0(S00dc15a0_Buffer* buffer, int** indices, int size, int elementSize);
 
 static __declspec(noinline) int FUN_00dc12c0(S00dc15a0_Params* params, int value, int flags, S00dc15a0_Array* arr)
 {
@@ -376,7 +377,7 @@ int __cdecl FUN_00dc15a0(S00dc15a0_Params* params, int value, int flags)
         int newCap = iCurrentCap + iCurrentCap;
         if (count >= newCap)
             newCap = count;
-        FUN_00c908c0(heap, &arr.m_data, newCap, 4);
+        ::FUN_00c908c0((::SpawnedObject *)(heap), (::SpawnedArray *)(int **)(&arr.m_data), newCap, 4);
     }
 
     int index = 0;

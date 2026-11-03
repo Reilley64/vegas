@@ -2,11 +2,64 @@
 // src/fallout_shared/teswater_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/teswater.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/C00c66300.h"
+#include "fnv/decl/C6B540Manager.h"
+#include "fnv/decl/Controller.h"
+#include "fnv/decl/EffectSetting.h"
+#include "fnv/decl/FUN_00452df0_class.h"
+#include "fnv/decl/FUN_00452e50_class.h"
+#include "fnv/decl/FUN_00452e90_Class.h"
+#include "fnv/decl/FUN_0045c780_shell.h"
+#include "fnv/decl/FUN_0045c840_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_005281f0_Class.h"
+#include "fnv/decl/FUN_005282d0_cls.h"
+#include "fnv/decl/FUN_005285a0_Class.h"
+#include "fnv/decl/FUN_0068a830_shell.h"
+#include "fnv/decl/FUN_00a5a390_shell.h"
+#include "fnv/decl/FUN_00c66310_class.h"
+#include "fnv/decl/GridRefresh__Grid.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/S457d70.h"
+#include "fnv/decl/Shell451.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/WS458200_Shell.h"
+#include "fnv/decl/fnv_0042ce10__FUN_0042ce10_shell.h"
+#include "fnv/decl/fnv_00452490__FUN_00452490_shell.h"
+#include "fnv/decl/fnv_00452ed0__FUN_00452ed0_shell.h"
+#include "fnv/decl/fnv_00454d50__FUN_00454d50_shell.h"
+#include "fnv/decl/fnv_00457070__FUN_00457070_shell.h"
+#include "fnv/decl/fnv_00457be0__OwnerProxy.h"
+#include "fnv/decl/fnv_004581e0__FUN_004581e0_Class.h"
+#include "fnv/decl/fnv_005283c0__QCellQueue.h"
+#include "fnv/decl/fnv_006271b0__Owner.h"
+#include "fnv/decl/fnv_00628da0__LoadedAreaBound.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/s4e5e50__Owner.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00451000.h"
+#include "fnv/symbols_00452000.h"
+#include "fnv/symbols_0045b000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00461000.h"
+#include "fnv/symbols_0049e000.h"
+#include "fnv/symbols_0062f000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011c6000.h"
+#include "fnv/symbols_011c9000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
 #include "teswater_decls.h"
 #include "teswater_work.h"
 
 extern int DAT_0109cb9c;
-void __fastcall FUN_00a5a390(void* p);
 
 struct FUN_00a6fae0_Class
 {
@@ -17,7 +70,7 @@ struct FUN_00a6fae0_Class
 void __thiscall FUN_00a6fae0_Class::FUN_00a6fae0()
 {
     *(int*)this = (int)&DAT_0109cb9c;
-    FUN_00a5a390(this);
+    reinterpret_cast<::FUN_00a5a390_shell *>((this))->FUN_00a5a390();
 }
 
 // Lazily create the shader property for this geometry, picking the shader type by whether the geometry is skinned.
@@ -25,10 +78,8 @@ void __thiscall FUN_00a6fae0_Class::FUN_00a6fae0()
 class B9F30MemoryManager
 {
   public:
-    void* Allocate(unsigned int uiSize);
     void Deallocate(void* pvMem);
 };
-extern B9F30MemoryManager g_kB9F30MemoryManager;
 
 struct B9F30SkinData
 {
@@ -104,11 +155,11 @@ class B9F30Property
 
     static void* operator new(unsigned int uiSize)
     {
-        return g_kB9F30MemoryManager.Allocate(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::B9F30MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }
     static void operator delete(void* pvMem)
     {
-        g_kB9F30MemoryManager.Deallocate(pvMem);
+        (*reinterpret_cast<::B9F30MemoryManager *>(&::g_memoryManager)).Deallocate(pvMem);
     }
 
     int unk00;

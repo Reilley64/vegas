@@ -14,6 +14,8 @@ class NiObjectNET : public NiObject
     NiExtraData** m_ppExtraData;                 // +0x10
     unsigned short m_usExtraDataCount;           // +0x14
     unsigned short m_usMaxSize;                  // +0x16
+public:
+    void SetFlags(unsigned short);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiObjectNET) == 0x18);

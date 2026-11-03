@@ -2,6 +2,9 @@
 // src/gamebryo2.2/corelibs/nicollision/niintersector.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nicollision/niintersector.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/symbols_011f6000.h"
 struct VTableObject
 {
     virtual void __fastcall Query(int value);
@@ -106,15 +109,13 @@ char* FnvCpu_FUN_00eae710_CpuObject::FUN_00eae710()
 
 struct MemoryManager
 {
-    void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 struct FUN_00eae770
 {
     virtual ~FUN_00eae770();
     void operator delete(void* p)
     {
-        g_memoryManager.Deallocate(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
     }
 };
 // @fnv 0x00eae770
@@ -170,7 +171,7 @@ void S_00eae7a0_Solver::Solve(const S_00eae7a0_Point& apPointA, const S_00eae7a0
         Finish(apPointA, apPointB);
         return;
     }
-    if (apPointA == apPointB)
+    if (reinterpret_cast<::NiPoint3 *>((void *)&(const ::S_00eae7a0_Point &)(apPointA))->FUN_004390c0((const ::NiPoint3 &)(apPointB)))
     {
         m_fResult = DAT_010f1a7c;
         m_iResult = 1;

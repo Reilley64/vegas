@@ -2,6 +2,17 @@
 // src/havok/common/visualize/hkversionreporter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/hkversionreporter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/BufferOwner.h"
+#include "fnv/decl/D60590Object.h"
+#include "fnv/decl/FUN_00d605d0_class.h"
+#include "fnv/decl/FUN_00d607b0_class.h"
+#include "fnv/decl/FUN_00dda690.h"
+#include "fnv/decl/FUN_00dda6e0.h"
+#include "fnv/decl/StringBuf.h"
+#include "fnv/decl/hkOArchiveStandIn.h"
+#include "fnv/decl/hkOArchive_2.h"
+#include "fnv/symbols_00cb1000.h"
 struct S_Alloc
 {
     virtual void v0();
@@ -27,7 +38,6 @@ struct S_Router
     }
 };
 S_Router* FUN_00c85750();
-int FUN_00cb10d0(const char* s);
 
 struct S_Arr
 {
@@ -58,17 +68,9 @@ struct S_Out
     int unk4;
     int unk8;
     int unkc;
-    S_Out* FUN_00dda690(S_Arr* a);
-    S_Out* FUN_00dda6e0(const char* name);
-    void FUN_00d605d0(unsigned v);
-    void WriteInt(unsigned v);
-    void WriteUInt16(unsigned v);
-    void FUN_00d607b0(const void* p, int n);
-    void FUN_00d60590();
 };
 struct S_Str : S_Arr
 {
-    S_Str* InitBuffer();
     int unk0c;
     int unk10;
     int unk14;
@@ -102,7 +104,6 @@ struct S_Str : S_Arr
     int unk84;
     int unk88;
 };
-int FUN_00d61d00(S_Str* s, const char* fmt, ...);
 extern int DAT_011b5dc0;
 extern int DAT_011b5dbc;
 
@@ -115,30 +116,30 @@ int WriteCompilerInfo(const char* name)
     buffer.size = 0;
     buffer.cap = 0x80000000;
     S_Out outStream;
-    outStream.FUN_00dda690(&buffer);
-    outStream.FUN_00d605d0(0x90);
-    outStream.WriteInt(DAT_011b5dc0);
-    outStream.WriteInt(DAT_011b5dbc);
-    int n = FUN_00cb10d0("PC_32");
+    new ((void *)&(outStream)) ::FUN_00dda690((int)(&buffer));
+    reinterpret_cast<::FUN_00d605d0_class *>(&(outStream))->FUN_00d605d0(0x90);
+    reinterpret_cast<::hkOArchive_2 *>(&(outStream))->WriteInt(DAT_011b5dc0);
+    reinterpret_cast<::hkOArchive_2 *>(&(outStream))->WriteInt(DAT_011b5dbc);
+    int n = ::fnv_00cb10d0::FUN_00cb10d0("PC_32");
     if (n > 0xffff)
         n = 0xffff;
-    outStream.WriteUInt16(n);
-    outStream.FUN_00d607b0("PC_32", n);
+    reinterpret_cast<::hkOArchiveStandIn *>(&(outStream))->WriteUInt16(n);
+    reinterpret_cast<::FUN_00d607b0_class *>(&(outStream))->FUN_00d607b0((int)("PC_32"));
     S_Str versionStr;
-    versionStr.InitBuffer();
-    FUN_00d61d00(&versionStr, "%s:%i", "MSVC", 1500);
+    reinterpret_cast<::BufferOwner *>(&(versionStr))->InitBuffer();
+    reinterpret_cast<::StringBuf *>((&versionStr))->FUN_00d61d00("%s:%i", "MSVC", 1500);
     int iVersionLen = versionStr.size - 1;
     if (iVersionLen > 0xffff)
         iVersionLen = 0xffff;
-    outStream.WriteUInt16(iVersionLen);
-    outStream.FUN_00d607b0(versionStr.data, iVersionLen);
+    reinterpret_cast<::hkOArchiveStandIn *>(&(outStream))->WriteUInt16(iVersionLen);
+    reinterpret_cast<::FUN_00d607b0_class *>(&(outStream))->FUN_00d607b0((int)(versionStr.data));
     S_Out f;
-    f.FUN_00dda6e0(name);
-    f.WriteInt(buffer.size);
-    f.FUN_00d607b0(buffer.data, buffer.size);
-    f.FUN_00d60590();
+    new ((void *)&(f)) ::FUN_00dda6e0((int)(name));
+    reinterpret_cast<::hkOArchive_2 *>(&(f))->WriteInt(buffer.size);
+    reinterpret_cast<::FUN_00d607b0_class *>(&(f))->FUN_00d607b0((int)(buffer.data));
+    reinterpret_cast<::D60590Object *>(&(f))->FUN_00d60590();
     versionStr.clear(FUN_00c85750()->temp());
-    outStream.FUN_00d60590();
+    reinterpret_cast<::D60590Object *>(&(outStream))->FUN_00d60590();
     buffer.clear(FUN_00c85750()->heap());
     return 0;
 }

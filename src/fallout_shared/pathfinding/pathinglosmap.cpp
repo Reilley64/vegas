@@ -2,6 +2,32 @@
 // src/fallout_shared/pathfinding/pathinglosmap.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/pathfinding/pathinglosmap.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/BGSMessageInitAccess.h"
+#include "fnv/decl/BSShaderManager.h"
+#include "fnv/decl/DecalStub.h"
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_0049ed90_shell.h"
+#include "fnv/decl/FUN_005582d0_shell.h"
+#include "fnv/decl/FUN_0068f0a0_shell.h"
+#include "fnv/decl/FUN_00691140_shell.h"
+#include "fnv/decl/FUN_006d7ee0_shell.h"
+#include "fnv/decl/FUN_006d8970_shell.h"
+#include "fnv/decl/FUN_0076b610_Class.h"
+#include "fnv/decl/FUN_00844700_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/NiTObjectArrayA47.h"
+#include "fnv/decl/S2f850.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_004bc450__FUN_004bc450_S.h"
+#include "fnv/decl/fnv_00853130__NiTMapBase.h"
+#include "fnv/symbols_0042f000.h"
+#include "fnv/symbols_004b6000.h"
+#include "fnv/symbols_00558000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00c58000.h"
 struct PathingLOSMap
 {
     virtual ~PathingLOSMap();
@@ -10,20 +36,9 @@ struct PathingLOSMap
 
 extern "C" void __cdecl operator delete(void* p, unsigned int size);
 
-// Runs the destructor and, when flags has bit 0 set, frees the object with operator delete, then returns this.
-// @fnv 0x006e1440
-void* PathingLOSMap::DestroyAndFree(unsigned int flags)
-{
-    this->PathingLOSMap::~PathingLOSMap();
-    if (flags & 1)
-        operator delete(this, 0x50);
-    return this;
-}
-
 namespace fnv_006e1610 {
 struct DummyPointerMap
 {
-    bool GetAt(unsigned int, unsigned int&) const;
 };
 
 struct PathingLOSMap
@@ -37,7 +52,7 @@ struct PathingLOSMap
 char* PathingLOSMap::GetTriangleScore(unsigned int aNavMeshID)
 {
     unsigned int ioffset;
-    if (((DummyPointerMap*)((char*)this + 8))->GetAt(aNavMeshID, ioffset))
+    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)((char*)this + 8))))->FUN_00853130(aNavMeshID, (::fnv_00853130::CombatThreatRecord *&)(ioffset)))
         return ((char**)((char*)this + 0x18))[0] + ioffset;
     else
         return 0;
@@ -46,7 +61,6 @@ char* PathingLOSMap::GetTriangleScore(unsigned int aNavMeshID)
 
 struct DummyPointerMap
 {
-    bool GetAt(unsigned int, unsigned int&) const;
 };
 
 struct FUN_006e1650_shell
@@ -59,7 +73,7 @@ struct FUN_006e1650_shell
 // @fnv 0x006e1650
 void FUN_006e1650_shell::GetMapValue(unsigned int uiKey, unsigned int& ruiValue)
 {
-    ((DummyPointerMap*)((char*)this + 8))->GetAt(uiKey, ruiValue);
+    reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)((char*)this + 8))))->FUN_00853130(uiKey, (::fnv_00853130::CombatThreatRecord *&)(ruiValue));
 }
 
 // Returns the smaller of the two char arguments.
@@ -88,7 +102,6 @@ char MaxChar(char acFirst, char acSecond)
 
 struct NiTArray
 {
-    void SetSize(unsigned int);
 };
 
 struct FUN_006e1fe0_shell
@@ -99,13 +112,12 @@ struct FUN_006e1fe0_shell
 // @fnv 0x006e1fe0
 void FUN_006e1fe0_shell::SetArraySize(unsigned int aSize)
 {
-    ((NiTArray*)(this + 0x9c))->SetSize(aSize);
+    reinterpret_cast<::NiTObjectArrayA47 *>((((NiTArray*)(this + 0x9c))))->FUN_0060bef0(aSize);
 }
 
 namespace fnv_006e2050 {
 struct DummyPointerMap
 {
-    bool GetAt(unsigned int, unsigned int&) const;
 };
 
 struct PathingLOSMap
@@ -119,54 +131,29 @@ struct PathingLOSMap
 bool PathingLOSMap::HasNavMeshEntry(unsigned int aiNavMeshID)
 {
     unsigned int idummy;
-    return ((DummyPointerMap*)((char*)this + 8))->GetAt(aiNavMeshID, idummy);
+    return reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)((char*)this + 8))))->FUN_00853130(aiNavMeshID, (::fnv_00853130::CombatThreatRecord *&)(idummy));
 }
 }  // namespace fnv_006e2050
 
 struct ArrHelper
 {
-    bool FUN_0076b610() const;
 };
 struct Script
 {
-    int GetText();
-    char GetByteAt(unsigned int i);
-    char FUN_006e1670(unsigned int i, unsigned int a, unsigned int b);
 };
 struct FUN_006e1770_shell
 {
     bool FUN_006e1770(unsigned int a, unsigned int b);
 };
-// Returns false if the helper at offset 0x1c reports true; otherwise scans text entries and returns true on the first non-positive char whose lookup succeeds.
-// @fnv 0x006e1770
-bool FUN_006e1770_shell::FUN_006e1770(unsigned int a, unsigned int b)
-{
-    if (((const ArrHelper*)((char*)this + 0x1c))->FUN_0076b610())
-        return false;
-    for (unsigned int i = 0; i < ((Script*)this)->GetText(); ++i)
-    {
-        char cChar = ((Script*)this)->GetByteAt(i);
-        if (cChar > 0)
-            continue;
-        unsigned char d = ((Script*)this)->FUN_006e1670(i, a, b);
-        if (d)
-            return true;
-    }
-    return false;
-}
-
 namespace fnv_006e2000 {
 struct Script
 {
-    int GetText();
 };
 struct FUN_006d7ee0_shell
 {
-    char GetByteAt(unsigned int a);
 };
 struct FUN_006d8970_shell
 {
-    void SetByteAt(int, int);
 };
 struct FUN_006e2000_shell
 {
@@ -176,10 +163,10 @@ struct FUN_006e2000_shell
 // @fnv 0x006e2000
 void FUN_006e2000_shell::ClampNonPositiveTextChars()
 {
-    for (unsigned int i = 0; i < ((Script*)this)->GetText(); ++i)
+    for (unsigned int i = 0; i < ((int)(reinterpret_cast<::BGSMessageInitAccess *>((((Script*)this)))->GetIconFormID())); ++i)
     {
-        if (((FUN_006d7ee0_shell*)this)->GetByteAt(i) <= 0)
-            ((FUN_006d8970_shell*)this)->SetByteAt((int)i, 0x7f);
+        if (reinterpret_cast<::FUN_006d7ee0_shell *>((((FUN_006d7ee0_shell*)this)))->GetByteAt(i) <= 0)
+            reinterpret_cast<::FUN_006d8970_shell *>((((FUN_006d8970_shell*)this)))->SetByteAt((int)i, 0x7f);
     }
 }
 }  // namespace fnv_006e2000
@@ -208,7 +195,6 @@ struct LOSHeap
 struct LOSMember1C
 {
     unsigned int unk00;
-    void ReleaseMember();
 };
 
 struct FUN_006e1470 : PathingLOSBase
@@ -219,6 +205,15 @@ struct FUN_006e1470 : PathingLOSBase
 
     virtual ~FUN_006e1470();
 };
+// Runs the destructor and, when flags has bit 0 set, frees the object with operator delete, then returns this.
+// @fnv 0x006e1440
+void* PathingLOSMap::DestroyAndFree(unsigned int flags)
+{
+    reinterpret_cast<::FUN_006e1470 *>((this))->FUN_006e1470::~FUN_006e1470();
+    if (flags & 1)
+        operator delete(this, 0x50);
+    return this;
+}
 
 // Destructor that deletes m_18 if non-null, then calls ReleaseMember on m_1c.
 // @fnv 0x006e1470
@@ -228,36 +223,35 @@ FUN_006e1470::~FUN_006e1470()
     {
         delete m_18;
     }
-    m_1c.ReleaseMember();
+    ::FUN_0042f830((::FUN_0042f830_struct *)&(m_1c));
 }
 
 struct NavMesh;
 
 struct NavMeshPtr
 {
-    NavMesh* FUN_00559450();
+public:
+    ::NavMeshPtr &operator=(const ::NavMeshPtr &);
 };
 
+class NavMeshTriangle;
 struct NavMesh
 {
-    unsigned int FUN_0084e3a0();
-    unsigned int FUN_00558200();
+public:
+    ::NavMeshTriangle *GetTriangle(unsigned short);
 };
 
 struct NavMeshCollection
 {
-    unsigned int FUN_0044ddc0();
     NavMeshPtr& FUN_00877a30(unsigned int i);
 };
 
 struct MapHelper
 {
-    void FUN_00844700(unsigned int key, unsigned int val);
 };
 
 struct Shell1c
 {
-    void AppendValue(NavMeshPtr& ptr);
 };
 
 struct FUN_006e1500_class
@@ -281,11 +275,11 @@ bool FUN_006e1500_class::BuildNavMeshMap(NavMeshCollection* pNavMeshArray)
     unsigned int i;
     unsigned int j2;
     m_uTotalCount = 0;
-    for (i = 0; i < pNavMeshArray->FUN_0044ddc0(); i++)
+    for (i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pNavMeshArray))->GetName())); i++)
     {
-        m_map.FUN_00844700(pNavMeshArray->FUN_00877a30(i).FUN_00559450()->FUN_0084e3a0(), m_uTotalCount);
-        m_uTotalCount += pNavMeshArray->FUN_00877a30(i).FUN_00559450()->FUN_00558200();
-        m_shell1c.AppendValue(pNavMeshArray->FUN_00877a30(i));
+        reinterpret_cast<::FUN_00844700_Class *>(&(m_map))->FUN_00844700(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::NavMesh *)(::FUN_00559450((int *)&(pNavMeshArray->FUN_00877a30(i)))))))->FUN_0084e3a0())), m_uTotalCount);
+        m_uTotalCount += ::FUN_00558200((char *)(((::NavMesh *)(::FUN_00559450((int *)&(pNavMeshArray->FUN_00877a30(i)))))));
+        reinterpret_cast<::S2f850 *>(&(m_shell1c))->AppendValue(pNavMeshArray->FUN_00877a30(i));
     }
     if (m_pData)
     {
@@ -301,24 +295,19 @@ bool FUN_006e1500_class::BuildNavMeshMap(NavMeshCollection* pNavMeshArray)
 
 struct SeqEntry
 {
-    SeqEntry* FUN_00559450();
-    Script* FUN_0084e3a0();
 };
 
 struct SeqList
 {
-    unsigned int FUN_0044ddc0();
     SeqEntry* FUN_00877a30(unsigned int index);
 };
 
 struct SubMatcher
 {
-    bool FUN_00853130(Script* script, unsigned int* outLen);
 };
 
 struct SpawnedTarget
 {
-    void FUN_0042f4c0(SeqEntry* entry);
 };
 
 struct FUN_006e1670_cls
@@ -334,6 +323,23 @@ struct FUN_006e1670_cls
 
     char FUN_006e1670(unsigned int limit, SpawnedTarget* target, unsigned short* outOffset);
 };
+// Returns false if the helper at offset 0x1c reports true; otherwise scans text entries and returns true on the first non-positive char whose lookup succeeds.
+// @fnv 0x006e1770
+bool FUN_006e1770_shell::FUN_006e1770(unsigned int a, unsigned int b)
+{
+    if (reinterpret_cast<::FUN_0076b610_Class *>((void *)(((const ArrHelper*)((char*)this + 0x1c))))->FUN_0076b610())
+        return false;
+    for (unsigned int i = 0; i < ((int)(reinterpret_cast<::BGSMessageInitAccess *>((((Script*)this)))->GetIconFormID())); ++i)
+    {
+        char cChar = reinterpret_cast<::FUN_006d7ee0_shell *>((((Script*)this)))->GetByteAt(i);
+        if (cChar > 0)
+            continue;
+        unsigned char d = reinterpret_cast<::FUN_006e1670_cls *>((((Script*)this)))->FUN_006e1670(i, (::SpawnedTarget *)(a), (unsigned short *)(b));
+        if (d)
+            return true;
+    }
+    return false;
+}
 
 // Scans the sequence list, measuring each entry's script length; when a length exceeds limit, stores the remaining offset and passes the previous entry to target.
 // @fnv 0x006e1670
@@ -341,24 +347,24 @@ char FUN_006e1670_cls::FUN_006e1670(unsigned int limit, SpawnedTarget* target, u
 {
     unsigned int i;
     unsigned int accum;
-    if (((ArrHelper*)((char*)this + 0x1c))->FUN_0076b610())
+    if (reinterpret_cast<::FUN_0076b610_Class *>((void *)(((ArrHelper*)((char*)this + 0x1c))))->FUN_0076b610())
     {
         return 0;
     }
 
     i = 0;
-    for (accum = 0; accum < ((SeqList*)((char*)this + 0x1c))->FUN_0044ddc0(); accum++)
+    for (accum = 0; accum < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((SeqList*)((char*)this + 0x1c))))->GetName())); accum++)
     {
         unsigned int len;
-        Script* script = ((SeqList*)((char*)this + 0x1c))->FUN_00877a30(accum)->FUN_00559450()->FUN_0084e3a0();
-        if (!((SubMatcher*)((char*)this + 8))->FUN_00853130(script, &len))
+        Script* script = ((::Script *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::SeqEntry *)(::FUN_00559450((int *)(((SeqList*)((char*)this + 0x1c))->FUN_00877a30(accum)))))))->FUN_0084e3a0()));
+        if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((((SubMatcher*)((char*)this + 8))))->FUN_00853130((unsigned int)(script), (*(::fnv_00853130::CombatThreatRecord * *)(&len))))
         {
             return 0;
         }
         if (len > limit)
         {
             *outOffset = (unsigned short)(limit - i);
-            target->FUN_0042f4c0(((SeqList*)((char*)this + 0x1c))->FUN_00877a30(accum - 1));
+            reinterpret_cast<::NavMeshPtr *>((target))->operator=((*(const ::NavMeshPtr *)(((SeqList*)((char*)this + 0x1c))->FUN_00877a30(accum - 1))));
             return 1;
         }
         else
@@ -367,7 +373,7 @@ char FUN_006e1670_cls::FUN_006e1670(unsigned int limit, SpawnedTarget* target, u
         }
     }
     *outOffset = (unsigned short)(limit - i);
-    target->FUN_0042f4c0(((SeqList*)((char*)this + 0x1c))->FUN_00877a30(accum - 1));
+    reinterpret_cast<::NavMeshPtr *>((target))->operator=((*(const ::NavMeshPtr *)(((SeqList*)((char*)this + 0x1c))->FUN_00877a30(accum - 1))));
     return 1;
 }
 
@@ -466,7 +472,6 @@ class NiAVObject : public NiObject
     virtual void vf51();
     virtual void vf52();
     virtual void vf53();
-    void AttachProperty(NiObject* property);
 };
 
 class NiUpdateData
@@ -483,7 +488,6 @@ class NiNode : public NiAVObject
 {
   public:
     virtual unsigned int AttachChildInAvailableSlot(NiAVObject* child, bool firstAvail = false);
-    void Update(const NiUpdateData& data);
 };
 
 class NiSortAdjustNode : public NiNode
@@ -532,16 +536,11 @@ class NiSortAdjustNode : public NiNode
     int unka4;
     int unka8;
     NiSortAdjustNode(int mode = 0);
-    void FUN_00440460(const NiPoint3& pt);
-    void FUN_00a5a040();
-    void SetArraySize(unsigned int size);
 };
 
 class NiProperty : public NiObject
 {
   public:
-    void FUN_004bc450(const NiColor* color);
-    void FUN_0068c9f0(float alpha);
 };
 
 class NiAlphaProperty : public NiProperty
@@ -554,7 +553,6 @@ class NiAlphaProperty : public NiProperty
     int unk14;
     int unk18;
     NiAlphaProperty();
-    void FUN_0049ed90(bool enable);
 };
 
 class NiMaterialProperty : public NiProperty
@@ -593,14 +591,10 @@ template <class T> class NiPointer
 
 struct NavMeshTriangle
 {
-    bool GetFlag(int flag);
-    unsigned short FUN_005582d0(int index);
 };
 
 struct NavMeshEx : NavMesh
 {
-    NavMeshTriangle* GetTriangle(unsigned short id);
-    NiPoint3* FUN_0068f0a0(unsigned short index);
 };
 
 class NavMeshLocalPtr
@@ -618,10 +612,6 @@ struct FUN_004bc1f0_S
     void FUN_004bc1f0(float a, float b, float c);
 };
 
-void* __cdecl FUN_00c58f00(float, int, void*);
-void* __cdecl FUN_00c58d30(float, float, float, int, int, void*);
-void __cdecl AttachLightingPropertyRecursive(void*);
-void __cdecl FUN_00b57e30(void*, int, int);
 NiAVObject* __cdecl FUN_004b3570(NiPoint3, NiPoint3, NiPoint3, const ImageSpaceEffectParam*, int);
 
 struct ScriptClass : Script
@@ -654,45 +644,45 @@ NiSortAdjustNode* ScriptClass::CreateSortAdjustNode()
 {
     NiSortAdjustNode* rootNode = new NiSortAdjustNode(0);
     NiPointer<NiAlphaProperty> spA(new NiAlphaProperty());
-    spA->FUN_0049ed90(true);
+    reinterpret_cast<::FUN_0049ed90_shell *>(((spA).operator->()))->FUN_0049ed90(true);
     NiPointer<NiMaterialProperty> spB(new NiMaterialProperty());
-    spB->FUN_004bc450((const NiColor*)&NiPoint3(1.0f, 1.0f, 1.0f));
-    spB->FUN_0068c9f0(0.75f);
-    rootNode->AttachProperty(spA);
-    rootNode->AttachProperty(spB);
+    reinterpret_cast<::fnv_004bc450::FUN_004bc450_S *>(((spB).operator->()))->FUN_004bc450((const ::fnv_004bc450::C3 *)(const ::NiColor *)((const NiColor*)&NiPoint3(1.0f, 1.0f, 1.0f)));
+    reinterpret_cast<::DecalStub *>(((spB).operator->()))->FUN_0068c9f0(0.75f);
+    reinterpret_cast<::FUN_00439410_cls *>((rootNode))->FUN_00439410((::ArgObject *)(::NiObject *)(spA));
+    reinterpret_cast<::FUN_00439410_cls *>((rootNode))->FUN_00439410((::ArgObject *)(::NiObject *)(spB));
 
     char highest = (char)0x81;
     char low = (char)0x7f;
-    for (unsigned int i = 0; i < (unsigned int)this->GetText(); ++i)
+    for (unsigned int i = 0; i < (unsigned int)((int)(reinterpret_cast<::BGSMessageInitAccess *>((this))->GetIconFormID())); ++i)
     {
-        char c = this->GetByteAt(i);
+        char c = reinterpret_cast<::FUN_006d7ee0_shell *>((this))->GetByteAt(i);
         if (c == 0x7f)
             continue;
         highest = MaxChar(highest, c);
         low = MinChar(low, c);
     }
 
-    rootNode->SetArraySize((unsigned int)this->GetText() + 10);
+    reinterpret_cast<::FUN_006e1fe0_shell *>((rootNode))->SetArraySize((unsigned int)((int)(reinterpret_cast<::BGSMessageInitAccess *>((this))->GetIconFormID())) + 10);
 
-    for (unsigned int j = 0; j < (unsigned int)this->GetText(); ++j)
+    for (unsigned int j = 0; j < (unsigned int)((int)(reinterpret_cast<::BGSMessageInitAccess *>((this))->GetIconFormID())); ++j)
     {
         NavMeshLocalPtr p2;
         unsigned short p0;
-        if (!(unsigned char)this->FUN_006e1670(j, (unsigned int)&p2, (unsigned int)&p0))
+        if (!(unsigned char)reinterpret_cast<::FUN_006e1670_cls *>((this))->FUN_006e1670(j, (::SpawnedTarget *)((unsigned int)&p2), (unsigned short *)((unsigned int)&p0)))
             continue;
-        char a = this->GetByteAt(j);
+        char a = reinterpret_cast<::FUN_006d7ee0_shell *>((this))->GetByteAt(j);
         if (a == 0x7f)
             continue;
         float p = (a < 0) ? ((float)a / low * 0.5 + 0.5) : 0.0;
         float h1 = (a > 0) ? ((float)a / highest * 0.5 + 0.5) : 0.0;
         ImageSpaceEffectParam h0(p, h1, 0.0f, 0.75f);
         NiPoint3 cf[3];
-        NavMeshTriangle* h = p2->GetTriangle(p0);
-        if (!h->GetFlag(0x20))
+        NavMeshTriangle* h = reinterpret_cast<::NavMesh *>(((p2).operator->()))->GetTriangle(p0);
+        if (!reinterpret_cast<::FUN_00691140_shell *>((h))->FUN_00691140(0x20))
         {
             for (unsigned int k = 0; k < 3; ++k)
             {
-                cf[k] = *p2->FUN_0068f0a0(h->FUN_005582d0(k));
+                cf[k] = *((::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(((p2).operator->()))->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((h))->FUN_005582d0(k))));
                 cf[k].z += 5.0;
             }
             NiPointer<NiAVObject> spC(FUN_004b3570(cf[0], cf[1], cf[2], &h0, 1));
@@ -706,20 +696,20 @@ NiSortAdjustNode* ScriptClass::CreateSortAdjustNode()
         ImageSpaceEffectParam vec(1.0f, 1.0f, 0.0f, 0.5f);
         for (unsigned int m = 0; m < 5; ++m)
         {
-            void* ac = FUN_00c58f00(this->f48, 0x24, &vec);
+            void* ac = ::fnv_00c58f00::FUN_00c58f00(this->f48, 0x24, (::fnv_00c58f00::Vec4Item *)(void *)(&vec));
             ((FUN_004bc1f0_S*)ac)->FUN_004bc1f0(this->f3c, this->f40, (float)((double)m * 25.0 + this->f44));
             p4->AttachChildInAvailableSlot((NiAVObject*)ac, 1);
         }
-        void* ac1 = FUN_00c58d30(16.0f, 16.0f, 400.0f, 10, 10, &vec);
-        ((NiSortAdjustNode*)ac1)->FUN_00440460(*(const NiPoint3*)&this->f3c);
+        void* ac1 = ((void *)(::FUN_00c58d30(16.0f, 16.0f, 400.0f, 10, 10, (int)(&vec))));
+        reinterpret_cast<::FUN_00440460_S *>((((NiSortAdjustNode*)ac1)))->FUN_00440460((const ::V3 *)&(*(const NiPoint3*)&this->f3c));
         p4->AttachChildInAvailableSlot((NiAVObject*)ac1, 1);
-        AttachLightingPropertyRecursive(p4);
-        FUN_00b57e30(p4, 0, 0);
+        ::fnv_004b6e90::AttachLightingPropertyRecursive((::NiAVObject *)(p4));
+        ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(p4), 0, 0);
         rootNode->AttachChildInAvailableSlot(p4, 1);
     }
 
-    rootNode->FUN_00a5a040();
+    reinterpret_cast<::FUN_00a5a040_Class *>((rootNode))->FUN_00a5a040();
     NiUpdateData updateData(0.0f, false, false);
-    rootNode->Update(updateData);
+    reinterpret_cast<::FUN_00a59c60_cls *>((rootNode))->FUN_00a59c60((int)&(updateData));
     return rootNode;
 }

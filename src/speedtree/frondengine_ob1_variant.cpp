@@ -5,6 +5,60 @@
 
 // src/speedtree/frondengine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/frondengine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/B13970Self.h"
+#include "fnv/decl/B4230Point3.h"
+#include "fnv/decl/Cls.h"
+#include "fnv/decl/CoordinateWriter.h"
+#include "fnv/decl/FUN_00b0cf90_class.h"
+#include "fnv/decl/FUN_00b12790_class.h"
+#include "fnv/decl/FUN_00b30020_Class.h"
+#include "fnv/decl/FUN_00b300c0_cls.h"
+#include "fnv/decl/FUN_00b30190_shell.h"
+#include "fnv/decl/FUN_00b30560_cls.h"
+#include "fnv/decl/FUN_00b34d90_class.h"
+#include "fnv/decl/FUN_00b37ad0_class.h"
+#include "fnv/decl/FUN_00b3ed20_cls.h"
+#include "fnv/decl/FUN_00b3f130_shell.h"
+#include "fnv/decl/FloatVec.h"
+#include "fnv/decl/Outer_b33110.h"
+#include "fnv/decl/Pool_00b1f920.h"
+#include "fnv/decl/S00b1dd80_Obj.h"
+#include "fnv/decl/S00b24a80_Obj.h"
+#include "fnv/decl/S00b30660_Obj.h"
+#include "fnv/decl/S_00b3ed80.h"
+#include "fnv/decl/ScaledVec6.h"
+#include "fnv/decl/StrA.h"
+#include "fnv/decl/Target.h"
+#include "fnv/decl/V3cdd0.h"
+#include "fnv/decl/V_006578b0.h"
+#include "fnv/decl/Vec.h"
+#include "fnv/decl/Vec18.h"
+#include "fnv/decl/VecAlloc.h"
+#include "fnv/decl/VecStandIn.h"
+#include "fnv/decl/VectorSet.h"
+#include "fnv/decl/Vector_b17f50.h"
+#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
+#include "fnv/decl/fnv_00b059e0__FUN_00b06090.h"
+#include "fnv/decl/fnv_00b305f0__FUN_00b305f0_cls.h"
+#include "fnv/decl/fnv_00b30f80__ptb30__PtOwner.h"
+#include "fnv/decl/fnv_00b319e0__vecb319__VcVector.h"
+#include "fnv/decl/xlenb0f__BxVecBase.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0060c000.h"
+#include "fnv/symbols_00b12000.h"
+#include "fnv/symbols_00b16000.h"
+#include "fnv/symbols_00b18000.h"
+#include "fnv/symbols_00b23000.h"
+#include "fnv/symbols_00b26000.h"
+#include "fnv/symbols_00b35000.h"
+#include "fnv/symbols_00b36000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_010a4000.h"
+#include "fnv/symbols_01140000.h"
+#include "fnv/symbols_011c1000.h"
+#include "fnv/symbols_011f8000.h"
 struct FUN_00b1ada0_class
 {
     float a;
@@ -193,14 +247,10 @@ struct CopyableStateBlock
 void __cdecl FUN_00b269d0(char* a, char* b, char* c, bool d);
 void __cdecl FUN_00b26160(char* a, char* b, char* c, bool d);
 extern int* __cdecl FUN_0044d600(int*, int*, int*);
-extern int* __cdecl UninitCopyChecked(int*, int*, int*, void*);
-extern void __cdecl FUN_00401030(void*);
 struct C00b1d5d0
 {
     int a, b, alloc;
     int *first, *last, *limit;
-    void FUN_0044a0a0();
-    bool FUN_0044a240(unsigned);
     C00b1d5d0& FUN_00b1d5d0(const C00b1d5d0& rhs);
 };
 struct Frame00b1d5d0
@@ -238,7 +288,6 @@ struct Frame00b1d5d0
 unsigned int g_010173f0;
 struct StringLike
 {
-    void __thiscall Clear(bool, unsigned int);
 };
 struct SpawnEntry : StringLike
 {
@@ -264,8 +313,6 @@ struct FUN_00ec78f1_t
 };
 void __stdcall FUN_00ec7894(FUN_00ec78f1_t* info, const char* fmt);
 void* __cdecl operator new(unsigned int);
-extern int DAT_010176f8;
-extern int DAT_01140ef8;
 void* __cdecl FUN_00b23980(unsigned int n);
 void __cdecl CopyObjects(CopyableStateBlock* dst, unsigned int n, const CopyableStateBlock* src);
 
@@ -309,12 +356,10 @@ void Host::FUN_00b18f60(FUN_00b37880* arg)
 
 extern int* FrondAllocateProxy(unsigned int, unsigned int);
 extern double FUN_00ec6054(double);
-extern const double DAT_010a4d90;
 extern double FUN_00ec9f30(double);
 extern double FUN_00eca060(double);
 extern const float DAT_010a54e8;
 extern const float DAT_010a54ec;
-extern const float DAT_01016248;
 
 struct FrondMatrix
 {
@@ -389,7 +434,6 @@ struct FrondPoint
     }
     FrondPoint FUN_00b12890(const FrondMatrix&) const;
     FrondPoint FUN_00b13040(const FrondPoint&) const;
-    FrondPoint AddVector(const FrondPoint&) const;
     FrondPoint ScaleSwizzled(float) const;
     FrondPoint FUN_00b12810(const FrondPoint&) const;
     inline void FUN_00b12790()
@@ -400,7 +444,6 @@ struct FrondPoint
         y *= reciprocal;
         z *= reciprocal;
     }
-    float FastSqrt();
     inline float FastSqrt() const
     {
         float squared = z * z + (y * y + x * x);
@@ -413,9 +456,6 @@ struct FrondPoint
         estimate.i = (estimate.i >> 1) + 0x1fc00000;
         return estimate.f;
     }
-    float FUN_00b04d40(const FrondPoint&) const;
-    FrondPoint* FUN_00b1ada0(float, float, float);
-    void Set(float, float, float);
 };
 struct FrondGuidePoint : FrondPoint
 {
@@ -430,7 +470,7 @@ struct FrondPointStorage
     void FUN_00b39460();
     __forceinline ~FrondPointStorage()
     {
-        FUN_00b39460();
+        reinterpret_cast<::FUN_00b39460_class *>(this)->FUN_00b39460();
     }
 };
 struct FrondPointList : FrondPointStorage
@@ -458,7 +498,6 @@ struct FrondPointList : FrondPointStorage
             FUN_00ec7c56();
         return first[i];
     }
-    void FUN_00b1e4c0(const FrondPoint&);
     void FUN_00b1fca0();
     __forceinline ~FrondPointList()
     {
@@ -469,18 +508,15 @@ struct FrondFloatStorage
 {
     int a, b, c;
     float *first, *last, *limit;
-    void FUN_0065d6e0();
     __forceinline ~FrondFloatStorage()
     {
-        FUN_0065d6e0();
+        reinterpret_cast<::FUN_0065d6e0_class *>(this)->FUN_0065d6e0_class::~FUN_0065d6e0_class();
     }
 };
 struct FrondFloatList : FrondFloatStorage
 {
     FrondFloatList();
     void FUN_0065f240();
-    void PushBack(const float&);
-    float* FUN_006578b0(unsigned int);
     __forceinline ~FrondFloatList()
     {
         FUN_0065f240();
@@ -508,15 +544,6 @@ struct FrondOutput
     {
         count = (unsigned short)n;
     }
-    void FUN_00b300c0(const FrondPoint&);
-    void FUN_00b301f0(const float*, unsigned short);
-    void FUN_00b30020(const float*);
-    void FUN_00b30190(const float*);
-    void FUN_00b305f0(const FrondPoint&);
-    void FUN_00b30660(const FrondPoint&);
-    void FUN_00b30560(float, unsigned char);
-    FrondPoint* FUN_00b30f80(unsigned int);
-    float* FUN_00b30fd0(unsigned int);
 };
 struct FrondInput
 {
@@ -536,7 +563,6 @@ struct FrondInput
             FUN_00ec7c56();
         return first[i];
     }
-    FrondGuidePoint* FUN_00b1db00(unsigned int);
 };
 struct FrondBuilder
 {
@@ -546,134 +572,6 @@ struct FrondBuilder
     unsigned int slices;
     void FUN_00b19ad0(FrondInput* input);
 };
-
-// @fnv 0x00b19ad0
-void FrondBuilder::FUN_00b19ad0(FrondInput* input)
-{
-    if (output && required)
-    {
-        float step = 180.0 / slices;
-        input->start = output->getCount();
-        input->stride = 2;
-        for (unsigned int slice = 0; slice < slices; ++slice)
-        {
-            unsigned int begin4 = output->getCount();
-            FrondPointList directionX;
-            FrondPoint normalChild3;
-            float colorAlloc2[4];
-            for (unsigned int i = 0; i < input->size(); ++i)
-            {
-                FrondMatrix rotationSlot17;
-                if (i < input->size() - 1)
-                    rotationSlot17 = (*input)[i].rotation;
-                else
-                    rotationSlot17 = (*input)[i - 1].rotation;
-                rotationSlot17.FUN_00b1ae00(slice * step + input->angle);
-                FrondPoint direction = FrondPoint(0.0f, 1.0f, 0.0f).FUN_00b12890(rotationSlot17);
-                directionX.FUN_00b1e4c0(direction);
-                FrondPoint tangentVal;
-                if (i == 0)
-                    tangentVal = (*input)[i + 1].FUN_00b13040((*input)[0]);
-                else
-                    tangentVal = (*input)[i].FUN_00b13040((*input)[0]);
-                tangentVal.FUN_00b12790();
-                FrondPoint left2, right8;
-                if (i == input->size() - 1 && input->size() > 0)
-                {
-                    left2 = (*input)[i].AddVector(directionX[i - 1].ScaleSwizzled(input->width));
-                    right8 = (*input)[i].FUN_00b13040(directionX[i - 1].ScaleSwizzled(input->width));
-                }
-                else if (i > 0 && i < input->size() - 1)
-                {
-                    FrondPoint prior;
-                    prior = (*input)[i].AddVector(directionX[i - 1].ScaleSwizzled(input->width));
-                    left2 = (*input)[i].AddVector(direction.ScaleSwizzled(input->width));
-                    left2 = left2.AddVector(prior).ScaleSwizzled(DAT_01016248);
-                    prior = (*input)[i].FUN_00b13040(directionX[i - 1].ScaleSwizzled(input->width));
-                    right8 = (*input)[i].FUN_00b13040(direction.ScaleSwizzled(input->width));
-                    right8 = right8.AddVector(prior).ScaleSwizzled(DAT_01016248);
-                }
-                else
-                {
-                    left2 = (*input)[i].AddVector(direction.ScaleSwizzled(input->width));
-                    right8 = (*input)[i].FUN_00b13040(direction.ScaleSwizzled(input->width));
-                }
-                float v3 = i / (input->size() - 1.0);
-                output->FUN_00b300c0(left2);
-                float uv1[2];
-                uv1[0] = 1.0f;
-                uv1[1] = v3;
-                output->FUN_00b301f0(uv1, (unsigned short)input->layer);
-                colorAlloc2[0] = colorAlloc2[1] = colorAlloc2[2] = colorAlloc2[3] = 1.0f;
-                output->FUN_00b30020(colorAlloc2);
-                output->FUN_00b30190(&tangentVal.x);
-                output->FUN_00b305f0(direction);
-                normalChild3 = direction.FUN_00b12810(tangentVal);
-                if (static_cast<const FrondPoint&>(normalChild3).FastSqrt() < DAT_010a54ec)
-                    normalChild3 = tangentVal;
-                else
-                    normalChild3.FUN_00b12790();
-                output->FUN_00b30660(normalChild3);
-                if (output->isEnabled())
-                    output->FUN_00b30560((*input)[i].scale, (*input)[i].material);
-                output->advance();
-                output->FUN_00b300c0(right8);
-                uv1[0] = 0.0f;
-                output->FUN_00b301f0(uv1, (unsigned short)input->layer);
-                colorAlloc2[0] = colorAlloc2[1] = colorAlloc2[2] = colorAlloc2[3] = 1.0f;
-                output->FUN_00b30020(colorAlloc2);
-                output->FUN_00b30190(&tangentVal.x);
-                output->FUN_00b305f0(direction);
-                normalChild3 = direction.FUN_00b12810(tangentVal);
-                if (normalChild3.FastSqrt() < DAT_010a54ec)
-                    normalChild3 = tangentVal;
-                else
-                    normalChild3.FUN_00b12790();
-                output->FUN_00b30660(normalChild3);
-                if (output->isEnabled())
-                    output->FUN_00b30560(input->FUN_00b1db00(i)->scale, (*input)[i].material);
-                output->advance();
-            }
-            float totalLeft6 = 0.0f, totalRight9 = 0.0f;
-            FrondFloatList LeftX, rightVal;
-            unsigned int count30 = input->size();
-            for (unsigned int i = 0; i < count30 - 1; ++i)
-            {
-                FrondPoint* firstLocalVal = output->FUN_00b30f80(input->start + i * 2);
-                FrondPoint* secondValue3 = output->FUN_00b30f80(input->start + i * 2 + 2);
-                FrondPoint aA1(firstLocalVal->x, firstLocalVal->y, firstLocalVal->z);
-                FrondPoint b111(0);
-                b111.FUN_00b1ada0(secondValue3->x, secondValue3->y, secondValue3->z);
-                totalLeft6 += aA1.FUN_00b04d40(b111);
-                LeftX.PushBack(totalLeft6);
-                firstLocalVal = output->FUN_00b30f80(input->start + i * 2 + 1);
-                secondValue3 = output->FUN_00b30f80(input->start + i * 2 + 3);
-                aA1.Set(firstLocalVal->x, firstLocalVal->y, firstLocalVal->z);
-                b111.Set(secondValue3->x, secondValue3->y, secondValue3->z);
-                totalRight9 += aA1.FUN_00b04d40(b111);
-                rightVal.PushBack(totalRight9);
-            }
-            output->setCount(begin4 + 2);
-            for (unsigned int i = 1; i < count30 - 1; ++i)
-            {
-                float* original4 = output->FUN_00b30fd0(input->start + i * 2);
-                float uv3[2];
-                uv3[0] = *original4;
-                uv3[1] = *LeftX.FUN_006578b0(i - 1) / totalLeft6 * DAT_010a54e8;
-                output->FUN_00b301f0(uv3, (unsigned short)input->layer);
-                output->advance();
-                original4 = output->FUN_00b30fd0(input->start + i * 2 + 1);
-                float uvs5[2];
-                uvs5[0] = *original4;
-                uvs5[1] = *rightVal.FUN_006578b0(i - 1) / totalRight9 * DAT_010a54e8;
-                output->FUN_00b301f0(uvs5, (unsigned short)input->layer);
-                output->advance();
-            }
-            output->advance();
-            output->advance();
-        }
-    }
-}
 
 unsigned int __cdecl FUN_00ec7c56(void);
 
@@ -782,7 +680,7 @@ void* __cdecl FUN_00b23b50(unsigned int n)
             throw std::bad_alloc();
         }
     }
-    return operator new(n * 44);
+    return ::FUN_00401000(n * 44);
 }
 
 inline void* __cdecl operator new(unsigned int, void* _Where) throw()
@@ -812,13 +710,12 @@ GlobalObject_00b3f100* __cdecl FUN_00b25a90(GlobalObject_00b3f100* pkCurrentObje
     catch (...)
     {
         for (; pkNext != pkDest; ++pkNext)
-            pkNext->~GlobalObject_00b3f100();
+            reinterpret_cast<::ScaledVec6 *>((pkNext))->ScaledVec6::~ScaledVec6();
         throw;
     }
     return pkDest;
 }
 
-void __cdecl FUN_00401030(void* p);
 template <class T> inline void Swp(T& a, T& b)
 {
     if (&a != &b)
@@ -952,6 +849,8 @@ struct FUN_0065f240
     int* pLast;
     int* pEnd;
     ~FUN_0065f240();
+public:
+    void Clear();
 };
 struct FUN_00b22ff0 : VecBase
 {
@@ -959,7 +858,6 @@ struct FUN_00b22ff0 : VecBase
     FUN_00b22ff0(const FUN_00b22ff0& r);
     ~FUN_00b22ff0()
     {}
-    FUN_00b22ff0& FUN_00b1d5d0(const FUN_00b22ff0& r);
     void FUN_00b26570(FUN_00b22ff0& r);
 };
 // @fnv 0x00b26570
@@ -978,8 +876,8 @@ void FUN_00b22ff0::FUN_00b26570(FUN_00b22ff0& r)
     {
         SwapAll(r);
         FUN_00b22ff0 tmp(*this);
-        FUN_00b1d5d0(r);
-        r.FUN_00b1d5d0(tmp);
+        reinterpret_cast<::C00b1d5d0 *>(this)->FUN_00b1d5d0((const ::C00b1d5d0 &)(r));
+        reinterpret_cast<::C00b1d5d0 *>(&(r))->FUN_00b1d5d0((const ::C00b1d5d0 &)(tmp));
         DeadX();
     }
 }
@@ -1418,7 +1316,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 template <class T> struct BxAllocT
 {
@@ -1437,7 +1335,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -1478,12 +1376,12 @@ struct BxString : public BxStringVal
     }
     BxString& assign(const BxString& _Right)
     {
-        return assign(_Right, 0, DAT_010173f0);
+        return assign(_Right, 0, (*reinterpret_cast<int *>(&::g_010173f0)));
     }
     BxString(const BxString& _Right) : BxStringVal(_Right)
     {
         _Tidy();
-        assign(_Right, 0, DAT_010173f0);
+        assign(_Right, 0, (*reinterpret_cast<int *>(&::g_010173f0)));
     }
     ~BxString()
     {
@@ -1682,7 +1580,7 @@ struct BxString : public BxStringVal
         {
             _Count = _Num;
         }
-        if (DAT_010173f0 - _Mysize <= _Count || _Mysize + _Count < _Mysize)
+        if ((*reinterpret_cast<int *>(&::g_010173f0)) - _Mysize <= _Count || _Mysize + _Count < _Mysize)
         {
             _Xlen();
         }
@@ -1699,7 +1597,7 @@ struct BxString : public BxStringVal
         {
             return append(*this, _Ptr - _Myptr(), _Count);
         }
-        if (DAT_010173f0 - _Mysize <= _Count)
+        if ((*reinterpret_cast<int *>(&::g_010173f0)) - _Mysize <= _Count)
         {
             _Xlen();
         }
@@ -1768,7 +1666,7 @@ template <class T> struct GvAlloc
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     void destroy(pointer _Ptr)
     {
@@ -1871,7 +1769,7 @@ inline O GvCopyOpt(I _First, I _Last, O _Dest, C, GvNonscalarTag, GvRangeChecked
 {
     for (; _First != _Last; ++_Dest, ++_First)
     {
-        *_Dest = *_First;
+        reinterpret_cast<::CopyableStateBlock *>((void *)&(const ::SFrondGuideEntry &)(*_Dest))->CopyFrom((const ::CopyableStateBlock &)(*_First));
     }
     return _Dest;
 }
@@ -2083,7 +1981,7 @@ template <class T> struct GvVector : GvVectorVal<T>
     }
     ~GvVector()
     {
-        _Tidy();
+        reinterpret_cast<::FUN_00b1ec70_class *>(this)->FUN_00b1ec70();
     }
     unsigned int size() const
     {
@@ -2299,23 +2197,22 @@ struct FUN_0044a4c0
     int iRes;
     FUN_0044a4c0()
     {
-        FUN_0044a730(false, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
     }
     FUN_0044a4c0(const char* s);
     FUN_0044a4c0(const FUN_0044a4c0& r)
     {
-        FUN_0044a730(false, 0);
-        AssignSubstring(r, 0, *(unsigned*)&DAT_010173f0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
+        AssignSubstring(r, 0, *(unsigned*)&(*reinterpret_cast<int *>(&::g_010173f0)));
     }
     ~FUN_0044a4c0()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
-    void FUN_0044a730(bool b, unsigned n);
     FUN_0044a4c0& AssignSubstring(const FUN_0044a4c0& r, unsigned o, unsigned n);
     FUN_0044a4c0& operator=(const FUN_0044a4c0& r)
     {
-        return AssignSubstring(r, 0, *(unsigned*)&DAT_010173f0);
+        return AssignSubstring(r, 0, *(unsigned*)&(*reinterpret_cast<int *>(&::g_010173f0)));
     }
     FUN_0044a4c0 FUN_00b09f90();
 };
@@ -2333,7 +2230,6 @@ struct FUN_00b09480 : FUN_00b096a0
 struct RQ : FUN_0044a4c0
 {
 };
-FUN_0044a4c0 FUN_00b18860(const char* fmt, ...);
 struct RQ;
 struct ByteVec
 {
@@ -2347,10 +2243,6 @@ struct Parser
 {
     unsigned uiPos;
     ByteVec kData;
-    int GetNextElement();
-    float FUN_00b3ed20();
-    int FUN_00b13970();
-    bool FUN_00b06180();
     FUN_0044a4c0 FUN_00b3ee40();
 };
 struct PQ : FUN_0044a4c0
@@ -2399,65 +2291,64 @@ struct Frond
     int i68;
     float f6c, f70, f74, f78;
     int i7c, i80;
-    void FUN_00b18f60(int);
     void FUN_00b18340(Parser* p);
 };
 // @fnv 0x00b18340
 void Frond::FUN_00b18340(Parser* p)
 {
     DeadTop();
-    int iToken = p->GetNextElement();
+    int iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
     do
     {
         switch (iToken)
         {
         case 0x32ca:
-            i48 = p->GetNextElement();
+            i48 = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
             break;
         case 0x32cb:
-            i38 = p->GetNextElement();
+            i38 = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
             break;
         case 0x32cc:
-            i3c = p->GetNextElement();
+            i3c = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
             break;
         case 0x32cd:
-            FUN_00b18f60(p->FUN_00b13970());
+            reinterpret_cast<::Host *>(this)->FUN_00b18f60((::FUN_00b37880 *)(((int)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()))));
             break;
         case 0x32ce:
-            i44 = p->GetNextElement();
+            i44 = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
             break;
         case 0x32cf:
-            b4c = p->FUN_00b06180();
+            b4c = reinterpret_cast<::fnv_00b059e0::FUN_00b06090 *>((p))->FUN_00b06180();
             break;
         case 0x32d1:
-            i68 = p->GetNextElement();
+            i68 = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
             break;
         case 0x32d2:
-            f6c = p->FUN_00b3ed20();
+            f6c = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
             break;
         case 0x32d3:
-            f70 = p->FUN_00b3ed20();
+            f70 = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
             break;
         case 0x32d4:
-            f74 = p->FUN_00b3ed20();
+            f74 = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
             break;
         case 0x32d5:
-            f78 = p->FUN_00b3ed20();
+            f78 = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
             break;
         case 0x36b7:
-            i7c = p->GetNextElement();
+            i7c = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
             break;
         case 0x36b8:
-            i80 = p->GetNextElement();
+            i80 = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
             break;
         case 0x32d0: {
             kTex.FUN_00b1e2f0();
-            int iCount = p->GetNextElement();
+            int iCount = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
             for (int i = 0; i < iCount; i++)
             {
                 TexQ kInfo;
-                iToken = p->GetNextElement();
-                iToken = p->GetNextElement();
+                iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+                iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
                 do
                 {
                     switch (iToken)
@@ -2469,31 +2360,31 @@ void Frond::FUN_00b18340(Parser* p)
                         (FUN_0044a4c0&)kInfo.strName = kInfo.strName.FUN_00b09f90();
                         break;
                     case 0x36b3:
-                        kInfo.fA = p->FUN_00b3ed20();
+                        kInfo.fA = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
                         break;
                     case 0x36b4:
-                        kInfo.fB = p->FUN_00b3ed20();
+                        kInfo.fB = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
                         break;
                     case 0x36b5:
-                        kInfo.fC = p->FUN_00b3ed20();
+                        kInfo.fC = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
                         break;
                     case 0x36b6:
-                        kInfo.fD = p->FUN_00b3ed20();
+                        kInfo.fD = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
                         break;
                     default:
-                        throw FUN_00b09480(FUN_00b18860("malformed frond texture information (token %d)", iToken),
+                        throw FUN_00b09480((*(::FUN_0044a4c0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("malformed frond texture information (token %d)"), (const char *)(iToken)))),
                                            false);
                     }
-                    iToken = p->GetNextElement();
+                    iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
                 } while (iToken != 0x36b1);
                 kTex.FUN_00b1e1e0(kInfo);
             }
             break;
         }
         default:
-            throw FUN_00b09480(FUN_00b18860("malformed frond info (token %d)", iToken), false);
+            throw FUN_00b09480((*(::FUN_0044a4c0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("malformed frond info (token %d)"), (const char *)(iToken)))), false);
         }
-        iToken = p->GetNextElement();
+        iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
     } while (iToken != 0x32c9);
     DeadEnd();
 }
@@ -2542,7 +2433,6 @@ struct TargetS
     {
         m_usBatches++;
     }
-    void FUN_00b2fdc0(unsigned short usId, unsigned short* pusIdx, unsigned short usNum);
 };
 struct MeshS
 {
@@ -2580,7 +2470,7 @@ void MeshS::FUN_00b1aed0(unsigned short usId, int iBase, VecS* pkVec)
                 pusIdx[k5] = (unsigned short)(i * 2 * (pkVec->m_pRecordEnd - pkVec->m_pBegin) + iBase + j);
                 k5++;
             }
-            m_pkTarget->FUN_00b2fdc0(usId, pusIdx, usNum);
+            reinterpret_cast<::Target *>((m_pkTarget))->FUN_00b2fdc0(usId, (unsigned int)(pusIdx), usNum);
             m_pkTarget->AddBatch();
         }
     }
@@ -2594,7 +2484,6 @@ struct FUN_00b2fdc0_obj
     {
         w26++;
     }
-    void FUN_00b2fdc0(unsigned short a, unsigned short* p, unsigned short n);
 };
 struct LodVert
 {
@@ -2694,7 +2583,7 @@ void FUN_00b1b960_class::FUN_00b1b960(unsigned int uiLod, int iOffset, LodGrid* 
                 }
             }
         }
-        m_pEntryObject->FUN_00b2fdc0((unsigned short)uiLod, pIndices_gg, (unsigned short)uiNumIndicesws);
+        reinterpret_cast<::Target *>((m_pEntryObject))->FUN_00b2fdc0((unsigned short)uiLod, (unsigned int)(pIndices_gg), (unsigned short)uiNumIndicesws);
         m_pEntryObject->Inc();
     }
 }
@@ -2725,17 +2614,16 @@ struct AlQ
 {
     void deallocate(ElQ* p, unsigned)
     {
-        FUN_00401030(p);
+        ::FUN_00401030(p);
     }
     __forceinline void destroy(ElQ* p)
     {
-        p->~ElQ();
+        reinterpret_cast<::ScaledVec6 *>((p))->ScaledVec6::~ScaledVec6();
     }
-    static void FUN_00401030(void*);
 };
 inline void FreeQ(void* p)
 {
-    AlQ::FUN_00401030(p);
+    ::FUN_00401030(p);
 }
 ElQ* __cdecl FUN_00b23e80(ElQ* f, ElQ* l, ElQ* d, RandQ, PtrCatQ, TagQ);
 ElQ* __cdecl FUN_00b236a0(ElQ* f, ElQ* l, ElQ* d);
@@ -3203,7 +3091,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 struct BxLogicError : public BxException
 {
@@ -3915,7 +3803,7 @@ template <class T> struct VdAlloc
     typedef T* pointer;
     void deallocate(T* _Ptr, unsigned int)
     {
-        operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     void destroy(T* _Ptr)
     {
@@ -4039,10 +3927,9 @@ struct FUN_00b1da90 : public VdVectorImpl<VdElemV>
 // @fnv 0x00b1da90
 FUN_00b1da90::~FUN_00b1da90()
 {
-    _Tidy();
+    reinterpret_cast<::FUN_00b1ec70_class *>(this)->FUN_00b1ec70();
 }
 
-extern unsigned int DAT_011c16bc;
 
 struct S00b1df10_Guard
 {
@@ -4403,7 +4290,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 struct BxLogicError : public BxException
 {
@@ -5068,7 +4955,7 @@ struct FUN_00b1e090 : GvVectorStore<BxString>
 // @fnv 0x00b1e090
 FUN_00b1e090::FUN_00b1e090() : GvVectorStore<BxString>()
 {
-    _Buy(0);
+    reinterpret_cast<::Pool_00b1f920 *>(this)->FUN_00b1f920(0);
 }
 }  // namespace fnv_00b1e090
 
@@ -5151,7 +5038,7 @@ struct VcCharAlloc
 {
     void deallocate(char* _Ptr, unsigned int)
     {
-        operator delete(_Ptr);
+        ::FUN_00401030(_Ptr);
     }
 };
 struct VcString
@@ -5727,7 +5614,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 struct BxLogicError : public BxException
 {
@@ -6692,9 +6579,8 @@ struct T1Alloc
     {}
     void deallocate(T1Elem* ptr, unsigned int count)
     {
-        FUN_00401030(ptr);
+        ::FUN_00401030(ptr);
     }
-    static void FUN_00401030(void* ptr);
 };
 inline void T1DestroyRange(T1Elem* first, T1Elem* last, T1Alloc& al, T1NonscalarTag)
 {
@@ -6737,7 +6623,6 @@ void T1Vector::FUN_00b1e970()
     pEnd = 0;
 }
 
-void __cdecl FUN_00b0fb80();
 int __cdecl FUN_00b23980(unsigned int n, int hint);
 
 inline unsigned int maxsz(unsigned int m)
@@ -6804,7 +6689,7 @@ bool FUN_00b1eb00_class::FUN_00b1eb00(unsigned int n)
     {
         CNA = 0x4924924u;
         if (maxsz(CNA) < n)
-            FUN_00b0fb80();
+            ::xlenb0f::BxVecBase::FUN_00b0fb80();
         else
         {
             m_iThirdValue = FUN_00b23980(n, 0);
@@ -6842,7 +6727,7 @@ template <class T> struct VdAlloc
     typedef T* pointer;
     void deallocate(T* _Ptr, unsigned int)
     {
-        operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     void destroy(T* _Ptr)
     {
@@ -6884,7 +6769,7 @@ template <class T> struct VdVector : VdAuxBase
     T* _Myend;
     ~VdVector()
     {
-        _Tidy();
+        reinterpret_cast<::tidyb1e::T1Vector *>(this)->FUN_00b1e970();
     }
     void _Destroy(T* _First, T* _Last)
     {
@@ -6996,9 +6881,8 @@ struct ElQ : VBQ
     ElQ& operator=(const ElQ&);
     ~ElQ()
     {
-        Tidy();
+        reinterpret_cast<::tidyb1e::T1Vector *>(this)->FUN_00b1e970();
     }
-    void Tidy();
 };
 inline void FreeQ(void* p);
 struct VB2Q
@@ -7020,9 +6904,8 @@ struct El2Q : VB2Q
     El2Q(const ElQ&);
     ~El2Q()
     {
-        Tidy();
+        reinterpret_cast<::tidyb1e::T1Vector *>(this)->FUN_00b1e970();
     }
-    void Tidy();
 };
 struct WQ : ElQ
 {
@@ -7047,17 +6930,16 @@ struct AlQ
     }
     void deallocate(ElQ* p, unsigned)
     {
-        FUN_00401030(p);
+        ::FUN_00401030(p);
     }
     void destroy(ElQ* p)
     {
         p->~ElQ();
     }
-    static void FUN_00401030(void*);
 };
 inline void FreeQ(void* p)
 {
-    AlQ::FUN_00401030(p);
+    ::FUN_00401030(p);
 }
 ElQ* __cdecl FUN_00b23980(unsigned n, ElQ* p);
 ElQ* __cdecl FUN_00b26450(ElQ* f, ElQ* l, ElQ* d, AlQ& al);
@@ -7068,7 +6950,6 @@ inline ElQ* Uninitialized_move(ElQ* f, ElQ* l, ElQ* d, AlQ& al, MoveCatQ mc, Tag
 }
 ElQ* __cdecl FUN_00b238e0(ElQ* f, ElQ* l, ElQ* d);
 void __cdecl FUN_00b24180(ElQ* f, unsigned n, const ElQ& v, AlQ& al, PtrCatQ c, TagQ t);
-void __cdecl FUN_00b0fb80();
 inline ElQ* Checked_base(ElQ* const& it)
 {
     return it;
@@ -7153,7 +7034,7 @@ inline void Destroy_range(ElQ* f, ElQ* l, AlQ& al)
 inline void Fill(ElQ* f, ElQ* l, const ElQ& v)
 {
     for (; f != l; ++f)
-        *f = v;
+        reinterpret_cast<::CopyableStateBlock *>((void *)&(const ::fnv_00b1ecf0::ElQ &)(*f))->CopyFrom((const ::CopyableStateBlock &)(v));
 }
 inline void Unchecked_fill(ElQ* f, ElQ* l, const ElQ& v)
 {
@@ -7211,7 +7092,7 @@ void VecQ::FUN_00b1ecf0(CItQ _Where, unsigned _Count, const ElQ& _Val)
     if (_Count == 0)
         ;
     else if (max_size() - size() < _Count)
-        FUN_00b0fb80();
+        ::xlenb0f::BxVecBase::FUN_00b0fb80();
     else if (_Capacity < size() + _Count)
     {
         Dead17();
@@ -7228,14 +7109,14 @@ void VecQ::FUN_00b1ecf0(CItQ _Where, unsigned _Count, const ElQ& _Val)
         }
         catch (...)
         {
-            FUN_00b1ebc0(_Newvec, _Ptr);
+            reinterpret_cast<::fnv_00b1ebc0::FUN_00b1ebc0 *>(this)->FUN_00b1ebc0_Destroy((::fnv_00b1ebc0::vecdb1eb::VdElemV *)(_Newvec), (::fnv_00b1ebc0::vecdb1eb::VdElemV *)(_Ptr));
             m_al.deallocate(_Newvec, _Capacity);
             throw;
         }
         _Count += size();
         if (m_pHeadNode != 0)
         {
-            FUN_00b1ebc0(m_pHeadNode, m_last);
+            reinterpret_cast<::fnv_00b1ebc0::FUN_00b1ebc0 *>(this)->FUN_00b1ebc0_Destroy((::fnv_00b1ebc0::vecdb1eb::VdElemV *)(m_pHeadNode), (::fnv_00b1ebc0::vecdb1eb::VdElemV *)(m_last));
             Dead12();
             m_al.deallocate(m_pHeadNode, m_kRayEnd - m_pHeadNode);
         }
@@ -7253,7 +7134,7 @@ void VecQ::FUN_00b1ecf0(CItQ _Where, unsigned _Count, const ElQ& _Val)
         }
         catch (...)
         {
-            FUN_00b1ebc0(_Where.m_ptr + _Count, m_last + _Count);
+            reinterpret_cast<::fnv_00b1ebc0::FUN_00b1ebc0 *>(this)->FUN_00b1ebc0_Destroy((::fnv_00b1ebc0::vecdb1eb::VdElemV *)(::fnv_00b1ecf0::ElQ *)(_Where.m_ptr + _Count), (::fnv_00b1ebc0::vecdb1eb::VdElemV *)(::fnv_00b1ecf0::ElQ *)(m_last + _Count));
             throw;
         }
         m_last += _Count;
@@ -7345,7 +7226,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 template <class T> struct BxAllocT
 {
@@ -7364,7 +7245,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -7653,7 +7534,7 @@ bool BxVector::FUN_00b1f590(unsigned int _Capacity)
     }
     else if (max_size() < _Capacity)
     {
-        _Xlen();
+        ::xlenb0f::BxVecBase::FUN_00b0fb80();
     }
     else
     {
@@ -7694,7 +7575,7 @@ struct EraseCharAllocator
 {
     void deallocate(char* p, unsigned int)
     {
-        ::operator delete(p);
+        ::FUN_00401030(p);
     }
 };
 struct EraseElement
@@ -7732,7 +7613,7 @@ struct EraseElement
     }
     ~EraseElement()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
 };
 unsigned int __cdecl FUN_00ec7c56();
@@ -7750,7 +7631,6 @@ struct EraseConstIterator : EraseIteratorBase
 {
     EraseElement* ptr;
     EraseConstIterator(EraseElement*, const EraseVector*);
-    bool FUN_00b16830(const EraseConstIterator&) const;
 };
 struct EraseIterator : EraseConstIterator
 {
@@ -7874,7 +7754,7 @@ EraseIterator EraseVector::FUN_00b1f800(EraseConstIterator first_arg, EraseConst
 {
     EraseIterator first = MakeIter(first_arg);
     EraseIterator last = MakeIter(last_arg);
-    if (first.FUN_00b16830(last))
+    if (reinterpret_cast<::FUN_00b16830_Iterator *>((void *)&(first))->FUN_00b16830((const ::_Vector_const_iteratorS< ::Elem6830> &)(last)))
     {
         EraseElement* ptr = FUN_00b23830(last.ptr, m10, first.ptr);
         Destroy(ptr, m10);
@@ -7966,7 +7846,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 template <class T> struct BxAllocT
 {
@@ -8168,7 +8048,7 @@ struct BxString : public BxStringVal
         }
         else if (_Trim && _Newsize < 16)
         {
-            _Tidy(true, _Newsize < _Mysize ? _Newsize : _Mysize);
+            reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, _Newsize < _Mysize ? _Newsize : _Mysize);
         }
         else if (_Newsize == 0)
         {
@@ -8890,7 +8770,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 template <class T> struct BxAllocT
 {
@@ -8909,7 +8789,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -9195,7 +9075,7 @@ bool BxVector::FUN_00b1fbe0(unsigned int _Capacity)
     }
     else if (max_size() < _Capacity)
     {
-        _Xlen();
+        ::xlenb0f::BxVecBase::FUN_00b0fb80();
     }
     else
     {
@@ -9229,9 +9109,8 @@ struct T1Alloc
     {}
     void deallocate(T1Elem* ptr, unsigned int count)
     {
-        FUN_00401030(ptr);
+        ::FUN_00401030(ptr);
     }
-    static void FUN_00401030(void* ptr);
 };
 inline void T1DestroyRange(T1Elem* first, T1Elem* last, T1Alloc& al, T1NonscalarTag)
 {
@@ -9298,18 +9177,16 @@ struct AlQ
     }
     void deallocate(ElQ* p, unsigned)
     {
-        FUN_00401030(p);
+        ::FUN_00401030(p);
     }
     void destroy(ElQ* p)
     {}
-    static void FUN_00401030(void*);
 };
 ElQ* __cdecl FUN_00b23980(unsigned n, ElQ* p);
 ElQ* __cdecl FUN_00b264a0(ElQ* f, ElQ* l, ElQ* d, AlQ& al);
 ElQ* __cdecl FUN_00b24690(ElQ* f, ElQ* l, ElQ* d, AlQ& al);
 ElQ* __cdecl FUN_00b23930(ElQ* f, ElQ* l, ElQ* d);
 void __cdecl CopyObjects(ElQ* f, unsigned n, const ElQ& v, AlQ& al, PtrCatQ c, TagQ t);
-void __cdecl FUN_00b0fb80();
 inline ElQ* Checked_base(ElQ* const& it)
 {
     return it;
@@ -9426,7 +9303,7 @@ void VecQ::FUN_00b20360(CItQ _Where, unsigned _Count, const ElQ& _Val)
     if (_Count == 0)
         ;
     else if (max_size() - size() < _Count)
-        FUN_00b0fb80();
+        ::xlenb0f::BxVecBase::FUN_00b0fb80();
     else if (_Capacity < size() + _Count)
     {
         Dead17();
@@ -9805,7 +9682,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 struct BxLogicError : public BxException
 {
@@ -10473,7 +10350,7 @@ template <class T> struct VdAlloc
     typedef T* pointer;
     void deallocate(T* _Ptr, unsigned int)
     {
-        operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     void destroy(T* _Ptr)
     {
@@ -10516,7 +10393,7 @@ template <class T> struct VdVector : VdAuxBase
     T* _Myend;
     ~VdVector()
     {
-        _Tidy();
+        reinterpret_cast<::FUN_00b1ec70_class *>(this)->FUN_00b1ec70();
     }
     void _Destroy(T* _First, T* _Last)
     {
@@ -10630,9 +10507,8 @@ struct ElQ : VBQ
     ElQ& operator=(const ElQ&);
     ~ElQ()
     {
-        Tidy();
+        reinterpret_cast<::FUN_00b1ec70_class *>(this)->FUN_00b1ec70();
     }
-    void Tidy();
 };
 inline void FreeQ(void* p);
 struct VB2Q
@@ -10653,9 +10529,8 @@ struct El2Q : VB2Q
     El2Q(const ElQ&);
     ~El2Q()
     {
-        Tidy();
+        reinterpret_cast<::FUN_00b1ec70_class *>(this)->FUN_00b1ec70();
     }
-    void Tidy();
 };
 struct AlQ
 {
@@ -10666,23 +10541,21 @@ struct AlQ
     }
     void deallocate(ElQ* p, unsigned)
     {
-        FUN_00401030(p);
+        ::FUN_00401030(p);
     }
     void destroy(ElQ* p)
     {
         p->~ElQ();
     }
-    static void FUN_00401030(void*);
 };
 inline void FreeQ(void* p)
 {
-    AlQ::FUN_00401030(p);
+    ::FUN_00401030(p);
 }
 ElQ* __cdecl FUN_00b23aa0(unsigned n, ElQ* p);
 ElQ* __cdecl FUN_00b25ca0(ElQ* f, ElQ* l, ElQ* d, AlQ& al, MoveCatQ c, TagQ t);
 ElQ* __cdecl FUN_00b239e0(ElQ* f, ElQ* l, ElQ* d);
 void __cdecl FUN_00b24290(ElQ* f, unsigned n, const ElQ& v, AlQ& al, PtrCatQ c, TagQ t);
-void __cdecl FUN_00b0fb80();
 inline ElQ* Checked_base(ElQ* const& it)
 {
     return it;
@@ -10813,7 +10686,7 @@ void VecQ::FUN_00b20ce0(CItQ _Where, unsigned _Count, const ElQ& _Val)
     if (_Count == 0)
         ;
     else if (max_size() - size() < _Count)
-        FUN_00b0fb80();
+        ::xlenb0f::BxVecBase::FUN_00b0fb80();
     else if (_Capacity < size() + _Count)
     {
         Dead17();
@@ -10830,14 +10703,14 @@ void VecQ::FUN_00b20ce0(CItQ _Where, unsigned _Count, const ElQ& _Val)
         }
         catch (...)
         {
-            FUN_00b20c30(_Newvec, _Ptr);
+            reinterpret_cast<::fnv_00b20c30::FUN_00b20c30 *>(this)->FUN_00b20c30_Destroy((::fnv_00b20c30::vecdb20c::VdElemW *)(_Newvec), (::fnv_00b20c30::vecdb20c::VdElemW *)(_Ptr));
             m_al.deallocate(_Newvec, _Capacity);
             throw;
         }
         _Count += size();
         if (m_pHeadNode != 0)
         {
-            FUN_00b20c30(m_pHeadNode, m_last);
+            reinterpret_cast<::fnv_00b20c30::FUN_00b20c30 *>(this)->FUN_00b20c30_Destroy((::fnv_00b20c30::vecdb20c::VdElemW *)(m_pHeadNode), (::fnv_00b20c30::vecdb20c::VdElemW *)(m_last));
             Dead12();
             m_al.deallocate(m_pHeadNode, m_kRayEnd - m_pHeadNode);
         }
@@ -10882,14 +10755,13 @@ struct ElQ
     char ac[44];
     ElQ(const ElQ&);
     ElQ& operator=(const ElQ&);
-    void FUN_0044a730(bool, int);
     ~ElQ()
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
     void DelQ(unsigned f)
     {
-        FUN_0044a730(true, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
         if (f & 1)
             FreeQ(this);
     }
@@ -10912,24 +10784,22 @@ struct AlQ
     }
     void deallocate(ElQ* p, unsigned)
     {
-        FUN_00401030(p);
+        ::FUN_00401030(p);
     }
     void destroy(ElQ* p)
     {
         p->DelQ(0);
     }
-    static void FUN_00401030(void*);
 };
 inline void FreeQ(void* p)
 {
-    AlQ::FUN_00401030(p);
+    ::FUN_00401030(p);
 }
 ElQ* __cdecl FUN_00b23b50(unsigned n, ElQ* p);
 ElQ* __cdecl FUN_00b23f10(ElQ* f, ElQ* l, ElQ* d, AlQ& al);
 ElQ* __cdecl FUN_00b247b0(ElQ* f, ElQ* l, ElQ* d, AlQ& al);
 ElQ* __cdecl FUN_00b23b00(ElQ* f, ElQ* l, ElQ* d);
 void __cdecl FUN_00b243a0(ElQ* f, unsigned n, const ElQ& v, AlQ& al, PtrCatQ c, TagQ t);
-void __cdecl FUN_00b0fb80();
 inline ElQ* Checked_base(ElQ* const& it)
 {
     return it;
@@ -10993,7 +10863,7 @@ inline void Destroy_range(ElQ* f, ElQ* l, AlQ& al)
 inline void Fill(ElQ* f, ElQ* l, const ElQ& v)
 {
     for (; f != l; ++f)
-        *f = v;
+        reinterpret_cast<::S00b24a80_Obj *>((void *)&(const ::fnv_00b21560::ElQ &)(*f))->FUN_00b24a80((::S00b24a80_Obj *)&(v));
 }
 inline void Unchecked_fill(ElQ* f, ElQ* l, const ElQ& v)
 {
@@ -11050,7 +10920,7 @@ void VecQ::FUN_00b21560(CItQ _Where, unsigned _Count, const ElQ& _Val)
     if (_Count == 0)
         ;
     else if (max_size() - size() < _Count)
-        FUN_00b0fb80();
+        ::xlenb0f::BxVecBase::FUN_00b0fb80();
     else if (_Capacity < size() + _Count)
     {
         Dead17();
@@ -11134,18 +11004,14 @@ struct AlQ
     }
     void deallocate(ElQ* p, unsigned)
     {
-        FUN_00401030(p);
+        ::FUN_00401030(p);
     }
     void destroy(ElQ* p)
     {}
-    static void FUN_00401030(void*);
 };
 ElQ* __cdecl FUN_00b23980(unsigned n, ElQ* p);
 ElQ* __cdecl FUN_00b264a0(ElQ* f, ElQ* l, ElQ* d, AlQ& al);
-ElQ* __cdecl FUN_00b24690(ElQ* f, ElQ* l, ElQ* d, AlQ& al);
-ElQ* __cdecl FUN_00b23930(ElQ* f, ElQ* l, ElQ* d);
 void __cdecl CopyObjects(ElQ* f, unsigned n, const ElQ& v, AlQ& al, PtrCatQ c, TagQ t);
-void __cdecl FUN_00b0fb80();
 inline ElQ* Checked_base(ElQ* const& it)
 {
     return it;
@@ -11247,7 +11113,7 @@ struct VecQ
     }
     ElQ* _Umove2(ElQ* f, ElQ* l, ElQ* p)
     {
-        return FUN_00b24690(f, l, p, m_al);
+        return ((::fnv_00b21e00::ElQ *)(::fnv_00b16dc0::FUN_00b16dc0((::fnv_00b16dc0::ElemMOVE *)(f), (::fnv_00b16dc0::ElemMOVE *)(l), (::fnv_00b16dc0::ElemMOVE *)(p), (::fnv_00b16dc0::allocatorS< ::fnv_00b16dc0::ElemMOVE> &)(m_al))));
     }
     void _Destroy(ElQ* f, ElQ* l)
     {
@@ -11262,7 +11128,7 @@ void VecQ::FUN_00b21e00(CItQ _Where, unsigned _Count, const ElQ& _Val)
     if (_Count == 0)
         ;
     else if (max_size() - size() < _Count)
-        FUN_00b0fb80();
+        ::xlenb0f::BxVecBase::FUN_00b0fb80();
     else if (_Capacity < size() + _Count)
     {
         Dead17();
@@ -11316,7 +11182,7 @@ void VecQ::FUN_00b21e00(CItQ _Where, unsigned _Count, const ElQ& _Val)
         ElQ* _Oldend = m_last;
         Dead13();
         m_last = _Umove2(_Oldend - _Count, _Oldend, m_last);
-        FUN_00b23930(_Where.m_ptr, _Oldend - _Count, _Oldend);
+        ::fnv_00b169c0::FUN_00b169c0((::fnv_00b169c0::EUMB *)(_Where.m_ptr), (::fnv_00b169c0::EUMB *)(::fnv_00b21e00::ElQ *)(_Oldend - _Count), (::fnv_00b169c0::EUMB *)(_Oldend));
         Dead16();
         Unchecked_fill(_Where.m_ptr, _Where.m_ptr + _Count, _Tmp);
     }
@@ -11350,7 +11216,7 @@ template <class T> struct VdAlloc
     typedef T* pointer;
     void deallocate(T* _Ptr, unsigned int)
     {
-        operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     void destroy(T* _Ptr)
     {
@@ -11392,7 +11258,7 @@ template <class T> struct VdVector : VdAuxBase
     T* _Myend;
     ~VdVector()
     {
-        _Tidy();
+        reinterpret_cast<::FUN_0065f240 *>(this)->Clear();
     }
     void _Destroy(T* _First, T* _Last)
     {
@@ -11479,9 +11345,8 @@ struct ElQ : VBQ
     ElQ& operator=(const ElQ&);
     ~ElQ()
     {
-        Tidy();
+        reinterpret_cast<::FUN_0065f240 *>(this)->Clear();
     }
-    void Tidy();
     void DelQ(unsigned f)
     {
         this->~ElQ();
@@ -11508,9 +11373,8 @@ struct El2Q : VB2Q
     El2Q(const ElQ&);
     ~El2Q()
     {
-        Tidy();
+        reinterpret_cast<::FUN_0065f240 *>(this)->Clear();
     }
-    void Tidy();
 };
 struct AlQ
 {
@@ -11521,23 +11385,21 @@ struct AlQ
     }
     void deallocate(ElQ* p, unsigned)
     {
-        FUN_00401030(p);
+        ::FUN_00401030(p);
     }
     void destroy(ElQ* p)
     {
         p->~ElQ();
     }
-    static void FUN_00401030(void*);
 };
 inline void FreeQ(void* p)
 {
-    AlQ::FUN_00401030(p);
+    ::FUN_00401030(p);
 }
 ElQ* __cdecl FUN_00b23aa0(unsigned n, ElQ* p);
 ElQ* __cdecl FUN_00b25e20(ElQ* f, ElQ* l, ElQ* d, AlQ& al, MoveCatQ c, TagQ t);
 ElQ* __cdecl FUN_00b23c10(ElQ* f, ElQ* l, ElQ* d);
 void __cdecl FUN_00b24580(ElQ* f, unsigned n, const ElQ& v, AlQ& al, PtrCatQ c, TagQ t);
-void __cdecl FUN_00b0fb80();
 inline ElQ* Checked_base(ElQ* const& it)
 {
     return it;
@@ -11618,7 +11480,7 @@ __forceinline void Destroy_range(ElQ* f, ElQ* l, AlQ& al)
 inline void Fill(ElQ* f, ElQ* l, const ElQ& v)
 {
     for (; f != l; ++f)
-        *f = v;
+        reinterpret_cast<::C00b1d5d0 *>((void *)&(const ::fnv_00b22700::ElQ &)(*f))->FUN_00b1d5d0((const ::C00b1d5d0 &)(v));
 }
 inline void Unchecked_fill(ElQ* f, ElQ* l, const ElQ& v)
 {
@@ -11672,7 +11534,7 @@ void VecQ::FUN_00b22700(CItQ _Where, unsigned _Count, const ElQ& _Val)
     if (_Count == 0)
         ;
     else if (max_size() - size() < _Count)
-        FUN_00b0fb80();
+        ::xlenb0f::BxVecBase::FUN_00b0fb80();
     else if (_Capacity < size() + _Count)
     {
         Dead17();
@@ -11689,14 +11551,14 @@ void VecQ::FUN_00b22700(CItQ _Where, unsigned _Count, const ElQ& _Val)
         }
         catch (...)
         {
-            FUN_00b22650(_Newvec, _Ptr);
+            reinterpret_cast<::fnv_00b22650::FUN_00b22650 *>(this)->FUN_00b22650_Destroy((::fnv_00b22650::vecdb226::VdElemV *)(_Newvec), (::fnv_00b22650::vecdb226::VdElemV *)(_Ptr));
             m_al.deallocate(_Newvec, _Capacity);
             throw;
         }
         _Count += size();
         if (m_pHeadNode != 0)
         {
-            FUN_00b22650(m_pHeadNode, m_last);
+            reinterpret_cast<::fnv_00b22650::FUN_00b22650 *>(this)->FUN_00b22650_Destroy((::fnv_00b22650::vecdb226::VdElemV *)(m_pHeadNode), (::fnv_00b22650::vecdb226::VdElemV *)(m_last));
             Dead12();
             m_al.deallocate(m_pHeadNode, m_kRayEnd - m_pHeadNode);
         }
@@ -12191,7 +12053,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 struct BxLogicError : public BxException
 {
@@ -12335,7 +12197,7 @@ template <class I, class O, class C>
 inline O GvCopyOpt(I _First, I _Last, O _Dest, C, GvNonscalarTag, GvRangeCheckedTag)
 {
     for (; _First != _Last; ++_Dest, ++_First)
-        *_Dest = *_First;
+        reinterpret_cast<::CopyableStateBlock *>((void *)&(const ::fnv_00b23760::cpyb237::GvElem &)(*_Dest))->CopyFrom((const ::CopyableStateBlock &)(*_First));
     return _Dest;
 }
 template <class I, class O>
@@ -13666,7 +13528,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 struct BxLogicError : public BxException
 {
@@ -16652,17 +16514,16 @@ struct AlQ
 {
     void deallocate(ElQ* p, unsigned)
     {
-        FUN_00401030(p);
+        ::FUN_00401030(p);
     }
     __forceinline void destroy(ElQ* p)
     {
         p->~ElQ();
     }
-    static void FUN_00401030(void*);
 };
 inline void FreeQ(void* p)
 {
-    AlQ::FUN_00401030(p);
+    ::FUN_00401030(p);
 }
 ElQ* __cdecl FUN_00b264f0(ElQ* f, ElQ* l, ElQ* d, RandQ, PtrCatQ, TagQ);
 ElQ* __cdecl FUN_00b260c0(ElQ* f, ElQ* l, ElQ* d);
@@ -16768,7 +16629,6 @@ struct VecQ
         Destroy_range(f, l, m_al);
     }
     void FUN_00b25490();
-    bool FUN_00b1eb00(unsigned n);
     VecQ& FUN_00b24ae0(const VecQ& _Right);
 };
 // @fnv 0x00b24ae0
@@ -16802,7 +16662,7 @@ VecQ& VecQ::FUN_00b24ae0(const VecQ& _Right)
                 _DestroyI(m_pHeadNode, m_last);
                 m_al.deallocate(m_pHeadNode, m_kRayEnd - m_pHeadNode);
             }
-            if (FUN_00b1eb00(_Right.size()))
+            if (reinterpret_cast<::FUN_00b1eb00_class *>(this)->FUN_00b1eb00(_Right.size()))
             {
                 Dead26();
                 m_last = _Ucopy(_Right.m_pHeadNode, _Right.m_last, m_pHeadNode);
@@ -16843,9 +16703,8 @@ struct ElQ : VBQ
     ElQ& operator=(const ElQ&);
     ~ElQ()
     {
-        Tidy();
+        reinterpret_cast<::tidyb1e::T1Vector *>(this)->FUN_00b1e970();
     }
-    void Tidy();
     __forceinline void DelQ(unsigned f)
     {
         this->~ElQ();
@@ -16857,17 +16716,16 @@ struct AlQ
 {
     void deallocate(ElQ* p, unsigned)
     {
-        FUN_00401030(p);
+        ::FUN_00401030(p);
     }
     __forceinline void destroy(ElQ* p)
     {
         p->~ElQ();
     }
-    static void FUN_00401030(void*);
 };
 inline void FreeQ(void* p)
 {
-    AlQ::FUN_00401030(p);
+    ::FUN_00401030(p);
 }
 ElQ* __cdecl FUN_00b253f0(ElQ* f, ElQ* l, ElQ* d, RandQ, PtrCatQ, TagQ);
 ElQ* __cdecl FUN_00b23760(ElQ* f, ElQ* l, ElQ* d);
@@ -16979,7 +16837,6 @@ struct VecQ
     }
     void FUN_00b1de20();
     void FUN_00b1ebc0(ElQ* f, ElQ* l);
-    bool FUN_00b1eb00(unsigned n);
     VecQ& FUN_00b24f40(const VecQ& _Right);
 };
 // @fnv 0x00b24f40
@@ -16995,7 +16852,7 @@ VecQ& VecQ::FUN_00b24f40(const VecQ& _Right)
         else if (_Right.size() <= size())
         {
             ElQ* _Ptr = Unchecked_copy(_Right.m_pHeadNode, _Right.m_last, m_pHeadNode);
-            FUN_00b1ebc0(_Ptr, m_last);
+            reinterpret_cast<::fnv_00b1ebc0::FUN_00b1ebc0 *>(this)->FUN_00b1ebc0_Destroy((::fnv_00b1ebc0::vecdb1eb::VdElemV *)(_Ptr), (::fnv_00b1ebc0::vecdb1eb::VdElemV *)(m_last));
             m_last = m_pHeadNode + _Right.size();
             Dead6c();
         }
@@ -17014,7 +16871,7 @@ VecQ& VecQ::FUN_00b24f40(const VecQ& _Right)
                 _DestroyI(m_pHeadNode, m_last);
                 m_al.deallocate(m_pHeadNode, m_kRayEnd - m_pHeadNode);
             }
-            if (FUN_00b1eb00(_Right.size()))
+            if (reinterpret_cast<::FUN_00b1eb00_class *>(this)->FUN_00b1eb00(_Right.size()))
             {
                 Dead26();
                 m_last = _Ucopy(_Right.m_pHeadNode, _Right.m_last, m_pHeadNode);
@@ -17737,7 +17594,7 @@ FUN_00b25580_Vector::iterator FUN_00b25580_Vector::FUN_00b25580(const_iterator _
 {
     iterator _First = _Make_iter(_First_arg);
     iterator _Last = _Make_iter(_Last_arg);
-    if (_First != _Last)
+    if (reinterpret_cast<::FUN_00b16830_Iterator *>((void *)&(const ::fnv_00b25580::_Vector_const_iteratorS< ::fnv_00b25580::Elem5580> &)(_First))->FUN_00b16830((const ::_Vector_const_iteratorS< ::Elem6830> &)(_Last)))
     {
         pointer _Ptr = unchecked_copyS(_Last._Myptr, _Mylast, _First._Myptr);
         _Destroy(_Ptr, _Mylast);
@@ -18929,7 +18786,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 struct BxLogicError : public BxException
 {
@@ -19291,14 +19148,14 @@ template <class T> struct GvVector : GvVectorVal<T>
             }
             catch (...)
             {
-                _Tidy();
+                reinterpret_cast<::tidyb1e::T1Vector *>(this)->FUN_00b1e970();
                 throw;
             }
         }
     }
     ~GvVector()
     {
-        _Tidy();
+        reinterpret_cast<::tidyb1e::T1Vector *>(this)->FUN_00b1e970();
     }
     unsigned int size() const
     {
@@ -19491,8 +19348,8 @@ void FUN_00b26ab0(GvElem& _Left, GvElem& _Right)
     if (&_Left != &_Right)
     {
         GvElem _Tmp = _Left;
-        _Left = _Right;
-        _Right = _Tmp;
+        reinterpret_cast<::CopyableStateBlock *>((void *)&(const ::fnv_00b26ab0::swapb26a::GvElem &)(_Left))->CopyFrom((const ::CopyableStateBlock &)(_Right));
+        reinterpret_cast<::CopyableStateBlock *>((void *)&(const ::fnv_00b26ab0::swapb26a::GvElem &)(_Right))->CopyFrom((const ::CopyableStateBlock &)(_Tmp));
     }
 }
 }  // namespace fnv_00b26ab0
@@ -19519,7 +19376,7 @@ struct SFrondGuideAuxAlloc
 {
     void deallocate(void* p, unsigned int)
     {
-        operator delete(p);
+        ::FUN_00401030(p);
     }
 };
 
@@ -19532,7 +19389,7 @@ struct SFrondGuidePointAlloc
 {
     void deallocate(SFrondGuidePoint* p, unsigned int)
     {
-        operator delete(p);
+        ::FUN_00401030(p);
     }
     void destroy(SFrondGuidePoint* p)
     {
@@ -19581,7 +19438,7 @@ struct SFrondGuidePoints : SFrondGuidePointsBase
 
     ~SFrondGuidePoints()
     {
-        FUN_00b1e970();
+        reinterpret_cast<::tidyb1e::T1Vector *>(this)->FUN_00b1e970();
     }
     void Destroy(SFrondGuidePoint* f, SFrondGuidePoint* l)
     {
@@ -19636,11 +19493,11 @@ void __cdecl FUN_00b26b50(SFrondGuideEntry* first, int hole, int bottom, SFrondG
     {
         if (pred(first[idx], first[idx - 1]))
             --idx;
-        first[hole] = first[idx], hole = idx;
+        reinterpret_cast<::CopyableStateBlock *>((void *)&(const ::SFrondGuideEntry &)(first[hole]))->CopyFrom((const ::CopyableStateBlock &)(first[idx])), hole = idx;
     }
     if (idx == bottom)
     {
-        first[hole] = first[bottom - 1];
+        reinterpret_cast<::CopyableStateBlock *>((void *)&(const ::SFrondGuideEntry &)(first[hole]))->CopyFrom((const ::CopyableStateBlock &)(first[bottom - 1]));
         hole = bottom - 1;
     }
     FUN_00b26e80(first, hole, top2, val, pred);
@@ -19964,7 +19821,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 struct BxLogicError : public BxException
 {
@@ -20520,7 +20377,7 @@ template <class B1, class B2, class C>
 inline B2 GvCopyBackwardOpt(B1 _First, B1 _Last, B2 _Dest, C, GvNonscalarTag, GvRangeCheckedTag)
 {
     while (_First != _Last)
-        *--_Dest = *--_Last;
+        reinterpret_cast<::CopyableStateBlock *>((void *)&(const ::fnv_00b26ce0::cbkb26c::GvElem &)(*--_Dest))->CopyFrom((const ::CopyableStateBlock &)(*--_Last));
     return _Dest;
 }
 template <class I, class O>
@@ -20893,7 +20750,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 struct BxLogicError : public BxException
 {
@@ -21262,7 +21119,7 @@ template <class T> struct GvVector : GvVectorVal<T>
     }
     ~GvVector()
     {
-        _Tidy();
+        reinterpret_cast<::tidyb1e::T1Vector *>(this)->FUN_00b1e970();
     }
     unsigned int size() const
     {
@@ -21454,10 +21311,10 @@ void FUN_00b26e80(GvElem* _First, int _Hole, int _Top, GvElem _Val, GvElemLess _
 {
     for (int _Idx = (_Hole - 1) / 2; _Top < _Hole && _Pred(*(_First + _Idx), _Val); _Idx = (_Hole - 1) / 2)
     {
-        *(_First + _Hole) = *(_First + _Idx);
+        reinterpret_cast<::CopyableStateBlock *>((void *)&(const ::fnv_00b26e80::pushb26e::GvElem &)(*(_First + _Hole)))->CopyFrom((const ::CopyableStateBlock &)(*(_First + _Idx)));
         _Hole = _Idx;
     }
-    *(_First + _Hole) = _Val;
+    reinterpret_cast<::CopyableStateBlock *>((void *)&(const ::fnv_00b26e80::pushb26e::GvElem &)(*(_First + _Hole)))->CopyFrom((const ::CopyableStateBlock &)(_Val));
 }
 }  // namespace fnv_00b26e80
 
@@ -21779,7 +21636,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 struct BxLogicError : public BxException
 {
@@ -22096,14 +21953,14 @@ template <class T> struct GvVector : GvVectorVal<T>
             }
             catch (...)
             {
-                _Tidy();
+                reinterpret_cast<::tidyb1e::T1Vector *>(this)->FUN_00b1e970();
                 throw;
             }
         }
     }
     ~GvVector()
     {
-        _Tidy();
+        reinterpret_cast<::tidyb1e::T1Vector *>(this)->FUN_00b1e970();
     }
     unsigned int size() const
     {
@@ -22285,10 +22142,10 @@ template <class I, class D, class T, class P> inline void GvPushHeap(I _First, D
 {
     for (D _Idx = (_Hole - 1) / 2; _Top < _Hole && _Pred(*(_First + _Idx), _Val); _Idx = (_Hole - 1) / 2)
     {
-        *(_First + _Hole) = *(_First + _Idx);
+        reinterpret_cast<::CopyableStateBlock *>((void *)&(const ::fnv_00b26f90::popb26f::GvElem &)(*(_First + _Hole)))->CopyFrom((const ::CopyableStateBlock &)(*(_First + _Idx)));
         _Hole = _Idx;
     }
-    *(_First + _Hole) = _Val;
+    reinterpret_cast<::CopyableStateBlock *>((void *)&(const ::fnv_00b26f90::popb26f::GvElem &)(*(_First + _Hole)))->CopyFrom((const ::CopyableStateBlock &)(_Val));
 }
 template <class I, class D, class T, class P> inline void GvAdjustHeap(I _First, D _Hole, D _Bottom, T _Val, P _Pred)
 {
@@ -22300,18 +22157,18 @@ template <class I, class D, class T, class P> inline void GvAdjustHeap(I _First,
         {
             --_Idx;
         }
-        *(_First + _Hole) = *(_First + _Idx), _Hole = _Idx;
+        reinterpret_cast<::CopyableStateBlock *>((void *)&(const ::fnv_00b26f90::popb26f::GvElem &)(*(_First + _Hole)))->CopyFrom((const ::CopyableStateBlock &)(*(_First + _Idx))), _Hole = _Idx;
     }
     if (_Idx == _Bottom)
     {
-        *(_First + _Hole) = *(_First + (_Bottom - 1));
+        reinterpret_cast<::CopyableStateBlock *>((void *)&(const ::fnv_00b26f90::popb26f::GvElem &)(*(_First + _Hole)))->CopyFrom((const ::CopyableStateBlock &)(*(_First + (_Bottom - 1))));
         _Hole = _Bottom - 1;
     }
     GvPushHeap(_First, _Hole, _Top, _Val, _Pred);
 }
 inline void GvPopHeap(GvElem* _First, GvElem* _Last, GvElem* _Dest, GvElem _Val, GvElemLess _Pred, int*)
 {
-    *_Dest = *_First;
+    reinterpret_cast<::CopyableStateBlock *>((void *)&(const ::fnv_00b26f90::popb26f::GvElem &)(*_Dest))->CopyFrom((const ::CopyableStateBlock &)(*_First));
     GvAdjustHeap(_First, int(0), int(_Last - _First), _Val, _Pred);
 }
 }
@@ -22352,9 +22209,8 @@ struct ElQ : VBQ
     ElQ& operator=(const ElQ&);
     ~ElQ()
     {
-        Tidy();
+        reinterpret_cast<::FUN_00b34d90_class *>(this)->FUN_00b34d90();
     }
-    void Tidy();
     __forceinline void DelQ(unsigned f)
     {
         this->~ElQ();
@@ -22366,21 +22222,17 @@ struct AlQ
 {
     void deallocate(ElQ* p, unsigned)
     {
-        FUN_00401030(p);
+        ::FUN_00401030(p);
     }
     __forceinline void destroy(ElQ* p)
     {
         p->~ElQ();
     }
-    static void FUN_00401030(void*);
 };
 inline void FreeQ(void* p)
 {
-    AlQ::FUN_00401030(p);
+    ::FUN_00401030(p);
 }
-ElQ* __cdecl FUN_00b35f60(ElQ* f, ElQ* l, ElQ* d, RandQ, PtrCatQ, TagQ);
-ElQ* __cdecl FUN_00b35a90(ElQ* f, ElQ* l, ElQ* d);
-ElQ* __cdecl FUN_00b368d0(ElQ* f, ElQ* l, ElQ* d, AlQ& al, PtrCatQ, TagQ);
 inline ElQ* Checked_base(ElQ* const& it)
 {
     return it;
@@ -22442,11 +22294,11 @@ inline PtrCatQ Ptr_cat(ElQ*&, ElQ*&)
 }
 inline ElQ* Unchecked_copy(ElQ* f, ElQ* l, ElQ* d)
 {
-    return FUN_00b35f60(Checked_base2(f), Checked_base2(l), d, RandQ(), Ptr_cat(f, d), TagQ());
+    return ((::fnv_00b314f0::ElQ *)(::fnv_00b35f60::FUN_00b35f60((::fnv_00b35f60::asgnb36::AsVector *)(::fnv_00b314f0::ElQ *)(Checked_base2(f)), (::fnv_00b35f60::asgnb36::AsVector *)(::fnv_00b314f0::ElQ *)(Checked_base2(l)), (::fnv_00b35f60::asgnb36::AsVector *)(d))));
 }
 inline ElQ* Unchecked_uninitialized_copy(ElQ* f, ElQ* l, ElQ* d, AlQ& al)
 {
-    return FUN_00b368d0(Checked_base2(f), Checked_base4(l), d, al, Ptr_cat(f, d), TagQ());
+    return ((::fnv_00b314f0::ElQ *)(::fnv_00b368d0::FUN_00b368d0((::fnv_00b368d0::S00b368d0_Elem *)(::fnv_00b314f0::ElQ *)(Checked_base2(f)), (::fnv_00b368d0::S00b368d0_Elem *)(::fnv_00b314f0::ElQ *)(Checked_base4(l)), (::fnv_00b368d0::S00b368d0_Elem *)(d), (::fnv_00b368d0::S00b368d0_Alloc &)(al))));
 }
 __forceinline void Destroy_range2(ElQ* f, ElQ* l, AlQ& al, PtrCatQ)
 {
@@ -22482,9 +22334,6 @@ struct VecQ
     {
         Destroy_range(f, l, m_al);
     }
-    void FUN_00b319e0();
-    void FUN_00b32bb0(ElQ* f, ElQ* l);
-    bool FUN_00b1f590(unsigned n);
     VecQ& FUN_00b314f0(const VecQ& _Right);
 };
 // @fnv 0x00b314f0
@@ -22495,19 +22344,19 @@ VecQ& VecQ::FUN_00b314f0(const VecQ& _Right)
         if (_Right.size() == 0)
         {
             Dead12();
-            FUN_00b319e0();
+            reinterpret_cast<::fnv_00b319e0::vecb319::VcVector *>(this)->FUN_00b319e0();
         }
         else if (_Right.size() <= size())
         {
             ElQ* _Ptr = Unchecked_copy(_Right.m_pHeadNode, _Right.m_last, m_pHeadNode);
-            FUN_00b32bb0(_Ptr, m_last);
+            reinterpret_cast<::Vec18 *>(this)->FUN_00b32bb0((::Elem18 *)(_Ptr), (::Elem18 *)(m_last));
             m_last = m_pHeadNode + _Right.size();
             Dead6c();
         }
         else if (_Right.size() <= capacity())
         {
             ElQ* _Ptr = _Right.m_pHeadNode + size();
-            FUN_00b35a90(_Right.m_pHeadNode, _Ptr, m_pHeadNode);
+            ::fnv_00b35a90::FUN_00b35a90((::fnv_00b35a90::cpyb35a::GvVector<unsigned short> *)(_Right.m_pHeadNode), (::fnv_00b35a90::cpyb35a::GvVector<unsigned short> *)(_Ptr), (::fnv_00b35a90::cpyb35a::GvVector<unsigned short> *)(m_pHeadNode));
             Dead2();
             DC1();
             m_last = _Ucopy(_Ptr, _Right.m_last, m_last);
@@ -22519,7 +22368,7 @@ VecQ& VecQ::FUN_00b314f0(const VecQ& _Right)
                 _DestroyI(m_pHeadNode, m_last);
                 m_al.deallocate(m_pHeadNode, m_kRayEnd - m_pHeadNode);
             }
-            if (FUN_00b1f590(_Right.size()))
+            if (reinterpret_cast<::buyElement24::BxVector *>(this)->FUN_00b1f590(_Right.size()))
             {
                 Dead26();
                 m_last = _Ucopy(_Right.m_pHeadNode, _Right.m_last, m_pHeadNode);
@@ -22559,9 +22408,8 @@ struct ElQ : VBQ
     ElQ& operator=(const ElQ&);
     ~ElQ()
     {
-        Tidy();
+        reinterpret_cast<::Vector_b17f50 *>(this)->FUN_00b17f50();
     }
-    void Tidy();
     __forceinline void DelQ(unsigned f)
     {
         this->~ElQ();
@@ -22573,20 +22421,17 @@ struct AlQ
 {
     void deallocate(ElQ* p, unsigned)
     {
-        FUN_00401030(p);
+        ::FUN_00401030(p);
     }
     __forceinline void destroy(ElQ* p)
     {
         p->~ElQ();
     }
-    static void FUN_00401030(void*);
 };
 inline void FreeQ(void* p)
 {
-    AlQ::FUN_00401030(p);
+    ::FUN_00401030(p);
 }
-ElQ* __cdecl FUN_00b36000(ElQ* f, ElQ* l, ElQ* d, RandQ, PtrCatQ, TagQ);
-ElQ* __cdecl FUN_00b35b60(ElQ* f, ElQ* l, ElQ* d);
 ElQ* __cdecl FUN_00b369f0(ElQ* f, ElQ* l, ElQ* d, AlQ& al, PtrCatQ, TagQ);
 inline ElQ* Checked_base(ElQ* const& it)
 {
@@ -22649,7 +22494,7 @@ inline PtrCatQ Ptr_cat(ElQ*&, ElQ*&)
 }
 inline ElQ* Unchecked_copy(ElQ* f, ElQ* l, ElQ* d)
 {
-    return FUN_00b36000(Checked_base2(f), Checked_base2(l), d, RandQ(), Ptr_cat(f, d), TagQ());
+    return ((::fnv_00b31c70::ElQ *)(::FUN_00b36000((::CopyValue *)(::fnv_00b31c70::ElQ *)(Checked_base2(f)), (::CopyValue *)(::fnv_00b31c70::ElQ *)(Checked_base2(l)), (::CopyValue *)(d))));
 }
 inline ElQ* Unchecked_uninitialized_copy(ElQ* f, ElQ* l, ElQ* d, AlQ& al)
 {
@@ -22689,9 +22534,6 @@ struct VecQ
     {
         Destroy_range(f, l, m_al);
     }
-    void FUN_00b32120();
-    void FUN_00b33110(ElQ* f, ElQ* l);
-    bool FUN_00b1f590(unsigned n);
     VecQ& FUN_00b31c70(const VecQ& _Right);
 };
 // @fnv 0x00b31c70
@@ -22702,19 +22544,19 @@ VecQ& VecQ::FUN_00b31c70(const VecQ& _Right)
         if (_Right.size() == 0)
         {
             Dead12();
-            FUN_00b32120();
+            reinterpret_cast<::Vec *>(this)->FUN_00b32120();
         }
         else if (_Right.size() <= size())
         {
             ElQ* _Ptr = Unchecked_copy(_Right.m_pHeadNode, _Right.m_last, m_pHeadNode);
-            FUN_00b33110(_Ptr, m_last);
+            reinterpret_cast<::Outer_b33110 *>(this)->FUN_00b33110((::Value *)(_Ptr), (::Value *)(m_last));
             m_last = m_pHeadNode + _Right.size();
             Dead6c();
         }
         else if (_Right.size() <= capacity())
         {
             ElQ* _Ptr = _Right.m_pHeadNode + size();
-            FUN_00b35b60(_Right.m_pHeadNode, _Ptr, m_pHeadNode);
+            ::FUN_00b35b60((::V24 *)(_Right.m_pHeadNode), (::V24 *)(_Ptr), (::V24 *)(m_pHeadNode));
             Dead2();
             DC1();
             m_last = _Ucopy(_Ptr, _Right.m_last, m_last);
@@ -22726,7 +22568,7 @@ VecQ& VecQ::FUN_00b31c70(const VecQ& _Right)
                 _DestroyI(m_pHeadNode, m_last);
                 m_al.deallocate(m_pHeadNode, m_kRayEnd - m_pHeadNode);
             }
-            if (FUN_00b1f590(_Right.size()))
+            if (reinterpret_cast<::buyElement24::BxVector *>(this)->FUN_00b1f590(_Right.size()))
             {
                 Dead26();
                 m_last = _Ucopy(_Right.m_pHeadNode, _Right.m_last, m_pHeadNode);
@@ -22813,7 +22655,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 template <class T> struct BxAllocT
 {
@@ -22832,7 +22674,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -23084,7 +22926,7 @@ template <class T> struct GvAlloc
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     void destroy(pointer _Ptr)
     {
@@ -23241,7 +23083,7 @@ template <class T> struct GvVector : GvVectorVal<T>
     }
     ~GvVector()
     {
-        _Tidy();
+        reinterpret_cast<::tidyb1e::T1Vector *>(this)->FUN_00b1e970();
     }
     unsigned int size() const
     {
@@ -23891,7 +23733,7 @@ struct S00b24290_Base
     void* elementsLimit;
     void Release(void* p)
     {
-        operator delete(p);
+        ::FUN_00401030(p);
     }
     ~S00b24290_Base()
     {
@@ -24020,7 +23862,7 @@ struct Aux
     int al;
     void dealloc(void* p)
     {
-        ::operator delete(p);
+        ::FUN_00401030(p);
     }
     ~Aux()
     {
@@ -24037,7 +23879,7 @@ struct Vec : Aux
     void FUN_00b1e970();
     ~Vec()
     {
-        FUN_00b1e970();
+        reinterpret_cast<::tidyb1e::T1Vector *>(this)->FUN_00b1e970();
     }
 };
 
@@ -24075,7 +23917,7 @@ inline FUN_00b1ff50* FUN_00b1ff50::CopyFrom(const FUN_00b1ff50& that)
 {
     int n = 0;
     if (n)
-        return CopyFrom(that);
+        return ((::spt::FUN_00b1ff50 *)(reinterpret_cast<::CopyableStateBlock *>(this)->CopyFrom((const ::CopyableStateBlock &)(that))));
     v = that.v;
     f18 = that.f18;
     f1c = that.f1c;
@@ -24105,13 +23947,13 @@ void __cdecl FUN_00b262d0(Guide* _First, Guide* _Last)
             if (_Val < *_First)
             {
                 FUN_00b26ce0(_First, _Next, ++_Next1);
-                _First->CopyFrom(_Val);
+                reinterpret_cast<::CopyableStateBlock *>((_First))->CopyFrom((const ::CopyableStateBlock &)(_Val));
             }
             else
             {
                 for (Guide* _First1 = _Next1; _Val < *--_First1; _Next1 = _First1)
-                    _Next1->CopyFrom(*_First1);
-                _Next1->CopyFrom(_Val);
+                    reinterpret_cast<::CopyableStateBlock *>((_Next1))->CopyFrom((const ::CopyableStateBlock &)(*_First1));
+                reinterpret_cast<::CopyableStateBlock *>((_Next1))->CopyFrom((const ::CopyableStateBlock &)(_Val));
             }
         }
 }
@@ -24163,7 +24005,7 @@ struct FUN_00b1ae00_class : RotMat
 void FUN_00b1ae00_class::FUN_00b1ae00(float fAngleDifference)
 {
     RotMat cRotMatrix;
-    cRotMatrix.FUN_00b12af0();
+    ::FUN_00b12af0((::FUN_00b12af0_shell *)&(cRotMatrix));
     float fCosine = (float)(double)(float)FUN_00ec9f30((float)(fAngleDifference / DAT_010a4d90));
     float fSine = (float)(double)(float)FUN_00eca060((float)(fAngleDifference / DAT_010a4d90));
     cRotMatrix.m_fComponents[0][0] = 1.0f;
@@ -24239,7 +24081,6 @@ extern "C" void __cdecl _invalid_parameter_noinfo();
 extern "C" double __cdecl atan2(double, double);
 double __cdecl FUN_00ec9f30(double x);
 extern "C" double __cdecl FUN_00eca060(double x);
-extern float DAT_011f8c9c;
 
 inline void padQ()
 {
@@ -24275,7 +24116,6 @@ struct PointQ
     {
         return v[i];
     }
-    void FUN_00b12790();
 };
 struct PointVecQ
 {
@@ -24299,7 +24139,6 @@ struct PointVecQ
 };
 struct CurveQ
 {
-    float FUN_00b37ad0(float t);
 };
 struct ScaleQ
 {
@@ -24338,14 +24177,14 @@ struct FUN_00b1be50_Owner
 // @fnv 0x00b1be50
 void FUN_00b1be50_Owner::FUN_00b1be50(ScaleQ* scale, PointVecQ& points, PointVecQ& normals)
 {
-    float base = m_profile->FUN_00b37ad0(0.0f) * scale->m_height;
+    float base = reinterpret_cast<::FUN_00b37ad0_class *>((m_profile))->FUN_00b37ad0(0.0f) * scale->m_height;
     for (unsigned i = 0; i < m_uiItemCount; i++)
     {
         float t = 1.0 - i / (m_uiItemCount - 1.0);
         PointQ p;
         p[0] = 0.0f;
         p[1] = -t * scale->m_height;
-        p[2] = m_profile->FUN_00b37ad0(t) * scale->m_height - base;
+        p[2] = reinterpret_cast<::FUN_00b37ad0_class *>((m_profile))->FUN_00b37ad0(t) * scale->m_height - base;
         points.FUN_00b1e4c0(p);
     }
     for (int j = m_uiItemCount - 2; j >= 0; j--)
@@ -24358,29 +24197,29 @@ void FUN_00b1be50_Owner::FUN_00b1be50(ScaleQ* scale, PointVecQ& points, PointVec
     {
         float angle;
         if (k == m_uiItemCount - 1)
-            angle = DAT_011f8c9c;
+            angle = ::runtimeInitializationFloat4164;
         else if (k == 0)
         {
             float a = atan2Q(points[k + 1][2] - points[k][2], points[k + 1][1] - points[k][1]);
-            angle = a + DAT_011f8c9c;
+            angle = a + ::runtimeInitializationFloat4164;
         }
         else if (k == points.size() - 1)
         {
             float a = atan2Q(points[k][2] - points[k - 1][2], points[k][1] - points[k - 1][1]);
-            angle = a + DAT_011f8c9c;
+            angle = a + ::runtimeInitializationFloat4164;
         }
         else
         {
             float a1 = atan2Q(points[k + 1][2] - points[k][2], points[k + 1][1] - points[k][1]);
             float a2 = atan2Q(points[k][2] - points[k - 1][2], points[k][1] - points[k - 1][1]);
-            angle = (a2 + a1) * 0.5 + DAT_011f8c9c;
+            angle = (a2 + a1) * 0.5 + ::runtimeInitializationFloat4164;
         }
         {
             char pad[0x3c];
         }
         PointQ n(0.0f, cosQ(angle), sinQ(angle));
         padQ();
-        n.FUN_00b12790();
+        reinterpret_cast<::FUN_00b12790_class *>(&(n))->FUN_00b12790();
         normals.FUN_00b1e4c0(n);
     }
 }
@@ -24881,7 +24720,7 @@ inline char* AllocateChars(unsigned int ItemUpdateArray, char*)
         ItemUpdateArray = 0;
     else if (((unsigned int)(-1) / ItemUpdateArray) < sizeof(char))
         throw std::bad_alloc(0);
-    return (char*)::operator new(ItemUpdateArray * sizeof(char));
+    return (char*)::FUN_00401000(ItemUpdateArray * sizeof(char));
 }
 struct CharAllocator
 {
@@ -24891,7 +24730,7 @@ struct CharAllocator
     {}
     void deallocate(char* pcPtr, unsigned int)
     {
-        ::operator delete(pcPtr);
+        ::FUN_00401030(pcPtr);
     }
     char* allocate(unsigned int ItemUpdateArray)
     {
@@ -25336,7 +25175,6 @@ SA4830* __cdecl FUN_00b23b00(SA4830* _First, SA4830* _Last, SA4830* _Dest)
 }  // namespace fnv_00b23b00
 
 namespace fnv_00b24180 {
-void FUN_00401030(void* p);
 inline void* operator new(unsigned int, void* p)
 {
     return p;
@@ -25345,7 +25183,7 @@ inline void operator delete(void*, void*)
 {}
 inline void FreeQ(void* p)
 {
-    FUN_00401030(p);
+    ::FUN_00401030(p);
 }
 struct VBQ
 {
@@ -25398,7 +25236,6 @@ void FUN_00b24180(ElemQ* first, unsigned int n, const ElemQ& val)
 }  // namespace fnv_00b24180
 
 namespace fnv_00b243a0 {
-void FUN_00401030(void* p);
 inline void* operator new(unsigned int, void* p)
 {
     return p;
@@ -25408,7 +25245,6 @@ inline void operator delete(void*, void*)
 struct StrY
 {
     char b[0x1c];
-    void FUN_0044a730(bool b, unsigned n);
 };
 struct FUN_00b22f80
 {
@@ -25418,9 +25254,9 @@ struct FUN_00b22f80
 };
 inline void Del(FUN_00b22f80* p, unsigned int f)
 {
-    p->s.FUN_0044a730(true, 0);
+    reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(&(p->s))->FUN_0044a730(true, 0);
     if (f & 1)
-        FUN_00401030(p);
+        ::FUN_00401030(p);
 }
 inline void DeadX()
 {
@@ -25451,7 +25287,6 @@ void FUN_00b243a0(FUN_00b22f80* first, unsigned int n, const FUN_00b22f80& val)
 }  // namespace fnv_00b243a0
 
 namespace fnv_00b24580 {
-void FUN_00401030(void* p);
 inline void* operator new(unsigned int, void* p)
 {
     return p;
@@ -25460,7 +25295,7 @@ inline void operator delete(void*, void*)
 {}
 inline void FreeQ(void* p)
 {
-    FUN_00401030(p);
+    ::FUN_00401030(p);
 }
 struct VBQ
 {
@@ -25677,7 +25512,7 @@ inline _BidIt2 _Copy_backward_optS(_BidIt1 _First, _BidIt1 _Last, _BidIt2 _Dest,
                                    _Nonscalar_ptr_iterator_tagS, _Range_checked_iterator_tagS)
 {
     while (_First != _Last)
-        *--_Dest = *--_Last;
+        reinterpret_cast<::S00b24a80_Obj *>((void *)&(const ::fnv_00b24830::SA4830 &)(*--_Dest))->FUN_00b24a80((::S00b24a80_Obj *)&(*--_Last));
     return (_Dest);
 }
 template <class _InIt, class _OutIt>
@@ -26016,7 +25851,7 @@ inline char* AllocateChars(unsigned int ItemUpdateArray, char*)
         ItemUpdateArray = 0;
     else if (((unsigned int)(-1) / ItemUpdateArray) < sizeof(char))
         throw std::bad_alloc(0);
-    return (char*)::operator new(ItemUpdateArray * sizeof(char));
+    return (char*)::FUN_00401000(ItemUpdateArray * sizeof(char));
 }
 struct CharAllocator
 {
@@ -26026,7 +25861,7 @@ struct CharAllocator
     {}
     void deallocate(char* pcPtr, unsigned int)
     {
-        ::operator delete(pcPtr);
+        ::FUN_00401030(pcPtr);
     }
     char* allocate(unsigned int ItemUpdateArray)
     {
@@ -26890,7 +26725,7 @@ inline char* AllocateChars(unsigned int ItemUpdateArray, char*)
         ItemUpdateArray = 0;
     else if (((unsigned int)(-1) / ItemUpdateArray) < sizeof(char))
         throw std::bad_alloc(0);
-    return (char*)::operator new(ItemUpdateArray * sizeof(char));
+    return (char*)::FUN_00401000(ItemUpdateArray * sizeof(char));
 }
 struct CharAllocator
 {
@@ -26900,7 +26735,7 @@ struct CharAllocator
     {}
     void deallocate(char* pcPtr, unsigned int)
     {
-        ::operator delete(pcPtr);
+        ::FUN_00401030(pcPtr);
     }
     char* allocate(unsigned int ItemUpdateArray)
     {
@@ -27259,7 +27094,6 @@ E48C0* __cdecl FUN_00b248c0(E48C0* _First, E48C0* _Last, E48C0* _Dest, random_ac
 }  // namespace fnv_00b248c0
 
 namespace fnv_00b25ba0 {
-void FUN_00401030(void* p);
 inline void* operator new(unsigned int, void* p)
 {
     return p;
@@ -27269,7 +27103,6 @@ inline void operator delete(void*, void*)
 struct StrY
 {
     char b[0x1c];
-    void FUN_0044a730(bool b, unsigned n);
 };
 struct FUN_00b22f80
 {
@@ -27279,9 +27112,9 @@ struct FUN_00b22f80
 };
 inline void Del(FUN_00b22f80* p, unsigned int f)
 {
-    p->s.FUN_0044a730(true, 0);
+    reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(&(p->s))->FUN_0044a730(true, 0);
     if (f & 1)
-        FUN_00401030(p);
+        ::FUN_00401030(p);
 }
 inline void DeadX()
 {
@@ -27313,7 +27146,6 @@ FUN_00b22f80* FUN_00b25ba0(FUN_00b22f80* first, FUN_00b22f80* last, FUN_00b22f80
 }  // namespace fnv_00b25ba0
 
 namespace fnv_00b25ca0 {
-void FUN_00401030(void* p);
 inline void* operator new(unsigned int, void* p)
 {
     return p;
@@ -27322,7 +27154,7 @@ inline void operator delete(void*, void*)
 {}
 inline void FreeQ(void* p)
 {
-    FUN_00401030(p);
+    ::FUN_00401030(p);
 }
 struct VBQ
 {
@@ -27391,7 +27223,6 @@ ElemQ* FUN_00b25ca0(ElemQ* first, ElemQ* last, ElemQ* dest)
 }  // namespace fnv_00b25ca0
 
 namespace fnv_00b25e20 {
-void FUN_00401030(void* p);
 inline void* operator new(unsigned int, void* p)
 {
     return p;
@@ -27400,7 +27231,7 @@ inline void operator delete(void*, void*)
 {}
 inline void FreeQ(void* p)
 {
-    FUN_00401030(p);
+    ::FUN_00401030(p);
 }
 struct VBQ
 {
@@ -27419,7 +27250,6 @@ struct ElemQ : VBQ
     MQ m;
     ElemQ();
     ElemQ(const ElemQ& o);
-    void FUN_00b26570(ElemQ& o);
 };
 __forceinline void Del(ElemQ* p, unsigned int f)
 {
@@ -27454,7 +27284,7 @@ ElemQ* FUN_00b25e20(ElemQ* first, ElemQ* last, ElemQ* dest)
         for (; first != last; ++dest, ++first)
         {
             Construct(dest, _Val);
-            dest->FUN_00b26570(*first);
+            reinterpret_cast<::FUN_00b22ff0 *>((dest))->FUN_00b26570((::FUN_00b22ff0 &)(*first));
         }
     }
     catch (...)
@@ -27469,7 +27299,6 @@ ElemQ* FUN_00b25e20(ElemQ* first, ElemQ* last, ElemQ* dest)
 }  // namespace fnv_00b25e20
 
 namespace fnv_00b25fa0 {
-void FUN_00401030(void* p);
 inline void* operator new(unsigned int, void* p)
 {
     return p;
@@ -27478,7 +27307,7 @@ inline void operator delete(void*, void*)
 {}
 inline void FreeQ(void* p)
 {
-    FUN_00401030(p);
+    ::FUN_00401030(p);
 }
 struct VBQ
 {
@@ -27532,7 +27361,6 @@ ElemQ* FUN_00b25fa0(ElemQ* first, ElemQ* last, ElemQ* dest)
 }  // namespace fnv_00b25fa0
 
 namespace fnv_00b267a0 {
-void __cdecl FUN_00401030(void* p);
 template <class T> inline void Swp(T& a, T& b)
 {
     if (&a != &b)
@@ -27554,7 +27382,7 @@ struct VecBase
     }
     inline void Dealloc(void* q)
     {
-        FUN_00401030(q);
+        ::FUN_00401030(q);
     }
     ~VecBase()
     {
@@ -27785,7 +27613,7 @@ struct SBranchOwner
 void SBranchOwner::FUN_00b18a60(BranchPoint e)
 {
     BranchPoint local;
-    local.FUN_00b18b20();
+    new ((void *)&(local)) ::FUN_00b18b20();
     local.f0 = e.f0;
     local.f4 = e.f4;
     local.f8 = e.f8;
@@ -27899,6 +27727,133 @@ struct FrondPointAppend : dtorb181::GvVector<FrondPoint>
     }
     void FUN_00b1e4c0(const FrondPoint& value);
 };
+// @fnv 0x00b19ad0
+void FrondBuilder::FUN_00b19ad0(FrondInput* input)
+{
+    if (output && required)
+    {
+        float step = 180.0 / slices;
+        input->start = output->getCount();
+        input->stride = 2;
+        for (unsigned int slice = 0; slice < slices; ++slice)
+        {
+            unsigned int begin4 = output->getCount();
+            FrondPointList directionX;
+            FrondPoint normalChild3;
+            float colorAlloc2[4];
+            for (unsigned int i = 0; i < input->size(); ++i)
+            {
+                FrondMatrix rotationSlot17;
+                if (i < input->size() - 1)
+                    rotationSlot17 = (*input)[i].rotation;
+                else
+                    rotationSlot17 = (*input)[i - 1].rotation;
+                rotationSlot17.FUN_00b1ae00(slice * step + input->angle);
+                FrondPoint direction = FrondPoint(0.0f, 1.0f, 0.0f).FUN_00b12890(rotationSlot17);
+                reinterpret_cast<::FrondPointAppend *>(&(directionX))->FUN_00b1e4c0(direction);
+                FrondPoint tangentVal;
+                if (i == 0)
+                    tangentVal = (*input)[i + 1].FUN_00b13040((*input)[0]);
+                else
+                    tangentVal = (*input)[i].FUN_00b13040((*input)[0]);
+                reinterpret_cast<::FUN_00b12790_class *>(&(tangentVal))->FUN_00b12790();
+                FrondPoint left2, right8;
+                if (i == input->size() - 1 && input->size() > 0)
+                {
+                    left2 = (*(::FrondPoint *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&((*input)[i]))->AddVector((float *)&(const ::FrondPoint &)(directionX[i - 1].ScaleSwizzled(input->width)), {})));
+                    right8 = (*input)[i].FUN_00b13040(directionX[i - 1].ScaleSwizzled(input->width));
+                }
+                else if (i > 0 && i < input->size() - 1)
+                {
+                    FrondPoint prior;
+                    prior = (*(::FrondPoint *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&((*input)[i]))->AddVector((float *)&(const ::FrondPoint &)(directionX[i - 1].ScaleSwizzled(input->width)), {})));
+                    left2 = (*(::FrondPoint *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&((*input)[i]))->AddVector((float *)&(const ::FrondPoint &)(direction.ScaleSwizzled(input->width)), {})));
+                    left2 = (*(::FrondPoint *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&(left2))->AddVector((float *)&(prior), {}))).ScaleSwizzled(::fnv_00c88020::DAT_01016248);
+                    prior = (*input)[i].FUN_00b13040(directionX[i - 1].ScaleSwizzled(input->width));
+                    right8 = (*input)[i].FUN_00b13040(direction.ScaleSwizzled(input->width));
+                    right8 = (*(::FrondPoint *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&(right8))->AddVector((float *)&(prior), {}))).ScaleSwizzled(::fnv_00c88020::DAT_01016248);
+                }
+                else
+                {
+                    left2 = (*(::FrondPoint *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&((*input)[i]))->AddVector((float *)&(const ::FrondPoint &)(direction.ScaleSwizzled(input->width)), {})));
+                    right8 = (*input)[i].FUN_00b13040(direction.ScaleSwizzled(input->width));
+                }
+                float v3 = i / (input->size() - 1.0);
+                reinterpret_cast<::FUN_00b300c0_cls *>((output))->FUN_00b300c0((const float *)&(left2));
+                float uv1[2];
+                uv1[0] = 1.0f;
+                uv1[1] = v3;
+                reinterpret_cast<::CoordinateWriter *>((output))->FUN_00b301f0(uv1, (unsigned short)input->layer);
+                colorAlloc2[0] = colorAlloc2[1] = colorAlloc2[2] = colorAlloc2[3] = 1.0f;
+                reinterpret_cast<::FUN_00b30020_Class *>((output))->FUN_00b30020((float *)(colorAlloc2));
+                reinterpret_cast<::FUN_00b30190_shell *>((output))->FUN_00b30190(&tangentVal.x);
+                reinterpret_cast<::fnv_00b305f0::FUN_00b305f0_cls *>((output))->FUN_00b305f0((const float *)&(direction));
+                normalChild3 = direction.FUN_00b12810(tangentVal);
+                if (reinterpret_cast<::B4230Point3 *>((void *)&(static_cast<const FrondPoint&>(normalChild3)))->FastSqrt() < DAT_010a54ec)
+                    normalChild3 = tangentVal;
+                else
+                    reinterpret_cast<::FUN_00b12790_class *>(&(normalChild3))->FUN_00b12790();
+                reinterpret_cast<::S00b30660_Obj *>((output))->FUN_00b30660((const float *)&(normalChild3));
+                if (output->isEnabled())
+                    reinterpret_cast<::FUN_00b30560_cls *>((output))->FUN_00b30560((*input)[i].scale, (*input)[i].material);
+                output->advance();
+                reinterpret_cast<::FUN_00b300c0_cls *>((output))->FUN_00b300c0((const float *)&(right8));
+                uv1[0] = 0.0f;
+                reinterpret_cast<::CoordinateWriter *>((output))->FUN_00b301f0(uv1, (unsigned short)input->layer);
+                colorAlloc2[0] = colorAlloc2[1] = colorAlloc2[2] = colorAlloc2[3] = 1.0f;
+                reinterpret_cast<::FUN_00b30020_Class *>((output))->FUN_00b30020((float *)(colorAlloc2));
+                reinterpret_cast<::FUN_00b30190_shell *>((output))->FUN_00b30190(&tangentVal.x);
+                reinterpret_cast<::fnv_00b305f0::FUN_00b305f0_cls *>((output))->FUN_00b305f0((const float *)&(direction));
+                normalChild3 = direction.FUN_00b12810(tangentVal);
+                if (reinterpret_cast<::B4230Point3 *>(&(normalChild3))->FastSqrt() < DAT_010a54ec)
+                    normalChild3 = tangentVal;
+                else
+                    reinterpret_cast<::FUN_00b12790_class *>(&(normalChild3))->FUN_00b12790();
+                reinterpret_cast<::S00b30660_Obj *>((output))->FUN_00b30660((const float *)&(normalChild3));
+                if (output->isEnabled())
+                    reinterpret_cast<::FUN_00b30560_cls *>((output))->FUN_00b30560(((::FrondGuidePoint *)(reinterpret_cast<::FUN_00b1db00_class *>((input))->FUN_00b1db00(i)))->scale, (*input)[i].material);
+                output->advance();
+            }
+            float totalLeft6 = 0.0f, totalRight9 = 0.0f;
+            FrondFloatList LeftX, rightVal;
+            unsigned int count30 = input->size();
+            for (unsigned int i = 0; i < count30 - 1; ++i)
+            {
+                FrondPoint* firstLocalVal = ((::FrondPoint *)(reinterpret_cast<::fnv_00b30f80::ptb30::PtOwner *>((output))->FUN_00b30f80(input->start + i * 2)));
+                FrondPoint* secondValue3 = ((::FrondPoint *)(reinterpret_cast<::fnv_00b30f80::ptb30::PtOwner *>((output))->FUN_00b30f80(input->start + i * 2 + 2)));
+                FrondPoint aA1(firstLocalVal->x, firstLocalVal->y, firstLocalVal->z);
+                FrondPoint b111(0);
+                reinterpret_cast<::FUN_00b1ada0_class *>(&(b111))->FUN_00b1ada0(secondValue3->x, secondValue3->y, secondValue3->z);
+                totalLeft6 += reinterpret_cast<::V3cdd0 *>((void *)&(aA1))->FUN_00b04d40((const ::V3cdd0 *)&(b111));
+                reinterpret_cast<::FloatVec *>(&(LeftX))->PushBack(totalLeft6);
+                firstLocalVal = ((::FrondPoint *)(reinterpret_cast<::fnv_00b30f80::ptb30::PtOwner *>((output))->FUN_00b30f80(input->start + i * 2 + 1)));
+                secondValue3 = ((::FrondPoint *)(reinterpret_cast<::fnv_00b30f80::ptb30::PtOwner *>((output))->FUN_00b30f80(input->start + i * 2 + 3)));
+                reinterpret_cast<::FUN_00b1add0 *>(&(aA1))->Set(firstLocalVal->x, firstLocalVal->y, firstLocalVal->z);
+                reinterpret_cast<::FUN_00b1add0 *>(&(b111))->Set(secondValue3->x, secondValue3->y, secondValue3->z);
+                totalRight9 += reinterpret_cast<::V3cdd0 *>((void *)&(aA1))->FUN_00b04d40((const ::V3cdd0 *)&(b111));
+                reinterpret_cast<::FloatVec *>(&(rightVal))->PushBack(totalRight9);
+            }
+            output->setCount(begin4 + 2);
+            for (unsigned int i = 1; i < count30 - 1; ++i)
+            {
+                float* original4 = ((float *)(reinterpret_cast<::FUN_00b30fd0_class *>((output))->FUN_00b30fd0(input->start + i * 2)));
+                float uv3[2];
+                uv3[0] = *original4;
+                uv3[1] = *((float *)(reinterpret_cast<::V_006578b0 *>(&(LeftX))->FUN_006578b0(i - 1))) / totalLeft6 * DAT_010a54e8;
+                reinterpret_cast<::CoordinateWriter *>((output))->FUN_00b301f0(uv3, (unsigned short)input->layer);
+                output->advance();
+                original4 = ((float *)(reinterpret_cast<::FUN_00b30fd0_class *>((output))->FUN_00b30fd0(input->start + i * 2 + 1)));
+                float uvs5[2];
+                uvs5[0] = *original4;
+                uvs5[1] = *((float *)(reinterpret_cast<::V_006578b0 *>(&(rightVal))->FUN_006578b0(i - 1))) / totalRight9 * DAT_010a54e8;
+                reinterpret_cast<::CoordinateWriter *>((output))->FUN_00b301f0(uvs5, (unsigned short)input->layer);
+                output->advance();
+            }
+            output->advance();
+            output->advance();
+        }
+    }
+}
 
 // @fnv 0x00b1e4c0
 void FrondPointAppend::FUN_00b1e4c0(const FrondPoint& value)
@@ -27954,7 +27909,6 @@ struct CItQ_acf7d0
     {
         return _Myaux == r._Myaux;
     }
-    CItQ_acf7d0& FUN_00b23460(int _Off);
     int operator-(const CItQ_acf7d0& _Right) const
     {
         if (!(_Has() && _Same(_Right)))
@@ -27970,7 +27924,7 @@ struct ItQ_acf7d0 : CItQ_acf7d0
     {}
     ItQ_acf7d0& operator+=(int _Off)
     {
-        FUN_00b23460(_Off);
+        reinterpret_cast<::FUN_00b23460_It *>(this)->FUN_00b23460(_Off);
         return *this;
     }
     ItQ_acf7d0 operator+(int _Off) const
@@ -28001,7 +27955,6 @@ struct VecQ_acf7d0
     {
         return ItQ_acf7d0(_Myfirst, this);
     }
-    void FUN_00b20360(CItQ_acf7d0 _Where, unsigned int _Count, const ElQ_acf7d0& _Val);
     ItQ_acf7d0 end()
     {
         return ItQ_acf7d0(_Mylast, this);
@@ -28024,7 +27977,7 @@ inline CItQ_acf7d0::CItQ_acf7d0(ElQ_acf7d0* _Ptr, const VecQ_acf7d0* _Pvector) :
 ItQ_acf7d0 VecQ_acf7d0::FUN_00b1e840(CItQ_acf7d0 _Where, const ElQ_acf7d0& _Val)
 {
     unsigned int _Off = size() == 0 ? 0 : _Where - begin();
-    FUN_00b20360(_Where, 1, _Val);
+    reinterpret_cast<::fnv_00b20360::VecQ *>(this)->FUN_00b20360((*(::fnv_00b20360::CItQ *)&(const ::CItQ_acf7d0 &)(_Where)), 1, (const ::fnv_00b20360::ElQ &)(_Val));
     return begin() + _Off;
 }
 
@@ -28060,7 +28013,7 @@ struct ItQ_ab9bc0 : CItQ_ab9bc0
     {}
     ItQ_ab9bc0& operator+=(int _Off)
     {
-        FUN_00b23520(_Off);
+        reinterpret_cast<::FUN_00b23520_It *>(this)->FUN_00b23520(_Off);
         return *this;
     }
     ItQ_ab9bc0 operator+(int _Off) const
@@ -28083,7 +28036,6 @@ struct VecQ_ab9bc0 : VectorX23520
     {
         return ItQ_ab9bc0(_Myfirst, this);
     }
-    void FUN_00b21560(CItQ_ab9bc0 _Where, unsigned int _Count, const ElQ_ab9bc0& _Val);
     ItQ_ab9bc0 end()
     {
         return ItQ_ab9bc0(_Mylast, this);
@@ -28112,7 +28064,7 @@ inline CItQ_ab9bc0& CItQ_ab9bc0::FUN_00b23520(int _Off)
 ItQ_ab9bc0 VecQ_ab9bc0::FUN_00b1f6d0(CItQ_ab9bc0 _Where, const ElQ_ab9bc0& _Val)
 {
     unsigned int _Off = size() == 0 ? 0 : _Where - begin();
-    FUN_00b21560(_Where, 1, _Val);
+    reinterpret_cast<::fnv_00b21560::VecQ *>(this)->FUN_00b21560((*(::fnv_00b21560::CItQ *)&(const ::CItQ_ab9bc0 &)(_Where)), 1, (const ::fnv_00b21560::ElQ &)(_Val));
     return begin() + _Off;
 }
 
@@ -28166,7 +28118,6 @@ struct PointInsertVector : dtorb181::GvVectorVal<FrondPoint>
     {
         return PointInsertIterator(_Myfirst, this);
     }
-    void FUN_00b21e00(PointInsertConstIterator _Where, unsigned int _Count, const FrondPoint& _Val);
     PointInsertIterator FUN_00b1fab0(PointInsertConstIterator _Where, const FrondPoint& _Val);
 };
 inline PointInsertConstIterator::PointInsertConstIterator(FrondPoint* _Ptr, const PointInsertVector* _Pvector)
@@ -28193,14 +28144,14 @@ inline PointInsertConstIterator& PointInsertConstIterator::FUN_00b235e0(int _Off
 
 inline PointInsertIterator& PointInsertIterator::operator+=(int _Off)
 {
-    (*(PointInsertConstIterator*)this).FUN_00b235e0(_Off);
+    reinterpret_cast<::Iter *>(&((*(PointInsertConstIterator*)this)))->FUN_00b235e0(_Off);
     return *this;
 }
 // @fnv 0x00b1fab0
 PointInsertIterator PointInsertVector::FUN_00b1fab0(PointInsertConstIterator _Where, const FrondPoint& _Val)
 {
     unsigned int _Off = size() == 0 ? 0 : _Where - begin();
-    FUN_00b21e00(_Where, 1, _Val);
+    reinterpret_cast<::fnv_00b21e00::VecQ *>(this)->FUN_00b21e00((*(::fnv_00b21e00::CItQ *)&(const ::PointInsertConstIterator &)(_Where)), 1, (const ::fnv_00b21e00::ElQ &)(_Val));
     return begin() + _Off;
 }
 
@@ -28209,7 +28160,7 @@ struct Allocator
     typedef GlobalObject_00b3f100* pointer;
     inline void destroy(pointer _Ptr)
     {
-        _Ptr->~GlobalObject_00b3f100();
+        reinterpret_cast<::ScaledVec6 *>((_Ptr))->ScaledVec6::~ScaledVec6();
     }
 };
 struct NonscalarTag
@@ -28379,7 +28330,7 @@ Iterator Vector::FUN_00b1ffd0(ConstIterator _First_arg, ConstIterator _Last_arg)
 {
     Iterator _First = _Make_iter(_First_arg);
     Iterator _Last = _Make_iter(_Last_arg);
-    if (_First != _Last)
+    if (reinterpret_cast<::FUN_00b16830_Iterator *>((void *)&(const ::ConstIterator &)(_First))->FUN_00b16830((const ::_Vector_const_iteratorS< ::Elem6830> &)(_Last)))
     {
         GlobalObject_00b3f100* _Ptr = FUN_00b236a0(_Last._Myptr, _Mylast, _First._Myptr);
         _Destroy(_Ptr, _Mylast);
@@ -28388,7 +28339,6 @@ Iterator Vector::FUN_00b1ffd0(ConstIterator _First_arg, ConstIterator _Last_arg)
     return _First;
 }
 
-void __cdecl FUN_00401030(void* p);
 
 struct AuxCont_b189f0
 {
@@ -28430,7 +28380,7 @@ struct FUN_00b189f0 : AuxAlloc_b189f0
 // @fnv 0x00b189f0
 FUN_00b189f0::~FUN_00b189f0()
 {
-    FUN_00b1e970();
+    reinterpret_cast<::tidyb1e::T1Vector *>(this)->FUN_00b1e970();
 }
 
 extern "C" void* __cdecl FUN_0044d670(unsigned int, int);
@@ -28442,10 +28392,8 @@ struct Vector3
 {
     float x, y, z;
     Vector3 FUN_00b12890(const FloatMatrix3&) const;
-    Vector3 AddVector(const Vector3&) const;
     Vector3 ScaleSwizzled(float) const;
     Vector3 FUN_00b12810(const Vector3&) const;
-    void FUN_00b12790();
 };
 struct FloatMatrix3
 {
@@ -28514,10 +28462,8 @@ struct FUN_00449fd0 : FrondFloatStorage
     FUN_00449fd0();
     ~FUN_00449fd0()
     {
-        ((FrondFloatList*)this)->FUN_0065f240();
+        reinterpret_cast<::FUN_0065f240 *>((((FrondFloatList*)this)))->Clear();
     }
-    void PushBack(const float&);
-    float* FUN_006578b0(unsigned int);
 };
 struct FUN_00b1fe80
 {
@@ -28530,7 +28476,6 @@ struct FUN_00b1fe80
 struct FUN_00b31270 : FUN_00b39460, FUN_00b1fe80
 {
     FUN_00b31270();
-    void FUN_00b1e640(const FUN_00449fd0&);
     FUN_00449fd0& FUN_00b319a0(unsigned int);
 };
 struct Color4
@@ -28568,17 +28513,16 @@ struct Geometry
         float px = point.x;
         float py = point.y;
         float pz = point.z;
-        positions.PushBack(px);
-        positions.PushBack(py);
-        positions.PushBack(pz);
+        reinterpret_cast<::FloatVec *>(&(positions))->PushBack(px);
+        reinterpret_cast<::FloatVec *>(&(positions))->PushBack(py);
+        reinterpret_cast<::FloatVec *>(&(positions))->PushBack(pz);
         if (hasWind && colorData == 1)
         {
-            windPositions.PushBack(px);
-            windPositions.PushBack(py);
-            windPositions.PushBack(pz);
+            reinterpret_cast<::FloatVec *>(&(windPositions))->PushBack(px);
+            reinterpret_cast<::FloatVec *>(&(windPositions))->PushBack(py);
+            reinterpret_cast<::FloatVec *>(&(windPositions))->PushBack(pz);
         }
     }
-    void FUN_00b301f0(const TexCoord&, unsigned short);
     unsigned int FUN_00b30060(const Color4& color)
     {
         return (unsigned int)(color.r * 255.0) + ((unsigned int)(color.g * 255.0) << 8) +
@@ -28589,12 +28533,6 @@ struct Geometry
         unsigned int packed = FUN_00b30060(color);
         colors.FUN_00b32210(packed);
     }
-    void FUN_00b30190(const Vector3&);
-    void FUN_00b305f0(const Vector3&);
-    void FUN_00b30660(const Vector3&);
-    void FUN_00b30560(float, unsigned char);
-    float* FUN_00b30f80(unsigned int);
-    float* FUN_00b30fd0(unsigned int);
     unsigned short GetVertex() const
     {
         return vertex;
@@ -28614,105 +28552,13 @@ struct Geometry
 };
 struct DistancePoint : FUN_00b1ada0_class
 {
-    float FUN_00b04d40(const DistancePoint&) const;
 };
 struct B1FrondBuilder
 {
     Geometry* geometry;
     void* configuration;
-    void FUN_00b1be50(FrondInput*, FUN_00b1e3e0&, FUN_00b1e3e0&);
     void FUN_00b1b000(FrondInput* frond);
 };
-// @fnv 0x00b1b000
-void B1FrondBuilder::FUN_00b1b000(FrondInput* frond)
-{
-    if (geometry && configuration)
-    {
-        FUN_00b1e3e0 positions3;
-        FUN_00b1e3e0 normals;
-        FUN_00b1be50(frond, positions3, normals);
-        frond->stride = positions3.size();
-        frond->start = geometry->GetVertex();
-        for (unsigned int guide = 0; guide < frond->size(); ++guide)
-        {
-            float along = guide / (frond->size() - 1.0);
-            for (unsigned int vertex = 0; vertex < frond->stride; ++vertex)
-            {
-                float across_2 = vertex / (frond->stride - 1.0);
-                FloatMatrix3 current2X = (*(FloatMatrix3*)&(*frond)[guide].rotation);
-                FloatMatrix3 previousA = guide ? (*(FloatMatrix3*)&(*frond)[guide - 1].rotation) : current2X;
-                current2X.FUN_00b1ae00(frond->angle);
-                previousA.FUN_00b1ae00(frond->angle);
-                Vector3 point7 = positions3[vertex].FUN_00b12890(current2X);
-                Vector3 priority_2 = positions3[vertex].FUN_00b12890(previousA);
-                Vector3 midPoint =
-                    (*(Vector3*)&(*frond)[guide]).AddVector(point7.AddVector(priority_2).ScaleSwizzled(0.5f));
-                Vector3 tangentsB = point7.AddVector(priority_2);
-                tangentsB.FUN_00b12790();
-                geometry->FUN_00b300c0(midPoint);
-                TexCoord uvB;
-                uvB.u = across_2;
-                uvB.v = along;
-                geometry->FUN_00b301f0(uvB, (unsigned short)frond->layer);
-                Vector3 normal_0 = normals[vertex].FUN_00b12890(current2X);
-                Vector3 priorNormal = normals[vertex].FUN_00b12890(previousA);
-                Vector3 localA = normal_0.AddVector(priorNormal).ScaleSwizzled(0.5f);
-                localA.FUN_00b12790();
-                Color4 colorSlot5;
-                colorSlot5.r = colorSlot5.g = colorSlot5.b = colorSlot5.a = 1.0f;
-                geometry->FUN_00b30020(colorSlot5);
-                geometry->FUN_00b30190(localA);
-                geometry->FUN_00b305f0(tangentsB);
-                Vector3 binormalVal = localA.FUN_00b12810(tangentsB);
-                binormalVal.FUN_00b12790();
-                geometry->FUN_00b30660(binormalVal);
-                if (geometry->HasWind())
-                    geometry->FUN_00b30560(frond->FUN_00b1db00(guide)->scale, frond->FUN_00b1db00(guide)->material);
-                geometry->AdvanceVertex();
-            }
-        }
-        FUN_00449fd0 local2;
-        FUN_00b31270 cumulativeLengths;
-        for (unsigned int column = 0; column < frond->stride; ++column)
-        {
-            float total = 0.0f;
-            FUN_00449fd0 cumulative;
-            cumulative.PushBack(0.0f);
-            for (unsigned int row = 1; row < frond->size(); ++row)
-            {
-                unsigned int indexA6 = frond->start + row * frond->stride + column;
-                unsigned int priorIndex8 = frond->start + (row - 1) * frond->stride + column;
-                float* coordinates = geometry->FUN_00b30f80(indexA6);
-                float* local7 = geometry->FUN_00b30f80(priorIndex8);
-                DistancePoint point21;
-                point21.FUN_00b1ada0(coordinates[0], coordinates[1], coordinates[2]);
-                DistancePoint priorVal;
-                priorVal.FUN_00b1ada0(local7[0], local7[1], local7[2]);
-                total += point21.FUN_00b04d40(priorVal);
-                cumulative.PushBack(total);
-            }
-            cumulativeLengths.FUN_00b1e640(cumulative);
-            local2.PushBack(total);
-        }
-        for (unsigned int column = 0; column < frond->stride; ++column)
-        {
-            for (unsigned int row = 1; row < frond->size(); ++row)
-            {
-                unsigned short index4 = frond->start + row * frond->stride + column;
-                geometry->SelectVertex(index4);
-                float* original4 = geometry->FUN_00b30fd0(index4);
-                TexCoord uv3;
-                uv3.u = original4[0];
-                static const float textureScale = 0.999f;
-                uv3.v = *cumulativeLengths.FUN_00b319a0(column).FUN_006578b0(row) / *local2.FUN_006578b0(column) *
-                        textureScale;
-                geometry->FUN_00b301f0(uv3, (unsigned short)frond->layer);
-                geometry->AdvanceVertex();
-            }
-        }
-    }
-}
-
 struct TreeElemQ
 {
     int a, b, c, d, e, f;
@@ -28720,12 +28566,10 @@ struct TreeElemQ
 struct VecTE_00b1d130
 {
     int x0, x1, x2, x3, x4, x5;
-    VecTE_00b1d130& FUN_00b1d130(const VecTE_00b1d130& that);
 };
 struct VecPI_00b1d5d0
 {
     int x0, x1, x2, x3, x4, x5;
-    VecPI_00b1d5d0& FUN_00b1d5d0(const VecPI_00b1d5d0& that);
 };
 static __forceinline void DeadN()
 {
@@ -28751,11 +28595,11 @@ FUN_00b1c7a0_cls& FUN_00b1c7a0_cls::FUN_00b1c7a0(const FUN_00b1c7a0_cls& that)
     f00 = that.f00;
     f04 = that.f04;
     f08 = that.f08;
-    m0c.FUN_00b1d130(that.m0c);
-    m24.FUN_00b1d130(that.m24);
-    m3c.FUN_00b1d5d0(that.m3c);
-    m54.FUN_00b1d130(that.m54);
-    m6c.FUN_00b1d130(that.m6c);
+    reinterpret_cast<::VecQ *>(&(m0c))->FUN_00b1d130((const ::VecQ &)(that.m0c));
+    reinterpret_cast<::VecQ *>(&(m24))->FUN_00b1d130((const ::VecQ &)(that.m24));
+    reinterpret_cast<::C00b1d5d0 *>(&(m3c))->FUN_00b1d5d0((const ::C00b1d5d0 &)(that.m3c));
+    reinterpret_cast<::VecQ *>(&(m54))->FUN_00b1d130((const ::VecQ &)(that.m54));
+    reinterpret_cast<::VecQ *>(&(m6c))->FUN_00b1d130((const ::VecQ &)(that.m6c));
     return *this;
 }
 
@@ -28764,7 +28608,6 @@ struct GlobalObject_00b3f100
 {
     GlobalObject_00b3f100();
     ~GlobalObject_00b3f100();
-    float FUN_00b3f130(float, float);
 };
 typedef SFrondGuideEntry Entry;
 template <class T> struct LodIterator : dtorb181::GvConstIterator<T>
@@ -28774,7 +28617,7 @@ template <class T> struct LodIterator : dtorb181::GvConstIterator<T>
     {}
     LodIterator& operator+=(int n)
     {
-        (*(Base*)this) += n;
+        reinterpret_cast<::FUN_00b23460_It *>((void *)&(const ::dtorb181::GvConstIterator< ::SFrondGuideEntry> &)((*(Base*)this)))->FUN_00b23460(n);
         return *this;
     }
     LodIterator operator+(int n) const
@@ -28824,7 +28667,7 @@ template <class T> struct LodVector : LodVectorVal<T>
     }
     ~LodVector()
     {
-        _Tidy();
+        reinterpret_cast<::FUN_00b1ec70_class *>(this)->FUN_00b1ec70();
     }
     unsigned size() const
     {
@@ -28903,7 +28746,7 @@ template <class T> struct LodVector : LodVectorVal<T>
         if (size() < capacity())
             _Mylast = _Ufill(_Mylast, 1, val);
         else
-            insert(end(), val);
+            reinterpret_cast<::AppendGuideVector *>(this)->FUN_00b1dc50((*(::addb18::GvConstIterator< ::addb18::GvElem> *)&(const ::dtorb181::GvConstIterator< ::SFrondGuideEntry> &)(end())), (const ::addb18::GvElem &)(val));
     }
     iterator erase(const_iterator where)
     {
@@ -28980,14 +28823,14 @@ void Processor::FUN_00b1c850()
         s = entries[j].f28;
         if (s > fraction * maximum)
         {
-            tmp.push_back(entries[j]);
-            entries.erase(entries.begin() + j);
+            reinterpret_cast<::AppendGuideVector *>(&(tmp))->FUN_00b1db40((const ::addb18::GvElem &)(entries[j]));
+            reinterpret_cast<::S00b1dd80_Obj *>(&(entries))->FUN_00b1dd80((*(int * *)&(const ::dtorb181::GvConstIterator< ::SFrondGuideEntry> &)(entries.begin() + j)), {}, {});
             --j;
         }
         else
         {
             float removed;
-            removed = threshold.FUN_00b3f130(0.0f, randomness);
+            removed = reinterpret_cast<::FUN_00b3f130_shell *>(&(threshold))->FUN_00b3f130(0.0f, randomness);
             float v;
             v = 1.0f - removed;
             s = v * s + removed * kIter;
@@ -28997,7 +28840,7 @@ void Processor::FUN_00b1c850()
     sortRange(entries.begin(), entries.end(), Compare());
     sortRange(tmp.begin(), tmp.end(), Compare());
     for (unsigned k = 0; k < tmp.size(); ++k)
-        entries.insert(entries.begin(), tmp[k]);
+        reinterpret_cast<::AppendGuideVector *>(&(entries))->FUN_00b1dc50((*(::addb18::GvConstIterator< ::addb18::GvElem> *)&(const ::dtorb181::GvConstIterator< ::SFrondGuideEntry> &)(entries.begin())), (const ::addb18::GvElem &)(tmp[k]));
     for (unsigned level = 0; level < count; ++level)
     {
         float rng;
@@ -29015,10 +28858,10 @@ void Processor::FUN_00b1c850()
             for (unsigned m = 0; m < entries.size() && n <= inverse; ++m)
             {
                 n += entries[m].f28;
-                square.push_back(entries[m]);
+                reinterpret_cast<::AppendGuideVector *>(&(square))->FUN_00b1db40((const ::addb18::GvElem &)(entries[m]));
             }
         }
-        output.push_back(square);
+        reinterpret_cast<::FrondGroupList *>(&(output))->FUN_00b1df80((const ::dtorb181::GvVector< ::dtorb181::GvElemV> &)(square));
     }
 }
 
@@ -29056,7 +28899,7 @@ void AppendGuideVector::FUN_00b1d980(const AppendGuide& value)
     if (size() < capacity())
         _Mylast = _Ufill(_Mylast, 1, value);
     else
-        FUN_00b1e840(end(), value);
+        reinterpret_cast<::VecQ_acf7d0 *>(this)->FUN_00b1e840((*(::CItQ_acf7d0 *)&(const ::dtorb181::GvConstIterator< ::dtorb181::GvElemV> &)(end())), (const ::ElQ_acf7d0 &)(value));
 }
 }  // namespace fnv_00b1d980
 
@@ -29079,7 +28922,7 @@ struct FrondInsertIterator : dtorb181::GvConstIterator<ElemX23460>
 
     FrondInsertIterator& operator+=(int offset)
     {
-        FUN_00b23460(offset);
+        reinterpret_cast<::FUN_00b23460_It *>(this)->FUN_00b23460(offset);
         return *this;
     }
 
@@ -29096,7 +28939,6 @@ struct FrondInsertVector : dtorb181::GvVector<ElemX23460>
     {
         return FrondInsertIterator(_Myfirst, this);
     }
-    void FUN_00b1ecf0(dtorb181::GvConstIterator<ElemX23460> where, unsigned int count, const ElemX23460& value);
     FrondInsertIterator FUN_00b1dc50(dtorb181::GvConstIterator<ElemX23460> where, const ElemX23460& value);
 };
 
@@ -29105,7 +28947,7 @@ FrondInsertIterator FrondInsertVector::FUN_00b1dc50(dtorb181::GvConstIterator<El
                                                     const ElemX23460& value)
 {
     unsigned int offset = size() == 0 ? 0 : where - begin();
-    FUN_00b1ecf0(where, 1, value);
+    reinterpret_cast<::fnv_00b1ecf0::VecQ *>(this)->FUN_00b1ecf0((*(::fnv_00b1ecf0::CItQ *)&(const ::dtorb181::GvConstIterator< ::ElemX23460> &)(where)), 1, (const ::fnv_00b1ecf0::ElQ &)(value));
     return begin() + offset;
 }
 
@@ -29160,7 +29002,6 @@ struct VecB1de20 : CtB1de20
     {
         return ItB1de20(_Mylast, this);
     }
-    ItB1de20 FUN_00b1ea20(ItCB1de20 _First, ItCB1de20 _Last);
     void FUN_00b1de20();
 };
 inline ItCB1de20::ItCB1de20(Item_b1de20** _Ptr, const CtB1de20* _Pvector)
@@ -29174,13 +29015,6 @@ inline ItCB1de20::ItCB1de20(Item_b1de20** _Ptr, const CtB1de20* _Pvector)
 inline void ScratchFrame_b1de20()
 {
     int unused[30];
-}
-
-// @fnv 0x00b1de20
-void VecB1de20::FUN_00b1de20()
-{
-    FUN_00b1ea20(begin(), end());
-    ScratchFrame_b1de20();
 }
 
 namespace fnv_00b1e1e0 {
@@ -29251,7 +29085,6 @@ struct VecQ_ab9bc0
         UFillN_ab9bc0(_Ptr, _Count, _Val, _Alval);
         return _Ptr + _Count;
     }
-    ItQ_ab9bc0 FUN_00b1f6d0(CItQ_ab9bc0 _Where, const ElQ_ab9bc0& _Val);
     void FUN_00b1e1e0(const ElQ_ab9bc0& _Val);
 };
 inline CItQ_ab9bc0::CItQ_ab9bc0(ElQ_ab9bc0* _Ptr, const VecQ_ab9bc0* _Pvector) : _Myaux(0)
@@ -29282,7 +29115,7 @@ void VecQ_ab9bc0::FUN_00b1e1e0(const ElQ_ab9bc0& _Val)
         _Mylast = _Ufill(_Mylast, 1, _Val);
     else
     {
-        FUN_00b1f6d0(end(), _Val);
+        reinterpret_cast<::VecQ_ab9bc0 *>(this)->FUN_00b1f6d0((*(::CItQ_ab9bc0 *)&(const ::fnv_00b1e1e0::CItQ_ab9bc0 &)(end())), (const ::ElemX23520 &)(_Val));
         Dead12_ab9bc0();
     }
 }
@@ -29315,6 +29148,95 @@ struct AppendVector : dtorb181::GvVector<AppendElement>
     }
     void FUN_00b1e640(const AppendElement& value);
 };
+// @fnv 0x00b1b000
+void B1FrondBuilder::FUN_00b1b000(FrondInput* frond)
+{
+    if (geometry && configuration)
+    {
+        FUN_00b1e3e0 positions3;
+        FUN_00b1e3e0 normals;
+        reinterpret_cast<::fnv_00b1be50::FUN_00b1be50_Owner *>(this)->FUN_00b1be50((::fnv_00b1be50::ScaleQ *)(frond), (::fnv_00b1be50::PointVecQ &)(positions3), (::fnv_00b1be50::PointVecQ &)(normals));
+        frond->stride = positions3.size();
+        frond->start = geometry->GetVertex();
+        for (unsigned int guide = 0; guide < frond->size(); ++guide)
+        {
+            float along = guide / (frond->size() - 1.0);
+            for (unsigned int vertex = 0; vertex < frond->stride; ++vertex)
+            {
+                float across_2 = vertex / (frond->stride - 1.0);
+                FloatMatrix3 current2X = (*(FloatMatrix3*)&(*frond)[guide].rotation);
+                FloatMatrix3 previousA = guide ? (*(FloatMatrix3*)&(*frond)[guide - 1].rotation) : current2X;
+                reinterpret_cast<::FrondMatrix *>(&(current2X))->FUN_00b1ae00(frond->angle);
+                reinterpret_cast<::FrondMatrix *>(&(previousA))->FUN_00b1ae00(frond->angle);
+                Vector3 point7 = positions3[vertex].FUN_00b12890(current2X);
+                Vector3 priority_2 = positions3[vertex].FUN_00b12890(previousA);
+                Vector3 midPoint =
+                    (*(::Vector3 *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&((*(Vector3*)&(*frond)[guide])))->AddVector((float *)&(const ::Vector3 &)((*(::Vector3 *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&(point7))->AddVector((float *)&(priority_2), {}))).ScaleSwizzled(0.5f)), {})));
+                Vector3 tangentsB = (*(::Vector3 *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&(point7))->AddVector((float *)&(priority_2), {})));
+                reinterpret_cast<::FUN_00b12790_class *>(&(tangentsB))->FUN_00b12790();
+                reinterpret_cast<::FUN_00b300c0_cls *>((geometry))->FUN_00b300c0((const float *)&(midPoint));
+                TexCoord uvB;
+                uvB.u = across_2;
+                uvB.v = along;
+                reinterpret_cast<::CoordinateWriter *>((geometry))->FUN_00b301f0((const float *)&(uvB), (unsigned short)frond->layer);
+                Vector3 normal_0 = normals[vertex].FUN_00b12890(current2X);
+                Vector3 priorNormal = normals[vertex].FUN_00b12890(previousA);
+                Vector3 localA = (*(::Vector3 *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&(normal_0))->AddVector((float *)&(priorNormal), {}))).ScaleSwizzled(0.5f);
+                reinterpret_cast<::FUN_00b12790_class *>(&(localA))->FUN_00b12790();
+                Color4 colorSlot5;
+                colorSlot5.r = colorSlot5.g = colorSlot5.b = colorSlot5.a = 1.0f;
+                reinterpret_cast<::FUN_00b30020_Class *>((geometry))->FUN_00b30020((float *)&(colorSlot5));
+                reinterpret_cast<::FUN_00b30190_shell *>((geometry))->FUN_00b30190((const float *)&(localA));
+                reinterpret_cast<::fnv_00b305f0::FUN_00b305f0_cls *>((geometry))->FUN_00b305f0((const float *)&(tangentsB));
+                Vector3 binormalVal = localA.FUN_00b12810(tangentsB);
+                reinterpret_cast<::FUN_00b12790_class *>(&(binormalVal))->FUN_00b12790();
+                reinterpret_cast<::S00b30660_Obj *>((geometry))->FUN_00b30660((const float *)&(binormalVal));
+                if (geometry->HasWind())
+                    reinterpret_cast<::FUN_00b30560_cls *>((geometry))->FUN_00b30560(((::FrondGuidePoint *)(reinterpret_cast<::FUN_00b1db00_class *>((frond))->FUN_00b1db00(guide)))->scale, ((::FrondGuidePoint *)(reinterpret_cast<::FUN_00b1db00_class *>((frond))->FUN_00b1db00(guide)))->material);
+                geometry->AdvanceVertex();
+            }
+        }
+        FUN_00449fd0 local2;
+        FUN_00b31270 cumulativeLengths;
+        for (unsigned int column = 0; column < frond->stride; ++column)
+        {
+            float total = 0.0f;
+            FUN_00449fd0 cumulative;
+            reinterpret_cast<::FloatVec *>(&(cumulative))->PushBack(0.0f);
+            for (unsigned int row = 1; row < frond->size(); ++row)
+            {
+                unsigned int indexA6 = frond->start + row * frond->stride + column;
+                unsigned int priorIndex8 = frond->start + (row - 1) * frond->stride + column;
+                float* coordinates = reinterpret_cast<::fnv_00b30f80::ptb30::PtOwner *>((geometry))->FUN_00b30f80(indexA6);
+                float* local7 = reinterpret_cast<::fnv_00b30f80::ptb30::PtOwner *>((geometry))->FUN_00b30f80(priorIndex8);
+                DistancePoint point21;
+                point21.FUN_00b1ada0(coordinates[0], coordinates[1], coordinates[2]);
+                DistancePoint priorVal;
+                priorVal.FUN_00b1ada0(local7[0], local7[1], local7[2]);
+                total += reinterpret_cast<::V3cdd0 *>((void *)&(point21))->FUN_00b04d40((const ::V3cdd0 *)&(priorVal));
+                reinterpret_cast<::FloatVec *>(&(cumulative))->PushBack(total);
+            }
+            reinterpret_cast<::AppendVector *>(&(cumulativeLengths))->FUN_00b1e640((const struct ::AppendElement &)(cumulative));
+            reinterpret_cast<::FloatVec *>(&(local2))->PushBack(total);
+        }
+        for (unsigned int column = 0; column < frond->stride; ++column)
+        {
+            for (unsigned int row = 1; row < frond->size(); ++row)
+            {
+                unsigned short index4 = frond->start + row * frond->stride + column;
+                geometry->SelectVertex(index4);
+                float* original4 = ((float *)(reinterpret_cast<::FUN_00b30fd0_class *>((geometry))->FUN_00b30fd0(index4)));
+                TexCoord uv3;
+                uv3.u = original4[0];
+                static const float textureScale = 0.999f;
+                uv3.v = *((float *)(reinterpret_cast<::V_006578b0 *>(&(cumulativeLengths.FUN_00b319a0(column)))->FUN_006578b0(row))) / *((float *)(reinterpret_cast<::V_006578b0 *>(&(local2))->FUN_006578b0(column))) *
+                        textureScale;
+                reinterpret_cast<::CoordinateWriter *>((geometry))->FUN_00b301f0((const float *)&(uv3), (unsigned short)frond->layer);
+                geometry->AdvanceVertex();
+            }
+        }
+    }
+}
 // @fnv 0x00b1e640
 void AppendVector::FUN_00b1e640(const AppendElement& value)
 {
@@ -29329,7 +29251,6 @@ SFrondGuideEntry* __cdecl FUN_00b23760(SFrondGuideEntry* _First, SFrondGuideEntr
 class IterQ_b16830 : public _Vector_iteratorS<SFrondGuideEntry>
 {
   public:
-    bool FUN_00b16830(const _Vector_const_iteratorS<SFrondGuideEntry>& _Right) const;
 };
 
 static __forceinline void DeadQ()
@@ -29342,6 +29263,12 @@ struct Vector_b1ea20 : vectorS<SFrondGuideEntry>
     iterator FUN_00b1ea20(const_iterator _First_arg, const_iterator _Last_arg);
     void __thiscall FUN_00b1ebc0(SFrondGuideEntry* a, SFrondGuideEntry* b);
 };
+// @fnv 0x00b1de20
+void VecB1de20::FUN_00b1de20()
+{
+    reinterpret_cast<::Vector_b1ea20 *>(this)->FUN_00b1ea20((*(::_Vector_const_iteratorS< ::SFrondGuideEntry> *)&(const ::ItCB1de20 &)(begin())), (*(::_Vector_const_iteratorS< ::SFrondGuideEntry> *)&(const ::ItCB1de20 &)(end())));
+    ScratchFrame_b1de20();
+}
 
 // @fnv 0x00b1ea20
 Vector_b1ea20::iterator Vector_b1ea20::FUN_00b1ea20(const_iterator _First_arg, const_iterator _Last_arg)
@@ -29350,10 +29277,10 @@ Vector_b1ea20::iterator Vector_b1ea20::FUN_00b1ea20(const_iterator _First_arg, c
     DeadQ();
     iterator _Last = _Make_iter(_Last_arg);
 
-    if (((IterQ_b16830*)&_First)->FUN_00b16830(_Last))
+    if (reinterpret_cast<::FUN_00b16830_Iterator *>((void *)(((IterQ_b16830*)&_First)))->FUN_00b16830((const ::_Vector_const_iteratorS< ::Elem6830> &)(_Last)))
     {
         pointer _Ptr = FUN_00b23760(_Last._Myptr, _Mylast, _First._Myptr);
-        FUN_00b1ebc0(_Ptr, _Mylast);
+        reinterpret_cast<::fnv_00b1ebc0::FUN_00b1ebc0 *>(this)->FUN_00b1ebc0_Destroy((::fnv_00b1ebc0::vecdb1eb::VdElemV *)(_Ptr), (::fnv_00b1ebc0::vecdb1eb::VdElemV *)(_Mylast));
         _Mylast = _Ptr;
     }
     return (_First);
@@ -29392,7 +29319,7 @@ struct FrondInsertIterator : FrondInsertConstIterator
     {}
     FrondInsertIterator& operator+=(int _Off)
     {
-        FUN_00b16890(_Off);
+        reinterpret_cast<::FUN_00b16890_It *>(this)->FUN_00b16890(_Off);
         return *this;
     }
     FrondInsertIterator operator+(int _Off) const
@@ -29407,7 +29334,6 @@ struct FrondInsertVector : dtorb181::GvVector<ElemX16890>
     {
         return FrondInsertIterator(_Myfirst, this);
     }
-    void FUN_00b20ce0(FrondInsertConstIterator _Where, unsigned int _Count, const ElemX16890& _Val);
     FrondInsertIterator FUN_00b1f460(FrondInsertConstIterator _Where, const ElemX16890& _Val);
 };
 inline FrondInsertConstIterator::FrondInsertConstIterator(ElemX16890* _Ptr, const FrondInsertVector* _Pvector)
@@ -29421,7 +29347,7 @@ inline FrondInsertConstIterator::FrondInsertConstIterator(ElemX16890* _Ptr, cons
 FrondInsertIterator FrondInsertVector::FUN_00b1f460(FrondInsertConstIterator _Where, const ElemX16890& _Val)
 {
     unsigned int _Off = size() == 0 ? 0 : _Where - begin();
-    FUN_00b20ce0(_Where, 1, _Val);
+    reinterpret_cast<::fnv_00b20ce0::VecQ *>(this)->FUN_00b20ce0((*(::fnv_00b20ce0::CItQ *)&(const ::fnv_00b1f460::FrondInsertConstIterator &)(_Where)), 1, (const ::fnv_00b20ce0::ElQ &)(_Val));
     return begin() + _Off;
 }
 }  // namespace fnv_00b1f460
@@ -29461,7 +29387,7 @@ struct InsertIterator24 : InsertConstIterator24
     {}
     InsertIterator24& operator+=(int offset)
     {
-        (*(InsertConstIterator24*)this).FUN_00b16890(offset);
+        reinterpret_cast<::FUN_00b16890_It *>(&((*(InsertConstIterator24*)this)))->FUN_00b16890(offset);
         return *this;
     }
     InsertIterator24 operator+(int offset) const
@@ -29476,14 +29402,13 @@ struct InsertVector24 : dtorb181::GvVector<ElemX16890>
     {
         return InsertIterator24(_Myfirst, this);
     }
-    void FUN_00b22700(InsertConstIterator24 where, unsigned int count, const ElemX16890& value);
     InsertIterator24 FUN_00b1fd50(InsertConstIterator24 where, const ElemX16890& value);
 };
 // @fnv 0x00b1fd50
 InsertIterator24 InsertVector24::FUN_00b1fd50(InsertConstIterator24 where, const ElemX16890& value)
 {
     unsigned int offset = size() == 0 ? 0 : where - begin();
-    FUN_00b22700(where, 1, value);
+    reinterpret_cast<::fnv_00b22700::VecQ *>(this)->FUN_00b22700((*(::fnv_00b22700::CItQ *)&(const ::InsertConstIterator24 &)(where)), 1, (const ::fnv_00b22700::ElQ &)(value));
     return begin() + offset;
 }
 
@@ -29608,7 +29533,6 @@ struct MidQ_b200 : FUN_00b20ba0
 struct FUN_00b200f0 : MidQ_b200
 {
     FUN_00b200f0(const FUN_00b200f0& r);
-    bool FUN_00b1eb00(unsigned int n);
     void FUN_00b1e970();
     unsigned int size() const
     {
@@ -29642,7 +29566,7 @@ inline CItQ_b200::CItQ_b200(ElQ_b200* p, const FUN_00b200f0* c)
 // @fnv 0x00b200f0
 FUN_00b200f0::FUN_00b200f0(const FUN_00b200f0& r) : MidQ_b200(AlQ_b200())
 {
-    if (FUN_00b1eb00(r.size()))
+    if (reinterpret_cast<::FUN_00b1eb00_class *>(this)->FUN_00b1eb00(r.size()))
     {
         DeadA_b200();
         try
@@ -29652,7 +29576,7 @@ FUN_00b200f0::FUN_00b200f0(const FUN_00b200f0& r) : MidQ_b200(AlQ_b200())
         }
         catch (...)
         {
-            FUN_00b1e970();
+            reinterpret_cast<::tidyb1e::T1Vector *>(this)->FUN_00b1e970();
             FUN_00ec7894(0, 0);
         }
     }
@@ -29761,7 +29685,6 @@ struct MidQ : FUN_00b20ba0
     {
         return Unchecked_uninitialized_copy(f, l, p, m_al);
     }
-    bool FUN_00b1eb00(unsigned n);
     void FUN_00b1ec70();
 };
 struct VecCopyR : MidQ
@@ -29771,7 +29694,7 @@ struct VecCopyR : MidQ
 // @fnv 0x00b231f0
 VecCopyR::VecCopyR(const VecCopyR& r) : MidQ(AlR())
 {
-    if (FUN_00b1eb00(r.size()))
+    if (reinterpret_cast<::FUN_00b1eb00_class *>(this)->FUN_00b1eb00(r.size()))
     {
         try
         {
@@ -29781,7 +29704,7 @@ VecCopyR::VecCopyR(const VecCopyR& r) : MidQ(AlR())
         }
         catch (...)
         {
-            FUN_00b1ec70();
+            reinterpret_cast<::FUN_00b1ec70_class *>(this)->FUN_00b1ec70();
             throw;
         }
     }
@@ -29789,7 +29712,6 @@ VecCopyR::VecCopyR(const VecCopyR& r) : MidQ(AlR())
 
 struct VcElemQ
 {
-    void FUN_00b24a80(const VcElem* src);
 };
 __forceinline void P1Q()
 {
@@ -29805,7 +29727,7 @@ __forceinline VcElem* CopyFwdQ(VcElem* _First, VcElem* _Last, VcElem* _Dest, VcF
     P2Q();
     for (; _First != _Last; ++_Dest, ++_First)
     {
-        ((VcElemQ*)_Dest)->FUN_00b24a80(_First);
+        reinterpret_cast<::S00b24a80_Obj *>((((VcElemQ*)_Dest)))->FUN_00b24a80((::S00b24a80_Obj *)(_First));
     }
     return _Dest;
 }
@@ -29832,7 +29754,6 @@ VcElem* FUN_00b23830(VcElem* _First, VcElem* _Last, VcElem* _Dest)
 struct E93Q
 {
     int m[6];
-    void FUN_00b26570(E93Q& o);
 };
 struct NsTag93
 {
@@ -29867,7 +29788,7 @@ __forceinline void Dead64Q()
 }
 __forceinline void Swap93(E93Q& a, E93Q& b)
 {
-    a.FUN_00b26570(b);
+    reinterpret_cast<::FUN_00b22ff0 *>(&(a))->FUN_00b26570((::FUN_00b22ff0 &)(b));
     Dead64Q();
 }
 __forceinline E93Q* MbFwd93(E93Q* F, E93Q* L, E93Q* D, FwdTag93)
@@ -29977,7 +29898,6 @@ struct FUN_00aa7830
 struct FUN_00b3f100 : FUN_00aa7830
 {
     FUN_00b3f100();
-    float FUN_00b3f130(float a, float b);
     inline ~FUN_00b3f100()
     {}
 };
@@ -30011,7 +29931,7 @@ void FrondGuideFinalizer::FUN_00b18b70(float a1)
     unsigned int i;
     for (i = 0; i < guide->m_kPoints.size() - 1; ++i)
     {
-        guide->f18 += guide->m_kPoints[i].FUN_00b04d40(guide->m_kPoints[i + 1]);
+        guide->f18 += reinterpret_cast<::V3cdd0 *>((void *)&(guide->m_kPoints[i]))->FUN_00b04d40((const ::V3cdd0 *)&(guide->m_kPoints[i + 1]));
     }
     FUN_00b3f100 rng;
     if (m_field50.size() == 0)
@@ -30022,10 +29942,10 @@ void FrondGuideFinalizer::FUN_00b18b70(float a1)
     }
     else
     {
-        guide->c20 = (unsigned char)((unsigned int)rng.FUN_00b3f130(0.0f, 100000.0f) % m_field50.size());
+        guide->c20 = (unsigned char)((unsigned int)reinterpret_cast<::FUN_00b3f130_shell *>(&(rng))->FUN_00b3f130(0.0f, 100000.0f) % m_field50.size());
         guide->f1c = guide->f18 * m_field50[guide->c20].f1c * 0.5;
         guide->f1c = guide->f1c * m_field50[guide->c20].f20;
-        guide->f24 = rng.FUN_00b3f130(m_field50[guide->c20].f24, m_field50[guide->c20].f28);
+        guide->f24 = reinterpret_cast<::FUN_00b3f130_shell *>(&(rng))->FUN_00b3f130(m_field50[guide->c20].f24, m_field50[guide->c20].f28);
         if (m_guides.size() % 2 == 1)
         {
             guide->f24 = guide->f24 * -1.0;
@@ -30071,7 +29991,7 @@ template <class T> inline T* AllocateElements(unsigned int count, T*)
         count = 0;
     else if (((unsigned int)(-1) / count) < sizeof(T))
         throw AllocationError(0);
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 template <class T> struct ValueAllocator
 {
@@ -30088,7 +30008,7 @@ template <class T> struct ValueAllocator
     }
     void deallocate(pointer ptr, unsigned int)
     {
-        operator delete(ptr);
+        ::FUN_00401030 delete(ptr);
     }
     void construct(pointer ptr, const T& value)
     {
@@ -30196,14 +30116,14 @@ struct FUN_00b22ff0 : VectorOperations
 // @fnv 0x00b22ff0
 FUN_00b22ff0::FUN_00b22ff0(const FUN_00b22ff0& _Right) : VectorOperations(_Right._Alval)
 {
-    if (FUN_0044a240(_Right.size()))
+    if (reinterpret_cast<::VecAlloc *>(this)->FUN_0044a240(_Right.size()))
         try
         {
             _Mylast = _Ucopy(_Right.begin(), _Right.end(), _Myfirst);
         }
         catch (...)
         {
-            FUN_0065f240();
+            reinterpret_cast<::FUN_0065f240 *>(this)->Clear();
             throw;
         }
 }
@@ -30237,11 +30157,11 @@ template <class T> class allocator
     {}
     void deallocate(T* ptr, unsigned)
     {
-        ::operator delete(ptr);
+        ::FUN_00401030 delete(ptr);
     }
     T* allocate(unsigned count)
     {
-        return (T*)::operator new(count * sizeof(T));
+        return (T*)::FUN_00401000(count * sizeof(T));
     }
     unsigned max_size() const throw()
     {
@@ -30383,7 +30303,7 @@ class basic_string : public StringValue<T, Alloc>
     }
     Self& append(const T* text)
     {
-        return append(text, Traits::length(text));
+        return (*(::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)&(reinterpret_cast<::StrA *>(this)->FUN_00a0c430(text, Traits::length(text))));
     }
     unsigned size() const
     {
@@ -30453,7 +30373,7 @@ class basic_string : public StringValue<T, Alloc>
         if (_Myres < newsize)
             _Copy(newsize, _Mysize);
         else if (trim && newsize < BufferSize)
-            _Tidy(true, newsize < _Mysize ? newsize : _Mysize);
+            reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, newsize < _Mysize ? newsize : _Mysize);
         else if (newsize == 0)
             _Eos(0);
         return 0 < newsize;
@@ -30518,7 +30438,6 @@ class IdvFileError : public std::runtime_error
                              (systemError ? std::string(GetErrorText(*GetErrorNumber())) : std::string("")) + "]")
     {}
 };
-FUN_0044a4c0 __cdecl FUN_00b18860(const char*, ...);
 struct FrondGuide;
 template <class T> struct FrondVector
 {
@@ -30555,8 +30474,6 @@ struct FrondGuide
 };
 struct FrondGeometry
 {
-    void FUN_00b2fb30(unsigned short);
-    void FUN_00b306d0(unsigned short);
 };
 struct FrondEngine
 {
@@ -30570,11 +30487,6 @@ struct FrondEngine
     int extrusionCount;
     int state48, state4c, state50, state54, state58, state5c, state60, state64;
     unsigned short geometryType;
-    void FUN_00b1c850();
-    void FUN_00b19ad0(FrondGuide&);
-    void FUN_00b1aed0(unsigned short, int, FrondGuide&);
-    void FUN_00b1b000(FrondGuide&);
-    void FUN_00b1b960(unsigned short, int, FrondGuide&);
     void FUN_00b18fd0(FrondGeometry*, void*);
 };
 static const char vertexLimitMessage[] = "frond vertices exceed %d";
@@ -30585,17 +30497,17 @@ void FrondEngine::FUN_00b18fd0(FrondGeometry* output, void* context)
     geometry = output;
     auxiliary = context;
     int vertexCount = 0;
-    FUN_00b1c850();
-    for (unsigned i = 0; i < guides[0].size(); ++i)
+    reinterpret_cast<::frondlod::Processor *>(this)->FUN_00b1c850();
+    for (unsigned i = 0; i < reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(0).size(); ++i)
     {
         switch (mode)
         {
         case 0: {
-            vertexCount += guides[0][i].vertices.size() * 2 * bladeCount;
+            vertexCount += reinterpret_cast<::FUN_00b1db00_class *>((void *)&(const ::FrondVector< ::FrondGuide> &)(reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(0)))->FUN_00b1db00(i).vertices.size() * 2 * bladeCount;
             break;
         }
         case 1: {
-            vertexCount += guides[0][i].vertices.size() * (extrusionCount * 2 - 1);
+            vertexCount += reinterpret_cast<::FUN_00b1db00_class *>((void *)&(const ::FrondVector< ::FrondGuide> &)(reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(0)))->FUN_00b1db00(i).vertices.size() * (extrusionCount * 2 - 1);
             break;
         }
         default:
@@ -30603,37 +30515,37 @@ void FrondEngine::FUN_00b18fd0(FrondGeometry* output, void* context)
         }
     }
     if (vertexCount > 65535)
-        throw std::runtime_error(FUN_00b18860(vertexLimitMessage, 65535));
-    geometry->FUN_00b2fb30(geometryType);
+        throw std::runtime_error((*(::FUN_0044a4c0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)(vertexLimitMessage), (const char *)(65535)))));
+    reinterpret_cast<::VectorSet *>((geometry))->FUN_00b2fb30(geometryType);
     switch (mode)
     {
     case 0: {
-        for (unsigned i = 0; i < guides[0].size(); ++i)
+        for (unsigned i = 0; i < reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(0).size(); ++i)
         {
-            FUN_00b19ad0(guides[0][i]);
+            reinterpret_cast<::FrondBuilder *>(this)->FUN_00b19ad0((::FrondInput *)&(reinterpret_cast<::FUN_00b1db00_class *>((void *)&(const ::FrondVector< ::FrondGuide> &)(reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(0)))->FUN_00b1db00(i)));
         }
         for (unsigned short level = 0; level < guides.size(); ++level)
         {
-            geometry->FUN_00b306d0(level);
-            for (unsigned j = 0; j < guides[level].size(); ++j)
+            reinterpret_cast<::Cls *>((geometry))->FUN_00b306d0(level);
+            for (unsigned j = 0; j < reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(level).size(); ++j)
             {
-                FUN_00b1aed0(level, guides[0][j].i30, guides[level][j]);
+                reinterpret_cast<::MeshS *>(this)->FUN_00b1aed0(level, reinterpret_cast<::FUN_00b1db00_class *>((void *)&(const ::FrondVector< ::FrondGuide> &)(reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(0)))->FUN_00b1db00(j).i30, (::VecS *)&(reinterpret_cast<::FUN_00b1db00_class *>((void *)&(const ::FrondVector< ::FrondGuide> &)(reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(level)))->FUN_00b1db00(j)));
             }
         }
         break;
     }
     case 1: {
-        for (unsigned i = 0; i < guides[0].size(); ++i)
+        for (unsigned i = 0; i < reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(0).size(); ++i)
         {
-            FUN_00b1b000(guides[0][i]);
+            reinterpret_cast<::B1FrondBuilder *>(this)->FUN_00b1b000((::FrondInput *)&(reinterpret_cast<::FUN_00b1db00_class *>((void *)&(const ::FrondVector< ::FrondGuide> &)(reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(0)))->FUN_00b1db00(i)));
         }
         for (unsigned short level = 0; level < guides.size(); ++level)
         {
-            geometry->FUN_00b306d0(level);
-            for (unsigned j = 0; j < guides[level].size(); ++j)
+            reinterpret_cast<::Cls *>((geometry))->FUN_00b306d0(level);
+            for (unsigned j = 0; j < reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(level).size(); ++j)
             {
-                guides[level][j].i34 = guides[0][j].i34;
-                FUN_00b1b960(level, guides[0][j].i30, guides[level][j]);
+                reinterpret_cast<::FUN_00b1db00_class *>((void *)&(const ::FrondVector< ::FrondGuide> &)(reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(level)))->FUN_00b1db00(j).i34 = reinterpret_cast<::FUN_00b1db00_class *>((void *)&(const ::FrondVector< ::FrondGuide> &)(reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(0)))->FUN_00b1db00(j).i34;
+                reinterpret_cast<::FUN_00b1b960_class *>(this)->FUN_00b1b960(level, reinterpret_cast<::FUN_00b1db00_class *>((void *)&(const ::FrondVector< ::FrondGuide> &)(reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(0)))->FUN_00b1db00(j).i30, (::LodGrid *)&(reinterpret_cast<::FUN_00b1db00_class *>((void *)&(const ::FrondVector< ::FrondGuide> &)(reinterpret_cast<::FUN_00b319a0_class *>((void *)&(const ::FrondVector< ::FrondVector< ::FrondGuide>> &)(guides))->FUN_00b319a0(level)))->FUN_00b1db00(j)));
             }
         }
         break;

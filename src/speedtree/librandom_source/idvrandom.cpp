@@ -1,5 +1,7 @@
 // speedtree/librandom_source/idvrandom.cpp: RandomNumberGenerator, Uniform (8 functions)
 
+#include "fnv/symbols_00b43000.h"
+#include "fnv/symbols_01012000.h"
 #include "idvrandom_decls.h"
 
 // @fnv 0x00b3f100
@@ -7,29 +9,6 @@ RandomNumberGenerator::RandomNumberGenerator()
 {
     if (!DAT_011f8eb8)
         SeedRandomGenerator(-1);
-}
-
-// @fnv 0x00b3f160
-void RandomNumberGenerator::SeedRandomGenerator(long seed)
-{
-    if (seed == -1)
-    {
-        long randomSeed = 12345;
-        if (DAT_011f8eb8)
-            randomSeed = (long)GenerateRandomFloat(0.0f, 2147483648.0f);
-        long currentTime = (long)_time64(0);
-        if (randomSeed > currentTime)
-            Random::Set((double)currentTime / randomSeed);
-        else
-            Random::Set((double)randomSeed / currentTime);
-    }
-    else
-    {
-        if (seed <= 1)
-            seed = 1;
-        Random::SetLong(seed);
-    }
-    DAT_011f8eb8 = true;
 }
 
 struct FUN_00b3f270_shell
@@ -52,6 +31,28 @@ struct FUN_00b3f130_shell
 {
     float FUN_00b3f130(float fMin, float fScaledValue);
 };
+// @fnv 0x00b3f160
+void RandomNumberGenerator::SeedRandomGenerator(long seed)
+{
+    if (seed == -1)
+    {
+        long randomSeed = 12345;
+        if (DAT_011f8eb8)
+            randomSeed = (long)reinterpret_cast<::FUN_00b3f130_shell *>(this)->FUN_00b3f130(0.0f, 2147483648.0f);
+        long currentTime = (long)_time64(0);
+        if (randomSeed > currentTime)
+            Random::Set((double)currentTime / randomSeed);
+        else
+            Random::Set((double)randomSeed / currentTime);
+    }
+    else
+    {
+        if (seed <= 1)
+            seed = 1;
+        ::SeedRandomSamples(seed);
+    }
+    DAT_011f8eb8 = true;
+}
 // Linearly interpolates between fMin and the second argument using a factor returned by DAT_011f8ebc.GetRandomSample().
 // @fnv 0x00b3f130
 float FUN_00b3f130_shell::FUN_00b3f130(float fMin, float afMax)
@@ -114,7 +115,6 @@ int FUN_00b3f280_shell::FUN_00b3f280()
     return ((FUN_00b433a0_shell*)this)->GetRandomSample();
 }
 
-extern double _gModifierZero;
 struct Uniform
 {
     float FUN_00b3f2a0(float x) const;
@@ -123,5 +123,5 @@ struct Uniform
 // @fnv 0x00b3f2a0
 float Uniform::FUN_00b3f2a0(float afValue) const
 {
-    return (afValue < _gModifierZero || afValue > 1.0) ? 0.0f : 1.0f;
+    return (afValue < ::_DAT_01012060 || afValue > 1.0) ? 0.0f : 1.0f;
 }

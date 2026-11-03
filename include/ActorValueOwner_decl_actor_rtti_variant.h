@@ -4,10 +4,11 @@
 
 #include "layout_support.h"
 #pragma pack(push, 4)
+namespace ActorValue { enum Index; }
 class ActorValueOwner
 {
   public:
-    int FUN_0066ef20(int index);  // declared for the original code (decl_variants.py)
+      // declared for the original code (decl_variants.py)
 
   public:
     virtual int GetBaseActorValue(ActorValue::Index actorValue);
@@ -22,6 +23,8 @@ class ActorValueOwner
     virtual TESForm* GetActorValueOwnerForm();
     virtual unsigned short GetActorValueOwnerType();
     Actor* GetActorOwner();
+public:
+    int GetActorValueAsInteger(::ActorValue::Index);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(ActorValueOwner) == 0x4);

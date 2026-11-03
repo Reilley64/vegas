@@ -2,6 +2,7 @@
 #ifndef FNV_NIPSYSCOLLIDER_DECLS_H
 #define FNV_NIPSYSCOLLIDER_DECLS_H
 
+#include "fnv/decl/A54440Hash.h"
 #include "NiRefObject.h"
 class NiStream;
 class CloningProcess;
@@ -93,8 +94,7 @@ class CloningProcess
     {
         // The PC linker folds this pointer-map lookup with the canonical
         // string-pointer-map lookup; preserve its bound external symbol.
-        return reinterpret_cast<NiTStringPointerMap<ShaderBufferRecord*>*>(m_pCloneMap)
-            ->GetAt(reinterpret_cast<const char*>(original), reinterpret_cast<ShaderBufferRecord*&>(clone));
+        return reinterpret_cast<::A54440Hash *>((reinterpret_cast<NiTStringPointerMap<ShaderBufferRecord*>*>(m_pCloneMap)))->FUN_00a53c30((::A54440Manager *)(reinterpret_cast<const char*>(original)), (::A54440Manager **)&(reinterpret_cast<ShaderBufferRecord*&>(clone)));
     }
 };
 #pragma pack(pop)

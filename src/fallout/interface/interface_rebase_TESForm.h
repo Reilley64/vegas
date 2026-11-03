@@ -1,8 +1,16 @@
 // Source layout: TESForm. PC corrections are in generate_headers.py.
 #ifndef FNV_INTERFACE_REBASE_FNV_INTERFACE_PLAYER_TESFORM_H
 #define FNV_INTERFACE_REBASE_FNV_INTERFACE_PLAYER_TESFORM_H
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00485000.h"
 #include "interface_rebase_layout_support.h"
 #include "interface_rebase_BaseFormComponent.h"
+enum ENUM_FORM_ID;
 class TESForm : public BaseFormComponent
 {
   public:
@@ -86,15 +94,12 @@ class TESForm : public BaseFormComponent
     virtual bool SetEditorID_AtRuntime(const char* edid);
     TESForm();
     TESFile* GetFile(int fileIndex);
-    BSSimpleList<TESFile*>* GetSourceFiles();
-    bool IsDeleted() const;
-    unsigned int GetFormID();
-    bool IsTemporary() const;
     void NotifySaveLoadGameOfFormChange();
     void SetInitializationState(bool initialized);
-    void SetFormType(ENUM_FORM_ID type);
-    void LoadRecordHeader(TESFile* file);
-    static void RemapFormIDForFile(unsigned int& formID, TESFile* file);
+public:
+    ::ENUM_FORM_ID GetFormType() const;
+public:
+    static ::TESForm *LookupFormByEditorID(const char *);
 };
 FNV_STATIC_ASSERT(sizeof(TESForm) == 0x18);
 FNV_STATIC_ASSERT(offsetof(TESForm, m_ucFormType) == 0x4);

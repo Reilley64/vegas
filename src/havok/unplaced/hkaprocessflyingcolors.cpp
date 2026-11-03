@@ -1,6 +1,10 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00e34000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_01021000.h"
+#include "fnv/symbols_011be000.h"
 struct LocalInt
 {
     int value;
@@ -33,11 +37,8 @@ typedef unsigned short u16;
 
 extern int DAT_010eb4d4[];
 extern int DAT_010eb73c[];
-extern double DAT_0101e568;
-extern double DAT_010217d0;
 
 typedef void(__cdecl* S00e33a30_Fn)(float, int, float*, float*, int);
-extern S00e33a30_Fn DAT_011be4d0[];
 
 static __forceinline float readScalar(const u8*& stream)
 {
@@ -77,7 +78,6 @@ __declspec(noinline) int FUN_00e32f10(const u8*& cur, int* total, int* order, in
     return span;
 }
 int FUN_00e32f10(const u8*& cur, int* p28, int* p24, int a1, float f1, float* buf);
-void BlendVector4(u8 flags, float* v, Point4* outp, int aux);
 
 static __forceinline void fillPoint(u8 bits, const Point4& fixedValues, const Point4& defaultValues, Point4& result)
 {
@@ -137,7 +137,7 @@ void __cdecl FUN_00e33a30(const u8*& cur, int aiTick, float afScaleTime, float f
 
     if ((u8)(fb & 0xf0) == 0)
     {
-        BlendVector4(fb, &val.x, outp, aux);
+        ::BlendVector4(fb, (*(const ::hkVector4E34 *)(&val.x)), (*(const ::hkVector4E34 *)(outp)), (*(::hkVector4E34 *)(aux)));
         return;
     }
 

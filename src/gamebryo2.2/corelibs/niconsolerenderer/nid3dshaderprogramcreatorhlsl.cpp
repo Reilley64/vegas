@@ -1,21 +1,39 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/DBBCBC0Target.h"
+#include "fnv/decl/FUN_00e58780_Class.h"
+#include "fnv/decl/FUN_00e587b0_Class.h"
+#include "fnv/decl/FUN_00e587c0_Class.h"
+#include "fnv/decl/FUN_00e58a20_cls.h"
+#include "fnv/decl/FUN_00e58b10_class.h"
+#include "fnv/decl/FUN_00e897d0.h"
+#include "fnv/decl/FUN_00e96c90_Class.h"
+#include "fnv/decl/S.h"
+#include "fnv/decl/S_00e89970.h"
+#include "fnv/decl/Stand_e58d90.h"
+#include "fnv/symbols_00aa0000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00e58000.h"
+#include "fnv/symbols_00e93000.h"
+#include "fnv/symbols_00e98000.h"
+#include "fnv/symbols_00ee6000.h"
+#include "fnv/symbols_010f1000.h"
+#include "fnv/symbols_0126f000.h"
 struct NiD3DPixelShader
 {
     void* __thiscall DestroyPixelShader(unsigned int flags);
 };
 
-extern "C" void __cdecl FUN_00e89970();
-extern void __cdecl __Dummy_00b6fef0(void* p, unsigned int flags);
 
 // @fnv 0x00be0af0
 void* __thiscall NiD3DPixelShader::DestroyPixelShader(unsigned int flags)
 {
     NiD3DPixelShader* p = this;
-    FUN_00e89970();
+    static_cast<::S_00e89970 *>(nullptr)->FUN_00e89970();
     if (flags & 1)
-        __Dummy_00b6fef0(p, 0x30);
+        ::FUN_00aa1460(p, 0x30);
     return p;
 }
 
@@ -82,20 +100,18 @@ void FUN_00c7b0f0_shell::FUN_00c7b0f0()
     m_iThirdValue = 0x80000000;
 }
 
-extern "C" void* g_0126fa40;
 
 // @fnv 0x00e95cc0
 void* __cdecl FUN_00e95cc0()
 {
-    return &g_0126fa40;
+    return &(*reinterpret_cast<void * *>(&::g_0126fa40));
 }
 
-extern const void* g_0126fa48;
 
 // @fnv 0x00e95df0
 const void* __cdecl FUN_00e95df0()
 {
-    return &g_0126fa48;
+    return &(*reinterpret_cast<const void * *>(&::g_0126fa48));
 }
 
 extern void(__cdecl* DAT_fdf3f0)();
@@ -119,7 +135,6 @@ void __thiscall NiD3DShaderProgram::FUN_00eea540(NiD3DShaderProgramCreator* pkCr
 }
 
 extern "C" void __cdecl operator delete(void*, unsigned int);
-void __cdecl FUN_00e89b70();
 
 struct FUN_00be0b70_shell
 {
@@ -130,7 +145,7 @@ struct FUN_00be0b70_shell
 // @fnv 0x00be0b70
 void* __thiscall FUN_00be0b70_shell::FUN_00be0b70(unsigned int flags)
 {
-    FUN_00e89b70();
+    static_cast<::S *>(nullptr)->FUN_00e89b70();
     if (flags & 1)
         operator delete(this, 0x3c);
     return this;
@@ -140,7 +155,6 @@ extern "C" void __cdecl operator delete(void*, unsigned int);
 
 struct NiD3DHLSLPixelShader : NiD3DPixelShader
 {
-    void __thiscall FUN_00e96c90();
     void* __thiscall FUN_00e95cd0(unsigned int flags);
 };
 
@@ -148,7 +162,7 @@ struct NiD3DHLSLPixelShader : NiD3DPixelShader
 // @fnv 0x00e95cd0
 void* __thiscall NiD3DHLSLPixelShader::FUN_00e95cd0(unsigned int flags)
 {
-    FUN_00e96c90();
+    reinterpret_cast<::FUN_00e96c90_Class *>(this)->FUN_00e96c90();
     if (flags & 1)
         operator delete(this, 0x3c);
     return this;
@@ -171,8 +185,6 @@ void __thiscall NiD3DShaderProgram::SetShaderCode(unsigned int uiSize, void* pvC
 }
 }  // namespace fnv_00be0ab0
 
-void* __cdecl NiMalloc(unsigned int);
-void __cdecl NiFreeAlias(void*);
 int __cdecl strcpy_s(char*, unsigned int, const char*);
 extern "C" unsigned int strlen(const char*);
 struct FUN_00e95cf0_Holder
@@ -187,11 +199,11 @@ void FUN_00e95cf0_Holder::FUN_00e95cf0(const char* pcEntryPoint)
     unsigned int uiLen;
     if (*(char**)((char*)this + 0x30) != pcEntryPoint)
     {
-        NiFreeAlias(*(char**)((char*)this + 0x30));
+        ::FUN_00aa10f0(*(char**)((char*)this + 0x30));
         if (pcEntryPoint && pcEntryPoint[0] != 0)
         {
             uiLen = strlen(pcEntryPoint) + 1;
-            pcNewEntryPoint = (char*)NiMalloc(uiLen);
+            pcNewEntryPoint = (char*)::FUN_00aa1070(uiLen);
             strcpy_s(pcNewEntryPoint, uiLen, pcEntryPoint);
             *(char**)((char*)this + 0x30) = pcNewEntryPoint;
         }
@@ -202,8 +214,6 @@ void FUN_00e95cf0_Holder::FUN_00e95cf0(const char* pcEntryPoint)
     }
 }
 
-void* _NiMalloc(unsigned int);
-void _NiFreeAlias(void*);
 struct FUN_00e95d60_shell
 {
     void __thiscall FUN_00e95d60(const char* pcShaderTarget);
@@ -216,13 +226,13 @@ void __thiscall FUN_00e95d60_shell::FUN_00e95d60(const char* pcShaderTarget)
     unsigned int uiLen;
     if (*(const char**)((char*)this + 0x34) == pcShaderTarget)
         return;
-    _NiFreeAlias(*(void**)((char*)this + 0x34));
+    ::FUN_00aa10f0(*(void**)((char*)this + 0x34));
     if (!pcShaderTarget)
         return;
     if (*pcShaderTarget == 0)
         return;
     uiLen = (unsigned int)strlen(pcShaderTarget) + 1;
-    pcNewShaderTarget = (char*)_NiMalloc(uiLen);
+    pcNewShaderTarget = (char*)::FUN_00aa1070(uiLen);
     strcpy_s(pcNewShaderTarget, uiLen, pcShaderTarget);
     *(char**)((char*)this + 0x34) = pcNewShaderTarget;
 }
@@ -255,22 +265,18 @@ void __thiscall HlslPixelShaderStandIn::AssignTable(ID3DXConstantTable* pkTable)
 
 struct NiD3DHLSLVertexShader
 {
-    void __thiscall FUN_00e971d0();
     void* __thiscall DestroyVertexShader(unsigned int);
 };
-void __cdecl _delete(void*, unsigned int);
 // @fnv 0x00e95e00
 void* __thiscall NiD3DHLSLVertexShader::DestroyVertexShader(unsigned int flags)
 {
-    FUN_00e971d0();
+    reinterpret_cast<::S *>(this)->FUN_00e971d0();
     if (flags & 1)
-        _delete(this, 0x48);
+        ::FUN_00aa1460(this, 0x48);
     return this;
 }
 
 namespace fnv_00e95e20 {
-void* __cdecl _NiMalloc(unsigned int);
-void __cdecl _NiFreeAlias(void*);
 int __cdecl _strcpy_s(char*, unsigned int, const char*);
 struct NiD3DHLSLVertexShader
 {
@@ -286,11 +292,11 @@ void __thiscall NiD3DHLSLVertexShader::FUN_00e95e20(const char* pcEntryPoint)
     unsigned int uiLen;
     if (m_pcShaderEntryPoint != pcEntryPoint)
     {
-        _NiFreeAlias(m_pcShaderEntryPoint);
+        ::FUN_00aa10f0(m_pcShaderEntryPoint);
         if (pcEntryPoint && *pcEntryPoint)
         {
             uiLen = strlen(pcEntryPoint);
-            pcNewEntryPoint = (char*)_NiMalloc(uiLen + 1);
+            pcNewEntryPoint = (char*)::FUN_00aa1070(uiLen + 1);
             _strcpy_s(pcNewEntryPoint, uiLen + 1, pcEntryPoint);
             m_pcShaderEntryPoint = pcNewEntryPoint;
         }
@@ -303,8 +309,6 @@ void __thiscall NiD3DHLSLVertexShader::FUN_00e95e20(const char* pcEntryPoint)
 }  // namespace fnv_00e95e20
 
 namespace fnv_00e95e80 {
-void* __cdecl _NiMalloc(unsigned int);
-void __cdecl _NiFreeAlias(void*);
 int __cdecl _strcpy_s(char*, unsigned int, const char*);
 struct NiD3DHLSLVertexShader
 {
@@ -318,13 +322,13 @@ void __thiscall NiD3DHLSLVertexShader::FUN_00e95e80(const char* pcShaderTarget)
 {
     if (m_pcShaderProfile != pcShaderTarget)
     {
-        _NiFreeAlias(m_pcShaderProfile);
+        ::FUN_00aa10f0(m_pcShaderProfile);
         if (pcShaderTarget && pcShaderTarget[0] != 0)
         {
             char* pcNewShaderTarget;
             unsigned int uiLen;
             uiLen = strlen(pcShaderTarget) + 1;
-            pcNewShaderTarget = (char*)_NiMalloc(uiLen);
+            pcNewShaderTarget = (char*)::FUN_00aa1070(uiLen);
             _strcpy_s(pcNewShaderTarget, uiLen, pcShaderTarget);
             m_pcShaderProfile = pcNewShaderTarget;
         }
@@ -371,11 +375,8 @@ extern "C" long __stdcall D3DXCompileShader(const char* pSrcData, unsigned int S
                                             void* pInclude, const char* pFunctionName, const char* pProfile,
                                             unsigned long Flags, ID3DXBuffer** ppShader, ID3DXBuffer** ppErrorMsgs,
                                             ID3DXConstantTable** ppConstantTable);
-int __cdecl FUN_00aa0020(int, bool, const char*, ...);
 int __cdecl strcpy_s(char*, unsigned int, char*);
-void NiFree(void*);
 void* _memmove(void*, const void*, unsigned int);
-extern unsigned int DAT_0126fa24;
 inline void NiMemcpy(void* pvDest, const void* pvSrc, unsigned int ItemUpdateArray)
 {
     _memmove(pvDest, pvSrc, ItemUpdateArray);
@@ -401,7 +402,7 @@ bool NiD3DShaderProgramCreatorHLSL::CompileShaderFromMemory(const void* apSource
     uiCodeSize = 0;
     if (apSourceData == 0 || auiSourceSize == 0)
     {
-        FUN_00aa0020(1, bRecoverable, "Invalid shader buffer\n");
+        ::FUN_00aa0020(1, bRecoverable, "Invalid shader buffer\n");
         return false;
     }
 
@@ -418,26 +419,26 @@ bool NiD3DShaderProgramCreatorHLSL::CompileShaderFromMemory(const void* apSource
             if (pvErrorData)
             {
                 unsigned int uiLen = pkErrors->GetBufferSize();
-                pcErrorText = (char*)_NiMalloc(uiLen);
+                pcErrorText = (char*)::FUN_00aa1070(uiLen);
                 strcpy_s(pcErrorText, uiLen, (char*)pvErrorData);
-                FUN_00aa0020(1, bRecoverable, "Failed to assemble shader %s from memory\nError: %s\n", pcEntryPoint,
+                ::FUN_00aa0020(1, bRecoverable, "Failed to assemble shader %s from memory\nError: %s\n", pcEntryPoint,
                              pcErrorText);
             }
             pkErrors->Release();
         }
         else
         {
-            FUN_00aa0020(1, bRecoverable, "Failed to assemble shader %s from memory\nError: NONE REPORTED\n",
+            ::FUN_00aa0020(1, bRecoverable, "Failed to assemble shader %s from memory\nError: NONE REPORTED\n",
                          pcEntryPoint);
         }
-        NiFree(pcErrorText);
+        ::FUN_00aa10f0(pcErrorText);
         if (pkCode)
             pkCode->Release();
         return false;
     }
 
     uiCodeSize = pkCode->GetBufferSize();
-    pvCode = _NiMalloc(uiCodeSize);
+    pvCode = ::FUN_00aa1070(uiCodeSize);
     NiMemcpy(pvCode, pkCode->GetBufferPointer(), uiCodeSize);
     pkCode->Release();
     if (pkErrors)
@@ -454,7 +455,6 @@ struct FUN_00be09e0_shell
 
 extern const char $SG3295[];
 extern "C" int __cdecl strcmp(const char* psz1, const char* psz2);
-void __cdecl _NiFree(void*);
 int __cdecl _strcpy_s(char* str, unsigned int numberOfElements, const char* source);
 
 // @fnv 0x00be09e0
@@ -462,7 +462,7 @@ void FUN_00be09e0_shell::FUN_00be09e0(const char* pszName)
 {
     if (!pszName || strcmp(pszName, $SG3295) == 0)
     {
-        _NiFree(m_pkShaderProgramName);
+        ::FUN_00aa10f0(m_pkShaderProgramName);
         m_pkShaderProgramName = 0;
         return;
     }
@@ -474,20 +474,19 @@ void FUN_00be09e0_shell::FUN_00be09e0(const char* pszName)
         unsigned int uiOldLen = strlen(m_pkShaderProgramName);
         if (uiOldLen < uiNewLen)
         {
-            _NiFree(m_pkShaderProgramName);
+            ::FUN_00aa10f0(m_pkShaderProgramName);
             m_pkShaderProgramName = 0;
         }
     }
 
     if (!m_pkShaderProgramName)
     {
-        m_pkShaderProgramName = (char*)_NiMalloc(uiNewLen);
+        m_pkShaderProgramName = (char*)::FUN_00aa1070(uiNewLen);
     }
 
     _strcpy_s(m_pkShaderProgramName, uiNewLen, pszName);
 }
 
-void _NiFree(void*);
 int _strcpy_s(char*, unsigned int, const char*);
 
 struct FUN_00be0920_shell
@@ -505,7 +504,7 @@ void FUN_00be0920_shell::FUN_00be0920(const char* pszName)
 {
     if (!pszName || strcmp(pszName, "") == 0)
     {
-        _NiFree(m_pcName);
+        ::FUN_00aa10f0(m_pcName);
         m_pcName = 0;
     }
     else
@@ -516,13 +515,13 @@ void FUN_00be0920_shell::FUN_00be0920(const char* pszName)
         {
             if (strlen(m_pcName) < uiNewLen)
             {
-                _NiFree(m_pcName);
+                ::FUN_00aa10f0(m_pcName);
                 m_pcName = 0;
             }
         }
 
         if (!m_pcName)
-            m_pcName = static_cast<char*>(_NiMalloc(uiNewLen));
+            m_pcName = static_cast<char*>(::FUN_00aa1070(uiNewLen));
 
         _strcpy_s(m_pcName, uiNewLen, pszName);
     }
@@ -560,8 +559,6 @@ struct S_00e58ea0_Gen
     int unk08;
     int unk0c;
     int unk10;
-    int FUN_00e587a0();
-    int FUN_00cc0760();
     void InitFloatArray(int a, int b, float c);
 };
 
@@ -573,27 +570,13 @@ struct S_00e58ea0_Arr
     int unk0c;
     int unk10;
     void InitFloatArray(int a, int b, float c);
-    void FUN_00c7b0f0();
 };
 
 struct S_00e58ea0_cls
 {
     int unk00;
-    int FUN_00dbbc00();
-    void FUN_00e58a20(S_00e58ea0_Gen* a, S_00e58ea0_Gen* b, S_00e58ea0_Arr* pkOut);
     S_00e58ea0_Gen* FUN_00e58ea0(S_00e58ea0_Gen* a1, S_00e58ea0_Gen* a2);
 };
-
-// @fnv 0x00e58ea0
-S_00e58ea0_Gen* S_00e58ea0_cls::FUN_00e58ea0(S_00e58ea0_Gen* a1, S_00e58ea0_Gen* a2)
-{
-    a1->InitFloatArray(a2->FUN_00cc0760(), a2->FUN_00e587a0(), 0.0f);
-    S_00e58ea0_Arr tmpArr;
-    tmpArr.InitFloatArray(FUN_00dbbc00(), a2->FUN_00e587a0(), 0.0f);
-    FUN_00e58a20(a1, a2, &tmpArr);
-    tmpArr.FUN_00c7b0f0();
-    return a1;
-}
 
 struct IUnk_e95
 {
@@ -651,7 +634,6 @@ long __stdcall FUN_00ee6e40(void* pvCode, IUnk_e95** ppTable);
 
 struct FUN_00e95c40_cls
 {
-    void* FUN_00e988d0(void* pvCode);
     bool AttachShaderFromCode(Shader_e95* pkShader);
 };
 
@@ -661,7 +643,7 @@ bool FUN_00e95c40_cls::AttachShaderFromCode(Shader_e95* pkShader)
     void* pvCode = pkShader->GetCode();
     if (!pvCode)
         return false;
-    void* pvShader = FUN_00e988d0(pvCode);
+    void* pvShader = ((void *)(::FUN_00e988d0((void *)this)));
     if (!pvShader)
         return false;
     pkShader->SetShader(pvShader);
@@ -673,11 +655,8 @@ bool FUN_00e95c40_cls::AttachShaderFromCode(Shader_e95* pkShader)
     return true;
 }
 
-int __cdecl FUN_00aa0020(int, bool, const char*, ...);
 
 struct NiD3DRenderer;
-extern NiD3DRenderer* g_pkD3DRenderer;
-extern void* g_pkD3DDevice;
 extern "C" const char* __stdcall D3DXGetPixelShaderProfile(void* pDevice);
 
 class HLSLCreator;
@@ -779,8 +758,6 @@ class NiD3DHLSLPixelShaderStandIn : public NiD3DPixelShaderStandIn
 class HLSLCreator : public NiD3DShaderProgramCreatorHLSL
 {
   public:
-    void* CreatePixelShaderHandle(void* pvCode, void* phShader, unsigned int auiGroupKey, void* pvUnused,
-                                  unsigned int uiUnused, unsigned int uiSoftware);
     NiD3DHLSLPixelShaderStandIn* FUN_00e967d0(const void* pvBuffer, unsigned int uiBufferSize, const char* pcShaderName,
                                               const char* pcEntryPoint, const char* pcShaderTarget, void* pvHandle,
                                               unsigned int auiGroupKey, unsigned int bSoftwareVP, bool bRecoverable);
@@ -794,7 +771,7 @@ NiD3DHLSLPixelShaderStandIn* HLSLCreator::FUN_00e967d0(const void* pvBuffer, uns
                                                        unsigned int auiGroupKey, unsigned int bSoftwareVP,
                                                        bool bRecoverable)
 {
-    NiD3DHLSLPixelShaderStandIn* pkShader = new NiD3DHLSLPixelShaderStandIn(g_pkD3DRenderer);
+    NiD3DHLSLPixelShaderStandIn* pkShader = new NiD3DHLSLPixelShaderStandIn((*reinterpret_cast<::NiD3DRenderer * *>(&::DAT_0126fa2c)));
     if (!pkShader)
         return 0;
 
@@ -805,7 +782,7 @@ NiD3DHLSLPixelShaderStandIn* HLSLCreator::FUN_00e967d0(const void* pvBuffer, uns
     if (pcEntryPoint == 0)
         pcEntryPoint = "main";
     if (pcShaderTarget == 0)
-        pcShaderTarget = D3DXGetPixelShaderProfile(g_pkD3DDevice);
+        pcShaderTarget = D3DXGetPixelShaderProfile(::g_0126fa28);
 
     if (!CompileShaderFromMemory(pvBuffer, uiBufferSize, pcEntryPoint, pcShaderTarget, pvCode, uiCodeSize,
                                  pkConstantTable, bRecoverable))
@@ -814,10 +791,10 @@ NiD3DHLSLPixelShaderStandIn* HLSLCreator::FUN_00e967d0(const void* pvBuffer, uns
         return 0;
     }
 
-    void* hShader = CreatePixelShaderHandle(pvCode, &pvHandle, auiGroupKey, 0, 0, bSoftwareVP);
+    void* hShader = ::CreateVertexShaderChecked((void *)this, pvCode, (unsigned int)(&pvHandle), (void *)(auiGroupKey), (unsigned int)(0), 0);
     if (hShader == 0)
     {
-        FUN_00aa0020(1, bRecoverable, "Failed CreateVertexShader call on %s\n", pcShaderName);
+        ::FUN_00aa0020(1, bRecoverable, "Failed CreateVertexShader call on %s\n", pcShaderName);
         pkShader->DeleteThis(true);
         return 0;
     }
@@ -858,12 +835,8 @@ struct MatrixNm
     void Release();
     int GetNumRows() const;
     int GetNumCols() const;
-    float* GetPtr(int row, int col);
-    float* GetVecPtr(int i);
-    float Get(int row, int col);
 };
 
-MatResult __cdecl SolveVector(void* solver, MatrixNm& x, MatrixNm& b, int maxIter, float tolerance);
 
 // Solves each column of x against b by copying it into single-column matrices, calling SolveVector, and writing the result back.
 // @fnv 0x00e590f0
@@ -877,29 +850,28 @@ MatResult __cdecl SolveMatrixColumns(void* solver, MatrixNm& x, MatrixNm& b, int
         int row;
         for (row = 0; row < x.GetNumRows(); row++)
         {
-            *xColumn.GetVecPtr(row) = *x.GetPtr(row, col);
-            float fValue = b.Get(row, col);
-            *bColumn.GetVecPtr(row) = fValue;
+            *((float *)(reinterpret_cast<::FUN_00e587b0_Class *>(&(xColumn))->FUN_00e587b0(row))) = *((float *)(reinterpret_cast<::FUN_00e58780_Class *>(&(x))->GetElementPtr(row, col)));
+            float fValue = reinterpret_cast<::FUN_00e587c0_Class *>(&(b))->GetFloatAt(row, col);
+            *((float *)(reinterpret_cast<::FUN_00e587b0_Class *>(&(bColumn))->FUN_00e587b0(row))) = fValue;
         }
-        if (!SolveVector(solver, xColumn, bColumn, maxIter, tolerance).m_ok)
+        if (!(*(::MatResult *)(::ConjugateGradientSolve((bool *)(solver), (::SolverMatrix *)&(xColumn), (::SolverVector *)&(bColumn), (::SolverVector *)(maxIter), tolerance, {}))).m_ok)
         {
             result.m_ok = false;
-            bColumn.Release();
-            xColumn.Release();
+            reinterpret_cast<::FUN_00c7b0f0_shell *>(&(bColumn))->FUN_00c7b0f0();
+            reinterpret_cast<::FUN_00c7b0f0_shell *>(&(xColumn))->FUN_00c7b0f0();
             return result;
         }
         for (row = 0; row < x.GetNumRows(); row++)
         {
-            *x.GetPtr(row, col) = *xColumn.GetVecPtr(row);
+            *((float *)(reinterpret_cast<::FUN_00e58780_Class *>(&(x))->GetElementPtr(row, col))) = *((float *)(reinterpret_cast<::FUN_00e587b0_Class *>(&(xColumn))->FUN_00e587b0(row)));
         }
     }
     result.m_ok = true;
-    bColumn.Release();
-    xColumn.Release();
+    reinterpret_cast<::FUN_00c7b0f0_shell *>(&(bColumn))->FUN_00c7b0f0();
+    reinterpret_cast<::FUN_00c7b0f0_shell *>(&(xColumn))->FUN_00c7b0f0();
     return result;
 }
 
-bool __cdecl NiShaderFindFile(const char* pcFile, char* pcPath, unsigned int uiLen);
 extern "C" long __stdcall D3DXCompileShaderFromFileA(const char* pSrcFile, const void* pDefines, void* pInclude,
                                                      const char* pFunctionName, const char* pProfile,
                                                      unsigned long Flags, ID3DXBuffer** ppShader,
@@ -923,14 +895,14 @@ bool HLSLFileCreator::CompileShaderFromFile(const char* pcFileName, const char* 
 
     if (!pcFileName || pcFileName[0] == '\0')
     {
-        FUN_00aa0020(1, bRecoverable, "Invalid shader file name\n");
+        ::FUN_00aa0020(1, bRecoverable, "Invalid shader file name\n");
         return false;
     }
 
     char acPath[260];
-    if (!NiShaderFindFile(pcFileName, acPath, 260))
+    if (!::FindShaderProgramFile(pcFileName, acPath, 260))
     {
-        FUN_00aa0020(1, bRecoverable, "Failed to find shader program file %s\n", pcFileName);
+        ::FUN_00aa0020(1, bRecoverable, "Failed to find shader program file %s\n", pcFileName);
         return false;
     }
 
@@ -947,26 +919,26 @@ bool HLSLFileCreator::CompileShaderFromFile(const char* pcFileName, const char* 
             if (pvError)
             {
                 unsigned int uiLen = pkErrors->GetBufferSize();
-                pcError = (char*)NiMalloc(uiLen);
+                pcError = (char*)::FUN_00aa1070(uiLen);
                 strcpy_s(pcError, uiLen, (char*)pvError);
-                FUN_00aa0020(1, bRecoverable, "Failed to compile shader %s in file %s\nError: %s\n", pcEntryPoint,
+                ::FUN_00aa0020(1, bRecoverable, "Failed to compile shader %s in file %s\nError: %s\n", pcEntryPoint,
                              pcFileName, pcError);
             }
             pkErrors->Release();
         }
         else
         {
-            FUN_00aa0020(1, bRecoverable, "Failed to compile shader %s in file %s\nError: NONE REPORTED\n",
+            ::FUN_00aa0020(1, bRecoverable, "Failed to compile shader %s in file %s\nError: NONE REPORTED\n",
                          pcEntryPoint, pcFileName);
         }
-        NiFree(pcError);
+        ::FUN_00aa10f0(pcError);
         if (pkShader)
             pkShader->Release();
         return false;
     }
 
     uiCodeSize = pkShader->GetBufferSize();
-    pvCode = NiMalloc(uiCodeSize);
+    pvCode = ::FUN_00aa1070(uiCodeSize);
     NiMemcpy(pvCode, pkShader->GetBufferPointer(), uiCodeSize);
     pkShader->Release();
     if (pkErrors)
@@ -1103,16 +1075,11 @@ int FnvCpu_FUN_00e95ee0_CpuObject::FUN_00e95ee0()
     return value;
 }
 
-extern "C" void* g_0126fa28;
-extern "C" void* g_0126fa2c;
-void* __cdecl FUN_00aa1070(unsigned int uiSize);
 void __cdecl FUN_00ec44d0(void* pvDest, const void* pvSrc, unsigned int ItemUpdateArray);
 
 struct HLSLCreator_b10814
 {
     int unk00;
-    void* __thiscall CreateVertexShaderChecked(void* pvCode, void* phShader, unsigned int auiGroupKey, void* pvUnused1,
-                                               unsigned int uiUnused2, unsigned int uiSoftwareVP);
     NiD3DHLSLPixelShaderStandIn* FUN_00e95f20(void* pvBuffer, unsigned int uiCodeSize, const char* pcShaderName,
                                               const char* pcEntryPoint, const char* pcShaderTarget, const char* pcName,
                                               unsigned int auiGroupKey, unsigned int bSoftwareVP, bool bRecoverable);
@@ -1125,7 +1092,7 @@ NiD3DHLSLPixelShaderStandIn* HLSLCreator_b10814::FUN_00e95f20(void* pvBuffer, un
                                                               unsigned int auiPassCount, unsigned int bSoftwareVP,
                                                               bool bRecoverable)
 {
-    NiD3DHLSLPixelShaderStandIn* pkShader = new NiD3DHLSLPixelShaderStandIn((NiD3DRenderer*)g_0126fa2c);
+    NiD3DHLSLPixelShaderStandIn* pkShader = new NiD3DHLSLPixelShaderStandIn((NiD3DRenderer*)::DAT_0126fa2c);
     if (pkShader == 0)
     {
         return 0;
@@ -1146,11 +1113,11 @@ NiD3DHLSLPixelShaderStandIn* HLSLCreator_b10814::FUN_00e95f20(void* pvBuffer, un
         pcShaderTarget = reinterpret_cast<const char*(__stdcall*)(void*)>(&FUN_00ee6e2e)(g_0126fa28);
     }
 
-    void* pvHandle = this->CreateVertexShaderChecked(((ID3DXBuffer*)pvBuffer)->GetBufferPointer(), (void*)&pcName,
-                                                     auiPassCount, 0, 0, bSoftwareVP);
+    void* pvHandle = ::CreateVertexShaderChecked((void *)(this), ((ID3DXBuffer*)pvBuffer)->GetBufferPointer(), (unsigned int)((void*)&pcName),
+                                                     (void *)(auiPassCount), (unsigned int)(0), 0);
     if (pvHandle == 0)
     {
-        FUN_00aa0020(1, bRecoverable, "Failed CreateVertexShader call on %s\n", pcShaderName);
+        ::FUN_00aa0020(1, bRecoverable, "Failed CreateVertexShader call on %s\n", pcShaderName);
         pkShader->DeleteThis(true);
         return 0;
     }
@@ -1181,9 +1148,6 @@ struct NiMemObject
 {
     static void* operator new(unsigned int uiSize);
 };
-extern void* DAT_0126fa2c;
-extern void* DAT_0126fa28;
-extern void* DAT_010f10f4;
 const char* __stdcall FUN_00ee6e28(void* pkDevice);
 
 struct HLSLPixelShader96 : NiMemObject
@@ -1230,7 +1194,6 @@ struct HLSLPixelShader96 : NiMemObject
     virtual void v39();
     virtual void SetShaderInterface(ID3DXConstantTable* pkTable);
 
-    void FUN_00e897d0(void* pkRenderer, int eType) throw();
 
     int unk04;
     int unk08;
@@ -1253,9 +1216,9 @@ struct HLSLPixelShaderCtor96 : NiMemObject
 {
     HLSLPixelShaderCtor96(void* pkRenderer) throw()
     {
-        ((HLSLPixelShader96*)this)->FUN_00e897d0(pkRenderer, 2);
+        new ((void *)(((HLSLPixelShader96*)this))) ::FUN_00e897d0((int)(pkRenderer), 2);
         ((HLSLPixelShader96*)this)->m_pD3DPixelShader = 0;
-        *(void**)this = &DAT_010f10f4;
+        *(void**)this = &(*reinterpret_cast<void * *>(&::DAT_010f10f4));
         ((HLSLPixelShader96*)this)->m_pcShaderEntryPoint = 0;
         ((HLSLPixelShader96*)this)->m_pcShaderProfile = 0;
         ((HLSLPixelShader96*)this)->m_pShaderConstantTable = 0;
@@ -1265,7 +1228,6 @@ struct HLSLPixelShaderCtor96 : NiMemObject
 
 struct PixelShaderCreatorHLSL : NiD3DShaderProgramCreatorHLSL
 {
-    void* FUN_00e988d0(void* pvCode);
     HLSLPixelShader96* FUN_00e96b10(const void* pvBuffer, unsigned int uiBufferSize, const char* pcShaderName,
                                     const char* pcEntryPoint, const char* pcShaderTarget, bool bRecoverable);
 };
@@ -1285,7 +1247,7 @@ HLSLPixelShader96* PixelShaderCreatorHLSL::FUN_00e96b10(const void* pvSourceBuff
     if (!pcEntryPoint)
         pcEntryPoint = "main";
     if (!pcShaderTarget)
-        pcShaderTarget = FUN_00ee6e28(DAT_0126fa28);
+        pcShaderTarget = FUN_00ee6e28(::g_0126fa28);
 
     if (!CompileShaderFromMemory(pvSourceBuffer, uiSourceSize, pcEntryPoint, pcShaderTarget, pvCode, uiCodeSize,
                                  pkConstantTable, bRecoverable))
@@ -1294,10 +1256,10 @@ HLSLPixelShader96* PixelShaderCreatorHLSL::FUN_00e96b10(const void* pvSourceBuff
         return 0;
     }
 
-    void* hShader = FUN_00e988d0(pvCode);
+    void* hShader = ((void *)(::FUN_00e988d0((void *)this)));
     if (!hShader)
     {
-        FUN_00aa0020(1, bRecoverable, "Failed CreatePixelShader call on %s\n", pcShaderName);
+        ::FUN_00aa0020(1, bRecoverable, "Failed CreatePixelShader call on %s\n", pcShaderName);
         pkPixelShader->DeleteThis(true);
         return 0;
     }
@@ -1323,23 +1285,11 @@ struct SolverVector
     int rows;
     int columns;
     int FUN_00cc0760();
-    SolverVector* FUN_00e58e80(SolverVector* out, SolverVector* other);
     void CopyFrom(SolverVector* other);
-    void InitArray(int rows, int columns);
-    void FUN_00c7b0f0();
 };
 struct SolverMatrix
 {
-    SolverVector* FUN_00e58ea0(SolverVector* out, SolverVector* other);
-    int FUN_00dbbc00();
-    void FUN_00e58b10(SolverVector*, SolverVector*, SolverVector*);
-    void FUN_00e58a20(SolverVector*, SolverVector*, SolverVector*);
 };
-float DotProduct(SolverVector*, SolverVector*);
-__declspec(noalias) void FUN_00e58960(SolverVector*, float*, SolverVector*);
-void FUN_00e589a0(SolverVector*, SolverVector*);
-void NegateElements(SolverVector*);
-__declspec(noalias) void FUN_00e58900(SolverVector*, SolverVector*, float*, SolverVector*);
 // Runs up to count iterations, returning true when the squared residual is below tolerance squared at an iteration check.
 // @fnv 0x00e58f10
 bool* ConjugateGradientSolve(bool* abConverged, SolverMatrix* matrix, SolverVector* apInitialGuess, SolverVector* apRhs,
@@ -1348,12 +1298,12 @@ bool* ConjugateGradientSolve(bool* abConverged, SolverMatrix* matrix, SolverVect
     int size = apInitialGuess->FUN_00cc0760();
     SolverVector temp;
     SolverVector pResidual, p, pMatVec, x;
-    apRhs->FUN_00e58e80(&pResidual, matrix->FUN_00e58ea0(&temp, apInitialGuess));
-    temp.FUN_00c7b0f0();
+    ::FUN_00e58e80((int)(apRhs), (int)(&pResidual), (::E58E80Object *)(::SolverVector *)(((::SolverVector *)(reinterpret_cast<::S_00e58ea0_cls *>((matrix))->FUN_00e58ea0((::S_00e58ea0_Gen *)(::SolverVector *)(&temp), (::S_00e58ea0_Gen *)(apInitialGuess))))), *(const ::E87E0Matrix *)nullptr);
+    reinterpret_cast<::FUN_00c7b0f0_shell *>(&(temp))->FUN_00c7b0f0();
     p.CopyFrom(&pResidual);
-    pMatVec.InitArray(size, 1);
-    x.InitArray(matrix->FUN_00dbbc00(), 1);
-    float fResidualNormSq = DotProduct(&pResidual, &pResidual);
+    reinterpret_cast<::Stand_e58d90 *>(&(pMatVec))->InitArray(size, 1);
+    reinterpret_cast<::Stand_e58d90 *>(&(x))->InitArray(reinterpret_cast<::DBBCBC0Target *>((matrix))->FUN_00dbbc00(), 1);
+    float fResidualNormSq = ::DotProduct((::CE588A0Vector *)(::SolverVector *)(&pResidual), (::CE588A0Vector *)(::SolverVector *)(&pResidual));
     float fToleranceSq = tolerance * tolerance;
     int i = 0;
     if (aiMaxIterations > 0)
@@ -1364,34 +1314,34 @@ bool* ConjugateGradientSolve(bool* abConverged, SolverMatrix* matrix, SolverVect
                 *abConverged = true;
                 goto done;
             }
-            matrix->FUN_00e58b10(&pMatVec, &p, &x);
+            reinterpret_cast<::FUN_00e58b10_class *>((matrix))->FUN_00e58b10((int)(&pMatVec), (int)(&p), (int)(&x));
             {
-                float fStepSize = (float)((double)fResidualNormSq / DotProduct(&p, &pMatVec));
-                FUN_00e58960(apInitialGuess, &fStepSize, &p);
+                float fStepSize = (float)((double)fResidualNormSq / ::DotProduct((::CE588A0Vector *)(::SolverVector *)(&p), (::CE588A0Vector *)(::SolverVector *)(&pMatVec)));
+                ::FUN_00e58960((::FUN_00e587b0_Class *)(apInitialGuess), &fStepSize, (::FUN_00e58880_Class *)(::SolverVector *)(&p));
                 ++i;
                 if (i % 50 == 0)
                 {
-                    FUN_00e589a0(&pResidual, apRhs);
-                    matrix->FUN_00e58a20(&pResidual, apInitialGuess, &x);
-                    NegateElements(&pResidual);
+                    ::FUN_00e589a0((::FUN_00e587b0_Class *)(::SolverVector *)(&pResidual), (::FUN_00e58880_Class *)(apRhs));
+                    reinterpret_cast<::FUN_00e58a20_cls *>((matrix))->FUN_00e58a20((::SampleField *volatile)(&pResidual), (::SampleField *)(apInitialGuess), (::SampleField *)(::SolverVector *)(&x));
+                    ::fnv_00e589e0::NegateElements((::fnv_00e589e0::FUN_00e587b0_Class *)(::SolverVector *)(&pResidual));
                 }
                 else
                 {
                     fStepSize = -fStepSize;
-                    FUN_00e58960(&pResidual, &fStepSize, &pMatVec);
+                    ::FUN_00e58960((::FUN_00e587b0_Class *)(::SolverVector *)(&pResidual), &fStepSize, (::FUN_00e58880_Class *)(::SolverVector *)(&pMatVec));
                 }
             }
             float fPrevResidualNormSq = fResidualNormSq;
-            fResidualNormSq = DotProduct(&pResidual, &pResidual);
+            fResidualNormSq = ::DotProduct((::CE588A0Vector *)(::SolverVector *)(&pResidual), (::CE588A0Vector *)(::SolverVector *)(&pResidual));
             float beta = fResidualNormSq / fPrevResidualNormSq;
-            FUN_00e58900(&p, &pResidual, &beta, &p);
+            ::FUN_00e58900((::E589Destination *)(::SolverVector *)(&p), (::E589Values *)(::SolverVector *)(&pResidual), &beta, (::E589ScaledValues *)(::SolverVector *)(&p));
         } while (i < aiMaxIterations);
     *abConverged = false;
 done:
-    x.FUN_00c7b0f0();
-    pMatVec.FUN_00c7b0f0();
-    p.FUN_00c7b0f0();
-    pResidual.FUN_00c7b0f0();
+    reinterpret_cast<::FUN_00c7b0f0_shell *>(&(x))->FUN_00c7b0f0();
+    reinterpret_cast<::FUN_00c7b0f0_shell *>(&(pMatVec))->FUN_00c7b0f0();
+    reinterpret_cast<::FUN_00c7b0f0_shell *>(&(p))->FUN_00c7b0f0();
+    reinterpret_cast<::FUN_00c7b0f0_shell *>(&(pResidual))->FUN_00c7b0f0();
     return abConverged;
 }
 
@@ -1459,8 +1409,6 @@ long __stdcall FUN_00ee6e40(void* pvCode, ConstTableE95** ppkTable);
 class ShaderMgrE95
 {
   public:
-    void* CreateVertexShaderChecked(void* pvCode, unsigned int* puiVersion, unsigned int uiCodeSize, void* pvDecl,
-                                    unsigned int uiFlags, unsigned int uiUsage);
     bool FUN_00e95ba0(ShaderSrcE95* pkShader);
 };
 
@@ -1473,7 +1421,7 @@ bool ShaderMgrE95::FUN_00e95ba0(ShaderSrcE95* pkShader)
         return false;
 
     unsigned int uiVersion = pkShader->GetShaderVersion();
-    void* pvHandle = CreateVertexShaderChecked(pvCode, &uiVersion, pkShader->GetCodeSize(), 0, 0, 0);
+    void* pvHandle = ::CreateVertexShaderChecked((void *)this, pvCode, (unsigned int)(&uiVersion), (void *)(pkShader->GetCodeSize()), (unsigned int)(0), 0);
     if (!pvHandle)
         return false;
 
@@ -1497,7 +1445,6 @@ struct S00e96610_CT
 struct D3DDeviceStandIn;
 const char* __stdcall FUN_00ee6e2e(void* pDevice);
 
-int __cdecl FUN_00aa0020(int, bool, const char*, ...);
 
 struct S00e96610_Creator;
 struct ShaderTargetName
@@ -1509,7 +1456,7 @@ struct ShaderTargetName
 inline void S00e96610_DefaultTarget(const char*& pcTarget)
 {
     if (!pcTarget)
-        pcTarget = FUN_00ee6e2e(DAT_0126fa28);
+        pcTarget = FUN_00ee6e2e(::g_0126fa28);
 }
 
 struct S00e96610_VSBase
@@ -1602,11 +1549,6 @@ struct S00e96610_VS : S00e96610_VSMid
 struct S00e96610_Creator
 {
     void* m_vtbl;
-    bool CompileShaderFromFile(const char* pcFileName, const char* pcEntryPoint, const char* pcShaderTarget,
-                               void*& pvCode, unsigned int& uiCodeSize, S00e96610_CT*& pkConstantTable,
-                               bool bRecoverable);
-    void* CreateVertexShaderChecked(void* pvCode, void** phDecl, unsigned int uiUsage, void* pvUnused,
-                                    unsigned int uiUnused1, unsigned int bSoftwareVP);
     S00e96610_VS* FUN_00e96610(const char* pcFileName, const char* pcShaderName, const char* pcEntryPoint,
                                ShaderTargetName pcShaderTarget, void* hDecl, unsigned int uiUsage,
                                unsigned int bSoftwareVP, bool bRecoverable);
@@ -1631,17 +1573,17 @@ S00e96610_VS* S00e96610_Creator::FUN_00e96610(const char* pcFileName, const char
     S00e96610_DefaultTarget(pcShaderTarget.value);
     _ReadWriteBarrier();
 
-    if (!CompileShaderFromFile(pcFileName, pcEntryPoint, pcShaderTarget.value, pvCode, uiCodeSize, pkConstantTable,
+    if (!reinterpret_cast<::HLSLFileCreator *>(this)->CompileShaderFromFile(pcFileName, pcEntryPoint, pcShaderTarget.value, pvCode, uiCodeSize, (::ID3DXConstantTable *&)(pkConstantTable),
                                bRecoverable))
     {
         delete pkShader;
         return 0;
     }
 
-    void* hShader = CreateVertexShaderChecked(pvCode, &hDecl, uiUsage, 0, 0, bSoftwareVP);
+    void* hShader = ::CreateVertexShaderChecked((void *)this, pvCode, (unsigned int)(&hDecl), (void *)(uiUsage), (unsigned int)(0), 0);
     if (!hShader)
     {
-        FUN_00aa0020(1, bRecoverable, "Failed CreateVertexShader call on %s\n", pcShaderName);
+        ::FUN_00aa0020(1, bRecoverable, "Failed CreateVertexShader call on %s\n", pcShaderName);
         delete pkShader;
         return 0;
     }
@@ -1754,10 +1696,6 @@ class HLSLPixelShaderObj : public PixelShader96
 
 struct HLSLFileShaderCreator : NiD3DShaderProgramCreatorHLSL
 {
-    bool CompileShaderFromFile(const char* pcFileName, const char* pcEntryPoint, const char* pcShaderTarget,
-                               void*& pvCode, unsigned int& uiCodeSize, ID3DXConstantTable*& pkConstantTable,
-                               bool bRecoverable);
-    void* FUN_00e988d0(void* pvCode);
     HLSLPixelShaderObj* FUN_00e96990(ShaderArgs args, const char* pcEntryPoint, const char* pcShaderTarget,
                                      bool bRecoverable);
 };
@@ -1778,18 +1716,18 @@ HLSLPixelShaderObj* HLSLFileShaderCreator::FUN_00e96990(ShaderArgs args, const c
     if (!pcEntryPoint)
         pcEntryPoint = "main";
     if (!pcShaderTarget)
-        pcShaderTarget = FUN_00ee6e28(DAT_0126fa28);
+        pcShaderTarget = FUN_00ee6e28(::g_0126fa28);
 
-    if (!CompileShaderFromFile(args.pcFileName, pcEntryPoint, pcShaderTarget, pvCode, uiCodeSize, pkConstantTable,
+    if (!reinterpret_cast<::HLSLFileCreator *>(this)->CompileShaderFromFile(args.pcFileName, pcEntryPoint, pcShaderTarget, pvCode, uiCodeSize, pkConstantTable,
                                bRecoverable))
     {
         delete pkPixelShader;
         return 0;
     }
-    void* hShader = FUN_00e988d0(pvCode);
+    void* hShader = ((void *)(::FUN_00e988d0((void *)this)));
     if (!hShader)
     {
-        FUN_00aa0020(1, bRecoverable, "Failed CreatePixelShader call on %s\n", args.pcShaderName);
+        ::FUN_00aa0020(1, bRecoverable, "Failed CreatePixelShader call on %s\n", args.pcShaderName);
         delete pkPixelShader;
         return 0;
     }
@@ -1812,6 +1750,16 @@ struct Dummy_00cc0760
     int rows;
     int FUN_00cc0760();
 };
+// @fnv 0x00e58ea0
+S_00e58ea0_Gen* S_00e58ea0_cls::FUN_00e58ea0(S_00e58ea0_Gen* a1, S_00e58ea0_Gen* a2)
+{
+    a1->InitFloatArray(reinterpret_cast<::Dummy_00cc0760 *>((a2))->FUN_00cc0760(), reinterpret_cast<::FUN_00e587a0_Class *>((a2))->FUN_00e587a0(), 0.0f);
+    S_00e58ea0_Arr tmpArr;
+    tmpArr.InitFloatArray(reinterpret_cast<::DBBCBC0Target *>(this)->FUN_00dbbc00(), reinterpret_cast<::FUN_00e587a0_Class *>((a2))->FUN_00e587a0(), 0.0f);
+    reinterpret_cast<::FUN_00e58a20_cls *>(this)->FUN_00e58a20((::SampleField *volatile)(a1), (::SampleField *)(a2), (::SampleField *)(::S_00e58ea0_Arr *)(&tmpArr));
+    reinterpret_cast<::FUN_00c7b0f0_shell *>(&(tmpArr))->FUN_00c7b0f0();
+    return a1;
+}
 // @fnv 0x00cc0760
 int Dummy_00cc0760::FUN_00cc0760()
 {
@@ -1841,17 +1789,17 @@ HLSLPixelShaderObj* BufferPixelShaderCreator::FUN_00e96100(ID3DXBuffer* code, un
     if (!entryPoint)
         entryPoint = "main";
     if (!target)
-        target = FUN_00ee6e28(DAT_0126fa28);
+        target = FUN_00ee6e28(::g_0126fa28);
 
-    void* handle = FUN_00e988d0(code->GetBufferPointer());
+    void* handle = ((void *)(::FUN_00e988d0((void *)this)));
     if (!handle)
     {
-        FUN_00aa0020(1, recoverable, "Failed CreatePixelShader call on %s\n", name);
+        ::FUN_00aa0020(1, recoverable, "Failed CreatePixelShader call on %s\n", name);
         delete shader;
         return 0;
     }
 
-    void* copy = NiMalloc(codeSize);
+    void* copy = ::FUN_00aa1070(codeSize);
     NiMemcpy(copy, code->GetBufferPointer(), code->GetBufferSize());
 
     shader->SetName(name);

@@ -37,23 +37,8 @@ struct FUN_00b3ef80_shell
 {
     int m_iValueAt00;
     void* m_pObjectAt04;
-    float FUN_00b3ed20();
     Vector3D GetVector3();
 };
-
-// Builds a 3-component vector by calling FUN_00b3ed20 once per component and returns it.
-// @fnv 0x00b3ef80
-Vector3D FUN_00b3ef80_shell::GetVector3()
-{
-    Vector3D vecResult;
-    int iComponent;
-    vecResult.m_fComponents[2] = 0.0f;
-    vecResult.m_fComponents[1] = 0.0f;
-    vecResult.m_fComponents[0] = 0.0f;
-    for (iComponent = 0; iComponent < 3; iComponent++)
-        vecResult.m_fComponents[iComponent] = FUN_00b3ed20();
-    return vecResult;
-}
 
 struct FUN_00b3ed20_range
 {
@@ -72,6 +57,19 @@ struct FUN_00b3ed20_cls
     FUN_00b3ed20_range m_range;
     float FUN_00b3ed20();
 };
+// Builds a 3-component vector by calling FUN_00b3ed20 once per component and returns it.
+// @fnv 0x00b3ef80
+Vector3D FUN_00b3ef80_shell::GetVector3()
+{
+    Vector3D vecResult;
+    int iComponent;
+    vecResult.m_fComponents[2] = 0.0f;
+    vecResult.m_fComponents[1] = 0.0f;
+    vecResult.m_fComponents[0] = 0.0f;
+    for (iComponent = 0; iComponent < 3; iComponent++)
+        vecResult.m_fComponents[iComponent] = reinterpret_cast<::FUN_00b3ed20_cls *>(this)->FUN_00b3ed20();
+    return vecResult;
+}
 
 // @fnv 0x00b3ed20
 float FUN_00b3ed20_cls::FUN_00b3ed20()

@@ -3,6 +3,7 @@
 // until the canonical header is regenerated and this file retires.
 #ifndef FNV_BSTIMER_H
 #define FNV_BSTIMER_H
+#include "fnv/decl/FUN_00aa4ee0_t.h"
 #include "layout_support.h"
 #pragma pack(push, 4)
 class GameTimerRecord
@@ -21,7 +22,6 @@ class GameTimerRecord
     unsigned char layoutPadding1E[2];
     void Enable();
     void Update();
-    void Update(unsigned int uiTimer);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(GameTimerRecord) == 0x20);

@@ -3,6 +3,7 @@
 #define FNV_MAGICCASTER_PRIVATE_MAGICTARGET_H
 
 #include "magiccaster_private_layout_support.h"
+class Actor;
 class MagicTarget
 {
   public:
@@ -11,6 +12,8 @@ class MagicTarget
     unsigned char layoutPadding6[2];
     BSSimpleList<MagicEffectContext*> m_kActiveEffectList;  // +0x8
     virtual bool AddEffectToTarget(MagicCaster* caster, MagicItem* spell, ActiveEffect* effect, bool immediate);
+public:
+    ::Actor *GetOwnerActor() const;
 };
 FNV_STATIC_ASSERT(sizeof(MagicTarget) == 0x10);
 FNV_STATIC_ASSERT(offsetof(MagicTarget, m_bLeadingFlag) == 0x4);

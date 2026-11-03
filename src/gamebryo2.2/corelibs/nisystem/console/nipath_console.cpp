@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_01013000.h"
 extern "C" int __cdecl FUN_00eccbdc(int, int);
 
 // @fnv 0x00aa2d10
@@ -17,7 +18,6 @@ extern "C" char* __cdecl FUN_00ec7690(const char* s, int c);
 extern "C" int __cdecl FUN_00eca7f4(int c);
 
 extern char str_010a2564[];
-extern char DAT_01013444[];
 
 // Skips a leading drive letter or path prefix in s and returns the pointer past it.
 // @fnv 0x00aa2c50

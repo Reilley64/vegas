@@ -3,22 +3,68 @@
 
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/ActionOwnerC9d590.h"
+#include "fnv/decl/C74C20Quat.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_004ee840_cls.h"
+#include "fnv/decl/FUN_005610f0_cls.h"
+#include "fnv/decl/FUN_005611c0_t.h"
+#include "fnv/decl/FUN_005616d0_Owner.h"
+#include "fnv/decl/FUN_00561800_Class.h"
+#include "fnv/decl/FUN_00a63460_shell.h"
+#include "fnv/decl/FUN_00c87a40_obj.h"
+#include "fnv/decl/FUN_00c9d4f0_cls.h"
+#include "fnv/decl/FUN_00ca8420_Class.h"
+#include "fnv/decl/ListX.h"
+#include "fnv/decl/NiAVObject.h"
+#include "fnv/decl/NiObject.h"
+#include "fnv/decl/Obj577.h"
+#include "fnv/decl/Quat74.h"
+#include "fnv/decl/S.h"
+#include "fnv/decl/S00c859e0_cls.h"
+#include "fnv/decl/S_0060ba10.h"
+#include "fnv/decl/S_00a64670_Foo.h"
+#include "fnv/decl/S_00c8cd20_object.h"
+#include "fnv/decl/SwapBlock_c8ce70.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/WorldObjectView.h"
+#include "fnv/decl/fnv_005617c0__FUN_005617c0_.h"
+#include "fnv/decl/fnv_00626cb0__FUN_00626cb0_Class.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00c87000.h"
+#include "fnv/symbols_00c8e000.h"
+#include "fnv/symbols_00c8f000.h"
+#include "fnv/symbols_00cc8000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0104f000.h"
+#include "fnv/symbols_0106b000.h"
+#include "fnv/symbols_01095000.h"
+#include "fnv/symbols_010c6000.h"
+#include "fnv/symbols_011af000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01204000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_0126f000.h"
+#include "fnv/symbols_01272000.h"
 struct NiObject;
 struct NiStream
 {
-    NiObject* GetLoadedObject();
-    unsigned int GetLinkID();
 };
 struct bhkRigidBody
 {
-    void FUN_00c859e0(NiStream*);
-    void FUN_00c8ef80(NiObject*);
     void FUN_00c8f3c0(NiStream*);
+public:
+    float GetBodyMass();
 };
-char* __cdecl FUN_00a7d5e0(const char*, const char*);
 struct NiTPrimitiveArray_unsigned_int_
 {
-    unsigned int AddFirstEmpty(unsigned int const&);
 };
 struct StrArr
 {
@@ -28,21 +74,16 @@ struct StrArr
     unsigned short m_usSize;
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
     void Add(char*& e)
     {
         unsigned int i = m_usSize;
         if (i >= m_usMaxSize)
-            SetSize(i + m_usGrowBy);
-        SetAt(i, e);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(i + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(i, e);
     }
 };
-void __cdecl AddMotionTypeName(StrArr* arr, int type);
 struct FUN_00c8eb00_s
 {
-    void __thiscall ProcessListNodes();
-    void __thiscall FUN_00c9d590();
     void __thiscall FUN_00c8eb00();
 };
 struct LinkedRecord
@@ -131,7 +172,6 @@ struct S_00c8d440_Target
     virtual void v3();
     virtual void v4(unsigned int id, S_00c8d440_Arg arg);
 };
-extern S_00c8d440_Target* DAT_01268360;
 void __stdcall FUN_00c8d440(bool flag);
 struct NativeData
 {
@@ -221,7 +261,6 @@ struct NativeThing
 struct NiRTTI
 {
 };
-extern NiRTTI DAT_01267b70;
 struct NativeLink
 {
     NativeThing* object;
@@ -280,18 +319,14 @@ struct BodyUpdate
     {
         return (flags >> 6) & 1;
     }
-    bool FUN_00c85810(void*);
-    void FUN_00a29680();
-    void UpdateMatchingNodes(void*);
-    void* FUN_00c87a40();
     bool InWorld()
     {
         NativeThing* body = native;
         if (!body)
             return false;
-        FUN_00a29680();
+        ::FUN_00a29680();
         bool inWorld = body->world != 0;
-        FUN_00a29680();
+        ::FUN_00a29680();
         return inWorld;
     }
     int MotionType() const
@@ -386,16 +421,12 @@ struct C8Obj
     int unkE0;
     int unkE4;
     unsigned char state;
-    void Setup(int, bool, int);
 };
 struct C8Owner
 {
     int unk00;
     int unk04;
     C8Obj* obj;
-    void Toggle();
-    void Apply(C8Flags);
-    float GetValue();
     bool SetState(int state);
 };
 static inline bool IsSpecial(unsigned int t)
@@ -446,8 +477,6 @@ struct ObjBase
     virtual void v98();
     virtual void v9C();
     virtual void vA0();
-    int Helper1();
-    int Helper2();
 };
 struct ListNode
 {
@@ -464,8 +493,6 @@ struct FUN_00c8e770_cls
     ListNode m_14;
     void ProcessListNodes();
 };
-extern char DAT_0126818c;
-extern char DAT_01268158;
 struct C8EC60RTTI
 {
     const char* m_pcName;
@@ -529,23 +556,18 @@ class C8EC60Object
 class C8EC60Constraint : public C8EC60Object
 {
   public:
-    static const C8EC60RTTI ms_kRTTI;
 
-    void* GetConstraint();
 };
 class C8EC60RefObject : public C8EC60Object
 {
   public:
-    static const C8EC60RTTI ms_kRTTI;
 
-    void* GetReferencedData();
 };
 class C8EC60Iterator
 {
   public:
     C8EC60Object* m_pkCurrent;
 
-    void Next();
 };
 class C8EC60World
 {
@@ -563,9 +585,6 @@ class C8EC60World
     }
     void FUN_00c8ec60();
 };
-extern int DAT_0126810c;
-extern int DAT_012681fc;
-extern int DAT_012681bc;
 void* __cdecl FUN_00aa13e0(unsigned int size);
 struct OwnerBase
 {
@@ -619,12 +638,9 @@ struct SpawnedObject : public ChainB_cls
         DAT_012681bc += 1;
     }
 };
-SpawnedObject* __cdecl FUN_00c8ed70();
 struct NiNode;
 struct HavokShape
 {
-    void FUN_00c8f080();
-    void FUN_00c8eb20(void* context);
 };
 struct HavokLookup
 {
@@ -636,7 +652,6 @@ struct HavokLookup
 };
 struct HavokProperty
 {
-    HavokLookup* FUN_00653290(const void* key);
 };
 struct HavokObject
 {
@@ -653,7 +668,6 @@ struct HavokObject
     void* source;
     HavokProperty* property;
 
-    void FUN_00a68bf0();
 };
 struct NiTransform
 {
@@ -686,8 +700,6 @@ struct NiNode
     unsigned short maxChildren;
     unsigned short childCount;
 };
-extern char DAT_012043f8;
-void __cdecl ApplyHavokOperation(HavokObject* object, int operation, void* context);
 struct NiObject;
 struct CloningProcess
 {
@@ -996,8 +1008,6 @@ struct RigidBodyS
     unsigned int unk10;
     CloneNode list;
 
-    void BaseCopyMembers(RigidBodyS* dest, CloningProcess* c);
-    void LockStub();
     unsigned int GetFlagsW()
     {
         return GetWFlags(unk08);
@@ -1012,9 +1022,9 @@ struct RigidBodyS
         hkWorldObjStub* w = unk08;
         if (!w)
             return;
-        LockStub();
+        ::FUN_00a29680();
         hkWorldObjSub* s = w->GetSub();
-        LockStub();
+        ::FUN_00a29680();
         if (s)
             s->flags = f;
     }
@@ -1025,25 +1035,19 @@ struct RigidBodyS
     void AddClonedStub(NiObject*);
     void CopyBodyToClone(RigidBodyS* dest, CloningProcess* c);
 };
-extern __declspec(thread) unsigned int hkThreadMemoryFlags;
 struct ThreadFlagsGuard
 {
     unsigned int saved;
     ThreadFlagsGuard()
     {
-        saved = hkThreadMemoryFlags;
-        hkThreadMemoryFlags = 0x10;
+        saved = ::currentAllocationContext;
+        ::currentAllocationContext = 0x10;
     }
     ~ThreadFlagsGuard()
     {
-        hkThreadMemoryFlags = saved;
+        ::currentAllocationContext = saved;
     }
 };
-void LockWorldStub();
-void UnlockWorldStub();
-extern unsigned int g_iRefObjectCountA;
-extern int g_iSerializableCount;
-extern int g_iLiquidActionCount;
 struct bhkRefObjectBase
 {
     virtual ~bhkRefObjectBase();
@@ -1064,14 +1068,14 @@ struct bhkRefObjectLvl : bhkRefObjectBase
     } links;
     bhkRefObjectLvl()
     {
-        ++g_iRefObjectCountA;
+        ++(*reinterpret_cast<unsigned int *>(&::DAT_0126810c));
     }
 };
 struct bhkSerializableLvl : bhkRefObjectLvl
 {
     bhkSerializableLvl()
     {
-        ++g_iSerializableCount;
+        ++::DAT_012681fc;
     }
 };
 struct bhkLiquidAction : bhkSerializableLvl
@@ -1082,7 +1086,7 @@ struct bhkLiquidAction : bhkSerializableLvl
     {
         unk14 = 0;
         unk18 = 0;
-        ++g_iLiquidActionCount;
+        ++::DAT_012681bc;
     }
 };
 struct bhkRigidBodyX
@@ -1151,26 +1155,23 @@ struct bhkRigidBodyX
     virtual void vfF4();
     virtual void vfF8();
     virtual void SetLockedStub(bool locked);
-    void AddActionStub(bhkLiquidAction* action, int param);
     bhkLiquidAction* CreateAndAddLiquidAction(int param);
 };
-extern __declspec(thread) int g_tlsMemContext;
 struct ScopedMemoryContext
 {
     int iOldContext;
     ScopedMemoryContext(int aiContext)
     {
-        iOldContext = g_tlsMemContext;
-        g_tlsMemContext = aiContext;
+        iOldContext = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiContext;
     }
     ~ScopedMemoryContext()
     {
-        g_tlsMemContext = iOldContext;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = iOldContext;
     }
 };
 struct GlobalObject_004ee810
 {
-    void FUN_004ee920();
 };
 struct FUN_00c9d4c0_holder
 {
@@ -1192,8 +1193,6 @@ struct C8DAC0RTTI
     const char* m_pcName;
     const C8DAC0RTTI* m_pBaseRTTI;
 };
-extern char DAT_0126818c;
-extern char DAT_01268628;
 class C8DAC0Object
 {
   public:
@@ -1285,24 +1284,22 @@ struct LiquidLink
 struct FUN_00c8e9c0 : LiquidBase
 {
     LiquidLink link;
-    void FUN_00c8da40();
     virtual ~FUN_00c8e9c0();
 };
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
-extern __declspec(thread) int g_iAllocTagC8E;
 struct AllocTagScopeC8E
 {
     int m_iSaved;
 
     AllocTagScopeC8E(int aiAllocationTag)
     {
-        m_iSaved = g_iAllocTagC8E;
-        g_iAllocTagC8E = aiAllocationTag;
+        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
     }
     ~AllocTagScopeC8E()
     {
-        g_iAllocTagC8E = m_iSaved;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
     }
 };
 class NiRTTIC8E
@@ -1345,8 +1342,6 @@ class NiObjectC8E
 
     unsigned int m_uiRefCount;
 };
-extern const NiRTTIC8E g_kGeometryRTTIC8E;
-extern const NiRTTIC8E g_kNodeRTTIC8E;
 template <class T> class NiPointerC8E
 {
   public:
@@ -1412,13 +1407,10 @@ struct LinkNode
 {
     RefCountedObj* m_pEntryObject;
     LinkNode* m_pNext;
-    void Release();
 };
 struct LinkNodePool
 {
-    void Free(LinkNode*);
 };
-extern LinkNodePool g_linkNodePool;
 class FUN_00c88990_cls
 {
   public:
@@ -1426,7 +1418,6 @@ class FUN_00c88990_cls
     LinkNode* m_pNext;
     void PopAndRelease();
 };
-void __cdecl FUN_00c8ecf0(HavokObject* object);
 #include <xmmintrin.h>
 struct hkVector
 {
@@ -1438,7 +1429,6 @@ struct hkVector
         m_vComponents = v.m_vComponents;
     }
 };
-extern hkVector DAT_01267e30;
 namespace c8d {
 struct Body
 {
@@ -1459,7 +1449,7 @@ hkVector Ent::FUN_00c8d200()
     if (this && m_pPhysicsBody)
         p = &m_pPhysicsBody->m_kPos;
     else
-        p = &DAT_01267e30;
+        p = &(*reinterpret_cast<::hkVector *>(&::DAT_01267e30));
     return *p;
 }
 }
@@ -1476,7 +1466,6 @@ struct __declspec(align(16)) hkVector4
         return *this;
     }
 };
-extern hkVector4 g_zero;
 struct Inner
 {
     char pad0[0x140];
@@ -1495,7 +1484,6 @@ struct Transform_c8d3
     __m128 m_kColumn2;
     __m128 m_vTranslation;
 };
-extern Transform_c8d3 DAT_01268370;
 struct Aabb_c8d3
 {
     __m128 m_kMinimumCorner;
@@ -1535,7 +1523,6 @@ class WorldObject_c8d3
     int unk04;
     Entity_c8d3* m_pkEntity;
 
-    void FUN_00a29680();
     void GetAabb(Aabb_c8d3& kOut);
 };
 struct BuildSettings
@@ -1751,8 +1738,6 @@ struct FUN_00ca8c90
     unsigned int unk218;
     unsigned int unk21C;
     FUN_00ca8c90(void* settings);
-    void FUN_00ca8420(int motion, int activate, int extra);
-    void FUN_00c905b0();
     static void* operator new(unsigned int size)
     {
         FUN_00ca8c90* p = (FUN_00ca8c90*)FUN_00c85750()->AllocateBody(size);
@@ -1831,17 +1816,14 @@ struct BodyBuild
     virtual void FinishBuild(BuildSettings* settings);
     unsigned int unk04;
     BodyNative* native;
-    void FUN_00a29680();
-    void GetAabb(Bounds* bounds);
-    float FUN_00577b50();
     BodyMotion* GetMotion()
     {
         BodyNative* p = native;
         if (!p)
             return 0;
-        FUN_00a29680();
+        ::FUN_00a29680();
         BodyMotion* result = p ? &p->motion : 0;
-        FUN_00a29680();
+        ::FUN_00a29680();
         return result;
     }
     void ConfigureBody(BuildSettings* settings);
@@ -1869,28 +1851,21 @@ struct CollisionOwner
     void* vtable;
     void* unk04;
     void* node;
-    void FUN_00a29680();
     void DispatchCollision(Receiver*);
     __forceinline BodySlot* GetSlot()
     {
         char* base = (char*)node;
         if (base)
         {
-            FUN_00a29680();
+            ::FUN_00a29680();
             base += 16;
-            FUN_00a29680();
+            ::FUN_00a29680();
             if (base)
                 return (BodySlot*)base;
         }
         return 0;
     }
 };
-extern float DAT_0104ffb8;
-extern float DAT_01011d78;
-extern float DAT_01017d00;
-extern const float g_fConst01011d78;
-void AccumulateCenterOfMass(void* a, __m128* v, float* f);
-void __cdecl GetScalarAndVector(void* a, __m128* out, float* pf);
 struct BinaryStream_c8ea
 {
     int unk00;
@@ -1910,18 +1885,14 @@ class RigidBody_c8ea
 {
   public:
     unsigned int m_uiValue1;
-    void SwapEndian();
 };
 class WorldObject_c8ea
 {
   public:
     virtual void v00();
-    void FUN_00c9d4f0(char* pkStream);
-    float FUN_0062ab20();
 };
 struct LoadStream_c8ea
 {
-    void FUN_00a64670();
 };
 class Entity_c8ea : public WorldObject_c8ea
 {
@@ -2038,13 +2009,11 @@ class Constraint_eb20
         return false;
     }
 
-    unsigned int GetLinkedRecordValue();
 };
 struct ConstraintList_eb20
 {
     Constraint_eb20* m_pkItem;
     ConstraintList_eb20* m_pkNext;
-    void PopAndRelease();
 };
 struct WorldData_eb20
 {
@@ -2271,10 +2240,9 @@ struct RefObject_eb20
     unsigned int m_uiValue1;
     ConstraintList_eb20 m_kConstraints;
 
-    void* FUN_00c87a40();
     int GetWorld()
     {
-        WorldData_eb20* pkData = (WorldData_eb20*)FUN_00c87a40();
+        WorldData_eb20* pkData = (WorldData_eb20*)reinterpret_cast<::FUN_00c87a40_obj *>(this)->FUN_00c87a40();
         return pkData ? pkData->m_iWorld : 0;
     }
     unsigned char IsInWorld() const
@@ -2283,24 +2251,20 @@ struct RefObject_eb20
     }
     void FUN_00c8eb20(bool bSetWorld);
 };
-extern "C" __declspec(thread) int tls_iMemContext_eb20;
 struct MemContextGuard_eb20
 {
     int m_iOldContext;
     MemContextGuard_eb20(int aiMemoryContext)
     {
-        m_iOldContext = tls_iMemContext_eb20;
-        tls_iMemContext_eb20 = aiMemoryContext;
+        m_iOldContext = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
     }
     ~MemContextGuard_eb20()
     {
-        tls_iMemContext_eb20 = m_iOldContext;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iOldContext;
     }
 };
-extern char DAT_0126818c;
 extern "C" unsigned long __readfsdword(unsigned long);
-extern unsigned int DAT_0126fd98;
-extern const float DAT_01017870;
 struct TlsBlock
 {
     int unk000;
@@ -2478,7 +2442,6 @@ struct TlsBlock
     int unk2b0;
     int unk2b4;
 };
-extern __declspec(thread) TlsBlock g_tlsBlock;
 struct MemScope
 {
     TlsBlock* block;
@@ -2500,7 +2463,6 @@ struct RTTI
     const char* name;
     RTTI* parent;
 };
-extern const unsigned char* const g_01268310_arg1;
 struct Obj
 {
     virtual void v0();
@@ -2555,6 +2517,8 @@ struct Obj
         }
         return false;
     }
+public:
+    bool FUN_00c85810(::Obj *);
 };
 struct Node
 {
@@ -2779,9 +2743,7 @@ struct IntegerTriple
 };
 struct bhkRefObject
 {
-    void* GetReferencedData();
 };
-Obj* __cdecl FUN_00cc81c0(Obj*, float);
 struct ParentData
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18;
@@ -2805,7 +2767,7 @@ struct Target
     Node list;
     void* getOwner()
     {
-        IntegerTriple* data = (IntegerTriple*)((bhkRefObject*)this)->GetReferencedData();
+        IntegerTriple* data = (IntegerTriple*)reinterpret_cast<::FUN_00c87a40_obj *>((((bhkRefObject*)this)))->FUN_00c87a40();
         return data ? data->unk350 : 0;
     }
     unsigned char getFlag()
@@ -2824,9 +2786,9 @@ struct Target
 
 typedef __m128 hkQuadReal;
 
-extern hkQuadReal DAT_010c71e0;  // (-0.5f, -0.5f, -0.5f, -0.5f)
-extern hkQuadReal DAT_010c4c00;  // sign mask for x,y,z
-extern hkQuadReal DAT_010ec7f0;  // (1, 1, 1, 1)
+  // (-0.5f, -0.5f, -0.5f, -0.5f)
+  // sign mask for x,y,z
+  // (1, 1, 1, 1)
 
 struct KFSimdReal
 {
@@ -2843,7 +2805,7 @@ struct KFVector4
 
     void setZero4()
     {
-        m_vComponents = DAT_01267e30.m_vComponents;
+        m_vComponents = (*reinterpret_cast<::hkVector *>(&::DAT_01267e30)).m_vComponents;
     }
     void setAdd4(const KFVector4& a, const KFVector4& b)
     {
@@ -2912,7 +2874,7 @@ struct KFVector4
     void setInterpolate4(const KFVector4& v0, const KFVector4& v1, const KFSimdReal& t)
     {
         hkQuadReal tt = _mm_shuffle_ps(t.m_vValue, t.m_vValue, 0);
-        hkQuadReal s = _mm_sub_ps(DAT_010ec7f0, tt);
+        hkQuadReal s = _mm_sub_ps(::DAT_010ec7f0, tt);
         m_vComponents = _mm_add_ps(_mm_mul_ps(s, v0.m_vComponents), _mm_mul_ps(tt, v1.m_vComponents));
     }
 };
@@ -2925,22 +2887,21 @@ struct KFQuaternion
     {
         m_vec.m_vComponents = _mm_xor_ps(DAT_010c4c00, q.m_vec.m_vComponents);
     }
-    void FUN_00c66320(const KFQuaternion& q0, const KFQuaternion& q1);
-    void FUN_005611c0();                                           // normalize
-    float GetAngle() const;                                    // getAngle
+                                               // normalize
+                                        // getAngle
     __declspec(noalias) void FUN_00c74c90(KFVector4& axis) const;  // getAxis
     void SetInverseProduct(const KFQuaternion& q0, const KFQuaternion& q1)
     {
         KFQuaternion inv;
         inv.SetConjugate(q1);
-        FUN_00c66320(q0, inv);
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)this, (void *)&(q0), (const ::fnv_00c66320::__m128 *)&(inv), {});
     }
 };
 
 __forceinline void SetRotatedDir(KFVector4& out, const KFQuaternion& quat, const KFVector4& direction)
 {
     KFVector4 minusHalf;
-    minusHalf.m_vComponents = DAT_010c71e0;
+    minusHalf.m_vComponents = ::DAT_010c71e0;
     KFVector4 qreal;
     qreal.m_vComponents = _mm_shuffle_ps(quat.m_vec.m_vComponents, quat.m_vec.m_vComponents, _MM_SHUFFLE(3, 3, 3, 3));
     KFVector4 q2minus1;
@@ -2990,8 +2951,6 @@ struct KFNativeBody : public NativeThing
     KFVector4 linearVelocity;
     KFVector4 angularVelocity;
 
-    void OnTrigger(const KFVector4& v);
-    void FUN_00561800(const KFVector4& v);
 };
 
 struct KFRigidBody
@@ -3061,29 +3020,28 @@ struct KFRigidBody
     unsigned int unk04;
     KFNativeBody* native;
 
-    float FUN_00577b50();   // max linear velocity
-    float GetFloatValue();  // max angular velocity
-    KFWorldInfo* FUN_00c87a40();
-    void FUN_00a29680();  // lock / unlock
+       // max linear velocity
+      // max angular velocity
+      // lock / unlock
 
     const KFVector4& GetLinearVelocityVector()
     {
         KFNativeBody* b = native;
-        return b ? b->linearVelocity : *(const KFVector4*)&DAT_01267e30;
+        return b ? b->linearVelocity : *(const KFVector4*)&(*reinterpret_cast<::hkVector *>(&::DAT_01267e30));
     }
     const KFVector4& GetAngularVelocity()
     {
         KFNativeBody* b = native;
-        return b ? b->angularVelocity : *(const KFVector4*)&DAT_01267e30;
+        return b ? b->angularVelocity : *(const KFVector4*)&(*reinterpret_cast<::hkVector *>(&::DAT_01267e30));
     }
     void SetLinearVelocity(const KFVector4& v)
     {
         KFNativeBody* b = native;
         if (b)
         {
-            FUN_00a29680();
-            b->OnTrigger(v);
-            FUN_00a29680();
+            ::FUN_00a29680();
+            reinterpret_cast<::FUN_005616d0_Owner *>((b))->OnTrigger((::TriggerContext *)&(v));
+            ::FUN_00a29680();
         }
     }
     void SetAngularVelocity(const KFVector4& v)
@@ -3091,9 +3049,9 @@ struct KFRigidBody
         KFNativeBody* b = native;
         if (b)
         {
-            FUN_00a29680();
-            b->FUN_00561800(v);
-            FUN_00a29680();
+            ::FUN_00a29680();
+            reinterpret_cast<::FUN_00561800_Class *>((b))->FUN_00561800((::FUN_00561730_Obj *)&(v));
+            ::FUN_00a29680();
         }
     }
 
@@ -3115,7 +3073,7 @@ void KFRigidBody::FUN_00c8de20(const KFVector4& nextPosition, const KFQuaternion
     linearVelocity.setMul4(invDeltaTime, linearVelocity);
 
     float linLen = linearVelocity.length3();
-    float maxLin = FUN_00577b50();
+    float maxLin = reinterpret_cast<::Obj577 *>(this)->FUN_00577b50();
     if (linLen > maxLin)
     {
         linearVelocity.mul4(maxLin / linLen);
@@ -3123,11 +3081,11 @@ void KFRigidBody::FUN_00c8de20(const KFVector4& nextPosition, const KFQuaternion
 
     KFQuaternion quatDif;
     quatDif.SetInverseProduct(nextOrientation, GetRotation());
-    quatDif.FUN_005611c0();
+    reinterpret_cast<::FUN_005611c0_t *>(&(quatDif))->FUN_005611c0();
 
     KFVector4 angularVelocity;
     angularVelocity.setZero4();
-    float angle = quatDif.GetAngle();
+    float angle = reinterpret_cast<::C74C20Quat *>((void *)&(quatDif))->GetAngle();
     if (0.001f < angle)
     {
         quatDif.FUN_00c74c90(angularVelocity);
@@ -3135,13 +3093,13 @@ void KFRigidBody::FUN_00c8de20(const KFVector4& nextPosition, const KFQuaternion
     }
 
     float angLen = angularVelocity.length3();
-    float maxAng = GetFloatValue();
+    float maxAng = reinterpret_cast<::S_00c8cd20_object *>(this)->GetFloatValue();
     if (angLen > maxAng)
     {
         angularVelocity.mul4(maxAng / angLen);
     }
 
-    KFWorldInfo* world = FUN_00c87a40();
+    KFWorldInfo* world = ((::KFWorldInfo *)(reinterpret_cast<::FUN_00c87a40_obj *>(this)->FUN_00c87a40()));
     if (world)
     {
         float g = world->gravity.getZ();
@@ -3158,6 +3116,7 @@ void KFRigidBody::FUN_00c8de20(const KFVector4& nextPosition, const KFQuaternion
 
 #include <xmmintrin.h>
 #include <math.h>
+#include "fnv/symbols_simd.h"
 namespace fnv_00c8e160 {
 extern "C" double fabs(double);
 struct V4_160
@@ -3182,7 +3141,6 @@ extern const float DAT_010959f4 = 9.9999999747524271e-07f;
 namespace threshold160 {
 extern const float DAT_01017d00 = 0.0010000000474974513f;
 }
-extern const __m128 DAT_01017d10;
 struct SmartObj160;
 struct RotationArg160
 {
@@ -3518,8 +3476,6 @@ struct Linked160
     unsigned int unk1ac;
     V4_160 linear;
     V4_160 angular;
-    void OnTrigger(float* p);
-    void FUN_00561800(float* p);
 };
 struct This160
 {
@@ -3586,31 +3542,18 @@ struct This160
     virtual V4_160* V160f0(V4_160* in);
     unsigned int unk04;
     Linked160* m_08;
-    void FUN_00a29680();
-    float FUN_00577b50();
-    void FUN_005610f0(float* p);
-    void FUN_00561690(float* p);
-    void FUN_005617c0(float* p);
     void FUN_00c8e160(float* p1, RotationArg160 input, unsigned int p3);
 };
 struct SmartObj160
 {
     int unk00;
     int ref04;
-    void FUN_0040fbf0(int x);
 };
 struct Vec50Obj
 {
     __m128 v;
-    void FUN_00c74ac0(float* q, V4_160* out);
-    void FUN_005611c0();
-    float GetAngle();
     void FUN_00c74c90(V4_160* out);
 };
-void __cdecl FUN_004a3e00(V4_160* a, float* b);
-extern float DAT_011afe64;
-extern const __m128 DAT_010c71e0;
-extern double DAT_0106b798;
 extern "C" void _ReadWriteBarrier();
 static __forceinline int MaskBits160(__m128 a)
 {
@@ -3675,21 +3618,21 @@ void This160::FUN_00c8e160(float* p1, RotationArg160 input, unsigned int p3)
         _mm_store_ss(&pair.dot, s2);
         *(volatile float*)&inv = pair.dot - 1.0f;
         inv = (float)fabs(*(volatile float*)&inv);
-        if (!(*(volatile float*)&inv > DAT_010959f4))
+        if (!(*(volatile float*)&inv > ::DAT_010959f4))
         {
             Linked160* lk = m_08;
-            V4_160* v1p = lk ? &lk->linear : (V4_160*)&DAT_01267e30;
-            __m128 eps = _mm_set1_ps(threshold160::DAT_01017d00);
+            V4_160* v1p = lk ? &lk->linear : (V4_160*)&(*reinterpret_cast<::hkVector *>(&::DAT_01267e30));
+            __m128 eps = _mm_set1_ps(::AngularDashpotApplyD4DCB0::DAT_01017d00);
             if ((MaskBits160(_mm_cmple_ps(
-                     _mm_and_ps(_mm_sub_ps(_mm_load_ps((float*)v1p), *(const __m128*)&DAT_01267e30), DAT_01017d10),
+                     _mm_and_ps(_mm_sub_ps(_mm_load_ps((float*)v1p), *(const __m128*)&(*reinterpret_cast<::hkVector *>(&::DAT_01267e30))), ::DAT_01017d10),
                      eps)) != 15))
             {
                 _mm_store_ps((float*)&W.v60, eps);
                 if (lk)
                 {
-                    FUN_00a29680();
-                    lk->OnTrigger((float*)&DAT_01267e30);
-                    FUN_00a29680();
+                    ::FUN_00a29680();
+                    reinterpret_cast<::FUN_005616d0_Owner *>((lk))->OnTrigger((::TriggerContext *)(float *)((float*)&(*reinterpret_cast<::hkVector *>(&::DAT_01267e30))));
+                    ::FUN_00a29680();
                     eps = W.v60.v;
                 }
             }
@@ -3699,25 +3642,25 @@ void This160::FUN_00c8e160(float* p1, RotationArg160 input, unsigned int p3)
             }
             __m128 eps2 = eps;
             lk = m_08;
-            V4_160* v2p = lk ? &lk->angular : (V4_160*)&DAT_01267e30;
+            V4_160* v2p = lk ? &lk->angular : (V4_160*)&(*reinterpret_cast<::hkVector *>(&::DAT_01267e30));
             int mask2 =
                 _mm_movemask_ps(_mm_cmple_ps(
-                    _mm_and_ps(_mm_sub_ps(_mm_load_ps((float*)v2p), *(const __m128*)&DAT_01267e30), DAT_01017d10),
+                    _mm_and_ps(_mm_sub_ps(_mm_load_ps((float*)v2p), *(const __m128*)&(*reinterpret_cast<::hkVector *>(&::DAT_01267e30))), ::DAT_01017d10),
                     eps2)) &
                 0xf;
             if (mask2 != 0xf)
             {
                 if (lk)
                 {
-                    FUN_00a29680();
-                    lk->FUN_00561800((float*)&DAT_01267e30);
-                    FUN_00a29680();
+                    ::FUN_00a29680();
+                    reinterpret_cast<::FUN_00561800_Class *>((lk))->FUN_00561800((::FUN_00561730_Obj *)(float *)((float*)&(*reinterpret_cast<::hkVector *>(&::DAT_01267e30))));
+                    ::FUN_00a29680();
                 }
             }
             return;
         }
     }
-    inv = DAT_011afe64;
+    inv = ::DAT_011afe64;
     if (inv == 0.0f)
         return;
     inv = 1.0f / inv;
@@ -3743,7 +3686,7 @@ void This160::FUN_00c8e160(float* p1, RotationArg160 input, unsigned int p3)
     crossAlias = _mm_sub_ps(crossAlias, t2);
     __m128 u = _mm_mul_ps(w4, w4);
     crossAlias = _mm_mul_ps(crossAlias, w4);
-    u = _mm_add_ps(u, DAT_010c71e0);
+    u = _mm_add_ps(u, ::DAT_010c71e0);
     u = _mm_mul_ps(u, b128);
     __m128 v = _mm_mul_ps(_mm_shuffle_ps(dot4, dot4, 0), separate_q.v);
     u = _mm_add_ps(u, v);
@@ -3766,10 +3709,10 @@ void This160::FUN_00c8e160(float* p1, RotationArg160 input, unsigned int p3)
     __m128 sq2 = _mm_shuffle_ps(sq, sq, 0xaa);
     __m128 sqs2 = _mm_add_ss(sq2, sqs);
     _mm_store_ss(&pair.vel, sqs2);
-    len = FUN_00577b50();
+    len = reinterpret_cast<::Obj577 *>(this)->FUN_00577b50();
     if (pair.vel > len * len)
     {
-        FUN_004a3e00(&W.tmpC0, p1);
+        ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&W.tmpC0)), (*(const ::fnv_004a3e00::NiPoint3 *)(p1)));
         W.tmpB.v.m128_f32[0] = p2[1];
         W.tmpB.v.m128_f32[1] = p2[2];
         W.tmpB.v.m128_f32[2] = p2[3];
@@ -3784,26 +3727,26 @@ void This160::FUN_00c8e160(float* p1, RotationArg160 input, unsigned int p3)
     __m128 sc2 = _mm_shuffle_ps(sqC, sqC, 0xaa);
     __m128 scs2 = _mm_add_ss(sc2, scs1);
     _mm_store_ss(&len, _mm_sqrt_ss(scs2));
-    if (DAT_0106b798 < len)
+    if (::CombatWeapons::DAT_0106b798 < len)
     {
         if (a3)
-            a3->FUN_0040fbf0(0);
-        FUN_005610f0(p1);
+            reinterpret_cast<::FUN_0040fbf0_shell *>((a3))->FUN_0040fbf0((char *)(0));
+        reinterpret_cast<::FUN_005610f0_cls *>(this)->FUN_005610f0((int)(p1));
         if (a3)
         {
             if (--a3->ref04 == 0)
                 a3->unk00 = 0;
         }
-        FUN_00561690((float*)&DAT_01267e30);
+        reinterpret_cast<::S *>(this)->FUN_00561690((int)((float*)&(*reinterpret_cast<::hkVector *>(&::DAT_01267e30))));
     }
     else
     {
-        FUN_00561690((float*)&W.v60);
+        reinterpret_cast<::S *>(this)->FUN_00561690((int)((float*)&W.v60));
     }
-    separate_v50.FUN_00c74ac0((float*)&separate_q, &W.outB);
-    separate_v50.FUN_005611c0();
-    s1 = separate_v50.GetAngle();
-    if (s1 < threshold160::DAT_01017d00)
+    reinterpret_cast<::Quat74 *>(&(separate_v50))->FUN_00c74ac0((*(const ::Quat74 *)((float*)&separate_q)), (*(const ::Quat74 *)(&W.outB)));
+    reinterpret_cast<::FUN_005611c0_t *>(&(separate_v50))->FUN_005611c0();
+    s1 = reinterpret_cast<::C74C20Quat *>(&(separate_v50))->GetAngle();
+    if (s1 < ::AngularDashpotApplyD4DCB0::DAT_01017d00)
     {
         _mm_store_ps((float*)&W.v70, _mm_setzero_ps());
     }
@@ -3816,6 +3759,6 @@ void This160::FUN_00c8e160(float* p1, RotationArg160 input, unsigned int p3)
         __m128 axis = W.v70.v;
         W.v70.v = _mm_mul_ps(factor, axis);
     }
-    FUN_005617c0((float*)&W.v70);
+    reinterpret_cast<::fnv_005617c0::FUN_005617c0_ *>(this)->FUN_005617c0((int)((float*)&W.v70));
 }
 }  // namespace fnv_00c8e160

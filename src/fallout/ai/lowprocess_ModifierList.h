@@ -1,14 +1,14 @@
 #ifndef FNV_MODIFIERLIST_H
 #define FNV_MODIFIERLIST_H
+#include "fnv/decl/FUN_00937b30_shell.h"
+#include "fnv/decl/fnv_00937c60__ModifierList_h.h"
 #include "layout_support.h"
 #pragma pack(push, 4)
 class ActorValueModifierList : public BSSimpleList<Modifier*>
 {
   public:
-    void Revert();
     void CopyModifierListFrom(ActorValueModifierList*);
     float GetActorValueModifierAmount(char);
-    void LoadGame(BGSLoadFormBuffer*);
     void InitLoadGame(BGSLoadFormBuffer*);
 
     bool m_bAllowZeroValueModifiers;  // +0x8

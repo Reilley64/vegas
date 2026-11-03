@@ -2,9 +2,21 @@
 // src/havok/common/base/system/error/hkdefaulterror.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/error/hkdefaulterror.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/CB1A90Owner.h"
+#include "fnv/decl/FUN_00c903b0_class.h"
+#include "fnv/decl/FUN_00cb1930_t.h"
+#include "fnv/decl/FUN_00cb1a60_t.h"
+#include "fnv/decl/FUN_00cb1fe0_t.h"
+#include "fnv/decl/StackTracer.h"
+#include "fnv/decl/fnv_00cb1870__hkMapBaseCB18.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00da2000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_01269000.h"
 struct FUN_00626490_Class
 {
-    int LookupHashEntry(int first, int second);
 };
 struct FUN_00d2b3b0_Class
 {
@@ -16,13 +28,12 @@ struct FUN_00d2b3b0_Class
 // @fnv 0x00d2b3b0
 unsigned char* FUN_00d2b3b0_Class::FUN_00d2b3b0(unsigned char* result, int value)
 {
-    *result = (helper.LookupHashEntry(value, 0) == 0);
+    *result = (reinterpret_cast<::FUN_00cb1930_t *>(&(helper))->LookupHashEntry(value, 0) == 0);
     return result;
 }
 
 struct D2B3D0Map
 {
-    void clear();
 };
 
 struct D2B3D0Owner
@@ -37,13 +48,12 @@ struct D2B3D0Owner
 // @fnv 0x00d2b3d0
 void D2B3D0Owner::FUN_00d2b3d0()
 {
-    m_map.clear();
+    reinterpret_cast<::FUN_00cb1a60_t *>(&(m_map))->ResetEntries();
 }
 
 struct FUN_00cb18f0_t
 {
     int FUN_00cb1fb0(int value);
-    void FUN_00cb1870(int managerValue, int value, int flag);
 };
 struct FUN_00c85750_return
 {
@@ -71,7 +81,7 @@ void FUN_00d2b5c0_class::FUN_00d2b5c0(int value, char flag)
         return;
     }
     FUN_00c85750_return* manager = FUN_00c85750();
-    sub.FUN_00cb1870(manager->unk10, value, 1);
+    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(sub))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(manager->unk10)), value, 1);
 }
 
 namespace fnv_00d2b710 {
@@ -132,7 +142,6 @@ struct D2B600MemoryRouter
 };
 
 extern "C" D2B600MemoryRouter& __cdecl D2B600GetMemoryRouter();
-void __cdecl ResizeAudioStream(void* alloc, void* array, int sizeElem);
 
 struct D2B600Object
 {
@@ -160,7 +169,7 @@ struct D2B600ObjectArray
     {
         D2B600Allocator& alloc = D2B600GetMemoryRouter().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&alloc, this, sizeof(D2B600Object*));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(D2B600Object*));
         construct(m_data + m_iElementCount, 1, e);
         m_iElementCount++;
     }
@@ -193,7 +202,6 @@ struct D2B640Sub
     unsigned int m_04;
     unsigned int m_08;
 
-    void EnsureCapacity(int first, int second);
 };
 
 struct D2B640Object
@@ -221,7 +229,7 @@ D2B640Object* D2B640Object::Initialize(int a1, int a2)
     *(unsigned int volatile*)&sub->m_04 = 0;
     *(unsigned int volatile*)&sub->m_08 = 0xffffffffu;
     FUN_00c85750_return* pResult = FUN_00c85750();
-    sub->EnsureCapacity(pResult->unk10, 0);
+    reinterpret_cast<::FUN_00cb1fe0_t *>((sub))->EnsureCapacity(pResult->unk10, 0);
     *(unsigned int volatile*)&m_14 = 0;
     *(unsigned int volatile*)&m_18 = 0;
     *(unsigned int volatile*)&m_1c = 0x80000000u;
@@ -245,11 +253,8 @@ struct D2B6Sub
     int unk04;
     int unk08;
 
-    void ProcessArgument(int value);
-    void FUN_00a29680();
 };
 
-extern int DAT_0102e388;
 
 struct FUN_00d2b6b0_cls
 {
@@ -278,12 +283,11 @@ void FUN_00d2b6b0_cls::ClearAndReset()
     m_pData = 0;
     m_uCapBits = 0x80000000u;
     D2B6Sub* pSub = &m_sub;
-    pSub->ProcessArgument(FUN_00c85750()->unk10);
-    pSub->FUN_00a29680();
-    m_vptr00 = (int)&DAT_0102e388;
+    reinterpret_cast<::CB1A90Owner *>((pSub))->ProcessArgument((::CB1A90Argument *)(FUN_00c85750()->unk10));
+    ::FUN_00a29680();
+    m_vptr00 = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
-extern "C" int __cdecl Vsnprintf(char* buf, unsigned size, const char* fmt, ...);
 
 struct S_00d2b3e0_Mgr
 {
@@ -291,11 +295,7 @@ struct S_00d2b3e0_Mgr
     unsigned short unk02;
     unsigned short unk04;
     unsigned short unk06;
-    void ReleaseReference();
-    int FUN_00da2b20(void** trace, int max);
-    void FUN_00da2990(void** trace, int count, void(__cdecl* cb)(const char*, int), int user);
 };
-extern S_00d2b3e0_Mgr* DAT_01269a84;
 S_00d2b3e0_Mgr* __cdecl FUN_00da2bc0();
 
 struct S_00d2b3e0
@@ -319,9 +319,9 @@ void S_00d2b3e0::FUN_00d2b3e0(const char* kind, int code, const char* msg, const
 {
     unsigned int buf[512];
     if (code == 0 && file == 0)
-        Vsnprintf((char*)buf, 0x800, "%s\n", msg);
+        ::Vsnprintf((char*)buf, 0x800, "%s\n", msg);
     else
-        Vsnprintf((char*)buf, 0x800, "%s(%d): [0x%08X] %s : %s\n", file, line, code, kind, msg);
+        ::Vsnprintf((char*)buf, 0x800, "%s(%d): [0x%08X] %s : %s\n", file, line, code, kind, msg);
     ((char*)buf)[0x7ff] = 0;
     m_callback((char*)buf, m_user);
     if (trace)
@@ -331,15 +331,15 @@ void S_00d2b3e0::FUN_00d2b3e0(const char* kind, int code, const char* msg, const
             S_00d2b3e0_Mgr* pCurMgr = FUN_00da2bc0();
             S_00d2b3e0_Mgr* pOldMgr = DAT_01269a84;
             if (pOldMgr)
-                pOldMgr->ReleaseReference();
+                reinterpret_cast<::FUN_00c903b0_class *>((pOldMgr))->ReleaseReference();
             DAT_01269a84 = pCurMgr;
         }
         void* frames[20];
-        int n = DAT_01269a84->FUN_00da2b20(frames, 20);
+        int n = ::FUN_00da2b20((int)(DAT_01269a84), (int)(frames));
         if (n > 2)
         {
             m_callback("Stack trace is:\n", m_user);
-            DAT_01269a84->FUN_00da2990(frames + 2, n - 2, m_callback, m_user);
+            reinterpret_cast<::StackTracer *>((DAT_01269a84))->FUN_00da2990((unsigned int *)(void **)(frames + 2), n - 2, (void (*)(const char *, void *))(m_callback), (void *)(m_user));
         }
     }
 }
@@ -396,7 +396,6 @@ struct D2ErrorHost
             return data[size - 1];
         }
     } items;
-    void FUN_00d2b3e0(const char* name, int key, int a3, int a4, int a5, Bool8 flags);
     int FUN_00d2b4f0(int mode, int index, int a3, int a4, int a5);
 };
 
@@ -430,7 +429,7 @@ int D2ErrorHost::FUN_00d2b4f0(int mode, int index, int aiArg3, int aiArg4, int a
         flag = true;
         break;
     }
-    FUN_00d2b3e0(name, index, aiArg3, aiArg4, aiArg5, flag);
+    reinterpret_cast<::S_00d2b3e0 *>(this)->FUN_00d2b3e0(name, index, (const char *)(aiArg3), (const char *)(aiArg4), aiArg5, (*(char *)&(const ::Bool8 &)(flag)));
     if (mode == 2 || mode == 3)
         return 1;
     return 0;

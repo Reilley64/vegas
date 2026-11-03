@@ -3,6 +3,9 @@
 #define FNV_LAYOUT_SUPPORT_H
 
 #include <stddef.h>
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00461150_shell.h"
+#include "fnv/symbols_00450000.h"
 #define FNV_JOIN_IMPL(a, b) a##b
 #define FNV_JOIN(a, b) FNV_JOIN_IMPL(a, b)
 #define FNV_STATIC_ASSERT(condition) typedef char FNV_JOIN(fnv_static_assert_, __LINE__)[(condition) ? 1 : -1]
@@ -403,14 +406,11 @@ template <class T, unsigned int Capacity> class Stack
 class TESObjectCELL
 {
   public:
-    bool IsOutdoorCell();
 };  // API only; no allocation or layout claim.
 class TESChallenge;
 class TESDataHandler
 {
   public:
-    BSSimpleList<TESChallenge*>* FUN_00461150();
-    BSSimpleList<TESFile*>* GetFileList();
 };
 FNV_STATIC_ASSERT(sizeof(BSSimpleList<void*>) == 8);
 FNV_STATIC_ASSERT(sizeof(BSStringT<char>) == 8);

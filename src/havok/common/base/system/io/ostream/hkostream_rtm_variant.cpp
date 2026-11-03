@@ -4,15 +4,24 @@
 
 // src/havok/common/base/system/io/ostream/hkostream.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/ostream/hkostream.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include "fnv/decl/C87710HavokObject.h"
+#include "fnv/decl/FUN_00c903b0_class.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00da7180_cls.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/fnv_00cbf2f0__FUN_00cbf2f0_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010c9000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkOstream.h"
-extern int DAT_01268108;
 extern "C" __declspec(dllimport) void __stdcall free(void*);
 void __cdecl FUN_00c85750();
-extern char _DAT_010c9314;
-extern char _DAT_0102e388;
 struct Old
 {
-    void ReleaseReference();
 };
 struct FUN_00cc00e0
 {
@@ -23,8 +32,6 @@ struct FUN_00cc00e0
 };
 struct hkReferencedObjectStandIn
 {
-    void RetainReference();
-    void removeReference();
 };
 struct DDCC60WorldStandIn
 {
@@ -48,7 +55,6 @@ struct FUN_00cc07f0_MemoryRouter
     unsigned char padding[0x10];
     FUN_00cc07f0_Router* pRouter;
 };
-extern FUN_00cc07f0_MemoryRouter* _D1A0E0GetMemoryRouter();
 struct FUN_00cc07f0_StandIn
 {
     // Virtual destructor for the stand-in type; does nothing.
@@ -93,9 +99,7 @@ struct Own_00cc0470
     Sub_00cc0470* m_sub;
     void __thiscall FUN_00cc0470(void* a);
 };
-extern int g_unk01268560;
 int* __cdecl FUN_00cc04c0();
-extern int DAT_01268ad8;
 int __cdecl FUN_00cc0770();
 void __stdcall FUN_00e3b490(bool* p);
 struct FUN_00cc04a0_Slots
@@ -242,7 +246,6 @@ class FUN_00cbf430 : public GlobalObject_0045cfe0
 {
   public:
     ~FUN_00cbf430();
-    void FUN_00cbf2f0();
 };
 class hkMemoryAllocatorD60B
 {
@@ -347,7 +350,6 @@ struct HavokError
     virtual void v08();
     virtual int Warning(int type, int id, const char* desc, const char* file, int line);
 };
-extern HavokError* DAT_01268360;
 struct BoolType
 {
     char m_cBooleanValue;
@@ -426,7 +428,6 @@ struct bhkMoppBvTreeShape
     virtual void v2c();
     virtual MoppCodeHeader* slotB4(char* pAllocated);
 
-    void FUN_00c87710(NiStream& stream);
 
     unsigned int FUN_00cc9f60(NiStream& stream);
 };
@@ -610,7 +611,7 @@ template <typename T> class hkSingleton
     static T* s_instance;
     static __forceinline T& __cdecl GetMonitorStream()
     {
-        return *s_instance;
+        return *(*reinterpret_cast<::hkError * *>(&::DAT_01268360));
     }
 
   protected:
@@ -647,8 +648,6 @@ struct ErrStreamLite
     unsigned short memFlags;
     short ref;
     void* writer;
-    void FUN_00cb1600(void*, int) throw();
-    void FUN_00cc01c0(const char*) throw();
     void FUN_00cc00e0() throw();
 };
 class hkErrStream : public hkOstream_X
@@ -1967,7 +1966,7 @@ void MoppCastMachine::FUN_00da71c0(const VectorPropertyRecord* query, const unsi
             const hkUint32_X offset = PC[1];
             if (query != &scaledQuery)
             {
-                scaledQuery = *query;
+                reinterpret_cast<::FUN_00da7180_cls *>((void *)&(const ::VectorPropertyRecord &)(scaledQuery))->FUN_00da7180((const ::FUN_00da7180_cls *)&(*query));
                 query = &scaledQuery;
             }
             scaledQuery.m_uiPropertyCount += offset;
@@ -1978,7 +1977,7 @@ void MoppCastMachine::FUN_00da71c0(const VectorPropertyRecord* query, const unsi
             const hkUint32_X offset = (PC[1] << 8) + PC[2];
             if (query != &scaledQuery)
             {
-                scaledQuery = *query;
+                reinterpret_cast<::FUN_00da7180_cls *>((void *)&(const ::VectorPropertyRecord &)(scaledQuery))->FUN_00da7180((const ::FUN_00da7180_cls *)&(*query));
                 query = &scaledQuery;
             }
             scaledQuery.m_uiPropertyCount += offset;
@@ -1989,7 +1988,7 @@ void MoppCastMachine::FUN_00da71c0(const VectorPropertyRecord* query, const unsi
             const hkUint32_X offset = (PC[1] << 24) + (PC[2] << 16) + (PC[3] << 8) + PC[4];
             if (query != &scaledQuery)
             {
-                scaledQuery = *query;
+                reinterpret_cast<::FUN_00da7180_cls *>((void *)&(const ::VectorPropertyRecord &)(scaledQuery))->FUN_00da7180((const ::FUN_00da7180_cls *)&(*query));
                 query = &scaledQuery;
             }
             scaledQuery.m_uiPropertyCount = offset;
@@ -2010,7 +2009,7 @@ void MoppCastMachine::FUN_00da71c0(const VectorPropertyRecord* query, const unsi
             const hkUint32_X v = scaledQuery.m_kProperties[0];
             if (query != &scaledQuery)
             {
-                scaledQuery = *query;
+                reinterpret_cast<::FUN_00da7180_cls *>((void *)&(const ::VectorPropertyRecord &)(scaledQuery))->FUN_00da7180((const ::FUN_00da7180_cls *)&(*query));
                 query = &scaledQuery;
             }
             scaledQuery.m_kProperties[0] = v;
@@ -2041,19 +2040,19 @@ void MoppCastMachine::FUN_00da71c0(const VectorPropertyRecord* query, const unsi
             {
                 unsigned int assertBuf[128];
                 ErrStreamLite ostr;
-                ostr.FUN_00cb1600(assertBuf, 512);
-                ostr.FUN_00cc01c0(
+                new ((void *)&(ostr)) ::FUN_00cb1600(assertBuf, 512);
+                reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0(
                     "Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
                 if (hkError::GetMonitorStream().message(hkError::MESSAGE_ERROR, 0x1298fedd, (const char*)assertBuf,
                                                         ".\\Collide\\Mopp\\Machine\\hkpMoppAabbCastVirtualMachine.cpp",
                                                         521))
                 {
                     __debugbreak();
-                    ostr.FUN_00cc00e0();
+                    reinterpret_cast<struct ::FUN_00cc00e0 *>(&(ostr))->FUN_00cc00e0::~FUN_00cc00e0();
                 }
                 else
                 {
-                    ostr.FUN_00cc00e0();
+                    reinterpret_cast<struct ::FUN_00cc00e0 *>(&(ostr))->FUN_00cc00e0::~FUN_00cc00e0();
                 }
             } while (0);
             continue;

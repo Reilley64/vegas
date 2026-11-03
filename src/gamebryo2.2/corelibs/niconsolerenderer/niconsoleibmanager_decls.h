@@ -1,6 +1,7 @@
 #ifndef NICONSOLEIBMANAGER_DECLS_H
 #define NICONSOLEIBMANAGER_DECLS_H
 
+#include "fnv/symbols_00a29000.h"
 #include "NiRefObject.h"
 
 struct _D3DINDEXBUFFER_DESC
@@ -86,7 +87,6 @@ FNV_STATIC_ASSERT(sizeof(_D3DINDEXBUFFER_DESC) == 20);
 class NiD3DDefaultShader
 {
   public:
-    static void SetShaderName(const char*);
 };
 extern "C" void* __cdecl memset(void*, int, unsigned int);
 extern "C" void* __cdecl fnv_zlib_memcpy(void*, const void*, unsigned int);

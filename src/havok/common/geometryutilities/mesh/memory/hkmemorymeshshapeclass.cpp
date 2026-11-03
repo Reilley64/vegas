@@ -2,12 +2,12 @@
 // src/havok/common/geometryutilities/mesh/memory/hkmemorymeshshapeclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/geometryutilities/mesh/memory/hkmemorymeshshapeclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern int DAT_0126e330;
 
 // @fnv 0x00e014c0
+#include "fnv/symbols_0126e000.h"
 int* __cdecl FUN_00e014c0()
 {
-    return &DAT_0126e330;
+    return &(*reinterpret_cast<int *>(&::g_0126e330));
 }
 
 struct State

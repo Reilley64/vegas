@@ -1,5 +1,18 @@
 // gamebryo2.2/corelibs/nianimation/niextradatacontroller.cpp: NiPSysModifierCtlr, NiExtraDataController, FakeController, TargetController (8 functions)
 
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/Cls_a64ea0.h"
+#include "fnv/decl/FUN_00a38fe0_shell.h"
+#include "fnv/decl/FUN_00a39030_cls.h"
+#include "fnv/decl/FUN_00a62660_cls.h"
+#include "fnv/decl/Holder00a390a0.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a64df0__FUN_00a64df0_Stream.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f4000.h"
 #include "niextradatacontroller_decls.h"
 
 // @fnv 0x00a571a0
@@ -7,9 +20,9 @@ void NiPSysModifierCtlr::LoadBinary(NiStream& stream)
 {
     NiSingleInterpController::LoadBinary(stream);
     if (stream.version < 0x14010001)
-        stream.ReadFixedString(m_kTargetModifierName);
+        reinterpret_cast<::Cls_a64ea0 *>(&(stream))->FUN_00a64ea0((char **)&(m_kTargetModifierName));
     else
-        stream.ReadStringTableEntry(m_kTargetModifierName);
+        reinterpret_cast<::fnv_00a64df0::FUN_00a64df0_Stream *>(&(stream))->FUN_00a64df0((::fnv_00a64df0::NiFixedString &)(m_kTargetModifierName));
 }
 
 struct NiStream;
@@ -29,14 +42,13 @@ struct NiExtraDataController : NiObjectNET
 // @fnv 0x00a57400
 void NiExtraDataController::FUN_00a57400(NiStream& kStream)
 {
-    NiObjectNET::LinkObject(kStream);
+    ::FUN_00a89af0((int)this);
     if (*(int*)((char*)this + 0x2C))
         NiObjectNET::RefreshExtraData();
 }
 
 struct BaseFake
 {
-    bool RegisterInterpolatorStreamables(NiStream&);
 };
 struct StreamVTable
 {
@@ -58,7 +70,7 @@ struct FUN_00a57100_Caller
 // @fnv 0x00a57100
 bool FUN_00a57100_Caller::FUN_00a57100(NiStream& kStream)
 {
-    if (!((BaseFake*)this)->RegisterInterpolatorStreamables(kStream))
+    if (!reinterpret_cast<::FUN_00a38fe0_shell *>((((BaseFake*)this)))->RegisterInterpolatorStreamables(kStream))
         return false;
     ((StreamVTable*)&kStream)->f8((void*)((char*)this + 0x38));
     return true;
@@ -103,19 +115,13 @@ struct StrArr
     unsigned short m_pad0c;
     unsigned short m_usGrowBy;
 
-    void SetSize(unsigned int size);
-    void SetAt(unsigned int index, char*& value);
 };
 
 template <class T> struct NiTPrimitiveArray : public StrArr
 {
 };
 
-extern char const* const g_011f3e6c_arg1;
 
-void __stdcall _FUN_00a390a0(StrArr* array);
-void* __cdecl _FUN_00a7d330(void* value);
-char* __cdecl FUN_00a7d5e0(char const* lhs, char const* rhs);
 
 struct FUN_00a57420_Shell : public NiExtraDataController
 {
@@ -127,29 +133,28 @@ void FUN_00a57420_Shell::FUN_00a57420(NiTPrimitiveArray<char*>* strings)
 {
     StrArr* array = strings;
 
-    _FUN_00a390a0(array);
+    reinterpret_cast<::Holder00a390a0 *>((array))->FUN_00a390a0({});
 
-    char* value = static_cast<char*>(_FUN_00a7d330(const_cast<char*>(g_011f3e6c_arg1)));
+    char* value = static_cast<char*>(((void *)(::FUN_00a7d330((const char *)(void *)(const_cast<char*>((*reinterpret_cast<const char *const *>(&::g_011f4218))))))));
 
     unsigned int index = array->m_usSize;
     if (index >= array->m_usCapacity)
-        array->SetSize(index + array->m_usGrowBy);
-    array->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((array))->SetSize(index + array->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((array))->SetAt(index, value);
 
     char const* pcExtraDataName = *reinterpret_cast<char**>(reinterpret_cast<char*>(this) + 0x38);
-    value = FUN_00a7d5e0("Extra Data Name", pcExtraDataName);
+    value = ::fnv_00a7d5e0::FUN_00a7d5e0("Extra Data Name", pcExtraDataName);
 
     index = array->m_usSize;
     if (index >= array->m_usCapacity)
-        array->SetSize(index + array->m_usGrowBy);
-    array->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((array))->SetSize(index + array->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((array))->SetAt(index, value);
 }
 
 struct FUN_00a57150_cls;
 
 struct FUN_00a57150_obj53
 {
-    void FUN_00a53c30(void* first, void** ppArg);
 };
 
 struct FUN_00a57150_obj66
@@ -164,7 +169,6 @@ struct FUN_00a57150_cls
     char unk30[0x0c];
     void* m_3c;
 
-    void FUN_00a38f50(void* arg);
     void FUN_00a57150(void* arg);
 };
 
@@ -172,16 +176,16 @@ struct FUN_00a57150_cls
 void FUN_00a57150_cls::FUN_00a57150(void* arg)
 {
     void* src = arg;
-    FUN_00a38f50(src);
+    reinterpret_cast<::NiSingleInterpController *>(this)->ProcessClone((*(::CloningProcess *)(src)));
     FUN_00a57150_obj53* o = (FUN_00a57150_obj53*)*(void**)src;
-    o->FUN_00a53c30(this, &arg);
+    reinterpret_cast<::A54440Hash *>((o))->FUN_00a53c30((::A54440Manager *)(void *)(this), (::A54440Manager **)(void **)(&arg));
     if (m_2c != 0)
     {
         if (((FUN_00a57150_cls*)arg)->m_2c != 0)
         {
             FUN_00a57150_cls* other = (FUN_00a57150_cls*)arg;
             FUN_00a57150_obj53* o2 = (FUN_00a57150_obj53*)*(void**)src;
-            o2->FUN_00a53c30(m_3c, &arg);
+            reinterpret_cast<::A54440Hash *>((o2))->FUN_00a53c30((::A54440Manager *)(m_3c), (::A54440Manager **)(void **)(&arg));
             FUN_00a57150_obj66* p = (FUN_00a57150_obj66*)&other->m_3c;
             p->FUN_0066b0d0(arg);
         }
@@ -231,7 +235,6 @@ struct S_00a571e0_Base
 {
     virtual void v00();
     int unk04;
-    bool IsCompatibleWith(S_00a571e0_Base* o);
 };
 struct S_00a571e0_Cls : S_00a571e0_Base
 {
@@ -255,7 +258,7 @@ struct S_00a571e0_Cls : S_00a571e0_Base
 // @fnv 0x00a571e0
 unsigned char S_00a571e0_Cls::IsEquivalent(S_00a571e0_Cls* apOther)
 {
-    if (!IsCompatibleWith(apOther))
+    if (!reinterpret_cast<::FUN_00a39030_cls *>(this)->IsCompatibleWith((::NiSingleInterpController *)(apOther)))
         return false;
     if ((unk3c && !apOther->unk3c) || (!unk3c && apOther->unk3c))
         return false;
@@ -282,10 +285,7 @@ struct TypeRecord
     TypeRecord* next;
 };
 
-void* __fastcall FUN_00a62660(void* item);
 
-extern char g_011f4304;
-extern unsigned int g_0109b220;
 
 struct TargetController
 {
@@ -303,7 +303,7 @@ static __forceinline bool HasTargetType(TargetCandidate* arg)
         TypeRecord* node = arg->f2();
         while (node)
         {
-            if ((char*)node == &g_011f4304)
+            if ((char*)node == &(*reinterpret_cast<char *>(&::g_011f4304)))
                 return true;
             node = node->next;
         }
@@ -315,11 +315,11 @@ bool TargetController::HasMatchingItem(TargetCandidate* pCandidate)
 {
     if (!HasTargetType(pCandidate))
         return false;
-    if ((unsigned int)m_pFlagTarget == g_0109b220)
+    if ((unsigned int)m_pFlagTarget == (*reinterpret_cast<unsigned int *>(&::DAT_0109b220)))
         return false;
     for (unsigned int uiIndex = 0; uiIndex < pCandidate->m_usElementCount; ++uiIndex)
     {
-        void* pResolved = FUN_00a62660(pCandidate->m_ppItems[(unsigned short)uiIndex]);
+        void* pResolved = ((void *)&(reinterpret_cast<::FUN_00a62660_cls *>((pCandidate->m_ppItems[(unsigned short)uiIndex]))->FUN_00a62660()));
         if (*(void**)pResolved == m_pFlagTarget)
             return true;
     }

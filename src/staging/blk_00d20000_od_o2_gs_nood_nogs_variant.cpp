@@ -5,6 +5,11 @@
 
 // src/staging/blk_00d20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00cd6000.h"
+#include "fnv/symbols_0104d000.h"
 #include "../../include/layout_support.h"
 
 #include <xmmintrin.h>
@@ -59,9 +64,6 @@ struct ContactResult
     __m128 secondAux;
     __m128 extra;
 };
-extern float DAT_0104da48;
-void __cdecl FUN_00cd6520(const __m128*, float, const __m128*, float, const FourFloatVector*, float, int,
-                          ContactResult*, void*);
 
 // @fnv 0x00d39150
 void __cdecl FUN_00d39150(BodyPair* bodies, void* unused, QueryInput* input, __m128* output)
@@ -122,7 +124,7 @@ void __cdecl FUN_00d39150(BodyPair* bodies, void* unused, QueryInput* input, __m
             pointsB[i] = _mm_add_ps(y, z);
         } while (--i >= 0);
     }
-    FUN_00cd6520(pointsA, shapeA->radius, pointsB, shapeB->radius, &input->direction, DAT_0104da48, 0, &result, 0);
+    ::FUN_00cd6520((const ::ContactVector *)(pointsA), shapeA->radius, (const ::ContactVector *)(pointsB), shapeB->radius, (const float *)(const ::FourFloatVector *)(&input->direction), ::DAT_0104da48, 0, (::ContactRecord *)(::ContactResult *)(&result), (::Feature *)(void *)(0));
     if (result.first.w < result.second.w)
         *output = *reinterpret_cast<__m128*>(&result.first);
     else

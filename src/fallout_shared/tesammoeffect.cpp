@@ -1,5 +1,36 @@
 // fallout_shared/tesammoeffect.cpp: TESAmmoEffect, AmmoEffectDesc (8 functions)
 
+#include <new>
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/AmmoOwner.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/Class005a6b10.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00474920_shell.h"
+#include "fnv/decl/FUN_00487010_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_00599d00.h"
+#include "fnv/decl/FUN_00759450_shell.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/SDSaveForm.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_011c1000.h"
+#include "fnv/symbols_011ca000.h"
 enum ENUM_FORM_ID
 {
     kAmmoEffectForm = 0x72
@@ -16,10 +47,7 @@ class TESForm
     {}
     virtual void UnknownForm()
     {}
-    void SetFormType(ENUM_FORM_ID);
-    void LoadRecordHeader(TESFile*);
     void SetInitializationState(bool);
-    void ReadTypedData(TESFile*, void*, unsigned short);
 
   private:
     unsigned char baseData[20];
@@ -53,10 +81,6 @@ class TESAmmoEffect : public TESForm, public TESAmmoEffectMap
 class TESFile
 {
   public:
-    unsigned char GetTESForm();
-    unsigned int GetChunkID();
-    unsigned int GetChunkSize();
-    bool GetChunkData(void*, unsigned int);
     bool IsEndianConversionRequired();
     bool NextChunk();
 };
@@ -64,18 +88,15 @@ class TESFile
 class TESFullNameLoader
 {
   public:
-    static void LoadFullNameChunk(TESFullName*, TESFile*);
 };
 
 class ContainerItemExtraFileData
 {
   public:
-    void Endian();
 };
 
 extern "C" void __cdecl _alloca_probe_16();
 extern "C" void __fastcall __security_check_cookie(unsigned int);
-extern "C" unsigned int __security_cookie;
 
 extern "C" void* __cdecl memset(void*, int, unsigned int);
 
@@ -84,7 +105,7 @@ extern "C" void* __cdecl memset(void*, int, unsigned int);
 TESAmmoEffect::TESAmmoEffect() : TESForm(), TESAmmoEffectMap()
 {
     memset(effectData, 0, 12);
-    SetFormType(kAmmoEffectForm);
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)(kAmmoEffectForm)));
 }
 
 class Actor;
@@ -95,7 +116,6 @@ class BGSMusicType;
 class TESObjectWEAP
 {
   public:
-    TESAmmo* GetCurrentAmmo(Actor* actor);
 };
 
 class BSShaderNoLightingProperty
@@ -107,13 +127,11 @@ class BSShaderNoLightingProperty
 class BGSAmmoForm
 {
   public:
-    TESAmmo* GetAmmoHelper();
 };
 
 class TESRegionDataSound
 {
   public:
-    BGSMusicType* GetMusicType();
 };
 
 class GetCurrentAmmoVTable
@@ -225,21 +243,21 @@ struct TESFormVtbl
 // @fnv 0x00599d70
 bool FUN_00599d70_shell::LoadAmmoEffect(TESFile* apFile)
 {
-    unsigned char formid = apFile->GetTESForm();
+    unsigned char formid = ((unsigned char)(reinterpret_cast<::FUN_00472660_shell *>((apFile))->FUN_00472660()));
     if (formid != 0x72)
         return false;
 
-    LoadRecordHeader(apFile);
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(apFile));
     SetInitializationState(false);
 
     int chunkid;
-    while ((chunkid = apFile->GetChunkID()) != 0)
+    while ((chunkid = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((apFile))->FUN_004726b0()))) != 0)
     {
         switch (chunkid)
         {
         case 0x44494445: {
-            char* pMessage = (char*)_alloca(apFile->GetChunkSize());
-            apFile->GetChunkData(pMessage, 0x200);
+            char* pMessage = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((apFile))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(pMessage), 0x200);
             (*(TESFormVtbl**)this)->setEditorID(this, pMessage);
             break;
         }
@@ -247,12 +265,12 @@ bool FUN_00599d70_shell::LoadAmmoEffect(TESFile* apFile)
             (*(TESFormVtbl**)this)->readOBND(this, apFile);
             break;
         case 0x4c4c5546:
-            TESFullNameLoader::LoadFullNameChunk((TESFullName*)((TESAmmoEffectMap*)this), apFile);
+            ::ReadFullName((TESFullName*)((TESAmmoEffectMap*)this), apFile);
             break;
         case 0x41544144:
-            ReadTypedData(apFile, effectData, 0xc);
+            reinterpret_cast<::fnv_004861f0::Form_004861f0 *>(this)->FUN_004861f0(apFile, effectData, 0xc);
             if (apFile->IsEndianConversionRequired())
-                ((ContainerItemExtraFileData*)effectData)->Endian();
+                reinterpret_cast<::Class005a6b10 *>((((ContainerItemExtraFileData*)effectData)))->FUN_005a6b10();
             break;
         }
         if (!apFile->NextChunk())
@@ -263,36 +281,30 @@ bool FUN_00599d70_shell::LoadAmmoEffect(TESFile* apFile)
 
 struct FUN_00599cd0_StandIn
 {
-    void FUN_00599d00();
     void* DestroyIfFlagged(unsigned int);
 };
 // Calls FUN_00599d00, then deletes this object if bit 0 of flags is set, and returns this.
 // @fnv 0x00599cd0
 void* FUN_00599cd0_StandIn::DestroyIfFlagged(unsigned int flags)
 {
-    FUN_00599d00();
+    reinterpret_cast<::FUN_00599d00 *>(this)->FUN_00599d00::~FUN_00599d00();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct FUN_004855a0
 {
-    void M();
 };
 struct S_00487010
 {
-    void FUN_00487010();
 };
 struct FUN_00485680
 {
-    void M();
 };
 struct FUN_00485e00_shell
 {
-    void FUN_00485e20(int, int);
 };
-bool __cdecl FUN_00401500();
 struct FUN_00599ef0_shell
 {
     void FUN_00599ef0();
@@ -300,21 +312,19 @@ struct FUN_00599ef0_shell
 // @fnv 0x00599ef0
 void FUN_00599ef0_shell::FUN_00599ef0()
 {
-    ((FUN_004855a0*)this)->M();
-    ((S_00487010*)((char*)this + 0x18))->FUN_00487010();
-    if (FUN_00401500())
-        ((ContainerItemExtraFileData*)((char*)this + 0x24))->Endian();
-    ((FUN_00485e00_shell*)this)->FUN_00485e20((int)((char*)this + 0x24), 0xc);
-    if (FUN_00401500())
-        ((ContainerItemExtraFileData*)((char*)this + 0x24))->Endian();
-    ((FUN_00485680*)this)->M();
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
+    reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)((char*)this + 0x18))))->FUN_00487010();
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::Class005a6b10 *>((((ContainerItemExtraFileData*)((char*)this + 0x24))))->FUN_005a6b10();
+    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((int)((char*)this + 0x24)), 0xc);
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::Class005a6b10 *>((((ContainerItemExtraFileData*)((char*)this + 0x24))))->FUN_005a6b10();
+    reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
 }
 
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
 };
-void* __memcpy(void*, const void*, unsigned int);
 struct FUN_00599f60_t : TESAmmoEffect
 {
     void CopyFromAmmoEffect(TESForm*);
@@ -326,14 +336,11 @@ void FUN_00599f60_t::CopyFromAmmoEffect(TESForm* apCopy)
     if (pmisc == 0)
         return;
     __memcpy(effectData, pmisc->effectData, 12);
-    ((FUN_005e78f0_t*)this)->FUN_004851b0(apCopy);
+    reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0(apCopy);
 }
 
 struct AmmoEffectValue
 {
-    int FUN_0045cd60();
-    int FUN_0059bb30();
-    float FUN_00759450();
 };
 struct AmmoEffectList
 {
@@ -341,10 +348,7 @@ struct AmmoEffectList
     AmmoEffectList* next;
     AmmoEffectList();
     ~AmmoEffectList();
-    AmmoEffectValue*& FUN_006815c0();
-    AmmoEffectList* FUN_00726070();
     void FUN_005ae3d0(AmmoEffectValue*&);
-    void FUN_00905820(AmmoEffectValue*&);
 };
 // @fnv 0x0059a030
 float ComputeAmmoEffectValue(int iEffectType, AmmoEffectList* pEffectList, float fBaseValue)
@@ -353,21 +357,21 @@ float ComputeAmmoEffectValue(int iEffectType, AmmoEffectList* pEffectList, float
     if (!pEffectList)
         return fResult;
     AmmoEffectList* sorted = new AmmoEffectList;
-    while (pEffectList && pEffectList->FUN_006815c0())
+    while (pEffectList && ((::AmmoEffectValue *)(new ((void *)(pEffectList)) ::Vec3())))
     {
-        if (pEffectList->FUN_006815c0()->FUN_0045cd60() == 1)
-            sorted->FUN_005ae3d0(pEffectList->FUN_006815c0());
+        if (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::AmmoEffectValue *)(new ((void *)(pEffectList)) ::Vec3()))))->FUN_0045cd60())) == 1)
+            sorted->FUN_005ae3d0(((::AmmoEffectValue *)(new ((void *)(pEffectList)) ::Vec3())));
         else
-            sorted->FUN_00905820(pEffectList->FUN_006815c0());
-        pEffectList = pEffectList->FUN_00726070();
+            reinterpret_cast<::Callees *>((sorted))->FUN_00905820((void *)&(((::AmmoEffectValue *)(new ((void *)(pEffectList)) ::Vec3()))));
+        pEffectList = ((::AmmoEffectList *)(reinterpret_cast<::Callees *>((pEffectList))->FUN_00726070()));
     }
-    while (sorted && sorted->FUN_006815c0())
+    while (sorted && ((::AmmoEffectValue *)(new ((void *)(sorted)) ::Vec3())))
     {
-        AmmoEffectValue* effect = sorted->FUN_006815c0();
-        sorted = sorted->FUN_00726070();
-        int effectType = effect->FUN_0059bb30();
-        int iOperation = effect->FUN_0045cd60();
-        float magnitude = effect->FUN_00759450();
+        AmmoEffectValue* effect = ((::AmmoEffectValue *)(new ((void *)(sorted)) ::Vec3()));
+        sorted = ((::AmmoEffectList *)(reinterpret_cast<::Callees *>((sorted))->FUN_00726070()));
+        int effectType = ((int)(reinterpret_cast<::ActorMover *>((effect))->GetCurrentMoveModeType()));
+        int iOperation = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((effect))->FUN_0045cd60()));
+        float magnitude = reinterpret_cast<::FUN_00759450_shell *>((effect))->FUN_00759450();
         if (effectType != iEffectType)
             continue;
         switch (iOperation)
@@ -391,7 +395,6 @@ extern "C" int __cdecl memcmp(const void* pvA, const void* pvB, unsigned int Ite
 
 struct FUN_00599fc0_shell : public TESAmmoEffect
 {
-    bool CompareFullName(TESForm* pkForm);
     bool FUN_00599fc0(TESForm* pkForm);
 };
 
@@ -403,33 +406,21 @@ bool FUN_00599fc0_shell::FUN_00599fc0(TESForm* pkForm)
         return true;
     if (memcmp(effectData, pkOther->effectData, sizeof(effectData)))
         return true;
-    if (CompareFullName(pkOther))
+    if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270(pkOther))
         return true;
     return false;
 }
 
-int strcpy_s(char* dst, unsigned int size, const char* src);
-int _sprintf_s(char* dst, unsigned int size, const char* fmt, ...);
 
 class AmmoEffectSetting
 {
   public:
-    const char* String();
 };
 
-extern AmmoEffectSetting g_011caa94;
-extern AmmoEffectSetting g_011caa84;
-extern AmmoEffectSetting g_011caaa0;
-extern AmmoEffectSetting g_011caa78;
-extern AmmoEffectSetting g_011caaac;
-extern AmmoEffectSetting g_011caab8;
 
 class AmmoEffectDesc
 {
   public:
-    unsigned int GetOperation();
-    unsigned int GetEffectType();
-    float GetValue();
     void FormatDescription(char* buffer, int bufferSize);
 };
 
@@ -441,38 +432,38 @@ void AmmoEffectDesc::FormatDescription(char* buffer, int bufferSize)
     char opText[2];
 
     opText[0] = 0;
-    switch (GetOperation())
+    switch (((unsigned int)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())))
     {
     case 0:
-        strcpy_s(opText, 2, "+");
+        ::TaskQueueInterface::CopyStringToBuffer(opText, 2, "+");
         break;
     case 1:
-        strcpy_s(opText, 2, "x");
+        ::TaskQueueInterface::CopyStringToBuffer(opText, 2, "x");
         break;
     case 2:
-        strcpy_s(opText, 2, "-");
+        ::TaskQueueInterface::CopyStringToBuffer(opText, 2, "-");
         break;
     }
-    switch (GetEffectType())
+    switch (reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())
     {
     case 0:
-        strcpy_s(nameText_2, 64, g_011caa94.String());
+        ::TaskQueueInterface::CopyStringToBuffer(nameText_2, 64, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::AmmoEffectSetting *>(&::g_011caa94))))->GetMenuTitle())));
         break;
     case 1:
-        strcpy_s(nameText_2, 64, g_011caa84.String());
+        ::TaskQueueInterface::CopyStringToBuffer(nameText_2, 64, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::AmmoEffectSetting *>(&::g_011caa84))))->GetMenuTitle())));
         break;
     case 2:
-        strcpy_s(nameText_2, 64, g_011caaa0.String());
+        ::TaskQueueInterface::CopyStringToBuffer(nameText_2, 64, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::AmmoEffectSetting *>(&::g_011caaa0))))->GetMenuTitle())));
         break;
     case 3:
-        strcpy_s(nameText_2, 64, g_011caa78.String());
+        ::TaskQueueInterface::CopyStringToBuffer(nameText_2, 64, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::AmmoEffectSetting *>(&::g_011caa78))))->GetMenuTitle())));
         break;
     case 4:
-        strcpy_s(nameText_2, 64, g_011caaac.String());
+        ::TaskQueueInterface::CopyStringToBuffer(nameText_2, 64, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::AmmoEffectSetting *>(&::g_011caaac))))->GetMenuTitle())));
         break;
     case 5:
-        strcpy_s(nameText_2, 64, g_011caab8.String());
+        ::TaskQueueInterface::CopyStringToBuffer(nameText_2, 64, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::AmmoEffectSetting *>(&::g_011caab8))))->GetMenuTitle())));
         break;
     }
-    _sprintf_s(buffer, bufferSize, "%s %s %.2f", nameText_2, opText, (double)GetValue());
+    ::FUN_00406d00(buffer, bufferSize, "%s %s %.2f", nameText_2, opText, (double)reinterpret_cast<::FUN_00759450_shell *>(this)->FUN_00759450());
 }

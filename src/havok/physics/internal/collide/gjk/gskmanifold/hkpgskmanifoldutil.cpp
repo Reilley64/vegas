@@ -2,6 +2,10 @@
 // src/havok/physics/internal/collide/gjk/gskmanifold/hkpgskmanifoldutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/gjk/gskmanifold/hkpgskmanifoldutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00dae000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
 struct S_00dad640_Entry
 {
     unsigned short unk0;
@@ -122,7 +126,6 @@ bool FindAndPromoteEntry(S_00dad4d0_Set* set, S_00dad4d0_Key* key)
     return false;
 }
 
-void __fastcall FUN_00dae220(int unused, S_00dad640_Set* set);
 
 // @fnv 0x00dae340
 void __cdecl FUN_00dae340(S_00dad640_Set* set, unsigned int index)
@@ -140,13 +143,14 @@ void __cdecl FUN_00dae340(S_00dad640_Set* set, unsigned int index)
         *puiDst = *(unsigned int*)((char*)puiSrc + ((char*)puiDst - (char*)puiBaseDst));
         ++puiDst;
     }
-    FUN_00dae220(iShift, set);
+    ::FUN_00dae220(iShift, (::S_00dae220_Set *)(set));
 }
 
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
 } __m128;
+#include "fnv/symbols_simd.h"
 extern "C"
 {
     __m128 _mm_add_ps(__m128, __m128);
@@ -171,8 +175,6 @@ extern "C"
     int _mm_movemask_ps(__m128);
     void _mm_store_ss(float*, __m128);
 }
-extern float DAT_01011d78, DAT_01017718, DAT_01016248;
-extern __m128 DAT_010ec7f0, DAT_010c44d0;
 
 class Scalar
 {

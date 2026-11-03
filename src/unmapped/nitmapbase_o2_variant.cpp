@@ -3,9 +3,10 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00a64160_cls.h"
+#include "fnv/symbols_00ba8000.h"
 struct NiStream
 {
-    void __thiscall FUN_00a64160(const char*);
 };
 struct NiMapBase
 {
@@ -16,7 +17,7 @@ struct NiMapBase
 void __thiscall NiMapBase::FUN_00b60210(NiStream* stream)
 {
     FUN_00bb7160(stream);
-    stream->FUN_00a64160(*(const char**)((char*)this + 0x88));
+    reinterpret_cast<::FUN_00a64160_cls *>((stream))->FUN_00a64160(*(const char**)((char*)this + 0x88));
 }
 
 struct S_00b601a0_Item
@@ -61,14 +62,16 @@ void S_00b601a0_Map::FUN_00b601a0()
 
 struct NiTexture;
 
+class NiTexture;
+template <class> class NiPointer;
 struct BSShaderManager
 {
-    static void GetTexture(const char* path, bool a, NiTexture*& out, bool b, bool c);
+public:
+    static void GetTexture(const char *, bool, ::NiPointer< ::NiTexture> &, bool, bool);
 };
 
 struct TexBase
 {
-    void FUN_00ba8be0(NiStream* stream);
 };
 
 struct TexMap : TexBase
@@ -83,7 +86,7 @@ struct TexMap : TexBase
 // @fnv 0x00b60240
 void TexMap::FUN_00b60240(NiStream* stream)
 {
-    FUN_00ba8be0(stream);
+    ::FUN_00ba8be0((::BSSP_stub *)this, (int)(stream), {});
     if (m_path)
-        BSShaderManager::GetTexture(m_path, true, m_texture, true, false);
+        ::BSShaderManager::GetTexture(m_path, true, (::NiPointer< ::NiTexture> &)(m_texture), true, false);
 }

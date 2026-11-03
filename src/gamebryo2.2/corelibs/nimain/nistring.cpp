@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nistring.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nistring.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00aa1000.h"
 struct StringPointerRecord
 {
     char* m_kHandle;
@@ -53,7 +54,6 @@ MyStr& MyStr::AssignString(const char* acString)
     return *this;
 }
 
-void __cdecl _NiFreeAlias(void*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct S00a88bc0
 {
@@ -73,7 +73,7 @@ void S00a88bc0::ReleaseHandle()
             char* tmp = m_kHandle;
             if (tmp)
             {
-                _NiFreeAlias(tmp - 12);
+                ::FUN_00aa10f0(tmp - 12);
                 m_kHandle = 0;
             }
         }
@@ -82,7 +82,6 @@ void S00a88bc0::ReleaseHandle()
 }
 
 unsigned int __cdecl FUN_00a88ac0(unsigned int);
-void* __cdecl _NiMalloc(unsigned int);
 void* __cdecl _memmove(void*, const void*, unsigned int);
 
 // Allocates a handle for a copy of pcStr, stores the length before the string and returns a pointer to the copied string, or 0 on failure.
@@ -98,7 +97,7 @@ char* __cdecl AllocStringHandle(const char* pcSource)
         uiSize = 1;
     unsigned int uiAlloc = uiSize + 0xd;
     unsigned int uiRet = FUN_00a88ac0(uiAlloc);
-    unsigned int* pkMem = (unsigned int*)_NiMalloc(uiRet);
+    unsigned int* pkMem = (unsigned int*)::FUN_00aa1070(uiRet);
     *pkMem = uiRet;
     char* pcHandle = (char*)(pkMem + 3);
     pkMem[1] = 1;

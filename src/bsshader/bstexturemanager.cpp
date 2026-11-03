@@ -1,5 +1,11 @@
 // bsshader/bstexturemanager.cpp: free functions (3 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/S_004a0e10.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011fa000.h"
 #include "NiObject.h"
 
 // One 16-byte surface-tint record. The water system writes the tint of the
@@ -13,13 +19,12 @@ struct WaterTintRecord
     float a;
 };
 
-extern WaterTintRecord g_waterTintRecords[];
 
 // Stores the given tint record into the global water tint record array at the specified index.
 // @fnv 0x004e20c0
 void SetWaterTintRecord(int index, WaterTintRecord tint)
 {
-    g_waterTintRecords[index] = tint;
+    (*reinterpret_cast<WaterTintRecord (*)[]>((void *)&::DAT_011FA0C0))[index] = tint;
 }
 
 // FUN_004a0dd0: thiscall, one stack arg; calls a flag lookup, then virtual slot 100 with the arg.
@@ -127,7 +132,6 @@ class FUN_004a0dd0_cls
     virtual void vfn_98();
     virtual void vfn_99();
     virtual void vfn_100(int a);
-    bool LookupFlag(const char* name, int flag);
     void FUN_004a0dd0(int a1);
 };
 
@@ -135,7 +139,7 @@ class FUN_004a0dd0_cls
 // @fnv 0x004a0dd0
 void FUN_004a0dd0_cls::FUN_004a0dd0(int a1)
 {
-    if (LookupFlag("SetScreenSpaceCameraData", 1) == 0)
+    if (reinterpret_cast<::S_004a0e10 *>(this)->FUN_004a0e10((int)("SetScreenSpaceCameraData"), 1) == 0)
     {
     }
     else
@@ -144,7 +148,6 @@ void FUN_004a0dd0_cls::FUN_004a0dd0(int a1)
     }
 }
 
-void NiFree(void* p);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
 
@@ -152,7 +155,7 @@ template <class T> struct StubMallocIf
 {
     static void Deallocate(T* p)
     {
-        NiFree(p);
+        ::FUN_00aa10f0(p);
     }
 };
 

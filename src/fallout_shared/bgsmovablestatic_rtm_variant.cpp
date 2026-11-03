@@ -2,6 +2,10 @@
 // src/fallout_shared/bgsmovablestatic_rtm_variant.cpp - RTM variant unit created 2026-11-01 by rtm_route.py: community reworks of src/fallout_shared/bgsmovablestatic.cpp that match byte for byte only
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
 
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005b5000.h"
 #include "bgsmovablestatic_decls.h"
 
 class TESFile;
@@ -88,9 +92,7 @@ class TESForm
     virtual void unk12C();
     virtual void unk130();
     virtual const char* GetName();
-    bool GetInitialized();
     TESFile* GetFile(int a);
-    unsigned int GetFormID();
     void SetInitializationState(bool b);
     int unk04;
     int unk08;
@@ -100,6 +102,8 @@ class TESForm
     int unk18;
     int unk1c;
     int unk20;
+public:
+    bool GetInitialized() const;
 };
 
 class TESSound : public TESForm
@@ -161,14 +165,11 @@ class BGSMovableStaticOwner : public unkOwnerBase, public BGSDestructibleObjectF
 {
 };
 
-void FixupFormID(unsigned int* formID, TESFile* file);
-TESForm* LookupForm(unsigned int formID);
-void FNV_Warning(const char* fmt, ...);
 
 // @fnv 0x004fbb70
 void TESObjectSTAT::FUN_004fbb70()
 {
-    if (GetInitialized())
+    if (reinterpret_cast<::TESForm *>(this)->GetInitialized())
         return;
 
     ((BGSMovableStaticOwner*)((char*)this - 0x14))
@@ -184,12 +185,10 @@ void TESObjectSTAT::FUN_004fbb70()
     unsigned int soundID = sound.soundFormID;
     if (soundID)
     {
-        FixupFormID(&soundID, GetFile(-1));
-        sound.m_pSoundEffect = dynamic_cast<TESSound*>(LookupForm(soundID));
+        ::ResolveFormID(&soundID, GetFile(-1));
+        sound.m_pSoundEffect = dynamic_cast<TESSound*>(::FUN_004839c0(soundID));
         if (!sound.m_pSoundEffect)
-            FNV_Warning("MASTERFILE: Could not find looping sound (%08X) for movable static '%s' (%08X).", soundID,
-                        ((TESForm*)((char*)((BGSMovableStaticOwner*)((char*)this - 0x14)) + 0x14))->GetName(),
-                        GetFormID());
+            ::FUN_005b5e40();
     }
 
     SetInitializationState(true);

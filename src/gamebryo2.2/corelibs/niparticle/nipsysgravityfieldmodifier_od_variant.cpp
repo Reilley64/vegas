@@ -4,17 +4,18 @@
 
 // src/gamebryo2.2/corelibs/niparticle/nipsysgravityfieldmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysgravityfieldmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/NiPSysFieldModifierImpl.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01202000.h"
 struct NiStream
 {
     void GetLoadedObject();
 };
 struct NiColor
 {
-    void SaveBinary(NiStream&);
 };
 struct NiPSysFieldModifier
 {
-    void SaveBinary(NiStream&);
 };
 struct NiPSysGravityFieldModifier : NiPSysFieldModifier
 {
@@ -23,21 +24,20 @@ struct NiPSysGravityFieldModifier : NiPSysFieldModifier
 };
 extern "C"
 {
-    extern const void* g_01202708;
 }
 
 // @fnv 0x00c2a9b0
 const void* __cdecl FUN_00c2a9b0()
 {
-    return &g_01202708;
+    return &(*reinterpret_cast<const void * *>(&::g_01202708));
 }
 
 struct NiPoint3
 {
     float x, y, z;
-    float Length() const;
+public:
+    float ComputeMagnitude() const;
 };
-extern double DAT_01017cf8;
 struct FUN_004a0c10_s
 {
     float x, y, z;
@@ -46,8 +46,8 @@ struct FUN_004a0c10_s
 // @fnv 0x004a0c10
 void FUN_004a0c10_s::FUN_004a0c10()
 {
-    float len = ((NiPoint3*)this)->Length();
-    if (len > DAT_01017cf8)
+    float len = reinterpret_cast<::NiPoint3 *>((void *)(((NiPoint3*)this)))->ComputeMagnitude();
+    if (len > ::DAT_01017cf8)
     {
         float inv = 1.0f / len;
         x *= inv;

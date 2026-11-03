@@ -1,22 +1,29 @@
 // src/gamebryo2.2/corelibs/nimain/niscreenelements_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/gamebryo2.2/corelibs/nimain/niscreenelements.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/FUN_0043b370_cls.h"
+#include "fnv/decl/FUN_00a89760_cls.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a74690__FUN_00a74690_shell.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a74000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109e000.h"
+#include "fnv/symbols_011f5000.h"
 #include "niscreenelements_flags.h"
 
-extern "C" void* g_011f5b48;
 
 // @fnv 0x00a87800
 void* __cdecl FUN_00a87800()
 {
-    return &g_011f5b48;
+    return &(*reinterpret_cast<void * *>(&::g_011f5b48));
 }
 
-extern "C" void _delete(void*, unsigned int);
 
 struct NiScreenElements
 {
     void* m_pVftable;
-    void __fastcall FUN_00a89760();
     NiScreenElements* __thiscall FUN_00a87830(unsigned int flags);
 };
 
@@ -24,9 +31,9 @@ struct NiScreenElements
 NiScreenElements* __thiscall NiScreenElements::FUN_00a87830(unsigned int flags)
 {
     m_pVftable = (void*)0x0109e984;
-    FUN_00a89760();
+    reinterpret_cast<::FUN_00a89760_cls *>(this)->FUN_00a89760_cls::~FUN_00a89760_cls();
     if (flags & 1)
-        _delete(this, 0xc4);
+        ::FUN_00aa1460(this, 0xc4);
     return this;
 }
 
@@ -38,15 +45,10 @@ struct StrArr
     unsigned short sa;
     char padC[2];
     unsigned short se;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 struct BaseCls
 {
-    void FUN_00a74690(StrArr*);
 };
-extern char* g_011f5b48;
-char* _FUN_00a7d330(char*);
 struct MyTarg : BaseCls
 {
     void FUN_00a878b0(StrArr*);
@@ -54,12 +56,12 @@ struct MyTarg : BaseCls
 // @fnv 0x00a878b0
 void MyTarg::FUN_00a878b0(StrArr* pkStrings)
 {
-    FUN_00a74690(pkStrings);
-    char* tmp = _FUN_00a7d330(g_011f5b48);
+    reinterpret_cast<::fnv_00a74690::FUN_00a74690_shell *>(this)->FUN_00a74690((::fnv_00a74690::StrArr *)(pkStrings));
+    char* tmp = ::FUN_00a7d330((*reinterpret_cast<char * *>(&::g_011f5b48)));
     unsigned int sz = pkStrings->sa;
     if (sz >= pkStrings->s8)
-        pkStrings->SetSize(pkStrings->se + sz);
-    pkStrings->SetAt(sz, tmp);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(pkStrings->se + sz);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(sz, tmp);
 }
 }  // namespace fnv_00a878b0
 
@@ -69,7 +71,6 @@ class FUN_00a74480
     void* m_pVftable;
     FUN_00a74480(unsigned int flags);
 };
-extern char DAT_0109e984;
 class FUN_00a87810 : public FUN_00a74480
 {
   public:
@@ -78,7 +79,7 @@ class FUN_00a87810 : public FUN_00a74480
 // @fnv 0x00a87810
 FUN_00a87810::FUN_00a87810(unsigned int flags) : FUN_00a74480(flags)
 {
-    m_pVftable = &DAT_0109e984;
+    m_pVftable = &(*reinterpret_cast<char *>((void *)&::DAT_0109e984));
 }
 
 struct ChildBase
@@ -148,7 +149,6 @@ struct ChildObject : ChildBase
 
 struct FUN_00a87860_cls
 {
-    void FUN_00a744c0(ChildObject* apChild, void* apArg);
     ChildObject* FUN_00a87860(void* apArg);
 };
 
@@ -156,6 +156,6 @@ struct FUN_00a87860_cls
 ChildObject* FUN_00a87860_cls::FUN_00a87860(void* apArg)
 {
     ChildObject* pChild = new ChildObject();
-    FUN_00a744c0(pChild, apArg);
+    ::FUN_00a744c0();
     return pChild;
 }

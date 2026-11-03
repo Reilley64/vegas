@@ -2,6 +2,11 @@
 // src/havok/physics/dynamics/constraint/constraintkit/hkpconstraintconstructionkit.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/constraintkit/hkpconstraintconstructionkit.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/PivotBWriter.h"
+#include "fnv/decl/fnv_00d52000__D52Class.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
@@ -38,7 +43,6 @@ struct FUN_00d522b0_P
 };
 
 extern void* __cdecl FUN_00c85750(void);
-extern void __cdecl ResizeAudioStream(void* apCtx, void* apVec, int aElemSize);
 
 struct FUN_00d522b0_cls
 {
@@ -53,7 +57,7 @@ int FUN_00d522b0_cls::AddVertexCommand(unsigned char aFlag, float aX, float aY)
     FUN_00d522b0_Vec* pCmds = &m_04->m_cmds;
     FUN_00d522b0_Ctx* ctx = (FUN_00d522b0_Ctx*)FUN_00c85750();
     if (pCmds->m_uiItemCount == (pCmds->m_cap & 0x3fffffff))
-        ResizeAudioStream(ctx->m_10, pCmds, 4);
+        ::ResizeAudioStream((::AudioAllocator *)(ctx->m_10), (::AudioStream *)(pCmds), 4);
     int* piSlot = (int*)pCmds->m_ptr + pCmds->m_uiItemCount;
     *piSlot = 0x11;
     *piSlot = 0x11;
@@ -64,7 +68,7 @@ int FUN_00d522b0_cls::AddVertexCommand(unsigned char aFlag, float aX, float aY)
     pCmds = &m_04->m_cmds;
     ctx = (FUN_00d522b0_Ctx*)FUN_00c85750();
     if (pCmds->m_uiItemCount == (pCmds->m_cap & 0x3fffffff))
-        ResizeAudioStream(ctx->m_10, pCmds, 4);
+        ::ResizeAudioStream((::AudioAllocator *)(ctx->m_10), (::AudioStream *)(pCmds), 4);
     int* piFlagSlot = (int*)pCmds->m_ptr + pCmds->m_uiItemCount;
     *piFlagSlot = flag;
     *piFlagSlot = flag;
@@ -76,7 +80,7 @@ int FUN_00d522b0_cls::AddVertexCommand(unsigned char aFlag, float aX, float aY)
     FUN_00d522b0_Vec* vert = &m_04->m_verts;
     ctx = (FUN_00d522b0_Ctx*)FUN_00c85750();
     if (vert->m_uiItemCount == (vert->m_cap & 0x3fffffff))
-        ResizeAudioStream(ctx->m_10, vert, 16);
+        ::ResizeAudioStream((::AudioAllocator *)(ctx->m_10), (::AudioStream *)(vert), 16);
     _mm_store_ps((float*)((char*)vert->m_ptr + (vert->m_uiItemCount << 4)), v);
     ++vert->m_uiItemCount;
 
@@ -87,13 +91,16 @@ int FUN_00d522b0_cls::AddVertexCommand(unsigned char aFlag, float aX, float aY)
     return iOldVertexCount;
 }
 
+struct S_00c7f690_M;
+struct S_00c7f690_V;
 struct __declspec(align(16)) FUN_00c7f690_cls
 {
     int unk00;
     int unk04;
     int unk08;
     int unk0c;
-    void FUN_00c7f690(const __m128* m, const __m128* v);
+public:
+    void FUN_00c7f690(const ::S_00c7f690_M *, const ::S_00c7f690_V *);
 };
 
 struct FUN_00d52140_cls
@@ -106,8 +113,6 @@ struct FUN_00d52140_cls
     int unk14;
     unsigned char m_18;
     unsigned char m_19;
-    int FUN_00d52000(FUN_00c7f690_cls* t);
-    void FUN_00d520a0(FUN_00c7f690_cls* t);
     int FUN_00d52140(char* a1, char* a2, const __m128* a3);
 };
 
@@ -116,10 +121,10 @@ int FUN_00d52140_cls::FUN_00d52140(char* a1, char* a2, const __m128* a3)
 {
     FUN_00c7f690_cls t1;
     FUN_00c7f690_cls t2;
-    t1.FUN_00c7f690((const __m128*)(a1 + 0xf0), a3);
-    t2.FUN_00c7f690((const __m128*)(a2 + 0xf0), a3);
-    int iResult = this->FUN_00d52000(&t1);
-    this->FUN_00d520a0(&t2);
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(t1))->FUN_00c7f690((const ::S_00c7f690_M *)(const ::__m128 *)((const __m128*)(a1 + 0xf0)), (const ::S_00c7f690_V *)(a3));
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(t2))->FUN_00c7f690((const ::S_00c7f690_M *)(const ::__m128 *)((const __m128*)(a2 + 0xf0)), (const ::S_00c7f690_V *)(a3));
+    int iResult = reinterpret_cast<::fnv_00d52000::D52Class *>((this))->FUN_00d52000((*(const ::fnv_00d52000::VecD52 *)(&t1)));
+    reinterpret_cast<::PivotBWriter *>((this))->FUN_00d520a0((*(const ::D51Vector4 *)(&t2)));
     this->m_18 = 1;
     this->m_19 = 1;
     return iResult;
@@ -138,7 +143,6 @@ struct hkMemoryRouterD
     }
 };
 
-void __cdecl ResizeAudioStream(hkMemoryAllocatorD* pkAlloc, void* pkArray, int iElemSize);
 
 struct hkVector4D521
 {
@@ -181,7 +185,7 @@ template <class T> struct hkArrayD
         hkMemoryAllocatorD& kAlloc = static_cast<hkMemoryRouterD*>(FUN_00c85750())->heap();
         if (m_iElementCount == getCapacity())
         {
-            ResizeAudioStream(&kAlloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(::hkMemoryAllocatorD *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         }
         constructWithCopyD<T>(m_data + m_iElementCount, 1, t);
         m_iElementCount++;
@@ -231,8 +235,6 @@ inline void FillWords328(int* dest, int n, const int& value)
         dest[i] = value;
 }
 
-extern float DAT_01011d78;
-extern float DAT_01016410;
 
 struct Draw328_Holder
 {
@@ -283,7 +285,7 @@ unsigned int Draw328_cls::AppendHeaderAndVector(unsigned char a1, float a2)
     Draw328_Holder* holder = (Draw328_Holder*)FUN_00c85750();
     if (ints->count == (int)(ints->capFlags & 0x3fffffffu))
     {
-        ResizeAudioStream(holder->m_pAllocator, ints, 4);
+        ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(ints), 4);
     }
     FillWords328(ints->data + ints->count, 1, 0x12);
     ++ints->count;
@@ -293,13 +295,13 @@ unsigned int Draw328_cls::AppendHeaderAndVector(unsigned char a1, float a2)
     holder = (Draw328_Holder*)FUN_00c85750();
     if (ints->count == (int)(ints->capFlags & 0x3fffffffu))
     {
-        ResizeAudioStream(holder->m_pAllocator, ints, 4);
+        ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(ints), 4);
     }
     FillWords328(ints->data + ints->count, 1, tag);
     ++ints->count;
 
     float x = cosf(a2);
-    __m128 v = _mm_setr_ps(x, DAT_01016410, DAT_01011d78, DAT_01011d78);
+    __m128 v = _mm_setr_ps(x, DAT_01016410, ::DAT_01011d78, ::DAT_01011d78);
 
     Draw328_mgr* mgr = m_pMgr;
     unsigned int uiIndex = (unsigned int)mgr->m_vec.count;
@@ -308,7 +310,7 @@ unsigned int Draw328_cls::AppendHeaderAndVector(unsigned char a1, float a2)
     holder = (Draw328_Holder*)FUN_00c85750();
     if (vec->count == (int)(vec->capFlags & 0x3fffffffu))
     {
-        ResizeAudioStream(holder->m_pAllocator, vec, 0x10);
+        ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(vec), 0x10);
     }
     vec->data[vec->count] = v;
     vec->count++;
@@ -362,7 +364,7 @@ template <class T> struct hkArr
     {
         if (m_iElementCount == getCapacity())
         {
-            ResizeAudioStream(&alloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(T));
         }
         hkConstructWithCopy(m_data + m_iElementCount, 1, t);
         m_iElementCount++;

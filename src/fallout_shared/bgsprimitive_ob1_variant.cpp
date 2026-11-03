@@ -3,6 +3,36 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /GF /Ob1 (unit src/fallout_shared/bgsprimitive.cpp lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <new>
+#include "fnv/decl/C37E00Box.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_004a51d0_shell.h"
+#include "fnv/decl/FUN_004b6190_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00b5af80_self.h"
+#include "fnv/decl/FloatMatrix3.h"
+#include "fnv/decl/FnvCpu_FUN_00a7b850_CpuObject.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/MyPoint439180.h"
+#include "fnv/decl/NiCamera.h"
+#include "fnv/decl/S_0060ba10.h"
+#include "fnv/decl/S_C4F420.h"
+#include "fnv/decl/TCEq.h"
+#include "fnv/decl/TESActorBaseData.h"
+#include "fnv/decl/TESCombatStyle.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/fnv_00c38220__FUN_00c38220_shell.h"
+#include "fnv/decl/s4a5200__Owner.h"
+#include "fnv/symbols_00549000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01202000.h"
 #include "bgsprimitive_decls.h"
 
 class ColorPair
@@ -20,7 +50,6 @@ class ColorPair
 class ColorPropertyBase
 {
   public:
-    bool FUN_00c4fa80(const ColorPropertyBase* pkOther);
 };
 
 class ColorProperty : public ColorPropertyBase
@@ -38,7 +67,7 @@ class ColorProperty : public ColorPropertyBase
 // @fnv 0x00c38090
 bool ColorProperty::FUN_00c38090(const ColorPropertyBase* pkObject)
 {
-    bool bEqual = FUN_00c4fa80(pkObject);
+    bool bEqual = reinterpret_cast<::TCEq *>(this)->FUN_00c4fa80((::NiObject *)(pkObject));
     if (bEqual)
     {
         const ColorProperty* pkOther = (const ColorProperty*)pkObject;
@@ -100,7 +129,6 @@ bool CenteredPointBounds::FUN_00c38a20(const Pt& kPoint)
            !(PtAbs(kDiff.z) - m_kExtent.z > 0.01f);
 }
 
-extern int g_01202818;
 extern void fnv_stub_grow(unsigned int, unsigned int);
 
 struct Obj_0096a610
@@ -131,7 +159,6 @@ struct Obj_0096a610
 
 struct Obj_00a598f0
 {
-    unsigned int __thiscall ToString(const char* name);
 };
 
 struct C_00c36580
@@ -147,23 +174,21 @@ struct C_00c36580
     int unk20;
     Obj_00a598f0 unk24;
 
-    void __thiscall AddPropertyNames(int value);
     void __thiscall FUN_00c36580(Obj_0096a610* value);
 };
 
-int __cdecl FUN_00a7d330(int value);
 
 // @fnv 0x00c36580
 void __thiscall C_00c36580::FUN_00c36580(Obj_0096a610* value)
 {
-    AddPropertyNames((int)value);
+    reinterpret_cast<::fnv_00c38220::FUN_00c38220_shell *>(this)->AddPropertyNames((::fnv_00c38220::NiTPrimitiveArray_unsigned_int_ *)((int)value));
 
-    int src = g_01202818;
-    unsigned int first = (unsigned int)FUN_00a7d330(src);
-    value->FUN_0096a610(first);
+    int src = (*reinterpret_cast<int *>(&::g_01202818));
+    unsigned int first = (unsigned int)((int)(::FUN_00a7d330((const char *)(src))));
+    reinterpret_cast<::S_0060ba10 *>((value))->FUN_0096a610((int)&(first));
 
-    unsigned int second = unk24.ToString("Axis");
-    value->FUN_0096a610(second);
+    unsigned int second = ((unsigned int)(reinterpret_cast<::FloatMatrix3 *>(&(unk24))->ToString("Axis")));
+    reinterpret_cast<::S_0060ba10 *>((value))->FUN_0096a610((int)&(second));
 }
 
 // Previous geometry reconstruction credited to another contributor.
@@ -193,7 +218,6 @@ struct Color
     float r, g, b, a;
 };
 
-extern Color DAT_011a9be0;
 extern Point3 DAT_011a946c, DAT_011a9478, DAT_011a9484;
 
 struct GeometryData
@@ -211,7 +235,6 @@ struct GeometryData
 
     bool* flags;
 
-    unsigned short* FUN_00a7b850();
 
     __forceinline Point3* GetVertices()
     {
@@ -373,7 +396,7 @@ void Bound::FUN_00c38b00(Geometry* lines, Geometry* triangles, Color color)
 
     Color faceColor9 = color;
 
-    Color edgeColor = DAT_011a9be0;
+    Color edgeColor = (*reinterpret_cast<::BoxGeometry::Color *>(&::DAT_011a9be0));
 
     Point3* vertices9 = lines->GetData()->GetVertices();
 
@@ -403,7 +426,7 @@ void Bound::FUN_00c38b00(Geometry* lines, Geometry* triangles, Color color)
 
     colors8 = triangles->GetData()->GetColors();
 
-    unsigned short* indices = triangles->GetData()->FUN_00a7b850();
+    unsigned short* indices = ((unsigned short *)(reinterpret_cast<::FnvCpu_FUN_00a7b850_CpuObject *>((triangles->GetData()))->FUN_00a7b850()));
 
     triangles->position = center;
 
@@ -460,7 +483,6 @@ struct NiPoint2
 struct ThreeByThreeMatrix
 {
     float m_afEntries[3][3];
-    static const ThreeByThreeMatrix IDENTITY;
 };
 struct NiPlane
 {
@@ -498,9 +520,9 @@ struct FUN_00c335d0 : NiObject
 // @fnv 0x00c335d0
 FUN_00c335d0::FUN_00c335d0()
 {
-    kTargetCenter = NiPoint3::ZERO;
+    kTargetCenter = (*reinterpret_cast<const ::bs::NiPoint3 *>((void *)&::NiPoint3::ZERO));
     m_kPoint2 = NiPoint2(50.0f, 50.0f);
-    kRotationBasis = ThreeByThreeMatrix::IDENTITY;
+    kRotationBasis = (*reinterpret_cast<const ::bs::ThreeByThreeMatrix *>(&::DAT_011a9448));
     m_uiShapeType = 0;
     m_bDecalTextureCreated = true;
     for (int i = 0; i < 4; i++)
@@ -515,7 +537,6 @@ class NiPoint3_ext
     float x, y, z;
     NiPoint3_ext()
     {}
-    float Dot(const NiPoint3&) const;
     NiPoint3_ext operator+(const NiPoint3_ext&) const;
     NiPoint3_ext operator-(const NiPoint3_ext&) const;
     void operator*=(float);
@@ -529,7 +550,7 @@ class NiPlane
     NiPlane();
     float Distance(const NiPoint3& kPt) const
     {
-        return m_kPlaneNormal.Dot(kPt) - m_fPlaneConstant;
+        return reinterpret_cast<::FUN_004b6190_shell *>((void *)&(m_kPlaneNormal))->DotProduct((void *)&(kPt)) - m_fPlaneConstant;
     }
 };
 
@@ -597,7 +618,6 @@ class BSMultiBoundShape
     NiPoint3_ext m_kHalfExtents;
     NiMatrix33 m_kRotationMatrix;
 
-    void FUN_00c39270(NiPoint3_ext* pts);
 
     void FUN_00c37a00(NiPoint3_ext* pts)
     {
@@ -625,7 +645,7 @@ class BSMultiBoundShape
             kNormal.y = pRow[i + 3];
             kNormal.z = pRow[i + 6];
             planes[i].m_kPlaneNormal = kNormal;
-            planes[i].m_fPlaneConstant = kNormal.Dot(*(const NiPoint3*)&m_kCenter);
+            planes[i].m_fPlaneConstant = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kNormal))->DotProduct((void *)&(*(const NiPoint3*)&m_kCenter));
         }
     }
 
@@ -666,9 +686,9 @@ int BSMultiBoundShape::FUN_00c369b0(BSMultiBound* p)
     {
         BSMultiBoundShape* j = (BSMultiBoundShape*)p->GetShape();
         NiPoint3_ext e[8];
-        j->FUN_00c39270(e);
+        reinterpret_cast<::BoxGeometry::Bound *>((j))->FUN_00c39270((::BoxGeometry::Point3 *)(e));
         NiPlane c[3];
-        this->GetPlanes(c);
+        reinterpret_cast<::C37E00Box *>((this))->GetPlanes((::C37E00Plane *)(c));
         for (int i = 0; i < 8; i++)
         {
             float dx = (float)fabs(c[0].Distance(*(NiPoint3*)&e[i]));
@@ -689,7 +709,7 @@ int BSMultiBoundShape::FUN_00c369b0(BSMultiBound* p)
         NiPoint3_ext j[8];
         c->FUN_00c37a00(j);
         NiPlane e[3];
-        this->GetPlanes(e);
+        reinterpret_cast<::C37E00Box *>((this))->GetPlanes((::C37E00Plane *)(e));
         for (int i = 0; i < 8; i++)
         {
             float dx = (float)fabs(e[0].Distance(*(NiPoint3*)&j[i]));
@@ -723,7 +743,6 @@ struct C37050_Point
 struct C37050_Plane
 {
     float a, b, c, d;
-    int ClassifyPoint(const C37050_Point& point) const;
 };
 struct C37050_Frustum
 {
@@ -738,21 +757,20 @@ struct C37050_Frustum
 };
 struct C37050_Bound
 {
-    void FUN_00c37a00(C37050_Point* corners);
     bool FUN_00c37050(const C37050_Frustum& frustum);
 };
 // @fnv 0x00c37050
 bool C37050_Bound::FUN_00c37050(const C37050_Frustum& frustum)
 {
     C37050_Point corners[8];
-    FUN_00c37a00(corners);
+    reinterpret_cast<::BSMultiBoundShape *>(this)->FUN_00c37a00((::NiPoint3_ext *)(corners));
     for (int i = 0; i < 6; i++)
     {
         if (frustum.IsPlaneActive(i))
         {
             for (int j = 0; j < 8; j++)
             {
-                if (frustum.m_kPlaneArray[i].ClassifyPoint(corners[j]) == 2)
+                if (reinterpret_cast<::NiCamera *>((void *)&(frustum.m_kPlaneArray[i]))->ClassifyPoint((const ::NiPoint3 *)&(corners[j])) == 2)
                     return false;
             }
         }
@@ -785,11 +803,9 @@ static __forceinline void DeadQ6()
     int dq[6];
 }
 
-extern const double DAT_01016408;
 struct Pt3Q
 {
     float x, y, z;
-    float DotProduct(const Pt3Q& o) const;
 };
 struct PlaneQ
 {
@@ -797,17 +813,16 @@ struct PlaneQ
     float m_fPlaneConstant;
     PlaneQ()
     {
-        FUN_00a69940();
+        new ((void *)this) ::NiPlane();
     }
-    void FUN_00a69940();
     float Distance(const Pt3Q& p)
     {
-        return m_kPlaneNormal.DotProduct(p) - m_fPlaneConstant;
+        return reinterpret_cast<::FUN_004b6190_shell *>((void *)&(m_kPlaneNormal))->DotProduct((void *)&(p)) - m_fPlaneConstant;
     }
 };
 static inline float DistOf(PlaneQ* pl, const Pt3Q& p)
 {
-    return pl->m_kPlaneNormal.DotProduct(p) - pl->m_fPlaneConstant;
+    return reinterpret_cast<::FUN_004b6190_shell *>((void *)&(pl->m_kPlaneNormal))->DotProduct((void *)&(p)) - pl->m_fPlaneConstant;
 }
 static inline float AbsQ(float f)
 {
@@ -817,7 +832,6 @@ struct FrustQ
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14;
     float m_fTolX, m_fTolY, m_fTolZ;
-    void GetPlanes(PlaneQ* p);
     bool FUN_00c378c0(const Pt3Q& kPt);
 };
 // @fnv 0x00c378c0
@@ -825,23 +839,22 @@ bool FrustQ::FUN_00c378c0(const Pt3Q& kPt)
 {
     PlaneQ akPlanes3[3];
     DeadQ6();
-    GetPlanes(akPlanes3);
+    reinterpret_cast<::C37E00Box *>(this)->GetPlanes((::C37E00Plane *)(akPlanes3));
     {
         float fDistZ = AbsQ(akPlanes3[0].Distance(kPt));
-        if (fDistZ - m_fTolX > DAT_01016408)
+        if (fDistZ - m_fTolX > ::DAT_01016408)
             return false;
         float fDistX9 = AbsQ(DistOf(&akPlanes3[1], kPt));
-        if (fDistX9 - m_fTolY > DAT_01016408)
+        if (fDistX9 - m_fTolY > ::DAT_01016408)
             return false;
     }
     float fDistY = AbsQ(DistOf(&akPlanes3[2], kPt));
-    if (fDistY - m_fTolZ > DAT_01016408)
+    if (fDistY - m_fTolZ > ::DAT_01016408)
         return false;
     return true;
 }
 
 extern "C" double fabs(double);
-extern double DAT_01012060;
 
 struct Vec3
 {
@@ -940,7 +953,6 @@ struct Prim
         return AbsPoint(delta.x) - m_radii.x <= 0.01 && AbsPoint(delta.y) - m_radii.y <= 0.01 &&
                AbsPoint(delta.z) - m_radii.z <= 0.01;
     }
-    void FUN_00c37a00(Vec3* arr);
     int FUN_00c384f0(Param* arg);
 };
 
@@ -967,7 +979,7 @@ int Prim::FUN_00c384f0(Param* arg)
         else
         {
             Vec3 arr[8];
-            q->FUN_00c37a00(arr);
+            reinterpret_cast<::BSMultiBoundShape *>((q))->FUN_00c37a00((::NiPoint3_ext *)(arr));
             for (int i3 = 0; i3 < 8; ++i3)
             {
                 if (!FUN_00c39560(arr[i3]))
@@ -1051,7 +1063,7 @@ bool OccShape::FUN_00c387f0(Frustum6* pkPlanes)
 {
     Pt3 kVerts[8];
     bool bFlat = (m_fGlyphWidthInPixels == 0.0);
-    GetVertices(kVerts);
+    reinterpret_cast<::BoxGeometry::Bound *>(this)->FUN_00c39270((::BoxGeometry::Point3 *)(kVerts));
     for (int i = 0; i < 6; i++)
     {
         if (bool(pkPlanes->m_uiActivePlaneMask & (1 << i)))
@@ -1061,7 +1073,7 @@ bool OccShape::FUN_00c387f0(Frustum6* pkPlanes)
             {
                 if (!bFlat || (j % 2) != 0)
                 {
-                    if (pkPlanes->m_akPlanes[i].WhichSide(&kVerts[j]) != 2)
+                    if (reinterpret_cast<::NiCamera *>((void *)&(pkPlanes->m_akPlanes[i]))->ClassifyPoint((const ::NiPoint3 *)(const ::Pt3 *)(&kVerts[j])) != 2)
                         bAllOut = false;
                 }
             }
@@ -1152,14 +1164,13 @@ struct FUN_00c4f8e0
 };
 struct C4F390_Owner
 {
-    void CopyFields(FUN_00c4f8e0* clone, CloningProcess& cloning);
     FUN_00c4f8e0* FUN_00c4f390(CloningProcess& cloning);
 };
 // @fnv 0x00c4f390
 FUN_00c4f8e0* C4F390_Owner::FUN_00c4f390(CloningProcess& cloning)
 {
     FUN_00c4f8e0* clone = new FUN_00c4f8e0;
-    CopyFields(clone, cloning);
+    reinterpret_cast<::S_C4F420 *>(this)->CopyFields((::S_C4F420 *)(clone), (int)&(cloning));
     return clone;
 }
 
@@ -1352,12 +1363,10 @@ class BSMultiBoundAABB : public BSMultiBoundShape
   public:
     BoundPoint center;
     BoundPoint halfExtents;
-    void FUN_00c39270(BoundPoint*);
 };
 class BSMultiBoundOBB : public BSMultiBoundShape
 {
   public:
-    void FUN_00c37a00(BoundPoint*);
 };
 class BSMultiBound : public NiObject
 {
@@ -1384,12 +1393,12 @@ int BSMultiBoundSphere::FUN_00c4ff60(BSMultiBound* other)
     {
         BSMultiBoundAABB* box2 = static_cast<BSMultiBoundAABB*>(other->GetShape());
         BoundPoint _vertices[8];
-        box2->FUN_00c39270(_vertices);
+        reinterpret_cast<::BoxGeometry::Bound *>((box2))->FUN_00c39270((::BoxGeometry::Point3 *)(_vertices));
         float radiusSquared8 = radius * radius;
         for (int i = 0; i < 8; i++)
         {
-            BoundPoint diff2 = center.FUN_00439ef0(_vertices[i]);
-            float distanceSquared = diff2.FUN_004a7290();
+            BoundPoint diff2 = (*(::fnv_00c4ff60::BoundPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(center))->FUN_00439ef0((::NiPoint3 *)&(_vertices[i]), *(const ::NiPoint3 *)nullptr)));
+            float distanceSquared = reinterpret_cast<::TESCombatStyle *>((void *)&(diff2))->UpdateCombatStyle();
             if (distanceSquared > radiusSquared8)
                 return 0;
         }
@@ -1399,13 +1408,13 @@ int BSMultiBoundSphere::FUN_00c4ff60(BSMultiBound* other)
     {
         BSMultiBoundOBB* box3 = static_cast<BSMultiBoundOBB*>(other->GetShape());
         BoundPoint vertices5[8];
-        box3->FUN_00c37a00(vertices5);
+        reinterpret_cast<::BSMultiBoundShape *>((box3))->FUN_00c37a00((::NiPoint3_ext *)(vertices5));
         float radiusSquared = radius * radius;
         for (int i = 0; i < 8; i++)
         {
-            BoundPoint diff = center.FUN_00439ef0(vertices5[i]);
+            BoundPoint diff = (*(::fnv_00c4ff60::BoundPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(center))->FUN_00439ef0((::NiPoint3 *)&(vertices5[i]), *(const ::NiPoint3 *)nullptr)));
             {
-                float distanceSquared = diff.FUN_004a7290();
+                float distanceSquared = reinterpret_cast<::TESCombatStyle *>((void *)&(diff))->UpdateCombatStyle();
                 if (distanceSquared > radiusSquared)
                     return 0;
             }
@@ -1416,9 +1425,9 @@ int BSMultiBoundSphere::FUN_00c4ff60(BSMultiBound* other)
     {
         BSMultiBoundSphere* sphere = static_cast<BSMultiBoundSphere*>(other->GetShape());
         {
-            BoundPoint diff3 = center.FUN_00439ef0(sphere->center);
+            BoundPoint diff3 = (*(::fnv_00c4ff60::BoundPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(center))->FUN_00439ef0((::NiPoint3 *)&(sphere->center), *(const ::NiPoint3 *)nullptr)));
             {
-                float distance = diff3.FUN_00457990();
+                float distance = reinterpret_cast<::NiPoint3 *>((void *)&(diff3))->ComputeMagnitude();
                 if (distance + sphere->radius - radius <= 0.0)
                     return 2;
             }
@@ -1463,7 +1472,7 @@ struct C50380_Sphere
 // @fnv 0x00c50380
 bool __thiscall C50380_Sphere::FUN_00c50380(C50380_Point* other)
 {
-    float fDist = other->FUN_00439ef0(m_kCenter).FUN_00457990();
+    float fDist = reinterpret_cast<::NiPoint3 *>((void *)&(const ::C50380_Point &)((*(::C50380_Point *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(other))->FUN_00439ef0((::NiPoint3 *)&(m_kCenter), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude();
     return (fDist < m_fBoundRadius) ? true : false;
 }
 
@@ -1524,15 +1533,15 @@ class NiOBBOB
 // @fnv 0x00c37a00
 void NiOBBOB::FUN_00c37a00(NiPoint3OB* pkVerts)
 {
-    NiPoint3OB kX = NiPoint3OB::ZERO;
-    NiPoint3OB kY = NiPoint3OB::ZERO;
-    NiPoint3OB kZ = NiPoint3OB::ZERO;
+    NiPoint3OB kX = (*reinterpret_cast<const ::NiPoint3OB *>((void *)&::NiPoint3::ZERO));
+    NiPoint3OB kY = (*reinterpret_cast<const ::NiPoint3OB *>((void *)&::NiPoint3::ZERO));
+    NiPoint3OB kZ = (*reinterpret_cast<const ::NiPoint3OB *>((void *)&::NiPoint3::ZERO));
     m_kBasis.GetCol(0, kX);
-    kX *= m_afExtents[0];
+    reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3OB &)(kX))->FUN_00439180(m_afExtents[0]);
     m_kBasis.GetCol(1, kY);
-    kY *= m_afExtents[1];
+    reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3OB &)(kY))->FUN_00439180(m_afExtents[1]);
     m_kBasis.GetCol(2, kZ);
-    kZ *= m_afExtents[2];
+    reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3OB &)(kZ))->FUN_00439180(m_afExtents[2]);
     pkVerts[0] = m_kCenter + kX + kY + kZ;
     pkVerts[1] = m_kCenter + kX + kY - kZ;
     pkVerts[2] = m_kCenter + kX - kY + kZ;
@@ -1545,9 +1554,7 @@ void NiOBBOB::FUN_00c37a00(NiPoint3OB* pkVerts)
 
 struct C4F460_Pool
 {
-    void* __thiscall FUN_00aa3e40(unsigned int size);
 };
-extern C4F460_Pool DAT_011f6238;
 struct FUN_00a5ecb0
 {
     virtual ~FUN_00a5ecb0();
@@ -1659,7 +1666,7 @@ struct FUN_00c47660
     {
         int unused[3];
         (void)unused;
-        return DAT_011f6238.FUN_00aa3e40(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::C4F460_Pool *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }
     static void operator delete(void* p);
 };
@@ -1682,9 +1689,7 @@ C4F460_Node::C4F460_Node(int value) : FUN_00a5ecb0(0)
 namespace fnv_00c4f550 {
 struct MemoryHeap_c4f550
 {
-    void FUN_00aa4060(void* pvMem);
 };
-extern MemoryHeap_c4f550 DAT_011f6238;
 
 struct FUN_00c47770
 {  // owned object; destructor at 0x00c47770
@@ -1693,14 +1698,13 @@ struct FUN_00c47770
     static void operator delete(void* pvMem)
     {
         int unused; /* frame space only */
-        DAT_011f6238.FUN_00aa4060(pvMem);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00c4f550::MemoryHeap_c4f550 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
     }
 };
 
 struct FUN_00c3a620
 {  // member at +0xb0; destructor at 0x00c3a620
     unsigned int unk00, unk04, unk08, unk0C;
-    void FUN_00b5af80(int iMode);
     ~FUN_00c3a620();
 };
 
@@ -1728,7 +1732,7 @@ class Owner_c4f550 : public FUN_00a5e930
 Owner_c4f550::~Owner_c4f550()
 {
     delete m_pkOwned;
-    m_kList.FUN_00b5af80(1);
+    reinterpret_cast<::FUN_00b5af80_self *>(&(m_kList))->FUN_00b5af80(1);
     m_uiCount = 0;
 }
 }  // namespace fnv_00c4f550
@@ -1884,9 +1888,6 @@ struct OBPoint
     }
 };
 
-extern const OBPoint g_kOBUnitX;
-extern const OBPoint g_kOBUnitY;
-extern const OBPoint g_kOBUnitZ;
 
 struct OBBox
 {
@@ -1904,9 +1905,9 @@ struct OBBox
 // @fnv 0x00c39270
 void OBBox::FUN_00c39270(OBPoint* apCorners)
 {
-    OBPoint kX = g_kOBUnitX * fExtentX;
-    OBPoint kY = g_kOBUnitY * fExtentY;
-    OBPoint kZ = g_kOBUnitZ * fExtentZ;
+    OBPoint kX = (*reinterpret_cast<const ::OBPoint *>(&::DAT_011a946c)) * fExtentX;
+    OBPoint kY = (*reinterpret_cast<const ::OBPoint *>(&::DAT_011a9478)) * fExtentY;
+    OBPoint kZ = (*reinterpret_cast<const ::OBPoint *>((void *)&::DAT_011a9484)) * fExtentZ;
 
     apCorners[0] = kTargetCenter + kX + kY + kZ;
     apCorners[1] = kTargetCenter + kX + kY - kZ;
@@ -1937,7 +1938,6 @@ struct Plane
 {
     Point3 normal;
     float distance;
-    int ClassifyPoint(const Point3&) const;
 };
 
 struct Frustum
@@ -1995,7 +1995,7 @@ bool OrientedBox::FUN_00c36f20(Frustum* frustum)
 {
     Point3 vertices[8];
     bool flat = (extents.z == 0.0);
-    FUN_00c37a00(vertices);
+    reinterpret_cast<::BSMultiBoundShape *>(this)->FUN_00c37a00((::NiPoint3_ext *)(vertices));
     for (int plane = 0; plane < 6; ++plane)
     {
         if ((bool)(frustum->activePlanes & (1 << plane)))
@@ -2005,7 +2005,7 @@ bool OrientedBox::FUN_00c36f20(Frustum* frustum)
             {
                 if (!flat || vertex % 2)
                 {
-                    if (frustum->planes[plane].ClassifyPoint(vertices[vertex]) != 2)
+                    if (reinterpret_cast<::NiCamera *>((void *)&(frustum->planes[plane]))->ClassifyPoint((const ::NiPoint3 *)&(vertices[vertex])) != 2)
                         outside = false;
                 }
             }

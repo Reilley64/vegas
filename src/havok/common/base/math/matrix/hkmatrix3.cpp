@@ -2,6 +2,9 @@
 // src/havok/common/base/math/matrix/hkmatrix3.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/matrix/hkmatrix3.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00cd5000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
 struct CD4AF0Bool
 {
     char m_cBooleanValue;
@@ -306,6 +309,7 @@ const S_V4& S_00cd4c70::Multiply(const S_V4& apFactor)
 }
 
 #include <math.h>
+#include "fnv/symbols_simd.h"
 struct JacobiRot
 {
     float c;
@@ -587,7 +591,6 @@ extern "C" __m128 _mm_load_ss(const float* p);
 extern "C" void _mm_store_ss(float* p, __m128 a);
 extern "C" __m128 _mm_div_ss(__m128 a, __m128 b);
 
-extern float DAT_01012068;
 
 typedef __m128 VectorComponentValue;
 
@@ -679,7 +682,7 @@ int hkMatrix3::FUN_00cd4f10(float epsilon)
         getColumn(0).setMul4(dinv, r0);
         getColumn(1).setMul4(dinv, r1);
         getColumn(2).setMul4(dinv, r2);
-        transpose();
+        reinterpret_cast<::S_00cd4b60 *>(this)->FUN_00cd4b60();
         return 0;
     }
     return 1;
@@ -814,9 +817,6 @@ class DiagMat
         c2 = v.c2;
     }
     int FUN_00cd56c0(DiagMat& vectors, DiagVec& values, int maxIter, float epsilon) const;
-    void FUN_00cd5680(const DiagMat& other);
-    void FUN_00cd55b0(const DiagMat& a, const DiagMat& b);
-    void FUN_00cd4b60();
     float offnorm()
     {
         return ((S_00cd53a0_Matrix3*)this)->FUN_00cd53a0();
@@ -835,40 +835,6 @@ class DiagMat
         at(2, 2) = 1.0f;
     }
 };
-// Diagonalizes the matrix via Jacobi rotations, accumulating eigenvectors in vectors and eigenvalues in values, returning 1 on failure.
-// @fnv 0x00cd56c0
-int DiagMat::FUN_00cd56c0(DiagMat& apEigenvectors, DiagVec& apEigenvalues, int aiMaxIterations, float epsilon) const
-{
-    if (!((CMatrixOps*)this)->FUN_00cd4e90(epsilon))
-        return 1;
-    DiagMat current(*this);
-    apEigenvectors.identity();
-    float tolerance = FUN_00cd5340((const Mat*)this) * epsilon;
-    int iteration = 0;
-    float norm = current.offnorm();
-    while (!(norm < tolerance) && iteration < aiMaxIterations)
-    {
-        int p = 0, q = 0;
-        FUN_00cd5400((cd5400::Mat3&)current, p, q);
-        JacobiRot rotation;
-        FUN_00cd5270((const Mat34&)current, p, q, &rotation);
-        DiagMat jacobi;
-        FUN_00cd54d0((Matrix34*)&jacobi, (const SrcRec*)&rotation);
-        DiagMat transposed(jacobi);
-        transposed.FUN_00cd4b60();
-        current.FUN_00cd5680(jacobi);
-        current.FUN_00cd55b0(transposed, current);
-        apEigenvectors.FUN_00cd5680(jacobi);
-        ++iteration;
-        norm = current.offnorm();
-    }
-    apEigenvalues.q = _mm_setr_ps(current.c0.f[0], current.c1.f[1], current.c2.f[2], 0.0f);
-    if (norm > tolerance)
-        return 1;
-    return 0;
-}
-
-extern const float DAT_01011d78;
 
 class FUN_00cd51c0_cls
 {
@@ -912,7 +878,6 @@ __m128 FUN_00cd51c0_cls::FUN_00cd51c0()
 extern "C" __m128 _mm_and_ps(__m128, __m128);
 extern "C" __m128 _mm_cmple_ps(__m128, __m128);
 extern "C" int _mm_movemask_ps(__m128);
-extern "C" __declspec(align(16)) const __m128 g_signClear;
 
 // Compares each column of m_mat against other within epsilon and stores the result as a byte in out.
 // @fnv 0x00cd4e00
@@ -924,13 +889,13 @@ unsigned char* CMatrixOps::FUN_00cd4e00(unsigned char* apResult, const Matrix3x4
     const __m128 limit = _mm_shuffle_ps(scalar, scalar, 0);
     bool ok =
         ((_mm_movemask_ps(_mm_cmple_ps(
-              _mm_and_ps(_mm_sub_ps(lhs.m_kColumn0.m_vComponents, rhs.m_kColumn0.m_vComponents), g_signClear), limit)) &
+              _mm_and_ps(_mm_sub_ps(lhs.m_kColumn0.m_vComponents, rhs.m_kColumn0.m_vComponents), ::DAT_01017d10), limit)) &
           7) == 7) &&
         ((_mm_movemask_ps(_mm_cmple_ps(
-              _mm_and_ps(_mm_sub_ps(lhs.m_kColumn1.m_vComponents, rhs.m_kColumn1.m_vComponents), g_signClear), limit)) &
+              _mm_and_ps(_mm_sub_ps(lhs.m_kColumn1.m_vComponents, rhs.m_kColumn1.m_vComponents), ::DAT_01017d10), limit)) &
           7) == 7) &&
         ((_mm_movemask_ps(_mm_cmple_ps(
-              _mm_and_ps(_mm_sub_ps(lhs.m_kColumn2.m_vComponents, rhs.m_kColumn2.m_vComponents), g_signClear), limit)) &
+              _mm_and_ps(_mm_sub_ps(lhs.m_kColumn2.m_vComponents, rhs.m_kColumn2.m_vComponents), ::DAT_01017d10), limit)) &
           7) == 7);
     *static_cast<volatile unsigned char*>(apResult) = ok;
     return apResult;
@@ -969,7 +934,7 @@ struct MatrixProduct
 void MatrixProduct::FUN_00cd5610(const hkMatrix3CD4B& apLeft, const CD4BA0Matrix3& apRight)
 {
     hkMatrix3CD4B t;
-    reinterpret_cast<TransposeReceiver&>(t).Transpose(apRight);
+    reinterpret_cast<::CD4BA0Matrix3 *>(&(reinterpret_cast<TransposeReceiver&>(t)))->Transpose(apRight);
     hkMatrix3CD4B aaLeft = apLeft;
     for (int i = 2; i >= 0; i--)
     {
@@ -989,7 +954,6 @@ extern "C" __m128 _mm_load_ps(float const* p);
 
 struct FUN_00cd55b0_cls
 {
-    void FUN_00cd55b0(const void* src, int arg);
 };
 
 struct FUN_00cd5680_cls
@@ -1000,6 +964,38 @@ struct FUN_00cd5680_cls
 
     void FUN_00cd5680(int arg);
 };
+// Diagonalizes the matrix via Jacobi rotations, accumulating eigenvectors in vectors and eigenvalues in values, returning 1 on failure.
+// @fnv 0x00cd56c0
+int DiagMat::FUN_00cd56c0(DiagMat& apEigenvectors, DiagVec& apEigenvalues, int aiMaxIterations, float epsilon) const
+{
+    if (!((CMatrixOps*)this)->FUN_00cd4e90(epsilon))
+        return 1;
+    DiagMat current(*this);
+    apEigenvectors.identity();
+    float tolerance = FUN_00cd5340((const Mat*)this) * epsilon;
+    int iteration = 0;
+    float norm = current.offnorm();
+    while (!(norm < tolerance) && iteration < aiMaxIterations)
+    {
+        int p = 0, q = 0;
+        FUN_00cd5400((cd5400::Mat3&)current, p, q);
+        JacobiRot rotation;
+        FUN_00cd5270((const Mat34&)current, p, q, &rotation);
+        DiagMat jacobi;
+        FUN_00cd54d0((Matrix34*)&jacobi, (const SrcRec*)&rotation);
+        DiagMat transposed(jacobi);
+        reinterpret_cast<::S_00cd4b60 *>(&(transposed))->FUN_00cd4b60();
+        reinterpret_cast<::FUN_00cd5680_cls *>(&(current))->FUN_00cd5680((int)&(jacobi));
+        reinterpret_cast<::MProduct *>(&(current))->FUN_00cd55b0((const ::MProduct &)(transposed), (const ::MProduct &)(current));
+        reinterpret_cast<::FUN_00cd5680_cls *>(&(apEigenvectors))->FUN_00cd5680((int)&(jacobi));
+        ++iteration;
+        norm = current.offnorm();
+    }
+    apEigenvalues.q = _mm_setr_ps(current.c0.f[0], current.c1.f[1], current.c2.f[2], 0.0f);
+    if (norm > tolerance)
+        return 1;
+    return 0;
+}
 
 struct __declspec(align(16)) FUN_00cd5680_tmp
 {
@@ -1022,7 +1018,7 @@ struct __declspec(align(16)) FUN_00cd5680_tmp
 void FUN_00cd5680_cls::FUN_00cd5680(int arg)
 {
     FUN_00cd5680_tmp tmp;
-    ((FUN_00cd55b0_cls*)&tmp)->FUN_00cd55b0(this, arg);
+    reinterpret_cast<::MProduct *>((((FUN_00cd55b0_cls*)&tmp)))->FUN_00cd55b0((*(const ::MProduct *)(this)), (*(const ::MProduct *)(arg)));
     this->m_v0 = _mm_load_ps((float*)&tmp.unk00);
     this->m_v1 = _mm_load_ps((float*)&tmp.unk10);
     this->m_v2 = _mm_load_ps((float*)&tmp.unk20);
@@ -1071,8 +1067,6 @@ void __cdecl FUN_00cd5530(float* out, const float* apMatrix, const float* in)
 }
 
 extern const float DAT_0104da4c = 1.1920929e-7f;
-extern "C" void FUN_00cd5530(void*, const void*, const void*);
-extern "C" void FUN_00cd55a0(void*);
 
 class ChainScalar
 {
@@ -1231,7 +1225,7 @@ class ChainMat
     }
     void product(const ChainMat& a, const ChainMat& b)
     {
-        FUN_00cd5530(static_cast<void*>(this), static_cast<const void*>(&a), static_cast<const void*>(&b));
+        ::FUN_00cd5530((float *)(void *)(static_cast<void*>(this)), (const float *)(const void *)(static_cast<const void*>(&a)), (const float *)(const void *)(static_cast<const void*>(&b)));
     }
     void sub(const ChainMat& a)
     {
@@ -1379,7 +1373,7 @@ static __declspec(noinline) void FUN_00dd0660(int aiRowCount, float regularizer,
             float& value = output[row].diag(i, i);
             value = chainMaximum(value, 1.1920929e-7f);
         }
-        FUN_00cd55a0(reinterpret_cast<void*>(&output[row].diag));
+        ::FUN_00cd55a0((::S_00cd55a0 *)(void *)(reinterpret_cast<void*>(&output[row].diag)));
         output[row].upper.product(output[row].diag, matNext);
         matPrevious = matNext;
         upper = output[row].upper;

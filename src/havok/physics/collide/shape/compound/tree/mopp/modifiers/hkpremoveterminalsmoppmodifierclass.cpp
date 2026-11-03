@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/compound/tree/mopp/modifiers/hkpremoveterminalsmoppmodifierclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/tree/mopp/modifiers/hkpremoveterminalsmoppmodifierclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00401000.h"
 struct FUN_00e00910_cls
 {
     virtual ~FUN_00e00910_cls()
@@ -18,7 +19,7 @@ FUN_00e00910_cls* FUN_00e00910_cls::Destroy(unsigned char acFlags)
     this->FUN_00e00910_cls::~FUN_00e00910_cls();
     if (acFlags & 1)
     {
-        operator delete(this);
+        ::FUN_00401030(this);
     }
     return this;
 }

@@ -2,6 +2,32 @@
 // src/staging/blk_00b00000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00aff090_cls.h"
+#include "fnv/decl/FUN_00b02860.h"
+#include "fnv/decl/FUN_00b0cff0_class.h"
+#include "fnv/decl/FileNameComponents.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/Reader078.h"
+#include "fnv/decl/S_008785e0.h"
+#include "fnv/decl/S_af9.h"
+#include "fnv/decl/Target.h"
+#include "fnv/decl/WideString.h"
+#include "fnv/decl/fnv_00afac90__S_af9.h"
+#include "fnv/decl/xlenb0f__BxVecBase.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00b00000.h"
+#include "fnv/symbols_00b10000.h"
+#include "fnv/symbols_00b12000.h"
+#include "fnv/symbols_00b16000.h"
+#include "fnv/symbols_00b17000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_010a4000.h"
+#include "fnv/symbols_01140000.h"
+#include "fnv/symbols_011f6000.h"
 #include "../../include/layout_support.h"
 
 struct FUN_00b007d0_shell
@@ -35,14 +61,13 @@ int* __thiscall FUN_00b008e0_class::FUN_00b008e0()
 
 struct FUN_00b00950
 {
-    void __thiscall CloseHandleWrapper();
     void __thiscall DoWork();
 };
 
 // @fnv 0x00b00950
 void __thiscall FUN_00b00950::DoWork()
 {
-    CloseHandleWrapper();
+    reinterpret_cast<::FUN_00aff090_cls *>(this)->CloseHandleWrapper();
 }
 
 struct FUN_00b01bc0_class
@@ -115,12 +140,11 @@ struct TaskletManager
 {
     int* __thiscall FUN_00b00a00();
 };
-TaskletManager& __cdecl GetTaskletManager();
 // Appends param_1 to the DAT_011f8b38 queue when the manager's field at offset 8 is zero and the queue count is below 16, returning 1 on success and 0 otherwise.
 // @fnv 0x00b00da0
 char QueueTasklet(int param_1)
 {
-    int* obj = (int*)((char*)&GetTaskletManager() + 8);
+    int* obj = (int*)((char*)&(*(::TaskletManager *)&(::GetTaskletManager())) + 8);
     char result;
     if (*obj == 0 && DAT_011f8af4 < 16)
     {
@@ -137,7 +161,6 @@ char QueueTasklet(int param_1)
 
 struct FUN_00b12af0_shell
 {
-    void __thiscall FUN_00b12af0();
 };
 struct FUN_00b130a0
 {
@@ -156,7 +179,7 @@ FUN_00b130a0::FUN_00b130a0()
     p[2] = 0.0f;
     p[1] = 0.0f;
     p[0] = 0.0f;
-    ((FUN_00b12af0_shell*)((char*)this + 0x1c))->FUN_00b12af0();
+    ::FUN_00b12af0((::FUN_00b12af0_shell *)(((FUN_00b12af0_shell*)((char*)this + 0x1c))));
 }
 
 struct FUN_00b0cf90_class
@@ -200,7 +223,7 @@ FUN_00b00900::FUN_00b00900(int aiValue, int aiSecond, int aiThird, char d)
     m4 = aiSecond;
     m8 = aiThird;
     mc = d;
-    m0 = OpenFile(aiValue);
+    m0 = reinterpret_cast<::S_008785e0 *>(this)->OpenFile((const char *)(aiValue));
 }
 
 struct FUN_00b00cf0_vt
@@ -284,7 +307,7 @@ extern int DAT_011f8af8[16];
 char FUN_00b00d50(int param_1)
 {
     char local2;
-    int* piVar2 = (int*)((char*)&GetTaskletManager() + 8);
+    int* piVar2 = (int*)((char*)&(*(::TaskletManager *)&(::GetTaskletManager())) + 8);
     if (*piVar2 == 0 && DAT_011f8af0 < 0x10)
     {
         DAT_011f8af8[DAT_011f8af0] = param_1;
@@ -332,30 +355,25 @@ void FUN_00b01f00_class::DestroyAndFreeLibraries()
 
 struct MemoryManager
 {
-    void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 struct FUN_00b02970
 {
-    void FUN_00b02860();
     void* DeleteThis(unsigned int flags);
 };
 // @fnv 0x00b02970
 void* FUN_00b02970::DeleteThis(unsigned int flags)
 {
-    FUN_00b02860();
+    reinterpret_cast<::FUN_00b02860 *>(this)->FUN_00b02860::~FUN_00b02860();
     if (flags & 1)
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
     return this;
 }
 
 namespace fnv_00b0e7f0 {
 struct MemoryManager
 {
-    void __thiscall Deallocate(void* ptr);
 };
 
-extern MemoryManager _g_memoryManager;
 
 struct FUN_00b0e7f0_class
 {
@@ -394,7 +412,7 @@ void FUN_00b0e7f0_class::Clear()
         locals.destination = locals.source;
         locals.count = (m_nCapacity - m_pBuffer) >> 2;
         locals.buffer = (void*)m_pBuffer;
-        _g_memoryManager.Deallocate(locals.buffer);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00b0e7f0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(locals.buffer);
     }
 
     m_pBuffer = 0;
@@ -422,7 +440,6 @@ struct FUN_00b00820_tail
 struct FUN_00b00820_shell
 {
     FUN_00b00820_shell* FUN_00b00820(unsigned int value);
-    void FUN_00b006b0(unsigned int value);
 };
 
 // Clears pendingState and sequence at offset 0x248, calls FUN_00b006b0 with value, and returns this.
@@ -431,7 +448,7 @@ FUN_00b00820_shell* FUN_00b00820_shell::FUN_00b00820(unsigned int value)
 {
     reinterpret_cast<FUN_00b00820_tail*>(reinterpret_cast<char*>(this) + 0x248)->pendingState = 0;
     reinterpret_cast<FUN_00b00820_tail*>(reinterpret_cast<char*>(this) + 0x248)->sequence = 0;
-    FUN_00b006b0(value);
+    reinterpret_cast<::FileNameComponents *>(this)->SetFullPath((const char *)(value));
     return this;
 }
 
@@ -781,13 +798,11 @@ void B02670Task::CompleteTask()
 }
 
 void FUN_00ec7c56();
-unsigned int FUN_00b10730(unsigned int a, unsigned int b, unsigned int c);
 
 struct FUN_00b0e510_pair
 {
     unsigned int m_00;
     unsigned int m_04;
-    unsigned char FUN_00b10490(FUN_00b0e510_pair* other);
 };
 
 struct FUN_00b0e510_tmp
@@ -826,6 +841,14 @@ class FUN_00b0e510_cls
                                     unsigned int a3);
 };
 
+extern void __cdecl FUN_00ec7c56();
+
+struct FUN_00b10490_class
+{
+    int first;
+    int second;
+    bool __thiscall FUN_00b10490(const FUN_00b10490_class* rhs);
+};
 // @fnv 0x00b0e510
 FUN_00b0e510_pair* FUN_00b0e510_cls::FUN_00b0e510(FUN_00b0e510_pair* out, unsigned int a0, unsigned int a1,
                                                   unsigned int a2, unsigned int a3)
@@ -856,9 +879,9 @@ FUN_00b0e510_pair* FUN_00b0e510_cls::FUN_00b0e510(FUN_00b0e510_pair* out, unsign
     } while (0);
     hi.m_00 = this->m_00;
     hi.m_04 = a3;
-    if (lo.FUN_00b10490(&hi) != 0)
+    if (((unsigned char)(reinterpret_cast<::FUN_00b10490_class *>(&(lo))->FUN_00b10490((const ::FUN_00b10490_class *)(::FUN_00b0e510_pair *)(&hi)))) != 0)
     {
-        r = FUN_00b10730(hi.m_04, this->m_10, lo.m_04);
+        r = ((unsigned int)(::fnv_00b10730::FUN_00b10730((unsigned char *)(hi.m_04), (unsigned char *)(this->m_10), (unsigned char *)(lo.m_04))));
         big.unk00 = this->m_10;
         big.unk04 = big.unk00;
         big.unk08 = r;
@@ -868,15 +891,6 @@ FUN_00b0e510_pair* FUN_00b0e510_cls::FUN_00b0e510(FUN_00b0e510_pair* out, unsign
     *out = lo;
     return out;
 }
-
-extern void __cdecl FUN_00ec7c56();
-
-struct FUN_00b10490_class
-{
-    int first;
-    int second;
-    bool __thiscall FUN_00b10490(const FUN_00b10490_class* rhs);
-};
 
 // Calls FUN_00ec7c56 when first is zero or differs from rhs->first, then returns whether second differs from rhs->second.
 // @fnv 0x00b10490
@@ -894,12 +908,8 @@ bool __thiscall FUN_00b10490_class::FUN_00b10490(const FUN_00b10490_class* rhs)
 
 struct FUN_00b108e0_pool
 {
-    void* FUN_00aa3e40(unsigned int size);
 };
 
-extern "C" FUN_00b108e0_pool DAT_011f6238;
-extern "C" char DAT_010176f8[];
-extern "C" char DAT_01140ef8[];
 extern "C" void __stdcall FUN_00ec7894(void* err2, const char* msg);
 
 struct FUN_00b108e0_err
@@ -929,7 +939,7 @@ void* __cdecl AllocatePoolArray(unsigned int count)
             FUN_00ec7894(&err2, DAT_01140ef8);
         }
     }
-    return DAT_011f6238.FUN_00aa3e40(count * 0x1c);
+    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::FUN_00b108e0_pool *>(&::g_memoryManager))))->FUN_00aa3e40(count * 0x1c);
 }
 
 struct Mat3
@@ -960,7 +970,6 @@ Mat3 Mat3::Multiply(const Mat3& rhs) const
 
 extern "C" double __cdecl sin(double);
 extern "C" double __cdecl cos(double);
-extern double DAT_010a4d90;
 struct RotationMatrix
 {
     float m00, m01, m02, m10, m11, m12, m20, m21, m22;
@@ -970,8 +979,8 @@ struct RotationMatrix
 // @fnv 0x00b12ec0
 void RotationMatrix::SetRotationAxisAngle(float angle, float afAxisX, float afAxisY, float afAxisZ)
 {
-    float cosA = (float)((float)(sin((float)(angle / DAT_010a4d90))));
-    float sinA = (float)((float)(cos((float)(angle / DAT_010a4d90))));
+    float cosA = (float)((float)(sin((float)(angle / ::DAT_010a4d90))));
+    float sinA = (float)((float)(cos((float)(angle / ::DAT_010a4d90))));
     float zAxis = 1.0f - sinA;
     float xAxis = afAxisX, yAxis = afAxisY, oneMinusCosA = afAxisZ;
     m00 = zAxis * xAxis * xAxis + sinA;
@@ -1005,7 +1014,6 @@ struct ScratchPair
 
 struct ScratchResult
 {
-    const float* GetSource();
 };
 
 struct ScratchHelper
@@ -1020,11 +1028,10 @@ float* FUN_00b13000(float* dst, FUN_00b0cf90_class* pOwner, ScratchHelper* pHelp
     float c3;
     ScratchPair pr;
     ScratchBlock tmp;
-    pOwner->AddVector(dst, pHelper->Compute(&c3, pOwner, &blk, fScale)->GetSource());
+    pOwner->AddVector(dst, ((const float *)(reinterpret_cast<::FUN_00b0cff0_class *>((pHelper->Compute(&c3, pOwner, &blk, fScale)))->ScaleSwizzled({}, {}))));
     return dst;
 }
 
-void __cdecl FUN_00b17b40(int, int, int, int, unsigned char, unsigned char);
 struct Flag
 {
     unsigned char v;
@@ -1040,7 +1047,7 @@ void __cdecl FUN_00b17740(int a, int b, int c, int d)
         int tau_p;
         int zeta_a;
         zeta_a = a;
-        FUN_00b17b40(zeta_a, dd_b, c, d, copy, zero.v);
+        ::FUN_00b17b40((::CopyElem12 *)(zeta_a), (::CopyElem12 *)(dd_b), (::CopyElem12 *)(c));
     }
 }
 
@@ -1057,8 +1064,6 @@ struct BB17790CheckedTag
 {
 };
 
-void __cdecl FUN_00b17c20(BB17790Iterator kFirst, BB17790Iterator kLast, int* piDest, void* pvAllocator,
-                          BB17790PtrCategory kCategory, BB17790CheckedTag kChecked);
 
 // Forwards the iterator range, destination pointer and allocator to FUN_00b17c20 along with an uninitialized category and a checked tag.
 // @fnv 0x00b17790
@@ -1070,7 +1075,7 @@ void __cdecl FUN_00b17790(BB17790Iterator kFirst, BB17790Iterator kLast, int* pi
     BB17790Iterator kLastBase = kLast;
     int* kDest;
     BB17790Iterator kFirstBase3 = kFirst;
-    FUN_00b17c20(kFirstBase3, kLastBase, piDest, pvAllocator, kCategory, kChecked);
+    ::fnv_00b17c20::FUN_00b17c20((*(::fnv_00b17c20::ElQ * *)&(const ::BB17790Iterator &)(kFirstBase3)), (*(::fnv_00b17c20::ElQ * *)&(const ::BB17790Iterator &)(kLastBase)), (::fnv_00b17c20::ElQ *)(piDest));
 }
 
 struct SortEntry
@@ -1175,7 +1180,6 @@ struct FUN_00b17e90_pad
     unsigned int u80;
 };
 
-void FUN_00b0fb80();
 int* FUN_00b16b00(unsigned int count, int zero);
 
 // @fnv 0x00b17e90
@@ -1195,7 +1199,7 @@ bool FUN_00b17e90_cls::ResizeArray(unsigned int count)
         cap = 0x3fffffff;
         if ((cap > 0 ? cap : 1) < count)
         {
-            FUN_00b0fb80();
+            ::xlenb0f::BxVecBase::FUN_00b0fb80();
         }
         else
         {
@@ -1256,7 +1260,6 @@ struct FUN_00b01800_shell
     unsigned int m_uiBufferPos;
     unsigned int unk1C;
     char* m_pString;
-    unsigned int ReadAtOffset(void* pDst, unsigned int uiSize, unsigned int uiElapsedMilliseconds);
     unsigned int FUN_00b01800(void* pDst, unsigned int uiSize);
 };
 
@@ -1279,11 +1282,11 @@ unsigned int FUN_00b01800_shell::FUN_00b01800(void* pDst, unsigned int uiSize)
         m_uiBufferPos = 0;
         if (uiSize > m_uiBufferSize)
         {
-            return ReadAtOffset(pDst, uiSize, uiDone) + uiDone;
+            return reinterpret_cast<::Reader078 *>(this)->ReadAtOffset((char *)(pDst), uiSize, uiDone) + uiDone;
         }
         else
         {
-            m_uiBufferFill = ReadAtOffset(m_pString, m_uiBufferSize, uiDone);
+            m_uiBufferFill = reinterpret_cast<::Reader078 *>(this)->ReadAtOffset((char *)(m_pString), m_uiBufferSize, uiDone);
             if (m_uiBufferFill < uiSize)
                 uiSize = m_uiBufferFill;
         }
@@ -1301,7 +1304,6 @@ struct StripDestination
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20;
     unsigned short unk24;
     unsigned short stripCount;
-    void FUN_00b2fdc0(unsigned short id, unsigned short* step, unsigned short indices);
 };
 struct StripBuilder
 {
@@ -1322,7 +1324,7 @@ void StripBuilder::BuildStripIndices(unsigned short ausStripId, StripDestination
         unsigned short* step;
         int indices = (rows - 1) * (2 * position + 4);
         step = new unsigned short[indices];
-        destination->FUN_00b2fdc0(ausStripId, step, (unsigned short)indices);
+        reinterpret_cast<::Target *>((destination))->FUN_00b2fdc0(ausStripId, (unsigned int)(step), (unsigned short)indices);
         int count = 0;
         float index = 0.0f;
         for (int row = 0; row < rows - 1; row++)
@@ -1347,8 +1349,6 @@ void StripBuilder::BuildStripIndices(unsigned short ausStripId, StripDestination
     }
 }
 
-extern "C" char DAT_010176f8[];
-extern "C" char DAT_01140ef8[];
 extern "C" void __stdcall FUN_00ec7894(void* err2, const char* msg);
 
 // @fnv 0x00b16b00
@@ -1364,7 +1364,7 @@ int* FUN_00b16b00(unsigned int count, int aiUnused)
         val.m_vptr = DAT_010176f8;
         FUN_00ec7894(&val, DAT_01140ef8);
     }
-    return (int*)operator new(count << 2);
+    return (int*)::FUN_00401000(count << 2);
 }
 
 extern "C" unsigned int __cdecl wcslen(const wchar_t* s);
@@ -1379,7 +1379,6 @@ struct WStr
     wchar_t* pString;
     unsigned short sLen;
     unsigned short sMaxLen;
-    bool FUN_00afff50(const wchar_t* text, unsigned int length);
     WStr& Append(const wchar_t* text);
 };
 
@@ -1400,7 +1399,7 @@ WStr& WStr::Append(const wchar_t* awcText)
             {
                 Pad36 pad1;
                 wchar_t* s2 = pString;
-                FUN_00afff50(s2, newLen);
+                reinterpret_cast<::WideString *>(this)->FUN_00afff50((const unsigned short *)(s2), newLen);
             }
             {
                 Pad36 pad;
@@ -1413,7 +1412,7 @@ WStr& WStr::Append(const wchar_t* awcText)
         }
         else
         {
-            FUN_00afff50(awcText, 0);
+            reinterpret_cast<::WideString *>(this)->FUN_00afff50((const unsigned short *)(awcText), 0);
         }
     }
     return *this;
@@ -1447,9 +1446,7 @@ extern int(__stdcall* DAT_00fdf068)(void* handle, DirectoryFindData* data);
 
 struct DirAllocator
 {
-    void* Allocate(unsigned int size);
 };
-extern DirAllocator g_dirAllocator;
 
 // Enumerates files matching pattern, builds full paths from path and adds each to list, then closes the find handle.
 // @fnv 0x00b01930
@@ -1470,7 +1467,7 @@ void CollectDirectoryEntries(const char* pattern, const char* path, BSSimpleList
             unsigned int total = dirLen3 + strlen(findData_2.cFileName) + 1;
             char* name;
             void* aMem;
-            name = (char*)(aMem = g_dirAllocator.Allocate(total));
+            name = (char*)(aMem = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::DirAllocator *>(&::g_memoryManager))))->FUN_00aa3e40(total));
             char* aDest = name;
             memcpy(aDest, path, dirLen3);
             name[dirLen3] = 0;
@@ -1509,7 +1506,7 @@ void __cdecl FUN_00b10830(unsigned int count)
             FUN_00ec7894(&value, DAT_01140ef8);
         }
     }
-    DAT_011f6238.FUN_00aa3e40(count << 2);
+    reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::FUN_00b108e0_pool *>(&::g_memoryManager))))->FUN_00aa3e40(count << 2);
 }
 
 typedef struct B10C20Elem
@@ -1829,7 +1826,7 @@ void B0Vector::FUN_00b0ea80()
         }
         v.current = m_pFreeList - m_pHeadNode;
         v.first1 = m_pHeadNode;
-        g_memoryManager.Deallocate(v.first1);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(v.first1);
     }
     m_pHeadNode = 0;
     m_last = 0;
@@ -1850,8 +1847,6 @@ struct FUN_00b10940_pair
     unsigned int hi;
 };
 
-void __cdecl FUN_00b10c20(unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4, FUN_00b10940_cat a5,
-                          FUN_00b10940_tag a6);
 
 // Forwards first, last, dest and al to FUN_00b10c20 along with an uninitialized one-byte tag and a zeroed one-byte kind.
 // @fnv 0x00b10940
@@ -1864,10 +1859,9 @@ void __cdecl FUN_00b10940(unsigned int first, unsigned int last, unsigned int de
     unsigned int n = last;
     FUN_00b10940_pair val;
     val.lo = first;
-    FUN_00b10c20(val.lo, n, dest, al, tag, kind);
+    ::FUN_00b10c20((::B10C20Elem *)(val.lo), (::B10C20Elem *)(n), (::B10C20Elem *)(dest));
 }
 
-void __cdecl FUN_00401030(int block);
 
 struct FUN_00b15600_cls
 {
@@ -1905,7 +1899,7 @@ void FUN_00b15600_cls::FUN_00b15600()
         int kCount;
         kCount = (m_14 - m_0c) / 0x18;
         long block = m_0c;
-        FUN_00401030(block);
+        ::FUN_00401030((void *)(block));
     }
     m_0c = 0;
     m_10 = 0;
@@ -1942,8 +1936,6 @@ struct FUN_00afd390_class
 };
 struct DirectoryArchive
 {
-    bool FindHashEntry(FUN_00afd390_class*, int*, int);
-    bool FUN_00afac90(int, FUN_00afd390_class*, int);
     int FUN_00b01590(const char* root, const char* directory, const _FILETIME* since);
 };
 // Recursively walks root plus directory with FindFirstFileA, counting files written after since for which FUN_00afac90 returns true.
@@ -1973,7 +1965,7 @@ int DirectoryArchive::FUN_00b01590(const char* root, const char* directory, cons
         data2[result - 1] = 0;
     meshName3.FUN_00afd390(data2, 2);
     value = false;
-    if (FindHashEntry(&meshName3, &countB, 0))
+    if (reinterpret_cast<::S_af9 *>(this)->FindHashEntry((int)(&meshName3), &countB, 0))
         value = true;
     while (current)
     {
@@ -1990,7 +1982,7 @@ int DirectoryArchive::FUN_00b01590(const char* root, const char* directory, cons
             {
                 FUN_00afd390_class fileName;
                 fileName.FUN_00afd390(data5.cFileName, 0);
-                if (FUN_00afac90(countB, &fileName, 0))
+                if (reinterpret_cast<::fnv_00afac90::S_af9 *>(this)->FUN_00afac90(countB, (int)(&fileName), 0))
                     count3++;
             }
         }

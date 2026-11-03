@@ -1,77 +1,63 @@
 // fallout_shared/bgsprimitive.cpp: BGSPrimitiveSphere, BGSPrimitiveBox, BSMultiBoundAABB, BSMultiBoundSphere and more (113 functions)
 
+#include <new>
+#include "fnv/decl/A5D6E0This.h"
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/BSMultiBoundShape.h"
+#include "fnv/decl/BSShaderManager.h"
+#include "fnv/decl/B_004b6100.h"
+#include "fnv/decl/BoxGeometry__Bound.h"
+#include "fnv/decl/ColorProperty.h"
+#include "fnv/decl/ControlGraph.h"
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_004396b0_class.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_0049ed90_shell.h"
+#include "fnv/decl/FUN_004a4bd0.h"
+#include "fnv/decl/FUN_004a51b0_shell.h"
+#include "fnv/decl/FUN_004b6190_shell.h"
+#include "fnv/decl/FUN_00a59a90_cls.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/decl/FUN_00a5d450_class.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
+#include "fnv/decl/FUN_00c337c0_State.h"
+#include "fnv/decl/FnvCpu_FUN_00a7b850_CpuObject.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/Matrix161.h"
+#include "fnv/decl/MyPoint439180.h"
+#include "fnv/decl/NiCamera.h"
+#include "fnv/decl/ObjA.h"
+#include "fnv/decl/S_0060ba10.h"
+#include "fnv/decl/S_00a59a30_Matrix3.h"
+#include "fnv/decl/S_00a59e00.h"
+#include "fnv/decl/TESActorBaseData.h"
+#include "fnv/decl/TESCombatStyle.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00c4f550__Owner_c4f550.h"
+#include "fnv/decl/s4a5200__Owner.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_004a4000.h"
+#include "fnv/symbols_004a5000.h"
+#include "fnv/symbols_00549000.h"
+#include "fnv/symbols_00a26000.h"
+#include "fnv/symbols_00a3d000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00c37000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01187000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_01202000.h"
 #include "bgsprimitive_decls.h"
-
-// Takes the absolute value of each radius component, stores it, rebuilds the box and frame geometry vertices, and updates the model and world bounds.
-// @fnv 0x004a6640
-void BGSPrimitiveBox::NormalizeRadii(NiPoint3& radii)
-{
-    radii[0] = std::abs(radii[0]);
-    radii[1] = std::abs(radii[1]);
-    radii[2] = std::abs(radii[2]);
-    m_kRadii = radii;
-    if (m_kGeometry)
-    {
-        struct GeometryVertices
-        {
-            NiPoint3* vertices;
-            NiGeometryData* data;
-        } geometry;
-        geometry.data = m_kGeometry->FUN_005495f0();
-        geometry.vertices = geometry.data->GetVertices();
-        geometry.vertices[0] = NiPoint3(-m_kRadii[0], m_kRadii[1], m_kRadii[2]);
-        geometry.vertices[1] = NiPoint3(m_kRadii[0], m_kRadii[1], m_kRadii[2]);
-        geometry.vertices[2] = NiPoint3(m_kRadii[0], -m_kRadii[1], m_kRadii[2]);
-        geometry.vertices[3] = NiPoint3(-m_kRadii[0], -m_kRadii[1], m_kRadii[2]);
-        geometry.vertices[4] = NiPoint3(-m_kRadii[0], m_kRadii[1], -m_kRadii[2]);
-        geometry.vertices[5] = NiPoint3(m_kRadii[0], m_kRadii[1], -m_kRadii[2]);
-        geometry.vertices[6] = NiPoint3(m_kRadii[0], -m_kRadii[1], -m_kRadii[2]);
-        geometry.vertices[7] = NiPoint3(-m_kRadii[0], -m_kRadii[1], -m_kRadii[2]);
-        geometry.data->SetDirtyFlags(1);
-    }
-    if (m_kLines)
-    {
-        NiGeometryData* pkData = m_kLines->FUN_005495f0();
-        {
-            struct FrameVertices
-            {
-                NiPoint3* vertices;
-                NiPoint3 scale;
-            } frame = {pkData->GetVertices(), radii};
-            if (std::abs(frame.scale.x) < (double)0.01f)
-                frame.scale.x = 0.01f;
-            if (std::abs(frame.scale.y) < (double)0.01f)
-                frame.scale.y = 0.01f;
-            if (std::abs(frame.scale.z) < (double)0.01f)
-                frame.scale.z = 0.01f;
-            for (int i = 0; i < pkData->GetVertexCount(); i++)
-            {
-                frame.vertices[i].x = frame.vertices[i].x < 0.0 ? -1.0f : 1.0f;
-                frame.vertices[i].y = frame.vertices[i].y < 0.0 ? -1.0f : 1.0f;
-                frame.vertices[i].z = frame.vertices[i].z < 0.0 ? -1.0f : 1.0f;
-                frame.vertices[i].x *= frame.scale.x;
-                frame.vertices[i].y *= frame.scale.y;
-                frame.vertices[i].z *= frame.scale.z;
-                pkData->SetDirtyFlags(1);
-            }
-        }
-    }
-    NiUpdateData kUpdateData(0.0f, false, false);
-    if (m_pController)
-    {
-        float radius = radii.x;
-        if (radii.y > radii.x && radii.y > radii.z)
-            radius = radii.y;
-        if (radii.z > radii.y && radii.z > radii.x)
-            radius = radii.z;
-        NiBound bound;
-        bound.SetCenterAndRadius(NiPoint3::ZERO, radius);
-        m_kGeometry->SetModelBound(bound);
-        m_pController->Update(kUpdateData);
-        m_kGeometry->UpdateSceneObject();
-        m_pController->UpdateWorldBound();
-    }
-}
 
 // @fnv 0x004a53e0
 void BGSPrimitivePlane::SetColor(RgbaColor& color)
@@ -84,14 +70,14 @@ void BGSPrimitivePlane::SetColor(RgbaColor& color)
             RgbaColor* colors;
             NiGeometryData* data;
         } geometry;
-        geometry.data = m_kGeometry->FUN_005495f0();
-        geometry.colors = geometry.data->GetColors();
+        geometry.data = ((::NiGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)((m_kGeometry).operator->()))));
+        geometry.colors = ((::RgbaColor *)(reinterpret_cast<::FUN_0045cd60_shell *>((geometry.data))->FUN_0045cd60()));
         geometry.colors[0] = geometry.colors[1] = geometry.colors[2] = geometry.colors[3] = geometry.colors[4] =
             geometry.colors[5] = geometry.colors[6] = geometry.colors[7] = Color;
         geometry.data->SetDirtyFlags(4);
     }
     if (m_kLines)
-        m_kLines->SetAppCulled(color.a < 0.001);
+        reinterpret_cast<::TaskQueueInterface *>(((m_kLines).operator->()))->QueueActorDisarm(color.a < 0.001);
 }
 
 // Stores color, then if geometry exists, fills both geometry data color arrays with it and sets app-culled based on alpha.
@@ -106,18 +92,18 @@ void BGSPrimitiveBox::SetColor(RgbaColor& color)
             RgbaColor* colors;
             NiGeometryData* data;
         } geometry;
-        geometry.data = m_kGeometry->FUN_005495f0();
-        geometry.colors = geometry.data->GetColors();
+        geometry.data = ((::NiGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)((m_kGeometry).operator->()))));
+        geometry.colors = ((::RgbaColor *)(reinterpret_cast<::FUN_0045cd60_shell *>((geometry.data))->FUN_0045cd60()));
         int i;
-        for (i = 0; i < geometry.data->GetVertexCount(); i++)
+        for (i = 0; i < reinterpret_cast<::TESActorBaseData *>((geometry.data))->GetFatigue(); i++)
             geometry.colors[i] = Color;
         geometry.data->SetDirtyFlags(4);
-        geometry.data = m_kLines->FUN_005495f0();
-        geometry.colors = geometry.data->GetColors();
-        for (i = 0; i < geometry.data->GetVertexCount(); i++)
+        geometry.data = ((::NiGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)((m_kLines).operator->()))));
+        geometry.colors = ((::RgbaColor *)(reinterpret_cast<::FUN_0045cd60_shell *>((geometry.data))->FUN_0045cd60()));
+        for (i = 0; i < reinterpret_cast<::TESActorBaseData *>((geometry.data))->GetFatigue(); i++)
             geometry.colors[i] = Color;
         geometry.data->SetDirtyFlags(4);
-        m_kLines->SetAppCulled(color.a < 0.001);
+        reinterpret_cast<::TaskQueueInterface *>(((m_kLines).operator->()))->QueueActorDisarm(color.a < 0.001);
     }
 }
 
@@ -128,8 +114,8 @@ void BGSPrimitiveBox::Build()
     if (!m_pController)
     {
         m_pController = new BSFadeNode;
-        m_pController->SetName(NiFixedString("Box"));
-        m_pController->UpdateSceneObject();
+        ::AssignFixedString((char *)((m_pController).operator->()), (int)&(const ::NiFixedString &)(NiFixedString("Box")), {});
+        reinterpret_cast<::FUN_00a5a040_Class *>(((m_pController).operator->()))->FUN_00a5a040();
     }
 }
 
@@ -167,6 +153,76 @@ struct FUN_004a51d0_shell : public NiBound
 {
     void FUN_004a51d0(void*, float);
 };
+// Takes the absolute value of each radius component, stores it, rebuilds the box and frame geometry vertices, and updates the model and world bounds.
+// @fnv 0x004a6640
+void BGSPrimitiveBox::NormalizeRadii(NiPoint3& radii)
+{
+    reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(radii))->FUN_004a51b0(0) = std::abs(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(radii))->FUN_004a51b0(0));
+    reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(radii))->FUN_004a51b0(1) = std::abs(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(radii))->FUN_004a51b0(1));
+    reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(radii))->FUN_004a51b0(2) = std::abs(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(radii))->FUN_004a51b0(2));
+    m_kRadii = radii;
+    if (m_kGeometry)
+    {
+        struct GeometryVertices
+        {
+            NiPoint3* vertices;
+            NiGeometryData* data;
+        } geometry;
+        geometry.data = ((::NiGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)((m_kGeometry).operator->()))));
+        geometry.vertices = ((::NiPoint3 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((geometry.data))->FUN_007af430()));
+        geometry.vertices[0] = NiPoint3(-reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
+        geometry.vertices[1] = NiPoint3(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
+        geometry.vertices[2] = NiPoint3(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
+        geometry.vertices[3] = NiPoint3(-reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
+        geometry.vertices[4] = NiPoint3(-reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
+        geometry.vertices[5] = NiPoint3(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
+        geometry.vertices[6] = NiPoint3(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
+        geometry.vertices[7] = NiPoint3(-reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
+        geometry.data->SetDirtyFlags(1);
+    }
+    if (m_kLines)
+    {
+        NiGeometryData* pkData = ((::NiGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)((m_kLines).operator->()))));
+        {
+            struct FrameVertices
+            {
+                NiPoint3* vertices;
+                NiPoint3 scale;
+            } frame = {((::NiPoint3 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pkData))->FUN_007af430())), radii};
+            if (std::abs(frame.scale.x) < (double)0.01f)
+                frame.scale.x = 0.01f;
+            if (std::abs(frame.scale.y) < (double)0.01f)
+                frame.scale.y = 0.01f;
+            if (std::abs(frame.scale.z) < (double)0.01f)
+                frame.scale.z = 0.01f;
+            for (int i = 0; i < reinterpret_cast<::TESActorBaseData *>((pkData))->GetFatigue(); i++)
+            {
+                frame.vertices[i].x = frame.vertices[i].x < 0.0 ? -1.0f : 1.0f;
+                frame.vertices[i].y = frame.vertices[i].y < 0.0 ? -1.0f : 1.0f;
+                frame.vertices[i].z = frame.vertices[i].z < 0.0 ? -1.0f : 1.0f;
+                frame.vertices[i].x *= frame.scale.x;
+                frame.vertices[i].y *= frame.scale.y;
+                frame.vertices[i].z *= frame.scale.z;
+                pkData->SetDirtyFlags(1);
+            }
+        }
+    }
+    NiUpdateData kUpdateData(0.0f, false, false);
+    if (m_pController)
+    {
+        float radius = radii.x;
+        if (radii.y > radii.x && radii.y > radii.z)
+            radius = radii.y;
+        if (radii.z > radii.y && radii.z > radii.x)
+            radius = radii.z;
+        NiBound bound;
+        reinterpret_cast<::FUN_004a51d0_shell *>(&(bound))->FUN_004a51d0((void *)&(NiPoint3::ZERO), radius);
+        reinterpret_cast<::s4a5200::Owner *>(((m_kGeometry).operator->()))->FUN_004a5200((int)&(bound));
+        reinterpret_cast<::FUN_00a59c60_cls *>(((m_pController).operator->()))->FUN_00a59c60((int)&(kUpdateData));
+        reinterpret_cast<::FUN_00a5a040_Class *>(((m_kGeometry).operator->()))->FUN_00a5a040();
+        m_pController->UpdateWorldBound();
+    }
+}
 
 // @fnv 0x004a51d0
 void FUN_004a51d0_shell::FUN_004a51d0(void* apCenter, float fRadius)
@@ -184,16 +240,15 @@ struct FUN_004a5250_shell : public NiBound
 // @fnv 0x004a5250
 void* FUN_004a5250_shell::AssignFromBound(void* aRhs)
 {
-    SetCenterAndRadius(static_cast<const NiBound*>(aRhs)->m_kCenter, static_cast<const NiBound*>(aRhs)->m_fBoundRadius);
+    reinterpret_cast<::FUN_004a51d0_shell *>(this)->FUN_004a51d0((void *)&(static_cast<const NiBound*>(aRhs)->m_kCenter), static_cast<const NiBound*>(aRhs)->m_fBoundRadius);
     return this;
 }
 
-void __fastcall _ref_006815c0(void* pThis);
 
 // @fnv 0x006240d0
 void* __fastcall FUN_006240d0(void* pThis)
 {
-    _ref_006815c0(pThis);
+    new ((void *)(pThis)) ::Vec3();
     return pThis;
 }
 
@@ -215,7 +270,6 @@ int __fastcall FUN_004a6100(int this_)
 
 struct Pt
 {
-    float Length() const;
 };
 
 struct BSMultiBoundAABB
@@ -228,10 +282,9 @@ struct BSMultiBoundAABB
 // @fnv 0x004a7040
 float BSMultiBoundAABB::GetPointLength()
 {
-    return m_afExtents.Length();
+    return reinterpret_cast<::NiPoint3 *>((void *)&(m_afExtents))->ComputeMagnitude();
 }
 
-extern int g_01202818;
 
 struct FUN_004a70f0_shell
 {
@@ -241,7 +294,7 @@ struct FUN_004a70f0_shell
 // @fnv 0x004a70f0
 int* __thiscall FUN_004a70f0_shell::FUN_004a70f0()
 {
-    return &g_01202818;
+    return &(*reinterpret_cast<int *>(&::g_01202818));
 }
 
 // @fnv 0x00c365e0
@@ -310,10 +363,14 @@ struct NiRefObject
 struct NiPoint2
 {
     float x, y;
+public:
+    ::NiPoint2 operator*(float) const;
 };
 struct ThreeByThreeMatrix
 {
     float m_afEntries[3][3];
+public:
+    bool operator==(const ::ThreeByThreeMatrix &) const;
 };
 struct NiPlane
 {
@@ -345,7 +402,6 @@ struct FUN_00c335d0 : NiRefObject
 };
 struct FUN_00c33730_shell
 {
-    void CopyStateTo(FUN_00c335d0* pkDest, CloningProcess& kCloning);
     FUN_00c335d0* FUN_00c33730(CloningProcess& kCloning);
 };
 
@@ -353,7 +409,7 @@ struct FUN_00c33730_shell
 FUN_00c335d0* FUN_00c33730_shell::FUN_00c33730(CloningProcess& kCloning)
 {
     FUN_00c335d0* pkObject = new FUN_00c335d0;
-    CopyStateTo(pkObject, kCloning);
+    reinterpret_cast<::FUN_00c337c0_State *>(this)->CopyStateTo((::FUN_00c337c0_State *)(pkObject), (unsigned int)&(kCloning));
     return pkObject;
 }
 
@@ -455,7 +511,6 @@ FUN_00c4fb10* FUN_00c4fb30_shell::FUN_00c4fb30(CloningProcess& kCloning)
 }
 }  // namespace fnv_00c4fb30
 
-extern char const* const g_012030b0_arg1;
 
 struct FUN_004a60e0_shell
 {
@@ -465,7 +520,7 @@ struct FUN_004a60e0_shell
 // @fnv 0x004a60e0
 char const* const* __thiscall FUN_004a60e0_shell::FUN_004a60e0()
 {
-    return &g_012030b0_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_01202804));
 }
 
 struct FUN_004a62c0_shell
@@ -522,13 +577,12 @@ struct FUN_004a7220_shell
 // @fnv 0x004a7220
 void FUN_004a7220_shell::FUN_004a7220()
 {
-    ((FUN_004a4bd0_shell*)this)->FUN_004a4bd0();
+    reinterpret_cast<::FUN_004a4bd0 *>((((FUN_004a4bd0_shell*)this)))->FUN_004a4bd0::~FUN_004a4bd0();
 }
 
 struct BSMultiBoundSphere
 {
     void DestroyBase();
-    static void _delete(void* p, unsigned int size);
     void* FUN_004a7bf0(unsigned int flags);
 };
 
@@ -538,7 +592,7 @@ void* BSMultiBoundSphere::FUN_004a7bf0(unsigned int flags)
 {
     DestroyBase();
     if (flags & 1)
-        _delete(this, 28);
+        ::FUN_00aa1460(this, 28);
     return this;
 }
 
@@ -568,9 +622,7 @@ void FUN_00c4f6c0_shell::FUN_00c4f6c0(int, int)
 
 struct FUN_00c4f550_shell
 {
-    void FUN_00c4f550();
 };
-void __cdecl _delete(void* p, unsigned int size);
 
 struct FUN_00c4f820_shell
 {
@@ -580,9 +632,9 @@ struct FUN_00c4f820_shell
 // @fnv 0x00c4f820
 void* FUN_00c4f820_shell::FUN_00c4f820(unsigned int flags)
 {
-    reinterpret_cast<FUN_00c4f550_shell*>(this)->FUN_00c4f550();
+    reinterpret_cast<::fnv_00c4f550::Owner_c4f550 *>((reinterpret_cast<FUN_00c4f550_shell*>(this)))->fnv_00c4f550::Owner_c4f550::~Owner_c4f550();
     if (flags & 1)
-        _delete(this, 0xc4);
+        ::FUN_00aa1460(this, 0xc4);
     return this;
 }
 
@@ -603,7 +655,7 @@ struct FUN_00c4f9f0_shell : NiObject
 // @fnv 0x00c4f9f0
 void FUN_00c4f9f0_shell::FUN_00c4f9f0(NiStream& stream)
 {
-    NiObject::LoadBinary(stream);
+    reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup((::NiStream *)&(stream));
 }
 
 namespace fnv_00c4fa10 {
@@ -624,7 +676,7 @@ struct FUN_00c4fa10_shell : NiObject
 // @fnv 0x00c4fa10
 void FUN_00c4fa10_shell::FUN_00c4fa10(NiStream& stream)
 {
-    NiObject::LinkObject(stream);
+    ::FUN_00a89af0((int)this);
 }
 }  // namespace fnv_00c4fa10
 
@@ -672,7 +724,7 @@ struct FUN_00c4fa60_shell : NiObject
 // @fnv 0x00c4fa60
 void FUN_00c4fa60_shell::FUN_00c4fa60(NiStream& stream)
 {
-    NiObject::LinkObject(stream);
+    ::FUN_00a89af0((int)this);
 }
 }  // namespace fnv_00c4fa60
 
@@ -692,7 +744,6 @@ char const* const* FUN_00c4fb00_shell::FUN_00c4fb00()
 namespace fnv_004a4c90 {
 struct FUN_004a4cc0_shell
 {
-    bool FUN_004a4cc0(void*);
 };
 struct FUN_004a4c90_shell : FUN_004a4cc0_shell
 {
@@ -702,7 +753,7 @@ struct FUN_004a4c90_shell : FUN_004a4cc0_shell
 // @fnv 0x004a4c90
 bool FUN_004a4c90_shell::FUN_004a4c90(void* c)
 {
-    return !FUN_004a4cc0(c);
+    return !reinterpret_cast<::FUN_004a4cc0_shell *>(this)->FUN_004a4cc0(c);
 }
 }  // namespace fnv_004a4c90
 
@@ -710,7 +761,6 @@ struct _Fake_FUN_004a7090
 {
     void f();
 };
-void __cdecl _delete(void*, unsigned int);
 struct BSOcclusionPlane
 {
     void* FUN_004a6110(unsigned int);
@@ -720,25 +770,15 @@ void* BSOcclusionPlane::FUN_004a6110(unsigned int flags)
 {
     ((_Fake_FUN_004a7090*)this)->f();
     if (flags & 1)
-        _delete(this, 0xfc);
+        ::FUN_00aa1460(this, 0xfc);
     return this;
 }
 
-void __cdecl _delete(void*, unsigned int);
 struct Unk462D0
 {
     void __thiscall FUN_004a6310();
     void* __thiscall FUN_004a62d0(unsigned int);
 };
-// @fnv 0x004a62d0
-void* __thiscall Unk462D0::FUN_004a62d0(unsigned int flags)
-{
-    this->FUN_004a6310();
-    if (flags & 1)
-        _delete(this, 0x108);
-    return this;
-}
-
 struct GO
 {
     void* p;
@@ -754,6 +794,14 @@ struct FUN_004a6310 : FUN_004a7090
     GO field_104;
     ~FUN_004a6310();
 };
+// @fnv 0x004a62d0
+void* __thiscall Unk462D0::FUN_004a62d0(unsigned int flags)
+{
+    reinterpret_cast<::FUN_004a6310 *>((this))->FUN_004a6310::~FUN_004a6310();
+    if (flags & 1)
+        ::FUN_00aa1460(this, 0x108);
+    return this;
+}
 // Destructor for FUN_004a6310 that destroys its field_104 member and the base FUN_004a7090.
 // @fnv 0x004a6310
 FUN_004a6310::~FUN_004a6310()
@@ -764,7 +812,6 @@ struct BSMultiBoundSphere
 {
     void DestroyBase();
 };
-void __cdecl _delete(void*, unsigned int);
 struct BSMultiBoundAABB
 {
     void* FUN_004a7060(unsigned int);
@@ -775,7 +822,7 @@ void* BSMultiBoundAABB::FUN_004a7060(unsigned int flags)
 {
     reinterpret_cast<BSMultiBoundSphere*>(this)->DestroyBase();
     if (flags & 1)
-        _delete(this, 0x24);
+        ::FUN_00aa1460(this, 0x24);
     return this;
 }
 }  // namespace fnv_004a7060
@@ -785,22 +832,19 @@ struct BSMultiBoundOBB
     void FUN_004a7130();
     void* FUN_004a7100(unsigned int);
 };
-void __cdecl _delete(void*, unsigned int);
 // @fnv 0x004a7100
 void* BSMultiBoundOBB::FUN_004a7100(unsigned int flags)
 {
     this->FUN_004a7130();
     if (flags & 1)
-        _delete(this, 72);
+        ::FUN_00aa1460(this, 72);
     return this;
 }
 
 namespace fnv_004a71f0 {
 struct FUN_004a7220_shell
 {
-    void FUN_004a7220();
 };
-void _Deallocate(void*);
 struct FUN_004a71f0_shell : FUN_004a7220_shell
 {
     void* FUN_004a71f0(unsigned int);
@@ -809,9 +853,9 @@ struct FUN_004a71f0_shell : FUN_004a7220_shell
 // @fnv 0x004a71f0
 void* FUN_004a71f0_shell::FUN_004a71f0(unsigned int flags)
 {
-    FUN_004a7220();
+    reinterpret_cast<::FUN_004a7220_shell *>(this)->FUN_004a7220();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 }  // namespace fnv_004a71f0
@@ -819,7 +863,6 @@ void* FUN_004a71f0_shell::FUN_004a71f0(unsigned int flags)
 namespace fnv_004a7240 {
 struct TESCombatStyle
 {
-    float UpdateCombatStyle();
 };
 struct BGSPrimitiveSphere
 {
@@ -828,7 +871,7 @@ struct BGSPrimitiveSphere
 // @fnv 0x004a7240
 bool BGSPrimitiveSphere::FUN_004a7240(TESCombatStyle& aPoint)
 {
-    return (double)*(float*)((char*)this + 0x18) * *(float*)((char*)this + 0x18) > aPoint.UpdateCombatStyle();
+    return (double)*(float*)((char*)this + 0x18) * *(float*)((char*)this + 0x18) > reinterpret_cast<::TESCombatStyle *>(&(aPoint))->UpdateCombatStyle();
 }
 }  // namespace fnv_004a7240
 
@@ -864,21 +907,10 @@ struct FUN_004a7b40
     float mRadius;
     FUN_004a7b40(const FUN_004a7b40_Pt&, float);
 };
-// Initializes the object's vtable, copies the given point into mPt and stores the radius in mRadius.
-// @fnv 0x004a7b40
-FUN_004a7b40::FUN_004a7b40(const FUN_004a7b40_Pt& aPt, float aRadius)
-{
-    FUN_00c4f980(this);
-    *(void**)this = (void*)&DAT_0101ea8c;
-    mPt = aPt;
-    mRadius = aRadius;
-}
-
 namespace fnv_00c36400 {
 class NiStream;
 struct ThreeByThreeMatrix
 {
-    void LoadBinary(NiStream&);
 };
 struct My36400
 {
@@ -892,14 +924,13 @@ struct My36400
 void My36400::FUN_00c36400(NiStream& aStream)
 {
     FUN_00c37fc0(aStream);
-    m.LoadBinary(aStream);
+    reinterpret_cast<::S_00a59a30_Matrix3 *>(&(m))->LoadFromStream((::S_00a59a30_Stream &)(aStream));
 }
 }  // namespace fnv_00c36400
 
 namespace fnv_00c36450 {
 struct FUN_00c38020_shell
 {
-    unsigned char FUN_00c38020(int);
 };
 struct FUN_00c36450_shell : FUN_00c38020_shell
 {
@@ -908,7 +939,7 @@ struct FUN_00c36450_shell : FUN_00c38020_shell
 // @fnv 0x00c36450
 bool FUN_00c36450_shell::FUN_00c36450(int aiValue)
 {
-    if (!FUN_00c38020(aiValue))
+    if (!reinterpret_cast<::FUN_00c38020_shell *>(this)->FUN_00c38020(aiValue))
         return false;
     return true;
 }
@@ -917,28 +948,18 @@ bool FUN_00c36450_shell::FUN_00c36450(int aiValue)
 class NiStream;
 struct FUN_00a59a90_tgt
 {
-    void ReadMatrixFromStream(NiStream*);
 };
 struct S00c38050
 {
     char _f[36];
-    void FUN_00c38050(NiStream*);
 };
 struct FUN_00c36480_tgt : S00c38050, FUN_00a59a90_tgt
 {
     void FUN_00c36480(NiStream*);
 };
-// @fnv 0x00c36480
-void FUN_00c36480_tgt::FUN_00c36480(NiStream* p)
-{
-    S00c38050::FUN_00c38050(p);
-    FUN_00a59a90_tgt::ReadMatrixFromStream(p);
-}
-
 namespace fnv_00c37110 {
 struct Pt
 {
-    float Length() const;
 };
 struct Vec12
 {
@@ -964,7 +985,7 @@ void S37110::GetVectorAndLength(Out12* apOut)
 {
     int dummy;
     {
-        float f = p.Length();
+        float f = reinterpret_cast<::NiPoint3 *>((void *)&(p))->ComputeMagnitude();
         apOut->v = v;
         apOut->l = f;
     }
@@ -980,7 +1001,6 @@ struct NiColor
 struct FUN_00c4f9f0_shell
 {
     char _pad[12];
-    void FUN_00c4f9f0(class NiStream&);
 };
 struct FUN_00c37fc0_shell : FUN_00c4f9f0_shell
 {
@@ -992,30 +1012,38 @@ struct FUN_00c37fc0_shell : FUN_00c4f9f0_shell
 // @fnv 0x00c37fc0
 void FUN_00c37fc0_shell::FUN_00c37fc0(class NiStream& aStream)
 {
-    FUN_00c4f9f0_shell::FUN_00c4f9f0(aStream);
+    reinterpret_cast<::FUN_00c4f9f0_shell *>(this)->FUN_00c4f9f0(aStream);
     unk0C.LoadBinary(aStream);
     unk18.LoadBinary(aStream);
 }
 }  // namespace fnv_00c37fc0
 
 class NiStream;
+class NiStream;
 struct NiColor
 {
     float r, g, b;
     void SaveBinary(NiStream&);
+public:
+    void LoadBinary(::NiStream &);
 };
 struct FUN_00c38050_Holder
 {
     char _pad[12];
     NiColor c1;
     NiColor c2;
-    void FUN_00c4fa60(NiStream&);
     void FUN_00c38050(NiStream&);
 };
+// @fnv 0x00c36480
+void FUN_00c36480_tgt::FUN_00c36480(NiStream* p)
+{
+    reinterpret_cast<::FUN_00c38050_Holder *>(this)->FUN_00c38050((*(::NiStream *)(p)));
+    reinterpret_cast<::FUN_00a59a90_cls *>(this)->ReadMatrixFromStream(p);
+}
 // @fnv 0x00c38050
 void FUN_00c38050_Holder::FUN_00c38050(NiStream& aStream)
 {
-    FUN_00c4fa60(aStream);
+    reinterpret_cast<::fnv_00c4fa60::FUN_00c4fa60_shell *>(this)->FUN_00c4fa60((::fnv_00c4fa60::NiStream &)(aStream));
     c1.SaveBinary(aStream);
     c2.SaveBinary(aStream);
 }
@@ -1023,7 +1051,6 @@ void FUN_00c38050_Holder::FUN_00c38050(NiStream& aStream)
 namespace fnv_00c389e0 {
 struct Pt
 {
-    float Length() const;
 };
 struct Vec3
 {
@@ -1048,7 +1075,7 @@ void BSMultiBoundAABB::FUN_00c389e0(Vec4* apOut)
 {
     int pad;
     {
-        float len = pt.Length();
+        float len = reinterpret_cast<::NiPoint3 *>((void *)&(pt))->ComputeMagnitude();
         apOut->v = v;
         apOut->w = len;
     }
@@ -1058,7 +1085,6 @@ void BSMultiBoundAABB::FUN_00c389e0(Vec4* apOut)
 namespace fnv_00c4f9b0 {
 struct NiObject
 {
-    void CopyMembersStream(unsigned int, void*);
     int _pad0;
     int _pad4;
     int m08;
@@ -1072,7 +1098,7 @@ struct FUN_00c4f9b0_class : NiObject
 void FUN_00c4f9b0_class::CopyMembersStreamWithField(NiObject* pDest, void* pArg)
 {
     int tmp;
-    NiObject::CopyMembersStream((unsigned int)pDest, pArg);
+    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((unsigned int)pDest, pArg);
     tmp = m08;
     pDest->m08 = tmp;
 }
@@ -1080,13 +1106,12 @@ void FUN_00c4f9b0_class::CopyMembersStreamWithField(NiObject* pDest, void* pArg)
 
 struct TCEq
 {
-    bool IsSameAs(class NiObject*);
     bool FUN_00c4fa80(class NiObject*);
 };
 // @fnv 0x00c4fa80
 bool TCEq::FUN_00c4fa80(class NiObject* apObject)
 {
-    bool result = IsSameAs(apObject);
+    bool result = reinterpret_cast<::A5d470Class *>(this)->IsSameAs((::A5d470Object *)(apObject));
     return result;
 }
 
@@ -1095,7 +1120,6 @@ struct NiRefObject
 {
     virtual ~NiRefObject();
 };
-void __cdecl _delete(void*, unsigned int);
 struct FUN_00c4fad0_host : NiRefObject
 {
     void* FUN_00c4fad0(unsigned int);
@@ -1104,9 +1128,9 @@ struct FUN_00c4fad0_host : NiRefObject
 // @fnv 0x00c4fad0
 void* FUN_00c4fad0_host::FUN_00c4fad0(unsigned int flags)
 {
-    this->NiRefObject::~NiRefObject();
+    reinterpret_cast<class ::FUN_00a5d3d0 *>((this))->FUN_00a5d3d0::~FUN_00a5d3d0();
     if (flags & 1)
-        _delete(this, 12);
+        ::FUN_00aa1460(this, 12);
     return this;
 }
 }  // namespace fnv_00c4fad0
@@ -1115,11 +1139,9 @@ namespace fnv_00c4fc10 {
 class NiStream;
 struct NiColor
 {
-    void LoadBinary(NiStream&);
 };
 struct FUN_00c4f9f0_shell
 {
-    void FUN_00c4f9f0(NiStream&);
 };
 template <typename T> void ReadBinaryValue(NiStream&, T&);
 struct FUN_00c4fc10_shell
@@ -1129,23 +1151,22 @@ struct FUN_00c4fc10_shell
 // @fnv 0x00c4fc10
 void FUN_00c4fc10_shell::FUN_00c4fc10(NiStream& stream)
 {
-    ((FUN_00c4f9f0_shell*)this)->FUN_00c4f9f0(stream);
-    ((NiColor*)((char*)this + 0xC))->LoadBinary(stream);
-    ReadBinaryValue<unsigned int>(stream, *(unsigned int*)((char*)this + 0x18));
+    reinterpret_cast<::FUN_00c4f9f0_shell *>((((FUN_00c4f9f0_shell*)this)))->FUN_00c4f9f0((::NiStream &)(stream));
+    reinterpret_cast<::NiColor *>((((NiColor*)((char*)this + 0xC))))->LoadBinary((::NiStream &)(stream));
+    ::FUN_00a26df0((::MyStream *)&(stream), (void *)&(*(unsigned int*)((char*)this + 0x18)));
 }
 }  // namespace fnv_00c4fc10
 
 namespace fnv_00c4fc70 {
 struct FUN_00c38020_shell
 {
-    unsigned char FUN_00c4fa30(int);
     unsigned char FUN_00c4fc70(int);
 };
 // Returns 1 if FUN_00c4fa30 returns nonzero for a, otherwise returns 0.
 // @fnv 0x00c4fc70
 unsigned char FUN_00c38020_shell::FUN_00c4fc70(int a)
 {
-    if (!FUN_00c4fa30(a))
+    if (!((unsigned char)(reinterpret_cast<::fnv_00c4fa30::FUN_00c4fa30_shell *>(this)->FUN_00c4fa30((*(::fnv_00c4fa30::NiStream *)(a))))))
         return 0;
     return 1;
 }
@@ -1162,9 +1183,7 @@ struct NiColor
 };
 struct Holder60
 {
-    void FUN_00c4fa60(NiStream&);
 };
-void __cdecl CallAnimCallback(NiStream&, void*);
 struct FUN_00c4fca0_This
 {
     char _pad[12];
@@ -1175,13 +1194,12 @@ struct FUN_00c4fca0_This
 // @fnv 0x00c4fca0
 void FUN_00c4fca0_This::SaveToStream(NiStream& s)
 {
-    ((Holder60*)this)->FUN_00c4fa60(s);
+    reinterpret_cast<::fnv_00c4fa60::FUN_00c4fa60_shell *>((((Holder60*)this)))->FUN_00c4fa60((::fnv_00c4fa60::NiStream &)(s));
     _c.SaveBinary(s);
-    CallAnimCallback(s, &_f18);
+    ::CallAnimCallback((::FUN_00a3da50_Owner *)&(s), (int)(&_f18));
 }
 }  // namespace fnv_00c4fca0
 
-extern char const* const g_01202818_arg1;
 
 struct FUN_004a7020_shell
 {
@@ -1191,7 +1209,7 @@ struct FUN_004a7020_shell
 // @fnv 0x004a7020
 char const* const* __thiscall FUN_004a7020_shell::FUN_004a7020()
 {
-    return &g_01202818_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_01202820));
 }
 
 namespace fnv_004a7130 {
@@ -1227,10 +1245,9 @@ void BGSPrimitiveSphere::FUN_004a7830(RgbaColor& apTextColor)
     if (reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x24)->operator unsigned int())
     {
         NiGeometryData* pgeomdata =
-            reinterpret_cast<NiGeometry*>(
-                reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x24)->operator unsigned int())
-                ->FUN_005495f0();
-        RgbaColor* pcolors = pgeomdata->GetColors();
+            ((::NiGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)(reinterpret_cast<NiGeometry*>(
+                reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x24)->operator unsigned int())))));
+        RgbaColor* pcolors = ((::RgbaColor *)(reinterpret_cast<::FUN_0045cd60_shell *>((pgeomdata))->FUN_0045cd60()));
         int i2 = 0;
         for (; i2 < 112; ++i2)
             pcolors[i2] = *(RgbaColor*)((char*)this + 8);
@@ -1266,32 +1283,29 @@ struct FUN_004a7c20_shell : FUN_004a7090
 // @fnv 0x004a7c20
 void FUN_004a7c20_shell::DestroyBase()
 {
-    FUN_004a7090::~FUN_004a7090();
+    reinterpret_cast<::_Fake_FUN_004a7090 *>(this)->f();
 }
 }  // namespace fnv_004a7c20
 
 struct FUN_00c36430_shell
 {
-    void FUN_00c38000(int);
     void FUN_00c36430(int a);
 };
 
+struct FUN_00c38000_shell
+{
+    void FUN_00c38000(int a);
+};
 // @fnv 0x00c36430
 void FUN_00c36430_shell::FUN_00c36430(int a)
 {
-    FUN_00c38000(a);
+    reinterpret_cast<::FUN_00c38000_shell *>(this)->FUN_00c38000(a);
 }
-
-struct FUN_00c38000_shell
-{
-    void FUN_00c4fa10(int);
-    void FUN_00c38000(int a);
-};
 
 // @fnv 0x00c38000
 void FUN_00c38000_shell::FUN_00c38000(int a)
 {
-    FUN_00c4fa10(a);
+    reinterpret_cast<::fnv_00c4fa10::FUN_00c4fa10_shell *>(this)->FUN_00c4fa10((*(::fnv_00c4fa10::NiStream *)(a)));
 }
 
 struct FUN_00c4f9a0_shell
@@ -1307,25 +1321,23 @@ void* FUN_00c4f9a0_shell::GetSelf(void* apUnused)
 
 struct FUN_00c4fab0_shell
 {
-    void __thiscall AppendCameraPathEntries(int);
     void __thiscall FUN_00c4fab0(int a);
 };
 
 // @fnv 0x00c4fab0
 void __thiscall FUN_00c4fab0_shell::FUN_00c4fab0(int a)
 {
-    AppendCameraPathEntries(a);
+    reinterpret_cast<::A5D6E0This *>(this)->AppendCameraPathEntries((::NiTArray< ::BGSCameraPath *, ::NiTMallocInterface< ::BGSCameraPath *>> *)(a));
 }
 
 struct FUN_00c4fa10_shell
 {
-    void __thiscall FUN_00c4fa10(int);
     void __thiscall FUN_00c4fc50(int a);
 };
 // @fnv 0x00c4fc50
 void __thiscall FUN_00c4fa10_shell::FUN_00c4fc50(int a)
 {
-    FUN_00c4fa10(a);
+    reinterpret_cast<::fnv_00c4fa10::FUN_00c4fa10_shell *>(this)->FUN_00c4fa10((*(::fnv_00c4fa10::NiStream *)(a)));
 }
 
 struct FUN_00c50370_shell
@@ -1337,7 +1349,6 @@ struct FUN_00c50370_shell
 void FUN_00c50370_shell::FUN_00c50370(int a, int b, int c, int d, int e, int f)
 {}
 
-extern float _DAT_010162c0;
 
 struct RgbaColor;
 
@@ -1352,8 +1363,6 @@ struct NiPoint3_helper : public NiPoint3
     NiPoint3 operator*(float) const;
 };
 
-void* __cdecl FUN_004a4f80(NiPoint2*, RgbaColor*);
-void* __cdecl CreatePrimitiveBox(NiPoint3*, RgbaColor*);
 void* __cdecl FUN_004a5100(float, RgbaColor*);
 
 // @fnv 0x004a4e90
@@ -1362,15 +1371,15 @@ void* __cdecl FUN_004a4e90(int eType, NiPoint3* apPoint, RgbaColor* apTextColor)
     switch (eType)
     {
     case 3: {
-        NiPoint2 extents = NiPoint2_helper(apPoint->x, apPoint->z) * _DAT_010162c0;
-        return FUN_004a4f80(&extents, apTextColor);
+        NiPoint2 extents = reinterpret_cast<::NiPoint2 *>((void *)&(const ::NiPoint2_helper &)(NiPoint2_helper(apPoint->x, apPoint->z)))->operator*(::DAT_010162c0);
+        return ((void *)(::FUN_004a4f80((const float *)(::NiPoint2 *)(&extents), (unsigned int)(apTextColor))));
     }
     case 1: {
-        NiPoint3 extents = *(NiPoint3_helper*)apPoint * _DAT_010162c0;
-        return CreatePrimitiveBox(&extents, apTextColor);
+        NiPoint3 extents = *(NiPoint3_helper*)apPoint * ::DAT_010162c0;
+        return ((void *)(::CreatePrimitiveBox((::Point3 *)(::NiPoint3 *)(&extents), (int)(apTextColor))));
     }
     case 2:
-        return FUN_004a5100(apPoint->x, apTextColor);
+        return ((void *)(::fnv_004a5100::FUN_004a5100_create(apPoint->x, (int)(apTextColor))));
     default:
         return 0;
     }
@@ -1391,16 +1400,6 @@ struct FUN_004a6fc0
     FUN_004a6fc0_Pt p18;
     FUN_004a6fc0(const FUN_004a6fc0_Pt&, const FUN_004a6fc0_Pt&);
 };
-// Initializes the object via FUN_00c4f980, sets f00 to a string literal, and copies the two point arguments into p0c and p18.
-// @fnv 0x004a6fc0
-FUN_004a6fc0::FUN_004a6fc0(const FUN_004a6fc0_Pt& aPoint1, const FUN_004a6fc0_Pt& aPoint2)
-{
-    FUN_00c4f980(this);
-    f00 = "`pJ";
-    p0c = aPoint1;
-    p18 = aPoint2;
-}
-
 extern int DAT_0101e9a4;
 struct Data9
 {
@@ -1420,7 +1419,7 @@ struct MyHolder : BaseFake
 // @fnv 0x004a70b0
 MyHolder* MyHolder::FUN_004a70b0(int aiArg1, int aiArg2, const Data9& arData)
 {
-    FUN_004a6fc0(aiArg1, aiArg2);
+    new ((void *)this) ::FUN_004a6fc0((*(const ::FUN_004a6fc0_Pt *)(aiArg1)), (*(const ::FUN_004a6fc0_Pt *)(aiArg2)));
     *(int*)this = (int)&DAT_0101e9a4;
     d = arData;
     return this;
@@ -1433,38 +1432,27 @@ struct Holder
     {
         int v[9];
     } fld;
-    void FUN_00c37f70(Holder*, int);
     void FUN_00c363c0(Holder*, int);
 };
-// Calls FUN_00c37f70 on the passed Holder and then copies this object's fld into it.
-// @fnv 0x00c363c0
-void Holder::FUN_00c363c0(Holder* apTarget, int b)
-{
-    FUN_00c37f70(apTarget, b);
-    apTarget->fld = fld;
-}
-
 struct Mat364
 {
     char d[36];
-    bool __thiscall _Call_4d9ae0(const Mat364&) const;
 };
 struct Obj364
 {
     char pad[36];
     Mat364 m;
-    bool __thiscall FUN_00c38090(Obj364*);
     bool __thiscall FUN_00c364b0(Obj364*);
 };
 // Calls FUN_00c38090 on other; if it returns true, also compares m with other's m via _Call_4d9ae0 and returns that result.
 // @fnv 0x00c364b0
 bool __thiscall Obj364::FUN_00c364b0(Obj364* other)
 {
-    bool ret = FUN_00c38090(other);
+    bool ret = reinterpret_cast<::ColorProperty *>(this)->FUN_00c38090((const ::ColorPropertyBase *)(other));
     if (ret)
     {
         Obj364* p = other;
-        ret = m._Call_4d9ae0(p->m);
+        ret = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(m))->operator==((const ::ThreeByThreeMatrix &)(p->m));
     }
     return ret;
 }
@@ -1531,14 +1519,20 @@ struct C00c37f70
     int _0C;
     char _10[8];
     D12_00c37f70 d;
-    void CopyMembersStreamWithField(A00c37f70* a, int b);
     void FUN_00c37f70(A00c37f70* a, int b);
 };
+// Calls FUN_00c37f70 on the passed Holder and then copies this object's fld into it.
+// @fnv 0x00c363c0
+void Holder::FUN_00c363c0(Holder* apTarget, int b)
+{
+    reinterpret_cast<::C00c37f70 *>(this)->FUN_00c37f70((::A00c37f70 *)(apTarget), b);
+    apTarget->fld = fld;
+}
 // Calls CopyMembersStreamWithField, then passes &_0C to a->vm and copies d into a->d.
 // @fnv 0x00c37f70
 void C00c37f70::FUN_00c37f70(A00c37f70* apTarget, int b)
 {
-    CopyMembersStreamWithField(apTarget, b);
+    reinterpret_cast<::fnv_00c4f9b0::FUN_00c4f9b0_class *>(this)->CopyMembersStreamWithField((::fnv_00c4f9b0::NiObject *)(apTarget), (void *)(b));
     apTarget->vm((void*)&_0C);
     apTarget->d = d;
 }
@@ -1611,14 +1605,13 @@ struct Shell
     int _m0C;
     char _pad1[8];
     float _m18;
-    void CopyMembersStreamWithField(Shell*, int);
     void FUN_00c4fbc0(Shell*, int);
 };
 // Calls CopyMembersStreamWithField with a2, invokes Real on _m0C, then reads and rewrites _m18 with its own value.
 // @fnv 0x00c4fbc0
 void Shell::FUN_00c4fbc0(Shell* a1, int a2)
 {
-    CopyMembersStreamWithField(a1, a2);
+    reinterpret_cast<::fnv_00c4f9b0::FUN_00c4f9b0_class *>(this)->CopyMembersStreamWithField((::fnv_00c4f9b0::NiObject *)(a1), (void *)(a2));
     a1->Real(&_m0C);
     float f = _m18;
     a1->_m18 = f;
@@ -1674,7 +1667,6 @@ struct FUN_004a5100
     char pad[0x30];
     FUN_004a5100();
     virtual ~FUN_004a5100();
-    void SetRadius(float f);
 };
 // Allocates a FUN_004a5100, calls v2(a) and SetRadius(f), sets the field at offset 4 to 2, and returns it.
 // @fnv 0x004a5100
@@ -1682,7 +1674,7 @@ FUN_004a5100* FUN_004a5100_create(float afValue, int aiArg)
 {
     FUN_004a5100* p = new FUN_004a5100;
     p->v2(aiArg);
-    p->SetRadius(afValue);
+    reinterpret_cast<::BGSPrimitiveSphere *>((p))->SetRadius(afValue);
     *(int*)((char*)p + 4) = 2;
     return p;
 }
@@ -1714,8 +1706,8 @@ struct FUN_004a5300_shell
 void FUN_004a5300_shell::CreatePlaneFadeNode()
 {
     m_go = new BSFadeNode;
-    reinterpret_cast<NiAVObject*>(static_cast<unsigned int>(m_go))->SetName(NiFixedString("Plane"));
-    reinterpret_cast<NiAVObject*>(static_cast<unsigned int>(m_go))->UpdateSceneObject();
+    ::AssignFixedString((char *)(reinterpret_cast<NiAVObject*>(static_cast<unsigned int>(m_go))), (int)&(const ::NiFixedString &)(NiFixedString("Plane")), {});
+    reinterpret_cast<::FUN_00a5a040_Class *>((reinterpret_cast<NiAVObject*>(static_cast<unsigned int>(m_go))))->FUN_00a5a040();
 }
 }  // namespace fnv_004a5300
 
@@ -1730,7 +1722,6 @@ struct NiPoint2
 
 struct NiPoint3Access
 {
-    static NiPoint3 const ZERO;
 };
 
 struct A51BF0Base
@@ -1751,39 +1742,33 @@ struct FUN_004a6150_shell
     BSPortal* CreateBSPortal();
 };
 
-extern char DAT_011a9448;
 extern int _data_011c16bc;
 
 // Allocates a BSPortal using the zero point, a NiPoint2 built from the floats at this+0x18 and this+0x20, and DAT_011a9448, then returns it.
 // @fnv 0x004a6150
 BSPortal* FUN_004a6150_shell::CreateBSPortal()
 {
-    return new BSPortal(NiPoint3Access::ZERO,
+    return new BSPortal(::NiPoint3::ZERO,
                         &NiPoint2(*reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x18),
                                   *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x20)),
-                        &DAT_011a9448);
+                        &(*reinterpret_cast<char *>(&::DAT_011a9448)));
 }
 }  // namespace fnv_004a6150
 
 namespace fnv_00c38220 {
 struct FUN_00c4fab0_shell
 {
-    void FUN_00c4fab0(int);
 };
 
 struct NiTPrimitiveArray_unsigned_int_
 {
-    unsigned int AddFirstEmpty(unsigned int const&);
 };
 
 struct NiPoint3_FUN_00a59af0_helper
 {
-    char* FUN_00a59af0(char const*);
 };
 
-void* _FUN_00a7d330(char const*);
 
-extern char const* const g_01202818_arg1;
 
 struct FUN_00c38220_shell : public FUN_00c4fab0_shell
 {
@@ -1797,19 +1782,18 @@ void FUN_00c38220_shell::AddPropertyNames(NiTPrimitiveArray_unsigned_int_* array
     char unused[0x20];
     char* denter;
 
-    FUN_00c4fab0_shell::FUN_00c4fab0(reinterpret_cast<int>(array));
+    reinterpret_cast<::FUN_00c4fab0_shell *>(this)->FUN_00c4fab0(reinterpret_cast<int>(array));
 
-    char const* volatile property = g_01202818_arg1;
-    void* propertyId = _FUN_00a7d330(property);
-    array->AddFirstEmpty(reinterpret_cast<unsigned int const&>(propertyId));
+    char const* volatile property = (*reinterpret_cast<const char *const *>(&::g_01202820));
+    void* propertyId = ((void *)(::FUN_00a7d330(property)));
+    reinterpret_cast<::S_0060ba10 *>((array))->FUN_0096a610((int)&(reinterpret_cast<unsigned int const&>(propertyId)));
 
     denter =
-        reinterpret_cast<NiPoint3_FUN_00a59af0_helper*>(reinterpret_cast<char*>(this) + 0x0c)->FUN_00a59af0("Center");
-    array->AddFirstEmpty(reinterpret_cast<unsigned int const&>(denter));
+        reinterpret_cast<::NiPoint3 *>((reinterpret_cast<NiPoint3_FUN_00a59af0_helper*>(reinterpret_cast<char*>(this) + 0x0c)))->FUN_00a59af0("Center");
+    reinterpret_cast<::S_0060ba10 *>((array))->FUN_0096a610((int)&(reinterpret_cast<unsigned int const&>(denter)));
 
-    char* halfExtents = reinterpret_cast<NiPoint3_FUN_00a59af0_helper*>(reinterpret_cast<char*>(this) + 0x18)
-                            ->FUN_00a59af0("Half Extents");
-    array->AddFirstEmpty(reinterpret_cast<unsigned int const&>(halfExtents));
+    char* halfExtents = reinterpret_cast<::NiPoint3 *>((reinterpret_cast<NiPoint3_FUN_00a59af0_helper*>(reinterpret_cast<char*>(this) + 0x18)))->FUN_00a59af0("Half Extents");
+    reinterpret_cast<::S_0060ba10 *>((array))->FUN_0096a610((int)&(reinterpret_cast<unsigned int const&>(halfExtents)));
 }
 }  // namespace fnv_00c38220
 
@@ -1830,7 +1814,6 @@ struct FUN_00c4f460 : public A51BF0Base
 
 struct FUN_00c4f6c0_shell
 {
-    void FUN_00c4f6c0(int, int);
     FUN_00c4f460* FUN_00c4f620(int);
 };
 
@@ -1840,7 +1823,7 @@ FUN_00c4f460* FUN_00c4f6c0_shell::FUN_00c4f620(int arg)
 {
     FUN_00c4f460* object = new FUN_00c4f460(*(int*)((char*)this + 0xc0));
 
-    this->FUN_00c4f6c0((int)object, arg);
+    reinterpret_cast<::FUN_00c4f6c0_shell *>((this))->FUN_00c4f6c0((int)object, arg);
 
     return object;
 }
@@ -1946,37 +1929,37 @@ struct FUN_004a55a0_shell : public BGSPrimitiveBox
 // @fnv 0x004a55a0
 void FUN_004a55a0_shell::UpdateBoxGeometry(NiPoint3& aExtents)
 {
-    aExtents[0] = std::abs(aExtents[0]);
-    aExtents[1] = 0.0f;
-    aExtents[2] = std::abs(aExtents[2]);
+    reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(aExtents))->FUN_004a51b0(0) = std::abs(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(aExtents))->FUN_004a51b0(0));
+    reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(aExtents))->FUN_004a51b0(1) = 0.0f;
+    reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(aExtents))->FUN_004a51b0(2) = std::abs(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(aExtents))->FUN_004a51b0(2));
     m_kRadii = aExtents;
     if (m_kGeometry)
     {
-        NiGeometryData* dataB = m_kGeometry->FUN_005495f0();
-        NiPoint3* verts = dataB->GetVertices();
-        verts[0] = NiPoint3(-m_kRadii[0], m_kRadii[1], m_kRadii[2]);
-        verts[1] = NiPoint3(m_kRadii[0], m_kRadii[1], m_kRadii[2]);
-        verts[2] = NiPoint3(m_kRadii[0], -m_kRadii[1], m_kRadii[2]);
-        verts[3] = NiPoint3(-m_kRadii[0], -m_kRadii[1], m_kRadii[2]);
-        verts[4] = NiPoint3(-m_kRadii[0], m_kRadii[1], -m_kRadii[2]);
-        verts[5] = NiPoint3(m_kRadii[0], m_kRadii[1], -m_kRadii[2]);
-        verts[6] = NiPoint3(m_kRadii[0], -m_kRadii[1], -m_kRadii[2]);
-        verts[7] = NiPoint3(-m_kRadii[0], -m_kRadii[1], -m_kRadii[2]);
+        NiGeometryData* dataB = ((::NiGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)((m_kGeometry).operator->()))));
+        NiPoint3* verts = ((::NiPoint3 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((dataB))->FUN_007af430()));
+        verts[0] = NiPoint3(-reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
+        verts[1] = NiPoint3(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
+        verts[2] = NiPoint3(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
+        verts[3] = NiPoint3(-reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
+        verts[4] = NiPoint3(-reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
+        verts[5] = NiPoint3(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
+        verts[6] = NiPoint3(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
+        verts[7] = NiPoint3(-reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
         dataB->SetDirtyFlags(1);
     }
     if (m_kLines)
     {
-        NiGeometryData* data2 = m_kLines->FUN_005495f0();
-        NiPoint3* aVerts2 = data2->GetVertices();
-        aVerts2[0] = NiPoint3(-m_kRadii[0], m_kRadii[1], m_kRadii[2]);
-        aVerts2[1] = NiPoint3(m_kRadii[0], m_kRadii[1], m_kRadii[2]);
-        aVerts2[2] = NiPoint3(m_kRadii[0], -m_kRadii[1], m_kRadii[2]);
-        aVerts2[3] = NiPoint3(-m_kRadii[0], -m_kRadii[1], m_kRadii[2]);
+        NiGeometryData* data2 = ((::NiGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)((m_kLines).operator->()))));
+        NiPoint3* aVerts2 = ((::NiPoint3 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((data2))->FUN_007af430()));
+        aVerts2[0] = NiPoint3(-reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
+        aVerts2[1] = NiPoint3(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
+        aVerts2[2] = NiPoint3(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
+        aVerts2[3] = NiPoint3(-reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
         aVerts2[4] = aVerts2[0];
-        aVerts2[5] = NiPoint3(-m_kRadii[0], m_kRadii[1], -m_kRadii[2]);
-        aVerts2[6] = NiPoint3(-m_kRadii[0], -m_kRadii[1], -m_kRadii[2]);
-        aVerts2[7] = NiPoint3(m_kRadii[0], -m_kRadii[1], -m_kRadii[2]);
-        aVerts2[8] = NiPoint3(m_kRadii[0], m_kRadii[1], -m_kRadii[2]);
+        aVerts2[5] = NiPoint3(-reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
+        aVerts2[6] = NiPoint3(-reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
+        aVerts2[7] = NiPoint3(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
+        aVerts2[8] = NiPoint3(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
         aVerts2[9] = aVerts2[5];
         aVerts2[10] = aVerts2[3];
         aVerts2[11] = aVerts2[6];
@@ -1995,11 +1978,11 @@ void FUN_004a55a0_shell::UpdateBoxGeometry(NiPoint3& aExtents)
         if (aExtents.z > aExtents.y && aExtents.z > aExtents.x)
             fMax3 = aExtents.z;
         NiBound bound2;
-        bound2.SetCenterAndRadius(NiPoint3::ZERO, fMax3);
-        m_kGeometry->SetModelBound(bound2);
-        m_pController->Update(updateData3);
+        reinterpret_cast<::FUN_004a51d0_shell *>(&(bound2))->FUN_004a51d0((void *)&(NiPoint3::ZERO), fMax3);
+        reinterpret_cast<::s4a5200::Owner *>(((m_kGeometry).operator->()))->FUN_004a5200((int)&(bound2));
+        reinterpret_cast<::FUN_00a59c60_cls *>(((m_pController).operator->()))->FUN_00a59c60((int)&(updateData3));
         ((NiAVObjB8_shell*)(BSFadeNode*)m_pController)->UpdateB8(updateData3);
-        m_kGeometry->UpdateSceneObject();
+        reinterpret_cast<::FUN_00a5a040_Class *>(((m_kGeometry).operator->()))->FUN_00a5a040();
         m_pController->UpdateWorldBound();
     }
 }
@@ -2181,8 +2164,6 @@ struct BoundMatrix3
     float m21;
     float m22;
     BoundMatrix3();
-    void SetRotationFromEulerXYZ(float x, float y, float z);
-    static const BoundMatrix3 IDENTITY;
 };
 
 struct BoundBase : public NiMemObject
@@ -2210,7 +2191,6 @@ struct BoundOBB : public BoundBase
     int unk40;
     int unk44;
     BoundOBB(const NiPoint3& akStart, const NiPoint3& kExtents, const BoundMatrix3& kRot);
-    void SetRotation(const BoundMatrix3& kRot);
 };
 
 struct BoundAABB : public BoundBase
@@ -2252,11 +2232,11 @@ BoundBase* BoundOwner::CreateBound(NiPoint3* pAngles)
         bRotated = true;
     if (bRotated)
     {
-        BoundOBB* pOBB = new BoundOBB(NiPoint3::ZERO, kExtents, BoundMatrix3::IDENTITY);
+        BoundOBB* pOBB = new BoundOBB(NiPoint3::ZERO, kExtents, (*reinterpret_cast<const ::BoundMatrix3 *>(&::DAT_011a9448)));
         {
             BoundMatrix3 kRot;
-            kRot.SetRotationFromEulerXYZ(pAngles->x, pAngles->y, pAngles->z);
-            pOBB->SetRotation(kRot);
+            reinterpret_cast<::Matrix161 *>(&(kRot))->FUN_00a59540(pAngles->x, pAngles->y, pAngles->z);
+            reinterpret_cast<::FUN_004396b0_class *>((pOBB))->FUN_004396b0((const ::Mat9 &)(kRot));
         }
         return pOBB;
     }
@@ -2333,12 +2313,10 @@ BC36500Object* __cdecl CreateBC36500Object()
     return new BC36500Object;
 }
 
-extern "C" int _NiPoint3_ZERO;
 
 class C37E00Point3
 {
   public:
-    float Dot(const C37E00Point3& kPoint) const;
 
     float x;
     float y;
@@ -2377,18 +2355,17 @@ void C37E00Box::GetPlanes(C37E00Plane* pkPlanes)
 {
     for (int i = 0; i < 3; i++)
     {
-        C37E00Point3 kColumn = reinterpret_cast<const C37E00Point3&>(_NiPoint3_ZERO);
+        C37E00Point3 kColumn = reinterpret_cast<const C37E00Point3&>((*reinterpret_cast<int *>((void *)&::NiPoint3::ZERO)));
         const C37E00Matrix3& kMatrix = m_kRotate;
         kColumn.x = kMatrix.m_afEntries[0][i];
         kColumn.y = kMatrix.m_afEntries[1][i];
         kColumn.z = kMatrix.m_afEntries[2][i];
         pkPlanes[i].m_kPlaneNormal = kColumn;
-        float fConstant = kColumn.Dot(m_kCenter);
+        float fConstant = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kColumn))->DotProduct((void *)&(m_kCenter));
         pkPlanes[i].m_fPlaneConstant = fConstant;
     }
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
 
 struct NewBodyCls
 {
@@ -2428,12 +2405,10 @@ struct ProbeSet
 
 struct FUN_0049da80_shell
 {
-    int __thiscall ClassifyPoint(Vec12* p);
 };
 
 struct FUN_00c38920_cls
 {
-    void __thiscall FUN_00c39270(Vec12* a);
     bool __thiscall FUN_00c38920(ProbeSet* other);
 };
 
@@ -2454,14 +2429,14 @@ bool __thiscall FUN_00c38920_cls::FUN_00c38920(ProbeSet* pProbeSet)
             p++;
         }
     }
-    FUN_00c39270(boxPts);
+    reinterpret_cast<::BoxGeometry::Bound *>(this)->FUN_00c39270((::BoxGeometry::Point3 *)(boxPts));
     for (i = 0; i < 6; i++)
     {
         if (bool(pProbeSet->mask & (1u << i)))
         {
             for (j = 0; j < 8; j++)
             {
-                if (((FUN_0049da80_shell*)&pProbeSet->elems[i])->ClassifyPoint(&boxPts[j]) == 2)
+                if (reinterpret_cast<::NiCamera *>((((FUN_0049da80_shell*)&pProbeSet->elems[i])))->ClassifyPoint((const ::NiPoint3 *)(::Vec12 *)(&boxPts[j])) == 2)
                 {
                     return false;
                 }
@@ -2473,12 +2448,10 @@ bool __thiscall FUN_00c38920_cls::FUN_00c38920(ProbeSet* pProbeSet)
 
 struct FUN_00c49850_cls
 {
-    void FUN_00c49850();
 };
 
 struct FUN_00a59e00_cls
 {
-    void FUN_00a59e00(void* pObj);
 };
 
 struct FUN_00c4f6d0_sub
@@ -2613,7 +2586,7 @@ void FUN_00c4f6d0_cls::FUN_00c4f6d0(FUN_00c4f6d0_arg* pObj)
         subB->m_pThing = pSwapE;
         if (m_pEntryObject != 0)
         {
-            m_pEntryObject->FUN_00c49850();
+            reinterpret_cast<::ControlGraph *>((m_pEntryObject))->FUN_00c49850();
         }
         tgtC = &this->m_sub;
         cntB = tgtC->unk0A;
@@ -2623,14 +2596,13 @@ void FUN_00c4f6d0_cls::FUN_00c4f6d0(FUN_00c4f6d0_arg* pObj)
             pElemA = *pSlotE;
             if (pElemA != 0)
             {
-                pElemA->FUN_00a59e00(pObj);
+                reinterpret_cast<::S_00a59e00 *>((pElemA))->FUN_00a59e00((::S_00a59e00_Arg *)(pObj));
             }
         }
         subB->m_pThing = savA;
     }
 }
 
-int __fastcall FUN_00c4f860(int value);
 
 struct FUN_00c4f7b0_scratch
 {
@@ -2654,12 +2626,12 @@ int FUN_00c4f7b0_cls::FUN_00c4f7b0()
     int v = m_fc;
     if (v != 0)
     {
-        result5 = (FUN_00c4f860(v) == 1);
+        result5 = (reinterpret_cast<::ObjA *>((v))->FUN_00c4f860() == 1);
     }
     v = m_100;
     if (v != 0)
     {
-        result5 |= (FUN_00c4f860(v) == 1);
+        result5 |= (reinterpret_cast<::ObjA *>((v))->FUN_00c4f860() == 1);
     }
     return result5;
 }
@@ -2674,6 +2646,24 @@ struct FUN_00c4f980 : public FUN_00a5d3a0_shell
 {
     FUN_00c4f980();
 };
+// Initializes the object's vtable, copies the given point into mPt and stores the radius in mRadius.
+// @fnv 0x004a7b40
+FUN_004a7b40::FUN_004a7b40(const FUN_004a7b40_Pt& aPt, float aRadius)
+{
+    new ((void *)(this)) struct ::FUN_00c4f980();
+    *(void**)this = (void*)&DAT_0101ea8c;
+    mPt = aPt;
+    mRadius = aRadius;
+}
+// Initializes the object via FUN_00c4f980, sets f00 to a string literal, and copies the two point arguments into p0c and p18.
+// @fnv 0x004a6fc0
+FUN_004a6fc0::FUN_004a6fc0(const FUN_004a6fc0_Pt& aPoint1, const FUN_004a6fc0_Pt& aPoint2)
+{
+    new ((void *)(this)) struct ::FUN_00c4f980();
+    f00 = "`pJ";
+    p0c = aPoint1;
+    p18 = aPoint2;
+}
 
 FUN_00a5d3a0_shell::FUN_00a5d3a0_shell()
 {}
@@ -2687,7 +2677,6 @@ struct FUN_00c4fce0_cls
     char _00[0xc];
     NiPoint3 m_pos;
     float m_18;
-    bool FUN_00c4fa80(void* other);
     bool Equals(FUN_00c4fce0_cls* other);
 };
 
@@ -2695,7 +2684,7 @@ struct FUN_00c4fce0_cls
 // @fnv 0x00c4fce0
 bool FUN_00c4fce0_cls::Equals(FUN_00c4fce0_cls* other)
 {
-    bool r6 = FUN_00c4fa80(other);
+    bool r6 = reinterpret_cast<::TCEq *>(this)->FUN_00c4fa80((::NiObject *)(other));
     if (r6)
     {
         FUN_00c4fce0_cls* o4 = other;
@@ -2710,17 +2699,13 @@ bool FUN_00c4fce0_cls::Equals(FUN_00c4fce0_cls* other)
 
 struct NodeArgB9733
 {
-    void FUN_0096a610(void** pp);
 };
 
 struct NodeSubB9733
 {
     char unk00[0xc];
-    void* FUN_00a59af0(const char* name);
 };
 
-void* FUN_00a7d330(void* g);
-void* FUN_00a7d550(const char* name, float value);
 
 extern void* DAT_01203108;
 
@@ -2729,24 +2714,23 @@ struct FUN_00c4fe30_cls
     char unk00[0xc];
     NodeSubB9733 m_sub0c;
     float m_f18;
-    void Init(NodeArgB9733* p);
     void InitNode(NodeArgB9733* pNode);
 };
 
 // @fnv 0x00c4fe30
 void FUN_00c4fe30_cls::InitNode(NodeArgB9733* pNode)
 {
-    Init(pNode);
+    reinterpret_cast<::FUN_00c4fab0_shell *>(this)->FUN_00c4fab0((int)(pNode));
     unsigned int data[5];
     unsigned int unk[4];
     void* g = DAT_01203108;
-    void* root = FUN_00a7d330(g);
-    pNode->FUN_0096a610(&root);
-    void* center7 = m_sub0c.FUN_00a59af0("Center");
-    pNode->FUN_0096a610(&center7);
+    void* root = ((void *)(::FUN_00a7d330((const char *)(g))));
+    reinterpret_cast<::S_0060ba10 *>((pNode))->FUN_0096a610((int)(&root));
+    void* center7 = ((void *)(reinterpret_cast<::NiPoint3 *>(&(m_sub0c))->FUN_00a59af0("Center")));
+    reinterpret_cast<::S_0060ba10 *>((pNode))->FUN_0096a610((int)(&center7));
     float r = m_f18;
-    void* radius = FUN_00a7d550("Radius", r);
-    pNode->FUN_0096a610(&radius);
+    void* radius = ((void *)(::FUN_00a7d550("Radius", r)));
+    reinterpret_cast<::S_0060ba10 *>((pNode))->FUN_0096a610((int)(&radius));
 }
 
 struct Point2_construct_shell
@@ -2762,14 +2746,12 @@ struct FUN_004a5f50_shell : BGSPrimitive
 {
     FUN_004a5ff0_shell* CreatePrimitive();
 };
-extern int g_011a9448;
-extern int g_011f426c;
 
 // Allocates a new primitive of type g_011f426c using this primitive's x and z extents and returns it.
 // @fnv 0x004a5f50
 FUN_004a5ff0_shell* FUN_004a5f50_shell::CreatePrimitive()
 {
-    return new FUN_004a5ff0_shell(&g_011f426c, Point2_construct_shell(m_kRadii.x, m_kRadii.z, &g_011a9448));
+    return new FUN_004a5ff0_shell(&(*reinterpret_cast<int *>((void *)&::NiPoint3::ZERO)), Point2_construct_shell(m_kRadii.x, m_kRadii.z, &(*reinterpret_cast<int *>(&::DAT_011a9448))));
 }
 
 struct SphereVertex
@@ -2778,7 +2760,6 @@ struct SphereVertex
     double y;
     double z;
 };
-extern SphereVertex DAT_01187ac8[];
 
 struct NiPoint3_ext : public NiPoint3
 {
@@ -2791,14 +2772,14 @@ void BGSPrimitiveSphere::SetRadius(float radius)
     radius = std::abs(radius);
     if (((BGSPrimitive*)this)->m_kGeometry)
     {
-        NiGeometryData* pkData5 = ((BGSPrimitive*)this)->m_kGeometry->FUN_005495f0();
-        NiPoint3* pkVertices2 = pkData5->GetVertices();
+        NiGeometryData* pkData5 = ((::NiGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)((((BGSPrimitive*)this)->m_kGeometry).operator->()))));
+        NiPoint3* pkVertices2 = ((::NiPoint3 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pkData5))->FUN_007af430()));
         for (int i = 0; i < 0x70; i++)
         {
-            pkVertices2[i].x = DAT_01187ac8[i].x;
-            pkVertices2[i].y = DAT_01187ac8[i].y;
-            pkVertices2[i].z = DAT_01187ac8[i].z;
-            ((NiPoint3_ext*)pkVertices2)[i] *= radius;
+            pkVertices2[i].x = (*reinterpret_cast<SphereVertex (*)[]>((void *)&::fnv_004a72d0::gSphereCoordinates))[i].x;
+            pkVertices2[i].y = (*reinterpret_cast<SphereVertex (*)[]>((void *)&::fnv_004a72d0::gSphereCoordinates))[i].y;
+            pkVertices2[i].z = (*reinterpret_cast<SphereVertex (*)[]>((void *)&::fnv_004a72d0::gSphereCoordinates))[i].z;
+            reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3_ext &)(((NiPoint3_ext*)pkVertices2)[i]))->FUN_00439180(radius);
         }
         pkData5->SetDirtyFlags(1);
     }
@@ -2807,10 +2788,10 @@ void BGSPrimitiveSphere::SetRadius(float radius)
     if (((BGSPrimitive*)this)->m_pController)
     {
         NiBound kBound;
-        kBound.SetCenterAndRadius(NiPoint3(0.0f, 0.0f, 0.0f), radius);
-        ((BGSPrimitive*)this)->m_kGeometry->SetModelBound(kBound);
-        ((BGSPrimitive*)this)->m_pController->Update(kUpdateDataTmp);
-        ((BGSPrimitive*)this)->m_kGeometry->UpdateSceneObject();
+        reinterpret_cast<::FUN_004a51d0_shell *>(&(kBound))->FUN_004a51d0((void *)&(const ::NiPoint3 &)(NiPoint3(0.0f, 0.0f, 0.0f)), radius);
+        reinterpret_cast<::s4a5200::Owner *>(((((BGSPrimitive*)this)->m_kGeometry).operator->()))->FUN_004a5200((int)&(kBound));
+        reinterpret_cast<::FUN_00a59c60_cls *>(((((BGSPrimitive*)this)->m_pController).operator->()))->FUN_00a59c60((int)&(kUpdateDataTmp));
+        reinterpret_cast<::FUN_00a5a040_Class *>(((((BGSPrimitive*)this)->m_kGeometry).operator->()))->FUN_00a5a040();
         ((BGSPrimitive*)this)->m_pController->UpdateWorldBound();
     }
 }
@@ -2833,7 +2814,6 @@ class Lines_Standin : public NiLines
     Lines_Standin(unsigned short count, SphereVertexPosition* vertices, void* normals, RgbaColor* colors, void* extra1,
                   void* extra2, void* extra3, unsigned short segments, unsigned int groups, unsigned short* lengths,
                   unsigned short* indices);
-    void AttachProperty(void*);
     int unk04;
     int unk08;
     int unk0c;
@@ -2888,7 +2868,6 @@ class BSShaderLightingProperty : public NiMemObject
 {
   public:
     BSShaderLightingProperty();
-    void FUN_005a8060(unsigned int);
     int unk00;
     int unk04;
     int unk08;
@@ -2927,7 +2906,6 @@ class NiAlphaProperty : public NiAVObject
 {
   public:
     NiAlphaProperty();
-    void FUN_0049ed90(bool);
     int unk04;
     int unk08;
     int unk0c;
@@ -2953,7 +2931,6 @@ struct NiPropertyHelper
 
 struct NiGeometryHelper : public NiGeometry
 {
-    NiPropertyHelper* GetProperty(unsigned int);
 };
 
 class BSFadeNodeHelper : public BSFadeNode
@@ -2969,8 +2946,6 @@ class BSFadeNodeHelper : public BSFadeNode
     virtual void AttachChildInAvailableSlot(NiGeometry*, bool);
 };
 
-extern const double gSphereCoordinates[112][3];
-void __cdecl FUN_00b57e30(Lines_Standin*, int, int);
 
 class BGSPrimitiveSphere : public BGSPrimitive
 {
@@ -2978,7 +2953,6 @@ class BGSPrimitiveSphere : public BGSPrimitive
     virtual void vfn_04();
     virtual void ApplyColor(RgbaColor&);
     void CreateSphereGeometry();
-    void SetRadius(float);
 };
 
 // Builds the sphere's line geometry, shader and alpha properties and fade node on first call, otherwise updates radius and color, then updates the fade node.
@@ -3006,31 +2980,31 @@ void BGSPrimitiveSphere::CreateSphereGeometry()
         Lines_Standin* lines2 =
             new Lines_Standin(112, positions, 0, (RgbaColor*)colors5, 0, 0, 0, 110, 1, lengths3, indices5);
         BSShaderLightingProperty* prop2 = new BSShaderLightingProperty;
-        prop2->FUN_005a8060(33);
-        lines2->AttachProperty(prop2);
-        FUN_00b57e30(lines2, 0, 0);
+        reinterpret_cast<::LowProcess *>((prop2))->SetPackageObjectType(33);
+        reinterpret_cast<::FUN_00439410_cls *>((lines2))->FUN_00439410((::ArgObject *)(prop2));
+        ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(lines2), 0, 0);
         m_kGeometry = lines2;
 
         NiPointer<NiAlphaProperty> spAlphaProperty2 = new NiAlphaProperty;
-        ((NiAlphaProperty*)spAlphaProperty2)->SetName(NiFixedString("primitive: alpha"));
-        ((NiAlphaProperty*)spAlphaProperty2)->FUN_0049ed90(true);
-        ((Lines_Standin*)(NiGeometry*)m_kGeometry)->AttachProperty((NiAlphaProperty*)spAlphaProperty2);
-        ((NiGeometryHelper*)(NiGeometry*)m_kGeometry)->GetProperty(3)->FUN_00441130(32, false);
+        ::AssignFixedString((char *)(((NiAlphaProperty*)spAlphaProperty2)), (int)&(const ::NiFixedString &)(NiFixedString("primitive: alpha")), {});
+        reinterpret_cast<::FUN_0049ed90_shell *>((((NiAlphaProperty*)spAlphaProperty2)))->FUN_0049ed90(true);
+        reinterpret_cast<::FUN_00439410_cls *>((((Lines_Standin*)(NiGeometry*)m_kGeometry)))->FUN_00439410((::ArgObject *)(void *)((NiAlphaProperty*)spAlphaProperty2));
+        ((::fnv_004a72d0::NiPropertyHelper *)(reinterpret_cast<::FUN_00a59d30_C *>((((NiGeometryHelper*)(NiGeometry*)m_kGeometry)))->FUN_00a59d30(3)))->FUN_00441130(32, false);
 
         m_pController = new BSFadeNode;
         ((BSFadeNodeHelper*)(BSFadeNode*)m_pController)->AttachChildInAvailableSlot(m_kGeometry, true);
-        m_pController->SetName(NiFixedString("Sphere"));
-        m_pController->UpdateSceneObject();
-        m_kGeometry->UpdateSceneObject();
+        ::AssignFixedString((char *)((m_pController).operator->()), (int)&(const ::NiFixedString &)(NiFixedString("Sphere")), {});
+        reinterpret_cast<::FUN_00a5a040_Class *>(((m_pController).operator->()))->FUN_00a5a040();
+        reinterpret_cast<::FUN_00a5a040_Class *>(((m_kGeometry).operator->()))->FUN_00a5a040();
     }
     else
     {
-        SetRadius(m_kRadii[0]);
+        reinterpret_cast<::BGSPrimitiveSphere *>(this)->SetRadius(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0));
         ApplyColor(Color);
     }
 
     NiUpdateData updateData3(0.0f, false, false);
-    m_pController->Update(updateData3);
+    reinterpret_cast<::FUN_00a59c60_cls *>(((m_pController).operator->()))->FUN_00a59c60((int)&(updateData3));
 }
 }  // namespace fnv_004a72d0
 
@@ -3059,7 +3033,6 @@ struct KSphere
 {
     KVec m_kCenter;
     float m_fBoundRadius;
-    int Side(KPlane* pPlane);
 };
 
 class FUN_00c50210_cls
@@ -3088,7 +3061,7 @@ bool FUN_00c50210_cls::FUN_00c50210(KPlanes* planes)
     {
         if ((bool)((planes->m_uiActivePlaneMask & (1u << iLoop)) != 0))
         {
-            result = kBound.Side(&planes->m_akPlanes[iLoop]);
+            result = reinterpret_cast<::B_004b6100 *>(&(kBound))->ClassifySphereAgainstPlane((::NiPlane_004b6100 *)(::KPlane *)(&planes->m_akPlanes[iLoop]));
             if (result == 2)
                 return false;
         }
@@ -3100,13 +3073,11 @@ bool FUN_00c50210_cls::FUN_00c50210(KPlanes* planes)
 struct PointB
 {
     float x, y, z;
-    PointB* Difference(PointB* result, const PointB& origin) const;
 };
 struct ColorB
 {
     float r, g, b, a;
 };
-extern ColorB DAT_011a9be0;
 struct DataB
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
@@ -3115,7 +3086,6 @@ struct DataB
     ColorB* colors;
     int unk2c, unk30, unk34, unk38, unk3c;
     bool* flags;
-    unsigned short* GetIndices();
 };
 struct MeshB
 {
@@ -3132,7 +3102,6 @@ struct BoxB
 {
     int unk00, unk04, unk08;
     PointB position;
-    void FillCorners(PointB*);
     void BuildBoxGeometry(MeshB*, MeshB*, ColorB);
 };
 // Temporary working records used by the mesh builder. Their lifetime does not
@@ -3200,7 +3169,7 @@ void BoxB::BuildBoxGeometry(MeshB* apLineMesh, MeshB* apFaceMesh, ColorB aFaceCo
     {
         ++cursorM2;
     }
-    FillCorners(cornersInA);
+    reinterpret_cast<::BSMultiBoundShape *>(this)->FUN_00c37a00((::NiPoint3_ext *)(cornersInA));
     edges9[0][0] = 0;
     edges9[0][1] = 1;
     edges9[1][0] = 0;
@@ -3262,7 +3231,7 @@ void BoxB::BuildBoxGeometry(MeshB* apLineMesh, MeshB* apFaceMesh, ColorB aFaceCo
     triangles6[11][1] = 5;
     triangles6[11][2] = 1;
     color9 = aFaceColor;
-    _white = DAT_011a9be0;
+    _white = (*reinterpret_cast<::ColorB *>(&::DAT_011a9be0));
     lineVertexData7 = apLineMesh->data;
     lineVertexResultR = lineVertexData7->vertices;
     _vertices = lineVertexResultR;
@@ -3275,9 +3244,9 @@ void BoxB::BuildBoxGeometry(MeshB* apLineMesh, MeshB* apFaceMesh, ColorB aFaceCo
     apLineMesh->position = position;
     for (i8 = 0; i8 < 12; ++i8)
     {
-        _vertices[i8 * 2] = *cornersInA[edges9[i8][0]].Difference(&pointR, position);
+        _vertices[i8 * 2] = *((::PointB *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(cornersInA[edges9[i8][0]]))->FUN_00439ef0((::NiPoint3 *)(::PointB *)(&pointR), (const ::NiPoint3 &)(position))));
         colorsT[i8 * 2] = _white;
-        _vertices[i8 * 2 + 1] = *cornersInA[edges9[i8][1]].Difference(&pointC, position);
+        _vertices[i8 * 2 + 1] = *((::PointB *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(cornersInA[edges9[i8][1]]))->FUN_00439ef0((::NiPoint3 *)(::PointB *)(&pointC), (const ::NiPoint3 &)(position))));
         colorsT[i8 * 2 + 1] = _white;
         flagsR[i8 * 2] = true;
         flagsR[i8 * 2 + 1] = false;
@@ -3289,15 +3258,15 @@ void BoxB::BuildBoxGeometry(MeshB* apLineMesh, MeshB* apFaceMesh, ColorB aFaceCo
     pTemp = faceColorData4->colors;
     colorsT = pTemp;
     faceIndexDataS = apFaceMesh->data;
-    indices2 = faceIndexDataS->GetIndices();
+    indices2 = ((unsigned short *)(reinterpret_cast<::FnvCpu_FUN_00a7b850_CpuObject *>((faceIndexDataS))->FUN_00a7b850()));
     apFaceMesh->position = position;
     for (j4 = 0; j4 < 12; ++j4)
     {
-        _vertices[j4 * 3] = *cornersInA[triangles6[j4][0]].Difference(&pointB, position);
+        _vertices[j4 * 3] = *((::PointB *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(cornersInA[triangles6[j4][0]]))->FUN_00439ef0((::NiPoint3 *)(::PointB *)(&pointB), (const ::NiPoint3 &)(position))));
         colorsT[j4 * 3] = color9;
-        _vertices[j4 * 3 + 1] = *cornersInA[triangles6[j4][1]].Difference(&point5, position);
+        _vertices[j4 * 3 + 1] = *((::PointB *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(cornersInA[triangles6[j4][1]]))->FUN_00439ef0((::NiPoint3 *)(::PointB *)(&point5), (const ::NiPoint3 &)(position))));
         colorsT[j4 * 3 + 1] = color9;
-        _vertices[j4 * 3 + 2] = *cornersInA[triangles6[j4][2]].Difference(&point, position);
+        _vertices[j4 * 3 + 2] = *((::PointB *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(cornersInA[triangles6[j4][2]]))->FUN_00439ef0((::NiPoint3 *)(::PointB *)(&point), (const ::NiPoint3 &)(position))));
         colorsT[j4 * 3 + 2] = color9;
         indices2[j4 * 3] = j4 * 3;
         indices2[j4 * 3 + 1] = j4 * 3 + 1;
@@ -3399,10 +3368,8 @@ struct NiPoint3Ex : public NiPoint3
     {
         return NiPoint3Ex(x - pt.x, y - pt.y, z - pt.z);
     }
-    float Length() const;
 };
 
-extern double DAT_01012060;
 
 class FUN_00c4fed0_cls
 {
@@ -3419,18 +3386,18 @@ class FUN_00c4fed0_cls
 int FUN_00c4fed0_cls::FUN_00c4fed0(const NiBound& kBound)
 {
     NiPoint3Ex kDiff = static_cast<const NiPoint3Ex&>(m_kBound.m_kCenter) - kBound.m_kCenter;
-    float fCenterDist = kDiff.Length();
+    float fCenterDist = reinterpret_cast<::NiPoint3 *>((void *)&(kDiff))->ComputeMagnitude();
     float ba;
     float k;
     float l;
     float c;
     float j = kBound.m_fBoundRadius;
-    if (fCenterDist - (m_kBound.m_fBoundRadius - j) <= DAT_01012060)
+    if (fCenterDist - (m_kBound.m_fBoundRadius - j) <= ::_DAT_01012060)
         return 2;
     else
     {
         float kTemp = kBound.m_fBoundRadius;
-        if (fCenterDist - (m_kBound.m_fBoundRadius + kTemp) <= DAT_01012060)
+        if (fCenterDist - (m_kBound.m_fBoundRadius + kTemp) <= ::_DAT_01012060)
             return 1;
     }
     return 0;
@@ -3449,7 +3416,6 @@ struct Sphere
 {
     NiPoint3 center;
     float radius;
-    int ClassifySphereAgainstPlane(const Plane& plane);
 };
 struct BoundObject
 {
@@ -3472,7 +3438,7 @@ bool BoundObject::FUN_00c502a0(const Frustum* frustum)
     {
         if (bool(frustum->kComparisonMask & (1 << uiPlaneIndex)))
         {
-            planeSide = bound.ClassifySphereAgainstPlane(frustum->planes[uiPlaneIndex]);
+            planeSide = reinterpret_cast<::B_004b6100 *>(&(bound))->ClassifySphereAgainstPlane((::NiPlane_004b6100 *)&(frustum->planes[uiPlaneIndex]));
             if (planeSide != 1)
                 return false;
         }
@@ -3537,7 +3503,7 @@ extern int DAT_0101ea8c;
 // @fnv 0x00c4fb10
 void* __fastcall FUN_00c4fb10(void* apObj)
 {
-    FUN_00c4f980(apObj);
+    new ((void *)(apObj)) struct ::FUN_00c4f980();
     *(int*)apObj = (int)&DAT_0101ea8c;
     return apObj;
 }

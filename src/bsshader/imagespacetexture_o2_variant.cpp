@@ -2,6 +2,23 @@
 // src/bsshader/imagespacetexture_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/bsshader/imagespacetexture.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/E7DE90Owner.h"
+#include "fnv/decl/E7DEF0TextureStage.h"
+#include "fnv/decl/FUN_0041fd00_shell.h"
+#include "fnv/decl/FUN_004bc320_shell.h"
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/HolderForAccum.h"
+#include "fnv/decl/ISKernelEffect.h"
+#include "fnv/decl/ImageSpaceShaderParam.h"
+#include "fnv/decl/Manager.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiRenderer.h"
+#include "fnv/decl/Pool.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01200000.h"
+#include "fnv/symbols_01272000.h"
 #include "imagespacetexture_decls.h"
 
 struct FUN_00ba3770_struct
@@ -57,12 +74,9 @@ struct BeamStage
 {
     char _0[8];
     void* m_8;
-    void ApplyPairToState(unsigned int);
-    void FUN_00e7def0(unsigned int);
 };
 struct TextureReceiver
 {
-    TextureReceiver* FUN_004bc320(int);
 };
 struct UnkBA38F0
 {
@@ -78,11 +92,11 @@ struct UnkBA38F0
 void UnkBA38F0::FUN_00ba38f0(BeamStage* pkStage)
 {
     UnkBA38F0* pThis = this;
-    pkStage->ApplyPairToState(pThis->m_C);
-    pkStage->FUN_00e7def0(pThis->m_8);
+    reinterpret_cast<::E7DE90Owner *>((pkStage))->ApplyPairToState(pThis->m_C);
+    reinterpret_cast<::E7DEF0TextureStage *>((pkStage))->FUN_00e7def0(pThis->m_8);
     if (pThis->m_cByteAtOffset1)
     {
-        pkStage->m_8 = ((TextureReceiver*)pThis->m_iWordAt04)->FUN_004bc320(0);
+        pkStage->m_8 = ((::TextureReceiver *)(reinterpret_cast<::FUN_004bc320_shell *>((((TextureReceiver*)pThis->m_iWordAt04)))->FUN_004bc320(0)));
     }
     else
     {
@@ -113,7 +127,7 @@ void H_00ba39a0::FUN_00ba39a0()
     if (!b2)
         return;
     b2 = false;
-    DAT_011f91a8->AddRenderedTexture(b1 ? (BSRenderedTexture*)p : 0);
+    reinterpret_cast<::Manager *>((DAT_011f91a8))->FUN_00b6da10((::Item *)(::BSRenderedTexture *)(b1 ? (BSRenderedTexture*)p : 0));
     R_00ba39a0* tex = p;
     if (tex)
     {
@@ -200,11 +214,9 @@ void __thiscall Holder::FUN_00ba38b0()
 
 struct NiRenderer;
 
-extern NiRenderer* DAT_011f9508;
 
 struct TexMgr00ba3840
 {
-    Tex00ba37f0* CreateRenderTargetTexture(NiRenderer*, int, unsigned int, void*, unsigned int);
 };
 
 struct H_00ba3840
@@ -220,7 +232,7 @@ struct H_00ba3840
 // @fnv 0x00ba3840
 void H_00ba3840::FUN_00ba3840(int arg)
 {
-    Tex00ba37f0* pNew = ((TexMgr00ba3840*)DAT_011f91a8)->CreateRenderTargetTexture(DAT_011f9508, arg, 0, 0, 0);
+    Tex00ba37f0* pNew = ((::Tex00ba37f0 *)(reinterpret_cast<::Pool *>((((TexMgr00ba3840*)DAT_011f91a8)))->FUN_00b6e110((unsigned int)(::DAT_011f9508), arg, 0, (unsigned int)(0), 0)));
     if (pTileTexture != pNew)
     {
         if (pTileTexture)
@@ -235,12 +247,9 @@ void H_00ba3840::FUN_00ba3840(int arg)
 
 struct FUN_00ba2590_struct
 {
-    void FUN_00ba2590();
 };
 struct ISTex
 {
-    void* GetTexture();
-    void CreateRenderTargetTexture(unsigned int);
 };
 struct FUN_00ba26f0_struct
 {
@@ -254,20 +263,6 @@ struct FUN_00ba26f0_struct
     ISTex d;
     void FUN_00ba26f0();
 };
-// @fnv 0x00ba26f0
-void FUN_00ba26f0_struct::FUN_00ba26f0()
-{
-    if (!((ISTex*)((char*)this + 0x88))->GetTexture())
-        ((ISTex*)((char*)this + 0x88))->CreateRenderTargetTexture(0xd);
-    if (!((ISTex*)((char*)this + 0x78))->GetTexture())
-        ((ISTex*)((char*)this + 0x78))->CreateRenderTargetTexture(0xe);
-    if (!((ISTex*)((char*)this + 0x58))->GetTexture())
-        ((ISTex*)((char*)this + 0x58))->CreateRenderTargetTexture(0xf);
-    if (!((ISTex*)((char*)this + 0x68))->GetTexture())
-        ((ISTex*)((char*)this + 0x68))->CreateRenderTargetTexture(0x10);
-    ((FUN_00ba2590_struct*)this)->FUN_00ba2590();
-}
-
 struct FUN_00ba3780_struct
 {
     unsigned char unk0;
@@ -276,12 +271,25 @@ struct FUN_00ba3780_struct
     TextureReceiver* ptr;
     TextureReceiver* FUN_00ba3780();
 };
+// @fnv 0x00ba26f0
+void FUN_00ba26f0_struct::FUN_00ba26f0()
+{
+    if (!((void *)(reinterpret_cast<::FUN_00ba3780_struct *>((((ISTex*)((char*)this + 0x88))))->FUN_00ba3780())))
+        reinterpret_cast<::H_00ba3840 *>((((ISTex*)((char*)this + 0x88))))->FUN_00ba3840(0xd);
+    if (!((void *)(reinterpret_cast<::FUN_00ba3780_struct *>((((ISTex*)((char*)this + 0x78))))->FUN_00ba3780())))
+        reinterpret_cast<::H_00ba3840 *>((((ISTex*)((char*)this + 0x78))))->FUN_00ba3840(0xe);
+    if (!((void *)(reinterpret_cast<::FUN_00ba3780_struct *>((((ISTex*)((char*)this + 0x58))))->FUN_00ba3780())))
+        reinterpret_cast<::H_00ba3840 *>((((ISTex*)((char*)this + 0x58))))->FUN_00ba3840(0xf);
+    if (!((void *)(reinterpret_cast<::FUN_00ba3780_struct *>((((ISTex*)((char*)this + 0x68))))->FUN_00ba3780())))
+        reinterpret_cast<::H_00ba3840 *>((((ISTex*)((char*)this + 0x68))))->FUN_00ba3840(0x10);
+    reinterpret_cast<::ISKernelEffect *>((((FUN_00ba2590_struct*)this)))->FUN_00ba2590();
+}
 
 // @fnv 0x00ba3780
 TextureReceiver* FUN_00ba3780_struct::FUN_00ba3780()
 {
     if (flag)
-        return ptr->FUN_004bc320(0);
+        return ((::TextureReceiver *)(reinterpret_cast<::FUN_004bc320_shell *>((ptr))->FUN_004bc320(0)));
     return ptr;
 }
 
@@ -352,19 +360,18 @@ FUN_00ba3940_cls* FUN_00ba3940_cls::FUN_00ba3940(FUN_00ba3940_cls* src)
     return this;
 }
 
-extern __declspec(thread) unsigned int g_tlsAllocTag;
 
 struct TLSTagGuard
 {
     unsigned int uiOld;
     TLSTagGuard(unsigned int uiTag)
     {
-        uiOld = g_tlsAllocTag;
-        g_tlsAllocTag = uiTag;
+        uiOld = ::currentAllocationContext;
+        ::currentAllocationContext = uiTag;
     }
     ~TLSTagGuard()
     {
-        g_tlsAllocTag = uiOld;
+        ::currentAllocationContext = uiOld;
     }
 };
 
@@ -379,15 +386,12 @@ struct ISTexture
     ISTexture() : b0(false), b1(false), b2(false), pTileTexture(0), i8(0), iC(0)
     {}
     ~ISTexture();
-    void SetTexture(NiTexture* apTex);
-    void SetRenderedTexture(BSRenderedTexture* apTex);
 };
 
 struct ISEffectShader
 {
     virtual void vf0();
     virtual void Render(void* apGeom, void* apArg2, void* apArg5, void* apArg6);
-    void BindTexture(unsigned int uiIndex, ISTexture* apTex, int iFilter);
 };
 
 struct ImageSpaceOwner
@@ -531,29 +535,27 @@ void ImageSpaceOwner::FUN_00b8c980(ISEffectShader* apShader, void* apArg2, NiTex
     TLSTagGuard kGuard(0x27);
     ISTexture kSource;
     ISTexture kDest;
-    kSource.SetTexture(apSource);
-    kDest.SetRenderedTexture(apDest);
+    reinterpret_cast<::Holder00ba37f0 *>(&(kSource))->FUN_00ba37f0((::Tex00ba37f0 *)(apSource));
+    reinterpret_cast<::OwnerStandIn *>(&(kDest))->FUN_00ba37a0((::RefBase *)(apDest));
     if (apShader)
     {
-        apShader->BindTexture(0, &kDest, 0);
-        apShader->BindTexture(1, &kSource, 0);
+        reinterpret_cast<::HolderForAccum *>((apShader))->SetAccumulatorAt(0, (::NiAccumulator *)(::ISTexture *)(&kDest), (const ::NiCamera *)(0));
+        reinterpret_cast<::HolderForAccum *>((apShader))->SetAccumulatorAt(1, (::NiAccumulator *)(::ISTexture *)(&kSource), (const ::NiCamera *)(0));
         void** ppGeom = bUseAlt ? &pGeom1f8 : &pGeom1f0;
         void* pGeom = *ppGeom;
         apShader->Render(pGeom, apArg2, apArg5, apArg6);
-        apShader->BindTexture(0, 0, 0);
-        apShader->BindTexture(1, 0, 0);
+        reinterpret_cast<::HolderForAccum *>((apShader))->SetAccumulatorAt(0, (::NiAccumulator *)(::ISTexture *)(0), (const ::NiCamera *)(0));
+        reinterpret_cast<::HolderForAccum *>((apShader))->SetAccumulatorAt(1, (::NiAccumulator *)(::ISTexture *)(0), (const ::NiCamera *)(0));
     }
 }
 
 struct TexObj
 {
-    void FUN_00b8a790(int mode, float a, float b, float c, float d);
 };
 struct WorkObj
 {
     virtual void V0();
     virtual void Vf1(int a, int b, TexObj* tex, int c);
-    void SetAccumulatorAt(int idx, void* p, int z);
 };
 struct ElemHeader
 {
@@ -633,15 +635,9 @@ struct HolderX
     HolderX() : b0(0), b1(0), b2(0), p(0), i1(0), i2(0)
     {}
     ~HolderX();
-    void FUN_00ba3840(int arg);
-    void FUN_00ba3940(HolderX* other);
-    void* FUN_00ba3780();
-    void FUN_00ba39a0();
 };
 extern int DAT_01200050;
 extern float DAT_0120004c;
-extern unsigned char DAT_01200058;
-extern float DAT_0101e570;
 
 struct Owner
 {
@@ -690,7 +686,6 @@ struct Owner
     float m_b0;
     float m_b4;
     bool m_b8;
-    void FUN_00ba26f0();
     void FUN_00ba2760(int a1, int a2, int a3, int a4);
 };
 
@@ -704,7 +699,7 @@ static __forceinline WorkObj* ToWork(WorkObj* p)
 void Owner::FUN_00ba2760(int a1, int a2, int a3, int a4)
 {
     if (!m_b8)
-        FUN_00ba26f0();
+        reinterpret_cast<::FUN_00ba26f0_struct *>(this)->FUN_00ba26f0();
     int count = DAT_01200050;
     int a2v = a2;
     int j;
@@ -713,98 +708,97 @@ void Owner::FUN_00ba2760(int a1, int a2, int a3, int a4)
     HolderX d;
     HolderX b;
     HolderX a;
-    d.FUN_00ba3840(7);
-    a.FUN_00ba3840(7);
-    b.FUN_00ba3840(7);
+    reinterpret_cast<::H_00ba3840 *>(&(d))->FUN_00ba3840(7);
+    reinterpret_cast<::H_00ba3840 *>(&(a))->FUN_00ba3840(7);
+    reinterpret_cast<::H_00ba3840 *>(&(b))->FUN_00ba3840(7);
     HolderX c;
     WorkObj* w = ToWork(m_iThirdValue->p0);
     TexObj* tex = m_1c->t0;
-    tex->FUN_00b8a790(0, m_b0, 0.0f, 0.0f, 0.0f);
-    w->SetAccumulatorAt(0, &d, 0);
-    w->SetAccumulatorAt(1, &s68, 0);
-    w->SetAccumulatorAt(2, &s58, 0);
+    reinterpret_cast<::ImageSpaceShaderParam *>((tex))->SetShaderConstantVector4(0, m_b0, 0.0f, 0.0f, 0.0f);
+    reinterpret_cast<::HolderForAccum *>((w))->SetAccumulatorAt(0, (::NiAccumulator *)(void *)(&d), (const ::NiCamera *)(0));
+    reinterpret_cast<::HolderForAccum *>((w))->SetAccumulatorAt(1, (::NiAccumulator *)(void *)(&s68), (const ::NiCamera *)(0));
+    reinterpret_cast<::HolderForAccum *>((w))->SetAccumulatorAt(2, (::NiAccumulator *)(void *)(&s58), (const ::NiCamera *)(0));
     w->Vf1(a1, a2v, tex, 1);
     w = ToWork(m_iThirdValue->p3);
     tex = m_1c->t3;
-    w->SetAccumulatorAt(0, &a, 0);
-    w->SetAccumulatorAt(1, &s88, 0);
-    w->SetAccumulatorAt(2, &d, 0);
+    reinterpret_cast<::HolderForAccum *>((w))->SetAccumulatorAt(0, (::NiAccumulator *)(void *)(&a), (const ::NiCamera *)(0));
+    reinterpret_cast<::HolderForAccum *>((w))->SetAccumulatorAt(1, (::NiAccumulator *)(void *)(&s88), (const ::NiCamera *)(0));
+    reinterpret_cast<::HolderForAccum *>((w))->SetAccumulatorAt(2, (::NiAccumulator *)(void *)(&d), (const ::NiCamera *)(0));
     w->Vf1(a1, a2v, tex, 1);
-    c.FUN_00ba3940(&b);
-    b.FUN_00ba3940(&a);
-    a.FUN_00ba3940(&c);
+    reinterpret_cast<::FUN_00ba3940_cls *>(&(c))->FUN_00ba3940((::FUN_00ba3940_cls *)(::HolderX *)(&b));
+    reinterpret_cast<::FUN_00ba3940_cls *>(&(b))->FUN_00ba3940((::FUN_00ba3940_cls *)(::HolderX *)(&a));
+    reinterpret_cast<::FUN_00ba3940_cls *>(&(a))->FUN_00ba3940((::FUN_00ba3940_cls *)(::HolderX *)(&c));
     w = ToWork(m_iThirdValue->p1);
     tex = m_1c->t1;
     int i;
     for (i = 0; i < count; i++)
     {
         m_b4 = (float)(i * 0.0625 + 0.03125);
-        tex->FUN_00b8a790(1, m_b4, DAT_0101e570, 0.0f, 0.0f);
-        w->SetAccumulatorAt(0, &a, 0);
-        w->SetAccumulatorAt(1, &s78, 0);
-        w->SetAccumulatorAt(2, &b, 0);
+        reinterpret_cast<::ImageSpaceShaderParam *>((tex))->SetShaderConstantVector4(1, m_b4, ::DAT_0101e570, 0.0f, 0.0f);
+        reinterpret_cast<::HolderForAccum *>((w))->SetAccumulatorAt(0, (::NiAccumulator *)(void *)(&a), (const ::NiCamera *)(0));
+        reinterpret_cast<::HolderForAccum *>((w))->SetAccumulatorAt(1, (::NiAccumulator *)(void *)(&s78), (const ::NiCamera *)(0));
+        reinterpret_cast<::HolderForAccum *>((w))->SetAccumulatorAt(2, (::NiAccumulator *)(void *)(&b), (const ::NiCamera *)(0));
         w->Vf1(a1, a2v, tex, 1);
-        c.FUN_00ba3940(&b);
-        b.FUN_00ba3940(&a);
-        a.FUN_00ba3940(&c);
+        reinterpret_cast<::FUN_00ba3940_cls *>(&(c))->FUN_00ba3940((::FUN_00ba3940_cls *)(::HolderX *)(&b));
+        reinterpret_cast<::FUN_00ba3940_cls *>(&(b))->FUN_00ba3940((::FUN_00ba3940_cls *)(::HolderX *)(&a));
+        reinterpret_cast<::FUN_00ba3940_cls *>(&(a))->FUN_00ba3940((::FUN_00ba3940_cls *)(::HolderX *)(&c));
     }
     w = ToWork(m_iThirdValue->p4);
     tex = m_1c->t4;
-    w->SetAccumulatorAt(0, &a, 0);
-    w->SetAccumulatorAt(1, &s88, 0);
-    w->SetAccumulatorAt(2, &b, 0);
+    reinterpret_cast<::HolderForAccum *>((w))->SetAccumulatorAt(0, (::NiAccumulator *)(void *)(&a), (const ::NiCamera *)(0));
+    reinterpret_cast<::HolderForAccum *>((w))->SetAccumulatorAt(1, (::NiAccumulator *)(void *)(&s88), (const ::NiCamera *)(0));
+    reinterpret_cast<::HolderForAccum *>((w))->SetAccumulatorAt(2, (::NiAccumulator *)(void *)(&b), (const ::NiCamera *)(0));
     w->Vf1(a1, a2v, tex, 1);
-    c.FUN_00ba3940(&b);
-    b.FUN_00ba3940(&a);
-    a.FUN_00ba3940(&c);
+    reinterpret_cast<::FUN_00ba3940_cls *>(&(c))->FUN_00ba3940((::FUN_00ba3940_cls *)(::HolderX *)(&b));
+    reinterpret_cast<::FUN_00ba3940_cls *>(&(b))->FUN_00ba3940((::FUN_00ba3940_cls *)(::HolderX *)(&a));
+    reinterpret_cast<::FUN_00ba3940_cls *>(&(a))->FUN_00ba3940((::FUN_00ba3940_cls *)(::HolderX *)(&c));
     w = ToWork(m_iThirdValue->p2);
     TexObj* t2p = m_1c->t2;
     for (j = 0; j < count; j++)
     {
         m_b4 = (float)(j * 0.0625 + 0.03125);
-        t2p->FUN_00b8a790(1, m_b4, DAT_0101e570, 0.0f, 0.0f);
+        reinterpret_cast<::ImageSpaceShaderParam *>((t2p))->SetShaderConstantVector4(1, m_b4, ::DAT_0101e570, 0.0f, 0.0f);
         if (j == count - 1)
-            w->SetAccumulatorAt(0, m_2c->p1, 0);
+            reinterpret_cast<::HolderForAccum *>((w))->SetAccumulatorAt(0, (::NiAccumulator *)(m_2c->p1), (const ::NiCamera *)(0));
         else
-            w->SetAccumulatorAt(0, &a, 0);
-        w->SetAccumulatorAt(1, &s78, 0);
-        w->SetAccumulatorAt(2, &b, 0);
+            reinterpret_cast<::HolderForAccum *>((w))->SetAccumulatorAt(0, (::NiAccumulator *)(void *)(&a), (const ::NiCamera *)(0));
+        reinterpret_cast<::HolderForAccum *>((w))->SetAccumulatorAt(1, (::NiAccumulator *)(void *)(&s78), (const ::NiCamera *)(0));
+        reinterpret_cast<::HolderForAccum *>((w))->SetAccumulatorAt(2, (::NiAccumulator *)(void *)(&b), (const ::NiCamera *)(0));
         w->Vf1(a1, a2v, t2p, 1);
         if (j != count - 1)
         {
-            c.FUN_00ba3940(&b);
-            b.FUN_00ba3940(&a);
-            a.FUN_00ba3940(&c);
+            reinterpret_cast<::FUN_00ba3940_cls *>(&(c))->FUN_00ba3940((::FUN_00ba3940_cls *)(::HolderX *)(&b));
+            reinterpret_cast<::FUN_00ba3940_cls *>(&(b))->FUN_00ba3940((::FUN_00ba3940_cls *)(::HolderX *)(&a));
+            reinterpret_cast<::FUN_00ba3940_cls *>(&(a))->FUN_00ba3940((::FUN_00ba3940_cls *)(::HolderX *)(&c));
         }
     }
-    if (DAT_01200058)
+    if ((*reinterpret_cast<unsigned char *>(&::DAT_01200058)))
     {
         w = ToWork(m_iThirdValue->p5);
         tex = m_1c->t5;
-        tex->FUN_00b8a790(2, DAT_0120004c, DAT_0101e570, 0.0f, 0.0f);
-        w->SetAccumulatorAt(0, m_2c->p0, 0);
-        w->SetAccumulatorAt(1, m_2c->p1, 0);
+        reinterpret_cast<::ImageSpaceShaderParam *>((tex))->SetShaderConstantVector4(2, DAT_0120004c, ::DAT_0101e570, 0.0f, 0.0f);
+        reinterpret_cast<::HolderForAccum *>((w))->SetAccumulatorAt(0, (::NiAccumulator *)(m_2c->p0), (const ::NiCamera *)(0));
+        reinterpret_cast<::HolderForAccum *>((w))->SetAccumulatorAt(1, (::NiAccumulator *)(m_2c->p1), (const ::NiCamera *)(0));
         w->Vf1(a1, a2v, tex, 1);
     }
     else
     {
         w = ToWork(m_iThirdValue->p6);
         tex = m_1c->t6;
-        w->SetAccumulatorAt(0, m_2c->p0, 0);
-        w->SetAccumulatorAt(1, m_2c->p1, 0);
+        reinterpret_cast<::HolderForAccum *>((w))->SetAccumulatorAt(0, (::NiAccumulator *)(m_2c->p0), (const ::NiCamera *)(0));
+        reinterpret_cast<::HolderForAccum *>((w))->SetAccumulatorAt(1, (::NiAccumulator *)(m_2c->p1), (const ::NiCamera *)(0));
         w->Vf1(a1, a2v, tex, 1);
     }
-    if (d.FUN_00ba3780())
-        d.FUN_00ba39a0();
-    if (a.FUN_00ba3780())
-        a.FUN_00ba39a0();
-    if (b.FUN_00ba3780())
-        b.FUN_00ba39a0();
+    if (((void *)(reinterpret_cast<::FUN_00ba3780_struct *>(&(d))->FUN_00ba3780())))
+        reinterpret_cast<::H_00ba39a0 *>(&(d))->FUN_00ba39a0();
+    if (((void *)(reinterpret_cast<::FUN_00ba3780_struct *>(&(a))->FUN_00ba3780())))
+        reinterpret_cast<::H_00ba39a0 *>(&(a))->FUN_00ba39a0();
+    if (((void *)(reinterpret_cast<::FUN_00ba3780_struct *>(&(b))->FUN_00ba3780())))
+        reinterpret_cast<::H_00ba39a0 *>(&(b))->FUN_00ba39a0();
 }
 
 struct TextureRenderedViewB63
 {
-    int FUN_00ba3770();
 };
 struct TextureSlotB63
 {
@@ -816,22 +810,17 @@ struct TextureContainerB63
 {
     int unk00;
     TextureSlotB63* node;
-    void FUN_00ba3aa0(unsigned int index, void* item);
 };
 struct TextureAllocationManagerB63
 {
-    void* FUN_00aa3e40(unsigned int bytes);
 };
-extern TextureAllocationManagerB63 DAT_011f6238;
 inline void* operator new(unsigned int bytes)
 {
-    return DAT_011f6238.FUN_00aa3e40(bytes);
+    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::TextureAllocationManagerB63 *>(&::g_memoryManager))))->FUN_00aa3e40(bytes);
 }
 struct TextureManagerB63
 {
-    RefBase* FUN_00b6e110(void* settings, int dimensions, void* p1, void* p2, void* p3);
 };
-extern void* DAT_011f4748;
 struct TextureOwnerB63
 {
     int unk000;
@@ -880,22 +869,21 @@ int TextureOwnerB63::FUN_00b63c60()
     if (!container.node->receiver)
     {
         ISTexture* created = new ISTexture;
-        container.FUN_00ba3aa0(2, &created);
+        reinterpret_cast<::FUN_00a41520_cls *>(&(container))->FUN_00ba3aa0(2, (::KeyPair **)(void *)(&created));
     }
     OwnerStandIn** getterSlot = &container.node->receiver;
-    if (!reinterpret_cast<TextureRenderedViewB63*>(*getterSlot)->FUN_00ba3770())
+    if (!reinterpret_cast<::FUN_00ba3770_struct *>((reinterpret_cast<TextureRenderedViewB63*>(*getterSlot)))->FUN_00ba3770())
     {
         OwnerStandIn** receiverSlot = &container.node->receiver;
         (*receiverSlot)
-            ->FUN_00ba37a0(reinterpret_cast<TextureManagerB63*>(DAT_011f91a8)->FUN_00b6e110(DAT_011f4748, 32, 0, 0, 0));
+            ->FUN_00ba37a0(((::RefBase *)(reinterpret_cast<::Pool *>((reinterpret_cast<TextureManagerB63*>(DAT_011f91a8)))->FUN_00b6e110((unsigned int)((*reinterpret_cast<void * *>(&::NiRenderer::ms_pRenderer))), 32, (unsigned int)(0), (unsigned int)(0), (unsigned int)(0)))));
     }
     OwnerStandIn** finalSlot = &container.node->receiver;
-    return reinterpret_cast<TextureRenderedViewB63*>(*finalSlot)->FUN_00ba3770();
+    return reinterpret_cast<::FUN_00ba3770_struct *>((reinterpret_cast<TextureRenderedViewB63*>(*finalSlot)))->FUN_00ba3770();
 }
 
 struct RenderedGetterB63D
 {
-    int FUN_00ba3770();
 };
 struct TextureNodeB63D
 {
@@ -905,7 +893,6 @@ struct TextureNodeB63D
 };
 struct ReturnManagerB63D
 {
-    void FUN_00b6da10(unsigned int);
 };
 struct TextureOwnerB63D
 {
@@ -957,11 +944,11 @@ void TextureOwnerB63D::FUN_00b63d10()
     TextureNodeB63D* current = node;
     if (!node->texture)
         return;
-    if (!reinterpret_cast<RenderedGetterB63D*>(current->texture)->FUN_00ba3770())
+    if (!reinterpret_cast<::FUN_00ba3770_struct *>((reinterpret_cast<RenderedGetterB63D*>(current->texture)))->FUN_00ba3770())
         return;
     ReturnManagerB63D* manager = reinterpret_cast<ReturnManagerB63D*>(DAT_011f91a8);
     OwnerStandIn** slot = &node->texture;
-    int rendered = reinterpret_cast<RenderedGetterB63D*>(*slot)->FUN_00ba3770();
-    manager->FUN_00b6da10(rendered);
+    int rendered = reinterpret_cast<::FUN_00ba3770_struct *>((reinterpret_cast<RenderedGetterB63D*>(*slot)))->FUN_00ba3770();
+    reinterpret_cast<::Manager *>((manager))->FUN_00b6da10((::Item *)(rendered));
     node->texture->FUN_00ba37a0(0);
 }

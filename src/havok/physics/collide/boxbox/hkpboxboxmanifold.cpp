@@ -70,7 +70,6 @@ FUN_00db0920_cls* FUN_00db0920_cls::FUN_00db0920()
 class BoxPointLookup
 {
   public:
-    unsigned char* ContainsKey(unsigned char* result, const unsigned char* key);
 };
 
 class BoxPointInsertion : public FUN_00db0920
@@ -90,7 +89,7 @@ int BoxPointInsertion::FUN_00db0960(unsigned int aiUnused, unsigned int b, const
         return -1;
     }
     unsigned int result;
-    unsigned char* found = reinterpret_cast<BoxPointLookup*>(self)->ContainsKey((unsigned char*)&result, key);
+    unsigned char* found = reinterpret_cast<::FUN_00db0920 *>((reinterpret_cast<BoxPointLookup*>(self)))->ContainsKey((unsigned char*)&result, key);
     if (*found != 0)
     {
         return -1;

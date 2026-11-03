@@ -2,6 +2,19 @@
 // src/havok/animation/animation/rig/hkaskeletonutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/rig/hkaskeletonutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/CC0280Writer.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00cde940_cls.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00cbf000.h"
+#include "fnv/symbols_00cde000.h"
+#include "fnv/symbols_00d27000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01268000.h"
 struct FUN_00cdd3f0_s
 {
     int a[6];
@@ -18,7 +31,6 @@ void FUN_00cdd3f0(struct FUN_00cdd3f0_s* pEntries)
 }
 
 extern "C" void __cdecl FUN_00cddad0(int, int, int*, int, int);
-extern int DAT_01268700;
 
 // Calls FUN_00cddad0 with a, b, the address of DAT_01268700, c and d.
 // @fnv 0x00cddcf0
@@ -28,7 +40,6 @@ void __cdecl CallWithGlobal(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 }
 
 extern "C" void __cdecl FUN_00cddd20(void* a, void* b, void* c, void* d, void* e);
-extern int DAT_01268700;
 
 // Calls FUN_00cddd20 with a, b, the address of DAT_01268700, c and d.
 // @fnv 0x00cddef0
@@ -37,15 +48,13 @@ void FUN_00cddef0(void* apArg1, void* apArg2, void* apArg3, void* apArg4)
     FUN_00cddd20(apArg1, apArg2, &DAT_01268700, apArg3, apArg4);
 }
 
-extern "C" void __cdecl Atan2(float, float);
 
 // @fnv 0x00ce00f0
 void __cdecl FUN_00ce00f0(float afFirst, float afSecond)
 {
-    Atan2(afFirst, afSecond);
+    ::Atan2(afFirst, afSecond);
 }
 
-int __cdecl CompareStringsCaseInsensitive(const void* pKey, const void* pItem);
 struct S_00cdd390_Entry
 {
     unsigned int m_uiTaggedItem;
@@ -77,7 +86,7 @@ short __cdecl FindIndexByKey(S_00cdd390_Table* pSearchEntries, const void* pKey,
 {
     int iCount = pSearchEntries->GetCount();
     if (!pfnCompare)
-        pfnCompare = CompareStringsCaseInsensitive;
+        pfnCompare = ((int (&)(const void *, const void *))::fnv_00cb0fe0::CompareStringsCaseInsensitive);
     for (short i = 0; i < iCount; i++)
     {
         if (pfnCompare(pKey, pSearchEntries->GetAt(i)) == 0)
@@ -151,12 +160,6 @@ bool* __cdecl AreSequenceValuesInRange(bool* pbInRange, FUN_00cdd3f0_s* limits, 
 struct Msg
 {
     int f0, f4, f8;
-    void Init(void* buf, int size);
-    void Done();
-    Msg& Add(const char* s);
-    Msg& Add(const char* s, int v);
-    Msg& Add();
-    Msg& Fin();
 };
 struct Logger
 {
@@ -165,7 +168,6 @@ struct Logger
     virtual void v2();
     virtual void Report(int a, int code, void* msg, const char* file, int line);
 };
-extern Logger* DAT_01268360;
 struct Names
 {
     int pad[6];
@@ -204,20 +206,20 @@ int __cdecl MapTracksToBones(Names* names, Src* src, CmpFn cmp, Dst* dst)
     {
         int buf[0x80];
         Msg m;
-        m.Init(buf, 0x200);
-        m.Add("Binding is not initiialized");
-        DAT_01268360->Report(1, 0x654e3435, buf, ".\\Rig\\hkaSkeletonUtils.cpp", 0x1b7);
-        m.Done();
+        new ((void *)&(m)) ::FUN_00cb1600(buf, 0x200);
+        reinterpret_cast<::SinkOwner *>(&(m))->FUN_00cc01c0("Binding is not initiialized");
+        (*reinterpret_cast<::Logger * *>(&::DAT_01268360))->Report(1, 0x654e3435, buf, ".\\Rig\\hkaSkeletonUtils.cpp", 0x1b7);
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(m))->FUN_00cc00e0::~FUN_00cc00e0();
         return 1;
     }
     if (src->f20 != src->n)
     {
         int buf[0x80];
         Msg m;
-        m.Init(buf, 0x200);
-        m.Add("No track names present in animation");
-        DAT_01268360->Report(1, 0x654e3437, buf, ".\\Rig\\hkaSkeletonUtils.cpp", 0x1be);
-        m.Done();
+        new ((void *)&(m)) ::FUN_00cb1600(buf, 0x200);
+        reinterpret_cast<::SinkOwner *>(&(m))->FUN_00cc01c0("No track names present in animation");
+        (*reinterpret_cast<::Logger * *>(&::DAT_01268360))->Report(1, 0x654e3437, buf, ".\\Rig\\hkaSkeletonUtils.cpp", 0x1be);
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(m))->FUN_00cc00e0::~FUN_00cc00e0();
         return 1;
     }
     int cnt = names->count;
@@ -228,10 +230,10 @@ int __cdecl MapTracksToBones(Names* names, Src* src, CmpFn cmp, Dst* dst)
         {
             int buf[0x80];
             Msg m;
-            m.Init(buf, 0x200);
-            m.Add("No bone name for bone ", i).Fin();
-            DAT_01268360->Report(1, 0x654e3437, buf, ".\\Rig\\hkaSkeletonUtils.cpp", 0x1c8);
-            m.Done();
+            new ((void *)&(m)) ::FUN_00cb1600(buf, 0x200);
+            reinterpret_cast<::CC0280Writer *>(&((*(::Msg *)(reinterpret_cast<::SinkOwner *>(&(m))->FUN_00cc01c0("No bone name for bone ")))))->WriteInt({});
+            (*reinterpret_cast<::Logger * *>(&::DAT_01268360))->Report(1, 0x654e3437, buf, ".\\Rig\\hkaSkeletonUtils.cpp", 0x1c8);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(m))->FUN_00cc00e0::~FUN_00cc00e0();
             return 1;
         }
     }
@@ -253,10 +255,10 @@ int __cdecl MapTracksToBones(Names* names, Src* src, CmpFn cmp, Dst* dst)
         {
             int buf[0x80];
             Msg m;
-            m.Init(buf, 0x200);
-            m.Add("No match for track ", (int)uiTrackKey).Add();
-            DAT_01268360->Report(1, 0x654e3438, buf, ".\\Rig\\hkaSkeletonUtils.cpp", 0x1de);
-            m.Done();
+            new ((void *)&(m)) ::FUN_00cb1600(buf, 0x200);
+            reinterpret_cast<::SinkOwner *>(&((*(::Msg *)(reinterpret_cast<::SinkOwner *>(&(m))->FUN_00cc01c0("No match for track ")))))->FUN_00cc01c0({});
+            (*reinterpret_cast<::Logger * *>(&::DAT_01268360))->Report(1, 0x654e3438, buf, ".\\Rig\\hkaSkeletonUtils.cpp", 0x1de);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(m))->FUN_00cc00e0::~FUN_00cc00e0();
             return 1;
         }
     }
@@ -282,7 +284,6 @@ struct ScanRec
 
 struct ScanObj
 {
-    void FUN_00cde940(int a, int b, void* c);
 };
 
 HolderRec* FUN_00c85750();
@@ -301,7 +302,7 @@ unsigned char* WalkChainUntilLimit(unsigned char* pabResult, ScanRec* rec, short
             if ((short)idx == sLimit)
                 break;
             HolderRec* h = FUN_00c85750();
-            obj->FUN_00cde940(h->m_10, 0, &iCurrent);
+            reinterpret_cast<::FUN_00cde940_cls *>((obj))->FUN_00cde940(h->m_10, 0, (int)(&iCurrent));
             idx = rec->m_0c[(short)idx];
             iCurrent = idx;
         } while ((short)idx > 0);
@@ -309,7 +310,7 @@ unsigned char* WalkChainUntilLimit(unsigned char* pabResult, ScanRec* rec, short
     {
         int out;
         HolderRec* h = FUN_00c85750();
-        obj->FUN_00cde940(h->m_10, 0, &out);
+        reinterpret_cast<::FUN_00cde940_cls *>((obj))->FUN_00cde940(h->m_10, 0, (int)(&out));
     }
     *pabResult = ((short)idx >= 0);
     return pabResult;
@@ -343,8 +344,6 @@ S_00cde450_Router* __cdecl FUN_00c85750();
 struct S_00cde450_ByteArr;
 struct S_00cde450_UShortArr;
 void __cdecl FUN_00ec61c0(void* dst, int value, int size);
-void __cdecl FUN_00c908c0(S_00cde450_Heap& h, S_00cde450_ByteArr* a, int n, int elemSize);
-void __cdecl ResizeAudioStream(S_00cde450_Heap& h, S_00cde450_UShortArr* a, int elemSize);
 
 struct S_00cde450_UShortArr
 {
@@ -356,7 +355,7 @@ struct S_00cde450_UShortArr
     {
         S_00cde450_Heap& h = FUN_00c85750()->heap();
         if (m_iElementCount == (m_cap & 0x3fffffff))
-            ResizeAudioStream(h, this, 2);
+            ::ResizeAudioStream((::AudioAllocator *)&(h), (::AudioStream *)(::fnv_00cde450::S_00cde450_UShortArr *)(this), 2);
         unsigned short* p = m_data + m_iElementCount;
         for (int k = 0; k < 1; k++)
             p[k] = v;
@@ -419,7 +418,7 @@ void __cdecl CollectReachableNodes(S_00cde450_Graph* g, short asStartIndex, S_00
         S_00cde450_Heap& h = FUN_00c85750()->heap();
         int c = bits.m_cap & 0x3fffffff;
         if (c < n)
-            FUN_00c908c0(h, &bits, (n < c * 2) ? c * 2 : n, 1);
+            ::FUN_00c908c0((::SpawnedObject *)&(h), (::SpawnedArray *)(::fnv_00cde450::S_00cde450_ByteArr *)(&bits), (n < c * 2) ? c * 2 : n, 1);
     }
     S_00cde450_SetSize(bits, n);
 
@@ -452,12 +451,12 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
 };
+#include "fnv/symbols_simd.h"
 extern "C" __m128 _mm_load_ss(const float* p);
 struct __declspec(align(16)) V4
 {
     __m128 q;
 };
-extern "C" void __cdecl FUN_00cde740(void* a, void* b, V4* v, void* c);
 // For each of count entries, calls FUN_00cde740 on 0x30-byte slots at idx[i]*0x30 offsets in b1, b2, b3, passing w as a float vector.
 // @fnv 0x00cdd550
 void __cdecl FUN_00cdd550(unsigned int count, const short* idx, char* b1, char* b2, float w, char* b3)
@@ -467,7 +466,7 @@ void __cdecl FUN_00cdd550(unsigned int count, const short* idx, char* b1, char* 
     for (unsigned int i = 0; i < count; i++)
     {
         int off = idx[i] * 0x30;
-        FUN_00cde740(b1 + off, b2 + off, &v, b3 + off);
+        ::FUN_00cde740((const ::PoseBlend *)(void *)(b1 + off), (const ::PoseBlend *)(void *)(b2 + off), (const ::Vec4f *)(::V4 *)(&v), (::PoseBlend *)(void *)(b3 + off));
     }
 }
 
@@ -479,7 +478,6 @@ extern "C" __m128 _mm_sub_ps(__m128, __m128);
 extern "C" __m128 _mm_add_ss(__m128, __m128);
 extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 
-extern const __m128 DAT_010c71e0;
 
 struct hkVector4
 {
@@ -598,13 +596,10 @@ void __cdecl FUN_00cde1d0(const hkaSkeleton* skeleton, hkQsTransform* poseModel)
 }
 
 extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" const __m128 DAT_010c44d0;
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern unsigned long DAT_0126835c;
 extern char DAT_010cb7dc[];
-extern char DAT_010c41f8[];
 
 struct TimerEntry
 {
@@ -712,8 +707,6 @@ struct Property
         size = 0x30;
     }
 };
-extern "C" Property* __cdecl FindModifierConstraintAtom(HkEntity*, int);
-extern "C" void __cdecl FUN_00d27960(HkEntity*, HkObj*, Property*);
 
 // Stores a Vec4 into a Property's vector field on an HkEntity, XORing it with DAT_010c44d0 when the entity's owner matches the given owner.
 // @fnv 0x00cdfcd0
@@ -728,9 +721,9 @@ void SetModifierConstraint(HkWorld* apWorld, int owner, HkObj* apObj, Vec4* apVe
         t.scalar = *apVec;
         if (e->owner == owner)
         {
-            t.quad = _mm_xor_ps(t.quad, DAT_010c44d0);
+            t.quad = _mm_xor_ps(t.quad, ::DAT_010c44d0);
         }
-        Property* p = FindModifierConstraintAtom(e, 0x1a);
+        Property* p = ((::Property *)(::FindModifierConstraintAtom((::hkpConstraintInstance *)(e), 0x1a)));
         if (p)
         {
             p->vector = t.quad;
@@ -739,7 +732,7 @@ void SetModifierConstraint(HkWorld* apWorld, int owner, HkObj* apObj, Vec4* apVe
         {
             p = new Property;
             p->vector = t.quad;
-            FUN_00d27960(e, apObj, p);
+            ::FUN_00d27960((::hkpConstraintInstance *)(e), (*(::hkpConstraintOwner *)(apObj)), (::hkpModifierConstraintAtom *)(p));
         }
         timer(DAT_010c41f8);
     }
@@ -764,7 +757,6 @@ struct S_00cdd600_Bone
     int unk1c;
     float scale[4];
 };
-extern __m128 DAT_010c7170;
 
 struct S_00cdd600_Out
 {
@@ -801,8 +793,6 @@ extern "C"
     void _ReadWriteBarrier(void);
 }
 
-extern const __m128 DAT_010c71c0;
-extern const __m128 DAT_010c71d0;
 
 struct Simd
 {
@@ -870,8 +860,8 @@ void FUN_00cdd660(Item* items, int count)
             __m128 r2 = _mm_mul_ps(x, len);
             r2 = _mm_mul_ps(r2, x);
             __m128 sub;
-            sub = _mm_sub_ps(DAT_010c71c0, r2);
-            __m128 j = _mm_mul_ps(DAT_010c71d0, x);
+            sub = _mm_sub_ps(::DAT_010c71c0, r2);
+            __m128 j = _mm_mul_ps(::DAT_010c71d0, x);
             __m128 factor = _mm_mul_ps(sub, j);
 
             Simd sc0;
@@ -933,8 +923,6 @@ extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
 
 extern "C"
 {
-    extern const unsigned int DAT_010c4c00[4];
-    extern const unsigned int DAT_010c4c10[4];
 }
 
 class SReal
@@ -1044,15 +1032,15 @@ class QVec
     }
     __forceinline void setNeg4(const QVec& v)
     {
-        m_vComponents = _mm_xor_ps(v.m_vComponents, DAT_010c44d0);
+        m_vComponents = _mm_xor_ps(v.m_vComponents, ::DAT_010c44d0);
     }
     __forceinline void setNeg3(const QVec& v)
     {
-        m_vComponents = _mm_xor_ps(v.m_vComponents, *(const __m128*)&DAT_010c4c00);
+        m_vComponents = _mm_xor_ps(v.m_vComponents, *(const __m128*)&(*reinterpret_cast<const unsigned int (*)[4]>(&::DAT_010c4c00)));
     }
     __forceinline void setXYZ0(const QVec& xyz)
     {
-        m_vComponents = _mm_and_ps(xyz, *(const __m128*)&DAT_010c4c10);
+        m_vComponents = _mm_and_ps(xyz, *(const __m128*)&(*reinterpret_cast<const unsigned int (*)[4]>(&::DAT_010c4c10)));
     }
     __forceinline void setXYZW(const QVec& xyz, const QVec& w)
     {
@@ -1205,7 +1193,7 @@ struct QsXform
         QVec moved;
         moved.rotate(ab.m_rotation, bc.m_vTranslation);
         m_vTranslation.setAdd4(ab.m_vTranslation, moved);
-        m_rotation.SetProduct(ab.m_rotation, bc.m_rotation);
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(ab.m_rotation), (const ::fnv_00c66320::__m128 *)&(bc.m_rotation), {});
         m_vScale.setMul4(ab.m_vScale, bc.m_vScale);
     }
 

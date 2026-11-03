@@ -2,6 +2,15 @@
 #ifndef CONCUSSIONEFFECT_DECLS_H
 #define CONCUSSIONEFFECT_DECLS_H
 
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/FUN_004534f0_shell.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_0080b000.h"
+#include "fnv/symbols_011cf000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011de000.h"
 class Actor;
 class MagicCaster;
 class MagicItem;
@@ -20,7 +29,6 @@ class MagicTarget
 class MagicProjectile
 {
   public:
-    void Process(float);
 };
 class ActorMover
 {
@@ -257,7 +265,6 @@ class Actor
     virtual void vfn_35c();
     virtual bool IsPlayerRef();
     float FUN_008be870();
-    BaseProcess* GetProcess();
     char layoutPadding04[0xa0];
     ActorSecondSubobject second;
 };
@@ -324,7 +331,6 @@ union SETTING_VALUE
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Float();
 };
 class PlayerCharacter
 {
@@ -337,7 +343,6 @@ class SoundPlaybackHandle
     unsigned int m_uiSoundResourceID;
     unsigned int stateWord;
     unsigned int eState;
-    bool Play(bool);
     ~SoundPlaybackHandle();
 };
 class BSAudio
@@ -348,7 +353,6 @@ class BSAudio
 class TESImageSpaceModifier
 {
   public:
-    static TESImageSpaceModifier* GetConcussionModifier();
 };
 class ImageSpaceModifierInstanceForm
 {
@@ -394,10 +398,6 @@ class BaseProcess
     {}
     virtual void vfn_44(Actor*, int, int, int, int, int);
 };
-BSAudio* FUN_00453a70();
 void* __cdecl operator new(unsigned int);
-extern SettingT_GameSettingCollection_ DAT_011d1ba4;
-extern SettingT_GameSettingCollection_ DAT_011cf834;
 extern bool DAT_011dbe50;
-extern PlayerCharacter* g_thePlayer;
 #endif

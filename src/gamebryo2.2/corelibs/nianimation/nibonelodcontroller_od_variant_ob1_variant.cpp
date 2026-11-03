@@ -7,7 +7,27 @@
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/gamebryo2.2/corelibs/nianimation/nibonelodcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nibonelodcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void __cdecl _NiFreeAlias(void*);
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00a6d730_shell.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiStreamLinkIDSetShell.h"
+#include "fnv/decl/NiTimeController.h"
+#include "fnv/decl/NiTimeControllerCM.h"
+#include "fnv/decl/NiTimeController_Luna.h"
+#include "fnv/decl/OwnerAB.h"
+#include "fnv/decl/Q52Obj.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00a26000.h"
+#include "fnv/symbols_00a3d000.h"
+#include "fnv/symbols_00a6c000.h"
+#include "fnv/symbols_00a6d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01203000.h"
 extern int DAT_0109a2a4;
 struct FUN_00a543f0_shell
 {
@@ -18,15 +38,16 @@ struct FUN_00a543f0_shell
 struct GlobalObjectO2_00a7b610
 {
 };
-extern GlobalObjectO2_00a7b610 g_011f405c;
 GlobalObjectO2_00a7b610* __cdecl FUN_00a55120();
 struct Unknown_00c536a0
 {
-    bool FUN_00a6d0f0(int);
     bool FUN_00c536a0(int);
 };
+class NiObject;
 struct NiStream
 {
+public:
+    ::NiObject *GetLoadedObject();
 };
 struct NiObject
 {
@@ -35,10 +56,8 @@ struct NiObject
 struct NiBSBoneLODController : NiObject
 {
     void* m_34;
-    void FUN_00c52960(void*);
     void FUN_00c53ab0(NiStream& s);
 };
-extern GlobalObjectO2_00a7b610 g_012031b8;
 struct FUN_00c53e00_shell
 {
     GlobalObjectO2_00a7b610* __thiscall FUN_00c53e00();
@@ -59,7 +78,6 @@ class CloneableObj
     char _pad[0x34];
     int m34;
     int m38;
-    void FUN_00a6cfe0(NiControllerManager*, CloningProcess*);
     void FUN_00c533f0(NiControllerManager*, CloningProcess*);
 };
 void operator delete(void*, unsigned int);
@@ -81,8 +99,6 @@ struct S_00c53ed0
     Inner_00c53ed0* m_ptr;
     bool FUN_00c53ed0();
 };
-extern "C" void __cdecl CallAnimCallback(void*, const void*);
-extern "C" void __cdecl FUN_0044adf0(void*, const void*);
 struct ObjectWriter
 {
     virtual void f00();
@@ -124,7 +140,6 @@ struct BoneLODControllerSave : NiBSBoneLODController
     BoneEntryGroup** groupArray;
     unsigned short unk44;
     unsigned short groupCount;
-    void __thiscall FUN_00a6d730(NiStream*);
     void __thiscall FUN_00c536d0(NiStream*);
 };
 struct RefList
@@ -135,7 +150,6 @@ struct RefList
 };
 struct BinaryStream
 {
-    unsigned int FUN_00a63430();
 };
 struct ControllerObject
 {
@@ -158,7 +172,6 @@ struct ControllerObject
     RefList** lists;
     unsigned short unk44;
     unsigned short listCount;
-    void FUN_00a6d500(BinaryStream*);
     void FUN_00c53a10(BinaryStream*);
 };
 struct S_00c53cf0_Arr
@@ -274,7 +287,7 @@ struct GroupArray
     ~GroupArray()
     {
         void* data = m_pBase;
-        _NiFreeAlias(data);
+        ::FUN_00aa10f0(data);
     }
 };
 
@@ -284,22 +297,18 @@ class FUN_00c53e40 : public ControllerBase
     int unk34;
     int unk38;
     GroupArray m_groups;
-    void ClearGroups();
     ~FUN_00c53e40();
 };
 
 // @fnv 0x00c53e40
 FUN_00c53e40::~FUN_00c53e40()
 {
-    ClearGroups();
+    reinterpret_cast<::OwnerAB *>(this)->FUN_00c52880();
 }
 
 struct PoolW
 {
-    void* FUN_00aa3e40(unsigned int n);
 };
-extern PoolW DAT_011f6238;
-void* FUN_00aa1070(unsigned int n);
 struct ArrW
 {
     void** m_pBase;
@@ -308,7 +317,7 @@ struct ArrW
     static void* operator new(unsigned int n)
     {
         int aiD[2];
-        return DAT_011f6238.FUN_00aa3e40(n);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::PoolW *>(&::g_memoryManager))))->FUN_00aa3e40(n);
     }
     ArrW(unsigned int uiMax = 0)
     {
@@ -325,7 +334,6 @@ struct ArrW
         int aiD[14];
         return n;
     }
-    void AppendLinkID(void* const& p);
 };
 struct TArrW
 {
@@ -335,13 +343,11 @@ struct TArrW
     unsigned short m_usA;
     unsigned short m_usC;
     unsigned short m_usGrow;
-    void FUN_00a90180(unsigned int n);
-    void FUN_00ba3aa0(unsigned int i, ArrW* const& p);
     void SetAtGrow(unsigned int i, ArrW* const& p)
     {
         if (i >= m_us8)
-            FUN_00a90180(i + m_usGrow);
-        FUN_00ba3aa0(i, p);
+            reinterpret_cast<::FUN_00a41520_cls *>(this)->FUN_00a90180(i + m_usGrow);
+        reinterpret_cast<::FUN_00a41520_cls *>(this)->FUN_00ba3aa0(i, (::KeyPair **)&(p));
     }
 };
 struct TargetW
@@ -350,12 +356,10 @@ struct TargetW
     int m_i34;
     char pad2[0x3c - 0x38];
     TArrW m_kArr;
-    void FUN_00c52960(int i);
 };
 struct ObjW;
 struct MapW
 {
-    bool FUN_00a53c30(void* k, void* pv);
 };
 struct StreamW
 {
@@ -368,7 +372,6 @@ class SelfW
     ArrW** m_ppkArr;
     unsigned short m44;
     unsigned short m_usElementCount;
-    void FUN_00a6d0c0(StreamW* p);
     void FUN_00c53430(StreamW* pkStream);
 };
 // @fnv 0x00c53430
@@ -377,10 +380,10 @@ void SelfW::FUN_00c53430(StreamW* pkStream)
     int iSaved;
     {
         unsigned int i;
-        FUN_00a6d0c0(pkStream);
+        reinterpret_cast<::NiTimeController *>(this)->ProcessClone((*(::CloningProcess *)(pkStream)));
         {
             TargetW* pkTarget = 0;
-            pkStream->m_pTaskMap->FUN_00a53c30(this, &pkTarget);
+            reinterpret_cast<::A54440Hash *>((pkStream->m_pTaskMap))->FUN_00a53c30((::A54440Manager *)(void *)(this), (::A54440Manager **)(void *)(&pkTarget));
             for (i = 0; i < m_usElementCount; i++)
             {
                 ArrW* pkSrc = m_ppkArr[i];
@@ -394,15 +397,15 @@ void SelfW::FUN_00c53430(StreamW* pkStream)
                         if (pkObj)
                         {
                             void* pkLinked = 0;
-                            bool bFound = pkStream->m_pTaskMap->FUN_00a53c30(pkObj, &pkLinked);
+                            bool bFound = reinterpret_cast<::A54440Hash *>((pkStream->m_pTaskMap))->FUN_00a53c30((::A54440Manager *)(pkObj), (::A54440Manager **)(void *)(&pkLinked));
                             if (bFound)
-                                pkNew->AppendLinkID(pkLinked);
+                                reinterpret_cast<::NiStreamLinkIDSetShell *>((pkNew))->AppendLinkID((unsigned int *)&(pkLinked));
                             else
-                                pkNew->AppendLinkID(0);
+                                reinterpret_cast<::NiStreamLinkIDSetShell *>((pkNew))->AppendLinkID((unsigned int *)&(const void *const &)(0));
                         }
                         else
                         {
-                            pkNew->AppendLinkID(0);
+                            reinterpret_cast<::NiStreamLinkIDSetShell *>((pkNew))->AppendLinkID((unsigned int *)&(const void *const &)(0));
                         }
                     }
                 }
@@ -413,7 +416,7 @@ void SelfW::FUN_00c53430(StreamW* pkStream)
             }
             iSaved = pkTarget->m_i34;
             pkTarget->m_i34 = -1;
-            pkTarget->FUN_00c52960(iSaved);
+            reinterpret_cast<::Q52Obj *>((pkTarget))->FUN_00c52960(iSaved);
         }
     }
 }
@@ -453,14 +456,13 @@ struct FUN_00c53af0
         unsigned int n = m_usElementCount;
         return n;
     }
-    bool FUN_00a6cc80(FUN_00c53af0* pkObj);
     bool IsEqual(FUN_00c53af0* pkObj);
 };
 // @fnv 0x00c53af0
 bool FUN_00c53af0::IsEqual(FUN_00c53af0* pkObj)
 {
     unsigned int i;
-    if (!FUN_00a6cc80(pkObj))
+    if (!::FUN_00a6cc80((::TCEq *)this, (int)(pkObj), {}))
         return false;
     FUN_00c53af0* pkOther = pkObj;
     if (m_i34 != pkOther->m_i34 || m_i38 != pkOther->m_i38 || GetCount() != pkOther->m_usElementCount)
@@ -485,15 +487,11 @@ bool FUN_00c53af0::IsEqual(FUN_00c53af0* pkObj)
     return true;
 }
 
-void* __cdecl NiMalloc(unsigned int uiSize);
-void __cdecl NiFree(void* pvMem);
 
 struct MemoryManager
 {
     void* Allocate(unsigned int uiSize);
-    void Deallocate(void* pvMem);
 };
-extern MemoryManager g_kMemoryManager;
 
 struct NiBinaryStream
 {
@@ -693,7 +691,6 @@ struct NiStreamLoader
     LinkIDSet m_kSecondFollowingStreamField;
 };
 
-void __cdecl FUN_00a26df0(NiStreamLoader* pkStream, void* pvValue);
 
 class BoneLODController;
 
@@ -702,11 +699,11 @@ class NiMemObject
   public:
     static void* operator new(unsigned int uiSize)
     {
-        return g_kMemoryManager.Allocate(uiSize);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(uiSize);
     }
     static void operator delete(void* pvMem)
     {
-        g_kMemoryManager.Deallocate(pvMem);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(pvMem);
     }
 };
 
@@ -716,13 +713,12 @@ class BoneLODControllerArray : public NiMemObject
     BoneLODControllerArray(unsigned int uiInitialSize = 0)
     {
         if (uiInitialSize > 0)
-            m_pBase = (BoneLODController**)NiMalloc(uiInitialSize * sizeof(BoneLODController*));
+            m_pBase = (BoneLODController**)::FUN_00aa1070(uiInitialSize * sizeof(BoneLODController*));
         else
             m_pBase = 0;
         m_uiElementCount = uiInitialSize;
         m_uiAllocatedCapacity = 0;
     }
-    void AppendLinkID(BoneLODController* const& pkElement);
 
     BoneLODController** m_pBase;
     unsigned int m_uiElementCount;
@@ -755,7 +751,7 @@ class BoneSetArray
         m_usMaxSize = (unsigned short)uiMaxSize;
         if (uiMaxSize > 0)
         {
-            m_pBase = (BoneLODControllerArray**)NiMalloc(m_usMaxSize * sizeof(BoneLODControllerArray*));
+            m_pBase = (BoneLODControllerArray**)::FUN_00aa1070(m_usMaxSize * sizeof(BoneLODControllerArray*));
             for (i = 0; i < m_usSize; i++)
                 m_pBase[i] = pSaveBase[i];
             for (i = m_usSize; i < m_usMaxSize; i++)
@@ -765,7 +761,7 @@ class BoneSetArray
         {
             m_pBase = 0;
         }
-        NiFree(pSaveBase);
+        ::FUN_00aa10f0(pSaveBase);
     }
     void FUN_00ba3aa0(unsigned int uiIndex, BoneLODControllerArray* const& pkElement)
     {
@@ -796,8 +792,8 @@ class BoneSetArray
     unsigned int SetAtGrow(unsigned int uiIndex, BoneLODControllerArray* const& pkElement)
     {
         if (uiIndex >= m_usMaxSize)
-            FUN_00a90180(uiIndex + m_usGrowBy);
-        FUN_00ba3aa0(uiIndex, pkElement);
+            reinterpret_cast<::FUN_00a41520_cls *>(this)->FUN_00a90180(uiIndex + m_usGrowBy);
+        reinterpret_cast<::FUN_00a41520_cls *>(this)->FUN_00ba3aa0(uiIndex, (::KeyPair **)&(pkElement));
         return uiIndex;
     }
 
@@ -812,7 +808,6 @@ class BoneSetArray
 class TimeController
 {
   public:
-    void FUN_00a6d5e0(NiStreamLoader& kStream);
     int unk00;
     int unk04;
     int unk08;
@@ -841,14 +836,14 @@ class BoneLODController : public TimeController
 // @fnv 0x00c53870
 void BoneLODController::FUN_00c53870(NiStreamLoader& kStream)
 {
-    TimeController::FUN_00a6d5e0(kStream);
+    reinterpret_cast<::NiTimeController_Luna *>(this)->FUN_00a6d5e0((::NiStream &)(kStream));
 
-    FUN_00a26df0(&kStream, &m_iLOD);
-    FUN_00a26df0(&kStream, &m_uiNumLODs);
+    ::FUN_00a26df0((::MyStream *)(::NiStreamLoader *)(&kStream), &m_iLOD);
+    ::FUN_00a26df0((::MyStream *)(::NiStreamLoader *)(&kStream), &m_uiNumLODs);
 
     unsigned int i;
     unsigned int uiNumLODs5 = 0;
-    FUN_00a26df0(&kStream, &uiNumLODs5);
+    ::FUN_00a26df0((::MyStream *)(::NiStreamLoader *)(&kStream), &uiNumLODs5);
 
     for (i = 0; i < uiNumLODs5; i++)
     {
@@ -856,11 +851,11 @@ void BoneLODController::FUN_00c53870(NiStreamLoader& kStream)
         m_kBoneSetArray.SetAtGrow(i, pkSet);
 
         unsigned int uiNumBones4 = 0;
-        FUN_00a26df0(&kStream, &uiNumBones4);
+        ::FUN_00a26df0((::MyStream *)(::NiStreamLoader *)(&kStream), &uiNumBones4);
         for (unsigned int j = 0; j < uiNumBones4; j++)
         {
-            pkSet->AppendLinkID(this);
-            kStream.ResetStreamState();
+            reinterpret_cast<::NiStreamLinkIDSetShell *>((pkSet))->AppendLinkID((unsigned int *)&(const ::BoneLODController *const &)(this));
+            reinterpret_cast<::FUN_00a645b0_cls *>(&(kStream))->FUN_00a645b0();
         }
     }
 }

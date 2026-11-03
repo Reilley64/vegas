@@ -7,6 +7,12 @@
 // to their real unit once identified.
 // src/havok/common/base/math/qstransform/hkqstransform.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/qstransform/hkqstransform.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00827200_class.h"
+#include "fnv/decl/FUN_00cb2050_cls.h"
+#include "fnv/decl/MProduct.h"
+#include "fnv/decl/RotationRows.h"
+#include "fnv/symbols_00d72000.h"
+#include "fnv/symbols_01012000.h"
 struct Matrix
 {
     float values[12];
@@ -17,7 +23,6 @@ struct S_00ce5070_Vector4
 {
     __m128 m_vComponents;
 };
-extern const S_00ce5070_Vector4 DAT_010c7170;
 struct S_00ce5070_Rotation
 {
     S_00ce5070_Vector4 m_kColumn0;
@@ -32,7 +37,6 @@ struct S_00ce5070_Transform
 struct S_00ce5070_Quaternion
 {
     S_00ce5070_Vector4 m_vec;
-    void FUN_00cb26e0(const S_00ce5070_Rotation& r);
 };
 struct S_00ce5070_QsTransform
 {
@@ -45,7 +49,6 @@ struct S_00ce5070_QsTransform
 class CB2FC0Object
 {
   public:
-    void FUN_00cb2d90(void* snapshot);
 };
 class FUN_00ce50b0_cls
 {
@@ -59,17 +62,14 @@ struct __declspec(align(16)) Vector
 struct FUN_008cd6a0_Class
 {
     Vector row0, row1, row2;
-    void FUN_00cb2d90(void*);
 };
 struct FUN_00cdf250_class
 {
     Vector row0, row1, row2;
-    void FUN_00cd55b0(int*, int);
 };
 struct TransformMatrix
 {
     Vector row0, row1, row2, row3;
-    void FUN_00cb2050(int);
 };
 struct Transform
 {
@@ -154,7 +154,6 @@ struct S_00ce5290_Result
     int unkE8;
     int unkEC;
 };
-void FUN_00d72e90(const void* input, S_00ce5290_Result* out);
 struct S_00ce5290
 {
     S_00ce5290_Vector4 m_v0;
@@ -164,10 +163,9 @@ struct S_00ce5290
 };
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 extern "C" void _ReadWriteBarrier();
 
-extern const float DAT_01012054;
-extern "C" const __declspec(align(16)) unsigned int DAT_01017d10[4];
 
 struct hkBool5120
 {
@@ -195,7 +193,7 @@ struct hkQsTransform5120
 hkBool5120 hkQsTransform5120::FUN_00ce5120(const hkQsTransform5120& other, float epsilon) const
 {
     __m128 eps = _mm_set1_ps(epsilon);
-    __m128 absMask = *(const __m128*)DAT_01017d10;
+    __m128 absMask = *(const __m128*)(*reinterpret_cast<const unsigned int (*)[4]>((void *)&::DAT_01017d10));
     __m128 t = _mm_and_ps(_mm_sub_ps(m_vTranslation.m_vComponents, other.m_vTranslation.m_vComponents), absMask);
     if ((_mm_movemask_ps(_mm_cmple_ps(t, eps)) & 7) != 7)
         return false;

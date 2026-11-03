@@ -1,5 +1,26 @@
 // gamebryo2.2/corelibs/niparticle/nipsysemitter.cpp: NiPSysEmitter, Emitter (9 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a698a0_class.h"
+#include "fnv/decl/FUN_00c1aee0_cls.h"
+#include "fnv/decl/FUN_00c319e0_cls.h"
+#include "fnv/decl/MyIsEqual.h"
+#include "fnv/decl/NiGlobalStringTable.h"
+#include "fnv/decl/ParticleModifierBinary.h"
+#include "fnv/decl/PositionState.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_004a4c90__FUN_004a4c90_shell.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_005c5000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_010be000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f5000.h"
+#include "fnv/symbols_01202000.h"
 #include "nipsysemitter_decls.h"
 #include "nipsysemitter_types.h"
 // @fnv 0x00c223b0
@@ -20,8 +41,6 @@ void NiPSysEmitter::LoadBinary(NiStream& stream)
     ReadFloat(stream, m_fLifeSpanVariation);
 }
 
-void __cdecl FUN_00c31750(void);
-void __cdecl _delete(void*, unsigned int);
 
 struct FUN_00c220a0_shell
 {
@@ -31,9 +50,9 @@ struct FUN_00c220a0_shell
 // @fnv 0x00c220a0
 void* __thiscall FUN_00c220a0_shell::FUN_00c220a0(unsigned int flags)
 {
-    FUN_00c31750();
+    static_cast<::PositionState *>(nullptr)->FUN_00c31750();
     if (flags & 1)
-        _delete(this, 0x54);
+        ::FUN_00aa1460(this, 0x54);
     return this;
 }
 
@@ -42,12 +61,11 @@ struct FUN_00c21fd0_shell : public NiPSysEmitter
     void* FUN_00c21fd0();
 };
 
-extern char const* const g_01202500_arg1;
 
 // @fnv 0x00c21fd0
 void* __thiscall FUN_00c21fd0_shell::FUN_00c21fd0()
 {
-    return (void*)&g_01202500_arg1;
+    return (void*)&(*reinterpret_cast<const char *const *>(&::g_01202540));
 }
 
 struct StrArr
@@ -58,22 +76,16 @@ struct StrArr
     unsigned short m_usUnknown;
     unsigned short m_usGrowBy;
 
-    void SetSize(unsigned int size);
-    void SetAt(unsigned int index, char*& value);
 };
 
 struct Base00c319e0
 {
-    void FUN_00c319e0(StrArr*);
 };
 
 struct FUN_00a69720_shell
 {
-    char* ToString(char const*);
 };
 
-char* __cdecl _FUN_00a7d330(char const*);
-char* __cdecl FUN_00a7d550(char const*, float);
 
 extern char const str_01044b18[];
 extern char const str_010bdf30[];
@@ -98,79 +110,79 @@ void FUN_00c22780_shell::FUN_00c22780(StrArr* pkStrings)
     char* pString;
     unsigned int index;
 
-    Base00c319e0::FUN_00c319e0(pkStrings);
+    reinterpret_cast<::FUN_00c319e0_cls *>(this)->FUN_00c319e0(pkStrings);
 
-    pString = _FUN_00a7d330(g_01202500_arg1);
+    pString = ::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_01202540)));
     index = pkStrings->m_usElementCount;
     if (index >= pkStrings->m_usCapacity)
-        pkStrings->SetSize(index + pkStrings->m_usGrowBy);
-    pkStrings->SetAt(index, pString);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(index + pkStrings->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(index, pString);
 
     pString = FUN_00a7d550(str_01044b18, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x18));
     index = pkStrings->m_usElementCount;
     if (index >= pkStrings->m_usCapacity)
-        pkStrings->SetSize(index + pkStrings->m_usGrowBy);
-    pkStrings->SetAt(index, pString);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(index + pkStrings->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(index, pString);
 
     pString = FUN_00a7d550(str_010bdfd0, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x1c));
     index = pkStrings->m_usElementCount;
     if (index >= pkStrings->m_usCapacity)
-        pkStrings->SetSize(index + pkStrings->m_usGrowBy);
-    pkStrings->SetAt(index, pString);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(index + pkStrings->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(index, pString);
 
     pString = FUN_00a7d550(str_010bdfc4, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x20));
     index = pkStrings->m_usElementCount;
     if (index >= pkStrings->m_usCapacity)
-        pkStrings->SetSize(index + pkStrings->m_usGrowBy);
-    pkStrings->SetAt(index, pString);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(index + pkStrings->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(index, pString);
 
     pString = FUN_00a7d550(str_010bdfac, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x24));
     index = pkStrings->m_usElementCount;
     if (index >= pkStrings->m_usCapacity)
-        pkStrings->SetSize(index + pkStrings->m_usGrowBy);
-    pkStrings->SetAt(index, pString);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(index + pkStrings->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(index, pString);
 
     pString = FUN_00a7d550(str_010bdf9c, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x28));
     index = pkStrings->m_usElementCount;
     if (index >= pkStrings->m_usCapacity)
-        pkStrings->SetSize(index + pkStrings->m_usGrowBy);
-    pkStrings->SetAt(index, pString);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(index + pkStrings->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(index, pString);
 
     pString = FUN_00a7d550(str_010bdf84, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x2c));
     index = pkStrings->m_usElementCount;
     if (index >= pkStrings->m_usCapacity)
-        pkStrings->SetSize(index + pkStrings->m_usGrowBy);
-    pkStrings->SetAt(index, pString);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(index + pkStrings->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(index, pString);
 
-    pString = reinterpret_cast<FUN_00a69720_shell*>(reinterpret_cast<char*>(this) + 0x30)->ToString(str_010bdf74);
+    pString = reinterpret_cast<::RgbaColor *>((reinterpret_cast<FUN_00a69720_shell*>(reinterpret_cast<char*>(this) + 0x30)))->ToString(str_010bdf74);
     index = pkStrings->m_usElementCount;
     if (index >= pkStrings->m_usCapacity)
-        pkStrings->SetSize(index + pkStrings->m_usGrowBy);
-    pkStrings->SetAt(index, pString);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(index + pkStrings->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(index, pString);
 
     pString = FUN_00a7d550(str_010bdf64, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x40));
     index = pkStrings->m_usElementCount;
     if (index >= pkStrings->m_usCapacity)
-        pkStrings->SetSize(index + pkStrings->m_usGrowBy);
-    pkStrings->SetAt(index, pString);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(index + pkStrings->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(index, pString);
 
     pString = FUN_00a7d550(str_010bdf50, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x44));
     index = pkStrings->m_usElementCount;
     if (index >= pkStrings->m_usCapacity)
-        pkStrings->SetSize(index + pkStrings->m_usGrowBy);
-    pkStrings->SetAt(index, pString);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(index + pkStrings->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(index, pString);
 
     pString = FUN_00a7d550(str_010bdf44, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x48));
     index = pkStrings->m_usElementCount;
     if (index >= pkStrings->m_usCapacity)
-        pkStrings->SetSize(index + pkStrings->m_usGrowBy);
-    pkStrings->SetAt(index, pString);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(index + pkStrings->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(index, pString);
 
     pString = FUN_00a7d550(str_010bdf30, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x4c));
     index = pkStrings->m_usElementCount;
     if (index >= pkStrings->m_usCapacity)
-        pkStrings->SetSize(index + pkStrings->m_usGrowBy);
-    pkStrings->SetAt(index, pString);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(index + pkStrings->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(index, pString);
 }
 
 // Equals: thiscall bool compare of two objects (float fields + sub-object)
@@ -182,7 +194,6 @@ class FUN_00c226a0_sub
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0C;
-    bool unk4a4c90(FUN_00c226a0_sub* other);
 };
 
 class FUN_00c226a0_cls
@@ -205,15 +216,14 @@ class FUN_00c226a0_cls
     float m_44;
     float m_48;
     float m_4c;
-    bool unk00c31830(FUN_00c226a0_cls* other);
     bool Equals(FUN_00c226a0_cls* other);
 };
 
 // @fnv 0x00c226a0
 bool FUN_00c226a0_cls::Equals(FUN_00c226a0_cls* other)
 {
-    if (unk00c31830(other) && other->m_18 == m_18 && other->m_1c == m_1c && other->m_20 == m_20 &&
-        other->m_24 == m_24 && other->m_28 == m_28 && other->m_2c == m_2c && !other->m_30.unk4a4c90(&m_30) &&
+    if (reinterpret_cast<::MyIsEqual *>(this)->FUN_00c31830((::NiObject *)(other)) && other->m_18 == m_18 && other->m_1c == m_1c && other->m_20 == m_20 &&
+        other->m_24 == m_24 && other->m_28 == m_28 && other->m_2c == m_2c && !reinterpret_cast<::fnv_004a4c90::FUN_004a4c90_shell *>(&(other->m_30))->FUN_004a4c90(&m_30) &&
         other->m_40 == m_40 && other->m_44 == m_44 && other->m_48 == m_48 && other->m_4c == m_4c)
         return true;
     return false;
@@ -224,10 +234,7 @@ void __stdcall FUN_00d070a0(int, int)
 {}
 
 extern int __cdecl FUN_00ecadb8();
-extern unsigned short DAT_010be248;
 extern float DAT_011aeae8;
-extern float DAT_011f4ae0[];
-extern float DAT_011f52e0[];
 inline float RandomFloat0To1()
 {
     return (float)(FUN_00ecadb8() / 32767.0);
@@ -393,7 +400,6 @@ class NiParticleSystem
     unsigned int unkb0;
     unsigned int unkb4;
     NiPSysData* m_spGeometryData;
-    void FUN_00c1aee0(unsigned short usParticle);
 };
 class Emitter : public NiPSysEmitter
 {
@@ -465,7 +471,7 @@ void Emitter::FUN_00c220c0(float fTime, unsigned short usNumParticles, const flo
         if (m_fFirstFloatValue > fLifeSpan)
             continue;
         unsigned short usNew = pkData->GetParticleVertexCount();
-        if (usNew == DAT_010be248)
+        if (usNew == ::DAT_010be248)
             break;
         Point3ParameterData* pkInfo = &pkData->m_pkParticleInfo[usNew];
         float fSpeed = m_fEmissionSpeed + (RandomFloat0To1() - 0.5) * m_fSpeedVariation;
@@ -487,13 +493,11 @@ void Emitter::FUN_00c220c0(float fTime, unsigned short usNumParticles, const flo
         if (pucTex)
             pucTex[usNew] = FUN_00ecadb8() % ucTexCount;
         pkInfo->m_fZValue = fTime - pkInfo->m_fXValue;
-        m_pkTarget->FUN_00c1aee0(usNew);
+        reinterpret_cast<::FUN_00c1aee0_cls *>((m_pkTarget))->FUN_00c1aee0(usNew);
     }
 }
 
-char* __cdecl FUN_00a5b690(const char* pcString);
 
-extern char* g_pcC21FE0NullString;
 
 class BC21FE0FixedString
 {
@@ -501,14 +505,14 @@ class BC21FE0FixedString
     BC21FE0FixedString(const char* pcString)
     {
         if (pcString == 0)
-            m_kHandle = g_pcC21FE0NullString;
+            m_kHandle = ::DAT_0109b220;
         else
-            m_kHandle = FUN_00a5b690(pcString);
+            m_kHandle = ::NiGlobalStringTable::AddString(pcString);
     }
 
     ~BC21FE0FixedString()
     {
-        if (m_kHandle != g_pcC21FE0NullString)
+        if (m_kHandle != ::DAT_0109b220)
             InterlockedDecrement((volatile long*)(m_kHandle - 8));
     }
 
@@ -574,7 +578,6 @@ FUN_00c21fe0_cls::FUN_00c21fe0_cls(const char* pcName, unsigned int uiOrder, flo
 
 struct EmitterColorWriter
 {
-    void FUN_00a698a0(NiStream& stream);
 };
 struct S_00c22530_BinaryStream : NiBinaryStream
 {
@@ -596,21 +599,20 @@ inline void S_00c22530_ReadFloat(S_00c22530_Stream& s, float& f)
 }
 struct S_00c22530_Emitter : NiPSysEmitter
 {
-    void FUN_00c31950(NiStream& stream);
     void FUN_00c22530(S_00c22530_Stream& stream);
 };
 // Calls FUN_00c31950, then reads emitter fields and particle color from the stream.
 // @fnv 0x00c22530
 void S_00c22530_Emitter::FUN_00c22530(S_00c22530_Stream& stream)
 {
-    FUN_00c31950(stream);
+    reinterpret_cast<::ParticleModifierBinary *>(this)->FUN_00c31950((::OutputStream &)(stream));
     S_00c22530_ReadFloat(stream, m_fEmissionSpeed);
     S_00c22530_ReadFloat(stream, m_fSpeedVariation);
     S_00c22530_ReadFloat(stream, m_fEmissionDeclination);
     S_00c22530_ReadFloat(stream, m_fDeclinationVariation);
     S_00c22530_ReadFloat(stream, m_fEmissionPlanarAngle);
     S_00c22530_ReadFloat(stream, m_fPlanarAngleVariation);
-    reinterpret_cast<EmitterColorWriter*>(&m_kParticleColor)->FUN_00a698a0(stream);
+    reinterpret_cast<::FUN_00a698a0_class *>((reinterpret_cast<EmitterColorWriter*>(&m_kParticleColor)))->FUN_00a698a0((void *)&(stream));
     S_00c22530_ReadFloat(stream, m_fEmissionRadius);
     S_00c22530_ReadFloat(stream, m_fRadiusVariation);
     S_00c22530_ReadFloat(stream, m_fYValue);

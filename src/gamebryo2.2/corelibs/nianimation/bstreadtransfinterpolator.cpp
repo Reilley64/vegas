@@ -2,6 +2,15 @@
 // src/gamebryo2.2/corelibs/nianimation/bstreadtransfinterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/bstreadtransfinterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/DataA38.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a3ca30_shell.h"
+#include "fnv/decl/FUN_00a641f0_cls.h"
+#include "fnv/decl/FUN_00a95ca0_shell.h"
+#include "fnv/symbols_00a26000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f6000.h"
 struct FUN_00a43560_shell
 {
     unsigned char m_auiShapeKeys[0x20];
@@ -59,18 +68,10 @@ struct BSTreadTransfInterpolator
 {
     ~BSTreadTransfInterpolator();
     void* FUN_00a43a50(unsigned int flags);
+public:
+    void FUN_00a43690(::BSTreadTransfInterpolator *, void *);
 };
 
-extern "C" void __cdecl __Dummy_00b6fef0(void* ptr, unsigned int flags);
-
-// @fnv 0x00a43a50
-void* BSTreadTransfInterpolator::FUN_00a43a50(unsigned int flags)
-{
-    this->~BSTreadTransfInterpolator();
-    if (flags & 1)
-        __Dummy_00b6fef0(this, 0x24);
-    return this;
-}
 
 struct FUN_00a435c0_shell
 {
@@ -103,7 +104,6 @@ struct SampleTrack
     float* values;
     TrackFlags flags;
 };
-float __cdecl InterpolateKey(float, float*, float*, unsigned int, unsigned int*, TrackFlags);
 struct FUN_00a434b0_shell
 {
     unsigned int unk00;
@@ -129,7 +129,7 @@ bool __thiscall FUN_00a434b0_shell::UpdateSampleValue(float time, int, int)
     if (count > 0)
     {
         unsigned int index = sampleIndex;
-        float value = InterpolateKey(time, times, values, count, &index, flags);
+        float value = ::InterpolateKey(time, (const ::S00a26b40_Key *)(times), (unsigned int)(values), count, &index, (*(unsigned char *)&(const ::TrackFlags &)(flags)));
         sampleIndex = index;
         if (previousTime > time && previousValue > value)
         {
@@ -363,7 +363,6 @@ class A43600Object;
 class A43600Stream
 {
   public:
-    void SerializeString(void* pkString);
     virtual void unk00();
     virtual void unk04();
     virtual void unk08();
@@ -547,7 +546,6 @@ class A43600Color
     float b;
     float a;
 
-    void SaveBinary(A43600Stream& kStream);
 };
 
 struct A43600Entry
@@ -568,7 +566,6 @@ struct A43600Entry
 class A43600Base
 {
   public:
-    void SaveBinaryBase(A43600Stream& kStream);
 };
 
 class A43600Controller : public A43600Base
@@ -591,13 +588,13 @@ class A43600Controller : public A43600Base
 // @fnv 0x00a43600
 void A43600Controller::FUN_00a43600(A43600Stream& kStream)
 {
-    SaveBinaryBase(kStream);
+    reinterpret_cast<::FUN_00a95ca0_shell *>(this)->FUN_00a95ca0((::S_00a58160_Stream &)(kStream));
     A43600SaveBinary(kStream, m_uiNumEntries);
     for (unsigned int i = 0; i < m_uiNumEntries; i++)
     {
-        kStream.SerializeString(&m_pkEntryArray[i].m_kName);
-        m_pkEntryArray[i].m_kColor0.SaveBinary(kStream);
-        m_pkEntryArray[i].m_kColor1.SaveBinary(kStream);
+        reinterpret_cast<::FUN_00a641f0_cls *>(&(kStream))->WriteObjectLink(&m_pkEntryArray[i].m_kName);
+        reinterpret_cast<::DataA38 *>(&(m_pkEntryArray[i].m_kColor0))->FUN_00a38b60((::NiStreamA38 &)(kStream));
+        reinterpret_cast<::DataA38 *>(&(m_pkEntryArray[i].m_kColor1))->FUN_00a38b60((::NiStreamA38 &)(kStream));
     }
     kStream.SaveLinkID(m_pkTarget);
 }
@@ -662,7 +659,6 @@ class TreadTransfInterpolator : public NiKeyBasedInterpolator
     virtual ~TreadTransfInterpolator();
 
     TreadTransfInterpolator* FUN_00a439e0(void* kCloning);
-    void FUN_00a43690(TreadTransfInterpolator* pkDest, void* kCloning);
 
     unsigned int m_uiUnk0C;
     unsigned int m_uiUnk10;
@@ -677,12 +673,11 @@ class TreadTransfInterpolator : public NiKeyBasedInterpolator
 TreadTransfInterpolator* TreadTransfInterpolator::FUN_00a439e0(void* kCloning)
 {
     TreadTransfInterpolator* pkClone = new TreadTransfInterpolator;
-    FUN_00a43690(pkClone, kCloning);
+    reinterpret_cast<::BSTreadTransfInterpolator *>(this)->FUN_00a43690((::BSTreadTransfInterpolator *)(pkClone), kCloning);
     return pkClone;
 }
 
 #include <windows.h>
-extern void* DAT_0109b220;
 
 struct a43840_Ref
 {
@@ -693,10 +688,8 @@ struct a43840_Ref
 
 struct a43840_Mem
 {
-    void __thiscall _DeallocateAlias(void*);
 };
 
-extern a43840_Mem DAT_011f6238;
 
 struct a43840_Elem
 {
@@ -721,8 +714,15 @@ class FUN_00a43840
     a43840_Ref* m_20;
 
     virtual ~FUN_00a43840();
-    void FUN_00a3ca30();
 };
+// @fnv 0x00a43a50
+void* BSTreadTransfInterpolator::FUN_00a43a50(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00a43840 *>((this))->FUN_00a43840::~FUN_00a43840();
+    if (flags & 1)
+        ::FUN_00aa1460(this, 0x24);
+    return this;
+}
 
 // Frees the element array, decrements the reference count of m_20 and calls Release when it reaches zero, then calls FUN_00a3ca30.
 // @fnv 0x00a43840
@@ -740,18 +740,18 @@ FUN_00a43840::~FUN_00a43840()
             {
                 p = p - 1;
                 void* e = p->m_40;
-                if (e != DAT_0109b220)
+                if (e != (*reinterpret_cast<void * *>(&::DAT_0109b220)))
                 {
                     InterlockedDecrement((long volatile*)((char*)e - 8));
                 }
             } while (--i >= 0);
         }
-        DAT_011f6238._DeallocateAlias((char*)pElements - 4);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::a43840_Mem *>(&::g_memoryManager))))->FUN_00aa4060((char*)pElements - 4);
     }
     a43840_Ref* r = m_20;
     if (r != 0 && InterlockedDecrement((long volatile*)&r->refCount) == 0)
     {
         r->Release();
     }
-    FUN_00a3ca30();
+    reinterpret_cast<::FUN_00a3ca30_shell *>(this)->FUN_00a3ca30();
 }

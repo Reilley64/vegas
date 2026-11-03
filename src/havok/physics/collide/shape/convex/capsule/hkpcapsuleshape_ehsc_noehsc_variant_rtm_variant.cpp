@@ -7,9 +7,10 @@
 
 // src/havok/physics/collide/shape/convex/capsule/hkpcapsuleshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/capsule/hkpcapsuleshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FunctionContext.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpCapsuleShape.h"
-extern char const* const g_01268970_arg1;
-void __cdecl FUN_00c90360(char const* const* arg1, char const* const* arg2);
 void __cdecl FUN_00d22360(char const* const* arg1, char const* const* arg2);
 int __cdecl FUN_00d22350();
 int __stdcall FUN_00d22d60(int a, int b);
@@ -88,7 +89,6 @@ extern "C" __m128 _mm_mul_ps(__m128, __m128);
 extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
 extern "C" __m128 _mm_load_ss(const float*);
 extern "C" void _mm_store_ps(float*, __m128);
-extern float DAT_01016248;
 class Aabb_d22440 {
 public:
     int unk00;
@@ -128,7 +128,6 @@ extern "C" __m128 _mm_set_ss(float);
 extern "C" void _mm_store_ss(float*,__m128);
 extern "C" double __cdecl sqrt(double);
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern unsigned long DAT_0126835c;
 extern const __m128 DAT_010c7160, DAT_010ec7f0;
 
 class S00d22760_SimdReal {

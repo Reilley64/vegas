@@ -5,11 +5,17 @@
 
 // src/staging/blk_00d60000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00dcf000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010cc000.h"
 #include "../../include/layout_support.h"
 
 namespace sd6ae50 {
 
-extern "C" const char DAT_010cc040[];
 
 struct FinishLoadedObjectFlag
 {
@@ -139,8 +145,6 @@ int FUN_00d6aec0() throw()
 
 #include <xmmintrin.h>
 #include <math.h>
-extern float DAT_0104da4c;
-extern const float DAT_01011d78;
 
 union Basis
 {
@@ -340,7 +344,6 @@ struct D6Idx
     unsigned char idx02;
 };
 
-extern "C" void __cdecl FUN_00dcf280(D6Vec3* s, void* d, void* e);
 extern "C" V16* __cdecl D6GetArray(void);
 
 // @fnv 0x00d6c030
@@ -350,7 +353,7 @@ static __declspec(noinline) void FUN_00d6c030(D6Owner* a, V16* b, D6Idx* c, void
     *(__m128*)&s.a = *(__m128*)&a->f30;
     *(__m128*)&s.b = *(__m128*)&b[3];
     *(__m128*)&s.c = *(__m128*)&b[c->idx02];
-    FUN_00dcf280(&s, d, e);
+    ::FUN_00dcf280((::Input_dcf280 *)(::D6Vec3 *)(&s), (::S_00dcf100_Cfg *)(d), (::Jacobian_dcf280 **)(e));
 }
 
 volatile D6Owner* g_d6Owner;

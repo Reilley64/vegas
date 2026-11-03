@@ -7,6 +7,9 @@
 #define FNV_RENDEREDTEXTURE_DECLARATIONS_H
 
 #include <stddef.h>
+#include "fnv/symbols_00a8f000.h"
+#include "fnv/symbols_011ab000.h"
+#include "fnv/symbols_011f4000.h"
 typedef unsigned int UInt32;
 class NiRTTI;
 class NiNode;
@@ -124,7 +127,6 @@ class Ni2DBuffer : public NiObject
         MULTISAMPLE_8
     };
     // Name: ieee802dot11ac/fnv 074e045e, Ni2DBuffer.h; PC binding inferred.
-    static Ni2DBuffer* Create(unsigned int width, unsigned int height);
     unsigned int m_uiImageWidth;
     unsigned int m_uiImageHeight;
     char m_pRendererData[4];
@@ -266,9 +268,6 @@ class NiRenderedTexture : public NiTexture
     bool m_bUseMipMaps;
     bool m_bUseDepthBuffer;
     _D3DFORMAT m_ePixelFormat;
-    static bool ms_bUseMipMaps;
-    static bool ms_bUseDepthBuffer;
-    static _D3DFORMAT ms_eDepthStencilFormat;
 };
 typedef char NiRenderedTexture_size_check[(sizeof(NiRenderedTexture) == 0x48) ? 1 : -1];
 typedef char NiRenderedTexture_buffer_check[(offsetof(NiRenderedTexture, m_spRenderTargetBuffer) == 0x30) ? 1 : -1];

@@ -1,27 +1,23 @@
 
+#include <new>
+#include "fnv/decl/BlendCopy.h"
+#include "fnv/decl/FUN_00a37260_shell.h"
+#include "fnv/decl/NiQuaternion.h"
+#include "fnv/decl/SBObject.h"
+#include "fnv/decl/fnv_00a37980__Blend100.h"
+#include "fnv/symbols_00a36000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_011a8000.h"
+#include "fnv/symbols_011f3000.h"
 #include "bsblendtreadtransfinterpolator_decls.h"
-// @fnv 0x00a432d0
-bool BSBlendTreadTransfInterpolator::Update(float time, NiObjectNET* target, NiQuatTransform& arValue)
-{
-    bool result = false;
-    if (m_ucInterpCount == 1)
-        result = UpdateSingleInterpolator(time, target, arValue);
-    else if (m_ucInterpCount > 0)
-    {
-        NormalizeWeights();
-        result = UpdateAccumulatedTransform(time, target, arValue);
-    }
-    m_fLastTime = time;
-    return result;
-}
-
 struct GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_011f3ed0;
 
 // @fnv 0x00a42fe0
 GlobalObjectO2_00a7b610* __cdecl FUN_00a42fe0()
 {
-    return &g_011f3ed0;
+    return &::g_011f3ed0;
 }
 
 struct BSFadeNode
@@ -34,29 +30,8 @@ struct CloneOwner
 {
     char _pad0[0x30];
     float m_fValueAtOffset30;
-    void __thiscall FUN_00a37510(void* pkObject, void* kCloning);
     void* __thiscall Clone(void* kCloning);
 };
-// @fnv 0x00a42ff0
-void* __thiscall CloneOwner::Clone(void* kCloning)
-{
-    CloneOwner* pkObject;
-    pkObject = (CloneOwner*)BSFadeNode::operator new(0x34);
-    if (pkObject)
-    {
-        FUN_00a36890(pkObject);
-        pkObject->m_fValueAtOffset30 = 0.0f;
-        *(void**)pkObject = (void*)&DAT_01097904;
-    }
-    else
-    {
-        pkObject = 0;
-    }
-    FUN_00a37510(pkObject, kCloning);
-    pkObject->m_fValueAtOffset30 = m_fValueAtOffset30;
-    return pkObject;
-}
-
 // ---- stand-in for the undeclared NiInterpolator (vtable slot 46 = +0xb8) ----
 class NiInterpolator
 {
@@ -108,6 +83,8 @@ class NiInterpolator
     virtual void v44();
     virtual void v45();
     virtual bool IsCorrectType();
+public:
+    NiInterpolator();
 };
 
 // @fnv 0x00a39100
@@ -131,12 +108,6 @@ struct NiQuatTransform
     NiQuaternion rotate;
     float scale;
 };
-extern const NiPoint3 DAT_011a8400;
-extern const NiQuaternion DAT_011f3704;
-extern const float DAT_01096b8c;
-extern const float DAT_0109696c;
-extern const double DAT_01012070;
-extern const float DAT_01015f5c;
 struct NiObjectNET;
 struct NiInterpolatorUpdate
 {
@@ -213,9 +184,9 @@ bool BSBlendInterpClass::BlendInterpolators(float time, NiObjectNET* object, NiQ
             {
                 if (flags & 1)
                     sampleTime = item.time;
-                if (sampleTime != DAT_0109696c)
+                if (sampleTime != ::DAT_0109696c)
                 {
-                    NiQuatTransform transform = {DAT_011a8400, DAT_011f3704, DAT_01096b8c};
+                    NiQuatTransform transform = {(*reinterpret_cast<const ::fnv_00a43160::NiPoint3 *>(&::DAT_011a8400)), (*reinterpret_cast<const ::fnv_00a43160::NiQuaternion *>(&::DAT_011f3704)), ::DAT_01096b8c};
                     if (item.interpolator->Update(sampleTime, object, transform))
                     {
                         total += item.interpolator->m_fScale * item.weight;
@@ -227,50 +198,44 @@ bool BSBlendInterpClass::BlendInterpolators(float time, NiObjectNET* object, NiQ
     float& combined = phase;
     combined += total;
     if (combined > 1.0f)
-        phase = combined - DAT_01012070;
+        phase = combined - ::g_01012070;
     else if (combined < 0.0f)
-        phase = combined + DAT_01012070;
+        phase = combined + ::g_01012070;
     float* __restrict pfOut = (float*)&arResult;
-    pfOut[7] = pfOut[4] = pfOut[0] = DAT_01015f5c;
+    pfOut[7] = pfOut[4] = pfOut[0] = ::DAT_01015f5c;
     return true;
 }
 }  // namespace fnv_00a43160
 
-void __cdecl FUN_00a36f80();
 // @fnv 0x00a40a00
 void __cdecl FUN_00a40a00()
 {
-    FUN_00a36f80();
+    ::fnv_00a36f80::FUN_00a36f80({}, {}, *(::fnv_00a36f80::StreamS *)nullptr);
 }
 
-void __cdecl FUN_00a37ec0();
 // @fnv 0x00a40a10
 void __cdecl FUN_00a40a10()
 {
-    FUN_00a37ec0();
+    static_cast<::SBObject *>(nullptr)->FUN_00a37ec0(*(::SBStream *)nullptr);
 }
 
-void __cdecl FUN_00a37980();
 
 // @fnv 0x00a42fc0
 void __cdecl FUN_00a42fc0()
 {
-    FUN_00a37980();
+    static_cast<::fnv_00a37980::Blend100 *>(nullptr)->FUN_00a37980(*(::fnv_00a37980::Stream100 *)nullptr);
 }
 
-void __cdecl FUN_00a36fd0();
 
 // @fnv 0x00a42fd0
 void __cdecl FUN_00a42fd0()
 {
-    FUN_00a36fd0();
+    ::fnv_00a36fd0::FUN_00a36fd0({}, {}, {});
 }
 
-extern float DAT_0109696c;
 struct QQuatOps
 {
     float x, y, z, w;
-    void FUN_00a38560();
 };
 class NiQuatTransform
 {
@@ -333,6 +298,20 @@ class TreadOwner
     float lerp;
     bool UpdateTreadTransform(float, NiObjectNET*, NiQuatTransform&);
 };
+// @fnv 0x00a432d0
+bool BSBlendTreadTransfInterpolator::Update(float time, NiObjectNET* target, NiQuatTransform& arValue)
+{
+    bool result = false;
+    if (m_ucInterpCount == 1)
+        result = reinterpret_cast<::TreadOwner *>(this)->UpdateTreadTransform(time, target, arValue);
+    else if (m_ucInterpCount > 0)
+    {
+        reinterpret_cast<::FUN_00a37260_shell *>(this)->UpdateNormalizedWeights();
+        result = UpdateAccumulatedTransform(time, target, arValue);
+    }
+    m_fLastTime = time;
+    return result;
+}
 // @fnv 0x00a43040
 bool TreadOwner::UpdateTreadTransform(float afTime, NiObjectNET* target, NiQuatTransform& arTransform)
 {
@@ -355,7 +334,7 @@ bool TreadOwner::UpdateTreadTransform(float afTime, NiObjectNET* target, NiQuatT
         if (arTransform.rotation.y != -3.4028234663852886e38)
         {
             QQuatOps qRotation = arTransform.rotation;
-            qRotation.FUN_00a38560();
+            reinterpret_cast<::NiQuaternion *>(&(qRotation))->MakeUnitLength();
             arTransform.rotation = qRotation;
         }
         return true;
@@ -375,10 +354,9 @@ class InterpolatorStorage
     void* m_ppVirtualMethodTable;
     unsigned int m_uiRefCount;
     float m_fLastTime;
-    void FUN_00a56ff0();
     InterpolatorStorage()
     {
-        FUN_00a56ff0();
+        new ((void *)this) ::NiInterpolator();
     }
 };
 
@@ -400,6 +378,25 @@ class FUN_00a36890 : public InterpolatorStorage
     float m_fTrailingValue;
     FUN_00a36890();
 };
+// @fnv 0x00a42ff0
+void* __thiscall CloneOwner::Clone(void* kCloning)
+{
+    CloneOwner* pkObject;
+    pkObject = (CloneOwner*)BSFadeNode::operator new(0x34);
+    if (pkObject)
+    {
+        new ((void *)(pkObject)) class ::FUN_00a36890();
+        pkObject->m_fValueAtOffset30 = 0.0f;
+        *(void**)pkObject = (void*)&DAT_01097904;
+    }
+    else
+    {
+        pkObject = 0;
+    }
+    reinterpret_cast<::BlendCopy *>(this)->FUN_00a37510((::NiBlendInterpolator *)(pkObject), (::CloningProcess *)(kCloning));
+    pkObject->m_fValueAtOffset30 = m_fValueAtOffset30;
+    return pkObject;
+}
 
 typedef class FUN_00a36890 BlendConstructor;
 

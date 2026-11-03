@@ -4,6 +4,10 @@
 
 // src/havok/physics/dynamics/motion/rigid/hkpboxmotion.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/motion/rigid/hkpboxmotion.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00cd5880_cls.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010c6000.h"
 #include "havok/hkpBoxMotion.h"
 struct FUN_00d1e670_StandIn
 {
@@ -20,6 +24,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 extern "C" __m128 _mm_setzero_ps(void);
 struct Cls_00d1e7b0
 {
@@ -77,7 +82,6 @@ struct Cls_00d1e7b0
     void WriteDiagonal(float* pOut);
 };
 extern "C" __m128 _mm_max_ps(__m128, __m128);
-extern __m128 DAT_010c7200;
 struct V4
 {
     __m128 q;
@@ -97,7 +101,6 @@ struct V4
 struct Mat3
 {
     V4 c0, c1, c2;
-    void FUN_00cd5880(const void* rot);
     float& operator()(int r, int c)
     {
         return (&c0)[c].q.m128_f32[r];
@@ -286,8 +289,6 @@ inline void* operator new(unsigned int, void* p)
 {
     return p;
 }
-extern const char DAT_010c6dc4[];
-extern const float DAT_01012068;
 struct FUN_00c86530_Obj
 {
     virtual ~FUN_00c86530_Obj();
@@ -305,7 +306,6 @@ struct S00d1e750_cls : hkpMotion
 extern "C" void _ReadWriteBarrier(void);
 extern "C" __m128 _mm_load_ps1(const float* p);
 extern "C" void _mm_store_ps(float* p, __m128 a);
-extern const float DAT_0104da4c;
 struct hkVector4D1E6F
 {
     __m128 m_vComponents;

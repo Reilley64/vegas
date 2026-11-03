@@ -1,5 +1,31 @@
 // gamebryo2.2/corelibs/nianimation/nitransforminterpolator.cpp: NiTransformInterpolator, Holder, NiTransformInterpolatorCopy, InterpolatorF7B0 (26 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/DataA38.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_0058cb00_Class.h"
+#include "fnv/decl/FUN_00a3ca30_shell.h"
+#include "fnv/decl/FUN_00a4e410_shell.h"
+#include "fnv/decl/FUN_00a95ca0_shell.h"
+#include "fnv/decl/NiPlane.h"
+#include "fnv/decl/NiStream.h"
+#include "fnv/decl/QXformViewer.h"
+#include "fnv/decl/T.h"
+#include "fnv/decl/TransformRange.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a3cbf0__NiKeyBasedInterpolator.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a26000.h"
+#include "fnv/symbols_00a57000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa0000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_011a8000.h"
+#include "fnv/symbols_011f3000.h"
 #include "nitransforminterpolator_decls.h"
 // @fnv 0x00a3fae0
 NiTransformInterpolator::NiTransformInterpolator(NiQuatTransform kTransform)
@@ -16,59 +42,6 @@ static inline bool TransformIsValid(const NiQuatTransform& value)
     return value.m_fScale != -3.4028234663852886e38 || value.m_kRotate.m_fVectorY != -3.4028234663852886e38 ||
            value.m_kTranslate.x != -3.4028234663852886e38;
 }
-// @fnv 0x00a3fdb0
-bool NiTransformInterpolator::Update(float time, NiObjectNET* target, NiQuatTransform& value)
-{
-    if (m_bPoseValid)
-    {
-        m_fLastTime = time;
-        value = m_kDefaultTransform;
-        return true;
-    }
-    if (m_fLastTime == time)
-    {
-        value = m_kDefaultTransform;
-        if (!TransformIsValid(m_kDefaultTransform))
-            return false;
-        return true;
-    }
-    unsigned int count;
-    AnimationKey::KeyType eKeyType;
-    unsigned char size;
-    unsigned int last;
-    PositionKeyInterpolator* pTranslateKeys = FUN_00a3f990(count, eKeyType, size);
-    if (count > 0)
-    {
-        last = m_usLastRotationKeyIndex;
-        m_kDefaultTransform.m_kTranslate =
-            PositionKeyInterpolator::InterpolatePosition(time, pTranslateKeys, eKeyType, count, last, size);
-        m_usLastRotationKeyIndex = (unsigned short)last;
-    }
-    TimedRotationKey* pRotateKeys = FUN_0058cb00(count, eKeyType, size);
-    if (count > 0)
-    {
-        last = m_usLastPositionKeyIndex;
-        m_kDefaultTransform.m_kRotate =
-            TimedRotationKey::InterpolatePosition(time, pRotateKeys, eKeyType, count, last, size);
-        m_usLastPositionKeyIndex = (unsigned short)last;
-    }
-    TimedAnimationKey* pScaleKeys = FUN_00a3f9e0(count, eKeyType, size);
-    if (count > 0)
-    {
-        last = m_usLastScaleKeyIndex;
-        m_kDefaultTransform.m_fScale =
-            TimedAnimationKey::InterpolatePosition(time, pScaleKeys, eKeyType, count, last, size);
-        m_usLastScaleKeyIndex = (unsigned short)last;
-    }
-    value = m_kDefaultTransform;
-    if (!TransformIsValid(m_kDefaultTransform))
-        return false;
-    m_fLastTime = time;
-    return true;
-}
-
-void __fastcall FUN_00a3ca30(void* pThis);
-void __cdecl FUN_00aa1460(void* p, unsigned int s);
 
 // @fnv 0x00a40410
 void* __fastcall FUN_00a40410(NiTransformInterpolator* pThis, int, unsigned int flags)
@@ -76,7 +49,7 @@ void* __fastcall FUN_00a40410(NiTransformInterpolator* pThis, int, unsigned int 
     NiRefObject* pkData = *(NiRefObject**)((char*)pThis + 0x2c);
     if (pkData)
         pkData->DecRefCount();
-    FUN_00a3ca30(pThis);
+    reinterpret_cast<::FUN_00a3ca30_shell *>((pThis))->FUN_00a3ca30();
     if (flags & 1)
         FUN_00aa1460(pThis, 0x48);
     return pThis;
@@ -170,6 +143,56 @@ struct FUN_00a3f990_shell
 {
     int __thiscall FUN_00a3f990(unsigned int* out1, int* out2, unsigned char* out3);
 };
+// @fnv 0x00a3fdb0
+bool NiTransformInterpolator::Update(float time, NiObjectNET* target, NiQuatTransform& value)
+{
+    if (m_bPoseValid)
+    {
+        m_fLastTime = time;
+        value = m_kDefaultTransform;
+        return true;
+    }
+    if (m_fLastTime == time)
+    {
+        value = m_kDefaultTransform;
+        if (!TransformIsValid(m_kDefaultTransform))
+            return false;
+        return true;
+    }
+    unsigned int count;
+    AnimationKey::KeyType eKeyType;
+    unsigned char size;
+    unsigned int last;
+    PositionKeyInterpolator* pTranslateKeys = ((::PositionKeyInterpolator *)(reinterpret_cast<::FUN_00a3f990_shell *>(this)->FUN_00a3f990((unsigned int *)&(count), (int *)&(eKeyType), (unsigned char *)&(size))));
+    if (count > 0)
+    {
+        last = m_usLastRotationKeyIndex;
+        m_kDefaultTransform.m_kTranslate =
+            PositionKeyInterpolator::InterpolatePosition(time, pTranslateKeys, eKeyType, count, last, size);
+        m_usLastRotationKeyIndex = (unsigned short)last;
+    }
+    TimedRotationKey* pRotateKeys = ((::TimedRotationKey *)(reinterpret_cast<::FUN_0058cb00_Class *>(this)->FUN_0058cb00((unsigned int *)&(count), (int *)&(eKeyType), (unsigned char *)&(size))));
+    if (count > 0)
+    {
+        last = m_usLastPositionKeyIndex;
+        m_kDefaultTransform.m_kRotate =
+            TimedRotationKey::InterpolatePosition(time, pRotateKeys, eKeyType, count, last, size);
+        m_usLastPositionKeyIndex = (unsigned short)last;
+    }
+    TimedAnimationKey* pScaleKeys = FUN_00a3f9e0(count, eKeyType, size);
+    if (count > 0)
+    {
+        last = m_usLastScaleKeyIndex;
+        m_kDefaultTransform.m_fScale =
+            ::InterpolateKey(time, (const ::S00a26b40_Key *)(pScaleKeys), (*(unsigned int *)&(eKeyType)), count, (unsigned int *)&(last), size);
+        m_usLastScaleKeyIndex = (unsigned short)last;
+    }
+    value = m_kDefaultTransform;
+    if (!TransformIsValid(m_kDefaultTransform))
+        return false;
+    m_fLastTime = time;
+    return true;
+}
 
 // Reads fields at offsets 0xa, 0x14, 0x1d and 0x24 from the object at this+0x2c into the out parameters and returns the last; zeroes them if that pointer is null.
 // @fnv 0x00a3f990
@@ -194,12 +217,11 @@ struct FUN_00a3fad0_shell : public NiTransformInterpolator
     void* FUN_00a3fad0();
 };
 
-extern "C" const char* g_011f3ee0_arg1;
 
 // @fnv 0x00a3fad0
 void* FUN_00a3fad0_shell::FUN_00a3fad0()
 {
-    return &g_011f3ee0_arg1;
+    return &(*reinterpret_cast<const char * *>(&::g_011f3e50));
 }
 
 struct CloningProcess;
@@ -230,15 +252,12 @@ struct FUN_00a3fd10_shell : public NiTransformInterpolator
 
 struct FUN_00a57050_tgt
 {
-    FUN_00a3fd10_shell* FUN_00a57050(float, float);
 };
 struct FUN_00a4e410_tgt
 {
-    void FUN_00a4e410(float, float, NiTransformData**);
 };
 struct FUN_00a3f930_tgt
 {
-    void FUN_00a3f930(NiTransformData*);
 };
 struct RcObj
 {
@@ -247,29 +266,6 @@ struct RcObj
     int m_uiRefs;
 };
 __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-
-// @fnv 0x00a3fd10
-NiInterpolator* FUN_00a3fd10_shell::FUN_00a3fd10(float m_fStartTime, float m_fMaximumDistance)
-{
-    NiTransformInterpolator* pkSeqInterp =
-        (NiTransformInterpolator*)((FUN_00a57050_tgt*)this)->FUN_00a57050(m_fStartTime, m_fMaximumDistance);
-    if (pkSeqInterp && *(void**)((char*)this + 0x2c))
-    {
-        NiTransformData* spNewData = 0;
-        ((FUN_00a4e410_tgt*)*(void**)((char*)this + 0x2c))->FUN_00a4e410(m_fStartTime, m_fMaximumDistance, &spNewData);
-        ((FUN_00a3f930_tgt*)pkSeqInterp)->FUN_00a3f930(spNewData);
-        *(unsigned short*)((char*)pkSeqInterp + 0x30) = 0;
-        *(unsigned short*)((char*)pkSeqInterp + 0x32) = 0;
-        *(unsigned short*)((char*)pkSeqInterp + 0x34) = 0;
-        if (spNewData)
-        {
-            RcObj* o = (RcObj*)spNewData;
-            if (!InterlockedDecrement((volatile long*)&o->m_uiRefs))
-                o->Destroy();
-        }
-    }
-    return (NiInterpolator*)pkSeqInterp;
-}
 
 struct FUN_00a3f5b0_t : public NiTransformInterpolator
 {
@@ -331,7 +327,6 @@ bool FUN_00a3f6a0_t::FUN_00a3f6a0(unsigned short usChannel) const
 
 struct NiTransformData_FUN_00a4df40
 {
-    void FUN_00a4df40(float m_fStartTime, float m_fMaximumDistance);
 };
 struct FUN_00a3f6f0_t : public NiTransformInterpolator
 {
@@ -342,7 +337,7 @@ void FUN_00a3f6f0_t::FUN_00a3f6f0(float afArg1, float afArg2)
 {
     NiTransformData_FUN_00a4df40* pkData = *(NiTransformData_FUN_00a4df40**)((char*)this + 0x2c);
     if (pkData)
-        pkData->FUN_00a4df40(afArg1, afArg2);
+        reinterpret_cast<::TransformRange *>((pkData))->FUN_00a4df40(afArg1, afArg2);
 }
 
 // Returns the scale key array from the interpolator's transform data, filling in key count, interpolation type and key size, or zeroes if no data exists.
@@ -432,6 +427,28 @@ struct Holder
     unsigned short m_us2;
     void FUN_00a3f930(RefObj* pkData);
 };
+// @fnv 0x00a3fd10
+NiInterpolator* FUN_00a3fd10_shell::FUN_00a3fd10(float m_fStartTime, float m_fMaximumDistance)
+{
+    NiTransformInterpolator* pkSeqInterp =
+        (NiTransformInterpolator*)((::FUN_00a3fd10_shell *)(::FUN_00a57050((int)(((FUN_00a57050_tgt*)this)), m_fStartTime)));
+    if (pkSeqInterp && *(void**)((char*)this + 0x2c))
+    {
+        NiTransformData* spNewData = 0;
+        reinterpret_cast<::FUN_00a4e410_shell *>((((FUN_00a4e410_tgt*)*(void**)((char*)this + 0x2c))))->FUN_00a4e410(m_fStartTime, m_fMaximumDistance, (*(::PSysPtr4e4< ::PSysData4e4> *)(&spNewData)));
+        reinterpret_cast<::Holder *>((((FUN_00a3f930_tgt*)pkSeqInterp)))->FUN_00a3f930((::RefObj *)(spNewData));
+        *(unsigned short*)((char*)pkSeqInterp + 0x30) = 0;
+        *(unsigned short*)((char*)pkSeqInterp + 0x32) = 0;
+        *(unsigned short*)((char*)pkSeqInterp + 0x34) = 0;
+        if (spNewData)
+        {
+            RcObj* o = (RcObj*)spNewData;
+            if (!InterlockedDecrement((volatile long*)&o->m_uiRefs))
+                o->Destroy();
+        }
+    }
+    return (NiInterpolator*)pkSeqInterp;
+}
 // Replaces the held RefObj pointer with pkData, adjusting reference counts, and resets the three counters to zero.
 // @fnv 0x00a3f930
 void Holder::FUN_00a3f930(RefObj* pkData)
@@ -539,7 +556,6 @@ struct FUN_00a3fb20_shell : public NiTransformInterpolator
 };
 
 extern float DAT_01097308;
-extern float _DAT_01015f5c;
 struct TDat
 {
     char pad[8];
@@ -619,7 +635,7 @@ static inline float TI_Time(char* keys, unsigned int i, unsigned char s)
 void FUN_00a3fb20_shell::FUN_00a3fb20(float* fBeginKeyTime, float* fEndKeyTime)
 {
     *fBeginKeyTime = DAT_01097308;
-    *fEndKeyTime = _DAT_01015f5c;
+    *fEndKeyTime = ::DAT_01015f5c;
     bool bHasKeys = false;
 
     unsigned int uiNumKeys;
@@ -722,37 +738,30 @@ struct FUN_00a404b0_shell : public NiTransformInterpolator
 
 struct StrArr
 {
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 struct FUN_00a3cbf0_shell
 {
-    void FUN_00a3cbf0(StrArr*);
 };
 struct FUN_00a38cb0_shell
 {
-    void FUN_00a38cb0(StrArr*);
 };
-extern char* _FUN_00a7d330(char*);
-extern char* g_011f3ee0_arg1;
 // @fnv 0x00a404b0
 void FUN_00a404b0_shell::FUN_00a404b0(void* pkStrings)
 {
-    ((FUN_00a3cbf0_shell*)this)->FUN_00a3cbf0((StrArr*)pkStrings);
-    char* pString = _FUN_00a7d330(g_011f3ee0_arg1);
+    reinterpret_cast<::fnv_00a3cbf0::NiKeyBasedInterpolator *>((((FUN_00a3cbf0_shell*)this)))->FUN_00a3cbf0((::fnv_00a3cbf0::StrArr *)(::fnv_00a404b0::StrArr *)((StrArr*)pkStrings));
+    char* pString = ::FUN_00a7d330((*reinterpret_cast<char * *>(&::g_011f3e50)));
     unsigned int count = *(unsigned short*)((char*)pkStrings + 0xa);
     unsigned int size = *(unsigned short*)((char*)pkStrings + 0x8);
     if (count >= size)
-        ((StrArr*)pkStrings)->SetSize(*(unsigned short*)((char*)pkStrings + 0xe) + count);
-    ((StrArr*)pkStrings)->SetAt(count, pString);
-    ((FUN_00a38cb0_shell*)((char*)this + 0xc))->FUN_00a38cb0((StrArr*)pkStrings);
+        reinterpret_cast<::ViewerStrings *>((((StrArr*)pkStrings)))->SetSize(*(unsigned short*)((char*)pkStrings + 0xe) + count);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((((StrArr*)pkStrings)))->SetAt(count, pString);
+    reinterpret_cast<::QXformViewer *>((((FUN_00a38cb0_shell*)((char*)this + 0xc))))->FUN_00a38cb0((::ViewerStrings *)(::fnv_00a404b0::StrArr *)((StrArr*)pkStrings));
     void* pData = *(void**)((char*)this + 0x2c);
     if (pData)
         ((void(__thiscall*)(void*, StrArr*))(*(void***)pData)[24])(pData, (StrArr*)pkStrings);
 }
 }  // namespace fnv_00a404b0
 
-extern double DAT_010241b0;
 
 class FUN_00a3f720_cls
 {
@@ -861,7 +870,7 @@ bool FUN_00a3f720_cls::FUN_00a3f720(unsigned short mode)
     default:
         return false;
     }
-    return DAT_010241b0 != value;
+    return ::DAT_010241b0 != value;
 }
 
 struct S_00a3f870_Data
@@ -992,7 +1001,7 @@ bool A3F8D0Interpolator::FUN_00a3f8d0(A3F8D0Object* pkObject)
     if (!BaseIsEqual(pkObject))
         return false;
     A3F8D0Interpolator* pkOther = (A3F8D0Interpolator*)pkObject;
-    if (!(m_kValue == pkOther->m_kValue))
+    if (!(reinterpret_cast<::T *>((void *)&(const ::A3F8D0Transform &)(m_kValue))->Equals((const ::T &)(pkOther->m_kValue))))
         return false;
     if ((m_spTransformData && !pkOther->m_spTransformData) || (!m_spTransformData && pkOther->m_spTransformData))
         return false;
@@ -1003,12 +1012,10 @@ bool A3F8D0Interpolator::FUN_00a3f8d0(A3F8D0Object* pkObject)
 
 struct FUN_00a95ca0_helper
 {
-    void __thiscall FUN_00a95ca0(NiStream* stream);
 };
 
 struct FUN_00a38b60_tgt
 {
-    void __thiscall FUN_00a38b60(NiStream* stream);
 };
 
 struct FUN_00a3f8a0_stream
@@ -1049,14 +1056,13 @@ struct FUN_00a3f8a0_t
 // @fnv 0x00a3f8a0
 void __thiscall FUN_00a3f8a0_t::FUN_00a3f8a0(NiStream* stream)
 {
-    reinterpret_cast<FUN_00a95ca0_helper*>(this)->FUN_00a95ca0(stream);
-    reinterpret_cast<FUN_00a38b60_tgt*>(reinterpret_cast<char*>(this) + 0x0C)->FUN_00a38b60(stream);
+    reinterpret_cast<::FUN_00a95ca0_shell *>((reinterpret_cast<FUN_00a95ca0_helper*>(this)))->FUN_00a95ca0((*(::S_00a58160_Stream *)(stream)));
+    reinterpret_cast<::DataA38 *>((reinterpret_cast<FUN_00a38b60_tgt*>(reinterpret_cast<char*>(this) + 0x0C)))->FUN_00a38b60((*(::NiStreamA38 *)(stream)));
     reinterpret_cast<FUN_00a3f8a0_stream*>(stream)->vf30(unk2C);
 }
 
 #include <string.h>
 
-void __stdcall FUN_00aa0ab0(NiTransformInterpolator* pkDest, CloningProcess* kCloning);
 
 struct S_00a40360_Ptr
 {
@@ -1105,7 +1111,7 @@ void NiTransformInterpolatorCopy::FUN_00a40360(NiTransformInterpolator* pkDest, 
     S_00a40360_Source* pSource = reinterpret_cast<S_00a40360_Source*>(this);
     S_00a40360_Source* pDest = reinterpret_cast<S_00a40360_Source*>(pkDest);
 
-    FUN_00aa0ab0(pkDest, kCloning);
+    ::FUN_00aa0ab0();
 
     memcpy(&pDest->unk0c, &pSource->unk0c, 32);
 
@@ -1171,7 +1177,6 @@ struct NiQuatTransformF7B0
 
 struct NiStreamF7B0
 {
-    NiObjectF7B0* DeserializeObject();
 };
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
@@ -1215,7 +1220,6 @@ template <class T> class NiPointerF7B0
 class InterpolatorF7B0
 {
   public:
-    void LoadBinaryBase(NiStreamF7B0& kStream);
     void FUN_00a3f7b0(NiStreamF7B0& kStream);
 
     void* m_pVTable;
@@ -1233,10 +1237,10 @@ class InterpolatorF7B0
 // @fnv 0x00a3f7b0
 void InterpolatorF7B0::FUN_00a3f7b0(NiStreamF7B0& kStream)
 {
-    LoadBinaryBase(kStream);
-    m_kDefaultTransform.LoadBinary(kStream);
+    ::FUN_00aa0ac0();
+    reinterpret_cast<::NiQuatTransform *>(&(m_kDefaultTransform))->LoadBinary((::NiStream &)(kStream));
     m_kLastTranslate = m_kDefaultTransform.m_kTranslate;
-    m_spTransformData = kStream.DeserializeObject();
+    m_spTransformData = ((::NiObjectF7B0 *)(reinterpret_cast<::NiStream *>(&(kStream))->DeserializeObject()));
     m_bPose = !m_spTransformData.m_pObject && !m_kDefaultTransform.IsMarkedInvalid();
 }
 
@@ -1341,7 +1345,7 @@ void S00a3ffd0_Interp::FUN_00a3ffd0()
             positionConstant = true;
             for (unsigned int ui = 1; positionConstant && ui < uiNumKeys; ui++)
             {
-                if (pkPosKeys->GetKeyPointerByIndex(ui, ucSize)->m_kPositionValue.FUN_00439090(kValue))
+                if (reinterpret_cast<::NiPlane *>((void *)&(pkPosKeys->GetKeyPointerByIndex(ui, ucSize)->m_kPositionValue))->operator==((const ::NiPlane &)(kValue)))
                     positionConstant = false;
             }
         }

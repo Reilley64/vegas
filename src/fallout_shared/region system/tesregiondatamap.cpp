@@ -1,5 +1,30 @@
 // fallout_shared/region system/tesregiondatamap.cpp: TESRegionDataMap, RegionMapMerge (11 functions)
 
+#include "fnv/decl/B408A80String.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/BSStringTChar.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004048e0_cls.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00462e80_shell.h"
+#include "fnv/decl/FUN_00471870_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_004f15c0_shell.h"
+#include "fnv/decl/FUN_005bb4d0_shell.h"
+#include "fnv/decl/PatrolActorPackageData.h"
+#include "fnv/decl/RegionSource.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/TESOffsetWorker.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00559000.h"
 #include "layout_support.h"
 #include "TESFile.h"
 #include <malloc.h>
@@ -31,19 +56,19 @@ class TESRegionDataMap : public TESRegionData
 // @fnv 0x004f3e90
 bool TESRegionDataMap::LoadRegionMapData(TESFile* apFile)
 {
-    if (!apFile || apFile->GetChunkID() != CHUNK_ID_RDMP_ID)
+    if (!apFile || ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((apFile))->FUN_004726b0())) != CHUNK_ID_RDMP_ID)
         return false;
 
-    char* pChunkData = (char*)_alloca(apFile->GetChunkSize());
-    apFile->GetChunkData(pChunkData, 0);
-    m_kMapName.Set(pChunkData, 0);
+    char* pChunkData = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((apFile))->GetField25C());
+    reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(pChunkData), 0);
+    reinterpret_cast<::TextString *>(&(m_kMapName))->FUN_004037f0(pChunkData, 0);
     return true;
 }
 
 // @fnv 0x005585e0
 const char* TESRegionDataMap::GetRegionMapName()
 {
-    return m_kMapName.String();
+    return ((const char *)(::FUN_00559450((int *)&(m_kMapName))));
 }
 
 extern unsigned int _data_011c16bc;
@@ -58,7 +83,6 @@ struct StrMem
     char p[8];
     StrMem();
     ~StrMem();
-    bool Set(const char*, unsigned int);
 };
 struct FUN_004f3ca0 : public B004f1400
 {
@@ -70,31 +94,21 @@ struct FUN_004f3ca0 : public B004f1400
 // @fnv 0x004f3ca0
 FUN_004f3ca0::FUN_004f3ca0()
 {
-    m_kMapName.Set("Default Region Name", 0);
+    reinterpret_cast<::TextString *>(&(m_kMapName))->FUN_004037f0("Default Region Name", 0);
 }
 
 struct Proxy_004f3de0
 {
     void FUN_004f3de0();
 };
-void _Deallocate(void*);
 struct Proxy_004f3d20
 {
     void* FUN_004f3d20(unsigned int);
 };
-// Calls FUN_004f3de0 on this, deallocates this when flags has bit 0 set, and returns this.
-// @fnv 0x004f3d20
-void* Proxy_004f3d20::FUN_004f3d20(unsigned int flags)
-{
-    ((Proxy_004f3de0*)this)->FUN_004f3de0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct S7010
 {
-    unsigned int Length();
+public:
+    unsigned int GetLengthPlusOne();
 };
 struct Flt
 {
@@ -102,13 +116,10 @@ struct Flt
 };
 struct H14c0
 {
-    void WriteSaveData();
 };
 struct H4280
 {
-    unsigned int GetLengthPlusOne();
 };
-void __cdecl FUN_004856f0(unsigned int, void*, unsigned int);
 struct FUN_004f3e40Shell
 {
     char _pad[8];
@@ -123,15 +134,14 @@ struct FUN_004f3e40Shell
 // @fnv 0x004f3e40
 void FUN_004f3e40Shell::FUN_004f3e40()
 {
-    ((H14c0*)this)->WriteSaveData();
-    if (u.s.Length())
-        FUN_004856f0(0x504D4452, (void*)(unsigned int)u.f, u.h.GetLengthPlusOne());
+    reinterpret_cast<::RegionSource *>((((H14c0*)this)))->WriteSaveData();
+    if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(u.s))->FUN_004048e0())))
+        ::FUN_004856f0((void *)(0x504D4452), (void*)(unsigned int)u.f, (void *)(reinterpret_cast<::S7010 *>(&(u.h))->GetLengthPlusOne()));
 }
 
 namespace fnv_004f3f10 {
 struct BSStr
 {
-    bool Set(const char*, unsigned int);
 };
 struct Flt
 {
@@ -147,15 +157,13 @@ struct S004f3f10
 // @fnv 0x004f3f10
 void S004f3f10::FUN_004f3f10(BSStr& a)
 {
-    a.Set((const char*)(unsigned int)_f, 0);
+    reinterpret_cast<::TextString *>(&(a))->FUN_004037f0((const char*)(unsigned int)_f, 0);
 }
 }  // namespace fnv_004f3f10
 
 struct BSStr
 {
     char _d[8];
-    int StrCmp(char const*, bool) const;
-    bool Set(char const*, unsigned int);
 };
 struct FUN_004f3f40_shell
 {
@@ -166,9 +174,9 @@ struct FUN_004f3f40_shell
 // @fnv 0x004f3f40
 bool FUN_004f3f40_shell::FUN_004f3f40(char const* apMapName)
 {
-    if (str.StrCmp(apMapName, true))
+    if (reinterpret_cast<::B408A80String *>((void *)&(str))->FUN_00408a80(apMapName, true))
     {
-        str.Set(apMapName, 0);
+        reinterpret_cast<::TextString *>(&(str))->FUN_004037f0(apMapName, 0);
         return true;
     }
     return false;
@@ -176,17 +184,25 @@ bool FUN_004f3f40_shell::FUN_004f3f40(char const* apMapName)
 
 struct FUN_004f14a0_shell
 {
-    void* FUN_004f14a0();
 };
 struct FUN_004f3de0 : public FUN_004f3ca0
 {
     ~FUN_004f3de0();
 };
+// Calls FUN_004f3de0 on this, deallocates this when flags has bit 0 set, and returns this.
+// @fnv 0x004f3d20
+void* Proxy_004f3d20::FUN_004f3d20(unsigned int flags)
+{
+    reinterpret_cast<::FUN_004f3de0 *>((((Proxy_004f3de0*)this)))->FUN_004f3de0::~FUN_004f3de0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // Destructor that calls FUN_004f14a0 on the subobject at offset 8 of this object.
 // @fnv 0x004f3de0
 FUN_004f3de0::~FUN_004f3de0()
 {
-    ((FUN_004f14a0_shell*)((char*)this + 8))->FUN_004f14a0();
+    reinterpret_cast<::BSStringTChar *>((((FUN_004f14a0_shell*)((char*)this + 8))))->BSStringTChar::~BSStringTChar();
 }
 
 void* __cdecl operator new(unsigned int);
@@ -250,7 +266,6 @@ class FUN_004f3d50 : public ThisBase_b5917
   public:
     virtual ~FUN_004f3d50();
     ThisMember_b5917 m_08;
-    void Set(const char* name);
 
     FUN_004f3d50(ThisSource_b5917* src);
 };
@@ -259,7 +274,7 @@ class FUN_004f3d50 : public ThisBase_b5917
 // @fnv 0x004f3d50
 FUN_004f3d50::FUN_004f3d50(ThisSource_b5917* apSource) : ThisBase_b5917(apSource)
 {
-    Set(apSource->GetName());
+    reinterpret_cast<::FUN_004f3f40_shell *>(this)->FUN_004f3f40(apSource->GetName());
 }
 }  // namespace fnv_004f3d50
 
@@ -275,10 +290,6 @@ struct RegionMapMerge : TESRegionDataMap
     virtual void UpdateRegionData();
     virtual const char* ReadMapName();
     virtual void SetRegionMapName(const char* name);
-    bool FUN_004f1540();
-    void FUN_004f15a0(bool value);
-    unsigned char FUN_005bb4d0();
-    bool FUN_004f15c0(unsigned char value);
     void MergeMapData(RegionMapMerge* data, void* context);
 };
 float __cdecl floor(float value);
@@ -291,8 +302,8 @@ void RegionMapMerge::MergeMapData(RegionMapMerge* apOther, void* context)
         return;
     if (m_bHasRegionData)
     {
-        FUN_004f15a0(other->FUN_004f1540());
-        FUN_004f15c0(other->FUN_005bb4d0());
+        reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0(reinterpret_cast<::PatrolActorPackageData *>((other))->IsPatrolling());
+        reinterpret_cast<::FUN_004f15c0_shell *>(this)->FUN_004f15c0(((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((other))->FUN_005bb4d0())));
         SetRegionMapName(other->ReadMapName());
     }
     else if (other->m_bHasRegionData)
@@ -301,27 +312,27 @@ void RegionMapMerge::MergeMapData(RegionMapMerge* apOther, void* context)
     }
     else if (bOverride)
     {
-        if (other->FUN_004f1540() && other->FUN_005bb4d0() > FUN_005bb4d0())
+        if (reinterpret_cast<::PatrolActorPackageData *>((other))->IsPatrolling() && ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((other))->FUN_005bb4d0())) > ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>(this)->FUN_005bb4d0())))
         {
-            FUN_004f15a0(other->FUN_004f1540());
-            FUN_004f15c0(other->FUN_005bb4d0());
+            reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0(reinterpret_cast<::PatrolActorPackageData *>((other))->IsPatrolling());
+            reinterpret_cast<::FUN_004f15c0_shell *>(this)->FUN_004f15c0(((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((other))->FUN_005bb4d0())));
             SetRegionMapName(other->ReadMapName());
         }
         return;
     }
-    else if (other->FUN_004f1540())
+    else if (reinterpret_cast<::PatrolActorPackageData *>((other))->IsPatrolling())
     {
-        FUN_004f15a0(other->FUN_004f1540());
-        FUN_004f15c0(other->FUN_005bb4d0());
+        reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0(reinterpret_cast<::PatrolActorPackageData *>((other))->IsPatrolling());
+        reinterpret_cast<::FUN_004f15c0_shell *>(this)->FUN_004f15c0(((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((other))->FUN_005bb4d0())));
         SetRegionMapName(other->ReadMapName());
     }
     else
     {
-        if (other->FUN_005bb4d0() > FUN_005bb4d0())
+        if (((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((other))->FUN_005bb4d0())) > ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>(this)->FUN_005bb4d0())))
             SetRegionMapName(other->ReadMapName());
-        float priority = FUN_005bb4d0() * FUN_005bb4d0() + (100 - FUN_005bb4d0()) * other->FUN_005bb4d0();
-        priority += (100 - other->FUN_005bb4d0()) * FUN_005bb4d0() + other->FUN_005bb4d0() * other->FUN_005bb4d0();
+        float priority = ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>(this)->FUN_005bb4d0())) * ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>(this)->FUN_005bb4d0())) + (100 - ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>(this)->FUN_005bb4d0()))) * ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((other))->FUN_005bb4d0()));
+        priority += (100 - ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((other))->FUN_005bb4d0()))) * ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>(this)->FUN_005bb4d0())) + ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((other))->FUN_005bb4d0())) * ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((other))->FUN_005bb4d0()));
         priority *= 0.005f;
-        FUN_004f15c0((unsigned char)floor(priority));
+        reinterpret_cast<::FUN_004f15c0_shell *>(this)->FUN_004f15c0((unsigned char)floor(priority));
     }
 }

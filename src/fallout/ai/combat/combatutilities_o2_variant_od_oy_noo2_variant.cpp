@@ -7,11 +7,31 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/fallout/ai/combat/combatutilities.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatutilities.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" float __cdecl FUN_005b9e80(float);
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_004fd420_shell.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/fnv_004a3a20__FUN_004a3a20_shell.h"
+#include "fnv/decl/fnv_004a3da0__FUN_004a3da0_shell.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_004b1000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_004e4000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_0057d000.h"
+#include "fnv/symbols_005b9000.h"
+#include "fnv/symbols_0069e000.h"
+#include "fnv/symbols_009a9000.h"
+#include "fnv/symbols_009c0000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_0103c000.h"
+#include "fnv/symbols_011cf000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f1000.h"
 float __cdecl FUN_009a7dd0(float a, float b, float c);
 extern int DAT_011a558c;
-char FUN_009a97b0(char a1, char a2);
-extern "C" double DAT_0103c348;
 extern "C" int DAT_011a558c;
 float ScaleCharToFloat(char arg);
 struct FUN_009a9f00_shell
@@ -20,13 +40,11 @@ struct FUN_009a9f00_shell
 };
 struct BGSProjectile
 {
-    bool GetFlag(unsigned int) const;
 };
 struct FUN_009a7f80_shell : BGSProjectile
 {
     bool FUN_009a7f80() const;
 };
-extern "C" double _DAT_0103c348;
 long __cdecl ScaleByRatio(float a);
 
 // FUN_009a6e90 - trajectory raycast stepper, worker5 v1 one-pass transcription
@@ -35,6 +53,8 @@ struct NiPoint3
     float x;
     float y;
     float z;
+public:
+    float ComputeMagnitude() const;
 };
 struct PtOp
 {
@@ -42,7 +62,6 @@ struct PtOp
 };
 struct Pt
 {
-    float __thiscall Length() const;
 };
 struct NiPoint3Ex
 {
@@ -55,7 +74,6 @@ struct NiPoint3_helper
 
 struct bhkFilter
 {
-    int __thiscall FUN_004a3a20();
 };
 struct FUN_00931ed0_shell
 {
@@ -64,11 +82,12 @@ struct FUN_00931ed0_shell
 struct TESObjectCELL;
 struct TESObjectREFR
 {
-    TESObjectCELL* __thiscall GetTarget(void* query);
 };
+class TESObjectREFR;
 struct FUN_00553ee0_shell
 {
-    int __thiscall FUN_00553ee0();
+public:
+    void *FUN_00553ee0(::TESObjectREFR *);
 };
 struct FUN_004a39f0_shell
 {
@@ -84,7 +103,6 @@ struct FUN_00966980_shell
 };
 struct PathingRequest
 {
-    float __thiscall GetFloatAtOffset68() const;
 };
 struct GlobalObject_008c71b0
 {
@@ -93,7 +111,6 @@ struct GlobalObject_008c71b0
 };
 struct LockObj
 {
-    int __thiscall FUN_00483710();
 };
 struct SETTING_VALUE
 {
@@ -102,7 +119,6 @@ struct SETTING_VALUE
 struct GameSettingCollection
 {
     SETTING_VALUE* __thiscall Bool();
-    SETTING_VALUE* __thiscall Int();
 };
 struct hkpAllRayHitCollector;
 struct FUN_004a3f70_shell
@@ -115,7 +131,6 @@ struct FUN_004a3fb0_shell
 };
 struct FUN_004a3da0_shell
 {
-    void __thiscall FUN_004a3da0(void* p);
 };
 struct FUN_004a3eb0_shell
 {
@@ -141,40 +156,25 @@ struct __declspec(align(16)) FUN_004a3c20_shell
     float m_v[44];
 };
 
-extern LockObj DAT_011f1c7c;
-extern GameSettingCollection DAT_011f1c4c;
-extern GameSettingCollection DAT_011cfd7c;
-extern int DAT_011dea24;
-extern int DAT_011dea3c;
-extern float DAT_011f1c00;
-extern const double DAT_01011590;
-extern "C" double gModifierZero;
 
-float __cdecl FUN_004b54c0(float a);
-float __cdecl FUN_004e44b0(float a);
-float __cdecl FUN_0057dd70(float a);
 float cos(float a);
-float __cdecl FUN_004b1550(NiPoint3* p);
-int __cdecl FUN_0056f930(int a);
-int __cdecl FUN_009c0d80(void* input, int a1, void* a2, float* frac, int a4, float maxFrac);
 
-void __cdecl DrawDebugLine(NiPoint3* from, NiPoint3* to, int hit, float frac, int a4, int a5);
 
 // @fnv 0x009a6e90
 bool __cdecl FUN_009a6e90(void* a0, void* a1, float a2, float s0, float s1, float s2, float e0, float e1, float e2,
                           NiPoint3* outPt, int* outInt, float* outFrac)
 {
-    DAT_011f1c7c.FUN_00483710();
+    reinterpret_cast<::TESForm *>(&((*reinterpret_cast<::LockObj *>(&::g_011f1c7c))))->ClearData();
     GlobalObject_008c71b0 obj18(0);
     ((FUN_004a39f0_shell*)&obj18)->FUN_004a39f0(6);
     int tmp1c;
     ((FUN_0059ce80_shell*)&obj18)
-        ->FUN_0059ce80((unsigned int)((FUN_00931ed0_shell*)a0)->FUN_00931ed0(&tmp1c)->FUN_004a3a20());
+        ->FUN_0059ce80((unsigned int)((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((((FUN_00931ed0_shell*)a0)->FUN_00931ed0(&tmp1c)))->FUN_004a3a20())));
 
     double d28;
     if (a1)
     {
-        d28 = (double)(((FUN_00966980_shell*)a1)->FUN_00966980() * DAT_011f1c00);
+        d28 = (double)(((FUN_00966980_shell*)a1)->FUN_00966980() * ::DAT_011f1c00);
     }
     else
     {
@@ -197,31 +197,31 @@ bool __cdecl FUN_009a6e90(void* a0, void* a1, float a2, float s0, float s1, floa
     unsigned int v430 = 1;
     unsigned int cnt = 1;
 
-    if (v2c == gModifierZero)
+    if (v2c == ::_DAT_01012060)
     {
-        ((FUN_004a3da0_shell*)&obj410)->FUN_004a3da0(&vecStart);
+        reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>((((FUN_004a3da0_shell*)&obj410)))->FUN_004a3da0(&vecStart);
         ((FUN_004a3eb0_shell*)&obj410)->FUN_004a3eb0(&pos);
-        v30 = ((FUN_00553ee0_shell*)((TESObjectREFR*)a0)->GetTarget(&obj410))->FUN_00553ee0();
-        v34 = FUN_009c0d80(&obj410, 0, a1, &frac, 0, 3.4028234663852886e38f);
-        if (*(unsigned char*)DAT_011f1c4c.Bool() &&
-            (DAT_011dea24 == 0 || DAT_011dea24 == DAT_011dea3c || DAT_011dea24 == (int)a0))
+        v30 = ((int)(((FUN_00553ee0_shell*)((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((((TESObjectREFR*)a0)))->GetTarget())))->FUN_00553ee0({})));
+        v34 = ::FUN_009c0d80((::Scene *)(void *)(&obj410), (::Controller *)(0), (int)(a1), &frac, 0, 3.4028234663852886e38f);
+        if (*(unsigned char*)(*reinterpret_cast<::GameSettingCollection *>(&::g_011f1c4c)).Bool() &&
+            (DAT_011dea24 == 0 || DAT_011dea24 == (*reinterpret_cast<int *>(&::_g_thePlayer)) || DAT_011dea24 == (int)a0))
         {
-            DrawDebugLine(&vecStart, &pos, v34, frac, 0, 0);
+            ::DrawDebugLine((*(const ::DebugPoint *)(&vecStart)), (*(const ::DebugPoint *)(&pos)), v34, frac, (const ::RgbaColor *)(0), (const ::RgbaColor *)(0));
         }
     }
     else
     {
-        NiPoint3 diff = ((PtOp*)&e0)->operator-(*(NiPoint3*)&s0);
-        float v448 = FUN_004b54c0(diff.z / ((Pt*)&diff)->Length());
+        NiPoint3 diff = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((PtOp*)&e0)))->FUN_00439ef0-((::NiPoint3 *)&(*(NiPoint3*)&s0), *(const ::NiPoint3 *)nullptr)));
+        float v448 = FUN_004b54c0(diff.z / reinterpret_cast<::NiPoint3 *>((void *)(((Pt*)&diff)))->ComputeMagnitude());
         diff.z = 0.0f;
-        float v44c = ((Pt*)&diff)->Length();
-        float v450 = FUN_004b1550(&diff);
+        float v44c = reinterpret_cast<::NiPoint3 *>((void *)(((Pt*)&diff)))->ComputeMagnitude();
+        float v450 = ::GetAngleFromVector((*(const ::NiPoint3 *)(&diff)));
         float v454 = a2;
-        if (v454 == gModifierZero)
+        if (v454 == ::_DAT_01012060)
         {
-            v454 = ((PathingRequest*)a1)->GetFloatAtOffset68();
+            v454 = ::GetFloatAtOffset68((const char *)(((PathingRequest*)a1)));
         }
-        cnt = (unsigned int)DAT_011cfd7c.Int()->value;
+        cnt = (unsigned int)((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GameSettingCollection *>(&::g_011cfd7c))))))->value;
         float v464 = v44c / cnt;
         float v468 = FUN_004e44b0(v450) * v464;
         float v46c = cos(v450) * v464;
@@ -233,18 +233,18 @@ bool __cdecl FUN_009a6e90(void* a0, void* a1, float a2, float s0, float s1, floa
             v430 = i + 1;
             pos = *(NiPoint3*)&s0;
             float t = (float)(v430 * v464);
-            float v488 = t * v470 - v2c * t * t / (v454 * v454 * v474 * v474 * DAT_01011590);
+            float v488 = t * v470 - v2c * t * t / (v454 * v454 * v474 * v474 * ::DAT_01011590);
             pos.x += v430 * v468;
             pos.y += v430 * v46c;
             pos.z += v488;
-            ((FUN_004a3da0_shell*)&obj410)->FUN_004a3da0(&vecStart);
+            reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>((((FUN_004a3da0_shell*)&obj410)))->FUN_004a3da0(&vecStart);
             ((FUN_004a3eb0_shell*)&obj410)->FUN_004a3eb0(&pos);
-            v30 = ((FUN_00553ee0_shell*)((TESObjectREFR*)a0)->GetTarget(&obj410))->FUN_00553ee0();
-            v34 = FUN_009c0d80(&obj410, 0, a1, &frac, 0, 3.4028234663852886e38f);
-            if (*(unsigned char*)DAT_011f1c4c.Bool() &&
-                (DAT_011dea24 == 0 || DAT_011dea24 == DAT_011dea3c || DAT_011dea24 == (int)a0))
+            v30 = ((int)(((FUN_00553ee0_shell*)((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((((TESObjectREFR*)a0)))->GetTarget())))->FUN_00553ee0({})));
+            v34 = ::FUN_009c0d80((::Scene *)(void *)(&obj410), (::Controller *)(0), (int)(a1), &frac, 0, 3.4028234663852886e38f);
+            if (*(unsigned char*)(*reinterpret_cast<::GameSettingCollection *>(&::g_011f1c4c)).Bool() &&
+                (DAT_011dea24 == 0 || DAT_011dea24 == (*reinterpret_cast<int *>(&::_g_thePlayer)) || DAT_011dea24 == (int)a0))
             {
-                DrawDebugLine(&vecStart, &pos, v34, frac, 0, 0);
+                ::DrawDebugLine((*(const ::DebugPoint *)(&vecStart)), (*(const ::DebugPoint *)(&pos)), v34, frac, (const ::RgbaColor *)(0), (const ::RgbaColor *)(0));
             }
             if (v34)
                 break;
@@ -256,13 +256,11 @@ bool __cdecl FUN_009a6e90(void* a0, void* a1, float a2, float s0, float s1, floa
     {
         if (outInt)
         {
-            *outInt = FUN_0056f930(v34);
+            *outInt = ((int)(::FUN_0056f930((::NiAVObject *)(v34))));
         }
         if (outPt)
         {
-            *outPt = ((NiPoint3Ex*)&((NiPoint3_helper*)&((PtOp*)&pos)->operator-(vecStart))->operator*(frac))
-                         ->
-                         operator+(vecStart);
+            *outPt = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)(((NiPoint3Ex*)&((NiPoint3_helper*)&(*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((PtOp*)&pos)))->FUN_00439ef0-((::NiPoint3 *)&(vecStart), *(const ::NiPoint3 *)nullptr))))->operator*(frac))))->ProjectileLaunched+((::NiPoint3 *)&(vecStart), {})));
         }
         if (outFrac)
         {
@@ -275,9 +273,9 @@ bool __cdecl FUN_009a6e90(void* a0, void* a1, float a2, float s0, float s1, floa
                 *outFrac = frac / cnt + (v430 - 1) / (float)cnt;
             }
         }
-        DAT_011f1c7c.FUN_00483710();
+        reinterpret_cast<::TESForm *>(&((*reinterpret_cast<::LockObj *>(&::g_011f1c7c))))->ClearData();
         return true;
     }
-    DAT_011f1c7c.FUN_00483710();
+    reinterpret_cast<::TESForm *>(&((*reinterpret_cast<::LockObj *>(&::g_011f1c7c))))->ClearData();
     return false;
 }

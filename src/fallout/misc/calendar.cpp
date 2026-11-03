@@ -1,5 +1,22 @@
 // fallout/misc/calendar.cpp: Calendar, CalendarProxy, CalendarDateFormatter, Thing (17 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_0046dce0_class.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_004b1000.h"
+#include "fnv/symbols_01012000.h"
 #include "calendar_types_CALENDAR_MONTH.h"
 #include "calendar_types_DAYS_OF_THE_WEEK.h"
 #include "calendar_types_Calendar.h"
@@ -11,22 +28,10 @@ char Calendar::GetGameHour()
     return ((const char*)this)[3];
 }
 
-// @fnv 0x00867950
-float Calendar::GetGameTimeScale()
-{
-    return reinterpret_cast<TESGlobalValueReader*>(pHourGlobal)->GetValue();
-}
-
 // @fnv 0x00867ef0
 DAYS_OF_THE_WEEK Calendar::GetGameDayOfWeek()
 {
     return (DAYS_OF_THE_WEEK)(GetGameDaysPassed() % 7);
-}
-
-// @fnv 0x00867d60
-int Calendar::GetDayOfMonth()
-{
-    return (int)(m_pDayGlobal ? reinterpret_cast<TESGlobalValueReader*>(m_pDayGlobal)->GetValue() : 17.0f);
 }
 
 // @fnv 0x00450d80
@@ -40,105 +45,10 @@ void Calendar::ResetCachedValues()
     *((unsigned int*)((char*)this + 0x4c)) = 0x7fffffff;
 }
 
-// Returns the game days passed as an unsigned int from the global value reader, or 1 if the reader is null.
-// @fnv 0x00867de0
-unsigned int Calendar::GetGameDaysPassed()
-{
-    return (unsigned int)(m_pGameDaysPassedGlobal
-                              ? reinterpret_cast<TESGlobalValueReader*>(m_pGameDaysPassedGlobal)->GetValue()
-                              : 1.0f);
-}
-
-// Returns the value read from the global value reader if present, otherwise 12.0f.
-// @fnv 0x00867da0
-float Calendar::GetGameTime()
-{
-    return m_pHourGlobal ? reinterpret_cast<TESGlobalValueReader*>(m_pHourGlobal)->GetValue() : 12.0f;
-}
-
-// Returns the month from the calendar's global value reader, or August when no reader is set.
-// @fnv 0x00867d20
-CALENDAR_MONTH Calendar::GetCurrentMonth()
-{
-    return m_pMonthGlobal ? (CALENDAR_MONTH)(char)reinterpret_cast<TESGlobalValueReader*>(m_pMonthGlobal)->GetValue()
-                          : CALENDAR_MONTH_MONTH_AUGUST;
-}
-
-// @fnv 0x00867e30
-unsigned int Calendar::GetGameHoursPassed()
-{
-    float fDays =
-        m_pGameDaysPassedGlobal ? reinterpret_cast<TESGlobalValueReader*>(m_pGameDaysPassedGlobal)->GetValue() : 1.0f;
-    return (unsigned int)floor(fDays * 24.0);
-}
-
-// Advances the calendar clock by afDeltaTime, rolling hours into days, months and years and updating the related global values.
-// @fnv 0x00867a40
-void Calendar::Update(float afDeltaTime)
-{
-    float fHour;
-    float fHoursPassed = reinterpret_cast<TESGlobalValueReader*>(pHourGlobal)->GetValue() * afDeltaTime / DAT_01012640;
-    fHour = reinterpret_cast<TESGlobalValueReader*>(m_pHourGlobal)->GetValue() + fHoursPassed;
-
-    if (!(DAT_011de7e8 & 1))
-    {
-        DAT_011de7e8 |= 1;
-        DAT_011de7e4 = fHour;
-    }
-
-    if (bUnknown1C || DAT_011de7e4 + 1.0 < fHour)
-    {
-        int iDays = (int)reinterpret_cast<TESGlobalValueReader*>(m_pGameDaysPassedGlobal)->GetValue();
-        m_pGameDaysPassedGlobal->SetValue((float)(iDays + fHour / 24.0));
-        bUnknown1C = false;
-    }
-
-    if (fHour > 24.0)
-    {
-        float fDay = reinterpret_cast<TESGlobalValueReader*>(m_pDayGlobal)->GetValue();
-        float fMonth = reinterpret_cast<TESGlobalValueReader*>(m_pMonthGlobal)->GetValue();
-        float fYear = reinterpret_cast<TESGlobalValueReader*>(m_pYearGlobal)->GetValue();
-        unsigned short usDaysInMonth = GetShortFromTable((char)fMonth);
-
-        while (fHour > 24.0)
-        {
-            fHour -= 24.0;
-            fDay += 1.0;
-        }
-
-        if (usDaysInMonth < fDay)
-        {
-            fDay -= usDaysInMonth;
-            fMonth += 1.0;
-            if (fMonth >= 12.0)
-            {
-                fMonth -= 12.0;
-                fYear += 1.0;
-                m_pYearGlobal->SetValue(fYear);
-            }
-            m_pMonthGlobal->SetValue(fMonth);
-        }
-        m_pDayGlobal->SetValue(fDay);
-        m_uiDaysPassed++;
-    }
-
-    m_pGameDaysPassedGlobal->SetValue(
-        (float)(reinterpret_cast<TESGlobalValueReader*>(m_pGameDaysPassedGlobal)->GetValue() + fHoursPassed / 24.0));
-    DAT_011de7e4 = fHour;
-    m_pHourGlobal->SetValue(fHour);
-}
-
 struct FUN_00867c60_shell : public Calendar
 {
     unsigned int FUN_00867c60();
 };
-
-// Returns the value read by the TESGlobalValueReader stored at the start of the object, or 77.0f when that pointer is null.
-// @fnv 0x00867c60
-unsigned int FUN_00867c60_shell::FUN_00867c60()
-{
-    return (int)(*(TESGlobalValueReader**)this ? (*(TESGlobalValueReader**)this)->GetValue() : 77.0f);
-}
 
 struct FUN_008aced0_cv
 {
@@ -184,11 +94,109 @@ const char* CalendarProxy::GetDayName()
     return "Bad Day";
 }
 
-extern double DAT_01012638;
 struct FUN_00526ac0_shell
 {
     float FUN_00526ac0();
 };
+// @fnv 0x00867950
+float Calendar::GetGameTimeScale()
+{
+    return reinterpret_cast<::FUN_00526ac0_shell *>((reinterpret_cast<TESGlobalValueReader*>(pHourGlobal)))->FUN_00526ac0();
+}
+// @fnv 0x00867d60
+int Calendar::GetDayOfMonth()
+{
+    return (int)(m_pDayGlobal ? reinterpret_cast<::FUN_00526ac0_shell *>((reinterpret_cast<TESGlobalValueReader*>(m_pDayGlobal)))->FUN_00526ac0() : 17.0f);
+}
+// Returns the game days passed as an unsigned int from the global value reader, or 1 if the reader is null.
+// @fnv 0x00867de0
+unsigned int Calendar::GetGameDaysPassed()
+{
+    return (unsigned int)(m_pGameDaysPassedGlobal
+                              ? reinterpret_cast<::FUN_00526ac0_shell *>((reinterpret_cast<TESGlobalValueReader*>(m_pGameDaysPassedGlobal)))->FUN_00526ac0()
+                              : 1.0f);
+}
+// Returns the value read from the global value reader if present, otherwise 12.0f.
+// @fnv 0x00867da0
+float Calendar::GetGameTime()
+{
+    return m_pHourGlobal ? reinterpret_cast<::FUN_00526ac0_shell *>((reinterpret_cast<TESGlobalValueReader*>(m_pHourGlobal)))->FUN_00526ac0() : 12.0f;
+}
+// Returns the month from the calendar's global value reader, or August when no reader is set.
+// @fnv 0x00867d20
+CALENDAR_MONTH Calendar::GetCurrentMonth()
+{
+    return m_pMonthGlobal ? (CALENDAR_MONTH)(char)reinterpret_cast<::FUN_00526ac0_shell *>((reinterpret_cast<TESGlobalValueReader*>(m_pMonthGlobal)))->FUN_00526ac0()
+                          : CALENDAR_MONTH_MONTH_AUGUST;
+}
+// @fnv 0x00867e30
+unsigned int Calendar::GetGameHoursPassed()
+{
+    float fDays =
+        m_pGameDaysPassedGlobal ? reinterpret_cast<::FUN_00526ac0_shell *>((reinterpret_cast<TESGlobalValueReader*>(m_pGameDaysPassedGlobal)))->FUN_00526ac0() : 1.0f;
+    return (unsigned int)floor(fDays * 24.0);
+}
+// Advances the calendar clock by afDeltaTime, rolling hours into days, months and years and updating the related global values.
+// @fnv 0x00867a40
+void Calendar::Update(float afDeltaTime)
+{
+    float fHour;
+    float fHoursPassed = reinterpret_cast<::FUN_00526ac0_shell *>((reinterpret_cast<TESGlobalValueReader*>(pHourGlobal)))->FUN_00526ac0() * afDeltaTime / ::DAT_01012640;
+    fHour = reinterpret_cast<::FUN_00526ac0_shell *>((reinterpret_cast<TESGlobalValueReader*>(m_pHourGlobal)))->FUN_00526ac0() + fHoursPassed;
+
+    if (!(DAT_011de7e8 & 1))
+    {
+        DAT_011de7e8 |= 1;
+        DAT_011de7e4 = fHour;
+    }
+
+    if (bUnknown1C || DAT_011de7e4 + 1.0 < fHour)
+    {
+        int iDays = (int)reinterpret_cast<::FUN_00526ac0_shell *>((reinterpret_cast<TESGlobalValueReader*>(m_pGameDaysPassedGlobal)))->FUN_00526ac0();
+        reinterpret_cast<::FUN_0046dce0_class *>((m_pGameDaysPassedGlobal))->FUN_0046dce0((float)(iDays + fHour / 24.0));
+        bUnknown1C = false;
+    }
+
+    if (fHour > 24.0)
+    {
+        float fDay = reinterpret_cast<::FUN_00526ac0_shell *>((reinterpret_cast<TESGlobalValueReader*>(m_pDayGlobal)))->FUN_00526ac0();
+        float fMonth = reinterpret_cast<::FUN_00526ac0_shell *>((reinterpret_cast<TESGlobalValueReader*>(m_pMonthGlobal)))->FUN_00526ac0();
+        float fYear = reinterpret_cast<::FUN_00526ac0_shell *>((reinterpret_cast<TESGlobalValueReader*>(m_pYearGlobal)))->FUN_00526ac0();
+        unsigned short usDaysInMonth = ((unsigned short)(::GetShortFromTable((char)fMonth)));
+
+        while (fHour > 24.0)
+        {
+            fHour -= 24.0;
+            fDay += 1.0;
+        }
+
+        if (usDaysInMonth < fDay)
+        {
+            fDay -= usDaysInMonth;
+            fMonth += 1.0;
+            if (fMonth >= 12.0)
+            {
+                fMonth -= 12.0;
+                fYear += 1.0;
+                reinterpret_cast<::FUN_0046dce0_class *>((m_pYearGlobal))->FUN_0046dce0(fYear);
+            }
+            reinterpret_cast<::FUN_0046dce0_class *>((m_pMonthGlobal))->FUN_0046dce0(fMonth);
+        }
+        reinterpret_cast<::FUN_0046dce0_class *>((m_pDayGlobal))->FUN_0046dce0(fDay);
+        m_uiDaysPassed++;
+    }
+
+    reinterpret_cast<::FUN_0046dce0_class *>((m_pGameDaysPassedGlobal))->FUN_0046dce0(
+        (float)(reinterpret_cast<::FUN_00526ac0_shell *>((reinterpret_cast<TESGlobalValueReader*>(m_pGameDaysPassedGlobal)))->FUN_00526ac0() + fHoursPassed / 24.0));
+    DAT_011de7e4 = fHour;
+    reinterpret_cast<::FUN_0046dce0_class *>((m_pHourGlobal))->FUN_0046dce0(fHour);
+}
+// Returns the value read by the TESGlobalValueReader stored at the start of the object, or 77.0f when that pointer is null.
+// @fnv 0x00867c60
+unsigned int FUN_00867c60_shell::FUN_00867c60()
+{
+    return (int)(*(TESGlobalValueReader**)this ? reinterpret_cast<::FUN_00526ac0_shell *>(((*(TESGlobalValueReader**)this)))->FUN_00526ac0() : 77.0f);
+}
 struct FUN_00867ea0_shell
 {
     char _pad[16];
@@ -213,13 +221,10 @@ class DateString
     DateString();
     DateString(const DateString& kOther);
     ~DateString();
-    int PrintfString(const char* pFormat, ...);
 };
 
 struct CalendarDateFormatter : public Calendar
 {
-    unsigned int GetYearNumber();
-    char GetDayNumber();
     int GetMonthIndex();
     DateString FormatDate();
 };
@@ -229,7 +234,7 @@ struct CalendarDateFormatter : public Calendar
 DateString CalendarDateFormatter::FormatDate()
 {
     DateString kDate;
-    kDate.PrintfString("%02d.%02d.%02d", GetMonthIndex() + 1, GetDayNumber(), GetYearNumber() % 100);
+    ::FUN_00406f60((::FUN_00406f90_this *)&(kDate), "%02d.%02d.%02d", GetMonthIndex() + 1, ((char)(reinterpret_cast<::Calendar *>(this)->GetDayOfMonth())), reinterpret_cast<::FUN_00867c60_shell *>(this)->FUN_00867c60() % 100);
     return kDate;
 }
 

@@ -2,13 +2,17 @@
 // src/havok/physics/collide/agent3/machine/1n/hkpagent1nmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/machine/1n/hkpagent1nmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-void ProcessEntryPair();
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cfe000.h"
+#include "fnv/symbols_00d2c000.h"
+#include "fnv/symbols_00da3000.h"
+#include "fnv/symbols_01012000.h"
 void FUN_00da44d0(int, int, void*);
 
 // @fnv 0x00da48e0
 void FUN_00da48e0(int b, int a)
 {
-    FUN_00da44d0(b, a, (void*)&ProcessEntryPair);
+    FUN_00da44d0(b, a, (void*)&((void (&)())::ProcessEntryPair));
 }
 
 typedef unsigned int BlockPoolsize_t;
@@ -34,8 +38,6 @@ struct BlockPoolMemoryRouter
 };
 
 extern "C" BlockPoolMemoryRouter& __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(BlockPoolAllocator* alloc, void* array, int numElements, int sizeElem);
-void __cdecl ResizeAudioStream(void* alloc, void* array, int sizeElem);
 
 struct BlockPoolBlock
 {
@@ -78,14 +80,14 @@ struct BlockPoolArray
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, sizeof(BlockPoolBlock*));
+            ::FUN_00c908c0((::SpawnedObject *)(::BlockPoolAllocator *)(&alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(BlockPoolBlock*));
         }
     }
 
     BlockPoolBlock*& _expandOne(BlockPoolAllocator& alloc)
     {
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&alloc, this, sizeof(BlockPoolBlock*));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(BlockPoolBlock*));
         return m_data[m_iElementCount++];
     }
 };
@@ -1765,9 +1767,6 @@ struct S_00da40e0_Input
     S_00da40e0_ConstraintOwner* m_pConstraintOwner;
 };
 
-const S_00da40e0_CdBody* __cdecl FUN_00cfe1d0(const S_00da40e0_CdBody* cdBody, S_00da40e0_CdBody* newCdBodies,
-                                              S_00da40e0_MotionState* newMotionStates, int numSlots,
-                                              unsigned char& changeCounter);
 
 // @fnv 0x00da40e0
 S_00da40e0_Entry* __cdecl ProcessCollisionEntry(const S_00da40e0_Input& aInput, S_00da40e0_Entry* entry,
@@ -1804,8 +1803,8 @@ S_00da40e0_Entry* __cdecl ProcessCollisionEntry(const S_00da40e0_Input& aInput, 
             if (entry->m_ucAgentType & 8)
             {
                 unsigned char ucChangeCounter = 0;
-                pBodyB = FUN_00cfe1d0(pBodyB, newCdBodiesB, newMotionStatesB, 4, ucChangeCounter);
-                pBodyA = FUN_00cfe1d0(pBodyA, newCdBodiesA, newMotionStatesA, 4, ucChangeCounter);
+                pBodyB = ((const ::S_00da40e0_CdBody *)(::FUN_00cfe1d0((::Entry *)(pBodyB), (::Entry *)(newCdBodiesB), (::Vector *)(newMotionStatesB), 4, (unsigned char *)&(ucChangeCounter))));
+                pBodyA = ((const ::S_00da40e0_CdBody *)(::FUN_00cfe1d0((::Entry *)(pBodyA), (::Entry *)(newCdBodiesA), (::Vector *)(newMotionStatesA), 4, (unsigned char *)&(ucChangeCounter))));
             }
 
             unsigned char command = (unsigned char)(entry->m_ucAgentType & 7);
@@ -1873,7 +1872,7 @@ S_00da40e0_Entry* __cdecl ProcessEntryPair(const S_00da40e0_Input& in, S_00da40e
                 unsigned char changeCounter = 0;
                 S_00da40e0_MotionState motionStates[4];
                 S_00da40e0_CdBody cdBodies[4];
-                pBodyB = FUN_00cfe1d0(pBodyB, cdBodies, motionStates, 4, changeCounter);
+                pBodyB = ((const ::S_00da40e0_CdBody *)(::FUN_00cfe1d0((::Entry *)(pBodyB), (::Entry *)(cdBodies), (::Vector *)(motionStates), 4, (unsigned char *)&(changeCounter))));
             }
             unsigned char command = entry->m_ucAgentType & 7;
             if (command == 3 || command == 5)
@@ -1898,7 +1897,6 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
 
 extern "C" __m128 _mm_setzero_ps(void);
 
-extern const float DAT_01012054;
 
 struct hkVector4
 {
@@ -2279,7 +2277,6 @@ __forceinline static void streamCopy(void* dst, const void* src, int count)
         s += 4;
     } while (--count > 0);
 }
-void __cdecl FUN_00d2cc70(void*, const void*, unsigned int);
 typedef unsigned char*(__cdecl* StreamTransform)(void*, unsigned char*, unsigned char*);
 // Walks records in the BlockPoolArray blocks, copies them into new 512-byte blocks, applies the callback to some record types, and replaces the array contents.
 // @fnv 0x00da44d0
@@ -2362,7 +2359,7 @@ process:
         inIndex = blocks->m_iElementCount + 1;
         int tail = -(count - blocks->m_iElementCount);
         blocks->GrowArrayCapacity(alloc, inIndex);
-        FUN_00d2cc70(&blocks->m_data[count + 1], &blocks->m_data[count], tail * sizeof(BlockPoolBlock*));
+        ::FUN_00d2cc70(&blocks->m_data[count + 1], (void *)(&blocks->m_data[count]), tail * sizeof(BlockPoolBlock*));
         blocks->m_iElementCount = inIndex;
         inIndex = count + 1;
     }

@@ -1,16 +1,27 @@
 
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00c35eb0.h"
+#include "fnv/decl/NiRefObject.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_010f0000.h"
+#include "fnv/symbols_01202000.h"
 #include "niconsolepersistentsrctexturerendererdata_decls.h"
 
+class NiObject;
 struct NiStream
 {
-    void ResetStreamState();
+public:
+    ::NiObject *GetLoadedObject();
 };
 
 struct NiObject
 {
-    void LoadBinary(NiStream&);
 };
 
 struct FUN_00c36040_Class
@@ -21,8 +32,8 @@ struct FUN_00c36040_Class
 // @fnv 0x00c36040
 void __thiscall FUN_00c36040_Class::FUN_00c36040(NiStream* stream)
 {
-    ((NiObject*)this)->LoadBinary(*stream);
-    stream->ResetStreamState();
+    reinterpret_cast<::FUN_00a5d610_Object *>((((NiObject*)this)))->ReadGroup((::NiStream *)&(*stream));
+    reinterpret_cast<::FUN_00a645b0_cls *>((stream))->FUN_00a645b0();
 }
 
 namespace fnv_00c36070 {
@@ -35,7 +46,6 @@ class NiObject
 class NiStream
 {
   public:
-    class NiObject* GetLoadedObject();
 };
 struct GO
 {
@@ -52,8 +62,8 @@ void Holder::FUN_00c36070(class NiStream& stream)
 {
     int _u1;
     int _u2;
-    NiObject::LinkObject(stream);
-    m_go = stream.GetLoadedObject();
+    ::FUN_00a89af0((int)this);
+    m_go = ((::fnv_00c36070::NiObject *)(reinterpret_cast<::NiStream *>(&(stream))->GetLoadedObject()));
 }
 }  // namespace fnv_00c36070
 
@@ -71,16 +81,14 @@ void* __thiscall FUN_00c36220_class::FUN_00c36220(int arg)
 
 struct S_00c36290
 {
-    void FUN_00c35eb0();
     void* FUN_00c36290(unsigned int);
 };
-void _delete(void*, unsigned int);
 // @fnv 0x00c36290
 void* S_00c36290::FUN_00c36290(unsigned int flags)
 {
-    this->FUN_00c35eb0();
+    reinterpret_cast<::FUN_00c35eb0 *>((this))->FUN_00c35eb0::~FUN_00c35eb0();
     if (flags & 1)
-        _delete(this, 0x10);
+        ::FUN_00aa1460(this, 0x10);
     return this;
 }
 
@@ -108,7 +116,6 @@ void S_00c362c0::FUN_00c362c0()
     }
 }
 
-extern "C" void* g_01202810;
 
 struct FUN_00c36300_Class
 {
@@ -118,7 +125,7 @@ struct FUN_00c36300_Class
 // @fnv 0x00c36300
 void* __thiscall FUN_00c36300_Class::FUN_00c36300()
 {
-    return &g_01202810;
+    return &(*reinterpret_cast<void * *>(&::g_01202810));
 }
 
 struct BSMultiBound
@@ -162,12 +169,11 @@ struct S_00c36130
     int unk04;
     int unk08;
     int unk0c;
-    bool IsSameAs(S_00c36130*);
     bool FUN_00c36130(S_00c36130*);
 };
 bool S_00c36130::FUN_00c36130(S_00c36130* arg)
 {
-    bool result = IsSameAs(arg);
+    bool result = reinterpret_cast<::A5d470Class *>(this)->IsSameAs((::A5d470Object *)(arg));
     S_00c36130* other = arg;
     {
         int a;
@@ -212,7 +218,7 @@ struct FUN_00c360f0_shell : fnv_00c36070::NiObject
 // @fnv 0x00c360f0
 void FUN_00c360f0_shell::FUN_00c360f0(fnv_00c36070::NiStream& s)
 {
-    fnv_00c36070::NiObject::LinkObject(s);
+    ::FUN_00a89af0((int)this);
     int tmp = val;
     reinterpret_cast<FUN_00c360f0_StreamVTable&>(s).f12(tmp);
 }

@@ -5,10 +5,12 @@
 
 // src/havok/physics/collide/shape/hkpshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/hkpshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_010c9000.h"
 #include "havok/hkpShape.h"
 int __stdcall FUN_00c9e3f0(void* p, int size);
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 struct hkSimdVector4
 {
     __m128 m_vComponents;
@@ -17,8 +19,6 @@ struct hkSimdVector4
 struct Vector4Comparison
 {
     __m128 m_uiMask;
-    static const int s_masks[4];
-    static const __m128 s_maskToComparison[16];
 };
 
 struct hkFourTransposedPoints
@@ -101,19 +101,19 @@ Vector4Comparison hkpShapeBase::FUN_00c9e400(const ShapeRayBundleCastInput& inpu
     int resultMask = 0;
     for (int i = 0; i < 4; i++)
     {
-        if (_mm_movemask_ps(mask.m_uiMask) & Vector4Comparison::s_masks[i])
+        if (_mm_movemask_ps(mask.m_uiMask) & (*reinterpret_cast<const int (*)[4]>(&::DAT_010c92e0))[i])
         {
             singleInput.m_vFrom.m_vComponents = from[i];
             singleInput.m_vTo.m_vComponents = to[i];
             hkBoolRet hit = RayCast(singleInput, results.m_akRayOutputs[i]);
             if (hit.m_cBooleanValue)
             {
-                resultMask |= Vector4Comparison::s_masks[i];
+                resultMask |= (*reinterpret_cast<const int (*)[4]>(&::DAT_010c92e0))[i];
             }
         }
     }
 
     Vector4Comparison result;
-    result.m_uiMask = Vector4Comparison::s_maskToComparison[resultMask];
+    result.m_uiMask = (*reinterpret_cast<const __m128 (*)[16]>(&::DAT_01268460))[resultMask];
     return result;
 }

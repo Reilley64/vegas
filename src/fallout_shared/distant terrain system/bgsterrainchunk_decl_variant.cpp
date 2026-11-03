@@ -5,6 +5,47 @@
 
 // src/fallout_shared/distant terrain system/bgsterrainchunk.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/distant terrain system/bgsterrainchunk.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/AlchemyItem.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSFaceGenNiNode.h"
+#include "fnv/decl/BSShaderManager.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00439680_class.h"
+#include "fnv/decl/FUN_0043caa0_shell.h"
+#include "fnv/decl/FUN_004410d0_Class.h"
+#include "fnv/decl/FUN_004536e0_Class.h"
+#include "fnv/decl/FUN_004ea9a0_Class.h"
+#include "fnv/decl/FUN_006fa670_Target.h"
+#include "fnv/decl/FUN_006fe920_Class.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00c3cee0_shell.h"
+#include "fnv/decl/Mgr_e74120.h"
+#include "fnv/decl/ObjectC3.h"
+#include "fnv/decl/SelfX.h"
+#include "fnv/decl/TargetObject.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_004436c0__FUN_004436c0_Class.h"
+#include "fnv/decl/fnv_00c3cb70__IOTask.h"
+#include "fnv/decl/fnv_00c3cf60__FUN_00c3cf60_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00438000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0043c000.h"
+#include "fnv/symbols_00441000.h"
+#include "fnv/symbols_0048d000.h"
+#include "fnv/symbols_004ad000.h"
+#include "fnv/symbols_00549000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_006fa000.h"
+#include "fnv/symbols_006fd000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_01202000.h"
 struct FUN_006fa840_shell
 {
     unsigned char GetByteAt5D();
@@ -15,7 +56,6 @@ struct FUN_006fb150_shell
 };
 struct NiAVObject
 {
-    void SetAppCulled(bool);
 };
 struct Flt
 {
@@ -35,8 +75,6 @@ struct QueuedFileEntry
     virtual ~QueuedFileEntry();
     int f4[0x2c / 4];
     QueuedFileEntry(int priority);
-    void FUN_00c3cee0(const char* name);
-    void LookupFileEntryByArchive(int a);
 };
 template <class T> struct ChunkPtr
 {
@@ -60,9 +98,7 @@ struct BGSTerrainChunkLoadTask : QueuedFileEntry
     BGSTerrainChunkLoadTask(void* block, TESWorldSpace* space, int x, int y, int level);
     bool FUN_006fc400(char* apDescription, unsigned int aiBufferSize);
 };
-extern int _sprintf_s(char*, unsigned int, const char*, ...);
 extern "C" void __cdecl UpdateListItems();
-void __cdecl FUN_006fd1a0();
 struct FakeWorld006faad0
 {
     virtual const char* f0();
@@ -143,7 +179,6 @@ struct FakeWorld006faad0
     virtual const char* f75();
     virtual const char* GetStr();
 };
-void BuildLodMeshPath(char* a1, FakeWorld006faad0* a2, int a3, short a4, short a5);
 int __cdecl _sprintf(char*, const char*, ...);
 struct FakeFab
 {
@@ -235,10 +270,8 @@ struct S_006fbae0
     void FUN_006fbb10();
     void* DestroyIfFlagged(unsigned int);
 };
-void __cdecl _Deallocate(void*);
 struct FUN_006fbcd0_shell
 {
-    void FUN_00c3cb70(int a, int b);
     void SetFlagAndCall(int a, int b);
 };
 struct FUN_006fbfe0_shell
@@ -247,8 +280,6 @@ struct FUN_006fbfe0_shell
 };
 struct IOTask
 {
-    bool FUN_0043caa0();
-    void NotifyParents();
 };
 struct SoundPlaybackHandle;
 template <class K, class V> struct NiTPointerMap
@@ -277,7 +308,6 @@ struct IOManager
     virtual void v17();
     virtual void vfn_48(void*);
 };
-extern IOManager* DAT_01202d98;
 struct FUN_006f7140_shell : IOTask
 {
     char _pad[48];
@@ -369,7 +399,6 @@ void __cdecl BuildLODDiffuseTexturePath(char* buf, FakeObj* obj, int level, shor
 struct GO;
 struct FUN_006fea10_Class
 {
-    unsigned char FUN_006fe920(bool);
 };
 struct GO
 {
@@ -379,17 +408,13 @@ struct GO
 struct SoundListView
 {
     bool _ref_008256d0();
-    GO** _ref_006815c0();
-    SoundListView* _ref_00726070();
 };
-extern SoundListView g_011d8624;
 void UpdateSoundListItems();
 struct QueuedFile
 {
 };
 struct ModelLoader
 {
-    void QueueModelFilePath(const char*, int, QueuedFile*);
 };
 struct FUN_0043cc60_shell
 {
@@ -413,7 +438,6 @@ struct FUN_006fbbd0_shell : BGSTerrainChunkLoadTask
 {
     void LoadTerrainChunkTextures();
 };
-extern ModelLoader* g_modelLoader;
 void __cdecl BuildLODDiffuseTexturePath(char*, FakeObj*, int, short, short);
 struct FUN_006fbb10_base
 {
@@ -450,7 +474,6 @@ struct FUN_006fbb10 : FUN_006fbb10_base
     FUN_006fbb10_sub m_50;
     FUN_006fbb10_sub m_54;
 };
-extern "C" char DAT_011d85ec;
 struct Point006fac
 {
     float x, y, z;
@@ -468,24 +491,11 @@ struct TESObjectDoorController
 struct Obj006fac;
 struct Ref006fac
 {
-    Obj006fac* FUN_00559450();
     void FUN_0066b0d0(void*);
     int data;
 };
 struct Obj006fac
 {
-    Obj006fac* FUN_00559450();
-    Obj006fac* FUN_004ea9a0();
-    Obj006fac* FUN_006629f0();
-    Obj006fac* FUN_0043b230();
-    Point006fac& GetOffsetC();
-    Point006fac& FUN_00500940();
-    float GetFieldCC();
-    void FUN_00439920(void*);
-    void FUN_00a5a040();
-    void FUN_00a59c60(const FUN_0043d410&);
-    unsigned char GetByteAtOffset5C();
-    unsigned char GetByteAt5D();
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -594,7 +604,6 @@ struct FUN_00c37ec0 : TESObjectDoorController
     virtual void v44();
     virtual void v45();
     virtual void position(const Point006fac&);
-    void FUN_00439680(const Point006fac&);
 };
 struct FUN_00c46970 : TESObjectDoorController
 {
@@ -605,7 +614,6 @@ struct BSMultiBound : TESObjectDoorController
 {
     int pad[4];
     BSMultiBound();
-    void FUN_004addc0(FUN_00c37ec0*);
 };
 struct Target006fac
 {
@@ -614,27 +622,16 @@ struct Target006fac
     int p1c, p20, p24;
     unsigned char enabled, done;
     void FUN_006facb0();
-    Obj006fac* FUN_00559450();
-    void UpdateWaterReferences(int);
-    void FUN_006fb7e0();
-    void AddSelfToList();
-    void SetAllAppCulled();
 };
 struct B5D0Status
 {
-    unsigned char GetByteAtOffset5C();
 };
 struct B5D0Item
 {
-    B5D0Status* FUN_00559450();
-    void FUN_006fb760();
-    void SetAllAppCulled();
 };
 struct B5D0List
 {
     bool FUN_008256d0();
-    B5D0Item** FUN_006815c0();
-    B5D0List* FUN_00726070();
 };
 void __cdecl UpdateListItems();
 template <class T> class NiPointer
@@ -650,14 +647,13 @@ class NiProperty;
 class NiProperty : public FUN_006fb940_shell
 {
   public:
-    void FUN_00441130(int, int);
 };
 class NiGeometryData
 {
   public:
-    void SetByteAtOffset38(int);
     void FUN_00a67050(int);
-    void FUN_004410f0(int);
+public:
+    void SetCompressFlags(unsigned char);
 };
 struct PropState
 {
@@ -796,18 +792,11 @@ class NiRenderer
     virtual void v57();
     virtual void v58();
     virtual void v59(NiGeometry*, int, int, void*);
-    void FUN_00e74120();
 };
 class NiGeometry : public NiAVObject
 {
   public:
-    NiProperty* GetProperty(unsigned int);
-    NiGeometryData* FUN_005495f0();
-    PropState* FUN_004030b0();
 };
-int FUN_00438220();
-void __cdecl FUN_00b57e30(NiGeometry*, int, int);
-NiRenderer* FUN_0043c4b0();
 class TerrainChunk
 {
   public:
@@ -837,17 +826,14 @@ struct NiFixedString
 };
 struct LoadedNode
 {
-    void AssignFixedString(const NiFixedString&);
 };
 struct NodeRef
 {
     LoadedNode* m_ptr;
-    LoadedNode* Get() const;
     NodeRef& operator=(void*);
 };
 struct FinalObject
 {
-    void FUN_006fa990();
 };
 struct TerrainTask : BGSTerrainChunkLoadTask
 {
@@ -861,14 +847,13 @@ struct TerrainTask : BGSTerrainChunkLoadTask
     void UpdateTerrainLODNames();
 };
 
-void BuildLodMeshPath(char*, TESWorldSpace*, int, short, short);
 // @fnv 0x006fb980
 BGSTerrainChunkLoadTask::BGSTerrainChunkLoadTask(void* block, TESWorldSpace* space, int x, int y, int level)
     : QueuedFileEntry(3), unk30(false), iX(x), iY(y), iLevel(level), owner(block), world(space), unk48(0), unk4c(0),
       unk50(0), unk54(0), unk58(false)
 {
     char fileName[260];
-    BuildLodMeshPath(fileName, world, level, (short)x, (short)y);
-    FUN_00c3cee0(fileName + 5);
-    LookupFileEntryByArchive(0);
+    ::BuildLodMeshPath(fileName, (::FakeWorld006faad0 *)(world), level, (short)x, (short)y);
+    reinterpret_cast<::FUN_00c3cee0_shell *>(this)->FUN_00c3cee0((char *)(fileName + 5));
+    reinterpret_cast<::fnv_00c3cf60::FUN_00c3cf60_shell *>(this)->LookupFileEntryByArchive(0);
 }

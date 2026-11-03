@@ -2,6 +2,12 @@
 #ifndef FNV_TESBIPEDMODELFORM_DECLS_H
 #define FNV_TESBIPEDMODELFORM_DECLS_H
 
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/FUN_0043f010.h"
+#include "fnv/decl/FUN_004472a0_shell.h"
+#include "fnv/decl/FUN_008bbc40_shell.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_011c3000.h"
 class BSExtraData;
 class InventoryChanges;
 class TESBoundObject;
@@ -17,7 +23,6 @@ template <class T> class BSSimpleList;
 class BGSListForm
 {
   public:
-    BSSimpleList<TESForm*>* FUN_00500940();
     char _pdbpad_1[23];
     char ListOfForms_pad17_pad17_pad17[8];
     unsigned int m_uiFormCount;
@@ -25,7 +30,6 @@ class BGSListForm
 class BSFaceGenModelExtraData
 {
   public:
-    BSFaceGenModel* GetModelFilePath();
 };
 template <class T> class NiPointer
 {
@@ -38,18 +42,14 @@ template <class T> class NiPointer
 class NiNode
 {
   public:
-    void ApplyRDTNodeScales();
 };
 class BipedAnim
 {
   public:
     void SetBipedObject(TESForm*, TESModel*, BIPED_OBJECT);
-    NiNode* FUN_0043f010(BSFaceGenModel*);
 };
 class ModelLoader
 {
   public:
-    void FUN_004472a0(BSFaceGenModel*, NiPointer<BSFaceGenModelExtraData>*);
 };
-extern ModelLoader* g_modelLoader;
 #endif

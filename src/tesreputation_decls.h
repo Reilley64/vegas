@@ -2,6 +2,10 @@
 #ifndef FNV_REPUTATION_LOCAL_H
 #define FNV_REPUTATION_LOCAL_H
 
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_00503210__Unk.h"
+#include "fnv/symbols_0047a000.h"
+#include "fnv/symbols_00487000.h"
 #include "TESForm.h"
 #include "TESFullName.h"
 #include "TESIcon.h"
@@ -11,14 +15,12 @@ class BGSMessageIcon : public BaseFormComponent
 {
   public:
     TESIcon Icon;
-    static void LoadMessageIconChunk(BGSMessageIcon* component, TESFile* file);
 };
 
 class ReputationLimitData
 {
   public:
     float m_fMaximumReputation;
-    void Endian();
 };
 
 enum ReputationType
@@ -36,20 +38,19 @@ class TESReputation : public TESForm, public TESFullName, public TESIcon, public
     ReputationType m_eReputationType;
     virtual void ResetFormData();
     virtual bool Load(TESFile* file);
-    void ReadTypedData(TESFile* file, void* buffer, unsigned short size);
     float GetUnsignedIntegerPointer(ReputationType type);
     static unsigned int* GetUnsignedIntegerPointer(unsigned int* value);
+public:
+    const char *FUN_00616710();
 };
 
 class TESFullNameLoader
 {
   public:
-    static void LoadFullNameChunk(TESFullName* component, TESFile* file);
 };
 class TESTextureLoader
 {
   public:
-    static void ReadTextureData(TESTexture* component, TESFile* file);
 };
 FNV_STATIC_ASSERT(sizeof(BGSMessageIcon) == 16);
 FNV_STATIC_ASSERT(offsetof(BGSMessageIcon, Icon) == 4);

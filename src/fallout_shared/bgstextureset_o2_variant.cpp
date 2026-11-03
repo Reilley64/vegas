@@ -5,19 +5,44 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
 // Fallout: New Vegas decompilation: fallout_shared/bgstextureset.cpp.
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00472840_impl.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00591170.h"
+#include "fnv/decl/FUN_005923c0.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TESDataHandler.h"
+#include "fnv/decl/TESFullName.h"
+#include "fnv/decl/TextureLoader.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_00593000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00af4000.h"
+#include "fnv/symbols_00af6000.h"
+#include "fnv/symbols_00afd000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011f9000.h"
 #include "bgstextureset_packet.h"
-void FUN_00593210();
-BGSTextureSet* __cdecl FUN_00593220();
-void __cdecl _Deallocate(void*);
 struct S591140
 {
-    void FUN_00591170();
     void* FUN_00591140(unsigned int);
 };
-void __cdecl _delete(void*, unsigned int);
 struct Holder
 {
-    void FUN_005923c0();
     void* FUN_00592380(unsigned int flags);
 };
 struct FullNameEx
@@ -25,7 +50,6 @@ struct FullNameEx
     int _m0;
     int _m1;
     int _m2;
-    void SetFullName(char const*);
 };
 struct Holder00592cc0
 {
@@ -34,11 +58,6 @@ struct Holder00592cc0
     void SetFullNameByType(int, char const*);
 };
 
-float __cdecl FUN_0040ebd0(float, float);
-extern float DAT_011f945c;
-extern float DAT_011f9460;
-extern float DAT_011f9464;
-extern float DAT_011f9468;
 struct FUN_00b66c40_t
 {
     char pad00[0x20];
@@ -225,8 +244,6 @@ void FUN_00b66db0_Object::FUN_00b66db0()
     }
 }
 
-extern float DAT_011f9458;
-extern float DAT_011f9454;
 
 class FUN_00b66b80_cls
 {

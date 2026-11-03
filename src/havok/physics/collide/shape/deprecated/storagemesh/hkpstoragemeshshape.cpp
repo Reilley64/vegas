@@ -2,6 +2,11 @@
 // src/havok/physics/collide/shape/deprecated/storagemesh/hkpstoragemeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/deprecated/storagemesh/hkpstoragemeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpPhysicsSystemD29.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_01267000.h"
 #include "havok/hkpStorageMeshShape.h"
 
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -290,7 +295,7 @@ class FUN_00d4bc00
 // @fnv 0x00d4bd30
 FUN_00d4bc00* FUN_00d4bc00::DestroyAndFree(unsigned int uiFlags) throw()
 {
-    this->FUN_00d4bc00::~FUN_00d4bc00();
+    reinterpret_cast<::fnv_00d4bc00::FUN_00d4bc00 *>((this))->fnv_00d4bc00::FUN_00d4bc00::~FUN_00d4bc00();
     if (uiFlags & 1)
         FUN_00d4bc00::operator delete(this);
     return this;
@@ -391,7 +396,6 @@ template <typename T> struct hkArrayD4B4
 class hkRefD4B4
 {
   public:
-    void FUN_00c905b0() throw();
 };
 
 class hkBaseAD4B4
@@ -431,7 +435,7 @@ FUN_00d4b400::~FUN_00d4b400() throw()
 {
     for (int i = 0; i < m_children.GetLogicalSize(); i++)
     {
-        m_children.m_data[i]->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_children.m_data[i]))->FUN_00c905b0();
     }
 }
 
@@ -515,9 +519,6 @@ struct Alloc480
     virtual void* AllocateBufferWithSize(int& iNumBytes) throw();
     virtual void ReturnMemory(void* p, int iNumBytes) throw();
 };
-void __cdecl ResizeAudioStream(void* heap, void* arr, int elemSize);
-void __cdecl FUN_00c908c0(void* heap, void* arr, int newCap, int elemSize);
-extern float DAT_01267e30;
 struct SubpartFlags480
 {
     int vertices, stride, numVertices, indices;
@@ -611,7 +612,7 @@ template <class T> struct CoreArray480
         {
             int doubled = 2 * capacity;
             int result = needed < doubled ? doubled : needed;
-            FUN_00c908c0(&heap, this, result, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(&heap), (::SpawnedArray *)(void *)(this), result, sizeof(T));
         }
     }
     __forceinline T* appendHeap480(Alloc480& heap, int count)
@@ -625,7 +626,7 @@ template <class T> struct CoreArray480
     __forceinline void pushHeap480(Alloc480& heap, const T& value)
     {
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&heap, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&heap), (::AudioStream *)(void *)(this), sizeof(T));
         CopyOps480::fill(m_data + m_iElementCount, 1, value, Trivial480());
         m_iElementCount++;
     }
@@ -667,7 +668,7 @@ template <class Arr> __forceinline void GrowIfFull480(Arr& arr, int elemSize)
 {
     hkMemoryRouterD4B& router = FUN_00c85750();
     if (arr.m_iElementCount == (arr.m_iCapacityState & 0x3fffffff))
-        ResizeAudioStream(router.m_pStreamAllocator, &arr, elemSize);
+        ::ResizeAudioStream((::AudioAllocator *)(router.m_pStreamAllocator), (::AudioStream *)(void *)(&arr), elemSize);
 }
 template <class Arr> __forceinline void ReserveCount480(Arr& arr, int count, int elemSize)
 {
@@ -723,7 +724,7 @@ void FUN_00dcd310::FUN_00d4b480(const hkpMeshShapeSubpartD4B& kSubpart) throw()
 
     Storage480* storage = (Storage480*)((Alloc480*)&FUN_00c85750().heap())->V1(0x50);
     storage->GetAllocationSize = 0x50;
-    storage = storage->FUN_00d4bbb0();
+    storage = ((::Storage480 *)(new ((void *)(storage)) ::FUN_00d4bbb0()));
 
     Arr480<Storage480*>& arr60 = (Arr480<Storage480*>&)static_cast<FUN_00d4bab0*>(this)->m_60;
     arr60.AddBack(storage);
@@ -1176,14 +1177,13 @@ struct FUN_00dcebd0_Class
     int m_iElementCount;
     int m_iCapacityState;
 
-    void FUN_00d06290(const FUN_00dcebd0_Class& source);
     void FUN_00dcebd0(const FUN_00dcebd0_Class& source);
 };
 // Calls FUN_00d06290(source), then copies source's int array into this, reallocating through the thread allocator when capacity is smaller.
 // @fnv 0x00dcebd0
 void FUN_00dcebd0_Class::FUN_00dcebd0(const FUN_00dcebd0_Class& source)
 {
-    FUN_00d06290(source);
+    reinterpret_cast<::hkpPhysicsSystemD29 *>(this)->FUN_00d06290((const ::hkpPhysicsSystemD29 &)(source));
     FUN_00dcebd0_Allocator* allocator = FUN_00c85750()->m_pThreadAllocator;
     int capacity = m_iCapacityState & 0x3fffffff;
     if (capacity < source.m_iElementCount)

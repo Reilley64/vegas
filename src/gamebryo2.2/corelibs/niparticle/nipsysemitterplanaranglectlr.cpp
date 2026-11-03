@@ -2,12 +2,17 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysemitterplanaranglectlr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysemitterplanaranglectlr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern void* g_01202738;
 
 // @fnv 0x00c2b550
+#include "fnv/decl/NiPSysAirFieldAirFrictionCtlr.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00c32000.h"
+#include "fnv/symbols_01202000.h"
 void* __cdecl FUN_00c2b550()
 {
-    return &g_01202738;
+    return &(*reinterpret_cast<void * *>(&::g_01202738));
 }
 
 struct NiPSysModifierFloatCtlr
@@ -32,21 +37,17 @@ struct StrArr
     unsigned short m_usSize;
     unsigned short _mC;
     unsigned short m_usGrowBy;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
-void __stdcall FUN_00c32f60(StrArr*);
-char* __cdecl _FUN_00a7d330(const char*);
 // Grows pkStrings if full, then appends the string returned by _FUN_00a7d330(g_01202738) at index m_usSize.
 // @fnv 0x00c2b5d0
 void __stdcall FUN_00c2b5d0(StrArr* pkStrings)
 {
     FUN_00c32f60(pkStrings);
-    char* pcString = _FUN_00a7d330((const char*)g_01202738);
+    char* pcString = ::FUN_00a7d330((const char*)(*reinterpret_cast<void * *>(&::g_01202738)));
     unsigned int uiSize = pkStrings->m_usSize;
     if (uiSize >= pkStrings->m_usAlloc)
-        pkStrings->SetSize(uiSize + pkStrings->m_usGrowBy);
-    pkStrings->SetAt(uiSize, pcString);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(uiSize + pkStrings->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiSize, pcString);
 }
 
 struct PlanarAngleControllerData
@@ -126,7 +127,6 @@ struct S_00c2b580_TargetObj : S_00c2b580_Base
 
 struct S_00c2b580
 {
-    void __thiscall FUN_00c32de0(void* obj, void* arg);
     void* __thiscall CreateTargetObj(void* arg);
 };
 
@@ -135,6 +135,6 @@ struct S_00c2b580
 void* __thiscall S_00c2b580::CreateTargetObj(void* arg)
 {
     S_00c2b580_TargetObj* obj = new S_00c2b580_TargetObj();
-    FUN_00c32de0(obj, arg);
+    reinterpret_cast<::NiPSysAirFieldAirFrictionCtlr *>(this)->CopyMemberData((::NiPSysAirFieldAirFrictionCtlr *)(obj), (*(::CloningProcess *)(arg)));
     return obj;
 }

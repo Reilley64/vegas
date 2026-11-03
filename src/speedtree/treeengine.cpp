@@ -2,6 +2,21 @@
 // src/speedtree/treeengine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/treeengine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/B2AE90_Object.h"
+#include "fnv/decl/FUN_00b3f130_shell.h"
+#include "fnv/decl/OwnerB2BC70.h"
+#include "fnv/decl/S_00b3ed80.h"
+#include "fnv/decl/V3cdd0.h"
+#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01018000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_01030000.h"
+#include "fnv/symbols_0108c000.h"
+#include "fnv/symbols_011f8000.h"
 struct FUN_00b2bcf0_shell
 {
     void FUN_00b2bcf0(float* a, float* b);
@@ -44,7 +59,6 @@ void FUN_00b2bdc0_shell::FUN_00b2bdc0(float afValue44, float afValue40)
 void __cdecl operator delete(void*);
 struct FUN_00b2ae60_shell
 {
-    void __thiscall FUN_00b2ae90();
     void* __thiscall DestroyIfFlagged(unsigned int flags);
 };
 // Calls FUN_00b2ae90, then deletes this when flags has bit 0 set, and returns this.
@@ -52,19 +66,16 @@ struct FUN_00b2ae60_shell
 void* __thiscall FUN_00b2ae60_shell::DestroyIfFlagged(unsigned int flags)
 {
     char stack[0x58];
-    FUN_00b2ae90();
+    reinterpret_cast<::B2AE90_Object *>(this)->B2AE90_Object::~B2AE90_Object();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct RandomNumberGenerator
 {
     void SeedRandomGenerator(long);
-    float GenerateRandomFloat(float, float);
 };
-extern float DAT_0108cb00;
-extern float _DAT_010162c0;
 struct FUN_00b2c0c0_shell
 {
     void InitSeed(unsigned int seed);
@@ -76,8 +87,7 @@ void FUN_00b2c0c0_shell::InitSeed(unsigned int seed)
     {
         const int c_nMaxSeed = 1000000;
         ((RandomNumberGenerator*)((char*)this + 0x20))->SeedRandomGenerator(-1);
-        *(unsigned int*)((char*)this + 0x48) = (unsigned int)(long)(((RandomNumberGenerator*)((char*)this + 0x20))
-                                                                        ->GenerateRandomFloat(2.0f, DAT_0108cb00));
+        *(unsigned int*)((char*)this + 0x48) = (unsigned int)(long)(reinterpret_cast<::FUN_00b3f130_shell *>((((RandomNumberGenerator*)((char*)this + 0x20))))->FUN_00b3f130(2.0f, DAT_0108cb00));
     }
     else if (seed == 1)
     {
@@ -88,7 +98,6 @@ void FUN_00b2c0c0_shell::InitSeed(unsigned int seed)
 
 struct ElementIterator
 {
-    int __thiscall GetNextElement();
 };
 struct FUN_00b2daf0_shell : CTreeEngine
 {
@@ -97,7 +106,7 @@ struct FUN_00b2daf0_shell : CTreeEngine
 // @fnv 0x00b2daf0
 void __thiscall FUN_00b2daf0_shell::FUN_00b2daf0(ElementIterator* a)
 {
-    *(int*)((char*)this + 0x54) = a->GetNextElement();
+    *(int*)((char*)this + 0x54) = ((int)(reinterpret_cast<::S_00b3ed80 *>((a))->GetNextElement()));
 }
 
 namespace std {
@@ -117,7 +126,6 @@ template <class C, class T, class A> class basic_string
 };
 }
 
-extern unsigned int DAT_010173f0;
 
 struct NarrowString : std::basic_string<char, std::char_traits<char>, std::allocator<char> >
 {
@@ -129,19 +137,15 @@ NarrowString& NarrowString::AssignFromString(const NarrowString& aString)
 {
     unsigned char unused[92];
 
-    _Tidy(false, 0);
-    assign(aString, 0, DAT_010173f0);
+    reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
+    assign(aString, 0, ::g_010173f0);
     return *this;
 }
 
 struct FUN_00b04d40_Obj
 {
-    float FUN_00b04d40(int a);
 };
 
-extern FUN_00b04d40_Obj DAT_011f8e9c;
-extern double DAT_01012060;
-extern double DAT_01012070;
 
 struct FUN_00b2bd40_Obj
 {
@@ -173,15 +177,15 @@ float __thiscall FUN_00b2bd40_Obj::GetNormalizedValue()
 {
     float local;
     float fUnused;
-    float value = DAT_011f8e9c.FUN_00b04d40((int)((char*)this + 4));
+    float value = reinterpret_cast<::V3cdd0 *>(&((*reinterpret_cast<::FUN_00b04d40_Obj *>(&::DAT_011f8e9c))))->FUN_00b04d40((const ::V3cdd0 *)((int)((char*)this + 4)));
 
     unk14 = 1.0f - (value - unk44) / (unk40 - unk44);
 
-    if (unk14 > DAT_01012070)
+    if (unk14 > ::g_01012070)
     {
         unk14 = 1.0f;
     }
-    else if (unk14 < DAT_01012060)
+    else if (unk14 < ::_DAT_01012060)
     {
         unk14 = 0.0f;
     }
@@ -191,7 +195,6 @@ float __thiscall FUN_00b2bd40_Obj::GetNormalizedValue()
 
 struct FUN_00b3d720_String
 {
-    void __thiscall FUN_0044a730(bool a, unsigned int b);
     int unk00;
     int unk04;
     int unk08;
@@ -222,11 +225,7 @@ struct FUN_00b3d720_Class
     FUN_00b3d720_Class* __thiscall FUN_00b3d720();
 };
 
-extern float DAT_01030ff0;
-extern float DAT_0101df44;
-extern float DAT_01016248;
 extern float DAT_010a587c;
-extern float DAT_01017b78;
 
 // Sets unk00 false, fills float triples at unk04, unk30, unk3C, unk48 from globals/constants, sets unk10, and calls FUN_0044a730(false, 0) on unk14.
 // @fnv 0x00b3d720
@@ -250,18 +249,18 @@ FUN_00b3d720_Class* __thiscall FUN_00b3d720_Class::FUN_00b3d720()
         this->unk00 = false;
 
         colorPtr2 = &this->unk04;
-        colorPtr2[0] = DAT_01030ff0;
-        colorPtr2[1] = DAT_01030ff0;
-        colorPtr2[2] = DAT_01030ff0;
+        colorPtr2[0] = ::DAT_01030ff0;
+        colorPtr2[1] = ::DAT_01030ff0;
+        colorPtr2[2] = ::DAT_01030ff0;
 
         this->unk10 = DAT_0101df44;
 
         stringlPointer = &this->unk14;
         bufferPointer = &buffer_;
-        stringlPointer->FUN_0044a730(false, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>((stringlPointer))->FUN_0044a730(false, 0);
 
         color24Pointer9 = &this->unk30;
-        color24Pointer9[0] = DAT_01016248;
+        color24Pointer9[0] = ::fnv_00c88020::DAT_01016248;
         color24Pointer9[1] = 1.0f;
         color24Pointer9[2] = 0.0f;
 
@@ -280,11 +279,6 @@ FUN_00b3d720_Class* __thiscall FUN_00b3d720_Class::FUN_00b3d720()
 }
 
 extern int DAT_010a5670;
-extern const float DAT_01012054;
-extern float DAT_01016248;
-extern const float DAT_01017870;
-extern float DAT_010181bc;
-extern const float runtimeFloatSettingDefault1000;
 
 struct FUN_00b3f030
 {
@@ -354,15 +348,14 @@ struct FUN_00b2ac80
     float f104;
     int i108;
     FUN_00b40850 s10c;
-    void FUN_00b2bc70(float v);
     FUN_00b2ac80(int param);
 };
 
 // @fnv 0x00b2ac80
 FUN_00b2ac80::FUN_00b2ac80(int param)
     : base00(), f10((base00.vfptr = &DAT_010a5670, 1.0f)), f14(1.0f), f18(DAT_01012054), f1c(0.0f), go20(), b21(1),
-      s24(), i58(0), i5c(0), s60(), i78(6), s7c(), s94(), iec(0), bf0(0), ff4(DAT_01016248), ff8(1.0f),
-      ffc(DAT_01017870), f100(0.0f), f104(DAT_010181bc), i108(1), s10c()
+      s24(), i58(0), i5c(0), s60(), i78(6), s7c(), s94(), iec(0), bf0(0), ff4(::fnv_00c88020::DAT_01016248), ff8(1.0f),
+      ffc(::DAT_01017870), f100(0.0f), f104(DAT_010181bc), i108(1), s10c()
 {
     int d01;
     int d02;
@@ -425,5 +418,5 @@ FUN_00b2ac80::FUN_00b2ac80(int param)
     int d59;
     int d60;
     i5c = param;
-    FUN_00b2bc70(runtimeFloatSettingDefault1000);
+    reinterpret_cast<::OwnerB2BC70 *>(this)->FUN_00b2bc70(::DAT_0101622c);
 }

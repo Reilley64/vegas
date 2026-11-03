@@ -2,6 +2,17 @@
 // src/havok/common/base/system/io/socket/bsd/hkbsdsocket.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/socket/bsd/hkbsdsocket.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/BufferOwner.h"
+#include "fnv/decl/CC0280Writer.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/RequestReceiver.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00ee6000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_01268000.h"
 extern "C" void __stdcall closesocket(int);
 struct FUN_00da2dc0_class
 {
@@ -26,12 +37,10 @@ void FUN_00da2dc0_class::CloseSocket()
     }
 }
 
-extern int DAT_0102e388;
 extern int DAT_010d5030;
 
 struct hkBsdSocket
 {
-    void __thiscall CloseSocket();
     void __thiscall Destroy();
 };
 
@@ -39,10 +48,10 @@ struct hkBsdSocket
 void __thiscall hkBsdSocket::Destroy()
 {
     *(int*)this = (int)&DAT_010d5030;
-    this->CloseSocket();
-    *(int*)((char*)this + 0x14) = (int)&DAT_0102e388;
-    *(int*)((char*)this + 8) = (int)&DAT_0102e388;
-    *(int*)this = (int)&DAT_0102e388;
+    reinterpret_cast<::FUN_00da2dc0_class *>((this))->CloseSocket();
+    *(int*)((char*)this + 0x14) = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    *(int*)((char*)this + 8) = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    *(int*)this = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 extern "C" void __cdecl FUN_00d2b850(void);
@@ -57,18 +66,6 @@ struct FUN_00da30a0_cls
     void FUN_00da2de0();
     void* __thiscall InitWithParam(int param);
 };
-
-// Calls FUN_00d2b850, sets the vtable to DAT_010d5030 and m_field_0x20 to param, calls FUN_00da2de0 if param is -1, and returns this.
-// @fnv 0x00da30a0
-void* __thiscall FUN_00da30a0_cls::InitWithParam(int param)
-{
-    FUN_00d2b850();
-    m_vft = &DAT_010d5030;
-    m_field_0x20 = param;
-    if (param == -1)
-        FUN_00da2de0();
-    return this;
-}
 
 struct FUN_00da2db0_cls
 {
@@ -129,6 +126,17 @@ struct FUN_00da2de0_class
 
     int FUN_00da2de0();
 };
+// Calls FUN_00d2b850, sets the vtable to DAT_010d5030 and m_field_0x20 to param, calls FUN_00da2de0 if param is -1, and returns this.
+// @fnv 0x00da30a0
+void* __thiscall FUN_00da30a0_cls::InitWithParam(int param)
+{
+    FUN_00d2b850();
+    m_vft = &DAT_010d5030;
+    m_field_0x20 = param;
+    if (param == -1)
+        reinterpret_cast<::FUN_00da2de0_class *>(this)->FUN_00da2de0();
+    return this;
+}
 
 // @fnv 0x00da2de0
 int FUN_00da2de0_class::FUN_00da2de0()
@@ -283,9 +291,6 @@ struct S00da2ff0_Msg
     int unk00;
     int unk04;
     int unk08;
-    void __thiscall Init(void*, int);
-    void __thiscall Done();
-    void __thiscall Add(const char*);
 };
 
 struct S00da2ff0_Err
@@ -295,7 +300,6 @@ struct S00da2ff0_Err
     virtual void v2();
     virtual int v3(int, int, void*, const char*, int);
 };
-extern S00da2ff0_Err* DAT_01268360;
 
 // When the flag is clear, calls FUN_00ee6d86 with 0x202, reports failure, and sets the flag.
 // @fnv 0x00da2ff0
@@ -311,18 +315,16 @@ void InitWinsock()
         if (FUN_00ee6d86(0x202, L.wsa) == -1)
         {
             S00da2ff0_Msg ostr;
-            ostr.Init(L.buf, 0x200);
-            ostr.Add(str_010d5004);
-            if (DAT_01268360->v3(3, 0x321825f8, L.buf, str_010d4fdc, 0x48))
+            new ((void *)&(ostr)) ::FUN_00cb1600(L.buf, 0x200);
+            reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0(str_010d5004);
+            if ((*reinterpret_cast<::S00da2ff0_Err * *>(&::DAT_01268360))->v3(3, 0x321825f8, L.buf, str_010d4fdc, 0x48))
                 __debugbreak();
-            ostr.Done();
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(ostr))->FUN_00cc00e0::~FUN_00cc00e0();
         }
         DAT_01269acc = 1;
     }
 }
 
-extern "C" void __cdecl FUN_00cb1280(void*, int, unsigned int);
-extern "C" void __cdecl FUN_00cb1260(void*, const void*, unsigned int);
 extern "C" int __stdcall FUN_00ee6d74(int);
 extern "C" int __stdcall FUN_00ee6d6e(const char*);
 extern "C" int __stdcall FUN_00ee6d68(const char*);
@@ -377,7 +379,7 @@ struct SocketConnector
 int SocketConnector::FUN_00da2ec0(const char* host, int port)
 {
     IPv4SocketAddress target;
-    FUN_00cb1280(&target, 0, sizeof(target));
+    ::FUN_00cb1280(&target, 0, sizeof(target));
     target.family = 2;
     target.port = (unsigned short)FUN_00ee6d74(port);
 
@@ -390,10 +392,10 @@ int SocketConnector::FUN_00da2ec0(const char* host, int port)
         HostEntry* pHostEntry = (HostEntry*)FUN_00ee6d68(host);
         if (!pHostEntry)
             return 1;
-        FUN_00cb1260(&target.address, pHostEntry->addresses[0], pHostEntry->address_length);
+        ::FUN_00cb1260(&target.address, pHostEntry->addresses[0], pHostEntry->address_length);
     }
 
-    if (socket == -1 && FUN_00da2de0())
+    if (socket == -1 && reinterpret_cast<::FUN_00da2de0_class *>(this)->FUN_00da2de0())
         return 1;
     int iResult = FUN_00ee6d62(socket, &target, sizeof(target));
     if (iResult != -1)
@@ -410,7 +412,6 @@ unsigned short __stdcall FUN_00ee6d74(unsigned short usHostShort);
 int __stdcall FUN_00ee6d98(unsigned int s, const void* pvName, int iNameLen);
 int __stdcall FUN_00ee6d92(unsigned int s, int iBacklog);
 int __stdcall FUN_00ee6d8c(char* pcName, int iNameLen);
-extern "C" int __stdcall FUN_00ee6d9e(unsigned int s, int level, int option, const void* value, int size);
 
 extern const char str_010d505c[];
 extern const char str_010d5070[];
@@ -431,17 +432,15 @@ class hkStringBufDA30
     int m_iCapacityState;
     unsigned int m_kStorage[32];
 
-    void InitBuffer() throw();
-    void FUN_00cbbd40() throw();
     void FUN_00d61c10(const char* pcString) throw();
 
     hkStringBufDA30()
     {
-        InitBuffer();
+        reinterpret_cast<::BufferOwner *>(this)->InitBuffer();
     }
     ~hkStringBufDA30()
     {
-        FUN_00cbbd40();
+        reinterpret_cast<::FUN_00cbbd40_cls *>(this)->FUN_00cbbd40();
     }
     void operator=(const char* pcString)
     {
@@ -456,19 +455,14 @@ class hkOstreamDA30
     int m_usMemSizeAndFlags;
     void* m_pStreamWriter;
 
-    void FUN_00cb1600(void* pvBuffer, int iSize) throw();
-    void FUN_00cc00e0() throw();
-    hkOstreamDA30& FUN_00cc01c0(const char* pcString) throw();
-    hkOstreamDA30& InvokeFromRequest(const hkStringBufDA30& kString) throw();
-    hkOstreamDA30& WriteInt(int i) throw();
 
     hkOstreamDA30(void* pvBuffer, int iSize)
     {
-        FUN_00cb1600(pvBuffer, iSize);
+        new ((void *)this) ::FUN_00cb1600(pvBuffer, iSize);
     }
     ~hkOstreamDA30()
     {
-        FUN_00cc00e0();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(this)->FUN_00cc00e0::~FUN_00cc00e0();
     }
 };
 
@@ -498,7 +492,7 @@ class hkBsdSocketDA30
 // @fnv 0x00da30d0
 int hkBsdSocketDA30::FUN_00da30d0(int iPort) throw()
 {
-    if (FUN_00da2de0() != 0)
+    if (reinterpret_cast<::FUN_00da2de0_class *>(this)->FUN_00da2de0() != 0)
         return 1;
 
     sockaddr_inDA30 kName;
@@ -507,7 +501,7 @@ int hkBsdSocketDA30::FUN_00da30d0(int iPort) throw()
     kName.sin_port = FUN_00ee6d74((unsigned short)iPort);
 
     int iOn = 1;
-    FUN_00ee6d9e(m_pSocket, 0xffff, 4, (const void*)&iOn, sizeof(int));
+    ::FUN_00ee6d9e(m_pSocket, 0xffff, 4, (const char *)(const void *)((const void*)&iOn), sizeof(int));
 
     if (FUN_00ee6d98(m_pSocket, &kName, sizeof(kName)) == -1)
     {
@@ -527,8 +521,8 @@ int hkBsdSocketDA30::FUN_00da30d0(int iPort) throw()
     {
         unsigned int auiReportBuf[128];
         hkOstreamDA30 kReportStream(auiReportBuf, sizeof(auiReportBuf));
-        kReportStream.FUN_00cc01c0(str_010d505c).InvokeFromRequest(kHost).FUN_00cc01c0(str_010d5070).WriteInt(iPort);
-        DAT_01268360->v3(0, -1, auiReportBuf, str_010d4fdc, 364);
+        reinterpret_cast<::CC0280Writer *>(&((*(::hkOstreamDA30 *)(reinterpret_cast<::SinkOwner *>(&((*(::hkOstreamDA30 *)(reinterpret_cast<::RequestReceiver *>(&((*(::hkOstreamDA30 *)(reinterpret_cast<::SinkOwner *>(&(kReportStream))->FUN_00cc01c0(str_010d505c)))))->InvokeFromRequest((void *)&(kHost))))))->FUN_00cc01c0(str_010d5070)))))->WriteInt(iPort);
+        (*reinterpret_cast<::S00da2ff0_Err * *>(&::DAT_01268360))->v3(0, -1, auiReportBuf, str_010d4fdc, 364);
     }
     return 0;
 }
@@ -549,7 +543,6 @@ struct FUN_00da33d0_router
 
 struct FUN_00da33d0_cls : hkBsdSocket
 {
-    void __thiscall Destroy();
     int m_kPointA;
     unsigned short m_kPointB;
 
@@ -559,7 +552,7 @@ struct FUN_00da33d0_cls : hkBsdSocket
 // @fnv 0x00da33d0
 FUN_00da33d0_cls* FUN_00da33d0_cls::FUN_00da33d0(bool flag)
 {
-    this->Destroy();
+    reinterpret_cast<::hkBsdSocket *>((this))->Destroy();
     if (flag & 1)
     {
         FUN_00da33d0_router* router = (FUN_00da33d0_router*)FUN_00c85750();

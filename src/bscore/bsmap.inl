@@ -1,4 +1,5 @@
 
+#include "fnv/decl/FUN_00438af0_Class.h"
 #include "bsmap_decls.h"
 
 template <>
@@ -78,5 +79,5 @@ template <>
 // @fnv 0x0048b460
 BSMapBase<int, DistantTreeTextureInfo*>::~BSMapBase()
 {
-    this->RemoveAll();
+    reinterpret_cast<::FUN_00438af0_Class *>((this))->FUN_00438af0();
 }

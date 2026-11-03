@@ -2,6 +2,10 @@
 #ifndef FNV_MEMORYMANAGER_H
 #define FNV_MEMORYMANAGER_H
 
+#include "fnv/decl/AA4610Allocator.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00aa45a0_Class.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
 #include "layout_support.h"
 #include "MemoryPool.h"
 #include "IMemoryHeap.h"
@@ -38,8 +42,10 @@ class MemoryManager
     void Deallocate(void* pointer);
     void* Reallocate(void* pointer, unsigned int size);
     unsigned int Size(const void* pointer);
-    IMemoryHeap* GetHeapForPointer(const void* pointer);
-    IMemoryHeap* GetHeapForPhysicalPointer(const void* pointer);
+public:
+    void FUN_00866770();
+public:
+    void InitializeHeaps();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(MemoryManager) == 0x12C);
@@ -58,11 +64,11 @@ FNV_FORCEINLINE MemoryManager& MemoryManager::Instance()
 }
 FNV_FORCEINLINE void* operator new(size_t size)
 {
-    return g_memoryManager.Allocate(size);
+    return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(size);
 }
 FNV_FORCEINLINE void operator delete(void* p)
 {
-    g_memoryManager.Deallocate(p);
+    reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
 }
 
 __forceinline void* ScrapHeapBuffer::operator new(size_t size)
@@ -72,9 +78,9 @@ __forceinline void* ScrapHeapBuffer::operator new(size_t size)
         unsigned int slots[5];
     };
     Reserved reserved;
-    return g_memoryManager.Allocate(size);
+    return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(size);
 }
 __forceinline void ScrapHeapBuffer::operator delete(void* p)
 {
-    g_memoryManager.Deallocate(p);
+    reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
 }

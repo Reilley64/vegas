@@ -5,9 +5,17 @@
 
 // src/havok/physics/collide/agent3/machine/1n/hkpagent1nmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/machine/1n/hkpagent1nmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-void ProcessEntryPair();
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cfe000.h"
+#include "fnv/symbols_00d2c000.h"
+#include "fnv/symbols_00da3000.h"
+#include "fnv/symbols_00da4000.h"
+#include "fnv/symbols_00da5000.h"
+#include "fnv/symbols_00dfa000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01268000.h"
 void FUN_00da44d0(int, int, void*);
-void FUN_00da48e0(int b, int a);
 typedef unsigned int BlockPoolsize_t;
 struct BlockPoolAllocator {
     virtual void unk00();
@@ -23,8 +31,6 @@ struct BlockPoolMemoryRouter {
     BlockPoolAllocator& heap() { return *m_pStreamAllocator; }
 };
 extern "C" BlockPoolMemoryRouter& __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(BlockPoolAllocator* alloc, void* array, int numElements, int sizeElem);
-void __cdecl ResizeAudioStream(void* alloc, void* array, int sizeElem);
 struct BlockPoolBlock {
     int unk00;
     int unk04;
@@ -53,18 +59,17 @@ struct BlockPoolArray {
         if (cap < n) {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, sizeof(BlockPoolBlock*));
+            ::FUN_00c908c0((::SpawnedObject *)(::BlockPoolAllocator *)(&alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(BlockPoolBlock*));
         }
     }
 
     BlockPoolBlock*& _expandOne(BlockPoolAllocator& alloc)
     {
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&alloc, this, sizeof(BlockPoolBlock*));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(BlockPoolBlock*));
         return m_data[m_iElementCount++];
     }
 };
-void __cdecl InitBlockPool(BlockPoolArray* blocks);
 // hkAgentNmMachine: update the collision filter of one agent entry
 struct S_00da40e0_Shape;
 struct S_00da40e0_CollisionInput;
@@ -1669,9 +1674,6 @@ struct S_00da40e0_Input {
     S_00da40e0_ContactMgr* m_pContactManager;
     S_00da40e0_ConstraintOwner* m_pConstraintOwner;
 };
-const S_00da40e0_CdBody* __cdecl FUN_00cfe1d0(const S_00da40e0_CdBody* cdBody, S_00da40e0_CdBody* newCdBodies,
-    S_00da40e0_MotionState* newMotionStates, int numSlots, unsigned char& changeCounter);
-S_00da40e0_Entry* __cdecl ProcessCollisionEntry(const S_00da40e0_Input& aInput, S_00da40e0_Entry* entry, S_00da40e0_AgentData* agentData);
 // hkpAgent1nMachine shape-collection filter visitor (one container side): re-check the filter for
 struct ShapeCollectionFilter1n {
     virtual S_00da40e0_Bool IsCollisionEnabled(const S_00da40e0_CollisionInput& input, const S_00da40e0_CdBody& a,
@@ -1682,13 +1684,11 @@ struct ShapeCollectionFilter1n {
 };
 struct Filter1n : S_00da40e0_FilterHolder, ShapeCollectionFilter1n {
 };
-S_00da40e0_Entry* __cdecl ProcessEntryPair(const S_00da40e0_Input& in, S_00da40e0_Entry* entry, S_00da40e0_AgentData* agentData);
 union __declspec(intrin_type) __declspec(align(16)) __m128 {
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
 extern "C" __m128 _mm_setzero_ps(void);
-extern const float DAT_01012054;
 struct hkVector4
 {
     __m128 m_vComponents;
@@ -1734,7 +1734,6 @@ struct CollisionAgentContext
 {
     char* m_pCollisionDispatcher;
 };
-void FUN_00da3510(AgentSectorPointerArray& agentTrack, CollisionAgentContext& input);
 typedef void (__cdecl *Da35FuncPtr)(void* entry, void* payload, float fa, float fb, void* holder);
 struct Da35Stream {
     int m_iElementCount;
@@ -1742,7 +1741,6 @@ struct Da35Stream {
     int unk08;
     int unk0C;
 };
-void __cdecl FUN_00da35f0(Da35Stream*** container, float fa, float fb, void** holder);
 static void* __cdecl Da35Search(Da35Stream*** container, int key1, int key2, void** out)
 {
     Da35Stream** streams = *container;
@@ -1798,7 +1796,6 @@ __forceinline BlockPoolHeap& fullHeap()
 {
     return static_cast<BlockPoolHeap&>(FUN_00c85750().heap());
 }
-void FUN_00da42b0(BlockPoolArray* blocks, S_00da40e0_Dispatcher* dispatcher, S_00da40e0_ContactMgr* mgr, S_00da40e0_ConstraintOwner& owner);
 #include <string.h>
 struct StreamAllocator : BlockPoolAllocator {
     virtual void ReleaseBlock(void*, int);
@@ -1817,7 +1814,6 @@ __forceinline static void streamCopy(void* dst, const void* src, int count) {
         s += 4;
     } while (--count > 0);
 }
-void __cdecl FUN_00d2cc70(void*, const void*, unsigned int);
 typedef unsigned char* (__cdecl *StreamTransform)(void*, unsigned char*, unsigned char*);
 void FUN_00da44d0(int array_arg, int header_arg, void* callback);
 
@@ -2076,8 +2072,7 @@ class StringCursor
 public:
 __forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}static StringCursor&GetMonitorStream()
 {
-extern hkThreadLocalData<StringCursor*>g_pMonitorStream;
-return*g_pMonitorStream.getData();
+return*(*reinterpret_cast<::hkThreadLocalData< ::StringCursor *> *>(&::DAT_0126835c)).getData();
 }
 public:
 __forceinline char*__cdecl GetStreamStart(){return m_kRayStart.val();}
@@ -2632,8 +2627,6 @@ enum hkpAgentMachineMode
 HKP_AGENT_MACHINE_MODE_1N=1,
 HKP_AGENT_MACHINE_MODE_NM=2
 };
-void __cdecl BuildShapeCollectionBWorldOperations(hkpAgent1nTrack_S&agentTrack,const AgentSubtypeMarker&input,const hkpShapeContainer*shapeContainterB,const hkpShapeKey*hitList,WorldOperationEntry&output);
-void __cdecl BuildShapePairWorldOperations(hkpAgent1nTrack_S&agentTrack,const AgentSubtypeMarker&input,const hkpShapeContainer*shapeContainerA,const hkpShapeContainer*shapeCollectionB,const ShapeKeyCombination*hitList,WorldOperationEntry&output);
 void __cdecl UpdateAgentTrackShapeFilter(hkpAgent1nTrack_S&agentTrack,EmptyMarker&vin);
 void __cdecl hkAgentNmMachine_UpdateShapeCollectionFilter(hkpAgent1nTrack_S&agentTrack,EmptyMarker&vin);
 void __cdecl VisitTrackedAgents(hkpAgent1nTrack_S&agentTrack,EmptyMarker&vin,hkpContactMgr*mgr,hkAgent1nMachine_VisitorCallback visitor);
@@ -2678,7 +2671,6 @@ hkpConvexShape(FinishingFlag flag):hkpSphereRepShape(flag){m_type=HK_SHAPE_CONVE
 {
 return m_fSphereRadius;
 }
-extern hkResult __cdecl FindContactsAgainstConvexShapes(const hkTransform&transA,const hkpConvexShape*shapeA,const hkpConvexShape**shapesB,int numShapesB,const hkTransform&aTb,hkContactPoint**pointsOut);
 enum hkContactPairCompare
 {
 HK_CONTACT_PAIR_NO_CONFLICT,
@@ -2754,7 +2746,7 @@ hasConflict=true;
 }
 }
 }
-if(hasConflict)
+if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(hasConflict))->FUN_005609f0())
 {
 conflictContacts[numConflictContacts++]=hkUint16(i);
 }
@@ -2785,7 +2777,7 @@ dis->getAgent3CreateZombieFunc(cr->m_pAgentEntry->m_ucNnTrackType)(cr->m_pAgentE
 }
 while(numConflictContacts>=2)
 {
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "Conflicts";h->setTime();mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "Conflicts";h->setTime();mStream.setEnd((char*)(h+1));}};
 int p0=0;
 int p1=1;
 {
@@ -2819,11 +2811,11 @@ const hkpConvexShape*shape1=static_cast<const hkpConvexShape*>(shapeCollection->
 if(!input.m_pRayCastInput->m_pCollisionDispatcher->hasAlternateType(shape1->getType(),HK_SHAPE_CONVEX)){break;}
 const hkpConvexShape*shapesB[2]={shape0,shape1};
 hkContactPoint*points[2]={&ref0->m_vContactPoint->m_kPoint,&ref1->m_vContactPoint->m_kPoint};
-FindContactsAgainstConvexShapes(input.m_pBodyA->getTransform(),shapeA,shapesB,2,input.m_kTransform,points);
+::FUN_00dfaba0((const ::hkTransform *)&(input.m_pBodyA->getTransform()),(::Arg1 *)(shapeA),(::Arg2 **)(shapesB),2,(const ::hkTransform *)&(input.m_kTransform),(::OutItem **)(points));
 }
 conflictContacts[p1]=conflictContacts[--numConflictContacts];
 conflictContacts[p0]=conflictContacts[--numConflictContacts];
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
 }
 if(numConflictContacts)
 {

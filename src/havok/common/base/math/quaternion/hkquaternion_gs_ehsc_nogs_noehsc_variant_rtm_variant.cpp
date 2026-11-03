@@ -11,6 +11,13 @@
    Only submit the TARGET definition and any genuinely missing declarations that are required
    for compilation. Do not write or repeat packet-declarations, nor any headers that might
    be present in the checker's context. */
+#include "fnv/decl/FUN_00827200_class.h"
+#include "fnv/decl/HkFloatCheck.h"
+#include "fnv/symbols_00c74000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
 class FUN_005611c0_t
 {
   public:
@@ -33,7 +40,6 @@ static __declspec(noinline) void FUN_00cb2550(FUN_005611c0_t* obj, float* pts)
 struct FUN_00cb24c0_cls
 {
     __m128 m_00;
-    void FUN_00c7f500(unsigned char* flag);
     unsigned char* IsNormalized(unsigned char* flag);
 };
 struct Block64
@@ -50,7 +56,6 @@ struct SubObj
     unsigned int unk08;
     unsigned int unk0C;
 
-    void CallSub(Block64* p);
 };
 __declspec(align(16)) struct FUN_00cf5950_cls
 {
@@ -94,12 +99,7 @@ void S00cb2550_caller(S00cb2550_Quat* q, const S00cb2550_Rot& r);
 
 #include <xmmintrin.h>
 #include <math.h>
-float __cdecl ClampedAcos(float x);
-extern float DAT_01012054;
 extern double DAT_010c8758;
-extern float DAT_01011d78;
-extern float DAT_01017718;
-extern float DAT_01016248;
 inline __m128 scalar(float f)
 {
     return _mm_load_ss(&f);
@@ -126,7 +126,7 @@ void Rotation::FUN_00cb2850(const __m128* a, const __m128* b, float t)
     if (dot < 0.0f)
     {
         d = -dot;
-        sign = DAT_01012054;
+        sign = ::DAT_01012054;
     }
     __m128 result;
     if (d < DAT_010c8758)
@@ -147,9 +147,9 @@ void Rotation::FUN_00cb2850(const __m128* a, const __m128* b, float t)
         result = _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(second_vector, second_vector, 0), vb),
                             _mm_mul_ps(_mm_shuffle_ps(first_vector, first_vector, 0), va));
     }
-    __m128 half = _mm_set_ss(DAT_01016248);
-    __m128 three = _mm_set_ss(DAT_01017718);
-    __m128 zero = _mm_set_ss(DAT_01011d78);
+    __m128 half = _mm_set_ss(::fnv_00c88020::DAT_01016248);
+    __m128 three = _mm_set_ss(::DAT_01017718);
+    __m128 zero = _mm_set_ss(::DAT_01011d78);
     __m128 squares = _mm_mul_ps(result, result);
     __m128 sum0 = _mm_add_ps(_mm_shuffle_ps(squares, squares, 0x4e), squares);
     __m128 norm_sum = _mm_add_ps(sum0, _mm_shuffle_ps(sum0, sum0, 0xb1));

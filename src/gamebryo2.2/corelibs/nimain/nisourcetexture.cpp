@@ -1,5 +1,18 @@
 // gamebryo2.2/corelibs/nimain/nisourcetexture.cpp: NiSourceTexture (2 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Cls_a64ea0.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/NiGlobalStringTable.h"
+#include "fnv/decl/NiStream.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a57000.h"
+#include "fnv/symbols_00a63000.h"
+#include "fnv/symbols_00a76000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011c1000.h"
 #include "nisourcetexture_decls.h"
 #include "nisourcetexture_types_NiSourceTexture.h"
 
@@ -35,14 +48,14 @@ NiSourceTexture* NiSourceTexture::Create(const NiFixedString& name, NiTexture__F
     NiFixedString* filename = &texture->m_pcCacheFileName;
     if (filename->m_kHandle != newHandle)
     {
-        if (newHandle != EmptyFS.m_kHandle)
+        if (newHandle != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             InterlockedIncrement(reinterpret_cast<volatile long*>(newHandle - 8));
-        if (filename->m_kHandle != EmptyFS.m_kHandle)
+        if (filename->m_kHandle != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             InterlockedDecrement(reinterpret_cast<volatile long*>(filename->m_kHandle - 8));
         filename->m_kHandle = newHandle;
     }
-    FUN_00a57500(filename);
-    FUN_00a76960(filename, &texture->m_kDeviceFilename);
+    ::FUN_00a57500(filename);
+    ::fnv_00a76960::FUN_00a76960((char **)(filename), (char **)(void *)(&texture->m_kDeviceFilename));
 
     if (DAT_011a9594 && !reinterpret_cast<NiSourceTextureVCall*>(texture)->vfn_0ac())
     {

@@ -1,5 +1,46 @@
 // fallout_shared/bsanimgroupsequence.cpp: BSAnimGroupSequence, TaskQueueInterface, TargetClass, SoundPlaybackManager (20 functions)
 
+#include <new>
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/CombatTargetTimestamp.h"
+#include "fnv/decl/FUN_0043b370_cls.h"
+#include "fnv/decl/FUN_00495f30_shell.h"
+#include "fnv/decl/FUN_00507b00Class.h"
+#include "fnv/decl/FUN_00508100_shell.h"
+#include "fnv/decl/FUN_00639aa0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_008579e0_shell.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_008df040_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00a344f0_cls.h"
+#include "fnv/decl/FUN_00a35030_shell.h"
+#include "fnv/decl/FUN_00ad8570_S.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FUN_00ad8b60_h.h"
+#include "fnv/decl/FUN_00ad8f20_shell.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/MyHost.h"
+#include "fnv/decl/Sequence.h"
+#include "fnv/decl/Sequence31910.h"
+#include "fnv/decl/SequenceA30970.h"
+#include "fnv/decl/ThisCls_cls.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00a59e20__NiAVObject.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_004ee000.h"
+#include "fnv/symbols_004ef000.h"
+#include "fnv/symbols_00537000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005e3000.h"
+#include "fnv/symbols_00a35000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_01203000.h"
 #include "bsanimgroupsequence_decls.h"
 
 // Scans the sequence's tag array for a matching object name and returns its priority byte, writing the matching index to indexOut when given.
@@ -9,14 +50,11 @@ unsigned char BSAnimGroupSequence::GetPriority(const char* objectName, unsigned 
     for (unsigned int i = 0; i < m_uiNumControlledBlocks; ++i)
     {
         const char* name =
-            reinterpret_cast<NiFixedString*>(&reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(&m_pkIDTags[i])->GetItem())
+            reinterpret_cast<NiFixedString*>(&((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(&m_pkIDTags[i]))) ::Vec3())))
                 ->
                 operator const char*();
         if (!name)
-            Warning("NULL object name found in tag array for sequence '%s'.",
-                    reinterpret_cast<NiFixedString*>(reinterpret_cast<TESTopicInfoData*>(this)->GetLinkToList())
-                        ->
-                        operator const char*());
+            ::FUN_005b5e40();
         if (name && !FUN_00404dc0(name, objectName))
         {
             if (indexOut)
@@ -38,13 +76,13 @@ bool BSAnimGroupSequence::Deactivate(float easeOutTime, bool transition)
         case 24:
         case 25: {
             NiTimeController* controller =
-                m_pkAccumulationRoot->GetController(reinterpret_cast<const NiRTTI*>(&g_012031b8));
+                ((::NiTimeController *)(reinterpret_cast<::MyHost *>((m_pkAccumulationRoot))->FUN_00a5c570((const ::MyRTTI *)(const ::NiRTTI *)(reinterpret_cast<const NiRTTI*>(&g_012031b8)))));
             if (controller)
             {
                 BGSCameraPath* state = reinterpret_cast<BGSCameraPath*>(controller);
                 if (state->GetPrevPath())
                 {
-                    controller = m_pkAccumulationRoot->GetParent()->GetController(&DAT_011f36bc);
+                    controller = ((::NiTimeController *)(reinterpret_cast<::MyHost *>((((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((m_pkAccumulationRoot))->FUN_009611e0()))))->FUN_00a5c570((const ::MyRTTI *)(const ::NiRTTI *)(&(*reinterpret_cast<const ::NiRTTI *>(&::g_011f36bc))))));
                     if (controller)
                         reinterpret_cast<AnimationInterpolatorNode*>(controller)
                             ->UpdateInterpolatorsAtTime(m_fLastTime, true);
@@ -54,7 +92,7 @@ bool BSAnimGroupSequence::Deactivate(float easeOutTime, bool transition)
         break;
         }
     }
-    return NiControllerSequence::Deactivate(easeOutTime, transition);
+    return ((bool)(reinterpret_cast<::FUN_00a35030_shell *>(this)->SetEaseOut(easeOutTime, transition)));
 }
 
 struct NP
@@ -84,7 +122,6 @@ struct FUN_004eec60_shell : public BSAnimGroupSequence
 
 struct FUN_00a30970_helper
 {
-    float FUN_00a30970(float afTime, bool bClamp);
 };
 
 // Returns 0.0f unless the sequence's state at offset 0x44 is 1-3, otherwise evaluates the helper at afTime plus the offset at 0x48 with clamping.
@@ -100,16 +137,14 @@ float FUN_004eec60_shell::FUN_004eec60(float afTime)
     default:
         return 0.0f;
     }
-    return ((FUN_00a30970_helper*)this)->FUN_00a30970(afTime + *(float*)((char*)this + 0x48), true);
+    return reinterpret_cast<::SequenceA30970 *>((((FUN_00a30970_helper*)this)))->FUN_00a30970(afTime + *(float*)((char*)this + 0x48), true);
 }
 
 struct BGSLoadFormBuffer
 {
-    void ReadTypedData(void*, unsigned int);
 };
 struct HY
 {
-    float FUN_004eec60(float);
 };
 struct HX
 {
@@ -129,17 +164,17 @@ struct HX
 void HX::FUN_004efd10(BGSLoadFormBuffer* pBuffer, float fBaseTime)
 {
     float fTime = 0.0f;
-    pBuffer->ReadTypedData(&fTime, 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&fTime), 4);
     f48 = fTime - fBaseTime;
     unsigned char ucByte = 0;
-    pBuffer->ReadTypedData(&ucByte, 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ucByte), 1);
     i44 = ucByte;
-    pBuffer->ReadTypedData(&i34, 4);
-    pBuffer->ReadTypedData(&i38, 4);
-    pBuffer->ReadTypedData(&i54, 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&i34), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&i38), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&i54), 4);
     f4c = -DAT_01023850;
     f50 = -DAT_01023850;
-    ((HY*)this)->FUN_004eec60(fBaseTime);
+    reinterpret_cast<::FUN_004eec60_shell *>((((HY*)this)))->FUN_004eec60(fBaseTime);
 }
 
 extern NiFixedString* DAT_011c61c8;
@@ -155,7 +190,6 @@ struct NiObject;
 
 struct FUN_00a344f0_shell
 {
-    NiObject* __thiscall FUN_00a344f0(CloningProcess*);
 };
 
 struct FUN_004eec20_shell
@@ -166,7 +200,7 @@ struct FUN_004eec20_shell
 // @fnv 0x004eec20
 NiObject* __thiscall FUN_004eec20_shell::FUN_004eec20(CloningProcess* arCloneData)
 {
-    return ((FUN_00a344f0_shell*)this)->FUN_00a344f0(arCloneData);
+    return ((::NiObject *)(reinterpret_cast<::FUN_00a344f0_cls *>((((FUN_00a344f0_shell*)this)))->FUN_00a344f0((unsigned int)(arCloneData))));
 }
 
 struct NiTPrimitiveArray_char_ptr;
@@ -188,26 +222,23 @@ struct FUN_004eec40_shell : BSAnimGroupSequence
 // @fnv 0x004eec40
 void FUN_004eec40_shell::FUN_004eec40(NiTPrimitiveArray_char_ptr* pkStrings)
 {
-    ((FUN_00a34540_shell*)this)->FUN_00a34540(pkStrings);
+    reinterpret_cast<::Sequence *>((((FUN_00a34540_shell*)this)))->FUN_00a34540((::OutputArray *)(pkStrings));
 }
 
 struct TaskQueueInterface
 {
-    void __thiscall SetTaskFlagDWord(bool, unsigned int);
     void __thiscall FUN_004ef970(bool);
 };
 
 // @fnv 0x004ef970
 void TaskQueueInterface::FUN_004ef970(bool enabled)
 {
-    SetTaskFlagDWord(enabled, 0x20000);
+    reinterpret_cast<::FUN_0043b370_cls *>(this)->FUN_0043b370(enabled, 0x20000);
 }
 
 struct TESSaveLoadGame
 {
-    unsigned char FUN_008df040();
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 // @fnv 0x004efaa0
 unsigned short FUN_004efaa0()
@@ -215,7 +246,7 @@ unsigned short FUN_004efaa0()
     unsigned short v = 0;
     v += 4;
     v += 4;
-    if (g_TESSaveLoadGame->FUN_008df040() < 0x71)
+    if (reinterpret_cast<::FUN_008df040_shell *>((g_TESSaveLoadGame))->FUN_008df040() < 0x71)
         v += 4;
     v += 4;
     v += 4;
@@ -227,10 +258,7 @@ namespace fnv_004efb20 {
 // Stand-ins for types not in scope
 struct TESSaveLoadGame
 {
-    unsigned char FUN_008df040(void);
-    void FUN_008579b0(void* data, unsigned int size);
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct FUN_004efb20_shell
 {
@@ -241,34 +269,32 @@ struct FUN_004efb20_shell
 void FUN_004efb20_shell::FUN_004efb20(float afTime)
 {
     float foffset = ((float*)((char*)this + 0x48))[0] + afTime;
-    g_TESSaveLoadGame->FUN_008579b0(&foffset, 4);
-    g_TESSaveLoadGame->FUN_008579b0((void*)((char*)this + 0x44), 4);
-    if (g_TESSaveLoadGame->FUN_008df040() < 0x71)
+    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_004efb20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&foffset, 4);
+    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_004efb20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((void*)((char*)this + 0x44), 4);
+    if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::fnv_004efb20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008df040() < 0x71)
     {
-        g_TESSaveLoadGame->FUN_008579b0(&foffset, 4);
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_004efb20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&foffset, 4);
     }
-    g_TESSaveLoadGame->FUN_008579b0((void*)((char*)this + 0x34), 4);
-    g_TESSaveLoadGame->FUN_008579b0((void*)((char*)this + 0x38), 4);
-    g_TESSaveLoadGame->FUN_008579b0((void*)((char*)this + 0x54), 4);
+    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_004efb20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((void*)((char*)this + 0x34), 4);
+    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_004efb20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((void*)((char*)this + 0x38), 4);
+    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_004efb20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((void*)((char*)this + 0x54), 4);
 }
 }  // namespace fnv_004efb20
 
 struct NiControllerManager
 {
-    int GetStringAtOffset(int);
 };
 struct TargetClass
 {
     char _pad[0x40];
     NiControllerManager* field40;
-    int FUN_00a31910(int, int);
     int FUN_004eedd0(int, int);
 };
 // Returns the result of FUN_00a31910 with a1 and the value GetStringAtOffset returns for a2 on field40.
 // @fnv 0x004eedd0
 int TargetClass::FUN_004eedd0(int a1, int a2)
 {
-    return FUN_00a31910(a1, field40->GetStringAtOffset(a2));
+    return ((int)(reinterpret_cast<::Sequence31910 *>(this)->FUN_00a31910((::Node31910 *)(a1), (::Node31910 *)(((int)(::fnv_00537bd0::GetStringAtOffset((const char *)(field40))))), {})));
 }
 
 unsigned short __cdecl FUN_004efaa0();
@@ -301,13 +327,12 @@ struct FUN_004efa50_Holder
 void FUN_004efa50_Holder::ClearItemField2()
 {
     int i;
-    for (i = 0; i < ((TESForm*)this)->GetFormID(); ++i)
+    for (i = 0; i < ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)this)))->FUN_0084e3a0())); ++i)
         arr[i].f2 = 0;
 }
 
 struct BGSSaveFormBuffer
 {
-    void SaveData(void* data, int size, int type);
 };
 
 struct FUN_004efc90_shell
@@ -329,12 +354,12 @@ struct FUN_004efc90_shell
 void __thiscall FUN_004efc90_shell::FUN_004efc90(BGSSaveFormBuffer* buffer, float value)
 {
     float temp = this->m_0x48 + value;
-    buffer->SaveData(&temp, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&temp, 4, 0);
     unsigned char byte2 = this->m_0x44;
-    buffer->SaveData(&byte2, 1, 0);
-    buffer->SaveData(this->m_0x34, 4, 0);
-    buffer->SaveData(this->m_0x38, 4, 0);
-    buffer->SaveData(this->m_0x54, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&byte2, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(this->m_0x34, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(this->m_0x38, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(this->m_0x54, 4, 0);
 }
 
 struct GO
@@ -360,7 +385,6 @@ struct FUN_004ee9f0 : A51BF0Base
     FUN_004ee9f0(int, unsigned int);
 };
 
-void __cdecl FUN_00a35700(int, int, GO*);
 
 // Constructs a GO from 0, passes arg1 and arg2 to FUN_00a35700, then assigns a new FUN_004ee9f0 built from the GO's value to target.
 // @fnv 0x004eeb60
@@ -369,7 +393,7 @@ void __cdecl AssignNewObjectFromValue(int arg1, int arg2, GO* target)
     {
         GO value(0);
 
-        FUN_00a35700(arg1, arg2, &value);
+        ::FUN_00a35700((::BinaryDataRecord *)(arg1), arg2, (*(::NiPointer< ::NiNode> *)(&value)));
 
         target->operator=(new FUN_004ee9f0(0, static_cast<unsigned int>(value)));
     }
@@ -379,21 +403,17 @@ namespace fnv_004efbc0 {
 class TESSaveLoadGame
 {
   public:
-    void ReadTypedData(void* data, unsigned int size);
 };
 
 struct SaveManager : public TESSaveLoadGame
 {
   public:
-    unsigned char FUN_008df040();
 };
 
-extern SaveManager* DAT_011de45c;
 
 class HY
 {
   public:
-    float FUN_004eec60(float value);
     void FUN_004efbc0(float value);
 };
 
@@ -402,22 +422,22 @@ void HY::FUN_004efbc0(float value)
 {
     float loadedValue;
 
-    DAT_011de45c->ReadTypedData(&loadedValue, 4);
-    DAT_011de45c->ReadTypedData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x44), 4);
+    reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_004efbc0::SaveManager * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&loadedValue, 4);
+    reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_004efbc0::SaveManager * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x44), 4);
 
-    if (DAT_011de45c->FUN_008df040() < 0x71)
-        DAT_011de45c->ReadTypedData(&loadedValue, 4);
+    if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::fnv_004efbc0::SaveManager * *>(&::g_TESSaveLoadGame))))->FUN_008df040() < 0x71)
+        reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_004efbc0::SaveManager * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&loadedValue, 4);
 
     *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x48) = loadedValue - value;
 
-    DAT_011de45c->ReadTypedData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x34), 4);
-    DAT_011de45c->ReadTypedData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x38), 4);
-    DAT_011de45c->ReadTypedData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x54), 4);
+    reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_004efbc0::SaveManager * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x34), 4);
+    reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_004efbc0::SaveManager * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x38), 4);
+    reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_004efbc0::SaveManager * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x54), 4);
 
     *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x4c) = -DAT_01023850;
     *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x50) = -DAT_01023850;
 
-    this->FUN_004eec60(value);
+    reinterpret_cast<::FUN_004eec60_shell *>((this))->FUN_004eec60(value);
 }
 }  // namespace fnv_004efbc0
 
@@ -467,7 +487,6 @@ struct RootECB
     virtual void v090(NameECB*, bool);
     virtual void v094();
     virtual CollectionECB* v098();
-    NiFixedString& GetName();
 };
 struct CollectionECB
 {
@@ -514,12 +533,10 @@ struct CollectionECB
 };
 struct ManagerECB
 {
-    RootECB* GetStringAtOffset();
 };
 struct TagECB
 {
     int unk00, unk04, unk08, unk0C, unk10;
-    NameECB* FUN_006815c0();
 };
 struct PointerECB
 {
@@ -569,16 +586,16 @@ void FUN_004eecb0_Class::FUN_004eecb0()
 {
     if (!manager)
         return;
-    RootECB* root = manager->GetStringAtOffset();
+    RootECB* root = ((::RootECB *)(::fnv_00537bd0::GetStringAtOffset((const char *)(manager))));
     RootECB* object = root;
     if (accumulation)
-        accumulation = root->v08C(accumulation->GetName());
+        accumulation = root->v08C((*(::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((accumulation))->GetLinkToList())));
     for (unsigned int index = 0; index < count; index++)
     {
         TagECB* tag = &tags[index];
-        if (!object->v098()->v09C(tag->FUN_006815c0()))
+        if (!object->v098()->v09C(((::NameECB *)(new ((void *)(tag)) ::Vec3()))))
         {
-            root->v090(tag->FUN_006815c0(), false);
+            root->v090(((::NameECB *)(new ((void *)(tag)) ::Vec3())), false);
             items[index].pointer = 0;
             items[index].unk08 = 0;
             items[index].priority = DAT_01096968;
@@ -627,7 +644,6 @@ struct S004eee_Controller
 };
 struct S004eee_Factory
 {
-    S004eee_Controller* GetStringAtOffset();
 };
 struct S004eee_Anim
 {
@@ -636,7 +652,6 @@ struct S004eee_Anim
 struct S004eee_Entry20
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10;
-    S004eee_Anim* FUN_006815c0();
 };
 struct S004eee_Entry16Sub
 {
@@ -686,15 +701,15 @@ struct S004eee_Owner
 // @fnv 0x004eee00
 void S004eee_Owner::UpdateEntryStates()
 {
-    S004eee_Controller* manager = m_factory->GetStringAtOffset();
+    S004eee_Controller* manager = ((::S004eee_Controller *)(::fnv_00537bd0::GetStringAtOffset((const char *)(m_factory))));
     S004eee_Controller* cachedManager = manager;
     if (m_handle != 0)
         m_handle = manager->Find(&m_priorHandle);
     for (unsigned int i = 0; i < m_uiItemCount; ++i)
     {
         S004eee_Entry20* entry = &m_pObservedSource[i];
-        int active = entry->FUN_006815c0()->FUN_0043b1b0();
-        if (active == 0 || cachedManager->Find(entry->FUN_006815c0()) == 0)
+        int active = ((::S004eee_Anim *)(new ((void *)(entry)) ::Vec3()))->FUN_0043b1b0();
+        if (active == 0 || cachedManager->Find(((::S004eee_Anim *)(new ((void *)(entry)) ::Vec3()))) == 0)
         {
             m_dest[i].m_sub04.FUN_0066b0d0(0);
             m_dest[i].unk08 = 0;
@@ -705,25 +720,19 @@ void S004eee_Owner::UpdateEntryStates()
 
 struct SeqSound : NiControllerSequence
 {
-    int GetState();
-    float GetScale();
-    unsigned int GetThreadID();
 };
 struct KeySound : TimedTextEntry
 {
-    NiFixedString& Text();
-    float Time();
 };
-void CopySoundText(char*, const char*);
 char* FindSoundChar(char*, int);
 // @fnv 0x004eef00
 bool __cdecl PlaySequenceSounds(SeqSound* sequence, TESObjectREFR* reference)
 {
     bool result2 = false;
-    if (sequence && sequence->GetState() == 1)
+    if (sequence && ((int)(reinterpret_cast<::LowProcess *>((sequence))->GetActiveCombatTarget())) == 1)
     {
-        float previous = sequence->GetField4C();
-        float current4 = sequence->GetScale();
+        float previous = reinterpret_cast<::FUN_00507b00Class *>((sequence))->GetField4C();
+        float current4 = reinterpret_cast<::TESObjectREFR *>((sequence))->GetScale();
         if (previous != -DAT_01023850 && current4 != -DAT_01023850 && previous != current4)
         {
             bool wrapped5 = false;
@@ -732,13 +741,13 @@ bool __cdecl PlaySequenceSounds(SeqSound* sequence, TESObjectREFR* reference)
             unsigned int count8 = 0;
             KeySound* keys2 = 0;
             if (sequence->FUN_00700300())
-                keys2 = (KeySound*)sequence->FUN_00700300()->FUN_00495f30(&count8);
+                keys2 = (KeySound*)((::TimedTextEntry *)(reinterpret_cast<::FUN_00495f30_shell *>((sequence->FUN_00700300()))->FUN_00495f30((int *)(unsigned int *)(&count8))));
             for (unsigned int index = 0; index < count8; index++)
             {
-                char* text_2 = (char*)(const char*)keys2[index].Text();
+                char* text_2 = (char*)(const char*)(*(::NiFixedString *)(reinterpret_cast<::BaseProcess *>(&(keys2[index]))->GetCurrentProcessData()));
                 if (!text_2)
                     continue;
-                float time5 = keys2[index].Time();
+                float time5 = reinterpret_cast<::CombatTargetTimestamp *>(&(keys2[index]))->FUN_006a7f50();
                 bool play3 = false;
                 NiAVObject* node9 = 0;
                 if (wrapped5 && (time5 > previous || time5 <= current4))
@@ -758,7 +767,7 @@ bool __cdecl PlaySequenceSounds(SeqSound* sequence, TESObjectREFR* reference)
                             *stopNewline4 = 0;
                         suffix6 = text_2 + 16;
                         if (*suffix6 && suffix6[1])
-                            CopySoundText(nodeName5, suffix6 + 1);
+                            ::FUN_004046f0(nodeName5, suffix6 + 1);
                         if (stopNewline4)
                             *stopNewline4 = 13;
                         if (reference->GetNiNode_v())
@@ -771,10 +780,10 @@ bool __cdecl PlaySequenceSounds(SeqSound* sequence, TESObjectREFR* reference)
                                 node9 = reference->GetNiNode_v();
                         }
                         if (node9)
-                            BSAudio::GetSingleton()->FUN_00ad8570(node9, 1.0f, 0x40000000);
+                            reinterpret_cast<::FUN_00ad8570_S *>((::FUN_00453a70()))->FUN_00ad8570((int)(node9), 1.0f, 0x40000000);
                     }
                     else if (!_strnicmp("Enum: HitShader", text_2, 15))
-                        g_thePlayer->ApplyHitShaderToReference(reference);
+                        reinterpret_cast<::ThisCls_cls *>((::_g_thePlayer))->FUN_00962290((::ArgCls_cls *)(reference));
                 }
                 TESSound* sound2 = 0;
                 char* space8 = 0;
@@ -788,10 +797,10 @@ bool __cdecl PlaySequenceSounds(SeqSound* sequence, TESObjectREFR* reference)
                     space8 = FindSoundChar(text_2 + 7, 32);
                     if (space8)
                     {
-                        CopySoundText(objectName3, space8 + 1);
+                        ::FUN_004046f0(objectName3, space8 + 1);
                         *space8 = 0;
                     }
-                    sound2 = g_dataHandler->GetSoundByEditorID(text_2 + 7);
+                    sound2 = (*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))->GetSoundByEditorID(text_2 + 7);
                     if (newline)
                         *newline = 13;
                 }
@@ -799,10 +808,10 @@ bool __cdecl PlaySequenceSounds(SeqSound* sequence, TESObjectREFR* reference)
                 {
                     SoundPlaybackHandle handle;
                     NiPoint3 position4 = NiPoint3::ZERO;
-                    unsigned int flags2 = TESSound::GetPlaybackFlags(sound2->CopyBig().iFlags);
-                    bool special2 = (sound2->CopyBig().iFlags & 0x40) && !(sound2->CopyBig().iFlags & 0x800);
+                    unsigned int flags2 = ((unsigned int)(::GetFlagMask((*(::TESSound::SoundPlaybackParameters *)(reinterpret_cast<::Holder *>((sound2))->CopyBig({}))).iFlags)));
+                    bool special2 = ((*(::TESSound::SoundPlaybackParameters *)(reinterpret_cast<::Holder *>((sound2))->CopyBig({}))).iFlags & 0x40) && !((*(::TESSound::SoundPlaybackParameters *)(reinterpret_cast<::Holder *>((sound2))->CopyBig({}))).iFlags & 0x800);
                     bool looping5 = (flags2 & 0x10) != 0;
-                    flags2 |= reference == g_thePlayer ? 0x200000 : 0;
+                    flags2 |= reference == ::_g_thePlayer ? 0x200000 : 0;
                     if (reference && reference->GetNiNode_v())
                     {
                         if (objectName3[0])
@@ -812,8 +821,8 @@ bool __cdecl PlaySequenceSounds(SeqSound* sequence, TESObjectREFR* reference)
                         if (looping5 && !node9)
                             node9 = reference->GetNiNode_v();
                         if (node9)
-                            node9->FUN_004ef970(true);
-                        reference->GetNiNode_v()->FUN_004ef970(true);
+                            reinterpret_cast<::TaskQueueInterface *>((node9))->FUN_004ef970(true);
+                        reinterpret_cast<::TaskQueueInterface *>((reference->GetNiNode_v()))->FUN_004ef970(true);
                         if (node9)
                             position4 = node9->FUN_0045bb80();
                         else
@@ -823,48 +832,48 @@ bool __cdecl PlaySequenceSounds(SeqSound* sequence, TESObjectREFR* reference)
                         (looping5 || special2 || SoundPlaybackManager::CanPlaySoundAt(sound2, position4, 1.0f)))
                     {
                         if (looping5)
-                            handle = BSAudio::GetSingleton()->GetSoundHandleByFormID(sound2->GetFormID(),
+                            handle = ::FUN_00453a70()->GetSoundHandleByFormID(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((sound2))->FUN_0084e3a0())),
                                                                                      flags2 | 0x40002002);
                         else
                         {
-                            if (sound2->CopyBig().iFlags & 0x40)
-                                handle = BSAudio::GetSingleton()->GetSoundHandleByFormID(sound2->GetFormID(),
+                            if ((*(::TESSound::SoundPlaybackParameters *)(reinterpret_cast<::Holder *>((sound2))->CopyBig({}))).iFlags & 0x40)
+                                handle = ::FUN_00453a70()->GetSoundHandleByFormID(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((sound2))->FUN_0084e3a0())),
                                                                                          flags2 | 0x40002101);
                             else
-                                handle = BSAudio::GetSingleton()->GetSoundHandleByFormID(sound2->GetFormID(),
+                                handle = ::FUN_00453a70()->GetSoundHandleByFormID(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((sound2))->FUN_0084e3a0())),
                                                                                          flags2 | 0x40002102);
                         }
                     }
                     else if (!reference)
                     {
                         if (looping5)
-                            handle = BSAudio::GetSingleton()->GetSoundHandleByFormID(sound2->GetFormID(),
+                            handle = ::FUN_00453a70()->GetSoundHandleByFormID(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((sound2))->FUN_0084e3a0())),
                                                                                      flags2 | 0x40000022);
                         else
                         {
-                            if (sound2->CopyBig().iFlags & 0x40)
-                                handle = BSAudio::GetSingleton()->GetSoundHandleByFormID(sound2->GetFormID(),
+                            if ((*(::TESSound::SoundPlaybackParameters *)(reinterpret_cast<::Holder *>((sound2))->CopyBig({}))).iFlags & 0x40)
+                                handle = ::FUN_00453a70()->GetSoundHandleByFormID(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((sound2))->FUN_0084e3a0())),
                                                                                          flags2 | 0x40000121);
                             else
-                                handle = BSAudio::GetSingleton()->GetSoundHandleByFormID(sound2->GetFormID(),
+                                handle = ::FUN_00453a70()->GetSoundHandleByFormID(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((sound2))->FUN_0084e3a0())),
                                                                                          flags2 | 0x40000122);
                         }
                     }
                     if (node9)
-                        handle.SetObjectToFollow(node9);
-                    handle.SetPosition(position4.x, position4.y, position4.z);
-                    handle.Play(looping5);
+                        reinterpret_cast<::FUN_00ad8f20_shell *>(&(handle))->FUN_00ad8f20(node9);
+                    reinterpret_cast<::FUN_00ad8b60_h *>(&(handle))->FUN_00ad8b60(position4.x, position4.y, position4.z);
+                    reinterpret_cast<::FUN_00ad8830_shell *>(&(handle))->FUN_00ad8830(looping5);
                 }
                 if (space8)
                     *space8 = 32;
             }
         }
-        if (sequence->GetThreadID())
+        if (reinterpret_cast<::ActorMover *>((sequence))->GetCurrentMoveModeType())
         {
             result2 = true;
-            if (sequence->FUN_00639aa0() == -DAT_01023850)
+            if (reinterpret_cast<::FUN_00639aa0_shell *>((sequence))->FUN_00639aa0() == -DAT_01023850)
                 result2 = false;
-            else if (sequence->GetScale() < sequence->FUN_00508100())
+            else if (reinterpret_cast<::TESObjectREFR *>((sequence))->GetScale() < reinterpret_cast<::FUN_00508100_shell *>((sequence))->FUN_00508100())
                 result2 = false;
         }
     }

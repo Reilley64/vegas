@@ -2,15 +2,17 @@
 // src/havok/physics/collide/shape/convex/sphere/hkpsphereshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/sphere/hkpsphereshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FunctionContext.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010c9000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpSphereShape.h"
 
-extern char const* const g_01268970_arg1;
-void __cdecl FUN_00c90360(char const* const*, char const* const*);
 
 // @fnv 0x00cd8040
 void __cdecl FUN_00cd8040(char const* const* a1, char const* const* a2)
 {
-    FUN_00c90360(a1, &g_01268970_arg1);
+    reinterpret_cast<::FunctionContext *>((void *)(a1))->FUN_00c90360((void *)(&(*reinterpret_cast<const char *const *>(&::g_01268940))), {});
 }
 
 extern int DAT_010cb5ac;
@@ -47,6 +49,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
+#include "fnv/symbols_simd.h"
 extern "C" __m128 _mm_load_ps1(const float*);
 extern "C" __m128 _mm_sub_ps(__m128, __m128);
 extern "C" __m128 _mm_add_ps(__m128, __m128);
@@ -102,7 +105,6 @@ void Shape_00cd8100_cls::GetAabb(const Vec_00cd8100* t, float afTolerance, Aabb_
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
-extern unsigned long DAT_0126835c;
 
 struct hkMonitorStreamCD81
 {
@@ -120,7 +122,6 @@ struct hkTimerCommandCD81
 };
 
 extern const char DAT_010cb5f4[];
-extern const char DAT_010c41f8[];
 
 void* __cdecl FUN_00cd85c0(void* pvResult, float fValue, int a, int b);
 
@@ -154,7 +155,7 @@ void* HostCD81::RecordTimerCommands(void* pvResult, int a, int b)
     if (end2 < pkStream->m_pRayCursor)
     {
         hkTimerCommandCD81* pkCmd = (hkTimerCommandCD81*)end2;
-        pkCmd->m_pCommandName = DAT_010c41f8;
+        pkCmd->m_pCommandName = ::DAT_010c41f8;
         _ReadWriteBarrier();
         volatile unsigned int t1 = (unsigned int)__rdtsc();
         pkCmd->m_uiStartTicks = t1;
@@ -184,7 +185,6 @@ extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
 extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
 extern "C" int _mm_movemask_ps(__m128);
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern unsigned long DAT_0126835c;
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
 class RayMask
@@ -214,7 +214,6 @@ const RayMask::Component RayMask::components[4] = {RayMask::X, RayMask::Y, RayMa
 static const __m128 signVector = {{-0.0f, -0.0f, -0.0f, -0.0f}};
 static const __m128 tripleVector = {{3.0f, 3.0f, 3.0f, 3.0f}};
 static const __m128 halfVector = {{0.5f, 0.5f, 0.5f, 0.5f}};
-extern __m128 kOne;
 static __forceinline __m128 reciprocalVector(__m128 value)
 {
     __m128 estimate = _mm_rcp_ps(value);
@@ -376,7 +375,6 @@ struct ProbeStream
     char* end;
 };
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern unsigned long DAT_0126835c;
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
 struct ProbeSphere : hkpSphereShape
@@ -435,7 +433,7 @@ RayMask ProbeSphere::FUN_00cd8220(const RayQuerySet& ray, RayHits& hits, const R
     RayVector reciprocal, middle, one, remaining;
     reciprocal.reciprocal(quadratic);
     middle.product(shift, reciprocal);
-    one.quad() = kOne;
+    one.quad() = ::DAT_010c7170;
     remaining.difference(one, middle);
     RayVector c;
     c.zero();
@@ -486,7 +484,7 @@ RayMask ProbeSphere::FUN_00cd8220(const RayQuerySet& ray, RayHits& hits, const R
     transposeVectors(normals[0].quad(), normals[1].quad(), normals[2].quad(), normals[3].quad());
     for (int lane = 0; lane < 4; ++lane)
     {
-        if (active.any(RayMask::components[lane]))
+        if (active.any((*reinterpret_cast<const RayMask::Component (*)[4]>(&::DAT_010c92e0))[lane]))
         {
             hits.m_akRayOutputs[lane].m_fHitFraction = fraction(lane);
             hits.m_akRayOutputs[lane].m_vHitNormal = normals[lane];

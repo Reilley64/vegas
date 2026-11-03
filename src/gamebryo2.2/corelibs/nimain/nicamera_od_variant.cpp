@@ -2,6 +2,18 @@
 // src/gamebryo2.2/corelibs/nimain/nicamera_od_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/gamebryo2.2/corelibs/nimain/nicamera.cpp functions whose prologue its flags cannot
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/CamLook.h"
+#include "fnv/decl/CameraBoundMatcher.h"
+#include "fnv/decl/CameraWindowRay.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00a63460_shell.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/GraphicsRenderer.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/S00a70ba0_Cam.h"
+#include "fnv/decl/S_00a64670_Foo.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_011f6000.h"
 #include "fnv_a3d_camera.h"
 // The stream scalar operation is expanded in this unit, rather than defining an
 // implementation owned by NiBinaryStream or introducing an out-of-line helper.

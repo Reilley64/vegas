@@ -2,6 +2,8 @@
 // src/gamebryo2.2/corelibs/nimain/niquaternion_od_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/gamebryo2.2/corelibs/nimain/niquaternion.cpp functions whose prologue its flags cannot
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include "fnv/decl/FUN_00a4ff00_shell.h"
+#include "fnv/decl/FUN_00a6e1f0_shell.h"
 #include "niquaternion_decls.h"
 extern const unsigned int DAT_011a9e98[3];
 

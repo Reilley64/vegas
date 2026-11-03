@@ -2,13 +2,43 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysdata_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/gamebryo2.2/corelibs/niparticle/nipsysdata.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <new>
+#include "fnv/decl/AA4610Allocator.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C31F10ParticleInfo.h"
+#include "fnv/decl/Candidate.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00a5d3a0.h"
+#include "fnv/decl/FUN_00a5d450_class.h"
+#include "fnv/decl/FUN_00a96440_class.h"
+#include "fnv/decl/FUN_00a96460_class.h"
+#include "fnv/decl/FUN_00a96480_Class.h"
+#include "fnv/decl/FUN_00a964a0_Class.h"
+#include "fnv/decl/FUN_00a96800_shell.h"
+#include "fnv/decl/FUN_00a968c0_shell.h"
+#include "fnv/decl/FUN_00a97290_holder.h"
+#include "fnv/decl/FUN_00aa45a0_Class.h"
+#include "fnv/decl/GeomData_S.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiParticlesDataViewer.h"
+#include "fnv/decl/ParticlesEquality.h"
+#include "fnv/decl/ParticlesLoadView.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a96000.h"
+#include "fnv/symbols_010be000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01202000.h"
 #include "nipsysdata_types_NiPSysData.h"
 #include "nipsysdata_types_NiStream.h"
 #include "nipsysdata_types_NiParticleInfo.h"
 #include "nipsysdata_types_NiQuaternion.h"
 #include "MemoryManager.h"
 #include "nipsysdata_stream.h"
-extern MemoryManager g_memoryManager;
 void* _NiMalloc(unsigned int size);
 extern "C" void* fnv_zlib_memset(void* dst, int value, unsigned long size);
 
@@ -70,13 +100,12 @@ struct NiPSysData_StandIn
     }* m_pkParticleInfo;
     float* m_pfRotationSpeeds;
     void FUN_00c24cc0(unsigned short usParticle);
-    void FUN_00a964c0(unsigned short);
 };
 // @fnv 0x00c24cc0
 void NiPSysData_StandIn::FUN_00c24cc0(unsigned short usParticle)
 {
     unsigned short usLastParticle = m_50 - 1;
-    FUN_00a964c0(usParticle);
+    reinterpret_cast<::Candidate *>(this)->FUN_00a964c0(usParticle);
     if (usParticle != usLastParticle)
     {
         m_pkParticleInfo[usParticle] = m_pkParticleInfo[usLastParticle];
@@ -85,20 +114,17 @@ void NiPSysData_StandIn::FUN_00c24cc0(unsigned short usParticle)
     }
 }
 
-extern const char* const g_01202680_arg1;
 
 // @fnv 0x00c24e90
 const char* const* __cdecl FUN_00c24e90()
 {
-    return &g_01202680_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_01202558));
 }
 
-extern int DAT_010be254;
 void _NiFreeAlias(void*);
 void _delete(void*, unsigned int);
 struct Holder00a96800
 {
-    void FUN_00a96800();
 };
 struct S_00c25280
 {
@@ -111,20 +137,18 @@ struct S_00c25280
 void* S_00c25280::FUN_00c25280(unsigned int f)
 {
     *(void**)this = (void*)&DAT_010be254;
-    g_memoryManager.Deallocate(_a70);
+    reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(_a70);
     _NiFreeAlias(_b74);
-    ((Holder00a96800*)this)->FUN_00a96800();
+    reinterpret_cast<::FUN_00a96800_shell *>((((Holder00a96800*)this)))->FUN_00a96800();
     if (f & 1)
         _delete(this, 0x7c);
     return this;
 }
 
 namespace fnv_00c24ef0 {
-extern int DAT_010be254;
 void __cdecl _NiFreeAlias(void*);
 struct Holder00a96800
 {
-    void FUN_00a96800();
 };
 struct Unknown00c24ef0
 {
@@ -137,10 +161,10 @@ struct Unknown00c24ef0
 // @fnv 0x00c24ef0
 void Unknown00c24ef0::FUN_00c24ef0()
 {
-    f0 = (void*)&DAT_010be254;
-    g_memoryManager.Deallocate(p70);
+    f0 = (void*)&::DAT_010be254;
+    reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p70);
     _NiFreeAlias(p74);
-    ((Holder00a96800*)this)->FUN_00a96800();
+    reinterpret_cast<::FUN_00a96800_shell *>((((Holder00a96800*)this)))->FUN_00a96800();
 }
 }  // namespace fnv_00c24ef0
 
@@ -246,7 +270,6 @@ void FnvPSysData::FUN_00c24d20()
     m_usNumParticles = m_usActive;
 }
 
-extern int DAT_010be254;
 void* __cdecl FUN_00aa13e0(unsigned int size);
 
 class FUN_00c24da0_cls
@@ -268,7 +291,7 @@ FUN_00c24da0_cls* __cdecl FUN_00c24da0()
     FUN_00c24da0_cls* p = (FUN_00c24da0_cls*)FUN_00aa13e0(0x7c);
     if (p != 0)
     {
-        p->FUN_00a963f0();
+        new ((void *)(p)) ::FUN_00a963f0();
         p->m_vtbl = (void*)&DAT_010be254;
         p->unk70 = 0;
         p->unk74 = 0;
@@ -281,11 +304,9 @@ FUN_00c24da0_cls* __cdecl FUN_00c24da0()
 
 struct HookBase
 {
-    bool FUN_00a96a30(void* p);
 };
 struct ParticleItemStand
 {
-    bool Equals(void* p);
 };
 struct PSDataEqStand : NiPSysData_StandIn
 {
@@ -297,7 +318,7 @@ struct PSDataEqStand : NiPSysData_StandIn
 // @fnv 0x00c24de0
 bool PSDataEqStand::FUN_00c24de0(PSDataEqStand* other)
 {
-    if (!reinterpret_cast<HookBase*>(this)->FUN_00a96a30(other))
+    if (!reinterpret_cast<::ParticlesEquality *>((reinterpret_cast<HookBase*>(this)))->FUN_00a96a30((::NiObject *)(other)))
     {
         return false;
     }
@@ -312,7 +333,7 @@ bool PSDataEqStand::FUN_00c24de0(PSDataEqStand* other)
     unsigned short i = 0;
     while (i < m_50)
     {
-        if (!reinterpret_cast<ParticleItemStand*>(&m_pkParticleInfo[i])->Equals(&other->m_pkParticleInfo[i]))
+        if (!reinterpret_cast<::Point3ParameterData *>((reinterpret_cast<ParticleItemStand*>(&m_pkParticleInfo[i])))->Equals((*(const ::Point3ParameterData *)(&other->m_pkParticleInfo[i]))))
         {
             return false;
         }
@@ -362,7 +383,6 @@ unsigned int NiPSysData_CountView::FUN_00c24ea0()
 
 struct NiParticlesDataWriter : NiParticlesData
 {
-    void __thiscall FUN_00a97290(NiStream&);
 };
 struct NiPSysDataWriter : NiParticlesDataWriter
 {
@@ -373,7 +393,7 @@ struct NiPSysDataWriter : NiParticlesDataWriter
 // @fnv 0x00c25560
 void NiPSysDataWriter::FUN_00c25560(NiStream& stream)
 {
-    NiParticlesDataWriter::FUN_00a97290(stream);
+    reinterpret_cast<::FUN_00a97290_holder *>(this)->FUN_00a97290(stream);
     bool hasRotationSpeeds = rotationSpeeds != 0;
     NiBinaryStream* output = stream.m_pBackingStream;
     unsigned int(__cdecl * writer)(NiBinaryStream*, const void*, unsigned int, unsigned int*, unsigned int) =
@@ -402,14 +422,13 @@ struct FUN_00c25850_cls
     volatile int m_iValue0c;
     volatile float m_fValue10;
 
-    void BaseCtor();
     FUN_00c25850_cls* FUN_00c25850();
 };
 
 // @fnv 0x00c25850
 FUN_00c25850_cls* FUN_00c25850_cls::FUN_00c25850()
 {
-    BaseCtor();
+    new ((void *)this) struct ::FUN_00a5d3a0();
     m_iValue08 = 0;
     m_pVTable = (void*)&DAT_010be45c;
     m_iValue0c = 0;
@@ -422,20 +441,14 @@ struct StrArr
     void* vtable;
     char** data;
     unsigned short maxSize, size, eSize, grow;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
     void Add(char* value)
     {
         unsigned int index = size;
         if (index >= maxSize)
-            SetSize(index + grow);
-        SetAt(index, value);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(index + grow);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(index, value);
     }
 };
-char* __cdecl FUN_00a7d330(const char*);
-char* __cdecl FUN_00a7d5a0(const char*, void*);
-char* __cdecl FUN_00a7d490(const char*, unsigned short);
-extern const char* const g_01202680_arg1;
 extern const char DAT_010be340[];
 extern const char DAT_010be32c[];
 extern const char DAT_010be318[];
@@ -473,14 +486,13 @@ struct Source08
     void* ptr70;
     void* ptr74;
     unsigned short value78, value7a;
-    void FUN_00a97420(StrArr*);
     void FUN_00c255b0(StrArr*);
 };
 // @fnv 0x00c255b0
 void Source08::FUN_00c255b0(StrArr* strings)
 {
-    FUN_00a97420(strings);
-    strings->Add(FUN_00a7d330(g_01202680_arg1));
+    reinterpret_cast<::NiParticlesDataViewer *>(this)->FUN_00a97420((::NiTViewerArray<char *> *)(strings));
+    strings->Add(FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_01202558))));
     strings->Add(FUN_00a7d5a0(DAT_010be340, ptr70));
     strings->Add(FUN_00a7d5a0(DAT_010be32c, ptr74));
     strings->Add(FUN_00a7d490(DAT_010be318, value78));
@@ -497,7 +509,6 @@ __declspec(noinline) Point3ParameterData::Point3ParameterData() throw()
     m_usSecondValue = 0;
 }
 
-extern MemoryManager g_memoryManager;
 void* _NiMalloc(unsigned int size) throw();
 void _NiFreeAlias(void*) throw();
 extern "C" void* __cdecl _fnv_zlib_memcpy(void* dst, const void* src, unsigned int size) throw();
@@ -511,7 +522,7 @@ class RgbaColor
 
 __forceinline void* operator new[](size_t size) throw()
 {
-    return g_memoryManager.Allocate(size);
+    return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
 }
 
 struct ParticlePoint : NiPoint3
@@ -527,23 +538,14 @@ struct ParticleRotation : NiQuaternion
 
 struct NiObject_Stub
 {
-    void CopyMembersStream(void* pkDest, void* kCloning) throw();
 };
 
 struct NiPSysData_View : NiPSysData
 {
-    void Replace(unsigned short usVertices, NiPoint3* pkVertex, NiPoint3* pkNormal, RgbaColor* pkColor, void* pkTexture,
-                 unsigned short usNumTextureSets, void* pkNormalBuffer) throw();
-    void ReplaceSizes(float* pfSizes) throw();
-    void ReplaceRadii(float* pfRadii) throw();
-    void ReplaceRotationAngles(float* pfRotationAngles) throw();
-    void ReplaceRotationAxes(NiPoint3* pkRotationAxes) throw();
-    void ReplaceTextureIndices(unsigned char* pucTextureIndices) throw();
-    void ReplaceSubTextureOffsets(RgbaColor* pkOffsets, unsigned char ucCount) throw();
 
     void ReplaceParticleInfo(Point3ParameterData* pkInfo) throw()
     {
-        g_memoryManager.Deallocate(m_pkParticleInfo);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(m_pkParticleInfo);
         m_pkParticleInfo = pkInfo;
     }
     void ReplaceParticleRotationSpeeds(float* pfSpeeds) throw()
@@ -563,7 +565,7 @@ static inline void SetCenterAndRadius(NiBound& kBound, const NiPoint3& kTargetCe
 // @fnv 0x00c24f20
 void NiPSysData_View::FUN_00c24f20(NiPSysData_View* pkDest, void* kCloning)
 {
-    ((NiObject_Stub*)this)->CopyMembersStream(pkDest, kCloning);
+    reinterpret_cast<::FUN_00a5d450_class *>((((NiObject_Stub*)this)))->CreateVertexBufferSet((unsigned int)(pkDest), kCloning);
 
     NiPoint3* pkVertex = new ParticlePoint[m_usVertices];
     unsigned int uiVertexSize = sizeof(NiPoint3) * m_usVertices;
@@ -583,7 +585,7 @@ void NiPSysData_View::FUN_00c24f20(NiPSysData_View* pkDest, void* kCloning)
         _fnv_zlib_memcpy(pkColor, m_pkColor, sizeof(RgbaColor) * m_usVertices);
     }
 
-    pkDest->Replace(m_usVertices, pkVertex, pkNormal, pkColor, 0, 0, 0);
+    reinterpret_cast<::GeomData_S *>((pkDest))->FUN_00a670c0(m_usVertices, pkVertex, pkNormal, pkColor, (::NiPoint2 *)(void *)(0), 0, (unsigned short)(0));
 
     NiQuaternion* pkRotations = 0;
     if (m_pkRotations)
@@ -596,11 +598,11 @@ void NiPSysData_View::FUN_00c24f20(NiPSysData_View* pkDest, void* kCloning)
     float* pfSizes = (float*)_NiMalloc(sizeof(float) * m_usVertices);
     unsigned int uiFloatSize = sizeof(float) * m_usVertices;
     _fnv_zlib_memcpy(pfSizes, m_pfSizes, uiFloatSize);
-    pkDest->ReplaceSizes(pfSizes);
+    reinterpret_cast<::FUN_00a96460_class *>((pkDest))->FUN_00a96460(pfSizes);
 
     float* pfRadii = (float*)_NiMalloc(sizeof(float) * m_usVertices);
     _fnv_zlib_memcpy(pfRadii, m_pfRadii, uiFloatSize);
-    pkDest->ReplaceRadii(pfRadii);
+    reinterpret_cast<::FUN_00a96440_class *>((pkDest))->SetField(pfRadii);
 
     pkDest->m_usActive = m_usActive;
 
@@ -608,28 +610,28 @@ void NiPSysData_View::FUN_00c24f20(NiPSysData_View* pkDest, void* kCloning)
     {
         float* pfRotationAngles = (float*)_NiMalloc(sizeof(float) * m_usVertices);
         _fnv_zlib_memcpy(pfRotationAngles, m_pfRotationAngles, uiFloatSize);
-        pkDest->ReplaceRotationAngles(pfRotationAngles);
+        reinterpret_cast<::FUN_00a96480_Class *>((pkDest))->FUN_00a96480(pfRotationAngles);
     }
 
     if (m_pkRotationAxes)
     {
         NiPoint3* pkRotationAxes = new ParticlePoint[m_usVertices];
         _fnv_zlib_memcpy(pkRotationAxes, m_pkRotationAxes, sizeof(NiPoint3) * m_usVertices);
-        pkDest->ReplaceRotationAxes(pkRotationAxes);
+        reinterpret_cast<::FUN_00a968c0_shell *>((pkDest))->SetPointer(pkRotationAxes);
     }
 
     if (m_pucTextureIndices)
     {
         unsigned char* pucTextureIndices = (unsigned char*)_NiMalloc(sizeof(unsigned char) * m_usVertices);
         _fnv_zlib_memcpy(pucTextureIndices, m_pucTextureIndices, sizeof(unsigned char) * m_usVertices);
-        pkDest->ReplaceTextureIndices(pucTextureIndices);
+        reinterpret_cast<::FUN_00a964a0_Class *>((pkDest))->FUN_00a964a0(pucTextureIndices);
     }
 
     if (m_pkSubTextureOffsets)
     {
         RgbaColor* pkSubTextureOffsets = (RgbaColor*)_NiMalloc(sizeof(RgbaColor) * m_ucSubTextureOffsetCount);
         _fnv_zlib_memcpy(pkSubTextureOffsets, m_pkSubTextureOffsets, sizeof(RgbaColor) * m_ucSubTextureOffsetCount);
-        pkDest->ReplaceSubTextureOffsets(pkSubTextureOffsets, m_ucSubTextureOffsetCount);
+        ::FUN_00a968e0((char *)(pkDest), (int)(pkSubTextureOffsets), (void *)(m_ucSubTextureOffsetCount), {});
     }
 
     Point3ParameterData* pkParticleInfo = 0;
@@ -661,7 +663,7 @@ struct S00c25340_Pt3
     {}
     static void* operator new[](unsigned int size, MemoryManager& mm)
     {
-        return mm.Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(mm))->FUN_00aa3e40(size);
     }
 };
 
@@ -669,7 +671,7 @@ struct S00c25340_Info : Point3ParameterData
 {
     static void* operator new[](unsigned int size, MemoryManager& mm)
     {
-        return mm.Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(mm))->FUN_00aa3e40(size);
     }
 };
 
@@ -694,19 +696,19 @@ static inline void S00c25340_Read(NiBinaryStream* input, void* destination, unsi
 // @fnv 0x00c25340
 void S00c25340_Data::FUN_00c25340(NiStream& stream)
 {
-    NiParticlesData::LoadBinary(stream);
+    reinterpret_cast<::ParticlesLoadView *>(this)->FUN_00a96cf0((::StreamIn *)&(stream));
     if (stream.m_uiNifVersion < 0x0a030005 && m_pkRotations)
     {
         m_pfRotationAngles = (float*)_NiMalloc(m_usVertices * 4);
-        m_pkRotationAxes = (NiPoint3*)new (g_memoryManager) S00c25340_Pt3[m_usVertices];
+        m_pkRotationAxes = (NiPoint3*)new (::g_memoryManager) S00c25340_Pt3[m_usVertices];
         for (unsigned short i = 0; i < m_usVertices; ++i)
             m_pkRotations[i].GetAngleAxis(m_pfRotationAngles[i], m_pkRotationAxes[i]);
         SetRotations(0);
     }
-    m_pkParticleInfo = (Point3ParameterData*)new (g_memoryManager) S00c25340_Info[m_usVertices];
+    m_pkParticleInfo = (Point3ParameterData*)new (::g_memoryManager) S00c25340_Info[m_usVertices];
     if (stream.m_kHeader.uiVersion < 0x13)
         for (unsigned short i = 0; i < m_usVertices; ++i)
-            m_pkParticleInfo[i].LoadBinary(stream);
+            reinterpret_cast<::C31F10ParticleInfo *>(&(m_pkParticleInfo[i]))->FUN_00c31f10((::C31F10Stream &)(stream));
     if (stream.m_uiNifVersion >= 0x14000002)
     {
         unsigned char res;
@@ -730,7 +732,6 @@ void S00c25340_Data::FUN_00c25340(NiStream& stream)
     }
 }
 
-extern int DAT_010be254;
 
 struct PSysDataClone
 {
@@ -771,7 +772,7 @@ struct PSysDataClone
     void FUN_00a963f0() throw();
     PSysDataClone()
     {
-        FUN_00a963f0();
+        new ((void *)this) ::FUN_00a963f0();
         m_vtbl = (void*)&DAT_010be254;
         m_70 = 0;
         m_74 = 0;
@@ -782,7 +783,6 @@ struct PSysDataClone
 
 struct PSysDataCloneSrc
 {
-    void FUN_00c24f20(PSysDataClone* pkDest, void* kCloning);
     PSysDataClone* FUN_00c252d0(void* kCloning);
 };
 
@@ -790,6 +790,6 @@ struct PSysDataCloneSrc
 PSysDataClone* PSysDataCloneSrc::FUN_00c252d0(void* kCloning)
 {
     PSysDataClone* pkClone = new PSysDataClone;
-    FUN_00c24f20(pkClone, kCloning);
+    reinterpret_cast<::NiPSysData_View *>(this)->FUN_00c24f20((::NiPSysData_View *)(pkClone), kCloning);
     return pkClone;
 }

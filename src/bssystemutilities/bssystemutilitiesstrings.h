@@ -3,15 +3,15 @@
 #define FNV_BSSYSTEMUTILITIESSTRINGS_H
 
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/symbols_011f6000.h"
 #include "layout_support.h"
 
 class MemoryManager
 {
   public:
-    void Deallocate(void* pointer);
 };
 
-extern MemoryManager g_memoryManager;
 
 #pragma pack(push, 4)
 class BSSystemUtilitiesStrings

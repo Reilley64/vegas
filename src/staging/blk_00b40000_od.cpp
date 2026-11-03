@@ -2,6 +2,20 @@
 // src/staging/blk_00b40000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00b3f030_Class.h"
+#include "fnv/decl/FUN_00b416d0.h"
+#include "fnv/decl/FUN_00b420f0_Reference.h"
+#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
+#include "fnv/decl/xlenb0f__BxVecBase.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101b000.h"
+#include "fnv/symbols_0107d000.h"
 #include "../../include/layout_support.h"
 
 struct NiPoint3
@@ -129,7 +143,6 @@ struct FUN_00b40070_Class
     float unk44;
     int unk48;
 
-    void FUN_00b3f030();
     FUN_00b40070_Class* __thiscall FUN_00b40070(NiPoint3* position, unsigned char value18, unsigned char value10,
                                                 float value, int result);
 };
@@ -143,7 +156,7 @@ FUN_00b40070_Class* __thiscall FUN_00b40070_Class::FUN_00b40070(NiPoint3* positi
     FUN_00b40070_Point* thirdPointA;
     FUN_00b40070_Point* secondPointA;
 
-    this->FUN_00b3f030();
+    new ((void *)(this)) ::FUN_00b3f030_Class();
     this->unk00 = &DAT_010a58fc;
     this->unk10 = value10;
     this->unk14 = -1;
@@ -172,7 +185,6 @@ FUN_00b40070_Class* __thiscall FUN_00b40070_Class::FUN_00b40070(NiPoint3* positi
     return this;
 }
 
-extern float DAT_01016248;
 struct S_00b40850_P3
 {
     float x;
@@ -192,8 +204,8 @@ struct FUN_00b40850
 // @fnv 0x00b40850
 FUN_00b40850::FUN_00b40850()
 {
-    unk00 = DAT_01016248;
-    unk04 = DAT_01016248;
+    unk00 = ::fnv_00c88020::DAT_01016248;
+    unk04 = ::fnv_00c88020::DAT_01016248;
     unk08 = 0.0f;
     S_00b40850_P3* p = &unk0C;
     p->x = 0.0f;
@@ -202,9 +214,6 @@ FUN_00b40850::FUN_00b40850()
     unk18 = 0.0f;
 }
 
-extern float DAT_0107d9a0;
-extern float DAT_01016410;
-extern float DAT_0101b268;
 
 class FUN_00b40a60_cls
 {
@@ -223,7 +232,6 @@ class FUN_00b40a60_cls
     float m_2c;
     unsigned int m_30;
 
-    void InitBase(int a, int b);
     FUN_00b40a60_cls* FUN_00b40a60();
 };
 
@@ -246,7 +254,7 @@ FUN_00b40a60_cls* FUN_00b40a60_cls::FUN_00b40a60()
     {
         FUN_00b40a60_loc loc;
     }
-    InitBase(0, 0);
+    reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(0, 0);
     m_1c = DAT_0107d9a0;
     m_20 = DAT_01016410;
     m_24 = 0x4b0;
@@ -310,7 +318,6 @@ struct FUN_00b40ad0_cls
     float m_1c;
     int m_20;
     float m_24;
-    void FUN_00b416d0();
     FUN_00b40ad0_cls* Init(int a, float b, float c, float d);
 };
 
@@ -319,7 +326,7 @@ struct FUN_00b40ad0_cls
 FUN_00b40ad0_cls* FUN_00b40ad0_cls::Init(int a, float b, float c, float d)
 {
     FUN_00b40ad0_Frame frame;
-    this->FUN_00b416d0();
+    new ((void *)(this)) ::FUN_00b416d0();
     m_18 = b;
     m_1c = c;
     m_20 = a;
@@ -387,7 +394,6 @@ struct FnvScratch
 void* FUN_00b42df0(unsigned int count, void* allocator);
 
 // The out-of-range reporter the original calls when the count is too large.
-void FUN_00b0fb80();
 
 // @fnv 0x00b41c80
 bool FnvCamera::ReserveEntries(unsigned int count)
@@ -407,7 +413,7 @@ bool FnvCamera::ReserveEntries(unsigned int count)
         scratch.unk8c = 0x1fffffff;
         if ((scratch.unk8c > 0 ? scratch.unk8c : 1) < count)
         {
-            FUN_00b0fb80();
+            ::xlenb0f::BxVecBase::FUN_00b0fb80();
         }
         else
         {
@@ -478,7 +484,6 @@ int FUN_00b420a0_cls::CompareAndGetDelta(FUN_00b42980 const& arg)
 
 void* operator new(unsigned int);
 
-extern char DAT_010176f8[];
 extern char DAT_01140ef8[];
 
 struct FnvThrowObj
@@ -502,10 +507,10 @@ void* __cdecl FUN_00b42df0(unsigned int count, void* allocator)
         int value = 0;
         FnvThrowObj kObj;
         kObj.FUN_00ec78f1(&value);
-        kObj.vptr = DAT_010176f8;
+        kObj.vptr = ::DAT_010176f8;
         _CxxThrowException(&kObj, (_ThrowInfo*)DAT_01140ef8);
     }
-    return operator new(count << 3);
+    return ::FUN_00401000(count << 3);
 }
 
 struct S_00b41ae0_Pad
@@ -518,7 +523,6 @@ struct S_00b41ae0_Bits
     unsigned int unk04;
     unsigned int unk08;
 
-    unsigned int* FUN_00b420f0();
     S_00b41ae0_Bits* SetBit(bool bSet);
 };
 
@@ -529,11 +533,11 @@ S_00b41ae0_Bits* S_00b41ae0_Bits::SetBit(bool bSet)
     S_00b41ae0_Pad pad;
     if (bSet)
     {
-        *FUN_00b420f0() |= (1u << unk08);
+        *reinterpret_cast<::FUN_00b420f0_Reference *>(this)->FUN_00b420f0() |= (1u << unk08);
     }
     else
     {
-        *FUN_00b420f0() &= ~(1u << unk08);
+        *reinterpret_cast<::FUN_00b420f0_Reference *>(this)->FUN_00b420f0() &= ~(1u << unk08);
     }
     return this;
 }

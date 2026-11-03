@@ -8,6 +8,7 @@
 // same layout, because matched functions use members the canonical headers do not declare:
 //   NiPoint3: static ZERO (?ZERO@NiPoint3@@2V1@B, 0x011f426c).
 //   NiPointer: out-of-line operator= on incomplete T (PathingSolution/PathingRequest), operator-> (0x00559450).
+#include "fnv/decl/FUN_009dd130_shell.h"
 #define NiPointer FNV_NiPointer_Canonical
 #define NiPoint3 FNV_NiPoint3_Canonical
 #include "layout_support.h"
@@ -23,6 +24,12 @@ class NiPoint3
     float y;
     float z;
     static const NiPoint3 ZERO;
+public:
+    ::NiPoint3 &Subtract(const ::NiPoint3 &);
+public:
+    float GetLengthSquared();
+public:
+    float ComputeMagnitude() const;
 };
 FNV_STATIC_ASSERT(sizeof(NiPoint3) == sizeof(FNV_NiPoint3_Canonical));
 
@@ -45,10 +52,14 @@ class PathingSolution;
 class PathingRequest;
 class TESTopicInfo;
 
+class NiPoint3;
 class ActorMover
 {
   public:
-    unsigned int GetPreferredMoveModeType();
+public:
+    bool HasLookAtTarget();
+public:
+    bool GetLookAtTargetPosition(::NiPoint3 &);
 };
 
 class ActorPathHandler
@@ -125,9 +136,7 @@ class DetailedActorPathHandler
     bool m_bPathFlag7;
     unsigned char padE3[1];
 
-    bool GetPathingDelta(NiPoint3& outDelta);
     bool TurnToAngle(float angle, bool keepActorHeading);
-    bool StartTurningToAngle(float angle, bool keepActorHeading, bool ignoreInitialRotation);
     void SetInitialPathState();
     void TransitionFrom(ActorPathHandler* previous);
 };

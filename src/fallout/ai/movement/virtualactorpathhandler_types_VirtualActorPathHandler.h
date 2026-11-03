@@ -2,6 +2,7 @@
 #ifndef FNV_VIRTUALACTORPATHHANDLER_DECLS_H
 #define FNV_VIRTUALACTORPATHHANDLER_DECLS_H
 
+#include "fnv/decl/FUN_009dfe40_cls.h"
 #include "layout_support.h"
 #include "Actor.h"
 #include "layout_support.h"
@@ -14,7 +15,6 @@ class VirtualActorPathHandler;
 class ActorPathHandler
 {
   public:
-    void FUN_009dfe40(void*, void*, void*, void*);
     void** m_ppVirtualMethodTable;                                      // +0x0, 4 bytes
     Actor* pActor;                                        // +0x4, 4 bytes
     ActorMover* m_pActorMover;                            // +0x8, 4 bytes
@@ -38,7 +38,6 @@ class VirtualActorPathHandler : public ActorPathHandler
     void SetInitialPathState();
     void LoadGame(BGSLoadFormBuffer*);
     int Init(float, float);
-    int GetVirtualNodeIndexAtPosition(NiPoint3&);
     // base ActorPathHandler at +0x0, size 20
     unsigned int m_uiPathPointIndex;  // +0x14, 4 bytes
     float m_fPathValue16;             // +0x18, 4 bytes

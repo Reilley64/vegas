@@ -3,6 +3,18 @@
 // byte only under /MT /O2 /GS /EHsc /Gy (unit src/bsshader/shaderbuffer.cpp lists /MT /O2 /GS /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/decl/AA4610Allocator.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045cec0_Class.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/FUN_00aa45a0_Class.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_010ef000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011ff000.h"
 #include "shaderbuffer_tables.h"
 #include "MemoryManager.h"
 class ShaderBufferRecord;
@@ -26,15 +38,10 @@ class ShaderBufferCollection
     char* m_pBufferName;
     NiTStringPointerMap<ShaderBufferRecord*> m_kBufferMap;
 };
-extern MemoryManager g_memoryManager;
 void InitializeShaderBufferTables();
 struct FUN_00aa4060_Manager
 {
-    void* FUN_00aa4060(void* object);
 };
-extern FUN_00aa4060_Manager DAT_011f6238;
-extern void* DAT_010ef53c;
-extern void FUN_0045cec0(void* object);
 extern void __stdcall FUN_00ec5fce(void* base, unsigned int elementSize, unsigned int count, void (*destructor)(void*));
 struct FUN_00b7e2b0_Class
 {
@@ -46,7 +53,6 @@ struct FUN_00b7e2b0_Class
 
 struct S00b7fd90_Alloc
 {
-    void* FUN_00aa3e40(unsigned int uiSize);
 };
 
 struct Thing_b9704
@@ -120,11 +126,11 @@ struct Thing_b9704
     Thing_b9704(unsigned int a1, unsigned int a2, Thing_b9704* a3);
     static void* operator new(unsigned int size)
     {
-        return ((S00b7fd90_Alloc*)&DAT_011f6238)->FUN_00aa3e40(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>((((S00b7fd90_Alloc*)&(*reinterpret_cast<::FUN_00aa4060_Manager *>(&::g_memoryManager)))))->FUN_00aa3e40(size);
     }
     static void operator delete(void* p)
     {
-        DAT_011f6238.FUN_00aa4060(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_Manager *>(&::g_memoryManager))))->FUN_00aa4060(p);
     }
 };
 
@@ -136,8 +142,6 @@ struct S00b7fd90_cls
     unsigned short m_usSize;
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
-    void Expand_b9704(unsigned int newSize);
-    void SetAt_b9704(unsigned int index, Thing_b9704*& item);
     void FUN_00b7fd90(unsigned int a1, unsigned int a2, Thing_b9704* a3);
 };
 
@@ -148,7 +152,7 @@ void S00b7fd90_cls::FUN_00b7fd90(unsigned int a1, unsigned int a2, Thing_b9704* 
     unsigned int index = m_usSize;
     if (index >= m_usMaxSize)
     {
-        Expand_b9704(m_usGrowBy + index);
+        reinterpret_cast<::FUN_00a41520_cls *>(this)->FUN_00a90180(m_usGrowBy + index);
     }
-    SetAt_b9704(index, a3);
+    reinterpret_cast<::FUN_00a41520_cls *>(this)->FUN_00ba3aa0(index, (::KeyPair **)&(a3));
 }

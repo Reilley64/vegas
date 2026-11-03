@@ -1,6 +1,7 @@
 // src/havok/physics/collide/shape/heightfield/storagesampledheightfield/hkpstoragesampledheightfieldshapeclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/heightfield/storagesampledheightfield/hkpstoragesampledheightfieldshapeclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00d496d0.h"
 struct S_00d49600_Vec
 {
     float x;
@@ -65,13 +66,12 @@ struct CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void FUN_00d496d0();
     CpuObject* FUN_00d49630(unsigned int flags);
 };
 // @fnv 0x00d49630
 CpuObject* CpuObject::FUN_00d49630(unsigned int flags)
 {
-    FUN_00d496d0();
+    reinterpret_cast<::FUN_00d496d0 *>(this)->FUN_00d496d0::~FUN_00d496d0();
     if (flags & 1)
     {
         CpuAllocatorHolder* holder = FUN_00c85750();

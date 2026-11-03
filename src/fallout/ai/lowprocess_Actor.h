@@ -1,5 +1,27 @@
 // fallout/ai/lowprocess_Actor.h: declares Actor
 
+#include "fnv/decl/ActorStandIn008a.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/B_008b3630.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00881450_shell.h"
+#include "fnv/decl/FUN_00884f80_shell.h"
+#include "fnv/decl/FUN_008ad910_cls.h"
+#include "fnv/decl/FUN_008b36f0_cls.h"
+#include "fnv/decl/FUN_008b3b90_shell.h"
+#include "fnv/decl/FUN_008b3bf0_shell.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/TeleportableReference.h"
+#include "fnv/decl/fnv_0057ace0__FUN_0057ace0_shell.h"
+#include "fnv/decl/fnv_0057ad20__FUN_0057ad20_shell.h"
+#include "fnv/decl/fnv_00881470__FUN_00881470_shell.h"
+#include "fnv/decl/fnv_00881680__FUN_00881680_shell.h"
+#include "fnv/decl/fnv_008a0b10__FUN_008a0b10_shell.h"
+#include "fnv/decl/fnv_008a6a40__TargetActor.h"
+#include "fnv/decl/fnv_008a8f60__FUN_008a8f60_shell.h"
+#include "fnv/decl/fnv_008b3690__TES.h"
+#include "fnv/decl/fnv_008b3880__FUN_008b3880_target.h"
+#include "fnv/decl/fnv_008b3d30__FUN_008b3d30_shell.h"
 class PathingRequest;
 class PathingAvoidNodeArray;
 // Source layout: Actor. PC corrections are in generate_headers.py.
@@ -22,33 +44,12 @@ class Actor : public MobileObject,
 {
   public:
     BaseProcess* GetProcess();
-    void FUN_00884f80();
-    TESPackage* FUN_00881450();
-    void FUN_008b3d30();
     TESObjectREFR* FUN_004fd380();
     void FUN_0057bd60(TESObjectREFR*);
-    void SetDialogueTopic(TESTopic*);
-    void FUN_0057ace0(void*);
-    void* FUN_0084e3a0();
-    void InitializePathingRequestFromPosition(PathingRequest*, const NiPoint3&, TESObjectCELL*, TESWorldSpace*, float,
-                                              PathingAvoidNodeArray*);
-    void SetPathingRequestAvoidNodes(PathingRequest*);
-    float GetCurrentMovementSpeed();
-    void FUN_008ad910(TESObjectREFR*, bool, bool);
-    bool DispatchWithObj(TESObjectREFR*, float, void*);
 
-    void GetApplicablePackages(BSSimpleList<TESPackage*>*, float);
     bool HasCombatState();
 
-    void SetSpeakingState(bool);
-    bool HasEssentialStatus();
-    bool IsActorEssential();
-    bool HasBoundObject();
-    bool RefreshCurrentPackage();
     bool IsAtPosition(const NiPoint3&, TESObjectCELL*, TESWorldSpace*, float, void*);
-    void RefreshPackageState();
-    bool IsInDeadState();
-    bool FUN_008b3bb0();
 
     bhkRagdollController* m_pRagdollController;            // +0xAC
     bhkRagdollPenetrationUtil* m_pRagdollPenetrationUtil;  // +0xB0
@@ -251,7 +252,6 @@ class Actor : public MobileObject,
     virtual void Unk_135(void);
     virtual void Unk_136(void);
     TESActorBase* GetActorBase();
-    bool IsPlayerTeammate();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(Actor) == 0x1B4);

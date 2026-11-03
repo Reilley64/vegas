@@ -2,6 +2,10 @@
 #ifndef FNV_NIBSPLINEDATA_DECLS_H
 #define FNV_NIBSPLINEDATA_DECLS_H
 
+#include "fnv/decl/CubicSplineBasis.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
+#include "fnv/decl/FUN_00a62660_cls.h"
+#include "fnv/symbols_00aa1000.h"
 #include "NiRefObject.h"
 
 class NiBSplineBasis_float_3_
@@ -9,12 +13,10 @@ class NiBSplineBasis_float_3_
   public:
     int count;
     float weights[4];
-    void Compute(float, int&, int&);
 };
 class NiBSplineBasisData
 {
   public:
-    NiBSplineBasis_float_3_& GetBSplineBasis();
 };
 class NiStream;
 class NiBinaryStream;
@@ -49,7 +51,6 @@ class __declspec(novtable) NiBSplineData : public NiObject
     short* m_psCompactControlPoints;
     unsigned int m_uiControlPointCount;
     unsigned int m_uiCompactControlPointCount;
-    void ReadGroup(NiStream& stream);
     void CalculateSplineValue(float, float*, unsigned int, NiBSplineBasisData*, unsigned int, float, float);
     virtual void LoadBinary(NiStream& stream);
 };
@@ -64,6 +65,5 @@ FNV_STATIC_ASSERT(offsetof(NiBSplineData, m_uiControlPointCount) == 16);
 FNV_STATIC_ASSERT(offsetof(NiBSplineData, m_uiCompactControlPointCount) == 20);
 FNV_STATIC_ASSERT(sizeof(NiBSplineData) == 24);
 
-void* __cdecl FUN_00aa1070(unsigned int size);
 void __cdecl FUN_00a89650(const short*, unsigned int, float, float, float*, unsigned int);
 #endif

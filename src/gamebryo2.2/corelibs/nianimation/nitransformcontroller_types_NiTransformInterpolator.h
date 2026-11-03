@@ -2,6 +2,7 @@
 #ifndef FNV_NITRANSFORMINTERPOLATOR_H
 #define FNV_NITRANSFORMINTERPOLATOR_H
 
+#include "fnv/decl/FUN_004f0180_Class.h"
 #include "layout_support.h"
 #include "NiObject.h"
 #include "NiPoint3.h"
@@ -67,7 +68,6 @@ class NiQuaternion
 {
   public:
     void FromRotationMatrix(const ThreeByThreeMatrix&);
-    void ToRotationMatrix(ThreeByThreeMatrix&);
     float m_fVectorX;     // +0x0, 4 bytes
     float m_fVectorY;     // +0x4, 4 bytes
     float m_fVectorZ;     // +0x8, 4 bytes
@@ -155,6 +155,7 @@ FNV_STATIC_ASSERT(offsetof(NiQuatTransform, m_kTranslate) == 0);
 FNV_STATIC_ASSERT(offsetof(NiQuatTransform, m_kRotate) == 12);
 FNV_STATIC_ASSERT(offsetof(NiQuatTransform, m_fScale) == 28);
 #pragma pack(push, 4)
+class NiQuatTransform;
 class NiTransformInterpolator : public NiKeyBasedInterpolator
 {
   public:
@@ -204,6 +205,8 @@ class NiTransformInterpolator : public NiKeyBasedInterpolator
     // NiTransformInterpolator& __cdecl NiTransformInterpolator::*(const NiTransformInterpolator&)
     // void __cdecl NiTransformInterpolator::*()
     // void __cdecl NiTransformInterpolator::*()
+public:
+    NiTransformInterpolator(::NiQuatTransform);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiTransformInterpolator) == 72);

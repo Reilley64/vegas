@@ -4,14 +4,36 @@
 
 // src/havok/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void __cdecl Deallocate(void*);
-extern "C" void* DAT_010ccf7c;
+#include "fnv/decl/Dispatcher.h"
+#include "fnv/decl/FUN_00c9bff0_Class.h"
+#include "fnv/decl/FUN_00cb1a60_t.h"
+#include "fnv/decl/FUN_00d976d0_cls.h"
+#include "fnv/decl/FUN_00d97970_cls.h"
+#include "fnv/decl/FUN_00d9a4d0_Class.h"
+#include "fnv/decl/FUN_00d9bed0_cls.h"
+#include "fnv/decl/FUN_00d9c7d0_C.h"
+#include "fnv/decl/FnvCpu_FUN_00cd2a00_CpuObject.h"
+#include "fnv/decl/ListWalker.h"
+#include "fnv/decl/Owner.h"
+#include "fnv/decl/S00d09020_This.h"
+#include "fnv/decl/Tree_d978.h"
+#include "fnv/decl/UpdateState.h"
+#include "fnv/decl/fnv_00cb1870__hkMapBaseCB18.h"
+#include "fnv/decl/fnv_00d04b50__Owner.h"
+#include "fnv/decl/linear_cast_d9a2a0__PathBuilder.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00d04000.h"
+#include "fnv/symbols_00d9d000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_01076000.h"
+#include "fnv/symbols_010cc000.h"
+#include "fnv/symbols_01268000.h"
 struct FUN_00d08330 {
     void* m_p;
     FUN_00d08330(char);
 };
-extern int DAT_010ccf8c;
-extern void __cdecl Deallocate(void*);
 struct FUN_00d08350 {
     void* m_p;
     void* __thiscall Set(void* arg);
@@ -30,22 +52,17 @@ struct FUN_00d08ff0_t {
 void FUN_00d08ac0(FUN_00d08ff0_t* self, int arg);
 void FUN_00d08b90(FUN_00d08ff0_t* self, int arg);
 void FUN_00d08ff0(FUN_00d08ff0_t* self, int arg);
-extern int DAT_010ccfac;
-void __cdecl Deallocate(void*);
 struct FUN_00d0a150 {
     int* p;
     FUN_00d0a150(bool b);
 };
-extern int DAT_010ccfa0;
-extern int DAT_010ccfac;
-extern "C" void __cdecl Deallocate(void*);
 struct FUN_00d0a1a0 {
     int* a;
     int* b;
     int __thiscall Init(int p);
 };
 int __fastcall FUN_00d08390(void* self, int, int value);
-struct HashEntryTable { void clear(); };
+struct HashEntryTable {  };
 struct FUN_00d08550_Class {
     void __thiscall FUN_00d08550();
 };
@@ -53,7 +70,6 @@ struct FUN_00d08560_class {
     void __thiscall FUN_00d08560();
 };
 struct FUN_00d08940_class {
-    void __thiscall FUN_00d08940(void* arg);
 };
 struct FUN_00d08a40_class {
     char pad0[8];
@@ -64,7 +80,6 @@ struct FUN_00d08a40_class {
     void __thiscall ProcessFlaggedEntries(void* arg);
 };
 struct FUN_00cd2a00_class {
-    void __thiscall FUN_00cd2a00();
 };
 void __stdcall FUN_00d083e0(void* arg);
 struct FUN_00d08a90_class {
@@ -85,7 +100,6 @@ struct FUN_00d08fd0_class {
     void __thiscall FUN_00d08fd0(int a);
     void __thiscall FUN_00d08c90(int a);
 };
-void __cdecl Deallocate(void*);
 struct FUN_00d0a130 {
     void* p;
     void* __thiscall Set(char b);
@@ -116,7 +130,8 @@ struct FUN_00d0a1f0_Class {
 };
 void __stdcall FUN_00d08380(int);
 struct FUN_00cd29f0_cls {
-    void FUN_00cd29f0(int iValue);
+public:
+    void FUN_00cd29f0(unsigned int);
 };
 struct FUN_00d08400_cls {
     int m_00;
@@ -217,7 +232,6 @@ struct hkBoolD084 {
     hkBoolD084(bool b) { m_cBooleanValue = (char)b; }
 };
 hkBoolD084 __cdecl FUN_00d98ca0(void* pkBroadPhase, const hkVector4D084& kFrom, const hkVector4D084& kTo, hkpWorldRayCasterD084* pkCaster) throw();
-void __cdecl FUN_00d1bd00(void* pkTree, const hkVector4D084& kFrom, const hkVector4D084& kTo, hkpTreeCastCallbackD084* pkCaster, float fEarlyOut) throw();
 class hkpRayCastQueryD084 {
 public:
     int m_00;
@@ -257,7 +271,6 @@ public:
 };
 class hkBroadPhaseD085 {
 public:
-    void FUN_00d9c7d0(unsigned short id);
 };
 struct hkCollidableD085 {
     int unk00;
@@ -305,7 +318,6 @@ struct hkBoolRetD088 {
 };
 class hkpEntityD088 {
 public:
-    hkBoolRetD088 FUN_00c9bff0() const throw();
 };
 struct hkpCollidableD088 {
     const void* m_pCollisionShape;
@@ -334,7 +346,7 @@ public:
         hkpCollidableD088* pkCollidable = m_kCollidables.m_data[i];
         if (pkCollidable->m_type == 1) {
             hkpEntityD088* pkEntity = pkCollidable->getOwner();
-            if (pkEntity && !pkEntity->FUN_00c9bff0().m_cBooleanValue) {
+            if (pkEntity && !(*(::hkBoolRetD088 *)(reinterpret_cast<::FUN_00c9bff0_Class *>((void *)(pkEntity))->FUN_00c9bff0({}))).m_cBooleanValue) {
                 kInactive.pushBackUnchecked(m_kCollidables.m_data[i]);
                 m_kCollidables.removeAt(i);
             }
@@ -345,7 +357,6 @@ public:
 };
 struct hkObjectE02;
 struct hkLoaderE02 {
-    int Get(char const* name, hkObjectE02** out);
 };
 struct Router {
     int a;
@@ -361,7 +372,6 @@ struct Router {
 };
 Router* __cdecl _FNV_e03300_arena();
 struct Sink {
-    void FUN_00cb1870(void*, int, int);
 };
 struct FUN_00d08940_shell {
     unsigned int unk00;
@@ -388,7 +398,6 @@ struct FUN_00d08940_shell {
     void FUN_00d08940(char const* name);
 };
 struct FUN_00d9a4d0_class {
-    void __thiscall GetEntryOffset(unsigned int value);
 };
 struct FUN_00d08c70_class {
     int unk00;
@@ -478,7 +487,6 @@ public:
     int unk44;
     void* m_48;
 
-    void FUN_00d094a0(int* p, void* a, void* b, void* c, void* d);
     void FUN_00d099a0(void* a, void* c, void* d);
 };
 struct FUN_00d0a1e0_class {
@@ -514,7 +522,6 @@ struct FUN_00d0a1e0_class {
 extern int DAT_010ccfcc;
 extern int DAT_010ccfe0;
 extern int DAT_010ccfec;
-extern float DAT_0104da4c;
 __declspec(align(16)) struct S00d08740_coll {
     int m_00;
     int m_04;
@@ -549,8 +556,6 @@ __declspec(align(16)) struct S00d08740_coll {
     int unk78;
     int unk7c;
     float m_80;
-    void FUN_00d984b0(void* a0, void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7);
-    void FUN_00d9a2a0(void* a0, void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7);
 };
 struct S00d08740_cls {
     void* m_00;
@@ -585,8 +590,6 @@ public:
     int m_iCapacityFlags;
     int m_iPairCount;
 
-    hkResultD089 LookupBucketValue(unsigned int key, unsigned int* out) const;
-    int FUN_00cb1870(hkMemoryAllocatorD089& alloc, unsigned int key, unsigned int val);
 };
 class OwnerD089 {
 public:
@@ -692,11 +695,9 @@ public:
     bool m_dirty;
     bool m_needsUpdate;
 
-    void FUN_00d08980(hkpCollidableD08* collidable);
     virtual void FUN_00d089f0(hkpSimulationIslandD08* island);
 };
 extern int DAT_010ccfcc;
-extern float DAT_0104da4c;
 __declspec(align(16)) struct S00d0a490_Obj {
     int m_00;
     int m_04;
@@ -734,7 +735,6 @@ __declspec(align(16)) struct S00d0a490_Obj {
     int m_84;
     int m_88;
     int m_8c;
-    int FUN_00d984b0(int, int, int, int, int, int, int, int);
 };
 struct S00d0a490_cls {
     int m_00;
@@ -765,7 +765,6 @@ struct hkpWorldB90 {
     hkArrayD08C<hkpSimulationIslandB90*> m_kActiveSimulationIslands;
 };
 void __cdecl FUN_00d08b90(hkArrayD08C<int*>& out, hkpWorldB90* world);
-extern unsigned int DAT_0126835c;
 extern char DAT_010cd234[];
 extern char DAT_010c41f8[];
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
@@ -801,8 +800,6 @@ struct UpdateOwner {
     int unk60;
     int unk64;
     bool dirty;
-    void FUN_00d09df0(void*, void*);
-    void FUN_00d099d0(void*, void*);
     void FUN_00d0a060(void*, void*);
 };
 // FUN_00d0a200 : MSVC this-adjusting thunk  (sub ecx, 0x14 ; jmp <impl>)
@@ -859,7 +856,6 @@ extern const char str_010cd0f4[];
 extern const char str_010cd0e0[];
 extern const char str_010cd0d0[];
 extern const char str_010cd0c4[];
-extern const char str_01076f38[];
 extern const char str_010cd0b8[];
 struct S00d094a0_Cmd { const char* m_name; unsigned m_uiCommandId; int m_08; const char* m_detail; };
 struct S00d094a0_Stream { char* m_00; char* m_kRayEnd; char* m_08; char* m_capEnd; };
@@ -868,7 +864,7 @@ union StreamPhase { S00d094a0_Stream* stream; int capacity; };
 struct CapPair {StreamPhase pointer;int capacity2;};
 __forceinline void S00d094a0_beginList(const char* name, const char* detail)
 {
-    S00d094a0_Stream* t = (S00d094a0_Stream*)TlsGetValue(DAT_0126835c);
+    S00d094a0_Stream* t = (S00d094a0_Stream*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     S00d094a0_Cmd* p = (S00d094a0_Cmd*)t->m_kRayEnd;
     if ((char*)p < t->m_capEnd) {
         p->m_name = name;
@@ -885,7 +881,7 @@ __forceinline void S00d094a0_beginList(const char* name, const char* detail)
 }
 __forceinline void S00d094a0_timer(const char* name)
 {
-    S00d094a0_Stream* t = (S00d094a0_Stream*)TlsGetValue(DAT_0126835c);
+    S00d094a0_Stream* t = (S00d094a0_Stream*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     S00d094a0_Cmd* p = (S00d094a0_Cmd*)t->m_kRayEnd;
     if ((char*)p < t->m_capEnd) {
         p->m_name = name;
@@ -924,13 +920,10 @@ struct __declspec(align(16)) S00d094a0_Desc {
     int m_uiItemCount; char m_04; char m_isMt; short m_06; int m_08; int m_0c;
     S00d094a0_Vec m_kMinimumCorner;
     S00d094a0_Vec m_kMaximumCorner;
-    void FUN_00d976d0();
 };
 struct S00d094a0_Tree {
     void* m_00; int m_04; int m_08; int m_0c; int m_10; int m_14; int m_18; void* m_1c;
     int total() const { return m_14 + m_18; }
-    void FUN_00d978d0(S00d094a0_Desc*);
-    S00d094a0_Tree* Init(S00d094a0_Desc*);
 };
 struct S00d094a0_Shape {
     virtual void f00(); virtual void f04(); virtual void f08(); virtual void f0c();
@@ -949,12 +942,12 @@ struct S00d094a0_Ctx {
     void* m_78;
 };
 struct S00d094a0_Job;
-struct S00d094a0_Queue { void FUN_00d04b50(S00d094a0_Job*, int); void FUN_00d051b0(); };
+struct S00d094a0_Queue {   };
 struct S00d094a0_Sync {
     virtual void f00(); virtual void f04(); virtual void f08();
     virtual void signal(S00d094a0_Queue*, int); virtual void wait();
 };
-struct S00d094a0_Helper { int FUN_00d04380(); };
+struct S00d094a0_Helper {  };
 struct S00d094a0_JobHead {
     __declspec(align(16)) char m_00;
     char m_01; char m_02;
@@ -993,12 +986,7 @@ struct __declspec(align(16)) S00d094a0_Build {
 };
 struct S00d094a0_Fallback {
     int m_00; int m_04; int m_08;
-    void InitWalker(S00d094a0_Input*, S00d094a0_Ctx*);
-    int FUN_00d9e000();
 };
-void __cdecl FUN_00d9d950(S00d094a0_Tree*, int, void*, void*);
-void __cdecl FillAabbArray(S00d094a0_Fallback*, int, int, void*);
-void __cdecl DrawIfCountPositive(void**, S00d094a0_Tree*);
 struct S00d094a0_Owner {
     int u00; int u04; int u08; int u0c; int u10; int u14; int u18; int u1c;
     int u20; int u24; int u28; int u2c;
@@ -1159,24 +1147,18 @@ struct MarkerBuf {
     int* m_kRayEnd;
 };
 extern int DAT_00fdf044;
-extern unsigned int DAT_0126835c;
 extern char DAT_010cd224;
 extern char DAT_010cd154;
 extern char DAT_010cd14c;
 extern char DAT_010cd140;
 extern char DAT_010cd214;
-extern char DAT_01076f38;
 struct D9bed0Cls {
-    void __thiscall FUN_00d9bed0();
 };
 struct D09020Cls {
-    void __thiscall FUN_00d09020(int* p, void* a, void* b);
 };
 struct ActiveTreeBuilder {
-    void __thiscall FUN_00d099a0(void* entries, void* queue, void* pool);
 };
 struct TreeCleanMarker {
-    void __thiscall FUN_00d08550();
 };
 struct AllocV {
     virtual void v0();
@@ -1270,6 +1252,7 @@ FUN_00d9a040::FUN_00d9a040() throw()
 
 struct FloatPtr {float* p; FloatPtr(float* q):p(q){} };
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 struct Scalar {
  __m128 value;
  Scalar(float f) { value=_mm_load_ss(&f); }

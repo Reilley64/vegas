@@ -4,8 +4,58 @@
 
 // src/havok/physics/dynamics/world/simulation/multithreaded/hkpmultithreadedsimulation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/multithreaded/hkpmultithreadedsimulation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void __cdecl Deallocate(void*);
-extern int DAT_010c63bc;
+#include <new>
+#include "fnv/decl/CB1A90Owner.h"
+#include "fnv/decl/ContainerD082.h"
+#include "fnv/decl/D049D0World.h"
+#include "fnv/decl/D04B90World.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00c91120.h"
+#include "fnv/decl/FUN_00c91140_Class.h"
+#include "fnv/decl/FUN_00c91180_Class.h"
+#include "fnv/decl/FUN_00c91190_Class.h"
+#include "fnv/decl/FUN_00c92b50_Class.h"
+#include "fnv/decl/FUN_00cb1930_t.h"
+#include "fnv/decl/FUN_00cb1a60_t.h"
+#include "fnv/decl/FUN_00cb1fe0_t.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00cfa7d0.h"
+#include "fnv/decl/FUN_00d04450_cls.h"
+#include "fnv/decl/FnvCpu_FUN_00d04440_CpuObject.h"
+#include "fnv/decl/S00cfa6e0_Dst.h"
+#include "fnv/decl/S00d0db40_Dyn.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/WorldWatchDogHolder.h"
+#include "fnv/decl/fnv_00cb1870__hkMapBaseCB18.h"
+#include "fnv/decl/fnv_00cf8b00__Sim.h"
+#include "fnv/decl/fnv_00d03030__HkProcessor.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00c91000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00cb4000.h"
+#include "fnv/symbols_00cb5000.h"
+#include "fnv/symbols_00cc0000.h"
+#include "fnv/symbols_00cc1000.h"
+#include "fnv/symbols_00cf7000.h"
+#include "fnv/symbols_00cfd000.h"
+#include "fnv/symbols_00cfe000.h"
+#include "fnv/symbols_00d00000.h"
+#include "fnv/symbols_00d01000.h"
+#include "fnv/symbols_00d02000.h"
+#include "fnv/symbols_00d04000.h"
+#include "fnv/symbols_00d0c000.h"
+#include "fnv/symbols_00d89000.h"
+#include "fnv/symbols_00d93000.h"
+#include "fnv/symbols_00d96000.h"
+#include "fnv/symbols_00dd7000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_01076000.h"
+#include "fnv/symbols_010c6000.h"
+#include "fnv/symbols_010cc000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 struct FUN_00d04300
 {
     int* m_p;
@@ -139,7 +189,6 @@ struct World
 };
 struct Reserve
 {
-    void FUN_00d97070(int);
 };
 struct Owner
 {
@@ -166,6 +215,10 @@ struct Owner
     int unk50;
     int unk54;
     Reserve* reserve;
+public:
+    void FUN_00d04a80(int, int);
+public:
+    void FUN_00d97070(void *);
 };
 struct FUN_00d0d020
 {
@@ -340,7 +393,6 @@ struct PairArray
 };
 char* __cdecl FUN_00c85750();
 void __cdecl ResizeAudioStream(void* alloc, PairArray* arr, int elemSize);
-void __cdecl FUN_00cc0f40(char* a, char* b, char* c);
 struct FUN_00d026e0_cls
 {
     int unk00;
@@ -353,7 +405,6 @@ struct SortPair8
     int m_uiFilterValue;
 };
 typedef bool(__cdecl* SortPairLess)(const SortPair8* lhs, const SortPair8* rhs);
-void __cdecl QuickSortPairs(SortPair8* apPairs, int lo, int hi, SortPairLess apLess);
 void __stdcall FUN_00d020f0(S_00d02020_Pair* pair);
 void __stdcall FUN_00d02200(int);
 void __stdcall FUN_00d02210(int, int, int);
@@ -427,7 +478,6 @@ struct __declspec(align(16)) CollisionInput
     int unk50, unk54, unk58, unk5C, unk60;
     void* scratch;
     int unk68, unk6C, unk70, unk74, unk78, unk7C;
-    void FUN_00cfa7d0(const CollisionInput*);
 };
 struct __declspec(align(16)) SolverContext
 {
@@ -435,7 +485,6 @@ struct __declspec(align(16)) SolverContext
     int unk20, unk24, unk28, unk2C, unk30, unk34, unk38, unk3C;
     int unk40, unk44, unk48, unk4C, unk50, unk54, unk58, unk5C;
     int unk60, unk64, unk68, unk6C, unk70, unk74, unk78, unk7C;
-    void FUN_00cfa6e0(void*, void*, int);
 };
 struct PhysicsOwner
 {
@@ -548,8 +597,6 @@ struct __declspec(align(16)) ResultJob : JobHeader
 };
 struct JobQueue
 {
-    void AddObjectCopy(BuildJob*, int);
-    void FUN_00d051b0();
 };
 struct Allocator
 {
@@ -567,8 +614,6 @@ struct ThreadState
         return *allocator;
     }
 };
-void* __cdecl AllocateBlockHeader(int, int);
-extern int DAT_01269210;
 struct Processor;
 struct __declspec(align(16)) ProcessingContext
 {
@@ -581,7 +626,6 @@ struct __declspec(align(16)) ProcessingContext
     float delta;
     int* shared;
 };
-void __cdecl AccumulateShapes(ProcessingContext*, JobQueue*, ResultJob*);
 struct Processor
 {
     int unk00, unk04, unk08;
@@ -595,7 +639,6 @@ struct Processor
     JobQueue* active;
 
     void ProcessGroups(int**, int, struct Group*, int, TaskInput*, hkBoolX);
-    void FUN_00d0c9c0(int**, int, TaskInput*, GroupIdentity*, hkBoolX);
 };
 struct Group
 {
@@ -625,7 +668,6 @@ struct hkMemoryRouterQ
     hkMemoryAllocatorQ* m_pStreamAllocator;
 };
 void __cdecl ResizeAudioStream(void* alloc, void* arr, int elemSize);
-extern "C" void __cdecl FUN_00cb1280(void* p, int v, int n);
 __forceinline hkMemoryRouterQ& getRouter()
 {
     return *(hkMemoryRouterQ*)FUN_00c85750();
@@ -747,7 +789,6 @@ struct CollidableQ
 };
 struct LinkedCollidableQ
 {
-    void CopyAndSortGeometryList(hkArrayQ<CollisionEntryQ>& entries);
 };
 struct EntityQ
 {
@@ -760,7 +801,6 @@ struct EntityQ
     SimulationIslandQ* m_pSimulationIsland;
     int unkd0;
     int m_d4;
-    void FUN_00c90510();
 };
 struct SimulationIslandQ
 {
@@ -769,8 +809,6 @@ struct SimulationIslandQ
 };
 struct InputQ
 {
-    int LookupHashEntry(int key, int flag);
-    void FUN_00cb1870(hkMemoryAllocatorQ* heap, int key, EntityQ* entity);
 };
 struct CollideSimQ
 {
@@ -782,8 +820,6 @@ struct CollideSimQ
     int m_3c;
     int unk40[0x20];
     int m_c0;
-    void FUN_00d0db40(EntityQ** entities, int numEntities, void* input, int* out);
-    void FUN_00d03030(AgentEntryQ** entries, int numEntries, void* input, SimulationIslandQ* island, hkBoolQ flag);
     void ProcessCollisionEntries(EntityQ** entities, int numEntities, void* input, InputQ* collInput) throw();
 };
 extern "C" void _ReadWriteBarrier(void);
@@ -830,7 +866,6 @@ static S00d02880_Elem* FUN_00d02880(S00d02880_Arr* b, S00d02880_Key t);
 S00d02880_Elem* S00d02880_Call(S00d02880_Arr* a, S00d02880_Key key);
 #include <windows.h>
 #include <xmmintrin.h>
-extern unsigned int DAT_0126835c;
 struct TraceRecord
 {
     const char* name;
@@ -846,7 +881,7 @@ struct TraceBuffer
 };
 static __forceinline void WriteTrace(const char* name)
 {
-    TraceBuffer* trace = static_cast<TraceBuffer*>(TlsGetValue(DAT_0126835c));
+    TraceBuffer* trace = static_cast<TraceBuffer*>(TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))));
     if (trace->next < trace->end)
     {
         TraceRecord* record = trace->next;
@@ -864,15 +899,12 @@ struct Logger
     virtual void unused2();
     virtual void Log(int level, unsigned int code, void* text, const char* file, int line);
 };
-extern Logger* DAT_01268360;
 struct MessageBuilder
 {
     char* buffer;
     unsigned int capacity;
     char* cursor;
     __declspec(nothrow) MessageBuilder(char* buffer, unsigned int capacity);
-    void FUN_00cc01c0(const char* text);
-    void FUN_00cc00e0();
 };
 struct ObjectLink
 {
@@ -1029,8 +1061,6 @@ template <class T, class L> inline void sortPairs(T* data, int count, L less)
         QuickSortPairs((SortPair8*)data, lo, hi, (SortPairLess)less);
     }
 }
-void __cdecl FUN_00d02250(PairList<TypedPair>& list);
-extern int DAT_01269200;
 extern const float DAT_0104da48 = 3.402820018375656e+38f;
 struct ProfileNamedRecord : TraceRecord
 {
@@ -1048,9 +1078,6 @@ struct RuntimeBase
 };
 struct Job
 {
-    int FUN_00d04440();
-    void SetSimulationEnabled(int);
-    void SetValue(int);
 };
 struct Jobs : RuntimeBase
 {
@@ -1831,6 +1858,8 @@ struct Dispatcher
     int f05c;
 
     Quality* f060;
+public:
+    int FUN_00d051b0();
 };
 struct StepWorld
 {
@@ -2057,12 +2086,6 @@ struct StepWorld
 
     PendingConstraints* f1b8;
 
-    void IncrementCounter();
-    void FUN_00c910b0();
-    void FUN_00c91120();
-    void FUN_00c91140();
-    void FUN_00c91190();
-    int FUN_00c93570();
 };
 struct TimeInfo
 {
@@ -2073,17 +2096,6 @@ struct StepPair
     Handle* first;
     Handle* second;
 };
-void __cdecl FUN_00dd7d00(Island**, int, int, void(__cdecl*)(bool*, CompareObject*, CompareObject*));
-void __cdecl FUN_00cf7130(PairArray*, PairArray*);
-void __cdecl FUN_00d02250(PairArray*);
-void __cdecl FUN_00cb4c60(StepWorld*, Island*, Island*);
-Agent* __cdecl FUN_00cc0f40(Body*, Body*, Dispatcher*);
-Agent* __cdecl FindEntryValue(Body*, Body*);
-void __cdecl FUN_00cc1160(Agent*);
-void __cdecl FUN_00cfedd0(Agent*, Dispatcher*, Output*, Manager*);
-void __cdecl FUN_00d00aa0(StepWorld*, Constraint*);
-void __cdecl FUN_00d014f0(StepWorld*, TimeInfo*);
-void __cdecl ProcessChildLoop(StepWorld*);
 __forceinline Body* bodyOf(Handle* h)
 {
     return (Body*)((char*)h + h->off);
@@ -2263,7 +2275,6 @@ struct Stepper
 
     int f100;
 
-    void AddToiEvent(Output*, Agent*, void*);
 
     int FUN_00d03290(Job*, Jobs*);
 };
@@ -2358,11 +2369,6 @@ struct ObjA
     int m_00;
     int m_04;
     int m_08;
-    void EnsureCapacity(DeallocCtx* ctx, int zero);
-    int LookupHashEntry(void* elem, int zero);
-    void FUN_00cb1870(DeallocCtx* ctx, void* elem, int one);
-    void ProcessArgument(DeallocCtx* ctx);
-    void FUN_00a29680();
 };
 struct CollisionCell
 {
@@ -4335,14 +4341,11 @@ struct SubObj
     {
         return m_78;
     }
-    void FUN_00c91120();
-    void FUN_00c91140();
 };
 struct ElemSub
 {
     SubNode* first;
     SubNode* second;
-    void CopyAndSortGeometryList(ArrPair* out);
 };
 struct Elem
 {
@@ -4669,14 +4672,12 @@ struct Elem
     unsigned char unkE9_61;
     unsigned char unkE9_62;
     float m_14c;
-    void FUN_00c905b0();
 };
 struct ParamObj
 {
     Pair* m_pData;
     int m_04;
     int m_iArrayLength;
-    void ResetEntries();
     int First()
     {
         int index = 0;
@@ -4711,7 +4712,6 @@ struct ThisCls
     int m_08;
     SubObj* m_0c;
     void FUN_00d03c20(ParamObj* p0, ParamObj* p1);
-    void ProcessGroups(int* a, int b, Group* c, int d, void* e, CollisionFlag f);
 };
 
 namespace StepBeginSse {
@@ -4731,8 +4731,7 @@ extern "C"
 }
 extern "C" void _ReadWriteBarrier();
 extern "C" void __debugbreak();
-extern int DAT_01269210;
-extern char DAT_010ccbb0, DAT_010cc5bc, DAT_010cc5b0, DAT_01076f38;
+extern char DAT_010ccbb0;
 namespace StepBeginDetail {
 struct Vec4
 {
@@ -4771,12 +4770,12 @@ struct Entry12
 };
 static __forceinline void writeBeginTrace(volatile int& ts)
 {
-    Ring* ring = (Ring*)TlsGetValue(DAT_0126835c);
+    Ring* ring = (Ring*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     Entry16* cur = (Entry16*)ring->cur;
     if ((int*)cur < ring->end)
     {
         cur->id = &DAT_010ccbb0;
-        cur->id2 = &DAT_010cc5bc;
+        cur->id2 = &(*reinterpret_cast<char *>((void *)&::str_010cc5bc));
         _ReadWriteBarrier();
         ts = (int)__rdtsc();
         cur->ts = ts;
@@ -4786,7 +4785,7 @@ static __forceinline void writeBeginTrace(volatile int& ts)
 }
 static __forceinline void writeTrace(const char* name, volatile int& ts2)
 {
-    Ring* ring2 = (Ring*)TlsGetValue(DAT_0126835c);
+    Ring* ring2 = (Ring*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     Entry12* cur2 = (Entry12*)ring2->cur;
     if ((int*)cur2 < ring2->end)
     {
@@ -4861,9 +4860,6 @@ struct Glob
     int unk14;
     GlobObj* m_18;
 };
-void __cdecl FUN_00cb55d0(void* p);
-void __cdecl FUN_00d01bc0(void* p);
-void __cdecl FUN_00d892d0();
 struct Sub
 {
     int unk00;
@@ -4975,8 +4971,6 @@ struct __declspec(align(16)) Msg : JobBase
 };
 struct ArgCls
 {
-    void FUN_00d04a80(int a, int b);
-    void AddObjectCopy(Msg* m, int b);
 };
 struct QueueHandle
 {
@@ -5016,7 +5010,6 @@ struct RegA
     int unk74;
     int unk78;
     int unk7c;
-    void FUN_00cfa6e0(Sub* s, Vec4* v, void* h);
 };
 struct RegB
 {
@@ -5052,7 +5045,6 @@ struct RegB
     int unk74;
     int unk78;
     int unk7c;
-    void FUN_00cfa7d0(Sub78* s);
 };
 struct EdiObj
 {
@@ -5198,16 +5190,11 @@ struct Obj
         if (--m_94 == 0 && m_9c == 0)
         {
             if (m_8c)
-                FUN_00c91120();
+                reinterpret_cast<::FUN_00c91120 *>(this)->ExecutePendingOperations();
             if (m_a4 == 1 && m_90)
-                FUN_00c91140();
+                reinterpret_cast<::FUN_00c91140_Class *>(this)->FUN_00c91140();
         }
     }
-    void* FUN_00c93570();
-    void ComputeMemoryUsage(MemoryInfo* out);
-    void FUN_00c91120();
-    void FUN_00c91140();
-    void FUN_00c910b0();
 };
 struct Simulation
 {
@@ -5263,7 +5250,6 @@ struct Simulation
     int m_b8;
     int m_bc;
     int FUN_00d022b0(ArgCls* arg, float dt);
-    void FUN_00cf8b00();
 };
 static __forceinline void scaleGravity(Vec4* dst, const Obj& world, const float& scale)
 {
@@ -5294,17 +5280,17 @@ int Simulation::FUN_00d022b0(ArgCls* arg, float dt)
         Obj* world = m_0c;
         world->m_4c->v14(world, &v);
     }
-    FUN_00cb55d0(m_0c);
+    ::FUN_00cb55d0((::S55Owner *)(m_0c));
     MemoryInfo outVal;
-    m_0c->ComputeMemoryUsage(&outVal);
+    reinterpret_cast<::FUN_00c92b50_Class *>((m_0c))->ComputeMemoryUsage((::hkpWorld_MemUsageOut *)(::StepBeginDetail::MemoryInfo *)(&outVal));
     Glob* g = (Glob*)FUN_00c85750();
     bool ok = g->m_18->v20(outVal.maximum);
     if (!ok)
     {
-        if (m_0c->FUN_00c93570())
+        if (reinterpret_cast<::WorldWatchDogHolder *>((m_0c))->FUN_00c93570())
         {
             m_0c->unlock();
-            FUN_00d01bc0(m_0c);
+            ::FUN_00d01bc0((::S_00d01bc0_Owner *)(m_0c));
             m_0c->m_94 += 1;
         }
         else
@@ -5315,7 +5301,7 @@ int Simulation::FUN_00d022b0(ArgCls* arg, float dt)
             return 1;
         }
     }
-    FUN_00d892d0();
+    ::FUN_00d892d0();
     m_0c->m_1d0 = v;
     Sub* sub = &const_cast<Obj*&>(m_0c)->m_1e0;
     sub->m_10c = sub->m_120 * v.z;
@@ -5326,9 +5312,9 @@ int Simulation::FUN_00d022b0(ArgCls* arg, float dt)
     Obj* world = m_0c;
     EdiObj* edi = world->m_74;
     edi->m_114 = &world->m_1d0;
-    edi->m_90.FUN_00cfa7d0(m_0c->m_78);
+    new ((void *)&(edi->m_90)) ::FUN_00cfa7d0((*(const ::FUN_00cfa7d0 *)(m_0c->m_78)));
     world = m_0c;
-    edi->m_10.FUN_00cfa6e0(&world->m_1e0, &world->m_1d0, world->m_1b8);
+    reinterpret_cast<::S00cfa6e0_Dst *>(&(edi->m_10))->FUN_00cfa6e0((::S00cfa6e0_Src *)(::StepBeginDetail::Sub *)(&world->m_1e0), (::S00cfa6e0_Pair *)(::StepBeginDetail::Vec4 *)(&world->m_1d0), (int)(world->m_1b8));
     edi->m_110 = this;
     edi->m_118 = m_0c->m_78->m_08;
     edi->m_11c = &DAT_01269210;
@@ -5341,22 +5327,22 @@ int Simulation::FUN_00d022b0(ArgCls* arg, float dt)
         {
             writeTrace(&DAT_010cc5b0, scratch.ticks);
             m_0c->m_98 -= 1;
-            FUN_00cf8b00();
+            reinterpret_cast<::fnv_00cf8b00::Sim *>(this)->FUN_00cf8b00();
             m_0c->m_98 += 1;
         }
         Msg msg;
         msg.d20 = count;
         msg.header = (int)m_0c->m_74;
-        arg->FUN_00d04a80(0, count);
-        arg->FUN_00d04a80(1, count);
-        arg->AddObjectCopy(&msg, 1);
+        reinterpret_cast<::Owner *>((arg))->FUN_00d04a80(0, count);
+        reinterpret_cast<::Owner *>((arg))->FUN_00d04a80(1, count);
+        reinterpret_cast<::D04B90World *>((arg))->AddObjectCopy((const ::D04B90Object *)(::StepBeginDetail::Msg *)(&msg), (void *)(1));
     }
     m_0c->m_1e0.advanceCounters();
     world = m_0c;
     m_b8 = world->m_2c;
     m_bc = world->m_38;
-    world->FUN_00c910b0();
-    writeTrace(&DAT_01076f38, scratch.ticks);
+    ::FUN_00c910b0();
+    writeTrace(&(*reinterpret_cast<char *>((void *)&::str_01076f38)), scratch.ticks);
     return 0;
 }
 

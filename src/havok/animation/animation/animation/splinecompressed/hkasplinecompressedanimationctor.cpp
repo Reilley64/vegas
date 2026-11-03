@@ -2,6 +2,11 @@
 // src/havok/animation/animation/animation/splinecompressed/hkasplinecompressedanimationctor.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/splinecompressed/hkasplinecompressedanimationctor.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/Se31d50_Anim.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00e30000.h"
+#include "fnv/symbols_00e31000.h"
+#include "fnv/symbols_010eb000.h"
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
@@ -34,10 +39,7 @@ struct Buffer
     int m_iElementCount;
 };
 
-void __cdecl FUN_00e318a0(int type, Buffer* buf);
-void __cdecl FUN_00e31800(int size, Buffer* buf);
 void __cdecl CallHandlerByIndex(int, int, int);
-extern int DAT_010eb3d0[];
 
 struct VecArray
 {
@@ -58,23 +60,23 @@ void Writer::FUN_00e319e0(unsigned char flags, int type, const FUN_005611c0_t* a
 {
     if (flags & 0xf0)
     {
-        FUN_00e318a0(type, &m_buf);
+        ::fnv_00e318a0::FUN_00e318a0(type, (::fnv_00e318a0::FUN_00e318a0_buf *)(::Buffer *)(&m_buf));
         int size = DAT_010eb3d0[type];
         for (int i = 0; i <= last; i++)
         {
             FUN_005611c0_t t = apVecArray->m_data[i];
             t.FUN_005611c0();
-            FUN_00e31800(size, &m_buf);
+            ::fnv_00e31800::FUN_00e31800(size, (::fnv_00e31800::Buf *)(::Buffer *)(&m_buf));
             CallHandlerByIndex(type, (int)&t, (int)(m_buf.m_data + m_buf.m_iElementCount - size));
         }
     }
     else if (flags & 0x0f)
     {
-        FUN_00e318a0(type, &m_buf);
+        ::fnv_00e318a0::FUN_00e318a0(type, (::fnv_00e318a0::FUN_00e318a0_buf *)(::Buffer *)(&m_buf));
         int size = DAT_010eb3d0[type];
         FUN_005611c0_t t = *apVec;
         t.FUN_005611c0();
-        FUN_00e31800(size, &m_buf);
+        ::fnv_00e31800::FUN_00e31800(size, (::fnv_00e31800::Buf *)(::Buffer *)(&m_buf));
         CallHandlerByIndex(type, (int)&t, (int)(m_buf.m_data + m_buf.m_iElementCount - size));
     }
 }
@@ -85,11 +87,10 @@ struct Buffer
     unsigned short* data;
     unsigned int byteSize;
 };
-void __cdecl FUN_00e31800(unsigned int, Buffer*);
 // @fnv 0x00e31ad0
 void __cdecl WriteUInt16ToBuffer(unsigned short value, Buffer* buffer)
 {
-    FUN_00e31800(2, buffer);
+    ::fnv_00e31800::FUN_00e31800(2, (::fnv_00e31800::Buf *)(buffer));
     *(unsigned short*)((char*)buffer->data + buffer->byteSize - 2) = value;
 }
 }  // namespace fnv_00e31ad0
@@ -108,7 +109,6 @@ struct S_00e31ca0_Router
     }
 };
 S_00e31ca0_Router* FUN_00c85750();
-void ResizeAudioStream(S_00e31ca0_Heap& alloc, void* arr, int elemSize);
 template <typename T> inline void S_00e31ca0_constructWithCopy(T* p, int n, const T& t)
 {
     for (int i = 0; i < n; i++)
@@ -126,7 +126,7 @@ struct S_00e31ca0_ByteArray
     void _pushBack(S_00e31ca0_Heap& alloc, const unsigned char& t)
     {
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(alloc, this, sizeof(unsigned char));
+            ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(unsigned char));
         S_00e31ca0_constructWithCopy<unsigned char>(m_data + m_iElementCount, 1, t);
         m_iElementCount++;
     }
@@ -141,8 +141,6 @@ struct S_00e31ca0_FloatArray
     int m_iElementCount;
     int m_iCapacityState;
 };
-void WriteUInt16ToBuffer(int v, S_00e31ca0_ByteArray& out);
-void AppendChar(int v, S_00e31ca0_ByteArray& out);
 struct S_00e31ca0
 {
     int unk0;
@@ -181,8 +179,8 @@ struct S_00e31ca0
 void S_00e31ca0::AppendScaledValues(int aiFirst, int aiSecond, S_00e31ca0_FloatArray& arValues)
 {
     int last = aiFirst + aiSecond + 1;
-    WriteUInt16ToBuffer(aiFirst, m_out);
-    AppendChar(aiSecond, m_out);
+    ::fnv_00e31ad0::WriteUInt16ToBuffer(aiFirst, (::fnv_00e31ad0::Buffer *)&(m_out));
+    ::AppendChar(aiSecond, (::E317C0CharArray &)(m_out));
     for (int i = 0; i <= last; i++)
     {
         unsigned char ucScaled = (unsigned char)(int)(arValues.m_data[i] / unkC * (unk28 - 1) + 0.5);
@@ -209,7 +207,6 @@ struct E317C0MemoryRouter
 namespace fnvc_adapt {
 extern "C" E317C0MemoryRouter& __cdecl FUN_00c85750();
 }
-void __cdecl ResizeAudioStream(void* alloc, void* array, int sizeElem);
 
 struct E317C0CharArray
 {
@@ -232,7 +229,7 @@ struct E317C0CharArray
     {
         E317C0Allocator& alloc = fnvc_adapt::FUN_00c85750().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&alloc, this, sizeof(char));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(char));
         construct(m_data + m_iElementCount, 1, e);
         m_iElementCount++;
     }
@@ -245,7 +242,6 @@ void __cdecl AppendChar(char acChar, E317C0CharArray& arOut)
     arOut.AddBack(acChar);
 }
 
-extern void __cdecl FUN_00e31800(int amount, struct MemWriter* writer);
 
 struct MemWriter
 {
@@ -256,7 +252,7 @@ struct MemWriter
 // @fnv 0x00e31b00
 void __cdecl WriteFloatToMemWriter(float value, MemWriter* writer)
 {
-    FUN_00e31800(4, writer);
+    ::fnv_00e31800::FUN_00e31800(4, (::fnv_00e31800::Buf *)(writer));
     *(float*)(writer->data + writer->used - 4) = value;
 }
 
@@ -300,7 +296,6 @@ class FUN_00e32c80 : public E32C80Base
     FUN_00e32c80(void* info, void* arg1, void* arg2);
     virtual void unk00();
 
-    void init(void* info, void* arg1, void* arg2);
 
     E32C80Array m_array44;
     E32C80Array m_array50;
@@ -313,7 +308,7 @@ class FUN_00e32c80 : public E32C80Base
 // @fnv 0x00e32c80
 FUN_00e32c80::FUN_00e32c80(void* info, void* arg1, void* arg2) : E32C80Base(info)
 {
-    init(info, arg1, arg2);
+    reinterpret_cast<::Se31d50_Anim *>(this)->FUN_00e31d50((*(const ::Se31d50_Raw *)(info)), (*(const ::Se31d50_PerTrack *)(arg1)), (*(const ::Se31d50_AnimParams *)(arg2)));
 }
 
 struct hkMemory
@@ -370,8 +365,6 @@ struct FUN_00e32cf0_Class
 FUN_00e32cf0_Class::~FUN_00e32cf0_Class() throw()
 {}
 
-void __cdecl FUN_00e31740(unsigned char a, unsigned int b, char** pp);
-void __cdecl FUN_00e31780(unsigned char a, unsigned int b, char** pp);
 
 union e319Rec
 {
@@ -426,14 +419,14 @@ void e319Cls::FUN_00e31900()
         {
             e319Rec rec;
             rec.raw = *pSrc++;
-            FUN_00e31740(*pSrc++, rec.f.lo, &p);
-            FUN_00e31780(*pSrc++, rec.f.mid, &p);
-            FUN_00e31740(*pSrc++, rec.f.hi, &p);
+            ::FUN_00e31740(*pSrc++, rec.f.lo, (unsigned int *)(char **)(&p));
+            ::FUN_00e31780(*pSrc++, rec.f.mid, (int *)(char **)(&p));
+            ::FUN_00e31740(*pSrc++, rec.f.hi, (unsigned int *)(char **)(&p));
         }
         for (int iTail = 0; iTail < m_14; iTail++)
         {
             unsigned char ucTail = *pSrc++;
-            FUN_00e31740((unsigned char)(ucTail & 0xf9), (ucTail >> 1) & 3, &p);
+            ::FUN_00e31740((unsigned char)(ucTail & 0xf9), (ucTail >> 1) & 3, (unsigned int *)(char **)(&p));
         }
     }
 }
@@ -455,8 +448,6 @@ struct RouterL
     }
 };
 RouterL* GetRouterL() throw();
-void ReserveMoreL(HeapL& alloc, void* arr, int elemSize) throw();
-void ReserveL(HeapL& alloc, void* arr, int numElem, int elemSize) throw();
 inline void* operator new(unsigned int, void* p) throw()
 {
     return p;
@@ -476,7 +467,7 @@ template <class T> struct ArrL
     void _pushBack(HeapL& alloc, const T& t)
     {
         if (m_iElementCount == getCapacity())
-            ReserveMoreL(alloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(T));
         new (&m_data[m_iElementCount]) T(t);
         m_iElementCount++;
     }
@@ -491,7 +482,7 @@ template <class T> struct ArrL
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            ReserveL(alloc, this, newSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
         }
     }
     void _setSize(HeapL& alloc, int n)
@@ -544,7 +535,6 @@ struct FUN_00e32af0 : BaseL
     ArrL<int> m_arr68;
     ArrL<int> m_arr74;
     FUN_00e32af0(SrcL* src, const Elem28L* elem, void* arg3) throw();
-    void InitL(SrcL* src, LocalArraysL* arrays, void* arg3) throw();
 };
 
 // Builds temporary arrays from src counts and elem, zero-fills them, then calls InitL to initialize the object.
@@ -559,18 +549,12 @@ FUN_00e32af0::FUN_00e32af0(SrcL* pSource, const Elem28L* elem, void* arg3) throw
         arrays.m_kPointA[i] = 0;
     for (int i = 0; i < pSource->m_numB; i++)
         arrays.m_kPointB[i] = 0;
-    InitL(pSource, &arrays, arg3);
+    reinterpret_cast<::Se31d50_Anim *>(this)->FUN_00e31d50((*(const ::Se31d50_Raw *)(pSource)), (*(const ::Se31d50_PerTrack *)(&arrays)), (*(const ::Se31d50_AnimParams *)(arg3)));
 }
 
 #include <stdlib.h>
 extern "C"
 {
-    void __cdecl FUN_00e31850(int alignment, void* stream);
-    void __cdecl WriteFloatToMemWriter(float val, void* stream);
-    void __cdecl AppendChar(unsigned int val, void* stream);
-    void __cdecl WriteUInt16ToBuffer(unsigned int val, void* stream);
-    unsigned char __cdecl ScaleToByte(float minVal, float maxVal, float val);
-    unsigned short __cdecl NormalizeToUShort(float minVal, float maxVal, float val);
 }
 
 struct Vector4Array
@@ -594,19 +578,19 @@ void AnimationCompressor::WriteCompressedAnimation(unsigned char mask, int quant
                                                    const Vector4Array* data)
 {
     void* stream = &m_stream;
-    FUN_00e31850(4, stream);
+    ::fnv_00e31850::FUN_00e31850(4, (::fnv_00e31850::BufferInfo *)(stream));
 
     unsigned int bit = 1;
     for (int i = 0; i < 3; ++i, bit = _rotl(bit, 1))
     {
         if (mask & _rotl(bit, 4))
         {
-            WriteFloatToMemWriter(minValues[i], stream);
-            WriteFloatToMemWriter(maxValues[i], stream);
+            ::WriteFloatToMemWriter(minValues[i], (::MemWriter *)(stream));
+            ::WriteFloatToMemWriter(maxValues[i], (::MemWriter *)(stream));
         }
         else if (mask & bit)
         {
-            WriteFloatToMemWriter(staticValues[i], stream);
+            ::WriteFloatToMemWriter(staticValues[i], (::MemWriter *)(stream));
         }
     }
 
@@ -622,14 +606,14 @@ void AnimationCompressor::WriteCompressedAnimation(unsigned char mask, int quant
                 {
                     if (quantType == 0)
                     {
-                        AppendChar(ScaleToByte(minValues[comp], maxValues[comp], data->m_data[frame * 4 + comp]),
-                                   stream);
+                        ::AppendChar(::ScaleToByte(minValues[comp], maxValues[comp], data->m_data[frame * 4 + comp]),
+                                   (*(::E317C0CharArray *)(stream)));
                     }
                     else
                     {
-                        WriteUInt16ToBuffer(
-                            NormalizeToUShort(minValues[comp], maxValues[comp], data->m_data[frame * 4 + comp]),
-                            stream);
+                        ::fnv_00e31ad0::WriteUInt16ToBuffer(
+                            ::NormalizeToUShort(minValues[comp], maxValues[comp], data->m_data[frame * 4 + comp]),
+                            (::fnv_00e31ad0::Buffer *)(stream));
                     }
                 }
             }
@@ -657,7 +641,6 @@ struct Buf
 extern "C" void _ReadWriteBarrier(void);
 
 Holder* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void* alloc, Buf* buf, int n);
 
 // Appends count zero bytes to buf, calling FUN_00c90940 when its length equals the masked capacity.
 // @fnv 0x00e31800
@@ -670,7 +653,7 @@ void __cdecl FUN_00e31800(int count, Buf* buf)
             Holder* h = FUN_00c85750();
             if (buf->m_len == (buf->m_cap & 0x3fffffff))
             {
-                ResizeAudioStream(h->m_pAllocator, buf, 1);
+                ::ResizeAudioStream((::AudioAllocator *)(h->m_pAllocator), (::AudioStream *)(buf), 1);
             }
             char* slot = buf->m_data + buf->m_len;
             _ReadWriteBarrier();
@@ -696,7 +679,6 @@ struct FourIntegerPointerRecord
     void* unk10;
 };
 extern FourIntegerPointerRecord* __cdecl FUN_00c85750();
-extern void __cdecl ResizeAudioStream(void*, BufferInfo*, int);
 // Appends zero bytes until no bits selected by alignment minus one remain set in the buffer length.
 // @fnv 0x00e31850
 void __cdecl FUN_00e31850(unsigned int alignment, BufferInfo* buffer)
@@ -706,7 +688,7 @@ void __cdecl FUN_00e31850(unsigned int alignment, BufferInfo* buffer)
     {
         FourIntegerPointerRecord* alloc = FUN_00c85750();
         if (buffer->length == (buffer->capacity & 0x3fffffff))
-            ResizeAudioStream(alloc->unk10, buffer, 1);
+            ::ResizeAudioStream((::AudioAllocator *)(alloc->unk10), (::AudioStream *)(buffer), 1);
         memset(buffer->data + buffer->length, 0, 1);
         ++buffer->length;
     }
@@ -733,7 +715,6 @@ struct FUN_00e318a0_holder
 };
 
 extern FUN_00e318a0_holder* __cdecl FUN_00c85750();
-extern void __cdecl ResizeAudioStream(void* apAllocator, FUN_00e318a0_buf* apBuf, int aiFlag);
 
 // @fnv 0x00e318a0
 void __cdecl FUN_00e318a0(unsigned int auBit, FUN_00e318a0_buf* apBuf)
@@ -746,7 +727,7 @@ void __cdecl FUN_00e318a0(unsigned int auBit, FUN_00e318a0_buf* apBuf)
             FUN_00e318a0_holder* holder = FUN_00c85750();
             if (apBuf->m_uLength == (apBuf->m_uCapacityFlags & 0x3fffffff))
             {
-                ResizeAudioStream(holder->m_pAllocator, apBuf, 1);
+                ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(apBuf), 1);
             }
             char* volatile* pp = &apBuf->m_pData;
             char* p = (char*)((unsigned int)*pp + apBuf->m_uLength);

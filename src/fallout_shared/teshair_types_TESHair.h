@@ -2,6 +2,7 @@
 #ifndef FNV_TESHAIR_H
 #define FNV_TESHAIR_H
 
+#include "fnv/decl/FUN_005fdc30_shell.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "TESForm.h"
@@ -105,9 +106,6 @@ class TESHair : public TESForm, public TESFullName, public TESModel, public TEST
     TESHair();
     virtual bool Load(TESFile* file);
     virtual bool IsValidForNPC(TESNPC* npc);
-    void ResetFormData();
-    bool FUN_005fdf60();
-    bool IsFlag4Clear();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(TESHair) == 76);

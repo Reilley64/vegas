@@ -3,6 +3,8 @@
 #ifndef FNV_PROCESSLISTS_PRIVATE_SYNC_H
 #define FNV_PROCESSLISTS_PRIVATE_SYNC_H
 
+#include "fnv/decl/FUN_00442550_shell.h"
+#include "fnv/decl/SemaphoreWaitReceiver.h"
 #include "processlists_layout_support.h"
 
 class FNV_ALIGN(32) RecursiveSpinLock
@@ -22,6 +24,8 @@ class FNV_ALIGN(32) RecursiveSpinLock
   private:
     RecursiveSpinLock(const RecursiveSpinLock&);
     RecursiveSpinLock& operator=(const RecursiveSpinLock&);
+public:
+    void FUN_0040fba0();
 };
 FNV_STATIC_ASSERT(sizeof(RecursiveSpinLock) == 0x20);
 FNV_STATIC_ASSERT(__alignof(RecursiveSpinLock) == 32);
@@ -56,8 +60,6 @@ class CountingSemaphore
     void* hSemaphore;
     unsigned int uiMaxCount;
 
-    void Signal();
-    void Wait();
     bool Test();
 };
 FNV_STATIC_ASSERT(sizeof(CountingSemaphore) == 0xC);

@@ -2,9 +2,9 @@
 // byte only under /MT /Od /GS /EHsc /Gy /Oy- (unit src/fallout_shared/tesland.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include "fnv/symbols_00406000.h"
 #include "tesland_decls.h"
 #pragma optimize("", off)
-int TruncateFloatToInt(float value);
 
 #include <xmmintrin.h>
 struct S_00538f40

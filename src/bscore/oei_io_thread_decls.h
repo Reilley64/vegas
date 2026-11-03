@@ -2,6 +2,7 @@
 #ifndef FNV_OEI_IO_THREAD_DECLS_H
 #define FNV_OEI_IO_THREAD_DECLS_H
 
+#include "fnv/symbols_011f6000.h"
 #include "BSThread.h"
 
 struct _iobuf;
@@ -103,10 +104,6 @@ template <class T> class BSList : public BSPointerListBase<T>
 {
 };
 
-extern CountingSemaphore* g_pRequestAvailableSemaphore;
-extern CountingSemaphore* g_pShutdownCompleteSemaphore;
-extern RecursiveLock* g_pRequestQueueLock;
-extern BSList<OEI::IO::IORequest*>* g_pIORequestQueue;
 FNV_STATIC_ASSERT(sizeof(OEI::IO::IO_Thread) == 0x40);
 FNV_STATIC_ASSERT(sizeof(OEI::IO::IORequest) == 0x1c);
 FNV_STATIC_ASSERT(offsetof(OEI::IO::IORequest, m_eRequestType) == 4);

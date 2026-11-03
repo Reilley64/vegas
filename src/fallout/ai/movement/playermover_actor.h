@@ -2,6 +2,8 @@
 #ifndef FNV_ACTOR_H
 #define FNV_ACTOR_H
 
+#include "fnv/decl/FUN_008846e0_shell.h"
+#include "fnv/decl/MiddleHighProcess.h"
 #include "layout_support.h"
 #include "ActorValueOwner.h"
 #include "CachedValuesOwner.h"
@@ -218,9 +220,7 @@ class Actor : public MobileObject,
     virtual void Unk_134(void);
     virtual void Unk_135(void);
     virtual void Unk_136(void);
-    unsigned int GetActorStateFlags();
     TESActorBase* GetActorBase();
-    bool IsPlayerTeammate();
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(Actor) == 0x1B4);

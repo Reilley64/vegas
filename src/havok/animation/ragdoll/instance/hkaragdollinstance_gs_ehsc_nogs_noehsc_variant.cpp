@@ -5,10 +5,26 @@
 
 // src/havok/animation/ragdoll/instance/hkaragdollinstance.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/ragdoll/instance/hkaragdollinstance.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/CpuObject.h"
+#include "fnv/decl/FUN_005611c0_t.h"
+#include "fnv/decl/FUN_00c86490_Class.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00ca8860_cls.h"
+#include "fnv/decl/Quat74.h"
+#include "fnv/decl/S_00ce5070_QsTransform.h"
+#include "fnv/decl/fnv_00ce2600__FUN_00ce2600.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpEntityC9C.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00ce0000.h"
+#include "fnv/symbols_00ce1000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkaRagdollInstance.h"
-extern int DAT_01268700;
-void __stdcall FUN_00ce1760(int, int, int);
-void __stdcall FUN_00ce18d0(int a);
 struct FUN_00ce2430_Transform
 {
     unsigned char pad[0x30];
@@ -23,7 +39,6 @@ struct FUN_00ce2430_Class
     unsigned char pad[0x2c];
     FUN_00ce2430_Data* data;
 
-    void FUN_00ce2150(int, float, void*);
     void ApplyValueToTransforms(float, FUN_00ce2430_Transform*);
 };
 struct MemoryManager
@@ -42,7 +57,6 @@ struct MemoryRouter
 };
 struct FUN_00ce29b0_standin
 {
-    void FUN_00ce2600();
     void* Destroy(unsigned char deletingFlag);
 };
 MemoryRouter* _D1A0E0GetMemoryRouter();
@@ -55,8 +69,6 @@ struct FnvVtObj
 };
 struct ReferenceObject : hkReferencedObject
 {
-    void FUN_00c90510();
-    void FUN_00c905b0();
 };
 struct ArrayAllocator
 {
@@ -115,7 +127,6 @@ struct RagdollInstance : hkReferencedObject
 };
 struct FUN_00ce26f0_ObjectC
 {
-    float FUN_00c91020();
 };
 struct FUN_00ce26f0_ObjectB
 {
@@ -133,8 +144,6 @@ struct FUN_00ce26f0_Class
     int unk04;
     FUN_00ce26f0_ObjectA* unk08;
 
-    void FUN_00ce18d0(FUN_00ce2430_Transform* a);
-    void ApplyValueToTransforms(float a, FUN_00ce2430_Transform* b);
     void FUN_00ce26f0(FUN_00ce2430_Transform* a);
 };
 typedef unsigned int hk_size_tR;
@@ -242,7 +251,6 @@ class hkReferencedObjectR
 {
   public:
     virtual ~hkReferencedObjectR() throw();
-    void removeReference() const throw();
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 };
@@ -295,9 +303,9 @@ class hkaRagdollInstanceR : public hkReferencedObjectR
 #include <xmmintrin.h>
 // FUN_00ce0d30 - build orthonormal basis from 3 indexed points, convert to quaternion via FUN_00cb26e0
 
-extern float DAT_01016248;  // 0.5f
-extern float DAT_01011d78;  // 0.0f
-extern float DAT_01017718;  // 3.0f
+  // 0.5f
+  // 0.0f
+  // 3.0f
 
 struct VecF
 {
@@ -337,9 +345,9 @@ static __forceinline __m128 Normalize(__m128 v)
     __m128 dot = Dot3(v);
     __m128 e = _mm_rsqrt_ss(dot);
     __m128 q = _mm_mul_ss(_mm_mul_ss(dot, e), e);
-    __m128 three = _mm_set_ss(DAT_01017718);
-    __m128 half = _mm_set_ss(DAT_01016248);
-    __m128 mask = _mm_cmpeq_ss(dot, _mm_set_ss(DAT_01011d78));
+    __m128 three = _mm_set_ss(::DAT_01017718);
+    __m128 half = _mm_set_ss(::fnv_00c88020::DAT_01016248);
+    __m128 mask = _mm_cmpeq_ss(dot, _mm_set_ss(::DAT_01011d78));
     __m128 f = _mm_andnot_ps(mask, _mm_mul_ss(_mm_mul_ss(half, e), _mm_sub_ss(three, q)));
     return _mm_mul_ps(_mm_shuffle_ps(f, f, 0), v);
 }
@@ -376,7 +384,6 @@ void __fastcall FUN_00ce0d30(ThisX* th, void* edx_unused, const Elem* points, Ve
 }
 
 ArrayRouter* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void* a, void* b, int c);
 
 struct __declspec(align(16)) Pose32
 {
@@ -404,7 +411,6 @@ struct Owner
     int capacity;
     int unk0C;
     SubObj sub;
-    void FUN_00ce0d30(void* pose, Pose32* poseData);
     int FUN_00ce1420(void* pose, int arg2, float time);
 };
 
@@ -457,7 +463,7 @@ static __declspec(noinline) void FUN_00ce0ff0(SubObj* object, Pose32* pose)
     Quaternion conjugate;
     conjugate.value = _mm_xor_ps(orient.value, _mm_set_ps(0.0f, -0.0f, -0.0f, -0.0f));
     Quaternion result;
-    result.FUN_00c66320(conjugate, *reinterpret_cast<Quaternion*>(pose));
+    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(result), (void *)&(conjugate), (const ::fnv_00c66320::__m128 *)&(*reinterpret_cast<Quaternion*>(pose)), {});
     _mm_store_ps(reinterpret_cast<float*>(pose), result.value);
 }
 
@@ -467,11 +473,11 @@ int Owner::FUN_00ce1420(void* pose, int arg2, float time)
     Pose32 poseData;
     poseData.unk14 = time;
     poseData.unk10 = arg2;
-    FUN_00ce0d30(pose, &poseData);
+    ::FUN_00ce0d30((::ThisX *)this, pose, (const ::Elem *)(::Pose32 *)(&poseData), {});
     FUN_00ce0ff0(&sub, &poseData);
     ArrayRouter* router = FUN_00c85750();
     if (count == (capacity & 0x3FFFFFFF))
-        ResizeAudioStream(router->m_pStreamAllocator, this, 0x20);
+        ::ResizeAudioStream((::AudioAllocator *)(router->m_pStreamAllocator), (::AudioStream *)(void *)(this), 0x20);
     Pose32* destination = data + count;
     if (destination != 0)
         *destination = poseData;
@@ -479,12 +485,6 @@ int Owner::FUN_00ce1420(void* pose, int arg2, float time)
     return count - 1;
 }
 
-extern __m128 DAT_010c71e0;
-extern __m128 DAT_010c7170;
-extern __m128 DAT_010c44d0;
-extern __m128 DAT_010c4c00;
-extern __m128 DAT_010c4c10;
-extern __m128 DAT_010c71b0;
 
 class hkQuaternionCE2;
 
@@ -521,7 +521,7 @@ class hkVector4CE2
     }
     __forceinline void setNeg4(const hkVector4CE2& a)
     {
-        m_vComponents = _mm_xor_ps(a.m_vComponents, DAT_010c44d0);
+        m_vComponents = _mm_xor_ps(a.m_vComponents, ::DAT_010c44d0);
     }
     __forceinline void setCross(const hkVector4CE2& v1, const hkVector4CE2& v2)
     {
@@ -595,7 +595,7 @@ __forceinline void hkVector4CE2::SetRotatedDirection(const hkQuaternionCE2& quat
     qreal.m_vComponents = _mm_shuffle_ps(quat.m_vec.m_vComponents, quat.m_vec.m_vComponents, _MM_SHUFFLE(3, 3, 3, 3));
     hkVector4CE2 q2minus1;
     q2minus1.setMul4(qreal, qreal);
-    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, DAT_010c71e0);
+    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, ::DAT_010c71e0);
     hkVector4CE2 ret;
     ret.setMul4(direction, q2minus1);
     __m128 imagDotDir = quat.m_vec.dot3(direction);
@@ -612,7 +612,7 @@ __forceinline void hkVector4CE2::setRotatedInverseDir(const hkQuaternionCE2& qua
     qreal.m_vComponents = _mm_shuffle_ps(quat.m_vec.m_vComponents, quat.m_vec.m_vComponents, _MM_SHUFFLE(3, 3, 3, 3));
     hkVector4CE2 q2minus1;
     q2minus1.setMul4(qreal, qreal);
-    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, DAT_010c71e0);
+    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, ::DAT_010c71e0);
     hkVector4CE2 ret;
     ret.setMul4(direction, q2minus1);
     __m128 imagDotDir = quat.m_vec.dot3(direction);
@@ -644,7 +644,7 @@ class hkQsTransformCE2
     __forceinline void setIdentity()
     {
         m_vTranslation.m_vComponents = _mm_setzero_ps();
-        m_rotation.m_vec.m_vComponents = DAT_010c71b0;
+        m_rotation.m_vec.m_vComponents = ::DAT_010c71b0;
         m_vScale.m_vComponents = _mm_set_ps1(1.0f);
     }
     __declspec(noinline) void SetFromTransform(const hkTransformCE2& kTransform)
@@ -658,7 +658,7 @@ class hkQsTransformCE2
         hkVector4CE2 temp;
         temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-        m_rotation.SetProduct(t1.m_rotation, t2.m_rotation);
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
         m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
     }
 };
@@ -784,7 +784,7 @@ void FUN_00ce2000Owner::FUN_00ce2000(int iBone, hkQsTransformCE2& kOut)
         RigidBodyCE2* pkBody = m_ppBodies[iBody];
         if (pkBody)
         {
-            kOut.SetFromTransform(pkBody->m_kMotionTransform);
+            reinterpret_cast<::S_00ce5070_QsTransform *>(&(kOut))->FUN_00ce5070((const ::S_00ce5070_Transform &)(pkBody->m_kMotionTransform));
             MultiplyBoneScales(m_pkSkeleton, m_pkSkeleton->m_kReferencePose, iBone, kOut.m_vScale);
             return;
         }
@@ -799,12 +799,6 @@ void FUN_00ce2000Owner::FUN_00ce2000(int iBone, hkQsTransformCE2& kOut)
     kOut.SetProduct(kParent, m_pkSkeleton->m_kReferencePose[iBone]);
 }
 
-extern __m128 DAT_010c71e0;
-extern __m128 DAT_010c7170;
-extern __m128 DAT_010c44d0;
-extern __m128 DAT_010c4c00;
-extern __m128 DAT_010c4c10;
-extern __m128 DAT_010c71b0;
 
 class hkQuaternionC21;
 
@@ -841,7 +835,7 @@ class hkVector4C21
     }
     __forceinline void setNeg4(const hkVector4C21& a)
     {
-        m_vComponents = _mm_xor_ps(a.m_vComponents, DAT_010c44d0);
+        m_vComponents = _mm_xor_ps(a.m_vComponents, ::DAT_010c44d0);
     }
     __forceinline void setCross(const hkVector4C21& v1, const hkVector4C21& v2)
     {
@@ -915,7 +909,7 @@ __forceinline void hkVector4C21::SetRotatedDirection(const hkQuaternionC21& quat
     qreal.m_vComponents = _mm_shuffle_ps(quat.m_vec.m_vComponents, quat.m_vec.m_vComponents, _MM_SHUFFLE(3, 3, 3, 3));
     hkVector4C21 q2minus1;
     q2minus1.setMul4(qreal, qreal);
-    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, DAT_010c71e0);
+    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, ::DAT_010c71e0);
     hkVector4C21 ret;
     ret.setMul4(direction, q2minus1);
     __m128 imagDotDir = quat.m_vec.dot3(direction);
@@ -932,7 +926,7 @@ __forceinline void hkVector4C21::setRotatedInverseDir(const hkQuaternionC21& qua
     qreal.m_vComponents = _mm_shuffle_ps(quat.m_vec.m_vComponents, quat.m_vec.m_vComponents, _MM_SHUFFLE(3, 3, 3, 3));
     hkVector4C21 q2minus1;
     q2minus1.setMul4(qreal, qreal);
-    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, DAT_010c71e0);
+    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, ::DAT_010c71e0);
     hkVector4C21 ret;
     ret.setMul4(direction, q2minus1);
     __m128 imagDotDir = quat.m_vec.dot3(direction);
@@ -964,7 +958,7 @@ class hkQsTransformC21
     __forceinline void setIdentity()
     {
         m_vTranslation.m_vComponents = _mm_setzero_ps();
-        m_rotation.m_vec.m_vComponents = DAT_010c71b0;
+        m_rotation.m_vec.m_vComponents = ::DAT_010c71b0;
         m_vScale.m_vComponents = _mm_set_ps1(1.0f);
     }
     __declspec(noinline) void SetFromTransform(const hkTransformC21& kTransform)
@@ -978,7 +972,7 @@ class hkQsTransformC21
         hkVector4C21 temp;
         temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-        m_rotation.SetProduct(t1.m_rotation, t2.m_rotation);
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
         m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
     }
 };
@@ -1013,7 +1007,6 @@ __declspec(noinline) void __cdecl MultiplyBoneScales(const hkaSkeletonC21* pkSke
 
 struct MotionStateC21
 {
-    void EvaluateTransformAtTime(float fTime, hkTransformC21& kTransformOut) const;
 };
 
 struct RigidBodyC21
@@ -1110,8 +1103,8 @@ void FUN_00ce2150Owner::FUN_00ce2150(int iBone, float fTime, hkQsTransformC21& k
         if (pkBody)
         {
             hkTransformC21 kTransform;
-            pkBody->m_kMotionState.EvaluateTransformAtTime(fTime, kTransform);
-            kOut.SetFromTransform(kTransform);
+            reinterpret_cast<::FUN_00c86490_Class *>((void *)&(pkBody->m_kMotionState))->SweepTransform(fTime, (void *)&(kTransform));
+            reinterpret_cast<::S_00ce5070_QsTransform *>(&(kOut))->FUN_00ce5070((const ::S_00ce5070_Transform &)(kTransform));
             MultiplyBoneScales(m_pkSkeleton, m_pkSkeleton->m_kReferencePose, iBone, kOut.m_vScale);
             return;
         }
@@ -1140,7 +1133,7 @@ struct Xf12a0
     __forceinline void setIdentity()
     {
         t = _mm_setzero_ps();
-        r = _mm_load_ps((const float*)&DAT_010c71b0);
+        r = _mm_load_ps((const float*)&::DAT_010c71b0);
         s = _mm_set1_ps(1.0f);
     }
 };
@@ -1151,15 +1144,12 @@ __declspec(align(16)) struct Q4
 
 struct Ce0d30Obj
 {
-    void FUN_00ce0d30(void* arr, void* out);
 };
 struct Ce74Obj
 {
-    void FUN_00c74ac0(void* a, void* b);
 };
 struct Ceb2Obj
 {
-    void FUN_00cb2ca0(void* axis, void* tmp, float* angleOut);
     void FUN_00cb2450(void* axis, float angle);
 };
 struct Ce12a0Self
@@ -1199,7 +1189,7 @@ struct MathVec
     }
     __forceinline void rotate(const MathVec& q, const MathVec& b)
     {
-        __m128 half = _mm_load_ps((const float*)&DAT_010c71e0);
+        __m128 half = _mm_load_ps((const float*)&::DAT_010c71e0);
         __m128 scalar = _mm_shuffle_ps(q.value, q.value, 0xff);
         __m128 factor = _mm_add_ps(half, _mm_mul_ps(scalar, scalar));
         __m128 base = _mm_mul_ps(b.value, factor);
@@ -1219,13 +1209,13 @@ void Ce12a0Host::FUN_00ce12a0(void* a1, void* a2, Xf12a0* a3, Xf12a0* a4)
     Ce12a0Self* self = (Ce12a0Self*)this;
     Q4 q0, q1;
 
-    ((Ce0d30Obj*)self)->FUN_00ce0d30(a1, &q0);
-    ((Ce0d30Obj*)self)->FUN_00ce0d30(a2, &q1);
+    ::FUN_00ce0d30((::ThisX *)(((Ce0d30Obj*)self)), a1, (const ::Elem *)(void *)(&q0), {});
+    ::FUN_00ce0d30((::ThisX *)(((Ce0d30Obj*)self)), a2, (const ::Elem *)(void *)(&q1), {});
 
     a4->setIdentity();
     int index = self->idx0;
     a4->t = ((Xf12a0*)a2)[index].t;
-    ((Ce74Obj*)&a4->r)->FUN_00c74ac0(&q1, &q0);
+    reinterpret_cast<::Quat74 *>((((Ce74Obj*)&a4->r)))->FUN_00c74ac0((*(const ::Quat74 *)(&q1)), (*(const ::Quat74 *)(&q0)));
 
     MathVec rotated;
     rotated.rotate(*(MathVec*)&a4->r, *(MathVec*)&((Xf12a0*)a1)[index].t);
@@ -1239,7 +1229,7 @@ void Ce12a0Host::FUN_00ce12a0(void* a1, void* a2, Xf12a0* a3, Xf12a0* a4)
     {
         __declspec(align(16)) float angle;
         Q4 axis;
-        ((Ceb2Obj*)&a3->r)->FUN_00cb2ca0(&self->unk10, &axis, &angle);
+        reinterpret_cast<::hkQuaternion *>((((Ceb2Obj*)&a3->r)))->FUN_00cb2ca0((*(const ::hkVector4 *)(&self->unk10)), (*(::hkQuaternion *)(&axis)), (*(float *)(&angle)));
         ((Ceb2Obj*)&a3->r)->FUN_00cb2450(&self->unk10, angle);
     }
 }
@@ -1277,11 +1267,6 @@ ByteResult VectorTest::FUN_00ce1500() const
     return ByteResult(f > scale);
 }
 
-extern __m128 DAT_010c71e0;
-extern __m128 DAT_010c7170;
-extern __m128 DAT_010c44d0;
-extern __m128 DAT_010c4c00;
-extern __m128 DAT_010c4c10;
 
 class hkQuaternionC18;
 
@@ -1318,7 +1303,7 @@ class hkVector4C18
     }
     __forceinline void setNeg4(const hkVector4C18& a)
     {
-        m_vComponents = _mm_xor_ps(a.m_vComponents, DAT_010c44d0);
+        m_vComponents = _mm_xor_ps(a.m_vComponents, ::DAT_010c44d0);
     }
     __forceinline void setCross(const hkVector4C18& v1, const hkVector4C18& v2)
     {
@@ -1377,7 +1362,7 @@ __forceinline void hkVector4C18::SetRotatedDirection(const hkQuaternionC18& quat
     qreal.m_vComponents = _mm_shuffle_ps(quat.m_vec.m_vComponents, quat.m_vec.m_vComponents, _MM_SHUFFLE(3, 3, 3, 3));
     hkVector4C18 q2minus1;
     q2minus1.setMul4(qreal, qreal);
-    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, DAT_010c71e0);
+    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, ::DAT_010c71e0);
     hkVector4C18 ret;
     ret.setMul4(direction, q2minus1);
     __m128 imagDotDir = quat.m_vec.dot3(direction);
@@ -1394,7 +1379,7 @@ __forceinline void hkVector4C18::setRotatedInverseDir(const hkQuaternionC18& qua
     qreal.m_vComponents = _mm_shuffle_ps(quat.m_vec.m_vComponents, quat.m_vec.m_vComponents, _MM_SHUFFLE(3, 3, 3, 3));
     hkVector4C18 q2minus1;
     q2minus1.setMul4(qreal, qreal);
-    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, DAT_010c71e0);
+    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, ::DAT_010c71e0);
     hkVector4C18 ret;
     ret.setMul4(direction, q2minus1);
     __m128 imagDotDir = quat.m_vec.dot3(direction);
@@ -1415,7 +1400,7 @@ class hkQsTransformC18
     __forceinline void SetConjugate(const hkQsTransformC18& t)
     {
         m_vTranslation.setRotatedInverseDir(t.m_rotation, t.m_vTranslation);
-        m_vTranslation.m_vComponents = _mm_xor_ps(m_vTranslation.m_vComponents, DAT_010c44d0);
+        m_vTranslation.m_vComponents = _mm_xor_ps(m_vTranslation.m_vComponents, ::DAT_010c44d0);
         m_rotation.SetConjugate(t.m_rotation);
         hkVector4C18 s;
         s.m_vComponents = _mm_shuffle_ps(
@@ -1428,7 +1413,7 @@ class hkQsTransformC18
         hkVector4C18 temp;
         temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-        m_rotation.SetProduct(t1.m_rotation, t2.m_rotation);
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
         m_vScale.m_vComponents = _mm_mul_ps(m_vScale.m_vComponents, t1.m_vScale.m_vComponents);
     }
     __forceinline void SetMulInverse(const hkQsTransformC18& a, const hkQsTransformC18& b)
@@ -1467,14 +1452,13 @@ class RagdollMapperC18
     int unk28;
     hkaSkeletonC18* m_pkSkeleton;
 
-    void getWorldPose(hkQsTransformC18* pkPoseOut);
     void FUN_00ce18f0(hkQsTransformC18* pkPoseOut, const hkQsTransformC18& kWorldFromModel);
 };
 
 // @fnv 0x00ce18f0
 void RagdollMapperC18::FUN_00ce18f0(hkQsTransformC18* pkPoseOut, const hkQsTransformC18& kWorldFromModel)
 {
-    getWorldPose(pkPoseOut);
+    ::FUN_00ce18d0((int)this);
     int iNumBones = m_pkSkeleton->m_iBoneCount;
     hkQsTransformC18 kModelFromWorld;
     kModelFromWorld.SetConjugate(kWorldFromModel);
@@ -1489,9 +1473,6 @@ struct hkVec4
 {
     __m128 m_vComponents;
 };
-extern const __m128 DAT_01017d10;
-extern __m128 DAT_010c71e0;
-extern __m128 DAT_010c4c00;
 struct hkRot3
 {
     hkVec4 m_kColumn0, m_kColumn1, m_kColumn2;
@@ -1521,7 +1502,7 @@ static __declspec(noinline) void FUN_00ce0ff0(const hkVec4& dir, hkQuat& q)
     __m128 w = _mm_shuffle_ps(qv, qv, 0xff);
     __m128 d = dot3(qv, perp.m_vComponents);
     __m128 r0 = _mm_mul_ps(cross3(qv, perp.m_vComponents), w);
-    __m128 t = _mm_mul_ps(_mm_add_ps(_mm_mul_ps(w, w), DAT_010c71e0), perp.m_vComponents);
+    __m128 t = _mm_mul_ps(_mm_add_ps(_mm_mul_ps(w, w), ::DAT_010c71e0), perp.m_vComponents);
     t = _mm_add_ps(t, _mm_mul_ps(_mm_shuffle_ps(d, d, 0), qv));
     __m128 r = _mm_add_ps(r0, t);
     r = _mm_add_ps(r, r);
@@ -1547,7 +1528,7 @@ static __declspec(noinline) void FUN_00ce0ff0(const hkVec4& dir, hkQuat& q)
     m.m_kColumn1.m_vComponents = dirQuad;
     m.m_kColumn2.m_vComponents = c;
     hkQuat rq;
-    rq.FUN_00cb26e0(m);
+    reinterpret_cast<::FUN_00827200_class *>(&(rq))->FUN_00cb26e0((int)&(m));
     hkQuat inv;
     __m128 mask = DAT_010c4c00;
     _ReadWriteBarrier();
@@ -1555,7 +1536,7 @@ static __declspec(noinline) void FUN_00ce0ff0(const hkVec4& dir, hkQuat& q)
     _ReadWriteBarrier();
     inv.m_vec.m_vComponents = _mm_xor_ps(value, mask);
     hkQuat res;
-    res.FUN_00c66320(inv, q);
+    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(res), (void *)&(inv), (const ::fnv_00c66320::__m128 *)&(q), {});
     q.m_vec.m_vComponents = res.m_vec.m_vComponents;
 }
 // This ordinary array caller lets VC9 derive the internal register convention.
@@ -1566,7 +1547,6 @@ void AlignDirections(const hkVec4& dir, hkQuat* quaternions, int count)
 }
 
 #include <math.h>
-extern float DAT_0104da48;
 
 class ScalarLane
 {
@@ -1691,7 +1671,6 @@ struct PoseMatcher
     hkArray<CandidatePose> candidates;
     PoseVector axis;
     short rootBone, otherBone, thirdBone;
-    void FUN_00ce0d30(const hkQsTransform* pose, PoseRotation& out) const;
     int FUN_00ce11f0(const hkQsTransform* pose, float& error) const;
 };
 
@@ -1704,10 +1683,10 @@ inline float magnitude(float value)
 int PoseMatcher::FUN_00ce11f0(const hkQsTransform* pose, float& error) const
 {
     PoseRotation orientation;
-    FUN_00ce0d30(pose, orientation);
+    ::FUN_00ce0d30((::ThisX *)this, (void *)(pose), (const ::Elem *)&(orientation), {});
     FUN_00ce0ff0(axis, orientation);
     int selected = -1;
-    error = DAT_0104da48;
+    error = ::DAT_0104da48;
     for (int index = 0; index < candidates.m_iElementCount; ++index)
     {
         float distance = 1.0f - magnitude(orientation.vector.dot(candidates.m_data[index].reference.vector));
@@ -1724,12 +1703,6 @@ extern "C"
 {
 }
 
-extern __m128 DAT_010c71e0;
-extern __m128 DAT_010c7170;
-extern __m128 DAT_010c44d0;
-extern __m128 DAT_010c4c00;
-extern __m128 DAT_010c4c10;
-extern __m128 DAT_010c71b0;
 
 class hkQuaternionC17;
 
@@ -1766,7 +1739,7 @@ class hkVector4C17
     }
     __forceinline void setNeg4(const hkVector4C17& a)
     {
-        m_vComponents = _mm_xor_ps(a.m_vComponents, DAT_010c44d0);
+        m_vComponents = _mm_xor_ps(a.m_vComponents, ::DAT_010c44d0);
     }
     __forceinline void setCross(const hkVector4C17& v1, const hkVector4C17& v2)
     {
@@ -1838,7 +1811,7 @@ __forceinline void hkVector4C17::SetRotatedDirection(const hkQuaternionC17& quat
     qreal.m_vComponents = _mm_shuffle_ps(quat.m_vec.m_vComponents, quat.m_vec.m_vComponents, 0xff);
     hkVector4C17 q2minus1;
     q2minus1.setMul4(qreal, qreal);
-    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, DAT_010c71e0);
+    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, ::DAT_010c71e0);
     hkVector4C17 ret;
     ret.setMul4(direction, q2minus1);
     __m128 imagDotDir = quat.m_vec.dot3(direction);
@@ -1867,7 +1840,7 @@ class hkQsTransformC17
         hkVector4C17 temp;
         temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-        m_rotation.FUN_00c66320(t1.m_rotation, t2.m_rotation);
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
         m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
     }
 };
@@ -1987,7 +1960,7 @@ void Ragdoll4::FUN_00ce1760(hkQsTransformC17* pkPoseOut, const hkQsTransformC17&
             RigidBodyC17* pkBody = m_ppBodies[iBody];
             if (pkBody)
             {
-                pkPoseOut[i].FUN_00ce5070(pkBody->m_kMotionTransform);
+                reinterpret_cast<::S_00ce5070_QsTransform *>(&(pkPoseOut[i]))->FUN_00ce5070((const ::S_00ce5070_Transform &)(pkBody->m_kMotionTransform));
                 MultiplyBoneScales(m_pkSkeleton, m_pkSkeleton->m_kReferencePose, i, pkPoseOut[i].m_vScale);
                 continue;
             }
@@ -2001,12 +1974,10 @@ void Ragdoll4::FUN_00ce1760(hkQsTransformC17* pkPoseOut, const hkQsTransformC17&
 }
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 namespace fnv_00ce1ad0 {
 #include <xmmintrin.h>
 
-extern __declspec(align(16)) float DAT_01267e30;
-extern __declspec(align(16)) const float DAT_010c71e0;
-extern __declspec(align(16)) const float DAT_01017d10;
 
 struct __declspec(align(16)) FUN_005611c0_t;
 
@@ -2034,7 +2005,7 @@ struct __declspec(align(16)) hkVec4
     }
     bool equals4(const float* v) const
     {
-        __m128 t = _mm_and_ps(_mm_sub_ps(_mm_load_ps(v), get()), _mm_load_ps(&DAT_01017d10));
+        __m128 t = _mm_and_ps(_mm_sub_ps(_mm_load_ps(v), get()), _mm_load_ps(&(*reinterpret_cast<const float *>((void *)&::DAT_01017d10))));
         __m128 eps = _mm_set1_ps(1e-3f);
         return (_mm_movemask_ps(_mm_cmple_ps(t, eps)) & 0xf) == 0xf;
     }
@@ -2050,7 +2021,6 @@ struct __declspec(align(16)) FUN_005611c0_t
     }
 
     void FUN_00c66320(const FUN_005611c0_t* q0, const FUN_005611c0_t* q1);
-    void FUN_005611c0();
 };
 
 __forceinline void hkVec4::SetRotatedDirection(const FUN_005611c0_t& quat, const hkVec4& direction)
@@ -2058,7 +2028,7 @@ __forceinline void hkVec4::SetRotatedDirection(const FUN_005611c0_t& quat, const
     __m128 q = quat.get();
     __m128 dir = direction.get();
     __m128 qreal = _mm_shuffle_ps(q, q, 0xff);
-    __m128 ret = _mm_mul_ps(_mm_add_ps(_mm_load_ps(&DAT_010c71e0), _mm_mul_ps(qreal, qreal)), dir);
+    __m128 ret = _mm_mul_ps(_mm_add_ps(_mm_load_ps(&(*reinterpret_cast<const float *>((void *)&::DAT_010c71e0))), _mm_mul_ps(qreal, qreal)), dir);
     __m128 x2 = _mm_mul_ps(q, dir);
     __m128 d = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0xaa), _mm_add_ss(_mm_shuffle_ps(x2, x2, 0x55), x2));
     ret = _mm_add_ps(ret, _mm_mul_ps(_mm_shuffle_ps(d, d, 0), q));
@@ -2079,7 +2049,7 @@ struct RagQsTransform
         hkVec4 extraTrans;
         extraTrans.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(extraTrans, t1.m_vTranslation);
-        m_rotation.FUN_00c66320(&t1.m_rotation, &t2.m_rotation);
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)(&t1.m_rotation), (const ::fnv_00c66320::__m128 *)(const ::fnv_00ce1ad0::FUN_005611c0_t *)(&t2.m_rotation), {});
         m_vScale.set(_mm_mul_ps(_mm_load_ps(&t1.m_vScale.x), t2.m_vScale.get()));
     }
 };
@@ -2219,17 +2189,15 @@ struct UnkCall
     __m128 m_kTranslationalVelocity;
     __m128 m_kAngularVelocity;
 
-    void FUN_00c9c1d0();
-    void FUN_00ca8860(const hkVec4* pos, const FUN_005611c0_t* rot);
 
     void SetTranslationalVelocity(const float* v)
     {
-        FUN_00c9c1d0();
+        reinterpret_cast<::hkpEntityC9C *>(this)->FUN_00c9c1d0();
         m_pMotionState.SetTranslationalVelocity(v);
     }
     void SetRotationalVelocity(const float* v)
     {
-        FUN_00c9c1d0();
+        reinterpret_cast<::hkpEntityC9C *>(this)->FUN_00c9c1d0();
         m_pMotionState.SetRotationalVelocity(v);
     }
 };
@@ -2275,7 +2243,7 @@ struct RagInstance
 static __forceinline bool equals4(const __m128& a, const float* v)
 {
     __m128 t =
-        _mm_and_ps(_mm_sub_ps(reinterpret_cast<const __m128&>(*v), a), reinterpret_cast<const __m128&>(DAT_01017d10));
+        _mm_and_ps(_mm_sub_ps(reinterpret_cast<const __m128&>(*v), a), reinterpret_cast<const __m128&>((*reinterpret_cast<const float *>((void *)&::DAT_01017d10))));
     __m128 eps = _mm_set1_ps(1e-3f);
     return (_mm_movemask_ps(_mm_cmple_ps(t, eps)) & 0xf) == 0xf;
 }
@@ -2291,10 +2259,10 @@ void RagInstance::FUN_00ce1ad0(const RagQsTransform* pose, const RagQsTransform&
         {
             RagQsTransform rbWorld;
             rbWorld.SetProduct(worldFromModel, *pose);
-            rbWorld.m_rotation.FUN_005611c0();
-            rb->FUN_00ca8860(&rbWorld.m_vTranslation, &rbWorld.m_rotation);
+            reinterpret_cast<::FUN_005611c0_t *>(&(rbWorld.m_rotation))->FUN_005611c0();
+            reinterpret_cast<::FUN_00ca8860_cls *>((rb))->FUN_00ca8860((int)(&rbWorld.m_vTranslation), (int)(&rbWorld.m_rotation));
 
-            const float* zero = &DAT_01267e30;
+            const float* zero = &::DAT_01267e30;
             if (!equals4(rb->m_kTranslationalVelocity, zero))
                 rb->SetTranslationalVelocity(zero);
             if (!equals4(rb->m_kAngularVelocity, zero))

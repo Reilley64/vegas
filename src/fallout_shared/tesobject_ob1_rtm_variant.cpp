@@ -2,10 +2,60 @@
 // src/fallout_shared/tesobject_ob1_rtm_variant.cpp - variant unit created 2026-11-01 by rtm_route.py: community reworks of src/fallout_shared/tesobject.cpp that match byte for byte only
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with) and /MT /Od /Oy- /GS /EHsc /Gy /GF /Ob1 (unit lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton.
 
+#include "fnv/decl/A5D2C0Object.h"
+#include "fnv/decl/BSXFlags_shell.h"
+#include "fnv/decl/ControllerOwner.h"
+#include "fnv/decl/FUN_00407820_shell.h"
+#include "fnv/decl/FUN_0040e500_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00477ba0_shell.h"
+#include "fnv/decl/FUN_0047cdb0_shell.h"
+#include "fnv/decl/FUN_004aad00_shell.h"
+#include "fnv/decl/FUN_0050d4a0_shell.h"
+#include "fnv/decl/FUN_0050e8b0_shell.h"
+#include "fnv/decl/FUN_0050ed30_class.h"
+#include "fnv/decl/FUN_005102b0_shell.h"
+#include "fnv/decl/FUN_00510360_Class.h"
+#include "fnv/decl/FUN_00510380_Class.h"
+#include "fnv/decl/FUN_005bb4d0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00929240_Class.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00ac5430_cls.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/LightCreation__LightForm.h"
+#include "fnv/decl/MyHost.h"
+#include "fnv/decl/TESActorBase.h"
+#include "fnv/decl/TESPackage.h"
+#include "fnv/decl/Thing.h"
+#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_0047ce10__OwnerShell.h"
+#include "fnv/decl/fnv_0050f9c0__FUN_0050f9c0_shell.h"
+#include "fnv/decl/fnv_00567400__FUN_00567400_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00ad8100__FUN_00ad8100_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00448000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00489000.h"
+#include "fnv/symbols_004aa000.h"
+#include "fnv/symbols_0050e000.h"
+#include "fnv/symbols_00511000.h"
+#include "fnv/symbols_00517000.h"
+#include "fnv/symbols_00518000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011c9000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011df000.h"
+#include "fnv/symbols_011f6000.h"
 #include "tesobject_decls.h"
 
-extern int DAT_010173f0;
-extern "C" int DAT_011f6238;
 void __cdecl operator delete(void* _Ptr) throw();
 inline void* operator new(unsigned int, void* _Where) throw()
 {
@@ -90,7 +140,7 @@ template <class T> inline T* BxAllocate(unsigned int count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)operator new(count * sizeof(T));
+    return (T*)::FUN_00401000(count * sizeof(T));
 }
 template <class T> struct BxAllocT
 {
@@ -109,7 +159,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        operator delete(_Ptr);
+        ::FUN_00401030 delete(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -150,12 +200,12 @@ struct BxString : public BxStringVal
     }
     BxString& assign(const BxString& _Right)
     {
-        return assign(_Right, 0, DAT_010173f0);
+        return assign(_Right, 0, (*reinterpret_cast<int *>(&::g_010173f0)));
     }
     BxString(const BxString& _Right) : BxStringVal(_Right)
     {
         _Tidy();
-        assign(_Right, 0, DAT_010173f0);
+        assign(_Right, 0, (*reinterpret_cast<int *>(&::g_010173f0)));
     }
     ~BxString()
     {
@@ -292,7 +342,7 @@ struct BxString : public BxStringVal
         }
         else if (_Trim && _Newsize < 16)
         {
-            _Tidy(true, _Newsize < _Mysize ? _Newsize : _Mysize);
+            reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, _Newsize < _Mysize ? _Newsize : _Mysize);
         }
         else if (_Newsize == 0)
         {
@@ -354,7 +404,7 @@ struct BxString : public BxStringVal
         {
             _Count = _Num;
         }
-        if (DAT_010173f0 - _Mysize <= _Count || _Mysize + _Count < _Mysize)
+        if ((*reinterpret_cast<int *>(&::g_010173f0)) - _Mysize <= _Count || _Mysize + _Count < _Mysize)
         {
             _Xlen();
         }
@@ -371,7 +421,7 @@ struct BxString : public BxStringVal
         {
             return append(*this, _Ptr - _Myptr(), _Count);
         }
-        if (DAT_010173f0 - _Mysize <= _Count)
+        if ((*reinterpret_cast<int *>(&::g_010173f0)) - _Mysize <= _Count)
         {
             _Xlen();
         }
@@ -432,7 +482,6 @@ struct SeekBinaryFile
     skac53::BxString kMagic;
     skac53::GvFileHandle* pFile;
     virtual void v00();
-    void FUN_00ac5430();
     __declspec(noinline) bool FUN_00ac53a0(long offset);
 };
 
@@ -446,7 +495,7 @@ bool SeekBinaryFile::FUN_00ac53a0(long offset)
     if (skac53::fseek(pFile, offset, 0) != 0)
     {
         skac53::FUN_00ac6430(7, kPath);
-        FUN_00ac5430();
+        reinterpret_cast<::FUN_00ac5430_cls *>(this)->FUN_00ac5430();
         return false;
     }
     return true;

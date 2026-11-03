@@ -3,6 +3,20 @@
 #define FNV_VATS_DECLS_H
 
 
+#include "fnv/decl/FUN_004eaf60_shell.h"
+#include "fnv/decl/FUN_0058d630_shell.h"
+#include "fnv/decl/FUN_00639aa0_shell.h"
+#include "fnv/decl/FUN_0088b030_shell.h"
+#include "fnv/decl/FUN_0093e840_shell.h"
+#include "fnv/decl/FUN_0095f530_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_004a4000.h"
+#include "fnv/symbols_00716000.h"
+#include "fnv/symbols_00944000.h"
+#include "fnv/symbols_011cf000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f2000.h"
+#include "fnv/symbols_011f6000.h"
 #include "layout_support.h"
 
 class VATSCommand;
@@ -15,26 +29,26 @@ class ShadowSceneLight;
 class Animation
 {
   public:
-    void FUN_0088b030(float);
+public:
+    void SpecialIdleFree(bool, bool);
 };
 
 class TimeGlobal
 {
   public:
-    void ApplyGlobalTimeMultiplier();
 };
 
 // PC receiver view for the legacy VATS::Update identity. Its caller passes
 // PlayerCharacter; the last write is at +0xE18 in the PC player layout.
+class Animation;
 class PlayerCharacter
 {
   public:
     unsigned char layoutPadding0[0xE18];
     float fVATSTimer;
     unsigned char layoutPaddingE1C[0x34];
-    bool FUN_004eaf60();
-    Animation* GetAnimation(bool firstPerson);
-    static bool UpdatePlayerStatus();
+public:
+    ::Animation *GetAnimation(bool) const;
 };
 typedef char VATSPlayerTimerOffsetCheck[offsetof(PlayerCharacter, fVATSTimer) == 0xE18 ? 1 : -1];
 typedef char VATSPlayerSizeCheck[sizeof(PlayerCharacter) == 0xE50 ? 1 : -1];
@@ -42,19 +56,15 @@ typedef char VATSPlayerSizeCheck[sizeof(PlayerCharacter) == 0xE50 ? 1 : -1];
 class CameraPathManager
 {
   public:
-    void SetCameraPathEnabled(bool enabled, unsigned int mask);
 };
 class InventoryStackRecord
 {
   public:
-    void SetEquipmentState(bool immediate, bool force);
 };
 class BGSCameraShot
 {
   public:
     void ResetCameraShot();
-    bool FUN_0058d630();
-    float FUN_00639aa0();
     char _pdbpad_1[55];
     char Data_pad37_pad37_pad37[40];
     char spLocationNode_pad5f_pad5f_pad5f[4];
@@ -97,6 +107,8 @@ class VATS
     ExtraDataList* m_pWeaponExtraData;
     void Update(int mode, bool force);
     float GetModeTimeMultiplier();
+public:
+    void FUN_009c8950(bool, bool);
 };
 FNV_STATIC_ASSERT(sizeof(VATS) == 0x48);
 FNV_STATIC_ASSERT(offsetof(VATS, eMode) == 8);
@@ -116,19 +128,11 @@ union SETTING_VALUE
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Float();
 };
 class hkpCharacterContext
 {
   public:
-    static float GetReferenceTimeStep();
 };
-float FUN_009443f0();
 
-extern TimeGlobal g_timeGlobal;
-extern PlayerCharacter* g_thePlayer;
-extern VATS DAT_011f2250;
-extern bool DAT_011f21d0;
-extern SettingT_GameSettingCollection_ DAT_011cf374;
 
 #endif

@@ -3,6 +3,12 @@
 #define FNV_PACKAGEDATAUSEWEAPON_DECLS_H
 
 
+#include "fnv/decl/BGSMessageInitAccess.h"
+#include "fnv/decl/DurationData.h"
+#include "fnv/decl/FUN_00421b40_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/symbols_011ca000.h"
 #include "TESForm.h"
 
 class BSFileEntry;
@@ -16,22 +22,19 @@ class TESObjectWEAP : public TESForm
 class TESObjectREFR
 {
   public:
-    int GetBoundingRadius();
-    TESBoundObject* GetObjectReference();
-    ExtraDataList* GetExtraData();
 };
 
 class ExtraDataList
 {
   public:
-    TESObjectREFR* GetTargetObjectReference();
 };
 
 class LocationDescriptor
 {
   public:
-    BSFileEntry* SetLocRef();
     TESObjectREFR* GetLocationReference();
+public:
+    void Copy(::LocationDescriptor *, bool);
 };
 
 enum PACK_TARG_TYPE
@@ -99,8 +102,6 @@ class UseWeaponActorPackageData : public ActorPackageData
     void SetReferenceTarget(TESObjectREFR* reference);
 };
 
-extern TESBoundObject* DAT_011ca244;
-extern TESBoundObject* DAT_011ca248;
 
 void* __cdecl operator new(unsigned int size);
 void __cdecl operator delete(void* pointer);

@@ -3,6 +3,7 @@
 #ifndef FNV_ACTOR_H
 #define FNV_ACTOR_H
 
+#include "fnv/decl/MiddleHighProcess.h"
 #include "statsmenu_layout_support.h"
 #include "statsmenu_ActorValueOwner.h"
 #include "statsmenu_CachedValuesOwner.h"
@@ -219,7 +220,6 @@ class Actor : public MobileObject,
     virtual void Unk_135(void);
     virtual void Unk_136(void);
     TESActorBase* GetActorBase();
-    bool IsPlayerTeammate();
 };
 FNV_STATIC_ASSERT(sizeof(Actor) == 0x1B4);
 FNV_STATIC_ASSERT(offsetof(Actor, m_pRagdollController) == 0xAC);

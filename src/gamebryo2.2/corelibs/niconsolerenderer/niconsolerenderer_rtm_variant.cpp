@@ -1,6 +1,113 @@
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
 
 
+#include <new>
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/A72720StreamSet.h"
+#include "fnv/decl/AlphaList.h"
+#include "fnv/decl/C_00e8f010.h"
+#include "fnv/decl/ControllerMapE8B.h"
+#include "fnv/decl/DepthStencilSearch.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_0043a010_shell.h"
+#include "fnv/decl/FUN_00a66960_cls.h"
+#include "fnv/decl/FUN_00b6aed0.h"
+#include "fnv/decl/FUN_00c25db0_shell.h"
+#include "fnv/decl/FUN_00c25dd0_shell.h"
+#include "fnv/decl/FUN_00c25e70_shell.h"
+#include "fnv/decl/FUN_00c25e90_shell.h"
+#include "fnv/decl/FUN_00c25eb0_shell.h"
+#include "fnv/decl/FUN_00e6e630_cls.h"
+#include "fnv/decl/FUN_00e74a40_shell.h"
+#include "fnv/decl/FUN_00e74c00_cls.h"
+#include "fnv/decl/FUN_00e7bc90.h"
+#include "fnv/decl/FUN_00e7ce10_cls.h"
+#include "fnv/decl/FUN_00e8b170_cls.h"
+#include "fnv/decl/FUN_00e8bf80_Object.h"
+#include "fnv/decl/FUN_00e8d0e0.h"
+#include "fnv/decl/FUN_00e8db90.h"
+#include "fnv/decl/FUN_00e909e0_cls.h"
+#include "fnv/decl/FUN_00ee88b0.h"
+#include "fnv/decl/FUN_00ee88d0_cls.h"
+#include "fnv/decl/FnvCpu_FUN_00a7b850_CpuObject.h"
+#include "fnv/decl/FnvTextureData.h"
+#include "fnv/decl/GeomData_S.h"
+#include "fnv/decl/HashTableBase.h"
+#include "fnv/decl/Holder_00e8f040.h"
+#include "fnv/decl/IndexBufferManager.h"
+#include "fnv/decl/MapProcessor.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/Mgr_e74120.h"
+#include "fnv/decl/NiD3DGeometryGroupManager.h"
+#include "fnv/decl/NiD3DTextureData.h"
+#include "fnv/decl/NiDX9IndexBufferManager.h"
+#include "fnv/decl/NiGeometryBufferData.h"
+#include "fnv/decl/NiGlobalStringTable.h"
+#include "fnv/decl/NiRenderer.h"
+#include "fnv/decl/NiSlotSetE8E.h"
+#include "fnv/decl/NiTriStripsDataStandin.h"
+#include "fnv/decl/Owner.h"
+#include "fnv/decl/Owner8F6D0.h"
+#include "fnv/decl/Owner_e8bff0.h"
+#include "fnv/decl/ResourceCache.h"
+#include "fnv/decl/S00e90a80.h"
+#include "fnv/decl/S_00e8c0d0.h"
+#include "fnv/decl/ShaderCache.h"
+#include "fnv/decl/SkinInstance.h"
+#include "fnv/decl/TexFormatList.h"
+#include "fnv/decl/This_cd60.h"
+#include "fnv/decl/VertexRenderer.h"
+#include "fnv/decl/fnv_00c26350__NiMeshParticleSystem.h"
+#include "fnv/decl/fnv_00e75a70__FUN_00e75a70.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_004dc000.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a5f000.h"
+#include "fnv/symbols_00a62000.h"
+#include "fnv/symbols_00a63000.h"
+#include "fnv/symbols_00a75000.h"
+#include "fnv/symbols_00a7b000.h"
+#include "fnv/symbols_00b6c000.h"
+#include "fnv/symbols_00b71000.h"
+#include "fnv/symbols_00e68000.h"
+#include "fnv/symbols_00e69000.h"
+#include "fnv/symbols_00e6d000.h"
+#include "fnv/symbols_00e6e000.h"
+#include "fnv/symbols_00e6f000.h"
+#include "fnv/symbols_00e76000.h"
+#include "fnv/symbols_00e77000.h"
+#include "fnv/symbols_00e78000.h"
+#include "fnv/symbols_00e79000.h"
+#include "fnv/symbols_00e7a000.h"
+#include "fnv/symbols_00e7c000.h"
+#include "fnv/symbols_00e7d000.h"
+#include "fnv/symbols_00e88000.h"
+#include "fnv/symbols_00e89000.h"
+#include "fnv/symbols_00e8a000.h"
+#include "fnv/symbols_00e8b000.h"
+#include "fnv/symbols_00e8f000.h"
+#include "fnv/symbols_00e91000.h"
+#include "fnv/symbols_00ee6000.h"
+#include "fnv/symbols_00ee8000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_0106d000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_0109f000.h"
+#include "fnv/symbols_010ed000.h"
+#include "fnv/symbols_010ee000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011aa000.h"
+#include "fnv/symbols_011bf000.h"
+#include "fnv/symbols_011c5000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_0126e000.h"
+#include "fnv/symbols_0126f000.h"
+#include "fnv/symbols_01270000.h"
+#include "fnv/symbols_01400000.h"
 class NiRenderTargetGroup;
 #include "niconsolerenderer_packet.h"
 enum _D3DFORMAT { D3DFMT_PACKET_FORCE_DWORD=0x7fffffff };
@@ -15,7 +122,6 @@ public:
  static const char* GetD3DFormatName(_D3DFORMAT);
  char remaining[0xb80-44];
  static GraphicsRenderer* Create(unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int);
- bool Create(unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int);
 };
 class RecursiveSpinLock { public: unsigned int value; void Lock(const char*); };
 template<class T> class PoolAllocatorBase {
@@ -24,7 +130,6 @@ public:
  static LinkedListEntry* ms_pFreeList;
  static RecursiveSpinLock ms_kPoolState;
 };
-extern unsigned int DAT_011c5f84;
 template<class T> class NiTPointerAllocator {};
 template<class Alloc, class T> class NiTPointerListBase {
 public:
@@ -34,14 +139,11 @@ public:
 };
 class ShaderPassRenderer { public: static unsigned int Create(unsigned int); };
 class NiObject;
-class NiStream { public: static void UnregisterObjectLoader(const char*); static int RegisterObjectLoader(const char*,NiObject* (*)()); };
+class NiStream { public:  static int RegisterObjectLoader(const char*,NiObject* (*)()); };
 extern "C" int fnv_CopyFilePath(char*,unsigned int,const char*,unsigned int);
 extern char DAT_011f4648[256];
-NiObject* NiPersistentSrcTextureRendererDataLoader();
 extern const char DAT_010ee6c8[];
 extern const char DAT_010ee688[];
-extern const char DAT_0109f0a0[];
-extern const char DAT_01015890[];
 extern const char DAT_010ee8a4[];
 extern const char DAT_010ee8b0[];
 extern const char DAT_010ee8c4[];
@@ -101,9 +203,7 @@ extern const char DAT_010eec08[];
 extern const char DAT_010eec18[];
 extern const char DAT_010eec28[];
 extern const char DAT_010eec38[];
-extern "C" void* g_011f4430;
 void* __cdecl FUN_00a5f200();
-extern "C" int g_011f443c;
 int __cdecl FUN_00a5f4f0();
 int __cdecl FUN_00a5f500();
 int __cdecl FUN_00dc9e60();
@@ -133,10 +233,9 @@ struct FUN_00e69b40_shell {
     unsigned int GetEntry(unsigned int index);
 };
 unsigned int GetValueForIndex(unsigned int uiIndex);
-struct NiPoint3 { float x, y, z; };
-extern NiPoint3 DAT_011f474c;
-extern float DAT_011f4750;
-extern float DAT_011f4754;
+struct NiPoint3 { float x, y, z; public:
+    static const ::NiPoint3 ZERO;
+};
 struct ThreeByThreeMatrix {
     float m[3][3];
 };
@@ -145,6 +244,8 @@ struct NiTransform {
     NiPoint3 m_kTranslation;
     float pad[3];
     float m_fScale;
+public:
+    void CalculateInverse(::NiTransform &);
 };
 struct NiWorldToSkin {
     float r00, r10, r20;
@@ -157,14 +258,10 @@ struct NiWorldToSkin {
     float scale;
 };
 void __cdecl BuildWorldToSkinTransform(NiWorldToSkin* out, const NiTransform* kWorldToRootParent, const NiPoint3* apTranslation, float fScale);
-extern int DAT_0126efc0;
 bool __stdcall FUN_00e6c760(int value);
 void __cdecl FUN_00aa1110(void*);
 void __stdcall FUN_00e6d740(void* apObject);
-extern RecursiveSpinLock g_011c5f80;
-extern unsigned int DAT_011c5f84;
 struct LinkedListEntry { LinkedListEntry* next; LinkedListEntry* prev; char* data; };
-void __stdcall FUN_00e6e8a0(LinkedListEntry* pNode);
 struct NiTMapBase_StandIn {
     void RemoveAll();
 };
@@ -172,21 +269,16 @@ extern "C" void __cdecl _NiFreeAlias(void*);
 extern "C" void* __cdecl _DeallocateAlias(void*);
 extern int DAT_010eda84;
 extern int DAT_010edb5c;
-extern struct MemoryManager {
-    void* Deallocate(void*);
-} g_memoryManager;
 struct FUN_00e6eab0_shell : NiTMapBase_StandIn {
     char pad[8];
     void* data;
     int __thiscall DestroyMap(int flag);
 };
 struct NodePoolView {
-    void* AddHead();
 };
 struct FUN_00e72e50_shell {
     void* __thiscall FUN_00e72e50();
 };
-extern "C" void* g_0126f0f0;
 void* __cdecl FUN_00e757b0();
 struct FUN_00e757c0_shell {
     unsigned char* data;
@@ -200,14 +292,10 @@ struct FUN_00e75840_shell {
     unsigned int color;
     void FUN_00e75840(float* param);
 };
-extern "C" void* g_01270900;
 void* __cdecl FUN_00e766f0();
 struct FUN_00e758f0_shell {
     void PackColorToUInt(float* floats);
 };
-extern int DAT_0126f580[];
-void __cdecl FUN_00e7cc50(int* pObject, int iIndex);
-extern "C" void __cdecl ReleaseShaderNodes(void*);
 struct FUN_00e69650_shell {
     bool __thiscall FUN_00e69650(int);
 };
@@ -257,7 +345,7 @@ struct IDev
     virtual int __stdcall f41() = 0;
     virtual int __stdcall EndScene() = 0;
 };
-struct FUN_00e8bf80_shell { void __thiscall FUN_00e8bf80(); };
+struct FUN_00e8bf80_shell {  };
 struct FUN_00e69660_shell
 {
     char _p0[0x288];
@@ -362,19 +450,14 @@ struct FUN_00e698d0_shell { char _pad[0x288]; void* m_pDirectInputDevice; void D
 struct FUN_00e69970_shell { void ClearShader(void* pkShader); };
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
-int __cdecl FUN_00e68ef0(void*, void*);
 struct StandIn_e6dc40 { bool FUN_00e6dc40(void*); };
-struct NiVBSet { void Create(unsigned int, void*); };
-int __cdecl CreateRenderedTextureData(void*, void*, unsigned int);
+struct NiVBSet {  };
 struct Param_00e6dc80 { unsigned int pad[9]; unsigned int flag; };
 struct Stand_00e6dc80 { char pad[0x8cc]; NiVBSet vb; bool CreateVertexBufferIfNeeded(Param_00e6dc80*, unsigned int); };
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
-int __cdecl FUN_00e8abf0(void*, void*);
 struct FUN_00e6dcc0_shell { bool __thiscall FUN_00e6dcc0(void*); };
 struct NiTMapBaseStub { void __thiscall RemoveAll(); };
-extern int DAT_010eda24;
-extern MemoryManager g_memoryManager;
 struct S_00e6e8f0 {
     void* f00;
     int f04;
@@ -382,20 +465,22 @@ struct S_00e6e8f0 {
     S_00e6e8f0* __thiscall FUN_00e6e8f0(unsigned int);
 };
 extern int DAT_010edaf4;
-extern MemoryManager g_memoryManager;
 struct S00e72e20 { void *vf; void *ptr; void *__thiscall FUN_00e72e20(unsigned int); };
 struct BSBatchRenderer__GeometryGroup;
 struct BSBatchRenderer__AlphaList {
     BSBatchRenderer__GeometryGroup* __thiscall Remove(BSBatchRenderer__GeometryGroup*&);
 };
+class GraphicsRenderer;
 struct NiD3DShaderInterface {
     void __thiscall SetShaderObject(GraphicsRenderer*);
+public:
+    static unsigned int InitializeShaderRenderer(::GraphicsRenderer *);
 };
 struct NiConsoleRenderer_shellEx : GraphicsRenderer {
     void __thiscall FUN_00e75310(NiD3DShaderInterface* shader);
 };
 void _delete(void*, unsigned int);
-struct S { void __thiscall FUN_00e75a70(); void* __thiscall FUN_00e762f0(unsigned int); };
+struct S {  void* __thiscall FUN_00e762f0(unsigned int); };
 struct FUN_00e76320
 {
     unsigned int f0;
@@ -417,12 +502,9 @@ struct NiDX9ShaderDeclaration
  virtual int V40(); virtual int V41(); virtual int V42(); virtual int V43(); virtual int V44(); virtual int V45();
  bool FUN_00e76630(unsigned int*, unsigned int*);
 };
-struct P03MM { void* Allocate(unsigned int size); };
+struct P03MM {  };
 extern void* DAT_0126f550;
 extern const void* DAT_010ee898;
-void __cdecl FUN_00e7a760();
-void __cdecl FUN_00e7a860();
-extern int DAT_0126f0ec;
 struct FUN_00e69920_shell {
     void ClearList();
 };
@@ -452,7 +534,6 @@ struct Ni2DBuffer;
 struct NiPixelFormat;
 struct NiDX9AdditionalDepthStencilBufferData
 {
-	static NiDX9AdditionalDepthStencilBufferData* __cdecl Create(DepthDevice*, Ni2DBuffer**, NiPixelFormat const*, unsigned int);
 };
 struct S_00e69a20
 {
@@ -571,13 +652,10 @@ struct FUN_00e76610_shell {
     unsigned int pad[0x34/4];
     void __thiscall SetFlag(bool value);
 };
-extern int DAT_010ee70c;
-extern MemoryManager g_memoryManager;
 void __cdecl _delete(void*, unsigned int);
 struct ICom78510 { virtual int __stdcall Q(); virtual int __stdcall A(); virtual int __stdcall R(); };
-struct H78510 { void __thiscall FUN_00e78be0(); };
+struct H78510 {  };
 struct S78510 { char pad[0x2c]; void* p1; ICom78510* p2; char tail[4]; void* __thiscall FUN_00e78510(unsigned int); };
-extern "C" void __cdecl FUN_00ee88b0();
 extern const char DAT_010ee7cc[];
 struct FUN_00e78840_shell {
     void* vtable;
@@ -596,7 +674,6 @@ struct CpDevice {
     virtual void v32(); virtual void v33();
     virtual long __stdcall StretchRect(CpSurf*, const CpRECT*, CpSurf*, const CpRECT*, int);
 };
-char* __cdecl GetHRESULTText(unsigned int);
 struct CopyRendererData { char pad[0x14]; CpSurf* surface; };
 struct RenderCopyData { char pad[8]; unsigned int width; unsigned int height; CopyRendererData* data; };
 struct CpRectNi { int left, right, top, bottom; };
@@ -621,7 +698,6 @@ struct FUN_00e76c30_Info {
     unsigned int pad28;
     unsigned char* pucDest;        // +0x2c
 };
-unsigned int FUN_00e76c30(FUN_00e76c30_Info* pkInfo);
 void* _fnv_zlib_memset(void*, int, unsigned int);
 struct FUN_00e79f40_Stream {
     unsigned int pad0;
@@ -639,7 +715,6 @@ struct FUN_00e79f40_Stream {
     unsigned int pad28;
     char* dst;
 };
-int FUN_00e79f40(FUN_00e79f40_Stream* pStream);
 struct FUN_00e78bd0_shell {
     bool flag;          // +0x00
     void* field_04;     // +0x04
@@ -662,11 +737,7 @@ struct FUN_00e6c690_shell
 {
     char* GetDepthDeviceDescription();
 };
-extern DepthDevice* DAT_0126f0d8;
-int __cdecl _NiSprintf(char*, unsigned int, const char*, int, const char*, ...);
 void* _fnv_zlib_memset(void*, int, unsigned int);
-extern void* DAT_011c5f58;
-void __stdcall ReleaseRefCountedNode(void* param_1);
 struct FUN_00e76500_shell
 {
     unsigned int pad[7];
@@ -1851,7 +1922,6 @@ class FUN_00e69960_cls
     void FUN_00e69960(int a);
 };
 struct RenderBufferAllocation {
-    RenderBufferAllocation* FUN_00e8db90(void* parameters);
 };
 RenderBufferAllocation* __stdcall CreateRenderBufferAllocation(void* parameters);
 struct FUN_00e69a60_obj20 {
@@ -1860,14 +1930,8 @@ struct FUN_00e69a60_obj20 {
     virtual void __stdcall v2();
 };
 struct FUN_00e69a60_obj14 {
-    void* __thiscall FUN_00e7bc90(FUN_00e69a60_obj20* a, void* b);
 };
-extern "C" void* g_0126f0e8;
-extern "C" void* (__stdcall* g_0126f0dc)(unsigned int);
-extern "C" unsigned int DAT_0126f0f8;
-bool __cdecl InitD3D9CreateFunctions();
 void* __cdecl FUN_00aa13e0(unsigned int size);
-void* __cdecl FUN_00e69a60();
 struct RendererListNode
 {
     void* m_pListObject;
@@ -1922,7 +1986,6 @@ public:
 };
 struct FmtObj { int unk00; int unk04; int unk08; int unk0c; int unk10; };
 void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
-void ApplySettings(FmtObj*);
 struct Holder {
     int unk000;
     int unk004;
@@ -2591,7 +2654,6 @@ struct E6D310Renderer {
 
     void FUN_00e6d310(E6D310StripSet* set, E6D310Geometry* geometry, int unused);
 };
-extern void* DAT_0126f108[];
 class PacketEntry {
 public:
     virtual int slot00();
@@ -2641,7 +2703,6 @@ public:
     virtual int slot44();
     virtual int slot45();
 };
-int __stdcall GetPacketSlot45(int index);
 struct GeomData_e6da60
 {
     virtual void vf00();
@@ -2717,9 +2778,6 @@ struct Packet_e6da60
     unsigned int unk1C;
     unsigned int m_uiCount;
     unsigned int* m_puiStreams;
-    void ResizeStreams(unsigned int ItemUpdateArray);
-    void SetSingleStream(unsigned int uiValue);
-    void SetStreams(unsigned int uiValue);
 };
 struct Model_e6da60
 {
@@ -2746,9 +2804,7 @@ struct VBManager_e6da60
     void Pack(Model_e6da60* pkModel, Data_e6da60* pkData, unsigned int* puiA,
         unsigned int* puiB, unsigned int* puiC, unsigned int* puiD,
         unsigned int* puiE, unsigned int* puiF, unsigned int* puiG);
-    bool CreateStream(Packet_e6da60* pkPacket, unsigned int uiIndex);
 };
-extern int DAT_011bf558;
 struct Renderer_e6da60
 {
     unsigned int unk0000; unsigned int unk0004; unsigned int unk0008; unsigned int unk000C; unsigned int unk0010; unsigned int unk0014; unsigned int unk0018; unsigned int unk001C;
@@ -2953,10 +3009,13 @@ struct SourceManager {
     virtual RenderSource* GetRenderSource();
 };
 extern const char DAT_010ed96c[];
-char* __cdecl GetHRESULTText(unsigned int status);
-void __cdecl FUN_00a29680(const char* format, const char* message);
+struct Class87d40;
+struct NiGeometryData;
+struct VertexRecord;
 struct Renderer {
     void* __thiscall LockRenderSource(SourceManager* manager, int* pitch);
+public:
+    ::VertexRecord *FUN_00e8c1e0(::NiGeometryData *, ::Class87d40 *, unsigned int, ::VertexRecord *, char *);
 };
 class FUN_00e6de70_B;
 class FUN_00e6de70_C;
@@ -2993,8 +3052,6 @@ public:
     unsigned char m_6f5;
     bool __thiscall FUN_00e6de70(FUN_00e6de70_A* a1);
 };
-const char* __cdecl GetHResultName(int code);
-void __cdecl FUN_00a29680(const char* fmt, const char* text);
 struct RendererResourceMap : NiDX9Renderer {
     unsigned int unk8A4;
     unsigned int unk8A8;
@@ -3746,9 +3803,7 @@ struct RendererPoolView : GraphicsRenderer { void ResetPools(); };
 extern int DAT_010eda84;
 void __cdecl NiFree(void*);
 struct MM_e6ea70 {
-    void Deallocate(void*);
 };
-extern MM_e6ea70 _g_memoryManager;
 struct Map_e6ea70 {
     void* vtbl;
     int unk04;
@@ -3775,13 +3830,7 @@ class E6EC20List {
 public:
     void RemoveAll();
 };
-extern E6EC20Device* g_pkE6EC20Device;
-extern E6EC20Cache* g_pkE6EC20Cache;
-extern void* g_hE6EC20Module;
-extern void* (__stdcall* g_pfnE6EC20Create)(unsigned int uiVersion);
 extern int (__stdcall* g_pfnE6EC20FreeLibrary)(void* hModule);
-extern E6EC20List g_kE6EC20List;
-void ShutdownE6EC20();
 // Renderer resource setup: original C++ reconstructed from InitializeRendererResources.
 struct RendererStateSlot;
 struct ResourceDescriptor { unsigned char unknown00; unsigned char format; };
@@ -3792,7 +3841,6 @@ struct RenderResource : RefObject {
     unsigned int dataOffset;
     unsigned int unk54, unk58;
     unsigned char** dataBase;
-    RenderResource* FUN_00a7c190(int a, int b, ResourceDescriptor* d, int c, int e);
 };
 struct ResourceParameters {
     unsigned int count;
@@ -3800,10 +3848,7 @@ struct ResourceParameters {
     unsigned int unk08;
 };
 extern const char DAT_010edbb8[];
-extern const char* DAT_0109b220;
 void* __cdecl FUN_00aa13e0(unsigned int size);
-const char* __cdecl FUN_00a5b690(const char* name);
-RefObject* __cdecl FUN_00a5ff10(RenderResource* resource, const char* name, ResourceParameters* parameters);
 struct RendererBridge {
     RendererStateSlot* State(unsigned int idx) {
         return reinterpret_cast<RendererStateSlot*>(reinterpret_cast<char*>(this) + 0x700 + 0x58 * idx);
@@ -3815,11 +3860,9 @@ struct RendererBridge {
         return *reinterpret_cast<RefObject**>(reinterpret_cast<char*>(this) + 0x8fc);
     }
     void CreateFormats(RendererStateSlot* state, unsigned int type, unsigned int flags);
-    void InitFormats();
     bool InitializeRendererResources();
 };
 extern "C" __declspec(dllimport) long __stdcall fnv_InterlockedDecrement(long volatile*);
-extern char g_sentinel_012708e4;
 class PktRefCounted {
 public:
     virtual void unk00();
@@ -4112,7 +4155,7 @@ struct FUN_00e744b0_Src {
     FUN_00e744b0_VObj* m_b8;
     unsigned int m_bc;
 };
-struct FUN_00e744b0_obj { void ProcessCollector(unsigned int a, unsigned int b, unsigned int c, unsigned int d, int e, int f); };
+struct FUN_00e744b0_obj {  };
 struct FUN_00e744b0_cls {
     unsigned int unk000;
     unsigned int unk004;
@@ -4671,12 +4714,8 @@ struct FUN_00e744b0_cls {
     unsigned int unk8a8;
     unsigned int m_8ac;
     unsigned int m_8b0;
-    bool __thiscall FUN_00e72c20(FUN_00e744b0_Src* p, int z);
-    void __thiscall DrawStrip(FUN_00e744b0_Src* p, unsigned int b, unsigned int c, FUN_00e744b0_Blk52* B, FUN_00e744b0_Blk16* A);
-    void __thiscall DrawMesh(FUN_00e744b0_Src* p, unsigned int b, unsigned int c, FUN_00e744b0_Blk52* B, FUN_00e744b0_Blk16* A, unsigned int f);
     void ProcessVObj(FUN_00e744b0_Src* ebx);
 };
-extern char DAT_011f4288[16];
 struct RefObj_e75 {
     virtual void v0();
     virtual void vDelete();
@@ -5295,12 +5334,12 @@ public:
 struct ShaderList : NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*> {
     static void FreeNode(Node* pkNode) {
         pkNode->data = 0;
-        g_011c5f80.Lock(0);
+        reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
         pkNode->prev = 0;
         pkNode->next = (Node*)DAT_011c5f58;
         DAT_011c5f58 = pkNode;
         if (--DAT_011c5f84 == 0)
-            g_011c5f80.value = 0;
+            (*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80)).value = 0;
     }
     char*& GetNext(Node*& pkPos) {
         char*& element = pkPos->data;
@@ -5362,7 +5401,6 @@ struct D3DShaderStub {
     virtual void v45(); virtual void v46(); virtual void v47(); virtual void v48(); virtual void v49();
     virtual void v50();
     virtual void UnloadShader();
-    void SetShaderObject(void* pkRenderer);
 };
 struct ConsoleRendererShaders {
     int unk000;
@@ -7990,12 +8028,9 @@ struct ShaderD3DDevice {
     virtual long __stdcall CreateVertexDeclaration(const ShaderVertexElement*, ShaderVertexDecl**);
 };
 struct ShaderMemMgr {
-    void* Allocate(unsigned int size);
-    void Deallocate(void* p);
 };
-extern ShaderMemMgr g_shaderMemMgr;
-inline void* operator new[](unsigned int size) { return g_shaderMemMgr.Allocate(size); }
-inline void operator delete[](void* p) { g_shaderMemMgr.Deallocate(p); }
+inline void* operator new[](unsigned int size) { return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::ShaderMemMgr *>(&::g_memoryManager))))->FUN_00aa3e40(size); }
+inline void operator delete[](void* p) { reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::ShaderMemMgr *>(&::g_memoryManager))))->FUN_00aa4060(p); }
 struct ShaderVertexElement {
     unsigned short Stream;
     unsigned short Offset;
@@ -8036,7 +8071,6 @@ public:
     ShaderVertexElement* m_pkVertexElements;
     ShaderVertexDecl* m_pkD3DVertexDeclaration;
 
-    unsigned int SetEntryAlias(ShaderStreamMapping* pkEntry, unsigned int uiStream);
     ShaderVertexDecl* BuildVertexDeclaration();
 };
 struct StreamCopyInfo {
@@ -8056,7 +8090,6 @@ struct StreamCopyInfo {
     unsigned char* destination;
 };
 void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
-unsigned int __cdecl CopyVertexStream(StreamCopyInfo* stream);
 void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
 struct PackShortInfo {
     int eType;
@@ -8074,7 +8107,6 @@ struct PackShortInfo {
     unsigned int pad28;
     unsigned char* pucDest;
 };
-unsigned int PackShortVertexData(PackShortInfo* pkInfo);
 void* _fnv_zlib_memset(void*, int, unsigned int);
 struct FUN_00e77590_Info {
     int eType;
@@ -8092,7 +8124,6 @@ struct FUN_00e77590_Info {
     unsigned int pad28;
     unsigned char* pucDest;
 };
-unsigned int FUN_00e77590(FUN_00e77590_Info* pkInfo);
 void* _fnv_zlib_memset(void*, int, unsigned int);
 struct FUN_00e77950_Info {
     int eType;
@@ -8110,7 +8141,6 @@ struct FUN_00e77950_Info {
     unsigned int pad28;
     unsigned char* pucDest;
 };
-unsigned int FUN_00e77950(FUN_00e77950_Info* pkInfo);
 void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
 struct FUN_00e77eb0_Info {
     int eType;
@@ -8128,8 +8158,6 @@ struct FUN_00e77eb0_Info {
     unsigned int pad28;
     unsigned char* pucDest;
 };
-unsigned int FUN_00e77eb0(FUN_00e77eb0_Info* pkInfo);
-int __cdecl CopyStreamElements(FUN_00e79f40_Stream* pkInfo);
 struct Stream_e78910 {
     unsigned int unk00;
     unsigned short type;
@@ -8155,7 +8183,6 @@ static inline unsigned int PackColor_e78910(const short* v, unsigned short comps
         a = (unsigned short)v[3];
     return (((short)a & 0xff00) << 16) | ((v[0] & 0xff00) << 8) | (v[1] & 0xff00) | ((v[2] >> 8) & 0xff);
 }
-int PackVertexColors(Stream_e78910* aStream);
 extern const char DAT_010ee7cc[];
 void __cdecl FUN_00aa1490(void* apMemory, unsigned int auiSize);
 struct FUN_00e78be0_cls {
@@ -8170,7 +8197,6 @@ struct FUN_00e78be0_cls {
     unsigned int m_uCount20;
     char* m_pArr24;
 
-    void BaseTeardown();
     void FUN_00e78be0() throw();
 };
 void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
@@ -8191,7 +8217,6 @@ struct FUN_00e79370_Info {
     unsigned int pad28;
     unsigned char* pucDest;
 };
-unsigned int FUN_00e79370(FUN_00e79370_Info* pkInfo);
 struct NormalizedStream {
     unsigned short lastComponent, unk02;
     unsigned short type, unk06;
@@ -8201,7 +8226,6 @@ struct NormalizedStream {
     unsigned unk14, sourceStride, elementSize, destStride, unk24, unk28;
     unsigned char* dest;
 };
-unsigned __cdecl NormalizeVertexStream(NormalizedStream* pStream);
 extern "C" const char DAT_010ee8a0[];
 struct FUN_00e7a640 {
     unsigned int m_00;
@@ -8251,7 +8275,6 @@ inline E7A6A0Array<E7A6A0Bucket*>* E7A6A0GetBuckets()
 {
     return static_cast<E7A6A0Array<E7A6A0Bucket*>*>(DAT_0126f550);
 }
-void __cdecl DestroyBucketTable();
 class NiBaseObject {
 public:
     virtual void unkBaseSlot0();
@@ -8276,7 +8299,6 @@ struct FUN_00a62af0_cls : NiBaseObject {
     FUN_00a62af0_cls() throw();
 };
 extern "C" __declspec(dllimport) void __stdcall InitializeCriticalSection(void*);
-extern FUN_00a62af0_cls* DAT_011f4748;
 struct VertexElement_e69790 { unsigned short Stream, Offset; unsigned char Type, Method, Usage, UsageIndex; };
 struct Declaration_e69790;
 struct Device_e69790 {
@@ -8552,8 +8574,6 @@ struct VertexWE69 {
     float m_fV;
     float m_fVectorX;
 };
-float* __stdcall WriteVertex(float* pVertexBuffer, const PointE69& kPos, const PointE69& kNormal, unsigned int uiColor, float fTextureCoordinateU, float fV, float fW);
-unsigned int __cdecl MapCodeToIndex(unsigned int code);
 struct PackingPacket;
 struct PackingOwner {
     virtual void slot00();
@@ -8578,9 +8598,6 @@ struct PackingPacket {
     unsigned int cache, unk3c, primitiveCount, activePrimitiveCount, stripCount;
     void* vertexData;
     void* stripLengths;
-    bool FUN_00e8eeb0();
-    void FUN_00e8ef10(unsigned int);
-    void FUN_00e8eee0();
 };
 struct PackingData {
     unsigned int unk00, unk04, unk08, unk0c, unk10;
@@ -8638,18 +8655,14 @@ struct PackingGeometry {
     unsigned int streamCount;
 };
 struct PackingVertexManager {
-    unsigned int FUN_00e8c820(Model_e6da60*, void*, PackingData*, unsigned short, void*, unsigned int);
 };
 struct PackingIndexManager {
-    void* FUN_00e8f200(void*, unsigned int, unsigned int, void*, void**, unsigned int, unsigned int);
 };
-extern bool DAT_0126f0d0;
 struct PackingRenderer : Renderer_e6da60 {
     PackingIndexManager* indexManager;
     bool UpdatePackingPacket(PackingPacket*, Model_e6da60*, void*, PackingData*, PackingGeometry*, bool);
 };
 class GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_0126f5d8;
 struct Src_e6e
 {
     int unk;
@@ -8666,7 +8679,6 @@ struct Src_e6e
 };
 struct Obj_e6e
 {
-    Src_e6e* ContainsNode(GlobalObjectO2_00a7b610* pkList);
 };
 struct Device_e6e
 {
@@ -8724,15 +8736,10 @@ struct Device_e6e
 };
 struct Mgr_e6e
 {
-    unsigned int FUN_00e7b0f0(int iA, int iFormat, int iB, int iC);
 };
 struct Map_e6e
 {
-    bool FUN_00a53c30(unsigned int uiKey, void*& rp);
-    void InsertOrUpdate(unsigned int uiKey, void* pVal);
 };
-int __cdecl FUN_00e7bd20(int iFormat);
-void* __cdecl CreatePixelFormat(unsigned int uiKey);
 struct FUN_00e6ee00_cls
 {
     int unkCur;
@@ -9448,8 +9455,6 @@ struct FUN_00e6ee00_cls
     void* GetOrCreateFormatEntry(int iFormat, int iB, int iC);
 };
 struct NiRTTI { const char* m_pcName; const NiRTTI* m_pBaseRTTI; };
-extern const NiRTTI g_0126f5ac;
-extern const unsigned char DAT_0126efd8[];
 struct SurfDesc { unsigned int Format; unsigned int Type; unsigned int Usage; unsigned int Pool;
     unsigned int MultiSampleType; unsigned int MultiSampleQuality; unsigned int Width; unsigned int Height; };
 struct DX9Surface {
@@ -9658,7 +9663,6 @@ public:
     virtual long __stdcall CheckDepthStencilMatch(unsigned int Adapter, int DeviceType, int AdapterFormat,
         int RenderTargetFormat, int DepthStencilFormat);
 };
-extern E6F260Direct3D* g_pkE6F260Direct3D;
 struct E6F260SurfaceData {
     int unk00;
     int unk04;
@@ -10052,7 +10056,6 @@ public:
     int m_eAdapterFormat;
 };
 class GlobalObjectO2_00a7b610 { public: const char* name; GlobalObjectO2_00a7b610* base; };
-extern GlobalObjectO2_00a7b610 g_0126f59c;
 class BSMultiBound { public:
  virtual void v00(); virtual void Delete(); virtual void v08(); virtual GlobalObjectO2_00a7b610* GetRTTI();
  virtual void v10();
@@ -10764,7 +10767,6 @@ struct ResolveRenderer {
  BoundCache cache;
  bool FUN_00e74dc0();
 };
-unsigned int ConvertVertexComponents(FUN_00e76c30_Info* info);
 extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 struct ByteVertexConversion {
 
@@ -10797,7 +10799,6 @@ struct ByteVertexConversion {
     unsigned char* destination;
 
 };
-unsigned int __cdecl ConvertVertexFormat(ByteVertexConversion* info);
 void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
 struct FUN_00e77b50_Info {
     int eType;
@@ -10815,7 +10816,6 @@ struct FUN_00e77b50_Info {
     unsigned int pad28;
     unsigned char* pucDest;
 };
-unsigned int FUN_00e77b50(FUN_00e77b50_Info* pkInfo);
 struct PackByteInfo {
     unsigned int field00;
     unsigned short type, field06;
@@ -10825,7 +10825,6 @@ struct PackByteInfo {
     unsigned int field14, sourceStride, elementSize, destStride, field24, field28;
     unsigned char* dest;
 };
-unsigned int __cdecl PackByteElements(PackByteInfo* pInfo);
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 inline unsigned short minimum(unsigned short a, unsigned short b) { return a > b ? b : a; }
 struct ByteFloatStream {
@@ -10835,7 +10834,6 @@ struct ByteFloatStream {
  unsigned unk14, sourceStride, elementSize, destStride, unk24, unk28;
  unsigned char* dest;
 };
-unsigned __cdecl ConvertByteFloatStream(ByteFloatStream* pStream);
 struct ColorStream {
     unsigned int unk00;
     unsigned short type, unk06, count, unk0a;
@@ -10845,7 +10843,6 @@ struct ColorStream {
     unsigned char* dst;
 };
 void* _fnv_zlib_memset(void*, int, unsigned int);
-unsigned int ConvertColorStream(ColorStream* pStream);
 struct D3DMATRIX_Custom {
     float _11, _12, _13, _14;
     float _21, _22, _23, _24;
@@ -11001,14 +10998,12 @@ struct Node;
 struct ArrayObj;
 struct TargetObj {
 
-    bool Invoke(FUN_00e744b0_Src* p);
 
 };
 struct Map {
 
     bool Get(void* key, Node*& outVal);
 
-    void Set(void* key, Node* val);
 
     bool Remove(void* key);
 
@@ -11947,7 +11942,6 @@ struct FUN_00e754a0 : RendererBase {
  RendererArray<2> arrayaf4;
  RendererArray<1> arrayb04;
  RendererMap<5> mapb14;
- void FUN_00e6b990();
  FUN_00e754a0() throw();
 };
 extern double DAT_010231e8;
@@ -12334,7 +12328,6 @@ struct FUN_00e759c0_cls {
     unsigned char unk5e3;
     void FUN_00e759c0(float* out);
 };
-unsigned int __cdecl ConvertNormalizedShortsToFloats(NormalizedStream* pStream);
 struct E6F310Rect {
     int x1;
     int y1;
@@ -12349,10 +12342,8 @@ struct NiRectF {
 };
 struct FUN_00e7cdf0_shell {
     unsigned char FUN_00e7cdf0();
-    unsigned char FUN_00e7ce10();
 };
 struct E6F310Info {
-    FUN_00e7cdf0_shell* ContainsNode(const NiRTTI* pkList);
 };
 struct E6F310Target {
     virtual void v00();
@@ -13013,9 +13004,6 @@ struct E6F310Renderer {
 };
 class NiRTTI;
 class NiAVObject;
-bool __cdecl FUN_0043b300(const NiRTTI* type, NiAVObject* obj);
-extern const NiRTTI g_011f4a88;
-extern const NiRTTI g_011f4a70;
 struct PacketTarget { int unk00; int unk04; void* unk08; void Release(); };
 struct PacketObj {
     int unk00; int unk04;
@@ -13028,11 +13016,7 @@ struct PacketObj {
     unsigned short unk40; unsigned short unk42;
     unsigned short unk44; unsigned short unk46;
     int unk48;
-    void SetPacket(unsigned int, int, int, int, int, int, unsigned int);
-    void SetA(unsigned short, unsigned short*);
-    void SetB(unsigned short, int, int);
 };
-void __stdcall ApplyPacketUpdate(PacketObj* pPacketObj, PacketTarget* target, int bRelease);
 struct GeomGroupEntry;
 struct GeomGroupLink {
     GeomGroupEntry* pkEntry;
@@ -13044,7 +13028,6 @@ struct GeomGroupEntry {
 };
 struct GeomGroupMap {
     int unk00;
-    bool Lookup(unsigned int key, GeomGroupEntry*& val) const;
     void Assign(unsigned int key, GeomGroupLink val);
     bool Remove(unsigned int key);
 };
@@ -13150,8 +13133,6 @@ struct GeomGroupOwner {
 
     void RemoveGeomFromGroups(GeomData* pkGeom);
 };
-extern "C" const NiRTTI DAT_011f4a70;
-extern const char g_011f5af4_arg1[];
 struct Geo108;
 struct Packet108;
 class NiAVObject {
@@ -13205,11 +13186,10 @@ unsigned short vertices; unsigned short unk0a; unsigned short flags; unsigned sh
 unsigned int unk10,unk14,unk18,unk1c,unk20; void* colors; void* normals;
 unsigned int unk2c,unk30,unk34,unk38,unk3c;
 unsigned short triangles,unk42,strips,unk46; void* activeTriangles;
-void* FUN_00a75f10(); void* FUN_00a7b850();
+ 
  __forceinline bool IsKindOfType(const NiRTTI* type) {const NiRTTI* r = GetRTTI(); while(r) {if(r==type) return true;r=r->m_pBaseRTTI;} return false;}
 
 };
-bool FUN_0043b300(const NiRTTI*,NiAVObject*);
 struct Owner108 {
 virtual void v0();virtual void v1();virtual void v2();virtual void v3();virtual void v4();virtual void v5();virtual void v6();virtual void ReleaseStream(Packet108*,unsigned int);
 };
@@ -13218,13 +13198,12 @@ unsigned int unk00, flags; Owner108* owner; unsigned int unk0c,unk10; bool dynam
 unsigned int activeVertices,vertices,streamCount,unk24; void** streams; unsigned int indexCount,indexOffset; void* indexBuffer; unsigned int unk38,unk3c,stripLengths,triangles,stripCount;void* activeTriangles;void* indices;
 __forceinline void SetVertexCounts(unsigned short av,unsigned short v) { activeVertices=av; vertices=v; }
 __forceinline void SetTriangleCounts(unsigned short at,unsigned short t,void* lens,unsigned short strips,void* idx) { stripLengths=at; triangles=t; activeTriangles=lens; indices=idx; stripCount=strips; }
-bool FUN_00e8eeb0(); void FUN_00e8ef10(unsigned int); void FUN_00e8eee0();
+  
 };
 struct Geo108 {unsigned int unk00,unk04,unk08,unk0c,unk10,unk14,revision;};
 class NiD3DHLSLVertexShader {public:const char* GetEntryPoint();};
-struct VB108 { unsigned int FUN_00e8bf90(); void* FUN_00e8c1e0(NiAVObject*,Geo108*,unsigned short,void*,int);};
-struct IB108 { void* FUN_00e8f200(void*,unsigned int,unsigned int,void*,unsigned int*,unsigned int,unsigned int);};
-extern bool DAT_0126f0d0;
+struct VB108 {  };
+struct IB108 { };
 struct Renderer108 {
 unsigned int unk000;
 unsigned int unk004;
@@ -13788,7 +13767,6 @@ unsigned int unk8b8;
 VB108* vb; IB108* ib;
 bool PrepareGeometryPacket(Packet108*,NiAVObject*,Geo108*,NiAVObject*,bool);
 };
-__declspec(noreturn) void __cdecl AddGeometryToBatch();
 void __cdecl FUN_00e752a0();
 extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 struct StridedDataTransfer {
@@ -13807,11 +13785,10 @@ struct StridedDataTransfer {
     int unk28;
     unsigned char* pucDst;
 };
-unsigned int CopyIndexedRows(StridedDataTransfer* pkData);
 bool __stdcall IsAlwaysTrue(void* a1, void* a2, void* a3);
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 struct tagRECTX { long left; long top; long right; long bottom; };
-struct PixFmtX { bool FUN_00a765c0(const PixFmtX* o) const; };
+struct PixFmtX {  };
 struct SurfX;
 struct DevX;
 struct DevVT {
@@ -13822,8 +13799,6 @@ struct DevX { DevVT* vt; };
 struct BufDataX { char pad[0xc]; PixFmtX* m_pkRenderPixelFormat; int m_10; SurfX* m_pkSurface; };
 struct BufX { char pad[0x10]; BufDataX* m_pRendererData; };
 struct RectUX { unsigned int m_fMinimumU, m_fMaximumU, m_fMinimumV, m_fMaximumV; };
-void FUN_00a29680(const char* fmt, ...);
-const char* GetHResultName(long hr);
 class RendX {
 public:
     char pad[0x288];
@@ -14671,7 +14646,6 @@ public:
     int unk8b0;
     int unk8b4;
     S00e711e0_Mgr* m_8b8;
-    void ClearList();
     __forceinline void ReleaseP()
     {
         S00e711e0_P* p = m_630;
@@ -15545,7 +15519,6 @@ struct S00e76450_Obj {
     bool FUN_00e76450(unsigned int x, unsigned int y, int a, int b, int c, int d, int e, int f);
 };
 void* __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
-unsigned int __cdecl FUN_00e78f80(Stream_e78910* s);
 struct PixRow_00e79760 {
   unsigned short m_w0;        // +0x00
   unsigned short m_w2;        // +0x02
@@ -15563,12 +15536,9 @@ struct PixRow_00e79760 {
   unsigned int m_unk28;       // +0x28
   char* m_dst;                // +0x2c
 };
-unsigned int FUN_00e79760(PixRow_00e79760* r);
-unsigned int FUN_00e79d00(NormalizedStream* s);
 class DepthStencilE7B {
 public:
     unsigned int m_uiKey;
-    void* FindBestFullscreenFormat(unsigned int uiFormat, unsigned int uiDepthBits, unsigned int uiStencilBits);
 };
 template <class T>
 struct ListNodeE7B {
@@ -16193,7 +16163,6 @@ struct FUN_00e69610_Obj {
     FUN_00e69610_Packet* m_pAssociatedPacket;
     void FUN_00e69610();
 };
-unsigned int FUN_00e69e50(int format);
 struct StripRecord {
     int unk00, unk04, unk08, unk0c;
     int count;
@@ -16227,12 +16196,6 @@ struct SrcObj {
 
     StripRecord* GetStrip(int i) { return &strips[i]; }
 
-    unsigned short FUN_00c25db0(unsigned short row);
-    unsigned short FUN_00c25dd0();
-    float FUN_00c25eb0(unsigned short row);
-    const PointE69* GetElementField(unsigned short row, unsigned short col);
-    const PointE69* FUN_00c25e90(unsigned short row, unsigned short col);
-    const ColorF* GetParticleColor(unsigned short row, unsigned short col);
 };
 static inline int WrapIndex(int i, int n)
 {
@@ -16242,7 +16205,6 @@ static inline int WrapIndex(int i, int n)
     return r;
 }
 struct MeshGenerator {
-    float* WriteVertex(float* pDest, const PointE69& kPos, const PointE69& kNormal, unsigned int uiColor, float fTextureCoordinateU, float fV, float fW);
     void FUN_00e6d3a0(float* pDest, unsigned short* pIndex, SrcObj* pSrc, unsigned int* puiVerts, unsigned int* puiIndices);
 };
 struct XPoint3 {
@@ -16280,7 +16242,6 @@ inline XPoint3 operator*(const XPoint3& pt, const XMatrix3& mat)
         pt.x * mat.m[0][2] + pt.y * mat.m[1][2] + pt.z * mat.m[2][2]);
 }
 struct XD3DMatrix { float f00; };
-void __cdecl ConvertNiToD3D(XD3DMatrix* out, const XMatrix3* rot, const XPoint3* trans, float scale);
 struct XDevice {
     virtual void __stdcall d00(); virtual void __stdcall d01(); virtual void __stdcall d02(); virtual void __stdcall d03();
     virtual void __stdcall d04(); virtual void __stdcall d05(); virtual void __stdcall d06(); virtual void __stdcall d07();
@@ -17022,7 +16983,6 @@ struct StripMesh {
 };
 struct Block { int unk0,unk4;unsigned int count;StripMesh* meshes; };
 struct Vis { unsigned char active,nextState,unk2,unk3; };
-extern int DAT_011f49d8;
 struct Shape {virtual void v0();virtual void v4();virtual void* GetRTTI();int unk4,unk8;Block* block;int unk10,unk14,unk18,unk1c,unk20,unk24,unk28,unk2c,unk30,unk34;Vis* visibility; bool IsKind(); };
 bool IsExact(void* type,Shape* p) { if(p) return p->GetRTTI()==type; return false; }
 struct Flags {int unk0,unk4,unk8;unsigned short unkc,flags;};
@@ -17707,14 +17667,12 @@ struct QuadGeometry {
  unsigned char flag; unsigned char unk15,unk16,unk17;
  unsigned int vertices,activeVertices,count; unsigned int* strides; QuadBuffer** buffers;
  unsigned int indices,handle,resource,unk38,unk3c,triangles,activeTriangles,one,zero1,zero2;
- void FUN_00e8eee0();
  QuadBuffer* GetBuffer() { return count>0 ? buffers[0] : 0; }
  unsigned int GetStride() { return count>0 ? strides[0] : 0; }
 };
 struct QuadInput { unsigned int unk00,unk04; QuadData* data; unsigned int unk0c; unsigned short count,unk12; QuadSource* source; unsigned int unk18; QuadGeometry* geometry; };
-struct QuadUploader { unsigned int FUN_00e8c570(QuadGeometry*,unsigned short,QuadPoint*,FUN_004a7800*,QuadPoint*,unsigned short,QuadBuffer*,unsigned int); };
-struct QuadIndexUploader { unsigned int FUN_00e8f200(unsigned short*,unsigned int,unsigned int,unsigned int,unsigned int*,unsigned int,unsigned int); };
-extern bool DAT_0126f0d0;
+struct QuadUploader {  };
+struct QuadIndexUploader {  };
 void* FUN_00aa1070(unsigned int);
 struct QuadRenderer {
  unsigned int unk000;
@@ -18443,7 +18401,6 @@ struct S72_Pkt
     unsigned int unk48;
     unsigned int unk4C;
     unsigned int unk50;
-    bool FUN_00e8eeb0();
     void SetVertexCounts(unsigned short av, unsigned short v) { unk18 = av; unk1C = v; }
     void SetTriangleCounts(unsigned short at, unsigned short t, unsigned int lens, unsigned short strips, unsigned int idx)
     { unk40 = at; unk44 = t; unk50 = lens; unk4C = idx; unk48 = strips; }
@@ -18493,7 +18450,6 @@ struct S72_Renderer : Renderer_e6da60
     bool BuildAndRegisterNodes(unsigned int uiUnused, S72_Model* pkModel, unsigned short usB, unsigned short usC,
         unsigned int uiD, unsigned int uiE, unsigned short usF, void* pvG);
 };
-extern void* DAT_01400000;
 struct PackingOwner_cc0 : PackingOwner {
     virtual bool NeedsUpdate();
 };
@@ -18509,7 +18465,6 @@ struct PackingEntry_cc0 {
     PackingPacket* packet;
 };
 struct PackingManager_cc0 {
-    void UploadQuads(PackingEntry_cc0* entry, unsigned short flags);
     void FUN_00e74cc0(PackingEntry_cc0* entry);
 };
 class RObj74 { public:
@@ -18527,13 +18482,12 @@ class RPtr74 { public:
 struct Node74 { Node74* next; Node74* prev; RPtr74 elem; };
 struct List74 {
     Node74* head; Node74* tail; unsigned int count;
-    void ReleaseRefCountedNode(Node74* p) throw();
     void RemoveHead() {
         Node74* n = head;
         head = n->next;
         if (head) head->prev = 0; else tail = 0;
         RPtr74 e = n->elem;
-        ReleaseRefCountedNode(n);
+        ::ReleaseRefCountedNode((void *)this);
         count--;
     }
     bool IsEmpty() const { return count == 0; }
@@ -18544,10 +18498,10 @@ struct Dev74 { virtual void v0(); virtual void v1(); virtual void v2(); virtual 
  virtual void v20(); virtual void v21(); virtual void v22(); virtual void v23(); virtual void v24(); virtual void v25(); virtual void v26(); virtual void v27(); virtual void v28(); virtual void v29();
  virtual void v30(); virtual void v31(); virtual void v32(); virtual void v33(); virtual void v34(); virtual void v35(); virtual void v36(); virtual void v37(); virtual void v38(); virtual void v39();
  virtual void v40(); virtual long __stdcall BeginScene(); };
-struct Sub74 { void FUN_00e8b560(); };
+struct Sub74 {  };
 class Rend74 { public:
     char pad0[0x288]; Dev74* m_pDirect3DDevice; char pad1[0x8c8-0x28c]; Sub74* m_8c8; char pad2[0x900-0x8cc]; List74 m_kList;
-    bool HandleDeviceLost(); void FUN_00e74120();
+     
     bool FUN_00e74f40();
 };
 struct S00e75340_Group {
@@ -18603,10 +18557,8 @@ struct S00e75340_Group {
     virtual void v49();
     virtual void v50();
     virtual void PrepareForRemoval();
-    void FUN_00e818d0(int);
 };
 struct S00e75340_Alpha {
-    void FUN_00e7db70(S00e75340_Group** pp);
 };
 struct S00e75340_Renderer {
     void __thiscall FUN_00e75340(S00e75340_Group* volatile group);
@@ -18619,7 +18571,6 @@ struct ShaderDeclStandIn
 };
 void* __cdecl _memmove(void*, const void*, unsigned int);
 void* _fnv_zlib_memset(void*, int, unsigned int);
-unsigned int CopyPackedVerts(PackShortInfo* pkInfo);
 void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
 void* __cdecl _memmove(void*, const void*, unsigned int);
 static inline void S00e783b0_Pad(unsigned char* pucPad, unsigned short usCopy)
@@ -18628,8 +18579,6 @@ static inline void S00e783b0_Pad(unsigned char* pucPad, unsigned short usCopy)
         *pucPad++ = 0;
     }
 }
-unsigned int __cdecl FUN_00e783b0(StreamCopyInfo* pkInfo);
-unsigned int FUN_00e78a70(Stream_e78910* s);
 void* memcpy(void*,const void*,unsigned int);
 struct Stream78 {
  unsigned short type, unk02;
@@ -18644,8 +18593,6 @@ struct Stream78 {
  unsigned int unk24,unk28;
  char* pucDest;
 };
-unsigned int FUN_00e78e30(Stream78* pkInfo);
-unsigned int __cdecl DecodeVertexData(NormalizedStream* s);
 struct E7Context {
     unsigned int destFormat, sourceFormat;
     unsigned short count;
@@ -18662,7 +18609,6 @@ struct E7Registry { void* vtable; E7Bucket** buckets; };
 struct E7Descriptor { unsigned int unk00, unk04; int semantic; unsigned int format; };
 struct E7Skin { unsigned int unk00, unk04; void* weights; void* indices; void* packed; unsigned int unk14, unk18, unk1c, unk20; unsigned short components; };
 struct BSFaceGenModel {
-    bool FUN_00a72720(int, void*, void*, void*, void*, void*, void*);
 };
 struct NiPoint2;
 struct NiGeometryData {
@@ -18674,27 +18620,20 @@ struct NiGeometryData {
     void* colors;
     unsigned int unk2c;
     BSFaceGenModel* model;
-    NiPoint2* FUN_00a66960(unsigned short);
 };
-unsigned int __stdcall ConvertGeometryData(unsigned short count, NiGeometryData* geometry, unsigned int unused, E7Skin* skin, E7Descriptor* desc, unsigned int destStride, void* dest, bool flag, unsigned int extra);
-void FUN_00e7a8b0(int key, int* outA, int* outB);
-extern MemoryManager g_memoryManager;
 struct FUN_00e6eaf0 {
     virtual ~FUN_00e6eaf0();
     int m04;
     void* m08;
-    static void operator delete(void* p) { g_memoryManager.Deallocate(p); }
+    static void operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p); }
 };
-extern MemoryManager g_memoryManager;
 struct FUN_00e6eb70 {
  void* m_04;
  virtual ~FUN_00e6eb70();
- static void operator delete(void* p) { g_memoryManager.Deallocate(p); }
+ static void operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p); }
 };
-extern MemoryManager g_memoryManager;
 struct FUN_00e72df0 { void* m_04; virtual ~FUN_00e72df0(); static void operator delete(void*); };
-void FUN_00e72df0::operator delete(void* p) { g_memoryManager.Deallocate(p); }
-extern class MemoryManager g_memoryManager;
+void FUN_00e72df0::operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p); }
 struct FUN_00e7a610 {
  void* m_ptr;
  virtual ~FUN_00e7a610();
@@ -18702,7 +18641,7 @@ struct FUN_00e7a610 {
 };
 void FUN_00e7a610::operator delete(void* p)
 {
- g_memoryManager.Deallocate(p);
+ reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
 }
 struct D3DCapsStandIn;
 class IDevice {
@@ -18718,13 +18657,11 @@ public:
 };
 extern "C" int fnv_CopyFilePath(char*,unsigned int,const char*,unsigned int);
 extern char DAT_011f4648[256];
-void __cdecl NiOutputDebugString_stub(const char*);
 void __cdecl FUN_00e7f830(int);
 void __cdecl FUN_00e7f840(int);
 void __cdecl FUN_00e7f850(int);
 extern bool DAT_0126f0d1;
 extern bool DAT_0126f0d2;
-extern unsigned int DAT_0126f050;
 extern unsigned int DAT_0126f054;
 extern unsigned int DAT_0126f058;
 extern unsigned int DAT_0126f05c;
@@ -18748,7 +18685,6 @@ extern unsigned int DAT_0126f0a0;
 extern unsigned int DAT_0126f0a4;
 extern unsigned int DAT_0126f0a8;
 extern unsigned int DAT_0126f0ac;
-extern unsigned int DAT_0126f0b0;
 extern unsigned int DAT_0126f0b4;
 extern unsigned int DAT_0126f0b8;
 extern unsigned int DAT_0126f0bc;
@@ -19407,11 +19343,7 @@ public:
     }
 };
 extern unsigned char DAT_0126efd1;
-extern unsigned char DAT_011a9604;
-extern NiPoint3 NiPoint3_ZERO;
 extern float DAT_0126efd4;
-extern const double DAT_0106d4c8;
-extern const float DAT_01012054;
 struct CameraVector18 { float x,y,z,w; };
 inline float clipDotView(const CameraVector18& a, const CameraVector18& b) { return a.x*b.x+a.y*b.y+a.z*b.z+a.w*b.w; }
 inline CameraVector18 clipScaleView(const CameraVector18& a, float s) { __declspec(align(16)) CameraVector18 r; r.x=a.x*s; r.y=a.y*s; r.z=a.z*s; r.w=a.w*s; return r; }
@@ -19438,10 +19370,6 @@ struct CameraMgrView {
     virtual void SetRange(float, float);
     virtual bool IsLeftHanded();
 };
-NiPoint3* __stdcall FUN_00ee6e34(NiPoint3*, const NiPoint3*, const D3DMATRIX_Custom*);
-NiPoint3* __stdcall FUN_00ee6dec(NiPoint3*, const NiPoint3*);
-NiPoint3* __stdcall FUN_00ee6df8(NiPoint3*, const NiPoint3*, const D3DMATRIX_Custom*);
-void __stdcall FUN_00ee6de0(D3DMATRIX_Custom*, const D3DMATRIX_Custom*, const D3DMATRIX_Custom*);
 inline float dotView(const NiPoint3& a, const NiPoint3& b) { return a.x*b.x+a.y*b.y+a.z*b.z; }
 struct CameraRenderer18 {
     unsigned int unk000;
@@ -20064,9 +19992,10 @@ struct NiPixelFormat {
     unsigned int m_uiRendererHint;
     unsigned int m_uiExtraData;
     NiComponentSpec m_akComponents[4];
+public:
+    bool operator!=(const ::NiPixelFormat &) const;
 };
 struct MMStandIn {
-    void* FUN_00aa3e40(unsigned int size);
 };
 struct RendererStateSlot {
     NiPixelFormat* m_pkFormat;
@@ -20447,7 +20376,7 @@ struct BridgeFields {
     unsigned int m_ui5d0;
 };
 struct NPFNew : NiPixelFormat {
-    static void* operator new(unsigned int size) { return ((MMStandIn*)&g_memoryManager)->FUN_00aa3e40(size); }
+    static void* operator new(unsigned int size) { return reinterpret_cast<::MemoryManagerStandIn *>((((MMStandIn*)&g_memoryManager)))->FUN_00aa3e40(size); }
     NPFNew(const NiPixelFormat& o) : NiPixelFormat(o) {}
 };
 class DeviceE6DF {
@@ -20466,25 +20395,7 @@ public:
                                         unsigned int d, unsigned int e, unsigned int f);
 };
 extern const NiPixelFormat DAT_011aa888;
-extern const NiPixelFormat DAT_011aa8d0;
-extern const NiPixelFormat DAT_011aa960;
-extern const NiPixelFormat DAT_011aa9f0;
-extern const NiPixelFormat DAT_011aaac8;
-extern const NiPixelFormat DAT_011aa498;
-extern const NiPixelFormat DAT_011aa4e0;
-extern const NiPixelFormat DAT_011aa528;
-extern const NiPixelFormat DAT_011aa408;
-extern const NiPixelFormat DAT_011aad08;
-extern const NiPixelFormat DAT_011aa450;
-extern const NiPixelFormat DAT_011aab58;
 extern const NiPixelFormat DAT_011aa720;
-extern const NiPixelFormat DAT_011aa768;
-extern const NiPixelFormat DAT_011aa6d8;
-extern const NiPixelFormat DAT_011aa648;
-extern const NiPixelFormat DAT_011aa5b8;
-extern const NiPixelFormat DAT_011aa600;
-extern const NiPixelFormat DAT_011aa690;
-extern const NiPixelFormat DAT_011aa570;
 struct Packet;
 struct Inner {
     unsigned int unk00;
@@ -20542,7 +20453,6 @@ struct Packet {
     unsigned int f48;
     unsigned int f4c;
     unsigned int f50;
-    bool __thiscall FUN_00e8eeb0();
     StreamObj* GetStream(unsigned int uiIndex) {
         return uiIndex < count ? streams[uiIndex] : 0;
     }
@@ -20562,10 +20472,11 @@ struct NewObj {
     }
 };
 struct Map610 {
-    bool __thiscall FUN_00a53c30(unsigned int uiKey, unsigned int* puiOut);
-    void __thiscall InsertOrUpdate(unsigned int uiKey, void* pkObj);
 };
 void* __cdecl FUN_00aa13e0(unsigned int size);
+struct C_00e8f010;
+struct TwoComponentVector;
+struct VBEntry;
 struct ThisObj {
     unsigned int unk000;
 unsigned int unk004;
@@ -20956,13 +20867,13 @@ unsigned int unk604;
 unsigned int unk608;
 unsigned int unk60c;
     Map610 map;
-    bool __thiscall BuildPacket(Packet* pkPacket, void* pkModel, Entry* pkEntry, void* pkGeom);
     bool __thiscall BuildPacketEntries(void* a1, void* pkModel, Arg3* pkArg3, void* pkGeom, void* a5, void* a6);
+public:
+    ::VBEntry *FUN_00e8c570(::C_00e8f010 *, unsigned short, const ::TwoComponentVector *, const float *, const unsigned int *, unsigned int, ::VBEntry *, void *);
 };
 extern "C" void* __cdecl memset(void*,int,unsigned int);
 extern "C" void* __cdecl FUN_00ec61c0(void*,int,unsigned int);
 struct InitAdapterList;
-extern InitAdapterList* DAT_0126f0e8;
 struct InitRenderer;
 struct InitPresent {
  unsigned width, height, format, backBufferCount, multiSampleType, multiSampleQuality, swapEffect;
@@ -21045,8 +20956,8 @@ struct InitState {
  virtual void SetColor(void*, unsigned);
  virtual void SetDepth(void*);
 };
-struct InitSmartState { InitState* pointer; __forceinline InitSmartState(InitState* p) { FUN_00b6aed0(p); } InitSmartState(const InitSmartState&); void FUN_00b6aed0(InitState*); };
-struct InitStateMap { void FUN_00e72cf0(unsigned, InitSmartState); };
+struct InitSmartState { InitState* pointer; __forceinline InitSmartState(InitState* p) { new ((void *)this) ::FUN_00b6aed0((::B6AED0RefObject *)(p)); } InitSmartState(const InitSmartState&);  };
+struct InitStateMap {  };
 struct InitDevice { void* table; };
 struct InitBuffer { unsigned field0, valid; static InitBuffer* Valid(InitBuffer* b) { return b->valid ? b : 0; } static InitBuffer* Valid2(InitBuffer* b) { if(b->valid) return b; return 0; } };
 struct InitAdapter {
@@ -21355,7 +21266,6 @@ struct InitCaps {
 };
 struct InitManager {
  virtual void slot0(); virtual unsigned GetBuffer(unsigned);
- void FUN_00e88c20(bool);
 };
 struct InitVertexManager { void* table; };
 struct InitVertexTable {
@@ -21375,10 +21285,10 @@ struct InitVertexTable {
  void* slot12;
  void (__thiscall *Enable)(void*,unsigned);
 };
-struct InitTextureManager { InitTextureManager* FUN_00e8d0e0(InitDevice*); };
-struct InitLightManager { InitLightManager* FUN_00e8fb20(InitDevice*); };
-struct InitGeometryManager { InitGeometryManager* FUN_00e90a80(InitRenderer*); };
-struct InitShaderManager { InitShaderManager* FUN_00e8bae0(InitVertexManager*, InitDevice*); };
+struct InitTextureManager {  };
+struct InitLightManager {  };
+struct InitGeometryManager {  };
+struct InitShaderManager {  };
 struct InitObject {
 
  virtual void slot0();
@@ -21401,26 +21311,16 @@ struct InitObject {
  virtual void slot17();
  virtual void slot18();
  virtual void Initialize();
- InitObject* FUN_00e909e0();
 };
 struct NiFrustum {
  float left,right,top,bottom,nearDistance,farDistance; bool orthographic;
  NiFrustum(bool);
 };
-struct NiShaderFactory { static NiShaderFactory* GetInstance(); };
+struct NiShaderFactory {  };
 struct InitPoint { float x,y,z; };
 struct InitViewport { float left,right,top,bottom; };
-extern InitPoint DAT_011a9484, DAT_011a9478, DAT_011a946c, DAT_011f426c;
 extern float DAT_0126efd4;
 extern unsigned char DAT_0126efd1;
-bool __cdecl SetModeFlags(unsigned,unsigned*,unsigned*);
-unsigned __cdecl MapCodeToIndex(unsigned);
-InitCaps* __cdecl FUN_00e7d6b0(InitDevice*,InitPresent*,void**);
-void __cdecl FUN_00e7d850(InitDevice*,void**);
-InitState* __cdecl CreateShaderLevel(unsigned,InitRenderer*);
-InitVertexManager* __cdecl CreateRenderer(InitRenderer*,void*,unsigned);
-void __cdecl FUN_00e81940(InitRenderer*);
-InitManager* __cdecl FUN_00e88eb0(InitDevice*,InitTextureManager*);
 extern const char DAT_010ee20c[];
 extern const char DAT_010ee1c8[];
 extern const char DAT_010ee1a0[];
@@ -22229,44 +22129,9 @@ struct InitRenderer {
  unsigned fieldac8;
  unsigned fieldacc;
  bool tall;
- bool FUN_00e6bf50(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,InitPresent*);
- bool FUN_00e6c240(InitPresent*);
- bool InitializeRendererResources();
- void AssignRefObject(InitObject*);
  bool FUN_00e72e60(unsigned width,unsigned height,unsigned options,unsigned deviceWindow,unsigned focusWindow,unsigned adapterIndex,unsigned deviceChoice,unsigned p8,unsigned p9,unsigned p10,unsigned p11,unsigned p12,unsigned p13,unsigned p14);
 };
 typedef void (__cdecl *Callback)();
-void __cdecl cb_e76c30();
-void __cdecl cb_e76e30();
-void __cdecl cb_e77010();
-void __cdecl cb_e771f0();
-void __cdecl cb_e773b0();
-void __cdecl cb_e77590();
-void __cdecl cb_e77770();
-void __cdecl cb_e77950();
-void __cdecl cb_e77b50();
-void __cdecl cb_e77d00();
-void __cdecl cb_e77eb0();
-void __cdecl cb_e78060();
-void __cdecl cb_e78210();
-void __cdecl cb_e783b0();
-void __cdecl cb_e78880();
-void __cdecl cb_e78880_other();
-void __cdecl cb_e78910();
-void __cdecl cb_e78a70();
-void __cdecl cb_e78d50();
-void __cdecl cb_e78e30();
-void __cdecl cb_e78f80();
-void __cdecl cb_e79160();
-void __cdecl cb_e79370();
-void __cdecl cb_e79540();
-void __cdecl cb_e79760();
-void __cdecl cb_e79920();
-void __cdecl cb_e79b40();
-void __cdecl cb_e79d00();
-void __cdecl cb_e79f40();
-void __cdecl cb_e7a0a0();
-void __cdecl cb_e7cd40();
 struct CallbackArray { void* vtable; int* data; unsigned short capacity,size,used,grow; __declspec(noinline) void SetAt(unsigned int, int&); };
 void CallbackArray::SetAt(unsigned int index,int& value) {
  if(index>=size) {size=(unsigned short)(index+1);if(value!=0)++used;}
@@ -22293,7 +22158,6 @@ struct StreamE788 {
     int unk28;
     char* m_pcDst;
 };
-int __cdecl FUN_00e78880(StreamE788* pkStream);
 struct CopyFill { int value; };
 void* __cdecl FUN_00ec61c0(void* destination, int value, unsigned int count);
 void* __cdecl FUN_00ec44d0(void* destination, const void* source, unsigned int count);
@@ -22312,7 +22176,6 @@ struct CopyStreamData {
     int unk28;
     char* unk2C;
 };
-int __cdecl FUN_00e78d50(CopyStreamData* data);
 struct ParticlePoint {
  float x,y,z;
  ParticlePoint() {}
@@ -22432,8 +22295,6 @@ static __forceinline void WriteQuadVertex(S00e69ea0_Vtx* v, const S00e69ea0_Pt& 
 struct StripTransform { float rotation[3][3]; float translation[3]; float scale; };
 struct StripRGB { float r,g,b; };
 struct StripColor { float r,g,b,a; };
-extern bool DAT_0126f0d0;
-extern const char DAT_010eddd0[];
 struct StripIndexBuffer {
     virtual void __stdcall slot0();
     virtual void __stdcall slot1();
@@ -22686,8 +22547,6 @@ struct StripStream {
 struct StripRendererData {
     unsigned int GetStride(unsigned int stream) const { return stream < streamCount ? strides[stream] : 0; }
     void SetVertexCount(unsigned int count) { maxVertices = vertexCount = count; }
-    void FUN_00e8ef10(unsigned int);
-    void SetComPointer(unsigned int);
     unsigned int unk000;
     unsigned int flags;
     unsigned int unk008;
@@ -22711,8 +22570,6 @@ struct StripRendererData {
     unsigned int unk50;
 };
 struct StripGeometryData {
-    unsigned short FUN_00c25db0(unsigned int);
-    unsigned short FUN_00c25dd0();
     unsigned int unk000;
     unsigned int unk004;
     unsigned short fullCount; unsigned short unk0A;
@@ -22779,18 +22636,12 @@ struct StripGeometry {
     unsigned int unk0BC;
     StripShaderX* shader;
 };
-struct StripPackManager { void ProcessCollector(void*,StripGeometryData*,void*,void*,void*,void*); };
+struct StripPackManager {  };
 struct StripVertexManager {
-    void FUN_00e8bfa0(StripRendererData*,bool);
-    void* FUN_00e8bff0(void*,unsigned int,unsigned int,unsigned int);
-    void CopyAndRelease(void*);
 };
-struct StripIndexManager { StripIndexBuffer* AcquireCachedResource(unsigned int,unsigned int,unsigned int,unsigned int); };
+struct StripIndexManager {  };
 struct StripRenderer {
     void DrawExpanded(StripRendererData*, StripIndexBuffer*, unsigned int, void*, StripGeometryData*, StripStream*);
-    unsigned int FUN_00e69790();
-    unsigned int FUN_00e696a0();
-    void FUN_00e6d3a0(void*,void*,StripGeometryData*,unsigned int&,unsigned int&);
     void FUN_00e70720(StripGeometry*);
 
     unsigned int unk000;
@@ -23380,8 +23231,6 @@ struct LineBufferData {
     unsigned int unk30;
     unsigned int unk34;
     unsigned int m_uiBufferSize;
-    void FUN_00e8ef10(unsigned int uiStreamCount);
-    void FUN_00e8f010(unsigned int uiFVF);
 };
 struct LineGeomData {
     unsigned int unk00;
@@ -23518,18 +23367,11 @@ struct LineGeometry {
     LineShader* m_pShaderHandle;
 };
 struct LineGroupManager {
-    bool CreateLineGroup(void* pkGroup, LineGeomData* pkData, void* pkSkin, bool bStatic, unsigned int uiBones, unsigned int uiBonesPerVertex);
 };
 struct LineIBManager {
-    void* ResizeTempLineConnectivity(unsigned int uiVerts, unsigned char* pkFlags, unsigned int* puiIndexCount, unsigned int uiUnk, unsigned int uiFlag);
 };
 struct LineVBManager {
-    void FUN_00e8bfa0(LineBufferData* pkBuffData, unsigned int uiUnk);
-    float* FUN_00e8bff0(void* pkVB, unsigned int uiElapsedMilliseconds, unsigned int uiSize, unsigned int uiStride);
-    bool CopyAndRelease(void* pkVB);
 };
-extern const LineColorA g_kLineDefaultColor_e70be0;
-extern bool DAT_0126f0d0;
 struct LineRenderer {
     unsigned int unk000;
     unsigned int unk004;
@@ -24976,7 +24818,6 @@ struct Se745_StandinRenderer {
     unsigned int pad6f8;
     unsigned char m_6fc;
 
-    bool FUN_00e72c20(Se745_Src* a1, int a2);
     void FUN_00e745a0(Se745_Src* a1);
 };
 inline void* operator new(unsigned int, void* p){return p;}
@@ -24984,7 +24825,7 @@ namespace RendererReset {
 
 extern "C" void* __cdecl FUN_00ec61c0(void*,int,unsigned int);extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
-typedef InitPoint Vec;extern "C" unsigned char DAT_0126efd8[118];
+typedef InitPoint Vec;
 
 struct Ref {virtual void slot0();virtual void Destroy();volatile long count;};struct Ptr {Ref* object;void Clear(){Ref* old=object;if(old){if(!InterlockedDecrement(&old->count))old->Destroy();object=0;}}};
 
@@ -24994,7 +24835,7 @@ struct Matrix {float data[16];};
 
 struct Renderer {unsigned int unk0;unsigned int unk4;unsigned int unk8;unsigned int unkc;unsigned int unk10;unsigned int unk14;unsigned int unk18;unsigned int unk1c;unsigned int unk20;unsigned int unk24;unsigned int unk28;unsigned int unk2c;unsigned int unk30;unsigned int unk34;unsigned int unk38;unsigned int unk3c;unsigned int unk40;unsigned int unk44;unsigned int unk48;unsigned int unk4c;unsigned int unk50;unsigned int unk54;unsigned int unk58;unsigned int unk5c;unsigned int unk60;unsigned int unk64;unsigned int unk68;unsigned int unk6c;unsigned int unk70;unsigned int unk74;unsigned int unk78;unsigned int unk7c;unsigned int unk80;unsigned int unk84;unsigned int unk88;unsigned int unk8c;unsigned int unk90;unsigned int unk94;unsigned int unk98;unsigned int unk9c;unsigned int unka0;unsigned int unka4;unsigned int unka8;unsigned int unkac;unsigned int unkb0;unsigned int unkb4;unsigned int unkb8;unsigned int unkbc;unsigned int unkc0;unsigned int unkc4;unsigned int unkc8;unsigned int unkcc;unsigned int unkd0;unsigned int unkd4;unsigned int unkd8;unsigned int unkdc;unsigned int unke0;unsigned int unke4;unsigned int unke8;unsigned int unkec;unsigned int unkf0;unsigned int unkf4;unsigned int unkf8;unsigned int unkfc;unsigned int unk100;unsigned int unk104;unsigned int unk108;unsigned int unk10c;unsigned int unk110;unsigned int unk114;unsigned int unk118;unsigned int unk11c;unsigned int unk120;unsigned int unk124;unsigned int unk128;unsigned int unk12c;unsigned int unk130;unsigned int unk134;unsigned int unk138;unsigned int unk13c;unsigned int unk140;unsigned int unk144;unsigned int unk148;unsigned int unk14c;unsigned int unk150;unsigned int unk154;unsigned int unk158;unsigned int unk15c;unsigned int unk160;unsigned int unk164;unsigned int unk168;unsigned int unk16c;unsigned int unk170;unsigned int unk174;unsigned int unk178;unsigned int unk17c;unsigned int unk180;unsigned int unk184;unsigned int unk188;unsigned int unk18c;unsigned int unk190;unsigned int unk194;unsigned int unk198;unsigned int unk19c;unsigned int unk1a0;unsigned int unk1a4;unsigned int unk1a8;unsigned int unk1ac;unsigned int unk1b0;unsigned int unk1b4;unsigned int unk1b8;unsigned int unk1bc;unsigned int unk1c0;unsigned int unk1c4;unsigned int unk1c8;unsigned int unk1cc;unsigned int unk1d0;unsigned int unk1d4;unsigned int unk1d8;unsigned int unk1dc;unsigned int unk1e0;unsigned int unk1e4;unsigned int unk1e8;unsigned int unk1ec;unsigned int unk1f0;unsigned int unk1f4;unsigned int unk1f8;unsigned int unk1fc;unsigned int unk200;unsigned int unk204;unsigned int unk208;unsigned int unk20c;unsigned int unk210;unsigned int unk214;unsigned int unk218;unsigned int unk21c;unsigned int unk220;unsigned int unk224;unsigned int unk228;unsigned int unk22c;unsigned int unk230;unsigned int unk234;unsigned int unk238;unsigned int unk23c;unsigned int unk240;unsigned int unk244;unsigned int unk248;unsigned int unk24c;unsigned int unk250;unsigned int unk254;unsigned int unk258;unsigned int unk25c;unsigned int unk260;unsigned int unk264;unsigned int unk268;unsigned int unk26c;unsigned int unk270;unsigned int unk274;unsigned int unk278;unsigned int unk27c;unsigned int unk280;unsigned int unk284;unsigned int unk288;unsigned int unk28c;unsigned int unk290;unsigned int unk294;unsigned int unk298;unsigned int unk29c;unsigned int unk2a0;unsigned int unk2a4;unsigned int unk2a8;unsigned int unk2ac;unsigned int unk2b0;unsigned int unk2b4;unsigned int unk2b8;unsigned int unk2bc;unsigned int unk2c0;unsigned int unk2c4;unsigned int unk2c8;unsigned int unk2cc;unsigned int unk2d0;unsigned int unk2d4;unsigned int unk2d8;unsigned int unk2dc;unsigned int unk2e0;unsigned int unk2e4;unsigned int unk2e8;unsigned int unk2ec;unsigned int unk2f0;unsigned int unk2f4;unsigned int unk2f8;unsigned int unk2fc;unsigned int unk300;unsigned int unk304;unsigned int unk308;unsigned int unk30c;unsigned int unk310;unsigned int unk314;unsigned int unk318;unsigned int unk31c;unsigned int unk320;unsigned int unk324;unsigned int unk328;unsigned int unk32c;unsigned int unk330;unsigned int unk334;unsigned int unk338;unsigned int unk33c;unsigned int unk340;unsigned int unk344;unsigned int unk348;unsigned int unk34c;unsigned int unk350;unsigned int unk354;unsigned int unk358;unsigned int unk35c;unsigned int unk360;unsigned int unk364;unsigned int unk368;unsigned int unk36c;unsigned int unk370;unsigned int unk374;unsigned int unk378;unsigned int unk37c;unsigned int unk380;unsigned int unk384;unsigned int unk388;unsigned int unk38c;unsigned int unk390;unsigned int unk394;unsigned int unk398;unsigned int unk39c;unsigned int unk3a0;unsigned int unk3a4;unsigned int unk3a8;unsigned int unk3ac;unsigned int unk3b0;unsigned int unk3b4;unsigned int unk3b8;unsigned int unk3bc;unsigned int unk3c0;bool b3c4;unsigned char unk3c5;unsigned char unk3c6;unsigned char unk3c7;unsigned int unk3c8;unsigned int unk3cc;unsigned int unk3d0;unsigned int unk3d4;unsigned int unk3d8;unsigned int unk3dc;unsigned int unk3e0;unsigned int unk3e4;unsigned int unk3e8;unsigned int unk3ec;unsigned int unk3f0;unsigned int unk3f4;unsigned int unk3f8;unsigned int unk3fc;unsigned int unk400;unsigned int unk404;unsigned int unk408;unsigned int unk40c;unsigned int unk410;unsigned int unk414;unsigned int unk418;unsigned int unk41c;unsigned int unk420;unsigned int unk424;unsigned int unk428;unsigned int unk42c;unsigned int unk430;unsigned int unk434;unsigned int unk438;unsigned int unk43c;unsigned int unk440;unsigned int unk444;unsigned int unk448;unsigned int unk44c;unsigned int unk450;unsigned int unk454;unsigned int unk458;unsigned int unk45c;unsigned int unk460;unsigned int unk464;unsigned int unk468;unsigned int unk46c;unsigned int unk470;unsigned int unk474;unsigned int unk478;unsigned int unk47c;unsigned int unk480;unsigned int unk484;unsigned int unk488;unsigned int unk48c;unsigned int unk490;unsigned int unk494;unsigned int unk498;unsigned int unk49c;unsigned int unk4a0;unsigned int unk4a4;unsigned int unk4a8;unsigned int unk4ac;unsigned int unk4b0;unsigned int unk4b4;unsigned int unk4b8;unsigned int unk4bc;unsigned int unk4c0;unsigned int unk4c4;unsigned int unk4c8;unsigned int unk4cc;unsigned int unk4d0;unsigned int unk4d4;unsigned int unk4d8;unsigned int unk4dc;unsigned int unk4e0;unsigned int unk4e4;unsigned int unk4e8;unsigned int unk4ec;unsigned int unk4f0;unsigned int unk4f4;unsigned int unk4f8;unsigned int unk4fc;unsigned int unk500;unsigned int unk504;unsigned int unk508;unsigned int unk50c;unsigned int unk510;unsigned int unk514;unsigned int unk518;unsigned int unk51c;unsigned int unk520;unsigned int unk524;unsigned int unk528;unsigned int unk52c;unsigned int unk530;unsigned int unk534;unsigned int unk538;unsigned int unk53c;unsigned int unk540;unsigned int unk544;unsigned int unk548;unsigned int unk54c;unsigned int unk550;unsigned int unk554;unsigned int unk558;unsigned int unk55c;unsigned int unk560;unsigned int unk564;unsigned int unk568;unsigned int unk56c;unsigned int unk570;unsigned int unk574;unsigned int unk578;unsigned int unk57c;unsigned int unk580;unsigned int unk584;unsigned int unk588;unsigned int unk58c;unsigned int unk590;unsigned int unk594;unsigned int unk598;unsigned int unk59c;unsigned int unk5a0;unsigned int unk5a4;unsigned int unk5a8;unsigned int unk5ac;unsigned int unk5b0;unsigned int unk5b4;unsigned int unk5b8;unsigned int unk5bc;unsigned int unk5c0;unsigned int unk5c4;unsigned int unk5c8;unsigned int unk5cc;unsigned int unk5d0;bool b5d4;bool b5d5;unsigned char unk5d6;unsigned char unk5d7;unsigned int unk5d8;unsigned int unk5dc;unsigned int unk5e0;float unk5e4;unsigned int unk5e8;unsigned int unk5ec;bool b5f0;unsigned char unk5f1;unsigned char unk5f2;unsigned char unk5f3;unsigned int unk5f4;unsigned int unk5f8;unsigned int unk5fc;unsigned int unk600;unsigned int unk604;unsigned int unk608;unsigned int unk60c;unsigned int unk610;unsigned int unk614;unsigned int unk618;unsigned int unk61c;unsigned int unk620;unsigned int unk624;unsigned int unk628;unsigned int unk62c;unsigned int unk630;Vec v634;Vec v640;Vec v64c;Vec v658;unsigned int unk664;unsigned int unk668;unsigned int unk66c;unsigned int unk670;unsigned int unk674;unsigned int unk678;unsigned int unk67c;unsigned int unk680;float unk684;float unk688;Matrix matrix;unsigned int unk6cc;unsigned int unk6d0;unsigned int unk6d4;unsigned int unk6d8;float unk6dc;float unk6e0;unsigned int unk6e4;unsigned int unk6e8;unsigned int unk6ec;unsigned int unk6f0;bool b6f4;bool b6f5;unsigned char unk6f6;unsigned char unk6f7;unsigned int unk6f8;bool b6fc;unsigned char unk6fd;unsigned char unk6fe;unsigned char unk6ff;State states[4];unsigned int counters[4];Ptr refs[4];unsigned int unk880;unsigned int unk884;unsigned int unk888;unsigned int unk88c;unsigned int unk890;unsigned int unk894;unsigned int unk898;unsigned int unk89c;unsigned int unk8a0;bool b8a4;bool b8a5;unsigned char unk8a6;unsigned char unk8a7;unsigned int unk8a8;unsigned int unk8ac;unsigned int unk8b0;unsigned int unk8b4;unsigned int unk8b8;unsigned int unk8bc;unsigned int unk8c0;unsigned int unk8c4;unsigned int unk8c8;unsigned int unk8cc;unsigned int unk8d0;unsigned int unk8d4;unsigned int unk8d8;unsigned int unk8dc;unsigned int unk8e0;unsigned int unk8e4;unsigned int unk8e8;unsigned int unk8ec;unsigned int unk8f0;unsigned int unk8f4;unsigned int unk8f8;unsigned int unk8fc;unsigned int unk900;unsigned int unk904;unsigned int unk908;unsigned int unk90c;unsigned int unk910;unsigned int unk914;unsigned int unk918;unsigned int unk91c;unsigned int unk920;unsigned int unk924;unsigned int unk928;unsigned int unk92c;unsigned int unk930;unsigned int unk934;unsigned int unk938;unsigned int unk93c;unsigned int unk940;unsigned int unk944;unsigned int unk948;float unk94c;unsigned int unk950;unsigned int unk954;unsigned int unk958;float unk95c;unsigned int unk960;unsigned int unk964;unsigned int unk968;float unk96c;unsigned int unk970;unsigned int unk974;unsigned int unk978;float unk97c;unsigned int unk980;unsigned int unk984;unsigned int unk988;unsigned int unk98c;unsigned int unk990;unsigned int unk994;unsigned int unk998;unsigned int unk99c;unsigned int unk9a0;unsigned int unk9a4;unsigned int unk9a8;unsigned int unk9ac;unsigned int unk9b0;unsigned int unk9b4;unsigned int unk9b8;unsigned int unk9bc;unsigned int unk9c0;unsigned int unk9c4;unsigned int unk9c8;unsigned int unk9cc;unsigned int unk9d0;unsigned int unk9d4;unsigned int unk9d8;unsigned int unk9dc;unsigned int unk9e0;unsigned int unk9e4;unsigned int unk9e8;unsigned int unk9ec;unsigned int unk9f0;unsigned int unk9f4;unsigned int unk9f8;unsigned int unk9fc;unsigned int unka00;unsigned int unka04;unsigned int unka08;unsigned int unka0c;unsigned int unka10;unsigned int unka14;unsigned int unka18;unsigned int unka1c;unsigned int unka20;unsigned int unka24;unsigned int unka28;unsigned int unka2c;unsigned int unka30;unsigned int unka34;unsigned int unka38;unsigned int unka3c;unsigned int unka40;unsigned int unka44;unsigned int unka48;unsigned int unka4c;unsigned int unka50;unsigned int unka54;unsigned int unka58;unsigned int unka5c;unsigned int unka60;unsigned int unka64;unsigned int unka68;unsigned int unka6c;unsigned int unka70;unsigned int unka74;unsigned int unka78;unsigned int unka7c;unsigned int unka80;unsigned int unka84;unsigned int unka88;unsigned short wA8c;unsigned short unkA8e;unsigned int unka90;unsigned int unka94;unsigned int unka98;unsigned int unka9c;unsigned int unkaa0;unsigned int unkaa4;unsigned int unkaa8;unsigned int unkaac;unsigned int unkab0;unsigned int unkab4;unsigned int unkab8;unsigned int unkabc;unsigned int unkac0;unsigned int unkac4;unsigned int unkac8;unsigned int unkacc;unsigned int unkad0;__forceinline void ResetColors(){unk5c4=0;unk3c0=0;unk5cc=0;unk5d0=0;b5d4=false;b5d5=false;unk6e4=0;unk6e8=0;unk6ec=0;unk6f0=0;b6f4=false;b6f5=false;unk8a0=0;b8a4=false;b8a5=false;unk6f8=0;b6fc=false;unk5e0=0xff808080;unk5e8=0;unk5ec=0;b5f0=false;unk5c8=1;
 
-v634=DAT_011a946c;v640=DAT_011a9478;v64c=DAT_011a946c;v658=DAT_011a9478;unk684=0.1f;}
+v634=(*reinterpret_cast<::InitPoint *>(&::DAT_011a946c));v640=(*reinterpret_cast<::InitPoint *>(&::DAT_011a9478));v64c=(*reinterpret_cast<::InitPoint *>(&::DAT_011a946c));v658=(*reinterpret_cast<::InitPoint *>(&::DAT_011a9478));unk684=0.1f;}
 void FUN_00e6b990();};
 
 // @fnv 0x00e6b990
@@ -25004,109 +24845,108 @@ unk5e4=1.0f;unk3bc=0;b3c4=false;ResetColors();unk688=100.0f;FUN_00ec61c0(&matrix
 
 for(unsigned int i=0;i<4;++i){states[i].Clear();counters[i]=0;refs[i].Clear();}
 
-unk96c=unk95c=unk94c=0.0f;unk97c=1.0f;unk880=22;unk888=0;unk88c=0;unk8bc=0;unk8c0=0;unk8c4=0;unk8b8=0;unk8c8=0;unk8ac=0;unk8b0=0;unk8b4=0;unka80=0;unka84=0;unka88=0;unka90=0;wA8c=0;unka94=0;unk280=0;unk284=0;FUN_00ec61c0(DAT_0126efd8,0,118);
+unk96c=unk95c=unk94c=0.0f;unk97c=1.0f;unk880=22;unk888=0;unk88c=0;unk8bc=0;unk8c0=0;unk8c4=0;unk8b8=0;unk8c8=0;unk8ac=0;unk8b0=0;unk8b4=0;unka80=0;unka84=0;unka88=0;unka90=0;wA8c=0;unka94=0;unk280=0;unk284=0;FUN_00ec61c0((*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8)),0,118);
 
-DAT_0126efd8[20]=24;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[20]=24;
 
-DAT_0126efd8[21]=32;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[21]=32;
 
-DAT_0126efd8[22]=32;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[22]=32;
 
-DAT_0126efd8[23]=16;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[23]=16;
 
-DAT_0126efd8[24]=16;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[24]=16;
 
-DAT_0126efd8[25]=16;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[25]=16;
 
-DAT_0126efd8[26]=16;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[26]=16;
 
-DAT_0126efd8[27]=8;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[27]=8;
 
-DAT_0126efd8[28]=8;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[28]=8;
 
-DAT_0126efd8[29]=16;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[29]=16;
 
-DAT_0126efd8[30]=16;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[30]=16;
 
-DAT_0126efd8[31]=32;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[31]=32;
 
-DAT_0126efd8[32]=32;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[32]=32;
 
-DAT_0126efd8[33]=32;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[33]=32;
 
-DAT_0126efd8[34]=32;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[34]=32;
 
-DAT_0126efd8[35]=32;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[35]=32;
 
-DAT_0126efd8[36]=64;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[36]=64;
 
-DAT_0126efd8[40]=16;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[40]=16;
 
-DAT_0126efd8[41]=8;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[41]=8;
 
-DAT_0126efd8[50]=8;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[50]=8;
 
-DAT_0126efd8[51]=16;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[51]=16;
 
-DAT_0126efd8[52]=8;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[52]=8;
 
-DAT_0126efd8[60]=16;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[60]=16;
 
-DAT_0126efd8[61]=16;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[61]=16;
 
-DAT_0126efd8[62]=32;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[62]=32;
 
-DAT_0126efd8[63]=32;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[63]=32;
 
-DAT_0126efd8[64]=32;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[64]=32;
 
-DAT_0126efd8[67]=32;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[67]=32;
 
-DAT_0126efd8[70]=16;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[70]=16;
 
-DAT_0126efd8[71]=32;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[71]=32;
 
-DAT_0126efd8[73]=16;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[73]=16;
 
-DAT_0126efd8[75]=32;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[75]=32;
 
-DAT_0126efd8[77]=32;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[77]=32;
 
-DAT_0126efd8[79]=32;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[79]=32;
 
-DAT_0126efd8[80]=16;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[80]=16;
 
-DAT_0126efd8[82]=32;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[82]=32;
 
-DAT_0126efd8[83]=32;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[83]=32;
 
-DAT_0126efd8[81]=16;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[81]=16;
 
-DAT_0126efd8[101]=16;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[101]=16;
 
-DAT_0126efd8[102]=32;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[102]=32;
 
-DAT_0126efd8[110]=64;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[110]=64;
 
-DAT_0126efd8[111]=16;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[111]=16;
 
-DAT_0126efd8[112]=32;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[112]=32;
 
-DAT_0126efd8[113]=64;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[113]=64;
 
-DAT_0126efd8[114]=32;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[114]=32;
 
-DAT_0126efd8[115]=64;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[115]=64;
 
-DAT_0126efd8[116]=128;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[116]=128;
 
-DAT_0126efd8[117]=16;
+(*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8))[117]=16;
 
 }
 
 }
 struct NiRTTIStub { const char* m_pcName; const NiRTTIStub* m_pBaseRTTI; };
-extern const NiRTTIStub NiDX92DBufferData_ms_RTTI;
 struct ScrRect { unsigned int m_fMinimumU; unsigned int m_fMaximumU; unsigned int m_fMinimumV; unsigned int m_fMaximumV; };
 struct ScrD3DRect { long left; long top; long right; long bottom; };
 struct ScrLockedRect { int Pitch; void* pBits; };
@@ -25137,7 +24977,6 @@ struct ScrDX92DBufferData {
     ScrSurface* m_pkSurface;
 };
 struct ScrRendererData {
-    ScrDX92DBufferData* DynCast(const NiRTTIStub* pkRTTI);
 };
 struct ScrTargetGroup {
     virtual void v00(); virtual void v01(); virtual void v02(); virtual void v03(); virtual void v04();
@@ -25238,7 +25077,6 @@ struct Xf {
     float m[3][3];
     NiPoint3 t;
     float scale;
-    void FUN_004b4880(Xf* out);
     Xf operator*(const Xf& rhs) const;
 };
 struct BoneXform {
@@ -25301,8 +25139,6 @@ struct ScaleSink {
 };
 void* __cdecl NiAlignedAlloc(unsigned int count, unsigned int align);
 void __cdecl BuildWorldToSkinTransform(NiWorldToSkin*, const NiTransform*, const NiPoint3*, float);
-void __cdecl FUN_00b71a40(NiWorldToSkin* out, const Xf* xf, const NiPoint3* pt, float scale);
-extern double DAT_0106d508;
 extern float DAT_0106b9e0;
 struct BoneHost : NiDX9Renderer {
     unsigned int unk8A4;
@@ -25331,9 +25167,6 @@ struct PresentationParameters {
 };
 struct PresentationCaps { unsigned unk00, unk04, unk08, unk0c, unk10, unk14, intervals; };
 struct PresentationFormats {
-    unsigned __thiscall FindFormatValue(bool windowed, unsigned previousRefreshRate);
-    unsigned __thiscall FUN_00e7b0f0(unsigned format, unsigned backFormat, unsigned previousRefreshRate, unsigned stencil);
-    unsigned __thiscall FUN_00e7b190(unsigned format, unsigned width, unsigned height, unsigned* rate);
 };
 struct PresentationDevice {
     virtual void __stdcall method00();
@@ -25349,10 +25182,6 @@ struct PresentationDevice {
     virtual void __stdcall method10();
     virtual long __stdcall CheckMultisample(unsigned, unsigned, unsigned, int, unsigned, unsigned*);
 };
-unsigned __cdecl MapIndexToValue(unsigned);
-unsigned __cdecl FUN_00b6c200(unsigned);
-unsigned __cdecl FUN_00e69e50(unsigned);
-unsigned __cdecl MapCodeToIndex(unsigned);
 extern const char DAT_010ed800[];
 extern const char DAT_010ed7b8[];
 extern const char DAT_010ed778[];
@@ -25755,20 +25584,20 @@ bool PresentationRenderer::FUN_00e6bf50(void* window, unsigned width, unsigned h
     bitsPerPixel = 32;
     if (flags & 16) bitsPerPixel = 16;
     if (!format) {
-        format = formats->FindFormatValue(windowed, bitsPerPixel);
+        format = ((unsigned int)(reinterpret_cast<::TexFormatList *>((formats))->FindFormatValue(windowed, bitsPerPixel)));
         if (format == 0) {
             fnv_CopyFilePath(DAT_011f4648, 256, DAT_010ed800, 255);
-            FUN_00a29680(DAT_010ed7b8);
+            ::FUN_00a29680();
             return false;
         }
     }
     unsigned d3dFormat;
     d3dFormat = MapIndexToValue(format);
     if (!depthFormat) {
-        depthFormat = formats->FUN_00e7b0f0(GetValueForIndex(format), d3dFormat, bitsPerPixel, flags & 8);
+        depthFormat = ((unsigned int)(reinterpret_cast<::RendererE7B *>((formats))->FUN_00e7b0f0(GetValueForIndex(format), d3dFormat, bitsPerPixel, flags & 8)));
         if (!depthFormat) {
             fnv_CopyFilePath(DAT_011f4648, 256, DAT_010ed778, 255);
-            FUN_00a29680(DAT_010ed730);
+            ::FUN_00a29680();
             return false;
         }
     }
@@ -25776,7 +25605,7 @@ bool PresentationRenderer::FUN_00e6bf50(void* window, unsigned width, unsigned h
     out->width = width;
     out->height = height;
     out->format = d3dFormat;
-    unsigned samples = FUN_00b6c200(backCount);
+    unsigned samples = ((unsigned int)(::FUN_00b6c200(backCount)));
     out->multisampleType = samples;
     if (samples == 1) out->multisampleQuality = backCount & 0x7fffffff;
     else out->multisampleQuality = 0;
@@ -25798,11 +25627,11 @@ bool PresentationRenderer::FUN_00e6bf50(void* window, unsigned width, unsigned h
     out->flags = backCount == 1 ? 1UL : 0UL;
     out->window = window;
     out->refreshRate = PresentRefresh(refresh);
-    out->interval = FUN_00e69e50(interval);
+    out->interval = ::FUN_00e69e50(interval);
     PresentationDevice* device;
     device = (PresentationDevice*)DAT_0126f0d8;
     if (device->CheckMultisample(unk5c4, unk5c8, d3dFormat, windowed, samples, &quality) < 0) {
-        FUN_00a29680(DAT_010ed6d8);
+        ::FUN_00a29680();
         out->multisampleType = 0;
     } else if (quality <= out->multisampleQuality) {
         out->multisampleQuality = quality - 1;
@@ -25813,12 +25642,12 @@ bool PresentationRenderer::FUN_00e6bf50(void* window, unsigned width, unsigned h
     previousRefreshRate = out->refreshRate;
     if (out->windowed) out->refreshRate = 0;
     else {
-        if (!displayFormats->FUN_00e7b190(GetValueForIndex(MapCodeToIndex(out->format)), out->width, out->height, &out->refreshRate)) {
+        if (!((unsigned int)(reinterpret_cast<::Owner *>((displayFormats))->FUN_00e7b190(GetValueForIndex(MapCodeToIndex(out->format)), out->width, out->height, &out->refreshRate)))) {
             FUN_00e69ad0(DAT_010ed69c);
-            FUN_00a29680(DAT_010ed650);
+            ::FUN_00a29680();
             return false;
         }
-        if (previousRefreshRate != out->refreshRate) FUN_00a29680(DAT_010ed5f0);
+        if (previousRefreshRate != out->refreshRate) ::FUN_00a29680();
     }
     if (out->windowed) {
         if (out->interval != 0 && out->interval != 0x80000000 && out->interval != 1)
@@ -25829,7 +25658,6 @@ bool PresentationRenderer::FUN_00e6bf50(void* window, unsigned width, unsigned h
 
 typedef bool (__cdecl *ResetCallback)(bool,void*);
 struct ResetRTTI { const char* name; ResetRTTI* base; };
-extern ResetRTTI DAT_0126f5d8, DAT_0126f5ac;
 struct ResetObject;
 struct ResetFlagState { int a,b,c,d; ResetObject* data; };
 struct ResetObject {
@@ -25982,12 +25810,9 @@ virtual void unused61();
 virtual void unused62();
 virtual void unused63();
 virtual void Reset(); };
-struct ResetPhaseA { void FUN_00e8be20(); void FUN_00e8b170(); };
-struct ResetPhaseB { void FUN_00e8f6d0(); };
-struct ResetPhaseC { void FUN_00e8cd60(); };
-void ResetGlobalLost();
-void ResetGlobalRestore(void*);
-void ResetLog(const char*);
+struct ResetPhaseA {   };
+struct ResetPhaseB {  };
+struct ResetPhaseC {  };
 extern const char DAT_010ee2e8[], DAT_010ee298[], DAT_010ee238[];
 struct ResetDevice { void* v0; void* v1; void* v2; void* v3; void* v4; void* v5; void* v6; void* v7; void* v8; void* v9; void* v10; void* v11; void* v12; void* v13; void* v14; void* v15; int (__stdcall *Reset)(void*,void*); };
 struct ResetData { int a,b,c,d,e,f,g,h; int parameters; };
@@ -26763,43 +26588,42 @@ struct ResetRenderer {
  int unkae0;
  int unkae4;
  void** callbackData;
- bool Rebuild();
  bool FUN_00e736b0();
 };
 // @fnv 0x00e736b0
 bool ResetRenderer::FUN_00e736b0() {
- manager3->FUN_00e8be20(); manager2->FUN_00e8f6d0(); manager1->FUN_00e8cd60();
+ reinterpret_cast<::ControllerMapE8B *>((manager3))->FUN_00e8be20(); reinterpret_cast<::Owner8F6D0 *>((manager2))->FUN_00e8f6d0(); reinterpret_cast<::This_cd60 *>((manager1))->FUN_00e8cd60();
  FUN_00e7cc50((int*)device,1); FUN_00e7cc50((int*)device,2); FUN_00e7cc50((int*)device,3);
  long (__stdcall *decrement)(long volatile*)=InterlockedDecrement;
  ResetNode* pos=geometry.First();
- while(pos) { const char* key; ResetObject* obj=0; geometry.AdvanceIterator(pos,key,obj); ResetObject* object=obj;
- object->Buffer(0)->data->Cast(&DAT_0126f5d8)->Lost();
- ResetFlagState* other=object->OtherBuffer(); if(other && other->data) { ResetObject* data=other->data->Cast(&DAT_0126f5ac); if(data) data->Lost(); }
+ while(pos) { const char* key; ResetObject* obj=0; reinterpret_cast<::FUN_00e6e630_cls *>(&(geometry))->AdvanceIterator((::MapItemNode **)&(pos),(unsigned int *)&(key),(::MapValueObject **)&(obj)); ResetObject* object=obj;
+ object->Buffer(0)->data->Cast(&(*reinterpret_cast<::ResetRTTI *>(&::g_0126f5d8)))->Lost();
+ ResetFlagState* other=object->OtherBuffer(); if(other && other->data) { ResetObject* data=other->data->Cast(&(*reinterpret_cast<::ResetRTTI *>(&::g_0126f5ac))); if(data) data->Lost(); }
  if(!decrement((long*)&object->refs)) object->Destroy(); }
- { ResetNode* iter=map1.First(); while(iter) { ResetGeometry* key; ResetObject* value; map1.Next(iter,key,value); ReleaseGeometry(key); ((NiVBSet*)&map1)->Create((unsigned)key,0); } }
- { ResetNode* iter=map2.First(); while(iter) { ResetGeometry* key; ResetObject* value; map2.Next(iter,key,value); ReleaseGeometry(key); ((NiVBSet*)&map2)->Create((unsigned)key,0); } }
- { ResetNode* iter=map3.First(); while(iter) { ResetGeometry* key; ResetObject* value; map3.Next(iter,key,value); key->unk24=0; if(value) value->Delete(1); ((NiVBSet*)&map3)->Create((unsigned)key,0); } }
- ResetGlobalLost();
+ { ResetNode* iter=map1.First(); while(iter) { ResetGeometry* key; ResetObject* value; map1.Next(iter,key,value); ReleaseGeometry(key); reinterpret_cast<::HashTableBase *>((((NiVBSet*)&map1)))->InsertOrUpdate((unsigned)key,(unsigned int)(0)); } }
+ { ResetNode* iter=map2.First(); while(iter) { ResetGeometry* key; ResetObject* value; map2.Next(iter,key,value); ReleaseGeometry(key); reinterpret_cast<::HashTableBase *>((((NiVBSet*)&map2)))->InsertOrUpdate((unsigned)key,(unsigned int)(0)); } }
+ { ResetNode* iter=map3.First(); while(iter) { ResetGeometry* key; ResetObject* value; map3.Next(iter,key,value); key->unk24=0; if(value) value->Delete(1); reinterpret_cast<::HashTableBase *>((((NiVBSet*)&map3)))->InsertOrUpdate((unsigned)key,(unsigned int)(0)); } }
+ ::FUN_00e7cec0();
  { ResetResourceNode* iter=resources; while(iter) { ResetResourceList::Next(iter)->LostResource(); } }
  manager->Run();
  unsigned count=callbackCount;
- for(unsigned i=0;i<count;++i) { ResetCallback callback=callbacks[i]; void* data=callbackData[i]; if(callback && !callback(true,data)) { ResetLog(DAT_010ee2e8); return false; } }
- ResetObject* data=defaultGroup->Buffer(0)->data->Cast(&DAT_0126f5d8);
+ for(unsigned i=0;i<count;++i) { ResetCallback callback=callbacks[i]; void* data=callbackData[i]; if(callback && !callback(true,data)) { ::FUN_00a29680(); return false; } }
+ ResetObject* data=defaultGroup->Buffer(0)->data->Cast(&(*reinterpret_cast<::ResetRTTI *>(&::g_0126f5d8)));
  if((*(ResetDevice**)device)->Reset(device,&((ResetData*)data)->parameters)<0) return false;
  ++generation; state=0;
  pos=geometry.First();
- while(pos) { const char* key; ResetObject* obj=0; geometry.AdvanceIterator(pos,key,obj); ResetObject* object=obj;
- object->Buffer(0)->data->Cast(&DAT_0126f5d8)->Restore(device);
- ResetObject* other=object->Other(); if(other) { ResetObject* data=other->Cast(&DAT_0126f5ac); if(data) data->Restore(device); }
+ while(pos) { const char* key; ResetObject* obj=0; reinterpret_cast<::FUN_00e6e630_cls *>(&(geometry))->AdvanceIterator((::MapItemNode **)&(pos),(unsigned int *)&(key),(::MapValueObject **)&(obj)); ResetObject* object=obj;
+ object->Buffer(0)->data->Cast(&(*reinterpret_cast<::ResetRTTI *>(&::g_0126f5d8)))->Restore(device);
+ ResetObject* other=object->Other(); if(other) { ResetObject* data=other->Cast(&(*reinterpret_cast<::ResetRTTI *>(&::g_0126f5ac))); if(data) data->Restore(device); }
  if(!decrement((long*)&object->refs)) object->Destroy(); }
- if(!Rebuild()) { ResetLog(DAT_010ee298); return false; }
+ if(!reinterpret_cast<::RendererBridge *>(this)->InitializeRendererResources()) { ::FUN_00a29680(); return false; }
  { ResetNode* iter=map1.First(); while(iter) { ResetGeometry* key; ResetObject* value; map1.Next(iter,key,value); RestoreGeometry(key,key->unk3c); } }
  { ResetNode* iter=map2.First(); while(iter) { ResetGeometry* key; ResetObject* value; map2.Next(iter,key,value); RestoreOther(key); } }
  { ResetNode* iter=map3.First(); while(iter) { ResetGeometry* key; ResetObject* value; map3.Next(iter,key,value); RestoreThird(key); } }
- ResetGlobalRestore(device);
+ ::FUN_00e7cf00(device);
  { ResetResourceNode* iter=resources; while(iter) { ResetResourceList::Next(iter)->RestoreResource(); } }
- resourceManager->Reset(); manager3->FUN_00e8b170();
- for(unsigned i=0;i<count;++i) { ResetCallback callback=callbacks[i]; void* data=callbackData[i]; if(callback && !callback(false,data)) { ResetLog(DAT_010ee238); return false; } }
+ resourceManager->Reset(); reinterpret_cast<::FUN_00e8b170_cls *>((manager3))->FUN_00e8b170();
+ for(unsigned i=0;i<count;++i) { ResetCallback callback=callbacks[i]; void* data=callbackData[i]; if(callback && !callback(false,data)) { ::FUN_00a29680(); return false; } }
  return true;
 }
 
@@ -26815,7 +26639,6 @@ struct Buffer767 { unsigned unk00,unk04; VertexCOM767* buffer; unsigned offset, 
 struct StreamData767 {
     unsigned unk00,unk04,unk08,unk0c,unk10; bool software;
     unsigned unk18,unk1c,count; unsigned* strides;
-    void SetComPointer(void*);
     Buffer767* GetEntry(unsigned);
 };
 struct Geometry767 {
@@ -26836,11 +26659,8 @@ struct Geometry767 {
     StreamData767* streams;
 };
 struct Skin767 { unsigned unk00,unk04,unk08,unk0c,unk10,unk14,unk18; unsigned short count,unk1e; void* data20; void* data24; StreamData767* streams; };
-struct SkinProcessor767 { void FUN_00a855f0(void*,void*,unsigned,char*,char*,char*,char*,unsigned); };
+struct SkinProcessor767 {  };
 struct BufferManager767 {
-    bool FUN_00e8bfa0(StreamData767*,unsigned);
-    char* FUN_00e8bff0(VertexCOM767*,unsigned,unsigned,unsigned);
-    bool CopyAndRelease(VertexCOM767*);
 };
 struct Extra767 { unsigned unk00, unk04; };
 struct Inputs767_6 { char* destination; Extra767 extra; };
@@ -26860,7 +26680,6 @@ struct Shader767 {
     unsigned unk04; Renderer_e6da60* renderer; BufferManager767* manager;
     unsigned unk10,unk14,unk18,m_uiValueAtOffset1C,streamCount; ShaderStreamInfo* streams;
     Buffer767* FUN_00e76770(Geometry767*,SkinProcessor767*,Skin767*,unsigned,Buffer767*,unsigned,Inputs767_6);
-    void ConvertGeometryData(unsigned short,Geometry767*,SkinProcessor767*,Skin767*,ShaderStreamMapping*,unsigned,char*,Extra767);
 };
 // @fnv 0x00e76770
 Buffer767* Shader767::FUN_00e76770(Geometry767* geometry, SkinProcessor767* skinInstance, Skin767* skin, unsigned mask, Buffer767* oldBuffer, unsigned stream, Inputs767_6 inputs6)
@@ -26875,7 +26694,7 @@ Buffer767* Shader767::FUN_00e76770(Geometry767* geometry, SkinProcessor767* skin
         return 0;
 
     StreamData767* data = skin ? skin->streams : geometry->streams;
-    data->SetComPointer(declaration);
+    reinterpret_cast<::Holder_00e8f040 *>((data))->SetComPointer((::FakeCOM_00e8f040 *)(declaration));
     if (stream < data->count)
         data->strides[stream] = streams[stream].m_uiStride;
     if (renderer->m_bFlag5D4)
@@ -26898,7 +26717,7 @@ Buffer767* Shader767::FUN_00e76770(Geometry767* geometry, SkinProcessor767* skin
                 }
             }
         }
-        if (!manager->FUN_00e8bfa0(data, stream))
+        if (!::FUN_00e8bfa0((::Outer *)(manager), (unsigned int)(data)))
             return 0;
         buffer = (Buffer767*)((FUN_00e69b40_shell*)data)->GetEntry(stream);
         mask = 0xfff;
@@ -26908,7 +26727,7 @@ Buffer767* Shader767::FUN_00e76770(Geometry767* geometry, SkinProcessor767* skin
         unsigned flagsValue = buffer->flags;
         unsigned offsetValue = buffer->offset;
         VertexCOM767* bufferValue = buffer->buffer;
-        inputs6.destination = manager->FUN_00e8bff0(bufferValue, offsetValue, flagsValue, sizeValue);
+        inputs6.destination = ((char *)(reinterpret_cast<::Owner_e8bff0 *>((manager))->FUN_00e8bff0((::Holder_e8bff0 *)(bufferValue), offsetValue, flagsValue, sizeValue)));
     }
 
     bool skinned = skinInstance && !skin;
@@ -26954,12 +26773,12 @@ Buffer767* Shader767::FUN_00e76770(Geometry767* geometry, SkinProcessor767* skin
                 if (!(mask & 8)) continue;
                 break;
             }
-            ConvertGeometryData(vertexCount, geometry, skinInstance, skin, entry, entries->m_uiStride, output, inputs6.extra);
+            ::ConvertGeometryData((unsigned short)this, (::NiGeometryData *)(vertexCount), (unsigned int)(geometry), (::E7Skin *)(skinInstance), (::E7Descriptor *)(skin), (unsigned int)(entry), (void *)(entries->m_uiStride), (bool)(output), (*(unsigned int *)&(const ::Extra767 &)(inputs6.extra)));
         }
     }
     if (skinned)
-        skinInstance->FUN_00a855f0(geometry->unk20, geometry->unk24, geometry->count, position, weight, normal, blend, entries->m_uiStride);
-    if(unlock) { VertexCOM767* value = buffer->buffer; if(!manager->CopyAndRelease(value)) return 0; }
+        reinterpret_cast<::SkinInstance *>((skinInstance))->FUN_00a855f0((const ::NiPoint3 *)(geometry->unk20), (const ::NiPoint3 *)(geometry->unk24), geometry->count, (::NiPoint3 *)(position), (::NiPoint3 *)(weight), (::NiPoint3 *)(normal), (::NiPoint3 *)(blend), entries->m_uiStride);
+    if(unlock) { VertexCOM767* value = buffer->buffer; if(!reinterpret_cast<::S_00e8c0d0 *>((manager))->CopyAndRelease(value)) return 0; }
     return buffer;
 }
 

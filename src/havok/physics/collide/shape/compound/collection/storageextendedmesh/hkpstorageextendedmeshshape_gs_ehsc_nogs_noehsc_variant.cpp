@@ -5,6 +5,17 @@
 
 // src/havok/physics/collide/shape/compound/collection/storageextendedmesh/hkpstorageextendedmeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/storageextendedmesh/hkpstorageextendedmeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/Cb0StringCopy.h"
+#include "fnv/decl/OwnerD562.h"
+#include "fnv/decl/S_00d55950.h"
+#include "fnv/decl/S_00d56880.h"
+#include "fnv/decl/fnv_00d56160__FUN_00d56160_cls.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00d55000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 #include "havok/hkpStorageExtendedMeshShape.h"
 struct MemoryRouter
 {
@@ -91,7 +102,6 @@ template <typename T> struct hkArrayD49C
 class hkReferencedObject
 {
   public:
-    void removeReference() throw();
 };
 class hkpStorageExtendedMeshShapeMeshSubpartStorage : public hkReferencedObject
 {
@@ -347,8 +357,6 @@ struct hkpExtendedMeshShapeTrianglesSubpartD4AB : public hkpExtendedMeshShapeSub
 };
 #include <string.h>
 extern "C" void _ReadWriteBarrier();
-void __cdecl FUN_00c908c0(void*, void*, int, int);
-void __cdecl ResizeAudioStream(void*, void*, int);
 template <class T> __forceinline void constructWithCopy(T* p, int n, const T& t)
 {
     for (int i = 0; i < n; ++i)
@@ -380,11 +388,11 @@ struct HavokArrayUtilities
     static __forceinline void __cdecl GrowArrayCapacity(hkMemoryAllocator& alloc, void* array, int reqCapacity,
                                                         int sizeElem)
     {
-        FUN_00c908c0(&alloc, array, reqCapacity, sizeElem);
+        ::FUN_00c908c0((::SpawnedObject *)(void *)(&alloc), (::SpawnedArray *)(array), reqCapacity, sizeElem);
     }
     static __forceinline void __cdecl GrowArray(hkMemoryAllocator& alloc, void* array, int sizeElem)
     {
-        ResizeAudioStream(&alloc, array, sizeElem);
+        ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(array), sizeElem);
     }
 };
 template <typename T> struct hkArr
@@ -425,7 +433,7 @@ template <typename T> struct hkArr
                     count = doubled;
                 else
                     count = n;
-                HavokArrayUtilities::GrowArrayCapacity(alloc, this, count, sizeof(T));
+                ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), count, sizeof(T));
             }
             else
             {
@@ -433,7 +441,7 @@ template <typename T> struct hkArr
                 int newSize = n;
                 if (newSize < cap2)
                     newSize = cap2;
-                HavokArrayUtilities::GrowArrayCapacity(alloc, this, newSize, sizeof(T));
+                ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
             }
         }
     }
@@ -497,7 +505,6 @@ struct StorageReferencedObject : hkBaseObject
     }
 };
 class hkClass;
-extern const hkClass g_kHkpMeshMaterialClass;
 struct hkpMeshMaterial
 {
     hkUint32 m_uiFilterInfo;
@@ -612,9 +619,6 @@ class StorageMeshShape
     int m_unk0f8;
     hkArr<MeshSubpartStorage*> m_kMeshSubparts;
 
-    TrianglesSubpart* AppendElement();
-    void FUN_00d55950();
-    int FUN_00d55520(TrianglesSubpart& part);
 
     int FUN_00d49dc0(const TrianglesSubpart& partIn);
 };
@@ -642,7 +646,6 @@ Derived::Derived()
 
 extern "C" void _ReadWriteBarrier();
 
-extern "C" void* __cdecl FUN_00cb1280(void*, int, unsigned int);
 enum hkPlacementNewArg
 {
     hkPlacementNew
@@ -669,7 +672,6 @@ struct Subpart
     unsigned int indexStride;
     unsigned char indexType, extrusion;
     unsigned short flags;
-    void FUN_00d4abf0(const Subpart&);
 };
 struct MaterialName
 {
@@ -704,8 +706,6 @@ struct AllocationRouter
     virtual void Unused();
     virtual void* Allocate(int);
 };
-void FUN_00c908c0(void*, void*, int, int);
-void ResizeAudioStream(void*, void*, int);
 static __declspec(noinline) int FUN_00d49c20(int stride, int triangles)
 {
     switch (stride)
@@ -719,7 +719,6 @@ static __declspec(noinline) int FUN_00d49c20(int stride, int triangles)
     }
 }
 class GlobalObjectO2_00d472a0;
-extern GlobalObjectO2_00d472a0 g_01269bb4, g_01268c8c;
 
 template <class T> inline void initializeItems(T*, int)
 {}
@@ -738,7 +737,7 @@ template <class T> struct Buffer
         if (available < requested)
         {
             int next = requested < available * 2 ? available * 2 : requested;
-            FUN_00c908c0(&allocator, this, next, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(&allocator), (::SpawnedArray *)(void *)(this), next, sizeof(T));
         }
     }
     inline T* growUsing(hkMemoryAllocatorD4AC& allocator, int count)
@@ -785,7 +784,7 @@ template <class T, template <class> class A> inline void append(A<T>& a, const T
 {
     hkMemoryRouterD49C* manager = FUN_00c85750();
     if (a.m_iElementCount == (a.m_iCapacityState & 0x3fffffff))
-        ResizeAudioStream(manager->m_pkHeap, &a, sizeof(T));
+        ::ResizeAudioStream((::AudioAllocator *)(manager->m_pkHeap), (::AudioStream *)(void *)(&a), sizeof(T));
     copyItems(a.m_data + a.m_iElementCount, 1, value);
     ++a.m_iElementCount;
 }
@@ -793,7 +792,7 @@ inline void append(Buffer<unsigned char>& a, const unsigned char& value)
 {
     hkMemoryRouterD49C* manager = FUN_00c85750();
     if (a.m_iElementCount == (a.m_iCapacityState & 0x3fffffff))
-        ResizeAudioStream(manager->m_pkHeap, &a, sizeof(unsigned char));
+        ::ResizeAudioStream((::AudioAllocator *)(manager->m_pkHeap), (::AudioStream *)(void *)(&a), sizeof(unsigned char));
     unsigned char* slot = a.m_data;
     _ReadWriteBarrier();
     slot += a.m_iElementCount;
@@ -804,7 +803,7 @@ inline void append(Buffer<unsigned short>& a, const unsigned short& value)
 {
     hkMemoryRouterD49C* manager = FUN_00c85750();
     if (a.m_iElementCount == (a.m_iCapacityState & 0x3fffffff))
-        ResizeAudioStream(manager->m_pkHeap, &a, sizeof(unsigned short));
+        ::ResizeAudioStream((::AudioAllocator *)(manager->m_pkHeap), (::AudioStream *)(void *)(&a), sizeof(unsigned short));
     copyItems(a.m_data + a.m_iElementCount, 1, value);
     _ReadWriteBarrier();
     ++a.m_iElementCount;
@@ -822,18 +821,15 @@ struct SourceArg
 };
 struct StorageShape : hkpStorageExtendedMeshShape
 {
-    Subpart* FUN_00d562f0();
-    void FUN_00d55950();
-    int Vec4(Subpart*, int);
     void FUN_00d4a2b0(SourceArg sourceArg);
 };
 
 // @fnv 0x00d4a2b0
 void StorageShape::FUN_00d4a2b0(SourceArg sourceArg)
 {
-    Subpart* destination = FUN_00d562f0();
+    Subpart* destination = ((::Subpart *)(reinterpret_cast<::OwnerD562 *>(this)->FUN_00d562f0()));
     const Subpart& source = *sourceArg.p;
-    destination->FUN_00d4abf0(source);
+    reinterpret_cast<::hkpExtendedMeshShapeTrianglesSubpartD4AB *>((destination))->FUN_00d4abf0((const ::hkpExtendedMeshShapeTrianglesSubpartD4AB &)(source));
     FUN_00d4aef0* created = new FUN_00d4aef0;
     hkArray<hkpStorageExtendedMeshShapeMeshSubpartStorage*>& mesh = m_kMeshSubparts;
     append(mesh, reinterpret_cast<hkpStorageExtendedMeshShapeMeshSubpartStorage*>(created));
@@ -858,7 +854,7 @@ void StorageShape::FUN_00d4a2b0(SourceArg sourceArg)
         destination->indexStride = stride * sizeof(unsigned char);
         int count = FUN_00d49c20(inputStride, source.numTriangles);
         unsigned char* data = storage->indices8.grow(count);
-        FUN_00cb1280(data, 0, count * sizeof(unsigned char));
+        ::FUN_00cb1280(data, 0, count * sizeof(unsigned char));
         const char* input = source.indexBase;
         indices = data;
         for (int i = 0; i < source.numTriangles; ++i)
@@ -879,7 +875,7 @@ void StorageShape::FUN_00d4a2b0(SourceArg sourceArg)
         destination->indexStride = stride * sizeof(unsigned short);
         int count = FUN_00d49c20(inputStride, source.numTriangles);
         unsigned short* data = storage->indices16.grow(count);
-        FUN_00cb1280(data, 0, count * sizeof(unsigned short));
+        ::FUN_00cb1280(data, 0, count * sizeof(unsigned short));
         const char* input = source.indexBase;
         indices = data;
         for (int i = 0; i < source.numTriangles; ++i)
@@ -900,7 +896,7 @@ void StorageShape::FUN_00d4a2b0(SourceArg sourceArg)
         destination->indexStride = stride * sizeof(unsigned int);
         int count = FUN_00d49c20(inputStride, source.numTriangles);
         unsigned int* data = storage->indices32.grow(count);
-        FUN_00cb1280(data, 0, count * sizeof(unsigned int));
+        ::FUN_00cb1280(data, 0, count * sizeof(unsigned int));
         const char* input = source.indexBase;
         indices = data;
         for (int i = 0; i < source.numTriangles; ++i)
@@ -991,7 +987,7 @@ void StorageShape::FUN_00d4a2b0(SourceArg sourceArg)
                 NamedMaterial* material = new (data + i, hkPlacementNew) NamedMaterial;
                 const NamedMaterial* original = reinterpret_cast<const NamedMaterial*>(input);
                 material->filterInfo = original->filterInfo;
-                material->name = original->name;
+                reinterpret_cast<::Cb0StringCopy *>((void *)&(const ::MaterialName &)(material->name))->FUN_00cb0c30((const ::CB0StringPtr &)(original->name));
                 input += source.materialStride;
             }
             destination->materialBase = reinterpret_cast<const char*>(storage->namedMaterials.m_data);
@@ -1041,8 +1037,8 @@ void StorageShape::FUN_00d4a2b0(SourceArg sourceArg)
             }
         }
     }
-    FUN_00d55950();
+    reinterpret_cast<::S_00d55950 *>(this)->FUN_00d55950();
     FUN_00d49cb0* fields = reinterpret_cast<FUN_00d49cb0*>(this);
     int last = reinterpret_cast<FUN_00d56f10*>(this)->m_kTrianglesSubparts.m_iElementCount - 1;
-    fields->m_aiUnkCC[5] += Vec4(destination, last);
+    fields->m_aiUnkCC[5] += reinterpret_cast<::fnv_00d56160::FUN_00d56160_cls *>(this)->Vec4((::fnv_00d56160::FUN_00d56160_items *)(destination), last);
 }

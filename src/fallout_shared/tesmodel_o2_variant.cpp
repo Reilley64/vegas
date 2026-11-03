@@ -4,6 +4,10 @@
 
 // src/fallout_shared/tesmodel.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/tesmodel.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_008c1be0_Class.h"
+#include "fnv/decl/fnv_00489620__FUN_00489620_shell.h"
+#include "fnv/decl/fnv_00489940__FUN_00489940_shell.h"
+#include "fnv/symbols_011ac000.h"
 struct BSFileEntry;
 struct FileFormCollection;
 struct TESFile;
@@ -14,7 +18,6 @@ struct FileEntryList
     void SaveToBuffer(FileFormCollection*);
     void WriteFileEntryToBuffer(FileFormCollection*, unsigned int, TESForm*, char*);
     void Save(int, char*);
-    void Load(TESFile*, TESForm*, char*);
     void Copy(FileEntryList*);
     unsigned char GetTextureCount();
     BSFileEntry** GetTextureOffsetArray();
@@ -30,17 +33,14 @@ struct FUN_00488ff0_shell : public FileEntryList
 };
 struct FUN_00489620_t
 {
-    void ClearTextureList();
 };
 struct FUN_008c1be0_shell
 {
-    void FUN_008c1be0(int param_1);
 };
 struct FUN_004898c0_shell
 {
     void FUN_004898c0(int param_1);
 };
-extern bool DAT_011acdf8;
 bool FUN_004898e0();
 struct FUN_004890e0_shell
 {

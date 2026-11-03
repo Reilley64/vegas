@@ -6,6 +6,12 @@
 #include "TimeoutTimer.h"
 #include "ActorValueModifierList.h"
 #pragma pack(push, 4)
+class Actor;
+class BGSLoadFormBuffer;
+class PatrolActorPackageData;
+class TESActorBase;
+class TESObjectREFR;
+namespace ActorValue { enum Index; }
 class LowProcess : public BaseProcess
 {
   public:
@@ -45,6 +51,30 @@ class LowProcess : public BaseProcess
     void SetPackageObjectType(int);
     int GetPackageObjectType();
     TESObjectREFR* GetActiveCombatTarget();
+public:
+    ::PatrolActorPackageData *GetCurrentPackageData();
+public:
+    int GetActorValue(::TESActorBase *, ::ActorValue::Index, ::Actor *);
+public:
+    float GetCurrentActorValue(::TESActorBase *, ::ActorValue::Index, ::Actor *);
+public:
+    void UpdateTargetFromPackage();
+public:
+    bool CanProcessActor(::Actor *, bool);
+public:
+    void SetFlag40(int);
+public:
+    static bool HandlePackageLocationLoaded(::TESObjectREFR *, long);
+public:
+    static bool HandlePackageTargetLoaded(::TESObjectREFR *, long);
+public:
+    void LoadGame(::BGSLoadFormBuffer *);
+public:
+    void InitLoadGame(::BGSLoadFormBuffer *);
+public:
+    void Revert(::BGSLoadFormBuffer *);
+public:
+    void HandlePatrolArrival(::Actor *, ::PatrolActorPackageData *);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(LowProcess) == 0xB4);

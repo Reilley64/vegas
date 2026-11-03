@@ -7,9 +7,11 @@
 // to their real unit once identified.
 // src/havok/physics/dynamics/constraint/bilateral/wheel/hkpwheelconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/wheel/hkpwheelconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/fnv_00cb2e70__hkMatrix3q.h"
+#include "fnv/symbols_00d21000.h"
+#include "fnv/symbols_01267000.h"
 #include "havok/hkpWheelConstraintData.h"
 void __stdcall FUN_00d4e580(char a1, int* a2);
-void* __cdecl FUN_00d21a60(void* a, int b, int c);
 struct FUN_00d4e560
 {
     void* __thiscall PopulateInfo(int ai);
@@ -87,8 +89,6 @@ struct hkBoolRet
         return m_cBooleanValue != 0;
     }
 };
-extern "C" void IsOrthonormal();
-extern float DAT_01267e30;
 struct DummyTransform
 {
 };

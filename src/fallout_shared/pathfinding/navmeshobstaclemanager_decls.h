@@ -4,6 +4,7 @@
 // Unit-local templates (navmeshobstaclemanager_local_types.h) keep the API matched code calls out of line and the
 // canonical headers lack (BSSimpleArray Add/Clear/Remove/Find, BSSimpleList Remove/IsInList/AddTail(const T&),
 // NiTPointerMap::RemoveAll, NiTArray::GetAt, NiPointer copy ctor); the canonical ones are renamed away.
+#include "fnv/decl/FUN_0040fbf0_shell.h"
 #include "navmeshobstaclemanager_local_types.h"
 #define NiPointer FNV_NiPointer_Canonical
 #define BSSimpleList FNV_BSSimpleList_Canonical
@@ -27,8 +28,8 @@ class NavMeshInfo;
 class RecursiveSpinLock
 {
   public:
-    void Lock(const char*);
-    void Unlock();
+public:
+    void FUN_0040fba0();
 };
 class NavMeshObstacleManager
 {
@@ -39,16 +40,27 @@ class NavMeshObstacleManager
     void ClearObstacles();
     void RemoveObstaclesForReference(unsigned int);
     bool ProcessObstacleTask(ObstacleTaskData*);
+public:
+    unsigned int GetProcessedTaskCount();
+public:
+    unsigned int GetBackgroundTaskCount();
+public:
+    void ProcessActivatedObstacles();
 };
 class SandboxProcedureData;
 class TESObjectREFR;
 template <class T> class NiTNewInterface;
+class ObstacleData;
+enum OBSTACLE_TASK_TYPE;
+template <class> class NiPointer;
 class ObstacleTaskData
 {
   public:
     virtual ~ObstacleTaskData();
     virtual void vfn_04();
     virtual void Run();
+public:
+    bool AddOperation(const ::NiPointer< ::ObstacleData> &, ::OBSTACLE_TASK_TYPE);
 };
 class TESFile;
 class BGSReconstructFormsInFileMap;

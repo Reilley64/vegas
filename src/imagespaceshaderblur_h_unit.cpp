@@ -1,11 +1,13 @@
 // imagespaceshaderblur_h_unit.cpp: Derived, FNVObjectToDispose (12 functions)
 
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/FUN_00c03a20_cls.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_010b1000.h"
+#include "fnv/symbols_011f9000.h"
 #include "imagespaceshaderblur.h"
 
-extern int DAT_010b1640;
-extern int DAT_010b1620;
 void __cdecl FUN_00c03a20();
-void __cdecl _delete(void* p, int size);
 
 struct FUN_00b8e420_shell
 {
@@ -22,17 +24,15 @@ FUN_00b8e420_shell* FUN_00b8e420_shell::FUN_00b8e420(int aiFlags)
     *(int*)((char*)this + 0x6c) = (int)&DAT_010b1620;
     FUN_00c03a20();
     if (aiFlags & 1)
-        _delete(this, 0xd0);
+        ::FUN_00aa1460(this, 0xd0);
     return this;
 }
 
 extern int DAT_010b17f8;
 extern int DAT_010b17d8;
-extern void __cdecl FUN_00aa1460(void* object, unsigned int size);
 
 struct FUN_00b8e5c0_class
 {
-    void FUN_00c03a20();
     void* FUN_00b8e5c0(unsigned int flags);
 };
 
@@ -41,7 +41,7 @@ void* FUN_00b8e5c0_class::FUN_00b8e5c0(unsigned int flags)
 {
     *reinterpret_cast<int**>(this) = &DAT_010b17f8;
     *reinterpret_cast<int**>(reinterpret_cast<char*>(this) + 0x6c) = &DAT_010b17d8;
-    FUN_00c03a20();
+    reinterpret_cast<::FUN_00c03a20_cls *>(this)->FUN_00c03a20_cls::~FUN_00c03a20_cls();
     if (flags & 1)
     {
         FUN_00aa1460(this, 0xd0);
@@ -52,7 +52,6 @@ void* FUN_00b8e5c0_class::FUN_00b8e5c0(unsigned int flags)
 extern char DAT_010b1c90;
 extern char DAT_010b1c70;
 void __cdecl FUN_00c03a20();
-void __cdecl FUN_00aa1460(void* object, unsigned int size);
 
 struct FNVObjectToDispose
 {
@@ -101,7 +100,6 @@ FNVObjectToDispose* FNVObjectToDispose::FUN_00b8eaa0(unsigned char flags)
 extern int DAT_010b1e20;
 extern int DAT_010b1dfc;
 extern void __cdecl FUN_00c03a20();
-extern void __cdecl FUN_00aa1460(void* object, unsigned int size);
 
 struct FUN_00b8ec40_cls
 {

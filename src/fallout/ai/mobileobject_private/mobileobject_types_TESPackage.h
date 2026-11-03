@@ -2,6 +2,7 @@
 #ifndef FNV_TESPACKAGE_H
 #define FNV_TESPACKAGE_H
 
+#include "fnv/decl/FUN_0041ca90.h"
 #include "../../../../include/layout_support.h"
 #include "../../../../include/Script.h"
 #include "../../../../include/PerkEntryConditionSet.h"
@@ -172,6 +173,7 @@ FNV_STATIC_ASSERT(offsetof(PackageEventActionData, m_pIdleForm) == 0);
 FNV_STATIC_ASSERT(offsetof(PackageEventActionData, m_pScript) == 4);
 FNV_STATIC_ASSERT(offsetof(PackageEventActionData, pTopic) == 8);
 FNV_STATIC_ASSERT(offsetof(PackageEventActionData, eType) == 12);
+enum PACKAGE_PROCEDURE_TYPE;
 class TESPackage : public TESForm
 {
   public:
@@ -425,6 +427,12 @@ class TESPackage : public TESForm
     // unsigned int __cdecl TESPackage::*()
     // TESPackage& __cdecl TESPackage::*(const TESPackage&)
     // void __cdecl TESPackage::*()
+public:
+    void SetMustReachLocation(bool);
+public:
+    void SetMustComplete(bool);
+public:
+    void SetProcedureType(::PACKAGE_PROCEDURE_TYPE);
 };
 FNV_STATIC_ASSERT(sizeof(TESPackage) == 128);
 FNV_STATIC_ASSERT(offsetof(TESPackage, m_eProcedureType) == 24);

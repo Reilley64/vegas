@@ -1,4 +1,36 @@
 
+#include <new>
+#include "fnv/decl/B8B060Request.h"
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FUN_00b8b760_cls.h"
+#include "fnv/decl/FUN_00b8b7d0_cls.h"
+#include "fnv/decl/ListReader.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TESObjectTREE.h"
+#include "fnv/decl/TargetClass.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00b8b8d0__ImageSpaceDistanceEffect.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00532000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01020000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f4000.h"
 #include "imagespacemodifierinstance_calls.h"
 #include "NiObject.h"
 #include "TESForm.h"
@@ -115,7 +147,6 @@ class ImageSpaceModifierInstanceForm : public ImageSpaceModifierInstance, public
     // Call-protocol declarations added by the matcher unit; layout unchanged.
     ImageSpaceModifierInstanceForm(TESImageSpaceModifier*, float, float, NiAVObject*);
     static void Stop(TESImageSpaceModifier*);
-    TESImageSpaceModifier* GetImageSpaceMod();
     static ImageSpaceModifierInstanceForm* Trigger(TESImageSpaceModifier*, float, NiAVObject*);
     bool IsExpired();
     void Apply();
@@ -453,14 +484,9 @@ class TESImageSpaceModifier : public TESForm
     BSStringT<char> strName;                             // +0x730, 8 bytes
     // TESImageSpaceModifier
     // Call-protocol declarations added by the matcher unit; layout unchanged.
-    TESSound* GetIntroSound();
-    TESSound* GetOutroSound();
     bool IsExpired(float m_fStartTime);
     void Apply(float fWaterLevelItem, float m_fStartTime, NiAVObject* pTarget);
     void EvaluateInterpolators(float fWaterLevelItem, float m_fStartTime);
-    static void BlendModifiers(float afBlendWeight, TESImageSpaceModifier* pLastModifier,
-                               TESImageSpaceModifier* pModifier, float m_fBlendWeight, float fWaterLevelItem,
-                               NiAVObject* coordinate, NiAVObject* pTarget);
     // void __cdecl TESImageSpaceModifier::*()
     // bool __cdecl TESImageSpaceModifier::*()
     // float __cdecl TESImageSpaceModifier::*()
@@ -559,7 +585,7 @@ void ImageSpaceModifierInstanceForm::Apply()
                 float afBlendWeight = (afTime - m_fStartTime) / m_fElapsedTime;
                 if (afBlendWeight < 1.0)
                 {
-                    TESImageSpaceModifier::BlendModifiers(afBlendWeight, m_pImageSpaceModifier,
+                    ::BlendImageSpaceModifiers(afBlendWeight, m_pImageSpaceModifier,
                                                           m_pPreviousImageSpaceModifier, m_fBlendWeight,
                                                           fWaterLevelItem, m_pTargetNode, m_spTargetObject);
                 }
@@ -602,11 +628,10 @@ ImageSpaceModifierInstanceForm* ImageSpaceModifierInstanceForm::Trigger(TESImage
     if (modifier)
     {
         instance = new ImageSpaceModifierInstanceForm(modifier, DAT_0102d270, strength, target);
-        g_TES->FUN_0043b5d0()->AddTail(instance);
-        if (modifier->GetIntroSound())
-            BSAudio::GetSingleton()
-                ->GetSoundHandleByFormID(modifier->GetIntroSound()->GetFormID(), 0x200000, false)
-                .Play();
+        reinterpret_cast<::TargetClass *>((((::BSSimpleList< ::NiPointer< ::ImageSpaceModifierInstance>> *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetData()))))->FUN_0052a9b0((const ::NiPointer< ::NiNode> &)((const ::NiPointer< ::ImageSpaceModifierInstance> &)(instance)));
+        if (((::TESSound *)(reinterpret_cast<::BGSTerrainManager *>((modifier))->GetMinLevel())))
+            reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::SoundPlaybackHandle &)(::FUN_00453a70()
+                ->GetSoundHandleByFormID(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::TESSound *)(reinterpret_cast<::BGSTerrainManager *>((modifier))->GetMinLevel()))))->FUN_0084e3a0())), 0x200000, false)))->FUN_00ad8830({});
     }
     return instance;
 }
@@ -624,11 +649,11 @@ void ImageSpaceModifierInstanceDRB::Apply()
         if (m_spTargetObject)
         {
             ((NiAVObject*)m_spTargetObject)->UpdateWorldBound();
-            manager->ApplyDepthOfFieldModifier(fWaterLevelItem, Mode, m_fRampUp, fStart,
-                                               ((NiAVObject*)m_spTargetObject)->GetBoundingVolume());
+            reinterpret_cast<::FUN_00b8b7d0_cls *>((manager))->FUN_00b8b7d0(fWaterLevelItem, Mode, m_fRampUp, fStart,
+                                               (::Vec3_b8b7d0 *)&((*(const ::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(((NiAVObject*)m_spTargetObject)))->FUN_0043d450()))));
         }
         else
-            manager->SetIfHigherPriority(fWaterLevelItem, Mode, fDistance, fImpulseRadiusSquared, m_fRampUp, fStart, Center);
+            reinterpret_cast<::B8B060Request *>((manager))->SetIfHigherPriority(fWaterLevelItem, Mode, fDistance, fImpulseRadiusSquared, m_fRampUp, fStart, (const ::B8B060Pair &)(Center));
     }
 }
 
@@ -643,8 +668,8 @@ void ImageSpaceModifierInstanceDOF::Apply()
         if (m_spTargetObject)
         {
             ((NiAVObject*)m_spTargetObject)->UpdateWorldBound();
-            manager->SetDistanceEffect(fWaterLevelItem, Mode, m_fMaskConstant,
-                                       ((NiAVObject*)m_spTargetObject)->GetBoundingVolume());
+            reinterpret_cast<::fnv_00b8b8d0::ImageSpaceDistanceEffect *>((manager))->SetDistanceEffect(fWaterLevelItem, Mode, m_fMaskConstant,
+                                       (const ::fnv_00b8b8d0::Point3 *)&((*(const ::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(((NiAVObject*)m_spTargetObject)))->FUN_0043d450()))));
         }
         else
             manager->SetDepthOfFieldParameters(fWaterLevelItem, Mode, m_fMaskConstant, fDistance, fImpulseRadiusSquared);
@@ -667,23 +692,22 @@ void ImageSpaceModifierInstanceForm::Stop(TESImageSpaceModifier* modifier)
     if (!modifier)
         return;
     bool playedSound = false;
-    BSSimpleList<NiPointer<ImageSpaceModifierInstance> >* node = g_TES->FUN_0043b5d0();
+    BSSimpleList<NiPointer<ImageSpaceModifierInstance> >* node = ((::BSSimpleList< ::NiPointer< ::ImageSpaceModifierInstance>> *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetData()));
     while (node)
     {
-        ImageSpaceModifierInstance* instance = node->GetItem();
-        if (instance && instance->GetInstanceForm() && instance->GetInstanceForm()->GetImageSpaceMod() == modifier)
+        ImageSpaceModifierInstance* instance = (*(::NiPointer< ::ImageSpaceModifierInstance> *)(new ((void *)(node)) ::Vec3()));
+        if (instance && instance->GetInstanceForm() && ((::TESImageSpaceModifier *)(reinterpret_cast<::BGSTerrainManager *>((instance->GetInstanceForm()))->GetMinLevel())) == modifier)
         {
-            node->Remove(instance);
-            if (modifier->GetOutroSound() && !playedSound)
+            reinterpret_cast<::ListReader *>((node))->FUN_00631620((const ::NodeValue &)((const ::NiPointer< ::ImageSpaceModifierInstance> &)(instance)));
+            if (((::TESSound *)(reinterpret_cast<::FUN_009611e0_shell *>((modifier))->FUN_009611e0())) && !playedSound)
             {
                 playedSound = true;
-                BSAudio::GetSingleton()
-                    ->GetSoundHandleByFormID(modifier->GetOutroSound()->GetFormID(), 0x200000, false)
-                    .Play();
+                reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::SoundPlaybackHandle &)(::FUN_00453a70()
+                    ->GetSoundHandleByFormID(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::TESSound *)(reinterpret_cast<::FUN_009611e0_shell *>((modifier))->FUN_009611e0()))))->FUN_0084e3a0())), 0x200000, false)))->FUN_00ad8830({});
             }
         }
         else
-            node = node->GetNext();
+            node = ((::BSSimpleList< ::NiPointer< ::ImageSpaceModifierInstance>> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
 }
 
@@ -697,7 +721,7 @@ ImageSpaceModifierInstanceDRB* ImageSpaceModifierInstanceDRB::Trigger(float dist
 {
     ImageSpaceModifierInstanceDRB* instance = new ImageSpaceModifierInstanceDRB(
         strength, DAT_0102d270, NULL, duration, mode, distance, range, rampup, start, rampdown, downstart, center);
-    g_TES->FUN_0043b5d0()->AddTail(instance);
+    reinterpret_cast<::TargetClass *>((((::BSSimpleList< ::NiPointer< ::ImageSpaceModifierInstance>> *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetData()))))->FUN_0052a9b0((const ::NiPointer< ::NiNode> &)((const ::NiPointer< ::ImageSpaceModifierInstance> &)(instance)));
     return instance;
 }
 
@@ -709,7 +733,7 @@ ImageSpaceModifierInstanceDOF* ImageSpaceModifierInstanceDOF::CreateAndRegister(
 {
     ImageSpaceModifierInstanceDOF* instance =
         new ImageSpaceModifierInstanceDOF(strength, DAT_0102d270, mode, distance, range, mask, NULL, duration);
-    g_TES->FUN_0043b5d0()->AddTail(instance);
+    reinterpret_cast<::TargetClass *>((((::BSSimpleList< ::NiPointer< ::ImageSpaceModifierInstance>> *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetData()))))->FUN_0052a9b0((const ::NiPointer< ::NiNode> &)((const ::NiPointer< ::ImageSpaceModifierInstance> &)(instance)));
     return instance;
 }
 
@@ -756,13 +780,7 @@ ImageSpaceModifierInstanceTemp::ImageSpaceModifierInstanceTemp(float startTime, 
 // @fnv 0x0052a650
 void ImageSpaceModifierInstanceDOF::DestroyMembers()
 {
-    this->ImageSpaceModifierInstanceTemp::~ImageSpaceModifierInstanceTemp();
-}
-
-// @fnv 0x0052a040
-void ImageSpaceModifierInstanceTemp::DestroyMembers()
-{
-    this->ImageSpaceModifierInstance::~ImageSpaceModifierInstance();
+    this->DestroyMembers();
 }
 
 // @fnv 0x00529990
@@ -776,9 +794,9 @@ float ImageSpaceModifierInstance::GetTime()
 // @fnv 0x0052a010
 void* ImageSpaceModifierInstanceDOF::ScalarDeletingDestructor(unsigned int flags)
 {
-    this->ImageSpaceModifierInstanceDOF::~ImageSpaceModifierInstanceDOF();
+    this->DestroyMembers();
     if (flags & 1)
-        NiMemObjectAllocation::operator delete(this, sizeof(ImageSpaceModifierInstanceDOF));
+        ::FUN_00aa1460(this, sizeof(ImageSpaceModifierInstanceDOF));
     return this;
 }
 
@@ -786,36 +804,26 @@ void* ImageSpaceModifierInstanceDOF::ScalarDeletingDestructor(unsigned int flags
 // @fnv 0x005293f0
 void __cdecl FUN_005293f0(ImageSpaceModifierInstance* apInstance)
 {
-    BSSimpleList<NiPointer<ImageSpaceModifierInstance> >* pkList = g_TES->FUN_0043b5d0();
+    BSSimpleList<NiPointer<ImageSpaceModifierInstance> >* pkList = ((::BSSimpleList< ::NiPointer< ::ImageSpaceModifierInstance>> *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetData()));
     while (pkList)
     {
-        ImageSpaceModifierInstance* pinstance = pkList->GetItem();
+        ImageSpaceModifierInstance* pinstance = (*(::NiPointer< ::ImageSpaceModifierInstance> *)(new ((void *)(pkList)) ::Vec3()));
         if (pinstance == apInstance)
         {
-            pkList->Remove(pinstance);
+            reinterpret_cast<::ListReader *>((pkList))->FUN_00631620((const ::NodeValue &)((const ::NiPointer< ::ImageSpaceModifierInstance> &)(pinstance)));
         }
         else
         {
-            pkList = pkList->GetNext();
+            pkList = ((::BSSimpleList< ::NiPointer< ::ImageSpaceModifierInstance>> *)(reinterpret_cast<::Callees *>((pkList))->FUN_00726070()));
         }
     }
 }
 
-void __fastcall FUN_00529690(void*);
 
 struct FUN_00529660_view : public ImageSpaceModifierInstanceForm
 {
     void* Destroy(unsigned int flags);
 };
-
-// @fnv 0x00529660
-void* FUN_00529660_view::Destroy(unsigned int flags)
-{
-    FUN_00529690(this);
-    if (flags & 1)
-        NiMemObjectAllocation::operator delete(this, 0x30);
-    return this;
-}
 
 class NiNode;
 template <> class NiPointer<NiNode>
@@ -835,6 +843,14 @@ struct FUN_00529690_dtor : public ImageSpaceModifierInstance
     float m_fElapsedTime;
     virtual ~FUN_00529690_dtor();
 };
+// @fnv 0x00529660
+void* FUN_00529660_view::Destroy(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00529690_dtor *>((this))->FUN_00529690_dtor::~FUN_00529690_dtor();
+    if (flags & 1)
+        ::FUN_00aa1460(this, 0x30);
+    return this;
+}
 
 // Destructor that clears the NiPointer member by assigning null to it.
 // @fnv 0x00529690
@@ -894,6 +910,11 @@ struct FUN_005295c0 : public FUN_00a5d3d0
     NiPtrNode m_spTargetObject;
     ~FUN_005295c0();
 };
+// @fnv 0x0052a040
+void ImageSpaceModifierInstanceTemp::DestroyMembers()
+{
+    reinterpret_cast<::FUN_005295c0 *>((this))->FUN_005295c0::~FUN_005295c0();
+}
 
 // Destructor that clears the node pointer reference by assigning null to it.
 // @fnv 0x005295c0
@@ -902,7 +923,6 @@ FUN_005295c0::~FUN_005295c0()
     m_spTargetObject = 0;
 }
 
-extern "C" const char* const g_011f36dc_arg1;
 
 struct FUN_00529530_shell
 {
@@ -912,12 +932,11 @@ struct FUN_00529530_shell
 // @fnv 0x00529530
 const char* const* __thiscall FUN_00529530_shell::GetArg1Ptr()
 {
-    return &g_011f36dc_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_011f4418));
 }
 
 struct ImageSpaceModifierInstanceDestructionView
 {
-    void Destruct();
 };
 
 void* _delete(void*, unsigned int);
@@ -931,9 +950,9 @@ struct FUN_00529630_shell : ImageSpaceModifierInstance
 // @fnv 0x00529630
 ImageSpaceModifierInstance* FUN_00529630_shell::FUN_00529630(unsigned int flags)
 {
-    reinterpret_cast<ImageSpaceModifierInstanceDestructionView*>(this)->Destruct();
+    reinterpret_cast<::FUN_005295c0 *>((reinterpret_cast<ImageSpaceModifierInstanceDestructionView*>(this)))->FUN_005295c0::~FUN_005295c0();
     if (flags & 1)
-        _delete(this, 0x1c);
+        ::FUN_00aa1460(this, 0x1c);
     return this;
 }
 
@@ -951,7 +970,7 @@ void* __thiscall FUN_0052a620_shell::FUN_0052a620(unsigned int flags)
 {
     reinterpret_cast<ImageSpaceModifierInstanceDOF*>(this)->DestroyMembers();
     if (flags & 1)
-        _delete(this, 0x44);
+        ::FUN_00aa1460(this, 0x44);
     return this;
 }
 }  // namespace fnv_0052a620
@@ -961,7 +980,6 @@ extern "C" void* __cdecl _delete(void* ptr, unsigned int size);
 
 struct ImageSpaceModifierInstanceTempDestructionView
 {
-    void Destruct();
 };
 
 struct FUN_0052a8f0_shell
@@ -973,14 +991,13 @@ struct FUN_0052a8f0_shell
 // @fnv 0x0052a8f0
 void* FUN_0052a8f0_shell::DestroyImageSpaceModifierInstanceTemp(unsigned int flags)
 {
-    reinterpret_cast<ImageSpaceModifierInstanceTempDestructionView*>(this)->Destruct();
+    reinterpret_cast<::ImageSpaceModifierInstanceTemp *>((reinterpret_cast<ImageSpaceModifierInstanceTempDestructionView*>(this)))->DestroyMembers();
     if (flags & 1)
         _delete(this, 0x20);
     return this;
 }
 }  // namespace fnv_0052a8f0
 
-int _sprintf_s(char*, unsigned int, const char*, ...);
 struct FUN_0052a240_shell : public ImageSpaceModifierInstance
 {
     int _pad1C;
@@ -992,10 +1009,9 @@ struct FUN_0052a240_shell : public ImageSpaceModifierInstance
 // @fnv 0x0052a240
 void FUN_0052a240_shell::FormatDofParams(char* apBuffer)
 {
-    _sprintf_s(apBuffer, 0x800, "  DOF  Distance: %f  Range: %f  Str: %f", fDistance, fImpulseRadiusSquared, fWaterLevelItem);
+    ::FUN_00406d00(apBuffer, 0x800, "  DOF  Distance: %f  Range: %f  Str: %f", fDistance, fImpulseRadiusSquared, fWaterLevelItem);
 }
 
-int __cdecl _sprintf_s(char*, unsigned int, const char*, ...);
 struct Shell0052a880
 {
     void WriteDepthRadialBlurLabel(char*);
@@ -1003,7 +1019,7 @@ struct Shell0052a880
 // @fnv 0x0052a880
 void Shell0052a880::WriteDepthRadialBlurLabel(char* apBuffer)
 {
-    _sprintf_s(apBuffer, 0x800, "  Depth Radial Blur");
+    ::FUN_00406d00(apBuffer, 0x800, "  Depth Radial Blur");
 }
 
 struct FUN_00529ea0_shell
@@ -1019,7 +1035,6 @@ unsigned char FUN_00529ea0_shell::FUN_00529ea0()
     return m_flags;
 }
 
-int __cdecl _sprintf_s(char*, unsigned int, const char*, ...);
 extern const char str_0102d408[];
 struct ImageSpaceModifierInstanceRB
 {
@@ -1035,7 +1050,7 @@ struct ImageSpaceModifierInstanceRB
 // @fnv 0x0052a530
 void ImageSpaceModifierInstanceRB::FUN_0052a530(char* apBuffer)
 {
-    _sprintf_s(apBuffer, 0x800, str_0102d408, m_fRampUp, fStart, m_fRampDown, m_fRampDownStart, fWaterLevelItem);
+    ::FUN_00406d00(apBuffer, 0x800, str_0102d408, m_fRampUp, fStart, m_fRampDown, m_fRampDownStart, fWaterLevelItem);
 }
 
 namespace fnv_00529490 {
@@ -1092,7 +1107,6 @@ FUN_00529700::FUN_00529700(TESImageSpaceModifier* apModifier, float start, float
 namespace fnv_00529df0 {
 struct Worker
 {
-    bool FUN_00529ea0();
 };
 
 struct GO
@@ -1115,8 +1129,8 @@ bool FUN_00529df0_shell::FUN_00529df0(TESImageSpaceModifier* pModifier, float m_
                                       NiAVObject* pTarget)
 {
     if ((this->m_pPreviousImageSpaceModifier != 0 &&
-         reinterpret_cast<Worker*>(this->m_pPreviousImageSpaceModifier)->FUN_00529ea0()) ||
-        (pModifier != 0 && reinterpret_cast<Worker*>(pModifier)->FUN_00529ea0()))
+         ((bool)(reinterpret_cast<::FUN_00529ea0_shell *>((reinterpret_cast<Worker*>(this->m_pPreviousImageSpaceModifier)))->FUN_00529ea0()))) ||
+        (pModifier != 0 && ((bool)(reinterpret_cast<::FUN_00529ea0_shell *>((reinterpret_cast<Worker*>(pModifier)))->FUN_00529ea0()))))
     {
         return false;
     }
@@ -1141,12 +1155,9 @@ class GO
     operator unsigned int() const;
 };
 
-ImageSpaceManager* FUN_004e3270(void);
 
 struct ImageSpaceManagerAccess
 {
-    void FUN_00b8b760(float, float, float, float, float, const NiBound&);
-    void SetRadialBlurParameters(float, float, float, float, float, const NiPoint2&);
 };
 
 struct ImageSpaceModifierInstanceRB
@@ -1176,19 +1187,19 @@ void ImageSpaceModifierInstanceRB::FUN_0052a330()
         if (m_fStartTime < -10000.0)
             m_fStartTime = ImageSpaceModifierInstance::GetTime();
 
-        ImageSpaceManager* pmanager = FUN_004e3270();
+        ImageSpaceManager* pmanager = ::ImageSpaceManager::FUN_004e3270();
 
         if (m_spTargetObject.operator unsigned int())
         {
             reinterpret_cast<NiAVObject*>(m_spTargetObject.operator unsigned int())->UpdateWorldBound();
 
-            reinterpret_cast<ImageSpaceManagerAccess*>(pmanager)->FUN_00b8b760(
+            reinterpret_cast<::FUN_00b8b760_cls *>((reinterpret_cast<ImageSpaceManagerAccess*>(pmanager)))->FUN_00b8b760(
                 fWaterLevelItem, m_fRampUp, fStart, m_fRampDown, m_fRampDownStart,
-                reinterpret_cast<NiAVObject*>(m_spTargetObject.operator unsigned int())->GetBoundingVolume());
+                (int)&((*(const ::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(reinterpret_cast<NiAVObject*>(m_spTargetObject.operator unsigned int())))->FUN_0043d450()))));
         }
         else
         {
-            reinterpret_cast<ImageSpaceManagerAccess*>(pmanager)->SetRadialBlurParameters(
+            reinterpret_cast<::ImageSpaceManager *>((reinterpret_cast<ImageSpaceManagerAccess*>(pmanager)))->SetRadialBlurParameters(
                 fWaterLevelItem, m_fRampUp, fStart, m_fRampDown, m_fRampDownStart, radCenter);
         }
     }
@@ -1204,27 +1215,26 @@ ImageSpaceModifierInstanceForm* __cdecl CreateImageSpaceModifierInstance(TESImag
     ImageSpaceModifierInstanceForm* pInstance = 0;
     if (apModifier)
     {
-        BSSimpleList<NiPointer<ImageSpaceModifierInstance> >* pIter = g_TES->FUN_0043b5d0();
+        BSSimpleList<NiPointer<ImageSpaceModifierInstance> >* pIter = ((::BSSimpleList< ::NiPointer< ::ImageSpaceModifierInstance>> *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetData()));
         while (pIter)
         {
-            ImageSpaceModifierInstance* pCurrent = pIter->GetItem();
+            ImageSpaceModifierInstance* pCurrent = (*(::NiPointer< ::ImageSpaceModifierInstance> *)(new ((void *)(pIter)) ::Vec3()));
             if (pCurrent && pCurrent->GetInstanceForm() &&
                 pCurrent->GetInstanceForm()->m_pPreviousImageSpaceModifier == apModifier)
             {
                 bFound = true;
                 break;
             }
-            pIter = pIter->GetNext();
+            pIter = ((::BSSimpleList< ::NiPointer< ::ImageSpaceModifierInstance>> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
         }
         if (!bFound)
         {
             pInstance = new ImageSpaceModifierInstanceForm(apModifier, DAT_0102d270, afStrength, apTarget);
-            g_TES->FUN_0043b5d0()->AddTail(pInstance);
-            if (apModifier->GetIntroSound())
+            reinterpret_cast<::TargetClass *>((((::BSSimpleList< ::NiPointer< ::ImageSpaceModifierInstance>> *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetData()))))->FUN_0052a9b0((const ::NiPointer< ::NiNode> &)((const ::NiPointer< ::ImageSpaceModifierInstance> &)(pInstance)));
+            if (((::TESSound *)(reinterpret_cast<::BGSTerrainManager *>((apModifier))->GetMinLevel())))
             {
-                BSAudio::GetSingleton()
-                    ->GetSoundHandleByFormID(apModifier->GetIntroSound()->GetFormID(), 0x200000, false)
-                    .Play();
+                reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::SoundPlaybackHandle &)(::FUN_00453a70()
+                    ->GetSoundHandleByFormID(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::TESSound *)(reinterpret_cast<::BGSTerrainManager *>((apModifier))->GetMinLevel()))))->FUN_0084e3a0())), 0x200000, false)))->FUN_00ad8830({});
             }
         }
     }
@@ -1327,21 +1337,19 @@ struct FUN_00529ec0_cls
     void FormatDebugString(char* apBuffer);
 };
 extern const char DAT_0102d288[];
-extern const char DAT_01020770[];
 extern const char str_0102d294[];
 extern const char str_0102d28c[];
 extern const char str_0102d274[];
-int __cdecl _sprintf_s(char*, unsigned int, const char*, ...);
 // @fnv 0x00529ec0
 void FUN_00529ec0_cls::FormatDebugString(char* apBuffer)
 {
     if (m_20 != 0)
     {
-        _sprintf_s(apBuffer, 0x800, "B %s %s", (m_1c != 0) ? m_1c->vfn_130() : "(NULL)", m_20->vfn_130());
+        ::FUN_00406d00(apBuffer, 0x800, "B %s %s", (m_1c != 0) ? m_1c->vfn_130() : "(NULL)", m_20->vfn_130());
     }
     else
     {
-        _sprintf_s(apBuffer, 0x800, "%s %s Str: %1.3f ", (m_08 != 0) ? DAT_0102d288 : DAT_01020770,
+        ::FUN_00406d00(apBuffer, 0x800, "%s %s Str: %1.3f ", (m_08 != 0) ? DAT_0102d288 : DAT_01020770,
                    (m_1c != 0) ? m_1c->vfn_130() : "(NULL)", (double)m_0c);
     }
 }
@@ -1391,12 +1399,11 @@ ImageSpaceModifierInstance* __cdecl FUN_0052a440(float afStrength, float afRampu
 {
     ImageSpaceModifierInstanceRB* p = new ImageSpaceModifierInstanceRB(
         afStrength, DAT_0102d270, 0, afDuration, afRampup, afStart, afRampdown, afDownStart, akCenter);
-    g_TES->FUN_0043b5d0()->AddTail(p);
+    reinterpret_cast<::TargetClass *>((((::BSSimpleList< ::NiPointer< ::ImageSpaceModifierInstance>> *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetData()))))->FUN_0052a9b0((const ::NiPointer< ::NiNode> &)((const ::NiPointer< ::ImageSpaceModifierInstance> &)(p)));
     return p;
 }
 }  // namespace fnv_0052a440
 
-extern "C" void _operator_delete_sized(void* apMemory, unsigned int aSize);
 
 struct Shell_0052a300 : ImageSpaceModifierInstanceDOF
 {
@@ -1410,7 +1417,7 @@ void* Shell_0052a300::FUN_0052a300(unsigned int aFlags)
     DestroyMembers();
     if (aFlags & 1)
     {
-        _operator_delete_sized(this, 0x38);
+        ::FUN_00aa1460(this, 0x38);
     }
     return this;
 }

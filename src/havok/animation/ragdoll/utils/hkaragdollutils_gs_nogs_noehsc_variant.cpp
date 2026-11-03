@@ -5,9 +5,15 @@
 
 // src/havok/animation/ragdoll/utils/hkaragdollutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/ragdoll/utils/hkaragdollutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/FUN_00ce2510.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00cea000.h"
+#include "fnv/symbols_00d74000.h"
+#include "fnv/symbols_010cb000.h"
+#include "fnv/symbols_01268000.h"
 extern "C"
 {
-    int __cdecl FUN_00cea030(void*, void*);
     int __cdecl FUN_00ce9db0(void*, void*);
     int __cdecl FUN_00ce9e90(void*);
 }
@@ -43,7 +49,6 @@ struct Counter
     int unk00[12];
     int unk30;
 };
-extern "C" void __cdecl AssignNodeFlags(int, int, int);
 void __cdecl FUN_00ce9fa0(Container* c, int value, Counter* counter);
 struct Inner
 {
@@ -78,7 +83,6 @@ struct hkError
     virtual void unk1();
     virtual int message(int type, int id, const char* desc, const char* file, int line) throw();
 };
-extern hkError* DAT_01268360;
 static bool IsSupportedRagdollConstraint(Obj* obj, bool reportError) throw();
 void caller(Obj* obj);
 struct SpawnedAllocator
@@ -94,12 +98,10 @@ struct SpawnedGlobal
     int unk0c;
     SpawnedAllocator* m_pAllocator;
 };
-SpawnedGlobal* __cdecl FUN_00c85750() throw();
 struct SpawnedObject
 {
     int unk00;
     unsigned short m_size04;
-    int Init(void* a, void* b, int c, void* d);
 };
 struct SourceRecord
 {
@@ -157,7 +159,6 @@ struct ShapeOwner
     int unk08;
     InnerShape* inner;
 };
-extern char str_010cbd34[];
 extern char str_010cbd50[];
 
 // @fnv 0x00ce9c40
@@ -181,8 +182,8 @@ static __declspec(noinline) void* FUN_00ce9c40(ShapeOwner* owner)
     default: {
         char buf[0x200];
         hkErrStream os(buf, sizeof(buf));
-        os << str_010cbd50;
-        DAT_01268360->message(1, 0xabbabf3b, buf, str_010cbd34, 0xb4);
+        reinterpret_cast<::SinkOwner *>((void *)&(const ::hkErrStream &)(os))->FUN_00cc01c0(str_010cbd50);
+        (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabbabf3b, buf, ::DAT_010cbd34, 0xb4);
     }
         return 0;
     }

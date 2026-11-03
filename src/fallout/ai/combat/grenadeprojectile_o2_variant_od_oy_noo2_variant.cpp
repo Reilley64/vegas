@@ -5,10 +5,68 @@
 
 // src/fallout/ai/combat/grenadeprojectile_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/ai/combat/grenadeprojectile.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include "fnv/decl/Actor.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/BeamEffect.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005de080_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00885bd0_St.h"
+#include "fnv/decl/FUN_00931fb0_shell.h"
+#include "fnv/decl/FUN_009344a0_shell.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FUN_00ad89e0_shell.h"
+#include "fnv/decl/FUN_00ad8b60_h.h"
+#include "fnv/decl/FUN_00ad8f20_shell.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/Projectile9c58.h"
+#include "fnv/decl/ProjectileHit.h"
+#include "fnv/decl/S.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/bhkCollisionObject.h"
+#include "fnv/decl/bhkRigidBody_shell.h"
+#include "fnv/decl/bhkUnaryAction.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/decl/fnv_009334b0__FUN_009334b0_shell.h"
+#include "fnv/decl/fnv_00ad88f0__FUN_00ad88f0_h.h"
+#include "fnv/decl/s56ae10__Owner.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00560000.h"
+#include "fnv/symbols_00574000.h"
+#include "fnv/symbols_0062b000.h"
+#include "fnv/symbols_006fa000.h"
+#include "fnv/symbols_009c2000.h"
+#include "fnv/symbols_00c6a000.h"
+#include "fnv/symbols_00c8c000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f2000.h"
 #include "grenadeprojectile_types.h"
 struct S_004f15a0
 {
-    void FUN_004f15a0(int);
 };
 struct GP_Base0
 {
@@ -34,7 +92,6 @@ class FUN_009b3fa0 : public FUN_009bbc70
 };
 struct S4700
 {
-    bool FUN_009c43e0(int, bool);
     bool FUN_009b4700(int, bool);
     virtual void f0(), f1(), f2(), f3(), f4(), f5(), f6(), f7(), f8(), f9(), f10(), f11(), f12(), f13(), f14(), f15(),
         f16(), f17(), f18(), f19(), f20(), f21(), f22(), f23(), f24(), f25(), f26(), f27(), f28(), f29(), f30(), f31(),
@@ -56,9 +113,7 @@ struct S4700
 struct NiAVObject;
 struct Creature
 {
-    static void __cdecl SetNodeFlagsRecursive(NiAVObject*, int, bool, bool, bool);
 };
-extern double _gModifierZero;
 struct FUN_009b4c70_shell : public Projectile
 {
     void FUN_009b4c70();
@@ -66,7 +121,6 @@ struct FUN_009b4c70_shell : public Projectile
 struct BGSLoadFormBuffer;
 struct C009c58e0
 {
-    void __thiscall FUN_009c58e0(BGSLoadFormBuffer*);
 };
 struct S009b4d10 : public FUN_009b3fa0
 {
@@ -74,23 +128,18 @@ struct S009b4d10 : public FUN_009b3fa0
 };
 
 #include <xmmintrin.h>
-extern const float g_fBaseAlpha9B4;
 
 class NiColorA9B4
 {
   public:
     NiColorA9B4();
-    void Set(float fR, float fG, float fB, float fA);
-    void Blend(void* pvOther);
     __m128 m_vComponents;
 };
 
 class GameModeState9B4
 {
   public:
-    int GetMode();
 };
-extern GameModeState9B4 g_kGameMode9B4;
 
 class ActorValueOwner9B4
 {
@@ -146,20 +195,15 @@ class PlayerCharacter9B4
     unsigned int unka0;
     ActorValueOwner9B4 m_kAVOwner;
 };
-extern PlayerCharacter9B4* g_pkPlayer9B4;
 
 class NiAVObject9B4
 {
   public:
-    int GetFlags();
-    void* GetMaterialColor();
-    void SetMaterialColor(NiColorA9B4* pkColor);
 };
 
 class NiNode9B4
 {
   public:
-    NiAVObject9B4* GetObject();
 };
 
 class TESObjectREFR9B4
@@ -238,11 +282,6 @@ class HighProcess9B4
     bool IsReady();
 };
 
-NiNode9B4* __cdecl FUN_0043b610(void* pvRoot);
-bool __cdecl FUN_00c8cce0(int* piFlags);
-bool __cdecl CanProjectileHit(TESObjectREFR9B4* pkTarget, int iArg, void* pvActor, void* pvProcess);
-void __cdecl FUN_0062b8d0(void* pvRoot, const void* pvPos, int iFlag);
-extern const float g_kZeroPoint9B4[3];
 
 class Actor9B4
 {
@@ -401,54 +440,8 @@ class Actor9B4
     unsigned int unk8c;
     bool m_bFiring;
 
-    void* GetProcessData();
-    bool CanFire(TESObjectREFR9B4* pkTarget, int a2, int a3, int a4, int a5, int a6);
-    float GetReloadTime();
-    void StartReload();
     bool FUN_009b4460(TESObjectREFR9B4* pkTarget, int a2, int a3, int a4, int a5, int a6);
 };
-
-// @fnv 0x009b4460
-bool Actor9B4::FUN_009b4460(TESObjectREFR9B4* pkTarget, int a2, int a3, int a4, int a5, int a6)
-{
-    if (g_kGameMode9B4.GetMode() == 4)
-    {
-        NiNode9B4* pkNode = FUN_0043b610(Get3D());
-        if (pkNode)
-        {
-            NiAVObject9B4* pkObject = pkNode->GetObject();
-            if (pkObject)
-            {
-                int iFlags = pkObject->GetFlags();
-                if (FUN_00c8cce0(&iFlags))
-                {
-                    NiColorA9B4 kColor;
-                    float fAlpha = g_fBaseAlpha9B4;
-                    fAlpha = (100 - g_pkPlayer9B4->m_kAVOwner.GetActorValue(0x23)) / 100.0 * fAlpha;
-                    fAlpha = fAlpha + (double)0.1f;
-                    kColor.Set(fAlpha, fAlpha, fAlpha, 0.0f);
-                    kColor.Blend(pkObject->GetMaterialColor());
-                    pkObject->SetMaterialColor(&kColor);
-                }
-            }
-        }
-    }
-    if (m_kProcess.IsReady() && CanProjectileHit(pkTarget, a4, this, GetProcessData()) &&
-        CanFire(pkTarget, a2, a3, a4, a5, a6))
-    {
-        if (pkTarget && pkTarget->IsActor())
-        {
-            FUN_0062b8d0(Get3D(), g_kZeroPoint9B4, 1);
-        }
-        else if (GetReloadTime() == 0.0)
-        {
-            StartReload();
-            m_bFiring = true;
-        }
-        return true;
-    }
-    return false;
-}
 
 // hkVector4::mul4(const hkVector4&): component-wise multiply in place.
 
@@ -457,6 +450,47 @@ struct hkVector4Mul
     __m128 m_vComponents;
     void FUN_009b4670(const hkVector4Mul& a);
 };
+// @fnv 0x009b4460
+bool Actor9B4::FUN_009b4460(TESObjectREFR9B4* pkTarget, int a2, int a3, int a4, int a5, int a6)
+{
+    if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::GameModeState9B4 *>(&::g_011f2250))))->GetName())) == 4)
+    {
+        NiNode9B4* pkNode = ((::NiNode9B4 *)(::bhkCollisionObject::GetFromNiAVObject((::NiAVObject *)(void *)(Get3D()))));
+        if (pkNode)
+        {
+            NiAVObject9B4* pkObject = ((::NiAVObject9B4 *)(::fnv_006fa820::FUN_006fa820((const char *)(pkNode))));
+            if (pkObject)
+            {
+                int iFlags = reinterpret_cast<::bhkRigidBody_shell *>((pkObject))->FUN_00517630();
+                if (((bool)(::FUN_00c8cce0(&iFlags))))
+                {
+                    NiColorA9B4 kColor;
+                    float fAlpha = ::DAT_010177e8;
+                    fAlpha = (100 - (*reinterpret_cast<::PlayerCharacter9B4 * *>(&::_g_thePlayer))->m_kAVOwner.GetActorValue(0x23)) / 100.0 * fAlpha;
+                    fAlpha = fAlpha + (double)0.1f;
+                    reinterpret_cast<::bhkUnaryAction *>(&(kColor))->Set(fAlpha, fAlpha, fAlpha, 0.0f);
+                    reinterpret_cast<::hkVector4Mul *>(&(kColor))->FUN_009b4670((*(const ::hkVector4Mul *)(((void *)&(::fnv_00560d80::FUN_00560d80((void *)(pkObject)))))));
+                    reinterpret_cast<::S *>((pkObject))->FUN_00561690((int)(&kColor));
+                }
+            }
+        }
+    }
+    if (m_kProcess.IsReady() && ::fnv_009c2c80::CanProjectileHit((::fnv_009c2c80::RefObj *)(pkTarget), (::fnv_009c2c80::CdBody *)(a4), (int)(this), (::fnv_009c2c80::ProjData *)(void *)(((void *)(reinterpret_cast<::Actor *>(this)->GetActorBase())))) &&
+        reinterpret_cast<::ProjectileHit *>(this)->ProcessHit((::Obj *)(pkTarget), (*(const ::Vec *)(a2)), (*(const ::Vec *)(a3)), (::Buffer *)(a4), a5, a6))
+    {
+        if (pkTarget && pkTarget->IsActor())
+        {
+            ::FUN_0062b8d0(Get3D(), (*reinterpret_cast<const float (*)[3]>((void *)&::NiPoint3::ZERO)), 1);
+        }
+        else if (reinterpret_cast<::FUN_00885bd0_St *>(this)->FUN_00885bd0() == 0.0)
+        {
+            reinterpret_cast<::GrenadeProjectile *>(this)->FUN_009b4740();
+            m_bFiring = true;
+        }
+        return true;
+    }
+    return false;
+}
 // @fnv 0x009b4670
 void hkVector4Mul::FUN_009b4670(const hkVector4Mul& a)
 {

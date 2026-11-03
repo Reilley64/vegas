@@ -2,6 +2,17 @@
 // src/havok/physics/collide/shape/compound/collection/storageextendedmesh/hkpstorageextendedmeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/storageextendedmesh/hkpstorageextendedmeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/Container.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/S_00d55950.h"
+#include "fnv/decl/S_00d56880.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00d55000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpStorageExtendedMeshShape.h"
 
 struct MemoryRouter
@@ -131,7 +142,7 @@ extern "C" hkMemoryRouterD49C* __cdecl FUN_00c85750() throw();
 template <typename T> inline void hkDestructD49C(T* t, int n)
 {
     for (int i = 0; i < n; ++i)
-        t[i].~T();
+        reinterpret_cast<::Container *>(&(t[i]))->FUN_00d56800();
 }
 
 template <typename T> struct hkArrayD49C
@@ -162,7 +173,6 @@ template <typename T> struct hkArrayD49C
 class hkReferencedObject
 {
   public:
-    void removeReference() throw();
 };
 
 class hkpStorageExtendedMeshShapeMeshSubpartStorage : public hkReferencedObject
@@ -211,10 +221,10 @@ class FUN_00d49cb0 : public FUN_00d56e00
 FUN_00d49cb0::~FUN_00d49cb0() throw()
 {
     for (int i = 0; i < m_kMeshSubparts.m_iElementCount; i++)
-        m_kMeshSubparts.m_data[i]->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_kMeshSubparts.m_data[i]))->FUN_00c905b0();
     m_kTrianglesSubparts.clear();
     for (int i = 0; i < m_kShapeSubparts.m_iElementCount; i++)
-        m_kShapeSubparts.m_data[i]->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_kShapeSubparts.m_data[i]))->FUN_00c905b0();
 }
 
 struct hkFinishLoadedObjectFlagD4A1
@@ -375,7 +385,7 @@ struct FUN_00d4aec0_Class
 // @fnv 0x00d4aec0
 FUN_00d4aec0_Class* FUN_00d4aec0_Class::FUN_00d4aec0(unsigned char flags)
 {
-    FUN_00d49cb0();
+    reinterpret_cast<::FUN_00d49cb0 *>(this)->FUN_00d49cb0::~FUN_00d49cb0();
     if (flags & 1)
     {
         MemoryManager* mgr = _D1A0E0GetMemoryRouter();
@@ -594,7 +604,7 @@ class FUN_00cb0c00_class
     void FUN_00cb0c00() throw();
     ~FUN_00cb0c00_class()
     {
-        FUN_00cb0c00();
+        ::FUN_00cb0c00((int)this);
     }
 };
 
@@ -872,7 +882,6 @@ class FUN_00d569c0 : public hkpShapeD4AA, public hkpShapeContainerD4AA
     char m_padE8[0x8];
 
     FUN_00d569c0(hkReal fRadius, int iNumBitsForSubpartIndex) throw();
-    void FUN_00d55950() throw();
 };
 
 class FUN_00d4aa70 : public FUN_00d569c0
@@ -905,7 +914,7 @@ FUN_00d4aa70::FUN_00d4aa70(const FUN_00d569c0* pkMesh) throw()
 
     m_kWeldingInfo = pkMesh->m_kWeldingInfo;
     m_eWeldingType = pkMesh->m_eWeldingType;
-    FUN_00d55950();
+    reinterpret_cast<::S_00d55950 *>(this)->FUN_00d55950();
 }
 }  // namespace fnv_00d4aa70
 
@@ -976,8 +985,6 @@ inline void* operator new(unsigned int, void* p) throw()
 
 struct FUN_00d1df70
 {
-    void FUN_00c90510() throw();
-    void removeReference() throw();
 };
 
 template <class T> class hkRefPtrD4AD
@@ -988,21 +995,21 @@ template <class T> class hkRefPtrD4AD
     hkRefPtrD4AD(const hkRefPtrD4AD& rp)
     {
         if (rp.m_pRetainedObject)
-            rp.m_pRetainedObject->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((rp.m_pRetainedObject))->FUN_00c90510();
         m_pRetainedObject = rp.m_pRetainedObject;
     }
     ~hkRefPtrD4AD()
     {
         if (m_pRetainedObject)
-            m_pRetainedObject->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pRetainedObject))->FUN_00c905b0();
         m_pRetainedObject = 0;
     }
     void operator=(const hkRefPtrD4AD& rp)
     {
         if (rp.m_pRetainedObject)
-            rp.m_pRetainedObject->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((rp.m_pRetainedObject))->FUN_00c90510();
         if (m_pRetainedObject)
-            m_pRetainedObject->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pRetainedObject))->FUN_00c905b0();
         m_pRetainedObject = rp.m_pRetainedObject;
     }
 };
@@ -1021,7 +1028,6 @@ struct hkMemoryRouterD4AD
     }
 };
 extern "C" hkMemoryRouterD4AD& __cdecl FUN_00c85750();
-int __cdecl FUN_00c908c0(hkMemoryAllocatorD4AD& kAlloc, void* apvArray, int iNumElements, int iSizeOfElement);
 
 template <class T> __forceinline void destructD4AD(T* t, int n)
 {
@@ -1057,7 +1063,7 @@ template <class T> class hkArrayD4AD
         {
             int iCap2 = 2 * iCap;
             int iNewCap = (n < iCap2) ? iCap2 : n;
-            FUN_00c908c0(kAlloc, this, iNewCap, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(kAlloc), (::SpawnedArray *)(void *)(this), iNewCap, sizeof(T));
         }
     }
 
@@ -1136,8 +1142,6 @@ hkpExtendedMeshShapeShapesSubpartD4AD& hkpExtendedMeshShapeShapesSubpartD4AD::FU
 #include <string.h>
 extern "C" void _ReadWriteBarrier();
 
-void __cdecl FUN_00c908c0(void*, void*, int, int);
-void __cdecl ResizeAudioStream(void*, void*, int);
 template <class T> __forceinline void constructWithCopy(T* p, int n, const T& t)
 {
     for (int i = 0; i < n; ++i)
@@ -1172,11 +1176,11 @@ struct HavokArrayUtilities
     static __forceinline void __cdecl GrowArrayCapacity(hkMemoryAllocator& alloc, void* array, int reqCapacity,
                                                         int sizeElem)
     {
-        FUN_00c908c0(&alloc, array, reqCapacity, sizeElem);
+        ::FUN_00c908c0((::SpawnedObject *)(void *)(&alloc), (::SpawnedArray *)(array), reqCapacity, sizeElem);
     }
     static __forceinline void __cdecl GrowArray(hkMemoryAllocator& alloc, void* array, int sizeElem)
     {
-        ResizeAudioStream(&alloc, array, sizeElem);
+        ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(array), sizeElem);
     }
 };
 
@@ -1218,7 +1222,7 @@ template <typename T> struct hkArr
                     count = doubled;
                 else
                     count = n;
-                HavokArrayUtilities::GrowArrayCapacity(alloc, this, count, sizeof(T));
+                ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), count, sizeof(T));
             }
             else
             {
@@ -1226,7 +1230,7 @@ template <typename T> struct hkArr
                 int newSize = n;
                 if (newSize < cap2)
                     newSize = cap2;
-                HavokArrayUtilities::GrowArrayCapacity(alloc, this, newSize, sizeof(T));
+                ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
             }
         }
     }
@@ -1293,7 +1297,6 @@ struct StorageReferencedObject : hkBaseObject
 };
 
 class hkClass;
-extern const hkClass g_kHkpMeshMaterialClass;
 
 struct hkpMeshMaterial
 {
@@ -1414,9 +1417,6 @@ class StorageMeshShape
     int m_unk0f8;
     hkArr<MeshSubpartStorage*> m_kMeshSubparts;
 
-    TrianglesSubpart* AppendElement();
-    void FUN_00d55950();
-    int FUN_00d55520(TrianglesSubpart& part);
 
     int FUN_00d49dc0(const TrianglesSubpart& partIn);
 };
@@ -1425,7 +1425,7 @@ class StorageMeshShape
 // @fnv 0x00d49dc0
 int StorageMeshShape::FUN_00d49dc0(const TrianglesSubpart& partIn)
 {
-    TrianglesSubpart& part = *AppendElement();
+    TrianglesSubpart& part = *((::TrianglesSubpart *)(reinterpret_cast<::S_00d56880 *>(this)->AppendElement()));
     m_kMeshSubparts.AddBack(new MeshSubpartStorage());
     MeshSubpartStorage* storage = m_kMeshSubparts.back();
 
@@ -1505,7 +1505,7 @@ int StorageMeshShape::FUN_00d49dc0(const TrianglesSubpart& partIn)
         StorageMaterial* dst = materials.m_data + first;
         for (int i = 0; i < partIn.m_iNumTriangles; i++)
         {
-            if (partIn.m_pMaterialBase == &g_kHkpMeshMaterialClass)
+            if (partIn.m_pMaterialBase == &(*reinterpret_cast<const ::hkClass *>(&::g_01268c8c)))
             {
                 *dst = *static_cast<const StorageMaterial*>(src);
             }
@@ -1531,8 +1531,8 @@ int StorageMeshShape::FUN_00d49dc0(const TrianglesSubpart& partIn)
         part.m_pIndexBase = materials.begin();
     }
 
-    FUN_00d55950();
-    m_numBitsOrSomething += FUN_00d55520(part);
+    reinterpret_cast<::S_00d55950 *>(this)->FUN_00d55950();
+    m_numBitsOrSomething += ::FUN_00d55520((::FUN_00d55520_cls *)this);
     return m_kTrianglesSubparts.m_iElementCount - 1;
 }
 
@@ -1587,10 +1587,7 @@ typedef signed char hkInt8;
 typedef short hkInt16;
 typedef unsigned short hkUint16;
 
-extern const __m128 g_hkQuadIdentityQuat;
-extern const __m128 g_hkQuadZero;
 extern const __m128 g_hkQuadAbsMask;
-extern const float g_hkEqualsEps;
 
 struct hkMemoryAllocator
 {
@@ -1615,13 +1612,10 @@ hkMemoryRouterS* FUN_00c85750();
 
 struct hkArrayUtilS
 {
-    static void __cdecl GrowArrayCapacity(hkMemoryAllocator& alloc, void* array, int reqCapacity, int sizeElem);
 };
 
 struct hkConvexShapeS
 {
-    void RetainReference() const;
-    void removeReference() const;
 };
 
 template <class T> struct hkRefPtrS
@@ -1634,11 +1628,11 @@ template <class T> struct hkRefPtrS
     {
         if (e)
         {
-            e->RetainReference();
+            reinterpret_cast<::FUN_00c90510_class *>((void *)(e))->FUN_00c90510();
         }
         if (m_pRetainedObject)
         {
-            m_pRetainedObject->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((void *)(m_pRetainedObject))->FUN_00c905b0();
         }
         m_pRetainedObject = e;
     }
@@ -1670,7 +1664,7 @@ template <typename T> struct hkArrS
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            hkArrayUtilS::GrowArrayCapacity(alloc, this, newSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
         }
     }
 
@@ -1760,9 +1754,10 @@ ShapesSubpartS* ShapesSubpartS::FUN_00d56500(hkConvexShapeS* const* childShapes,
         dst[i] = childShapes[i];
     }
 
-    m_rotation.m_vComponents = g_hkQuadIdentityQuat;
-    const int bOffsetNonZero = !equals3(offset, g_hkQuadZero, g_hkEqualsEps);
+    m_rotation.m_vComponents = (*reinterpret_cast<const ::fnv_00d56500::__m128 *>((void *)&::DAT_010c71b0));
+    const int bOffsetNonZero = !equals3(offset, (*reinterpret_cast<const ::fnv_00d56500::__m128 *>(&::DAT_01267e30)), ::AngularDashpotApplyD4DCB0::DAT_01017d00);
     *(int*)&m_vTranslation.w = bOffsetNonZero | 0x3f000000;
     return this;
 }
 }  // namespace fnv_00d56500
+#include "fnv/symbols_simd.h"

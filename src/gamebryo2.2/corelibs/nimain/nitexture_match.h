@@ -3,8 +3,10 @@
 #define NITEXTURE_MATCH_H
 
 
+#include "fnv/symbols_011f4000.h"
 class NiExtraData;
 
+class NiStream;
 class NiObjectNET
 {
   public:
@@ -15,6 +17,8 @@ class NiObjectNET
 
     void LoadBinary(class NiStream&);
     void DeleteExtraData(unsigned short index);
+public:
+    void LinkObject(::NiStream &);
 };
 
 class NiExtraData
@@ -28,7 +32,6 @@ class NiExtraData
 extern "C" void(__stdcall* fnv_EnterCriticalSection)(void*);
 extern "C" void(__stdcall* fnv_LeaveCriticalSection)(void*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
-extern unsigned char DAT_011f4380;
 
 class NiTexture : public NiObjectNET
 {

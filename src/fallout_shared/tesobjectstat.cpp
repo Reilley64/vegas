@@ -1,5 +1,29 @@
 // fallout_shared/tesobjectstat.cpp: TESObjectSTAT, TESGlobal, Standin, StatCopy (9 functions)
 
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0046dce0_class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_0048a520_shell.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_005b5000.h"
 #include "tesobjectstat_load.h"
 #include "tesobjectstat_global.h"
 #include "tesobjectstat_types_TESObjectSTAT.h"
@@ -10,14 +34,14 @@ TESGlobal::TESGlobal()
 {
     cType = 's';
     fValue = 0.0f;
-    SetFormType((ENUM_FORM_ID)6);
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)((ENUM_FORM_ID)6)));
 }
 
 // Sets the form type to 0x20, initializes a byte field to 0xFF and a second field to 0.
 // @fnv 0x0051b140
 TESObjectSTAT::TESObjectSTAT()
 {
-    SetFormType((ENUM_FORM_ID)0x20);
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)((ENUM_FORM_ID)0x20)));
     m_cType = (char)0xFF;
     m_pSoundForm = 0;
 }
@@ -25,16 +49,16 @@ TESObjectSTAT::TESObjectSTAT()
 // @fnv 0x0051b280
 bool TESObjectSTAT::Load(TESFile* file)
 {
-    unsigned char ucFormType = file->GetTESForm();
-    LoadRecordHeader(file);
+    unsigned char ucFormType = ((unsigned char)(reinterpret_cast<::FUN_00472660_shell *>((file))->FUN_00472660()));
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
     unsigned int uiChunkID;
-    while ((uiChunkID = file->GetChunkID()) != 0)
+    while ((uiChunkID = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()))) != 0)
     {
         switch ((int)uiChunkID)
         {
         case 0x44494445: {
-            char* editorID = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(editorID, 512);
+            char* editorID = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(editorID), 512);
             SetEditorID_AtRuntime(editorID);
             break;
         }
@@ -50,10 +74,10 @@ bool TESObjectSTAT::Load(TESFile* file)
         case 0x53444f4d: {
             void* pChunkData;
             {
-                unsigned int uiChunkSize = file->GetChunkSize();
+                unsigned int uiChunkSize = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
                 pChunkData = _alloca(uiChunkSize);
-                file->GetChunkData(pChunkData, uiChunkSize);
-                ParseTextureSwapData(pChunkData, uiChunkSize, ((TESFileFormVersion*)file)->GetFormVersion());
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(pChunkData), uiChunkSize);
+                reinterpret_cast<::FUN_0048a7b0_shell *>(this)->LoadTextureSwapList(pChunkData, uiChunkSize, reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((((TESFileFormVersion*)file)))->FUN_00403570());
             }
             break;
         }
@@ -76,38 +100,20 @@ bool TESObjectSTAT::Load(TESFile* file)
     return true;
 }
 
-void _Deallocate(void*);
 struct Standin
 {
     void FUN_0051b200();
     void* DestroyIfFlagged(unsigned int);
 };
-// Calls FUN_0051b200, then deallocates this when flags has bit 0 set, and returns this.
-// @fnv 0x0051b1d0
-void* Standin::DestroyIfFlagged(unsigned int flags)
-{
-    FUN_0051b200();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct FUN_004855a0_shell
 {
-    void M();
-    void FUN_004855a0();
 };
 struct FUN_00485680_shell
 {
-    void M();
-    void FUN_00485680();
 };
 struct S_0048a520_shell
 {
-    void ProcessAndFreeData(unsigned int, unsigned int, unsigned int);
 };
-void __cdecl FUN_004858f0(unsigned int, unsigned char);
-void __cdecl FUN_00485910(unsigned int, unsigned int);
 
 struct FUN_0051b4b0_shell : public FUN_004855a0_shell
 {
@@ -117,20 +123,19 @@ struct FUN_0051b4b0_shell : public FUN_004855a0_shell
 // @fnv 0x0051b4b0
 void FUN_0051b4b0_shell::FUN_0051b4b0()
 {
-    ((FUN_004855a0_shell*)this)->M();
-    ((S_0048a520_shell*)((char*)this + 0x30))->ProcessAndFreeData(0x4C444F4D, 0x54444F4D, 0x53444F4D);
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0_shell*)this)))->FUN_004855a0();
+    reinterpret_cast<::FUN_0048a520_shell *>((((S_0048a520_shell*)((char*)this + 0x30))))->ProcessAndFreeData(0x4C444F4D, 0x54444F4D, 0x53444F4D);
     FUN_004858f0(0x53555242, *(unsigned char*)((char*)this + 0x50));
     if (*(unsigned int*)((char*)this + 0x54))
     {
-        unsigned int id = ((TESForm*)(*(unsigned int*)((char*)this + 0x54)))->GetFormID();
-        FUN_00485910(0x4D414E52, id);
+        unsigned int id = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)(*(unsigned int*)((char*)this + 0x54)))))->FUN_0084e3a0()));
+        ::FUN_00485910(0x4D414E52, id);
     }
-    ((FUN_00485680_shell*)this)->M();
+    reinterpret_cast<::Holder *>((((FUN_00485680_shell*)this)))->FUN_00485680();
 }
 
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
     bool FUN_0051b650(TESForm* form);
     char m_cType;
     TESSound* m_pSoundForm;
@@ -142,7 +147,7 @@ bool FUN_005e79a0_t::FUN_0051b650(TESForm* form)
     TESObjectSTAT* other = dynamic_cast<TESObjectSTAT*>(form);
     if (!other)
         return true;
-    if (FUN_00485270(other))
+    if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270(other))
         return true;
     if (*(char*)((char*)this + 0x50) != *(char*)((char*)other + 0x50))
         return true;
@@ -159,12 +164,10 @@ struct TESSound : public TESForm
 
 extern char str_0102bbb0[];
 
-void __cdecl _FNV_Warning(char*, unsigned int, char*, unsigned int);
 
 struct TESObjectSTAT_shell : public TESForm
 {
     void FUN_0051b530();
-    void FUN_0048aa80(TESForm*);
 };
 
 // @fnv 0x0051b530
@@ -172,24 +175,24 @@ void TESObjectSTAT_shell::FUN_0051b530()
 {
     unsigned int itempint;
 
-    if (IsFormInitialized())
+    if (reinterpret_cast<::TESForm *>((void *)this)->GetInitialized())
         return;
 
-    reinterpret_cast<TESObjectSTAT_shell*>(reinterpret_cast<unsigned char*>(this) + 0x30)->FUN_0048aa80(this);
+    reinterpret_cast<::TESModelTextureSwap *>((reinterpret_cast<TESObjectSTAT_shell*>(reinterpret_cast<unsigned char*>(this) + 0x30)))->InitItem(this);
 
     itempint =
         reinterpret_cast<unsigned int>(*reinterpret_cast<TESSound**>(reinterpret_cast<unsigned char*>(this) + 0x54));
 
     if (itempint)
     {
-        TESForm::RemapFormIDForFile(itempint, GetFile(-1));
+        ::ResolveFormID((unsigned int *)&(itempint), GetFile(-1));
 
         reinterpret_cast<TESSound**>(reinterpret_cast<unsigned char*>(this) + 0x54)[0] =
-            dynamic_cast<TESSound*>(GetFormByID(itempint));
+            dynamic_cast<TESSound*>(::FUN_004839c0(itempint));
 
         if (!reinterpret_cast<TESSound**>(reinterpret_cast<unsigned char*>(this) + 0x54)[0])
         {
-            _FNV_Warning(str_0102bbb0, itempint, GetName(), GetFormID());
+            ::FUN_005b5e40();
         }
     }
 
@@ -209,17 +212,24 @@ struct ModelTextureBase
 struct FUN_0051b200 : ObjectFormBase, ModelTextureBase
 {
     virtual ~FUN_0051b200();
-    void FUN_00483710();
 };
+// Calls FUN_0051b200, then deallocates this when flags has bit 0 set, and returns this.
+// @fnv 0x0051b1d0
+void* Standin::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0051b200 *>(this)->FUN_0051b200::~FUN_0051b200();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // @fnv 0x0051b200
 FUN_0051b200::~FUN_0051b200()
 {
-    FUN_00483710();
+    reinterpret_cast<::TESForm *>(this)->ClearData();
 }
 
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm* apForm);
 };
 
 struct StatCopy : public TESObjectSTAT
@@ -236,6 +246,6 @@ void __thiscall StatCopy::FUN_0051b5f0(TESForm* apCopy)
         return;
     }
     this->m_pSoundForm = pcopy->m_pSoundForm;
-    ((FUN_005e78f0_t*)this)->FUN_004851b0(pcopy);
+    reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0(pcopy);
     this->m_cType = pcopy->m_cType;
 }

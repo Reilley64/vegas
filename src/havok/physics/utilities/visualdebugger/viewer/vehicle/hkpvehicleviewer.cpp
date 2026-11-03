@@ -2,10 +2,24 @@
 // src/havok/physics/utilities/visualdebugger/viewer/vehicle/hkpvehicleviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/vehicle/hkpvehicleviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00c929e0_ThisClass.h"
+#include "fnv/decl/S_00dd9380.h"
+#include "fnv/decl/SearchArray.h"
+#include "fnv/decl/fnv_00c93920__hkpWorldXc93920.h"
+#include "fnv/decl/hkOwnerXc937a0.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkWorldXc91700.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d2c000.h"
+#include "fnv/symbols_00d63000.h"
+#include "fnv/symbols_010cc000.h"
+#include "fnv/symbols_010d1000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 struct D625A0Allocator;
 
-void __cdecl FUN_00c908c0(D625A0Allocator* alloc, void* array, int numElements, int sizeElem);
-void __cdecl D625A0MemMove(void* dst, const void* src, unsigned int nbytes);
 
 struct D625A0CharArray
 {
@@ -32,16 +46,15 @@ void D625A0CharArray::ReplaceRange(D625A0Allocator& alloc, int index, int aiNumD
     {
         int iDoubledCapacity = 2 * iCapacity;
         int iNewCapacity = (iNewLength < iDoubledCapacity) ? iDoubledCapacity : iNewLength;
-        FUN_00c908c0(&alloc, this, iNewCapacity, sizeof(char));
+        ::FUN_00c908c0((::SpawnedObject *)(::D625A0Allocator *)(&alloc), (::SpawnedArray *)(void *)(this), iNewCapacity, sizeof(char));
     }
-    D625A0MemMove(m_data + index + aiNumInsert, m_data + index + aiNumDelete, numtomove * sizeof(char));
+    ::FUN_00d2cc70(m_data + index + aiNumInsert, (void *)(m_data + index + aiNumDelete), numtomove * sizeof(char));
     char* dst = m_data + index;
     for (int i = 0; i < aiNumInsert; ++i)
         dst[i] = apSource[i];
     m_iElementCount = iNewLength;
 }
 
-extern char d_010d17d0;
 // @fnv 0x00d634d0
 char* FUN_00d634d0()
 {
@@ -170,44 +183,35 @@ struct ItemList
     void** m_ppItems;
     int m_iArrayLength;
 
-    void FUN_00c905b0();
 };
 
 struct Registry
 {
-    void FUN_00c937a0(NotifyTarget* apTarget);
-    void FUN_00c93920(SecondTarget* apTarget);
-    ItemList* FUN_00c929e0();
 };
 
 // @fnv 0x00d63520
 void OurPart::RegisterAndNotify(Registry* apRegistry)
 {
-    apRegistry->FUN_00c937a0((Container*)((char*)this - 0x20));
-    apRegistry->FUN_00c93920((Container*)((char*)this - 0x20));
+    reinterpret_cast<::hkOwnerXc937a0 *>((apRegistry))->FUN_00c937a0((Container*)((char*)this - 0x20));
+    reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((apRegistry))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(::SecondTarget *)((Container*)((char*)this - 0x20)));
 
-    ItemList* pItemList = apRegistry->FUN_00c929e0();
+    ItemList* pItemList = ((::ItemList *)(reinterpret_cast<::FUN_00c929e0_ThisClass *>((apRegistry))->FUN_00c929e0()));
     for (int i = 0; i < pItemList->m_iArrayLength; i++)
         ((NotifyTarget*)((char*)this + 8))->Notify(pItemList->m_ppItems[i]);
 
-    pItemList->FUN_00c905b0();
+    reinterpret_cast<::hkReferencedObjectC905 *>((pItemList))->FUN_00c905b0();
 }
 
 struct Factory
 {
-    void* FUN_00dd9380(const char*, void*);
 };
-extern void* DAT_01268fcc;
-extern Factory* DAT_01269cd0;
 extern const char DAT_010d17c4;
-extern void AllocAndInitObject();
 // @fnv 0x00d63da0
 void __cdecl FUN_00d63da0()
 {
-    DAT_01268fcc = DAT_01269cd0->FUN_00dd9380(&DAT_010d17c4, (void*)AllocAndInitObject);
+    (*reinterpret_cast<void * *>(&::g_D63DC0Value)) = ((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::Factory * *>(&::DAT_01269cd0))))->FUN_00dd9380(&DAT_010d17c4, (int)((void*)((void (&)())::fnv_00d63d60::AllocAndInitObject)))));
 }
 
-extern int g_D63DC0Value;
 
 // @fnv 0x00d63dc0
 int __cdecl FUN_00d63dc0()
@@ -222,8 +226,6 @@ int __cdecl FUN_00d63dc0()
 // two Target methods, which are called with the owner as their `this`.
 struct Target
 {
-    void FUN_00c91700(void* apArg);
-    void ClearValue(void* apArg);
 };
 
 struct FUN_00d63480_cls
@@ -245,8 +247,8 @@ struct FUN_00d63480_cls
 void FUN_00d63480_cls::PassMembersToTarget(Target* apTarget)
 {
     char* pOwner = (char*)this - 0x20;
-    apTarget->FUN_00c91700(pOwner ? (void*)((char*)this + 8) : (void*)0);
-    apTarget->ClearValue(pOwner ? (void*)((char*)this + 0xc) : (void*)0);
+    reinterpret_cast<::hkWorldXc91700 *>((apTarget))->FUN_00c91700(pOwner ? (void*)((char*)this + 8) : (void*)0);
+    reinterpret_cast<::SearchArray *>((apTarget))->ClearValue((int)(pOwner ? (void*)((char*)this + 0xc) : (void*)0));
 }
 
 // FUN_00d63c50 - the constructor of the Havok vehicle viewer
@@ -291,7 +293,6 @@ struct FUN_00d63c50 : public WorldViewerBase
 
 // the vftables of the class and of its bases
 extern int DAT_010cb1d4;
-extern int DAT_010ccf7c;
 extern int DAT_010d1854;
 extern int DAT_010d1834;
 extern int DAT_010d1824;
@@ -302,7 +303,7 @@ extern int DAT_010d1804;
 FUN_00d63c50::FUN_00d63c50(ViewerArg* arg) : WorldViewerBase(arg)
 {
     m_vtbl28 = &DAT_010cb1d4;
-    m_vtbl2c = &DAT_010ccf7c;
+    m_vtbl2c = &(*reinterpret_cast<int *>(&::DAT_010ccf7c));
     m_vtbl00 = &DAT_010d1854;
     m_vtbl08 = &DAT_010d1834;
     m_vtbl20 = &DAT_010d1824;
@@ -383,7 +384,6 @@ struct S_B8
 struct S_B20
 {
     virtual void b20v0();
-    void PassMembersToTarget(void* child);
 };
 struct FUN_00ddcc60 : S_B0, S_B8, S_B20
 {
@@ -427,7 +427,7 @@ FUN_00d63cb0::~FUN_00d63cb0() throw()
     if (m24)
     {
         for (int i = 0; i < m24->m70; i++)
-            ((S_B20*)this)->PassMembersToTarget(m24->m6c[i]);
+            reinterpret_cast<::FUN_00d63480_cls *>((((S_B20*)this)))->PassMembersToTarget((::Target *)(m24->m6c[i]));
     }
     m30.clear();
 }
@@ -466,7 +466,7 @@ void* AllocAndInitObject(int a1)
     AllocHolder* pAllocHolder = reinterpret_cast<AllocHolder*>(FUN_00c85750());
     FUN_00d63d60_obj* obj = reinterpret_cast<FUN_00d63d60_obj*>(pAllocHolder->m_pAllocator->Alloc(0x3c));
     obj->m_wSize = 0x3c;
-    void* pResult = obj->FUN_00d63c50(a1);
+    void* pResult = ((void *)(new ((void *)(obj)) ::FUN_00d63c50((::ViewerArg *)(a1))));
     if (pResult != 0)
     {
         return (char*)pResult + 8;
@@ -509,7 +509,7 @@ struct FUN_00d63e10_cls
 // @fnv 0x00d63e10
 FUN_00d63e10_cls* FUN_00d63e10_cls::Destroy(unsigned char acFlags)
 {
-    FUN_00d63cb0();
+    reinterpret_cast<::FUN_00d63cb0 *>(this)->FUN_00d63cb0::~FUN_00d63cb0();
     if (acFlags & 1)
     {
         AudioHolder* pHolder = FUN_00c85750();
@@ -536,7 +536,6 @@ namespace hkD635 {
 extern "C" hkMemoryRouterD635& __cdecl FUN_00c85750() throw();
 }
 
-void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iSizeElem) throw();
 
 struct hkBoolD635
 {
@@ -556,7 +555,6 @@ class hkClassD635
 class hkReferencedObjectD635
 {
   public:
-    void FUN_00c90510() throw();
 };
 
 class hkClassNameRegistryD635
@@ -591,7 +589,6 @@ class hkBuiltinTypeRegistryD635
 };
 
 namespace hkD635 {
-extern hkBuiltinTypeRegistryD635* DAT_01268b08;
 }
 
 template <class T> class hkArrayD635
@@ -604,7 +601,7 @@ template <class T> class hkArrayD635
     __forceinline void _pushBack(hkMemoryRouterD635& router, const T& t)
     {
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
-            ResizeAudioStream(&router.heap(), this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&router.heap()), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopy(m_data + m_iElementCount, 1, t);
         m_iElementCount++;
     }
@@ -631,12 +628,12 @@ class VehicleViewerD635
 // @fnv 0x00d635e0
 void VehicleViewerD635::AddVehicle(hkReferencedObjectD635* pkObj)
 {
-    hkBuiltinTypeRegistryD635* pkReg = hkD635::DAT_01268b08;
+    hkBuiltinTypeRegistryD635* pkReg = (*reinterpret_cast<::hkBuiltinTypeRegistryD635 * *>(&::DAT_01268b08));
     const hkClassD635* pkVehicleClass = pkReg->GetClassNameRegistry()->GetClassByName(&d_010d17d0);
     const hkClassD635* pkObjClass = pkReg->GetVtableClassRegistry()->GetClassFromVirtualInstance(pkObj);
     if (pkVehicleClass && pkObjClass && pkVehicleClass->FUN_00d46d80(*pkObjClass))
     {
-        pkObj->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((pkObj))->FUN_00c90510();
         m_ppVehicles.AddBack(pkObj);
     }
 }
@@ -781,6 +778,6 @@ void D63590List::FUN_00d63590(unsigned int value)
     if (index != -1)
     {
         m_items.removeAt(index);
-        ((ItemList*)value)->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((((ItemList*)value)))->FUN_00c905b0();
     }
 }

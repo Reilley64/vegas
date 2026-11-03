@@ -2,9 +2,17 @@
 // src/fallout_shared/packagedatapatrol.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/packagedatapatrol.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_0041fd00_shell.h"
+#include "fnv/decl/FUN_0067ad20_Class.h"
+#include "fnv/decl/FUN_0067dad0_shell.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00485000.h"
 struct BGSSaveFormBuffer
 {
-    void SaveData(void*, int, int);
 };
 
 struct TESPatrolPackageData
@@ -16,13 +24,12 @@ struct TESPatrolPackageData
 // @fnv 0x0067c5e0
 void TESPatrolPackageData::SaveToBuffer(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    apSaveGameBuffer->SaveData((char*)this + 4, 1, 0);
-    apSaveGameBuffer->SaveData((char*)this + 5, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)this + 4, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)this + 5, 1, 0);
 }
 
 struct BGSLoadFormBuffer
 {
-    void ReadTypedData(void* pDest, unsigned int size);
 };
 
 struct FUN_0067c620
@@ -34,8 +41,8 @@ struct FUN_0067c620
 // @fnv 0x0067c620
 void __thiscall FUN_0067c620::LoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    apLoadGameBuffer->ReadTypedData((char*)this + 4, 1);
-    apLoadGameBuffer->ReadTypedData((char*)this + 5, 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 4), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 5), 1);
 }
 
 struct FUN_0067da40
@@ -85,19 +92,8 @@ struct FUN_0067c420_shell
     void* FUN_0067c420(unsigned int flags);
 };
 
-// Calls FUN_0067c490, then deletes this if flags has bit 0 set, and returns this.
-// @fnv 0x0067c420
-void* FUN_0067c420_shell::FUN_0067c420(unsigned int flags)
-{
-    FUN_0067c490();
-    if (flags & 1)
-        operator delete(this);
-    return this;
-}
-
 struct Base6450
 {
-    void __thiscall FUN_0067ad20();
 };
 extern int DAT_010689e4;
 struct Param6450
@@ -113,7 +109,7 @@ struct S6450 : Base6450
 // @fnv 0x0067c450
 S6450* __thiscall S6450::FUN_0067c450(Param6450 aParams)
 {
-    FUN_0067ad20();
+    new ((void *)this) ::FUN_0067ad20_Class();
     *reinterpret_cast<unsigned int*>(this) = reinterpret_cast<unsigned int>(&DAT_010689e4);
     *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 4) = aParams.a;
     *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 5) = aParams.b;
@@ -136,7 +132,6 @@ FUN_0067c690_t* FUN_0067c690_t::ConstructFromFloat(void* apValue)
 
 struct CopyHolder
 {
-    void FUN_0067dad0(void* p);
 };
 struct Target0067c6f0
 {
@@ -148,12 +143,14 @@ struct Target0067c6f0
 void Target0067c6f0::FUN_0067c6f0(Target0067c6f0* apSource)
 {
     f = apSource->f;
-    c.FUN_0067dad0(&apSource->c);
+    reinterpret_cast<::FUN_0067dad0_shell *>(&(c))->FUN_0067dad0((::PackageEventActionData *)(void *)(&apSource->c));
 }
 
+struct TESObjectREFR_GetFlags_caller;
 struct FUN_0067dbf0_shell
 {
-    bool FUN_0067dbf0(const void* p);
+public:
+    bool FUN_0067dbf0(::TESObjectREFR_GetFlags_caller *);
 };
 struct FUN_0067c720_shell
 {
@@ -165,7 +162,7 @@ struct FUN_0067c720_shell
 // @fnv 0x0067c720
 bool FUN_0067c720_shell::FUN_0067c720(const FUN_0067c720_shell* apCompare)
 {
-    if (((FUN_0067dbf0_shell*)((const char*)this + 4))->FUN_0067dbf0((const char*)apCompare + 4))
+    if (((FUN_0067dbf0_shell*)((const char*)this + 4))->FUN_0067dbf0((::TESObjectREFR_GetFlags_caller *)((const char*)apCompare + 4)))
         return true;
     if (m_fPatrolValue != apCompare->m_fPatrolValue)
         return true;
@@ -174,12 +171,13 @@ bool FUN_0067c720_shell::FUN_0067c720(const FUN_0067c720_shell* apCompare)
 
 struct MagicCaster
 {
-    void SetSelectedMagicItem(int type);
 };
 
+class TESForm;
 struct PackageEventActionData
 {
-    void InitItem(int item);
+public:
+    void InitItem(::TESForm *);
 };
 
 struct FUN_0067c6c0_shell
@@ -193,8 +191,8 @@ struct FUN_0067c6c0_shell
 // @fnv 0x0067c6c0
 void FUN_0067c6c0_shell::FUN_0067c6c0(int item)
 {
-    caster.SetSelectedMagicItem(3);
-    reinterpret_cast<PackageEventActionData*>(reinterpret_cast<char*>(this) + 4)->InitItem(item);
+    reinterpret_cast<::FUN_0041fd00_shell *>(&(caster))->FUN_0041fd00(3);
+    reinterpret_cast<PackageEventActionData*>(reinterpret_cast<char*>(this) + 4)->InitItem((::TESForm *)(item));
 }
 
 extern "C" void* __cdecl memset(void* dest, int value, unsigned int count);
@@ -204,8 +202,6 @@ struct Date
     unsigned short pad;
     ~Date();
 };
-bool __cdecl FUN_00401500();
-void __cdecl AppendChunk(unsigned int id, void* p, unsigned int size);
 
 struct FUN_0067c570_shell
 {
@@ -218,11 +214,11 @@ void FUN_0067c570_shell::FUN_0067c570()
     unsigned char patrolData[2];
     memset(patrolData, 0, 2);
     patrolData[0] = *((unsigned char*)this + 4);
-    if (FUN_00401500())
-        ((Date*)patrolData)->Date::~Date();
-    AppendChunk(0x54504b50, patrolData, 2);
-    if (FUN_00401500())
-        ((Date*)patrolData)->Date::~Date();
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::TESForm *>((((Date*)patrolData)))->ClearData();
+    ::AppendChunk(0x54504b50, patrolData, 2);
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::TESForm *>((((Date*)patrolData)))->ClearData();
 }
 
 struct S_0067c490_Base
@@ -234,6 +230,15 @@ struct FUN_0067c490 : S_0067c490_Base
 {
     virtual ~FUN_0067c490();
 };
+// Calls FUN_0067c490, then deletes this if flags has bit 0 set, and returns this.
+// @fnv 0x0067c420
+void* FUN_0067c420_shell::FUN_0067c420(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0067c490 *>(this)->FUN_0067c490::~FUN_0067c490();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // @fnv 0x0067c490
 FUN_0067c490::~FUN_0067c490()
 {}

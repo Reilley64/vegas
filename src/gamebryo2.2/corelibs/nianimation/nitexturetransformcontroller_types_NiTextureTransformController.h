@@ -2,6 +2,7 @@
 #ifndef FNV_NITEXTURETRANSFORMCONTROLLER_H
 #define FNV_NITEXTURETRANSFORMCONTROLLER_H
 
+#include "fnv/decl/NiTimeControllerA362.h"
 #include "layout_support.h"
 #include "NiObject.h"
 #include "NiObjectNET.h"
@@ -40,7 +41,6 @@ class NiTimeController : public NiObject
     NiObjectNET* m_pkTarget;                         // +0x2C, 4 bytes
     NiPointer<NiTimeController> m_spNextController;  // +0x30, 4 bytes
     virtual void SetTarget(NiObjectNET* target);
-    bool AdvanceController(float time);
     // const NiRTTI* __cdecl NiTimeController::*()
     // void __cdecl NiTimeController::*(NiStream&)
     // void __cdecl NiTimeController::*(NiStream&)
@@ -193,7 +193,6 @@ class NiTextureTransformController : public NiFloatInterpController
     char* m_pCachedControllerID;                                       // +0x4C, 4 bytes
     const char* GetControllerID();
     virtual void Update(NiUpdateData* data) throw();
-    bool IsTextureMapValid();
     NiTextureTransformController(NiObjectNET* property, NiTexturingProperty__Map* map,
                                  NiTextureTransformController__TransformMember member) throw();
     // const NiRTTI* __cdecl NiTextureTransformController::*()

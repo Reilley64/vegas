@@ -6,6 +6,11 @@
 // src/speedtree/windinfo.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/windinfo.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00b3ed20_cls.h"
+#include "fnv/decl/S_00b3ed80.h"
+#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
+#include "fnv/decl/fnv_00b059e0__FUN_00b06090.h"
+#include "fnv/symbols_01170000.h"
 struct S00b408b0_Vec
 {
     float x;
@@ -15,19 +20,15 @@ struct S00b408b0_Vec
 
 struct S00b408b0_Reader
 {
-    int GetNextElement();
     S00b408b0_Vec* GetVector3(S00b408b0_Vec* out);
-    float FUN_00b3ed20();
-    void FUN_00b06180();
 };
 
 struct S00b408b0_Str
 {
     S00b408b0_Str(const char* s);
-    void FUN_0044a730(int a, int b);
     ~S00b408b0_Str()
     {
-        FUN_0044a730(1, 0);
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(1, 0);
     }
     int m00;
     int m04;
@@ -50,7 +51,6 @@ struct S00b408b0_Exc
     int m18;
 };
 
-extern int DAT_01170384;
 void __stdcall FUN_00ec7894(void* obj, void* info);
 
 struct S00b408b0_Big
@@ -146,7 +146,7 @@ void S00b408b0_Obj::FUN_00b408b0(S00b408b0_Reader* r)
     S00b408b0_Vec c;
     S00b408b0_Vec e;
     S00b408b0_Prep();
-    int tok = r->GetNextElement();
+    int tok = ((int)(reinterpret_cast<::S_00b3ed80 *>((r))->GetNextElement()));
     do
     {
         switch (tok)
@@ -167,10 +167,10 @@ void S00b408b0_Obj::FUN_00b408b0(S00b408b0_Reader* r)
             pos = *r->GetVector3(&e);
             break;
         case 5005:
-            scale = r->FUN_00b3ed20();
+            scale = reinterpret_cast<::FUN_00b3ed20_cls *>((r))->FUN_00b3ed20();
             break;
         case 5006:
-            r->FUN_00b06180();
+            reinterpret_cast<::fnv_00b059e0::FUN_00b06090 *>((r))->FUN_00b06180();
             break;
         default: {
             S00b408b0_Str msg("malformed general wind information");
@@ -179,6 +179,6 @@ void S00b408b0_Obj::FUN_00b408b0(S00b408b0_Reader* r)
             break;
         }
         }
-        tok = r->GetNextElement();
+        tok = ((int)(reinterpret_cast<::S_00b3ed80 *>((r))->GetNextElement()));
     } while (tok != 1012);
 }

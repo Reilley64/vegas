@@ -1,20 +1,30 @@
 // fallout_shared/package_decls_rtti_variant.h: declares TESObjectREFR, MobileObject, PackageTargetRecord, DurationData, TESPackage and more
 
+#include "fnv/decl/FUN_0041ca90.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_00674d70_shell.h"
+#include "fnv/decl/HighProcess.h"
+#include "fnv/decl/fnv_0067fd40__FUN_0067fd40_shell.h"
 class TESPatrolPackageData;
 class TESObjectREFR
 {
   public:
-    TESObjectREFR* GetLinkedRef();
 };
 class MobileObject : public TESObjectREFR
 {
 };
+class TESObjectREFR;
+enum PACK_TARG_TYPE;
 class PackageTargetRecord
 {
   public:
     int GetTargetKind();
     TESObjectREFR* GetReferenceTarget();
     float FUN_0084d030();
+public:
+    void SetTargetKind(::PACK_TARG_TYPE);
+public:
+    void SetTargetObjectReference(::TESObjectREFR *);
 };
 class DurationData
 {
@@ -22,12 +32,12 @@ class DurationData
     unsigned int time, duration;
     DurationData();
     ~DurationData();
-    void Copy(DurationData*);
 };
 enum PTYPE
 {
     PT_DUMMY
 };
+enum PACKAGE_PROCEDURE_TYPE;
 class TESPackage
 {
   public:
@@ -48,15 +58,12 @@ class TESPackage
     bool IsMustReachLocation();
     bool UsesPackageAnimation();
     bool IsFlag10000Set();
-    PTYPE GetPackType();
     const TESPatrolPackageData* GetPackagePatrolData();
     bool IsPackageBlockingGreeting();
     PackageTargetRecord* GetTarget();
     TESObjectREFR* GetResolvedTargetReference(MobileObject*);
     void CopyScheduleFrom(DurationData*);
     void ResetFormData();
-    void SetTrespassEnabled(bool);
-    unsigned int FUN_00676280(MobileObject*);
     bool GetPackageSearchRadius(MobileObject*, float&);
     bool FUN_00673890();
     bool FUN_00674d20();
@@ -66,6 +73,14 @@ class TESPackage
     bool FUN_00670f40();
     bool FUN_00670f60();
     bool IsMustComplete();
+public:
+    bool GetForceUnequipWeapon() const;
+public:
+    void SetMustReachLocation(bool);
+public:
+    void SetMustComplete(bool);
+public:
+    void SetProcedureType(::PACKAGE_PROCEDURE_TYPE);
 };
 class ImageSpaceModifierInstanceDOF
 {

@@ -1,5 +1,29 @@
 // fallout_shared/region system/tesregiondatamanager.cpp: TESRegionDataManager, RegionDataManager_StandIn, MyMgr (9 functions)
 
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00462e80_shell.h"
+#include "fnv/decl/FUN_00471870_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TESOffsetWorker.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_00503210__Unk.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
 #include "TESFile.h"
 #include "TESForm.h"
 #include <cstring>
@@ -34,7 +58,6 @@ class RegionDataEntry
     bool bOverride;                    // +0x4, 1 bytes
     unsigned char m_ucRegionPriority;  // +0x5, 1 bytes
     // +0x6, 2 bytes compiler padding, unnamed in source
-    void Endian();
 };
 FNV_STATIC_ASSERT(sizeof(RegionDataEntry) == 8);
 FNV_STATIC_ASSERT(offsetof(RegionDataEntry, m_eRegionDataId) == 0);
@@ -159,7 +182,6 @@ class TESRegion : public TESForm
   public:
     // base TESForm at +0x0, size 24
     RegionDataList* m_pRegionDataList;  // +0x18, 4 bytes
-    RegionDataList* GetDataList();
 };
 
 class TESRegionDataManager
@@ -279,18 +301,18 @@ bool TESRegionDataManager::ApplyEntry(TESFile* apFile, TESRegion* apRegion)
         return false;
     m_pLastLoadedRegion = apRegion;
     RegionDataEntry kBase;
-    switch ((int)apFile->GetChunkID())
+    switch ((int)((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((apFile))->FUN_004726b0())))
     {
     case CHUNK_ID_RDAT_ID:
         memset(&kBase, 0, sizeof(kBase));
-        apFile->GetChunkData(&kBase, sizeof(kBase));
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(void *)(&kBase), sizeof(kBase));
         if (apFile->IsEndianConversionRequired())
-            kBase.Endian();
+            reinterpret_cast<::fnv_00503210::Unk *>(&(kBase))->FUN_00503210();
         g_pLastLoadedRegionData = GetRegionDataForID(kBase.m_eRegionDataId);
         if (g_pLastLoadedRegionData)
         {
             g_pLastLoadedRegionData->ApplyEntry(&kBase);
-            apRegion->GetDataList()->AddHead(g_pLastLoadedRegionData);
+            ((::RegionDataList *)(reinterpret_cast<::FUN_009611e0_shell *>((apRegion))->FUN_009611e0()))->AddHead(g_pLastLoadedRegionData);
         }
         break;
     case CHUNK_ID_RDWT_ID:

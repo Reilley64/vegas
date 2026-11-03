@@ -5,12 +5,26 @@
 
 // src/staging/blk_00e60000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/TrianglePlane.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d23000.h"
+#include "fnv/symbols_010ed000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
 
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
 } __m128;
+#include "fnv/symbols_simd.h"
 extern "C"
 {
     __m128 _mm_load_ps(const float*);
@@ -33,8 +47,8 @@ extern "C"
     int _mm_movemask_ps(__m128);
 }
 extern "C" double __cdecl sqrt(double);
-extern const __m128 DAT_01267e30;  // zero
-extern const __m128 DAT_010c44d0;  // sign mask xyzw
+  // zero
+  // sign mask xyzw
 extern const signed char DAT_010ececc[];
 extern const signed char DAT_010eced4[];
 extern const signed char DAT_010eced6[];
@@ -72,7 +86,6 @@ struct Feature
     char pad01;
     short m_idx[3];
 };
-int __cdecl FUN_00d230e0(const hkVector4* p, const hkVector4* a, const hkVector4* b, hkVector4* out);
 static __forceinline __m128 Dot3(__m128 a, __m128 b)
 {
     __m128 x2 = _mm_mul_ps(a, b);
@@ -130,7 +143,7 @@ int __cdecl FUN_00e62100(const hkVector4* point, const hkVector4* tri, const flo
     bary.m_vComponents.m128_f32[1] = 1.0f + eps - u - v;
     bary.m_vComponents.m128_f32[2] = v + eps;
     bary.m_vComponents.m128_f32[3] = eps;
-    Comparison mask = {_mm_cmplt_ps(DAT_01267e30, bary.m_vComponents)};
+    Comparison mask = {_mm_cmplt_ps((*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30)), bary.m_vComponents)};
     if (mask == 7)
     {
         __m128 negative = _mm_mul_ps(_mm_shuffle_ps(edge.m_vComponents, edge.m_vComponents, 0xc9),
@@ -164,7 +177,7 @@ int __cdecl FUN_00e62100(const hkVector4* point, const hkVector4* tri, const flo
     if (idx < 0)
     {
         idx += 8;
-        int r = FUN_00d230e0(point, &tri[DAT_010eced6[idx]], &tri[DAT_010eced4[idx]], &bary);
+        int r = ::FUN_00d230e0((*(const ::hkVector4D230 *)(point)), (*(const ::hkVector4D230 *)(&tri[DAT_010eced6[idx]])), (*(const ::hkVector4D230 *)(&tri[DAT_010eced4[idx]])), (*(::hkVector4D230 *)(&bary)));
         if (feat)
         {
             if (r == 4)
@@ -189,8 +202,8 @@ int __cdecl FUN_00e62100(const hkVector4* point, const hkVector4* tri, const flo
         return 1;
     }
     hkVector4 c1;
-    int r0 = FUN_00d230e0(point, &tri[idx], &tri[DAT_010eced6[idx]], &bary);
-    int r1 = FUN_00d230e0(point, &tri[DAT_010eced4[idx]], &tri[idx], &c1);
+    int r0 = ::FUN_00d230e0((*(const ::hkVector4D230 *)(point)), (*(const ::hkVector4D230 *)(&tri[idx])), (*(const ::hkVector4D230 *)(&tri[DAT_010eced6[idx]])), (*(::hkVector4D230 *)(&bary)));
+    int r1 = ::FUN_00d230e0((*(const ::hkVector4D230 *)(point)), (*(const ::hkVector4D230 *)(&tri[DAT_010eced4[idx]])), (*(const ::hkVector4D230 *)(&tri[idx])), (*(::hkVector4D230 *)(&c1)));
     hkVector4 d0v, d1v;
     d0v.m_vComponents = _mm_sub_ps(point->m_vComponents, bary.m_vComponents);
     d1v.m_vComponents = _mm_sub_ps(point->m_vComponents, c1.m_vComponents);
@@ -511,7 +524,6 @@ struct MoppMemoryRouter
     void* heap;
 };
 void* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void* heap, MoppResults* array, int elementSize);
 struct MoppErrorSink
 {
     virtual void unknown0();
@@ -519,15 +531,11 @@ struct MoppErrorSink
     virtual void unknown2();
     virtual int Report(int severity, unsigned int id, const char* message, const char* file, int line);
 };
-extern MoppErrorSink* DAT_01268360;
 struct MoppFormatter
 {
     void* vtable;
     unsigned short memorySize, referenceCount;
     void* writer;
-    void FUN_00cb1600(char* buffer, int length);
-    void FUN_00cc01c0(const char* text);
-    void FUN_00cc00e0();
 };
 struct MoppFindAllVM
 {
@@ -685,13 +693,13 @@ void MoppFindAllVM::FUN_00e66290(const MoppQueryState* current, const unsigned c
             MoppFormatter formatter;
             unsigned __int64 buffer[64];
             char* text = reinterpret_cast<char*>(buffer);
-            formatter.FUN_00cb1600(text, 512);
-            formatter.FUN_00cc01c0(
+            new ((void *)&(formatter)) ::FUN_00cb1600(text, 512);
+            reinterpret_cast<::SinkOwner *>(&(formatter))->FUN_00cc01c0(
                 "Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
-            if (DAT_01268360->Report(3, 0x1298fedd, text, ".\\Collide\\Mopp\\Machine\\hkpMoppFindAllVirtualMachine.cpp",
+            if ((*reinterpret_cast<::MoppErrorSink * *>(&::DAT_01268360))->Report(3, 0x1298fedd, text, ".\\Collide\\Mopp\\Machine\\hkpMoppFindAllVirtualMachine.cpp",
                                      211))
                 __debugbreak();
-            formatter.FUN_00cc00e0();
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(formatter))->FUN_00cc00e0::~FUN_00cc00e0();
             break;
         }
         case 0x50:
@@ -753,7 +761,7 @@ void MoppFindAllVM::FUN_00e66290(const MoppQueryState* current, const unsigned c
             MoppResults* array = results;
             MoppMemoryRouter* router = (MoppMemoryRouter*)FUN_00c85750();
             if (array->count == (array->capacity & 0x3fffffff))
-                ResizeAudioStream(router->heap, array, 4);
+                ::ResizeAudioStream((::AudioAllocator *)(router->heap), (::AudioStream *)(array), 4);
             unsigned int* dest = &array->data[array->count++];
             *dest = primitive;
             return;
@@ -1033,7 +1041,6 @@ struct TetraEdgeInit
     int m_edgeOffset;
 };
 
-extern TetraEdgeInit DAT_010ed0f0[12];
 
 struct TetraHull
 {
@@ -1074,7 +1081,7 @@ void TetraFace::FUN_00e67570()
 void TetraHull::FUN_00e679d0()
 {
     m_numFaces = 4;
-    const TetraEdgeInit* init = DAT_010ed0f0;
+    const TetraEdgeInit* init = (*reinterpret_cast<fnv_00e679d0::TetraEdgeInit (*)[12]>(&::DAT_010ed0f0));
     TetraFace* end = &m_faces[4];
     TetraFace* first = m_faces;
     for (TetraFace* f = m_faces; f != end; f++)
@@ -1093,7 +1100,7 @@ void TetraHull::FUN_00e679d0()
     }
 
     TetraFace* last = &m_faces[3];
-    last->FUN_00e67570();
+    reinterpret_cast<::TrianglePlane *>((last))->FUN_00e67570();
 
     __m128 d = _mm_mul_ps(_mm_sub_ps(m_kVertices[0].m_vContactPosition.m_vComponents, m_kVertices[1].m_vContactPosition.m_vComponents),
                           last->m_kTriangleNormal.m_vComponents);
@@ -1114,7 +1121,7 @@ void TetraHull::FUN_00e679d0()
     TetraFace* f = first;
     for (int i = 3; i >= 0; i--)
     {
-        f->FUN_00e67570();
+        reinterpret_cast<::TrianglePlane *>((f))->FUN_00e67570();
         f++;
     }
 }
@@ -1122,8 +1129,6 @@ void TetraHull::FUN_00e679d0()
 
 extern "C" __m128 _mm_rsqrt_ps(__m128);
 
-extern __m128 DAT_010c71c0;
-extern __m128 DAT_010c71d0;
 
 struct S00e61e70_V
 {

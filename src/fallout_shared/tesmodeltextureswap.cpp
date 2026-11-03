@@ -1,5 +1,38 @@
 // fallout_shared/tesmodeltextureswap.cpp: TESModelTextureSwap, NiFixedString, TESModel, DistantTreeTextureInfo (23 functions)
 
+#include <new>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004891d0_cls.h"
+#include "fnv/decl/FUN_004893c0_class.h"
+#include "fnv/decl/FUN_00489480_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00b66ad0_cls.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/ModelCopyView.h"
+#include "fnv/decl/NiTMap_S.h"
+#include "fnv/decl/TimeoutTimer.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_00853130__NiTMapBase.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_0046e000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00489000.h"
+#include "fnv/symbols_00593000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_01183000.h"
 #include "tesmodeltextureswap_decls.h"
 
 // Deletes every entry in the list by taking the head item, removing it, and freeing it, until the list is empty.
@@ -10,10 +43,10 @@ void TESModelTextureSwap::ClearTextureSwaps()
     BGSPerkEntry* pItem;
     while (!TextureSwapNodeAccessor.IsEmpty())
     {
-        pItem = reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(&TextureSwapNodeAccessor)->GetItem();
+        pItem = ((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(&TextureSwapNodeAccessor))) ::Vec3()));
         TextureSwapNodeAccessor.RemoveHead();
         pDelete = pItem;
-        ::operator delete(pDelete);
+        ::FUN_00401030(pDelete);
     }
 }
 
@@ -31,24 +64,24 @@ void TESModelTextureSwap::InitItem(TESForm* form)
     BSSimpleList<PerkButtonEntry*>* previous;
 
     locals.list =
-        reinterpret_cast<BSSimpleList<PerkButtonEntry*>*>(reinterpret_cast<TESAIForm*>(this)->GetPackageList());
+        reinterpret_cast<BSSimpleList<PerkButtonEntry*>*>(((::PackageList *)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<TESAIForm*>(this)))->GetConditions())));
     previous = 0;
     while (locals.list && !locals.list->IsEmpty())
     {
         locals.swap = reinterpret_cast<DistantTreeTextureInfo*>(
-            reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(locals.list)->GetItem());
+            ((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(locals.list))) ::Vec3())));
         locals.formID = locals.swap->formID;
-        TESForm::RemapFormIDForFile(locals.formID, form->GetFile(-1));
+        ::ResolveFormID((unsigned int *)&(locals.formID), form->GetFile(-1));
         locals.swap->formID =
-            reinterpret_cast<unsigned int>(dynamic_cast<BGSTextureSet*>(TESForm::GetFormByID(locals.formID)));
+            reinterpret_cast<unsigned int>(dynamic_cast<BGSTextureSet*>(::FUN_004839c0(locals.formID)));
         if (!locals.swap->formID)
         {
-            Warning(kModelTextureSwapInitWarning, locals.formID, form->GetName(), form->GetFormID());
+            ::FUN_005b5e40();
             if (previous)
             {
-                reinterpret_cast<BSSimpleList<TESGrass*>*>(previous)->Remove(reinterpret_cast<TESGrass*&>(locals.swap));
+                reinterpret_cast<::ItemChangeListNode *>((reinterpret_cast<BSSimpleList<TESGrass*>*>(previous)))->FUN_00905330((::InventoryStackRecord *const &)(reinterpret_cast<TESGrass*&>(locals.swap)));
                 locals.list = reinterpret_cast<BSSimpleList<PerkButtonEntry*>*>(
-                    reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(previous)->GetNext());
+                    ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(previous)))->FUN_00726070())));
             }
             else
             {
@@ -60,69 +93,9 @@ void TESModelTextureSwap::InitItem(TESForm* form)
         {
             previous = locals.list;
             locals.list = reinterpret_cast<BSSimpleList<PerkButtonEntry*>*>(
-                reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(locals.list)->GetNext());
+                ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(locals.list)))->FUN_00726070())));
         }
     }
-}
-
-// @fnv 0x0048b130
-bool TESModelTextureSwap::ApplyTextureSwapToNode(NiAVObject* object, BSMap<int, DistantTreeTextureInfo*>* apSwapMap,
-                                                 int& index)
-{
-    if (object && apSwapMap)
-    {
-        NiNode* node = object->IsSceneNode();
-        if (node)
-        {
-            unsigned int count = node->FUN_0043b480();
-            for (unsigned int i = 0; i < count; i++)
-            {
-                NiAVObject* child = node->GetAt(i);
-                if (child)
-                {
-                    if (ApplyTextureSwapToNode(child, apSwapMap, index))
-                        return true;
-                }
-            }
-        }
-        else if (object->IsGeometry())
-        {
-            DistantTreeTextureInfo* swap = 0;
-            if (reinterpret_cast<NiTPointerMap<unsigned int, TESObjectREFR*>*>(apSwapMap)->GetAt(
-                    index, reinterpret_cast<TESObjectREFR*&>(swap)) &&
-                swap)
-            {
-                if (reinterpret_cast<BGSTextureSet*>(swap->formID) == BGSTextureSet::GetEmptyTextureSet())
-                    reinterpret_cast<NiGeometry*>(object)->SetAppCulled(true);
-                else
-                {
-                    NiProperty* property = object->GetProperty(3);
-                    if (BSShaderPPLightingProperty* shader = static_cast<BSShaderPPLightingProperty*>(
-                            (!property ? false
-                                       : (static_cast<int>(
-                                              reinterpret_cast<BGSDehydrationStage*>(property)->FUN_00441110()) >= 8 &&
-                                          static_cast<int>(
-                                              reinterpret_cast<BGSDehydrationStage*>(property)->FUN_00441110()) <= 12))
-                                ? property
-                                : 0))
-                    {
-                        BSShaderTextureSet* textureSet =
-                            reinterpret_cast<BGSTextureSet*>(swap->formID)->BuildShaderTextureSet();
-                        shader->SetTextureSet(textureSet);
-                        shader->BuildShaderTextureSet(0, 0);
-                        shader->vfn_108();
-                    }
-                }
-                reinterpret_cast<NiTMapBase<DFALL<NiTMapItem<unsigned int, CombatThreatRecord*> >, unsigned int,
-                                            CombatThreatRecord*>*>(apSwapMap)
-                    ->RemoveAt(index);
-                if (!reinterpret_cast<TESForm*>(apSwapMap)->GetFormID())
-                    return true;
-            }
-            index++;
-        }
-    }
-    return false;
 }
 
 // @fnv 0x0048afe0
@@ -131,68 +104,36 @@ void TESModelTextureSwap::ApplyTextureSwaps(NiAVObject* object)
     int warningCount;
     if (object)
     {
-        warningCount = Warning();
-        SetWarningState(true);
+        warningCount = ::FUN_0046e8a0();
+        ::FUN_0043b2b0(true);
         BSMapBase<int, DistantTreeTextureInfo*> swapMap(37);
         {
             BSSimpleList<PerkButtonEntry*>* list =
-                reinterpret_cast<BSSimpleList<PerkButtonEntry*>*>(reinterpret_cast<TESAIForm*>(this)->GetPackageList());
+                reinterpret_cast<BSSimpleList<PerkButtonEntry*>*>(((::PackageList *)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<TESAIForm*>(this)))->GetConditions())));
             while (list && !list->IsEmpty())
             {
                 DistantTreeTextureInfo* swap = reinterpret_cast<DistantTreeTextureInfo*>(
-                    reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(list)->GetItem());
+                    ((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(list))) ::Vec3())));
                 list = reinterpret_cast<BSSimpleList<PerkButtonEntry*>*>(
-                    reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(list)->GetNext());
+                    ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(list)))->FUN_00726070())));
                 if (swap->index != -1)
                     reinterpret_cast<BSMapBase<unsigned int, BGSDistantTreeBlock::InstanceData*>*>(&swapMap)->SetAt(
                         swap->index, reinterpret_cast<BGSDistantTreeBlock::InstanceData*>(swap));
                 else
-                    Warning("Found invalid swap index.");
+                    ::FUN_005b5e40();
             }
         }
-        if (reinterpret_cast<TESForm*>(&swapMap)->GetFormID())
+        if (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(&swapMap)))->FUN_0084e3a0())))
         {
             int index = 0;
             ApplyTextureSwapToNode(object, reinterpret_cast<BSMap<int, DistantTreeTextureInfo*>*>(&swapMap), index);
-            if (reinterpret_cast<TESForm*>(&swapMap)->GetFormID())
-                Warning("Not all texture swaps were performed.");
+            if (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(&swapMap)))->FUN_0084e3a0())))
+                ::FUN_005b5e40();
         }
-        SetWarningState(false);
-        if (warningCount != Warning())
-            Warning(
-                "Warnings were encountered during texture swap for model '%s'. Check warnings file for more information.",
-                GetModelFilePath());
-    }
-}
-
-// @fnv 0x0048a990
-void TESModelTextureSwap::ReadTextureSwapChunk(TESModelTextureSwap* model, TESFile* file)
-{
-    if (!file || !model)
-        return;
-    int chunk = file->GetChunkID();
-    switch (chunk)
-    {
-    case 0x53324f4d:
-    case 0x53334f4d:
-    case 0x53344f4d:
-    case 0x53444f4d: {
-        struct ChunkBuffer
-        {
-            unsigned int size;
-            char* data;
-        } buffer;
-        buffer.size = file->GetChunkSize();
-        buffer.data = static_cast<char*>(_alloca(buffer.size));
-        file->GetChunkData(buffer.data, buffer.size);
-        model->ParseTextureSwapData(buffer.data, buffer.size,
-                                    reinterpret_cast<TESFileFormVersion*>(file)->GetFormVersion());
-    }
-    break;
-    default:
-        if (FUN_00489280(chunk))
-            TESModel::LoadModelData(reinterpret_cast<TESModel*>(model), file);
-        break;
+        ::FUN_0043b2b0(false);
+        if (warningCount != ::FUN_0046e8a0())
+            ::FUN_005b5e40(
+                );
     }
 }
 
@@ -201,24 +142,24 @@ void TESModel::LoadModelData(TESModel* model, TESFile* file)
 {
     if (!file || !model)
         return;
-    int chunk = file->GetChunkID();
+    int chunk = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()));
     switch (chunk)
     {
     case 0x4c444f4d:
     case 0x4d414e50: {
-        char* data = static_cast<char*>(_alloca(file->GetChunkSize()));
-        file->GetChunkData(data, 0);
+        char* data = static_cast<char*>(_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()));
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(data), 0);
         model->SetModelFilePath(data);
     }
     break;
     case 0x54444f4d:
-        LoadTextureSwapData(model, file);
+        ::FUN_004893e0(model, file);
         break;
     case 0x44444f4d:
     case 0x44534f4d: {
         unsigned char flags;
-        file->GetChunkData(&flags, 1);
-        model->FUN_004893c0(flags);
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&flags), 1);
+        reinterpret_cast<::FUN_004893c0_class *>((model))->FUN_004893c0(flags);
     }
     break;
     }
@@ -250,19 +191,19 @@ DistantTreeTextureInfo* TESModelTextureSwap::GetTexSwap(int index)
     if (index != -1)
     {
         BSSimpleList<PerkButtonEntry*>* list =
-            reinterpret_cast<BSSimpleList<PerkButtonEntry*>*>(reinterpret_cast<TESAIForm*>(this)->GetPackageList());
+            reinterpret_cast<BSSimpleList<PerkButtonEntry*>*>(((::PackageList *)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<TESAIForm*>(this)))->GetConditions())));
         while (list && !list->IsEmpty())
         {
             if (index == reinterpret_cast<DistantTreeTextureInfo*>(
-                             reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(list)->GetItem())
+                             ((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(list))) ::Vec3())))
                              ->index)
             {
                 result = reinterpret_cast<DistantTreeTextureInfo*>(
-                    reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(list)->GetItem());
+                    ((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(list))) ::Vec3())));
                 break;
             }
             list = reinterpret_cast<BSSimpleList<PerkButtonEntry*>*>(
-                reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(list)->GetNext());
+                ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(list)))->FUN_00726070())));
         }
     }
     return result;
@@ -281,14 +222,14 @@ DistantTreeTextureInfo::DistantTreeTextureInfo()
 // @fnv 0x0048af40
 NiFixedString::NiFixedString(const NiFixedString& other)
 {
-    FUN_0043ba60(other);
+    ::fnv_0043ba60::FUN_0043ba60((int *)&(other));
     data = other.data;
 }
 
 // @fnv 0x0048af70
 int NiFixedString::IsNotEmpty() const
 {
-    return data != EmptyFS.data;
+    return data != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).data;
 }
 
 struct BSTextureSet;
@@ -301,6 +242,64 @@ struct FUN_0048b2f0_shell : public BSShaderPPLightingProperty
 {
     void SetTextureSet(BSTextureSet*);
 };
+// @fnv 0x0048b130
+bool TESModelTextureSwap::ApplyTextureSwapToNode(NiAVObject* object, BSMap<int, DistantTreeTextureInfo*>* apSwapMap,
+                                                 int& index)
+{
+    if (object && apSwapMap)
+    {
+        NiNode* node = object->IsSceneNode();
+        if (node)
+        {
+            unsigned int count = node->FUN_0043b480();
+            for (unsigned int i = 0; i < count; i++)
+            {
+                NiAVObject* child = node->GetAt(i);
+                if (child)
+                {
+                    if (ApplyTextureSwapToNode(child, apSwapMap, index))
+                        return true;
+                }
+            }
+        }
+        else if (object->IsGeometry())
+        {
+            DistantTreeTextureInfo* swap = 0;
+            if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(reinterpret_cast<NiTPointerMap<unsigned int, TESObjectREFR*>*>(apSwapMap)))->FUN_00853130(
+                    index, (::fnv_00853130::CombatThreatRecord *&)(reinterpret_cast<TESObjectREFR*&>(swap))) &&
+                swap)
+            {
+                if (reinterpret_cast<BGSTextureSet*>(swap->formID) == ::FUN_00593220())
+                    reinterpret_cast<::TaskQueueInterface *>((reinterpret_cast<NiGeometry*>(object)))->QueueActorDisarm(true);
+                else
+                {
+                    NiProperty* property = ((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((object))->FUN_00a59d30(3)));
+                    if (BSShaderPPLightingProperty* shader = static_cast<BSShaderPPLightingProperty*>(
+                            (!property ? false
+                                       : (static_cast<int>(
+                                              reinterpret_cast<::BGSTerrainManager *>((reinterpret_cast<BGSDehydrationStage*>(property)))->GetMinLevel()) >= 8 &&
+                                          static_cast<int>(
+                                              reinterpret_cast<::BGSTerrainManager *>((reinterpret_cast<BGSDehydrationStage*>(property)))->GetMinLevel()) <= 12))
+                                ? property
+                                : 0))
+                    {
+                        BSShaderTextureSet* textureSet =
+                            reinterpret_cast<BGSTextureSet*>(swap->formID)->BuildShaderTextureSet();
+                        reinterpret_cast<::FUN_0048b2f0_shell *>((shader))->SetTextureSet((::BSTextureSet *)(textureSet));
+                        reinterpret_cast<::FUN_00b66ad0_cls *>((shader))->FUN_00b66ad0(0, (::FnvTarget *)(0));
+                        shader->vfn_108();
+                    }
+                }
+                reinterpret_cast<::NiTMap_S *>((reinterpret_cast<NiTMapBase<DFALL<NiTMapItem<unsigned int, CombatThreatRecord*> >, unsigned int,
+                                            CombatThreatRecord*>*>(apSwapMap)))->RemoveKey(index);
+                if (!((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(apSwapMap)))->FUN_0084e3a0())))
+                    return true;
+            }
+            index++;
+        }
+    }
+    return false;
+}
 
 template <class T> class NiPointer
 {
@@ -314,7 +313,6 @@ void FUN_0048b2f0_shell::SetTextureSet(BSTextureSet* apTextureSet)
     *(NiPointer<NiNode>*)((char*)this + 0xA4) = (NiNode*)apTextureSet;
 }
 
-extern "C" int __cdecl _NiStricmp(const char*, const char*);
 
 struct FUN_0048af90_shell
 {
@@ -330,7 +328,7 @@ bool FUN_0048af90_shell::Equals(const char* apOther)
         return true;
     if (apOther == 0 || m_str == 0)
         return false;
-    return _NiStricmp(m_str, apOther) == 0;
+    return ::NiStricmp(m_str, apOther) == 0;
 }
 
 struct FUN_00409aa0_shell
@@ -462,7 +460,6 @@ struct TESWeightForm : public BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
     static float GetWeightForForm(TESForm*, bool);
-    float GetWeightForForm();
     void SetFormWeight(float);
     void* __vecDelDtor(unsigned int);
     float fWeight;
@@ -518,8 +515,37 @@ struct FUN_0048a7b0_shell : public TESModelTextureSwap
 {
     bool LoadTextureSwapList(void*, unsigned int, unsigned int);
 };
+// @fnv 0x0048a990
+void TESModelTextureSwap::ReadTextureSwapChunk(TESModelTextureSwap* model, TESFile* file)
+{
+    if (!file || !model)
+        return;
+    int chunk = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()));
+    switch (chunk)
+    {
+    case 0x53324f4d:
+    case 0x53334f4d:
+    case 0x53344f4d:
+    case 0x53444f4d: {
+        struct ChunkBuffer
+        {
+            unsigned int size;
+            char* data;
+        } buffer;
+        buffer.size = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
+        buffer.data = static_cast<char*>(_alloca(buffer.size));
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(buffer.data), buffer.size);
+        reinterpret_cast<::FUN_0048a7b0_shell *>((model))->LoadTextureSwapList(buffer.data, buffer.size,
+                                    reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((reinterpret_cast<TESFileFormVersion*>(file)))->FUN_00403570());
+    }
+    break;
+    default:
+        if (FUN_00489280(chunk))
+            TESModel::LoadModelData(reinterpret_cast<TESModel*>(model), file);
+        break;
+    }
+}
 
-void* __cdecl __memcpy(void*, const void*, unsigned int);
 // Reads a count-prefixed list of texture swaps (name, texture pointer, optional geometry index) from a buffer and adds each valid entry via AddTexSwap.
 // @fnv 0x0048a7b0
 bool FUN_0048a7b0_shell::LoadTextureSwapList(void* apData, unsigned int aiDataSize, unsigned int aiVersion)
@@ -600,33 +626,15 @@ bool FUN_0048a7b0_shell::LoadTextureSwapList(void* apData, unsigned int aiDataSi
 
 struct FUN_004891d0_obj
 {
-    void WriteToBuffer(unsigned int, unsigned int);
 };
 struct FUN_0048a590_obj
 {
-    bool SerializeList(unsigned int&, unsigned int&);
 };
-void __cdecl AppendChunk(unsigned int, unsigned int, unsigned int);
-void __cdecl Deallocate(void*);
 
 struct FUN_0048a520_shell : FUN_004891d0_obj
 {
     void ProcessAndFreeData(unsigned int a, unsigned int b, unsigned int c);
 };
-
-// Calls WriteToBuffer with a and b, then if SerializeList yields a data pointer and size, passes them with c to AppendChunk and deallocates the pointer.
-// @fnv 0x0048a520
-void FUN_0048a520_shell::ProcessAndFreeData(unsigned int uiFirst, unsigned int uiSecond, unsigned int uiThird)
-{
-    WriteToBuffer(uiFirst, uiSecond);
-    unsigned int pdata = 0;
-    unsigned int idatasize = 0;
-    if (((FUN_0048a590_obj*)this)->SerializeList(pdata, idatasize))
-    {
-        AppendChunk(uiThird, pdata, idatasize);
-        Deallocate((void*)pdata);
-    }
-}
 
 class B48A490Model
 {
@@ -654,7 +662,6 @@ class FUN_0048a490_TextureSwap : public B48A490Model
 {
   public:
     virtual ~FUN_0048a490_TextureSwap();
-    void FUN_0048a500();
 
     B48A490SimpleList<void*> m_kTextureSwapList;
 };
@@ -662,10 +669,9 @@ class FUN_0048a490_TextureSwap : public B48A490Model
 // @fnv 0x0048a490
 FUN_0048a490_TextureSwap::~FUN_0048a490_TextureSwap()
 {
-    FUN_0048a500();
+    reinterpret_cast<::FUN_0048a500_shell *>(this)->FUN_0048a500();
 }
 
-extern "C" char DAT_01183040;
 extern "C" char DAT_011831c4;
 void* __cdecl FUN_00ec43fb(unsigned int, int, const void*, const void*, int);
 struct TextureSwapRecord
@@ -677,79 +683,69 @@ struct TextureSwapRecord
 struct TextureSwapNode
 {
     unsigned char FUN_008256d0();
-    TextureSwapRecord** FUN_006815c0();
-    TextureSwapNode* FUN_00726070();
 };
 struct TextureSwapNodeAccessor
 {
-    TextureSwapNode* FUN_00500940();
 };
 struct FUN_0048aba0_Class
 {
-    void FUN_00489430(unsigned int);
-    void FUN_0048ade0();
-    void FUN_0048ae30(const char*, int, unsigned int);
     void ApplyTextureSwapOverrides(unsigned int formID);
 };
 // Looks up a texture swap list for formID, then for each node applies its record's objectName, index and formID via FUN_0048ae30.
 // @fnv 0x0048aba0
 void FUN_0048aba0_Class::ApplyTextureSwapOverrides(unsigned int formID)
 {
-    FUN_00489430(formID);
+    reinterpret_cast<::ModelCopyView *>(this)->FUN_00489430((::BaseFormComponent *)(formID));
     TextureSwapNodeAccessor* list =
-        static_cast<TextureSwapNodeAccessor*>(FUN_00ec43fb(formID, 0, &DAT_01183040, &DAT_011831c4, 0));
+        static_cast<TextureSwapNodeAccessor*>(FUN_00ec43fb(formID, 0, &::DAT_01183040, &DAT_011831c4, 0));
     if (!list)
         return;
-    FUN_0048ade0();
-    TextureSwapNode* node = list->FUN_00500940();
+    reinterpret_cast<::TESModelTextureSwap *>(this)->ClearTextureSwaps();
+    TextureSwapNode* node = ((::TextureSwapNode *)(reinterpret_cast<::BGSCameraPath *>((list))->GetConditions()));
     while (node && !node->FUN_008256d0())
     {
-        TextureSwapRecord* record = *node->FUN_006815c0();
-        FUN_0048ae30(record->objectName, record->index, record->formID);
-        node = node->FUN_00726070();
+        TextureSwapRecord* record = *((::TextureSwapRecord **)(new ((void *)(node)) ::Vec3()));
+        reinterpret_cast<::TESModelTextureSwap *>(this)->AddTexSwap(record->objectName, record->index, (::BGSTextureSet *)(record->formID));
+        node = ((::TextureSwapNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
 }
 
 struct TextureSwapListHead
 {
-    TextureSwapNode* FUN_00500940();
 };
 struct TextureSwapCount
 {
     int GetSize();
 };
-int FUN_00404dc0(const char*, const char*);
 
 struct FUN_0048ac40_shell : public TESModelTextureSwap
 {
-    bool CompareModel(BaseFormComponent*);
-    TextureSwapRecord* FindTexSwap(int);
     bool CompareTextureSwaps(BaseFormComponent* other);
 };
 
 // @fnv 0x0048ac40
 bool FUN_0048ac40_shell::CompareTextureSwaps(BaseFormComponent* other)
 {
-    if (CompareModel(other))
+    if (reinterpret_cast<::FUN_00489480_shell *>(this)->IsModelPathDifferent(other))
         return true;
     TESModelTextureSwap* pOther = dynamic_cast<TESModelTextureSwap*>(other);
     if (!pOther)
         return true;
-    if (((TextureSwapCount*)((TextureSwapListHead*)pOther)->FUN_00500940())->GetSize() !=
-        ((TextureSwapCount*)((TextureSwapListHead*)this)->FUN_00500940())->GetSize())
+    if (((TextureSwapCount*)((::TextureSwapNode *)(reinterpret_cast<::BGSCameraPath *>((((TextureSwapListHead*)pOther)))->GetConditions())))->GetSize() !=
+        ((TextureSwapCount*)((::TextureSwapNode *)(reinterpret_cast<::BGSCameraPath *>((((TextureSwapListHead*)this)))->GetConditions())))->GetSize())
         return true;
-    TextureSwapNode* pNode = ((TextureSwapListHead*)pOther)->FUN_00500940();
+    TextureSwapNode* pNode = ((::TextureSwapNode *)(reinterpret_cast<::BGSCameraPath *>((((TextureSwapListHead*)pOther)))->GetConditions()));
     while (pNode && !pNode->FUN_008256d0())
     {
-        TextureSwapRecord* pSwap = *pNode->FUN_006815c0();
-        TextureSwapRecord* pMine = FindTexSwap(pSwap->index);
+        TextureSwapRecord* pSwap = *((::TextureSwapRecord **)(new ((void *)(pNode)) ::Vec3()));
+        TextureSwapRecord* pMine = ((::TextureSwapRecord *)(reinterpret_cast<::TESModelTextureSwap *>(this)->GetTexSwap(pSwap->index)));
         if (!pMine)
             return true;
         if (pMine->formID != pSwap->formID)
             return true;
         if (pMine->objectName[0] && pSwap->objectName[0] && FUN_00404dc0(pMine->objectName, pSwap->objectName))
             return true;
-        pNode = pNode->FUN_00726070();
+        pNode = ((::TextureSwapNode *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
     return false;
 }
@@ -758,39 +754,43 @@ class ListNode
 {
   public:
     bool FUN_008256d0();
-    unsigned int* FUN_006815c0();
-    ListNode* FUN_00726070();
 };
 
 class ObjectRef
 {
   public:
-    int FUN_0084e3a0();
 };
 
-char* __cdecl FUN_00401000(unsigned int);
-unsigned int __cdecl FUN_0044a670(unsigned int);
-bool __cdecl FUN_00401500();
 struct FUN_00401080_tag
 {
 };
-void __cdecl FUN_00401080(int*, FUN_00401080_tag);
-void __cdecl FUN_00401460(char*, unsigned int, unsigned int);
 
 class FUN_0048a590_cls
 {
   public:
     int unk00;
-    ListNode* FUN_00500940();
     bool SerializeList(char** outA, unsigned int* outB);
 };
+// Calls WriteToBuffer with a and b, then if SerializeList yields a data pointer and size, passes them with c to AppendChunk and deallocates the pointer.
+// @fnv 0x0048a520
+void FUN_0048a520_shell::ProcessAndFreeData(unsigned int uiFirst, unsigned int uiSecond, unsigned int uiThird)
+{
+    reinterpret_cast<::FUN_004891d0_cls *>(this)->WriteToBuffer((char *)(uiFirst), (void *)(uiSecond));
+    unsigned int pdata = 0;
+    unsigned int idatasize = 0;
+    if (reinterpret_cast<::FUN_0048a590_cls *>((((FUN_0048a590_obj*)this)))->SerializeList((char **)&(pdata), (unsigned int *)&(idatasize)))
+    {
+        ::AppendChunk(uiThird, (const void *)(pdata), idatasize);
+        ::FUN_00401030((void*)pdata);
+    }
+}
 
 // @fnv 0x0048a590
 bool FUN_0048a590_cls::SerializeList(char** apBuffer, unsigned int* auiSize)
 {
     *apBuffer = 0;
     *auiSize = 0;
-    ListNode* iT = FUN_00500940();
+    ListNode* iT = ((::ListNode *)(reinterpret_cast<::BGSCameraPath *>(this)->GetConditions()));
     unsigned int v;
     unsigned int P;
     unsigned int r;
@@ -804,44 +804,44 @@ bool FUN_0048a590_cls::SerializeList(char** apBuffer, unsigned int* auiSize)
         *auiSize = 4;
         while (iT != 0 && !iT->FUN_008256d0())
         {
-            v = *iT->FUN_006815c0();
+            v = *((unsigned int *)(new ((void *)(iT)) ::Vec3()));
             *auiSize += 4;
-            *auiSize += FUN_0044a670(v + 8);
+            *auiSize += ::FUN_0044a670((const char *)(v + 8));
             *auiSize += 4;
             *auiSize += 4;
             count++;
-            iT = iT->FUN_00726070();
+            iT = ((::ListNode *)(reinterpret_cast<::Callees *>((iT))->FUN_00726070()));
         }
-        *apBuffer = FUN_00401000(*auiSize);
+        *apBuffer = ((char *)(::FUN_00401000(*auiSize)));
         _w = *apBuffer;
         loA2 = count;
-        if (FUN_00401500())
+        if (((bool)(::FUN_00401500())))
         {
-            FUN_00401080(&loA2, FUN_00401080_tag());
+            ::FUN_00401080(&loA2);
         }
         *(int*)_w = loA2;
         _w += 4;
-        iT = FUN_00500940();
+        iT = ((::ListNode *)(reinterpret_cast<::BGSCameraPath *>(this)->GetConditions()));
         while (iT != 0 && !iT->FUN_008256d0())
         {
-            P = *iT->FUN_006815c0();
-            r = FUN_0044a670(P + 8);
-            if (FUN_00401500())
+            P = *((unsigned int *)(new ((void *)(iT)) ::Vec3()));
+            r = ::FUN_0044a670((const char *)(P + 8));
+            if (((bool)(::FUN_00401500())))
             {
-                FUN_00401080(&loA2, FUN_00401080_tag());
+                ::FUN_00401080(&loA2);
             }
             *(unsigned int*)_w = r;
             _w += 4;
-            FUN_00401460(_w, P + 8, r);
+            ::__memcpy(_w, (const void *)(P + 8), r);
             _w += r;
             t = 0;
             if (*(unsigned int*)P != 0)
-                t = ((ObjectRef*)*(unsigned int*)P)->FUN_0084e3a0();
+                t = reinterpret_cast<::FUN_0084e3a0_Class *>((((ObjectRef*)*(unsigned int*)P)))->FUN_0084e3a0();
             *(unsigned int*)_w = t;
             _w += 4;
             *(unsigned int*)_w = *((unsigned int*)P + 1);
             _w += 4;
-            iT = iT->FUN_00726070();
+            iT = ((::ListNode *)(reinterpret_cast<::Callees *>((iT))->FUN_00726070()));
         }
     }
     return *apBuffer != 0;

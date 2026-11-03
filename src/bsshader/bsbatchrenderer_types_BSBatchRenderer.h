@@ -2,6 +2,7 @@
 #ifndef FNV_BSBATCHRENDERER_H
 #define FNV_BSBATCHRENDERER_H
 
+#include "fnv/symbols_00b99000.h"
 #include "layout_support.h"
 #include "NiObject.h"
 #include "layout_support.h"
@@ -214,10 +215,8 @@ class BSBatchRenderer : public NiObject
     // BSBatchRenderer& __cdecl BSBatchRenderer::*(const BSBatchRenderer&)
     bool FindBucketIndex(unsigned int, int&);
     bool FindPassBucket(unsigned int&, int&, bool&);
-    bool FindOrCreateGroupBucket(unsigned int&, int&);
     void ReleaseGeometryGroups();
     void FUN_00b99730();
-    void ClearAllGroups(int);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(BSBatchRenderer) == 152);

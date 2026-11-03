@@ -5,6 +5,10 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkppulleydrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkppulleydrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/CpuObject.h"
+#include "fnv/decl/DE44C0Object.h"
+#include "fnv/decl/FUN_00de4530Owner.h"
+#include "fnv/symbols_01011000.h"
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
@@ -19,7 +23,6 @@ extern "C" __m128 _mm_mul_ps(__m128, __m128);
 extern "C" __m128 _mm_add_ps(__m128, __m128);
 
 typedef float hkReal;
-extern double DAT_01011598;
 
 struct hkTransform;
 struct hkRotation;
@@ -125,7 +128,6 @@ struct hkDebugDisplayHandler
 
 struct DebugDisplayHandlerHolder
 {
-    void FUN_00e10a10(hkDebugDisplayHandler* displayHandler);
 };
 
 template <class T> inline T hkMax2(T a, T b)
@@ -148,8 +150,6 @@ struct ConstraintVisualizer
     DebugDisplayHandlerHolder m_kDisplayGeometry;
 
     void FUN_00de47e0(hkpConstraintInstance* constraint, hkTransform& refLocalToWorld, hkTransform& attLocalToWorld);
-    void FUN_00de44c0(int id, int tag);
-    void FUN_00de4530(int id, int tag);
     void FUN_00de6550(hkpConstraintInstance* constraint, hkDebugDisplayHandler* displayHandler, int id, int tag);
 };
 
@@ -158,7 +158,7 @@ void ConstraintVisualizer::FUN_00de6550(hkpConstraintInstance* constraint, hkDeb
                                    int tag)
 {
     hkpPulleyConstraintData* pulley = constraint->m_data;
-    m_kDisplayGeometry.FUN_00e10a10(displayHandler);
+    reinterpret_cast<::CpuObject *>(&(m_kDisplayGeometry))->FUN_00e10a10((int)(displayHandler));
     {
         hkTransform refLocalToWorld;
         hkTransform attLocalToWorld;
@@ -166,8 +166,8 @@ void ConstraintVisualizer::FUN_00de6550(hkpConstraintInstance* constraint, hkDeb
         m_vVectorAtOffset50.FUN_00c7f640(refLocalToWorld, pulley->m_kTranslationB);
         m_vVectorAtOffset40.FUN_00c7f640(attLocalToWorld, pulley->m_kTranslationA);
     }
-    FUN_00de44c0(id, tag);
-    FUN_00de4530(id, tag);
+    reinterpret_cast<::DE44C0Object *>(this)->FUN_00de44c0(id, tag);
+    reinterpret_cast<::FUN_00de4530Owner *>(this)->FUN_00de4530(id, tag);
 
     displayHandler->DisplayLine(pulley->m_kFixedPivotA, VecAddress(&pulley->m_kFixedPivotB), 0xffc0c0c0, id, tag);
     displayHandler->DisplayLine(m_vVectorAtOffset40, VecAddress(&pulley->m_kFixedPivotA), 0xffffffff, id, tag);

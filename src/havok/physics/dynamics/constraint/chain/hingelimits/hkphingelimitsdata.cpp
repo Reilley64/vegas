@@ -2,9 +2,9 @@
 // src/havok/physics/dynamics/constraint/chain/hingelimits/hkphingelimitsdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/chain/hingelimits/hkphingelimitsdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00d21000.h"
 #include "havok/hkpHingeLimitsData.h"
 
-extern "C" void __cdecl FUN_00d21a60(void* a, int b, int c);
 struct hkPhingeLimitsData
 {
     void __thiscall FUN_00d52f10(int arg);
@@ -12,7 +12,7 @@ struct hkPhingeLimitsData
 // @fnv 0x00d52f10
 void __thiscall hkPhingeLimitsData::FUN_00d52f10(int arg)
 {
-    FUN_00d21a60((char*)this + 0x10, 0x84, arg);
+    ::FUN_00d21a60((const ::hkpConstraintAtom *)(void *)((char*)this + 0x10), 0x84, (::GenericConstraintAtomScheme *)(arg));
 }
 
 struct hkHingeLimitsData

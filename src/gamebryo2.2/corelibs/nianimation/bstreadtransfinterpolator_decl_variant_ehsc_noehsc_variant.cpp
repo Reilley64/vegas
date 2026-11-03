@@ -8,6 +8,16 @@
 // that unit declares it this way.
 // src/gamebryo2.2/corelibs/nianimation/bstreadtransfinterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/bstreadtransfinterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/decl/DataA38.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a641f0_cls.h"
+#include "fnv/decl/FUN_00a95ca0_shell.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00a26000.h"
+#include "fnv/symbols_00aa0000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f6000.h"
 struct FUN_00a43560_shell
 {
     unsigned char m_auiShapeKeys[0x20];
@@ -22,7 +32,6 @@ struct FUN_00a435a0_shell
 {
     void* FUN_00a435a0(short arg1);
 };
-extern "C" void __cdecl __Dummy_00b6fef0(void* ptr, unsigned int flags);
 struct FUN_00a435c0_shell
 {
     unsigned char m_auiShapeKeys[0x20];
@@ -42,7 +51,6 @@ struct SampleTrack
     float* values;
     TrackFlags flags;
 };
-float __cdecl InterpolateKey(float, float*, float*, unsigned int, unsigned int*, TrackFlags);
 struct FUN_00a434b0_shell
 {
     unsigned int unk00;
@@ -266,7 +274,6 @@ class A43600Object;
 class A43600Stream
 {
   public:
-    void SerializeString(void* pkString);
     virtual void unk00();
     virtual void unk04();
     virtual void unk08();
@@ -447,7 +454,6 @@ class A43600Color
     float b;
     float a;
 
-    void SaveBinary(A43600Stream& kStream);
 };
 struct A43600Entry
 {
@@ -466,7 +472,6 @@ struct A43600Entry
 class A43600Base
 {
   public:
-    void SaveBinaryBase(A43600Stream& kStream);
 };
 class A43600Controller : public A43600Base
 {
@@ -486,7 +491,6 @@ class A43600Controller : public A43600Base
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern const char* DAT_0109b220;
 struct FixedStringHeader
 {
     volatile long references;
@@ -501,7 +505,7 @@ struct NiFixedString
     }
     ~NiFixedString()
     {
-        if (value != DAT_0109b220)
+        if (value != ::DAT_0109b220)
             InterlockedDecrement(&Header(value)->references);
     }
     NiFixedString& operator=(const NiFixedString& other)
@@ -509,9 +513,9 @@ struct NiFixedString
         if (value != other.value)
         {
             const char* next = other.value;
-            if (next != DAT_0109b220)
+            if (next != ::DAT_0109b220)
                 InterlockedIncrement(&Header(next)->references);
-            if (value != DAT_0109b220)
+            if (value != ::DAT_0109b220)
                 InterlockedDecrement(&Header(value)->references);
             value = next;
         }
@@ -520,10 +524,7 @@ struct NiFixedString
 };
 struct MemoryManager
 {
-    void* Allocate(unsigned int);
-    void Deallocate(void*);
 };
-extern MemoryManager _g_memoryManager;
 struct NiQuatTransform
 {
     float x, y, z;
@@ -538,11 +539,11 @@ struct TreadTransformEntry
     TreadTransformEntry();
     static void* operator new[](unsigned int size)
     {
-        return _g_memoryManager.Allocate(size);
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }
     static void operator delete[](void* p)
     {
-        _g_memoryManager.Deallocate(p);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
     }
 };
 class NiRefObject
@@ -564,7 +565,6 @@ class NiInterpolator : public NiObject
 {
   public:
     float lastTime;
-    void FUN_00aa0ab0(NiInterpolator*, void*);
 };
 template <class T> struct NiPointer
 {
@@ -596,7 +596,7 @@ class BSTreadTransfInterpolator : public NiInterpolator
 // @fnv 0x00a43690
 void BSTreadTransfInterpolator::FUN_00a43690(BSTreadTransfInterpolator* destination, void* context)
 {
-    FUN_00aa0ab0(destination, context);
+    ::FUN_00aa0ab0();
     delete[] destination->entries;
     destination->count = count;
     destination->entries = new TreadTransformEntry[count];

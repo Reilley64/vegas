@@ -2,6 +2,7 @@
 // src/speedtree/windengine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/windengine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_011f8000.h"
 extern float DAT_010a5784;
 extern float DAT_010a5788;
 
@@ -46,7 +47,6 @@ void MatrixRange::SetMatrixRange(unsigned int nStartingMatrix, unsigned int nMat
     m_uiMatrixSpan = nMatrixSpan;
 }
 
-extern float DAT_011f8d80;
 struct FUN_00b37470_shell
 {
     float SetStrength(float fOldStrength, float fNewStrength, float fOldTimeShift);

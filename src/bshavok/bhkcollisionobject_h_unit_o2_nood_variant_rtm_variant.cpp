@@ -5,13 +5,33 @@
 // src/bshavok/bhkcollisionobject_h_unit_o2_nood_variant.cpp - flag-variant unit created 2026-10-28 by flag_proofs.py: contributor code for these functions matched byte for
 // byte only under /MT /GS /EHsc /Gy /O2 (unit src/bshavok/bhkcollisionobject_h_unit.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_0047b470_This.h"
+#include "fnv/decl/FUN_00560e10_cls.h"
+#include "fnv/decl/FUN_005611c0_t.h"
+#include "fnv/decl/FUN_005616d0_Owner.h"
+#include "fnv/decl/FUN_00561800_Class.h"
+#include "fnv/decl/FUN_00c87a40_obj.h"
+#include "fnv/decl/NiAVObject.h"
+#include "fnv/decl/NiQuaternion.h"
+#include "fnv/decl/S.h"
+#include "fnv/decl/fnv_005617c0__FUN_005617c0_.h"
+#include "fnv/decl/fnv_006838b0__FUN_006838b0_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_00560000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00c8c000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01204000.h"
+#include "fnv/symbols_01267000.h"
 #include "bhkcollisionobject.h"
 
 #include <xmmintrin.h>
 
-extern __m128 DAT_01267e30;
-extern __m128 DAT_01017d10;
-extern float DAT_01017d00;
 
 struct Node_00c658c0
 {
@@ -125,8 +145,6 @@ struct Node_00c658c0
     int unk1AC;
     __m128 m_kPointA;
     __m128 m_kPointB;
-    void OnTrigger(const __m128* v);
-    void FUN_00561800(const __m128* v);
 };
 
 struct Owner_00c658c0
@@ -134,7 +152,6 @@ struct Owner_00c658c0
     int unk00;
     int unk04;
     Node_00c658c0* m_node;
-    void FUN_00a29680();
 };
 
 struct Cls_00c658c0
@@ -154,30 +171,31 @@ void Cls_00c658c0::FUN_00c658c0()
     if (o)
     {
         Node_00c658c0* n = o->m_node;
-        const __m128* p = n ? &n->m_kPointA : &DAT_01267e30;
-        __m128 eps = _mm_shuffle_ps(_mm_load_ss(&DAT_01017d00), _mm_load_ss(&DAT_01017d00), 0);
-        __m128 d = _mm_sub_ps(*p, DAT_01267e30);
-        __m128 ok = _mm_cmple_ps(_mm_and_ps(d, DAT_01017d10), eps);
+        const __m128* p = n ? &n->m_kPointA : &(*reinterpret_cast<::__m128 *>(&::DAT_01267e30));
+        __m128 eps = _mm_shuffle_ps(_mm_load_ss(&::AngularDashpotApplyD4DCB0::DAT_01017d00), _mm_load_ss(&::AngularDashpotApplyD4DCB0::DAT_01017d00), 0);
+        __m128 d = _mm_sub_ps(*p, (*reinterpret_cast<::__m128 *>(&::DAT_01267e30)));
+        __m128 ok = _mm_cmple_ps(_mm_and_ps(d, ::DAT_01017d10), eps);
         if ((_mm_movemask_ps(ok) & 7) != 7 && n)
         {
-            o->FUN_00a29680();
-            n->OnTrigger(&DAT_01267e30);
-            o->FUN_00a29680();
+            ::FUN_00a29680();
+            reinterpret_cast<::FUN_005616d0_Owner *>((n))->OnTrigger((::TriggerContext *)(&(*reinterpret_cast<::__m128 *>(&::DAT_01267e30))));
+            ::FUN_00a29680();
         }
         n = o->m_node;
-        p = n ? &n->m_kPointB : &DAT_01267e30;
-        d = _mm_sub_ps(*p, DAT_01267e30);
-        ok = _mm_cmple_ps(_mm_and_ps(d, DAT_01017d10), eps);
+        p = n ? &n->m_kPointB : &(*reinterpret_cast<::__m128 *>(&::DAT_01267e30));
+        d = _mm_sub_ps(*p, (*reinterpret_cast<::__m128 *>(&::DAT_01267e30)));
+        ok = _mm_cmple_ps(_mm_and_ps(d, ::DAT_01017d10), eps);
         if ((_mm_movemask_ps(ok) & 7) != 7 && n)
         {
-            o->FUN_00a29680();
-            n->FUN_00561800(&DAT_01267e30);
-            o->FUN_00a29680();
+            ::FUN_00a29680();
+            reinterpret_cast<::FUN_00561800_Class *>((n))->FUN_00561800((::FUN_00561730_Obj *)(&(*reinterpret_cast<::__m128 *>(&::DAT_01267e30))));
+            ::FUN_00a29680();
         }
     }
 }
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 namespace fnv_00c65b00 {
 #include <xmmintrin.h>
 
@@ -215,7 +233,6 @@ class NiAVObject
     unsigned int flags;
     Transform local;
     Transform world;
-    void UpdateWorldLoc();
     unsigned char flagSet(unsigned bit) const
     {
         return (flags >> bit) & 1;
@@ -224,7 +241,6 @@ class NiAVObject
 struct Quaternion
 {
     float w, x, y, z;
-    void FUN_00a6df40(const ThreeByThreeMatrix*);
 };
 struct __declspec(align(16)) FourFloatVector
 {
@@ -233,9 +249,7 @@ struct __declspec(align(16)) FourFloatVector
 struct __declspec(align(16)) HavokQuaternion
 {
     float x, y, z, w;
-    void FUN_005611c0();
 };
-void __cdecl FUN_004a3e00(FourFloatVector*, const NiPoint3*);
 struct MotionData
 {
     int unk00;
@@ -418,30 +432,20 @@ struct PhysicsLock
 {
     int owner;
     int count;
-    void FUN_0040fbf0(const char*);
     void unlock()
     {
         if (--count == 0)
             owner = 0;
     }
 };
-extern PhysicsLock DAT_01267b80;
-extern FourFloatVector DAT_01267e30;
-extern float DAT_01017d00;
-extern FourFloatVector DAT_01017d10;
 struct Body
 {
     BodyVTable* vtable;
     int refCount;
     MotionData* data;
-    void* FUN_00c87a40();
     void FUN_00c8e160(const NiPoint3*, const Quaternion*, PhysicsLock*);
-    FourFloatVector* FUN_00560d80();
     FourFloatVector* FUN_00560e10();
-    void FUN_00561690(const FourFloatVector*);
-    void FUN_005617c0(const FourFloatVector*);
 };
-char __cdecl FUN_00c8cce0(int*);
 struct CollisionSync
 {
     void* vtable;
@@ -449,7 +453,6 @@ struct CollisionSync
     NiAVObject* node;
     unsigned short flags;
     Body* body;
-    bool FUN_0047b470();
     unsigned char flagSet(unsigned bit) const
     {
         return (flags >> bit) & 1;
@@ -458,8 +461,8 @@ struct CollisionSync
 };
 __declspec(noinline) FourFloatVector* Body::FUN_00560e10()
 {
-    FourFloatVector* p = data ? &data->angularVelocity : &DAT_01267e30;
-    __m128 m = _mm_and_ps(p->quad, DAT_01017d10.quad);
+    FourFloatVector* p = data ? &data->angularVelocity : &(*reinterpret_cast<::fnv_00c65b00::FourFloatVector *>(&::DAT_01267e30));
+    __m128 m = _mm_and_ps(p->quad, (*reinterpret_cast<::fnv_00c65b00::FourFloatVector *>((void *)&::DAT_01017d10)).quad);
     __m128 v0 = _mm_mul_ps(_mm_shuffle_ps(m, m, 0), _mm_set1_ps(1.0f));
     __m128 v1 = _mm_mul_ps(_mm_shuffle_ps(m, m, 85), _mm_set1_ps(2.0f));
     __m128 v2 = _mm_mul_ps(_mm_shuffle_ps(m, m, 170), _mm_set1_ps(3.0f));
@@ -484,7 +487,7 @@ __declspec(noinline) FourFloatVector* Body::FUN_00560e10()
                 v9),
             v10),
         v11);
-    return _mm_movemask_ps(_mm_cmpeq_ps(total, DAT_01267e30.quad)) == 15 ? &DAT_01267e30 : p;
+    return _mm_movemask_ps(_mm_cmpeq_ps(total, (*reinterpret_cast<::fnv_00c65b00::FourFloatVector *>(&::DAT_01267e30)).quad)) == 15 ? &(*reinterpret_cast<::fnv_00c65b00::FourFloatVector *>(&::DAT_01267e30)) : p;
 }
 // @fnv 0x00c65b00
 void CollisionSync::FUN_00c65b00()
@@ -501,35 +504,35 @@ void CollisionSync::FUN_00c65b00()
     Body* b = body;
     if (!n)
         return;
-    n->UpdateWorldLoc();
+    reinterpret_cast<::NiAVObject *>((n))->UpdateWorldLoc();
     if (!b)
         return;
     int type = b->data ? b->data->motionType : 5;
-    if (type == 5 && b->FUN_00c87a40())
+    if (type == 5 && reinterpret_cast<::FUN_00c87a40_obj *>((b))->FUN_00c87a40())
         return;
     if (!b->data)
         return;
     const Transform* world = &n->world;
     Quaternion rot;
-    rot.FUN_00a6df40(&world->rotate);
+    reinterpret_cast<::NiQuaternion *>(&(rot))->FromRotationMatrix((*(const ::ThreeByThreeMatrix *)(&world->rotate)));
     if (flagSet(6))
     {
 
-        FUN_004a3e00(&forcedPos, &world->translate);
+        ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&forcedPos)), (*(const ::fnv_004a3e00::NiPoint3 *)(&world->translate)));
 
         forcedQ.x = rot.x;
         forcedQ.y = rot.y;
         forcedQ.z = rot.z;
         forcedQ.w = rot.w;
-        forcedQ.FUN_005611c0();
-        DAT_01267b80.FUN_0040fbf0(0);
+        reinterpret_cast<::FUN_005611c0_t *>(&(forcedQ))->FUN_005611c0();
+        reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::fnv_00c65b00::PhysicsLock *>(&::DAT_01267b80))))->FUN_0040fbf0((char *)(0));
         b->vtable->SetGeometryTransform(b, &forcedPos, &forcedQ);
-        DAT_01267b80.unlock();
+        (*reinterpret_cast<::fnv_00c65b00::PhysicsLock *>(&::DAT_01267b80)).unlock();
     }
     else if (!n->flagSet(22) && !n->flagSet(27) && !n->flagSet(3) && !n->flagSet(4))
     {
 
-        FUN_004a3e00(&distancePos, &world->translate);
+        ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&distancePos)), (*(const ::fnv_004a3e00::NiPoint3 *)(&world->translate)));
         b->vtable->getPosition(b, &old);
         __m128 delta = _mm_sub_ps(distancePos.quad, old.quad);
         __m128 sq = _mm_mul_ps(delta, delta);
@@ -539,67 +542,67 @@ void CollisionSync::FUN_00c65b00()
         _mm_store_ss(&dist, _mm_add_ss(z, _mm_add_ss(y, sq)));
         if (dist > 1.0f)
         {
-            if (FUN_0047b470())
+            if (reinterpret_cast<::FUN_0047b470_This *>(this)->FUN_0047b470())
             {
-                b->FUN_00c8e160(&world->translate, &rot, &DAT_01267b80);
+                b->FUN_00c8e160(&world->translate, &rot, &(*reinterpret_cast<::fnv_00c65b00::PhysicsLock *>(&::DAT_01267b80)));
                 return;
             }
-            if (FUN_00c8cce0(&type))
+            if (::FUN_00c8cce0(&type))
             {
-                b->FUN_00c8e160(&world->translate, &rot, &DAT_01267b80);
+                b->FUN_00c8e160(&world->translate, &rot, &(*reinterpret_cast<::fnv_00c65b00::PhysicsLock *>(&::DAT_01267b80)));
                 return;
             }
 
             FourFloatVector nearPos;
-            FUN_004a3e00(&nearPos, &world->translate);
+            ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&nearPos)), (*(const ::fnv_004a3e00::NiPoint3 *)(&world->translate)));
 
             nearQ.x = rot.x;
             nearQ.y = rot.y;
             nearQ.z = rot.z;
             nearQ.w = rot.w;
-            nearQ.FUN_005611c0();
-            DAT_01267b80.FUN_0040fbf0(0);
+            reinterpret_cast<::FUN_005611c0_t *>(&(nearQ))->FUN_005611c0();
+            reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::fnv_00c65b00::PhysicsLock *>(&::DAT_01267b80))))->FUN_0040fbf0((char *)(0));
             b->vtable->SetGeometryTransform(b, &nearPos, &nearQ);
-            DAT_01267b80.unlock();
+            (*reinterpret_cast<::fnv_00c65b00::PhysicsLock *>(&::DAT_01267b80)).unlock();
         }
         else
         {
-            const FourFloatVector* linearPtr = b->FUN_00560d80();
-            __m128 scalarTolerance = _mm_load_ss(&DAT_01017d00);
+            const FourFloatVector* linearPtr = ((::fnv_00c65b00::FourFloatVector *)&(::fnv_00560d80::FUN_00560d80((void *)(b))));
+            __m128 scalarTolerance = _mm_load_ss(&::AngularDashpotApplyD4DCB0::DAT_01017d00);
             __m128 tolerance = _mm_shuffle_ps(scalarTolerance, scalarTolerance, 0);
             __m128 cmp =
-                _mm_cmple_ps(_mm_and_ps(_mm_sub_ps(linearPtr->quad, DAT_01267e30.quad), DAT_01017d10.quad), tolerance);
+                _mm_cmple_ps(_mm_and_ps(_mm_sub_ps(linearPtr->quad, (*reinterpret_cast<::fnv_00c65b00::FourFloatVector *>(&::DAT_01267e30)).quad), (*reinterpret_cast<::fnv_00c65b00::FourFloatVector *>((void *)&::DAT_01017d10)).quad), tolerance);
             if ((_mm_movemask_ps(cmp) & 15) != 15)
-                b->FUN_00561690(&DAT_01267e30);
-            __m128 angular = b->FUN_00560e10()->quad;
-            cmp = _mm_cmple_ps(_mm_and_ps(_mm_sub_ps(angular, DAT_01267e30.quad), DAT_01017d10.quad), tolerance);
+                reinterpret_cast<::S *>((b))->FUN_00561690((int)(&(*reinterpret_cast<::fnv_00c65b00::FourFloatVector *>(&::DAT_01267e30))));
+            __m128 angular = ((::fnv_00c65b00::FourFloatVector *)(reinterpret_cast<::FUN_00560e10_cls *>((b))->FUN_00560e10()))->quad;
+            cmp = _mm_cmple_ps(_mm_and_ps(_mm_sub_ps(angular, (*reinterpret_cast<::fnv_00c65b00::FourFloatVector *>(&::DAT_01267e30)).quad), (*reinterpret_cast<::fnv_00c65b00::FourFloatVector *>((void *)&::DAT_01017d10)).quad), tolerance);
             if ((_mm_movemask_ps(cmp) & 15) != 15)
-                b->FUN_005617c0(&DAT_01267e30);
+                reinterpret_cast<::fnv_005617c0::FUN_005617c0_ *>((b))->FUN_005617c0((int)(&(*reinterpret_cast<::fnv_00c65b00::FourFloatVector *>(&::DAT_01267e30))));
         }
     }
     else
     {
-        if (FUN_0047b470())
+        if (reinterpret_cast<::FUN_0047b470_This *>(this)->FUN_0047b470())
         {
-            b->FUN_00c8e160(&world->translate, &rot, &DAT_01267b80);
+            b->FUN_00c8e160(&world->translate, &rot, &(*reinterpret_cast<::fnv_00c65b00::PhysicsLock *>(&::DAT_01267b80)));
             return;
         }
-        if (FUN_00c8cce0(&type))
+        if (::FUN_00c8cce0(&type))
         {
-            b->FUN_00c8e160(&world->translate, &rot, &DAT_01267b80);
+            b->FUN_00c8e160(&world->translate, &rot, &(*reinterpret_cast<::fnv_00c65b00::PhysicsLock *>(&::DAT_01267b80)));
             return;
         }
 
-        FUN_004a3e00(&flaggedPos, &world->translate);
+        ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&flaggedPos)), (*(const ::fnv_004a3e00::NiPoint3 *)(&world->translate)));
 
         flaggedQ.x = rot.x;
         flaggedQ.y = rot.y;
         flaggedQ.z = rot.z;
         flaggedQ.w = rot.w;
-        flaggedQ.FUN_005611c0();
-        DAT_01267b80.FUN_0040fbf0(0);
+        reinterpret_cast<::FUN_005611c0_t *>(&(flaggedQ))->FUN_005611c0();
+        reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::fnv_00c65b00::PhysicsLock *>(&::DAT_01267b80))))->FUN_0040fbf0((char *)(0));
         b->vtable->SetGeometryTransform(b, &flaggedPos, &flaggedQ);
-        DAT_01267b80.unlock();
+        (*reinterpret_cast<::fnv_00c65b00::PhysicsLock *>(&::DAT_01267b80)).unlock();
     }
 }
 }  // namespace fnv_00c65b00

@@ -8,6 +8,8 @@ class NiPoint3
     float x;  // +0x0
     float y;  // +0x4
     float z;  // +0x8
+public:
+    static const ::NiPoint3 ZERO;
 };
 FNV_STATIC_ASSERT(sizeof(NiPoint3) == 0xC);
 FNV_STATIC_ASSERT(offsetof(NiPoint3, x) == 0x0);

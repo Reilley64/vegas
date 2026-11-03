@@ -2,6 +2,8 @@
 #ifndef FNV_BSSHADERBLOODSPLATTER_H
 #define FNV_BSSHADERBLOODSPLATTER_H
 
+#include "fnv/decl/FUN_00be1750_shell.h"
+#include "fnv/symbols_00be0000.h"
 #include "layout_support.h"
 #include "NiFixedString.h"
 #include "NiRefObject.h"
@@ -1014,9 +1016,6 @@ class BSShader : public NiD3DDefaultShader
     unsigned char layoutPadding65[3];
     int m_iPassId;  // +0x68, 4 bytes
     BSShader();
-    static void GetShaderPath(const char*, char*);
-    NiD3DVertexShader* CompileVertexShader(const char*, const struct _D3DXMACRO*, const char*, const char*);
-    NiD3DPixelShader* CompilePixelShader(const char*, const struct _D3DXMACRO*, const char*, const char*);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(BSShader) == 108);

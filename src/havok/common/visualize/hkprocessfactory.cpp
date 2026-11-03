@@ -2,6 +2,12 @@
 // src/havok/common/visualize/hkprocessfactory.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/hkprocessfactory.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00cb0a60.h"
+#include "fnv/decl/FUN_00cf6da0_cls.h"
+#include "fnv/decl/SStringPtr.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
 struct FUN_00dd9580_Interface
 {
     virtual void unk00();
@@ -24,19 +30,6 @@ struct FUN_00dd9580_Class
     void FUN_00dd94c0();
     FUN_00dd9580_Class* FUN_00dd9580(char flags);
 };
-// Calls FUN_00dd94c0, then if bit 0 of flags is set notifies the service interface with this and unk04, and returns this.
-// @fnv 0x00dd9580
-FUN_00dd9580_Class* FUN_00dd9580_Class::FUN_00dd9580(char flags)
-{
-    FUN_00dd94c0();
-    if (flags & 1)
-    {
-        FUN_00dd9580_Service* service = FUN_00c85750();
-        service->unk10->notify(this, unk04);
-    }
-    return this;
-}
-
 extern char DAT_010d7c90[];
 
 struct FUN_00dd9460_Factory
@@ -47,7 +40,6 @@ struct FUN_00dd9460_Factory
 
 struct FUN_00dd9460_Child
 {
-    void* Make(int size);
 };
 
 class FUN_00dd9460_cls
@@ -78,7 +70,7 @@ FUN_00dd9460_cls* FUN_00dd9460_cls::Initialize()
     void* pBuffer = f->CreateBuffer(0x18);
     if (pBuffer != 0)
     {
-        unk18 = reinterpret_cast<FUN_00dd9460_Child*>(pBuffer)->Make(0x7d0);
+        unk18 = ((void *)(reinterpret_cast<::FUN_00cf6da0_cls *>((reinterpret_cast<FUN_00dd9460_Child*>(pBuffer)))->FUN_00cf6da0(0x7d0)));
     }
     else
     {
@@ -95,7 +87,6 @@ struct MyFactory
 {
     void* vtable;
     unsigned short unk04;
-    MyFactory* init();
 };
 
 struct MyInterface
@@ -112,7 +103,7 @@ MyFactory* CreateFactory()
     MyInterface* iface = (MyInterface*)service->unk10;
     MyFactory* factory = iface->v04(0x1c);
     factory->unk04 = 0x1c;
-    return factory->init();
+    return ((::MyFactory *)(reinterpret_cast<::FUN_00dd9460_cls *>((factory))->Initialize()));
 }
 
 #include <windows.h>
@@ -134,7 +125,6 @@ struct S_00dd94c0_Entry
     int unk00;
     int unk04;
     int unk08;
-    void FUN_00cb0c00() throw();
 };
 
 struct S_00dd94c0_Array
@@ -148,7 +138,7 @@ struct S_00dd94c0_Array
         int n = m_iElementCount;
         S_00dd94c0_Entry* p = m_data;
         for (int i = 0; i < n; i++, p++)
-            p->FUN_00cb0c00();
+            ::FUN_00cb0c00((int)(p));
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             h.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(S_00dd94c0_Entry));
@@ -171,6 +161,18 @@ struct FUN_00dd94c0 : S_00dd94c0_Base
     CRITICAL_SECTION* m_lock;
     virtual ~FUN_00dd94c0() throw();
 };
+// Calls FUN_00dd94c0, then if bit 0 of flags is set notifies the service interface with this and unk04, and returns this.
+// @fnv 0x00dd9580
+FUN_00dd9580_Class* FUN_00dd9580_Class::FUN_00dd9580(char flags)
+{
+    reinterpret_cast<::FUN_00dd94c0 *>(this)->FUN_00dd94c0::~FUN_00dd94c0();
+    if (flags & 1)
+    {
+        FUN_00dd9580_Service* service = FUN_00c85750();
+        service->unk10->notify(this, unk04);
+    }
+    return this;
+}
 
 // Deletes the critical section, calls notify with the lock and 0x18, then clears m_entries.
 // @fnv 0x00dd94c0
@@ -186,7 +188,6 @@ FUN_00dd94c0::~FUN_00dd94c0() throw()
     m_entries.clear();
 }
 
-int FUN_00cb0fa0(const char* a, const char* b);
 
 struct S_00dd9380_Allocator;
 
@@ -206,8 +207,6 @@ struct S_00dd9380_Router
 struct S_00dd9380_StringPtr
 {
     unsigned int m_pcText;
-    void FUN_00cb0a60();
-    void FUN_00cb0c10(const char* s);
     const char* cString() const
     {
         return (const char*)(m_pcText & ~1u);
@@ -219,7 +218,7 @@ inline int S_00dd9380_strCmp(const char* a, const char* b)
     if (a)
     {
         if (b)
-            return FUN_00cb0fa0(a, b);
+            return ::fnv_00cb0fa0::FUN_00cb0fa0(a, b);
         return 1;
     }
     return b ? -1 : 0;
@@ -232,7 +231,6 @@ struct S_00dd9380_Entry
     int m_iOwnerObjectOffset;
 };
 
-void FUN_00c908c0(S_00dd9380_Allocator& alloc, void* array, int numElem, int sizeElem);
 
 struct S_00dd9380_Array
 {
@@ -249,7 +247,7 @@ struct S_00dd9380_Array
         {
             int cap2 = 2 * getCapacity();
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(alloc, this, newSize, sizeof(S_00dd9380_Entry));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(S_00dd9380_Entry));
         }
     }
     S_00dd9380_Entry& _expandOne(S_00dd9380_Allocator& alloc)
@@ -258,7 +256,7 @@ struct S_00dd9380_Array
         GrowArrayCapacity(alloc, oldsize + 1);
         S_00dd9380_Entry* e = m_data + m_iElementCount;
         if (e)
-            e->m_name.FUN_00cb0a60();
+            new ((void *)&(e->m_name)) struct ::FUN_00cb0a60();
         m_iElementCount++;
         return m_data[oldsize];
     }
@@ -295,7 +293,7 @@ int S_00dd9380::FUN_00dd9380(const char* name, int value)
     if (e == 0)
     {
         e = &m_entries.AllocatePair();
-        e->m_name.FUN_00cb0c10(name);
+        reinterpret_cast<::SStringPtr *>(&(e->m_name))->FUN_00cb0c10(name);
         e->m_uiFilterValue = value;
         e->m_iOwnerObjectOffset = m_nextId++;
     }

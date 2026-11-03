@@ -8,6 +8,11 @@
 // NiD3DHLSLVertexShader, i.e. immediately after the 60-byte NiD3DVertexShader
 // base object.
 
+#include "fnv/decl/FUN_00a66960_cls.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00e8b000.h"
+#include "fnv/symbols_00e8c000.h"
+#include "fnv/symbols_011bf000.h"
 typedef unsigned int NiUInt32;
 
 // A D3DX constant table is referenced by pointer only in this build.
@@ -144,7 +149,6 @@ bool S_00e8c0d0::CopyAndRelease(void* apObj)
     return o->v->fn(apObj) >= 0;
 }
 
-extern unsigned int DAT_011bf558;
 
 // @fnv 0x00e8c120
 void __stdcall FUN_00e8c120(Outer* p1, Outer* p2, unsigned int* flags, unsigned int* auiOffset, int* p5,
@@ -204,8 +208,6 @@ struct Holder_e8bff0 {
     virtual int __stdcall read(unsigned int type, unsigned int length, unsigned int* out, unsigned int flags) = 0;
 };
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-void __cdecl FUN_00aa10f0(void* p);
-void* __cdecl FUN_00aa1070(unsigned int n);
 void __cdecl FUN_00ec44d0(void* p, unsigned int out, unsigned int n);
 struct Owner_e8bff0 {
     void*& Data() { return *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x40); }
@@ -312,7 +314,6 @@ struct NiGeometryData {
     Color* colors;
     unsigned int unk2c, unk30;
     C_00e8f010* bufferData;
-    NiPoint2* FUN_00a66960(unsigned short);
 };
 struct Class87d40 { void ForwardActorBaseData(void*, int, int, int, int, int); };
 struct CriticalSection { unsigned int debug, lock, recursion, owner, semaphore, spin; };
@@ -351,9 +352,6 @@ struct Renderer {
     unsigned int unk7c;
     CriticalSection criticalSection;
     void FUN_00e8c120(NiGeometryData*, void*, unsigned int*, unsigned int*, unsigned int*, unsigned int*, unsigned int*, unsigned int*, unsigned int*);
-    bool FUN_00e8bfa0(C_00e8f010*, unsigned int);
-    char* FUN_00e8bff0(VertexBuffer*, unsigned int, unsigned int, unsigned int);
-    void CopyStridedElements(char*, char*, unsigned int, unsigned int, unsigned int);
     VertexRecord* FUN_00e8c1e0(NiGeometryData*, Class87d40*, unsigned int, VertexRecord*, char*);
 };
 __declspec(noinline) void Renderer::FUN_00e8c120(NiGeometryData* d, void* p, unsigned int* a, unsigned int* b, unsigned int* c, unsigned int* e, unsigned int* f, unsigned int* g, unsigned int* h)
@@ -374,7 +372,7 @@ VertexRecord* Renderer::FUN_00e8c1e0(NiGeometryData* data, Class87d40* transform
     if (textureCount > maxTextures) textureCount = maxTextures;
     unsigned int fvf = 0, stride = 0;
     unsigned int positionOffset, normalOffset, colorOffset, textureOffset, unusedOffset;
-    FUN_00e8c120(data, 0, &fvf, &stride, &positionOffset, &unusedOffset, &normalOffset, &colorOffset, &textureOffset);
+    ::FUN_00e8c120((::Outer *)this, (::Outer *)(data), (unsigned int *)(void *)(0), &fvf, (int *)(unsigned int *)(&stride), &positionOffset, &unusedOffset, &normalOffset, &colorOffset);
     C_00e8f010* bufferData = data->bufferData;
     bufferData->FUN_00e8f010(fvf);
     if (bufferData->count > 0) bufferData->strides[0] = stride;
@@ -389,7 +387,7 @@ VertexRecord* Renderer::FUN_00e8c1e0(NiGeometryData* data, Class87d40* transform
             (buf->GetDesc(&desc), desc.type == 100 && desc.fvf == fvf && desc.size >= (unsigned short)count * stride)) {
             record = existing;
         } else {
-            if (!FUN_00e8bfa0(bufferData, 0)) return 0;
+            if (!::FUN_00e8bfa0((::Outer *)this, (unsigned int)(bufferData))) return 0;
             record = bufferData->count > 0 ? bufferData->records[0] : 0;
             dirty = 0xfff;
         }
@@ -397,7 +395,7 @@ VertexRecord* Renderer::FUN_00e8c1e0(NiGeometryData* data, Class87d40* transform
         unsigned int size = record->size;
         unsigned int offset = record->offset;
         VertexBuffer* buffer = record->buffer;
-        destination = FUN_00e8bff0(buffer, offset, size, flags);
+        destination = ((char *)(reinterpret_cast<::Owner_e8bff0 *>(this)->FUN_00e8bff0((::Holder_e8bff0 *)(buffer), offset, size, flags)));
     }
     if (transform) {
         if (positions && (dirty & 1)) {
@@ -406,8 +404,8 @@ VertexRecord* Renderer::FUN_00e8c1e0(NiGeometryData* data, Class87d40* transform
             transform->ForwardActorBaseData(data, (int)positionDest, (int)normalDest, 0, 0, stride);
         }
     } else {
-        if (positions && (dirty & 1)) CopyStridedElements(destination + positionOffset, (char*)positions, stride, 12, (unsigned short)count);
-        if (normals && (dirty & 2)) CopyStridedElements(destination + normalOffset, (char*)normals, stride, 12, (unsigned short)count);
+        if (positions && (dirty & 1)) ::CopyStridedElements((char *)this, destination + positionOffset, (unsigned int)((char*)positions), stride, 12);
+        if (normals && (dirty & 2)) ::CopyStridedElements((char *)this, destination + normalOffset, (unsigned int)((char*)normals), stride, 12);
     }
     if (colors && (dirty & 4)) {
         char* output = destination + colorOffset;
@@ -420,7 +418,7 @@ VertexRecord* Renderer::FUN_00e8c1e0(NiGeometryData* data, Class87d40* transform
     if (dirty & 8) {
         for (unsigned int i = 0; i < textureCount; ++i) {
             char* output = destination + textureOffset + i * 8;
-            NiPoint2* input = data->FUN_00a66960((unsigned short)i);
+            NiPoint2* input = ((::NiPoint2 *)(reinterpret_cast<::FUN_00a66960_cls *>((data))->FUN_00a66960((unsigned short)i)));
             char* vertex = output;
             for (unsigned int j = 0; j < (unsigned short)count; ++j) {
                 *(NiPoint2*)vertex = *input++;

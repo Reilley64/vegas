@@ -4,6 +4,11 @@
 
 // src/havok/physics/collide/agent/deprecated/multispheretriangle/hkpmultispheretriangleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/deprecated/multispheretriangle/hkpmultispheretriangleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_00d37000.h"
+#include "fnv/symbols_00d38000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_010ce000.h"
+#include "fnv/symbols_01268000.h"
 struct S_00d37e60_Allocator {
     virtual void v0();
     virtual void* AllocateMemoryBlock(int nbytes);
@@ -63,8 +68,6 @@ struct S_00d37e60_TriAgent2 : S_00d37e60_TriAgent {
     __forceinline S_00d37e60_TriAgent2(const S_00d37e60_CdBody& bodyA, void* mgr) : S_00d37e60_TriAgent(bodyA, mgr) {}
     virtual void getPenetrations();
 };
-S_00d37e60_Agent* CreateTriAgent2(const S_00d37e60_CdBody& bodyA, const S_00d37e60_CdBody& bodyB, const void* input, void* mgr);
-void __cdecl FUN_00d38130(void*, void*, void*, void*);
 struct D38AC0Data {
     int unk00;
     char unk04;
@@ -73,12 +76,8 @@ struct D38AC0Data {
     char unk07;
     int unk08;
 };
-void __cdecl FUN_00d38ac0(void* first, void* second, void* third, int fourth);
 struct CpuCallData { void* descriptor; float bound; unsigned int value; };
-extern float DAT_0104da48;
-extern unsigned char DAT_010ce7fc;
 struct CpuObject {
-    void FUN_00d38390(void*, void*, unsigned int, CpuCallData*);
     void FUN_00d38e90(void*, void*, unsigned int, unsigned int);
 };
 struct FUN_00d37e10_sub
@@ -109,10 +108,7 @@ struct CallbackState {
     bool completed;
     unsigned context;
 };
-extern const unsigned vtable_010ce81c[];
 struct Operation {
-    void FUN_00d37ed0(unsigned second, unsigned first,
-                      unsigned third, CallbackState* callback);
     void FUN_00d38a80(unsigned first, unsigned second,
                       unsigned third, unsigned context);
 };
@@ -126,21 +122,17 @@ struct FUN_00d38ed0_Local
     int         unk08;
 };
 // Global float loaded with `fld dword ptr [0x104da48]`.
-extern float unk_104da48;
 // Global object whose address (0x10ce7fc) is stored into the record.
-extern char unk_10ce7fc[];
 // Callee at 0x00d386c0: __cdecl, four arguments,
 // the last one being a pointer to the record built on the stack.
-void __cdecl FUN_00d386c0(int unk04, int unk08, int unk0c, FUN_00d38ed0_Local* unk10);
-void __cdecl FUN_00d38ed0(int aiArg1, int aiArg2, int aiArg3, int aiArg4);
 union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
+#include "fnv/symbols_simd.h"
 extern "C" {
 __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 __m128 _mm_mul_ps(__m128, __m128);
 __m128 _mm_add_ps(__m128, __m128);
 __m128 _mm_xor_ps(__m128, __m128);
 }
-extern __m128 DAT_010c4c00;
 struct SimplexVertex
 {
     __m128 m_kPointA;
@@ -178,7 +170,6 @@ struct Simplex
 };
 struct AgentBase
 {
-    void FUN_00d38b00(int a, int b, int c, Simplex* s);
 };
 struct Agent : AgentBase
 {
@@ -261,7 +252,6 @@ struct hkpMultiSphereTriangleAgent : S_00d37e60_TriAgent {
 };
 void __cdecl FUN_00cd7850(const hkVector4& position, const hkVector4* triangle, const S_00d37e60_Plane& cache,
                           CollisionDistanceInfo& result, void* featureOut);
-void __cdecl FUN_00d38130(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const void* input, hkpCdBodyPairCollector& collector);
 
 extern "C" {
 __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
@@ -304,7 +294,6 @@ struct ContactCollector {
 };
 struct TimerRecord { const char* name; unsigned int ticks; unsigned int extra; };
 struct Monitor { TimerRecord* start; TimerRecord* next; TimerRecord* capacity; TimerRecord* limit; };
-extern unsigned long DAT_0126835c;
 void __cdecl FUN_00cd7850(const FourFloatVector*, const FourFloatVector*, TriangleCache*, ClosestPointUtilities*, unsigned char*);
 static __forceinline __m128 TransformPoint(const __m128& tx, const __m128& ty, const __m128& tz, const __m128& tt, const __m128& v)
 {
@@ -414,7 +403,6 @@ __m128 _mm_add_ps(__m128, __m128);
 extern "C" {
 __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 }
-extern unsigned long DAT_0126835c;
 
 template<class T> class ProcessValue {
     T value;

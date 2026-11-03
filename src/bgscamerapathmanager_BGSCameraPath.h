@@ -18,6 +18,8 @@ class CameraShotData
 };
 FNV_STATIC_ASSERT(sizeof(CameraShotData) == 1);
 FNV_STATIC_ASSERT(offsetof(CameraShotData, cFlags) == 0);
+class BGSCameraShot;
+template <class> class BSSimpleList;
 class BGSCameraPath : public TESForm
 {
   public:
@@ -74,6 +76,8 @@ class BGSCameraPath : public TESForm
     // NiFormArray* __cdecl BGSCameraPath::*()
     // BGSCameraPath& __cdecl BGSCameraPath::*(const BGSCameraPath&)
     // void __cdecl BGSCameraPath::*()
+public:
+    ::BSSimpleList< ::BGSCameraShot *> *GetShotList();
 };
 FNV_STATIC_ASSERT(sizeof(BGSCameraPath) == 56);
 FNV_STATIC_ASSERT(offsetof(BGSCameraPath, Conditions) == 24);

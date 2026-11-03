@@ -3,9 +3,131 @@
 // say /MT /O2 /GS /EHsc /Gy (unit src/fallout/ai/actor.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions to their real
 // unit once identified.
 
+#include <new>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Cls79340.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00409480_shell.h"
+#include "fnv/decl/FUN_00416870_t.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00448e30_this.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00508100_shell.h"
+#include "fnv/decl/FUN_00508d70_shell.h"
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_005611c0_t.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_0057b0a0_shell.h"
+#include "fnv/decl/FUN_005a2030_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00619a70_shell.h"
+#include "fnv/decl/FUN_0061cdc0_shell.h"
+#include "fnv/decl/FUN_0061cfd0_shell.h"
+#include "fnv/decl/FUN_0061e600_t.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008846e0_shell.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FUN_0098adb0_shell.h"
+#include "fnv/decl/FUN_009c8d60_t.h"
+#include "fnv/decl/FUN_00ba3a00.h"
+#include "fnv/decl/FUN_00c75460_S.h"
+#include "fnv/decl/FUN_00c7a230_cls.h"
+#include "fnv/decl/FUN_00c7bfd0.h"
+#include "fnv/decl/FUN_00ca8420_Class.h"
+#include "fnv/decl/FUN_00cb0a60.h"
+#include "fnv/decl/FUN_00cd9fe0_cls.h"
+#include "fnv/decl/FUN_00cda8d0_class.h"
+#include "fnv/decl/FUN_00cdb290.h"
+#include "fnv/decl/FUN_00cdb3e0_cls.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MapperInitialization.h"
+#include "fnv/decl/NiGlobalStringTable.h"
+#include "fnv/decl/NiObject.h"
+#include "fnv/decl/NiQuaternion.h"
+#include "fnv/decl/NiTransform.h"
+#include "fnv/decl/PointerMap.h"
+#include "fnv/decl/RagdollMapperC18.h"
+#include "fnv/decl/ReviewedContext.h"
+#include "fnv/decl/RotationRows.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S00c79e20_Ctrl.h"
+#include "fnv/decl/S00cd8920_Obj.h"
+#include "fnv/decl/SStringPtr.h"
+#include "fnv/decl/S_00b601a0_Map.h"
+#include "fnv/decl/S_00ca8630_Class.h"
+#include "fnv/decl/SceneEffect.h"
+#include "fnv/decl/ShapeArrays.h"
+#include "fnv/decl/TopicFlagStandIn.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_0043fcd0__FUN_0043fcd0_shell.h"
+#include "fnv/decl/fnv_004518e0__TESObjectCELL.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_0087ce80__FUN_0087ce80_shell.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_00895110__PickActor.h"
+#include "fnv/decl/fnv_0089f580__ActorStub.h"
+#include "fnv/decl/fnv_00cda340__SkeletonPoseData.h"
+#include "fnv/decl/fnv_00cdb7c0__Obj.h"
+#include "fnv/decl/fnv_00ce1ad0__RagInstance.h"
+#include "fnv/decl/fnv_00ce5370__FUN_00ce5370_cls.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpEntityC9C.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00619000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_00624000.h"
+#include "fnv/symbols_009e3000.h"
+#include "fnv/symbols_00aa4000.h"
+#include "fnv/symbols_00c4b000.h"
+#include "fnv/symbols_00c74000.h"
+#include "fnv/symbols_00c75000.h"
+#include "fnv/symbols_00c7a000.h"
+#include "fnv/symbols_00c7b000.h"
+#include "fnv/symbols_00c7d000.h"
+#include "fnv/symbols_00c80000.h"
+#include "fnv/symbols_00c8c000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00cda000.h"
+#include "fnv/symbols_00cdd000.h"
+#include "fnv/symbols_00cde000.h"
+#include "fnv/symbols_00ce6000.h"
+#include "fnv/symbols_00cea000.h"
+#include "fnv/symbols_00ceb000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_01020000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_01050000.h"
+#include "fnv/symbols_01071000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010c7000.h"
+#include "fnv/symbols_011ac000.h"
+#include "fnv/symbols_011af000.h"
+#include "fnv/symbols_011b0000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f2000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_01268000.h"
 #include "Actor.h"
 
 union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; };
+#include "fnv/symbols_simd.h"
 struct __declspec(align(16)) BlendQuat {
     float x, y, z, w;
     BlendQuat& operator=(const BlendQuat& other) { *(__m128*)&x=*(const __m128*)&other.x; return *this; }
@@ -39,7 +161,6 @@ struct BlendPose {
     int unk024;
     int unk028;
     BlendSkeleton* skeleton;
-    void __thiscall FUN_00ce18f0(BlendTransform*, void*);
 };
 struct BlendArray {
     int unk00; unsigned short* data; unsigned int size;
@@ -71,20 +192,13 @@ struct BlendRagdoll {
 };
 struct BlendState { int unk00,unk04,unk08,unk0c; int source,dest; BlendRagdoll* ragdoll; };
 struct BlendAccess {
-    int* __thiscall FUN_00cda8d0();
     int* __thiscall FUN_00cda4b0();
-    int* __thiscall FUN_00cdb290();
-    void __thiscall FUN_00cd9fe0();
-    int sourceValue() {return *FUN_00cda8d0();}
+    int sourceValue() {return *((int *)(reinterpret_cast<::FUN_00cda8d0_class *>(this)->FUN_00cda8d0()));}
     int valueA() {return *FUN_00cda4b0();}
-    int valueB() {return *FUN_00cdb290();}
+    int valueB() {return *((int *)(reinterpret_cast<::FUN_00cdb290 *>(this)->GetPlus4()));}
 };
 struct BlendAllocator { char* top; };
 extern BlendAllocator* __cdecl FUN_00c85750();
-extern __int64 __cdecl FUN_00aa4d80();
-extern void __cdecl FUN_00cddef0(int, BlendTransform*, BlendTransform*, BlendTransform*);
-extern void __cdecl CallWithGlobal(int, BlendTransform*, void*, BlendTransform*);
-extern void __cdecl FUN_00ce3a00(int, int, int, BlendTransform*, int);
 struct BlendBuffer {
     BlendTransform* data; int size;
     static BlendTransform* allocate(int n) {
@@ -273,58 +387,13 @@ struct BlendController {
 
     __int64 duration;
 
-    void __thiscall FUN_00c7b6a0(int);
     void __thiscall FUN_00c7c870();
 };
-// @fnv 0x00c7c870
-void BlendController::FUN_00c7c870() {
-    BlendController* self=this;
-    if (FUN_00aa4d80()-self->start > self->duration) {
-        self->FUN_00c7b6a0(0);
-    } else {
-    BlendSkeleton* skeleton=self->pose->skeleton;
-    int count=skeleton->count;
-    BlendBuffer a(count);
-    BlendTransform* aData=a.data;
-    {
-        BlendBuffer b(count);
-        BlendTransform* bData=b.data;
-        self->pose->FUN_00ce18f0(bData,&self->unk010);
-        FUN_00cddef0(count,skeleton->getTransforms(),bData,aData);
-    }
-    BlendBuffer c(count);
-    BlendTransform* cData=c.data;
-    BlendBuffer d(count);
-    BlendTransform* dData=d.data;
-    CallWithGlobal(count,skeleton->getTransforms(),skeleton->getMapping(),dData);
-    int mappedCount=(int)skeleton->getMapping();
-    FUN_00ce3a00(self->GetReferenceTimeStep()->source,self->access->sourceValue(),mappedCount,dData,2);
-    FUN_00cddef0(count,skeleton->getTransforms(),dData,cData);
-    int poseCount=self->pose->count;
-    for(int i=0;i<poseCount;++i) {
-        int index=self->GetReferenceTimeStep()->ragdoll->bones.find((unsigned short)i);
-        if(index!=-1) {
-            __declspec(align(16)) char components[sizeof(BlendQuat)];
-            BlendQuat& q=*(BlendQuat*)components;
-            q.FUN_00cb2850(aData[i].translation,cData[i].translation,self->blend);
-            cData[i].translation=q;
-        }
-    }
-    CallWithGlobal(count,skeleton->getTransforms(),cData,dData);
-    int v=self->access->valueA();
-    int w=self->access->valueB();
-    FUN_00ce3a00(self->GetReferenceTimeStep()->dest,(int)dData,w,(BlendTransform*)v,2);
-    self->access->FUN_00cd9fe0();
-    }
-}
-
 union __declspec(align(16)) PackedVector { __m128 vector; unsigned char lanes[16]; };
 struct InternedHeader { long references; unsigned int length; };
 
 
 // Interned names and intrusive scene-object references.
-char* __cdecl FUN_00a5b690(const char*);
-extern char* DAT_0109b220;
 __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
 __declspec(dllimport) long __stdcall InterlockedDecrement(long*);
 void* __cdecl FUN_00aa13e0(unsigned int);
@@ -336,7 +405,6 @@ __forceinline void ReleaseString(char* text) {
     if (text != DAT_0109b220) InterlockedDecrement(&((InternedHeader*)text - 1)->references);
 }
 struct MatrixTransform;
-void __cdecl FUN_00c74dd0(void*, const MatrixTransform*);
 struct BoneTransformData;
 struct FUN_00a5d3a0 {
     virtual void Reserved();
@@ -380,9 +448,7 @@ __forceinline void AssignScene(CachedScene*& slot, CachedScene* created) {
 }
 struct CacheManager {
     void FUN_00e92760(char*, CachedScene**);
-    void InsertOrAssign(char*, SceneRef);
 };
-extern CacheManager DAT_011b0300;
 
 struct Allocator {
     virtual void Reserved();
@@ -429,7 +495,6 @@ struct MatrixTransform {
     float rotation[3][3];
     float x, y, z;
     float scale;
-    void FUN_00a86bf0();
     void FUN_00cb2d90(void*);
     MatrixTransform FUN_0062c250(const MatrixTransform&) const;
 };
@@ -444,10 +509,8 @@ struct __declspec(align(16)) PoseState {
     unsigned char localValid, active, reserved3a, reserved3b;
     int reserved3c, reserved40, reserved44, reserved48;
     float scale, inverseScale;
-    __forceinline PoseState() throw() { FUN_00c7bfd0(); }
-    __forceinline ~PoseState() { FUN_00c7c2b0(); }
-    void FUN_00c7bfd0() throw();
-    void FUN_00c7c2b0();
+    __forceinline PoseState() throw() { new ((void *)this) ::FUN_00c7bfd0(); }
+    __forceinline ~PoseState() { reinterpret_cast<::ShapeArrays *>(this)->ShapeArrays::~ShapeArrays(); }
 };
 struct PoseBuffer {
     int reserved00, reserved04, reserved08, reserved0c;
@@ -457,10 +520,8 @@ struct PoseBuffer {
     unsigned char valid;
     unsigned char reserved61, reserved62, reserved63;
     int reserved64, reserved68, reserved6c;
-    PoseBuffer() { FUN_00ce5310(); }
-    ~PoseBuffer() { FUN_00ce5370(); }
-    void FUN_00ce5310();
-    void FUN_00ce5370();
+    PoseBuffer() { reinterpret_cast<::MapperInitialization *>(this)->FUN_00ce5310(); }
+    ~PoseBuffer() { reinterpret_cast<::fnv_00ce5370::FUN_00ce5370_cls *>(this)->FUN_00ce5370(); }
 };
 struct FUN_00ce4a20 {
     int reserved0;
@@ -497,9 +558,9 @@ struct BoneTransformData {
     __forceinline BoneName& GetBone(int i) { BoneName* p = &bones[i]; return *p; }
     __forceinline MatrixTransform& GetLocalTransform() { return localTransform; }
 };
-__forceinline void CachedScene::ApplyTransform(const MatrixTransform& value) { FUN_00c74dd0(skeleton->transform, &value); }
-__forceinline void CachedScene::ApplyTransformPointer(const MatrixTransform* value) { FUN_00c74dd0(skeleton->transform, value); }
-__forceinline void CachedScene::ApplyFinalTransform(const MatrixTransform& value) { FUN_00c74dd0(GetSkeleton()->GetTransform(), &value); }
+__forceinline void CachedScene::ApplyTransform(const MatrixTransform& value) { ::FUN_00c74dd0((::C74QsTransform *)(skeleton->transform), (const ::C74Transform *)(const ::MatrixTransform *)(&value)); }
+__forceinline void CachedScene::ApplyTransformPointer(const MatrixTransform* value) { ::FUN_00c74dd0((::C74QsTransform *)(skeleton->transform), (const ::C74Transform *)(value)); }
+__forceinline void CachedScene::ApplyFinalTransform(const MatrixTransform& value) { ::FUN_00c74dd0((::C74QsTransform *)(void *)(GetSkeleton()->GetTransform()), (const ::C74Transform *)(const ::MatrixTransform *)(&value)); }
 struct InputScene {
     int reserved0, FunctionAtSlot4;
     BoneTransformData* skeleton;
@@ -525,8 +586,7 @@ union TemporaryPoseWork {
     Conversion converted;
     MatrixTransform result;
 };
-struct ExtraView { TransformSource* FUN_00653290(void*); };
-extern int DAT_012683c8;
+struct ExtraView {  };
 struct FUN_00cdb400 {
     float* values;
     int reserved04, reserved08, reserved0c, VirtualFunction10, reserved14, reserved18, reserved1c;
@@ -537,15 +597,7 @@ struct FUN_00cdb400 {
     static void operator delete(void*);
 };
 typedef FUN_00cdb400 SkinState;
-int __cdecl ApplyToCollisionBodies(BoneTransformData*, ArrayStorage*, ArrayStorage*);
-int __cdecl FUN_00cea030(ArrayStorage*, ArrayStorage*);
-BoneTransformData* __cdecl FUN_00ceb2c0(ArrayStorage*, ArrayStorage*);
-void __cdecl FUN_00c74dd0(void*, const MatrixTransform*);
-void __cdecl FUN_00624ad0(MatrixTransform*, const void*);
-void* __cdecl FUN_00cea810(BoneTransformData*, ArrayStorage*, ArrayStorage*);
 int __cdecl FUN_00ec7750(const char*, const char*);
-void __cdecl FUN_00ce61c0(PoseState*, PoseBuffer*, PoseBuffer*);
-InputScene* __cdecl FUN_00c802d0(Argument*);
 extern float DAT_01267c7c, DAT_01267c88, DAT_01267c94, DAT_01267ca0;
 extern float DAT_01267cac, DAT_01267cb8, DAT_01267cc4, DAT_01267cd0;
 extern float DAT_01267cdc, DAT_01267ce8, DAT_01267cf4, DAT_01267d00;
@@ -722,15 +774,13 @@ struct SceneOwner {
     __forceinline char* GetName() { return name; }
     void FUN_00c7e9a0(Argument*, const char*);
     void FUN_00c7e3b0();
-    unsigned char FUN_00c75460();
-    void FUN_00c79e20();
 };
 
 // @fnv 0x00c7e9a0
 void SceneOwner::FUN_00c7e9a0(Argument* sourceInput, const char* requestedName) {
     char* old = name;
     if (old != requestedName) {
-        name = FUN_00a5b690(requestedName);
+        name = ::NiGlobalStringTable::AddString(requestedName);
         ReleaseString(old);
     }
     if (!requestedName) {
@@ -747,36 +797,36 @@ void SceneOwner::FUN_00c7e9a0(Argument* sourceInput, const char* requestedName) 
     CachedScene* found = *cacheSlot;
     if (!found) {
         AssignScene(*cacheSlot, new CachedScene);
-        DAT_011b0300.InsertOrAssign(GetName(), SceneRef(*cacheSlot));
+        reinterpret_cast<::PointerMap *>(&(DAT_011b0300))->InsertOrAssign((unsigned int)(GetName()), (*(::NiPointer< ::MapRefObject> *)&(const ::SceneRef &)(SceneRef(*cacheSlot))));
     }
-    if (FUN_00c802d0(sourceInput)) {
-        InputScene* scene = FUN_00c802d0(sourceInput);
+    if (((::InputScene *)(::FUN_00c802d0((::MyNode *)(sourceInput))))) {
+        InputScene* scene = ((::InputScene *)(::FUN_00c802d0((::MyNode *)(sourceInput))));
         skeletonHandle = scene->GetSkeleton()->GetBones();
         ScratchArray first;
         ScratchArray second;
-        ApplyToCollisionBodies(scene->GetSkeleton(), &first, &second);
-        if (FUN_00cea030(&first, &second) != 1) {
+        ::ApplyToCollisionBodies((::C7B140AVObject *)(::BoneTransformData *)(scene->GetSkeleton()), &first, &second);
+        if (::FUN_00cea030(&first, &second) != 1) {
             CachedScene* entry = *cacheSlot;
             if (!entry->skeleton) {
-                entry->skeleton = FUN_00ceb2c0(&first, &second);
+                entry->skeleton = ((::BoneTransformData *)(::FUN_00ceb2c0((::BodyList *)(::ArrayStorage *)(&first), (::ConstraintList *)(::ArrayStorage *)(&second))));
                 (*cacheSlot)->ApplyTransform(scene->GetSkeleton()->GetLocalTransform());
                 TransformSource* source;
                 if (!scene->extra) source = 0;
-                else source = ((ExtraView*)scene->extra)->FUN_00653290(&DAT_012683c8);
+                else source = ((::TransformSource *)(reinterpret_cast<::NiObject *>((((ExtraView*)scene->extra)))->DynamicCast((const ::NiRTTI *)(void *)(&(*reinterpret_cast<int *>(&::g_012683c8))))));
                 MatrixTransform transform;
-                transform.FUN_00a86bf0();
+                reinterpret_cast<::NiTransform *>(&(transform))->ResetToIdentity();
                 if (source) {
                     Conversion converted;
                     converted.quaternion.vector = source->quaternion.vector;
-                    converted.FUN_00cb2d90(&source->basis);
-                    FUN_00624ad0(&transform, &converted);
+                    reinterpret_cast<::RotationRows *>(&(converted))->FUN_00cb2d90(&source->basis);
+                    ::FUN_00624ad0((::NiTransform *)(::MatrixTransform *)(&transform), (::TopicH *)(&converted));
                 }
                 MatrixTransform copied;
                 copied = scene->GetSkeleton()->GetLocalTransform().FUN_0062c250(transform);
                 (*cacheSlot)->ApplyTransformPointer(&copied);
             }
             if (cached->skeleton) {
-                skin = FUN_00cea810(GetCached()->skeleton, &first, &second);
+                skin = ((void *)(::FUN_00cea810((::Skeleton *)(GetCached()->skeleton), (*(const ::Array< ::RigidBody *> *)(&first)), (*(const ::Array< ::Constraint *> *)(&second)))));
                 BoneTransformData* skeleton = GetCached()->skeleton;
                 for (int bone = 0; bone < skeleton->boneCount; ++bone) {
                     const char* boneName = skeleton->GetBone(bone).Name();
@@ -792,7 +842,7 @@ void SceneOwner::FUN_00c7e9a0(Argument* sourceInput, const char* requestedName) 
                     values[8] = DAT_01267cdc; values[9] = DAT_01267ce8;
                     values[10] = DAT_01267cf4; values[11] = DAT_01267d00;
                     initialized = 1;
-                    mode = FUN_00c75460();
+                    mode = ((unsigned char)(reinterpret_cast<::FUN_00c75460_S *>(this)->FUN_00c75460()));
                 }
             }
             FUN_00c7e3b0();
@@ -806,9 +856,9 @@ void SceneOwner::FUN_00c7e9a0(Argument* sourceInput, const char* requestedName) 
                     pose.animation = (*cacheSlot)->animation;
                     pose.skeleton = (*cacheSlot)->skeleton;
                     pose.active = 0;
-                    FUN_00ce61c0(&pose, &animationPose, &skeletonPose);
+                    ::FUN_00ce61c0((*(const ::HkMapperParams *)(&pose)), (*(::HkMapperData *)(&animationPose)), (*(::HkMapperData *)(&skeletonPose)));
                 }
-                FUN_00c79e20();
+                reinterpret_cast<::S00c79e20_Ctrl *>(this)->FUN_00c79e20();
                 GetCached()->sourceAnimation = new PoseSource(&animationPose);
                 GetCached()->sourceSkeleton = new PoseSource(&skeletonPose);
             }
@@ -855,21 +905,15 @@ public:
 };
 extern BlendAllocator* FUN_00c85750();
 extern float DAT_011b02e8;
-extern float DAT_011ac39c;
-extern const float DAT_01017d00;
 
-extern __int64 FUN_00aa4d80();
 struct ScratchAllocator {
     char* current;
     char* allocate(int n) { int numBytes=(n+127)&~127; char* p=current; char* next=p+numBytes; current=next; return p; }
 };
-extern char FUN_00c8cce0(int*);
-extern "C" void* __cdecl FUN_00cb1280(void*,int,unsigned int);
 struct Clock {
     __int64 start;
     __int64 duration;
-    void FUN_00448e30(float);
-    void begin(float f) { start=FUN_00aa4d80(); duration=(__int64)(DAT_011ac39c*f); }
+    void begin(float f) { start=((long long)(::FUN_00aa4d80())); duration=(__int64)(DAT_011ac39c*f); }
 };
 struct IndexArray {
     unsigned int unk000;
@@ -957,7 +1001,6 @@ struct WorldView : ReferenceView {
     const LinkedColliderView* getCollidable() const { return &collidable; }
     LinkedColliderView* getCollidableRw() { return &collidable; }
 };
-extern const VectorBits DAT_01017d10;
 class VectorValue;
 class ComparisonValue {
     VectorBits lanes;
@@ -977,7 +1020,7 @@ public:
 
     __forceinline void operator=(const VectorValue& other) { q=other.q; }
     __forceinline void difference(const VectorValue& left,const VectorValue& right) { q=_mm_sub_ps(left.q,right.q); }
-    __forceinline void absolute(const VectorValue& value) { q=_mm_and_ps(value.q,DAT_01017d10); }
+    __forceinline void absolute(const VectorValue& value) { q=_mm_and_ps(value.q,(*reinterpret_cast<const ::VectorHardware::__m128 *>((void *)&::DAT_01017d10))); }
     __forceinline void splat(float value) { q=_mm_set_ps1(value); }
     __forceinline ComparisonValue lessEqual(const VectorValue& value) const { ComparisonValue result; result.lanes=_mm_cmple_ps(q,value.q); return result; }
     __forceinline int equal(const VectorValue& value,float epsilon=0.001f) const {
@@ -1126,7 +1169,6 @@ struct EntityView : WorldView {
     unsigned int unk214;
     unsigned int unk218;
     unsigned int unk21c;
-    void FUN_00c9c1d0();
     MotionView* getMotion() { return &m_pMotionState; }
 };
 struct BodyView : EntityView {
@@ -1135,8 +1177,6 @@ struct BodyView : EntityView {
     void setQualityType(QualityKind value) { getCollidableRw()->getBroadPhaseHandle()->m_ucObjectQualityType=(char)value; }
     const VectorValue& getLinearVelocity() const { return m_pMotionState.getLinearVelocity(); }
     const VectorValue& getAngularVelocity() const { return m_pMotionState.getAngularVelocity(); }
-    void FUN_00ca8420(MotionKind,ActivationMode,FilterMode);
-    void FUN_00ca8630(bool);
 };
 template<class T> __forceinline T* AddBytes(T* p,int bytes) { return (T*)((char*)p+bytes); }
 __forceinline int ByteDistance(const void* from,const void* to) { return (int)((const char*)to-(const char*)from); }
@@ -1375,18 +1415,17 @@ struct Controller {
     unsigned int unk2a0;
     PointerView<SelectionHolder> selection;
     Clock timer;
-    void FUN_00c7a230(bool);
     void FUN_00c7b6a0(bool active);
 };
 __forceinline void UpdateLinear(BodyView* body,const VectorValue& value) {
     if(!value.equal(body->getLinearVelocity())) {
-        body->FUN_00c9c1d0();
+        reinterpret_cast<::hkpEntityC9C *>((body))->FUN_00c9c1d0();
         body->getMotion()->SetTranslationalVelocity(value);
     }
 }
 __forceinline void UpdateAngular(BodyView* body,const VectorValue& value) {
     if(!value.equal(body->getAngularVelocity())) {
-        body->FUN_00c9c1d0();
+        reinterpret_cast<::hkpEntityC9C *>((body))->FUN_00c9c1d0();
         body->getMotion()->SetRotationalVelocity(value);
     }
 }
@@ -1395,14 +1434,14 @@ __forceinline void UpdateAngular(BodyView* body,const VectorValue& value) {
 void Controller::FUN_00c7b6a0(bool enable) {
     if (!enabled) return;
     if (!enable && !active) return;
-    if (active && enable) { timer.FUN_00448e30(DAT_011b02e8); return; }
-    FUN_00c7a230(enable);
+    if (active && enable) { reinterpret_cast<::FUN_00448e30_this *>(&(timer))->init(DAT_011b02e8); return; }
+    reinterpret_cast<::FUN_00c7a230_cls *>(this)->FUN_00c7a230(enable);
     if (enable) timer.begin(DAT_011b02e8); else timer.duration=0;
     int count=bodies->getNumBones();
     BufferView positions(count);
     BufferView rotations(count);
-    FUN_00cb1280(positions.begin(),0,count*16);
-    FUN_00cb1280(rotations.begin(),0,count*16);
+    ::FUN_00cb1280(positions.begin(),0,count*16);
+    ::FUN_00cb1280(rotations.begin(),0,count*16);
     for(int i=0;i<count;++i) {
         BodyView* body=(BodyView*)bodies->getRigidBodyOfBone(i);
         {
@@ -1419,11 +1458,11 @@ void Controller::FUN_00c7b6a0(bool enable) {
                 if(selection.get()->selection->find((unsigned short)i)!=-1) {
                     if(enable) {
                         if(body->getMotionType()==4 || body->getQualityType()!=4) {
-                            body->FUN_00ca8420(KindDynamic,ActivateNow,UpdateFull); body->setQualityType((QualityKind)4); body->FUN_00ca8630(false);
+                            reinterpret_cast<::FUN_00ca8420_Class *>((body))->FUN_00ca8420((*(int *)&(const ::MotionKind &)(KindDynamic)),(*(int *)&(const ::ActivationMode &)(ActivateNow)),(*(int *)&(const ::FilterMode &)(UpdateFull))); body->setQualityType((QualityKind)4); reinterpret_cast<::S_00ca8630_Class *>((body))->FUN_00ca8630(false);
                         }
                     } else {
                         if(body->getMotionType()!=4 || body->getQualityType()!=1) {
-                            body->FUN_00ca8420(KindKeyframed,ActivateNow,UpdateFull); body->setQualityType((QualityKind)1); body->FUN_00ca8630(true);
+                            reinterpret_cast<::FUN_00ca8420_Class *>((body))->FUN_00ca8420((*(int *)&(const ::MotionKind &)(KindKeyframed)),(*(int *)&(const ::ActivationMode &)(ActivateNow)),(*(int *)&(const ::FilterMode &)(UpdateFull))); body->setQualityType((QualityKind)1); reinterpret_cast<::S_00ca8630_Class *>((body))->FUN_00ca8630(true);
                         }
                     }
                 }
@@ -1440,15 +1479,11 @@ inline void operator delete(void*,void*) {}
 extern "C" __m128 _mm_setr_ps(float, float, float, float);
 struct Heap { virtual void Unused(); virtual void* Allocate(unsigned); };
 struct Context { int unk00, unk04, unk08, unk0c; Heap* heap; };
-extern void* __cdecl FUN_00c74ea0(unsigned);
-extern void __cdecl FUN_00c74dd0(void*, void*);
-extern float DAT_01050c98, DAT_01050c48, DAT_01011d78, DAT_01012068;
 extern void* UNK_010c4dec;
 static __forceinline void* AllocateBuffer(unsigned n) { Context* context=(Context*)(void*)FUN_00c85750(); Heap* heap=context->heap; return (heap->Allocate)(n); }
 static __forceinline int Maximum(int first,int second) { return first >= second ? first : second; }
-struct SmallMember { unsigned data; __forceinline SmallMember() { FUN_00cb0a60(); } __forceinline ~SmallMember() { FUN_00cb0c00(); } void FUN_00cb0a60(); void FUN_00cb0c00(); };
+struct SmallMember { unsigned data; __forceinline SmallMember() { new ((void *)this) struct ::FUN_00cb0a60(); } __forceinline ~SmallMember() { ::FUN_00cb0c00((int)this); }   };
 struct Entry { SmallMember member; unsigned char enabled; __forceinline Entry():enabled(0) {} };
-extern void __cdecl FUN_00c908c0(Heap&, void*, int, unsigned);
 struct __declspec(align(16)) Transform { __m128 x,y,z; };
 struct S7de60_IsPod {}; struct S7de60_IsClass {};
 template<class T> struct S7de60_PodTrait { typedef S7de60_IsPod type; };
@@ -1458,7 +1493,7 @@ struct S7de60_ArrayUtil {
     template<class T> static __forceinline void construct(T* t, int n, S7de60_IsClass) { for(int i=0;i<n;++i) new (t+i) T; }
     template<class T> static __forceinline void constructWithCopy(T* t, int n, const T& c, S7de60_IsPod) { for(int i=0;i<n;++i) t[i]=c; }
     template<class T> static __forceinline void destruct(T* t, int n, S7de60_IsPod) {}
-    template<class T> static __forceinline void destruct(T* t, int n, S7de60_IsClass) { for(int i=0;i<n;++i) t[i].~T(); }
+    template<class T> static __forceinline void destruct(T* t, int n, S7de60_IsClass) { for(int i=0;i<n;++i) reinterpret_cast<::FUN_00ba3a00 *>(&(t[i]))->FUN_00ba3a00::~FUN_00ba3a00(); }
 };
 struct S7de60_Router { __forceinline Heap& heap() { return *((Context*)this)->heap; } };
 struct S7de60_HeapAlloc { __forceinline Heap& get(const void*) { return ((S7de60_Router*)(void*)FUN_00c85750())->heap(); } };
@@ -1467,10 +1502,10 @@ template<class T> struct ArrayBase {
     __forceinline ArrayBase():data(0),count(0),capacity(0x80000000) {}
     __forceinline int GetLogicalSize() const { return count; }
     __forceinline int getCapacity() const { return capacity & 0x3fffffff; }
-    __forceinline void _reserveExactly(Heap& alloc, int n) { if(getCapacity()<n) { FUN_00c908c0(alloc,this,n,sizeof(T)); } }
+    __forceinline void _reserveExactly(Heap& alloc, int n) { if(getCapacity()<n) { ::FUN_00c908c0((::SpawnedObject *)&(alloc),(::SpawnedArray *)(void *)(this),n,sizeof(T)); } }
     __forceinline void GrowArrayCapacity(Heap& alloc, int n) {
         const int cap=getCapacity();
-        if(cap<n) { int cap2=2*cap; int newSize=(n<cap2)?cap2:n; FUN_00c908c0(alloc,this,newSize,sizeof(T)); }
+        if(cap<n) { int cap2=2*cap; int newSize=(n<cap2)?cap2:n; ::FUN_00c908c0((::SpawnedObject *)&(alloc),(::SpawnedArray *)(void *)(this),newSize,sizeof(T)); }
     }
     __forceinline void _setSize(Heap& alloc, int n) {
         GrowArrayCapacity(alloc,n);
@@ -1526,7 +1561,7 @@ struct CloneBuffer {
         remap.Reserve(sizeRoundedUp);
         remap.ResizeInts(original->transforms.count,0.0f);
     }
-    void FUN_00cda110(); void FUN_00cda340();
+     
 };
 struct __declspec(align(16)) Vec4 { __m128 value; __forceinline Vec4& operator=(const Vec4& rhs) { value=rhs.value; return *this; } };
 struct Root {
@@ -1538,7 +1573,7 @@ struct Root {
 struct Owner { int unk00,unk04,unk08,unk0c,unk10,unk14,unk18; Root* root; __forceinline void SetRoot(Root* p) { root=p; } };
 union Vec128 { __m128 value; char bytes[16]; };
 struct FramePoint { float x,y,z; };
-struct FrameState { FramePoint rotation[3]; FramePoint point; float scale; void FUN_00a86bf0(); };
+struct FrameState { FramePoint rotation[3]; FramePoint point; float scale;  };
 struct __declspec(align(16)) LookBoneParams91 {
     CloneBuffer* pose;
     short bone,parent;
@@ -1684,14 +1719,13 @@ struct RenderNode {
     int unk2a0;
     SharedObject91<Owner> owner;
     __forceinline Owner* GetOwner() { Owner* result=owner.operator->(); return result; }
-    bool FUN_00c79340(CloneBuffer*,const char*,int);
     bool FUN_00c7de60(const char* item);
 };
 // @fnv 0x00c7de60
 bool RenderNode::FUN_00c7de60(const char* item) {
     bool ok=active;
     if(ok) {
-    ok=FUN_00c79340(input,item,1);
+    ok=reinterpret_cast<::Cls79340 *>(this)->FUN_00c79340((::Param1 *)(input),item,1);
     if(ok) {
         state=1;
         if(create) {
@@ -1704,18 +1738,18 @@ bool RenderNode::FUN_00c7de60(const char* item) {
                 ((short*)owner->root->src->points.data)[0]=-1;
                 ((short*)owner->root->src->points.data)[1]=0;
                 FrameState frame;
-                frame.FUN_00a86bf0();
-                FUN_00c74dd0(owner->root->src->vertices.data,&frame);
+                reinterpret_cast<::NiTransform *>(&(frame))->ResetToIdentity();
+                ::FUN_00c74dd0((::C74QsTransform *)(owner->root->src->vertices.data),(const ::C74Transform *)(void *)(&frame));
                 frame.point.x=DAT_01050c98; frame.point.y=DAT_01050c48; frame.point.z=0;
-                FUN_00c74dd0(owner->root->src->vertices.data+1,&frame);
+                ::FUN_00c74dd0((::C74QsTransform *)(void *)(owner->root->src->vertices.data+1),(const ::C74Transform *)(void *)(&frame));
                 owner->root->a=boneParams[1].forwardParent;
                 owner->root->b=boneParams[1].forwardLocal;
             }
             CloneBuffer* clone=new CloneBuffer(owner->root->src);
             buffer=clone;
-            clone->FUN_00cda110();
-            buffer->FUN_00cda340();
-            Vec128 unit; unit.value=_mm_setr_ps(DAT_01011d78,DAT_01012068,DAT_01011d78,DAT_01011d78);
+            ::fnv_00cda110::FUN_00cda110((::fnv_00cda110::S *)(clone));
+            reinterpret_cast<::fnv_00cda340::SkeletonPoseData *>((buffer))->FUN_00cda340();
+            Vec128 unit; unit.value=_mm_setr_ps(::DAT_01011d78,DAT_01012068,::DAT_01011d78,::DAT_01011d78);
             boneParams[0].bone=1;
             boneParams[0].forwardLocal.value=unit.value;
             boneParams[0].forwardParent.value=boneParams[0].forwardLocal.value;
@@ -1746,7 +1780,6 @@ struct C74NiQuaternion {
     float m_fVectorY;
     float m_fVectorZ;
     float m_fScalarPart;
-    void FromRotationMatrix(const C74Matrix3& kRot);
 };
 
 struct C74Vector4 {
@@ -1757,7 +1790,6 @@ struct C74Vector4 {
 struct C74Quaternion {
     float m_vec[4];
     void set(float x, float y, float z, float w) { m_vec[0] = x; m_vec[1] = y; m_vec[2] = z; m_vec[3] = w; }
-    void normalize();
 };
 
 struct C74QsTransform {
@@ -1772,9 +1804,9 @@ extern float DAT_01267c20;
 C74QsTransform* FUN_00c74dd0(C74QsTransform* out, const C74Transform* in)
 {
     C74NiQuaternion q;
-    q.FromRotationMatrix(in->m_kOrientation);
+    reinterpret_cast<::NiQuaternion *>(&(q))->FromRotationMatrix((const ::ThreeByThreeMatrix &)(in->m_kOrientation));
     out->m_rotation.set(q.m_fVectorY, q.m_fVectorZ, q.m_fScalarPart, q.m_fVectorX);
-    out->m_rotation.normalize();
+    reinterpret_cast<::FUN_005611c0_t *>(&(out->m_rotation))->FUN_005611c0();
     C74Vector4 t;
     t(0) = in->m_TranslateX * DAT_01267c20;
     t(1) = in->m_TranslateY * DAT_01267c20;
@@ -1793,11 +1825,8 @@ union __declspec(intrin_type) __declspec(align(16)) __m128 {
 extern "C" __m128 _mm_setr_ps(float,float,float,float);
 }
 
-extern int DAT_011f49e0;
 extern double DAT_010c4dd0;
 extern double DAT_010c4dc8;
-extern float DAT_01011d78;
-extern float DAT_01012068;
 extern float DAT_01267d90;
 struct InputName { char* key; };
 struct FNVInput { int unk00; InputName* objects; unsigned count; InputName& at(unsigned i) { return objects[i]; } };
@@ -1805,7 +1834,7 @@ struct FNVInput { int unk00; InputName* objects; unsigned count; InputName& at(u
 struct StringHeader { long references; unsigned length; void release() { InterlockedDecrement(&references); } };
 struct ResourceName {
     char* key;
-    ResourceName(InputName const& raw) { if (!raw.key) key=DAT_0109b220; else key=FUN_00a5b690(raw.key); }
+    ResourceName(InputName const& raw) { if (!raw.key) key=DAT_0109b220; else key=::NiGlobalStringTable::AddString(raw.key); }
     ~ResourceName() { if (key != DAT_0109b220) { StringHeader* header=reinterpret_cast<StringHeader*>(key)-1; header->release(); } }
 };
 struct __declspec(align(16)) Scratch {
@@ -1815,7 +1844,6 @@ struct __declspec(align(16)) Scratch {
     EntryHardware::__m128 axisA, axisB, axisC, axisD;
     float strength, f54, f58, f5c, f60, f64, f68, threshold, radius;
     bool flag;
-    void __thiscall FUN_00cd8920();
 };
 struct GameForm {
     GameForm* getLinked();
@@ -1869,7 +1897,7 @@ struct GameForm {
 struct Material { int unk00,unk04; int name; };
 struct Resource { int unk00,unk04; Material* material; };
 struct Runtime { int unk00,unk04,unk08,unk0c; Allocator* allocator; Allocator& heap() { return *allocator; } };
-struct IndexedRecord { void __thiscall FUN_00c905b0(); };
+struct IndexedRecord {  };
 struct FUN_00cd8820 : IndexedRecord {
     int vtable;
     unsigned short size, references;
@@ -2165,15 +2193,9 @@ struct ParticleTable {
     Table* table;
     void* getContext() { return context; }
     void __thiscall FUN_00c7c3a0(FNVInput* incoming);
-    bool __thiscall FUN_00c77ac0(Scratch*, FNVInput*);
-    Geo* __thiscall FUN_00c75180(GameForm*);
 };
 
-extern GameForm* __cdecl FUN_00c4b470(void*, ResourceName const&, int);
 static __forceinline Runtime* GetEntryRuntime() { return reinterpret_cast<Runtime*>(FUN_00c85750()); }
-extern "C" void __cdecl FUN_00c908c0(Allocator*, EntryArray*, int, unsigned);
-extern "C" Resource* __cdecl FUN_00c802d0(GameForm*);
-extern "C" short __cdecl FindIndexByKey(int,int,int);
 __forceinline void* FUN_00cd8820::operator new(size_t bytes) {
     void* ptr=GetEntryRuntime()->heap().Allocate(bytes);
     static_cast<FUN_00cd8820*>(ptr)->size=(unsigned short)bytes;
@@ -2184,7 +2206,7 @@ __forceinline GameForm* GameForm::getLinked() {
 }
 __forceinline GameForm* GameForm::getChildNamed() { NativeQuery* query=reinterpret_cast<NativeQuery*>(this); if(query->queryType(vtable) && children.count>0) return children.get(); return 0; }
 static __forceinline int const& materialName(Resource* resource) {
-    return resource ? resource->material->name : DAT_011f49e0;
+    return resource ? resource->material->name : (*reinterpret_cast<int *>(&::DAT_011f49e0));
 }
 __forceinline void EntryArray::resize(int size) {
     Allocator& allocator=GetEntryRuntime()->heap();
@@ -2192,7 +2214,7 @@ __forceinline void EntryArray::resize(int size) {
     if (cap<size) {
         cap*=2;
         if (size>=cap) cap=size;
-        FUN_00c908c0(&allocator,this,cap,sizeof(RagdollEntry));
+        ::FUN_00c908c0((::SpawnedObject *)(::Allocator *)(&allocator),(::SpawnedArray *)(::EntryArray *)(this),cap,sizeof(RagdollEntry));
     }
     int extra=size-count;
     RagdollEntry* dest=data+count;
@@ -2205,13 +2227,13 @@ void __thiscall ParticleTable::FUN_00c7c3a0(FNVInput* incoming) {
     unsigned count=incoming->count;
     if (!count || !enabled) return;
     Scratch scratch;
-    scratch.FUN_00cd8920();
-    bool ready=FUN_00c77ac0(&scratch,incoming);
+    reinterpret_cast<::S00cd8920_Obj *>(&(scratch))->FUN_00cd8920();
+    bool ready=reinterpret_cast<::SceneEffect *>(this)->FUN_00c77ac0((::EffectOutput *)(::Scratch *)(&scratch),(::EffectRequest *)(incoming));
     Table* ownerTable=table;
     int owner=ownerTable->owner;
     if (!ready) return;
     scratch.owner=owner;
-    scratch.axisC=EntryHardware::_mm_setr_ps(DAT_01011d78,DAT_01011d78,DAT_01012068,DAT_01011d78);
+    scratch.axisC=EntryHardware::_mm_setr_ps(::DAT_01011d78,::DAT_01011d78,DAT_01012068,::DAT_01011d78);
     scratch.axisD=scratch.axisC;
     scratch.strength=DAT_01267d90;
     entries.resize(count);
@@ -2219,14 +2241,14 @@ void __thiscall ParticleTable::FUN_00c7c3a0(FNVInput* incoming) {
         GameForm* actor;
         {
             ResourceName name(input->at(i));
-            actor=FUN_00c4b470(getContext(),name,1);
+            actor=((::GameForm *)(::FUN_00c4b470((::FUN_00c4b470_owner *)(void *)(getContext()),(void **)&(name),1)));
         }
         GameForm* linked=actor ? actor->getChildNamed():0;
         GameForm* nested=linked ? linked->getLinked():0;
-        Resource* pActorResource=actor ? FUN_00c802d0(actor):0;
-        Resource* secondResource=linked ? FUN_00c802d0(linked):0;
-        Resource* thirdResource=nested ? FUN_00c802d0(nested):0;
-        Geo* geo=FUN_00c75180(nested);
+        Resource* pActorResource=actor ? ((::Resource *)(::FUN_00c802d0((::MyNode *)(actor)))):0;
+        Resource* secondResource=linked ? ((::Resource *)(::FUN_00c802d0((::MyNode *)(linked)))):0;
+        Resource* thirdResource=nested ? ((::Resource *)(::FUN_00c802d0((::MyNode *)(nested)))):0;
+        Geo* geo=((::Geo *)(::FUN_00c75180((::Input134 *)this)));
         float expansion=geo ? geo->expansion:0.0f;
         scratch.threshold=(float)(expansion+DAT_010c4dd0);
         scratch.radius=(float)(expansion+DAT_010c4dc8);
@@ -2235,9 +2257,9 @@ void __thiscall ParticleTable::FUN_00c7c3a0(FNVInput* incoming) {
         int second=materialName(secondResource);
         int third=materialName(thirdResource);
         if (second && third && pActorResource!=secondResource && pActorResource!=thirdResource && thirdResource!=secondResource) {
-            scratch.first=FindIndexByKey(owner,first,0);
-            scratch.second=FindIndexByKey(owner,second,0);
-            scratch.third=FindIndexByKey(owner,third,0);
+            scratch.first=::FindIndexByKey((::S_00cdd390_Table *)(owner),(const void *)(first),(int (*)(const void *, const void *))(0));
+            scratch.second=::FindIndexByKey((::S_00cdd390_Table *)(owner),(const void *)(second),(int (*)(const void *, const void *))(0));
+            scratch.third=::FindIndexByKey((::S_00cdd390_Table *)(owner),(const void *)(third),(int (*)(const void *, const void *))(0));
             if (scratch.first!=-1 && scratch.second!=-1 && scratch.third!=-1)
                 entries[i].record=new FUN_00cd8820(scratch);
         }
@@ -2255,7 +2277,7 @@ void __thiscall ParticleTable::FUN_00c7c3a0(FNVInput* incoming) {
     if (!success) {
         for (unsigned j=0;j<count;++j) {
             IndexedRecord* record=entries[j].record;
-            if (record) record->FUN_00c905b0();
+            if (record) reinterpret_cast<::hkReferencedObjectC905 *>((record))->FUN_00c905b0();
         }
         entries.count=0;
     }
@@ -2361,7 +2383,6 @@ struct VelocityVector {
  }
  __forceinline LaneScalar lengthSquared() const {return dot(*this);}
 };
-extern float DAT_010c7948[];
 struct SmallFloat {
  unsigned char index;
  __forceinline operator float() const {return DAT_010c7948[index];}
@@ -2494,22 +2515,11 @@ struct Skeleton {
  __forceinline SkeletonData* getData() const {return data;}
  __forceinline int getNumBones() const {return getData()->getCount();}
  __forceinline BoneState* getBody(int i) const {int k=indexList[i];return k>=0?stateList[k]:0;}
- void FUN_00ce1ad0(Transform48*,void*);
 };
 struct Processor {
- void FUN_00cdb3e0();
- void FUN_00cdb7c0(float delta, Transform48* transforms, void* settings, int* results);
 };
-struct PoseLookup { void** FUN_00cda8d0(); };
+struct PoseLookup {  };
 struct BlendData { int unk00,unk04,unk08,unk0c; void* data; };
-extern float DAT_011afe64;
-extern float DAT_010c7948[];
-void UpdateEntriesByKind(Skeleton*);
-void EnableBehaviorsByKind(Skeleton*);
-void FUN_00c7a410(Skeleton*, Transform48*);
-void CallWithGlobal(int, void*, void*, Transform48*);
-void FUN_00cddef0(int, void*, Transform48*, Transform48*);
-void FUN_00ce3a00(void*,void*,void*,Transform48*,int);
 struct RagdollUpdateController {
  int unk00; bool needsInit; unsigned char unk05; unsigned short unk06; int unk08; int mode;
  int settings10, settings14, settings18, settings1c, settings20, settings24, settings28, settings2c, settings30, settings34, settings38, settings3c, settings40;
@@ -2666,65 +2676,11 @@ struct RagdollUpdateController {
  BlendData* blend;
  void FUN_00c7d030(const Transform48* input);
 };
-// @fnv 0x00c7d030
-void RagdollUpdateController::FUN_00c7d030(const Transform48* input) {
- SkeletonData* data=skeleton->getData();
- int count=data->getCount();
- ScratchTransforms outputStorage(count);
- Transform48* output=outputStorage.begin();
- ScratchTransforms poseStorage(count);
- Transform48* pose=poseStorage.begin();
- int oldMode=mode;
- if(forceMode) mode=1;
- if(needsInit) { UpdateEntriesByKind(skeleton); needsInit=false; }
- if(!input) {
-  CallWithGlobal(count,(void*)data->getParents(),(void*)data->getPoses(),pose);
-  void* referencePoses=(void*)data->getPoses();
-  void* poseTrack=*lookup->FUN_00cda8d0();
-  BlendData* currentBlend=blend;
-  FUN_00ce3a00(currentBlend->data,poseTrack,referencePoses,pose,2);
-  if(mode!=1) { void* bones=(void*)data->getParents(); FUN_00cddef0(count,bones,pose,output); }
- } else {
-  for(int i=0;i<count;++i) outputStorage[i]=input[i];
- }
- switch(mode) {
- case 3: EnableBehaviorsByKind(skeleton); FUN_00c7a410(skeleton,output); mode=0; break;
- case 2:
-  if(active) { processor->FUN_00cdb3e0(); active=false; }
-  if(DAT_011afe64>0.0f) {
-   IntBuffer results(count);
-   processor->FUN_00cdb7c0(DAT_011afe64,output,&settings10,results.begin());
-   bool fast=false;
-   for(int index=0;index<skeleton->getNumBones();++index) {
-    if(fast) break;
-    {
-     BoneState* state=skeleton->getBody(index);
-     if(state) {
-      float magnitude=state->velocity.lengthSquared();
-      float limit=state->scaleIndex;
-      limit=limit*limit;
-      fast=magnitude>limit;
-     }
-    }
-   }
-   if(fast) { skeleton->FUN_00ce1ad0(pose,&settings10); active=true; }
-  }
-  break;
- case 1: { Skeleton* current=skeleton; current->FUN_00ce1ad0(pose,&settings10); break; }
- }
- if(forceMode) { mode=oldMode; forceMode=false; }
-}
-
 extern "C" __m128 _mm_setzero_ps();
 namespace ControllerFloatHardware { extern "C" __m128 _mm_set_ps1(float); }
 extern void* DAT_010c4ddc;
-extern void* DAT_01071aec;
-extern void* DAT_010c4db8;
-extern char* DAT_0109b220;
 extern const float DAT_010c4df8;
 extern const float DAT_01022958;
-extern const float DAT_01017868;
-extern const __m128 DAT_010c71b0;
 struct RefTarget {
     virtual void unused();
     virtual void destroy();
@@ -2777,10 +2733,7 @@ struct TempArray {
     ~TempArray();
 };
 typedef void (__thiscall *FreeTemp)(TempArray*,unsigned int);
-extern FreeTemp DAT_010c4dc0;
 TempArray::~TempArray() { vtable=&DAT_010c4db8; if(data) DAT_010c4dc0(this,data); }
-extern void __cdecl FUN_00c7d3b0(NiNode*,NiNode*,TempArray*,bool*,unsigned int*);
-extern void __cdecl RestoreNodeTransforms(NiNode*,TempArray*,bool,unsigned int);
 struct ConstructorBase { virtual ~ConstructorBase(); };
 struct LastArray { unsigned int data,size,capacity,extra; LastArray():data(0),size(0),capacity(0),extra(0){} };
 struct ThirdArg { unsigned int value; };
@@ -2952,7 +2905,6 @@ public:
     unsigned int unk2b8;
     virtual ~FUN_00c7f060();
     FUN_00c7f060(NodeArg*,NodeOrFlag,void*);
-    void FUN_00c7e9a0(NodeArg*,void*);
 };
 // @fnv 0x00c7f060
 FUN_00c7f060::FUN_00c7f060(NodeArg* a,NodeOrFlag b,void* c) {
@@ -2990,9 +2942,9 @@ FUN_00c7f060::FUN_00c7f060(NodeArg* a,NodeOrFlag b,void* c) {
     unsigned int count;
     if(first && second) count=0; else count=0;
     TempArray temp;
-    if(first && second) FUN_00c7d3b0(first,second,&temp,&b.flag,&count);
-    FUN_00c7e9a0(a,c);
-    RestoreNodeTransforms(first,&temp,b.flag,count);
+    if(first && second) ::FUN_00c7d3b0(first,second,&temp,(char *)(bool *)(&b.flag),&count);
+    reinterpret_cast<::SceneOwner *>(this)->FUN_00c7e9a0((::Argument *)(a),(const char *)(c));
+    ::RestoreNodeTransforms(first,(::SavedNodeArray *)(::TempArray *)(&temp),b.flag,count);
     unk2b8=0;
 }
 
@@ -3004,7 +2956,6 @@ extern "C" __m128 _mm_add_ps(__m128, __m128);
 extern "C" __m128 _mm_add_ss(__m128, __m128);
 extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
 extern "C" __m128 _mm_rcp_ps(__m128);
-extern const __m128 g_rotationOffset;
 
 struct InversePositionVector : Vec4 {
     void FUN_00c7f840(const Vec4* t, const Vec4* p);
@@ -3022,7 +2973,7 @@ void InversePositionVector::FUN_00c7f840(const Vec4* t, const Vec4* p)
     const __m128 c1 = _mm_mul_ps(_mm_shuffle_ps(q, q, 0xc9), _mm_shuffle_ps(d, d, 0xd2));
     const __m128 c2 = _mm_mul_ps(_mm_shuffle_ps(q, q, 0xd2), _mm_shuffle_ps(d, d, 0xc9));
     const __m128 cr = InversePositionHardware::_mm_sub_ps(c2, c1);
-    __m128 r = _mm_mul_ps(_mm_add_ps(_mm_mul_ps(w4, w4), g_rotationOffset), d);
+    __m128 r = _mm_mul_ps(_mm_add_ps(_mm_mul_ps(w4, w4), ::DAT_010c71e0), d);
     r = _mm_add_ps(r, _mm_mul_ps(_mm_shuffle_ps(dot, dot, 0), q));
     r = _mm_add_ps(_mm_mul_ps(cr, w4), r);
     const __m128 v = _mm_add_ps(r, r);
@@ -3044,9 +2995,6 @@ extern ::__m128 _mm_unpackhi_ps(::__m128, ::__m128);
 extern ::__m128 _mm_rsqrt_ps(::__m128);
 extern void _mm_prefetch(char const*, int);
 __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern const ::__m128 DAT_010c71c0;
-extern const ::__m128 DAT_010c71d0;
-extern const ::__m128 DAT_010c71e0;
 }
 
 typedef ::__m128 hkQuadReal;
@@ -3108,9 +3056,9 @@ public:
     __forceinline void setSqrtInverse4(const hkVector4& vec) {
         hkQuadReal r = vec.m_vComponents;
         hkQuadReal e = (_mm_rsqrt_ps)(r);
-        hkQuadReal he = (_mm_mul_ps)(DAT_010c71d0, e);
+        hkQuadReal he = (_mm_mul_ps)(::DAT_010c71d0, e);
         hkQuadReal ree = (_mm_mul_ps)((_mm_mul_ps)(r, e), e);
-        m_vComponents = (_mm_mul_ps)(he, (FloatHardware::_mm_sub_ps)(DAT_010c71c0, ree));
+        m_vComponents = (_mm_mul_ps)(he, (FloatHardware::_mm_sub_ps)(::DAT_010c71c0, ree));
     }
     __forceinline VectorComponentValue getSimdAt(int i) const {
         switch (i) {
@@ -3175,7 +3123,7 @@ public:
         hkVector4 extraTrans;
         extraTrans.SetRotatedDirection(aTb.m_rotation, bTc.m_vTranslation);
         m_vTranslation.setAdd4(aTb.m_vTranslation, extraTrans);
-        m_rotation.FUN_00c66320(aTb.m_rotation, bTc.m_rotation);
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(aTb.m_rotation), (const ::fnv_00c66320::__m128 *)&(bTc.m_rotation), {});
         m_vScale.setMul4(aTb.m_vScale, bTc.m_vScale);
     }
     hkVector4 m_vTranslation;
@@ -3184,7 +3132,7 @@ public:
 };
 
 __forceinline void hkVector4::SetRotatedDirection(const hkQuaternion& quat, const hkVector4& direction) {
-    hkVector4 minusHalf; minusHalf.getQuad() = DAT_010c71e0;
+    hkVector4 minusHalf; minusHalf.getQuad() = ::DAT_010c71e0;
     hkVector4 qreal;
     qreal.setBroadcast(quat.m_vec, 3);
     hkVector4 q2minus1;
@@ -3311,7 +3259,7 @@ public:
     }
     __forceinline hkBool wasReallocated() const { return m_pStackAllocation != this->m_data; }
     __forceinline void destroy() {
-        if (!wasReallocated()) hkArray<T>::clear();
+        if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(wasReallocated()))->FUN_005609f0()) hkArray<T>::clear();
         hkDeallocateStack<T>(m_pStackAllocation);
         hkArray<T>::ClearAndRelease();
     }
@@ -3324,9 +3272,6 @@ public:
     hkArray<short> m_kParentIndices;
 };
 
-hkBool __cdecl WalkChainUntilLimit(const hkaSkeleton& skeleton, short start, short end, hkArray<short>& chain);
-extern "C" void __cdecl FUN_00cde1d0(const hkaSkeleton& skeleton, hkQsTransform* pose);
-extern "C" void __cdecl FUN_00cde2d0(const hkaSkeleton& skeleton, const hkQsTransform* ref, hkQsTransform* pose);
 
 template <class T> class ReferenceCountedPointer {
 public:
@@ -3364,11 +3309,10 @@ struct hkThreadLocalData {
     unsigned long m_slotID;
     __forceinline void* getData() const { return TlsGetValue(m_slotID); }
 };
-extern "C" hkThreadLocalData DAT_0126835c;
 
 class StringCursor {
 public:
-    static __forceinline StringCursor& GetMonitorStream() { return *(StringCursor*)DAT_0126835c.getData(); }
+    static __forceinline StringCursor& GetMonitorStream() { return *(StringCursor*)(*reinterpret_cast<::hkThreadLocalData *>(&::DAT_0126835c)).getData(); }
     __forceinline char* GetStreamEnd() { return m_kRayEnd.val(); }
     __forceinline char* getCapacityMinus16() { return m_pCurrentCommand.val(); }
     __forceinline hkBool memoryAvailable() { return GetStreamEnd() < getCapacityMinus16(); }
@@ -3417,12 +3361,101 @@ public:
     void __cdecl FUN_00ce3a00(const hkQsTransform* poseAModelSpace, const hkQsTransform* originalPoseBLocalSpace, hkQsTransform* poseBModelSpace, int source) const;
     hkaSkeletonMapperData m_kMappingData;
 };
+// @fnv 0x00c7c870
+void BlendController::FUN_00c7c870() {
+    BlendController* self=this;
+    if (((long long)(::FUN_00aa4d80()))-self->start > self->duration) {
+        reinterpret_cast<::Controller *>((self))->FUN_00c7b6a0(0);
+    } else {
+    BlendSkeleton* skeleton=self->pose->skeleton;
+    int count=skeleton->count;
+    BlendBuffer a(count);
+    BlendTransform* aData=a.data;
+    {
+        BlendBuffer b(count);
+        BlendTransform* bData=b.data;
+        reinterpret_cast<::RagdollMapperC18 *>((self->pose))->FUN_00ce18f0((::hkQsTransformC18 *)(bData),(*(const ::hkQsTransformC18 *)(&self->unk010)));
+        ::FUN_00cddef0((void *)(count),skeleton->getTransforms(),bData,aData);
+    }
+    BlendBuffer c(count);
+    BlendTransform* cData=c.data;
+    BlendBuffer d(count);
+    BlendTransform* dData=d.data;
+    ::CallWithGlobal(count,(int)(skeleton->getTransforms()),(int)(skeleton->getMapping()),(int)(dData));
+    int mappedCount=(int)skeleton->getMapping();
+    reinterpret_cast<::hkaSkeletonMapper *>((self->GetReferenceTimeStep()->source))->FUN_00ce3a00((const ::hkQsTransform *)(self->access->sourceValue()),(const ::hkQsTransform *)(mappedCount),(::hkQsTransform *)(dData),2);
+    ::FUN_00cddef0((void *)(count),skeleton->getTransforms(),dData,cData);
+    int poseCount=self->pose->count;
+    for(int i=0;i<poseCount;++i) {
+        int index=self->GetReferenceTimeStep()->ragdoll->bones.find((unsigned short)i);
+        if(index!=-1) {
+            __declspec(align(16)) char components[sizeof(BlendQuat)];
+            BlendQuat& q=*(BlendQuat*)components;
+            q.FUN_00cb2850(aData[i].translation,cData[i].translation,self->blend);
+            cData[i].translation=q;
+        }
+    }
+    ::CallWithGlobal(count,(int)(skeleton->getTransforms()),(int)(cData),(int)(dData));
+    int v=self->access->valueA();
+    int w=self->access->valueB();
+    reinterpret_cast<::hkaSkeletonMapper *>((self->GetReferenceTimeStep()->dest))->FUN_00ce3a00((const ::hkQsTransform *)((int)dData),(const ::hkQsTransform *)(w),(::hkQsTransform *)(::BlendTransform *)((BlendTransform*)v),2);
+    reinterpret_cast<::FUN_00cd9fe0_cls *>((self->access))->FUN_00cd9fe0();
+    }
+}
+// @fnv 0x00c7d030
+void RagdollUpdateController::FUN_00c7d030(const Transform48* input) {
+ SkeletonData* data=skeleton->getData();
+ int count=data->getCount();
+ ScratchTransforms outputStorage(count);
+ Transform48* output=outputStorage.begin();
+ ScratchTransforms poseStorage(count);
+ Transform48* pose=poseStorage.begin();
+ int oldMode=mode;
+ if(forceMode) mode=1;
+ if(needsInit) { ::UpdateEntriesByKind((::ObjectContext *)(skeleton)); needsInit=false; }
+ if(!input) {
+  ::CallWithGlobal(count,(int)((void*)data->getParents()),(int)((void*)data->getPoses()),(int)(pose));
+  void* referencePoses=(void*)data->getPoses();
+  void* poseTrack=*((void **)(reinterpret_cast<::FUN_00cda8d0_class *>((lookup))->FUN_00cda8d0()));
+  BlendData* currentBlend=blend;
+  reinterpret_cast<::hkaSkeletonMapper *>((currentBlend->data))->FUN_00ce3a00((const ::hkQsTransform *)(poseTrack),(const ::hkQsTransform *)(referencePoses),(::hkQsTransform *)(pose),2);
+  if(mode!=1) { void* bones=(void*)data->getParents(); ::FUN_00cddef0((void *)(count),bones,pose,output); }
+ } else {
+  for(int i=0;i<count;++i) outputStorage[i]=input[i];
+ }
+ switch(mode) {
+ case 3: ::EnableBehaviorsByKind((::InputMap *)(skeleton)); ::FUN_00c7a410((::S_c7a410_Obj *)(skeleton),(char *)(output)); mode=0; break;
+ case 2:
+  if(active) { reinterpret_cast<::FUN_00cdb3e0_cls *>((processor))->FUN_00cdb3e0(); active=false; }
+  if(DAT_011afe64>0.0f) {
+   IntBuffer results(count);
+   reinterpret_cast<::fnv_00cdb7c0::Obj *>((processor))->FUN_00cdb7c0(DAT_011afe64,(::fnv_00cdb7c0::Mat *)(output),(*(const ::fnv_00cdb7c0::Mat *)(&settings10)),(int)(results.begin()));
+   bool fast=false;
+   for(int index=0;index<skeleton->getNumBones();++index) {
+    if(fast) break;
+    {
+     BoneState* state=skeleton->getBody(index);
+     if(state) {
+      float magnitude=state->velocity.lengthSquared();
+      float limit=state->scaleIndex;
+      limit=limit*limit;
+      fast=magnitude>limit;
+     }
+    }
+   }
+   if(fast) { reinterpret_cast<::fnv_00ce1ad0::RagInstance *>((skeleton))->FUN_00ce1ad0((const ::fnv_00ce1ad0::RagQsTransform *)(pose),(*(const ::fnv_00ce1ad0::RagQsTransform *)(&settings10))); active=true; }
+  }
+  break;
+ case 1: { Skeleton* current=skeleton; reinterpret_cast<::fnv_00ce1ad0::RagInstance *>((current))->FUN_00ce1ad0((const ::fnv_00ce1ad0::RagQsTransform *)(pose),(*(const ::fnv_00ce1ad0::RagQsTransform *)(&settings10))); break; }
+ }
+ if(forceMode) { mode=oldMode; forceMode=false; }
+}
 
 // @fnv 0x00ce3a00
 void __cdecl hkaSkeletonMapper::FUN_00ce3a00(const hkQsTransform* poseAModelSpace, const hkQsTransform* originalPoseBLocalSpace, hkQsTransform* poseBModelSpace, int source) const {
     {
         StringCursor& mStream = StringCursor::GetMonitorStream();
-        if (mStream.memoryAvailable()) {
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()) {
             StringCursor::TimedNameRecord* h = reinterpret_cast<StringCursor::TimedNameRecord*>(mStream.GetStreamEnd());
             h->m_pCommandName = "LtMapPoseModelSpace";
             h->m_pFirst = "Stinit";
@@ -3432,7 +3465,7 @@ void __cdecl hkaSkeletonMapper::FUN_00ce3a00(const hkQsTransform* poseAModelSpac
     }
     {
         StringCursor& mStream = StringCursor::GetMonitorStream();
-        if (mStream.memoryAvailable()) {
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()) {
             StringCursor::CommandTimingEntry* h = reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());
             h->m_pCommandName = "StsimpleMappings";
             h->setTime();
@@ -3452,7 +3485,7 @@ void __cdecl hkaSkeletonMapper::FUN_00ce3a00(const hkQsTransform* poseAModelSpac
     }
     {
         StringCursor& mStream = StringCursor::GetMonitorStream();
-        if (mStream.memoryAvailable()) {
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()) {
             StringCursor::CommandTimingEntry* h = reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());
             h->m_pCommandName = "StchainMappings";
             h->setTime();
@@ -3472,7 +3505,7 @@ void __cdecl hkaSkeletonMapper::FUN_00ce3a00(const hkQsTransform* poseAModelSpac
 
             StackAllocatedArray<short> chainBones;
             chainBones.init(endBoneB - startBoneB + 1);
-            WalkChainUntilLimit(*m_kMappingData.m_pSkeletonB, startBoneB, endBoneB, chainBones);
+            ::WalkChainUntilLimit((unsigned char *)&(*m_kMappingData.m_pSkeletonB), (::ScanRec *)(startBoneB), endBoneB, (short)&(chainBones), {});
 
             hkVector4 currentEndModelSpacePos;
             currentEndModelSpacePos = originalPoseBLocalSpace[endBoneB].getTranslation();
@@ -3497,7 +3530,7 @@ void __cdecl hkaSkeletonMapper::FUN_00ce3a00(const hkQsTransform* poseAModelSpac
 
                 hkQuaternion currentRot = poseBModelSpace[startBoneB].getRotation();
                 hkQuaternion temp;
-                temp.FUN_00c66320(rotationQuaternion, currentRot);
+                ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(temp), (void *)&(rotationQuaternion), (const ::fnv_00c66320::__m128 *)&(currentRot), {});
                 poseBModelSpace[startBoneB].SetBodyOrientation(temp);
             }
 
@@ -3513,7 +3546,7 @@ void __cdecl hkaSkeletonMapper::FUN_00ce3a00(const hkQsTransform* poseAModelSpac
     }
     {
         StringCursor& mStream = StringCursor::GetMonitorStream();
-        if (mStream.memoryAvailable()) {
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()) {
             StringCursor::CommandTimingEntry* h = reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());
             h->m_pCommandName = "StunmappedBones";
             h->setTime();
@@ -3522,7 +3555,7 @@ void __cdecl hkaSkeletonMapper::FUN_00ce3a00(const hkQsTransform* poseAModelSpac
     }
     {
         const int numUnmapped = m_kMappingData.m_kUnmappedBones.GetLogicalSize();
-        if (m_kMappingData.m_bKeepUnmappedLocal) {
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(m_kMappingData.m_bKeepUnmappedLocal))->FUN_005609f0()) {
             for (int i = 0; i < numUnmapped; i++) {
                 const short boneIdx = m_kMappingData.m_kUnmappedBones[i];
                 const short parentIdx = m_kMappingData.m_pSkeletonB->m_kParentIndices[boneIdx];
@@ -3538,7 +3571,7 @@ void __cdecl hkaSkeletonMapper::FUN_00ce3a00(const hkQsTransform* poseAModelSpac
     }
     {
         StringCursor& mStream = StringCursor::GetMonitorStream();
-        if (mStream.memoryAvailable()) {
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()) {
             StringCursor::CommandTimingEntry* h = reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());
             h->m_pCommandName = "StenforceConstraints";
             h->setTime();
@@ -3547,15 +3580,15 @@ void __cdecl hkaSkeletonMapper::FUN_00ce3a00(const hkQsTransform* poseAModelSpac
     }
     switch (source) {
     case 1:
-        FUN_00cde1d0(*m_kMappingData.m_pSkeletonB, poseBModelSpace);
+        ::FUN_00cde1d0((const ::hkaSkeleton *)&(*m_kMappingData.m_pSkeletonB), poseBModelSpace);
         break;
     case 2:
-        FUN_00cde2d0(*m_kMappingData.m_pSkeletonB, originalPoseBLocalSpace, poseBModelSpace);
+        ::FUN_00cde2d0((::SkinXformSet *)&(*m_kMappingData.m_pSkeletonB), (const ::SkinXformEntry *)(originalPoseBLocalSpace), (::SkinXformEntry *)(poseBModelSpace));
         break;
     }
     {
         StringCursor& mStream = StringCursor::GetMonitorStream();
-        if (mStream.memoryAvailable()) {
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()) {
             StringCursor::CommandTimingEntry* h = reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());
             h->m_pCommandName = "lt";
             h->setTime();
@@ -3570,7 +3603,6 @@ void __cdecl NiFree(void* p);
 void* __cdecl _fnv_zlib_memset(void* dst, int val, unsigned int n);
 
 struct MM {
-    void Deallocate(void* p);
 };
 extern MM _g_memoryManager;
 
@@ -3589,7 +3621,6 @@ struct NineIntegerRecord {
     int unk0c;
     hkMemoryAllocator* heap;
 };
-int __cdecl FUN_00c908c0(hkMemoryAllocator* alloc, void* array, int capacity, int elemSize);
 const char* __cdecl FUN_00cb1410(int name);
 
 inline hkMemoryAllocator* HeapAllocator()
@@ -3617,14 +3648,14 @@ template<class T> struct HkArray {
         hkMemoryAllocator* alloc = HeapAllocator();
         if (getCapacity() < n) {
             int cap2 = getCapacity() * 2;
-            FUN_00c908c0(alloc, this, n < cap2 ? cap2 : n, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(void *)(this), n < cap2 ? cap2 : n, sizeof(T));
         }
     }
     __forceinline void reserveExactly(int n)
     {
         hkMemoryAllocator* alloc = HeapAllocator();
         if (getCapacity() < n)
-            FUN_00c908c0(alloc, this, n, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(void *)(this), n, sizeof(T));
     }
     __forceinline void setSizePod(int n)
     {
@@ -3690,11 +3721,8 @@ struct hkQsTransform {
 
 struct hkStringPtr {
     const char* m_pcText;
-    void FUN_00cb0a60();
-    void FUN_00cb0c00();
-    void FUN_00cb0c10(const char* s);
-    hkStringPtr() { FUN_00cb0a60(); }
-    ~hkStringPtr() { FUN_00cb0c00(); }
+    hkStringPtr() { new ((void *)this) struct ::FUN_00cb0a60(); }
+    ~hkStringPtr() { ::FUN_00cb0c00((int)this); }
 };
 
 struct hkaBone {
@@ -3751,7 +3779,6 @@ struct SkeletonPoseData {
         m_kPoseData.reserveExactly((m_pSkeleton->m_referenceFloats.GetLogicalSize() + 3) & ~3);
         m_kPoseData.setSizeFill(m_pSkeleton->m_referenceFloats.GetLogicalSize(), 0);
     }
-    void FUN_00cda110();
 };
 
 // ---- gathered bone records ----
@@ -3808,7 +3835,7 @@ struct NiTMapBaseStub {
     }
     virtual ~NiTMapBaseStub()
     {
-        RemoveAll();
+        reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
         NiFree(m_ppkHashTable);
     }
     virtual unsigned int KeyToHashIndex(int key) const;
@@ -3817,7 +3844,7 @@ struct NiTMapBaseStub {
 
 struct BoneRecordMap : NiTMapBaseStub {
     BoneRecordMap() {}
-    virtual ~BoneRecordMap() { RemoveAll(); }
+    virtual ~BoneRecordMap() { reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0(); }
 };
 
 template<class T> struct PlainPtr {
@@ -3838,7 +3865,6 @@ struct BuildNode {
     int unk04;
     void* payload;
 };
-BuildNode* __cdecl FUN_00c802d0(void* root);
 
 struct AnimationOwner {
     int unk000;
@@ -4010,7 +4036,6 @@ struct AnimationOwner {
     int unk2a0;
     PlainPtr<SkeletonHolder> skeletonHolder;
 
-    void FUN_00c7b4f0(void* node, BoneRecordArray* records, BoneRecordMap* map);
     void FUN_00c7e3b0();
 };
 
@@ -4020,10 +4045,10 @@ void AnimationOwner::FUN_00c7e3b0()
     if (!root)
         return;
 
-    void* node = FUN_00c802d0(root)->payload;
+    void* node = ((::SkeletonBuild::BuildNode *)(::FUN_00c802d0((::MyNode *)(root))))->payload;
     BoneRecordArray records;
     BoneRecordMap map;
-    FUN_00c7b4f0(node, &records, &map);
+    reinterpret_cast<::ReviewedContext *>(this)->FUN_00c7b4f0((::ReviewedNode *)(node), (::ReviewedArray *)(::SkeletonBuild::BoneRecordArray *)(&records), (::ReviewedContext *)(::SkeletonBuild::BoneRecordMap *)(&map));
 
     SkeletonHolder* holder = skeletonHolder;
     if (!holder->m_pSkeleton) {
@@ -4034,7 +4059,7 @@ void AnimationOwner::FUN_00c7e3b0()
         skeletonHolder->m_pSkeleton->m_kReferencePose.setSizePod(numBones);
         for (unsigned int i = 0; i < records.m_uiSize; ++i) {
             hkaBone& bone = skeletonHolder->m_pSkeleton->m_kBones[i];
-            bone.m_name.FUN_00cb0c10(FUN_00cb1410(records.m_pBase[i]->name));
+            reinterpret_cast<::SStringPtr *>(&(bone.m_name))->FUN_00cb0c10(FUN_00cb1410(records.m_pBase[i]->name));
             skeletonHolder->m_pSkeleton->m_kBones[i].m_bLockTranslation = true;
             skeletonHolder->m_pSkeleton->m_kReferencePose[i] = records.m_pBase[i]->transform;
             skeletonHolder->m_pSkeleton->m_kParentIndices[i] = records.m_pBase[i]->parent;
@@ -4044,12 +4069,12 @@ void AnimationOwner::FUN_00c7e3b0()
     for (unsigned int i = 0; i < records.m_uiSize; ++i) {
         BoneRecord* r = records.m_pBase[i];
         if (r)
-            _g_memoryManager.Deallocate(reinterpret_cast<char*>(r) - reinterpret_cast<unsigned char*>(r)[-1]);
+            reinterpret_cast<::FNV_MemoryManager *>(&(_g_memoryManager))->FUN_00aa4060(reinterpret_cast<char*>(r) - reinterpret_cast<unsigned char*>(r)[-1]);
     }
     records.RemoveAll();
 
     pose = new SkeletonPoseData(skeletonHolder->m_pSkeleton);
-    pose->FUN_00cda110();
+    ::fnv_00cda110::FUN_00cda110((::fnv_00cda110::S *)(pose));
     transforms.setSizePod(skeletonHolder->m_pSkeleton->m_kBones.GetLogicalSize());
 }
 
